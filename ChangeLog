@@ -118,6 +118,9 @@ CVS code -
   read_file()
 	- Rename variable fileformat to format, to avoid confusion with
 	  the file_format enum type. (DLR)
+  load_buffer()
+	- Don't change the file format when we insert another file into
+	  the current one. (DLR)
   do_insertfile()
 	- Simplify by reusing variables whereever possible, and add a
 	  parameter execute to indicate whether or not to be in "Execute

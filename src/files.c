@@ -466,7 +466,15 @@ void load_buffer(const char *name)
     }
 
     if (rc == 0) {
+	file_format fmt_save = fmt;
+
 	read_file(f, filename);
+
+	/* If we're not loading into a new buffer, preserve the file
+	 * format. */
+	if (!new_buffer)
+	    fmt = fmt_save;
+
 #ifndef NANO_SMALL
 	stat(filename, &originalfilestat);
 #endif
