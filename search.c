@@ -461,8 +461,10 @@ int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 	fileptr = findnextstr(replaceall, begin, *beginx, prevanswer);
 
 	/* No more matches.  Done! */
-	if (!fileptr)
+	if (!fileptr) {
+	    wrefresh(edit);
 	    break;
+	}
 
 	/* Make sure only wholewords are found */
 	if (wholewords)
