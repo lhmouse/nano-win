@@ -112,9 +112,10 @@ int do_down(void)
 {
     wrap_reset();
     if (current->next != NULL) {
-	update_line(current->prev, 0);
 	if (placewewant > 0)
 	    current_x = actual_x(current->next, placewewant);
+	else if (current_x > strlen(current->next->data))
+	    current_x = strlen(current->next->data);
     } else {
 	UNSET(KEEP_CUTBUFFER);
 	check_statblank();
@@ -155,12 +156,11 @@ void page_up(void)
 	current_y = 0;
 
     update_cursor();
-
 }
 
 int do_page_up(void)
 {
-   int i;
+    int i;
 
     wrap_reset();
     current_x = 0;
@@ -182,13 +182,14 @@ int do_page_up(void)
     return 1;
 }
 
-
 int do_up(void)
 {
     wrap_reset();
     if (current->prev != NULL) {
 	if (placewewant > 0)
 	    current_x = actual_x(current->prev, placewewant);
+	else if (current_x > strlen(current->prev->data))
+	    current_x = strlen(current->prev->data);
     }
     if (current_y > 0)
 	current_y--;

@@ -221,7 +221,7 @@ void not_found_msg(char *str)
 	char *foo = NULL;
 
 	foo = mallocstrcpy(foo, str);
-	foo[COLS / 2] = 0;
+	foo[COLS / 2] = '\0';
 	statusbar(_("\"%s...\" not found"), foo);
 
 	free(foo);
@@ -274,6 +274,7 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 	    if (search_last_line) {
 		if (!quiet)
 		    not_found_msg(needle);
+		update_line(fileptr, current_x);
 	        return NULL;
 	    }
 
@@ -571,7 +572,7 @@ char *replace_line(void)
 
     /* Head of Original Line */
     strncpy(copy, current->data, current_x);
-    copy[current_x] = 0;
+    copy[current_x] = '\0';
 
     /* Replacement Text */
     if (!ISSET(USE_REGEXP))
@@ -863,11 +864,9 @@ void do_gotopos(int line, int pos_x, int pos_y, int pos_placewewant)
     current_y = pos_y;
     do_gotoline(line, 1);
 
-    /* recalculate the x-coordinate and place we want, just in case their
-       values are insane; if they aren't, they won't be changed by this */
-    current_x = pos_x;
-    pos_placewewant = xplustabs();
-    pos_x = actual_x(current, pos_placewewant);
+    /* make sure that the x-coordinate is sane here */
+    if (pos_x > strlen(current->data))
+	pos_x = strlen(current->data);
 
     /* set the rest of the coordinates up */
     current_x = pos_x;

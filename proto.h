@@ -171,10 +171,12 @@ int do_left(void);
 int do_right(void);
 int check_wildcard_match(const char *text, const char *pattern);
 
-char *input_tab(char *buf, int place, int *lastWasTab, int *newplace, int *list);
+char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list);
 char *real_dir_from_tilde(char *buf);
 
 void signal_init(void);
+void unsunder(char *str, int true_len);
+void sunder(char *str);
 void lowercase(char *src);
 void blank_bottombars(void);
 void check_wrap(filestruct * inptr);

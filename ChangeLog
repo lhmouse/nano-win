@@ -3,11 +3,88 @@ CVS Code -
 	- Translation updates (see po/ChangeLog for details).
 	- Upgraded to gettext 0.11.2 (Jordi).
 	  Removed intl/ entirely, and a few more tweaks by gettextize.
+	- i18nized a few strings used in DEBUG mode. (DLR)
+	- Some chars being assigned 0 are now assigned '\0'. (DLR)
+	- Put header files in a more consistent order. (DLR)
+	- Remove some unneeded blank lines and spaces, and make some
+	  spacing more consistent. (DLR)
+	- When possible, use iscntrl() to determine whether a character
+	  is a control character or not. (DLR)
+	- Miscellaneous typo fixes. (DLR)
+- files.c:
+  read_file(), read_line():
+	- Rework to properly handle nulls in the input file, fix
+	  detection of binary files to properly mark a file as binary if
+	  the only binary characters it contains are ASCII 127's, and
+	  after reading the last line of a file that doesn't end in a
+	  newline, increment totsize.  Remove previous kludge to set
+	  totsize properly. (DLR)
+  write_file():
+	- Rework to properly handle nulls in the input file.  When
+	  appending/prepending, don't change the current file's name to
+	  the name of the file it's being appended/prepended to.  When
+	  writing a marked selection to a file, save and restore totsize
+	  so it isn't decreased by the size of the selection afterward.
+	  (DLR)
+  append_slash_if_dir(), input_tab():
+	- Changed a variable name: lastWasTab -> lastwastab. (DLR)
 - global.c:
   shortcut_init()
 	- Rework IFHELP macro (David Benbennick).
+- move.c:
+  page_down(), page_up():
+	- Put sanity checks for current_x back in, to avoid rare
+	  segfaults (oops). Now, however, they are only called when
+	  placewewant is zero instead of being called unconditionally;
+	  see changes to winio.c:actual_x_from_start() below. (DLR)
 - nanorc.sample:
 	- Put in much less crappy example regex rules for c-file.
+- nano.c:
+  clear_filename():
+	- Remove this function, as it has unneeded functionality, is
+	  short enough to be inlined, and is only called in two spots
+	  anyway. (DLR)
+  do_int_spell(), do_alt_spell():
+	- Rework to save the marked selection before doing spell checking
+	  and restore it afterward. (DLR)
+  main():
+	- Rework to blank out filename manually before doing anything
+	  with it, instead of calling clear_filename() in two places.
+	  Make startline an int instead of a long, since it's supposed to
+	  hold a line number. (DLR)
+- search.c:
+  findnextstr():
+	- Update the current line at current_x if we don't find a match.
+	  (DLR)
+  do_gotopos():
+	- Simplify the sanity check to only put x within the range of the
+	  current line; don't call actual_x() anymore. (DLR)
+- utils.c:
+	- Add sunder() and unsunder().  These functions convert nulls
+	  other than the terminating null in strings to newlines and
+	  back; they're used to handle null characters in files properly.
+	  (DLR)
+- winio.c:
+  actual_x_from_start():
+	- Overhaul to make cursor placement more like that of Pico: add
+	  sanity check for i, and then place i as close to the value of
+	  xplus column as possible.  This change is most noticeable when
+	  moving down through binary files. (DLR)
+  nanogetstr():
+	- After the user presses Enter at the prompt, refresh the edit
+	  window in case there's a list of possible filename matches
+	  (left over from attempted tab completion) on it. (DLR)
+  update_line():
+	- When marking control characters, make sure the mark moves
+	  forward by two characters inctead of one.  Rework control
+	  character display routine to display newlines within the line
+	  (which should never occur under normal circumstances; they will
+	  only be there if the line had nulls in it and was unsunder()ed
+	  beforehand) as ^@'s. (DLR)
+  do_help():
+	- Add support for the handled keyboard escape sequences in the
+	  help menu, as they are needed with some terminals (e.g. xterm
+	  with TERM=ansi). (DLR)
 - THANKS:
 	- Completed a bit (Jordi).
 GNU nano 1.1.9 - 05/12/2002
@@ -88,7 +165,7 @@ GNU nano 1.1.9 - 05/12/2002
 	  (David Lawrence Ramsey).
 - winio.c:
   edit_add()
-	- Changed some syntax hilight computations for the sake of COLS.
+	- Changed some syntax highlight computations for the sake of COLS.
 	- Add in the necessary regfree() calls to stop nano from leaking
 	  memory like a sieve when using color syntax highlighting :-)
   botombars(), onekey()

@@ -66,7 +66,7 @@
 /* Define this if your curses library has the use_default_colors command */
 #undef HAVE_USE_DEFAULT_COLORS
 
-/* Define this to have syntax hilighting, requires ENABLE_NANORC too! */
+/* Define this to have syntax highlighting, requires ENABLE_NANORC too! */
 #undef ENABLE_COLOR
 
 /* Define this to enable undoing....something */

@@ -43,7 +43,7 @@
 void color_on(WINDOW *win, int whatever)
 {
     /* Temporary fallback, if the color value hasn't been set, 
-	turn on hilighting */
+       turn on highlighting */
     if (!colors[whatever - FIRST_COLORNUM].set) {
 	wattron(win, A_REVERSE);
 	return;
@@ -77,7 +77,6 @@ void color_off(WINDOW *win, int whatever)
     if (colors[whatever - FIRST_COLORNUM].bold)
         wattroff(win, A_BOLD);
 }
-
 
 void colorinit_one(int colortoset, short fg, short bg, int bold)
 {
@@ -135,7 +134,7 @@ int do_colorinit(void)
 		init_pair(i, tmpcolor->fg, tmpcolor->bg);
 
 #ifdef DEBUG
-	    fprintf(stderr, "Running init_pair with fg = %d and bg = %d\n", tmpcolor->fg, tmpcolor->bg);
+	    fprintf(stderr, _("Running init_pair with fg = %d and bg = %d\n"), tmpcolor->fg, tmpcolor->bg);
 #endif
 
 	    tmpcolor->pairnum = i;
@@ -209,4 +208,3 @@ void update_color(void)
 }
 
 #endif /* ENABLE_COLOR */
-

@@ -23,8 +23,8 @@
 
 #include <assert.h>
 #include <sys/stat.h>
-#include "nano.h"
 #include "proto.h"
+#include "nano.h"
 
 #ifdef ENABLE_NLS
 #include <libintl.h>
@@ -38,7 +38,7 @@
  */
 
 int flags = 0;			/* Our new flag containing many options */
-WINDOW *edit;			/* The file portion of the editor  */
+WINDOW *edit;			/* The file portion of the editor */
 WINDOW *topwin;			/* Top line of screen */
 WINDOW *bottomwin;		/* Bottom buffer */
 char *filename = NULL;		/* Name of the file */

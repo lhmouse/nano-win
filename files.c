@@ -33,7 +33,6 @@
 #include <ctype.h>
 #include <dirent.h>
 #include <pwd.h>
-
 #include "proto.h"
 #include "nano.h"
 
@@ -108,11 +107,15 @@ void new_file(void)
 
 }
 
-filestruct *read_line(char *buf, filestruct *prev, int *line1ins)
+filestruct *read_line(char *buf, filestruct *prev, int *line1ins, int len)
 {
     filestruct *fileptr;
 
     fileptr = nmalloc(sizeof(filestruct));
+
+    /* nulls to newlines; len is the string's real length here */
+    unsunder(buf, len);
+
     fileptr->data = charalloc(strlen(buf) + 2);
     strcpy(fileptr->data, buf);
 
@@ -120,7 +123,7 @@ filestruct *read_line(char *buf, filestruct *prev, int *line1ins)
     /* If it's a DOS file (CRLF), and file conversion isn't disabled,
        strip out the CR part */
     if (!ISSET(NO_CONVERT) && buf[strlen(buf) - 1] == '\r') {
-	fileptr->data[strlen(buf) - 1] = 0;
+	fileptr->data[strlen(buf) - 1] = '\0';
 	totsize--;
 
 	if (!fileformat)
@@ -158,8 +161,8 @@ filestruct *read_line(char *buf, filestruct *prev, int *line1ins)
 
 int read_file(FILE *f, const char *filename, int quiet)
 {
-    int num_lines = 0;
-    signed char input;		/* current input character */
+    int num_lines = 0, len = 0;
+    char input;		/* current input character */
     char *buf;
     long i = 0, bufx = 128;
     filestruct *fileptr = current, *tmp = NULL;
@@ -181,28 +184,51 @@ int read_file(FILE *f, const char *filename, int quiet)
     while ((input_int = getc(f)) != EOF) {
         input = (char) input_int;
 #ifndef NANO_SMALL
-	if (!ISSET(NO_CONVERT) && input >= 0 && input <= 31
-		&& input != 127 && input != '\t' && input != '\r'
-		&& input != '\n')
-	/* If the file has binary chars in it, don't stupidly
-	   assume it's a DOS or Mac formatted file! */
-	SET(NO_CONVERT);
+	if (!ISSET(NO_CONVERT) && iscntrl((int) input) && input != '\t'
+		&& input != '\r' && input != '\n') {
+	    /* If the file has binary chars in it, don't stupidly
+	       assume it's a DOS or Mac formatted file! */
+	    SET(NO_CONVERT);
+	}
 #endif
 
+	/* calculate the total length of the line; it might have nulls in
+	   it, so we can't just use strlen() */
+	len++;
+
 	if (input == '\n') {
-	    fileptr = read_line(buf, fileptr, &line1ins);
+
+	    /* don't count the newline in the line length */
+	    len--;
+
+	    /* read in the line properly */
+	    fileptr = read_line(buf, fileptr, &line1ins, len);
+
+	    /* reset the line length, in preparation for the next line */
+	    len = 0;
+
 	    num_lines++;
-	    buf[0] = 0;
+	    buf[0] = '\0';
 	    i = 0;
 #ifndef NANO_SMALL
 	/* If it's a Mac file (no LF just a CR), and file conversion
 	   isn't disabled, handle it! */
-	} else if (!ISSET(NO_CONVERT) && i > 0 && buf[i-1] == '\r') {
+	} else if (!ISSET(NO_CONVERT) && i > 0 && buf[i - 1] == '\r') {
 	    fileformat = 2;
-	    fileptr = read_line(buf, fileptr, &line1ins);
+
+	    /* don't count the newline in the line length */
+	    len--;
+
+	    /* read in the line properly */
+	    fileptr = read_line(buf, fileptr, &line1ins, len);
+
+	    /* reset the line length, in preparation for the next line */
+	    len = 0;
+
 	    num_lines++;
+	    totsize++;
 	    buf[0] = input;
-	    buf[1] = 0;
+	    buf[1] = '\0';
 	    i = 1;
 #endif
 	} else {
@@ -216,7 +242,7 @@ int read_file(FILE *f, const char *filename, int quiet)
 		bufx += 128;
 	    }
 	    buf[i] = input;
-	    buf[i + 1] = 0;
+	    buf[i + 1] = '\0';
 	    i++;
 	}
 	totsize++;
@@ -229,10 +255,14 @@ int read_file(FILE *f, const char *filename, int quiet)
     }
 
     /* Did we not get a newline but still have stuff to do? */
-    if (buf[0]) {
-	fileptr = read_line(buf, fileptr, &line1ins);
+    if (len > 0) {
+
+	/* read in the LAST line properly */
+	fileptr = read_line(buf, fileptr, &line1ins, len);
+
 	num_lines++;
-	buf[0] = 0;
+	totsize++;
+	buf[0] = '\0';
     }
 
     /* Did we even GET a file if we don't already have one? */
@@ -449,13 +479,6 @@ int do_insertfile(int loading_file)
 #endif
 	}
 #endif
-
-	/* Here is a kludge.  If the current file is blank (including
-	 * after new_file()), then totlines==1 and totsize==0.  Thus
-	 * after open_pipe() or open_file() below, the totsize is short
-	 * by one. */
-	if (totlines==1 && totsize==0)
-	    totsize++;
 
 #ifndef NANO_SMALL
 	if (i == NANO_EXTCMD_KEY) {
@@ -1212,7 +1235,7 @@ int check_operating_dir(char *currpath, int allow_tabcomp)
  * append == 2 means we are prepending instead of overwriting.
  *
  * nonamechange means don't change the current filename, it is ignored
- * if tmp == 1.
+ * if tmp == 1 or if we're appending/prepending.
  */
 int write_file(char *name, int tmp, int append, int nonamechange)
 {
@@ -1312,7 +1335,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 
     dump_buffer(fileage);
 
-    f = fdopen(fd, append==1 ? "ab" : "wb");
+    f = fdopen(fd, append == 1 ? "ab" : "wb");
     if (!f) {
         statusbar(_("Could not open file for writing: %s"),
                   strerror(errno));
@@ -1326,7 +1349,15 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	    break;
 
 	data_len = strlen(fileptr->data);
+
+	/* newlines to nulls, just before we write to disk */
+	sunder(fileptr->data);
+
 	size = fwrite(fileptr->data, 1, data_len, f);
+
+	/* nulls to newlines; data_len is the string's real length here */
+	unsunder(fileptr->data, data_len);
+
 	if (size < data_len) {
 	    statusbar(_("Could not open file for writing: %s"),
 		      strerror(errno));
@@ -1354,7 +1385,15 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	int data_len;
 
 	data_len = strlen(fileptr->data);
+
+	/* newlines to nulls, just before we write to disk */
+	sunder(fileptr->data);
+
 	size = fwrite(fileptr->data, 1, data_len, f);
+
+	/* nulls to newlines; data_len is the string's real length here */
+	unsunder(fileptr->data, data_len);
+
 	if (size < data_len) {
 	    statusbar(_("Could not open file for writing: %s"),
 		      strerror(errno));
@@ -1486,7 +1525,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	statusbar(_("Could not set permissions %o on %s: %s"),
 		  mask, realname, strerror(errno));
 
-    if (!tmp) {
+    if (!tmp && !append) {
 	if (!nonamechange)
 	    filename = mallocstrcpy(filename, realname);
 
@@ -1589,9 +1628,9 @@ int do_writeout(char *path, int exiting, int append)
 	    TOGGLE(MAC_FILE);
 	    return(do_writeout(answer, exiting, append));
 	} else if (i == NANO_PREPEND_KEY)
-	    return(do_writeout(answer, exiting, append==2 ? 0 : 2));
+	    return(do_writeout(answer, exiting, append == 2 ? 0 : 2));
 	else if (i == NANO_APPEND_KEY)
-	    return(do_writeout(answer, exiting, append==1 ? 0 : 1));
+	    return(do_writeout(answer, exiting, append == 1 ? 0 : 1));
 
 #ifdef DEBUG
 	    fprintf(stderr, _("filename is %s"), answer);
@@ -1622,6 +1661,7 @@ int do_writeout(char *path, int exiting, int append)
 	    filestruct *fileagebak = fileage;	
 	    filestruct *filebotbak = filebot;
 	    filestruct *cutback = cutbuffer;
+	    long totsizebak = totsize;
 	    int oldmod = 0;
 	    cutbuffer = NULL;
 
@@ -1648,6 +1688,7 @@ int do_writeout(char *path, int exiting, int append)
 	    fileage = fileagebak;
 	    filebot = filebotbak;
 	    cutbuffer = cutback;
+	    totsize = totsizebak;
 	    if (oldmod)
 		set_modified();
 	} else
@@ -1708,7 +1749,7 @@ char *real_dir_from_tilde(char *buf)
 		;
 
 	    find_user = mallocstrcpy(find_user, &buf[1]);
-	    find_user[i - 1] = 0;
+	    find_user[i - 1] = '\0';
 
 	    for (userdata = getpwent(); userdata != NULL && 
 		  strcmp(userdata->pw_name, find_user); 
@@ -1732,7 +1773,7 @@ char *real_dir_from_tilde(char *buf)
 }
 
 /* Tack a slash onto the string we're completing if it's a directory */
-int append_slash_if_dir(char *buf, int *lastWasTab, int *place)
+int append_slash_if_dir(char *buf, int *lastwastab, int *place)
 {
     char *dirptr;
     struct stat fileinfo;
@@ -1746,7 +1787,7 @@ int append_slash_if_dir(char *buf, int *lastWasTab, int *place)
 	strncat(buf, "/", 1);
 	*place += 1;
 	/* now we start over again with # of tabs so far */
-	*lastWasTab = 0;
+	*lastwastab = 0;
 	ret = 1;
     }
 
@@ -1844,7 +1885,7 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 	tmp++;
 
 	strncpy(dirName, buf, tmp - buf + 1);
-	dirName[tmp - buf] = 0;
+	dirName[tmp - buf] = '\0';
 
     } else {
 
@@ -1933,7 +1974,7 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 /* This function now has an arg which refers to how much the 
  * statusbar (place) should be advanced, i.e. the new cursor pos.
  */
-char *input_tab(char *buf, int place, int *lastWasTab, int *newplace, int *list)
+char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
 {
     /* Do TAB completion */
     static int num_matches = 0, match_matches = 0;
@@ -1944,10 +1985,10 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace, int *list)
 
     *list = 0;
 
-    if (*lastWasTab == FALSE) {
+    if (*lastwastab == FALSE) {
 	char *tmp, *copyto, *matchBuf;
 
-	*lastWasTab = 1;
+	*lastwastab = 1;
 
 	/* Make a local copy of the string -- up to the position of the
 	   cursor */
@@ -2006,7 +2047,7 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace, int *list)
 		tmp = buf;
 
 	    if (!strcmp(tmp, matches[0]))
-		is_dir = append_slash_if_dir(buf, lastWasTab, newplace);
+		is_dir = append_slash_if_dir(buf, lastwastab, newplace);
 
 	    if (is_dir)
 		break;
@@ -2028,7 +2069,7 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace, int *list)
 		*newplace = 0;
 
 	    /* Is it a directory? */
-	    append_slash_if_dir(buf, lastWasTab, newplace);
+	    append_slash_if_dir(buf, lastwastab, newplace);
 
 	    break;
 	default:

@@ -19,16 +19,14 @@
  *                                                                        *
  **************************************************************************/
 
-#include "config.h"
-
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
-#include "nano.h"
+#include "config.h"
 #include "proto.h"
+#include "nano.h"
 
 #ifdef ENABLE_NLS
 #include <libintl.h>
@@ -50,6 +48,32 @@ int num_of_digits(int n)
     }
 
     return i;
+}
+
+/* For non-null-terminated lines.  A line, by definition, shouldn't
+   normally have newlines in it, so encode its nulls as newlines. */
+void unsunder(char *str, int true_len)
+{
+    int i;
+    if (strlen(str) < true_len) {
+	for (i = 0; i < true_len; i++) {
+	    if (str[i] == '\0')
+		str[i] = '\n';
+	}
+    }
+}
+
+/* For non-null-terminated lines.  A line, by definition, shouldn't
+   normally have newlines in it, so decode its newlines into nulls. */
+void sunder(char *str)
+{
+    int i, true_len = strlen(str);
+    if (strchr(str, '\n')) {
+	for (i = 0; i < true_len; i++) {
+	    if (str[i] == '\n')
+		str[i] = '\0';
+	}
+    }
 }
 
 /* Lower case a string - must be null terminated */

@@ -19,13 +19,13 @@
  *                                                                        *
  **************************************************************************/
 
-#include "config.h"
-
 #include <stdarg.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <ctype.h>
 #include <assert.h>
+#include "config.h"
 #include "proto.h"
 #include "nano.h"
 
@@ -85,7 +85,7 @@ int xpt(filestruct * fileptr, int index)
 	} else if (fileptr->data[i] & 0x80)
 	    /* Make 8 bit chars only 1 column! */
 	    ;
-	else if (fileptr->data[i] < 32 || fileptr->data[i] == 127)
+	else if (iscntrl((int) fileptr->data[i]))
 	    tabs++;
     }
 
@@ -114,9 +114,23 @@ int actual_x_from_start(filestruct * fileptr, int xplus, int start)
 		tot += tabsize - (tot % tabsize);
 	} else if (fileptr->data[i] & 0x80)
 	    tot++;		/* Make 8 bit chars only 1 column (again) */
-	else if (fileptr->data[i] < 32 || fileptr->data[i] == 127) {
+	else if (iscntrl((int) fileptr->data[i])) {
 	    i++;
 	    tot += 2;
+	}
+
+	if (i > strlen(fileptr->data))
+	    i = strlen(fileptr->data);
+
+	/* see if we're in the x-plus-tabs column of xplus; if not, look
+	   for the closest column to it */
+	if (xpt(fileptr, i) < xplus) {
+	    while (xpt(fileptr, i) < xplus && i < strlen(fileptr->data))
+	        i++;
+	}
+	else if (xpt(fileptr, i) > xplus) {
+	    while (xpt(fileptr, i) > xplus && i > start)
+	        i--;
 	}
 
 #ifdef DEBUG
@@ -151,7 +165,7 @@ int strnlenpt(char *buf, int size)
 	} else if (buf[i] & 0x80)
 	    /* Make 8 bit chars only 1 column! */
 	    ;
-	else if (buf[i] < 32 || buf[i] == 127)
+	else if (iscntrl((int) buf[i]))
 	    tabs++;
     }
 
@@ -192,7 +206,6 @@ void blank_bottombars(void)
 
     for (; i <= 2; i++)
 	mvwaddstr(bottomwin, i, 0, hblank);
-
 }
 
 void blank_edit(void)
@@ -275,7 +288,7 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut *s,
 
     slen = length_of_list(s);
     inputbuf = charalloc(strlen(def) + 1);
-    inputbuf[0] = 0;
+    inputbuf[0] = '\0';
 
     x_left = strlen(buf);
     x = strlen(def) + x_left;
@@ -363,7 +376,7 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut *s,
 		memmove(inputbuf + (x - x_left),
 			inputbuf + (x - x_left) + 1,
 			strlen(inputbuf) - (x - x_left) - 1);
-		inputbuf[strlen(inputbuf) - 1] = 0;
+		inputbuf[strlen(inputbuf) - 1] = '\0';
 	    }
 	    break;
 	case NANO_CONTROL_K:
@@ -376,12 +389,12 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut *s,
 	case NANO_CONTROL_H:
 	    if (strlen(inputbuf) > 0) {
 		if (x == (x_left + strlen(inputbuf)))
-		    inputbuf[strlen(inputbuf) - 1] = 0;
+		    inputbuf[strlen(inputbuf) - 1] = '\0';
 		else if (x - x_left) {
 		    memmove(inputbuf + (x - x_left) - 1,
 			    inputbuf + (x - x_left),
 			    strlen(inputbuf) - (x - x_left));
-		    inputbuf[strlen(inputbuf) - 1] = 0;
+		    inputbuf[strlen(inputbuf) - 1] = '\0';
 		}
 	    }
 	    if (x > strlen(buf))
@@ -447,7 +460,7 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut *s,
 			memmove(inputbuf + (x - x_left),
 				inputbuf + (x - x_left) + 1,
 				strlen(inputbuf) - (x - x_left) - 1);
-			inputbuf[strlen(inputbuf) - 1] = 0;
+			inputbuf[strlen(inputbuf) - 1] = '\0';
 		    }
 		    goto skip_tilde;
 		case '4':
@@ -504,6 +517,13 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut *s,
 	nanoget_repaint(buf, inputbuf, x);
 	wrefresh(bottomwin);
     }
+#ifndef DISABLE_TABCOMP
+    /* if we've done tab completion, there might be a list of filename
+       matches on the edit window at this point; make sure they're
+       cleared off */
+    if (list)
+	edit_refresh();
+#endif
 
     answer = mallocstrcpy(answer, inputbuf);
     free(inputbuf);
@@ -817,7 +837,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 			break;
 		    }
 #ifdef DEBUG
-		    fprintf(stderr, "Match! (%d chars) \"%s\"\n",
+		    fprintf(stderr, _("Match! (%d chars) \"%s\"\n"),
 			    colormatches[0].rm_eo - colormatches[0].rm_so,
 			    &fileptr->data[k + colormatches[0].rm_so]);
 #endif
@@ -830,7 +850,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 			    paintlen =
 				colormatches[0].rm_eo - colormatches[0].rm_so;
 #ifdef DEBUG
-			    fprintf(stderr, "paintlen (%d) = eo (%d) - so (%d)\n", 
+			    fprintf(stderr, _("paintlen (%d) = eo (%d) - so (%d)\n"), 
 				paintlen, colormatches[0].rm_eo, colormatches[0].rm_so);
 #endif
 
@@ -838,7 +858,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 			else {
 			    paintlen = COLS - k - colormatches[0].rm_so - 1;
 #ifdef DEBUG
-			    fprintf(stderr, "paintlen (%d) = COLS (%d) - k (%d), - rm.so (%d) - 1\n", 
+			    fprintf(stderr, _("paintlen (%d) = COLS (%d) - k (%d), - rm.so (%d) - 1\n"), 
 					paintlen, COLS, k, colormatches[0].rm_so);
 #endif
 			}
@@ -941,7 +961,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 					&fileptr->data[start + smatch],
 					ematch - smatch);
 #ifdef DEBUG
-			fprintf(stderr, "start = %d, smatch = %d, ematch = %d\n", start,
+			fprintf(stderr, _("start = %d, smatch = %d, ematch = %d\n"), start,
 				smatch, ematch);
 #endif
 
@@ -1181,12 +1201,31 @@ void update_line(filestruct * fileptr, int index)
 	    if (i < mark_beginx)
 		virt_mark_beginx--;
 	} else if (realdata[i] == 127) {
-	    /* Treat control characters as ^symbol (ASCII 1 - 31, 127) */
+	    /* Treat control characters as ^symbol (ASCII 1 - 31 omitting
+	       10, 127) */
 	    fileptr->data[pos++] = '^';
 	    fileptr->data[pos++] = '?';
-	} else if (realdata[i] >= 1 && realdata[i] <= 31) {
+	    if (i < current_x)
+		virt_cur_x++;
+	    if (i < mark_beginx)
+		virt_mark_beginx++;
+	} else if (realdata[i] >= 1 && realdata[i] <= 31 && realdata[i] != 10) {
 	    fileptr->data[pos++] = '^';
 	    fileptr->data[pos++] = realdata[i] + 64;
+	    if (i < current_x)
+		virt_cur_x++;
+	    if (i < mark_beginx)
+		virt_mark_beginx++;
+	} else if (realdata[i] == 10) {
+	    /* Treat newlines (ASCII 10's) embedded in a line as encoded
+	       nulls (ASCII 0's); the line in question should be run
+	       through unsunder() before reaching here */
+	    fileptr->data[pos++] = '^';
+	    fileptr->data[pos++] = '@';
+	    if (i < current_x)
+		virt_cur_x++;
+	    if (i < mark_beginx)
+		virt_mark_beginx++;
 	} else {
 	    fileptr->data[pos++] = realdata[i];
 	}
@@ -1741,9 +1780,36 @@ int do_help(void)
 	    break;
 #endif
 #endif
+	case 27:
+	    kbinput = wgetch(edit);
+	    switch(kbinput) {
+	    case '[':
+		kbinput = wgetch(edit);
+		switch(kbinput) {
+		    case '5':	/* Alt-[-5 = Page Up */
+			wgetch(edit);
+			goto do_pageupkey;
+			break;
+		    case 'V':	/* Alt-[-V = Page Up in Hurd Console */
+		    case 'I':	/* Alt-[-I = Page Up - FreeBSD Console */
+			goto do_pageupkey;
+			break;
+		    case '6':	/* Alt-[-6 = Page Down */
+			wgetch(edit);
+			goto do_pagedownkey;
+			break;
+		    case 'U':	/* Alt-[-U = Page Down in Hurd Console */
+		    case 'G':	/* Alt-[-G = Page Down - FreeBSD Console */
+			goto do_pagedownkey;
+			break;
+		}
+		break;
+	    }
+	    break;
 	case NANO_NEXTPAGE_KEY:
 	case NANO_NEXTPAGE_FKEY:
 	case KEY_NPAGE:
+	  do_pagedownkey:
 	    if (!no_more) {
 		blank_edit();
 		page++;
@@ -1752,6 +1818,7 @@ int do_help(void)
 	case NANO_PREVPAGE_KEY:
 	case NANO_PREVPAGE_FKEY:
 	case KEY_PPAGE:
+	  do_pageupkey:
 	    if (page > 1) {
 		no_more = 0;
 		blank_edit();

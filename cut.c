@@ -94,7 +94,7 @@ void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
 	    current_x = top_x;
 	    update_cursor();
 	}
-	tmpstr[newsize - 1] = 0;
+	tmpstr[newsize - 1] = '\0';
 	tmp->data = tmpstr;
 	add_to_cutbuffer(tmp);
 	dump_buffer(cutbuffer);
@@ -233,7 +233,7 @@ int do_cut_text(void)
 		junk = NULL;
 		junk = make_new_node(current);
 	        junk->data = charalloc(1);
-		junk->data[0] = 0;
+		junk->data[0] = '\0';
 
 		add_to_cutbuffer(junk);
 		dump_buffer(cutbuffer);

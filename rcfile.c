@@ -221,7 +221,7 @@ void parse_syntax(FILE * rcstream, char *buf, char *ptr)
 	    tmpsyntax = syntaxes;
 #ifdef DEBUG
 	    fprintf(stderr,
-		    "Starting a new syntax type\n");
+		    _("Starting a new syntax type\n"));
 	    fprintf(stderr, "string val=%s\n", nameptr);
 #endif
 
@@ -229,7 +229,7 @@ void parse_syntax(FILE * rcstream, char *buf, char *ptr)
 	    for (tmpsyntax = syntaxes;
 		 tmpsyntax->next != NULL; tmpsyntax = tmpsyntax->next);
 #ifdef DEBUG
-	    fprintf(stderr, "Adding new syntax after 1st\n");
+	    fprintf(stderr, _("Adding new syntax after 1st\n"));
 #endif
 
 	    tmpsyntax->next = nmalloc(sizeof(syntaxtype));
@@ -345,17 +345,17 @@ void parse_colors(FILE * rcstream, char *buf, char *ptr)
 	    tmpcolor = tmpsyntax->color;
 #ifdef DEBUG
 	    fprintf(stderr,
-		    "Starting a new colorstring for fg %d bg %d\n",
+		    _("Starting a new colorstring for fg %d bg %d\n"),
 		    fg, bg);
-	    fprintf(stderr, "string val=%s\n", tmp);
+	    fprintf(stderr, _("string val=%s\n"), tmp);
 #endif
 
 	} else {
 	    for (tmpcolor = tmpsyntax->color;
 		 tmpcolor->next != NULL; tmpcolor = tmpcolor->next);
 #ifdef DEBUG
-	    fprintf(stderr, "Adding new entry for fg %d bg %d\n", fg, bg);
-	    fprintf(stderr, "string val=%s\n", tmp);
+	    fprintf(stderr, _("Adding new entry for fg %d bg %d\n"), fg, bg);
+	    fprintf(stderr, _("string val=%s\n"), tmp);
 #endif
 
 	    tmpcolor->next = nmalloc(sizeof(colortype));
@@ -387,7 +387,7 @@ void parse_colors(FILE * rcstream, char *buf, char *ptr)
 	    beginning = ptr;
 	    ptr = parse_next_regex(ptr);
 #ifdef DEBUG
-	    fprintf(stderr, "For end part, beginning = \"%s\"\n",
+	    fprintf(stderr, _("For end part, beginning = \"%s\"\n"),
 		    beginning);
 #endif
 	    tmp = NULL;

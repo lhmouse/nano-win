@@ -39,7 +39,6 @@
 #include <locale.h>
 #include <limits.h>
 #include <assert.h>
-
 #include "proto.h"
 #include "nano.h"
 
@@ -213,14 +212,6 @@ void print_view_warning(void)
     statusbar(_("Key illegal in VIEW mode"));
 }
 
-void clear_filename(void)
-{
-    if (filename != NULL)
-	free(filename);
-    filename = charalloc(1);
-    filename[0] = 0;
-}
-
 /* Initialize global variables - no better way for now.  If
    save_cutbuffer is nonzero, don't set cutbuffer to NULL. */
 void global_init(int save_cutbuffer)
@@ -253,7 +244,7 @@ void global_init(int save_cutbuffer)
 
     hblank = charalloc(COLS + 1);
     memset(hblank, ' ', COLS);
-    hblank[COLS] = 0;
+    hblank[COLS] = '\0';
 
 }
 
@@ -468,7 +459,7 @@ void null_at(char **data, int index)
 {
 
     /* Ahh!  Damn dereferencing */
-    (*data)[index] = 0;
+    (*data)[index] = '\0';
     align(data);
 }
 
@@ -1367,6 +1358,9 @@ int do_int_spell_fix(char *word)
     char *prevanswer = NULL, *save_search = NULL, *save_replace = NULL;
     filestruct *begin;
     int i = 0, j = 0, beginx, beginx_top, reverse_search_set;
+#ifndef NANO_SMALL
+    int mark_set;
+#endif
 
     /* save where we are */
     begin = current;
@@ -1375,6 +1369,12 @@ int do_int_spell_fix(char *word)
     /* Make sure Spell Check goes forward only */
     reverse_search_set = ISSET(REVERSE_SEARCH);
     UNSET(REVERSE_SEARCH);
+
+#ifndef NANO_SMALL
+    /* Make sure the marking highlight is off during Spell Check */
+    mark_set = ISSET(MARK_ISSET);
+    UNSET(MARK_ISSET);
+#endif
 
     /* save the current search/replace strings */
     search_init_globals();
@@ -1438,6 +1438,12 @@ int do_int_spell_fix(char *word)
     if (reverse_search_set)
 	SET(REVERSE_SEARCH);
 
+#ifndef NANO_SMALL
+    /* restore marking highlight */
+    if (mark_set)
+	SET(MARK_ISSET);
+#endif
+
     edit_update(current, CENTER);
 
     if (i == -1)
@@ -1451,8 +1457,7 @@ int do_int_speller(char *tempfile_name)
 {
     char *read_buff, *read_buff_ptr, *read_buff_word;
     size_t pipe_buff_size, read_buff_size, read_buff_read, bytesread;
-    int in_fd[2], tempfile_fd;
-    int spell_status;
+    int in_fd[2], tempfile_fd, spell_status;
     pid_t pid_spell;
 
     /* Create a pipe to spell program */
@@ -1583,11 +1588,24 @@ int do_alt_speller(char *file_name)
 {
     int alt_spell_status, lineno_cur = current->lineno;
     int x_cur = current_x, y_cur = current_y, pww_cur = placewewant;
+#ifndef NANO_SMALL
+    int mark_set = 0, mbb_lineno_cur, mbx_cur;
+#endif
 
     pid_t pid_spell;
     char *ptr;
     static int arglen = 3;
     static char **spellargs = (char **) NULL;
+
+#ifndef NANO_SMALL
+    mark_set = ISSET(MARK_ISSET);
+    if (mark_set) {
+	/* Save the marking position */
+	mbb_lineno_cur = mark_beginbuf->lineno;
+	mbx_cur = mark_beginx;
+	UNSET(MARK_ISSET);
+    }
+#endif
 
     endwin();
 
@@ -1634,6 +1652,15 @@ int do_alt_speller(char *file_name)
     free_filestruct(fileage);
     global_init(1);
     open_file(file_name, 0, 1);
+
+#ifndef NANO_SMALL
+    if (mark_set) {
+	/* Restore the marking position */
+	do_gotopos(mbb_lineno_cur, mbx_cur, y_cur, 0);
+	mark_beginbuf = current;
+	SET(MARK_ISSET);
+    }
+#endif
 
     /* go back to the old position, mark the file as modified, and make
        sure that the titlebar is refreshed */
@@ -2043,7 +2070,7 @@ void handle_sigwinch(int s)
 
     hblank = nrealloc(hblank, COLS + 1);
     memset(hblank, ' ', COLS);
-    hblank[COLS] = 0;
+    hblank[COLS] = '\0';
 
 #ifdef HAVE_RESIZETERM
     resizeterm(LINES, COLS);
@@ -2788,7 +2815,7 @@ int main(int argc, char *argv[])
 {
     int optchr;
     int kbinput;		/* Input from keyboard */
-    long startline = 0;		/* Line to try and start at */
+    int startline = 0;		/* Line to try and start at */
     int keyhandled;		/* Have we handled the keystroke yet? */
     int modify_control_seq;
     char *argv0;
@@ -3022,6 +3049,11 @@ int main(int argc, char *argv[])
 
     }
 
+    /* Clear the filename we'll be using */
+    filename = charalloc(1);
+    filename[0] = '\0';
+
+    /* See if we were invoked with the name "pico" */
     argv0 = strrchr(argv[0], '/');
     if ((argv0 && strstr(argv0, "pico"))
 	|| (!argv0 && strstr(argv[0], "pico")))
@@ -3029,22 +3061,16 @@ int main(int argc, char *argv[])
 
     /* See if there's a non-option in argv (first non-option is the
        filename, if +LINE is not given) */
-    if (argc == 1 || argc <= optind)
-	clear_filename();
-    else {
+    if (argc > 1 && argc > optind) {
 	/* Look for the +line flag... */
 	if (argv[optind][0] == '+') {
 	    startline = atoi(&argv[optind][1]);
 	    optind++;
-	    if (argc == 1 || argc <= optind)
-		clear_filename();
-	    else
+	    if (argc > 1 && argc > optind)
 		filename = mallocstrcpy(filename, argv[optind]);
-
 	} else
 	    filename = mallocstrcpy(filename, argv[optind]);
     }
-
 
     /* First back up the old settings so they can be restored, duh */
     tcgetattr(0, &oldterm);
@@ -3138,7 +3164,7 @@ int main(int argc, char *argv[])
 
 	kbinput = wgetch(edit);
 #ifdef DEBUG
-	fprintf(stderr, "AHA!  %c (%d)\n", kbinput, kbinput);
+	fprintf(stderr, _("AHA!  %c (%d)\n"), kbinput, kbinput);
 #endif
 
 	if (kbinput == 27) {	/* Grab Alt-key stuff first */
@@ -3421,7 +3447,7 @@ int main(int argc, char *argv[])
 		break;
 	    default:
 #ifdef DEBUG
-		fprintf(stderr, "I got %c (%d)!\n", kbinput, kbinput);
+		fprintf(stderr, _("I got %c (%d)!\n"), kbinput, kbinput);
 #endif
 		/* We no longer stop unhandled sequences so that people with
 		   odd character sets can type... */
