@@ -55,6 +55,7 @@ Cvs code -
 	- Include ABOUT-NLS and the new THANKS files to the distributed list.
 - THANKS:
 	- Initial, incomplete list of people to thank.
+	- Added some more people.
 - configure.in:
 	- New option, --enable-nanorc, which allows people to have a .nanorc
 	  initialization file and set options normally used on the command

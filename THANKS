@@ -12,6 +12,19 @@ Pierre Tane <tanep@bigfoot.com>			French Translator
 Jacobo Tarrío <jtarrio@trasno.net>		Galician Translator
 Miquel Vidal <miquel@sindominio.net>		Catalan Translator
 Pauli Virtanen <pauli.virtanen@saunalahti.fi>	Finnish Translator
+Jim Knoble <jmknoble@pobox.com>			Pico compat for browser
+Thomas Dickey <dickey@herndon4.his.com>		Curses help and advice
+Ryan Krebs <fluffy@highwire.stanford.edu>	Many bug fixes and testing
+Ken Tyler <kent@werple.net.au>			Super bug tester and advice
+David Lawrence Ramsey <pooka_regent@sluggy.net>	Patches galore
+Bill Soudan <wes0472@rit.edu>			Regex code, etc
+Ben Armstrong <synrg@sanctuary.nslug.ns.ca>	Negative -r value idea, code
+Jeremy Robichaud <robicj@yahoo.com>		Beta tester
+Roy Lanek <lanek@ranahminang.net>		Advice and advocacy
+Sven Guckes <guckes@math.fu-berlin.de>		Advice and Advocacy
+Neil Parks <nparks@acsmail.com>			Bug reports n fixes
+Chuck Mead <csm@MoonGroup.com>			Feedback and RPM stuff
+Mike Melanson <melanson@pcisys.net>		Bugs
 
 
 $Id$
