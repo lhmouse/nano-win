@@ -1722,7 +1722,6 @@ int do_justify(void)
 	int len2 = strlen(current->next->data);
 
 	tmpjust = NULL;
-	fprintf(stderr, "I see no X here\n");
 	tmpjust = copy_node(current->next);
 	add_to_cutbuffer(tmpjust);
 
