@@ -378,7 +378,6 @@ int write_file(char *name, int tmp)
 	    }
 	    statusbar(_("Could not open file for writing: %s"),
 		      strerror(errno));
-	    free(realname);
 	    return -1;
 	}
 
