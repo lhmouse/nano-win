@@ -122,6 +122,12 @@ under nano.
 @item -M, --mac
 Write file in Mac format.
 
+@item -N, --noconvert
+Do not convert files from DOS/Mac format.
+
+@item -Q [str], --quotestr [str]
+Set the quoting string for justifying.  The default is "> ".
+
 @item -R, --regexp
 Turns on regular expression search and search/replace.
 
