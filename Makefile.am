@@ -6,6 +6,8 @@ ACINCLUDE_INPUTS = $(M4DIR)/gettext.m4 $(M4DIR)/largefile.m4 \
 	$(M4DIR)/progtest.m4 $(M4DIR)/lcmessage.m4 $(M4DIR)/iconv.m4 \
 	$(M4DIR)/codeset.m4 $(M4DIR)/glibc21.m4
 
+DEFS= -DSYSCONFDIR=\"$(sysconfdir)\"
+
 bin_PROGRAMS = 	nano
 nano_SOURCES =	color.c \
 		cut.c \

@@ -101,18 +101,17 @@ char *strstrwrapper(char *haystack, char *needle, char *rev_start)
 {
 
 #ifdef HAVE_REGEX_H
-
     int  result;
-    char *i, *j;
 
     if (ISSET(USE_REGEXP)) {
-#ifndef NANO_SMALL
 	if (!ISSET(REVERSE_SEARCH)) {
 	    result = regexec(&search_regexp, haystack, 10, regmatches, 0);
 	    if (!result)
 		return haystack + regmatches[0].rm_so;
+#ifndef NANO_SMALL
 	} else {
-#endif
+	    char *i, *j;
+
 	    /* do quick check first */
 	    if (!(regexec(&search_regexp, haystack, 10, regmatches, 0))) {
 		/* there is a match */
@@ -124,9 +123,8 @@ char *strstrwrapper(char *haystack, char *needle, char *rev_start)
 		    }
 
 	    }
-#ifndef NANO_SMALL
-	}
 #endif
+	}
 	return 0;
     }
 #endif

@@ -129,7 +129,8 @@
   Ramsey, fixed by David Lawrence Ramsey & Chris) (66) [FIXED].
 - ^C does not work after a suspend in tcsh (discovered by
   Trevor Cordes) (68) [FIXED].
-
+- Home and End control keys (^A, ^E) do not always work in filename
+  prompt (bug found by Ian Turner) (69) [1.0 series only] [FIXED].
 ** Open BUGS **
 
 $Id$

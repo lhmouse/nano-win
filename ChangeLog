@@ -3,6 +3,11 @@ CVS code -
 	- New flag RELATIVECHARS to show column positino relative to
 	  the current line instead of the current file.  New flag 
 	  -C, --relative, changes to do_cursorpos().
+- Makefile.am:
+	- Add SYSCONFDIR to DEFS, so we can have an /etc/nanorc.
+- utils.c:
+  strstrwrapper()
+	- NANO_SMALL test was backwards (Ken Tyler).
 - nanorc.sample
 	- Mention unset in the sample nanorc.
 - po/ca.po, po/es.po:
@@ -15,6 +20,8 @@ CVS code -
 	- Norwegian nynorsk translation updates (Kjetil Torgrim Homme).
 - po/de.po:
 	- German translation updates (Michael Piefel).
+- po/it.po:
+	- Italian translation updates (Marco Colombo).
 
 nano-1.1.6 - 01/25/2002
 - General
