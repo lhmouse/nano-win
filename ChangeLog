@@ -27,6 +27,13 @@ CVS code -
 	- Fix erroneous #ifdef so that nano compiles with
 	  --disable-justify again. (DLR; found by Mike Frysinger)
 - nano.c:
+  do_justify()
+	- If all the text from the next line has been moved to the
+	  current line and the next line has been deleted, continue the
+	  justification loop from there and skip the respacing routine
+	  in order to avoid running it more than once on the same line
+	  (since it assumes that we've moved to the next line, which
+	  isn't true in that case). (DLR)
   do_exit()
 	- Tweak for efficiency. (David Benbennick)
 - proto.h:

@@ -2407,7 +2407,6 @@ void do_justify(int full_justify)
     last_par_line = current;
 
     while (TRUE) {
-
 	/* First, search for the beginning of the current paragraph or,
 	 * if we're at the end of it, the beginning of the next
 	 * paragraph.  Save the quote length, paragraph length, and
@@ -2570,11 +2569,17 @@ void do_justify(int full_justify)
 		    totlines--;
 		    totsize -= indent_len;
 		    current_y--;
+
+		    /* Don't go to the next line, since there isn't one
+		     * anymore.  Just continue the loop from here. */
+		    continue;
 		} else {
 		    charmove(current->next->data + indent_len,
 			current->next->data + indent_len + break_pos + 1,
 			next_line_len - break_pos - indent_len);
 		    null_at(&current->next->data, next_line_len - break_pos);
+
+		    /* Go to the next line. */
 		    current = current->next;
 		}
 	    } else
@@ -2582,12 +2587,12 @@ void do_justify(int full_justify)
 		/* Go to the next line. */
 		current = current->next;
 
-	    /* If the line we were on before still exists, and it was
-	     * not the last line of the paragraph, add a space to the
-	     * end of it to replace the one removed or left out by
-	     * justify_format().  If it was the last line of the
-	     * paragraph, and justify_format() left a space on the end
-	     * of it, remove the space. */
+	    /* If we've gone to the next line, the line we were on
+	     * before still exists, and it was not the last line of the
+	     * paragraph, add a space to the end of it to replace the
+	     * one removed or left out by justify_format().  If it was
+	     * the last line of the paragraph, and justify_format() left
+	     * a space on the end of it, remove the space. */
 	    if (current->prev != NULL) {
 		size_t prev_line_len = strlen(current->prev->data);
 
