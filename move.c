@@ -86,6 +86,7 @@ int page_down(void)
 
 int do_home(void)
 {
+    UNSET(KEEP_CUTBUFFER);
     current_x = 0;
     placewewant = 0;
     update_line(current, current_x);
@@ -94,6 +95,7 @@ int do_home(void)
 
 int do_end(void)
 {
+    UNSET(KEEP_CUTBUFFER);
     current_x = strlen(current->data);
     placewewant = xplustabs();
     update_line(current, current_x);

@@ -73,6 +73,8 @@ Cvs code -
   page_up()
 	- Rewritten with a loop to make screen updates work when
 	  mark is set (fixes bug #59).
+  do_home(), do_end()
+	- Don't keep cutbuffer.
 - nano.1:
 	- Added the missing -r flag (Jordi).
 - nano.c:
