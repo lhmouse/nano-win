@@ -104,7 +104,7 @@ void finish(void)
     exit(0);
 }
 
-/* Die (gracefully?) */
+/* Die (gracefully?). */
 void die(const char *msg, ...)
 {
     va_list ap;
@@ -170,15 +170,9 @@ void die_save_file(const char *die_filename)
     /* If we can't save, we have REAL bad problems, but we might as well
        TRY. */
     if (die_filename[0] == '\0')
-	ret = get_next_filename("nano.save");
-    else {
-	char *buf = charalloc(strlen(die_filename) + 6);
+	die_filename = "nano";
 
-	strcpy(buf, die_filename);
-	strcat(buf, ".save");
-	ret = get_next_filename(buf);
-	free(buf);
-    }
+    ret = get_next_filename(die_filename);
     if (ret[0] != '\0')
 	failed = -1 == write_file(ret, TRUE, FALSE, TRUE);
 

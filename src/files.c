@@ -394,19 +394,22 @@ bool open_file(const char *filename, int insert, int quiet)
 }
 
 /* This function will return the name of the first available extension
- * of a filename (starting with the filename, then filename.1, etc).
- * Memory is allocated for the return value.  If no writable extension
- * exists, we return "". */
+ * of a filename (starting with the filename.save, then filename.save.1,
+ * etc).  Memory is allocated for the return value.  If no writable
+ * extension exists, we return "". */
 char *get_next_filename(const char *name)
 {
     int i = 0;
-    char *buf = NULL;
-    struct stat fs;
+    char *buf;
+    size_t namelen = strlen(name);
 
-    buf = charalloc(strlen(name) + num_of_digits(INT_MAX) + 2);
+    buf = charalloc(namelen + num_of_digits(INT_MAX) + 7);
     strcpy(buf, name);
+    strcpy(buf + namelen, ".save");
+    namelen += 5;
 
     while (TRUE) {
+	struct stat fs;
 
 	if (stat(buf, &fs) == -1)
 	    return buf;
@@ -414,8 +417,7 @@ char *get_next_filename(const char *name)
 	    break;
 
 	i++;
-	strcpy(buf, name);
-	sprintf(&buf[strlen(name)], ".%d", i);
+	sprintf(buf + namelen, ".%d", i);
     }
 
     /* We get here only if there is no possible save file. */

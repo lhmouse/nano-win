@@ -84,6 +84,9 @@ CVS code -
 	  when compiling with every option manually turned on, including
 	  NANO_SMALL. (David Benbennick)
 - files.c:
+  get_next_filename()
+	- Tweak for efficiency, and add the ".save" suffix to the file
+	  here. (David Benbennick)
   close_open_file()
 	- Tweak to no longer rely on the return values of
 	  open_(prev|next)file(). (DLR)
@@ -107,6 +110,11 @@ CVS code -
   thanks_for_all_the_fish()
 	- Delete topwin, edit, and bottomwin. (David Benbennick)
 - nano.c:
+  die()
+	- Don't add the ".save" suffix to a saved file here anymore, 
+	  since get_next_filename() does that now. (David Benbennick)
+  die_save_file()
+	- Tweak for efficiency. (David Benbennick)
   help_init()
 	- Fix the display of the translated key descriptions "Up" and
 	  "Space" under all circumstances, and make the help browser
