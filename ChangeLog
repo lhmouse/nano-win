@@ -85,8 +85,7 @@ CVS code -
 	- Add missing #ifdefs around the wrap_reset() call so that nano
 	  compiles with wrapping disabled again. (DLR)
 	- When inserting a file in non-multibuffer mode, preserve
-	  placewewant as well as current_x, for compatibility with
-	  Pico. (DLR)
+	  placewewant as well as current_x, for consistency. (DLR)
   do_writeout()
 	- Restructure if blocks for greater efficiency, using
 	  do_insertfile() as a model. (DLR)
