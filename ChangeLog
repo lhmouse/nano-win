@@ -8,6 +8,7 @@ CVS code -
   page_down()
 	- Check for totlines < editwinrows in check for superflous 
 	  edit update (fixed BUG #57).
+	- Oops, check for <= editwinrows (Ryan Krebs).
 - search.c:
   print_replaced()
 	- s/occurence/occurrence typos (Jordi).
