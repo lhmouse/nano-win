@@ -36,8 +36,9 @@ CVS code -
 	- Fix memory corruption problem occurring when answer is used as
 	  the value of def; if the realloc() of answer leads to its
 	  pointing to a different memory block, there will be a segfault
-	  when the value of def is copied into it via strcpy(). (bort,
-	  Christian Weisgarber, David Benbennick, and DLR)
+	  when the value of def is copied into it via strcpy().
+	  (bort@alltel.net, Christian Weisgarber, David Benbennick, and
+	  DLR)
 	- Remove the last editbot references, to avoid any potential
 	  segfaults related to them.  Also remove fix_editbot(), as it's
 	  no longer needed. (David Benbennick)
