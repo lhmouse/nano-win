@@ -221,7 +221,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
     if (x == -1 || x > xend || resetstatuspos)
 	x = xend;
 
-    answer = (char *)nrealloc(answer, xend + 1);
+    answer = charealloc(answer, xend + 1);
     if (xend > 0)
 	strcpy(answer, def);
     else

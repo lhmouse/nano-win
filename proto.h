@@ -44,6 +44,7 @@ extern int search_offscreen;
 extern int currslen;
 
 #ifndef DISABLE_JUSTIFY
+extern int justify_mode;
 extern char *quotestr;
 #endif
 
@@ -367,7 +368,6 @@ char *replace_line(void);
 int do_replace_loop(const char *prevanswer, const filestruct *begin,
 			int *beginx, int wholewords, int *i);
 int do_replace(void);
-void goto_abort(void);
 int do_gotoline(int line, int save_pos);
 int do_gotoline_void(void);
 #if defined (ENABLE_MULTIBUFFER) || !defined (DISABLE_SPELLER)

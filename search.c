@@ -67,7 +67,6 @@ void not_found_msg(const char *str)
 
 void search_abort(void)
 {
-    UNSET(KEEP_CUTBUFFER);
     display_main_list();
     wrefresh(bottomwin);
     if (ISSET(MARK_ISSET))
@@ -768,12 +767,6 @@ int do_replace(void)
     return 1;
 }
 
-void goto_abort(void)
-{
-    UNSET(KEEP_CUTBUFFER);
-    display_main_list();
-}
-
 int do_gotoline(int line, int save_pos)
 {
     if (line <= 0) {		/* Ask for it */
@@ -787,7 +780,7 @@ int do_gotoline(int line, int save_pos)
 	if (st == -1 || st == -2)
 	    statusbar(_("Aborted"));
 	if (st != 0) {
-	    goto_abort();
+	    display_main_list();
 	    return 0;
 	}
 
@@ -796,7 +789,7 @@ int do_gotoline(int line, int save_pos)
 	/* Bounds check */
 	if (line <= 0) {
 	    statusbar(_("Come on, be reasonable"));
-	    goto_abort();
+	    display_main_list();
 	    return 0;
 	}
     }
@@ -813,7 +806,7 @@ int do_gotoline(int line, int save_pos)
     else
 	edit_update(current, CENTER);
     placewewant = 0;
-    goto_abort();
+    display_main_list();
     return 1;
 }
 
@@ -909,6 +902,7 @@ int do_find_bracket(void)
 	    statusbar(_("No matching bracket"));
 	    current_x = current_x_save;
 	    current = current_save;
+	    update_line(current, current_x);
 	    break;
 	}
     }

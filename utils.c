@@ -74,7 +74,7 @@ void align(char **strp)
 void null_at(char **data, size_t index)
 {
     assert(data != NULL);
-    *data = (char *)nrealloc(*data, sizeof(char) * (index + 1));
+    *data = charealloc(*data, index + 1);
     (*data)[index] = '\0';
 }
 

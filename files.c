@@ -495,7 +495,6 @@ int do_insertfile(int loading_file)
 		_("Command to execute"));
 	    if (ts  == -1 || answer == NULL || answer[0] == '\0') {
 		statusbar(_("Cancelled"));
-		UNSET(KEEP_CUTBUFFER);
 		display_main_list();
 		return 0;
 	    }
@@ -618,7 +617,6 @@ int do_insertfile(int loading_file)
     free(inspath);
     inspath = NULL;
 
-    UNSET(KEEP_CUTBUFFER);
     display_main_list();
     return i;
 }

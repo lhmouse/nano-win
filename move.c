@@ -30,7 +30,6 @@
 
 int do_home(void)
 {
-    UNSET(KEEP_CUTBUFFER);
     current_x = 0;
     placewewant = 0;
     update_line(current, current_x);
@@ -39,7 +38,6 @@ int do_home(void)
 
 int do_end(void)
 {
-    UNSET(KEEP_CUTBUFFER);
     current_x = strlen(current->data);
     placewewant = xplustabs();
     update_line(current, current_x);
@@ -89,7 +87,6 @@ int do_page_up(void)
     edit_update(current, TOP);
     update_cursor();
 
-    UNSET(KEEP_CUTBUFFER);
     check_statblank();
     return 1;
 }
@@ -132,7 +129,6 @@ int do_page_down(void)
     }
 
     update_cursor();
-    UNSET(KEEP_CUTBUFFER);
     check_statblank();
     return 1;
 }
@@ -151,7 +147,6 @@ int do_up(void)
 	    update_line(current, current_x);
 	} else
 	    page_up();
-	UNSET(KEEP_CUTBUFFER);
 	check_statblank();
     }
     return 1;
@@ -162,7 +157,6 @@ int do_up(void)
 int do_down(void)
 {
     wrap_reset();
-    UNSET(KEEP_CUTBUFFER);
     check_statblank();
 
     if (current->next == NULL)
@@ -207,7 +201,6 @@ int do_left(void)
     }
     placewewant = xplustabs();
     update_line(current, current_x);
-    UNSET(KEEP_CUTBUFFER);
     check_statblank();
     return 1;
 }
@@ -224,7 +217,6 @@ int do_right(void)
     }
     placewewant = xplustabs();
     update_line(current, current_x);
-    UNSET(KEEP_CUTBUFFER);
     check_statblank();
     return 1;
 }

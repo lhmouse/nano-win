@@ -29,6 +29,12 @@
 #include "nano.h"
 
 static int marked_cut;		/* Is the cutbuffer from a mark? */
+
+#ifndef NANO_SMALL
+static int concatenate_cut;	/* Should we add this cut string to the
+				   end of the last one? */
+#endif
+
 static filestruct *cutbottom = NULL;
 				/* Pointer to end of cutbuffer */
 
@@ -47,6 +53,15 @@ void add_to_cutbuffer(filestruct *inptr)
     if (cutbuffer == NULL) {
 	cutbuffer = inptr;
 	inptr->prev = NULL;
+#ifndef NANO_SMALL
+    } else if (concatenate_cut && !justify_mode) {
+	/* Just tack the text in inptr onto the text in cutbottom,
+	   unless we're backing up lines while justifying text. */
+	cutbottom->data = charealloc(cutbottom->data,
+		strlen(cutbottom->data) + strlen(inptr->data) + 1);
+	strcat(cutbottom->data, inptr->data);
+	return;
+#endif
     } else {
 	cutbottom->next = inptr;
 	inptr->prev = cutbottom;
@@ -118,15 +133,13 @@ void cut_marked_segment(filestruct *top, size_t top_x, filestruct *bot,
 	       move text from the end forward first. */
 	    memmove(top->data + top_x, bot->data + bot_x,
 			newsize - top_x);
-	    top->data = (char *)nrealloc(top->data,
-					sizeof(char) * newsize);
+	    top->data = charealloc(top->data, newsize);
 	} else {
 	    totsize -= bot_x + 1;
 
 	    /* Here, the remainder line might get longer, so we
 	       realloc() it first. */
-	    top->data = (char *)nrealloc(top->data,
-					sizeof(char) * newsize);
+	    top->data = charealloc(top->data, newsize);
 	    memmove(top->data + top_x, bot->data + bot_x,
 			newsize - top_x);
 	}
@@ -172,6 +185,9 @@ void cut_marked_segment(filestruct *top, size_t top_x, filestruct *bot,
 		new_magicline();
 	}
     }
+#ifdef DEBUG
+    dump_buffer(cutbuffer);
+#endif
 }
 #endif
 
@@ -190,6 +206,9 @@ int do_cut_text(void)
 	free_filestruct(cutbuffer);
 	cutbuffer = NULL;
 	marked_cut = 0;
+#ifndef NANO_SMALL
+	concatenate_cut = 0;
+#endif
 #ifdef DEBUG
 	fprintf(stderr, _("Blew away cutbuffer =)\n"));
 #endif
@@ -203,6 +222,8 @@ int do_cut_text(void)
 #endif
 						)
 	return 0;
+
+    SET(KEEP_CUTBUFFER);
 
 #ifndef NANO_SMALL
     if (ISSET(CUT_TO_END) && !ISSET(MARK_ISSET)) {
@@ -223,12 +244,10 @@ int do_cut_text(void)
 	    }
 
 	    do_delete();
-	    SET(KEEP_CUTBUFFER);
 	    marked_cut = 2;
 	    return 1;
 	} else {
 	    SET(MARK_ISSET);
-	    SET(KEEP_CUTBUFFER);
 
 	    mark_beginx = strlen(current->data);
 	    mark_beginbuf = current;
@@ -249,6 +268,11 @@ int do_cut_text(void)
 	placewewant = xplustabs();
 	UNSET(MARK_ISSET);
 
+	/* If we just did a marked cut of part of a line, we should add
+	   the first line of any cut done immediately afterward to the
+	   end of this cut, as Pico does. */
+	if (current == mark_beginbuf && current_x < strlen(current->data))
+	    concatenate_cut = 1;
 	marked_cut = 1;
 	if (dontupdate)
 	    edit_refresh();
@@ -283,8 +307,10 @@ int do_cut_text(void)
     edit_refresh();
     set_modified();
     marked_cut = 0;
+#ifndef NANO_SMALL
+    concatenate_cut = 0;
+#endif
     placewewant = 0;
-    SET(KEEP_CUTBUFFER);
     return 1;
 }
 
@@ -312,6 +338,11 @@ int do_uncut_text(void)
 	    placewewant = 0;
     }
 
+    /* If we're going to uncut on the magicline, always make a new
+       magicline in advance. */
+    if (current->next == NULL)
+	new_magicline();
+
     if (marked_cut == 0 || cutbuffer->next != NULL)
     {
 	newbuf = copy_filestruct(cutbuffer);
@@ -338,10 +369,6 @@ int do_uncut_text(void)
 
 	    current_x += buf_len;
 	    totsize += buf_len;
-	    /* If we've uncut a line, make sure there's a magicline after
-	       it */
-	    if (current->next == NULL)
-		new_magicline();
 
 	    placewewant = xplustabs();
 	    update_cursor();
@@ -426,7 +453,6 @@ int do_uncut_text(void)
 	    edit_update(current, CENTER);
 	else
 	    edit_refresh();
-	UNSET(KEEP_CUTBUFFER);
 	return 0;
     }
 
@@ -464,6 +490,5 @@ int do_uncut_text(void)
 #endif
 
     set_modified();
-    UNSET(KEEP_CUTBUFFER);
     return 1;
 }

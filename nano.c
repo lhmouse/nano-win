@@ -1018,8 +1018,6 @@ void do_char(char ch)
     if (refresh)
 	edit_refresh();
 #endif
-
-    UNSET(KEEP_CUTBUFFER);
 }
 
 int do_backspace(void)
@@ -1093,7 +1091,6 @@ int do_backspace(void)
 #ifdef DEBUG
 	fprintf(stderr, _("After, data = \"%s\"\n"), current->data);
 #endif
-	UNSET(KEEP_CUTBUFFER);
 	refresh = 1;
     }
 
@@ -1152,7 +1149,6 @@ int do_delete(void)
 
     totsize--;
     set_modified();
-    UNSET(KEEP_CUTBUFFER);
     update_line(current, current_x);
     if (refresh)
 	edit_refresh();
@@ -2428,6 +2424,7 @@ int do_justify(void)
 
 /* Next step, we loop through the lines of this paragraph, justifying
  * each one individually. */
+    justify_mode = 1;
     for(; par_len > 0; current_y++, par_len--) {
 	size_t line_len;
 	size_t display_len;
@@ -2491,9 +2488,8 @@ int do_justify(void)
 
 		indent_len = quote_len +
 			indent_length(current->next->data + quote_len);
-		current->next->data = (char *)nrealloc(current->next->data,
-			sizeof(char) * (next_line_len + line_len -
-					break_pos + 1));
+		current->next->data = charealloc(current->next->data,
+			next_line_len + line_len - break_pos + 1);
 
 		memmove(current->next->data + indent_len + line_len - break_pos,
 			current->next->data + indent_len,
@@ -2537,7 +2533,7 @@ int do_justify(void)
 				fill - display_len - 1, FALSE);
 	    assert(break_pos != -1);
 
-	    current->data = (char *)nrealloc(current->data,
+	    current->data = charealloc(current->data,
 					line_len + break_pos + 2);
 	    current->data[line_len] = ' ';
 	    strncpy(current->data + line_len + 1,
@@ -2580,6 +2576,8 @@ int do_justify(void)
   continue_loc:
 	    current = current->next;
     }
+    justify_mode = 0;
+
 /* We are now done justifying the paragraph.  There are cleanup things to
  * do, and we check for unjustify. */
 
@@ -2664,10 +2662,9 @@ int do_justify(void)
 	}
 	edit_refresh();
     }
-    UNSET(KEEP_CUTBUFFER);
     cutbuffer = cutbuffer_save;
     blank_statusbar_refresh();
-    /* display shortcut list without UnCut */
+    /* display shortcut list with UnCut */
     shortcut_init(0);
     display_main_list();
 
@@ -3632,20 +3629,25 @@ int main(int argc, char *argv[])
 			    kbinput <= 'Z' && kbinput == s->altval - 32)) {
 			if (ISSET(VIEW_MODE) && !s->viewok)
 			    print_view_warning();
-			else
+			else {
+			    if (s->func != do_cut_text)
+				UNSET(KEEP_CUTBUFFER);
 			    s->func();
+			}
 			keyhandled = 1;
 			break;
 		    }
 #ifndef NANO_SMALL
-		/* And for toggle switches */
-		for (t = toggles; t != NULL && !keyhandled; t = t->next)
-		    if (kbinput == t->val || (t->val >= 'a' &&
-			    t->val <= 'z' && kbinput == t->val - 32)) {
-			do_toggle(t);
-			keyhandled = 1;
-			break;
-		    }
+		if (!keyhandled)
+		    /* And for toggle switches */
+		    for (t = toggles; t != NULL; t = t->next)
+			if (kbinput == t->val || (t->val >= 'a' &&
+				t->val <= 'z' && kbinput == t->val - 32)) {
+			    UNSET(KEEP_CUTBUFFER);
+			    do_toggle(t);
+			    keyhandled = 1;
+			    break;
+		        }
 #endif
 #ifdef DEBUG
 		fprintf(stderr, _("I got Alt-%c! (%d)\n"), kbinput,
@@ -3675,25 +3677,33 @@ int main(int argc, char *argv[])
 	/* Look through the main shortcut list to see if we've hit a
 	   shortcut key */
 
+	if (!keyhandled)
 #if !defined(DISABLE_BROWSER) || !defined (DISABLE_HELP) || (!defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION))
-	for (s = currshortcut; s != NULL && !keyhandled; s = s->next) {
+	    for (s = currshortcut; s != NULL && !keyhandled; s = s->next) {
 #else
-	for (s = main_list; s != NULL && !keyhandled; s = s->next) {
+	    for (s = main_list; s != NULL && !keyhandled; s = s->next) {
 #endif
-	    if (kbinput == s->val ||
-		(s->misc1 && kbinput == s->misc1) ||
-		(s->misc2 && kbinput == s->misc2)) {
-		if (ISSET(VIEW_MODE) && !s->viewok)
-		    print_view_warning();
-		else
-		    s->func();
-		keyhandled = 1;
-		/* Rarely, the value of s can change after s->func(),
-		   leading to problems; get around this by breaking out
-		   explicitly once we successfully handle a shortcut */
-		break;
+		if (kbinput == s->val ||
+		    (s->misc1 && kbinput == s->misc1) ||
+		    (s->misc2 && kbinput == s->misc2)) {
+		    if (ISSET(VIEW_MODE) && !s->viewok)
+			print_view_warning();
+		    else {
+			if (s->func != do_cut_text)
+			    UNSET(KEEP_CUTBUFFER);
+			s->func();
+		    }
+		    keyhandled = 1;
+		    /* Rarely, the value of s can change after
+		       s->func(), leading to problems; get around this
+		       by breaking out explicitly once we successfully
+		       handle a shortcut */
+		    break;
+		}
 	    }
-	}
+
+	if (!keyhandled)
+	    UNSET(KEEP_CUTBUFFER);
 
 #ifdef _POSIX_VDISABLE
 	/* Don't even think about changing this string */

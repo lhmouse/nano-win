@@ -10,6 +10,28 @@ CVS code -
 	  if ~/.nano_history is unwritable, and prevent ~/.nano_history
 	  from being completely overwritten by save_history() if it's
 	  unreadable but writable. (David Benbennick)
+	- Only unset KEEP_CUTBUFFER in main() when we do something other
+	  than cut text in the main input loop, instead of unsetting it
+	  all over the place (which, as written, didn't handle cases
+	  like a cut followed by M-Space properly).  Also, instead of
+	  checking for keyhandled's not being set inside the for loops,
+	  do it in if blocks surrounding the for loops to increase
+	  efficiency. (David Benbennick)  DLR: Also unset KEEP_CUTBUFFER
+	  if we hit a shortcut key other than the one for cutting text.
+	- Make it so a marked cut immediately followed by an unmarked
+	  cut tacks the latter's text onto the end of the former's text
+	  instead of putting it on a new line, as Pico does. (DLR)
+	- Convert instances of "(char *)nrealloc()" to the macro
+	  charealloc(), which does the same thing. (DLR)
+- cut.c:
+  do_cut_text()
+	- Tweak where KEEP_CUTBUFFER is set so that a marked cut
+	  immediately followed by an unmarked cut preserves the
+	  cutbuffer between the two. (David Benbennick)  DLR: Also
+	  properly set KEEP_CUTBUFFER in tiny mode.
+  do_uncut_text()
+	- If we're about to uncut on the magicline, always make a new
+	  magicline in advance, as Pico does. (DLR)
 - global.c:
   shortcut_init()
 	- Simplify the #ifdef used to enable file insertion in view mode
@@ -22,6 +44,17 @@ CVS code -
 - nano.h:
 	- Simplify #ifdefs relating to HAVE_STRCASECMP and
 	  HAVE_STRNCASECMP. (David Benbennick)
+- search.c:
+  goto_abort()
+	- Removed, with all instances replaced with display_main_list(),
+	  since with the removal of all the scattered calls to
+	  SET(KEEP_CUTBUFFER), that function was all that was left of
+	  it. (DLR)
+  do_find_bracket()
+	- If a matching bracket wasn't found, call update_line() after
+	  setting current and current_x back to their original values,
+	  in case current_x's original value is greater than the width
+	  of the screen. (DLR)
 - configure.ac:
 	- Enable autodetection of broken regexec(). (DLR) Re-added 
 	  regex.h check to ensure compile under Debian w/autoconf 1.6.
