@@ -104,6 +104,7 @@ typedef struct shortcut {
 #define USE_MOUSE		(1<<13)
 #define USE_REGEXP              (1<<14)
 #define REGEXP_COMPILED         (1<<15)
+#define CUT_TO_END         	(1<<16)
 
 /* Control key sequences, chaning these would be very very bad */
 

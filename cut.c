@@ -149,6 +149,11 @@ int do_cut_text(void)
 #endif
     }
 #ifndef NANO_SMALL
+    if (ISSET(CUT_TO_END)) {
+	SET(MARK_ISSET);
+	mark_beginbuf = current;
+	mark_beginx = strlen(current->data);
+    }
     if (ISSET(MARK_ISSET)) {
 	if (current->lineno == mark_beginbuf->lineno) {
 	    tmp = copy_node(current);

@@ -1,4 +1,6 @@
 Current CVS:
+- Implemented Pico's -k mode.  New flag CUT_TO_END, option (-k, --cut), 
+  affects do_cut_text in cut.c.
 - nano.c:
   main():
 	- TABSIZE now set before first call to edit_refresh (Bill Soudan)

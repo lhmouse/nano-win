@@ -324,6 +324,8 @@ void usage(void)
     printf(_
 	   (" -h 		--help			Show this message\n"));
     printf(_
+	   (" -k 		--cut			Let ^K cut from cursor to end of line\n"));
+    printf(_
 	   (" -i 		--autoindent		Automatically indent new lines\n"));
     printf(_
 	   (" -l 		--nofollow		Don't follow symbolic links, overwrite.\n"));
@@ -361,6 +363,7 @@ void usage(void)
     printf(_(" -V 		Print version information and exit\n"));
     printf(_(" -c 		Constantly show cursor position\n"));
     printf(_(" -h 		Show this message\n"));
+    printf(_(" -k 		Let ^K cut from cursor to end of line\n"));
     printf(_(" -i 		Automatically indent new lines\n"));
     printf(_
 	   (" -l 		Don't follow symbolic links, overwrite.\n"));
@@ -1542,6 +1545,7 @@ int main(int argc, char *argv[])
 	{"nowrap", 0, 0, 'w'},
 	{"nohelp", 0, 0, 'x'},
 	{"help", 0, 0, 'h'},
+	{"cut", 0, 0, 'k'},
 	{"autoindent", 0, 0, 'i'},
 	{"tempfile", 0, 0, 't'},
 	{"speller", 1, 0, 's'},
@@ -1566,10 +1570,10 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "?T:RVchilmpr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "?T:RVchiklmpr:s:tvwxz",
 				 long_options, &option_index)) != EOF) {
 #else
-    while ((optchr = getopt(argc, argv, "h?T:RVcilmpr:s:tvwxz")) != EOF) {
+    while ((optchr = getopt(argc, argv, "h?T:RVciklmpr:s:tvwxz")) != EOF) {
 #endif
 
 	switch (optchr) {
@@ -1603,6 +1607,9 @@ int main(int argc, char *argv[])
 	    exit(0);
 	case 'i':
 	    SET(AUTOINDENT);
+	    break;
+	case 'k':
+	    SET(CUT_TO_END);
 	    break;
 	case 'l':
 	    UNSET(FOLLOW_SYMLINKS);
