@@ -56,13 +56,14 @@ void do_home(void)
     size_t pww_save = placewewant;
 #ifndef NANO_SMALL
     if (ISSET(SMART_HOME)) {
-	size_t current_save_x = current_x;
+	size_t current_x_save = current_x;
 
 	for (current_x = 0; isblank(current->data[current_x]) &&
 		current->data[current_x] != '\0'; current_x++)
 	    ;
 
-	if (current_x == current_save_x || current->data[current_x] == '\0')
+	if (current_x == current_x_save ||
+		current->data[current_x] == '\0')
 	    current_x = 0;
 
 	placewewant = xplustabs();

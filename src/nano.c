@@ -1492,7 +1492,7 @@ bool do_wrap(filestruct *inptr)
 	/* +1 for the space between after_break and wrap_line. */
 	if ((new_line_len + 1 + wrap_line_len) <= fill) {
 	    wrapping = TRUE;
-	    new_line_len += (1 + wrap_line_len);
+	    new_line_len += 1 + wrap_line_len;
 	}
     }
 
