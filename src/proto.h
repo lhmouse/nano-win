@@ -160,7 +160,9 @@ void update_color(void);
 void cutbuffer_reset(void);
 filestruct *get_cutbottom(void);
 void add_to_cutbuffer(filestruct *inptr, bool allow_concat);
+#ifndef NANO_SMALL
 void cut_marked_segment(void);
+#endif
 void do_cut_text(void);
 void do_uncut_text(void);
 

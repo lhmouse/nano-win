@@ -230,6 +230,9 @@ CVS code -
 	  tab. (DLR)
 	- Move the PATH_MAX #define here from files.c.
 	- Remove unused COPYFILEBLOCKSIZE #define. (DLR)
+- proto.h:
+	- Add missing NANO_SMALL #ifdef around the cut_marked_segment()
+	  prototype. (DLR)
 - rcfile.c:
   parse_rcfile()
 	- Add missing brackets around an if statement block so that
