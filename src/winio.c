@@ -1277,15 +1277,33 @@ void edit_add(const filestruct *fileptr, const char *converted,
 	if (bot->lineno > fileptr->lineno || bot_x > endpos)
 	    bot_x = endpos;
 
-	/* the selected bit of fileptr is on this page */
+	/* The selected bit of fileptr is on this page. */
 	if (top_x < endpos && bot_x > startpos) {
 	    assert(startpos <= top_x);
-	    x_start = strnlenpt(fileptr->data + startpos, top_x - startpos);
+
+	    /* x_start is the expanded location of the beginning of the
+	     * mark minus the beginning of the page. */
+	    x_start = strnlenpt(fileptr->data, top_x) - start;
 
 	    if (bot_x >= endpos)
-		paintlen = -1;  /* Paint everything. */
+		/* If the end of the mark is off the page, paintlen is
+		 * -1, meaning that everything on the line gets
+		 * painted. */
+		paintlen = -1;
 	    else
-		paintlen = strnlenpt(fileptr->data + top_x, bot_x - top_x);
+		/* Otherwise, paintlen is the expanded location of the
+		 * end of the mark minus the expanded location of the
+		 * beginning of the mark. */
+		paintlen = strnlenpt(fileptr->data, bot_x) - (x_start +
+			start);
+
+	    /* If x_start is before the beginning of the page, shift
+	     * paintlen x_start characters to compensate, and put
+	     * x_start at the beginning of the page. */
+	    if (x_start < 0) {
+		paintlen += x_start;
+		x_start = 0;
+	    }
 
 	    assert(x_start >= 0 && x_start <= strlen(converted));
 

@@ -145,6 +145,9 @@ CVS code -
   titlebar()
 	- Fix problem with the available space for a filename on the
 	  titlebar's being short by one. (DLR)
+  edit_add()
+	- Fix problems with the marking highlight's being drawn
+	  improperly in some cases. (DLR)
   edit_update()
 	- Tweak for efficiency and remove the fix_editbot() call. (David
 	  Benbennick)
