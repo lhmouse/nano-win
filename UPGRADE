@@ -6,7 +6,7 @@ Visible changes since 1.0
 * Editor Features
   - Complete Pico compatibility (--pico has been removed, and -p means
     something else, see below).
-  - nanorc support (see sample.nanorc included in sources).
+  - nanorc support (see nanorc.sample included in sources).
   - Smooth scrolling (-S).
   - Searching of matching brace/bracket/etc.
   - Help for all editor features.
