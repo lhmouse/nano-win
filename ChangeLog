@@ -1,4 +1,4 @@
-CVS code -
+GNU nano 1.2.2 - 2003.08.11
 - General:
 	- Translation updates (see po/ChangeLog for details).
 	- Change uncast nrealloc()s assigned to char pointers/arrays to

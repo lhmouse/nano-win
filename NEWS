@@ -1,3 +1,14 @@
+2003.08.11 - GNU nano 1.2.2 is released, only four months since the 
+		last version :-).  This release includes fixes for
+		broken regex detection, search history recall, and 
+		keypad handling with -K.  Debugging strings are no 
+		longer translated and comments denote where translations 
+		should be as short as possible (i.e. the statusbar).  
+		There are new examples for syntax highlighting, and 
+		documentation updates and fixes.  The 1.3.0 CVS
+		tree will be opening soon for all your nano desires, so 
+		stay tuned!
+
 2003.04.19 - Happy Easter! GNU nano 1.2.1 is released.  This release
 		features a new check for broken regexec() 
 		implementations and some variable, function and macro
