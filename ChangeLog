@@ -49,13 +49,15 @@ CVS code -
 - nano.c:
   do_delete()
 	- Tweak for efficiency. (David Benbennick)
+  justify_format()
+	- Remove redundant assignment. (DLR)
   do_exit()
 	- Refactor so that no recursion is needed if we try to exit with
 	  a modified file that has no name when TEMP_OPT is set. (DLR)
   print_numlock_warning()
 	- Removed, as it's no longer needed and was never called
 	  anywhere after the input overhaul. (DLR)
-  do_verbatim_kbinput()
+  do_verbatim_input()
 	- Use size_t's instead of ints for the get_verbatim_kbinput()
 	  call and the loop that ungetch()es its returned int*,
 	  respectively. (DLR)

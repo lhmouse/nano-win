@@ -1920,7 +1920,6 @@ int justify_format(int changes_allowed, filestruct *line, size_t skip)
     assert(!isblank(line->data[skip]));
 
     back = line->data + skip;
-    front = back;
     for (front = back; ; front++) {
 	int remove_space = FALSE;
 	    /* Do we want to remove this space? */
@@ -2017,8 +2016,8 @@ size_t quote_length(const char *line)
 /* a_line and b_line are lines of text.  The quotation part of a_line is
  * the first a_quote characters.  Check that the quotation part of
  * b_line is the same. */
-int quotes_match(const char *a_line, size_t a_quote,
-		IFREG(const char *b_line, const regex_t *qreg))
+int quotes_match(const char *a_line, size_t a_quote, IFREG(const char
+	*b_line, const regex_t *qreg))
 {
     /* Here is the assumption about a_quote: */
     assert(a_quote == quote_length(IFREG(a_line, qreg)));
@@ -2028,8 +2027,8 @@ int quotes_match(const char *a_line, size_t a_quote,
 
 /* We assume a_line and b_line have no quote part.  Then, we return whether
  * b_line could follow a_line in a paragraph. */
-size_t indents_match(const char *a_line, size_t a_indent,
-			const char *b_line, size_t b_indent)
+size_t indents_match(const char *a_line, size_t a_indent, const char
+	*b_line, size_t b_indent)
 {
     assert(a_indent == indent_length(a_line));
     assert(b_indent == indent_length(b_line));
@@ -2041,8 +2040,8 @@ size_t indents_match(const char *a_line, size_t a_indent,
  * buffer, not allowing them to be concatenated.  We assume there are
  * enough lines after first_line.  We leave copies of the lines in
  * place, too.  We return the new copy of first_line. */
-filestruct *backup_lines(filestruct *first_line, size_t par_len,
-			size_t quote_len)
+filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
+	quote_len)
 {
     /* We put the original lines, not copies, into the cut buffer, just
      * out of a misguided sense of consistency, so if you un-cut, you

@@ -314,12 +314,12 @@ size_t quote_length(const char *line);
 #else
 #  define IFREG(a, b) a
 #endif
-int quotes_match(const char *a_line, size_t a_quote,
-		IFREG(const char *b_line, const regex_t *qreg));
-size_t indents_match(const char *a_line, size_t a_indent,
-			const char *b_line, size_t b_indent);
-filestruct *backup_lines(filestruct *first_line, size_t par_len,
-			size_t quote_len);
+int quotes_match(const char *a_line, size_t a_quote, IFREG(const char
+	*b_line, const regex_t *qreg));
+size_t indents_match(const char *a_line, size_t a_indent, const char
+	*b_line, size_t b_indent);
+filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
+	quote_len);
 int breakable(const char *line, int goal);
 int break_line(const char *line, int goal, int force);
 int do_para_search(int search_type, size_t *quote, size_t *par, size_t
