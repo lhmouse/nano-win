@@ -2323,7 +2323,7 @@ void do_spell(void)
 }
 #endif /* !DISABLE_SPELLER */
 
-#ifndef NANO_SMALL
+#if !defined(NANO_SMALL) || !defined(DISABLE_JUSTIFY)
 /* The "indentation" of a line is the whitespace between the quote part
  * and the non-whitespace of the line. */
 size_t indent_length(const char *line)
@@ -2350,7 +2350,7 @@ size_t indent_length(const char *line)
 
     return len;
 }
-#endif /* !NANO_SMALL */
+#endif /* !NANO_SMALL || !DISABLE_JUSTIFY */
 
 #ifndef DISABLE_JUSTIFY
 /* justify_format() replaces blanks with spaces and multiple spaces by 1
@@ -3030,7 +3030,7 @@ void do_justify(bool full_justify)
 	    totsize -= indent_len;
 
 	    /* We're just about to tack the next line onto this one.  If
-	     * this line isn't blank, make sure it ends in a space. */
+	     * this line isn't empty, make sure it ends in a space. */
 	    if (line_len > 0 && current->data[line_len - 1] != ' ') {
 		line_len++;
 		current->data = charealloc(current->data, line_len + 1);
