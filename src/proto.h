@@ -413,6 +413,9 @@ int regexec_safe(const regex_t *preg, const char *string, size_t nmatch,
 #endif
 int regexp_bol_or_eol(const regex_t *preg, const char *string);
 #endif
+#ifndef HAVE_ISBLANK
+int is_blank_char(int c);
+#endif
 int is_cntrl_char(int c);
 int num_of_digits(int n);
 void align(char **strp);

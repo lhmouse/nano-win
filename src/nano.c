@@ -1106,7 +1106,7 @@ int do_enter(void)
 	int extra = 0;
 	const char *spc = current->data;
 
-	while (*spc == ' ' || *spc == '\t') {
+	while (isblank(*spc)) {
 	    extra++;
 	    spc++;
 	}
@@ -1312,14 +1312,14 @@ int do_wrap(filestruct *inptr)
     wrap_line = inptr->data + i;
     for (; i < len; i++, wrap_line++) {
 	/* record where the last word ended */
-	if (*wrap_line != ' ' && *wrap_line != '\t')
+	if (!isblank(*wrap_line))
 	    word_back = i;
 	/* if we have found a "legal wrap point" and the current word
 	 * extends too far, then we stop */
 	if (wrap_loc != -1 && strnlenpt(inptr->data, word_back + 1) > fill)
 	    break;
 	/* we record the latest "legal wrap point" */
-	if (word_back != i && wrap_line[1] != ' ' && wrap_line[1] != '\t')
+	if (word_back != i && !isblank(wrap_line[1]))
 	    wrap_loc = i;
     }
     if (wrap_loc < 0 || i == len)
@@ -1387,7 +1387,7 @@ int do_wrap(filestruct *inptr)
 	 * between after_break and wrap_line.  If the line already ends
 	 * in a tab or a space, we don't add a space and decrement
 	 * totsize to account for that. */
-	if (!isspace((int) newline[strlen(newline) - 1]))
+	if (!isblank(newline[strlen(newline) - 1]))
 	    strcat(newline, " ");
 	else
 	    totsize--;
@@ -1885,7 +1885,7 @@ size_t indent_length(const char *line)
     size_t len = 0;
 
     assert(line != NULL);
-    while (*line == ' ' || *line == '\t') {
+    while (isblank(*line)) {
 	line++;
 	len++;
     }
@@ -1917,7 +1917,7 @@ int justify_format(int changes_allowed, filestruct *line, size_t skip)
     assert(line != NULL);
     assert(line->data != NULL);
     assert(skip < strlen(line->data));
-    assert(line->data[skip] != ' ' && line->data[skip] != '\t');
+    assert(!isblank(line->data[skip]));
 
     back = line->data + skip;
     front = back;
@@ -2078,7 +2078,7 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len,
 int breakable(const char *line, int goal)
 {
     for (; *line != '\0' && goal >= 0; line++) {
-	if (*line == ' ' || *line == '\t')
+	if (isblank(*line))
 	    return TRUE;
 
 	if (is_cntrl_char(*line) != 0)
@@ -2334,7 +2334,7 @@ int do_para_search(int search_type, size_t *quote, size_t *par, size_t
 		 * characters, as searching for the end of the paragraph
 		 * does. */
 		for (i = 0; current->data[i] != '\0'; i++) {
-		    if (isspace(current->data[i]))
+		    if (isblank(current->data[i]))
 			j++;
 		    else {
 			i = 0;

@@ -31,6 +31,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <pwd.h>
+#include <ctype.h>
 #include <assert.h>
 #include "proto.h"
 #include "nano.h"
@@ -131,7 +132,7 @@ void rcfile_msg(const char *msg, ...)
 /* Parse the next word from the string.  Returns NULL if we hit EOL. */
 char *parse_next_word(char *ptr)
 {
-    while (*ptr != ' ' && *ptr != '\t' && *ptr != '\n' && *ptr != '\0')
+    while (!isblank(*ptr) && *ptr != '\n' && *ptr != '\0')
 	ptr++;
 
     if (*ptr == '\0')
@@ -140,7 +141,7 @@ char *parse_next_word(char *ptr)
     /* Null terminate and advance ptr */
     *ptr++ = 0;
 
-    while (*ptr == ' ' || *ptr == '\t')
+    while (isblank(*ptr))
 	ptr++;
 
     return ptr;
@@ -179,7 +180,7 @@ char *parse_argument(char *ptr)
 	ptr = last_quote + 1;
     }
     if (ptr != NULL)
-	while (*ptr == ' ' || *ptr == '\t')
+	while (isblank(*ptr))
 	    ptr++;
     return ptr;
 }
@@ -237,7 +238,7 @@ char *parse_next_regex(char *ptr)
     /* Null terminate and advance ptr. */
     *ptr++ = '\0';
 
-    while (*ptr == ' ' || *ptr == '\t')
+    while (isblank(*ptr))
 	ptr++;
 
     return ptr;
@@ -484,7 +485,7 @@ void parse_rcfile(FILE *rcstream)
     while (fgets(buf, 1023, rcstream) != 0) {
 	lineno++;
 	ptr = buf;
-	while (*ptr == ' ' || *ptr == '\t')
+	while (isblank(*ptr))
 	    ptr++;
 
 	if (*ptr == '\n' || *ptr == '\0')

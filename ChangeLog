@@ -79,6 +79,9 @@ CVS code -
 	  display_string() that have been used in the search prompt
 	  since 1.3.0. (David Benbennick)
 - utils.c:
+  is_blank_char()
+	- Add new function is_blank_char() as an isblank() equivalent,
+	  since isblank() is a GNU extension. (DLR)
   nstricmp(), nstrnicmp()
 	- Add extra blank lines for greater readability, and remove
 	  unneeded test for n's being less than zero (since it's already
@@ -88,6 +91,8 @@ CVS code -
 	- Rename to nstristr() to avoid a potential conflict with an
 	  existing stristr() function, and move up to just after
 	  nstrnicmp(). (DLR)  David Benbennick: Tweak for efficiency.
+	- Include and use only when strcasestr() is unavailable, since
+	  strcasestr() is a GNU extension. (DLR)
 - winio.c:
   get_verbatim_kbinput()
 	- Refactor the output in the DEBUG #ifdef.  It didn't work
@@ -120,6 +125,10 @@ CVS code -
 	- Use napms() instead of nanosleep(), as it does the same thing
 	  (aside from taking an argument in milliseconds instead of
 	  microseconds) and curses includes it. (DLR)
+- configure.ac:
+	- Add tests for isblank() and strcasestr(), and define
+	  _GNU_SOURCE so that the tests work properly.  Increase the
+	  minimum required autoconf version to 2.54. (DLR)
 - faq.html:
 	- Removed question about the NumLock glitch, as it's no longer
 	  needed. (DLR)
@@ -137,6 +146,13 @@ CVS code -
 - nanorc.sample:
 	- Add missing mouse entry, and update the nanorc sample regexes
 	  to account for the backupdir and mouse options. (DLR)
+- README.CVS:
+	- Increase the minimum required autoconf version to 2.54, and
+	  change the recommended automake version 1.7 to the minimum
+	  required automake version.  Note that autoconf 2.54 will
+	  technically also work with automake 1.6c, but that is a CVS
+	  version as opposed to a stable release version, and automake
+	  1.7 requires at least autoconf 2.54 in any case. (DLR)
 
 GNU nano 1.3.2 - 2004.03.31
 - General:

@@ -52,10 +52,20 @@ int regexp_bol_or_eol(const regex_t *preg, const char *string)
 }
 #endif /* HAVE_REGEX_H */
 
+#ifndef HAVE_ISBLANK
+/* This function is equivalent to isblank(). */
+int is_blank_char(int c)
+{
+    return (c == '\t' || c == ' ');
+}
+#endif
+
+/* This function is equivalent to iscntrl(), except in that it also
+ * handles control characters with their high bits set. */
 int is_cntrl_char(int c)
 {
     return (-128 <= c && c < -96) || (0 <= c && c < 32) ||
-		(127 <= c && c < 160);
+	(127 <= c && c < 160);
 }
 
 int num_of_digits(int n)
@@ -146,6 +156,7 @@ int nstrnicmp(const char *s1, const char *s2, size_t n)
 }
 #endif
 
+#ifndef HAVE_STRCASESTR
 /* This function is equivalent to strcasestr().  It was adapted from
  * mutt's mutt_stristr() function. */
 const char *nstristr(const char *haystack, const char *needle)
@@ -165,6 +176,7 @@ const char *nstristr(const char *haystack, const char *needle)
 
     return NULL;
 }
+#endif
 
 /* None of this is needed if we're using NANO_SMALL! */
 #ifndef NANO_SMALL
@@ -256,7 +268,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
     else if (ISSET(REVERSE_SEARCH))
 	return revstristr(haystack, needle, start);
 #endif
-    return nstristr(start, needle);
+    return strcasestr(start, needle);
 }
 
 /* This is a wrapper for the perror() function.  The wrapper takes care

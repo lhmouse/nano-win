@@ -91,13 +91,22 @@
 # endif
 #endif
 
-/* If no strcasecmp() or strncasecmp(), use the versions we have. */
+/* If no isblank(), strcasecmp(), strncasecmp(), or strcasestr(), use
+ * the versions we have. */
+#ifndef HAVE_ISBLANK
+#define isblank is_blank_char
+#endif
+
 #ifndef HAVE_STRCASECMP
 #define strcasecmp nstricmp
 #endif
 
 #ifndef HAVE_STRNCASECMP
 #define strncasecmp nstrnicmp
+#endif
+
+#ifndef HAVE_STRCASESTR
+#define strcasestr nstristr
 #endif
 
 /* Assume ERR is defined as -1.  To avoid duplicate case values when

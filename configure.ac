@@ -24,9 +24,10 @@ AC_CONFIG_SRCDIR([src/nano.c])
 AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER([config.h:config.h.in])
 
-AC_PREREQ(2.52)
+AC_PREREQ(2.54)
 
 dnl Checks for programs.
+AC_GNU_SOURCE
 AC_PROG_CC
 AC_ISC_POSIX
 AC_SYS_LARGEFILE
@@ -270,7 +271,7 @@ AC_MSG_WARN([*** Can not use slang when cross-compiling])),
     esac], [AC_MSG_RESULT(no)])
 
 dnl Checks for functions
-AC_CHECK_FUNCS(snprintf vsnprintf strcasecmp strncasecmp)
+AC_CHECK_FUNCS(snprintf vsnprintf isblank strcasecmp strncasecmp strcasestr)
 if test "x$ac_cv_func_snprintf" = "xno" -o "xac_cv_func_vsnprintf" = "xno"
 then
 	AM_PATH_GLIB_2_0(2.0.0,,

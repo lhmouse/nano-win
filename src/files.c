@@ -189,7 +189,7 @@ int read_file(FILE *f, const char *filename, int quiet)
 	   assume it's a DOS or Mac formatted file if it hasn't been
 	   detected as one already! */
 	if (fileformat == 0 && !ISSET(NO_CONVERT)
-		&& is_cntrl_char((int)input) != 0 && input != '\t'
+		&& is_cntrl_char(input) && input != '\t'
 		&& input != '\r' && input != '\n')
 	    SET(NO_CONVERT);
 #endif
@@ -2230,7 +2230,7 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
 	tmp = matchbuf;
 
 	/* skip any leading white space */
-	while (*tmp && isspace((int)*tmp))
+	while (*tmp && isblank(*tmp))
 	    ++tmp;
 
 	/* Free up any memory already allocated */
