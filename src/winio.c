@@ -108,7 +108,7 @@ void unget_kbinput(int kbinput, bool meta_key, bool func_key)
 {
     /* If this character is outside the ASCII range and func_key is
      * FALSE, treat it as a wide character and put back its equivalent
-     * multibyte sequence. */
+     * UTF-8 sequence. */
     if (kbinput > 255 && !func_key)
     {
 	int i;
