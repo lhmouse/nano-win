@@ -2,7 +2,7 @@
 /**************************************************************************
  *   winio.c                                                              *
  *                                                                        *
- *   Copyright (C) 1999-2004 Chris Allegretta                             *
+ *   Copyright (C) 1999-2005 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -46,6 +46,10 @@ static size_t key_buffer_len = 0;
 static int statusblank = 0;	/* The number of keystrokes left after
 				 * we call statusbar(), before we
 				 * actually blank the statusbar. */
+static size_t statusbar_x = (size_t)-1;
+				/* The cursor position in answer. */
+static size_t statusbar_xend = 0;
+				/* The length of answer. */
 static bool resetstatuspos = FALSE;
 				/* Should we reset the cursor position
 				 * at the statusbar prompt? */
@@ -1609,6 +1613,271 @@ const toggle *get_toggle(int kbinput, bool meta_key)
 }
 #endif /* !NANO_SMALL */
 
+int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
+	bool *finished, bool allow_funcs)
+{
+    int input;
+	/* The character we read in. */
+    static int *kbinput = NULL;
+	/* The input buffer. */
+    static size_t kbinput_len = 0;
+	/* The length of the input buffer. */
+    const shortcut *s;
+    bool have_shortcut;
+
+    *s_or_t = FALSE;
+    *finished = FALSE;
+
+    /* Read in a character. */
+    input = get_kbinput(bottomwin, meta_key, func_key);
+
+#ifndef DISABLE_MOUSE
+    /* If we got a mouse click and it was on a shortcut, read in the
+     * shortcut character. */
+    if (allow_funcs && func_key && input == KEY_MOUSE) {
+	if (do_mouse())
+	    input = get_kbinput(bottomwin, meta_key, func_key);
+	else
+	    input = ERR;
+    }
+#endif
+
+    /* Check for a shortcut in the current list. */
+    s = get_shortcut(currshortcut, &input, meta_key, func_key);
+
+    /* If we got a shortcut from the current list, or a "universal"
+     * statusbar prompt shortcut, set have_shortcut to TRUE. */
+    have_shortcut = (s != NULL || input == NANO_REFRESH_KEY ||
+	input == NANO_HOME_KEY || input == NANO_END_KEY ||
+	input == NANO_FORWARD_KEY || input == NANO_BACK_KEY ||
+	input == NANO_BACKSPACE_KEY || input == NANO_DELETE_KEY ||
+	input == NANO_CUT_KEY);
+
+    /* Set s_or_t to TRUE if we got a shortcut. */
+    *s_or_t = have_shortcut;
+
+    if (allow_funcs) {
+	if (input != ERR && *s_or_t == FALSE && !is_cntrl_char(input)) {
+	    /* If we're using restricted mode, the filename isn't blank,
+	     * and we're at the "Write File" prompt, disable text
+	     * input. */
+	    if (!ISSET(RESTRICTED) || filename[0] == '\0' ||
+		currshortcut != writefile_list) {
+		kbinput_len++;
+		kbinput = (int *)nrealloc(kbinput, kbinput_len *
+			sizeof(int));
+		kbinput[kbinput_len - 1] = input;
+	    }
+	}
+
+	/* If we got a shortcut, or if there aren't any other characters
+	 * waiting after the one we read in, we need to display all the
+	 * characters in the input buffer if it isn't empty. */
+	 if (*s_or_t == TRUE || get_buffer_len() == 0) {
+	    if (kbinput != NULL) {
+		/* Display all the characters in the input buffer at
+		 * once. */
+		do_statusbar_output(kbinput, kbinput_len);
+
+		/* Empty the input buffer. */
+		kbinput_len = 0;
+		free(kbinput);
+		kbinput = NULL;
+	    }
+	}
+
+	if (have_shortcut) {
+	    switch (input) {
+		/* Handle the "universal" statusbar prompt shortcuts. */
+		case NANO_REFRESH_KEY:
+		    total_refresh();
+		    break;
+		case NANO_HOME_KEY:
+		    do_statusbar_home();
+		    break;
+		case NANO_END_KEY:
+		    do_statusbar_end();
+		    break;
+		case NANO_FORWARD_KEY:
+		    do_statusbar_right();
+		    break;
+		case NANO_BACK_KEY:
+		    do_statusbar_left();
+		    break;
+		case NANO_BACKSPACE_KEY:
+		    /* If we're using restricted mode, the filename
+		     * isn't blank, and we're at the "Write File"
+		     * prompt, disable Backspace. */
+		    if (!ISSET(RESTRICTED) || filename[0] == '\0' ||
+			currshortcut != writefile_list)
+			do_statusbar_backspace();
+		    break;
+		case NANO_DELETE_KEY:
+		    /* If we're using restricted mode, the filename
+		     * isn't blank, and we're at the "Write File"
+		     * prompt, disable Delete. */
+		    if (!ISSET(RESTRICTED) || filename[0] == '\0' ||
+			currshortcut != writefile_list)
+			do_statusbar_delete();
+		    break;
+		case NANO_CUT_KEY:
+		    /* If we're using restricted mode, the filename
+		     * isn't blank, and we're at the "Write File"
+		     * prompt, disable Cut. */
+		    if (!ISSET(RESTRICTED) || filename[0] == '\0' ||
+			currshortcut != writefile_list)
+			do_statusbar_cut_text();
+		    break;
+		/* Handle the normal statusbar prompt shortcuts, setting
+		 * finished to TRUE to indicate that we're done after
+		 * running or trying to run their associated
+		 * functions. */
+		default:
+		    if (s->func != NULL) {
+			if (ISSET(VIEW_MODE) && !s->viewok)
+			    print_view_warning();
+			else
+			    s->func();
+		    }
+		    *finished = TRUE;
+	    }
+	}
+    }
+
+    return input;
+}
+
+#ifndef DISABLE_MOUSE
+bool do_statusbar_mouse(void)
+{
+    /* FIXME: If we clicked on a location in the statusbar, the cursor
+     * should move to the location we clicked on.  This functionality
+     * should be in this function. */
+    int mouse_x, mouse_y;
+    return get_mouseinput(&mouse_x, &mouse_y, TRUE);
+}
+#endif
+
+void do_statusbar_home(void)
+{
+#ifndef NANO_SMALL
+    if (ISSET(SMART_HOME)) {
+	size_t statusbar_x_save = statusbar_x;
+	for (statusbar_x = 0; isblank(answer[statusbar_x]) &&
+		statusbar_x < statusbar_xend; statusbar_x++)
+	    ;
+	if (statusbar_x == statusbar_x_save ||
+		statusbar_x == statusbar_xend)
+	    statusbar_x = 0;
+    } else
+#endif
+	statusbar_x = 0;
+}
+
+void do_statusbar_end(void)
+{
+    statusbar_x = statusbar_xend;
+}
+
+void do_statusbar_right(void)
+{
+    if (statusbar_x < statusbar_xend)
+	statusbar_x = move_right(answer, statusbar_x);
+}
+
+void do_statusbar_left(void)
+{
+    if (statusbar_x > 0)
+	statusbar_x = move_left(answer, statusbar_x);
+}
+
+void do_statusbar_backspace(void)
+{
+    if (statusbar_x > 0) {
+	do_statusbar_left();
+	do_statusbar_delete();
+    }
+}
+
+void do_statusbar_delete(void)
+{
+    if (statusbar_x < statusbar_xend) {
+	int char_len = parse_char(answer + statusbar_x, NULL, NULL
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		);
+
+	charmove(answer + statusbar_x, answer + statusbar_x + char_len,
+		statusbar_xend - statusbar_x - char_len + 1);
+	statusbar_xend -= char_len;
+    }
+}
+
+void do_statusbar_cut_text(void)
+{
+    null_at(&answer, 0);
+    statusbar_x = 0;
+    statusbar_xend = 0;
+}
+
+void do_statusbar_output(int *kbinput, size_t kbinput_len)
+{
+    size_t i;
+
+    char *key =
+#ifdef NANO_WIDE
+	!ISSET(NO_UTF8) ? charalloc(MB_CUR_MAX) :
+#endif
+	charalloc(1);
+
+    assert(answer != NULL);
+
+    for (i = 0; i < kbinput_len; i++) {
+	int key_len;
+
+	/* Null to newline, if needed. */
+	if (kbinput[i] == '\0')
+	    kbinput[i] = '\n';
+	/* Newline to Enter, if needed. */
+	else if (kbinput[i] == '\n')
+	    /* FIXME: We need to indicate when this happens, so that we
+	     * can break out of the statusbar prompt properly. */
+	    return;
+
+#ifdef NANO_WIDE
+	/* Change the wide character to its multibyte value.  If it's
+	 * invalid, go on to the next character. */
+	if (!ISSET(NO_UTF8)) {
+	    key_len = wctomb(key, (wchar_t)kbinput[i]);
+
+	    if (key_len == -1)
+		continue;
+	/* Interpret the character as a single-byte sequence. */
+	} else {
+#endif
+	    key_len = 1;
+	    key[0] = (unsigned char)kbinput[i];
+#ifdef NANO_WIDE
+	}
+#endif
+
+	/* More dangerousness fun =) */
+	answer = charealloc(answer, statusbar_xend + key_len + 1);
+
+	assert(statusbar_x <= statusbar_xend);
+
+	charmove(&answer[statusbar_x + key_len], &answer[statusbar_x],
+		statusbar_xend - statusbar_x + key_len);
+	charcpy(&answer[statusbar_x], key, key_len);
+	statusbar_xend += key_len;
+
+	do_statusbar_right();
+    }
+
+    free(key);
+}
+
 /* Return the placewewant associated with current_x.  That is, xplustabs
  * is the zero-based column position of the cursor.  Value is no smaller
  * than current_x. */
@@ -2101,14 +2370,9 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 		)
 {
     int kbinput;
-    bool meta_key, func_key;
-    static size_t x = (size_t)-1;
-	/* the cursor position in 'answer' */
-    size_t xend;
-	/* length of 'answer', the status bar text */
+    bool meta_key, func_key, s_or_t, finished;
     bool tabbed = FALSE;
 	/* used by input_tab() */
-    const shortcut *t;
 
 #ifndef NANO_SMALL
    /* for history */
@@ -2125,32 +2389,30 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
        answer or restored from answer to currentbuf. */
     int use_cb = 0;
 #endif
-    xend = strlen(def);
+    statusbar_xend = strlen(def);
 
-    /* Only put x at the end of the string if it's uninitialized, if it
-       would be past the end of the string as it is, or if
-       resetstatuspos is TRUE.  Otherwise, leave it alone.  This is so
-       the cursor position stays at the same place if a prompt-changing
-       toggle is pressed. */
-    if (x == (size_t)-1 || x > xend || resetstatuspos)
-	x = xend;
+    /* Only put statusbar_x at the end of the string if it's
+     * uninitialized, if it would be past the end of the string as it
+     * is, or if resetstatuspos is TRUE.  Otherwise, leave it alone.
+     * This is so the cursor position stays at the same place if a
+     * prompt-changing toggle is pressed. */
+    if (statusbar_x == (size_t)-1 || statusbar_x > statusbar_xend ||
+		resetstatuspos)
+	statusbar_x = statusbar_xend;
 
-    answer = charealloc(answer, xend + 1);
-    if (xend > 0)
+    answer = charealloc(answer, statusbar_xend + 1);
+    if (statusbar_xend > 0)
 	strcpy(answer, def);
     else
 	answer[0] = '\0';
 
-#if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
     currshortcut = s;
-#endif
 
     /* Get the input! */
 
-    nanoget_repaint(buf, answer, x);
+    nanoget_repaint(buf, answer, statusbar_x);
 
-    /* Make sure any editor screen updates are displayed before getting
-       input */
+    /* Refresh the edit window before getting input. */
     wnoutrefresh(edit);
     wrefresh(bottomwin);
 
@@ -2159,105 +2421,22 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
      * to files not specified on the command line.  In this case,
      * disable all keys that would change the text if the filename isn't
      * blank and we're at the "Write File" prompt. */
-    while ((kbinput = get_kbinput(bottomwin, &meta_key, &func_key)) !=
-	NANO_CANCEL_KEY && kbinput != NANO_ENTER_KEY) {
-	for (t = s; t != NULL; t = t->next) {
-#ifdef DEBUG
-	    fprintf(stderr, "Aha! \'%c\' (%d)\n", kbinput, kbinput);
-#endif
+    while ((kbinput = do_statusbar_input(&meta_key, &func_key,
+	&s_or_t, &finished, TRUE)) != NANO_CANCEL_KEY &&
+	kbinput != NANO_ENTER_KEY) {
 
-	    /* Temporary hack to interpret NANO_HELP_FKEY correctly. */
-	    if (kbinput == t->funcval)
-		kbinput = t->ctrlval;
+	/* If we have a shortcut with an associated function, break out
+	 * if we're finished after running the function. */
+	if (finished)
+	    break;
 
-	    if (kbinput == t->ctrlval && is_cntrl_char(kbinput)) {
-
-#ifndef DISABLE_HELP
-		/* Have to do this here, it would be too late to do it
-		   in statusq() */
-		if (kbinput == NANO_HELP_KEY) {
-		    do_help();
-		    break;
-		}
-#endif
-#ifndef NANO_SMALL
-		/* Have to handle these here too, for the time being */
-		if (kbinput == NANO_PREVLINE_KEY || kbinput == NANO_NEXTLINE_KEY)
-		    break;
-#endif
-
-		return t->ctrlval;
-	    }
-	}
-	assert(x <= xend && xend == strlen(answer));
+	assert(statusbar_x <= statusbar_xend &&
+		statusbar_xend == strlen(answer));
 
 	if (kbinput != '\t')
 	    tabbed = FALSE;
 
 	switch (kbinput) {
-#ifndef DISABLE_MOUSE
-	case KEY_MOUSE:
-	    {
-		int mouse_x, mouse_y;
-		get_mouseinput(&mouse_x, &mouse_y, TRUE);
-	    }
-	    break;
-#endif
-	case NANO_REFRESH_KEY:
-	    total_refresh();
-	    break;
-	case NANO_HOME_KEY:
-#ifndef NANO_SMALL
-	    if (ISSET(SMART_HOME)) {
-		size_t old_x = x;
-
-		for (x = 0; isblank(answer[x]) && x < xend; x++)
-		    ;
-
-		if (x == old_x || x == xend)
-		    x = 0;
-	    } else
-#endif
-		x = 0;
-	    break;
-	case NANO_END_KEY:
-	    x = xend;
-	    break;
-	case NANO_FORWARD_KEY:
-	    if (x < xend)
-		x++;
-	    break;
-	case NANO_DELETE_KEY:
-	    /* If we're using restricted mode, the filename isn't blank,
-	     * and we're at the "Write File" prompt, disable Delete. */
-	    if (!ISSET(RESTRICTED) || filename[0] == '\0' || s != writefile_list) {
-		if (x < xend) {
-		    charmove(answer + x, answer + x + 1, xend - x);
-		    xend--;
-		}
-	    }
-	    break;
-	case NANO_CUT_KEY:
-	    /* If we're using restricted mode, the filename isn't blank,
-	     * and we're at the "Write File" prompt, disable Cut. */
-	    if (!ISSET(RESTRICTED) || filename[0] == '\0' || s != writefile_list) {
-		null_at(&answer, 0);
-		xend = 0;
-		x = 0;
-	    }
-	    break;
-	case NANO_BACKSPACE_KEY:
-	    /* If we're using restricted mode, the filename isn't blank,
-	     * and we're at the "Write File" prompt, disable
-	     * Backspace. */
-	    if (!ISSET(RESTRICTED) || filename[0] == '\0' || s != writefile_list) {
-		if (x > 0) {
-		    charmove(answer + x - 1, answer + x, xend - x + 1);
-		    x--;
-		    xend--;
-		}
-	    }
-	    break;
 	case NANO_TAB_KEY:
 #ifndef NANO_SMALL
 	    /* tab history completion */
@@ -2269,8 +2448,8 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 
 		if (history_list->len > 0) {
 		    complete = get_history_completion(history_list, answer);
-		    xend = strlen(complete);
-		    x = xend;
+		    statusbar_x = strlen(complete);
+		    statusbar_xend = statusbar_x;
 		    answer = mallocstrcpy(answer, complete);
 		}
 	    }
@@ -2282,17 +2461,14 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 	    if (allow_tabs) {
 		int shift = 0;
 
-		answer = input_tab(answer, x, &tabbed, &shift, list);
-		xend = strlen(answer);
-		x += shift;
-		if (x > xend)
-		    x = xend;
+		answer = input_tab(answer, statusbar_x, &tabbed, &shift,
+			list);
+		statusbar_xend = strlen(answer);
+		statusbar_x += shift;
+		if (statusbar_x > statusbar_xend)
+		    statusbar_x = statusbar_xend;
 	    }
 #endif
-	    break;
-	case NANO_BACK_KEY:
-	    if (x > 0)
-		x--;
 	    break;
 	case NANO_PREVLINE_KEY:
 #ifndef NANO_SMALL
@@ -2321,7 +2497,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 		    answer = mallocstrcpy(answer, currentbuf);
 		    free(currentbuf);
 		    currentbuf = NULL;
-		    xend = strlen(answer);
+		    statusbar_xend = strlen(answer);
 		    use_cb = 0;
 
 		/* else get older search from the history list and save
@@ -2329,12 +2505,12 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 		   answer */
 		} else if ((history = get_history_older(history_list)) != NULL) {
 		    answer = mallocstrcpy(answer, history);
-		    xend = strlen(history);
+		    statusbar_xend = strlen(history);
 		} else {
 		    answer = mallocstrcpy(answer, "");
-		    xend = 0;
+		    statusbar_xend = 0;
 		}
-		x = xend;
+		statusbar_x = statusbar_xend;
 	    }
 #endif
 	    break;
@@ -2346,7 +2522,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 		   in answer */
 		if ((history = get_history_newer(history_list)) != NULL) {
 		    answer = mallocstrcpy(answer, history);
-		    xend = strlen(history);
+		    statusbar_xend = strlen(history);
 
 		/* if there is no newer search, we're here */
 		
@@ -2360,7 +2536,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 		    answer = mallocstrcpy(answer, currentbuf);
 		    free(currentbuf);
 		    currentbuf = NULL;
-		    xend = strlen(answer);
+		    statusbar_xend = strlen(answer);
 		    use_cb = 1;
 
 		/* otherwise, if currentbuf is NULL and use_cb isn't 2, 
@@ -2374,53 +2550,24 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 			currentbuf = mallocstrcpy(currentbuf, answer);
 			answer = mallocstrcpy(answer, "");
 		    }
-		    xend = 0;
+		    statusbar_xend = 0;
 		    use_cb = 2;
 		}
-		x = xend;
+		statusbar_x = statusbar_xend;
 	    }
 #endif
 	    break;
-	    default:
-
-		for (t = s; t != NULL; t = t->next) {
-#ifdef DEBUG
-		    fprintf(stderr, "Aha! \'%c\' (%d)\n", kbinput,
-			    kbinput);
-#endif
-		    if (meta_key && (kbinput == t->metaval || kbinput == t->miscval))
-			/* We hit a meta key.  Do like above.  We don't
-			 * just put back the letter and let it get
-			 * caught above cause that screws the
-			 * keypad... */
-			return kbinput;
-		}
-
-	    /* If we're using restricted mode, the filename isn't blank,
-	     * and we're at the "Write File" prompt, act as though the
-	     * unhandled character we got is a control character and
-	     * throw it away. */
-	    if (is_cntrl_char(kbinput) || (ISSET(RESTRICTED) && filename[0] != '\0' && s == writefile_list))
-		break;
-	    answer = charealloc(answer, xend + 2);
-	    charmove(answer + x + 1, answer + x, xend - x + 1);
-	    xend++;
-	    answer[x] = kbinput;
-	    x++;
-
-#ifdef DEBUG
-	    fprintf(stderr, "input \'%c\' (%d)\n", kbinput, kbinput);
-#endif
-	} /* switch (kbinput) */
+	}
 #ifndef NANO_SMALL
 	last_kbinput = kbinput;
 #endif
-	nanoget_repaint(buf, answer, x);
+	nanoget_repaint(buf, answer, statusbar_x);
 	wrefresh(bottomwin);
-    } /* while (kbinput ...) */
+    }
 
-    /* We finished putting in an answer; reset x */
-    x = (size_t)-1;
+    /* We finished putting in an answer, so reset statusbar_x. */
+    if (kbinput == NANO_CANCEL_KEY || kbinput == NANO_ENTER_KEY)
+	statusbar_x = (size_t)-1;
 
     return kbinput;
 }
@@ -2464,36 +2611,6 @@ int statusq(bool allow_tabs, const shortcut *s, const char *def,
     resetstatuspos = FALSE;
 
     switch (ret) {
-	case NANO_FIRSTLINE_KEY:
-	case NANO_FIRSTLINE_FKEY:
-	    do_first_line();
-	    resetstatuspos = TRUE;
-	    break;
-	case NANO_LASTLINE_KEY:
-	case NANO_LASTLINE_FKEY:
-	    do_last_line();
-	    resetstatuspos = TRUE;
-	    break;
-#ifndef DISABLE_JUSTIFY
-	case NANO_PARABEGIN_KEY:
-	case NANO_PARABEGIN_ALTKEY1:
-	case NANO_PARABEGIN_ALTKEY2:
-	    do_para_begin();
-	    resetstatuspos = TRUE;
-	    break;
-	case NANO_PARAEND_KEY:
-	case NANO_PARAEND_ALTKEY1:
-	case NANO_PARAEND_ALTKEY2:
-	    do_para_end();
-	    resetstatuspos = TRUE;
-	    break;
-	case NANO_FULLJUSTIFY_KEY:
-	case NANO_FULLJUSTIFY_ALTKEY:
-	    if (!ISSET(VIEW_MODE))
-		do_full_justify();
-	    resetstatuspos = TRUE;
-	    break;
-#endif
 	case NANO_CANCEL_KEY:
 	    ret = -1;
 	    resetstatuspos = TRUE;

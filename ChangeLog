@@ -45,19 +45,38 @@ CVS code -
 	  do_mouse() and moved to nano.c), do_verbatim_input(),
 	  do_tab(), main(), and get_ascii_kbinput() (renamed to
 	  get_word_kbinput()).  The wide version of ncurses is required
-	  in order for output to work properly. (DLR; buffered
-	  input/output based on ideas from mutt 1.4.2.1; double-Escape
-	  input of Unicode characters suggested by Michael Piefel)
+	  in order for wide/multibyte input and output to work properly.
+	  (DLR; buffered input/output based on ideas from mutt 1.4.2.1;
+	  double-Escape input of Unicode characters suggested by Michael
+	  Piefel)
 	- More steps toward wide character/multibyte character support.
 	  Movement and cursor display in the edit window should now work
 	  properly with files containing multibyte characters, and text
-	  display of such files should work properly some of the time.
-	  New functions control_rep(), parse_char(), move_left(),
+	  display of such files should now work properly as well.  New
+	  functions control_rep(), parse_char(), move_left(),
 	  move_right(), and display_string_len(); changes to do_left(),
 	  do_right(), do_delete(), breakable(), break_line(),
 	  do_output(), get_buffer(), unget_input(), actual_x(),
 	  strnlenpt(), display_string(), titlebar(), statusbar(),
 	  onekey(), and do_credits(). (David Benbennick and DLR)
+	- Overhaul the high-level input routines for the statusbar to
+	  make them read the shortcut lists for functions instead of
+	  manually running them, to make nanogetstr() less complex, and
+	  to increase flexibility.  Note that currshortcut is now used
+	  regardless of #ifdefs.  Changes to shortcut_init() and
+	  nanogetstr(); new functions do_statusbar_input(),
+	  do_statusbar_mouse(), do_statusbar_home(), do_statusbar_end(),
+	  do_statusbar_right(), do_statusbar_left(),
+	  do_statusbar_backspace(), do_statusbar_delete(),
+	  do_statusbar_cut_text(), and do_statusbar_output(). (DLR)
+	- Even more steps toward wide character/multibyte character
+	  support.  Movement and (most) cursor display at the statusbar
+	  prompt should now work properly with a string containing
+	  multibyte characters, and text display of such strings should
+	  now (mostly) work properly as well.  Changes to
+	  do_statusbar_right(), do_statusbar_left(),
+	  do_statusbar_backspace(), and do_statusbar_delete(). (David
+	  Benbennick and DLR)
 - cut.c:
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the
@@ -100,6 +119,9 @@ CVS code -
 	  loop if there are no more paragraphs after the current one and
 	  the paragraph search left us on the magicline, so as to avoid
 	  a segfault. (DLR)
+  do_input()
+	- Add finished parameter, used to indicate when we run or try to
+	  run a function associated with a shortcut. (DLR)
   main()
 	- Try to automatically detect whether UTF-8 support is needed by
 	  setting the NO_UTF8 flag if setlocale() returns a string that

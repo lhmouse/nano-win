@@ -2,7 +2,7 @@
 /**************************************************************************
  *   global.c                                                             *
  *                                                                        *
- *   Copyright (C) 1999-2004 Chris Allegretta                             *
+ *   Copyright (C) 1999-2005 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -159,9 +159,7 @@ syntaxtype *syntaxes = NULL;
 char *syntaxstr = NULL;
 #endif
 
-#if !defined(DISABLE_BROWSER) || !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
 const shortcut *currshortcut;	/* Current shortcut list we're using */
-#endif
 
 #ifndef NANO_SMALL
 toggle *toggles = NULL;
@@ -614,12 +612,12 @@ void shortcut_init(bool unjustify)
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_TOOTHERSEARCH_KEY, replace_msg,
 	IFHELP(nano_replace_msg, NANO_NO_KEY), NANO_REPLACE_FKEY,
-	NANO_NO_KEY, VIEW, do_replace);
+	NANO_NO_KEY, VIEW, 0);
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_TOGOTOLINE_KEY, go_to_line_msg,
 	IFHELP(nano_gotoline_msg, NANO_NO_KEY), NANO_GOTOLINE_FKEY,
-	NANO_NO_KEY, VIEW, do_gotoline_void);
+	NANO_NO_KEY, VIEW, 0);
 
 #ifndef DISABLE_JUSTIFY
     /* Translators: try to keep this string under 10 characters long */
@@ -691,11 +689,11 @@ void shortcut_init(bool unjustify)
     /* Translators: try to keep this string under 12 characters long */
     sc_init_one(&replace_list, NANO_TOOTHERSEARCH_KEY, N_("No Replace"),
 	IFHELP(nano_whereis_msg, NANO_NO_KEY), NANO_REPLACE_FKEY,
-	NANO_NO_KEY, VIEW, do_search);
+	NANO_NO_KEY, VIEW, 0);
 
     sc_init_one(&replace_list, NANO_TOGOTOLINE_KEY, go_to_line_msg,
 	IFHELP(nano_gotoline_msg, NANO_NO_KEY), NANO_GOTOLINE_FKEY,
-	NANO_NO_KEY, VIEW, do_gotoline_void);
+	NANO_NO_KEY, VIEW, 0);
 
 #ifndef NANO_SMALL
     sc_init_one(&replace_list, NANO_NO_KEY, case_sens_msg,
@@ -773,7 +771,7 @@ void shortcut_init(bool unjustify)
 
     sc_init_one(&gotoline_list, NANO_TOOTHERWHEREIS_KEY,
 	N_("Go To Text"), IFHELP(nano_whereis_msg, NANO_NO_KEY),
-	NANO_NO_KEY, NANO_NO_KEY, VIEW, do_search);
+	NANO_NO_KEY, NANO_NO_KEY, VIEW, 0);
 
 #ifndef DISABLE_HELP
     free_shortcutage(&help_list);

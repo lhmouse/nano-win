@@ -2,7 +2,7 @@
 /**************************************************************************
  *   files.c                                                              *
  *                                                                        *
- *   Copyright (C) 1999-2004 Chris Allegretta                             *
+ *   Copyright (C) 1999-2005 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -1738,9 +1738,7 @@ int do_writeout(bool exiting)
     static bool did_cred = FALSE;
 #endif
 
-#if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE)
     currshortcut = writefile_list;
-#endif
 
     if (exiting && filename[0] != '\0' && ISSET(TEMP_FILE)) {
 	retval = write_file(filename, FALSE, 0, FALSE);
@@ -2541,9 +2539,7 @@ char *do_browser(const char *inpath)
 
 	check_statusblank();
 
-#if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
 	currshortcut = browser_list;
-#endif
 
  	editline = 0;
 	col = 0;

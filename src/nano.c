@@ -2,7 +2,7 @@
 /**************************************************************************
  *   nano.c                                                               *
  *                                                                        *
- *   Copyright (C) 1999-2004 Chris Allegretta                             *
+ *   Copyright (C) 1999-2005 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -2718,7 +2718,7 @@ void do_justify(bool full_justify)
     size_t mark_beginx_save = mark_beginx;
 #endif
     int kbinput;
-    bool meta_key, func_key, s_or_t;
+    bool meta_key, func_key, s_or_t, finished;
 
     /* If we're justifying the entire file, start at the beginning. */
     if (full_justify)
@@ -2984,7 +2984,7 @@ void do_justify(bool full_justify)
 
     /* Now get a keystroke and see if it's unjustify.  If not, put back
      * the keystroke and return. */
-    kbinput = do_input(&meta_key, &func_key, &s_or_t, FALSE);
+    kbinput = do_input(&meta_key, &func_key, &s_or_t, &finished, FALSE);
 
     if (!meta_key && !func_key && s_or_t &&
 	kbinput == NANO_UNJUSTIFY_KEY) {
@@ -3386,7 +3386,7 @@ void terminal_init(void)
 }
 
 int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
-	allow_funcs)
+	*finished, bool allow_funcs)
 {
     int input;
 	/* The character we read in. */
@@ -3402,6 +3402,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 #endif
 
     *s_or_t = FALSE;
+    *finished = FALSE;
 
     /* Read in a character. */
     input = get_kbinput(edit, meta_key, func_key);
@@ -3477,7 +3478,8 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 
 	if (have_shortcut) {
 	    switch (input) {
-		/* Handle the "universal" edit window shortcuts. */
+		/* Handle the "universal" statusbar prompt shortcuts,
+		 * setting ran_s_or_t to TRUE to indicate it. */
 		case NANO_XON_KEY:
 		    statusbar(_("XON ignored, mumble mumble."));
 		    break;
@@ -3490,21 +3492,23 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 			do_suspend(0);
 		    break;
 #endif
-		/* Handle the normal edit window shortcuts. */
+		/* Handle the normal edit window shortcuts, setting
+		 * finished to TRUE to indicate that we're done after
+		 * running or trying to run their associated
+		 * functions. */
 		default:
 		    /* Blow away the text in the cutbuffer if we aren't
 		     * cutting text. */
 		    if (s->func != do_cut_text)
 			cutbuffer_reset();
 
-		    /* Run the function associated with this shortcut,
-		     * if there is one. */
 		    if (s->func != NULL) {
 			if (ISSET(VIEW_MODE) && !s->viewok)
 			    print_view_warning();
 			else
 			    s->func();
 		    }
+		    *finished = TRUE;
 		    break;
 	    }
 	}
@@ -3577,9 +3581,6 @@ bool do_mouse(void)
 	    edit_refresh();
 	}
     }
-    /* FIXME: If we clicked on a location in the statusbar, the cursor
-     * should move to the location we clicked on.  This functionality
-     * should be in do_statusbar_mouse() when it's written. */
 
     return retval;
 }
@@ -4225,6 +4226,9 @@ int main(int argc, char **argv)
 		/* Whether we got a function key. */
 	bool s_or_t;
 		/* Whether we got a shortcut or toggle. */
+	bool ran_s_or_t;
+		/* Whether we ran a function associated with a
+		 * shortcut. */
 
 	/* Make sure the cursor is in the edit window. */
 	reset_cursor();
@@ -4234,12 +4238,10 @@ int main(int argc, char **argv)
 	if (ISSET(CONSTUPDATE))
 	    do_cursorpos(TRUE);
 
-#if !defined(DISABLE_BROWSER) || !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
 	currshortcut = main_list;
-#endif
 
 	/* Read in and interpret characters. */
-	do_input(&meta_key, &func_key, &s_or_t, TRUE);
+	do_input(&meta_key, &func_key, &s_or_t, &ran_s_or_t, TRUE);
     }
     assert(FALSE);
 }

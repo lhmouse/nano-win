@@ -2,7 +2,7 @@
 /**************************************************************************
  *   proto.h                                                              *
  *                                                                        *
- *   Copyright (C) 1999-2004 Chris Allegretta                             *
+ *   Copyright (C) 1999-2005 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -122,9 +122,7 @@ extern shortcut *spell_list;
 extern shortcut *browser_list, *gotodir_list;
 #endif
 
-#if !defined(DISABLE_BROWSER) || !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
 extern const shortcut *currshortcut;
-#endif
 
 #ifdef HAVE_REGEX_H
 extern regex_t search_regexp;
@@ -391,7 +389,7 @@ void disable_flow_control(void);
 void enable_flow_control(void);
 void terminal_init(void);
 int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
-	allow_funcs);
+	*finished, bool allow_funcs);
 #ifndef DISABLE_MOUSE
 bool do_mouse(void);
 #endif
@@ -569,6 +567,19 @@ const shortcut *get_shortcut(const shortcut *s_list, int *kbinput, bool
 #ifndef NANO_SMALL
 const toggle *get_toggle(int kbinput, bool meta_key);
 #endif
+int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
+	bool *finished, bool allow_funcs);
+#ifndef DISABLE_MOUSE
+bool do_statusbar_mouse(void);
+#endif
+void do_statusbar_home(void);
+void do_statusbar_end(void);
+void do_statusbar_right(void);
+void do_statusbar_left(void);
+void do_statusbar_backspace(void);
+void do_statusbar_delete(void);
+void do_statusbar_cut_text(void);
+void do_statusbar_output(int *kbinput, size_t kbinput_len);
 size_t xplustabs(void);
 size_t actual_x(const char *str, size_t xplus);
 size_t strnlenpt(const char *buf, size_t size);
