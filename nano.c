@@ -107,26 +107,11 @@ RETSIGTYPE finish(int sigage)
 void die(char *msg, ...)
 {
     va_list ap;
-    char *name;
-    int i;
 
     va_start(ap, msg);
     vfprintf(stderr, msg, ap);
     va_end(ap);
 
-    /* if we can't save we have REAL bad problems,
-     * but we might as well TRY. */
-    if (filename[0] == '\0') {
-	name = "nano.save";
-	i = write_file(name, 1, 0, 0);
-    } else {
-
-	char *buf = charalloc(strlen(filename) + 6);
-	strcpy(buf, filename);
-	strcat(buf, ".save");
-	i = write_file(buf, 1, 0, 0);
-	name = buf;
-    }
     /* Restore the old term settings */
     tcsetattr(0, TCSANOW, &oldterm);
 
@@ -136,12 +121,62 @@ void die(char *msg, ...)
     endwin();
 
     fprintf(stderr, msg);
+
+    /* save the currently loaded file (if modified, its open_files entry
+       isn't up to date) */
+    die_save_file(filename);
+
+#ifdef ENABLE_LOADONINSERT
+    /* then save all of the other loaded files, if any */
+    if (open_files) {
+        filestruct *tmp;
+
+	tmp = open_files;
+
+	while (open_files->prev)
+	    open_files = open_files->prev;
+
+	while (open_files->next) {
+
+	    /* if we already saved the file above (i. e. if it was the
+	       currently loaded file), don't save it again */
+	    if (tmp != open_files) {
+		fileage = open_files->file;
+		die_save_file(open_files->data);
+	    }
+
+	    open_files = open_files->next;
+	}
+
+    }
+#endif
+
+    exit(1);			/* We have a problem: exit w/ errorlevel(1) */
+}
+
+void die_save_file(char *die_filename)
+{
+    char *name;
+    int i;
+
+    /* if we can't save we have REAL bad problems,
+     * but we might as well TRY. */
+    if (die_filename[0] == '\0') {
+	name = "nano.save";
+	i = write_file(name, 1, 0, 0);
+    } else {
+
+	char *buf = charalloc(strlen(die_filename) + 6);
+	strcpy(buf, die_filename);
+	strcat(buf, ".save");
+	i = write_file(buf, 1, 0, 0);
+	name = buf;
+    }
+
     if (i != -1)
 	fprintf(stderr, _("\nBuffer written to %s\n"), name);
     else
 	fprintf(stderr, _("\nNo %s written (file exists?)\n"), name);
-
-    exit(1);			/* We have a problem: exit w/ errorlevel(1) */
 }
 
 /* Die with an error message that the screen was too small if, well, the
@@ -225,7 +260,8 @@ void init_help_msg(void)
 }
 #endif
 
-/* Make a copy of a node to a pointer (space will be malloc()ed) */
+/* Make a copy of a node to a pointer (space will be malloc()ed).  This
+   does NOT copy the data members used only by open_files. */
 filestruct *copy_node(filestruct * src)
 {
     filestruct *dst;
@@ -252,6 +288,8 @@ void unlink_node(filestruct * fileptr)
 	fileptr->next->prev = fileptr->prev;
 }
 
+/* Delete a node from the struct.  This does NOT delete the data members
+   used only by open_files. */
 void delete_node(filestruct * fileptr)
 {
     if (fileptr == NULL)
@@ -262,7 +300,8 @@ void delete_node(filestruct * fileptr)
     free(fileptr);
 }
 
-/* Okay, now let's duplicate a whole struct! */
+/* Okay, now let's duplicate a whole struct!  This does NOT duplicate the
+   data members used only by open_files. */
 filestruct *copy_filestruct(filestruct * src)
 {
     filestruct *dst, *tmp, *head, *prev;
@@ -286,6 +325,8 @@ filestruct *copy_filestruct(filestruct * src)
     return head;
 }
 
+/* Frees a struct.  This does NOT free the data members used only by
+   open_files. */
 int free_filestruct(filestruct * src)
 {
     filestruct *fileptr = src;
@@ -360,6 +401,13 @@ void usage(void)
 #ifdef HAVE_GETOPT_LONG
     printf(_("Usage: nano [GNU long option] [option] +LINE <file>\n\n"));
     printf(_("Option		Long option		Meaning\n"));
+
+#ifdef ENABLE_LOADONINSERT
+    printf
+	(_
+	 (" -L 		--loadoninsert		Enable file loading on insertion\n"));
+#endif
+
     printf(_
 	   (" -T [num]	--tabsize=[num]		Set width of a tab to num\n"));
 #ifdef HAVE_REGEX_H
@@ -463,6 +511,9 @@ void version(void)
 #ifdef NANO_EXTRA
     printf(" --enable-extra");
 #endif
+#ifdef ENABLE_LOADONINSERT
+    printf(" --enable-loadoninsert");
+#endif
 #ifdef ENABLE_NANORC
     printf(" --enable-nanorc");
 #endif
@@ -503,6 +554,8 @@ void version(void)
 
 }
 
+/* Create a new node.  This does NOT initialize the data members used
+   only by open_files. */
 filestruct *make_new_node(filestruct * prevnode)
 {
     filestruct *newnode;
@@ -519,7 +572,8 @@ filestruct *make_new_node(filestruct * prevnode)
     return newnode;
 }
 
-/* Splice a node into an existing filestruct */
+/* Splice a node into an existing filestruct.  This does NOT set the data
+   members used only by open_files. */
 void splice_node(filestruct * begin, filestruct * newnode,
 		 filestruct * end)
 {
@@ -1459,8 +1513,16 @@ int do_alt_speller(char *file_name)
     global_init();
     open_file(file_name, 0, 1);
 
-    do_gotoline(lineno_cur);
+    do_gotoline(lineno_cur, 0);
     set_modified();
+
+#ifdef ENABLE_LOADONINSERT
+    /* if we have multiple files open, the spell-checked (current) file
+       is now stored after the un-spell-checked file in the open_files
+       structure, so go back to the un-spell-checked file and close it */
+    open_prevfile(0);
+    close_open_file();
+#endif
 
     return TRUE;
 }
@@ -1508,8 +1570,18 @@ int do_exit(void)
 {
     int i;
 
-    if (!ISSET(MODIFIED))
-	finish(0);
+    if (!ISSET(MODIFIED)) {
+
+#ifdef ENABLE_LOADONINSERT
+	if (!close_open_file()) {
+	    display_main_list();
+	    return 1;
+	}
+	else
+#endif
+
+	    finish(0);
+    }
 
     if (ISSET(TEMP_OPT)) {
 	i = 1;
@@ -1524,11 +1596,30 @@ int do_exit(void)
 #endif
 
     if (i == 1) {
-	if (do_writeout(filename, 1, 0) > 0)
+	if (do_writeout(filename, 1, 0) > 0) {
+
+#ifdef ENABLE_LOADONINSERT
+	    if (!close_open_file()) {
+		display_main_list();
+		return 1;
+	    }
+	    else
+#endif
+
+		finish(0);
+	}
+    } else if (i == 0) {
+
+#ifdef ENABLE_LOADONINSERT
+	if (!close_open_file()) {
+	    display_main_list();
+	    return 1;
+	}
+	else
+#endif
+
 	    finish(0);
-    } else if (i == 0)
-	finish(0);
-    else
+    } else
 	statusbar(_("Cancelled"));
 
     display_main_list();
@@ -2139,12 +2230,21 @@ void help_init(void)
 
     /* And the toggles... */
     for (i = 0; i <= TOGGLE_LEN - 1; i++) {
-	sofar = snprintf(buf, BUFSIZ,
-			 "M-%c			", toggles[i].val - 32);
+	if (toggles[i].override_ch != 0)
+	    sofar = snprintf(buf, BUFSIZ,
+			     "M-%c			", toggles[i].override_ch);
+	else
+	    sofar = snprintf(buf, BUFSIZ,
+			     "M-%c			", toggles[i].val - 32);
 
-	if (toggles[i].desc != NULL)
-	    snprintf(&buf[sofar], BUFSIZ - sofar, _("%s enable/disable"),
-		     toggles[i].desc);
+	if (toggles[i].desc != NULL) {
+	    if (toggles[i].flag != 0)
+		snprintf(&buf[sofar], BUFSIZ - sofar, _("%s enable/disable"),
+			 toggles[i].desc);
+	    else
+		snprintf(&buf[sofar], BUFSIZ - sofar, _("%s"),
+			 toggles[i].desc);
+	}
 
 	strcat(help_text, buf);
 	strcat(help_text, "\n");
@@ -2183,21 +2283,43 @@ void do_toggle(int which)
 	edit_refresh();
 	display_main_list();
 	break;
+
+#ifdef ENABLE_LOADONINSERT
+    case NANO_OPENPREV_KEY:
+	open_prevfile(0);
+	break;
+    case NANO_OPENNEXT_KEY:
+	open_nextfile(0);
+	break;
+#endif
+
     }
 
-    if (!ISSET(toggles[which].flag)) {
-	if (toggles[which].val == TOGGLE_NOHELP_KEY ||
-	    toggles[which].val == TOGGLE_WRAP_KEY)
-	    statusbar("%s %s", toggles[which].desc, enabled);
-	else
-	    statusbar("%s %s", toggles[which].desc, disabled);
-    } else {
-	if (toggles[which].val == TOGGLE_NOHELP_KEY ||
-	    toggles[which].val == TOGGLE_WRAP_KEY)
-	    statusbar("%s %s", toggles[which].desc, disabled);
-	else
-	    statusbar("%s %s", toggles[which].desc, enabled);
+#ifdef ENABLE_LOADONINSERT
+    /* NANO_OPENPREV_KEY and NANO_OPENNEXT_KEY aren't really toggles, so
+       don't display anything on the statusbar if they're pressed */
+    if (toggles[which].val != NANO_OPENPREV_KEY &&
+	toggles[which].val != NANO_OPENNEXT_KEY) {
+#endif
+
+	if (!ISSET(toggles[which].flag)) {
+	    if (toggles[which].val == TOGGLE_NOHELP_KEY ||
+		toggles[which].val == TOGGLE_WRAP_KEY)
+		statusbar("%s %s", toggles[which].desc, enabled);
+	    else
+		statusbar("%s %s", toggles[which].desc, disabled);
+	} else {
+	    if (toggles[which].val == TOGGLE_NOHELP_KEY ||
+		toggles[which].val == TOGGLE_WRAP_KEY)
+		statusbar("%s %s", toggles[which].desc, disabled);
+	    else
+		statusbar("%s %s", toggles[which].desc, enabled);
+	}
+
+#ifdef ENABLE_LOADONINSERT
     }
+#endif
+
     SET(DISABLE_CURPOS);
 
 #endif
@@ -2279,6 +2401,11 @@ int main(int argc, char *argv[])
 	{"pico", 0, 0, 'p'},
 	{"nofollow", 0, 0, 'l'},
 	{"tabsize", 1, 0, 'T'},
+
+#ifdef ENABLE_LOADONINSERT
+	{"loadoninsert", 0, 0, 'L'},
+#endif
+
 	{0, 0, 0, 0}
     };
 #endif
@@ -2299,14 +2426,21 @@ int main(int argc, char *argv[])
 #endif /* ENABLE_NANORC */
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "?T:RVbcefghijklmpr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "h?LT:RVbcefgijklmpr:s:tvwxz",
 				 long_options, &option_index)) != EOF) {
 #else
     while ((optchr =
-	    getopt(argc, argv, "h?T:RVbcefgijklmpr:s:tvwxz")) != EOF) {
+	    getopt(argc, argv, "h?LT:RVbcefgijklmpr:s:tvwxz")) != EOF) {
 #endif
 
 	switch (optchr) {
+
+#ifdef ENABLE_LOADONINSERT
+	case 'L':
+	    SET(LOADONINSERT);
+	    break;
+#endif
+
 	case 'T':
 	    tabsize = atoi(optarg);
 	    if (tabsize <= 0) {
@@ -2483,7 +2617,7 @@ int main(int argc, char *argv[])
 	open_file(filename, 0, 0);
 
     if (startline > 0)
-	do_gotoline(startline);
+	do_gotoline(startline, 0);
     else
 	edit_update(fileage, CENTER);
 
@@ -2583,7 +2717,12 @@ int main(int argc, char *argv[])
 			break;
 		    case 126:	/* Hack, make insert key do something 
 				   useful, like insert file */
-			do_insertfile();
+#ifdef ENABLE_LOADONINSERT
+			do_insertfile(ISSET(LOADONINSERT));
+#else
+			do_insertfile(0);
+#endif
+
 			keyhandled = 1;
 			break;
 #ifdef DEBUG

@@ -47,6 +47,16 @@
 void load_file(void)
 {
     current = fileage;
+
+#ifdef ENABLE_LOADONINSERT
+    /* add a new entry to the open_files structure, and check for
+       duplicate entries; if a duplicate entry was found, reload the
+       currently open file (it may have been changed during duplicate
+       handling) */
+    if (add_open_file(0, 1) == 2)
+	load_open_file();
+#endif
+
     wmove(edit, current_y, current_x);
 }
 
@@ -253,7 +263,7 @@ int open_file(char *filename, int insert, int quiet)
     return 1;
 }
 
-int do_insertfile(void)
+int do_insertfile(int loading_file)
 {
     int i;
     char *realname = NULL;
@@ -270,7 +280,7 @@ int do_insertfile(void)
     if (i != -1) {
 
 #ifdef DEBUG
-	fprintf(stderr, "filename is %s", answer);
+	fprintf(stderr, _("filename is %s"), answer);
 #endif
 
 #ifndef DISABLE_TABCOMP
@@ -294,18 +304,56 @@ int do_insertfile(void)
 	    if 	(tmp != NULL)
 		realname = mallocstrcpy(realname, tmp);
 	    else
-		return do_insertfile();
+		return do_insertfile(loading_file);
+	}
+#endif
+
+#ifdef ENABLE_LOADONINSERT
+	if (loading_file) {
+
+	    /* update the current entry in the open_files structure; we
+	       don't need to check for duplicate entries (the conditions
+	       that could create them are taken care of elsewhere) */
+	    add_open_file(1, 0);
+
+	    free_filestruct(current);
+	    new_file();
+	    UNSET(MODIFIED);
 	}
 #endif
 
 	i = open_file(realname, 1, 0);
+
+#ifdef ENABLE_LOADONINSERT
+	if (loading_file)
+	    filename = mallocstrcpy(filename, realname);
+#endif
+
 	free(realname);
 
 	dump_buffer(fileage);
-	set_modified();
+
+#ifdef ENABLE_LOADONINSERT
+	if (loading_file)
+	    load_file();
+	else
+#endif
+
+	    set_modified();
 
 	/* Here we want to rebuild the edit window */
 	fix_editbot();
+
+#ifdef ENABLE_LOADONINSERT
+	/* If we've loaded another file, update the titlebar's contents */
+	if (loading_file) {
+	    clearok(topwin, FALSE);
+	    titlebar(NULL);
+
+	    /* And re-init the shortcut list */
+	    shortcut_init(0);
+	}
+#endif
 
 	/* If we've gone off the bottom, recenter; otherwise, just redraw */
 	if (current->lineno > editbot->lineno)
@@ -323,6 +371,479 @@ int do_insertfile(void)
 	return 0;
     }
 }
+
+int do_insertfile_void(void)
+{
+    int result = 0;
+#ifdef ENABLE_LOADONINSERT
+    result = do_insertfile(ISSET(LOADONINSERT));
+#else
+    result = do_insertfile(0);
+#endif
+
+    display_main_list();
+    return result;
+}
+
+#ifdef ENABLE_LOADONINSERT
+/*
+ * Add/update an entry to the open_files filestruct.  If update is
+ * zero, a new entry is created; otherwise, the current entry is updated.
+ * If dup_fix is zero, checking for and handling duplicate entries is not
+ * done; otherwise, it is.  Return 0 on success, 1 on error, or 2 on
+ * finding a duplicate entry.
+ */
+int add_open_file(int update, int dup_fix)
+{
+    filestruct *tmp;
+
+    if (!current || !filename)
+	return 1;
+
+    /* first, if duplicate checking is allowed, do it */
+    if (dup_fix) {
+
+	/* if duplicates were found and handled, we're done */
+	if (open_file_dup_fix(update))
+	    return 2;
+    }
+
+    /* if no entries, make the first one */
+    if (!open_files) {
+	open_files = make_new_node(NULL);
+
+	/* if open_files->file is NULL at the nrealloc() below, we get a
+	   segfault */
+	open_files->file = open_files;
+    }
+
+    else if (!update) {
+
+	/* otherwise, if we're not updating, make a new entry for
+	   open_files and splice it in after the current one */
+
+#ifdef DEBUG
+	    fprintf(stderr, _("filename is %s"), open_files->data);
+#endif
+
+	tmp = make_new_node(NULL);
+	splice_node(open_files, tmp, open_files->next);
+	open_files = open_files->next;
+
+	/* if open_files->file is NULL at the nrealloc() below, we get a
+	   segfault */
+	open_files->file = open_files;
+    }
+
+    /* save current filename */
+    open_files->data = mallocstrcpy(open_files->data, filename);
+
+    /* save the full path location */
+    open_files->file_path = get_full_path(open_files->data);
+
+    /* save current total number of lines */
+    open_files->file_totlines = totlines;
+
+    /* save current total size */
+    open_files->file_totsize = totsize;
+
+    /* save current x-coordinate position */
+    open_files->file_current_x = current_x;
+
+    /* save current y-coordinate position */
+    open_files->file_current_y = current_y;
+
+    /* save current place we want */
+    open_files->file_placewewant = placewewant;
+
+    /* save current line number */
+    open_files->lineno = current->lineno;
+
+    /* save current filestruct */
+    open_files->file = nrealloc(open_files->file, sizeof(filestruct));
+    while (current->prev)
+	current = current->prev;
+    open_files->file = copy_filestruct(current);
+    do_gotoline(open_files->lineno, 1);
+    placewewant = open_files->file_placewewant;
+    update_line(current, current_x);
+
+    /* save current modification status */
+    open_files->file_modified = ISSET(MODIFIED);
+
+#ifdef DEBUG
+    fprintf(stderr, _("filename is %s"), open_files->data);
+#endif
+
+    return 0;
+}
+
+/*
+ * Update only the filename and full path stored in the current entry.
+ * Return 0 on success or 1 on error.
+ */ 
+int open_file_change_name(void)
+{
+    if (!open_files || !filename)
+	return 1;
+
+    /* save current filename */
+    open_files->data = mallocstrcpy(open_files->data, filename);
+
+    /* save the full path location */
+    open_files->file_path = get_full_path(open_files->data);
+
+    return 0;
+}
+
+/*
+ * Read the current entry in the open_files structure and set up the
+ * currently open file using that entry's information.  Return 0 on
+ * success or 1 on error.
+ */
+int load_open_file(void)
+{
+    if (!open_files)
+	return 1;
+
+    /* set up the filename, the file buffer, the total number of lines in
+       the file, and the total file size */
+    filename = mallocstrcpy(filename, open_files->data);
+    fileage = copy_filestruct(open_files->file);
+    current = fileage;
+    totlines = open_files->file_totlines;
+    totsize = open_files->file_totsize;
+
+    /* since do_gotoline() resets the x-coordinate but not the
+       y-coordinate, set all coordinates up this way */
+    current_y = open_files->file_current_y;
+    do_gotoline(open_files->lineno, 1);
+    current_x = open_files->file_current_x;
+    placewewant = open_files->file_placewewant;
+    update_line(current, current_x);
+
+    /* set up modification status and update the titlebar */
+    if (open_files->file_modified)
+	SET(MODIFIED);
+    else
+	UNSET(MODIFIED);
+    clearok(topwin, FALSE);
+    titlebar(NULL);
+
+    /* if we're constantly displaying the cursor position, update it */
+    if (ISSET(CONSTUPDATE))
+	do_cursorpos();
+
+    /* now we're done */
+    return 0;
+}
+
+/*
+ * Search the open_files structure for an entry with the same value for
+ * the file_path member as the current entry (i. e. a duplicate entry).
+ * If one is found, return a pointer to it; otherwise, return NULL.
+ *
+ * Note: This should only be called inside open_file_dup_fix().
+ */
+filestruct *open_file_dup_search(void)
+{
+    filestruct *tmp;
+    char *path;
+
+    if (!open_files || !filename)
+	return NULL;
+
+    tmp = open_files;
+    path = get_full_path(filename);
+
+    /* if there's only one entry, handle it */
+    if (!tmp->prev && !tmp->next) {
+	if (!strcmp(tmp->file_path, path))
+	    return tmp;
+    }
+
+    /* otherwise, go to the beginning */
+    while (tmp->prev)
+	tmp = tmp->prev;
+
+    /* and search the entries one by one */
+    while (tmp) {
+
+	if (!strcmp(tmp->file_path, path)) {
+
+	    /* if it's not the current entry, we've found a duplicate */
+	    if (tmp != open_files) 
+		return tmp;
+	}
+
+	/* go to the next entry */
+	tmp = tmp->next;
+
+    }
+
+    return NULL;
+}
+
+/*
+ * Search for duplicate entries in the open_files structure using
+ * open_file_dup_search(), and, if one is found, handle it properly.
+ * Return 0 if no duplicates were found, and 1 otherwise.
+ */
+int open_file_dup_fix(int update)
+{
+    filestruct *tmp = open_file_dup_search();
+
+    if (!tmp)
+	return 0;
+
+    /* if there's only one entry, handle it */
+    if (!tmp->prev && !tmp->next)
+	return 1;
+
+    /* otherwise, if we're not updating, the user's trying to load a
+       duplicate; switch to the original instead */
+    if (!update) {
+	open_files = tmp;
+	return 1;
+    }
+
+    /* if we are updating, the filename's been changed via a save; it's
+       thus more recent than the original, so remove the original */
+    else {
+	unlink_node(tmp);
+	free_filestruct(tmp->file);
+	free(tmp->file_path);
+	delete_node(tmp);
+    }
+    return 0;
+}
+
+/*
+ * Open the previous entry in the open_files structure.  If closing_file
+ * is zero, update the current entry before switching from it.
+ * Otherwise, we are about to close that entry, so don't bother doing so.
+ * Return 0 on success and 1 on error.
+ */
+int open_prevfile(int closing_file)
+{
+    if (!open_files)
+	return 1;
+
+    /* if we're not about to close the current entry, update it before
+       doing anything; since we're only switching, we don't need to check
+       for duplicate entries */
+    if (!closing_file)
+	add_open_file(1, 0);
+
+    if (!open_files->prev && !open_files->next) {
+
+	/* only one file open */
+	if (!closing_file)
+	    statusbar(_("No more open files"));
+	return 1;
+    }
+
+    if (open_files->prev) {
+	open_files = open_files->prev;
+
+#ifdef DEBUG
+	fprintf(stderr, _("filename is %s"), open_files->data);
+#endif
+
+    }
+
+    else if (open_files->next) {
+
+	/* if we're at the beginning, wrap around to the end */
+	while (open_files->next)
+	    open_files = open_files->next;
+
+#ifdef DEBUG
+	    fprintf(stderr, _("filename is %s"), open_files->data);
+#endif
+
+    }
+
+    load_open_file();
+
+#ifdef DEBUG
+    dump_buffer(current);
+#endif
+
+    return 0;
+}
+
+/*
+ * Open the next entry in the open_files structure.  If closing_file is
+ * zero, update the current entry before switching from it.  Otherwise, we
+ * are about to close that entry, so don't bother doing so.  Return 0 on
+ * success and 1 on error.
+ */
+int open_nextfile(int closing_file)
+{
+    if (!open_files)
+	return 1;
+
+    /* if we're not about to close the current entry, update it before
+       doing anything; since we're only switching, we don't need to check
+       for duplicate entries */
+    if (!closing_file)
+	add_open_file(1, 0);
+
+    if (!open_files->prev && !open_files->next) {
+
+	/* only one file open */
+	if (!closing_file)
+	    statusbar(_("No more open files"));
+	return 1;
+    }
+
+    if (open_files->next) {
+	open_files = open_files->next;
+
+#ifdef DEBUG
+	fprintf(stderr, _("filename is %s"), open_files->data);
+#endif
+
+    }
+    else if (open_files->prev) {
+
+	/* if we're at the end, wrap around to the beginning */
+	while (open_files->prev) {
+	    open_files = open_files->prev;
+
+#ifdef DEBUG
+	    fprintf(stderr, _("filename is %s"), open_files->data);
+#endif
+
+	}
+    }
+
+    load_open_file();
+
+#ifdef DEBUG
+    dump_buffer(current);
+#endif
+
+    return 0;
+}
+
+/*
+ * Delete an entry from the open_files filestruct.  After deletion of an
+ * entry, the previous or next entry is opened, whichever is found first.
+ * Return 0 on success or 1 on error.
+ */
+int close_open_file(void)
+{
+    filestruct *tmp;
+
+    if (!open_files)
+	return 1;
+
+    tmp = open_files;
+    if (open_prevfile(1)) {
+	if (open_nextfile(1))
+	    return 1;
+    }
+
+    unlink_node(tmp);
+    free_filestruct(tmp->file);
+    free(tmp->file_path);
+    delete_node(tmp);
+
+    shortcut_init(0);
+    display_main_list();
+    return 0;
+}
+
+/*
+ * When passed "[relative path][filename]" in origpath, return "[full
+ * path][filename]" on success, or NULL on error.
+ */
+char *get_full_path(const char *origpath)
+{
+    char *newpath = NULL, *last_slash, *d_here, *d_there, *d_there_file;
+    int last_slash_index;
+
+    /* first, get the current directory */
+
+#ifdef PATH_MAX
+    d_here = getcwd(NULL, PATH_MAX + 1);
+#else
+    d_here = getcwd(NULL, 0);
+#endif
+
+    if (d_here) {
+
+	align(&d_here);
+
+	/* get the filename (with path included) and save it in both
+	   d_there and d_there_file */
+	d_there = charalloc(strlen(origpath) + 1);
+	d_there_file = charalloc(strlen(origpath) + 1);
+	strcpy(d_there, origpath);
+	strcpy(d_there_file, origpath);
+
+	/* search for the last slash in d_there */
+	last_slash = strrchr(d_there, '/');
+
+	/* if we didn't find one, copy d_here into d_there; all data is
+	   then set up */
+	if (!last_slash) {
+	    d_there = nrealloc(d_there, strlen(d_here) + 1);
+	    strcpy(d_there, d_here);
+	}
+
+	else {
+
+	    /* otherwise, remove all non-path elements from d_there */
+	    last_slash_index = strlen(d_there) - strlen(last_slash);
+	    null_at(d_there, last_slash_index);
+
+	    /* and remove all non-file elements from d_there_file */
+	    last_slash++;
+	    d_there_file = nrealloc(d_there_file, strlen(last_slash) + 1);
+	    strcpy(d_there_file, last_slash);
+
+	    /* now go to the path specified in d_there */
+	    if (chdir(d_there) != -1) {
+
+		/* get the full pathname, and save it back in d_there */
+
+		free(d_there);
+
+#ifdef PATH_MAX
+		d_there = getcwd(NULL, PATH_MAX + 1);
+#else
+		d_there = getcwd(NULL, 0);
+#endif
+
+		align(&d_there);
+	    }
+
+	    /* finally, go back to where we were before, d_here (no error
+	       checking is done on this chdir(), because we can do
+	       nothing if it fails) */
+	    chdir(d_here);
+	}
+	
+	/* all data is set up; fill in newpath */
+
+	/* newpath = d_there + "/" + d_there_file */
+	newpath = charalloc(strlen(d_there) + strlen(d_there_file) + 2);
+	strcpy(newpath, d_there);
+	strcat(newpath, "/");
+	strcat(newpath, d_there_file);
+
+	/* finally, clean up */
+	free(d_there_file);
+	free(d_there);
+	free(d_here);
+    }
+
+    return newpath;
+}
+#endif
 
 /*
  * Write a file out.  If tmp is nonzero, we set the umask to 0600,
@@ -637,7 +1158,29 @@ int do_writeout(char *path, int exiting, int append)
 	} else
 #endif
 	    i = write_file(answer, 0, append, 0);
-	
+
+#ifdef ENABLE_LOADONINSERT
+	    /* if we're not about to exit, update the current entry in
+	       the open_files structure */
+	    if (!exiting) {
+
+		/* first, if the filename was changed during the save,
+		   update the filename and full path stored in the
+		   current entry, and then update the current entry,
+		   checking for duplicate entries */
+		if (strcmp(open_files->data, filename)) {
+		    open_file_change_name();
+		    add_open_file(1, 1);
+		}
+		else {
+
+		    /* otherwise, just update the current entry without
+		       checking for duplicate entries */
+		    add_open_file(1, 0);
+		}
+	    }
+#endif
+
 	    display_main_list();
 	    return i;
 	} else {

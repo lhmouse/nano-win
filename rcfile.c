@@ -39,7 +39,7 @@
 #define _(string) (string)
 #endif
 
-#define NUM_RCOPTS 14
+#define NUM_RCOPTS 15
 /* Static stuff for the nanorc file */
 rcoption rcopts[NUM_RCOPTS] = 
 {
@@ -60,7 +60,8 @@ rcoption rcopts[NUM_RCOPTS] =
 {"view", VIEW_MODE},
 {"nowrap", NO_WRAP}, 
 {"nohelp", NO_HELP}, 
-{"suspend", SUSPEND}};
+{"suspend", SUSPEND},
+{"loadoninsert", LOADONINSERT}};
 
 /* We have an error in some part of the rcfile; put it on stderr and
   make the user hit return to continue starting up nano */

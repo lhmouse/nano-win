@@ -1079,7 +1079,7 @@ void edit_refresh_clearok(void)
  * Nice generic routine to update the edit buffer, given a pointer to the
  * file struct =) 
  */
-void edit_update(filestruct * fileptr, int topmidbot)
+void edit_update(filestruct * fileptr, int topmidbotnone)
 {
     int i = 0;
     filestruct *temp;
@@ -1088,8 +1088,11 @@ void edit_update(filestruct * fileptr, int topmidbot)
 	return;
 
     temp = fileptr;
-    if (topmidbot == 2);
-    else if (topmidbot == 0)
+    if (topmidbotnone == TOP);
+    else if (topmidbotnone == NONE)
+	for (i = 0; i <= current_y - 1 && temp->prev != NULL; i++)
+	    temp = temp->prev;
+    else if (topmidbotnone == BOTTOM)
 	for (i = 0; i <= editwinrows - 1 && temp->prev != NULL; i++)
 	    temp = temp->prev;
     else

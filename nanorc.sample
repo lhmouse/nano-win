@@ -41,3 +41,6 @@
 # Allow nano to be suepended with ^Z
 # set suspend
 
+# Load files upon inserting them, and allow switching between them
+# set loadoninsert
+

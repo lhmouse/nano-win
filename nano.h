@@ -73,6 +73,18 @@ typedef struct filestruct {
     char *data;
     struct filestruct *next;	/* Next node */
     struct filestruct *prev;	/* Previous node */
+
+#ifdef ENABLE_LOADONINSERT
+    struct filestruct *file;	/* Current file */
+    int file_current_x;		/* Current file's x-coordinate position */
+    int file_current_y;		/* Current file's y-coordinate position */
+    int file_modified;		/* Current file's modification status */
+    char *file_path;		/* Current file's full path location */
+    int file_placewewant;	/* Current file's place we want */
+    int file_totlines;		/* Current file's total number of lines */
+    int file_totsize;		/* Current file's total size */
+#endif
+
     long lineno;		/* The line number */
 } filestruct;
 
@@ -93,6 +105,8 @@ typedef struct toggle {
 			   e.g. "Pico Messages"; we'll append Enabled or
 			   Disabled */
    int flag;		/* What flag actually gets toggled */
+   char override_ch;	/* The character to display on the help screen,
+			   if it isn't NULL */
 } toggle;
 
 #ifdef ENABLE_NANORC
@@ -125,6 +139,7 @@ typedef struct rcoption {
 #define CUT_TO_END         	(1<<17)
 #define DISABLE_CURPOS         	(1<<18)
 #define REVERSE_SEARCH		(1<<19)
+#define LOADONINSERT		(1<<20)
 
 /* Control key sequences, changing these would be very very bad */
 
@@ -186,6 +201,8 @@ typedef struct rcoption {
 #define NANO_ALT_X 'x'
 #define NANO_ALT_Y 'y'
 #define NANO_ALT_Z 'z'
+#define NANO_ALT_LCARAT ','
+#define NANO_ALT_RCARAT '.'
 
 /* Some semi-changeable keybindings; don't play with unless you're sure you
 know what you're doing */
@@ -241,6 +258,8 @@ know what you're doing */
 #define NANO_FROMSEARCHTOGOTO_KEY NANO_CONTROL_T
 #define NANO_TOFILES_KEY	NANO_CONTROL_T
 #define NANO_APPEND_KEY		NANO_ALT_A
+#define NANO_OPENPREV_KEY	NANO_ALT_LCARAT
+#define NANO_OPENNEXT_KEY	NANO_ALT_RCARAT
 
 #define TOGGLE_CONST_KEY	NANO_ALT_C
 #define TOGGLE_AUTOINDENT_KEY	NANO_ALT_I
@@ -253,15 +272,28 @@ know what you're doing */
 #define TOGGLE_WRAP_KEY		NANO_ALT_W
 #define TOGGLE_BACKWARDS_KEY	NANO_ALT_B
 #define TOGGLE_CASE_KEY		NANO_ALT_A
+#define TOGGLE_LOAD_KEY		NANO_ALT_L
 
 /* Toggle stuff, these static lengths need to go away RSN */
 
 #ifdef HAVE_REGEX_H
+
+#ifdef ENABLE_LOADONINSERT
+#define TOGGLE_LEN 14
+#else
 #define TOGGLE_LEN 11
+#endif
+
 #define WHEREIS_LIST_LEN 8
 #define REPLACE_LIST_LEN 8
 #else
+
+#ifdef ENABLE_LOADONINSERT
+#define TOGGLE_LEN 13
+#else
 #define TOGGLE_LEN 10
+#endif
+
 #define WHEREIS_LIST_LEN 7
 #define REPLACE_LIST_LEN 7
 #endif
@@ -286,6 +318,7 @@ know what you're doing */
 #define VIEW 1
 #define NOVIEW 0
 
+#define NONE 3
 #define TOP 2
 #define CENTER 1
 #define BOTTOM 0

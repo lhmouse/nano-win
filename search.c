@@ -743,7 +743,7 @@ void goto_abort(void)
     display_main_list();
 }
 
-int do_gotoline(long line)
+int do_gotoline(long line, int save_pos)
 {
     long i = 1;
 
@@ -772,7 +772,13 @@ int do_gotoline(long line)
 	current = current->next;
 
     current_x = 0;
-    edit_update(current, CENTER);
+
+    /* if save_pos is non-zero, don't change the cursor position when
+       updating the edit window */
+    if (save_pos)
+    	edit_update(current, NONE);
+    else
+	edit_update(current, CENTER);
 
     goto_abort();
     return 1;
@@ -780,5 +786,5 @@ int do_gotoline(long line)
 
 int do_gotoline_void(void)
 {
-    return do_gotoline(0);
+    return do_gotoline(0, 0);
 }

@@ -54,6 +54,10 @@ filestruct *editbot = NULL;	/* Same for the bottom */
 filestruct *filebot = NULL;	/* Last node in the file struct */
 filestruct *cutbuffer = NULL;	/* A place to store cut text */
 
+#ifdef ENABLE_LOADONINSERT
+filestruct *open_files = NULL;	/* The list of open files */
+#endif
+
 char *answer = NULL;			/* Answer str to many questions */
 int totlines = 0;		/* Total number of lines in the file */
 int totsize = 0;		/* Total number of bytes in the file */
@@ -126,11 +130,13 @@ void sc_init_one(shortcut * s, int key, char *desc, char *help, int alt,
 
 #ifndef NANO_SMALL
 /* Initialize the toggles in the same manner */
-void toggle_init_one(toggle * t, int val, char *desc, int flag)
+void toggle_init_one(toggle * t, int val, char *desc, int flag,
+		     char override_ch)
 {
     t->val = val;
     t->desc = desc;
     t->flag = flag;
+    t->override_ch = override_ch;
 }
 #endif
 
@@ -141,6 +147,11 @@ void toggle_init(void)
 	*toggle_nohelp_msg, *toggle_picomode_msg, *toggle_mouse_msg,
 	*toggle_cuttoend_msg, *toggle_wrap_msg, *toggle_case_msg, 
 	*toggle_backwards_msg;
+
+#ifdef ENABLE_LOADONINSERT
+    char *toggle_load_msg, *nano_openprev_msg, *nano_opennext_msg;
+#endif
+
 #ifdef HAVE_REGEX_H
     char *toggle_regexp_msg;
 #endif
@@ -159,29 +170,45 @@ void toggle_init(void)
 #endif
     toggle_wrap_msg = _("Auto wrap");
 
+#ifdef ENABLE_LOADONINSERT
+    toggle_load_msg = _("File loading on insertion");
+    nano_openprev_msg = _("Open previously loaded file");
+    nano_opennext_msg = _("Open next loaded file");
+#endif
+
     toggle_init_one(&toggles[0], TOGGLE_CONST_KEY, toggle_const_msg,
-		    CONSTUPDATE);
+		    CONSTUPDATE, 0);
     toggle_init_one(&toggles[1], TOGGLE_AUTOINDENT_KEY,
-		    toggle_autoindent_msg, AUTOINDENT);
+		    toggle_autoindent_msg, AUTOINDENT, 0);
     toggle_init_one(&toggles[2], TOGGLE_SUSPEND_KEY, toggle_suspend_msg,
-		    SUSPEND);
+		    SUSPEND, 0);
     toggle_init_one(&toggles[3], TOGGLE_NOHELP_KEY, toggle_nohelp_msg,
-		    NO_HELP);
+		    NO_HELP, 0);
     toggle_init_one(&toggles[4], TOGGLE_PICOMODE_KEY, toggle_picomode_msg,
-		    PICO_MODE);
+		    PICO_MODE, 0);
     toggle_init_one(&toggles[5], TOGGLE_WRAP_KEY, toggle_wrap_msg,
-		    NO_WRAP);
+		    NO_WRAP, 0);
     toggle_init_one(&toggles[6], TOGGLE_MOUSE_KEY, toggle_mouse_msg,
-		    USE_MOUSE);
+		    USE_MOUSE, 0);
     toggle_init_one(&toggles[7], TOGGLE_CUTTOEND_KEY, toggle_cuttoend_msg,
-		    CUT_TO_END);
+		    CUT_TO_END, 0);
     toggle_init_one(&toggles[8], TOGGLE_BACKWARDS_KEY, toggle_backwards_msg,
-		    REVERSE_SEARCH);
+		    REVERSE_SEARCH, 0);
     toggle_init_one(&toggles[9], TOGGLE_CASE_KEY, toggle_case_msg,
-		    CASE_SENSITIVE);    
+		    CASE_SENSITIVE, 0);
+
+#ifdef ENABLE_LOADONINSERT
+    toggle_init_one(&toggles[10], TOGGLE_LOAD_KEY, toggle_load_msg,
+		    LOADONINSERT, 0);
+    toggle_init_one(&toggles[11], NANO_OPENPREV_KEY, nano_openprev_msg,
+		    0, '<');
+    toggle_init_one(&toggles[12], NANO_OPENNEXT_KEY, nano_opennext_msg,
+		    0, '>');
+#endif
+
 #ifdef HAVE_REGEX_H
-    toggle_init_one(&toggles[10], TOGGLE_REGEXP_KEY, toggle_regexp_msg,
-		    USE_REGEXP);
+    toggle_init_one(&toggles[TOGGLE_LEN - 1], TOGGLE_REGEXP_KEY,
+		    toggle_regexp_msg, USE_REGEXP, 0);
 #endif
 #endif
 }
@@ -210,7 +237,13 @@ void shortcut_init(int unjustify)
 
     nano_help_msg = _("Invoke the help menu");
     nano_writeout_msg = _("Write the current file to disk");
+
+#ifdef ENABLE_LOADONINSERT
+    nano_exit_msg = _("Close currently loaded file/Exit from nano");
+#else
     nano_exit_msg = _("Exit from nano");
+#endif
+
     nano_goto_msg = _("Goto a specific line number");
     nano_justify_msg = _("Justify the current paragraph");
     nano_unjustify_msg = _("Unjustify after a justify");
@@ -251,7 +284,13 @@ void shortcut_init(int unjustify)
 	sc_init_one(&main_list[0], NANO_HELP_KEY, _("Get Help"),
 		    nano_help_msg, 0, NANO_HELP_FKEY, 0, VIEW, do_help);
 
-    sc_init_one(&main_list[1], NANO_EXIT_KEY, _("Exit"),
+#ifdef ENABLE_LOADONINSERT
+    if (open_files != NULL && (open_files->prev || open_files->next))
+	sc_init_one(&main_list[1], NANO_EXIT_KEY, _("Close"),
+		nano_exit_msg, 0, NANO_EXIT_FKEY, 0, VIEW, do_exit);
+    else
+#endif
+	sc_init_one(&main_list[1], NANO_EXIT_KEY, _("Exit"),
 		nano_exit_msg, 0, NANO_EXIT_FKEY, 0, VIEW, do_exit);
 
     sc_init_one(&main_list[2], NANO_WRITEOUT_KEY, _("WriteOut"),
@@ -265,13 +304,13 @@ void shortcut_init(int unjustify)
     else
 	sc_init_one(&main_list[3], NANO_INSERTFILE_KEY, _("Read File"),
 		nano_insert_msg,
-		0, NANO_INSERTFILE_FKEY, 0, NOVIEW, do_insertfile);
+		0, NANO_INSERTFILE_FKEY, 0, NOVIEW, do_insertfile_void);
 
 
     if (ISSET(PICO_MODE))
 	sc_init_one(&main_list[4], NANO_INSERTFILE_KEY, _("Read File"),
 		nano_insert_msg,
-		0, NANO_INSERTFILE_FKEY, 0, NOVIEW, do_insertfile);
+		0, NANO_INSERTFILE_FKEY, 0, NOVIEW, do_insertfile_void);
     else
 	sc_init_one(&main_list[4], NANO_REPLACE_KEY, _("Replace"),
 		    nano_replace_msg,

@@ -50,6 +50,11 @@ extern  char *alt_speller;
 extern struct stat fileinfo;
 extern filestruct *current, *fileage, *edittop, *editbot, *filebot; 
 extern filestruct *cutbuffer, *mark_beginbuf;
+
+#ifdef ENABLE_LOADONINSERT
+extern filestruct *open_files;
+#endif
+
 extern shortcut *shortcut_list;
 extern shortcut main_list[MAIN_LIST_LEN], whereis_list[WHEREIS_LIST_LEN];
 extern shortcut replace_list[REPLACE_LIST_LEN], goto_list[GOTO_LIST_LEN];
@@ -89,8 +94,14 @@ int do_uncut_text(void);
 int no_help(void);
 int renumber_all(void);
 int open_file(char *filename, int insert, int quiet);
+int do_insertfile(int loading_file);
+
+#ifdef ENABLE_LOADONINSERT
+int add_open_file(int update, int dup_fix);
+#endif
+
 int do_writeout(char *path, int exiting, int append);
-int do_gotoline(long defline);
+int do_gotoline(long line, int save_pos);
 int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 			int wholewords, int *i);
 /* Now in move.c */
@@ -110,7 +121,7 @@ void check_wrap(filestruct * inptr, char ch);
 void dump_buffer(filestruct * inptr);
 void align(char **strp);
 void edit_refresh(void), edit_refresh_clearok(void);
-void edit_update(filestruct * fileptr, int topmidbot);
+void edit_update(filestruct * fileptr, int topmidbotnone);
 void update_cursor(void);
 void delete_node(filestruct * fileptr);
 void set_modified(void);
@@ -136,6 +147,7 @@ void do_early_abort(void);
 void *nmalloc(size_t howmuch);
 void *nrealloc(void *ptr, size_t howmuch);
 void die(char *msg, ...);
+void die_save_file(char *die_filename);
 void new_file(void);
 void new_magicline(void);
 void splice_node(filestruct *begin, filestruct *newnode, filestruct *end);
@@ -150,6 +162,7 @@ void nano_disabled_msg(void);
 void window_init(void);
 void do_mouse(void);
 void print_view_warning(void);
+void unlink_node(filestruct * fileptr);
 void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
                         int bot_x, int destructive);
 
@@ -163,7 +176,13 @@ void do_credits(void);
 
 
 int do_writeout_void(void), do_exit(void), do_gotoline_void(void);
-int do_insertfile(void), do_search(void), page_up(void), page_down(void);
+int do_insertfile_void(void), do_search(void);
+
+#ifdef ENABLE_LOADONINSERT
+int load_open_file(void), close_open_file(void);
+#endif
+
+int page_up(void), page_down(void);
 int do_cursorpos(void), do_spell(void);
 int do_up(void), do_down (void), do_right(void), do_left (void);
 int do_home(void), do_end(void), total_refresh(void), do_mark(void);
@@ -172,7 +191,16 @@ int do_first_line(void), do_last_line(void);
 int do_replace(void), do_help(void), do_enter_void(void);
 int keypad_on(WINDOW * win, int newval);
 
+#ifdef ENABLE_LOADONINSERT
+int open_file_dup_fix(int update);
+int open_prevfile(int closing_file), open_nextfile(int closing_file);
+#endif
+
 char *charalloc (size_t howmuch);
+
+#ifdef ENABLE_LOADONINSERT
+char *get_full_path(const char *origpath);
+#endif
 
 #ifndef DISABLE_BROWSER
 char *do_browser(char *path);
@@ -195,3 +223,7 @@ filestruct *copy_filestruct(filestruct * src);
 filestruct *make_new_node(filestruct * prevnode);
 filestruct *findnextstr(int quiet, filestruct * begin,
 			int beginx, char *needle);
+
+#ifdef ENABLE_LOADONINSERT
+filestruct *open_file_dup_search(void);
+#endif
