@@ -1,4 +1,4 @@
-CVS -
+nano 1.0.1 - 04/06/2001
 - General:
 	- added configure option --disable-wrapping.  Does what it says,
 	  no wrapping or checks are done.  Separate from --enable-tiny,

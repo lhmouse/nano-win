@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
-"POT-Creation-Date: 2001-03-28 08:25-0500\n"
+"POT-Creation-Date: 2001-04-04 23:15-0400\n"
 "Last-Translator: Václav Haisman <V.Haisman@sh.cvut.cz>\n"
 "Language-Team: N/A\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgstr "Ètu Soubor"
 msgid "File to insert [from ./] "
 msgstr "Soubor pro vlo¾ení [z ./] "
 
-#: files.c:309 files.c:334 files.c:566 nano.c:1502
+#: files.c:309 files.c:334 files.c:566 nano.c:1514
 msgid "Cancelled"
 msgstr "Zru¹eno"
 
@@ -108,16 +108,16 @@ msgstr "jméno souboru je %s"
 msgid "File exists, OVERWRITE ?"
 msgstr "Soubor existuje, PØEPSAT ?"
 
-#: files.c:971
+#: files.c:977
 msgid "(more)"
 msgstr "(více)"
 
-#: files.c:1232
+#: files.c:1236
 msgid "Can't move up a directory"
 msgstr "Nemohu se pøesunout o adresáø vý¹e"
 
 #. We can't open this dir for some reason.  Complain
-#: files.c:1240
+#: files.c:1244
 #, fuzzy, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "Nemohu zavøít %s: %s"
@@ -568,23 +568,23 @@ msgstr " -t \t\t--tempfile\t\tAutomaticky ulo¾ pøi ukonèení, nedotazuj se\n"
 msgid " -v \t\t--view\t\t\tView (read only) mode\n"
 msgstr " -t \t\t--view\t\t\tPROHLÍ®ECÍ re¾im (pouze pro ètení)\n"
 
-#: nano.c:399
+#: nano.c:400
 msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
 msgstr " -w \t\t--nowrap\t\tNezalamuj dlouhé øádky\n"
 
-#: nano.c:401
+#: nano.c:403
 msgid " -x \t\t--nohelp\t\tDon't show help window\n"
 msgstr " -x \t\t--nohelp\t\tNeukazuj okno nápovìdy\n"
 
-#: nano.c:403
+#: nano.c:405
 msgid " -z \t\t--suspend\t\tEnable suspend\n"
 msgstr " -z \t\t--suspend\t\tPovol zastavení\n"
 
-#: nano.c:405
+#: nano.c:407
 msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
 msgstr " +ØÁDKA\t\t\t\t\tZaèni na øádce èíslo ØÁDKA\n"
 
-#: nano.c:407
+#: nano.c:409
 msgid ""
 "Usage: nano [option] +LINE <file>\n"
 "\n"
@@ -592,94 +592,94 @@ msgstr ""
 "Pou¾ití: nano [volba] +ØÁDKA <soubor>\n"
 "\n"
 
-#: nano.c:408
+#: nano.c:410
 msgid "Option\t\tMeaning\n"
 msgstr "Volba\t\tSmysl\n"
 
-#: nano.c:409
+#: nano.c:411
 msgid " -T [num]\tSet width of a tab to num\n"
 msgstr " -T [èís]\tNastav velikost tab na èís\n"
 
-#: nano.c:410
+#: nano.c:412
 msgid " -R\t\tUse regular expressions for search\n"
 msgstr " -R\t\tPou¾ívej pro vyhledávání regulární výrazy\n"
 
-#: nano.c:411
+#: nano.c:413
 msgid " -V \t\tPrint version information and exit\n"
 msgstr " -V \t\tVypi¹ informace o verzi a skonèi\n"
 
-#: nano.c:412
+#: nano.c:414
 msgid " -c \t\tConstantly show cursor position\n"
 msgstr " -c \t\tStále ukazuj pozici kurzoru\n"
 
-#: nano.c:413
+#: nano.c:415
 msgid " -h \t\tShow this message\n"
 msgstr " -h \t\tUka¾ tuto zprávu\n"
 
-#: nano.c:414
+#: nano.c:416
 msgid " -i \t\tAutomatically indent new lines\n"
 msgstr " -i \t\tAutomaticky odsazuj nové øádky\n"
 
-#: nano.c:416
+#: nano.c:418
 msgid " -k \t\tLet ^K cut from cursor to end of line\n"
 msgstr " -k \t\tNech ^K vyjímat od kurzoru do konce øádky\n"
 
-#: nano.c:419
+#: nano.c:421
 msgid " -l \t\tDon't follow symbolic links, overwrite\n"
 msgstr " -l \t\tNenásleduj symbolické odkazy, pøepi¹ je\n"
 
-#: nano.c:422
+#: nano.c:424
 msgid " -m \t\tEnable mouse\n"
 msgstr " -m \t\tPovol my¹\n"
 
-#: nano.c:425
+#: nano.c:427
 msgid " -p \t\tEmulate Pico as closely as possible\n"
 msgstr " -p \t\tNapodobuj Pico tak, jak jen to jde\n"
 
-#: nano.c:426
+#: nano.c:428
 msgid " -r [#cols] \tSet fill cols to (wrap lines at) #cols\n"
 msgstr ""
 " -r [#sloupce] \tNastav vyplnìné sloupce na (zalom øádky na) #sloupce\n"
 
-#: nano.c:428
+#: nano.c:430
 msgid " -s [prog]  \tEnable alternate speller\n"
 msgstr " -s [program]  \tPou¾ij jiný kontroler pravopisu\n"
 
-#: nano.c:430
+#: nano.c:432
 msgid " -t \t\tAuto save on exit, don't prompt\n"
 msgstr " -t \t\tAutomaticky ulo¾ pøi ukonèení, nedotazuj se\n"
 
-#: nano.c:431
+#: nano.c:433
 msgid " -v \t\tView (read only) mode\n"
 msgstr " -v \t\tPROHLÍ®ECÍ re¾im (pouze pro ètení)\n"
 
-#: nano.c:432
+#: nano.c:435
 msgid " -w \t\tDon't wrap long lines\n"
 msgstr " -w \t\tNezalamuj dlouhé øádky\n"
 
-#: nano.c:433
+#: nano.c:437
 msgid " -x \t\tDon't show help window\n"
 msgstr " -x \t\tNeukazuj okno pomoci\n"
 
-#: nano.c:434
+#: nano.c:438
 msgid " -z \t\tEnable suspend\n"
 msgstr " -z \t\tPovol zastavení\n"
 
-#: nano.c:435
+#: nano.c:439
 msgid " +LINE\t\tStart at line number LINE\n"
 msgstr " +ØÁDKA\t\tZaèni na øádce ØÁDKA\n"
 
-#: nano.c:442
+#: nano.c:446
 #, fuzzy, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
 msgstr " GNU nano verze %s (kompilováno %s, %s)\n"
 
-#: nano.c:445
+#: nano.c:449
 #, fuzzy
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 msgstr " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 
-#: nano.c:446
+#: nano.c:450
 msgid ""
 "\n"
 " Compiled options:"
@@ -687,138 +687,138 @@ msgstr ""
 "\n"
 " Skompilované volby:"
 
-#: nano.c:511
+#: nano.c:518
 msgid "Mark Set"
 msgstr "Znaèka Nastavena"
 
-#: nano.c:516
+#: nano.c:523
 msgid "Mark UNset"
 msgstr "Znaèka OdNastavena"
 
-#: nano.c:1013
+#: nano.c:1024
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap zavoláno s inptr->data=\"%s\"\n"
 
-#: nano.c:1064
+#: nano.c:1076
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data nyní = \"%s\"\n"
 
-#: nano.c:1116
+#: nano.c:1128
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Poté, data = \"%s\"\n"
 
-#: nano.c:1218
+#: nano.c:1230
 msgid "Edit a replacement"
 msgstr "Edituj náhradu"
 
-#: nano.c:1449
+#: nano.c:1461
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Nemohu vytvoøit doèasný soubor: %s"
 
-#: nano.c:1455
+#: nano.c:1467
 msgid "Spell checking failed: unable to write temp file!"
 msgstr "Kontrola pravopisu selhala: nemohu zapisovat do doèasného souboru!"
 
-#: nano.c:1467
+#: nano.c:1479
 msgid "Finished checking spelling"
 msgstr "Kontrola pravopisu dokonèena"
 
-#: nano.c:1469
+#: nano.c:1481
 msgid "Spell checking failed"
 msgstr "Kontrola pravopisu selhala"
 
-#: nano.c:1489
+#: nano.c:1501
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Ulo¾ zmìnìný buffer (ODPOVÌÏÍ \"Ne\" ZTRATÍTE ZMÌNY) ? "
 
-#: nano.c:1585
+#: nano.c:1597
 msgid "Received SIGHUP"
 msgstr "Pøijat signál SIGHUP"
 
-#: nano.c:1648
+#: nano.c:1660
 msgid "Cannot resize top win"
 msgstr "Nemohu zmìnit velikost vrchního okna"
 
-#: nano.c:1650
+#: nano.c:1662
 msgid "Cannot move top win"
 msgstr "Nemohu pøesunout vrchní okno"
 
-#: nano.c:1652
+#: nano.c:1664
 msgid "Cannot resize edit win"
 msgstr "Nemohu zmìnit velikost editovacího okna"
 
-#: nano.c:1654
+#: nano.c:1666
 msgid "Cannot move edit win"
 msgstr "Nemohu pøesunout editovací okno"
 
-#: nano.c:1656
+#: nano.c:1668
 msgid "Cannot resize bottom win"
 msgstr "Nemohu zmìnit velikost spodního okna"
 
-#: nano.c:1658
+#: nano.c:1670
 msgid "Cannot move bottom win"
 msgstr "Nemohu pøesunout spodní okno"
 
-#: nano.c:1966
+#: nano.c:1978
 msgid "Can now UnJustify!"
 msgstr "Mù¾e nyní OdZarovnat!"
 
-#: nano.c:2064
+#: nano.c:2076
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s povol/zaka¾"
 
-#: nano.c:2079
+#: nano.c:2091
 msgid "enabled"
 msgstr "povoleno"
 
-#: nano.c:2080
+#: nano.c:2092
 msgid "disabled"
 msgstr "zakázáno"
 
-#: nano.c:2132
+#: nano.c:2144
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "Zji¹tìna porucha NumLocku.  Numerická klávesnice nebude fungovat s vypnutým "
 "NumLockem"
 
-#: nano.c:2349
+#: nano.c:2366
 msgid "Main: set up windows\n"
 msgstr "Main: nastav okna\n"
 
-#: nano.c:2356
+#: nano.c:2373
 msgid "Main: bottom win\n"
 msgstr "Main: spodní okno\n"
 
-#: nano.c:2362
+#: nano.c:2379
 msgid "Main: open file\n"
 msgstr "Main: otevøi soubor\n"
 
-#: nano.c:2414
+#: nano.c:2431
 #, fuzzy, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Mám Alt-O-%c! (%d)\n"
 
-#: nano.c:2441
+#: nano.c:2458
 #, fuzzy, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Mám Alt-[-1-%c! (%d)\n"
 
-#: nano.c:2474
+#: nano.c:2491
 #, fuzzy, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Mám Alt-[-2-%c! (%d)\n"
 
-#: nano.c:2516
+#: nano.c:2533
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Mám Alt-[-%c! (%d)\n"
 
-#: nano.c:2542
+#: nano.c:2559
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Mám Alt-%c! (%d)\n"

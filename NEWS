@@ -1,3 +1,12 @@
+04/06/2001 - GNU nano 1.0.1 is out there.  The only new feature is a 
+		configure option for those who want to disable all
+		word wrapping from nano, --disable-wrapping.  Bug fixes
+		this release include some bugs with autoconf and i18n,
+		and several fixes in the file browser including a
+		segfault on Solaris, symlinks to directories now work
+		properly, and nano now sorts files case insensitively
+		like pilot.  Have fun with it.
+
 03/22/2001 - GNU Nano 1.0 is released!  The autoindent wrapping bug 
 		has been fixed, as well as strange bug when using Pico
 		mode and regex search.  There have also been some minor 
