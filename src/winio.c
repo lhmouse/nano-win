@@ -3801,11 +3801,13 @@ int help_line_len(const char *ptr)
 	    ptr--;
 	    j--;
 	}
-	/* Word longer than COLS - 5 chars just gets broken. */
+	/* A word longer than (COLS - 5) chars just gets broken. */
 	if (j == 0)
 	    j = COLS - 5;
     }
+
     assert(j >= 0 && j <= COLS - 4 && (j > 0 || *ptr == '\n'));
+
     return j;
 }
 
@@ -3813,8 +3815,8 @@ int help_line_len(const char *ptr)
 void do_help(void)
 {
     int line = 0;
-	/* The line number in help_text of the first displayed help line.
-	 * This variable is zero-based. */
+	/* The line number in help_text of the first displayed help
+	 * line.  This variable is zero-based. */
     bool no_more = FALSE;
 	/* no_more means the end of the help text is shown, so don't go
 	 * down any more. */
