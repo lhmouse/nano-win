@@ -817,8 +817,12 @@ int do_replace(void)
 
 int do_gotoline(int line, int save_pos)
 {
+    static char *linestr = NULL;
+
+    linestr = mallocstrcpy(linestr, answer);
+
     if (line <= 0) {		/* Ask for it */
-	int st = statusq(FALSE, goto_list, line != 0 ? answer : "",
+	int st = statusq(FALSE, goto_list, line != 0 ? linestr : "",
 #ifndef NANO_SMALL
 			NULL,
 #endif
