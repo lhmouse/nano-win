@@ -1330,7 +1330,7 @@ void fix_editbot(void)
 }
 
 #ifdef NANO_EXTRA
-#define CREDIT_LEN 43
+#define CREDIT_LEN 44
 void do_credits(void)
 {
     int i, j = 0, k, place = 0, start_x;
@@ -1362,6 +1362,7 @@ void do_credits(void)
 			"Daniele Medri",
 			"Clement Laforet",
 			"Tedi Heriyanto",
+			"Bill Soudan",
 			"Erik Anderson",
 			"Big Gaute",
 			"Joshua Jensen",
