@@ -201,9 +201,9 @@ char *do_browse_from(const char *inpath);
 
 /* Public functions in global.c */
 int length_of_list(const shortcut *s);
-void sc_init_one(shortcut **shortcutage, int key, char *desc,
+void sc_init_one(shortcut **shortcutage, int key, const char *desc,
 #ifndef DISABLE_HELP
-	char *help,
+	const char *help,
 #endif
 	int alt, int misc1, int misc2, int view, int (*func) (void));
 #ifndef NANO_SMALL
@@ -429,8 +429,8 @@ void blank_edit(void);
 void blank_statusbar(void);
 void blank_statusbar_refresh(void);
 void check_statblank(void);
-void nanoget_repaint(char *buf, char *inputbuf, int x);
-int nanogetstr(int allowtabs, char *buf, const char *def,
+void nanoget_repaint(const char *buf, const char *inputbuf, int x);
+int nanogetstr(int allowtabs, const char *buf, const char *def,
 #ifndef NANO_SMALL
 		historyheadtype *history_list,
 #endif
@@ -440,9 +440,9 @@ int nanogetstr(int allowtabs, char *buf, const char *def,
 #endif
 		);
 void set_modified(void);
-void titlebar(char *path);
+void titlebar(const char *path);
 void bottombars(const shortcut *s);
-void onekey(char *keystroke, char *desc, int len);
+void onekey(const char *keystroke, const char *desc, int len);
 #ifndef NDEBUG
 int check_linenumbers(const filestruct *fileptr);
 #endif

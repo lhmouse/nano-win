@@ -150,9 +150,9 @@ typedef struct shortcut {
    int misc2;
    int viewok;		/* is this function legal in view mode? */
    int (*func) (void);	/* Function to call when we catch this key */
-   char *desc;		/* Description, e.g. "Page Up" */
+   const char *desc;	/* Description, e.g. "Page Up" */
 #ifndef DISABLE_HELP
-   char *help;		/* Help file entry text */
+   const char *help;	/* Help file entry text */
 #endif
    struct shortcut *next;
 } shortcut;

@@ -166,7 +166,7 @@ void check_statblank(void)
  *
  * Note that we must turn on A_REVERSE here, since do_help() turns it
  * off! */
-void nanoget_repaint(char *buf, char *inputbuf, int x)
+void nanoget_repaint(const char *buf, const char *inputbuf, int x)
 {
     int len = strlen(buf) + 2;
     int wid = COLS - len;
@@ -186,7 +186,7 @@ void nanoget_repaint(char *buf, char *inputbuf, int x)
 
 /* Get the input from the kb; this should only be called from
  * statusq(). */
-int nanogetstr(int allowtabs, char *buf, const char *def,
+int nanogetstr(int allowtabs, const char *buf, const char *def,
 #ifndef NANO_SMALL
 		historyheadtype *history_list,
 #endif
@@ -509,10 +509,10 @@ void set_modified(void)
     }
 }
 
-void titlebar(char *path)
+void titlebar(const char *path)
 {
     int namelen, space;
-    char *what = path;
+    const char *what = path;
 
     if (path == NULL)
 	what = filename;
@@ -613,7 +613,7 @@ void bottombars(const shortcut *s)
  * keystroke is e.g. "^G" and desc is e.g. "Get Help".
  * We are careful to write exactly len characters, even if len is
  * very small and keystroke and desc are long. */
-void onekey(char *keystroke, char *desc, int len)
+void onekey(const char *keystroke, const char *desc, int len)
 {
 
     wattron(bottomwin, A_REVERSE);
@@ -1515,7 +1515,7 @@ int do_help(void)
 	bottombars(help_list);
 
     do {
-	char *ptr = help_text;
+	const char *ptr = help_text;
 
 	switch (kbinput) {
 #if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
@@ -1724,10 +1724,10 @@ void do_credits(void)
 {
     int i, j = 0, k, place = 0, start_x;
 
-    char *what;
-    char *xlcredits[XLCREDIT_LEN];
+    const char *what;
+    const char *xlcredits[XLCREDIT_LEN];
 
-    char *credits[CREDIT_LEN] = { 
+    const char *credits[CREDIT_LEN] = { 
 	"0",				/* "The nano text editor" */
 	"1",				/* "version" */
 	VERSION,

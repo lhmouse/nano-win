@@ -13,9 +13,6 @@ CVS code
 	  __ identifier (Jordi).
 	- Memory leak fixes for files.c:do_insertfile(),do_browser(),
 	  nano.c:do_spell(), and search.c:do_replace() (David Benbennick).
-	- Change various const char *s to char *s because Irix curses
-	  waddnstr() complains about const char's, I imagine this is a
-	  common System V curses issue.	  
 	- Remove do_preserve_msg, as using -p still gives Pico-style
 	  string behavior, so an annoying message every invocation is
 	  probably unneeded (all cheer).
