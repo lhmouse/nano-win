@@ -431,7 +431,7 @@ int write_file(char *name, int tmp)
 	return -1;
     }
 
-    if (!ISSET(FOLLOW_SYMLINKS) || tmp) {
+    if ((!ISSET(FOLLOW_SYMLINKS) && S_ISLNK(st.st_mode)) || tmp) {
 	if (realexists == -1) {
 	    /* Use default umask as file permisions if file is a new file. */
 	    mask = umask(0);
