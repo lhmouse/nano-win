@@ -2205,8 +2205,8 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 
 /* This function now has an arg which refers to how much the statusbar
  * (place) should be advanced, i.e. the new cursor pos. */
-char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int
-	*list)
+char *input_tab(char *buf, int place, int *lastwastab, int *newplace,
+	int *list)
 {
     /* Do TAB completion */
     static int num_matches = 0, match_matches = 0;
