@@ -1567,9 +1567,9 @@ void wrap_reset(void)
  * we wrapped. */
 bool do_wrap(filestruct *line)
 {
-    size_t line_len = strlen(line->data);
+    size_t line_len;
 	/* Length of the line we wrap. */
-    ssize_t wrap_loc = -1;
+    ssize_t wrap_loc;
 	/* Index of line->data where we wrap. */
 #ifndef NANO_SMALL
     const char *indent_string = NULL;
@@ -1598,6 +1598,11 @@ bool do_wrap(filestruct *line)
      * of the line while trying to find one, we should return without
      * wrapping.  Note that if autoindent is turned on, we don't break
      * at the end of it! */
+
+    assert(line != NULL && line->data != NULL);
+
+    /* Save the length of the line. */
+    line_len = strlen(line->data);
 
     /* Find the last blank where we can break the line. */
     wrap_loc = break_line(line->data, fill, FALSE);
