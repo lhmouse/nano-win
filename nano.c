@@ -1510,9 +1510,9 @@ int do_wrap(filestruct *inptr)
     if (wrapping) {
 	/* In this case, totsize increases by 1 since we add a space
 	 * between after_break and wrap_line.  If the line already ends
-	 * in a space, we don't add a space and decrement totsize to
-	 * account for that. */
-	if (newline[strlen(newline) - 1] != ' ')
+	 * in a tab or a space, we don't add a space and decrement
+	 * totsize to account for that. */
+	if (newline[strlen(newline) - 1] != '\t' && newline[strlen(newline) - 1] != ' ')
 	    strcat(newline, " ");
 	else
 	    totsize--;

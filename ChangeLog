@@ -95,7 +95,9 @@ CVS code -
 	  characters on the line is exactly one over the limit. (David
 	  Benbennick)
 	- Restore the previous wrapping point behavior (pre 1.1.10)
-	  (David Benbennick, fixes by DLR).
+	  (David Benbennick).  Minor fix by DLR to prevent spaces from
+	  being added to the ends of lines ending in spaces or lines
+	  ending in tabs (the latter case found by David Benbennick).
   do_alt_speller()
   	- Readd DLR's fix to preserve marking when using the alternate
   	  spell checker; it was accidentally dropped. (David
