@@ -1,4 +1,4 @@
-nano-0.9.12 - 07/07/2000
+nano-0.9.13 - 07/23/2000
 - Implemented Pico's -k mode.  New flag CUT_TO_END, option (-k, --cut), 
   affects do_cut_text in cut.c.  Not available with SMALL_NANO because it
   depends on the marker code which is not available with that setting.
