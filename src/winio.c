@@ -2765,6 +2765,7 @@ void titlebar(const char *path)
 	statelen++;
 
     assert(space >= 0);
+
     if (space == 0 || statelen >= space)
 	goto the_end;
 
@@ -2778,7 +2779,9 @@ void titlebar(const char *path)
 	newfie = TRUE;
     } else
 	prefix = _("File:");
+
     assert(statelen < space);
+
     prefixlen = strnlenpt(prefix, space - statelen);
     /* If newfie is FALSE, we need a space after prefix. */
     if (!newfie && prefixlen + statelen < space)
@@ -2837,6 +2840,7 @@ void titlebar(const char *path)
 	mvwaddnstr(topwin, 0, 0, state, COLS);
     else {
 	assert(COLS - statelen - 2 >= 0);
+
 	mvwaddch(topwin, 0, COLS - statelen - 2, ' ');
 	mvwaddnstr(topwin, 0, COLS - statelen - 1, state, statelen);
     }
