@@ -3963,12 +3963,13 @@ int main(int argc, char **argv)
 #ifdef NANO_WIDE
     {
 	/* If the locale set doesn't exist, or it exists but doesn't
-	 * include the string "UTF-8", we shouldn't go into UTF-8
-	 * mode. */
+	 * include the case-insensitive string "UTF8" or "UTF-8", we
+	 * shouldn't go into UTF-8 mode. */
 	char *locale = setlocale(LC_ALL, "");
 
 	if (locale == NULL || (locale != NULL &&
-		strstr(locale, "UTF-8") == NULL))
+		strcasestr(locale, "UTF8") == NULL &&
+		strcasestr(locale, "UTF-8") == NULL))
 	    SET(NO_UTF8);
 
 #ifdef USE_SLANG
