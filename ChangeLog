@@ -9,6 +9,7 @@ CVS code -
 - configure.in:
 	- Autoconf compatibility fixes (Pavel Roskin)
 	- Added separate check for resizeterm().
+	- ALL_LINGUAS: added hu and ca.
 - cut.c:
   do_cut_text()
 	- marked text cut fixes (Rocco) (Fixes bug #54).
@@ -36,6 +37,8 @@ CVS code -
 	- Translation updates by Tedi Heriyanto.
 - es.po:
 	- Translation updates (Jordi).
+- ca.po:
+	- Catalan translation by Jordi Mallach :)
 
 nano-0.9.99pre2 - 01/31/2001
 General
