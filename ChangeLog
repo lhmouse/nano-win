@@ -2982,6 +2982,7 @@ GNU nano 1.1.9 - 05/12/2002
 	- Indonesian translation updates (Tedi Heriyanto).
 - po/sv.po:
 	- Swedish translation updates (Christian Rose).
+
 GNU nano 1.1.8 - 03/30/2002
 - General
 	- Type misalignments and mem leaks in renumber_all, do_justify
