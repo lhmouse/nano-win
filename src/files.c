@@ -2583,7 +2583,7 @@ char *do_browser(const char *inpath)
 		    selected = numents - 1;
 		else if (selectedbackup == selected)
 		    /* Put back the 'select' key */
-		    unget_kbinput('s', FALSE);
+		    unget_kbinput('s', FALSE, FALSE);
 	    } else {
 		/* Must be clicking a shortcut */
 		int mouse_x, mouse_y;

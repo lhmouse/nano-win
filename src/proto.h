@@ -327,7 +327,6 @@ void nano_disabled_msg(void);
 RETSIGTYPE cancel_fork(int signal);
 bool open_pipe(const char *command);
 #endif
-void do_char(char ch);
 void do_verbatim_input(void);
 void do_backspace(void);
 void do_delete(void);
@@ -391,6 +390,12 @@ void enable_signals(void);
 void disable_flow_control(void);
 void enable_flow_control(void);
 void terminal_init(void);
+int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
+	allow_funcs);
+#ifndef DISABLE_MOUSE
+bool do_mouse(void);
+#endif
+void do_output(int *kbinput, size_t kbinput_len);
 
 /* Public functions in rcfile.c. */
 #ifdef ENABLE_NANORC
@@ -468,6 +473,7 @@ int regexp_bol_or_eol(const regex_t *preg, const char *string);
 int is_blank_char(int c);
 #endif
 int is_cntrl_char(int c);
+bool is_byte_char(int c);
 int num_of_digits(int n);
 bool parse_num(const char *str, ssize_t *val);
 void align(char **strp);
@@ -524,29 +530,29 @@ int check_wildcard_match(const char *text, const char *pattern);
 #ifndef NANO_SMALL
 void reset_kbinput(void);
 #endif
-void unget_kbinput(int kbinput, bool meta_key);
+void get_buffer(WINDOW *win);
+size_t get_buffer_len(void);
+int *buffer_to_keys(buffer *input, size_t input_len);
+void unget_input(buffer *input, size_t input_len);
+void unget_kbinput(int kbinput, bool meta_key, bool func_key);
+buffer *get_input(WINDOW *win, size_t input_len);
 int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key);
-int get_translated_kbinput(int kbinput, bool *escape_seq
+int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 #ifndef NANO_SMALL
 	, bool reset
 #endif
 	);
-int get_ascii_kbinput(int kbinput, int ascii_digits
+int get_escape_seq_kbinput(const int *sequence, size_t seq_len, bool
+	*ignore_seq);
+int get_escape_seq_abcd(int kbinput);
+int get_word_kbinput(int kbinput
 #ifndef NANO_SMALL
 	, bool reset
 #endif
 	);
 int get_control_kbinput(int kbinput);
-int get_escape_seq_kbinput(const int *escape_seq, size_t es_len, bool
-	*ignore_seq);
-int get_escape_seq_abcd(int kbinput);
-int *get_verbatim_kbinput(WINDOW *win, size_t *v_len, bool allow_ascii);
-int get_untranslated_kbinput(int kbinput, size_t position, bool
-	allow_ascii
-#ifndef NANO_SMALL
-	, bool reset
-#endif
-	);
+int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len);
+int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len);
 #ifndef DISABLE_MOUSE
 bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts);
 #endif
@@ -554,10 +560,6 @@ const shortcut *get_shortcut(const shortcut *s_list, int *kbinput, bool
 	*meta_key, bool *func_key);
 #ifndef NANO_SMALL
 const toggle *get_toggle(int kbinput, bool meta_key);
-#endif
-int get_edit_input(bool *meta_key, bool *func_key, bool allow_funcs);
-#ifndef DISABLE_MOUSE
-bool get_edit_mouse(void);
 #endif
 size_t xplustabs(void);
 size_t actual_x(const char *str, size_t xplus);

@@ -70,6 +70,13 @@ int is_cntrl_char(int c)
 	(127 <= c && c < 160);
 }
 
+/* Return TRUE if the character c is in byte range, and FALSE
+ * otherwise. */
+bool is_byte_char(int c)
+{
+    return (unsigned int)c == (unsigned char)c;
+}
+
 int num_of_digits(int n)
 {
     int i = 1;

@@ -929,6 +929,9 @@ void usage(void)
 #ifndef NANO_SMALL
     print1opt("-N", "--noconvert", N_("Don't convert files from DOS/Mac format"));
 #endif
+#ifdef NANO_WIDE
+    print1opt("-O", "--noutf8", N_("Don't convert files from UTF-8 format"));
+#endif
 #ifndef DISABLE_JUSTIFY
     print1opt(_("-Q [str]"), _("--quotestr=[str]"), N_("Quoting string, default \"> \""));
 #endif
@@ -1146,87 +1149,20 @@ bool open_pipe(const char *command)
 }
 #endif /* !NANO_SMALL */
 
-/* The user typed a character; add it to the edit buffer. */
-void do_char(char ch)
-{
-    size_t current_len = strlen(current->data);
-#if !defined(DISABLE_WRAPPING) || defined(ENABLE_COLOR)
-    bool do_refresh = FALSE;
-	/* Do we have to call edit_refresh(), or can we get away with
-	 * update_line()? */
-#endif
-
-    if (ch == '\0')		/* Null to newline, if needed. */
-	ch = '\n';
-    else if (ch == '\n') {	/* Newline to Enter, if needed. */
-	do_enter();
-	return;
-    }
-
-    assert(current != NULL && current->data != NULL);
-
-    /* When a character is inserted on the current magicline, it means
-     * we need a new one! */
-    if (filebot == current)
-	new_magicline();
-
-    /* More dangerousness fun =) */
-    current->data = charealloc(current->data, current_len + 2);
-    assert(current_x <= current_len);
-    charmove(&current->data[current_x + 1], &current->data[current_x],
-	current_len - current_x + 1);
-    current->data[current_x] = ch;
-    totsize++;
-    set_modified();
-
-#ifndef NANO_SMALL
-    /* Note that current_x has not yet been incremented. */
-    if (current == mark_beginbuf && current_x < mark_beginx)
-	mark_beginx++;
-#endif
-
-    do_right(FALSE);
-
-#ifndef DISABLE_WRAPPING
-    /* If we're wrapping text, we need to call edit_refresh(). */
-    if (!ISSET(NO_WRAP) && ch != '\t')
-	do_refresh = do_wrap(current);
-#endif
-
-#ifdef ENABLE_COLOR
-    /* If color syntaxes are turned on, we need to call
-     * edit_refresh(). */
-    if (ISSET(COLOR_SYNTAX))
-	do_refresh = TRUE;
-#endif
-
-#if !defined(DISABLE_WRAPPING) || defined(ENABLE_COLOR)
-    if (do_refresh)
-	edit_refresh();
-    else
-#endif
-	update_line(current, current_x);
-}
-
 void do_verbatim_input(void)
 {
-    int *v_kbinput = NULL;	/* Used to hold verbatim input. */
-    size_t v_len;		/* Length of verbatim input. */
-    size_t i;
+    int *kbinput;	/* Used to hold verbatim input. */
+    size_t kbinput_len;	/* Length of verbatim input. */
 
     statusbar(_("Verbatim input"));
 
-    v_kbinput = get_verbatim_kbinput(edit, &v_len, TRUE);
+    /* Read in all the verbatim characters. */
+    kbinput = get_verbatim_kbinput(edit, &kbinput_len);
 
-    /* Turn on DISABLE_CURPOS while inserting character(s) and turn it
-     * off afterwards, so that if constant cursor position display is
-     * on, it will be updated properly. */
-    SET(DISABLE_CURPOS);
-    for (i = 0; i < v_len; i++)
-	do_char((char)v_kbinput[i]);
-    UNSET(DISABLE_CURPOS);
+    /* Display all the verbatim characters at once. */
+    do_output(kbinput, kbinput_len);
 
-    free(v_kbinput);
+    free(kbinput);
 }
 
 void do_backspace(void)
@@ -1315,7 +1251,8 @@ void do_delete(void)
 
 void do_tab(void)
 {
-    do_char('\t');
+    int kbinput = '\t';
+    do_output(&kbinput, 1);
 }
 
 /* Someone hits return *gasp!* */
@@ -2753,7 +2690,7 @@ void do_justify(bool full_justify)
     size_t mark_beginx_save = mark_beginx;
 #endif
     int kbinput;
-    bool meta_key, func_key;
+    bool meta_key, func_key, s_or_t;
 
     /* If we're justifying the entire file, start at the beginning. */
     if (full_justify)
@@ -3019,9 +2956,10 @@ void do_justify(bool full_justify)
 
     /* Now get a keystroke and see if it's unjustify.  If not, put back
      * the keystroke and return. */
-    kbinput = get_edit_input(&meta_key, &func_key, FALSE);
+    kbinput = do_input(&meta_key, &func_key, &s_or_t, FALSE);
 
-    if (!meta_key && !func_key && kbinput == NANO_UNJUSTIFY_KEY) {
+    if (!meta_key && !func_key && s_or_t &&
+	kbinput == NANO_UNJUSTIFY_KEY) {
 	/* Restore the justify we just did (ungrateful user!). */
 	current = current_save;
 	current_x = current_x_save;
@@ -3073,7 +3011,7 @@ void do_justify(bool full_justify)
 	    edit_refresh();
 	}
     } else {
-	unget_kbinput(kbinput, meta_key);
+	unget_kbinput(kbinput, meta_key, func_key);
 
 	/* Blow away the text in the justify buffer. */
 	free_filestruct(jusbuffer);
@@ -3418,6 +3356,322 @@ void terminal_init(void)
 	disable_flow_control();
 }
 
+int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
+	allow_funcs)
+{
+    int input;
+	/* The character we read in. */
+    static int *kbinput = NULL;
+	/* The input buffer. */
+    static size_t kbinput_len = 0;
+	/* The length of the input buffer. */
+    const shortcut *s;
+    bool have_shortcut;
+#ifndef NANO_SMALL
+    const toggle *t;
+    bool have_toggle;
+#endif
+
+    *s_or_t = FALSE;
+
+    /* Read in a character. */
+    input = get_kbinput(edit, meta_key, func_key);
+
+#ifndef DISABLE_MOUSE
+    /* If we got a mouse click and it was on a shortcut, read in the
+     * shortcut character. */
+    if (allow_funcs && func_key && input == KEY_MOUSE) {
+	if (do_mouse())
+	    input = get_kbinput(edit, meta_key, func_key);
+	else
+	    input = ERR;
+    }
+#endif
+
+    /* Check for a shortcut in the main list. */
+    s = get_shortcut(main_list, &input, meta_key, func_key);
+
+    /* If we got a shortcut from the main list, or a "universal"
+     * edit window shortcut, set have_shortcut to TRUE. */
+    have_shortcut = (s != NULL || input == NANO_XON_KEY ||
+	input == NANO_XOFF_KEY || input == NANO_SUSPEND_KEY);
+
+#ifndef NANO_SMALL
+    /* Check for a toggle in the main list. */
+    t = get_toggle(input, *meta_key);
+
+    /* If we got a toggle from the main list, set have_toggle to
+     * TRUE. */
+    have_toggle = (t != NULL);
+#endif
+
+    /* Set s_or_t to TRUE if we got a shortcut or toggle. */
+    *s_or_t = (have_shortcut
+#ifndef NANO_SMALL
+	|| have_toggle
+#endif
+	);
+
+    if (allow_funcs) {
+	/* If we got a character, and it isn't a shortcut, toggle, or
+	 * control character, it's a normal text character.  Display the
+	 * warning if we're in view mode, or add the character to the
+	 * input buffer if we're not. */
+	if (input != ERR && *s_or_t == FALSE && !is_cntrl_char(input)) {
+	    if (ISSET(VIEW_MODE))
+		print_view_warning();
+	    else {
+		kbinput_len++;
+		kbinput = (int *)nrealloc(kbinput, kbinput_len *
+			sizeof(int));
+		kbinput[kbinput_len - 1] = input;
+	    }
+	}
+
+	/* If we got a shortcut or toggle, or if there aren't any other
+	 * characters waiting after the one we read in, we need to
+	 * display all the characters in the input buffer if it isn't
+	 * empty.  Note that it should be empty if we're in view
+	 * mode. */
+	 if (*s_or_t == TRUE || get_buffer_len() == 0) {
+	    if (kbinput != NULL) {
+		/* Display all the characters in the input buffer at
+		 * once. */
+		do_output(kbinput, kbinput_len);
+
+		/* Empty the input buffer. */
+		kbinput_len = 0;
+		free(kbinput);
+		kbinput = NULL;
+	    }
+	}
+
+	if (have_shortcut) {
+	    switch (input) {
+		/* Handle the "universal" edit window shortcuts. */
+		case NANO_XON_KEY:
+		    statusbar(_("XON ignored, mumble mumble."));
+		    break;
+		case NANO_XOFF_KEY:
+		    statusbar(_("XOFF ignored, mumble mumble."));
+		    break;
+#ifndef NANO_SMALL
+		case NANO_SUSPEND_KEY:
+		    if (ISSET(SUSPEND))
+			do_suspend(0);
+		    break;
+#endif
+		/* Handle the normal edit window shortcuts. */
+		default:
+		    /* Blow away the text in the cutbuffer if we aren't
+		     * cutting text. */
+		    if (s->func != do_cut_text)
+			cutbuffer_reset();
+
+		    /* Run the function associated with this shortcut,
+		     * if there is one. */
+		if (s->func != NULL) {
+		    if (ISSET(VIEW_MODE) && !s->viewok)
+			print_view_warning();
+		    else
+			s->func();
+		    }
+		    break;
+	    }
+	}
+#ifndef NANO_SMALL
+	else if (have_toggle) {
+	    /* Blow away the text in the cutbuffer, since we aren't
+	     * cutting text. */
+	    cutbuffer_reset();
+	    /* Toggle the flag associated with this shortcut. */
+	    if (allow_funcs)
+		do_toggle(t);
+	}
+#endif
+	else
+	    /* Blow away the text in the cutbuffer, since we aren't
+	     * cutting text. */
+	    cutbuffer_reset();
+    }
+
+    return input;
+}
+
+#ifndef DISABLE_MOUSE
+bool do_mouse(void)
+{
+    int mouse_x, mouse_y;
+    bool retval;
+
+    retval = get_mouseinput(&mouse_x, &mouse_y, TRUE);
+
+    if (!retval) {
+	/* We can click in the edit window to move the cursor. */
+	if (wenclose(edit, mouse_y, mouse_x)) {
+	    bool sameline;
+		/* Did they click on the line with the cursor?  If they
+		 * clicked on the cursor, we set the mark. */
+	    size_t xcur;
+		/* The character they clicked on. */
+
+	    /* Subtract out the size of topwin.  Perhaps we need a
+	     * constant somewhere? */
+	    mouse_y -= 2;
+
+	    sameline = (mouse_y == current_y);
+
+	    /* Move to where the click occurred. */
+	    for (; current_y < mouse_y && current->next != NULL; current_y++)
+		current = current->next;
+	    for (; current_y > mouse_y && current->prev != NULL; current_y--)
+		current = current->prev;
+
+	    xcur = actual_x(current->data, get_page_start(xplustabs()) +
+		mouse_x);
+
+#ifndef NANO_SMALL
+	    /* Clicking where the cursor is toggles the mark, as does
+	     * clicking beyond the line length with the cursor at the
+	     * end of the line. */
+	    if (sameline && xcur == current_x) {
+		if (ISSET(VIEW_MODE)) {
+		    print_view_warning();
+		    return retval;
+		}
+		do_mark();
+	    }
+#endif
+
+	    current_x = xcur;
+	    placewewant = xplustabs();
+	    edit_refresh();
+	}
+    }
+    /* FIXME: If we clicked on a location in the statusbar, the cursor
+     * should move to the location we clicked on.  This functionality
+     * should be in do_statusbar_mouse() when it's written. */
+
+    return retval;
+}
+#endif /* !DISABLE_MOUSE */
+
+/* The user typed kbinput_len characters.  Add them to the edit
+ * buffer. */
+void do_output(int *kbinput, size_t kbinput_len)
+{
+    size_t i, current_len = strlen(current->data);
+    bool old_constupdate = ISSET(CONSTUPDATE);
+    bool do_refresh = FALSE;
+	/* Do we have to call edit_refresh(), or can we get away with
+	 * update_line()? */
+
+    char key[
+#ifdef NANO_WIDE
+	MB_LEN_MAX
+#else
+	1
+#endif
+	];		/* The current character we have. */
+    int key_len;	/* The length of the current character. */
+
+    assert(current != NULL && current->data != NULL);
+
+    /* Turn off constant cursor position display if it's on. */
+    if (old_constupdate)
+	UNSET(CONSTUPDATE);
+
+    for (i = 0; i < kbinput_len; i++) {
+#ifdef NANO_WIDE
+	/* Change the wide character to its multibyte value.  If it's
+	 * invalid, go on to the next character. */
+	if (!ISSET(NO_UTF8)) {
+	    key_len = wctomb(key, kbinput[i]);
+
+	    if (key_len == -1)
+		continue;
+	} else {
+#endif
+	    /* Interpret the character as a single-byte sequence. */
+	    key_len = 1;
+	    key[0] = (char)kbinput[i];
+#ifdef NANO_WIDE
+	}
+#endif
+
+	/* Null to newline, if needed. */
+	if (key[0] == '\0' && key_len == 1)
+	    key[0] = '\n';
+	/* Newline to Enter, if needed. */
+	else if (key[0] == '\n' && key_len == 1) {
+	    do_enter();
+	    continue;
+	}
+
+	/* When a character is inserted on the current magicline, it
+	 * means we need a new one! */
+	if (filebot == current)
+	    new_magicline();
+
+	/* More dangerousness fun =) */
+	current->data = charealloc(current->data,
+		current_len + key_len + 1);
+	assert(current_x <= current_len);
+	charmove(&current->data[current_x + key_len],
+		&current->data[current_x],
+		current_len - current_x + key_len);
+	charcpy(&current->data[current_x], key, key_len);
+	current_len += key_len;
+	/* FIXME: Should totsize be the number of single-byte characters
+	 * or the number of multibyte characters?  Assume for former for
+	 * now. */
+	totsize += key_len;
+	set_modified();
+
+#ifndef NANO_SMALL
+	/* Note that current_x has not yet been incremented. */
+	if (current == mark_beginbuf && current_x < mark_beginx)
+	    mark_beginx += key_len;
+#endif
+
+	{
+	    int j;
+	    for (j = 0; j < key_len; j++)
+		do_right(FALSE);
+	}
+
+#ifndef DISABLE_WRAPPING
+	/* If we're wrapping text, we need to call edit_refresh(). */
+	if (!ISSET(NO_WRAP) && (key[0] != '\t' || key_len != 1)) {
+	    bool do_refresh_save = do_refresh;
+
+	    do_refresh = do_wrap(current);
+
+	    /* If we needed to call edit_refresh() before this, we'll
+	     * still need to after this. */
+	    if (do_refresh_save)
+		do_refresh = TRUE;
+	}
+#endif
+
+#ifdef ENABLE_COLOR
+	/* If color syntaxes are turned on, we need to call
+	 * edit_refresh(). */
+	if (ISSET(COLOR_SYNTAX))
+	    do_refresh = TRUE;
+#endif
+    }
+
+    /* Turn constant cursor position display back on if it was on. */
+    if (old_constupdate)
+	SET(CONSTUPDATE);
+
+    if (do_refresh)
+	edit_refresh();
+    else
+	update_line(current, current_x);
+}
+
 int main(int argc, char **argv)
 {
     int optchr;
@@ -3432,9 +3686,6 @@ int main(int argc, char **argv)
 	/* The old value of the multibuffer option, restored after we
 	 * load all files on the command line. */
 #endif
-    int kbinput;
-	/* Input from keyboard. */
-    bool meta_key, func_key;
 #ifdef HAVE_GETOPT_LONG
     const struct option long_options[] = {
 	{"help", 0, 0, 'h'},
@@ -3446,6 +3697,9 @@ int main(int argc, char **argv)
 	{"historylog", 0, 0, 'H'},
 #endif
 	{"ignorercfiles", 0, 0, 'I'},
+#endif
+#ifdef NANO_WIDE
+	{"noutf8", 0, 0, 'O'},
 #endif
 #ifndef DISABLE_JUSTIFY
 	{"quotestr", 1, 0, 'Q'},
@@ -3510,9 +3764,9 @@ int main(int argc, char **argv)
 
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
-	getopt_long(argc, argv, "h?ABE:FHINQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz", long_options, NULL)
+	getopt_long(argc, argv, "h?ABE:FHINOQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz", long_options, NULL)
 #else
-	getopt(argc, argv, "h?ABE:FHINQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz")
+	getopt(argc, argv, "h?ABE:FHINOQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz")
 #endif
 		) != -1) {
 
@@ -3556,6 +3810,9 @@ int main(int argc, char **argv)
 		SET(NO_CONVERT);
 		break;
 #endif
+	    case 'O':
+		SET(NO_UTF8);
+		break;
 #ifndef DISABLE_JUSTIFY
 	    case 'Q':
 		quotestr = mallocstrcpy(quotestr, optarg);
@@ -3929,7 +4186,18 @@ int main(int argc, char **argv)
     edit_refresh();
 
     while (TRUE) {
+	bool meta_key;
+		/* Whether we got a meta key sequence. */
+	bool func_key;
+		/* Whether we got a function key. */
+	bool s_or_t;
+		/* Whether we got a shortcut or toggle. */
+
+	/* Make sure the cursor is in the edit window. */
 	reset_cursor();
+
+	/* If constant cursor position display is on, display the cursor
+	 * position. */
 	if (ISSET(CONSTUPDATE))
 	    do_cursorpos(TRUE);
 
@@ -3937,17 +4205,8 @@ int main(int argc, char **argv)
 	currshortcut = main_list;
 #endif
 
-	kbinput = get_edit_input(&meta_key, &func_key, TRUE);
-
-	/* Last gasp, stuff that's not in the main lists. */
-	if (kbinput != ERR && !is_cntrl_char(kbinput)) {
-	    /* Don't stop unhandled printable sequences, so that people
-	     * with odd character sets can type. */
-	    if (ISSET(VIEW_MODE))
-		print_view_warning();
-	    else
-		do_char(kbinput);
-	}
+	/* Read in and interpret characters. */
+	do_input(&meta_key, &func_key, &s_or_t, TRUE);
     }
     assert(FALSE);
 }

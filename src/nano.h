@@ -44,6 +44,7 @@
 #define charalloc(howmuch) (char *)nmalloc((howmuch) * sizeof(char))
 #define charealloc(ptr, howmuch) (char *)nrealloc(ptr, (howmuch) * sizeof(char))
 #define charmove(dest, src, n) memmove(dest, src, (n) * sizeof(char))
+#define charcpy(dest, src, n) memcpy(dest, src, (n) * sizeof(char))
 
 #ifdef BROKEN_REGEXEC
 #define regexec(preg, string, nmatch, pmatch, eflags) regexec_safe(preg, string, nmatch, pmatch, eflags)
@@ -134,6 +135,10 @@
 
 #define VERMSG "GNU nano " VERSION
 
+/* FIXME: We should be checking for this instead of unconditionally
+ * using it. */
+#define NANO_WIDE 1
+
 /* If we aren't using ncurses, turn the mouse support off, as it's
  * ncurses-specific. */
 #ifndef NCURSES_MOUSE_VERSION
@@ -158,6 +163,11 @@ typedef enum {
 } topmidnone;
 
 /* Structure types. */
+typedef struct buffer {
+    int key;
+    bool key_code;
+} buffer;
+
 typedef struct filestruct {
     char *data;
     struct filestruct *next;	/* Next node. */
@@ -317,6 +327,7 @@ typedef struct historyheadtype {
 #define RESTRICTED		(1<<26)
 #define SMART_HOME		(1<<27)
 #define WHITESPACE_DISPLAY	(1<<28)
+#define NO_UTF8			(1<<29)
 
 /* Control key sequences, changing these would be very very bad. */
 #define NANO_CONTROL_SPACE 0
@@ -501,6 +512,7 @@ typedef struct historyheadtype {
 #define TOGGLE_SYNTAX_KEY	NANO_ALT_Y
 #define TOGGLE_SMARTHOME_KEY	NANO_ALT_H
 #define TOGGLE_WHITESPACE_KEY	NANO_ALT_P
+#define TOGGLE_NOUTF8_KEY	NANO_ALT_O
 #endif /* !NANO_SMALL */
 
 #define MAIN_VISIBLE 12

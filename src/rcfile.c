@@ -68,6 +68,9 @@ const static rcoption rcopts[] = {
 #endif
     {"nofollow", NOFOLLOW_SYMLINKS},
     {"nohelp", NO_HELP},
+#ifdef NANO_WIDE
+    {"noutf8", NO_UTF8},
+#endif
 #ifndef DISABLE_WRAPPING
     {"nowrap", NO_WRAP},
 #endif

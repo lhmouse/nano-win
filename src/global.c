@@ -1074,15 +1074,19 @@ void toggle_init(void)
 #ifndef DISABLE_MOUSE
     toggle_init_one(TOGGLE_MOUSE_KEY, N_("Mouse support"), USE_MOUSE);
 #endif
-    /* If we're using restricted mode, the no-conversion and backup
-     * backup toggles are disabled.  The former is useless since
-     * inserting files is disabled, and the latter is useless since
-     * backups are disabled. */
-    if (!ISSET(RESTRICTED)) {
+    /* If we're using restricted mode, the DOS/Mac conversion toggle is
+     * disabled.  It's useless since inserting files is disabled. */
+    if (!ISSET(RESTRICTED))
 	toggle_init_one(TOGGLE_NOCONVERT_KEY,
 		N_("No conversion from DOS/Mac format"), NO_CONVERT);
+#ifdef NANO_WIDE
+    toggle_init_one(TOGGLE_NOUTF8_KEY,
+	N_("No conversion from UTF-8 format"), NO_UTF8);
+#endif
+    /* If we're using restricted mode, the backup toggle is disabled.
+     * It's useless since backups are disabled. */
+    if (!ISSET(RESTRICTED))
 	toggle_init_one(TOGGLE_BACKUP_KEY, N_("Backup files"), BACKUP_FILE);
-    }
     toggle_init_one(TOGGLE_SMOOTH_KEY, N_("Smooth scrolling"), SMOOTHSCROLL);
     toggle_init_one(TOGGLE_SMARTHOME_KEY, N_("Smart home key"), SMART_HOME);
 #ifdef ENABLE_COLOR
