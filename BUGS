@@ -36,4 +36,5 @@
   by the fact that we count the newline at the end when we read in a file
   but we do not, in fact, display this newline.  This should go away
   implicitly when the "Magic Line" returns, but it is noted here for
-  documentation's sake. (24)
+  documentation's sake. (24) [FIXED]
+- totsize becomes incorrect after word-wrapping (25)
