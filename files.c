@@ -970,7 +970,7 @@ char *check_writable_directory(const char *path) {
 
     /* otherwise, stat() the full path to see if it's writable by the
        user; set writable to 1 if it is, or 0 if it isn't */
-    stat(path, &fileinfo);
+    stat(full_path, &fileinfo);
     if (fileinfo.st_mode & S_IWUSR)
 	writable = 1;
     else

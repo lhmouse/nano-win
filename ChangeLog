@@ -2,6 +2,9 @@ CVS code -
 - General
 	- Type misalignments and mem leaks in renumber_all, do_justify
 	  and do_spell (Rocco & Steven Kneizys).
+- files.c:
+  check_writable_directory()
+	- Stat full_path, not path (Steven Kneizys).
 - nano.c:
   main()
 	- Put NANO_SMALL defines around toggle pointer (noticed by Jordi);
