@@ -3,6 +3,8 @@ CVS code -
   do_browser()
 	- More Picoish keystrokes for the browser, ^P, ^N, etc, for up,
 	  down, etc, and add the consistent ^C to exit (Jim Knoble).
+- THANKS
+	- Added some more people.
 
 nano 1.0.3 - 07/01/2001
 - Makefile.am:
