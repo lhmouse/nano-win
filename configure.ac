@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 AC_INIT
 AC_CONFIG_SRCDIR([nano.c])
 AC_PREREQ(2.52)
-AM_INIT_AUTOMAKE(nano, 1.1.7-cvs)
+AM_INIT_AUTOMAKE(nano, 1.1.8)
 AM_CONFIG_HEADER(config.h:config.h.in)
 AM_ACLOCAL_INCLUDE(m4)
 ALL_LINGUAS="es de fr it id fi hu ca cs gl uk ru sv nn nl da pl nb"
@@ -309,5 +309,5 @@ fi
 dnl i18n stuff - pretty incomplete for now
 NANO_AM_GNU_GETTEXT
 
-AC_CONFIG_FILES([Makefile intl/Makefile m4/Makefile po/Makefile.in])
+AC_CONFIG_FILES([Makefile intl/Makefile m4/Makefile po/Makefile.in nano.spec])
 AC_OUTPUT

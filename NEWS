@@ -1,3 +1,13 @@
+03/30/2002 - GNU nano 1.1.8 is released.  New features include an 
+		"Insert Output of External Command", ^R^X, and a .spec
+		file is now included in the distribution.  There are 
+		cleanups in the usage code, fixes for regex parsing, 
+		the file browser, the NO_CONVERT auto-detect, indented 
+		justification, the internal spell checker, and a serious 
+		bug where reading a file of 0 lines would hang nano.  
+		Also, the "show position" code now shows the starting 
+		column as 1 instead of 0.  Have fun!
+
 03/05/2002 - GNU nano 1.1.7 "lets change everything and see what breaks"
 		is released.  New features include new flags 
 		-N,--noconvert to stop any file format conversion and
