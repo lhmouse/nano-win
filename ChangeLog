@@ -33,7 +33,9 @@ CVS code -
 	- Hungarian translation updates, or to be precise, rewrite
 	  (Gergely Nagy).
 - po/uk.po, po/ru.po:
-	- Russian and Ukrainian translation updates (Sergey A. Ribalchenko). 
+	- Russian and Ukrainian translation updates (Sergey A. Ribalchenko).
+- po/da.po:
+	- Danish translation updates (Keld Simonsen).
 
 nano-1.1.6 - 01/25/2002
 - General
