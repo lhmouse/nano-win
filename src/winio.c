@@ -1536,7 +1536,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 #endif
 		const shortcut *s
 #ifndef DISABLE_TABCOMP
-		, int *list
+		, bool *list
 #endif
 		)
 {
@@ -1546,7 +1546,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	/* the cursor position in 'answer' */
     int xend;
 	/* length of 'answer', the status bar text */
-    int tabbed = 0;
+    bool tabbed = FALSE;
 	/* used by input_tab() */
     const shortcut *t;
 
@@ -1630,7 +1630,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	assert(0 <= x && x <= xend && xend == strlen(answer));
 
 	if (kbinput != '\t')
-	    tabbed = 0;
+	    tabbed = FALSE;
 
 	switch (kbinput) {
 #ifndef DISABLE_MOUSE
@@ -1820,7 +1820,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		    fprintf(stderr, "Aha! \'%c\' (%d)\n", kbinput,
 			    kbinput);
 #endif
-		    if (meta_key == TRUE && (kbinput == t->metaval || kbinput == t->miscval))
+		    if (meta_key && (kbinput == t->metaval || kbinput == t->miscval))
 			/* We hit a meta key.  Do like above.  We don't
 			 * just ungetch() the letter and let it get
 			 * caught above cause that screws the
@@ -2744,7 +2744,7 @@ int statusq(int allowtabs, const shortcut *s, const char *def,
     char *foo = charalloc(COLS - 3);
     int ret;
 #ifndef DISABLE_TABCOMP
-    int list = 0;
+    bool list = FALSE;
 #endif
 
     bottombars(s);

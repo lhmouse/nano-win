@@ -1,8 +1,8 @@
 CVS code -
 - General:
 	- More minor comment cleanups. (DLR)
-	- Convert more ints used as boolean values to use TRUE and
-	  FALSE. (David Benbennick and DLR)
+	- Convert more ints using 0 and 1 to bools using TRUE and FALSE.
+	  (David Benbennick and DLR)
 	- Change more instances of ints that have large enough upper
 	  bounds and which can never be negative to size_t's, and
 	  convert nano to handle them properly. (DLR)

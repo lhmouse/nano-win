@@ -437,10 +437,10 @@ int check_wildcard_match(const char *text, const char *pattern)
 		    found = TRUE;
 	    }
 	    len = strlen(text);
-	    if (found == FALSE && len != 0) {
+	    if (!found && len != 0) {
 		return FALSE;
 	    }
-	    if (found == TRUE) {
+	    if (found) {
 		if (strlen(pattern) == 0 && len == 1) {
 		    return TRUE;
 		}

@@ -880,7 +880,7 @@ void do_mouse(void)
 {
     int mouse_x, mouse_y;
 
-    if (get_mouseinput(&mouse_x, &mouse_y, TRUE) == FALSE) {
+    if (!get_mouseinput(&mouse_x, &mouse_y, TRUE)) {
 	/* Click in the edit window to move the cursor, but only when
 	   we're not in a subfunction. */
 	if (wenclose(edit, mouse_y, mouse_x) && currshortcut == main_list) {
@@ -3511,7 +3511,7 @@ int main(int argc, char *argv[])
 #ifdef DEBUG
 	fprintf(stderr, "AHA!  %c (%d)\n", kbinput, kbinput);
 #endif
-	if (meta_key == TRUE) {
+	if (meta_key) {
 	    /* Check for the metaval and miscval defs... */
 	    for (s =
 #if !defined(DISABLE_BROWSER) || !defined (DISABLE_HELP) || !defined(DISABLE_MOUSE)

@@ -2007,7 +2007,7 @@ char *real_dir_from_tilde(const char *buf)
 /* Tack a slash onto the string we're completing if it's a directory.  We
  * assume there is room for one more character on the end of buf.  The
  * return value says whether buf is a directory. */
-int append_slash_if_dir(char *buf, int *lastwastab, int *place)
+int append_slash_if_dir(char *buf, bool *lastwastab, int *place)
 {
     char *dirptr = real_dir_from_tilde(buf);
     struct stat fileinfo;
@@ -2019,7 +2019,7 @@ int append_slash_if_dir(char *buf, int *lastwastab, int *place)
 	strncat(buf, "/", 1);
 	(*place)++;
 	/* now we start over again with # of tabs so far */
-	*lastwastab = 0;
+	*lastwastab = FALSE;
 	ret = 1;
     }
 
@@ -2059,7 +2059,7 @@ char **username_tab_completion(char *buf, int *num_matches)
 
     while ((userdata = getpwent()) != NULL) {
 
-	if (check_wildcard_match(userdata->pw_name, &buf[1]) == TRUE) {
+	if (check_wildcard_match(userdata->pw_name, &buf[1])) {
 
 	    /* Cool, found a match.  Add it to the list
 	     * This makes a lot more sense to me (Chris) this way...
@@ -2160,7 +2160,7 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 	fprintf(stderr, "Comparing \'%s\'\n", next->d_name);
 #endif
 	/* See if this matches */
-	if (check_wildcard_match(next->d_name, tmp) == TRUE) {
+	if (check_wildcard_match(next->d_name, tmp)) {
 
 	    /* Cool, found a match.  Add it to the list
 	     * This makes a lot more sense to me (Chris) this way...
@@ -2205,8 +2205,8 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 
 /* This function now has an arg which refers to how much the statusbar
  * (place) should be advanced, i.e. the new cursor pos. */
-char *input_tab(char *buf, int place, int *lastwastab, int *newplace,
-	int *list)
+char *input_tab(char *buf, int place, bool *lastwastab, int *newplace,
+	bool *list)
 {
     /* Do TAB completion */
     static int num_matches = 0, match_matches = 0;
@@ -2215,12 +2215,12 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace,
     int longestname = 0, is_dir = 0;
     char *foo;
 
-    *list = 0;
+    *list = FALSE;
 
     if (*lastwastab == FALSE) {
 	char *tmp, *copyto, *matchbuf;
 
-	*lastwastab = 1;
+	*lastwastab = TRUE;
 
 	/* Make a local copy of the string -- up to the position of the
 	   cursor */
@@ -2407,14 +2407,14 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace,
 	    }
 	    free(foo);
 	    wrefresh(edit);
-	    *list = 1;
+	    *list = TRUE;
 	} else
 	    beep();
     }
 
     /* Only refresh the edit window if we don't have a list of filename
        matches on it */
-    if (*list == 0)
+    if (*list == FALSE)
 	edit_refresh();
     curs_set(1);
     return buf;

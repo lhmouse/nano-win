@@ -207,11 +207,11 @@ int do_writeout(int exiting);
 void do_writeout_void(void);
 char *real_dir_from_tilde(const char *buf);
 #ifndef DISABLE_TABCOMP
-int append_slash_if_dir(char *buf, int *lastwastab, int *place);
+int append_slash_if_dir(char *buf, bool *lastwastab, int *place);
 char **username_tab_completion(char *buf, int *num_matches);
 char **cwd_tab_completion(char *buf, int *num_matches);
-char *input_tab(char *buf, int place, int *lastwastab, int *newplace,
-	int *list);
+char *input_tab(char *buf, int place, bool *lastwastab, int *newplace,
+	bool *list);
 #endif
 const char *tail(const char *foo);
 #ifndef DISABLE_BROWSER
@@ -522,7 +522,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 #endif
 		const shortcut *s
 #ifndef DISABLE_TABCOMP
-		, int *list
+		, bool *list
 #endif
 		);
 void titlebar(const char *path);
