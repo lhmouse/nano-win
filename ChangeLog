@@ -1,3 +1,8 @@
+CVS code
+- nano.c:
+  main()
+	- Changed tabsize long arg to actually accept an argument *sigh*.
+
 nano-0.9.15 - 08/03/2000
 - Changed edit_update call to take arguments TOP, CENTER or BOTTOM.
   Affects many many functions.  Removed functions edit_update_top and

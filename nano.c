@@ -1564,7 +1564,7 @@ int main(int argc, char *argv[])
 	{"mouse", 0, 0, 'm'},
 	{"pico", 0, 0, 'p'},
 	{"nofollow", 0, 0, 'l'},
-	{"tabsize", 0, 0, 'T'},
+	{"tabsize", 1, 0, 'T'},
 	{0, 0, 0, 0}
     };
 #endif
