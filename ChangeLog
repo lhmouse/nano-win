@@ -6,6 +6,10 @@ CVS code -
 	  use a flag instead (just as messy?)
 	- --enable-tiny now leaves out the Auto Indent code, do you really
 	  need that on a bootdisk? =-)
+- nano.c:
+  main()
+	- Added vars oldcurrent and oldcurrent_x to check whether cursor
+	  pos has changed and if so update the pos with -c.
 - nano.texi:
 	- corrected the Mouse Toggle section, noticed by Daniel Bonniot.
 - winio.c:

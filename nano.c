@@ -608,7 +608,6 @@ int do_mark(void)
 	edit_refresh();
     }
 #endif
-    SET(DISABLE_CURPOS);
     return 1;
 }
 
@@ -2322,8 +2321,6 @@ void do_toggle(int which)
 	    statusbar("%s %s", toggles[which].desc, enabled);
     }
 
-    SET(DISABLE_CURPOS);
-
 #endif
 }
 
@@ -2370,6 +2367,9 @@ int main(int argc, char *argv[])
     int keyhandled;		/* Have we handled the keystroke yet? */
     int i, modify_control_seq;
     char *argv0;
+    filestruct *oldcurrent;	/* Check to constantly update */
+    int oldcurrent_x;		/* Same */
+
 #ifdef _POSIX_VDISABLE
     struct termios term;
 #endif
@@ -2635,6 +2635,8 @@ int main(int argc, char *argv[])
     reset_cursor();
 
     while (1) {
+	oldcurrent = current;
+	oldcurrent_x = current_x;
 
 #ifndef DISABLE_MOUSE
 	currshortcut = main_list;
@@ -2900,12 +2902,9 @@ int main(int argc, char *argv[])
 		}
 		do_char(kbinput);
 	    }
-	if (ISSET(CONSTUPDATE)) {
-	    if (ISSET(DISABLE_CURPOS))
-		UNSET(DISABLE_CURPOS);
-	    else
+	if (ISSET(CONSTUPDATE)) 
+	    if (current != oldcurrent || current_x != oldcurrent_x)
 		do_cursorpos();
-	}
 
 	reset_cursor();
 	wrefresh(edit);
