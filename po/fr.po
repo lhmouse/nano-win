@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.2.1\n"
 "POT-Creation-Date: 2003-04-19 23:02-0400\n"
-"PO-Revision-Date: 2003-06-10 15:00+0100\n"
+"PO-Revision-Date: 2003-06-10 16:00+0100\n"
 "Last-Translator: Jean-Philippe Guérard <jean-philippe.guerard@laposte.net>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -1103,7 +1103,7 @@ msgstr "--fill=[num_col]"
 
 #: nano.c:675
 msgid "Set fill cols to (wrap lines at) #cols"
-msgstr "Colonne de passage à la ligne auto."
+msgstr "Colonne de passage auto. à la ligne"
 
 #: nano.c:678
 msgid "-s [prog]"
@@ -1127,7 +1127,7 @@ msgstr "Mode visualisation (lecture seule)"
 
 #: nano.c:683
 msgid "Don't wrap long lines"
-msgstr "Ne pas découper les lign. trop longues"
+msgstr "Désactive le passage auto. à la ligne"
 
 #: nano.c:685
 msgid "Don't show help window"
