@@ -328,9 +328,9 @@ CVS code -
 	  as Pico does. (DLR)
 - configure.ac:
 	- Remove specific references to control key shortcuts. (DLR)
-	- Check for the wide version of ncurses, without which multibyte
-	  strings don't seem to be displayed properly, and associated
-	  wide character functions. (DLR)
+	- Check for the wide versions of ncurses or slang, without which
+	  multibyte strings don't seem to be displayed properly, and
+	  associated multibyte/wide character functions. (DLR)
 	- Check for wchar.h, for those systems that need it for the
 	  wcwidth() prototype. (DLR)
 	- Remove checks for all include files that we include

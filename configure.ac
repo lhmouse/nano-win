@@ -59,9 +59,7 @@ int main(void)
 	AC_MSG_RESULT(no),
 	AC_MSG_RESULT(yes)
 	AC_DEFINE(BROKEN_REGEXEC, 1, [Define this if your regexec() function segfaults when passed an empty string under certain conditions.]),
-	AC_MSG_RESULT([cross-compiling; assuming no])
-	)
-    )
+	AC_MSG_RESULT([cross-compiling; assuming no])))
 
 dnl options
 AC_ARG_ENABLE(debug, 
@@ -207,10 +205,29 @@ AC_ARG_WITH(slang,
 	fi
 
 	AC_CHECK_HEADER(slcurses.h,
-	    AC_MSG_CHECKING([for SLtt_initialize in -lslang])
+	    AC_MSG_CHECKING([for SLutf8_enable in -lslang])
 	    _libs=$LIBS
 	    LIBS="$LIBS -lslang"
 	    AC_TRY_RUN([
+#include <slcurses.h>
+int main(void)
+{
+    SLutf8_enable(TRUE);
+    return 0;
+}],
+		[AC_MSG_RESULT(yes)
+		AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.])
+		slang_support=yes
+		CURSES_LIB_WIDE=yes
+		if test "$with_slang" != "yes"; then
+		    CURSES_LIB="-L${with_slang}/lib -lslang"
+		else
+		    CURSES_LIB="-lslang"
+		fi
+		CURSES_LIB_NAME=slang],
+		[AC_MSG_RESULT(no)
+		AC_MSG_CHECKING([for SLtt_initialize in -lslang])
+		AC_TRY_RUN([
 #include <slcurses.h>
 int main(void)
 {
@@ -227,15 +244,35 @@ int main(void)
 		fi
 		CURSES_LIB_NAME=slang],
 		[AC_MSG_RESULT(no)
+
 		# We might need the term library
 		for termlib in ncurses curses termcap terminfo termlib; do
 		    AC_CHECK_LIB([${termlib}], tputs, [tcap="-l$termlib"])
 		    test -n "$tcap" && break
 		done
 
-		AC_MSG_CHECKING([for SLtt_initialize in -lslang $tcap])
+		AC_MSG_CHECKING([for SLutf8_enable in -lslang $tcap])
 		LIBS="$LIBS $tcap"
 		AC_TRY_RUN([
+#include <slcurses.h>
+int main(void)
+{
+    SLutf8_enable(TRUE);
+    return 0;
+}],
+		    [AC_MSG_RESULT(yes)
+		    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.])
+		    slang_support=yes
+		    CURSES_LIB_WIDE=yes
+		    if test "$with_slang" != "yes"; then
+			CURSES_LIB="-L${with_slang}/lib -lslang $tcap"
+		    else
+			CURSES_LIB="-lslang $tcap"
+		    fi
+		    CURSES_LIB_NAME=slang],
+		    [AC_MSG_RESULT(no)
+		    AC_MSG_CHECKING([for SLtt_initialize in -lslang $tcap])
+		    AC_TRY_RUN([
 #include <slcurses.h>
 int main(void)
 {
@@ -250,12 +287,31 @@ int main(void)
 		    else
 			CURSES_LIB="-lslang $tcap"
 		    fi
-		    CURSES_LIB_NAME=slang], [
-		    AC_MSG_RESULT(no)
+		    CURSES_LIB_NAME=slang],
+		    [AC_MSG_RESULT(no)
+
 		    # We might need the math library
-		    AC_MSG_CHECKING([for SLtt_initialize in -lslang $tcap -lm])
+		    AC_MSG_CHECKING([for SLutf8_enable in -lslang $tcap -lm])
 		    LIBS="$LIBS -lm"
 		    AC_TRY_RUN([
+#include <slcurses.h>
+int main(void)
+{
+    SLutf8_enable(TRUE);
+    return 0;
+}],
+			[AC_MSG_RESULT(yes)
+			AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.])
+			slang_support=yes
+			CURSES_LIB_WIDE=yes
+			if test "$with_slang" != "yes"; then
+			    CURSES_LIB="-L${with_slang}/lib -lslang $tcap -lm"
+			else
+			    CURSES_LIB="-lslang $tcap -lm"
+			fi
+			CURSES_LIB_NAME=slang],
+			AC_MSG_CHECKING([for SLtt_initialize in -lslang $tcap -lm])
+			AC_TRY_RUN([
 #include <slcurses.h>
 int main(void)
 {
@@ -274,6 +330,9 @@ int main(void)
 			[AC_MSG_RESULT(no)],
 AC_MSG_WARN([*** Can not use slang when cross-compiling]))],
 AC_MSG_WARN([*** Can not use slang when cross-compiling]))],
+AC_MSG_WARN([*** Can not use slang when cross-compiling]))],
+AC_MSG_WARN([*** Can not use slang when cross-compiling]))],
+AC_MSG_WARN([*** Can not use slang when cross-compiling])),
 AC_MSG_WARN([*** Can not use slang when cross-compiling])),
 	    AC_MSG_ERROR([
 *** The header file slcurses.h was not found. If you wish to use
