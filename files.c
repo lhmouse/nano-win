@@ -532,12 +532,12 @@ char **username_tab_completion(char *buf, int *num_matches)
 
 char **cwd_tab_completion(char *buf, int *num_matches)
 {
-    char *dirName, *tmp = NULL;
+    char *dirName, *tmp = NULL, *tmp2 = NULL;
     char **matches = (char **) NULL;
     DIR *dir;
     struct dirent *next;
 
-    matches = malloc(sizeof(char *) * 50);
+    matches = nmalloc(1024);
 
     /* Stick a wildcard onto the buf, for later use */
     strcat(buf, "*");
@@ -587,11 +587,15 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 #endif
 	/* See if this matches */
 	if (check_wildcard_match(next->d_name, tmp) == TRUE) {
-	    /* Cool, found a match.  Add it to the list */
-	    matches[*num_matches] = malloc(strlen(next->d_name) + 1);
-	    strcpy(matches[*num_matches], next->d_name);
+
+	    /* Cool, found a match.  Add it to the list
+	     * This makes a lot more sense to me (Chris) this way...
+	     */
+	    tmp2 = NULL;
+	    tmp2 = nmalloc(strlen(next->d_name) + 1);
+	    strcpy(tmp2, next->d_name);
+	    matches[*num_matches] = tmp2;
 	    ++*num_matches;
-	    //matches = realloc( matches, sizeof(char*)*(*num_matches));
 	}
     }
 
@@ -633,6 +637,7 @@ int input_tab(char *buf, int place, int lastWasTab)
 	if (matches != NULL) {
 	    free(matches);
 	    matches = (char **) NULL;
+	    num_matches = 0;
 	}
 
 	/* If the word starts with `~' and there is no slash in the word, 
@@ -735,9 +740,8 @@ int input_tab(char *buf, int place, int lastWasTab)
 	    }
 	    free(foo);
 	    wrefresh(edit);
-	    num_matches = 0;
-	} else
-	    beep();
+	}
+	beep();
 
     }
 
