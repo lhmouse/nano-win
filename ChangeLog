@@ -273,6 +273,10 @@ CVS code -
 - README.CVS:
 	- Mention the requirement for glib 2.x on systems lacking
 	  v?snprintf(), and add minor formatting changes.
+- m4/glib-2.0.m4:
+	- New file imported from glib 2.4.7.  This is needed to detect
+	  glib 2.x on systems that may not have it installed. (DLR,
+	  suggested by Jordi)
 
 GNU nano 1.3.4 - 2004.08.17
 - General:
