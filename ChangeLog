@@ -110,6 +110,8 @@ CVS code -
 	  brackets used to control justification, via the rcfile
 	  entries "punct" and "brackets". (DLR)
 	- Translation updates (see po/ChangeLog for details).
+	- Make the former flag same_line_wrap use TRUE and FALSE
+	  instead of 1 and 0. (DLR)
 - files.c:
   add_open_file()
 	- Rearrange the NANO_SMALL #ifdef so that the code to set the

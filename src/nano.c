@@ -61,15 +61,17 @@
 static int fill = 0;	/* Fill - where to wrap lines, basically */
 #endif
 #ifndef DISABLE_WRAPPING
-static int same_line_wrap = 0;	/* Whether wrapped text should be
-				   prepended to the next line */
+static int same_line_wrap = FALSE;	/* Whether wrapped text should
+					   be prepended to the next
+					   line */
 #endif
 
 static struct termios oldterm;	/* The user's original term settings */
 static struct sigaction act;	/* For all our fun signal handlers */
 
 #ifndef NANO_SMALL
-static sigjmp_buf jmpbuf;	/* Used to return to mainloop after SIGWINCH */
+static sigjmp_buf jmpbuf;	/* Used to return to mainloop after
+				   SIGWINCH */
 #endif
 
 /* What we do when we're all set to exit. */
@@ -1253,7 +1255,7 @@ int do_mark(void)
 #ifndef DISABLE_WRAPPING
 void wrap_reset(void)
 {
-    same_line_wrap = 0;
+    same_line_wrap = FALSE;
 }
 #endif
 
@@ -1371,6 +1373,7 @@ int do_wrap(filestruct *inptr)
 
     /* Now we allocate the new line and copy into it. */
     newline = charalloc(new_line_len + 1);  /* +1 for \0 */
+    new_line_len = 0;
     *newline = '\0';
 
 #ifndef NANO_SMALL
@@ -1423,7 +1426,7 @@ int do_wrap(filestruct *inptr)
      * some other sundry things. */
 
     /* later wraps of this line will be prepended to the next line. */
-    same_line_wrap = 1;
+    same_line_wrap = TRUE;
 
     /* Each line knows its line number.  We recalculate these if we
      * inserted a new line. */
