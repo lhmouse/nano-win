@@ -134,6 +134,7 @@ void search_init_globals(void);
 void replace_abort(void);
 void add_to_cutbuffer(filestruct * inptr);
 void do_replace_highlight(int highlight_flag, char *word);
+void keypad_on(int yesno);
 #ifdef NANO_EXTRA
 void do_credits(void);
 #endif

@@ -45,6 +45,10 @@ General
 	  window when using nohelp toggle (bug discovered by Rocco Corsi).
 - nano.1, nano.1.html:
 	- Updated man page for -b, -e, -f and expanded explanation for -p.
+- winio.c
+  do_help()
+	- Force keypad on so F-keys and PageUp/Down will work properly.
+	  Added check for NANO_EXIT_FKEY to loop.
 - utils.c:
   new_magicline()
 	- Increment totsize!!  We decrement it when we've read a file, 
