@@ -2823,7 +2823,7 @@ RETSIGTYPE handle_hupterm(int signal)
 RETSIGTYPE do_suspend(int signal)
 {
     endwin();
-    printf("\n\n\n\n\nUse \"fg\" to return to nano\n");
+    printf("\n\n\n\n\n%s\n", _("Use \"fg\" to return to nano"));
     fflush(stdout);
 
     /* Restore the terminal settings for the disabled keys */
