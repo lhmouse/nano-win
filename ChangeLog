@@ -1,17 +1,25 @@
 CVS code -
 - General
-	- Added configure argument --disable-tabcomp.  Affects
-	  configure.in, configure, bottom of files.c and write_file,
-	  utils.c:check_wildcard_match() and winio.c:nanogettsr().
 	- Username tab completion code, and cleaned up existing tabcomp
 	  code. New functions real_dir_from_tide(), append_slash_if_dir(),
 	  username_tab_completion is more than a stub now =-).
-	- New options --enable-extra.  New code in nano.c:version() to 
-	  print out various options from ./configure, function do_credits().
 	- Ignore key sequence 543 & 545, right control and alt keys in
 	  windows. Affects main() and winio.c:nanogetstr().
 	- Took out help from spell_list and changed SPELL_LIST_LEN to 1.
 	  Is using a spell checker THAT difficult? =-)
+	- New function nano_disabled_msg(), to alert that certain
+	  functions have been disabled, similaer to nano_tiny feature.
+- New configure options:
+	- Added configure argument --disable-tabcomp.  Affects
+	  bottom of files.c and write_file, utils.c:check_wildcard_match()
+	  and winio.c:nanogettsr().
+	- New options --enable-extra.  New code in nano.c:version() to 
+	  print out various options from ./configure, function do_credits().
+	- Added --disable-spell option for those who want to just disable
+	  the spell check feature.  Affects the spellinf fucntions
+	  do_spell, do_int_speller and do_alt_speller.
+	- Added --disable-justify to get rid of the justify function.
+	  Affects do_justify() (not surprisingly).
 - files.c:
   write_file()
 	- Unsetting modified on temp files bug fixed (Rocco Corsi).
@@ -39,6 +47,9 @@ CVS code -
 	  replacement" question, and not caring about the replace loop
 	  return value.  That way the user can get out of the replace loop
 	  and continue spell checking (very important to me anyway).
+  version()
+	- Took out huge check for the various --disabled macros,
+	  eventually there will be too many to reasonably check for.  
 - search.c:
   do_replace_hilight()
 	- New function, displays the currently selected word as hilighted

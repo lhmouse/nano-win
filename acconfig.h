@@ -29,3 +29,11 @@
 
 /* Define to disable the tab completion code Chris worked so hard on! */
 #undef DISABLE_TABCOMP
+
+/* Define this to disable the justify routine */
+#undef DISABLE_JUSTIFY
+
+/* Define this to disable the use(full|less) spelling functions */
+#undef DISABLE_SPELL
+
+

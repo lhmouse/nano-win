@@ -33,6 +33,18 @@ AC_ARG_ENABLE(tabcomp,
     AC_DEFINE(DISABLE_TABCOMP) 
  fi])
 
+AC_ARG_ENABLE(justify,
+[  --disable-justify       Disable justify/unjustify function],
+ [if test x$enableval != xyes; then
+    AC_DEFINE(DISABLE_JUSTIFY) 
+ fi])
+
+AC_ARG_ENABLE(spell,
+[  --disable-speller       Disables spell checker function],
+ [if test x$enableval != xyes; then
+    AC_DEFINE(DISABLE_SPELL) 
+ fi])
+
 AC_MSG_CHECKING(whether to use slang)
 CURSES_LIB_NAME=""
 AC_ARG_WITH(slang,

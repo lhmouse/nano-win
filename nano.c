@@ -418,10 +418,8 @@ void version(void)
 	   VERSION, __TIME__, __DATE__);
     printf(_
 	   (" Email: nano@nano-editor.org	Web: http://www.nano-editor.org"));
-
-#if defined(NANO_SMALL) || defined(NANO_EXTRA) || defined(DISABLE_TABCOMP) || defined(USE_SLANG)
     printf(_("\n Compiled options:"));
-#endif
+
 #ifdef NANO_SMALL
     printf(" --enable-tiny");
 #endif
@@ -430,6 +428,12 @@ void version(void)
 #endif
 #ifdef DISABLE_TABCOMP
     printf(" --disable-tabcomp");
+#endif
+#ifdef DISABLE_JUSTIFY
+    printf(" --disable-justify");
+#endif
+#ifdef DISABLE_SPELL
+    printf(" --disable-spell");
 #endif
 #ifdef USE_SLANG
     printf(" --with-slang");
@@ -498,6 +502,11 @@ int no_help(void)
 void nano_small_msg(void)
 {
     statusbar("Sorry, this function not available with nano-tiny option");
+}
+
+void nano_disabled_msg(void)
+{
+    statusbar("Sorry, support for this function has been disabled");
 }
 
 /* The user typed a printable character; add it to the edit buffer */
@@ -1069,7 +1078,7 @@ void wrap_reset(void)
     UNSET(SAMELINEWRAP);
 }
 
-#ifndef NANO_SMALL
+#if !defined(NANO_SMALL) && !defined(DISABLE_SPELL)
 
 int do_int_spell_fix(char *word)
 {
@@ -1137,7 +1146,7 @@ int do_int_spell_fix(char *word)
 }
 #endif
 
-#ifndef NANO_SMALL
+#if !defined(NANO_SMALL) && !defined(DISABLE_SPELL)
 
 /* Integrated spell checking using 'spell' program */
 int do_int_speller(char *tempfile_name)
@@ -1267,7 +1276,7 @@ int do_int_speller(char *tempfile_name)
 }
 #endif
 
-#ifndef NANO_SMALL
+#if !defined(NANO_SMALL) && !defined(DISABLE_SPELL)
 
 /* External spell checking */
 int do_alt_speller(char *file_name)
@@ -1319,8 +1328,11 @@ int do_alt_speller(char *file_name)
 int do_spell(void)
 {
 
-#ifdef NANO_SMALL
+#if defined(NANO_SMALL)
     nano_small_msg();
+    return (TRUE);
+#elif defined(DISABLE_SPELL)
+    nano_disabled_msg();
     return (TRUE);
 #else
     char *temp;
@@ -1623,7 +1635,7 @@ int do_tab(void)
     return 1;
 }
 
-#ifndef NANO_SMALL
+#if !defined(NANO_SMALL) && !defined(DISABLE_JUSTIFY)
 int empty_line(const char *data)
 {
     while (*data) {
@@ -1675,7 +1687,13 @@ void justify_format(char *data)
 
 int do_justify(void)
 {
-#ifndef NANO_SMALL
+#ifdef NANO_SMALL
+    nano_small_msg();
+    return 1;
+#elif defined(DISABLE_JUSTIFY)
+    nano_disabled_msg();
+    return 1;
+#else
     int slen = 0;		/* length of combined lines on one line. */
     int initial_y, kbinput;
     filestruct *initial = NULL, *tmpjust = NULL, *cutbak, *tmptop, *tmpbot;
@@ -1851,9 +1869,6 @@ int do_justify(void)
     free_filestruct(cutbuffer);
     cutbuffer = cutbak;
     
-    return 1;
-#else
-    nano_small_msg();
     return 1;
 #endif
 }
