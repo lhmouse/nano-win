@@ -46,13 +46,14 @@
 #endif
 
 #ifdef USE_SLANG
-/* Slang support enabled */
+/* Slang support enabled.  Work around Slang's not defining KEY_DC or
+ * KEY_IC. */
 #include <slcurses.h>
 #define KEY_DC SL_KEY_DELETE
 #define KEY_IC SL_KEY_IC
 #elif defined(HAVE_NCURSES_H)
 #include <ncurses.h>
-#else /* Uh oh */
+#else /* Uh oh. */
 #include <curses.h>
 #endif /* CURSES_H */
 
@@ -71,16 +72,18 @@
 #include <sys/stat.h>
 #include "config.h"
 
+/* If no snprintf()/vsnprintf(), use the versions from glib. */
 #if !defined(HAVE_SNPRINTF) || !defined(HAVE_VSNPRINTF)
 #include <glib.h>
 # ifndef HAVE_SNPRINTF
-#  define snprintf	g_snprintf
+#  define snprintf g_snprintf
 # endif
 # ifndef HAVE_VSNPRINTF
-#  define vsnprintf	g_vsnprintf
+#  define vsnprintf g_vsnprintf
 # endif
 #endif
 
+/* If no strcasecmp()/strncasecmp(), use the versions we have. */
 #ifndef HAVE_STRCASECMP
 #define strcasecmp nstricmp
 #endif
@@ -90,11 +93,11 @@
 #endif
 
 /* Assume ERR is defined as -1.  To avoid duplicate case values when
-   some key definitions are missing, we have to set all of these, and
-   all of the special sentinel values below, to different negative
-   values other than -1. */
+ * some key definitions are missing, we have to set all of these, and
+ * all of the special sentinel values below, to different negative
+ * values other than -1. */
 
-/* HP-UX 10 & 11 do not seem to support KEY_HOME and KEY_END */
+/* HP-UX 10 & 11 do not seem to support KEY_HOME and KEY_END. */
 #ifndef KEY_HOME
 #define KEY_HOME -2
 #endif
@@ -103,13 +106,13 @@
 #define KEY_END -3
 #endif
 
-/* Slang and SunOS 5.7-5.9 do not seem to support KEY_RESIZE */
+/* Slang and SunOS 5.7-5.9 do not seem to support KEY_RESIZE. */
 #ifndef KEY_RESIZE
 #define KEY_RESIZE -4
 #endif
 
 /* Slang does not seem to support KEY_SUSPEND, KEY_SLEFT, or
-   KEY_SRIGHT */
+ * KEY_SRIGHT. */
 #ifndef KEY_SUSPEND
 #define KEY_SUSPEND -5
 #endif
@@ -124,6 +127,8 @@
 
 #define VERMSG "GNU nano " VERSION
 
+/* If we aren't using ncurses, turn the mouse support off, as it's
+ * ncurses-specific. */
 #ifndef NCURSES_MOUSE_VERSION
 #define DISABLE_MOUSE 1
 #endif
@@ -132,12 +137,12 @@
 #define DISABLE_WRAPJUSTIFY 1
 #endif
 
-/* Structure types */
+/* Structure types. */
 typedef struct filestruct {
     char *data;
-    struct filestruct *next;	/* Next node */
-    struct filestruct *prev;	/* Previous node */
-    int lineno;			/* The line number */
+    struct filestruct *next;	/* Next node. */
+    struct filestruct *prev;	/* Previous node. */
+    int lineno;			/* The line number. */
 } filestruct;
 
 #ifdef ENABLE_MULTIBUFFER
@@ -146,51 +151,56 @@ typedef struct openfilestruct {
 #ifndef NANO_SMALL
     struct stat originalfilestat;
 #endif
-    struct openfilestruct *next;	/* Next node */
-    struct openfilestruct *prev;	/* Previous node */
-    struct filestruct *fileage;	/* Current file */
-    struct filestruct *filebot;	/* Current file's last line */
+    struct openfilestruct *next;	/* Next node. */
+    struct openfilestruct *prev;	/* Previous node. */
+    struct filestruct *fileage;	/* Current file. */
+    struct filestruct *filebot;	/* Current file's last line. */
 #ifndef NANO_SMALL
     struct filestruct *file_mark_beginbuf;
-				/* Current file's beginning marked line */
-    int file_mark_beginx;	/* Current file's beginning marked line's
-				   x-coordinate position */
+				/* Current file's beginning marked
+				 * line. */
+    int file_mark_beginx;	/* Current file's beginning marked
+				 * line's x-coordinate position. */
 #endif
-    int file_current_x;		/* Current file's x-coordinate position */
-    int file_current_y;		/* Current file's y-coordinate position */
+    int file_current_x;		/* Current file's x-coordinate
+				 * position. */
+    int file_current_y;		/* Current file's y-coordinate
+				 * position. */
     int file_flags;		/* Current file's flags: modification
-				   status (and marking status, if
-				   available) */
-    int file_placewewant;	/* Current file's place we want */
-    int file_totlines;		/* Current file's total number of lines */
-    long file_totsize;		/* Current file's total size */
-    int file_lineno;		/* Current file's line number */
+				 * status (and marking status, if
+				 * available). */
+    int file_placewewant;	/* Current file's place we want. */
+    int file_totlines;		/* Current file's total number of
+				 * lines. */
+    long file_totsize;		/* Current file's total size. */
+    int file_lineno;		/* Current file's line number. */
 } openfilestruct;
 #endif
 
 typedef struct shortcut {
-    /* Key values that aren't used should be set to NANO_NO_KEY */
+    /* Key values that aren't used should be set to NANO_NO_KEY. */
     int val;		/* Special sentinel key or control key we want
-			 * bound */
-    int altval;		/* Alt key we want bound */
-    int func_key;	/* Function key we want bound */
-    int misc;		/* Other Alt key we want bound */
+			 * bound. */
+    int metaval;		/* Meta key we want bound. */
+    int func_key;	/* Function key we want bound. */
+    int misc;		/* Other Meta key we want bound. */
     int viewok;		/* Is this function legal in view mode? */
-    int (*func) (void);	/* Function to call when we catch this key */
-    const char *desc;	/* Description, e.g. "Page Up" */
+    int (*func) (void);	/* Function to call when we catch this key. */
+    const char *desc;	/* Description, e.g. "Page Up". */
 #ifndef DISABLE_HELP
-    const char *help;	/* Help file entry text */
+    const char *help;	/* Help file entry text. */
 #endif
     struct shortcut *next;
 } shortcut;
 
 #ifndef NANO_SMALL
 typedef struct toggle {
-   int val;		/* Sequence to toggle the key.  Should only need 1 */
+   int val;		/* Sequence to toggle the key.  Should only need
+			 * one. */
    const char *desc;	/* Description for when toggle is, uh, toggled,
 			   e.g. "Pico Messages"; we'll append Enabled or
-			   Disabled */
-   int flag;		/* What flag actually gets toggled */
+			   Disabled. */
+   int flag;		/* What flag actually gets toggled. */
    struct toggle *next;
 } toggle;
 #endif /* !NANO_SMALL */
@@ -235,8 +245,10 @@ typedef struct historytype {
     char *data;
 } historytype;
 typedef struct historyheadtype {
-    struct historytype *next;	/* keep *next and *prev members together */
-    struct historytype *prev;	/* and in same order as in historytype */
+    struct historytype *next;	/* Keep *next and *prev members
+				 * together. */
+    struct historytype *prev;	/* And in same order as in
+				 * historytype. */
     struct historytype *tail;
     struct historytype *current;
     int count;
@@ -244,8 +256,8 @@ typedef struct historyheadtype {
 } historyheadtype;
 #endif /* !NANO_SMALL */
 
-/* Bitwise flags so we can save space (or more correctly, not waste it) */
-
+/* Bitwise flags so we can save space (or more correctly, not waste
+ * it). */
 #define MODIFIED		(1<<0)
 #define KEEP_CUTBUFFER		(1<<1)
 #define CASE_SENSITIVE		(1<<2)
@@ -267,7 +279,7 @@ typedef struct historyheadtype {
 #define DOS_FILE		(1<<18)
 #define MAC_FILE		(1<<19)
 #define SMOOTHSCROLL		(1<<20)
-#define DISABLE_CURPOS		(1<<21)	/* Damn, we still need it */
+#define DISABLE_CURPOS		(1<<21)	/* Damn, we still need it. */
 #define REBIND_DELETE		(1<<22)
 #define NO_CONVERT		(1<<23)
 #define BACKUP_FILE		(1<<24)
@@ -278,8 +290,7 @@ typedef struct historyheadtype {
 #define HISTORYLOG		(1<<29)
 #define JUSTIFY_MODE		(1<<30)
 
-/* Control key sequences, changing these would be very very bad */
-
+/* Control key sequences, changing these would be very very bad. */
 #define NANO_CONTROL_SPACE 0
 #define NANO_CONTROL_A 1
 #define NANO_CONTROL_B 2
@@ -347,13 +358,13 @@ typedef struct historyheadtype {
 #define NANO_ALT_RBRACKET ']'
 #define NANO_ALT_SPACE ' '
 
-/* Some semi-changeable keybindings; don't play with unless you're sure
-   you know what you're doing */
+/* Some semi-changeable keybindings; don't play with these unless you're
+ * sure you know what you're doing. */
 
 /* No key at all. */
 #define NANO_NO_KEY		-8
 
-/* Special sentinel key. */
+/* Special sentinel key used for search string history. */
 #define NANO_HISTORY_KEY	-9
 
 /* Normal keys. */
@@ -453,18 +464,18 @@ typedef enum {
     TOP, CENTER, NONE
 } topmidnone;
 
-/* Minimum editor window rows required for nano to work correctly */
+/* Minimum editor window rows required for nano to work correctly. */
 #define MIN_EDITOR_ROWS 3
 
-/* Minimum editor window cols required for nano to work correctly */
+/* Minimum editor window cols required for nano to work correctly. */
 #define MIN_EDITOR_COLS 10
 
 /* Default number of characters from end-of-line where text wrapping
-   occurs */
+ * occurs. */
 #define CHARS_FROM_EOL 8
 
 /* Maximum number of search history strings saved, same value used for
-   replace history */
+ * replace history. */
 #define MAX_SEARCH_HISTORY 100
 
 #endif /* !NANO_H */

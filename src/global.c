@@ -172,7 +172,7 @@ void sc_init_one(shortcut **shortcutage, int key, const char *desc,
 #ifndef DISABLE_HELP
 	const char *help,
 #endif
-	int alt, int func_key, int misc, int view, int (*func) (void))
+	int meta, int func_key, int misc, int view, int (*func) (void))
 {
     shortcut *s;
 
@@ -191,7 +191,7 @@ void sc_init_one(shortcut **shortcutage, int key, const char *desc,
 #ifndef DISABLE_HELP
     s->help = help;
 #endif
-    s->altval = alt;
+    s->metaval = meta;
     s->func_key = func_key;
     s->misc = misc;
     s->viewok = view;

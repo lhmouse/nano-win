@@ -28,15 +28,17 @@
 #include "proto.h"
 #include "nano.h"
 
-static int marked_cut;		/* Is the cutbuffer from a mark? */
+static int marked_cut;		/* Is the cutbuffer from a mark?
+				 * 0 means whole-line cut, 1 means mark,
+				 * 2 means cut-from-cursor. */
 
 #ifndef NANO_SMALL
 static int concatenate_cut;	/* Should we add this cut string to the
-				   end of the last one? */
+				 * end of the last one? */
 #endif
 
 static filestruct *cutbottom = NULL;
-				/* Pointer to end of cutbuffer */
+				/* Pointer to end of cutbuffer. */
 
 filestruct *get_cutbottom(void)
 {
@@ -46,29 +48,27 @@ filestruct *get_cutbottom(void)
 void add_to_cutbuffer(filestruct *inptr)
 {
 #ifdef DEBUG
-    fprintf(stderr, "add_to_cutbuffer() called with inptr->data = %s\n",
-	    inptr->data);
+    fprintf(stderr, "add_to_cutbuffer(): inptr->data = %s\n", inptr->data);
 #endif
 
-    if (cutbuffer == NULL) {
+    if (cutbuffer == NULL)
 	cutbuffer = inptr;
-	inptr->prev = NULL;
 #ifndef NANO_SMALL
-    } else if (concatenate_cut && !ISSET(JUSTIFY_MODE)) {
+    else if (concatenate_cut && !ISSET(JUSTIFY_MODE)) {
 	/* Just tack the text in inptr onto the text in cutbottom,
-	   unless we're backing up lines while justifying text. */
+	 * unless we're backing up lines while justifying text. */
 	cutbottom->data = charealloc(cutbottom->data,
 		strlen(cutbottom->data) + strlen(inptr->data) + 1);
 	strcat(cutbottom->data, inptr->data);
 	return;
+    }
 #endif
-    } else {
+    else {
 	cutbottom->next = inptr;
 	inptr->prev = cutbottom;
     }
-
-    inptr->next = NULL;
     cutbottom = inptr;
+    cutbottom->next = NULL;
 }
 
 #ifndef NANO_SMALL
@@ -78,112 +78,115 @@ void add_to_cutbuffer(filestruct *inptr)
  * last cut line has length bot_x.  That is, if bot_x > 0 then we cut to
  * bot->data[bot_x - 1].
  *
- * destructive is whether to actually modify the file structure, if not
- * then just copy the buffer into cutbuffer and don't pull it from the
- * file.
+ * We maintain totsize, totlines, filebot, the magicline, and line
+ * numbers.  Also, we set current and current_x so the cursor will be on
+ * the first character after what was cut.  We do not do any screen
+ * updates.
  *
- * If destructive, then we maintain totsize, totlines, filebot, the
- * magic line, and line numbers.  Also, we set current and current_x so
- * the cursor will be on the first character after what was cut.  We do
- * not do any screen updates. */
-void cut_marked_segment(filestruct *top, size_t top_x, filestruct *bot,
-			size_t bot_x, int destructive)
+ * Note cutbuffer might not be NULL if "cut to end" is used. */
+void cut_marked_segment(void)
 {
-    filestruct *tmp, *next;
+    filestruct *top;
+    filestruct *bot;
+    filestruct *tmp;
+    size_t top_x;
+    size_t bot_x;
     size_t newsize;
 
-    if (top == bot && top_x == bot_x)
+    /* If the mark doesn't cover any text, get out. */
+    if (current == mark_beginbuf && current_x == mark_beginx)
 	return;
-    assert(top != NULL && bot != NULL);
+    assert(current != NULL && mark_beginbuf != NULL);
 
-    /* Make top be no later than bot. */
-    if (top->lineno > bot->lineno) {
-	filestruct *swap = top;
-	int swap2 = top_x;
+    /* Set up the top and bottom lines and coordinates of the marked
+     * text. */
+    mark_order((const filestruct **)&top, &top_x,
+		(const filestruct **)&bot, &bot_x);
 
-	top = bot;
-	bot = swap;
-
-	top_x = bot_x;
-	bot_x = swap2;
-    } else if (top == bot && top_x > bot_x) {
-	/* And bot_x can't be an earlier character than top_x. */
-	int swap = top_x;
-
-	top_x = bot_x;
-	bot_x = swap;
-    }
-
-    /* Make the first cut line manually. */
+    /* Make the first cut line manually.  Move the cut part of the top
+     * line into tmp, and set newsize to that partial line's length. */
     tmp = copy_node(top);
     newsize = (top == bot ? bot_x - top_x : strlen(top->data + top_x));
-    charmove(tmp->data, top->data + top_x, newsize);
+    charmove(tmp->data, tmp->data + top_x, newsize);
     null_at(&tmp->data, newsize);
-    add_to_cutbuffer(tmp);
 
-    /* And make the remainder line manually too. */
-    if (destructive) {
-	current_x = top_x;
-	totsize -= newsize;
-	totlines -= bot->lineno - top->lineno;
-
-	newsize = top_x + strlen(bot->data + bot_x) + 1;
-	if (top == bot) {
-	    /* In this case, the remainder line is shorter, so we must
-	       move text from the end forward first. */
-	    charmove(top->data + top_x, bot->data + bot_x,
-			newsize - top_x);
-	    top->data = charealloc(top->data, newsize);
-	} else {
-	    totsize -= bot_x + 1;
-
-	    /* Here, the remainder line might get longer, so we
-	       realloc() it first. */
-	    top->data = charealloc(top->data, newsize);
-	    charmove(top->data + top_x, bot->data + bot_x,
-			newsize - top_x);
-	}
+    /* Add the contents of tmp to the cutbuffer.  Note that cutbuffer
+     * might be non-NULL if we have cut to end enabled. */
+    if (cutbuffer == NULL) {
+	cutbuffer = tmp;
+	cutbottom = tmp;
+    } else {
+	cutbottom->next = tmp;
+	tmp->prev = cutbottom;
+	cutbottom = tmp;
     }
 
+    /* And make the top remainder line manually too.  Update current_x
+     * and totlines to account for all the cut text, and update totsize
+     * to account for the length of the cut part of the first line. */
+    current_x = top_x;
+    totsize -= newsize;
+    totlines -= bot->lineno - top->lineno;
+
+    /* Now set newsize to be the length of the top remainder line plus
+     * the bottom remainder line, plus one for the null terminator. */
+    newsize = top_x + strlen(bot->data + bot_x) + 1;
+
     if (top == bot) {
+	/* In this case, we're only cutting one line or part of one
+	 * line, so the remainder line is shorter.  This means that we
+	 * must move text from the end forward first. */
+	charmove(top->data + top_x, bot->data + bot_x, newsize - top_x);
+	top->data = charealloc(top->data, newsize);
+
+	cutbottom->next = NULL;
 #ifdef DEBUG
 	dump_buffer(cutbuffer);
 #endif
 	return;
     }
 
-    tmp = top->next;
-    while (tmp != bot) {
-	next = tmp->next;
-	if (!destructive)
-	    tmp = copy_node(tmp);
-	else
-	    totsize -= strlen(tmp->data) + 1;
-	add_to_cutbuffer(tmp);
-	tmp = next;
-    }
+    /* Update totsize to account for the cut part of the last line. */
+    totsize -= bot_x + 1;
+
+    /* Here, the top remainder line might get longer (if the bottom
+     * remainder line is added to the end of it), so we realloc() it
+     * first. */
+    top->data = charealloc(top->data, newsize);
+    charmove(top->data + top_x, bot->data + bot_x, newsize - top_x);
+
+    assert(cutbottom != NULL && cutbottom->next != NULL);
+    /* We're cutting multiple lines, so in particular the next line is
+     * cut too. */
+    cutbottom->next->prev = cutbottom;
+
+    /* Update totsize to account for all the complete lines that have
+     * been cut.  After this, totsize is fully up to date. */
+    for (tmp = top->next; tmp != bot; tmp = tmp->next)
+	totsize -= strlen(tmp->data) + 1;
 
     /* Make the last cut line manually. */
-    tmp = copy_node(bot);
-    null_at(&tmp->data, bot_x);
-    add_to_cutbuffer(tmp);
-#ifdef DEBUG
-    dump_buffer(cutbuffer);
-#endif
+    null_at(&bot->data, bot_x);
 
-    if (destructive) {
-	top->next = bot->next;
-	if (top->next != NULL)
-	    top->next->prev = top;
-	delete_node(bot);
-	renumber(top);
-	current = top;
-	if (bot == filebot) {
-	    filebot = top;
-	    assert(bot_x == 0);
-	    if (top_x > 0)
-		new_magicline();
-	}
+    /* Move the rest of the cut text (other than the cut part of the top
+     * line) from the buffer to the end of the cutbuffer, and fix the
+     * edit buffer to account for the cut text. */
+    top->next = bot->next;
+    cutbottom = bot;
+    cutbottom->next = NULL;
+    if (top->next != NULL)
+	top->next->prev = top;
+    renumber(top);
+    current = top;
+
+    /* If the bottom line of the cut was the magicline, set filebot
+     * properly, and add a new magicline if the top remainder line
+     * (which is now the new bottom line) is non-blank. */
+    if (bot == filebot) {
+	filebot = top;
+	assert(bot_x == 0);
+	if (top_x > 0)
+	    new_magicline();
     }
 #ifdef DEBUG
     dump_buffer(cutbuffer);
@@ -194,9 +197,6 @@ void cut_marked_segment(filestruct *top, size_t top_x, filestruct *bot,
 int do_cut_text(void)
 {
     filestruct *fileptr;
-#ifndef NANO_SMALL
-    int dontupdate = 0;
-#endif
 
     assert(current != NULL && current->data != NULL);
 
@@ -214,8 +214,8 @@ int do_cut_text(void)
 #endif
     }
 
-    /* You can't cut the magic line except with the mark.  But
-       trying does clear the cutbuffer if KEEP_CUTBUFFER is not set. */
+    /* You can't cut the magicline except with the mark.  But trying
+     * does clear the cutbuffer if KEEP_CUTBUFFER is not set. */
     if (current == filebot
 #ifndef NANO_SMALL
 			&& !ISSET(MARK_ISSET)
@@ -231,11 +231,12 @@ int do_cut_text(void)
 
 	if (current->data[current_x] == '\0') {
 	    /* If the line is empty and we didn't just cut a non-blank
-	       line, create a dummy line and add it to the cutbuffer */
+	     * line, create a dummy blank line and add it to the
+	     * cutbuffer. */
 	    if (marked_cut != 1 && current->next != filebot) {
 		filestruct *junk = make_new_node(current);
 
-	        junk->data = charalloc(1);
+		junk->data = charalloc(1);
 		junk->data[0] = '\0';
 		add_to_cutbuffer(junk);
 #ifdef DEBUG
@@ -251,33 +252,22 @@ int do_cut_text(void)
 
 	    mark_beginx = strlen(current->data);
 	    mark_beginbuf = current;
-	    dontupdate = 1;
 	}
     }
 
     if (ISSET(MARK_ISSET)) {
-	/* Don't do_update() and move the screen position if the marked
-	   area lies entirely within the screen buffer */
-	dontupdate |= current->lineno >= edittop->lineno &&
-			current->lineno <= editbot->lineno &&
-			mark_beginbuf->lineno >= edittop->lineno &&
-			mark_beginbuf->lineno <= editbot->lineno;
-	cut_marked_segment(current, current_x, mark_beginbuf,
-				mark_beginx, 1);
+	cut_marked_segment();
 
 	placewewant = xplustabs();
 	UNSET(MARK_ISSET);
 
 	/* If we just did a marked cut of part of a line, we should add
-	   the first line of any cut done immediately afterward to the
-	   end of this cut, as Pico does. */
+	 * the first line of any cut done immediately afterward to the
+	 * end of this cut, as Pico does. */
 	if (current == mark_beginbuf && current_x < strlen(current->data))
 	    concatenate_cut = 1;
 	marked_cut = 1;
-	if (dontupdate)
-	    edit_refresh();
-	else
-	    edit_update(current, CENTER);
+	edit_refresh();
 	set_modified();
 
 	return 1;
@@ -310,29 +300,26 @@ int do_cut_text(void)
 #ifndef NANO_SMALL
     concatenate_cut = 0;
 #endif
-    placewewant = 0;
     return 1;
 }
 
 int do_uncut_text(void)
 {
-    filestruct *tmp = current, *fileptr = current;
-    filestruct *newbuf = NULL, *newend = NULL;
-    char *tmpstr, *tmpstr2;
-    filestruct *hold = current;
-    int i;
+    filestruct *tmp = current;
+    filestruct *newbuf = NULL;
+    filestruct *newend = NULL;
 
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
     check_statblank();
-    if (cutbuffer == NULL || fileptr == NULL)
+    if (cutbuffer == NULL || current == NULL)
 	return 0;		/* AIEEEEEEEEEEEE */
 
     /* If we're uncutting a previously non-marked block, uncut to end if
-       we're not at the beginning of the line.  If we are at the
-       beginning of the line, set placewewant to 0.  Pico does both of
-       these. */
+     * we're not at the beginning of the line.  If we are at the
+     * beginning of the line, set placewewant to 0.  Pico does both of
+     * these. */
     if (marked_cut == 0) {
 	if (current_x != 0)
 	    marked_cut = 2;
@@ -341,24 +328,22 @@ int do_uncut_text(void)
     }
 
     /* If we're going to uncut on the magicline, always make a new
-       magicline in advance. */
+     * magicline in advance, as Pico does. */
     if (current->next == NULL)
 	new_magicline();
 
-    if (marked_cut == 0 || cutbuffer->next != NULL)
-    {
+    if (marked_cut == 0 || cutbuffer->next != NULL) {
 	newbuf = copy_filestruct(cutbuffer);
 	for (newend = newbuf; newend->next != NULL && newend != NULL;
 		newend = newend->next)
 	    totlines++;
     }
 
-    /* Hook newbuf into fileptr */
+    /* Hook newbuf in at current. */
     if (marked_cut != 0) {
-	int recenter_me = 0;
-	    /* Should we eventually use edit_update(CENTER)? */
+	filestruct *hold = current;
 
-	/* If there's only one line in the cutbuffer */
+	/* If there's only one line in the cutbuffer... */
 	if (cutbuffer->next == NULL) {
 	    size_t buf_len = strlen(cutbuffer->data);
 	    size_t cur_len = strlen(current->data);
@@ -367,22 +352,24 @@ int do_uncut_text(void)
 	    charmove(current->data + current_x + buf_len,
 			current->data + current_x, cur_len - current_x + 1);
 	    strncpy(current->data + current_x, cutbuffer->data, buf_len);
-		/* Use strncpy() to not copy the terminal '\0'. */
+		/* Use strncpy() to not copy the null terminator. */
 
 	    current_x += buf_len;
 	    totsize += buf_len;
 
 	    placewewant = xplustabs();
-	    update_cursor();
-	} else {		/* yuck -- no kidding! */
+	} else {		/* Yuck -- no kidding! */
+	    char *tmpstr, *tmpstr2;
+
 	    tmp = current->next;
-	    /* New beginning */
+
+	    /* New beginning. */
 	    tmpstr = charalloc(current_x + strlen(newbuf->data) + 1);
 	    strncpy(tmpstr, current->data, current_x);
 	    strcpy(&tmpstr[current_x], newbuf->data);
 	    totsize += strlen(newbuf->data) + strlen(newend->data) + 1;
 
-	    /* New end */
+	    /* New end. */
 	    tmpstr2 = charalloc(strlen(newend->data) +
 			      strlen(&current->data[current_x]) + 1);
 	    strcpy(tmpstr2, newend->data);
@@ -401,35 +388,28 @@ int do_uncut_text(void)
 
 	    newend->next = tmp;
 
-	    /* If tmp isn't null, we're in the middle: update the
-	       prev pointer.  If it IS null, we're at the end; update
-	       the filebot pointer */
-
+	    /* If tmp isn't NULL, we're in the middle: update the
+	     * prev pointer.  If it IS NULL, we're at the end; update
+	     * the filebot pointer. */
 	    if (tmp != NULL)
 		tmp->prev = newend;
 	    else {
-		/* Fix the editbot pointer too */
-		if (editbot == filebot)
-		    editbot = newend;
 		filebot = newend;
 		new_magicline();
 	    }
 
-	    /* Now why don't we update the totsize also */
+	    /* Now why don't we update the totsize also? */
 	    for (tmp = current->next; tmp != newend; tmp = tmp->next)
 		totsize += strlen(tmp->data) + 1;
 
 	    current = newend;
-	    if (editbot->lineno < newend->lineno)
-		recenter_me = 1;
 	}
 
 	/* If marked cut == 2, that means that we're doing a cut to end
-	   and we don't want anything else on the line, so we have to
-	   screw up all the work we just did and separate the line.
-	   There must be a better way to do this, but not at 1AM on a
-	   work night. */
-
+	 * and we don't want anything else on the line, so we have to
+	 * screw up all the work we just did and separate the line.
+	 * There must be a better way to do this, but not at 1 AM on a
+	 * work night. */
 	if (marked_cut == 2) {
 	    tmp = make_new_node(current);
 	    tmp->data = mallocstrcpy(NULL, current->data + current_x);
@@ -439,7 +419,7 @@ int do_uncut_text(void)
 	    current_x = 0;
 	    placewewant = 0;
 
-	    /* Extra line added, update stuff */
+	    /* Extra line added; update stuff. */
 	    totlines++;
 	    totsize++;
 	}
@@ -451,41 +431,32 @@ int do_uncut_text(void)
 	dump_buffer(cutbuffer);
 #endif
 	set_modified();
-	if (recenter_me)
-	    edit_update(current, CENTER);
-	else
-	    edit_refresh();
+	edit_refresh();
 	return 0;
     }
 
-    if (fileptr != fileage) {
-	tmp = fileptr->prev;
+    if (current != fileage) {
+	tmp = current->prev;
 	tmp->next = newbuf;
 	newbuf->prev = tmp;
     } else
 	fileage = newbuf;
-    totlines++;		/* Unmarked uncuts don't split lines */
+    totlines++;		/* Unmarked uncuts don't split lines. */
 
     /* This is so uncutting at the top of the buffer will work => */
     if (current_y == 0)
 	edittop = newbuf;
 
-    /* Connect the end of the buffer to the filestruct */
-    newend->next = fileptr;
-    fileptr->prev = newend;
+    /* Connect the end of the buffer to the filestruct. */
+    newend->next = current;
+    current->prev = newend;
 
     /* Recalculate size *sigh* */
-    for (tmp = newbuf; tmp != fileptr; tmp = tmp->next)
+    for (tmp = newbuf; tmp != current; tmp = tmp->next)
 	totsize += strlen(tmp->data) + 1;
 
-    i = editbot->lineno;
     renumber(newbuf);
-    /* Center the screen if we've moved beyond the line numbers of both
-       the old and new editbots */
-    if (i < newend->lineno && editbot->lineno < newend->lineno)
-	edit_update(fileptr, CENTER);
-    else
-	edit_refresh();
+    edit_refresh();
 
 #ifdef DEBUG
     dump_buffer_reverse();

@@ -140,8 +140,7 @@ void update_color(void);
 /* Public functions in cut.c */
 filestruct *get_cutbottom(void);
 void add_to_cutbuffer(filestruct *inptr);
-void cut_marked_segment(filestruct *top, size_t top_x, filestruct *bot,
-                        size_t bot_x, int destructive);
+void cut_marked_segment(void);
 int do_cut_text(void);
 int do_uncut_text(void);
 
@@ -207,7 +206,7 @@ void sc_init_one(shortcut **shortcutage, int key, const char *desc,
 #ifndef DISABLE_HELP
 	const char *help,
 #endif
-	int alt, int func_key, int misc, int view, int (*func) (void));
+	int meta, int func_key, int misc, int view, int (*func) (void));
 #ifndef NANO_SMALL
 void toggle_init_one(int val, const char *desc, int flag);
 void toggle_init(void);

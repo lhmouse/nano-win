@@ -29,13 +29,26 @@ CVS code -
 	  shortcut display routines to handle them.  Also modify the
 	  shortcut list code to not treat non-control character values
 	  of val as Meta-sequences, and fix dependencies on that
-	  behavior. (DLR)
+	  behavior.  Also rename several variables: "alt" -> "meta",
+	  "altval" -> "metaval". (DLR)
 	- Hook up the verbatim input functions so that verbatim input
 	  can be used in the edit window.  New function
 	  do_verbatim_input(); changes to do_char(). (DLR)  Additional
 	  minor tweaks to do_char() by David Benbennick.
 	- Clarify the description of the --rebinddelete option. (DLR)
+- cut.c:
+	- Overhaul to increase efficiency and add various cleanups.
+	  Changes to add_to_cutbuffer(), cut_marked_segment(), and
+	  do_uncut_text(). (David Benbennick)
 - files.c:
+  check_operating_dir()
+	- Add an assert to ensure that full_operatingdir isn't NULL,
+	  a fix for reporting nonexistent (incomplete) directory names
+	  as being outside the operating directory when tab completion
+	  is being used, and cosmetic cleanups. (David Benbennick)
+  copy_file()
+	- New function containing part of the functionality formerly in
+	  do_writeout. (David Benbennick)
   do_writeout()
 	- Prompt the user if we're trying to save an existing file (and
 	  not just a selection of it) under a different name. (DLR;
@@ -56,6 +69,10 @@ CVS code -
 	- Convert to use the new low-level input functions. (DLR)
   main()
 	- Remove unused variable option_index. (DLR)
+	- Fix omission of NANO_NO_KEY in the shortcut list scanning
+	  code. (DLR)
+- nano.h:
+	- Comment additions and cosmetic tweaks. (DLR)
 - search.c:
   findnextstr(), do_replace_loop()
 	- Fix potential infinite loops and other misbehavior when doing
@@ -95,6 +112,9 @@ CVS code -
 	- Modify to take an extra parameter indicating if we should
 	  ungetch() the key equivalents of shortcuts we click on or not.
 	  (DLR)
+  nanogetstr()
+	- Properly interpret the Meta key value in misc if we hit it at
+	  the statusbar prompt. (DLR)
   do_yesno()
 	- Add a few efficiency/extensibility tweaks. (David Benbennick)
 	- Convert to use the new low-level input functions, and remove

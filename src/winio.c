@@ -1090,12 +1090,12 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		    fprintf(stderr, "Aha! \'%c\' (%d)\n", kbinput,
 			    kbinput);
 #endif
-		    if (meta == 1 && kbinput == t->altval)
-			/* We hit an Alt key.  Do like above.  We don't
-			   just ungetch() the letter and let it get
-			   caught above cause that screws the
-			   keypad... */
-			return t->altval;
+		    if (meta == 1 && (kbinput == t->metaval || kbinput == t->misc))
+			/* We hit a Meta key.  Do like above.  We don't
+			 * just ungetch() the letter and let it get
+			 * caught above cause that screws the
+			 * keypad... */
+			return kbinput;
 		}
 
 	    if (is_cntrl_char(kbinput))
@@ -1223,8 +1223,8 @@ void bottombars(const shortcut *s)
 		    strcpy(keystr, "^?");
 		else
 		    sprintf(keystr, "^%c", s->val + 64);
-	    } else if (s->altval != NANO_NO_KEY)
-		sprintf(keystr, "M-%c", toupper(s->altval));
+	    } else if (s->metaval != NANO_NO_KEY)
+		sprintf(keystr, "M-%c", toupper(s->metaval));
 
 	    onekey(keystr, s->desc, COLS / numcols);
 

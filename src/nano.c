@@ -403,7 +403,7 @@ void help_init(void)
 
     /* Now add our shortcut info */
     for (s = currshortcut; s != NULL; s = s->next) {
-	/* true if the character in s->altval is shown in first column */
+	/* true if the character in s->metaval is shown in first column */
 	int meta_shortcut = 0;
 
 	if (s->val != NANO_NO_KEY) {
@@ -420,12 +420,12 @@ void help_init(void)
 		ptr += sprintf(ptr, "^%c", s->val + 64);
 	}
 #ifndef NANO_SMALL
-	else if (s->altval != NANO_NO_KEY) {
+	else if (s->metaval != NANO_NO_KEY) {
 	    meta_shortcut = 1;
-	    if (s->altval == NANO_ALT_SPACE)
+	    if (s->metaval == NANO_ALT_SPACE)
 		ptr += snprintf(ptr, 8, "M-%.5s", _("Space"));
 	    else
-		ptr += sprintf(ptr, "M-%c", toupper(s->altval));
+		ptr += sprintf(ptr, "M-%c", toupper(s->metaval));
 	}
 #endif
 
@@ -436,8 +436,8 @@ void help_init(void)
 
 	*(ptr++) = '\t';
 
-	if (!meta_shortcut && s->altval != NANO_NO_KEY)
-	    ptr += sprintf(ptr, "(M-%c)", toupper(s->altval));
+	if (!meta_shortcut && s->metaval != NANO_NO_KEY)
+	    ptr += sprintf(ptr, "(M-%c)", toupper(s->metaval));
 	else if (meta_shortcut && s->misc != NANO_NO_KEY)
 	    ptr += sprintf(ptr, "(M-%c)", toupper(s->misc));
 
@@ -3516,10 +3516,10 @@ int main(int argc, char *argv[])
 	fprintf(stderr, "AHA!  %c (%d)\n", kbinput, kbinput);
 #endif
 	if (meta == 1) {
-	    /* Check for the altkey and misc defs... */
+	    /* Check for the metaval and misc defs... */
 	    for (s = main_list; s != NULL; s = s->next)
-		if ((s->altval > 0 && kbinput == s->altval) ||
-		    (s->misc > 0 && kbinput == s->misc)) {
+		if ((s->metaval != NANO_NO_KEY && kbinput == s->metaval) ||
+		    (s->misc != NANO_NO_KEY && kbinput == s->misc)) {
 		    if (ISSET(VIEW_MODE) && !s->viewok)
 			print_view_warning();
 		    else {
