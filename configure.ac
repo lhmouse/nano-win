@@ -60,8 +60,8 @@ int main(void)
 	AC_MSG_RESULT(yes)
 	AC_DEFINE(BROKEN_REGEXEC, 1, [Define this if your regexec() function segfaults when passed an empty string under certain conditions.]),
 	AC_MSG_RESULT([cross-compiling; assuming no])
+	)
     )
-)
 
 dnl options
 AC_ARG_ENABLE(debug, 
