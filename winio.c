@@ -1355,10 +1355,19 @@ void statusbar(const char *msg, ...)
     int start_x = 0;
     size_t foo_len;
 
+    va_start(ap, msg);
+
+    /* Curses mode is turned off.  If we use wmove() now, it will muck up
+       the terminal settings.  So we just use vfprintf(). */
+    if (curses_ended) {
+	vfprintf(stderr, msg, ap);
+	va_end(ap);
+	return;
+    }
+
     assert(COLS >= 4);
     foo = charalloc(COLS - 3);
 
-    va_start(ap, msg);
     vsnprintf(foo, COLS - 3, msg, ap);
     va_end(ap);
 

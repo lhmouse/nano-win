@@ -105,13 +105,11 @@ void die(const char *msg, ...)
 {
     va_list ap;
 
+    endwin();
+    curses_ended = TRUE;
+
     /* Restore the old term settings */
     tcsetattr(0, TCSANOW, &oldterm);
-
-    clear();
-    refresh();
-    resetty();
-    endwin();
 
     va_start(ap, msg);
     vfprintf(stderr, msg, ap);
@@ -2804,7 +2802,7 @@ void signal_init(void)
 /* Handler for SIGHUP and SIGTERM */
 RETSIGTYPE handle_hupterm(int signal)
 {
-    die(_("Received SIGHUP or SIGTERM"));
+    die(_("Received SIGHUP or SIGTERM\n"));
 }
 
 /* What do we do when we catch the suspend signal */

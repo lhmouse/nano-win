@@ -27,6 +27,9 @@ CVS Code -
 	  in syntax higlighting. (David Benbennick).
 	- Fix justify failing for certain lines, new function 
 	  nano.c:breakable() (David Benbennick).
+	- Fix screen getting trashed on signals nano can catch
+	  (TERM and HUP).  New global variable curses_ended, 
+	  changes to winio.c:statubar() and nano.c:die().
 - cut.c:
   do_cut_text()
 	- Fix incorrect cursor location when cutting long lines

@@ -115,6 +115,8 @@ extern historyheadtype search_history;
 extern historyheadtype replace_history;
 #endif
 
+extern int curses_ended;
+
 /* Functions we want available */
 
 /* Public functions in color.c */

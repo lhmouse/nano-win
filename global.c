@@ -147,6 +147,11 @@ regmatch_t regmatches[10];	/* Match positions for parenthetical
 				   subexpressions, max of 10 */
 #endif
 
+int curses_ended = FALSE;	/* Indicates to statusbar() to simply
+				 * write to stderr, since endwin() has
+				 * ended curses mode. */
+
+
 int length_of_list(const shortcut *s) 
 {
     int i = 0;

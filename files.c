@@ -1339,7 +1339,8 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 	statusbar(_("Cancelled"));
 	return -1;
     }
-    titlebar(NULL);
+    if (!tmp)
+	titlebar(NULL);
     fileptr = fileage;
 
     realname = real_dir_from_tilde(name);
