@@ -273,14 +273,13 @@ dnl Checks for functions
 AC_CHECK_FUNCS(snprintf vsnprintf strcasecmp strncasecmp)
 if test "x$ac_cv_func_snprintf" = "xno" -o "xac_cv_func_vsnprintf" = "xno"
 then
-	AM_PATH_GLIB(1.2.4,,
-	    [AC_MSG_ERROR([
+	AM_PATH_GLIB_2_0(2.0.0,,
+	    [AM_PATH_GLIB(1.2.4,,
+		[AC_MSG_ERROR([
 *** snprintf() and/or vsnprintf() not found.  GLIB not found either.
 *** You need both snprintf() and vsnprintf().  Alternatively you can
 *** install the GLIB library which can be found at ftp://ftp.gtk.org/.])],
-	    glib)
-	glib_cflags=`$GLIB_CONFIG --cflags glib`
-	glib_libs=`$GLIB_CONFIG --libs glib`
+		glib)])
 fi
 
 dnl Checks for typedefs, structures, and compiler characteristics.
@@ -338,13 +337,13 @@ LIBS="$LIBS $CURSES_LIB"
 
 AC_SUBST(CURSES_LIB)
 
-if test "x$glib_cflags" != "x"
+if test "x$GLIB_CFLAGS" != "x"
 then
-	CFLAGS="$CFLAGS $glib_cflags"
+	CFLAGS="$CFLAGS $GLIB_CFLAGS"
 fi
-if test "x$glib_libs" != "x"
+if test "x$GLIB_LIBS" != "x"
 then
-	LDFLAGS="$LDFLAGS $glib_libs"
+	LDFLAGS="$LDFLAGS $GLIB_LIBS"
 fi
 
 AC_CONFIG_FILES([
