@@ -3410,7 +3410,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 #ifndef DISABLE_MOUSE
     /* If we got a mouse click and it was on a shortcut, read in the
      * shortcut character. */
-    if (allow_funcs && func_key && input == KEY_MOUSE) {
+    if (allow_funcs && *func_key == TRUE && input == KEY_MOUSE) {
 	if (do_mouse())
 	    input = get_kbinput(edit, meta_key, func_key);
 	else
