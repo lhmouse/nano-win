@@ -886,24 +886,6 @@ void do_early_abort(void)
     blank_statusbar_refresh();
 }
 
-int page_up(void)
-{
-    wrap_reset();
-    current_x = 0;
-    placewewant = 0;
-
-    if (current == fileage)
-	return 0;
-
-    current_y = 0;
-    edit_update_bot(edittop);
-    update_cursor();
-
-    UNSET(KEEP_CUTBUFFER);
-    check_statblank();
-    return 1;
-}
-
 void delete_buffer(filestruct * inptr)
 {
     if (inptr != NULL) {

@@ -850,7 +850,7 @@ void edit_update_top(filestruct * fileptr)
     int i;
     filestruct *temp = fileptr;
 
-    if (fileptr->next == NULL || fileptr == NULL)
+    if (fileptr == NULL)
 	return;
 
     i = 0;

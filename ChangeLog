@@ -7,10 +7,16 @@ CVS code changes since last release -
 	  do_search() in search.c, globals in nano.h and
 	  shortcut_init() in global.c.
 	- changed 'sprintf' calls to safer 'snprintf'
+- move.c:
+  page_down():
+	- Fixed a bug that caused nano to not update when
+	  current->next == NULL (e.g. paging down to the very bottom of 
+	  ABOUT NLS wouldn't work).
 - nano.c:
 	- Removed dual alt_speller variables, oops! (Rocco Corsi)
 	- Removed unnecessary do_oldspell function (Rocco Corsi).  Added
 	  SMALL_NANO #ifdef around actual spell function.
+	- Moved page_up() to move.c where is belongs.
 - de.po:
 	- Revised translations by floki@bigfoot.com.
 - fi.po:
