@@ -344,8 +344,8 @@ bool inpar(const char *str);
 void do_para_end(void);
 filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 	quote_len);
-bool breakable(const char *line, int goal);
-int break_line(const char *line, int goal, bool force);
+bool breakable(const char *line, ssize_t goal);
+ssize_t break_line(const char *line, ssize_t goal, bool force);
 bool do_para_search(size_t *const quote, size_t *const par);
 void do_justify(bool full_justify);
 void do_justify_void(void);

@@ -34,22 +34,23 @@
 #include <limits.h>
 #endif
 
-/* Macros for the flags long... */
+/* Macros for the flags long. */
 #define SET(bit) flags |= bit
 #define UNSET(bit) flags &= ~bit
 #define ISSET(bit) ((flags & bit) != 0)
 #define TOGGLE(bit) flags ^= bit
 
-/* Define charalloc as a macro rather than duplicating code */
+/* Macros for character allocation. */
 #define charalloc(howmuch) (char *)nmalloc((howmuch) * sizeof(char))
 #define charealloc(ptr, howmuch) (char *)nrealloc(ptr, (howmuch) * sizeof(char))
 #define charmove(dest, src, n) memmove(dest, src, (n) * sizeof(char))
+
 #ifdef BROKEN_REGEXEC
 #define regexec(preg, string, nmatch, pmatch, eflags) regexec_safe(preg, string, nmatch, pmatch, eflags)
 #endif
 
 #ifndef NANO_SMALL
-/* For the backup file copy ... */
+/* For the backup file copy. */
 #define COPYFILEBLOCKSIZE 1024
 #endif
 

@@ -2137,7 +2137,7 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 }
 
 /* Is it possible to break line at or before goal? */
-bool breakable(const char *line, int goal)
+bool breakable(const char *line, ssize_t goal)
 {
     for (; *line != '\0' && goal >= 0; line++) {
 	if (isblank(*line))
@@ -2158,14 +2158,12 @@ bool breakable(const char *line, int goal)
  * such space, and force is TRUE, then we find the first space.  Anyway,
  * we then take the last space in that group of spaces.  The terminating
  * '\0' counts as a space. */
-int break_line(const char *line, int goal, bool force)
+int break_line(const char *line, ssize_t goal, bool force)
 {
-    /* Note that we use int instead of size_t, since goal is at most
-     * COLS, the screen width, which will always be reasonably small. */
-    int space_loc = -1;
+    ssize_t space_loc = -1;
 	/* Current tentative return value.  Index of the last space we
 	 * found with short enough display width.  */
-    int cur_loc = 0;
+    ssize_t cur_loc = 0;
 	/* Current index in line. */
 
     assert(line != NULL);
@@ -2391,7 +2389,7 @@ void do_justify(bool full_justify)
 	    size_t line_len;
 	    size_t display_len;
 		/* The width of current in screen columns. */
-	    int break_pos;
+	    ssize_t break_pos;
 		/* Where we will break the line. */
 
 	    /* We'll be moving to the next line after justifying the

@@ -312,8 +312,6 @@ AC_FUNC_VPRINTF
 AC_CHECK_FUNCS(getopt_long)
 
 dnl Checks for libraries.
-
-
 if eval "test x$CURSES_LIB_NAME = x"
 then
     AC_CHECK_HEADERS(curses.h ncurses.h)
@@ -349,7 +347,7 @@ fi
 
 AC_CHECK_LIB([$CURSES_LIB_NAME], use_default_colors, AC_DEFINE(HAVE_USE_DEFAULT_COLORS, 1, [Define this if your curses library has the use_default_colors command.]))
 
-dnl Parse any configure options
+dnl Parse any configure options.
 
 LIBS="$LIBS $CURSES_LIB"
 
