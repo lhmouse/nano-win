@@ -218,11 +218,6 @@ CVS code -
 	  current_x to current_x_save, only turn the mark off and call
 	  edit_refresh() if the mark was originally on, and make
 	  length_change a ssize_t. (DLR)
-	- If the mark is on when we start, skip over all matches not
-	  found inside the marked text, and break out if the only
-	  matches found are outside the marked text.  This allows
-	  replacing only marked text when the mark is on. (DLR,
-	  suggested by Joseph Birthisel)
 	- Return ssize_t instead of int. (DLR)
 	- Add new parameter canceled, set to TRUE if we canceled at the
 	  prompt and FALSE otherwise. (DLR)

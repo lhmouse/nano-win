@@ -1467,8 +1467,7 @@ bool do_int_spell_fix(const char *word)
     placewewant = 0;
 
     /* Find the first whole-word occurrence of word. */
-    while (findnextstr(TRUE, TRUE, FALSE, fileage, 0, word, NULL,
-	NULL)) {
+    while (findnextstr(TRUE, TRUE, FALSE, fileage, 0, word, NULL)) {
 	if (is_whole_word(current_x, current->data, word)) {
 	    edit_refresh();
 
