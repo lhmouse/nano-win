@@ -36,7 +36,8 @@ General
 	  the Alt-Alt-x code.
   help_init()
 	- Fix off by one error that was making ^G help in normal mode and
-	  ^_ in pico mode not be displayed in the help.
+	  ^_ in pico mode not be displayed in the help (bug discovered by
+	  Rocco Corsi).
 - nano.1, nano.1.html:
 	- Updated man page for -b, -e, -f and expanded explanation for -p.
 - utils.c:
