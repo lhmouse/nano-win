@@ -2473,8 +2473,6 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 
     currshortcut = s;
 
-    /* Get the input! */
-
     nanoget_repaint(buf, answer, statusbar_x);
 
     /* Refresh the edit window before getting input. */
@@ -2619,6 +2617,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 #endif
 	    break;
 	}
+
 #ifndef NANO_SMALL
 	last_kbinput = kbinput;
 #endif
@@ -2640,7 +2639,8 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
  * otherwise, the valid shortcut key caught.  def is any editable text
  * we want to put up by default.
  *
- * New arg tabs tells whether or not to allow tab completion. */
+ * The allow_tabs parameter tells whether or not to allow tab
+ * completion. */
 int statusq(bool allow_tabs, const shortcut *s, const char *def,
 #ifndef NANO_SMALL
 		historyheadtype *which_history,
@@ -2690,9 +2690,9 @@ int statusq(bool allow_tabs, const shortcut *s, const char *def,
 #endif
 
 #ifndef DISABLE_TABCOMP
-	/* if we've done tab completion, there might be a list of
-	   filename matches on the edit window at this point; make sure
-	   they're cleared off. */
+	/* If we've done tab completion, there might be a list of
+	 * filename matches on the edit window at this point.  Make sure
+	 * that they're cleared off. */
 	if (list)
 	    edit_refresh();
 #endif
