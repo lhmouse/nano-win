@@ -2481,7 +2481,7 @@ int do_justify(int full_justify)
 		quote_len; 
 
 	    /* justify_format() removes excess spaces from the line, and
-	     * changes tabs to spaces.  The first argument, 0, means
+	     * changes tabs to spaces.  The first argument, FALSE, means
 	     * don't change the line, just say whether there are changes
 	     * to be made.  If there are, we do backup_lines(), which
 	     * copies the original paragraph to the cutbuffer for
