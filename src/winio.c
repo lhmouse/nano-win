@@ -184,6 +184,10 @@ void get_buffer(WINDOW *win)
 
     /* Switch back to non-blocking input. */
     nodelay(win, FALSE);
+
+#ifdef DEBUG
+    fprintf(stderr, "get_buffer(): key_buffer_len = %lu\n", (unsigned long)key_buffer_len);
+#endif
 }
 
 /* Return the length of the default keystroke buffer. */
