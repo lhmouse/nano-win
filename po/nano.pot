@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-09-02 13:45-0400\n"
+"POT-Creation-Date: 2000-09-02 14:48-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -120,7 +120,7 @@ msgid "Suspend"
 msgstr ""
 
 #: global.c:121
-msgid "No help mode"
+msgid "Help mode"
 msgstr ""
 
 #: global.c:122
@@ -140,7 +140,7 @@ msgid "Regular expressions"
 msgstr ""
 
 #: global.c:126
-msgid "No auto wrap"
+msgid "Auto wrap"
 msgstr ""
 
 #: global.c:166
@@ -675,24 +675,24 @@ msgstr ""
 msgid "Cannot move bottom win"
 msgstr ""
 
-#: nano.c:1806
+#: nano.c:1818
 msgid "Main: set up windows\n"
 msgstr ""
 
-#: nano.c:1821
+#: nano.c:1833
 msgid "Main: bottom win\n"
 msgstr ""
 
-#: nano.c:1827
+#: nano.c:1839
 msgid "Main: open file\n"
 msgstr ""
 
-#: nano.c:1895
+#: nano.c:1907
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:1921
+#: nano.c:1933
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr ""

@@ -1595,11 +1595,23 @@ void help_init(void)
 void do_toggle(int which)
 {
 #ifndef NANO_SMALL
+    char *enabled = "enabled";
+    char *disabled = "disabled";
+
+
     if (ISSET(toggles[which].flag)) {
-	statusbar("%s %s", toggles[which].desc, "disabled");
+	if (toggles[which].val == TOGGLE_NOHELP_KEY ||
+	   toggles[which].val == TOGGLE_WRAP_KEY)
+	    statusbar("%s %s", toggles[which].desc, enabled);
+	else
+	    statusbar("%s %s", toggles[which].desc, disabled);
 	UNSET(toggles[which].flag);
     } else {
-	statusbar("%s %s", toggles[which].desc, "enabled");
+	if (toggles[which].val == TOGGLE_NOHELP_KEY ||
+	   toggles[which].val == TOGGLE_WRAP_KEY)
+	    statusbar("%s %s", toggles[which].desc, disabled);
+	else
+	    statusbar("%s %s", toggles[which].desc, enabled);
 	SET(toggles[which].flag);
     }
     switch (toggles[which].val) {

@@ -118,12 +118,12 @@ void toggle_init(void)
     toggle_const_msg = _("Constant cursor position");
     toggle_autoindent_msg = _("Autoindent");
     toggle_suspend_msg = _("Suspend");
-    toggle_nohelp_msg = _("No help mode");
+    toggle_nohelp_msg = _("Help mode");
     toggle_picomode_msg = _("Pico messages");
     toggle_mouse_msg = _("Mouse support");
     toggle_cuttoend_msg = _("Cut to end");
     toggle_regexp_msg = _("Regular expressions");  
-    toggle_wrap_msg = _("No auto wrap");
+    toggle_wrap_msg = _("Auto wrap");
 
     toggle_init_one(&toggles[0], TOGGLE_CONST_KEY, toggle_const_msg, 
 	CONSTUPDATE);

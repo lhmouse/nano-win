@@ -14,11 +14,18 @@ CVS Code
 	  functions.  Thanks Mini editor team :->
 	- Changed last_search and last_replace vars to statically 
 	  allocated (hence nulled) and moved to search.c (Matt Kraai).
+- global.c:
+  toggle_init()
+	- Changed "No auto wrap" and "No help mode" to "Auto wrap" and 
+	  "Help mode". See the change to do_toggle() below.
 - nano.c:
   do_mouse()
 	- Patch for handling lines w/tabs and mouse better (Ben Roberts).
   do_wrap()
 	- Made wrapping code less ambitious.
+  do_toggle()
+	- Added checks for no help and no wrap mode, and print opposite
+	  enable/disable message.
 - winio.c:
   total_refresh()
 	- Added edit_refresh() call to actually update the screen if messy.
