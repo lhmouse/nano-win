@@ -211,6 +211,8 @@ CVS Code -
 	  can be treated separately from -r/-T string. (DLR)
 	- Fix so that Esc-Esc-Space is properly treated as Ctrl-Space.
 	  (DLR)
+- nano.h:
+	- Fix some space/tab formatting for flags (DLR).
 - proto.h:
 	- Remove external declaration of the global int fill, since
 	  it's now static. (DLR)
