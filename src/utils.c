@@ -352,8 +352,8 @@ void new_magicline(void)
 #ifndef NANO_SMALL
 /* Set top_x and bot_x to the top and bottom x-coordinates of the mark,
  * respectively, based on the locations of top and bot. */
-void mark_order(const filestruct **top, size_t *top_x,
-		const filestruct **bot, size_t *bot_x)
+void mark_order(const filestruct **top, size_t *top_x, const filestruct
+	**bot, size_t *bot_x)
 {
     assert(top != NULL && top_x != NULL && bot != NULL && bot_x != NULL);
     if ((current->lineno == mark_beginbuf->lineno && current_x > mark_beginx)

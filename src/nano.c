@@ -504,7 +504,8 @@ filestruct *copy_node(const filestruct *src)
 }
 
 /* Splice a node into an existing filestruct. */
-void splice_node(filestruct *begin, filestruct *newnode, filestruct *end)
+void splice_node(filestruct *begin, filestruct *newnode, filestruct
+	*end)
 {
     if (newnode != NULL) {
 	newnode->next = end;
@@ -606,8 +607,8 @@ void renumber(filestruct *fileptr)
 /* Print one usage string to the screen, removes lots of duplicate 
  * strings to translate and takes out the parts that shouldn't be 
  * translatable (the flag names). */
-void print1opt(const char *shortflag, const char *longflag,
-		const char *desc)
+void print1opt(const char *shortflag, const char *longflag, const char
+	*desc)
 {
     printf(" %s\t", shortflag);
     if (strlen(shortflag) < 8)

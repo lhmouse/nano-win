@@ -1069,8 +1069,8 @@ int get_escape_seq_abcd(int kbinput)
 /* Read in a string of input characters (e.g. an escape sequence)
  * verbatim.  Store the string in v_kbinput and return the length
  * of the string in v_len.  Assume nodelay(win) is FALSE. */
-int *get_verbatim_kbinput(WINDOW *win, int *v_kbinput, size_t
-	*v_len, int allow_ascii)
+int *get_verbatim_kbinput(WINDOW *win, int *v_kbinput, size_t *v_len,
+	int allow_ascii)
 {
     int kbinput;
     size_t i = 0, v_newlen = 0;

@@ -42,9 +42,9 @@ CVS code -
   do_exit()
 	- Tweak for efficiency. (David Benbennick)
 - proto.h:
-	- Change the last variables in the prototypes for do_justify()
-	  and get_mouseinput() to match the ones used in the actual
-	  functions. (DLR)
+	- Change the variables in the prototypes for do_justify(),
+	  get_verbatim_kbinput(), and get_mouseinput() to match the ones
+	  used in the actual functions. (DLR)
 	- Remove unused declaration of temp_opt. (David Benbennick)
 - rcfile.c:
   parse_rcfile()

@@ -165,7 +165,8 @@ void do_insertfile(int loading_file);
 void do_insertfile_void(void);
 #ifdef ENABLE_MULTIBUFFER
 openfilestruct *make_new_opennode(openfilestruct *prevnode);
-void splice_opennode(openfilestruct *begin, openfilestruct *newnode, openfilestruct *end);
+void splice_opennode(openfilestruct *begin, openfilestruct *newnode,
+	openfilestruct *end);
 void unlink_opennode(const openfilestruct *fileptr);
 void delete_opennode(openfilestruct *fileptr);
 void free_openfilestruct(openfilestruct *src);
@@ -202,7 +203,8 @@ char *real_dir_from_tilde(const char *buf);
 int append_slash_if_dir(char *buf, int *lastwastab, int *place);
 char **username_tab_completion(char *buf, int *num_matches);
 char **cwd_tab_completion(char *buf, int *num_matches);
-char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list);
+char *input_tab(char *buf, int place, int *lastwastab, int *newplace,
+	int *list);
 #endif
 const char *tail(const char *foo);
 #ifndef DISABLE_BROWSER
@@ -266,15 +268,16 @@ void help_init(void);
 #endif
 filestruct *make_new_node(filestruct *prevnode);
 filestruct *copy_node(const filestruct *src);
-void splice_node(filestruct *begin, filestruct *newnode, filestruct *end);
+void splice_node(filestruct *begin, filestruct *newnode, filestruct
+	*end);
 void unlink_node(const filestruct *fileptr);
 void delete_node(filestruct *fileptr);
 filestruct *copy_filestruct(const filestruct *src);
 void free_filestruct(filestruct *src);
 void renumber_all(void);
 void renumber(filestruct *fileptr);
-void print1opt(const char *shortflag, const char *longflag,
-		const char *desc);
+void print1opt(const char *shortflag, const char *longflag, const char
+	*desc);
 void usage(void);
 void version(void);
 int no_help(void);
@@ -466,8 +469,8 @@ void *nrealloc(void *ptr, size_t howmuch);
 char *mallocstrcpy(char *dest, const char *src);
 void new_magicline(void);
 #ifndef NANO_SMALL
-void mark_order(const filestruct **top, size_t *top_x,
-		const filestruct **bot, size_t *bot_x);
+void mark_order(const filestruct **top, size_t *top_x, const filestruct
+	**bot, size_t *bot_x);
 #endif
 #ifndef DISABLE_TABCOMP
 int check_wildcard_match(const char *text, const char *pattern);
@@ -492,8 +495,8 @@ int get_control_kbinput(int kbinput);
 int get_escape_seq_kbinput(int *escape_seq, size_t es_len, int
 	*ignore_seq);
 int get_escape_seq_abcd(int kbinput);
-int *get_verbatim_kbinput(WINDOW *win, int *verbatim_kbinput, size_t
-	*verbatim_len, int allow_ascii);
+int *get_verbatim_kbinput(WINDOW *win, int *v_kbinput, size_t *v_len,
+	int allow_ascii);
 int get_untranslated_kbinput(int kbinput, size_t position, int
 	allow_ascii
 #ifndef NANO_SMALL
