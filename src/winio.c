@@ -2224,7 +2224,7 @@ void statusq_abort(void)
 
 void titlebar(const char *path)
 {
-    size_t space;
+    int space;
 	/* The space we have available for display. */
     size_t verlen = strlen(VERMSG) + 1;
 	/* The length of the version message. */
