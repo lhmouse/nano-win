@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-07-24 17:53-0400\n"
+"POT-Creation-Date: 2000-07-24 18:10-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,7 +55,7 @@ msgstr ""
 msgid "File to insert [from ./] "
 msgstr ""
 
-#: files.c:272 files.c:296 files.c:483 nano.c:1147
+#: files.c:272 files.c:296 files.c:486 nano.c:1147
 msgid "Cancelled"
 msgstr ""
 
@@ -94,16 +94,16 @@ msgstr ""
 msgid "Wrote %d lines"
 msgstr ""
 
-#: files.c:462
+#: files.c:465
 msgid "File Name to write"
 msgstr ""
 
-#: files.c:467
+#: files.c:470
 #, c-format
 msgid "filename is %s"
 msgstr ""
 
-#: files.c:472
+#: files.c:475
 msgid "File exists, OVERWRITE ?"
 msgstr ""
 

@@ -452,8 +452,11 @@ int do_writeout(int exiting)
 	}
 	else
 	{
-	   UNSET(TEMP_OPT);
-	   return do_exit();
+	    UNSET(TEMP_OPT);
+	    do_exit();
+
+	    /* They cancelled, abort quit */
+	    return -1;
 	}
     }
 
