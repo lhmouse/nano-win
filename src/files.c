@@ -3006,8 +3006,8 @@ void save_history(void)
 		}
 	    }
 	    if (fputs("\n", hist) == EOF) {
-		    rcfile_error(N_("Error writing %s: %s"), nanohist, strerror(errno));
-		    goto come_from;
+		rcfile_error(N_("Error writing %s: %s"), nanohist, strerror(errno));
+		goto come_from;
 	    }
 	    for (h = replace_history.tail; h->prev; h = h->prev) {
 		h->data = charealloc(h->data, strlen(h->data) + 2);
