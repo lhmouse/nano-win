@@ -3643,7 +3643,7 @@ void do_output(int *kbinput, size_t kbinput_len)
 
 	/* More dangerousness fun =) */
 	current->data = charealloc(current->data,
-		current_len + key_len + 1);
+		current_len + key_len + 2);
 
 	assert(current_x <= current_len);
 
