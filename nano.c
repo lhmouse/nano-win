@@ -685,6 +685,10 @@ void do_char(char ch)
     current->data[current_x] = ch;
     do_right();
 
+#ifdef ENABLE_COLOR
+    edit_refresh();
+#endif
+
 #ifndef DISABLE_WRAPPING
     if (!ISSET(NO_WRAP) && (ch != '\t'))
 	check_wrap(current, ch);

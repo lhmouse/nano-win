@@ -26,6 +26,9 @@ CVS code -
   main()
 	- Check that alt value is an alpha char before comparing to 
 	  val - 32, fixes Alt-R calling doprev instead of replace.
+  do_char()
+	- Run edit_refresh() if ENABLE_COLOR is defined so adding
+	  multi-liners will update (e.g. /* in C).
   do_suspend()
 	- Call tcsetattr() to restore the old terminal settings, so
 	  tcsh can use ^C after suspend for example (fixes BUG #68).
