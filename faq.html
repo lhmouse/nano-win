@@ -59,8 +59,11 @@ bucky/meta key doesn't seem to work!&nbsp; What can I do?</a></font>
 my window.&nbsp;&nbsp; How can I fix that?</a></font>
 <br><font color="#330000"><a href="#4.4">4.4. Why does nano show ^\ and
 ^_ in the shortcut list instead of ^G and ^J?</a></font>
-<br><a href="#4.5">4.5 How do I make nano my default editor (in Pine, mutt,
-etc.)?</a></blockquote>
+<br><font color="#330000"><a href="#4.5">4.5. When I type in a
+search string, the string I last searched for is already in front of
+my cursor!  !What happened?!</a></font>
+<br><a href="#4.6">4.6 How do I make nano my default editor (in Pine,
+mutt, etc.)?</a></blockquote>
 
 <h2>
 <font color="#330000"><a href="#5">5. Internationalization</a></font></h2>
@@ -369,8 +372,21 @@ shortcut list.&nbsp;&nbsp; If you use the <b>-p</b> option to nano you
 will get the same shortcuts at the bottom as Pico.</font></blockquote>
 
 <h2>
-<a NAME="4.5"></a>4.5 How do I make nano my default editor (in Pine, mutt,
-etc)?</h2>
+<a name="4.5"><font color="#330000">4.5. When I type in a search
+string, the string I last searched for is already in front of my
+cursor!  !What happened?!</font></h2>
+
+<blockquote><font color="#330000">In nano version 0.9.20, the default is
+to have a completely consistent user interface across all user input
+functions.  This means that regardless of whether you're being asked for
+a filename to insert or write, or a string to search for, the string you
+previously entered is already inserted before the cursor.  If you
+prefer the old behavior, use the pico emulation mode (-p or --pico) or
+just hit Meta-P while in nano (see the ^G help text for more details).
+
+<h2>
+<a NAME="4.6"></a>4.6. How do I make nano my default editor (in Pine,
+mutt, etc)?</h2>
 
 <blockquote>You need to make nano your $EDITOR.&nbsp; If you want this
 to be saved, you should put a line like this in your <b>.bashrc</b> if
