@@ -37,7 +37,8 @@ CVS code -
 	  while keeping the ability to hold negative numbers in case of
 	  errors.  Also exit instead of calling usage() in the event of
 	  an invalid fill value, for consistency with how an invalid
-	  tabsize value is handled.
+	  tabsize value is handled.  Finally, handle invalid tabsize
+	  entries in the rcfile the same way as on the command line.
 	- Remove several unnecessary reset_cursor() calls. (David
 	  Benbennick)
 	- Include <sys/types.h> in proto.h. (David Benbennick)  DLR:

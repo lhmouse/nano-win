@@ -210,10 +210,10 @@ int colortoint(const char *colorname, int *bright)
 	mcolor = COLOR_BLACK;
     else {
 	rcfile_error(N_("Color %s not understood.\n"
-			"Valid colors are \"green\", \"red\", \"blue\", \n"
-			"\"white\", \"yellow\", \"cyan\", \"magenta\" and \n"
-			"\"black\", with the optional prefix \"bright\" \n"
-			"for foreground colors.\n"), colorname);
+		"Valid colors are \"green\", \"red\", \"blue\", \n"
+		"\"white\", \"yellow\", \"cyan\", \"magenta\" and \n"
+		"\"black\", with the optional prefix \"bright\" \n"
+		"for foreground colors.\n"), colorname);
 	mcolor = -1;
     }
     return mcolor;
@@ -268,8 +268,7 @@ void parse_syntax(char *ptr)
 	return;
 
     if (*ptr != '"') {
-	rcfile_error(
-		N_("Regex strings must begin and end with a \" character\n"));
+	rcfile_error(N_("Regex strings must begin and end with a \" character\n"));
 	return;
     }
     ptr++;
@@ -356,8 +355,7 @@ void parse_colors(char *ptr)
 	strtok(fgstr, ",");
 	bgcolorname = strtok(NULL, ",");
 	if (!strncasecmp(bgcolorname, "bright", 6)) {
-	    rcfile_error(N_("Background color %s cannot be bright"),
-		bgcolorname);
+	    rcfile_error(N_("Background color %s cannot be bright"), bgcolorname);
 	    return;
 	}
 	bg = colortoint(bgcolorname, &bright);
@@ -400,8 +398,7 @@ void parse_colors(char *ptr)
 	}
 
 	if (*ptr != '"') {
-	    rcfile_error(
-		N_("Regex strings must begin and end with a \" character\n"));
+	    rcfile_error(N_("Regex strings must begin and end with a \" character\n"));
 	    ptr = parse_next_regex(ptr);
 	    continue;
 	}
@@ -439,16 +436,14 @@ void parse_colors(char *ptr)
 
 	if (expectend) {
 	    if (ptr == NULL || strncasecmp(ptr, "end=", 4)) {
-		rcfile_error(
-			N_("\"start=\" requires a corresponding \"end=\""));
+		rcfile_error(N_("\"start=\" requires a corresponding \"end=\""));
 		return;
 	    }
 
 	    ptr += 4;
 
 	    if (*ptr != '"') {
-		rcfile_error(
-			N_("Regex strings must begin and end with a \" character\n"));
+		rcfile_error(N_("Regex strings must begin and end with a \" character\n"));
 		continue;
 	    }
 	    ptr++;
@@ -551,9 +546,7 @@ void parse_rcfile(FILE *rcstream)
 #endif
 				) {
 			    if (*ptr == '\n' || *ptr == '\0') {
-				rcfile_error(
-					N_("Option %s requires an argument"),
-					rcopts[i].name);
+				rcfile_error(N_("Option %s requires an argument"), rcopts[i].name);
 				continue;
 			    }
 			    option = ptr;
@@ -571,9 +564,7 @@ void parse_rcfile(FILE *rcstream)
 #ifndef DISABLE_WRAPJUSTIFY
 			    if (!strcasecmp(rcopts[i].name, "fill")) {
 				if (parse_num(option, &wrap_at) == -1)
-				    rcfile_error(
-					N_("Requested fill size %s invalid"),
-					option);
+				    rcfile_error(N_("Requested fill size %s invalid"), option);
 			    } else
 #endif
 #ifndef NANO_SMALL
@@ -582,8 +573,7 @@ void parse_rcfile(FILE *rcstream)
 				whitespace = mallocstrcpy(NULL, option);
 				ws_len = strlen(whitespace);
 				if (ws_len != 2 || (ws_len == 2 && (is_cntrl_char(whitespace[0]) || is_cntrl_char(whitespace[1])))) {
-				    rcfile_error(
-					N_("Two non-control characters required"));
+				    rcfile_error(N_("Two non-control characters required"));
 				    free(whitespace);
 				    whitespace = NULL;
 				}
@@ -593,16 +583,14 @@ void parse_rcfile(FILE *rcstream)
 			    if (!strcasecmp(rcopts[i].name, "punct")) {
 				punct = mallocstrcpy(NULL, option);
 				if (strchr(punct, '\t') != NULL || strchr(punct, ' ') != NULL) {
-				    rcfile_error(
-					N_("Non-tab and non-space characters required"));
+				    rcfile_error(N_("Non-tab and non-space characters required"));
 				    free(punct);
 				    punct = NULL;
 				}
 			    } else if (!strcasecmp(rcopts[i].name, "brackets")) {
 				brackets = mallocstrcpy(NULL, option);
 				if (strchr(brackets, '\t') != NULL || strchr(brackets, ' ') != NULL) {
-				    rcfile_error(
-					N_("Non-tab and non-space characters required"));
+				    rcfile_error(N_("Non-tab and non-space characters required"));
 				    free(brackets);
 				    brackets = NULL;
 				}
@@ -621,10 +609,9 @@ void parse_rcfile(FILE *rcstream)
 			    else
 #endif
 			    if (!strcasecmp(rcopts[i].name, "tabsize")) {
-				if (parse_num(option, &tabsize) == -1)
-				    rcfile_error(
-					N_("Requested tab size %s invalid"),
-					option);
+				if (parse_num(option, &tabsize) == -1 ||
+					tabsize <= 0)
+				    rcfile_error(N_("Requested tab size %s invalid"), option);
 			    }
 			} else
 			    SET(rcopts[i].flag);
@@ -698,8 +685,7 @@ void do_rcfile(void)
 	if ((rcstream = fopen(nanorc, "r")) == NULL) {
 	    /* Don't complain about the file not existing */
 	    if (errno != ENOENT) {
-		rcfile_error(N_("Unable to open ~/.nanorc file, %s"),
-			strerror(errno));
+		rcfile_error(N_("Unable to open ~/.nanorc file: %s"), strerror(errno));
 		SET(NO_RCFILE);
 	    }
 	} else {

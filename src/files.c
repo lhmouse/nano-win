@@ -1535,8 +1535,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 		utime(backupname, &filetime) == -1) {
 	    free(backupname);
 	    if (copy_status == -1)
-		statusbar(_("Error reading %s: %s"), realname,
-			strerror(errno));
+		statusbar(_("Error reading %s: %s"), realname, strerror(errno));
 	    else
 		statusbar(_("Error writing %s: %s"), backupname,
 			strerror(errno));
@@ -2694,14 +2693,16 @@ char *do_browser(const char *inpath)
 	     * directory if it is .. or if it is a symlink to 
 	     * directory outside the operating directory. */
 	    if (check_operating_dir(filelist[selected], FALSE) != 0) {
-		statusbar(_("Can't go outside of %s in restricted mode"), operating_dir);
+		statusbar(_("Can't go outside of %s in restricted mode"),
+			operating_dir);
 		beep();
 		break;
 	    }
 #endif
 
 	    if (stat(filelist[selected], &st) == -1) {
-		statusbar(_("Can't open \"%s\": %s"), filelist[selected], strerror(errno));
+		statusbar(_("Can't open \"%s\": %s"), filelist[selected],
+			strerror(errno));
 		beep();
 		break;
 	    }
@@ -2728,7 +2729,8 @@ char *do_browser(const char *inpath)
 
 	    if (!readable_dir(new_path)) {
 		/* We can't open this dir for some reason.  Complain */
-		statusbar(_("Can't open \"%s\": %s"), new_path, strerror(errno));
+		statusbar(_("Can't open \"%s\": %s"), new_path,
+			strerror(errno));
 		free(new_path);
 		break;
 	    }
@@ -2953,8 +2955,7 @@ void load_history(void)
             if (errno != ENOENT) {
 		/* Don't save history when we quit. */
 		UNSET(HISTORYLOG);
-		rcfile_error(N_("Unable to open ~/.nano_history file: %s"),
-			strerror(errno));
+		rcfile_error(N_("Unable to open ~/.nano_history file: %s"), strerror(errno));
 	    }
 	    free(nanohist);
 	} else {
@@ -3003,10 +3004,9 @@ void save_history(void)
 
     if (homenv != NULL || userage != NULL) {
 	hist = fopen(nanohist, "wb");
-	if (hist == NULL) {
-	    rcfile_error(N_("Unable to write ~/.nano_history file: %s"),
-		strerror(errno));
-	} else {
+	if (hist == NULL)
+	    rcfile_error(N_("Unable to write ~/.nano_history file: %s"), strerror(errno));
+	else {
 	    /* set rw only by owner for security ?? */
 	    chmod(nanohist, S_IRUSR | S_IWUSR);
 	    /* write oldest first */
@@ -3014,25 +3014,19 @@ void save_history(void)
 		h->data = charealloc(h->data, strlen(h->data) + 2);
 		strcat(h->data, "\n");
 		if (fputs(h->data, hist) == EOF) {
-		    rcfile_error(
-			N_("Unable to write ~/.nano_history file: %s"),
-			strerror(errno));
+		    rcfile_error(N_("Unable to write ~/.nano_history file: %s"), strerror(errno));
 		    goto come_from;
 		}
 	    }
 	    if (fputs("\n", hist) == EOF) {
-		    rcfile_error(
-			N_("Unable to write ~/.nano_history file: %s"),
-			strerror(errno));
+		    rcfile_error(N_("Unable to write ~/.nano_history file: %s"), strerror(errno));
 		    goto come_from;
 	    }
 	    for (h = replace_history.tail; h->prev; h = h->prev) {
 		h->data = charealloc(h->data, strlen(h->data) + 2);
 		strcat(h->data, "\n");
 		if (fputs(h->data, hist) == EOF) {
-		    rcfile_error(
-			N_("Unable to write ~/.nano_history file: %s"),
-			strerror(errno));
+		    rcfile_error(N_("Unable to write ~/.nano_history file: %s"), strerror(errno));
 		    goto come_from;
 		}
 	    }
