@@ -1,6 +1,9 @@
 CVS Code -
 - General:
 	- Translation updates (see po/ChangeLog for details).
+- global.c:
+  shortcut_init()
+	- Rework IFHELP macro (David Benbennick).
 
 GNU nano 1.1.9 - 05/12/2002
 - General:

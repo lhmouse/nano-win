@@ -398,39 +398,39 @@ void shortcut_init(int unjustify)
 #endif
 
     sc_init_one(&main_list, NANO_HELP_KEY, _("Get Help"),
-		IFHELP(nano_help_msg,) 0, NANO_HELP_FKEY, 0, VIEW,
+		IFHELP(nano_help_msg, 0), NANO_HELP_FKEY, 0, VIEW,
 		do_help);
 
 #ifdef ENABLE_MULTIBUFFER
     if (open_files != NULL && (open_files->prev || open_files->next))
 	sc_init_one(&main_list, NANO_EXIT_KEY, _("Close"),
-		IFHELP(nano_exit_msg,) 0, NANO_EXIT_FKEY, 0, VIEW,
+		IFHELP(nano_exit_msg, 0), NANO_EXIT_FKEY, 0, VIEW,
 		do_exit);
     else
 #endif
 	sc_init_one(&main_list, NANO_EXIT_KEY, _("Exit"),
-		IFHELP(nano_exit_msg,) 0, NANO_EXIT_FKEY, 0, VIEW,
+		IFHELP(nano_exit_msg, 0), NANO_EXIT_FKEY, 0, VIEW,
 		do_exit);
 
     sc_init_one(&main_list, NANO_WRITEOUT_KEY, _("WriteOut"),
-		    IFHELP(nano_writeout_msg,)
-		    0, NANO_WRITEOUT_FKEY, 0, NOVIEW, do_writeout_void);
+		    IFHELP(nano_writeout_msg, 0),
+		    NANO_WRITEOUT_FKEY, 0, NOVIEW, do_writeout_void);
 
     if (ISSET(PICO_MODE))
 	sc_init_one(&main_list, NANO_JUSTIFY_KEY, _("Justify"),
-		    IFHELP(nano_justify_msg,) 0, NANO_JUSTIFY_FKEY, 0,
+		    IFHELP(nano_justify_msg, 0), NANO_JUSTIFY_FKEY, 0,
 		    NOVIEW, do_justify);
     else
 
 #ifdef ENABLE_MULTIBUFFER
 	/* this is so we can view multiple files */
 	sc_init_one(&main_list, NANO_INSERTFILE_KEY, _("Read File"),
-		IFHELP(nano_insert_msg,)
-		0, NANO_INSERTFILE_FKEY, 0, VIEW, do_insertfile_void);
+		IFHELP(nano_insert_msg, 0),
+		NANO_INSERTFILE_FKEY, 0, VIEW, do_insertfile_void);
 #else
 	sc_init_one(&main_list, NANO_INSERTFILE_KEY, _("Read File"),
-		IFHELP(nano_insert_msg,)
-		0, NANO_INSERTFILE_FKEY, 0, NOVIEW, do_insertfile_void);
+		IFHELP(nano_insert_msg, 0),
+		NANO_INSERTFILE_FKEY, 0, NOVIEW, do_insertfile_void);
 #endif
 
     if (ISSET(PICO_MODE))
@@ -438,384 +438,337 @@ void shortcut_init(int unjustify)
 #ifdef ENABLE_MULTIBUFFER
 	/* this is so we can view multiple files */
 	sc_init_one(&main_list, NANO_INSERTFILE_KEY, _("Read File"),
-		IFHELP(nano_insert_msg,)
-		0, NANO_INSERTFILE_FKEY, 0, VIEW, do_insertfile_void);
+		IFHELP(nano_insert_msg, 0),
+		NANO_INSERTFILE_FKEY, 0, VIEW, do_insertfile_void);
 #else
 	sc_init_one(&main_list, NANO_INSERTFILE_KEY, _("Read File"),
-		IFHELP(nano_insert_msg,)
-		0, NANO_INSERTFILE_FKEY, 0, NOVIEW, do_insertfile_void);
+		IFHELP(nano_insert_msg, 0),
+		NANO_INSERTFILE_FKEY, 0, NOVIEW, do_insertfile_void);
 #endif
 
     else
 	sc_init_one(&main_list, NANO_REPLACE_KEY, _("Replace"),
-		    IFHELP(nano_replace_msg,)
-		    NANO_ALT_REPLACE_KEY, NANO_REPLACE_FKEY, 0, NOVIEW, do_replace);
+		    IFHELP(nano_replace_msg, NANO_ALT_REPLACE_KEY),
+		    NANO_REPLACE_FKEY, 0, NOVIEW, do_replace);
 
     sc_init_one(&main_list, NANO_WHEREIS_KEY, _("Where Is"),
-		IFHELP(nano_whereis_msg,)
-		0, NANO_WHEREIS_FKEY, 0, VIEW, do_search);
+		IFHELP(nano_whereis_msg, 0),
+		NANO_WHEREIS_FKEY, 0, VIEW, do_search);
 
     sc_init_one(&main_list, NANO_PREVPAGE_KEY, _("Prev Page"),
-		IFHELP(nano_prevpage_msg,)
-		0, NANO_PREVPAGE_FKEY, KEY_PPAGE, VIEW, do_page_up);
+		IFHELP(nano_prevpage_msg, 0),
+		NANO_PREVPAGE_FKEY, KEY_PPAGE, VIEW, do_page_up);
 
     sc_init_one(&main_list, NANO_NEXTPAGE_KEY, _("Next Page"),
-		IFHELP(nano_nextpage_msg,)
-		0, NANO_NEXTPAGE_FKEY, KEY_NPAGE, VIEW, do_page_down);
+		IFHELP(nano_nextpage_msg, 0),
+		NANO_NEXTPAGE_FKEY, KEY_NPAGE, VIEW, do_page_down);
 
     sc_init_one(&main_list, NANO_CUT_KEY, _("Cut Text"),
-		IFHELP(nano_cut_msg,) 
-		0, NANO_CUT_FKEY, 0, NOVIEW, do_cut_text);
+		IFHELP(nano_cut_msg, 0),
+		NANO_CUT_FKEY, 0, NOVIEW, do_cut_text);
 
     if (unjustify)
 	sc_init_one(&main_list, NANO_UNJUSTIFY_KEY, _("UnJustify"),
-		IFHELP(nano_unjustify_msg,) 
-		0, 0, 0, NOVIEW, do_uncut_text);
+		IFHELP(nano_unjustify_msg, 0),
+		0, 0, NOVIEW, do_uncut_text);
     else
 	sc_init_one(&main_list, NANO_UNCUT_KEY, _("UnCut Txt"),
-		IFHELP(nano_uncut_msg,)
-		0, NANO_UNCUT_FKEY, 0, NOVIEW, do_uncut_text);
+		IFHELP(nano_uncut_msg, 0),
+		NANO_UNCUT_FKEY, 0, NOVIEW, do_uncut_text);
 
     sc_init_one(&main_list, NANO_CURSORPOS_KEY, _("Cur Pos"),
-		IFHELP(nano_cursorpos_msg,)
-		0, NANO_CURSORPOS_FKEY, 0, VIEW, do_cursorpos_void);
+		IFHELP(nano_cursorpos_msg, 0),
+		NANO_CURSORPOS_FKEY, 0, VIEW, do_cursorpos_void);
 
     sc_init_one(&main_list, NANO_SPELL_KEY, _("To Spell"),
-		IFHELP(nano_spell_msg,) 
-		0, NANO_SPELL_FKEY, 0, NOVIEW, do_spell);
+		IFHELP(nano_spell_msg, 0),
+		NANO_SPELL_FKEY, 0, NOVIEW, do_spell);
 
 
     sc_init_one(&main_list, NANO_UP_KEY, _("Up"),
-		IFHELP(nano_up_msg,) 
-		0, KEY_UP, 0, VIEW, do_up);
+		IFHELP(nano_up_msg, 0),
+		KEY_UP, 0, VIEW, do_up);
 
     sc_init_one(&main_list, NANO_DOWN_KEY, _("Down"),
-		IFHELP(nano_down_msg,) 
-		0, KEY_DOWN, 0, VIEW, do_down);
+		IFHELP(nano_down_msg, 0),
+		KEY_DOWN, 0, VIEW, do_down);
 
     sc_init_one(&main_list, NANO_FORWARD_KEY, _("Forward"),
-		IFHELP(nano_forward_msg,) 
-		0, KEY_RIGHT, 0, VIEW, do_right);
+		IFHELP(nano_forward_msg, 0),
+		KEY_RIGHT, 0, VIEW, do_right);
 
     sc_init_one(&main_list, NANO_BACK_KEY, _("Back"),
-		IFHELP(nano_back_msg,) 
-		0, KEY_LEFT, 0, VIEW, do_left);
+		IFHELP(nano_back_msg, 0),
+		KEY_LEFT, 0, VIEW, do_left);
 
     sc_init_one(&main_list, NANO_HOME_KEY, _("Home"),
-		IFHELP(nano_home_msg,) 
-		0, KEY_HOME, 362, VIEW, do_home);
+		IFHELP(nano_home_msg, 0),
+		KEY_HOME, 362, VIEW, do_home);
 
     sc_init_one(&main_list, NANO_END_KEY, _("End"),
-		IFHELP(nano_end_msg,) 
-		0, KEY_END, 385, VIEW, do_end);
+		IFHELP(nano_end_msg, 0),
+		KEY_END, 385, VIEW, do_end);
 
     sc_init_one(&main_list, NANO_REFRESH_KEY, _("Refresh"),
-		IFHELP(nano_refresh_msg,) 
-		0, 0, 0, VIEW, total_refresh);
+		IFHELP(nano_refresh_msg, 0),
+		0, 0, VIEW, total_refresh);
 
     sc_init_one(&main_list, NANO_MARK_KEY, _("Mark Text"),
-		IFHELP(nano_mark_msg,) 
-		NANO_ALT_MARK_KEY, 0, 0, NOVIEW, do_mark);
+		IFHELP(nano_mark_msg, NANO_ALT_MARK_KEY),
+		0, 0, NOVIEW, do_mark);
 
     sc_init_one(&main_list, NANO_DELETE_KEY, _("Delete"),
-		IFHELP(nano_delete_msg,) 0, KEY_DC,
+		IFHELP(nano_delete_msg, 0), KEY_DC,
 		NANO_CONTROL_D, NOVIEW, do_delete);
 
     sc_init_one(&main_list, NANO_BACKSPACE_KEY, _("Backspace"),
-		IFHELP(nano_backspace_msg,) 0,
+		IFHELP(nano_backspace_msg, 0),
 		KEY_BACKSPACE, 127, NOVIEW, do_backspace);
 
     sc_init_one(&main_list, NANO_TAB_KEY, _("Tab"),
-		IFHELP(nano_tab_msg,) 
-		0, 0, 0, NOVIEW, do_tab);
+		IFHELP(nano_tab_msg, 0), 0, 0, NOVIEW, do_tab);
 
     if (ISSET(PICO_MODE))
 	sc_init_one(&main_list, NANO_REPLACE_KEY, _("Replace"),
-		    IFHELP(nano_replace_msg,)
-		    NANO_ALT_REPLACE_KEY, NANO_REPLACE_FKEY, 0, NOVIEW, do_replace);
+		    IFHELP(nano_replace_msg, NANO_ALT_REPLACE_KEY),
+		    NANO_REPLACE_FKEY, 0, NOVIEW, do_replace);
     else
 	sc_init_one(&main_list, NANO_JUSTIFY_KEY, _("Justify"),
-		    IFHELP(nano_justify_msg,) 
-		    0, NANO_JUSTIFY_FKEY, 0, NOVIEW, do_justify);
+		    IFHELP(nano_justify_msg, 0),
+		    NANO_JUSTIFY_FKEY, 0, NOVIEW, do_justify);
 
     sc_init_one(&main_list, NANO_ENTER_KEY, _("Enter"),
-		IFHELP(nano_enter_msg,)
-		0, KEY_ENTER, NANO_CONTROL_M, NOVIEW, do_enter_void);
+		IFHELP(nano_enter_msg, 0),
+		KEY_ENTER, NANO_CONTROL_M, NOVIEW, do_enter_void);
 
     sc_init_one(&main_list, NANO_GOTO_KEY, _("Goto Line"),
-		    IFHELP(nano_goto_msg,)
-		    NANO_ALT_GOTO_KEY, NANO_GOTO_FKEY, 0, VIEW, do_gotoline_void);
+		    IFHELP(nano_goto_msg, NANO_ALT_GOTO_KEY),
+		    NANO_GOTO_FKEY, 0, VIEW, do_gotoline_void);
 
 #if (!defined NANO_SMALL) && (defined HAVE_REGEX_H)
     sc_init_one(&main_list, -9, _("Find Other Bracket"),
-		    IFHELP(nano_bracket_msg,)
-		    NANO_BRACKET_KEY, 0, 0, VIEW, do_find_bracket);
+		    IFHELP(nano_bracket_msg, NANO_BRACKET_KEY),
+		    0, 0, VIEW, do_find_bracket);
 #endif
 
 #ifdef ENABLE_MULTIBUFFER
     sc_init_one(&main_list, -9, _("Previous File"),
-		    IFHELP(nano_openprev_msg,)
-		    NANO_OPENPREV_KEY, 0, 0, VIEW, open_prevfile_void);
+		    IFHELP(nano_openprev_msg, NANO_OPENPREV_KEY),
+		    0, 0, VIEW, open_prevfile_void);
     sc_init_one(&main_list, -9, _("Next File"),
-		    IFHELP(nano_opennext_msg,)
-		    NANO_OPENNEXT_KEY, 0, 0, VIEW, open_nextfile_void);
+		    IFHELP(nano_opennext_msg, NANO_OPENNEXT_KEY),
+		    0, 0, VIEW, open_nextfile_void);
 #endif
 
 #ifndef NANO_SMALL
     sc_init_one(&main_list, NANO_NEXTWORD_KEY, _("Next Word"),
-		IFHELP(_("Move forward one word"),)
-		0, 0, 0, VIEW, do_next_word_void);
+		IFHELP(_("Move forward one word"), 0),
+		0, 0, VIEW, do_next_word_void);
     sc_init_one(&main_list, -9, _("Prev Word"),
-		IFHELP(_("Move backward one word"),) NANO_PREVWORD_KEY, 0, 0,
+		IFHELP(_("Move backward one word"), NANO_PREVWORD_KEY), 0, 0,
 		VIEW, do_prev_word_void);
 #endif
 
     free_shortcutage(&whereis_list);
 
-    sc_init_one(&whereis_list, NANO_HELP_KEY,
-		_("Get Help"), IFHELP(nano_help_msg,) 
-		0, 0, 0, VIEW, do_help);
+    sc_init_one(&whereis_list, NANO_HELP_KEY, _("Get Help"),
+		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
 
-    sc_init_one(&whereis_list, NANO_CANCEL_KEY,
-		_("Cancel"), IFHELP(nano_cancel_msg,) 
-		0, 0, 0, VIEW, 0);
+    sc_init_one(&whereis_list, NANO_CANCEL_KEY, _("Cancel"),
+		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
 
     sc_init_one(&whereis_list, NANO_FIRSTLINE_KEY, _("First Line"),
-		IFHELP(nano_firstline_msg,) 
-		0, 0, 0, VIEW, do_first_line);
+		IFHELP(nano_firstline_msg, 0),
+		0, 0, VIEW, do_first_line);
 
     sc_init_one(&whereis_list, NANO_LASTLINE_KEY, _("Last Line"),
-		IFHELP(nano_lastline_msg,) 
-		0, 0, 0, VIEW, do_last_line);
+		IFHELP(nano_lastline_msg, 0), 0, 0, VIEW, do_last_line);
 
     sc_init_one(&whereis_list, NANO_OTHERSEARCH_KEY, _("Replace"),
-		IFHELP(nano_replace_msg,) 
-		0, 0, 0, VIEW, do_replace);
+		IFHELP(nano_replace_msg, 0), 0, 0, VIEW, do_replace);
 
     sc_init_one(&whereis_list, NANO_FROMSEARCHTOGOTO_KEY, _("Goto Line"), 
-		IFHELP(nano_goto_msg,) 
-		0, 0, 0, VIEW, do_gotoline_void);
+		IFHELP(nano_goto_msg, 0), 0, 0, VIEW, do_gotoline_void);
 
 #ifndef NANO_SMALL
     sc_init_one(&whereis_list, TOGGLE_CASE_KEY, _("Case Sens"),
-		IFHELP(nano_case_msg,)
-		0, 0, 0, VIEW, 0);
+		IFHELP(nano_case_msg, 0), 0, 0, VIEW, 0);
 
     sc_init_one(&whereis_list, TOGGLE_BACKWARDS_KEY, _("Direction"),
-		IFHELP(nano_reverse_msg,) 
-		0, 0, 0, VIEW, 0);
+		IFHELP(nano_reverse_msg, 0), 0, 0, VIEW, 0);
 
 #ifdef HAVE_REGEX_H
-    sc_init_one(&whereis_list, TOGGLE_REGEXP_KEY,
-		_("Regexp"), IFHELP(nano_regexp_msg,)
-		0, 0, 0, VIEW, 0);
+    sc_init_one(&whereis_list, TOGGLE_REGEXP_KEY, _("Regexp"),
+		IFHELP(nano_regexp_msg, 0), 0, 0, VIEW, 0);
 #endif
 #endif /* !NANO_SMALL */
 
     free_shortcutage(&replace_list);
 
-    sc_init_one(&replace_list, NANO_HELP_KEY,
-		_("Get Help"), IFHELP(nano_help_msg,) 
-		0, 0, 0, VIEW, do_help);
+    sc_init_one(&replace_list, NANO_HELP_KEY, _("Get Help"),
+		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
 
-    sc_init_one(&replace_list, NANO_CANCEL_KEY,
-		_("Cancel"), IFHELP(nano_cancel_msg,) 
-		0, 0, 0, VIEW, 0);
+    sc_init_one(&replace_list, NANO_CANCEL_KEY, _("Cancel"),
+		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
 
     sc_init_one(&replace_list, NANO_FIRSTLINE_KEY, _("First Line"),
-		IFHELP(nano_firstline_msg,) 
-		0, 0, 0, VIEW, do_first_line);
+		IFHELP(nano_firstline_msg, 0), 0, 0, VIEW, do_first_line);
 
     sc_init_one(&replace_list, NANO_LASTLINE_KEY, _("Last Line"),
-		IFHELP(nano_lastline_msg,) 
-		0, 0, 0, VIEW, do_last_line);
+		IFHELP(nano_lastline_msg, 0), 0, 0, VIEW, do_last_line);
 
     sc_init_one(&replace_list, NANO_OTHERSEARCH_KEY, _("No Replace"),
-		IFHELP(nano_whereis_msg,) 
-		0, 0, 0, VIEW, do_search);
+		IFHELP(nano_whereis_msg, 0), 0, 0, VIEW, do_search);
 
-    sc_init_one(&replace_list, NANO_FROMSEARCHTOGOTO_KEY,
-		_("Goto Line"),  IFHELP(nano_goto_msg,) 
-		0, 0, 0, VIEW, do_gotoline_void);
+    sc_init_one(&replace_list, NANO_FROMSEARCHTOGOTO_KEY, _("Goto Line"), 
+		IFHELP(nano_goto_msg, 0), 0, 0, VIEW, do_gotoline_void);
 
 #ifndef NANO_SMALL
     sc_init_one(&replace_list, TOGGLE_CASE_KEY, _("Case Sens"),
-		IFHELP(nano_case_msg,) 
-		0, 0, 0, VIEW, 0);
+		IFHELP(nano_case_msg, 0), 0, 0, VIEW, 0);
 
     sc_init_one(&replace_list, TOGGLE_BACKWARDS_KEY, _("Direction"),
-		IFHELP(nano_reverse_msg,) 
-		0, 0, 0, VIEW, 0);
+		IFHELP(nano_reverse_msg, 0), 0, 0, VIEW, 0);
 
 #ifdef HAVE_REGEX_H
-    sc_init_one(&replace_list, TOGGLE_REGEXP_KEY, 
-		_("Regexp"), IFHELP(nano_regexp_msg,) 
-		0, 0, 0, VIEW, 0);
+    sc_init_one(&replace_list, TOGGLE_REGEXP_KEY, _("Regexp"),
+		IFHELP(nano_regexp_msg, 0), 0, 0, VIEW, 0);
 #endif
 #endif /* !NANO_SMALL */
 
     free_shortcutage(&replace_list_2);
 
-    sc_init_one(&replace_list_2, NANO_HELP_KEY,
-		_("Get Help"), IFHELP(nano_help_msg,) 
-		0, 0, 0, VIEW, do_help);
+    sc_init_one(&replace_list_2, NANO_HELP_KEY, _("Get Help"),
+		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
 
-    sc_init_one(&replace_list_2, NANO_CANCEL_KEY,
-		_("Cancel"), IFHELP(nano_cancel_msg,) 
-		0, 0, 0, VIEW, 0);
+    sc_init_one(&replace_list_2, NANO_CANCEL_KEY, _("Cancel"),
+		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
 
     sc_init_one(&replace_list_2, NANO_FIRSTLINE_KEY, _("First Line"),
-		IFHELP(nano_firstline_msg,) 
-		0, 0, 0, VIEW, do_first_line);
+		IFHELP(nano_firstline_msg, 0), 0, 0, VIEW, do_first_line);
 
     sc_init_one(&replace_list_2, NANO_LASTLINE_KEY, _("Last Line"),
-		IFHELP(nano_lastline_msg,) 
-		0, 0, 0, VIEW, do_last_line);
+		IFHELP(nano_lastline_msg, 0), 0, 0, VIEW, do_last_line);
 
     free_shortcutage(&goto_list);
 
-    sc_init_one(&goto_list, NANO_HELP_KEY,
-		_("Get Help"), IFHELP(nano_help_msg,) 
-		0, 0, 0, VIEW, do_help);
+    sc_init_one(&goto_list, NANO_HELP_KEY, _("Get Help"),
+		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
 
     sc_init_one(&goto_list, NANO_CANCEL_KEY, _("Cancel"),
-		IFHELP(nano_cancel_msg,) 
-		0, 0, 0, VIEW, 0);
+		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
 
     sc_init_one(&goto_list, NANO_FIRSTLINE_KEY, _("First Line"),
-		IFHELP(nano_firstline_msg,) 
-		0, 0, 0, VIEW, &do_first_line);
+		IFHELP(nano_firstline_msg, 0), 0, 0, VIEW, &do_first_line);
 
     sc_init_one(&goto_list, NANO_LASTLINE_KEY, _("Last Line"),
-		IFHELP(nano_lastline_msg,) 
-		0, 0, 0, VIEW, &do_last_line);
+		IFHELP(nano_lastline_msg, 0), 0, 0, VIEW, &do_last_line);
 
     free_shortcutage(&help_list);
 
     sc_init_one(&help_list, NANO_PREVPAGE_KEY, _("Prev Page"),
-		IFHELP(nano_prevpage_msg,)
-		0, NANO_PREVPAGE_FKEY, KEY_PPAGE, VIEW, do_page_up);
+		IFHELP(nano_prevpage_msg, 0), NANO_PREVPAGE_FKEY,
+		KEY_PPAGE, VIEW, do_page_up);
 
     sc_init_one(&help_list, NANO_NEXTPAGE_KEY, _("Next Page"),
-		IFHELP(nano_nextpage_msg,)
-		0, NANO_NEXTPAGE_FKEY, KEY_NPAGE, VIEW, do_page_down);
+		IFHELP(nano_nextpage_msg, 0),
+		NANO_NEXTPAGE_FKEY, KEY_NPAGE, VIEW, do_page_down);
 
     sc_init_one(&help_list, NANO_EXIT_KEY, _("Exit"),
-		IFHELP(nano_exit_msg,)
-		0, NANO_EXIT_FKEY, 0, VIEW, do_exit);
+		IFHELP(nano_exit_msg, 0), NANO_EXIT_FKEY, 0, VIEW,
+		do_exit);
 
     free_shortcutage(&writefile_list);
 
-    sc_init_one(&writefile_list, NANO_HELP_KEY,
-		_("Get Help"), IFHELP(nano_help_msg,) 
-		0, 0, 0, VIEW, do_help);
+    sc_init_one(&writefile_list, NANO_HELP_KEY, _("Get Help"),
+		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
 
 #ifndef DISABLE_BROWSER
     sc_init_one(&writefile_list, NANO_TOFILES_KEY, _("To Files"),
-		IFHELP(nano_tofiles_msg,) 
-		0, 0, 0, NOVIEW, 0);
+		IFHELP(nano_tofiles_msg, 0), 0, 0, NOVIEW, 0);
 #endif
 
 #ifndef NANO_SMALL
-    sc_init_one(&writefile_list, TOGGLE_DOS_KEY, 
-		_("DOS Format"), IFHELP(nano_dos_msg,) 
-		0, 0, 0, NOVIEW, 0);
+    sc_init_one(&writefile_list, TOGGLE_DOS_KEY, _("DOS Format"),
+		IFHELP(nano_dos_msg, 0), 0, 0, NOVIEW, 0);
 
-    sc_init_one(&writefile_list, TOGGLE_MAC_KEY, 
-		_("Mac Format"), IFHELP(nano_mac_msg,) 
-		0, 0, 0, NOVIEW, 0);
+    sc_init_one(&writefile_list, TOGGLE_MAC_KEY, _("Mac Format"),
+		IFHELP(nano_mac_msg, 0), 0, 0, NOVIEW, 0);
 #endif
 
-    sc_init_one(&writefile_list, 
-		NANO_APPEND_KEY, _("Append"),
-		IFHELP(nano_append_msg,) 
-		0, 0, 0, NOVIEW, 0);
+    sc_init_one(&writefile_list, NANO_APPEND_KEY, _("Append"),
+		IFHELP(nano_append_msg, 0), 0, 0, NOVIEW, 0);
 
-    sc_init_one(&writefile_list, 
-		NANO_PREPEND_KEY, _("Prepend"),
-		IFHELP(nano_prepend_msg,) 
-		0, 0, 0, NOVIEW, 0);
+    sc_init_one(&writefile_list, NANO_PREPEND_KEY, _("Prepend"),
+		IFHELP(nano_prepend_msg, 0), 0, 0, NOVIEW, 0);
 
-    sc_init_one(&writefile_list, NANO_CANCEL_KEY, 
-		_("Cancel"), IFHELP(nano_cancel_msg,) 
-		0, 0, 0, VIEW, 0);
+    sc_init_one(&writefile_list, NANO_CANCEL_KEY, _("Cancel"),
+		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
 
     free_shortcutage(&insertfile_list);
 
-    sc_init_one(&insertfile_list, NANO_HELP_KEY,
-		_("Get Help"), IFHELP(nano_help_msg,) 
-		0, 0, 0, VIEW, do_help);
+    sc_init_one(&insertfile_list, NANO_HELP_KEY, _("Get Help"),
+		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
 
     sc_init_one(&insertfile_list, NANO_CANCEL_KEY, _("Cancel"),
-		IFHELP(nano_cancel_msg,) 
-		0, 0, 0, VIEW, 0);
+		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
 
 #ifndef DISABLE_BROWSER
     sc_init_one(&insertfile_list, NANO_TOFILES_KEY, _("To Files"),
-		IFHELP(nano_tofiles_msg,) 
-		0, 0, 0, NOVIEW, 0);
+		IFHELP(nano_tofiles_msg, 0), 0, 0, NOVIEW, 0);
 #endif
 #ifndef NANO_SMALL
     sc_init_one(&insertfile_list, NANO_EXTCMD_KEY, _("Execute Command"),
-		IFHELP(nano_execute_msg,) 
-		0, 0, 0, NOVIEW, 0);
+		IFHELP(nano_execute_msg, 0), 0, 0, NOVIEW, 0);
 #endif
 
     free_shortcutage(&spell_list);
 
-    sc_init_one(&spell_list, NANO_HELP_KEY,
-		_("Get Help"), IFHELP(nano_help_msg,) 
-		0, 0, 0, VIEW, do_help);
+    sc_init_one(&spell_list, NANO_HELP_KEY, _("Get Help"),
+		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
 
     sc_init_one(&spell_list, NANO_CANCEL_KEY, _("Cancel"),
-		IFHELP(nano_cancel_msg,) 
-		0, 0, 0, VIEW, 0);
+		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
 
 #ifndef NANO_SMALL
     free_shortcutage(&extcmd_list);
 
-    sc_init_one(&extcmd_list, NANO_HELP_KEY,
-		_("Get Help"), IFHELP(nano_help_msg,) 
-		0, 0, 0, VIEW, do_help);
+    sc_init_one(&extcmd_list, NANO_HELP_KEY, _("Get Help"),
+		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
 
     sc_init_one(&extcmd_list, NANO_CANCEL_KEY, _("Cancel"),
-		IFHELP(nano_cancel_msg,) 
-		0, 0, 0, VIEW, 0);
+		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
 #endif
 
 #ifndef DISABLE_BROWSER
 
     free_shortcutage(&browser_list);
 
-    sc_init_one(&browser_list, NANO_HELP_KEY,
-		_("Get Help"), IFHELP(nano_help_msg,) 
-		0, 0, 0, VIEW, do_help);
+    sc_init_one(&browser_list, NANO_HELP_KEY, _("Get Help"),
+		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
 
     sc_init_one(&browser_list, NANO_EXIT_KEY, _("Exit"),
-		IFHELP(nano_exit_msg,) 
-		0, NANO_EXIT_FKEY, 0, VIEW, 0);
+		IFHELP(nano_exit_msg, 0), NANO_EXIT_FKEY, 0, VIEW, 0);
 
     sc_init_one(&browser_list, NANO_PREVPAGE_KEY, _("Prev Page"),
-		IFHELP(nano_prevpage_msg,)
-		0, NANO_PREVPAGE_FKEY, KEY_PPAGE, VIEW, 0);
+		IFHELP(nano_prevpage_msg, 0), NANO_PREVPAGE_FKEY,
+		KEY_PPAGE, VIEW, 0);
 
     sc_init_one(&browser_list, NANO_NEXTPAGE_KEY, _("Next Page"),
-		IFHELP(nano_nextpage_msg,)
-		0, NANO_NEXTPAGE_FKEY, KEY_NPAGE, VIEW, 0);
+		IFHELP(nano_nextpage_msg, 0), NANO_NEXTPAGE_FKEY,
+		KEY_NPAGE, VIEW, 0);
 
     sc_init_one(&browser_list, NANO_GOTO_KEY, _("Goto"),
-		IFHELP(nano_gotodir_msg,) 
-		NANO_ALT_GOTO_KEY, NANO_GOTO_FKEY, 0, VIEW, 0);
+		IFHELP(nano_gotodir_msg, NANO_ALT_GOTO_KEY),
+		NANO_GOTO_FKEY, 0, VIEW, 0);
 
     free_shortcutage(&gotodir_list);
 
-    sc_init_one(&gotodir_list, NANO_HELP_KEY,
-		_("Get Help"), IFHELP(nano_help_msg,) 
-		0, 0, 0, VIEW, do_help);
+    sc_init_one(&gotodir_list, NANO_HELP_KEY, _("Get Help"),
+		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
 
     sc_init_one(&gotodir_list, NANO_CANCEL_KEY, _("Cancel"),
-		IFHELP(nano_cancel_msg,) 
-		0, 0, 0, VIEW, 0);
+		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
 
 #endif
 
