@@ -34,7 +34,7 @@
 #include <limits.h>
 #endif
 
-/* Macros for the flags int... */
+/* Macros for the flags long... */
 #define SET(bit) flags |= bit
 #define UNSET(bit) flags &= ~bit
 #define ISSET(bit) ((flags & bit) != 0)
@@ -194,7 +194,7 @@ typedef struct toggle {
    const char *desc;	/* Description for when toggle is, uh, toggled,
 			 * e.g. "Cut to end"; we'll append Enabled or
 			 * Disabled. */
-   int flag;		/* What flag actually gets toggled. */
+   long flag;		/* What flag actually gets toggled. */
    struct toggle *next;
 } toggle;
 #endif /* !NANO_SMALL */
@@ -202,7 +202,7 @@ typedef struct toggle {
 #ifdef ENABLE_NANORC
 typedef struct rcoption {
    const char *name;
-   int flag;
+   long flag;
 } rcoption;
 #endif /* ENABLE_NANORC */
 
