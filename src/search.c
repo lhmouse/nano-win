@@ -745,7 +745,7 @@ ssize_t do_replace_loop(const char *needle, filestruct *real_current,
 
 	if (i > 0 || replaceall) {	/* Yes, replace it!!!! */
 	    char *copy;
-	    ssize_t length_change;
+	    size_t length_change;
 
 	    if (i == 2)
 		replaceall = TRUE;
@@ -763,7 +763,6 @@ ssize_t do_replace_loop(const char *needle, filestruct *real_current,
 	    }
 #endif
 
-	    assert(0 <= match_len + length_change);
 	    if (current == real_current && current_x <= *real_current_x) {
 		if (*real_current_x < current_x + match_len)
 		    *real_current_x = current_x + match_len;

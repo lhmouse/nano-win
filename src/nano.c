@@ -2365,7 +2365,7 @@ void do_justify(bool full_justify)
     filestruct *edittop_save = edittop, *current_save = current;
 #ifndef NANO_SMALL
     filestruct *mark_beginbuf_save = mark_beginbuf;
-    int mark_beginx_save = mark_beginx;
+    size_t mark_beginx_save = mark_beginx;
 #endif
     int kbinput;
     bool meta_key, func_key;

@@ -37,7 +37,7 @@ extern int current_y;
 extern int totlines;
 extern size_t placewewant;
 #ifndef NANO_SMALL
-extern int mark_beginx;
+extern size_t mark_beginx;
 #endif
 extern long totsize;
 extern long flags;

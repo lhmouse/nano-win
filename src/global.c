@@ -113,7 +113,7 @@ char *help_text;		/* The text in the help window */
 
 #ifndef NANO_SMALL
 filestruct *mark_beginbuf;	/* The begin marker buffer */
-int mark_beginx;		/* X value in the string to start */
+size_t mark_beginx;		/* X value in the string to start */
 #endif
 
 #ifndef DISABLE_OPERATINGDIR

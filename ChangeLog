@@ -89,10 +89,10 @@ CVS code -
 	- When saving or changing file positions, be sure not to ignore
 	  placewewant.  Changes to do_int_spell_fix(), findnextstr(),
 	  do_replace_loop(), and do_replace(). (DLR)
-	- Convert current_x to a size_t, and convert some functions that
-	  use it as a parameter to use size_t as well.  Also change some
-	  current_x-related assertions to handle it. (David Benbennick
-	  and DLR)
+	- Convert current_x and mark_beginx to size_t's, and convert
+	  some functions that use them as a parameter to use size_t as
+	  well.  Also change some related assertions to handle them.
+	  (David Benbennick and DLR)
 - files.c:
   do_insertfile()
 	- Simplify by reusing variables whereever possible, and add a
