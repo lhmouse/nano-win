@@ -1556,8 +1556,8 @@ void reset_cursor(void)
  * characters.  start is the column number of the first character
  * of this page.  That is, the first character of converted corresponds to
  * character number actual_x(fileptr->data, start) of the line. */
-void edit_add(const filestruct *fileptr, const char *converted,
-		int yval, size_t start)
+void edit_add(const filestruct *fileptr, const char *converted, int
+	yval, size_t start)
 {
 #if defined(ENABLE_COLOR) || !defined(NANO_SMALL)
     size_t startpos = actual_x(fileptr->data, start);
@@ -1863,9 +1863,9 @@ void edit_add(const filestruct *fileptr, const char *converted,
 /* Just update one line in the edit buffer.  Basically a wrapper for
  * edit_add().
  *
- * If fileptr != current, then index is considered 0.
- * The line will be displayed starting with fileptr->data[index].
- * Likely args are current_x or 0. */
+ * If fileptr != current, then index is considered 0.  The line will be
+ * displayed starting with fileptr->data[index].  Likely args are
+ * current_x or 0. */
 void update_line(const filestruct *fileptr, size_t index)
 {
     int line;
@@ -1961,10 +1961,6 @@ void edit_refresh(void)
 	fprintf(stderr, "edit_refresh(): edittop->lineno = %ld\n", edittop->lineno);
 #endif
 
-	/* Don't let the cursor jump around the screen while
-	 * updating. */
-	leaveok(edit, TRUE);
-
 	while (nlines < editwinrows) {
 	    update_line(foo, current_x);
 	    nlines++;
@@ -1977,12 +1973,10 @@ void edit_refresh(void)
 	    nlines++;
 	}
 	reset_cursor();
+
 	/* What the hell are we expecting to update the screen if this
 	 * isn't here?  Luck? */
 	wrefresh(edit);
-
-	/* Let the cursor jump around the screen again. */
-	leaveok(edit, FALSE);
     }
 }
 
@@ -2003,7 +1997,7 @@ void edit_update(filestruct *fileptr, topmidnone location)
 	return;
 
     if (location != TOP) {
-	int goal = location == NONE ? current_y : editwinrows / 2;
+	int goal = (location == NONE) ? current_y : editwinrows / 2;
 
 	for (; goal > 0 && fileptr->prev != NULL; goal--)
 	    fileptr = fileptr->prev;

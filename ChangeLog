@@ -32,6 +32,8 @@ CVS code -
 	- Refactor the output in the DEBUG #ifdef.  It didn't work
 	  properly ever since this function was changed to use an int*
 	  instead of a char*. (DLR)
+  edit_refresh()
+	- Remove apparently unneeded leaveok() calls. (David Benbennick)
 
 GNU nano 1.3.2 - 2004.03.31
 - General:
