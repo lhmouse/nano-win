@@ -3016,29 +3016,6 @@ void do_toggle(const toggle *which)
 }
 #endif /* !NANO_SMALL */
 
-/* This function returns the correct keystroke, given the A,B,C or D
-   input key.  This is a common sequence of many terms which send
-   Esc-O-[A-D] or Esc-[-[A-D]. */
-int abcd(int input)
-{
-    switch (input) {
-    case 'A':
-    case 'a':
-	return KEY_UP;
-    case 'B':
-    case 'b':
-	return KEY_DOWN;
-    case 'C':
-    case 'c':
-	return KEY_RIGHT;
-    case 'D':
-    case 'd':
-	return KEY_LEFT;
-    default:
-	return 0;
-    }
-}
-
 int main(int argc, char *argv[])
 {
     int optchr;

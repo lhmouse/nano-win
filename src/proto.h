@@ -331,7 +331,6 @@ void print_numlock_warning(void);
 #ifndef NANO_SMALL
 void do_toggle(const toggle *which);
 #endif
-int abcd(int input);
 
 /* Public functions in rcfile.c */
 #ifdef ENABLE_NANORC

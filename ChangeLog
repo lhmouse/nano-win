@@ -83,6 +83,9 @@ CVS code -
 	- Document the support for Esc Esc [character]'s being
 	  interpreted as Ctrl-[character], and the support for Pico's
 	  Esc Esc [three-digit decimal ASCII code] input method. (DLR)
+  abcd()
+	- Removed, as it's unneeded due to the low-level input overhaul.
+	  (DLR)
 - nano.h:
 	- Define KEY_RESIZE and KEY_SUSPEND as -1 when slang is used, as
 	  slang has no equivalent of either.  When nano is compiled with
