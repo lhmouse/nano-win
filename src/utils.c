@@ -284,12 +284,12 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 
     /* Make room for the null character. */
     if (indx >= *n) {
-	*lineptr = charealloc(*lineptr, indx + 1);
-	*n = indx + 1;
+	*lineptr = charealloc(*lineptr, *n + 128);
+	*n += 128;
     }
 
     /* Null terminate the buffer. */
-    (*lineptr)[indx++] = '\0';
+    null_at(lineptr, indx++);
 
     /* The last line may not have the delimiter, we have to return what
      * we got and the error will be seen on the next iteration. */
