@@ -2364,7 +2364,7 @@ void do_credits(void)
     xlcredits[7] = _("Thank you for using nano!\n");
 
     scrolldelay.tv_sec = 0;
-    scrolldelay.tv_nsec = 700000000L;
+    scrolldelay.tv_nsec = 700000000;
 
     curs_set(0);
     nodelay(edit, TRUE);
