@@ -528,10 +528,10 @@ inline int get_page_from_virtual(int virtual) {
     int page = 2;
 
     if(virtual <= COLS - 2) return 1;
-    virtual -= (COLS - 1);
+    virtual -= (COLS - 2);
 
     while (virtual > COLS - 2 - 7) {
-	virtual -= (COLS - 1 - 7);
+	virtual -= (COLS - 2 - 7);
 	page++;
     }
 
@@ -539,7 +539,10 @@ inline int get_page_from_virtual(int virtual) {
 }
 
 inline int get_page_start_virtual(int page) {
-    return --page * (COLS - 7);
+    int virtual;
+    virtual = --page * (COLS - 7);
+    if(page) virtual -= 2 * page - 1;
+    return virtual;
 }
 
 inline int get_page_end_virtual(int page) {
