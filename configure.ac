@@ -125,6 +125,7 @@ AC_ARG_ENABLE(wrapping-as-root,
     AC_DEFINE(DISABLE_ROOTWRAP, 1, [Define this to disable wrapping as root by default.])
  fi])
 
+
 AC_ARG_ENABLE(color,
 [  --enable-color          Enable color and syntax highlighting],
 [if test x$enableval = xyes; then
@@ -150,6 +151,22 @@ AC_ARG_ENABLE(nanorc,
 [if test x$enableval = xyes; then
     AC_DEFINE(ENABLE_NANORC, 1, [Define this to use the .nanorc file.]) nanorc_support=yes
  fi])
+
+AC_ARG_ENABLE(all,
+[  --enable-all            Enable ALL extra nano functionality (kitchen sink option)],
+[if test x$enableval = xyes; then
+    AC_DEFINE(ENABLE_NANORC, 1, [Define this to use the .nanorc file.]) nanorc_support=yes
+    AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires ENABLE_NANORC too!]) color_support=yes
+    AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.]) multibuffer_support=yes
+    AC_DEFINE(NANO_EXTRA, 1, [Define this to enable the extra stuff.]) extra_support=yes
+    AC_MSG_WARN([
+
+***********************************************************************
+*** WARNING: Color support is far from perfect, but functional.     ***
+*** Be careful with syntax in your .nanorc or nano may malfunction. ***
+***********************************************************************
+])
+fi])
 
 AC_MSG_CHECKING([whether to use slang])
 CURSES_LIB_NAME=""

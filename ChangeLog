@@ -73,6 +73,8 @@ Changes
 	- Small cleanups. Add copyright header, add autopoint support and
 	  define bug report address and full package name in AC_INIT. Move
 	  ALL_LINGUAS to po/LINGUAS, recommended place for gettext 0.11.
+	- Added --enable-all option to compile in all the extra stuff 
+	  we'd normally need extra flags for.
 - color.c:
   update_color():
 	- Remove an unneeded edit_refresh() call after do_colorinit().
