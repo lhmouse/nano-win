@@ -706,7 +706,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 	    /*
 	     * we're updating the line that was first marked
 	     * but we're not currently on it.  So we want to
-	     * figur out which half to invert based on our
+	     * figure out which half to invert based on our
 	     * relative line numbers.
 	     *
 	     * i.e. If we're above the "beginbuf" line, we want to
@@ -740,7 +740,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 		wattroff(edit, A_REVERSE);
 
 	} else if (fileptr == current) {
-	    /* we're on the cursors line, but it's not the first
+	    /* we're on the cursor's line, but it's not the first
 	     * one we marked.  Similar to the previous logic. */
 	    int this_page_start = get_page_start_virtual(this_page),
 		this_page_end = get_page_end_virtual(this_page);
