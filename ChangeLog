@@ -44,6 +44,9 @@ CVS code -
 	  (Meta-9), Meta-) (Meta-0), and Meta-J, respectively.  Also add
 	  these functions to the main shortcut list, as Pico's practice
 	  of putting them in the search menu is rather odd. (DLR)
+	- Turn off extended input processing (the IEXTEN termios flag)
+	  as nano 1.2.x does.  New function disable_extended_input();
+	  changes to terminal_init(). (DLR)
 - files.c:
   do_insertfile()
 	- Readd the NANO_SMALL #ifdef around the start_again: label to
