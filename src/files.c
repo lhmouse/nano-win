@@ -2351,7 +2351,7 @@ int readable_dir(const char *path)
     /* If dir is NULL, don't do closedir(), since that changes errno. */
     if (dir != NULL)
 	closedir(dir);
-    return dir != NULL;
+    return (dir != NULL);
 }
 
 /* Initialize the browser code, including the list of files in *path */

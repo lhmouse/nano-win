@@ -1094,7 +1094,7 @@ bool open_pipe(const char *command)
 	dup2(fd[1], fileno(stderr));
 	/* If execl() returns at all, there was an error. */
 
-	execl("/bin/sh", "sh", "-c", command, 0);
+	execl("/bin/sh", "sh", "-c", command, NULL);
 	exit(0);
     }
 
