@@ -1932,7 +1932,7 @@ int do_writeout(int exiting)
 		&& (exiting || !ISSET(MARK_ISSET))
 #endif
 		) {
-		i = do_yesno(FALSE, _("Save file under DIFFERENT NAME ?" ));
+		i = do_yesno(FALSE, _("Save file under DIFFERENT NAME ? "));
 		if (i == 0 || i == -1)
 		    continue;
 	    }

@@ -57,6 +57,8 @@ CVS code -
 	- If we're in restricted mode abd the current filename isn't
 	  blank, we can't change it, so disable tab completion in that
 	  case. (DLR)
+	- Fix spacing problem in the "Save Under Different Name"
+	  prompt. (DLR)
 - global.c:
   shortcut_init()
 	- Fix erroneous #ifdef so that nano compiles with
