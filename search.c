@@ -577,7 +577,6 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
     int beginline = 0, caretdollar = 0;
 #endif
     filestruct *fileptr = NULL;
-    char *copy;
 
     switch (*i) {
 	case -1:	/* Aborted enter. */
@@ -664,6 +663,9 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 
 	    do_replace_highlight(FALSE, prevanswer);
 	    curs_set(1);
+
+	    if (*i == -1)	/* We canceled the replace. */
+		break;
 	}
 
 #ifdef HAVE_REGEX_H
@@ -674,8 +676,8 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 #endif
 
 	if (*i > 0 || replaceall) {	/* Yes, replace it!!!! */
-	    long length_change;
-	    size_t match_len;
+	    char *copy;
+	    int length_change;
 
 	    if (*i == 2)
 		replaceall = 1;
@@ -688,13 +690,6 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 	    }
 
 	    length_change = strlen(copy) - strlen(current->data);
-
-#ifdef HAVE_REGEX_H
-	    if (ISSET(USE_REGEXP))
-		match_len = regmatches[0].rm_eo - regmatches[0].rm_so;
-	    else
-#endif
-		match_len = strlen(prevanswer);
 
 #ifndef NANO_SMALL
 	    if (current == mark_beginbuf && mark_beginx > current_x) {
@@ -728,10 +723,7 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 	    edit_refresh();
 	    set_modified();
 	    numreplaced++;
-
-	} else if (*i == -1)	/* Break out of the loop, else do
-				 * nothing and continue loop. */
-	    break;
+	}
     }
 
     /* If text has been added to the magicline, make a new magicline. */

@@ -34,8 +34,11 @@ CVS code -
 	  certain zero-length regex replacements ("^", "$", and "^$").
 	  Add a no_sameline parameter to findnextstr(), and set it in
 	  the calls in do_replace_loop() when such regexes are found, so
-	  that such regexes are only found once per line. (DLR; found by
-	  Mike Frysinger and DLR, match_len by David Benbennick)
+	  that such regexes are only found once per line.  Also change
+	  length_change from a long to an int; size_t is unsuitable due
+	  to its being unsigned. (DLR; found by Mike Frysinger and DLR,
+	  match_len by David Benbennick)  David Benbennick: Add a few
+	  minor cleanups to do_replace_loop().
 - winio.c:
   titlebar()
 	- Fix problem with the available space for a filename on the
