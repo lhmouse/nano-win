@@ -280,7 +280,7 @@ bool is_whole_word(size_t pos, const char *buf, const char *word)
      * word isn't an alphanumeric character, and if we're at the end of
      * the line or the character after the word isn't an alphanumeric
      * character, we have a whole word. */
-    retval = (pos < 1 || !is_alnum_mbchar(p)) &&
+    retval = (pos == 0 || !is_alnum_mbchar(p)) &&
 	(word_end == strlen(buf) || !is_alnum_mbchar(r));
 
     free(p);
