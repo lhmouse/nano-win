@@ -442,11 +442,8 @@ void mark_order(const filestruct **top, size_t *top_x, const filestruct
 {
     assert(top != NULL && top_x != NULL && bot != NULL && bot_x != NULL);
 
-    if (!ISSET(MARK_ISSET))
-	return;
-
-    if ((current->lineno == mark_beginbuf->lineno && current_x > mark_beginx)
-	|| current->lineno > mark_beginbuf->lineno) {
+    if ((current->lineno == mark_beginbuf->lineno && current_x >
+	 mark_beginx) || current->lineno > mark_beginbuf->lineno) {
 	*top = mark_beginbuf;
 	*top_x = mark_beginx;
 	*bot = current;

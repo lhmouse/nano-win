@@ -1731,9 +1731,6 @@ int write_marked(const char *name, int tmp, int append)
     char *origcharloc;
 	/* The location of the character we nulled. */
 
-    if (!ISSET(MARK_ISSET))
-	return retval;
-
     /* Set fileage as the top of the mark, and filebot as the bottom. */
     if (current->lineno > mark_beginbuf->lineno ||
 		(current->lineno == mark_beginbuf->lineno &&

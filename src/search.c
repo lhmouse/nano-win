@@ -268,11 +268,11 @@ bool is_whole_word(int curr_pos, const char *datastr, const char
 }
 
 /* Look for needle, starting at current, column current_x.  If
- * no_sameline is nonzero, skip over begin when looking for needle.
- * begin is the line where we first started searching, at column beginx.
- * If can_display_wrap is nonzero, we put messages on the statusbar, and
- * wrap around the file boundaries.  The return value specifies whether
- * we found anything. */
+ * no_sameline is TRUE, skip over begin when looking for needle.  begin
+ * is the line where we first started searching, at column beginx.  If
+ * can_display_wrap is TRUE, we put messages on the statusbar, and wrap
+ * around the file boundaries.  The return value specifies whether we
+ * found anything. */
 bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	no_sameline, const filestruct *begin, size_t beginx, const char
 	*needle)
@@ -288,12 +288,11 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
      * will return immediately and say that no match was found, and
      * rev_start will be properly set when the search continues on the
      * previous or next line. */
+    rev_start =
 #ifndef NANO_SMALL
-    if (ISSET(REVERSE_SEARCH))
-	rev_start = fileptr->data + (current_x - 1);
-    else
+	ISSET(REVERSE_SEARCH) ? fileptr->data + (current_x - 1) :
 #endif
-	rev_start = fileptr->data + (current_x + 1);
+	fileptr->data + (current_x + 1);
 
     /* Look for needle in searchstr. */
     while (TRUE) {
@@ -309,7 +308,7 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	if (search_last_line) {
 	    if (can_display_wrap)
 		not_found_msg(needle);
-	    return 0;
+	    return FALSE;
 	}
 
 #ifndef NANO_SMALL
@@ -327,7 +326,7 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	/* Start or end of buffer reached; wrap around. */
 	if (fileptr == NULL) {
 	    if (!can_display_wrap)
-		return 0;
+		return FALSE;
 
 #ifndef NANO_SMALL
 	    if (ISSET(REVERSE_SEARCH)) {
@@ -370,7 +369,7 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 
 	if (can_display_wrap)
 	    not_found_msg(needle);
-	return 0;
+	return FALSE;
     }
 
     /* Set globals now that we are sure we found something. */
@@ -378,7 +377,7 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
     current_x = current_x_find;
     current_y = current_y_find;
 
-    return 1;
+    return TRUE;
 }
 
 /* Search for a string. */
@@ -662,11 +661,10 @@ int do_replace_loop(const char *needle, filestruct *real_current, size_t
 	/* If we've found a match outside the marked text, skip over it
 	 * and search for another one. */
 	if (old_mark_set) {
-	    if (current->lineno < top->lineno
-		|| current->lineno > bot->lineno
-		|| (current == top && current_x < top_x)
-		|| (current == bot && (current_x > bot_x ||
-		current_x + match_len > bot_x)))
+	    if (current->lineno < top->lineno || current->lineno >
+		bot->lineno || (current == top && current_x < top_x) ||
+		(current == bot && (current_x > bot_x || current_x +
+		match_len > bot_x)))
 		continue;
 	}
 #endif

@@ -1471,12 +1471,12 @@ bool do_int_spell_fix(const char *word)
 
 	    do_replace_highlight(TRUE, word);
 
-	    /* Allow the replace word to be corrected. */
-	    accepted = -1 != statusq(FALSE, spell_list, word,
+	    /* Allow all instances of the word to be corrected. */
+	    accepted = (statusq(FALSE, spell_list, word,
 #ifndef NANO_SMALL
 			NULL,
 #endif
-			 _("Edit a replacement"));
+			 _("Edit a replacement")) != -1);
 
 	    do_replace_highlight(FALSE, word);
 
