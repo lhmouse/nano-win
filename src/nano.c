@@ -3554,7 +3554,7 @@ int main(int argc, char *argv[])
 			print_view_warning();
 		    else {
 			if (s->func != do_cut_text)
-			    UNSET(KEEP_CUTBUFFER);
+			    cutbuffer_reset();
 			s->func();
 		    }
 		    keyhandled = 1;
@@ -3564,7 +3564,7 @@ int main(int argc, char *argv[])
 		    /* And for toggle switches */
 		    for (t = toggles; t != NULL; t = t->next)
 			if (kbinput == t->val) {
-			    UNSET(KEEP_CUTBUFFER);
+			    cutbuffer_reset();
 			    do_toggle(t);
 			    keyhandled = 1;
 		        }
@@ -3590,7 +3590,7 @@ int main(int argc, char *argv[])
 			print_view_warning();
 		    else {
 			if (s->func != do_cut_text)
-			    UNSET(KEEP_CUTBUFFER);
+			    cutbuffer_reset();
 			s->func();
 		    }
 		    keyhandled = 1;
@@ -3601,7 +3601,7 @@ int main(int argc, char *argv[])
 	    }
 
 	if (!keyhandled)
-	    UNSET(KEEP_CUTBUFFER);
+	    cutbuffer_reset();
 
 	/* Don't even think about changing this string */
 	if (kbinput == NANO_CONTROL_Q)

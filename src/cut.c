@@ -28,17 +28,22 @@
 #include "proto.h"
 #include "nano.h"
 
-static int marked_cut;		/* Is the cutbuffer from a mark?
-				 * 0 means whole-line cut, 1 means mark,
-				 * 2 means cut-from-cursor. */
-
+static int keep_cutbuffer = FALSE;
+	/* Should we keep the contents of the cutbuffer? */
+static int marked_cut;
+	/* Is the cutbuffer from a mark?  0 means whole-line cut, 1
+	 * means mark, and 2 means cut-from-cursor. */
 #ifndef NANO_SMALL
-static int concatenate_cut;	/* Should we add this cut string to the
-				 * end of the last one? */
+static int concatenate_cut;
+	/* Should we add this cut string to the end of the last one? */
 #endif
-
 static filestruct *cutbottom = NULL;
-				/* Pointer to end of cutbuffer. */
+	/* Pointer to end of cutbuffer. */
+
+void cutbuffer_reset(void)
+{
+    keep_cutbuffer = FALSE;
+}
 
 filestruct *get_cutbottom(void)
 {
@@ -202,7 +207,7 @@ int do_cut_text(void)
 
     check_statblank();
 
-    if (!ISSET(KEEP_CUTBUFFER)) {
+    if (!keep_cutbuffer) {
 	free_filestruct(cutbuffer);
 	cutbuffer = NULL;
 	marked_cut = 0;
@@ -215,7 +220,7 @@ int do_cut_text(void)
     }
 
     /* You can't cut the magicline except with the mark.  But trying
-     * does clear the cutbuffer if KEEP_CUTBUFFER is not set. */
+     * does clear the cutbuffer if keep_cutbuffer is FALSE. */
     if (current == filebot
 #ifndef NANO_SMALL
 			&& !ISSET(MARK_ISSET)
@@ -223,7 +228,7 @@ int do_cut_text(void)
 						)
 	return 0;
 
-    SET(KEEP_CUTBUFFER);
+    keep_cutbuffer = TRUE;
 
 #ifndef NANO_SMALL
     if (ISSET(CUT_TO_END) && !ISSET(MARK_ISSET)) {

@@ -142,6 +142,7 @@ void update_color(void);
 #endif /* ENABLE_COLOR */
 
 /* Public functions in cut.c */
+void cutbuffer_reset(void);
 filestruct *get_cutbottom(void);
 void add_to_cutbuffer(filestruct *inptr, int allow_concat);
 void cut_marked_segment(void);

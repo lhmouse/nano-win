@@ -93,6 +93,9 @@ CVS code -
 	  to do_refresh so as not to conflict with refresh(). (DLR)
 	- Add some comments better explaining what is disabled in
 	  restricted mode and why. (DLR)
+	- Since KEEP_CUTBUFFER is only used in cut.c, make it a static
+	  variable in cut.c instead of a flag, and unset it in other
+	  files via the new function cutbuffer_reset(). (DLR)
 - files.c:
   add_open_file()
 	- Rearrange the NANO_SMALL #ifdef so that the code to set the
