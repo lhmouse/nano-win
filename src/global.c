@@ -354,7 +354,7 @@ void shortcut_init(int unjustify)
 	"", *nano_execute_msg = "", *nano_dos_msg =
 	"", *nano_mac_msg = "", *nano_backup_msg =
 	"", *nano_editstr_msg = "", *nano_parabegin_msg =
-	"", *nano_paraend_msg = "";
+	"", *nano_paraend_msg = "", *nano_fulljustify_msg = "";
 
 #ifdef ENABLE_MULTIBUFFER
     const char *nano_openprev_msg = "", *nano_opennext_msg =
@@ -418,6 +418,7 @@ void shortcut_init(int unjustify)
     nano_editstr_msg = _("Edit the previous search/replace strings");
     nano_parabegin_msg = _("Go to the beginning of the current paragraph");
     nano_paraend_msg = _("Go to the end of the current paragraph");
+    nano_fulljustify_msg = _("Justify the entire file");
 #ifdef HAVE_REGEX_H
     nano_regexp_msg = _("Use regular expressions");
     nano_bracket_msg = _("Find other bracket");
@@ -686,8 +687,8 @@ void shortcut_init(int unjustify)
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_FULLJUSTIFY_KEY, _("FullJstify"),
-		IFHELP(nano_paraend_msg, NANO_NO_KEY), NANO_NO_KEY,
-		NANO_NO_KEY, VIEW, do_full_justify);
+		IFHELP(nano_fulljustify_msg, NANO_NO_KEY), NANO_NO_KEY,
+		NANO_NO_KEY, NOVIEW, do_full_justify);
 #endif
 
 #ifndef NANO_SMALL
