@@ -389,9 +389,12 @@ void help_init(void)
     /* If we're on the main list, we also count the toggle help text. 
      * Each line has "M-%c\t\t\t", which fills 24 columns, plus at most
      * COLS - 24 characters, plus '\n'.*/
-    if (currshortcut == main_list)
+    if (currshortcut == main_list) {
+	size_t endislen = strlen(_("enable/disable"));
+
 	for (t = toggles; t != NULL; t = t->next)
-	    allocsize += COLS - 17;
+	    allocsize += 8 + strlen(t->desc) + endislen;
+    }
 #endif /* !NANO_SMALL */
 
     /* help_text has been freed and set to NULL unless the user resized
@@ -448,16 +451,16 @@ void help_init(void)
 	*(ptr++) = '\t';
 
 	assert(s->help != NULL);
-	ptr += sprintf(ptr, "%.*s\n", COLS - 24, s->help);
+	ptr += sprintf(ptr, "%.*s\n", COLS > 24 ? COLS - 24 : 0, s->help);
     }
 
 #ifndef NANO_SMALL
     /* And the toggles... */
     if (currshortcut == main_list)
 	for (t = toggles; t != NULL; t = t->next) {
-	    ptr += sprintf(ptr, "M-%c\t\t\t", t->val - 32);
 	    assert(t->desc != NULL);
-	    ptr += sprintf(ptr, _("%.*s enable/disable\n"), COLS - 24, t->desc);
+	    ptr += sprintf(ptr, "M-%c\t\t\t%s %s\n", t->val - 32, t->desc,
+				_("enable/disable"));
 	}
 #endif /* !NANO_SMALL */
 

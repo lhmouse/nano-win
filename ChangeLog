@@ -13,6 +13,8 @@ CVS code
   main()
 	- Fix nano not compiling with ENABLE_RCFILE and DISABLE_TABCOMP
 	  (David Benbennick).
+  help_init()
+	- Fix crashing in do_help when COLS < 23 (David Benbennick).
 - rcfile.c:
   colortoint()
 	- Don't bomb after invalid color and print bad color name
