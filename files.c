@@ -1145,8 +1145,6 @@ char *do_browser(char *inpath)
 #endif
 #endif
 
-    currshortcut = browser_list;
-    currslen = BROWSER_LIST_LEN;
     /* If path isn't the same as inpath, we are being passed a new
 	dir as an arg.  We free it here so it will be copied from 
 	inpath below */
@@ -1180,6 +1178,8 @@ char *do_browser(char *inpath)
 
 	blank_statusbar_refresh();
 
+	currshortcut = browser_list;
+	currslen = BROWSER_LIST_LEN;
  	editline = 0;
 	col = 0;
 	    
