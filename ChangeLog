@@ -6,9 +6,11 @@ General
 	  HURD.  Changes in files.c:write_file(), new function
 	  nano.c:clear_filename(), many changed in main(), a few other
 	  places.  Please test this!
+	- Added -b, -e, and -f flags, which we ignore as nano provides 
+	  their functionality already.
 - cut.c:
   do_uncut_text()
-	- Fix renumbering bug when uncutting marked test at filebot.
+	- Fix renumbering bug when uncutting marked text at filebot.
 	- Fix screen not being displayed when we are uncutting marked
 	  text at editbot (Bug discovered by Ken Tyler).
 	- Fix magic line not getting created when (you guessed it)
@@ -26,6 +28,14 @@ General
 - nano.c:
   renumber()
 	- Dont stupidly assign the value of prev->lineno if prev == NULL!
+  main()
+	- Added code to check for Alt-Alt (27-27) keystrokes and set the
+	  next keystroke as a control sequence.  New variable 
+	  modify_control_key.  Removed #ifdef _POSIX_VDISABLE check
+	  around Control-S,Q,Z handlers because we need it now for
+	  the Alt-Alt-x code.
+- nano.1, nano.1.html:
+	- Updated man page for -b, -e, -f and expanded explanation for -p.
 - utils.c:
   new_magicline()
 	- Increment totsize!!  We decrement it when we've read a file, 

@@ -2034,7 +2034,7 @@ int main(int argc, char *argv[])
     int kbinput;		/* Input from keyboard */
     long startline = 0;		/* Line to try and start at */
     int keyhandled = 0;		/* Have we handled the keystroke yet? */
-    int i;
+    int i, modify_control_seq = 0;
     char *argv0;
 #ifdef _POSIX_VDISABLE
     struct termios term;
@@ -2077,10 +2077,10 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "?T:RVchiklmpr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "?T:RVbcefhiklmpr:s:tvwxz",
 				 long_options, &option_index)) != EOF) {
 #else
-    while ((optchr = getopt(argc, argv, "h?T:RVciklmpr:s:tvwxz")) != EOF) {
+    while ((optchr = getopt(argc, argv, "h?T:RVbcefiklmpr:s:tvwxz")) != EOF) {
 #endif
 
 	switch (optchr) {
@@ -2099,6 +2099,11 @@ int main(int argc, char *argv[])
 	case 'V':
 	    version();
 	    exit(0);
+	case 'b':
+	case 'e':
+	case 'f':
+		/* Pico compatibility flags */
+		break;
 	case 'c':
 	    SET(CONSTUPDATE);
 	    break;
@@ -2275,6 +2280,12 @@ int main(int argc, char *argv[])
 		}
 #endif
 		break;
+	    case 27:
+		/* If we get Alt-Alt, the next keystroke should be the same as a
+		   control sequence */
+		modify_control_seq = 1;
+		keyhandled = 1;
+		break;
 	    case 91:
 
 		switch (kbinput = wgetch(edit)) {
@@ -2404,6 +2415,18 @@ int main(int argc, char *argv[])
 		break;
 	    }
 	}
+	/* If the modify_control_seq is set, we received an Alt-Alt 
+	   sequence before this, so we make this key a control sequence 
+	   by subtracting 64 or 96, depending on its value. */
+	if (!keyhandled && modify_control_seq) {
+	    if (kbinput >= 'A' && kbinput < 'a')
+		kbinput -= 64;
+	    else if (kbinput >= 'a' && kbinput <= 'z')
+		kbinput -= 96;
+
+	    modify_control_seq = 0;
+	}
+
 	/* Look through the main shortcut list to see if we've hit a
 	   shortcut key */
 	for (i = 0; i < MAIN_LIST_LEN && !keyhandled; i++) {
@@ -2417,18 +2440,17 @@ int main(int argc, char *argv[])
 		keyhandled = 1;
 	    }
 	}
-#ifndef _POSIX_VDISABLE
-	/* Since we're in raw mode, we have to catch ^Q and ^S */
+	/* If we're in raw mode or using Alt-Alt-x, we have to catch
+	   Control-S and Control-Q */
 	if (kbinput == 17 || kbinput == 19)
 	    keyhandled = 1;
 
-	/* And catch ^Z by hand when triggered */
+	/* Catch ^Z by hand when triggered also */
 	if (kbinput == 26) {
 	    if (ISSET(SUSPEND))
 		do_suspend(0);
 	    keyhandled = 1;
 	}
-#endif
 
 	/* Last gasp, stuff that's not in the main lists */
 	if (!keyhandled)
