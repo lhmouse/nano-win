@@ -2057,7 +2057,7 @@ void print_numlock_warning(void)
 {
     static int didmsg = 0;
     if (!didmsg) {
-	statusbar(_("NumLock glitch detected.  Keypad will malfunction without NumLock on"));
+	statusbar(_("NumLock glitch detected.  Keypad will malfunction with NumLock off"));
 	didmsg = 1;
     }
 }
