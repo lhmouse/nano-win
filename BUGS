@@ -103,9 +103,10 @@
   the first fail if no string is entered (56) [FIXED].
 - Page down on a file of editwinrows fails (again). Reported by Ryan
   Krebs (57) [FIXED].
-- File browser aborts on Solaris in qsort() call.  (Reported by
-  Matthias Andree) (58) [FIXED by Matthias Andree].
 
 ** Open BUGS **
+
+- File browser aborts on Solaris in qsort() call.  (Reported by
+  Matthias Andree) (58).
 
 $Id$

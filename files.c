@@ -993,7 +993,7 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 struct stat filestat(const char *path) {
     struct stat st;
 
-    lstat(path, &st);
+    stat(path, &st);
     return st;
 }
 
@@ -1005,7 +1005,7 @@ int diralphasort(const void *va, const void *vb) {
     char *a = *(char **)va, *b = *(char **)vb;
     int answer = 0;
 
-    if ((lstat(a, &file1info) != -1) && (lstat(b, &file2info) != -1)) {
+    if ((stat(a, &file1info) != -1) && (stat(b, &file2info) != -1)) {
 	/* If is a is a dir and b isn't, return -1.
 	   Else if b is a dir and a isn't, return 0.
 	   Else return a < b */
@@ -1285,13 +1285,22 @@ char *do_browser(char *inpath)
 	    col += strlen(foo);
 
 	    /* Put file info in the string also */
-	    st = filestat(filelist[j]);
+	    /* We use lstat here to detect links, then if we find a
+		symlink we examine it via stat() to see if it is a
+		directory or just a file symlink */
+	    lstat(filelist[j], &st);
 	    if (S_ISDIR(st.st_mode))
 		strcpy(foo + longest - 5, "(dir)");
 	    else {
-		if (S_ISLNK(st.st_mode))
-		    strcpy(foo + longest - 2, "--");
-		else if (st.st_size < 1024) /* less than 1 K */
+		if (S_ISLNK(st.st_mode)) {
+		     /* Aha!  It's a symlink!  Now, is it a dir?  If so,
+			mark it as such */
+		    st = filestat(filelist[j]);
+		    if (S_ISDIR(st.st_mode))
+			strcpy(foo + longest - 5, "(dir)");
+		    else
+			strcpy(foo + longest - 2, "--");
+		} else if (st.st_size < 1024) /* less than 1 K */
 		    sprintf(foo + longest - 7, "%4d  B", (int) st.st_size);
 		else if (st.st_size > 1073741824) /* at least 1 gig */
 		    sprintf(foo + longest - 7, "%4d GB", (int) st.st_size / 1073741824);

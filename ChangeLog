@@ -5,8 +5,13 @@ CVS -
 	- Fixed typo in section 6.1 (discovered by Bob Farmer).
 - files.c:
   diralphasort()
-	- Changed stat calls to lstat to stop abort on symlinks, otherwise
-	  return 0.  (Matthias Andree, fixes bug #58)
+	- Stop abort on symlinks (Matthias Andree)
+  fielstat(), do_browse()
+	- Changed lstat calls to stat, which fixes the browser not
+	  following links to directories.  We only use lstat() when
+	  printing the details of the file, and if it is a link, then
+	  check via lstat() for link to a directory.  If it is 
+	  a directory, display (dir), else use the normal "--".  
 
 nano-1.0.0 - 03/22/2001
 - General
