@@ -2384,8 +2384,8 @@ bool begpar(const filestruct *const foo)
  * line. */
 void do_para_begin(void)
 {
-    const filestruct *old_current = current;
-    const size_t old_pww = placewewant;
+    const filestruct *current_save = current;
+    const size_t pww_save = placewewant;
 
     current_x = 0;
     placewewant = 0;
@@ -2397,7 +2397,7 @@ void do_para_begin(void)
 	} while (!begpar(current));
     }
 
-    edit_redraw(old_current, old_pww);
+    edit_redraw(current_save, pww_save);
 }
 
 bool inpar(const char *str)
@@ -2412,8 +2412,8 @@ bool inpar(const char *str)
  * down to the end of a paragraph, then one line farther. */
 void do_para_end(void)
 {
-    const filestruct *const old_current = current;
-    const size_t old_pww = placewewant;
+    const filestruct *const current_save = current;
+    const size_t pww_save = placewewant;
 
     current_x = 0;
     placewewant = 0;
@@ -2430,7 +2430,7 @@ void do_para_end(void)
     if (current->next != NULL)
 	current = current->next;
 
-    edit_redraw(old_current, old_pww);
+    edit_redraw(current_save, pww_save);
 }
 
 /* Put the next par_len lines, starting with first_line, into the
