@@ -1539,7 +1539,6 @@ int main(int argc, char *argv[])
     struct sigaction act;	/* For our lovely signals */
     int keyhandled = 0;		/* Have we handled the keystroke yet? */
     int tmpkey = 0, i;
-    int usrtabsize = 0;		/* User defined tab size */
     char *argv0;
     struct termios term;
 
@@ -1588,8 +1587,8 @@ int main(int argc, char *argv[])
 
 	switch (optchr) {
 	case 'T':
-	    usrtabsize = atoi(optarg);
-	    if (usrtabsize <= 0) {
+	    tabsize = atoi(optarg);
+	    if (tabsize <= 0) {
 		usage();	/* To stop bogus data for tab width */
 		finish(1);
 	    }
@@ -1771,9 +1770,6 @@ int main(int argc, char *argv[])
 	do_gotoline(startline);
     else
 	edit_update(fileage, CENTER);
-
-    if (usrtabsize > 0)
-	tabsize = usrtabsize;
 
     edit_refresh();
     reset_cursor();

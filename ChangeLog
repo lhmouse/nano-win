@@ -19,6 +19,8 @@ CVS code
   do_enter()
 	- Fixed typo (?) in check for inptr->next.  Caused lots of
 	  grief for editing lines at filebot.
+  main()
+	- Removed now useless usrtabsize variable (Christian Weisgerber).
 - search.c:
   replace_abort()
 	- redundant, now just calls search abort until it does something
