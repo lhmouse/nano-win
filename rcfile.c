@@ -237,14 +237,18 @@ void parse_colors(FILE *rcstream, char *filename, int *lineno, char *buf, char *
 				tmpstr = tmpstr->next)
 			    ;
 
+#ifdef DEBUG
 		    fprintf(stderr, "Adding to existing entry for fg %d bg %d\n", fg, bg);
+#endif
 
 			tmpstr->next = nmalloc (sizeof(colorstr));
 			tmpstr->next->val = tmp;
 			tmpstr->next->next = NULL;
 		    } else {
 
+#ifdef DEBUG
 		    fprintf(stderr, "Adding new entry for fg %d bg %d\n", fg, bg);
+#endif
 
 			tmpcolor->next = nmalloc(sizeof(colortype));
 			tmpcolor->next->fg = fg;
