@@ -63,6 +63,10 @@ static struct sigaction act;	/* For all our fun signal handlers */
 
 static sigjmp_buf jmpbuf;	/* Used to return to mainloop after SIGWINCH */
 
+#ifndef NANO_SMALL
+static int resizepending = 0;	/* Got a resize request while reading data */
+#endif
+
 /* What we do when we're all set to exit */
 RETSIGTYPE finish(int sigage)
 {
@@ -2849,6 +2853,11 @@ void handle_sigwinch(int s)
     int result = 0;
     struct winsize win;
 
+    if (!jumpok) {
+	resizepending = 1;
+	return;
+    }
+
     if (tty == NULL)
 	return;
     fd = open(tty, O_RDWR);
@@ -3444,6 +3453,14 @@ int main(int argc, char *argv[])
 
     /* Return here after a sigwinch */
     sigsetjmp(jmpbuf, 1);
+
+#ifndef NANO_SMALL
+    jumpok = 1;
+    if (resizepending) {
+	resizepending = 0;
+	handle_sigwinch(0);
+    }
+#endif
 
     /* SHUT UP GCC! */
     startline = 0;

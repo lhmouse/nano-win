@@ -44,6 +44,7 @@ char *filename = NULL;		/* Name of the file */
 
 #ifndef NANO_SMALL
 struct stat originalfilestat;	/* Stat for the file as we loaded it */
+int jumpok = 0;			/* Okay to longjmp back to main loop */
 #endif
 
 int editwinrows = 0;		/* How many rows long is the edit

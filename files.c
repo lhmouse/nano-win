@@ -165,6 +165,10 @@ int read_file(FILE *f, const char *filename, int quiet)
     int line1ins = 0;
     int input_int;
 
+#ifndef NANO_SMALL
+    jumpok = 0;
+#endif
+
     buf = charalloc(bufx);
     buf[0] = '\0';
 
@@ -334,6 +338,9 @@ int read_file(FILE *f, const char *filename, int quiet)
 
     totlines += num_lines;
 
+#ifndef NANO_SMALL
+    jumpok = 1;
+#endif
     return 1;
 }
 
@@ -1346,6 +1353,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 	statusbar(_("Cancelled"));
 	return -1;
     }
+
     if (!tmp)
 	titlebar(NULL);
     fileptr = fileage;
@@ -1486,6 +1494,9 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 
 #ifdef DEBUG
     dump_buffer(fileage);
+#endif
+#ifndef NANO_SMALL
+    jumpok = 0;
 #endif
 
     f = fdopen(fd, append == 1 ? "ab" : "wb");
@@ -1698,6 +1709,9 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
   cleanup_and_exit:
     free(realname);
     free(buf);
+#ifndef NANO_SMALL
+    jumpok = 1;
+#endif
     return retval;
 }
 

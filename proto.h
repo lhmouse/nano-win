@@ -116,6 +116,7 @@ extern regmatch_t synfilematches[1];
 
 #ifndef NANO_SMALL
 extern toggle *toggles;
+extern int jumpok;
 #endif
 
 #ifndef NANO_SMALL

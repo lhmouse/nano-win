@@ -1,10 +1,19 @@
 CVS code -
 - General:
 	- Translation updates (see po/ChangeLog for details).
+	- Don't run handle_sigwinch() handler if we're reading in
+	  or writing out a file.   Global variable jumpok controls
+	  when to not run the winch handles, static resizepending
+	  is set, handler in main to run handle_sigwinch() when set.
+	  Should fix segfaults when nano is initially suspended while 
+	  reading in a file.
+	*** FIXME: WHo t credit fo finding this bug?
 - nano.c:
   main()
 	- Don't call open_file with quiet flag set.  Fixes Debian bug 
 	  #246956 (no warning when trying to open non-readable file).
+	- Add an extra titlebar() call (useful when reading in a big 
+	  file).
 
 GNU nano 1.2.3 - 2004.01.17
 - General:
