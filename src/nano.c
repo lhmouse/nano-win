@@ -1430,7 +1430,7 @@ bool do_int_spell_fix(const char *word)
     bool reverse_search_set = ISSET(REVERSE_SEARCH);
     bool old_mark_set = ISSET(MARK_ISSET);
 #endif
-#ifndef HAVE_REGEX_H
+#ifdef HAVE_REGEX_H
     bool regexp_set = ISSET(USE_REGEXP);
 #endif
 
@@ -1444,7 +1444,7 @@ bool do_int_spell_fix(const char *word)
     /* Make sure the marking highlight is off during spell-check. */
     UNSET(MARK_ISSET);
 #endif
-#ifndef HAVE_REGEX_H
+#ifdef HAVE_REGEX_H
     /* Make sure spell-check doesn't use regular expressions. */
     UNSET(USE_REGEXP);
 #endif
@@ -1513,7 +1513,7 @@ bool do_int_spell_fix(const char *word)
     if (old_mark_set)
 	SET(MARK_ISSET);
 #endif
-#ifndef HAVE_REGEX_H
+#ifdef HAVE_REGEX_H
     /* Restore regular expression usage setting. */
     if (regexp_set)
 	SET(USE_REGEXP);
