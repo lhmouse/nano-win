@@ -358,6 +358,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	case KEY_UP:
 	case NANO_UP_KEY:
 #ifndef NANO_SMALL
+  do_upkey:
 	    if (history_list != NULL) {
 
 		/* If there's no previous temp holder, or if we already
@@ -383,6 +384,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	case KEY_DOWN:
 	case NANO_DOWN_KEY:
 #ifndef NANO_SMALL
+  do_downkey:
 	    if (history_list != NULL) {
 		/* get newer search from the history list */
 		if ((history = get_history_newer(history_list)) != NULL) {
@@ -421,6 +423,18 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		break;
 	    case '[':
 		switch (kbinput = wgetch(edit)) {
+		case 'A':
+#ifndef NANO_SMALL
+		    goto do_upkey;
+#else
+		    break;
+#endif
+		case 'B':
+#ifndef NANO_SMALL
+		    goto do_downkey;
+#else
+		    break;
+#endif
 		case 'C':
 		    if (x < xend)
 			x++;
@@ -835,7 +849,6 @@ void edit_add(const filestruct *fileptr, int yval, int start
 		/* We have already painted the whole line. */
 		if (paintlen == COLS)
 		    goto skip_step_two;
-
 
   step_two:	/* Second step, we look for starts on this line. */
 		start_col = 0;
@@ -1532,19 +1545,15 @@ int do_help(void)
 		    case '5':	/* Alt-[-5 = Page Up */
 			wgetch(edit);
 			goto do_pageupkey;
-			break;
 		    case 'V':	/* Alt-[-V = Page Up in Hurd Console */
 		    case 'I':	/* Alt-[-I = Page Up - FreeBSD Console */
 			goto do_pageupkey;
-			break;
 		    case '6':	/* Alt-[-6 = Page Down */
 			wgetch(edit);
 			goto do_pagedownkey;
-			break;
 		    case 'U':	/* Alt-[-U = Page Down in Hurd Console */
 		    case 'G':	/* Alt-[-G = Page Down - FreeBSD Console */
 			goto do_pagedownkey;
-			break;
 		}
 		break;
 	    }
