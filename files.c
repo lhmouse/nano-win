@@ -247,7 +247,7 @@ int do_insertfile(void)
     int i;
 
     wrap_reset();
-    i = statusq(writefile_list, WRITEFILE_LIST_LEN, "",
+    i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, "",
 		_("File to insert [from ./] "));
     if (i != -1) {
 
@@ -463,7 +463,7 @@ int do_writeout(int exiting)
     }
 
     while (1) {
-	i = statusq(writefile_list, WRITEFILE_LIST_LEN, answer,
+	i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, answer,
 		    _("File Name to write"));
 
 	if (i != -1) {
@@ -732,7 +732,8 @@ int input_tab(char *buf, int place, int lastWasTab)
 	    free(foo);
 	    wrefresh(edit);
 	    num_matches = 0;
-	}
+	} else
+	    beep();
 
     }
 

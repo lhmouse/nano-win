@@ -71,7 +71,7 @@ int xplustabs(void);
 int do_yesno(int all, int leavecursor, char *msg, ...);
 int actual_x(filestruct * fileptr, int xplus);
 int strlenpt(char *buf);
-int statusq(shortcut s[], int slen, char *def, char *msg, ...);
+int statusq(int allowtabs, shortcut s[], int slen, char *def, char *msg, ...);
 int write_file(char *name, int tmpfile);
 int do_cut_text(void);
 int do_uncut_text(void);

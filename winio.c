@@ -244,7 +244,8 @@ void nanoget_repaint(char *buf, char *inputbuf, int x)
 }
 
 /* Get the input from the kb, this should only be called from statusq */
-int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
+int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen, 
+	       int start_x)
 {
     int kbinput = 0, j = 0, x = 0, xend;
     int x_left = 0, inputlen, tabbed = 0;
@@ -329,16 +330,12 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 	    nanoget_repaint(buf, inputbuf, x);
 	    break;
 	case NANO_CONTROL_I:
-	    tabbed++;
-#ifdef DEBUG
-	    fprintf(stderr, "Before call, x = %d\n", x);
-#endif
-	    x += input_tab(inputbuf, (x - x_left), tabbed - 1);
-#ifdef DEBUG
-	    fprintf(stderr, "After call, x = %d\n", x);
-#endif
-	    nanoget_repaint(buf, inputbuf, x);
-	    tabbed = 1;
+	    if (allowtabs) {
+		tabbed++;
+		x += input_tab(inputbuf, (x - x_left), tabbed - 1);
+		nanoget_repaint(buf, inputbuf, x);
+		tabbed = 1;
+	    }
 	    break;
 	case KEY_LEFT:
 	    if (x > strlen(buf))
@@ -943,8 +940,10 @@ void update_cursor(void)
  * global.  Returns -1 on aborted enter, -2 on a blank string, and 0
  * otherwise, the valid shortcut key caught, Def is any editable text we
  * want to put up by default.
+ *
+ * New arg tabs tells whether or not to allow tab completion.
  */
-int statusq(shortcut s[], int slen, char *def, char *msg, ...)
+int statusq(int tabs, shortcut s[], int slen, char *def, char *msg, ...)
 {
     va_list ap;
     char foo[133];
@@ -958,7 +957,7 @@ int statusq(shortcut s[], int slen, char *def, char *msg, ...)
     strncat(foo, ": ", 132);
 
     wattron(bottomwin, A_REVERSE);
-    ret = nanogetstr(foo, def, s, slen, (strlen(foo) + 3));
+    ret = nanogetstr(tabs, foo, def, s, slen, (strlen(foo) + 3));
     wattroff(bottomwin, A_REVERSE);
 
     switch (ret) {

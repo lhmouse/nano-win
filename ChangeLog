@@ -21,7 +21,9 @@ CVS Code -
 	  last_replace back to nano.c (*shrug*).
 	- New tab completion code.  Used check_wildcard_match, input_tab, 
 	  cwd_tab_completion, username_tab_completion from busybox, 
-	  hacked them a lot, changes to nanogetstr().
+	  hacked them a lot, changes to nanogetstr().  nanogetstr() and
+	  statusq() now take an arg for whether or not to allow tab
+	  completion.
 - files.c:
   do_writeout()
 	- Change strcpy to answer to mallocstrcpy.

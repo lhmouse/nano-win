@@ -108,11 +108,11 @@ int search_init(int replacing)
 	reprompt = _(" (to replace)");
 
     if (ISSET(PICO_MSGS))
-	i = statusq(replacing ? replace_list : whereis_list,
+	i = statusq(0, replacing ? replace_list : whereis_list,
 		replacing ? REPLACE_LIST_LEN : WHEREIS_LIST_LEN, "",
 		prompt, reprompt, buf);
     else
-	i = statusq(replacing ? replace_list : whereis_list,
+	i = statusq(0, replacing ? replace_list : whereis_list,
 		replacing ? REPLACE_LIST_LEN : WHEREIS_LIST_LEN, last_search,
 		prompt, reprompt, "");
 
@@ -565,15 +565,15 @@ int do_replace(void)
 	    } else
 		sprintf(buf, "%s", last_replace);
 
-	    i = statusq(replace_list_2, REPLACE_LIST_2_LEN, "",
+	    i = statusq(0, replace_list_2, REPLACE_LIST_2_LEN, "",
 			_("Replace with [%s]"), buf);
 	}
 	else
-	    i = statusq(replace_list_2, REPLACE_LIST_2_LEN, "",
+	    i = statusq(0, replace_list_2, REPLACE_LIST_2_LEN, "",
 			_("Replace with"));
     }
     else
-	i = statusq(replace_list_2, REPLACE_LIST_2_LEN, last_replace, 
+	i = statusq(0, replace_list_2, REPLACE_LIST_2_LEN, last_replace, 
 			_("Replace with"));
 
     /* save where we are */
@@ -609,7 +609,7 @@ int do_gotoline(long defline)
 	line = defline;
     else {			/* Ask for it */
 
-	j = statusq(goto_list, GOTO_LIST_LEN, "", _("Enter line number"));
+	j = statusq(0, goto_list, GOTO_LIST_LEN, "", _("Enter line number"));
 	if (j == -1) {
 	    statusbar(_("Aborted"));
 	    goto_abort();
