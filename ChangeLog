@@ -9,7 +9,9 @@ CVS code -
   main()
 	- Put NANO_SMALL defines around toggle pointer (noticed by Jordi);
 - rcfile.c:
-  
+  parse_rcfile()
+	- Don't use i for both for loop and atoi(), fixes lots of 
+	  potential crashes, 1st reported by Jean-Philippe Gue'rard.
 - utils.c:
   stristr() - Defined regardless of NANO_SMALL (noticed by Jordi).
 	  
