@@ -1,4 +1,10 @@
 CVS code -
+- THANKS:
+	- Added missing entry for Eivind Kjørstad.
+- po/no.po:
+	- Moved to po/nn.po, which is the correct name for Norwegian nynorsk.
+- po/nb.po:
+	- New Norwegian bokmål translation (Stig E Sandoe <stig@ii.uib.no>).
 
 nano-1.0.8 - 01/16/2002
 - General
