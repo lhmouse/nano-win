@@ -1,3 +1,17 @@
+12/05/2002 - GNU nano 1.1.5 is out.  The main new feature in this 
+		release if the changed behavior of the keypad.  Nano now 
+		does the Right Thing and used keypad() by default.  If
+		you wish to use the keypad arrow keys in certain 
+		terminals, you may use the -K or --keypad flag to
+		use the old behavior.  Users of other OSes should see 
+		better handling of their non-keypad keys in this 
+		release.  Other changes include more Hurd fixes, fixes
+		parsing the .nanorc, display fixes for the color syntax
+		highlighting, gettext stabilization and many translation
+		updates.  This is amost like a stable release, much like
+		in the 0.9.x series when every other release was the
+		mosts stable one :)  Have fun!
+		
 12/11/2001 - GNU nano 1.1.4 is released.  This release contains 
 		rudimentary color syntax support (but it's still
 		broken), compatibility fixes for the Hurd and FreeBSD,
