@@ -170,7 +170,7 @@ void shortcut_init(int unjustify)
 	"", *nano_mark_msg = "", *nano_delete_msg =
 	"", *nano_backspace_msg = "", *nano_tab_msg =
 	"", *nano_enter_msg = "", *nano_case_msg =
-	"", *nano_cancel_msg = "", *nano_unjustify_msg;
+	"", *nano_cancel_msg = "", *nano_unjustify_msg = "";
 
 #ifndef NANO_SMALL
     nano_help_msg = _("Invoke the help menu");

@@ -64,9 +64,11 @@
 int fill = 0;			/* Fill - where to wrap lines, basically */
 static char *alt_speller;	/* Alternative spell command */
 struct termios oldterm;		/* The user's original term settings */
-static char *help_text_init = "";
-				/* Initial message, not including shortcuts */
 static struct sigaction act;	/* For all out fun signal handlers */
+
+#if !defined(NANO_SMALL) && !defined(DISABLE_HELP)
+static char *help_text_init = ""; /* Initial message, not including shortcuts */
+#endif
 
 char *last_search = NULL;	/* Last string we searched for */
 char *last_replace = NULL;	/* Last replacement string */
