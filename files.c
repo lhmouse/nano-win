@@ -1054,7 +1054,7 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 struct stat filestat(const char *path) {
     struct stat st;
 
-    stat(path, &st);
+    lstat(path, &st);
     return st;
 }
 
@@ -1327,7 +1327,9 @@ char *do_browser(char *inpath)
 	    if (S_ISDIR(st.st_mode))
 		strcpy(foo + longest - 5, "(dir)");
 	    else {
-		if (st.st_size < 1024) /* less than 1 K */
+		if (S_ISLNK(st.st_mode))
+		    strcpy(foo + longest - 2, "--");
+		else if (st.st_size < 1024) /* less than 1 K */
 		    sprintf(foo + longest - 7, "%4d  B", (int) st.st_size);
 		else if (st.st_size > 1073741824) /* at least 1 gig */
 		    sprintf(foo + longest - 7, "%4d GB", (int) st.st_size / 1073741824);
