@@ -165,7 +165,7 @@ void die_save_file(char *die_filename);
 void new_file(void);
 void new_magicline(void);
 void splice_node(filestruct *begin, filestruct *newnode, filestruct *end);
-void null_at(char *data, int index);
+void null_at(char **data, int index);
 void page_up(void);
 void blank_edit(void);
 void search_init_globals(void);

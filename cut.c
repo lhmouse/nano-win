@@ -157,7 +157,7 @@ void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
  	screwed somewhere.  Not doing this causes update_line to annihilate
 	the last line copied into the cutbuffer when the mark is set ?!?!? */
     botcopy = copy_node(bot);
-    null_at(botcopy->data, bot_x);
+    null_at(&botcopy->data, bot_x);
     next = botcopy->next;
     add_to_cutbuffer(botcopy);
 
@@ -451,7 +451,7 @@ int do_uncut_text(void)
 	    tmp->data = charalloc(strlen(&current->data[current_x]) + 1);
 	    strcpy(tmp->data, &current->data[current_x]);
 	    splice_node(current, tmp, current->next);
-	    null_at(current->data, current_x);
+	    null_at(&current->data, current_x);
 	    current = current->next;
 	    current_x = 0;
 	    placewewant = 0;

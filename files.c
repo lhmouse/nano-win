@@ -495,8 +495,8 @@ int add_open_file(int update, int dup_fix)
 	open_files = open_files->next;
 
 	/* if open_files->file is NULL at the nrealloc() below, we get a
-	   segfault */
-	open_files->file = open_files;
+	   segfault
+	open_files->file = open_files; */
     }
 
     /* save current filename */
@@ -524,7 +524,7 @@ int add_open_file(int update, int dup_fix)
     open_files->lineno = current->lineno;
 
     /* save current filestruct */
-    open_files->file = nrealloc(open_files->file, sizeof(filestruct));
+    open_files->file = nmalloc(sizeof(filestruct));
     while (current->prev)
 	current = current->prev;
     open_files->file = copy_filestruct(current);
@@ -912,7 +912,7 @@ char *get_full_path(char *origpath)
 	    /* otherwise, remove all non-path elements from d_there
 	       (i. e. everything after the last slash) */
 	    last_slash_index = strlen(d_there) - strlen(last_slash);
-	    null_at(d_there, last_slash_index + 1);
+	    null_at(&d_there, last_slash_index + 1);
 
 	    /* and remove all non-file elements from d_there_file (i. e.
 	       everything before and including the last slash); if we

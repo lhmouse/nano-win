@@ -5,6 +5,9 @@ CVS code -
 	  currshortcut and currslen #ifdefs to depend on both 
 	  DISABLE_HELP and DISABLE_MOUSE being defined to not 
 	  include.  Changed all the shortcuts and lengths.
+	- Fixed null_at to ACTUALLY DO SOMETHING with its arg.  Again,
+	  this was causing nasty errors if the call to nrealloc moved
+	  where the data was located.
 - cut.c:
   do_cut_text()
 	-  Check to see whether marked text is contained within edit
