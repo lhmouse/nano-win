@@ -406,43 +406,39 @@ void help_init(void)
 	/* true if the character in s->altval is shown in first column */
 	int meta_shortcut = 0;
 
+	if (s->val != NANO_NO_KEY) {
 #ifndef NANO_SMALL
-	if (s->val == NANO_UP_KEY && s->misc == NANO_DOWN_KEY)
-	    ptr += sprintf(ptr, "%.2s", _("Up"));
-	else
+	    if (s->val == NANO_HISTORY_KEY)
+		ptr += sprintf(ptr, "%.2s", _("Up"));
+	    else
 #endif
-	if (is_cntrl_char(s->val)) {
 	    if (s->val == NANO_CONTROL_SPACE)
-		ptr += sprintf(ptr, "^%.6s", _("Space"));
+		ptr += sprintf(ptr, "^%.5s", _("Space"));
 	    else if (s->val == NANO_CONTROL_8)
 		ptr += sprintf(ptr, "^?");
 	    else
 		ptr += sprintf(ptr, "^%c", s->val + 64);
 	}
 #ifndef NANO_SMALL
-	else if (s->altval == NANO_ALT_SPACE) {
+	else if (s->altval != NANO_NO_KEY) {
 	    meta_shortcut = 1;
-	    ptr += sprintf(ptr, "M-%.5s", _("Space"));
+	    if (s->altval == NANO_ALT_SPACE)
+		ptr += snprintf(ptr, 8, "M-%.5s", _("Space"));
+	    else
+		ptr += sprintf(ptr, "M-%c", toupper(s->altval));
 	}
 #endif
-	else if (s->val > 0) {
-	    meta_shortcut = 1;
-	    ptr += sprintf(ptr, "M-%c", toupper(s->val));
-	} else if (s->altval > 0) {
-	    meta_shortcut = 1;
-	    ptr += sprintf(ptr, "M-%c", toupper(s->altval));
-	}
 
 	*(ptr++) = '\t';
 
-	if (s->func_key > KEY_F0 && s->func_key <= KEY_F(64))
+	if (s->func_key != NANO_NO_KEY)
 	    ptr += sprintf(ptr, "(F%d)", s->func_key - KEY_F0);
 
 	*(ptr++) = '\t';
 
-	if (!meta_shortcut && s->altval > 0)
+	if (!meta_shortcut && s->altval != NANO_NO_KEY)
 	    ptr += sprintf(ptr, "(M-%c)", toupper(s->altval));
-	else if (meta_shortcut && s->misc > 0)
+	else if (meta_shortcut && s->misc != NANO_NO_KEY)
 	    ptr += sprintf(ptr, "(M-%c)", toupper(s->misc));
 
 	*(ptr++) = '\t';
@@ -663,7 +659,7 @@ void usage(void)
 #endif
     print1opt("-c", "--const", _("Constantly show cursor position"));
 #ifndef NANO_SMALL
-    print1opt("-d", "--rebinddelete", _("Fix Backspace if it acts like Delete"));
+    print1opt("-d", "--rebinddelete", _("Fix Backspace/Delete confusion problem"));
     print1opt("-i", "--autoindent", _("Automatically indent new lines"));
     print1opt("-k", "--cut", _("Let ^K cut from cursor to end of line"));
 #endif
@@ -896,7 +892,7 @@ void do_mouse(void)
 {
     int mouse_x, mouse_y;
 
-    if (get_mouseinput(&mouse_x, &mouse_y) == 0) {
+    if (get_mouseinput(&mouse_x, &mouse_y, 1) == 0) {
 
 	/* Click in the edit window to move the cursor, but only when
 	   we're not in a subfunction. */
@@ -1019,7 +1015,7 @@ int do_verbatim_input(void)
 	signal_init();
 
     statusbar(_("Verbatim input"));
-    verbatim_kbinput = get_verbatim_kbinput(edit, &verbatim_len);
+    verbatim_kbinput = get_verbatim_kbinput(edit, &verbatim_len, 1);
 
     /* Turn on DISABLE_CURPOS while inserting character(s) and turn it
      * off afterwards, so that if constant cursor position display is
@@ -2238,8 +2234,7 @@ int do_para_operation(int operation)
  *
  *   A contiguous set of lines is a "paragraph" if each line is part of
  *   a paragraph and only the first line is the beginning of a
- *   paragraph.
- */
+ *   paragraph. */
 
     size_t quote_len;
 	/* Length of the initial quotation of the paragraph we
@@ -2656,17 +2651,22 @@ int do_para_operation(int operation)
     /* Now get a keystroke and see if it's unjustify; if not, unget the
      * keystroke and return. */
 
+    {
+	int meta;
+	i = get_kbinput(edit, &meta);
 #ifndef DISABLE_MOUSE
-    /* If it was a mouse click, parse it with do_mouse() and it might
-     * become the unjustify key.  Else give it back to the input
-     * stream. */
-    if ((i = wgetch(edit)) == KEY_MOUSE)
-	do_mouse();
-    else
-	ungetch(i);
+	/* If it was a mouse click, parse it with do_mouse() and it
+	 * might become the unjustify key.  Else give it back to the
+	 * input stream. */
+	if (i == KEY_MOUSE)
+	    do_mouse();
+	else
+	    ungetch(i);
+	i = get_kbinput(edit, &meta);
 #endif
+    }
 
-    if ((i = wgetch(edit)) != NANO_UNJUSTIFY_KEY) {
+    if (i != NANO_UNJUSTIFY_KEY) {
 	ungetch(i);
 	/* Did we back up anything at all? */
 	if (cutbuffer != cutbuffer_save)
@@ -2761,14 +2761,11 @@ int do_exit(void)
 	    finish(0);
     }
 
-    if (ISSET(TEMP_OPT)) {
+    if (ISSET(TEMP_OPT))
 	i = 1;
-    } else {
-	i = do_yesno(0, 0,
-		     _
-		     ("Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "));
-    }
-
+    else
+	i = do_yesno(0, _("Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "));
+    
 #ifdef DEBUG
     dump_buffer(fileage);
 #endif
@@ -3066,7 +3063,6 @@ int main(int argc, char *argv[])
     struct termios term;
 #endif
 #ifdef HAVE_GETOPT_LONG
-    int option_index = 0;
     const struct option long_options[] = {
 	{"help", 0, 0, 'h'},
 #ifdef ENABLE_MULTIBUFFER
@@ -3140,7 +3136,7 @@ int main(int argc, char *argv[])
 
 #ifdef HAVE_GETOPT_LONG
     while ((optchr = getopt_long(argc, argv, "h?BDFHIMNQ:RST:VY:abcdefgijklmo:pr:s:tvwxz",
-				 long_options, &option_index)) != -1) {
+				 long_options, NULL)) != -1) {
 #else
     while ((optchr =
 	    getopt(argc, argv, "h?BDFHIMNQ:RST:VY:abcdefgijklmo:pr:s:tvwxz")) != -1) {
@@ -3515,7 +3511,7 @@ int main(int argc, char *argv[])
 	raw();
 #endif
 
-	kbinput = get_kbinput(edit, &meta, ISSET(REBIND_DELETE));
+	kbinput = get_kbinput(edit, &meta);
 #ifdef DEBUG
 	fprintf(stderr, "AHA!  %c (%d)\n", kbinput, kbinput);
 #endif
@@ -3558,8 +3554,8 @@ int main(int argc, char *argv[])
 #else
 	    for (s = main_list; s != NULL && !keyhandled; s = s->next) {
 #endif
-		if ((s->val >= 0 && kbinput == s->val) ||
-		    (s->func_key > 0 && kbinput == s->func_key)) {
+		if ((s->val != NANO_NO_KEY && kbinput == s->val) ||
+		    (s->func_key != NANO_NO_KEY && kbinput == s->func_key)) {
 		    if (ISSET(VIEW_MODE) && !s->viewok)
 			print_view_warning();
 		    else {

@@ -436,15 +436,15 @@ int check_wildcard_match(const char *text, const char *pattern);
 #endif
 
 /* Public functions in winio.c */
-int get_kbinput(WINDOW *win, int *meta, int rebind_delete);
-char *get_verbatim_kbinput(WINDOW *win, int *kbinput_len);
+int get_kbinput(WINDOW *win, int *meta);
+char *get_verbatim_kbinput(WINDOW *win, int *kbinput_len,
+	int allow_ascii);
 int get_ignored_kbinput(WINDOW *win);
-int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta,
-	int rebind_delete);
+int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta);
 int get_ascii_kbinput(WINDOW *win, int kbinput);
-int get_escape_seq_kbinput(WINDOW *win, int kbinput);
-int get_skip_tilde_kbinput(WINDOW *win, int errval, int retval);
-int get_mouseinput(int *mouse_x, int *mouse_y);
+int get_escape_seq_kbinput(WINDOW *win, char *escape_seq, int
+	escape_seq_len);
+int get_mouseinput(int *mouse_x, int *mouse_y, int shortcut);
 int do_first_line(void);
 int do_last_line(void);
 int xpt(const filestruct *fileptr, int index);
@@ -493,7 +493,7 @@ int statusq(int tabs, const shortcut *s, const char *def,
 		historyheadtype *history_list,
 #endif
 		const char *msg, ...);
-int do_yesno(int all, int leavecursor, const char *msg, ...);
+int do_yesno(int all, const char *msg);
 int total_refresh(void);
 void display_main_list(void);
 void statusbar(const char *msg, ...);

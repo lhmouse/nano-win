@@ -878,7 +878,7 @@ int open_prevfile(int closing_file)
 
 	/* only one file open */
 	if (!closing_file)
-	    statusbar(_("No more open files"));
+	    statusbar(_("No more open file buffers"));
 	return 1;
     }
 
@@ -941,7 +941,7 @@ int open_nextfile(int closing_file)
 
 	/* only one file open */
 	if (!closing_file)
-	    statusbar(_("No more open files"));
+	    statusbar(_("No more open file buffers"));
 	return 1;
     }
 
@@ -1835,7 +1835,7 @@ int do_writeout(const char *path, int exiting, int append)
 	    struct stat st;
 
 	    if (!stat(answer, &st)) {
-		i = do_yesno(0, 0, _("File exists, OVERWRITE ?"));
+		i = do_yesno(0, _("File exists, OVERWRITE ?"));
 		if (i == 0 || i == -1)
 		    continue;
 	    } else if (filename[0] != '\0'
@@ -1843,7 +1843,7 @@ int do_writeout(const char *path, int exiting, int append)
 		&& (!ISSET(MARK_ISSET) || exiting)
 #endif
 		) {
-		i = do_yesno(0, 0, _("Save file under DIFFERENT NAME ?"));
+		i = do_yesno(0, _("Save file under DIFFERENT NAME ?"));
 		if (i == 0 || i == -1)
 		    continue;
 	    }
@@ -2599,7 +2599,7 @@ char *do_browser(const char *inpath)
 	    break;
 	case NANO_PREVPAGE_KEY:
 	case NANO_PREVPAGE_FKEY:
-	case '-':
+	case '-': /* Pico compatibility */
 	    if (selected >= (editwinrows + lineno % editwinrows) * width)
 		selected -= (editwinrows + lineno % editwinrows) * width; 
 	    else
@@ -2607,18 +2607,19 @@ char *do_browser(const char *inpath)
 	    break;
 	case NANO_NEXTPAGE_KEY:
 	case NANO_NEXTPAGE_FKEY:
-	case ' ':
+	case ' ': /* Pico compatibility */
 	    selected += (editwinrows - lineno % editwinrows) * width;
 	    if (selected >= numents)
 		selected = numents - 1;
 	    break;
 	case NANO_HELP_KEY:
 	case NANO_HELP_FKEY:
+	case '?': /* Pico compatibility */
 	     do_help();
 	     break;
 	case NANO_ENTER_KEY:
-	case 's': /* More Pico compatibility */
-	case 'S':
+	case 'S': /* Pico compatibility */
+	case 's':
 	    /* You can't cd up from / */
 	    if (!strcmp(filelist[selected], "/..") && !strcmp(path, "/")) {
 		statusbar(_("Can't move up a directory"));
@@ -2627,10 +2628,9 @@ char *do_browser(const char *inpath)
 	    }
 
 #ifndef DISABLE_OPERATINGDIR
-	    /*
-	     *  Note: the selected file can be outside the operating
-	     *  directory if it is .. or if it is a symlink to a directory
-	     *  outside the opdir. */
+	    /* Note: the selected file can be outside the operating
+	     * directory if it is .. or if it is a symlink to 
+	     * directory outside the operating directory. */
 	    if (check_operating_dir(filelist[selected], FALSE)) {
 		statusbar(_("Can't go outside of %s in restricted mode"), operating_dir);
 		beep();
@@ -2680,6 +2680,8 @@ char *do_browser(const char *inpath)
 	/* Goto a specific directory */
 	case NANO_GOTO_KEY:
 	case NANO_GOTO_FKEY:
+	case 'G': /* Pico compatibility */
+	case 'g':
 	    curs_set(1);
 	    j = statusq(0, gotodir_list, "",
 #ifndef NANO_SMALL
@@ -2724,11 +2726,11 @@ char *do_browser(const char *inpath)
 	    return do_browser(path);
 
 	/* Stuff we want to abort the browser */
-	case 'e':	/* Pico compatibility, yeech */
-	case 'E':
 	case NANO_CANCEL_KEY:
 	case NANO_EXIT_KEY:
 	case NANO_EXIT_FKEY:
+	case 'E': /* Pico compatibility */
+	case 'e':
 	    abort = 1;
 	    break;
 	}
@@ -2803,7 +2805,7 @@ char *do_browser(const char *inpath)
 	    }
 	}
  	wrefresh(edit);
-    } while ((kbinput = get_kbinput(edit, &meta, ISSET(REBIND_DELETE))) != NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
+    } while ((kbinput = get_kbinput(edit, &meta)) != NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
     curs_set(1);
     blank_edit();
     titlebar(NULL);

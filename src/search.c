@@ -711,7 +711,7 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 	    curs_set(0);
 	    do_replace_highlight(TRUE, exp_word);
 
-	    *i = do_yesno(1, 1, _("Replace this instance?"));
+	    *i = do_yesno(1, _("Replace this instance?"));
 
 	    do_replace_highlight(FALSE, exp_word);
 	    free(exp_word);

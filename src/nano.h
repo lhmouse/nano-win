@@ -90,8 +90,9 @@
 #endif
 
 /* Assume ERR is defined as -1.  To avoid duplicate case values when
-   some key definitions are missing, we have to set these all to
-   different negative values other than -1. */
+   some key definitions are missing, we have to set all of these, and
+   all of the special sentinel values below, to different negative
+   values other than -1. */
 
 /* HP-UX 10 & 11 do not seem to support KEY_HOME and KEY_END */
 #ifndef KEY_HOME
@@ -107,18 +108,18 @@
 #define KEY_RESIZE -4
 #endif
 
-/* Slang does not seem to support KEY_SUSPEND */
+/* Slang does not seem to support KEY_SUSPEND, KEY_SLEFT, or
+   KEY_SRIGHT */
 #ifndef KEY_SUSPEND
 #define KEY_SUSPEND -5
 #endif
 
-/* Non-ncurses may not support KEY_UP and KEY_DOWN */
-#ifndef KEY_UP
-#define KEY_UP -6
+#ifndef KEY_SLEFT
+#define KEY_SLEFT -6
 #endif
 
-#ifndef KEY_DOWN
-#define KEY_DOWN -7
+#ifndef KEY_SRIGHT
+#define KEY_SRIGHT -7
 #endif
 
 #define VERMSG "GNU nano " VERSION
@@ -168,18 +169,19 @@ typedef struct openfilestruct {
 #endif
 
 typedef struct shortcut {
-   int val;		/* Actual sequence that generates the keystroke,
-			   or -1 for none */
-   int altval;		/* Alt key for this function, or 0 for none */
-   int func_key;	/* Function key we want bound */
-   int misc;		/* Other Alt key we want bound, or 0 for none */
-   int viewok;		/* is this function legal in view mode? */
-   int (*func) (void);	/* Function to call when we catch this key */
-   const char *desc;	/* Description, e.g. "Page Up" */
+    /* Key values that aren't used should be set to NANO_NO_KEY */
+    int val;		/* Special sentinel key or control key we want
+			 * bound */
+    int altval;		/* Alt key we want bound */
+    int func_key;	/* Function key we want bound */
+    int misc;		/* Other Alt key we want bound */
+    int viewok;		/* Is this function legal in view mode? */
+    int (*func) (void);	/* Function to call when we catch this key */
+    const char *desc;	/* Description, e.g. "Page Up" */
 #ifndef DISABLE_HELP
-   const char *help;	/* Help file entry text */
+    const char *help;	/* Help file entry text */
 #endif
-   struct shortcut *next;
+    struct shortcut *next;
 } shortcut;
 
 #ifndef NANO_SMALL
@@ -348,10 +350,17 @@ typedef struct historyheadtype {
 /* Some semi-changeable keybindings; don't play with unless you're sure
    you know what you're doing */
 
+/* No key at all. */
+#define NANO_NO_KEY		-8
+
+/* Special sentinel key. */
+#define NANO_HISTORY_KEY	-9
+
+/* Normal keys. */
 #define NANO_INSERTFILE_KEY	NANO_CONTROL_R
 #define NANO_INSERTFILE_FKEY	KEY_F(5)
-#define NANO_EXIT_KEY 		NANO_CONTROL_X
-#define NANO_EXIT_FKEY 		KEY_F(2)
+#define NANO_EXIT_KEY		NANO_CONTROL_X
+#define NANO_EXIT_FKEY		KEY_F(2)
 #define NANO_WRITEOUT_KEY	NANO_CONTROL_O
 #define NANO_WRITEOUT_FKEY	KEY_F(3)
 #define NANO_GOTO_KEY		NANO_CONTROL_7

@@ -37,12 +37,12 @@ static int statblank = 0;	/* Number of keystrokes left after
 /* Read in a single input character.  If it's ignored, swallow it and go
  * on.  Otherwise, try to translate it from ASCII and extended (keypad)
  * input.  Assume nodelay(win) is FALSE. */
-int get_kbinput(WINDOW *win, int *meta, int rebind_delete)
+int get_kbinput(WINDOW *win, int *meta)
 {
     int kbinput, retval;
 
     kbinput = get_ignored_kbinput(win);
-    retval = get_accepted_kbinput(win, kbinput, meta, rebind_delete);
+    retval = get_accepted_kbinput(win, kbinput, meta);
 
     return retval;
 }
@@ -50,7 +50,8 @@ int get_kbinput(WINDOW *win, int *meta, int rebind_delete)
 /* Read in a string of input characters (e. g. an escape sequence)
  * verbatim, and return the length of the string in kbinput_len.  Assume
  * nodelay(win) is FALSE. */
-char *get_verbatim_kbinput(WINDOW *win, int *kbinput_len)
+char *get_verbatim_kbinput(WINDOW *win, int *kbinput_len,
+	int allow_ascii)
 {
     char *verbatim_kbinput;
     int kbinput = wgetch(win);
@@ -59,7 +60,7 @@ char *get_verbatim_kbinput(WINDOW *win, int *kbinput_len)
     verbatim_kbinput[0] = kbinput;
     *kbinput_len = 1;
 
-    if (kbinput >= '0' && kbinput <= '2')
+    if (allow_ascii && kbinput >= '0' && kbinput <= '2')
 	/* Entering a three-digit decimal ASCII code from 000-255 in
 	 * verbatim mode will produce the corresponding ASCII
 	 * character. */
@@ -111,8 +112,7 @@ int get_ignored_kbinput(WINDOW *win)
 
 /* Translate acceptable ASCII and extended (keypad) input.  Set meta to
  * 1 if we get a Meta sequence.  Assume nodelay(win) is FALSE. */
-int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta,
-	int rebind_delete)
+int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta)
 {
     *meta = 0;
 
@@ -143,23 +143,33 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta,
 		    else if (kbinput >= 'a' && kbinput <= '~')
 			kbinput -= 96;
 		    break;
+		case 'O':
+		case 'o':
 		/* Terminal breakage, part 1: We shouldn't get an escape
 		 * sequence here for terminals that support Delete, but
 		 * we do sometimes on FreeBSD.  Thank you, Wouter van
 		 * Hemel. */
 		case '[':
+		{
+		    int old_kbinput = kbinput, escape_seq_len;
+		    char *escape_seq;
 		    nodelay(win, TRUE);
 		    kbinput = wgetch(win);
 		    switch (kbinput) {
 			case ERR:
-			    kbinput = '[';
+			    kbinput = tolower(old_kbinput);
 			    *meta = 1;
 			    break;
 			default:
-			    kbinput = get_escape_seq_kbinput(win, kbinput);
+			    ungetch(kbinput);
+			    ungetch(old_kbinput);
+			    escape_seq = get_verbatim_kbinput(win, &escape_seq_len, 0);
+			    kbinput = get_escape_seq_kbinput(win, escape_seq, escape_seq_len);
+			    free(escape_seq);
 		    }
 		    nodelay(win, FALSE);
 		    break;
+		}
 		default:
 		    /* Esc [character] == Meta-[character] */
 		    kbinput = tolower(kbinput);
@@ -168,8 +178,8 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta,
 	    break;
 	case NANO_CONTROL_8:
 	    /* Terminal breakage, part 2: We shouldn't get Ctrl-8
-	     * (Ctrl-?) for Backspace, but we do sometimes on Linux. */
-	    kbinput = NANO_BACKSPACE_KEY;
+	     * (Ctrl-?) for Backspace or Delete, but we do sometimes. */
+	    kbinput = ISSET(REBIND_DELETE) ? NANO_DELETE_KEY : NANO_BACKSPACE_KEY;
 	    break;
 	case KEY_DOWN:
 	    kbinput = NANO_DOWN_KEY;
@@ -193,7 +203,7 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta,
 	    /* Terminal breakage, part 3: We should only get KEY_DC when
 	     * hitting Delete, but we get it when hitting Backspace
 	     * sometimes on FreeBSD.  Thank you, Lee Nelson. */
-	    kbinput = (rebind_delete) ? NANO_BACKSPACE_KEY : NANO_DELETE_KEY;
+	    kbinput = ISSET(REBIND_DELETE) ? NANO_BACKSPACE_KEY : NANO_DELETE_KEY;
 	    break;
 	case KEY_IC:
 	    kbinput = NANO_INSERTFILE_KEY;
@@ -213,6 +223,12 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta,
 	case KEY_SUSPEND:
 	    kbinput = NANO_SUSPEND_KEY;
 	    break;
+	case KEY_SLEFT:
+	    kbinput = NANO_BACK_KEY;
+	    break;
+	case KEY_SRIGHT:
+	    kbinput = NANO_FORWARD_KEY;
+	    break;
     }
 #ifdef DEBUG
     fprintf(stderr, "get_accepted_kbinput(): kbinput = %d, meta = %d\n", kbinput, *meta);
@@ -230,7 +246,7 @@ int get_ascii_kbinput(WINDOW *win, int kbinput)
 	case '0':
 	case '1':
 	case '2':
-	    retval = (kbinput - 48) * 100;
+	    retval = (kbinput - '0') * 100;
 	    break;
 	default:
 	    return kbinput;
@@ -244,14 +260,14 @@ int get_ascii_kbinput(WINDOW *win, int kbinput)
 	case '3':
 	case '4':
 	case '5':
-	    retval += (kbinput - 48) * 10;
+	    retval += (kbinput - '0') * 10;
 	    break;
 	case '6':
 	case '7':
 	case '8':
 	case '9':
 	    if (retval < 200) {
-		retval += (kbinput - 48) * 10;
+		retval += (kbinput - '0') * 10;
 		break;
 	    }
 	default:
@@ -266,14 +282,14 @@ int get_ascii_kbinput(WINDOW *win, int kbinput)
 	case '3':
 	case '4':
 	case '5':
-	    retval += kbinput - 48;
+	    retval += kbinput - '0';
 	    break;
 	case '6':
 	case '7':
 	case '8':
 	case '9':
 	    if (retval < 250) {
-		retval += kbinput - 48;
+		retval += kbinput - '0';
 		break;
 	    }
 	default:
@@ -287,45 +303,243 @@ int get_ascii_kbinput(WINDOW *win, int kbinput)
 }
 
 /* Translate common escape sequences for some keys.  These are generated
- * when the terminal doesn't support those keys.  Assume nodelay(win) is
- * TRUE. */
-int get_escape_seq_kbinput(WINDOW *win, int kbinput)
+ * when the terminal doesn't support those keys.  Assume that Escape has
+ * already been read in, and that nodelay(win) is TRUE. */
+int get_escape_seq_kbinput(WINDOW *win, char *escape_seq, int
+	escape_seq_len)
 {
-    switch (kbinput) {
-	case '3':
-	    /* Esc [ 3 ~ == kdch1 on many terminals. */
-	    kbinput = get_skip_tilde_kbinput(win, kbinput, NANO_DELETE_KEY);
-	    break;
+    int kbinput = -1;
+
+    if (escape_seq_len > 1) {
+	switch (escape_seq[0]) {
+	    case 'O':
+		switch (escape_seq[1]) {
+		    case 'A': /* Esc O A == Up on xterm. */
+			kbinput = NANO_UP_KEY;
+			break;
+		    case 'B': /* Esc O B == Down on xterm. */
+			kbinput = NANO_DOWN_KEY;
+			break;
+		    case 'C': /* Esc O C == Right on xterm. */
+			kbinput = NANO_FORWARD_KEY;
+			break;
+		    case 'D': /* Esc O D == Left on xterm. */
+			kbinput = NANO_BACK_KEY;
+			break;
+		    case 'F': /* Esc O F == End on xterm. */
+			kbinput = NANO_END_KEY;
+			break;
+		    case 'H': /* Esc O H == Home on xterm. */
+			kbinput = NANO_HOME_KEY;
+			break;
+		    case 'a': /* Esc O a == Ctrl-Up on rxvt. */
+			kbinput = NANO_UP_KEY;
+			break;
+		    case 'b': /* Esc O b == Ctrl-Down on rxvt. */
+			kbinput = NANO_DOWN_KEY;
+			break;
+		    case 'c': /* Esc O c == Ctrl-Right on rxvt. */
+			kbinput = NANO_FORWARD_KEY;
+			break;
+		    case 'd': /* Esc O d == Ctrl-Left on rxvt. */
+			kbinput = NANO_BACK_KEY;
+			break;
+		}
+		break;
+	    case 'o':
+		switch (escape_seq[1]) {
+		    case 'a': /* Esc o a == Ctrl-Up on Eterm. */
+			kbinput = NANO_UP_KEY;
+			break;
+		    case 'b': /* Esc o b == Ctrl-Down on Eterm. */
+			kbinput = NANO_DOWN_KEY;
+			break;
+		    case 'c': /* Esc o c == Ctrl-Right on Eterm. */
+			kbinput = NANO_FORWARD_KEY;
+			break;
+		    case 'd': /* Esc o d == Ctrl-Left on Eterm. */
+			kbinput = NANO_BACK_KEY;
+			break;
+		}
+		break;
+	    case '[':
+		switch (escape_seq[1]) {
+		    case '1':
+			if (escape_seq_len >= 5) {
+			    if (!strncmp(escape_seq, "[1;2", 4)) {
+				switch (escape_seq[4]) {
+				    case 'A':
+					/* Esc [ 1 ; 2 A == Shift-Up on
+					 * xterm. */
+					kbinput = NANO_UP_KEY;
+					break;
+				    case 'B':
+					/* Esc [ 1 ; 2 B == Shift-Down
+					 * on xterm. */
+					kbinput = NANO_DOWN_KEY;
+					break;
+				    case 'C':
+					/* Esc [ 1 ; 2 C == Shift-Right
+					 * on xterm. */
+					kbinput = NANO_FORWARD_KEY;
+					break;
+				    case 'D':
+					/* Esc [ 1 ; 2 D == Shift-Left
+					 * on xterm. */
+					kbinput = NANO_BACK_KEY;
+					break;
+				}
+			    } else if (!strncmp(escape_seq, "[1;5", 4)) {
+				switch (escape_seq[4]) {
+				    case 'A':
+					/* Esc [ 1 ; 5 A == Ctrl-Up on
+					 * xterm. */
+					kbinput = NANO_UP_KEY;
+					break;
+				    case 'B':
+					/* Esc [ 1 ; 5 B == Ctrl-Down on
+					 * xterm. */
+					kbinput = NANO_DOWN_KEY;
+					break;
+				    case 'C':
+					/* Esc [ 1 ; 5 C == Ctrl-Right
+					 * on xterm. */
+					kbinput = NANO_FORWARD_KEY;
+					break;
+				    case 'D':
+					/* Esc [ 1 ; 5 D == Ctrl-Left on
+					 * xterm. */
+					kbinput = NANO_BACK_KEY;
+					break;
+				}
+			    }
+			    break;
+			} else {
+			    /* Esc [ 1 ~ == Home on Linux console. */
+			    kbinput = NANO_HOME_KEY;
+			    break;
+			}
+		    case '2': /* Esc [ 2 ~ == Insert on Linux
+			       * console/xterm. */
+			kbinput = NANO_INSERTFILE_KEY;
+			break;
+		    case '3': /* Esc [ 3 ~ == Delete on Linux
+			       * console/xterm. */
+			kbinput = NANO_DELETE_KEY;
+			break;
+		    case '4': /* Esc [ 4 ~ == End on Linux
+			       * console/xterm. */
+			kbinput = NANO_END_KEY;
+			break;
+		    case '5': /* Esc [ 5 ~ == PageUp on Linux
+			       * console/xterm, Esc [ 5 ^ == PageUp on
+			       * Eterm. */
+			kbinput = NANO_PREVPAGE_KEY;
+			break;
+		    case '6': /* Esc [ 6 ~ == PageDown on Linux
+			       * console/xterm, Esc [ 6 ^ == PageDown on
+			       * Eterm. */
+			kbinput = NANO_NEXTPAGE_KEY;
+			break;
+		    case '7': /* Esc [ 7 ~ == Home on rxvt. */
+			kbinput = NANO_HOME_KEY;
+			break;
+		    case '8': /* Esc [ 8 ~ == End on rxvt. */
+			kbinput = NANO_END_KEY;
+			break;
+		    case '9': /* Esc [ 9 == Delete on Hurd console. */
+			kbinput = NANO_DELETE_KEY;
+			break;
+		    case '@': /* Esc [ @ == Insert on Hurd console. */
+			kbinput = NANO_INSERTFILE_KEY;
+			break;
+		    case 'A': /* Esc [ A == Up on Linux console/FreeBSD
+			       * console/Hurd console/rxvt/Eterm. */
+			kbinput = NANO_UP_KEY;
+			break;
+		    case 'B': /* Esc [ B == Down on Linux
+			       * console/FreeBSD console/Hurd
+			       * console/rxvt/Eterm. */
+			kbinput = NANO_DOWN_KEY;
+			break;
+		    case 'C': /* Esc [ C == Right on Linux
+			       * console/FreeBSD console/Hurd
+			       * console/rxvt/Eterm. */
+			kbinput = NANO_FORWARD_KEY;
+			break;
+		    case 'D': /* Esc [ D == Left on Linux
+			       * console/FreeBSD console/Hurd
+			       * console/rxvt/Eterm. */
+			kbinput = NANO_BACK_KEY;
+			break;
+		    case 'F': /* Esc [ F == End on FreeBSD
+			       * console/Eterm. */
+			kbinput = NANO_END_KEY;
+			break;
+		    case 'G': /* Esc [ G == PageDown on FreeBSD
+				   * console. */
+			kbinput = NANO_NEXTPAGE_KEY;
+			break;
+		    case 'H': /* Esc [ H == Home on FreeBSD
+			       * console/Hurd console/Eterm. */
+			kbinput = NANO_HOME_KEY;
+			break;
+		    case 'I': /* Esc [ I == PageUp on FreeBSD
+			       * console. */
+			kbinput = NANO_PREVPAGE_KEY;
+			break;
+		    case 'L': /* Esc [ L == Insert on FreeBSD
+			       * console. */
+			kbinput = NANO_INSERTFILE_KEY;
+			break;
+		    case 'U': /* Esc [ U == PageDown on Hurd console. */
+			kbinput = NANO_NEXTPAGE_KEY;
+			break;
+		    case 'V': /* Esc [ V == PageUp on Hurd console. */
+			kbinput = NANO_PREVPAGE_KEY;
+			break;
+		    case 'Y': /* Esc [ Y == End on Hurd console. */
+			kbinput = NANO_END_KEY;
+			break;
+		    case 'a': /* Esc [ a == Shift-Up on rxvt and
+		    	       * Eterm. */
+			kbinput = NANO_UP_KEY;
+			break;
+		    case 'b': /* Esc [ b == Shift-Down on rxvt and
+		    	       * Eterm. */
+			kbinput = NANO_DOWN_KEY;
+			break;
+		    case 'c': /* Esc [ c == Shift-Right on rxvt. */
+			kbinput = NANO_FORWARD_KEY;
+			break;
+		    case 'd': /* Esc [ d == Shift-Left on rxvt. */
+			kbinput = NANO_BACK_KEY;
+			break;
+		}
+		break;
+	}
     }
+
+    if (kbinput == -1) {
+	/* This escape sequence is unrecognized; send it back. */
+	for (; escape_seq_len > 1; escape_seq_len--)
+	    ungetch(escape_seq[escape_seq_len - 1]);
+	kbinput = escape_seq[0];
+    }
+
     return kbinput;
 }
 
-/* If there is no next character, return the passed-in error value.  If
- * the next character's a tilde, eat it and return the passed-in
- * return value.  Otherwise, return the next character.  Assume
- * nodelay(win) is TRUE. */
-int get_skip_tilde_kbinput(WINDOW *win, int errval, int retval)
-{
-    int kbinput = wgetch(win);
-    switch (kbinput) {
-	case ERR:
-	    return errval;
-	case '~':
-	    return retval;
-	default:
-	    return kbinput;
-    }
-}
-
 #ifndef DISABLE_MOUSE
-/* Check for a mouse event.  If it took place on the shortcut list on
- * the bottom two lines of the screen (assuming that the shortcut list is
- * visible), figure out which shortcut was clicked and ungetch() the
- * equivalent keystroke(s), otherwise do nothing.  Return 0 if no
- * keystrokes were ungetch()ed, or 1 if at least one was.  Also, return
- * the screen coordinates where the mouse event took place in *mouse_x
- * and *mouse_y.  Assume that KEY_MOUSE has already been read in. */
-int get_mouseinput(int *mouse_x, int *mouse_y)
+/* Check for a mouse event, and if one's taken place, save the
+ * coordinates where it took place in mouse_x and mouse_y.  After that,
+ * if allow_shortcuts is zero, return 0.  Otherwise, if the mouse event
+ * took place on the shortcut list on the bottom two lines of the screen
+ * (assuming that the shortcut list is visible), figure out which
+ * shortcut was clicked and ungetch() the equivalent keystroke(s).
+ * Return 0 if no keystrokes were ungetch()ed, or 1 if at least one was.
+ * Assume that KEY_MOUSE has already been read in. */
+int get_mouseinput(int *mouse_x, int *mouse_y, int allow_shortcuts)
 {
     MEVENT mevent;
 
@@ -340,10 +554,14 @@ int get_mouseinput(int *mouse_x, int *mouse_y)
     *mouse_x = mevent.x;
     *mouse_y = mevent.y;
 
-    /* If the current shortcut list is being displayed on the last two
-     * lines of the screen and the mouse event took place inside it,
-     * we need to figure out which shortcut was clicked and ungetch()
-     * the equivalent keystroke(s) for it. */
+    /* If we're not allowing shortcuts' we're done now. */
+    if (!allow_shortcuts)
+	return 0;
+
+    /* Otherwise, if the current shortcut list is being displayed on the
+     * last two lines of the screen and the mouse event took place
+     * inside it, we need to figure out which shortcut was clicked and
+     * ungetch() the equivalent keystroke(s) for it. */
     if (!ISSET(NO_HELP) && wenclose(bottomwin, *mouse_y, *mouse_x)) {
 	int i, j;
 	int currslen;
@@ -679,7 +897,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
        input */
     wrefresh(edit);
 
-    while ((kbinput = get_kbinput(bottomwin, &meta, ISSET(REBIND_DELETE))) != NANO_ENTER_KEY) {
+    while ((kbinput = get_kbinput(bottomwin, &meta)) != NANO_ENTER_KEY) {
 	for (t = s; t != NULL; t = t->next) {
 #ifdef DEBUG
 	    fprintf(stderr, "Aha! \'%c\' (%d)\n", kbinput, kbinput);
@@ -872,12 +1090,12 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		    fprintf(stderr, "Aha! \'%c\' (%d)\n", kbinput,
 			    kbinput);
 #endif
-		    if (meta == 1 && kbinput == t->val)
+		    if (meta == 1 && kbinput == t->altval)
 			/* We hit an Alt key.  Do like above.  We don't
 			   just ungetch() the letter and let it get
 			   caught above cause that screws the
 			   keypad... */
-			return t->val;
+			return t->altval;
 		}
 
 	    if (is_cntrl_char(kbinput))
@@ -993,19 +1211,20 @@ void bottombars(const shortcut *s)
 	    wmove(bottomwin, 1 + j, i * (COLS / numcols));
 
 	    /* Yucky sentinel values we can't handle a better way */
-	    if (s->val == NANO_CONTROL_SPACE)
-		strcpy(keystr, "^ ");
+	    if (s->val != NANO_NO_KEY) {
 #ifndef NANO_SMALL
-	    else if (s->val == NANO_UP_KEY && s->misc == NANO_DOWN_KEY)
-		strncpy(keystr, _("Up"), 8);
-#endif /* NANO_SMALL */
-	    else if (s->val > 0) {
-		if (s->val < 64)
-		    sprintf(keystr, "^%c", s->val + 64);
+		if (s->val == NANO_HISTORY_KEY)
+		    strncpy(keystr, _("Up"), 8);
 		else
-		    sprintf(keystr, "M-%c", toupper(s->val));
-	    } else if (s->altval > 0)
-		sprintf(keystr, "M-%c", s->altval);
+#endif
+		if (s->val == NANO_CONTROL_SPACE)
+		    strcpy(keystr, "^ ");
+		else if (s->val == NANO_CONTROL_8)
+		    strcpy(keystr, "^?");
+		else
+		    sprintf(keystr, "^%c", s->val + 64);
+	    } else if (s->altval != NANO_NO_KEY)
+		sprintf(keystr, "M-%c", toupper(s->altval));
 
 	    onekey(keystr, s->desc, COLS / numcols);
 
@@ -1632,11 +1851,9 @@ int statusq(int tabs, const shortcut *s, const char *def,
 /* Ask a simple yes/no question on the statusbar.  Returns 1 for Y, 0
  * for N, 2 for All (if all is nonzero when passed in) and -1 for abort
  * (^C). */
-int do_yesno(int all, int leavecursor, const char *msg, ...)
+int do_yesno(int all, const char *msg)
 {
-    va_list ap;
-    char *foo;
-    int ok = -2;
+    int ok = -2, width = 16;
     const char *yesstr;		/* String of yes characters accepted */
     const char *nostr;		/* Same for no */
     const char *allstr;		/* And all, surprise! */
@@ -1653,70 +1870,75 @@ int do_yesno(int all, int leavecursor, const char *msg, ...)
     if (!ISSET(NO_HELP)) {
 	char shortstr[3];		/* Temp string for Y, N, A. */
 
+	if (COLS < 32)
+	    width = COLS / 2;
+
 	/* Write the bottom of the screen. */
 	blank_bottombars();
 
 	sprintf(shortstr, " %c", yesstr[0]);
 	wmove(bottomwin, 1, 0);
-	onekey(shortstr, _("Yes"), 16);
+	onekey(shortstr, _("Yes"), width);
 
 	if (all) {
-	    wmove(bottomwin, 1, 16);
+	    wmove(bottomwin, 1, width);
 	    shortstr[1] = allstr[0];
-	    onekey(shortstr, _("All"), 16);
+	    onekey(shortstr, _("All"), width);
 	}
 
 	wmove(bottomwin, 2, 0);
 	shortstr[1] = nostr[0];
-	onekey(shortstr, _("No"), 16);
+	onekey(shortstr, _("No"), width);
 
 	wmove(bottomwin, 2, 16);
-	onekey("^C", _("Cancel"), 16);
+	onekey("^C", _("Cancel"), width);
     }
-
-    foo = charalloc(COLS);
-    va_start(ap, msg);
-    vsnprintf(foo, COLS, msg, ap);
-    va_end(ap);
-    foo[COLS - 1] = '\0';
 
     wattron(bottomwin, A_REVERSE);
 
     blank_statusbar();
-    mvwaddstr(bottomwin, 0, 0, foo);
-    free(foo);
+    mvwaddnstr(bottomwin, 0, 0, msg, COLS - 1);
 
     wattroff(bottomwin, A_REVERSE);
 
     wrefresh(bottomwin);
 
     do {
-	int kbinput = wgetch(edit);
+	int kbinput;
+	int meta;
 #ifndef DISABLE_MOUSE
-	MEVENT mevent;
+	int mouse_x, mouse_y;
 #endif
 
-	if (kbinput == NANO_CONTROL_C)
+	kbinput = get_kbinput(edit, &meta);
+
+	if (kbinput == NANO_CANCEL_KEY)
 	    ok = -1;
 #ifndef DISABLE_MOUSE
-	/* Look ma!  We get to duplicate lots of code from do_mouse!! */
-	else if (kbinput == KEY_MOUSE && getmouse(&mevent) != ERR &&
-		wenclose(bottomwin, mevent.y, mevent.x) &&
-		!ISSET(NO_HELP) && mevent.x < 32 &&
-		mevent.y >= editwinrows + 3) {
-	    int x = mevent.x /= 16;
-		/* Did we click in the first column of shortcuts, or the
-		 * second? */
-	    int y = mevent.y - editwinrows - 3;
-		/* Did we click in the first row of shortcuts? */
+	/* Look ma!  We get to duplicate lots of code from
+	 * do_mouse()!! */
+	else if (kbinput == KEY_MOUSE) {
+	    kbinput = get_mouseinput(&mouse_x, &mouse_y, 0);
 
-	    assert(0 <= x && x <= 1 && 0 <= y && y <= 1);
-	    /* x = 0 means they clicked Yes or No.
-	     * y = 0 means Yes or All. */
-	    ok = -2 * x * y + x - y + 1;
+	    if (mouse_x != -1 && mouse_y != -1 && !ISSET(NO_HELP) &&
+		wenclose(bottomwin, mouse_y, mouse_x) && mouse_x <
+		(width * 2) && mouse_y >= editwinrows + 3) {
 
-	    if (ok == 2 && !all)
-		ok = -2;
+		int x = mouse_x / width;
+		    /* Did we click in the first column of shortcuts, or
+		     * the second? */
+		int y = mouse_y - editwinrows - 3;
+		    /* Did we click in the first row of shortcuts? */
+
+		assert(0 <= x && x <= 1 && 0 <= y && y <= 1);
+
+		/* x = 0 means they clicked Yes or No.
+		 * y = 0 means Yes or All. */
+		ok = -2 * x * y + x - y + 1;
+
+		if (ok == 2 && !all)
+		    ok = -2;
+	    }
 	}
 #endif
 	/* Look for the kbinput in the yes, no and (optionally) all
@@ -1728,9 +1950,6 @@ int do_yesno(int all, int leavecursor, const char *msg, ...)
 	else if (all && strchr(allstr, kbinput) != NULL)
 	    ok = 2;
     } while (ok == -2);
-
-    /* Then blank the statusbar. */
-    blank_statusbar_refresh();
 
     return ok;
 }
@@ -1974,7 +2193,7 @@ int do_help(void)
 	    no_more = 1;
 	    continue;
 	}
-    } while ((kbinput = get_kbinput(edit, &meta, ISSET(REBIND_DELETE))) != NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
+    } while ((kbinput = get_kbinput(edit, &meta)) != NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
 
     currshortcut = oldshortcut;
 
