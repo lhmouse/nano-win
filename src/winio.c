@@ -2418,6 +2418,7 @@ void nanoget_repaint(const char *buf, const char *inputbuf, size_t x)
 	wmove(bottomwin, 0, COLS - wid + x_real - page_start);
     } else
 	wmove(bottomwin, 0, COLS - 1);
+
     wattroff(bottomwin, A_REVERSE);
 }
 
