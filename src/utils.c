@@ -119,6 +119,7 @@ void align(char **strp)
 void null_at(char **data, size_t index)
 {
     assert(data != NULL);
+
     *data = charealloc(*data, index + 1);
     (*data)[index] = '\0';
 }
@@ -128,6 +129,7 @@ void null_at(char **data, size_t index)
 void unsunder(char *str, size_t true_len)
 {
     assert(str != NULL);
+
     for (; true_len > 0; true_len--, str++) {
 	if (*str == '\0')
 	    *str = '\n';
@@ -139,6 +141,7 @@ void unsunder(char *str, size_t true_len)
 void sunder(char *str)
 {
     assert(str != NULL);
+
     for (; *str != '\0'; str++) {
 	if (*str == '\n')
 	    *str = '\0';
@@ -218,7 +221,9 @@ const char *strstrwrapper(const char *haystack, const char *needle,
      * line.  In either case, we just say no match was found. */
     if ((start > haystack && *(start - 1) == '\0') || start < haystack)
 	return NULL;
+
     assert(haystack != NULL && needle != NULL && start != NULL);
+
 #ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP)) {
 #ifndef NANO_SMALL
@@ -268,18 +273,19 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 }
 
 /* This is a wrapper for the perror() function.  The wrapper takes care
- * of ncurses, calls perror (which writes to stderr), then refreshes the
- * screen.  Note that nperror() causes the window to flicker once. */
+ * of curses, calls perror() (which writes to stderr), and then
+ * refreshes the screen.  Note that nperror() causes the window to
+ * flicker once. */
 void nperror(const char *s)
 {
-    /* leave ncurses mode, go to the terminal */
+    /* Leave curses mode and go to the terminal. */
     if (endwin() != ERR) {
-	perror(s);		/* print the error */
-	total_refresh();	/* return to ncurses and repaint */
+	perror(s);		/* Print the error. */
+	total_refresh();	/* Return to curses and refresh. */
     }
 }
 
-/* Thanks BG, many ppl have been asking for this... */
+/* Thanks, BG, many people have been asking for this... */
 void *nmalloc(size_t howmuch)
 {
     void *r = malloc(howmuch);
