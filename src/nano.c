@@ -2962,7 +2962,11 @@ void do_justify(bool full_justify)
 	    /* The first indentation that doesn't match the initial
 	     * indentation of the paragraph we justify.  This is put at
 	     * the beginning of every line broken off the first
-	     * justified line of the paragraph. */
+	     * justified line of the paragraph.  (Note that this works
+	     * because a paragraph can only contain two indentations at
+	     * most: the initial one, and a different one starting on a
+	     * line after the first.  See the comment at begpar() for
+	     * more about when a line is part of a paragraph.) */
 
 	/* Find the first line of the paragraph to be justified.  That
 	 * is the start of this paragraph if we're in one, or the start
