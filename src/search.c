@@ -728,24 +728,22 @@ ssize_t do_replace_loop(const char *needle, filestruct *real_current,
 #endif
 
 #ifndef NANO_SMALL
-	/* If we've found a match outside the marked text, skip over it
-	 * and search for another one. */
+	/* Keep track of how many times the search has wrapped.  If it's
+	 * wrapped more than once, it means that the only matches left
+	 * are those outside the marked text, so we're done. */
+	if (wrapped)
+	    wraps++;
+	if (wraps > 1)
+	    break;
+
+	/* Otherwise, if we've found a match outside the marked text,
+	 * skip over it and search for another one. */
 	if (old_mark_set) {
 	    if (current->lineno < top->lineno || current->lineno >
 		bot->lineno || (current == top && current_x < top_x) ||
 		(current == bot && (current_x > bot_x || current_x +
-		match_len > bot_x))) {
-		/* Keep track of how many times the search has wrapped.
-		 * If it's wrapped more than once, it means that the
-		 * only matches left are those outside the marked text,
-		 * so we're done. */
-		if (wrapped) {
-		    wraps++;
-		    if (wraps > 1)
-			break;
-		}
+		match_len > bot_x)))
 		continue;
-	    }
 	}
 #endif
 
