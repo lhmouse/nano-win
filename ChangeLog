@@ -92,7 +92,7 @@ CVS code -
 	- Call enable_signals() at the beginning and disable_signals()
 	  at the end, so that we get a SIGINT when Ctrl-C is pressed
 	  during wait() and can then call cancel_fork() properly. (DLR)
-  do_delete()
+  do_delete(), do_enter()
 	- Tweak for efficiency. (David Benbennick)
   do_prev_word()
 	- Switch the last test (current != NULL or not) around to match
@@ -275,6 +275,8 @@ CVS code -
 	- Overhaul for efficiency, (David Benbennick)  DLR: Add
 	  reset_cursor() call to ensure that the cursor is always in the
 	  right place.
+  update_cursor()
+	- Removed, as it's no longer called anywhere. (David Benbennick)
   edit_refresh()
 	- Remove apparently unneeded leaveok() calls. (David Benbennick)
   edit_refresh_clearok(), center_cursor()

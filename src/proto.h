@@ -513,7 +513,6 @@ void reset_cursor(void);
 void edit_add(const filestruct *fileptr, const char *converted, int
 	yval, size_t start);
 void update_line(const filestruct *fileptr, size_t index);
-void update_cursor(void);
 void edit_refresh(void);
 void edit_update(filestruct *fileptr, topmidnone location);
 int statusq(int allowtabs, const shortcut *s, const char *def,

@@ -1074,77 +1074,61 @@ int do_tab(void)
 /* Someone hits return *gasp!* */
 int do_enter(void)
 {
-    filestruct *newnode;
-    char *tmp;
+    filestruct *newnode = make_new_node(current);
+    size_t extra = 0;
 
-    newnode = make_new_node(current);
     assert(current != NULL && current->data != NULL);
-    tmp = &current->data[current_x];
 
 #ifndef NANO_SMALL
     /* Do auto-indenting, like the neolithic Turbo Pascal editor. */
     if (ISSET(AUTOINDENT)) {
-	int extra = 0;
-	const char *spc = current->data;
-
-	while (isblank(*spc)) {
-	    extra++;
-	    spc++;
-	}
-	/* If current_x < extra, then we are breaking the line in the
-	 * indentation.  Autoindenting should add only current_x
-	 * characters of indentation. */
-	if (current_x < extra)
+	/* If we are breaking the line in the indentation, the new
+	 * indentation should have only current_x characters, and
+	 * current_x should not change. */
+	extra = indent_length(current->data);
+	if (extra > current_x)
 	    extra = current_x;
-	else
-	    current_x = extra;
 	totsize += extra;
-
-	newnode->data = charalloc(strlen(tmp) + extra + 1);
-	strncpy(newnode->data, current->data, extra);
-	strcpy(&newnode->data[extra], tmp);
-    } else 
-#endif
-    {
-	current_x = 0;
-	newnode->data = charalloc(strlen(tmp) + 1);
-	strcpy(newnode->data, tmp);
     }
-    *tmp = '\0';
+#endif
+    newnode->data = charalloc(strlen(current->data + current_x) +
+	extra + 1);
+    strcpy(&newnode->data[extra], current->data + current_x);
+#ifndef NANO_SMALL
+    if (ISSET(AUTOINDENT))
+	strncpy(newnode->data, current->data, extra);
+#endif
+    null_at(&current->data, current_x);
+#ifndef NANO_SMALL
+    if (current == mark_beginbuf && current_x < mark_beginx) {
+	mark_beginbuf = newnode;
+	mark_beginx += extra - current_x;
+    }
+#endif
+    current_x = extra;
 
-    if (current->next == NULL)
+    if (current == filebot)
 	filebot = newnode;
     splice_node(current, newnode, current->next);
 
     totsize++;
     renumber(current);
     current = newnode;
-    align(&current->data);
 
-    /* The logic here is as follows:
-     *    -> If we are at the bottom of the buffer, we want to recenter
-     *       (read: rebuild) the screen and forcibly move the cursor.
-     *    -> otherwise, we want simply to redraw the screen and update
-     *       where we think the cursor is.
-     */
-    if (current_y == editwinrows - 1) {
 #ifndef NANO_SMALL
-	if (ISSET(SMOOTHSCROLL))
-	    edit_update(current, NONE);
-	else
+    /* If we're in smooth scrolling mode and we're on the last line of
+     * the edit window, move edittop down one line so that current is
+     * onscreen.  This prevents edit_refresh() from centering the
+     * screen. */
+    if (ISSET(SMOOTHSCROLL) && current_y == editwinrows - 1)
+	edittop = edittop->next;
 #endif
-	    edit_update(current, CENTER);
-	reset_cursor();
-    } else {
-	current_y++;
-	edit_refresh();
-	update_cursor();
-    }
+    edit_refresh();
 
     totlines++;
     set_modified();
-
     placewewant = xplustabs();
+
     return 1;
 }
 

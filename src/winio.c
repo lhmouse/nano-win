@@ -2195,28 +2195,6 @@ void update_line(const filestruct *fileptr, size_t index)
 	mvwaddch(edit, line, COLS - 1, '$');
 }
 
-/* This function updates current, based on where current_y is;
- * reset_cursor() does the opposite. */
-void update_cursor(void)
-{
-    int i = 0;
-
-#ifdef DEBUG
-    fprintf(stderr, "Moved to (%d, %d) in edit buffer\n", current_y,
-	    current_x);
-#endif
-
-    current = edittop;
-    while (i < current_y && current->next != NULL) {
-	current = current->next;
-	i++;
-    }
-
-#ifdef DEBUG
-    fprintf(stderr, "current->data = \"%s\"\n", current->data);
-#endif
-}
-
 /* Refresh the screen without changing the position of lines. */
 void edit_refresh(void)
 {
