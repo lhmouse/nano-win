@@ -19,6 +19,8 @@ Changes in CVS -
 - nano.c:
   do_justify() & do_wrap():
 	- totsize-related fixes (Rob)
+- de.po 
+	- Revised translations by floki@bigfoot.com
 
 nano-0.9.13 - 07/23/2000
 - Implemented Pico's -k mode.  New flag CUT_TO_END, option (-k, --cut), 

@@ -3,11 +3,18 @@
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Florian König <floki@bigfoot.com>, 2000.
 #
+#: cut.c:252 files.c:53 files.c:213 files.c:246 files.c:295 global.c:101
+#: global.c:102 global.c:103 global.c:104 global.c:105 global.c:106
+#: global.c:107 global.c:108 global.c:109 global.c:110 global.c:111
+#: global.c:112 global.c:113 nano.c:61 nano.c:62 nano.c:66 nano.c:976
+#: nano.c:1029 nano.c:1584 nano.c:1681 nano.c:1686 nano.c:1693 search.c:62
+#: search.c:84 search.c:378 search.c:396 search.c:397 search.c:423
+#: search.c:515 winio.c:225 winio.c:245 winio.c:417 winio.c:442
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 0.9.11\n"
-"POT-Creation-Date: 2000-07-24 23:24-0400\n"
-"PO-Revision-Date: 2000-06-21 12:19+0200\n"
+"Project-Id-Version: nano 0.9.14pre1\n"
+"POT-Creation-Date: 2000-07-27 11:33+0200\n"
+"PO-Revision-Date: 2000-07-27 11:44+0200\n"
 "Last-Translator: Florian König <floki@bigfoot.com>\n"
 "Language-Team: German <floki@bigfoot.com>\n"
 "MIME-Version: 1.0\n"
@@ -37,10 +44,14 @@ msgstr "%d Zeilen gelesen"
 msgid "\"%s\" not found"
 msgstr "\"%s\" nicht gefunden"
 
-#. We have a new file
 #: files.c:220
 msgid "New File"
 msgstr "Neue Datei"
+
+#: files.c:225
+#, c-format
+msgid "%s: %s"
+msgstr "%s: %s"
 
 #: files.c:229
 #, c-format
@@ -55,6 +66,11 @@ msgstr "Lese Datei"
 msgid "File to insert [from ./] "
 msgstr "Datei zum Einfügen [von ./] "
 
+#: files.c:251 files.c:470
+#, c-format
+msgid "filename is %s"
+msgstr "Dateiname ist %s"
+
 #: files.c:272 files.c:296 files.c:486 nano.c:1149
 msgid "Cancelled"
 msgstr "Abgebrochen"
@@ -68,17 +84,24 @@ msgstr "Konnte nicht in Datei schreiben: %s"
 msgid "Could not open file: Path length exceeded."
 msgstr "Konnte Datei nicht öffnen: Pfad zu lang."
 
+#: files.c:332
+msgid ".XXXXXX"
+msgstr ".XXXXXX"
+
 #: files.c:356
 #, c-format
 msgid "Wrote >%s\n"
 msgstr "Schrieb >%s\n"
+
+#: files.c:359 files.c:372 nano.c:1532
+msgid "\n"
+msgstr "\n"
 
 #: files.c:383
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "Konnte %s nicht schließen: %s"
 
-#. Try a rename??
 #: files.c:404 files.c:415 files.c:420
 #, c-format
 msgid "Could not open %s for writing: %s"
@@ -97,11 +120,6 @@ msgstr "%d Zeilen geschrieben"
 #: files.c:465
 msgid "File Name to write"
 msgstr "Dateiname zum Speichern"
-
-#: files.c:470
-#, c-format
-msgid "filename is %s"
-msgstr "Dateiname ist %s"
 
 #: files.c:475
 msgid "File exists, OVERWRITE ?"
@@ -125,7 +143,7 @@ msgstr "Zu einer Zeile springen"
 
 #: global.c:120
 msgid "Justify the current paragraph"
-msgstr "Paragraph ausrichten"
+msgstr "Absatz ausrichten"
 
 #: global.c:121
 msgid "Replace text within the editor"
@@ -197,7 +215,7 @@ msgstr "Zur letzten Zeile springen"
 
 #: global.c:138
 msgid "Refresh (redraw) the current screen"
-msgstr "Bildschirm auffrischen"
+msgstr "Bildschirm auffrischen (neu zeichnen)"
 
 #: global.c:139
 msgid "Mark text at the current cursor location"
@@ -351,7 +369,15 @@ msgstr "Abbrechen"
 
 #: global.c:295
 msgid "No Replace"
-msgstr ""
+msgstr "Keine Ersetzung"
+
+#: nano.c:99 nano.c:1215
+msgid "nano.save"
+msgstr "nano.save"
+
+#: nano.c:103
+msgid ".save"
+msgstr ".save"
 
 #: nano.c:115
 msgid ""
@@ -388,9 +414,9 @@ msgstr ""
 " Nano wurde konzipiert um die Funktionalität und die Benutzerfreundlichkeit "
 "des UW Pico Texteditors zu imitieren. Es gibt vier Hauptbereiche: Die "
 "Titelzeile zeigt die Version des Programms, den Dateinamen der aktuellen "
-"Datei und ob die Datei verändert wurde oder nicht. Das Hauptfenster zeigt "
-"die geöffnete Datei. Die Statuszeile (die dritte Zeile von unten) und zeigt "
-"wichtige Meldungen. Die untersten zwei Zeilen listet die meistgebrauchten "
+"Datei und ob die Datei verändert wurde oder nicht. Das Hauptfenster enthält "
+"die geöffnete Datei. Die Statuszeile (die dritte Zeile von unten) zeigt "
+"wichtige Meldungen. Die untersten zwei Zeilen listen die meistgebrauchten "
 "Tastenkombinationen von nano auf.\n"
 "\n"
 " Tastenkombinationen werden wie folgt abgekürzt: Kombinationen mit der "
@@ -425,7 +451,7 @@ msgstr " -T \t\t--tabsize=[Anzahl]\tTabulator-Größe auf Anzahl setzen\n"
 
 #: nano.c:321
 msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
-msgstr ""
+msgstr " -R\t\t--regexp\t\tRegulären Ausdruck zur Suche verwenden\n"
 
 #: nano.c:325
 msgid " -V \t\t--version\t\tPrint version information and exit\n"
@@ -441,7 +467,7 @@ msgstr " -h \t\t--help\t\t\tDiese Meldung anzeigen\n"
 
 #: nano.c:332
 msgid " -k \t\t--cut\t\t\tLet ^K cut from cursor to end of line\n"
-msgstr ""
+msgstr " -k \t\t--cut\t\t\t^K schneidet vom Cursor bis zum Zeilenende aus\n"
 
 #: nano.c:335
 msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
@@ -517,7 +543,7 @@ msgstr " -T [Anzahl]\tTabulator-Größe auf Anzahl setzen\n"
 
 #: nano.c:368
 msgid " -R\t\tUse regular expressions for search\n"
-msgstr ""
+msgstr " -R\t\tRegulären Ausdruck zur Suche verwenden\n"
 
 #: nano.c:369
 msgid " -V \t\tPrint version information and exit\n"
@@ -533,7 +559,7 @@ msgstr " -h \t\tDiese Meldung anzeigen\n"
 
 #: nano.c:373
 msgid " -k \t\tLet ^K cut from cursor to end of line\n"
-msgstr ""
+msgstr " -k \t\t^K schneidet vom Cursor bis zum Zeilenende aus\n"
 
 #: nano.c:375
 msgid " -i \t\tAutomatically indent new lines\n"
@@ -600,6 +626,15 @@ msgstr "Markierung gesetzt"
 msgid "Mark UNset"
 msgstr "Markierung gelöscht"
 
+#: nano.c:453
+msgid "Sorry, this function not available with nano-tiny option"
+msgstr ""
+"Tut mir leid, dies Funktion ist im Minimalmodus von nano nicht verfügbar"
+
+#: nano.c:806
+msgid " "
+msgstr " "
+
 #: nano.c:875
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
@@ -619,17 +654,30 @@ msgstr "Nachher, data = \"%s\"\n"
 msgid "Error deleting tempfile, ack!"
 msgstr "Konnte temporäre Datei nicht löschen"
 
+#: nano.c:1075
+msgid "nano."
+msgstr "nano."
+
 #: nano.c:1076
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Konnte keine temporäre Datei erzeugen: %s"
+
+#: nano.c:1086
+#, c-format
+msgid "%s %s"
+msgstr "%s %s"
+
+#: nano.c:1093
+#, c-format
+msgid "ispell %s"
+msgstr "ispell %s"
 
 #: nano.c:1099
 #, c-format
 msgid "Could not invoke spell program \"%s\""
 msgstr "Konnte Rechtschreibprogramm \"%s\" nicht aufrufen"
 
-#. Why 32512? I dont know!
 #: nano.c:1105
 msgid "Could not invoke \"ispell\""
 msgstr "Konnte \"ispell\" nicht aufrufen"
@@ -666,6 +714,106 @@ msgstr "Kann Größe des unteren Fensters nicht verändern"
 msgid "Cannot move bottom win"
 msgstr "Kann unteres Fenster nicht verschieben"
 
+#: nano.c:1480
+msgid "Justify Complete"
+msgstr "Ausrichten abgeschlossen"
+
+#: nano.c:1514
+#, c-format
+msgid "^%c\t"
+msgstr "^%c\t"
+
+#: nano.c:1517
+#, c-format
+msgid "(F%d)\t"
+msgstr "(F%d)\t"
+
+#: nano.c:1520 nano.c:1526
+msgid "\t"
+msgstr "\t"
+
+#: nano.c:1523
+#, c-format
+msgid "(@%c)\t"
+msgstr "(@%c)\t"
+
+#: nano.c:1529
+#, c-format
+msgid "%s"
+msgstr "%s"
+
+#: nano.c:1555
+msgid "regexp"
+msgstr "regulärer Ausdruck"
+
+#: nano.c:1557
+msgid "version"
+msgstr "Version"
+
+#: nano.c:1558
+msgid "const"
+msgstr "const"
+
+#: nano.c:1559
+msgid "suspend"
+msgstr "suspend"
+
+#: nano.c:1560
+msgid "nowrap"
+msgstr "nowrap"
+
+#: nano.c:1561
+msgid "nohelp"
+msgstr "nohelp"
+
+#: nano.c:1562
+msgid "help"
+msgstr "help"
+
+#: nano.c:1564
+msgid "cut"
+msgstr "cut"
+
+#: nano.c:1566
+msgid "autoindent"
+msgstr "autoindent"
+
+#: nano.c:1567
+msgid "tempfile"
+msgstr "tempfile"
+
+#: nano.c:1568
+msgid "speller"
+msgstr "speller"
+
+#: nano.c:1569
+msgid "fill"
+msgstr "fill"
+
+#: nano.c:1570
+msgid "mouse"
+msgstr "mouse"
+
+#: nano.c:1571 nano.c:1676 nano.c:1677
+msgid "pico"
+msgstr "pico"
+
+#: nano.c:1572
+msgid "nofollow"
+msgstr "nofollow"
+
+#: nano.c:1574
+msgid "tabsize"
+msgstr "tabsize"
+
+#: nano.c:1590
+msgid "?T:RVchiklmpr:s:tvwxz"
+msgstr "?T:RVchiklmpr:s:tvwxz"
+
+#: nano.c:1593
+msgid "h?T:RVciklmpr:s:tvwxz"
+msgstr "h?T:RVciklmpr:s:tvwxz"
+
 #: nano.c:1742
 msgid "Main: set up windows\n"
 msgstr "Hauptprogramm: Fenster konfigurieren\n"
@@ -688,30 +836,41 @@ msgstr "Erhielt Alt-[-%c! (%d)\n"
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Erhielt Alt-%c! (%d)\n"
 
+#: nano.c:1897
+#, c-format
+msgid "I got %c (%d)!\n"
+msgstr "Erhielt %c (%d)!\n"
+
+#: search.c:65
+#, c-format
+msgid " [%s]"
+msgstr " [%s]"
+
 #: search.c:71
-#, fuzzy, c-format
+#, c-format
 msgid "Case Sensitive Regexp Search%s%s"
-msgstr "Suche mit Unterscheidung von Groß- und Kleinschreibung%s%s"
+msgstr ""
+"Suche mit Unterscheidung von Groß- und Kleinschreibung nach regulärem "
+"Ausdruck%s%s"
 
 #: search.c:73
-#, fuzzy, c-format
+#, c-format
 msgid "Regexp Search%s%s"
-msgstr "Suche%s%s"
+msgstr "Suche nach regulärem Ausdruck%s%s"
 
 #: search.c:76
-#, fuzzy, c-format
+#, c-format
 msgid "Case Sensitive Search%s%s"
 msgstr "Suche mit Unterscheidung von Groß- und Kleinschreibung%s%s"
 
 #: search.c:78
-#, fuzzy, c-format
+#, c-format
 msgid "Search%s%s"
 msgstr "Suche%s%s"
 
 #: search.c:81
-#, fuzzy
 msgid " (to replace)"
-msgstr " (ersetzen)"
+msgstr " (zu ersetzen)"
 
 #: search.c:89
 msgid "Search Cancelled"
@@ -724,7 +883,7 @@ msgstr "Suche in neue Zeile umgebrochen"
 #: search.c:240
 #, c-format
 msgid "Replaced %d occurences"
-msgstr "%d mal Ersetzung vorgenommen"
+msgstr "%d Ersetzungen vorgenommen"
 
 #: search.c:242
 msgid "Replaced 1 occurence"
@@ -739,7 +898,6 @@ msgstr "Ersetzung abgebrochen"
 msgid "Replace with [%s]"
 msgstr "Ersetzen mit [%s]"
 
-#. last_search is empty
 #: search.c:423
 msgid "Replace with"
 msgstr "Ersetzen mit"
@@ -748,7 +906,10 @@ msgstr "Ersetzen mit"
 msgid "Replace this instance?"
 msgstr "Ersetzen?"
 
-#. Ask for it
+#: search.c:472
+msgid "Replace failed: unknown subexpression!"
+msgstr "Ersetzung gescheitert: unbekannter Unterausdruck"
+
 #: search.c:515
 msgid "Enter line number"
 msgstr "Zeilennummer eingeben"
@@ -756,6 +917,10 @@ msgstr "Zeilennummer eingeben"
 #: search.c:517
 msgid "Aborted"
 msgstr "Abgebrochen"
+
+#: search.c:525
+msgid "$"
+msgstr "DM"
 
 #: search.c:537
 msgid "Come on, be reasonable"
@@ -767,9 +932,9 @@ msgid "Only %d lines available, skipping to last line"
 msgstr "Nur %d Zeilen vorhanden, springe zur letzten Zeile"
 
 #: winio.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "actual_x_from_start for xplus=%d returned %d\n"
-msgstr "actual_x für xplus=%d gab %d zurück\n"
+msgstr "actual_x_from_start für xplus=%d gab %d zurück\n"
 
 #: winio.c:409
 #, c-format
@@ -784,9 +949,23 @@ msgstr "Neuer Puffer"
 msgid "  File: ..."
 msgstr "  Datei: ..."
 
+#: winio.c:449
+msgid "File: "
+msgstr "Datei: "
+
 #: winio.c:454
 msgid "Modified"
 msgstr "Verändert"
+
+#: winio.c:464
+#, c-format
+msgid " %-11s"
+msgstr " %-11s"
+
+#: winio.c:494 winio.c:503
+#, c-format
+msgid "^%c"
+msgstr "^%c"
 
 #: winio.c:913
 #, c-format
@@ -798,22 +977,50 @@ msgstr "Nach (%d, %d) im Bearbeitungspuffer verschoben\n"
 msgid "current->data = \"%s\"\n"
 msgstr "current->data = \"%s\"\n"
 
+#: winio.c:946
+msgid ": "
+msgstr ": "
+
 #: winio.c:967
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "Erhielt \"%s\"\n"
 
 #: winio.c:992
+msgid " Y"
+msgstr " J"
+
+#: winio.c:992
 msgid "Yes"
 msgstr "Ja"
+
+#: winio.c:994
+msgid " A"
+msgstr " A"
 
 #: winio.c:994
 msgid "All"
 msgstr "Alle"
 
 #: winio.c:996
+msgid " N"
+msgstr " N"
+
+#: winio.c:996
 msgid "No"
 msgstr "Nein"
+
+#: winio.c:997
+msgid "^C"
+msgstr "^C"
+
+#: winio.c:1061
+msgid "[ "
+msgstr "[ "
+
+#: winio.c:1063
+msgid " ]"
+msgstr " ]"
 
 #: winio.c:1132
 #, c-format
@@ -836,146 +1043,28 @@ msgstr "Gebe Inhalt der Zwischenablage nach stderr aus...\n"
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Gebe einen Puffer nach stderr aus...\n"
 
-#, fuzzy
-#~ msgid "To Search"
-#~ msgstr "Suche"
+#: winio.c:1268 winio.c:1282
+#, c-format
+msgid "(%ld) %s\n"
+msgstr "(%ld) %s\n"
 
-#~ msgid " Y"
-#~ msgstr " J"
+msgid "To Replace"
+msgstr "Ersetzen"
 
-#~ msgid " A"
-#~ msgstr " A"
+msgid "To Search"
+msgstr "Suche"
 
-#~ msgid " N"
-#~ msgstr " N"
+msgid "nano: malloc: out of memory!"
+msgstr "nano: malloc: Kein Speicher verfügbar!"
 
-#~ msgid "^C"
-#~ msgstr "^C"
+msgid "nano: realloc: out of memory!"
+msgstr "nano: realloc: Kein Speicher verfügbar!"
 
-#~ msgid "nano: malloc: out of memory!"
-#~ msgstr "nano: malloc: Kein Speicher verfügbar!"
+msgid "Suspend"
+msgstr "Suspend"
 
-#~ msgid "nano.save"
-#~ msgstr "nano.save"
+msgid "Suspend nano if suspend is enabled"
+msgstr "nano anhalten und zur Shell zurückkehren (nur wenn aktiviert)"
 
-#~ msgid "nano: realloc: out of memory!"
-#~ msgstr "nano: realloc: Kein Speicher verfügbar!"
-
-#~ msgid "%s: %s"
-#~ msgstr "%s: %s"
-
-#~ msgid " [%s]"
-#~ msgstr " [%s]"
-
-#~ msgid "$"
-#~ msgstr "DM"
-
-#~ msgid ".XXXXXX"
-#~ msgstr ".XXXXXX"
-
-#~ msgid "\n"
-#~ msgstr "\n"
-
-#~ msgid "nano."
-#~ msgstr "nano."
-
-#~ msgid "%s %s"
-#~ msgstr "%s %s"
-
-#~ msgid "ispell %s"
-#~ msgstr "ispell %s"
-
-#~ msgid "Justify Complete"
-#~ msgstr "Ausrichten abgeschlossen"
-
-#~ msgid "^%c\t"
-#~ msgstr "^%c\t"
-
-#~ msgid "(F%d)\t"
-#~ msgstr "(F%d)\t"
-
-#~ msgid "\t"
-#~ msgstr "\t"
-
-#~ msgid "(@%c)\t"
-#~ msgstr "(@%c)\t"
-
-#~ msgid "%s\n"
-#~ msgstr "%s\n"
-
-#~ msgid "version"
-#~ msgstr "Version"
-
-#~ msgid "const"
-#~ msgstr "const"
-
-#~ msgid "suspend"
-#~ msgstr "suspend"
-
-#~ msgid "nowrap"
-#~ msgstr "nowrap"
-
-#~ msgid "nohelp"
-#~ msgstr "nohelp"
-
-#~ msgid "help"
-#~ msgstr "help"
-
-#~ msgid "autoindent"
-#~ msgstr "autoindent"
-
-#~ msgid "tempfile"
-#~ msgstr "tempfile"
-
-#~ msgid "speller"
-#~ msgstr "speller"
-
-#~ msgid "fill"
-#~ msgstr "fille"
-
-#~ msgid "mouse"
-#~ msgstr "mouse"
-
-#~ msgid "pico"
-#~ msgstr "pico"
-
-#, fuzzy
-#~ msgid "?Vchilmpr:s:tvwxz"
-#~ msgstr "?Vchimpr:s:tvwxz"
-
-#, fuzzy
-#~ msgid "h?Vcilmpr:s:tvwxz"
-#~ msgstr "h?Vcilmpr:s:tvwxz"
-
-#~ msgid "I got %c (%d)!\n"
-#~ msgstr "Erhielt %c (%d)!\n"
-
-#~ msgid "File: "
-#~ msgstr "Datei: "
-
-#~ msgid " %-11s"
-#~ msgstr " %-11s"
-
-#~ msgid "^%c"
-#~ msgstr "^%c"
-
-#~ msgid ": "
-#~ msgstr ": "
-
-#~ msgid "[ "
-#~ msgstr "[ "
-
-#~ msgid " ]"
-#~ msgstr " ]"
-
-#~ msgid "(%ld) %s\n"
-#~ msgstr "(%ld) %s\n"
-
-#~ msgid "Suspend"
-#~ msgstr "Suspend"
-
-#~ msgid "Suspend nano if suspend is enabled"
-#~ msgstr "nano anhalten und zur Shell zurückkehren (nur wenn aktiviert)"
-
-#~ msgid "xplustabs for current_x=%d returned %d\n"
-#~ msgstr "xplustabs für current_x=%d gab %d zurück\n"
+msgid "xplustabs for current_x=%d returned %d\n"
+msgstr "xplustabs für current_x=%d gab %d zurück\n"
