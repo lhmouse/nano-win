@@ -1029,7 +1029,7 @@ void toggle_init(void)
 		DOS_FILE);
 	toggle_init_one(TOGGLE_MAC_KEY, N_("Writing file in Mac format"),
 		MAC_FILE);
-	toggle_init_one(TOGGLE_BACKUP_KEY, N_("File backups"), BACKUP_FILE);
+	toggle_init_one(TOGGLE_BACKUP_KEY, N_("Backup files"), BACKUP_FILE);
     }
     toggle_init_one(TOGGLE_SMOOTH_KEY, N_("Smooth scrolling"), SMOOTHSCROLL);
     toggle_init_one(TOGGLE_SMARTHOME_KEY, N_("Smart home key"), SMART_HOME);
