@@ -33,7 +33,8 @@ Cvs code -
   add_to_cutbuffer()
 	- Remove useless statements (Rocco).
   cut_marked_segment()
-	- Add bizarre copy of bot node, else *BSD goes ballistic.
+	- Add bizarre copy of bot node, else *BSD goes ballistic (fixes
+          BUG #60).
 - faq.html:
 	- Brought the FAQ up to date, many little changes (Jordi).
 - files.c:
