@@ -441,7 +441,7 @@ void usage(void)
 #ifndef DISABLE_JUSTIFY
     printf
 	(_
-	 (" -Q [str]	--quotestr [num]	Quoting string, default \"> \"\n"));
+	 (" -Q [str]	--quotestr [str]	Quoting string, default \"> \"\n"));
 #endif
 #ifndef NANO_SMALL
     printf(_
