@@ -274,16 +274,6 @@ void shortcut_init(int unjustify)
 		nano_cursorpos_msg,
 		0, NANO_CURSORPOS_FKEY, 0, VIEW, do_cursorpos);
 
-/*
-    if (ISSET(PICO_MODE))
-	sc_init_one(&main_list[11], NANO_GOTO_KEY, _("Goto Line"),
-		    nano_goto_msg,
-		    NANO_ALT_G, NANO_GOTO_FKEY, 0, VIEW, do_gotoline_void);
-    else
-	sc_init_one(&main_list[11], NANO_SPELL_KEY, _("To Spell"),
-		nano_spell_msg, 0, NANO_SPELL_FKEY, 0, NOVIEW, do_spell);
-*/
-
     sc_init_one(&main_list[11], NANO_SPELL_KEY, _("To Spell"),
 		nano_spell_msg, 0, NANO_SPELL_FKEY, 0, NOVIEW, do_spell);
 
@@ -336,15 +326,6 @@ void shortcut_init(int unjustify)
 		nano_enter_msg,
 		0, KEY_ENTER, NANO_CONTROL_M, NOVIEW, do_enter_void);
 
-/*
-    if (ISSET(PICO_MODE))
-	sc_init_one(&main_list[25], NANO_GOTO_KEY, _("Goto Line"),
-		    nano_goto_msg,
-		    NANO_ALT_G, NANO_GOTO_FKEY, 0, VIEW, do_gotoline_void);
-    else
-	sc_init_one(&main_list[25], NANO_SPELL_KEY, _("To Spell"),
-		nano_spell_msg, 0, NANO_SPELL_FKEY, 0, NOVIEW, do_spell);
-*/
     sc_init_one(&main_list[25], NANO_GOTO_KEY, _("Goto Line"),
 		    nano_goto_msg,
 		    NANO_ALT_G, NANO_GOTO_FKEY, 0, VIEW, do_gotoline_void);
