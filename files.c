@@ -29,6 +29,7 @@
 #include <errno.h>
 #include <ctype.h>
 #include <dirent.h>
+#include <pwd.h>
 
 #include "config.h"
 #include "proto.h"
@@ -581,8 +582,9 @@ int do_writeout_void(void)
  */
 char *real_dir_from_tilde(char *buf)
 {
-    char *dirtmp = NULL, *line = NULL, byte[1], *lineptr;
-    int fd, i, status, searchctr = 1;
+    char *dirtmp = NULL;
+    int searchctr = 1;
+    struct passwd *userdata;
 
     if (buf[0] == '~') {
 	if (buf[1] == '~')
@@ -599,51 +601,22 @@ char *real_dir_from_tilde(char *buf)
 	    }
 	} else if (buf[1] != 0) {
 
-	    if ((fd = open("/etc/passwd", O_RDONLY)) == -1)
-		goto abort;
-
 	    /* Figure how how much of of the str we need to compare */
 	    for (searchctr = 1; buf[searchctr] != '/' &&
 		 buf[searchctr] != 0; searchctr++);
 
-	    do {
-		i = 0;
-		line = nmalloc(1);
-		while ((status = read(fd, byte, 1)) != 0
-		       && byte[0] != '\n') {
+	    for (userdata = getpwent(); userdata != NULL && 
+		  strncmp(userdata->pw_name, &buf[1], searchctr - 1); 
+		  userdata = getpwent());
 
-		    line[i] = byte[0];
-		    i++;
-		    line = nrealloc(line, i + 1);
-		}
-		line[i] = 0;
+	    if (userdata == NULL) /* No such user or getpwent() failed */
+		goto abort;
 
-		if (i == 0)
-		    goto abort;
+	    /* Else copy the new string into the new buf */
+	    dirtmp = nmalloc(strlen(buf) + 2 + strlen(userdata->pw_dir));
 
-		line[i] = 0;
-		lineptr = strtok(line, ":");
-
-		if (!strncmp(lineptr, &buf[1], searchctr - 1)) {
-
-		    /* Okay, skip to the password portion now */
-		    for (i = 0; i <= 4 && lineptr != NULL; i++)
-			lineptr = strtok(NULL, ":");
-
-		    if (lineptr == NULL)
-			goto abort;
-
-		    /* Else copy the new string into the new buf */
-		    dirtmp = nmalloc(strlen(buf) + 2 + strlen(lineptr));
-
-		    sprintf(dirtmp, "%s%s", lineptr, &buf[searchctr]);
-		    free(line);
-		    break;
-		}
-
-		free(line);
-
-	    } while (status != 0);
+	    sprintf(dirtmp, "%s%s", userdata->pw_dir, &buf[searchctr]);
+	    endpwent();
 	}
     } else
 	dirtmp = mallocstrcpy(dirtmp, buf);
