@@ -75,7 +75,8 @@ CVS code -
 	  get_control_kbinput(), and get_untranslated_kbinput(); changes
 	  to do_verbatim_input(), handle_sigwinch(), get_kbinput(),
 	  get_ascii_kbinput(), get_escape_seq_kbinput(), and
-	  get_verbatim_kbinput(). (DLR)
+	  get_verbatim_kbinput(); removal of get_ignored_kbinput() and
+	  get_accepted_kbinput(). (DLR)
 	- Overhaul all the movement functions in order to avoid
 	  redundant screen redraws (and regexec()s when color support is
 	  available) whenever possible during ordinary cursor movement
