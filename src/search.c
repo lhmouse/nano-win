@@ -385,7 +385,7 @@ void do_search(void)
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
-    i = search_init(0);
+    i = search_init(FALSE);
     if (i == -1)	/* Cancel, Go to Line, blank search string, or
 			 * regcomp() failed. */
 	search_abort();
@@ -778,7 +778,7 @@ void do_replace(void)
 	return;
     }
 
-    i = search_init(1);
+    i = search_init(TRUE);
     if (i == -1) {		/* Cancel, Go to Line, blank search
 				 * string, or regcomp() failed. */
 	replace_abort();
