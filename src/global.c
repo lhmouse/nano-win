@@ -429,9 +429,9 @@ void shortcut_init(int unjustify)
 
     free_shortcutage(&main_list);
 
-/* The following macro is to be used in calling sc_init_one.  The point is
- * that sc_init_one takes 9 arguments, unless DISABLE_HELP is defined,
- * when the fourth one should not be there. */
+/* The following macro is to be used in calling sc_init_one().  The
+ * point is that sc_init_one() takes 9 arguments, unless DISABLE_HELP is
+ * defined, when the 4th one should not be there. */
 #ifndef DISABLE_HELP
 #  define IFHELP(help, nextvar) help, nextvar
 #else
