@@ -28,6 +28,8 @@ CVS code -
 - winio.c:
   total_refresh()
 	- Added titlebar() call.
+  onekey()
+	- Off by one error fix fix ;-) (Rocco Corsi).
 
 - search.c:
   findnextstr()
@@ -75,6 +77,7 @@ nano-0.9.17 - 09/04/2000
 	  lack of reversed text on searching with MARK_ISSET.
   onekey()
 	- Off by one error fix (Rocco Corsi).
+
   update_line()
 	- Added check for binary data >= 1 and <= 26, and use ^+letter
 	  to display it.   Should fix editing text files with binary
