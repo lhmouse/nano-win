@@ -83,5 +83,8 @@
   such as when all of a line is selected but the mark doesn't proceed to
   the new line. (8) { Is this an issue? compare to pico 3.5 }
 - totsize problems still abound in do_justify (33).
+- When the cursor is set, moving left from the beginning a line brings you
+  up to the next line, but hitting left again does not actually move the
+  cursor (48).
 
 $Id$
