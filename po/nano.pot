@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-11-27 17:57-0500\n"
+"POT-Creation-Date: 2000-11-27 18:00-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -691,52 +691,52 @@ msgstr ""
 msgid "Can now UnJustify!"
 msgstr ""
 
-#: nano.c:1914
+#: nano.c:1913
 #, c-format
 msgid "%s enable/disable"
 msgstr ""
 
-#: nano.c:1926
+#: nano.c:1925
 msgid "enabled"
 msgstr ""
 
-#: nano.c:1927
+#: nano.c:1926
 msgid "disabled"
 msgstr ""
 
-#: nano.c:2157
+#: nano.c:2156
 msgid "Main: set up windows\n"
 msgstr ""
 
-#: nano.c:2170
+#: nano.c:2169
 msgid "Main: bottom win\n"
 msgstr ""
 
-#: nano.c:2176
+#: nano.c:2175
 msgid "Main: open file\n"
 msgstr ""
 
-#: nano.c:2213
+#: nano.c:2212
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2235
+#: nano.c:2234
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2268
+#: nano.c:2267
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2316
+#: nano.c:2315
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2342
+#: nano.c:2341
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr ""
