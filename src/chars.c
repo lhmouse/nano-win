@@ -297,6 +297,58 @@ char *make_mbchar(int chr, char *chr_mb, int *chr_mb_len)
     return chr_mb;
 }
 
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+/* Convert the string str to a valid multibyte string with the same wide
+ * character values as str.  Return the multibyte string. */
+char *make_mbstring(char *str, char *str_mb)
+{
+    assert(str != NULL && str_mb != NULL);
+
+#ifdef NANO_WIDE
+    if (!ISSET(NO_UTF8)) {
+	char *chr_mb = charalloc(MB_CUR_MAX);
+	int chr_mb_len;
+	size_t str_mb_len = 0;
+
+	str_mb = charalloc((MB_CUR_MAX * strlen(str)) + 1);
+
+	while (*str != '\0') {
+	    bool bad_char;
+	    int i;
+
+	    chr_mb_len = parse_mbchar(str, chr_mb, &bad_char, NULL);
+
+	    if (bad_char) {
+		char *bad_chr_mb = charalloc(MB_CUR_MAX);
+		int bad_chr_mb_len;
+
+		bad_chr_mb = make_mbchar((unsigned char)chr_mb[0],
+		    bad_chr_mb, &bad_chr_mb_len);
+
+		for (i = 0; i < bad_chr_mb_len; i++)
+		    str_mb[str_mb_len + i] = bad_chr_mb[i];
+		str_mb_len += bad_chr_mb_len;
+
+		free(bad_chr_mb);
+	    } else {
+		for (i = 0; i < chr_mb_len; i++)
+		    str_mb[str_mb_len + i] = chr_mb[i];
+		str_mb_len += chr_mb_len;
+	    }
+
+	    str += chr_mb_len;
+	}
+
+	free(chr_mb);
+	null_at(&str_mb, str_mb_len);
+
+	return str_mb;
+     } else
+#endif
+	return mallocstrcpy(str_mb, str);
+}
+#endif
+
 /* Parse a multibyte character from buf.  Return the number of bytes
  * used.  If chr isn't NULL, store the multibyte character in it.  If
  * bad_chr isn't NULL, set it to TRUE if we have a bad multibyte
@@ -330,6 +382,7 @@ int parse_mbchar(const char *buf, char *chr, bool *bad_chr, size_t
 	/* Save the multibyte character in chr. */
 	if (chr != NULL) {
 	    int i;
+
 	    for (i = 0; i < buf_mb_len; i++)
 		chr[i] = buf[i];
 	}

@@ -570,12 +570,7 @@ void parse_rcfile(FILE *rcstream)
 #endif
 #ifndef NANO_SMALL
 			if (strcasecmp(rcopts[i].name, "whitespace") == 0) {
-			    /* We use display_string() here so that any
-			     * invalid multibyte characters in option
-			     * will be converted to valid multibyte
-			     * characters in whitespace. */
-			    whitespace = display_string(option, 0, 3, FALSE);
-
+			    whitespace = make_mbstring(option, whitespace);
 			    if (mbstrlen(whitespace) != 2 || strlenpt(whitespace) != 2) {
 				rcfile_error(N_("Two single-column characters required"));
 				free(whitespace);

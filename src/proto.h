@@ -175,6 +175,9 @@ wchar_t control_wrep(wchar_t c);
 int mbwidth(const char *c);
 int mb_cur_max(void);
 char *make_mbchar(int chr, char *chr_mb, int *chr_mb_len);
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+char *make_mbstring(char *str, char *str_mb);
+#endif
 int parse_mbchar(const char *buf, char *chr, bool *bad_chr, size_t
 	*col);
 size_t move_mbleft(const char *buf, size_t pos);
