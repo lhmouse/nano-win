@@ -96,7 +96,7 @@ nano_LDADD = @INTLLIBS@
 info_TEXINFOS = nano.texi
 MAKEINFO = makeinfo --no-split
 
-EXTRA_DIST = AUTHORS BUGS COPYING ChangeLog INSTALL NEWS README 		TODO install-sh missing mkinstalldirs nano.1 nano.1.html 		faq.html
+EXTRA_DIST = ABOUT-NLS AUTHORS BUGS COPYING ChangeLog INSTALL NEWS 		README THANKS TODO install-sh missing mkinstalldirs 		nano.1 nano.1.html faq.html
 
 
 SUBDIRS = po intl
@@ -131,7 +131,7 @@ MANS = $(man_MANS)
 
 NROFF = nroff
 DIST_COMMON =  README ./stamp-h.in ABOUT-NLS AUTHORS COPYING ChangeLog \
-INSTALL Makefile.am Makefile.in NEWS TODO acconfig.h aclocal.m4 \
+INSTALL Makefile.am Makefile.in NEWS THANKS TODO acconfig.h aclocal.m4 \
 config.guess config.h.in config.sub configure configure.in install-sh \
 missing mkinstalldirs texinfo.tex
 

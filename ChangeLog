@@ -33,6 +33,9 @@ CVS code -
 	- Updated Indonesian translation by Tedi Heriyanto.
 - po/it.po
 	- Updated Italian translation by Marco Colombo.
+- po/uk.po, po/ru.po
+	- Added Russian and Ukranian translations from 1.1 by Sergey A.
+	  Ribalchenko.
 
 nano 1.0.2 - 05/12/2001
 - General:
