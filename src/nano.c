@@ -35,7 +35,6 @@
 #include <errno.h>
 #include <ctype.h>
 #include <locale.h>
-#include <limits.h>
 #include <assert.h>
 #include "proto.h"
 #include "nano.h"

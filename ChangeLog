@@ -47,6 +47,8 @@ CVS code -
 	- Turn off extended input processing (the IEXTEN termios flag)
 	  as nano 1.2.x does.  New function disable_extended_input();
 	  changes to terminal_init(). (DLR)
+	- Remove redundant include of limits.h from nano.c.  nano.c
+	  includes nano.h and nano.h includes limits.h. (DLR)
 - files.c:
   do_insertfile()
 	- Readd the NANO_SMALL #ifdef around the start_again: label to
