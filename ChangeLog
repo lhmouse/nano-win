@@ -37,6 +37,10 @@ CVS code -
 	  the klugey unjustify code.
 - nano.1, nano.1.html:
 	- Updated date on pages because of -p changes.
+	- Added "NOTES" section, where I explain what nano.save & friends
+	  are.
+	- Added a copyright notice for the manpage, under the GPL.
+	- Other minor changes.
 - nano.c:
   do_justify()
 	- Wrote unjustify code.  Borrows cutbuffer and stores the unjustified 

@@ -1,20 +1,16 @@
-.\"                                      Hey, EMACS: -*- nroff -*-
+.\" Hey, EMACS: -*- nroff -*-
+.\" nano.1 is copyright 1999-2000 by
+.\" Chris Allegretta <chrisa@asty.org>
+.\"
+.\" This is free documentation, see the latest version of the GNU General
+.\" Public License for copying conditions. There is NO warranty.
+.\"
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH NANO 1 "November 27, 2000"
+.TH NANO 1 "December 2, 2000"
 .\" Please adjust this date whenever revising the manpage.
 .\"
-.\" Some roff macros, for reference:
-.\" .nh        disable hyphenation
-.\" .hy        enable hyphenation
-.\" .ad l      left justify
-.\" .ad b      justify to both left and right margins
-.\" .nf        disable filling
-.\" .fi        enable filling
-.\" .br        insert line break
-.\" .sp <n>    insert n+1 empty lines
-.\" for manpage-specific macros, see man(7)
 .SH NAME
 nano \- Nano's ANOther editor, an enhanced free Pico Clone
 .SH SYNOPSIS
@@ -29,14 +25,12 @@ command.
 .\" TeX users may be more comfortable with the \fB<whatever>\fP and
 .\" \fI<whatever>\fP escape sequences to invode bold face and italics, 
 .\" respectively.
-\fBnano\fP was originally known as TIP (TIP Isn't Pico). It is a small,
-free and friendly editor which aims to replace Pico, the default editor
-included in the non-free Pine package. Rather than just copying Pico's
-look and feel, 
+\fBnano\fP is a small, free and friendly editor which aims to replace
+Pico, the default editor included in the non-free Pine package. Rather
+than just copying Pico's look and feel,
 .B nano
-also implements some missing (or disabled by
-default) features in Pico, such as "search and replace" and "goto line
-number".
+also implements some missing (or disabled by default) features in Pico,
+such as "search and replace" and "goto line number".
 .SH OPTIONS
 .TP
 .B \-T (\-\-tabsize)
@@ -92,16 +86,27 @@ Enable suspend ability.
 .TP
 .B \+LINE
 Places cursor at LINE on startup.
+.SH NOTES
+Nano will try to dump the buffer into an emergency file in some cases.
+Mainly, this will happen if Nano recieves a SIGHUP or runs out of
+memory, when it will write the buffer into a file named "nano.save" if the
+buffer didn't have a name already, or will add a ".save" suffix to the
+current finename. Nano will \fBnot\fP follow symbolic links that are not
+owned by the real userid of the process.
 .SH BUGS
 Please send any comments or bug reports to
+.br
 .B nano@nano-editor.org.
+.br
 The nano mailing list is available from
+.br
 .B nano-devel@lists.sourceforge.net.
 To subscribe, email to nano-devel-request@lists.sourceforge.net with a
 subject of "subscribe".
 .SH HOMEPAGE
 http://www.nano-editor.org
 .SH AUTHOR
-Chris Allegretta <chrisa@asty.org>, et al.  This manual page was
-originally written by Jordi Mallach <jordi@sindominio.net>, for the Debian
-GNU/Linux system (but may be used by others).
+Chris Allegretta <chrisa@asty.org>, et al (see AUTHORS for details).
+This manual page was originally written by Jordi Mallach
+<jordi@sindominio.net>, for the Debian GNU/Linux system (but may be
+used by others).
