@@ -52,6 +52,8 @@ CVS code
 	- Only goto_abort() if we *didnt* abort the command, making
 	  the function seem horribly misnamed ;-) (David Benbennick).
 - winio.c:
+  browser_init(), striponedir(), do_browse_from()
+	- Various memory leak fixes (David Benbennick).
   do_yesno(), do_help()
 	- Add defined(NCURSES_MOUSE_VERSION) to macro so systems that
 	  don't understand MEVENT will compile.

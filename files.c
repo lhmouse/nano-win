@@ -2396,13 +2396,15 @@ void striponedir(char *foo)
 {
     char *tmp;
 
+    assert(foo != NULL);
     /* Don't strip the root dir */
-    if (!strcmp(foo, "/"))
+    if (*foo == '\0' || strcmp(foo, "/") == 0)
 	return;
 
-    tmp = foo + strlen(foo);
+    tmp = foo + strlen(foo) - 1;
+    assert(tmp >= foo);
     if (*tmp == '/')
-	tmp--;
+	*tmp = '\0';
 
     while (*tmp != '/' && tmp != foo)
 	tmp--;
@@ -2464,6 +2466,7 @@ char **browser_init(const char *path, int *longest, int *numents)
 	sprintf(filelist[i], "%s/%s", path, next->d_name);
 	i++;
     }
+    closedir(dir);
 
     if (*longest > COLS - 1)
 	*longest = COLS - 1;
@@ -2841,8 +2844,10 @@ char *do_browse_from(const char *inpath)
 
     if (stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
 	striponedir(path);
-	if (stat(path, &st) == -1 || !S_ISDIR(st.st_mode))
+	if (stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
+	    free(path);
 	    path = getcwd(NULL, PATH_MAX + 1);
+	}
     }
 
 #ifndef DISABLE_OPERATINGDIR
