@@ -299,7 +299,7 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 		break;
 	}
 
-	/* Finished processing file, get out. */
+	/* We've finished processing the file, so get out. */
 	if (search_last_line) {
 	    if (can_display_wrap)
 		not_found_msg(needle);
@@ -318,7 +318,7 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	}
 #endif
 
-	/* Start or end of buffer reached; wrap around. */
+	/* Start or end of buffer reached, so wrap around. */
 	if (fileptr == NULL) {
 	    if (!can_display_wrap)
 		return FALSE;
@@ -626,7 +626,14 @@ int do_replace_loop(const char *needle, filestruct *real_current, size_t
 
     if (old_mark_set) {
 	/* Save the locations where the mark begins and ends. */
+	filestruct *old_current = current;
+	size_t old_current_x = current_x;
+
+	current = real_current;
+	current_x = *real_current_x;
 	mark_order(&top, &top_x, &bot, &bot_x);
+	current = old_current;
+	current_x = old_current_x;
 
 	UNSET(MARK_ISSET);
 	edit_refresh();
@@ -747,22 +754,6 @@ int do_replace_loop(const char *needle, filestruct *real_current, size_t
 		*real_current_x += length_change;
 	    }
 
-#ifndef NANO_SMALL
-	    /* Since the locations where the mark begins and ends may
-	     * have changed, keep our saved locations in sync with
-	     * them. */
-	    if (old_mark_set) {
-		filestruct *old_current = current;
-		size_t old_current_x = current_x;
-
-		current = real_current;
-		current_x = *real_current_x;
-		mark_order(&top, &top_x, &bot, &bot_x);
-		current = old_current;
-		current_x = old_current_x;
-	    }
-#endif
-
 	    /* Set the cursor at the last character of the replacement
 	     * text, so searching will resume after the replacement
 	     * text.  Note that current_x might be set to -1 here. */
@@ -787,6 +778,19 @@ int do_replace_loop(const char *needle, filestruct *real_current, size_t
 
 	    set_modified();
 	    numreplaced++;
+	}
+
+	/* Save the locations where the mark begins and ends again,
+	 * since they may have changed. */
+	if (old_mark_set) {
+	    filestruct *old_current = current;
+	    size_t old_current_x = current_x;
+
+	    current = real_current;
+	    current_x = *real_current_x;
+	    mark_order(&top, &top_x, &bot, &bot_x);
+	    current = old_current;
+	    current_x = old_current_x;
 	}
     }
 

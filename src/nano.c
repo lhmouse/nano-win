@@ -1420,9 +1420,9 @@ bool do_int_spell_fix(const char *word)
 {
     char *save_search;
     char *save_replace;
-    size_t current_x_save = current_x;
-    filestruct *current_save = current;
+    size_t current_x_save = current_x, pww_save = placewewant;
     filestruct *edittop_save = edittop;
+    filestruct *current_save = current;
 	/* Save where we are. */
     bool accepted = TRUE;
 	/* The return value. */
@@ -1463,8 +1463,10 @@ bool do_int_spell_fix(const char *word)
     last_replace = mallocstrcpy(NULL, word);
 
     /* Start from the top of the file. */
+    edittop = fileage;
     current = fileage;
     current_x = -1;
+    placewewant = 0;
 
     search_last_line = FALSE;
 
@@ -1500,9 +1502,10 @@ bool do_int_spell_fix(const char *word)
     last_replace = save_replace;
 
     /* Restore where we were. */
+    edittop = edittop_save;
     current = current_save;
     current_x = current_x_save;
-    edittop = edittop_save;
+    placewewant = pww_save;
 
     /* Restore case sensitivity setting. */
     if (!case_sens_set)
