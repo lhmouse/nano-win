@@ -12,6 +12,9 @@ since last release (CVS Only) - 06/06/2000
 	- experimental do_wrap and check_wrap (Adam Rogoyski)
   do_enter():
         - Added reset of placewewant to end.
+  do_insertfile():
+	- Fix display problem when using ctrl-r to load a file
+	  into the buffer (Rob Siemborski)
 
 nano-0.9.10 - 06/04/2000
 - es.po:

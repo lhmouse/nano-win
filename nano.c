@@ -540,6 +540,7 @@ int do_insertfile(void)
 
 	dump_buffer(fileage);
 	set_modified();
+	edit_update(current);
 	UNSET(KEEP_CUTBUFFER);
 	display_main_list();
 	return i;
