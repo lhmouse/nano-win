@@ -21,4 +21,4 @@ nano_SOURCES =	chars.c \
 nano_LDADD = @GLIB_LIBS@ @LIBINTL@
 
 install-exec-hook:
-	cd $(DESTDIR)$(bindir) && $(LN_S) nano rnano
+	cd $(DESTDIR)$(bindir) && rm -f rnano && $(LN_S) nano rnano

@@ -243,6 +243,9 @@ CVS code -
 	  Piefel)
 - src/Makefile.am:
 	- Add chars.c to nano_SOURCES. (DLR)
+	- If we're installing and the "rnano" symlink already exists,
+	  remove it so that we can create it again without an error.
+	  (DLR)
 
 GNU nano 1.3.5 - 2004.11.22
 - General:
