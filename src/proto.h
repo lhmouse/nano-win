@@ -494,8 +494,6 @@ int check_linenumbers(const filestruct *fileptr);
 #endif
 size_t get_page_start(size_t column);
 void reset_cursor(void);
-void add_marked_sameline(int begin, int end, filestruct *fileptr, int y,
-			 int virt_cur_x, int this_page);
 void edit_add(const filestruct *fileptr, const char *converted, int
 	yval, size_t start);
 void update_line(const filestruct *fileptr, size_t index);

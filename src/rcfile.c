@@ -71,10 +71,10 @@ const static rcoption rcopts[] = {
     {"operatingdir", 0},
 #endif
     {"preserve", PRESERVE},
-    {"rebinddelete", REBIND_DELETE},
 #ifndef DISABLE_JUSTIFY
     {"quotestr", 0},
 #endif
+    {"rebinddelete", REBIND_DELETE},
 #ifdef HAVE_REGEX_H
     {"regexp", USE_REGEXP},
 #endif
