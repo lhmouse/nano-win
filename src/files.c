@@ -32,7 +32,6 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <ctype.h>
-#include <dirent.h>
 #include <pwd.h>
 #include <assert.h>
 #include "proto.h"
