@@ -1102,7 +1102,7 @@ int do_int_spell_fix(char *word)
 	search_last_line = FALSE;
 
 	/* allow replace word to be corrected */
-	i = statusq(replace_list_2, REPLACE_LIST_2_LEN, last_replace, 
+	i = statusq(0, replace_list_2, REPLACE_LIST_2_LEN, last_replace, 
 		_("Edit a replacement"));
 
 	do_replace_loop(prevanswer, begin_top, &beginx_top, TRUE, &i);
