@@ -1565,198 +1565,203 @@ void wrap_reset(void)
 /* We wrap the given line.  Precondition: we assume the cursor has been
  * moved forward since the last typed character.  Return value: whether
  * we wrapped. */
-bool do_wrap(filestruct *inptr)
+bool do_wrap(filestruct *line)
 {
-    size_t len = strlen(inptr->data);
+    size_t line_len = strlen(line->data);
 	/* Length of the line we wrap. */
-    size_t i = 0;
-	/* Generic loop variable. */
     ssize_t wrap_loc = -1;
-	/* Index of inptr->data where we wrap. */
-    ssize_t word_back = -1;
+	/* Index of line->data where we wrap. */
 #ifndef NANO_SMALL
-    const char *indentation = NULL;
+    const char *indent_string = NULL;
 	/* Indentation to prepend to the new line. */
-    size_t indent_len = 0;	/* strlen(indentation) */
+    size_t indent_len = 0;	/* The length of indent_string. */
 #endif
-    const char *after_break;	/* Text after the wrap point. */
-    size_t after_break_len;	/* strlen(after_break) */
+    const char *after_break;	/* The text after the wrap point. */
+    size_t after_break_len;	/* The length of after_break. */
     bool wrapping = FALSE;	/* Do we prepend to the next line? */
-    const char *wrap_line = NULL;
+    const char *next_line = NULL;
 	/* The next line, minus indentation. */
-    size_t wrap_line_len = 0;	/* strlen(wrap_line) */
-    char *newline = NULL;	/* The line we create. */
-    size_t new_line_len = 0;	/* Eventual length of newline. */
+    size_t next_line_len = 0;	/* The length of next_line. */
+    char *new_line = NULL;	/* The line we create. */
+    size_t new_line_len = 0;	/* The eventual length of new_line. */
 
-/* There are three steps.  First, we decide where to wrap.  Then, we
- * create the new wrap line.  Finally, we clean up. */
+    /* There are three steps.  First, we decide where to wrap.  Then, we
+     * create the new wrap line.  Finally, we clean up. */
 
-/* Step 1, finding where to wrap.  We are going to add a new line
- * after a whitespace character.  In this step, we set wrap_loc as the
- * location of this replacement.
- *
- * Where should we break the line?  We need the last legal wrap point
- * such that the last word before it ended at or before fill.  If there
- * is no such point, we settle for the first legal wrap point.
- *
- * A legal wrap point is a whitespace character that is not followed by
- * whitespace.
- *
- * If there is no legal wrap point or we found the last character of the
- * line, we should return without wrapping.
- *
- * Note that the initial indentation does not count as a legal wrap
- * point if we are going to auto-indent!
- *
- * Note that the code below could be optimized, by not calling
- * strnlenpt() so often. */
+    /* Step 1, finding where to wrap.  We are going to add a new line
+     * after a blank character.  In this step, we call break_line() to
+     * get the location of the last blank we can break the line at, and
+     * and set wrap_loc to the location of the character after it, so
+     * that the blank is preserved at the end of the line.
+     *
+     * If there is no legal wrap point, or we reach the last character
+     * of the line while trying to find one, we should return without
+     * wrapping.  Note that if autoindent is turned on, we don't break
+     * at the end of it! */
 
-#ifndef NANO_SMALL
-    if (ISSET(AUTOINDENT))
-	i = indent_length(inptr->data);
-#endif
-    wrap_line = inptr->data + i;
-    for (; i < len; i++, wrap_line++) {
-	/* Record where the last word ended. */
-	if (!is_blank_char(*wrap_line))
-	    word_back = i;
-	/* If we have found a legal wrap point and the current word
-	 * extends too far, then we stop. */
-	if (wrap_loc != -1 &&
-		strnlenpt(inptr->data, word_back + 1) > fill)
-	    break;
-	/* We record the latest legal wrap point. */
-	if (word_back != i && !is_blank_char(wrap_line[1]))
-	    wrap_loc = i;
-    }
-    if (i == len)
+    /* Find the last blank where we can break the line. */
+    wrap_loc = break_line(line->data, fill, FALSE);
+
+    /* If we couldn't break the line, or we've reached the end of it, we
+     * don't wrap. */
+    if (wrap_loc == -1 || line->data[wrap_loc] == '\0')
 	return FALSE;
 
+    /* Otherwise, move forward to the character just after the blank. */
+    wrap_loc += move_mbright(line->data + wrap_loc, 0);
+
+    /* If we've reached the end of the line, we don't wrap. */
+    if (line->data[wrap_loc] == '\0')
+	return FALSE;
+
+#ifndef NANO_SMALL
+    /* If autoindent is turned on, and we're on the character just after
+     * the indentation, we don't wrap. */
+    if (ISSET(AUTOINDENT)) {
+	/* Get the indentation of this line. */
+	indent_string = line->data;
+	indent_len = indent_length(indent_string);
+
+	if (wrap_loc == indent_len)
+	    return FALSE;
+    }
+#endif
+
     /* Step 2, making the new wrap line.  It will consist of indentation
-     * + after_break + " " + wrap_line (although indentation and
-     * wrap_line are conditional on flags and #defines). */
+     * followed by the text after the wrap point, optionally followed by
+     * a space (if the text after the wrap point doesn't end in a blank)
+     * and the text of the next line, if they can fit without
+     * wrapping, the next line exists, and the same_line_wrap flag is
+     * set. */
 
-    /* after_break is the text that will be moved to the next line. */
-    after_break = inptr->data + wrap_loc + 1;
-    after_break_len = len - wrap_loc - 1;
+    /* after_break is the text that will be wrapped to the next line. */
+    after_break = line->data + wrap_loc;
+    after_break_len = line_len - wrap_loc;
 
-    assert(after_break_len == strlen(after_break));
+    assert(strlen(after_break) == after_break_len);
 
-    /* new_line_len will later be increased by the lengths of indentation
-     * and wrap_line. */
-    new_line_len = after_break_len;
+    /* We prepend the wrapped text to the next line, if the
+     * same_line_wrap flag is set, there is a next line, and prepending
+     * would not make the line too long. */
+    if (same_line_wrap && line->next != NULL) {
+	const char *end = after_break + move_mbleft(after_break,
+		after_break_len);
 
-    /* We prepend the wrapped text to the next line, if the flag is set,
-     * and there is a next line, and prepending would not make the line
-     * too long. */
-    if (same_line_wrap && inptr->next) {
-	wrap_line = inptr->next->data;
-	wrap_line_len = strlen(wrap_line);
+	/* If after_break doesn't end in a blank, make sure it ends in a
+	 * space. */
+	if (!is_blank_mbchar(end)) {
+	    line_len++;
+	    line->data = charealloc(line->data, line_len + 1);
+	    line->data[line_len - 1] = ' ';
+	    line->data[line_len] = '\0';
+	    after_break = line->data + wrap_loc;
+	    after_break_len++;
+	    totsize++;
+	}
 
-	/* +1 for the space between after_break and wrap_line. */
-	if ((new_line_len + 1 + wrap_line_len) <= fill) {
+	next_line = line->next->data;
+	next_line_len = strlen(next_line);
+
+	if ((after_break_len + next_line_len) <= fill) {
 	    wrapping = TRUE;
-	    new_line_len += 1 + wrap_line_len;
+	    new_line_len += next_line_len;
 	}
     }
 
-#ifndef NANO_SMALL
-    if (ISSET(AUTOINDENT)) {
-	/* Indentation comes from the next line if wrapping, else from
-	 * this line. */
-	indentation = wrapping ? wrap_line : inptr->data;
-	indent_len = indent_length(indentation);
-	if (wrapping)
-	    /* The wrap_line text should not duplicate indentation.
-	     * Note in this case we need not increase new_line_len. */
-	    wrap_line += indent_len;
-	else
-	    new_line_len += indent_len;
-    }
-#endif
-
-    /* Now we allocate the new line and copy into it. */
-    newline = charalloc(new_line_len + 1);  /* +1 for \0 */
-    new_line_len = 0;
-    *newline = '\0';
-
-#ifndef NANO_SMALL
-    if (ISSET(AUTOINDENT)) {
-	strncpy(newline, indentation, indent_len);
-	newline[indent_len] = '\0';
-	totsize += mbstrlen(newline);
-	new_line_len = indent_len;
-    }
-#endif
-    strcat(newline, after_break);
+    /* new_line_len is now the length of the text that will be wrapped
+     * to the next line, plus (if we're prepending to it) the length of
+     * the text of the next line. */
     new_line_len += after_break_len;
 
-    /* We end the old line after wrap_loc.  Note that this does not eat
-     * the space. */
-    null_at(&inptr->data, wrap_loc + 1);
-    totsize++;
+#ifndef NANO_SMALL
+    if (ISSET(AUTOINDENT)) {
+	if (wrapping) {
+	    /* If we're wrapping, the indentation will come from the
+	     * next line. */
+	    indent_string = next_line;
+	    indent_len = indent_length(indent_string);
+	    next_line += indent_len;
+	} else {
+	    /* Otherwise, it will come from this line, in which case
+	     * we should increase new_line_len to make room for it. */
+	    new_line_len += indent_len;
+	    totsize += mbstrnlen(indent_string, indent_len);
+	}
+    }
+#endif
+
+    /* Now we allocate the new line and copy the text into it. */
+    new_line = charalloc(new_line_len + 1);
+    new_line[0] = '\0';
+
+#ifndef NANO_SMALL
+    if (ISSET(AUTOINDENT)) {
+	/* Copy the indentation. */
+	charcpy(new_line, indent_string, indent_len);
+	new_line[indent_len] = '\0';
+	new_line_len += indent_len;
+    }
+#endif
+
+    /* Copy all the text after the wrap point of the current line. */
+    strcat(new_line, after_break);
+
+    /* Break the current line at the wrap point. */
+    null_at(&line->data, wrap_loc);
+
     if (wrapping) {
-	/* In this case, totsize increases by 1 since we add a space
-	 * between after_break and wrap_line.  If the line already ends
-	 * in a tab or a space, we don't add a space and decrement
-	 * totsize to account for that. */
-	if (!is_blank_char(newline[new_line_len - 1]))
-	    strcat(newline, " ");
-	else
-	    totsize--;
-	strcat(newline, wrap_line);
-	free(inptr->next->data);
-	inptr->next->data = newline;
+	/* If we're wrapping, copy the text from the next line, minus
+	 * the indentation that we already copied above. */
+	strcat(new_line, next_line);
+
+	free(line->next->data);
+	line->next->data = new_line;
     } else {
-	filestruct *temp = (filestruct *)nmalloc(sizeof(filestruct));
+	/* Otherwise, make a new line and copy the text after where we
+	 * broke this line to the beginning of the new line. */
+	splice_node(current, make_new_node(current), current->next);
+
+	current->next->data = new_line;
 
 	totlines++;
-	temp->data = newline;
-	temp->prev = inptr;
-	temp->next = inptr->next;
-	temp->prev->next = temp;
-
-	/* If temp->next is NULL, then temp is the last line of the
-	 * file, so we must set filebot. */
-	if (temp->next != NULL)
-	    temp->next->prev = temp;
-	else
-	    filebot = temp;
+	totsize++;
     }
 
-    /* Step 3, clean up.  Here we reposition the cursor and mark, and do
-     * some other sundry things. */
+    /* Step 3, clean up.  Reposition the cursor and mark, and do some
+     * other sundry things. */
 
-    /* Later wraps of this line will be prepended to the next line. */
+    /* Set the same_line_wrap flag, so that later wraps of this line
+     * will be prepended to the next line. */
     same_line_wrap = TRUE;
 
     /* Each line knows its line number.  We recalculate these if we
      * inserted a new line. */
     if (!wrapping)
-	renumber(inptr);
+	renumber(line);
 
-    /* If the cursor was after the break point, we must move it. */
+    /* If the cursor was after the break point, we must move it.  We
+     * also clear the same_line_wrap flag in this case. */
     if (current_x > wrap_loc) {
+	same_line_wrap = FALSE;
 	current = current->next;
 	current_x -=
 #ifndef NANO_SMALL
 		-indent_len +
 #endif
-		wrap_loc + 1;
-	wrap_reset();
+		wrap_loc;
 	placewewant = xplustabs();
     }
 
 #ifndef NANO_SMALL
     /* If the mark was on this line after the wrap point, we move it
-     * down.  If it was on the next line and we wrapped, we move it
-     * right. */
-    if (mark_beginbuf == inptr && mark_beginx > wrap_loc) {
-	mark_beginbuf = inptr->next;
+     * down.  If it was on the next line and we wrapped onto that line,
+     * we move it right. */
+    if (mark_beginbuf == line && mark_beginx > wrap_loc) {
+	mark_beginbuf = line->next;
 	mark_beginx -= wrap_loc - indent_len + 1;
-    } else if (wrapping && mark_beginbuf == inptr->next)
+    } else if (wrapping && mark_beginbuf == line->next)
 	mark_beginx += after_break_len;
-#endif /* !NANO_SMALL */
+#endif
 
     return TRUE;
 }
@@ -2323,14 +2328,13 @@ void do_spell(void)
 }
 #endif /* !DISABLE_SPELLER */
 
-#if !defined(DISABLE_HELP) || !defined(DISABLE_JUSTIFY)
+#if !defined(DISABLE_HELP) || !defined(DISABLE_JUSTIFY) || !defined(DISABLE_WRAPPING)
 /* We are trying to break a chunk off line.  We find the last blank such
  * that the display length to there is at most goal + 1.  If there is no
- * such blank, and force is TRUE, then we find the first blank.  Anyway,
- * we then take the last blank in that group of blanks.  The terminating
- * '\0' counts as a blank, as does a '\n' if newline is TRUE. */
-ssize_t break_line(const char *line, ssize_t goal, bool newline, bool
-	force)
+ * such blank, then we find the first blank.  We then take the last
+ * blank in that group of blanks.  The terminating '\0' counts as a
+ * blank, as does a '\n' if newline is TRUE. */
+ssize_t break_line(const char *line, ssize_t goal, bool newline)
 {
     ssize_t blank_loc = -1;
 	/* Current tentative return value.  Index of the last blank we
@@ -2364,25 +2368,22 @@ ssize_t break_line(const char *line, ssize_t goal, bool newline, bool
 
     if (blank_loc == -1) {
 	/* No blank was found that was short enough. */
-	if (force) {
-	    bool found_blank = FALSE;
+	bool found_blank = FALSE;
 
-	    while (*line != '\0') {
-		line_len = parse_mbchar(line, NULL, NULL, NULL);
+	while (*line != '\0') {
+	    line_len = parse_mbchar(line, NULL, NULL, NULL);
 
-		if (is_blank_mbchar(line) ||
-			(newline && *line == '\n')) {
-		    if (!found_blank)
-			found_blank = TRUE;
-		} else if (found_blank)
-		    return cur_loc - line_len;
+	    if (is_blank_mbchar(line) || (newline && *line == '\n')) {
+		if (!found_blank)
+		    found_blank = TRUE;
+	    } else if (found_blank)
+		return cur_loc - line_len;
 
-		line += line_len;
-		cur_loc += line_len;
-	    }
-
-	    return -1;
+	    line += line_len;
+	    cur_loc += line_len;
 	}
+
+	return -1;
     }
 
     /* Move to the last blank after blank_loc, if there is one. */
@@ -2401,7 +2402,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool newline, bool
 
     return blank_loc;
 }
-#endif /* !DISABLE_HELP || !DISABLE_JUSTIFY */
+#endif /* !DISABLE_HELP || !DISABLE_JUSTIFY || !DISABLE_WRAPPING */
 
 #if !defined(NANO_SMALL) || !defined(DISABLE_JUSTIFY)
 /* The "indentation" of a line is the whitespace between the quote part
@@ -3091,8 +3092,7 @@ void do_justify(bool full_justify)
 	    /* If this line is too long, try to wrap it to the next line
 	     * to make it short enough. */
 	    break_pos = break_line(current->data + indent_len,
-		fill - strnlenpt(current->data, indent_len), FALSE,
-		TRUE);
+		fill - strnlenpt(current->data, indent_len), FALSE);
 
 	    /* We can't break the line, or don't need to, so get out. */
 	    if (break_pos == -1 || break_pos + indent_len == line_len)

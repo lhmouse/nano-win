@@ -49,16 +49,13 @@ CVS code -
 	  based on ideas from mutt 1.4.2.1; input of Unicode characters
 	  in hexadecimal suggested by Michael Piefel)
 	- More steps toward wide character/multibyte character support.
-	  Movement and cursor display in the edit window should now
-	  (mostly) work properly with files containing multibyte
-	  characters, and text display of such files should now (mostly)
-	  work properly as well.  New functions control_rep(),
-	  parse_char(), move_left(), and move_right(); changes to
-	  do_left(), do_right(), do_delete(), breakable(), break_line(),
-	  do_output(), get_buffer(), unget_input(), actual_x(),
-	  strnlenpt(), display_string(), titlebar(), statusbar(),
-	  onekey(), edit_add(), do_replace_highlight(), and
-	  do_credits(). (David Benbennick and DLR)
+	  New functions control_rep(), parse_char(), move_left(), and
+	  move_right(); changes to do_left(), do_right(), do_delete(),
+	  breakable(), break_line(), do_output(), get_buffer(),
+	  unget_input(), actual_x(), strnlenpt(), display_string(),
+	  titlebar(), statusbar(), onekey(), edit_add(),
+	  do_replace_highlight(), and do_credits(). (David Benbennick
+	  and DLR)
 	- Overhaul the high-level input routines for the statusbar to
 	  make them read the shortcut lists for functions instead of
 	  manually running them, to make nanogetstr() less complex, and
@@ -99,22 +96,22 @@ CVS code -
 	  control_mbrep(), control_wrep(), mbwidth(), mb_cur_max(),
 	  make_mbchar(), mbstrlen(), mbstrnlen(), mbstrcasecmp(),
 	  mbstrncasecmp(), mbstrcasestr(), and mbrevstrcasestr();
-	  changes to help_init(), break_line(), is_byte() (moved to
-	  chars.c), is_blank_char() (moved to chars.c), is_cntrl_char()
-	  (moved to chars.c), nstricmp() (renamed nstrcasecmp() and
-	  moved to chars.c), nstrnicmp() (renamed nstrncasecmp() and
-	  moved to chars.c), nstristr() (renamed nstrcasestr() and moved
-	  to chars.c), revstrstr() (moved to chars.c), revstristr()
-	  (renamed revstrcasestr() and moved to chars.c), nstrnlen()
-	  (moved to chars.c), parse_char() (renamed parse_mbchar() and
-	  moved to chars.c), move_left() (renamed move_mbleft() and
-	  moved to chars.c), move_right() (renamed move_mbright() and
-	  moved to chars.c), do_home(), do_verbatim_input(),
-	  do_delete(), do_tab(), do_enter(), indent_length(),
-	  do_next_word(), do_prev_word(), do_wrap(), do_input(),
-	  do_output(), is_whole_word(), strstrwrapper(), get_buffer(),
-	  unget_input(), unget_kbinput(), get_input(), parse_kbinput(),
-	  unparse_kbinput(), parse_verbatim_kbinput(),
+	  changes to help_init(), do_wrap(), break_line(), is_byte()
+	  (moved to chars.c), is_blank_char() (moved to chars.c),
+	  is_cntrl_char() (moved to chars.c), nstricmp() (renamed
+	  nstrcasecmp() and moved to chars.c), nstrnicmp() (renamed
+	  nstrncasecmp() and moved to chars.c), nstristr() (renamed
+	  nstrcasestr() and moved to chars.c), revstrstr() (moved to
+	  chars.c), revstristr() (renamed revstrcasestr() and moved to
+	  chars.c), nstrnlen() (moved to chars.c), parse_char() (renamed
+	  parse_mbchar() and moved to chars.c), move_left() (renamed
+	  move_mbleft() and moved to chars.c), move_right() (renamed
+	  move_mbright() and moved to chars.c), do_home(),
+	  do_verbatim_input(), do_delete(), do_tab(), do_enter(),
+	  indent_length(), do_next_word(), do_prev_word(), do_wrap(),
+	  do_input(), do_output(), is_whole_word(), strstrwrapper(),
+	  get_buffer(), unget_input(), unget_kbinput(), get_input(),
+	  parse_kbinput(), unparse_kbinput(), parse_verbatim_kbinput(),
 	  do_statusbar_input(), do_statusbar_home(),
 	  do_statusbar_verbatim_kbinput(), do_statusbar_output(),
 	  do_help(), help_line_len(), and display_string(); removal of

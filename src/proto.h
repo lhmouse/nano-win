@@ -405,7 +405,7 @@ void do_mark(void);
 #endif
 #ifndef DISABLE_WRAPPING
 void wrap_reset(void);
-bool do_wrap(filestruct *inptr);
+bool do_wrap(filestruct *line);
 #endif
 #ifndef DISABLE_SPELLER
 bool do_int_spell_fix(const char *word);
@@ -413,9 +413,8 @@ const char *do_int_speller(const char *tempfile_name);
 const char *do_alt_speller(char *tempfile_name);
 void do_spell(void);
 #endif
-#if !defined(DISABLE_HELP) || !defined(DISABLE_JUSTIFY)
-ssize_t break_line(const char *line, ssize_t goal, bool newline, bool
-	force);
+#if !defined(DISABLE_HELP) || !defined(DISABLE_JUSTIFY) || !defined(DISABLE_WRAPPING)
+ssize_t break_line(const char *line, ssize_t goal, bool newline);
 #endif
 #if !defined(NANO_SMALL) || !defined(DISABLE_JUSTIFY)
 size_t indent_length(const char *line);

@@ -3832,7 +3832,7 @@ size_t help_line_len(const char *ptr)
 
     /* Try to break the line at (COLS - 8) columns if we have more than
      * 80 columns, and at 72 columns otherwise. */
-    size_t retval = break_line(ptr, help_cols, TRUE, TRUE);
+    size_t retval = break_line(ptr, help_cols, TRUE);
     size_t retval_save = retval;
 
     /* Get the length of the entire line up to a null or a newline. */
