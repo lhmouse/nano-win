@@ -162,6 +162,10 @@ Cvs code -
 	- Updated Indonesian translation by Tedi Heriyanto.
 - po/it.po
 	- Updated Italian translation by Marco Colombo.
+- po/no.po:
+	- New Norwegian translation by Eivind Kjørstad <ekj@vestdata.no>.
+- po/sv.po:
+	- New Swedish translation by Christian Rose <menthos@menthos.com>.
 
 nano 1.1 tree forked here 04/07/2001
 
