@@ -125,7 +125,7 @@ filestruct *read_line(char *buf, filestruct * prev, int *line1ins)
 
 int read_file(int fd, char *filename)
 {
-    long size, lines = 0, linetemp = 0;
+    long size, num_lines = 0, linetemp = 0;
     char input[2];		/* buffer */
     char *buf;
     long i = 0, bufx = 128;
@@ -148,7 +148,7 @@ int read_file(int fd, char *filename)
 	linetemp = 0;
 	if (input[0] == '\n') {
 	    fileptr = read_line(buf, fileptr, &line1ins);
-	    lines++;
+	    num_lines++;
 	    buf[0] = 0;
 	    i = 0;
 	} else {
@@ -171,13 +171,13 @@ int read_file(int fd, char *filename)
     /* Did we not get a newline but still have stuff to do? */
     if (buf[0]) {
 	fileptr = read_line(buf, fileptr, &line1ins);
-	lines++;
+	num_lines++;
 	buf[0] = 0;
     }
     /* Did we even GET a file? */
     if (totsize == 0) {
 	new_file();
-	statusbar(_("Read %d lines"), lines);
+	statusbar(_("Read %d lines"), num_lines);
 	return 1;
     }
 
@@ -194,8 +194,8 @@ int read_file(int fd, char *filename)
 	/* Update the edit buffer */
 	load_file();
     }
-    statusbar(_("Read %d lines"), lines);
-    totlines += lines;
+    statusbar(_("Read %d lines"), num_lines);
+    totlines += num_lines;
 
     free(buf);
     close(fd);
