@@ -1,6 +1,7 @@
 CVS code -
 - General:
 	- Translation updates (see po/ChangeLog for details).
+	- Upgraded to gettext 0.11.5 (Jordi).
 	- Updated nano.1, nano.1.html, and nano.texi to fix an
 	  inaccuracy in the description of -Q/--quotestr. (DLR)
 	- Set REG_EXTENDED in all regcomp() calls. (DLR)

@@ -18,7 +18,7 @@ nano_SOURCES =	color.c \
 		winio.c 
 
 man_MANS = nano.1
-nano_LDADD = @GLIB_LIBS@ @INTLLIBS@
+nano_LDADD = @GLIB_LIBS@ @LIBINTL@
 
 info_TEXINFOS = nano.texi
 MAKEINFO = makeinfo --no-split
