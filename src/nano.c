@@ -3084,7 +3084,6 @@ void do_justify(bool full_justify)
 	    current->next->data = charalloc(indent_len + line_len -
 		break_pos);
 	    charcpy(current->next->data, indent_string, indent_len);
-
 	    strcpy(current->next->data + indent_len, current->data +
 		break_pos + 1);
 
@@ -3101,17 +3100,13 @@ void do_justify(bool full_justify)
 	    }
 #endif
 
-	    /* Break the line.  If this isn't the last line of the
-	     * paragraph, add a space after where we break it. */
+	    /* Break the line, and add the space back to where we broke
+	     * it. */
 	    null_at(&current->data, break_pos);
-
-	    if (par_len > 1) {
-		current->data = charealloc(current->data,
-			break_pos + 2);
-		current->data[break_pos] = ' ';
-		current->data[break_pos + 1] = '\0';
-		totsize++;
-	    }
+	    current->data = charealloc(current->data, break_pos + 2);
+	    current->data[break_pos] = ' ';
+	    current->data[break_pos + 1] = '\0';
+	    totsize++;
 
 	    /* Go to the next line. */
 	    par_len--;
