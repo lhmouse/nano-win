@@ -11,6 +11,10 @@
 @set VERSION 0.9.99pre3
 @set UPDATED 12 Feb 2001
 
+@dircategory Editors
+@direntry
+* Nano: (nano).                 Small and friendly text editor.
+@end direntry
 
 @c tex
 @c \overfullrule=0pt

@@ -8,13 +8,15 @@ CVS code -
 	  Rocco Corsi).
 - aclocal.m4:
 	- Minor patch for intl check (Christian Weisgerber)
+- ca.po, es.po:
+	- Final tweaks for Nano 1.0.
 - cs.po:
 	- Czech translation from Vaclav Haisman.
+- nano.info:
+	- Added dir entry (Albert Chin).
 - winio.c:
   statusq()
 	- Added NANO_BACK_KEY and NANO_FORWARD_KEY cases for left and right.
-- ca.po, es.po:
-	- Final tweaks for Nano 1.0.
 
 1.0-test prerelease - 03/17/2001
 - nano.c:

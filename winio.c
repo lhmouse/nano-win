@@ -1446,6 +1446,7 @@ void do_credits(void)
 			"Big Gaute",
 			"Joshua Jensen",
 			"Ryan Krebs",
+			"Albert Chin",
 			"",
 			specialthx,
 			"Plattsburgh State University",
