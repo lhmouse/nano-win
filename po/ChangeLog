@@ -1,3 +1,7 @@
+2003-09-12  Jordi Mallach  <jordi@gnu.org>
+
+	* POTFILES.in: Updated path to sources.
+
 2003-09-01  Jordi Mallach  <jordi@gnu.org>
 
 	* fr.po: Updated French translation by Jean-Philippe Guérard.
