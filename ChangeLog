@@ -22,6 +22,10 @@ CVS code -
 	- For consistency with nano 1.2.x and with other editors, make
 	  the mode of newly created files 666 instead of 600 before
 	  it's modified by the umask. (DLR)
+  do_writeout()
+	- If we're in restricted mode abd the current filename isn't
+	  blank, we can't change it, so disable tab completion in that
+	  case. (DLR)
 - global.c:
   shortcut_init()
 	- Fix erroneous #ifdef so that nano compiles with

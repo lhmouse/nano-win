@@ -1847,7 +1847,11 @@ int do_writeout(int exiting)
 	else
 	    msg = _("File Name to Write");
 
-	i = statusq(TRUE, writefile_list,
+	/* If we're using restricted mode, the filename isn't blank,
+	 * and we're at the "Write File" prompt, disable tab
+	 * completion. */
+	i = statusq(!ISSET(RESTRICTED) || filename[0] == '\0' ? TRUE :
+		FALSE, writefile_list,
 #ifndef NANO_SMALL
 		ans, NULL, "%s%s%s", msg, formatstr, backupstr
 #else

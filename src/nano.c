@@ -2384,7 +2384,7 @@ void do_justify(int full_justify)
 	 * original to restore it later. */
     int allow_respacing;
 	/* Whether we should change the spacing at the end of a line
-	 * after justifying it.  This should be TRUE whenever we move 
+	 * after justifying it.  This should be TRUE whenever we move
 	 * to the next line after justifying the current line. */
 
     /* We save these global variables to be restored if the user
