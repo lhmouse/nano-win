@@ -1,4 +1,4 @@
-CVS code -
+nano 0.9.25 - 01/07/2001
 General - 
 	- New file browser code.  New functions in files.c:do_browser(),
 	  helper functions browser_init(), tail(), striponedir(),

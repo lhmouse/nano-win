@@ -1,3 +1,12 @@
+01/07/2001 - Nano 0.9.25 is the "Just one more feature I swear!" release.
+		It includes one new feature that Pico has had forever, a
+		built-in file browser.  Since not everyone may want this 
+		option, there is a --disable-browser option to the
+		configure script as well.  Other changes include slightly
+		different keypad handling, and a bugfix for crashes when
+		tab completion in certain instances.  Have fun and Happy
+		New Year!
+
 12/18/2000 - Nano 0.9.24 is released.  This versions contains the last of
 		the security fixes for writing files, as well as for a
 		nasty segfault when nano is unable to open a file for
