@@ -12,6 +12,11 @@ CVS code -
 - nano.c:
   version()
 	- Remove obsolete reference to --enable-undo. (David Benbennick)
+  do_int_speller()
+	- Make internal spell program use sort -f and uniq to create a less
+	  redundant word list.  [The only reason this is going in during 
+	  feature freeze is because the int speller is useless as is and should
+	  either be improved or removed.  I chose improved].
 - winio.c:
   do_credits()
 	- Add David Benbennick to credits. (DLR)

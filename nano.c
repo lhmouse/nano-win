@@ -1680,12 +1680,13 @@ int do_int_speller(char *tempfile_name)
 {
     char *read_buff, *read_buff_ptr, *read_buff_word;
     size_t pipe_buff_size, read_buff_size, read_buff_read, bytesread;
-    int in_fd[2], tempfile_fd, spell_status;
-    pid_t pid_spell;
+    int spell_fd[2], sort_fd[2], uniq_fd[2], tempfile_fd;
+    pid_t pid_spell, pid_sort, pid_uniq;
+    int spell_status, sort_status, uniq_status;
 
     /* Create a pipe to spell program */
 
-    if (pipe(in_fd) == -1)
+    if (pipe(spell_fd) == -1)
 	return FALSE;
 
     /* A new process to run spell in */
@@ -1694,29 +1695,27 @@ int do_int_speller(char *tempfile_name)
 
 	/* Child continues, (i.e. future spell process) */
 
-	close(in_fd[0]);
+	close(spell_fd[0]);
 
 	/* replace the standard in with the tempfile */
-
 	if ((tempfile_fd = open(tempfile_name, O_RDONLY)) == -1) {
-	    close(in_fd[1]);
+	    close(spell_fd[1]);
 	    exit(1);
 	}
-
 	if (dup2(tempfile_fd, STDIN_FILENO) != STDIN_FILENO) {
 	    close(tempfile_fd);
-	    close(in_fd[1]);
+	    close(spell_fd[1]);
 	    exit(1);
 	}
 	close(tempfile_fd);
 
 	/* send spell's standard out to the pipe */
 
-	if (dup2(in_fd[1], STDOUT_FILENO) != STDOUT_FILENO) {
-	    close(in_fd[1]);
+	if (dup2(spell_fd[1], STDOUT_FILENO) != STDOUT_FILENO) {
+	    close(spell_fd[1]);
 	    exit(1);
 	}
-	close(in_fd[1]);
+	close(spell_fd[1]);
 
 	/* Start spell program, we are using the PATH here!?!? */
 	execlp("spell", "spell", NULL);
@@ -1728,19 +1727,90 @@ int do_int_speller(char *tempfile_name)
 
     /* Parent continues here */
 
-    close(in_fd[1]);
+    close(spell_fd[1]);
+
+    if (pipe(sort_fd) == -1)
+	return FALSE;
+
+    /* A new process to run sort in */
+
+    if ((pid_sort = fork()) == 0) {
+
+	/* Child continues, (i.e. future spell process) */
+	/* replace the standard in with output of the old pipe */
+	if (dup2(spell_fd[0], STDIN_FILENO) != STDIN_FILENO) {
+	    close(spell_fd[0]);
+	    close(sort_fd[1]);
+	    exit(1);
+	}
+	close(spell_fd[0]);
+
+	/* send sort's standard out to the new pipe */
+
+	if (dup2(sort_fd[1], STDOUT_FILENO) != STDOUT_FILENO) {
+	    close(sort_fd[1]);
+	    exit(1);
+	}
+	close(sort_fd[1]);
+
+	/* Start sort program.  Use -f to remove mixed case without having
+	   to have ANOTHER pipe for tr.  If this isn't portable, let me know. */
+	execlp("sort", "sort", "-f", NULL);
+
+	/* Should not be reached, if sort is found */
+
+	exit(1);
+    }
+
+    close(sort_fd[1]);
+
+    /* And one more for uniq! */
+
+    if (pipe(uniq_fd) == -1)
+	return FALSE;
+
+    /* A new process to run uniq in */
+
+    if ((pid_uniq = fork()) == 0) {
+
+	/* Child continues, (i.e. future uniq process) */
+	/* replace the standard in with output of the old pipe */
+	if (dup2(sort_fd[0], STDIN_FILENO) != STDIN_FILENO) {
+	    close(sort_fd[0]);
+	    close(uniq_fd[1]);
+	    exit(1);
+	}
+	close(sort_fd[0]);
+
+	/* send uniq's standard out to the new pipe */
+
+	if (dup2(uniq_fd[1], STDOUT_FILENO) != STDOUT_FILENO) {
+	    close(uniq_fd[1]);
+	    exit(1);
+	}
+	close(uniq_fd[1]);
+
+	/* Start uniq program, we are using PATH */
+	execlp("uniq", "uniq", NULL);
+
+	/* Should not be reached, if uniq is found */
+
+	exit(1);
+    }
+
+    close(uniq_fd[1]);
 
     /* Child process was not forked successfully */
 
-    if (pid_spell < 0) {
-	close(in_fd[0]);
+    if (pid_spell < 0 || pid_sort < 0 || pid_uniq < 0) {
+	close(uniq_fd[0]);
 	return FALSE;
     }
 
     /* Get system pipe buffer size */
 
-    if ((pipe_buff_size = fpathconf(in_fd[0], _PC_PIPE_BUF)) < 1) {
-	close(in_fd[0]);
+    if ((pipe_buff_size = fpathconf(uniq_fd[0], _PC_PIPE_BUF)) < 1) {
+	close(uniq_fd[0]);
 	return FALSE;
     }
 
@@ -1750,15 +1820,16 @@ int do_int_speller(char *tempfile_name)
     read_buff_size = pipe_buff_size + 1;
     read_buff = read_buff_ptr = charalloc(read_buff_size);
 
-    while ((bytesread = read(in_fd[0], read_buff_ptr, pipe_buff_size)) > 0) {
+    while ((bytesread = read(uniq_fd[0], read_buff_ptr, pipe_buff_size)) > 0) {
 	read_buff_read += bytesread;
 	read_buff_size += pipe_buff_size;
 	read_buff = read_buff_ptr = nrealloc(read_buff, read_buff_size);
 	read_buff_ptr += read_buff_read;
+
     }
 
     *read_buff_ptr = (char) NULL;
-    close(in_fd[0]);
+    close(uniq_fd[0]);
 
     /* Process the spelling errors */
 
@@ -1789,11 +1860,16 @@ int do_int_speller(char *tempfile_name)
     /* Process end of spell process */
 
     wait(&spell_status);
-    if (WIFEXITED(spell_status)) {
-	if (WEXITSTATUS(spell_status) != 0)
+    wait(&sort_status);
+    wait(&uniq_status);
+
+    if (WIFEXITED(spell_status) && WIFEXITED(sort_status) 
+	    && WIFEXITED(uniq_status)) {
+	if (WEXITSTATUS(spell_status) != 0 || WEXITSTATUS(sort_status) 
+		|| WEXITSTATUS(uniq_status))
 	    return FALSE;
     } else
-	return FALSE;
+	 return FALSE;
 
     return TRUE;
 }
