@@ -1,0 +1,546 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.73 [en] (X11; U; Linux 2.2.16 i586) [Netscape]">
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EF" vlink="#51188E" alink="#FF0000">
+
+<h1>
+<font color="#CC0000">The nano FAQ</font></h1>
+<h2>
+<font color="#330000">Table of Contents</font></h2>
+
+<h2>
+<font color="#330000"><a href="#1">1.&nbsp; General</a></font></h2>
+
+<blockquote><font color="#330000"><a href="#1.1">1.1 About this FAQ.</a></font>
+<br><font color="#330000"><a href="#1.2">1.2. How do I contribute to it?</a></font>
+<br><font color="#330000"><a href="#1.3">1.3. What is nano?</a></font>
+<br><font color="#330000"><a href="#1.4">1.4. What is the history behind
+nano?</a></font>
+<br><font color="#330000"><a href="#1.5">1.5. Why the name change from
+TIP?</a></font>
+<br><font color="#330000"><a href="#1.6">1.6 What is the current version
+of nano?</a></font>
+<br><font color="#330000"><a href="#1.7">1.7. I want to read the man page
+without having to download the program!</a></font></blockquote>
+
+<h2>
+<font color="#330000"><a href="#2">2. Where to get nano</a></font></h2>
+
+<blockquote><font color="#330000"><a href="#2.1">2.1. FTP and WWW sites
+that carry nano.</a></font>
+<br><font color="#330000"><a href="#2.2">2.2. Redhat and derivatives (.rpm)
+packages.</a></font>
+<br><font color="#330000"><a href="#2.3">2.3. Debian (.deb) packages.</a></font>
+<br><font color="#330000"><a href="#2.4">2.4. By CVS (for the brave).</a></font></blockquote>
+
+<h2>
+<font color="#330000"><a href="#3">3. Installation and Configuration</a></font></h2>
+
+<blockquote><font color="#330000"><a href="#3.1">3.1. How do install the
+RPM or DEB package?</a></font>
+<br><font color="#330000"><a href="#3.2">3.2. Compiling from source: WHAT
+THE HECK DO I DO NOW?</a></font>
+<br><font color="#330000"><a href="#3.2">3.3. Why does everything go into
+/usr/local?</a></font>
+<br><font color="#330000"><a href="#3.4">3.4. I get errors about 'bindtextdomain',
+'gettext' and/or 'gettextdomain'.&nbsp; What can I do about it?</a></font></blockquote>
+
+<h2>
+<font color="#330000"><a href="#4">4. Running</a></font></h2>
+
+<blockquote><font color="#330000"><a href="#4.1">4.1. Ack!&nbsp; My backspace/delete/enter/double
+bucky/meta key doesn't seem to work!&nbsp; What can I do?</a></font>
+<br><font color="#330000"><a href="#4.2">4.2. Nano crashes when I type
+&lt;insert keystroke here>!</a></font>
+<br><font color="#330000"><a href="#4.3">4.3. Nano crashes when I resize
+my window.&nbsp;&nbsp; How can I fix that?</a></font>
+<br><font color="#330000"><a href="#4.4">4.4. Why does nano show ^\ and
+^_ in the shortcut list instead of ^G and ^J?</a></font>
+<br><a href="#4.5">4.5 How do I make nano my default editor (in Pine, mutt,
+etc.)?</a></blockquote>
+
+<h2>
+<font color="#330000"><a href="#5">5. Internationalization</a></font></h2>
+
+<blockquote><font color="#330000"><a href="#5.1">5.1. There's no translation
+for my language!</a></font>
+<br><font color="#330000"><a href="#5.2">5.2. I don't like the translation
+for &lt;x> in my language.&nbsp;&nbsp; How can I fix it?</a></font></blockquote>
+
+<h2>
+<font color="#330000"><a href="#7">6. Advocacy and Licensing</a></font></h2>
+
+<blockquote><font color="#330000"><a href="#6.1">6.1. Why should I use
+nano instead of Pico?</a></font>
+<br><font color="#330000"><a href="#6.2">6.2. Why should I use Pico instead
+of nano?</a></font>
+<br><font color="#330000"><a href="#6.3">6.3. What is so bad about the
+PINE license?</a></font>
+<br><font color="#330000"><a href="#6.4">6.4. Okay, well what mail program
+should I use then?</a></font>
+<br><font color="#330000"><a href="#6.5">6.5. Why doesn't UW simply change
+their license?</a></font>
+<br><font color="#330000"><a href="#6.6">6.6. What if tomorrow UW changes
+the license to be truly Free Software?</a></font></blockquote>
+
+<h2>
+<font color="#330000"><a href="#7">7. Miscellaneous</a></font></h2>
+
+<blockquote><font color="#330000"><a href="#7.1">7.1. Nano related mailing
+lists.</a></font>
+<br><font color="#330000"><a href="#7.2">7.2. I want to send the development
+team a big load of cash (or just a thank you).</a></font>
+<br><font color="#330000"><a href="#7.3">7.3. How do I submit a patch?</a></font>
+<br><font color="#330000"><a href="#7.4">7.4. How do I join the development
+team?</a></font>
+<br><font color="#330000"><a href="#7.5">7.5. Can I have CVS write access?</a></font></blockquote>
+
+<h2>
+<a href="#8">8. ChangeLog</a></h2>
+
+<hr WIDTH="100%">
+<br>&nbsp;
+<h1>
+<a NAME="1"></a><font color="#330000">1.&nbsp; General</font></h1>
+
+<h2>
+<a NAME="1.1"></a><font color="#330000">1.1 About this FAQ.</font></h2>
+
+<blockquote><font color="#330000">This FAQ was written and is maintained
+by Chris Allegretta &lt;<a href="mailto:chrisa@asty.org">chrisa@asty.org</a>>,
+who also happens to be the creator of nano.&nbsp;&nbsp; Maybe someone else
+will volunteer to maintain this FAQ someday, who knows...</font></blockquote>
+
+<h2>
+<a NAME="1.2"></a><font color="#330000">1.2. How do I contribute to it?</font></h2>
+
+<blockquote><font color="#330000">Your best bet is to send it to the nano
+email address, <a href="mailto:nano@asty.org">nano@asty.org</a> and if
+it is useful enough it will be included in future versions.</font></blockquote>
+
+<h2>
+<a NAME="1.3"></a><font color="#330000">1.3. What is nano?</font></h2>
+
+<blockquote><font color="#330000">Nano is designed to be a free replacement
+for the Pico text editor, part of the PINE email suite from <a href="http://www.washington.edu/pine">The
+University of Washington</a>.&nbsp; It aims to "emulate Pico as closely
+as possible and perhaps include extra functionality WITHOUT breaking compatibility
+with Pico.</font></blockquote>
+
+<h2>
+<a NAME="1.4"></a><font color="#330000">1.4. What is the history behind
+nano?</font></h2>
+
+<blockquote><font color="#330000">Funny you should ask!</font>
+<p><b><font color="#330000">In the beginning...</font></b>
+<p><font color="#330000">For years Pine was THE program used to read email
+on a Unix system.&nbsp; The Pico text editor is the portion of the program
+one would use to compose his or her mail messages.&nbsp; Many beginners
+to Unix flocked to Pico and Pine because of their well organized, easy
+to use interfaces.&nbsp; With the proliferation of Linux in the mid to
+late 90's, many University students became intimately familiar with the
+strengths (and weaknesses) of Pine and Pico.</font>
+<p><b><font color="#330000">Then came debian...</font></b>
+<p><font color="#330000">The <a href="http://www.debian.org">debian GNU/Linux</a>
+distribution, known for its strict standards in distributing truly "free"
+software (i.e. had no restrictions on redistribution), would not include
+a binary package for Pine or Pico.&nbsp; Many people had a serious dilemma:&nbsp;
+they loved these programs, but they were not truly free software in the
+<a href="http://www.gnu.org/philosophy/free-sw.html">GNU</a>
+sense of the word.</font>
+<p><b><font color="#330000">The event...</font></b>
+<p><font color="#330000">It was in late 1999 when Chris Allegretta (our
+hero) was yet again complaining to himself about the less-than-perfect
+license Pico was distributed under, the 10000 makefiles that came with
+it and how just a few small improvements could make it the Best Editor
+in the World (TM).&nbsp; Having been a convert from Slackware to debian,
+he missed having a simple binary package that included Pine and Pico, and
+had grown tired of downloading them himself.</font>
+<p><font color="#330000">Finally something snapped inside and Chris coded
+and hacked like a madman for many hours straight one weekend to make a
+(barely usable) Pico clone, at the time called TIP (Tip Isn't Pico).&nbsp;
+The program could not be invoked without a filename, could not save files,
+had no help menu, spell checker, and so forth.&nbsp; But over time it improved,
+and with the help of a few great coders it matured to the almost stable
+state it is today.</font></blockquote>
+
+<h2>
+<a NAME="1.5"></a><font color="#330000">1.5. Why the name change from TIP?</font></h2>
+
+<blockquote><font color="#330000">On January 10, 2000, TIP was officially
+renamed to nano because of a namespace conflict with another program called
+'tip'.&nbsp; The original 'tip' program "establishes a full duplex terminal
+connection to a remote host", and was included with many older Unix systems
+(and newer ones like Solaris). The conflict was not noticed at first because
+there is no 'tip' utility included with most Linux distributions (where
+nano was developed).</font></blockquote>
+
+<h2>
+<a NAME="1.6"></a><font color="#330000">1.6 What is the current version
+of nano?</font></h2>
+
+<blockquote><font color="#330000">The current version of nano *should*
+be 0.9.12.&nbsp; Of course you should always check the nano hompage to
+see what the latest and greatest version is.</font></blockquote>
+
+<h2>
+<a NAME="1.7"></a><font color="#330000">1.7. I want to read the man page
+without having to download the program!</font></h2>
+
+<blockquote><font color="#330000">Jeez, demanding, aren't we?&nbsp;&nbsp;
+Okay, look <a href="http://www.asty.org/nano/dist/nano.1.html">here</a>.</font></blockquote>
+
+<hr WIDTH="100%">
+<h1>
+<a NAME="2"></a><font color="#330000">2. Where to get nano</font></h1>
+
+<h2>
+<a NAME="2.1"></a><font color="#330000">2.1. FTP and WWW sites that carry
+nano.</font></h2>
+
+<blockquote><font color="#330000">The nano distribution can be downloaded
+at the following fine web and ftp sites:</font>
+<ul>
+<li>
+<font color="#330000"><a href="http://www.asty.org/nano/dist">http://www.asty.org/nano/dist</a></font></li>
+
+<li>
+<font color="#330000"><a href="http://www.ewtoo.org/~astyanax/nano/dist">http://www.ewtoo.org/~astyanax/nano/dist</a></font></li>
+
+<li>
+<font color="#330000"><a href="ftp://ftp.asty.org/pub/nano">ftp://ftp.asty.org/pub/nano</a></font></li>
+
+<li>
+<font color="#330000"><a href="ftp://nano.sourceforge.net/pub/nano/">ftp://nano.sourceforge.net/pub/nano</a></font></li>
+</ul>
+</blockquote>
+
+<h2>
+<a NAME="2.2"></a><font color="#330000">2.2. Redhat and derivatives (.rpm)
+packages.</font></h2>
+
+<blockquote>
+<ul>
+<li>
+<font color="#330000"><a href="http://www.asty.org/nano/dist/RPMS">http://www.asty.org/nano/dist/RPMS</a></font></li>
+
+<li>
+<font color="#330000"><a href="http://www.ewtoo.org/~astyanax/nano/dist/RPMS">http://www.ewtoo.org/~astyanax/nano/dist/RPMS</a></font></li>
+
+<li>
+<font color="#330000"><a href="ftp://ftp.asty.org/pub/nano/RPMS">ftp://ftp.asty.org/pub/nano/RPMS</a></font></li>
+
+<li>
+<font color="#330000"><a href="ftp://nano.sourceforge.net/pub/nano/RPMS">ftp://nano.sourceforge.net/pub/nano/RPMS</a></font></li>
+</ul>
+<font color="#330000">Additionally, check out the Redhat contribs section
+at:</font>
+<ul>
+<li>
+<font color="#330000"><a href="http://metalab.unc.edu/pub/Linux/distributions/redhat/contrib/libc6/i386">http://metalab.unc.edu/pub/Linux/distributions/redhat/contrib/libc6/i386</a></font></li>
+
+<li>
+<font color="#330000"><a href="ftp://metalab.unc.edu/pub/Linux/distributions/redhat/contrib/libc6/i386">ftp://metalab.unc.edu/pub/Linux/distributions/redhat/contrib/libc6/i386</a></font></li>
+</ul>
+</blockquote>
+
+<h2>
+<a NAME="2.3"></a><font color="#330000">2.3. Debian (.deb) packages.</font></h2>
+
+<blockquote><font color="#330000">For debian users, you can check out the
+current nano packages for:</font>
+<ul>
+<li>
+<font color="#330000"><a href="http://www.debian.org/Packages/frozen/editors/nano.html">frozen</a></font></li>
+
+<li>
+<font color="#330000"><a href="http://www.debian.org/Packages/unstable/editors/nano.html">unstable</a></font></li>
+</ul>
+<font color="#330000">Note that versions &lt; 0.9.10 are probably not for
+those wanting to get serious work done, so until the frozen/stable distributions
+have an updated version of nano, you are best off using the one in unstable
+for now.</font></blockquote>
+
+<h2>
+<a NAME="2.4"></a><font color="#330000">2.4. By CVS (for the brave).</font></h2>
+
+<blockquote><font color="#330000">For the 'bleeding edge' current version
+of nano, you can use CVS to download the current source code.&nbsp; <b>Note:</b>
+believe it or not, by downloading code that has not yet stabilized into
+an official release, there could quite possibly be bugs, in fact the code
+may not even compile!&nbsp; Anyway, see <a href="https://sourceforge.net/cvs/?group_id=1304">the
+nano CVS page</a> for info on anonymous CVS access to the nano source.</font></blockquote>
+
+<hr WIDTH="100%">
+<h1>
+<a NAME="3"></a><font color="#330000">3. Installation and Configuration</font></h1>
+
+<h2>
+<a NAME="3.1"></a><font color="#330000">3.1. How do install the RPM or
+DEB package?</font></h2>
+
+<blockquote><font color="#330000">It's simple really!&nbsp; As root, type
+<b>rpm
+-Uvh nano-x.y.z-1.i386.rpm</b> if you have a Redhat-ish system or
+<b>dpkg
+-i nano_x.y.z-1.deb</b> if you have a Debian-ish system, where
+<b>x.y.z</b>
+is the release of nano.&nbsp; There are other programs to install programs,
+and if you wish to use those, knock yourself out.</font></blockquote>
+
+<h2>
+<a NAME="3.2"></a><font color="#330000">3.2. Compiling from source: WHAT
+THE HECK DO I DO NOW?</font></h2>
+
+<blockquote><font color="#330000">Okay, take a deep breath, this really
+isn't hard.&nbsp; Unpack the nano source with a command like:</font>
+<p><b><font color="#330000">tar -zxvf nano-x.y.z.tar.gz</font></b>
+<p><font color="#330000">If you get error messages about the -z option,
+try this:</font>
+<p><b><font color="#330000">gunzip -d nano-x.y.z.tar.gz | tar xvf -</font></b>
+<p><font color="#330000">(again, where x.y.z is the version number in question).&nbsp;
+Then you need to run configure with any options you might want (if any).</font>
+<p><font color="#330000">The average case is this:</font>
+<p><b><font color="#330000">./configure</font></b>
+<br><b><font color="#330000">make</font></b>
+<br><font color="#330000"><b>make install </b>(as root, of course)</font></blockquote>
+
+<h2>
+<a NAME="3.3"></a><font color="#330000">3.3. Why does everything go into
+/usr/local?</font></h2>
+
+<blockquote><font color="#330000">Well, that's what the <b>configure</b>
+script defaults to.&nbsp; If you wish to change this, simply do this:</font>
+<p><b><font color="#330000">./configure --prefix=/usr</font></b>
+<p><font color="#330000">to put nano into /usr/bin when you run <b>make
+install</b>.</font></blockquote>
+
+<h2>
+<a NAME="3.4"></a><font color="#330000">3.4. I get errors about 'bindtextdomain',
+'gettext' and/or 'gettextdomain'.&nbsp; What can I do about it?</font></h2>
+
+<blockquote><font color="#330000">Try doing a <b>./configure --with-included-gettext</b>
+and see if that solves your problem.&nbsp; You make need to do a <b>make
+clean ; make</b> to get it to work fully.</font></blockquote>
+
+<hr WIDTH="100%">
+<h1>
+<a NAME="4"></a><font color="#330000">4. Running</font></h1>
+
+<h2>
+<a NAME="4.1"></a><font color="#330000">4.1. Ack!&nbsp; My backspace/delete/enter/double
+bucky/meta key doesn't seem to work!&nbsp; What can I do?</font></h2>
+
+<blockquote><font color="#330000">Try setting your $TERM variable to 'vt100'.&nbsp;
+Nano doesn't yet support every term entry under the sun.</font>
+<p><font color="#330000">Bourne shell users (like bash): <b>export TERM=vt100</b></font>
+<br><font color="#330000">C Shell users (tcsh and csh): <b>setenv TERM
+vt100</b></font></blockquote>
+
+<h2>
+<a NAME="4.2"></a><font color="#330000">4.2. Nano crashes when I type &lt;insert
+keystroke here>!</font></h2>
+
+<blockquote><font color="#330000">If you aren't trying some bizarre keystroke
+combination with some bizarre $TERM entry, chances are you have found a
+bug.&nbsp;&nbsp; You are welcome to submit it to the nano-devel list or
+to <a href="mailto:nano@asty.org">nano@asty.org</a>.</font></blockquote>
+
+<h2>
+<a NAME="4.3"></a><font color="#330000">4.3. Nano crashes when I resize
+my window.&nbsp;&nbsp; How can I fix that?</font></h2>
+
+<blockquote><font color="#330000">Older versions of nano had this problem,
+please upgrade to a newer version (at least 0.9.9 would be great, 0.9.
+12 is recommended).</font></blockquote>
+
+<h2>
+<a NAME="4.4"></a><font color="#330000">4.4. Why does nano show ^\ and
+^_ in the shortcut list instead of ^G and ^J?</font></h2>
+
+<blockquote><font color="#330000">The help (^G) and justify (^J) functions
+were among the last to be written.&nbsp; To show the improvements that
+nano had over Pico (goto line # and replace), ^_ and ^\ were put on the
+shortcut list.&nbsp;&nbsp; If you use the <b>-p</b> option to nano you
+will get the same shortcuts at the bottom as Pico.</font></blockquote>
+
+<h2>
+<a NAME="4.5"></a>4.5 How do I make nano my default editor (in Pine, mutt,
+etc)?</h2>
+
+<blockquote>You need to make nano your $EDITOR.&nbsp; If you want this
+to be saved, you should put a line like this in your <b>.bashrc</b> if
+you use bash:
+<p><b>export EDITOR=/usr/local/bin/nano</b>
+<p>or if you use tcsh put this in your <b>.cshrc</b> file:
+<p><b>setenv EDITOR /usr/local/bin/nano</b>
+<p>Change /usr/local/bin/nano to wherever nano is installed in your system.&nbsp;
+Type which nano to find out. This will not take effect until the next time
+you login.&nbsp; So log out and back in again.
+<p>Then on top that if you use Pine you must go into setup (type <b>S</b>
+at the main menu), then configure (type <b>C</b>).&nbsp; Hit enter on the
+lines that say:
+<p><b>[ ]&nbsp; enable-alternate-editor-cmd</b>
+<br><b>[ ]&nbsp; enable-alternate-editor-implicitly</b>
+<p>Then exit (<b>E</b>) and select Yes (<b>Y</b>).
+<p>Mutt users should see an effect immediately the next time you log in,
+no further configuration is needed.&nbsp; However, if you want to let people
+know you use nano to compose your email messages, you can put a line like
+this in your <b>.muttrc</b>:
+<p><b>my_hdr X-Composer: nano x.y.z</b>
+<p>Again, replace x.y.z with the version of nano you use.
+<br>&nbsp;</blockquote>
+
+<hr WIDTH="100%">
+<h1>
+<a NAME="5"></a><font color="#330000">5. Internationalization</font></h1>
+
+<h2>
+<a NAME="5.1"></a><font color="#330000">5.1. There's no translation for
+my language!</font></h2>
+
+<blockquote><font color="#330000">So, uh, get someone who speaks your native
+language to write one =-).&nbsp; Just grab the <b>nano.pot</b> file from
+the latest and greatest nano distribution (it's in the <b>po/</b> directory)
+and translate each line into your native language on the <b>msgstr</b>
+line.&nbsp; Then send it to the nano devel list or <a href="mailto:nano@asty.org">nano@asty.org</a>.</font></blockquote>
+
+<h2>
+<a NAME="5.2"></a><font color="#330000">5.2. I don't like the translation
+for &lt;x> in my language.&nbsp;&nbsp; How can I fix it?</font></h2>
+
+<blockquote><font color="#330000">The best way would probably be to e-mail
+the person listed in the <b>&lt;your_language>.po</b> file with your suggested
+corrections and they can in turn forward it to the nano email address,
+or the devel list.</font></blockquote>
+
+<hr WIDTH="100%">
+<h1>
+<a NAME="6"></a><font color="#330000">6. Advocacy and Licensing</font></h1>
+
+<h2>
+<a NAME="6.1"></a><font color="#330000">6.1. Why should I use nano instead
+of Pico?</font></h2>
+
+<blockquote><font color="#330000">There are many reasons to use nano instead
+of Pico, a more complete list can be found at the <a href="http://www.asty.org/nano">nano
+homepage</a>.</font></blockquote>
+
+<h2>
+<a NAME="6.2"></a><font color="#330000">6.2. Why should I use Pico instead
+of nano?</font></h2>
+
+<blockquote>Again, check out the <a href="http://www.asty.org/nano">nano
+homepage</a> for a good summary of reasons.&nbsp; It really is a matter
+of personal preference as to which editor you should use.&nbsp; If you're
+the type of person who likes using the original version of a program, then
+Pico is the editor for you.&nbsp;&nbsp; If you're looking for a few more
+features and a 'better' license as far as adding your own changes (sacrificing
+mailer integration and a little stability), nano is the way to go.</blockquote>
+
+<h2>
+<a NAME="6.3"></a><font color="#330000">6.3. What is so bad about the PINE
+license?</font></h2>
+
+<blockquote><font color="#330000">Technically there is nothing "wrong"
+with the U of W license for Pine and Pico.&nbsp; However, it is&nbsp; not
+considered truly "free" according to the <a href="http://www.debian.org/social_contract#guidelines">Debian
+Free Software Guidelines</a>.&nbsp; The only real problem as far as I'm
+aware as that there are limitations on the redistribution of programs based
+on the Pine and Pico source.&nbsp;&nbsp; So at a real nitty gritty level,
+these programs are not considered Free Software.&nbsp; This is why Pico
+isn't distributed in binary form in debian, and hence one of the main reasons
+nano was started.</font></blockquote>
+
+<h2>
+<a NAME="6.4"></a><font color="#330000">6.4. Okay, well what mail program
+should I use then?</font></h2>
+
+<blockquote><font color="#330000">Well, there is nothing stopping you from
+using Pine with nano (or Pine with Pico for that matter).&nbsp; But if
+you want to use programs that are considered Free Software, you may want
+to look into <a href="http://www.mutt.org">mutt</a>.&nbsp; It is a full-screen,
+console based mail program that actually has a lot more flexibility than
+Pine, but has a keymap included in the distribution that allows you to
+use the same keystrokes as Pine would to send and receive mail.&nbsp; It's
+also licensed under the GPL.</font></blockquote>
+
+<h2>
+<a NAME="6.5"></a><font color="#330000">6.5. Why doesn't UW simply change
+their license?</font></h2>
+
+<blockquote><font color="#330000">You're really not asking the right person
+here.&nbsp; I (Chris) waited along time to see if UW would change their
+license because of the amount of high quality software being released and
+developed under the GPL without being taken advantage of by malicious corporate
+entities or other baddies, but no such luck so far.</font></blockquote>
+
+<h2>
+<a NAME="6.6"></a><font color="#330000">6.6. What if tomorrow UW changes
+the license to be truly Free Software?</font></h2>
+
+<blockquote><font color="#330000">Honestly nothing would make me happier
+than to see that happen.&nbsp; Nano would continue to be developed independently
+until such time as Pico had all the features nano did or the projects merged.&nbsp;
+That just does not seem very likely given that there has been no sign of
+any changes in the past few years in a positive direction.</font></blockquote>
+
+<hr WIDTH="100%">
+<h1>
+<a NAME="7"></a><font color="#330000">7. Miscellaneous</font></h1>
+
+<h2>
+<a NAME="7.1"></a><font color="#330000">7.1. Nano related mailing lists.</font></h2>
+
+<blockquote><font color="#330000">There are two mailing lists for nano
+hosted at <a href="http://www.sourceforge.net">SourceForge</a>, nano-announce
+and nano-devel.&nbsp; Nano-announce is a very low traffic list where new
+versions of nano are announced (surprise!)&nbsp; Nano-devel is a sometimes
+low, sometimes very high traffic list for dicussing the present and future
+development of nano.&nbsp; Here are links to where you can sign up for
+a given list:</font><font color="#330000"></font>
+<p><font color="#330000">nano-announce - <a href="http://lists.sourceforge.net/mailman/listinfo/nano-announce">http://lists.sourceforge.net/mailman/listinfo/nano-announce</a></font>
+<br><font color="#330000">nano-devel - <a href="http://lists.sourceforge.net/mailman/listinfo/nano-devel">http://lists.sourceforge.net/mailman/listinfo/nano-devel</a></font></blockquote>
+
+<h2>
+<a NAME="7.2"></a><font color="#330000">7.2. I want to send the development
+team a big load of cash (or just a thank you).</font></h2>
+
+<blockquote><font color="#330000">That's fine.&nbsp; Send it <a href="mailto:nano-devel@lists.sourceforge.net">our
+way</a>!&nbsp; Better yet, fix a <a href="http://www.asty.org/nano/dist/BUGS">bug</a>
+in the program or implement a <a href="http://www.asty.org/nano/dist/TODO">cool
+feature</a> and send us that instead (though cash is fine too).</font></blockquote>
+
+<h2>
+<a NAME="7.3"></a><font color="#330000">7.3. How do I submit a patch?</font></h2>
+
+<blockquote><font color="#330000">See Section <a href="#7.2">7.2</a>.</font></blockquote>
+
+<h2>
+<a NAME="7.4"></a><font color="#330000">7.4. How do I join the development
+team?</font></h2>
+
+<blockquote><font color="#330000">The easiest way is to consistently send
+in good patches that add some needed functionality, fix a bug or two and/or
+make the program more optimized/efficient.&nbsp; Then ask nicely and you
+will probably be added to the SourceForge development list and be given
+CVS write after awhile.&nbsp; There is a lot of responsibility that goes
+along with being a team member, so don't think it's just something to add
+to your resume.</font></blockquote>
+
+<h2>
+<a NAME="7.5"></a><font color="#330000">7.5. Can I have CVS write access?</font></h2>
+
+<blockquote><font color="#330000">Re-read Section </font><a href="#7.4">7.4</a><font color="#330000">
+and you should know the answer.</font></blockquote>
+
+<h1>
+<a NAME="8"></a>8. ChangeLog</h1>
+
+<blockquote>06/31/2000 - Initial framework.</blockquote>
+
+</body>
+</html>
