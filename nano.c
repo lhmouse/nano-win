@@ -377,7 +377,7 @@ void usage(void)
 #endif
     printf(_
 	   (" -l 		--nofollow		Don't follow symbolic links, overwrite\n"));
-#ifndef NANO_SMALL
+#ifndef DISABLE_MOUSE
 #ifdef NCURSES_MOUSE_VERSION
     printf(_(" -m 		--mouse			Enable mouse\n"));
 #endif
@@ -419,7 +419,7 @@ void usage(void)
 #endif
     printf(_
 	   (" -l 		Don't follow symbolic links, overwrite\n"));
-#ifndef NANO_SMALL
+#ifndef DISABLE_MOUSE
 #ifdef NCURSES_MOUSE_VERSION
     printf(_(" -m 		Enable mouse\n"));
 #endif
@@ -472,7 +472,10 @@ void version(void)
 #ifdef DISABLE_HELP
     printf(" --disable-help");
 #endif
+#ifdef DISABLE_MOUSE
+    printf(" --disable-mouse");
 #endif
+#endif /* NANO_SMALL */
 
 #ifdef DISABLE_WRAPPING
     printf(" --disable-wrapping");
@@ -1516,7 +1519,7 @@ int do_exit(void)
     return 1;
 }
 
-#ifndef NANO_SMALL
+#ifndef DISABLE_MOUSE
 #ifdef NCURSES_MOUSE_VERSION
 void do_mouse(void)
 {
@@ -1766,7 +1769,7 @@ void window_init(void)
 
 void mouse_init(void)
 {
-#ifndef NANO_SMALL
+#ifndef DISABLE_MOUSE
 #ifdef NCURSES_MOUSE_VERSION
     if (ISSET(USE_MOUSE)) {
 	keypad_on(edit, 1);
@@ -2627,7 +2630,7 @@ int main(int argc, char *argv[])
 	/* Last gasp, stuff that's not in the main lists */
 	if (!keyhandled)
 	    switch (kbinput) {
-#ifndef NANO_SMALL
+#ifndef DISABLE_MOUSE
 #ifdef NCURSES_MOUSE_VERSION
 	    case KEY_MOUSE:
 		do_mouse();

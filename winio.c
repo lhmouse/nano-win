@@ -308,7 +308,7 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 	case 545: 			/* Right alt again */
 	    break;
 #endif
-#ifndef NANO_SMALL
+#ifndef DISABLE_MOUSE
 #ifdef NCURSES_MOUSE_VERSION
 	case KEY_MOUSE:
 	    do_mouse();
@@ -1044,7 +1044,7 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
     char *nostr;		/* Same for no */
     char *allstr;		/* And all, surprise! */
     char shortstr[5];		/* Temp string for above */
-#ifndef NANO_SMALL
+#ifndef DISABLE_MOUSE
 #ifdef NCURSES_MOUSE_VERSION
     MEVENT mevent;
 #endif
@@ -1097,7 +1097,7 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
 	kbinput = wgetch(edit);
 
 	switch (kbinput) {
-#ifndef NANO_SMALL
+#ifndef DISABLE_MOUSE
 #ifdef NCURSES_MOUSE_VERSION
 	case KEY_MOUSE:
 
@@ -1297,7 +1297,7 @@ int do_help(void)
     do {
 	ptr = help_text;
 	switch (kbinput) {
-#ifndef NANO_SMALL
+#ifndef DISABLE_MOUSE
 #ifdef NCURSES_MOUSE_VERSION
         case KEY_MOUSE:
             do_mouse();

@@ -3,6 +3,10 @@ Cvs code -
 	- New global variables currshortcut and currslen to support using
 	  the mouse with the shortcuts.  FIXME - Does not support clicking
 	  on filenames in the browser, yet.
+	- Changed mouse disabling code from depending on --enable-tiny
+	  to its own flag, --disable mouse.  The --tiny option defines
+	  this automatically, but now just mouse support can be disabled
+	  if desired.
 
 nano 1.1 tree forked here 04/07/2001
 

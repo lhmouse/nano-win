@@ -24,6 +24,7 @@ AC_ARG_ENABLE(tiny,
     AC_DEFINE(DISABLE_HELP) 
     AC_DEFINE(DISABLE_JUSTIFY) 
     AC_DEFINE(DISABLE_BROWSER) 
+    AC_DEFINE(DISABLE_MOUSE) 
  fi])
 
 AC_ARG_ENABLE(extra,
@@ -66,6 +67,12 @@ AC_ARG_ENABLE(wrapping,
 [  --disable-wrapping      Disables all wrapping of text (and -w flag)],
  [if test x$enableval != xyes; then
     AC_DEFINE(DISABLE_WRAPPING)
+ fi])
+
+AC_ARG_ENABLE(mouse,
+[  --disable-mouse         Disables mouse support (and -m flag)],
+ [if test x$enableval != xyes; then
+    AC_DEFINE(DISABLE_MOUSE)
  fi])
 
 AC_MSG_CHECKING([whether to use slang])

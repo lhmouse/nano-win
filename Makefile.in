@@ -57,26 +57,31 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+host_alias = @host_alias@
+host_triplet = @host@
+AS = @AS@
+BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
 CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
 CURSES_LIB = @CURSES_LIB@
 DATADIRNAME = @DATADIRNAME@
-GENCAT = @GENCAT@
+DLLTOOL = @DLLTOOL@
 GLIB_CFLAGS = @GLIB_CFLAGS@
 GLIB_CONFIG = @GLIB_CONFIG@
 GLIB_LIBS = @GLIB_LIBS@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
-GT_NO = @GT_NO@
-GT_YES = @GT_YES@
-INCLUDE_LOCALE_H = @INCLUDE_LOCALE_H@
-INSTOBJEXT = @INSTOBJEXT@
-INTLDEPS = @INTLDEPS@
+INTLBISON = @INTLBISON@
 INTLLIBS = @INTLLIBS@
 INTLOBJS = @INTLOBJS@
+INTL_LIBTOOL_SUFFIX_PREFIX = @INTL_LIBTOOL_SUFFIX_PREFIX@
+LIBICONV = @LIBICONV@
+LIBTOOL = @LIBTOOL@
+LN_S = @LN_S@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
+OBJDUMP = @OBJDUMP@
 PACKAGE = @PACKAGE@
 POFILES = @POFILES@
 POSUB = @POSUB@
@@ -84,7 +89,6 @@ RANLIB = @RANLIB@
 USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
-l = @l@
 
 bin_PROGRAMS = nano
 nano_SOURCES = cut.c 		files.c 		global.c 		move.c 		nano.c 		nano.h 		proto.h 		search.c 		utils.c 		winio.c 
@@ -132,8 +136,8 @@ MANS = $(man_MANS)
 NROFF = nroff
 DIST_COMMON =  README ./stamp-h.in ABOUT-NLS AUTHORS COPYING ChangeLog \
 INSTALL Makefile.am Makefile.in NEWS TODO acconfig.h aclocal.m4 \
-config.h.in configure configure.in install-sh missing mkinstalldirs \
-texinfo.tex
+config.guess config.h.in config.sub configure configure.in install-sh \
+missing mkinstalldirs texinfo.tex
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
@@ -203,8 +207,8 @@ install-binPROGRAMS: $(bin_PROGRAMS)
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	@list='$(bin_PROGRAMS)'; for p in $$list; do \
 	  if test -f $$p; then \
-	    echo "  $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`"; \
-	     $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`; \
+	    echo " $(LIBTOOL)  --mode=install $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`"; \
+	    $(LIBTOOL)  --mode=install $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`; \
 	  else :; fi; \
 	done
 

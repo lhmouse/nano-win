@@ -409,6 +409,10 @@ It also disables the function toggles and mouse support.
 Disables all word wrapping in the editor.  This also eliminates the 
 -w command line flag, as nonwrapping is then the default behavior.
 
+@item --disable-mouse
+Disables all mouse functionality.  This also disables the -m commands line 
+flag which enables the mouse functions.
+
 @end table
 
 @contents
