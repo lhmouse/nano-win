@@ -506,6 +506,7 @@ int do_insertfile(int loading_file)
 	    if (tmp != NULL) {
 		free(answer);
 		answer = tmp;
+		resetstatuspos = 1;
 	    } else
 		goto start_again;
 	}

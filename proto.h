@@ -65,6 +65,7 @@ extern char *full_operating_dir;
 extern char *alt_speller;
 #endif
 
+extern int resetstatuspos;
 extern struct stat fileinfo;
 extern filestruct *current, *fileage, *edittop, *editbot, *filebot; 
 extern filestruct *cutbuffer;
@@ -437,7 +438,7 @@ int nanogetstr(int allowtabs, char *buf, const char *def,
 #ifndef DISABLE_TABCOMP
 		, int *list
 #endif
-		, int resetpos);
+		);
 void set_modified(void);
 void titlebar(char *path);
 void bottombars(const shortcut *s);

@@ -69,6 +69,8 @@ char *quotestr = NULL;		/* Quote string.  The default value is
 				   set in main(). */
 #endif
 
+int resetstatuspos;		/* Hack for resetting the status bar 
+				   cursor position */
 char *answer = NULL;		/* Answer str to many questions */
 int totlines = 0;		/* Total number of lines in the file */
 long totsize = 0;		/* Total number of bytes in the file */

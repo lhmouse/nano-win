@@ -19,6 +19,11 @@ CVS code
 	- Remove do_preserve_msg, as using -p still gives Pico-style
 	  string behavior, so an annoying message every invocation is
 	  probably unneeded (all cheer).
+	- Change resetpos function to be global (now called 
+	  resetstatuspos.  Fixes annoying but small odd problem with
+	  cursor placement when inserting a file.  This needs to be done 
+	  better in 1.3 (originally by David Lawrence Ramsey).
+	  Added this issue to TODO.
 - files.c:
   cwd_tab_completion()
 	- Memory leak fix (David Benbennick).

@@ -25,6 +25,7 @@ For version 1.4:
 - Make "To line" (^W^T) and "Read from Command" (^R^X) re-enter their
   parent menu when their keystroke is entered a second time (^W^T^T and
   (^R^X^X)(requires figuring out when to keep cursor pos and when not to).
+- Fix resetstatuspos global which we shouldn't have.
 
 Old requests:
 
