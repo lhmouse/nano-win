@@ -2659,7 +2659,7 @@ void edit_refresh(void)
 #endif
 
 	while (nlines < editwinrows) {
-	    update_line(foo, (foo == current) ? current_x : 0);
+	    update_line(foo, foo == current ? current_x : 0);
 	    nlines++;
 	    if (foo->next == NULL)
 		break;

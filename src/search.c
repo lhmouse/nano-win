@@ -74,8 +74,8 @@ void not_found_msg(const char *str)
     int numchars = actual_x(str, COLS / 2);
 
     assert(str != NULL);
-    statusbar(_("\"%.*s%s\" not found"), numchars, str, str[numchars] ==
-	'\0' ? "" : "...");
+    statusbar(_("\"%.*s%s\" not found"), numchars, str,
+	str[numchars] == '\0' ? "" : "...");
 }
 
 void search_abort(void)
