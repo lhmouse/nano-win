@@ -194,7 +194,7 @@ void parse_rcfile(FILE *rcstream, char *filename)
 				if ((i = atoi(option)) < MIN_FILL_LENGTH) {
 	    		 	    rcfile_msg(&errors, 
 		_("Error in %s on line %d: requested fill size %d too small"),
-						filename, lineno, option);
+						filename, lineno, i);
 				}
 				else
 				     fill = i;
@@ -203,7 +203,7 @@ void parse_rcfile(FILE *rcstream, char *filename)
 			    	if ((i = atoi(option)) <= 0) {
 			    		rcfile_msg(&errors,
 			    			_("Error in %s on line %d: requested tab size %d too small"),
-			    				filename, lineno, option);
+			    				filename, lineno, i);
 			    	} else {
 			    		tabsize = i;
 			    	}

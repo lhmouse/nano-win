@@ -74,6 +74,8 @@ CVS code -
 - rcfile.c:
 	- NUM_RCOPTS fix (DLR).
 	- Add tabsize support to rc file (Nathan Heagy).
+	- Fix incorrect argument in fill and tabsize error message
+	  (Nathan Heagy)
 - search.c:
 	- Changed search prompt to "Search" followed by a list of
 	  bracketed, free-standing modifiers that do not imply a grammar,
