@@ -90,7 +90,7 @@
 # color brightred "float " "char " "int " "void "  "NULL" "[A-Z_]\{2,\}" 
 # color brightred "static" "const" "[\ ]struct" "^struct" "if " "while[\ \n\(]" 
 # color brightred "do[\ \n\(]" "else[\ \n]" "case " "switch " "break;"
-# color brightcyan "#define" "#include" "#ifn*def" "#endif" "#elif" "#else"
+# color brightcyan "#define" "#include" "#ifn*def" "#endif" "#elif" "#else" "#if "
 
 # You will in general want your comments and strings to come last, becase
 # syntax highlighting rules will be applied in the order they are read in

@@ -1,3 +1,17 @@
+05/12/2002 - GNU nano 1.1.9 is released, happy Mother's Day!  This release
+		includes many new features, including a prepend mode 
+		(^O,M-P), a new "syntax" command in the .nanorc to allow
+		multiple syntax highlighting types, and a new -Y, --syntax  
+		flag to set a specific one if there's no filename regex to 
+		match it against (i.e. w/mutt).  The ^space and M-space keys
+		will now show up in the help menu, which itself has been
+		tweaked a bit, and many more configure options should now
+		cooperate (like the odd pairing of --enable-tiny and 
+		--enable-multibuffer).  The marker should now work
+		when using multiple buffers, and the huge memory leak in
+		color syntax highlighting has been fixed.  A lot of
+		new stuff for everyone's favorite text editor ;)  Have fun!
+
 03/30/2002 - GNU nano 1.1.8 is released.  New features include an 
 		"Insert Output of External Command", ^R^X, and a .spec
 		file is now included in the distribution.  There are 
