@@ -188,8 +188,7 @@ void init_backup_dir(void);
 #endif
 int write_file(const char *name, int tmp, int append, int nonamechange);
 #ifndef NANO_SMALL
-int write_marked(const char *name, int tmp, int append, int
-	nonamechange);
+int write_marked(const char *name, int tmp, int append);
 #endif
 int do_writeout(int exiting);
 int do_writeout_void(void);

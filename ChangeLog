@@ -70,6 +70,11 @@ CVS code -
 	- Rearrange the NANO_SMALL #ifdef so that the code to set the
 	  MODIFIED flag in open_files->flags is included only once.
 	  (DLR)
+  write_marked()
+	- Call write_file() with nonamechange set to TRUE so that we
+	  don't erroneously change the current filename when writing a
+	  selection, and don't take a nonamechange parameter anymore
+	  since we don't use it. (DLR)
   do_writeout()
 	- Refactor so that no recursion is needed if we try to exit with
 	  a modified file that has no name when TEMP_OPT is set. (DLR)
@@ -86,6 +91,10 @@ CVS code -
 	- Since all of the calls to finish() use 0 for the value of
 	  sigage, and the return value of finish() is never used, make
 	  it accept and return void. (David Benbennick)
+  die_save_file()
+	- Call write_file() with nonamechange set to TRUE since we don't
+	  need to change the current filename if we're writing emergency
+	  backup files. (DLR)
   do_early_abort()
 	- Removed, as it's no longer called anywhere. (David Benbennick)
   open_pipe()

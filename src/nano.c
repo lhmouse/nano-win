@@ -172,7 +172,7 @@ void die_save_file(const char *die_filename)
 	free(buf);
     }
     if (ret[0] != '\0')
-	i = write_file(ret, 1, 0, 0);
+	i = write_file(ret, TRUE, FALSE, TRUE);
 
     if (i != -1)
 	fprintf(stderr, _("\nBuffer written to %s\n"), ret);
@@ -1808,10 +1808,10 @@ int do_spell(void)
 
 #ifndef NANO_SMALL
     if (ISSET(MARK_ISSET))
-	i = write_marked(temp, 1, 0, 0);
+	i = write_marked(temp, TRUE, FALSE);
     else
 #endif
-	i = write_file(temp, 1, 0, 0);
+	i = write_file(temp, TRUE, FALSE, FALSE);
 
     if (i == -1) {
 	statusbar(_("Unable to write temp file: %s"), strerror(errno));

@@ -1395,8 +1395,8 @@ int copy_file(FILE *inn, FILE *out)
  * append == 1 means we are appending instead of overwriting.
  * append == 2 means we are prepending instead of overwriting.
  *
- * nonamechange means don't change the current filename, it is ignored
- * if tmp is nonzero or if we're appending/prepending.
+ * nonamechange means don't change the current filename.  It is ignored
+ * if tmp is FALSE or if we're appending/prepending.
  *
  * Return -1 on error, 1 on success. */
 int write_file(const char *name, int tmp, int append, int nonamechange)
@@ -1737,11 +1737,11 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 #ifndef NANO_SMALL
 /* Write a marked selection from a file out.  First, set fileage and
  * filebot as the top and bottom of the mark, respectively.  Then call
- * write_file() with the values of name, temp, append, and nonamechange.
- * Finally, set fileage and filebot back to their old values and
- * return. */
-int write_marked(const char *name, int tmp, int append, int
-	nonamechange)
+ * write_file() with the values of name, temp, and append, and with
+ * nonamechange set to TRUE so that we don't change the current
+ * filename.  Finally, set fileage and filebot back to their old values
+ * and return. */
+int write_marked(const char *name, int tmp, int append)
 {
     int retval = -1;
     filestruct *fileagebak = fileage;
@@ -1783,7 +1783,7 @@ int write_marked(const char *name, int tmp, int append, int
     if (filebot->data[0] != '\0' && filebot->next != NULL)
 	filebot = filebot->next;
 
-    retval = write_file(name, tmp, append, nonamechange);
+    retval = write_file(name, tmp, append, TRUE);
 
     /* Now restore everything. */
     fileage->data -= topx;
@@ -1945,7 +1945,7 @@ int do_writeout(int exiting)
 	/* Here's where we allow the selected text to be written to
 	 * a separate file. */
 	if (!ISSET(RESTRICTED) && !exiting && ISSET(MARK_ISSET))
-	    i = write_marked(answer, FALSE, append, FALSE);
+	    i = write_marked(answer, FALSE, append);
 	else
 #endif /* !NANO_SMALL */
 	    i = write_file(answer, FALSE, append, FALSE);
