@@ -2342,7 +2342,7 @@ size_t indent_length(const char *line)
 #endif /* !NANO_SMALL */
 
 #ifndef DISABLE_JUSTIFY
-/* justify_format() replaces Tab by Space and multiple spaces by 1
+/* justify_format() replaces tabs with spaces and multiple spaces by 1
  * (except it maintains 2 after a non-repeated character in punct
  * followed by a character in brackets).  Note that the terminating \0
  * counts as a space.
