@@ -9,13 +9,16 @@ CVS code -
 	- Tweak to avoid a potential problem when strp is non-NULL but
 	  *strp is NULL. (David Benbennick)
 - winio.c:
+  do_help()
+	- Get rid of keypad_on() call for bottomwin, which should not be
+	  needed (DLR).
   nanogetstr()
 	- Fix problem with search history where a temporary string
 	  added at the bottom of the history (but which was not in the
 	  history) would not be preserved after scrolling down to the
 	  blank bottom entry and then scrolling back up. (DLR)
-	- Add handler for Alt-[-H and F as home and end when -K is
-	  used.  Basically a workaround until a cleaner way can be found.
+	- Handle Alt-[-F and H (DLR, fixed home and end not working with
+	  -K in statusbar).  
 - configure.ac:
 	- Change the program used to detect a broken regexec() function
 	  so that it works properly, using information found at

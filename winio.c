@@ -294,12 +294,10 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 #endif
 	case NANO_HOME_KEY:
 	case KEY_HOME:
-	do_home:
 	    x = 0;
 	    break;
 	case NANO_END_KEY:
 	case KEY_END:
-	do_end:
 	    x = xend;
 	    break;
 	case KEY_RIGHT:
@@ -488,10 +486,10 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 			x--;
 		    break;
 		case 'F':
-		    goto do_end;
+		    x = xend;
 		    break;
 		case 'H':
-		    goto do_home;
+		    x = 0;
 		    break;
 		case '1':
 		case '7':
@@ -1545,7 +1543,7 @@ int line_len(const char *ptr)
 int do_help(void)
 {
 #ifndef DISABLE_HELP
-    int i, page = 0, kbinput = 0, no_more = 0, kp, kp2;
+    int i, page = 0, kbinput = 0, no_more = 0, kp;
     int no_help_flag = 0;
     const shortcut *oldshortcut;
 
@@ -1563,7 +1561,6 @@ int do_help(void)
     currshortcut = help_list;
 
     kp = keypad_on(edit, 1);
-    kp2 = keypad_on(bottomwin, 1);
 
     if (ISSET(NO_HELP)) {
 
@@ -1665,7 +1662,6 @@ int do_help(void)
     curs_set(1);
     edit_refresh();
     kp = keypad_on(edit, kp);
-    kp2 = keypad_on(bottomwin, kp2);
 
     /* The help_init() at the beginning allocated help_text, which has
        now been written to screen. */
