@@ -185,9 +185,11 @@ int read_file(FILE *f, const char *filename, int quiet)
         input = (char)input_int;
 #ifndef NANO_SMALL
 	/* If the file has binary chars in it, don't stupidly
-	   assume it's a DOS or Mac formatted file! */
-	if (!ISSET(NO_CONVERT) && is_cntrl_char((int)input) != 0
-		&& input != '\t' && input != '\r' && input != '\n')
+	   assume it's a DOS or Mac formatted file if it hasn't been
+	   detected as one already! */
+	if (fileformat == 0 && !ISSET(NO_CONVERT)
+		&& is_cntrl_char((int)input) != 0 && input != '\t'
+		&& input != '\r' && input != '\n')
 	    SET(NO_CONVERT);
 #endif
 

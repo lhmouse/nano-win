@@ -1,6 +1,14 @@
 CVS code
 - General:
 	- Translation updates (see po/ChangeLog for details).
+- files.c:
+  read_file()
+	- If the file we're loading has already been detected as a DOS
+	  or Mac formatted file, don't turn on NOCONVERT if we find
+	  binary chars in it.  This is because if it's detected as
+	  DOS/Mac format, at least one line has already been converted, 
+	  so setting NOCONVERT (which is supposed to signal that none 
+	  of the file should be converted) makes no sense. (DLR)
 - nanorc.5:
 	- Fix formatting error and update copyright year (Jordi).
 	- Several enhancements (David Benbennick).
