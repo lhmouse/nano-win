@@ -599,7 +599,11 @@ void do_insertfile(
 
 	    /* If we don't have a file yet, go back to the statusbar
 	     * prompt. */
-	    if (i != 0)
+	    if (i != 0
+#ifdef ENABLE_MULTIBUFFER
+		&& (i != -2 || !ISSET(MULTIBUFFER))
+#endif
+		)
 		continue;
 
 #ifdef ENABLE_MULTIBUFFER
