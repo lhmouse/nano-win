@@ -116,7 +116,7 @@
   last line in the cutbuffer (discovered by Barry Pederson) (60) [FIXED]
 - Blank lines are not kept when cutting with -k (discovered by Rocco)
   (61) [FIXED].
-- Nano will not suspend properly inside of mutt (61) [FIXED].
+- Nano will not suspend properly inside of mutt (62) [FIXED].
 ** Open BUGS **
 
 $Id$
