@@ -107,6 +107,7 @@ CVS code -
 	- Add the ability to change the closing punctuation and closing
 	  brackets used to control justification, via the rcfile
 	  entries "punct" and "brackets". (DLR)
+	- Translation updates (see po/ChangeLog for details).
 - files.c:
   add_open_file()
 	- Rearrange the NANO_SMALL #ifdef so that the code to set the
