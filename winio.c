@@ -290,13 +290,14 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 	case 343:
 	    ungetch(13);	/* Enter on iris-ansi $TERM, sometimes */
 	    break;
+	/* Stuff we want to ignore */
+	case 545: 			/* German Alt-Gr key */
 #ifdef PDCURSES
-	/* Stuff we want to ignore with PDCURSES */
 	case 541:
 	case 542:
 	case 544:
-		break;
 #endif
+		break;
 	case KEY_HOME:
 	    x = x_left;
 	    nanoget_repaint(buf, inputbuf, x);

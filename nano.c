@@ -2386,6 +2386,7 @@ int main(int argc, char *argv[])
 	    case 331:		/* Stuff that we don't want to do squat */
 	    case -1:
 	    case 410:		/* Must ignore this, it gets sent when we resize */
+	    case 545:		/* Alt-Gr on Gernam keyboard */
 #ifdef PDCURSES
 	    case 541:		/* ???? */
 	    case 542:		/* Control and alt in Windows *shrug* */

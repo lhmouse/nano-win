@@ -8,6 +8,8 @@ CVS code -
 	  username_tab_completion is more than a stub now =-).
 	- New options --enable-extra.  New code in nano.c:version() to 
 	  print out various options from ./configure, function do_credits().
+	- Ignore key sequence 545, Alt-Gr key on german keyboard.  Affects
+	  main() and winio.c:nanogetstr().
 - files.c:
   write_file()
 	- Unsetting modified on temp files bug fixed (Rocco Corsi).
