@@ -492,7 +492,7 @@ int do_insertfile(int loading_file)
 	    int ts = statusq(TRUE, extcmd_list, "", NULL, 
 		_("Command to execute"));
 	    if (ts  == -1 || answer == NULL || answer[0] == '\0') {
-		statusbar("Cancelled");
+		statusbar(_("Cancelled"));
 		UNSET(KEEP_CUTBUFFER);
 		display_main_list();
 		return 0;
