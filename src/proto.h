@@ -140,7 +140,7 @@ extern historyheadtype search_history;
 extern historyheadtype replace_history;
 #endif
 
-extern int curses_ended;
+extern bool curses_ended;
 
 /* Functions we want available. */
 
@@ -154,7 +154,7 @@ void update_color(void);
 /* Public functions in cut.c */
 void cutbuffer_reset(void);
 filestruct *get_cutbottom(void);
-void add_to_cutbuffer(filestruct *inptr, int allow_concat);
+void add_to_cutbuffer(filestruct *inptr, bool allow_concat);
 void cut_marked_segment(void);
 void do_cut_text(void);
 void do_uncut_text(void);
