@@ -687,9 +687,6 @@ char **username_tab_completion(char *buf, int *num_matches)
 
     while ((userdata = getpwent()) != NULL) {
 
- 	if (userdata == NULL)
-	    break;
-
 	if (check_wildcard_match(userdata->pw_name, &buf[1]) == TRUE) {
 
 	    /* Cool, found a match.  Add it to the list

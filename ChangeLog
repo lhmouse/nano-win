@@ -13,6 +13,7 @@ General
   username_tab_completion()
 	- Optimization and removal of useless vars (Rocco).
 	- Rewritten using getpwent (suggested by Rocco).
+	- Removed redundant conditional (Rocco).
   real_dir_from_tilde()
 	- Rewritten using getpwent (suggested by Adam, much optimized by Rocco).
 - global.c:
