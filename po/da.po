@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.6\n"
+"Project-Id-Version: nano 1.1.7\n"
 "POT-Creation-Date: 2002-03-05 18:20-0500\n"
-"PO-Revision-Date: 2002-02-12 22:27+0200\n"
+"PO-Revision-Date: 2002-03-27 22:27+0200\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr "Sprængte udklipsbufferen =)\n"
 
 #: files.c:167
 msgid "read_line: not on first line and prev is NULL"
-msgstr "read_line: ikke på første linje og prev er NULL"
+msgstr "read_line: ikke på første linje og foregående er NULL"
 
 #: files.c:247 files.c:273
 #, c-format
@@ -67,16 +67,15 @@ msgid "Reading File"
 msgstr "Læser filen"
 
 #: files.c:371
-#, fuzzy, c-format
+#, c-format
 msgid "File to insert [from %s] "
-msgstr "Fil at indsætte [fra ./] "
+msgstr "Fil at indsætte [fra %s] "
 
 #: files.c:375
 msgid "File to insert [from ./] "
 msgstr "Fil at indsætte [fra ./] "
 
-#: files.c:383 files.c:529 files.c:577 files.c:675 files.c:687 files.c:740
-#: files.c:751 files.c:1469
+#: files.c:383 files.c:529 files.c:577 files.c:675 files.c:687 files.c:740 files.c:751 files.c:1469
 #, c-format
 msgid "filename is %s"
 msgstr "filnavnet er %s"
@@ -101,15 +100,14 @@ msgstr "Ikke flere åbne filer"
 #: files.c:695 files.c:759
 #, c-format
 msgid "Switched to %s"
-msgstr ""
+msgstr "Skiftede til %s"
 
 #: files.c:1201
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Kan ikke skrive uden for %s"
 
-#: files.c:1238 files.c:1254 files.c:1268 files.c:1291 files.c:1300
-#: files.c:1312
+#: files.c:1238 files.c:1254 files.c:1268 files.c:1291 files.c:1300 files.c:1312
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "Kunne ikke åbne filen for skrivning: %s"
@@ -142,11 +140,11 @@ msgstr "Skrev %d linjer"
 
 #: files.c:1414
 msgid " [Mac Format]"
-msgstr ""
+msgstr " [Mac-format]"
 
 #: files.c:1416
 msgid " [DOS Format]"
-msgstr ""
+msgstr " [DOS-format]"
 
 #: files.c:1424
 msgid "Append Selection to File"
@@ -236,13 +234,12 @@ msgid "Case sensitive search"
 msgstr "Versalfølsom søgning"
 
 #: global.c:216
-#, fuzzy
 msgid "Regular expression search"
-msgstr "Regulære udtryk"
+msgstr "Regulært søgeudtryk"
 
 #: global.c:219
 msgid "No conversion from DOS/Mac format"
-msgstr ""
+msgstr "Ingen konvertering far DOS/Mac-format"
 
 #: global.c:220
 msgid "Writing file in DOS format"
@@ -405,14 +402,12 @@ msgid "Search backwards"
 msgstr "Søg bagud"
 
 #: global.c:324
-#, fuzzy
 msgid "Write file out in DOS format"
-msgstr "Skriver fil i DOS-format"
+msgstr "Skriver fil ud i DOS-format"
 
 #: global.c:325
-#, fuzzy
 msgid "Write file out in Mac format"
-msgstr "Skriver fil i Mac-format"
+msgstr "Skriver fil ud i Mac-format"
 
 #: global.c:327
 msgid "Use Regular expressions"
@@ -431,8 +426,7 @@ msgid "Open next loaded file"
 msgstr "Åbn næste indlæste fil"
 
 # kontrollér at den finns
-#: global.c:339 global.c:492 global.c:527 global.c:562 global.c:577
-#: global.c:606 global.c:632 global.c:643 global.c:655 global.c:676
+#: global.c:339 global.c:492 global.c:527 global.c:562 global.c:577 global.c:606 global.c:632 global.c:643 global.c:655 global.c:676
 msgid "Get Help"
 msgstr "Få hjælp"
 
@@ -551,15 +545,13 @@ msgstr "Find anden klamme"
 
 #: global.c:480
 msgid "Previous File"
-msgstr ""
+msgstr "Foregående fil"
 
 #: global.c:483
-#, fuzzy
 msgid "Next File"
-msgstr "Ny fil"
+msgstr "Næste fil"
 
-#: global.c:495 global.c:530 global.c:565 global.c:579 global.c:626
-#: global.c:634 global.c:645 global.c:678 winio.c:1419
+#: global.c:495 global.c:530 global.c:565 global.c:579 global.c:626 global.c:634 global.c:645 global.c:678 winio.c:1419
 msgid "Cancel"
 msgstr "Annullér"
 
@@ -593,11 +585,11 @@ msgstr "Til filer"
 
 #: global.c:615
 msgid "DOS Format"
-msgstr ""
+msgstr "DOS-format"
 
 #: global.c:618
 msgid "Mac Format"
-msgstr ""
+msgstr "Mac-format"
 
 #: global.c:622
 msgid "Append"
@@ -617,13 +609,13 @@ msgstr ""
 "Bufferen skrevet til %s\n"
 
 #: nano.c:188
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "No %s written (too many backup files?)\n"
 msgstr ""
 "\n"
-"Ingen %s skrevet (eksisterer filen?)\n"
+"Ingen %s skrevet (for mange sikkerhedskopifiler?)\n"
 
 #: nano.c:197
 msgid "Window size is too small for Nano..."
@@ -637,38 +629,16 @@ msgstr "Tasten ugyldig i VISNINGstilstand"
 msgid ""
 " nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor: The "
-"top line shows the program version, the current filename being edited, and "
-"whether or not the file has been modified.  Next is the main editor window "
-"showing the file being edited.  The status line is the third line from the "
-"bottom and shows important messages. The bottom two lines show the most "
-"commonly used shortcuts in the editor.\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor: The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages. The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
-" The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
-"key sequences are notated with the Meta (M) symbol and can be entered using "
-"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
-"following keystrokes are available in the main editor window. Optional keys "
-"are shown in parentheses:\n"
+" The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt or Meta key depending on your keyboard setup.  The following keystrokes are available in the main editor window. Optional keys are shown in parentheses:\n"
 "\n"
 msgstr ""
 " hjælpetekst for nano\n"
 "\n"
-" Tekstredigereren nano er skabt for at efterligne funktionaliteten og "
-"letanvendeligheden hos tekstredigereren UW Pico. Det findes fire hoveddele i "
-"redigereren: Øverste linje viser programmets versionsnummer, navnet på filen "
-"som redigeres, og om filen er ændret. Efter dette findes hovedvinduet som "
-"viser filen som redigeres. Statuslinjen er tredje linje fra underkanten og "
-"viser vigtige meddelelser. De nederste to linjer viser de almindeligste "
-"kommandoer som bruges i tekstredigereren.\n"
+" Tekstredigereren nano er skabt for at efterligne funktionaliteten og letanvendeligheden hos tekstredigereren UW Pico. Det findes fire hoveddele i redigereren: Øverste linje viser programmets versionsnummer, navnet på filen som redigeres, og om filen er ændret. Efter dette findes hovedvinduet som viser filen som redigeres. Statuslinjen er tredje linje fra underkanten og viser vigtige meddelelser. De nederste to linjer viser de almindeligste kommandoer som bruges i tekstredigereren.\n"
 "\n"
-" Notationen for kommandoer er som følger: Sekvenser med Kontrol-tast skrives "
-"med en cirkumfleks (^) og trykkes samtidigt med Kontrol-tasten (Ctrl). "
-"Escape-sekvenser skrives med metategnet (M) og angives enten med Esc-, Alt- "
-"eller Meta-tasten afhængig af dine tastaturindstillinger. Følgende "
-"tastekombinationer er tilgængelige i redigererens hovedvindue. Alternative "
-"taster vises inden i parentes:\n"
+" Notationen for kommandoer er som følger: Sekvenser med Kontrol-tast skrives med en cirkumfleks (^) og trykkes samtidigt med Kontrol-tasten (Ctrl). Escape-sekvenser skrives med metategnet (M) og angives enten med Esc-, Alt- eller Meta-tasten afhængig af dine tastaturindstillinger. Følgende tastekombinationer er tilgængelige i redigererens hovedvindue. Alternative taster vises inden i parentes:\n"
 "\n"
 
 #: nano.c:356
@@ -708,13 +678,12 @@ msgid " -M \t\t--mac\t\t\tWrite file in Mac format\n"
 msgstr " -M \t\t--mac\t\t\tSkriv fil i Mac-format\n"
 
 #: nano.c:439
-#, fuzzy
 msgid " -N \t\t--noconvert\t\tDon't convert files from DOS/Mac format\n"
-msgstr " -D \t\t--dos\t\t\tSkriv fil i DOS-format\n"
+msgstr " -N \t\t--noconvert\t\tKonvertér ikke filer fra DOS/Mac-format\n"
 
 #: nano.c:444
 msgid " -Q [str]\t--quotestr [str]\tQuoting string, default \"> \"\n"
-msgstr ""
+msgstr " -Q [str]\t--quotestr [str]\tAnførselsstreng, normalt \"> \"\n"
 
 #: nano.c:448
 msgid " -S\t\t--smooth\t\tSmooth scrolling\n"
@@ -722,8 +691,7 @@ msgstr " -S\t\t--smooth\t\tJævn rulning\n"
 
 #: nano.c:451
 msgid " -T [num]\t--tabsize=[num]\t\tSet width of a tab to num\n"
-msgstr ""
-" -T [tal]\t--tabsize=[tal]\t\tSæt bredden på et tabulatortegn til tal\n"
+msgstr " -T [tal]\t--tabsize=[tal]\t\tSæt bredden på et tabulatortegn til tal\n"
 
 #: nano.c:454
 msgid " -V \t\t--version\t\tPrint version information and exit\n"
@@ -743,8 +711,7 @@ msgstr " -i \t\t--autoindent\t\tIndryk automatisk nye linjer\n"
 
 #: nano.c:463
 msgid " -k \t\t--cut\t\t\tLet ^K cut from cursor to end of line\n"
-msgstr ""
-" -k \t\t--cut\t\t\tLad ^K klippe ud fra markøren til slutningen på linjen\n"
+msgstr " -k \t\t--cut\t\t\tLad ^K klippe ud fra markøren til slutningen på linjen\n"
 
 #: nano.c:466
 msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
@@ -763,8 +730,7 @@ msgid " -p \t\t--pico\t\t\tEmulate Pico as closely as possible\n"
 msgstr " -p \t\t--pico\t\t\tEfterlign Pico så tæt som muligt\n"
 
 #: nano.c:482
-msgid ""
-" -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
+msgid " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
 msgstr " -r [tegn] \t--fill=[#tegn]\t\tBryd linjer efter antal tegn\n"
 
 #: nano.c:486
@@ -825,7 +791,7 @@ msgstr " -M \t\tSkriv fil i Mac-format\n"
 
 #: nano.c:516
 msgid " -Q [str] \tQuoting string, default \"> \"\n"
-msgstr ""
+msgstr " -Q [str] \tAnførelsesstreng, normalt \"> \"\n"
 
 #: nano.c:518
 msgid " -R\t\tUse regular expressions for search\n"
@@ -1009,31 +975,18 @@ msgstr "Kan nu lave ingen ombrydning!"
 msgid ""
 "Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, then hit "
-"enter.  If there is a match for the text you entered, the screen will be "
-"updated to the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, then hit enter.  If there is a match for the text you entered, the screen will be updated to the location of the nearest match for the search string.\n"
 "\n"
-" If using Pico Mode via the -p or --pico flags, using the Meta-P toggle or "
-"using a nanorc file, the previous search string will be shown in brackets "
-"after the Search: prompt.  Hitting enter without entering any text will "
-"perform the previous search. Otherwise, the previous string will be placed "
-"in front of the cursor, and can be edited or deleted before hitting enter.\n"
+" If using Pico Mode via the -p or --pico flags, using the Meta-P toggle or using a nanorc file, the previous search string will be shown in brackets after the Search: prompt.  Hitting enter without entering any text will perform the previous search. Otherwise, the previous string will be placed in front of the cursor, and can be edited or deleted before hitting enter.\n"
 "\n"
 " The following functions keys are available in Search mode:\n"
 "\n"
 msgstr ""
 "Hjælpetekst for søgekommando\n"
 "\n"
-" Indtast de ord eller tegn, du vil lede efter, og tryk så retur. Hvis der er "
-"en træffer for teksten du indtastede, vil skærmen blive opdateret til stedet "
-"for den nærmeste træffer for søgestrengen.\n"
+" Indtast de ord eller tegn, du vil lede efter, og tryk så retur. Hvis der er en træffer for teksten du indtastede, vil skærmen blive opdateret til stedet for den nærmeste træffer for søgestrengen.\n"
 "\n"
-" Hvis du bruger Pico-tilstand v.hj.a. -p eller --pico-flaget eller bruger "
-"Meta-P skifteren, eller bruger en nanorc-fil, vil den foregående søgestreng "
-"blive vist i kantparanteser efter Søg:-teksten. Hvis du taster retur uden at "
-"indtaste nogen tekst vil den foregående søgning blive udført. Ellers vil den "
-"foregående streng blive placeret foran markøren, og kan redigeres eller "
-"slettes før tastning af retur.\n"
+" Hvis du bruger Pico-tilstand v.hj.a. -p eller --pico-flaget eller bruger Meta-P skifteren, eller bruger en nanorc-fil, vil den foregående søgestreng blive vist i kantparanteser efter Søg:-teksten. Hvis du taster retur uden at indtaste nogen tekst vil den foregående søgning blive udført. Ellers vil den foregående streng blive placeret foran markøren, og kan redigeres eller slettes før tastning af retur.\n"
 "\n"
 " De følgende funktionstaster er tilstede i søge-tilstand:\n"
 "\n"
@@ -1042,52 +995,38 @@ msgstr ""
 msgid ""
 "Goto Line Help Text\n"
 "\n"
-" Enter the line number that you wish to go to and hit Enter.  If there are "
-"fewer lines of text than the number you entered, you will be brought to the "
-"last line of the file.\n"
+" Enter the line number that you wish to go to and hit Enter.  If there are fewer lines of text than the number you entered, you will be brought to the last line of the file.\n"
 "\n"
 " The following functions keys are available in Goto Line mode:\n"
 "\n"
 msgstr ""
 "Hjælpetekst for gå-til-linje\n"
 "\n"
-" Indtast linjenummeret du ønsker at gå til, og tast retur. Hvis der er færre "
-"linjer i teksten end det tal du indtastede, vil du blive bragt hen til den "
-"sidste linje i filen.\n"
+" Indtast linjenummeret du ønsker at gå til, og tast retur. Hvis der er færre linjer i teksten end det tal du indtastede, vil du blive bragt hen til den sidste linje i filen.\n"
 "\n"
 " De følgende funktionstaster er tilstede i gå-til-linje-tilstand:\n"
 "\n"
 
 #: nano.c:2511
-#, fuzzy
 msgid ""
 "Insert File Help Text\n"
 "\n"
-" Type in the name of a file to be inserted into the current file buffer at "
-"the current cursor location.\n"
+" Type in the name of a file to be inserted into the current file buffer at the current cursor location.\n"
 "\n"
-" If you have compiled nano with multiple file buffer support, and enable "
-"multiple buffers with the -F or --multibuffer command line flags, the Meta-F "
-"toggle or using a nanorc file, inserting a file will cause it to be loaded "
-"into a separate buffer (use Meta-< and > to switch between file buffers).\n"
+" If you have compiled nano with multiple file buffer support, and enable multiple buffers with the -F or --multibuffer command line flags, the Meta-F toggle or using a nanorc file, inserting a file will cause it to be loaded into a separate buffer (use Meta-< and > to switch between file buffers).\n"
 "\n"
-" If you need another blank buffer, just press Enter at the prompt without "
-"typing in a filename, or type in a nonexistent filename at the prompt and "
-"press Enter.\n"
+" If you need another blank buffer, just press Enter at the prompt without typing in a filename, or type in a nonexistent filename at the prompt and press Enter.\n"
 "\n"
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
 "Hjælpetekst for indsæt fil\n"
 "\n"
-" Indtast navnet på en fil, der skal indsættes i den nuværende filbuffer på "
-"den aktuelle markørposition.\n"
+" Indtast navnet på en fil, der skal indsættes i den nuværende filbuffer på den aktuelle markørposition.\n"
 "\n"
-" Hvis du har oversat nano med understøttelse for flere filbuffere, og "
-"aktiveret flere filbuffere med -F eller --multibuffer kommandolinjeflag "
-"eller Meta-F-skifteren eller brugt en nanorc-fil, vil indsætning af en fil "
-"få den til at blive indlæst i en separat buffer (brug Ctrl-< og > til at "
-"skifte mellem filbuffere).\n"
+" Hvis du har oversat nano med understøttelse for flere filbuffere, og aktiveret flere filbuffere med -F eller --multibuffer kommandolinjeflag eller Meta-F-skifteren eller brugt en nanorc-fil, vil indsætning af en fil få den til at blive indlæst i en separat buffer (brug Meta-< og > til at skifte mellem filbuffere).\n"
+"\n"
+" Hvis du har brug for endnu en tom buffer, så tryk blot Retur ved spørgsmålet uden at indtaste et filnavn, eller indtast et ikke-eksisterende filnavn ved spørgsmålet og try Retur.\n"
 "\n"
 " De følgende funktionstaster er tilstede i Indsæt fil-tilstand:\n"
 "\n"
@@ -1096,26 +1035,18 @@ msgstr ""
 msgid ""
 "Write File Help Text\n"
 "\n"
-" Type the name that you wish to save the current file as and hit enter to "
-"save the file.\n"
+" Type the name that you wish to save the current file as and hit enter to save the file.\n"
 "\n"
-" If you are using the marker code with Ctrl-^ and have selected text, you "
-"will be prompted to save only the selected portion to a separate file.  To "
-"reduce the chance of overwriting the current file with just a portion of it, "
-"the current filename is not the default in this mode.\n"
+" If you are using the marker code with Ctrl-^ and have selected text, you will be prompted to save only the selected portion to a separate file.  To reduce the chance of overwriting the current file with just a portion of it, the current filename is not the default in this mode.\n"
 "\n"
 " The following function keys are available in Write File mode:\n"
 "\n"
 msgstr ""
 "Hjælpetekst for skriv fil\n"
 "\n"
-" Indtast navnet som du ønsker at gemme den nuværende fil som, og tryk retur "
-"for at gemme filen.\n"
+" Indtast navnet som du ønsker at gemme den nuværende fil som, og tryk retur for at gemme filen.\n"
 "\n"
-" Hvis du bruger markeringskoden med Ctrl-^ og har udvalgt tekst, vil du "
-"blive spurgt om du vil gemme kun den udvalgte del til en separat fil. For at "
-"begrænse risikoen for overskrivning af den aktuelle fil med kun en del af "
-"den er det nuværende filnavn ikke forvalgt i denne tilstand.\n"
+" Hvis du bruger markeringskoden med Ctrl-^ og har udvalgt tekst, vil du blive spurgt om du vil gemme kun den udvalgte del til en separat fil. For at begrænse risikoen for overskrivning af den aktuelle fil med kun en del af den er det nuværende filnavn ikke forvalgt i denne tilstand.\n"
 "\n"
 " De følgende funktionstaster er tilstede i Skriv fil-tilstand:\n"
 "\n"
@@ -1124,22 +1055,14 @@ msgstr ""
 msgid ""
 "File Browser Help Text\n"
 "\n"
-" The file browser is used to visually browse the directory structure to "
-"select a file for reading or writing.  You may use the arrow keys or Page Up/"
-"Down to browse through the files, and S or Enter to choose the selected file "
-"or enter the selected directory. To move up one level, select the directory "
-"called \"..\" at the top of the file list.\n"
+" The file browser is used to visually browse the directory structure to select a file for reading or writing.  You may use the arrow keys or Page Up/Down to browse through the files, and S or Enter to choose the selected file or enter the selected directory. To move up one level, select the directory called \"..\" at the top of the file list.\n"
 "\n"
 " The following functions keys are available in the file browser:\n"
 "\n"
 msgstr ""
 "Hjælpetekst for filskimmer\n"
 "\n"
-" Filskimmeren bruges til at gennemse katalogstrukturen for at udvælge en fil "
-"til læsning eller skrivning. Du kan bruge piletasterne eller Page Up/Down "
-"til at skimme gennem filerne, og S eller retur for at vælge den udvalgte "
-"fil, eller indtaste det udvalgte katalog. For at gå et niveau op udvælges "
-"kataloget kaldet '..' i toppen af fillisten.\n"
+" Filskimmeren bruges til at gennemse katalogstrukturen for at udvælge en fil til læsning eller skrivning. Du kan bruge piletasterne eller Page Up/Down til at skimme gennem filerne, og S eller retur for at vælge den udvalgte fil, eller indtaste det udvalgte katalog. For at gå et niveau op udvælges kataloget kaldet '..' i toppen af fillisten.\n"
 "\n"
 " De følgende funktionstaster er tilstede i filskimmeren:\n"
 "\n"
@@ -1150,40 +1073,30 @@ msgid ""
 "\n"
 " Enter the name of the directory you would like to browse to.\n"
 "\n"
-" If tab completion has not been disabled, you can use the TAB key to "
-"(attempt to) automatically complete the directory name.  The following "
-"function keys are available in Browser GotoDir mode:\n"
+" If tab completion has not been disabled, you can use the TAB key to (attempt to) automatically complete the directory name.  The following function keys are available in Browser GotoDir mode:\n"
 "\n"
 msgstr ""
 "Hjælpetekst for skimmer gå til katalog\n"
 "\n"
 " Indtast navnet på det katalog, som du vil gennemse.\n"
 "\n"
-" Hvis tab-færdiggørelse ikke er deaktiveret kan du bruge Tab-tasten til at "
-"(forsøge at) automatisk færdiggøre katalognavnet.\n"
+" Hvis tab-færdiggørelse ikke er deaktiveret kan du bruge Tab-tasten til at (forsøge at) automatisk færdiggøre katalognavnet.\n"
 "\n"
-" De følgende funktionstaster er tilstede i skimmeren gå til katalog-"
-"tilstand:\n"
+" De følgende funktionstaster er tilstede i skimmeren gå til katalog-tilstand:\n"
 "\n"
 
 #: nano.c:2556
 msgid ""
 "Spell Check Help Text\n"
 "\n"
-" The spell checker checks the spelling of all text in the current file.  "
-"When an unknown word is encountered, it is highlighted and a replacement can "
-"be edited.  It will then prompt to replace every instance of the given "
-"misspelled word in the current file.\n"
+" The spell checker checks the spelling of all text in the current file.  When an unknown word is encountered, it is highlighted and a replacement can be edited.  It will then prompt to replace every instance of the given misspelled word in the current file.\n"
 "\n"
 " The following other functions are available in Spell Check mode:\n"
 "\n"
 msgstr ""
 "Hjælpetekst for stavekontrol\n"
 "\n"
-" Stavekontrollen kontrollerer stavningen af al teksten i den nuværende fil. "
-"Når et ukendt ord findes, fremhæves det og en erstatning kan redigeres. Den "
-"vil så spørge for at erstatte alle tilfælde af det givne fejlstavede ord i "
-"den nuværende fil.\n"
+" Stavekontrollen kontrollerer stavningen af al teksten i den nuværende fil. Når et ukendt ord findes, fremhæves det og en erstatning kan redigeres. Den vil så spørge for at erstatte alle tilfælde af det givne fejlstavede ord i den nuværende fil.\n"
 "\n"
 " De følgende andre funktioner er tilstede i stavekontrol-tilstand:\n"
 "\n"
@@ -1527,9 +1440,9 @@ msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
 #: winio.c:1639
-#, fuzzy, c-format
+#, c-format
 msgid "line %d/%d (%.0f%%), col %ld/%ld (%.0f%%), char %ld/%ld (%.0f%%)"
-msgstr "linje %d af %d (%.0f%%), tegn %ld af %ld (%.0f%%)"
+msgstr "linje %d/%d (%.0f%%), kol %ld/%ld (%.0f%%), tegn %ld/%ld (%.0f%%)"
 
 #: winio.c:1800
 msgid "Dumping file buffer to stderr...\n"
