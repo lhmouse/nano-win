@@ -1682,7 +1682,9 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	 * input buffer if we're not. */
 	if (input != ERR && *s_or_t == FALSE && (
 #ifdef NANO_WIDE
-		/* Keep non-ASCII control characters in UTF-8 mode. */
+		/* Keep non-ASCII control characters if we're in UTF-8
+		 * mode, since they might be part of a UTF-8
+		 * sequence. */
 		(!ISSET(NO_UTF8) && !is_ascii_char(input)) ||
 #endif
 		!is_cntrl_char(input))) {

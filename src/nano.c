@@ -3621,7 +3621,9 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	 * input buffer if we're not. */
 	if (input != ERR && *s_or_t == FALSE && (
 #ifdef NANO_WIDE
-		/* Keep non-ASCII control characters in UTF-8 mode. */
+		/* Keep non-ASCII control characters if we're in UTF-8
+		 * mode, since they might be part of a UTF-8
+		 * sequence. */
 		(!ISSET(NO_UTF8) && !is_ascii_char(input)) ||
 #endif
 		!is_cntrl_char(input))) {
@@ -3949,8 +3951,8 @@ int main(int argc, char **argv)
 #ifdef NANO_WIDE
     {
 	/* If the locale set doesn't exist, or it exists but doesn't
-	 * include the string "UTF-8", we shouldn't use UTF-8
-	 * support. */
+	 * include the string "UTF-8", we shouldn't go into UTF-8
+	 * mode. */
 	char *locale = setlocale(LC_ALL, "");
 
 	if (locale == NULL || (locale != NULL &&
