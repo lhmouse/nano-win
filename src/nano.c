@@ -3582,6 +3582,10 @@ void do_output(int *kbinput, size_t kbinput_len)
     /* Turn off constant cursor position display. */
     UNSET(CONSTUPDATE);
 
+#ifdef NANO_WIDE
+    wctomb(NULL, 0);
+#endif
+
     for (i = 0; i < kbinput_len; i++) {
 #ifdef NANO_WIDE
 	/* Change the wide character to its multibyte value.  If it's
@@ -3664,6 +3668,10 @@ void do_output(int *kbinput, size_t kbinput_len)
 	    do_refresh = TRUE;
 #endif
     }
+
+#ifdef NANO_WIDE
+    wctomb(NULL, 0);
+#endif
 
     /* Turn constant cursor position display back on if it was on
      * before. */

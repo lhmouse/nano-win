@@ -112,13 +112,6 @@ static bool resetstatuspos = FALSE;
 /* Reset all the input routines that rely on character sequences. */
 void reset_kbinput(void)
 {
-#ifdef NANO_WIDE
-    /* Reset the multibyte and wide character interpreter states. */
-    if (!ISSET(NO_UTF8)) {
-	mbtowc(NULL, NULL, 0);
-	wctomb(NULL, 0);
-    }
-#endif
     parse_kbinput(NULL, NULL, NULL, TRUE);
     get_word_kbinput(0, TRUE);
 }
@@ -191,6 +184,8 @@ void get_buffer(WINDOW *win)
 	buffer *clean_key_buffer = NULL;
 	size_t clean_key_buffer_len = 0;
 
+	mbtowc(NULL, NULL, 0);
+
 	/* Change all complete and valid multibyte keystrokes to
 	 * their wide character values, discarding the others. */
 	for (i = 0; i < key_buffer_len; i++) {
@@ -215,6 +210,8 @@ void get_buffer(WINDOW *win)
 			key_buffer[i].key_code;
 	    }
 	}
+
+	mbtowc(NULL, NULL, 0);
 
 	/* Replace the default keystroke buffer with the non-(-1)
 	 * keystroke buffer. */
@@ -260,6 +257,8 @@ void unget_input(buffer *input, size_t input_len)
     if (!ISSET(NO_UTF8)) {
 	size_t i;
 
+	wctomb(NULL, 0);
+
 	/* Keep all valid wide keystrokes, discarding the others. */
 	for (i = 0; i < input_len; i++) {
 	    char key[MB_LEN_MAX];
@@ -276,6 +275,9 @@ void unget_input(buffer *input, size_t input_len)
 			input[i].key_code;
 	    }
 	}
+
+	wctomb(NULL, 0);
+
     } else {
 #endif
 	clean_input = input;
