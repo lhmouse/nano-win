@@ -2652,6 +2652,7 @@ int do_justify(void)
 	}
 	edit_refresh();
     }
+    UNSET(KEEP_CUTBUFFER);
     cutbuffer = cutbuffer_save;
     blank_statusbar_refresh();
     /* display shortcut list without UnCut */

@@ -39,6 +39,9 @@ CVS Code -
   do_int_spell_fix(), do_int_speller()
 	- Fix crashes with mark position, current_x position, 
 	  and edit_update args (David Benbennick).
+  do_justify()
+	- Unset KEEP_CUTBUFFER so nano won't crash with subsequent
+	  ^K cuts and justifies (David Benbennick).
   do_mouse()
 	- Fix the mouse code to work with lines longer than COLS and
 	  with the proper positioning, including special characters
