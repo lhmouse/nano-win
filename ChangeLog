@@ -10,7 +10,7 @@ General
 	  function print_numlock_warning() to notify user, and added an
 	  apropriate section in the faq to refer to this brokenness.
 	- Added macros in nano.h for magic values that might be unclear in
-	  nano.c:global_init().
+	  nano.c:global_init(). (Rocco)
 - configure.in:
 	- Fix for _use_keypad check breaking slang support (Christian
 	  Weisgerber).
