@@ -191,6 +191,8 @@ CVS code -
 	- Update the help text to mention replacing and spell checking
 	  only selected text, and also add a few cosmetic fixes to it.
 	  (DLR)
+	- Update the help text to mention how to get a blank buffer at
+	  the "Execute Command" prompt. (DLR)
   do_prev_word()
 	- Tweak to avoid an infinite loop, since current_x is now a
 	  size_t and hence is unsigned. (DLR)

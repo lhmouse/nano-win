@@ -304,11 +304,10 @@ void help_init(void)
 		"or --multibuffer command line flags, the Meta-F toggle, or "
 		"a nanorc file, inserting a file will cause it to be "
 		"loaded into a separate buffer (use Meta-< and > to switch "
-		"between file buffers).\n\n If you need another blank "
-		"buffer, do not enter any filename, or type in a "
-		"nonexistent filename at the prompt and press "
-		"Enter.\n\n The following function keys are "
-		"available in Insert File mode:\n\n");
+		"between file buffers). If you need another blank buffer, "
+		"do not enter any filename, or type in a nonexistent "
+		"filename at the prompt and press Enter.\n\n The following "
+		"function keys are available in Insert File mode:\n\n");
     else if (currshortcut == writefile_list)
 	htx = N_("Write File Help Text\n\n "
 		"Type the name that you wish to save the current file "
@@ -356,8 +355,9 @@ void help_init(void)
 	htx = N_("External Command Help Text\n\n "
 		"This menu allows you to insert the output of a command "
 		"run by the shell into the current buffer (or a new "
-		"buffer in multibuffer mode).\n\n The following keys are "
-		"available in this mode:\n\n");
+		"buffer in multibuffer mode). If you need another blank "
+		"buffer, do not enter any command.\n\n The following keys "
+		"are available in this mode:\n\n");
 #endif
     else
 	/* Default to the main help list. */
