@@ -6,6 +6,10 @@ CVS code -
   do_cut_text()
 	- Don't immediately abort if we're on filebot and the marker is
 	  set (fixes bug #42).
+- nano.c:
+	- main()
+	- Added check for _POSIX_VDISABLE and use raw mode if not
+	  available, allows nano to work with cygwin.
 
 nano-0.9.17 - 09/04/2000
 - General

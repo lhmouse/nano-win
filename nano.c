@@ -1825,11 +1825,13 @@ int main(int argc, char *argv[])
     /* First back up the old settings so they can be restored, duh */
     tcgetattr(0, &oldterm);
 
+#ifdef _POSIX_VDISABLE
     term = oldterm;
     term.c_cc[VINTR] = _POSIX_VDISABLE;
     term.c_cc[VQUIT] = _POSIX_VDISABLE;
     term.c_lflag &= ~IEXTEN;
     tcsetattr(0, TCSANOW, &term);
+#endif
 
     /* now ncurses init stuff... */
     initscr();
@@ -1886,6 +1888,12 @@ int main(int argc, char *argv[])
     reset_cursor();
 
     while (1) {
+
+#ifndef _POSIX_VDISABLE
+	/* We're going to have to do it the old way, i.e. on cygwin */
+	raw();
+#endif
+
 	kbinput = wgetch(edit);
 	if (kbinput == 27) {	/* Grab Alt-key stuff first */
 	    switch (kbinput = wgetch(edit)) {
@@ -1981,6 +1989,19 @@ int main(int argc, char *argv[])
 		keyhandled = 1;
 	    }
 	}
+#ifndef _POSIX_VDISABLE
+	/* Since we're in raw mode, we have to catch ^Q and ^S */
+	if (kbinput == 17 || kbinput == 19)
+	    keyhandled = 1;
+
+	/* And catch ^Z by hand when triggered */
+	if (kbinput == 26) {
+	    if (ISSET(SUSPEND))
+		do_suspend(0);
+	    keyhandled = 1;
+	}
+#endif
+
 	/* Last gasp, stuff that's not in the main lists */
 	if (!keyhandled)
 	    switch (kbinput) {
