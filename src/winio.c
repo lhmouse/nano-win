@@ -74,10 +74,11 @@ int *get_verbatim_kbinput(WINDOW *win, int *kbinput_len, int
     allow_pending_sigwinch(TRUE);
 #endif
 
-    /* Switch to raw mode so that we can type ^C, ^Q, ^S, ^Z, and ^\
-     * (and ^Y on systems supporting delayed suspend) without getting
-     * interrupts, and turn the keypad off so that we don't get extended
-     * keypad values, all of which are outside the ASCII range. */
+    /* Switch to raw mode if necessary so that we can type ^C, ^Q, ^S,
+     * ^Z, and ^\ (and ^Y on systems supporting delayed suspend) without
+     * getting interrupts, and turn the keypad off so that we don't get
+     * extended keypad values, all of which are outside the ASCII
+     * range. */
 #ifdef _POSIX_VDISABLE
     raw();
 #endif
@@ -103,8 +104,8 @@ int *get_verbatim_kbinput(WINDOW *win, int *kbinput_len, int
 	nodelay(win, FALSE);
     }
 
-    /* Switch back to cbreak mode and turn the keypad back on now that
-     * we're done. */
+    /* Switch back to cbreak mode if necessary and turn the keypad back
+     * on now that we're done. */
 #ifdef _POSIX_VDISABLE
     cbreak();
 #endif

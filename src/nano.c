@@ -2939,15 +2939,18 @@ void handle_sigwinch(int s)
     /* Turn cursor back on for sure. */
     curs_set(1);
 
+    /* Put the terminal in cbreak mode (read one character at a time and
+     * interpret the special control keys) if we can selectively disable
+     * the special control keys. */
+#ifdef _POSIX_VDISABLE
+    cbreak();
+#endif
+
     /* Set up the signal handlers again, so that the special control
      * keys all work the same as before. */
     signal_init();
 
-    /* Switch to cbreak mode and turn the keypad on, so that the keypad
-     * and input still work if we resized during verbatim input. */
-#ifdef _POSIX_VDISABLE
-    cbreak();
-#endif
+    /* Turn the keypad on in the windows we'll be reading input from. */
     keypad(edit, TRUE);
     keypad(bottomwin, TRUE);
 
