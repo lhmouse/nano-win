@@ -615,7 +615,6 @@ void free_filestruct(filestruct *src)
     }
 }
 
-#ifndef NANO_SMALL
 /* Partition a filestruct so it begins at (top, top_x) and ends at (bot,
  * bot_x). */
 partition *partition_filestruct(filestruct *top, size_t top_x,
@@ -711,7 +710,6 @@ void unpartition_filestruct(partition *p)
     free(p);
     p = NULL;
 }
-#endif
 
 void renumber_all(void)
 {

@@ -490,6 +490,7 @@ void do_insertfile(
     const char *msg;
     char *ans = mallocstrcpy(NULL, "");
 	/* The last answer the user typed on the statusbar. */
+    filestruct *edittop_save = edittop;
 
 #ifndef DISABLE_WRAPPING
     wrap_reset();
@@ -535,7 +536,6 @@ void do_insertfile(
 	    statusbar(_("Cancelled"));
 	    break;
 	} else {
-	    size_t old_current_x = current_x;
 	    size_t old_pww = placewewant;
 
 	    ans = mallocstrcpy(ans, answer);
@@ -575,7 +575,43 @@ void do_insertfile(
 	    else {
 #endif
 		answer = mallocstrassn(answer, real_dir_from_tilde(answer));
+
+#ifdef ENABLE_MULTIBUFFER
+		if (!ISSET(MULTIBUFFER)) {
+#endif
+		    /* If we're not inserting into a new buffer,
+		     * partition the filestruct so that it contains no
+		     * text and hence looks like a new buffer, and set
+		     * edittop to the top of the partition. */
+		    filepart = partition_filestruct(current, current_x,
+			current, current_x);
+		    edittop = fileage;
+#ifdef ENABLE_MULTIBUFFER
+		}
+#endif
+
 		load_buffer(answer);
+
+#ifdef ENABLE_MULTIBUFFER
+		if (!ISSET(MULTIBUFFER))
+#endif
+		{
+		    filestruct *top_save = fileage;
+
+		    /* If we're not inserting into a new buffer,
+		     * unpartition the filestruct so that it contains
+		     * all the text again.  Note that we've replaced the
+		     * non-text originally in the partition with the
+		     * text in the inserted file. */
+		    unpartition_filestruct(filepart);
+
+		    /* Renumber starting with the beginning line of the
+		     * old partition. */
+		    renumber(top_save);
+
+		    /* Set edittop back to what it was before. */
+		    edittop = edittop_save;
+		}
 #ifndef NANO_SMALL
 	    }
 #endif
@@ -592,8 +628,7 @@ void do_insertfile(
 		/* Mark the file as modified. */
 		set_modified();
 
-		/* Restore the old cursor position. */
-		current_x = old_current_x;
+		/* Restore the old place we want. */
 		placewewant = old_pww;
 #ifdef ENABLE_MULTIBUFFER
 	    }

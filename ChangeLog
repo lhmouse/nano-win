@@ -128,8 +128,12 @@ CVS code -
 	  cursor position at the statusbar is reset. (DLR)
 	- Add missing #ifdefs around the wrap_reset() call so that nano
 	  compiles with wrapping disabled again. (DLR)
-	- When inserting a file in non-multibuffer mode, preserve
-	  placewewant as well as current_x, for consistency. (DLR)
+	- If we're not inserting a file into a new buffer, partition the
+	  current buffer so that it's effectively a new buffer just
+	  before inserting the file, and only restore placewewant
+	  afterwards.  This is the same behavior we would get if we
+	  opened the file, added all of it to the cutbuffer, uncut at
+	  the current cursor position, and closed the file. (DLR)
   do_writeout()
 	- Restructure if blocks for greater efficiency, using
 	  do_insertfile() as a model. (DLR)

@@ -61,11 +61,8 @@ filestruct *edittop = NULL;	/* Pointer to the top of the edit
 				   file struct */
 filestruct *filebot = NULL;	/* Last node in the file struct */
 filestruct *cutbuffer = NULL;	/* A place to store cut text */
-
-#ifndef NANO_SMALL
 partition *filepart = NULL;	/* A place to store a portion of the
 				   file struct */
-#endif
 
 #ifdef ENABLE_MULTIBUFFER
 openfilestruct *open_files = NULL;	/* The list of open files */

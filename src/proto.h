@@ -86,8 +86,8 @@ extern char *alt_speller;
 extern struct stat fileinfo;
 extern filestruct *current, *fileage, *edittop, *filebot;
 extern filestruct *cutbuffer;
-#ifndef NANO_SMALL
 extern partition *filepart;
+#ifndef NANO_SMALL
 extern filestruct *mark_beginbuf;
 #endif
 
@@ -302,11 +302,9 @@ void unlink_node(const filestruct *fileptr);
 void delete_node(filestruct *fileptr);
 filestruct *copy_filestruct(const filestruct *src);
 void free_filestruct(filestruct *src);
-#ifndef NANO_SMALL
 partition *partition_filestruct(filestruct *top, size_t top_x,
 	filestruct *bot, size_t bot_x);
 void unpartition_filestruct(partition *p);
-#endif
 void renumber_all(void);
 void renumber(filestruct *fileptr);
 void print1opt(const char *shortflag, const char *longflag, const char

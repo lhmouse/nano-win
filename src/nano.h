@@ -206,7 +206,6 @@ typedef struct openfilestruct {
 } openfilestruct;
 #endif
 
-#ifndef NANO_SMALL
 typedef struct partition {
     filestruct *fileage;
     filestruct *top_prev;
@@ -215,7 +214,6 @@ typedef struct partition {
     filestruct *bot_next;
     char *bot_data;
 } partition;
-#endif
 
 typedef struct shortcut {
     /* Key values that aren't used should be set to NANO_NO_KEY. */
