@@ -3287,9 +3287,15 @@ int main(int argc, char *argv[])
 	int tabsize_cpy = tabsize;
 	long flags_cpy = flags;
 
+#ifndef DISABLE_OPERATINGDIR
 	operating_dir = NULL;
+#endif
+#ifndef DISABLE_JUSTIFY
 	quotestr = NULL;
+#endif
+#ifndef DISABLE_SPELLER
 	alt_speller = NULL;
+#endif
 
 	do_rcfile();
 
