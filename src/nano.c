@@ -3275,6 +3275,7 @@ void do_toggle(const toggle *which)
 #endif
 #ifdef ENABLE_NANORC
 	case TOGGLE_WHITESPACE_KEY:
+	    titlebar(NULL);
 	    edit_refresh();
 	    break;
 #endif
@@ -3577,9 +3578,8 @@ void do_output(int *kbinput, size_t kbinput_len)
 
     assert(current != NULL && current->data != NULL);
 
-    /* Turn off constant cursor position display if it's on. */
-    if (old_constupdate)
-	UNSET(CONSTUPDATE);
+    /* Turn off constant cursor position display. */
+    UNSET(CONSTUPDATE);
 
     for (i = 0; i < kbinput_len; i++) {
 #ifdef NANO_WIDE
@@ -3662,7 +3662,8 @@ void do_output(int *kbinput, size_t kbinput_len)
 #endif
     }
 
-    /* Turn constant cursor position display back on if it was on. */
+    /* Turn constant cursor position display back on if it was on
+     * before. */
     if (old_constupdate)
 	SET(CONSTUPDATE);
 

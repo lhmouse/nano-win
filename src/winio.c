@@ -2393,7 +2393,7 @@ void statusbar(const char *msg, ...)
 	char *foo;
 	size_t start_x = 0, foo_len;
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
-	int old_whitespace = ISSET(WHITESPACE_DISPLAY);
+	bool old_whitespace = ISSET(WHITESPACE_DISPLAY);
 	UNSET(WHITESPACE_DISPLAY);
 #endif
 	bar = charalloc(COLS - 3);

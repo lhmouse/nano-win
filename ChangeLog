@@ -1,5 +1,6 @@
 CVS code -
 - General:
+	- More int -> bool conversions. (DLR)
 	- Overhaul the cutting and uncutting routines to use the
 	  partitioning code, as it greatly simplifies how they work.
 	  New functions move_to_filestruct(), copy_from_filestruct(),
@@ -70,6 +71,10 @@ CVS code -
   thanks_for_all_the_fish()
 	- Free the justify buffer if it isn't empty. (DLR)
 - nano.c:
+  do_toggle()
+	- When we get the whitespace display toggle, update the titlebar
+	  as well as the edit window, in case the filename displayed on
+	  the titlebar contains spaces or tabs. (DLR)
   handle_sigwinch()
 	- If the justify buffer isn't empty, blow it away and don't
 	  display "UnJustify" in the shortcut list anymore. (DLR)
