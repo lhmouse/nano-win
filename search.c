@@ -453,7 +453,8 @@ int do_search(void)
 
 #ifndef NANO_SMALL
     /* add this search string to the search history list */
-    update_history(&search_history, answer);
+    if (strcmp(answer, ""))
+	update_history(&search_history, answer);
 #endif	/* !NANO_SMALL */
 
     search_last_line = 0;
@@ -739,7 +740,8 @@ int do_replace(void)
     }
 
 #ifndef NANO_SMALL
-    update_history(&search_history, answer);
+    if (strcmp(answer, ""))
+	update_history(&search_history, answer);
 #endif	/* !NANO_SMALL */
 
     /* Again, there was a previous string, but they deleted it and hit enter */
@@ -788,7 +790,7 @@ int do_replace(void)
 		_("Replace with"));
    }
 #ifndef NANO_SMALL
-    if (i == 0)
+    if (i == 0 && strcmp(answer, ""))
 	update_history(&replace_history, answer);
 #endif	/* !NANO_SMALL */
 
