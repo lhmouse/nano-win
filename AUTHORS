@@ -4,7 +4,13 @@ editor.  Please see the ChangeLog for specific changes by author.
 -------------------------------------------------------------------------
 
 Chris Allegretta <chrisa@asty.org>
-	* Main program author and maintainer.
+	* Original program author, stable series maintainer.
+
+David Lawrence Ramsey <pooka_regent@sluggy.net>
+	* Development series maintainer.  Multiple buffer support, 
+	  operating dir (-o) option, bug fixes for display routines, 
+	  wrapping code, spelling fixes, const mode and various other 
+	  fixes.
 
 Jordi Mallach <jordi@sindominio.net>
 	* Debian package maintainer, fellow bug squasher.
@@ -24,11 +30,6 @@ Rocco Corsi <rocco.corsi@sympatico.ca>
 	* Internal spelling code, many optimizations and bug fixes for 
 	  findnextstr and search-related functions, various display and
 	  file handling fixes.
-
-David Lawrence Ramsey <pooka_regent@sluggy.net>
-	* Multiple buffer support, operating dir (-o) option, bug fixes
-	  for display routines, wrapping code, spelling fixes, const
-	  mode and various other fixes.
 
 David Benbennick <dbenbenn@math.cornell.edu>
 	* Wrap and justify bugfixes/enhancements, new color syntax
