@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.11\n"
-"POT-Creation-Date: 2000-07-07 00:29-0400\n"
+"POT-Creation-Date: 2000-07-07 21:26-0400\n"
 "PO-Revision-Date: 2000-06-21 23:08+03:00\n"
 "Last-Translator: Pauli Virtanen <pauli.virtanen@saunalahti.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -343,7 +343,7 @@ msgid "Case Sens"
 msgstr "Kirj. koko"
 
 #: global.c:282 global.c:301 global.c:311 global.c:327 global.c:331
-#: global.c:337 winio.c:963
+#: global.c:337 winio.c:997
 msgid "Cancel"
 msgstr "Peru"
 
@@ -729,90 +729,90 @@ msgid "Replace this instance?"
 msgstr "Korvataanko tämä kohta?"
 
 #. Ask for it
-#: search.c:507
+#: search.c:508
 msgid "Enter line number"
 msgstr "Kirjoita rivin numero"
 
-#: search.c:509
+#: search.c:510
 msgid "Aborted"
 msgstr "Keskeytetty"
 
-#: search.c:529
+#: search.c:530
 msgid "Come on, be reasonable"
 msgstr "Jotakin järkevää, kiitos?"
 
-#: search.c:534
+#: search.c:535
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr "Vain %d riviä olemassa, siirrytään viimeiselle riville"
 
-#: winio.c:118
+#: winio.c:119
 #, c-format
 msgid "actual_x_from_start for xplus=%d returned %d\n"
 msgstr "actual_x_from_start parametrilla xplus=%d palautti %d\n"
 
-#: winio.c:408
+#: winio.c:409
 #, c-format
 msgid "input '%c' (%d)\n"
 msgstr "syöte '%c' (%d)\n"
 
-#: winio.c:442
+#: winio.c:443
 msgid "New Buffer"
 msgstr "Uusi teksti"
 
-#: winio.c:445
+#: winio.c:446
 msgid "  File: ..."
 msgstr "  Tiedosto: ..."
 
-#: winio.c:453
+#: winio.c:454
 msgid "Modified"
 msgstr "Muokattu"
 
-#: winio.c:879
+#: winio.c:913
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr "Kohtaan (%d,%d) siirrytty muokkausruudussa\n"
 
-#: winio.c:890
+#: winio.c:924
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr "current->data = \"%s\"\n"
 
-#: winio.c:933
+#: winio.c:967
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "Saatiin \"%s\"\n"
 
-#: winio.c:958
+#: winio.c:992
 msgid "Yes"
 msgstr "Kyllä"
 
-#: winio.c:960
+#: winio.c:994
 msgid "All"
 msgstr "Kaikki"
 
-#: winio.c:962
+#: winio.c:996
 msgid "No"
 msgstr "Ei"
 
-#: winio.c:1098
+#: winio.c:1132
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
-#: winio.c:1102
+#: winio.c:1136
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "rivi %d/%d (%.0f%%), merkki %d/%d (%.0f%%)"
 
-#: winio.c:1226
+#: winio.c:1260
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Syötetään tiedosto stderriin...\n"
 
-#: winio.c:1228
+#: winio.c:1262
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Syötetään leiketila stderriin...\n"
 
-#: winio.c:1230
+#: winio.c:1264
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Syötetään teksti stderriin...\n"
 

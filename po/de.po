@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.11\n"
-"POT-Creation-Date: 2000-07-07 00:29-0400\n"
+"POT-Creation-Date: 2000-07-07 21:26-0400\n"
 "PO-Revision-Date: 2000-06-21 12:19+0200\n"
 "Last-Translator: Florian König <floki@bigfoot.com>\n"
 "Language-Team: German <floki@bigfoot.com>\n"
@@ -345,7 +345,7 @@ msgid "Case Sens"
 msgstr "GROSZ/klein"
 
 #: global.c:282 global.c:301 global.c:311 global.c:327 global.c:331
-#: global.c:337 winio.c:963
+#: global.c:337 winio.c:997
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -736,90 +736,90 @@ msgid "Replace this instance?"
 msgstr "Ersetzen?"
 
 #. Ask for it
-#: search.c:507
+#: search.c:508
 msgid "Enter line number"
 msgstr "Zeilennummer eingeben"
 
-#: search.c:509
+#: search.c:510
 msgid "Aborted"
 msgstr "Abgebrochen"
 
-#: search.c:529
+#: search.c:530
 msgid "Come on, be reasonable"
 msgstr "Komm schon, sei vernünftig"
 
-#: search.c:534
+#: search.c:535
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr "Nur %d Zeilen vorhanden, springe zur letzten Zeile"
 
-#: winio.c:118
+#: winio.c:119
 #, fuzzy, c-format
 msgid "actual_x_from_start for xplus=%d returned %d\n"
 msgstr "actual_x für xplus=%d gab %d zurück\n"
 
-#: winio.c:408
+#: winio.c:409
 #, c-format
 msgid "input '%c' (%d)\n"
 msgstr "Eingabe '%c' (%d)\n"
 
-#: winio.c:442
+#: winio.c:443
 msgid "New Buffer"
 msgstr "Neuer Puffer"
 
-#: winio.c:445
+#: winio.c:446
 msgid "  File: ..."
 msgstr "  Datei: ..."
 
-#: winio.c:453
+#: winio.c:454
 msgid "Modified"
 msgstr "Verändert"
 
-#: winio.c:879
+#: winio.c:913
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr "Nach (%d, %d) im Bearbeitungspuffer verschoben\n"
 
-#: winio.c:890
+#: winio.c:924
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr "current->data = \"%s\"\n"
 
-#: winio.c:933
+#: winio.c:967
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "Erhielt \"%s\"\n"
 
-#: winio.c:958
+#: winio.c:992
 msgid "Yes"
 msgstr "Ja"
 
-#: winio.c:960
+#: winio.c:994
 msgid "All"
 msgstr "Alle"
 
-#: winio.c:962
+#: winio.c:996
 msgid "No"
 msgstr "Nein"
 
-#: winio.c:1098
+#: winio.c:1132
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
-#: winio.c:1102
+#: winio.c:1136
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "Zeile %d von %d (%.0f%%), Zeichen %d von %d (%.0f%%)"
 
-#: winio.c:1226
+#: winio.c:1260
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Gebe Datei Puffer nach stderr aus...\n"
 
-#: winio.c:1228
+#: winio.c:1262
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Gebe Inhalt der Zwischenablage nach stderr aus...\n"
 
-#: winio.c:1230
+#: winio.c:1264
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Gebe einen Puffer nach stderr aus...\n"
 
