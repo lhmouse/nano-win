@@ -1,4 +1,12 @@
 CVS code -
+- General
+	- Added configure argument --disable tabcomp.  Affects
+	  configure.in, configure, bottom of files.c and write_file, and
+	  winio.c:nanogettsr().
+	- Username tab completion code, and cleaned up existing tabcomp
+	  code. New functions real_dir_from_tide(), append_slash_if_dir(),
+	  username_tab_completion is more than a stub now =-).
+
 nano 0.9.21 - 11/23/2000
 - AUTHORS
 	- Added Rocco Corsi.

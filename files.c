@@ -295,6 +295,7 @@ int write_file(char *name, int tmp)
     filestruct *fileptr;
     int fd, mask = 0;
     struct stat st;
+    char *realname = NULL;
 
     if (!strcmp(name, "")) {
 	statusbar(_("Cancelled"));
@@ -302,17 +303,21 @@ int write_file(char *name, int tmp)
     }
     titlebar();
     fileptr = fileage;
-
+#ifndef DISABLE_TABCOMP
+    realname = real_dir_from_tilde(name);
+#else
+    realname = mallocstrcpy(realname, name);
+#endif
 
     /* Check to see if the file is a regular file and FOLLOW_SYMLINKS is
        set.  If so then don't do the delete and recreate code which would
        cause unexpected behavior */
-    lstat(name, &st);
+    lstat(realname, &st);
 
     /* Open the file and truncate it.  Trust the symlink. */
     if ((ISSET(FOLLOW_SYMLINKS) || !S_ISLNK(st.st_mode)) && !tmp) {
 
-	if ((fd = open(name, O_WRONLY | O_CREAT | O_TRUNC,
+	if ((fd = open(realname, O_WRONLY | O_CREAT | O_TRUNC,
 		       S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH |
 		       S_IWOTH)) == -1) {
 	    if (ISSET(TEMP_OPT)) {
@@ -321,18 +326,19 @@ int write_file(char *name, int tmp)
 	    }
 	    statusbar(_("Could not open file for writing: %s"),
 		      strerror(errno));
+	    free(realname);
 	    return -1;
 	}
     }
     /* Don't follow symlink.  Create new file. */
     else {
-	if (strlen(name) > (PATH_MAX - 7)) {
+	if (strlen(realname) > (PATH_MAX - 7)) {
 	    statusbar(_("Could not open file: Path length exceeded."));
 	    return -1;
 	}
 
 	memset(buf, 0x00, PATH_MAX + 1);
-	strcat(buf, name);
+	strcat(buf, realname);
 	strcat(buf, ".XXXXXX");
 	if ((fd = mkstemp(buf)) == -1) {
 	    if (ISSET(TEMP_OPT)) {
@@ -385,13 +391,13 @@ int write_file(char *name, int tmp)
 
 
     if (close(fd) == -1) {
-	statusbar(_("Could not close %s: %s"), name, strerror(errno));
+	statusbar(_("Could not close %s: %s"), realname, strerror(errno));
 	unlink(buf);
 	return -1;
     }
 
     if (!ISSET(FOLLOW_SYMLINKS) || tmp) {
-	if (stat(name, &st) == -1) {
+	if (stat(realname, &st) == -1) {
 	    /* Use default umask as file permisions if file is a new file. */
 	    mask = umask(0);
 	    umask(mask);
@@ -404,37 +410,37 @@ int write_file(char *name, int tmp)
 	} else {
 	    /* Use permissions from file we are overwriting. */
 	    mask = st.st_mode;
-	    if (unlink(name) == -1) {
+	    if (unlink(realname) == -1) {
 		if (errno != ENOENT) {
 		    statusbar(_("Could not open %s for writing: %s"),
-			      name, strerror(errno));
+			      realname, strerror(errno));
 		    unlink(buf);
 		    return -1;
 		}
 	    }
 	}
 
-	if (link(buf, name) != -1)
+	if (link(buf, realname) != -1)
 	    unlink(buf);
 	else if (errno != EPERM) {
 	    statusbar(_("Could not open %s for writing: %s"),
 		      name, strerror(errno));
 	    unlink(buf);
 	    return -1;
-	} else if (rename(buf, name) == -1) {	/* Try a rename?? */
-	    statusbar(_("Could not open %s for writing: %s"),
-		      name, strerror(errno));
+	} else if (rename(buf, realname) == -1) {	/* Try a rename?? */
+ 	    statusbar(_("Could not open %s for writing: %s"),
+		      realname, strerror(errno));
 	    unlink(buf);
 	    return -1;
 	}
-	if (chmod(name, mask) == -1) {
+	if (chmod(realname, mask) == -1) {
 	    statusbar(_("Could not set permissions %o on %s: %s"),
-		      mask, name, strerror(errno));
+		      mask, realname, strerror(errno));
 	}
 
     }
     if (!tmp) {
-	strncpy(filename, name, 132);
+	strncpy(filename, realname, 132);
 	statusbar(_("Wrote %d lines"), lineswritten);
     }
     UNSET(MODIFIED);
@@ -497,6 +503,58 @@ int do_writeout_void(void)
     return do_writeout(0);
 }
 
+#ifndef DISABLE_TABCOMP
+static char **homedirs;
+
+/* Return a malloc()ed string containing the actual directory, used
+ * to convert ~user and ~/ notation...
+ */
+char *real_dir_from_tilde (char *buf)
+{
+    char *dirtmp = NULL, *tmp;
+
+    if (buf[0] == '~') {
+
+	if (buf[1] == '/') {
+	    if (getenv("HOME") != NULL) {
+		dirtmp = nmalloc(strlen(buf) + 2 + strlen(getenv("HOME")));
+
+		sprintf(dirtmp, "%s/%s", getenv("HOME"), &buf[2]);
+	    }
+	}
+	else if (buf[1] != 0) {
+	    dirtmp = nmalloc(strlen(buf) + 2 + strlen(homedirs[0]));
+	    for (tmp = &buf[2]; *tmp != '/' && *tmp != 0; tmp++);
+
+	    sprintf(dirtmp, "%s%s", homedirs[0], tmp);
+	}
+    }
+    else
+	dirtmp = mallocstrcpy(dirtmp, buf);
+
+    return dirtmp;	
+}
+
+/* Tack a slash onto the string we're completing if it's a directory */
+void append_slash_if_dir(char *buf, int *lastWasTab, int *place)
+{
+    char *dirptr;
+    struct stat fileinfo;
+
+    dirptr = real_dir_from_tilde(buf);
+
+    if (stat(dirptr, &fileinfo) == -1)
+    	;
+    else if (S_ISDIR(fileinfo.st_mode)) {
+	strncat(buf, "/", 1);
+	*place += 1;
+	/* now we start over again with # of tabs so far */
+	*lastWasTab = 0;
+    }
+
+    if (dirptr != buf)
+    	free(dirptr);
+}
 
 /*
  * These functions (username_tab_completion, cwd_tab_completion, and
@@ -517,24 +575,90 @@ int do_writeout_void(void)
  * This code may safely be consumed by a BSD or GPL license.
  */
 
-#if 0
 char **username_tab_completion(char *buf, int *num_matches)
 {
-    char **matches = (char **) NULL;
-    *num_matches = 0;
+    char **matches = (char **) NULL, *line = NULL, *lineptr;
+    char *matchline = NULL, *matchdir = NULL;
+	
+    int fd, i = 0, status = 1;
+    char byte[1];
+
+    if((fd = open("/etc/passwd", O_RDONLY)) == -1) {
+	return NULL;
+    }
+
+    if (homedirs != NULL) {
+	for (i = 0; i < *num_matches; i++)
+	    free(homedirs[i]);
+	free(homedirs);
+	homedirs = (char **) NULL;
+	*num_matches = 0;
+    }
+    matches = nmalloc(BUFSIZ);
+    homedirs = nmalloc(BUFSIZ);
+    strcat(buf, "*");
+    do {
+	i = 0;
+	line = nmalloc(1);
+	while ((status = read(fd, byte, 1)) != 0 && byte[0] != '\n') {
+
+	    line[i] = byte[0];
+	    i++;
+	    line = nrealloc(line, i+1);
+	}
+
+	if (i == 0)
+	    break;
+
+	line[i] = 0;
+	lineptr = strtok(line, ":");
+
+	if (check_wildcard_match(line, &buf[1]) == TRUE) {
+
+	    if (*num_matches == BUFSIZ)
+		break;
+
+	    /* Cool, found a match.  Add it to the list
+	     * This makes a lot more sense to me (Chris) this way...
+	     */
+	    matchline = nmalloc(strlen(line) + 2);
+	    sprintf(matchline, "~%s", line);
+
+	    for (i = 0; i <= 4 && lineptr != NULL; i++)
+		lineptr = strtok(NULL, ":");
+
+	    if (lineptr == NULL)
+		break;
+
+	    matchdir = mallocstrcpy(matchdir, lineptr);
+	    homedirs[*num_matches] = matchdir;
+	    matches[*num_matches] = matchline;
+
+	    ++*num_matches;
+
+	    /* If there's no more room, bail out */
+	    if (*num_matches == BUFSIZ)
+		break;
+	}
+
+	free(line);
+
+    } while (status != 0);
+
+    close(fd);
+    return matches;
 #ifdef DEBUG
     fprintf(stderr, "\nin username_tab_completion\n");
 #endif
     return (matches);
 }
-#endif
 
 /* This was originally called exe_n_cwd_tab_completion, but we're not
    worried about executables, only filenames :> */
 
 char **cwd_tab_completion(char *buf, int *num_matches)
 {
-    char *dirName, *tmp = NULL, *tmp2 = NULL;
+    char *dirName, *dirtmp = NULL, *tmp = NULL, *tmp2 = NULL;
     char **matches = (char **) NULL;
     DIR *dir;
     struct dirent *next;
@@ -568,6 +692,17 @@ char **cwd_tab_completion(char *buf, int *num_matches)
     fprintf(stderr, "\nbuf = %s\n", buf);
     fprintf(stderr, "\ntmp = %s\n", tmp);
 #endif
+
+    dirtmp = real_dir_from_tilde(dirName);
+    free(dirName);
+    dirName = dirtmp;
+
+#ifdef DEBUG
+    fprintf(stderr, "\nDir = %s\n", dirName);
+    fprintf(stderr, "\nbuf = %s\n", buf);
+    fprintf(stderr, "\ntmp = %s\n", tmp);
+#endif
+
 
     dir = opendir(dirName);
     if (!dir) {
@@ -618,7 +753,6 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
     int pos = place, i = 0, col = 0, editline = 0;
     int longestname = 0;
     char *foo;
-    struct stat fileinfo;
 
     if (*lastWasTab == FALSE) {
 	char *tmp, *copyto, *matchBuf;
@@ -648,9 +782,9 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 	/* If the word starts with `~' and there is no slash in the word, 
 	 * then try completing this word as a username. */
 
-	/* FIXME -- this check is broken!
+	/* FIXME -- this check is broken! */
 	   if (*tmp == '~' && !strchr(tmp, '/'))
-	   matches = username_tab_completion(tmp, &num_matches); */
+	   matches = username_tab_completion(tmp, &num_matches);
 
 	/* Try to match everything in the current working directory that
 	 * matches.  */
@@ -680,21 +814,8 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 	    } else
 		tmp = buf;
 
-	    if (!strcmp(tmp, matches[0])) {
-
-		/* Is it a directory? */
-		if (stat(buf, &fileinfo) == -1)
-		    break;
-		else if (S_ISDIR(fileinfo.st_mode)) {
-
-		    /* Tack on a slash */
-		    strncat(buf, "/", 1);
-		    *newplace += 1;
-		    /* now we start over with 0 tabs so far */
-		    *lastWasTab = 0;
-		}
-		break;
-	    }
+	    if (!strcmp(tmp, matches[0])) 
+		append_slash_if_dir(buf, lastWasTab, newplace);
 
 	    copyto = tmp;
 	    for (pos = 0; *tmp == matches[0][pos] &&
@@ -705,14 +826,9 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 	    strncpy(copyto, matches[0], strlen(matches[0]) + 1);
 	    *newplace += strlen(matches[0]) - pos;
 
-	    if (stat(buf, &fileinfo) == -1)
-		break;
-	    else if (S_ISDIR(fileinfo.st_mode)) {
-		strncat(buf, "/", 1);
-		*newplace += 1;
-		/* now we start over again with # of tabs so far */
-		*lastWasTab = 0;
-	    }
+	    /* Is it a directory? */
+	    append_slash_if_dir(buf, lastWasTab, newplace);
+
 	    break;
 	default:
 	    /* Check to see if all matches share a beginning, and if so
@@ -815,3 +931,4 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
     curs_set(1);
     return buf;
 }
+#endif

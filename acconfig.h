@@ -24,3 +24,5 @@
 /* Define to use the slang wrappers for curses instead of native curses */
 #undef USE_SLANG
 
+/* Define to disable the tab completion code Chris worked so hard on! */
+#undef DISABLE_TABCOMP

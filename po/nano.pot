@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-11-22 20:20-0500\n"
+"POT-Creation-Date: 2000-11-24 08:45-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,59 +55,59 @@ msgstr ""
 msgid "File to insert [from ./] "
 msgstr ""
 
-#: files.c:276 files.c:300 files.c:488 nano.c:1355
+#: files.c:276 files.c:301 files.c:494 nano.c:1355
 msgid "Cancelled"
 msgstr ""
 
-#: files.c:322 files.c:342 files.c:356 files.c:373 files.c:379
+#: files.c:327 files.c:348 files.c:362 files.c:379 files.c:385
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr ""
 
-#: files.c:330
+#: files.c:336
 msgid "Could not open file: Path length exceeded."
 msgstr ""
 
-#: files.c:361
+#: files.c:367
 #, c-format
 msgid "Wrote >%s\n"
 msgstr ""
 
-#: files.c:388
+#: files.c:394
 #, c-format
 msgid "Could not close %s: %s"
 msgstr ""
 
 #. Try a rename??
-#: files.c:409 files.c:420 files.c:425
+#: files.c:415 files.c:426 files.c:431
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr ""
 
-#: files.c:431
+#: files.c:437
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr ""
 
-#: files.c:438
+#: files.c:444
 #, c-format
 msgid "Wrote %d lines"
 msgstr ""
 
-#: files.c:467
+#: files.c:473
 msgid "File Name to write"
 msgstr ""
 
-#: files.c:472
+#: files.c:478
 #, c-format
 msgid "filename is %s"
 msgstr ""
 
-#: files.c:477
+#: files.c:483
 msgid "File exists, OVERWRITE ?"
 msgstr ""
 
-#: files.c:801
+#: files.c:917
 msgid "(more)"
 msgstr ""
 
@@ -384,7 +384,7 @@ msgid "Case Sens"
 msgstr ""
 
 #: global.c:344 global.c:364 global.c:375 global.c:385 global.c:401
-#: global.c:405 global.c:411 winio.c:1020
+#: global.c:405 global.c:411 winio.c:1025
 msgid "Cancel"
 msgstr ""
 
@@ -817,67 +817,67 @@ msgstr ""
 msgid "actual_x_from_start for xplus=%d returned %d\n"
 msgstr ""
 
-#: winio.c:433
+#: winio.c:438
 #, c-format
 msgid "input '%c' (%d)\n"
 msgstr ""
 
-#: winio.c:471
+#: winio.c:476
 msgid "New Buffer"
 msgstr ""
 
-#: winio.c:474
+#: winio.c:479
 msgid "  File: ..."
 msgstr ""
 
-#: winio.c:482
+#: winio.c:487
 msgid "Modified"
 msgstr ""
 
-#: winio.c:934
+#: winio.c:939
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr ""
 
-#: winio.c:945
+#: winio.c:950
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr ""
 
-#: winio.c:990
+#: winio.c:995
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr ""
 
-#: winio.c:1015
+#: winio.c:1020
 msgid "Yes"
 msgstr ""
 
-#: winio.c:1017
+#: winio.c:1022
 msgid "All"
 msgstr ""
 
-#: winio.c:1019
+#: winio.c:1024
 msgid "No"
 msgstr ""
 
-#: winio.c:1156
+#: winio.c:1161
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr ""
 
-#: winio.c:1160
+#: winio.c:1165
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr ""
 
-#: winio.c:1288
+#: winio.c:1293
 msgid "Dumping file buffer to stderr...\n"
 msgstr ""
 
-#: winio.c:1290
+#: winio.c:1295
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr ""
 
-#: winio.c:1292
+#: winio.c:1297
 msgid "Dumping a buffer to stderr...\n"
 msgstr ""
