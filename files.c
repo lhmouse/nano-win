@@ -625,7 +625,8 @@ int input_tab(char *buf, int place, int lastWasTab)
 
 	/* Make a local copy of the string -- up to the position of the
 	   cursor */
-	matchBuf = (char *) calloc(strlen(buf), sizeof(char));
+	matchBuf = (char *) calloc(strlen(buf) + 2, sizeof(char));
+
 	strncpy(matchBuf, buf, place);
 	tmp = matchBuf;
 
@@ -656,14 +657,17 @@ int input_tab(char *buf, int place, int lastWasTab)
 	free(matchBuf);
 
 	/* Did we find exactly one match? */
-	if (matches && num_matches == 1) {
+	switch(num_matches) {
+	case 0:
+	    break;
+	case 1:
 	    buf = nrealloc(buf, strlen(buf) + strlen(matches[0]) - pos + 1);
 	    /* write out the matched command */
 	    strncpy(buf + pos, matches[0] + pos,
 		    strlen(matches[0]) - pos);
 	    newplace += strlen(matches[0]) - pos;
-	}
-	else {
+	    break;
+	default:
 	    /* Check to see if all matches share a beginning, and if so
 		tack it onto buf and then beep */
 
@@ -689,6 +693,7 @@ int input_tab(char *buf, int place, int lastWasTab)
 		    break;
 		}
 	    }
+	    break;
 	}
     } else {
 	/* Ok -- the last char was a TAB.  Since they
