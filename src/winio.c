@@ -130,7 +130,6 @@ void reset_kbinput(void)
 void get_buffer(WINDOW *win)
 {
     int input;
-    size_t i;
 
     /* If the keystroke buffer isn't empty, get out. */
     if (key_buffer != NULL)
@@ -188,6 +187,7 @@ void get_buffer(WINDOW *win)
 
 #ifdef NANO_WIDE
     if (!ISSET(NO_UTF8)) {
+	size_t i;
 	buffer *clean_key_buffer = NULL;
 	size_t clean_key_buffer_len = 0;
 
@@ -252,7 +252,6 @@ int *buffer_to_keys(buffer *input, size_t input_len)
  * keystroke buffer. */
 void unget_input(buffer *input, size_t input_len)
 {
-    size_t i;
     buffer *clean_input = NULL;
     size_t clean_input_len = 0;
 
@@ -263,6 +262,8 @@ void unget_input(buffer *input, size_t input_len)
 
 #ifdef NANO_WIDE
     if (!ISSET(NO_UTF8)) {
+	size_t i;
+
 	/* Change all invalid wide character values to -1. */
 	for (i = 0; i < input_len; i++) {
 	    char key[MB_LEN_MAX];
