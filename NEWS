@@ -1,3 +1,11 @@
+04/10/2002 - GNU nano 1.0.9 is out.  The first release in some time, 
+		and perhaps the last release in the 1.0 series?  A spec
+		file is now included and ^A and ^E now work on the status
+		bar (except for search/replace where ^A still toggles
+		case sensitivity).  Some bug fixes in spelling, a crash
+		when inserting a 0 line file, and *BSD compatibility.
+		Have fun!
+		
 01/16/2002 - GNU nano 1.0.8 ships :)  Quite a few changes in just under
 		a month!  There are some spelling fixes, more suspend
 		changes (this time for tcsh and ^C), some wrapping

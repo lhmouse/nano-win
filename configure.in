@@ -1,7 +1,7 @@
 # $Id$
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(nano.c)
-AM_INIT_AUTOMAKE(nano, 1.0.8-cvs)
+AM_INIT_AUTOMAKE(nano, 1.0.9)
 AM_CONFIG_HEADER(config.h:config.h.in)
 ALL_LINGUAS="es de fr it id fi hu ca cs gl uk ru sv nn nl da pl nb"
 
@@ -262,4 +262,4 @@ fi
 dnl i18n stuff - pretty incomplete for now
 NANO_AM_GNU_GETTEXT
 
-AC_OUTPUT([Makefile intl/Makefile po/Makefile.in])
+AC_OUTPUT([Makefile intl/Makefile po/Makefile.in nano.spec])
