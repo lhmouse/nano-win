@@ -600,7 +600,11 @@ void bottombars(shortcut s[], int slen)
 #endif
 
     /* Determine how many extra spaces are needed to fill the bottom of the screen */
-    k = COLS / 6 - 13;
+    if (slen < 2)
+	k = COLS / 6 - 13;
+    else
+	k = COLS / (slen / 2) - 13;
+
 
     clear_bottomwin();
     wmove(bottomwin, 1, 0);

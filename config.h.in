@@ -31,6 +31,9 @@
 /* Define to `long' if <sys/types.h> doesn't define.  */
 #undef off_t
 
+/* Define if you need to in order for stat and other things to work.  */
+#undef _POSIX_SOURCE
+
 /* Define as the return type of signal handlers (int or void).  */
 #undef RETSIGTYPE
 

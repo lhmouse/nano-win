@@ -8,6 +8,8 @@ CVS code -
 	- corrected the Mouse Toggle section, noticed by Daniel Bonniot.
 - winio.c:
 	- Add David Lawrence Ramsey to credits.
+  bottombars()
+	- Spread out the menu items, feedback definitely needed on this.
 
 nano-1.1.1 - 07/28/2001
 - General
