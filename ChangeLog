@@ -133,6 +133,8 @@ Cvs code -
 - po/uk.po, po/ru.po:
 	- New Ukrainian and Russian translations by Sergey A. Ribalchenko
 	  <fisher@obu.ck.ua>, thanks!
+- po/id.po:
+	- Updated Indonesian translation by Tedi Heriyanto.
 - po/it.po
 	- Updated Italian translation by Marco Colombo.
 
