@@ -50,6 +50,12 @@ Changes
 	- Renamed [have_]past_editbuff [have_]search_offscreen. (DLR)
 	- Add the "preserve" option to the nanorc file, to match
 	  nanorc.sample. (DLR)
+	- Fixed awful scrolling in do_int_speller.  Problem was 
+	  findnextstr() calling edit_update(), though screen updating 
+	  is not its business.  Added checks in do_search() and 
+	  do_replace_loop() to do the checks.  It really should not be 
+	  done here, as some function in winio.c should handle this, 
+	  but I can't seem to find a good place to put this check.
 - configure.ac:
 	- Added tr to ALL_LINGUAS (Jordi).
 	- Fix now inaccurate description of --enable-tiny's effects; it

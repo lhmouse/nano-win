@@ -354,11 +354,7 @@ filestruct *findnextstr(int quiet, int bracket_mode,
     current_x = current_x_find;
 
     if (!bracket_mode) {
-	if (search_offscreen)
-	   edit_update(fileptr, CENTER);
-	else
-	   update_line(current, current_x);
-
+	update_line(current, current_x);
 	placewewant = xplustabs();
 	reset_cursor();
     }
@@ -408,6 +404,9 @@ int do_search(void)
 
     if (fileptr == current && fileptr_x == current_x && didfind != NULL)
 	statusbar(_("This is the only occurrence"));
+    else if (current->lineno <= edittop->lineno
+        || current->lineno >= editbot->lineno)
+        edit_update(current, current_x);
 
     search_abort();
 
@@ -571,6 +570,10 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 	/* Sweet optimization by Rocco here */
 	fileptr = findnextstr(fileptr || replaceall || search_last_line,
 				FALSE, begin, *beginx, prevanswer);
+
+	if (current->lineno <= edittop->lineno
+	    || current->lineno >= editbot->lineno)
+	    edit_update(current, current_x);
 
 	/* No more matches.  Done! */
 	if (fileptr == NULL)
