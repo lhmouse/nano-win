@@ -4,6 +4,8 @@ CVS code -
 	- Fix renumbering bug when uncutting marked test at filebot.
 	- Fix screen not being displayed when we are uncutting marked
 	  text at editbot (Bug discovered by Ken Tyler).
+	- Fix magic line not getting created when (you guessed it)
+	  uncutting marked text at filebot (Ryan Krebs).
 - files.c:
   write_file()
 	- Change open call flags, basically copy joe's way of doing it so
@@ -11,6 +13,9 @@ CVS code -
 - nano.c:
   renumber()
 	- Dont stupidly assign the value of prev->lineno if prev == NULL!
+- utils.c:
+  new_magicline()
+	- Increment totsize!!
 
 nano 0.9.23 - 12/08/2000
 General

@@ -152,6 +152,7 @@ void new_magicline(void)
     filebot->next->lineno = filebot->lineno + 1;
     filebot = filebot->next;
     totlines++;
+    totsize++;
 }
 
 #ifndef DISABLE_TABCOMP

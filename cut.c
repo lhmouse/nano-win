@@ -344,6 +344,7 @@ int do_uncut_text(void)
 		if (editbot == filebot)
 		    editbot = newend;
 		filebot = newend;
+		new_magicline();
 	    }
 
 	    /* Now why don't we update the totsize also */
