@@ -2196,6 +2196,9 @@ const char *do_alt_speller(char *tempfile_name)
     /* Restore the terminal to its previous state. */
     terminal_init();
 
+    /* Turn the cursor back on for sure. */
+    curs_set(1);
+
 #ifndef NANO_SMALL
     if (old_mark_set) {
 	size_t part_totsize;
@@ -3439,6 +3442,9 @@ void handle_sigwinch(int s)
     /* Restore the terminal to its previous state. */
     terminal_init();
 
+    /* Turn the cursor back on for sure. */
+    curs_set(1);
+
     /* Do the equivalent of what both mutt and Minimum Profit do:
      * Reinitialize all the windows based on the new screen
      * dimensions. */
@@ -3448,9 +3454,6 @@ void handle_sigwinch(int s)
     blank_statusbar();
     currshortcut = main_list;
     total_refresh();
-
-    /* Turn the cursor back on for sure. */
-    curs_set(1);
 
     /* Reset all the input routines that rely on character sequences. */
     reset_kbinput();
@@ -4339,6 +4342,9 @@ int main(int argc, char **argv)
      * terminal state. */
     initscr();
     terminal_init();
+
+    /* Turn the cursor on for sure. */
+    curs_set(1);
 
     /* Set up the global variables and the shortcuts. */
     global_init(FALSE);

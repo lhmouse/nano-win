@@ -1,4 +1,8 @@
 CVS code -
+- General:
+	- After (re)initializing the terminal, make sure the cursor is
+	  always turned on.  Changes to do_alt_speller(),
+	  handle_sigwinch(), and main(). (DLR)
 
 GNU nano 1.3.6 - 2005.03.20
 - General:
