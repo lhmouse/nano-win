@@ -724,7 +724,7 @@ int get_escape_seq_kbinput(WINDOW *win, int *escape_seq, int
 }
 
 /* Return the equivalent arrow key value for the case-insensitive
- * letters A (up), B (down), C (left), and D (right).  These are common
+ * letters A (up), B (down), C (right), and D (left).  These are common
  * to many escape sequences. */
 int get_escape_seq_abcd(int kbinput)
 {
