@@ -2469,8 +2469,8 @@ bool quotes_match(const char *a_line, size_t a_quote, const char
     /* Here is the assumption about a_quote. */
     assert(a_quote == quote_length(a_line));
 
-    return a_quote == quote_length(b_line) &&
-	strncmp(a_line, b_line, a_quote) == 0;
+    return (a_quote == quote_length(b_line) &&
+	strncmp(a_line, b_line, a_quote) == 0);
 }
 
 /* We assume a_line and b_line have no quote part.  Then, we return
@@ -2481,8 +2481,8 @@ bool indents_match(const char *a_line, size_t a_indent, const char
     assert(a_indent == indent_length(a_line));
     assert(b_indent == indent_length(b_line));
 
-    return b_indent <= a_indent &&
-	strncmp(a_line, b_line, b_indent) == 0;
+    return (b_indent <= a_indent &&
+	strncmp(a_line, b_line, b_indent) == 0);
 }
 
 /* Is foo the beginning of a paragraph?
@@ -2617,9 +2617,12 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 #ifndef NANO_SMALL
     bool old_mark_set = ISSET(MARK_ISSET);
     int mbb_lineno_save = 0;
+    size_t mark_beginx_save = 0;
 
-    if (old_mark_set)
+    if (old_mark_set) {
 	mbb_lineno_save = mark_beginbuf->lineno;
+	mark_beginx_save = mark_beginx;
+    }
 #endif
 
     /* Move bot down par_len lines to the newline after the last line of
@@ -2648,8 +2651,10 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 	if (top->lineno == current_lineno_save)
 	    current = top;
 #ifndef NANO_SMALL
-	if (old_mark_set && top->lineno == mbb_lineno_save)
+	if (old_mark_set && top->lineno == mbb_lineno_save) {
 	    mark_beginbuf = top;
+	    mark_beginx = mark_beginx_save;
+	}
 #endif
 	top = top->prev;
     }
@@ -3130,7 +3135,7 @@ void do_justify(bool full_justify)
 	 * loop so that we justify all the paragraphs in the file. */
 	if (!full_justify)
 	    break;
-    } /* while (TRUE) */
+    }
 
     /* We are now done justifying the paragraph or the file, so clean
      * up.  totlines, totsize, and current_y have been maintained above.
