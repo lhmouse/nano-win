@@ -19,7 +19,7 @@
 #
 # $Id$
 
-AC_INIT([GNU nano], [1.3.1], [nano-devel@gnu.org], [nano])
+AC_INIT([GNU nano], [1.3.1-cvs], [nano-devel@gnu.org], [nano])
 AC_CONFIG_SRCDIR([src/nano.c])
 AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER([config.h:config.h.in])
