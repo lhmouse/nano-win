@@ -6,13 +6,13 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.9.19+CVS\n"
-"POT-Creation-Date: 2000-11-22 20:20-0500\n"
-"PO-Revision-Date: 2000-11-01 17:55+0100\n"
+"Project-Id-Version: 0.9.21+CVS\n"
+"POT-Creation-Date: 2000-11-24 15:45-0500\n"
+"PO-Revision-Date: 2000-11-25 05:45+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=iso8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: cut.c:44
@@ -56,59 +56,59 @@ msgstr "Leyendo Fichero"
 msgid "File to insert [from ./] "
 msgstr "Fichero a insertar [desde ./] "
 
-#: files.c:276 files.c:300 files.c:488 nano.c:1355
+#: files.c:276 files.c:301 files.c:509 nano.c:1373
 msgid "Cancelled"
 msgstr "Cancelado"
 
-#: files.c:322 files.c:342 files.c:356 files.c:373 files.c:379
+#: files.c:331 files.c:352 files.c:366 files.c:383 files.c:389
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "No pude abrir el fichero para escribir: %s"
 
-#: files.c:330
+#: files.c:340
 msgid "Could not open file: Path length exceeded."
 msgstr "El fichero no pudo ser abierto: longitud del path excedida."
 
-#: files.c:361
+#: files.c:371
 #, c-format
 msgid "Wrote >%s\n"
 msgstr "Escribí >%s\n"
 
-#: files.c:388
+#: files.c:398
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "No pude cerrar %s: %s"
 
 #. Try a rename??
-#: files.c:409 files.c:420 files.c:425
+#: files.c:419 files.c:430 files.c:435
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr "No pude abrir %s para escribir: %s"
 
-#: files.c:431
+#: files.c:441
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr "No pude establecer permisos %o en %s: %s"
 
-#: files.c:438
+#: files.c:448
 #, c-format
 msgid "Wrote %d lines"
 msgstr "%d líneas escritas"
 
-#: files.c:467
+#: files.c:480
 msgid "File Name to write"
 msgstr "Nombre de Fichero a escribir"
 
-#: files.c:472
+#: files.c:485
 #, c-format
 msgid "filename is %s"
 msgstr "filename es %s"
 
-#: files.c:477
+#: files.c:498
 msgid "File exists, OVERWRITE ?"
 msgstr "El fichero existe, SOBREESCRIBIR ?"
 
-#: files.c:801
+#: files.c:932
 msgid "(more)"
 msgstr "(más)"
 
@@ -385,7 +385,7 @@ msgid "Case Sens"
 msgstr "May/Min"
 
 #: global.c:344 global.c:364 global.c:375 global.c:385 global.c:401
-#: global.c:405 global.c:411 winio.c:1020
+#: global.c:405 global.c:411 winio.c:1026
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -627,127 +627,135 @@ msgid " nano version %s by Chris Allegretta (compiled %s, %s)\n"
 msgstr " nano versión %s por Chris Allegretta (compilado %s, %s)\n"
 
 #: nano.c:420
-msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org\n"
-msgstr " Correo-e: nano@nano-editor.org\tWeb: http://www.nano-editor.org\n"
+msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
+msgstr " Correo-e: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 
-#: nano.c:455
+#: nano.c:423
+msgid ""
+"\n"
+" Compiled options:"
+msgstr ""
+"\n"
+" Opciones compiladas:"
+
+#: nano.c:473
 msgid "Mark Set"
 msgstr "Marca Establecida"
 
-#: nano.c:460
+#: nano.c:478
 msgid "Mark UNset"
 msgstr "Marca Borrada"
 
-#: nano.c:887
+#: nano.c:905
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap llamada con inptr->data=\"%s\"\n"
 
-#: nano.c:938
+#: nano.c:956
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data ahora = \"%d\"\n"
 
-#: nano.c:991
+#: nano.c:1009
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Después, data = \"%s\"\n"
 
-#: nano.c:1093
+#: nano.c:1111
 msgid "Edit a replacement"
 msgstr "Editar un reemplazo"
 
-#: nano.c:1304
+#: nano.c:1322
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "No pude crear un fichero temporal: %s"
 
-#: nano.c:1320
+#: nano.c:1338
 msgid "Finished checking spelling"
 msgstr "Revisión de ortografía finalizada"
 
-#: nano.c:1322
+#: nano.c:1340
 msgid "Spell checking failed"
 msgstr "Comprobación de ortografía fallida"
 
-#: nano.c:1342
+#: nano.c:1360
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Salvar el buffer modificado (RESPONDER \"No\" DESTRUIRÁ LOS CAMBIOS) ?"
 
-#: nano.c:1505
+#: nano.c:1523
 msgid "Cannot resize top win"
 msgstr "No se puede cambiar el tamaño de la ventana superior"
 
-#: nano.c:1507
+#: nano.c:1525
 msgid "Cannot move top win"
 msgstr "No se puede mover la ventana superior"
 
-#: nano.c:1509
+#: nano.c:1527
 msgid "Cannot resize edit win"
 msgstr "No se puede cambiar el tamaño de la ventana de edición"
 
-#: nano.c:1511
+#: nano.c:1529
 msgid "Cannot move edit win"
 msgstr "No se puede mover la ventana de edición"
 
-#: nano.c:1513
+#: nano.c:1531
 msgid "Cannot resize bottom win"
 msgstr "No se puede cambiar el tamaño de la ventana inferior"
 
-#: nano.c:1515
+#: nano.c:1533
 msgid "Cannot move bottom win"
 msgstr "No se puede mover la ventana inferior"
 
-#: nano.c:1786
+#: nano.c:1804
 msgid "Justify Complete"
 msgstr "Justificar Completado"
 
-#: nano.c:1854
+#: nano.c:1872
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s habilitar/deshabilitar"
 
-#: nano.c:1866
+#: nano.c:1884
 msgid "enabled"
 msgstr "habilitado"
 
-#: nano.c:1867
+#: nano.c:1885
 msgid "disabled"
 msgstr "deshabilitado"
 
-#: nano.c:2097
+#: nano.c:2115
 msgid "Main: set up windows\n"
 msgstr "Main: configurar las ventanas\n"
 
-#: nano.c:2110
+#: nano.c:2128
 msgid "Main: bottom win\n"
 msgstr "Main: ventana inferior\n"
 
-#: nano.c:2116
+#: nano.c:2134
 msgid "Main: open file\n"
 msgstr "Main: abrir fichero\n"
 
-#: nano.c:2153
+#: nano.c:2171
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Pillé Alt-O-%c! (%d)\n"
 
-#: nano.c:2175
+#: nano.c:2193
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Pillé Alt-[-1-%c! (%d)\n"
 
-#: nano.c:2208
+#: nano.c:2226
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Pillé Alt-[-2-%c! (%d)\n"
 
-#: nano.c:2256
+#: nano.c:2274
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Pillé Alt-[-%c! (%d)\n"
 
-#: nano.c:2282
+#: nano.c:2300
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Pillé Alt-%c! (%d)\n"
@@ -837,75 +845,107 @@ msgstr "Venga ya, se razonable"
 msgid "Only %d lines available, skipping to last line"
 msgstr "Sólo hay %d líneas, saltando hasta la última"
 
-#: winio.c:120
+#: winio.c:121
 #, c-format
 msgid "actual_x_from_start for xplus=%d returned %d\n"
 msgstr "actual_x_from_start para xplus=%d devolvió %d\n"
 
-#: winio.c:433
+#: winio.c:439
 #, c-format
 msgid "input '%c' (%d)\n"
 msgstr "entrada '%c' (%d)\n"
 
-#: winio.c:471
+#: winio.c:477
 msgid "New Buffer"
 msgstr "Nuevo Buffer"
 
-#: winio.c:474
+#: winio.c:480
 msgid "  File: ..."
 msgstr "Fichero: ..."
 
-#: winio.c:482
+#: winio.c:488
 msgid "Modified"
 msgstr "Modificado"
 
-#: winio.c:934
+#: winio.c:940
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr "Moviendo a (%d, %d) en buffer de edición\n"
 
-#: winio.c:945
+#: winio.c:951
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr "current->data = \"%s\"\n"
 
-#: winio.c:990
+#: winio.c:996
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "Pillé \"%s\"\n"
 
-#: winio.c:1015
+#: winio.c:1021
 msgid "Yes"
 msgstr "Sí"
 
-#: winio.c:1017
+#: winio.c:1023
 msgid "All"
 msgstr "Todas"
 
-#: winio.c:1019
+#: winio.c:1025
 msgid "No"
 msgstr "No"
 
-#: winio.c:1156
+#: winio.c:1162
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
-#: winio.c:1160
+#: winio.c:1166
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "línea %d de %d (%.0f%%), carácter %d de %d (%.0f%%)"
 
-#: winio.c:1288
+#: winio.c:1294
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Volcando buffer de fichero a stderr...\n"
 
-#: winio.c:1290
+#: winio.c:1296
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Volcando el cutbuffer a stderr...\n"
 
-#: winio.c:1292
+#: winio.c:1298
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Volcando un buffer a stderr...\n"
+
+#: winio.c:1339
+msgid "The nano text editor"
+msgstr "El editor de textos nano"
+
+#: winio.c:1340
+msgid "version "
+msgstr "versión "
+
+#: winio.c:1341
+msgid "Brought to you by:"
+msgstr "Por cortesía de:"
+
+#: winio.c:1342
+msgid "Special thanks to:"
+msgstr "Agradecimientos especiales para:"
+
+#: winio.c:1343
+msgid "The Free Software Foundation"
+msgstr "La Free Software Foundation"
+
+#: winio.c:1344
+msgid "Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses"
+msgstr "Pavel Curtis, Zeyd Ben-Halim y Eric S. Raymond por ncurses"
+
+#: winio.c:1345
+msgid "and anyone else we forgot..."
+msgstr "y cualquiera del que nos hayamos olvidado..."
+
+#: winio.c:1346
+msgid "Thank you for using nano!\n"
+msgstr "Gracias por usar nano!\n"
 
 #~ msgid " -p\t \t--pico\t\t\tMake bottom 2 lines more Pico-like\n"
 #~ msgstr " -p\t \t--pico\t\t\tHacer el menú más parecido a Pico\n"
