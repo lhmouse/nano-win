@@ -247,7 +247,7 @@ know what you're doing */
 #define HELP_LIST_LEN 3
 #define SPELL_LIST_LEN 1
 
-#if !defined(DISABLE_BROWSER) && !defined(NANO_SMALL)
+#ifndef DISABLE_BROWSER
 #define WRITEFILE_LIST_LEN 2
 #define BROWSER_LIST_LEN 3
 #else

@@ -1178,7 +1178,7 @@ int do_cursorpos(void)
    But hey, it's better than nothing, and it's dynamic! */
 int do_help(void)
 {
-#if !defined(NANO_SMALL) && !defined(DISABLE_HELP)
+#ifndef DISABLE_HELP
     char *ptr = help_text, *end;
     int i, j, row = 0, page = 1, kbinput = 0, no_more = 0, kp;
     int no_help_flag = 0;
@@ -1284,8 +1284,6 @@ int do_help(void)
     edit_refresh();
     kp = keypad_on(edit, kp);
 
-#elif defined(NANO_SMALL)
-    nano_small_msg();
 #elif defined(DISABLE_HELP)
     nano_disabled_msg();
 #endif

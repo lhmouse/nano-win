@@ -271,7 +271,7 @@ int do_insertfile(void)
 	realname = mallocstrcpy(realname, answer);
 #endif
 
-#if !defined(DISABLE_BROWSER) && !defined(NANO_SMALL)
+#ifndef DISABLE_BROWSER
 	if (i == NANO_TOFILES_KEY) {
 	    
 	    char *tmp = do_browse_from(realname);
@@ -525,7 +525,7 @@ int do_writeout(char *path, int exiting)
 
 	if (i != -1) {
 
-#if !defined(DISABLE_BROWSER) && !defined(NANO_SMALL)
+#ifndef DISABLE_BROWSER
 	if (i == NANO_TOFILES_KEY) {
 
 	    char *tmp = do_browse_from(answer);
@@ -1057,7 +1057,7 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 }
 #endif
 
-#if !defined(DISABLE_BROWSER) && !defined(NANO_SMALL)
+#ifndef DISABLE_BROWSER
 
 /* Return the stat of the file pointed to by path */
 struct stat filestat(const char *path) {

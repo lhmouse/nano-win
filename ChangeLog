@@ -2,9 +2,10 @@ CVS code -
 General
 	- Changed #ifdefs to check for both DISABLE_TABCOMP and
 	  NANO_SMALL, makes tiny option leave out tab completion, which
-	  shoudl be left out in that circumstance.  Saves at least 5k.
+	  should be left out in that circumstance.  Saves at least 5k.
 	- Previous change to #ifdefs DISABLE_TABCOMP and NANO_SMALL rolled
-	  back.
+	  back. (Rocco)
+	- Various #ifdef & #ifndef cleanups. (Rocco)
 - configure.in:
 	- Fix for _use_keypad check breaking slang support (Christian
 	  Weisgerber).
@@ -19,6 +20,21 @@ General
 	  Neil Parks).
   do_browser()
 	- Added space and - keys to do page up and down.
+- nano.c:
+  main()
+	- Alternate speller option no longer valid if DISABLE_SPELLER is
+	  active. (Rocco)
+  nano_small_msg()
+	- This function has been removed.  All references now call
+	  nano_disabled_msg. (Rocco)
+  version()
+	- When NANO_SMALL (enable-tiny) is defined, the 5 main DISABLE
+	  variables (SPELLER, HELP, JUSTIFY, BROWSER, TABCOMP) are not
+	  reported as enabled when Nano is called with -V (--version)
+	  command-line option. (Rocco)
+  usage()
+	- Alternate speller option no longer valid if DISABLE_SPELLER is
+	  active. (Rocco)
 
 nano 0.9.25 - 01/07/2001
 General - 

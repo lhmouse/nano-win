@@ -51,7 +51,7 @@ extern shortcut main_list[MAIN_LIST_LEN], whereis_list[WHEREIS_LIST_LEN];
 extern shortcut replace_list[REPLACE_LIST_LEN], goto_list[GOTO_LIST_LEN];
 extern shortcut writefile_list[WRITEFILE_LIST_LEN], help_list[HELP_LIST_LEN];
 extern shortcut spell_list[SPELL_LIST_LEN], replace_list_2[REPLACE_LIST_LEN];
-#if !defined(DISABLE_BROWSER) && !defined(NANO_SMALL)
+#ifndef DISABLE_BROWSER
 extern shortcut browser_list[BROWSER_LIST_LEN];
 #endif
 
@@ -154,7 +154,7 @@ int do_first_line(void), do_last_line(void);
 int do_replace(void), do_help(void), do_enter_void(void);
 int keypad_on(WINDOW * win, int new);
 
-#if !defined(DISABLE_BROWSER) && !defined(NANO_SMALL)
+#ifndef DISABLE_BROWSER
 char *do_browser(char *path);
 struct stat filestat(const char *path);
 char *do_browse_from(char *inpath);

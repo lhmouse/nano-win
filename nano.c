@@ -62,11 +62,15 @@
 
 /* Former globals, now static */
 int fill = 0;			/* Fill - where to wrap lines, basically */
+
+#ifndef DISABLE_SPELLER
 static char *alt_speller;	/* Alternative spell command */
+#endif
+
 struct termios oldterm;		/* The user's original term settings */
 static struct sigaction act;	/* For all out fun signal handlers */
 
-#if !defined(NANO_SMALL) && !defined(DISABLE_HELP)
+#ifndef DISABLE_HELP
 static char *help_text_init = ""; /* Initial message, not including shortcuts */
 #endif
 
@@ -177,10 +181,9 @@ void global_init(void)
     hblank[i] = 0;
 }
 
+#ifndef DISABLE_HELP
 void init_help_msg(void)
 {
-
-#if !defined(NANO_SMALL) && !defined(DISABLE_HELP)
 
     help_text_init =
 	_(" nano help text\n\n "
@@ -200,9 +203,9 @@ void init_help_msg(void)
 	  "Esc, Alt or Meta key depending on your keyboard setup.  The "
 	  "following keystrokes are available in the main editor window. "
 	  "Optional keys are shown in parentheses:\n\n");
-#endif
 
 }
+#endif
 
 /* Make a copy of a node to a pointer (space will be malloc()ed) */
 filestruct *copy_node(filestruct * src)
@@ -379,8 +382,10 @@ void usage(void)
     printf
 	(_
 	 (" -r [#cols] 	--fill=[#cols]		Set fill cols to (wrap lines at) #cols\n"));
+#ifndef DISABLE_SPELLER
     printf(_
 	   (" -s [prog] 	--speller=[prog]	Enable alternate speller\n"));
+#endif
     printf(_
 	   (" -t 		--tempfile		Auto save on exit, don't prompt\n"));
     printf(_
@@ -414,7 +419,9 @@ void usage(void)
 #endif
     printf(_(" -p 		Emulate Pico as closely as possible\n"));
     printf(_(" -r [#cols] 	Set fill cols to (wrap lines at) #cols\n"));
+#ifndef DISABLE_SPELLER
     printf(_(" -s [prog]  	Enable alternate speller\n"));
+#endif
     printf(_(" -t 		Auto save on exit, don't prompt\n"));
     printf(_(" -v 		View (read only) mode\n"));
     printf(_(" -w 		Don't wrap long lines\n"));
@@ -433,27 +440,30 @@ void version(void)
 	   (" Email: nano@nano-editor.org	Web: http://www.nano-editor.org"));
     printf(_("\n Compiled options:"));
 
-#ifdef NANO_SMALL
-    printf(" --enable-tiny");
-#endif
 #ifdef NANO_EXTRA
     printf(" --enable-extra");
 #endif
-#ifdef DISABLE_BROWSER
+
+#ifdef NANO_SMALL
+    printf(" --enable-tiny");
+#else
+ #ifdef DISABLE_BROWSER
     printf(" --disable-browser");
-#endif
-#ifdef DISABLE_TABCOMP
+ #endif
+ #ifdef DISABLE_TABCOMP
     printf(" --disable-tabcomp");
-#endif
-#ifdef DISABLE_JUSTIFY
+ #endif
+ #ifdef DISABLE_JUSTIFY
     printf(" --disable-justify");
-#endif
-#ifdef DISABLE_SPELLER
+ #endif
+ #ifdef DISABLE_SPELLER
     printf(" --disable-speller");
-#endif
-#ifdef DISABLE_HELP
+ #endif
+ #ifdef DISABLE_HELP
     printf(" --disable-help");
+ #endif
 #endif
+
 #ifdef USE_SLANG
     printf(" --with-slang");
 #endif
@@ -490,7 +500,7 @@ void splice_node(filestruct * begin, filestruct * new, filestruct * end)
 int do_mark()
 {
 #ifdef NANO_SMALL
-    nano_small_msg();
+    nano_disabled_msg();
 #else
     if (!ISSET(MARK_ISSET)) {
 	statusbar(_("Mark Set"));
@@ -517,13 +527,6 @@ int no_help(void)
     else
 	return 0;
 }
-
-#ifdef NANO_SMALL
-void nano_small_msg(void)
-{
-    statusbar("Sorry, this function not available with nano-tiny option");
-}
-#endif
 
 #if defined(DISABLE_JUSTIFY) || defined(DISABLE_SPELLER) || defined(DISABLE_HELP)
 void nano_disabled_msg(void)
@@ -1112,7 +1115,7 @@ void wrap_reset(void)
     UNSET(SAMELINEWRAP);
 }
 
-#if !defined(NANO_SMALL) && !defined(DISABLE_SPELLER)
+#ifndef DISABLE_SPELLER
 
 int do_int_spell_fix(char *word)
 {
@@ -1178,9 +1181,6 @@ int do_int_spell_fix(char *word)
 
     return TRUE;
 }
-#endif
-
-#if !defined(NANO_SMALL) && !defined(DISABLE_SPELLER)
 
 /* Integrated spell checking using 'spell' program */
 int do_int_speller(char *tempfile_name)
@@ -1308,9 +1308,6 @@ int do_int_speller(char *tempfile_name)
 
     return TRUE;
 }
-#endif
-
-#if !defined(NANO_SMALL) && !defined(DISABLE_SPELLER)
 
 /* External spell checking */
 int do_alt_speller(char *file_name)
@@ -1362,10 +1359,7 @@ int do_alt_speller(char *file_name)
 int do_spell(void)
 {
 
-#if defined(NANO_SMALL)
-    nano_small_msg();
-    return (TRUE);
-#elif defined(DISABLE_SPELLER)
+#ifdef DISABLE_SPELLER
     nano_disabled_msg();
     return (TRUE);
 #else
@@ -1677,7 +1671,7 @@ int do_tab(void)
     return 1;
 }
 
-#if !defined(NANO_SMALL) && !defined(DISABLE_JUSTIFY)
+#ifndef DISABLE_JUSTIFY
 int empty_line(const char *data)
 {
     while (*data) {
@@ -1729,10 +1723,7 @@ void justify_format(char *data)
 
 int do_justify(void)
 {
-#ifdef NANO_SMALL
-    nano_small_msg();
-    return 1;
-#elif defined(DISABLE_JUSTIFY)
+#ifdef DISABLE_JUSTIFY
     nano_disabled_msg();
     return 1;
 #else
@@ -1915,7 +1906,7 @@ int do_justify(void)
 #endif
 }
 
-#if !defined(NANO_SMALL) && !defined(DISABLE_HELP)
+#ifndef DISABLE_HELP
 void help_init(void)
 {
     int i, sofar = 0;
@@ -1987,7 +1978,9 @@ void help_init(void)
 
 void do_toggle(int which)
 {
-#ifndef NANO_SMALL
+#ifdef NANO_SMALL
+    nano_disabled_msg();
+#else
     char *enabled = _("enabled");
     char *disabled = _("disabled");
 
@@ -2032,8 +2025,6 @@ void do_toggle(int which)
     }
     SET(DISABLE_CURPOS);
 
-#else
-    nano_small_msg();
 #endif
 }
 
@@ -2067,7 +2058,9 @@ int main(int argc, char *argv[])
 #endif
 	{"autoindent", 0, 0, 'i'},
 	{"tempfile", 0, 0, 't'},
+#ifndef DISABLE_SPELLER
 	{"speller", 1, 0, 's'},
+#endif
 	{"fill", 1, 0, 'r'},
 	{"mouse", 0, 0, 'm'},
 	{"pico", 0, 0, 'p'},
@@ -2149,10 +2142,16 @@ int main(int argc, char *argv[])
 		finish(1);
 	    }
 	    break;
+#ifndef DISABLE_SPELLER
 	case 's':
 	    alt_speller = nmalloc(strlen(optarg) + 1);
 	    strcpy(alt_speller, optarg);
 	    break;
+#else
+	case 's':
+	    usage();		/* Oops!  You dont really have that option */
+	    finish(1);
+#endif
 	case 't':
 	    SET(TEMP_OPT);
 	    break;
@@ -2220,8 +2219,8 @@ int main(int argc, char *argv[])
     /* Set up some global variables */
     global_init();
     shortcut_init(0);
+#ifndef DISABLE_HELP
     init_help_msg();
-#if !defined(NANO_SMALL) && !defined(DISABLE_HELP)
     help_init();
 #endif
     signal_init();
