@@ -167,10 +167,15 @@ int do_cut_text(void)
 
 	    /* If the next line is empty, create a dummy line and add it
 		to the cutbuffer */
-	    if (current->next != NULL && strlen(current->next->data) == 0) {
+	    if ((current->next != NULL && strlen(current->next->data) == 0) ||
+		(current == fileage && strlen(current->data) == 0)) {
 		filestruct *junk;
 
-		junk = copy_node(current->next);
+		if (current == fileage)
+		    junk = copy_node(current);
+		else
+		    junk = copy_node(current->next);
+
 		add_to_cutbuffer(junk);
 	    }
 	    do_delete();
