@@ -158,14 +158,16 @@ int search_init(int replacing)
 
 void not_found_msg(char *str)
 {
-    char foo[COLS];
-
-    if (strlen(str) < COLS / 2)
+    if (strlen(str) <= COLS / 2)
 	statusbar(_("\"%s\" not found"), str);
     else {
-	strncpy(foo, str, COLS / 2);
+	char *foo = NULL;
+
+	foo = mallocstrcpy(foo, str);
 	foo[COLS / 2] = 0;
 	statusbar(_("\"%s...\" not found"), foo);
+
+	free(foo);
     }
 }
 

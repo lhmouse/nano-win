@@ -12,8 +12,9 @@ CVS Code -
 	  function mallocstrcpy which is sure to be a programmatic
 	  nightmare, changed last_search, last_replace, answer to
 	  pointers.  New function not_found_msg in search.c for displaying
-	  truncated strings in satusbar when the string is not found.
-	  We disable this feature when using PICO_MSGS (-p).
+	  truncated strings in satusbar when the string is not found
+	  (-pedantic fixes by Rocco Corsi). We disable this feature when
+	  using PICO_MSGS (-p).
 	- New spelling code by Rocco Corsi.  New functions
 	  do_int_speller, do_alt_speller, changes to do_spell in nano.c,
 	  New functions search_init_globals and do_replace_loop, changes
