@@ -551,9 +551,12 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 	tmp = buf + strlen(buf);
 	while (*tmp != '/' && tmp != buf)
 	   tmp--;
-	strncpy(dirName, buf, tmp - buf);
-	dirName[tmp - buf] = 0;
+
 	tmp++;
+
+	strncpy(dirName, buf, tmp - buf + 1);
+	dirName[tmp - buf] = 0;
+/*	tmp++; */
 
     } else {
 	if ((dirName = getcwd(NULL, 0)) == NULL)
@@ -602,20 +605,21 @@ char **cwd_tab_completion(char *buf, int *num_matches)
     return (matches);
 }
 
-/* This function now return an int which refers to how much the 
+/* This function now has an arg which refers to how much the 
  * statusbar (place) should be advanced, i.e. the new cursor pos.
  */
-int input_tab(char *buf, int place, int lastWasTab)
+char *input_tab(char *buf, int place, int lastWasTab, int *newplace)
 {
     /* Do TAB completion */
     static int num_matches = 0, match_matches = 0;
     static char **matches = (char **) NULL;
-    int pos = place, newplace = 0, i = 0, col = 0, editline = 0;
+    int pos = place, i = 0, col = 0, editline = 0;
     int longestname = 0;
     char *foo;
+    struct stat fileinfo;
 
     if (lastWasTab == FALSE) {
-	char *tmp, *matchBuf;
+	char *tmp, *copyto, *matchBuf;
 
 	/* For now, we will not bother with trying to distinguish
 	 * whether the cursor is in/at a command extression -- we
@@ -636,6 +640,8 @@ int input_tab(char *buf, int place, int lastWasTab)
 
 	/* Free up any memory already allocated */
 	if (matches != NULL) {
+	    for (i = i; i < num_matches; i++)
+		free(matches[i]);
 	    free(matches);
 	    matches = (char **) NULL;
 	    num_matches = 0;
@@ -656,21 +662,79 @@ int input_tab(char *buf, int place, int lastWasTab)
 	/* Don't leak memory */
 	free(matchBuf);
 
+#ifdef DEBUG
+	fprintf(stderr, "%d matches found...\n", num_matches);
+#endif
 	/* Did we find exactly one match? */
 	switch(num_matches) {
 	case 0:
 	    blank_edit();
 	    break;
 	case 1:
-	    buf = nrealloc(buf, strlen(buf) + strlen(matches[0]) - pos + 1);
+
+	    buf = nrealloc(buf, strlen(buf) + strlen(matches[0]) + 1);
+
+	    if (strcmp(buf, "") && strstr(buf, "/")) {
+		for (tmp = buf + strlen(buf); *tmp != '/' && tmp != buf; tmp--)
+		    ;
+		tmp++;
+	    }
+	    else
+		tmp = buf;
+
+	    if (!strcmp(tmp, matches[0])) {
+
+		/* Is it a directory? */
+		if (stat(buf, &fileinfo) == -1)
+			break;
+		else if (S_ISDIR(fileinfo.st_mode)) {
+			strncat(buf, "/", 1);
+			*newplace += 1;
+		}
+		break;
+	    }
+
+	    copyto = tmp;
+	    for (pos = 0; *tmp == matches[0][pos] && 
+			pos <= strlen(matches[0]); pos++)
+		tmp++;
+
+
+#ifdef DEBUG
+	    fprintf(stderr, "buf = \'%s\'\n", buf);
+/*	    fprintf(stderr, "copyto = \'%s\'\n", copyto); */
+	    fprintf(stderr, "matches[0] = \'%s\'\n", matches[0]);
+	    fprintf(stderr, "pos = %d\n", pos);
+	    fflush(stderr);
+#endif
+
 	    /* write out the matched command */
-	    strncpy(buf + pos, matches[0] + pos,
-		    strlen(matches[0]) - pos);
-	    newplace += strlen(matches[0]) - pos;
+	    strncpy(copyto, matches[0],  strlen(matches[0]) + 1);
+	    *newplace += strlen(matches[0]) - pos;
+
+		if (stat(buf, &fileinfo) == -1)
+		    ;
+		else if (S_ISDIR(fileinfo.st_mode)) {
+			strncat(buf, "/", 1);
+			*newplace += 1;
+		}
+
 	    break;
 	default:
 	    /* Check to see if all matches share a beginning, and if so
 		tack it onto buf and then beep */
+
+	    if (strcmp(buf, "") && strstr(buf, "/")) {
+		for (tmp = buf + strlen(buf); *tmp != '/' && tmp != buf; tmp--)
+		    ;
+		tmp++;
+	    }
+	    else
+		tmp = buf;
+
+	    for (pos = 0; *tmp == matches[0][pos] && *tmp != 0 &&
+			pos <= strlen(matches[0]); pos++)
+		tmp++;
 
 	    while (1) {
 		match_matches = 0;
@@ -686,8 +750,8 @@ int input_tab(char *buf, int place, int lastWasTab)
 		    /* All the matches have the same character at pos+1,
 			so paste it into buf... */
 		    buf = nrealloc(buf, strlen(buf) + 2);
-		    strncpy(buf + pos, matches[0] + pos, 1);
-	 	    newplace++;
+		    strncat(buf, matches[0] + pos, 1);
+	 	    *newplace += 1;
 		    pos++;
 		} else {
 		    beep();
@@ -728,6 +792,8 @@ int input_tab(char *buf, int place, int lastWasTab)
 
 		strcat(foo, "  ");
 
+		/* Disable el cursor */
+		curs_set(0);
 		/* now, put the match on the screen */
 		waddnstr(edit, foo, strlen(foo));
 		col += strlen(foo);
@@ -752,5 +818,6 @@ int input_tab(char *buf, int place, int lastWasTab)
     }
 
     edit_refresh();
-    return newplace;
+    curs_set(1);
+    return buf;
 }

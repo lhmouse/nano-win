@@ -248,7 +248,7 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 	       int start_x)
 {
     int kbinput = 0, j = 0, x = 0, xend;
-    int x_left = 0, inputlen, tabbed = 0;
+    int x_left = 0, inputlen, tabbed = 0, shift = 0;
     char *inputbuf;
     
     inputbuf = nmalloc(strlen(def) + 1);
@@ -332,7 +332,10 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 	case NANO_CONTROL_I:
 	    if (allowtabs) {
 		tabbed++;
-		x += input_tab(inputbuf, (x - x_left), tabbed - 1);
+		shift = 0;
+		inputbuf = input_tab(inputbuf, (x - x_left), 
+				tabbed - 1, &shift);
+		x += shift;
 		nanoget_repaint(buf, inputbuf, x);
 		tabbed = 1;
 	    }

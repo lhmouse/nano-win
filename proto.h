@@ -88,7 +88,7 @@ int do_down(void);
 int do_left(void);
 int do_right(void);
 int check_wildcard_match(const char *text, const char *pattern);
-int input_tab(char *buf, int place, int lastWasTab);
+char *input_tab(char *buf, int place, int lastWasTab, int *newplace);
 
 void shortcut_init(void);
 void lowercase(char *src);
