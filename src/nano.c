@@ -3367,14 +3367,17 @@ int main(int argc, char *argv[])
 #endif
 
 #ifndef NANO_SMALL
-    /* Set up the backup directory.  This entails making sure it exists
-     * and is a directory, so that backup files will be saved there. */
-    init_backup_dir();
+    /* Set up the backup directory (unless we're using restricted mode,
+     * in which case backups are disabled).  This entails making sure it
+     * exists and is a directory, so that backup files will be saved
+     * there. */
+    if (!ISSET(RESTRICTED))
+	init_backup_dir();
 #endif
 
 #ifndef DISABLE_OPERATINGDIR
     /* Set up the operating directory.  This entails chdir()ing there,
-       so that file reads and writes will be based there. */
+     * so that file reads and writes will be based there. */
     init_operating_dir();
 #endif
 
@@ -3390,8 +3393,9 @@ int main(int argc, char *argv[])
 #ifndef DISABLE_SPELLER
     /* If we don't have an alternative spell checker after reading the
      * command line and/or rcfile, check $SPELL for one, as Pico
-     * does. */
-    if (alt_speller == NULL) {
+     * does (unless we're using restricted mode, in which case spell
+     * checking is disabled). */
+    if (!ISSET(RESTRICTED) && alt_speller == NULL) {
 	char *spellenv = getenv("SPELL");
 	if (spellenv != NULL)
 	    alt_speller = mallocstrcpy(NULL, spellenv);
