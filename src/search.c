@@ -247,7 +247,7 @@ int is_whole_word(int curr_pos, const char *datastr, const char *searchword)
 
 filestruct *findnextstr(int quiet, int bracket_mode,
 			const filestruct *begin, int beginx,
-			const char *needle, int no_same_loc)
+			const char *needle, int no_sameline)
 {
     filestruct *fileptr = current;
     const char *searchstr, *rev_start = NULL, *found = NULL;
@@ -266,11 +266,11 @@ filestruct *findnextstr(int quiet, int bracket_mode,
 	searchstr = &fileptr->data[current_x_find];
 
 	/* Look for needle in searchstr.  Keep going until we find it
-	 * and, if no_same_loc is set, until it isn't the one at
-	 * current[current_x].  If we don't find it, we'll end up at
-	 * current[current_x] regardless of whether no_same_loc is
+	 * and, if no_sameline is set, until it isn't on the current
+	 * line.  If we don't find it, we'll end up at
+	 * current[current_x] regardless of whether no_sameline is
 	 * set. */
-	while ((found = strstrwrapper(searchstr, needle, rev_start, current_x_find)) == NULL || (no_same_loc && fileptr == current && current_x_find == current_x)) {
+	while ((found = strstrwrapper(searchstr, needle, rev_start, current_x_find)) == NULL || (no_sameline && fileptr == current)) {
 
 	    /* finished processing file, get out */
 	    if (search_last_line) {
@@ -325,11 +325,11 @@ filestruct *findnextstr(int quiet, int bracket_mode,
 	searchstr = fileptr->data;
 
 	/* Look for needle in searchstr.  Keep going until we find it
-	 * and, if no_same_loc is set, until it isn't the one at
-	 * current[current_x].  If we don't find it, we'll end up at
-	 * current[current_x] regardless of whether no_same_loc is
+	 * and, if no_sameline is set, until it isn't on the current
+	 * line.  If we don't find it, we'll end up at
+	 * current[current_x] regardless of whether no_sameline is
 	 * set. */
-	while ((found = strstrwrapper(searchstr, needle, rev_start, current_x_find)) == NULL || (no_same_loc && fileptr == current && current_x_find == current_x)) {
+	while ((found = strstrwrapper(searchstr, needle, rev_start, current_x_find)) == NULL || (no_sameline && fileptr == current)) {
 
 	    /* finished processing file, get out */
 	    if (search_last_line) {
@@ -618,8 +618,8 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 {
     int replaceall = 0, numreplaced = -1;
 #ifdef HAVE_REGEX_H
-    /* The special case regex flags. */
-    int old_bol = 0, old_eol = 0;
+    /* The starting-line match and zero-length regex flags. */
+    int beginline = 0, caretdollar = 0;
 #endif
     filestruct *fileptr = NULL;
     char *copy;
@@ -646,37 +646,35 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
     while (1) {
 	size_t match_len;
 
-#ifdef HAVE_REGEX_H
-	/* Check the special case regex flags.  If the last (forward,
-	 * zero-length) regex replace left us at the beginning or end of
-	 * the line as it was before replacement, move to the beginning
-	 * or end of the line as it is now. */
-	if (old_bol)
-	    current_x = 0;
-	if (old_eol)
-	    current_x = strlen(current->data);
-#endif
-
 	/* Sweet optimization by Rocco here. */
 	fileptr = findnextstr(fileptr || replaceall || search_last_line,
 		FALSE, begin, *beginx, prevanswer,
 #ifdef HAVE_REGEX_H
-		old_bol || old_eol
+		/* We should find a zero-length regex only once per
+		 * line.  If the caretdollar flag is set, it means that
+		 * the last search found one on the beginning line, so we
+		 * should skip over the beginning line when doing this
+		 * search. */
+		caretdollar
 #else
 		0
 #endif
 		);
 
 #ifdef HAVE_REGEX_H
-	/* If either of the special case regex flags are set and we're
-	 * back where we started, it means we've wrapped around, so
+	/* If the caretdollar flag is set, we've found a match on the
+	 * beginning line already, and we're still on the beginning line
+	 * after the search, it means that we've wrapped around, so
 	 * we're done. */
-	if ((old_bol || old_eol) && fileptr == begin && current_x == *beginx)
+	if (caretdollar && beginline && fileptr == begin)
 	    fileptr = NULL;
-	/* Otherwise, reset the flags and continue. */
+	/* Otherwise, set the beginline flag if we've found a match on
+	 * the beginning line, reset the caretdollar flag, and
+	 * continue. */
 	else {
-	    old_bol = 0;
-	    old_eol = 0;
+	    if (fileptr == begin)
+		beginline = 1;
+	    caretdollar = 0;
 	}
 #endif
 
@@ -719,6 +717,13 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 	    free(exp_word);
 	    curs_set(1);
 	}
+
+#ifdef HAVE_REGEX_H
+	/* Set the caretdollar flag if we're doing a zero-length regex
+	 * replace (such as "^", "$", or "^$"). */
+	if (ISSET(USE_REGEXP) && match_len == 0)
+	    caretdollar = 1;
+#endif
 
 	if (*i > 0 || replaceall) {	/* Yes, replace it!!!! */
 	    long length_change;
@@ -763,24 +768,9 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 	     * text, so searching will resume after the replacement
 	     * text.  Note that current_x might be set to -1 here. */
 #ifndef NANO_SMALL
-	    if (!ISSET(REVERSE_SEARCH)) {
-#endif
-#ifdef HAVE_REGEX_H
-		/* Set the special case regex flags if we're at the
-		 * beginning or end of the line before a (forward,
-		 * zero-length) regex replace.  Note that they can both
-		 * be set if we're replacing the magicline. */
-		if (ISSET(USE_REGEXP) && match_len == 0) {
-		    if (current_x <= 0)
-			old_bol = 1;
-		    if (current_x == strlen(current->data))
-			old_eol = 1;
-		}
+	    if (!ISSET(REVERSE_SEARCH))
 #endif
 		current_x += match_len + length_change - 1;
-#ifndef NANO_SMALL
-	    }
-#endif
 
 	    /* Cleanup. */
 	    totsize += length_change;
