@@ -1564,7 +1564,7 @@ int do_justify(void)
     }
 
     edit_refresh();
-    statusbar("Justify Complete");
+    statusbar(_("Justify Complete"));
     return 1;
 #else
     nano_small_msg();

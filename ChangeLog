@@ -4,6 +4,8 @@ CVS Code -
   previous values editable.  This change was made so that you can 
   replace with the null string without needing a special key for it.  
   changed code in search_init(), do_replace(), nanogetstr (see below).
+- Added some missing gettext calls here and there (Jordi).
+
 - global.c
 	- New global replace_list_2, for 2nd half of the replace dialog
 	  ("Replace with:"), has fewer options than first half because
@@ -40,7 +42,7 @@ CVS Code -
 	- New function, removes about 30 lines of duplicate code in 
 	  nanogetstr().
 - es.po:
-	- Translated new NULL replace strings. (Jordi Mallach)
+	- Updated translation to 0.9.19-CVS (Jordi).
   
 nano 0.9.19 - 10/02/2000
 - General

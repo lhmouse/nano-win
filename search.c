@@ -249,7 +249,7 @@ int do_search(void)
 
     /* The sneaky user deleted the previous search string */
     if (!strcmp(answer, "")) {
-	statusbar("Search Cancelled");
+	statusbar(_("Search Cancelled"));
 	search_abort();
 	return 0;
     }
@@ -478,7 +478,7 @@ int do_replace(void)
 
 	    copy = replace_line();
 	    if (!copy) {
-		statusbar("Replace failed: unknown subexpression!");
+		statusbar(_("Replace failed: unknown subexpression!"));
 		replace_abort();
 		return 0;
 	    }

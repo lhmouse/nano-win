@@ -114,7 +114,7 @@ void *nrealloc(void *ptr, size_t howmuch)
     void *r;
 
     if (!(r = realloc(ptr, howmuch)))
-	die("nano: realloc: out of memory!");
+	die(_("nano: realloc: out of memory!"));
 
     return r;
 }

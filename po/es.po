@@ -6,14 +6,14 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.9.17\n"
-"POT-Creation-Date: 2000-10-27 01:45-0400\n"
-"PO-Revision-Date: 2000-09-07 12:14+0200\n"
+"Project-Id-Version: 0.9.19+CVS\n"
+"POT-Creation-Date: 2000-11-01 17:50+0100\n"
+"PO-Revision-Date: 2000-11-01 17:55+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
-"Language-Team: Spanish <jordi@sindominio.net>\n"
+"Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
-"Content-Transfer-Encoding: 8-bit\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: cut.c:44
 #, c-format
@@ -108,167 +108,163 @@ msgstr "filename es %s"
 msgid "File exists, OVERWRITE ?"
 msgstr "El fichero existe, SOBREESCRIBIR ?"
 
-#: global.c:123
+#: global.c:124
 msgid "Constant cursor position"
 msgstr "Posición del cursor constante"
 
-#: global.c:124
+#: global.c:125
 msgid "Auto indent"
 msgstr "Auto indentar"
 
-#: global.c:125
+#: global.c:126
 msgid "Suspend"
 msgstr "Suspender"
 
-#: global.c:126
+#: global.c:127
 msgid "Help mode"
 msgstr "Modo ayuda"
 
-#: global.c:127
+#: global.c:128
 msgid "Pico messages"
 msgstr "Mensajes de Pico"
 
-#: global.c:128
+#: global.c:129
 msgid "Mouse support"
 msgstr "Soporte para ratón"
 
-#: global.c:129
+#: global.c:130
 msgid "Cut to end"
 msgstr "Cortar hasta el final de línea"
 
-#: global.c:131
+#: global.c:132
 msgid "Regular expressions"
 msgstr "Expresiones regulares"
 
-#: global.c:133
+#: global.c:134
 msgid "Auto wrap"
 msgstr "Auto wrapear"
 
-#: global.c:175
+#: global.c:176
 msgid "Invoke the help menu"
 msgstr "Invocar el menú de ayuda"
 
-#: global.c:176
+#: global.c:177
 msgid "Write the current file to disk"
 msgstr "Escribir el fichero actual a disco"
 
-#: global.c:177
+#: global.c:178
 msgid "Exit from nano"
 msgstr "Salir de nano"
 
-#: global.c:178
+#: global.c:179
 msgid "Goto a specific line number"
 msgstr "Ir a un número de línea en concreto"
 
-#: global.c:179
+#: global.c:180
 msgid "Justify the current paragraph"
 msgstr "Justificar el párrafo actual"
 
-#: global.c:180
+#: global.c:181
 msgid "Replace text within the editor"
 msgstr "Reemplazar texto en el editor"
 
-#: global.c:181
+#: global.c:182
 msgid "Insert another file into the current one"
 msgstr "Insertar otro fichero en el actual"
 
-#: global.c:182
+#: global.c:183
 msgid "Search for text within the editor"
 msgstr "Buscar un texto en el editor"
 
-#: global.c:183
+#: global.c:184
 msgid "Move to the previous screen"
 msgstr "Moverse a la página anterior"
 
-#: global.c:184
+#: global.c:185
 msgid "Move to the next screen"
 msgstr "Moverse a la página siguiente"
 
-#: global.c:185
+#: global.c:186
 msgid "Cut the current line and store it in the cutbuffer"
 msgstr "Cortar la línea actual y guardarla en el cutbuffer"
 
-#: global.c:186
+#: global.c:187
 msgid "Uncut from the cutbuffer into the current line"
 msgstr "Pegar el cutbuffer en la línea actual"
 
-#: global.c:187
+#: global.c:188
 msgid "Show the posititon of the cursor"
 msgstr "Mostrar la posición del cursor"
 
-#: global.c:188
+#: global.c:189
 msgid "Invoke the spell checker (if available)"
 msgstr "Invocar el corrector ortográfico (si está disponible)"
 
-#: global.c:189
+#: global.c:190
 msgid "Move up one line"
 msgstr "Moverse una línea hacia arriba"
 
-#: global.c:190
+#: global.c:191
 msgid "Move down one line"
 msgstr "Moverse una línea hacia abajo"
 
-#: global.c:191
+#: global.c:192
 msgid "Move forward one character"
 msgstr "Moverse hacia adelante un carácter"
 
-#: global.c:192
+#: global.c:193
 msgid "Move back one character"
 msgstr "Moverse hacia atrás un carácter"
 
-#: global.c:193
+#: global.c:194
 msgid "Move to the beginning of the current line"
 msgstr "Moverse al principio de la línea actual"
 
-#: global.c:194
+#: global.c:195
 msgid "Move to the end of the current line"
 msgstr "Moverse al final de la línea actual"
 
-#: global.c:195
+#: global.c:196
 msgid "Go to the first line of the file"
 msgstr "Ir a la primera línea del fichero"
 
-#: global.c:196
+#: global.c:197
 msgid "Go to the last line of the file"
 msgstr "Ir a la última línea del fichero"
 
-#: global.c:197
+#: global.c:198
 msgid "Refresh (redraw) the current screen"
 msgstr "Redibujar la pantalla actual"
 
-#: global.c:198
+#: global.c:199
 msgid "Mark text at the current cursor location"
 msgstr "Marcar texto en la posición actual del cursor"
 
-#: global.c:199
+#: global.c:200
 msgid "Delete the character under the cursor"
 msgstr "Borrar el carácter bajo el cursor"
 
-#: global.c:201
+#: global.c:202
 msgid "Delete the character to the left of the cursor"
 msgstr "Borrar el carácter a la izquierda del cursor"
 
-#: global.c:202
+#: global.c:203
 msgid "Insert a tab character"
 msgstr "Insertar un carácter tab"
 
-#: global.c:203
+#: global.c:204
 msgid "Insert a carriage return at the cursor position"
 msgstr "Insertar un retorno de carro en la posición del cursor"
 
-#: global.c:205
+#: global.c:206
 msgid "Make the current search or replace case (in)sensitive"
 msgstr "Hacer que la búsqueda actual sea sensible a mayúsculas"
 
-#: global.c:206
+#: global.c:207
 msgid "Cancel the current function"
 msgstr "Cancelar la función actual"
 
-#: global.c:207
-msgid "Use the null string, \"\""
-msgstr "Usar la cadena vacía, \"\""
-
-#: global.c:211 global.c:323 global.c:400
+#: global.c:211 global.c:323 global.c:408
 msgid "Get Help"
 msgstr "Ver Ayuda"
 
@@ -276,7 +272,7 @@ msgstr "Ver Ayuda"
 msgid "WriteOut"
 msgstr "Guardar"
 
-#: global.c:218 global.c:389
+#: global.c:218 global.c:397
 msgid "Exit"
 msgstr "Salir"
 
@@ -300,11 +296,11 @@ msgstr "L Fichero"
 msgid "Where Is"
 msgstr "Buscar"
 
-#: global.c:247 global.c:381
+#: global.c:247 global.c:389
 msgid "Prev Page"
 msgstr "Pag Prev"
 
-#: global.c:251 global.c:385
+#: global.c:251 global.c:393
 msgid "Next Page"
 msgstr "Pag Sig"
 
@@ -372,11 +368,11 @@ msgstr "Tab"
 msgid "Enter"
 msgstr "Enter"
 
-#: global.c:327 global.c:348 global.c:371
+#: global.c:327 global.c:348 global.c:369 global.c:379
 msgid "First Line"
 msgstr "Primera Línea"
 
-#: global.c:330 global.c:351 global.c:374
+#: global.c:330 global.c:351 global.c:372 global.c:382
 msgid "Last Line"
 msgstr "Última Línea"
 
@@ -384,18 +380,14 @@ msgstr "Última Línea"
 msgid "Case Sens"
 msgstr "May/Min"
 
-#: global.c:344 global.c:367 global.c:377 global.c:393 global.c:397
-#: global.c:403 winio.c:971
+#: global.c:344 global.c:364 global.c:375 global.c:385 global.c:401
+#: global.c:405 global.c:411 winio.c:974
 msgid "Cancel"
 msgstr "Cancelar"
 
 #: global.c:357
 msgid "No Replace"
 msgstr "No Reemplazar"
-
-#: global.c:364
-msgid "Null Str"
-msgstr "Cadena vacía"
 
 #: nano.c:115
 msgid ""
@@ -708,6 +700,11 @@ msgstr "No se puede cambiar el tamaño de la ventana inferior"
 msgid "Cannot move bottom win"
 msgstr "No se puede mover la ventana inferior"
 
+#: nano.c:1567
+#, fuzzy
+msgid "Justify Complete"
+msgstr "Justificar Completado"
+
 #: nano.c:1635
 #, c-format
 msgid "%s enable/disable"
@@ -758,31 +755,31 @@ msgstr "Pillé Alt-[-%c! (%d)\n"
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Pillé Alt-%c! (%d)\n"
 
-#: search.c:77
+#: search.c:79
 #, c-format
 msgid "Case Sensitive Regexp Search%s%s"
 msgstr "Búsqueda con Regexp y Mayúsculas/Minúsculas%s%s"
 
-#: search.c:79
+#: search.c:81
 #, c-format
 msgid "Regexp Search%s%s"
 msgstr "Busqueda con Regexp%s%s"
 
-#: search.c:81
+#: search.c:83
 #, c-format
 msgid "Case Sensitive Search%s%s"
 msgstr "Búsqueda con Mayúsculas/Minúsculas%s%s"
 
-#: search.c:83
+#: search.c:85
 #, c-format
 msgid "Search%s%s"
 msgstr "Buscar%s%s"
 
-#: search.c:86
+#: search.c:88
 msgid " (to replace)"
 msgstr " (a reemplazar)"
 
-#: search.c:94
+#: search.c:96 search.c:252
 msgid "Search Cancelled"
 msgstr "Búsqueda Cancelada"
 
@@ -790,52 +787,45 @@ msgstr "Búsqueda Cancelada"
 msgid "Search Wrapped"
 msgstr "Búsqueda Recomenzada"
 
-#: search.c:258
+#: search.c:266
 #, c-format
 msgid "Replaced %d occurences"
 msgstr "%d ocurrencias reemplazadas"
 
-#: search.c:260
+#: search.c:268
 msgid "Replaced 1 occurence"
 msgstr "1 ocurrencia reemplazada"
 
-#: search.c:396 search.c:429
+#: search.c:404 search.c:420 search.c:442
 msgid "Replace Cancelled"
 msgstr "Reemplazar Cancelado"
 
-#. They used ^N in the search field, shame on them.
-#. Any Dungeon fans out there?
-#: search.c:413
-msgid "Nothing Happens"
-msgstr ""
-
-#: search.c:421
-#, c-format
-msgid "Replace with [%s]"
-msgstr "Reemplazar con [%s]"
-
-#: search.c:423
+#: search.c:436
 msgid "Replace with"
 msgstr "Reemplazar con"
 
-#: search.c:474
+#: search.c:473
 msgid "Replace this instance?"
 msgstr "Reemplazar esta instancia?"
 
+#: search.c:481
+msgid "Replace failed: unknown subexpression!"
+msgstr "Fallo en reemplazar: subexpresión desconocida!"
+
 #. Ask for it
-#: search.c:535
+#: search.c:534
 msgid "Enter line number"
 msgstr "Introduce número de línea"
 
-#: search.c:537
+#: search.c:536
 msgid "Aborted"
 msgstr "Abortado"
 
-#: search.c:557
+#: search.c:556
 msgid "Come on, be reasonable"
 msgstr "Venga ya, se razonable"
 
-#: search.c:562
+#: search.c:561
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr "Sólo hay %d líneas, saltando hasta la última"
@@ -850,62 +840,71 @@ msgstr "actual_x_from_start para xplus=%d devolvió %d\n"
 msgid "input '%c' (%d)\n"
 msgstr "entrada '%c' (%d)\n"
 
-#: winio.c:424
+#: winio.c:427
 msgid "New Buffer"
 msgstr "Nuevo Buffer"
 
-#: winio.c:427
+#: winio.c:430
 msgid "  File: ..."
 msgstr "Fichero: ..."
 
-#: winio.c:435
+#: winio.c:438
 msgid "Modified"
 msgstr "Modificado"
 
-#: winio.c:887
+#: winio.c:890
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr "Moviendo a (%d, %d) en buffer de edición\n"
 
-#: winio.c:898
+#: winio.c:901
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr "current->data = \"%s\"\n"
 
-#: winio.c:941
+#: winio.c:944
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "Pillé \"%s\"\n"
 
-#: winio.c:966
+#: winio.c:969
 msgid "Yes"
 msgstr "Sí"
 
-#: winio.c:968
+#: winio.c:971
 msgid "All"
 msgstr "Todas"
 
-#: winio.c:970
+#: winio.c:973
 msgid "No"
 msgstr "No"
 
-#: winio.c:1107
+#: winio.c:1110
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
-#: winio.c:1111
+#: winio.c:1114
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "línea %d de %d (%.0f%%), carácter %d de %d (%.0f%%)"
 
-#: winio.c:1239
+#: winio.c:1242
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Volcando buffer de fichero a stderr...\n"
 
-#: winio.c:1241
+#: winio.c:1244
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Volcando el cutbuffer a stderr...\n"
 
-#: winio.c:1243
+#: winio.c:1246
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Volcando un buffer a stderr...\n"
+
+#~ msgid "Use the null string, \"\""
+#~ msgstr "Usar la cadena vacía, \"\""
+
+#~ msgid "Null Str"
+#~ msgstr "Cadena vacía"
+
+#~ msgid "Replace with [%s]"
+#~ msgstr "Reemplazar con [%s]"
