@@ -26,6 +26,9 @@
 # Use this value instead of the default
 # set fill -8
 
+# Use this tab size instead of the default
+# set tabsize 8
+
 # Use this spelling checker instead of the default one
 # set speller aspell
 

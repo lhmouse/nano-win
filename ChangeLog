@@ -66,6 +66,7 @@ CVS code -
 	- corrected the Mouse Toggle section, noticed by Daniel Bonniot.
 - rcfile.c:
 	- NUM_RCOPTS fix (DLR).
+	- Add tabsize support to rc file (Nathan Heagy).
 - search.c:
 	- Changed search prompt to "Search" followed by a list of
 	  bracketed, free-standing modifiers that do not imply a grammar,

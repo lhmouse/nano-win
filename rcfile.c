@@ -39,7 +39,7 @@
 #define _(string) (string)
 #endif
 
-#define NUM_RCOPTS 17
+#define NUM_RCOPTS 18
 /* Static stuff for the nanorc file */
 rcoption rcopts[NUM_RCOPTS] = 
 {
@@ -51,6 +51,7 @@ rcoption rcopts[NUM_RCOPTS] =
 {"mouse", USE_MOUSE},
 {"operatingdir", 0},
 {"pico", PICO_MODE},
+{"tabsize", 0},
 
 #ifndef DISABLE_WRAPJUSTIFY
 {"fill", 0},
@@ -169,6 +170,7 @@ void parse_rcfile(FILE *rcstream, char *filename)
 		    if (set == 1 || rcopts[i].flag == FOLLOW_SYMLINKS) {
 			if (
 			    !strcasecmp(rcopts[i].name, "operatingdir") ||
+			    !strcasecmp(rcopts[i].name, "tabsize") ||
 #ifndef DISABLE_WRAPJUSTIFY
 			    !strcasecmp(rcopts[i].name, "fill") || 
 #endif
@@ -197,8 +199,15 @@ void parse_rcfile(FILE *rcstream, char *filename)
 				else
 				     fill = i;
 #endif
-			    } 
-			    else {
+			    } else if (!strcasecmp(rcopts[i].name, "tabsize")) {
+			    	if ((i = atoi(option)) <= 0) {
+			    		rcfile_msg(&errors,
+			    			_("Error in %s on line %d: requested tab size %d too small"),
+			    				filename, lineno, option);
+			    	} else {
+			    		tabsize = i;
+			    	}
+			    } else {
 #ifndef DISABLE_SPELLER
 				alt_speller = charalloc(strlen(option) + 1);
             			strcpy(alt_speller, option);
