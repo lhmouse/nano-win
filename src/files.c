@@ -89,7 +89,7 @@ filestruct *read_line(char *buf, filestruct *prev, bool *first_line_ins,
 	fileptr->prev = NULL;
 	fileptr->next = fileage;
 	fileptr->lineno = 1;
-	if (*first_line_ins) {
+	if (*first_line_ins == TRUE) {
 	    *first_line_ins = FALSE;
 	    /* If we're inserting into the first line of the file, then
 	     * we want to make sure that our edit buffer stays on the
@@ -100,6 +100,7 @@ filestruct *read_line(char *buf, filestruct *prev, bool *first_line_ins,
 	fileage = fileptr;
     } else {
 	assert(prev != NULL);
+
 	fileptr->prev = prev;
 	fileptr->next = NULL;
 	fileptr->lineno = prev->lineno + 1;
@@ -2429,7 +2430,7 @@ char *do_browser(char *path, DIR *dir)
     /* Loop invariant: Microsoft sucks. */
     do {
 	bool abort = FALSE;
-	int j, col = 0, editline = 0, lineno;
+	int j, col = 0, editline = 0, fileline;
 	int filecols = 0;
 	    /* Used only if width == 0, to calculate the number of files
 	     * per row below. */
@@ -2444,9 +2445,9 @@ char *do_browser(char *path, DIR *dir)
 
 	/* Compute the line number we're on now, so that we don't divide
 	 * by zero later. */
-	lineno = selected;
+	fileline = selected;
 	if (width != 0)
-	    lineno /= width;
+	    fileline /= width;
 
 	switch (kbinput) {
 #ifndef DISABLE_MOUSE
@@ -2463,7 +2464,7 @@ char *do_browser(char *path, DIR *dir)
 
 		    /* longest is the width of each column.  There are
 		     * two spaces between each column. */
-		    selected = (lineno / editwinrows) * editwinrows *
+		    selected = (fileline / editwinrows) * editwinrows *
 			width + mevent.y * width + mevent.x /
 			(longest + 2);
 
@@ -2508,9 +2509,9 @@ char *do_browser(char *path, DIR *dir)
 	    case NANO_PREVPAGE_KEY:
 	    case NANO_PREVPAGE_FKEY:
 	    case '-': /* Pico compatibility. */
-		if (selected >= (editwinrows + lineno % editwinrows) *
+		if (selected >= (editwinrows + fileline % editwinrows) *
 			width)
-		    selected -= (editwinrows + lineno % editwinrows) *
+		    selected -= (editwinrows + fileline % editwinrows) *
 			width;
 		else
 		    selected = 0;
@@ -2518,7 +2519,7 @@ char *do_browser(char *path, DIR *dir)
 	    case NANO_NEXTPAGE_KEY:
 	    case NANO_NEXTPAGE_FKEY:
 	    case ' ': /* Pico compatibility. */
-		selected += (editwinrows - lineno % editwinrows) *
+		selected += (editwinrows - fileline % editwinrows) *
 			width;
 		if (selected >= numents)
 		    selected = numents - 1;
