@@ -226,8 +226,8 @@ int main(void)
 		else
 		    CURSES_LIB="-lslang"
 		fi
-		CURSES_LIB_NAME=slang], [
-		AC_MSG_RESULT(no)
+		CURSES_LIB_NAME=slang],
+		[AC_MSG_RESULT(no)
 		# We might need the term library
 		for termlib in ncurses curses termcap terminfo termlib; do
 		    AC_CHECK_LIB([${termlib}], tputs, [tcap="-l$termlib"])
