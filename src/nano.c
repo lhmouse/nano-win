@@ -2654,7 +2654,8 @@ void do_justify(bool full_justify)
 	     * paragraph to the cutbuffer for unjustification. */
 	    if (first_par_line == NULL)
 		first_par_line = backup_lines(current, full_justify ?
-			filebot->lineno - current->lineno : par_len, quote_len);
+			filebot->lineno - current->lineno : par_len,
+			quote_len);
 
 	    /* Now we call justify_format() on the current line of the
 	     * paragraph, which will remove excess spaces from it and
