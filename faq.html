@@ -46,7 +46,9 @@ THE HECK DO I DO NOW?</a></font>
 <br><font color="#330000"><a href="#3.2">3.3. Why does everything go into
 /usr/local?</a></font>
 <br><font color="#330000"><a href="#3.4">3.4. I get errors about 'bindtextdomain',
-'gettext' and/or 'gettextdomain'.&nbsp; What can I do about it?</a></font></blockquote>
+'gettext' and/or 'gettextdomain'.&nbsp; What can I do about it?</a></font>
+<br><font color="#330000"><a href="#3.5">3.5. Nano should automatically 
+run strip on the binary when installing it!</a></font></blockquote>
 
 <h2>
 <font color="#330000"><a href="#4">4. Running</a></font></h2>
@@ -329,6 +331,14 @@ install</b>.</font></blockquote>
 <blockquote><font color="#330000">Try doing a <b>./configure --with-included-gettext</b>
 and see if that solves your problem.&nbsp; You make need to do a <b>make
 clean ; make</b> to get it to work fully.</font></blockquote>
+
+<h2>
+<a NAME="3.5"></a><font color="#330000">3.5. Nano should automatically 
+run strip on the binary when installing it!</font></h2>
+
+<blockquote><font color="#330000">Actually, it does, but you have to use
+<b>make install-strip</b>.  The default make install does not, and will
+not, run strip automatically.</font></blockquote>
 
 <hr WIDTH="100%">
 <h1>
