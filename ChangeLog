@@ -392,6 +392,11 @@ CVS code -
 - nano.texi:
 	- Eliminate references to the now removed -D/--dos and -M/--mac
 	  command line options, and their corresponding toggles. (DLR)
+- m4/Makefile.am:
+	- Add glib-2.0.m4 to EXTRA_DIST, so that nano builds from CVS
+	  with automake 1.7.x again.  For some reason, automake 1.9.x
+	  didn't have a problem with its (erroneously) being left out.
+	  (DLR, problem found by Chris)
 - m4/glib-2.0.m4:
 	- New file imported from glib 2.4.7.  This is needed to detect
 	  glib 2.x on systems that may not have it installed. (DLR,
