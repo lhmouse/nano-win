@@ -4,6 +4,8 @@ CVS code -
 	- Don't free() realname on error, if it needs to be free()d later
 	  it will be (fixes crash on successful write after failed write,
 	  discovered by David Sobon).
+  username_tab_completion()
+	- Optimization and removal of useless vars (Rocco).
 
 nano 0.9.99-pre1 - 01/17/2001
 General

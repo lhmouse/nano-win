@@ -575,7 +575,6 @@ int do_writeout_void(void)
 }
 
 #ifndef DISABLE_TABCOMP
-static char **homedirs;
 
 /* Return a malloc()ed string containing the actual directory, used
  * to convert ~user and ~/ notation...
@@ -703,7 +702,7 @@ int append_slash_if_dir(char *buf, int *lastWasTab, int *place)
 char **username_tab_completion(char *buf, int *num_matches)
 {
     char **matches = (char **) NULL, *line = NULL, *lineptr;
-    char *matchline = NULL, *matchdir = NULL;
+    char *matchline = NULL;
 
     int fd, i = 0, status = 1;
     char byte[1];
@@ -712,20 +711,15 @@ char **username_tab_completion(char *buf, int *num_matches)
 	return NULL;
     }
 
-    if (homedirs != NULL) {
-	for (i = 0; i < *num_matches; i++)
-	    free(homedirs[i]);
-	free(homedirs);
-	homedirs = (char **) NULL;
-	*num_matches = 0;
-    }
+    *num_matches = 0;
     matches = nmalloc(BUFSIZ * sizeof(char *));
-    homedirs = nmalloc(BUFSIZ * sizeof(char *));
+
     strcat(buf, "*");
+
     do {
 	i = 0;
-	line = nmalloc(1);
-	while ((status = read(fd, byte, 1)) != 0 && byte[0] != '\n') {
+	line = nrealloc(line, 1);
+	while ((status = read(fd, byte, 1)) == 1 && byte[0] != '\n') {
 
 	    line[i] = byte[0];
 	    i++;
@@ -740,41 +734,46 @@ char **username_tab_completion(char *buf, int *num_matches)
 
 	if (check_wildcard_match(line, &buf[1]) == TRUE) {
 
-	    if (*num_matches == BUFSIZ)
-		break;
-
 	    /* Cool, found a match.  Add it to the list
 	     * This makes a lot more sense to me (Chris) this way...
 	     */
+
 	    matchline = nmalloc(strlen(line) + 2);
 	    sprintf(matchline, "~%s", line);
 
 	    for (i = 0; i <= 4 && lineptr != NULL; i++)
 		lineptr = strtok(NULL, ":");
 
-	    if (lineptr == NULL)
-		break;
+	    if (lineptr != NULL) {
 
-	    matchdir = mallocstrcpy(matchdir, lineptr);
-	    homedirs[*num_matches] = matchdir;
-	    matches[*num_matches] = matchline;
+		/* /etc/passwd entry has the required number of fields */
 
-	    ++*num_matches;
+		matches[*num_matches] = matchline;
+		++*num_matches;
 
-	    /* If there's no more room, bail out */
-	    if (*num_matches == BUFSIZ)
-		break;
+		/* If there's no more room, bail out */
+		if (*num_matches == BUFSIZ)
+		    break;
+	    }
+	    else {
+
+		/* /etc/passwd entry is missing at least one field */
+
+		free(matchline);
+	    }
 	}
 
-	free(line);
 
-    } while (status != 0);
+    } while (status == 1);
+
+    free(line);
 
     close(fd);
-    return matches;
+
 #ifdef DEBUG
     fprintf(stderr, "\nin username_tab_completion\n");
 #endif
+
     return (matches);
 }
 
