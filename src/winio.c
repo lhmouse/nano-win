@@ -67,7 +67,7 @@ char *get_verbatim_kbinput(WINDOW *win, int *kbinput_len)
     else {
 	nodelay(win, TRUE);
 	while ((kbinput = wgetch(win)) != ERR) {
-	    *kbinput_len++;
+	    (*kbinput_len)++;
 	    verbatim_kbinput = charealloc(verbatim_kbinput, *kbinput_len);
 	    verbatim_kbinput[*kbinput_len - 1] = (char)kbinput;
 	}
@@ -139,8 +139,8 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta,
 		    /* Ctrl-A to Ctrl-_ */
 		    else if (kbinput >= 'A' && kbinput <= '_')
 			kbinput -= 64;
-		    /* Ctrl-A to Ctrl-Z */
-		    else if (kbinput >= 'a' && kbinput <= 'z')
+		    /* Ctrl-A to Ctrl-~ */
+		    else if (kbinput >= 'a' && kbinput <= '~')
 			kbinput -= 96;
 		    break;
 		/* Terminal breakage, part 1: We shouldn't get an escape
@@ -160,14 +160,9 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta,
 		    }
 		    nodelay(win, FALSE);
 		    break;
-		case '`':
-		    /* Esc Space == Esc ` */
-		    kbinput = ' ';
-		    break;
 		default:
 		    /* Esc [character] == Meta-[character] */
-		    if (isupper(kbinput))
-			kbinput = tolower(kbinput);
+		    kbinput = tolower(kbinput);
 		    *meta = 1;
 	    }
 	    break;
@@ -417,7 +412,6 @@ void blank_edit(void)
     for (i = 0; i <= editwinrows - 1; i++)
 	mvwaddstr(edit, i, 0, hblank);
 }
-
 
 void blank_statusbar(void)
 {

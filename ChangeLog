@@ -110,6 +110,14 @@ CVS code -
 	- Make sure all rcfile error messages are capitalized, for
 	  consistency. (DLR)
 - winio.c:
+  get_verbatim_kbinput()
+	- Fix a silly memory corruption bug that would occur when trying
+	  to read a sequence of more than one key verbatim. (DLR)
+  get_accepted_kbinput()
+	  Handle Ctrl-{ to Ctrl-~ correctly, and drop support for
+	  converting Esc ` to Esc Space, since making Meta-[key]
+	  correspond to Ctrl-[key] in all cases is inconsistent due to
+	  the different natures of Contol and Meta key sequences. (DLR)
   do_first_line()
 	- Call edit_update() with TOP instead of CENTER; both do the
 	  same thing, but it works faster with TOP. (DLR)
