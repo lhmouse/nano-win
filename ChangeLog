@@ -53,6 +53,8 @@ CVS code -
 	- Catalan and Spanish translations updates (Jordi).
 - po/pl.po:
 	- New Polish, partial translation, by Cezary Sliwa <sliwa@cft.edu.pl>.
+	- Wojciech Kotwica <wkotwica@post.pl> completed it and is the new
+	  official maintainer.
 - po/fr.po:
 	- French translation update (Michel Robitaille).
 - po/gl.po:
