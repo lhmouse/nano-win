@@ -475,7 +475,15 @@ int is_blank_char(int c);
 int is_cntrl_char(int c);
 bool is_byte_char(int c);
 int num_of_digits(int n);
+unsigned char control_rep(unsigned char c);
 bool parse_num(const char *str, ssize_t *val);
+int parse_char(const char *str, int *chr, size_t *col
+#ifdef NANO_WIDE
+	, bool *bad_char
+#endif
+	);
+size_t move_left(const char *str, size_t pos);
+size_t move_right(const char *str, size_t pos);
 void align(char **strp);
 void null_at(char **data, size_t index);
 void unsunder(char *str, size_t true_len);
@@ -570,7 +578,10 @@ void blank_edit(void);
 void blank_statusbar(void);
 void check_statusblank(void);
 void blank_bottombars(void);
-char *display_string(const char *buf, size_t start_col, size_t len);
+size_t display_string_len(const char *buf, size_t start_col, size_t
+	end_col);
+char *display_string(const char *buf, size_t start_col, size_t len, bool
+	dollars);
 void nanoget_repaint(const char *buf, const char *inputbuf, size_t x);
 int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 #ifndef NANO_SMALL

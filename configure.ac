@@ -40,7 +40,7 @@ AM_GNU_GETTEXT([external], [need-ngettext])
 
 dnl Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS(fcntl.h getopt.h libintl.h limits.h regex.h termio.h termios.h unistd.h)
+AC_CHECK_HEADERS(fcntl.h getopt.h libintl.h limits.h regex.h stddef.h termio.h termios.h unistd.h wchar.h)
 AC_CHECK_HEADER(regex.h,
     AC_MSG_CHECKING([for broken regexec])
     AC_TRY_RUN([

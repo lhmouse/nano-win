@@ -83,7 +83,7 @@ void not_found_msg(const char *str)
  
     assert(str != NULL);
 
-    disp = display_string(str, 0, (COLS / 2) + 1);
+    disp = display_string(str, 0, (COLS / 2) + 1, FALSE);
     numchars = strnlen(disp, COLS / 2);
 
     statusbar(_("\"%.*s%s\" not found"), numchars, disp,
@@ -150,7 +150,7 @@ int search_init(bool replacing, bool use_answer)
 #endif
 
     if (last_search[0] != '\0') {
-	char *disp = display_string(last_search, 0, COLS / 3);
+	char *disp = display_string(last_search, 0, COLS / 3, FALSE);
 
 	buf = charalloc(COLS / 3 + 7);
 	/* We use COLS / 3 here because we need to see more on the
@@ -748,7 +748,8 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 	    size_t xpt = xplustabs();
 
 	    exp_word = display_string(current->data, xpt,
-		strnlenpt(current->data, match_len + current_x) - xpt);
+		strnlenpt(current->data, match_len + current_x) - xpt,
+		FALSE);
 
 	    curs_set(0);
 	    do_replace_highlight(TRUE, exp_word);

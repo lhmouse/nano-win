@@ -1185,18 +1185,25 @@ void do_delete(void)
     placewewant = xplustabs();
 
     if (current->data[current_x] != '\0') {
-	size_t linelen = strlen(current->data + current_x);
+	int char_len = parse_char(current->data + current_x, NULL,
+		NULL
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		);
+	size_t line_len = strlen(current->data + current_x);
 
 	assert(current_x < strlen(current->data));
 
 	/* Let's get dangerous. */
-	charmove(&current->data[current_x], &current->data[current_x + 1],
-		linelen);
+	charmove(&current->data[current_x],
+		&current->data[current_x + char_len],
+		line_len - char_len + 1);
 
-	null_at(&current->data, linelen + current_x - 1);
+	null_at(&current->data, current_x + line_len - char_len);
 #ifndef NANO_SMALL
 	if (current_x < mark_beginx && mark_beginbuf == current)
-	    mark_beginx--;
+	    mark_beginx -= char_len;
 #endif
     } else if (current != filebot && (current->next != filebot ||
 	current->data[0] == '\0')) {
@@ -1211,8 +1218,8 @@ void do_delete(void)
 	if (current->data[current_x] == '\0')
 	    do_refresh = TRUE;
 
-	current->data = charealloc(current->data, current_x +
-		strlen(foo->data) + 1);
+	current->data = charealloc(current->data,
+		current_x + strlen(foo->data) + 1);
 	strcpy(current->data + current_x, foo->data);
 #ifndef NANO_SMALL
 	if (mark_beginbuf == current->next) {
@@ -1227,13 +1234,13 @@ void do_delete(void)
 	delete_node(foo);
 	renumber(current);
 	totlines--;
+	totsize--;
 #ifndef DISABLE_WRAPPING
 	wrap_reset();
 #endif
     } else
 	return;
 
-    totsize--;
     set_modified();
 
 #ifdef ENABLE_COLOR
@@ -2494,15 +2501,21 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 /* Is it possible to break line at or before goal? */
 bool breakable(const char *line, ssize_t goal)
 {
-    for (; *line != '\0' && goal >= 0; line++) {
+    while (*line != '\0' && goal >= 0) {
+	size_t pos = 0;
+
 	if (isblank(*line))
 	    return TRUE;
 
-	if (is_cntrl_char(*line))
-	    goal -= 2;
-	else
-	    goal -= 1;
+	line += parse_char(line, NULL, &pos
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		);
+
+	goal -= pos;
     }
+
     /* If goal is not negative, the whole line (one word) was short
      * enough. */
     return goal >= 0;
@@ -2522,32 +2535,49 @@ ssize_t break_line(const char *line, ssize_t goal, bool force)
 	/* Current index in line. */
 
     assert(line != NULL);
-    for (; *line != '\0' && goal >= 0; line++, cur_loc++) {
+
+    while (*line != '\0' && goal >= 0) {
+	size_t pos = 0;
+	int line_len;
+
 	if (*line == ' ')
 	    space_loc = cur_loc;
+
 	assert(*line != '\t');
 
-	if (is_cntrl_char(*line))
-	    goal -= 2;
-	else
-	    goal--;
+	line_len = parse_char(line, NULL, &pos
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		);
+
+	goal -= pos;
+	line += line_len;
+	cur_loc += line_len;
     }
+
     if (goal >= 0)
 	/* In fact, the whole line displays shorter than goal. */
 	return cur_loc;
+
     if (space_loc == -1) {
 	/* No space found short enough. */
-	if (force)
-	    for (; *line != '\0'; line++, cur_loc++)
-		if (*line == ' ' && *(line + 1) != ' ' && *(line + 1) != '\0')
+	if (force) {
+	    for (; *line != '\0'; line++, cur_loc++) {
+		if (*line == ' ' && *(line + 1) != ' ' &&
+			*(line + 1) != '\0')
 		    return cur_loc;
-	return -1;
+	    }
+	    return -1;
+	}
     }
+
     /* Perhaps the character after space_loc is a space.  But because
      * of justify_format(), there can be only two adjacent. */
     if (*(line - cur_loc + space_loc + 1) == ' ' ||
 	*(line - cur_loc + space_loc + 1) == '\0')
 	space_loc++;
+
     return space_loc;
 }
 
@@ -3639,13 +3669,7 @@ void do_output(int *kbinput, size_t kbinput_len)
 	    mark_beginx += key_len;
 #endif
 
-	{
-	    /* FIXME: The movement functions should take multibyte
-	     * characters into account. */
-	    int j;
-	    for (j = 0; j < key_len; j++)
-		do_right(FALSE);
-	}
+	do_right(FALSE);
 
 #ifndef DISABLE_WRAPPING
 	/* If we're wrapping text, we need to call edit_refresh(). */
@@ -3759,7 +3783,21 @@ int main(int argc, char **argv)
     };
 #endif
 
+#ifdef NANO_WIDE
+    {
+	/* If the locale set doesn't exist, or it exists but doesn't
+	 * include the string "UTF-8", we shouldn't use UTF-8
+	 * support. */
+	char *locale = setlocale(LC_ALL, "");
+
+	if (locale == NULL || (locale != NULL &&
+		strstr(locale, "UTF-8") == NULL))
+	    SET(NO_UTF8);
+    }
+#else
     setlocale(LC_ALL, "");
+#endif
+
 #ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCALEDIR);
     textdomain(PACKAGE);

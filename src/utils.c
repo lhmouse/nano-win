@@ -33,6 +33,10 @@
 #include "proto.h"
 #include "nano.h"
 
+#ifdef HAVE_WCHAR_H
+#include <wchar.h>
+#endif
+
 #ifdef HAVE_REGEX_H
 #ifdef BROKEN_REGEXEC
 #undef regexec
@@ -92,6 +96,19 @@ int num_of_digits(int n)
     return i;
 }
 
+/* c is a control character.  It displays as ^@, ^?, or ^[ch] where ch
+ * is c + 64.  We return that character. */
+unsigned char control_rep(unsigned char c)
+{
+    /* Treat newlines embedded in a line as encoded nulls. */
+    if (c == '\n')
+	return '@';
+    else if (c == NANO_CONTROL_8)
+	return '?';
+    else
+	return c + 64;
+}
+
 /* Read a ssize_t from str, and store it in *val (if val is not NULL).
  * On error, we return FALSE and don't change *val.  Otherwise, we
  * return TRUE. */
@@ -111,6 +128,143 @@ bool parse_num(const char *str, ssize_t *val)
 	*val = j;
 
     return TRUE;
+}
+
+/* Parse a multi-byte character from str.  Return the number of bytes
+ * used.  If chr isn't NULL, store the wide character in it.  If col
+ * isn't NULL, store the new display width in it.  If *str is '\t', we
+ * expect col to have the current display width.  If bad_char isn't
+ * NULL, set it to TRUE if we have a null byte or a bad multibyte
+ * character. */
+int parse_char(const char *str, int *chr, size_t *col
+#ifdef NANO_WIDE
+	, bool *bad_char
+#endif
+	)
+{
+    int wide_str, wide_str_len;
+
+    assert(str != NULL);
+
+#ifdef NANO_WIDE
+    if (bad_char != NULL)
+	*bad_char = FALSE;
+
+    if (!ISSET(NO_UTF8)) {
+	wchar_t tmp;
+
+	/* Get the wide character equivalent of the multibyte
+	 * character. */
+	wide_str_len = mbtowc(&tmp, str, MB_CUR_MAX);
+	wide_str = (int)tmp;
+
+	/* If str contains a null byte or an invalid multibyte
+	 * character, interpret str's first byte as a single-byte
+	 * sequence and set bad_char to TRUE. */
+	if (wide_str_len <= 0) {
+	    wide_str_len = 1;
+	    wide_str = (unsigned char)*str;
+	    if (bad_char != NULL)
+		*bad_char = TRUE;
+	}
+
+	/* Save the wide character in chr. */
+	if (chr != NULL)
+	    *chr = wide_str;
+
+	/* Save the column width of the wide character in col. */
+	if (col != NULL) {
+	    /* If we have a tab, get its width in columns using the
+	     * current value of col. */
+	    if (wide_str == '\t')
+		*col += tabsize - *col % tabsize;
+	    /* If we have a control character, get its width using one
+	     * column for the "^" that will be displayed in front of it,
+	     * and the width in columns of its visible equivalent as
+	     * returned by control_rep(). */
+	    else if (is_cntrl_char(wide_str)) {
+		char *ctrl_wide_str = charalloc(MB_CUR_MAX);
+
+		(*col)++;
+		wide_str = control_rep((unsigned char)wide_str);
+
+		if (wctomb(ctrl_wide_str, (wchar_t)wide_str) != -1)
+		    *col += wcwidth(wide_str);
+
+		free(ctrl_wide_str);
+	    /* If we have a normal character, get its width in columns
+	     * normally. */
+	    } else
+		*col += wcwidth(wide_str);
+	}
+    } else {
+#endif
+	/* Interpret str's first character as a single-byte sequence. */
+	wide_str_len = 1;
+	wide_str = (unsigned char)*str;
+
+	/* Save the single-byte sequence in chr as though it's a wide
+	 * character. */
+	if (chr != NULL)
+	    *chr = wide_str;
+
+	if (col != NULL) {
+	    /* If we have a tab, get its width in columns using the
+	     * current value of col. */
+	    if (wide_str == '\t')
+		*col += tabsize - *col % tabsize;
+	    /* If we have a control character, it's two columns wide:
+	     * one column for the "^" that will be displayed in front of
+	     * it, and one column for its visible equivalent as returned
+	     * by control_rep(). */
+	    else if (is_cntrl_char(wide_str))
+		*col += 2;
+	    /* If we have a normal character, it's one column wide. */
+	    else
+		(*col)++;
+	}
+#ifdef NANO_WIDE
+    }
+#endif
+
+    return wide_str_len;
+}
+
+/* Return the index in str of the beginning of the character before the
+ * one at pos. */
+size_t move_left(const char *str, size_t pos)
+{
+    size_t pos_prev = pos;
+
+    assert(str != NULL && pos <= strlen(str));
+
+    /* There is no library function to move backward one multibyte
+     * character.  Here is the naive, O(pos) way to do it. */
+    while (TRUE) {
+	int str_len = parse_char(str + pos - pos_prev, NULL, NULL
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		);
+
+	if (pos_prev <= str_len)
+	    break;
+
+	pos_prev -= str_len;
+    }
+
+    return pos - pos_prev;
+}
+
+/* Return the index in str of the beginning of the character after the
+ * one at pos. */
+size_t move_right(const char *str, size_t pos)
+{
+    return pos + parse_char(str + pos, NULL, NULL
+#ifdef NANO_WIDE
+	, NULL
+#endif
+	);
 }
 
 /* Fix the memory allocation for a string. */

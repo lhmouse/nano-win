@@ -32,6 +32,10 @@
 #include "proto.h"
 #include "nano.h"
 
+#ifdef HAVE_WCHAR_H
+#include <wchar.h>
+#endif
+
 static buffer *key_buffer = NULL;
 				/* The default keystroke buffer,
 				 * containing all the keystrokes we have
@@ -1625,38 +1629,50 @@ size_t actual_x(const char *str, size_t xplus)
 
     assert(str != NULL);
 
-    for (; length < xplus && *str != '\0'; i++, str++) {
-	if (*str == '\t')
-	    length += tabsize - (length % tabsize);
-	else if (is_cntrl_char(*str))
-	    length += 2;
-	else
-	    length++;
-    }
-    assert(length == strnlenpt(str - i, i));
-    assert(i <= strlen(str - i));
+    while (*str != '\0') {
+	int str_len = parse_char(str, NULL, &length
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		);
 
-    if (length > xplus)
-	i--;
+	if (length > xplus)
+	    break;
+
+	i += str_len;
+	str += str_len;
+    }
 
     return i;
 }
 
 /* A strlen() with tabs factored in, similar to xplustabs().  How many
- * columns wide are the first size characters of buf? */
-size_t strnlenpt(const char *buf, size_t size)
+ * columns wide are the first size characters of str? */
+size_t strnlenpt(const char *str, size_t size)
 {
     size_t length = 0;
+	/* The screen display width to str[i]. */
 
-    assert(buf != NULL);
-    for (; *buf != '\0' && size != 0; size--, buf++) {
-	if (*buf == '\t')
-	    length += tabsize - (length % tabsize);
-	else if (is_cntrl_char(*buf))
-	    length += 2;
-	else
-	    length++;
+    if (size == 0)
+	return 0;
+
+    assert(str != NULL);
+
+    while (*str != '\0') {
+	int str_len = parse_char(str, NULL, &length
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		);
+
+	str += str_len;
+
+	if (size <= str_len)
+	    break;
+
+	size -= str_len;
     }
+
     return length;
 }
 
@@ -1704,19 +1720,101 @@ void blank_bottombars(void)
     }
 }
 
+/* buf is a multibyte string to be displayed.  We need to expand tabs
+ * and control characters.  How many bytes do we need to display buf
+ * properly, not counting the null terminator?  start_col is the column
+ * of *buf (usually 0).  We display to (end_col - 1). */
+size_t display_string_len(const char *buf, size_t start_col, size_t
+	end_col)
+{
+    size_t retval = 0;
+
+    assert(buf != NULL);
+
+    /* Throughout the loop, we maintain the fact that *buf displays at
+     * column start_col. */
+    while (start_col <= end_col && *buf != '\0') {
+	int wide_buf;
+	    /* The current wide character. */
+	int wide_buf_len;
+	    /* How many bytes wide is this character? */
+	size_t old_col = start_col;
+	bool bad_char;
+
+	wide_buf_len = parse_char(buf, &wide_buf, &start_col
+#ifdef NANO_WIDE
+		, &bad_char
+#endif
+		);
+
+#ifdef NANO_WIDE
+	/* If buf contains a null byte or an invalid multibyte
+	 * character, interpret its first byte as though it's a wide
+	 * character. */
+	if (!ISSET(NO_UTF8) && bad_char) {
+	    char *bad_wide_buf = charalloc(MB_CUR_MAX);
+	    int bad_wide_buf_len;
+
+	    /* If we have a control character, add one byte to account
+	     * for the "^" that will be displayed in front of it, and
+	     * translate the character to its visible equivalent as
+	     * returned by control_rep(). */
+	    if (is_cntrl_char(wide_buf)) {
+		retval++;
+		wide_buf = control_rep((unsigned char)wide_buf);
+	    }
+
+	    /* Translate the wide character to its multibyte
+	     * equivalent. */
+	    bad_wide_buf_len = wctomb(bad_wide_buf, (wchar_t)wide_buf);
+
+	    if (bad_wide_buf_len != -1)
+		retval += bad_wide_buf_len;
+
+	    free(bad_wide_buf);
+	} else
+#endif
+	/* If we have a tab, get its width in bytes using the current
+	 * value of col. */
+	if (wide_buf == '\t')
+	    retval += start_col - old_col;
+	/* If we have a control character, add one byte to account for
+	 * the "^" that will be displayed in front of it, and translate
+	 * the byte to its visible equivalent as returned by
+	 * control_rep(). */
+	else if (is_cntrl_char(wide_buf)) {
+	    char ctrl_wide_buf = control_rep((unsigned char)wide_buf);
+
+	    retval += parse_char(&ctrl_wide_buf, NULL, NULL
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		) + 1;
+
+	/* If we have a normal character, add its width in bytes
+	 * normally. */
+	} else
+	    retval += wide_buf_len;
+	buf += wide_buf_len;
+    }
+
+    return retval;
+}
+
 /* Convert buf into a string that can be displayed on screen.  The
  * caller wants to display buf starting with column start_col, and
  * extending for at most len columns.  start_col is zero-based.  len is
  * one-based, so len == 0 means you get "" returned.  The returned
- * string is dynamically allocated, and should be freed. */
-char *display_string(const char *buf, size_t start_col, size_t len)
+ * string is dynamically allocated, and should be freed.  If dollars is
+ * TRUE, the caller might put "$" at the beginning or end of the line if
+ * it's too long. */
+char *display_string(const char *buf, size_t start_col, size_t len, bool
+	dollars)
 {
     size_t start_index;
 	/* Index in buf of first character shown in return value. */
     size_t column;
 	/* Screen column start_index corresponds to. */
-    size_t end_index;
-	/* Index in buf of last character shown in return value. */
     size_t alloc_len;
 	/* The length of memory allocated for converted. */
     char *converted;
@@ -1724,54 +1822,155 @@ char *display_string(const char *buf, size_t start_col, size_t len)
     size_t index;
 	/* Current position in converted. */
 
+    /* If dollars is TRUE, make room for the "$" at the end of the
+     * line.  Also make sure that we don't try to display only part of a
+     * multicolumn character there. */
+    if (dollars && len > 0 && strlenpt(buf) > start_col + len)
+	len--;
+
     if (len == 0)
 	return mallocstrcpy(NULL, "");
 
     start_index = actual_x(buf, start_col);
     column = strnlenpt(buf, start_index);
+
     assert(column <= start_col);
-    end_index = actual_x(buf, start_col + len - 1);
-    alloc_len = strnlenpt(buf, end_index + 1) - column;
-    if (len > alloc_len + column - start_col)
-	len = alloc_len + column - start_col;
+
+    alloc_len = display_string_len(buf + start_index, start_col,
+	column + len) + 2;
     converted = charalloc(alloc_len + 1);
-    buf += start_index;
     index = 0;
 
-    for (; index < alloc_len; buf++) {
-	if (*buf == '\t') {
+    if (column > start_col || (dollars && column > 0 &&
+		buf[start_index] != '\t')) {
+	int wide_buf, wide_buf_len;
+
+	/* We don't display all of buf[start_index] since it starts to
+	 * the left of the screen. */
+	wide_buf_len = parse_char(buf + start_index, &wide_buf, NULL
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		);
+
+	if (is_cntrl_char(wide_buf)) {
+	    if (column > start_col) {
+		char *ctrl_wide_buf = charalloc(MB_CUR_MAX);
+		int ctrl_wide_buf_len, i;
+
+		wide_buf = control_rep((unsigned char)wide_buf);
+		ctrl_wide_buf_len = wctomb(ctrl_wide_buf,
+			(wchar_t)wide_buf);
+
+		for (i = 0; i < ctrl_wide_buf_len; i++)
+		    converted[index++] = ctrl_wide_buf[i];
+
+		free(ctrl_wide_buf);
+		start_index += wide_buf_len;
+	    }
+	} else if (wcwidth(wide_buf) > 1) {
+	    /* If dollars is TRUE, make room for the "$" at the
+	     * beginning of the line.  Also make sure that we don't try
+	     * to display only part of a multicolumn character there. */
+	    converted[0] = ' ';
+	    index = 1;
+	    if (dollars && column == start_col) {
+		converted[1] = ' ';
+		index = 2;
+	    }
+	    start_index += wide_buf_len;
+	}
+    }
+
+    while (index < alloc_len && buf[start_index] != '\0') {
+	int wide_buf, wide_buf_len;
+	bool bad_char;
+
+	wide_buf_len = parse_char(buf + start_index, &wide_buf, NULL
+#ifdef NANO_WIDE
+		, &bad_char
+#endif
+		);
+
+#ifdef NANO_WIDE
+	if (!ISSET(NO_UTF8) && bad_char) {
+	    char *bad_wide_buf = charalloc(MB_CUR_MAX);
+	    int bad_wide_buf_len, i;
+
+	    if (is_cntrl_char(wide_buf)) {
+		converted[index++] = '^';
+		start_col++;
+		wide_buf = control_rep((unsigned char)wide_buf);
+	    }
+
+	    bad_wide_buf_len = wctomb(bad_wide_buf, (wchar_t)wide_buf);
+
+	    for (i = 0; i < bad_wide_buf_len; i++)
+		converted[index++] = bad_wide_buf[i];
+
+	    free(bad_wide_buf);
+
+	    start_col += wcwidth((wchar_t)wide_buf);
+	} else
+#endif
+	if (wide_buf == '\t') {
 	    converted[index++] =
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 		ISSET(WHITESPACE_DISPLAY) ? whitespace[0] :
 #endif
 		' '; 
-	    while ((column + index) % tabsize)
+	    start_col++;
+	    while ((column + index) % tabsize) {
 		converted[index++] = ' ';
-	} else if (is_cntrl_char(*buf)) {
+		start_col++;
+	    }
+	} else if (is_cntrl_char(wide_buf)) {
+	    char *ctrl_wide_buf = charalloc(MB_CUR_MAX);
+	    int ctrl_wide_buf_len, i;
+
 	    converted[index++] = '^';
-	    if (*buf == '\n')
-		/* Treat newlines embedded in a line as encoded nulls;
-		 * the line in question should be run through unsunder()
-		 * before reaching here. */
-		converted[index++] = '@';
-	    else if (*buf == NANO_CONTROL_8)
-		converted[index++] = '?';
-	    else
-		converted[index++] = *buf + 64;
-	} else if (*buf == ' ')
+	    start_col++;
+	    wide_buf = control_rep((unsigned char)wide_buf);
+
+	    ctrl_wide_buf_len = wctomb(ctrl_wide_buf,
+		(wchar_t)wide_buf);
+
+	    for (i = 0; i < ctrl_wide_buf_len; i++)
+		converted[index++] = ctrl_wide_buf[i];
+
+	    free(ctrl_wide_buf);
+
+	    start_col += wcwidth((wchar_t)wide_buf);
+	} else if (wide_buf == ' ') {
 	    converted[index++] =
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 		ISSET(WHITESPACE_DISPLAY) ? whitespace[1] :
 #endif
 		' ';
-	else
-	    converted[index++] = *buf;
-    }
-    assert(len <= alloc_len + column - start_col);
-    charmove(converted, converted + start_col - column, len);
-    null_at(&converted, len);
+	    start_col++;
+	} else {
+	    int i;
 
-    return charealloc(converted, len + 1);
+	    for (i = 0; i < wide_buf_len; i++)
+		converted[index++] = buf[start_index + i];
+
+#ifdef NANO_WIDE
+	    if (!ISSET(NO_UTF8))
+		start_col += wcwidth((wchar_t)wide_buf);
+	    else
+#endif
+		start_col++;
+	}
+
+	start_index += wide_buf_len;
+    }
+
+    /* Make sure that converted is at most len columns wide. */
+    converted[index] = '\0';
+    index = actual_x(converted, len);
+    null_at(&converted, index);
+
+    return converted;
 }
 
 /* Repaint the statusbar when getting a character in nanogetstr().  buf
@@ -1796,10 +1995,12 @@ void nanoget_repaint(const char *buf, const char *inputbuf, size_t x)
 	waddch(bottomwin, x_real < wid ? ' ' : '$');
     if (COLS > 2) {
 	size_t page_start = x_real - x_real % wid;
-	char *expanded = display_string(inputbuf, page_start, wid);
+	char *expanded = display_string(inputbuf, page_start, wid,
+		FALSE);
 
 	assert(wid > 0);
 	assert(strlen(expanded) <= wid);
+
 	waddstr(bottomwin, expanded);
 	free(expanded);
 	wmove(bottomwin, 0, COLS - wid + x_real - page_start);
@@ -2249,21 +2450,19 @@ void titlebar(const char *path)
 {
     int space;
 	/* The space we have available for display. */
-    size_t verlen = strlen(VERMSG) + 1;
-	/* The length of the version message. */
+    size_t verlen = strlenpt(VERMSG) + 1;
+	/* The length of the version message in columns. */
     const char *prefix;
 	/* "File:", "Dir:", or "New Buffer".  Goes before filename. */
     size_t prefixlen;
-	/* strlen(prefix) + 1. */
+	/* The length of the prefix in columns, plus one. */
     const char *state;
 	/* "Modified", "View", or spaces the length of "Modified".
 	 * Tells the state of this buffer. */
     size_t statelen = 0;
-	/* strlen(state) + 1. */
+	/* The length of the state in columns, plus one. */
     char *exppath = NULL;
 	/* The file name, expanded for display. */
-    size_t exppathlen = 0;
-	/* strlen(exppath) + 1. */
     bool newfie = FALSE;
 	/* Do we say "New Buffer"? */
     bool dots = FALSE;
@@ -2299,10 +2498,10 @@ void titlebar(const char *path)
 	state = _("View");
     else {
 	if (space > 0)
-	    statelen = strnlen(_("Modified"), space - 1) + 1;
+	    statelen = strnlenpt(_("Modified"), space - 1) + 1;
 	state = &hblank[COLS - statelen];
     }
-    statelen = strnlen(state, COLS);
+    statelen = strnlenpt(state, COLS);
     /* We need a space before state. */
     if ((ISSET(MODIFIED) || ISSET(VIEW_MODE)) && statelen < COLS)
 	statelen++;
@@ -2322,7 +2521,7 @@ void titlebar(const char *path)
     } else
 	prefix = _("File:");
     assert(statelen < space);
-    prefixlen = strnlen(prefix, space - statelen);
+    prefixlen = strnlenpt(prefix, space - statelen);
     /* If newfie is FALSE, we need a space after prefix. */
     if (!newfie && prefixlen + statelen < space)
 	prefixlen++;
@@ -2337,36 +2536,40 @@ void titlebar(const char *path)
     if (!newfie) {
 	size_t lenpt = strlenpt(path), start_col;
 
-	if (lenpt > space)
-	    start_col = actual_x(path, lenpt - space);
-	else
-	    start_col = 0;
-	exppath = display_string(path, start_col, space);
 	dots = (lenpt > space);
-	exppathlen = strlen(exppath);
+
+	if (dots) {
+	    start_col = lenpt - space + 3;
+	    space -= 3;
+	} else
+	    start_col = 0;
+
+	exppath = display_string(path, start_col, space, FALSE);
     }
 
     if (!dots) {
+	size_t exppathlen = newfie ? 0 : strlenpt(exppath);
+	    /* The length of the expanded filename. */
+
 	/* There is room for the whole filename, so we center it. */
 	waddnstr(topwin, hblank, (space - exppathlen) / 3);
 	waddnstr(topwin, prefix, prefixlen);
 	if (!newfie) {
-	    assert(strlen(prefix) + 1 == prefixlen);
+	    assert(strlenpt(prefix) + 1 == prefixlen);
+
 	    waddch(topwin, ' ');
 	    waddstr(topwin, exppath);
 	}
     } else {
 	/* We will say something like "File: ...ename". */
 	waddnstr(topwin, prefix, prefixlen);
-	if (space == 0 || newfie)
+	if (space <= -3 || newfie)
 	    goto the_end;
 	waddch(topwin, ' ');
-	waddnstr(topwin, "...", space);
-	if (space <= 3)
+	waddnstr(topwin, "...", space + 3);
+	if (space <= 0)
 	    goto the_end;
-	space -= 3;
-	assert(exppathlen == space + 3);
-	waddnstr(topwin, exppath + 3, space);
+	waddstr(topwin, exppath);
     }
 
   the_end:
@@ -2414,17 +2617,17 @@ void statusbar(const char *msg, ...)
     blank_statusbar();
 
     if (COLS >= 4) {
-	char *bar;
-	char *foo;
+	char *bar, *foo;
 	size_t start_x = 0, foo_len;
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 	bool old_whitespace = ISSET(WHITESPACE_DISPLAY);
+
 	UNSET(WHITESPACE_DISPLAY);
 #endif
 	bar = charalloc(COLS - 3);
 	vsnprintf(bar, COLS - 3, msg, ap);
 	va_end(ap);
-	foo = display_string(bar, 0, COLS - 4);
+	foo = display_string(bar, 0, COLS - 4, FALSE);
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 	if (old_whitespace)
 	    SET(WHITESPACE_DISPLAY);
@@ -2923,7 +3126,7 @@ void update_line(const filestruct *fileptr, size_t index)
 
     /* Expand the line, replacing tabs with spaces, and control
      * characters with their displayed forms. */
-    converted = display_string(fileptr->data, page_start, COLS);
+    converted = display_string(fileptr->data, page_start, COLS, TRUE);
 
     /* Paint the line. */
     edit_add(fileptr, converted, line, page_start);
@@ -3569,7 +3772,10 @@ void do_credits(void)
 	"David Benbennick",
 	"Ken Tyler",
 	"Sven Guckes",
-	"Florian König",
+#ifdef NANO_WIDE
+	!ISSET(NO_UTF8) ? "Florian K\xC3\xB6nig" :
+#endif
+		"Florian König",
 	"Pauli Virtanen",
 	"Daniele Medri",
 	"Clement Laforet",
@@ -3644,7 +3850,7 @@ void do_credits(void)
 		what = _(xlcredits[xlpos]);
 		xlpos++;
 	    }
-	    start_x = COLS / 2 - strlen(what) / 2 - 1;
+	    start_x = COLS / 2 - strlenpt(what) / 2 - 1;
 	    mvwaddstr(edit, editwinrows - 1 - editwinrows % 2, start_x,
 		what);
 	}

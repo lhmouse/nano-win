@@ -50,6 +50,16 @@ CVS code -
 	  in order for output to work properly. (DLR; buffered
 	  input/output based on ideas from mutt 1.4.2.1; double-Escape
 	  input of Unicode characters suggested by Michael Piefel)
+	- More steps toward wide character/multibyte character support.
+	  Movement and cursor display in the edit window should now work
+	  properly with files containing multibyte characters, and text
+	  display of such files should work properly some of the time.
+	  New functions control_rep(), parse_char(), move_left(),
+	  move_right(), and display_string_len(); changes to do_left(),
+	  do_right(), do_delete(), breakable(), break_line(),
+	  do_output(), get_buffer(), unget_input(), actual_x(),
+	  strnlenpt(), display_string(), titlebar(), and do_credits().
+	  (David Benbennick and DLR)
 - cut.c:
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the
@@ -92,6 +102,10 @@ CVS code -
 	  loop if there are no more paragraphs after the current one and
 	  the paragraph search left us on the magicline, so as to avoid
 	  a segfault. (DLR)
+  main()
+	- Try to automatically detect whether UTF-8 support is needed by
+	  setting the NO_UTF8 flag if setlocale() returns a string that
+	  doesn't contain "UTF-8". (DLR)
 - winio.c:
   titlebar()
 	- Rename some variables for consistency, make space an int
@@ -135,6 +149,8 @@ CVS code -
 	- Remove specific references to control key shortcuts. (DLR)
 	- Check for the wide version of ncurses, without which multibyte
 	  strings don't seem to be displayed properly. (DLR)
+	- Check for stddef.h and wchar.h, for those systems that need
+	  one of the two for the wcwidth() prototype. (DLR)
 - doc/nanorc.sample:
 	- Add return to the "c-file" regexes. (DLR)
 

@@ -252,7 +252,7 @@ void do_left(int allow_update)
 {
     size_t pww_save = placewewant;
     if (current_x > 0)
-	current_x--;
+	current_x = move_left(current->data, current_x);
     else if (current != fileage) {
 	do_up();
 	current_x = strlen(current->data);
@@ -274,7 +274,7 @@ void do_right(int allow_update)
     assert(current_x <= strlen(current->data));
 
     if (current->data[current_x] != '\0')
-	current_x++;
+	current_x = move_right(current->data, current_x);
     else if (current->next != NULL) {
 	do_down();
 	current_x = 0;
