@@ -1896,7 +1896,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		if (paintlen == COLS)
 		    goto skip_step_two;
 
-  step_two:	/* Second step, we look for starts on this line. */
+  step_two:
+		/* Second step, we look for starts on this line. */
 		start_col = 0;
 		while (start_col < endpos) {
 		    if (regexec(&tmpcolor->start,
@@ -1923,8 +1924,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 			endmatch.rm_so += startmatch.rm_eo;
 			endmatch.rm_eo += startmatch.rm_eo;
 			/* There is an end on this line.  But does it
-			 * appear on this page, and is the match more than
-			 * zero characters long? */
+			 * appear on this page, and is the match more
+			 * than zero characters long? */
 			if (endmatch.rm_eo > startpos &&
 				endmatch.rm_eo > startmatch.rm_so) {
 			    paintlen = strnlenpt(fileptr->data,
