@@ -537,7 +537,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    fprintf(stderr, "Aha! \'%c\' (%d)\n", kbinput, kbinput);
 #endif
 
-	    if (kbinput == t->val && kbinput < 32) {
+	    if (kbinput == t->val && (kbinput < 32 || kbinput == 127)) {
 
 #ifndef DISABLE_HELP
 		/* Have to do this here, it would be too late to do it
@@ -727,7 +727,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 			return t->val;
 		}
 
-	    if (kbinput < 32)
+	    if (kbinput < 32 || kbinput == 127)
 		break;
 	    answer = charealloc(answer, xend + 2);
 	    memmove(answer + x + 1, answer + x, xend - x + 1);

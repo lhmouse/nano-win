@@ -90,6 +90,9 @@ CVS code -
   do_first_line()
 	- Call edit_update() with TOP instead of CENTER; both do the
 	  same thing, but it works faster with TOP. (DLR)
+  nanogetstr()
+	- Don't let the user type in ASCII 127 at the statusbar prompt.
+	  (DLR)
   titlebar()
 	- Fix problem with the available space for a filename on the
 	  titlebar's being short by one. (DLR)
