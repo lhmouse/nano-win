@@ -2288,13 +2288,12 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
     alloc_len = display_string_len(buf + start_index, start_col,
 	start_col + len);
-    alloc_len +=
 #ifdef NANO_WIDE
-	MB_CUR_MAX
-#else
-	1
+    if (!ISSET(NO_UTF8))
+	alloc_len += MB_CUR_MAX * 2;
+    else
 #endif
-	 * 2;
+	alloc_len += 2;
 
     converted = charalloc(alloc_len + 1);
     index = 0;
