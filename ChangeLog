@@ -326,6 +326,8 @@ CVS code -
 	  if a sequence is unrecognized, we will now return ERR and set
 	  ignore_seq to FALSE.  Also, here and elsewhere, don't bother
 	  assigning ERR to retval when that's its initial value. (DLR)
+	- Fix problem where the escape sequence for F3 on the FreeBSD
+	  console would not be interpreted properly. (DLR)
   get_mouseinput()
 	- Don't ungetch() anything if there's no control key and no meta
 	  key defined in the shortcut we clicked. (DLR)

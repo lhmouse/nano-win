@@ -49,7 +49,7 @@ static int statblank = 0;	/* Number of keystrokes left after
  * - NANO_CONTROL_8 is Ctrl-8 (Ctrl-?), which is Delete under ASCII,
  *   ANSI, VT100, and VT220, and which is Backspace under VT320.
  *
- * Note: VT220s and VT320s also generate Esc [ 3 ~ for Delete.  By
+ * Note: VT220 and VT320 also generate Esc [ 3 ~ for Delete.  By
  * default, xterm assumes it's running on a VT320 and generates Ctrl-8
  * (Ctrl-?) for Backspace and Esc [ 3 ~ for Delete.  This causes
  * problems for VT100-derived terminals such as the FreeBSD console,
@@ -85,8 +85,6 @@ static int statblank = 0;	/* Number of keystrokes left after
  *   omitted.  (Same as above.)
  * - F13 on FreeBSD console == End on Hurd console; the former is
  *   omitted.  (Same as above.)
- * - The Hurd console has no escape sequences for F11, F12, F13, F14, or
- *   Center (5) on the numeric keypad with NumLock off.
  *
  * Note that Center (5) on the numeric keypad with NumLock off can also
  * be the Begin key. */
@@ -610,8 +608,8 @@ int get_escape_seq_kbinput(int *escape_seq, size_t es_len, int
 			retval = NANO_HOME_KEY;
 			break;
 		    case 'M': /* Esc O M == Enter on numeric keypad with
-			       * NumLock off on
-			       * VT100/VT220/VT320/xterm/Eterm. */
+			       * NumLock off on VT100/VT220/VT320/xterm/
+			       * Eterm. */
 			retval = NANO_ENTER_KEY;
 			break;
 		    case 'P': /* Esc O P == F1 on VT100/VT220/VT320/Hurd
@@ -655,83 +653,83 @@ int get_escape_seq_kbinput(int *escape_seq, size_t es_len, int
 			retval = get_escape_seq_abcd(escape_seq[1]);
 			break;
 		    case 'j': /* Esc O j == '*' on numeric keypad with
-			       * NumLock off on
-			       * VT100/VT220/VT320/xterm/rxvt. */
+			       * NumLock off on VT100/VT220/VT320/xterm/
+			       * rxvt. */
 			retval = '*';
 			break;
 		    case 'k': /* Esc O k == '+' on numeric keypad with
-			       * NumLock off on
-			       * VT100/VT220/VT320/xterm/rxvt. */
+			       * NumLock off on VT100/VT220/VT320/xterm/
+			       * rxvt. */
 			retval = '+';
 			break;
 		    case 'l': /* Esc O l == ',' on numeric keypad with
-			       * NumLock off on
-			       * VT100/VT220/VT320/xterm/rxvt. */
+			       * NumLock off on VT100/VT220/VT320/xterm/
+			       * rxvt. */
 			retval = '+';
 			break;
 		    case 'm': /* Esc O m == '-' on numeric keypad with
-			       * NumLock off on
-			       * VT100/VT220/VT320/xterm/rxvt. */
+			       * NumLock off on VT100/VT220/VT320/xterm/
+			       * rxvt. */
 			retval = '-';
 			break;
 		    case 'n': /* Esc O n == Delete (.) on numeric keypad
-			       * with NumLock off on
-			       * VT100/VT220/VT320/xterm/rxvt. */
+			       * with NumLock off on VT100/VT220/VT320/
+			       * xterm/rxvt. */
 			retval = NANO_DELETE_KEY;
 			break;
 		    case 'o': /* Esc O o == '/' on numeric keypad with
-			       * NumLock off on
-			       * VT100/VT220/VT320/xterm/rxvt. */
+			       * NumLock off on VT100/VT220/VT320/xterm/
+			       * rxvt. */
 			retval = '/';
 			break;
 		    case 'p': /* Esc O p == Insert (0) on numeric keypad
-			       * with NumLock off on
-			       * VT100/VT220/VT320/rxvt. */
+			       * with NumLock off on VT100/VT220/VT320/
+			       * rxvt. */
 			retval = NANO_INSERTFILE_KEY;
 			break;
 		    case 'q': /* Esc O q == End (1) on numeric keypad
-			       * with NumLock off on
-			       * VT100/VT220/VT320/rxvt. */
+			       * with NumLock off on VT100/VT220/VT320/
+			       * rxvt. */
 			retval = NANO_END_KEY;
 			break;
 		    case 'r': /* Esc O r == Down (2) on numeric keypad
-			       * with NumLock off on
-			       * VT100/VT220/VT320/rxvt. */
+			       * with NumLock off on VT100/VT220/VT320/
+			       * rxvt. */
 			retval = NANO_NEXTLINE_KEY;
 			break;
 		    case 's': /* Esc O s == PageDown (3) on numeric
-			       * keypad with NumLock off on
-			       * VT100/VT220/VT320/rxvt. */
+			       * keypad with NumLock off on VT100/VT220/
+			       * VT320/rxvt. */
 			retval = NANO_NEXTPAGE_KEY;
 			break;
 		    case 't': /* Esc O t == Left (4) on numeric keypad
-			       * with NumLock off on
-			       * VT100/VT220/VT320/rxvt. */
+			       * with NumLock off on VT100/VT220/VT320/
+			       * rxvt. */
 			retval = NANO_BACK_KEY;
 			break;
 		    case 'u': /* Esc O u == Center (5) on numeric keypad
-			       * with NumLock off on
-			       * VT100/VT220/VT320/rxvt/Eterm. */
+			       * with NumLock off on VT100/VT220/VT320/
+			       * rxvt/Eterm. */
 			*ignore_seq = TRUE;
 			break;
 		    case 'v': /* Esc O v == Right (6) on numeric keypad
-			       * with NumLock off on
-			       * VT100/VT220/VT320/rxvt. */
+			       * with NumLock off on VT100/VT220/VT320/
+			       * rxvt. */
 			retval = NANO_FORWARD_KEY;
 			break;
 		    case 'w': /* Esc O w == Home (7) on numeric keypad
-			       * with NumLock off on
-			       * VT100/VT220/VT320/rxvt. */
+			       * with NumLock off on VT100/VT220/VT320/
+			       * rxvt. */
 			retval = NANO_HOME_KEY;
 			break;
 		    case 'x': /* Esc O x == Up (8) on numeric keypad
-			       * with NumLock off on
-			       * VT100/VT220/VT320/rxvt. */
+			       * with NumLock off on VT100/VT220/VT320/
+			       * rxvt. */
 			retval = NANO_PREVLINE_KEY;
 			break;
 		    case 'y': /* Esc O y == PageUp (9) on numeric keypad
-			       * with NumLock off on
-			       * VT100/VT220/VT320/rxvt. */
+			       * with NumLock off on VT100/VT220/VT320/
+			       * rxvt. */
 			retval = NANO_PREVPAGE_KEY;
 			break;
 		}
@@ -751,39 +749,39 @@ int get_escape_seq_kbinput(int *escape_seq, size_t es_len, int
 		    case '1':
 			if (es_len >= 3) {
 			    switch (escape_seq[2]) {
-				case '1': /* Esc [ 1 1 ~ == F1 on
-					   * rxvt/Eterm. */
+				case '1': /* Esc [ 1 1 ~ == F1 on rxvt/
+					   * Eterm. */
 				    retval = KEY_F(1);
 				    break;
-				case '2': /* Esc [ 1 2 ~ == F2 on
-					   * rxvt/Eterm. */
+				case '2': /* Esc [ 1 2 ~ == F2 on rxvt/
+					   * Eterm. */
 				    retval = KEY_F(2);
 				    break;
-				case '3': /* Esc [ 1 3 ~ == F3 on
-					   * rxvt/Eterm. */
+				case '3': /* Esc [ 1 3 ~ == F3 on rxvt/
+					   * Eterm. */
 				    retval = KEY_F(3);
 				    break;
-				case '4': /* Esc [ 1 4 ~ == F4 on
-					   * rxvt/Eterm. */
+				case '4': /* Esc [ 1 4 ~ == F4 on rxvt/
+					   * Eterm. */
 				    retval = KEY_F(4);
 				    break;
-				case '5': /* Esc [ 1 5 ~ == F5 on
-					   * xterm/rxvt/Eterm. */
+				case '5': /* Esc [ 1 5 ~ == F5 on xterm/
+					   * rxvt/Eterm. */
 				    retval = KEY_F(5);
 				    break;
 				case '7': /* Esc [ 1 7 ~ == F6 on
-					   * VT220/VT320/Linux
-					   * console/xterm/rxvt/Eterm. */
+					   * VT220/VT320/Linux console/
+					   * xterm/rxvt/Eterm. */
 				    retval = KEY_F(6);
 				    break;
 				case '8': /* Esc [ 1 8 ~ == F7 on
-					   * VT220/VT320/Linux
-					   * console/xterm/rxvt/Eterm. */
+					   * VT220/VT320/Linux console/
+					   * xterm/rxvt/Eterm. */
 				    retval = KEY_F(7);
 				    break;
 				case '9': /* Esc [ 1 9 ~ == F8 on
-					   * VT220/VT320/Linux
-					   * console/xterm/rxvt/Eterm. */
+					   * VT220/VT320/Linux console/
+					   * xterm/rxvt/Eterm. */
 				    retval = KEY_F(8);
 				    break;
 				case ';':
@@ -835,59 +833,59 @@ int get_escape_seq_kbinput(int *escape_seq, size_t es_len, int
 			if (es_len >= 3) {
 			    switch (escape_seq[2]) {
 				case '0': /* Esc [ 2 0 ~ == F9 on
-					   * VT220/VT320/Linux
-					   * console/xterm/rxvt/Eterm. */
+					   * VT220/VT320/Linux console/
+					   * xterm/rxvt/Eterm. */
 				    retval = KEY_F(9);
 				    break;
 				case '1': /* Esc [ 2 1 ~ == F10 on
-					   * VT220/VT320/Linux
-					   * console/xterm/rxvt/Eterm. */
+					   * VT220/VT320/Linux console/
+					   * xterm/rxvt/Eterm. */
 				    retval = KEY_F(10);
 				    break;
 				case '3': /* Esc [ 2 3 ~ == F11 on
-					   * VT220/VT320/Linux
-					   * console/xterm/rxvt/Eterm. */
+					   * VT220/VT320/Linux console/
+					   * xterm/rxvt/Eterm. */
 				    retval = KEY_F(11);
 				    break;
 				case '4': /* Esc [ 2 4 ~ == F12 on
-					   * VT220/VT320/Linux
-					   * console/xterm/rxvt/Eterm. */
+					   * VT220/VT320/Linux console/
+					   * xterm/rxvt/Eterm. */
 				    retval = KEY_F(12);
 				    break;
 				case '5': /* Esc [ 2 5 ~ == F13 on
-					   * VT220/VT320/Linux
-					   * console/rxvt/Eterm. */
+					   * VT220/VT320/Linux console/
+					   * rxvt/Eterm. */
 				    retval = KEY_F(13);
 				    break;
 				case '6': /* Esc [ 2 6 ~ == F14 on
-					   * VT220/VT320/Linux
-					   * console/rxvt/Eterm. */
+					   * VT220/VT320/Linux console/
+					   * rxvt/Eterm. */
 				    retval = KEY_F(14);
 				    break;
 				default: /* Esc [ 2 ~ == Insert on
-					  * VT220/VT320/Linux
-					  * console/xterm. */
+					  * VT220/VT320/Linux console/
+					  * xterm. */
 				    retval = NANO_INSERTFILE_KEY;
 				    break;
 			    }
 			}
 			break;
-		    case '3': /* Esc [ 3 ~ == Delete on
-			       * VT220/VT320/Linux console/xterm. */
+		    case '3': /* Esc [ 3 ~ == Delete on VT220/VT320/
+			       * Linux console/xterm. */
 			retval = NANO_DELETE_KEY;
 			break;
 		    case '4': /* Esc [ 4 ~ == End on VT220/VT320/Linux
 			       * console/xterm. */
 			retval = NANO_END_KEY;
 			break;
-		    case '5': /* Esc [ 5 ~ == PageUp on
-			       * VT220/VT320/Linux console/xterm; Esc [
-			       * 5 ^ == PageUp on Eterm. */
+		    case '5': /* Esc [ 5 ~ == PageUp on VT220/VT320/
+			       * Linux console/xterm; Esc [ 5 ^ ==
+			       * PageUp on Eterm. */
 			retval = NANO_PREVPAGE_KEY;
 			break;
-		    case '6': /* Esc [ 6 ~ == PageDown on
-			       * VT220/VT320/Linux console/xterm; Esc [
-			       * 6 ^ == PageDown on Eterm. */
+		    case '6': /* Esc [ 6 ~ == PageDown on VT220/VT320/
+			       * Linux console/xterm; Esc [ 6 ^ ==
+			       * PageDown on Eterm. */
 			retval = NANO_NEXTPAGE_KEY;
 			break;
 		    case '7': /* Esc [ 7 ~ == Home on rxvt. */
@@ -903,17 +901,17 @@ int get_escape_seq_kbinput(int *escape_seq, size_t es_len, int
 			retval = NANO_INSERTFILE_KEY;
 			break;
 		    case 'A': /* Esc [ A == Up on ANSI/VT220/Linux
-			       * console/FreeBSD console/Hurd
-			       * console/rxvt/Eterm. */
+			       * console/FreeBSD console/Hurd console/
+			       * rxvt/Eterm. */
 		    case 'B': /* Esc [ B == Down on ANSI/VT220/Linux
-			       * console/FreeBSD console/Hurd
-			       * console/rxvt/Eterm. */
+			       * console/FreeBSD console/Hurd console/
+			       * rxvt/Eterm. */
 		    case 'C': /* Esc [ C == Right on ANSI/VT220/Linux
-			       * console/FreeBSD console/Hurd
-			       * console/rxvt/Eterm. */
+			       * console/FreeBSD console/Hurd console/
+			       * rxvt/Eterm. */
 		    case 'D': /* Esc [ D == Left on ANSI/VT220/Linux
-			       * console/FreeBSD console/Hurd
-			       * console/rxvt/Eterm. */
+			       * console/FreeBSD console/Hurd console/
+			       * rxvt/Eterm. */
 			retval = get_escape_seq_abcd(escape_seq[1]);
 			break;
 		    case 'E': /* Esc [ E == Center (5) on numeric keypad
@@ -965,11 +963,10 @@ int get_escape_seq_kbinput(int *escape_seq, size_t es_len, int
 					   * xterm. */
 				    retval = KEY_F(4);
 				    break;
-				default: /* Esc [ O == F3 on
-					  * FreeBSD console. */
-				    retval = KEY_F(3);
-				    break;
 			    }
+			} else {
+			    /* Esc [ O == F3 on FreeBSD console. */
+			    retval = KEY_F(3);
 			}
 			break;
 		    case 'P': /* Esc [ P == F4 on FreeBSD console. */
@@ -1007,8 +1004,8 @@ int get_escape_seq_kbinput(int *escape_seq, size_t es_len, int
 			break;
 		    case 'a': /* Esc [ a == Shift-Up on rxvt/Eterm. */
 		    case 'b': /* Esc [ b == Shift-Down on rxvt/Eterm. */
-		    case 'c': /* Esc [ c == Shift-Right on
-			       * rxvt/Eterm. */
+		    case 'c': /* Esc [ c == Shift-Right on rxvt/
+			       * Eterm. */
 		    case 'd': /* Esc [ d == Shift-Left on rxvt/Eterm. */
 			retval = get_escape_seq_abcd(escape_seq[1]);
 			break;
