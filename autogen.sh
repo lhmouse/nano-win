@@ -1,7 +1,7 @@
 #!/bin/sh
 # Generate configure & friends for CVS users.
 
-autoheader
 aclocal -I ./m4
+autoheader
 automake --add-missing
 autoconf
