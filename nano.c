@@ -610,12 +610,13 @@ int do_enter_void(void)
 
 void do_next_word(void)
 {
-    filestruct *fileptr;
+    filestruct *fileptr, *old;
     int i;
 
     if (current == NULL)
 	return;
 
+    old = current;
     i = current_x;
     for (fileptr = current; fileptr != NULL; fileptr = fileptr->next) {
 	if (fileptr == current) {
@@ -643,8 +644,19 @@ void do_next_word(void)
 
     current_x = i;
     placewewant = xplustabs();
+
     if (current->lineno >= editbot->lineno)
 	edit_update(current, CENTER);
+    else {
+	/* If we've jumped lines, refresh the old line.  We can't just use
+	 * current->prev here, because we may have skipped over some blank
+	 * lines, in which case the previous line is the wrong one.
+	 */
+	if (current != old)
+	    update_line(old, 0);
+
+	update_line(current, current_x);
+    }
 
 }
 
