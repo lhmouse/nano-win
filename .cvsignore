@@ -3,8 +3,12 @@ Makefile.in
 confdefs.h
 config.cache
 config.h
+config.h.in
 config.log
 config.status
 configure
+depcomp
 nano
+nano.info
 stamp-h
+stamp-h1
