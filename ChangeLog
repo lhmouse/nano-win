@@ -1,4 +1,9 @@
 CVS code -
+- nano.c:
+  do_wrap()
+	- Added case for autoindenting text causing new line (Adam).
+	- Added SAMELINE case to above.  Added checks to cases 1b and
+	  2b for placement of cursor.
 - search.c:
 	- s/occurence/occurrence typos (Jordi).
 - nano.texi:

@@ -97,11 +97,9 @@
 - Cut to end cutting (-k) causes segfaults (try cutting "- Backup making
   (filename~)?" line in TODO file) (discovered by
   higuita@cadernoverde.com) (54) [FIXED].
-
+- When using autoindent (-i), wrapped text does not get auto-indented
+  (55, discovered by Mark Senior) [FIXED].
 
 ** Open BUGS **
 
 $Id$
-
-- When using autoindent (-i), wrapped text does not get auto-indented
-  (55, discovered by Mark Senior).

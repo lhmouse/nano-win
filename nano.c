@@ -768,6 +768,7 @@ void do_wrap(filestruct * inptr, char input_char)
 
     /* Category 1a: one word taking up the whole line with no beginning spaces. */
     if ((last_word_end == -1) && (!isspace((int) inptr->data[0]))) {
+fprintf(stderr, "1a\n");
 	for (i = current_word_end; i < len; i++) {
 	    if (!isspace((int) inptr->data[i]) && i < len) {
 		current_word_start = i;
@@ -805,6 +806,15 @@ void do_wrap(filestruct * inptr, char input_char)
 	if (current_x >= current_word_start) {
 	    right = current_x - current_word_start;
 	    current_x = 0;
+	    if (ISSET(AUTOINDENT)) {
+		int i = 0;
+		while ((inptr->next->data[i] == ' ' 
+	    		|| inptr->next->data[i] == '\t')
+	    		&& inptr->next->data[i] != 0) {
+		    i++;
+		    right++;
+		}			
+	    }
 	    down = 1;
 	}
 
@@ -818,7 +828,7 @@ void do_wrap(filestruct * inptr, char input_char)
 
     /* Category 2: two or more words on the line. */
     else {
-
+fprintf(stderr, "2a\n");
 	/* Case 2a: cursor before word at wrap point. */
 	if (current_x < current_word_start) {
 	    temp->data =
@@ -851,6 +861,16 @@ void do_wrap(filestruct * inptr, char input_char)
 	    down = 1;
 
 	    right = current_x - current_word_start;
+	    if (ISSET(AUTOINDENT)) {
+		int i = 0;
+		while ((inptr->next->data[i] == ' ' 
+	    		|| inptr->next->data[i] == '\t')
+	    		&& inptr->next->data[i] != 0) {
+		    i++;
+		    right++;
+		}			
+	    }
+
 	    i = current_word_start - 1;
 	    if (isspace((int) input_char)
 		&& (current_x == current_word_start)) {
@@ -871,6 +891,7 @@ void do_wrap(filestruct * inptr, char input_char)
 
 	/* Case 2c: cursor past word at wrap point. */
 	else {
+fprintf(stderr, "2c\n");
 	    temp->data =
 		nmalloc(strlen(&inptr->data[current_word_start]) + 1);
 	    strcpy(temp->data, &inptr->data[current_word_start]);
@@ -892,14 +913,35 @@ void do_wrap(filestruct * inptr, char input_char)
 
     /* We pre-pend wrapped part to next line. */
     if (ISSET(SAMELINEWRAP) && inptr->next) {
-	/* Plus one for the space which concatenates the two lines together plus 1 for \0. */
-	char *p =
-	    nmalloc(strlen(temp->data) + strlen(inptr->next->data) + 2);
 	int old_x = current_x, old_y = current_y;
 
-	strcpy(p, temp->data);
-	strcat(p, " ");
-	strcat(p, inptr->next->data);
+	/* Plus one for the space which concatenates the two lines together plus 1 for \0. */
+	char *p = nmalloc((strlen(temp->data) + strlen(inptr->next->data) + 2) 
+			* sizeof(char));
+
+	if (ISSET(AUTOINDENT)) {
+	    int non = 0;
+
+	     /* Grab the beginning of the next line until it's not a 
+		space or tab, then null terminate it so we can strcat it
+		to hell */
+	    while ((inptr->next->data[non] == ' ' 
+	    	|| inptr->next->data[non] == '\t')
+	    	&& inptr->next->data[non] != 0)
+	    	    p[non] = inptr->next->data[non++];
+
+	    p[non] = 0;
+	    strcat(p, temp->data);
+	    strcat(p, " ");
+
+	     /* Now tack on the rest of the next line after the spaces and
+		tabs */
+	    strcat(p, &inptr->next->data[non]);
+	} else {
+	    strcpy(p, temp->data);
+	    strcat(p, " ");
+	    strcat(p, inptr->next->data);
+	}
 
 	free(inptr->next->data);
 	inptr->next->data = p;
@@ -933,7 +975,6 @@ void do_wrap(filestruct * inptr, char input_char)
 	        while ((*spc == ' ') || (*spc == '\t')) {
 		    extra++;
 		    spc++;
-		    right++;
 		    totsize++;
 		}
 		t = nmalloc(strlen(temp->data) + extra + 1);
