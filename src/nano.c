@@ -19,11 +19,6 @@
  *                                                                        *
  **************************************************************************/
 
-#ifdef __TANDEM
-/* Tandem NonStop Kernel */
-#include <floss.h>
-#endif
-
 #include "config.h"
 
 #include <stdio.h>
@@ -3178,7 +3173,7 @@ int main(int argc, char *argv[])
 #if !defined(ENABLE_NANORC) && defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
     /* if we don't have rcfile support, we're root, and
        --disable-wrapping-as-root is used, turn wrapping off */
-    if (geteuid() == NANO_ROOT_UID)
+    if (geteuid() == 0)
 	SET(NO_WRAP);
 #endif
 
@@ -3420,7 +3415,7 @@ int main(int argc, char *argv[])
 	flags |= flags_cpy;
     }
 #if defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
-    else if (geteuid() == NANO_ROOT_UID)
+    else if (geteuid() == 0)
 	SET(NO_WRAP);
 #endif
 #endif /* ENABLE_NANORC */

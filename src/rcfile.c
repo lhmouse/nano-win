@@ -678,7 +678,7 @@ void do_rcfile(void)
 #if defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
     /* If we've already read SYSCONFDIR/nanorc (if it's there), we're
        root, and --disable-wrapping-as-root is used, turn wrapping off */
-	if (euid == NANO_ROOT_UID)
+	if (euid == 0)
 	    SET(NO_WRAP);
 #endif
 	if ((rcstream = fopen(nanorc, "r")) == NULL) {
