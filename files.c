@@ -276,10 +276,10 @@ int do_insertfile(void)
 	    char *tmp = do_browser(getcwd(NULL, 0));
 
 #ifdef DISABLE_TABCOMP
-	    free(realname);
+	    realname = NULL;
 #endif
 	    if 	(tmp != NULL)
-		realname = tmp;
+		realname = mallocstrcpy(realname, tmp);
 	    else
 		return do_insertfile();
 	}
@@ -528,10 +528,8 @@ int do_writeout(int exiting)
 	if (i == NANO_TOFILES_KEY) {
 	    char *tmp = do_browser(getcwd(NULL, 0));
 
-	    if (tmp != NULL) {
-		free(answer);
-		answer = tmp;
-	    }
+	    if (tmp != NULL)
+		answer = mallocstrcpy(answer, tmp);
 	    else
 		return do_writeout(exiting);
 	}
