@@ -420,8 +420,8 @@ know what you're doing */
 #define NOVIEW 0
 
 typedef enum {
-    CENTER, TOP, NONE
-} topmidbotnone;
+    TOP, CENTER, NONE
+} topmidnone;
 
 /* Minimum editor window rows required for nano to work correctly */
 #define MIN_EDITOR_ROWS 3

@@ -1381,7 +1381,7 @@ void edit_refresh_clearok(void)
  * Nice generic routine to update the edit buffer, given a pointer to the
  * file struct =) 
  */
-void edit_update(filestruct *fileptr, topmidbotnone location)
+void edit_update(filestruct *fileptr, topmidnone location)
 {
     if (fileptr == NULL)
 	return;

@@ -35,7 +35,9 @@ CVS code -
 	- Translation updates (see po/ChangeLog for details).
 	- Since SAMELINEWRAP is only used in nano.c, make it a static
 	  variable in nano.c instead of a flag, and surround all
-	  wrap_reset() calls with DISABLE_WRAPPING  #ifdefs. (DLR)
+	  wrap_reset() calls with DISABLE_WRAPPING #ifdefs. (DLR)
+	- Change enum "topmidbotnone" to "topmidnone", as there's no
+	  BOTTOM option anymore. (DLR)
 - files.c:
   do_browser()
 	- Some of the Pico compatibility options in the file browser

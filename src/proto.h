@@ -483,7 +483,7 @@ void update_cursor(void);
 void center_cursor(void);
 void edit_refresh(void);
 void edit_refresh_clearok(void);
-void edit_update(filestruct *fileptr, topmidbotnone location);
+void edit_update(filestruct *fileptr, topmidnone location);
 int statusq(int tabs, const shortcut *s, const char *def,
 #ifndef NANO_SMALL
 		historyheadtype *history_list,
