@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.9.24-CVS\n"
-"POT-Creation-Date: 2001-01-07 20:37-0500\n"
+"POT-Creation-Date: 2001-01-07 20:52-0500\n"
 "PO-Revision-Date: 2001-01-04 17:45+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
