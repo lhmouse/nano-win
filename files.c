@@ -339,6 +339,14 @@ int open_file(const char *filename, int insert, int quiet)
 	    statusbar(_("New File"));
 	    new_file();
 	}
+    } else if (S_ISDIR(fileinfo.st_mode) || S_ISCHR(fileinfo.st_mode) ||
+		S_ISBLK(fileinfo.st_mode)) {
+	/* Don't open character or block files.  Sorry, /dev/sndstat! */
+	statusbar(S_ISDIR(fileinfo.st_mode) ? _("\"%s\" is a directory") :
+			_("File \"%s\" is a device file"), filename);
+	if (!insert)
+	    new_file();
+	return -1;
     } else if ((fd = open(filename, O_RDONLY)) == -1) {
 	/* If we're in multibuffer mode, don't be quiet when an error
 	   occurs while opening a file */
@@ -352,23 +360,12 @@ int open_file(const char *filename, int insert, int quiet)
 	    new_file();
 	return -1;
     } else {			/* File is A-OK */
-	if (S_ISDIR(fileinfo.st_mode) || S_ISCHR(fileinfo.st_mode) || 
-		S_ISBLK(fileinfo.st_mode)) {
-	    if (S_ISDIR(fileinfo.st_mode))
-		statusbar(_("\"%s\" is a directory"), filename);
-	    else
-		/* Don't open character or block files.  Sorry, /dev/sndstat! */
-		statusbar(_("File \"%s\" is a device file"), filename);
-
-	    if (!insert)
-		new_file();
-	    return -1;
-	}
 	if (!quiet)
 	    statusbar(_("Reading File"));
 	f = fdopen(fd, "rb"); /* Binary for our own line-end munging */
 	if (f == NULL) {
 	    nperror("fdopen");
+	    close(fd);
 	    return -1;
 	}
 	read_file(f, filename, quiet);

@@ -9,6 +9,9 @@ CVS Code -
   do_cut_text()
 	- Fix incorrect cursor location when cutting long lines
 	  (David Benbennick).
+- files.c:
+  open_file()
+	- Fix FD leak with file load error (David Benbennick).
 - nano.c:
   main()
 	- Call load_file with arg 0 for insert, as we aren't really
