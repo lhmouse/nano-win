@@ -694,17 +694,11 @@ void do_insertfile_void(void)
 
 #ifdef ENABLE_MULTIBUFFER
 /* Create a new openfilestruct node. */
-openfilestruct *make_new_opennode(openfilestruct *prevnode)
+openfilestruct *make_new_opennode(void)
 {
-    openfilestruct *newnode = (openfilestruct *)nmalloc(sizeof(openfilestruct));
-
+    openfilestruct *newnode =
+	(openfilestruct *)nmalloc(sizeof(openfilestruct));
     newnode->filename = NULL;
-    newnode->fileage = NULL;
-    newnode->filebot = NULL;
-
-    newnode->prev = prevnode;
-    newnode->next = NULL;
-
     return newnode;
 }
 
@@ -712,6 +706,7 @@ openfilestruct *make_new_opennode(openfilestruct *prevnode)
 void splice_opennode(openfilestruct *begin, openfilestruct *newnode,
 	openfilestruct *end)
 {
+    assert(newnode != NULL && begin != NULL);
     newnode->next = end;
     newnode->prev = begin;
     begin->next = newnode;
@@ -719,240 +714,203 @@ void splice_opennode(openfilestruct *begin, openfilestruct *newnode,
 	end->prev = newnode;
 }
 
-/* Unlink a node from the rest of the openfilestruct. */
-void unlink_opennode(const openfilestruct *fileptr)
+/* Unlink a node from the rest of the openfilestruct, and delete it. */
+void unlink_opennode(openfilestruct *fileptr)
 {
-    assert(fileptr != NULL);
-
-    if (fileptr->prev != NULL)
-	fileptr->prev->next = fileptr->next;
-
-    if (fileptr->next != NULL)
-	fileptr->next->prev = fileptr->prev;
+    assert(fileptr != NULL && fileptr->prev != NULL && fileptr->next != NULL && fileptr != fileptr->prev && fileptr != fileptr->next);
+    fileptr->prev->next = fileptr->next;
+    fileptr->next->prev = fileptr->prev;
+    delete_opennode(fileptr);
 }
 
 /* Delete a node from the openfilestruct. */
 void delete_opennode(openfilestruct *fileptr)
 {
-    if (fileptr != NULL) {
-	if (fileptr->filename != NULL)
-	    free(fileptr->filename);
-	if (fileptr->fileage != NULL)
-	    free_filestruct(fileptr->fileage);
-	free(fileptr);
-    }
+    assert(fileptr != NULL && fileptr->filename != NULL && fileptr->fileage != NULL);
+    free(fileptr->filename);
+    free_filestruct(fileptr->fileage);
+    free(fileptr);
 }
 
-/* Deallocate all memory associated with this and later files,
- * including the lines of text. */
+#ifdef DEBUG
+/* Deallocate all memory associated with this and later files, including
+ * the lines of text. */
 void free_openfilestruct(openfilestruct *src)
 {
-    if (src != NULL) {
-	while (src->next != NULL) {
-	    src = src->next;
-	    delete_opennode(src->prev);
-#ifdef DEBUG
-	    fprintf(stderr, "%s: free'd a node, YAY!\n", "delete_opennode()");
-#endif
-	}
-	delete_opennode(src);
-#ifdef DEBUG
-	fprintf(stderr, "%s: free'd last node.\n", "delete_opennode()");
-#endif
+    assert(src != NULL);
+    while (src != src->next) {
+	src = src->next;
+	delete_opennode(src->prev);
     }
+    delete_opennode(src);
 }
+#endif
 
-/*
- * Add/update an entry to the open_files openfilestruct.  If update is
+/* Add/update an entry to the open_files openfilestruct.  If update is
  * FALSE, a new entry is created; otherwise, the current entry is
- * updated.
- */
+ * updated. */
 void add_open_file(bool update)
 {
-    openfilestruct *tmp;
-
-    if (fileage == NULL || current == NULL || filename == NULL)
+    if (open_files == NULL && update)
 	return;
 
-    /* if no entries, make the first one */
-    if (open_files == NULL)
-	open_files = make_new_opennode(NULL);
-
-    else if (!update) {
-
-	/* otherwise, if we're not updating, make a new entry for
-	   open_files and splice it in after the current one */
-
-#ifdef DEBUG
-	fprintf(stderr, "filename is %s\n", open_files->filename);
-#endif
-
-	tmp = make_new_opennode(NULL);
-	splice_opennode(open_files, tmp, open_files->next);
+    /* If there are no entries in open_files, make the first one. */
+    if (open_files == NULL) {
+	open_files = make_new_opennode();
+	splice_opennode(open_files, open_files, open_files);
+    /* Otherwise, if we're not updating, make a new entry for
+     * open_files and splice it in after the current entry. */
+    } else if (!update) {
+	splice_opennode(open_files, make_new_opennode(),
+		open_files->next);
 	open_files = open_files->next;
     }
 
-    /* save current filename */
+    /* Save the current filename. */
     open_files->filename = mallocstrcpy(open_files->filename, filename);
 
 #ifndef NANO_SMALL
-    /* save the file's stat */
+    /* Save the current file's stat. */
     open_files->originalfilestat = originalfilestat;
 #endif
 
-    /* save current total number of lines */
-    open_files->file_totlines = totlines;
+    /* Save the current file buffer. */
+    open_files->fileage = fileage;
+    open_files->filebot = filebot;
 
-    /* save current total size */
-    open_files->file_totsize = totsize;
+    /* Save the current top of the edit window. */
+    open_files->edittop = edittop;
 
-    /* save current x-coordinate position */
-    open_files->file_current_x = current_x;
+    /* Save the current line. */
+    open_files->current = current;
 
-    /* save current y-coordinate position */
-    open_files->file_current_y = current_y;
+    /* Save the current cursor position. */
+    open_files->current_x = current_x;
 
-    /* save current place we want */
-    open_files->file_placewewant = placewewant;
+    /* Save the current place we want. */
+    open_files->placewewant = placewewant;
 
-    /* save current line number */
-    open_files->file_lineno = current->lineno;
+    /* Save the current total number of lines. */
+    open_files->totlines = totlines;
 
-    /* start with default modification status: unmodified, unmarked (if
-       available), not in DOS format (if available), and not in Mac
-       format (if available) */
-    open_files->file_flags = 0;
+    /* Save the current total size. */
+    open_files->totsize = totsize;
 
-    /* if we're updating, save current modification status, current
-       marking status (if available), and current file format (if
-       available) */
-    if (update) {
-	if (ISSET(MODIFIED))
-	    open_files->file_flags |= MODIFIED;
+    /* Start with no flags saved. */
+    open_files->flags = 0;
+
+    /* Save the current modification status. */
+    if (ISSET(MODIFIED))
+	open_files->flags |= MODIFIED;
+
 #ifndef NANO_SMALL
-	if (ISSET(MARK_ISSET)) {
-	    open_files->file_mark_beginbuf = mark_beginbuf;
-	    open_files->file_mark_beginx = mark_beginx;
-	    open_files->file_flags |= MARK_ISSET;
-	}
-	open_files->file_fmt = fmt;
-#endif
+    /* Save the current marking status and mark, if applicable. */
+    if (ISSET(MARK_ISSET)) {
+	open_files->flags |= MARK_ISSET;
+	open_files->mark_beginbuf = mark_beginbuf;
+	open_files->mark_beginx = mark_beginx;
     }
 
-    /* if we're not in view mode and not updating, the file contents
-       might have changed, so save the filestruct; otherwise, don't */
-    if (!(ISSET(VIEW_MODE) && !update)) {
-	/* save current file buffer */
-	open_files->fileage = fileage;
-	open_files->filebot = filebot;
-    }
+    /* Save the current file format. */
+    open_files->fmt = fmt;
+#endif
 
 #ifdef DEBUG
     fprintf(stderr, "filename is %s\n", open_files->filename);
 #endif
 }
 
-/*
- * Read the current entry in the open_files structure and set up the
- * currently open file using that entry's information.
- */
+/* Read the current entry in the open_files structure and set up the
+ * currently open file using that entry's information. */
 void load_open_file(void)
 {
-    if (open_files == NULL)
-	return;
+    assert(open_files != NULL);
 
-    /* set up the filename, the file buffer, the total number of lines in
-       the file, and the total file size */
+    /* Restore the current filename. */
     filename = mallocstrcpy(filename, open_files->filename);
+
 #ifndef NANO_SMALL
+    /* Restore the current file's stat. */
     originalfilestat = open_files->originalfilestat;
 #endif
-    fileage = open_files->fileage;
-    current = fileage;
-    filebot = open_files->filebot;
-    totlines = open_files->file_totlines;
-    totsize = open_files->file_totsize;
 
-    /* restore modification status */
-    if (open_files->file_flags & MODIFIED)
+    /* Restore the current file buffer. */
+    fileage = open_files->fileage;
+    filebot = open_files->filebot;
+
+    /* Restore the current top of the edit window. */
+    edittop = open_files->edittop;
+
+    /* Restore the current line. */
+    current = open_files->current;
+
+    /* Restore the current cursor position. */
+    current_x = open_files->current_x;
+
+    /* Restore the current place we want. */
+    placewewant = open_files->placewewant;
+
+    /* Restore the current total number of lines. */
+    totlines = open_files->totlines;
+
+    /* Restore the current total size. */
+    totsize = open_files->totsize;
+
+    /* Restore the current modification status. */
+    if (open_files->flags & MODIFIED)
 	SET(MODIFIED);
     else
 	UNSET(MODIFIED);
 
 #ifndef NANO_SMALL
-    /* restore marking status */
-    if (open_files->file_flags & MARK_ISSET) {
-	mark_beginbuf = open_files->file_mark_beginbuf;
-	mark_beginx = open_files->file_mark_beginx;
+    /* Restore the current marking status and mark, if applicable. */
+    if (open_files->flags & MARK_ISSET) {
+	mark_beginbuf = open_files->mark_beginbuf;
+	mark_beginx = open_files->mark_beginx;
 	SET(MARK_ISSET);
     } else
 	UNSET(MARK_ISSET);
 
-    /* restore file format */
-    fmt = open_files->file_fmt;
+    /* Restore the current file format. */
+    fmt = open_files->fmt;
 #endif
 
 #ifdef ENABLE_COLOR
     update_color();
 #endif
+    edit_refresh();
 
-    /* restore full file position: line number, x-coordinate, y-
-       coordinate, place we want */
-    do_gotopos(open_files->file_lineno, open_files->file_current_x,
-	open_files->file_current_y, open_files->file_placewewant);
-
-    /* update the titlebar */
+    /* Update the titlebar. */
     clearok(topwin, FALSE);
     titlebar(NULL);
 }
 
-/*
- * Open the previous entry in the open_files structure.  If closing_file
- * is FALSE, update the current entry before switching from it.
- * Otherwise, we are about to close that entry, so don't bother doing
- * so.
- */
-void open_prevfile(bool closing_file)
+/* Open either the next or previous file. */
+void open_prevnext_file(bool next)
 {
-    if (open_files == NULL)
-	return;
+    add_open_file(TRUE);
 
-    /* if we're not about to close the current entry, update it before
-       doing anything */
-    if (!closing_file)
-	add_open_file(TRUE);
+    assert(open_files != NULL);
 
-    if (open_files->prev == NULL && open_files->next == NULL) {
-
-	/* only one file open */
-	if (!closing_file)
-	    statusbar(_("No more open file buffers"));
+    /* If only one file is open, indicate it on the statusbar and get
+     * out. */
+    if (open_files == open_files->next) {
+	statusbar(_("No more open files"));
 	return;
     }
 
-    if (open_files->prev != NULL) {
-	open_files = open_files->prev;
+    /* Switch to the next or previous file, depending on the value of
+     * next. */
+    open_files = next ? open_files->next : open_files->prev;
 
 #ifdef DEBUG
-	fprintf(stderr, "filename is %s\n", open_files->filename);
+    fprintf(stderr, "filename is %s\n", open_files->filename);
 #endif
 
-    }
-
-    else if (open_files->next != NULL) {
-
-	/* if we're at the beginning, wrap around to the end */
-	while (open_files->next != NULL)
-	    open_files = open_files->next;
-
-#ifdef DEBUG
-	    fprintf(stderr, "filename is %s\n", open_files->filename);
-#endif
-
-    }
-
+    /* Load the file we switched to. */
     load_open_file();
 
+    /* And indicate the switch on the statusbar. */
     statusbar(_("Switched to %s"),
       ((open_files->filename[0] == '\0') ? _("New Buffer") :
 	open_files->filename));
@@ -962,102 +920,41 @@ void open_prevfile(bool closing_file)
 #endif
 }
 
+/* Open the previous entry in the open_files structure.  This function
+ * is used by the shortcut list. */
 void open_prevfile_void(void)
 {
-    open_prevfile(FALSE);
+    open_prevnext_file(FALSE);
 }
 
-/*
- * Open the next entry in the open_files structure.  If closing_file is
- * FALSE, update the current entry before switching from it.  Otherwise,
- * we are about to close that entry, so don't bother doing so.
- */
-void open_nextfile(bool closing_file)
-{
-    if (open_files == NULL)
-	return;
-
-    /* if we're not about to close the current entry, update it before
-       doing anything */
-    if (!closing_file)
-	add_open_file(TRUE);
-
-    if (open_files->prev == NULL && open_files->next == NULL) {
-
-	/* only one file open */
-	if (!closing_file)
-	    statusbar(_("No more open file buffers"));
-	return;
-    }
-
-    if (open_files->next != NULL) {
-	open_files = open_files->next;
-
-#ifdef DEBUG
-	fprintf(stderr, "filename is %s\n", open_files->filename);
-#endif
-
-    }
-    else if (open_files->prev != NULL) {
-
-	/* if we're at the end, wrap around to the beginning */
-	while (open_files->prev != NULL) {
-	    open_files = open_files->prev;
-
-#ifdef DEBUG
-	    fprintf(stderr, "filename is %s\n", open_files->filename);
-#endif
-
-	}
-    }
-
-    load_open_file();
-
-    statusbar(_("Switched to %s"),
-      ((open_files->filename[0] == '\0') ? _("New Buffer") :
-	open_files->filename));
-
-#ifdef DEBUG
-    dump_buffer(current);
-#endif
-}
-
+/* Open the next entry in the open_files structure.  This function is
+ * used by the shortcut list. */
 void open_nextfile_void(void)
 {
-    open_nextfile(FALSE);
+    open_prevnext_file(TRUE);
 }
 
-/*
- * Delete an entry from the open_files filestruct.  After deletion of an
- * entry, the next or previous entry is opened, whichever is found first.
- * Return TRUE on success or FALSE on error.
- */
+/* Delete an entry from the open_files filestruct.  After deletion of an
+ * entry, the next entry is opened.  Return TRUE on success or FALSE if
+ * there are no more open files. */
 bool close_open_file(void)
 {
-    openfilestruct *tmp;
+    assert(open_files != NULL);
 
-    if (open_files == NULL)
+    /* If only one file is open, get out. */
+    if (open_files == open_files->next)
 	return FALSE;
 
-    /* make sure open_files->fileage and fileage, and open_files->filebot
-       and filebot, are in sync; they might not be if lines have been cut
-       from the top or bottom of the file */
-    open_files->fileage = fileage;
-    open_files->filebot = filebot;
+    /* Open the next file. */
+    open_nextfile_void();
 
-    tmp = open_files;
-    if (open_files->next != NULL)
-	open_nextfile(TRUE);
-    else if (open_files->prev != NULL)
-	open_prevfile(TRUE);
-    else
-	return FALSE;
+    /* Close the file we had open before. */
+    unlink_opennode(open_files->prev);
 
-    unlink_opennode(tmp);
-    delete_opennode(tmp);
-
+    /* Reinitialize the shortcut list. */
     shortcut_init(FALSE);
     display_main_list();
+
     return TRUE;
 }
 #endif /* ENABLE_MULTIBUFFER */

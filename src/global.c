@@ -382,19 +382,14 @@ void shortcut_init(bool unjustify)
 #endif
 		);
 
+    /* Translators: try to keep this string under 10 characters long */
+    sc_init_one(&main_list, NANO_EXIT_KEY,
 #ifdef ENABLE_MULTIBUFFER
-    if (open_files != NULL && (open_files->prev != NULL ||
-	open_files->next != NULL))
-    /* Translators: try to keep this string under 10 characters long */
-	sc_init_one(&main_list, NANO_EXIT_KEY, N_("Close"),
-		IFHELP(nano_exit_msg, NANO_NO_KEY), NANO_EXIT_FKEY,
-		NANO_NO_KEY, VIEW, do_exit);
-    else
+	open_files != NULL && open_files != open_files->next ?
+	N_("Close") :
 #endif
-    /* Translators: try to keep this string under 10 characters long */
-	sc_init_one(&main_list, NANO_EXIT_KEY, exit_msg,
-		IFHELP(nano_exit_msg, NANO_NO_KEY), NANO_EXIT_FKEY,
-		NANO_NO_KEY, VIEW, do_exit);
+	exit_msg, IFHELP(nano_exit_msg, NANO_NO_KEY), NANO_EXIT_FKEY,
+	NANO_NO_KEY, VIEW, do_exit);
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_WRITEOUT_KEY, N_("WriteOut"),

@@ -150,7 +150,7 @@ void die(const char *msg, ...)
 		fileage = open_files->fileage;
 		filebot = open_files->filebot;
 		/* save the file if it's been modified */
-		if (open_files->file_flags & MODIFIED)
+		if (open_files->flags & MODIFIED)
 		    die_save_file(open_files->filename);
 	    }
 	    open_files = open_files->next;
@@ -520,28 +520,22 @@ void help_init(void)
 filestruct *make_new_node(filestruct *prevnode)
 {
     filestruct *newnode = (filestruct *)nmalloc(sizeof(filestruct));
-
     newnode->data = NULL;
     newnode->prev = prevnode;
     newnode->next = NULL;
-    newnode->lineno = prevnode != NULL ? prevnode->lineno + 1 : 1;
-
+    newnode->lineno = (prevnode != NULL) ? prevnode->lineno + 1 : 1;
     return newnode;
 }
 
-/* Make a copy of a node to a pointer (space will be malloc()ed). */
+/* Make a copy of a filestruct node. */
 filestruct *copy_node(const filestruct *src)
 {
     filestruct *dst = (filestruct *)nmalloc(sizeof(filestruct));
-
     assert(src != NULL);
-
-    dst->data = charalloc(strlen(src->data) + 1);
+    dst->data = mallocstrcpy(NULL, src->data);
     dst->next = src->next;
     dst->prev = src->prev;
-    strcpy(dst->data, src->data);
     dst->lineno = src->lineno;
-
     return dst;
 }
 
@@ -549,12 +543,10 @@ filestruct *copy_node(const filestruct *src)
 void splice_node(filestruct *begin, filestruct *newnode, filestruct
 	*end)
 {
-    if (newnode != NULL) {
-	newnode->next = end;
-	newnode->prev = begin;
-    }
-    if (begin != NULL)
-	begin->next = newnode;
+    assert(newnode != NULL && begin != NULL);
+    newnode->next = end;
+    newnode->prev = begin;
+    begin->next = newnode;
     if (end != NULL)
 	end->prev = newnode;
 }
@@ -563,10 +555,8 @@ void splice_node(filestruct *begin, filestruct *newnode, filestruct
 void unlink_node(const filestruct *fileptr)
 {
     assert(fileptr != NULL);
-
     if (fileptr->prev != NULL)
 	fileptr->prev->next = fileptr->next;
-
     if (fileptr->next != NULL)
 	fileptr->next->prev = fileptr->prev;
 }
@@ -574,11 +564,10 @@ void unlink_node(const filestruct *fileptr)
 /* Delete a node from the filestruct. */
 void delete_node(filestruct *fileptr)
 {
-    if (fileptr != NULL) {
-	if (fileptr->data != NULL)
-	    free(fileptr->data);
-	free(fileptr);
-    }
+    assert(fileptr != NULL && fileptr->data != NULL);
+    if (fileptr->data != NULL)
+	free(fileptr->data);
+    free(fileptr);
 }
 
 /* Okay, now let's duplicate a whole struct! */
@@ -608,19 +597,13 @@ filestruct *copy_filestruct(const filestruct *src)
 /* Frees a filestruct. */
 void free_filestruct(filestruct *src)
 {
-    if (src != NULL) {
-	while (src->next != NULL) {
-	    src = src->next;
-	    delete_node(src->prev);
-#ifdef DEBUG
-	    fprintf(stderr, "%s: free'd a node, YAY!\n", "delete_node()");
-#endif
-	}
-	delete_node(src);
-#ifdef DEBUG
-	fprintf(stderr, "%s: free'd last node.\n", "delete_node()");
-#endif
+    assert(src != NULL);
+
+    while (src->next != NULL) {
+	src = src->next;
+	delete_node(src->prev);
     }
+    delete_node(src);
 }
 
 /* Partition a filestruct so it begins at (top, top_x) and ends at (bot,

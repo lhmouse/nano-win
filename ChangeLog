@@ -12,6 +12,20 @@ CVS code -
 	  simplifies how they work, and to store such text in its own
 	  buffer rather than the cutbuffer.  Changes to backup_lines(),
 	  do_justify(), etc. (DLR)
+	- Overhaul the multibuffer routines to increase efficiency, most
+	  importantly making them use a doubly linked list for the open
+	  files so that switching between them is no longer O(N), and
+	  only including free_openfilestruct() when --enable-debug is
+	  used.  Also use some of the same efficiency tweaks when
+	  dealing with filestruct nodes.  New function
+	  open_prevnext_file(); changes to make_new_opennode(),
+	  splice_opennode(), unlink_opennode(), delete_opennode(),
+	  free_openfilestruct(), add_open_file(), load_open_file(),
+	  close_open_file(), shortcut_init(), die(), make_new_node(),
+	  copy_node(), splice_node(), delete_node(), and
+	  free_filestruct(); removal of open_prevfile() and
+	  open_nextfile(). (David Benbennick, minor tweaks and additions
+	  by DLR)
 - cut.c:
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the

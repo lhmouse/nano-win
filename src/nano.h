@@ -175,30 +175,31 @@ typedef struct openfilestruct {
 #ifndef NANO_SMALL
     struct stat originalfilestat;
 #endif
-    struct openfilestruct *next;	/* Next node. */
-    struct openfilestruct *prev;	/* Previous node. */
-    struct filestruct *fileage;	/* Current file. */
-    struct filestruct *filebot;	/* Current file's last line. */
+    struct openfilestruct *next;
+				/* Next node. */
+    struct openfilestruct *prev;
+				/* Previous node. */
+    filestruct *fileage;	/* Current file. */
+    filestruct *filebot;	/* Current file's last line. */
+    filestruct *edittop;	/* Current top of edit window. */
+    filestruct *current;	/* Current file's line. */
 #ifndef NANO_SMALL
-    struct filestruct *file_mark_beginbuf;
+    filestruct *mark_beginbuf;
 				/* Current file's beginning marked
 				 * line. */
-    size_t file_mark_beginx;	/* Current file's beginning marked
+    size_t mark_beginx;		/* Current file's beginning marked
 				 * line's x-coordinate position. */
 #endif
-    size_t file_current_x;	/* Current file's x-coordinate
+    size_t current_x;		/* Current file's x-coordinate
 				 * position. */
-    int file_current_y;		/* Current file's y-coordinate
-				 * position. */
-    size_t file_placewewant;	/* Current file's place we want. */
-    int file_totlines;		/* Current file's total number of
+    size_t placewewant;		/* Current file's place we want. */
+    int totlines;		/* Current file's total number of
 				 * lines. */
-    long file_totsize;		/* Current file's total size. */
-    int file_lineno;		/* Current file's line number. */
-    long file_flags;		/* Current file's flags: modification
+    long totsize;		/* Current file's total size. */
+    long flags;			/* Current file's flags: modification
 				 * status (and marking status, if
 				 * available). */
-    file_format file_fmt;	/* Current file's format. */
+    file_format fmt;		/* Current file's format. */
 } openfilestruct;
 #endif
 

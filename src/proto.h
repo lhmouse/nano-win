@@ -190,17 +190,18 @@ void do_insertfile(
 	);
 void do_insertfile_void(void);
 #ifdef ENABLE_MULTIBUFFER
-openfilestruct *make_new_opennode(openfilestruct *prevnode);
+openfilestruct *make_new_opennode(void);
 void splice_opennode(openfilestruct *begin, openfilestruct *newnode,
 	openfilestruct *end);
-void unlink_opennode(const openfilestruct *fileptr);
+void unlink_opennode(openfilestruct *fileptr);
 void delete_opennode(openfilestruct *fileptr);
+#ifdef DEBUG
 void free_openfilestruct(openfilestruct *src);
+#endif
 void add_open_file(bool update);
 void load_open_file(void);
-void open_prevfile(bool closing_file);
+void open_prevnext_file(bool next);
 void open_prevfile_void(void);
-void open_nextfile(bool closing_file);
 void open_nextfile_void(void);
 bool close_open_file(void);
 #endif
