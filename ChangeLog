@@ -1,8 +1,9 @@
 CVS code -
 - files.c:
   do_writeout()
-	- Prompt the user if we're trying to save an existing file under
-	  a different name. (DLR; suggested by Jean-Philippe Guérard)
+	- Prompt the user if we're trying to save an existing file (and
+	  not just a selection of it) under a different name. (DLR;
+	  suggested by Jean-Philippe Guérard)
 - global.c:
   shortcut_init()
 	- Allow WHEREIS_NEXT_KEY to be used in view mode. (DLR)
@@ -16,7 +17,6 @@ CVS code -
 	  generated at the statusbar prompt sometimes on Linux. (DLR)
 - nano.spec.in:
 	- Update for the 1.3 branch of nano. (DLR)
-
 - THANKS:
 	- Add Danilo Segan, for the Serbian translation.
 
