@@ -149,14 +149,14 @@ extern char *homedir;
 
 /* Functions we want available. */
 
-/* Public functions in color.c */
+/* Public functions in color.c. */
 #ifdef ENABLE_COLOR
 void set_colorpairs(void);
 void do_colorinit(void);
 void update_color(void);
 #endif /* ENABLE_COLOR */
 
-/* Public functions in cut.c */
+/* Public functions in cut.c. */
 void cutbuffer_reset(void);
 filestruct *get_cutbottom(void);
 void add_to_cutbuffer(filestruct *inptr, bool allow_concat);
@@ -166,7 +166,7 @@ void cut_marked_segment(void);
 void do_cut_text(void);
 void do_uncut_text(void);
 
-/* Public functions in files.c */
+/* Public functions in files.c. */
 void new_file(void);
 filestruct *read_line(char *buf, filestruct *prev, bool *first_line_ins,
 	size_t len);
@@ -248,7 +248,7 @@ bool writehist(FILE *hist, historyheadtype *histhead);
 void save_history(void);
 #endif
 
-/* Public functions in global.c */
+/* Public functions in global.c. */
 size_t length_of_list(const shortcut *s);
 #ifndef NANO_SMALL
 void toggle_init_one(int val, const char *desc, long flag);
@@ -269,7 +269,7 @@ void free_shortcutage(shortcut **shortcutage);
 void thanks_for_all_the_fish(void);
 #endif
 
-/* Public functions in move.c */
+/* Public functions in move.c. */
 void do_first_line(void);
 void do_last_line(void);
 void do_home(void);
@@ -283,7 +283,7 @@ void do_left_void(void);
 void do_right(int allow_update);
 void do_right_void(void);
 
-/* Public functions in nano.c */
+/* Public functions in nano.c. */
 void finish(void);
 void die(const char *msg, ...);
 void die_save_file(const char *die_filename);
@@ -385,7 +385,7 @@ void disable_flow_control(void);
 void enable_flow_control(void);
 void terminal_init(void);
 
-/* Public functions in rcfile.c */
+/* Public functions in rcfile.c. */
 #ifdef ENABLE_NANORC
 void rcfile_error(const char *msg, ...);
 char *parse_next_word(char *ptr);
@@ -401,7 +401,7 @@ void parse_rcfile(FILE *rcstream);
 void do_rcfile(void);
 #endif /* ENABLE_NANORC */
 
-/* Public functions in search.c */
+/* Public functions in search.c. */
 #ifdef HAVE_REGEX_H
 int regexp_init(const char *regexp);
 void regexp_cleanup(void);
@@ -449,7 +449,7 @@ void free_history(historyheadtype *h);
 #endif
 #endif
 
-/* Public functions in utils.c */
+/* Public functions in utils.c. */
 #ifdef HAVE_REGEX_H
 #ifdef BROKEN_REGEXEC
 int regexec_safe(const regex_t *preg, const char *string, size_t nmatch,
@@ -513,7 +513,7 @@ void mark_order(const filestruct **top, size_t *top_x, const filestruct
 int check_wildcard_match(const char *text, const char *pattern);
 #endif
 
-/* Public functions in winio.c */
+/* Public functions in winio.c. */
 #ifndef NANO_SMALL
 void reset_kbinput(void);
 #endif

@@ -421,7 +421,8 @@ void shortcut_init(bool unjustify)
 #else
 		NOVIEW
 #endif
-		, !ISSET(RESTRICTED) ? do_insertfile_void : nano_disabled_msg);
+		, !ISSET(RESTRICTED) ? do_insertfile_void :
+		nano_disabled_msg);
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_WHEREIS_KEY, N_("Where Is"),
