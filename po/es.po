@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.9.9\n"
+"Project-Id-Version: 0.9.11\n"
 "POT-Creation-Date: 2000-06-19 18:16-0400\n"
-"PO-Revision-Date: 2000-06-04 20:21+0200\n"
+"PO-Revision-Date: 2000-06-20 02:56+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <jordi@sindominio.net>\n"
 "MIME-Version: 1.0\n"
@@ -344,7 +344,6 @@ msgid "Case Sens"
 msgstr "May/Min"
 
 #: global.c:270
-#, fuzzy
 msgid "To Replace"
 msgstr "Reemplazar"
 
@@ -354,9 +353,8 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #: global.c:286
-#, fuzzy
 msgid "To Search"
-msgstr "Buscar%s"
+msgstr "Buscar"
 
 #: nano.c:113
 msgid ""
@@ -427,7 +425,7 @@ msgstr "Opcion\t\tOpcion larga\t\tSignificado\n"
 
 #: nano.c:314
 msgid " -T \t\t--tabsize=[num]\t\tSet width of a tab to num\n"
-msgstr ""
+msgstr " -T \t\t--tabsize=[num]\t\tFijar el ancho de tab a num\n"
 
 #: nano.c:317
 msgid " -V \t\t--version\t\tPrint version information and exit\n"
@@ -505,7 +503,7 @@ msgstr "Opción\t\tSignificado\n"
 
 #: nano.c:354
 msgid " -T [num]\tSet width of a tab to num\n"
-msgstr ""
+msgstr " -T [num]\tFijar el ancho de tab a num\n"
 
 #: nano.c:355
 msgid " -V \t\tPrint version information and exit\n"
@@ -736,9 +734,9 @@ msgid "Only %d lines available, skipping to last line"
 msgstr "Sólo hay %d líneas, saltando hasta la última"
 
 #: winio.c:116
-#, fuzzy, c-format
+#, c-format
 msgid "actual_x_from_start for xplus=%d returned %d\n"
-msgstr "actual_x para xplus=%d devolvió %d\n"
+msgstr "actual_x_from_start para xplus=%d devolvió %d\n"
 
 #: winio.c:409
 #, c-format
