@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.99pre3\n"
-"POT-Creation-Date: 2003-02-13 22:18-0500\n"
-"PO-Revision-Date: 2003-02-25 00:51GMT+8\n"
+"Project-Id-Version: nano 1.2.0\n"
+"POT-Creation-Date: 2003-02-19 20:17-0500\n"
+"PO-Revision-Date: 2003-03-25 00:51GMT+8\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -24,260 +24,260 @@ msgstr "add_to_cutbuffer() dipanggil dengan inptr->data = %s\n"
 msgid "Blew away cutbuffer =)\n"
 msgstr "Cutbuffer dipadamkan =)\n"
 
-#: files.c:315
+#: files.c:317
 #, c-format
 msgid "Read %d line (Converted from Mac format)"
 msgid_plural "Read %d lines (Converted from Mac format)"
 msgstr[0] "%d baris dibaca (Ditukar daripada format Mac)"
 msgstr[1] "%d baris dibaca (Ditukar daripada format Mac)"
 
-#: files.c:319
+#: files.c:321
 #, c-format
 msgid "Read %d line (Converted from DOS format)"
 msgid_plural "Read %d lines (Converted from DOS format)"
 msgstr[0] "%d baris dibaca (Ditukar daripada format DOS)"
 msgstr[1] "%d baris dibaca (Ditukar daripada format DOS)"
 
-#: files.c:324
+#: files.c:326
 #, c-format
 msgid "Read %d line"
 msgid_plural "Read %d lines"
 msgstr[0] "%d baris dibaca"
 msgstr[1] "%d baris dibaca"
 
-#: files.c:341 search.c:58
+#: files.c:343 search.c:58
 #, c-format
 msgid "\"%s\" not found"
 msgstr "\"%s\" tidak dijumpai"
 
-#: files.c:345
+#: files.c:347
 msgid "New File"
 msgstr "Fail Baru"
 
-#: files.c:351
+#: files.c:353
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "\"%s\" adalah sebuah direktori"
 
-#: files.c:352
+#: files.c:354
 #, c-format
 msgid "File \"%s\" is a device file"
 msgstr "Fail \"%s\" adalah sebuah fail peranti"
 
-#: files.c:370
+#: files.c:372
 msgid "Reading File"
 msgstr "Membaca fail"
 
-#: files.c:446
+#: files.c:448
 #, c-format
 msgid "File to insert into new buffer [from %s] "
 msgstr "Fail untuk dimasukkan kedalam buffer baru [daripada %s] "
 
-#: files.c:454
+#: files.c:456
 #, c-format
 msgid "File to insert [from %s] "
 msgstr "Fail untuk dimasukkan [daripada %s] "
 
-#: files.c:465
+#: files.c:467
 msgid "File to insert into new buffer [from ./] "
 msgstr "Fail untuk dimasukkan kedalam buffer baru [daripada ./] "
 
-#: files.c:472
+#: files.c:474
 msgid "File to insert [from ./] "
 msgstr "Fail untuk dimasukkan [daripada ./] "
 
-#: files.c:477 files.c:736 files.c:793 files.c:881 files.c:893 files.c:944
-#: files.c:955 files.c:1815
+#: files.c:479 files.c:738 files.c:795 files.c:883 files.c:895 files.c:946
+#: files.c:957 files.c:1817
 #, c-format
 msgid "filename is %s\n"
 msgstr "nama fail adalah %s\n"
 
-#: files.c:493
+#: files.c:495
 msgid "Command to execute"
 msgstr "Arahan untuk dilaksanakan"
 
-#: files.c:495 files.c:608 files.c:1340 files.c:1776 nano.c:2739
+#: files.c:497 files.c:610 files.c:1342 files.c:1778 nano.c:2736
 msgid "Cancelled"
 msgstr "Dibatalkan"
 
-#: files.c:517
+#: files.c:519
 #, c-format
 msgid "Can't insert file from outside of %s"
 msgstr "Tidak dapat memasukkan fail luar daripada %s"
 
-#: files.c:632
+#: files.c:634
 msgid "Key illegal in non-multibuffer mode"
 msgstr "Kekunci tidak sah dalam mod bukan multibuffer"
 
-#: files.c:704 nano.c:572
+#: files.c:706 nano.c:572
 #, c-format
 msgid "%s: free'd a node, YAY!\n"
 msgstr "%s: sebuah nod dibebaskan, YAY!\n"
 
-#: files.c:709 nano.c:577
+#: files.c:711 nano.c:577
 #, c-format
 msgid "%s: free'd last node.\n"
 msgstr "%s: nod terakhir dibebaskan.\n"
 
-#: files.c:873 files.c:936
+#: files.c:875 files.c:938
 msgid "No more open files"
 msgstr "Tiada lagi fail terbuka"
 
-#: files.c:900 files.c:963
+#: files.c:902 files.c:965
 #, c-format
 msgid "Switched to %s"
 msgstr "Ditukar kepada %s"
 
-#: files.c:1353
+#: files.c:1355
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Tidak dapat menulis diluar daripada %s"
 
-#: files.c:1384
+#: files.c:1386
 #, c-format
 msgid "Could not read %s for backup: %s"
 msgstr "Tidak dapat membuka %s untuk salinan: %s"
 
-#: files.c:1395
+#: files.c:1397
 #, c-format
 msgid "Couldn't write backup: %s"
 msgstr "Tidak dapat menulis salinan: %s"
 
-#: files.c:1401
+#: files.c:1403
 #, c-format
 msgid "Backing up %s to %s\n"
 msgstr "Menyalin %s ke %s\n"
 
-#: files.c:1413
+#: files.c:1415
 #, c-format
 msgid "Could not set permissions %o on backup %s: %s"
 msgstr "Tidak dapat menetapkan keizinan %o pada salinan %s: %s"
 
-#: files.c:1419
+#: files.c:1421
 #, c-format
 msgid "Could not set owner %d/group %d on backup %s: %s"
 msgstr "Tidak dapat menetapkan tuanpunya %d/kumpulan %d pada salinan %s: %s"
 
-#: files.c:1424
+#: files.c:1426
 #, c-format
 msgid "Could not set access/modification time on backup %s: %s"
 msgstr "Tidak dapat menetapkan masa akses/perubahan pada salinan %s: %s"
 
-#: files.c:1459 files.c:1475 files.c:1487 files.c:1509 files.c:1542
-#: files.c:1549 files.c:1561
+#: files.c:1461 files.c:1477 files.c:1489 files.c:1511 files.c:1544
+#: files.c:1551 files.c:1563
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "Fail tidak dapat dibuka untuk ditulis: %s"
 
-#: files.c:1516
+#: files.c:1518
 #, c-format
 msgid "Wrote >%s\n"
 msgstr "Ditulis >%s\n"
 
-#: files.c:1572
+#: files.c:1574
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "%s tidak boleh ditutup: %s"
 
-#: files.c:1584 files.c:1589 files.c:1617
+#: files.c:1586 files.c:1591 files.c:1619
 #, c-format
 msgid "Could not reopen %s: %s"
 msgstr "%s tidak dapat dibuka semula: %s"
 
-#: files.c:1594 files.c:1600 files.c:1609
+#: files.c:1596 files.c:1602 files.c:1611
 #, c-format
 msgid "Could not open %s for prepend: %s"
 msgstr "Tidak dapat membuka %s untuk tambahan awalan: %s"
 
-#: files.c:1647 files.c:1656 files.c:1661
+#: files.c:1649 files.c:1658 files.c:1663
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr "Tidak dapat membuka %s untuk menulis: %s"
 
-#: files.c:1668
+#: files.c:1670
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr "Tidak dapat menetapkan keizinan %o pada %s: %s"
 
-#: files.c:1684
+#: files.c:1686
 #, c-format
 msgid "Wrote %d line"
 msgid_plural "Wrote %d lines"
 msgstr[0] "%d baris ditulis"
 msgstr[1] "%d baris ditulis"
 
-#: files.c:1730
+#: files.c:1732
 msgid " [Mac Format]"
 msgstr " [Format Mac]"
 
-#: files.c:1732
+#: files.c:1734
 msgid " [DOS Format]"
 msgstr " [Format DOS]"
 
-#: files.c:1737
+#: files.c:1739
 msgid " [Backup]"
 msgstr " [Salinan]"
 
-#: files.c:1745
+#: files.c:1747
 msgid "Prepend Selection to File"
 msgstr "Tambahan Awalan Pilihan ke Fail"
 
-#: files.c:1748
+#: files.c:1750
 msgid "Append Selection to File"
 msgstr "Tambahan Akhiran Pilihan ke Fail"
 
-#: files.c:1751
+#: files.c:1753
 msgid "Write Selection to File"
 msgstr "Tulis Pilihan ke Fail"
 
-#: files.c:1755 files.c:1766
+#: files.c:1757 files.c:1768
 msgid "File Name to Prepend to"
 msgstr "Nama Fail untuk di Tambah Awalan"
 
-#: files.c:1758 files.c:1769
+#: files.c:1760 files.c:1771
 msgid "File Name to Append to"
 msgstr "Nama Fail untuk di Tambah Akhiran"
 
-#: files.c:1761 files.c:1772
+#: files.c:1763 files.c:1774
 msgid "File Name to Write"
 msgstr "Nama Fail untuk di Tulis"
 
-#: files.c:1830
+#: files.c:1832
 msgid "File exists, OVERWRITE ?"
 msgstr "File wujud, TULISGANTI ?"
 
-#: files.c:2319
+#: files.c:2321
 msgid "(more)"
 msgstr "(lagi)"
 
-#: files.c:2624
+#: files.c:2626
 msgid "Can't move up a directory"
 msgstr "Tidak dapat pindah naik direktori"
 
-#: files.c:2635 files.c:2708
+#: files.c:2637 files.c:2710
 #, c-format
 msgid "Can't go outside of %s in restricted mode"
 msgstr "Tidak boleh ke luar dari %s dalam mod terhad"
 
-#: files.c:2642 files.c:2669 files.c:2716
+#: files.c:2644 files.c:2671 files.c:2718
 #, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "Tidak dapat membuka \"%s\": %s"
 
-#: files.c:2690
+#: files.c:2692
 msgid "Goto Directory"
 msgstr "Ke Direktori"
 
-#: files.c:2695
+#: files.c:2697
 msgid "Goto Cancelled"
 msgstr "Pergi ke Dibatalkan"
 
-#: files.c:2894
+#: files.c:2896
 #, c-format
 msgid "Unable to open ~/.nano_history file, %s"
 msgstr "Tidak dapat membuka fail ~/.nano_history, %s"
 
-#: files.c:2943 files.c:2952 files.c:2957 files.c:2964
+#: files.c:2945 files.c:2954 files.c:2959 files.c:2966
 #, c-format
 msgid "Unable to write ~/.nano_history file, %s"
 msgstr "Tidak dapat menulis fail ~/.nano_history, %s"
@@ -1230,118 +1230,118 @@ msgstr "Semakan ejaan gagal: %s"
 msgid "Finished checking spelling"
 msgstr "Selesai memeriksa ejaan"
 
-#: nano.c:2347
+#: nano.c:2344
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Petikan rentetan tidak sesuai %s: %s"
 
-#: nano.c:2612
+#: nano.c:2609
 msgid "Can now UnJustify!"
 msgstr "Sekarang boleh UnJustify!"
 
-#: nano.c:2709
+#: nano.c:2706
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Simpan buffer ubahsuai (JAWAB \"Tidak\" AKAN MENGHILANGKAN PERUBAHAN) ? "
 
-#: nano.c:2809
+#: nano.c:2806
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "SIGHUP atau SIGTERM diterima\n"
 
-#: nano.c:2816
+#: nano.c:2813
 msgid "Use \"fg\" to return to nano"
 msgstr "Guna \"fg\" untuk kembali ke nano"
 
-#: nano.c:2889
+#: nano.c:2886
 msgid "Cannot resize top win"
 msgstr "Tidak dapat mengubah saiz tetingkap atas"
 
-#: nano.c:2891
+#: nano.c:2888
 msgid "Cannot move top win"
 msgstr "Tidak dapat memindahkan tetingkap atas"
 
-#: nano.c:2893
+#: nano.c:2890
 msgid "Cannot resize edit win"
 msgstr "Tidak dapat mengubah saiz tetingkap suntingan"
 
-#: nano.c:2895
+#: nano.c:2892
 msgid "Cannot move edit win"
 msgstr "Tidak dapat memindah tetingkap suntingan"
 
-#: nano.c:2897
+#: nano.c:2894
 msgid "Cannot resize bottom win"
 msgstr "Tidak dapat mengubah saiz tetingkap bawah"
 
-#: nano.c:2899
+#: nano.c:2896
 msgid "Cannot move bottom win"
 msgstr "Tidak dapat memindah tetingkap bawah"
 
-#: nano.c:2932
+#: nano.c:2929
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr "Ralat NumLock dikesan.  Pad kekunci tidak berfungsi dengan NumLock off"
 
-#: nano.c:2981
+#: nano.c:2978
 msgid "enabled"
 msgstr "dihidupkan"
 
-#: nano.c:2981
+#: nano.c:2978
 msgid "disabled"
 msgstr "dimatikan"
 
-#: nano.c:3173
+#: nano.c:3170
 msgid "Tab size is too small for nano...\n"
 msgstr "Saiz tab terlalu kecil bagi nano...\n"
 
-#: nano.c:3389
+#: nano.c:3386
 msgid "Main: set up windows\n"
 msgstr "Utama: menetapkan tetingkap\n"
 
-#: nano.c:3414
+#: nano.c:3411
 msgid "Main: bottom win\n"
 msgstr "Utama: tetingkap bawah\n"
 
-#: nano.c:3420
+#: nano.c:3417
 msgid "Main: open file\n"
 msgstr "Utama: buka fail\n"
 
-#: nano.c:3477
+#: nano.c:3474
 #, c-format
 msgid "AHA!  %c (%d)\n"
 msgstr "AHA!  %c (%d)\n"
 
-#: nano.c:3497
+#: nano.c:3494
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Saya mendapat Alt-O-%c! (%d)\n"
 
-#: nano.c:3524
+#: nano.c:3521
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Saya mendapat Alt-[-1-%c! (%d)\n"
 
-#: nano.c:3554
+#: nano.c:3551
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Saya mendapat Alt-[-2-%c! (%d)\n"
 
-#: nano.c:3623
+#: nano.c:3620
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Saya mendapat Alt-[-%c! (%d)\n"
 
-#: nano.c:3664
+#: nano.c:3661
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"
 
-#: nano.c:3714
+#: nano.c:3711
 msgid "XOFF ignored, mumble mumble."
 msgstr "XOFF diabaikan, mumble mumble."
 
-#: nano.c:3716
+#: nano.c:3713
 msgid "XON ignored, mumble mumble."
 msgstr "XON diabaikan, mumble mumble."
 
-#: nano.c:3755
+#: nano.c:3752
 #, c-format
 msgid "I got %c (%d)!\n"
 msgstr "Saya mendapat %c (%d)!\n"
