@@ -134,7 +134,7 @@ filestruct *findnextstr(int quiet, filestruct * begin, char *needle)
     char *searchstr, *found = NULL, *tmp;
     int past_editbot = 0;
 
-    fileptr = begin;
+    fileptr = current;
 
     searchstr = &current->data[current_x + 1];
     /* Look for searchstr until EOF */

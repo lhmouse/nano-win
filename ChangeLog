@@ -11,6 +11,9 @@ CVS code -
 	- Added check for _POSIX_VDISABLE and use raw mode if not
 	  available, allows nano to work with cygwin.
 	- Added gettext calls to enable/disable strings (Jordi).
+- search.c:
+  findnextstr()
+	- Reset starting at current for search instead of begin.
 - es.po:
 	- Translated new strings and minor updates (Jordi).
 
