@@ -361,6 +361,10 @@ void parse_colors(char *ptr)
 
     fg = colortoint(fgstr, &bright);
 
+    /* Don't try and parse screwed up fg colors */
+    if (fg == -1)
+	return;
+
     if (syntaxes == NULL) {
 	rcfile_error(_("Cannot add a color directive without a syntax line"));
 	return;
