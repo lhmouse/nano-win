@@ -109,3 +109,15 @@ void *nrealloc(void *ptr, size_t howmuch)
 
     return r;
 }
+
+/* Append a new magic-line to filebot */
+void new_magicline(void) {
+    filebot->next = nmalloc(sizeof(filestruct));
+    filebot->next->data = nmalloc(1);
+    filebot->next->data[0] = '\0';
+    filebot->next->prev = filebot;
+    filebot->next->next = NULL;
+    filebot->next->lineno = filebot->lineno + 1;
+    filebot = filebot->next;
+    totlines++;
+}

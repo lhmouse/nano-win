@@ -440,6 +440,14 @@ void nano_small_msg(void)
 /* The user typed a printable character; add it to the edit buffer */
 void do_char(char ch)
 {
+    /* magic-line: when a character is inserted on the current magic line,
+     * it means we need a new one! */
+    if(filebot == current && current->data[0] == '\0') {
+	new_magicline();
+	if(current == editbot)
+	    fix_editbot();
+    }
+
     /* More dangerousness fun =) */
     current->data = nrealloc(current->data, strlen(current->data) + 2);
     memmove(&current->data[current_x + 1],

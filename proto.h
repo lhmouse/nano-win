@@ -102,7 +102,7 @@ void *nmalloc(size_t howmuch);
 void *nrealloc(void *ptr, size_t howmuch);
 void die(char *msg, ...);
 void new_file(void);
-
+void new_magicline(void);
 
 int do_writeout_void(void), do_exit(void), do_gotoline_void(void);
 int do_insertfile(void), do_search(void), page_up(void), page_down(void);
@@ -116,5 +116,3 @@ int do_replace(void), do_help(void), do_enter_void(void);
 filestruct *copy_node(filestruct * src);
 filestruct *copy_filestruct(filestruct * src);
 filestruct *make_new_node(filestruct * prevnode);
-
-

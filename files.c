@@ -180,6 +180,7 @@ int read_file(int fd, char *filename)
 	statusbar(_("Read %d lines"), lines);
 	return 1;
     }
+
     if (current != NULL) {
 	fileptr->next = current;
 	current->prev = fileptr;
@@ -188,6 +189,9 @@ int read_file(int fd, char *filename)
 	placewewant = 0;
     } else if (fileptr->next == NULL) {
 	filebot = fileptr;
+	new_magicline();
+
+	/* Update the edit buffer */
 	load_file();
     }
     statusbar(_("Read %d lines"), lines);
@@ -326,6 +330,9 @@ int write_file(char *name, int tmp)
 
     dump_buffer(fileage);
     while (fileptr != NULL && fileptr->next != NULL) {
+	/* Next line is so we discount the "magic line" */
+	if(filebot == fileptr && fileptr->data[0] == '\0') break;
+
 	size = write(fd, fileptr->data, strlen(fileptr->data));
 	if (size == -1) {
 	    statusbar(_("Could not open file for writing: %s"),
