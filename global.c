@@ -115,7 +115,10 @@ void toggle_init(void)
 #ifndef NANO_SMALL
     char *toggle_const_msg, *toggle_autoindent_msg, *toggle_suspend_msg,
 	*toggle_nohelp_msg, *toggle_picomode_msg, *toggle_mouse_msg,
-	*toggle_cuttoend_msg, *toggle_regexp_msg, *toggle_wrap_msg;
+	*toggle_cuttoend_msg, *toggle_wrap_msg;
+#ifdef HAVE_REGEX_H
+    char *toggle_regexp_msg;  
+#endif
 
     toggle_const_msg = _("Constant cursor position");
     toggle_autoindent_msg = _("Auto indent");

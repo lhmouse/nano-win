@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-10-02 00:28-0400\n"
+"POT-Creation-Date: 2000-10-03 01:46-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -107,284 +107,284 @@ msgstr ""
 msgid "File exists, OVERWRITE ?"
 msgstr ""
 
-#: global.c:120
+#: global.c:123
 msgid "Constant cursor position"
 msgstr ""
 
-#: global.c:121
+#: global.c:124
 msgid "Auto indent"
 msgstr ""
 
-#: global.c:122
+#: global.c:125
 msgid "Suspend"
 msgstr ""
 
-#: global.c:123
+#: global.c:126
 msgid "Help mode"
 msgstr ""
 
-#: global.c:124
+#: global.c:127
 msgid "Pico messages"
 msgstr ""
 
-#: global.c:125
+#: global.c:128
 msgid "Mouse support"
 msgstr ""
 
-#: global.c:126
+#: global.c:129
 msgid "Cut to end"
 msgstr ""
 
-#: global.c:128
+#: global.c:131
 msgid "Regular expressions"
 msgstr ""
 
-#: global.c:130
+#: global.c:133
 msgid "Auto wrap"
 msgstr ""
 
-#: global.c:172
+#: global.c:175
 msgid "Invoke the help menu"
 msgstr ""
 
-#: global.c:173
+#: global.c:176
 msgid "Write the current file to disk"
 msgstr ""
 
-#: global.c:174
+#: global.c:177
 msgid "Exit from nano"
 msgstr ""
 
-#: global.c:175
+#: global.c:178
 msgid "Goto a specific line number"
 msgstr ""
 
-#: global.c:176
+#: global.c:179
 msgid "Justify the current paragraph"
 msgstr ""
 
-#: global.c:177
+#: global.c:180
 msgid "Replace text within the editor"
 msgstr ""
 
-#: global.c:178
+#: global.c:181
 msgid "Insert another file into the current one"
 msgstr ""
 
-#: global.c:179
+#: global.c:182
 msgid "Search for text within the editor"
 msgstr ""
 
-#: global.c:180
+#: global.c:183
 msgid "Move to the previous screen"
 msgstr ""
 
-#: global.c:181
+#: global.c:184
 msgid "Move to the next screen"
 msgstr ""
 
-#: global.c:182
+#: global.c:185
 msgid "Cut the current line and store it in the cutbuffer"
 msgstr ""
 
-#: global.c:183
+#: global.c:186
 msgid "Uncut from the cutbuffer into the current line"
 msgstr ""
 
-#: global.c:184
+#: global.c:187
 msgid "Show the posititon of the cursor"
 msgstr ""
 
-#: global.c:185
+#: global.c:188
 msgid "Invoke the spell checker (if available)"
 msgstr ""
 
-#: global.c:186
+#: global.c:189
 msgid "Move up one line"
 msgstr ""
 
-#: global.c:187
+#: global.c:190
 msgid "Move down one line"
 msgstr ""
 
-#: global.c:188
+#: global.c:191
 msgid "Move forward one character"
 msgstr ""
 
-#: global.c:189
+#: global.c:192
 msgid "Move back one character"
 msgstr ""
 
-#: global.c:190
+#: global.c:193
 msgid "Move to the beginning of the current line"
 msgstr ""
 
-#: global.c:191
+#: global.c:194
 msgid "Move to the end of the current line"
 msgstr ""
 
-#: global.c:192
+#: global.c:195
 msgid "Go to the first line of the file"
 msgstr ""
 
-#: global.c:193
+#: global.c:196
 msgid "Go to the last line of the file"
 msgstr ""
 
-#: global.c:194
+#: global.c:197
 msgid "Refresh (redraw) the current screen"
 msgstr ""
 
-#: global.c:195
+#: global.c:198
 msgid "Mark text at the current cursor location"
 msgstr ""
 
-#: global.c:196
+#: global.c:199
 msgid "Delete the character under the cursor"
 msgstr ""
 
-#: global.c:198
+#: global.c:201
 msgid "Delete the character to the left of the cursor"
 msgstr ""
 
-#: global.c:199
+#: global.c:202
 msgid "Insert a tab character"
 msgstr ""
 
-#: global.c:200
+#: global.c:203
 msgid "Insert a carriage return at the cursor position"
 msgstr ""
 
-#: global.c:202
+#: global.c:205
 msgid "Make the current search or replace case (in)sensitive"
 msgstr ""
 
-#: global.c:203
+#: global.c:206
 msgid "Cancel the current function"
 msgstr ""
 
-#: global.c:207 global.c:319 global.c:391
+#: global.c:210 global.c:322 global.c:394
 msgid "Get Help"
 msgstr ""
 
-#: global.c:210 global.c:218
+#: global.c:213 global.c:221
 msgid "WriteOut"
 msgstr ""
 
-#: global.c:214 global.c:380
+#: global.c:217 global.c:383
 msgid "Exit"
 msgstr ""
 
-#: global.c:222 global.c:315 global.c:336 global.c:355
+#: global.c:225 global.c:318 global.c:339 global.c:358
 msgid "Goto Line"
 msgstr ""
 
-#: global.c:227 global.c:306
+#: global.c:230 global.c:309
 msgid "Justify"
 msgstr ""
 
-#: global.c:231 global.c:302 global.c:333
+#: global.c:234 global.c:305 global.c:336
 msgid "Replace"
 msgstr ""
 
-#: global.c:235
+#: global.c:238
 msgid "Read File"
 msgstr ""
 
-#: global.c:239
+#: global.c:242
 msgid "Where Is"
 msgstr ""
 
-#: global.c:243 global.c:372
+#: global.c:246 global.c:375
 msgid "Prev Page"
 msgstr ""
 
-#: global.c:247 global.c:376
+#: global.c:250 global.c:379
 msgid "Next Page"
 msgstr ""
 
-#: global.c:251
+#: global.c:254
 msgid "Cut Text"
 msgstr ""
 
-#: global.c:254
+#: global.c:257
 msgid "UnCut Txt"
 msgstr ""
 
-#: global.c:258
+#: global.c:261
 msgid "Cur Pos"
 msgstr ""
 
-#: global.c:262
+#: global.c:265
 msgid "To Spell"
 msgstr ""
 
-#: global.c:266
+#: global.c:269
 msgid "Up"
 msgstr ""
 
-#: global.c:269
+#: global.c:272
 msgid "Down"
 msgstr ""
 
-#: global.c:272
+#: global.c:275
 msgid "Forward"
 msgstr ""
 
-#: global.c:275
+#: global.c:278
 msgid "Back"
 msgstr ""
 
-#: global.c:278
+#: global.c:281
 msgid "Home"
 msgstr ""
 
-#: global.c:281
+#: global.c:284
 msgid "End"
 msgstr ""
 
-#: global.c:284
+#: global.c:287
 msgid "Refresh"
 msgstr ""
 
-#: global.c:287
+#: global.c:290
 msgid "Mark Text"
 msgstr ""
 
-#: global.c:290
+#: global.c:293
 msgid "Delete"
 msgstr ""
 
-#: global.c:294
+#: global.c:297
 msgid "Backspace"
 msgstr ""
 
-#: global.c:298
+#: global.c:301
 msgid "Tab"
 msgstr ""
 
-#: global.c:310
+#: global.c:313
 msgid "Enter"
 msgstr ""
 
-#: global.c:323 global.c:343 global.c:362
+#: global.c:326 global.c:346 global.c:365
 msgid "First Line"
 msgstr ""
 
-#: global.c:326 global.c:346 global.c:365
+#: global.c:329 global.c:349 global.c:368
 msgid "Last Line"
 msgstr ""
 
-#: global.c:329 global.c:349
+#: global.c:332 global.c:352
 msgid "Case Sens"
 msgstr ""
 
-#: global.c:339 global.c:358 global.c:368 global.c:384 global.c:388
-#: global.c:394 winio.c:999
+#: global.c:342 global.c:361 global.c:371 global.c:387 global.c:391
+#: global.c:397 winio.c:999
 msgid "Cancel"
 msgstr ""
 
-#: global.c:352
+#: global.c:355
 msgid "No Replace"
 msgstr ""
 

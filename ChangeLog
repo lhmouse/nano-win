@@ -1,4 +1,9 @@
 CVS Code -
+- global.c
+  toggle_init()
+	- Added #ifdef around toggle_regex_msg to get rid of compiler 
+	  warning.
+  
 nano 0.9.19 - 10/02/2000
 - General
 	- Added PDCurses support under cygwin, which allows building
