@@ -1,6 +1,8 @@
 CVS code changes since last release -
 - nano.c:
 	- Removed dual alt_speller variables, oops! (Rocco Corsi)
+- de.po
+	- Revised translations by floki@bigfoot.com.
 
 nano-0.9.11 - 06/20/2000
 - New flag "-T" or "--tabsize" to specify how to display tab widths.

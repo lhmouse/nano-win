@@ -1,13 +1,13 @@
 # German Messages for the nano editor
-# Florian König <floki@bigfoot.com> March 30, 2000
+# Florian König <floki@bigfoot.com> June 21, 2000
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Florian König <floki@bigfoot.com>, 2000.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: nano 0.9.11\n"
 "POT-Creation-Date: 2000-06-20 22:31-0400\n"
-"PO-Revision-Date: 2000-03-30 20:50+0100\n"
+"PO-Revision-Date: 2000-06-21 12:19+0200\n"
 "Last-Translator: Florian König <floki@bigfoot.com>\n"
 "Language-Team: German <floki@bigfoot.com>\n"
 "MIME-Version: 1.0\n"
@@ -96,7 +96,7 @@ msgstr "%d Zeilen geschrieben"
 
 #: files.c:437
 msgid "File Name to write"
-msgstr "Dateiname zum speichern"
+msgstr "Dateiname zum Speichern"
 
 #: files.c:442
 #, c-format
@@ -105,7 +105,7 @@ msgstr "Dateiname ist %s"
 
 #: files.c:447
 msgid "File exists, OVERWRITE ?"
-msgstr ""
+msgstr "Datei exisitiert, ÜBERSCHREIBEN ?"
 
 #: global.c:110
 msgid "Invoke the help menu"
@@ -221,8 +221,7 @@ msgstr "Zeilenumbruch an der Cursorposition einfügen"
 
 #: global.c:140
 msgid "Make the current search or replace case (in)sensitive"
-msgstr ""
-"Groß- und Kleinschreibung bei Suche oder Erstzen (nicht) berücksichtigen"
+msgstr "Groß- und Kleinschreibung bei Suche oder Erstzen (nicht) berücksichtigen"
 
 #: global.c:141
 msgid "Cancel the current function"
@@ -322,7 +321,7 @@ msgstr "Löschen"
 
 #: global.c:232
 msgid "Backspace"
-msgstr "Backspace"
+msgstr "Rücktaste"
 
 #: global.c:236
 msgid "Tab"
@@ -357,7 +356,7 @@ msgstr "Abbrechen"
 #: global.c:286
 #, fuzzy
 msgid "To Search"
-msgstr "Suche%s"
+msgstr "Suche"
 
 #: nano.c:112
 msgid ""
@@ -418,7 +417,7 @@ msgid ""
 "Usage: nano [GNU long option] [option] +LINE <file>\n"
 "\n"
 msgstr ""
-"Aufruf: nano [GNU lange Option] [Option] +ZEILE <Datei>\n"
+"Aufruf: nano [lange GNU Option] [Option] +ZEILE <Datei>\n"
 "\n"
 
 #: nano.c:311
@@ -427,7 +426,7 @@ msgstr "Option\t\tlange Option\t\tBedeutung\n"
 
 #: nano.c:314
 msgid " -T \t\t--tabsize=[num]\t\tSet width of a tab to num\n"
-msgstr ""
+msgstr " -T \t\t--tabsize=[Anzahl]\tTabulator-Größe auf Anzahl setzen\n"
 
 #: nano.c:318
 msgid " -V \t\t--version\t\tPrint version information and exit\n"
@@ -447,7 +446,7 @@ msgstr " -i \t\t--autoindent\t\tNeue Zeilen automatisch einrücken\n"
 
 #: nano.c:326
 msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite.\n"
-msgstr ""
+msgstr " -l \t\t--nofollow\t\tSymbolischen Links nicht folgen, sondern überschreiben.\n"
 
 #: nano.c:329
 msgid " -m \t\t--mouse\t\t\tEnable mouse\n"
@@ -457,7 +456,7 @@ msgstr " -m \t\t--mouse\t\t\tMaus aktivieren\n"
 msgid ""
 " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
 msgstr ""
-" -r [#Spalten] \t--fill=[#Spalten]\t\tSpalten auffüllen (Zeilenumbruch bei) "
+" -r [#Spalten] \t--fill=[#Spalten]\tSpalten auffüllen (Zeilenumbruch bei) "
 "#Spalten\n"
 
 #: nano.c:336
@@ -466,8 +465,7 @@ msgstr " -p\t \t--pico\t\t\tErscheinungsbild von Pico stärker imitieren\n"
 
 #: nano.c:338
 msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
-msgstr ""
-" -s [Programm] \t--speller=[Programm]\tAlternative Rechtschreibprüfung\n"
+msgstr " -s [Programm] \t--speller=[Programm]\tAlternative Rechtschreibprüfung\n"
 
 #: nano.c:340
 msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
@@ -475,8 +473,7 @@ msgstr " -t \t\t--tempfile\t\tBeim Beenden ohne Rückfrage speichern\n"
 
 #: nano.c:342
 msgid " -v \t\t--view\t\t\tView (read only) mode\n"
-msgstr ""
-" -v \t\t--view\t\t\tNur zum Lesen öffnen (keine Veränderungen möglich)\n"
+msgstr " -v \t\t--view\t\t\tNur zum Lesen öffnen (keine Veränderungen möglich)\n"
 
 #: nano.c:344
 msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
@@ -488,8 +485,7 @@ msgstr " -x \t\t--nohelp\t\tHilfe-Fenster nicht anzeigen\n"
 
 #: nano.c:348
 msgid " -z \t\t--suspend\t\tEnable suspend\n"
-msgstr ""
-" -z \t\t--suspend\t\tSuspend (anhalten und zurück zur Shell) aktivieren\n"
+msgstr " -z \t\t--suspend\t\tSuspend (anhalten und zurück zur Shell) aktivieren\n"
 
 #: nano.c:350
 msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
@@ -509,7 +505,7 @@ msgstr "Option\t\tBedeutung\n"
 
 #: nano.c:355
 msgid " -T [num]\tSet width of a tab to num\n"
-msgstr ""
+msgstr " -T [Anzahl]\tTabulator-Größe auf Anzahl setzen\n"
 
 #: nano.c:357
 msgid " -V \t\tPrint version information and exit\n"
@@ -529,7 +525,7 @@ msgstr " -i \t\tNeue Zeilen automatisch einrücken\n"
 
 #: nano.c:362
 msgid " -l \t\tDon't follow symbolic links, overwrite.\n"
-msgstr ""
+msgstr " -l \t\tSymbolischen Links nicht folgen, sondern überschreiben\n"
 
 #: nano.c:365
 msgid " -m \t\tEnable mouse\n"
@@ -841,7 +837,7 @@ msgstr "Gebe einen Puffer nach stderr aus...\n"
 #~ msgstr " [%s]"
 
 #~ msgid "$"
-#~ msgstr "ATS "
+#~ msgstr "DM"
 
 #~ msgid ".XXXXXX"
 #~ msgstr ".XXXXXX"
@@ -918,7 +914,7 @@ msgstr "Gebe einen Puffer nach stderr aus...\n"
 
 #, fuzzy
 #~ msgid "h?Vcilmpr:s:tvwxz"
-#~ msgstr "h?Vcimpr:s:tvwx"
+#~ msgstr "h?Vcilmpr:s:tvwxz"
 
 #~ msgid "I got %c (%d)!\n"
 #~ msgstr "Erhielt %c (%d)!\n"
