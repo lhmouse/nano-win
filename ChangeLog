@@ -53,6 +53,9 @@ Cvs code -
 - winio.c:
   actual_x()
 	- Remove inline from function decl (Albert Chin).
+- po/gl.po:
+	- New Galician translation by Jacobo Tarrío <jtarrio@trasno.net>,
+	  thanks! 
 
 nano 1.1 tree forked here 04/07/2001
 
