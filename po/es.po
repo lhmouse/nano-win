@@ -1,14 +1,13 @@
+# Mensajes en español para GNU nano.
+# Copyright (C) 2000, 2001 Free Software Foundation, Inc.
+# Jordi Mallach <jordi@sindominio.net>, 2000, 2001.
 # $Id$
-# Spanish Messages for the GNU nano editor.
-# Jordi Mallach <jordi@sindominio.net> January 9, 2000
-# Copyright (C) 2000 Free Software Foundation, Inc.
-# Jordi Mallach <jordi@sindominio.net>, 2000.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.1.0\n"
+"Project-Id-Version: nano 1.1.1\n"
 "POT-Creation-Date: 2001-07-28 19:55-0400\n"
-"PO-Revision-Date: 2001-05-02 19:10+0200\n"
+"PO-Revision-Date: 2001-09-05 16:27+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -74,7 +73,7 @@ msgstr "Cancelado"
 
 #: files.c:653 files.c:708
 msgid "No more open files"
-msgstr ""
+msgstr "No hay más ficheros abiertos"
 
 #: files.c:931 files.c:947 files.c:961 files.c:978 files.c:985
 #, c-format
@@ -198,15 +197,15 @@ msgstr "Auto wrapear"
 
 #: global.c:174
 msgid "Multiple file buffers"
-msgstr ""
+msgstr "Múltiples buffers de ficheros"
 
 #: global.c:175
 msgid "Open previously loaded file"
-msgstr ""
+msgstr "Abrir fichero cargado previamente"
 
 #: global.c:176
 msgid "Open next loaded file"
-msgstr ""
+msgstr "Abrir siguiente fichero cargado"
 
 #: global.c:236
 msgid "Invoke the help menu"
@@ -218,7 +217,7 @@ msgstr "Escribir el fichero actual a disco"
 
 #: global.c:240
 msgid "Close currently loaded file/Exit from nano"
-msgstr ""
+msgstr "Cerrar fichero cargado actualmente/Salir de nano"
 
 #: global.c:242
 msgid "Exit from nano"
@@ -358,7 +357,7 @@ msgstr "Ver Ayuda"
 
 #: global.c:287
 msgid "Close"
-msgstr ""
+msgstr "Cerrar"
 
 #: global.c:291 global.c:490 global.c:528
 msgid "Exit"
@@ -588,7 +587,7 @@ msgstr "Opción\t\tOpción larga\t\tSignificado\n"
 
 #: nano.c:408
 msgid " -F \t\t--multibuffer\t\tEnable multiple file buffers\n"
-msgstr ""
+msgstr " -F \t\t--multibuffer\t\tHabilitar múltiples buffers de ficheros\n"
 
 #: nano.c:412
 msgid " -T [num]\t--tabsize=[num]\t\tSet width of a tab to num\n"
@@ -677,7 +676,7 @@ msgstr "Opción\t\tSignificado\n"
 
 #: nano.c:467
 msgid " -F \t\tEnable multiple file buffers\n"
-msgstr ""
+msgstr " -F \t\tHabilitar múltiples buffers de ficheros\n"
 
 #: nano.c:469
 msgid " -T [num]\tSet width of a tab to num\n"
@@ -784,7 +783,7 @@ msgstr "check_wrap llamada con inptr->data=\"%s\"\n"
 #: nano.c:1158
 #, c-format
 msgid "current->data now = \"%s\"\n"
-msgstr "current->data ahora = \"%d\"\n"
+msgstr "current->data ahora = \"%s\"\n"
 
 #: nano.c:1210
 #, c-format
