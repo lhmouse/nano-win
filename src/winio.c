@@ -139,9 +139,9 @@ int get_kbinput(WINDOW *win, int *meta_key)
 
 	    /* First, assume that we got a meta sequence.  Set meta_key
 	     * to TRUE and save the character we got as the result.  We
-	     * do this so that if there's a delay greater than nodelay()
-	     * between Escape and the character we got (after we
-	     * ungetch() it below), it'll still be properly interpreted
+	     * do this so that if the keyboard buffer is full when we
+	     * send back the character we got below (in which case we'll
+	     * lose that character), it'll still be properly interpreted
 	     * as a meta sequence. */
 	    *meta_key = TRUE;
 	    retval = tolower(kbinput);
