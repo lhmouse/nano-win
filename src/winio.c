@@ -2347,7 +2347,7 @@ void do_credits(void)
 	"6",				/* "and anyone else we forgot..." */
 	"7",				/* "Thank you for using nano!\n" */
 	"", "", "", "",
-	"(c) 1999-2003 Chris Allegretta",
+	"(c) 1999-2004 Chris Allegretta",
 	"", "", "", "",
 	"http://www.nano-editor.org/"
     };

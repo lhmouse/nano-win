@@ -36,8 +36,8 @@ CVS code -
 	  do_verbatim_input(); changes to do_char(). (DLR)  Additional
 	  minor tweaks to do_char() by David Benbennick.
 	- Clarify the description of the --rebinddelete option. (DLR)
-	- Miscellaneous comment tweaks, including copyright year
-	  updates. (DLR)
+	- Miscellaneous comment tweaks, and copyright year updates in
+	  the comments and in do_credits(). (DLR)
 - cut.c:
 	- Overhaul to increase efficiency and add various cleanups.
 	  Changes to add_to_cutbuffer(), cut_marked_segment(), and
