@@ -1,6 +1,8 @@
 CVS code -
 - search.c:
 	- s/occurence/occurrence typos (Jordi).
+- nano.texi:
+	- Meta-Z correction and grammar in --enable-tiny desc (Neil Parks).
 
 nano-0.9.99pre3 - 02/19/2001
 - General
