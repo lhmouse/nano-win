@@ -1135,12 +1135,16 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    fprintf(stderr, "Aha! \'%c\' (%d)\n", kbinput, kbinput);
 #endif
 
+	    if (kbinput == t->func_key)
+		kbinput = t->val;
+
 	    if (kbinput == t->val && is_cntrl_char(kbinput)) {
 
 #ifndef DISABLE_HELP
 		/* Have to do this here, it would be too late to do it
 		   in statusq() */
-		if (kbinput == NANO_HELP_KEY || kbinput == NANO_HELP_FKEY) {
+		if (kbinput == NANO_HELP_KEY) {
+		    kbinput = NANO_HELP_KEY;
 		    do_help();
 		    break;
 		}
@@ -2042,10 +2046,12 @@ int statusq(int tabs, const shortcut *s, const char *def,
 
     switch (ret) {
     case NANO_FIRSTLINE_KEY:
+    case NANO_FIRSTLINE_FKEY:
 	do_first_line();
 	resetstatuspos = 1;
 	break;
     case NANO_LASTLINE_KEY:
+    case NANO_LASTLINE_FKEY:
 	do_last_line();
 	resetstatuspos = 1;
 	break;

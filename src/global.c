@@ -619,12 +619,12 @@ void shortcut_init(int unjustify)
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_FIRSTLINE_KEY, _("First Line"),
-		IFHELP(nano_firstline_msg, NANO_NO_KEY), NANO_NO_KEY,
+		IFHELP(nano_firstline_msg, NANO_NO_KEY), NANO_FIRSTLINE_FKEY,
 		NANO_NO_KEY, VIEW, do_first_line);
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_LASTLINE_KEY, _("Last Line"),
-		IFHELP(nano_lastline_msg, NANO_NO_KEY), NANO_NO_KEY,
+		IFHELP(nano_lastline_msg, NANO_NO_KEY), NANO_LASTLINE_FKEY,
 		NANO_NO_KEY, VIEW, do_last_line);
 
     /* Translators: try to keep this string under 10 characters long */
