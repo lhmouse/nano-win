@@ -56,6 +56,7 @@ void add_to_cutbuffer(filestruct * inptr)
 
     inptr->next = NULL;
     cutbottom = inptr;
+    dump_buffer(cutbuffer);
 }
 
 #ifndef NANO_SMALL
@@ -134,7 +135,6 @@ int do_cut_text(void)
 #ifndef NANO_SMALL
     char *tmpstr;
     int newsize, cuttingtoend = 0;
-
 #endif
 
     if (fileptr == NULL || fileptr->data == NULL)
@@ -142,9 +142,10 @@ int do_cut_text(void)
 
     tmp = fileptr->next;
 
-    if (!ISSET(KEEP_CUTBUFFER) || ISSET(MARK_ISSET)) {
+    if (!ISSET(KEEP_CUTBUFFER)) {
 	free_filestruct(cutbuffer);
 	cutbuffer = NULL;
+
 #ifdef DEBUG
 	fprintf(stderr, _("Blew away cutbuffer =)\n"));
 #endif
@@ -157,6 +158,7 @@ int do_cut_text(void)
 	    /* FIXME - We really need to put this data into the
 	       cutbuffer, not delete it and forget about it. */
 	    do_delete();
+	    SET(KEEP_CUTBUFFER);
 	    return 1;
 	}
 	else
@@ -203,6 +205,7 @@ int do_cut_text(void)
 
 	placewewant = xplustabs();
 	UNSET(MARK_ISSET);
+
 	marked_cut = 1;
 	set_modified();
 	if (cuttingtoend)
