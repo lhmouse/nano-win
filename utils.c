@@ -18,6 +18,7 @@
  *                                                                        *
  **************************************************************************/
 
+#include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -80,12 +81,14 @@ char *strcasestr(char *haystack, char *needle)
 
 char *strstrwrapper(char *haystack, char *needle)
 {
+#ifdef _POSIX_VERSION
     if (ISSET(USE_REGEXP)) {
       int result=regexec(&search_regexp, haystack, 10, regmatches, 0);
       if (!result)
           return haystack+regmatches[0].rm_so;
       return 0;
     }  
+#endif
     if (ISSET(CASE_SENSITIVE))
 	return strstr(haystack, needle);
     else

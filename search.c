@@ -405,7 +405,7 @@ int do_replace(void)
 
 	    do_replace();
 	    return 0;
-	} else {		/* First page, last page, for example could get here */
+	} else if (i != -2 ) {		/* First page, last page, for example could get here */
 
 	    do_early_abort();
 	    replace_abort();
