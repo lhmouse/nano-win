@@ -3139,7 +3139,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		     * unless k is 0.  If regexec() returns REG_NOMATCH,
 		     * there are no more matches in the line. */
 		    if (regexec(&tmpcolor->start, &fileptr->data[k], 1,
-			&startmatch, k == 0 ? 0 : REG_NOTBOL) == REG_NOMATCH)
+			&startmatch, k == 0 ? 0 :
+			REG_NOTBOL) == REG_NOMATCH)
 			break;
 		    /* Translate the match to the beginning of the line. */
 		    startmatch.rm_so += k;
@@ -3169,21 +3170,21 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		    k = startmatch.rm_eo;
 		}
 	    } else {
-		/* This is a multi-line regexp.  There are two steps. 
+		/* This is a multi-line regexp.  There are two steps.
 		 * First, we have to see if the beginning of the line is
 		 * colored by a start on an earlier line, and an end on
 		 * this line or later.
 		 *
 		 * We find the first line before fileptr matching the
 		 * start.  If every match on that line is followed by an
-		 * end, then go to step two.  Otherwise, find the next line
-		 * after start_line matching the end.  If that line is not
-		 * before fileptr, then paint the beginning of this line. */
-
+		 * end, then go to step two.  Otherwise, find the next
+		 * line after start_line matching the end.  If that line
+		 * is not before fileptr, then paint the beginning of
+		 * this line. */
 		const filestruct *start_line = fileptr->prev;
-		    /* the first line before fileptr matching start */
+		    /* The first line before fileptr matching start. */
 		regoff_t start_col;
-		    /* where it starts in that line */
+		    /* Where it starts in that line. */
 		const filestruct *end_line;
 
 		while (start_line != NULL &&
@@ -3202,21 +3203,20 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		/* Now start_line is the first line before fileptr
 		 * containing a start match.  Is there a start on this
 		 * line not followed by an end on this line? */
-
 		start_col = 0;
 		while (TRUE) {
 		    start_col += startmatch.rm_so;
 		    startmatch.rm_eo -= startmatch.rm_so;
- 		    if (regexec(tmpcolor->end,
-			start_line->data + start_col + startmatch.rm_eo,
-			0, NULL, start_col + startmatch.rm_eo == 0 ? 0 :
+ 		    if (regexec(tmpcolor->end, start_line->data +
+			start_col + startmatch.rm_eo, 0, NULL,
+			start_col + startmatch.rm_eo == 0 ? 0 :
 			REG_NOTBOL) == REG_NOMATCH)
 			/* No end found after this start. */
 			break;
 		    start_col++;
-		    if (regexec(&tmpcolor->start,
-			start_line->data + start_col, 1,
-			&startmatch, REG_NOTBOL) == REG_NOMATCH)
+		    if (regexec(&tmpcolor->start, start_line->data +
+			start_col, 1, &startmatch,
+			REG_NOTBOL) == REG_NOMATCH)
 			/* No later start on this line. */
 			goto step_two;
 		}
@@ -3257,6 +3257,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
   step_two:
 		/* Second step, we look for starts on this line. */
 		start_col = 0;
+
 		while (start_col < endpos) {
 		    if (regexec(&tmpcolor->start,
 			fileptr->data + start_col, 1, &startmatch,
@@ -3274,7 +3275,9 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		    else
 			x_start = strnlenpt(fileptr->data,
 				startmatch.rm_so) - start;
+
 		    index = actual_x(converted, x_start);
+
 		    if (regexec(tmpcolor->end,
 			fileptr->data + startmatch.rm_eo, 1, &endmatch,
 			startmatch.rm_eo == 0 ? 0 : REG_NOTBOL) == 0) {
@@ -3300,12 +3303,13 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 			/* There is no end on this line.  But we haven't
 			 * yet looked for one on later lines. */
 			end_line = fileptr->next;
-			while (end_line != NULL &&
-				regexec(tmpcolor->end, end_line->data, 0,
-				NULL, 0) == REG_NOMATCH)
-			    end_line = end_line->next;
-			if (end_line != NULL) {
 
+			while (end_line != NULL &&
+				regexec(tmpcolor->end, end_line->data,
+				0, NULL, 0) == REG_NOMATCH)
+			    end_line = end_line->next;
+
+			if (end_line != NULL) {
 			    assert(0 <= x_start && x_start < COLS);
 
 			    mvwaddnstr(edit, yval, x_start,
@@ -3323,7 +3327,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 	    wattroff(edit, COLOR_PAIR(tmpcolor->pairnum));
 	} /* for tmpcolor in colorstrings */
     }
-#endif				/* ENABLE_COLOR */
+#endif /* ENABLE_COLOR */
 
 #ifndef NANO_SMALL
     if (ISSET(MARK_ISSET)
@@ -3385,11 +3389,12 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 	    assert(x_start >= 0 && x_start <= strlen(converted));
 
 	    index = actual_x(converted, x_start);
+
 	    if (paintlen > 0)
 		paintlen = actual_x(converted + index, paintlen);
 
 	    wattron(edit, A_REVERSE);
-	    mvwaddnstr(edit, yval, x_start, converted + x_start,
+	    mvwaddnstr(edit, yval, x_start, converted + index,
 		paintlen);
 	    wattroff(edit, A_REVERSE);
 	}
