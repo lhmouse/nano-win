@@ -2382,6 +2382,10 @@ void do_justify(int full_justify)
 	/* When the paragraph gets modified, all lines from the changed
 	 * one down are stored in the cutbuffer.  We back up the
 	 * original to restore it later. */
+    int allow_respacing;
+	/* Whether we should change the spacing at the end of a line
+	 * after justifying it.  This should be TRUE whenever we move 
+	 * to the next line after justifying the current line. */
 
     /* We save these global variables to be restored if the user
      * unjustifies.  Note we don't need to save totlines. */
@@ -2439,6 +2443,11 @@ void do_justify(int full_justify)
 		/* The width of current in screen columns. */
 	    int break_pos;
 		/* Where we will break the line. */
+
+	    /* We'll be moving to the next line after justifying the
+	     * current line in almost all cases, so allow changing the
+	     * spacing at the ends of justified lines by default. */
+	    allow_respacing = TRUE;
 
 	    indent_len = quote_len + indent_length(current->data +
 		quote_len);
@@ -2521,6 +2530,8 @@ void do_justify(int full_justify)
 		}
 #endif
 		null_at(&current->data, break_pos);
+
+		/* Go to the next line. */
 		current = current->next;
 	    } else if (display_len < fill && par_len > 1) {
 		size_t next_line_len;
@@ -2570,9 +2581,11 @@ void do_justify(int full_justify)
 		    totsize -= indent_len;
 		    current_y--;
 
-		    /* Don't go to the next line, since there isn't one
-		     * anymore.  Just continue the loop from here. */
-		    continue;
+		    /* Don't go to the next line.  Accordingly, don't
+		     * allow changing the spacing at the end of the
+		     * previous justified line, since we've already done
+		     * it once. */
+		    allow_respacing = FALSE;
 		} else {
 		    charmove(current->next->data + indent_len,
 			current->next->data + indent_len + break_pos + 1,
@@ -2587,13 +2600,14 @@ void do_justify(int full_justify)
 		/* Go to the next line. */
 		current = current->next;
 
-	    /* If we've gone to the next line, the line we were on
-	     * before still exists, and it was not the last line of the
-	     * paragraph, add a space to the end of it to replace the
-	     * one removed or left out by justify_format().  If it was
-	     * the last line of the paragraph, and justify_format() left
-	     * a space on the end of it, remove the space. */
-	    if (current->prev != NULL) {
+	    /* We've moved to the next line after justifying the 
+	     * current line.  If the justified line was not the last
+	     * line of the paragraph, add a space to the end of it to
+	     * replace the one removed or left out by justify_format().
+	     * If it was the last line of the paragraph, and
+	     * justify_format() left a space on the end of it, remove
+	     * the space. */
+	    if (allow_respacing) {
 		size_t prev_line_len = strlen(current->prev->data);
 
 		if (par_len > 1) {

@@ -28,12 +28,11 @@ CVS code -
 	  --disable-justify again. (DLR; found by Mike Frysinger)
 - nano.c:
   do_justify()
-	- If all the text from the next line has been moved to the
-	  current line and the next line has been deleted, continue the
-	  justification loop from there and skip the respacing routine
-	  in order to avoid running it more than once on the same line
-	  (since it assumes that we've moved to the next line, which
-	  isn't true in that case). (DLR)
+	- Add on_next_line flag, used to indicate when we've moved to
+	  the next line after justifying the current line, and only run
+	  the respacing routine when it's true.  This keeps the
+	  respacing routine from erroneously being run more than once on
+	  the same line. (DLR)
   do_exit()
 	- Tweak for efficiency. (David Benbennick)
 - proto.h:
