@@ -107,7 +107,7 @@ char *charalloc(size_t howmuch)
 
     /* Panic save? */
 
-    if (!(r = calloc(howmuch, sizeof (char *))))
+    if (!(r = calloc(howmuch, sizeof (char))))
 	die(_("nano: calloc: out of memory!"));
 
     return (char *) r;
