@@ -57,13 +57,13 @@ int page_down(void)
     if (editbot != filebot) {
 	current_y = 0;
 	current = editbot;
+	edit_update_top(current);
     } else
 	while (current != filebot) {
 	    current = current->next;
 	    current_y++;
 	}
 
-    edit_update_top(current);
     update_cursor();
     UNSET(KEEP_CUTBUFFER);
     check_statblank();
