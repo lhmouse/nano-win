@@ -246,7 +246,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 	    return revstrstr(haystack, needle, start);
 	else
 #endif
-	    return strstr(haystack, needle);
+	    return strstr(start, needle);
     }
 #endif /* !DISABLE_SPELLER || !NANO_SMALL */
 #ifndef NANO_SMALL
