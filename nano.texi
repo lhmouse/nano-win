@@ -40,7 +40,7 @@ manual provided the copyright notice and this permission notice are
 preserved on all copies.
 
 @iftex
-Permission is granted to process this file through TeX and print the
+Permission is granted to process this file through @TeX{} and print the
 results, provided the printed document carries copying permission notice
 identical to this one except for the removal of this paragraph (this
 paragraph not being relevant to the printed manual).
@@ -56,7 +56,7 @@ into another language, under the above conditions for modified versions,
 except that this permission notice may be stated in a translation
 approved by the Foundation.
 
-You may contact the author by:
+You may contact the author by
 e-mail: @email{chrisa@@asty.org}@*
 @end titlepage
 
@@ -91,12 +91,12 @@ internationalization support, and filename tab completion.
 @node Overview, Command Line Options, Introduction, Introduction
 @section Overview
 
-@code{nano} [GNU long option] [option] +LINE [ @var{ file ...} ]
+@code{nano} +LINE [GNU long option] [option] [ @var{file ...} ]
 
 The original goal for @code{nano} was a complete bug-for-bug compatible
 emulation of Pico, but consistency is now a slightly higher priority. 
 There is a flag to implement (nearly) complete Pico emulation, (option -p
-or GNU long option --pico).  This can also be toggled from within
+or GNU long option @code{--pico}).  This can also be toggled from within
 @code{nano} by typing Meta-P.  @xref{Pico Compatibility}, for more
 info.
 
@@ -120,7 +120,8 @@ Write file in DOS format.
 Enable multiple file buffers, if available.
 
 @item -I, --ignorercfiles
-Don't look at /etc/nanorc or ~/.nanorc, if nanorc support is available.
+Don't look at $SYSCONFDIR/nanorc or ~/.nanorc, if nanorc support is
+available.
 
 @item -K, --keypad
 Do not use the ncurses keypad() call unless necessary.  Try this flag if
@@ -135,16 +136,19 @@ Do not convert files from DOS/Mac format.
 
 @item -Q [str], --quotestr [str]
 Set the quoting string for justifying.  The default is
-"^([ \t]*[|>:@}#])+" if regular expression support is available, or
-"> " otherwise.
 
-Set the quoting string for justifying.  The default is "> ".
+@quotation
+@code{^([ \t]*[|>:@}#])+}
+@end quotation
+
+if regular expression support is available, or ``> '' otherwise.  Note
+that @code{\t} above stands for a literal Tab character.
 
 @item -R, --regexp
-Turns on regular expression search and search/replace.
+Turn on regular expression search and search/replace.
 
 @item -S, --smooth
-Enables smooth scrolling.
+Enable smooth scrolling.
 
 @item -T [num], --tabsize=[num]
 Set the displayed tab length to [num] columns.
@@ -245,7 +249,7 @@ Start at line number LINE instead of the default of line 1.
 @section Entering Text
 
 All key sequences in @code{nano} are entered using the keyboard.
-@code{nano} is a "modeless" editor, all keys with the exception of
+@code{nano} is a ``modeless'' editor.  All keys with the exception of
 Control and Meta key sequences will enter text into the file being
 edited.  
 
@@ -265,7 +269,7 @@ Meta key sequences can be entered in a number of
 possible ways: Pressing the Escape key, then releasing it and pressing
 the desired key, or holding down the Alt key while pressing the desired 
 key.  This varies from keyboard to keyboard, and certain commercial
-operating systems "swallow" the Alt key so that it never reaches the
+operating systems ``swallow'' the Alt key so that it never reaches the
 application. If your operating system does this, you should use the
 Escape key to generate Meta key sequences.
 @end itemize
@@ -276,11 +280,11 @@ Escape key to generate Meta key sequences.
 The titlebar is the line displayed at the top of the editor.  There are
 three sections: left, center and right. The section on the left displays
 the version of @code{nano} being used.  The center section displays the
-current file name, or "New Buffer" if the file has not yet been named.
-The section on the right will display "Modified" if the file has been
+current file name, or ``New Buffer'' if the file has not yet been named.
+The section on the right will display ``Modified'' if the file has been
 modified since it was last saved or opened.
 
-Special modes: When @code{nano} is in "File browser" mode, the center
+Special modes: When @code{nano} is in ``File browser'' mode, the center
 section will display the current directory instead of the filename.
 @xref{The File Browser}.
 
@@ -288,7 +292,7 @@ section will display the current directory instead of the filename.
 @section The Statusbar
 
 The statusbar is located three lines from the bottom of the screen (or
-the bottom line in Expert Mode.  @xref{Expert Mode}, for more info.
+the bottom line in Expert Mode.  @xref{Expert Mode}, for more info).
 
 The Statusbar shows important and informational messages.  Any error
 messages that occur from using the editor will appear on the statusbar.
@@ -301,7 +305,7 @@ the statusbar.
 
 The Shortcut Lists are the two lines at the bottom of the screen which
 show some of the more commonly used functions in the editor. The exact
-functions which are displayed depend on whether Pico Compatibility Mode
+functions which are displayed depend on whether Pico Compatibility
 mode is enabled. @xref{Pico Compatibility}, for more info.
 
 @node Online Help, Feature Toggles, Editor Basics, Top
@@ -318,47 +322,47 @@ and ^V (Page Down) keys.  ^X exits the help system.
 
 Toggles allow you to change certain aspects of the editor that
 would normally be done via command line flags. They are invoked via
-certain Meta key sequenced. @xref{Special Functions}, for more info.
+certain Meta key sequences. @xref{Special Functions}, for more info.
 The following global toggles are available:
 
 @table @code
 
 @item Backup File Toggle (Meta-B)
-toggles the -B (--backup) command line flag.
+toggles the -B (@code{--backup}) command line flag.
 
 @item DOS Format Toggle (Meta-D)
-toggles the -D (--dos) command line flag.
+toggles the -D (@code{--dos}) command line flag.
 
 @item Multiple Files Toggle (Meta-F)
-toggles the  -F (--multibuffer) command line flag.
+toggles the -F (@code{--multibuffer}) command line flag.
 
 @item AutoIndent Toggle (Meta-I)
-toggles the -i (--autoindent) command line flag.
+toggles the -i (@code{--autoindent}) command line flag.
 
 @item Cut To End Toggle (Meta-K)
-toggles the -k (--cut) command line flag.
+toggles the -k (@code{--cut}) command line flag.
 
 @item Mouse Toggle (Meta-M)
-toggles the -m (--mouse) command line flag.
+toggles the -m (@code{--mouse}) command line flag.
 
 @item Mac Format Toggle (Meta-O)
-toggles the -M (--mac) command line flag.
+toggles the -M (@code{--mac}) command line flag.
 
 @item Pico Mode Toggle (Meta-P)
-toggles the -p (--pico) command line flag.
+toggles the -p (@code{--pico}) command line flag.
 @xref{Pico Compatibility}, for more info.
 
 @item Smooth Scrolling Toggle (Meta-S)
-toggles the -s (--smooth) command line flag.
+toggles the -S (@code{--smooth}) command line flag.
 
 @item AutoWrap Toggle (Meta-W)
-toggles the -w (--nowrap) command line flag.
+toggles the -w (@code{--nowrap}) command line flag.
 
 @item Expert/Nohelp Toggle (Meta-X)
-toggles the -x (--nohelp) command line flag.
+toggles the -x (@code{--nohelp}) command line flag.
 
 @item Suspend Toggle (Meta-Z)
-toggles the -z (--suspend) command line flag.
+toggles the -z (@code{--suspend}) command line flag.
 
 @item Open Previous File Toggle (Meta-<)
 changes buffer to previously loaded file.
@@ -366,8 +370,8 @@ changes buffer to previously loaded file.
 @item Open Next File Toggle (Meta->)
 changes buffer to next loaded file.
 
-
 @end table
+
 
 @node The File Browser, Pico Compatibility, Feature Toggles, Top
 @chapter The File Browser
@@ -376,8 +380,8 @@ When reading or writing files, pressing ^T will invoke the file browser.
 Here, one can navigate directories in a graphical manner in order to
 find the desired file.
 
-Basic movement in the file browser is accomplished with he arrow keys
-and page up/down.  The behavior of the enter (or 's') key varies by what
+Basic movement in the file browser is accomplished with the arrow keys
+and page up/down.  The behavior of the enter (or `s') key varies by what
 is currently selected.  If the currently selected object is a directory,
 the file browser will enter and display the contents of the directory. 
 If the object is a file, this filename and path are copied to the
@@ -391,23 +395,27 @@ differences apply to the default mode and Pico Compatibility mode:
 
 @table @code
 @item Displayed Shortcuts
-By default, the following shortcuts are displayed in the Shortcut Lists:
+By default, the following shortcuts are displayed in the Shortcut List:
 
-^G ^O ^\ ^Y ^K ^C@*
-^X ^R ^W ^V ^U ^T
+@multitable @columnfractions .1 .1 .1 .1 .1 .1
+@item ^G @tab ^O @tab ^\ @tab ^Y @tab ^K @tab ^C
+@item ^X @tab ^R @tab ^W @tab ^V @tab ^U @tab ^T
+@end multitable
 
 Related functions are listed above or below each other by default.  The
-Justify function is not listed, instead the "Replace" function is
-displayed. Also, he "Read File" and "WriteOut" functions are aligned for
-consistency.
+Justify function is not listed, instead the ``Replace'' function is
+displayed.  Also, the ``Read File'' and ``WriteOut'' functions are aligned
+for consistency.
 
 In Pico Compatibility mode, the default Pico shortcuts are displayed:
 
-^G ^O ^R ^Y ^K ^C@*
-^X ^J ^W ^V ^U ^T   
+@multitable @columnfractions .1 .1 .1 .1 .1 .1
+@item ^G @tab ^O @tab ^R @tab ^Y @tab ^K @tab ^C
+@item ^X @tab ^J @tab ^W @tab ^V @tab ^U @tab ^T
+@end multitable
 
 @item Previous String Text
-By default, previously entered string for a function (search string,
+By default, the previously entered string for a function (search string,
 file name) will be placed on the statusbar, and is editable.  This is
 done so there is consistency across all functions.  For example: even if
 there is a previous replace string, it can always be deleted if one
@@ -434,11 +442,13 @@ to force these functions to behave in the Pico fashion.
 Building @code{nano} from source is fairly straightforward if you are familiar
 with compiling programs with autoconf support:
 
-tar xvfz nano-x.y.z.tar.gz (where x.y.z is the version of @code{nano})
-cd nano-x.y.z/
-./configure
-make
-make install
+@itemize @bullet
+@item tar xvfz nano-x.y.z.tar.gz (where x.y.z is the version of nano)
+@item cd nano-x.y.z/
+@item ./configure
+@item make
+@item make install
+@end itemize
 
 if you are looking to optimize @code{nano} for size, you may want to
 consider the following command line options:
@@ -453,33 +463,33 @@ Disable the tab completion code when reading or writing files.
 Disable the justify (^J)/unjustify (^U) functions in the editor.
 
 @item --disable-speller
-Disables spell checker ability.
+Disable spell checker ability.
 
 @item --disable-help
-Disables the help function (^G).  Disabling this option makes the binary
+Disable the help function (^G).  Disabling this option makes the binary
 much smaller, but makes it difficult for new users to learn more than
 very basic things about using the editor.
 
 @item --disable-browser
-Disables the mini file browser (^O) when reading or writing files.
-
-@item --enable-tiny
-This options disables all the above.  It also disables some of the larger
-internals of the editor, like the marker code (^^) and the cut to line
-(-k) option which it depends on to work properly.  It also disables the
-function toggles and mouse support.
-
-@item --disable-wrapping
-Disables all word wrapping in the editor.  This also eliminates the -w
-command line flag, as nonwrapping is then the default behavior.
+Disable the mini file browser (^T) when reading or writing files.
 
 @item --disable-mouse
-Disables all mouse functionality.  This also disables the -m command
-line flag which enables the mouse functions.
+Disable all mouse functionality.  This also disables the -m command line
+flag, which enables the mouse functions.
 
 @item --disable-operatingdir
-Disables setting of operating directory. This also disables the -o
+Disable setting the operating directory.  This also disables the -o
 command line flag.
+
+@item --enable-tiny
+This option disables all the above.  It also disables some of the larger
+internals of the editor, like the marker code (^^) and the cut to line
+(-k) option, which depends on the marker code to work properly.  It also
+disables the function toggles.
+
+@item --disable-wrapping
+Disable all word wrapping in the editor.  This also eliminates the -w
+command line flag, as nonwrapping is then the default behavior.
 
 @item --disable-nls
 Disables Native Language support. This will make the available GNU

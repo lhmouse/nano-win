@@ -268,7 +268,7 @@ int do_cut_text(void)
 #ifdef DEBUG
     dump_buffer(cutbuffer);
 #endif
-	
+
     if (fileptr == fileage)
 	fileage = current;
     else

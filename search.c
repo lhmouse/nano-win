@@ -834,7 +834,7 @@ int do_find_bracket(void)
     flagsave = flags;
     SET(USE_REGEXP);
 
-/* apparent near redundancy with regexp_pat[] here is needed, [][] works, [[]] doesn't */ 
+/* apparent near redundancy with regexp_pat[] here is needed, [][] works, [[]] doesn't */
 
     if (offset < (strlen(brackets) / 2)) {			/* on a left bracket */
 	regexp_pat[1] = wanted_ch;
@@ -852,7 +852,7 @@ int do_find_bracket(void)
 	search_last_line = 0;
 	if (findnextstr(1, 1, current, current_x, regexp_pat)) {
 	    have_past_editbuff |= past_editbuff;
-	    if (current->data[current_x] == ch_under_cursor)	/* found identical bracket  */
+	    if (current->data[current_x] == ch_under_cursor)	/* found identical bracket */
 		count++;
 	    else {						/* found complementary bracket */
 		if (!(--count)) {
@@ -862,7 +862,7 @@ int do_find_bracket(void)
 			update_line(current, current_x);
 		    placewewant = xplustabs();
 		    reset_cursor();
-		    break ;
+		    break;
 		}
 	    }
 	} else {						/* didn't find either left or right bracket */

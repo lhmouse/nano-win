@@ -26,7 +26,7 @@ AC_ARG_ENABLE(debug,
  fi])
 
 if test "$debug_support" != "yes"; then
-    AC_DEFINE(NDEBUG, 1, [Shut up the assert warnings :-)]) 
+    AC_DEFINE(NDEBUG, 1, [Shut up the assert warnings :-)])
 fi
 
 AC_ARG_ENABLE(extra,

@@ -2,14 +2,31 @@ CVS code -
 - General:
 	- Translation updates (see po/ChangeLog for details).
 	- Forward-ported Chris' --disable-wrapping-as-root option from
-	  1.0.9.  Per Jordi's suggestions, have it override /etc/nanorc
-	  but not ~/.nanorc. (DLR)
+	  1.0.9.  Per Jordi's suggestions, have it override
+	  $SYSCONFDIR/nanorc but not ~/.nanorc. (DLR)
+	- Change all references to /etc/nanorc in the documentation to
+	  $SYSCONFDIR/nanorc. (DLR)
+  nano.c:
+  version()
+	- Remove obsolete reference to --enable-undo. (David Benbennick)
+- winio.c:
+  do_credits()
+	- Add David Benbennick to credits. (DLR)
+- nanorc.sample:
+	- Added comment to explain the non-escaping of quotes in
+	  color regexes, based on info provided by David Benbennick.
+	  (DLR)
+- faq.html:
+	- Miscellaneous fixes and updates for typos and broken links.
+	  It is now fully compliant with HTML 4.10 Transitional. (DLR)
+- nano.texi:
+	- Typo fixes and updates. (David Benbennick)
 
 GNU nano 1.1.12 - 10/24/2002
 - General:
 	- Translation updates (see po/ChangeLog for details).
 	- Remove malloc.h, as it's unneeded and just causes annoyances on
-	  *BSD systems.  Added stdlib.h to global.c
+	  *BSD systems.  Added stdlib.h to global.c.
 	- Added Meta-Y toggle to disable/enable color syntax highlighting
 	  completely.  This may eventually be per-buffer, but that's too
 	  complicated for a feature freeze.
@@ -197,6 +214,8 @@ GNU nano 1.1.11 - 10/01/2002
 	  Benbennick)
 - faq.html:
 	- Typo fix. (DLR)
+- AUTHORS:
+	- Add David Benbennick. (Jordi and Chris)
 - TODO:
 	- Add entry in the 1.4 section for Pico's paragraph searching
 	  ability (at the search prompt, ^W goes to the paragraph's
@@ -287,8 +306,8 @@ GNU nano 1.1.10 - 07/25/2002
 	  printed as-is and be interpreted as commands by xterm, which
 	  will corrupt the display.) (DLR)
 	- Add command line option -I/--ignorercfiles to ignore
-	  /etc/nanorc and ~/.nanorc. (Carl Drinkwater).   Fix to parsing
-	  getopt args (DLR).
+	  $SYSCONFDIR/nanorc and ~/.nanorc. (Carl Drinkwater).   Fix to
+	  parsing getopt args (DLR).
 	- Fix minor bugs with importing certain text files in Mac
 	  format. (DLR)
 - files.c:
@@ -749,7 +768,7 @@ GNU nano 1.1.7 - 03/05/2002
 	- Preliminary quoting support for justify.  New arg -Q, --quotestr,
 	  changes to do_justify(), global variable quotestr().
 - Makefile.am:
-	- Add SYSCONFDIR to DEFS, so we can have an /etc/nanorc.
+	- Add SYSCONFDIR to DEFS, so we can have an $SYSCONFDIR/nanorc.
 	- Change localedir line to 1.0's version.
 	- Moved m4/ stuff to its own m4/Makefile.am.
 - m4/aclocal_inc.m4:

@@ -1659,7 +1659,7 @@ void dump_buffer_reverse(void) {
 #endif /* DEBUG */
 
 #ifdef NANO_EXTRA
-#define CREDIT_LEN 52
+#define CREDIT_LEN 53
 #define XLCREDIT_LEN 8
 
 void do_credits(void)
@@ -1681,6 +1681,7 @@ void do_credits(void)
 	"Rob Siemborski",
 	"Rocco Corsi",
 	"David Lawrence Ramsey",
+	"David Benbennick",
 	"Ken Tyler",
 	"Sven Guckes",
 	"Florian König",
@@ -1715,7 +1716,7 @@ void do_credits(void)
 	"", "", "", "",
 	"(c) 1999-2002 Chris Allegretta",
 	"", "", "", "",
-	"www.nano-editor.org"
+	"http://www.nano-editor.org/"
     };
 
     xlcredits[0] = _("The nano text editor");

@@ -4,7 +4,7 @@ INSTRUCTIONS TO COMPILE AND INSTALL NANO CVS VERSIONS
 GNU nano is available from CVS, but building this needs a bit
 more care than the official stable and unstable tarballs.
 
-To succesfully compile GNU nano from CVS, you'll need the
+To successfully compile GNU nano from CVS, you'll need the
 following packages:
 
 - autoconf (version >= 2.52)
@@ -26,9 +26,9 @@ and the nano tree will download.
 If you want to checkout the stable CVS branch, append -r nano_1_0_branch:
 $ cvs -z3 -d:pserver:anonymous@subversions.gnu.org:/cvsroot/nano checkout -r nano_1_0_branch nano
 
-Once you have the sources in the "nano" directory, cd into it, and execute
-the "autogen.sh" script in the top dir. This will setup a configure script
-and Makefile.in, and you will be ready to compile with
+Once you have the sources in the "nano" directory, cd into it, and
+execute the "autogen.sh" script in the top dir. This will setup a
+configure script and Makefile.in, and you will be ready to compile with
 $ ./configure [--add-options-here] && make
 Once it's done compiling,
 $ make install

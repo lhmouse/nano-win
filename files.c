@@ -1333,7 +1333,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 #ifndef NANO_SMALL
     /* We backup only if the backup toggle is set, the file isn't
        temporary, and the file already exists.  Furthermore, if we aren't
-       appending, prepending, or writing a selection, also backup only if
+       appending, prepending, or writing a selection, we backup only if
        the file has not been modified by someone else since nano opened
        it. */
     if (ISSET(BACKUP_FILE) && !tmp && realexists == 0 &&
@@ -1381,7 +1381,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 	fclose(f);
 
 	if (chmod(backupname, originalfilestat.st_mode) == -1)
-	    statusbar(_("Could not set permissions %o on backup %s: %s"),   
+	    statusbar(_("Could not set permissions %o on backup %s: %s"),
 			originalfilestat.st_mode, backupname,
 			strerror(errno));
 
@@ -1803,7 +1803,7 @@ int do_writeout(const char *path, int exiting, int append)
 	/* Here's where we allow the selected text to be written to 
 	   a separate file. */
 	if (ISSET(MARK_ISSET) && !exiting) {
-	    filestruct *fileagebak = fileage;	
+	    filestruct *fileagebak = fileage;
 	    filestruct *filebotbak = filebot;
 	    filestruct *cutback = cutbuffer;
 	    int oldmod = ISSET(MODIFIED);
@@ -2749,7 +2749,7 @@ char *do_browser(const char *inpath)
 			(int) st.st_size >> 10);
 	    }
 
-	    /* Hilight the currently selected file/dir */
+	    /* Highlight the currently selected file/dir */
 	    if (j == selected)
 		wattron(edit, A_REVERSE);
 	    waddstr(edit, foo);

@@ -685,7 +685,7 @@ void version(void)
     printf(_(" GNU nano version %s (compiled %s, %s)\n"),
 	   VERSION, __TIME__, __DATE__);
     printf(_
-	   (" Email: nano@nano-editor.org	Web: http://www.nano-editor.org"));
+	   (" Email: nano@nano-editor.org	Web: http://www.nano-editor.org/"));
     printf(_("\n Compiled options:"));
 
 #ifdef DEBUG
@@ -737,9 +737,6 @@ void version(void)
 #ifdef ENABLE_NANORC
     printf(" --enable-nanorc");
 #endif
-#ifdef ENABLE_UNDO
-    printf(" --enable-undo");
-#endif
 #ifdef USE_SLANG
     printf(" --with-slang");
 #endif
@@ -785,9 +782,10 @@ int open_pipe(const char *command)
     struct termios term, newterm;
 #endif   /* _POSIX_VDISABLE */
     int cancel_sigs = 0;
-    /* cancel_sigs==1 means that sigaction failed without changing the
-     * signal handlers.  cancel_sigs==2 means the signal handler was
-     * changed, but the tcsetattr didn't succeed.
+    /* cancel_sigs == 1 means that sigaction() failed without changing
+     * the signal handlers.  cancel_sigs == 2 means the signal handler
+     * was changed, but the tcsetattr didn't succeed.
+     *
      * I use this variable since it is important to put things back when
      * we finish, even if we get errors. */
 
@@ -806,7 +804,7 @@ int open_pipe(const char *command)
 	dup2(fd[1], fileno(stderr));
 	/* If execl() returns at all, there was an error. */
       
-	execl("/bin/sh","sh","-c",command,0);
+	execl("/bin/sh", "sh", "-c", command, 0);
 	exit(0);
     }
 
@@ -822,12 +820,12 @@ int open_pipe(const char *command)
 
     /* Before we start reading the forked command's output, we set
      * things up so that ^C will cancel the new process. */
-    if (sigaction(SIGINT, NULL, &newaction)==-1) {
+    if (sigaction(SIGINT, NULL, &newaction) == -1) {
 	cancel_sigs = 1;
 	nperror("sigaction");
     } else {
 	newaction.sa_handler = cancel_fork;
-	if (sigaction(SIGINT, &newaction, &oldaction)==-1) {
+	if (sigaction(SIGINT, &newaction, &oldaction) == -1) {
 	    cancel_sigs = 1;
 	    nperror("sigaction");
 	}
@@ -871,7 +869,7 @@ int open_pipe(const char *command)
 	nperror("tcsetattr");
 #endif   /* _POSIX_VDISABLE */
 
-    if (cancel_sigs!=1 && sigaction(SIGINT, &oldaction, NULL) == -1)
+    if (cancel_sigs != 1 && sigaction(SIGINT, &oldaction, NULL) == -1)
 	nperror("sigaction");
 
     return 0;
@@ -1950,13 +1948,13 @@ size_t indent_length(const char *line)
  * it maintains 2 after a . ! or ?).  Note the terminating \0
  * counts as a space.
  *
- * If !changes_allowed and justify_format needs to make a change, it
+ * If !changes_allowed and justify_format() needs to make a change, it
  * returns 1, otherwise returns 0.
  *
  * If changes_allowed, justify_format() might make line->data
  * shorter, and change the actual pointer with null_at().
  *
- * justify_format will not look at the first skip characters of line.
+ * justify_format() will not look at the first skip characters of line.
  * skip should be at most strlen(line->data).  The skip+1st character must
  * not be whitespace. */
 int justify_format(int changes_allowed, filestruct *line, size_t skip)
@@ -2167,7 +2165,7 @@ int break_line(const char *line, int goal, int force)
 	return -1;
     }
     /* Perhaps the character after space_loc is a space.  But because
-     * of justify_format, there can be only two adjacent. */
+     * of justify_format(), there can be only two adjacent. */
     if (*(line - cur_loc + space_loc + 1) == ' ' ||
 	*(line - cur_loc + space_loc + 1) == '\0')
 	space_loc++;
@@ -2361,7 +2359,7 @@ int do_justify(void)
 	 * change the line, just say whether there are changes to be
 	 * made.  If there are, we do backup_lines(), which copies the
 	 * original paragraph to the cutbuffer for unjustification, and
-	 * then calls justify_format on the remaining lines. */
+	 * then calls justify_format() on the remaining lines. */
 	if (first_mod_line == NULL &&
 		justify_format(0, current, indent_len))
 	    first_mod_line = backup_lines(current, par_len, quote_len);
@@ -2660,7 +2658,7 @@ void signal_init(void)
 #ifdef _POSIX_VDISABLE
     tcgetattr(0, &term);
 
-    /* Ignore ^s, much to Chris' chagrin */
+    /* Ignore ^S, much to Chris' chagrin */
     term.c_cc[VSTOP] = _POSIX_VDISABLE;
 
 #ifdef VDSUSP

@@ -6,7 +6,7 @@
 .\" Public License for copying conditions. There is NO warranty.
 .\"
 .\" $Id$
-.TH NANO 1 "July 30, 2002"
+.TH NANO 1 "November 1, 2002"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -42,11 +42,12 @@ Write file in DOS format.
 Enable multiple file buffers, if available.
 .TP
 .B \-I (\-\-ignorercfiles)
-Don't look at /etc/nanorc or ~/.nanorc, if nanorc support is available.
+Don't look at $SYSCONFDIR/nanorc or ~/.nanorc, if nanorc support is
+available.
 .TP
 .B \-K (\-\-keypad)
-Do not use the ncurses keypad() call unless necessary.  Try this flag if 
-you find that the arrow keys on the numeric keypad do not work for you 
+Do not use the ncurses keypad() call unless necessary.  Try this flag if
+you find that the arrow keys on the numeric keypad do not work for you
 under nano.
 .TP
 .B \-M (\-\-mac)

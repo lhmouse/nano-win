@@ -81,8 +81,9 @@
 # syntax "short description" ["filename regex" ...]
 # color foreground,background "regex" ["regex"...]
 #
-# Legal colors are: white, black, red, blue, green, yellow, purple, cyan
-# You may use the prefix "bright" to mean a stronger color highlight
+# Legal colors are: white, black, red, blue, green, yellow, purple,
+# cyan.  You may use the prefix "bright" to mean a stronger color
+# highlight.
 #
 # To use multi-line regexes use the start="regex" end="regex" format.
 #
@@ -99,8 +100,9 @@
 # color brightcyan "#elif" "#else" "#if"
 
 # You will in general want your comments and strings to come last,
-# because syntax highlighting rules will be applied in the order they are
-# read in
+# because syntax highlighting rules will be applied in the order they
+# are read in.  Note that quotes in regexes should not be escaped (use "
+# instead of \").
 
 # color brightyellow "<[^= ]*>" ""(\\.|[^\"])*""
 # color brightyellow start=""(\\.|[^\"])*\\( |	)*$" end="^(\\.|[^\"])*""
