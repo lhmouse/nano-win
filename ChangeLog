@@ -12,6 +12,9 @@ CVS code -
 	- Add NANO_UNJUSTIFY_FKEY (the same as NANO_UNCUT_FKEY) to the
 	  shortcut list, and tweak the unjustify routine to use it.
 	  (DLR)
+	- Add more intuitive Meta-key aliases for moving to the
+	  beginning and ending lines of a paragraph at the search
+	  prompt: Meta-P and Meta-N. (DLR)
 - files.c:
   add_open_files()
 	- Make the saving of marked status in open_files->file_flags

@@ -2030,10 +2030,12 @@ int statusq(int tabs, const shortcut *s, const char *def,
 	break;
 #ifndef DISABLE_JUSTIFY
     case NANO_PARABEGIN_KEY:
+    case NANO_PARABEGIN_ALTKEY:
 	do_para_begin();
 	resetstatuspos = 1;
 	break;
     case NANO_PARAEND_KEY:
+    case NANO_PARAEND_ALTKEY:
 	do_para_end();
 	resetstatuspos = 1;
 	break;
