@@ -1823,10 +1823,15 @@ int do_justify(void)
 	/* Else restore the justify we just did (ungrateful user!) */
 	if (tmptop->prev != NULL)
 	    tmptop->prev->next = tmpbot->next;
+	else
+	    fileage = current;
 	tmpbot->next->prev = tmptop->prev;
  	current = tmpbot->next;
 	tmpbot->next = NULL;
 	do_uncut_text();
+	if (tmptop->prev == NULL)
+	    edit_refresh();
+
 	free_filestruct(tmptop);
 	blank_statusbar_refresh();
     }
