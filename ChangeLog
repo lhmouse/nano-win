@@ -1,4 +1,13 @@
 CVS code -
+- General
+	- Added void to functions declared as () args, nano.c:do_mark()
+	  and search.c:regexp_cleanup(). (Christian Weisgerber).
+	- Changed internal variables called "new" to "newnode" to avoid
+	  the "new" C++ reserved word, even though there is likely no way
+	  nano will EVER be compilable with a C++ compiler. (suggested by
+	  Rocco Corsi).
+
+1.0-test prerelease - 03/17/2001
 - nano.c:
   do_wrap()
 	- Added case for autoindenting text causing new line (Adam).

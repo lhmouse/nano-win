@@ -130,7 +130,7 @@ void *nrealloc(void *ptr, size_t howmuch);
 void die(char *msg, ...);
 void new_file(void);
 void new_magicline(void);
-void splice_node(filestruct *begin, filestruct *new, filestruct *end);
+void splice_node(filestruct *begin, filestruct *newnode, filestruct *end);
 void null_at(char *data, int index);
 void page_up_center(void);
 void blank_edit(void);
@@ -152,7 +152,7 @@ int do_home(void), do_end(void), total_refresh(void), do_mark(void);
 int do_delete(void), do_backspace(void), do_tab(void), do_justify(void);
 int do_first_line(void), do_last_line(void);
 int do_replace(void), do_help(void), do_enter_void(void);
-int keypad_on(WINDOW * win, int new);
+int keypad_on(WINDOW * win, int newval);
 
 #ifndef DISABLE_BROWSER
 char *do_browser(char *path);

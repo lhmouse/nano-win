@@ -1505,7 +1505,7 @@ void do_credits(void)
  }
 #endif
 
-int             keypad_on(WINDOW * win, int new)
+int             keypad_on(WINDOW * win, int newval)
 {
 
 /* This is taken right from aumix.  Don't sue me */
@@ -1513,10 +1513,10 @@ int             keypad_on(WINDOW * win, int new)
     int             old;
 
     old = win->_use_keypad;
-    keypad(win, new);
+    keypad(win, newval);
     return old;
 #else
-    keypad(win, new);
+    keypad(win, newval);
     return 1;
 #endif                          /* HAVE_USEKEYPAD */
 

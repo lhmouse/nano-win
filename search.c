@@ -44,7 +44,7 @@ void regexp_init(const char *regexp)
     SET(REGEXP_COMPILED);
 }
 
-void regexp_cleanup()
+void regexp_cleanup(void)
 {
     UNSET(REGEXP_COMPILED);
     regfree(&search_regexp);

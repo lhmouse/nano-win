@@ -493,16 +493,16 @@ filestruct *make_new_node(filestruct * prevnode)
 }
 
 /* Splice a node into an existing filestruct */
-void splice_node(filestruct * begin, filestruct * new, filestruct * end)
+void splice_node(filestruct * begin, filestruct * newnode, filestruct * end)
 {
-    new->next = end;
-    new->prev = begin;
-    begin->next = new;
+    newnode->next = end;
+    newnode->prev = begin;
+    begin->next = newnode;
     if (end != NULL)
-	end->prev = new;
+	end->prev = newnode;
 }
 
-int do_mark()
+int do_mark(void)
 {
 #ifdef NANO_SMALL
     nano_disabled_msg();
@@ -570,11 +570,11 @@ void do_char(char ch)
 /* Someone hits return *gasp!* */
 int do_enter(filestruct * inptr)
 {
-    filestruct *new;
+    filestruct *newnode;
     char *tmp, *spc;
     int extra = 0;
 
-    new = make_new_node(inptr);
+    newnode = make_new_node(inptr);
     tmp = &current->data[current_x];
     current_x = 0;
 
@@ -588,25 +588,25 @@ int do_enter(filestruct * inptr)
 		current_x++;
 		totsize++;
 	    }
-	    new->data = nmalloc(strlen(tmp) + extra + 1);
-	    strncpy(new->data, current->data, extra);
-	    strcpy(&new->data[extra], tmp);
+	    newnode->data = nmalloc(strlen(tmp) + extra + 1);
+	    strncpy(newnode->data, current->data, extra);
+	    strcpy(&newnode->data[extra], tmp);
 	}
     } else {
-	new->data = nmalloc(strlen(tmp) + 1);
-	strcpy(new->data, tmp);
+	newnode->data = nmalloc(strlen(tmp) + 1);
+	strcpy(newnode->data, tmp);
     }
     *tmp = 0;
 
     if (inptr->next == NULL) {
-	filebot = new;
-	editbot = new;
+	filebot = newnode;
+	editbot = newnode;
     }
-    splice_node(inptr, new, inptr->next);
+    splice_node(inptr, newnode, inptr->next);
 
     totsize++;
     renumber(current);
-    current = new;
+    current = newnode;
     align(&current->data);
 
     /* The logic here is as follows:
