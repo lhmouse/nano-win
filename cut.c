@@ -174,24 +174,23 @@ int do_cut_text(void)
     if (ISSET(MARK_ISSET)) {
 	if (current->lineno == mark_beginbuf->lineno) {
 	    tmp = copy_node(current);
-	    newsize = abs(strlen(&current->data[mark_beginx]) -
-			  strlen(&current->data[current_x]));
+	    newsize = abs(mark_beginx - current_x) + 1;
 
-	    tmpstr = nmalloc(newsize);
+	    tmpstr = nmalloc(newsize + 1);
 	    if (current_x < mark_beginx) {
 		strncpy(tmpstr, &current->data[current_x], newsize);
 		memmove(&current->data[current_x],
 			&current->data[mark_beginx],
-			strlen(&current->data[mark_beginx] - newsize));
+			strlen(&current->data[mark_beginx]) + 1);
 	    } else {
 		strncpy(tmpstr, &current->data[mark_beginx], newsize);
 		memmove(&current->data[mark_beginx],
 			&current->data[current_x],
-			strlen(&current->data[current_x] - newsize));
+			strlen(&current->data[current_x]) + 1);
 		current_x = mark_beginx;
 		update_cursor();
 	    }
-	    tmpstr[newsize] = 0;
+	    tmpstr[newsize - 1] = 0;
 	    tmp->data = tmpstr;
 	    add_to_cutbuffer(tmp);
 	    dump_buffer(cutbuffer);
