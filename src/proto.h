@@ -214,9 +214,10 @@ int check_operating_dir(const char *currpath, int allow_tabcomp);
 void init_backup_dir(void);
 #endif
 int copy_file(FILE *inn, FILE *out);
-int write_file(const char *name, int tmp, int append, int nonamechange);
+int write_file(const char *name, bool tmp, int append, bool
+	nonamechange);
 #ifndef NANO_SMALL
-int write_marked(const char *name, int tmp, int append);
+int write_marked(const char *name, bool tmp, int append);
 #endif
 int do_writeout(bool exiting);
 void do_writeout_void(void);

@@ -1404,7 +1404,8 @@ int copy_file(FILE *inn, FILE *out)
  * if tmp is FALSE or if we're appending/prepending.
  *
  * Return -1 on error, 1 on success. */
-int write_file(const char *name, int tmp, int append, int nonamechange)
+int write_file(const char *name, bool tmp, int append, bool
+	nonamechange)
 {
     int retval = -1;
 	/* Instead of returning in this function, you should always
@@ -1415,13 +1416,13 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 	/* The file descriptor we use. */
     mode_t original_umask = 0;
 	/* Our umask, from when nano started. */
-    int realexists;
+    bool realexists;
 	/* The result of stat().  TRUE if the file exists, FALSE
 	 * otherwise.  If name is a link that points nowhere, realexists
 	 * is FALSE. */
     struct stat st;
 	/* The status fields filled in by stat(). */
-    int anyexists;
+    bool anyexists;
 	/* The result of lstat().  Same as realexists unless name is a
 	 * link. */
     struct stat lst;
@@ -1450,7 +1451,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
     }
 #endif
 
-    anyexists = lstat(realname, &lst) != -1;
+    anyexists = (lstat(realname, &lst) != -1);
     /* New case: if the file exists, just give up. */
     if (tmp && anyexists)
 	goto cleanup_and_exit;
@@ -1464,7 +1465,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 
     /* Save the state of file at the end of the symlink (if there is
      * one). */
-    realexists = stat(realname, &st) != -1;
+    realexists = (stat(realname, &st) != -1);
 
 #ifndef NANO_SMALL
     /* We backup only if the backup toggle is set, the file isn't
@@ -1472,7 +1473,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
      * aren't appending, prepending, or writing a selection, we backup
      * only if the file has not been modified by someone else since nano
      * opened it. */
-    if (ISSET(BACKUP_FILE) && !tmp && realexists != 0 &&
+    if (ISSET(BACKUP_FILE) && !tmp && realexists &&
 	(append != 0 || ISSET(MARK_ISSET) ||
 	originalfilestat.st_mtime == st.st_mtime)) {
 
@@ -1747,7 +1748,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
  * nonamechange set to TRUE so that we don't change the current
  * filename.  Finally, set fileage and filebot back to their old values
  * and return. */
-int write_marked(const char *name, int tmp, int append)
+int write_marked(const char *name, bool tmp, int append)
 {
     int retval = -1;
     bool old_modified = ISSET(MODIFIED);
