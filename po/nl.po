@@ -1,15 +1,14 @@
 # Dutch messages for the nano editor.
 # Copyright (C) 2001 Free Software Foundation, Inc.
-# Guus Sliepen <guus@debian.org>, 2002.
-# This file is under the Public Domain.
+# Guus Sliepen <guus@sliepen.warande.net>, 2002.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.6\n"
+"Project-Id-Version: nano 1.1.8\n"
 "POT-Creation-Date: 2002-03-30 11:42-0500\n"
-"PO-Revision-Date: 2002-02-20 17:15+0100\n"
-"Last-Translator: Guus Sliepen <guus@nl.linux.org>\n"
-"Language-Team: Dutch <nl@li.org>\n"
+"PO-Revision-Date: 2002-04-13 14:40:41+0200\n"
+"Last-Translator: Guus Sliepen <guus@sliepen.warande.net>\n"
+"Language-Team: Dutch <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
@@ -68,16 +67,15 @@ msgid "Reading File"
 msgstr "Inlezen bestand"
 
 #: files.c:380
-#, fuzzy, c-format
+#, c-format
 msgid "File to insert [from %s] "
-msgstr "Bestand om in te voegen [vanaf ./] "
+msgstr "Bestand om in te voegen [vanaf %s] "
 
 #: files.c:384
 msgid "File to insert [from ./] "
 msgstr "Bestand om in te voegen [vanaf ./] "
 
-#: files.c:392 files.c:559 files.c:607 files.c:705 files.c:717 files.c:770
-#: files.c:781 files.c:1499
+#: files.c:392 files.c:559 files.c:607 files.c:705 files.c:717 files.c:770 files.c:781 files.c:1499
 #, c-format
 msgid "filename is %s"
 msgstr "bestandsnaam is %s"
@@ -89,7 +87,7 @@ msgstr "Kan bestand van buiten %s niet invoegen"
 
 #: files.c:431
 msgid "Command to execute "
-msgstr ""
+msgstr "Uit te voeren opdracht "
 
 #: files.c:433 files.c:503 files.c:1208 files.c:1582 nano.c:1895
 msgid "Cancelled"
@@ -106,15 +104,14 @@ msgstr "Geen open bestanden over"
 #: files.c:725 files.c:789
 #, c-format
 msgid "Switched to %s"
-msgstr ""
+msgstr "Omgeschakeld naar %s"
 
 #: files.c:1231
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Kan niet buiten %s schrijven"
 
-#: files.c:1268 files.c:1284 files.c:1298 files.c:1321 files.c:1330
-#: files.c:1342
+#: files.c:1268 files.c:1284 files.c:1298 files.c:1321 files.c:1330 files.c:1342
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "Kon bestand niet openen om naar te schrijven: %s"
@@ -147,11 +144,11 @@ msgstr "%d regels geschreven"
 
 #: files.c:1444
 msgid " [Mac Format]"
-msgstr ""
+msgstr " [Mac formaat]"
 
 #: files.c:1446
 msgid " [DOS Format]"
-msgstr ""
+msgstr " [DOS formaat]"
 
 #: files.c:1454
 msgid "Append Selection to File"
@@ -241,13 +238,12 @@ msgid "Case sensitive search"
 msgstr "Kast-gevoelig zoeken%s%s"
 
 #: global.c:222
-#, fuzzy
 msgid "Regular expression search"
-msgstr "Reguliere expressies"
+msgstr "Op reguliere expressies zoeken"
 
 #: global.c:225
 msgid "No conversion from DOS/Mac format"
-msgstr ""
+msgstr "Geen omzetting van DOS/Mac formaat"
 
 #: global.c:226
 msgid "Writing file in DOS format"
@@ -399,7 +395,7 @@ msgstr "Ga naar bestandsbrowser"
 
 #: global.c:326
 msgid "Execute external command"
-msgstr ""
+msgstr "Voor externe opdracht uit"
 
 #: global.c:328
 msgid "Cancel the current function"
@@ -414,12 +410,10 @@ msgid "Search backwards"
 msgstr "Achterwaarts zoeken"
 
 #: global.c:331
-#, fuzzy
 msgid "Write file out in DOS format"
 msgstr "Schrijven bestand in DOS formaat"
 
 #: global.c:332
-#, fuzzy
 msgid "Write file out in Mac format"
 msgstr "Schrijven bestand in Mac formaat"
 
@@ -439,9 +433,7 @@ msgstr "Open eerder ingeladen bestand"
 msgid "Open next loaded file"
 msgstr "Open volgend ingeladen bestand"
 
-#: global.c:346 global.c:499 global.c:534 global.c:569 global.c:584
-#: global.c:613 global.c:639 global.c:654 global.c:661 global.c:673
-#: global.c:694
+#: global.c:346 global.c:499 global.c:534 global.c:569 global.c:584 global.c:613 global.c:639 global.c:654 global.c:661 global.c:673 global.c:694
 msgid "Get Help"
 msgstr "Toon hulp"
 
@@ -560,15 +552,13 @@ msgstr "Vind andere rechte haak"
 
 #: global.c:487
 msgid "Previous File"
-msgstr ""
+msgstr "Vorig bestand"
 
 #: global.c:490
-#, fuzzy
 msgid "Next File"
-msgstr "Nieuw bestand"
+msgstr "Volgend bestand"
 
-#: global.c:502 global.c:537 global.c:572 global.c:586 global.c:633
-#: global.c:641 global.c:656 global.c:663 global.c:696 winio.c:1422
+#: global.c:502 global.c:537 global.c:572 global.c:586 global.c:633 global.c:641 global.c:656 global.c:663 global.c:696 winio.c:1422
 msgid "Cancel"
 msgstr "Afbreken"
 
@@ -602,11 +592,11 @@ msgstr "Naar bestanden"
 
 #: global.c:622
 msgid "DOS Format"
-msgstr ""
+msgstr "DOS formaat"
 
 #: global.c:625
 msgid "Mac Format"
-msgstr ""
+msgstr "Mac formaat"
 
 #: global.c:629
 msgid "Append"
@@ -614,7 +604,7 @@ msgstr "Voeg toe"
 
 #: global.c:649
 msgid "Execute Command"
-msgstr ""
+msgstr "Voer opdracht uit"
 
 #: global.c:686
 msgid "Goto"
@@ -630,13 +620,13 @@ msgstr ""
 "Bufferst geschreven naar %s\n"
 
 #: nano.c:188
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "No %s written (too many backup files?)\n"
 msgstr ""
 "\n"
-"Geen %s geschreven (bestaat bestand?)\n"
+"Geen %s geschreven (teveel backup bestanden?)\n"
 
 #: nano.c:197
 msgid "Window size is too small for Nano..."
@@ -650,38 +640,16 @@ msgstr "Toets illegaal in VIEW modus"
 msgid ""
 " nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor: The "
-"top line shows the program version, the current filename being edited, and "
-"whether or not the file has been modified.  Next is the main editor window "
-"showing the file being edited.  The status line is the third line from the "
-"bottom and shows important messages. The bottom two lines show the most "
-"commonly used shortcuts in the editor.\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor: The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages. The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
-" The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
-"key sequences are notated with the Meta (M) symbol and can be entered using "
-"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
-"following keystrokes are available in the main editor window. Optional keys "
-"are shown in parentheses:\n"
+" The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt or Meta key depending on your keyboard setup.  The following keystrokes are available in the main editor window. Optional keys are shown in parentheses:\n"
 "\n"
 msgstr ""
 " nano hulp tekst\n"
 "\n"
-" De nano editor is ontworpen om de functionaliteit en gebruiksgemak van de "
-"UW Pico editor te emuleren. Er zijn vier delen in de editor: De bovenste "
-"regel toont de versie, de naam van het huidige bestand, en of het bestand "
-"gemodificeerd is of niet. Vervolgens komt het eigenlijke edit venster waarin "
-"het bestand getoond wordt. De statusregel is de derde regel van onderen en "
-"toont belangrijke berichten. De onderste twee regels tonen de meest "
-"gebruikte commando's in de editor.\n"
+" De nano editor is ontworpen om de functionaliteit en gebruiksgemak van de UW Pico editor te emuleren. Er zijn vier delen in de editor: De bovenste regel toont de versie, de naam van het huidige bestand, en of het bestand gemodificeerd is of niet. Vervolgens komt het eigenlijke edit venster waarin het bestand getoond wordt. De statusregel is de derde regel van onderen en toont belangrijke berichten. De onderste twee regels tonen de meest gebruikte commando's in de editor.\n"
 "\n"
-" De notatie voor commando's is als volgt: Control toetsen zijn genoteerd met "
-"een dakje (^) ervoor en worden ingetoets in combinatie met de Control toets. "
-"Escape toetsen worden getoond met het Meta (M) symbool en kunnen worden "
-"ingevoerd met de Esc, Alt of Meta toets afhankelijk van de instellingen van "
-"het toetsenbord. De volgende combinaties zijn beschikbaar in het "
-"hoofdvenster. Optionele toetsen zijn getoond tussen ronde haken:\n"
+" De notatie voor commando's is als volgt: Control toetsen zijn genoteerd met een dakje (^) ervoor en worden ingetoets in combinatie met de Control toets. Escape toetsen worden getoond met het Meta (M) symbool en kunnen worden ingevoerd met de Esc, Alt of Meta toets afhankelijk van de instellingen van het toetsenbord. De volgende combinaties zijn beschikbaar in het hoofdvenster. Optionele toetsen zijn getoond tussen ronde haken:\n"
 "\n"
 
 #: nano.c:356
@@ -717,167 +685,144 @@ msgid "Option\t\tMeaning\n"
 msgstr "Optie\t\tBetekenis\n"
 
 #: nano.c:449
-#, fuzzy
 msgid "Write file in DOS format"
-msgstr "Schrijven bestand in DOS formaat"
+msgstr "Schrijf bestand in DOS formaat"
 
 #: nano.c:452
-#, fuzzy
 msgid "Enable multiple file buffers"
-msgstr " -F \t\tMeerdere bestandsbuffers toelaten\n"
+msgstr "Meerdere bestandsbuffers toelaten"
 
 #: nano.c:454
-#, fuzzy
 msgid "Use alternate keypad routines"
-msgstr " -K\t\tGebruik alternatieve cijferblok routines\n"
+msgstr "Gebruik alternatieve cijferblok routines"
 
 #: nano.c:456
-#, fuzzy
 msgid "Write file in Mac format"
-msgstr "Schrijven bestand in Mac formaat"
+msgstr "Schrijf bestand in Mac formaat"
 
 #: nano.c:457
-#, fuzzy
 msgid "Don't convert files from DOS/Mac format"
-msgstr " -D \t\t--dos\t\t\tSchrijf bestand in DOS formaat\n"
+msgstr "Schrijf bestand in DOS formaat"
 
 #: nano.c:460
 msgid "-Q [str]"
-msgstr ""
+msgstr "-Q [str]"
 
 #: nano.c:460
 msgid "--quotestr [str]"
-msgstr ""
+msgstr "--quotestr [tekst]"
 
 #: nano.c:460
 msgid "Quoting string, default \"> \""
-msgstr ""
+msgstr "Aanhalingtekst, standaard \"> \""
 
 #: nano.c:465
 msgid "-T [num]"
-msgstr ""
+msgstr "-T [num]"
 
 #: nano.c:465
 msgid "--tabsize=[num]"
-msgstr ""
+msgstr "--tabsize=[num]"
 
 #: nano.c:465
-#, fuzzy
 msgid "Set width of a tab to num"
-msgstr " -T [num]\tStel tabbreedte in op num\n"
+msgstr "Stel tabbreedte in op num"
 
 #: nano.c:466
-#, fuzzy
 msgid "Print version information and exit"
-msgstr " -V \t\tToon versie informatie en beëindig\n"
+msgstr "Toon versie informatie en beëindig"
 
 #: nano.c:467
-#, fuzzy
 msgid "Constantly show cursor position"
-msgstr " -c \t\tToon cursorpositie altijd\n"
+msgstr "Toon cursorpositie altijd"
 
 #: nano.c:468
-#, fuzzy
 msgid "Show this message"
-msgstr " -h \t\tToon dit bericht\n"
+msgstr "Toon dit bericht"
 
 #: nano.c:470
-#, fuzzy
 msgid "Automatically indent new lines"
-msgstr " -i \t\tAutomatisch indenteren van nieuwe regels\n"
+msgstr "Automatisch indenteren van nieuwe regels"
 
 #: nano.c:471
-#, fuzzy
 msgid "Let ^K cut from cursor to end of line"
-msgstr " -k \t\tLaat ^K vanaf cursor tot einde regel snijden\n"
+msgstr "Laat ^K vanaf cursor tot einde regel snijden"
 
 #: nano.c:473
-#, fuzzy
 msgid "Don't follow symbolic links, overwrite"
-msgstr " -l \t\tSymbolische links niet volgen, overschrijven\n"
+msgstr "Symbolische links niet volgen, overschrijven"
 
 #: nano.c:476
-#, fuzzy
 msgid "Enable mouse"
-msgstr " -m \t\tMuis gebruiken\n"
+msgstr "Muis gebruiken"
 
 #: nano.c:480
 msgid "-o [dir]"
-msgstr ""
+msgstr "-o [map]"
 
 #: nano.c:480
 msgid "--operatingdir=[dir]"
-msgstr ""
+msgstr "--operatingdir=[map]"
 
 #: nano.c:480
-#, fuzzy
 msgid "Set operating directory"
-msgstr " -o [dir] \tStel werkmap in\n"
+msgstr "Stel werkmap in"
 
 #: nano.c:482
-#, fuzzy
 msgid "Emulate Pico as closely as possible"
-msgstr " -p \t\tEmuleer Pico zo goed mogelijk\n"
+msgstr "Emuleer Pico zo goed mogelijk"
 
 #: nano.c:485
 msgid "-r [#cols]"
-msgstr ""
+msgstr "-r [#kolommen]"
 
 #: nano.c:485
 msgid "--fill=[#cols]"
-msgstr ""
+msgstr "--fill=[#kolommen]"
 
 #: nano.c:485
-#, fuzzy
 msgid "Set fill cols to (wrap lines at) #cols"
-msgstr " -r [#cols] \tZet uitlijnbreedte op #cols\n"
+msgstr "Zet uitlijnbreedte (breek af) op #kolommen"
 
 #: nano.c:488
 msgid "-s [prog]"
-msgstr ""
+msgstr "-s [prog]"
 
 #: nano.c:488
 msgid "--speller=[prog]"
-msgstr ""
+msgstr "--speller=[prog]"
 
 #: nano.c:488
-#, fuzzy
 msgid "Enable alternate speller"
-msgstr " -s [prog]  \tAlternatieve spellingschecker gebruiken\n"
+msgstr "Alternatieve spellingschecker gebruiken"
 
 #: nano.c:490
-#, fuzzy
 msgid "Auto save on exit, don't prompt"
-msgstr " -t \t\tAutomatisch wegschrijven bij beëindigen\n"
+msgstr "Automatisch wegschrijven bij beëindigen"
 
 #: nano.c:491
-#, fuzzy
 msgid "View (read only) mode"
-msgstr " -v \t\tView modus (alleen lezen)\n"
+msgstr "View modus (alleen lezen)"
 
 #: nano.c:493
-#, fuzzy
 msgid "Don't wrap long lines"
-msgstr " -w \t\tLange regels niet afbreken\n"
+msgstr "Lange regels niet afbreken"
 
 #: nano.c:495
-#, fuzzy
 msgid "Don't show help window"
-msgstr " -x \t\tGeen hulpvenster tonen\n"
+msgstr "Geen hulpvenster tonen"
 
 #: nano.c:496
-#, fuzzy
 msgid "Enable suspend"
-msgstr " -z \t\tUitstellen toelaten\n"
+msgstr "Uitstellen toelaten"
 
 #: nano.c:497
 msgid "+LINE"
-msgstr ""
+msgstr "+REGEL"
 
 #: nano.c:497
-#, fuzzy
 msgid "Start at line number LINE"
-msgstr " +REGEL\t\tStart op regelnummer REGEL\n"
+msgstr "Start op regelnummer REGEL"
 
 #: nano.c:504
 #, c-format
@@ -914,7 +859,7 @@ msgstr "check_wrap aangeroepen met inptr->data=\"%s\"\n"
 #: nano.c:1277
 #, c-format
 msgid "current->data now = \"%s\"\n"
-msgstr "current->data nu = \"%s\"%\n"
+msgstr "current->data nu = \"%s\"\n"
 
 #: nano.c:1329
 #, c-format
@@ -944,20 +889,16 @@ msgid "Spell checking failed"
 msgstr "Spellingscontrole faalde"
 
 #: nano.c:1764
-#, fuzzy
 msgid "Could not pipe"
-msgstr "Kon %s niet afsluiten: %s"
+msgstr "Kon niet doorsluizen"
 
 #: nano.c:1786
-#, fuzzy
 msgid "Could not fork"
-msgstr "Kon %s niet afsluiten: %s"
+msgstr "Kon geen nieuw proces opstarten"
 
 #: nano.c:1863
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
-msgstr ""
-"Bewaar gemodificeerde buffer (\"Nee\" ANTWOORDEN ZAL VERANDERINGEN "
-"TENIETDOEN) ? "
+msgstr "Bewaar gemodificeerde buffer (\"Nee\" ANTWOORDEN ZAL VERANDERINGEN TENIETDOEN) ? "
 
 #: nano.c:2018
 msgid "Received SIGHUP"
@@ -995,31 +936,18 @@ msgstr "Kan nu OnUitlijnen!"
 msgid ""
 "Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, then hit "
-"enter.  If there is a match for the text you entered, the screen will be "
-"updated to the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, then hit enter.  If there is a match for the text you entered, the screen will be updated to the location of the nearest match for the search string.\n"
 "\n"
-" If using Pico Mode via the -p or --pico flags, using the Meta-P toggle or "
-"using a nanorc file, the previous search string will be shown in brackets "
-"after the Search: prompt.  Hitting enter without entering any text will "
-"perform the previous search. Otherwise, the previous string will be placed "
-"in front of the cursor, and can be edited or deleted before hitting enter.\n"
+" If using Pico Mode via the -p or --pico flags, using the Meta-P toggle or using a nanorc file, the previous search string will be shown in brackets after the Search: prompt.  Hitting enter without entering any text will perform the previous search. Otherwise, the previous string will be placed in front of the cursor, and can be edited or deleted before hitting enter.\n"
 "\n"
 " The following functions keys are available in Search mode:\n"
 "\n"
 msgstr ""
 "Zoek commando hulptekst\n"
 "\n"
-" Voer de woorden of karakters waar u naar wilt zoeken in, druk dan op "
-"Enter.  Als er een overeenkomst is voor de ingevoerde tekst zal het scherm "
-"naar de lokatie van de dichtsbijzijnde overeenkomst springen.\n"
+" Voer de woorden of karakters waar u naar wilt zoeken in, druk dan op Enter.  Als er een overeenkomst is voor de ingevoerde tekst zal het scherm naar de lokatie van de dichtsbijzijnde overeenkomst springen.\n"
 "\n"
-" Als Pico modus ingesteld is via de -p of --pico opties, via Meta-P of via "
-"een nanorc bestand, dan zal de vorige zoektekst getoond worden tussen rechte "
-"haken na de Zoek: prompt.  Op enter drukken zonder een nieuwe tekst in te "
-"voeren zal de vorige zoekbewerking herhalen.  In Nano modus zal de vorige "
-"zoektekst op de plek van de cursor geplaatst worden, en kan aangepast worden "
-"alvorens op Enter te drukken.\n"
+" Als Pico modus ingesteld is via de -p of --pico opties, via Meta-P of via een nanorc bestand, dan zal de vorige zoektekst getoond worden tussen rechte haken na de Zoek: prompt.  Op enter drukken zonder een nieuwe tekst in te voeren zal de vorige zoekbewerking herhalen.  In Nano modus zal de vorige zoektekst op de plek van de cursor geplaatst worden, en kan aangepast worden alvorens op Enter te drukken.\n"
 " De volgende functietoetsen zijn beschikbaar in Zoek modus:\n"
 "\n"
 
@@ -1027,51 +955,38 @@ msgstr ""
 msgid ""
 "Goto Line Help Text\n"
 "\n"
-" Enter the line number that you wish to go to and hit Enter.  If there are "
-"fewer lines of text than the number you entered, you will be brought to the "
-"last line of the file.\n"
+" Enter the line number that you wish to go to and hit Enter.  If there are fewer lines of text than the number you entered, you will be brought to the last line of the file.\n"
 "\n"
 " The following functions keys are available in Goto Line mode:\n"
 "\n"
 msgstr ""
 "Ga naar regel hulptekst\n"
 "\n"
-" Voer het regelnummer waar u naar toe wilt gaan in en druk op Enter. Als er "
-"minder regels tekst zijn dan het ingevoerde nummer wordt u naar het einde "
-"van de tekst gebracht.\n"
+" Voer het regelnummer waar u naar toe wilt gaan in en druk op Enter. Als er minder regels tekst zijn dan het ingevoerde nummer wordt u naar het einde van de tekst gebracht.\n"
 "\n"
 " De volgende functietoetsen zijn beschikbaar in de Ga naar regel modus:\n"
 "\n"
 
 #: nano.c:2562
-#, fuzzy
 msgid ""
 "Insert File Help Text\n"
 "\n"
-" Type in the name of a file to be inserted into the current file buffer at "
-"the current cursor location.\n"
+" Type in the name of a file to be inserted into the current file buffer at the current cursor location.\n"
 "\n"
-" If you have compiled nano with multiple file buffer support, and enable "
-"multiple buffers with the -F or --multibuffer command line flags, the Meta-F "
-"toggle or using a nanorc file, inserting a file will cause it to be loaded "
-"into a separate buffer (use Meta-< and > to switch between file buffers).\n"
+" If you have compiled nano with multiple file buffer support, and enable multiple buffers with the -F or --multibuffer command line flags, the Meta-F toggle or using a nanorc file, inserting a file will cause it to be loaded into a separate buffer (use Meta-< and > to switch between file buffers).\n"
 "\n"
-" If you need another blank buffer, do not enter any filename, or type in a "
-"nonexistent filename at the prompt and press Enter.\n"
+" If you need another blank buffer, do not enter any filename, or type in a nonexistent filename at the prompt and press Enter.\n"
 "\n"
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
 "Voeg bestand in hulptekst\n"
 "\n"
-" Voer de naam van een bestand in dat ingevoegd moet worden in het huidige "
-"bestand op de plek van de cursor.\n"
+" Voer de naam van een bestand in dat ingevoegd moet worden in het huidige bestand op de plek van de cursor.\n"
 "\n"
-" Als u nano gecompileerd heeft met ondersteuning voor meerdere "
-"bestandsbuffers en deze ingeschakeld heeft met de -F of --multibuffer "
-"opties, met de Meta-F toets of via een nanorc bestand, dan zal het in te "
-"voegen bestandd in een aparte buffer geladen worden (gebruik Meta-< en > om "
-"tussen bestandsbuffers te schakelen).\n"
+" Als u nano gecompileerd heeft met ondersteuning voor meerdere bestandsbuffers en deze ingeschakeld heeft met de -F of --multibuffer opties, met de Meta-F toets of via een nanorc bestand, dan zal het in te voegen bestand in een aparte buffer geladen worden (gebruik Meta-< en > om tussen bestandsbuffers te schakelen).\n"
+"\n"
+" Als u een nieuwe lege buffer nodig heeft, voer dan geen bestandnaam in, of tik een niet-bestaande bestandsnaam in en druk op Enter.\n"
 "\n"
 " De volgende functietoetsen zijn beschikbaar in de Voeg bestand in modus:\n"
 "\n"
@@ -1080,65 +995,45 @@ msgstr ""
 msgid ""
 "Write File Help Text\n"
 "\n"
-" Type the name that you wish to save the current file as and hit enter to "
-"save the file.\n"
+" Type the name that you wish to save the current file as and hit enter to save the file.\n"
 "\n"
-" If you are using the marker code with Ctrl-^ and have selected text, you "
-"will be prompted to save only the selected portion to a separate file.  To "
-"reduce the chance of overwriting the current file with just a portion of it, "
-"the current filename is not the default in this mode.\n"
+" If you are using the marker code with Ctrl-^ and have selected text, you will be prompted to save only the selected portion to a separate file.  To reduce the chance of overwriting the current file with just a portion of it, the current filename is not the default in this mode.\n"
 "\n"
 " The following function keys are available in Write File mode:\n"
 "\n"
 msgstr ""
 "Schrijf bestand hulptekst\n"
 "\n"
-" Voer de naam waaronder u het huidige bestand weg wilt schrijven in en druk "
-"op Enter om the weg te schrijven.\n"
+" Voer de naam waaronder u het huidige bestand weg wilt schrijven in en druk op Enter om the weg te schrijven.\n"
 "\n"
-" Als u de markeercode met Ctrl-^ gebruikt en tekst geselecteerd heeft, dan "
-"wordt u gevraagd of u alleen het geselecteerde bestand wilt wegschrijven.  "
-"Om de kans dat u het huidige bestand op schijf overschrijft met alleen dit "
-"gedeelte is de huidige bestandsnaam niet de standaardnaam in deze modus.\n"
+" Als u de markeercode met Ctrl-^ gebruikt en tekst geselecteerd heeft, dan wordt u gevraagd of u alleen het geselecteerde bestand wilt wegschrijven.  Om de kans dat u het huidige bestand op schijf overschrijft met alleen dit gedeelte is de huidige bestandsnaam niet de standaardnaam in deze modus.\n"
 "\n"
-" De volgende functietoetsen zijn beschikbaar in de Schrijf bestand in "
-"modus:\n"
+" De volgende functietoetsen zijn beschikbaar in de Schrijf bestand in modus:\n"
 "\n"
 
 #: nano.c:2588
 msgid ""
 "File Browser Help Text\n"
 "\n"
-" The file browser is used to visually browse the directory structure to "
-"select a file for reading or writing.  You may use the arrow keys or Page Up/"
-"Down to browse through the files, and S or Enter to choose the selected file "
-"or enter the selected directory. To move up one level, select the directory "
-"called \"..\" at the top of the file list.\n"
+" The file browser is used to visually browse the directory structure to select a file for reading or writing.  You may use the arrow keys or Page Up/Down to browse through the files, and S or Enter to choose the selected file or enter the selected directory. To move up one level, select the directory called \"..\" at the top of the file list.\n"
 "\n"
 " The following functions keys are available in the file browser:\n"
 "\n"
 msgstr ""
 "Bestandsbrowser hulptekst\n"
 "\n"
-" De bestandsbrowser wordt gebruikt om op een visuële manier door de mappen "
-"te navigeren en een bestand te selecteren.  U kunt de pijltoetsen en Page Up/"
-"Down gebruiken om door de bestanden te lopen, en S of Enter om het "
-"geselecteerde bestand of map te kiezen. Kies de map \"..\" bovenaan de "
-"bestandslijst om een niveau omhoog te gaan.\n"
+" De bestandsbrowser wordt gebruikt om op een visuële manier door de mappen te navigeren en een bestand te selecteren.  U kunt de pijltoetsen en Page Up/Down gebruiken om door de bestanden te lopen, en S of Enter om het geselecteerde bestand of map te kiezen. Kies de map \"..\" bovenaan de bestandslijst om een niveau omhoog te gaan.\n"
 "\n"
-" De volgende functietoetsen zijn beschikbaar in de Bestandsbrowser in "
-"modus:\n"
+" De volgende functietoetsen zijn beschikbaar in de Bestandsbrowser in modus:\n"
 "\n"
 
 #: nano.c:2599
-#, fuzzy
 msgid ""
 "Browser Goto Directory Help Text\n"
 "\n"
 " Enter the name of the directory you would like to browse to.\n"
 "\n"
-" If tab completion has not been disabled, you can use the TAB key to "
-"(attempt to) automatically complete the directory name.\n"
+" If tab completion has not been disabled, you can use the TAB key to (attempt to) automatically complete the directory name.\n"
 "\n"
 "  The following function keys are available in Browser GotoDir mode:\n"
 "\n"
@@ -1147,32 +1042,23 @@ msgstr ""
 "\n"
 " Voer de naam van de directory waar u naar toe wilt gaan in.\n"
 "\n"
-" Indien Tab completion niet uitgeschakeld is kan u de Tab toets gebruiken om "
-"(te pogen) de mapnaam automatisch aan te vullen.\n"
+" Indien Tab completion niet uitgeschakeld is kan u de Tab toets gebruiken om (te pogen) de mapnaam automatisch aan te vullen.\n"
 "\n"
-"De volgende functietoetsen zijn beschikbaar in de Browser ga naar map "
-"modus:\n"
+"De volgende functietoetsen zijn beschikbaar in de Browser ga naar map modus:\n"
 "\n"
 
 #: nano.c:2607
 msgid ""
 "Spell Check Help Text\n"
 "\n"
-" The spell checker checks the spelling of all text in the current file.  "
-"When an unknown word is encountered, it is highlighted and a replacement can "
-"be edited.  It will then prompt to replace every instance of the given "
-"misspelled word in the current file.\n"
+" The spell checker checks the spelling of all text in the current file.  When an unknown word is encountered, it is highlighted and a replacement can be edited.  It will then prompt to replace every instance of the given misspelled word in the current file.\n"
 "\n"
 " The following other functions are available in Spell Check mode:\n"
 "\n"
 msgstr ""
 "Spellingscontrole hulptekst\n"
 "\n"
-" De spellingchecker controleert de spelling van alle woorden in het huidige "
-"bestand.  Wanneer een onbekend woord wordt tegengekomen zal het duidelijk "
-"gemarkeerd worden en een vervangend woord kan ingevoerd worden.  Het zal dan "
-"vragen of alle gelijke woorden vervangen moeten worden of alleen het "
-"verkeerd gespelde woord.\n"
+" De spellingchecker controleert de spelling van alle woorden in het huidige bestand.  Wanneer een onbekend woord wordt tegengekomen zal het duidelijk gemarkeerd worden en een vervangend woord kan ingevoerd worden.  Het zal dan vragen of alle gelijke woorden vervangen moeten worden of alleen het verkeerd gespelde woord.\n"
 "\n"
 "De volgende functietoetsen zijn beschikbaar in de Spellingscontrole modus:\n"
 "\n"
@@ -1181,12 +1067,17 @@ msgstr ""
 msgid ""
 "External Command Help Text\n"
 "\n"
-" This menu allows you to insert the output of a command run by the shell "
-"into the current buffer (or a new buffer in multibuffer mode).\n"
+" This menu allows you to insert the output of a command run by the shell into the current buffer (or a new buffer in multibuffer mode).\n"
 "\n"
 " The following keys are available in this mode:\n"
 "\n"
 msgstr ""
+"Externe opdracht hulptekst\n"
+"\n"
+" Dit menu stelt u in staat de uitvoer van een opdracht die uitgevoerd wordt door de shell in de huidige buffer in te voegen (of in een nieuwe buffer te zetten in multibuffer modus).\n"
+"\n"
+" De volgende toetsen zijn beschikbaar in deze modus:\n"
+"\n"
 
 #: nano.c:2720
 #, c-format
@@ -1203,9 +1094,7 @@ msgstr "uitgezet"
 
 #: nano.c:2800
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
-msgstr ""
-"NumLock fout gedetecteerd. Numeriek toetsenbord zal niet goed functioneren "
-"zonder NumLock"
+msgstr "NumLock fout gedetecteerd. Numeriek toetsenbord zal niet goed functioneren zonder NumLock"
 
 #: nano.c:3112
 msgid "Main: set up windows\n"
@@ -1527,9 +1416,9 @@ msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
 #: winio.c:1639
-#, fuzzy, c-format
+#, c-format
 msgid "line %d/%d (%.0f%%), col %ld/%ld (%.0f%%), char %ld/%ld (%.0f%%)"
-msgstr "regel %d van %d (%.0f%%), karakter %ld van %ld (%.0f%%)"
+msgstr "regel %d/%d (%.0f%%), kolom %ld/%ld (%0f%%), karakter %ld/%ld (%.0f%%)"
 
 #: winio.c:1800
 msgid "Dumping file buffer to stderr...\n"
@@ -1565,7 +1454,7 @@ msgstr "De Free Software Foundation"
 
 #: winio.c:1885
 msgid "For ncurses:"
-msgstr ""
+msgstr "Voor ncurses:"
 
 #: winio.c:1886
 msgid "and anyone else we forgot..."
@@ -1574,109 +1463,3 @@ msgstr "en iedereen die we vergeten zijn..."
 #: winio.c:1887
 msgid "Thank you for using nano!\n"
 msgstr "Dank u voor het gebruiken van nano!\n"
-
-#~ msgid " -D \t\t--dos\t\t\tWrite file in DOS format\n"
-#~ msgstr " -D \t\t--dos\t\t\tSchrijf bestand in DOS formaat\n"
-
-#~ msgid " -F \t\t--multibuffer\t\tEnable multiple file buffers\n"
-#~ msgstr " -F \t\t--multibuffer\t\tMeerdere bestandsbuffers toelaten\n"
-
-#~ msgid " -K \t\t--keypad\t\tUse alternate keypad routines\n"
-#~ msgstr " -K \t\t--keypad\t\tGebruik alternatieve cijferblok routines\n"
-
-#~ msgid " -M \t\t--mac\t\t\tWrite file in Mac format\n"
-#~ msgstr " -M \t\t--mac\t\t\tSchrijf bestand in Mac formaat\n"
-
-#~ msgid " -S\t\t--smooth\t\tSmooth scrolling\n"
-#~ msgstr " -S\t\t--smooth\t\tGladjes scrollen\n"
-
-#~ msgid " -T [num]\t--tabsize=[num]\t\tSet width of a tab to num\n"
-#~ msgstr " -T [num]\t--tabsize=[num]\t\tStel tabbreedte in op num\n"
-
-#~ msgid " -V \t\t--version\t\tPrint version information and exit\n"
-#~ msgstr " -V \t\t--version\t\tToon versie informatie en beëindig\n"
-
-#~ msgid " -c \t\t--const\t\t\tConstantly show cursor position\n"
-#~ msgstr " -c \t\t--const\t\t\tToon cursorpositie altijd\n"
-
-#~ msgid " -h \t\t--help\t\t\tShow this message\n"
-#~ msgstr " -h \t\t--help\t\t\tToon dit bericht\n"
-
-#~ msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
-#~ msgstr " -i \t\t--autoindent\t\tAutomatisch indenteren van nieuwe regels\n"
-
-#~ msgid " -k \t\t--cut\t\t\tLet ^K cut from cursor to end of line\n"
-#~ msgstr " -k \t\t--cut\t\t\tLaat ^K vanaf cursor tot einde regel snijden\n"
-
-#~ msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
-#~ msgstr ""
-#~ " -l \t\t--nofollow\t\tSymbolische links niet volgen, overschrijven\n"
-
-#~ msgid " -m \t\t--mouse\t\t\tEnable mouse\n"
-#~ msgstr " -m \t\t--mouse\t\t\tMuis gebruiken\n"
-
-#~ msgid " -o [dir] \t--operatingdir=[dir]\tSet operating directory\n"
-#~ msgstr " -o [dir] \t--operatingdir=[dir]\tStel werkmap in\n"
-
-#~ msgid " -p \t\t--pico\t\t\tEmulate Pico as closely as possible\n"
-#~ msgstr " -p\t\t--pico\t\t\tEmuleer Pico zo goed als mogelijk\n"
-
-#~ msgid ""
-#~ " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
-#~ msgstr " -r [#cols] \t--fill=[#cols]\t\tZet uitlijnbreedte op #cols\n"
-
-#~ msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
-#~ msgstr ""
-#~ " -s [prog] \t--speller=[prog]\tAlternatieve spellingschecker gebruiken\n"
-
-#~ msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
-#~ msgstr " -t \t\t--tempfile\t\tAutomatisch wegschrijven bij beëindigen\n"
-
-#~ msgid " -v \t\t--view\t\t\tView (read only) mode\n"
-#~ msgstr " -v \t\t--view\t\t\tView modus (alleen lezen)\n"
-
-#~ msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
-#~ msgstr " -w \t\t--nowrap\t\tLange regels niet afbreken\n"
-
-#~ msgid " -x \t\t--nohelp\t\tDon't show help window\n"
-#~ msgstr " -x \t\t--nohelp\t\tGeen hulpvenster tonen\n"
-
-#~ msgid " -z \t\t--suspend\t\tEnable suspend\n"
-#~ msgstr " -z \t\t--suspend\t\tUitstellen toelaten\n"
-
-#~ msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
-#~ msgstr " +REGEL\t\t\t\t\tStart op regelnummer REGEL\n"
-
-#~ msgid " -D \t\tWrite file in DOS format\n"
-#~ msgstr " -D \t\tSchrijf bestand in DOS formaat\n"
-
-#~ msgid " -M \t\tWrite file in Mac format\n"
-#~ msgstr " -M \t\tSchrijf bestand in Mac formaat\n"
-
-#~ msgid " -R\t\tUse regular expressions for search\n"
-#~ msgstr " -R\t\tGebruik reguliere expressies voor zoeken\n"
-
-#~ msgid " -S\t\tSmooth scrolling\n"
-#~ msgstr " -S\t\tGladjes scrollen\n"
-
-#~ msgid "Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses"
-#~ msgstr "Pavel Curtis, Zeyd Ben-Halim en Eric S. Raymond voor ncurses"
-
-#~ msgid "File already loaded"
-#~ msgstr "Bestand reeds ingeladen"
-
-#~ msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
-#~ msgstr " -R\t\t--regexp\t\tGebruik reguliere expressies voor zoeken\n"
-
-#, fuzzy
-#~ msgid "Write"
-#~ msgstr "Schrijven"
-
-#~ msgid "Case Sensitive Regexp Search%s%s"
-#~ msgstr "Kast-gevoelig Regexp zoeken%s%s"
-
-#~ msgid "Regexp Search%s%s"
-#~ msgstr "Regexp zoeken%s%s"
-
-#~ msgid "Only %d lines available, skipping to last line"
-#~ msgstr "Slechts %d regels beschikbaar, ga naar laatste regel"
