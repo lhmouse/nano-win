@@ -16,6 +16,8 @@ CVS code -
 	  parsing the numeric argument after "tabsize" works properly
 	  again. (DLR, found by Mike Frysinger)
 - winio.c:
+  unget_kbinput()
+	- New function used as a wrapper for ungetch(). (DLR)
   get_mouseinput()
 	- Consolidate two if statements to increase efficiency. (DLR)
   do_yesno()

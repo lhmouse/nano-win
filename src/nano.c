@@ -2609,9 +2609,7 @@ void do_justify(bool full_justify)
 	edit_refresh();
     } else {
 	placewewant = 0;
-	ungetch(kbinput);
-	if (meta_key)
-	    ungetch(NANO_CONTROL_3);
+	unget_kbinput(kbinput, meta_key);
     }
 
     cutbuffer = cutbuffer_save;

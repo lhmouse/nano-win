@@ -99,6 +99,15 @@ void reset_kbinput(void)
 }
 #endif
 
+/* Put back the input character stored in kbinput.  If meta_key is TRUE,
+ * put back the Escape character after putting back kbinput. */
+void unget_kbinput(int kbinput, bool meta_key)
+{
+    ungetch(kbinput);
+    if (meta_key)
+	ungetch(NANO_CONTROL_3);
+}
+
 /* Read in a single input character.  If it's ignored, swallow it and go
  * on.  Otherwise, try to translate it from ASCII, extended keypad
  * values, and/or escape sequences.  Set meta_key to TRUE when we get a
@@ -147,7 +156,7 @@ int get_kbinput(WINDOW *win, bool *meta_key)
 
 	    /* Next, send back the character we got and read in the
 	     * complete escape sequence. */
-	    ungetch(kbinput);
+	    unget_kbinput(kbinput, FALSE);
 	    escape_seq = get_verbatim_kbinput(win, escape_seq, &es_len,
 		FALSE);
 
@@ -166,7 +175,7 @@ int get_kbinput(WINDOW *win, bool *meta_key)
 		    /* This escape sequence is unrecognized.  Send it
 		     * back. */
 		    for (; es_len > 1; es_len--)
-			ungetch(escape_seq[es_len - 1]);
+			unget_kbinput(escape_seq[es_len - 1], FALSE);
 		    retval = escape_seq[0];
 		}
 	    }
@@ -1243,9 +1252,9 @@ int get_untranslated_kbinput(int kbinput, size_t position, bool
  * coordinates where it took place in mouse_x and mouse_y.  After that,
  * assuming allow_shortcuts is FALSE, if the shortcut list on the
  * bottom two lines of the screen is visible and the mouse event took
- * place on it, figure out which shortcut was clicked and ungetch() the 
- * equivalent keystroke(s).  Return FALSE if no keystrokes were 
- * ungetch()ed, or TRUE if at least one was.  Assume that KEY_MOUSE has 
+ * place on it, figure out which shortcut was clicked and put back the
+ * equivalent keystroke(s).  Return FALSE if no keystrokes were
+ * put back, or TRUE if at least one was.  Assume that KEY_MOUSE has
  * already been read in. */
 bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 {
@@ -1265,7 +1274,7 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
     /* If we're allowing shortcuts, the current shortcut list is being
      * displayed on the last two lines of the screen, and the mouse
      * event took place inside it, we need to figure out which shortcut
-     * was clicked and ungetch() the equivalent keystroke(s) for it. */
+     * was clicked and put back the equivalent keystroke(s) for it. */
     if (allow_shortcuts && !ISSET(NO_HELP) && wenclose(bottomwin,
 	*mouse_y, *mouse_x)) {
 	int i, j;
@@ -1306,16 +1315,12 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	for (; j > 0; j--)
 	    s = s->next;
 
-	/* And ungetch() the equivalent control key.  If it's a meta key
-	 * sequence, we need to ungetch() Escape too.  Assume that the
-	 * shortcut has an equivalent control key, meta key sequence, or
-	 * both. */
+	/* And put back the equivalent key.  Assume that the shortcut
+	 * has an equivalent control key, meta key sequence, or both. */
 	if (s->ctrlval != NANO_NO_KEY)
-	    ungetch(s->ctrlval);
-	else if (s->ctrlval != NANO_NO_KEY) {
-	    ungetch(s->metaval);
-	    ungetch(NANO_CONTROL_3);
-	}
+	    unget_kbinput(s->ctrlval, FALSE);
+	else if (s->ctrlval != NANO_NO_KEY)
+	    unget_kbinput(s->metaval, TRUE);
 
 	return TRUE;
     }
@@ -2022,7 +2027,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 #endif
 		    if (meta_key && (kbinput == t->metaval || kbinput == t->miscval))
 			/* We hit a meta key.  Do like above.  We don't
-			 * just ungetch() the letter and let it get
+			 * just put back the letter and let it get
 			 * caught above cause that screws the
 			 * keypad... */
 			return kbinput;
