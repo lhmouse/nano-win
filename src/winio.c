@@ -2119,8 +2119,6 @@ size_t display_string_len(const char *buf, size_t start_col, size_t
 
 	    if (bad_wide_buf_len != -1)
 		retval += bad_wide_buf_len;
-	    else
-		retval++;
 
 	    free(bad_wide_buf);
 	} else {
@@ -2242,15 +2240,10 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		wide_buf = control_rep((unsigned char)wide_buf);
 
 #ifdef NANO_WIDE
-		if (!ISSET(NO_UTF8)) {
+		if (!ISSET(NO_UTF8))
 		    ctrl_wide_buf_len = wctomb(ctrl_wide_buf,
 			(wchar_t)wide_buf);
-
-		    if (ctrl_wide_buf_len == -1) {
-			ctrl_wide_buf_len = 1;
-			ctrl_wide_buf[0] = ' ';
-		    }
-		} else {
+		else {
 #endif
 		    ctrl_wide_buf_len = 1;
 		    ctrl_wide_buf[0] = (unsigned char)wide_buf;
@@ -2263,10 +2256,21 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
 		free(ctrl_wide_buf);
 
-		start_col++;
+#ifdef NANO_WIDE
+		if (!ISSET(NO_UTF8)) {
+		    int width = wcwidth((wchar_t)wide_buf);
+
+		    if (width != -1)
+			start_col += width;
+		} else
+#endif
+		    start_col++;
+
 		start_index += wide_buf_len;
 	    }
-	} else if (wcwidth(wide_buf) > 1) {
+	}
+#ifdef NANO_WIDE
+	else if (wcwidth((wchar_t)wide_buf) > 1) {
 	    /* If dollars is TRUE, make room for the "$" at the
 	     * beginning of the line.  Also make sure that we don't try
 	     * to display only part of a multicolumn character there. */
@@ -2280,6 +2284,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    start_col++;
 	    start_index += wide_buf_len;
 	}
+#endif
     }
 
     while (index < alloc_len && buf[start_index] != '\0') {
@@ -2321,15 +2326,10 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    wide_buf = control_rep((unsigned char)wide_buf);
 
 #ifdef NANO_WIDE
-	    if (!ISSET(NO_UTF8)) {
+	    if (!ISSET(NO_UTF8))
 		ctrl_wide_buf_len = wctomb(ctrl_wide_buf,
 			(wchar_t)wide_buf);
-
-		if (ctrl_wide_buf_len == -1) {
-		    ctrl_wide_buf_len = 1;
-		    ctrl_wide_buf[0] = ' ';
-		}
-	    } else {
+	    else {
 #endif
 		ctrl_wide_buf_len = 1;
 		ctrl_wide_buf[0] = (unsigned char)wide_buf;
@@ -2342,11 +2342,15 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
 	    free(ctrl_wide_buf);
 
-	    start_col +=
 #ifdef NANO_WIDE
-		!ISSET(NO_UTF8) ? wcwidth((wchar_t)wide_buf) :
+	    if (!ISSET(NO_UTF8)) {
+		int width = wcwidth((wchar_t)wide_buf);
+
+		if (width != -1)
+		    start_col += width;
+	    } else
 #endif
-		1;
+		start_col++;
 	} else if (wide_buf == ' ') {
 	    converted[index++] =
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
@@ -2368,11 +2372,6 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		bad_wide_buf_len = wctomb(bad_wide_buf,
 			(wchar_t)wide_buf);
 
-		if (bad_wide_buf_len == -1) {
-		    bad_wide_buf_len = 1;
-		    bad_wide_buf[0] = ' ';
-		}
-
 		for (i = 0; i < bad_wide_buf_len; i++)
 		    converted[index++] = bad_wide_buf[i];
 
@@ -2384,9 +2383,12 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 #ifdef NANO_WIDE
 	    }
 
-	    if (!ISSET(NO_UTF8))
-		start_col += wcwidth((wchar_t)wide_buf);
-	    else
+	    if (!ISSET(NO_UTF8)) {
+		int width = wcwidth((wchar_t)wide_buf);
+
+		if (width != -1)
+		    start_col += width;
+	    } else
 #endif
 		start_col++;
 	}

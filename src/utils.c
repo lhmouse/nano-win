@@ -2,7 +2,7 @@
 /**************************************************************************
  *   utils.c                                                              *
  *                                                                        *
- *   Copyright (C) 1999-2004 Chris Allegretta                             *
+ *   Copyright (C) 1999-2005 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -188,16 +188,24 @@ int parse_char(const char *str, int *chr, size_t *col
 		(*col)++;
 		wide_str = control_rep((unsigned char)wide_str);
 
-		if (wctomb(ctrl_wide_str, (wchar_t)wide_str) != -1)
-		    *col += wcwidth(wide_str);
+		if (wctomb(ctrl_wide_str, (wchar_t)wide_str) != -1) {
+		    int width = wcwidth(wide_str);
+
+		    if (width != -1)
+			*col += width;
+		}
 		else
 		    (*col)++;
 
 		free(ctrl_wide_str);
 	    /* If we have a normal character, get its width in columns
 	     * normally. */
-	    } else
-		*col += wcwidth(wide_str);
+	    } else {
+		int width = wcwidth(wide_str);
+
+		if (width != -1)
+		    *col += width;
+	    }
 	}
     } else {
 #endif
