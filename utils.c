@@ -30,6 +30,18 @@
 #include "proto.h"
 #include "nano.h"
 
+#ifdef BROKEN_REGEXEC
+#undef regexec
+int regexec_safe(const regex_t *preg, const char *string, size_t nmatch,
+	regmatch_t pmatch[], int eflags)
+{
+    if (string != NULL && *string != '\0')
+	return regexec(preg, string, nmatch, pmatch, eflags);
+    return REG_NOMATCH;
+}
+#define regexec(preg, string, nmatch, pmatch, eflags) regexec_safe(preg, string, nmatch, pmatch, eflags)
+#endif
+
 int is_cntrl_char(int c)
 {
     return (-128 <= c && c < -96) || (0 <= c && c < 32) ||

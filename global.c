@@ -439,16 +439,15 @@ void shortcut_init(int unjustify)
 		    IFHELP(nano_justify_msg, 0), NANO_JUSTIFY_FKEY, 0,
 		    NOVIEW, do_justify);
 
+    /* this is so we can view multiple files */
+    sc_init_one(&main_list, NANO_INSERTFILE_KEY, _("Read File"),
+		IFHELP(nano_insert_msg, 0), NANO_INSERTFILE_FKEY, 0,
 #ifdef ENABLE_MULTIBUFFER
-	/* this is so we can view multiple files */
-     sc_init_one(&main_list, NANO_INSERTFILE_KEY, _("Read File"),
-		IFHELP(nano_insert_msg, 0),
-		NANO_INSERTFILE_FKEY, 0, VIEW, do_insertfile_void);
+		VIEW
 #else
-     sc_init_one(&main_list, NANO_INSERTFILE_KEY, _("Read File"),
-		IFHELP(nano_insert_msg, 0),
-		NANO_INSERTFILE_FKEY, 0, NOVIEW, do_insertfile_void);
+		NOVIEW
 #endif
+		, do_insertfile_void);
 
     sc_init_one(&main_list, NANO_WHEREIS_KEY, _("Where Is"),
 		IFHELP(nano_whereis_msg, 0),

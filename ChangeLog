@@ -1,6 +1,34 @@
 CVS code -
 - General:
 	- Translation updates (see po/ChangeLog for details).
+	- Work around broken regexec() on some systems that segfaults
+	  when passed an empty string.  New function regexec_safe().
+	  (David Benbennick)
+	- Fix various bugs with search string history logging: don't
+	  print a broken error message and freeze if ~/.nano_history is
+	  unreadable, actually show an error message in save_history()
+	  if ~/.nano_history is unwritable, and prevent ~/.nano_history
+	  from being completely overwritten by save_history() if it's
+	  unreadable but writable. (David Benbennick)
+- global.c:
+  shortcut_init()
+	- Simplify the #ifdef used to enable file insertion in view mode
+	  if multibuffer support has been compiled in. (DLR)
+- nano.c:
+  justify_format()
+  	- If we shave spaces off the end of the line, make sure totsize
+  	  is properly updated. (DLR; much simplified by David
+  	  Benbennick)
+- nano.h:
+	- Simplify #ifdefs relating to HAVE_STRCASECMP and
+	  HAVE_STRNCASECMP. (David Benbennick)
+- configure.ac:
+	- Enable autodetection of broken regexec(). (DLR) Re-added 
+	  regex.h check to ensure compile under Debian w/autoconf 1.6.
+- TODO:
+	- Fix typo. (David Benbennick)
+- faq.html:
+	- Update RPM links for nano 1.2.x. (DLR)
 
 GNU nano 1.2.0 - 2003.02.19
 - General:
@@ -32,31 +60,32 @@ GNU nano 1.1.99pre3 - 2003.02.13
 	  nano.c:global_init(), window_init(), and handle_sigwinch().
 	  New macro MIN_EDITOR_COLS replaces MIN_FILL_LENGTH
 	  (David Benbennick).
-	- Change ngettext macro to P_(), to avoid a clash with the reserved C
-	  __ identifier (Jordi).
+	- Change ngettext macro to P_(), to avoid a clash with the
+	  reserved C __ identifier (Jordi).
 	- Memory leak fixes for files.c:do_insertfile(),do_browser(),
-	  nano.c:do_spell(), and search.c:do_replace() (David Benbennick).
+	  nano.c:do_spell(), and search.c:do_replace() (David
+	  Benbennick).
 	- Remove do_preserve_msg, as using -p still gives Pico-style
 	  string behavior, so an annoying message every invocation is
 	  probably unneeded (all cheer).
-	- Change resetpos function to be global (now called 
+	- Change resetpos function to be global (now called
 	  resetstatuspos.  Fixes annoying but small odd problem with
-	  cursor placement when inserting a file.  This needs to be done 
-	  better in 1.3 (originally by David Lawrence Ramsey).
-	  Added this issue to TODO.
+	  cursor placement when inserting a file.  This needs to be done
+	  better in 1.3 (originally by David Lawrence Ramsey).  Added
+	  this issue to TODO.
 - files.c:
   cwd_tab_completion()
 	- Memory leak fix (David Benbennick).
   intput_tab()
-	- Fix assumption that matches is null terminated (David 
+	- Fix assumption that matches is null terminated (David
 	  Benbennick).
   load_history()
-	- Fix segfault on loading huge strings from history file 
+	- Fix segfault on loading huge strings from history file
 	  (David Benbennick).
   load_history(), save_history()
 	- Changed to look at $HOME before getpwuid(geteuid()), see
 	  details in comment for rcfile.c:do_rcfile().
-  real_dir_from_tidle()
+  real_dir_from_tilde()
 	- Change check for the running user's home dir to use
 	  getpwuid(geteuid()) rather than a getpwent() loop
  	  (suggested by Jordi).
@@ -69,7 +98,7 @@ GNU nano 1.1.99pre3 - 2003.02.13
 	  nano.c:line_len(). (David Benbennick).
   do_justify()
 	- Add regfree() to quote regex (David Benbennick).
-	- Only copy previous indent if AUTOINDENT is set (David 
+	- Only copy previous indent if AUTOINDENT is set (David
 	  Benbennick).
   do_suspend()
 	- Fix untranslated message (David Benbennick).

@@ -391,6 +391,10 @@ void save_history(void);
 #endif
 
 /* Public functions in utils.c */
+#ifdef BROKEN_REGEXEC
+int regexec_safe(const regex_t *preg, const char *string, size_t nmatch,
+	regmatch_t pmatch[], int eflags);
+#endif
 int is_cntrl_char(int c);
 int num_of_digits(int n);
 void align(char **strp);

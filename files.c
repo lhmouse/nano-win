@@ -1898,8 +1898,8 @@ char *real_dir_from_tilde(const char *buf)
 	for (i = 1; buf[i] != '/' && buf[i] != '\0'; i++)
 	    ;
 
-	/* Determine home directory using getpwent(), don't rely on
-	       $HOME */
+	/* Determine home directory using getpwuid() or getpwent(),
+	   don't rely on $HOME */
 	if (i == 1)
 	    userdata = getpwuid(geteuid());
 	else {
@@ -2892,8 +2892,11 @@ void load_history(void)
     if (homenv != NULL || userage != NULL) {
 	hist = fopen(nanohist, "r");
 	if (!hist) {
-            if (errno != ENOENT)
+            if (errno != ENOENT) {
+		/* Don't save history when we quit. */
+		UNSET(HISTORYLOG);
 		rcfile_error(_("Unable to open ~/.nano_history file, %s"), strerror(errno));
+	    }
 	    free(nanohist);
 	} else {
 	    buf = charalloc(1024);

@@ -19,7 +19,7 @@ For version 1.4:
 - UTF-8 support.
 - Support for Pico's paragraph searching ability.
 - Undo/Redo key?
-- Remindable keys?
+- Rebindable keys?
 - Keystroke to implement "Add next sequence as raw" like vi's ^V.
 - Spell check selected text only.
 - Make "To line" (^W^T) and "Read from Command" (^R^X) re-enter their

@@ -35,6 +35,9 @@
 /* Define charalloc as a macro rather than duplicating code */
 #define charalloc(howmuch) (char *)nmalloc((howmuch) * sizeof(char))
 #define charealloc(ptr, howmuch) (char *)nrealloc(ptr, (howmuch) * sizeof(char))
+#ifdef BROKEN_REGEXEC
+#define regexec(preg, string, nmatch, pmatch, eflags) regexec_safe(preg, string, nmatch, pmatch, eflags)
+#endif
 
 #ifndef NANO_SMALL
   /* For the backup file copy ... */
@@ -76,13 +79,12 @@
 # endif
 #endif
 
-#if !defined(HAVE_STRCASECMP) || !defined(HAVE_STRNCASECMP)
-# ifndef HAVE_STRCASECMP
-#  define strcasecmp strcmp
-# endif
-# ifndef HAVE_STRNCASECMP
-#  define strncasecmp strncmp
-# endif
+#ifndef HAVE_STRCASECMP
+#define strcasecmp strcmp
+#endif
+
+#ifndef HAVE_STRNCASECMP
+#define strncasecmp strncmp
 #endif
 
 /* HP-UX 10 & 11 do not seem to support KEY_HOME and KEY_END */

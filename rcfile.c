@@ -676,6 +676,7 @@ void do_rcfile(void)
 	    fclose(rcstream);
 	}
     }
+    lineno = 0;
 
     free(nanorc);
 #ifdef ENABLE_COLOR

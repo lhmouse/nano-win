@@ -66,18 +66,6 @@ static sigjmp_buf jmpbuf;	/* Used to return to mainloop after SIGWINCH */
 /* What we do when we're all set to exit */
 RETSIGTYPE finish(int sigage)
 {
-
-#ifndef NANO_SMALL
-#ifdef ENABLE_NANORC
-    /* do here so errors about ./nano_history
-	don't confuse user */  
-    if (!ISSET(NO_RCFILE) && ISSET(HISTORYLOG))
-	save_history();
-#endif
-    free_history(&search_history);
-    free_history(&replace_history);
-#endif
-
     keypad(edit, TRUE);
     keypad(bottomwin, TRUE);
 
@@ -92,6 +80,11 @@ RETSIGTYPE finish(int sigage)
 
     /* Restore the old term settings */
     tcsetattr(0, TCSANOW, &oldterm);
+
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+    if (!ISSET(NO_RCFILE) && ISSET(HISTORYLOG))
+	save_history();
+#endif
 
 #ifdef DEBUG
     thanks_for_all_the_fish();
@@ -2042,7 +2035,7 @@ int justify_format(int changes_allowed, filestruct *line, size_t skip)
     /* These four asserts are assumptions about the input data. */
     assert(line != NULL);
     assert(line->data != NULL);
-    assert(skip <= strlen(line->data));
+    assert(skip < strlen(line->data));
     assert(line->data[skip] != ' ' && line->data[skip] != '\t');
 
     back = line->data + skip;
@@ -2091,14 +2084,14 @@ int justify_format(int changes_allowed, filestruct *line, size_t skip)
     }
 
     back--;
-    assert(*back == '\0');
+    assert(*back == '\0' && *front == '\0');
 
     /* This assert merely documents a fact about the loop above. */
     assert(changes_allowed != 0 || back == front);
 
     /* Now back is the new end of line->data. */
     if (back != front) {
-	totsize += back - line->data - strlen(line->data);
+	totsize -= front - back;
 	null_at(&line->data, back - line->data);
 #ifndef NANO_SMALL
 	if (mark_beginbuf == line && back - line->data < mark_beginx)
@@ -3317,6 +3310,14 @@ int main(int argc, char *argv[])
 #endif
 #endif /* ENABLE_NANORC */
 
+#ifndef NANO_SMALL
+    history_init();
+#ifdef ENABLE_NANORC
+    if (!ISSET(NO_RCFILE) && ISSET(HISTORYLOG))
+	load_history();
+#endif
+#endif
+
 #ifndef DISABLE_OPERATINGDIR
     /* Set up the operating directory.  This entails chdir()ing there,
        so that file reads and writes will be based there. */
@@ -3395,17 +3396,6 @@ int main(int argc, char *argv[])
 	keypad(edit, TRUE);
 	keypad(bottomwin, TRUE);
     }
-
-#ifndef NANO_SMALL
-    history_init();
-#ifdef ENABLE_NANORC
-    if (!ISSET(NO_RCFILE) && ISSET(HISTORYLOG))
-	load_history();
-#endif
-#endif
-
-
-
 
 #ifdef DEBUG
     fprintf(stderr, _("Main: bottom win\n"));

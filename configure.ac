@@ -38,12 +38,22 @@ AM_GNU_GETTEXT([external], [need-ngettext])
 dnl Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS(fcntl.h getopt.h libintl.h limits.h regex.h termio.h termios.h unistd.h)
+AC_CHECK_HEADER(regex.h,
+    AC_MSG_CHECKING([for broken regexec])
+    AC_TRY_RUN([
+#include <sys/types.h>
+#include <regex.h>
+int main() { regex_t reg; size_t n; regmatch_t r; regcomp(&reg, ".", 0); regexec(&reg, "", n, &r, 0); return 0; }],
+	AC_MSG_RESULT(no),
+	AC_MSG_RESULT(yes); AC_DEFINE(BROKEN_REGEXEC, 1, [Define this if your regexec() function segfaults when passed an empty string.])
+    )
+)
 
 dnl options
 AC_ARG_ENABLE(debug, 
 [  --enable-debug          Enable debugging (disabled by default)],
  [if test x$enableval = xyes; then
-    AC_DEFINE(DEBUG, 1, [Define this to enable nano debug messages and assert warnings.]) 
+    AC_DEFINE(DEBUG, 1, [Define this to enable nano debug messages and assert warnings.])
     debug_support=yes
  fi])
 
@@ -124,7 +134,6 @@ AC_ARG_ENABLE(wrapping-as-root,
  [if test x$enableval != xyes; then
     AC_DEFINE(DISABLE_ROOTWRAP, 1, [Define this to disable wrapping as root by default.])
  fi])
-
 
 AC_ARG_ENABLE(color,
 [  --enable-color          Enable color and syntax highlighting],
