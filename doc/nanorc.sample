@@ -14,6 +14,9 @@
 ## Backup files to filename~
 # set backup
 
+## The directory to put the backup files in.
+# set backupdir ""
+
 ## Constantly display the cursor position in the status bar.
 # set const
 

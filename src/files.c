@@ -1026,7 +1026,7 @@ int close_open_file(void)
 }
 #endif /* MULTIBUFFER */
 
-#if !defined(DISABLE_SPELLER) || !defined(DISABLE_OPERATINGDIR)
+#if !defined(DISABLE_SPELLER) || !defined(DISABLE_OPERATINGDIR) || !defined(NANO_SMALL)
 /*
  * When passed "[relative path]" or "[relative path][filename]" in
  * origpath, return "[full path]" or "[full path][filename]" on success,
@@ -1333,6 +1333,30 @@ int check_operating_dir(const char *currpath, int allow_tabcomp)
 }
 #endif
 
+#ifndef NANO_SMALL
+void init_backup_dir(void)
+{
+    char *full_backup_dir;
+
+    if (backup_dir == NULL)
+	return;
+
+    full_backup_dir = get_full_path(backup_dir);
+
+    /* If get_full_path() failed or the backup directory is
+     * inaccessible, unset backup_dir. */
+    if (full_backup_dir == NULL ||
+	full_backup_dir[strlen(full_backup_dir) - 1] != '/') {
+	free(full_backup_dir);
+	free(backup_dir);
+	backup_dir = NULL;
+    } else {
+	free(backup_dir);
+	backup_dir = full_backup_dir;
+    }
+}
+#endif
+
 /* Read from inn, write to out.  We assume inn is opened for reading,
  * and out for writing.  We return 0 on success, -1 on read error, -2 on
  * write error. */
@@ -1465,8 +1489,38 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 	    goto cleanup_and_exit;
 	}
 
-	backupname = charalloc(strlen(realname) + 2);
-	sprintf(backupname, "%s~", realname);
+	/* If backup_dir is set, we set backupname to
+	 * backup_dir/backupname~, where backupnae is the canonicalized
+	 * absolute pathname of realname with every '/' replaced with a
+	 * '!'.  This means that /home/foo/file is backed up in
+	 * backup_dir/!home!foo!file~. */
+	if (backup_dir != NULL) {
+	    char *canon_realname = get_full_path(realname);
+	    size_t i;
+
+	    if (canon_realname == NULL)
+		/* If get_full_path() failed, we don't have a
+		 * canonicalized absolute pathname, so just use the
+		 * filename portion of the pathname.  We use tail() so
+		 * that e.g. ../backupname will be backed up in
+		 * backupdir/backupname~ instead of
+		 * backupdir/../backupname~. */
+		canon_realname = mallocstrcpy(NULL, tail(realname));
+	    else {
+		for (i = 0; canon_realname[i] != '\0'; i++) {
+		    if (canon_realname[i] == '/')
+			canon_realname[i] = '!';
+		}
+	    }
+
+	    backupname = charalloc(strlen(backup_dir) +
+		strlen(canon_realname) + 2);
+	    sprintf(backupname, "%s%s~", backup_dir, canon_realname);
+	    free(canon_realname);
+	} else {
+	    backupname = charalloc(strlen(realname) + 2);
+	    sprintf(backupname, "%s~", realname);
+	}
 
 	/* Open the destination backup file.  Before we write to it, we
 	 * set its permissions, so no unauthorized person can read it as
@@ -2370,6 +2424,23 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
 }
 #endif /* !DISABLE_TABCOMP */
 
+#if !defined(DISABLE_BROWSER) || !defined(NANO_SMALL)
+/* Only print the last part of a path; isn't there a shell
+ * command for this? */
+const char *tail(const char *foo)
+{
+    const char *tmp = foo + strlen(foo);
+
+    while (*tmp != '/' && tmp != foo)
+	tmp--;
+
+    if (*tmp == '/')
+	tmp++;
+
+    return tmp;
+}
+#endif
+
 #ifndef DISABLE_BROWSER
 /* Our sort routine for file listings -- sort directories before
  * files, and then alphabetically. */ 
@@ -2394,21 +2465,6 @@ void free_charptrarray(char **array, int len)
     for (; len > 0; len--)
 	free(array[len - 1]);
     free(array);
-}
-
-/* Only print the last part of a path; isn't there a shell 
- * command for this? */
-const char *tail(const char *foo)
-{
-    const char *tmp = foo + strlen(foo);
-
-    while (*tmp != '/' && tmp != foo)
-	tmp--;
-
-    if (*tmp == '/')
-	tmp++;
-
-    return tmp;
 }
 
 /* Strip one dir from the end of a string. */

@@ -23,6 +23,13 @@ CVS code -
 	- Decouple the paragraph searching code and the justifying code.
 	  Removed function do_para_operation(); new function
 	  do_para_search(); changes to do_justify(). (DLR)
+	- Add -E/--backupdir option.  When used with -B/--backup, backup
+	  files will be saved in the specified directory with their
+	  canonical pathnames encoded in their names (all '/'s replaced
+	  with '!'s).  Changes to write_file(). (Martin Ehmsen)  DLR:
+	  Add function init_backup_dir() to handle relative paths
+	  correctly, use get_full_path() to get the canonical pathname,
+	  and use tail() to get the filename if get_full_path() fails.
 - files.c:
   add_open_files()
 	- Make the saving of marked status in open_files->file_flags
@@ -199,6 +206,11 @@ CVS code -
 	  not 1.1.12. (DLR)
 - nano.1, nanorc.5, nano.texi
 	- Clarify the description for -T/--tabsize a bit. (DLR)
+	- Add -E/--backupdir description. (Martin Ehmsen; minor cosmetic
+	  fixes by DLR)
+- nanorc.sample:
+	- Add backupdir description. (Martin Ehmsen; minor cosmetic
+	  fixes by DLR)
 - README:
 	- Reformat to 72 characters per line, fix wording in one spot,
 	  and fix spacing in several spots. (DLR)

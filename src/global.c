@@ -72,6 +72,10 @@ char *quotestr = NULL;		/* Quote string.  The default value is
 				   set in main(). */
 #endif
 
+#ifndef NANO_SMALL
+char *backup_dir = NULL;	/* Backup directory. */
+#endif
+
 int resetstatuspos;		/* Hack for resetting the status bar 
 				   cursor position */
 char *answer = NULL;		/* Answer str to many questions */
@@ -931,6 +935,10 @@ void thanks_for_all_the_fish(void)
 #ifndef DISABLE_JUSTIFY
     if (quotestr != NULL)
 	free(quotestr);
+#endif
+#ifndef NANO_SMALL
+    if (backup_dir != NULL)
+        free(backup_dir);
 #endif
 #ifndef DISABLE_OPERATINGDIR
     if (operating_dir != NULL)

@@ -41,6 +41,7 @@ const static rcoption rcopts[] = {
 #ifndef NANO_SMALL
     {"autoindent", AUTOINDENT},
     {"backup", BACKUP_FILE},
+    {"backupdir", 0},
 #endif
     {"const", CONSTUPDATE},
 #ifndef NANO_SMALL
@@ -145,12 +146,12 @@ char *parse_next_word(char *ptr)
     return ptr;
 }
 
-/* The keywords operatingdir, fill, tabsize, speller, and quotestr take
- * an argument when set.  Among these, operatingdir, speller, and
- * quotestr have to allow tabs and spaces in the argument.  Thus, if the
- * next word starts with a ", we say it ends with the last " of the line.
- * Otherwise, the word is interpreted as usual.  That is so the arguments
- * can contain "s too. */
+/* The keywords operatingdir, backupdir, fill, tabsize, speller, and
+ * quotestr take an argument when set.  Among these, operatingdir,
+ * backupdir, speller, and quotestr have to allow tabs and spaces in the
+ * argument.  Thus, if the next word starts with a ", we say it ends
+ * with the last " of the line.  Otherwise, the word is interpreted as
+ * usual.  That is so the arguments can contain "s too. */
 char *parse_argument(char *ptr)
 {
     const char *ptr_bak = ptr;
@@ -540,6 +541,9 @@ void parse_rcfile(FILE *rcstream)
 #ifndef DISABLE_JUSTIFY
 				|| !strcasecmp(rcopts[i].name, "quotestr")
 #endif
+#ifndef NANO_SMALL
+			        || !strcasecmp(rcopts[i].name, "backupdir")
+#endif
 #ifndef DISABLE_SPELLER
 				|| !strcasecmp(rcopts[i].name, "speller")
 #endif
@@ -580,6 +584,11 @@ void parse_rcfile(FILE *rcstream)
 #ifndef DISABLE_JUSTIFY
 			    if (!strcasecmp(rcopts[i].name, "quotestr"))
 				quotestr = mallocstrcpy(NULL, option);
+			    else
+#endif
+#ifndef NANO_SMALL
+			    if (!strcasecmp(rcopts[i].name, "backupdir"))
+				backup_dir = mallocstrcpy(NULL, option);
 			    else
 #endif
 #ifndef DISABLE_SPELLER

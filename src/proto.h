@@ -50,6 +50,10 @@ extern int currslen;
 extern char *quotestr;
 #endif
 
+#ifndef NANO_SMALL
+extern char *backup_dir;
+#endif
+
 extern WINDOW *edit, *topwin, *bottomwin;
 extern char *filename;
 extern struct stat originalfilestat;
@@ -178,6 +182,9 @@ char *safe_tempnam(const char *dirname, const char *filename_prefix);
 void init_operating_dir(void);
 int check_operating_dir(const char *currpath, int allow_tabcomp);
 #endif
+#ifndef NANO_SMALL
+void init_backup_dir(void);
+#endif
 int write_file(const char *name, int tmp, int append, int nonamechange);
 #ifndef NANO_SMALL
 int write_marked(const char *name, int tmp, int append, int
@@ -192,10 +199,12 @@ char **username_tab_completion(char *buf, int *num_matches);
 char **cwd_tab_completion(char *buf, int *num_matches);
 char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list);
 #endif
+#if !defined(DISABLE_BROWSER) || !defined(NANO_SMALL)
+const char *tail(const char *foo);
+#endif
 #ifndef DISABLE_BROWSER
 int diralphasort(const void *va, const void *vb);
 void free_charptrarray(char **array, int len);
-const char *tail(const char *foo);
 void striponedir(char *foo);
 int readable_dir(const char *path);
 char **browser_init(const char *path, int *longest, int *numents);

@@ -629,6 +629,7 @@ void usage(void)
 #ifndef NANO_SMALL
     print1opt("-B", "--backup", _("Backup existing files on save"));
     print1opt("-D", "--dos", _("Write file in DOS format"));
+    print1opt("-E", "--backupdir=[dir]", _("Directory for writing backup files"));
 #endif
 #ifdef ENABLE_MULTIBUFFER
     print1opt("-F", "--multibuffer", _("Enable multiple file buffers"));
@@ -3152,6 +3153,7 @@ int main(int argc, char *argv[])
 #ifndef NANO_SMALL
 	{"backup", 0, 0, 'B'},
 	{"dos", 0, 0, 'D'},
+	{"backupdir", 1, 0, 'E'},
 	{"mac", 0, 0, 'M'},
 	{"noconvert", 0, 0, 'N'},
 	{"smooth", 0, 0, 'S'},
@@ -3176,11 +3178,11 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "h?BDFHIMNQ:RST:VY:abcdefgijklmo:pr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "h?BDE:FHIMNQ:RST:VY:abcdefgijklmo:pr:s:tvwxz",
 				 long_options, NULL)) != -1) {
 #else
     while ((optchr =
-	    getopt(argc, argv, "h?BDFHIMNQ:RST:VY:abcdefgijklmo:pr:s:tvwxz")) != -1) {
+	    getopt(argc, argv, "h?BDE:FHIMNQ:RST:VY:abcdefgijklmo:pr:s:tvwxz")) != -1) {
 #endif
 
 	switch (optchr) {
@@ -3199,6 +3201,9 @@ int main(int argc, char *argv[])
 	    break;
 	case 'D':
 	    SET(DOS_FILE);
+	    break;
+	case 'E':
+	    backup_dir = mallocstrcpy(backup_dir, optarg);
 	    break;
 #endif
 #ifdef ENABLE_MULTIBUFFER
@@ -3350,6 +3355,9 @@ int main(int argc, char *argv[])
 #ifndef DISABLE_WRAPPING
 	int wrap_at_cpy = wrap_at;
 #endif
+#ifndef NANO_SMALL
+	char *backup_dir_cpy = backup_dir;
+#endif
 #ifndef DISABLE_JUSTIFY
 	char *quotestr_cpy = quotestr;
 #endif
@@ -3361,6 +3369,9 @@ int main(int argc, char *argv[])
 
 #ifndef DISABLE_OPERATINGDIR
 	operating_dir = NULL;
+#endif
+#ifndef NANO_SMALL
+	backup_dir = NULL;
 #endif
 #ifndef DISABLE_JUSTIFY
 	quotestr = NULL;
@@ -3381,6 +3392,12 @@ int main(int argc, char *argv[])
 	if (fill_flag_used)
 	    wrap_at = wrap_at_cpy;
 #endif
+#ifndef NANO_SMALL
+	if (backup_dir_cpy != NULL) {
+	    free(backup_dir);
+	    backup_dir = backup_dir_cpy;
+	}
+#endif	
 #ifndef DISABLE_JUSTIFY
 	if (quotestr_cpy != NULL) {
 	    free(quotestr);
@@ -3411,6 +3428,12 @@ int main(int argc, char *argv[])
 #endif
 #endif
 
+#ifndef NANO_SMALL
+    /* Set up the backup directory.  This entails making sure it exists
+     * and is a directory, so that backup files will be saved there. */
+    init_backup_dir();
+#endif
+
 #ifndef DISABLE_OPERATINGDIR
     /* Set up the operating directory.  This entails chdir()ing there,
        so that file reads and writes will be based there. */
@@ -3425,6 +3448,7 @@ int main(int argc, char *argv[])
 	quotestr = mallocstrcpy(NULL, "> ");
 #endif
 #endif /* !DISABLE_JUSTIFY */
+
     if (tabsize == -1)
 	tabsize = 8;
 
