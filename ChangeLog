@@ -140,10 +140,12 @@ CVS code -
 	- Rework to be a bit more flexible.  Only add tabs for shortcut
 	  key entries if those entries exist, and if there's only one
 	  entry left but there's room for more than one, add enough tabs
-	  to put that entry at the end.  These changes allow e.g. the
-	  miscellaneous meta key sequence to be displayed in a shortcut
-	  that has a control key, a primary meta key sequence, and a
-	  miscellaneous meta key sequence, but no function key. (DLR)
+	  to put that entry at the end.  Also, make sure a function key
+	  is displayed in the middle if it's the first entry.  These
+	  changes allow e.g. the miscellaneous meta key sequence to be
+	  displayed in a shortcut that has a control key, a primary meta
+	  key sequence, and a miscellaneous meta key sequence, but no
+	  function key. (DLR)
 	- Update the help text to mention replacing and spell checking
 	  only selected text, and also add a few cosmetic fixes to it.
 	  (DLR)
