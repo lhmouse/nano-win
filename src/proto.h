@@ -500,7 +500,7 @@ int regexec_safe(const regex_t *preg, const char *string, size_t nmatch,
 int regexp_bol_or_eol(const regex_t *preg, const char *string);
 #endif
 int num_of_digits(int n);
-bool is_byte(int c);
+bool is_byte(unsigned int c);
 bool parse_num(const char *str, ssize_t *val);
 size_t move_left(const char *buf, size_t pos);
 size_t move_right(const char *buf, size_t pos);

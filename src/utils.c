@@ -67,9 +67,9 @@ int num_of_digits(int n)
     return i;
 }
 
-bool is_byte(int c)
+bool is_byte(unsigned int c)
 {
-    return ((unsigned int)c == (unsigned char)c);
+    return (c == (unsigned char)c);
 }
 
 /* Read a ssize_t from str, and store it in *val (if val is not NULL).
