@@ -1,6 +1,7 @@
 Current CVS:
 - Implemented Pico's -k mode.  New flag CUT_TO_END, option (-k, --cut), 
-  affects do_cut_text in cut.c.
+  affects do_cut_text in cut.c.  Not available with SMALL_NANO because it
+  depends on the marker code which is not available with that setting.
 - move.c
   page_down()
 	- Don't edit_refresh() if the bottom of the file is in the edit

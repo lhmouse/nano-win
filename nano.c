@@ -323,8 +323,10 @@ void usage(void)
 	   (" -c 		--const			Constantly show cursor position\n"));
     printf(_
 	   (" -h 		--help			Show this message\n"));
+#ifndef NANO_SMALL
     printf(_
 	   (" -k 		--cut			Let ^K cut from cursor to end of line\n"));
+#endif
     printf(_
 	   (" -i 		--autoindent		Automatically indent new lines\n"));
     printf(_
@@ -363,7 +365,9 @@ void usage(void)
     printf(_(" -V 		Print version information and exit\n"));
     printf(_(" -c 		Constantly show cursor position\n"));
     printf(_(" -h 		Show this message\n"));
+#ifndef NANO_SMALL
     printf(_(" -k 		Let ^K cut from cursor to end of line\n"));
+#endif
     printf(_(" -i 		Automatically indent new lines\n"));
     printf(_
 	   (" -l 		Don't follow symbolic links, overwrite.\n"));
@@ -1545,7 +1549,9 @@ int main(int argc, char *argv[])
 	{"nowrap", 0, 0, 'w'},
 	{"nohelp", 0, 0, 'x'},
 	{"help", 0, 0, 'h'},
+#ifndef NANO_SMALL
 	{"cut", 0, 0, 'k'},
+#endif
 	{"autoindent", 0, 0, 'i'},
 	{"tempfile", 0, 0, 't'},
 	{"speller", 1, 0, 's'},
@@ -1608,9 +1614,11 @@ int main(int argc, char *argv[])
 	case 'i':
 	    SET(AUTOINDENT);
 	    break;
+#ifndef NANO_SMALL
 	case 'k':
 	    SET(CUT_TO_END);
 	    break;
+#endif
 	case 'l':
 	    UNSET(FOLLOW_SYMLINKS);
 	    break;
