@@ -43,6 +43,8 @@ CVS code -
 	- Reset starting at current for search instead of begin.
 - es.po:
 	- Translated new strings and minor updates (Jordi).
+- de.po 
+	- Revised translations by floki@bigfoot.com
 
 nano-0.9.17 - 09/04/2000
 - General

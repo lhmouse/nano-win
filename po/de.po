@@ -4,11 +4,17 @@
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Florian König <floki@bigfoot.com>, 2000.
 #
+#: files.c:54 files.c:214 files.c:247 files.c:296 global.c:151 global.c:152
+#: global.c:153 global.c:154 global.c:155 global.c:156 global.c:157
+#: global.c:158 global.c:159 global.c:160 global.c:161 global.c:162
+#: global.c:163 nano.c:65 nano.c:959 nano.c:1012 nano.c:1712 nano.c:1809
+#: nano.c:1816 search.c:66 search.c:88 search.c:376 search.c:394 search.c:395
+#: search.c:421 search.c:513 winio.c:226 winio.c:246 winio.c:418 winio.c:443
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 0.9.14pre1\n"
-"POT-Creation-Date: 2000-09-13 10:08-0400\n"
-"PO-Revision-Date: 2000-07-27 11:44+0200\n"
+"Project-Id-Version: nano 0.9.17\n"
+"POT-Creation-Date: 2000-09-09 11:41+0200\n"
+"PO-Revision-Date: 2000-09-09 11:55+0200\n"
 "Last-Translator: Florian König <floki@bigfoot.com>\n"
 "Language-Team: German <floki@bigfoot.com>\n"
 "MIME-Version: 1.0\n"
@@ -38,10 +44,14 @@ msgstr "%d Zeilen gelesen"
 msgid "\"%s\" not found"
 msgstr "\"%s\" nicht gefunden"
 
-#. We have a new file
 #: files.c:221
 msgid "New File"
 msgstr "Neue Datei"
+
+#: files.c:226
+#, c-format
+msgid "%s: %s"
+msgstr "%s: %s"
 
 #: files.c:230
 #, c-format
@@ -56,6 +66,11 @@ msgstr "Lese Datei"
 msgid "File to insert [from ./] "
 msgstr "Datei zum Einfügen [von ./] "
 
+#: files.c:252 files.c:471
+#, c-format
+msgid "filename is %s"
+msgstr "Dateiname ist %s"
+
 #: files.c:273 files.c:297 files.c:487 nano.c:1132
 msgid "Cancelled"
 msgstr "Abgebrochen"
@@ -69,17 +84,24 @@ msgstr "Konnte nicht in Datei schreiben: %s"
 msgid "Could not open file: Path length exceeded."
 msgstr "Konnte Datei nicht öffnen: Pfad zu lang."
 
+#: files.c:333
+msgid ".XXXXXX"
+msgstr ".XXXXXX"
+
 #: files.c:357
 #, c-format
 msgid "Wrote >%s\n"
 msgstr "Schrieb >%s\n"
+
+#: files.c:360 files.c:373 nano.c:1609 nano.c:1622
+msgid "\n"
+msgstr "\n"
 
 #: files.c:384
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "Konnte %s nicht schließen: %s"
 
-#. Try a rename??
 #: files.c:405 files.c:416 files.c:421
 #, c-format
 msgid "Could not open %s for writing: %s"
@@ -99,300 +121,299 @@ msgstr "%d Zeilen geschrieben"
 msgid "File Name to write"
 msgstr "Dateiname zum Speichern"
 
-#: files.c:471
-#, c-format
-msgid "filename is %s"
-msgstr "Dateiname ist %s"
-
 #: files.c:476
 msgid "File exists, OVERWRITE ?"
 msgstr "Datei exisitiert, ÜBERSCHREIBEN ?"
 
-#: global.c:120
-#, fuzzy
+#: global.c:118
 msgid "Constant cursor position"
-msgstr " -c \t\tCursorposition ständig anzeigen\n"
+msgstr "Cursorposition ständig anzeigen"
 
-#: global.c:121
-#, fuzzy
+#: global.c:119
 msgid "Auto indent"
-msgstr "autoindent"
+msgstr "Automatischer Einzug"
 
-#: global.c:122
+#: global.c:120
 msgid "Suspend"
 msgstr "Suspend"
 
-#: global.c:123
+#: global.c:121
 msgid "Help mode"
-msgstr ""
+msgstr "Hilfe-Modus"
+
+#: global.c:122
+msgid "Pico messages"
+msgstr "Pico Meldungen"
+
+#: global.c:123
+msgid "Mouse support"
+msgstr "Mausunterstützung"
 
 #: global.c:124
-msgid "Pico messages"
-msgstr ""
+msgid "Cut to end"
+msgstr "Bis zum Ende ausschneiden"
 
 #: global.c:125
-msgid "Mouse support"
-msgstr ""
+msgid "Regular expressions"
+msgstr "Reguläre Ausdrücke"
 
 #: global.c:126
-msgid "Cut to end"
-msgstr ""
-
-#: global.c:128
-#, fuzzy
-msgid "Regular expressions"
-msgstr " -R\t\tRegulären Ausdruck zur Suche verwenden\n"
-
-#: global.c:130
-#, fuzzy
 msgid "Auto wrap"
-msgstr "nowrap"
+msgstr "Automatischer Umbruch"
 
-#: global.c:172
+#: global.c:166
 msgid "Invoke the help menu"
 msgstr "Hilfe-Menü anzeigen"
 
-#: global.c:173
+#: global.c:167
 msgid "Write the current file to disk"
 msgstr "Datei speichern"
 
-#: global.c:174
+#: global.c:168
 msgid "Exit from nano"
 msgstr "nano beenden"
 
-#: global.c:175
+#: global.c:169
 msgid "Goto a specific line number"
 msgstr "Zu einer Zeile springen"
 
-#: global.c:176
+#: global.c:170
 msgid "Justify the current paragraph"
 msgstr "Absatz ausrichten"
 
-#: global.c:177
+#: global.c:171
 msgid "Replace text within the editor"
 msgstr "Text im Editor ersetzen"
 
-#: global.c:178
+#: global.c:172
 msgid "Insert another file into the current one"
 msgstr "Datei einfügen"
 
-#: global.c:179
+#: global.c:173
 msgid "Search for text within the editor"
 msgstr "Im Editor nach Text suchen"
 
-#: global.c:180
+#: global.c:174
 msgid "Move to the previous screen"
 msgstr "Zu der vorhergehenden Seite springen"
 
-#: global.c:181
+#: global.c:175
 msgid "Move to the next screen"
 msgstr "Zu der folgenden Seite springen"
 
-#: global.c:182
+#: global.c:176
 msgid "Cut the current line and store it in the cutbuffer"
 msgstr "Zeile ausschneiden und in dir Zwischenablage speichern"
 
-#: global.c:183
+#: global.c:177
 msgid "Uncut from the cutbuffer into the current line"
 msgstr "Aus der Zwischenablage einfügen"
 
-#: global.c:184
+#: global.c:178
 msgid "Show the posititon of the cursor"
 msgstr "Cursoposition anzeigen"
 
-#: global.c:185
+#: global.c:179
 msgid "Invoke the spell checker (if available)"
 msgstr "Rechtschreibprüfung aufrufen (wenn verfügbar)"
 
-#: global.c:186
+#: global.c:180
 msgid "Move up one line"
 msgstr "Zur vorhergehenden Zeile springen"
 
-#: global.c:187
+#: global.c:181
 msgid "Move down one line"
 msgstr "Zur folgenden Zeile springen"
 
-#: global.c:188
+#: global.c:182
 msgid "Move forward one character"
 msgstr "Zum folgenden Zeichen springen"
 
-#: global.c:189
+#: global.c:183
 msgid "Move back one character"
 msgstr "Zum vorhergehenden Zeichen springen"
 
-#: global.c:190
+#: global.c:184
 msgid "Move to the beginning of the current line"
 msgstr "Zum Zeilenanfang springen"
 
-#: global.c:191
+#: global.c:185
 msgid "Move to the end of the current line"
 msgstr "Zum Zeilenende springen"
 
-#: global.c:192
+#: global.c:186
 msgid "Go to the first line of the file"
 msgstr "Zur ersten Zeile springen"
 
-#: global.c:193
+#: global.c:187
 msgid "Go to the last line of the file"
 msgstr "Zur letzten Zeile springen"
 
-#: global.c:194
+#: global.c:188
 msgid "Refresh (redraw) the current screen"
 msgstr "Bildschirm auffrischen (neu zeichnen)"
 
-#: global.c:195
+#: global.c:189
 msgid "Mark text at the current cursor location"
 msgstr "Text an der derzeitigen Cursorposition markieren"
 
-#: global.c:196
+#: global.c:190
 msgid "Delete the character under the cursor"
 msgstr "Zeichen an der Cursorposition löschen"
 
-#: global.c:198
+#: global.c:192
 msgid "Delete the character to the left of the cursor"
 msgstr "Zeichen links vom Cursor löschen"
 
-#: global.c:199
+#: global.c:193
 msgid "Insert a tab character"
 msgstr "Tabulator einfügen"
 
-#: global.c:200
+#: global.c:194
 msgid "Insert a carriage return at the cursor position"
 msgstr "Zeilenumbruch an der Cursorposition einfügen"
 
-#: global.c:202
+#: global.c:196
 msgid "Make the current search or replace case (in)sensitive"
 msgstr ""
 "Groß- und Kleinschreibung bei Suche oder Erstzen (nicht) berücksichtigen"
 
-#: global.c:203
+#: global.c:197
 msgid "Cancel the current function"
 msgstr "Funktion abbrechen"
 
-#: global.c:207 global.c:319 global.c:391
+#: global.c:201 global.c:311 global.c:383
 msgid "Get Help"
 msgstr "Hilfe"
 
-#: global.c:210 global.c:218
+#: global.c:204 global.c:212
 msgid "WriteOut"
 msgstr "Speichern"
 
-#: global.c:214 global.c:380
+#: global.c:208 global.c:372
 msgid "Exit"
 msgstr "Beenden"
 
-#: global.c:222 global.c:315 global.c:336 global.c:355
+#: global.c:216 global.c:307 global.c:328 global.c:347
 msgid "Goto Line"
 msgstr "Zu Zeile"
 
-#: global.c:227 global.c:306
+#: global.c:221 global.c:299
 msgid "Justify"
 msgstr "Ausrichten"
 
-#: global.c:231 global.c:302 global.c:333
+#: global.c:224 global.c:295 global.c:325
 msgid "Replace"
 msgstr "Ersetzen"
 
-#: global.c:235
+#: global.c:228
 msgid "Read File"
 msgstr "Datei öffnen"
 
-#: global.c:239
+#: global.c:232
 msgid "Where Is"
 msgstr "Wo ist"
 
-#: global.c:243 global.c:372
+#: global.c:236 global.c:364
 msgid "Prev Page"
 msgstr "Seite zurück"
 
-#: global.c:247 global.c:376
+#: global.c:240 global.c:368
 msgid "Next Page"
 msgstr "Seite vor"
 
-#: global.c:251
+#: global.c:244
 msgid "Cut Text"
 msgstr "Ausschneiden"
 
-#: global.c:254
+#: global.c:247
 msgid "UnCut Txt"
 msgstr "Einfügen"
 
-#: global.c:258
+#: global.c:251
 msgid "Cur Pos"
 msgstr "Cursor"
 
-#: global.c:262
+#: global.c:255
 msgid "To Spell"
 msgstr "Rechtschr."
 
-#: global.c:266
+#: global.c:259
 msgid "Up"
 msgstr "Hoch"
 
-#: global.c:269
+#: global.c:262
 msgid "Down"
 msgstr "Runter"
 
-#: global.c:272
+#: global.c:265
 msgid "Forward"
 msgstr "Vorwärts"
 
-#: global.c:275
+#: global.c:268
 msgid "Back"
 msgstr "Zurück"
 
-#: global.c:278
+#: global.c:271
 msgid "Home"
 msgstr "Pos 1"
 
-#: global.c:281
+#: global.c:274
 msgid "End"
 msgstr "Ende"
 
-#: global.c:284
+#: global.c:277
 msgid "Refresh"
 msgstr "Auffrischen"
 
-#: global.c:287
+#: global.c:280
 msgid "Mark Text"
 msgstr "Text markieren"
 
-#: global.c:290
+#: global.c:283
 msgid "Delete"
 msgstr "Löschen"
 
-#: global.c:294
+#: global.c:287
 msgid "Backspace"
 msgstr "Rücktaste"
 
-#: global.c:298
+#: global.c:291
 msgid "Tab"
 msgstr "Tab"
 
-#: global.c:310
+#: global.c:302
 msgid "Enter"
 msgstr "Enter"
 
-#: global.c:323 global.c:343 global.c:362
+#: global.c:315 global.c:335 global.c:354
 msgid "First Line"
 msgstr "Erste Zeile"
 
-#: global.c:326 global.c:346 global.c:365
+#: global.c:318 global.c:338 global.c:357
 msgid "Last Line"
 msgstr "Letzte Zeile"
 
-#: global.c:329 global.c:349
+#: global.c:321 global.c:341
 msgid "Case Sens"
 msgstr "GROSZ/klein"
 
-#: global.c:339 global.c:358 global.c:368 global.c:384 global.c:388
-#: global.c:394 winio.c:999
+#: global.c:331 global.c:350 global.c:360 global.c:376 global.c:380
+#: global.c:386 winio.c:999
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: global.c:352
+#: global.c:344
 msgid "No Replace"
 msgstr "Keine Ersetzung"
+
+#: nano.c:99 nano.c:1216
+msgid "nano.save"
+msgstr "nano.save"
+
+#: nano.c:103
+msgid ".save"
+msgstr ".save"
 
 #: nano.c:115
 msgid ""
@@ -407,7 +428,6 @@ msgid "Key illegal in VIEW mode"
 msgstr "Unzulässige Taste im View Modus"
 
 #: nano.c:158
-#, fuzzy
 msgid ""
 " nano help text\n"
 "\n"
@@ -431,16 +451,16 @@ msgstr ""
 "\n"
 " Nano wurde konzipiert um die Funktionalität und die Benutzerfreundlichkeit "
 "des UW Pico Texteditors zu imitieren. Es gibt vier Hauptbereiche: Die "
-"Titelzeile zeigt die Version des Programms, den Dateinamen der aktuellen "
+"Titelzeile zeigt die Version des Programms, den Namen der aktuell editierten "
 "Datei und ob die Datei verändert wurde oder nicht. Das Hauptfenster enthält "
 "die geöffnete Datei. Die Statuszeile (die dritte Zeile von unten) zeigt "
 "wichtige Meldungen. Die untersten zwei Zeilen listen die meistgebrauchten "
 "Tastenkombinationen von nano auf.\n"
 "\n"
 " Tastenkombinationen werden wie folgt abgekürzt: Kombinationen mit der "
-"Strg-Taste werden mit einem ^ ausgedrückt, Alt-Taste-Kombinationen mit einem "
-"@. Die folgenden Tasten(kombinationen) sind im Hauptfenster verfügbar. "
-"Optionale Tasten sind eingeklammert.\n"
+"Strg-Taste werden mit einem ^ ausgedrückt, Alt-Taste-Kombinationen mit dem "
+"Meta (M) Symbol. Die folgenden Tasten(kombinationen) sind im Hauptfenster "
+"verfügbar. Optionale Tasten sind eingeklammert.\n"
 "\n"
 
 #: nano.c:261
@@ -644,6 +664,15 @@ msgstr "Markierung gesetzt"
 msgid "Mark UNset"
 msgstr "Markierung gelöscht"
 
+#: nano.c:464
+msgid "Sorry, this function not available with nano-tiny option"
+msgstr ""
+"Tut mir leid, dies Funktion ist im Minimalmodus von nano nicht verfügbar"
+
+#: nano.c:810
+msgid " "
+msgstr " "
+
 #: nano.c:867
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
@@ -663,17 +692,30 @@ msgstr "Nachher, data = \"%s\"\n"
 msgid "Error deleting tempfile, ack!"
 msgstr "Konnte temporäre Datei nicht löschen"
 
+#: nano.c:1058
+msgid "nano."
+msgstr "nano."
+
 #: nano.c:1059
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Konnte keine temporäre Datei erzeugen: %s"
+
+#: nano.c:1069 nano.c:1637 nano.c:1639 nano.c:1644 nano.c:1646
+#, c-format
+msgid "%s %s"
+msgstr "%s %s"
+
+#: nano.c:1076
+#, c-format
+msgid "ispell %s"
+msgstr "ispell %s"
 
 #: nano.c:1082
 #, c-format
 msgid "Could not invoke spell program \"%s\""
 msgstr "Konnte Rechtschreibprogramm \"%s\" nicht aufrufen"
 
-#. Why 32512? I dont know!
 #: nano.c:1088
 msgid "Could not invoke \"ispell\""
 msgstr "Konnte \"ispell\" nicht aufrufen"
@@ -685,6 +727,22 @@ msgstr "Rechtschreibprüfung abgeschlossen"
 #: nano.c:1119
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Veränderten Puffer speichern (\"Nein\" verwirft die Änderungen) ? "
+
+#: nano.c:1229
+msgid ""
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"Use \"fg\" to return to nano\n"
+msgstr ""
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"Benutzen Sie \"fg\" um zu nano zurückzukehren\n"
 
 #: nano.c:1283
 msgid "Cannot resize top win"
@@ -710,55 +768,157 @@ msgstr "Kann Größe des unteren Fensters nicht verändern"
 msgid "Cannot move bottom win"
 msgstr "Kann unteres Fenster nicht verschieben"
 
-#: nano.c:1631
+#: nano.c:1550
+msgid "Justify Complete"
+msgstr "Ausrichten abgeschlossen"
+
+#: nano.c:1589
+#, c-format
+msgid "^%c\t"
+msgstr "^%c\t"
+
+#: nano.c:1592
+#, c-format
+msgid "(F%d)\t"
+msgstr "(F%d)\t"
+
+#: nano.c:1595 nano.c:1601
+msgid "\t"
+msgstr "\t"
+
+#: nano.c:1598
+#, c-format
+msgid "(M-%c)\t"
+msgstr "(M-%c)\t"
+
+#: nano.c:1605
+#, c-format
+msgid "%s"
+msgstr "%s"
+
+#: nano.c:1615
+#, c-format
+msgid "M-%c\t\t\t"
+msgstr "M-%c\t\t\t"
+
+#: nano.c:1618
 #, c-format
 msgid "%s enable/disable"
-msgstr ""
+msgstr "%s  aktivieren/deaktivieren"
 
-#: nano.c:1643
+#: nano.c:1630
 msgid "enabled"
-msgstr ""
+msgstr "aktiviert"
 
-#: nano.c:1644
+#: nano.c:1631
 msgid "disabled"
-msgstr ""
+msgstr "deaktiviert"
 
-#: nano.c:1872
+#: nano.c:1685
+msgid "regexp"
+msgstr "regulärer Ausdruck"
+
+#: nano.c:1687
+msgid "version"
+msgstr "Version"
+
+#: nano.c:1688
+msgid "const"
+msgstr "const"
+
+#: nano.c:1689
+msgid "suspend"
+msgstr "suspend"
+
+#: nano.c:1690
+#, fuzzy
+msgid "nowrap"
+msgstr "nowrap"
+
+#: nano.c:1691
+msgid "nohelp"
+msgstr "nohelp"
+
+#: nano.c:1692
+msgid "help"
+msgstr "help"
+
+#: nano.c:1694
+msgid "cut"
+msgstr "cut"
+
+#: nano.c:1696
+#, fuzzy
+msgid "autoindent"
+msgstr "autoindent"
+
+#: nano.c:1697
+msgid "tempfile"
+msgstr "tempfile"
+
+#: nano.c:1698
+msgid "speller"
+msgstr "speller"
+
+#: nano.c:1699
+msgid "fill"
+msgstr "fill"
+
+#: nano.c:1700
+msgid "mouse"
+msgstr "mouse"
+
+#: nano.c:1701 nano.c:1802 nano.c:1803
+msgid "pico"
+msgstr "pico"
+
+#: nano.c:1702
+msgid "nofollow"
+msgstr "nofollow"
+
+#: nano.c:1703
+msgid "tabsize"
+msgstr "tabsize"
+
+#: nano.c:1718
+msgid "?T:RVchiklmpr:s:tvwxz"
+msgstr "?T:RVchiklmpr:s:tvwxz"
+
+#: nano.c:1721
+msgid "h?T:RVciklmpr:s:tvwxz"
+msgstr "h?T:RVciklmpr:s:tvwxz"
+
+#: nano.c:1850
 msgid "Main: set up windows\n"
 msgstr "Hauptprogramm: Fenster konfigurieren\n"
 
-#: nano.c:1879
+#: nano.c:1865
 msgid "Main: bottom win\n"
 msgstr "Hauptprogramm: unteres Fenster\n"
 
-#: nano.c:1885
+#: nano.c:1871
 msgid "Main: open file\n"
 msgstr "Hauptprogramm: Datei öffnen\n"
 
-#: nano.c:1919
-#, fuzzy, c-format
-msgid "I got Alt-O-%c! (%d)\n"
-msgstr "Erhielt Alt-[-%c! (%d)\n"
-
-#: nano.c:1943
-#, fuzzy, c-format
-msgid "I got Alt-[-1-%c! (%d)\n"
-msgstr "Erhielt Alt-[-%c! (%d)\n"
-
-#: nano.c:1968
-#, fuzzy, c-format
-msgid "I got Alt-[-2-%c! (%d)\n"
-msgstr "Erhielt Alt-[-%c! (%d)\n"
-
-#: nano.c:2016
+#: nano.c:1939
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Erhielt Alt-[-%c! (%d)\n"
 
-#: nano.c:2042
+#: nano.c:1965
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Erhielt Alt-%c! (%d)\n"
+
+#: nano.c:2003
+#, c-format
+msgid "I got %c (%d)!\n"
+msgstr "Erhielt %c (%d)!\n"
+
+#: search.c:69
+#, c-format
+msgid " [%s]"
+msgstr " [%s]"
 
 #: search.c:75
 #, c-format
@@ -812,7 +972,6 @@ msgstr "Ersetzung abgebrochen"
 msgid "Replace with [%s]"
 msgstr "Ersetzen mit [%s]"
 
-#. last_search is empty
 #: search.c:421
 msgid "Replace with"
 msgstr "Ersetzen mit"
@@ -821,7 +980,10 @@ msgstr "Ersetzen mit"
 msgid "Replace this instance?"
 msgstr "Ersetzen?"
 
-#. Ask for it
+#: search.c:470
+msgid "Replace failed: unknown subexpression!"
+msgstr "Ersetzung gescheitert: unbekannter Unterausdruck"
+
 #: search.c:513
 msgid "Enter line number"
 msgstr "Zeilennummer eingeben"
@@ -829,6 +991,10 @@ msgstr "Zeilennummer eingeben"
 #: search.c:515
 msgid "Aborted"
 msgstr "Abgebrochen"
+
+#: search.c:523
+msgid "$"
+msgstr "DM"
 
 #: search.c:535
 msgid "Come on, be reasonable"
@@ -857,9 +1023,23 @@ msgstr "Neuer Puffer"
 msgid "  File: ..."
 msgstr "  Datei: ..."
 
+#: winio.c:450
+msgid "File: "
+msgstr "Datei: "
+
 #: winio.c:455
 msgid "Modified"
 msgstr "Verändert"
+
+#: winio.c:465
+#, c-format
+msgid " %-11s"
+msgstr " %-11s"
+
+#: winio.c:495 winio.c:504
+#, c-format
+msgid "^%c"
+msgstr "^%c"
 
 #: winio.c:915
 #, c-format
@@ -871,185 +1051,76 @@ msgstr "Nach (%d, %d) im Bearbeitungspuffer verschoben\n"
 msgid "current->data = \"%s\"\n"
 msgstr "current->data = \"%s\"\n"
 
+#: winio.c:948
+msgid ": "
+msgstr ": "
+
 #: winio.c:969
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "Erhielt \"%s\"\n"
 
 #: winio.c:994
+msgid " Y"
+msgstr " J"
+
+#: winio.c:994
 msgid "Yes"
 msgstr "Ja"
+
+#: winio.c:996
+msgid " A"
+msgstr " A"
 
 #: winio.c:996
 msgid "All"
 msgstr "Alle"
 
 #: winio.c:998
+msgid " N"
+msgstr " N"
+
+#: winio.c:998
 msgid "No"
 msgstr "Nein"
 
-#: winio.c:1135
+#: winio.c:999
+msgid "^C"
+msgstr "^C"
+
+#: winio.c:1063
+msgid "[ "
+msgstr "[ "
+
+#: winio.c:1065
+msgid " ]"
+msgstr " ]"
+
+#: winio.c:1134
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
-#: winio.c:1139
+#: winio.c:1138
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "Zeile %d von %d (%.0f%%), Zeichen %d von %d (%.0f%%)"
 
-#: winio.c:1267
+#: winio.c:1262
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Gebe Datei Puffer nach stderr aus...\n"
 
-#: winio.c:1269
+#: winio.c:1264
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Gebe Inhalt der Zwischenablage nach stderr aus...\n"
 
-#: winio.c:1271
+#: winio.c:1266
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Gebe einen Puffer nach stderr aus...\n"
 
-#~ msgid "%s: %s"
-#~ msgstr "%s: %s"
-
-#~ msgid ".XXXXXX"
-#~ msgstr ".XXXXXX"
-
-#~ msgid "\n"
-#~ msgstr "\n"
-
-#~ msgid "nano.save"
-#~ msgstr "nano.save"
-
-#~ msgid ".save"
-#~ msgstr ".save"
-
-#~ msgid "Sorry, this function not available with nano-tiny option"
-#~ msgstr ""
-#~ "Tut mir leid, dies Funktion ist im Minimalmodus von nano nicht verfügbar"
-
-#~ msgid " "
-#~ msgstr " "
-
-#~ msgid "nano."
-#~ msgstr "nano."
-
-#~ msgid "%s %s"
-#~ msgstr "%s %s"
-
-#~ msgid "ispell %s"
-#~ msgstr "ispell %s"
-
-#~ msgid "Justify Complete"
-#~ msgstr "Ausrichten abgeschlossen"
-
-#~ msgid "^%c\t"
-#~ msgstr "^%c\t"
-
-#~ msgid "(F%d)\t"
-#~ msgstr "(F%d)\t"
-
-#~ msgid "\t"
-#~ msgstr "\t"
-
-#~ msgid "(@%c)\t"
-#~ msgstr "(@%c)\t"
-
-#~ msgid "%s"
-#~ msgstr "%s"
-
-#~ msgid "regexp"
-#~ msgstr "regulärer Ausdruck"
-
-#~ msgid "version"
-#~ msgstr "Version"
-
-#~ msgid "const"
-#~ msgstr "const"
-
-#~ msgid "suspend"
-#~ msgstr "suspend"
-
-#~ msgid "nohelp"
-#~ msgstr "nohelp"
-
-#~ msgid "help"
-#~ msgstr "help"
-
-#~ msgid "cut"
-#~ msgstr "cut"
-
-#~ msgid "tempfile"
-#~ msgstr "tempfile"
-
-#~ msgid "speller"
-#~ msgstr "speller"
-
-#~ msgid "fill"
-#~ msgstr "fill"
-
-#~ msgid "mouse"
-#~ msgstr "mouse"
-
-#~ msgid "pico"
-#~ msgstr "pico"
-
-#~ msgid "nofollow"
-#~ msgstr "nofollow"
-
-#~ msgid "tabsize"
-#~ msgstr "tabsize"
-
-#~ msgid "?T:RVchiklmpr:s:tvwxz"
-#~ msgstr "?T:RVchiklmpr:s:tvwxz"
-
-#~ msgid "h?T:RVciklmpr:s:tvwxz"
-#~ msgstr "h?T:RVciklmpr:s:tvwxz"
-
-#~ msgid "I got %c (%d)!\n"
-#~ msgstr "Erhielt %c (%d)!\n"
-
-#~ msgid " [%s]"
-#~ msgstr " [%s]"
-
-#~ msgid "Replace failed: unknown subexpression!"
-#~ msgstr "Ersetzung gescheitert: unbekannter Unterausdruck"
-
-#~ msgid "$"
-#~ msgstr "DM"
-
-#~ msgid "File: "
-#~ msgstr "Datei: "
-
-#~ msgid " %-11s"
-#~ msgstr " %-11s"
-
-#~ msgid "^%c"
-#~ msgstr "^%c"
-
-#~ msgid ": "
-#~ msgstr ": "
-
-#~ msgid " Y"
-#~ msgstr " J"
-
-#~ msgid " A"
-#~ msgstr " A"
-
-#~ msgid " N"
-#~ msgstr " N"
-
-#~ msgid "^C"
-#~ msgstr "^C"
-
-#~ msgid "[ "
-#~ msgstr "[ "
-
-#~ msgid " ]"
-#~ msgstr " ]"
-
-#~ msgid "(%ld) %s\n"
-#~ msgstr "(%ld) %s\n"
+#: winio.c:1270 winio.c:1284
+#, c-format
+msgid "(%ld) %s\n"
+msgstr "(%ld) %s\n"
 
 #~ msgid "To Replace"
 #~ msgstr "Ersetzen"
