@@ -232,6 +232,13 @@ void window_init(void)
     if ((editwinrows = LINES - 5 + no_help()) < MIN_EDITOR_ROWS)
 	die_too_small();
 
+    if (edit != NULL)
+	delwin(edit);
+    if (topwin != NULL)
+	delwin(topwin);
+    if (bottomwin != NULL)
+	delwin(bottomwin);
+
     /* Set up the main text window */
     edit = newwin(editwinrows, COLS, 2, 0);
 

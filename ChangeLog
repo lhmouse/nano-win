@@ -13,6 +13,8 @@ CVS Code -
   open_file()
 	- Fix FD leak with file load error (David Benbennick).
 - nano.c:
+  do_preserve_msg():
+	- Unsplit error message into a single fprintf call (Jordi).
   main()
 	- Call load_file with arg 0 for insert, as we aren't really
 	  doing an insert, allows new_file() to run if we open a 
@@ -20,8 +22,8 @@ CVS Code -
   usage()
   	- Remove gettext markings from -p/--preserve (Jordi).
 	- Revamp -H option message to fit in 80 column terminal.
-  do_preserve_msg():
-	- Unsplit error message into a single fprintf call (Jordi).
+  window_init()
+	- Fix leaking *WINDOWs (no pun intended) (David Benbennick).
 - winio.c:
   bottombars()
 	- Change strcpy of gettext() "Up" string to strncpy of max
