@@ -3523,7 +3523,7 @@ int main(int argc, char *argv[])
 #ifdef DEBUG
 	fprintf(stderr, "AHA!  %c (%d)\n", kbinput, kbinput);
 #endif
-	if (meta_key == 1) {
+	if (meta_key == TRUE) {
 	    /* Check for the metaval and miscval defs... */
 	    for (s = main_list; s != NULL; s = s->next)
 		if ((s->metaval != NANO_NO_KEY && kbinput == s->metaval) ||
@@ -3630,5 +3630,5 @@ int main(int argc, char *argv[])
 	reset_cursor();
 	wrefresh(edit);
     }
-    assert(0);
+    assert(FALSE);
 }
