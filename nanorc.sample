@@ -107,7 +107,20 @@
 # color brightblue "//.*"
 # color brightblue start="/\*" end="\*/"
 
+# Here are some short examples for TeX files and HTML
+# syntax "HTML" "\.html$"
+#
+# color blue start="<" end=">"
+# color red "&([^; ])*;"
+#
+# syntax "TeX" "\.tex$"
+#
+# color green "\\(.|([A-Za-z]*))"
+# color magenta "\{" "\}"
+# color blue "%.*"
+
 # For this you will probably want to set your editor to "nano -Y mutt"
 
 # syntax "mutt"
 # color green "^>.*"
+

@@ -1,4 +1,4 @@
-CVS code -
+GNU nano 1.1.11 - 10/01/2002
 - General:
 	- Translation updates (see po/ChangeLog for details).
 	- Upgraded to gettext 0.11.5 (Jordi).
@@ -128,6 +128,7 @@ CVS code -
 	  helped ;-).  Some unneeded \'s in that sequence removed, and
 	  a new sequence to handle multi-line quotes added, by David
 	  Benbennick.
+	- Add some examples for HTML and TeX files (David Benbennick).
 - rcfile.c:
   parse_colors()
 	- Stop infinite loop when syntax doesn't begin with " char.
