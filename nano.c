@@ -367,12 +367,12 @@ void usage(void)
 	   (" -c 		--const			Constantly show cursor position\n"));
     printf(_
 	   (" -h 		--help			Show this message\n"));
+    printf(_
+	   (" -i 		--autoindent		Automatically indent new lines\n"));
 #ifndef NANO_SMALL
     printf(_
 	   (" -k 		--cut			Let ^K cut from cursor to end of line\n"));
 #endif
-    printf(_
-	   (" -i 		--autoindent		Automatically indent new lines\n"));
     printf(_
 	   (" -l 		--nofollow		Don't follow symbolic links, overwrite\n"));
 #ifndef NANO_SMALL
@@ -380,11 +380,11 @@ void usage(void)
     printf(_(" -m 		--mouse			Enable mouse\n"));
 #endif
 #endif
+    printf(_
+	   (" -p	 	--pico			Emulate Pico as closely as possible\n"));
     printf
 	(_
 	 (" -r [#cols] 	--fill=[#cols]		Set fill cols to (wrap lines at) #cols\n"));
-    printf(_
-	   (" -p	 	--pico			Emulate Pico as closely as possible\n"));
     printf(_
 	   (" -s [prog] 	--speller=[prog]	Enable alternate speller\n"));
     printf(_
@@ -407,10 +407,10 @@ void usage(void)
     printf(_(" -V 		Print version information and exit\n"));
     printf(_(" -c 		Constantly show cursor position\n"));
     printf(_(" -h 		Show this message\n"));
+    printf(_(" -i 		Automatically indent new lines\n"));
 #ifndef NANO_SMALL
     printf(_(" -k 		Let ^K cut from cursor to end of line\n"));
 #endif
-    printf(_(" -i 		Automatically indent new lines\n"));
     printf(_
 	   (" -l 		Don't follow symbolic links, overwrite\n"));
 #ifndef NANO_SMALL
@@ -418,10 +418,9 @@ void usage(void)
     printf(_(" -m 		Enable mouse\n"));
 #endif
 #endif
-    printf(_
-	   (" -r [#cols] 	Set fill cols to (wrap lines at) #cols\n"));
-    printf(_(" -s [prog]  	Enable alternate speller\n"));
     printf(_(" -p 		Emulate Pico as closely as possible\n"));
+    printf(_(" -r [#cols] 	Set fill cols to (wrap lines at) #cols\n"));
+    printf(_(" -s [prog]  	Enable alternate speller\n"));
     printf(_(" -t 		Auto save on exit, don't prompt\n"));
     printf(_(" -v 		View (read only) mode\n"));
     printf(_(" -w 		Don't wrap long lines\n"));

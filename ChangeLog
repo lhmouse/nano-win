@@ -1,6 +1,10 @@
 CVS code -
 - faq.html:
 	- Fix typos and small mistakes (Jordi).
+- nano.c:
+  main()
+	- Reorder the getopt options to be more or less alphabetical
+	  (suggested by Sven Guckes).
 
 nano 0.9.24 - 12/18/2000
 General
