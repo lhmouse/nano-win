@@ -354,14 +354,6 @@ int write_file(char *name, int tmp)
 	    return -1;
 	}
 
-	/* Now we fstat() the file, to make sure it's the same file still!
-	   Thanks to Oliver Friedrichs(?) for this code from securityfocus */
-
-	if (fstat(fd, &st2) != 0) {
-	    close(fd);
-	    return -1;
-	}
-
     }
     /* Don't follow symlink.  Create new file. */
     else {
