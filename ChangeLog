@@ -1,5 +1,12 @@
 CVS code -
 
+- winio.c:
+  titlebar()
+	- Fix problem with the available space for a filename on the
+	  titlebar's being short by one. (DLR)
+  do_credits()
+	- Update the copyright years to "1999-2003", to match those
+	  given in the rest of the code. (DLR)
 - AUTHORS
 	- Updated to show 1.2/1.3 maintainers.
 

@@ -587,7 +587,7 @@ void titlebar(const char *path)
     mvwaddstr(topwin, 0, 0, hblank);
     mvwaddnstr(topwin, 0, 2, VERMSG, COLS - 3);
 
-    space = COLS - sizeof(VERMSG) - 22;
+    space = COLS - sizeof(VERMSG) - 23;
 
     namelen = strlen(what);
 
@@ -1830,7 +1830,7 @@ void do_credits(void)
 	"6",				/* "and anyone else we forgot..." */
 	"7",				/* "Thank you for using nano!\n" */
 	"", "", "", "",
-	"(c) 1999-2002 Chris Allegretta",
+	"(c) 1999-2003 Chris Allegretta",
 	"", "", "", "",
 	"http://www.nano-editor.org/"
     };
