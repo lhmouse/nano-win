@@ -77,6 +77,12 @@ CVS code -
 	  do_statusbar_right(), do_statusbar_left(),
 	  do_statusbar_backspace(), and do_statusbar_delete(). (David
 	  Benbennick and DLR)
+	- Implement cutting from the current position to the end of the
+	  file, using Ctrl-X from the search prompt and Meta-T from the
+	  edit window.  New function do_cut_till_end().  Note that this
+	  is disabled when NANO_SMALL is defined. (DLR, based on ideas
+	  from a patch for Pico by Eduardo Chappa, suggested by Ryan
+	  Dlugosz and Paul Adams)
 - cut.c:
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the

@@ -165,6 +165,9 @@ void cut_marked(void);
 #endif
 void cut_to_eol(void);
 void do_cut_text(void);
+#ifndef NANO_SMALL
+void do_cut_till_end(void);
+#endif
 void do_uncut_text(void);
 
 /* Public functions in files.c. */

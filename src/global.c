@@ -239,6 +239,9 @@ void shortcut_init(bool unjustify)
     const char *cancel_msg = N_("Cancel");
     const char *first_line_msg = N_("First Line");
     const char *last_line_msg = N_("Last Line");
+#ifndef NANO_SMALL
+    const char *cut_till_end_msg = N_("CutTillEnd");
+#endif
 #ifndef DISABLE_JUSTIFY
     const char *beg_of_par_msg = N_("Beg of Par");
     const char *end_of_par_msg = N_("End of Par");
@@ -316,6 +319,10 @@ void shortcut_init(bool unjustify)
     const char *nano_opennext_msg = N_("Switch to the next file buffer");
 #endif
     const char *nano_verbatim_msg = N_("Insert character(s) verbatim");
+#ifndef NANO_SMALL
+    const char *nano_cut_till_end_msg =
+	N_("Cut from the cursor position to the end of the file");
+#endif
 #ifndef DISABLE_JUSTIFY
     const char *nano_fulljustify_msg = N_("Justify the entire file");
 #endif
@@ -569,6 +576,13 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_verbatim_msg, NANO_VERBATIM_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, NOVIEW, do_verbatim_input);
 
+#ifndef NANO_SMALL
+    /* Translators: try to keep this string under 10 characters long */
+    sc_init_one(&main_list, NANO_NO_KEY, cut_till_end_msg,
+	IFHELP(nano_cut_till_end_msg, NANO_CUTTILLEND_ALTKEY),
+	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_cut_till_end);
+#endif
+
 #ifndef DISABLE_JUSTIFY
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_NO_KEY, fulljstify_msg,
@@ -653,6 +667,11 @@ void shortcut_init(bool unjustify)
     sc_init_one(&whereis_list, NANO_HISTORY_KEY, history_msg,
 	IFHELP(nano_editstr_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, 0);
+
+    /* Translators: try to keep this string under 10 characters long */
+    sc_init_one(&whereis_list, NANO_CUTTILLEND_KEY, cut_till_end_msg,
+	IFHELP(nano_cut_till_end_msg, NANO_CUTTILLEND_ALTKEY),
+	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_cut_till_end);
 #endif /* !NANO_SMALL */
 
 #ifndef DISABLE_JUSTIFY

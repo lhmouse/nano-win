@@ -2,7 +2,7 @@
 /**************************************************************************
  *   nano.h                                                               *
  *                                                                        *
- *   Copyright (C) 1999-2004 Chris Allegretta                             *
+ *   Copyright (C) 1999-2005 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -478,6 +478,8 @@ typedef struct historyheadtype {
 #define NANO_BRACKET_KEY	NANO_ALT_RBRACKET
 #define NANO_NEXTWORD_KEY	NANO_CONTROL_SPACE
 #define NANO_PREVWORD_KEY	NANO_ALT_SPACE
+#define NANO_CUTTILLEND_KEY	NANO_CONTROL_X
+#define NANO_CUTTILLEND_ALTKEY	NANO_ALT_T
 #define NANO_PARABEGIN_KEY	NANO_CONTROL_W
 #define NANO_PARABEGIN_ALTKEY1	NANO_ALT_LPAREN
 #define NANO_PARABEGIN_ALTKEY2	NANO_ALT_9

@@ -2,7 +2,7 @@
 /**************************************************************************
  *   cut.c                                                                *
  *                                                                        *
- *   Copyright (C) 1999-2004 Chris Allegretta                             *
+ *   Copyright (C) 1999-2005 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -139,6 +139,26 @@ void do_cut_text(void)
     dump_buffer(cutbuffer);
 #endif
 }
+
+#ifndef NANO_SMALL
+/* Cut from the current cursor position to the end of the file. */
+void do_cut_till_end(void)
+{
+    assert(current != NULL && current->data != NULL);
+
+    check_statusblank();
+
+    move_to_filestruct(&cutbuffer, &cutbottom, current, current_x,
+	filebot, 0);
+
+    edit_refresh();
+    set_modified();
+
+#ifdef DEBUG
+    dump_buffer(cutbuffer);
+#endif
+}
+#endif
 
 /* Copy text from the cutbuffer into the current filestruct. */
 void do_uncut_text(void)
