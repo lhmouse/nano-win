@@ -1044,6 +1044,12 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
     char *nostr;		/* Same for no */
     char *allstr;		/* And all, surprise! */
     char shortstr[5];		/* Temp string for above */
+#ifndef NANO_SMALL
+#ifdef NCURSES_MOUSE_VERSION
+    MEVENT mevent;
+#endif
+#endif
+
 
     /* Yes, no and all are strings of any length.  Each string consists of
 	all characters accepted as a valid character for that value.
@@ -1091,6 +1097,39 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
 	kbinput = wgetch(edit);
 
 	switch (kbinput) {
+#ifndef NANO_SMALL
+#ifdef NCURSES_MOUSE_VERSION
+	case KEY_MOUSE:
+
+	    /* Look ma!  We get to duplicate lots of code from do_mouse!! */
+	    if (getmouse(&mevent) == ERR)
+		break;
+	    if (!wenclose(bottomwin, mevent.y, mevent.x) || ISSET(NO_HELP))
+		break;
+	    mevent.y -= editwinrows + 3;
+	    if (mevent.y < 0)
+		break;
+	    else {
+
+		/* Rather than a bunch of if statements, set up a matrix
+		   of possible return keystrokes based on the x and y values */
+		if (all) {
+		    char yesnosquare[2][2] = {
+			{yesstr[0], allstr[0]}, 
+			{nostr[0], NANO_CONTROL_C }};
+
+		    ungetch(yesnosquare[mevent.y][mevent.x/(COLS/6)]);
+		} else {
+		    char yesnosquare[2][2] = {
+			{yesstr[0], '\0'},
+			{nostr[0], NANO_CONTROL_C }};
+
+		    ungetch(yesnosquare[mevent.y][mevent.x/(COLS/6)]);
+		}
+	    }
+	    break;
+#endif
+#endif
 	case NANO_CONTROL_C:
 	    ok = -2;
 	    break;
