@@ -410,10 +410,7 @@ void shortcut_init(int unjustify)
     sc_init_one(&writefile_list[0], NANO_CANCEL_KEY, _("Cancel"),
 		nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
-    sc_init_one(&spell_list[0], NANO_HELP_KEY, _("Get Help"),
-		nano_help_msg, 0, 0, 0, VIEW, do_help);
-
-    sc_init_one(&spell_list[1], NANO_CANCEL_KEY, _("Cancel"),
+    sc_init_one(&spell_list[0], NANO_CANCEL_KEY, _("Cancel"),
 		nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
     toggle_init();

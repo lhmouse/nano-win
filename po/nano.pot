@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-11-29 18:39-0500\n"
+"POT-Creation-Date: 2000-11-29 18:56-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -271,7 +271,7 @@ msgstr ""
 msgid "Cancel the current function"
 msgstr ""
 
-#: global.c:212 global.c:328 global.c:413
+#: global.c:212 global.c:328
 msgid "Get Help"
 msgstr ""
 
@@ -392,7 +392,7 @@ msgid "Case Sens"
 msgstr ""
 
 #: global.c:349 global.c:369 global.c:380 global.c:390 global.c:406
-#: global.c:410 global.c:416 winio.c:1028
+#: global.c:410 global.c:413 winio.c:1028
 msgid "Cancel"
 msgstr ""
 

@@ -10,6 +10,8 @@ CVS code -
 	  print out various options from ./configure, function do_credits().
 	- Ignore key sequence 543 & 545, right control and alt keys in
 	  windows. Affects main() and winio.c:nanogetstr().
+	- Took out help from spell_list and changed SPELL_LIST_LEN to 1.
+	  Is using a spell checker THAT difficult? =-)
 - files.c:
   write_file()
 	- Unsetting modified on temp files bug fixed (Rocco Corsi).
