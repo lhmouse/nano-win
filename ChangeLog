@@ -175,12 +175,12 @@ CVS code -
 	  paragraph-searching utility functions when possible instead of
 	  duplicating code.  Also overhaul the justify code to make it
 	  leave the right number of spaces at the ends of the lines of a
-	  paragraph, to make it (partially) support multibyte
-	  characters, and to make it simpler.  Also, don't remove a
-	  space after a duplicate character in punct anymore, as it
-	  doesn't really make us more compatible with Pico.  New
-	  functions do_para_begin_void() and do_para_end_void(); changes
-	  to justify_format(), do_para_begin(), inpar(), do_para_end(),
+	  paragraph, to make it support multibyte characters, and to
+	  make it simpler.  Also, don't remove a space after a duplicate
+	  character in punct anymore, as it doesn't really make us more
+	  compatible with Pico.  New functions mbstrchr(),
+	  do_para_begin_void(), and do_para_end_void(); changes to
+	  justify_format(), do_para_begin(), inpar(), do_para_end(),
 	  break_line(), do_para_search() (renamed find_paragraph()), and
 	  do_justify(); removal of breakable(). (DLR)
 	- Still more steps toward full wide/multibyte character support.

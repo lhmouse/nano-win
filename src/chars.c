@@ -811,3 +811,48 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 		nstrnlen(s, maxlen);
 #endif
 }
+
+#ifndef DISABLE_JUSTIFY
+/* This function is equivalent to strchr() for multibyte strings. */
+char *mbstrchr(const char *s, char *c)
+{
+    assert(s != NULL && c != NULL);
+
+#ifdef NANO_WIDE
+    if (!ISSET(NO_UTF8)) {
+	char *s_mb = charalloc(MB_CUR_MAX);
+	const char *q = s;
+	wchar_t ws, wc;
+	int s_mb_len, c_mb_len = mbtowc(&wc, c, MB_CUR_MAX);
+
+	if (c_mb_len <= 0) {
+	    mbtowc(NULL, NULL, 0);
+	    wc = (unsigned char)*c;
+	}
+
+	while (*s != '\0') {
+	    s_mb_len = parse_mbchar(s, s_mb, NULL, NULL);
+
+	    if (mbtowc(&ws, s_mb, s_mb_len) <= 0) {
+		mbtowc(NULL, NULL, 0);
+		ws = (unsigned char)*s;
+	    }
+
+	    if (ws == wc)
+		break;
+
+	    s += s_mb_len;
+	    q += s_mb_len;
+	}
+
+	free(s_mb);
+
+	if (ws != wc)
+	    q = NULL;
+
+	return (char *)q;
+    } else
+#endif
+	return strchr(s, *c);
+}
+#endif

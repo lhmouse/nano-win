@@ -2382,68 +2382,95 @@ void justify_format(filestruct *paragraph, size_t skip)
     new_end = new_paragraph_data + skip;
 
     while (*end != '\0') {
+	int end_len;
+
 	/* If this character is blank, make sure that it's a space with
 	 * no blanks after it. */
-	if (is_blank_char(*end)) {
+	if (is_blank_mbchar(end)) {
+	    end_len = parse_mbchar(end, NULL, NULL, NULL);
+
 	    *new_end = ' ';
 	    new_end++;
-	    end++;
+	    end += end_len;
 
-	    while (*end != '\0' && is_blank_char(*end)) {
-		end++;
-		shift++;
+	    while (*end != '\0' && is_blank_mbchar(end)) {
+		end_len = parse_mbchar(end, NULL, NULL, NULL);
+
+		end += end_len;
+		shift += end_len;
 
 #ifndef NANO_SMALL
 		/* Keep track of the change in the current line. */
 		if (mark_beginbuf == paragraph &&
 			mark_beginx >= end - paragraph->data)
-		    mark_shift++;
+		    mark_shift += end_len;
 #endif
 	    }
 	/* If this character is punctuation optionally followed by a
 	 * bracket and then followed by blanks, make sure there are no
 	 * more than two blanks after it, and make sure that the blanks
 	 * are spaces. */
-	} else if (strchr(punct, *end) != NULL) {
-	    *new_end = *end;
-	    new_end++;
-	    end++;
+	} else if (mbstrchr(punct, end) != NULL) {
+	    end_len = parse_mbchar(end, NULL, NULL, NULL);
 
-	    if (*end != '\0' && strchr(brackets, *end) != NULL) {
+	    while (end_len > 0) {
 		*new_end = *end;
 		new_end++;
 		end++;
+		end_len--;
 	    }
 
-	    if (*end != '\0' && is_blank_char(*end)) {
+	    if (*end != '\0' && mbstrchr(brackets, end) != NULL) {
+		end_len = parse_mbchar(end, NULL, NULL, NULL);
+
+		while (end_len > 0) {
+		    *new_end = *end;
+		    new_end++;
+		    end++;
+		    end_len--;
+		}
+	    }
+
+	    if (*end != '\0' && is_blank_mbchar(end)) {
+		end_len = parse_mbchar(end, NULL, NULL, NULL);
+
 		*new_end = ' ';
 		new_end++;
-		end++;
+		end += end_len;
 	    }
 
-	    if (*end != '\0' && is_blank_char(*end)) {
+	    if (*end != '\0' && is_blank_mbchar(end)) {
+		end_len = parse_mbchar(end, NULL, NULL, NULL);
+
 		*new_end = ' ';
 		new_end++;
-		end++;
+		end += end_len;
 	    }
 
-	    while (*end != '\0' && is_blank_char(*end)) {
-		end++;
-		shift++;
+	    while (*end != '\0' && is_blank_mbchar(end)) {
+		end_len = parse_mbchar(end, NULL, NULL, NULL);
+
+		end += end_len;
+		shift += end_len;
 
 #ifndef NANO_SMALL
-	    /* Keep track of the change in the current line. */
-	    if (mark_beginbuf == paragraph &&
-		mark_beginx >= end - paragraph->data)
-		mark_shift++;
+		/* Keep track of the change in the current line. */
+		if (mark_beginbuf == paragraph &&
+			mark_beginx >= end - paragraph->data)
+		    mark_shift += end_len;
 #endif
 	    }
 	/* If this character is neither blank nor punctuation, leave it
 	 * alone. */
 	} else {
-	    *new_end = *end;
-	    new_end++;
-	    end++;
+	    end_len = parse_mbchar(end, NULL, NULL, NULL);
+
+	    while (end_len > 0) {
+		*new_end = *end;
+		new_end++;
+		end++;
+		end_len--;
+	    }
 	}
     }
 
@@ -2743,11 +2770,11 @@ ssize_t break_line(const char *line, ssize_t goal, bool force)
 	 * found with short enough display width.  */
     ssize_t cur_loc = 0;
 	/* Current index in line. */
+    int line_len;
 
     assert(line != NULL);
 
     while (*line != '\0' && goal >= 0) {
-	int line_len;
 	size_t pos = 0;
 
 	line_len = parse_mbchar(line, NULL, NULL, &pos);
@@ -2770,7 +2797,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool force)
 	    bool found_blank = FALSE;
 
 	    while (*line != '\0') {
-		int line_len = parse_mbchar(line, NULL, NULL, NULL);
+		line_len = parse_mbchar(line, NULL, NULL, NULL);
 
 		if (is_blank_mbchar(line)) {
 		    if (!found_blank)
@@ -2786,11 +2813,18 @@ ssize_t break_line(const char *line, ssize_t goal, bool force)
 	}
     }
 
-    /* Perhaps the character after blank_loc is a blank.  But because
-     * of justify_format(), there can be only two adjacent. */
-    if (*(line - cur_loc + blank_loc + 1) == ' ' ||
-	*(line - cur_loc + blank_loc + 1) == '\0')
-	blank_loc++;
+    /* Move to the last blank after blank_loc, if there is one. */
+    line -= cur_loc;
+    line += blank_loc;
+    line_len = parse_mbchar(line, NULL, NULL, NULL);
+    line += line_len;
+
+    while (*line != '\0' && is_blank_mbchar(line)) {
+	line_len = parse_mbchar(line, NULL, NULL, NULL);
+
+	line += line_len;
+	blank_loc += line_len;
+    }
 
     return blank_loc;
 }

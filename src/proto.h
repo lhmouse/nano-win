@@ -207,6 +207,9 @@ size_t mbstrlen(const char *s);
 size_t nstrnlen(const char *s, size_t maxlen);
 #endif
 size_t mbstrnlen(const char *s, size_t maxlen);
+#ifndef DISABLE_JUSTIFY
+char *mbstrchr(const char *s, char *c);
+#endif
 
 /* Public functions in color.c. */
 #ifdef ENABLE_COLOR
