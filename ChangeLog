@@ -1,4 +1,4 @@
-since last release (CVS Only) - 06/06/2000
+nano-0.9.11 - 06/xx/2000
 - New flag "-T" or "--tabsize" to specify how to display tab widths.
   Affects main() in nano.c, strlenpt(), xpt() and actual_x() (et al) in 
   winio.c, and nano.h.  Many harcoded "8"s have been changed to the 
