@@ -489,7 +489,7 @@ int do_insertfile(int loading_file)
 
 #ifndef NANO_SMALL
 #ifdef ENABLE_MULTIBUFFER
-	if (i == TOGGLE_LOAD_KEY) {
+	if (i == TOGGLE_MULTIBUFFER_KEY) {
 	    /* Don't allow toggling if we're in view mode. */
 	    if (!ISSET(VIEW_MODE))
 		TOGGLE(MULTIBUFFER);

@@ -112,12 +112,14 @@
 #define KEY_SUSPEND -5
 #endif
 
-/* Snatch these out of the ncurses defs, so we can use them in search
-   history regardless of whether we're using ncurses or not */
-#if !defined(KEY_UP) || !defined(KEY_DOWN)
-#define KEY_UP   0403
-#define KEY_DOWN 0402
-#endif /* !KEY_UP || !KEY_DOWN */
+/* Non-ncurses may not support KEY_UP and KEY_DOWN */
+#ifndef KEY_UP
+#define KEY_UP -6
+#endif
+
+#ifndef KEY_DOWN
+#define KEY_DOWN -7
+#endif
 
 #define VERMSG "GNU nano " VERSION
 
@@ -166,10 +168,11 @@ typedef struct openfilestruct {
 #endif
 
 typedef struct shortcut {
-   int val;		/* Actual sequence that generates the keystroke */
-   int altval;		/* Alt key # for this function, or 0 for none */
-   int misc1;		/* Other int functions we want bound */
-   int misc2;
+   int val;		/* Actual sequence that generates the keystroke,
+			   or -1 for none */
+   int altval;		/* Alt key for this function, or 0 for none */
+   int func_key;	/* Function key we want bound */
+   int misc;		/* Other Alt key we want bound, or 0 for none */
    int viewok;		/* is this function legal in view mode? */
    int (*func) (void);	/* Function to call when we catch this key */
    const char *desc;	/* Description, e.g. "Page Up" */
@@ -339,7 +342,7 @@ typedef struct historyheadtype {
 #define NANO_ALT_COMMA ','
 #define NANO_ALT_LCARAT '<'
 #define NANO_ALT_RCARAT '>'
-#define NANO_ALT_BRACKET ']'
+#define NANO_ALT_RBRACKET ']'
 #define NANO_ALT_SPACE ' '
 
 /* Some semi-changeable keybindings; don't play with unless you're sure
@@ -403,12 +406,13 @@ typedef struct historyheadtype {
 #define NANO_OPENNEXT_KEY	NANO_ALT_RCARAT
 #define NANO_OPENPREV_ALTKEY	NANO_ALT_COMMA
 #define NANO_OPENNEXT_ALTKEY	NANO_ALT_PERIOD
-#define NANO_BRACKET_KEY	NANO_ALT_BRACKET
+#define NANO_BRACKET_KEY	NANO_ALT_RBRACKET
 #define NANO_EXTCMD_KEY		NANO_CONTROL_X
 #define NANO_NEXTWORD_KEY	NANO_CONTROL_SPACE
 #define NANO_PREVWORD_KEY	NANO_ALT_SPACE
 #define NANO_PARABEGIN_KEY	NANO_CONTROL_W
 #define NANO_PARAEND_KEY	NANO_CONTROL_O
+#define NANO_VERBATIM_KEY	NANO_ALT_V
 
 #ifndef NANO_SMALL
 /* Toggles do not exist with NANO_SMALL. */
@@ -422,7 +426,7 @@ typedef struct historyheadtype {
 #define TOGGLE_WRAP_KEY		NANO_ALT_L
 #define TOGGLE_BACKWARDS_KEY	NANO_ALT_B
 #define TOGGLE_CASE_KEY		NANO_ALT_C
-#define TOGGLE_LOAD_KEY		NANO_ALT_F
+#define TOGGLE_MULTIBUFFER_KEY	NANO_ALT_F
 #define TOGGLE_DOS_KEY		NANO_ALT_D
 #define TOGGLE_MAC_KEY		NANO_ALT_O
 #define TOGGLE_SMOOTH_KEY	NANO_ALT_S

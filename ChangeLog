@@ -1,4 +1,27 @@
 CVS code -
+- General:
+	- Minor overhaul and abstraction of the lowest level of mouse
+	  input, mostly adapted from the code in do_mouse() that handles
+	  clicking on the shortcut list.  New function do_mouseinput();
+	  changes to do_mouse(). (DLR)  David Benbennick: Add a few
+	  efficiency tweaks.
+	- Modify the shortcut structure so that instead of having two
+	  miscellaneous key values (misc1 and misc2), there is one key
+	  value reserved for function keys (func_key) and one
+	  miscellaneous key value (misc), and tweak the
+	  shortcut-handling code to deal with this.  These changes allow
+	  NANO_OPEN(PREV|NEXT)_ALTKEY to work properly when added to the
+	  shortcut entries for NANO_OPEN(PREV|NEXT)_KEY.  Also remove
+	  the values in the shortcut list that were made redundant by
+	  the low-level input overhaul, use toupper() instead of
+	  subtracting 32 from values for greater code readability, and
+	  eliminate use of adding 32 to values when testing for toggles,
+	  as get_kbinput_accepted() converts toggle values to lowercase
+	  before returning them. (DLR)
+	- Hook up the verbatim input functions so that verbatim input
+	  can be used in the edit window.  New function
+	  do_verbatim_input(); changes to do_char(). (DLR)  Additional
+	  minor tweaks to do_char() by David Benbennick.
 - files.c:
   do_writeout()
 	- Prompt the user if we're trying to save an existing file (and

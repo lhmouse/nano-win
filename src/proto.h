@@ -207,7 +207,7 @@ void sc_init_one(shortcut **shortcutage, int key, const char *desc,
 #ifndef DISABLE_HELP
 	const char *help,
 #endif
-	int alt, int misc1, int misc2, int view, int (*func) (void));
+	int alt, int func_key, int misc, int view, int (*func) (void));
 #ifndef NANO_SMALL
 void toggle_init_one(int val, const char *desc, int flag);
 void toggle_init(void);
@@ -271,6 +271,7 @@ int open_pipe(const char *command);
 void do_mouse(void);
 #endif
 void do_char(char ch);
+int do_verbatim_input(void);
 int do_backspace(void);
 int do_delete(void);
 int do_tab(void);
@@ -443,6 +444,7 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta,
 int get_ascii_kbinput(WINDOW *win, int kbinput);
 int get_escape_seq_kbinput(WINDOW *win, int kbinput);
 int get_skip_tilde_kbinput(WINDOW *win, int errval, int retval);
+int get_mouseinput(int *mouse_x, int *mouse_y);
 int do_first_line(void);
 int do_last_line(void);
 int xpt(const filestruct *fileptr, int index);

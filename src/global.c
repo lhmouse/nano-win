@@ -172,7 +172,7 @@ void sc_init_one(shortcut **shortcutage, int key, const char *desc,
 #ifndef DISABLE_HELP
 	const char *help,
 #endif
-	int alt, int misc1, int misc2, int view, int (*func) (void))
+	int alt, int func_key, int misc, int view, int (*func) (void))
 {
     shortcut *s;
 
@@ -192,8 +192,8 @@ void sc_init_one(shortcut **shortcutage, int key, const char *desc,
     s->help = help;
 #endif
     s->altval = alt;
-    s->misc1 = misc1;
-    s->misc2 = misc2;
+    s->func_key = func_key;
+    s->misc = misc;
     s->viewok = view;
     s->func = func;
     s->next = NULL;
@@ -235,7 +235,7 @@ void toggle_init(void)
     char *toggle_wrap_msg;
 #endif
 #ifdef ENABLE_MULTIBUFFER
-    char *toggle_load_msg;
+    char *toggle_multibuffer_msg;
 #endif
 #ifdef ENABLE_COLOR
     char *toggle_syntax_msg;
@@ -266,22 +266,22 @@ void toggle_init(void)
     toggle_wrap_msg = _("Auto line wrap");
 #endif
 #ifdef ENABLE_MULTIBUFFER
-    toggle_load_msg = _("Multiple file buffers");
+    toggle_multibuffer_msg = _("Multiple file buffers");
 #endif
 
+    toggle_init_one(TOGGLE_NOHELP_KEY, toggle_nohelp_msg, NO_HELP);
+#ifdef ENABLE_MULTIBUFFER
+    toggle_init_one(TOGGLE_MULTIBUFFER_KEY, toggle_multibuffer_msg, MULTIBUFFER);
+#endif
     toggle_init_one(TOGGLE_CONST_KEY, toggle_const_msg, CONSTUPDATE);
     toggle_init_one(TOGGLE_AUTOINDENT_KEY, toggle_autoindent_msg, AUTOINDENT);
-    toggle_init_one(TOGGLE_SUSPEND_KEY, toggle_suspend_msg, SUSPEND);
-    toggle_init_one(TOGGLE_NOHELP_KEY, toggle_nohelp_msg, NO_HELP);
 #ifndef DISABLE_WRAPPING
     toggle_init_one(TOGGLE_WRAP_KEY, toggle_wrap_msg, NO_WRAP);
 #endif
+    toggle_init_one(TOGGLE_CUTTOEND_KEY, toggle_cuttoend_msg, CUT_TO_END);
+    toggle_init_one(TOGGLE_SUSPEND_KEY, toggle_suspend_msg, SUSPEND);
 #ifndef DISABLE_MOUSE
     toggle_init_one(TOGGLE_MOUSE_KEY, toggle_mouse_msg, USE_MOUSE);
-#endif
-    toggle_init_one(TOGGLE_CUTTOEND_KEY, toggle_cuttoend_msg, CUT_TO_END);
-#ifdef ENABLE_MULTIBUFFER
-    toggle_init_one(TOGGLE_LOAD_KEY, toggle_load_msg, MULTIBUFFER);
 #endif
     toggle_init_one(TOGGLE_NOCONVERT_KEY, toggle_noconvert_msg, NO_CONVERT);
     toggle_init_one(TOGGLE_DOS_KEY, toggle_dos_msg, DOS_FILE);
@@ -321,27 +321,30 @@ void free_shortcutage(shortcut **shortcutage)
 void shortcut_init(int unjustify)
 {
 #ifndef DISABLE_HELP
-    const char *nano_help_msg = "", *nano_writeout_msg = "", *nano_exit_msg =
-	"", *nano_goto_msg = "", *nano_justify_msg =
-	"", *nano_replace_msg = "", *nano_insert_msg =
-	"", *nano_whereis_msg = "", *nano_whereis_next_msg =
-	"", *nano_prevpage_msg = "", *nano_nextpage_msg =
-	"", *nano_cut_msg = "", *nano_uncut_msg =
-	"", *nano_cursorpos_msg = "", *nano_spell_msg =
-	"", *nano_up_msg = "", *nano_down_msg =
-	"", *nano_forward_msg = "", *nano_back_msg = "", *nano_home_msg =
+    const char *nano_help_msg = "", *nano_writeout_msg =
+	"", *nano_exit_msg = "", *nano_goto_msg =
+	"", *nano_justify_msg = "", *nano_replace_msg =
+	"", *nano_insert_msg = "", *nano_whereis_msg =
+	"", *nano_whereis_next_msg = "", *nano_prevpage_msg =
+	"", *nano_nextpage_msg = "", *nano_cut_msg =
+	"", *nano_uncut_msg = "", *nano_cursorpos_msg =
+	"", *nano_spell_msg = "", *nano_up_msg =
+	"", *nano_down_msg = "", *nano_forward_msg =
+	"", *nano_back_msg = "", *nano_home_msg =
 	"", *nano_end_msg = "", *nano_firstline_msg =
 	"", *nano_lastline_msg = "", *nano_refresh_msg =
 	"", *nano_mark_msg = "", *nano_delete_msg =
 	"", *nano_backspace_msg = "", *nano_tab_msg =
-	"", *nano_enter_msg = "", *nano_cancel_msg =
-	"", *nano_unjustify_msg = "", *nano_append_msg =
-	"", *nano_prepend_msg = "", *nano_tofiles_msg =
-	"", *nano_gotodir_msg = "", *nano_case_msg =
-	"", *nano_reverse_msg = "", *nano_execute_msg =
-	"", *nano_dos_msg = "", *nano_mac_msg =
-	"", *nano_backup_msg = "", *nano_editstr_msg =
-	"", *nano_parabegin_msg = "", *nano_paraend_msg = "";
+	"", *nano_enter_msg = "", *nano_prevword_msg =
+	"", *nano_nextword_msg = "", *nano_verbatim_msg =
+	"", *nano_cancel_msg = "", *nano_unjustify_msg =
+	"", *nano_append_msg = "", *nano_prepend_msg =
+	"", *nano_tofiles_msg = "", *nano_gotodir_msg =
+	"", *nano_case_msg = "", *nano_reverse_msg =
+	"", *nano_execute_msg = "", *nano_dos_msg =
+	"", *nano_mac_msg = "", *nano_backup_msg =
+	"", *nano_editstr_msg = "", *nano_parabegin_msg =
+	"", *nano_paraend_msg = "";
 
 #ifdef ENABLE_MULTIBUFFER
     const char *nano_openprev_msg = "", *nano_opennext_msg =
@@ -386,6 +389,10 @@ void shortcut_init(int unjustify)
 	_("Delete the character to the left of the cursor");
     nano_tab_msg = _("Insert a tab character");
     nano_enter_msg = _("Insert a carriage return at the cursor position");
+    nano_prevword_msg = _("Move backward one word");
+    nano_nextword_msg = _("Move forward one word");
+    nano_verbatim_msg = _("Insert character(s) verbatim");
+    nano_enter_msg = _("Insert a carriage return at the cursor position");
     nano_case_msg =
 	_("Make the current search or replace case (in)sensitive");
     nano_tofiles_msg = _("Go to file browser");
@@ -422,39 +429,41 @@ void shortcut_init(int unjustify)
 #else
 #  define IFHELP(help, nextvar) help, nextvar
 #endif
+
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_HELP_KEY, _("Get Help"),
-		IFHELP(nano_help_msg, 0), NANO_HELP_FKEY, 0, VIEW,
-		do_help);
+		IFHELP(nano_help_msg, 0), NANO_HELP_FKEY,
+		0, VIEW, do_help);
 
 #ifdef ENABLE_MULTIBUFFER
     if (open_files != NULL && (open_files->prev != NULL || open_files->next != NULL))
     /* Translators: try to keep this string under 10 characters long */
 	sc_init_one(&main_list, NANO_EXIT_KEY, _("Close"),
-		IFHELP(nano_exit_msg, 0), NANO_EXIT_FKEY, 0, VIEW,
-		do_exit);
+		IFHELP(nano_exit_msg, 0), NANO_EXIT_FKEY,
+		0, VIEW, do_exit);
     else
 #endif
 
     /* Translators: try to keep this string under 10 characters long */
 	sc_init_one(&main_list, NANO_EXIT_KEY, _("Exit"),
-		IFHELP(nano_exit_msg, 0), NANO_EXIT_FKEY, 0, VIEW,
-		do_exit);
+		IFHELP(nano_exit_msg, 0), NANO_EXIT_FKEY,
+		0, VIEW, do_exit);
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_WRITEOUT_KEY, _("WriteOut"),
-		    IFHELP(nano_writeout_msg, 0),
-		    NANO_WRITEOUT_FKEY, 0, NOVIEW, do_writeout_void);
+		    IFHELP(nano_writeout_msg, 0), NANO_WRITEOUT_FKEY,
+		    0, NOVIEW, do_writeout_void);
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_JUSTIFY_KEY, _("Justify"),
-		    IFHELP(nano_justify_msg, 0), NANO_JUSTIFY_FKEY, 0,
-		    NOVIEW, do_justify);
+		    IFHELP(nano_justify_msg, 0), NANO_JUSTIFY_FKEY,
+		    0, NOVIEW, do_justify);
 
     /* this is so we can view multiple files */
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_INSERTFILE_KEY, _("Read File"),
-		IFHELP(nano_insert_msg, 0), NANO_INSERTFILE_FKEY, 0,
+		IFHELP(nano_insert_msg, 0), NANO_INSERTFILE_FKEY,
+		0,
 #ifdef ENABLE_MULTIBUFFER
 		VIEW
 #else
@@ -464,132 +473,126 @@ void shortcut_init(int unjustify)
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_WHEREIS_KEY, _("Where Is"),
-		IFHELP(nano_whereis_msg, 0),
-		NANO_WHEREIS_FKEY, 0, VIEW, do_search);
+		IFHELP(nano_whereis_msg, 0), NANO_WHEREIS_FKEY,
+		0, VIEW, do_search);
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_PREVPAGE_KEY, _("Prev Page"),
-		IFHELP(nano_prevpage_msg, 0),
-		NANO_PREVPAGE_FKEY, KEY_PPAGE, VIEW, do_page_up);
+		IFHELP(nano_prevpage_msg, 0), NANO_PREVPAGE_FKEY,
+		0, VIEW, do_page_up);
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_NEXTPAGE_KEY, _("Next Page"),
-		IFHELP(nano_nextpage_msg, 0),
-		NANO_NEXTPAGE_FKEY, KEY_NPAGE, VIEW, do_page_down);
+		IFHELP(nano_nextpage_msg, 0), NANO_NEXTPAGE_FKEY,
+		0, VIEW, do_page_down);
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_CUT_KEY, _("Cut Text"),
-		IFHELP(nano_cut_msg, 0),
-		NANO_CUT_FKEY, 0, NOVIEW, do_cut_text);
+		IFHELP(nano_cut_msg, 0), NANO_CUT_FKEY, 0, NOVIEW, do_cut_text);
 
     if (unjustify)
     /* Translators: try to keep this string under 10 characters long */
 	sc_init_one(&main_list, NANO_UNJUSTIFY_KEY, _("UnJustify"),
-		IFHELP(nano_unjustify_msg, 0),
-		0, 0, NOVIEW, do_uncut_text);
+		IFHELP(nano_unjustify_msg, 0), 0, 0, NOVIEW, do_uncut_text);
     else
     /* Translators: try to keep this string under 10 characters long */
 	sc_init_one(&main_list, NANO_UNCUT_KEY, _("UnCut Txt"),
-		IFHELP(nano_uncut_msg, 0),
-		NANO_UNCUT_FKEY, 0, NOVIEW, do_uncut_text);
+		IFHELP(nano_uncut_msg, 0), NANO_UNCUT_FKEY,
+		0, NOVIEW, do_uncut_text);
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_CURSORPOS_KEY, _("Cur Pos"),
-		IFHELP(nano_cursorpos_msg, 0),
-		NANO_CURSORPOS_FKEY, 0, VIEW, do_cursorpos_void);
+		IFHELP(nano_cursorpos_msg, 0), NANO_CURSORPOS_FKEY,
+		0, VIEW, do_cursorpos_void);
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_SPELL_KEY, _("To Spell"),
-		IFHELP(nano_spell_msg, 0),
-		NANO_SPELL_FKEY, 0, NOVIEW, do_spell);
+		IFHELP(nano_spell_msg, 0), NANO_SPELL_FKEY,
+		0, NOVIEW, do_spell);
+
+    sc_init_one(&main_list, NANO_GOTO_KEY, _("Go To Line"),
+		IFHELP(nano_goto_msg, NANO_ALT_GOTO_KEY),
+		NANO_GOTO_FKEY, 0, VIEW, do_gotoline_void);
+
+    sc_init_one(&main_list, NANO_REPLACE_KEY, _("Replace"),
+		IFHELP(nano_replace_msg, NANO_ALT_REPLACE_KEY),
+		NANO_REPLACE_FKEY, 0, NOVIEW, do_replace);
 
     sc_init_one(&main_list, NANO_UP_KEY, _("Up"),
-		IFHELP(nano_up_msg, 0),
-		KEY_UP, 0, VIEW, do_up);
+		IFHELP(nano_up_msg, 0), 0, 0, VIEW, do_up);
 
     sc_init_one(&main_list, NANO_DOWN_KEY, _("Down"),
-		IFHELP(nano_down_msg, 0),
-		KEY_DOWN, 0, VIEW, do_down);
+		IFHELP(nano_down_msg, 0), 0, 0, VIEW, do_down);
 
     sc_init_one(&main_list, NANO_FORWARD_KEY, _("Forward"),
-		IFHELP(nano_forward_msg, 0),
-		KEY_RIGHT, 0, VIEW, do_right);
+		IFHELP(nano_forward_msg, 0), 0, 0, VIEW, do_right);
 
     sc_init_one(&main_list, NANO_BACK_KEY, _("Back"),
-		IFHELP(nano_back_msg, 0),
-		KEY_LEFT, 0, VIEW, do_left);
+		IFHELP(nano_back_msg, 0), 0, 0, VIEW, do_left);
 
     sc_init_one(&main_list, NANO_HOME_KEY, _("Home"),
-		IFHELP(nano_home_msg, 0),
-		KEY_HOME, 362, VIEW, do_home);
+		IFHELP(nano_home_msg, 0), 0, 0, VIEW, do_home);
 
     sc_init_one(&main_list, NANO_END_KEY, _("End"),
-		IFHELP(nano_end_msg, 0),
-		KEY_END, 385, VIEW, do_end);
+		IFHELP(nano_end_msg, 0), 0, 0, VIEW, do_end);
 
     sc_init_one(&main_list, NANO_REFRESH_KEY, _("Refresh"),
-		IFHELP(nano_refresh_msg, 0),
-		0, 0, VIEW, total_refresh);
+		IFHELP(nano_refresh_msg, 0), 0, 0, VIEW, total_refresh);
 
     sc_init_one(&main_list, NANO_MARK_KEY, _("Mark Text"),
 		IFHELP(nano_mark_msg, NANO_ALT_MARK_KEY),
 		0, 0, NOVIEW, do_mark);
 
     sc_init_one(&main_list, NANO_DELETE_KEY, _("Delete"),
-		IFHELP(nano_delete_msg, 0), KEY_DC,
-		NANO_CONTROL_D, NOVIEW, do_delete);
+		IFHELP(nano_delete_msg, 0), 0, 0, NOVIEW, do_delete);
 
     sc_init_one(&main_list, NANO_BACKSPACE_KEY, _("Backspace"),
-		IFHELP(nano_backspace_msg, 0),
-		KEY_BACKSPACE, 127, NOVIEW, do_backspace);
+		IFHELP(nano_backspace_msg, 0), 0, 0, NOVIEW, do_backspace);
 
     sc_init_one(&main_list, NANO_TAB_KEY, _("Tab"),
 		IFHELP(nano_tab_msg, 0), 0, 0, NOVIEW, do_tab);
 
-    sc_init_one(&main_list, NANO_REPLACE_KEY, _("Replace"),
-		    IFHELP(nano_replace_msg, NANO_ALT_REPLACE_KEY),
-		    NANO_REPLACE_FKEY, 0, NOVIEW, do_replace);
-
     sc_init_one(&main_list, NANO_ENTER_KEY, _("Enter"),
-		IFHELP(nano_enter_msg, 0),
-		KEY_ENTER, NANO_CONTROL_M, NOVIEW, do_enter);
-
-    sc_init_one(&main_list, NANO_GOTO_KEY, _("Go To Line"),
-		    IFHELP(nano_goto_msg, NANO_ALT_GOTO_KEY),
-		    NANO_GOTO_FKEY, 0, VIEW, do_gotoline_void);
+		IFHELP(nano_enter_msg, 0), 0, 0, NOVIEW, do_enter);
 
 #ifndef NANO_SMALL
     sc_init_one(&main_list, NANO_NEXTWORD_KEY, _("Next Word"),
-		IFHELP(_("Move forward one word"), 0),
-		0, 0, VIEW, do_next_word);
+		IFHELP(nano_nextword_msg, 0), 0, 0, VIEW, do_next_word);
 
-    sc_init_one(&main_list, -9, _("Prev Word"),
-		IFHELP(_("Move backward one word"), NANO_PREVWORD_KEY), 0, 0,
-		VIEW, do_prev_word);
-#endif
-#if !defined(NANO_SMALL) && defined(HAVE_REGEX_H)
-    sc_init_one(&main_list, -9, _("Find Other Bracket"),
-		    IFHELP(nano_bracket_msg, NANO_BRACKET_KEY),
-		    0, 0, VIEW, do_find_bracket);
+    sc_init_one(&main_list, -1, _("Prev Word"),
+		IFHELP(nano_prevword_msg, NANO_PREVWORD_KEY),
+		0, 0, VIEW, do_prev_word);
 #endif
 
-    sc_init_one(&main_list, -9, _("Where Is Next"),
-		IFHELP(nano_whereis_next_msg, NANO_WHEREIS_NEXT_KEY), 0, 0,
-		VIEW, do_research);
+    sc_init_one(&main_list, -1, _("Verbatim Input"),
+		IFHELP(nano_verbatim_msg, NANO_VERBATIM_KEY),
+		0, 0, VIEW, do_verbatim_input);
 
 #ifdef ENABLE_MULTIBUFFER
-    sc_init_one(&main_list, -9, _("Previous File"),
-		    IFHELP(nano_openprev_msg, NANO_OPENPREV_KEY),
-		    0, 0, VIEW, open_prevfile_void);
-    sc_init_one(&main_list, -9, _("Next File"),
-		    IFHELP(nano_opennext_msg, NANO_OPENNEXT_KEY),
-		    0, 0, VIEW, open_nextfile_void);
+    sc_init_one(&main_list, -1, _("Previous File"),
+		IFHELP(nano_openprev_msg, NANO_OPENPREV_KEY),
+		0, NANO_OPENPREV_ALTKEY, VIEW, open_prevfile_void);
+
+    sc_init_one(&main_list, -1, _("Next File"),
+		IFHELP(nano_opennext_msg, NANO_OPENNEXT_KEY),
+		0, NANO_OPENNEXT_ALTKEY, VIEW, open_nextfile_void);
 #endif
+
+#if !defined(NANO_SMALL) && defined(HAVE_REGEX_H)
+    sc_init_one(&main_list, -1, _("Find Other Bracket"),
+		IFHELP(nano_bracket_msg, NANO_BRACKET_KEY),
+		0, 0, VIEW, do_find_bracket);
+#endif
+
+    sc_init_one(&main_list, -1, _("Where Is Next"),
+		IFHELP(nano_whereis_next_msg, NANO_WHEREIS_NEXT_KEY),
+		0, 0, VIEW, do_research);
 
     free_shortcutage(&whereis_list);
 
     sc_init_one(&whereis_list, NANO_HELP_KEY, _("Get Help"),
-		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
+		IFHELP(nano_help_msg, 0), NANO_HELP_FKEY,
+		0, VIEW, do_help);
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_CANCEL_KEY, _("Cancel"),
@@ -597,8 +600,7 @@ void shortcut_init(int unjustify)
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_FIRSTLINE_KEY, _("First Line"),
-		IFHELP(nano_firstline_msg, 0),
-		0, 0, VIEW, do_first_line);
+		IFHELP(nano_firstline_msg, 0), 0, 0, VIEW, do_first_line);
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_LASTLINE_KEY, _("Last Line"),
@@ -606,11 +608,13 @@ void shortcut_init(int unjustify)
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_OTHERSEARCH_KEY, _("Replace"),
-		IFHELP(nano_replace_msg, 0), 0, 0, VIEW, do_replace);
+		IFHELP(nano_replace_msg, 0), NANO_REPLACE_FKEY,
+		0, VIEW, do_replace);
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_FROMSEARCHTOGOTO_KEY, _("Go To Line"),
-		IFHELP(nano_goto_msg, 0), 0, 0, VIEW, do_gotoline_void);
+		IFHELP(nano_goto_msg, 0), NANO_GOTO_FKEY,
+		0, VIEW, do_gotoline_void);
 
 #ifndef DISABLE_JUSTIFY
     /* Translators: try to keep this string under 10 characters long */
@@ -639,8 +643,8 @@ void shortcut_init(int unjustify)
 
 #ifndef NANO_SMALL
     /* Translators: try to keep this string under 10 characters long */
-    sc_init_one(&whereis_list, KEY_UP, _("History"),
-		IFHELP(nano_editstr_msg, 0), NANO_UP_KEY, 0, VIEW, 0);
+    sc_init_one(&whereis_list, NANO_UP_KEY, _("History"),
+		IFHELP(nano_editstr_msg, 0), 0, NANO_DOWN_KEY, VIEW, 0);
 #endif
 
 #endif /* !NANO_SMALL */
@@ -648,7 +652,8 @@ void shortcut_init(int unjustify)
     free_shortcutage(&replace_list);
 
     sc_init_one(&replace_list, NANO_HELP_KEY, _("Get Help"),
-		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
+		IFHELP(nano_help_msg, 0), NANO_HELP_FKEY,
+		0, VIEW, do_help);
 
     sc_init_one(&replace_list, NANO_CANCEL_KEY, _("Cancel"),
 		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
@@ -661,10 +666,12 @@ void shortcut_init(int unjustify)
 
     /* Translators: try to keep this string under 12 characters long */
     sc_init_one(&replace_list, NANO_OTHERSEARCH_KEY, _("No Replace"),
-		IFHELP(nano_whereis_msg, 0), 0, 0, VIEW, do_search);
+		IFHELP(nano_whereis_msg, 0), NANO_REPLACE_FKEY,
+		0, VIEW, do_search);
 
     sc_init_one(&replace_list, NANO_FROMSEARCHTOGOTO_KEY, _("Go To Line"), 
-		IFHELP(nano_goto_msg, 0), 0, 0, VIEW, do_gotoline_void);
+		IFHELP(nano_goto_msg, 0), NANO_GOTO_FKEY,
+		0, VIEW, do_gotoline_void);
 
 #ifndef NANO_SMALL
     sc_init_one(&replace_list, TOGGLE_CASE_KEY, _("Case Sens"),
@@ -678,14 +685,15 @@ void shortcut_init(int unjustify)
 		IFHELP(nano_regexp_msg, 0), 0, 0, VIEW, 0);
 #endif
 
-    sc_init_one(&replace_list, KEY_UP, _("History"),
-		IFHELP(nano_editstr_msg, 0), NANO_UP_KEY, 0, VIEW, 0);
+    sc_init_one(&replace_list, NANO_UP_KEY, _("History"),
+		IFHELP(nano_editstr_msg, 0), 0, NANO_DOWN_KEY, VIEW, 0);
 #endif /* !NANO_SMALL */
 
     free_shortcutage(&replace_list_2);
 
     sc_init_one(&replace_list_2, NANO_HELP_KEY, _("Get Help"),
-		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
+		IFHELP(nano_help_msg, 0), NANO_HELP_FKEY,
+		0, VIEW, do_help);
 
     sc_init_one(&replace_list_2, NANO_CANCEL_KEY, _("Cancel"),
 		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
@@ -697,14 +705,15 @@ void shortcut_init(int unjustify)
 		IFHELP(nano_lastline_msg, 0), 0, 0, VIEW, do_last_line);
 
 #ifndef NANO_SMALL
-    sc_init_one(&replace_list_2, KEY_UP, _("History"),
-		IFHELP(nano_editstr_msg, 0), NANO_UP_KEY, 0, VIEW, 0);
+    sc_init_one(&replace_list_2, NANO_UP_KEY, _("History"),
+		IFHELP(nano_editstr_msg, 0), 0, NANO_DOWN_KEY, VIEW, 0);
 #endif
 
     free_shortcutage(&goto_list);
 
     sc_init_one(&goto_list, NANO_HELP_KEY, _("Get Help"),
-		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
+		IFHELP(nano_help_msg, 0), NANO_HELP_FKEY,
+		0, VIEW, do_help);
 
     sc_init_one(&goto_list, NANO_CANCEL_KEY, _("Cancel"),
 		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
@@ -720,21 +729,22 @@ void shortcut_init(int unjustify)
 
     sc_init_one(&help_list, NANO_PREVPAGE_KEY, _("Prev Page"),
 		IFHELP(nano_prevpage_msg, 0), NANO_PREVPAGE_FKEY,
-		KEY_PPAGE, VIEW, do_page_up);
+		0, VIEW, do_page_up);
 
     sc_init_one(&help_list, NANO_NEXTPAGE_KEY, _("Next Page"),
-		IFHELP(nano_nextpage_msg, 0),
-		NANO_NEXTPAGE_FKEY, KEY_NPAGE, VIEW, do_page_down);
+		IFHELP(nano_nextpage_msg, 0), NANO_NEXTPAGE_FKEY,
+		0, VIEW, do_page_down);
 
     sc_init_one(&help_list, NANO_EXIT_KEY, _("Exit"),
-		IFHELP(nano_exit_msg, 0), NANO_EXIT_FKEY, 0, VIEW,
-		do_exit);
+		IFHELP(nano_exit_msg, 0), NANO_EXIT_FKEY,
+		0, VIEW, do_exit);
 #endif
 
     free_shortcutage(&writefile_list);
 
     sc_init_one(&writefile_list, NANO_HELP_KEY, _("Get Help"),
-		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
+		IFHELP(nano_help_msg, 0), NANO_HELP_FKEY,
+		0, VIEW, do_help);
 
 #ifndef DISABLE_BROWSER
     /* Translators: try to keep this string under 16 characters long */
@@ -772,7 +782,8 @@ void shortcut_init(int unjustify)
     free_shortcutage(&insertfile_list);
 
     sc_init_one(&insertfile_list, NANO_HELP_KEY, _("Get Help"),
-		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
+		IFHELP(nano_help_msg, 0), NANO_HELP_FKEY,
+		0, VIEW, do_help);
 
     sc_init_one(&insertfile_list, NANO_CANCEL_KEY, _("Cancel"),
 		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
@@ -781,13 +792,15 @@ void shortcut_init(int unjustify)
     sc_init_one(&insertfile_list, NANO_TOFILES_KEY, _("To Files"),
 		IFHELP(nano_tofiles_msg, 0), 0, 0, NOVIEW, 0);
 #endif
+
 #ifndef NANO_SMALL
     /* Translators: try to keep this string under 22 characters long */
     sc_init_one(&insertfile_list, NANO_EXTCMD_KEY, _("Execute Command"),
 		IFHELP(nano_execute_msg, 0), 0, 0, NOVIEW, 0);
+
 #ifdef ENABLE_MULTIBUFFER
     /* Translators: try to keep this string under 22 characters long */
-    sc_init_one(&insertfile_list, TOGGLE_LOAD_KEY, _("New Buffer"),
+    sc_init_one(&insertfile_list, TOGGLE_MULTIBUFFER_KEY, _("New Buffer"),
 		IFHELP(nano_multibuffer_msg, 0), 0, 0, NOVIEW, 0);
 #endif
 #endif
@@ -796,7 +809,8 @@ void shortcut_init(int unjustify)
     free_shortcutage(&spell_list);
 
     sc_init_one(&spell_list, NANO_HELP_KEY, _("Get Help"),
-		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
+		IFHELP(nano_help_msg, 0), NANO_HELP_FKEY,
+		0, VIEW, do_help);
 
     sc_init_one(&spell_list, NANO_CANCEL_KEY, _("Cancel"),
 		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
@@ -806,7 +820,8 @@ void shortcut_init(int unjustify)
     free_shortcutage(&extcmd_list);
 
     sc_init_one(&extcmd_list, NANO_HELP_KEY, _("Get Help"),
-		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
+		IFHELP(nano_help_msg, 0), NANO_HELP_FKEY,
+		0, VIEW, do_help);
 
     sc_init_one(&extcmd_list, NANO_CANCEL_KEY, _("Cancel"),
 		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
@@ -816,18 +831,19 @@ void shortcut_init(int unjustify)
     free_shortcutage(&browser_list);
 
     sc_init_one(&browser_list, NANO_HELP_KEY, _("Get Help"),
-		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
+		IFHELP(nano_help_msg, 0), NANO_HELP_FKEY,
+		0, VIEW, do_help);
 
     sc_init_one(&browser_list, NANO_CANCEL_KEY, _("Cancel"),
-		IFHELP(nano_cancel_msg, 0), NANO_EXIT_FKEY, 0, VIEW, 0);
+		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
 
     sc_init_one(&browser_list, NANO_PREVPAGE_KEY, _("Prev Page"),
 		IFHELP(nano_prevpage_msg, 0), NANO_PREVPAGE_FKEY,
-		KEY_PPAGE, VIEW, 0);
+		0, VIEW, 0);
 
     sc_init_one(&browser_list, NANO_NEXTPAGE_KEY, _("Next Page"),
 		IFHELP(nano_nextpage_msg, 0), NANO_NEXTPAGE_FKEY,
-		KEY_NPAGE, VIEW, 0);
+		0, VIEW, 0);
 
     /* Translators: try to keep this string under 22 characters long */
     sc_init_one(&browser_list, NANO_GOTO_KEY, _("Go To Dir"),
@@ -837,7 +853,8 @@ void shortcut_init(int unjustify)
     free_shortcutage(&gotodir_list);
 
     sc_init_one(&gotodir_list, NANO_HELP_KEY, _("Get Help"),
-		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
+		IFHELP(nano_help_msg, 0), NANO_HELP_FKEY,
+		0, VIEW, do_help);
 
     sc_init_one(&gotodir_list, NANO_CANCEL_KEY, _("Cancel"),
 		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);

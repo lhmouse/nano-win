@@ -317,6 +317,86 @@ int get_skip_tilde_kbinput(WINDOW *win, int errval, int retval)
     }
 }
 
+#ifndef DISABLE_MOUSE
+/* Check for a mouse event.  If it took place on the shortcut list on
+ * the bottom two lines of the screen (assuming that the shortcut list is
+ * visible), figure out which shortcut was clicked and ungetch() the
+ * equivalent keystroke(s), otherwise do nothing.  Return 0 if no
+ * keystrokes were ungetch()ed, or 1 if at least one was.  Also, return
+ * the screen coordinates where the mouse event took place in *mouse_x
+ * and *mouse_y.  Assume that KEY_MOUSE has already been read in. */
+int get_mouseinput(int *mouse_x, int *mouse_y)
+{
+    MEVENT mevent;
+
+    *mouse_x = -1;
+    *mouse_y = -1;
+
+    /* First, get the actual mouse event. */
+    if (getmouse(&mevent) == ERR)
+	return 0;
+
+    /* Save the screen coordinates where the mouse event took place. */
+    *mouse_x = mevent.x;
+    *mouse_y = mevent.y;
+
+    /* If the current shortcut list is being displayed on the last two
+     * lines of the screen and the mouse event took place inside it,
+     * we need to figure out which shortcut was clicked and ungetch()
+     * the equivalent keystroke(s) for it. */
+    if (!ISSET(NO_HELP) && wenclose(bottomwin, *mouse_y, *mouse_x)) {
+	int i, j;
+	int currslen;
+	    /* The number of shortcuts in the current shortcut list. */
+	const shortcut *s = currshortcut;
+	    /* The actual shortcut we clicked on, starting at the first
+	     * one in the current shortcut list. */
+
+	/* Get the shortcut lists' length. */
+	if (currshortcut == main_list)
+	    currslen = MAIN_VISIBLE;
+	else
+	    currslen = length_of_list(currshortcut);
+
+	/* Calculate the width of each shortcut in the list (it's the
+	 * same for all of them). */
+	if (currslen < 2)
+	    i = COLS / 6;
+	else
+	    i = COLS / ((currslen / 2) + (currslen % 2));
+
+	/* Calculate the y-coordinates relative to the beginning of
+	 * bottomwin, i.e, the bottom three lines of the screen. */
+	j = *mouse_y - (editwinrows + 3);
+
+	/* If we're on the statusbar, beyond the end of the shortcut
+	 * list, or beyond the end of a shortcut on the right side of
+	 * the screen, don't do anything. */
+	if (j < 0 || (*mouse_x / i) >= currslen)
+	    return 0;
+	j = (*mouse_x / i) * 2 + j;
+	if (j >= currslen)
+	    return 0;
+
+	/* Go through the shortcut list to determine which shortcut was
+	 * clicked. */
+	for (; j > 0; j--)
+	    s = s->next;
+
+	/* And ungetch() the equivalent keystroke. */
+	ungetch(s->val);
+
+	/* If it's not a control character, assume it's a Meta key
+	 * sequence, in which case we need to ungetch() Escape too. */
+	if (!is_cntrl_char(s->val))
+	   ungetch(NANO_CONTROL_3);
+
+	return 1;
+    }
+    return 0;
+}
+#endif
+
 int do_first_line(void)
 {
     current = fileage;
@@ -605,7 +685,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    fprintf(stderr, "Aha! \'%c\' (%d)\n", kbinput, kbinput);
 #endif
 
-	    if (kbinput == t->val && (kbinput < 32 || kbinput == 127)) {
+	    if (kbinput == t->val && is_cntrl_char(kbinput)) {
 
 #ifndef DISABLE_HELP
 		/* Have to do this here, it would be too late to do it
@@ -614,6 +694,11 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		    do_help();
 		    break;
 		}
+#endif
+#ifndef NANO_SMALL
+		/* Have to handle these here too, for the time being */
+		if (kbinput == NANO_UP_KEY || kbinput == NANO_DOWN_KEY)
+		    break;
 #endif
 
 		return t->val;
@@ -787,7 +872,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		    fprintf(stderr, "Aha! \'%c\' (%d)\n", kbinput,
 			    kbinput);
 #endif
-		    if (meta == 1 && (kbinput == t->val || kbinput == t->val - 32))
+		    if (meta == 1 && kbinput == t->val)
 			/* We hit an Alt key.  Do like above.  We don't
 			   just ungetch() the letter and let it get
 			   caught above cause that screws the
@@ -795,7 +880,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 			return t->val;
 		}
 
-	    if (kbinput < 32 || kbinput == 127)
+	    if (is_cntrl_char(kbinput))
 		break;
 	    answer = charealloc(answer, xend + 2);
 	    charmove(answer + x + 1, answer + x, xend - x + 1);
@@ -911,14 +996,14 @@ void bottombars(const shortcut *s)
 	    if (s->val == NANO_CONTROL_SPACE)
 		strcpy(keystr, "^ ");
 #ifndef NANO_SMALL
-	    else if (s->val == KEY_UP)
+	    else if (s->val == NANO_UP_KEY && s->misc == NANO_DOWN_KEY)
 		strncpy(keystr, _("Up"), 8);
 #endif /* NANO_SMALL */
 	    else if (s->val > 0) {
 		if (s->val < 64)
 		    sprintf(keystr, "^%c", s->val + 64);
 		else
-		    sprintf(keystr, "M-%c", s->val - 32);
+		    sprintf(keystr, "M-%c", toupper(s->val));
 	    } else if (s->altval > 0)
 		sprintf(keystr, "M-%c", s->altval);
 

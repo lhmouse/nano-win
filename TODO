@@ -7,6 +7,7 @@ For version 1.4:
 - Undo/Redo key?
 - Rebindable keys?
 - Keystroke to implement "Add next sequence as raw" like vi's ^V.
+  [DONE for edit window, needs to be done for statusbar prompt]
 - Spell check selected text only.
 - Make "To line" (^W^T) and "Read from Command" (^R^X) re-enter their
   parent menu when their keystroke is entered a second time (^W^T^T and

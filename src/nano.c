@@ -406,40 +406,44 @@ void help_init(void)
 	/* true if the character in s->altval is shown in first column */
 	int meta_shortcut = 0;
 
-	if (s->val > 0 && s->val < 32)
-	    ptr += sprintf(ptr, "^%c", s->val + 64);
 #ifndef NANO_SMALL
-	else if (s->val == NANO_CONTROL_SPACE)
-	    ptr += sprintf(ptr, "^%.6s", _("Space"));
+	if (s->val == NANO_UP_KEY && s->misc == NANO_DOWN_KEY)
+	    ptr += sprintf(ptr, "%.2s", _("Up"));
+	else
+#endif
+	if (is_cntrl_char(s->val)) {
+	    if (s->val == NANO_CONTROL_SPACE)
+		ptr += sprintf(ptr, "^%.6s", _("Space"));
+	    else if (s->val == NANO_CONTROL_8)
+		ptr += sprintf(ptr, "^?");
+	    else
+		ptr += sprintf(ptr, "^%c", s->val + 64);
+	}
+#ifndef NANO_SMALL
 	else if (s->altval == NANO_ALT_SPACE) {
 	    meta_shortcut = 1;
 	    ptr += sprintf(ptr, "M-%.5s", _("Space"));
-	} else if (s->val == KEY_UP)
-	    ptr += sprintf(ptr, "%.2s", _("Up"));
-#endif
-	else if (s->altval > 0) {
-	    meta_shortcut = 1;
-	    ptr += sprintf(ptr, "M-%c", s->altval -
-			(('A' <= s->altval && s->altval <= 'Z') ||
-			'a' <= s->altval ? 32 : 0));
 	}
-	/* Hack */
-	else if (s->val >= 'a') {
+#endif
+	else if (s->val > 0) {
 	    meta_shortcut = 1;
-	    ptr += sprintf(ptr, "M-%c", s->val - 32);
+	    ptr += sprintf(ptr, "M-%c", toupper(s->val));
+	} else if (s->altval > 0) {
+	    meta_shortcut = 1;
+	    ptr += sprintf(ptr, "M-%c", toupper(s->altval));
 	}
 
 	*(ptr++) = '\t';
 
-	if (s->misc1 > KEY_F0 && s->misc1 <= KEY_F(64))
-	    ptr += sprintf(ptr, "(F%d)", s->misc1 - KEY_F0);
+	if (s->func_key > KEY_F0 && s->func_key <= KEY_F(64))
+	    ptr += sprintf(ptr, "(F%d)", s->func_key - KEY_F0);
 
 	*(ptr++) = '\t';
 
 	if (!meta_shortcut && s->altval > 0)
-	    ptr += sprintf(ptr, "(M-%c)", s->altval -
-		(('A' <= s->altval && s->altval <= 'Z') || 'a' <= s->altval
-			? 32 : 0));
+	    ptr += sprintf(ptr, "(M-%c)", toupper(s->altval));
+	else if (meta_shortcut && s->misc > 0)
+	    ptr += sprintf(ptr, "(M-%c)", toupper(s->misc));
 
 	*(ptr++) = '\t';
 
@@ -452,7 +456,7 @@ void help_init(void)
     if (currshortcut == main_list)
 	for (t = toggles; t != NULL; t = t->next) {
 	    assert(t->desc != NULL);
-	    ptr += sprintf(ptr, "M-%c\t\t\t%s %s\n", t->val - 32, t->desc,
+	    ptr += sprintf(ptr, "M-%c\t\t\t%s %s\n", toupper(t->val), t->desc,
 				_("enable/disable"));
 	}
 #endif /* !NANO_SMALL */
@@ -774,7 +778,7 @@ void nano_disabled_msg(void)
 #endif
 
 #ifndef NANO_SMALL
-static int pid;		/* This is the PID of the newly forked process 
+static int pid;		/* This is the PID of the newly forked process
 			 * below.  It must be global since the signal
 			 * handler needs it. */
 RETSIGTYPE cancel_fork(int signal)
@@ -890,87 +894,56 @@ int open_pipe(const char *command)
 #ifndef DISABLE_MOUSE
 void do_mouse(void)
 {
-    MEVENT mevent;
-    int currslen;
-    const shortcut *s = currshortcut;
+    int mouse_x, mouse_y;
 
-    if (getmouse(&mevent) == ERR)
-	return;
+    if (get_mouseinput(&mouse_x, &mouse_y) == 0) {
 
-    /* If mouse not in edit or bottom window, return */
-    if (wenclose(edit, mevent.y, mevent.x) && currshortcut == main_list) {
-	int sameline;
-	    /* Did they click on the line with the cursor?  If they
-	       clicked on the cursor, we set the mark. */
-	size_t xcur;
-	    /* The character they clicked on. */
+	/* Click in the edit window to move the cursor, but only when
+	   we're not in a subfunction. */
+	if (wenclose(edit, mouse_y, mouse_x) && currshortcut == main_list) {
+	    int sameline;
+		/* Did they click on the line with the cursor?  If they
+		   clicked on the cursor, we set the mark. */
+	    size_t xcur;
+		/* The character they clicked on. */
 
-	/* Subtract out size of topwin.  Perhaps we need a constant
-	 * somewhere? */
-	mevent.y -= 2;
+	    /* Subtract out size of topwin.  Perhaps we need a constant
+	       somewhere? */
+	    mouse_y -= 2;
 
-	sameline = mevent.y == current_y;
+	    sameline = (mouse_y == current_y);
 
-	/* Move to where the click occurred. */
-	for (; current_y < mevent.y && current->next != NULL; current_y++)
-	    current = current->next;
-	for (; current_y > mevent.y && current->prev != NULL; current_y--)
-	    current = current->prev;
+	    /* Move to where the click occurred. */
+	    for (; current_y < mouse_y && current->next != NULL; current_y++)
+		current = current->next;
+	    for (; current_y > mouse_y && current->prev != NULL; current_y--)
+		current = current->prev;
 
-	xcur = actual_x(current->data, get_page_start(xplustabs()) + mevent.x);
+	    xcur = actual_x(current->data, get_page_start(xplustabs()) +
+		mouse_x);
 
-	/* Selecting where the cursor is toggles the mark.  As does
-	   selecting beyond the line length with the cursor at the end of
-	   the line. */
-	if (sameline && xcur == current_x) {
-	    if (ISSET(VIEW_MODE)) {
-		print_view_warning();
-		return;
+	    /* Selecting where the cursor is toggles the mark.  As does
+	       selecting beyond the line length with the cursor at the
+	       end of the line. */
+	    if (sameline && xcur == current_x) {
+		if (ISSET(VIEW_MODE)) {
+		    print_view_warning();
+		    return;
+		}
+		do_mark();
 	    }
-	    do_mark();
+
+	    current_x = xcur;
+	    placewewant = xplustabs();
+	    edit_refresh();
 	}
-
-	current_x = xcur;
-	placewewant = xplustabs();
-	edit_refresh();
-    } else if (wenclose(bottomwin, mevent.y, mevent.x) && !ISSET(NO_HELP)) {
-	int i, k;
-
-	if (currshortcut == main_list)
-	    currslen = MAIN_VISIBLE;
-	else
-	    currslen = length_of_list(currshortcut);
-
-	if (currslen < 2)
-	    k = COLS / 6;
-	else 
-	    k = COLS / ((currslen + (currslen %2)) / 2);
-
-	/* Determine what shortcut list was clicked */
-	mevent.y -= (editwinrows + 3);
-
-	if (mevent.y < 0) /* They clicked on the statusbar */
-	    return;
-
-	/* Don't select stuff beyond list length */
-	if (mevent.x / k >= currslen)	
-	    return;
-
-	for (i = 0; i < (mevent.x / k) * 2 + mevent.y; i++)
-	    s = s->next;
-
-	/* And ungetch that value */
-	ungetch(s->val);
-
-	/* And if it's an alt-key sequence, we should probably send alt
-	   too ;-) */
-	if (s->val >= 'a' && s->val <= 'z')
-	   ungetch(27);
     }
+    /* FIXME: If we clicked on a location in the statusbar, the cursor
+       should move to the location we clicked on. */
 }
 #endif
 
-/* The user typed a printable character; add it to the edit buffer. */
+/* The user typed a character; add it to the edit buffer. */
 void do_char(char ch)
 {
     size_t current_len = strlen(current->data);
@@ -980,25 +953,33 @@ void do_char(char ch)
 	 * update_line()? */
 #endif
 
-    /* magic-line: when a character is inserted on the current magic line,
-     * it means we need a new one! */
-    if (filebot == current && current->data[0] == '\0') {
+    if (ch == '\0')		/* Null to newline, if needed. */
+	ch = '\n';
+    else if (ch == '\n') {	/* Newline to Enter, if needed. */
+	do_enter();
+	return;
+    }
+
+    assert(current != NULL && current->data != NULL);
+
+    /* When a character is inserted on the current magicline, it means
+     * we need a new one! */
+    if (filebot == current) {
 	new_magicline();
 	fix_editbot();
     }
 
-    /* more dangerousness fun =) */
+    /* More dangerousness fun =) */
     current->data = charealloc(current->data, current_len + 2);
     assert(current_x <= current_len);
-    charmove(&current->data[current_x + 1],
-	    &current->data[current_x],
-	    current_len - current_x + 1);
+    charmove(&current->data[current_x + 1], &current->data[current_x],
+	current_len - current_x + 1);
     current->data[current_x] = ch;
     totsize++;
     set_modified();
 
 #ifndef NANO_SMALL
-    /* note that current_x has not yet been incremented */
+    /* Note that current_x has not yet been incremented. */
     if (current == mark_beginbuf && current_x < mark_beginx)
 	mark_beginx++;
 #endif
@@ -1018,6 +999,48 @@ void do_char(char ch)
     if (refresh)
 	edit_refresh();
 #endif
+}
+
+int do_verbatim_input(void)
+{
+    char *verbatim_kbinput;	/* Used to hold verbatim input */
+    int verbatim_len;		/* Length of verbatim input */
+    int old_preserve = ISSET(PRESERVE), old_suspend = ISSET(SUSPEND);
+    int i;
+
+    /* Turn off Ctrl-Q (XON), Ctrl-S (XOFF), and Ctrl-Z (suspend) if
+     * they're on, so that we can use them to insert ^Q, ^S, and ^Z
+     * verbatim. */
+    if (old_preserve)
+	UNSET(PRESERVE);
+    if (old_suspend)
+	UNSET(SUSPEND);
+    if (old_preserve || old_suspend)
+	signal_init();
+
+    statusbar(_("Verbatim input"));
+    verbatim_kbinput = get_verbatim_kbinput(edit, &verbatim_len);
+
+    /* Turn on DISABLE_CURPOS while inserting character(s) and turn it
+     * off afterwards, so that if constant cursor position display is
+     * on, it will be updated properly. */
+    SET(DISABLE_CURPOS);
+    for (i = 0; i < verbatim_len; i++)
+	do_char(verbatim_kbinput[i]);
+    UNSET(DISABLE_CURPOS);
+
+    free(verbatim_kbinput);
+
+    /* Turn Ctrl-Q, Ctrl-S, and Ctrl-Z back on if they were on
+     * before. */
+    if (old_preserve)
+	SET(PRESERVE);
+    if (old_suspend)
+	SET(SUSPEND);
+    if (old_preserve || old_suspend)
+	signal_init();
+
+    return 1;
 }
 
 int do_backspace(void)
@@ -2876,7 +2899,7 @@ RETSIGTYPE do_cont(int signal)
     doupdate();
 
     /* The Hurd seems to need this, otherwise a ^Y after a ^Z will
-	start suspending again. */
+       start suspending again. */
     signal_init();
 
 #ifndef NANO_SMALL
@@ -3497,65 +3520,10 @@ int main(int argc, char *argv[])
 	fprintf(stderr, "AHA!  %c (%d)\n", kbinput, kbinput);
 #endif
 	if (meta == 1) {
-	    switch (kbinput) {
-#ifdef ENABLE_MULTIBUFFER
-	    case NANO_OPENPREV_KEY:
-	    case NANO_OPENPREV_ALTKEY:
-		open_prevfile_void();
-		keyhandled = 1;
-		break;
-	    case NANO_OPENNEXT_KEY:
-	    case NANO_OPENNEXT_ALTKEY:
-		open_nextfile_void();
-		keyhandled = 1;
-		break;
-#endif
-	    default:
-		/* Check for the altkey defs.... */
-		for (s = main_list; s != NULL; s = s->next)
-		    if (kbinput == s->altval || (kbinput >= 'A' &&
-			    kbinput <= 'Z' && kbinput == s->altval - 32)) {
-			if (ISSET(VIEW_MODE) && !s->viewok)
-			    print_view_warning();
-			else {
-			    if (s->func != do_cut_text)
-				UNSET(KEEP_CUTBUFFER);
-			    s->func();
-			}
-			keyhandled = 1;
-			break;
-		    }
-#ifndef NANO_SMALL
-		if (!keyhandled)
-		    /* And for toggle switches */
-		    for (t = toggles; t != NULL; t = t->next)
-			if (kbinput == t->val || (t->val >= 'a' &&
-				t->val <= 'z' && kbinput == t->val - 32)) {
-			    UNSET(KEEP_CUTBUFFER);
-			    do_toggle(t);
-			    keyhandled = 1;
-			    break;
-		        }
-#endif
-#ifdef DEBUG
-		fprintf(stderr, "I got Alt-%c! (%d)\n", kbinput,
-			kbinput);
-#endif
-	    }
-	}
-
-	/* Look through the main shortcut list to see if we've hit a
-	   shortcut key */
-
-	if (!keyhandled)
-#if !defined(DISABLE_BROWSER) || !defined (DISABLE_HELP) || !defined(DISABLE_MOUSE)
-	    for (s = currshortcut; s != NULL && !keyhandled; s = s->next) {
-#else
-	    for (s = main_list; s != NULL && !keyhandled; s = s->next) {
-#endif
-		if (kbinput == s->val ||
-		    (s->misc1 && kbinput == s->misc1) ||
-		    (s->misc2 && kbinput == s->misc2)) {
+	    /* Check for the altkey and misc defs... */
+	    for (s = main_list; s != NULL; s = s->next)
+		if ((s->altval > 0 && kbinput == s->altval) ||
+		    (s->misc > 0 && kbinput == s->misc)) {
 		    if (ISSET(VIEW_MODE) && !s->viewok)
 			print_view_warning();
 		    else {
@@ -3564,10 +3532,44 @@ int main(int argc, char *argv[])
 			s->func();
 		    }
 		    keyhandled = 1;
-		    /* Rarely, the value of s can change after
-		       s->func(), leading to problems; get around this
-		       by breaking out explicitly once we successfully
-		       handle a shortcut */
+		}
+#ifndef NANO_SMALL
+		if (!keyhandled)
+		    /* And for toggle switches */
+		    for (t = toggles; t != NULL; t = t->next)
+			if (kbinput == t->val) {
+			    UNSET(KEEP_CUTBUFFER);
+			    do_toggle(t);
+			    keyhandled = 1;
+		        }
+#endif
+#ifdef DEBUG
+	    fprintf(stderr, "I got Alt-%c! (%d)\n", kbinput,
+		kbinput);
+#endif
+	}
+
+	/* Look through the main shortcut list to see if we've hit a
+	   shortcut key or function key */
+
+	if (!keyhandled)
+#if !defined(DISABLE_BROWSER) || !defined (DISABLE_HELP) || !defined(DISABLE_MOUSE)
+	    for (s = currshortcut; s != NULL && !keyhandled; s = s->next) {
+#else
+	    for (s = main_list; s != NULL && !keyhandled; s = s->next) {
+#endif
+		if ((s->val >= 0 && kbinput == s->val) ||
+		    (s->func_key > 0 && kbinput == s->func_key)) {
+		    if (ISSET(VIEW_MODE) && !s->viewok)
+			print_view_warning();
+		    else {
+			if (s->func != do_cut_text)
+			    UNSET(KEEP_CUTBUFFER);
+			s->func();
+		    }
+		    keyhandled = 1;
+		    /* Break out explicitly once we successfully handle
+		       a shortcut */
 		    break;
 		}
 	    }
@@ -3607,6 +3609,7 @@ int main(int argc, char *argv[])
 	    				 * have been handled before we
 	    				 * got here */
 	    case NANO_CONTROL_5:	/* Ctrl-] */
+	    case NANO_CONTROL_8:	/* Ctrl-? (Delete) */
 		break;
 	    default:
 #ifdef DEBUG
