@@ -260,11 +260,13 @@ void shortcut_init(int unjustify)
 	"", *nano_backspace_msg = "", *nano_tab_msg =
 	"", *nano_enter_msg = "", *nano_cancel_msg = 
 	"", *nano_unjustify_msg = "", *nano_append_msg =
-	"", *nano_dos_msg = "", *nano_mac_msg = ""; 
+	""; 
 
 #ifndef NANO_SMALL
     char *nano_tofiles_msg = "", *nano_gotodir_msg = "", *nano_case_msg =
 	"", *nano_reverse_msg = "";
+    char *nano_dos_msg = "", *nano_mac_msg = ""; 
+
 #ifdef HAVE_REGEX_H
     char *nano_regexp_msg = "", *nano_bracket_msg = "";
 #endif

@@ -246,7 +246,7 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 {
     filestruct *fileptr;
     char *searchstr, *rev_start = NULL, *found = NULL;
-    int current_x_find;
+    int current_x_find = 0;
     fileptr = current;
 
     past_editbuff = 0;

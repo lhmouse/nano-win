@@ -1380,7 +1380,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 int do_writeout(char *path, int exiting, int append)
 {
     int i = 0;
-    char *formatstr;
+    char *formatstr = NULL;
 
 #ifdef NANO_EXTRA
     static int did_cred = 0;
