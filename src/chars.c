@@ -346,7 +346,7 @@ int parse_mbchar(const char *buf, char *chr
 	    /* If we have a control character, get its width using one
 	     * column for the "^" that will be displayed in front of it,
 	     * and the width in columns of its visible equivalent as
-	     * returned by control_rep(). */
+	     * returned by control_mbrep(). */
 	    else if (is_cntrl_mbchar(buf)) {
 		char *ctrl_buf_mb = charalloc(MB_CUR_MAX);
 		int ctrl_buf_mb_len;
@@ -381,7 +381,7 @@ int parse_mbchar(const char *buf, char *chr
 	    /* If we have a control character, it's two columns wide:
 	     * one column for the "^" that will be displayed in front of
 	     * it, and one column for its visible equivalent as returned
-	     * by control_rep(). */
+	     * by control_mbrep(). */
 	    else if (is_cntrl_char((unsigned char)*buf))
 		*col += 2;
 	    /* If we have a normal character, it's one column wide. */
