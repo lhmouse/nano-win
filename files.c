@@ -582,49 +582,51 @@ int do_writeout_void(void)
  */
 char *real_dir_from_tilde(char *buf)
 {
-    char *dirtmp = NULL;
-    int searchctr = 1;
+    char *dirtmp = NULL, *find_user = NULL;
+    int i = 1;
     struct passwd *userdata;
 
+    /* set a default value for dirtmp, in the case user home dir not found */
+    dirtmp = mallocstrcpy(dirtmp, buf);
+
     if (buf[0] == '~') {
-	if (buf[1] == '~')
-	    goto abort;		/* Handle ~~ without segfaulting =) */
-	else if (buf[1] == 0 || buf[1] == '/') {
+	if (buf[1] == 0 || buf[1] == '/') {
 	    if (getenv("HOME") != NULL) {
+
+		free(dirtmp);
 		dirtmp = nmalloc(strlen(buf) + 2 + strlen(getenv("HOME")));
 
-		if (strlen(buf) > 2)
-		    sprintf(dirtmp, "%s/%s", getenv("HOME"), &buf[2]);
-		else
-		    sprintf(dirtmp, "%s/", getenv("HOME"));
+		sprintf(dirtmp, "%s%s", getenv("HOME"), &buf[1]);
 
 	    }
-	} else if (buf[1] != 0) {
+	}
+	else {
 
 	    /* Figure how how much of of the str we need to compare */
-	    for (searchctr = 1; buf[searchctr] != '/' &&
-		 buf[searchctr] != 0; searchctr++);
+	    for (i = 1; buf[i] != '/' && buf[i] != 0; i++)
+		;
+
+	    find_user = mallocstrcpy(find_user, &buf[1]);
+	    find_user[i - 1] = 0;
 
 	    for (userdata = getpwent(); userdata != NULL && 
-		  strncmp(userdata->pw_name, &buf[1], searchctr - 1); 
+		  strcmp(userdata->pw_name, find_user); 
 		  userdata = getpwent());
 
-	    if (userdata == NULL) /* No such user or getpwent() failed */
-		goto abort;
+	    free(find_user);
 
-	    /* Else copy the new string into the new buf */
-	    dirtmp = nmalloc(strlen(buf) + 2 + strlen(userdata->pw_dir));
+	    if (userdata != NULL) {  /* User found */
 
-	    sprintf(dirtmp, "%s%s", userdata->pw_dir, &buf[searchctr]);
+	        free(dirtmp);
+		dirtmp = nmalloc(strlen(buf) + 2 + strlen(userdata->pw_dir));
+		sprintf(dirtmp, "%s%s", userdata->pw_dir, &buf[i]);
+
+	    }
+
 	    endpwent();
 	}
-    } else
-	dirtmp = mallocstrcpy(dirtmp, buf);
+    }
 
-    return dirtmp;
-
-  abort:
-    dirtmp = mallocstrcpy(dirtmp, buf);
     return dirtmp;
 }
 
