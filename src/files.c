@@ -617,7 +617,7 @@ void do_insertfile(
 	    {
 		filestruct *top_save = fileage;
 
-		/* If we're not inserting into a new buffer, unpartition
+		/* If we didn't insert into a new buffer, unpartition
 		 * the filestruct so that it contains all the text
 		 * again.  Note that we've replaced the non-text
 		 * originally in the partition with the text in the

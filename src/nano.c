@@ -1619,7 +1619,8 @@ bool do_int_spell_fix(const char *word)
     if (old_mark_set) {
 	size_t top_data_len, bot_data_len;
 
-	/* If we added a magicline, remove it now. */
+	/* If the mark was on and we added a magicline, remove it
+	 * now. */
 	if (added_magicline)
 	    remove_magicline();
 
@@ -1637,8 +1638,8 @@ bool do_int_spell_fix(const char *word)
 	    mark_beginx = bot_data_len;
 	}
 
-	/* If the mark was on, unpartition the filestruct so that it
-	 * contains all the text again, and turn the mark back on. */
+	/* Unpartition the filestruct so that it contains all the text
+	 * again, and turn the mark back on. */
 	unpartition_filestruct(filepart);
 	SET(MARK_ISSET);
     }
@@ -1987,7 +1988,8 @@ const char *do_alt_speller(char *tempfile_name)
 	filestruct *top_save = fileage;
 	size_t top_data_len, bot_data_len;
 
-	/* If we added a magicline, remove it now. */
+	/* If the mark was on and we added a magicline, remove it
+	 * now. */
 	if (added_magicline)
 	    remove_magicline();
 
@@ -2005,10 +2007,10 @@ const char *do_alt_speller(char *tempfile_name)
 	    mark_beginx = bot_data_len;
 	}
 
-	/* If the mark was on, unpartition the filestruct so that it
-	 * contains all the text again.  Note that we've replaced the
-	 * marked text originally in the partition with the
-	 * spell-checked marked text in the temp file. */
+	/* Unpartition the filestruct so that it contains all the text
+	 * again.  Note that we've replaced the marked text originally
+	 * in the partition with the spell-checked marked text in the
+	 * temp file. */
 	unpartition_filestruct(filepart);
 
 	/* Renumber starting with the beginning line of the old
