@@ -1415,10 +1415,10 @@ const shortcut *get_shortcut(const shortcut *s_list, int kbinput, bool
 	 * 4. func_key is TRUE and the key is a function key in the
 	 *    shortcut list. */
 
-	if (kbinput != NANO_NO_KEY && kbinput == s->ctrlval ||
+	if (kbinput != NANO_NO_KEY && (kbinput == s->ctrlval ||
 		(*meta_key == TRUE && (kbinput == s->metaval ||
 		kbinput == s->miscval)) || (*func_key == TRUE &&
-		kbinput == s->funcval)) {
+		kbinput == s->funcval))) {
 	    break;
 	}
 
