@@ -208,8 +208,9 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 #ifndef NANO_SMALL
    /* for history */
     char *history = NULL;
+    char *currentbuf = NULL;
     char *complete = NULL;
-    int last_kbinput = 0;
+    int last_kbinput = 0, ret2cb = 0;
 #endif
     xend = strlen(def);
     x = xend;
@@ -350,6 +351,14 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	case KEY_UP:
 #ifndef NANO_SMALL
 	    if (history_list) {
+
+		/* If there's no previous temp holder, or if we already arrowed 
+		   back down to it and (possibly edited ir), update the holder  */
+		if (currentbuf == NULL || (ret2cb == 1 && strcmp(currentbuf, answer))) {
+		    currentbuf = mallocstrcpy(currentbuf, answer);
+		    ret2cb = 0;
+		}
+
 		/* get older search from the history list */
 		if ((history = get_history_older(history_list))) {
 		    answer = mallocstrcpy(answer, history);
@@ -369,6 +378,13 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		if ((history = get_history_newer(history_list))) {
 		    answer = mallocstrcpy(answer, history);
 		    xend = strlen(history);
+
+		/* Else if we ran out of history, regurgitate the temporary
+		   buffer */
+		} else if (currentbuf != NULL) {
+		    answer = mallocstrcpy(answer, currentbuf);
+		    xend = strlen(currentbuf);
+		    ret2cb = 1;
 		} else {
 		    answer = mallocstrcpy(answer, "");
 		    xend = 0;
