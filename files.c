@@ -659,6 +659,7 @@ int input_tab(char *buf, int place, int lastWasTab)
 	/* Did we find exactly one match? */
 	switch(num_matches) {
 	case 0:
+	    blank_edit();
 	    break;
 	case 1:
 	    buf = nrealloc(buf, strlen(buf) + strlen(matches[0]) - pos + 1);
