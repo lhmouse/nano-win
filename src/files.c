@@ -1776,10 +1776,10 @@ int do_writeout(int exiting)
 	char *ans = mallocstrcpy(NULL, answer);
 	const char *formatstr, *backupstr;
 
-	if (ISSET(MAC_FILE))
-	   formatstr = N_(" [Mac Format]");
-	else if (ISSET(DOS_FILE))
+	if (ISSET(DOS_FILE))
 	   formatstr = N_(" [DOS Format]");
+	else if (ISSET(MAC_FILE))
+	   formatstr = N_(" [Mac Format]");
 	else
 	   formatstr = "";
 
