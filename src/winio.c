@@ -24,12 +24,15 @@
 #include <stdarg.h>
 #include <string.h>
 #include <stdlib.h>
-#include <time.h>
 #include <unistd.h>
 #include <ctype.h>
 #include <assert.h>
 #include "proto.h"
 #include "nano.h"
+
+#ifdef NANO_EXTRA
+#include <time.h>
+#endif
 
 static int statblank = 0;	/* Number of keystrokes left after
 				   we call statusbar(), before we
