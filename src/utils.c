@@ -48,6 +48,7 @@ int regexp_bol_or_eol(const regex_t *preg, const char *string)
 {
     return (regexec(preg, string, 0, NULL, 0) == 0 &&
 	regexec(preg, string, 0, NULL, REG_NOTBOL | REG_NOTEOL) ==
+	REG_NOMATCH);
 }
 #endif /* HAVE_REGEX_H */
 
