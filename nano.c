@@ -66,9 +66,6 @@ static sigjmp_buf jmpbuf;	/* Used to return to mainloop after SIGWINCH */
 /* What we do when we're all set to exit */
 RETSIGTYPE finish(int sigage)
 {
-    keypad(edit, TRUE);
-    keypad(bottomwin, TRUE);
-
     if (!ISSET(NO_HELP)) {
 	mvwaddstr(bottomwin, 1, 0, hblank);
 	mvwaddstr(bottomwin, 2, 0, hblank);
@@ -251,9 +248,6 @@ void window_init(void)
 void mouse_init(void)
 {
     if (ISSET(USE_MOUSE)) {
-	keypad_on(edit, 1);
-	keypad_on(bottomwin, 1);
-
 	mousemask(BUTTON1_RELEASED, NULL);
 	mouseinterval(50);
     } else
@@ -639,7 +633,6 @@ void usage(void)
     print1opt("-H", "--historylog", _("Log & read search/replace string history"));
     print1opt("-I", "--ignorercfiles", _("Don't look at nanorc files"));
 #endif
-    print1opt("-K", "--keypad", _("Use alternate keypad routines"));
 #ifndef NANO_SMALL
     print1opt("-M", "--mac", _("Write file in Mac format"));
     print1opt("-N", "--noconvert", _("Don't convert files from DOS/Mac format"));
@@ -660,6 +653,7 @@ void usage(void)
 #endif
     print1opt("-c", "--const", _("Constantly show cursor position"));
 #ifndef NANO_SMALL
+    print1opt("-d", "--rebinddelete", _("Fix Backspace if it acts like Delete"));
     print1opt("-i", "--autoindent", _("Automatically indent new lines"));
     print1opt("-k", "--cut", _("Let ^K cut from cursor to end of line"));
 #endif
@@ -3001,6 +2995,7 @@ int main(int argc, char *argv[])
     const shortcut *s;
     int keyhandled = 0;	/* Have we handled the keystroke yet? */
     int kbinput = -1;		/* Input from keyboard */
+    int meta;
 
 #ifndef NANO_SMALL
     const toggle *t;
@@ -3019,7 +3014,6 @@ int main(int argc, char *argv[])
 	{"historylog", 0, 0, 'H'},
 	{"ignorercfiles", 0, 0, 'I'},
 #endif
-	{"keypad", 0, 0, 'K'},
 #ifndef DISABLE_JUSTIFY
 	{"quotestr", 1, 0, 'Q'},
 #endif
@@ -3032,6 +3026,7 @@ int main(int argc, char *argv[])
 	{"syntax", 1, 0, 'Y'},
 #endif
 	{"const", 0, 0, 'c'},
+	{"rebinddelete", 0, 0, 'd'},
 	{"nofollow", 0, 0, 'l'},
 #if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
 	{"mouse", 0, 0, 'm'},
@@ -3080,11 +3075,11 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "h?BDFHIKMNQ:RST:VY:abcefgijklmo:pr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "h?BDFHIMNQ:RST:VY:abcdefgijklmo:pr:s:tvwxz",
 				 long_options, &option_index)) != -1) {
 #else
     while ((optchr =
-	    getopt(argc, argv, "h?BDFHIKMNQ:RST:VY:abcefgijklmo:pr:s:tvwxz")) != -1) {
+	    getopt(argc, argv, "h?BDFHIMNQ:RST:VY:abcdefgijklmo:pr:s:tvwxz")) != -1) {
 #endif
 
 	switch (optchr) {
@@ -3118,9 +3113,6 @@ int main(int argc, char *argv[])
 	    SET(NO_RCFILE);
 	    break;
 #endif
-	case 'K':
-	    SET(ALT_KEYPAD);
-	    break;
 #ifndef NANO_SMALL
 	case 'M':
 	    SET(MAC_FILE);
@@ -3172,6 +3164,9 @@ int main(int argc, char *argv[])
 #endif
 	case 'c':
 	    SET(CONSTUPDATE);
+	    break;
+	case 'd':
+	    SET(REBIND_DELETE);
 	    break;
 #ifndef NANO_SMALL
 	case 'i':
@@ -3389,10 +3384,8 @@ int main(int argc, char *argv[])
     mouse_init();
 #endif
 
-    if (!ISSET(ALT_KEYPAD)) {
-	keypad(edit, TRUE);
-	keypad(bottomwin, TRUE);
-    }
+    keypad(edit, TRUE);
+    keypad(bottomwin, TRUE);
 
 #ifdef DEBUG
     fprintf(stderr, "Main: bottom win\n");
@@ -3456,160 +3449,12 @@ int main(int argc, char *argv[])
 	raw();
 #endif
 
-	kbinput = wgetch(edit);
+	kbinput = get_kbinput(edit, &meta, ISSET(REBIND_DELETE));
 #ifdef DEBUG
 	fprintf(stderr, "AHA!  %c (%d)\n", kbinput, kbinput);
 #endif
-	if (kbinput == 27) {	/* Grab Alt-key stuff first */
-	    kbinput = wgetch(edit);
+	if (meta == 1) {
 	    switch (kbinput) {
-		/* Alt-O, suddenly very important ;) */
-	    case 'O':
-		kbinput = wgetch(edit);
-		/* Shift or Ctrl + Arrows are Alt-O-[2,5,6]-[A,B,C,D] on some terms */
-		if (kbinput == '2' || kbinput == '5' || kbinput == '6')
-		    kbinput = wgetch(edit);
-		if ((kbinput <= 'D' && kbinput >= 'A') ||
-			(kbinput <= 'd' && kbinput >= 'a'))
-		    kbinput = abcd(kbinput);
-		else if (kbinput <= 'z' && kbinput >= 'j')
-		    print_numlock_warning();
-		else if (kbinput <= 'S' && kbinput >= 'P')
-		    kbinput = KEY_F(kbinput - 79);
-#ifdef DEBUG
-		else {
-		    fprintf(stderr, "I got Alt-O-%c! (%d)\n",
-			    kbinput, kbinput);
-		    break;
-		}
-#endif
-		break;
-	    case 27:
-		/* If we get Alt-Alt, the next keystroke should be the same as a
-		   control sequence */
-		modify_control_seq = 1;
-		keyhandled = 1;
-		break;
-	    case '[':
-		kbinput = wgetch(edit);
-		switch (kbinput) {
-		case '1':	/* Alt-[-1-[0-5,7-9] = F1-F8 in X at least */
-		    kbinput = wgetch(edit);
-		    if (kbinput >= '1' && kbinput <= '5') {
-			kbinput = KEY_F(kbinput - 48);
-			wgetch(edit);
-		    } else if (kbinput >= '7' && kbinput <= '9') {
-			kbinput = KEY_F(kbinput - 49);
-			wgetch(edit);
-		    } else if (kbinput == '~')
-			kbinput = KEY_HOME;
-#ifdef DEBUG
-		    else {
-			fprintf(stderr, "I got Alt-[-1-%c! (%d)\n",
-				kbinput, kbinput);
-			break;
-		    }
-#endif
-		    break;
-		case '2':	/* Alt-[-2-[0,1,3,4] = F9-F12 in many terms */
-		    kbinput = wgetch(edit);
-		    switch (kbinput) {
-		    case '0':
-			kbinput = KEY_F(9);
-			wgetch(edit);
-			break;
-		    case '1':
-			kbinput = KEY_F(10);
-			wgetch(edit);
-			break;
-		    case '3':
-			kbinput = KEY_F(11);
-			wgetch(edit);
-			break;
-		    case '4':
-			kbinput = KEY_F(12);
-			wgetch(edit);
-			break;
-		    case '~':
-			kbinput = NANO_INSERTFILE_KEY;
-			break;
-#ifdef DEBUG
-		    default:
-			fprintf(stderr, "I got Alt-[-2-%c! (%d)\n",
-				kbinput, kbinput);
-			break;
-#endif
-		    }
-		    break;
-		case '3':	/* Alt-[-3 = Delete? */
-		    kbinput = NANO_DELETE_KEY;
-		    wgetch(edit);
-		    break;
-		case '4':	/* Alt-[-4 = End? */
-		    kbinput = NANO_END_KEY;
-		    wgetch(edit);
-		    break;
-		case '5':	/* Alt-[-5 = Page Up */
-		    kbinput = KEY_PPAGE;
-		    wgetch(edit);
-		    break;
-		case 'V':	/* Alt-[-V = Page Up in Hurd Console */
-		case 'I':	/* Alt-[-I = Page Up - FreeBSD Console */
-		    kbinput = KEY_PPAGE;
-		    break;
-		case '6':	/* Alt-[-6 = Page Down */
-		    kbinput = KEY_NPAGE;
-		    wgetch(edit);
-		    break;
-		case 'U':	/* Alt-[-U = Page Down in Hurd Console */
-		case 'G':	/* Alt-[-G = Page Down - FreeBSD Console */
-		    kbinput = KEY_NPAGE;
-		    break;
-		case '7':
-		    kbinput = KEY_HOME;
-		    wgetch(edit);
-		    break;
-		case '8':
-		    kbinput = KEY_END;
-		    wgetch(edit);
-		    break;
-		case '9':	/* Alt-[-9 = Delete in Hurd Console */
-		    kbinput = KEY_DC;
-		    break;
-		case '@':	/* Alt-[-@ = Insert in Hurd Console */
-		case 'L':	/* Alt-[-L = Insert - FreeBSD Console */
-		    kbinput = NANO_INSERTFILE_KEY;
-		    break;
-		case '[':	/* Alt-[-[-[A-E], F1-F5 in Linux console */
-		    kbinput = wgetch(edit);
-		    if (kbinput >= 'A' && kbinput <= 'E')
-			kbinput = KEY_F(kbinput - 64);
-		    break;
-		case 'A':
-		case 'B':
-		case 'C':
-		case 'D':
-		case 'a':
-		case 'b':
-		case 'c':
-		case 'd':
-		    kbinput = abcd(kbinput);
-		    break;
-		case 'H':
-		    kbinput = KEY_HOME;
-		    break;
-		case 'F':
-		case 'Y':		/* End Key in Hurd Console */
-		    kbinput = KEY_END;
-		    break;
-		default:
-#ifdef DEBUG
-		    fprintf(stderr, "I got Alt-[-%c! (%d)\n",
-			    kbinput, kbinput);
-#endif
-		    break;
-		}
-		break;
 #ifdef ENABLE_MULTIBUFFER
 	    case NANO_OPENPREV_KEY:
 	    case NANO_OPENPREV_ALTKEY:
@@ -3656,23 +3501,6 @@ int main(int argc, char *argv[])
 		break;
 	    }
 	}
-	/* Hack, make insert key do something useful, like insert file */
-	else if (kbinput == KEY_IC)
-	    kbinput = NANO_INSERTFILE_KEY;
-
-	/* If modify_control_seq is set, we received an Alt-Alt
-	   sequence before this, so we make this key a control sequence
-	   by subtracting 32, 64, or 96, depending on its value. */
-	if (!keyhandled && modify_control_seq) {
-	    if (kbinput == ' ')
-		kbinput -= 32;
-	    else if (kbinput >= 'A' && kbinput < 'a')
-		kbinput -= 64;
-	    else if (kbinput >= 'a' && kbinput <= 'z')
-		kbinput -= 96;
-
-	    modify_control_seq = 0;
-	}
 
 	/* Look through the main shortcut list to see if we've hit a
 	   shortcut key */
@@ -3707,19 +3535,18 @@ int main(int argc, char *argv[])
 
 #ifdef _POSIX_VDISABLE
 	/* Don't even think about changing this string */
-	if (kbinput == 19)
-	    statusbar(_("XOFF ignored, mumble mumble."));
-	if (kbinput == 17)
+	if (kbinput == NANO_CONTROL_Q)
 	    statusbar(_("XON ignored, mumble mumble."));
+	if (kbinput == NANO_CONTROL_S)
+	    statusbar(_("XOFF ignored, mumble mumble."));
 #endif
 	/* If we're in raw mode or using Alt-Alt-x, we have to catch
 	   Control-S and Control-Q */
-	if (kbinput == 17 || kbinput == 19)
+	if (kbinput == NANO_CONTROL_Q || kbinput == NANO_CONTROL_S)
 	    keyhandled = 1;
 
-	/* Catch ^Z by hand when triggered also
-	   407 == ^Z in Linux console when keypad() is used? */
-	if (kbinput == 26 || kbinput == 407) {
+	/* Catch ^Z by hand when triggered also */
+	if (kbinput == NANO_SUSPEND_KEY) {
 	    if (ISSET(SUSPEND))
 		do_suspend(0);
 	    keyhandled = 1;
@@ -3734,18 +3561,10 @@ int main(int argc, char *argv[])
 		break;
 #endif
 
-	    case -1:		/* Stuff that we don't want to do squat */
-	    case 0:		/* Erg */
-	    case 29:		/* Ctrl-] */
-	    case 410:		/* Must ignore this, it's sent when we resize */
-#ifdef PDCURSES
-	    case 541:		/* ???? */
-	    case 542:		/* Control and alt in Windows *shrug* */
-	    case 543:		/* Right ctrl key */
-	    case 544:
-	    case 545:		/* Right alt key */
-#endif
-
+	    case NANO_CONTROL_3:	/* Ctrl-[ (Esc), which should
+	    				 * have been handled before we
+	    				 * got here */
+	    case NANO_CONTROL_5:	/* Ctrl-] */
 		break;
 	    default:
 #ifdef DEBUG

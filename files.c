@@ -2477,9 +2477,9 @@ char *do_browser(const char *inpath)
     struct stat st;
     char *foo, *retval = NULL;
     static char *path = NULL;
-    int numents = 0, i = 0, j = 0, kbinput = 0, longest = 0, abort = 0;
-    int col = 0, selected = 0, editline = 0, width = 0, filecols = 0;
-    int lineno = 0, kb;
+    int numents = 0, i = 0, j = 0, kbinput = -1, meta, longest = 0;
+    int abort = 0, col = 0, selected = 0, editline = 0, width = 0;
+    int filecols = 0, lineno = 0;
     char **filelist = (char **)NULL;
 #if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
     MEVENT mevent;
@@ -2505,7 +2505,6 @@ char *do_browser(const char *inpath)
     /* Sort the list by directory first, then alphabetically */
     qsort(filelist, numents, sizeof(char *), diralphasort);
 
-    kb = keypad_on(edit, 1);
     titlebar(path);
     bottombars(browser_list);
     curs_set(0);
@@ -2569,34 +2568,23 @@ char *do_browser(const char *inpath)
             break;
 #endif
 	case NANO_UP_KEY:
-	case KEY_UP:
-	case 'u':
 	    if (selected - width >= 0)
 		selected -= width;
 	    break;
 	case NANO_BACK_KEY:
-	case KEY_LEFT:
-	case NANO_BACKSPACE_KEY:
-	case 127:
-	case 'l':
 	    if (selected > 0)
 		selected--;
 	    break;
-	case KEY_DOWN:
 	case NANO_DOWN_KEY:
-	case 'd':
 	    if (selected + width <= numents - 1)
 		selected += width;
 	    break;
-	case KEY_RIGHT:
 	case NANO_FORWARD_KEY:
-	case 'r':
 	    if (selected < numents - 1)
 		selected++;
 	    break;
 	case NANO_PREVPAGE_KEY:
 	case NANO_PREVPAGE_FKEY:
-	case KEY_PPAGE:
 	case '-':
 	    if (selected >= (editwinrows + lineno % editwinrows) * width)
 		selected -= (editwinrows + lineno % editwinrows) * width; 
@@ -2605,7 +2593,6 @@ char *do_browser(const char *inpath)
 	    break;
 	case NANO_NEXTPAGE_KEY:
 	case NANO_NEXTPAGE_FKEY:
-	case KEY_NPAGE:	
 	case ' ':
 	    selected += (editwinrows - lineno % editwinrows) * width;
 	    if (selected >= numents)
@@ -2615,7 +2602,6 @@ char *do_browser(const char *inpath)
 	case NANO_HELP_FKEY:
 	     do_help();
 	     break;
-	case KEY_ENTER:
 	case NANO_ENTER_KEY:
 	case 's': /* More Pico compatibility */
 	case 'S':
@@ -2678,10 +2664,8 @@ char *do_browser(const char *inpath)
 	    return do_browser(path);
 
 	/* Goto a specific directory */
-	case 'g':	/* Pico compatibility */
-	case 'G':
 	case NANO_GOTO_KEY:
-
+	case NANO_GOTO_FKEY:
 	    curs_set(1);
 	    j = statusq(0, gotodir_list, "",
 #ifndef NANO_SMALL
@@ -2726,11 +2710,10 @@ char *do_browser(const char *inpath)
 	    return do_browser(path);
 
 	/* Stuff we want to abort the browser */
-	case 'q':
-	case 'Q':
 	case 'e':	/* Pico compatibility, yeech */
 	case 'E':
 	case NANO_CANCEL_KEY:
+	case NANO_EXIT_KEY:
 	case NANO_EXIT_FKEY:
 	    abort = 1;
 	    break;
@@ -2806,12 +2789,11 @@ char *do_browser(const char *inpath)
 	    }
 	}
  	wrefresh(edit);
-    } while ((kbinput = wgetch(edit)) != NANO_EXIT_KEY);
+    } while ((kbinput = get_kbinput(edit, &meta, ISSET(REBIND_DELETE))) != NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
     curs_set(1);
     blank_edit();
     titlebar(NULL);
     edit_refresh();
-    kb = keypad_on(edit, kb);
 
     /* cleanup */
     free_charptrarray(filelist, numents);

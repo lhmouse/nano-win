@@ -424,6 +424,14 @@ int check_wildcard_match(const char *text, const char *pattern);
 #endif
 
 /* Public functions in winio.c */
+int get_kbinput(WINDOW *win, int *meta, int rebind_delete);
+char *get_verbatim_kbinput(WINDOW *win, int *kbinput_len);
+int get_ignored_kbinput(WINDOW *win);
+int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta,
+	int rebind_delete);
+int get_ascii_kbinput(WINDOW *win, int kbinput);
+int get_escape_seq_kbinput(WINDOW *win, int kbinput);
+int get_skip_tilde_kbinput(WINDOW *win, int errval, int retval);
 int do_first_line(void);
 int do_last_line(void);
 int xpt(const filestruct *fileptr, int index);
@@ -482,7 +490,6 @@ int do_cursorpos(int constant);
 int do_cursorpos_void(void);
 int line_len(const char *ptr);
 int do_help(void);
-int keypad_on(WINDOW *win, int newval);
 void do_replace_highlight(int highlight_flag, const char *word);
 void fix_editbot(void);
 #ifdef DEBUG

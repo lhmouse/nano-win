@@ -49,7 +49,6 @@ const static rcoption rcopts[] = {
 #ifndef DISABLE_WRAPJUSTIFY
     {"fill", 0},
 #endif
-    {"keypad", ALT_KEYPAD},
 #if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
     {"mouse", USE_MOUSE},
 #endif
@@ -68,6 +67,7 @@ const static rcoption rcopts[] = {
     {"operatingdir", 0},
 #endif
     {"preserve", PRESERVE},
+    {"rebinddelete", REBIND_DELETE},
 #ifndef DISABLE_JUSTIFY
     {"quotestr", 0},
 #endif

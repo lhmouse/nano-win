@@ -330,20 +330,6 @@ AC_CHECK_LIB([$CURSES_LIB_NAME], use_default_colors, AC_DEFINE(HAVE_USE_DEFAULT_
 if test x$slang_support != xyes; then
     AC_CHECK_LIB([$CURSES_LIB_NAME], wresize, AC_DEFINE(HAVE_WRESIZE, 1, [Define this if you have the wresize function in your ncurses-type library.]))
     AC_CHECK_LIB([$CURSES_LIB_NAME], resizeterm, AC_DEFINE(HAVE_RESIZETERM, 1, [Define this if you have the resizeterm function in your ncurses-type library.]))
-
-    # Taken from aumix (can't tell from the variable name?)
-    AC_CACHE_CHECK([for private member _use_keypad in WINDOW],
-    aumix_cv_struct_window_usekeypad,
-    [AC_TRY_COMPILE([#ifdef HAVE_NCURSES_H
-#include <ncurses.h>
-#else
-#include <curses.h>
-#endif], [WINDOW w; w._use_keypad;],
-    aumix_cv_struct_window_usekeypad=yes, aumix_cv_struct_window_usekeypad=no)])
-    
-    if test $aumix_cv_struct_window_usekeypad = yes; then
-	AC_DEFINE(HAVE_USEKEYPAD, 1, [Define this if your curses lib has the _use_keypad flag.])
-    fi
 fi
 
 dnl Parse any configure options

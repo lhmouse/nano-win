@@ -1,5 +1,36 @@
 CVS code -
-
+- General:
+	- Complete overhaul and abstraction of the lowest level of
+	  keyboard input, mostly rewritten but incorporating a few bits
+	  from the old functions and adding support for Pico's Esc Esc
+	  [three-digit decimal ASCII code] input method.  New functions
+	  get_kbinput(), get_verbatim_kbinput(), get_ignored_kbinput(),
+	  get_accepted_kbinput(), get_ascii_kbinput(),
+	  get_escape_seq_kbinput(), and get_skip_tilde_kbinput().  These
+	  should work properly on FreeBSD (due to code and input
+	  provided by Lee Nelson and Wouter van Hemel, respectively).
+	  (DLR)
+	- The -K/--keypad command line/rcfile option has been removed,
+	  and keypad() is now always TRUE.  keypad_on() in winio.c and
+	  the check for _use_keypad in configure.ac have both been
+	  removed. (DLR)
+	- The -d/--rebinddelete command line/rcfile option, equivalent
+	  to Pico's -d, has been added.  It is intended to work around
+	  the problem with Backspace/Delete confusion on some terminals,
+	  notably FreeBSD; if your Backspace key acts like Delete, this
+	  option will fix that. (DLR)
+- files.c:
+  do_browser():
+	- Some of the Pico compatibility options in the file browser
+	  that don't work properly for Pico 4.6 have been removed. 
+	  Backspace, 'g', 'l', 'q', and 'u' are invalid, 'd' deletes the
+	  highlighted file, and 'r' renames the highlighted file. (DLR)
+- nano.h:
+	- Define KEY_SUSPEND as -1 when slang is used, as slang has no
+	  KEY_SUSPEND equivalent.  When nano is compiled with slang
+	  support, pressing Ctrl-Z to suspend nano at the Linux console
+	  with keypad(TRUE) generates Ctrl-Z instead of KEY_SUSPEND
+	  (which is what ncurses generates then). (DLR)
 - AUTHORS
 	- Updated to show 1.2/1.3 maintainers.
 

@@ -48,6 +48,7 @@
 #include <slcurses.h>
 #define KEY_IC SL_KEY_IC
 #define KEY_DC SL_KEY_DELETE
+#define KEY_SUSPEND -1
 #elif defined(HAVE_NCURSES_H)
 #include <ncurses.h>
 #else /* Uh oh */
@@ -244,7 +245,7 @@ typedef struct historyheadtype {
 #define MAC_FILE		(1<<20)
 #define SMOOTHSCROLL		(1<<21)
 #define DISABLE_CURPOS		(1<<22)	/* Damn, we still need it */
-#define ALT_KEYPAD		(1<<23)
+#define REBIND_DELETE		(1<<23)
 #define NO_CONVERT		(1<<24)
 #define BACKUP_FILE		(1<<25)
 #define NO_RCFILE		(1<<26)
@@ -283,11 +284,12 @@ typedef struct historyheadtype {
 #define NANO_CONTROL_X 24
 #define NANO_CONTROL_Y 25
 #define NANO_CONTROL_Z 26
-
+#define NANO_CONTROL_3 27
 #define NANO_CONTROL_4 28
 #define NANO_CONTROL_5 29
 #define NANO_CONTROL_6 30
 #define NANO_CONTROL_7 31
+#define NANO_CONTROL_8 127
 
 #define NANO_ALT_A 'a'
 #define NANO_ALT_B 'b'

@@ -34,6 +34,295 @@ static int statblank = 0;	/* Number of keystrokes left after
 				   we call statusbar(), before we
 				   actually blank the statusbar */
 
+/* Read in a single input character.  If it's ignored, swallow it and go
+ * on.  Otherwise, try to translate it from ASCII and extended (keypad)
+ * input.  Assume nodelay(win) is FALSE. */
+int get_kbinput(WINDOW *win, int *meta, int rebind_delete)
+{
+    int kbinput, retval;
+
+    kbinput = get_ignored_kbinput(win);
+    retval = get_accepted_kbinput(win, kbinput, meta, rebind_delete);
+
+    return retval;
+}
+
+/* Read in a string of input characters (e. g. an escape sequence)
+ * verbatim, and return the length of the string in kbinput_len.  Assume
+ * nodelay(win) is FALSE. */
+char *get_verbatim_kbinput(WINDOW *win, int *kbinput_len)
+{
+    char *verbatim_kbinput;
+    int kbinput = wgetch(win);
+
+    verbatim_kbinput = charalloc(1);
+    verbatim_kbinput[0] = kbinput;
+    *kbinput_len = 1;
+
+    if (kbinput >= '0' && kbinput <= '2')
+	/* Entering a three-digit decimal ASCII code from 000-255 in
+	 * verbatim mode will produce the corresponding ASCII
+	 * character. */
+	verbatim_kbinput[0] = (char)get_ascii_kbinput(win, kbinput);
+    else {
+	nodelay(win, TRUE);
+	while ((kbinput = wgetch(win)) != ERR) {
+	    *kbinput_len++;
+	    verbatim_kbinput = charealloc(verbatim_kbinput, *kbinput_len);
+	    verbatim_kbinput[*kbinput_len - 1] = (char)kbinput;
+	}
+	nodelay(win, FALSE);
+    }
+
+#ifdef DEBUG
+    fprintf(stderr, "get_verbatim_kbinput(): verbatim_kbinput = %s\n", verbatim_kbinput);
+#endif
+    return verbatim_kbinput;
+}
+
+/* Swallow input characters that should be quietly ignored, and return
+ * the first input character that shouldn't be. */
+int get_ignored_kbinput(WINDOW *win)
+{
+    int kbinput;
+
+    while (1) {
+	kbinput = wgetch(win);
+	switch (kbinput) {
+	    case ERR:
+	    case KEY_RESIZE:
+#ifdef PDCURSES
+	    case KEY_SHIFT_L:
+	    case KEY_SHIFT_R:
+	    case KEY_CONTROL_L:
+	    case KEY_CONTROL_R:
+	    case KEY_ALT_L:
+	    case KEY_ALT_R:
+#endif
+#ifdef DEBUG
+		fprintf(stderr, "get_ignored_kbinput(): kbinput = %d\n", kbinput);
+#endif
+		break;
+	    default:
+		return kbinput;
+	}
+    }
+}
+
+/* Translate acceptable ASCII and extended (keypad) input.  Set meta to
+ * 1 if we get a Meta sequence.  Assume nodelay(win) is FALSE. */
+int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta,
+	int rebind_delete)
+{
+    *meta = 0;
+
+    switch (kbinput) {
+	case NANO_CONTROL_3: /* Escape */
+	    switch (kbinput = wgetch(win)) {
+		case NANO_CONTROL_3: /* Escape */
+		    kbinput = wgetch(win);
+		    /* Esc Esc [three-digit decimal ASCII code from
+		     * 000-255] == [corresponding ASCII character];
+		       Esc Esc 2 obviously can't be Ctrl-2 here */
+		    if (kbinput >= '0' && kbinput <= '2')
+			kbinput = get_ascii_kbinput(win, kbinput);
+		    /* Esc Esc [character] == Ctrl-[character];
+		     * Ctrl-Space (Ctrl-2) == Ctrl-@ == Ctrl-` */
+		    else if (kbinput == ' ' || kbinput == '@' || kbinput == '`')
+			kbinput = NANO_CONTROL_SPACE;
+		    /* Ctrl-3 (Ctrl-[, Esc) to Ctrl-7 (Ctrl-_) */
+		    else if (kbinput >= '3' && kbinput <= '7')
+			kbinput -= 24;
+		    /* Ctrl-8 (Ctrl-?) */
+		    else if (kbinput == '8' || kbinput == '?')
+			kbinput = NANO_CONTROL_8;
+		    /* Ctrl-A to Ctrl-_ */
+		    else if (kbinput >= 'A' && kbinput <= '_')
+			kbinput -= 64;
+		    /* Ctrl-A to Ctrl-Z */
+		    else if (kbinput >= 'a' && kbinput <= 'z')
+			kbinput -= 96;
+		    break;
+		/* Terminal breakage, part 1: We shouldn't get an escape
+		 * sequence here for terminals that support Delete, but
+		 * we do sometimes on FreeBSD.  Thank you, Wouter van
+		 * Hemel. */
+		case '[':
+		    nodelay(win, TRUE);
+		    kbinput = wgetch(win);
+		    switch (kbinput) {
+			case ERR:
+			    kbinput = '[';
+			    *meta = 1;
+			    break;
+			default:
+			    kbinput = get_escape_seq_kbinput(win, kbinput);
+			    break;
+		    }
+		    nodelay(win, FALSE);
+		    break;
+		case '`':
+		    /* Esc Space == Esc ` */
+		    kbinput = ' ';
+		    break;
+		default:
+		    /* Esc [character] == Meta-[character] */
+		    if (isupper(kbinput))
+			kbinput = tolower(kbinput);
+		    *meta = 1;
+		    break;
+	    }
+	    break;
+	case KEY_DOWN:
+	    kbinput = NANO_DOWN_KEY;
+	    break;
+	case KEY_UP:
+	    kbinput = NANO_UP_KEY;
+	    break;
+	case KEY_LEFT:
+	    kbinput = NANO_BACK_KEY;
+	    break;
+	case KEY_RIGHT:
+	    kbinput = NANO_FORWARD_KEY;
+	    break;
+	case KEY_HOME:
+	    kbinput = NANO_HOME_KEY;
+	    break;
+	case KEY_BACKSPACE:
+	    kbinput = NANO_BACKSPACE_KEY;
+	    break;
+	case KEY_DC:
+	    /* Terminal breakage, part 2: We should only get KEY_DC when
+	     * hitting Delete, but we get it when hitting Backspace
+	     * sometimes on FreeBSD.  Thank you, Lee Nelson. */
+	    kbinput = (rebind_delete) ? NANO_BACKSPACE_KEY : NANO_DELETE_KEY;
+	    break;
+	case KEY_IC:
+	    kbinput = NANO_INSERTFILE_KEY;
+	    break;
+	case KEY_NPAGE:
+	    kbinput = NANO_NEXTPAGE_KEY;
+	    break;
+	case KEY_PPAGE:
+	    kbinput = NANO_PREVPAGE_KEY;
+	    break;
+	case KEY_ENTER:
+	    kbinput = NANO_ENTER_KEY;
+	    break;
+	case KEY_END:
+	    kbinput = NANO_END_KEY;
+	    break;
+	case KEY_SUSPEND:
+	    kbinput = NANO_SUSPEND_KEY;
+	    break;
+	default:
+	    break;
+    }
+#ifdef DEBUG
+    fprintf(stderr, "get_accepted_kbinput(): kbinput = %d, meta = %d\n", kbinput, *meta);
+#endif
+    return kbinput;
+}
+
+/* Translate a three-digit decimal ASCII code from 000-255 into the
+ * corresponding ASCII character. */
+int get_ascii_kbinput(WINDOW *win, int kbinput)
+{
+    int retval;
+
+    switch (kbinput) {
+	case '0':
+	case '1':
+	case '2':
+	    retval = (kbinput - 48) * 100;
+	    break;
+	default:
+	    return kbinput;
+    }
+
+    kbinput = wgetch(win);
+    switch (kbinput) {
+	case '0':
+	case '1':
+	case '2':
+	case '3':
+	case '4':
+	case '5':
+	    retval += (kbinput - 48) * 10;
+	    break;
+	case '6':
+	case '7':
+	case '8':
+	case '9':
+	    if (retval < 200) {
+		retval += (kbinput - 48) * 10;
+		break;
+	    }
+	default:
+	    return kbinput;
+    }
+
+    kbinput = wgetch(win);
+    switch (kbinput) {
+	case '0':
+	case '1':
+	case '2':
+	case '3':
+	case '4':
+	case '5':
+	    retval += kbinput - 48;
+	    break;
+	case '6':
+	case '7':
+	case '8':
+	case '9':
+	    if (retval < 250) {
+		retval += kbinput - 48;
+		break;
+	    }
+	default:
+	    return kbinput;
+    }
+
+#ifdef DEBUG
+    fprintf(stderr, "get_ascii_kbinput(): kbinput = %d\n", kbinput);
+#endif
+    return retval;
+}
+
+/* Translate common escape sequences for some keys.  These are generated
+ * when the terminal doesn't support those keys.  Assume nodelay(win) is
+ * TRUE. */
+int get_escape_seq_kbinput(WINDOW *win, int kbinput)
+{
+    switch (kbinput) {
+	case '3':
+	    /* Esc [ 3 ~ == kdch1 on many terminals. */
+	    kbinput = get_skip_tilde_kbinput(win, kbinput, NANO_DELETE_KEY);
+	    break;
+	default:
+	    break;
+    }
+    return kbinput;
+}
+
+/* If there is no next character, return the passed-in error value.  If
+ * the next character's a tilde, eat it and return the passed-in
+ * return value.  Otherwise, return the next character.  Assume
+ * nodelay(win) is TRUE. */
+int get_skip_tilde_kbinput(WINDOW *win, int errval, int retval)
+{
+    int kbinput = wgetch(win);
+    switch (kbinput) {
+	case ERR:
+	    return errval;
+	case '~':
+	    return retval;
+	default:
+	    return kbinput;
+    }
+}
+
 int do_first_line(void)
 {
     current = fileage;
@@ -197,6 +486,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		)
 {
     int kbinput;
+    int meta;
     static int x = -1;
 	/* the cursor position in 'answer' */
     int xend;
@@ -247,7 +537,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
        input */
     wrefresh(edit);
 
-    while ((kbinput = wgetch(bottomwin)) != 13) {
+    while ((kbinput = get_kbinput(bottomwin, &meta, ISSET(REBIND_DELETE))) != NANO_ENTER_KEY) {
 	for (t = s; t != NULL; t = t->next) {
 #ifdef DEBUG
 	    fprintf(stderr, "Aha! \'%c\' (%d)\n", kbinput, kbinput);
@@ -273,64 +563,45 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    tabbed = 0;
 
 	switch (kbinput) {
-
-	    /* Stuff we want to equate with <enter>, ASCII 13 */
-	case 343:
-	    ungetch(13);	/* Enter on iris-ansi $TERM, sometimes */
-	    break;
-	    /* Stuff we want to ignore */
-#ifdef PDCURSES
-	case 541:
-	case 542:
-	case 543:		/* Right ctrl again */
-	case 544:
-	case 545:		/* Right alt again */
-	    break;
-#endif
 #if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
 	case KEY_MOUSE:
 	    do_mouse();
 	    break;
 #endif
 	case NANO_HOME_KEY:
-	case KEY_HOME:
 	    x = 0;
 	    break;
 	case NANO_END_KEY:
-	case KEY_END:
 	    x = xend;
 	    break;
-	case KEY_RIGHT:
 	case NANO_FORWARD_KEY:
 	    if (x < xend)
 		x++;
 	    break;
-	case NANO_CONTROL_D:
+	case NANO_DELETE_KEY:
 	    if (x < xend) {
 		memmove(answer + x, answer + x + 1, xend - x);
 		xend--;
 	    }
 	    break;
-	case NANO_CONTROL_K:
-	case NANO_CONTROL_U:
+	case NANO_CUT_KEY:
+	case NANO_UNCUT_KEY:
 	    null_at(&answer, 0);
 	    xend = 0;
 	    x = 0;
 	    break;
-	case KEY_BACKSPACE:
-	case 127:
-	case NANO_CONTROL_H:
+	case NANO_BACKSPACE_KEY:
 	    if (x > 0) {
 		memmove(answer + x - 1, answer + x, xend - x + 1);
 		x--;
 		xend--;
 	    }
 	    break;
-	case NANO_CONTROL_I:
+	case NANO_TAB_KEY:
 #ifndef NANO_SMALL
 	    /* tab history completion */
 	    if (history_list != NULL) {
-		if (!complete || last_kbinput != NANO_CONTROL_I) {
+		if (!complete || last_kbinput != NANO_TAB_KEY) {
 		    history_list->current = (historytype *)history_list;
 		    history_list->len = strlen(answer);
 		}
@@ -358,15 +629,12 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    }
 #endif
 	    break;
-	case KEY_LEFT:
 	case NANO_BACK_KEY:
 	    if (x > 0)
 		x--;
 	    break;
-	case KEY_UP:
 	case NANO_UP_KEY:
 #ifndef NANO_SMALL
-  do_upkey:
 	    if (history_list != NULL) {
 
 		/* if currentbuf is NULL, or if use_cb is 1, currentbuf
@@ -407,10 +675,8 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    }
 #endif
 	    break;
-	case KEY_DOWN:
 	case NANO_DOWN_KEY:
 #ifndef NANO_SMALL
-  do_downkey:
 	    if (history_list != NULL) {
 
 		/* get newer search from the history list and save it 
@@ -452,71 +718,6 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    }
 #endif
 	    break;
-	case KEY_DC:
-	    goto do_deletekey;
-	case 27:
-	    switch (kbinput = wgetch(edit)) {
-	    case 'O':
-		switch (kbinput = wgetch(edit)) {
-		case 'F':
-		    x = xend;
-		    break;
-		case 'H':
-		    x = 0;
-		    break;
-		}
-		break;
-	    case '[':
-		switch (kbinput = wgetch(edit)) {
-		case 'A':
-#ifndef NANO_SMALL
-		    goto do_upkey;
-#else
-		    break;
-#endif
-		case 'B':
-#ifndef NANO_SMALL
-		    goto do_downkey;
-#else
-		    break;
-#endif
-		case 'C':
-		    if (x < xend)
-			x++;
-		    break;
-		case 'D':
-		    if (x > 0)
-			x--;
-		    break;
-		case 'F':
-		    x = xend;
-		    break;
-		case 'H':
-		    x = 0;
-		    break;
-		case '1':
-		case '7':
-		    x = 0;
-		    goto skip_tilde;
-		case '3':
-		  do_deletekey:
-		    if (x < xend) {
-			memmove(answer + x, answer + x + 1, xend - x);
-			xend--;
-		    }
-		    goto skip_tilde;
-		case '4':
-		case '8':
-		    x = xend;
-		  skip_tilde:
-		    nodelay(edit, TRUE);
-		    kbinput = wgetch(edit);
-		    if (kbinput == '~' || kbinput == ERR)
-			kbinput = -1;
-		    nodelay(edit, FALSE);
-		    break;
-		}
-		break;
 	    default:
 
 		for (t = s; t != NULL; t = t->next) {
@@ -524,17 +725,14 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		    fprintf(stderr, "Aha! \'%c\' (%d)\n", kbinput,
 			    kbinput);
 #endif
-		    if (kbinput == t->val || kbinput == t->val - 32)
+		    if (meta == 1 && (kbinput == t->val || kbinput == t->val - 32))
 			/* We hit an Alt key.  Do like above.  We don't
 			   just ungetch() the letter and let it get
 			   caught above cause that screws the
 			   keypad... */
 			return t->val;
 		}
-	    }
-	    break;
 
-	default:
 	    if (kbinput < 32)
 		break;
 	    answer = charealloc(answer, xend + 2);
@@ -1546,7 +1744,7 @@ int line_len(const char *ptr)
 int do_help(void)
 {
 #ifndef DISABLE_HELP
-    int i, page = 0, kbinput = 0, no_more = 0, kp;
+    int i, page = 0, kbinput = -1, meta, no_more = 0;
     int no_help_flag = 0;
     const shortcut *oldshortcut;
 
@@ -1562,8 +1760,6 @@ int do_help(void)
     oldshortcut = currshortcut;
 
     currshortcut = help_list;
-
-    kp = keypad_on(edit, 1);
 
     if (ISSET(NO_HELP)) {
 
@@ -1586,32 +1782,8 @@ int do_help(void)
 	    do_mouse();
 	    break;
 #endif
-	case 27:
-	    kbinput = wgetch(edit);
-	    switch(kbinput) {
-	    case '[':
-		kbinput = wgetch(edit);
-		switch(kbinput) {
-		    case '5':	/* Alt-[-5 = Page Up */
-			wgetch(edit);
-			goto do_pageupkey;
-		    case 'V':	/* Alt-[-V = Page Up in Hurd Console */
-		    case 'I':	/* Alt-[-I = Page Up - FreeBSD Console */
-			goto do_pageupkey;
-		    case '6':	/* Alt-[-6 = Page Down */
-			wgetch(edit);
-			goto do_pagedownkey;
-		    case 'U':	/* Alt-[-U = Page Down in Hurd Console */
-		    case 'G':	/* Alt-[-G = Page Down - FreeBSD Console */
-			goto do_pagedownkey;
-		}
-		break;
-	    }
-	    break;
 	case NANO_NEXTPAGE_KEY:
 	case NANO_NEXTPAGE_FKEY:
-	case KEY_NPAGE:
-	  do_pagedownkey:
 	    if (!no_more) {
 		blank_edit();
 		page++;
@@ -1619,8 +1791,6 @@ int do_help(void)
 	    break;
 	case NANO_PREVPAGE_KEY:
 	case NANO_PREVPAGE_FKEY:
-	case KEY_PPAGE:
-	  do_pageupkey:
 	    if (page > 0) {
 		no_more = 0;
 		blank_edit();
@@ -1649,8 +1819,7 @@ int do_help(void)
 	    no_more = 1;
 	    continue;
 	}
-    } while ((kbinput = wgetch(edit)) != NANO_EXIT_KEY &&
-	     kbinput != NANO_EXIT_FKEY);
+    } while ((kbinput = get_kbinput(edit, &meta, ISSET(REBIND_DELETE))) != NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
 
     currshortcut = oldshortcut;
 
@@ -1664,7 +1833,6 @@ int do_help(void)
 
     curs_set(1);
     edit_refresh();
-    kp = keypad_on(edit, kp);
 
     /* The help_init() at the beginning allocated help_text, which has
        now been written to screen. */
@@ -1676,19 +1844,6 @@ int do_help(void)
 #endif
 
     return 1;
-}
-
-int keypad_on(WINDOW *win, int newval)
-{
-/* This is taken right from aumix.  Don't sue me. */
-#ifdef HAVE_USEKEYPAD
-    int old = win->_use_keypad;
-    keypad(win, newval);
-    return old;
-#else
-    keypad(win, newval);
-    return 1;
-#endif /* HAVE_USEKEYPAD */
 }
 
 /* Highlight the current word being replaced or spell checked. */
