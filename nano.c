@@ -984,7 +984,7 @@ void do_wrap(filestruct *inptr, char input_char)
 
 assert (strlenpt(inptr->data) >= fill);
 
-    for (i = 0, i_tabs; i < len; i++, i_tabs++) {
+    for (i = 0, i_tabs = 0; i < len; i++, i_tabs++) {
 	if (!isspace(inptr->data[i])) {
 	    last_word_end   = current_word_end;
 
@@ -1019,9 +1019,11 @@ assert (strlenpt(inptr->data) >= fill);
 
     assert (current_word_end_t >= fill);
 
-    /* There are 4 cases of what the line could look like.
+    /* There are a few cases of what the line could look like.
      * 1) only one word on the line before wrap point.
-     *    a) cursor is on word or before word at wrap point.  
+     *    a) one word takes up the whole line with no starting spaces.
+     *         - do nothing and return.
+     *    b) cursor is on word or before word at wrap point and there are spaces at beginning.
      *         - word starts new line.
      *         - keep white space on original line up to the cursor.
      *    *) cursor is after word at wrap point
@@ -1047,9 +1049,39 @@ assert (strlenpt(inptr->data) >= fill);
 
     temp = nmalloc (sizeof (filestruct));
 
-    /* Category 1a: one word on the line */
-    if (last_word_end == -1) {
+    /* Category 1a: one word taking up the whole line with no beginning spaces. */
+    if ((last_word_end == -1) && (!isspace(inptr->data[0]))) {
+	for (i = current_word_end; i < len; i++) {
+	    if (!isspace(inptr->data[i]) && i < len) {
+		current_word_start   = i;
+		while (!isspace(inptr->data[i]) && (i < len)) {
+		    i++;
+		}
+		last_word_end   = current_word_end;
+		current_word_end = i;
+		break;
+	    }
+	}
 
+	if (last_word_end == -1) {
+	    free (temp);
+	    return;
+	}
+	if (current_x >= last_word_end) {
+	    right = (current_x - current_word_start) + 1;
+	    current_x = last_word_end;
+	    down = 1;	    
+	}
+
+	temp->data = nmalloc(strlen(&inptr->data[current_word_start]) + 1);
+	strcpy(temp->data, &inptr->data[current_word_start]);
+	inptr->data = nrealloc(inptr->data, last_word_end + 2);
+	inptr->data[last_word_end + 1] = 0;
+    }
+    else
+    /* Category 1b: one word on the line and word not taking up whole line
+       (i.e. there are spaces at the beginning of the line) */
+    if (last_word_end == -1) {
 	temp->data = nmalloc(strlen(&inptr->data[current_word_start]) + 1);
 	strcpy(temp->data, &inptr->data[current_word_start]);
 
@@ -1062,6 +1094,11 @@ assert (strlenpt(inptr->data) >= fill);
 
 	inptr->data = nrealloc(inptr->data, current_x + 1);
 	inptr->data[current_x] = 0;
+
+	if (ISSET(MARK_ISSET) && (mark_beginbuf == inptr)) {
+	    mark_beginbuf = temp;
+	    mark_beginx = 0;
+	}
     }
 
     /* Category 2: two or more words on the line. */
@@ -1140,7 +1177,7 @@ assert (strlenpt(inptr->data) >= fill);
     }
 
 	/* We pre-pend wrapped part to next line. */
-    if (ISSET(SAMELINEWRAP)) {
+    if (ISSET(SAMELINEWRAP) && inptr->next) {
 	    /* Plus one for the space which concatenates the two lines together plus 1 for \0. */
 	char *p = nmalloc(strlen(temp->data) + strlen(inptr->next->data) + 2);
 	int old_x = current_x, old_y = current_y;
@@ -1190,7 +1227,8 @@ assert (strlenpt(inptr->data) >= fill);
     totsize++;
 
     renumber (inptr);
-    edit_update(current);
+    edit_update_top(edittop);
+
 
     /* Move the cursor to the new line if appropriate. */
     if (down) {
@@ -1202,7 +1240,7 @@ assert (strlenpt(inptr->data) >= fill);
 	do_right();
     }
 
-    edit_update(current);
+    edit_update_top(edittop);
     reset_cursor();
     edit_refresh();
 }
@@ -1226,6 +1264,7 @@ void check_wrap(filestruct * inptr, char ch)
 	if (isspace(ch) && !isspace(inptr->data[i - 1]))
 	    do_wrap(inptr, ch);
 	else {
+	    int char_found = 0;
 
 	    while (isspace(inptr->data[i]) && inptr->data[i])
 		i++;
@@ -1233,10 +1272,20 @@ void check_wrap(filestruct * inptr, char ch)
 	    if (!inptr->data[i])
 		return;
 
-	    if (no_spaces(inptr->data))
-		return;
-	
-	    do_wrap(inptr, ch);
+		/* String must be at least 1 character long. */
+	    for (i = strlen(inptr->data) - 1; i >= 0; i--) {
+		if (isspace(inptr->data[i])) {
+		    if (!char_found)
+			continue;
+		    char_found = 2;  /* 2 for yes do wrap. */
+		    break;
+		}
+		else
+		    char_found = 1;  /* 1 for yes found a word, but must check further. */
+	    }
+
+	    if (char_found == 2)
+		do_wrap(inptr, ch);
 	}
     }
 }
