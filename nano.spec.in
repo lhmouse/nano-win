@@ -4,8 +4,8 @@
 
 Summary	: Pico editor clone with enhancements
 Name		: %{name}
-Version	: %{ver}
-Release	: %{rel}
+Version		: %{ver}
+Release		: %{rel}
 Copyright	: GPL
 Group		: Console/Editors
 Packager	: Chris Allegretta <chrisa@asty.org>
