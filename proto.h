@@ -399,6 +399,12 @@ void align(char **strp);
 void null_at(char **data, size_t index);
 void unsunder(char *str, size_t true_len);
 void sunder(char *str);
+#ifndef HAVE_STRCASECMP
+int nstricmp(const char *s1, const char *s2);
+#endif
+#ifndef HAVE_STRNCASECMP
+int nstrnicmp(const char *s1, const char *s2, size_t n);
+#endif
 #ifndef NANO_SMALL
 const char *revstrstr(const char *haystack, const char *needle,
 			const char *rev_start);

@@ -99,6 +99,37 @@ void sunder(char *str)
 	    *str = '\0';
 }
 
+#ifndef HAVE_STRCASECMP
+/* This function is equivalent to strcasecmp(). */
+int nstricmp(const char *s1, const char *s2)
+{
+    assert(s1 != NULL && s2 != NULL);
+    for (; *s1 != '\0' && *s2 != '\0'; s1++, s2++) {
+	if (tolower(*s1) != tolower(*s2))
+	    break;
+    }
+    return (tolower(*s1) - tolower(*s2));
+}
+#endif
+
+#ifndef HAVE_STRNCASECMP
+/* This function is equivalent to strncasecmp(). */
+int nstrnicmp(const char *s1, const char *s2, size_t n)
+{
+    assert(s1 != NULL && s2 != NULL);
+    for (; n > 0 && *s1 != '\0' && *s2 != '\0'; n--, s1++, s2++) {
+	if (tolower(*s1) != tolower(*s2))
+	    break;
+    }
+    if (n > 0)
+	return (tolower(*s1) - tolower(*s2));
+    else if (n == 0)
+	return 0;
+    else if (n < 0)
+	return -1;
+}
+#endif
+
 /* None of this is needed if we're using NANO_SMALL! */
 #ifndef NANO_SMALL
 const char *revstrstr(const char *haystack, const char *needle,

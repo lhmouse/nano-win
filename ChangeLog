@@ -8,6 +8,10 @@ CVS code -
   align()
 	- Tweak to avoid a potential problem when strp is non-NULL but
 	  *strp is NULL. (David Benbennick)
+  nstricmp(), nstrnicmp()
+	- Add these functions, equivalent to strcasecmp() and
+	  strncasecmp(), and convert nano to use them when strcasecmp()
+	  and/or strncasecmp() are unavailable. (DLR)
 - winio.c:
   do_help()
 	- Get rid of keypad_on() call for bottomwin, which should not be

@@ -80,11 +80,11 @@
 #endif
 
 #ifndef HAVE_STRCASECMP
-#define strcasecmp strcmp
+#define strcasecmp nstricmp
 #endif
 
 #ifndef HAVE_STRNCASECMP
-#define strncasecmp strncmp
+#define strncasecmp nstrnicmp
 #endif
 
 /* HP-UX 10 & 11 do not seem to support KEY_HOME and KEY_END */
