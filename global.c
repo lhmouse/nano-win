@@ -82,9 +82,11 @@ toggle toggles[TOGGLE_LEN];
 
 /* Regular expressions */
 
+#ifdef HAVE_REGEX_H
 regex_t search_regexp;          /* Global to store compiled search regexp */
 regmatch_t regmatches[10];      /* Match positions for parenthetical
                                    subexpressions, max of 10 */ 
+#endif
 
 /* Initialize a struct *without* our lovely braces =( */
 void sc_init_one(shortcut * s, int key, char *desc, char *help, int alt,
@@ -122,7 +124,9 @@ void toggle_init(void)
     toggle_picomode_msg = _("Pico messages");
     toggle_mouse_msg = _("Mouse support");
     toggle_cuttoend_msg = _("Cut to end");
+#ifdef HAVE_REGEX_H
     toggle_regexp_msg = _("Regular expressions");  
+#endif
     toggle_wrap_msg = _("Auto wrap");
 
     toggle_init_one(&toggles[0], TOGGLE_CONST_KEY, toggle_const_msg, 
@@ -141,8 +145,10 @@ void toggle_init(void)
 	USE_MOUSE);
     toggle_init_one(&toggles[7], TOGGLE_CUTTOEND_KEY, toggle_cuttoend_msg, 
 	CUT_TO_END);
+#ifdef HAVE_REGEX_H
     toggle_init_one(&toggles[8], TOGGLE_REGEXP_KEY, toggle_regexp_msg, 
 	USE_REGEXP);
+#endif
 #endif
 }
 

@@ -39,7 +39,7 @@ static char last_replace[132];		/* Last replacement string */
 
 /* Regular expression helper functions */
 
-#ifdef _POSIX_VERSION
+#ifdef HAVE_REGEX_H
 void regexp_init(const char *regexp)
 {
     regcomp(&search_regexp, regexp, ISSET(CASE_SENSITIVE) ? 0 : REG_ICASE);
@@ -95,13 +95,13 @@ int search_init(int replacing)
 	return -1;
     } else if (i == -2) {	/* Same string */
 	strncpy(answer, last_search, 132);
-#ifdef _POSIX_VERSION
+#ifdef HAVE_REGEX_H
         if (ISSET(USE_REGEXP))
             regexp_init(answer);
 #endif
     } else if (i == 0) {	/* They entered something new */
 	strncpy(last_search, answer, 132);
-#ifdef _POSIX_VERSION
+#ifdef HAVE_REGEX_H
         if (ISSET(USE_REGEXP))
             regexp_init(answer);
 #endif
@@ -203,7 +203,7 @@ void search_abort(void)
     if (ISSET(MARK_ISSET)) 
 	edit_refresh_clearok();
 
-#ifdef _POSIX_VERSION
+#ifdef HAVE_REGEX_H
     if (ISSET(REGEXP_COMPILED))
         regexp_cleanup();
 #endif
@@ -252,7 +252,7 @@ void replace_abort(void)
     search_abort();
 }
 
-#ifdef _POSIX_VERSION
+#ifdef HAVE_REGEX_H
 int replace_regexp(char *string, int create_flag)
 {
     /* split personality here - if create_flag is null, just calculate
@@ -322,7 +322,7 @@ char *replace_line()
     int search_match_count;
 
     /* Calculate size of new line */
-#ifdef _POSIX_VERSION
+#ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP)) {
         search_match_count = regmatches[0].rm_eo -
             regmatches[0].rm_so;
@@ -350,7 +350,7 @@ char *replace_line()
     /* Replacement Text */
     if (!ISSET(USE_REGEXP))
         strcat(copy, last_replace);
-#ifdef _POSIX_VERSION
+#ifdef HAVE_REGEX_H
     else
         (void)replace_regexp(copy + current_x, 1);
 #endif

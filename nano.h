@@ -245,10 +245,10 @@ know what you're doing */
 #define HELP_LIST_LEN 3
 #define SPELL_LIST_LEN 3
 
-#ifndef SMALL_NANO
+#ifndef HAVE_REGEX_H
 #define TOGGLE_LEN 9
 #else
-#define TOGGLE_LEN 6
+#define TOGGLE_LEN 8
 #endif
 
 #define VIEW 1

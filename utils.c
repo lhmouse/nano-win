@@ -82,7 +82,7 @@ char *strcasestr(char *haystack, char *needle)
 
 char *strstrwrapper(char *haystack, char *needle)
 {
-#ifdef _POSIX_VERSION
+#ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP)) {
       int result=regexec(&search_regexp, haystack, 10, regmatches, 0);
       if (!result)
