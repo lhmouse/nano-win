@@ -53,6 +53,8 @@
  [FIXED]
 - When doing a search and the marker is set, the screen does not always
   properly update the inverted text (39). [FIXED]
+- Searches for a string that only exist on one line multiple times will
+  fail after finding the last occurance (discovered by Ken Tyler) (40). [FIXED]
 ** Open BUGS **
 
 - Marked cutting sometimes leaves a newline in the file unintelligently,
