@@ -73,19 +73,24 @@ typedef struct filestruct {
     char *data;
     struct filestruct *next;	/* Next node */
     struct filestruct *prev;	/* Previous node */
+    int lineno;			/* The line number */
+} filestruct;
 
 #ifdef ENABLE_MULTIBUFFER
-    struct filestruct *file;	/* Current file */
+typedef struct openfilestruct {
+    char *filename;
+    struct openfilestruct *next;	/* Next node */
+    struct openfilestruct *prev;	/* Previous node */
+    struct filestruct *fileage;	/* Current file */
     int file_current_x;		/* Current file's x-coordinate position */
     int file_current_y;		/* Current file's y-coordinate position */
     int file_modified;		/* Current file's modification status */
     int file_placewewant;	/* Current file's place we want */
     int file_totlines;		/* Current file's total number of lines */
     long file_totsize;		/* Current file's total size */
+    int file_lineno;		/* Current file's line number */
+} openfilestruct;
 #endif
-
-    int lineno;			/* The line number */
-} filestruct;
 
 typedef struct shortcut {
    int val;		/* Actual sequence that generates the keystroke */

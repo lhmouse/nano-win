@@ -529,26 +529,20 @@ int do_insertfile_void(void)
 
 #ifdef ENABLE_MULTIBUFFER
 /*
- * Add/update an entry to the open_files filestruct.  If update is
+ * Add/update an entry to the open_files openfilestruct.  If update is
  * zero, a new entry is created; otherwise, the current entry is updated.
  * Return 0 on success or 1 on error.
  */
 int add_open_file(int update)
 {
-    filestruct *tmp;
+    openfilestruct *tmp;
 
     if (!fileage || !current || !filename)
 	return 1;
 
     /* if no entries, make the first one */
-    if (!open_files) {
-	open_files = make_new_node(NULL);
-
-	/* if open_files->file is NULL at the nrealloc() below, we get a
-	   segfault
-	open_files->file = open_files; */
-	open_files->file = NULL;
-    }
+    if (!open_files)
+	open_files = make_new_opennode(NULL);
 
     else if (!update) {
 
@@ -556,21 +550,16 @@ int add_open_file(int update)
 	   open_files and splice it in after the current one */
 
 #ifdef DEBUG
-	    fprintf(stderr, _("filename is %s"), open_files->data);
+	fprintf(stderr, _("filename is %s"), open_files->filename);
 #endif
 
-	tmp = make_new_node(NULL);
-	splice_node(open_files, tmp, open_files->next);
+	tmp = make_new_opennode(NULL);
+	splice_opennode(open_files, tmp, open_files->next);
 	open_files = open_files->next;
-
-	/* if open_files->file is NULL at the nrealloc() below, we get a
-	   segfault
-	open_files->file = open_files; */
-	open_files->file = NULL;
     }
 
     /* save current filename */
-    open_files->data = mallocstrcpy(open_files->data, filename);
+    open_files->filename = mallocstrcpy(open_files->filename, filename);
 
     /* save current total number of lines */
     open_files->file_totlines = totlines;
@@ -588,7 +577,7 @@ int add_open_file(int update)
     open_files->file_placewewant = placewewant;
 
     /* save current line number */
-    open_files->lineno = current->lineno;
+    open_files->file_lineno = current->lineno;
 
     /* if we're in view mode and updating, the file contents won't
        have changed, so we won't bother resaving the filestruct
@@ -596,23 +585,23 @@ int add_open_file(int update)
     if (!(ISSET(VIEW_MODE) && !update)) {
 	/* save current filestruct and restore full file position
 	   afterward */
-	open_files->file = fileage; 
-	do_gotopos(open_files->lineno, open_files->file_current_x, open_files->file_current_y, open_files->file_placewewant);
+	open_files->fileage = fileage; 
+	do_gotopos(open_files->file_lineno, open_files->file_current_x, open_files->file_current_y, open_files->file_placewewant);
     }
 
     /* save current modification status */
     open_files->file_modified = ISSET(MODIFIED);
 
 #ifdef DEBUG
-    fprintf(stderr, _("filename is %s"), open_files->data);
+    fprintf(stderr, _("filename is %s"), open_files->filename);
 #endif
 
     return 0;
 }
 
 /*
- * Update only the filename and full path stored in the current entry.
- * Return 0 on success or 1 on error.
+ * Update only the filename stored in the current entry.  Return 0 on
+ * success or 1 on error.
  */ 
 int open_file_change_name(void)
 {
@@ -620,7 +609,7 @@ int open_file_change_name(void)
 	return 1;
 
     /* save current filename */
-    open_files->data = mallocstrcpy(open_files->data, filename);
+    open_files->filename = mallocstrcpy(open_files->filename, filename);
 
     return 0;
 }
@@ -637,8 +626,8 @@ int load_open_file(void)
 
     /* set up the filename, the file buffer, the total number of lines in
        the file, and the total file size */
-    filename = mallocstrcpy(filename, open_files->data);
-    fileage = open_files->file;
+    filename = mallocstrcpy(filename, open_files->filename);
+    fileage = open_files->fileage;
     current = fileage;
     totlines = open_files->file_totlines;
     totsize = open_files->file_totsize;
@@ -649,7 +638,7 @@ int load_open_file(void)
 
     /* restore full file position: line number, x-coordinate, y-
        coordinate, place we want */
-    do_gotopos(open_files->lineno, open_files->file_current_x, open_files->file_current_y, open_files->file_placewewant);
+    do_gotopos(open_files->file_lineno, open_files->file_current_x, open_files->file_current_y, open_files->file_placewewant);
 
     /* restore the bottom of the file */
     filebot = current;
@@ -702,7 +691,7 @@ int open_prevfile(int closing_file)
 	open_files = open_files->prev;
 
 #ifdef DEBUG
-	fprintf(stderr, _("filename is %s"), open_files->data);
+	fprintf(stderr, _("filename is %s"), open_files->filename);
 #endif
 
     }
@@ -714,16 +703,15 @@ int open_prevfile(int closing_file)
 	    open_files = open_files->next;
 
 #ifdef DEBUG
-	    fprintf(stderr, _("filename is %s"), open_files->data);
+	    fprintf(stderr, _("filename is %s"), open_files->filename);
 #endif
 
     }
 
-/*    free_filestruct(fileage);  // delete this before reloading */
     load_open_file();
 
     statusbar(_("Switched to %s"),
-      ((open_files->data[0] == '\0') ? "New Buffer" : open_files->data ));
+      ((open_files->filename[0] == '\0') ? "New Buffer" : open_files->filename ));
 
 #ifdef DEBUG
     dump_buffer(current);
@@ -767,7 +755,7 @@ int open_nextfile(int closing_file)
 	open_files = open_files->next;
 
 #ifdef DEBUG
-	fprintf(stderr, _("filename is %s"), open_files->data);
+	fprintf(stderr, _("filename is %s"), open_files->filename);
 #endif
 
     }
@@ -778,7 +766,7 @@ int open_nextfile(int closing_file)
 	    open_files = open_files->prev;
 
 #ifdef DEBUG
-	    fprintf(stderr, _("filename is %s"), open_files->data);
+	    fprintf(stderr, _("filename is %s"), open_files->filename);
 #endif
 
 	}
@@ -787,7 +775,7 @@ int open_nextfile(int closing_file)
     load_open_file();
 
     statusbar(_("Switched to %s"),
-      ((open_files->data[0] == '\0') ? "New Buffer" : open_files->data ));
+      ((open_files->filename[0] == '\0') ? "New Buffer" : open_files->filename ));
 
 #ifdef DEBUG
     dump_buffer(current);
@@ -810,12 +798,12 @@ int open_nextfile_void(void)
  */
 int close_open_file(void)
 {
-    filestruct *tmp;
+    openfilestruct *tmp;
 
     if (!open_files)
 	return 1;
 
-    open_files->file = fileage;
+    open_files->fileage = fileage;
 
     tmp = open_files;
     if (open_nextfile(1)) {
@@ -823,9 +811,8 @@ int close_open_file(void)
 	    return 1;
     }
 
-    unlink_node(tmp);
-    free_filestruct(tmp->file);
-    delete_node(tmp);
+    unlink_opennode(tmp);
+    delete_opennode(tmp);
 
     shortcut_init(0);
     display_main_list();
@@ -1566,7 +1553,7 @@ int do_writeout(char *path, int exiting, int append)
 		/* first, if the filename was changed during the save,
 		   update the filename stored in the current entry, and
 		   then update the current entry */
-		if (strcmp(open_files->data, filename)) {
+		if (strcmp(open_files->filename, filename)) {
 		    open_file_change_name();
 		    add_open_file(1);
 		}

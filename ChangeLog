@@ -4,6 +4,10 @@ CVS code -
 	- Allow --tiny and --multibuffer to cooperate (who the heck
 	  would want this is beyond me but ;-).  Changes to 
 	  configure.ac, global.c, ,  (David Benbennick).
+	- Change to openfilestruct for multibuffer mode by DLR.
+	  New functions nano.c:make_new_opennode(), free_openfilestruct(), 
+	  delete_opennode(), unlink_opennode(), splice_opennode(),  
+	  new struct openfilestruct in nano.h. 
 - configure.ac:
 	- Define NDEBUG to silence asserts (David Benbennick).
 - files.c:

@@ -61,7 +61,7 @@ extern filestruct *current, *fileage, *edittop, *editbot, *filebot;
 extern filestruct *cutbuffer, *mark_beginbuf;
 
 #ifdef ENABLE_MULTIBUFFER
-extern filestruct *open_files;
+extern openfilestruct *open_files;
 #endif
 
 #ifdef ENABLE_COLOR
@@ -104,6 +104,11 @@ char *strstrwrapper(char *haystack, char *needle, char *rev_start);
 int search_init(int replacing);
 int renumber(filestruct * fileptr);
 int free_filestruct(filestruct * src);
+
+#ifdef ENABLE_MULTIBUFFER
+int free_openfilestruct(openfilestruct * src);
+#endif
+
 int xplustabs(void);
 int do_yesno(int all, int leavecursor, char *msg, ...);
 int actual_x(filestruct * fileptr, int xplus);
@@ -162,6 +167,11 @@ void edit_refresh(void), edit_refresh_clearok(void);
 void edit_update(filestruct * fileptr, int topmidbotnone);
 void update_cursor(void);
 void delete_node(filestruct * fileptr);
+
+#ifdef ENABLE_MULTIBUFFER
+void delete_opennode(openfilestruct * fileptr);
+#endif
+
 void set_modified(void);
 void dump_buffer_reverse(filestruct * inptr);
 void reset_cursor(void);
@@ -189,6 +199,11 @@ void die_save_file(char *die_filename);
 void new_file(void);
 void new_magicline(void);
 void splice_node(filestruct *begin, filestruct *newnode, filestruct *end);
+
+#ifdef ENABLE_MULTIBUFFER
+void splice_opennode(openfilestruct *begin, openfilestruct *newnode, openfilestruct *end);
+#endif
+
 void null_at(char **data, int index);
 void page_up(void);
 void blank_edit(void);
@@ -201,6 +216,11 @@ void window_init(void);
 void do_mouse(void);
 void print_view_warning(void);
 void unlink_node(filestruct * fileptr);
+
+#ifdef ENABLE_MULTIBUFFER
+void unlink_opennode(openfilestruct * fileptr);
+#endif
+
 void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
                         int bot_x, int destructive);
 void free_shortcutage(shortcut **src);
@@ -265,6 +285,11 @@ RETSIGTYPE main_loop (int junk);
 filestruct *copy_node(filestruct * src);
 filestruct *copy_filestruct(filestruct * src);
 filestruct *make_new_node(filestruct * prevnode);
+
+#ifdef ENABLE_MULTIBUFFER
+openfilestruct *make_new_opennode(openfilestruct * prevnode);
+#endif
+
 filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin,
 			int beginx, char *needle);
 

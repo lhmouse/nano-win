@@ -131,7 +131,7 @@ void die(char *msg, ...)
 #ifdef ENABLE_MULTIBUFFER
     /* then save all of the other modified loaded files, if any */
     if (open_files) {
-        filestruct *tmp;
+	openfilestruct *tmp;
 
 	tmp = open_files;
 
@@ -143,10 +143,10 @@ void die(char *msg, ...)
 	    /* if we already saved the file above (i. e. if it was the
 	       currently loaded file), don't save it again */
 	    if (tmp != open_files) {
-		fileage = open_files->file;
+		fileage = open_files->fileage;
 		/* save the file if it's been modified */
 		if (open_files->file_modified)
-		    die_save_file(open_files->data);
+		    die_save_file(open_files->filename);
 	    }
 
 	    open_files = open_files->next;
@@ -293,7 +293,7 @@ filestruct *copy_node(filestruct * src)
     return dst;
 }
 
-/* Unlink a node from the rest of the struct */
+/* Unlink a node from the rest of the filestruct. */
 void unlink_node(filestruct * fileptr)
 {
     if (fileptr->prev != NULL)
@@ -303,8 +303,19 @@ void unlink_node(filestruct * fileptr)
 	fileptr->next->prev = fileptr->prev;
 }
 
-/* Delete a node from the struct.  This does NOT delete the data members
-   used only by open_files. */
+#ifdef ENABLE_MULTIBUFFER
+/* Unlink a node from the rest of the openfilestruct. */
+void unlink_opennode(openfilestruct * fileptr)
+{
+    if (fileptr->prev != NULL)
+	fileptr->prev->next = fileptr->next;
+
+    if (fileptr->next != NULL)
+	fileptr->next->prev = fileptr->prev;
+}
+#endif
+
+/* Delete a node from the filestruct. */
 void delete_node(filestruct * fileptr)
 {
     if (fileptr == NULL)
@@ -315,8 +326,22 @@ void delete_node(filestruct * fileptr)
     free(fileptr);
 }
 
-/* Okay, now let's duplicate a whole struct!  This does NOT duplicate the
-   data members used only by open_files. */
+#ifdef ENABLE_MULTIBUFFER
+/* Delete a node from the openfilestruct. */
+void delete_opennode(openfilestruct * fileptr)
+{
+    if (fileptr == NULL)
+	return;
+
+    if (fileptr->filename != NULL)
+	free(fileptr->filename);
+    if (fileptr->fileage != NULL)
+	free_filestruct(fileptr->fileage);
+    free(fileptr);
+}
+#endif
+
+/* Okay, now let's duplicate a whole struct! */
 filestruct *copy_filestruct(filestruct * src)
 {
     filestruct *dst, *tmp, *head, *prev;
@@ -340,8 +365,7 @@ filestruct *copy_filestruct(filestruct * src)
     return head;
 }
 
-/* Frees a struct.  This does NOT free the data members used only by
-   open_files. */
+/* Frees a filestruct. */
 int free_filestruct(filestruct * src)
 {
     filestruct *fileptr = src;
@@ -364,6 +388,32 @@ int free_filestruct(filestruct * src)
 
     return 1;
 }
+
+#ifdef ENABLE_MULTIBUFFER
+/* Frees an openfilestruct. */
+int free_openfilestruct(openfilestruct * src)
+{
+    openfilestruct *fileptr = src;
+
+    if (src == NULL)
+	return 0;
+
+    while (fileptr->next != NULL) {
+	fileptr = fileptr->next;
+	delete_opennode(fileptr->prev);
+
+#ifdef DEBUG
+	fprintf(stderr, _("delete_opennode(): free'd a node, YAY!\n"));
+#endif
+    }
+    delete_opennode(fileptr);
+#ifdef DEBUG
+    fprintf(stderr, _("delete_opennode(): free'd last node.\n"));
+#endif
+
+    return 1;
+}
+#endif
 
 int renumber_all(void)
 {
@@ -557,8 +607,7 @@ void version(void)
 
 }
 
-/* Create a new node.  This does NOT initialize the data members used
-   only by open_files. */
+/* Create a new filestruct node. */
 filestruct *make_new_node(filestruct * prevnode)
 {
     filestruct *newnode;
@@ -575,8 +624,24 @@ filestruct *make_new_node(filestruct * prevnode)
     return newnode;
 }
 
-/* Splice a node into an existing filestruct.  This does NOT set the data
-   members used only by open_files. */
+#ifdef ENABLE_MULTIBUFFER
+/* Create a new openfilestruct node. */
+openfilestruct *make_new_opennode(openfilestruct * prevnode)
+{
+    openfilestruct *newnode;
+
+    newnode = nmalloc(sizeof(openfilestruct));
+    newnode->filename = NULL;
+    newnode->fileage = NULL;
+
+    newnode->prev = prevnode;
+    newnode->next = NULL;
+
+    return newnode;
+}
+#endif
+
+/* Splice a node into an existing filestruct. */
 void splice_node(filestruct * begin, filestruct * newnode,
 		 filestruct * end)
 {
@@ -586,6 +651,19 @@ void splice_node(filestruct * begin, filestruct * newnode,
     if (end != NULL)
 	end->prev = newnode;
 }
+
+#ifdef ENABLE_MULTIBUFFER
+/* Splice a node into an existing openfilestruct. */
+void splice_opennode(openfilestruct * begin, openfilestruct * newnode,
+		     openfilestruct * end)
+{
+    newnode->next = end;
+    newnode->prev = begin;
+    begin->next = newnode;
+    if (end != NULL)
+	end->prev = newnode;
+}
+#endif
 
 int do_mark(void)
 {

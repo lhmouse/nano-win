@@ -56,7 +56,7 @@ filestruct *filebot = NULL;	/* Last node in the file struct */
 filestruct *cutbuffer = NULL;	/* A place to store cut text */
 
 #ifdef ENABLE_MULTIBUFFER
-filestruct *open_files = NULL;	/* The list of open files */
+openfilestruct *open_files = NULL;	/* The list of open files */
 #endif
 
 #ifndef DISABLE_JUSTIFY
@@ -759,7 +759,7 @@ void free_toggles(void)
 void thanks_for_all_the_fish(void) 
 {
 #ifdef ENABLE_MULTIBUFFER
-    filestruct * current_open_file;
+    openfilestruct * current_open_file;
 #endif
 
 #ifndef DISABLE_OPERATINGDIR
@@ -810,26 +810,24 @@ void thanks_for_all_the_fish(void)
    Do not cleanup the current one, that is fileage . . . do the
    rest of them though! (should be none if all went well) */
     current_open_file = open_files;
-    if (open_files != NULL){
-        while (open_files->prev != NULL) 
-           open_files = open_files->prev;
-        while (open_files->next != NULL) {
+    if (open_files != NULL) {
+	while (open_files->prev != NULL) 
+	    open_files = open_files->prev;
+	while (open_files->next != NULL) {
   /* cleanup of a multi buf . . . */
-           if (open_files != current_open_file) 
-             free_filestruct(open_files->file);
-           open_files = open_files->next;
-           free_filestruct(open_files->prev);
+	    open_files = open_files->next;
+	    if (open_files->prev != current_open_file) 
+		free_openfilestruct(open_files->prev);
         }
   /* cleanup of last multi buf . . . */
-        if (open_files != current_open_file) 
-	  free_filestruct(open_files->file);
-        free_filestruct(open_files);
+	free_openfilestruct(open_files);
     }
-#endif
+#else
   /* starting the cleanup of fileage now . . . */
 
     if (fileage != NULL)
-        free_filestruct(fileage);
+	free_filestruct(fileage);
+#endif
 
     /* that is all for now */
 
