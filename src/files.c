@@ -478,7 +478,7 @@ void do_insertfile(void)
 {
     int i;
     const char *msg;
-    char *inspath = mallocstrcpy(NULL, "");
+    char *ans = mallocstrcpy(NULL, "");
 	/* The last answer the user typed on the statusbar.  Saved for if
 	 * they do M-F or cancel the file browser. */
 
@@ -494,7 +494,7 @@ void do_insertfile(void)
     else
 #endif
 	msg = N_("File to insert [from %s] ");
-    i = statusq(TRUE, insertfile_list, inspath,
+    i = statusq(TRUE, insertfile_list, ans,
 #ifndef NANO_SMALL
 		NULL,
 #endif
@@ -508,7 +508,7 @@ void do_insertfile(void)
     if (i != -1) {
 	int old_current_x = current_x;
 
-	inspath = mallocstrcpy(inspath, answer);
+	ans = mallocstrcpy(ans, answer);
 
 #ifndef NANO_SMALL
 #ifdef ENABLE_MULTIBUFFER
@@ -576,7 +576,7 @@ void do_insertfile(void)
     } else
 	statusbar(_("Cancelled"));
 
-    free(inspath);
+    free(ans);
 }
 
 void do_insertfile_void(void)
