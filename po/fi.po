@@ -6,9 +6,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.99pre2\n"
+"Project-Id-Version: nano 1.1.99pre3\n"
 "POT-Creation-Date: 2003-02-13 22:18-0500\n"
-"PO-Revision-Date: 2003-02-07 22:35+0200\n"
+"PO-Revision-Date: 2003-02-17 22:32+0200\n"
 "Last-Translator: Kalle Olavi Niemitalo <kon@iki.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -26,21 +26,21 @@ msgid "Blew away cutbuffer =)\n"
 msgstr "Leiketila katosi =)\n"
 
 #: files.c:315
-#, fuzzy, c-format
+#, c-format
 msgid "Read %d line (Converted from Mac format)"
 msgid_plural "Read %d lines (Converted from Mac format)"
-msgstr[0] "Älä muunna tiedostoja DOS/Mac-muodosta"
-msgstr[1] "Älä muunna tiedostoja DOS/Mac-muodosta"
+msgstr[0] "%d rivi luettu (Muunnettu Mac-muodosta)"
+msgstr[1] "%d riviä luettu (Muunnettu Mac-muodosta)"
 
 #: files.c:319
-#, fuzzy, c-format
+#, c-format
 msgid "Read %d line (Converted from DOS format)"
 msgid_plural "Read %d lines (Converted from DOS format)"
-msgstr[0] "Älä muunna tiedostoja DOS/Mac-muodosta"
-msgstr[1] "Älä muunna tiedostoja DOS/Mac-muodosta"
+msgstr[0] "%d rivi luettu (Muunnettu DOS-muodosta)"
+msgstr[1] "%d riviä luettu (Muunnettu DOS-muodosta)"
 
 #: files.c:324
-#, fuzzy, c-format
+#, c-format
 msgid "Read %d line"
 msgid_plural "Read %d lines"
 msgstr[0] "%d rivi luettu"
@@ -230,7 +230,7 @@ msgid "Could not set permissions %o on %s: %s"
 msgstr "Oikeuksia %o ei voitu asettaa tiedostolle %s: %s"
 
 #: files.c:1684
-#, fuzzy, c-format
+#, c-format
 msgid "Wrote %d line"
 msgid_plural "Wrote %d lines"
 msgstr[0] "%d rivi kirjoitettu"
@@ -1054,9 +1054,8 @@ msgstr ""
 "\n"
 
 #: nano.c:395 nano.c:465
-#, fuzzy
 msgid "enable/disable"
-msgstr "%.*s päälle/pois\n"
+msgstr "päälle/pois"
 
 #: nano.c:422 nano.c:425
 msgid "Space"
@@ -1374,7 +1373,7 @@ msgstr "Vastaanotettiin SIGHUP tai SIGTERM\n"
 
 #: nano.c:2816
 msgid "Use \"fg\" to return to nano"
-msgstr ""
+msgstr "Palaa Nanoon komennolla \"fg\""
 
 #: nano.c:2889
 msgid "Cannot resize top win"
@@ -1659,11 +1658,12 @@ msgstr "Korvaus epäonnistui: tuntematon alilauseke!"
 msgid "Replace with"
 msgstr "Korvaa merkkijonolla"
 
+# Pitäisiköhän olla passiivi?
 #: search.c:761
-#, fuzzy, c-format
+#, c-format
 msgid "Replaced %d occurrence"
 msgid_plural "Replaced %d occurrences"
-msgstr[0] "%d kohtaa korvautui"
+msgstr[0] "%d kohta korvautui"
 msgstr[1] "%d kohtaa korvautui"
 
 #: search.c:784
@@ -1805,9 +1805,10 @@ msgstr "Erikoiskiitokset:"
 msgid "The Free Software Foundation"
 msgstr "Free Software Foundation"
 
+# Special thanks to: (nimiä) For ncurses: (nimiä)
 #: winio.c:1785
 msgid "For ncurses:"
-msgstr "Ncursesille:"
+msgstr "Ncursesista:"
 
 #: winio.c:1786
 msgid "and anyone else we forgot..."
