@@ -41,6 +41,7 @@ nano-0.9.12 - 07/07/2000
 	- Added new_magicline()
 - winio.c:
 	- Added stdlib.h to includes, found by OpenBSD gcc.
+	- lots of new commenting around display functions
   do_yesno(), nanogetstr():
 	- Removed now unnecessary raw/cbreak combos.
 	- Removed gettext calls from "Y(es)", "N(o)", "A(ll)" and "^C", till
@@ -53,6 +54,8 @@ nano-0.9.12 - 07/07/2000
 	  ABOUT NLS wouldn't work).
   fix_editbot:
 	- Added (should rebuild editbot from a valid edittop) (Rob)
+  edit_add:
+	- removal of redundant call to mvwaddnstr
 
 nano-0.9.11 - 06/20/2000
 - New flag "-T" or "--tabsize" to specify how to display tab widths.
