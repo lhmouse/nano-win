@@ -103,6 +103,9 @@ CVS code -
 	  only single-column characters are allowed. (DLR)
 	- Add C++ regexes. (Neil Brown, merged into c-file regexes by
 	  DLR)
+	- Break up overly long perl and nanorc regexes into separate
+	  regexes of no more than 256 bytes, as POSIX-compliant regexp
+	  implementations can reject regexes of over 256 bytes. (DLR)
 - nano.1, nano.texi:
 	- Mention the -? alias for -h/--help, and add various
 	  consistency fixes. (DLR)
