@@ -83,6 +83,11 @@ extern shortcut *currshortcut;
 extern int use_regexp, regexp_compiled;
 extern regex_t search_regexp;
 extern regmatch_t regmatches[10];  
+
+#ifdef ENABLE_COLOR
+extern regex_t color_regexp;
+extern regmatch_t colormatches[1];  
+#endif /* HJAVE_COLOR */
 #endif
 
 extern toggle *toggles;

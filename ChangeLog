@@ -5,6 +5,8 @@ CVS code -
 	- New "External Command" code, originally by Dwayne Rightler.
 	  New function files.c:open_pipe(), changes to do_insertfile(),
 	  new list extcmd_list, cmd is ^X after ^R by default.
+	- Added separate regex variable (color_regex and colormatches)
+	  so that color syntax and regex search/replace can coexist.
 - files.c:
   check_writable_directory()
 	- Stat full_path, not path (Steven Kneizys).

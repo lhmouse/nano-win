@@ -798,32 +798,32 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 
 		/* First, highlight all single-line regexes */
 		k = start;
-		regcomp(&search_regexp, tmpcolor->start, 0);
-		while (!regexec(&search_regexp, &fileptr->data[k], 1,
-				regmatches, 0)) {
+		regcomp(&color_regexp, tmpcolor->start, 0);
+		while (!regexec(&color_regexp, &fileptr->data[k], 1,
+				colormatches, 0)) {
 
-		    if (regmatches[0].rm_eo - regmatches[0].rm_so < 1) {
+		    if (colormatches[0].rm_eo - colormatches[0].rm_so < 1) {
 			statusbar("Refusing 0 length regex match");
 			break;
 		    }
 #ifdef DEBUG
 		    fprintf(stderr, "Match! (%d chars) \"%s\"\n",
-			    regmatches[0].rm_eo - regmatches[0].rm_so,
-			    &fileptr->data[k + regmatches[0].rm_so]);
+			    colormatches[0].rm_eo - colormatches[0].rm_so,
+			    &fileptr->data[k + colormatches[0].rm_so]);
 #endif
-		    if (regmatches[0].rm_so < COLS - 1) {
+		    if (colormatches[0].rm_so < COLS - 1) {
 			if (tmpcolor->bright)
 			    wattron(edit, A_BOLD);
 			wattron(edit, COLOR_PAIR(tmpcolor->pairnum));
 
-			if (regmatches[0].rm_eo + k <= COLS)
+			if (colormatches[0].rm_eo + k <= COLS)
 			    paintlen =
-				regmatches[0].rm_eo - regmatches[0].rm_so;
+				colormatches[0].rm_eo - colormatches[0].rm_so;
 			else
-			    paintlen = COLS - k - regmatches[0].rm_so - 1;
+			    paintlen = COLS - k - colormatches[0].rm_so - 1;
 
-			mvwaddnstr(edit, yval, regmatches[0].rm_so + k,
-				   &fileptr->data[k + regmatches[0].rm_so],
+			mvwaddnstr(edit, yval, colormatches[0].rm_so + k,
+				   &fileptr->data[k + colormatches[0].rm_so],
 				   paintlen);
 
 		    }
@@ -832,7 +832,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 			wattroff(edit, A_BOLD);
 		    wattroff(edit, COLOR_PAIR(tmpcolor->pairnum));
 
-		    k += regmatches[0].rm_eo;
+		    k += colormatches[0].rm_eo;
 
 		}
 	    }
@@ -845,22 +845,22 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 
 		s = fileptr;
 		while (s != NULL) {
-		    regcomp(&search_regexp, tmpcolor->start, 0);
+		    regcomp(&color_regexp, tmpcolor->start, 0);
 		    if (!regexec
-			(&search_regexp, s->data, 1, regmatches, 0))
+			(&color_regexp, s->data, 1, colormatches, 0))
 			break;
 		    s = s->prev;
 		}
 
 		if (s != NULL) {
 		    /* We found a start, mark it */
-		    smatch = regmatches[0].rm_so;
+		    smatch = colormatches[0].rm_so;
 
 		    e = s;
 		    while (e != NULL && e != fileptr) {
-			regcomp(&search_regexp, tmpcolor->end, 0);
+			regcomp(&color_regexp, tmpcolor->end, 0);
 			if (!regexec
-			    (&search_regexp, e->data, 1, regmatches, 0))
+			    (&color_regexp, e->data, 1, colormatches, 0))
 			    break;
 			e = e->next;
 		    }
@@ -869,9 +869,9 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 			continue;	/* There's an end before us */
 		    else {	/* Keep looking for an end */
 			while (e != NULL) {
-			    regcomp(&search_regexp, tmpcolor->end, 0);
+			    regcomp(&color_regexp, tmpcolor->end, 0);
 			    if (!regexec
-				(&search_regexp, e->data, 1, regmatches,
+				(&color_regexp, e->data, 1, colormatches,
 				 0))
 				break;
 			    e = e->next;
@@ -880,13 +880,13 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 			if (e == NULL)
 			    continue;	/* There's no start before the end :) */
 			else {	/* Okay, we found an end, mark it! */
-			    ematch = regmatches[0].rm_eo;
+			    ematch = colormatches[0].rm_eo;
 
 			    while (e != NULL) {
-				regcomp(&search_regexp, tmpcolor->end, 0);
+				regcomp(&color_regexp, tmpcolor->end, 0);
 				if (!regexec
-				    (&search_regexp, e->data, 1,
-				     regmatches, 0))
+				    (&color_regexp, e->data, 1,
+				     colormatches, 0))
 				    break;
 				e = e->next;
 			    }
