@@ -80,7 +80,7 @@ Write file in Mac format.
 
 <DD>
 Disable automatic conversion of files from DOS/Mac format.
-<DT><B>-Q </B><I>[str]</I> (--quotestr=<I>[str]</I>)
+<DT><B>-Q </B><I>str</I> (--quotestr=<I>str</I>)
 
 <DD>
 Set the quoting string for justifying.  The default is
@@ -96,7 +96,7 @@ Enable regular expression matching for search strings, as well as
 <DD>
 Enable smooth scrolling. Text will scroll line-by-line, instead of the
 usual chunk-by-chunk behavior.
-<DT><B>-T </B><I>[num]</I> (--tabsize=<I>[num]</I>)
+<DT><B>-T </B><I>num</I> (--tabsize=<I>num</I>)
 
 <DD>
 Set the size (width) of a tab.
@@ -104,7 +104,7 @@ Set the size (width) of a tab.
 
 <DD>
 Show the current version number and author.
-<DT><B>-Y </B><I>[str]</I> (--syntax=<I>[str]</I>)
+<DT><B>-Y </B><I>str</I> (--syntax=<I>str</I>)
 
 <DD>
 Specify a specific syntax highlighting from the .nanorc to use, if
@@ -135,7 +135,7 @@ a new file, do not follow it.  Good for editing files in /tmp, perhaps?
 
 <DD>
 Enable mouse support (if available for your system).
-<DT><B>-o </B><I>[dir]</I> (--operatingdir=<I>[dir]</I>)
+<DT><B>-o </B><I>dir</I> (--operatingdir=<I>dir</I>)
 
 <DD>
 Set operating directory. Makes nano set up something similar to a
@@ -145,14 +145,14 @@ chroot.
 <DD>
 Preserve the XON and XOFF sequences (^Q and ^S) so they will be 
 caught by the terminal.
-<DT><B>-r </B><I>[#cols]</I> (--fill=<I>[#cols]</I>)
+<DT><B>-r </B><I>cols</I> (--fill=<I>cols</I>)
 
 <DD>
-Wrap lines at column #cols.  By default, this is the width of the
+Wrap lines at column <I>cols</I>.  By default, this is the width of the
 screen, less eight.  If this value is negative, wrapping will occur at
-#cols from the right of the screen, allowing it to vary along with the
-screen width if the screen is resized.
-<DT><B>-s </B><I>[prog]</I> (--speller=<I>[prog]</I>)
+<I>cols</I> columns from the right of the screen, allowing the wrap point 
+to vary along with the screen width if resized.
+<DT><B>-s </B><I>prog</I> (--speller=<I>prog</I>)
 
 <DD>
 Enable alternative spell checker command.
@@ -182,6 +182,59 @@ Enable suspend ability.
 Ignored, for compatibility with Pico.
 </DL>
 <A NAME="lbAF">&nbsp;</A>
+<H2>INITIALIZATION FILE</H2>
+
+<B>nano</B> will read initialization files in the following 
+order: $SYSCONFDIR/nanorc, then ~/.nanorc.  Please see the example 
+file <B>nanorc.sample</B> which should be provided with <B>nano</B>.
+All lines beginning with a hash symbol (
+#
+) are considered comments 
+and will be ignored.  The following commands are understood in the 
+initialization file:
+<DL COMPACT>
+<DT><B>[un]set </B><I>option</I> [<I>value</I>]
+
+<DD>
+Set (or unset) the flag <I>option</I>.  Any long option listed above can 
+be set or unset by removing the leading dashes (e.g. &quot;set nowrap&quot;).  If 
+the option takes an argument it will be set to <I>value</I>.
+</DL>
+<P>
+
+<B>COLOR SYNTAX HIGHLIGHTING</B> (if supported by your curses library)
+<P>
+
+<DL COMPACT>
+<DT><B>syntax </B><I>str</I> [<I>fileregex</I> ... ]
+
+<DD>
+Defines a syntax named <I>str</I> which can be activated via the 
+<B>-Y</B> flag, or will be automatically activated if the current 
+filename matches <I>fileregex</I>.  All following <B>color</B> statements 
+will apply to <I>syntax</I> until a new syntax is defined.
+<DT><B>color </B><I>fgcolor</I>[,<I>bgcolor</I>] <I>regex</I> ...
+
+<DD>
+For the currently defined syntax, display all expressions matching 
+<I>regex</I> with foreground color <I>fgcolor</I> and optional background 
+color <I>bgcolor</I>. Legal colors for foreground and background color are: 
+white, black, red, blue, green, yellow, magenta, and cyan.  You may use 
+the prefix &quot;bright&quot; to force a stronger color highlight.  If your 
+terminal supports transparency, not specifying a <I>bgcolor</I> tells 
+<B>nano</B> to attempt to use a transparent background.
+<DT><B>color </B><I>fgcolor</I>[,<I>bgcolor</I>] start=<I>sr</I> end=<I>er</I>
+
+<DD>
+Display expressions which start with <I>sr</I> and end with <I>er</I> 
+with foreground color <I>fgcolor</I> and optional 
+background color <I>bgcolor</I>.  This allows syntax highlighting to span 
+multiple lines.  Note that all subsequent instances of <I>sr</I> after 
+an initial <I>sr</I> is found will be highlighted until the first 
+instance of <I>er</I>.
+<I>
+</DL>
+</I><A NAME="lbAG">&nbsp;</A>
 <H2>NOTES</H2>
 
 <B>nano</B> will try to dump the buffer into an emergency file in some
@@ -193,7 +246,7 @@ name already exists in the current directory, &quot;.save&quot; and a number (e.
 &quot;.save.1&quot;) will be suffixed to the current filename in order to make it
 unique. In multibuffer mode, <B>nano</B> will write all the open buffers
 to the respective emergency files.
-<A NAME="lbAG">&nbsp;</A>
+<A NAME="lbAH">&nbsp;</A>
 <H2>BUGS</H2>
 
 Please send any comments or bug reports to
@@ -210,11 +263,11 @@ The <B>nano</B> mailing list is available from
 
 To subscribe, email to <A HREF="mailto:nano-devel-request@gnu.org">nano-devel-request@gnu.org</A> with a
 subject of &quot;subscribe&quot;.
-<A NAME="lbAH">&nbsp;</A>
+<A NAME="lbAI">&nbsp;</A>
 <H2>HOMEPAGE</H2>
 
 <A HREF="http://www.nano-editor.org">http://www.nano-editor.org</A>
-<A NAME="lbAI">&nbsp;</A>
+<A NAME="lbAJ">&nbsp;</A>
 <H2>AUTHOR</H2>
 
 Chris Allegretta &lt;<A HREF="mailto:chrisa@asty.org">chrisa@asty.org</A>&gt;, et al (see AUTHORS and THANKS for
@@ -231,15 +284,16 @@ used by others).
 <DT><A HREF="#lbAC">SYNOPSIS</A><DD>
 <DT><A HREF="#lbAD">DESCRIPTION</A><DD>
 <DT><A HREF="#lbAE">OPTIONS</A><DD>
-<DT><A HREF="#lbAF">NOTES</A><DD>
-<DT><A HREF="#lbAG">BUGS</A><DD>
-<DT><A HREF="#lbAH">HOMEPAGE</A><DD>
-<DT><A HREF="#lbAI">AUTHOR</A><DD>
+<DT><A HREF="#lbAF">INITIALIZATION FILE</A><DD>
+<DT><A HREF="#lbAG">NOTES</A><DD>
+<DT><A HREF="#lbAH">BUGS</A><DD>
+<DT><A HREF="#lbAI">HOMEPAGE</A><DD>
+<DT><A HREF="#lbAJ">AUTHOR</A><DD>
 </DL>
 <HR>
 This document was created by
 <A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 03:06:20 GMT, January 17, 2003
+Time: 14:15:34 GMT, February 04, 2003
 </BODY>
 </HTML>

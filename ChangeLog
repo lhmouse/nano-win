@@ -1,6 +1,10 @@
 CVS code 
 - General:
 	- Translation updates (see po/ChangeLog for details).
+- nano.1, nano.1.html:
+	- Add initialization file comments, change some options from 
+	  bracketed to underlined to emphasize that they are not 
+	  optional.
 
 GNU nano 1.1.99pre2 - 2003.02.03
 - General:
