@@ -627,13 +627,19 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
     /* Initialize the partition. */
     p = (partition *)nmalloc(sizeof(partition));
 
-    /* Save the top and bottom of the filestruct. */
-    p->fileage = fileage;
-    p->filebot = filebot;
-
-    /* Set the top and bottom of the partition to top and bot. */
-    fileage = top;
-    filebot = bot;
+    /* If the top and bottom of the partition are different from the top
+     * and bottom of the filestruct, save the latter and then set them
+     * to top and bot. */
+    if (top != fileage) {
+	p->fileage = fileage;
+	fileage = top;
+    } else
+	p->fileage = NULL;
+    if (bot != filebot) {
+	p->filebot = filebot;
+	filebot = bot;
+    } else
+	p->filebot = NULL;
 
     /* Save the line above the top of the partition, detach the top of
      * the partition from it, and save the text before top_x in
@@ -694,9 +700,12 @@ void unpartition_filestruct(partition *p)
     strcat(filebot->data, p->bot_data);
     free(p->bot_data);
 
-    /* Restore the top and bottom of the filestruct. */
-    fileage = p->fileage;
-    filebot = p->filebot;
+    /* Restore the top and bottom of the filestruct, if they were
+     * different from the top and bottom of the partition. */
+    if (p->fileage != NULL)
+	fileage = p->fileage;
+    if (p->filebot != NULL)
+	filebot = p->filebot;
 
     /* Uninitialize the partition. */
     free(p);
@@ -1557,6 +1566,9 @@ bool do_int_spell_fix(const char *word)
 
 #ifndef NANO_SMALL
     if (old_mark_set) {
+	/* If the mark is on, partition the filestruct so that it
+	 * contains only the marked text, set edittop to the top of the
+	 * marked text, and turn the mark off. */
 	mark_order((const filestruct **)&top, &top_x,
 	    (const filestruct **)&bot, &bot_x);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
@@ -1613,9 +1625,9 @@ bool do_int_spell_fix(const char *word)
     last_replace = save_replace;
 
 #ifndef NANO_SMALL
-    /* If the mark was on, unpartition the filestruct so that it
-     * contains all the text again, and turn the mark back on. */
     if (old_mark_set) {
+	/* If the mark was on, unpartition the filestruct so that it
+	 * contains all the text again, and turn the mark back on. */
 	unpartition_filestruct(filepart);
 	SET(MARK_ISSET);
     }
