@@ -1,3 +1,22 @@
+03/05/2002 - GNU nano 1.1.7 "lets change everything and see what breaks"
+		is released.  New features include new flags 
+		-N,--noconvert to stop any file format conversion and
+		-Q, --quotestr for the new quoted text justification,
+		a new tempnam() implementation to avoid silly warnings,
+		DOS and Mac file options in the Write File dialog,
+		multiple save files (file.1) for abnormal exits, ^C
+		now shows column as well as character position, and 
+		multibuffer allows duplicate files, even unnamed ones.
+		Also, the static shortcut and toggle lengths are
+		history, nano now reads $SYSCONFDIR/nanorc if rc file
+		support is enabled, and nano is now built with (and
+		requires for rebuilding) autoconf 2.5. 
+			This release also includes fixes for some memory
+		leaks, detecting DOS and mac file format, justification,
+		suspending keys, search & replace under various 
+		conditions, variable width for shortcuts, and the usual
+		ton of translation updates.
+
 01/25/2002 - GNU nano 1.1.6 is released.  Lots of new features in this
 		release.  New Meta-keys were added as alternates for 
 		control sequences: Meta-A for the marker key (^^), and

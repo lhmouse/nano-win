@@ -1,4 +1,4 @@
-CVS code -
+GNU nano 1.1.7 - 03/05/2002
 - General
 	- malloc->calloc, etc cleanups (DLR).
 	- New option, noconvert (-N, --noconvert) to completely stop
