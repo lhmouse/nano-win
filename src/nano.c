@@ -982,22 +982,23 @@ void do_char(char ch)
 
 int do_verbatim_input(void)
 {
-    int *verbatim_kbinput;	/* Used to hold verbatim input. */
-    size_t verbatim_len;	/* Length of verbatim input. */
+    int *v_kbinput = NULL;	/* Used to hold verbatim input. */
+    size_t v_len;		/* Length of verbatim input. */
     size_t i;
 
     statusbar(_("Verbatim input"));
-    verbatim_kbinput = get_verbatim_kbinput(edit, &verbatim_len, 1);
+
+    v_kbinput = get_verbatim_kbinput(edit, v_kbinput, &v_len, TRUE);
 
     /* Turn on DISABLE_CURPOS while inserting character(s) and turn it
      * off afterwards, so that if constant cursor position display is
      * on, it will be updated properly. */
     SET(DISABLE_CURPOS);
-    for (i = 0; i < verbatim_len; i++)
-	do_char((char)verbatim_kbinput[i]);
+    for (i = 0; i < v_len; i++)
+	do_char((char)v_kbinput[i]);
     UNSET(DISABLE_CURPOS);
 
-    free(verbatim_kbinput);
+    free(v_kbinput);
 
     return 1;
 }
@@ -2875,6 +2876,9 @@ void handle_sigwinch(int s)
 
     /* Restore the terminal to its previously saved state. */
     resetty();
+
+    /* Reset all the input routines that rely on character sequences. */
+    reset_kbinput();
 
     /* Jump back to the main loop. */
     siglongjmp(jmpbuf, 1);

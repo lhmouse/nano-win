@@ -467,15 +467,31 @@ int check_wildcard_match(const char *text, const char *pattern);
 #endif
 
 /* Public functions in winio.c */
+#ifndef NANO_SMALL
+void reset_kbinput(void);
+#endif
 int get_kbinput(WINDOW *win, int *meta_key);
-int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len, int
-	allow_ascii);
-int get_ignored_kbinput(WINDOW *win);
-int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta_key);
-int get_ascii_kbinput(WINDOW *win, int kbinput);
-int get_escape_seq_kbinput(WINDOW *win, int *escape_seq, size_t
-	escape_seq_len);
+int get_translated_kbinput(int kbinput, int *es
+#ifndef NANO_SMALL
+	, int reset
+#endif
+	);
+int get_ascii_kbinput(int kbinput, size_t ascii_digits
+#ifndef NANO_SMALL
+	, int reset
+#endif
+	);
+int get_control_kbinput(int kbinput);
+int get_escape_seq_kbinput(int *escape_seq, size_t es_len);
 int get_escape_seq_abcd(int kbinput);
+int *get_verbatim_kbinput(WINDOW *win, int *verbatim_kbinput, size_t
+	*verbatim_len, int allow_ascii);
+int get_untranslated_kbinput(int kbinput, size_t position, int
+	allow_ascii
+#ifndef NANO_SMALL
+	, int reset
+#endif
+	);
 #ifndef DISABLE_MOUSE
 int get_mouseinput(int *mouse_x, int *mouse_y, int shortcut);
 #endif

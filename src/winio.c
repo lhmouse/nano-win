@@ -72,8 +72,7 @@ static int statblank = 0;	/* Number of keystrokes left after
  * - PageDown on FreeBSD console == Center (5) on numeric keypad with
  *   NumLock off on Linux console; the latter is omitted.  (The editing
  *   keypad key is more important to have working than the numeric
- *   keypad key, because the latter actually has no value when NumLock
- *   is off.)
+ *   keypad key, because the latter has no value when NumLock is off.)
  * - F1 on FreeBSD console == the mouse key on xterm/rxvt/Eterm; the
  *   latter is omitted.  (Mouse input will only work properly if the
  *   extended keypad value KEY_MOUSE is generated on mouse events
@@ -92,23 +91,89 @@ static int statblank = 0;	/* Number of keystrokes left after
  * Note that Center (5) on the numeric keypad with NumLock off can also
  * be the Begin key. */
 
+#ifndef NANO_SMALL
+/* Reset all the input routines that rely on character sequences. */
+void reset_kbinput(void)
+{
+    get_translated_kbinput(0, NULL, TRUE);
+    get_ascii_kbinput(0, 0, TRUE);
+    get_untranslated_kbinput(0, 0, FALSE, TRUE);
+}
+#endif
+
 /* Read in a single input character.  If it's ignored, swallow it and go
  * on.  Otherwise, try to translate it from ASCII, extended keypad
- * values, and/or escape sequences.  Supported extended keypad values
- * consist of [arrow key], Ctrl-[arrow key], Shift-[arrow key], Enter,
- * Backspace, the editing keypad (Insert, Delete, Home, End, PageUp, and
- * PageDown), the function keypad (F1-F14), and the numeric keypad with
- * NumLock off.  Assume nodelay(win) is FALSE. */
+ * values, and/or escape sequences.  Set meta_key to TRUE when we get a
+ * meta sequence.  Supported extended keypad values consist of [arrow
+ * key], Ctrl-[arrow key], Shift-[arrow key], Enter, Backspace, the
+ * editing keypad (Insert, Delete, Home, End, PageUp, and PageDown), the
+ * function keypad (F1-F14), and the numeric keypad with NumLock off.
+ * Assume nodelay(win) is FALSE. */
 int get_kbinput(WINDOW *win, int *meta_key)
 {
-    int kbinput, retval;
+    int kbinput, es, retval = ERR;
 
 #ifndef NANO_SMALL
     allow_pending_sigwinch(TRUE);
 #endif
 
-    kbinput = get_ignored_kbinput(win);
-    retval = get_accepted_kbinput(win, kbinput, meta_key);
+    *meta_key = FALSE;
+
+    while (retval == ERR) {
+	/* Read a character using blocking input, since using
+	 * non-blocking input will eat up all unused CPU.  Then pass it
+	 * to get_translated_kbinput().  Continue until we get a
+	 * complete sequence. */
+	kbinput = wgetch(win);
+	retval = get_translated_kbinput(kbinput, &es
+#ifndef NANO_SMALL
+		, FALSE
+#endif
+		);
+
+	/* If we got an escape sequence, read it in, including the
+	 * initial non-escape, as verbatim input. */
+	if (es) {
+	    int *escape_seq = NULL;
+	    size_t es_len;
+
+	    /* First, assume that we got a meta sequence.  Set meta_key
+	     * to TRUE and save the character we got as the result.  We
+	     * do this so that if there's a delay greater than nodelay()
+	     * between Escape and the character we got (after we
+	     * ungetch() it below), it'll still be properly interpreted
+	     * as a meta sequence. */
+	    *meta_key = TRUE;
+	    retval = tolower(kbinput);
+
+	    /* Next, send back the character we got and read in the
+	     * complete escape sequence. */
+	    ungetch(kbinput);
+	    escape_seq = get_verbatim_kbinput(win, escape_seq, &es_len,
+		FALSE);
+
+	    if (es_len > 1) {
+		/* The escape sequence is more than one character
+		 * long.  Set meta_key to FALSE, translate the escape
+		 * sequence into the corresponding key value, and save
+		 * that as the result. */
+		*meta_key = FALSE;
+		if ((retval = get_escape_seq_kbinput(escape_seq,
+			es_len)) == ERR) {
+		    /* This escape sequence is unrecognized.  Send it
+		     * back. */
+		    for (; es_len > 1; es_len--)
+			ungetch(escape_seq[es_len - 1]);
+		    retval = escape_seq[0];
+		}
+	    }
+	    free(escape_seq);
+	}
+    }
+
+#ifdef DEBUG
+    fprintf(stderr, "get_kbinput(): kbinput = %d, meta_key = %d\n", kbinput, *meta_key);
+#endif
 
 #ifndef NANO_SMALL
     allow_pending_sigwinch(FALSE);
@@ -117,328 +182,384 @@ int get_kbinput(WINDOW *win, int *meta_key)
     return retval;
 }
 
-/* Read in a string of input characters (e.g. an escape sequence)
- * verbatim, and return the length of the string in kbinput_len.  Assume
- * nodelay(win) is FALSE. */
-int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len, int
-	allow_ascii)
+/* Translate acceptable ASCII, extended keypad values, and escape
+ * sequences into their corresponding key values.  Set es to TRUE when
+ * we get an escape sequence.  Assume nodelay(win) is FALSE. */
+int get_translated_kbinput(int kbinput, int *es
+#ifndef NANO_SMALL
+	, int reset
+#endif
+	)
 {
-    int kbinput, *verbatim_kbinput;
+    static size_t escapes = 0, ascii_digits = 0;
+    int retval = ERR;
 
 #ifndef NANO_SMALL
-    allow_pending_sigwinch(TRUE);
-#endif
-
-    /* Turn off flow control characters if necessary so that we can type
-     * them in verbatim, and turn the keypad off so that we don't get
-     * extended keypad values outside the ASCII range. */
-    if (ISSET(PRESERVE))
-	disable_flow_control();
-    keypad(win, FALSE);
-
-    kbinput = wgetch(win);
-    verbatim_kbinput = (int *)nmalloc(sizeof(int));
-    verbatim_kbinput[0] = kbinput;
-    *kbinput_len = 1;
-
-    if (allow_ascii && kbinput >= '0' && kbinput <= '2')
-	/* Entering a three-digit decimal ASCII code from 000-255 in
-	 * verbatim mode will produce the corresponding ASCII
-	 * character. */
-	verbatim_kbinput[0] = get_ascii_kbinput(win, kbinput);
-    else {
-	nodelay(win, TRUE);
-#ifdef DEBUG
-	fprintf(stderr, "get_verbatim_kbinput(): kbinput = %d\n", kbinput);
-#endif
-	while ((kbinput = wgetch(win)) != ERR) {
-	    (*kbinput_len)++;
-	    verbatim_kbinput = (int *)nrealloc(verbatim_kbinput, *kbinput_len * sizeof(int));
-	    verbatim_kbinput[*kbinput_len - 1] = kbinput;
-#ifdef DEBUG
-	    fprintf(stderr, "get_verbatim_kbinput(): kbinput = %d\n", kbinput);
-#endif
-	}
-	nodelay(win, FALSE);
+    if (reset) {
+	escapes = 0;
+	ascii_digits = 0;
+	return ERR;
     }
-
-    /* Turn flow control characters back on if necessary and turn the
-     * keypad back on now that we're done. */
-    if (ISSET(PRESERVE))
-	enable_flow_control();
-    keypad(win, TRUE);
-
-#ifndef NANO_SMALL
-    allow_pending_sigwinch(FALSE);
 #endif
 
-    return verbatim_kbinput;
-}
+    *es = FALSE;
 
-/* Swallow input characters that should be quietly ignored, and return
- * the first input character that shouldn't be. */
-int get_ignored_kbinput(WINDOW *win)
-{
-    int kbinput;
-
-    while (TRUE) {
-	kbinput = wgetch(win);
-	switch (kbinput) {
-	    case ERR:
-#ifdef KEY_RESIZE
-	    /* Slang and SunOS 5.7-5.9 don't support KEY_RESIZE. */
-	    case KEY_RESIZE:
+    switch (kbinput) {
+	case ERR:
+	    break;
+	case NANO_CONTROL_3:
+	    /* Increment the escape counter. */
+	    escapes++;
+	    switch (escapes) {
+		case 1:
+		    /* One escape: wait for more input. */
+		case 2:
+		    /* Two escapes: wait for more input. */
+		    break;
+		default:
+		    /* More than two escapes: reset the escape counter
+		     * and wait for more input. */
+		    escapes = 0;
+	    }
+	    break;
+#if !defined(NANO_SMALL) && defined(KEY_RESIZE)
+	/* Since we don't change the default SIGWINCH handler when
+	 * NANO_SMALL is defined, KEY_RESIZE is never generated.  Also,
+	 * Slang and SunOS 5.7-5.9 don't support KEY_RESIZE. */
+	case KEY_RESIZE:
 #endif
 #ifdef PDCURSES
-	    case KEY_SHIFT_L:
-	    case KEY_SHIFT_R:
-	    case KEY_CONTROL_L:
-	    case KEY_CONTROL_R:
-	    case KEY_ALT_L:
-	    case KEY_ALT_R:
+	case KEY_SHIFT_L:
+	case KEY_SHIFT_R:
+	case KEY_CONTROL_L:
+	case KEY_CONTROL_R:
+	case KEY_ALT_L:
+	case KEY_ALT_R:
 #endif
-#ifdef DEBUG
-		fprintf(stderr, "get_ignored_kbinput(): kbinput = %d\n", kbinput);
-#endif
-		break;
-	    default:
-		return kbinput;
-	}
-    }
-}
-
-/* Translate acceptable ASCII, extended keypad values, and/or escape
- * sequences.  Set meta_key to 1 if we get a Meta sequence.  Assume
- * nodelay(win) is FALSE. */
-int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta_key)
-{
-    *meta_key = FALSE;
-
-    switch (kbinput) {
-	case NANO_CONTROL_3: /* Escape */
-	    kbinput = wgetch(win);
-	    switch (kbinput) {
-		case NANO_CONTROL_3: /* Escape */
-		    kbinput = wgetch(win);
-		    /* Esc Esc [three-digit decimal ASCII code from
-		     * 000-255] == [corresponding ASCII character];
-		     * Esc Esc 2 obviously can't be Ctrl-2 here */
-		    if (kbinput >= '0' && kbinput <= '2')
-			kbinput = get_ascii_kbinput(win, kbinput);
-		    /* Esc Esc [character] == Ctrl-[character];
-		     * Ctrl-Space (Ctrl-2) == Ctrl-@ == Ctrl-` */
-		    else if (kbinput == ' ' || kbinput == '@' || kbinput == '`')
-			kbinput = NANO_CONTROL_SPACE;
-		    /* Ctrl-3 (Ctrl-[, Esc) to Ctrl-7 (Ctrl-_) */
-		    else if (kbinput >= '3' && kbinput <= '7')
-			kbinput -= 24;
-		    /* Ctrl-8 (Ctrl-?) */
-		    else if (kbinput == '8' || kbinput == '?')
-			kbinput = NANO_CONTROL_8;
-		    /* Ctrl-A to Ctrl-_ */
-		    else if (kbinput >= 'A' && kbinput <= '_')
-			kbinput -= 64;
-		    /* Ctrl-A to Ctrl-~ */
-		    else if (kbinput >= 'a' && kbinput <= '~')
-			kbinput -= 96;
-		    break;
-		case 'O':
-		case 'o':
-		case '[':
-		{
-		    int old_kbinput = kbinput, *escape_seq;
-		    size_t escape_seq_len;
-		    nodelay(win, TRUE);
-		    kbinput = wgetch(win);
+	    retval = ERR;
+	    break;
+	default:
+	    switch (escapes) {
+		case 0:
 		    switch (kbinput) {
-			case ERR:
-			    kbinput = tolower(old_kbinput);
-			    *meta_key = TRUE;
+			case NANO_CONTROL_8:
+			    retval = ISSET(REBIND_DELETE) ?
+				NANO_DELETE_KEY : NANO_BACKSPACE_KEY;
 			    break;
-			default:
-			    ungetch(kbinput);
-			    ungetch(old_kbinput);
-			    escape_seq = get_verbatim_kbinput(win, &escape_seq_len, 0);
-			    kbinput = get_escape_seq_kbinput(win, escape_seq, escape_seq_len);
-			    free(escape_seq);
-		    }
-		    nodelay(win, FALSE);
-		    break;
-		}
-		default:
-		    /* Esc [character] == Meta-[character] */
-		    kbinput = tolower(kbinput);
-		    *meta_key = TRUE;
-	    }
-	    break;
-	case NANO_CONTROL_8:
-	    kbinput = ISSET(REBIND_DELETE) ? NANO_DELETE_KEY : NANO_BACKSPACE_KEY;
-	    break;
-	case KEY_DOWN:
-	    kbinput = NANO_NEXTLINE_KEY;
-	    break;
-	case KEY_UP:
-	    kbinput = NANO_PREVLINE_KEY;
-	    break;
-	case KEY_LEFT:
-	    kbinput = NANO_BACK_KEY;
-	    break;
-	case KEY_RIGHT:
-	    kbinput = NANO_FORWARD_KEY;
-	    break;
+			case KEY_DOWN:
+			    retval = NANO_NEXTLINE_KEY;
+			    break;
+			case KEY_UP:
+			    retval = NANO_PREVLINE_KEY;
+			    break;
+			case KEY_LEFT:
+			    retval = NANO_BACK_KEY;
+			    break;
+			case KEY_RIGHT:
+			    retval = NANO_FORWARD_KEY;
+			    break;
 #ifdef KEY_HOME
-	/* HP-UX 10 and 11 don't support KEY_HOME. */
-	case KEY_HOME:
-	    kbinput = NANO_HOME_KEY;
-	    break;
+			/* HP-UX 10 and 11 don't support KEY_HOME. */
+			case KEY_HOME:
+			    retval = NANO_HOME_KEY;
+			    break;
 #endif
-	case KEY_BACKSPACE:
-	    kbinput = NANO_BACKSPACE_KEY;
-	    break;
-	case KEY_DC:
-	    kbinput = ISSET(REBIND_DELETE) ? NANO_BACKSPACE_KEY : NANO_DELETE_KEY;
-	    break;
-	case KEY_IC:
-	    kbinput = NANO_INSERTFILE_KEY;
-	    break;
-	case KEY_NPAGE:
-	    kbinput = NANO_NEXTPAGE_KEY;
-	    break;
-	case KEY_PPAGE:
-	    kbinput = NANO_PREVPAGE_KEY;
-	    break;
-	case KEY_ENTER:
-	    kbinput = NANO_ENTER_KEY;
-	    break;
-	case KEY_B2:	/* Center (5) on numeric keypad with NumLock off
-			 * on xterm. */
+			case KEY_BACKSPACE:
+			    retval = NANO_BACKSPACE_KEY;
+			    break;
+			case KEY_DC:
+			    retval = ISSET(REBIND_DELETE) ?
+				NANO_BACKSPACE_KEY : NANO_DELETE_KEY;
+			    break;
+			case KEY_IC:
+			    retval = NANO_INSERTFILE_KEY;
+			    break;
+			case KEY_NPAGE:
+			    retval = NANO_NEXTPAGE_KEY;
+			    break;
+			case KEY_PPAGE:
+			    retval = NANO_PREVPAGE_KEY;
+			    break;
+			case KEY_ENTER:
+			    retval = NANO_ENTER_KEY;
+			    break;
+			case KEY_B2:	/* Center (5) on numeric keypad
+					 * with NumLock off on xterm. */
 #ifdef KEY_BEG
-	/* Slang doesn't support KEY_BEG. */
-	case KEY_BEG:	/* Center (5) on numeric keypad with NumLock off
-			 * on Eterm. */
+			/* Slang doesn't support KEY_BEG. */
+			case KEY_BEG:	/* Center (5) on numeric keypad
+					 * with NumLock off on Eterm. */
 #endif
-	    kbinput = '5';
-	    break;
+			    retval = ERR;
+			    break;
 #ifdef KEY_END
-	/* HP-UX 10 and 11 don't support KEY_END. */
-	case KEY_END:
-	    kbinput = NANO_END_KEY;
-	    break;
+			/* HP-UX 10 and 11 don't support KEY_END. */
+			case KEY_END:
+			    retval = NANO_END_KEY;
+			    break;
 #endif
 #ifdef KEY_SUSPEND
-	/* Slang doesn't support KEY_SUSPEND. */
-	case KEY_SUSPEND:
-	    kbinput = NANO_SUSPEND_KEY;
-	    break;
+			/* Slang doesn't support KEY_SUSPEND. */
+			case KEY_SUSPEND:
+			    retval = NANO_SUSPEND_KEY;
+			    break;
 #endif
 #ifdef KEY_SLEFT
-	/* Slang doesn't support KEY_SLEFT. */
-	case KEY_SLEFT:
-	    kbinput = NANO_BACK_KEY;
-	    break;
+			/* Slang doesn't support KEY_SLEFT. */
+			case KEY_SLEFT:
+			    retval = NANO_BACK_KEY;
+			    break;
 #endif
 #ifdef KEY_SRIGHT
-	/* Slang doesn't support KEY_SRIGHT. */
-	case KEY_SRIGHT:
-	    kbinput = NANO_FORWARD_KEY;
-	    break;
+			/* Slang doesn't support KEY_SRIGHT. */
+			case KEY_SRIGHT:
+			    retval = NANO_FORWARD_KEY;
+			    break;
 #endif
+			default:
+			    retval = kbinput;
+			    break;
+		    }
+		    break;
+		case 1:
+		    /* One escape followed by a non-escape: escape
+		     * sequence mode.  Reset the escape counter and set
+		     * es to TRUE. */
+		    escapes = 0;
+		    *es = TRUE;
+		    break;
+		case 2:
+		    switch (kbinput) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			    /* Two escapes followed by one or more
+			     * digits: ASCII character sequence mode.
+			     * If the digit sequence's range is limited
+			     * to 2XX (the first digit is in the '0' to
+			     * '2' range and it's the first digit, or if
+			     * it's in the full digit range and it's not
+			     * the first digit), increment the ASCII
+			     * digit counter and interpret the digit.
+			     * If the digit sequence's range is not
+			     * limited to 2XX, fall through. */
+			    if (kbinput <= '2' || ascii_digits > 0) {
+				ascii_digits++;
+				kbinput = get_ascii_kbinput(kbinput,
+					ascii_digits
+#ifndef NANO_SMALL
+					, FALSE
+#endif
+					);
+
+				if (kbinput != ERR) {
+				    /* If we've read in a complete ASCII
+				     * digit sequence, reset the ASCII
+				     * digit counter and the escape
+				     * counter and save the corresponding
+				     * ASCII character as the result. */
+				    ascii_digits = 0;
+				    escapes = 0;
+				    retval = kbinput;
+				}
+				break;
+			    }
+			default:
+			    /* Reset the escape counter. */
+			    escapes = 0;
+			    if (ascii_digits == 0)
+				/* Two escapes followed by a non-digit
+				 * or a digit that would create an ASCII
+				 * digit sequence greater than 2XX, and
+				 * we're not in the middle of an ASCII
+				 * character sequence: control character
+				 * sequence mode.  Interpret the control
+				 * sequence and save the corresponding
+				 * control character as the result. */
+				retval = get_control_kbinput(kbinput);
+			    else {
+				/* If we were in the middle of an ASCII
+				 * character sequence, reset the ASCII
+				 * digit counter and save the character
+				 * we got as the result. */
+				ascii_digits = 0;
+				retval = kbinput;
+			    }
+		    }
+	    }
     }
+
 #ifdef DEBUG
-    fprintf(stderr, "get_accepted_kbinput(): kbinput = %d, meta_key = %d\n", kbinput, *meta_key);
+    fprintf(stderr, "get_translated_kbinput(): kbinput = %d, es = %d, escapes = %d, ascii_digits = %d, retval = %d\n", kbinput, *es, escapes, ascii_digits, retval);
 #endif
-    return kbinput;
+
+    /* Return the result. */
+    return retval;
 }
 
-/* Translate a three-digit decimal ASCII code from 000-255 into the
- * corresponding ASCII character. */
-int get_ascii_kbinput(WINDOW *win, int kbinput)
+/* Translate an ASCII character sequence: turn a three-digit decimal
+ * ASCII code from 000-255 into its corresponding ASCII character. */
+int get_ascii_kbinput(int kbinput, size_t ascii_digits
+#ifndef NANO_SMALL
+	, int reset
+#endif
+	)
 {
-    int retval;
+    static int ascii_kbinput = 0;
+    int retval = ERR;
 
-    switch (kbinput) {
-	case '0':
-	case '1':
-	case '2':
-	    retval = (kbinput - '0') * 100;
-	    break;
-	default:
-	    return kbinput;
+#ifndef NANO_SMALL
+    if (reset) {
+	ascii_kbinput = 0;
+	return ERR;
     }
+#endif
 
-    kbinput = wgetch(win);
-    switch (kbinput) {
-	case '0':
-	case '1':
-	case '2':
-	case '3':
-	case '4':
-	case '5':
-	    retval += (kbinput - '0') * 10;
+    switch (ascii_digits) {
+	case 1:
+	    /* Read in the first of the three ASCII digits. */
+	    switch (kbinput) {
+		/* Add the digit we got to the 100's position of the
+		 * ASCII character sequence holder. */
+		case '0':
+		case '1':
+		case '2':
+		    ascii_kbinput += (kbinput - '0') * 100;
+		    break;
+		default:
+		    retval = kbinput;
+    	    }
 	    break;
-	case '6':
-	case '7':
-	case '8':
-	case '9':
-	    if (retval < 200) {
-		retval += (kbinput - '0') * 10;
-		break;
+	case 2:
+	    /* Read in the second of the three ASCII digits. */
+	    switch (kbinput) {
+		/* Add the digit we got to the 10's position of the
+		 * ASCII character sequence holder. */
+		case '0':
+		case '1':
+		case '2':
+		case '3':
+		case '4':
+		case '5':
+		    ascii_kbinput += (kbinput - '0') * 10;
+		    break;
+		case '6':
+		case '7':
+		case '8':
+		case '9':
+		    if (ascii_kbinput < 200) {
+			ascii_kbinput += (kbinput - '0') * 10;
+			break;
+		    }
+		default:
+		    retval = kbinput;
 	    }
-	default:
-	    return kbinput;
-    }
-
-    kbinput = wgetch(win);
-    switch (kbinput) {
-	case '0':
-	case '1':
-	case '2':
-	case '3':
-	case '4':
-	case '5':
-	    retval += kbinput - '0';
 	    break;
-	case '6':
-	case '7':
-	case '8':
-	case '9':
-	    if (retval < 250) {
-		retval += kbinput - '0';
-		break;
+	case 3:
+	    /* Read in the third of the three ASCII digits. */
+	    switch (kbinput) {
+		/* Add the digit we got to the 1's position of the ASCII
+		 * character sequence holder, and save the corresponding
+		 * ASCII character as the result. */
+		case '0':
+		case '1':
+		case '2':
+		case '3':
+		case '4':
+		case '5':
+		    ascii_kbinput += (kbinput - '0');
+		    retval = ascii_kbinput;
+		    break;
+		case '6':
+		case '7':
+		case '8':
+		case '9':
+		    if (ascii_kbinput < 250) {
+			ascii_kbinput += (kbinput - '0');
+			retval = ascii_kbinput;
+			break;
+		    }
+		default:
+		    retval = kbinput;
 	    }
-	default:
-	    return kbinput;
+	    break;
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "get_ascii_kbinput(): kbinput = %d\n", kbinput);
+    fprintf(stderr, "get_ascii_kbinput(): kbinput = %d, ascii_digits = %d, ascii_kbinput = %d, retval = %d\n", kbinput, ascii_digits, ascii_kbinput, retval);
 #endif
+
+    /* If the result is an ASCII character, reset the ASCII character
+     * sequence holder. */
+    if (retval != ERR)
+	ascii_kbinput = 0;
+
+    return retval;
+}
+
+/* Translate a control character sequence: turn an ASCII non-control
+ * character into its corresponding control character. */
+int get_control_kbinput(int kbinput)
+{
+    int retval = ERR;
+
+    /* We don't handle Ctrl-2 here, since Esc Esc 2 could be the first
+     * part of an ASCII character sequence. */
+
+     /* Ctrl-2 (Ctrl-Space) == Ctrl-@ == Ctrl-` */
+    if (kbinput == ' ' || kbinput == '@' || kbinput == '`')
+	retval = NANO_CONTROL_SPACE;
+    /* Ctrl-3 (Ctrl-[, Esc) to Ctrl-7 (Ctrl-_) */
+    else if (kbinput >= '3' && kbinput <= '7')
+	retval = kbinput - 24;
+    /* Ctrl-8 (Ctrl-?) */
+    else if (kbinput == '8' || kbinput == '?')
+	retval = NANO_CONTROL_8;
+    /* Ctrl-A to Ctrl-_ */
+    else if (kbinput >= 'A' && kbinput <= '_')
+	retval = kbinput - 64;
+    /* Ctrl-a to Ctrl-~ */
+    else if (kbinput >= 'a' && kbinput <= '~')
+	retval = kbinput - 96;
+    else
+	retval = kbinput;
+
+#ifdef DEBUG
+    fprintf(stderr, "get_control_kbinput(): kbinput = %d, retval = %d\n", kbinput, ascii_digits, *complete, retval);
+#endif
+
     return retval;
 }
 
 /* Translate escape sequences, most of which correspond to extended
- * keypad values.  These sequences are generated when the terminal
- * doesn't support the needed keys.  Assume that Escape has already been
- * read in, and that nodelay(win) is TRUE. */
-int get_escape_seq_kbinput(WINDOW *win, int *escape_seq, size_t
-	escape_seq_len)
+ * keypad values, nto their corresponding key values.  These sequences
+ * are generated when the keypad doesn't support the needed keys.
+ * Assume that Escape has already been read in. */
+int get_escape_seq_kbinput(int *escape_seq, size_t es_len)
 {
-    int kbinput = ERR;
+    int retval = ERR;
 
-    if (escape_seq_len > 1) {
+    if (es_len > 1) {
 	switch (escape_seq[0]) {
 	    case 'O':
 		switch (escape_seq[1]) {
 		    case '2':
-			if (escape_seq_len >= 3) {
+			if (es_len >= 3) {
 			    switch (escape_seq[2]) {
 				case 'P': /* Esc O 2 P == F13 on
 					   * xterm. */
-				    kbinput = KEY_F(13);
+				    retval = KEY_F(13);
 				    break;
 				case 'Q': /* Esc O 2 Q == F14 on
 					   * xterm. */
-				    kbinput = KEY_F(14);
+				    retval = KEY_F(14);
 				    break;
 			    }
 			}
@@ -450,142 +571,142 @@ int get_escape_seq_kbinput(WINDOW *win, int *escape_seq, size_t
 			       * VT100/VT320/xterm. */
 		    case 'D': /* Esc O D == Left on
 			       * VT100/VT320/xterm. */
-			kbinput = get_escape_seq_abcd(escape_seq[1]);
+			retval = get_escape_seq_abcd(escape_seq[1]);
 			break;
 		    case 'E': /* Esc O E == Center (5) on numeric keypad
 			       * with NumLock off on xterm. */
-			kbinput = '5';
+			retval = ERR;
 			break;
 		    case 'F': /* Esc O F == End on xterm. */
-			kbinput = NANO_END_KEY;
+			retval = NANO_END_KEY;
 			break;
 		    case 'H': /* Esc O H == Home on xterm. */
-			kbinput = NANO_HOME_KEY;
+			retval = NANO_HOME_KEY;
 			break;
 		    case 'M': /* Esc O M == Enter on numeric keypad with
 			       * NumLock off on
 			       * VT100/VT220/VT320/xterm/Eterm. */
-			kbinput = NANO_ENTER_KEY;
+			retval = NANO_ENTER_KEY;
 			break;
 		    case 'P': /* Esc O P == F1 on VT100/VT220/VT320/Hurd
 			       * console. */
-			kbinput = KEY_F(1);
+			retval = KEY_F(1);
 			break;
 		    case 'Q': /* Esc O Q == F2 on VT100/VT220/VT320/Hurd
 			       * console. */
-			kbinput = KEY_F(2);
+			retval = KEY_F(2);
 			break;
 		    case 'R': /* Esc O R == F3 on VT100/VT220/VT320/Hurd
 			       * console. */
-			kbinput = KEY_F(3);
+			retval = KEY_F(3);
 			break;
 		    case 'S': /* Esc O S == F4 on VT100/VT220/VT320/Hurd
 			       * console. */
-			kbinput = KEY_F(4);
+			retval = KEY_F(4);
 			break;
 		    case 'T': /* Esc O T == F5 on Hurd console. */
-			kbinput = KEY_F(5);
+			retval = KEY_F(5);
 			break;
 		    case 'U': /* Esc O U == F6 on Hurd console. */
-			kbinput = KEY_F(6);
+			retval = KEY_F(6);
 			break;
 		    case 'V': /* Esc O V == F7 on Hurd console. */
-			kbinput = KEY_F(7);
+			retval = KEY_F(7);
 			break;
 		    case 'W': /* Esc O W == F8 on Hurd console. */
-			kbinput = KEY_F(8);
+			retval = KEY_F(8);
 			break;
 		    case 'X': /* Esc O X == F9 on Hurd console. */
-			kbinput = KEY_F(9);
+			retval = KEY_F(9);
 			break;
 		    case 'Y': /* Esc O Y == F10 on Hurd console. */
-			kbinput = KEY_F(10);
+			retval = KEY_F(10);
 			break;
 		    case 'a': /* Esc O a == Ctrl-Up on rxvt. */
 		    case 'b': /* Esc O b == Ctrl-Down on rxvt. */
 		    case 'c': /* Esc O c == Ctrl-Right on rxvt. */
 		    case 'd': /* Esc O d == Ctrl-Left on rxvt. */
-			kbinput = get_escape_seq_abcd(escape_seq[1]);
+			retval = get_escape_seq_abcd(escape_seq[1]);
 			break;
 		    case 'j': /* Esc O j == '*' on numeric keypad with
 			       * NumLock off on
 			       * VT100/VT220/VT320/xterm/rxvt. */
-			kbinput = '*';
+			retval = '*';
 			break;
 		    case 'k': /* Esc O k == '+' on numeric keypad with
 			       * NumLock off on
 			       * VT100/VT220/VT320/xterm/rxvt. */
-			kbinput = '+';
+			retval = '+';
 			break;
 		    case 'l': /* Esc O l == ',' on numeric keypad with
 			       * NumLock off on
 			       * VT100/VT220/VT320/xterm/rxvt. */
-			kbinput = '+';
+			retval = '+';
 			break;
 		    case 'm': /* Esc O m == '-' on numeric keypad with
 			       * NumLock off on
 			       * VT100/VT220/VT320/xterm/rxvt. */
-			kbinput = '-';
+			retval = '-';
 			break;
 		    case 'n': /* Esc O n == Delete (.) on numeric keypad
 			       * with NumLock off on
 			       * VT100/VT220/VT320/xterm/rxvt. */
-			kbinput = NANO_DELETE_KEY;
+			retval = NANO_DELETE_KEY;
 			break;
 		    case 'o': /* Esc O o == '/' on numeric keypad with
 			       * NumLock off on
 			       * VT100/VT220/VT320/xterm/rxvt. */
-			kbinput = '/';
+			retval = '/';
 			break;
 		    case 'p': /* Esc O p == Insert (0) on numeric keypad
 			       * with NumLock off on
 			       * VT100/VT220/VT320/rxvt. */
-			kbinput = NANO_INSERTFILE_KEY;
+			retval = NANO_INSERTFILE_KEY;
 			break;
 		    case 'q': /* Esc O q == End (1) on numeric keypad
 			       * with NumLock off on
 			       * VT100/VT220/VT320/rxvt. */
-			kbinput = NANO_END_KEY;
+			retval = NANO_END_KEY;
 			break;
 		    case 'r': /* Esc O r == Down (2) on numeric keypad
 			       * with NumLock off on
 			       * VT100/VT220/VT320/rxvt. */
-			kbinput = NANO_NEXTLINE_KEY;
+			retval = NANO_NEXTLINE_KEY;
 			break;
 		    case 's': /* Esc O s == PageDown (3) on numeric
 			       * keypad with NumLock off on
 			       * VT100/VT220/VT320/rxvt. */
-			kbinput = NANO_NEXTPAGE_KEY;
+			retval = NANO_NEXTPAGE_KEY;
 			break;
 		    case 't': /* Esc O t == Left (4) on numeric keypad
 			       * with NumLock off on
 			       * VT100/VT220/VT320/rxvt. */
-			kbinput = NANO_BACK_KEY;
+			retval = NANO_BACK_KEY;
 			break;
 		    case 'u': /* Esc O u == Center (5) on numeric keypad
 			       * with NumLock off on
 			       * VT100/VT220/VT320/rxvt/Eterm. */
-			kbinput = '5';
+			retval = ERR;
 			break;
 		    case 'v': /* Esc O v == Right (6) on numeric keypad
 			       * with NumLock off on
 			       * VT100/VT220/VT320/rxvt. */
-			kbinput = NANO_FORWARD_KEY;
+			retval = NANO_FORWARD_KEY;
 			break;
 		    case 'w': /* Esc O w == Home (7) on numeric keypad
 			       * with NumLock off on
 			       * VT100/VT220/VT320/rxvt. */
-			kbinput = NANO_HOME_KEY;
+			retval = NANO_HOME_KEY;
 			break;
 		    case 'x': /* Esc O x == Up (8) on numeric keypad
 			       * with NumLock off on
 			       * VT100/VT220/VT320/rxvt. */
-			kbinput = NANO_PREVLINE_KEY;
+			retval = NANO_PREVLINE_KEY;
 			break;
 		    case 'y': /* Esc O y == PageUp (9) on numeric keypad
 			       * with NumLock off on
 			       * VT100/VT220/VT320/rxvt. */
-			kbinput = NANO_PREVPAGE_KEY;
+			retval = NANO_PREVPAGE_KEY;
 			break;
 		}
 		break;
@@ -595,55 +716,55 @@ int get_escape_seq_kbinput(WINDOW *win, int *escape_seq, size_t
 		    case 'b': /* Esc o b == Ctrl-Down on Eterm. */
 		    case 'c': /* Esc o c == Ctrl-Right on Eterm. */
 		    case 'd': /* Esc o d == Ctrl-Left on Eterm. */
-			kbinput = get_escape_seq_abcd(escape_seq[1]);
+			retval = get_escape_seq_abcd(escape_seq[1]);
 			break;
 		}
 		break;
 	    case '[':
 		switch (escape_seq[1]) {
 		    case '1':
-			if (escape_seq_len >= 3) {
+			if (es_len >= 3) {
 			    switch (escape_seq[2]) {
 				case '1': /* Esc [ 1 1 ~ == F1 on
 					   * rxvt/Eterm. */
-				    kbinput = KEY_F(1);
+				    retval = KEY_F(1);
 				    break;
 				case '2': /* Esc [ 1 2 ~ == F2 on
 					   * rxvt/Eterm. */
-				    kbinput = KEY_F(2);
+				    retval = KEY_F(2);
 				    break;
 				case '3': /* Esc [ 1 3 ~ == F3 on
 					   * rxvt/Eterm. */
-				    kbinput = KEY_F(3);
+				    retval = KEY_F(3);
 				    break;
 				case '4': /* Esc [ 1 4 ~ == F4 on
 					   * rxvt/Eterm. */
-				    kbinput = KEY_F(4);
+				    retval = KEY_F(4);
 				    break;
 				case '5': /* Esc [ 1 5 ~ == F5 on
 					   * xterm/rxvt/Eterm. */
-				    kbinput = KEY_F(5);
+				    retval = KEY_F(5);
 				    break;
 				case '7': /* Esc [ 1 7 ~ == F6 on
 					   * VT220/VT320/Linux
 					   * console/xterm/rxvt/Eterm. */
-				    kbinput = KEY_F(6);
+				    retval = KEY_F(6);
 				    break;
 				case '8': /* Esc [ 1 8 ~ == F7 on
 					   * VT220/VT320/Linux
 					   * console/xterm/rxvt/Eterm. */
-				    kbinput = KEY_F(7);
+				    retval = KEY_F(7);
 				    break;
 				case '9': /* Esc [ 1 9 ~ == F8 on
 					   * VT220/VT320/Linux
 					   * console/xterm/rxvt/Eterm. */
-				    kbinput = KEY_F(8);
+				    retval = KEY_F(8);
 				    break;
 				case ';':
-    if (escape_seq_len >= 4) {
+    if (es_len >= 4) {
 	switch (escape_seq[3]) {
 	    case '2':
-		if (escape_seq_len >= 5) {
+		if (es_len >= 5) {
 		    switch (escape_seq[4]) {
 			case 'A': /* Esc [ 1 ; 2 A == Shift-Up on
 				   * xterm. */
@@ -653,13 +774,13 @@ int get_escape_seq_kbinput(WINDOW *win, int *escape_seq, size_t
 				   * xterm. */
 			case 'D': /* Esc [ 1 ; 2 D == Shift-Left on
 				   * xterm. */
-			    kbinput = get_escape_seq_abcd(escape_seq[4]);
+			    retval = get_escape_seq_abcd(escape_seq[4]);
 			    break;
 		    }
 		}
 		break;
 	    case '5':
-		if (escape_seq_len >= 5) {
+		if (es_len >= 5) {
 		    switch (escape_seq[4]) {
 			case 'A': /* Esc [ 1 ; 5 A == Ctrl-Up on
 				   * xterm. */
@@ -669,7 +790,7 @@ int get_escape_seq_kbinput(WINDOW *win, int *escape_seq, size_t
 				   * xterm. */
 			case 'D': /* Esc [ 1 ; 5 D == Ctrl-Left on
 				   * xterm. */
-			    kbinput = get_escape_seq_abcd(escape_seq[4]);
+			    retval = get_escape_seq_abcd(escape_seq[4]);
 			    break;
 		    }
 		}
@@ -679,81 +800,81 @@ int get_escape_seq_kbinput(WINDOW *win, int *escape_seq, size_t
 				    break;
 				default: /* Esc [ 1 ~ == Home on
 					  * VT320/Linux console. */
-				    kbinput = NANO_HOME_KEY;
+				    retval = NANO_HOME_KEY;
 				    break;
 			    }
 			}
 			break;
 		    case '2':
-			if (escape_seq_len >= 3) {
+			if (es_len >= 3) {
 			    switch (escape_seq[2]) {
 				case '0': /* Esc [ 2 0 ~ == F9 on
 					   * VT220/VT320/Linux
 					   * console/xterm/rxvt/Eterm. */
-				    kbinput = KEY_F(9);
+				    retval = KEY_F(9);
 				    break;
 				case '1': /* Esc [ 2 1 ~ == F10 on
 					   * VT220/VT320/Linux
 					   * console/xterm/rxvt/Eterm. */
-				    kbinput = KEY_F(10);
+				    retval = KEY_F(10);
 				    break;
 				case '3': /* Esc [ 2 3 ~ == F11 on
 					   * VT220/VT320/Linux
 					   * console/xterm/rxvt/Eterm. */
-				    kbinput = KEY_F(11);
+				    retval = KEY_F(11);
 				    break;
 				case '4': /* Esc [ 2 4 ~ == F12 on
 					   * VT220/VT320/Linux
 					   * console/xterm/rxvt/Eterm. */
-				    kbinput = KEY_F(12);
+				    retval = KEY_F(12);
 				    break;
 				case '5': /* Esc [ 2 5 ~ == F13 on
 					   * VT220/VT320/Linux
 					   * console/rxvt/Eterm. */
-				    kbinput = KEY_F(13);
+				    retval = KEY_F(13);
 				    break;
 				case '6': /* Esc [ 2 6 ~ == F14 on
 					   * VT220/VT320/Linux
 					   * console/rxvt/Eterm. */
-				    kbinput = KEY_F(14);
+				    retval = KEY_F(14);
 				    break;
 				default: /* Esc [ 2 ~ == Insert on
 					  * VT220/VT320/Linux
 					  * console/xterm. */
-				    kbinput = NANO_INSERTFILE_KEY;
+				    retval = NANO_INSERTFILE_KEY;
 				    break;
 			    }
 			}
 			break;
 		    case '3': /* Esc [ 3 ~ == Delete on
 			       * VT220/VT320/Linux console/xterm. */
-			kbinput = NANO_DELETE_KEY;
+			retval = NANO_DELETE_KEY;
 			break;
 		    case '4': /* Esc [ 4 ~ == End on VT220/VT320/Linux
 			       * console/xterm. */
-			kbinput = NANO_END_KEY;
+			retval = NANO_END_KEY;
 			break;
 		    case '5': /* Esc [ 5 ~ == PageUp on
 			       * VT220/VT320/Linux console/xterm; Esc [
 			       * 5 ^ == PageUp on Eterm. */
-			kbinput = NANO_PREVPAGE_KEY;
+			retval = NANO_PREVPAGE_KEY;
 			break;
 		    case '6': /* Esc [ 6 ~ == PageDown on
 			       * VT220/VT320/Linux console/xterm; Esc [
 			       * 6 ^ == PageDown on Eterm. */
-			kbinput = NANO_NEXTPAGE_KEY;
+			retval = NANO_NEXTPAGE_KEY;
 			break;
 		    case '7': /* Esc [ 7 ~ == Home on rxvt. */
-			kbinput = NANO_HOME_KEY;
+			retval = NANO_HOME_KEY;
 			break;
 		    case '8': /* Esc [ 8 ~ == End on rxvt. */
-			kbinput = NANO_END_KEY;
+			retval = NANO_END_KEY;
 			break;
 		    case '9': /* Esc [ 9 == Delete on Hurd console. */
-			kbinput = NANO_DELETE_KEY;
+			retval = NANO_DELETE_KEY;
 			break;
 		    case '@': /* Esc [ @ == Insert on Hurd console. */
-			kbinput = NANO_INSERTFILE_KEY;
+			retval = NANO_INSERTFILE_KEY;
 			break;
 		    case 'A': /* Esc [ A == Up on ANSI/VT220/Linux
 			       * console/FreeBSD console/Hurd
@@ -767,126 +888,126 @@ int get_escape_seq_kbinput(WINDOW *win, int *escape_seq, size_t
 		    case 'D': /* Esc [ D == Left on ANSI/VT220/Linux
 			       * console/FreeBSD console/Hurd
 			       * console/rxvt/Eterm. */
-			kbinput = get_escape_seq_abcd(escape_seq[1]);
+			retval = get_escape_seq_abcd(escape_seq[1]);
 			break;
 		    case 'E': /* Esc [ E == Center (5) on numeric keypad
 			       * with NumLock off on FreeBSD console. */
-			kbinput = '5';
+			retval = ERR;
 			break;
 		    case 'F': /* Esc [ F == End on FreeBSD
 			       * console/Eterm. */
-			kbinput = NANO_END_KEY;
+			retval = NANO_END_KEY;
 			break;
 		    case 'G': /* Esc [ G == PageDown on FreeBSD
 			       * console. */
-			kbinput = NANO_NEXTPAGE_KEY;
+			retval = NANO_NEXTPAGE_KEY;
 			break;
 		    case 'H': /* Esc [ H == Home on ANSI/VT220/FreeBSD
 			       * console/Hurd console/Eterm. */
-			kbinput = NANO_HOME_KEY;
+			retval = NANO_HOME_KEY;
 			break;
 		    case 'I': /* Esc [ I == PageUp on FreeBSD
 			       * console. */
-			kbinput = NANO_PREVPAGE_KEY;
+			retval = NANO_PREVPAGE_KEY;
 			break;
 		    case 'L': /* Esc [ L == Insert on ANSI/FreeBSD
 			       * console. */
-			kbinput = NANO_INSERTFILE_KEY;
+			retval = NANO_INSERTFILE_KEY;
 			break;
 		    case 'M': /* Esc [ M == F1 on FreeBSD console. */
-			kbinput = KEY_F(1);
+			retval = KEY_F(1);
 			break;
 		    case 'N': /* Esc [ N == F2 on FreeBSD console. */
-			kbinput = KEY_F(2);
+			retval = KEY_F(2);
 			break;
 		    case 'O':
-			if (escape_seq_len >= 3) {
+			if (es_len >= 3) {
 			    switch (escape_seq[2]) {
 				case 'P': /* Esc [ O P == F1 on
 					   * xterm. */
-				    kbinput = KEY_F(1);
+				    retval = KEY_F(1);
 				    break;
 				case 'Q': /* Esc [ O Q == F2 on
 					   * xterm. */
-				    kbinput = KEY_F(2);
+				    retval = KEY_F(2);
 				    break;
 				case 'R': /* Esc [ O R == F3 on
 					   * xterm. */
-				    kbinput = KEY_F(3);
+				    retval = KEY_F(3);
 				    break;
 				case 'S': /* Esc [ O S == F4 on
 					   * xterm. */
-				    kbinput = KEY_F(4);
+				    retval = KEY_F(4);
 				    break;
 				default: /* Esc [ O == F3 on
 					  * FreeBSD console. */
-				    kbinput = KEY_F(3);
+				    retval = KEY_F(3);
 				    break;
 			    }
 			}
 			break;
 		    case 'P': /* Esc [ P == F4 on FreeBSD console. */
-			kbinput = KEY_F(4);
+			retval = KEY_F(4);
 			break;
 		    case 'Q': /* Esc [ Q == F5 on FreeBSD console. */
-			kbinput = KEY_F(5);
+			retval = KEY_F(5);
 			break;
 		    case 'R': /* Esc [ R == F6 on FreeBSD console. */
-			kbinput = KEY_F(6);
+			retval = KEY_F(6);
 			break;
 		    case 'S': /* Esc [ S == F7 on FreeBSD console. */
-			kbinput = KEY_F(7);
+			retval = KEY_F(7);
 			break;
 		    case 'T': /* Esc [ T == F8 on FreeBSD console. */
-			kbinput = KEY_F(8);
+			retval = KEY_F(8);
 			break;
 		    case 'U': /* Esc [ U == PageDown on Hurd console. */
-			kbinput = NANO_NEXTPAGE_KEY;
+			retval = NANO_NEXTPAGE_KEY;
 			break;
 		    case 'V': /* Esc [ V == PageUp on Hurd console. */
-			kbinput = NANO_PREVPAGE_KEY;
+			retval = NANO_PREVPAGE_KEY;
 			break;
 		    case 'W': /* Esc [ W == F11 on FreeBSD console. */
-			kbinput = KEY_F(11);
+			retval = KEY_F(11);
 			break;
 		    case 'X': /* Esc [ X == F12 on FreeBSD console. */
-			kbinput = KEY_F(12);
+			retval = KEY_F(12);
 			break;
 		    case 'Y': /* Esc [ Y == End on Hurd console. */
-			kbinput = NANO_END_KEY;
+			retval = NANO_END_KEY;
 			break;
 		    case 'Z': /* Esc [ Z == F14 on FreeBSD console. */
-			kbinput = KEY_F(14);
+			retval = KEY_F(14);
 			break;
 		    case 'a': /* Esc [ a == Shift-Up on rxvt/Eterm. */
 		    case 'b': /* Esc [ b == Shift-Down on rxvt/Eterm. */
 		    case 'c': /* Esc [ c == Shift-Right on
 			       * rxvt/Eterm. */
 		    case 'd': /* Esc [ d == Shift-Left on rxvt/Eterm. */
-			kbinput = get_escape_seq_abcd(escape_seq[1]);
+			retval = get_escape_seq_abcd(escape_seq[1]);
 			break;
 		    case '[':
-			if (escape_seq_len >= 3) {
+			if (es_len >= 3) {
 			    switch (escape_seq[2]) {
 				case 'A': /* Esc [ [ A == F1 on Linux
 					   * console. */
-				    kbinput = KEY_F(1);
+				    retval = KEY_F(1);
 				    break;
 				case 'B': /* Esc [ [ B == F2 on Linux
 					   * console. */
-				    kbinput = KEY_F(2);
+				    retval = KEY_F(2);
 				    break;
 				case 'C': /* Esc [ [ C == F3 on Linux
 					   * console. */
-				    kbinput = KEY_F(3);
+				    retval = KEY_F(3);
 				    break;
 				case 'D': /* Esc [ [ D == F4 on Linux
 					   * console. */
-				    kbinput = KEY_F(4);
+				    retval = KEY_F(4);
 				    break;
 				case 'E': /* Esc [ [ E == F5 on Linux
 					   * console. */
-				    kbinput = KEY_F(5);
+				    retval = KEY_F(5);
 				    break;
 			    }
 			}
@@ -896,14 +1017,11 @@ int get_escape_seq_kbinput(WINDOW *win, int *escape_seq, size_t
 	}
     }
 
-    if (kbinput == ERR) {
-	/* This escape sequence is unrecognized; send it back. */
-	for (; escape_seq_len > 1; escape_seq_len--)
-	    ungetch(escape_seq[escape_seq_len - 1]);
-	kbinput = escape_seq[0];
-    }
+#ifdef DEBUG
+    fprintf(stderr, "get_escape_seq_kbinput(): retval = %d\n", retval);
+#endif
 
-    return kbinput;
+    return retval;
 }
 
 /* Return the equivalent arrow key value for the case-insensitive
@@ -923,6 +1041,176 @@ int get_escape_seq_abcd(int kbinput)
 	default:
 	    return ERR;
     }
+}
+
+/* Read in a string of input characters (e.g. an escape sequence)
+ * verbatim.  Store the string in v_kbinput and return the length
+ * of the string in v_len.  Assume nodelay(win) is FALSE. */
+int *get_verbatim_kbinput(WINDOW *win, int *v_kbinput, size_t
+	*v_len, int allow_ascii)
+{
+    int kbinput;
+    size_t i = 0, v_newlen = 0;
+
+#ifndef NANO_SMALL
+    allow_pending_sigwinch(TRUE);
+#endif
+
+    *v_len = 0;
+    v_kbinput = (int *)nmalloc(sizeof(int));
+
+    /* Turn off flow control characters if necessary so that we can type
+     * them in verbatim, and turn the keypad off so that we don't get
+     * extended keypad values outside the ASCII range. */
+    if (ISSET(PRESERVE))
+	disable_flow_control();
+    keypad(win, FALSE);
+
+    /* Read the first character using blocking input, since using
+     * non-blocking input will eat up all unused CPU.  Then increment
+     * v_len and save the character in v_kbinput. */
+    kbinput = wgetch(win);
+    (*v_len)++;
+    v_kbinput[0] = kbinput;
+#ifdef DEBUG
+    fprintf(stderr, "get_verbatim_kbinput(): kbinput = %d, v_len = %d\n", kbinput, *v_len);
+#endif
+
+    /* Read any following characters using non-blocking input, until
+     * there aren't any left to be read, and save the complete string of
+     * characters in v_kbinput, incrementing v_len accordingly.  We read
+     * them all at once in order to minimize the chance that there might
+     * be a delay greater than nodelay() provides for between them, in
+     * which case we'll stop before all of them are read. */
+    nodelay(win, TRUE);
+    while ((kbinput = wgetch(win)) != ERR) {
+	(*v_len)++;
+	v_kbinput = (int *)nrealloc(v_kbinput, *v_len * sizeof(int));
+	v_kbinput[*v_len - 1] = kbinput;
+#ifdef DEBUG
+	fprintf(stderr, "get_verbatim_kbinput(): kbinput = %d, v_len = %d\n", kbinput, *v_len);
+#endif
+    }
+    nodelay(win, FALSE);
+
+    /* Pass the string of characters to get_untranslated_kbinput(), one
+     * by one, so it can handle them as ASCII character sequences and/or
+     * escape sequences.  Filter out ERR's from v_kbinput in the
+     * process; they shouldn't occur in the string of characters unless
+     * we're reading an incomplete sequence, in which case we only want
+     * to keep the complete sequence. */
+    for (; i < *v_len; i++) {
+	v_kbinput[v_newlen] = get_untranslated_kbinput(v_kbinput[i], i,
+		allow_ascii
+#ifndef NANO_SMALL
+		, FALSE
+#endif
+		);
+	if (v_kbinput[i] != ERR && v_kbinput[v_newlen] != ERR)
+	    v_newlen++;
+    }
+
+    if (v_newlen == 0) {
+	/* If there were no characters after the ERR's were filtered
+	 * out, set v_len and reallocate v_kbinput to account for
+	 * one character, and set that character to ERR. */
+	*v_len = 1;
+	v_kbinput = (int *)nrealloc(v_kbinput, sizeof(int));
+	v_kbinput[0] = ERR;
+    } else if (v_newlen != *v_len) {
+	/* If there were fewer characters after the ERR's were filtered
+	 * out, set v_len and reallocate v_kbinput to account for
+	 * the new number of characters. */
+	*v_len = v_newlen;
+	v_kbinput = (int *)nrealloc(v_kbinput, *v_len * sizeof(int));
+    }
+
+    /* If allow_ascii is TRUE and v_kbinput[0] is ERR, we need to
+     * complete an ASCII character sequence.  Keep reading in characters
+     * using blocking input until we get a complete sequence. */
+    if (allow_ascii && v_kbinput[0] == ERR) {
+	while (v_kbinput[0] == ERR) {
+	    kbinput = wgetch(win);
+	    v_kbinput[0] = get_untranslated_kbinput(kbinput, i,
+		allow_ascii
+#ifndef NANO_SMALL
+		, FALSE
+#endif
+		);
+	    i++;
+	}
+    }
+
+    /* Turn flow control characters back on if necessary and turn the
+     * keypad back on now that we're done. */
+    if (ISSET(PRESERVE))
+	enable_flow_control();
+    keypad(win, TRUE);
+
+#ifndef NANO_SMALL
+    allow_pending_sigwinch(FALSE);
+#endif
+
+    return v_kbinput;
+}
+
+int get_untranslated_kbinput(int kbinput, size_t position, int
+	allow_ascii
+#ifndef NANO_SMALL
+	, int reset
+#endif
+	)
+{
+    static size_t ascii_digits = 0;
+    int retval;
+
+#ifndef NANO_SMALL
+    if (reset) {
+	ascii_digits = 0;
+	return ERR;
+    }
+#endif
+
+    if (allow_ascii) {
+	/* position is equal to the number of ASCII digits we've read so
+	 * far, and kbinput is a digit from '0' to '9': ASCII character
+	 * sequence mode.  If the digit sequence's range is limited to
+	 * 2XX (the first digit is in the '0' to '2' range and it's the
+	 * first digit, or if it's in the full digit range and it's not
+	 * the first digit), increment the ASCII digit counter and
+	 * interpret the digit.  If the digit sequence's range is not
+	 * limited to 2XX, fall through. */
+	if (position == ascii_digits && kbinput >= '0' && kbinput <= '9') {
+	    if (kbinput <= '2' || ascii_digits > 0) {
+		ascii_digits++;
+		kbinput = get_ascii_kbinput(kbinput, ascii_digits
+#ifndef NANO_SMALL
+			, FALSE
+#endif
+			);
+		if (kbinput != ERR)
+		    /* If we've read in a complete ASCII digit sequence,
+		     * reset the ASCII digit counter. */
+		    ascii_digits = 0;
+	    }
+	} else if (ascii_digits > 0)
+	    /* position is not equal to the number of ASCII digits we've
+	     * read or kbinput is a non-digit, and we're in the middle
+	     * of an ASCII character sequence.  Reset the ASCII digit
+	     * counter. */
+	    ascii_digits = 0;
+    }
+
+    /* Save the corresponding ASCII character as the result if we've
+     * read in a complete ASCII digit sequence, or the passed-in
+     * character if we haven't. */
+     retval = kbinput;
+
+#ifdef DEBUG
+    fprintf(stderr, "get_untranslated_kbinput(): kbinput = %d, position = %d, ascii_digits = %d\n", kbinput, position, ascii_digits);
+#endif
+
+    return retval;
 }
 
 #ifndef DISABLE_MOUSE

@@ -65,6 +65,17 @@ CVS code -
 	  suggested by Stephan T. Lavavej)
 	- Minor tweaks to the punctuation in some statusbar messages.
 	  (DLR)
+	- Overhaul the low-level input routines into main routines that
+	  actually get the input and state machines that interpret the
+	  input.  This allows better handling of the input (e.g. ignored
+	  keys are now always ignored instead of just being ignored when
+	  there are no escapes prefixing them) and will make it easier
+	  to port to interfaces that don't have blocking input.  New
+	  functions reset_kbinput(), get_translated_kbinput(),
+	  get_control_kbinput(), and get_untranslated_kbinput(); changes
+	  to do_verbatim_input(), handle_sigwinch(), get_kbinput(),
+	  get_ascii_kbinput(), get_escape_seq_kbinput(), and
+	  get_verbatim_kbinput(). (DLR)
 - files.c:
   add_open_file()
 	- Rearrange the NANO_SMALL #ifdef so that the code to set the
