@@ -3099,7 +3099,7 @@ int main(int argc, char *argv[])
 #if !defined(ENABLE_NANORC) && defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
     /* if we don't have rcfile support, we're root, and
        --disable-wrapping-as-root is used, turn wrapping off */
-    if (geteuid() == 0)
+    if (geteuid() == NANO_ROOT_UID)
 	SET(NO_WRAP);
 #endif
 
@@ -3328,7 +3328,7 @@ int main(int argc, char *argv[])
 	flags |= flags_cpy;
     }
 #if defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
-    else if (geteuid() == 0)
+    else if (geteuid() == NANO_ROOT_UID)
 	SET(NO_WRAP);
 #endif
 #endif /* ENABLE_NANORC */
