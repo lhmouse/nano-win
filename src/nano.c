@@ -3567,13 +3567,13 @@ void do_output(int *kbinput, size_t kbinput_len)
 	/* Do we have to call edit_refresh(), or can we get away with
 	 * update_line()? */
 
-    char *key = charalloc(
+    char key[
 #ifdef NANO_WIDE
-	MB_CUR_MAX
+	MB_LEN_MAX
 #else
 	1
 #endif
-	);		/* The current multibyte character we have. */
+	];		/* The current multibyte character we have. */
     int key_len;	/* The length of the current multibyte
 			 * character. */
 
@@ -3664,8 +3664,6 @@ void do_output(int *kbinput, size_t kbinput_len)
 	    do_refresh = TRUE;
 #endif
     }
-
-    free(key);
 
     /* Turn constant cursor position display back on if it was on
      * before. */
