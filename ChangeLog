@@ -1,7 +1,7 @@
 CVS code -
 - General
   GNU compliance issues:
-	- Reworked shortcut list, put "Get Help" into  default list, 
+	- Reworked shortcut list, put "Get Help" into default list, 
 	  removed "Goto Line", aligned "Read File" with "Write Out" and 
 	  "Replace" with "Where is" for consistency.
 	- Added texinfo manual nano.texi.  Added texi options to 
@@ -39,6 +39,8 @@ CVS code -
 	- Translation updates and grammatical/typo fixes (Jordi).
 - ca.po:
 	- Catalan translation by Jordi Mallach :)
+	- Miquel Vidal <miquel@sindominio.net> went over it and corrected
+	  many typos and completed bits that remained untranslated by error.
 
 nano-0.9.99pre2 - 01/31/2001
 General
