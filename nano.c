@@ -586,6 +586,7 @@ int do_enter(filestruct * inptr)
 		extra++;
 		spc++;
 		current_x++;
+		totsize++;
 	    }
 	    new->data = nmalloc(strlen(tmp) + extra + 1);
 	    strncpy(new->data, current->data, extra);
@@ -911,6 +912,7 @@ void do_wrap(filestruct * inptr, char input_char)
     }
     /* Else we start a new line. */
     else {
+
 	temp->prev = inptr;
 	temp->next = inptr->next;
 
@@ -922,6 +924,25 @@ void do_wrap(filestruct * inptr, char input_char)
 	    filebot = temp;
 
 	SET(SAMELINEWRAP);
+
+	if (ISSET(AUTOINDENT)) {
+	    char *spc = inptr->data;
+	    char *t = NULL;
+	    int extra = 0;
+	    if (spc) {
+	        while ((*spc == ' ') || (*spc == '\t')) {
+		    extra++;
+		    spc++;
+		    right++;
+		    totsize++;
+		}
+		t = nmalloc(strlen(temp->data) + extra + 1);
+		strncpy(t, inptr->data, extra);
+		strcpy(t + extra, temp->data);
+		free(temp->data);
+		temp->data = t;
+	    }
+	}
     }
 
 
@@ -929,7 +950,7 @@ void do_wrap(filestruct * inptr, char input_char)
     /* Everything about it makes me want this line here but it causes
      * totsize to be high by one for some reason.  Sigh. (Rob) */
     /* totsize++; */
-
+	
     renumber(inptr);
     edit_update(edittop, TOP);
 
