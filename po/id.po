@@ -952,15 +952,15 @@ msgstr "Saya mendapat \"%s\"\n"
 #. The first value will be the one displayed in the shortcuts.
 #: winio.c:1035
 msgid "Yy"
-msgstr ""
+msgstr "Yy"
 
 #: winio.c:1036
 msgid "Nn"
-msgstr ""
+msgstr "Tt"
 
 #: winio.c:1037
 msgid "Aa"
-msgstr ""
+msgstr "Ss"
 
 #: winio.c:1050
 msgid "Yes"
