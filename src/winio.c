@@ -2897,8 +2897,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 #endif /* !NANO_SMALL */
 }
 
-/* Just update one line in the edit buffer.  Basically a wrapper for
- * edit_add().
+/* Just update one line in the edit buffer.  This is basically a wrapper
+ * for edit_add().
  *
  * If fileptr != current, then index is considered 0.  The line will be
  * displayed starting with fileptr->data[index].  Likely args are
@@ -2906,7 +2906,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 void update_line(const filestruct *fileptr, size_t index)
 {
     int line;
-	/* line in the edit window for CURSES calls */
+	/* The line in the edit window that we want to update. */
     char *converted;
 	/* fileptr->data converted to have tabs and control characters
 	 * expanded. */
@@ -2922,7 +2922,7 @@ void update_line(const filestruct *fileptr, size_t index)
     if (line < 0 || line >= editwinrows)
 	return;
 
-    /* First, blank out the line (at a minimum) */
+    /* First, blank out the line. */
     mvwaddstr(edit, line, 0, hblank);
 
     /* Next, convert variables that index the line to their equivalent
@@ -2930,11 +2930,11 @@ void update_line(const filestruct *fileptr, size_t index)
     index = (fileptr == current) ? strnlenpt(fileptr->data, index) : 0;
     page_start = get_page_start(index);
 
-    /* Expand the line, replacing Tab by spaces, and control characters
-     * by their display form. */
+    /* Expand the line, replacing tabs with spaces, and control
+     * characters with their displayed forms. */
     converted = display_string(fileptr->data, page_start, COLS);
 
-    /* Now, paint the line */
+    /* Paint the line. */
     edit_add(fileptr, converted, line, page_start);
     free(converted);
 

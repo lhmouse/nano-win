@@ -2764,8 +2764,8 @@ void do_justify(bool full_justify)
 	        break_pos = break_line(current->data + indent_len,
 			fill - strnlenpt(current->data, indent_len),
 			TRUE);
-		if (break_pos == -1 || break_pos + indent_len ==
-			line_len)
+		if (break_pos == -1 ||
+			break_pos + indent_len == line_len)
 		    /* We can't break the line, or don't need to, so
 		     * just go on to the next. */
 		    goto continue_loc;
@@ -3587,6 +3587,15 @@ void do_output(int *kbinput, size_t kbinput_len)
 #endif
 
     for (i = 0; i < kbinput_len; i++) {
+	/* Null to newline, if needed. */
+	if (kbinput[i] == '\0')
+	    kbinput[i] = '\n';
+	/* Newline to Enter, if needed. */
+	else if (kbinput[i] == '\n') {
+	    do_enter();
+	    continue;
+	}
+
 #ifdef NANO_WIDE
 	/* Change the wide character to its multibyte value.  If it's
 	 * invalid, go on to the next character. */
@@ -3603,15 +3612,6 @@ void do_output(int *kbinput, size_t kbinput_len)
 #ifdef NANO_WIDE
 	}
 #endif
-
-	/* Null to newline, if needed. */
-	if (key[0] == '\0' && key_len == 1)
-	    key[0] = '\n';
-	/* Newline to Enter, if needed. */
-	else if (key[0] == '\n' && key_len == 1) {
-	    do_enter();
-	    continue;
-	}
 
 	/* When a character is inserted on the current magicline, it
 	 * means we need a new one! */
