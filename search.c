@@ -84,13 +84,13 @@ int search_init(int replacing)
 
      /* Okay, fun time.  backupstring is our holder for what is being 
 	returned from the statusq call.  Using answer for this would be tricky.
-	Here, if we're using PICO_MSGS, we only want nano to put the
+	Here, if we're using PICO_MODE, we only want nano to put the
 	old string back up as editable if it's not the same as last_search.
 
 	Otherwise, if we don't already have a backupstring, set it to
 	last_search.  */
 
-    if (ISSET(PICO_MSGS)) {
+    if (ISSET(PICO_MODE)) {
 	if (backupstring == NULL || !strcmp(backupstring, last_search))
 	    backupstring = mallocstrcpy(backupstring, "");
     }
@@ -98,7 +98,7 @@ int search_init(int replacing)
 	backupstring = mallocstrcpy(backupstring, last_search);
 
     /* If using Pico messages, we do things the old fashioned way... */
-    if (ISSET(PICO_MSGS)) {
+    if (ISSET(PICO_MODE)) {
 	if (last_search[0]) {
 
 	    /* We use COLS / 3 here because we need to see more on the line */
@@ -314,13 +314,13 @@ int do_search(void)
     }
 
     /* The sneaky user deleted the previous search string */
-    if (!ISSET(PICO_MSGS) && !strcmp(answer, "")) {
+    if (!ISSET(PICO_MODE) && !strcmp(answer, "")) {
 	statusbar(_("Search Cancelled"));
 	search_abort();
 	return 0;
     }
 
-     /* If answer is now == "", then PICO_MSGS is set.  So, copy
+     /* If answer is now == "", then PICO_MODE is set.  So, copy
 	last_search into answer... */
 
     if (!strcmp(answer, ""))
@@ -584,13 +584,13 @@ int do_replace(void)
     }
 
     /* Again, there was a previous string but they deleted it and hit enter */
-    if (!ISSET(PICO_MSGS) && !strcmp(answer, "")) {
+    if (!ISSET(PICO_MODE) && !strcmp(answer, "")) {
 	statusbar(_("Replace Cancelled"));
 	replace_abort();
 	return 0;
     }
 
-     /* If answer is now == "", then PICO_MSGS is set.  So, copy
+     /* If answer is now == "", then PICO_MODE is set.  So, copy
 	last_search into answer (and prevanswer)... */
     if (!strcmp(answer, "")) {
 	answer = mallocstrcpy(answer, last_search);
@@ -600,7 +600,7 @@ int do_replace(void)
 	prevanswer = mallocstrcpy(prevanswer, answer);
     }
 
-    if (ISSET(PICO_MSGS)) {
+    if (ISSET(PICO_MODE)) {
 	buf = nmalloc(strlen(last_replace) + 5);
 	if (strcmp(last_replace, "")) {
 	    if (strlen(last_replace) > (COLS / 3)) {

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-11-16 14:53-0500\n"
+"POT-Creation-Date: 2000-11-16 20:31-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -128,7 +128,7 @@ msgid "Help mode"
 msgstr ""
 
 #: global.c:128
-msgid "Pico messages"
+msgid "Pico mode"
 msgstr ""
 
 #: global.c:129
@@ -483,7 +483,7 @@ msgid ""
 msgstr ""
 
 #: nano.c:367
-msgid " -p\t \t--pico\t\t\tMake bottom 2 lines more Pico-like\n"
+msgid " -p\t \t--pico\t\t\tEmulate Pico as closely as possible\n"
 msgstr ""
 
 #: nano.c:369
@@ -569,7 +569,7 @@ msgid " -s [prog]  \tEnable alternate speller\n"
 msgstr ""
 
 #: nano.c:404
-msgid " -p \t\tMake bottom 2 lines more Pico-like\n"
+msgid " -p \t\tEmulate Pico as closely as possible\n"
 msgstr ""
 
 #: nano.c:405

@@ -364,7 +364,7 @@ void usage(void)
 	(_
 	 (" -r [#cols] 	--fill=[#cols]		Set fill cols to (wrap lines at) #cols\n"));
     printf(_
-	   (" -p	 	--pico			Make bottom 2 lines more Pico-like\n"));
+	   (" -p	 	--pico			Emulate Pico as closely as possible\n"));
     printf(_
 	   (" -s [prog] 	--speller=[prog]	Enable alternate speller\n"));
     printf(_
@@ -401,7 +401,7 @@ void usage(void)
     printf(_
 	   (" -r [#cols] 	Set fill cols to (wrap lines at) #cols\n"));
     printf(_(" -s [prog]  	Enable alternate speller\n"));
-    printf(_(" -p 		Make bottom 2 lines more Pico-like\n"));
+    printf(_(" -p 		Emulate Pico as closely as possible\n"));
     printf(_(" -t 		Auto save on exit, don't prompt\n"));
     printf(_(" -v 		View (read only) mode\n"));
     printf(_(" -w 		Don't wrap long lines\n"));
@@ -2008,7 +2008,7 @@ int main(int argc, char *argv[])
 	    SET(USE_MOUSE);
 	    break;
 	case 'p':
-	    SET(PICO_MSGS);
+	    SET(PICO_MODE);
 	    break;
 	case 'r':
 	    fill = atoi(optarg);
@@ -2046,7 +2046,7 @@ int main(int argc, char *argv[])
     argv0 = strrchr(argv[0], '/');
     if ((argv0 && strstr(argv0, "pico"))
 	|| (!argv0 && strstr(argv[0], "pico")))
-	SET(PICO_MSGS);
+	SET(PICO_MODE);
 
     /* See if there's a non-option in argv (first non-option is the
        filename, if +LINE is not given) */

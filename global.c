@@ -125,7 +125,7 @@ void toggle_init(void)
     toggle_autoindent_msg = _("Auto indent");
     toggle_suspend_msg = _("Suspend");
     toggle_nohelp_msg = _("Help mode");
-    toggle_picomode_msg = _("Pico messages");
+    toggle_picomode_msg = _("Pico mode");
     toggle_mouse_msg = _("Mouse support");
     toggle_cuttoend_msg = _("Cut to end");
 #ifdef HAVE_REGEX_H
@@ -142,7 +142,7 @@ void toggle_init(void)
     toggle_init_one(&toggles[3], TOGGLE_NOHELP_KEY, toggle_nohelp_msg,
 		    NO_HELP);
     toggle_init_one(&toggles[4], TOGGLE_PICOMODE_KEY, toggle_picomode_msg,
-		    PICO_MSGS);
+		    PICO_MODE);
     toggle_init_one(&toggles[5], TOGGLE_WRAP_KEY, toggle_wrap_msg,
 		    NO_WRAP);
     toggle_init_one(&toggles[6], TOGGLE_MOUSE_KEY, toggle_mouse_msg,
@@ -207,7 +207,7 @@ void shortcut_init(void)
     nano_cancel_msg = _("Cancel the current function");
 #endif
 
-    if (ISSET(PICO_MSGS))
+    if (ISSET(PICO_MODE))
 	sc_init_one(&main_list[0], NANO_HELP_KEY, _("Get Help"),
 		    nano_help_msg, 0, NANO_HELP_FKEY, 0, VIEW, do_help);
     else
@@ -218,7 +218,7 @@ void shortcut_init(void)
     sc_init_one(&main_list[1], NANO_EXIT_KEY, _("Exit"),
 		nano_exit_msg, 0, NANO_EXIT_FKEY, 0, VIEW, do_exit);
 
-    if (ISSET(PICO_MSGS))
+    if (ISSET(PICO_MODE))
 	sc_init_one(&main_list[2], NANO_WRITEOUT_KEY, _("WriteOut"),
 		    nano_writeout_msg,
 		    0, NANO_WRITEOUT_FKEY, 0, NOVIEW, do_writeout_void);
@@ -227,7 +227,7 @@ void shortcut_init(void)
 		    nano_goto_msg,
 		    NANO_ALT_G, NANO_GOTO_FKEY, 0, VIEW, do_gotoline_void);
 
-    if (ISSET(PICO_MSGS))
+    if (ISSET(PICO_MODE))
 	sc_init_one(&main_list[3], NANO_JUSTIFY_KEY, _("Justify"),
 		    nano_justify_msg, 0, NANO_JUSTIFY_FKEY, 0,
 		    NOVIEW, do_justify);
@@ -302,7 +302,7 @@ void shortcut_init(void)
     sc_init_one(&main_list[22], NANO_TAB_KEY, _("Tab"),
 		nano_tab_msg, 0, 0, 0, NOVIEW, do_tab);
 
-    if (ISSET(PICO_MSGS))
+    if (ISSET(PICO_MODE))
 	sc_init_one(&main_list[23], NANO_REPLACE_KEY, _("Replace"),
 		    nano_replace_msg,
 		    NANO_ALT_R, NANO_REPLACE_FKEY, 0, NOVIEW, do_replace);
@@ -315,7 +315,7 @@ void shortcut_init(void)
 		nano_enter_msg,
 		0, KEY_ENTER, NANO_CONTROL_M, NOVIEW, do_enter_void);
 
-    if (ISSET(PICO_MSGS))
+    if (ISSET(PICO_MODE))
 	sc_init_one(&main_list[25], NANO_GOTO_KEY, _("Goto Line"),
 		    nano_goto_msg,
 		    NANO_ALT_G, NANO_GOTO_FKEY, 0, VIEW, do_gotoline_void);

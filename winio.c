@@ -441,8 +441,8 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 
     /* Now that the text is editable instead of bracketed, we have to 
        check for answer == def, instead of answer == "" */
-    if  (((ISSET(PICO_MSGS)) && !strcmp(answer, "")) || 
-	((!ISSET(PICO_MSGS)) && !strcmp(answer, def)))
+    if  (((ISSET(PICO_MODE)) && !strcmp(answer, "")) || 
+	((!ISSET(PICO_MODE)) && !strcmp(answer, def)))
 	return -2;
     else
 	return 0;
