@@ -3185,7 +3185,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 	    int paintlen;
 		/* Number of chars to paint on this line.  There are COLS
 		 * characters on a whole line. */
-	    size_t index = 0;
+	    size_t index;
 		/* Index in converted where we paint. */
 	    regmatch_t startmatch;	/* match position for start_regexp */
 	    regmatch_t endmatch;	/* match position for end_regexp */
@@ -3307,8 +3307,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		    end_line = end_line->next;
 
 		/* No end found, or it is too early. */
-		if (end_line == NULL ||
-			(end_line == fileptr && endmatch.rm_eo <= startpos))
+		if (end_line == NULL || (end_line == fileptr &&
+			endmatch.rm_eo <= startpos))
 		    goto step_two;
 
 		/* Now paint the start of fileptr. */
@@ -3338,6 +3338,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		    else
 			x_start = strnlenpt(fileptr->data,
 				startmatch.rm_so) - start;
+		    index = actual_x(converted, x_start);
 		    if (regexec(tmpcolor->end,
 			fileptr->data + startmatch.rm_eo, 1, &endmatch,
 			startmatch.rm_eo == 0 ? 0 : REG_NOTBOL) == 0) {
@@ -3408,7 +3409,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 	int paintlen;
 	    /* Number of chars to paint on this line.  There are COLS
 	     * characters on a whole line. */
-	size_t index = 0;
+	size_t index;
 	    /* Index in converted where we paint. */
 
 	mark_order(&top, &top_x, &bot, &bot_x, NULL);
