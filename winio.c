@@ -1193,7 +1193,8 @@ int do_help(void)
 	for (i = 1; i < page; i++) {
 	    row = 0;
 	    j = 0;
-	    while (row < editwinrows && *ptr != '\0') {
+
+	    while (row < editwinrows - 2 && *ptr != '\0') {
 		if (*ptr == '\n' || j == COLS - 5) {
 		    j = 0;
 		    row++;
@@ -1201,6 +1202,10 @@ int do_help(void)
 		ptr++;
 		j++;
 	    }
+	}
+
+	if (i > 1) {
+	    
 	}
 
 	i = 0;
@@ -1231,7 +1236,6 @@ int do_help(void)
 	    continue;
 	}
     } while ((kbinput = wgetch(edit)) != NANO_EXIT_KEY);
-
     if (no_help_flag) {
 	werase(bottomwin);
 	wrefresh(bottomwin);
