@@ -1237,14 +1237,11 @@ int statusq(int tabs, const shortcut *s, const char *def,
 int do_yesno(int all, int leavecursor, const char *msg, ...)
 {
     va_list ap;
-    char foo[133];
-    int kbinput, ok = -1, i;
+    char *foo;
+    int ok = -2;
     const char *yesstr;		/* String of yes characters accepted */
     const char *nostr;		/* Same for no */
     const char *allstr;		/* And all, surprise! */
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
-    MEVENT mevent;
-#endif
 
     /* Yes, no and all are strings of any length.  Each string consists of
        all characters accepted as a valid character for that value.
@@ -1253,112 +1250,89 @@ int do_yesno(int all, int leavecursor, const char *msg, ...)
     nostr = _("Nn");
     allstr = _("Aa");
 
-    /* Write the bottom of the screen */
-    blank_bottomwin();
-
     /* Remove gettext call for keybindings until we clear the thing up */
     if (!ISSET(NO_HELP)) {
 	char shortstr[3];		/* Temp string for Y, N, A */
 
-	wmove(bottomwin, 1, 0);
+	/* Write the bottom of the screen */
+	blank_bottombars();
 
 	sprintf(shortstr, " %c", yesstr[0]);
+	wmove(bottomwin, 1, 0);
 	onekey(shortstr, _("Yes"), 16);
 
 	if (all) {
+	    wmove(bottomwin, 1, 16);
 	    shortstr[1] = allstr[0];
 	    onekey(shortstr, _("All"), 16);
 	}
-	wmove(bottomwin, 2, 0);
 
+	wmove(bottomwin, 2, 0);
 	shortstr[1] = nostr[0];
 	onekey(shortstr, _("No"), 16);
 
+	wmove(bottomwin, 2, 16);
 	onekey("^C", _("Cancel"), 16);
     }
+
+    foo = charalloc(COLS);
     va_start(ap, msg);
-    vsnprintf(foo, 132, msg, ap);
+    vsnprintf(foo, COLS, msg, ap);
     va_end(ap);
+    foo[COLS - 1] = '\0';
 
     wattron(bottomwin, A_REVERSE);
 
     blank_statusbar();
     mvwaddstr(bottomwin, 0, 0, foo);
+    free(foo);
 
     wattroff(bottomwin, A_REVERSE);
 
     wrefresh(bottomwin);
 
-    if (leavecursor == 1)
-	reset_cursor();
-
-    while (ok == -1) {
-	kbinput = wgetch(edit);
-
-	switch (kbinput) {
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
-	case KEY_MOUSE:
-
-	    /* Look ma!  We get to duplicate lots of code from do_mouse!! */
-	    if (getmouse(&mevent) == ERR)
-		break;
-	    if (!wenclose(bottomwin, mevent.y, mevent.x) || ISSET(NO_HELP))
-		break;
-	    mevent.y -= editwinrows + 3;
-	    if (mevent.y < 0)
-		break;
-	    else {
-
-		/* Rather than a bunch of if statements, set up a matrix
-		   of possible return keystrokes based on the x and y
-		   values */ 
-		char yesnosquare[2][2];
-		yesnosquare[0][0] = yesstr[0];
-		if (all)
-		    yesnosquare[0][1] = allstr[0];
-		else
-		    yesnosquare[0][1] = '\0';
-		yesnosquare[1][0] = nostr[0];
-		yesnosquare[1][1] = NANO_CONTROL_C;
-		ungetch(yesnosquare[mevent.y][mevent.x / (COLS / 6)]);
-	    }
-	    break;
+    do {
+	int kbinput = wgetch(edit);
+#ifndef DISABLE_MOUSE
+	MEVENT mevent;
 #endif
-	case NANO_CONTROL_C:
-	    ok = -2;
-	    break;
-	default:
 
-	    /* Look for the kbinput in the yes, no and (optimally) all str */
-	    for (i = 0; yesstr[i] != 0 && yesstr[i] != kbinput; i++);
-	    if (yesstr[i] != 0) {
-		ok = 1;
-		break;
-	    }
+	if (kbinput == NANO_CONTROL_C)
+	    ok = -1;
+#ifndef DISABLE_MOUSE
+	/* Look ma!  We get to duplicate lots of code from do_mouse!! */
+	else if (kbinput == KEY_MOUSE && getmouse(&mevent) != ERR &&
+		wenclose(bottomwin, mevent.y, mevent.x) &&
+		!ISSET(NO_HELP) && mevent.x < 32 &&
+		mevent.y >= editwinrows + 3) {
+	    int x = mevent.x /= 16;
+		/* Did we click in the first column of shortcuts, or the
+		   second? */
+	    int y = mevent.y - editwinrows - 3;
+		/* Did we click in the first row of shortcuts? */
 
-	    for (i = 0; nostr[i] != 0 && nostr[i] != kbinput; i++);
-	    if (nostr[i] != 0) {
-		ok = 0;
-		break;
-	    }
+	    assert(0 <= x && x <= 1 && 0 <= y && y <= 1);
+	    /* x = 0 means they clicked Yes or No.
+	       y = 0 means Yes or All. */
+	    ok = -2 * x * y + x - y + 1;
 
-	    if (all) {
-		for (i = 0; allstr[i] != 0 && allstr[i] != kbinput; i++);
-		if (allstr[i] != 0) {
-		    ok = 2;
-		    break;
-		}
-	    }
+	    if (ok == 2 && !all)
+		ok = -2;
 	}
-    }
+#endif
+	/* Look for the kbinput in the yes, no and (optionally) all str */
+	else if (strchr(yesstr, kbinput) != NULL)
+	    ok = 1;
+	else if (strchr(nostr, kbinput) != NULL)
+	    ok = 0;
+	else if (all && strchr(allstr, kbinput) != NULL)
+	    ok = 2;
+    } while (ok == -2);
 
-    /* Then blank the screen */
+    /* Then blank the statusbar. */
     blank_statusbar_refresh();
 
-    if (ok == -2)
-	return -1;
-    else
-	return ok;
+    return ok;
 }
 
 int total_refresh(void)

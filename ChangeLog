@@ -60,6 +60,8 @@ CVS Code -
   bottombars()
 	- Change strcpy of gettext() "Up" string to strncpy of max
 	  width 8, to stop stupid strcpy crash.
+  do_yesno()
+	- Fix mouse interaction bugs with yes/no prompt (David Benbennick).
 - nanorc.sample:
 	- Change comment to say magenta instead of purple.
 
