@@ -22,6 +22,13 @@
 #ifndef NANO_H
 #define NANO_H 1
 
+#ifdef __TANDEM
+/* Tandem NonStop Kernel */
+#define NANO_ROOT_UID 65535
+#else
+#define NANO_ROOT_UID 0
+#endif
+
 #ifdef HAVE_LIMITS_H
 #include <limits.h>
 #endif
