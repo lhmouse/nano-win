@@ -58,6 +58,20 @@ Current Status
 	stabiliity is not guaranteed.  If this is not what you're
 	interested in, please use the latest 1.0.x release of nano.
 
+	New features in this branch include:
+	+ .nanorc file support (--enable-nanorc configure option, 
+	  see sample.nanorc file)
+	+ Negative -r value for "#cols from right", allows dynamic adjustment
+	  of wrap margin based on window size.
+	+ Write marked text to separate file (^O after selecting with ^^).
+	+ Append to file (Meta-A at write file menu).
+	+ Multiple file buffers! (--enable-loadoninsert configure option,
+	  --loadoninsert, -L cmdline flag, Meta-L toggle, then ^R to load).
+	+ Better compatibility with Pico.  Mouse mode now supports clicking
+	  shortcuts and files in browser, search toggles that are Pico 
+	  extensions moved to Meta keys so as to not interfere with Pico
+	  control sequences.
+
    Chris Allegretta (chrisa@asty.org)
 
 $Id$
