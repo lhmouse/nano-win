@@ -540,7 +540,8 @@ void do_insertfile(
 	    statusbar(_("Cancelled"));
 	    break;
 	} else {
-	    int old_current_x = current_x;
+	    size_t old_current_x = current_x;
+	    size_t old_pww = placewewant;
 
 	    ans = mallocstrcpy(ans, answer);
 
@@ -596,8 +597,9 @@ void do_insertfile(
 		/* Mark the file as modified. */
 		set_modified();
 
-		/* Restore the old x-coordinate position. */
+		/* Restore the old cursor position. */
 		current_x = old_current_x;
+		placewewant = old_pww;
 #ifdef ENABLE_MULTIBUFFER
 	    }
 #endif
