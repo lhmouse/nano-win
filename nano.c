@@ -1632,6 +1632,8 @@ void do_toggle(int which)
     }
     SET(DISABLE_CURPOS);
 
+#else
+    nano_small_msg();
 #endif
 }
 

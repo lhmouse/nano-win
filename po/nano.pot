@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-09-01 09:38-0400\n"
+"POT-Creation-Date: 2000-09-01 14:07-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -673,24 +673,24 @@ msgstr ""
 msgid "Cannot move bottom win"
 msgstr ""
 
-#: nano.c:1817
+#: nano.c:1819
 msgid "Main: set up windows\n"
 msgstr ""
 
-#: nano.c:1832
+#: nano.c:1834
 msgid "Main: bottom win\n"
 msgstr ""
 
-#: nano.c:1838
+#: nano.c:1840
 msgid "Main: open file\n"
 msgstr ""
 
-#: nano.c:1906
+#: nano.c:1908
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:1932
+#: nano.c:1934
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr ""
