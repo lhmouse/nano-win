@@ -24,7 +24,7 @@ info_TEXINFOS = nano.texi
 MAKEINFO = makeinfo --no-split
 
 EXTRA_DIST =	ABOUT-NLS AUTHORS BUGS COPYING ChangeLog INSTALL NEWS \
-		README THANKS TODO config.rpath install-sh missing \
+		README THANKS TODO UPGRADE config.rpath install-sh missing \
 		mkinstalldirs nano.1.html nanorc.5.html faq.html \
 		nanorc.sample nano.spec $(man_MANS)
 

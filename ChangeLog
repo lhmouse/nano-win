@@ -100,6 +100,8 @@ CVS code
 	- Change default flags to --enable-all.
 - THANKS:
 	- Add Kalle Kivimaa and Kalle Olavi Niemitalo, for Finnish (Jordi).
+- UPGRADE:
+	- Add upgrading information document for 1.0 users (Jordi).
 
 GNU nano 1.1.99pre2 - 2003.02.03
 - General:
