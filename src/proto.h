@@ -151,12 +151,12 @@ extern char *homedir;
 /* Functions we want available. */
 
 /* Public functions in chars.c. */
-bool is_blank_char(unsigned char c);
+bool is_blank_char(unsigned int c);
 bool is_blank_mbchar(const char *c);
 #ifdef NANO_WIDE
 bool is_blank_wchar(wchar_t wc);
 #endif
-bool is_cntrl_char(unsigned char c);
+bool is_cntrl_char(unsigned int c);
 bool is_cntrl_mbchar(const char *c);
 #ifdef NANO_WIDE
 bool is_cntrl_wchar(wchar_t wc);

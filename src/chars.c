@@ -38,7 +38,7 @@
 #endif
 
 /* This function is equivalent to isblank(). */
-bool is_blank_char(unsigned char c)
+bool is_blank_char(unsigned int c)
 {
     return
 #ifdef HAVE_ISBLANK
@@ -86,9 +86,9 @@ bool is_blank_wchar(wchar_t wc)
 
 /* This function is equivalent to iscntrl(), except in that it also
  * handles control characters with their high bits set. */
-bool is_cntrl_char(unsigned char c)
+bool is_cntrl_char(unsigned int c)
 {
-    return (c < 32) || (127 <= c && c < 160);
+    return (0 <= c && c < 32) || (127 <= c && c < 160);
 }
 
 /* This function is equivalent to iscntrl() for multibyte characters,
