@@ -32,6 +32,10 @@ CVS code -
 	- Don't try to play with the handler inside the handler.  Just
 	  raise a SIGSTOP.  We also now write the "use "fg"" message to
 	  stdout instead of stderr.
+	- Added _POSIX_VDISABLE macro to fully ignore suspend keystroke.
+	  Eliminates the possibility that nano can be suspended when
+	  it's not supposed to be.  Many many many thanks to Jordi and
+	  Tom Lear for helping out finding and fixing this bug!
   do_cont()
 	- Now just does a refresh call instead of playing with the SIGTSTP
 	  handler.
