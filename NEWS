@@ -1,3 +1,10 @@
+06/06/2000 - Nano 0.9.10 is primarily a bugfix for the loss of SIGINT when
+		using "run and terminate" flags (for example, --help).
+		There are also some minor documentation updates.  This
+		version of nano is the most stable in quite some time, and
+		is likely to be the most stable for awhile.  Users are
+		encouraged to upgrade to this version.
+
 05/31/2000 - Nano 0.9.9 introduces much better working i18n support,
 		more portability, and a ton of bugfixes.  While
 		nano is not likely anywhere near 1.0 in terms of
