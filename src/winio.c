@@ -2236,10 +2236,12 @@ void do_replace_highlight(int highlight_flag, const char *word)
     if (highlight_flag)
 	wattron(edit, A_REVERSE);
 
+#ifdef HAVE_REGEX_H
     /* This is so we can show zero-length regexes. */
     if (word_len == 0)
 	waddstr(edit, " ");
     else
+#endif
 	waddnstr(edit, word, y - 1);
 
     if (word_len > y)
