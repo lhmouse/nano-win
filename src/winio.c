@@ -1750,10 +1750,10 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 			if (startmatch.rm_so <= startpos)
 			    x_start = 0;
 			else
-			    x_start = strnlenpt(fileptr->data, startmatch.rm_so)
-				- start;
-			paintlen = strnlenpt(fileptr->data, startmatch.rm_eo)
-				- start - x_start;
+			    x_start = strnlenpt(fileptr->data,
+				startmatch.rm_so) - start;
+			paintlen = strnlenpt(fileptr->data,
+				startmatch.rm_eo) - start - x_start;
 			if (paintlen > COLS - x_start)
 			    paintlen = COLS - x_start;
 
@@ -1781,17 +1781,14 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		regoff_t start_col;
 		    /* where it starts in that line */
 		const filestruct *end_line;
-		int searched_later_lines = 0;
-		    /* Used in step 2.  Have we looked for an end on
-		     * lines after fileptr? */
 
 		while (start_line != NULL &&
 			regexec(&tmpcolor->start, start_line->data, 1,
 			&startmatch, 0) == REG_NOMATCH) {
 		    /* If there is an end on this line, there is no need
 		     * to look for starts on earlier lines. */
-		    if (regexec(tmpcolor->end, start_line->data, 0, NULL, 0)
-			== 0)
+		    if (regexec(tmpcolor->end, start_line->data, 0,
+			NULL, 0) == 0)
 			goto step_two;
 		    start_line = start_line->prev;
 		}
@@ -1807,15 +1804,15 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		    start_col += startmatch.rm_so;
 		    startmatch.rm_eo -= startmatch.rm_so;
  		    if (regexec(tmpcolor->end,
- 			start_line->data + start_col + startmatch.rm_eo,
+			start_line->data + start_col + startmatch.rm_eo,
 			0, NULL, start_col + startmatch.rm_eo == 0 ? 0 :
 			REG_NOTBOL) == REG_NOMATCH)
 			/* No end found after this start. */
 			break;
 		    start_col++;
 		    if (regexec(&tmpcolor->start,
-			    start_line->data + start_col, 1, &startmatch,
-			    REG_NOTBOL) == REG_NOMATCH)
+			start_line->data + start_col, 1,
+			&startmatch, REG_NOTBOL) == REG_NOMATCH)
 			/* No later start on this line. */
 			goto step_two;
 		}
@@ -1852,10 +1849,10 @@ void edit_add(const filestruct *fileptr, const char *converted, int
   step_two:	/* Second step, we look for starts on this line. */
 		start_col = 0;
 		while (start_col < endpos) {
-		    if (regexec(&tmpcolor->start, fileptr->data + start_col, 1,
-			&startmatch, start_col == 0 ? 0 : REG_NOTBOL)
-			== REG_NOMATCH || start_col + startmatch.rm_so >=
-			endpos)
+		    if (regexec(&tmpcolor->start,
+			fileptr->data + start_col, 1, &startmatch,
+			start_col == 0 ? 0 : REG_NOTBOL) == REG_NOMATCH ||
+			start_col + startmatch.rm_so >= endpos)
 			/* No more starts on this line. */
 			break;
 		    /* Translate the match to be relative to the
@@ -1866,11 +1863,11 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		    if (startmatch.rm_so <= startpos)
 			x_start = 0;
 		    else
-			x_start = strnlenpt(fileptr->data, startmatch.rm_so)
-					- start;
-		    if (regexec(tmpcolor->end, fileptr->data + startmatch.rm_eo,
-			1, &endmatch, startmatch.rm_eo == 0 ? 0 :
-			REG_NOTBOL) == 0) {
+			x_start = strnlenpt(fileptr->data,
+				startmatch.rm_so) - start;
+		    if (regexec(tmpcolor->end,
+			fileptr->data + startmatch.rm_eo, 1, &endmatch,
+			startmatch.rm_eo == 0 ? 0 : REG_NOTBOL) == 0) {
 			/* Translate the end match to be relative to the
 			 * beginning of the line. */
 			endmatch.rm_so += startmatch.rm_eo;
@@ -1880,18 +1877,17 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 			 * zero characters long? */
 			if (endmatch.rm_eo > startpos &&
 				endmatch.rm_eo > startmatch.rm_so) {
-			    paintlen = strnlenpt(fileptr->data, endmatch.rm_eo)
-					- start - x_start;
+			    paintlen = strnlenpt(fileptr->data,
+				endmatch.rm_eo) - start - x_start;
 			    if (x_start + paintlen > COLS)
 				paintlen = COLS - x_start;
 
 			    assert(0 <= x_start && 0 < paintlen &&
-				    x_start + paintlen <= COLS);
+				x_start + paintlen <= COLS);
 			    mvwaddnstr(edit, yval, x_start,
 				converted + x_start, paintlen);
 			}
-		    } else if (!searched_later_lines) {
-			searched_later_lines = 1;
+		    } else {
 			/* There is no end on this line.  But we haven't
 			 * yet looked for one on later lines. */
 			end_line = fileptr->next;
@@ -1902,8 +1898,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 			if (end_line != NULL) {
 			    assert(0 <= x_start && x_start < COLS);
 			    mvwaddnstr(edit, yval, x_start,
-					converted + x_start,
-					COLS - x_start);
+				converted + x_start, COLS - x_start);
 			    /* We painted to the end of the line, so
 			     * don't bother checking any more starts. */
 			    break;
@@ -1964,8 +1959,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		/* Otherwise, paintlen is the expanded location of the
 		 * end of the mark minus the expanded location of the
 		 * beginning of the mark. */
-		paintlen = strnlenpt(fileptr->data, bot_x) - (x_start +
-			start);
+		paintlen = strnlenpt(fileptr->data, bot_x)
+			- (x_start + start);
 
 	    /* If x_start is before the beginning of the page, shift
 	     * paintlen x_start characters to compensate, and put
