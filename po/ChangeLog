@@ -1,1 +1,35 @@
+2002-01-17  Jordi Mallach  <jordi@sindominio.net>
+
+	* no.po: Removed, replaced by nn.po.
+	* nn.po: Updated translation by Kjetil Torgrim Homme.
+	* nb.po: New Norwegian bokmål translation by Stig E Sandoe.
+
+2002-01-12  Jordi Mallach  <jordi@sindominio.net>
+
+	* fr.po: Updated translation by Jean-Philippe Guérard.
+
+2002-01-10  Jordi Mallach  <jordi@sindominio.net>
+
+	* fr.po: Updated translation by Jean-Philippe Guérard.
+
+2002-01-08  Jordi Mallach  <jordi@sindominio.net>
+
+	* ru.po, uk.po: Updated translations by Sergey A.
+	Ribalchenko.
+	* fr.po: Updated translation by Jean-Philippe Guérard.
+
+2002-01-07  Jordi Mallach  <jordi@sindominio.net>
+
+	* de.po: Updated translation by Michael Piefel.
+
+2002-01-07  Jordi Mallach  <jordi@sindominio.net>
+
+	* sv.po: Updated translation by Christian Rose.
+
+2002-01-07  Jordi Mallach  <jordi@sindominio.net>
+
+	* ca.po: Updated.
+	* es.po: Updated.
+
+
 $Id$
