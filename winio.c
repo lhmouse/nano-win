@@ -258,7 +258,7 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
     while ((kbinput = wgetch(bottomwin)) != 13) {
 	for (j = 0; j <= slen - 1; j++) {
 	    if (kbinput == s[j].val) {
-		strcpy(answer, "");
+		answer = mallocstrcpy(answer, "");
 		return s[j].val;
 	    }
 	}
@@ -405,7 +405,6 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 
     /* Now that the text is editable instead of bracketed, we have to 
        check for answer == def, instead of answer == "" */
-/*    if (!strcmp(answer, "")) */
     if (!strcmp(answer, def))
 	return -2;
     else

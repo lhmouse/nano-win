@@ -446,15 +446,7 @@ int do_replace(void)
 
     prevanswer = mallocstrcpy(prevanswer, answer);
 
-/*
-    if (strcmp(last_replace, "")) 	* There's a previous replace str *
-	i = statusq(replace_list_2, REPLACE_LIST_2_LEN, "",
-		    _("Replace with [%s]"), last_replace);
-    else
-	i = statusq(replace_list_2, REPLACE_LIST_2_LEN, "", _("Replace with"));
-*/
-
-	i = statusq(replace_list_2, REPLACE_LIST_2_LEN, last_replace, 
+    i = statusq(replace_list_2, REPLACE_LIST_2_LEN, last_replace, 
 			_("Replace with"));
 
     switch (i) {
