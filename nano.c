@@ -1629,7 +1629,7 @@ int do_int_spell_fix(const char *word)
 	    if (!is_whole_word(current_x, current->data, word))
 		continue;
 
-	    edit_refresh();
+	    edit_update(current, current_x);
 	    do_replace_highlight(TRUE, word);
 
 	    /* allow replace word to be corrected */
