@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nano 1.3.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-17 23:35-0400\n"
-"PO-Revision-Date: 2004-08-30 19:20+0200\n"
+"PO-Revision-Date: 2004-11-18 22:40+0100\n"
 "Last-Translator: Jean-Philippe Guérard <jean-philippe.guerard@corbeaunoir.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -867,7 +867,7 @@ msgstr "Colorisation syntaxique"
 
 #: src/global.c:1057
 msgid "Whitespace display"
-msgstr "Affichage des espaces"
+msgstr "Affichage des blancs"
 
 #
 # Fin des entrées de menu sur 10 caractères
@@ -1369,7 +1369,7 @@ msgstr " GNU nano version %s (compilé à %s, le %s)\n"
 #: src/nano.c:716
 #, c-format
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
-msgstr " Adr. él.: nano@nano-editor.org\tToile : http://www.nano-editor.org/"
+msgstr " Adr. él. : nano@nano-editor.org\tSite : http://www.nano-editor.org/"
 
 #
 #: src/nano.c:717
