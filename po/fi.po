@@ -354,7 +354,7 @@ msgstr "Peru"
 #: global.c:289
 #, fuzzy
 msgid "No Replace"
-msgstr "Korvattava"
+msgstr ""
 
 #: nano.c:111
 msgid ""

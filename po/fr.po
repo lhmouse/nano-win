@@ -362,7 +362,7 @@ msgstr "Annuler"
 #: global.c:289
 #, fuzzy
 msgid "No Replace"
-msgstr "Rempacer par"
+msgstr ""
 
 #: nano.c:111
 msgid ""

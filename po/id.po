@@ -355,7 +355,7 @@ msgstr "Batal"
 #: global.c:289
 #, fuzzy
 msgid "No Replace"
-msgstr "Mengganti"
+msgstr ""
 
 #: nano.c:111
 msgid ""

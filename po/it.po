@@ -355,7 +355,7 @@ msgstr "Cancella"
 #: global.c:289
 #, fuzzy
 msgid "No Replace"
-msgstr "Sostituisci"
+msgstr ""
 
 #: nano.c:111
 msgid ""

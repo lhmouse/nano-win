@@ -357,7 +357,7 @@ msgstr "Abbrechen"
 #: global.c:289
 #, fuzzy
 msgid "No Replace"
-msgstr "Ersetzen"
+msgstr ""
 
 #: nano.c:111
 msgid ""
