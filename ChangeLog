@@ -37,6 +37,8 @@ CVS code -
 	  the #ifdefs around the code in main().
   main()
 	- Fixed off by one when checking for MAIN_LIST_LEN. Ugh.
+	- Moved #ifndef NANO_SMALL down past the case 0: line so
+	  control-space doesn't insert a \0 (ack!)
 - rcfile.c:
 	- Fix incorrect number of rc options (David Lawrence Ramsey).
 - po/sv.po:
