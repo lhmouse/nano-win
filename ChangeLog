@@ -39,11 +39,11 @@ CVS code -
 	  edit_update(), rename open_the_file() to open_file() since the
 	  latter has been removed, and rename load_a_file() to
 	  load_buffer().
-	- Add alternative shortcuts for moving to the beginning and end
-	  of a paragraph and justifying the entire file: Meta-(
-	  (Meta-9), Meta-) (Meta-0), and Meta-J, respectively.  Also add
-	  these functions to the main shortcut list, as Pico's practice
-	  of putting them in the search menu is rather odd. (DLR)
+	- Add alternative shortcuts to the main list for moving to the
+	  beginning and end of a paragraph and justifying the entire
+	  file: Meta-( (Meta-9), Meta-) (Meta-0), and Meta-J,
+	  respectively.  Do this because Pico's practice of putting these
+	  shortcuts in the search menu is rather odd. (DLR)
 	- Turn off extended input processing (the IEXTEN termios flag)
 	  as nano 1.2.x does.  New function disable_extended_input();
 	  changes to terminal_init(). (DLR)

@@ -3026,19 +3026,14 @@ int statusq(int allowtabs, const shortcut *s, const char *def,
 	break;
 #ifndef DISABLE_JUSTIFY
     case NANO_PARABEGIN_KEY:
-    case NANO_PARABEGIN_ALTKEY1:
-    case NANO_PARABEGIN_ALTKEY2:
 	do_para_begin();
 	resetstatuspos = TRUE;
 	break;
     case NANO_PARAEND_KEY:
-    case NANO_PARAEND_ALTKEY1:
-    case NANO_PARAEND_ALTKEY2:
 	do_para_end();
 	resetstatuspos = TRUE;
 	break;
     case NANO_FULLJUSTIFY_KEY:
-    case NANO_FULLJUSTIFY_ALTKEY:
 	if (!ISSET(VIEW_MODE))
 	    do_full_justify();
 	resetstatuspos = TRUE;
