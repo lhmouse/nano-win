@@ -21,7 +21,7 @@ text editor while also offering a few enhancements.
 %setup -q
 
 %build
-%configure --enable-extra
+%configure --enable-all
 make RPM_OPT_FLAGS="$RPM_OPT_FLAGS"
 
 %install
