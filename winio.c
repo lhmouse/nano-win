@@ -553,9 +553,9 @@ void titlebar(char *path)
 	    waddstr(topwin, &what[namelen - space]);
 	} else {
 	    if (path == NULL)
-		mvwaddstr(topwin, 0, COLS / 2 - (namelen / 2 + 1), "File: ");
+		mvwaddstr(topwin, 0, COLS / 2 - (namelen / 2 + 1), _("File: "));
 	    else
-	 	mvwaddstr(topwin, 0, COLS / 2 - (namelen / 2 + 1), " DIR: ");
+	 	mvwaddstr(topwin, 0, COLS / 2 - (namelen / 2 + 1), _(" DIR: "));
 	    waddstr(topwin, what);
 	}
     }
