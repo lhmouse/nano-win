@@ -119,6 +119,10 @@ CVS code -
 	- Add a few efficiency/extensibility tweaks. (David Benbennick)
 	- Convert to use the new low-level input functions, and remove
 	  two last hardcoded widths left after the above tweaks. (DLR)
+  do_replace_highlight()
+	- Display a highlighted space if the word length is zero, so
+	  that we can see zero-length regexes we're replacing. (DLR;
+	  suggested by Mike Frysinger)
 - configure.ac:
 	- Check for glib 2.x and then 1.2.x if we need glib. (DLR)
 - nano.spec.in:
