@@ -1258,28 +1258,31 @@ void wrap_reset(void)
 #endif
 
 #ifndef DISABLE_WRAPPING
-/* We wrap the given line.  Precondition: we assume the cursor has been 
- * moved forward since the last typed character.  Return value:
- * whether we wrapped. */
+/* We wrap the given line.  Precondition: we assume the cursor has been
+ * moved forward since the last typed character.  Return value: whether
+ * we wrapped. */
 int do_wrap(filestruct *inptr)
 {
-    size_t len = strlen(inptr->data);	/* length of the line we wrap */
-    int i = 0;			/* generic loop variable */
-    int wrap_loc = -1;		/* index of inptr->data where we wrap */
+    size_t len = strlen(inptr->data);
+	/* Length of the line we wrap. */
+    size_t i = 0;
+	/* Generic loop variable. */
+    int wrap_loc = -1;
+	/* Index of inptr->data where we wrap. */
     int word_back = -1;
 #ifndef NANO_SMALL
     const char *indentation = NULL;
-	/* indentation to prepend to the new line */
-    int indent_len = 0;		/* strlen(indentation) */
+	/* Indentation to prepend to the new line. */
+    size_t indent_len = 0;		/* strlen(indentation) */
 #endif
-    const char *after_break;	/* text after the wrap point */
-    int after_break_len;	/* strlen(after_break) */
-    int wrapping = 0;		/* do we prepend to the next line? */
+    const char *after_break;	/* Text after the wrap point. */
+    size_t after_break_len;	/* strlen(after_break) */
+    int wrapping = FALSE;	/* Do we prepend to the next line? */
     const char *wrap_line = NULL;
-	/* the next line, minus indentation */
-    int wrap_line_len = 0;	/* strlen(wrap_line) */
-    char *newline = NULL;	/* the line we create */
-    int new_line_len = 0;	/* eventual length of newline */
+	/* The next line, minus indentation */
+    size_t wrap_line_len = 0;	/* strlen(wrap_line) */
+    char *newline = NULL;	/* The line we create. */
+    size_t new_line_len = 0;	/* Eventual length of newline. */
 
 /* There are three steps.  First, we decide where to wrap.  Then, we
  * create the new wrap line.  Finally, we clean up. */
@@ -1310,23 +1313,23 @@ int do_wrap(filestruct *inptr)
 #endif
     wrap_line = inptr->data + i;
     for (; i < len; i++, wrap_line++) {
-	/* record where the last word ended */
+	/* Record where the last word ended. */
 	if (!isblank(*wrap_line))
 	    word_back = i;
-	/* if we have found a "legal wrap point" and the current word
-	 * extends too far, then we stop */
+	/* If we have found a "legal wrap point" and the current word
+	 * extends too far, then we stop. */
 	if (wrap_loc != -1 && strnlenpt(inptr->data, word_back + 1) > fill)
 	    break;
-	/* we record the latest "legal wrap point" */
+	/* We record the latest "legal wrap point". */
 	if (word_back != i && !isblank(wrap_line[1]))
 	    wrap_loc = i;
     }
-    if (wrap_loc < 0 || i == len)
-	return 0;
+    if (i == len)
+	return FALSE;
 
-/* Step 2, making the new wrap line.  It will consist of indentation +
- * after_break + " " + wrap_line (although indentation and wrap_line are
- * conditional on flags and #defines). */
+    /* Step 2, making the new wrap line.  It will consist of indentation
+     * + after_break + " " + wrap_line (although indentation and
+     * wrap_line are conditional on flags and #defines). */
 
     /* after_break is the text that will be moved to the next line. */
     after_break = inptr->data + wrap_loc + 1;
@@ -1344,9 +1347,9 @@ int do_wrap(filestruct *inptr)
 	wrap_line = inptr->next->data;
 	wrap_line_len = strlen(wrap_line);
 
-	/* +1 for the space between after_break and wrap_line */
+	/* +1 for the space between after_break and wrap_line. */
 	if ((new_line_len + 1 + wrap_line_len) <= fill) {
-	    wrapping = 1;
+	    wrapping = TRUE;
 	    new_line_len += (1 + wrap_line_len);
 	}
     }
@@ -1374,11 +1377,13 @@ int do_wrap(filestruct *inptr)
     if (ISSET(AUTOINDENT)) {
 	strncpy(newline, indentation, indent_len);
 	newline[indent_len] = '\0';
+	new_line_len = indent_len;
     }
 #endif
     strcat(newline, after_break);
-    /* We end the old line after wrap_loc.  Note this does not eat the
-     * space. */
+    new_line_len += after_break_len;
+    /* We end the old line after wrap_loc.  Note that this does not eat
+     * the space. */
     null_at(&inptr->data, wrap_loc + 1);
     totsize++;
     if (wrapping) {
@@ -1386,7 +1391,7 @@ int do_wrap(filestruct *inptr)
 	 * between after_break and wrap_line.  If the line already ends
 	 * in a tab or a space, we don't add a space and decrement
 	 * totsize to account for that. */
-	if (!isblank(newline[strlen(newline) - 1]))
+	if (!isblank(newline[new_line_len - 1]))
 	    strcat(newline, " ");
 	else
 	    totsize--;
@@ -1396,8 +1401,8 @@ int do_wrap(filestruct *inptr)
     } else {
 	filestruct *temp = (filestruct *)nmalloc(sizeof(filestruct));
 
-	/* In this case, the file size changes by +1 for the new line, and
-	 * +indent_len for the new indentation. */
+	/* In this case, the file size changes by +1 for the new line,
+	 * and +indent_len for the new indentation. */
 #ifndef NANO_SMALL
 	totsize += indent_len;
 #endif
@@ -1414,8 +1419,8 @@ int do_wrap(filestruct *inptr)
 	    filebot = temp;
     }
 
-/* Step 3, clean up.  Here we reposition the cursor and mark, and do some
- * other sundry things. */
+    /* Step 3, clean up.  Here we reposition the cursor and mark, and do
+     * some other sundry things. */
 
     /* later wraps of this line will be prepended to the next line. */
     same_line_wrap = 1;
@@ -1448,10 +1453,7 @@ int do_wrap(filestruct *inptr)
 	mark_beginx += after_break_len;
 #endif /* !NANO_SMALL */
 
-    /* Place the cursor. */
-    reset_cursor();
-
-    return 1;
+    return TRUE;
 }
 #endif /* !DISABLE_WRAPPING */
 

@@ -156,6 +156,8 @@ CVS code -
 	- Switch the last test (current != NULL or not) around to match
 	  the order of the same test in do_next_word() (current ==
 	  NULL).  The results are the same either way. (DLR)
+  do_wrap()
+	- Tweak for efficiency. (David Benbennick)
   do_spell()
 	- Tweak for efficiency. (David Benbennick)
 	- Change the statusbar entries used in cases of failure so that
