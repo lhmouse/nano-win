@@ -717,7 +717,7 @@ assert (strlenpt(inptr->data) >= fill);
             else if (current_x <= last_word_end)  
                 i = last_word_end - 1;     
             else
-                i = current_x - 1;
+                i = current_x;
                 
             inptr->data = nrealloc(inptr->data, i + 2);
             inptr->data[i + 1] = 0;
