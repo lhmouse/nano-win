@@ -35,6 +35,8 @@ General
   usage()
 	- Alternate speller option no longer valid if DISABLE_SPELLER is
 	  active. (Rocco)
+- fi.po:
+	- Update by Pauli Virtanen.
 
 nano 0.9.25 - 01/07/2001
 General - 
