@@ -60,7 +60,7 @@ filestruct *open_files = NULL;	/* The list of open files */
 
 char *answer = NULL;			/* Answer str to many questions */
 int totlines = 0;		/* Total number of lines in the file */
-int totsize = 0;		/* Total number of bytes in the file */
+long totsize = 0;		/* Total number of bytes in the file */
 int placewewant = 0;		/* The column we'd like the cursor
 				   to jump to when we go to the
 				   next or previous line */
@@ -426,84 +426,97 @@ void shortcut_init(int unjustify)
 		    NANO_BRACKET_KEY, 0, 0, VIEW, do_find_bracket);
 #endif
 
-    sc_init_one(&whereis_list[0], NANO_FIRSTLINE_KEY, _("First Line"),
+
+    sc_init_one(&whereis_list[0], NANO_HELP_KEY,
+		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
+
+    sc_init_one(&whereis_list[1], NANO_CANCEL_KEY,
+		_("Cancel"), nano_cancel_msg, 0, 0, 0, VIEW, 0);
+
+    sc_init_one(&whereis_list[2], NANO_FIRSTLINE_KEY, _("First Line"),
 		nano_firstline_msg, 0, 0, 0, VIEW, do_first_line);
 
-    sc_init_one(&whereis_list[1], NANO_LASTLINE_KEY, _("Last Line"),
+    sc_init_one(&whereis_list[3], NANO_LASTLINE_KEY, _("Last Line"),
 		nano_lastline_msg, 0, 0, 0, VIEW, do_last_line);
 
-    sc_init_one(&whereis_list[2], NANO_OTHERSEARCH_KEY, _("Replace"),
+    sc_init_one(&whereis_list[4], NANO_OTHERSEARCH_KEY, _("Replace"),
 		nano_replace_msg, 0, 0, 0, VIEW, do_replace);
 
-    sc_init_one(&whereis_list[3], NANO_FROMSEARCHTOGOTO_KEY,
+    sc_init_one(&whereis_list[5], NANO_FROMSEARCHTOGOTO_KEY,
 		_("Goto Line"), nano_goto_msg, 0, 0, 0, VIEW,
 		do_gotoline_void);
 
 #ifndef NANO_SMALL
-    sc_init_one(&whereis_list[4], TOGGLE_CASE_KEY, _("Case Sens"),
+    sc_init_one(&whereis_list[6], TOGGLE_CASE_KEY, _("Case Sens"),
 		nano_case_msg, 0, 0, 0, VIEW, 0);
 
-    sc_init_one(&whereis_list[5], TOGGLE_BACKWARDS_KEY, _("Direction"),
+    sc_init_one(&whereis_list[7], TOGGLE_BACKWARDS_KEY, _("Direction"),
 		nano_reverse_msg, 0, 0, 0, VIEW, 0);
 
 #ifdef HAVE_REGEX_H
-    sc_init_one(&whereis_list[REPLACE_LIST_LEN - 2], TOGGLE_REGEXP_KEY,
+    sc_init_one(&whereis_list[REPLACE_LIST_LEN - 1], TOGGLE_REGEXP_KEY,
 		_("Regexp"), nano_regexp_msg, 0, 0, 0, VIEW, 0);
 #endif
 #endif /* NANO_SMALL */
 
-    sc_init_one(&whereis_list[REPLACE_LIST_LEN - 1], NANO_CANCEL_KEY,
+
+    sc_init_one(&replace_list[0], NANO_HELP_KEY,
+		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
+
+    sc_init_one(&replace_list[1], NANO_CANCEL_KEY,
 		_("Cancel"), nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
-
-    sc_init_one(&replace_list[0], NANO_FIRSTLINE_KEY, _("First Line"),
+    sc_init_one(&replace_list[2], NANO_FIRSTLINE_KEY, _("First Line"),
 		nano_firstline_msg, 0, 0, 0, VIEW, do_first_line);
 
-    sc_init_one(&replace_list[1], NANO_LASTLINE_KEY, _("Last Line"),
+    sc_init_one(&replace_list[3], NANO_LASTLINE_KEY, _("Last Line"),
 		nano_lastline_msg, 0, 0, 0, VIEW, do_last_line);
 
-    sc_init_one(&replace_list[2], NANO_OTHERSEARCH_KEY, _("No Replace"),
+    sc_init_one(&replace_list[4], NANO_OTHERSEARCH_KEY, _("No Replace"),
 		nano_whereis_msg, 0, 0, 0, VIEW, do_search);
 
-    sc_init_one(&replace_list[3], NANO_FROMSEARCHTOGOTO_KEY,
+    sc_init_one(&replace_list[5], NANO_FROMSEARCHTOGOTO_KEY,
 		_("Goto Line"), nano_goto_msg, 0, 0, 0, VIEW,
 		do_gotoline_void);
 
 #ifndef NANO_SMALL
-    sc_init_one(&replace_list[4], TOGGLE_CASE_KEY, _("Case Sens"),
+    sc_init_one(&replace_list[6], TOGGLE_CASE_KEY, _("Case Sens"),
 		nano_case_msg, 0, 0, 0, VIEW, 0);
 
-    sc_init_one(&replace_list[5], TOGGLE_BACKWARDS_KEY, _("Direction"),
+    sc_init_one(&replace_list[7], TOGGLE_BACKWARDS_KEY, _("Direction"),
 		nano_reverse_msg, 0, 0, 0, VIEW, 0);
 
 #ifdef HAVE_REGEX_H
-    sc_init_one(&replace_list[REPLACE_LIST_LEN - 2], TOGGLE_REGEXP_KEY, 
+    sc_init_one(&replace_list[REPLACE_LIST_LEN - 1], TOGGLE_REGEXP_KEY, 
 		_("Regexp"), nano_regexp_msg, 0, 0, 0, VIEW, 0);
 #endif
 #endif /* NANO_SMALL */
 
-    sc_init_one(&replace_list[REPLACE_LIST_LEN - 1], NANO_CANCEL_KEY,
+
+    sc_init_one(&replace_list_2[0], NANO_HELP_KEY,
+		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
+
+    sc_init_one(&replace_list_2[1], NANO_CANCEL_KEY,
 		_("Cancel"), nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
-
-    sc_init_one(&replace_list_2[0], NANO_FIRSTLINE_KEY, _("First Line"),
+    sc_init_one(&replace_list_2[2], NANO_FIRSTLINE_KEY, _("First Line"),
 		nano_firstline_msg, 0, 0, 0, VIEW, do_first_line);
 
-    sc_init_one(&replace_list_2[1], NANO_LASTLINE_KEY, _("Last Line"),
+    sc_init_one(&replace_list_2[3], NANO_LASTLINE_KEY, _("Last Line"),
 		nano_lastline_msg, 0, 0, 0, VIEW, do_last_line);
 
-    sc_init_one(&replace_list_2[2], NANO_CANCEL_KEY, _("Cancel"),
+
+    sc_init_one(&goto_list[0], NANO_HELP_KEY,
+		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
+
+    sc_init_one(&goto_list[1], NANO_CANCEL_KEY, _("Cancel"),
 		nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
-
-    sc_init_one(&goto_list[0], NANO_FIRSTLINE_KEY, _("First Line"),
+    sc_init_one(&goto_list[2], NANO_FIRSTLINE_KEY, _("First Line"),
 		nano_firstline_msg, 0, 0, 0, VIEW, &do_first_line);
 
-    sc_init_one(&goto_list[1], NANO_LASTLINE_KEY, _("Last Line"),
+    sc_init_one(&goto_list[3], NANO_LASTLINE_KEY, _("Last Line"),
 		nano_lastline_msg, 0, 0, 0, VIEW, &do_last_line);
-
-    sc_init_one(&goto_list[2], NANO_CANCEL_KEY, _("Cancel"),
-		nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
 
     sc_init_one(&help_list[0], NANO_PREVPAGE_KEY, _("Prev Page"),
@@ -518,44 +531,60 @@ void shortcut_init(int unjustify)
 		nano_exit_msg, 0, NANO_EXIT_FKEY, 0, VIEW, do_exit);
 
 
+    sc_init_one(&writefile_list[0], NANO_HELP_KEY,
+		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
+
+    sc_init_one(&writefile_list[1], NANO_CANCEL_KEY, _("Cancel"),
+		nano_cancel_msg, 0, 0, 0, VIEW, 0);
+
 #ifndef DISABLE_BROWSER
-    sc_init_one(&writefile_list[0], NANO_TOFILES_KEY, _("To Files"),
+    sc_init_one(&writefile_list[2], NANO_TOFILES_KEY, _("To Files"),
 		nano_tofiles_msg, 0, 0, 0, NOVIEW, 0);
 #endif
 
-    sc_init_one(&writefile_list[WRITEFILE_LIST_LEN - 2], NANO_APPEND_KEY, _("Append"),
+    sc_init_one(&writefile_list[WRITEFILE_LIST_LEN - 1], NANO_APPEND_KEY, _("Append"),
 		nano_append_msg, 0, 0, 0, NOVIEW, 0);
 
-    sc_init_one(&writefile_list[WRITEFILE_LIST_LEN - 1], NANO_CANCEL_KEY, _("Cancel"),
+    sc_init_one(&insertfile_list[0], NANO_HELP_KEY,
+		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
+
+    sc_init_one(&insertfile_list[1], NANO_CANCEL_KEY, _("Cancel"),
 		nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
 #ifndef DISABLE_BROWSER
-    sc_init_one(&insertfile_list[0], NANO_TOFILES_KEY, _("To Files"),
+    sc_init_one(&insertfile_list[2], NANO_TOFILES_KEY, _("To Files"),
 		nano_tofiles_msg, 0, 0, 0, NOVIEW, 0);
 #endif
 
-    sc_init_one(&insertfile_list[INSERTFILE_LIST_LEN - 1], NANO_CANCEL_KEY, _("Cancel"),
+    sc_init_one(&spell_list[0], NANO_HELP_KEY,
+		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
+
+    sc_init_one(&spell_list[1], NANO_CANCEL_KEY, _("Cancel"),
 		nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
-    sc_init_one(&spell_list[0], NANO_CANCEL_KEY, _("Cancel"),
-		nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
 #ifndef DISABLE_BROWSER
-    sc_init_one(&browser_list[0], NANO_PREVPAGE_KEY, _("Prev Page"),
+    sc_init_one(&browser_list[0], NANO_HELP_KEY,
+		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
+
+    sc_init_one(&browser_list[1], NANO_EXIT_KEY, _("Exit"),
+		nano_exit_msg, 0, NANO_EXIT_FKEY, 0, VIEW, 0);
+
+    sc_init_one(&browser_list[2], NANO_PREVPAGE_KEY, _("Prev Page"),
 		nano_prevpage_msg,
 		0, NANO_PREVPAGE_FKEY, KEY_PPAGE, VIEW, 0);
 
-    sc_init_one(&browser_list[1], NANO_NEXTPAGE_KEY, _("Next Page"),
+    sc_init_one(&browser_list[3], NANO_NEXTPAGE_KEY, _("Next Page"),
 		nano_nextpage_msg,
 		0, NANO_NEXTPAGE_FKEY, KEY_NPAGE, VIEW, 0);
 
-    sc_init_one(&browser_list[2], NANO_GOTO_KEY, _("Goto"),
+    sc_init_one(&browser_list[4], NANO_GOTO_KEY, _("Goto"),
 		nano_gotodir_msg, 0, NANO_GOTO_FKEY, 0, VIEW, 0);
 
-    sc_init_one(&browser_list[3], NANO_EXIT_KEY, _("Exit"),
-		nano_exit_msg, 0, NANO_EXIT_FKEY, 0, VIEW, 0);
+    sc_init_one(&gotodir_list[0], NANO_HELP_KEY,
+		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
 
-    sc_init_one(&gotodir_list[0], NANO_CANCEL_KEY, _("Cancel"),
+    sc_init_one(&gotodir_list[1], NANO_CANCEL_KEY, _("Cancel"),
 		nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
 #endif

@@ -82,10 +82,10 @@ typedef struct filestruct {
     char *file_path;		/* Current file's full path location */
     int file_placewewant;	/* Current file's place we want */
     int file_totlines;		/* Current file's total number of lines */
-    int file_totsize;		/* Current file's total size */
+    long file_totsize;		/* Current file's total size */
 #endif
 
-    long lineno;		/* The line number */
+    int lineno;			/* The line number */
 } filestruct;
 
 typedef struct shortcut {
@@ -313,21 +313,19 @@ know what you're doing */
 #define MULTI_TOGGLES 0
 #endif
 
-#define WHEREIS_LIST_LEN (8 - NO_REGEX - NO_TOGGLES)
-#define REPLACE_LIST_LEN (8 - NO_REGEX - NO_TOGGLES)
+#define WHEREIS_LIST_LEN (9 - NO_REGEX - NO_TOGGLES)
+#define REPLACE_LIST_LEN (9 - NO_REGEX - NO_TOGGLES)
 #define TOGGLE_LEN (14 - NO_REGEX + MULTI_TOGGLES)
-#define WRITEFILE_LIST_LEN (3 - NO_BROWSER)
-#define INSERTFILE_LIST_LEN (2 - NO_BROWSER)
-#define BROWSER_LIST_LEN 4
+#define WRITEFILE_LIST_LEN (4 - NO_BROWSER)
+#define INSERTFILE_LIST_LEN (3 - NO_BROWSER)
+#define BROWSER_LIST_LEN 5
 #define MAIN_LIST_LEN (27 - NO_REGEX)
 #define MAIN_VISIBLE 12
-#define REPLACE_LIST_2_LEN 3
-#define GOTO_LIST_LEN 3
-#define GOTODIR_LIST_LEN 1
+#define REPLACE_LIST_2_LEN 4
+#define GOTO_LIST_LEN 4
+#define GOTODIR_LIST_LEN 2
 #define HELP_LIST_LEN 3
-#define SPELL_LIST_LEN 1
-
-
+#define SPELL_LIST_LEN 2
 
 
 #define VIEW 1

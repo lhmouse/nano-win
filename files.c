@@ -62,8 +62,10 @@ void load_file(int quiet)
        duplicate handling) */
     if (quiet != 0)
 	quiet = 1;
-    if (add_open_file(quiet, 1 - quiet) == 2)
+    if (add_open_file(quiet, 1 - quiet) == 2) {
 	load_open_file();
+	statusbar(_("File already loaded"));
+    }
 #endif
 
     wmove(edit, current_y, current_x);
@@ -172,7 +174,8 @@ filestruct *read_line(char *buf, filestruct * prev, int *line1ins)
 
 int read_file(int fd, char *filename, int quiet)
 {
-    long size, num_lines = 0, linetemp = 0;
+    long size;
+    int num_lines = 0;
     char input[2];		/* buffer */
     char *buf;
     long i = 0, bufx = 128;
@@ -193,7 +196,6 @@ int read_file(int fd, char *filename, int quiet)
     input[1] = 0;
     /* Read the entire file into file struct */
     while ((size = read_byte(fd, filename, input)) > 0) {
-	linetemp = 0;
 
 	if (input[0] == '\n') {
 	    fileptr = read_line(buf, fileptr, &line1ins);
@@ -323,7 +325,7 @@ int do_insertfile(int loading_file)
 
     wrap_reset();
 
-#ifndef DISABLE_MOUSE
+#if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE)
     currshortcut = insertfile_list;
     currslen = INSERTFILE_LIST_LEN;
 #endif
@@ -346,7 +348,7 @@ int do_insertfile(int loading_file)
 	if (i == NANO_TOFILES_KEY) {
 	    
 	    char *tmp = do_browse_from(realname);
-#ifndef DISABLE_MOUSE
+#if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
 	    currshortcut = insertfile_list;
 	    currslen = INSERTFILE_LIST_LEN;
 #endif
@@ -531,6 +533,10 @@ int add_open_file(int update, int dup_fix)
     /* save current modification status */
     open_files->file_modified = ISSET(MODIFIED);
 
+    /* Unset the marker because nano can't (yet) handle marked text flipping between
+	open files */
+    UNSET(MARK_ISSET);
+
 #ifdef DEBUG
     fprintf(stderr, _("filename is %s"), open_files->data);
 #endif
@@ -573,6 +579,10 @@ int load_open_file(void)
     current = fileage;
     totlines = open_files->file_totlines;
     totsize = open_files->file_totsize;
+
+    /* Unset the marker because nano can't (yet) handle marked text flipping between
+	open files */
+    UNSET(MARK_ISSET);
 
     /* restore full file position: line number, x-coordinate, y-
        coordinate, place we want */
@@ -1281,7 +1291,7 @@ int do_writeout(char *path, int exiting, int append)
     static int did_cred = 0;
 #endif
 
-#ifndef DISABLE_MOUSE
+#if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE)
     currshortcut = writefile_list;
     currslen = WRITEFILE_LIST_LEN;
 #endif
@@ -1332,7 +1342,7 @@ int do_writeout(char *path, int exiting, int append)
 
 	    char *tmp = do_browse_from(answer);
 
-#ifndef DISABLE_MOUSE
+#if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE)
 	    currshortcut = writefile_list;
 	    currslen = WRITEFILE_LIST_LEN;
 #endif
@@ -2076,7 +2086,7 @@ char *do_browser(char *inpath)
 
 	blank_statusbar_refresh();
 
-#ifndef DISABLE_MOUSE
+#if !defined DISABLE_HELP || !defined(DISABLE_MOUSE)
 	currshortcut = browser_list;
 	currslen = BROWSER_LIST_LEN;
 #endif
@@ -2187,6 +2197,10 @@ char *do_browser(char *inpath)
  	    else
 		selected = numents - 1;
 	    break;
+	case NANO_HELP_KEY:
+	case NANO_HELP_FKEY:
+	     do_help();
+	     break;
 	case KEY_ENTER:
 	case NANO_ENTER_KEY:
 	case 's': /* More Pico compatibility */

@@ -33,7 +33,8 @@ extern int editwinrows;
 extern int current_x, current_y, posible_max, totlines;
 extern int placewewant;
 extern int mark_beginx, samelinewrap;
-extern int totsize, temp_opt;
+extern long totsize;
+extern int temp_opt;
 extern int fill, wrap_at, flags,tabsize;
 extern int search_last_line;
 extern int currslen;
@@ -239,4 +240,8 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin,
 
 #ifdef ENABLE_MULTIBUFFER
 filestruct *open_file_dup_search(int update);
+#endif
+
+#ifndef DISABLE_HELP
+void help_init(void);
 #endif

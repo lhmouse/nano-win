@@ -39,7 +39,12 @@
 #define _(string) (string)
 #endif
 
-#define NUM_RCOPTS 18
+#ifndef DISABLE_WRAPJUSTIFY
+    #define NUM_RCOPTS 18
+#else
+    #define NUM_RCOPTS 17
+#endif
+
 /* Static stuff for the nanorc file */
 rcoption rcopts[NUM_RCOPTS] = 
 {

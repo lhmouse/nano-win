@@ -1165,8 +1165,8 @@ msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
 #: winio.c:1436
 #, c-format
-msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
-msgstr "rad %d av %d (%.0f%%), tecken %d av %d (%.0f%%)"
+msgid "line %d of %d (%.0f%%), character %ld of %ld (%.0f%%)"
+msgstr "rad %d av %d (%.0f%%), tecken %ld av %ld (%.0f%%)"
 
 #: winio.c:1580
 msgid "Dumping file buffer to stderr...\n"

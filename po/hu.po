@@ -1234,8 +1234,8 @@ msgstr ""
 
 #: winio.c:1436
 #, c-format
-msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
-msgstr "%d(/%d). sor (%.0f%%) és a(z) %d(/%d). karakter (%.0f%%)"
+msgid "line %d of %d (%.0f%%), character %ld of %ld (%.0f%%)"
+msgstr "%d(/%d). sor (%.0f%%) és a(z) %ld(/%ld). karakter (%.0f%%)"
 
 #: winio.c:1580
 msgid "Dumping file buffer to stderr...\n"

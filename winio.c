@@ -229,6 +229,8 @@ void nanoget_repaint(char *buf, char *inputbuf, int x)
 
 #ifdef ENABLE_COLOR
     color_on(bottomwin, COLOR_STATUSBAR);
+#else
+    wattron(bottomwin, A_REVERSE);
 #endif
     blank_statusbar();
 
@@ -251,6 +253,8 @@ void nanoget_repaint(char *buf, char *inputbuf, int x)
 
 #ifdef ENABLE_COLOR
     color_off(bottomwin, COLOR_STATUSBAR);
+#else
+    wattroff(bottomwin, A_REVERSE);
 #endif
 }
 
@@ -271,7 +275,7 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
     x_left = strlen(buf);
     x = strlen(def) + x_left;
 
-#ifndef DISABLE_MOUSE
+#if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
     currshortcut = s;
     currslen = slen;
 #endif
@@ -292,6 +296,15 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 #endif
 
 	    if (kbinput == s[j].val && kbinput < 32) {
+
+#ifndef DISABLE_HELP
+		/* Have to do this here, it would be too late to do it in statusq */
+		if (kbinput == NANO_HELP_KEY 
+		    || kbinput == NANO_HELP_FKEY) {
+		    do_help();
+		    break;
+		}
+#endif
 
 		/* We shouldn't discard the answer it gave, just because
 		   we hit a keystroke, GEEZ! */
@@ -1058,6 +1071,10 @@ void edit_refresh(void)
 	editbot = hold;
     else
 	editbot = temp;
+
+    /* What the hell are we expecting to update the screen if this isn't 
+	here? luck?? */
+    wrefresh(edit);
 }
 
 /*
@@ -1408,7 +1425,7 @@ int do_cursorpos(void)
 {
     filestruct *fileptr;
     float linepct = 0.0, bytepct = 0.0;
-    int i = 0;
+    long i = 0;
 
     if (current == NULL || fileage == NULL)
 	return 0;
@@ -1433,7 +1450,7 @@ int do_cursorpos(void)
 	    linepct, bytepct);
 #endif
 
-    statusbar(_("line %d of %d (%.0f%%), character %d of %d (%.0f%%)"),
+    statusbar(_("line %d of %d (%.0f%%), character %ld of %ld (%.0f%%)"),
 	      current->lineno, totlines, linepct, i, totsize, bytepct);
     reset_cursor();
     return 1;
@@ -1444,18 +1461,25 @@ int do_cursorpos(void)
 int do_help(void)
 {
 #ifndef DISABLE_HELP
-    char *ptr = help_text, *end;
+    char *ptr, *end;
     int i, j, row = 0, page = 1, kbinput = 0, no_more = 0, kp, kp2;
     int no_help_flag = 0;
+    shortcut *oldshortcut;
+    int oldslen;
 
     blank_edit();
     curs_set(0);
+    wattroff(bottomwin, A_REVERSE);
     blank_statusbar();
 
-#ifndef DISABLE_MOUSE
+    help_init();
+    ptr = help_text;
+
+    oldshortcut = currshortcut;
+    oldslen = currslen;
+
     currshortcut = help_list;
     currslen = HELP_LIST_LEN;
-#endif
 
     kp = keypad_on(edit, 1);
     kp2 = keypad_on(bottomwin, 1);
@@ -1550,13 +1574,17 @@ int do_help(void)
     } while ((kbinput = wgetch(edit)) != NANO_EXIT_KEY && 
       kbinput != NANO_EXIT_FKEY);
 
+    currshortcut = oldshortcut;
+    currslen = oldslen;
+
     if (no_help_flag) {
 	blank_bottombars();
 	wrefresh(bottomwin);
 	SET(NO_HELP);
 	window_init();
     }
-    display_main_list();
+    else
+	bottombars(currshortcut, currslen);
 
     curs_set(1);
     edit_refresh();
@@ -1585,7 +1613,7 @@ void dump_buffer(filestruct * inptr)
 
     fileptr = inptr;
     while (fileptr != NULL) {
-	fprintf(stderr, "(%ld) %s\n", fileptr->lineno, fileptr->data);
+	fprintf(stderr, "(%d) %s\n", fileptr->lineno, fileptr->data);
 	fflush(stderr);
 	fileptr = fileptr->next;
     }
@@ -1599,7 +1627,7 @@ void dump_buffer_reverse(filestruct * inptr)
 
     fileptr = filebot;
     while (fileptr != NULL) {
-	fprintf(stderr, "(%ld) %s\n", fileptr->lineno, fileptr->data);
+	fprintf(stderr, "(%d) %s\n", fileptr->lineno, fileptr->data);
 	fflush(stderr);
 	fileptr = fileptr->prev;
     }

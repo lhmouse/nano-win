@@ -260,7 +260,6 @@ void init_help_msg(void)
 	  "Esc, Alt or Meta key depending on your keyboard setup.  The "
 	  "following keystrokes are available in the main editor window. "
 	  "Optional keys are shown in parentheses:\n\n");
-
 }
 #endif
 
@@ -1597,10 +1596,11 @@ int do_int_speller(char *tempfile_name)
 /* External spell checking */
 int do_alt_speller(char *file_name)
 {
-    int alt_spell_status, x_cur = current_x, y_cur = current_y, pww_cur = placewewant;
+    int alt_spell_status, lineno_cur = current->lineno;
+    int x_cur = current_x, y_cur = current_y, pww_cur = placewewant;
+
     pid_t pid_spell;
     char *ptr;
-    long lineno_cur = current->lineno;
     static int arglen = 3;
     static char **spellargs = (char **) NULL;
 
@@ -2331,20 +2331,101 @@ void help_init(void)
 {
     int i, sofar = 0;
     long allocsize = 1;		/* How much space we're gonna need for the help text */
-    char buf[BUFSIZ] = "";
+    char buf[BUFSIZ] = "", *ptr = NULL;
+
+    /* First set up the initial help text for the current function */
+    if (currshortcut == whereis_list || currshortcut == replace_list
+	     || currshortcut == replace_list_2)
+	ptr = _("Search Command Help Text\n\n "
+		"Enter the words or characters you would like to search "
+		"for, then hit enter.  If there is a match for the text you "
+		"entered, the screen will be updated to the location of the "
+		" nearest match for the search string.\n\n "
+		"If using Pico Mode via the -p or --pico flags or using the "
+		"Meta-P toggle, the previous search string will be shown in "
+		"brackets after the Search: prompt.  Hitting enter without "
+		"entering any text will preform the previous search. "
+		"Otherwise, the previous string will be placed in front of "
+		"the cursor, and can be edited or deleted before hitting "
+		"enter.\n\n The following functions keys are available in "
+		"Search mode:\n\n");
+    else if (currshortcut == goto_list)
+	ptr = _("Goto Line Help Text\n\n "
+		"Enter the line number that you wish to go to and hit "
+		"Enter.  If thre are fewer lines of text than the "
+		"number you entered, you will be brought to the last line "
+		"of the file.\n\n The following functions keys are "
+		"available in Goto Line mode:\n\n");
+    else if (currshortcut == insertfile_list)
+	ptr = _("Insert File Help Text\n\n "
+		"Type in the name of a file to be inserted into the current "
+		"file buffer at the current cursor location.\n\n "
+		"If you have compiled nano with multiple file buffer "
+		"support, and enable multiple buffers with the -F "
+		"or --multibuffer command line flags or the Meta-F "
+		"toggle, inserting a file will cause it to be loaded into "
+		"a separate buffer (use Ctrl-< and > to switch between "
+		"file buffers).\n\n The following function keys are "
+		"available in Insert File mode:\n\n");
+    else if (currshortcut == writefile_list)
+	ptr = _("Write File Help Text\n\n "
+		"Type the name that you wish to save the current file "
+		"as and hit enter to save the file.\n\n "
+		"If you are using the marker code with Ctrl-^ and have "
+		"selected text, you will be prompted to save only the "
+		"selected portion to a separate file.  To reduce the "
+		"chance of overwriting the current file with just a portion "
+		"of it, the current filename is not the default in this "
+		"mode.\n\n The following function keys are available in "
+		"Write File mode:\n\n");
+#ifndef DISABLE_BROWSER
+    else if (currshortcut == browser_list)
+	ptr = _("File Browser Help Text\n\n "
+		"The file browser is used to visually browse the "
+		"directory structure to select a file for reading "
+		"or writing.  You may use the arrow keys or Page Up/"
+		"Down to browse through the files, and S or Enter to "
+		"choose the selected file or enter the selected "
+		"directory. To move up one level, select the directory "
+		"called \"..\" at the top of the file list.\n\n The "
+		"following functions keys are available in the file "
+		"browser:\n\n");
+    else if (currshortcut == gotodir_list)
+	ptr = _("Browser Goto Directory Help Text\n\n "
+		"Enter the name of the directory you would like to "
+		"browse to.\n\n If tab completion has not been disabled, "
+		"you can use the TAB key to (attempt to) automatically "
+		"complete the directory name.  The following function "
+		"keys are available in Browser GotoDir mode:\n\n");
+#endif
+    else if (currshortcut == spell_list)
+	ptr = _("Spell Check Help Text\n\n "
+		"The spell checker checks the spelling of all text "
+		"in the current file.  When an unknown word is "
+		"encountered, it is highlighted and a replacement can "
+		"be edited.  It will then prompt to replace every "
+		"instance of the given misspelled word in the "
+		"current file.\n\n The following other functions are "
+		"available in Spell Check mode:\n\n");
+    else /* Default to the main help list */
+	ptr = help_text_init;
 
     /* Compute the space needed for the shortcut lists - we add 15 to
        have room for the shortcut abbrev and its possible alternate keys */
-    for (i = 0; i <= MAIN_LIST_LEN - 1; i++)
-	if (main_list[i].help != NULL)
-	    allocsize += strlen(main_list[i].help) + 15;
+    for (i = 0; i <= currslen - 1; i++)
+	if (currshortcut[i].help != NULL)
+	    allocsize += strlen(currshortcut[i].help) + 15;
 
-    /* And for the toggle list, we also allocate space for extra text. */
-    for (i = 0; i <= TOGGLE_LEN - 1; i++)
-	if (toggles[i].desc != NULL)
-	    allocsize += strlen(toggles[i].desc) + 30;
+    /* If we're on the main list, we also allocate space for toggle help text. */
+    if (currshortcut == main_list) {
+	for (i = 0; i <= TOGGLE_LEN - 1; i++)
+	    if (toggles[i].desc != NULL)
+		allocsize += strlen(toggles[i].desc) + 30;
 
-    allocsize += strlen(help_text_init);
+    }
+
+    allocsize += strlen(ptr);
+
 
     if (help_text != NULL)
 	free(help_text);
@@ -2353,33 +2434,37 @@ void help_init(void)
     help_text = charalloc(allocsize);
 
     /* Now add the text we want */
-    strcpy(help_text, help_text_init);
+    strcpy(help_text, ptr);
 
     /* Now add our shortcut info */
-    for (i = 0; i <= MAIN_LIST_LEN - 1; i++) {
-	if (main_list[i].val > 0)
-	   sofar = snprintf(buf, BUFSIZ, "^%c	", main_list[i].val + 64);
+    for (i = 0; i <= currslen - 1; i++) {
+	if (currshortcut[i].val > 0 && currshortcut[i].val < 'a')
+	   sofar = snprintf(buf, BUFSIZ, "^%c	", currshortcut[i].val + 64);
 	else
 	   sofar = snprintf(buf, BUFSIZ, "	");
 
-	if (main_list[i].misc1 > KEY_F0 && main_list[i].misc1 <= KEY_F(64))
+	if (currshortcut[i].misc1 > KEY_F0 && currshortcut[i].misc1 <= KEY_F(64))
 	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "(F%d)	",
-			      main_list[i].misc1 - KEY_F0);
+			      currshortcut[i].misc1 - KEY_F0);
 	else
 	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "	");
 
-	if (main_list[i].altval > 0 && main_list[i].altval < 91)
+	if (currshortcut[i].altval > 0 && currshortcut[i].altval < 91)
 	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "(M-%c)	",
-			      main_list[i].altval - 32);
-	else if (main_list[i].altval > 0)
+			      currshortcut[i].altval - 32);
+	else if (currshortcut[i].altval > 0)
 	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "(M-%c)	",
-			      main_list[i].altval);
+			      currshortcut[i].altval);
+	/* Hack */
+	else if (currshortcut[i].val >= 'a')
+	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "(M-%c)	",
+			      currshortcut[i].val - 32);
 	else
 	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "	");
 
 
-	if (main_list[i].help != NULL)
-	    snprintf(&buf[sofar], BUFSIZ - sofar, "%s", main_list[i].help);
+	if (currshortcut[i].help != NULL)
+	    snprintf(&buf[sofar], BUFSIZ - sofar, "%s", currshortcut[i].help);
 
 
 	strcat(help_text, buf);
@@ -2387,20 +2472,21 @@ void help_init(void)
     }
 
     /* And the toggles... */
-    for (i = 0; i <= TOGGLE_LEN - 1; i++) {
-	if (toggles[i].override_ch != 0)
-	    sofar = snprintf(buf, BUFSIZ,
+    if (currshortcut == main_list)
+	for (i = 0; i <= TOGGLE_LEN - 1; i++) {
+	    if (toggles[i].override_ch != 0)
+		sofar = snprintf(buf, BUFSIZ,
 			     "M-%c			", toggles[i].override_ch);
-	else
-	    sofar = snprintf(buf, BUFSIZ,
+	    else
+		sofar = snprintf(buf, BUFSIZ,
 			     "M-%c			", toggles[i].val - 32);
 
-	if (toggles[i].desc != NULL) {
-	    if (toggles[i].flag != 0)
-		snprintf(&buf[sofar], BUFSIZ - sofar, _("%s enable/disable"),
+	    if (toggles[i].desc != NULL) {
+		if (toggles[i].flag != 0)
+		    snprintf(&buf[sofar], BUFSIZ - sofar, _("%s enable/disable"),
 			 toggles[i].desc);
-	    else
-		snprintf(&buf[sofar], BUFSIZ - sofar, "%s",
+		else
+		    snprintf(&buf[sofar], BUFSIZ - sofar, "%s",
 			 toggles[i].desc);
 	}
 
@@ -2820,7 +2906,7 @@ int main(int argc, char *argv[])
     reset_cursor();
 
     while (1) {
-	constcheck = current->lineno + current_x + totsize;
+	constcheck = current->lineno + current_x + current_y + totsize;
 
 #ifndef DISABLE_MOUSE
 	currshortcut = main_list;
@@ -3082,6 +3168,7 @@ int main(int argc, char *argv[])
 
 	    case -1:		/* Stuff that we don't want to do squat */
 	    case 410:		/* Must ignore this, it gets sent when we resize */
+	    case 29:		/* Ctrl-] */
 #ifdef PDCURSES
 	    case 541:		/* ???? */
 	    case 542:		/* Control and alt in Windows *shrug* */
@@ -3107,7 +3194,7 @@ int main(int argc, char *argv[])
 	if (ISSET(DISABLE_CURPOS))
 	    UNSET(DISABLE_CURPOS);
 	else if (ISSET(CONSTUPDATE))
-	if (constcheck != current->lineno + current_x + totsize)
+	if (constcheck != current->lineno + current_x + current_y + totsize)
 		do_cursorpos();
 
 	reset_cursor();

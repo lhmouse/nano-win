@@ -1,13 +1,34 @@
 CVS code -
+- General
+	- Finally wrote function-specific help mode.  Changes to
+	  nano.c:help_init() and winio.c:do_help().  Changed
+	  currshortcut and currslen #ifdefs to depend on both 
+	  DISABLE_HELP and DISABLE_MOUSE being defined to not 
+	  include.  Changed all the shortcuts and lengths.
+- cut.c:
+  do_cut_text()
+	-  Check to see whether marked text is contained within edit
+	   window and if so only do an edit_refresh (variable dontupdate
+	   replaces cuttingpartialline).
+  do_uncut_text()
+	- Similar display fixes (David Lawrence Ramsey).
 - faq.html
 	- Removed nano-editor.org FTP site address [deprecated] and added
 	the GNU one.
 - files.c:
 	- Added status messages for converted DOS and Mac files.
-	  People should know that their file wasnt normally formatted.
+	  People should know that their file wasnt normally formatted.	
+  load_file()
+	- Status message when trying to load an already loaded file with multiple
+	  buffers (David Lawrence Ramsey).
+  read_file()
+	- Get rid of useless linetemp variable and name num_lines int
+	  (David Lawrence Ramsey).
 - nano.c:
 	- New function do_prev_word, similar to do_next_word.  Hard coded as
 	  Alt-space, as next word is hard coded as control-space.
+- rcfile.c:
+	- Fix incorrect number of rc options (David Lawrence Ramsey).
 - po/sv.po:
 	- Updated Swedish translation (Christian Rose).
 - po/sv.po:
