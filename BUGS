@@ -40,8 +40,13 @@
   until a pageup/down occurs (22)[FIXED]
 - Using nano -t, user can not exit until a filename is given via ^O. (30)
  [FIXED]
+- Using -k cut text is not pasted properly. (34) [FIXED].
 - Doing a cut with -k can screw up the filestruct, fault is in cutting
  code. (36)  [FIXED]
+- Hitting enter on the magic line makes new lines, but they are not
+  written out to disk when saved..... (37). [FIXED]
+- Page up and page down do not work the same way as Pico (# of lines). (38)
+ [FIXED]
 
 ** Open BUGS **
 
@@ -52,32 +57,8 @@
 - Spelling support is not elegant like pico's integration of the 'spell'
   program.  Nano only uses ispell (for now) (12)
 - Cutting a file with marked text and both marker ends on the same line
-  causes a random segfault (16)
+  causes a random segfault (16) [FIXED?]
 - In search/replace code there is too much refreshing in bottomwin (26)
 - In replace, there is no way to accept the default replace string. (27)
 - totsize problems still abound in do_justify (33)
-- Using -k cut text is not pasted properly. (34) [FIXED, mostly].
 - Using -k pasted text is not updated properly if it goes beyond editbot. (35)
-- Hitting enter on the magic line makes new lines, but they are not
-  written out to disk when saved..... (37).
-- Page up and page down do not work the same way as Pico (# of lines). (38)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
