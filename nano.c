@@ -202,8 +202,9 @@ void clear_filename(void)
     filename[0] = 0;
 }
 
-/* Initialize global variables - no better way for now */
-void global_init(void)
+/* Initialize global variables - no better way for now.  If
+   save_cutbuffer is nonzero, don't set cutbuffer to NULL. */
+void global_init(int save_cutbuffer)
 {
     current_x = 0;
     current_y = 0;
@@ -212,11 +213,13 @@ void global_init(void)
 	die_too_small();
 
     fileage = NULL;
-    cutbuffer = NULL;
+    if (!save_cutbuffer)
+	cutbuffer = NULL;
     current = NULL;
     edittop = NULL;
     editbot = NULL;
     totlines = 0;
+    totsize = 0;
     placewewant = 0;
 
 #ifndef DISABLE_WRAPJUSTIFY
@@ -449,7 +452,7 @@ void usage(void)
 #endif
 #ifndef DISABLE_OPERATINGDIR
     printf(_
-	   (" -o [dir] 	--operatingdir		Set operating directory\n"));
+	   (" -o [dir] 	--operatingdir=[dir]	Set operating directory\n"));
 #endif
     printf(_
 	   (" -p 		--pico			Emulate Pico as closely as possible\n"));
@@ -884,13 +887,10 @@ void do_wrap(filestruct * inptr, char input_char)
      *           it is all spaces between previous word and next word which appears after fill.
      *    b) cursor is at the word at the wrap point.
      *         - word at wrap point starts a new line.
-     *         1. pressed a space and at first character of wrap point word.
-     *            - white space on original line is kept to where cursor was.
-     *         2. pressed non space (or space elsewhere).
-     *            - white space at end of original line is cleared.
+     *         - white space on original line is kept to where cursor was.
      *    c) cursor is past the word at the wrap point.
      *         - word at wrap point starts a new line.
-     *            - white space at end of original line is cleared
+     *         - white space at end of original line is cleared
      */
 
     temp = nmalloc(sizeof(filestruct));
@@ -933,6 +933,10 @@ void do_wrap(filestruct * inptr, char input_char)
 	/* Inside word, remove it from original, and move cursor to right spot. */
 	if (current_x >= current_word_start) {
 	    right = current_x - current_word_start;
+
+	    /* Decrease totsize by the number of spaces we removed, less
+	       one for the new line we're replacing the spaces with. */
+	    totsize -= (current_word_start - 1);
 	    current_x = 0;
 #ifndef NANO_SMALL
 	    if (ISSET(AUTOINDENT)) {
@@ -965,10 +969,16 @@ void do_wrap(filestruct * inptr, char input_char)
 
 	    if (!isspace((int) input_char)) {
 		i = current_word_start - 1;
+
+		/* Decrement totsize each time we remove a space. */
 		while (isspace((int) inptr->data[i])) {
 		    i--;
+		    totsize--;
 		    assert(i >= 0);
 		}
+		/* And increment it to account for the blank line we're
+		   replacing the spaces with. */
+		totsize++;
 	    } else if (current_x <= last_word_end)
 		i = last_word_end - 1;
 	    else
@@ -1000,20 +1010,14 @@ void do_wrap(filestruct * inptr, char input_char)
 	    }
 #endif
 	    i = current_word_start - 1;
-	    if (isspace((int) input_char)
-		&& (current_x == current_word_start)) {
-		current_x = current_word_start;
+	    current_x = current_word_start;
 
-		null_at(inptr->data, current_word_start);
-	    } else {
+	    null_at(inptr->data, current_word_start);
 
-		while (isspace((int) inptr->data[i])) {
-		    i--;
-		    assert(i >= 0);
-		}
-		inptr->data = nrealloc(inptr->data, i + 2);
-		inptr->data[i + 1] = 0;
-	    }
+	    /* Increment totsize to account for the new line that
+	       will be added below, so that it won't end up being
+	       short by one. */
+	    totsize++;
 	}
 
 
@@ -1029,12 +1033,17 @@ void do_wrap(filestruct * inptr, char input_char)
 	    current_x = current_word_start;
 	    i = current_word_start - 1;
 
+	    /* Decrement totsize each time we remove a space. */
 	    while (isspace((int) inptr->data[i])) {
 		i--;
+		totsize--;
 		assert(i >= 0);
 		inptr->data = nrealloc(inptr->data, i + 2);
 		inptr->data[i + 1] = 0;
 	    }
+	    /* And increment it to account for the blank line we're
+	       replacing the spaces with. */
+	    totsize++;
 	}
     }
 
@@ -1045,6 +1054,11 @@ void do_wrap(filestruct * inptr, char input_char)
 	/* Plus one for the space which concatenates the two lines together plus 1 for \0. */
 	char *p =
 	    charalloc((strlen(temp->data) + strlen(inptr->next->data) + 2));
+
+	/* We're adding to an existing line instead of creating a new
+	   one; decrement totlines here so that when it gets incremented
+	   below, it won't end up being high by one. */
+	totlines--;
 
 #ifndef NANO_SMALL
 	if (ISSET(AUTOINDENT)) {
@@ -1562,7 +1576,7 @@ int do_alt_speller(char *file_name)
 
     refresh();
     free_filestruct(fileage);
-    global_init();
+    global_init(1);
     open_file(file_name, 0, 1);
 
     /* go back to the old line while keeping the same position, mark the
@@ -2676,7 +2690,7 @@ int main(int argc, char *argv[])
     noecho();
 
     /* Set up some global variables */
-    global_init();
+    global_init(0);
     shortcut_init(0);
 #ifndef DISABLE_HELP
     init_help_msg();
