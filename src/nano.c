@@ -926,6 +926,12 @@ void renumber(filestruct *fileptr)
     }
 }
 
+#ifdef HAVE_GETOPT_LONG
+#define print1opt(shortflag, longflag, desc) print1opt_full(shortflag, longflag, desc)
+#else
+#define print1opt(shortflag, longflag, desc) print1opt_full(shortflag, desc)
+#endif
+
 /* Print one usage string to the screen.  This cuts down on duplicate
  * strings to translate, and leaves out the parts that shouldn't be
  * translatable (the flag names). */
