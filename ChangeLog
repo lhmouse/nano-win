@@ -55,6 +55,8 @@ CVS code -
 	- Italian translation updates (Marco Colombo).
 - po/ru.po, po/uk.po:
 	- Russian and Ukrainian translation updates (Sergey A. Ribalchenko).
+- po/id.po:
+	- Indonesian translation updates (Tedi Heriyanto).
 GNU nano 1.1.8 - 03/30/2002
 - General
 	- Type misalignments and mem leaks in renumber_all, do_justify
