@@ -136,12 +136,12 @@ int search_init(int replacing)
     }
 
     /* This is now one simple call.  It just does a lot. */
-    i = statusq(0, replacing ? replace_list : whereis_list, backupstring,
+    i = statusq(FALSE, replacing ? replace_list : whereis_list,
+	backupstring,
 #ifndef NANO_SMALL
 	&search_history,
 #endif
-	"%s%s%s%s%s%s",
-	_("Search"),
+	"%s%s%s%s%s%s", _("Search"),
 
 #ifndef NANO_SMALL
 	/* This string is just a modifier for the search prompt; no
@@ -275,7 +275,7 @@ int findnextstr(int can_display_wrap, int wholeword, const filestruct
 	rev_start = fileptr->data + (current_x + 1);
 
     /* Look for needle in searchstr. */
-    while (1) {
+    while (TRUE) {
 	found = strstrwrapper(fileptr->data, needle, rev_start);
 
 	if (found != NULL && (!wholeword || is_whole_word(found -
@@ -645,7 +645,7 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 	    curs_set(0);
 	    do_replace_highlight(TRUE, exp_word);
 
-	    i = do_yesno(1, _("Replace this instance?"));
+	    i = do_yesno(TRUE, _("Replace this instance?"));
 
 	    do_replace_highlight(FALSE, exp_word);
 	    free(exp_word);
@@ -763,11 +763,11 @@ int do_replace(void)
     last_replace = mallocstrcpy(last_replace, "");
 #endif
 
-    i = statusq(0, replace_list_2, last_replace,
+    i = statusq(FALSE, replace_list_2, last_replace,
 #ifndef NANO_SMALL
-		&replace_history,
+	&replace_history,
 #endif
-		_("Replace with"));
+	_("Replace with"));
 
 #ifndef NANO_SMALL
     /* Add this replace string to the replace history list.  i == 0
@@ -813,11 +813,14 @@ int do_replace(void)
 int do_gotoline(int line, int save_pos)
 {
     if (line <= 0) {		/* Ask for it */
-	int st = statusq(FALSE, goto_list, line != 0 ? answer : "",
+	char *ans = mallocstrcpy(NULL, answer);
+	int st = statusq(FALSE, goto_list, line != 0 ? ans : "",
 #ifndef NANO_SMALL
-			NULL,
+		NULL,
 #endif
-			_("Enter line number"));
+		_("Enter line number"));
+
+	free(ans);
 
 	/* Cancel, or Enter with blank string. */
 	if (st == -1 || st == -2)
@@ -918,7 +921,7 @@ int do_find_bracket(void)
     assert(ISSET(REGEXP_COMPILED));
 
     search_last_line = 0;
-    while (1) {
+    while (TRUE) {
 	if (findnextstr(FALSE, FALSE, current, current_x, regexp_pat, FALSE) != 0) {
 	    /* Found identical bracket. */
 	    if (current->data[current_x] == ch_under_cursor)

@@ -190,7 +190,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange);
 int write_marked(const char *name, int tmp, int append, int
 	nonamechange);
 #endif
-int do_writeout(const char *path, int exiting, int append);
+int do_writeout(int exiting);
 int do_writeout_void(void);
 char *real_dir_from_tilde(const char *buf);
 #ifndef DISABLE_TABCOMP
@@ -503,7 +503,7 @@ void center_cursor(void);
 void edit_refresh(void);
 void edit_refresh_clearok(void);
 void edit_update(filestruct *fileptr, topmidnone location);
-int statusq(int tabs, const shortcut *s, const char *def,
+int statusq(int allowtabs, const shortcut *s, const char *def,
 #ifndef NANO_SMALL
 		historyheadtype *history_list,
 #endif

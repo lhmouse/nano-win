@@ -1511,7 +1511,7 @@ int do_int_spell_fix(const char *word)
 	    do_replace_highlight(TRUE, word);
 
 	    /* Allow the replace word to be corrected. */
-	    i = statusq(0, spell_list, word,
+	    i = statusq(FALSE, spell_list, word,
 #ifndef NANO_SMALL
 			NULL,
 #endif
@@ -2739,14 +2739,14 @@ int do_exit(void)
     if (ISSET(TEMP_OPT))
 	i = 1;
     else
-	i = do_yesno(0, _("Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "));
+	i = do_yesno(FALSE, _("Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "));
     
 #ifdef DEBUG
     dump_buffer(fileage);
 #endif
 
     if (i == 1) {
-	if (do_writeout(filename, 1, 0) > 0) {
+	if (do_writeout(TRUE) > 0) {
 
 #ifdef ENABLE_MULTIBUFFER
 	    if (!close_open_file()) {
@@ -3528,7 +3528,7 @@ int main(int argc, char *argv[])
     edit_refresh();
     reset_cursor();
 
-    while (1) {
+    while (TRUE) {
 	keyhandled = 0;
 
 	if (ISSET(CONSTUPDATE))

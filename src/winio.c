@@ -127,7 +127,7 @@ int get_ignored_kbinput(WINDOW *win)
 {
     int kbinput;
 
-    while (1) {
+    while (TRUE) {
 	kbinput = wgetch(win);
 	switch (kbinput) {
 	    case ERR:
@@ -1065,7 +1065,7 @@ void nanoget_repaint(const char *buf, const char *inputbuf, size_t x)
     wattroff(bottomwin, A_REVERSE);
 }
 
-/* Get the input from the kb; this should only be called from
+/* Get the input from the keyboard; this should only be called from
  * statusq(). */
 int nanogetstr(int allowtabs, const char *buf, const char *def,
 #ifndef NANO_SMALL
@@ -1671,7 +1671,7 @@ void edit_add(const filestruct *fileptr, const char *converted,
 		 * line not followed by an end on this line? */
 
 		start_col = 0;
-		while (1) {
+		while (TRUE) {
 		    start_col += startmatch.rm_so;
 		    startmatch.rm_eo -= startmatch.rm_so;
  		    if (regexec(tmpcolor->end,
@@ -2011,7 +2011,7 @@ void edit_update(filestruct *fileptr, topmidnone location)
  * want to put up by default.
  *
  * New arg tabs tells whether or not to allow tab completion. */
-int statusq(int tabs, const shortcut *s, const char *def,
+int statusq(int allowtabs, const shortcut *s, const char *def,
 #ifndef NANO_SMALL
 		historyheadtype *which_history,
 #endif
@@ -2031,7 +2031,7 @@ int statusq(int tabs, const shortcut *s, const char *def,
     va_end(ap);
     foo[COLS - 4] = '\0';
 
-    ret = nanogetstr(tabs, foo, def,
+    ret = nanogetstr(allowtabs, foo, def,
 #ifndef NANO_SMALL
 		which_history,
 #endif

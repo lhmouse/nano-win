@@ -293,14 +293,11 @@ void *nrealloc(void *ptr, size_t howmuch)
  * dest = mallocstrcpy(dest, src); */
 char *mallocstrcpy(char *dest, const char *src)
 {
-    if (src == dest)
-	return dest;
-
-    if (dest != NULL)
-	free(dest);
-
     if (src == NULL)
-	return NULL;
+	src = "";
+
+    if (src != dest)
+	free(dest);
 
     dest = charalloc(strlen(src) + 1);
     strcpy(dest, src);

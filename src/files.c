@@ -406,7 +406,7 @@ char *get_next_filename(const char *name)
     buf = charalloc(strlen(name) + num_of_digits(INT_MAX) + 2);
     strcpy(buf, name);
 
-    while (1) {
+    while (TRUE) {
 
 	if (stat(buf, &fs) == -1)
 	    return buf;
@@ -451,17 +451,17 @@ int do_insertfile(int loading_file)
     if (operating_dir != NULL && strcmp(operating_dir, "."))
 #ifdef ENABLE_MULTIBUFFER 
 	if (ISSET(MULTIBUFFER))
-	    i = statusq(1, insertfile_list, inspath,
+	    i = statusq(TRUE, insertfile_list, inspath,
 #ifndef NANO_SMALL
-		0,
+		NULL,
 #endif
 		_("File to insert into new buffer [from %s] "),
 		operating_dir);
 	else
 #endif
-	    i = statusq(1, insertfile_list, inspath,
+	    i = statusq(TRUE, insertfile_list, inspath,
 #ifndef NANO_SMALL
-		0,
+		NULL,
 #endif
 		_("File to insert [from %s] "),
 		operating_dir);
@@ -470,16 +470,16 @@ int do_insertfile(int loading_file)
 #endif
 #ifdef ENABLE_MULTIBUFFER 
 	if (ISSET(MULTIBUFFER))
-	    i = statusq(1, insertfile_list, inspath,
+	    i = statusq(TRUE, insertfile_list, inspath,
 #ifndef NANO_SMALL
-		0,
+		NULL,
 #endif
 		_("File to insert into new buffer [from ./] "));
 	else
 #endif /* ENABLE_MULTIBUFFER */
-	    i = statusq(1, insertfile_list, inspath,
+	    i = statusq(TRUE, insertfile_list, inspath,
 #ifndef NANO_SMALL
-		0,
+		NULL,
 #endif
 		_("File to insert [from ./] "));
 
@@ -501,8 +501,12 @@ int do_insertfile(int loading_file)
 #endif /* ENABLE_MULTIBUFFER */
 
 	if (i == NANO_EXTCMD_KEY) {
-	    int ts = statusq(TRUE, extcmd_list, answer, NULL, 
+	    char *ans = mallocstrcpy(NULL, answer);
+	    int ts = statusq(TRUE, extcmd_list, ans, NULL, 
 		_("Command to execute"));
+
+	    free(ans);
+
 	    if (ts  == -1 || answer == NULL || answer[0] == '\0') {
 		statusbar(_("Cancelled"));
 		display_main_list();
@@ -1802,35 +1806,50 @@ int write_marked(const char *name, int tmp, int append, int
 }
 #endif /* !NANO_SMALL */
 
-int do_writeout(const char *path, int exiting, int append)
+int do_writeout(int exiting)
 {
-    int i = 0;
+    int i;
+    int append = 0;
 #ifdef NANO_EXTRA
-    static int did_cred = 0;
+    static int did_cred = FALSE;
 #endif
 
 #if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE)
     currshortcut = writefile_list;
 #endif
 
-    answer = mallocstrcpy(answer, path);
-
     if (exiting && ISSET(TEMP_OPT)) {
+	i = -1;
 	if (filename[0] != '\0') {
-	    i = write_file(answer, 0, 0, 0);
-	    display_main_list();
-	    return i;
-	} else {
+	    i = write_file(filename, FALSE, 0, FALSE);
+	    if (i == 1) {
+		/* Write succeeded. */
+		display_main_list();
+		return 1;
+	    }
+	}
+
+	/* No filename or the write above failed. */
+	if (i == -1) {
 	    UNSET(TEMP_OPT);
 	    do_exit();
 
-	    /* They cancelled, abort quit */
+	    /* They cancelled; abort quit. */
 	    return -1;
 	}
     }
 
-    while (1) {
 #ifndef NANO_SMALL
+    if (ISSET(MARK_ISSET) && !exiting)
+	answer = mallocstrcpy(answer, "");
+    else
+#endif
+	answer = mallocstrcpy(answer, filename);
+
+    while (TRUE) {
+	const char *msg;
+#ifndef NANO_SMALL
+	char *ans = mallocstrcpy(NULL, answer);
 	const char *formatstr, *backupstr;
 
 	if (ISSET(MAC_FILE))
@@ -1845,44 +1864,39 @@ int do_writeout(const char *path, int exiting, int append)
 	else
 	   backupstr = "";
 
-	/* Be nice to the translation folks */
+	/* Be nice to the translation folks. */
 	if (ISSET(MARK_ISSET) && !exiting) {
 	    if (append == 2)
-		i = statusq(1, writefile_list, "", 0,
-		    "%s%s%s", _("Prepend Selection to File"), formatstr, backupstr);
+		msg = _("Prepend Selection to File");
 	    else if (append == 1)
-		i = statusq(1, writefile_list, "", 0,
-		    "%s%s%s", _("Append Selection to File"), formatstr, backupstr);
+		msg = _("Append Selection to File");
 	    else
-		i = statusq(1, writefile_list, "", 0,
-		    "%s%s%s", _("Write Selection to File"), formatstr, backupstr);
-	} else {
-	    if (append == 2)
-		i = statusq(1, writefile_list, answer, 0,
-		    "%s%s%s", _("File Name to Prepend to"), formatstr, backupstr);
-	    else if (append == 1)
-		i = statusq(1, writefile_list, answer, 0,
-		    "%s%s%s", _("File Name to Append to"), formatstr, backupstr);
-	    else
-		i = statusq(1, writefile_list, answer, 0,
-		    "%s%s%s", _("File Name to Write"), formatstr, backupstr);
-	}
-#else
-	if (append == 2)
-	    i = statusq(1, writefile_list, answer,
-		"%s", _("File Name to Prepend to"));
-	else if (append == 1)
-	    i = statusq(1, writefile_list, answer,
-		"%s", _("File Name to Append to"));
-	else
-	    i = statusq(1, writefile_list, answer,
-		"%s", _("File Name to Write"));
+		msg = _("Write Selection to File");
+	} else
 #endif /* !NANO_SMALL */
+	if (append == 2)
+	    msg = _("File Name to Prepend to");
+	else if (append == 1)
+	    msg = _("File Name to Append to");
+	else
+	    msg = _("File Name to Write");
+
+	i = statusq(TRUE, writefile_list,
+#ifndef NANO_SMALL
+		ans, NULL, "%s%s%s", msg, formatstr, backupstr
+#else
+		filename, "%s", msg
+#endif
+		);
+
+#ifndef NANO_SMALL
+	free(ans);
+#endif
 
 	if (i == -1) {
 	    statusbar(_("Cancelled"));
 	    display_main_list();
-	    return 0;
+	    return -1;
 	}
 
 #ifndef DISABLE_BROWSER
@@ -1926,7 +1940,7 @@ int do_writeout(const char *path, int exiting, int append)
 	if (exiting && !ISSET(TEMP_OPT) && !strcasecmp(answer, "zzy")
 		&& !did_cred) {
 	    do_credits();
-	    did_cred = 1;
+	    did_cred = TRUE;
 	    return -1;
 	}
 #endif
@@ -1934,7 +1948,7 @@ int do_writeout(const char *path, int exiting, int append)
 	    struct stat st;
 
 	    if (!stat(answer, &st)) {
-		i = do_yesno(0, _("File exists, OVERWRITE ?"));
+		i = do_yesno(FALSE, _("File exists, OVERWRITE ?"));
 		if (i == 0 || i == -1)
 		    continue;
 	    } else if (filename[0] != '\0'
@@ -1942,7 +1956,7 @@ int do_writeout(const char *path, int exiting, int append)
 		&& (!ISSET(MARK_ISSET) || exiting)
 #endif
 		) {
-		i = do_yesno(0, _("Save file under DIFFERENT NAME ?"));
+		i = do_yesno(FALSE, _("Save file under DIFFERENT NAME ?"));
 		if (i == 0 || i == -1)
 		    continue;
 	    }
@@ -1952,25 +1966,25 @@ int do_writeout(const char *path, int exiting, int append)
 	/* Here's where we allow the selected text to be written to
 	 * a separate file. */
 	if (ISSET(MARK_ISSET) && !exiting)
-	    i = write_marked(answer, 0, append, 1);
+	    i = write_marked(answer, FALSE, append, FALSE);
 	else
 #endif /* !NANO_SMALL */
-	    i = write_file(answer, 0, append, 0);
+	    i = write_file(answer, FALSE, append, FALSE);
 
 #ifdef ENABLE_MULTIBUFFER
 	/* If we're not about to exit, update the current entry in
-	   the open_files structure. */
+	 * the open_files structure. */
 	if (!exiting)
 	    add_open_file(1);
 #endif
 	display_main_list();
 	return i;
-    } /* while (1) */
+    } /* while (TRUE) */
 }
 
 int do_writeout_void(void)
 {
-    return do_writeout(filename, 0, 0);
+    return do_writeout(FALSE);
 }
 
 /* Return a malloc()ed string containing the actual directory, used
@@ -2338,7 +2352,7 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
 		 pos <= strlen(matches[0]); pos++)
 		tmp++;
 
-	    while (1) {
+	    while (TRUE) {
 		match_matches = 0;
 
 		for (i = 0; i < num_matches; i++) {
@@ -2752,9 +2766,9 @@ char *do_browser(const char *inpath)
 	case 'G': /* Pico compatibility */
 	case 'g':
 	    curs_set(1);
-	    j = statusq(0, gotodir_list, "",
+	    j = statusq(FALSE, gotodir_list, "",
 #ifndef NANO_SMALL
-		0,
+		NULL,
 #endif
 		_("Goto Directory"));
 	    bottombars(browser_list);
