@@ -233,6 +233,11 @@ CVS code -
   revstrstr(), revstristr()
 	- Add asserts. (DLR)
 - winio.c:
+  get_buffer()
+	- If we get ERR when using blocking input, it means that the
+	  input source that we were using is gone.  In this case, call
+	  handle_hupterm(), so that nano dies gracefully instead of
+	  going into an infinite loop. (DLR, found by Jim Uhl)
   titlebar()
 	- Rename some variables for consistency, make space an int
 	  instead of a size_t, properly handle the case where the prefix

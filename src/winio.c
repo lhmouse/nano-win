@@ -140,6 +140,11 @@ void get_buffer(WINDOW *win)
 
     input = wgetch(win);
 
+    /* If we get ERR when using blocking input, it means that the input
+     * source that we were using is gone, so die gracefully. */
+    if (input == ERR)
+	handle_hupterm(0);
+
 #ifndef NANO_SMALL
     allow_pending_sigwinch(FALSE);
 #endif
