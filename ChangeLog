@@ -33,6 +33,8 @@ CVS code -
 	  or not (FEEDBACK!!)
 - nano.texi:
 	- corrected the Mouse Toggle section, noticed by Daniel Bonniot.
+- rcfile.c:
+	- NUM_RCOPTS fix (DLR).
 - winio.c:
 	- Add David Lawrence Ramsey to credits.
   bottombars()

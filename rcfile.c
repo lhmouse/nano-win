@@ -39,7 +39,7 @@
 #define _(string) (string)
 #endif
 
-#define NUM_RCOPTS 16
+#define NUM_RCOPTS 17
 /* Static stuff for the nanorc file */
 rcoption rcopts[NUM_RCOPTS] = 
 {
