@@ -87,6 +87,8 @@ Cvs code -
 	- Added the "Goto Directory" code (Rocco)
 	- Don't shift the size of the file is it's less than 1K. Fixed
 	  files less than 1K being displayed as 0B (Rocco).
+	- More Picoish keystrokes for the browser, ^P, ^N, etc, for up,
+	  down, etc, and add the consistent ^C to exit (Jim Knoble).
   do_writeout()
 	- New code to allow writing selected text to a separate file.
 	  When this is done, the current state is prserved.
