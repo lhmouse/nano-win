@@ -23,7 +23,8 @@ CVS code -
 - files.c:
   write_file()
 	- Unsetting modified on temp files bug fixed (Rocco Corsi).
-	- Okay, if tmp == 1 and the file is a symlink, we return -1.
+	- Okay, if tmp == 1 and the file is a symlink the user doesn't
+	  own, we return -1.
   do_insertfile()
 	- Added call to real_name_from tilde, oops.  Added check for
 	  DISABLE_TABCOMP.

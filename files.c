@@ -301,7 +301,7 @@ int write_file(char *name, int tmp)
     long size, lineswritten = 0;
     char buf[PATH_MAX + 1];
     filestruct *fileptr;
-    int fd, mask = 0;
+    int fd, mask = 0, realexists;
     struct stat st;
     static char *realname = NULL;
 
@@ -321,16 +321,20 @@ int write_file(char *name, int tmp)
     realname = mallocstrcpy(realname, name);
 #endif
 
+
+    /* Save the state of file at the end of the symlink */
+    realexists = stat(realname, &st);
+
     /* Check to see if the file is a regular file and FOLLOW_SYMLINKS is
        set.  If so then don't do the delete and recreate code which would
        cause unexpected behavior */
     lstat(realname, &st);
 
-    /* New case: if it's a symlink and tmp is set, abort.  It could be
-	a symlink attack */
-    if (tmp && S_ISLNK(st.st_mode))
+    /* New case: if it's a symlink and tmp is set AND the user does not
+	own the symlink, abort.  It could be a symlink attack */
+    if (tmp && S_ISLNK(st.st_mode) && getuid() != st.st_uid)
 	 return -1;
-    else if (!tmp && (ISSET(FOLLOW_SYMLINKS) || !S_ISLNK(st.st_mode))) {
+    else if (ISSET(FOLLOW_SYMLINKS) || !S_ISLNK(st.st_mode)) {
 
 	/* Open the file and truncate it.  Trust the symlink. */
 	if ((fd = open(realname, O_WRONLY | O_CREAT | O_TRUNC,
@@ -413,7 +417,7 @@ int write_file(char *name, int tmp)
     }
 
     if (!ISSET(FOLLOW_SYMLINKS) || tmp) {
-	if (stat(realname, &st) == -1) {
+	if (realexists == -1) {
 	    /* Use default umask as file permisions if file is a new file. */
 	    mask = umask(0);
 	    umask(mask);
@@ -426,7 +430,7 @@ int write_file(char *name, int tmp)
 	} else {
 	    /* Use permissions from file we are overwriting. */
 	    mask = st.st_mode;
-	    if (unlink(realname) == -1) {
+	    if (!tmp && unlink(realname) == -1) {
 		if (errno != ENOENT) {
 		    statusbar(_("Could not open %s for writing: %s"),
 			      realname, strerror(errno));
@@ -436,23 +440,24 @@ int write_file(char *name, int tmp)
 	    }
 	}
 
-	if (link(buf, realname) != -1)
-	    unlink(buf);
-	else if (errno != EPERM) {
-	    statusbar(_("Could not open %s for writing: %s"),
+	if (!tmp) {
+	    if (link(buf, realname) != -1)
+		unlink(buf);
+	    else if (errno != EPERM) {
+		statusbar(_("Could not open %s for writing: %s"),
 		      name, strerror(errno));
-	    unlink(buf);
-	    return -1;
-	} else if (rename(buf, realname) == -1) {	/* Try a rename?? */
- 	    statusbar(_("Could not open %s for writing: %s"),
+		unlink(buf);
+		return -1;
+	    } else if (rename(buf, realname) == -1) {	/* Try a rename?? */
+ 		statusbar(_("Could not open %s for writing: %s"),
 		      realname, strerror(errno));
-	    unlink(buf);
-	    return -1;
+		unlink(buf);
+		return -1;
+	    }
 	}
-	if (chmod(realname, mask) == -1) {
+	if (chmod(realname, mask) == -1)
 	    statusbar(_("Could not set permissions %o on %s: %s"),
 		      mask, realname, strerror(errno));
-	}
 
     }
     if (!tmp) {
