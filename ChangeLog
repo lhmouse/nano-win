@@ -15,6 +15,11 @@ CVS code -
 	- Added call to real_name_from tilde, oops.
   read_file()
 	- Added check for fileptr == NULL.
+- nano.c:
+  do_justify()
+	- Wrote unjustify code.  Borrows cutbuffer and stores the unjustified text there, 
+	  then grabs the next keystroke and, if the unjustify key, gets rid of the
+	  justified text and calls do_uncut_text.  Added macro NANO_UNJUSTIFY_KEY.
 - es.po: 
 	- Traditional Spanish strings updates.
 

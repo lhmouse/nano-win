@@ -131,6 +131,7 @@ void page_up_center(void);
 void blank_edit(void);
 void search_init_globals(void);
 void replace_abort(void);
+void add_to_cutbuffer(filestruct * inptr);
 #ifdef NANO_EXTRA
 void do_credits(void);
 #endif

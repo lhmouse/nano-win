@@ -1669,8 +1669,8 @@ int do_justify(void)
 {
 #ifndef NANO_SMALL
     int slen = 0;		/* length of combined lines on one line. */
-    int initial_y;
-    filestruct *initial = NULL;
+    int initial_y, kbinput;
+    filestruct *initial = NULL, *tmpjust = NULL, *cutbak, *tmptop, *tmpbot;
 
     if (empty_line(current->data)) {
 	/* Justify starting at first non-empty line. */
@@ -1708,12 +1708,23 @@ int do_justify(void)
     initial_y = current_y;
 
     set_modified();
+    cutbak = cutbuffer; /* Got to like cutbak ;) */
+    cutbuffer = NULL;
+
+    tmptop = current;
+    tmpjust = copy_node(current);
+    add_to_cutbuffer(tmpjust);
     /* Put the whole paragraph into one big line. */
     while (current->next && !isspace((int) current->next->data[0])
 	   && current->next->data[0]) {
 	filestruct *tmpnode = current->next;
 	int len = strlen(current->data);
 	int len2 = strlen(current->next->data);
+
+	tmpjust = NULL;
+	fprintf(stderr, "I see no X here\n");
+	tmpjust = copy_node(current->next);
+	add_to_cutbuffer(tmpjust);
 
 	/* length of both strings plus space between strings and ending \0. */
 	current->data = nrealloc(current->data, len + len2 + 2);
@@ -1779,6 +1790,7 @@ int do_justify(void)
 	} while ((strlenpt(current->data) > (fill))
 		 && !no_spaces(current->data));
     }
+    tmpbot = current;
 
     if (current->next)
 	current = current->next;
@@ -1801,7 +1813,27 @@ int do_justify(void)
     }
 
     edit_refresh();
-    statusbar(_("Justify Complete"));
+    statusbar(_("Can now UnJustify!"));
+    reset_cursor();
+
+    /* Now get a keystroke and see if it's unjustify, if not unget the keytreoke 
+       and return */
+    if ((kbinput = wgetch(edit)) != NANO_UNJUSTIFY_KEY)
+	ungetch(kbinput);
+    else {
+	/* Else restore the justify we just did (ungrateful user!) */
+	if (tmptop->prev != NULL)
+	    tmptop->prev->next = tmpbot->next;
+	tmpbot->next->prev = tmptop->prev;
+ 	current = tmpbot->next;
+	tmpbot->next = NULL;
+	do_uncut_text();
+	free_filestruct(tmptop);
+	blank_statusbar_refresh();
+    }
+    free_filestruct(cutbuffer);
+    cutbuffer = cutbak;
+    
     return 1;
 #else
     nano_small_msg();

@@ -189,7 +189,7 @@ Usage: nano [option] +LINE <file>\n\
   {"Cannot move edit win", 154},
   {"Cannot resize bottom win", 155},
   {"Cannot move bottom win", 156},
-  {"Justify Complete", 157},
+  {"Can now UnJustify!", 157},
   {"%s enable/disable", 158},
   {"enabled", 159},
   {"disabled", 160},
