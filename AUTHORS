@@ -13,3 +13,8 @@ Adam Rogoyski <rogoyski@cs.utexas.edu>
 	* New write_file() function, read_file() optimization, mouse
 	  support, resize support, nohelp (-x) option, justify function,
 	  follow symlink option and bugfixes, and much more.
+
+Robert Siemborski <rjs3@andrew.cmu.edu>
+	* Miscellaneous cut, display, replace, and other bug fixes,
+	  original "magic line" code, read_line() function, new
+	  edit display routines.
