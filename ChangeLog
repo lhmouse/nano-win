@@ -15,6 +15,29 @@ CVS code -
 	- Remove reference to @includedir@ in src/Makefile.am, as it's
 	  unneeded and can break cross-compilation. (DLR, found by Mike
 	  Frysinger)
+	- Overhaul the file opening, reading, and loading operations to
+	  increase efficiency, avoid problems on invalid filenames
+	  specified on the command line, and eliminate corner cases that
+	  erroneously leave edittop or current NULL when they shouldn't
+	  be.  Also split out the code to execute a command into a
+	  separate function, eliminate a workaround for one of the
+	  aforementioned corner cases, handle files with a mix of DOS
+	  and Mac format lines, and remove the code to turn on the
+	  NO_CONVERT flag when opening a binary file, as it's not always
+	  reliable and will cause problems with UTF-8 text files.  New
+	  functions open_file(), execute_command(), and mallocstrassn();
+	  changes to read_line(), load_file(), read_file(), open_file(),
+	  get_next_filename(), do_insertfile(), do_insertfile_void(),
+	  do_alt_speller(), and edit_refresh(). (David Benbennick) DLR:
+	  Add a few minor fixes to make sure that current is set
+	  properly in all cases, indicate on the statusbar when the file
+	  has a mix of DOS and Mac format lines, move the test for DOS
+	  line endings from read_line() to read_file() to avoid
+	  inaccurate statusbar messages and to reduce fileformat to a
+	  local variable in read_file(), eliminate another workaround in
+	  edit_update(), rename open_the_file() to open_file() since the
+	  latter has been removed, and rename load_a_file() to
+	  load_buffer().
 - files.c:
   do_insertfile()
 	- Readd the NANO_SMALL #ifdef around the start_again: label to
@@ -23,14 +46,23 @@ CVS code -
   shortcut_init()
 	- Remove redundant NANO_SMALL #ifdef. (DLR)
 - nano.c:
+  die_save_file()
+	- Clarify the error message when there are too many backup files
+	  and the current one can't be written. (DLR)
   do_para_begin(), do_para_end()
 	- Maintain current_y's value when moving up or down lines so
 	  that smooth scrolling works correctly. (DLR)
+- nano.h:
+	- Add WIDTH_OF_TAB #define, containing the default width of a
+	  tab. (DLR)
 - rcfile.c:
   parse_rcfile()
 	- Add missing brackets around an if statement block so that
 	  parsing the numeric argument after "tabsize" works properly
 	  again. (DLR, found by Mike Frysinger)
+	- Since flag values are longs, use "%ld" instead of "%d" in the
+	  debugging messages indicating when a flag is set or unset.
+	  (DLR)
 - search.c:
   findnextstr()
 	- Take the no_sameline parameter after can_display_wrap and
@@ -56,6 +88,10 @@ CVS code -
 	- If there are more than MAIN_VISIBLE shortcuts available, only
 	  register clicks on the first MAIN_VISIBLE shortcuts, since
 	  bottombars() only shows that many shortcuts. (DLR)
+  reset_cursor()
+	- If this is called before any files have been opened, as it can
+	  be by statusbar(), put the cursor at the top left corner of
+	  the edit window before getting out. (DLR)
   edit_refresh()
 	- Call edit_update() with NONE instead of CENTER when smooth
 	  scrolling is on, for consistency with the movement routines.

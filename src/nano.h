@@ -491,6 +491,9 @@ typedef enum {
  * occurs. */
 #define CHARS_FROM_EOL 8
 
+/* Default width of a tab. */
+#define WIDTH_OF_TAB 8
+
 /* Maximum number of search history strings saved, same value used for
  * replace history. */
 #define MAX_SEARCH_HISTORY 100

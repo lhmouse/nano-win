@@ -396,7 +396,7 @@ void *nrealloc(void *ptr, size_t howmuch)
 }
 
 /* Copy one malloc()ed string to another pointer.  Should be used as:
- * dest = mallocstrcpy(dest, src); */
+ * "dest = mallocstrcpy(dest, src);". */
 char *mallocstrcpy(char *dest, const char *src)
 {
     if (src == NULL)
@@ -411,7 +411,16 @@ char *mallocstrcpy(char *dest, const char *src)
     return dest;
 }
 
-/* Append a new magic-line to filebot. */
+/* Free the malloc()ed string at dest and return the malloc()ed string
+ * at src.  Should be used as: "answer = mallocstrassn(answer,
+ * real_dir_from_tilde(answer));". */
+char *mallocstrassn(char *dest, char *src)
+{
+    free(dest);
+    return src;
+}
+
+/* Append a new magicline to filebot. */
 void new_magicline(void)
 {
     filebot->next = (filestruct *)nmalloc(sizeof(filestruct));

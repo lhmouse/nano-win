@@ -2385,13 +2385,15 @@ size_t get_page_start(size_t column)
 }
 
 /* Resets current_y, based on the position of current, and puts the
- * cursor at (current_y, current_x). */
+ * cursor in the edit window at (current_y, current_x). */
 void reset_cursor(void)
 {
-    /* Yuck.  This condition can be true after open_file() when opening
-     * the first file. */
-    if (edittop == NULL)
+    /* If we haven't opened any files yet, put the cursor in the top
+     * left corner of the edit window and get out. */
+    if (edittop == NULL || current == NULL) {
+	wmove(edit, 0, 0);
 	return;
+    }
 
     current_y = current->lineno - edittop->lineno;
     if (current_y < editwinrows) {
@@ -2884,14 +2886,6 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 /* Refresh the screen without changing the position of lines. */
 void edit_refresh(void)
 {
-    /* Neither of these conditions should occur, but they do.  edittop
-     * is NULL when you open an existing file on the command line, and
-     * ENABLE_COLOR is defined.  Yuck. */
-    if (current == NULL)
-	return;
-    if (edittop == NULL)
-	edittop = current;
-
     if (current->lineno < edittop->lineno ||
 	    current->lineno >= edittop->lineno + editwinrows)
 	/* Note that edit_update() changes edittop so that it's in range
@@ -2931,10 +2925,6 @@ void edit_refresh(void)
 void edit_update(topmidnone location)
 {
     filestruct *foo = current;
-
-    /* We shouldn't need this check.  Yuck. */
-    if (current == NULL)
-	return;
 
     if (location != TOP) {
 	/* If location is CENTER, we move edittop up (editwinrows / 2)

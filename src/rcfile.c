@@ -619,13 +619,13 @@ void parse_rcfile(FILE *rcstream)
 			} else
 			    SET(rcopts[i].flag);
 #ifdef DEBUG
-			fprintf(stderr, "set flag %d!\n",
+			fprintf(stderr, "set flag %ld!\n",
 				rcopts[i].flag);
 #endif
 		    } else {
 			UNSET(rcopts[i].flag);
 #ifdef DEBUG
-			fprintf(stderr, "unset flag %d!\n",
+			fprintf(stderr, "unset flag %ld!\n",
 				rcopts[i].flag);
 #endif
 		    }

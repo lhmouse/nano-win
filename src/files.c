@@ -37,34 +37,11 @@
 #include "proto.h"
 #include "nano.h"
 
-/* Set a default value for PATH_MAX, so we can use it below in lines like
-	path = getcwd(NULL, PATH_MAX + 1); */
+/* Set a default value for PATH_MAX, so we can use it below in lines
+ * like "path = getcwd(NULL, PATH_MAX + 1);". */
 #ifndef PATH_MAX
 #define PATH_MAX -1
 #endif
-
-#ifndef NANO_SMALL
-static int fileformat = 0;	/* 0 = *nix, 1 = DOS, 2 = Mac */
-#endif
-
-/* Load file into edit buffer -- takes data from file struct. */
-void load_file(int update)
-{
-    current = fileage;
-
-#ifdef ENABLE_MULTIBUFFER
-    /* if update is zero, add a new entry to the open_files structure;
-       otherwise, update the current entry (the latter is needed in the
-       case of the alternate spell checker) */
-    add_open_file(update);
-#endif
-
-#ifdef ENABLE_COLOR
-    update_color();
-    if (ISSET(COLOR_SYNTAX))
-	edit_refresh();
-#endif
-}
 
 /* What happens when there is no file to open? aiee! */
 void new_file(void)
@@ -79,24 +56,6 @@ void new_file(void)
     totlines = 1;
     totsize = 0;
 
-#ifdef ENABLE_MULTIBUFFER
-    /* if there aren't any entries in open_files, create the entry for
-       this new file; without this, if nano is started without a filename
-       on the command line, a new file will be created, but it will be
-       given no open_files entry */
-    if (open_files == NULL) {
-	add_open_file(FALSE);
-	/* turn off view mode in this case; this is for consistency
-	   whether multibuffers are compiled in or not */
-	UNSET(VIEW_MODE);
-    }
-#else
-    /* if multibuffers haven't been compiled in, turn off view mode
-       unconditionally; otherwise, don't turn them off (except in the
-       above case), so that we can view multiple files properly */
-    UNSET(VIEW_MODE);
-#endif
-
 #ifdef ENABLE_COLOR
     update_color();
     if (ISSET(COLOR_SYNTAX))
@@ -104,12 +63,17 @@ void new_file(void)
 #endif
 }
 
-filestruct *read_line(char *buf, filestruct *prev, int *line1ins, size_t
-	len)
+/* We make a new line of text from buf.  buf is length len.  If
+ * first_line_ins is TRUE, then we put the new line at the top of the
+ * file.  Otherwise, we assume prev is the last line of the file, and
+ * put our line after prev. */
+filestruct *read_line(char *buf, filestruct *prev, bool *first_line_ins,
+	size_t len)
 {
     filestruct *fileptr = (filestruct *)nmalloc(sizeof(filestruct));
 
-    /* nulls to newlines; len is the string's real length here */
+    /* Convert nulls to newlines.  len is the string's real length
+     * here. */
     unsunder(buf, len);
 
     assert(strlen(buf) == len);
@@ -117,27 +81,25 @@ filestruct *read_line(char *buf, filestruct *prev, int *line1ins, size_t
     fileptr->data = mallocstrcpy(NULL, buf);
 
 #ifndef NANO_SMALL
-    /* If it's a DOS file (CRLF), and file conversion isn't disabled,
-       strip out the CR part */
+    /* If it's a DOS file (CR LF), and file conversion isn't disabled,
+     * strip out the CR part. */
     if (!ISSET(NO_CONVERT) && len > 0 && buf[len - 1] == '\r') {
 	fileptr->data[len - 1] = '\0';
 	totsize--;
-
-	if (fileformat == 0)
-	    fileformat = 1;
     }
 #endif
 
-    if (*line1ins != 0 || fileage == NULL) {
-	/* Special case, insert with cursor on 1st line. */
+    if (*first_line_ins || fileage == NULL) {
+	/* Special case: we're inserting with the cursor on the first
+	 * line. */
 	fileptr->prev = NULL;
 	fileptr->next = fileage;
 	fileptr->lineno = 1;
-	if (*line1ins != 0) {
-	    *line1ins = 0;
+	if (*first_line_ins) {
+	    *first_line_ins = FALSE;
 	    /* If we're inserting into the first line of the file, then
-	       we want to make sure that our edit buffer stays on the
-	       first line (and that fileage stays up to date!) */
+	     * we want to make sure that our edit buffer stays on the
+	     * first line and that fileage stays up to date. */
 	    edittop = fileptr;
 	} else
 	    filebot = fileptr;
@@ -153,70 +115,105 @@ filestruct *read_line(char *buf, filestruct *prev, int *line1ins, size_t
     return fileptr;
 }
 
-void read_file(FILE *f, const char *filename, int quiet)
+/* Load a file into the edit buffer.  This takes data from the file
+ * struct. */
+void load_file(void)
 {
-    int num_lines = 0, len = 0;
-    char input = '\0';		/* current input character */
-    char *buf;
-    long i = 0, bufx = 128;
-    filestruct *fileptr = current, *tmp = NULL;
-#ifndef NANO_SMALL
-    int old_no_convert = ISSET(NO_CONVERT);
+    current = fileage;
+
+#ifdef ENABLE_MULTIBUFFER
+    /* Add a new entry to the open_files structure. */
+    add_open_file(FALSE);
+
+    /* Reinitialize the shortcut list. */
+    shortcut_init(FALSE);
 #endif
-    int line1ins = 0;
+}
+
+void read_file(FILE *f, const char *filename)
+{
+    size_t num_lines = 0;
+	/* The number of lines in the file. */
+    size_t len = 0;
+	/* The length of the current line of the file. */
+    size_t i = 0;
+	/* The position in the current line of the file. */
+    size_t bufx = 128;
+	/* The size of each chunk of the file that we read. */
+    char input = '\0';
+	/* The current input character. */
+    char *buf;
+	/* The buffer where we store chunks of the file. */
+    filestruct *fileptr = current;
+	/* The current line of the file. */
+    bool first_line_ins = FALSE;
+	/* Whether we're inserting with the cursor on the first line. */
     int input_int;
+	/* The current value we read from the file, whether an input
+	 * character or EOF. */
+#ifndef NANO_SMALL
+    int fileformat = 0;
+	/* 0 = *nix, 1 = DOS, 2 = Mac, 3 = both DOS and Mac. */
+#endif
 
     buf = charalloc(bufx);
     buf[0] = '\0';
 
     if (current != NULL) {
 	if (current == fileage)
-	    line1ins = 1;
+	    first_line_ins = TRUE;
 	else
 	    fileptr = current->prev;
-	tmp = fileptr;
     }
 
-    /* For the assertion in read_line(), it must be true that if current is
-     * NULL then so is fileage. */
+    /* For the assertion in read_line(), it must be true that if current
+     * is NULL, then so is fileage. */
     assert(current != NULL || fileage == NULL);
 
-    /* Read the entire file into file struct. */
+    /* Read the entire file into the file struct. */
     while ((input_int = getc(f)) != EOF) {
-        input = (char)input_int;
-#ifndef NANO_SMALL
-	/* If the file has binary chars in it, don't stupidly
-	   assume it's a DOS or Mac formatted file if it hasn't been
-	   detected as one already! */
-	if (fileformat == 0 && !ISSET(NO_CONVERT)
-		&& is_cntrl_char(input) && input != '\t'
-		&& input != '\r' && input != '\n')
-	    SET(NO_CONVERT);
-#endif
+	input = (char)input_int;
 
+	/* If it's a *nix file (LF) or a DOS file (CR LF), and file
+	 * conversion isn't disabled, handle it! */
 	if (input == '\n') {
 
-	    /* read in the line properly */
-	    fileptr = read_line(buf, fileptr, &line1ins, len);
+#ifndef NANO_SMALL
+	    /* If there's a CR before the LF, set fileformat to DOS if
+	     * we currently think this is a *nix file, or to both if we
+	     * currently think it's a Mac file. */
+	    if (!ISSET(NO_CONVERT) && i > 0 && buf[i - 1] == '\r' &&
+		(fileformat == 0 || fileformat == 2))
+		fileformat++;
+#endif
 
-	    /* reset the line length, in preparation for the next line */
+	    /* Read in the line properly. */
+	    fileptr = read_line(buf, fileptr, &first_line_ins, len);
+
+	    /* Reset the line length in preparation for the next
+	     * line. */
 	    len = 0;
 
 	    num_lines++;
 	    buf[0] = '\0';
 	    i = 0;
 #ifndef NANO_SMALL
-	/* If it's a Mac file (no LF just a CR), and file conversion
-	   isn't disabled, handle it! */
+	/* If it's a Mac file (CR without an LF), and file conversion
+	 * isn't disabled, handle it! */
 	} else if (!ISSET(NO_CONVERT) && i > 0 && buf[i - 1] == '\r') {
-	    fileformat = 2;
 
-	    /* read in the line properly */
-	    fileptr = read_line(buf, fileptr, &line1ins, len);
+	    /* If we currently think the file is a *nix file, set
+	     * fileformat to Mac.  If we currently think the file is a
+	     * DOS file, set fileformat to both DOS and Mac. */
+	    if (fileformat == 0 || fileformat == 1)
+		fileformat += 2;
 
-	    /* reset the line length, in preparation for the next line;
-	       since we've already read in the next character, reset it
-	       to 1 instead of 0 */
+	    /* Read in the line properly. */
+	    fileptr = read_line(buf, fileptr, &first_line_ins, len);
+
+	    /* Reset the line length in preparation for the next line.
+	     * Since we've already read in the next character, reset it
+	     * to 1 instead of 0. */
 	    len = 1;
 
 	    num_lines++;
@@ -226,15 +223,14 @@ void read_file(FILE *f, const char *filename, int quiet)
 	    i = 1;
 #endif
 	} else {
-
-	    /* Calculate the total length of the line; it might have
-	       nulls in it, so we can't just use strlen(). */
+	    /* Calculate the total length of the line.  It might have
+	     * nulls in it, so we can't just use strlen() here. */
 	    len++;
 
 	    /* Now we allocate a bigger buffer 128 characters at a time.
-	       If we allocate a lot of space for one line, we may indeed
-	       have to use a buffer this big later on, so we don't
-	       decrease it at all.  We do free it at the end, though. */
+	     * If we allocate a lot of space for one line, we may indeed
+	     * have to use a buffer this big later on, so we don't
+	     * decrease it at all.  We do free it at the end, though. */
 	    if (i >= bufx - 1) {
 		bufx += 128;
 		buf = charealloc(buf, bufx);
@@ -246,54 +242,43 @@ void read_file(FILE *f, const char *filename, int quiet)
 	totsize++;
     }
 
-    /* This conditional duplicates previous read_byte() behavior;
-       perhaps this could use some better handling. */
+    /* This conditional duplicates previous read_byte() behavior.
+     * Perhaps this could use some better handling. */
     if (ferror(f))
 	nperror(filename);
     fclose(f);
 
-    /* Did we not get a newline but still have stuff to do? */
-    if (len > 0) {
 #ifndef NANO_SMALL
-	/* If file conversion isn't disabled, the last character in
-	   this file is a CR and fileformat isn't set yet, make sure
-	   it's set to Mac format */
-	if (!ISSET(NO_CONVERT) && buf[len - 1] == '\r' && fileformat == 0)
-	    fileformat = 2;
-#endif
-
-	/* read in the LAST line properly */
-	fileptr = read_line(buf, fileptr, &line1ins, len);
-
-	num_lines++;
-	totsize++;
-	buf[0] = '\0';
-    }
-#ifndef NANO_SMALL
-    else if (!ISSET(NO_CONVERT) && input == '\r') {
-	/* If file conversion isn't disabled and the last character in
-	   this file is a CR, read it in properly as a (Mac format)
-	   line */
+    /* If file conversion isn't disabled and the last character in this
+     * file is a CR, read it in properly as a Mac format line. */
+    if (len == 0 && !ISSET(NO_CONVERT) && input == '\r') {
 	buf[0] = input;
 	buf[1] = '\0';
 	len = 1;
-	fileptr = read_line(buf, fileptr, &line1ins, len);
-	num_lines++;
-	totsize++;
-	buf[0] = '\0';
     }
 #endif
 
-    free(buf);
-
+    /* Did we not get a newline and still have stuff to do? */
+    if (len > 0) {
 #ifndef NANO_SMALL
-    /* If NO_CONVERT wasn't set before we read the file, but it is now,
-       unset it again. */
-    if (!old_no_convert && ISSET(NO_CONVERT))
-	UNSET(NO_CONVERT);
+	/* If file conversion isn't disabled and the last character in
+	 * this file is a CR, set fileformat to Mac if we currently
+	 * think the file is a *nix file, or to both DOS and Mac if we
+	 * currently think the file is a DOS file. */
+	if (!ISSET(NO_CONVERT) && buf[len - 1] == '\r' &&
+		(fileformat == 0 || fileformat == 1))
+	    fileformat += 2;
 #endif
 
-    /* Did we even GET a file if we don't already have one? */
+	/* Read in the last line properly. */
+	fileptr = read_line(buf, fileptr, &first_line_ins, len);
+	num_lines++;
+	totsize++;
+    }
+    free(buf);
+
+    /* If we didn't get a file and we don't already have one, make a new
+     * file. */
     if (totsize == 0 || fileptr == NULL)
 	new_file();
 
@@ -309,93 +294,77 @@ void read_file(FILE *f, const char *filename, int quiet)
 	    filebot = fileptr;
 	    new_magicline();
 	    totsize--;
-	    load_file(quiet);
 	}
     }
 
 #ifndef NANO_SMALL
-    if (fileformat == 2)
-	statusbar(P_("Read %d line (Converted from Mac format)",
-			"Read %d lines (Converted from Mac format)",
-			num_lines), num_lines);
+    if (fileformat == 3)
+	statusbar(
+		P_("Read %lu line (Converted from DOS and Mac format)",
+		"Read %lu lines (Converted from DOS and Mac format)",
+		(unsigned long)num_lines), (unsigned long)num_lines);
+    else if (fileformat == 2)
+	statusbar(P_("Read %lu line (Converted from Mac format)",
+		"Read %lu lines (Converted from Mac format)",
+		(unsigned long)num_lines), (unsigned long)num_lines);
     else if (fileformat == 1)
-	statusbar(P_("Read %d line (Converted from DOS format)",
-			"Read %d lines (Converted from DOS format)",
-			num_lines), num_lines);
+	statusbar(P_("Read %lu line (Converted from DOS format)",
+		"Read %lu lines (Converted from DOS format)",
+		(unsigned long)num_lines), (unsigned long)num_lines);
     else
 #endif
-	statusbar(P_("Read %d line", "Read %d lines", num_lines),
-			num_lines);
-
-#ifndef NANO_SMALL
-    /* Set fileformat back to 0, now that we've read the file in and
-       possibly converted it from DOS/Mac format. */
-    fileformat = 0;
-#endif
+	statusbar(P_("Read %lu line", "Read %lu lines",
+		(unsigned long) num_lines),(unsigned long)num_lines);
 
     totlines += num_lines;
-
-    return;
 }
 
-/* Open the file (and decide if it exists).  Return TRUE on success,
- * FALSE on failure. */
-bool open_file(const char *filename, int insert, int quiet)
+/* Open the file (and decide if it exists).  If newfie is TRUE, display
+ * "New File" if the file is missing.  Otherwise, say "[filename] not
+ * found".
+ *
+ * Return -2 if we say "New File".  Otherwise, -1 if the file isn't
+ * opened, 0 otherwise.  The file might still have an error while
+ * reading with a 0 return value.  *f is set to the opened file. */
+int open_file(const char *filename, bool newfie, FILE **f)
 {
     int fd;
-    FILE *f;
     struct stat fileinfo;
 
-    if (filename[0] == '\0' || stat(filename, &fileinfo) == -1) {
-	if (insert && !quiet) {
-	    statusbar(_("\"%s\" not found"), filename);
-	    return FALSE;
-	} else {
-	    /* We have a new file */
+    assert(f != NULL);
+    if (filename == NULL || filename[0] == '\0' ||
+	    stat(filename, &fileinfo) == -1) {
+	if (newfie) {
 	    statusbar(_("New File"));
-	    new_file();
+	    return -2;
 	}
+	statusbar(_("\"%s\" not found"), filename);
+	return -1;
     } else if (S_ISDIR(fileinfo.st_mode) || S_ISCHR(fileinfo.st_mode) ||
 		S_ISBLK(fileinfo.st_mode)) {
 	/* Don't open character or block files.  Sorry, /dev/sndstat! */
 	statusbar(S_ISDIR(fileinfo.st_mode) ? _("\"%s\" is a directory") :
 			_("File \"%s\" is a device file"), filename);
-	if (!insert)
-	    new_file();
-	return FALSE;
+	return -1;
     } else if ((fd = open(filename, O_RDONLY)) == -1) {
-	/* If we're in multibuffer mode, don't be quiet when an error
-	   occurs while opening a file */
-	if (!quiet
-#ifdef ENABLE_MULTIBUFFER
-		|| ISSET(MULTIBUFFER)
-#endif
-		)
-	    statusbar("Error reading %s: %s", filename, strerror(errno));
-	if (!insert)
-	    new_file();
-	return FALSE;
-    } else {			/* File is A-OK */
-	if (!quiet)
-	    statusbar(_("Reading File"));
-	f = fdopen(fd, "rb"); /* Binary for our own line-end munging */
-	if (f == NULL) {
-	    nperror("fdopen");
-	    close(fd);
-	    return FALSE;
-	}
-	read_file(f, filename, quiet);
-#ifndef NANO_SMALL
-	stat(filename, &originalfilestat);
-#endif
-    }
+	statusbar(_("Error reading %s: %s"), filename, strerror(errno));
+ 	return -1;
+     } else {
+	/* File is A-OK. */
+	*f = fdopen(fd, "rb"); /* Binary for our own line-end munging */
 
-    return TRUE;
+	if (*f == NULL) {
+	    statusbar(_("Error reading %s: %s"), filename, strerror(errno));
+	    close(fd);
+	} else
+	    statusbar(_("Reading File"));
+    }
+    return 0;
 }
 
 /* This function will return the name of the first available extension
- * of a filename (starting with the filename.save, then filename.save.1,
- * etc).  Memory is allocated for the return value.  If no writable
+ * of a filename (starting with filename.save, then filename.save.1,
+ * etc.).  Memory is allocated for the return value.  If no writable
  * extension exists, we return "". */
 char *get_next_filename(const char *name)
 {
@@ -421,77 +390,125 @@ char *get_next_filename(const char *name)
     }
 
     /* We get here only if there is no possible save file. */
-    buf[0] = '\0';
-
+    null_at(&buf, 0);
     return buf;
 }
 
-void do_insertfile(int loading_file)
-{
-    int i, old_current_x = current_x;
-    bool opened;
-	/* TRUE if the file opened successfully. */
-    char *realname = NULL;
-    static char *inspath = NULL;
-
-    if (inspath == NULL) {
-	inspath = charalloc(1);
-	inspath[0] = '\0';
-    }
-
-#ifndef DISABLE_WRAPPING
-    wrap_reset();
-#endif
-
 #ifndef NANO_SMALL
-  start_again:
-#endif
+void execute_command(const char *command)
+{
+#ifdef ENABLE_MULTIBUFFER
+    if (ISSET(MULTIBUFFER)) {
+	/* Update the current entry in the open_files structure. */
+	add_open_file(TRUE);
+	new_file();
+	UNSET(MODIFIED);
+	UNSET(MARK_ISSET);
+    }
+#endif /* ENABLE_MULTIBUFFER */
+    open_pipe(command);
+#ifdef ENABLE_MULTIBUFFER
+    /* Add this new entry to the open_files structure. */
+    if (ISSET(MULTIBUFFER))
+	load_file();
+#endif /* ENABLE_MULTIBUFFER */
+}
+#endif /* !NANO_SMALL */
 
-#if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE)
-    currshortcut = insertfile_list;
+/* name is a file name to open.  We make a new buffer if necessary, then
+ * open and read the file. */
+void load_buffer(const char *name)
+{
+    bool new_buffer = fileage == NULL
+#ifdef ENABLE_MULTIBUFFER
+	 || ISSET(MULTIBUFFER)
 #endif
+	;
+	/* new_buffer says whether we load to this buffer or a new one.
+	 * If new_buffer is TRUE, we display "New File" if the file is
+	 * not found, and if it is found we set filename and add a new
+	 * open_files entry. */
+    FILE *f;
+    int rc;
+	/* rc == -2 means that the statusbar displayed "New File".  -1
+	 * means that the open failed.  0 means success. */
 
 #ifndef DISABLE_OPERATINGDIR
-    if (operating_dir != NULL && strcmp(operating_dir, ".") != 0)
-#ifdef ENABLE_MULTIBUFFER 
-	if (ISSET(MULTIBUFFER))
-	    i = statusq(TRUE, insertfile_list, inspath,
-#ifndef NANO_SMALL
-		NULL,
+    if (check_operating_dir(name, FALSE)) {
+	statusbar(_("Can't insert file from outside of %s"), operating_dir);
+	return;
+    }
 #endif
-		_("File to insert into new buffer [from %s] "),
-		operating_dir);
-	else
-#endif
-	    i = statusq(TRUE, insertfile_list, inspath,
-#ifndef NANO_SMALL
-		NULL,
-#endif
-		_("File to insert [from %s] "),
-		operating_dir);
 
+#ifdef ENABLE_MULTIBUFFER
+    /* Update the current entry in the open_files structure. */
+    add_open_file(TRUE);
+#endif
+
+    rc = open_file(name, new_buffer, &f);
+
+#ifdef ENABLE_MULTIBUFFER
+    if (rc != -1 && ISSET(MULTIBUFFER)) {
+	UNSET(MODIFIED);
+#ifndef NANO_SMALL
+	UNSET(MARK_ISSET);
+#endif
+    }
+#endif
+
+    if (rc != -1 && new_buffer) {
+	filename = mallocstrcpy(filename, name);
+	new_file();
+    }
+
+    if (rc == 0) {
+	read_file(f, filename);
+#ifndef NANO_SMALL
+	stat(filename, &originalfilestat);
+#endif
+    }
+
+    /* Add this new entry to the open_files structure if we have
+     * multibuffer support, or to the main filestruct if we don't. */
+    if (rc != -1 && new_buffer)
+	load_file();
+}
+
+void do_insertfile(void)
+{
+    int i;
+    const char *msg;
+    char *inspath = mallocstrcpy(NULL, "");
+	/* The last answer the user typed on the statusbar.  Saved for if
+	 * they do M-F or cancel the file browser. */
+
+    wrap_reset();
+
+#if !defined(DISABLE_BROWSER) || (!defined(NANO_SMALL) && defined(ENABLE_MULTIBUFFER))
+  start_again:	/* Go here when the user cancels the file browser. */
+#endif
+
+#ifdef ENABLE_MULTIBUFFER
+    if (ISSET(MULTIBUFFER))
+	msg = N_("File to insert into new buffer [from %s] ");
     else
 #endif
-#ifdef ENABLE_MULTIBUFFER 
-	if (ISSET(MULTIBUFFER))
-	    i = statusq(TRUE, insertfile_list, inspath,
+	msg = N_("File to insert [from %s] ");
+    i = statusq(TRUE, insertfile_list, inspath,
 #ifndef NANO_SMALL
 		NULL,
 #endif
-		_("File to insert into new buffer [from ./] "));
-	else
-#endif /* ENABLE_MULTIBUFFER */
-	    i = statusq(TRUE, insertfile_list, inspath,
-#ifndef NANO_SMALL
-		NULL,
+		_(msg),
+#ifndef DISABLE_OPERATINGDIR
+		operating_dir != NULL && strcmp(operating_dir, ".") != 0 ?
+		operating_dir :
 #endif
-		_("File to insert [from ./] "));
+		"./");
 
     if (i != -1) {
+	int old_current_x = current_x;
+
 	inspath = mallocstrcpy(inspath, answer);
-#ifdef DEBUG
-	fprintf(stderr, "filename is %s\n", answer);
-#endif
 
 #ifndef NANO_SMALL
 #ifdef ENABLE_MULTIBUFFER
@@ -499,11 +516,9 @@ void do_insertfile(int loading_file)
 	    /* Don't allow toggling if we're in view mode. */
 	    if (!ISSET(VIEW_MODE))
 		TOGGLE(MULTIBUFFER);
-	    loading_file = ISSET(MULTIBUFFER);
 	    goto start_again;
 	}
 #endif /* ENABLE_MULTIBUFFER */
-
 	if (i == NANO_EXTCMD_KEY) {
 	    char *ans = mallocstrcpy(NULL, answer);
 	    int ts = statusq(TRUE, extcmd_list, ans, NULL, 
@@ -511,137 +526,67 @@ void do_insertfile(int loading_file)
 
 	    free(ans);
 
-	    if (ts  == -1 || answer == NULL || answer[0] == '\0') {
-		statusbar(_("Cancelled"));
-		display_main_list();
-		return;
-	    }
+	    if (ts == -1 || answer == NULL || answer[0] == '\0')
+		goto start_again;
 	}
 #endif /* !NANO_SMALL */
 #ifndef DISABLE_BROWSER
 	if (i == NANO_TOFILES_KEY) {
 	    char *tmp = do_browse_from(answer);
 
-	    if (tmp != NULL) {
-		free(answer);
-		answer = tmp;
-		resetstatuspos = 1;
-	    } else
+	    if (tmp == NULL)
 		goto start_again;
-	}
-#endif
-
-#ifndef DISABLE_OPERATINGDIR
-	if (
-#ifndef NANO_SMALL
-		i != NANO_EXTCMD_KEY &&
-#endif
-		check_operating_dir(answer, FALSE) != 0) {
-	    statusbar(_("Can't insert file from outside of %s"),
-		operating_dir);
-	    return;
-	}
-#endif
-
-#ifdef ENABLE_MULTIBUFFER
-	if (loading_file) {
-	    /* update the current entry in the open_files structure */
-	    add_open_file(TRUE);
-	    new_file();
-	    UNSET(MODIFIED);
-#ifndef NANO_SMALL
-	    UNSET(MARK_ISSET);
-#endif
+	    resetstatuspos = TRUE;
+	    free(answer);
+	    answer = tmp;
 	}
 #endif
 
 #ifndef NANO_SMALL
-	if (i == NANO_EXTCMD_KEY) {
-	    realname = mallocstrcpy(realname, "");
-	    opened = open_pipe(answer);
-	} else {
+	if (i == NANO_EXTCMD_KEY)
+	    execute_command(answer);
+	else {
 #endif
-	    realname = real_dir_from_tilde(answer);
-	    opened = open_file(realname, TRUE, loading_file);
+	    answer = mallocstrassn(answer, real_dir_from_tilde(answer));
+	    load_buffer(answer);
 #ifndef NANO_SMALL
 	}
 #endif
 
 #ifdef ENABLE_MULTIBUFFER
-	if (loading_file) {
-	    /* if there was an error opening the file, free() realname,
-	       free() fileage (which now points to the new buffer we
-	       created to hold the file), reload the buffer we had open
-	       before, and skip the insertion; otherwise, save realname
-	       in filename and continue the insertion */
-	    if (!opened) {
-		free(realname);
-		free(fileage);
-		load_open_file();
-		goto skip_insert;
-	    } else
-		filename = mallocstrcpy(filename, realname);
-	}
-#endif
-
-	free(realname);
-
-#ifdef DEBUG
-	dump_buffer(fileage);
-#endif
-
-#ifdef ENABLE_MULTIBUFFER
-	if (loading_file)
-	    load_file(FALSE);
-	else
-#endif
-	    set_modified();
-
-#ifdef ENABLE_MULTIBUFFER
-	/* If we've loaded another file, update the titlebar's contents */
-	if (loading_file) {
-	    clearok(topwin, FALSE);
+	if (ISSET(MULTIBUFFER)) {
+	    /* Update the titlebar. */
 	    titlebar(NULL);
 
-	    /* And re-init the shortcut list */
+	    /* Reinitialize the shortcut list. */
 	    shortcut_init(FALSE);
-	} else
+	} else {
 #endif
-	    /* Restore the old x-coordinate position */
+	    /* Mark the file as modified. */
+	    set_modified();
+
+	    /* Restore the old x-coordinate position. */
 	    current_x = old_current_x;
+#ifdef ENABLE_MULTIBUFFER
+	}
+#endif
 
 	/* If we've gone off the bottom, recenter; otherwise, just redraw */
 	edit_refresh();
-
-    } else {
+    } else
 	statusbar(_("Cancelled"));
-	i = 0;
-    }
-
-#ifdef ENABLE_MULTIBUFFER
-  skip_insert:
-#endif
 
     free(inspath);
-    inspath = NULL;
-
-    display_main_list();
 }
 
 void do_insertfile_void(void)
 {
 #ifdef ENABLE_MULTIBUFFER
-    if (ISSET(VIEW_MODE)) {
-	if (ISSET(MULTIBUFFER))
-	    do_insertfile(TRUE);
-	else
-	    statusbar(_("Key illegal in non-multibuffer mode"));
-    }
+    if (ISSET(VIEW_MODE) && !ISSET(MULTIBUFFER))
+	statusbar(_("Key illegal in non-multibuffer mode"));
     else
-	do_insertfile(ISSET(MULTIBUFFER));
-#else
-    do_insertfile(FALSE);
 #endif
+	do_insertfile();
 
     display_main_list();
 }
@@ -1008,7 +953,7 @@ int close_open_file(void)
     display_main_list();
     return 0;
 }
-#endif /* MULTIBUFFER */
+#endif /* ENABLE_MULTIBUFFER */
 
 #if !defined(DISABLE_SPELLER) || !defined(DISABLE_OPERATINGDIR) || !defined(NANO_SMALL)
 /*

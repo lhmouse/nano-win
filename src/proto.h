@@ -164,14 +164,18 @@ void do_cut_text(void);
 void do_uncut_text(void);
 
 /* Public functions in files.c */
-void load_file(int update);
 void new_file(void);
-filestruct *read_line(char *buf, filestruct *prev, int *line1ins, size_t
-	len);
-void read_file(FILE *f, const char *filename, int quiet);
-bool open_file(const char *filename, int insert, int quiet);
+filestruct *read_line(char *buf, filestruct *prev, bool *first_line_ins,
+	size_t len);
+void load_file(void);
+void read_file(FILE *f, const char *filename);
+int open_file(const char *filename, bool newfie, FILE **f);
 char *get_next_filename(const char *name);
-void do_insertfile(int loading_file);
+#ifndef NANO_SMALL
+void execute_command(const char *command);
+#endif
+void load_buffer(const char *name);
+void do_insertfile(void);
 void do_insertfile_void(void);
 #ifdef ENABLE_MULTIBUFFER
 openfilestruct *make_new_opennode(openfilestruct *prevnode);
@@ -411,7 +415,7 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 void do_replace(void);
 void do_gotoline(int line, bool save_pos);
 void do_gotoline_void(void);
-#if defined (ENABLE_MULTIBUFFER) || !defined (DISABLE_SPELLER)
+#if defined(ENABLE_MULTIBUFFER) || !defined(DISABLE_SPELLER)
 void do_gotopos(int line, int pos_x, int pos_y, size_t pos_pww);
 #endif
 void do_find_bracket(void);
@@ -479,6 +483,7 @@ void nperror(const char *s);
 void *nmalloc(size_t howmuch);
 void *nrealloc(void *ptr, size_t howmuch);
 char *mallocstrcpy(char *dest, const char *src);
+char *mallocstrassn(char *dest, char *src);
 void new_magicline(void);
 #ifndef NANO_SMALL
 void mark_order(const filestruct **top, size_t *top_x, const filestruct

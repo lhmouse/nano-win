@@ -616,7 +616,7 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
     bool begin_line = FALSE, bol_or_eol = FALSE;
 #endif
 #ifndef NANO_SMALL
-    bool old_mark_isset = ISSET(MARK_ISSET);
+    bool old_mark_set = ISSET(MARK_ISSET);
 
     UNSET(MARK_ISSET);
     edit_refresh();
@@ -758,7 +758,7 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 	new_magicline();
 
 #ifndef NANO_SMALL
-    if (old_mark_isset)
+    if (old_mark_set)
 	SET(MARK_ISSET);
 #endif
 

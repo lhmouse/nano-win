@@ -179,7 +179,7 @@ void die_save_file(const char *die_filename)
     if (!failed)
 	fprintf(stderr, _("\nBuffer written to %s\n"), ret);
     else
-	fprintf(stderr, _("\nNo %s written (too many backup files?)\n"), ret);
+	fprintf(stderr, _("\nBuffer not written to %s (too many backup files?)\n"), ret);
 
     free(ret);
 }
@@ -856,7 +856,7 @@ bool open_pipe(const char *command)
     if (f == NULL)
 	nperror("fdopen");
 
-    read_file(f, "stdin", FALSE);
+    read_file(f, "stdin");
     /* If multibuffer mode is on, we could be here in view mode.  If so,
      * don't set the modification flag. */
     if (!ISSET(VIEW_MODE))
@@ -1406,7 +1406,7 @@ bool do_int_spell_fix(const char *word)
     bool reverse_search_set = ISSET(REVERSE_SEARCH);
 #ifndef NANO_SMALL
     bool case_sens_set = ISSET(CASE_SENSITIVE);
-    bool mark_set = ISSET(MARK_ISSET);
+    bool old_mark_set = ISSET(MARK_ISSET);
 
     SET(CASE_SENSITIVE);
     /* Make sure the marking highlight is off during spell-check. */
@@ -1475,7 +1475,7 @@ bool do_int_spell_fix(const char *word)
 	UNSET(CASE_SENSITIVE);
 
     /* Restore marking highlight. */
-    if (mark_set)
+    if (old_mark_set)
 	SET(MARK_ISSET);
 #endif
 
@@ -1678,16 +1678,17 @@ const char *do_alt_speller(char *tempfile_name)
     pid_t pid_spell;
     char *ptr;
     static int arglen = 3;
-    static char **spellargs = (char **)NULL;
+    static char **spellargs = NULL;
+    FILE *f;
 #ifndef NANO_SMALL
-    bool mark_set = ISSET(MARK_ISSET);
+    bool old_mark_set = ISSET(MARK_ISSET);
     int mbb_lineno_cur = 0;
 	/* We're going to close the current file, and open the output of
 	 * the alternate spell command.  The line that mark_beginbuf
 	 * points to will be freed, so we save the line number and
 	 * restore afterwards. */
 
-    if (mark_set) {
+    if (old_mark_set) {
 	mbb_lineno_cur = mark_beginbuf->lineno;
 	UNSET(MARK_ISSET);
     }
@@ -1738,7 +1739,7 @@ const char *do_alt_speller(char *tempfile_name)
     refresh();
 
 #ifndef NANO_SMALL
-    if (mark_set) {
+    if (old_mark_set) {
 	do_gotopos(mbb_lineno_cur, mark_beginx, y_cur, 0);
 	mark_beginbuf = current;
 	/* In case the line got shorter, assign mark_beginx. */
@@ -1750,7 +1751,13 @@ const char *do_alt_speller(char *tempfile_name)
 	free_filestruct(fileage);
 	terminal_init();
 	global_init(TRUE);
-	open_file(tempfile_name, FALSE, TRUE);
+
+	/* Do what load_buffer() would do, except for making a new
+	 * buffer for the temp file if multibuffer support is
+	 * available. */
+	open_file(tempfile_name, FALSE, &f);
+	read_file(f, tempfile_name);
+	current = fileage;
 #ifndef NANO_SMALL
     }
 #endif
@@ -2564,6 +2571,7 @@ void do_justify(bool full_justify)
     edit_refresh();
 
     statusbar(_("Can now UnJustify!"));
+
     /* Display the shortcut list with UnJustify. */
     shortcut_init(TRUE);
     display_main_list();
@@ -2618,6 +2626,7 @@ void do_justify(bool full_justify)
     cutbuffer = cutbuffer_save;
     /* Note that now cutbottom is invalid, but that's okay. */
     blank_statusbar();
+
     /* Display the shortcut list with UnCut. */
     shortcut_init(FALSE);
     display_main_list();
@@ -2940,11 +2949,19 @@ void terminal_init(void)
 int main(int argc, char **argv)
 {
     int optchr;
-    int startline = 0;		/* Line to try and start at */
+    int startline = 0;
+	/* Line to try and start at. */
 #ifndef DISABLE_WRAPJUSTIFY
-    bool fill_flag_used = FALSE;	/* Was the fill option used? */
+    bool fill_flag_used = FALSE;
+	/* Was the fill option used? */
 #endif
-    int kbinput;		/* Input from keyboard */
+#ifdef ENABLE_MULTIBUFFER
+    bool old_multibuffer;
+	/* The old value of the multibuffer option, restored after we
+	 * load all files on the command line. */
+#endif
+    int kbinput;
+	/* Input from keyboard. */
     bool meta_key;
 #ifdef HAVE_GETOPT_LONG
     const struct option long_options[] = {
@@ -3015,8 +3032,8 @@ int main(int argc, char **argv)
 #endif
 
 #if !defined(ENABLE_NANORC) && defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
-    /* if we don't have rcfile support, we're root, and
-       --disable-wrapping-as-root is used, turn wrapping off */
+    /* If we don't have rcfile support, we're root, and
+     * --disable-wrapping-as-root is used, turn wrapping off. */
     if (geteuid() == NANO_ROOT_UID)
 	SET(NO_WRAP);
 #endif
@@ -3190,8 +3207,8 @@ int main(int argc, char **argv)
     }
 
 /* We've read through the command line options.  Now back up the flags
-   and values that are set, and read the rcfile(s).  If the values
-   haven't changed afterward, restore the backed-up values. */
+ * and values that are set, and read the rcfile(s).  If the values
+ * haven't changed afterward, restore the backed-up values. */
 #ifdef ENABLE_NANORC
     if (!ISSET(NO_RCFILE)) {
 #ifndef DISABLE_OPERATINGDIR
@@ -3336,43 +3353,26 @@ int main(int argc, char **argv)
 #endif
 
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+    /* If whitespace wasn't specified, set its default value. */
     if (whitespace == NULL)
 	whitespace = mallocstrcpy(NULL, "  ");
 #endif
 
+    /* If tabsize wasn't specified, set its default value. */
     if (tabsize == -1)
-	tabsize = 8;
-
-    /* Clear the filename we'll be using */
-    filename = charalloc(1);
-    filename[0] = '\0';
+	tabsize = WIDTH_OF_TAB;
 
     /* If there's a +LINE flag, it is the first non-option argument. */
     if (0 < optind && optind < argc && argv[optind][0] == '+') {
 	startline = atoi(&argv[optind][1]);
 	optind++;
     }
-    if (0 < optind && optind < argc)
-	filename = mallocstrcpy(filename, argv[optind]);
-
-    /* See if there's a non-option in argv (first non-option is the
-       filename, if +LINE is not given) */
-    if (argc > 1 && argc > optind) {
-	/* Look for the +line flag... */
-	if (argv[optind][0] == '+') {
-	    startline = atoi(&argv[optind][1]);
-	    optind++;
-	    if (argc > optind)
-		filename = mallocstrcpy(filename, argv[optind]);
-	} else
-	    filename = mallocstrcpy(filename, argv[optind]);
-    }
 
     /* Back up the old terminal settings so that they can be restored. */
     tcgetattr(0, &oldterm);
 
-   /* Curses initialization stuff: Start curses and set up the
-    * terminal state. */
+    /* Curses initialization stuff: Start curses and set up the
+     * terminal state. */
     initscr();
     terminal_init();
 
@@ -3393,42 +3393,53 @@ int main(int argc, char **argv)
 #endif
 
 #ifdef DEBUG
-    fprintf(stderr, "Main: top and bottom win\n");
-#endif
-    titlebar(NULL);
-    display_main_list();
-
-#ifdef DEBUG
     fprintf(stderr, "Main: open file\n");
 #endif
-    open_file(filename, FALSE, FALSE);
+
 #ifdef ENABLE_MULTIBUFFER
-    /* If we're using multibuffers and more than one file is specified
-       on the command line, load them all and switch to the first one
-       afterward. */
-    if (optind + 1 < argc) {
-	bool old_multibuffer = ISSET(MULTIBUFFER), list = FALSE;
-	SET(MULTIBUFFER);
-	for (optind++; optind < argc; optind++) {
-	    add_open_file(TRUE);
-	    new_file();
-	    filename = mallocstrcpy(filename, argv[optind]);
-	    titlebar(NULL);
-	    open_file(filename, FALSE, FALSE);
-	    load_file(FALSE);
-	    /* Display the main list with "Close" if we haven't 
-	     * already. */
-	    if (!list) {
-		shortcut_init(FALSE);
-		list = TRUE;
-		display_main_list();
-	    }
-	}
-	open_nextfile_void();
-	if (!old_multibuffer)
-	    UNSET(MULTIBUFFER);
+    old_multibuffer = ISSET(MULTIBUFFER);
+    SET(MULTIBUFFER);
+
+    /* Read all the files after the first one on the command line into
+     * new buffers. */
+    {
+	int i;
+	for (i = optind + 1; i < argc; i++)
+	    load_buffer(argv[i]);
     }
 #endif
+
+    /* Read the first file on the command line into either the current
+     * buffer or a new buffer, depending on whether multibuffer mode is
+     * enabled. */
+    if (optind < argc)
+	load_buffer(argv[optind]);
+
+    /* We didn't open any files if all the command line arguments were
+     * invalid files like directories or if there were no command line
+     * arguments given.  In this case, we have to load a blank buffer.
+     * Also, we unset view mode to allow editing. */
+    if (filename == NULL) {
+	filename = mallocstrcpy(NULL, "");
+	new_file();
+	UNSET(VIEW_MODE);
+
+	/* Add this new entry to the open_files structure if we have
+        * multibuffer support, or to the main filestruct if we don't. */
+	load_file();
+    }
+
+#ifdef ENABLE_MULTIBUFFER
+    if (!old_multibuffer)
+	UNSET(MULTIBUFFER);
+#endif
+
+#ifdef DEBUG
+    fprintf(stderr, "Main: top and bottom win\n");
+#endif
+
+    titlebar(NULL);
+    display_main_list();
 
     if (startline > 0)
 	do_gotoline(startline, FALSE);
