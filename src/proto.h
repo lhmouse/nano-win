@@ -217,7 +217,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange);
 #ifndef NANO_SMALL
 int write_marked(const char *name, int tmp, int append);
 #endif
-int do_writeout(int exiting);
+int do_writeout(bool exiting);
 void do_writeout_void(void);
 char *real_dir_from_tilde(const char *buf);
 #ifndef DISABLE_TABCOMP

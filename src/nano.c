@@ -173,7 +173,7 @@ void die_save_file(const char *die_filename)
 
     ret = get_next_filename(die_filename);
     if (ret[0] != '\0')
-	failed = -1 == write_file(ret, TRUE, FALSE, TRUE);
+	failed = (write_file(ret, TRUE, FALSE, TRUE) == -1);
 
     if (!failed)
 	fprintf(stderr, _("\nBuffer written to %s\n"), ret);

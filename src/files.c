@@ -538,7 +538,9 @@ void do_insertfile(
 #endif
 		"./");
 
-    if (i != -1) {
+    if (i < 0) {
+	statusbar(_("Cancelled"));
+    } else {
 	int old_current_x = current_x;
 
 	ans = mallocstrcpy(ans, answer);
@@ -599,8 +601,7 @@ void do_insertfile(
 
 	/* Refresh the screen. */
 	edit_refresh();
-    } else
-	statusbar(_("Cancelled"));
+    }
 
     free(ans);
 }
@@ -1395,10 +1396,8 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 	/* The temp file name we write to on prepend. */
 
     assert(name != NULL);
-    if (name[0] == '\0') {
-	statusbar(_("Cancelled"));
+    if (name[0] == '\0')
 	return -1;
-    }
     if (!tmp)
 	titlebar(NULL);
 
@@ -1765,7 +1764,7 @@ int write_marked(const char *name, int tmp, int append)
 }
 #endif /* !NANO_SMALL */
 
-int do_writeout(int exiting)
+int do_writeout(bool exiting)
 {
     int i;
     int append = 0;
@@ -1844,7 +1843,7 @@ int do_writeout(int exiting)
 	free(ans);
 #endif
 
-	if (i == -1) {
+	if (i < 0) {
 	    statusbar(_("Cancelled"));
 	    display_main_list();
 	    return -1;
