@@ -64,6 +64,7 @@ static char *alt_speller;	/* Alternative spell command */
 struct termios oldterm;		/* The user's original term settings */
 static char *help_text_init = "";
 				/* Initial message, not including shortcuts */
+static struct sigaction act;	/* For all out fun signal handlers */
 
 /* What we do when we're all set to exit */
 RETSIGTYPE finish(int sigage)
@@ -1216,6 +1217,29 @@ RETSIGTYPE handle_hup(int signal)
     finish(1);
 }
 
+/* What do we do when we catch the suspend signal */
+RETSIGTYPE do_suspend(int signal)
+{
+
+    act.sa_handler = SIG_DFL;
+    sigemptyset(&act.sa_mask);
+    sigaction(SIGTSTP, &act, NULL);
+
+    endwin();
+    fprintf(stderr,"\n\n\n\nUse \"fg\" to return to nano\n");
+    raise(SIGTSTP);
+}
+
+/* Restore the suspend handler when we come back into the prog */
+RETSIGTYPE do_cont(int signal)
+{
+
+    act.sa_handler = do_suspend;
+    sigemptyset(&act.sa_mask);
+    sigaction(SIGTSTP, &act, NULL);
+    initscr();
+    total_refresh();
+}
 
 void handle_sigwinch(int s)
 {
@@ -1288,16 +1312,24 @@ void handle_sigwinch(int s)
 
 void signal_init(void)
 {
-    struct sigaction act;	/* For our lovely signals */
 
     /* Trap SIGINT and SIGQUIT  cuz we want them to do useful things. */
     memset(&act, 0, sizeof(struct sigaction));
     act.sa_handler = SIG_IGN;
     sigaction(SIGINT, &act, NULL);
-    sigaction(SIGQUIT, &act, NULL);
 
-    if (!ISSET(SUSPEND))
+    if (!ISSET(SUSPEND)) {
 	sigaction(SIGTSTP, &act, NULL);
+    }
+    else
+    {
+	act.sa_handler = do_suspend;
+	sigaction(SIGTSTP, &act, NULL);
+
+	act.sa_handler = do_cont;
+	sigaction (SIGCONT, &act, NULL);
+    }
+
 
     /* Trap SIGHUP  cuz we want to write the file out. */
     act.sa_handler = handle_hup;

@@ -5,7 +5,8 @@ CVS Code
 	  toggles in nano.h, toggle_init(), toggle_init_one() in global.c
 	  called from shortcut_init(), and do_toggle in nano.c.  Also 
 	  moved the signal code into a separate function in nano.c called
-	  signal_init().
+	  signal_init().  Moved "struct sigaction act"into a static in
+	  nano.c.
 	- Changed from Alt-key symbol (@) which is completely nonstandard
 	  to the *nix "Meta" symbol (M-).  Changed help_init to show
 	  the M-key usage and the help text to explain keys whcih generate
@@ -26,6 +27,9 @@ CVS Code
   do_toggle()
 	- Added checks for no help and no wrap mode, and print opposite
 	  enable/disable message.
+  do_suspend(), do_cont():
+	- New functions, handle suspend signal in a Pico-like manner and
+	  work with Meta-Z.
 - winio.c:
   total_refresh()
 	- Added edit_refresh() call to actually update the screen if messy.
