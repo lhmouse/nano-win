@@ -1,6 +1,10 @@
 CVS code -
 - General:
 	- Translation updates (see po/ChangeLog for details).
+- nano.c:
+  main()
+	- Don't call open_file with quiet flag set.  Fixes Debian bug 
+	  #246956 (no warning when trying to open non-readable file).
 
 GNU nano 1.2.3 - 2004.01.17
 - General:
