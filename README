@@ -1,26 +1,18 @@
 
 	The nano editor (Nano's ANOther editor) by Chris Allegretta
                                       
-Manifesto
+Overview
 
-     Nano is the editor formerly known as TIP (TIP Isn't Pico).
-     The nano project was started because of three main problems with the
-     wonderfully easy-to-use and friendly Pico text editor:
-     
-     - It's license is not the GNU GPL, and hence some Linux
-     distributions, including Debian (my favorite) don't always
-     include it/don't include binaries.  This is not necessarily a
-     problem, but an issue nonetheless.
-     
-     - Until recently, it had no ability to go to a line # from within
-     the editor. There was the +number command line option, but who wants
-     to exit a file to go to a specific line number? When I want to go to
-     a line, since I have to exit anyway, I just call up vi temporarily.
-     
-     - No search and replace feature. Well, apparently there is a flag
-     that lets you do a search and replace (-b in newer versions) but,
-     well, I still dont like it.
-     
+     The nano project was started because of a few "problems" with the
+     wonderfully easy-to-use and friendly Pico text editor.
+
+     First and foremost is its license: the Pine suite does not use the
+     GPL or a GPL-friendly license, and has unclear restrictions on 
+     redistribution.  Because of this, Pine and Pico are not included with
+     many GNU/Linux distributions.  Also, other features (like goto line
+     number or search and replace) were unavailable until recently or
+     require a command-line flag.  Yuck.
+
      nano aims to solve these problems by emulating the functionality of
      Pico as closely as possible while adressing the problems above and
      perhaps providing other extra functionality.
