@@ -131,11 +131,9 @@ char *parse_next_word(char *ptr)
 
 char *parse_next_regex(char *ptr)
 {
-    char prev = ' ';
-    while ((*ptr != '"' || prev == '\\') && *ptr != '\n' && *ptr != '\0') {
-	prev = *ptr;
+    while ((*ptr != '"' || (*(ptr+1) != ' ' && *(ptr+1) != '\n')) 
+	   && *ptr != '\n' && *ptr != '\0')
 	ptr++;
-    }
 
     if (*ptr == '\0')
 	return NULL;
