@@ -2053,6 +2053,7 @@ int main(int argc, char *argv[])
 	{"nowrap", 0, 0, 'w'},
 	{"nohelp", 0, 0, 'x'},
 	{"help", 0, 0, 'h'},
+	{"view", 0, 0, 'v'},
 #ifndef NANO_SMALL
 	{"cut", 0, 0, 'k'},
 #endif

@@ -34,6 +34,8 @@ General
 	  modify_control_key.  Removed #ifdef _POSIX_VDISABLE check
 	  around Control-S,Q,Z handlers because we need it now for
 	  the Alt-Alt-x code.
+	- Added --view option to getopt_long()call .  Bug discovered 
+	  by Rocco Corsi.
   help_init()
 	- Fix off by one error that was making ^G help in normal mode and
 	  ^_ in pico mode not be displayed in the help (bug discovered by
