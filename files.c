@@ -301,8 +301,8 @@ int write_file(char *name, int tmp)
     long size, lineswritten = 0;
     char buf[PATH_MAX + 1];
     filestruct *fileptr;
-    int fd, mask = 0, realexists;
-    struct stat st;
+    int fd, mask = 0, realexists, anyexists;
+    struct stat st, st2;
     static char *realname = NULL;
 
     if (!strcmp(name, "")) {
@@ -327,24 +327,18 @@ int write_file(char *name, int tmp)
     /* Check to see if the file is a regular file and FOLLOW_SYMLINKS is
        set.  If so then don't do the delete and recreate code which would
        cause unexpected behavior */
-    lstat(realname, &st);
+    anyexists = lstat(realname, &st);
 
-    /* New case: if the file exists, just give up.  Easy way out of
-	all security issues */
-    if (tmp && realexists != -1)
+    /* New case: if the file exists, just give up */
+    if (tmp && anyexists != -1)
 	 return -1;
     else if (ISSET(FOLLOW_SYMLINKS) || !S_ISLNK(st.st_mode)) {
 
-	/* If tmp is set, use O_EXCL, more security, YAY! */
-	if (tmp)
-	    fd = open(realname, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC,
-		       S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH |
-		       S_IWOTH);
-	else
-	    fd = open(realname, O_WRONLY | O_CREAT | O_TRUNC,
-		       S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH |
-		       S_IWOTH);
-	/* Open the file and truncate it.  Trust the symlink. */
+	fd = open(realname, O_WRONLY | O_CREAT | O_TRUNC,
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH |
+			S_IWOTH);
+
+	/* First, just give up if we couldn't even open the file */
 	if (fd == -1) {
 	    if (!tmp && ISSET(TEMP_OPT)) {
 		UNSET(TEMP_OPT);
@@ -355,6 +349,25 @@ int write_file(char *name, int tmp)
 	    free(realname);
 	    return -1;
 	}
+
+	/* Now we fstat() the file, to make sure it's the same file still!
+	   Thanks to Oliver Friedrichs(?) for this code from securityfocus */
+
+ 	if (fstat(fd, &st2) != 0) {
+	    close(fd);
+	    return -1; 
+	}
+      
+	/* Here we make sure the inode and device numbers are the
+	 * same in the file we actually opened, compared to the file
+	 * we performed the initial lstat() call on.
+	 */
+        
+	if (st.st_ino != st2.st_ino || st.st_dev != st2.st_dev) {
+	    close(fd);
+	    return -1;
+	}   
+
     }
     /* Don't follow symlink.  Create new file. */
     else {
