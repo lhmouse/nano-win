@@ -203,6 +203,9 @@ CVS code -
 	- Remove unneeded NANO_SMALL #ifdef, so that it's included
 	  whenever its prototype is, and so it can compile when
 	  DISABLE_OPERATINGDIR isn't defined and NANO_SMALL is. (DLR)
+  do_browser()
+	- Refresh the screen when Ctrl-L is pressed in the file browser,
+	  as Pico does. (DLR)
 - global.c:
   shortcut_init()
 	- Fix misplaced #endif keeping the "Full Justify" shortcut in

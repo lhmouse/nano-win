@@ -2584,6 +2584,11 @@ char *do_browser(char *path, DIR *dir)
 		free_charptrarray(filelist, numents);
 		goto change_browser_directory;
 
+	    /* Refresh the screen. */
+	    case NANO_REFRESH_KEY:
+		total_update();
+		break;
+
 	    /* Go to a specific directory. */
 	    case NANO_GOTOLINE_KEY:
 	    case NANO_GOTOLINE_FKEY:

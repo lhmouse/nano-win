@@ -1002,6 +1002,10 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_nextpage_msg, NANO_NO_KEY), NANO_NEXTPAGE_FKEY,
 	NANO_NO_KEY, VIEW, NULL);
 
+    sc_init_one(&browser_list, NANO_REFRESH_KEY, N_("Refresh"),
+	IFHELP(nano_refresh_msg, NANO_NO_KEY), NANO_NO_KEY,
+	NANO_NO_KEY, VIEW, NULL);
+
     /* Translators: try to keep this string under 22 characters long */
     sc_init_one(&browser_list, NANO_GOTOLINE_KEY, N_("Go To Dir"),
 	IFHELP(nano_gotodir_msg, NANO_GOTOLINE_ALTKEY),
