@@ -1,12 +1,12 @@
-# nano 1.1.9 (Indonesian)
+# nano 1.1.11 (Indonesian)
 # Copyright (C) 2000, 2001, 2002 Free Software Foundation, Inc.
 # Tedi Heriyanto <tedi_h@gmx.net>, 2001, 2002
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.9\n"
-"POT-Creation-Date: 2002-10-06 18:05-0400\n"
-"PO-Revision-Date: 2002-07-24 21:10GMT+0700\n"
+"Project-Id-Version: nano 1.1.11\n"
+"POT-Creation-Date: 2002-10-04 13:39-0400\n"
+"PO-Revision-Date: 2002-10-07 15:25GMT+0700\n"
 "Last-Translator: Tedi Heriyanto <tedi_h@gmx.net>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -52,9 +52,9 @@ msgid "New File"
 msgstr "File Baru"
 
 #: files.c:363
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" is a directory"
-msgstr "File \"%s\" adalah sebuah direktori"
+msgstr "\"%s\" adalah sebuah direktori"
 
 #: files.c:366
 #, c-format
@@ -66,9 +66,9 @@ msgid "Reading File"
 msgstr "Membaca File"
 
 #: files.c:438
-#, fuzzy, c-format
+#, c-format
 msgid "File to insert into new buffer [from %s] "
-msgstr "File yang akan disisipkan [dari %s] "
+msgstr "File yang akan disisipkan ke buffer baru [dari %s] "
 
 #: files.c:442
 #, c-format
@@ -76,9 +76,8 @@ msgid "File to insert [from %s] "
 msgstr "File yang akan disisipkan [dari %s] "
 
 #: files.c:449
-#, fuzzy
 msgid "File to insert into new buffer [from ./] "
-msgstr "File untuk disisipkan [dari ./] "
+msgstr "File untuk disisipkan ke buffer baru [dari ./] "
 
 #: files.c:452
 msgid "File to insert [from ./] "
@@ -86,9 +85,9 @@ msgstr "File untuk disisipkan [dari ./] "
 
 #: files.c:457 files.c:711 files.c:769 files.c:863 files.c:875 files.c:926
 #: files.c:937 files.c:1792
-#, fuzzy, c-format
+#, c-format
 msgid "filename is %s\n"
-msgstr "Namafile adalah %s"
+msgstr "Namafile adalah %s\n"
 
 #: files.c:486
 #, c-format
@@ -130,34 +129,34 @@ msgid "Can't write outside of %s"
 msgstr "Tidak dapat menulis di luar %s"
 
 #: files.c:1368
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read %s for backup: %s"
-msgstr "Tidak dapat membuka %s untuk menulis: %s"
+msgstr "Tidak dapat membaca %s untuk backup: %s"
 
 #: files.c:1379
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't write backup: %s"
-msgstr "Tidak dapat membuka kembali %s: %s"
+msgstr "Tidak dapat menulis backup: %s"
 
 #: files.c:1385
 #, c-format
 msgid "Backing up %s to %s\n"
-msgstr ""
+msgstr "Backup %s ke %s\n"
 
 #: files.c:1397
-#, fuzzy, c-format
+#, c-format
 msgid "Could not set permissions %o on backup %s: %s"
-msgstr "Tidak dapat menset permisi %o pada %s: %s"
+msgstr "Tidak dapat menset permisi %o pada backup %s: %s"
 
 #: files.c:1403
-#, fuzzy, c-format
+#, c-format
 msgid "Could not set owner %d/group %d on backup %s: %s"
-msgstr "Tidak dapat menset permisi %o pada %s: %s"
+msgstr "Tidak dapat menset pemilik %d/group %d pada backup %s: %s"
 
 #: files.c:1408
-#, fuzzy, c-format
+#, c-format
 msgid "Could not set access/modification time on backup %s: %s"
-msgstr "Tidak dapat menset permisi %o pada %s: %s"
+msgstr "Tidak dapat menset waktu akses/modifikasi pada backup %s: %s"
 
 #: files.c:1443 files.c:1459 files.c:1471 files.c:1493 files.c:1526
 #: files.c:1533 files.c:1545
@@ -209,9 +208,8 @@ msgid " [DOS Format]"
 msgstr " [DOS Format]"
 
 #: files.c:1714
-#, fuzzy
 msgid " [Backup]"
-msgstr " [Backwards]"
+msgstr " [Backup]"
 
 #: files.c:1722
 msgid "Prepend Selection to File"
@@ -226,17 +224,14 @@ msgid "Write Selection to File"
 msgstr "Menulis Pilihan ke File"
 
 #: files.c:1732 files.c:1743
-#, fuzzy
 msgid "File Name to Prepend to"
-msgstr "Nama file yang akan di-Tambah"
+msgstr "Nama file yang akan ditambah ke"
 
 #: files.c:1735 files.c:1746
-#, fuzzy
 msgid "File Name to Append to"
-msgstr "Nama file yang akan di-Tambah"
+msgstr "Nama file yang akan ditambah ke"
 
 #: files.c:1738 files.c:1749
-#, fuzzy
 msgid "File Name to Write"
 msgstr "Nama File untuk di-Tulis"
 
@@ -315,9 +310,8 @@ msgid "Writing file in Mac format"
 msgstr "Menulis file dalam format Mac"
 
 #: global.c:243
-#, fuzzy
 msgid "Backing up file"
-msgstr "Main: membuka file\n"
+msgstr "Membackup file"
 
 #: global.c:244 nano.c:648
 msgid "Smooth scrolling"
@@ -348,7 +342,6 @@ msgid "Exit from nano"
 msgstr "Keluar dari nano"
 
 #: global.c:335
-#, fuzzy
 msgid "Go to a specific line number"
 msgstr "Ke nomor baris tertentu"
 
@@ -389,12 +382,10 @@ msgid "Uncut from the cutbuffer into the current line"
 msgstr "Kembalikan dari cutbuffer ke baris saat ini"
 
 #: global.c:345
-#, fuzzy
 msgid "Show the position of the cursor"
 msgstr "Tampilkan posisi kursor"
 
 #: global.c:346
-#, fuzzy
 msgid "Invoke the spell checker, if available"
 msgstr "Panggil spell checker (jika ada)"
 
@@ -467,7 +458,6 @@ msgid "Execute external command"
 msgstr "Eksekusi perintah eksternal"
 
 #: global.c:366
-#, fuzzy
 msgid "Go to directory"
 msgstr "Ke Direktori"
 
@@ -497,10 +487,9 @@ msgstr "Tulis file dalam format Mac"
 
 #: global.c:373
 msgid "Back up original file when saving"
-msgstr ""
+msgstr "Backup file asli ketika menyimpan"
 
 #: global.c:375
-#, fuzzy
 msgid "Use regular expressions"
 msgstr "Gunakan Regular expression"
 
@@ -518,7 +507,7 @@ msgstr "Buka file yang akan dimuat"
 
 #: global.c:381
 msgid "Toggle insert into new buffer"
-msgstr ""
+msgstr "Pilih insert ke buffer baru"
 
 #: global.c:396 global.c:567 global.c:601 global.c:634 global.c:648
 #: global.c:676 global.c:708 global.c:729 global.c:738 global.c:748
@@ -631,7 +620,6 @@ msgid "Enter"
 msgstr "Enter"
 
 #: global.c:538 global.c:583 global.c:616
-#, fuzzy
 msgid "Go To Line"
 msgstr "Ke baris"
 
@@ -714,9 +702,8 @@ msgid "Prepend"
 msgstr "Tambah"
 
 #: global.c:699
-#, fuzzy
 msgid "Backup File"
-msgstr "Backspace"
+msgstr "Backup File"
 
 #: global.c:719
 msgid "Execute Command"
@@ -727,7 +714,6 @@ msgid "New Buffer"
 msgstr "Buffer baru"
 
 #: global.c:762
-#, fuzzy
 msgid "Go To Dir"
 msgstr "Ke Direktori"
 
@@ -750,169 +736,116 @@ msgstr ""
 "No %s ditulis (terlalu banyak file backup?)\n"
 
 #: nano.c:184
-#, fuzzy
 msgid "Window size is too small for nano...\n"
-msgstr "Ukuran window terlalu kecil bagi Nano..."
+msgstr "Ukuran window terlalu kecil bagi nano...\n"
 
 #: nano.c:189
 msgid "Key illegal in VIEW mode"
 msgstr "Kunci ilegal dalam mode VIEW"
 
 #: nano.c:276
-#, fuzzy
 msgid ""
 "Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, then hit "
-"enter.  If there is a match for the text you entered, the screen will be "
-"updated to the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, then hit enter.  If there is a match for the text you entered, the screen will be updated to the location of the nearest match for the search string.\n"
 "\n"
-" If using Pico Mode via the -p or --pico flags, the Meta-P toggle, or a "
-"nanorc file, the previous search string will be shown in brackets after the "
-"Search: prompt.  Hitting Enter without entering any text will perform the "
-"previous search.  Otherwise, the previous string will be placed before the "
-"cursor, and can be edited or deleted before hitting enter.\n"
+" If using Pico Mode via the -p or --pico flags, the Meta-P toggle, or a nanorc file, the previous search string will be shown in brackets after the Search: prompt.  Hitting Enter without entering any text will perform the previous search.  Otherwise, the previous string will be placed before the cursor, and can be edited or deleted before hitting enter.\n"
 "\n"
 " The following function keys are available in Search mode:\n"
 "\n"
 msgstr ""
 "Teks Bantuan Perintah Search\n"
 "\n"
-" Masukkan kata atau karakter yang ingin anda cari, lalu tekan enter.  Jika "
-"ada teks yang cocok,layar akan diupdate untuk menunjukkan lokasi kecocokan "
-"yang terdekat bagi string yang dicari.\n"
+" Masukkan kata atau karakter yang ingin anda cari, lalu tekan enter.  Jika ada teks yang cocok,layar akan diupdate untuk menunjukkan lokasi kecocokan yang terdekat bagi string yang dicari.\n"
 "\n"
-" Jika menggunakan mode Pico melalui flag -p atau --pico, gunakan toggle Meta-"
-"P atau gunakan file .nanorc, string yang dicari sebelumnya akan ditunjukkan "
-"dalam tanda kurung setelah prompt Search:.  Penekanan tombol enter tanpa "
-"memasukkan sembarang teks akan melakukan pencarian sebelumnya. Jika tidak, "
-"string sebelumnya akan ditempatkan di depan kursor, dan dapat diedit atau "
-"dihapus sebelum menekan tombol enter.\n"
+" Jika menggunakan mode Pico melalui flag -p atau --pico, gunakan toggle Meta-P atau gunakan file .nanorc, string yang dicari sebelumnya akan ditunjukkan dalam tanda kurung setelah prompt Search:.  Penekanan tombol enter tanpa memasukkan sembarang teks akan melakukan pencarian sebelumnya. Jika tidak, string sebelumnya akan ditempatkan di depan kursor, dan dapat diedit atau dihapus sebelum menekan tombol enter.\n"
 "\n"
 " Tombol-tombol fungsi berikut tersedia dalam mode Search:\n"
 "\n"
 
 #: nano.c:290
-#, fuzzy
 msgid ""
 "Go To Line Help Text\n"
 "\n"
-" Enter the line number that you wish to go to and hit Enter.  If there are "
-"fewer lines of text than the number you entered, you will be brought to the "
-"last line of the file.\n"
+" Enter the line number that you wish to go to and hit Enter.  If there are fewer lines of text than the number you entered, you will be brought to the last line of the file.\n"
 "\n"
 " The following function keys are available in Go To Line mode:\n"
 "\n"
 msgstr ""
 "Teks Bantuan Goto Line\n"
 "\n"
-" Masukkan nomor baris yang ingin anda tuju dan tekan Enter.  Jika baris teks "
-"lebih sedikit daripada nomor yang anda masukkan, anda akan dibawa ke baris "
-"terakhir file.\n"
+" Masukkan nomor baris yang ingin anda tuju dan tekan Enter.  Jika baris teks lebih sedikit daripada nomor yang anda masukkan, anda akan dibawa ke baris terakhir file.\n"
 "\n"
 " Tombol-tombol fungsi berikut tersedia dalam mode Goto Line:\n"
 "\n"
 
 #: nano.c:297
-#, fuzzy
 msgid ""
 "Insert File Help Text\n"
 "\n"
-" Type in the name of a file to be inserted into the current file buffer at "
-"the current cursor location.\n"
+" Type in the name of a file to be inserted into the current file buffer at the current cursor location.\n"
 "\n"
-" If you have compiled nano with multiple file buffer support, and enable "
-"multiple buffers with the -F or --multibuffer command line flags, the Meta-F "
-"toggle, or a nanorc file, inserting a file will cause it to be loaded into a "
-"separate buffer (use Meta-< and > to switch between file buffers).\n"
+" If you have compiled nano with multiple file buffer support, and enable multiple buffers with the -F or --multibuffer command line flags, the Meta-F toggle, or a nanorc file, inserting a file will cause it to be loaded into a separate buffer (use Meta-< and > to switch between file buffers).\n"
 "\n"
-" If you need another blank buffer, do not enter any filename, or type in a "
-"nonexistent filename at the prompt and press Enter.\n"
+" If you need another blank buffer, do not enter any filename, or type in a nonexistent filename at the prompt and press Enter.\n"
 "\n"
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
 "Teks Bantuan Insert File\n"
 "\n"
-" Ketikkan nama file yang akan disisipkan ke dalam buffer file saat ini pada "
-"lokasi kursor sekarang.\n"
+" Ketikkan nama file yang akan disisipkan ke dalam buffer file saat ini pada lokasi kursor sekarang.\n"
 "\n"
-" Jika anda mengkompilasi nano dengan dukungan multiple file buffer, dan "
-"menyertakan multiple buffer dengan flag perintah baris -F atau --"
-"multibuffer, toggle Meta-F atau menggunakan file nanorc, penyisipan sebuah "
-"file akan menyebabkan ia dimuat dalam buffer berbeda (gunakan Meta-< dan > "
-"untuk berpindah antar buffer file).\n"
+" Jika anda mengkompilasi nano dengan dukungan multiple file buffer, dan menyertakan multiple buffer dengan flag perintah baris -F atau --multibuffer, toggle Meta-F atau menggunakan file nanorc, penyisipan sebuah file akan menyebabkan ia dimuat dalam buffer berbeda (gunakan Meta-< dan > untuk berpindah antar buffer file).\n"
 "\n"
-" Jika anda butuh buffer kosong lainnya, tekan saja Enter di prompt tanpa "
-"memberikan nama file, atau ketikkan nama file yang tidak ada di prompt dan "
-"tekan Enter.\n"
+" Jika anda butuh buffer kosong lainnya, tekan saja Enter di prompt tanpa memberikan nama file, atau ketikkan nama file yang tidak ada di prompt dan tekan Enter.\n"
 "\n"
 " Kunci-kunci fungsi berikut tersedia dalam mode Insert File:\n"
 "\n"
 
 #: nano.c:311
-#, fuzzy
 msgid ""
 "Write File Help Text\n"
 "\n"
-" Type the name that you wish to save the current file as and hit Enter to "
-"save the file.\n"
+" Type the name that you wish to save the current file as and hit Enter to save the file.\n"
 "\n"
-" If you have selected text with Ctrl-^, you will be prompted to save only "
-"the selected portion to a separate file.  To reduce the chance of "
-"overwriting the current file with just a portion of it, the current filename "
-"is not the default in this mode.\n"
+" If you have selected text with Ctrl-^, you will be prompted to save only the selected portion to a separate file.  To reduce the chance of overwriting the current file with just a portion of it, the current filename is not the default in this mode.\n"
 "\n"
 " The following function keys are available in Write File mode:\n"
 "\n"
 msgstr ""
 "Teks Bantuan Write File\n"
 "\n"
-" Ketikkan nama file untuk menyimpan file saat ini dan tekan enter untuk "
-"menyimpan file.\n"
+" Ketikkan nama file untuk menyimpan file saat ini dan tekan enter untuk menyimpan file.\n"
 "\n"
-" Jika anda menggunakan kode penanda dengan Ctrl-^ dan telah memilih teks, "
-"anda akan ditanya untuk hanya menyimpan bagian yang terpilih ke file "
-"terpisah.  Untuk mengurangi kemungkinan penimpaan file saat ini dengan "
-"bagiannya, nama file saat ini bukanlah bakunya dalam mode ini.\n"
+" Jika anda menggunakan kode penanda dengan Ctrl-^ dan telah memilih teks, anda akan ditanya untuk hanya menyimpan bagian yang terpilih ke file terpisah.  Untuk mengurangi kemungkinan penimpaan file saat ini dengan bagiannya, nama file saat ini bukanlah bakunya dalam mode ini.\n"
 "\n"
 " Kunci-kunci fungsi berikut tersedia dalam mode Write File:\n"
 "\n"
 
 #: nano.c:322
-#, fuzzy
 msgid ""
 "File Browser Help Text\n"
 "\n"
-" The file browser is used to visually browse the directory structure to "
-"select a file for reading or writing.  You may use the arrow keys or Page Up/"
-"Down to browse through the files, and S or Enter to choose the selected file "
-"or enter the selected directory.  To move up one level, select the directory "
-"called \"..\" at the top of the file list.\n"
+" The file browser is used to visually browse the directory structure to select a file for reading or writing.  You may use the arrow keys or Page Up/Down to browse through the files, and S or Enter to choose the selected file or enter the selected directory.  To move up one level, select the directory called \"..\" at the top of the file list.\n"
 "\n"
 " The following function keys are available in the file browser:\n"
 "\n"
 msgstr ""
 "Teks Bantuan File Browser\n"
 "\n"
-" File browser digunakan untuk membrowse struktur direktori untuk memilih "
-"file untuk dibaca atau ditulis.  Anda bisa menggunakan tombol panah atau "
-"Page Up/Down untuk membrowse melalui file-file, dan S atau Enter untuk "
-"memilih file atau memasuki direktori terpilih. Untuk berpindah satu level ke "
-"atas pilih direktori bernama \"..\" yang ada di bagian atas daftar file.\n"
+" File browser digunakan untuk membrowse struktur direktori untuk memilih file untuk dibaca atau ditulis.  Anda bisa menggunakan tombol panah atau Page Up/Down untuk membrowse melalui file-file, dan S atau Enter untuk memilih file atau memasuki direktori terpilih. Untuk berpindah satu level ke atas pilih direktori bernama \"..\" yang ada di bagian atas daftar file.\n"
 "\n"
 " Kunci-kunci fungsi berikut tersedia dalam file browser:\n"
 "\n"
 
 #: nano.c:333
-#, fuzzy
 msgid ""
 "Browser Go To Directory Help Text\n"
 "\n"
 " Enter the name of the directory you would like to browse to.\n"
 "\n"
-" If tab completion has not been disabled, you can use the TAB key to "
-"(attempt to) automatically complete the directory name.\n"
+" If tab completion has not been disabled, you can use the TAB key to (attempt to) automatically complete the directory name.\n"
 "\n"
 " The following function keys are available in Browser Go To Directory mode:\n"
 "\n"
@@ -921,8 +854,7 @@ msgstr ""
 "\n"
 " Masukkan nama direktori yang ingin anda browse.\n"
 "\n"
-" Jika pelengkapan tab belum ditiadakan, anda dapat menggunakan kunci TAB "
-"untuk (berusaha) melengkapi nama direktori secara otomatis. \n"
+" Jika pelengkapan tab belum ditiadakan, anda dapat menggunakan kunci TAB untuk (berusaha) melengkapi nama direktori secara otomatis. \n"
 "\n"
 "  Kunci-kunci fungsi berikut tersedia di dalam mode Browser GotoDir :\n"
 "\n"
@@ -931,80 +863,48 @@ msgstr ""
 msgid ""
 "Spell Check Help Text\n"
 "\n"
-" The spell checker checks the spelling of all text in the current file.  "
-"When an unknown word is encountered, it is highlighted and a replacement can "
-"be edited.  It will then prompt to replace every instance of the given "
-"misspelled word in the current file.\n"
+" The spell checker checks the spelling of all text in the current file.  When an unknown word is encountered, it is highlighted and a replacement can be edited.  It will then prompt to replace every instance of the given misspelled word in the current file.\n"
 "\n"
 " The following other functions are available in Spell Check mode:\n"
 "\n"
 msgstr ""
 "Teks Bantuan Spell Check\n"
 "\n"
-" Spell checker memeriksa ejaan semua teks dalam file saat ini.   Ketika "
-"ditemukan sebuah kata tidak dikenal, ia akan disorot dan dapat digantikan.  "
-"Ia kemudian akan bertanya untuk mengganti setiap keberadaan kata yang salah "
-"dalam file saat ini.\n"
+" Spell checker memeriksa ejaan semua teks dalam file saat ini.   Ketika ditemukan sebuah kata tidak dikenal, ia akan disorot dan dapat digantikan.  Ia kemudian akan bertanya untuk mengganti setiap keberadaan kata yang salah dalam file saat ini.\n"
 "\n"
-" Berikut ini adalah fungsi-fungsi lain yang tersedia dalam mode Spell "
-"Check:\n"
+" Berikut ini adalah fungsi-fungsi lain yang tersedia dalam mode Spell Check:\n"
 "\n"
 
 #: nano.c:351
 msgid ""
 "External Command Help Text\n"
 "\n"
-" This menu allows you to insert the output of a command run by the shell "
-"into the current buffer (or a new buffer in multibuffer mode).\n"
+" This menu allows you to insert the output of a command run by the shell into the current buffer (or a new buffer in multibuffer mode).\n"
 "\n"
 " The following keys are available in this mode:\n"
 "\n"
 msgstr ""
 "Teks Bantuan Perintah Eksternal\n"
 "\n"
-"Menu ini memungkinkan anda menyisipkan output perintah yang dijalankan oleh "
-"shell ke dalam buffer saat ini (atau buffer baru dalam mode multibuffer).\n"
+"Menu ini memungkinkan anda menyisipkan output perintah yang dijalankan oleh shell ke dalam buffer saat ini (atau buffer baru dalam mode multibuffer).\n"
 "\n"
 " Kunci-kunci berikut tersedia dalam mode ini:\n"
 "\n"
 
 #: nano.c:358
-#, fuzzy
 msgid ""
 " nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor: The "
-"top line shows the program version, the current filename being edited, and "
-"whether or not the file has been modified.  Next is the main editor window "
-"showing the file being edited.  The status line is the third line from the "
-"bottom and shows important messages. The bottom two lines show the most "
-"commonly used shortcuts in the editor.\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor: The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages. The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
-" The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
-"key sequences are notated with the Meta (M) symbol and can be entered using "
-"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
-"following keystrokes are available in the main editor window.  Alternative "
-"keys are shown in parentheses:\n"
+" The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt or Meta key depending on your keyboard setup.  The following keystrokes are available in the main editor window.  Alternative keys are shown in parentheses:\n"
 "\n"
 msgstr ""
 " teks bantuan nano\n"
 "\n"
-" Editor nano dirancang untuk meniru fungsionalitas dan kemudahan teks editor "
-"UW Pico text editor.  Terdapat empat bagian utama editor: Baris atas "
-"menunjukkan versi program, nama file yang sedang diedit, dan apakah file "
-"telah dimodifikasi.  Selanjutnya adalah jendela editor utama yang "
-"menunjukkan file yang sedang diedit.  Baris status adalah baris ketiga dari "
-"bawah dan menunjukkan pesan-pesan penting. Dua baris terbawah menunjukkan "
-"shortcut yang paling umum digunakan dalam editor..\n"
+" Editor nano dirancang untuk meniru fungsionalitas dan kemudahan teks editor UW Pico text editor.  Terdapat empat bagian utama editor: Baris atas menunjukkan versi program, nama file yang sedang diedit, dan apakah file telah dimodifikasi.  Selanjutnya adalah jendela editor utama yang menunjukkan file yang sedang diedit.  Baris status adalah baris ketiga dari bawah dan menunjukkan pesan-pesan penting. Dua baris terbawah menunjukkan shortcut yang paling umum digunakan dalam editor..\n"
 "\n"
-" Notasi shortcut adalah sebagai berikut : Urutan kunci Control ditunjukkan "
-"oleh simbol caret (^) dan dimasukkan dengan kunci Control (Ctrl).  Urutan "
-"kunci Escape ditunjukkan dengan simbol Meta (M) dan dapat dimasukkan dengan "
-"menggunakan tombol Esc, Alt atau Meta tergantung setup keyboard anda.   "
-"Kunci-kunci berikut ada dalam jendela utama editor.  Kunci tambahan "
-"ditunjukkan dalam tanda kurung:\n"
+" Notasi shortcut adalah sebagai berikut : Urutan kunci Control ditunjukkan oleh simbol caret (^) dan dimasukkan dengan kunci Control (Ctrl).  Urutan kunci Escape ditunjukkan dengan simbol Meta (M) dan dapat dimasukkan dengan menggunakan tombol Esc, Alt atau Meta tergantung setup keyboard anda.   Kunci-kunci berikut ada dalam jendela utama editor.  Kunci tambahan ditunjukkan dalam tanda kurung:\n"
 "\n"
 
 #: nano.c:411 nano.c:414
@@ -1012,27 +912,24 @@ msgid "Space"
 msgstr "Space"
 
 #: nano.c:453
-#, fuzzy, c-format
+#, c-format
 msgid "%.*s enable/disable\n"
-msgstr "%s enable/disable"
+msgstr "%.*s enable/disable\n"
 
 #: nano.c:560
-#, fuzzy
 msgid "delete_node(): free'd a node, YAY!\n"
 msgstr "delete_node(): bebaskan sebuah node, YAY!\n"
 
 #: nano.c:565
-#, fuzzy
 msgid "delete_node(): free'd last node.\n"
 msgstr "delete_node(): bebaskan node terakhir.\n"
 
 #: nano.c:617
-#, fuzzy
 msgid ""
 "Usage: nano [+LINE] [GNU long option] [option] [file]\n"
 "\n"
 msgstr ""
-"Penggunaan: nano [GNU long option] [option] +LINE <file>\n"
+"Penggunaan: nano [+LINE] [GNU long option] [option] [file]\n"
 "\n"
 
 #: nano.c:618
@@ -1040,12 +937,11 @@ msgid "Option\t\tLong option\t\tMeaning\n"
 msgstr "Opsi\t\tOpsi Panjang\t\tArti\n"
 
 #: nano.c:620
-#, fuzzy
 msgid ""
 "Usage: nano [+LINE] [option] [file]\n"
 "\n"
 msgstr ""
-"Penggunaan: nano [option] +LINE <file>\n"
+"Penggunaan: nano [+LINE] [option] [file]\n"
 "\n"
 
 #: nano.c:621
@@ -1053,7 +949,6 @@ msgid "Option\t\tMeaning\n"
 msgstr "Opsi\t\tArti\n"
 
 #: nano.c:624
-#, fuzzy
 msgid "Show this message"
 msgstr "Tampilkan pesan ini"
 
@@ -1062,13 +957,12 @@ msgid "+LINE"
 msgstr "+LINE"
 
 #: nano.c:625
-#, fuzzy
 msgid "Start at line number LINE"
 msgstr "Mulai pada nomor baris LINE"
 
 #: nano.c:627
 msgid "Backup existing files on save"
-msgstr ""
+msgstr "Backup file yang ada ketika menyimpan"
 
 #: nano.c:628
 msgid "Write file in DOS format"
@@ -1080,7 +974,7 @@ msgstr "Aktifkan multiple file buffer"
 
 #: nano.c:634
 msgid "Don't look at nanorc files"
-msgstr ""
+msgstr "Jangan lihat file nanorc"
 
 #: nano.c:636
 msgid "Use alternate keypad routines"
@@ -1099,18 +993,16 @@ msgid "-Q [str]"
 msgstr "-Q [str]"
 
 #: nano.c:642
-#, fuzzy
 msgid "--quotestr=[str]"
-msgstr "--quotestr [str]"
+msgstr "--quotestr=[str]"
 
 #: nano.c:642
 msgid "Quoting string, default \"> \""
 msgstr "String kuote, default \"> \""
 
 #: nano.c:645
-#, fuzzy
 msgid "Do regular expression searches"
-msgstr "Pencarian ekspresi reguler"
+msgstr "Lakukan pencarian ekspresi reguler"
 
 #: nano.c:650
 msgid "-T [num]"
@@ -1121,12 +1013,10 @@ msgid "--tabsize=[num]"
 msgstr "--tabsize=[num]"
 
 #: nano.c:650
-#, fuzzy
 msgid "Set width of a tab to num"
 msgstr "Set lebar tab ke num"
 
 #: nano.c:651
-#, fuzzy
 msgid "Print version information and exit"
 msgstr "Cetak informasi versi dan keluar"
 
@@ -1143,27 +1033,22 @@ msgid "Syntax definition to use"
 msgstr "Definisi sintaks untuk digunakan"
 
 #: nano.c:655
-#, fuzzy
 msgid "Constantly show cursor position"
 msgstr "Menampilkan posisi kursor secara konstan"
 
 #: nano.c:657
-#, fuzzy
 msgid "Automatically indent new lines"
 msgstr "Inden baris baru secara otomatis"
 
 #: nano.c:658
-#, fuzzy
 msgid "Let ^K cut from cursor to end of line"
 msgstr "Biarkan ^K memotong dari kursor hingga akhir baris"
 
 #: nano.c:660
-#, fuzzy
 msgid "Don't follow symbolic links, overwrite"
 msgstr "Jangan ikuti link simbolik, timpa"
 
 #: nano.c:663
-#, fuzzy
 msgid "Enable mouse"
 msgstr "Aktifkan mouse"
 
@@ -1180,7 +1065,6 @@ msgid "Set operating directory"
 msgstr "Set direktori operasi"
 
 #: nano.c:669
-#, fuzzy
 msgid "Emulate Pico as closely as possible"
 msgstr "Emulasikan Pico sebaik mungkin"
 
@@ -1193,7 +1077,6 @@ msgid "--fill=[#cols]"
 msgstr "--fill=[#cols]"
 
 #: nano.c:671
-#, fuzzy
 msgid "Set fill cols to (wrap lines at) #cols"
 msgstr "Set fill cols ke (wrap baris di) #cols"
 
@@ -1206,41 +1089,35 @@ msgid "--speller=[prog]"
 msgstr "--speller=[prog]"
 
 #: nano.c:674
-#, fuzzy
 msgid "Enable alternate speller"
 msgstr "Aktifkan speller alternatif"
 
 #: nano.c:676
-#, fuzzy
 msgid "Auto save on exit, don't prompt"
 msgstr "Auto save saat keluar, jangan tanya"
 
 #: nano.c:677
-#, fuzzy
 msgid "View (read only) mode"
 msgstr "Mode view (hanya baca)"
 
 #: nano.c:679
-#, fuzzy
 msgid "Don't wrap long lines"
 msgstr "Jangan wrap baris panjang"
 
 #: nano.c:681
-#, fuzzy
 msgid "Don't show help window"
 msgstr "Jangan tampilkan jendela bantuan"
 
 #: nano.c:682
-#, fuzzy
 msgid "Enable suspend"
 msgstr "Aktifkan suspend"
 
 #: nano.c:685
 msgid "(ignored, for Pico compatibility)"
-msgstr ""
+msgstr "(abaikan, untuk kompatibilitas dengan Pico)"
 
 #: nano.c:692
-#, fuzzy, c-format
+#, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
 msgstr "GNU nano versi %s (dikompilasi %s, %s)\n"
 
@@ -1258,7 +1135,7 @@ msgstr ""
 
 #: nano.c:765
 msgid "Sorry, support for this function has been disabled"
-msgstr ""
+msgstr "Maaf, dukungan untuk fungsi ini telah ditiadakan"
 
 #: nano.c:798
 msgid "Could not pipe"
@@ -1308,9 +1185,9 @@ msgid "Spell checking failed"
 msgstr "Spell checking gagal"
 
 #: nano.c:2239
-#, fuzzy, c-format
+#, c-format
 msgid "Bad quote string %s: %s"
-msgstr "Tidak dapat membuka kembali %s: %s"
+msgstr "Quote string buruk %s: %s"
 
 #: nano.c:2488
 msgid "Can now UnJustify!"
@@ -1350,9 +1227,7 @@ msgstr "Tidak dapat memindah jendela bawah"
 
 #: nano.c:2802
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
-msgstr ""
-"Glitch pada NumLock terdeteksi. Keypad akan tidak berfungsi dg tombol "
-"NumLock off"
+msgstr "Glitch pada NumLock terdeteksi. Keypad akan tidak berfungsi dg tombol NumLock off"
 
 #: nano.c:2849
 msgid "enabled"
@@ -1363,9 +1238,8 @@ msgid "disabled"
 msgstr "tiadakan"
 
 #: nano.c:3062
-#, fuzzy
 msgid "Tab size is too small for nano...\n"
-msgstr "Ukuran window terlalu kecil bagi Nano..."
+msgstr "Ukuran tab terlalu kecil bagi nano...\n"
 
 #: nano.c:3201
 msgid "Main: set up windows\n"
@@ -1380,9 +1254,9 @@ msgid "Main: open file\n"
 msgstr "Main: membuka file\n"
 
 #: nano.c:3264
-#, fuzzy, c-format
+#, c-format
 msgid "AHA!  %c (%d)\n"
-msgstr "Aha! '%c' (%d)\n"
+msgstr "AHA!  %c (%d)\n"
 
 #: nano.c:3280
 #, c-format
@@ -1410,9 +1284,9 @@ msgid "I got Alt-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"
 
 #: nano.c:3550
-#, fuzzy, c-format
+#, c-format
 msgid "I got %c (%d)!\n"
-msgstr "Saya mendapat Alt-%c! (%d)\n"
+msgstr "Saya mendapat %c (%d)\n"
 
 #: rcfile.c:109
 #, c-format
@@ -1430,7 +1304,7 @@ msgstr ""
 #: rcfile.c:179
 #, c-format
 msgid "argument %s has unterminated \""
-msgstr ""
+msgstr "argumen %s telah selesai.\""
 
 #: rcfile.c:221
 #, c-format
@@ -1455,11 +1329,11 @@ msgstr "Nama sintaks tidak ada"
 
 #: rcfile.c:285
 msgid "Adding new syntax after 1st\n"
-msgstr ""
+msgstr "Menambahkan sintaks baru setelah yang pertama\n"
 
 #: rcfile.c:293
 msgid "Starting a new syntax type\n"
-msgstr ""
+msgstr "Memulai tipe sintaks baru\n"
 
 #: rcfile.c:336
 msgid "Missing color name"
@@ -1472,17 +1346,17 @@ msgstr "Tidak dapat menambah direktif warna tanpa baris sintaks"
 #: rcfile.c:383
 #, c-format
 msgid "Starting a new colorstring for fg %d bg %d\n"
-msgstr ""
+msgstr "Memulai colorstring baru untuk fg %d bg %d\n"
 
 #: rcfile.c:390
 #, c-format
 msgid "Adding new entry for fg %d bg %d\n"
-msgstr ""
+msgstr "Menambahkan entri baru untuk fg %d bg%d\n"
 
 #: rcfile.c:404
 #, c-format
 msgid "string val=%s\n"
-msgstr ""
+msgstr "string val=%s\n"
 
 #: rcfile.c:412
 msgid ""
@@ -1495,7 +1369,7 @@ msgstr ""
 #: rcfile.c:429
 #, c-format
 msgid "For end part, beginning = \"%s\"\n"
-msgstr ""
+msgstr "Untuk bagian akhir, awal = \"%s\"\n"
 
 #: rcfile.c:456
 msgid "parse_rcfile: Read a comment\n"
@@ -1517,14 +1391,14 @@ msgid "option %s requires an argument"
 msgstr "opsi %s membutuhkan sebuah argumen"
 
 #: rcfile.c:536
-#, fuzzy, c-format
+#, c-format
 msgid "requested fill size %d invalid"
-msgstr "ukuran fill yang diminta %d terlalu kecil"
+msgstr "ukuran fill yang diminta %d tidak valid"
 
 #: rcfile.c:560
-#, fuzzy, c-format
+#, c-format
 msgid "requested tab size %d invalid"
-msgstr "ukuran tab yang diminta %d terlalu kecil"
+msgstr "ukuran tab yang diminta %d tidak valid"
 
 #: rcfile.c:568
 #, c-format
@@ -1555,7 +1429,6 @@ msgid "\"%s...\" not found"
 msgstr "\"%s...\" tidak ditemukan"
 
 #: search.c:147
-#, fuzzy
 msgid "Search"
 msgstr "Cari"
 
@@ -1588,12 +1461,11 @@ msgid "This is the only occurrence"
 msgstr "Hanya ini adanya"
 
 #: search.c:561
-#, fuzzy, c-format
+#, c-format
 msgid "Replaced %d occurrences"
 msgstr "%d tempat terganti"
 
 #: search.c:563
-#, fuzzy
 msgid "Replaced 1 occurrence"
 msgstr "Terganti 1 tempat"
 
@@ -1647,9 +1519,9 @@ msgid "nano: realloc: out of memory!"
 msgstr "nano: realloc: memori habis!"
 
 #: winio.c:97
-#, fuzzy, c-format
+#, c-format
 msgid "actual_x for xplus=%d returns %d\n"
-msgstr "actual_x_from_start for xplus=%d returned %d\n"
+msgstr "actual_x for xplus=%d returns %d\n"
 
 #: winio.c:235 winio.c:387
 #, c-format
@@ -1678,14 +1550,12 @@ msgid " DIR: "
 msgstr " DIR: "
 
 #: winio.c:472
-#, fuzzy
 msgid " Modified "
-msgstr "Dimodifikasi"
+msgstr " Dimodifikasi "
 
 #: winio.c:474
-#, fuzzy
 msgid " View "
-msgstr "View"
+msgstr " View "
 
 #: winio.c:659
 msgid "Refusing 0 length regex match"
@@ -1736,7 +1606,7 @@ msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
 #: winio.c:1387
-#, fuzzy, c-format
+#, c-format
 msgid "line %d/%d (%.0f%%), col %ld/%ld (%.0f%%), char %ld/%ld (%.0f%%)"
 msgstr "baris %d/%d (%.0f%%), kol %ld/%ld (%.0f%%), kar %ld/%ld (%.0f%%)"
 
@@ -1783,104 +1653,3 @@ msgstr "dan orang lain yang kami lupa...."
 #: winio.c:1734
 msgid "Thank you for using nano!\n"
 msgstr "Terima kasih telah menggunakan nano!\n"
-
-#, fuzzy
-#~ msgid "Could not open file: Path length exceeded."
-#~ msgstr "Tidak dapat membuka file untuk menulis: %s"
-
-#, fuzzy
-#~ msgid "free_node(): free'd a node, YAY!\n"
-#~ msgstr "delete_node(): bebaskan sebuah node, YAY!\n"
-
-#, fuzzy
-#~ msgid "free_node(): free'd last node.\n"
-#~ msgstr "delete_node(): bebaskan node terakhir.\n"
-
-#, fuzzy
-#~ msgid " -T \t\t--tabsize=[num]\t\tSet width of a tab to num\n"
-#~ msgstr "Set lebar tab ke num"
-
-#, fuzzy
-#~ msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
-#~ msgstr "Pencarian ekspresi reguler"
-
-#, fuzzy
-#~ msgid " -V \t\t--version\t\tPrint version information and exit\n"
-#~ msgstr "Cetak informasi versi dan keluar"
-
-#, fuzzy
-#~ msgid " -c \t\t--const\t\t\tConstantly show cursor position\n"
-#~ msgstr "Menampilkan posisi kursor secara konstan"
-
-#, fuzzy
-#~ msgid " -h \t\t--help\t\t\tShow this message\n"
-#~ msgstr "Tampilkan pesan ini"
-
-#, fuzzy
-#~ msgid " -k \t\t--cut\t\t\tLet ^K cut from cursor to end of line\n"
-#~ msgstr "Biarkan ^K memotong dari kursor hingga akhir baris"
-
-#, fuzzy
-#~ msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
-#~ msgstr "Inden baris baru secara otomatis"
-
-#, fuzzy
-#~ msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
-#~ msgstr "Jangan ikuti link simbolik, timpa"
-
-#, fuzzy
-#~ msgid ""
-#~ " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
-#~ msgstr "Set fill cols ke (wrap baris di) #cols"
-
-#, fuzzy
-#~ msgid " -p\t \t--pico\t\t\tEmulate Pico as closely as possible\n"
-#~ msgstr "Emulasikan Pico sebaik mungkin"
-
-#, fuzzy
-#~ msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
-#~ msgstr "Aktifkan speller alternatif"
-
-#, fuzzy
-#~ msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
-#~ msgstr "Auto save saat keluar, jangan tanya"
-
-#, fuzzy
-#~ msgid " -v \t\t--view\t\t\tView (read only) mode\n"
-#~ msgstr "Mode view (hanya baca)"
-
-#, fuzzy
-#~ msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
-#~ msgstr "Jangan wrap baris panjang"
-
-#, fuzzy
-#~ msgid " -x \t\t--nohelp\t\tDon't show help window\n"
-#~ msgstr "Jangan tampilkan jendela bantuan"
-
-#, fuzzy
-#~ msgid " -z \t\t--suspend\t\tEnable suspend\n"
-#~ msgstr "Aktifkan suspend"
-
-#, fuzzy
-#~ msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
-#~ msgstr "Mulai pada nomor baris LINE"
-
-#~ msgid "check_wrap called with inptr->data=\"%s\"\n"
-#~ msgstr "check_wrap called with inptr->data=\"%s\"\n"
-
-#, fuzzy
-#~ msgid "Case Sensitive Regexp Search%s%s"
-#~ msgstr "Pencarian case sensitive"
-
-#, fuzzy
-#~ msgid "Case Sensitive Search%s%s"
-#~ msgstr "Pencarian case sensitive"
-
-#~ msgid "Backwards search"
-#~ msgstr "Pencarian backward"
-
-#~ msgid "Goto"
-#~ msgstr "Ke"
-
-#~ msgid "nano: calloc: out of memory!"
-#~ msgstr "nano: calloc: memori habis!"

@@ -1,12 +1,12 @@
-# Nano Editor 1.1.10 (Bahasa Melayu).
+# Nano Editor 1.1.11 Bahasa Melayu.
 # Copyright (C) 2002 Free Software Foundation, Inc.
 # Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>, 2002.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.10\n"
-"POT-Creation-Date: 2002-10-06 18:05-0400\n"
-"PO-Revision-Date: 2002-09-06 13:18GMT+8\n"
+"Project-Id-Version: nano 1.1.11\n"
+"POT-Creation-Date: 2002-10-04 13:39-0400\n"
+"PO-Revision-Date: 2002-10-08 09:36GMT+8\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -52,9 +52,9 @@ msgid "New File"
 msgstr "Fail Baru"
 
 #: files.c:363
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" is a directory"
-msgstr "Fail \"%s\" adalah sebuah direktori"
+msgstr "\"%s\" adalah sebuah direktori"
 
 #: files.c:366
 #, c-format
@@ -66,9 +66,9 @@ msgid "Reading File"
 msgstr "Membaca fail"
 
 #: files.c:438
-#, fuzzy, c-format
+#, c-format
 msgid "File to insert into new buffer [from %s] "
-msgstr "Fail untuk dimasukkan [daripada %s] "
+msgstr "Fail untuk dimasukkan kedalam buffer baru [daripada %s] "
 
 #: files.c:442
 #, c-format
@@ -76,9 +76,8 @@ msgid "File to insert [from %s] "
 msgstr "Fail untuk dimasukkan [daripada %s] "
 
 #: files.c:449
-#, fuzzy
 msgid "File to insert into new buffer [from ./] "
-msgstr "Fail untuk dimasukkan [daripada ./] "
+msgstr "Fail untuk dimasukkan kedalam buffer baru [daripada ./] "
 
 #: files.c:452
 msgid "File to insert [from ./] "
@@ -86,7 +85,7 @@ msgstr "Fail untuk dimasukkan [daripada ./] "
 
 #: files.c:457 files.c:711 files.c:769 files.c:863 files.c:875 files.c:926
 #: files.c:937 files.c:1792
-#, fuzzy, c-format
+#, c-format
 msgid "filename is %s\n"
 msgstr "nama fail adalah %s\n"
 
@@ -233,7 +232,6 @@ msgid "File Name to Append to"
 msgstr "Nama Fail untuk di Tambah Akhiran"
 
 #: files.c:1738 files.c:1749
-#, fuzzy
 msgid "File Name to Write"
 msgstr "Nama Fail untuk di Tulis"
 
@@ -344,7 +342,6 @@ msgid "Exit from nano"
 msgstr "Keluar dari nano"
 
 #: global.c:335
-#, fuzzy
 msgid "Go to a specific line number"
 msgstr "Pergi ke nombor baris tertentu"
 
@@ -385,12 +382,10 @@ msgid "Uncut from the cutbuffer into the current line"
 msgstr "Kembalikan dari cutbuffer ke baris semasa"
 
 #: global.c:345
-#, fuzzy
 msgid "Show the position of the cursor"
 msgstr "Papar posisi kursor"
 
 #: global.c:346
-#, fuzzy
 msgid "Invoke the spell checker, if available"
 msgstr "Panggil penyemak ejaan, jika ada"
 
@@ -495,7 +490,6 @@ msgid "Back up original file when saving"
 msgstr "Buat salinan fail asal apabila menyimpan"
 
 #: global.c:375
-#, fuzzy
 msgid "Use regular expressions"
 msgstr "Guna ungkapan biasa"
 
@@ -513,7 +507,7 @@ msgstr "Buka fail muatan selepasnya"
 
 #: global.c:381
 msgid "Toggle insert into new buffer"
-msgstr ""
+msgstr "Toggle masukkan kedalam buffer baru"
 
 #: global.c:396 global.c:567 global.c:601 global.c:634 global.c:648
 #: global.c:676 global.c:708 global.c:729 global.c:738 global.c:748
@@ -626,7 +620,6 @@ msgid "Enter"
 msgstr "Enter"
 
 #: global.c:538 global.c:583 global.c:616
-#, fuzzy
 msgid "Go To Line"
 msgstr "Ke Baris"
 
@@ -754,31 +747,18 @@ msgstr "Kekunci tidak sah dalam mod LIHAT"
 msgid ""
 "Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, then hit "
-"enter.  If there is a match for the text you entered, the screen will be "
-"updated to the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, then hit enter.  If there is a match for the text you entered, the screen will be updated to the location of the nearest match for the search string.\n"
 "\n"
-" If using Pico Mode via the -p or --pico flags, the Meta-P toggle, or a "
-"nanorc file, the previous search string will be shown in brackets after the "
-"Search: prompt.  Hitting Enter without entering any text will perform the "
-"previous search.  Otherwise, the previous string will be placed before the "
-"cursor, and can be edited or deleted before hitting enter.\n"
+" If using Pico Mode via the -p or --pico flags, the Meta-P toggle, or a nanorc file, the previous search string will be shown in brackets after the Search: prompt.  Hitting Enter without entering any text will perform the previous search.  Otherwise, the previous string will be placed before the cursor, and can be edited or deleted before hitting enter.\n"
 "\n"
 " The following function keys are available in Search mode:\n"
 "\n"
 msgstr ""
 "Teks Bantuan Arahan Carian\n"
 "\n"
-" Masukkan perkataan atau aksara yang anda hendak cari, kemudian tekan "
-"Enter.  Jika terdapat padanan untuk teks yang anda masukkan, skrin akan "
-"dikemaskinikan kepada lokasi terdekat rentetan carian tersebut.\n"
+" Masukkan perkataan atau aksara yang anda hendak cari, kemudian tekan Enter.  Jika terdapat padanan untuk teks yang anda masukkan, skrin akan dikemaskinikan kepada lokasi terdekat rentetan carian tersebut.\n"
 "\n"
-" Jika menggunakan Mod Pico melalui penanda -p or --pico, toggle Meta-P atau "
-"fail nanorc, rentetan carian terdahulu akan dipaparkan dalam kurungan "
-"selepas prom Cari:.  Menekan enter tanpa memasukkan apa-apa teks akan "
-"melaksanakan carian terdahulu. Jika tidak, rentetan terdahulu akan "
-"diletakkan sebelum kursor, dan boleh disunting atau dipadam sebelum menekan "
-"enter.\n"
+" Jika menggunakan Mod Pico melalui penanda -p or --pico, toggle Meta-P atau fail nanorc, rentetan carian terdahulu akan dipaparkan dalam kurungan selepas prom Cari:.  Menekan enter tanpa memasukkan apa-apa teks akan melaksanakan carian terdahulu. Jika tidak, rentetan terdahulu akan diletakkan sebelum kursor, dan boleh disunting atau dipadam sebelum menekan enter.\n"
 "\n"
 " Kekunci fungsi berikut terdapat didalam mod Cari:\n"
 "\n"
@@ -787,18 +767,14 @@ msgstr ""
 msgid ""
 "Go To Line Help Text\n"
 "\n"
-" Enter the line number that you wish to go to and hit Enter.  If there are "
-"fewer lines of text than the number you entered, you will be brought to the "
-"last line of the file.\n"
+" Enter the line number that you wish to go to and hit Enter.  If there are fewer lines of text than the number you entered, you will be brought to the last line of the file.\n"
 "\n"
 " The following function keys are available in Go To Line mode:\n"
 "\n"
 msgstr ""
 "Teks Bantuan Pergi Ke Baris\n"
 "\n"
-" Masukkan nombor baris yang anda hendak pergi dan tekan Enter.  Jika "
-"terdapat kurang baris teks daripada nombor yang anda masukkan, anda akan "
-"dibawa ke baris akhir fail tersebut.\n"
+" Masukkan nombor baris yang anda hendak pergi dan tekan Enter.  Jika terdapat kurang baris teks daripada nombor yang anda masukkan, anda akan dibawa ke baris akhir fail tersebut.\n"
 "\n"
 " Kekunci fungsi berikut terdapat didalam mod Pergi Ke Baris:\n"
 "\n"
@@ -807,33 +783,22 @@ msgstr ""
 msgid ""
 "Insert File Help Text\n"
 "\n"
-" Type in the name of a file to be inserted into the current file buffer at "
-"the current cursor location.\n"
+" Type in the name of a file to be inserted into the current file buffer at the current cursor location.\n"
 "\n"
-" If you have compiled nano with multiple file buffer support, and enable "
-"multiple buffers with the -F or --multibuffer command line flags, the Meta-F "
-"toggle, or a nanorc file, inserting a file will cause it to be loaded into a "
-"separate buffer (use Meta-< and > to switch between file buffers).\n"
+" If you have compiled nano with multiple file buffer support, and enable multiple buffers with the -F or --multibuffer command line flags, the Meta-F toggle, or a nanorc file, inserting a file will cause it to be loaded into a separate buffer (use Meta-< and > to switch between file buffers).\n"
 "\n"
-" If you need another blank buffer, do not enter any filename, or type in a "
-"nonexistent filename at the prompt and press Enter.\n"
+" If you need another blank buffer, do not enter any filename, or type in a nonexistent filename at the prompt and press Enter.\n"
 "\n"
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
 "Teks Bantuan Sisipan Fail\n"
 "\n"
-" Taip nama fail yang hendak disisipkan ke dalam buffer fail semasa di "
-"kedudukan kursor semasa.\n"
+" Taip nama fail yang hendak disisipkan ke dalam buffer fail semasa di kedudukan kursor semasa.\n"
 "\n"
-" Jika anda telah menghimpun nano dengan sokongan buffer fail berganda, dan "
-"menghidupkan buffer berganda dengan penanda baris arahan -F atau --"
-"multibuffer, Meta-F toggle, atau fail nanorc, menyisipkan fail akan "
-"menyebabkannya dimuatkan ke dalam buffer berlainan (guna Meta-< dan > untuk "
-"menukar diantara buffer fail).\n"
+" Jika anda telah menghimpun nano dengan sokongan buffer fail berganda, dan menghidupkan buffer berganda dengan penanda baris arahan -F atau --multibuffer, Meta-F toggle, atau fail nanorc, menyisipkan fail akan menyebabkannya dimuatkan ke dalam buffer berlainan (guna Meta-< dan > untuk menukar diantara buffer fail).\n"
 "\n"
-" Jika anda memerlukan buffer kosong tambahan, jangan masukkan sebarang "
-"namafail, atau taip namafail yang tidak wujud pada prom dan tekan Enter.\n"
+" Jika anda memerlukan buffer kosong tambahan, jangan masukkan sebarang namafail, atau taip namafail yang tidak wujud pada prom dan tekan Enter.\n"
 "\n"
 " Kekunci fungsi berikut terdapat didalam mod Sisipan Fail:\n"
 "\n"
@@ -842,26 +807,18 @@ msgstr ""
 msgid ""
 "Write File Help Text\n"
 "\n"
-" Type the name that you wish to save the current file as and hit Enter to "
-"save the file.\n"
+" Type the name that you wish to save the current file as and hit Enter to save the file.\n"
 "\n"
-" If you have selected text with Ctrl-^, you will be prompted to save only "
-"the selected portion to a separate file.  To reduce the chance of "
-"overwriting the current file with just a portion of it, the current filename "
-"is not the default in this mode.\n"
+" If you have selected text with Ctrl-^, you will be prompted to save only the selected portion to a separate file.  To reduce the chance of overwriting the current file with just a portion of it, the current filename is not the default in this mode.\n"
 "\n"
 " The following function keys are available in Write File mode:\n"
 "\n"
 msgstr ""
 "Teks Bantuan Menulis Fail\n"
 "\n"
-" Taip nama fail semasa yang anda hendak simpan dan tekan Enter untuk "
-"menyimpan fail tersebut.\n"
+" Taip nama fail semasa yang anda hendak simpan dan tekan Enter untuk menyimpan fail tersebut.\n"
 "\n"
-" Jika anda telah memilih teks dengan Ctrl-^, anda akan ditanya untuk "
-"menyimpan hanya bahagian dipilih ke dalam fail berasingan.  Untuk "
-"mengurangkan risiko menulisganti fail semasa dengan hanya sebahagian "
-"daripadanya, namafail semasa tidak dijadikan pilihan asal dalam mod ini.\n"
+" Jika anda telah memilih teks dengan Ctrl-^, anda akan ditanya untuk menyimpan hanya bahagian dipilih ke dalam fail berasingan.  Untuk mengurangkan risiko menulisganti fail semasa dengan hanya sebahagian daripadanya, namafail semasa tidak dijadikan pilihan asal dalam mod ini.\n"
 "\n"
 " Kekunci fungsi berikut terdapat didalam mod Menulis Fail:\n"
 "\n"
@@ -870,22 +827,14 @@ msgstr ""
 msgid ""
 "File Browser Help Text\n"
 "\n"
-" The file browser is used to visually browse the directory structure to "
-"select a file for reading or writing.  You may use the arrow keys or Page Up/"
-"Down to browse through the files, and S or Enter to choose the selected file "
-"or enter the selected directory.  To move up one level, select the directory "
-"called \"..\" at the top of the file list.\n"
+" The file browser is used to visually browse the directory structure to select a file for reading or writing.  You may use the arrow keys or Page Up/Down to browse through the files, and S or Enter to choose the selected file or enter the selected directory.  To move up one level, select the directory called \"..\" at the top of the file list.\n"
 "\n"
 " The following function keys are available in the file browser:\n"
 "\n"
 msgstr ""
 "Teks Bantuan Pelayar Fail\n"
 "\n"
-" Pelayar fail digunakan untuk melihat secara visual struktur direktori untuk "
-"memilih fail untuk membaca dan menulis.  Anda boleh menggunakan kekunci "
-"panah atau Page Up/Down untuk melihat fail, dan S atau Enter untuk memilih "
-"fail atau memasuki direktori yang dipilih. Untuk naik ke atas satu tahap, "
-"pilih direktori bernama \"..\" di bahagian atas senarai fail.\n"
+" Pelayar fail digunakan untuk melihat secara visual struktur direktori untuk memilih fail untuk membaca dan menulis.  Anda boleh menggunakan kekunci panah atau Page Up/Down untuk melihat fail, dan S atau Enter untuk memilih fail atau memasuki direktori yang dipilih. Untuk naik ke atas satu tahap, pilih direktori bernama \"..\" di bahagian atas senarai fail.\n"
 "\n"
 " Kekunci fungsi berikut terdapat didalam pelayar fail:\n"
 "\n"
@@ -896,8 +845,7 @@ msgid ""
 "\n"
 " Enter the name of the directory you would like to browse to.\n"
 "\n"
-" If tab completion has not been disabled, you can use the TAB key to "
-"(attempt to) automatically complete the directory name.\n"
+" If tab completion has not been disabled, you can use the TAB key to (attempt to) automatically complete the directory name.\n"
 "\n"
 " The following function keys are available in Browser Go To Directory mode:\n"
 "\n"
@@ -906,9 +854,7 @@ msgstr ""
 "\n"
 " Masukkan nama direktori yang anda hendak lihat.\n"
 "\n"
-" Jika tab pelengkapan tidak dimatikan, anda boleh menggunakan kekunci TAB "
-"untuk (mencuba untuk) melengkapkan secara automatik nama direktori "
-"tersebut.\n"
+" Jika tab pelengkapan tidak dimatikan, anda boleh menggunakan kekunci TAB untuk (mencuba untuk) melengkapkan secara automatik nama direktori tersebut.\n"
 "\n"
 "  Kekunci fungsi berikut terdapat didalam mod Pelayar Pergi ke Direktori:\n"
 "\n"
@@ -917,20 +863,14 @@ msgstr ""
 msgid ""
 "Spell Check Help Text\n"
 "\n"
-" The spell checker checks the spelling of all text in the current file.  "
-"When an unknown word is encountered, it is highlighted and a replacement can "
-"be edited.  It will then prompt to replace every instance of the given "
-"misspelled word in the current file.\n"
+" The spell checker checks the spelling of all text in the current file.  When an unknown word is encountered, it is highlighted and a replacement can be edited.  It will then prompt to replace every instance of the given misspelled word in the current file.\n"
 "\n"
 " The following other functions are available in Spell Check mode:\n"
 "\n"
 msgstr ""
 "Teks Bantuan Penyemak Ejaan\n"
 "\n"
-" Penyemak ejaan menyemak ejaan semua teks didalam fail semasa.  Apabile "
-"perkataan yang tidak diketahui dijumpai, ia akan disorot dan penggantinya "
-"boleh disunting.  Ia kemudian akan bertanya untuk menggantikan setiap "
-"jumpaan perkataan salah eja yang diberikan didalam fail semasa.\n"
+" Penyemak ejaan menyemak ejaan semua teks didalam fail semasa.  Apabila perkataan yang tidak diketahui dijumpai, ia akan disorot dan penggantinya boleh disunting.  Ia kemudian akan bertanya untuk menggantikan setiap jumpaan perkataan salah eja yang diberikan didalam fail semasa.\n"
 "\n"
 " Fungsi lain berikut terdapat didalam mod Penyemak Ejaan:\n"
 "\n"
@@ -939,58 +879,32 @@ msgstr ""
 msgid ""
 "External Command Help Text\n"
 "\n"
-" This menu allows you to insert the output of a command run by the shell "
-"into the current buffer (or a new buffer in multibuffer mode).\n"
+" This menu allows you to insert the output of a command run by the shell into the current buffer (or a new buffer in multibuffer mode).\n"
 "\n"
 " The following keys are available in this mode:\n"
 "\n"
 msgstr ""
 "Teks Bantuan Arahan Luaran\n"
 "\n"
-" Menu ini membenearkan anda untuk memasukkan keluaran sesuatu arahan yang "
-"dijalankan oleh shell ke dalam buffer semasa (atau satu buffer baru dalam "
-"mod multibuffer).\n"
+" Menu ini membenearkan anda untuk memasukkan keluaran sesuatu arahan yang dijalankan oleh shell ke dalam buffer semasa (atau satu buffer baru dalam mod multibuffer).\n"
 "\n"
 " Kekunci berikut terdapat didalam mod ini:\n"
 "\n"
 
 #: nano.c:358
-#, fuzzy
 msgid ""
 " nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor: The "
-"top line shows the program version, the current filename being edited, and "
-"whether or not the file has been modified.  Next is the main editor window "
-"showing the file being edited.  The status line is the third line from the "
-"bottom and shows important messages. The bottom two lines show the most "
-"commonly used shortcuts in the editor.\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor: The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages. The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
-" The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
-"key sequences are notated with the Meta (M) symbol and can be entered using "
-"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
-"following keystrokes are available in the main editor window.  Alternative "
-"keys are shown in parentheses:\n"
+" The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt or Meta key depending on your keyboard setup.  The following keystrokes are available in the main editor window.  Alternative keys are shown in parentheses:\n"
 "\n"
 msgstr ""
 " teks bantuan nano\n"
 "\n"
-" Penyunting nano direka untuk meniru fungsi dan kemudahgunaan penyunting "
-"teks UW Pico.  Terdapat empat bahagian utama penyunting: Baris teratas "
-"menunjukkan versi program, namafail semasa yang sedang disunting, dan adakah "
-"fail tersebut telah diubahsuai.  Berikutnya adalah tetingkap utama "
-"penyunting yang menunjukkan fail yang sedang disunting.  Baris status adalah "
-"baris ketiga dari bawah dan menunjukkan mesej-mesej penting. Dua baris "
-"terbawah menunjukkan pintasan yang sering digunakan dalam penyunting.\n"
+" Penyunting nano direka untuk meniru fungsi dan kemudahgunaan penyunting teks UW Pico.  Terdapat empat bahagian utama penyunting: Baris teratas menunjukkan versi program, namafail semasa yang sedang disunting, dan adakah fail tersebut telah diubahsuai.  Berikutnya adalah tetingkap utama penyunting yang menunjukkan fail yang sedang disunting.  Baris status adalah baris ketiga dari bawah dan menunjukkan mesej-mesej penting. Dua baris terbawah menunjukkan pintasan yang sering digunakan dalam penyunting.\n"
 "\n"
-" Penandaan untuk pintasan adalah seperti berikut: turutan kekunci Control "
-"ditandakan dengan simbol caret (^) dan dimasukkan dengan kekunci Control "
-"(Ctrl).  Turutan kekunci Escape ditandakan dengan simbol Meta (M) dan boleh "
-"dimasukkan dengan menggunakan kekunci Esc, Alt atau Meta tergantung pada "
-"susunatur papan kekunci anda.  Kekunci-kekunci berikut terdapat dalam "
-"tetingkap utama penyunting.  Kekunci alternatif ditunjukkan dalam kurungan:\n"
+" Penandaan untuk pintasan adalah seperti berikut: turutan kekunci Control ditandakan dengan simbol caret (^) dan dimasukkan dengan kekunci Control (Ctrl).  Turutan kekunci Escape ditandakan dengan simbol Meta (M) dan boleh dimasukkan dengan menggunakan kekunci Esc, Alt atau Meta tergantung pada susunatur papan kekunci anda.  Kekunci-kekunci berikut terdapat dalam tetingkap utama penyunting.  Kekunci alternatif ditunjukkan dalam kurungan:\n"
 "\n"
 
 #: nano.c:411 nano.c:414
@@ -998,22 +912,19 @@ msgid "Space"
 msgstr "Ruang"
 
 #: nano.c:453
-#, fuzzy, c-format
+#, c-format
 msgid "%.*s enable/disable\n"
 msgstr "%.*s enable/disable\n"
 
 #: nano.c:560
-#, fuzzy
 msgid "delete_node(): free'd a node, YAY!\n"
-msgstr "delete_opennode(): sebuah nod dibebaskan, YAY!\n"
+msgstr "delete_node(): sebuah nod dibebaskan, YAY!\n"
 
 #: nano.c:565
-#, fuzzy
 msgid "delete_node(): free'd last node.\n"
-msgstr "delete_opennode(): nod terakhir dibebaskan.\n"
+msgstr "delete_node(): nod terakhir dibebaskan.\n"
 
 #: nano.c:617
-#, fuzzy
 msgid ""
 "Usage: nano [+LINE] [GNU long option] [option] [file]\n"
 "\n"
@@ -1026,7 +937,6 @@ msgid "Option\t\tLong option\t\tMeaning\n"
 msgstr "Pilihan\t\tPilihan Panjang\t\tMaksud\n"
 
 #: nano.c:620
-#, fuzzy
 msgid ""
 "Usage: nano [+LINE] [option] [file]\n"
 "\n"
@@ -1039,7 +949,6 @@ msgid "Option\t\tMeaning\n"
 msgstr "Pilihan\t\tMakna\n"
 
 #: nano.c:624
-#, fuzzy
 msgid "Show this message"
 msgstr "Papar mesej ini"
 
@@ -1048,7 +957,6 @@ msgid "+LINE"
 msgstr "+LINE"
 
 #: nano.c:625
-#, fuzzy
 msgid "Start at line number LINE"
 msgstr "Mula pada baris nombor LINE"
 
@@ -1093,7 +1001,6 @@ msgid "Quoting string, default \"> \""
 msgstr "Rentetan petikan, asal \"> \""
 
 #: nano.c:645
-#, fuzzy
 msgid "Do regular expression searches"
 msgstr "Lakukan pencarian ungkapan biasa"
 
@@ -1106,12 +1013,10 @@ msgid "--tabsize=[num]"
 msgstr "--tabsize=[num]"
 
 #: nano.c:650
-#, fuzzy
 msgid "Set width of a tab to num"
 msgstr "Tetapkan lebar tab kepada num"
 
 #: nano.c:651
-#, fuzzy
 msgid "Print version information and exit"
 msgstr "Papar maklumat versi dan keluar"
 
@@ -1128,27 +1033,22 @@ msgid "Syntax definition to use"
 msgstr "Takrifan sintaks untuk digunakan"
 
 #: nano.c:655
-#, fuzzy
 msgid "Constantly show cursor position"
 msgstr "Sentiasa papar kedudukan kursor"
 
 #: nano.c:657
-#, fuzzy
 msgid "Automatically indent new lines"
 msgstr "Indent baris baru secara automatik"
 
 #: nano.c:658
-#, fuzzy
 msgid "Let ^K cut from cursor to end of line"
 msgstr "Biar ^K memotong dari kursor hingga akhir baris"
 
 #: nano.c:660
-#, fuzzy
 msgid "Don't follow symbolic links, overwrite"
 msgstr "Jangan ikut pautan simbolik, tulisemula"
 
 #: nano.c:663
-#, fuzzy
 msgid "Enable mouse"
 msgstr "Aktifkan tetikus"
 
@@ -1165,7 +1065,6 @@ msgid "Set operating directory"
 msgstr "Tetapkan direktori operasi"
 
 #: nano.c:669
-#, fuzzy
 msgid "Emulate Pico as closely as possible"
 msgstr "Tiru Pico sebaik mungkin"
 
@@ -1178,7 +1077,6 @@ msgid "--fill=[#cols]"
 msgstr "--fill=[#cols]"
 
 #: nano.c:671
-#, fuzzy
 msgid "Set fill cols to (wrap lines at) #cols"
 msgstr "Tetapkan isian lajur ke (lilit baris di) #cols"
 
@@ -1191,32 +1089,26 @@ msgid "--speller=[prog]"
 msgstr "--speller=[prog]"
 
 #: nano.c:674
-#, fuzzy
 msgid "Enable alternate speller"
 msgstr "Aktifkan pengeja lain"
 
 #: nano.c:676
-#, fuzzy
 msgid "Auto save on exit, don't prompt"
 msgstr "Auto simpan ketika keluar, jangan maklum"
 
 #: nano.c:677
-#, fuzzy
 msgid "View (read only) mode"
 msgstr "Mod lihat (baca sahaja)"
 
 #: nano.c:679
-#, fuzzy
 msgid "Don't wrap long lines"
 msgstr "Jangan lilit baris panjang"
 
 #: nano.c:681
-#, fuzzy
 msgid "Don't show help window"
 msgstr "Jangan papar tetingkap bantuan"
 
 #: nano.c:682
-#, fuzzy
 msgid "Enable suspend"
 msgstr "Aktifkan gantungan"
 
@@ -1225,7 +1117,7 @@ msgid "(ignored, for Pico compatibility)"
 msgstr "(diabaikan, untuk kesesuaian Pico)"
 
 #: nano.c:692
-#, fuzzy, c-format
+#, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
 msgstr " GNU nano versi %s (compiled %s, %s)\n"
 
@@ -1303,8 +1195,7 @@ msgstr "Sekarang boleh UnJustify!"
 
 #: nano.c:2586
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
-msgstr ""
-"Simpan buffer ubahsuai (JAWAB \"Tidak\" AKAN MENGHILANGKAN PERUBAHAN) ? "
+msgstr "Simpan buffer ubahsuai (JAWAB \"Tidak\" AKAN MENGHILANGKAN PERUBAHAN) ? "
 
 #: nano.c:2680
 msgid "Received SIGHUP"
@@ -1538,14 +1429,12 @@ msgid "\"%s...\" not found"
 msgstr "\"%s...\" tidak dijumpai"
 
 #: search.c:147
-#, fuzzy
 msgid "Search"
 msgstr "Cari"
 
 #: search.c:151
-#, fuzzy
 msgid " [Case Sensitive]"
-msgstr "Case Sens"
+msgstr " [Case Sensitif]"
 
 #: search.c:155
 msgid " [Regexp]"
@@ -1572,12 +1461,11 @@ msgid "This is the only occurrence"
 msgstr "Hanya inilah sahaja yang dijumpai"
 
 #: search.c:561
-#, fuzzy, c-format
+#, c-format
 msgid "Replaced %d occurrences"
 msgstr "%d tempat telah diganti"
 
 #: search.c:563
-#, fuzzy
 msgid "Replaced 1 occurrence"
 msgstr "1 tempat telah diganti"
 
@@ -1631,7 +1519,7 @@ msgid "nano: realloc: out of memory!"
 msgstr "nano: realloc: kekurangan memori!"
 
 #: winio.c:97
-#, fuzzy, c-format
+#, c-format
 msgid "actual_x for xplus=%d returns %d\n"
 msgstr "actual_x untuk xplus=%d mengembalikan %d\n"
 
@@ -1662,7 +1550,6 @@ msgid " DIR: "
 msgstr " DIR: "
 
 #: winio.c:472
-#, fuzzy
 msgid " Modified "
 msgstr " Diubahsuai "
 
@@ -1719,7 +1606,7 @@ msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
 #: winio.c:1387
-#, fuzzy, c-format
+#, c-format
 msgid "line %d/%d (%.0f%%), col %ld/%ld (%.0f%%), char %ld/%ld (%.0f%%)"
 msgstr "baris %d/%d (%.0f%%), lajur %ld/%ld (%.0f%%), aksara %ld/%ld (%.0f%%)"
 
@@ -1766,107 +1653,3 @@ msgstr "dan sesiapa yang kami lupa...."
 #: winio.c:1734
 msgid "Thank you for using nano!\n"
 msgstr "Terima kasih kerana menggunakan nano!\n"
-
-#, fuzzy
-#~ msgid "Could not open file: Path length exceeded."
-#~ msgstr "Fail tidak dapat dibuka untuk ditulis: %s"
-
-#, fuzzy
-#~ msgid "free_node(): free'd a node, YAY!\n"
-#~ msgstr "delete_node(): sebuah nod dibebaskan, YAY!\n"
-
-#, fuzzy
-#~ msgid "free_node(): free'd last node.\n"
-#~ msgstr "delete_node(): nod terakhir dibebaskan.\n"
-
-#, fuzzy
-#~ msgid " -T \t\t--tabsize=[num]\t\tSet width of a tab to num\n"
-#~ msgstr "Tetapkan lebar tab kepada num"
-
-#, fuzzy
-#~ msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
-#~ msgstr "Lakukan pencarian ungkapan biasa"
-
-#, fuzzy
-#~ msgid " -V \t\t--version\t\tPrint version information and exit\n"
-#~ msgstr "Papar maklumat versi dan keluar"
-
-#, fuzzy
-#~ msgid " -c \t\t--const\t\t\tConstantly show cursor position\n"
-#~ msgstr "Sentiasa papar kedudukan kursor"
-
-#, fuzzy
-#~ msgid " -h \t\t--help\t\t\tShow this message\n"
-#~ msgstr "Papar mesej ini"
-
-#, fuzzy
-#~ msgid " -k \t\t--cut\t\t\tLet ^K cut from cursor to end of line\n"
-#~ msgstr "Biar ^K memotong dari kursor hingga akhir baris"
-
-#, fuzzy
-#~ msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
-#~ msgstr "Indent baris baru secara automatik"
-
-#, fuzzy
-#~ msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
-#~ msgstr "Jangan ikut pautan simbolik, tulisemula"
-
-#, fuzzy
-#~ msgid ""
-#~ " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
-#~ msgstr "Tetapkan isian lajur ke (lilit baris di) #cols"
-
-#, fuzzy
-#~ msgid " -p\t \t--pico\t\t\tEmulate Pico as closely as possible\n"
-#~ msgstr "Tiru Pico sebaik mungkin"
-
-#, fuzzy
-#~ msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
-#~ msgstr "Aktifkan pengeja lain"
-
-#, fuzzy
-#~ msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
-#~ msgstr "Auto simpan ketika keluar, jangan maklum"
-
-#, fuzzy
-#~ msgid " -v \t\t--view\t\t\tView (read only) mode\n"
-#~ msgstr "Mod lihat (baca sahaja)"
-
-#, fuzzy
-#~ msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
-#~ msgstr "Jangan lilit baris panjang"
-
-#, fuzzy
-#~ msgid " -x \t\t--nohelp\t\tDon't show help window\n"
-#~ msgstr "Jangan papar tetingkap bantuan"
-
-#, fuzzy
-#~ msgid " -z \t\t--suspend\t\tEnable suspend\n"
-#~ msgstr "Aktifkan gantungan"
-
-#, fuzzy
-#~ msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
-#~ msgstr "Mula pada baris nombor LINE"
-
-#, fuzzy
-#~ msgid "check_wrap called with inptr->data=\"%s\"\n"
-#~ msgstr "add_to_cutbuffer dipanggil dengan inptr->data = %s\n"
-
-#, fuzzy
-#~ msgid "Case Sensitive Search%s%s"
-#~ msgstr " [Case Sensitif]"
-
-#~ msgid "nano: calloc: out of memory!"
-#~ msgstr "nano: calloc: kekurangan memori!"
-
-#~ msgid "Match! (%d chars) \"%s\"\n"
-#~ msgstr "Jumpa! (%d aksara) \"%s\"\n"
-
-#~ msgid "paintlen (%d) = eo (%d) - so (%d)\n"
-#~ msgstr "paintlen (%d) = eo (%d) - so (%d)\n"
-
-#~ msgid "paintlen (%d) = COLS (%d) - k (%d), - rm.so (%d) - 1\n"
-#~ msgstr "paintlen (%d) = COLS (%d) - k (%d), - rm.so (%d) - 1\n"
-
-#~ msgid "start = %d, smatch = %d, ematch = %d\n"
-#~ msgstr "mula = %d, smatch = %d, ematch = %d\n"
