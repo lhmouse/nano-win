@@ -1,3 +1,13 @@
+03/??/2001 - GNU Nano 1.0 is released!  The autoindent wrapping bug 
+		has been fixed, as well as strange bug when using Pico
+		mode and regex search.  There have also been some minor 
+		spelling and documentation updates.  As stated on the
+		website, there are currently no known bugs with nano, but
+		some will pop up eventually and they will be addressed in
+		subsequent releases.  We hope you enjoy this first stable
+		release of nano, and as always, feedback is welcome!
+		nano@nano-editor.org.
+
 02/19/2001 - Nano 0.9.99pre3 brings a lot of changes!  The most important
 		being that nano is now officially a GNU program.  Some
 		changes have been made for GNU compatibility (like the

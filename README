@@ -53,21 +53,12 @@ Mailing List and Bug Reports
 
 Current Status
 
-     nano is currently at the 1.0 prerelease level. This mean it has all
-     features that the 1.0 version will have and only bug fixes and updates 
-     will be added before the official 1.0 is released. There are still a
-     few lingering bugs, but for the most part your data should be safe.
-     Backups are still your friend though.
-     
-     Note that the primary aim of nano is to emulate Pico while adding a
-     few key "missing" features. I do NOT want just a GPL'ed Pico clone,
-     nor do I want something that strays too far from the Pico design
-     (simple and straightforward). If you don't like this, feel free to
-     fork my code at any time, but please call your editor something
-     else, believe it or not I struggled awhile before coming up with
-     the name nano (and before that TIP), and it would be much easier for
-     everyone if there weren't five versions of the same program.
-     
+	GNU nano has finally reached its first stable release (1.0).
+	The development tree will fork soon and it will be called 1.1.x,
+	in the Linux kernel naming style.  Many thanks to all of our
+	bug reporters and contributors of code to get nano where it is
+	today.
+
    Chris Allegretta (chrisa@asty.org)
 
 $Id$
