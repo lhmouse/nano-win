@@ -142,8 +142,8 @@
 ##
 # syntax "c-file" "\.(c|C|cc|cpp|h|H|hh|hpp)$"
 # color red "\<[A-Z_]{2,}\>" 
-# color green "\<(float|double|char|int|short|long|sizeof|enum|void|static|const|struct|union|typedef|extern|signed|unsigned|inline)\>"
-# color green "\<(bool|class|namespace|template|public|protected|private|typename|this|friend|virtual|using|mutable|volatile|register|explicit)\>"
+# color green "\<(float|double|bool|char|int|short|long|sizeof|enum|void|static|const|struct|union|typedef|extern|signed|unsigned|inline)\>"
+# color green "\<(class|namespace|template|public|protected|private|typename|this|friend|virtual|using|mutable|volatile|register|explicit)\>"
 # color brightyellow "\<(for|if|while|do|else|case|default|switch|goto|continue|break|return)\>"
 # color brightyellow "\<(try|throw|catch|operator|new|delete)\>"
 # color brightcyan "^ *# *(define|undef|include|ifn?def|endif|elif|else|if)"
