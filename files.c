@@ -291,37 +291,34 @@ int read_file(int fd, char *filename, int quiet)
 #ifndef NANO_SMALL
 int open_pipe(char *command)
 {
-    int forkpid, fd;
-    char *pipefile, *execute;
+    int fd[2], pid;
+  
+  /* Make our pipes. */
 
-    execute = charalloc(strlen(command) + 24);
-    if ((pipefile = safe_tempnam(0, "nano.")) == NULL) {
-        statusbar(_("Could not create a temporary filename: %s"),
-                  strerror(errno));
-	free(execute);
-	free(pipefile);
-        return 1;
-    }
-
-    sprintf(execute,"%s 2>&1 > %s",command,pipefile);
-    umask(0);
-    mkfifo(pipefile,0700);
-    forkpid = fork();
-    if (forkpid == -1) {
-	statusbar(_("Could not fork"));
-	free(execute);
-	free(pipefile);
+    if (pipe(fd) == -1) {
+	statusbar("Could not pipe");
 	return 1;
     }
-    else if (forkpid == 0) {
-	execl("/bin/sh","/bin/sh","-c",execute,0);
+
+    /* Fork a child */
+
+    if ((pid = fork()) == 0) {
+	close(fd[0]);
+	dup2(fd[1], fileno(stdout));
+	dup2(fd[1], fileno(stderr));
+	/* If execl() returns at all, there was an error. */
+      
+	execl("/bin/sh","/bin/sh","-c",command,0);
 	exit(0);
     }
-    fd = open(pipefile,O_RDONLY);
-    read_file(fd,"stdin",0);
-    unlink(pipefile);
-    free(execute);
-    free(pipefile);
+    else if (pid == -1) {
+	statusbar(_("Could not fork"));
+	return 1;
+    }
+
+    /* Else continue as parent */
+    close(fd[1]);
+    read_file(fd[0],"stdin",0);
     set_modified();
     return 0;
 }
