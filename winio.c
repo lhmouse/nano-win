@@ -822,6 +822,7 @@ void center_cursor(void)
 /* Refresh the screen without changing the position of lines */
 void edit_refresh(void)
 {
+    static int noloop = 0;
     int lines = 0, i = 0, currentcheck = 0;
     filestruct *temp, *hold = current;
 
@@ -839,8 +840,15 @@ void edit_refresh(void)
 	temp = temp->next;
 	lines++;
     }
-    if (!currentcheck) /* Then current has run off the screen... */ 
+    /* If noloop == 1, then we already did an edit_update without finishing
+       this function.  So we don't run edit_update again */
+    if (!currentcheck && !noloop) /* Then current has run off the screen... */ 
+    {
 	edit_update(current, CENTER);
+	noloop = 1;
+    }
+    else if (noloop)
+	noloop = 0;
 
     if (lines <= editwinrows - 1)
 	while (lines <= editwinrows - 1) {

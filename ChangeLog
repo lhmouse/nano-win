@@ -26,6 +26,7 @@ CVS code
 	- Added check for current line "running" off the screen.
 	  Hopefully this will not cause any recursive lockups.
 	  (Who am I kidding, of course it will!)
+	- Added check to stop infinite loop calling edit_update.
   edit_update()
 	- Rewritten, hopefully this will remove a lot of the
 	  scrolling the cursor back and forth needlessly.
