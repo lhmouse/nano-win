@@ -66,3 +66,5 @@
 /* Define this to have syntax hilighting, requires ENABLE_NANORC too! */
 #undef ENABLE_COLOR
 
+/* Define this to enable undoing....something */
+#undef ENABLE_UNDO

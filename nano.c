@@ -421,9 +421,9 @@ void usage(void)
 	   (" -c 		--const			Constantly show cursor position\n"));
     printf(_
 	   (" -h 		--help			Show this message\n"));
+#ifndef NANO_SMALL
     printf(_
 	   (" -i 		--autoindent		Automatically indent new lines\n"));
-#ifndef NANO_SMALL
     printf(_
 	   (" -k 		--cut			Let ^K cut from cursor to end of line\n"));
 #endif
@@ -471,8 +471,8 @@ void usage(void)
     printf(_(" -V 		Print version information and exit\n"));
     printf(_(" -c 		Constantly show cursor position\n"));
     printf(_(" -h 		Show this message\n"));
-    printf(_(" -i 		Automatically indent new lines\n"));
 #ifndef NANO_SMALL
+    printf(_(" -i 		Automatically indent new lines\n"));
     printf(_(" -k 		Let ^K cut from cursor to end of line\n"));
 #endif
     printf(_
@@ -669,6 +669,7 @@ int do_enter(filestruct * inptr)
     tmp = &current->data[current_x];
     current_x = 0;
 
+#ifndef NANO_SMALL
     /* Do auto-indenting, like the neolithic Turbo Pascal editor */
     if (ISSET(AUTOINDENT)) {
 	spc = current->data;
@@ -683,7 +684,9 @@ int do_enter(filestruct * inptr)
 	    strncpy(newnode->data, current->data, extra);
 	    strcpy(&newnode->data[extra], tmp);
 	}
-    } else {
+    } else 
+#endif
+    {
 	newnode->data = charalloc(strlen(tmp) + 1);
 	strcpy(newnode->data, tmp);
     }
@@ -897,6 +900,7 @@ void do_wrap(filestruct * inptr, char input_char)
 	if (current_x >= current_word_start) {
 	    right = current_x - current_word_start;
 	    current_x = 0;
+#ifndef NANO_SMALL
 	    if (ISSET(AUTOINDENT)) {
 		int i = 0;
 		while ((inptr->next->data[i] == ' '
@@ -905,6 +909,7 @@ void do_wrap(filestruct * inptr, char input_char)
 		    right++;
 		}
 	    }
+#endif
 	    down = 1;
 	}
 
@@ -950,6 +955,7 @@ void do_wrap(filestruct * inptr, char input_char)
 	    down = 1;
 
 	    right = current_x - current_word_start;
+#ifndef NANO_SMALL
 	    if (ISSET(AUTOINDENT)) {
 		int i = 0;
 		while ((inptr->next->data[i] == ' '
@@ -958,7 +964,7 @@ void do_wrap(filestruct * inptr, char input_char)
 		    right++;
 		}
 	    }
-
+#endif
 	    i = current_word_start - 1;
 	    if (isspace((int) input_char)
 		&& (current_x == current_word_start)) {
@@ -1006,6 +1012,7 @@ void do_wrap(filestruct * inptr, char input_char)
 	char *p =
 	    charalloc((strlen(temp->data) + strlen(inptr->next->data) + 2));
 
+#ifndef NANO_SMALL
 	if (ISSET(AUTOINDENT)) {
 	    int non = 0;
 
@@ -1024,7 +1031,9 @@ void do_wrap(filestruct * inptr, char input_char)
 	    /* Now tack on the rest of the next line after the spaces and
 	       tabs */
 	    strcat(p, &inptr->next->data[non]);
-	} else {
+	} else 
+#endif
+	{
 	    strcpy(p, temp->data);
 	    strcat(p, " ");
 	    strcat(p, inptr->next->data);
@@ -1054,6 +1063,7 @@ void do_wrap(filestruct * inptr, char input_char)
 
 	SET(SAMELINEWRAP);
 
+#ifndef NANO_SMALL
 	if (ISSET(AUTOINDENT)) {
 	    char *spc = inptr->data;
 	    char *t = NULL;
@@ -1071,6 +1081,7 @@ void do_wrap(filestruct * inptr, char input_char)
 		temp->data = t;
 	    }
 	}
+#endif
     }
 
 
@@ -2375,8 +2386,8 @@ int main(int argc, char *argv[])
 	{"view", 0, 0, 'v'},
 #ifndef NANO_SMALL
 	{"cut", 0, 0, 'k'},
-#endif
 	{"autoindent", 0, 0, 'i'},
+#endif
 	{"tempfile", 0, 0, 't'},
 #ifndef DISABLE_SPELLER
 	{"speller", 1, 0, 's'},
@@ -2458,10 +2469,10 @@ int main(int argc, char *argv[])
 	case '?':
 	    usage();
 	    exit(0);
+#ifndef NANO_SMALL
 	case 'i':
 	    SET(AUTOINDENT);
 	    break;
-#ifndef NANO_SMALL
 	case 'k':
 	    SET(CUT_TO_END);
 	    break;

@@ -4,6 +4,8 @@ CVS code -
 	  new flag CLEAR_BACKUPSTRING because there's no easy way to
 	  clear the backupstring without making it global (messy), so we
 	  use a flag instead (just as messy?)
+	- --enable-tiny now leaves out the Auto Indent code, do you really
+	  need that on a bootdisk? =-)
 - nano.texi:
 	- corrected the Mouse Toggle section, noticed by Daniel Bonniot.
 - winio.c:

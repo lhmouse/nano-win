@@ -31,9 +31,6 @@
 /* Define to `long' if <sys/types.h> doesn't define.  */
 #undef off_t
 
-/* Define if you need to in order for stat and other things to work.  */
-#undef _POSIX_SOURCE
-
 /* Define as the return type of signal handlers (int or void).  */
 #undef RETSIGTYPE
 
@@ -102,6 +99,9 @@
 
 /* Define this to have syntax hilighting, requires ENABLE_NANORC too! */
 #undef ENABLE_COLOR
+
+/* Define this to enable undoing....something */
+#undef ENABLE_UNDO
 
 /* Define if you have the __argz_count function.  */
 #undef HAVE___ARGZ_COUNT
