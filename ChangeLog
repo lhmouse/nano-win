@@ -20,15 +20,21 @@ CVS code
 	- Fix assumption that matches is null terminated (David 
 	  Benbennick).
 - nano.c:
-  main()
-	- Fix nano not compiling with ENABLE_RCFILE and DISABLE_TABCOMP
-	  (David Benbennick).
-  help_init()
-	- Fix crashing in do_help when COLS < 23 (David Benbennick).
+  breakable()
+	- Fix incorrect return value on short lines (David Benbennick).
   do_help()
 	- Fix line lengths not being computed properly, causes display
 	  glitches most noticeable with < 20 rows.  New function
 	  nano.c:line_len(). (David Benbennick).
+  do_justify()
+	- Add regfree() to quote regex (David Benbennick).
+	- Only copy previous indent if AUTOINDENT is set (David 
+	  Benbennick).
+  help_init()
+	- Fix crashing in do_help when COLS < 23 (David Benbennick).
+  main()
+	- Fix nano not compiling with ENABLE_RCFILE and DISABLE_TABCOMP
+	  (David Benbennick).
 - rcfile.c:
   colortoint()
 	- Don't bomb after invalid color and print bad color name

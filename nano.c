@@ -2225,7 +2225,9 @@ int breakable(const char *line, int goal)
 	else
 	    goal -= 1;
     }
-    return FALSE;
+    /* If goal is not negative, the whole line (one word) was short
+     * enough. */
+    return goal >= 0;
 }
 
 /* We are trying to break a chunk off line.  We find the last space such
@@ -2400,10 +2402,10 @@ int do_justify(void)
 	    /* There is no next paragraph, so nothing to justify. */
 	    if (current->next == NULL) {
 		placewewant = 0;
-		if (current_y > editwinrows - 1)
-		    edit_update(current, CENTER);
-		else
-		    edit_refresh();
+		edit_refresh();
+#ifdef HAVE_REGEX_H
+		regfree(&qreg);
+#endif
 		return 0;
 	    }
 	    current = current->next;
@@ -2486,6 +2488,13 @@ int do_justify(void)
 		 * line and copy text after break_pos into it. */
 		splice_node(current, make_new_node(current),
 				current->next);
+		/* In a non-quoted paragraph, we copy the indent only if
+		   AUTOINDENT is turned on. */
+		if (quote_len == 0)
+#ifndef NANO_SMALL
+		    if (!ISSET(AUTOINDENT))
+#endif
+			indent_len = 0;
 		current->next->data = charalloc(indent_len + line_len -
 						break_pos);
 		strncpy(current->next->data, current->data,
