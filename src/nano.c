@@ -3645,7 +3645,7 @@ void do_output(int *kbinput, size_t kbinput_len)
 
 #ifndef DISABLE_WRAPPING
 	/* If we're wrapping text, we need to call edit_refresh(). */
-	if (!ISSET(NO_WRAP) && (key[0] != '\t' || key_len != 1)) {
+	if (!ISSET(NO_WRAP) && kbinput[i] != '\t') {
 	    bool do_refresh_save = do_refresh;
 
 	    do_refresh = do_wrap(current);
