@@ -2,6 +2,7 @@
 
 	* ro.po: New Romanian translation by Laurentiu Buzdugan.
 	* id.po: Updated Indonesian translation by Tedi Heriyanto.
+	* LINGUAS: Added "ro" (Romanian).
 
 2003-04-12  Jordi Mallach  <jordi@gnu.org>
 
