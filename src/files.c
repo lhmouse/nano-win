@@ -1269,6 +1269,7 @@ void init_operating_dir(void)
 
     if (operating_dir == NULL)
 	return;
+
     full_operating_dir = get_full_path(operating_dir);
 
     /* If get_full_path() failed or the operating directory is
