@@ -942,7 +942,7 @@ void usage(void)
     print1opt(_("-T [#cols]"), _("--tabsize=[#cols]"), N_("Set width of a tab in cols to #cols"));
     print1opt("-V", "--version", N_("Print version information and exit"));
 #ifdef ENABLE_COLOR
-    print1opt(_("-Y [str]"), _("--syntax [str]"), N_("Syntax definition to use"));
+    print1opt(_("-Y [str]"), _("--syntax=[str]"), N_("Syntax definition to use"));
 #endif
     print1opt("-Z", "--restricted", N_("Restricted mode"));
     print1opt("-c", "--const", N_("Constantly show cursor position"));
