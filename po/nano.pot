@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-11-24 08:45-0500\n"
+"POT-Creation-Date: 2000-11-24 09:02-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,59 +55,59 @@ msgstr ""
 msgid "File to insert [from ./] "
 msgstr ""
 
-#: files.c:276 files.c:301 files.c:494 nano.c:1355
+#: files.c:276 files.c:301 files.c:498 nano.c:1355
 msgid "Cancelled"
 msgstr ""
 
-#: files.c:327 files.c:348 files.c:362 files.c:379 files.c:385
+#: files.c:331 files.c:352 files.c:366 files.c:383 files.c:389
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr ""
 
-#: files.c:336
+#: files.c:340
 msgid "Could not open file: Path length exceeded."
 msgstr ""
 
-#: files.c:367
+#: files.c:371
 #, c-format
 msgid "Wrote >%s\n"
 msgstr ""
 
-#: files.c:394
+#: files.c:398
 #, c-format
 msgid "Could not close %s: %s"
 msgstr ""
 
 #. Try a rename??
-#: files.c:415 files.c:426 files.c:431
+#: files.c:419 files.c:430 files.c:435
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr ""
 
-#: files.c:437
+#: files.c:441
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr ""
 
-#: files.c:444
+#: files.c:448
 #, c-format
 msgid "Wrote %d lines"
 msgstr ""
 
-#: files.c:473
+#: files.c:477
 msgid "File Name to write"
 msgstr ""
 
-#: files.c:478
+#: files.c:482
 #, c-format
 msgid "filename is %s"
 msgstr ""
 
-#: files.c:483
+#: files.c:487
 msgid "File exists, OVERWRITE ?"
 msgstr ""
 
-#: files.c:917
+#: files.c:921
 msgid "(more)"
 msgstr ""
 

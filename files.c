@@ -295,7 +295,7 @@ int write_file(char *name, int tmp)
     filestruct *fileptr;
     int fd, mask = 0;
     struct stat st;
-    char *realname = NULL;
+    static char *realname = NULL;
 
     if (!strcmp(name, "")) {
 	statusbar(_("Cancelled"));
@@ -303,6 +303,10 @@ int write_file(char *name, int tmp)
     }
     titlebar();
     fileptr = fileage;
+
+    if (realname != NULL)
+	free(realname);
+
 #ifndef DISABLE_TABCOMP
     realname = real_dir_from_tilde(name);
 #else
