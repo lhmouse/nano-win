@@ -11,6 +11,10 @@ CVS Code -
 - nano.c:
   main()
 	- Add Esc-[-[IGL] keys for FreeBSD Console (PgUp,PgDn,Insert).
+        - Added better Hurd support for function keys (Alt-V,U,9,@,F).
+  signal_init()
+        - do SIG_IGN for the SIGTSTP sigaction regardless of whether
+          we have _POSIX_VDISABLE or not (more Hurd fixes)
   help_init()
 	- Typo fixes and additions to the new help texts.
 - po/de.po:
