@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.7\n"
-"POT-Creation-Date: 2001-01-31 18:08-0500\n"
+"POT-Creation-Date: 2001-02-16 20:46-0500\n"
 "PO-Revision-Date: 2000-03-03 04:57+0100\n"
 "Last-Translator: Daniele Medri <madrid@linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -61,7 +61,7 @@ msgstr "Lettura file"
 msgid "File to insert [from ./] "
 msgstr "File da inserire [da ./] "
 
-#: files.c:309 files.c:334 files.c:566 nano.c:1444
+#: files.c:309 files.c:334 files.c:566 nano.c:1446
 msgid "Cancelled"
 msgstr "Cancellato"
 
@@ -290,137 +290,137 @@ msgstr ""
 msgid "Cancel the current function"
 msgstr "Cancella la funzione corrente"
 
-#: global.c:222 global.c:338
+#: global.c:221
 msgid "Get Help"
 msgstr "Aiuto"
 
-#: global.c:225 global.c:233
-msgid "WriteOut"
-msgstr "Sovrascrivi"
-
-#: global.c:229 global.c:412 global.c:436
+#: global.c:224 global.c:405 global.c:429
 msgid "Exit"
 msgstr "Esci"
 
-#: global.c:237 global.c:334 global.c:356 global.c:376
-msgid "Goto Line"
-msgstr "Vai alla linea"
+#: global.c:227
+msgid "WriteOut"
+msgstr "Sovrascrivi"
 
-#: global.c:242 global.c:325
+#: global.c:232 global.c:321
 msgid "Justify"
 msgstr "Giustifica"
 
-#: global.c:246 global.c:321 global.c:352
+#: global.c:236 global.c:242
+msgid "Read File"
+msgstr "Leggi file"
+
+#: global.c:246 global.c:317 global.c:345
 msgid "Replace"
 msgstr "Sostituisci"
 
 #: global.c:250
-msgid "Read File"
-msgstr "Leggi file"
-
-#: global.c:254
 msgid "Where Is"
 msgstr "Dov'è"
 
-#: global.c:258 global.c:404 global.c:428
+#: global.c:254 global.c:397 global.c:421
 msgid "Prev Page"
 msgstr "Pag Prec"
 
-#: global.c:262 global.c:408 global.c:432
+#: global.c:258 global.c:401 global.c:425
 msgid "Next Page"
 msgstr "Pag Seg"
 
-#: global.c:266
+#: global.c:262
 msgid "Cut Text"
 msgstr "Taglia"
 
-#: global.c:270
+#: global.c:266
 #, fuzzy
 msgid "UnJustify"
 msgstr "Giustifica"
 
-#: global.c:273
+#: global.c:269
 msgid "UnCut Txt"
 msgstr "UnCut Txt"
 
-#: global.c:277
+#: global.c:273
 msgid "Cur Pos"
 msgstr "Posizione"
 
-#: global.c:281
+#: global.c:277
 msgid "To Spell"
 msgstr "Ortografia"
 
-#: global.c:285
+#: global.c:281
 msgid "Up"
 msgstr "Alza"
 
-#: global.c:288
+#: global.c:284
 msgid "Down"
 msgstr "Abbassa"
 
-#: global.c:291
+#: global.c:287
 msgid "Forward"
 msgstr "Avanti"
 
-#: global.c:294
+#: global.c:290
 msgid "Back"
 msgstr "Indietro"
 
-#: global.c:297
+#: global.c:293
 msgid "Home"
 msgstr "Inizio"
 
-#: global.c:300
+#: global.c:296
 msgid "End"
 msgstr "Fine"
 
-#: global.c:303
+#: global.c:299
 msgid "Refresh"
 msgstr "Aggiorna"
 
-#: global.c:306
+#: global.c:302
 msgid "Mark Text"
 msgstr "Marca testo"
 
-#: global.c:309
+#: global.c:305
 msgid "Delete"
 msgstr "Elimina"
 
-#: global.c:313
+#: global.c:309
 msgid "Backspace"
 msgstr "Backspace"
 
-#: global.c:317
+#: global.c:313
 msgid "Tab"
 msgstr "Tab"
 
-#: global.c:329
+#: global.c:325
 msgid "Enter"
 msgstr "Invio"
 
-#: global.c:342 global.c:363 global.c:384 global.c:394
+#: global.c:329 global.c:349 global.c:369
+msgid "Goto Line"
+msgstr "Vai alla linea"
+
+#: global.c:335 global.c:356 global.c:377 global.c:387
 msgid "First Line"
 msgstr "Prima linea"
 
-#: global.c:345 global.c:366 global.c:387 global.c:397
+#: global.c:338 global.c:359 global.c:380 global.c:390
 msgid "Last Line"
 msgstr "Ultima linea"
 
-#: global.c:348 global.c:369
+#: global.c:341 global.c:362
 msgid "Case Sens"
 msgstr "Case sens"
 
-#: global.c:359 global.c:379 global.c:390 global.c:400 global.c:421
-#: global.c:424 winio.c:1040
+#: global.c:352 global.c:372 global.c:383 global.c:393 global.c:414
+#: global.c:417 winio.c:1061
 msgid "Cancel"
 msgstr "Cancella"
 
-#: global.c:372
+#: global.c:365
 msgid "No Replace"
 msgstr ""
 
-#: global.c:417
+#: global.c:410
 #, fuzzy
 msgid "To Files"
 msgstr "Nuovo file"
@@ -689,115 +689,115 @@ msgstr "current->data ora = \"%d\"\n"
 msgid "After, data = \"%s\"\n"
 msgstr "Dopo, data = \"%s\"\n"
 
-#: nano.c:1160
+#: nano.c:1162
 msgid "Edit a replacement"
 msgstr ""
 
-#: nano.c:1391
+#: nano.c:1393
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Impossibile creare un nome file temporaneo: %s"
 
-#: nano.c:1397
+#: nano.c:1399
 msgid "Spell checking failed: unable to write temp file!"
 msgstr ""
 
-#: nano.c:1409
+#: nano.c:1411
 msgid "Finished checking spelling"
 msgstr "Controllo ortografico terminato"
 
-#: nano.c:1411
+#: nano.c:1413
 msgid "Spell checking failed"
 msgstr ""
 
-#: nano.c:1431
+#: nano.c:1433
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 "Salva il buffer modificato (RISPONDENDO \"No\" ANNULLERETE I CAMBIAMENTI "
 "AVVENUTI) ?"
 
-#: nano.c:1527
+#: nano.c:1529
 msgid "Received SIGHUP"
 msgstr ""
 
-#: nano.c:1590
+#: nano.c:1592
 msgid "Cannot resize top win"
 msgstr "Impossibile ridimensionare la finestra superiore"
 
-#: nano.c:1592
+#: nano.c:1594
 msgid "Cannot move top win"
 msgstr "Impossibile spostare la finestra superiore"
 
-#: nano.c:1594
+#: nano.c:1596
 msgid "Cannot resize edit win"
 msgstr "Impossibile ridimensionare la finestra di modifica"
 
-#: nano.c:1596
+#: nano.c:1598
 msgid "Cannot move edit win"
 msgstr "Impossibile spostare finestra di modifica"
 
-#: nano.c:1598
+#: nano.c:1600
 msgid "Cannot resize bottom win"
 msgstr "Impossibile ridimensionare la finestra inferiore"
 
-#: nano.c:1600
+#: nano.c:1602
 msgid "Cannot move bottom win"
 msgstr "Impossibile spostare la finestra inferiore"
 
-#: nano.c:1908
+#: nano.c:1910
 msgid "Can now UnJustify!"
 msgstr ""
 
-#: nano.c:2005
+#: nano.c:2008
 #, c-format
 msgid "%s enable/disable"
 msgstr ""
 
-#: nano.c:2020
+#: nano.c:2023
 msgid "enabled"
 msgstr ""
 
-#: nano.c:2021
+#: nano.c:2024
 msgid "disabled"
 msgstr ""
 
-#: nano.c:2073
+#: nano.c:2076
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 
-#: nano.c:2288
+#: nano.c:2293
 msgid "Main: set up windows\n"
 msgstr "Main: configura finestre\n"
 
-#: nano.c:2295
+#: nano.c:2300
 msgid "Main: bottom win\n"
 msgstr "Main: finestra inferiore\n"
 
-#: nano.c:2301
+#: nano.c:2306
 msgid "Main: open file\n"
 msgstr "Main: apri file\n"
 
-#: nano.c:2353
+#: nano.c:2358
 #, fuzzy, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Premuto Alt-[-%c! (%d)\n"
 
-#: nano.c:2380
+#: nano.c:2385
 #, fuzzy, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Premuto Alt-[-%c! (%d)\n"
 
-#: nano.c:2413
+#: nano.c:2418
 #, fuzzy, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Premuto Alt-[-%c! (%d)\n"
 
-#: nano.c:2455
+#: nano.c:2460
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Premuto Alt-[-%c! (%d)\n"
 
-#: nano.c:2481
+#: nano.c:2486
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Premuto Alt-%c! (%d)\n"
@@ -888,110 +888,129 @@ msgstr "Avanti, sii ragionevole"
 msgid "Only %d lines available, skipping to last line"
 msgstr "Solo %d linee disponibili, vai all'ultima"
 
-#: winio.c:121
+#: winio.c:123
 #, fuzzy, c-format
 msgid "actual_x_from_start for xplus=%d returned %d\n"
 msgstr "actual_x per xplus=%d ha riportato %d\n"
 
-#: winio.c:443
+#: winio.c:445
 #, c-format
 msgid "input '%c' (%d)\n"
 msgstr "input '%c' (%d)\n"
 
-#: winio.c:485
+#: winio.c:487
 msgid "New Buffer"
 msgstr "Nuovo Buffer"
 
-#: winio.c:489
+#: winio.c:491
 msgid "  File: ..."
 msgstr "File: ..."
 
-#: winio.c:491
+#: winio.c:493
 #, fuzzy
 msgid "   DIR: ..."
 msgstr "File: ..."
 
-#: winio.c:502
+#: winio.c:504
 msgid "Modified"
 msgstr "Modificato"
 
-#: winio.c:954
+#: winio.c:956
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr "Mosso in (%d, %d) nel buffer di modifica\n"
 
-#: winio.c:965
+#: winio.c:967
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr "current->data = \"%s\"\n"
 
-#: winio.c:1010
+#: winio.c:1012
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "Premuto \"%s\"\n"
 
+#. String of yes characters accepted
+#. Same for no
+#. And all, surprise!
+#. Temp string for above
+#. Yes, no and all are strings of any length.  Each string consists of
+#. all characters accepted as a valid character for that value.
+#. The first value will be the one displayed in the shortcuts.
 #: winio.c:1035
+msgid "Yy"
+msgstr ""
+
+#: winio.c:1036
+msgid "Nn"
+msgstr ""
+
+#: winio.c:1037
+msgid "Aa"
+msgstr ""
+
+#: winio.c:1050
 msgid "Yes"
 msgstr " Sì"
 
-#: winio.c:1037
+#: winio.c:1054
 msgid "All"
 msgstr " Tutti"
 
-#: winio.c:1039
+#: winio.c:1059
 msgid "No"
 msgstr " No"
 
-#: winio.c:1169
+#: winio.c:1202
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
-#: winio.c:1173
+#: winio.c:1206
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "linea %d di %d (%.0f%%), carattere %d di %d (%.0f%%)"
 
-#: winio.c:1303
+#: winio.c:1336
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Copia file buffer sullo stderr...\n"
 
-#: winio.c:1305
+#: winio.c:1338
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Copia cutbuffer sullo stderr...\n"
 
-#: winio.c:1307
+#: winio.c:1340
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Copia un buffer sullo stderr...\n"
 
-#: winio.c:1382
+#: winio.c:1415
 msgid "The nano text editor"
 msgstr ""
 
-#: winio.c:1383
+#: winio.c:1416
 msgid "version "
 msgstr ""
 
-#: winio.c:1384
+#: winio.c:1417
 msgid "Brought to you by:"
 msgstr ""
 
-#: winio.c:1385
+#: winio.c:1418
 msgid "Special thanks to:"
 msgstr ""
 
-#: winio.c:1386
+#: winio.c:1419
 msgid "The Free Software Foundation"
 msgstr ""
 
-#: winio.c:1387
+#: winio.c:1420
 msgid "Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses"
 msgstr ""
 
-#: winio.c:1388
+#: winio.c:1421
 msgid "and anyone else we forgot..."
 msgstr ""
 
-#: winio.c:1389
+#: winio.c:1422
 msgid "Thank you for using nano!\n"
 msgstr ""
 

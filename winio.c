@@ -34,6 +34,8 @@
 #define _(string) (string)
 #endif
 
+
+/* winio.c statics */
 static int statblank = 0;	/* Number of keystrokes left after
 				   we call statubar() before we
 				   actually blank the statusbar */
@@ -1021,7 +1023,18 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
 {
     va_list ap;
     char foo[133];
-    int kbinput, ok = -1;
+    int kbinput, ok = -1, i;
+    char *yesstr;		/* String of yes characters accepted */
+    char *nostr;		/* Same for no */
+    char *allstr;		/* And all, surprise! */
+    char shortstr[5];		/* Temp string for above */
+
+    /* Yes, no and all are strings of any length.  Each string consists of
+	all characters accepted as a valid character for that value.
+	The first value will be the one displayed in the shortcuts. */
+    yesstr = _("Yy");
+    nostr = _("Nn");
+    allstr = _("Aa");
 
     /* Write the bottom of the screen */
     clear_bottomwin();
@@ -1032,11 +1045,19 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
     /* Remove gettext call for keybindings until we clear the thing up */
     if (!ISSET(NO_HELP)) {
 	wmove(bottomwin, 1, 0);
-	onekey(" Y", _("Yes"));
-	if (all)
-	    onekey(" A", _("All"));
+
+	snprintf(shortstr, 3, " %c", yesstr[0]);
+	onekey(shortstr, _("Yes"));
+
+	if (all) {
+	    snprintf(shortstr, 3, " %c", allstr[0]);
+	    onekey(shortstr, _("All"));
+	}
 	wmove(bottomwin, 2, 0);
-	onekey(" N", _("No"));
+
+	snprintf(shortstr, 3, " %c", nostr[0]);
+	onekey(shortstr, _("No"));
+
 	onekey("^C", _("Cancel"));
     }
     va_start(ap, msg);
@@ -1054,22 +1075,34 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
 	kbinput = wgetch(edit);
 
 	switch (kbinput) {
-	case 'Y':
-	case 'y':
-	    ok = 1;
-	    break;
-	case 'N':
-	case 'n':
-	    ok = 0;
-	    break;
-	case 'A':
-	case 'a':
-	    if (all)
-		ok = 2;
-	    break;
 	case NANO_CONTROL_C:
 	    ok = -2;
 	    break;
+	default:
+
+	    /* Look for the kbinput in the yes, no and (optinally) all str */
+	    for (i = 0; yesstr[i] != 0 && yesstr[i] != kbinput; i++)
+		;
+	    if (yesstr[i] != 0) {
+		ok = 0;
+	 	break;
+	    }
+
+	    for (i = 0; nostr[i] != 0 && nostr[i] != kbinput; i++)
+		;
+	    if (nostr[i] != 0) {
+		ok = 0;
+	 	break;
+	    }
+
+	    if (all) {
+	        for (i = 0; allstr[i] != 0 && allstr[i] != kbinput; i++)
+		    ;
+		if (allstr[i] != 0) {
+		    ok = 2;
+	 	    break;
+		}
+	    }
 	}
     }
 

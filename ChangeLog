@@ -21,6 +21,10 @@ CVS code -
 	  blank the statsubar (bug reported by Neil Parks).
   main()
 	- Added ENABLE_NLS check around gettext stuff.
+- winio.c:
+  do_yesno()
+	- Added localized yes, no and all strings to function and rewrote
+	  handler for the new format.
 - de.po:
 	- Translation updates by  Florian König.
 - fi.po:
