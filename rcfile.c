@@ -584,21 +584,6 @@ void do_rcfile(void)
     parse_rcfile(rcstream);
     fclose(rcstream);
 
-    {
-	syntaxtype *s;
-	exttype *e;
-	colortype *c;
-
-    for (s = syntaxes; s != NULL; s = s->next) {
-	fprintf(stderr, "Syntax \"%s\"\n", s->desc);
-	for (e = s->extensions; e != NULL; e = e->next)
-	    fprintf(stderr, "  extension \"%s\"\n", e->val);
-	for (c = s->color; c != NULL; c = c->next)
-	    fprintf(stderr, "Color string regex \"%s\"\n", c->start);
-	
-    }
-    }
-
 }
 
 
