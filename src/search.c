@@ -412,6 +412,7 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
     current = fileptr;
     current_x = current_x_find;
     current_y = current_y_find;
+    placewewant = xplustabs();
 
     /* needle_len holds the length of needle. */
     if (needle_len != NULL)
@@ -749,7 +750,6 @@ ssize_t do_replace_loop(const char *needle, filestruct *real_current,
 #endif
 
 	if (!replaceall) {
-	    placewewant = xplustabs();
 	    edit_redraw(current_save, old_pww);
 	    old_pww = placewewant;
 	}
@@ -870,7 +870,7 @@ void do_replace(void)
 {
     int i;
     filestruct *edittop_save, *begin;
-    size_t beginx;
+    size_t beginx, pww_save;
     ssize_t numreplaced;
 
     if (ISSET(VIEW_MODE)) {
@@ -937,6 +937,7 @@ void do_replace(void)
     edittop_save = edittop;
     begin = current;
     beginx = current_x;
+    pww_save = placewewant;
 
     numreplaced = do_replace_loop(last_search, begin, &beginx, FALSE);
 
@@ -944,6 +945,7 @@ void do_replace(void)
     edittop = edittop_save;
     current = begin;
     current_x = beginx;
+    placewewant = pww_save;
 
     renumber_all();
     edit_refresh();

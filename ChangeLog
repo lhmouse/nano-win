@@ -80,6 +80,9 @@ CVS code -
 	  findnextstr().  Changes to do_int_spell_fix(), findnextstr(),
 	  do_search(), do_research(), do_replace(), and
 	  do_find_bracket(). (DLR)
+	- When saving or changing file positions, be sure not to ignore
+	  placewewant.  Changes to do_int_spell_fix(), findnextstr(),
+	  do_replace_loop(), and do_replace(). (DLR)
 - files.c:
   do_insertfile()
 	- Readd the NANO_SMALL #ifdef around the start_again: label to
@@ -181,6 +184,16 @@ CVS code -
 	  the search prompt to the "Go To Line" prompt, since the
 	  toggling works both ways now and non-numeric text shouldn't be
 	  lost when going only one of those ways. (DLR)
+  findnextstr()
+	- Take the no_sameline parameter after can_display_wrap and
+	  wholewords, not after all other parameters. (DLR)
+	- Maintain current_y's value when moving up or down lines so
+	  that smooth scrolling works correctly. (DLR)
+	- Fix handling of the wholewords flag so that it works with
+	  regular expressions and in conjunction with the no_sameline
+	  flag, and add new parameters wrapped (used to return the value
+	  of search_last_line) and needle_len (used to return the length
+	  of the match). (DLR)
   do_replace_loop()
 	- Miscellaneous cleanups: set current to real_current and
 	  current_x to current_x_save, only turn the mark off and call
@@ -192,16 +205,6 @@ CVS code -
 	  replacing only marked text when the mark is on. (DLR,
 	  suggested by Joseph Birthisel)
 	- Return ssize_t instead of int. (DLR)
-  findnextstr()
-	- Take the no_sameline parameter after can_display_wrap and
-	  wholewords, not after all other parameters. (DLR)
-	- Maintain current_y's value when moving up or down lines so
-	  that smooth scrolling works correctly. (DLR)
-	- Fix handling of the wholewords flag so that it works with
-	  regular expressions and in conjunction with the no_sameline
-	  flag, and add new parameters wrapped (used to return the value
-	  of search_last_line) and needle_len (used to return the length
-	  of the match). (DLR)
 - utils.c:
   regexp_bol_or_eol()
 	- Don't assume any longer that string will be found if
