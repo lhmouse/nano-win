@@ -165,16 +165,12 @@ int do_cut_text(void)
     if (ISSET(CUT_TO_END) && !ISSET(MARK_ISSET)) {
 	if (current_x == strlen(current->data)) {
 
-	    /* If the next line is empty, create a dummy line and add it
-		to the cutbuffer */
-	    if ((current->next != NULL && strlen(current->next->data) == 0) ||
-		(current == fileage && strlen(current->data) == 0)) {
+	    /* If the line is empty and we didn't just cut a non-blank
+		line, create a dummy line and add it to the cutbuffer */
+	    if (current_x == 0 && marked_cut != 1) {
 		filestruct *junk;
 
-		if (current == fileage)
-		    junk = copy_node(current);
-		else
-		    junk = copy_node(current->next);
+		junk = copy_node(current);
 
 		add_to_cutbuffer(junk);
 	    }
