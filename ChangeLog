@@ -8,6 +8,8 @@ CVS code
 - po/Makefile.in.in:
 	- Patch to handle $DESTDIR (orig by Dan Harnett contributed by
 	  Christian Weisgerber)
+- configure.in:
+	- New slang test code (Albert Chin-A-Young)
 
 nano-0.9.15 - 08/03/2000
 - Changed edit_update call to take arguments TOP, CENTER or BOTTOM.
