@@ -1881,7 +1881,7 @@ int do_spell(void)
 #endif
 }
 
-#if !defined(DISABLE_WRAPPING) && !defined(NANO_SMALL) || !defined(DISABLE_JUSTIFY)
+#if !defined(NANO_SMALL) || !defined(DISABLE_JUSTIFY)
 /* The "indentation" of a line is the white-space between the quote part
  * and the non-white-space of the line. */
 size_t indent_length(const char *line)
@@ -1895,7 +1895,7 @@ size_t indent_length(const char *line)
     }
     return len;
 }
-#endif /* !DISABLE_WRAPPING && !NANO_SMALL || !DISABLE_JUSTIFY */
+#endif /* !NANO_SMALL || !DISABLE_JUSTIFY */
 
 #ifndef DISABLE_JUSTIFY
 /* justify_format() replaces Tab by Space and multiple spaces by 1 (except
@@ -2041,9 +2041,9 @@ size_t indents_match(const char *a_line, size_t a_indent,
 }
 
 /* Put the next par_len lines, starting with first_line, in the cut
- * buffer.  We assume there are enough lines after first_line.  We leave
- * copies of the lines in place, too.  We return the new copy of
- * first_line. */
+ * buffer, not allowing them to be concatenated.  We assume there are
+ * enough lines after first_line.  We leave copies of the lines in
+ * place, too.  We return the new copy of first_line. */
 filestruct *backup_lines(filestruct *first_line, size_t par_len,
 			size_t quote_len)
 {
@@ -2071,7 +2071,7 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len,
 			quote_len + indent_length(bob->data + quote_len));
 
 	assert(alice != NULL && bob != NULL);
-	add_to_cutbuffer(alice);
+	add_to_cutbuffer(alice, FALSE);
 	splice_node(bob->prev, bob, bob->next);
 	alice = bob->next;
     }
@@ -2457,7 +2457,6 @@ int do_justify(void)
 
 /* Next step, we loop through the lines of this paragraph, justifying
  * each one individually. */
-    SET(JUSTIFY_MODE);
     for (; par_len > 0; current_y++, par_len--) {
 	size_t line_len;
 	size_t display_len;
@@ -2609,7 +2608,6 @@ int do_justify(void)
   continue_loc:
 	    current = current->next;
     }
-    UNSET(JUSTIFY_MODE);
 
 /* We are now done justifying the paragraph.  There are cleanup things
  * to do, and we check for unjustify. */
@@ -2669,7 +2667,7 @@ int do_justify(void)
 	if (first_mod_line != NULL) {
 	    filestruct *cutbottom = get_cutbottom();
 
-	    /* Splice the cutbuffer back into the file. */
+	    /* Splice the cut buffer back into the file. */
 	    cutbottom->next = last_par_line->next;
 	    cutbottom->next->prev = cutbottom;
 		/* The line numbers after the end of the paragraph have

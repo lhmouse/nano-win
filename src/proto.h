@@ -143,7 +143,7 @@ void update_color(void);
 
 /* Public functions in cut.c */
 filestruct *get_cutbottom(void);
-void add_to_cutbuffer(filestruct *inptr);
+void add_to_cutbuffer(filestruct *inptr, int allow_concat);
 void cut_marked_segment(void);
 int do_cut_text(void);
 int do_uncut_text(void);

@@ -45,6 +45,10 @@ CVS code -
 	- Rename several variables to make their use clearer and to
 	  avoid conflicts. (DLR)
 	- Set the input mode before turning the keypad on. (DLR)
+- cut.c:
+  add_to_cutbuffer()
+	- Add parameter allow_concat to determine whether we're allowed
+	  to concatenate strings in the cutbuffer. (DLR)
 - files.c:
   do_insertfile()
 	- Wrap one reference to NANO_EXTCMD_KEY in a NANO_SMALL #ifdef.
@@ -96,6 +100,10 @@ CVS code -
 	  bracket_mode set to TRUE even though we aren't doing a bracket
 	  search, since after the above efficiency tweaks, it's now more
 	  accurately called can_display_wrap. (DLR)
+  indent_length()
+	- Remove unneeded #ifdef. (David Benbennick)
+  do_justify()
+	- Remove references to the now-unneeded JUSTIFY_MODE flag. (DLR)
   signal_init()
 	- Trap SIGQUIT in addition to turning it off via termios in
 	  main().  This is consistent with SIGINT, which we trap here
@@ -120,6 +128,7 @@ CVS code -
 - nano.h:
 	- Move the NANO_H include guard up before the first #include.
 	  (DLR)
+	- Remove the now-unneeded JUSTIFY_MODE flag. (DLR)
 - search.c:
   regexp_cleanup()
 	- Only do anything if REGEXP_COMPILED is set. (David Benbennick)

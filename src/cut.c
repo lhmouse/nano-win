@@ -45,7 +45,7 @@ filestruct *get_cutbottom(void)
     return cutbottom;
 }
 
-void add_to_cutbuffer(filestruct *inptr)
+void add_to_cutbuffer(filestruct *inptr, int allow_concat)
 {
 #ifdef DEBUG
     fprintf(stderr, "add_to_cutbuffer(): inptr->data = %s\n", inptr->data);
@@ -54,9 +54,9 @@ void add_to_cutbuffer(filestruct *inptr)
     if (cutbuffer == NULL)
 	cutbuffer = inptr;
 #ifndef NANO_SMALL
-    else if (concatenate_cut && !ISSET(JUSTIFY_MODE)) {
+    else if (allow_concat && concatenate_cut) {
 	/* Just tack the text in inptr onto the text in cutbottom,
-	 * unless we're backing up lines while justifying text. */
+	 * unless allow_concat is false. */
 	cutbottom->data = charealloc(cutbottom->data,
 		strlen(cutbottom->data) + strlen(inptr->data) + 1);
 	strcat(cutbottom->data, inptr->data);
@@ -207,7 +207,7 @@ int do_cut_text(void)
 	cutbuffer = NULL;
 	marked_cut = 0;
 #ifndef NANO_SMALL
-	concatenate_cut = 0;
+	concatenate_cut = FALSE;
 #endif
 #ifdef DEBUG
 	fprintf(stderr, "Blew away cutbuffer =)\n");
@@ -238,7 +238,7 @@ int do_cut_text(void)
 
 		junk->data = charalloc(1);
 		junk->data[0] = '\0';
-		add_to_cutbuffer(junk);
+		add_to_cutbuffer(junk, TRUE);
 #ifdef DEBUG
 		dump_buffer(cutbuffer);
 #endif
@@ -265,7 +265,7 @@ int do_cut_text(void)
 	 * the first line of any cut done immediately afterward to the
 	 * end of this cut, as Pico does. */
 	if (current == mark_beginbuf && current_x < strlen(current->data))
-	    concatenate_cut = 1;
+	    concatenate_cut = TRUE;
 	marked_cut = 1;
 	edit_refresh();
 	set_modified();
@@ -279,7 +279,7 @@ int do_cut_text(void)
     fileptr = current;
     current = current->next;
     current->prev = fileptr->prev;
-    add_to_cutbuffer(fileptr);
+    add_to_cutbuffer(fileptr, TRUE);
 #ifdef DEBUG
     dump_buffer(cutbuffer);
 #endif
@@ -298,7 +298,7 @@ int do_cut_text(void)
     set_modified();
     marked_cut = 0;
 #ifndef NANO_SMALL
-    concatenate_cut = 0;
+    concatenate_cut = FALSE;
 #endif
     return 1;
 }
