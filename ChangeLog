@@ -80,6 +80,8 @@ CVS code -
 	  as a model. (DLR)
 	- If file browsing succeeds, call statusq_abort() so that the
 	  cursor position at the statusbar is reset. (DLR)
+	- Add missing #ifdefs around the wrap_reset() call so that nano
+	  compiles with wrapping disabled again. (DLR)
   do_writeout()
 	- Restructure if blocks for greater efficiency, using
 	  do_insertfile() as a model. (DLR)

@@ -496,7 +496,9 @@ void do_insertfile(
     char *ans = mallocstrcpy(NULL, "");
 	/* The last answer the user typed on the statusbar. */
 
+#ifndef DISABLE_WRAPPING
     wrap_reset();
+#endif
 
     while (TRUE) {
 #ifndef NANO_SMALL
