@@ -2053,7 +2053,6 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 	if (alice == mark_beginbuf)
 	    mark_beginbuf = bob;
 #endif
-	justify_format(bob, quote_len + indent_length(bob->data + quote_len));
 
 	assert(alice != NULL && bob != NULL);
 	add_to_cutbuffer(alice, FALSE);
@@ -2458,14 +2457,17 @@ int do_justify(int full_justify)
 	    indent_len = quote_len + indent_length(current->data +
 		quote_len);
 
-	    /* We now call backup_lines(), which copies the original
-	     * paragraph to the cutbuffer for unjustification and then
-	     * calls justify_format() on each line of the original
-	     * paragraph.  justify_format() removes excess spaces from
-	     * the line, and changes tabs to spaces. */
+	    /* If we haven't already done it, copy the original
+	     * paragraph to the cutbuffer for unjustification. */
 	    if (first_par_line == NULL)
 		first_par_line = backup_lines(current, full_justify ?
 			filebot->lineno - current->lineno : par_len, quote_len);
+
+	    /* Now we call justify_format() on the current line of the
+	     * paragraph, which will remove excess spaces from it and
+	     * change tabs to spaces. */
+	    justify_format(current, quote_len +
+		indent_length(current->data + quote_len));
 
 	    line_len = strlen(current->data);
 	    display_len = strlenpt(current->data);

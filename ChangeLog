@@ -37,8 +37,9 @@ CVS code -
 	  characters and escape sequences are supported. (DLR)
 	- Disable "Where Is Next" in tiny mode. (DLR)
 	- Added the ability to justify the entire file at once, which
-	  Pico has via ^W^J.  Changes to do_justify(); new functions
-	  do_justify_void() and do_full_justify(). (DLR)
+	  Pico has via ^W^J.  Changes to backup_lines() and
+	  do_justify(); new functions do_justify_void() and
+	  do_full_justify(). (DLR)
 	- Modify the justification algorithm to work the same way as in
 	  the current version of Pico, i.e, add a space at the end of
 	  each line of the justified paragraph except for the last one,
