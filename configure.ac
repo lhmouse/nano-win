@@ -44,7 +44,16 @@ AC_CHECK_HEADER(regex.h,
     AC_TRY_RUN([
 #include <sys/types.h>
 #include <regex.h>
-int main(void) { regex_t reg; size_t n = 1; regmatch_t r; regcomp(&reg, "\\<", 0); regexec(&reg, "", n, &r, 0); regfree(&reg); return 0; }],
+int main(void)
+{
+    regex_t reg;
+    size_t n = 1;
+    regmatch_t r;
+    regcomp(&reg, "\\<", 0);
+    regexec(&reg, "", n, &r, 0);
+    regfree(&reg);
+    return 0;
+}],
 	AC_MSG_RESULT(no),
 	AC_MSG_RESULT(yes); AC_DEFINE(BROKEN_REGEXEC, 1, [Define this if your regexec() function segfaults when passed an empty string under certain conditions.])
     )
@@ -200,9 +209,12 @@ AC_ARG_WITH(slang,
 	    _libs=$LIBS
 	    LIBS="$LIBS -lslang"
 	    AC_TRY_RUN([
-#include <stdio.h>
 #include <slcurses.h>
-int main(void) { SLtt_initialize(NULL); return 0; }],
+int main(void)
+{
+    SLtt_initialize(NULL);
+    return 0;
+}],
 		[AC_MSG_RESULT(yes)
 		AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.])
 		slang_support=yes
@@ -222,9 +234,12 @@ int main(void) { SLtt_initialize(NULL); return 0; }],
 		AC_MSG_CHECKING([for SLtt_initialize in -lslang $tcap])
 		LIBS="$LIBS $tcap"
 		AC_TRY_RUN([
-#include <stdio.h>
 #include <slcurses.h>
-int main(void) { SLtt_initialize(NULL); return 0; }],
+int main(void)
+{
+    SLtt_initialize(NULL);
+    return 0;
+}],
 		    [AC_MSG_RESULT(yes)
 		    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.])
 		    slang_support=yes
@@ -239,9 +254,12 @@ int main(void) { SLtt_initialize(NULL); return 0; }],
 		    AC_MSG_CHECKING([for SLtt_initialize in -lslang $tcap -lm])
 		    LIBS="$LIBS -lm"
 		    AC_TRY_RUN([
-#include <stdio.h>
 #include <slcurses.h>
-int main(void) { SLtt_initialize(NULL); return 0; }],
+int main(void)
+{
+    SLtt_initialize(NULL);
+    return 0;
+}],
 			[AC_MSG_RESULT(yes)
 			AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.])
 			slang_support=yes
@@ -327,10 +345,6 @@ fi
 
 
 AC_CHECK_LIB([$CURSES_LIB_NAME], use_default_colors, AC_DEFINE(HAVE_USE_DEFAULT_COLORS, 1, [Define this if your curses library has the use_default_colors command.]))
-if test x$slang_support != xyes; then
-    AC_CHECK_LIB([$CURSES_LIB_NAME], wresize, AC_DEFINE(HAVE_WRESIZE, 1, [Define this if you have the wresize function in your ncurses-type library.]))
-    AC_CHECK_LIB([$CURSES_LIB_NAME], resizeterm, AC_DEFINE(HAVE_RESIZETERM, 1, [Define this if you have the resizeterm function in your ncurses-type library.]))
-fi
 
 dnl Parse any configure options
 

@@ -138,6 +138,10 @@ CVS code -
 	- Add tests for isblank() and strcasestr(), and define
 	  _GNU_SOURCE so that the tests work properly.  Increase the
 	  minimum required autoconf version to 2.54. (DLR)
+	- Reformat the test programs so that they aren't packed into
+	  fewer lines than usual, so as to make them easier to read, and
+	  remove unnecessary inclusion of stdio.h in the slang test
+	  programs. (DLR)
 - faq.html:
 	- Removed question about the NumLock glitch, as it's no longer
 	  needed. (DLR)
@@ -343,9 +347,9 @@ GNU nano 1.3.2 - 2004.03.31
 	- Fix segfault when doing a regex replace of a string that
 	  matches inside a line (e.g. replace the "b" in "abc" with
 	  anything). (David Benbennick)
-	- If the mark is on at the beginning of the functio, turn it off
-	  and turn it back on just before returning.  Also overhaul to
-	  rely on the return value of findnextstr() instead of a loop
+	- If the mark is on at the beginning of the function, turn it
+	  off and turn it back on just before returning.  Also overhaul
+	  to rely on the return value of findnextstr() instead of a loop
 	  invariant, to not need to take an int* parameter, and store
 	  the beginning x-coordinate in a size_t instead of an int.
 	  (David Benbennick)
