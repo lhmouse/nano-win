@@ -2389,7 +2389,7 @@ int main(int argc, char *argv[])
 	{"tabsize", 1, 0, 'T'},
 
 #ifdef ENABLE_MULTIBUFFER
-	{"MULTIBUFFER", 0, 0, 'L'},
+	{"multibuffer", 0, 0, 'F'},
 #endif
 
 	{0, 0, 0, 0}
@@ -2412,17 +2412,17 @@ int main(int argc, char *argv[])
 #endif /* ENABLE_NANORC */
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "h?LT:RVbcefgijklmpr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "h?FT:RVbcefgijklmpr:s:tvwxz",
 				 long_options, &option_index)) != EOF) {
 #else
     while ((optchr =
-	    getopt(argc, argv, "h?LT:RVbcefgijklmpr:s:tvwxz")) != EOF) {
+	    getopt(argc, argv, "h?FT:RVbcefgijklmpr:s:tvwxz")) != EOF) {
 #endif
 
 	switch (optchr) {
 
 #ifdef ENABLE_MULTIBUFFER
-	case 'L':
+	case 'F':
 	    SET(MULTIBUFFER);
 	    break;
 #endif
