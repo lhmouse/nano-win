@@ -1440,8 +1440,12 @@ int get_edit_input(bool *meta_key, bool allow_funcs)
 	if (s->func != do_cut_text)
 	    cutbuffer_reset();
 	if (s->func != NULL) {
-	    if (allow_funcs)
-		s->func();
+	    if (allow_funcs) {
+		if (ISSET(VIEW_MODE) && !s->viewok)
+		    print_view_warning();
+		else
+		    s->func();
+	    }
 	    keyhandled = TRUE;
 	}
     }

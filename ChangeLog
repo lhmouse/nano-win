@@ -2,14 +2,15 @@ CVS code -
 - General:
 	- Convert more ints that hold only TRUE and FALSE values to
 	  bools. (DLR)
-	- Consolidate the code for finding a shortcut in a shortcut
-	  list, the code for finding a toogle in a toggle list, and
-	  the code for doing both of those and interpreting mouse clicks
-	  in the edit window.  Also move the code for do_mouse() to
-	  get_edit_mouse() and tweak it to properly handle cases where a
-	  shortcut isn't clicked.  New functions get_shortcut(),
-	  get_toggle(), get_edit_input(), and get_edit_mouse(); changes
-	  to do_browser(), do_justify(), do_help(), and main(). (DLR)
+	- Consolidate the code for finding and running a shortcut in a
+	  shortcut list, the code for finding and toggling a toggle in a
+	  toggle list, and the code for doing both of those and
+	  interpreting mouse clicks in the edit window.  Also move the
+	  code for do_mouse() to get_edit_mouse() and tweak it to
+	  properly handle cases where a shortcut isn't clicked.  New
+	  functions get_shortcut(), get_toggle(), get_edit_input(), and
+	  get_edit_mouse(); changes to do_browser(), do_justify(),
+	  do_help(), and main(). (DLR)
 	- Simplify a few more translated messages. (DLR)
 	- Translation updates (see po/ChangeLog for details).
 	- Remove reference to @includedir@ in src/Makefile.am, as it's
