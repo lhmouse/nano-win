@@ -1,15 +1,22 @@
 CVS code changes since last release -
+- Made search functions & keys more like Pico.  Added goto line from  
+  search and replace function, changed wording to "No Replace" instead of 
+  "To Search" and changed to Pico's ketstroke by default, ^R.
+  Affects search_init(), do_search() in search.c, globals in nano.h
+  and shortcut_init() in global.c.
 - nano.c:
 	- Removed dual alt_speller variables, oops! (Rocco Corsi)
 - de.po:
 	- Revised translations by floki@bigfoot.com.
 - fi.po:
 	- Finnish translation by pauli.virtanen@saunalahti.fi.
-- winio.c
+- winio.c:
   do_yesno(), nanogetstr():
 	- Removed now unnecessary raw/cbreak combos.
 	- Removed gettext calls from "Y(es)", "N(o)", "A(ll)" and "^C", till
 	  we decide if those keybindings should be translated. (Jordi)
+  clear_bottomwin():
+	- Removed wrefresh(edit) call.
 
 nano-0.9.11 - 06/20/2000
 - New flag "-T" or "--tabsize" to specify how to display tab widths.

@@ -76,6 +76,9 @@ int search_init(int replacing)
 	return 1;
     } else if (i == NANO_OTHERSEARCH_KEY) {
 	return -2;		/* Call the opposite search function */
+    } else if (i == NANO_FROMSEARCHTOGOTO_KEY) {
+	do_gotoline_void();
+	return -3;
     } else {			/* First line key, etc. */
 	do_early_abort();
 	return -3;

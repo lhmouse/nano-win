@@ -89,7 +89,7 @@ const struct _msg_ent _msg_tbl[] = {
   {"Case Sens", 80},
   {"To Replace", 81},
   {"Cancel", 82},
-  {"To Search", 83},
+  {"No Replace", 83},
   {"\
 \n\
 Buffer written to 'nano.save'\n", 84},

@@ -474,7 +474,6 @@ void clear_bottomwin(void)
 
     mvwaddstr(bottomwin, 1, 0, hblank);
     mvwaddstr(bottomwin, 2, 0, hblank);
-    wrefresh(bottomwin);
 }
 
 void bottombars(shortcut s[], int slen)

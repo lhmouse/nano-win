@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.11\n"
-"POT-Creation-Date: 2000-06-23 02:43+0200\n"
+"POT-Creation-Date: 2000-06-28 21:18-0400\n"
 "PO-Revision-Date: 2000-06-21 23:08+03:00\n"
 "Last-Translator: Pauli Virtanen <pauli.virtanen@saunalahti.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -31,7 +31,7 @@ msgstr "read_line: ei ensimmäisellä rivillä ja prev on NULL"
 msgid "Read %d lines"
 msgstr "%d riviä luettu"
 
-#: files.c:211 search.c:126 search.c:144
+#: files.c:211 search.c:129 search.c:147
 #, c-format
 msgid "\"%s\" not found"
 msgstr "Tiedostoa \"%s\" ei ole"
@@ -226,7 +226,7 @@ msgstr "Muuta etsintä- tai korvaustoiminnon kirjainkoosta piittaamista."
 msgid "Cancel the current function"
 msgstr "Peru nykyinen toiminto."
 
-#: global.c:146 global.c:256 global.c:322
+#: global.c:146 global.c:256 global.c:328
 msgid "Get Help"
 msgstr "Ohjeita"
 
@@ -234,11 +234,11 @@ msgstr "Ohjeita"
 msgid "WriteOut"
 msgstr "Kirjoita"
 
-#: global.c:153 global.c:311
+#: global.c:153 global.c:317
 msgid "Exit"
 msgstr "Lopeta"
 
-#: global.c:161 global.c:252
+#: global.c:161 global.c:252 global.c:273 global.c:292
 msgid "Goto Line"
 msgstr "Siirry"
 
@@ -258,11 +258,11 @@ msgstr "Lue tied."
 msgid "Where Is"
 msgstr "Etsi"
 
-#: global.c:181 global.c:303
+#: global.c:181 global.c:309
 msgid "Prev Page"
 msgstr "Ed. sivu"
 
-#: global.c:185 global.c:307
+#: global.c:185 global.c:313
 msgid "Next Page"
 msgstr "Seur. sivu"
 
@@ -330,15 +330,15 @@ msgstr "Sarkain"
 msgid "Enter"
 msgstr "Enter"
 
-#: global.c:260 global.c:277 global.c:293
+#: global.c:260 global.c:280 global.c:299
 msgid "First Line"
 msgstr "1. rivi"
 
-#: global.c:263 global.c:280 global.c:296
+#: global.c:263 global.c:283 global.c:302
 msgid "Last Line"
 msgstr "Viim. rivi"
 
-#: global.c:266 global.c:283
+#: global.c:266 global.c:286
 msgid "Case Sens"
 msgstr "Kirj. koko"
 
@@ -346,14 +346,15 @@ msgstr "Kirj. koko"
 msgid "To Replace"
 msgstr "Korvattava"
 
-#: global.c:273 global.c:289 global.c:299 global.c:315 global.c:319
-#: global.c:325 winio.c:970
+#: global.c:276 global.c:295 global.c:305 global.c:321 global.c:325
+#: global.c:331 winio.c:969
 msgid "Cancel"
 msgstr "Peru"
 
-#: global.c:286
-msgid "To Search"
-msgstr "Etsittävä"
+#: global.c:289
+#, fuzzy
+msgid "No Replace"
+msgstr "Korvattava"
 
 #: nano.c:111
 msgid ""
@@ -683,51 +684,51 @@ msgstr "Etsintä%s"
 msgid "Search Cancelled"
 msgstr "Etsintä peruttu"
 
-#: search.c:140
+#: search.c:143
 msgid "Search Wrapped"
 msgstr "Etsintä jatkuu"
 
-#: search.c:190
+#: search.c:193
 #, c-format
 msgid "Replaced %d occurences"
 msgstr "%d kohtaa korvattu"
 
-#: search.c:192
+#: search.c:195
 msgid "Replaced 1 occurence"
 msgstr "1 kohta korvattu"
 
-#: search.c:210 search.c:232 search.c:255
+#: search.c:213 search.c:235 search.c:258
 msgid "Replace Cancelled"
 msgstr "Korvaus peruttu"
 
-#: search.c:228
+#: search.c:231
 #, c-format
 msgid "Replace with [%s]"
 msgstr "Korvaa merkkijonolla [%s]"
 
 #. last_search is empty
-#: search.c:253
+#: search.c:256
 msgid "Replace with"
 msgstr "Korvaa merkkijonolla"
 
-#: search.c:294
+#: search.c:297
 msgid "Replace this instance?"
 msgstr "Korvataanko tämä kohta?"
 
 #. Ask for it
-#: search.c:359
+#: search.c:362
 msgid "Enter line number"
 msgstr "Kirjoita rivin numero"
 
-#: search.c:361
+#: search.c:364
 msgid "Aborted"
 msgstr "Keskeytetty"
 
-#: search.c:381
+#: search.c:384
 msgid "Come on, be reasonable"
 msgstr "Jotakin järkevää, kiitos?"
 
-#: search.c:386
+#: search.c:389
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr "Vain %d riviä olemassa, siirrytään viimeiselle riville"
@@ -754,53 +755,56 @@ msgstr "  Tiedosto: ..."
 msgid "Modified"
 msgstr "Muokattu"
 
-#: winio.c:886
+#: winio.c:885
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr "Kohtaan (%d,%d) siirrytty muokkausruudussa\n"
 
-#: winio.c:897
+#: winio.c:896
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr "current->data = \"%s\"\n"
 
-#: winio.c:940
+#: winio.c:939
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "Saatiin \"%s\"\n"
 
-#: winio.c:965
+#: winio.c:964
 msgid "Yes"
 msgstr "Kyllä"
 
-#: winio.c:967
+#: winio.c:966
 msgid "All"
 msgstr "Kaikki"
 
-#: winio.c:969
+#: winio.c:968
 msgid "No"
 msgstr "Ei"
 
-#: winio.c:1105
+#: winio.c:1104
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
-#: winio.c:1109
+#: winio.c:1108
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "rivi %d/%d (%.0f%%), merkki %d/%d (%.0f%%)"
 
-#: winio.c:1233
+#: winio.c:1232
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Syötetään tiedosto stderriin...\n"
 
-#: winio.c:1235
+#: winio.c:1234
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Syötetään leiketila stderriin...\n"
 
-#: winio.c:1237
+#: winio.c:1236
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Syötetään teksti stderriin...\n"
+
+#~ msgid "To Search"
+#~ msgstr "Etsittävä"
 
 #~ msgid " Y"
 #~ msgstr " Y"
