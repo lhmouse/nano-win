@@ -75,6 +75,11 @@ CVS code -
   regexec_safe()
 	- Rename to safe_regexec() for consistency. (DLR)
 - winio.c:
+  statusq()
+	- Make sure that the vsnprintf(foo) call and foo's subsequent
+	  null termination both take the proper number of bytes when
+	  using multibyte characters, so that multibyte prompt strings
+	  aren't prematurely cut off. (DLR)
   titlebar()
 	- Make sure that the (mv)?waddnstr() calls take the proper
 	  number of bytes when using multibyte characters, so that

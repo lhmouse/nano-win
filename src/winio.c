@@ -2652,7 +2652,7 @@ int statusq(bool allow_tabs, const shortcut *s, const char *def,
 		const char *msg, ...)
 {
     va_list ap;
-    char *foo = charalloc(COLS - 3);
+    char *foo = charalloc(((COLS - 4) * mb_cur_max()) + 1);
     int ret;
 #ifndef DISABLE_TABCOMP
     bool list = FALSE;
@@ -2661,9 +2661,9 @@ int statusq(bool allow_tabs, const shortcut *s, const char *def,
     bottombars(s);
 
     va_start(ap, msg);
-    vsnprintf(foo, COLS - 4, msg, ap);
+    vsnprintf(foo, (COLS - 4) * mb_cur_max(), msg, ap);
     va_end(ap);
-    foo[COLS - 4] = '\0';
+    null_at(&foo, actual_x(foo, COLS - 4));
 
     ret = nanogetstr(allow_tabs, foo, def,
 #ifndef NANO_SMALL
