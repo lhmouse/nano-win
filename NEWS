@@ -1,3 +1,12 @@
+05/12/2001 - GNU nano 1.0.2 is the "just the bugfixes ma'am" release.
+		The most noticeable fixes are for display errors using page
+		up/down with the marker code, and view mode (-v) not
+		stopping the replace function.  Other fixes include being
+		able to use the arrow keys while holding down the ctrl key
+		in certain TERMs, and there are many documentation
+		updates and spelling tweaks.  We also have a new Galician
+		translation (provided by Jacobo Tarrío).  Have fun with it!
+
 04/06/2001 - GNU nano 1.0.1 is out there.  The only new feature is a 
 		configure option for those who want to disable all
 		word wrapping from nano, --disable-wrapping.  Bug fixes
