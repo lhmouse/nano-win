@@ -1861,8 +1861,8 @@ void reset_cursor(void)
  * edit window.  fileptr is the line to be painted, at row yval of the
  * window.  converted is the actual string to be written to the window,
  * with tabs and control characters replaced by strings of regular
- * characters.  start is the column number of the first character
- * of this page.  That is, the first character of converted corresponds to
+ * characters.  start is the column number of the first character of
+ * this page.  That is, the first character of converted corresponds to
  * character number actual_x(fileptr->data, start) of the line. */
 void edit_add(const filestruct *fileptr, const char *converted, int
 	yval, size_t start)
@@ -2555,7 +2555,7 @@ int do_cursorpos(int constant)
 	return 0;
     }
 
-    /* If constant is false, display the position on the statusbar
+    /* If constant is FALSE, display the position on the statusbar
      * unconditionally; otherwise, only display the position when the
      * character values have changed. */
     if (!constant || old_i != i || old_totsize != totsize) {
