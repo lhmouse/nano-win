@@ -11,7 +11,9 @@ CVS code -
   bottombars()
 	- Spread out the menu items, feedback definitely needed on this.
 - po/nl.po:
-	- New Dutch translation, by Guus Sliepen <guus@nl.linux.org>.	
+	- New Dutch translation, by Guus Sliepen <guus@nl.linux.org>.
+- po/es.po:
+	- Updated Spanish translation (Jordi).
 
 nano-1.1.1 - 07/28/2001
 - General
