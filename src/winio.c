@@ -4051,10 +4051,7 @@ void do_credits(void)
 	"David Benbennick",
 	"Ken Tyler",
 	"Sven Guckes",
-#ifdef NANO_WIDE
-	!ISSET(NO_UTF8) ? "Florian KÃ¶nig" :
-#endif
-		"Florian König",
+	"Florian König",
 	"Pauli Virtanen",
 	"Daniele Medri",
 	"Clement Laforet",
@@ -4121,6 +4118,7 @@ void do_credits(void)
     for (crpos = 0; crpos < CREDIT_LEN + editwinrows / 2; crpos++) {
 	if (wgetch(edit) != ERR)
 	    break;
+
 	if (crpos < CREDIT_LEN) {
 	    const char *what = credits[crpos];
 	    size_t start_x;
@@ -4134,6 +4132,7 @@ void do_credits(void)
 	    mvwaddstr(edit, editwinrows - 1 - editwinrows % 2, start_x,
 		what);
 	}
+
 	napms(700);
 	scroll(edit);
 	wrefresh(edit);

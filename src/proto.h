@@ -176,7 +176,7 @@ int mbwidth(const char *c);
 int mb_cur_max(void);
 char *make_mbchar(int chr, int *chr_mb_len);
 #ifdef ENABLE_NANORC
-char *make_mbstring(char *str);
+char *make_mbstring(const char *str);
 #endif
 int parse_mbchar(const char *buf, char *chr, bool *bad_chr, size_t
 	*col);

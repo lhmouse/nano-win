@@ -213,7 +213,7 @@ char *control_mbrep(const char *c, char *crep, int *crep_len)
     } else {
 #endif
 	*crep_len = 1;
-	crep[0] = control_rep((unsigned char)*c);
+	*crep = control_rep((unsigned char)*c);
 
 	return crep;
 #ifdef NANO_WIDE
@@ -276,9 +276,9 @@ int mb_cur_max(void)
  * multibyte character and its length. */
 char *make_mbchar(int chr, int *chr_mb_len)
 {
-    assert(chr_mb != NULL && chr_mb_len != NULL);
-
     char *chr_mb;
+
+    assert(chr_mb != NULL && chr_mb_len != NULL);
 
 #ifdef NANO_WIDE
     if (!ISSET(NO_UTF8)) {
@@ -293,7 +293,7 @@ char *make_mbchar(int chr, int *chr_mb_len)
 #endif
 	*chr_mb_len = 1;
 	chr_mb = charalloc(1);	
-	chr_mb[0] = (char)chr;
+	*chr_mb = (char)chr;
 #ifdef NANO_WIDE
     }
 #endif
@@ -305,17 +305,15 @@ char *make_mbchar(int chr, int *chr_mb_len)
 /* Convert the string str to a valid multibyte string with the same wide
  * character values as str.  Return the (dynamically allocated)
  * multibyte string. */
-char *make_mbstring(char *str)
+char *make_mbstring(const char *str)
 {
     assert(str != NULL);
-
-    char *str_mb;
 
 #ifdef NANO_WIDE
     if (!ISSET(NO_UTF8)) {
 	char *chr_mb = charalloc(MB_CUR_MAX);
 	int chr_mb_len;
-	str_mb = charalloc((MB_CUR_MAX * strlen(str)) + 1);
+	char *str_mb = charalloc((MB_CUR_MAX * strlen(str)) + 1);
 	size_t str_mb_len = 0;
 
 	while (*str != '\0') {
@@ -328,7 +326,7 @@ char *make_mbstring(char *str)
 		char *bad_chr_mb;
 		int bad_chr_mb_len;
 
-		bad_chr_mb = make_mbchar((unsigned char)chr_mb[0],
+		bad_chr_mb = make_mbchar((unsigned char)*chr_mb,
 		    &bad_chr_mb_len);
 
 		for (i = 0; i < bad_chr_mb_len; i++)
@@ -351,7 +349,7 @@ char *make_mbstring(char *str)
 	return str_mb;
      } else
 #endif
-	return mallocstrcpy(str_mb, str);
+	return mallocstrcpy(NULL, str);
 }
 #endif
 
