@@ -93,6 +93,18 @@ CVS code -
 	  some functions that use them as a parameter to use size_t as
 	  well.  Also change some related assertions to handle them.
 	  (David Benbennick and DLR)
+	- Add code to partition a filestruct between a set of arbitrary
+	  coordinates.  Given the coordinates of the beginning and end
+	  of the mark, this allows proper and easier handling of saving
+	  marked selections, replacing text only in marked selections
+	  (suggested by Joseph Birthisel), and spell-checking marked
+	  selections using either the internal or alternate spell
+	  checker.  Do all these using a global partition structure.
+	  New functions partition_filestruct(),
+	  unpartition_filestruct(), remove_magicline(), and
+	  get_totals(); changes to write_marked(), do_int_spell_fix(),
+	  do_alt_speller(), handle_sigwinch(), and do_replace_loop().
+	  (DLR)
 - files.c:
   do_insertfile()
 	- Simplify by reusing variables whereever possible, and add a

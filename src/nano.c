@@ -616,6 +616,93 @@ void free_filestruct(filestruct *src)
     }
 }
 
+#ifndef NANO_SMALL
+/* Partition a filestruct so it begins at (top, top_x) and ends at (bot,
+ * bot_x). */
+partition *partition_filestruct(filestruct *top, size_t top_x,
+	filestruct *bot, size_t bot_x)
+{
+    partition *p;
+    assert(top != NULL && bot != NULL);
+
+    /* Initialize the partition. */
+    p = (partition *)nmalloc(sizeof(partition));
+
+    /* Save the top and bottom of the filestruct. */
+    p->fileage = fileage;
+    p->filebot = filebot;
+
+    /* Set the top and bottom of the partition to top and bot. */
+    fileage = top;
+    filebot = bot;
+
+    /* Save the line above the top of the partition, detach the top of
+     * the partition from it, and save the text before top_x in
+     * top_data. */
+    p->top_prev = top->prev;
+    top->prev = NULL;
+    p->top_data = mallocstrncpy(NULL, top->data, top_x + 1);
+    p->top_data[top_x] = '\0';
+
+    /* Save the line below the bottom of the partition, detach the
+     * bottom of the partition from it, and save the text after bot_x in
+     * bot_data. */
+    p->bot_next = bot->next;
+    bot->next = NULL;
+    p->bot_data = mallocstrcpy(NULL, bot->data + bot_x);
+
+    /* Remove all text after bot_x at the bottom of the partition. */
+    null_at(&bot->data, bot_x);
+
+    /* Remove all text before top_x at the top of the partition. */
+    charmove(top->data, top->data + top_x, strlen(top->data) -
+	top_x + 1);
+    align(&top->data);
+
+    /* Return the partition. */
+    return p;
+}
+
+/* Unpartition a filestruct so it begins at (fileage, 0) and ends at
+ * (filebot, strlen(filebot)) again. */
+void unpartition_filestruct(partition *p)
+{
+    char *tmp;
+    assert(p != NULL);
+
+    /* Reattach the line above the top of the partition, and restore the
+     * text before top_x from top_data.  Free top_data when we're done
+     * with it. */
+    tmp = mallocstrcpy(NULL, fileage->data);
+    fileage->prev = p->top_prev;
+    fileage->prev->next = fileage;
+    fileage->data = charealloc(fileage->data, strlen(p->top_data) +
+	strlen(fileage->data) + 1);
+    strcpy(fileage->data, p->top_data);
+    free(p->top_data);
+    strcat(fileage->data, tmp);
+    free(tmp);
+
+    /* Reattach the line below the bottom of the partition, and restore
+     * the text after bot_x from bot_data.  Free bot_data when we're
+     * done with it. */
+    filebot->next = p->bot_next;
+    filebot->next->prev = filebot;
+    filebot->data = charealloc(filebot->data, strlen(filebot->data) +
+	strlen(p->bot_data) + 1);
+    strcat(filebot->data, p->bot_data);
+    free(p->bot_data);
+
+    /* Restore the top and bottom of the filestruct. */
+    fileage = p->fileage;
+    filebot = p->filebot;
+
+    /* Uninitialize the partition. */
+    free(p);
+    p = NULL;
+}
+#endif
+
 void renumber_all(void)
 {
     filestruct *temp;
@@ -1442,6 +1529,8 @@ bool do_int_spell_fix(const char *word)
 #endif
 #ifndef NANO_SMALL
     bool old_mark_set = ISSET(MARK_ISSET);
+    filestruct *top, *bot;
+    size_t top_x, bot_x;
 #endif
 
     /* Make sure spell-check is case sensitive. */
@@ -1455,10 +1544,6 @@ bool do_int_spell_fix(const char *word)
     /* Make sure spell-check doesn't use regular expressions. */
     UNSET(USE_REGEXP);
 #endif
-#ifndef NANO_SMALL
-    /* Make sure the marking highlight is off during spell-check. */
-    UNSET(MARK_ISSET);
-#endif
 
     /* Save the current search/replace strings. */
     search_init_globals();
@@ -1468,6 +1553,16 @@ bool do_int_spell_fix(const char *word)
     /* Set search/replace strings to misspelled word. */
     last_search = mallocstrcpy(NULL, word);
     last_replace = mallocstrcpy(NULL, word);
+
+#ifndef NANO_SMALL
+    if (old_mark_set) {
+	mark_order((const filestruct **)&top, &top_x,
+	    (const filestruct **)&bot, &bot_x);
+	filepart = partition_filestruct(top, top_x, bot, bot_x);
+	edittop = fileage;
+	UNSET(MARK_ISSET);
+    }
+#endif
 
     /* Start from the top of the file. */
     edittop = fileage;
@@ -1493,9 +1588,17 @@ bool do_int_spell_fix(const char *word)
 	    do_replace_highlight(FALSE, word);
 
 	    if (!canceled && strcmp(word, answer) != 0) {
+		bool added_magicline = (filebot->data[0] != '\0');
+			/* Whether we added a magicline after
+			 * filebot. */
+
 		current_x--;
 		do_replace_loop(word, current, &current_x, TRUE,
 			&canceled);
+
+		/* If we added a magicline, remove it now. */
+		if (added_magicline)
+		    remove_magicline();
 	    }
 
 	    break;
@@ -1507,6 +1610,15 @@ bool do_int_spell_fix(const char *word)
     last_search = save_search;
     free(last_replace);
     last_replace = save_replace;
+
+#ifndef NANO_SMALL
+    /* If the mark was on, unpartition the filestruct so that it
+     * contains all the text again, and turn the mark back on. */
+    if (old_mark_set) {
+	unpartition_filestruct(filepart);
+	SET(MARK_ISSET);
+    }
+#endif
 
     /* Restore where we were. */
     edittop = edittop_save;
@@ -1527,11 +1639,6 @@ bool do_int_spell_fix(const char *word)
     /* Restore regular expression usage setting. */
     if (regexp_set)
 	SET(USE_REGEXP);
-#endif
-#ifndef NANO_SMALL
-    /* Restore marking highlight. */
-    if (old_mark_set)
-	SET(MARK_ISSET);
 #endif
 
     return !canceled;
@@ -1737,13 +1844,23 @@ const char *do_alt_speller(char *tempfile_name)
     FILE *f;
 #ifndef NANO_SMALL
     bool old_mark_set = ISSET(MARK_ISSET);
+    bool added_magicline = FALSE;
+	/* Whether we added a magicline after filebot. */
     int mbb_lineno_cur = 0;
 	/* We're going to close the current file, and open the output of
 	 * the alternate spell command.  The line that mark_beginbuf
 	 * points to will be freed, so we save the line number and
 	 * restore afterwards. */
+    int old_totlines = totlines;
+	/* Our saved value of totlines, used when we spell-check a
+	 * marked selection. */
+    long old_totsize = totsize;
+	/* Our saved value of totsize, used when we spell-check a marked
+	 * selection. */
 
     if (old_mark_set) {
+	/* If the mark is on, save the number of the line it starts on,
+	 * and then turn the mark off. */
 	mbb_lineno_cur = mark_beginbuf->lineno;
 	UNSET(MARK_ISSET);
     }
@@ -1798,24 +1915,77 @@ const char *do_alt_speller(char *tempfile_name)
 
 #ifndef NANO_SMALL
     if (old_mark_set) {
+	filestruct *top, *bot;
+	size_t top_x, bot_x;
+	int part_totlines;
+	long part_totsize;
+
+	/* If the mark was on, partition the filestruct so that it
+	 * contains only the marked text, and keep track of whether the
+	 * temp file (which should contain the spell-checked marked
+	 * text) will have a magicline added when it's reloaded. */
+	mark_order((const filestruct **)&top, &top_x,
+		(const filestruct **)&bot, &bot_x);
+	filepart = partition_filestruct(top, top_x, bot, bot_x);
+	added_magicline = (filebot->data[0] != '\0');
+
+	/* Get the number of lines and the number of characters in the
+	 * marked text, and subtract them from the saved values of
+	 * totlines and totsize. */
+	get_totals(top, bot, &part_totlines, &part_totsize);
+	old_totlines -= part_totlines;
+	old_totsize -= part_totsize;
+    }
+#endif
+
+    /* Reinitialize the filestruct. */
+    free_filestruct(fileage);
+    global_init(TRUE);
+
+    /* Reload the temp file.  Do what load_buffer() would do, except for
+     * making a new buffer for the temp file if multibuffer support is
+     * available. */
+    open_file(tempfile_name, FALSE, &f);
+    read_file(f, tempfile_name);
+    current = fileage;
+
+#ifndef NANO_SMALL
+    if (old_mark_set) {
+	filestruct *old_top = fileage;
+
+	/* If we added a magicline, remove it now. */
+	if (added_magicline)
+	    remove_magicline();
+
+	/* If the mark was on, unpartition the filestruct so that it
+	 * contains all the text again.  Note that we've replaced the
+	 * marked text originally in the partition with the
+	 * spell-checked marked text in the temp file. */
+	unpartition_filestruct(filepart);
+
+	/* Renumber starting with the beginning line of the old
+	 * partition.  Also add the number of lines and characters in
+	 * the spell-checked marked text to the saved values of totlines
+	 * and totsize, and then make those saved values the actual
+	 * values. */
+	renumber(old_top);
+	old_totlines += totlines;
+	old_totsize += totsize;
+	totlines = old_totlines;
+	totsize = old_totsize;
+
+	/* Assign mark_beginbuf to the line where the mark began
+	 * before. */
 	do_gotopos(mbb_lineno_cur, mark_beginx, y_cur, 0);
 	mark_beginbuf = current;
-	/* In case the line got shorter, assign mark_beginx. */
-	mark_beginx = current_x;
-	SET(MARK_ISSET);
-    } else {
-#endif
-	/* Only reload the temp file if it isn't a marked selection. */
-	free_filestruct(fileage);
-	global_init(TRUE);
 
-	/* Do what load_buffer() would do, except for making a new
-	 * buffer for the temp file if multibuffer support is
-	 * available. */
-	open_file(tempfile_name, FALSE, &f);
-	read_file(f, tempfile_name);
-	current = fileage;
-#ifndef NANO_SMALL
+	/* Assign mark_beginx to the location in mark_beginbuf where the
+	 * mark began before, adjusted for any shortening of the
+	 * line. */
+	mark_beginx = current_x;
+
+	/* Turn the mark back on. */
+	SET(MARK_ISSET);
     }
 #endif
 
@@ -2844,6 +3014,10 @@ void handle_sigwinch(int s)
     hblank = charealloc(hblank, COLS + 1);
     memset(hblank, ' ', COLS);
     hblank[COLS] = '\0';
+
+    /* If we've partitioned the filestruct, unpartition it now. */
+    if (filepart != NULL)
+	unpartition_filestruct(filepart);
 
 #ifdef USE_SLANG
     /* Slang curses emulation brain damage, part 1: If we just do what

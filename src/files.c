@@ -1720,49 +1720,36 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 int write_marked(const char *name, int tmp, int append)
 {
     int retval = -1;
-    filestruct *fileagebak = fileage;
-    filestruct *filebotbak = filebot;
     bool old_modified = ISSET(MODIFIED);
 	/* write_file() unsets the MODIFIED flag. */
-    size_t topx;
-	/* The column of the beginning of the mark. */
-    char origchar;
-	/* We replace the character at the end of the mark with '\0'.
-	 * We save the original character, to restore it. */
-    char *origcharloc;
-	/* The location of the character we nulled. */
+    bool added_magicline;
+	/* Whether we added a magicline after filebot. */
+    filestruct *top, *bot;
+    size_t top_x, bot_x;
 
-    /* Set fileage as the top of the mark, and filebot as the bottom. */
-    if (current->lineno > mark_beginbuf->lineno ||
-		(current->lineno == mark_beginbuf->lineno &&
-		current_x > mark_beginx)) {
-	fileage = mark_beginbuf;
-	topx = mark_beginx;
-	filebot = current;
-	origcharloc = current->data + current_x;
-    } else {
-	fileage = current;
-	topx = current_x;
-	filebot = mark_beginbuf;
-	origcharloc = mark_beginbuf->data + mark_beginx;
-    }
-    origchar = *origcharloc;
-    *origcharloc = '\0';
-    fileage->data += topx;
+    /* Partition the filestruct so that it contains only the marked
+     * text. */
+    mark_order((const filestruct **)&top, &top_x,
+	(const filestruct **)&bot, &bot_x);
+    filepart = partition_filestruct(top, top_x, bot, bot_x);
 
     /* If the line at filebot is blank, treat it as the magicline and
-     * hence the end of the file.  Otherwise, treat the line after
-     * filebot as the end of the file. */
-    if (filebot->data[0] != '\0' && filebot->next != NULL)
-	filebot = filebot->next;
+     * hence the end of the file.  Otherwise, add a magicline and treat
+     * it as the end of the file. */
+    added_magicline = (filebot->data[0] != '\0');
+    if (added_magicline)
+	new_magicline();
 
     retval = write_file(name, tmp, append, TRUE);
 
-    /* Now restore everything. */
-    fileage->data -= topx;
-    *origcharloc = origchar;
-    fileage = fileagebak;
-    filebot = filebotbak;
+    /* If we added a magicline, remove it now. */
+    if (added_magicline)
+	remove_magicline();
+
+    /* Unpartition the filestruct so that it contains all the text
+     * again. */
+    unpartition_filestruct(filepart);
+
     if (old_modified)
 	set_modified();
 

@@ -87,6 +87,7 @@ extern struct stat fileinfo;
 extern filestruct *current, *fileage, *edittop, *filebot;
 extern filestruct *cutbuffer;
 #ifndef NANO_SMALL
+extern partition *filepart;
 extern filestruct *mark_beginbuf;
 #endif
 
@@ -301,6 +302,11 @@ void unlink_node(const filestruct *fileptr);
 void delete_node(filestruct *fileptr);
 filestruct *copy_filestruct(const filestruct *src);
 void free_filestruct(filestruct *src);
+#ifndef NANO_SMALL
+partition *partition_filestruct(filestruct *top, size_t top_x,
+	filestruct *bot, size_t bot_x);
+void unpartition_filestruct(partition *p);
+#endif
 void renumber_all(void);
 void renumber(filestruct *fileptr);
 void print1opt(const char *shortflag, const char *longflag, const char
@@ -496,6 +502,9 @@ char *mallocstrcpy(char *dest, const char *src);
 char *mallocstrassn(char *dest, char *src);
 void new_magicline(void);
 #ifndef NANO_SMALL
+void remove_magicline(void);
+void get_totals(const filestruct *begin, const filestruct *end, int
+	*lines, long *size);
 void mark_order(const filestruct **top, size_t *top_x, const filestruct
 	**bot, size_t *bot_x);
 #endif

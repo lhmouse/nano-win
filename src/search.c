@@ -669,8 +669,22 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 #endif
 #ifndef NANO_SMALL
     bool old_mark_set = ISSET(MARK_ISSET);
+    filestruct *edittop_save = edittop, *top, *bot;
+    size_t top_x, bot_x;
+    bool right_side_up = FALSE;
+	/* TRUE if (mark_beginbuf, mark_beginx) is the top of the mark,
+	 * FALSE if (current, current_x) is. */
 
     if (old_mark_set) {
+	/* If the mark is on, partition the filestruct so that it
+	 * contains only the marked text, set right_side_up properly,
+	 * set edittop to the top of the marked text, turn the mark off,
+	 * and refresh the screen. */
+	mark_order((const filestruct **)&top, &top_x,
+	    (const filestruct **)&bot, &bot_x);
+	right_side_up = (bot == current && bot_x == current_x);
+	filepart = partition_filestruct(top, top_x, bot, bot_x);
+	edittop = fileage;
 	UNSET(MARK_ISSET);
 	edit_refresh();
     }
@@ -764,18 +778,33 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 	    length_change = strlen(copy) - strlen(current->data);
 
 #ifndef NANO_SMALL
+	    /* Keep mark_beginx in sync with the text changes. */
 	    if (current == mark_beginbuf && mark_beginx > current_x) {
-		if (mark_beginx < current_x + match_len)
-		    mark_beginx = current_x;
-		else
-		    mark_beginx += length_change;
+		/* If the mark was on and (mark_beginbuf, mark_begin_x)
+		 * was the top of it, don't change mark_beginx. */
+		if (!old_mark_set || !right_side_up) {
+		    if (mark_beginx < current_x + match_len)
+			mark_beginx = current_x;
+		    else
+			mark_beginx += length_change;
+		}
 	    }
 #endif
 
-	    if (current == real_current && current_x <= *real_current_x) {
-		if (*real_current_x < current_x + match_len)
-		    *real_current_x = current_x + match_len;
-		*real_current_x += length_change;
+	    /* Keep real_current_x in sync with the text changes. */
+	    if (current == real_current && current_x <=
+		*real_current_x) {
+#ifndef NANO_SMALL
+		/* If the mark was on and (current, current_x) was the
+		 * top of it, don't change real_current_x. */
+		if (!old_mark_set || right_side_up) {
+#endif
+		    if (*real_current_x < current_x + match_len)
+			*real_current_x = current_x + match_len;
+		    *real_current_x += length_change;
+#ifndef NANO_SMALL
+		}
+#endif
 	    }
 
 	    /* Set the cursor at the last character of the replacement
@@ -806,14 +835,21 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 	}
     }
 
+#ifndef NANO_SMALL
+    /* If the mark was on, unpartition the filestruct so that it
+     * contains all the text again, set edittop back to what it was
+     * before, turn the mark back on, and refresh the screen. */
+    if (old_mark_set) {
+	unpartition_filestruct(filepart);
+	edittop = edittop_save;
+	SET(MARK_ISSET);
+	edit_refresh();
+    }
+#endif
+
     /* If text has been added to the magicline, make a new magicline. */
     if (filebot->data[0] != '\0')
 	new_magicline();
-
-#ifndef NANO_SMALL
-    if (old_mark_set)
-	SET(MARK_ISSET);
-#endif
 
     return numreplaced;
 }

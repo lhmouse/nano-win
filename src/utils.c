@@ -441,6 +441,57 @@ void new_magicline(void)
 }
 
 #ifndef NANO_SMALL
+/* Remove the magicline from filebot, if there is one. */
+void remove_magicline(void)
+{
+    if (filebot->data[0] == '\0') {
+	filebot = filebot->prev;
+	free_filestruct(filebot->next);
+	filebot->next = NULL;
+	totlines--;
+	totsize--;
+    }
+}
+
+/* Calculate the number of lines and the number of characters between
+ * begin and end, and return them in lines and size, respectively. */
+void get_totals(const filestruct *begin, const filestruct *end, int
+	*lines, long *size)
+{
+    const filestruct *f;
+
+    if (lines != NULL)
+	*lines = 0;
+    if (size != NULL)
+	*size = 0;
+
+    /* Go through the lines from begin to end->prev, if we can. */
+    for (f = begin; f != NULL && f != end; f = f->next) {
+	/* Count this line. */
+	(*lines)++;
+
+	/* Count the number of characters on this line. */
+	*size += strlen(f->data);
+
+	/* Count the newline if we have one. */
+	if (f->next != NULL)
+	   (*size)++;
+    }
+
+    /* Go through the line at end, if we can. */
+    if (f != NULL) {
+	/* Count this line. */
+	(*lines)++;
+
+	/* Count the number of characters on this line. */
+	*size += strlen(f->data);
+
+	/* Count the newline if we have one. */
+	if (f->next != NULL)
+	   (*size)++;
+    }
+}
+
 /* Set top_x and bot_x to the top and bottom x-coordinates of the mark,
  * respectively, based on the locations of top and bot. */
 void mark_order(const filestruct **top, size_t *top_x, const filestruct
