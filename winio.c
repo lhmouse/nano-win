@@ -291,11 +291,12 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 	    ungetch(13);	/* Enter on iris-ansi $TERM, sometimes */
 	    break;
 	/* Stuff we want to ignore */
-	case 545: 			/* German Alt-Gr key */
 #ifdef PDCURSES
 	case 541:
 	case 542:
+	case 543:			/* Right ctrl again */
 	case 544:
+	case 545: 			/* Right alt again */
 #endif
 		break;
 	case KEY_HOME:
