@@ -291,7 +291,7 @@ AC_MSG_WARN([*** Can not use slang when cross-compiling])),
     esac], [AC_MSG_RESULT(no)])
 
 dnl Checks for functions
-AC_CHECK_FUNCS(snprintf vsnprintf isascii isblank iswalnum iswblank iswspace strcasecmp strncasecmp strcasestr strnlen getline getdelim mblen mbtowc wctomb wcwidth)
+AC_CHECK_FUNCS(snprintf vsnprintf isblank iswalnum iswblank iswspace strcasecmp strncasecmp strcasestr strnlen getline getdelim mblen mbtowc wctomb wcwidth)
 if test "x$ac_cv_func_snprintf" = "xno" -o "x$ac_cv_func_vsnprintf" = "xno"
 then
 	AM_PATH_GLIB_2_0(2.0.0,,

@@ -1676,18 +1676,11 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
     *s_or_t = have_shortcut;
 
     if (allow_funcs) {
-	/* If we got a character, and it isn't a shortcut, toggle, or
-	 * control character, it's a normal text character.  Display the
-	 * warning if we're in view mode, or add the character to the
-	 * input buffer if we're not. */
-	if (input != ERR && *s_or_t == FALSE && (
-#ifdef NANO_WIDE
-		/* Keep non-ASCII control characters if we're in UTF-8
-		 * mode, since they might be part of a UTF-8
-		 * sequence. */
-		(!ISSET(NO_UTF8) && !is_ascii_char(input)) ||
-#endif
-		!is_cntrl_char(input))) {
+	/* If we got a character, and it isn't a shortcut or toggle,
+	 * it's a normal text character.  Display the warning if we're
+	 * in view mode, or add the character to the input buffer if
+	 * we're not. */
+	if (input != ERR && *s_or_t == FALSE) {
 	    /* If we're using restricted mode, the filename isn't blank,
 	     * and we're at the "Write File" prompt, disable text
 	     * input. */
@@ -1707,7 +1700,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	    if (kbinput != NULL) {
 
 		/* Display all the characters in the input buffer at
-		 * once. */
+		 * once, filtering out control characters. */
 		char *output = charalloc(kbinput_len + 1);
 		size_t i;
 		bool got_enter;
@@ -1717,7 +1710,8 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 		    output[i] = (char)kbinput[i];
 		output[i] = '\0';
 
-		do_statusbar_output(output, kbinput_len, &got_enter);
+		do_statusbar_output(output, kbinput_len, &got_enter,
+			FALSE);
 
 		free(output);
 
@@ -2037,20 +2031,21 @@ void do_statusbar_verbatim_input(bool *got_enter)
     /* Read in all the verbatim characters. */
     kbinput = get_verbatim_kbinput(bottomwin, &kbinput_len);
 
-    /* Display all the verbatim characters at once. */
+    /* Display all the verbatim characters at once, not filtering out
+     * control characters. */
     output = charalloc(kbinput_len + 1);
 
     for (i = 0; i < kbinput_len; i++)
 	output[i] = (char)kbinput[i];
     output[i] = '\0';
 
-    do_statusbar_output(output, kbinput_len, got_enter);
+    do_statusbar_output(output, kbinput_len, got_enter, TRUE);
 
     free(output);
 }
 
 void do_statusbar_output(char *output, size_t output_len, bool
-	*got_enter)
+	*got_enter, bool allow_cntrls)
 {
     size_t answer_len = strlen(answer), i = 0;
     char *char_buf = charalloc(mb_cur_max());
@@ -2061,17 +2056,22 @@ void do_statusbar_output(char *output, size_t output_len, bool
     *got_enter = FALSE;
 
     while (i < output_len) {
-	/* Null to newline, if needed. */
-	if (output[i] == '\0')
-	    output[i] = '\n';
-	/* Newline to Enter, if needed. */
-	else if (output[i] == '\n') {
-	    /* Set got_enter to TRUE to indicate that we got the Enter
-	     * key, put back the rest of the characters in output so
-	     * that they can be parsed and output again, and get out. */
-	    *got_enter = TRUE;
-	    unparse_kbinput(output + i, output_len - i);
-	    return;
+	/* If allow_cntrls is FALSE, filter out nulls and newlines,
+	 * since they're control characters. */
+	if (allow_cntrls) {
+	    /* Null to newline, if needed. */
+	    if (output[i] == '\0')
+		output[i] = '\n';
+	    /* Newline to Enter, if needed. */
+	    else if (output[i] == '\n') {
+		/* Set got_enter to TRUE to indicate that we got the
+		 * Enter key, put back the rest of the characters in
+		 * output so that they can be parsed and output again,
+		 * and get out. */
+		*got_enter = TRUE;
+		unparse_kbinput(output + i, output_len - i);
+		return;
+	    }
 	}
 
 	/* Interpret the next multibyte character.  If it's an invalid
@@ -2080,6 +2080,10 @@ void do_statusbar_output(char *output, size_t output_len, bool
 	char_buf_len = parse_mbchar(output + i, char_buf, NULL, NULL);
 
 	i += char_buf_len;
+
+	/* If allow_cntrls is FALSE, filter out a control character. */
+	if (!allow_cntrls && is_cntrl_mbchar(output + i - char_buf_len))
+	    continue;
 
 	/* More dangerousness fun =) */
 	answer = charealloc(answer, answer_len + (char_buf_len * 2));

@@ -1210,14 +1210,15 @@ void do_verbatim_input(void)
     /* Read in all the verbatim characters. */
     kbinput = get_verbatim_kbinput(edit, &kbinput_len);
 
-    /* Display all the verbatim characters at once. */
+    /* Display all the verbatim characters at once, not filtering out
+     * control characters. */
     output = charalloc(kbinput_len + 1);
 
     for (i = 0; i < kbinput_len; i++)
 	output[i] = (char)kbinput[i];
     output[i] = '\0';
 
-    do_output(output, kbinput_len);
+    do_output(output, kbinput_len, TRUE);
 
     free(output);
 }
@@ -1313,7 +1314,7 @@ void do_tab(void)
 {
     char *kbinput = "\t";
 
-    do_output(kbinput, 1);
+    do_output(kbinput, 1, TRUE);
 }
 
 /* Someone hits return *gasp!* */
@@ -3615,18 +3616,11 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	);
 
     if (allow_funcs) {
-	/* If we got a character, and it isn't a shortcut, toggle, or
-	 * control character, it's a normal text character.  Display the
-	 * warning if we're in view mode, or add the character to the
-	 * input buffer if we're not. */
-	if (input != ERR && *s_or_t == FALSE && (
-#ifdef NANO_WIDE
-		/* Keep non-ASCII control characters if we're in UTF-8
-		 * mode, since they might be part of a UTF-8
-		 * sequence. */
-		(!ISSET(NO_UTF8) && !is_ascii_char(input)) ||
-#endif
-		!is_cntrl_char(input))) {
+	/* If we got a character, and it isn't a shortcut or toggle,
+	 * it's a normal text character.  Display the warning if we're
+	 * in view mode, or add the character to the input buffer if
+	 * we're not. */
+	if (input != ERR && *s_or_t == FALSE) {
 	    if (ISSET(VIEW_MODE))
 		print_view_warning();
 	    else {
@@ -3645,7 +3639,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	 if (*s_or_t == TRUE || get_buffer_len() == 0) {
 	    if (kbinput != NULL) {
 		/* Display all the characters in the input buffer at
-		 * once. */
+		 * once, filtering out control characters. */
 		char *output = charalloc(kbinput_len + 1);
 		size_t i;
 
@@ -3653,7 +3647,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 		    output[i] = (char)kbinput[i];
 		output[i] = '\0';
 
-		do_output(output, kbinput_len);
+		do_output(output, kbinput_len, FALSE);
 
 		free(output);
 
@@ -3776,8 +3770,9 @@ bool do_mouse(void)
 #endif /* !DISABLE_MOUSE */
 
 /* The user typed kbinput_len multibyte characters.  Add them to the
- * edit buffer. */
-void do_output(char *output, size_t output_len)
+ * edit buffer, filtering out all control characters if allow_cntrls is
+ * TRUE. */
+void do_output(char *output, size_t output_len, bool allow_cntrls)
 {
     size_t current_len = strlen(current->data), i = 0;
     bool old_constupdate = ISSET(CONSTUPDATE);
@@ -3794,14 +3789,18 @@ void do_output(char *output, size_t output_len)
     UNSET(CONSTUPDATE);
 
     while (i < output_len) {
-	/* Null to newline, if needed. */
-	if (output[i] == '\0')
-	    output[i] = '\n';
-	/* Newline to Enter, if needed. */
-	else if (output[i] == '\n') {
-	    do_enter();
-	    i++;
-	    continue;
+	/* If allow_cntrls is FALSE, filter out nulls and newlines,
+	 * since they're control characters. */
+	if (allow_cntrls) {
+	    /* Null to newline, if needed. */
+	    if (output[i] == '\0')
+		output[i] = '\n';
+	    /* Newline to Enter, if needed. */
+	    else if (output[i] == '\n') {
+		do_enter();
+		i++;
+		continue;
+	    }
 	}
 
 	/* Interpret the next multibyte character.  If it's an invalid
@@ -3810,6 +3809,10 @@ void do_output(char *output, size_t output_len)
 	char_buf_len = parse_mbchar(output + i, char_buf, NULL, NULL);
 
 	i += char_buf_len;
+
+	/* If allow_cntrls is FALSE, filter out a control character. */
+	if (!allow_cntrls && is_cntrl_mbchar(output + i - char_buf_len))
+	    continue;
 
 	/* When a character is inserted on the current magicline, it
 	 * means we need a new one! */

@@ -156,7 +156,6 @@ bool is_alnum_char(int c);
 bool is_alnum_mbchar(const char *c);
 #ifdef NANO_WIDE
 bool is_alnum_wchar(wchar_t wc);
-bool is_ascii_char(int c);
 #endif
 bool is_blank_char(int c);
 bool is_blank_mbchar(const char *c);
@@ -463,7 +462,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 #ifndef DISABLE_MOUSE
 bool do_mouse(void);
 #endif
-void do_output(char *output, size_t output_len);
+void do_output(char *output, size_t output_len, bool allow_cntrls);
 
 /* Public functions in rcfile.c. */
 #ifdef ENABLE_NANORC
@@ -626,7 +625,7 @@ void do_statusbar_prev_word(void);
 #endif
 void do_statusbar_verbatim_input(bool *got_enter);
 void do_statusbar_output(char *output, size_t output_len, bool
-	*got_enter);
+	*got_enter, bool allow_cntrls);
 size_t xplustabs(void);
 size_t actual_x(const char *str, size_t xplus);
 size_t strnlenpt(const char *buf, size_t size);
