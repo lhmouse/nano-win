@@ -2278,11 +2278,15 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		NULL);
 
 	if (*buf_mb == '\t') {
-	    converted[index++] =
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
-		ISSET(WHITESPACE_DISPLAY) ? whitespace[0] :
+	    if (ISSET(WHITESPACE_DISPLAY)) {
+		int i;
+
+		for (i = 0; i < whitespace_len[0]; i++)
+		    converted[index++] = whitespace[i];
+	    } else
 #endif
-		' '; 
+		converted[index++] = ' '; 
 	    start_col++;
 	    while (start_col % tabsize != 0) {
 		converted[index++] = ' ';
@@ -2308,11 +2312,16 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
 	    free(ctrl_buf_mb);
 	} else if (*buf_mb == ' ') {
-	    converted[index++] =
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
-		ISSET(WHITESPACE_DISPLAY) ? whitespace[1] :
+	    if (ISSET(WHITESPACE_DISPLAY)) {
+		int i;
+
+		for (i = whitespace_len[0]; i < whitespace_len[0] +
+			whitespace_len[1]; i++)
+		    converted[index++] = whitespace[i];
+	    } else
 #endif
-		' ';
+		converted[index++] = ' '; 
 	    start_col++;
 	} else {
 	    int i;

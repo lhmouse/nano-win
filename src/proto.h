@@ -47,6 +47,7 @@ extern int currslen;
 
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 extern char *whitespace;
+extern int whitespace_len[2];
 #endif
 
 #ifndef DISABLE_JUSTIFY

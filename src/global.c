@@ -78,6 +78,7 @@ openfilestruct *open_files = NULL;	/* The list of open file
 char *whitespace = NULL;	/* Characters used when displaying
 				   the first characters of tabs and
 				   spaces. */
+int whitespace_len[2];		/* The length of the characters. */
 #endif
 
 #ifndef DISABLE_JUSTIFY

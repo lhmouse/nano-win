@@ -380,10 +380,10 @@ void help_init(void)
 	  "Esc key twice.  Escape-key sequences are notated with the Meta "
 	  "(M) symbol and can be entered using either the Esc, Alt or "
 	  "Meta key depending on your keyboard setup.  Also, pressing Esc "
-	  "twice and then typing a three-digit number from 000 to 255 "
-	  "will enter the character with the corresponding value.  The "
-	  "following keystrokes are available in the main editor window.  "
-	  "Alternative keys are shown in parentheses:\n\n");
+	  "twice and then typing a three-digit decimal number from 000 to "
+	  " 255 will enter the character with the corresponding value.  "
+	  "The following keystrokes are available in the main editor "
+	  " window.  Alternative keys are shown in parentheses:\n\n");
 
     htx = _(htx);
 
@@ -4271,8 +4271,11 @@ int main(int argc, char **argv)
 
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
     /* If whitespace wasn't specified, set its default value. */
-    if (whitespace == NULL)
+    if (whitespace == NULL) {
 	whitespace = mallocstrcpy(NULL, "  ");
+	whitespace_len[0] = 1;
+	whitespace_len[1] = 1;
+    }
 #endif
 
     /* If tabsize wasn't specified, set its default value. */

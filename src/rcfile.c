@@ -570,13 +570,24 @@ void parse_rcfile(FILE *rcstream)
 #endif
 #ifndef NANO_SMALL
 			if (strcasecmp(rcopts[i].name, "whitespace") == 0) {
-			    size_t ws_len;
-			    whitespace = mallocstrcpy(NULL, option);
-			    ws_len = strlen(whitespace);
-			    if (ws_len != 2 || (ws_len == 2 && (is_cntrl_char(whitespace[0]) || is_cntrl_char(whitespace[1])))) {
-				rcfile_error(N_("Two non-control characters required"));
+			    /* We use display_string() here so that any
+			     * invalid multibyte characters in option
+			     * will be converted to valid multibyte
+			     * characters in whitespace. */
+			    whitespace = display_string(option, 0, 3, FALSE);
+
+			    if (mbstrlen(whitespace) != 2 || strlenpt(whitespace) != 2) {
+				rcfile_error(N_("Two single-column characters required"));
 				free(whitespace);
 				whitespace = NULL;
+			    } else {
+				whitespace_len[0] =
+					parse_mbchar(whitespace, NULL,
+					NULL, NULL);
+				whitespace_len[1] =
+					parse_mbchar(whitespace +
+					whitespace_len[0], NULL,
+					NULL, NULL);
 			    }
 			} else
 #endif

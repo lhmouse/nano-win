@@ -118,11 +118,12 @@
 ## Save automatically on exit, don't prompt.
 # set tempfile
 
-## Disallow file modification, why would you want this in an rc file? ;)
+## Disallow file modification; why would you want this in an rcfile? ;)
 # set view
 
 ## The two characters used to display the first characters of tabs and
-## spaces.  187 and 183 seem to be good values for these.
+## spaces.  187 decimal (00BB hexadecimal) and 183 decimal (00B7
+## hexadecimal) seem to be good values for these.
 # set whitespace "  "
 
 ## Color setup

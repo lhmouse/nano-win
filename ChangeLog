@@ -171,6 +171,10 @@ CVS code -
 	  parse_syntax(), parse_colors(), parse_rcfile(), do_rcfile(),
 	  etc. (David Benbennick)  DLR: Rename colortoint() to
 	  color_to_int(), and add a few miscellaneous tweaks.
+	- Still more steps toward full wide/multibyte character support.
+	  Make whitespace display mode work with multibyte characters,
+	  and add a few related documentation updates.  Changes to
+	  do_help(), main(), parse_rcfile(), and display_string(). (DLR)
 - cut.c:
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the
@@ -325,6 +329,9 @@ CVS code -
 	  Piefel)
 	- Add the "morespace" option. (DLR)
 	- Add support for characters to the "c-file" regexes. (DLR)
+	- Add the hexadecimal equivalents of the decimal values
+	  suggested for whitespace display, now that it can handle
+	  multibyte characters. (DLR)
 - nano.1. nanorc.5, nano.texi:
 	- Add the "morespace" option, and sync with the descriptions in
 	  nanorc.sample in a few places. (DLR)
