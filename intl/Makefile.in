@@ -171,7 +171,7 @@ mostlyclean:
 clean: mostlyclean
 
 distclean: clean
-	rm -f Makefile ID TAGS po2msg.sed po2tbl.sed
+	rm -f Makefile ID TAGS po2msg.sed po2tbl.sed libintl.h
 
 maintainer-clean: distclean
 	@echo "This command is intended for maintainers to use;"
