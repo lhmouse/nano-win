@@ -76,8 +76,13 @@ CVS code -
 	  Changes to src/Marefile.am. (DLR)
 	- Move the static int pid to the beginning of nano.c with all 
 	  the other static variables. (DLR)
+	- Consolidate some if blocks to remove some redundant code.
+	  (David Benbennick)
 	- Fix warnings when compiling with ENABLE_NLS undefined and with
 	  -the fwritable-strings option. (David Benbennick)
+	- Add various #ifdefs to fix warnings and compilation problems
+	  when compiling with every option manually turned on, including
+	  NANO_SMALL. (David Benbennick)
 - files.c:
   close_open_file()
 	- Tweak to no longer rely on the return values of

@@ -338,8 +338,9 @@ void read_file(FILE *f, const char *filename, int quiet)
     return;
 }
 
-/* Open the file (and decide if it exists). */
-int open_file(const char *filename, int insert, int quiet)
+/* Open the file (and decide if it exists).  Return TRUE on success,
+ * FALSE on failure. */
+bool open_file(const char *filename, int insert, int quiet)
 {
     int fd;
     FILE *f;
@@ -348,7 +349,7 @@ int open_file(const char *filename, int insert, int quiet)
     if (filename[0] == '\0' || stat(filename, &fileinfo) == -1) {
 	if (insert && !quiet) {
 	    statusbar(_("\"%s\" not found"), filename);
-	    return -1;
+	    return FALSE;
 	} else {
 	    /* We have a new file */
 	    statusbar(_("New File"));
@@ -361,7 +362,7 @@ int open_file(const char *filename, int insert, int quiet)
 			_("File \"%s\" is a device file"), filename);
 	if (!insert)
 	    new_file();
-	return -1;
+	return FALSE;
     } else if ((fd = open(filename, O_RDONLY)) == -1) {
 	/* If we're in multibuffer mode, don't be quiet when an error
 	   occurs while opening a file */
@@ -373,7 +374,7 @@ int open_file(const char *filename, int insert, int quiet)
 	    statusbar("%s: %s", strerror(errno), filename);
 	if (!insert)
 	    new_file();
-	return -1;
+	return FALSE;
     } else {			/* File is A-OK */
 	if (!quiet)
 	    statusbar(_("Reading File"));
@@ -381,7 +382,7 @@ int open_file(const char *filename, int insert, int quiet)
 	if (f == NULL) {
 	    nperror("fdopen");
 	    close(fd);
-	    return -1;
+	    return FALSE;
 	}
 	read_file(f, filename, quiet);
 #ifndef NANO_SMALL
@@ -389,7 +390,7 @@ int open_file(const char *filename, int insert, int quiet)
 #endif
     }
 
-    return 1;
+    return TRUE;
 }
 
 /* This function will return the name of the first available extension
@@ -426,6 +427,8 @@ char *get_next_filename(const char *name)
 void do_insertfile(int loading_file)
 {
     int i, old_current_x = current_x;
+    bool opened;
+	/* TRUE if the file opened successfully. */
     char *realname = NULL;
     static char *inspath = NULL;
 
@@ -550,11 +553,11 @@ void do_insertfile(int loading_file)
 #ifndef NANO_SMALL
 	if (i == NANO_EXTCMD_KEY) {
 	    realname = mallocstrcpy(realname, "");
-	    i = open_pipe(answer);
+	    opened = open_pipe(answer);
 	} else {
 #endif
 	    realname = real_dir_from_tilde(answer);
-	    i = open_file(realname, TRUE, loading_file);
+	    opened = open_file(realname, TRUE, loading_file);
 #ifndef NANO_SMALL
 	}
 #endif
@@ -566,7 +569,7 @@ void do_insertfile(int loading_file)
 	       created to hold the file), reload the buffer we had open
 	       before, and skip the insertion; otherwise, save realname
 	       in filename and continue the insertion */
-	    if (i == -1) {
+	    if (!opened) {
 		free(realname);
 		free(fileage);
 		load_open_file();
@@ -597,19 +600,10 @@ void do_insertfile(int loading_file)
 
 	    /* And re-init the shortcut list */
 	    shortcut_init(FALSE);
-	}
+	} else
 #endif
-
-#ifdef ENABLE_MULTIBUFFER
-	if (!loading_file) {
-#endif
-
 	    /* Restore the old x-coordinate position */
 	    current_x = old_current_x;
-
-#ifdef ENABLE_MULTIBUFFER
-	}
-#endif
 
 	/* If we've gone off the bottom, recenter; otherwise, just redraw */
 	edit_refresh();
@@ -2675,8 +2669,12 @@ char *do_browser(const char *inpath)
 	case NANO_HELP_KEY:
 	case NANO_HELP_FKEY:
 	case '?': /* Pico compatibility */
+#ifndef DISABLE_HELP
 	    do_help();
 	    curs_set(0);
+#else
+	    nano_disabled_msg();
+#endif
 	    break;
 	case NANO_ENTER_KEY:
 	case 'S': /* Pico compatibility */

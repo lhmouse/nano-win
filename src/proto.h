@@ -165,7 +165,7 @@ void new_file(void);
 filestruct *read_line(char *buf, filestruct *prev, int *line1ins, size_t
 	len);
 void read_file(FILE *f, const char *filename, int quiet);
-int open_file(const char *filename, int insert, int quiet);
+bool open_file(const char *filename, int insert, int quiet);
 char *get_next_filename(const char *name);
 void do_insertfile(int loading_file);
 void do_insertfile_void(void);
@@ -352,9 +352,7 @@ void allow_pending_sigwinch(bool allow);
 #ifndef NANO_SMALL
 void do_toggle(const toggle *which);
 #endif
-#if !defined(NANO_SMALL) || defined(USE_SLANG)
 void disable_signals(void);
-#endif
 #ifndef NANO_SMALL
 void enable_signals(void);
 #endif

@@ -282,25 +282,31 @@ void shortcut_init(int unjustify)
     const char *nano_tab_msg = N_("Insert a tab character");
     const char *nano_enter_msg =
 	N_("Insert a carriage return at the cursor position");
+#ifndef NANO_SMALL
     const char *nano_nextword_msg = N_("Move forward one word");
     const char *nano_prevword_msg = N_("Move backward one word");
+#endif
     const char *nano_verbatim_msg = N_("Insert character(s) verbatim");
 #ifdef ENABLE_MULTIBUFFER
     const char *nano_openprev_msg = N_("Switch to previous file buffer");
     const char *nano_opennext_msg = N_("Switch to next file buffer");
 #endif
-#if !defined(NANO_SMALL) && defined(HAVE_REGEX_H)
+#ifndef NANO_SMALL
+#ifdef HAVE_REGEX_H
     const char *nano_bracket_msg = N_("Find other bracket");
 #endif
     const char *nano_whereis_next_msg = N_("Repeat last search");
+#endif
     const char *nano_cancel_msg = N_("Cancel the current function");
     const char *nano_firstline_msg = N_("Go to the first line of the file");
     const char *nano_lastline_msg = N_("Go to the last line of the file");
+#ifndef DISABLE_JUSTIFY
     const char *nano_parabegin_msg =
 	N_("Go to the beginning of the current paragraph");
     const char *nano_paraend_msg =
 	N_("Go to the end of the current paragraph");
     const char *nano_fulljustify_msg = N_("Justify the entire file");
+#endif
 #ifndef NANO_SMALL
     const char *nano_case_msg =
 	N_("Make the current search/replace case (in)sensitive");

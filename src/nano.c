@@ -861,7 +861,7 @@ bool open_pipe(const char *command)
     f = fdopen(fd[0], "rb");
     if (f == NULL)
 	nperror("fdopen");
-    
+
     read_file(f, "stdin", FALSE);
     /* If multibuffer mode is on, we could be here in view mode.  If so,
      * don't set the modification flag. */
@@ -912,6 +912,7 @@ void do_mouse(void)
 	    xcur = actual_x(current->data, get_page_start(xplustabs()) +
 		mouse_x);
 
+#ifndef NANO_SMALL
 	    /* Selecting where the cursor is toggles the mark, as does
 	       selecting beyond the line length with the cursor at the
 	       end of the line. */
@@ -922,6 +923,7 @@ void do_mouse(void)
 		}
 		do_mark();
 	    }
+#endif
 
 	    current_x = xcur;
 	    placewewant = xplustabs();
@@ -1078,7 +1080,9 @@ void do_delete(void)
 	delete_node(foo);
 	renumber(current);
 	totlines--;
+#ifndef DISABLE_WRAPPING
 	wrap_reset();
+#endif
     } else
 	return;
 
