@@ -637,7 +637,7 @@ void parse_rcfile(FILE *rcstream)
 				alt_speller = mallocstrcpy(NULL, option);
 			    else
 #endif
-			    {
+			    if (!strcasecmp(rcopts[i].name, "tabsize")) {
 				char *first_error;
 
 				/* Using strtol instead of atoi lets us

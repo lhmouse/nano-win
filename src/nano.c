@@ -1290,8 +1290,8 @@ int do_wrap(filestruct *inptr)
  * such that the last word before it ended at or before fill.  If there
  * is no such point, we settle for the first legal wrap point.
  *
- * A "legal wrap point" is a white-space character that is not followed by
- * white-space.
+ * A "legal wrap point" is a whitespace character that is not followed
+ * by whitespace.
  *
  * If there is no legal wrap point or we found the last character of the
  * line, we should return without wrapping.
@@ -1299,8 +1299,8 @@ int do_wrap(filestruct *inptr)
  * Note that the initial indentation does not count as a legal wrap
  * point if we are going to auto-indent!
  *
- * Note that the code below could be optimised, by not calling strnlenpt()
- * so often. */
+ * Note that the code below could be optimized, by not calling
+ * strnlenpt() so often. */
 
 #ifndef NANO_SMALL
     if (ISSET(AUTOINDENT))
@@ -1874,8 +1874,8 @@ int do_spell(void)
 #endif /* !DISABLE_SPELLER */
 
 #if !defined(NANO_SMALL) || !defined(DISABLE_JUSTIFY)
-/* The "indentation" of a line is the white-space between the quote part
- * and the non-white-space of the line. */
+/* The "indentation" of a line is the whitespace between the quote part
+ * and the non-whitespace of the line. */
 size_t indent_length(const char *line)
 {
     size_t len = 0;
