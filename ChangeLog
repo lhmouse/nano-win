@@ -7,9 +7,23 @@ Cvs code -
 	  to its own flag, --disable mouse.  The --tiny option defines
 	  this automatically, but now just mouse support can be disabled
 	  if desired.
+	- File Browser supports the "Goto Directory"
 - configure.in:
 	- New option, --enable-nanorc which currently does nothing but
 	  sets a define.  Will do more later...
+- files.c:
+  do_browser()
+	- Minor fixes to the processing of SELECT function (Rocco)
+	- Added the "Goto Directory" code (Rocco)
+- global.c:
+	- Updated some of the lists for the "Goto Directory" code (Rocco)
+- nano.c:
+  main()
+	- Code to silently process "-g" and "-j" (Rocco)
+- nano.h:
+	- Updated the BROWSER_LIST_LEN for the "Goto Directory" code (Rocco)
+- proto.h:
+	- New shortcut list added: gotodir_list (Rocco).
 
 nano 1.1 tree forked here 04/07/2001
 

@@ -2244,11 +2244,11 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "?T:RVbcefhiklmpr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "?T:RVbcefghijklmpr:s:tvwxz",
 				 long_options, &option_index)) != EOF) {
 #else
     while ((optchr =
-	    getopt(argc, argv, "h?T:RVbcefiklmpr:s:tvwxz")) != EOF) {
+	    getopt(argc, argv, "h?T:RVbcefgijklmpr:s:tvwxz")) != EOF) {
 #endif
 
 	switch (optchr) {
@@ -2270,6 +2270,8 @@ int main(int argc, char *argv[])
 	case 'b':
 	case 'e':
 	case 'f':
+	case 'g':
+	case 'j':
 	    /* Pico compatibility flags */
 	    break;
 	case 'c':

@@ -1170,8 +1170,10 @@ char *do_browser(char *inpath)
 
     /* Loop invariant: Microsoft sucks. */
     do {
-	blank_edit();
-	blank_statusbar();
+	DIR *test_dir;
+
+	blank_statusbar_refresh();
+
  	editline = 0;
 	col = 0;
 	    
@@ -1250,20 +1252,23 @@ char *do_browser(char *inpath)
 	case 'S':
 
 	    /* You can't cd up from / */
-	    if (!strcmp(filelist[selected], "/..") && !strcmp(path, "/"))
+	    if (!strcmp(filelist[selected], "/..") && !strcmp(path, "/")) {
 		statusbar(_("Can't move up a directory"));
-	    else
-		path = mallocstrcpy(path, filelist[selected]);
+		break;
+	    }
+
+	    path = mallocstrcpy(path, filelist[selected]);
 
 	    st = filestat(path);
 	    if (S_ISDIR(st.st_mode)) {
-		if (opendir(path) == NULL) {
+		if ((test_dir = opendir(path)) == NULL) {
 		    /* We can't open this dir for some reason.  Complain */
 		    statusbar(_("Can't open \"%s\": %s"), path, strerror(errno));
-		    striponedir(path);		    
+		    striponedir(path);
 		    align(&path);
 		    break;
 		} 
+		closedir(test_dir);
 
 		if (!strcmp("..", tail(path))) {
 		    /* They want to go up a level, so strip off .. and the
@@ -1280,6 +1285,41 @@ char *do_browser(char *inpath)
 		abort = 1;
 	    }
 	    break;
+	/* Goto a specific directory */
+	case 'g':	/* Pico compatibility */
+	case 'G':
+	case NANO_GOTO_KEY:
+
+	    curs_set(1);
+	    j = statusq(0, gotodir_list, GOTODIR_LIST_LEN, "", _("Goto Directory"));
+	    bottombars(browser_list, BROWSER_LIST_LEN);
+	    curs_set(0);
+
+	    if (j < 0) {
+		statusbar(_("Goto Cancelled"));
+		break;
+	    }
+
+	    if (answer[0] != '/') {
+		char *saveanswer = NULL;
+
+		saveanswer = mallocstrcpy(saveanswer, answer);
+		answer = realloc(answer, strlen(path) + strlen(saveanswer) + 2);
+		sprintf(answer, "%s/%s", path, saveanswer);
+		free(saveanswer);
+	    }
+
+	    if ((test_dir = opendir(answer)) == NULL) {
+		/* We can't open this dir for some reason.  Complain */
+		statusbar(_("Can't open \"%s\": %s"), answer, strerror(errno));
+		break;
+	    } 
+	    closedir(test_dir);
+
+	    /* Start over again with the new path value */
+	    path = mallocstrcpy(path, answer);
+	    return do_browser(path);
+
 	/* Stuff we want to abort the browser */
 	case 'q':
 	case 'Q':
@@ -1291,6 +1331,8 @@ char *do_browser(char *inpath)
 	}
 	if (abort)
 	    break;
+
+	blank_edit();
 
 	if (width)
 	    i = width * editwinrows * ((selected / width) / editwinrows);

@@ -75,6 +75,7 @@ shortcut whereis_list[WHEREIS_LIST_LEN];
 shortcut replace_list[REPLACE_LIST_LEN];
 shortcut replace_list_2[REPLACE_LIST_LEN]; /* 2nd half of replace dialog */
 shortcut goto_list[GOTO_LIST_LEN];
+shortcut gotodir_list[GOTODIR_LIST_LEN];
 shortcut writefile_list[WRITEFILE_LIST_LEN];
 shortcut help_list[HELP_LIST_LEN];
 shortcut spell_list[SPELL_LIST_LEN];
@@ -184,6 +185,7 @@ void shortcut_init(int unjustify)
 
 #ifndef NANO_SMALL
     char *nano_tofiles_msg = "";
+    char *nano_gotodir_msg = "";
 
     nano_help_msg = _("Invoke the help menu");
     nano_writeout_msg = _("Write the current file to disk");
@@ -218,6 +220,7 @@ void shortcut_init(int unjustify)
     nano_case_msg =
 	_("Make the current search or replace case (in)sensitive");
     nano_tofiles_msg = _("Go to file browser");
+    nano_gotodir_msg = _("Goto Directory");
     nano_cancel_msg = _("Cancel the current function");
 #endif
 
@@ -429,8 +432,14 @@ void shortcut_init(int unjustify)
 		nano_nextpage_msg,
 		0, NANO_NEXTPAGE_FKEY, KEY_NPAGE, VIEW, 0);
 
-    sc_init_one(&browser_list[2], NANO_EXIT_KEY, _("Exit"),
+    sc_init_one(&browser_list[2], NANO_GOTO_KEY, _("Goto"),
+		nano_gotodir_msg, 0, NANO_GOTO_FKEY, 0, VIEW, 0);
+
+    sc_init_one(&browser_list[3], NANO_EXIT_KEY, _("Exit"),
 		nano_exit_msg, 0, NANO_EXIT_FKEY, 0, VIEW, 0);
+
+    sc_init_one(&gotodir_list[0], NANO_CANCEL_KEY, _("Cancel"),
+		nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
 #endif
 

@@ -53,7 +53,7 @@ extern shortcut replace_list[REPLACE_LIST_LEN], goto_list[GOTO_LIST_LEN];
 extern shortcut writefile_list[WRITEFILE_LIST_LEN], help_list[HELP_LIST_LEN];
 extern shortcut spell_list[SPELL_LIST_LEN], replace_list_2[REPLACE_LIST_LEN];
 #ifndef DISABLE_BROWSER
-extern shortcut browser_list[BROWSER_LIST_LEN];
+extern shortcut browser_list[BROWSER_LIST_LEN], gotodir_list[GOTODIR_LIST_LEN];
 #endif
 extern shortcut *currshortcut;
 

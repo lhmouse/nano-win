@@ -244,12 +244,13 @@ know what you're doing */
 #define REPLACE_LIST_LEN 6
 #define REPLACE_LIST_2_LEN 3
 #define GOTO_LIST_LEN 3
+#define GOTODIR_LIST_LEN 1
 #define HELP_LIST_LEN 3
 #define SPELL_LIST_LEN 1
 
 #ifndef DISABLE_BROWSER
 #define WRITEFILE_LIST_LEN 2
-#define BROWSER_LIST_LEN 3
+#define BROWSER_LIST_LEN 4
 #else
 #define WRITEFILE_LIST_LEN 1
 #endif
