@@ -1965,9 +1965,8 @@ char *real_dir_from_tilde(const char *buf)
 }
 
 #if !defined(DISABLE_TABCOMP) || !defined(DISABLE_BROWSER)
-/* Our sort routine for file listings.  Sort directories before
- * filenames, alphabetically and ignoring case differences.  Sort
- * filenames the same way, except for ignoring an initial dot. */
+/* Our sort routine for file listings.  Sort alphabetically and
+ * case-insensitively, and sort directories before filenames. */
 int diralphasort(const void *va, const void *vb)
 {
     struct stat fileinfo;
@@ -1980,11 +1979,6 @@ int diralphasort(const void *va, const void *vb)
 	return -1;
     if (!aisdir && bisdir)
 	return 1;
-
-    if (*a == '.')
-	a++;
-    if (*b == '.')
-	b++;
 
     return strcasecmp(a, b);
 }
