@@ -1501,9 +1501,10 @@ void help_init(void)
 	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "	");
 
 	if (main_list[i].help != NULL)
-	    snprintf(&buf[sofar], BUFSIZ - sofar, "%s\n", main_list[i].help);
+	    snprintf(&buf[sofar], BUFSIZ - sofar, "%s", main_list[i].help);
 
 	strcat(help_text, buf);
+	strcat(help_text, "\n");
     }
 
 }
