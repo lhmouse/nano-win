@@ -14,6 +14,8 @@ CVS code -
 	  move to the previous word in the file.
 	- Added #ifdef NANO_SMALL around do_next_space and do_prev_space
 	  codes, as nano-tiny doesn't particularly need those features.
+  main()
+	- Ignore 26 (control-]) (bug discovered by David Lawrence Ramsey)
 - nano.texi:
 	- Backported fix from 1.1 for Mouse Toggle.
 - po/de.po:

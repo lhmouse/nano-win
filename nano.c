@@ -2733,6 +2733,7 @@ int main(int argc, char *argv[])
 
 	    case 331:		/* Stuff that we don't want to do squat */
 	    case -1:
+	    case 29:		/* Ctrl-] */
 	    case 410:		/* Must ignore this, it gets sent when we resize */
 #ifdef PDCURSES
 	    case 541:		/* ???? */
