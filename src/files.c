@@ -1670,8 +1670,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 	    goto cleanup_and_exit;
 	}
 
-	if (copy_file(f_source, f) == -1
-		|| unlink(tempname) == -1) {
+	if (copy_file(f_source, f) == -1 || unlink(tempname) == -1) {
 	    statusbar(_("Error writing %s: %s"), realname, strerror(errno));
 	    goto cleanup_and_exit;
 	}
