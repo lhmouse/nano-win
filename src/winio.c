@@ -1875,9 +1875,14 @@ void do_statusbar_delete(void)
 
 void do_statusbar_cut_text(void)
 {
-    null_at(&answer, 0);
-    statusbar_x = 0;
-    statusbar_xend = 0;
+    if (ISSET(CUT_TO_END)) {
+	null_at(&answer, statusbar_x);
+	statusbar_xend = statusbar_x;
+    } else {
+	null_at(&answer, 0);
+	statusbar_x = 0;
+	statusbar_xend = 0;
+    }
 }
 
 void do_statusbar_verbatim_input(bool *got_enter)
