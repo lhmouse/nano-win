@@ -23,7 +23,6 @@
 
 #include <stdlib.h>
 #include <assert.h>
-#include <sys/stat.h>
 #include "proto.h"
 #include "nano.h"
 

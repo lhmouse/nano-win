@@ -105,6 +105,9 @@ CVS code -
 	  get_totals(); changes to write_marked(), do_int_spell_fix(),
 	  do_alt_speller(), handle_sigwinch(), and do_replace_loop().
 	  (DLR)
+	- Remove most redundant includes of sys/stat.h.  It's included
+	  in nano.h, so it doesn't need to be included in files that
+	  include nano.h. (DLR)
 - files.c:
   do_insertfile()
 	- Simplify by reusing variables whereever possible, and add a

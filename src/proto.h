@@ -21,8 +21,8 @@
 
 /* Externs. */
 
-#include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #ifdef HAVE_REGEX_H
 #include <regex.h>
 #endif
