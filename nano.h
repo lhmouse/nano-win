@@ -61,7 +61,7 @@
 # endif
 #endif
 
-#define VERMSG "nano " VERSION
+#define VERMSG "GNU nano " VERSION
 
 /* Structure types */
 typedef struct filestruct {

@@ -439,7 +439,7 @@ void usage(void)
 
 void version(void)
 {
-    printf(_(" nano version %s by Chris Allegretta (compiled %s, %s)\n"),
+    printf(_(" GNU nano version %s (compiled %s, %s)\n"),
 	   VERSION, __TIME__, __DATE__);
     printf(_
 	   (" Email: nano@nano-editor.org	Web: http://www.nano-editor.org"));

@@ -1,5 +1,5 @@
 
-	nano - a GPLed, enhanced clone of the Pico text editor.
+	GNU nano - an enhanced clone of the Pico text editor.
                                       
 Overview
 
@@ -16,6 +16,9 @@ Overview
      nano aims to solve these problems by emulating the functionality of
      Pico as closely as possible while adressing the problems above and
      perhaps providing other extra functionality.
+
+     The nano editor is now an official GNU package.  For more information
+     on GNU and the Free Software Foundation please see http://www.gnu.org.
      
 How to compile and install nano
 

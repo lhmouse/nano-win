@@ -662,8 +662,8 @@ msgstr " +RIVI\t\tSiirry riville RIVI\n"
 
 #: nano.c:442
 #, c-format
-msgid " nano version %s by Chris Allegretta (compiled %s, %s)\n"
-msgstr " Nano, versio %s. Chris Allegretta (k‰‰nnetty %s, %s)\n"
+msgid " GNU nano version %s (compiled %s, %s)\n"
+msgstr " GNU Nano, versio %s. (k‰‰nnetty %s, %s)\n"
 
 #: nano.c:445
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"

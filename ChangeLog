@@ -5,8 +5,7 @@ CVS code -
 	  removed "Goto Line", aligned "Read File" with "Write Out" and 
 	  "Replace" with "Where is" for consistency.
 	- Added texinfo manual nano.texi.  Added texi options to 
-	  Makefile.am.
-	
+	  Makefile.am.	
 - configure.in:
 	- Autoconf compatibility fixes (Pavel Roskin)
 - cut.c:

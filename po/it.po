@@ -652,8 +652,8 @@ msgstr " +LINEA\t\tInizia alla LINEA numero\n"
 
 #: nano.c:442
 #, c-format
-msgid " nano version %s by Chris Allegretta (compiled %s, %s)\n"
-msgstr " nano versione %s di Chris Allegretta (compilato %s, %s\n"
+msgid " GNU nano version %s (compiled %s, %s)\n"
+msgstr " GNU nano versione %s (compilato %s, %s\n"
 
 #: nano.c:445
 #, fuzzy

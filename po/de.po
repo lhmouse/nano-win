@@ -670,8 +670,8 @@ msgstr " +ZEILE\t\tBei Zeile ZEILE beginnen\n"
 #: nano.c:442
 
 #, c-format
-msgid " nano version %s by Chris Allegretta (compiled %s, %s)\n"
-msgstr " nano Version %s von Chris Allegretta (compiliert um %s, %s)\n"
+msgid " GNU nano version %s (compiled %s, %s)\n"
+msgstr " GNU nano Version %s (compiliert um %s, %s)\n"
 
 #: nano.c:445
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
