@@ -33,7 +33,7 @@
 #include "proto.h"
 #include "nano.h"
 
-#ifdef HAVE_WCHAR_H
+#if defined(HAVE_WCHAR_H) && defined(NANO_WIDE)
 #include <wchar.h>
 #endif
 
