@@ -1751,7 +1751,7 @@ int do_justify(void)
     return 1;
 #else
     int slen = 0;		/* length of combined lines on one line. */
-    int initial_y, kbinput;
+    int initial_y, kbinput = 0;
     filestruct *initial = NULL, *tmpjust = NULL, *cutbak, *tmptop, *tmpbot;
 
     if (empty_line(current->data)) {

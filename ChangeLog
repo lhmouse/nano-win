@@ -37,6 +37,7 @@ General
   main()
 	- Alternate speller option no longer valid if DISABLE_SPELLER is
 	  active. (Rocco)
+	- Initialized kbinput to get around stupid compiler warning.
   nano_small_msg()
 	- This function has been removed.  All references now call
 	  nano_disabled_msg. (Rocco)
