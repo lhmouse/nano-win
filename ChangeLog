@@ -10,6 +10,9 @@ CVS code -
 	- main()
 	- Added check for _POSIX_VDISABLE and use raw mode if not
 	  available, allows nano to work with cygwin.
+	- Added gettext calls to enable/disable strings (Jordi).
+- es.po:
+	- Translated new strings and minor updates (Jordi).
 
 nano-0.9.17 - 09/04/2000
 - General

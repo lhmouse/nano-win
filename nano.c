@@ -1615,7 +1615,7 @@ void help_init(void)
 	"M-%c			", toggles[i].val - 32 );
 
 	if (toggles[i].desc != NULL)
-	    snprintf(&buf[sofar], BUFSIZ - sofar, "%s enable/disable", 
+	    snprintf(&buf[sofar], BUFSIZ - sofar, _("%s enable/disable"), 
 		toggles[i].desc);
 
 	strcat(help_text, buf);
@@ -1627,8 +1627,8 @@ void help_init(void)
 void do_toggle(int which)
 {
 #ifndef NANO_SMALL
-    char *enabled = "enabled";
-    char *disabled = "disabled";
+    char *enabled = _("enabled");
+    char *disabled = _("disabled");
 
 
     if (ISSET(toggles[which].flag)) {
