@@ -1,14 +1,10 @@
 - Marked cutting sometimes leaves a newline in the file unintelligently,
   such as when all of a line is selected but the mark doesn't proceed to
-  the new line. (8) 
-  { I know I posted this, but is it really a bug, Pico 3.5 seems to behave
-    in the same way. I must be scatterbrained or something.
-    - Rob Siemborski }
-
+  the new line. (8) { Is this an issue? compare to pico 3.5 }
 - Certains are not lined up properly when there are tabs in them at 
   certain col values. (9) [FIXED]
 - edit_refresh() and update_line() do not handle selecting text when the
-  cursor is beyond COLS (10)
+  cursor is beyond COLS (10) [FIXED]
 - no way to do a replace with the empty string. (11)
 - Spelling support is not elegant like pico's integration of the 'spell'
   program.  Nano only uses ispell (for now) (12)
@@ -34,3 +30,5 @@
 - When using --help or --version, the SIGINT character gets lost. (21) [FIXED]
 - When inserting files, the display sometimes fails to display properly
   until a pageup/down occurs (22).
+- edit_refresh() and update_line() (and related functions), have 
+  trouble when a tab is the character that is the boundry at COLS (23)
