@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.7-CVS\n"
+"Project-Id-Version: nano 1.1.8\n"
 "POT-Creation-Date: 2002-03-30 11:42-0500\n"
-"PO-Revision-Date: 2002-03-12 18:00+0100\n"
+"PO-Revision-Date: 2002-04-05 13:15+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -94,7 +94,7 @@ msgstr "No se puede insertar un fichero desde fuera de %s"
 
 #: files.c:431
 msgid "Command to execute "
-msgstr ""
+msgstr "Orden a ejecutar "
 
 #: files.c:433 files.c:503 files.c:1208 files.c:1582 nano.c:1895
 msgid "Cancelled"
@@ -428,7 +428,7 @@ msgstr "Ir al navegador de ficheros"
 
 #: global.c:326
 msgid "Execute external command"
-msgstr ""
+msgstr "Ejecutar orden externa"
 
 #: global.c:328
 msgid "Cancel the current function"
@@ -644,7 +644,7 @@ msgstr "Añadir"
 
 #: global.c:649
 msgid "Execute Command"
-msgstr ""
+msgstr "Ejecutar Orden"
 
 #: global.c:686
 msgid "Goto"
@@ -957,15 +957,13 @@ msgstr "Comprobación de ortografía fallida"
 
 # Lo mismo. No se pudo cerrar. sv
 #: nano.c:1764
-#, fuzzy
 msgid "Could not pipe"
-msgstr "No se pudo cerrar %s: %s"
+msgstr "No se pudo canalizar"
 
 # Lo mismo. No se pudo cerrar. sv
 #: nano.c:1786
-#, fuzzy
 msgid "Could not fork"
-msgstr "No se pudo cerrar %s: %s"
+msgstr "No se pudo crear otro proceso"
 
 #: nano.c:1863
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
@@ -1207,6 +1205,13 @@ msgid ""
 " The following keys are available in this mode:\n"
 "\n"
 msgstr ""
+"Texto de ayuda de la Orden Externa\n"
+"\n"
+" Este menú te permite insertar la salida de una orden ejecutada por el "
+"intérprete en el buffer actual (o en uno nuevo en modo multibuffer).\n"
+"\n"
+" Las siguientes funciones adicionales están disponibles en el modo Orden "
+"Externa:\n"
 
 #: nano.c:2720
 #, c-format
@@ -1263,8 +1268,6 @@ msgstr "¡Pillé Alt-[-%c! (%d)\n"
 msgid "I got Alt-%c! (%d)\n"
 msgstr "¡Pillé Alt-%c! (%d)\n"
 
-# en la línea. sv
-# el comando -> la orden.
 #: rcfile.c:81
 #, c-format
 msgid "Error in %s on line %d: "
@@ -1595,7 +1598,7 @@ msgstr "La Free Software Foundation"
 
 #: winio.c:1885
 msgid "For ncurses:"
-msgstr ""
+msgstr "Por ncurses:"
 
 #: winio.c:1886
 msgid "and anyone else we forgot..."

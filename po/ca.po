@@ -6,9 +6,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.7-CVS\n"
+"Project-Id-Version: nano 1.1.8\n"
 "POT-Creation-Date: 2002-03-30 11:42-0500\n"
-"PO-Revision-Date: 2002-03-12 17:30+0100\n"
+"PO-Revision-Date: 2002-04-05 12:50+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
 "MIME-Version: 1.0\n"
@@ -90,7 +90,7 @@ msgstr "No es pot insertar fitxer des de fora de %s"
 
 #: files.c:431
 msgid "Command to execute "
-msgstr ""
+msgstr "Ordre a executar "
 
 #: files.c:433 files.c:503 files.c:1208 files.c:1582 nano.c:1895
 msgid "Cancelled"
@@ -399,7 +399,7 @@ msgstr "Anar a l'explorador de fitxers"
 
 #: global.c:326
 msgid "Execute external command"
-msgstr ""
+msgstr "Executar una ordre externa"
 
 #: global.c:328
 msgid "Cancel the current function"
@@ -611,7 +611,7 @@ msgstr "Afegir"
 
 #: global.c:649
 msgid "Execute Command"
-msgstr ""
+msgstr "Executar Ordre"
 
 #: global.c:686
 msgid "Goto"
@@ -917,18 +917,16 @@ msgid "Spell checking failed"
 msgstr "Revisió d'ortografia fallida"
 
 #: nano.c:1764
-#, fuzzy
 msgid "Could not pipe"
-msgstr "No he pogut tancar %s: %s"
+msgstr "No s'ha pogut canalitzar"
 
 #: nano.c:1786
-#, fuzzy
 msgid "Could not fork"
-msgstr "No he pogut tancar %s: %s"
+msgstr "No s'ha pogut iniciar un altre procés"
 
 #: nano.c:1863
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
-msgstr "Desar el buffer modificat (RESPONDRE \"No\" DESTRUIRÀ ELS CAMVIS) ?"
+msgstr "Desar el buffer modificat (RESPONDRE \"No\" DESTRUIRÀ ELS CANVIS) ?"
 
 #: nano.c:2018
 msgid "Received SIGHUP"
@@ -979,7 +977,7 @@ msgid ""
 " The following functions keys are available in Search mode:\n"
 "\n"
 msgstr ""
-"Texte d'ajuda per a la ordre Cerca\n"
+"Text d'ajuda per a la ordre Cerca\n"
 "\n"
 " Introduiu les paraules o caràcters que voleu cercar i polseu intro.  Si hi "
 "ha una coincidència per a el texte que heu introduit, la pantalla "
@@ -993,7 +991,7 @@ msgstr ""
 "cadena es posarà davant del cursor i es podrà editar o esborrar abans de "
 "polsar intro.\n"
 "\n"
-" Les següents tecles de funció estan disponibles en el modo Cerca:\n"
+" Les següents tecles de funció estan disponibles en el mode Cerca:\n"
 "\n"
 
 #: nano.c:2555
@@ -1007,13 +1005,13 @@ msgid ""
 " The following functions keys are available in Goto Line mode:\n"
 "\n"
 msgstr ""
-"Texte d'ajuda de Anar a Línia\n"
+"Text d'ajuda de Anar a Línia\n"
 "\n"
 " Introduiu el número de la línia a la que voleu anar i polseu Intro. Si hi "
 "ha menys línias de texte que el número que heu introduit, el cursor es mourà "
 "a la última línia del fitxer.\n"
 "\n"
-" Les següents tecles de funció estan disponibles en el modo Anar a Línia:\n"
+" Les següents tecles de funció estan disponibles en el mode Anar a Línia:\n"
 "\n"
 
 #: nano.c:2562
@@ -1034,7 +1032,7 @@ msgid ""
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
-"Texte d'ajuda d'Inserir Fitxer\n"
+"Text d'ajuda d'Inserir Fitxer\n"
 "\n"
 " Escriviu el nom del fitxer a afegir en el buffer actual en la posició "
 "actual del cursor.\n"
@@ -1048,7 +1046,7 @@ msgstr ""
 " Si necessiteu un altre buffer en blanc, no inseriu cap nom de fitxer o "
 "escriviu el nom d'un fitxer no existent en l'indicatiu i polseu Intro.\n"
 "\n"
-" Les següents tecles de funció estan disponibles en el modo Inserir Fitxer:\n"
+" Les següents tecles de funció estan disponibles en el mode Inserir Fitxer:\n"
 "\n"
 
 #: nano.c:2576
@@ -1066,7 +1064,7 @@ msgid ""
 " The following function keys are available in Write File mode:\n"
 "\n"
 msgstr ""
-"Texte d'ajuda de Desar Fitxer\n"
+"Text d'ajuda de Desar Fitxer\n"
 "\n"
 " Escriviu el nom amb el que voleu desar el fitxer actual i polseu intro per "
 "a salvar-ho.\n"
@@ -1077,7 +1075,7 @@ msgstr ""
 "només una part d'ell, el nom del fitxer actual no és el predeterminat en "
 "aquest mode.\n"
 "\n"
-" Les següents tecles de funció estan disponibles en el modo Desar Fitxer:\n"
+" Les següents tecles de funció estan disponibles en el mode Desar Fitxer:\n"
 "\n"
 
 #: nano.c:2588
@@ -1093,7 +1091,7 @@ msgid ""
 " The following functions keys are available in the file browser:\n"
 "\n"
 msgstr ""
-"Texte d'ajuda del Navegador de Fitxers\n"
+"Text d'ajuda del Navegador de Fitxers\n"
 "\n"
 " El navegador de fitxers s'utilitza per a navegar visualment la estructura "
 "del directori per a seleccionar un fitxer per a lectura o escriptura. Podeu "
@@ -1118,14 +1116,14 @@ msgid ""
 "  The following function keys are available in Browser GotoDir mode:\n"
 "\n"
 msgstr ""
-"Texte d'ajuda d'Anar a Directori del Navegador\n"
+"Text d'ajuda d'Anar a Directori del Navegador\n"
 "\n"
 " Introduïu el nom del directori per el que voleu navegar.\n"
 "\n"
 " Si el completat amb el tabulador no està desactivat, podeu fer servir la "
 "tecla TAB per a (intentar) completar automàticament el nom del directori.\n"
 "\n"
-" Les següents tecles de funció estan disponibles en el modo Anar a Directori "
+" Les següents tecles de funció estan disponibles en el mode Anar a Directori "
 "del Navegador:\n"
 "\n"
 
@@ -1141,14 +1139,14 @@ msgid ""
 " The following other functions are available in Spell Check mode:\n"
 "\n"
 msgstr ""
-"Texte d'ajuda del Corrector d'Ortografia\n"
+"Text d'ajuda del Corrector d'Ortografia\n"
 "\n"
 " El Corrector d'ortografia comprova la ortografia de tot el texte en el "
 "fitxer actual. Quan es troba una paraula desconeguda, aquesta es marca i es "
 "pot editar una substitució. Després preguntarà si es vol reemplaçar totes "
 "les coincidències d'eixa paraula mal escrita el el fitxer actual.\n"
 "\n"
-" Les següents tecles de funció estan disponibles en el modo Corrector "
+" Les següents tecles de funció estan disponibles en el mode Corrector "
 "d'Ortografia:\n"
 "\n"
 
@@ -1162,6 +1160,12 @@ msgid ""
 " The following keys are available in this mode:\n"
 "\n"
 msgstr ""
+"Text d'ajuda de l'Ordre Externa\n"
+"\n"
+" Aquest menú vos permet inserir l'eixida d'una ordre executada per "
+"l'intèrpret en el buffer actual (o un nou buffer en el mode multibuffer).\n"
+"\n"
+" Les següents tecles de funció estan disponibles en el mode Ordre Externa:\n"
 
 #: nano.c:2720
 #, c-format
@@ -1539,7 +1543,7 @@ msgstr "La Fundació per al Software Lliure (FSF)"
 
 #: winio.c:1885
 msgid "For ncurses:"
-msgstr ""
+msgstr "Per ncurses:"
 
 #: winio.c:1886
 msgid "and anyone else we forgot..."
