@@ -77,7 +77,9 @@ void rcfile_error(char *msg, ...)
     va_list ap;
 
     fprintf(stderr, "\n");
-    fprintf(stderr, _("Error in %s on line %d: "), nanorc, lineno);
+    if (lineno > 0)
+	fprintf(stderr, _("Error in %s on line %d: "), nanorc, lineno);
+
     va_start(ap, msg);
     vfprintf(stderr, msg, ap);
     va_end(ap);
@@ -464,12 +466,13 @@ void do_rcfile(void)
     nanorc = charalloc(strlen(getenv("HOME")) + 10);
     sprintf(nanorc, "%s/.nanorc", getenv("HOME"));
 
+    lineno = 0;
     if (stat(nanorc, &fileinfo) == -1) {
 
 	/* Abort if the file doesn't exist and there's some other kind
 	   of error stat()ing it */
 	if (errno != ENOENT)
-	    rcfile_error(unable, errno);
+	    rcfile_error(unable, strerror(errno));
 	return;
     }
 

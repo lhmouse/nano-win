@@ -40,9 +40,15 @@ CVS code -
 - proto.h:
 	- Missing externs (Rocco).
 - rcfile.c:
+  do_rcfile()
+	- Reset lineno between system and local .nanorc file.
+	- Fix errno->strerror(errno) mismatch.
   parse_rcfile()
 	- Don't use i for both for loop and atoi(), fixes lots of 
 	  potential crashes, 1st reported by Jean-Philippe Guérard.
+  rcfile_error()
+	- Don't print out the file name if we haven't opened the file
+	 yet (lineno == 0).
 - search.c:
   search_init()
 	- Fix a missing free (Rocco).
