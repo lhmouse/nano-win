@@ -110,16 +110,16 @@
 # color red "\<[A-Z_]{2,}\>" 
 # color green "\<(float|char|int|void|static|const|struct)\>" 
 # color brightyellow "\<(if|while|do|else|case|switch)\>"
-# color brightcyan "^#( 	)*(define|include|ifn?def|endif|elif|else|if)" 
+# color brightcyan "^ *# *(define|include|ifn?def|endif|elif|else|if)" 
 ##
 ## You will in general want your comments and strings to come last,
 ## because syntax highlighting rules will be applied in the order they
 ## are read in.
 ##
-# color brightyellow "<[^= 	]*>" ""(\\.|[^\"])*""
+# color brightyellow "<[^= ]*>" ""(\\.|[^\"])*""
 ##
 ## This string is VERY resource intensive!!!
-# color brightyellow start=""(\\.|[^\"])*\\( |	)*$" end="^(\\.|[^\"])*""
+# color brightyellow start=""(\\.|[^\"])*\\ *$" end="^(\\.|[^\"])*""
 ##
 ## And we want to have some nice comment highlighting too
 # color brightblue "//.*"
@@ -128,7 +128,7 @@
 ## Here is a short example for HTML
 # syntax "HTML" "\.html$"
 # color blue start="<" end=">"
-# color red "&[^; 	]*;"
+# color red "&[^; ]*;"
 
 ## Here is a short example for TeX files
 # syntax "TeX" "\.tex$"
@@ -193,15 +193,15 @@
 # color blue "//.*"
 # color blue start="/\*" end="\*/"
 # color brightblue start="/\*\*" end="\*/"
-# color green,brightgreen "[ 	]+$"
+# color brightgreen,green " +$"
 
 ## Here is an example for your .nanorc
 ##
 # syntax "nanorc" "(\.)?nanorc$"
 # color brightwhite "^ *(set|unset|syntax|color).*$"
-# color cyan "^ *(set|unset)([ 	]+)(autoindent|backup|const|cut|fill|historylog|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|quotestr|rebinddelete|regexp|smooth|speller|suspend|tabsize|tempfile|view)"
+# color cyan "^ *(set|unset) +(autoindent|backup|const|cut|fill|historylog|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|quotestr|rebinddelete|regexp|smooth|speller|suspend|tabsize|tempfile|view)"
 # color green "^ *(set|unset|syntax)\>"
-# color yellow "^ *color([ 	]+)(bright)?(white|black|red|blue|green|yellow|magenta|cyan)(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
+# color yellow "^ *color +(bright)?(white|black|red|blue|green|yellow|magenta|cyan)(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
 # color magenta "^ *color\>" "\<(start|end)="
 # color white "\"(\\.|[^\"])*\""
 # color blue "^ *#.*$"

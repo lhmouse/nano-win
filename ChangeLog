@@ -90,7 +90,12 @@ CVS code -
 	  and add "rebinddelete" entry. (DLR)
 	- Update the regexes for nanorc files. (Brand Huntsman, slightly
 	  modified by DLR)
-	- Fix one attempt at a bright background color. (DLR)
+	- Fix an attempt at a bright background color in the sample Java
+	  source regexes. (DLR)
+	- Since tabs are shown as groups of spaces, they are interpreted
+	  as such when parsed by color regexes.  Accordingly, simplify
+	  regexes that handle both spaces and tabs to just handle
+	  spaces, as the results are the same. (DLR)
 - AUTHORS
 	- Updated to show 1.2/1.3 maintainers.
 
