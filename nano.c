@@ -3333,9 +3333,6 @@ int main(int argc, char *argv[])
 #endif
 
 		break;
-	    case 330:		/* Delete key in *BSD with keypad() */
-		do_backspace();
-		break;
 	    default:
 #ifdef DEBUG
 		fprintf(stderr, "I got %c (%d)!\n", kbinput, kbinput);

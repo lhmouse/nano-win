@@ -4,8 +4,6 @@ CVS code -
 	- Allow --tiny and --multibuffer to cooperate (who the heck
 	  would want this is beyond me but ;-).  Changes to 
 	  configure.ac, global.c, ,  (David Benbennick).
-	- FreeBSD compat.  Remove KEY_DC from the delete shortcut in 
-	  global.c:shortcut_init(), add case for 330 under nano.c:main().
 - configure.ac:
 	- Define NDEBUG to silence asserts (David Benbennick).
 - files.c:
