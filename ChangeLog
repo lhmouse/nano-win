@@ -175,7 +175,7 @@ CVS code -
 	  to" messages on the statusbar. (DLR)
   input_tab()
 	- Fix snprintf() call so that we don't segfault when trying to
-	  complete a filename containing %'s. (Ulf Harnhammar)
+	  complete a filename containing %'s. (Ulf Härnhammar)
 - global.c:
   shortcut_init()
 	- Remove redundant NANO_SMALL #ifdef. (DLR)
