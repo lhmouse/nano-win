@@ -99,7 +99,9 @@ shortcut *writefile_list = NULL;
 shortcut *insertfile_list = NULL;
 shortcut *help_list = NULL;
 shortcut *spell_list = NULL;
+#ifndef NANO_SMALL
 shortcut *extcmd_list = NULL;
+#endif
 #ifndef DISABLE_BROWSER
 shortcut *browser_list = NULL;
 #endif
@@ -272,6 +274,10 @@ void shortcut_init(int unjustify)
 	"", *nano_unjustify_msg = "", *nano_append_msg =
 	""; 
 
+#ifdef ENABLE_MULTIBUFFER
+    char *nano_openprev_msg = "", *nano_opennext_msg = "";
+#endif
+
 #ifndef NANO_SMALL
     char *nano_tofiles_msg = "", *nano_gotodir_msg = "", *nano_case_msg =
 	"", *nano_reverse_msg = "", *nano_execute_msg = "";
@@ -279,9 +285,6 @@ void shortcut_init(int unjustify)
 
 #ifdef HAVE_REGEX_H
     char *nano_regexp_msg = "", *nano_bracket_msg = "";
-#endif
-#ifdef ENABLE_MULTIBUFFER
-    char *nano_openprev_msg = "", *nano_opennext_msg = "";
 #endif
 
     nano_help_msg = _("Invoke the help menu");
@@ -650,6 +653,9 @@ void shortcut_init(int unjustify)
 		nano_execute_msg, 0, 0, 0, NOVIEW, 0);
 #endif
 
+    if (spell_list != NULL)
+	free_shortcutage(&spell_list);
+
     sc_init_one(&spell_list, NANO_HELP_KEY,
 		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
 
@@ -657,6 +663,9 @@ void shortcut_init(int unjustify)
 		nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
 #ifndef NANO_SMALL
+    if (extcmd_list != NULL)
+	free_shortcutage(&extcmd_list);
+
     sc_init_one(&extcmd_list, NANO_HELP_KEY,
 		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
 

@@ -336,8 +336,8 @@ int open_file(char *filename, int insert, int quiet)
 /* This function will return the name of the first available extension
    of a filename (starting with the filename, then filename.1, etc).
    Memory is allocated for the return value.  If no writable extension 
-   exists we return "" */
-char *get_next_filename(char *name)
+   exists, we return "". */
+char *get_next_filename(const char *name)
 {
     int i = 0;
     char *buf = NULL;
@@ -346,10 +346,10 @@ char *get_next_filename(char *name)
     buf = charalloc(strlen(name) + num_of_digits(INT_MAX) + 2);
     strcpy(buf, name);
 
-    while(1) {
+    while (1) {
 
 	if (stat(buf, &fs) == -1)
-	    break;
+	    return buf;
 	if (i == INT_MAX)
 	    break;
 
@@ -358,8 +358,8 @@ char *get_next_filename(char *name)
 	sprintf(&buf[strlen(name)], ".%d", i);
     }
 
-    if (i == INT_MAX)
-	buf[0] = '\0';
+    /* We get here only if there is no possible save file. */
+    buf[0] = '\0';
 
     return buf;
 }
@@ -376,7 +376,7 @@ int do_insertfile(int loading_file)
 #endif
 
 #ifndef DISABLE_OPERATINGDIR
-    if ((operating_dir) && (strcmp(operating_dir,"."))){
+    if (operating_dir && (strcmp(operating_dir, "."))) {
 	i = statusq(1, insertfile_list, "", _("File to insert [from %s] "),
 		operating_dir);
     } else {
@@ -643,8 +643,8 @@ int load_open_file(void)
     totlines = open_files->file_totlines;
     totsize = open_files->file_totsize;
 
-    /* Unset the marker because nano can't (yet) handle marked text flipping between
-	open files */
+    /* Unset the marker because nano can't (yet) handle marked text
+       flipping between open files */
     UNSET(MARK_ISSET);
 
     /* restore full file position: line number, x-coordinate, y-
@@ -814,6 +814,8 @@ int close_open_file(void)
 
     if (!open_files)
 	return 1;
+
+    open_files->file = fileage;
 
     tmp = open_files;
     if (open_nextfile(1)) {

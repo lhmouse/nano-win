@@ -17,6 +17,9 @@ dnl Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS(fcntl.h unistd.h malloc.h termios.h termio.h limits.h getopt.h regex.h)
 
+dnl Turn off assert statements.
+AC_DEFINE(NDEBUG)
+
 dnl options
 AC_ARG_ENABLE(tiny,
 [  --enable-tiny           Disable features for the sake of size
@@ -47,8 +50,8 @@ AC_ARG_ENABLE(undo,
  fi])
 
 AC_ARG_ENABLE(multibuffer,
-[  --enable-multibuffer    Enable multiple file buffers; this is disabled if --enable-tiny is used],
-[if test x$enableval = xyes && test x$tiny_support != xyes; then
+[  --enable-multibuffer    Enable multiple file buffers],
+[if test x$enableval = xyes; then
     AC_DEFINE(ENABLE_MULTIBUFFER) multibuffer_support=yes
  fi])
 

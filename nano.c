@@ -180,6 +180,7 @@ void die_save_file(char *die_filename)
 	if (strcmp(ret, ""))
 	    i = write_file(ret, 1, 0, 0);
 	name = ret;
+	free(buf);
     }
 
     if (i != -1)
@@ -642,13 +643,17 @@ void do_char(char ch)
     current->data[current_x] = ch;
     do_right();
 
+    /* note that current_x has already been incremented */
+    if (current == mark_beginbuf && mark_beginx >= current_x)
+	mark_beginx++;
+
 #ifdef ENABLE_COLOR
     edit_refresh();
 #endif
 
 #ifndef DISABLE_WRAPPING
     if (!ISSET(NO_WRAP) && (ch != '\t'))
-	check_wrap(current, ch);
+	check_wrap(current);
 #endif
 
     set_modified();
@@ -861,364 +866,225 @@ void do_prev_word(void)
 #endif /* NANO_SMALL */
 
 #ifndef DISABLE_WRAPPING
-void do_wrap(filestruct * inptr, char input_char)
+/* We wrap the given line.  Precondition: we assume the cursor has been 
+ * moved forward since the last typed character. */
+void do_wrap(filestruct * inptr)
 {
-    int i = 0;			/* Index into ->data for line. */
-    int i_tabs = 0;		/* Screen position of ->data[i]. */
-    int last_word_end = -1;	/* Location of end of last word found. */
-    int current_word_start = -1;	/* Location of start of current word. */
-    int current_word_start_t = -1;	/* Location of start of current word screen position. */
-    int current_word_end = -1;	/* Location of end   of current word */
-    int current_word_end_t = -1;	/* Location of end   of current word screen position. */
-    int len = strlen(inptr->data);
+    int len = strlen(inptr->data);	/* length of the line we wrap */
+    int i;			/* generic loop variable */
+    int wrap_loc = -1;		/* index of inptr->data where we wrap */
+    int word_back = -1;
+#ifndef NANO_SMALL
+    char *indentation = NULL;	/* indentation to prepend to the new line */
+    int indent_len = 0;		/* strlen(indentation) */
+#endif
+    char *after_break;		/* text after the wrap point */
+    int after_break_len;	/* strlen(after_break) */
+    int wrapping = 0;		/* do we prepend to the next line? */
+    char *wrap_line = NULL;	/* the next line, minus indentation */
+    int wrap_line_len = 0;	/* strlen(wrap_line) */
+    char *newline = NULL;	/* the line we create */
+    int new_line_len = 0;	/* eventual length of newline */
 
-    int down = 0;
-    int right = 0;
-    struct filestruct *temp = NULL;
+/* There are three steps.  First, we decide where to wrap.  Then, we
+ * create the new wrap line.  Finally, we clean up. */
 
+    /* We need the following assertion, since otherwise we would wrap the
+     * last word to the next line regardless. */
     assert(strlenpt(inptr->data) > fill);
 
-    for (i = 0, i_tabs = 0; i < len; i++, i_tabs++) {
-	if (!isspace((int) inptr->data[i])) {
-	    last_word_end = current_word_end;
+/* Step 1, finding where to wrap.  We are going to replace a white-space
+ * character with a new-line.  In this step, we set wrap_loc as the
+ * location of this replacement.
+ *
+ * Where should we break the line?  We need the last "legal wrap point"
+ * such that the last word before it ended at or before fill.  If there
+ * is no such point, we settle for the first legal wrap point.
+ *
+ * A "legal wrap point" is a white-space character that is not the last
+ * typed character and is not followed by white-space.
+ *
+ * If there is no legal wrap point or we found the last character of the
+ * line, we should return without wrapping.
+ *
+ * Note that the initial indentation does not count as a legal wrap
+ * point if we are going to auto-indent!
+ *
+ * Note that the code below could be optimised, by not calling strlenpt
+ * so often, and by not calling isspace(inptr->data[i+1]) and then in
+ * the next loop calling isspace(inptr->data[i]).  Oh well, fixing the
+ * first point would entail expanding the definition of strnlenpt, which
+ * I won't do since it will probably change soon.  Fixing the second
+ * point would entail nested loops.
+ */
 
-	    current_word_start = i;
-	    current_word_start_t = i_tabs;
-
-	    while (!isspace((int) inptr->data[i])
-		   && inptr->data[i]) {
-		i++;
-		i_tabs++;
-		if (inptr->data[i] < 32)
-		    i_tabs++;
-	    }
-
-	    if (inptr->data[i]) {
-		current_word_end = i;
-		current_word_end_t = i_tabs;
-	    } else {
-		current_word_end = i - 1;
-		current_word_end_t = i_tabs - 1;
-	    }
-	}
-
-	if (inptr->data[i] == NANO_CONTROL_I) {
-	    if (i_tabs % tabsize != 0);
-	    i_tabs += tabsize - (i_tabs % tabsize);
-	}
-
-	if (current_word_end_t > fill)
+    i = 0;
+#ifndef NANO_SMALL
+    if (ISSET(AUTOINDENT)) {
+	while (inptr->data[i] == ' ' || inptr->data[i] == '\t')
+	    i++;
+    }
+#endif
+    for(; i<len; i++) {
+	/* record where the last word ended */
+	if (!isspace((int) inptr->data[i]))
+	    word_back = i;
+	/* if we have found a "legal wrap point" and the current word
+	 * extends too far, then we stop */
+	if (wrap_loc != -1 && strnlenpt(inptr->data,word_back) > fill)
 	    break;
-    }
-
-    /* There are a few (ever changing) cases of what the line could look like.
-     * 1) only one word on the line before wrap point.
-     *    a) one word takes up the whole line with no starting spaces.
-     *         - do nothing and return.
-     *    b) cursor is on word or before word at wrap point and there are spaces at beginning.
-     *         - word starts new line.
-     *         - keep white space on original line up to the cursor.
-     *    *) cursor is after word at wrap point
-     *         - either it's all white space after word, and this routine isn't called.
-     *         - or we are actually in case 2 (2 words).
-     * 2) Two or more words on the line before wrap point.
-     *    a) cursor is at a word or space before wrap point
-     *         - word at wrap point starts a new line.
-     *         - white space at end of original line is cleared, unless
-     *           it is all spaces between previous word and next word which appears after fill.
-     *    b) cursor is at the word at the wrap point.
-     *         - word at wrap point starts a new line.
-     *         - white space on original line is kept to where cursor was.
-     *    c) cursor is past the word at the wrap point.
-     *         - word at wrap point starts a new line.
-     *         - white space at end of original line is cleared
-     */
-
-    temp = nmalloc(sizeof(filestruct));
-
-    /* Category 1a: one word taking up the whole line with no beginning spaces. */
-    if ((last_word_end == -1) && (!isspace((int) inptr->data[0]))) {
-	for (i = current_word_end; i < len; i++) {
-	    if (!isspace((int) inptr->data[i]) && i < len) {
-		current_word_start = i;
-		while (!isspace((int) inptr->data[i]) && (i < len)) {
-		    i++;
-		}
-		last_word_end = current_word_end;
-		current_word_end = i;
-		break;
-	    }
-	}
-
-	if (last_word_end == -1) {
-	    free(temp);
-	    return;
-	}
-	if (current_x >= last_word_end) {
-	    right = (current_x - current_word_start) + 1;
-	    current_x = last_word_end;
-	    down = 1;
-	}
-
-	/* Subtract length of original line, plus one for the newline, from
-	   totsize. */
-	totsize -= (strlen(inptr->data) + 1);
-
-	temp->data = charalloc(strlen(&inptr->data[current_word_start]) + 1);
-	strcpy(temp->data, &inptr->data[current_word_start]);
-	inptr->data = nrealloc(inptr->data, last_word_end + 2);
-	inptr->data[last_word_end + 1] = 0;
-
-	/* Now add lengths of new lines, plus two for the newlines, to totsize. */
-	totsize += (strlen(inptr->data) + strlen(temp->data) + 2);
-
-    } else
-	/* Category 1b: one word on the line and word not taking up whole line
-	   (i.e. there are spaces at the beginning of the line) */
-    if (last_word_end == -1) {
-	temp->data = charalloc(strlen(&inptr->data[current_word_start]) + 1);
-	strcpy(temp->data, &inptr->data[current_word_start]);
-
-	/* Inside word, remove it from original, and move cursor to right spot. */
-	if (current_x >= current_word_start) {
-	    right = current_x - current_word_start;
-
-	    current_x = 0;
-#ifndef NANO_SMALL
-	    if (ISSET(AUTOINDENT)) {
-		int i = 0;
-		while ((inptr->next->data[i] == ' '
-			|| inptr->next->data[i] == '\t')) {
-		    i++;
-		}
-	    }
-#endif
-	    down = 1;
-	}
-
-	/* Subtract length of original line, plus one for the newline, from
-	   totsize. */
-	totsize -= (strlen(inptr->data) + 1);
-
-	null_at(&inptr->data, current_x);
-
-	/* Now add lengths of new lines, plus two for the newlines, to totsize. */
-	totsize += (strlen(inptr->data) + strlen(temp->data) + 2);
-
-	if (ISSET(MARK_ISSET) && (mark_beginbuf == inptr)) {
-	    mark_beginbuf = temp;
-	    mark_beginx = 0;
+	/* we record the latest "legal wrap point" */
+	if (i != (current_x - 1) && isspace((int) inptr->data[i]) &&
+	   (i == (len - 1) || !isspace((int)inptr->data[i + 1]))) {
+	    wrap_loc = i;
 	}
     }
-
-    /* Category 2: two or more words on the line. */
-    else {
-	/* Case 2a: cursor before word at wrap point. */
-	if (current_x < current_word_start) {
-	    temp->data =
-		charalloc(strlen(&inptr->data[current_word_start]) + 1);
-	    strcpy(temp->data, &inptr->data[current_word_start]);
-
-	    if (!isspace((int) input_char)) {
-		i = current_word_start - 1;
-
-		while (isspace((int) inptr->data[i])) {
-		    i--;
-		    assert(i >= 0);
-		}
-	    } else if (current_x <= last_word_end)
-		i = last_word_end - 1;
-	    else
-		i = current_x;
-
-	    /* Subtract length of original line, plus one for the newline, from
-	       totsize. */
-	    totsize -= (strlen(inptr->data) + 1);
-
-	    inptr->data = nrealloc(inptr->data, i + 2);
-	    inptr->data[i + 1] = 0;
-
-	    /* Now add lengths of new lines, plus two for the newlines, to totsize. */
-	    totsize += (strlen(inptr->data) + strlen(temp->data) + 2);
-
-	}
+    if (wrap_loc < 0 || wrap_loc == (len - 1))
+	return;
 
 
-	/* Case 2b: cursor at word at wrap point. */
-	else if ((current_x >= current_word_start)
-		 && (current_x <= (current_word_end + 1))) {
-	    temp->data =
-		charalloc(strlen(&inptr->data[current_word_start]) + 1);
-	    strcpy(temp->data, &inptr->data[current_word_start]);
+/* Step 2, making the new wrap line.  It will consist of indentation +
+ * after_break + " " + wrap_line (although indentation and wrap_line are
+ * conditional on flags and #defines). */
 
-	    down = 1;
+    /* after_break is the text that will be moved to the next line. */
+    after_break = inptr->data + wrap_loc + 1;
+    after_break_len = len - wrap_loc - 1;
+    assert(after_break_len == strlen(after_break));
 
-	    right = current_x - current_word_start;
-#ifndef NANO_SMALL
-	    if (ISSET(AUTOINDENT)) {
-		int i = 0;
-		while ((inptr->next->data[i] == ' '
-			|| inptr->next->data[i] == '\t')) {
-		    i++;
-		}
-	    }
-#endif
-	    i = current_word_start - 1;
-	    current_x = current_word_start;
+    /* new_line_len will later be increased by the lengths of indentation
+     * and wrap_line. */
+    new_line_len = after_break_len;
 
-	    /* Subtract length of original line, plus one for the newline, from
-	       totsize. */
-	    totsize -= (strlen(inptr->data) + 1);
-
-	    null_at(&inptr->data, current_word_start);
-
-	    /* Now add lengths of new lines, plus two for the newlines, to totsize. */
-	    totsize += (strlen(inptr->data) + strlen(temp->data) + 2);
-	}
-
-
-	/* Case 2c: cursor past word at wrap point. */
-	else {
-	    temp->data =
-		charalloc(strlen(&inptr->data[current_word_start]) + 1);
-	    strcpy(temp->data, &inptr->data[current_word_start]);
-
-	    down = 1;
-	    right = current_x - current_word_start;
-
-	    current_x = current_word_start;
-	    i = current_word_start - 1;
-
-	    while (isspace((int) inptr->data[i])) {
-		i--;
-		assert(i >= 0);
-	    }
-
-	    /* Subtract length of original line, plus one for the newline, from
-	       totsize. */
-	    totsize -= (strlen(inptr->data) + 1);
-
-	    inptr->data = nrealloc(inptr->data, i + 2);
-	    inptr->data[i + 1] = 0;
-
-	    /* Now add lengths of new lines, plus two for the newlines, to totsize. */
-	    totsize += (strlen(inptr->data) + strlen(temp->data) + 2);
-	}
-    }
-
-    /* We pre-pend wrapped part to next line. */
+    /* We prepend the wrapped text to the next line, if the flag is set,
+     * and there is a next line, and prepending would not make the line
+     * too long. */
     if (ISSET(SAMELINEWRAP) && inptr->next) {
-	int old_x = current_x, old_y = current_y;
+	wrap_line = inptr->next->data;
+	wrap_line_len = strlen(wrap_line);
 
-	/* Plus one for the space which concatenates the two lines together plus 1 for \0. */
-	char *p =
-	    charalloc((strlen(temp->data) + strlen(inptr->next->data) + 2));
-
-	/* We're adding to an existing line instead of creating a new
-	   one; decrement totlines here so that when it gets incremented
-	   below, it won't end up being high by one. */
-	totlines--;
+	/* +1 for the space between after_break and wrap_line */
+	if ((new_line_len + 1 + wrap_line_len) <= fill) {
+	    wrapping = 1;
+	    new_line_len += (1 + wrap_line_len);
+	}
+    }
 
 #ifndef NANO_SMALL
-	if (ISSET(AUTOINDENT)) {
-	    int non = 0;
-
-	    /* Grab the beginning of the next line until it's not a 
-	       space or tab, then null terminate it so we can strcat it
-	       to hell */
-	    while ((inptr->next->data[non] == ' '
-		    || inptr->next->data[non] == '\t')) {
-		p[non] = inptr->next->data[non];
-		non++;
-	    }
-	    p[non] = 0;
-	    strcat(p, temp->data);
-	    strcat(p, " ");
-
-	    /* Now tack on the rest of the next line after the spaces and
-	       tabs */
-	    strcat(p, &inptr->next->data[non]);
-	} else 
-#endif
-	{
-	    strcpy(p, temp->data);
-	    strcat(p, " ");
-	    strcat(p, inptr->next->data);
-	}
-
-	free(inptr->next->data);
-	inptr->next->data = p;
-
-	free(temp->data);
-	free(temp);
-
-	current_x = old_x;
-	current_y = old_y;
+    if (ISSET(AUTOINDENT)) {
+	/* indentation comes from the next line if wrapping, else from
+	 * this line */
+	indentation = (wrapping ? wrap_line : inptr->data);
+	while (indentation[indent_len] == ' ' ||
+		indentation[indent_len] == '\t')
+	    indent_len++;
+	if (wrapping)
+	    /* The wrap_line text should not duplicate indentation.  Note
+	     * in this case we need not increase new_line_len. */
+	    wrap_line += indent_len;
+	else
+	    new_line_len += indent_len;
     }
-    /* Else we start a new line. */
-    else {
+#endif
 
+    /* Now we allocate the new line and copy into it. */
+    newline = charalloc(new_line_len + 1);  /* +1 for \0 */
+    *newline = '\0';
+
+#ifndef NANO_SMALL
+    if (ISSET(AUTOINDENT))
+	strncpy(newline, indentation, indent_len);
+#endif
+    strcat(newline, after_break);
+    after_break = NULL;
+    /* We end the old line at wrap_loc.  Note this eats the space. */
+    null_at(&inptr->data, wrap_loc);
+    if (wrapping) {
+	/* In this case, totsize does not change.  We ate a space in the
+	 * null_at() above, but we add a space between after_break and
+	 * wrap_line below. */
+	strcat(newline, " ");
+	strcat(newline, wrap_line);
+	free(inptr->next->data);
+	inptr->next->data = newline;
+    } else {
+	filestruct *temp = (filestruct *)nmalloc(sizeof(filestruct));
+	/* In this case, the file size changes by -1 for the eaten
+	 * space, +1 for the new line, and +indent_len for the new
+	 * indentation. */
+#ifndef NANO_SMALL
+	totsize += indent_len;
+#endif
+	totlines++;
+	temp->data = newline;
 	temp->prev = inptr;
 	temp->next = inptr->next;
-
-	if (inptr->next)
-	    inptr->next->prev = temp;
-	inptr->next = temp;
-
-	if (!temp->next)
+	temp->prev->next = temp;
+	/* If !temp->next, then temp is the last line of the file, so we
+	 * must set filebot */
+	if (temp->next)
+	    temp->next->prev = temp;
+	else
 	    filebot = temp;
+    }
 
-	SET(SAMELINEWRAP);
 
+/* Step 3, clean up.  Here we reposition the cursor and mark, and do some
+ * other sundry things. */
+
+    /* later wraps of this line will be prepended to the next line. */
+    SET(SAMELINEWRAP);
+
+    /* Each line knows its line number.  We recalculate these if we
+     * inserted a new line. */
+    if (!wrapping)
+	renumber(inptr);
+    edit_update(edittop, TOP);
+
+    /* if the cursor was after the break point, we must move it */
+    if (current_x > wrap_loc) {
+	/* We move it right by the number of characters that come before
+	 * its corresponding position in the new line.  That is,
+	 * current_x - wrap_loc + indent_len.  We actually need to go one
+	 * further for the new line, but remember that current_x has
+	 * already been incremented. */
+	int right =
 #ifndef NANO_SMALL
-	if (ISSET(AUTOINDENT)) {
-	    char *spc = inptr->data;
-	    char *t = NULL;
-	    int extra = 0;
-	    if (spc) {
-		while ((*spc == ' ') || (*spc == '\t')) {
-		    extra++;
-		    spc++;
-		    totsize++;
-		    right++;
-		}
-		t = charalloc(strlen(temp->data) + extra + 1);
-		strncpy(t, inptr->data, extra);
-		strcpy(t + extra, temp->data);
-		free(temp->data);
-		temp->data = t;
-	    }
-	}
+		indent_len +
 #endif
+		current_x - wrap_loc;
+
+	/* note that do_right depends on the value of current_x */
+	current_x = wrap_loc;
+	while (right--)
+	    do_right();
     }
 
-
-    totlines++;
-    /* Everything about it makes me want this line here, but it causes
-     * totsize to be high by one for some reason.  Sigh. (Rob) */
-    /* totsize++; */
-
-    renumber(inptr);
-    edit_update(edittop, TOP);
-
-
-    /* Move the cursor to the new line if appropriate. */
-    if (down) {
-	do_right();
+    /* If the mark was on this line after the wrap point, we move it down.
+     * If it was on the next line and we wrapped, we must move it right.
+     */
+    if (mark_beginbuf == inptr && mark_beginx > wrap_loc) {
+	mark_beginbuf = inptr->next;
+	mark_beginx -= wrap_loc;
+    } else if (wrapping && mark_beginbuf == inptr->next) {
+	mark_beginx += after_break_len;
     }
 
-    /* Move the cursor to the correct spot in the line if appropriate. */
-    while (right--) {
-	do_right();
-    }
-
-    edit_update(edittop, TOP);
+/* The following lines are all copied from do_wrap() in version 1.1.7.  It
+ * is not clear whether they are necessary.  It looks like do_right()
+ * takes care of these things.  It also appears that do_right() is very
+ * inefficient. */
+    /* Perhaps the global variable editbot, the last visible line in the
+     * editor, needs to change. */
+    fix_editbot();
+    /* Place the cursor. */
     reset_cursor();
+    /* Display the changes on the screen. */
     edit_refresh();
 }
 
 /* Check to see if we've just caused the line to wrap to a new line */
-void check_wrap(filestruct * inptr, char ch)
+void check_wrap(filestruct * inptr)
 {
     int len = strlenpt(inptr->data);
 #ifdef DEBUG
@@ -1252,7 +1118,7 @@ void check_wrap(filestruct * inptr, char ch)
 	}
 
 	if (char_found == 2)
-	    do_wrap(inptr, ch);
+	    do_wrap(inptr);
     }
 }
 #endif				/* DISABLE_WRAPPING */
@@ -1734,7 +1600,7 @@ int do_spell(void)
 }
 
 #ifndef NANO_SMALL
-static int pid;		/* this is the PID of the newly forked process below.  
+static int pid;		/* this is the PID of the newly forked process below.
 			 * It must be global since the signal handler needs it.
 			 */
 
@@ -1751,7 +1617,7 @@ int open_pipe(char *command)
     struct termios term, newterm;
 #endif   /* _POSIX_VDISABLE */
     int cancel_sigs = 0;
-    /* cancel_sigs==1 means that sigaction failed without changing the 
+    /* cancel_sigs==1 means that sigaction failed without changing the
      * signal handlers.  cancel_sigs==2 means the signal handler was
      * changed, but the tcsetattr didn't succeed.
      * I use this variable since it is important to put things back when
@@ -1787,7 +1653,7 @@ int open_pipe(char *command)
 	return 1;
     }
 
-    /* before we start reading the forked command's output, we set 
+    /* before we start reading the forked command's output, we set
      * things up so that ^C will cancel the new process.
      */
     if (sigaction(SIGINT, NULL, &newaction)==-1) {
@@ -1800,8 +1666,8 @@ int open_pipe(char *command)
 	    nperror("sigaction");
 	}
     }
-    /* note that now oldaction is the previous SIGINT signal handler, to 
-       be restored later */
+    /* note that now oldaction is the previous SIGINT signal handler, to
+     * be restored later */
 
     /* if the platform supports disabling individual control characters */
 #ifdef _POSIX_VDISABLE
@@ -1823,7 +1689,7 @@ int open_pipe(char *command)
     read_file(fd[0],"stdin",0);
     set_modified();
 
-    if (wait(NULL) == -1) 
+    if (wait(NULL) == -1)
 	nperror("wait");
 
 #ifdef _POSIX_VDISABLE
@@ -2395,12 +2261,10 @@ int do_justify(void)
     slen = strlen(current->data);
     totsize += slen;
 
-    if ((strlenpt(current->data) > (fill))
-	&& !no_spaces(current->data + qdepth)) {
-	do {
-	    int i = 0, j = 0;
-	    filestruct *tmpline = nmalloc(sizeof(filestruct));
-
+    while (strlenpt(current->data) > fill
+	    && !no_spaces(current->data + qdepth)) {
+	int i = 0, j = 0;
+	filestruct *tmpline = nmalloc(sizeof(filestruct));
 
 /* The following code maybe could be better.  In particular, can we 
  * merely increment instead of calling strnlenpt for each new character?  
@@ -2408,48 +2272,48 @@ int do_justify(void)
  */
 /* Note that we CAN break before the first word, since that is how 
  * pico does it. */
-            int last_space = -1;  /* index of the last breakpoint */
+	int last_space = -1;  /* index of the last breakpoint */
 
-	    for(i=qdepth; i<slen; i++) {
-              if (isspace((int) current->data[i])) last_space = i;
-              if (last_space!=-1 &&
-     /* ARGH!  We must look at the length of the first i+1 characters. */
-		  strnlenpt(current->data,i+1) > fill) {
-                i = last_space;
-                break;
-              }
-            }
+	for(i=qdepth; i<slen; i++) {
+	    if (isspace((int) current->data[i]))
+		last_space = i;
+	    /* Note we must look at the length of the first i+1 chars. */
+	    if (last_space!=-1 &&
+		    strnlenpt(current->data,i+1) > fill) {
+		i = last_space;
+		break;
+	    }
+	}
 /* Now data[i] is a space.  We want to break at the LAST space in this
  * group.  Probably, the only possibility is two in a row, but let's be 
  * generic.  Note that we actually replace this final space with \0.  Is
  * this okay?  It seems to work fine. */
-            for(; i<slen-1 && isspace((int) current->data[i+1]); i++) ;
+	for(; i<slen-1 && isspace((int) current->data[i+1]); i++)
+	    ;
 
-	    current->data[i] = '\0';
+	current->data[i] = '\0';
 
-	    slen -= i + 1 - qdepth;   /* note i > qdepth */
-	    tmpline->data = charalloc(slen + 1);
+	slen -= i + 1 - qdepth;   /* note i > qdepth */
+	tmpline->data = charalloc(slen + 1);
 
-	    for (j = 0; j < qdepth; j += strlen(quotestr))
-		strcpy(&tmpline->data[j], quotestr);
+	for (j = 0; j < qdepth; j += strlen(quotestr))
+	    strcpy(&tmpline->data[j], quotestr);
 
-	    /* Skip the white space in current. */
-	    memcpy(&tmpline->data[qdepth], current->data + i + 1, slen-qdepth);
-	    tmpline->data[slen] = '\0';
+	/* Skip the white space in current. */
+	memcpy(&tmpline->data[qdepth], current->data + i + 1, slen-qdepth);
+	tmpline->data[slen] = '\0';
 
-	    current->data = nrealloc(current->data, i + 1);
+	current->data = nrealloc(current->data, i + 1);
 
-	    tmpline->prev = current;
-	    tmpline->next = current->next;
-	    if (current->next != NULL)
-		current->next->prev = tmpline;
+	tmpline->prev = current;
+	tmpline->next = current->next;
+	if (current->next != NULL)
+	    current->next->prev = tmpline;
 
-	    current->next = tmpline;
-	    current = tmpline;
-	    current_y++;
-	} while ((strlenpt(current->data) > (fill))
-		 && !no_spaces(current->data + qdepth));
-    }
+	current->next = tmpline;
+	current = tmpline;
+	current_y++;
+    } /* end of while (!no_spaces) */
     tmpbot = current;
 
     if (current->next)

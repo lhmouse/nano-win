@@ -1,4 +1,24 @@
 CVS code -
+- General:
+	- Typos n misspellings all over the place (David Benbennick).
+	- Allow --tiny and --multibuffer to cooperate (who the heck
+	  would want this is beyond me but ;-).  Changes to 
+	  configure.ac, global.c, ,  (David Benbennick).
+- configure.ac:
+	- Define NDEBUG to silence asserts (David Benbennick).
+- files.c:
+  get_next_filename()
+	- Optimizations (David Benbennick).
+- global.c:
+  shortcut_init()
+	- Add missing free_shortcutage()s (David Benbennick).
+- nano.c:
+  die_save_file()
+	- Add missing free (David Benbennick).
+  do_justify()
+	- Optimizations (David Benbennick).
+  do_wrap()
+	- Complete rewrite (David Benbennick).
 - nano.h:
 	- NANO_ALT_COMMAND and NANO_ALT_PERIOD were reversed (lol)
 	  (David Benbennick).

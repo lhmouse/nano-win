@@ -30,7 +30,7 @@
 #include "nano.h"
 
 extern int editwinrows;
-extern int current_x, current_y, posible_max, totlines;
+extern int current_x, current_y, totlines;
 extern int placewewant;
 extern int mark_beginx, samelinewrap;
 extern long totsize;
@@ -72,7 +72,10 @@ extern shortcut *shortcut_list;
 extern shortcut *main_list, *whereis_list;
 extern shortcut *replace_list, *goto_list;
 extern shortcut *writefile_list, *insertfile_list;
-extern shortcut *spell_list, *replace_list_2, *extcmd_list;
+extern shortcut *spell_list, *replace_list_2;
+#ifndef NANO_SMALL
+extern shortcut *extcmd_list;
+#endif
 extern shortcut *help_list;
 #ifndef DISABLE_BROWSER
 extern shortcut *browser_list, *gotodir_list;
@@ -87,7 +90,7 @@ extern regmatch_t regmatches[10];
 #ifdef ENABLE_COLOR
 extern regex_t color_regexp;
 extern regmatch_t colormatches[1];  
-#endif /* HJAVE_COLOR */
+#endif /* ENABLE_COLOR */
 #endif
 
 extern toggle *toggles;
@@ -152,7 +155,7 @@ void shortcut_init(int unjustify);
 void signal_init(void);
 void lowercase(char *src);
 void blank_bottombars(void);
-void check_wrap(filestruct * inptr, char ch);
+void check_wrap(filestruct * inptr);
 void dump_buffer(filestruct * inptr);
 void align(char **strp);
 void edit_refresh(void), edit_refresh_clearok(void);
@@ -172,7 +175,6 @@ void previous_line(void);
 void center_cursor(void);
 void bottombars(shortcut *s);
 void blank_statusbar_refresh(void);
-void *nmalloc (size_t howmuch);
 void nperror(const char *s);
 void *mallocstrcpy(char *dest, char *src);
 void wrap_reset(void);
@@ -221,7 +223,6 @@ int load_open_file(void), close_open_file(void);
 
 int do_page_up(void), do_page_down(void);
 int do_cursorpos(int constant), do_cursorpos_void(void), do_spell(void);
-int do_up(void), do_down (void), do_right(void), do_left (void);
 int do_home(void), do_end(void), total_refresh(void), do_mark(void);
 int do_delete(void), do_backspace(void), do_tab(void), do_justify(void);
 int do_first_line(void), do_last_line(void);
@@ -234,7 +235,7 @@ int open_prevfile_void(void), open_nextfile_void(void);
 #endif
 
 char *charalloc (size_t howmuch);
-char *get_next_filename(char *name);
+char *get_next_filename(const char *name);
 
 #if !defined (DISABLE_SPELLER) || !defined (DISABLE_OPERATINGDIR)
 char *get_full_path(const char *origpath);

@@ -57,7 +57,7 @@
 /* Define this to disable setting of the operating directory (chroot of sorts) */
 #undef DISABLE_OPERATINGDIR
 
-/* Define this to enable multiple file buffers; this is disabled if NANO_SMALL is defined */
+/* Define this to enable multiple file buffers */
 #undef ENABLE_MULTIBUFFER
 
 /* Define this to use the .nanorc file */
@@ -71,3 +71,6 @@
 
 /* Define this to enable undoing....something */
 #undef ENABLE_UNDO
+
+/* Shut up the assert warnings :-) */
+#undef NDEBUG
