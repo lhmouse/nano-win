@@ -194,6 +194,7 @@ int read_file(int fd, char *filename)
     } else if (fileptr->next == NULL) {
 	filebot = fileptr;
 	new_magicline();
+	totsize--;
 
 	/* Update the edit buffer */
 	load_file();

@@ -15,7 +15,8 @@ CVS code -
 	- Dont stupidly assign the value of prev->lineno if prev == NULL!
 - utils.c:
   new_magicline()
-	- Increment totsize!!
+	- Increment totsize!!  We decrement it when we've read a file, 
+	  everywhere else it should automatically be incremented
 
 nano 0.9.23 - 12/08/2000
 General
