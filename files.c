@@ -124,6 +124,13 @@ filestruct *read_line(char *buf, filestruct * prev, int *line1ins)
     fileptr->data = charalloc(strlen(buf) + 2);
     strcpy(fileptr->data, buf);
 
+#ifndef NANO_SMALL
+    if (buf[strlen(buf) - 1] == '\r') {
+	SET(DOS_FILE);
+	fileptr->data[strlen(buf) - 1] = 0;
+    }
+#endif
+
     if (*line1ins) {
 	/* Special case, insert with cursor on 1st line. */
 	fileptr->prev = NULL;
@@ -1117,6 +1124,10 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	    fprintf(stderr, _("Wrote >%s\n"), fileptr->data);
 #endif
 	}
+#ifndef NANO_SMALL
+	if (ISSET(DOS_FILE))
+	    write(fd, "\r", 1);
+#endif
 	write(fd, "\n", 1);
 
 	fileptr = fileptr->next;
@@ -1130,6 +1141,17 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 		      strerror(errno));
 	    return -1;
 	} else if (size > 0) {
+#ifndef NANO_SMALL
+	    if (ISSET(DOS_FILE)) {
+		size = write(fd, "\r", 1);
+		lineswritten++;
+		if (size == -1) {
+		    statusbar(_("Could not open file for writing: %s"),
+			  strerror(errno));
+		    return -1;
+		}
+	    }
+#endif
 	    size = write(fd, "\n", 1);
 	    lineswritten++;
 	    if (size == -1) {
