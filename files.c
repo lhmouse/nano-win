@@ -1416,7 +1416,7 @@ char *do_browser(char *inpath)
 			strcpy(foo + longest - 2, "--");
 		} else if (st.st_size < (1 << 10)) /* less than 1 K */
 		    sprintf(foo + longest - 7, "%4d  B", 
-			(int) st.st_size >> 10);
+			(int) st.st_size);
 		else if (st.st_size >= (1 << 30)) /* at least 1 gig */
 		    sprintf(foo + longest - 7, "%4d GB", 
 			(int) st.st_size >> 30);

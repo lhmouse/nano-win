@@ -49,6 +49,8 @@ Cvs code -
   do_browser()
 	- Minor fixes to the processing of SELECT function (Rocco)
 	- Added the "Goto Directory" code (Rocco)
+	- Don't shift the size of the file is it's less than 1K. Fixed
+	  files less than 1K being displayed as 0B (Rocco).
 - global.c:
 	- Updated some of the lists for the "Goto Directory" code (Rocco)
 - move.c:
