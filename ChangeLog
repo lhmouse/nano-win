@@ -23,6 +23,10 @@ CVS Code -
 	- Russian translation updates (Sergey A. Ribalchenko).
 - po/sv.po:
 	- Swedish translation updates (Christian Rose).
+- po/da.po:
+	- Danish translation updates (Keld Simonse).
+- po/es.po:
+	- Spanish translation updates (Jordi).
 
 nano-1.1.3 - 10/26/2001
 - General
