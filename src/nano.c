@@ -3472,18 +3472,20 @@ int main(int argc, char *argv[])
     fprintf(stderr, "Main: open file\n");
 #endif
 
+    titlebar(NULL);
     open_file(filename, FALSE, FALSE);
 #ifdef ENABLE_MULTIBUFFER
     /* If we're using multibuffers and more than one file is specified
        on the command line, load them all and switch to the first one
        afterward */
     if (optind + 1 < argc) {
-	int old_multibuffer = ISSET(MULTIBUFFER);
+	bool old_multibuffer = ISSET(MULTIBUFFER);
 	SET(MULTIBUFFER);
 	for (optind++; optind < argc; optind++) {
 	    add_open_file(TRUE);
 	    new_file();
 	    filename = mallocstrcpy(filename, argv[optind]);
+	    titlebar(NULL);
 	    open_file(filename, FALSE, FALSE);
 	    load_file(FALSE);
 	}
@@ -3492,8 +3494,6 @@ int main(int argc, char *argv[])
 	    UNSET(MULTIBUFFER);
     }
 #endif
-
-    titlebar(NULL);
 
     if (startline > 0)
 	do_gotoline(startline, FALSE);

@@ -149,6 +149,9 @@ CVS code -
 	- Call setlocale() outside the ENABLE_NLS #ifdef, since UTF-8
 	  support won't work properly if the locale isn't set, whether
 	  NLS is enabled or not. (Junichi Uekawa)
+	- Add titlebar() calls before all open_file() calls and remove 
+	  the titlebar() call after them, so that the titlebar is 
+	  displayed properly for all file(s) loaded. (DLR)
 - nano.h:
 	- Reassign the key for full justification to Ctrl-U, for
 	  compatibility with the current version of Pico. (DLR)
