@@ -437,7 +437,7 @@ GNU nano 1.3.4 - 2004.08.17
   write_file()
 	- For consistency with nano 1.2.x and with other editors, make
 	  the mode of newly created files 666 instead of 600 before
-	  it's modified by the umask. (DLR)
+	  it's modified by the umask. (DLR, found by Toni Suokas)
   do_writeout()
 	- If we're in restricted mode and the current filename isn't
 	  blank, we can't change it, so disable tab completion in that
