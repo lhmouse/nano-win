@@ -86,8 +86,6 @@ CVS code -
 	  do_replace_loop(), and do_replace(). (DLR)
 - files.c:
   do_insertfile()
-	- Readd the NANO_SMALL #ifdef around the start_again: label to
-	  avoid a warning. (DLR)
 	- Simplify by reusing variables whereever possible, and add a
 	  parameter execute to indicate whether or not to be in "Execute
 	  Command" mode. (DLR)
@@ -1008,7 +1006,6 @@ GNU nano 1.3.3 - 2004.06.28
 - config.rpath:
 	- Replace usage of egrep with grep -E, avoiding a XSI:ism (David
 	  Weinehall)
-
 - faq.html:
 	- Removed question about the NumLock glitch, as it's no longer
 	  needed. (DLR)
