@@ -521,6 +521,10 @@ void set_modified(void)
     }
 }
 
+/* And so start the display update routines */
+/* Given a column, this returns the "page" it is on  */
+/* "page" in the case of the display columns, means which set of 80 */
+/* characters is viewable (ie: page 1 shows from 1 to COLS) */
 inline int get_page_from_virtual(int virtual)
 {
     int page = 2;
@@ -537,6 +541,7 @@ inline int get_page_from_virtual(int virtual)
     return page;
 }
 
+/* The inverse of the above function */
 inline int get_page_start_virtual(int page)
 {
     int virtual;
@@ -552,16 +557,25 @@ inline int get_page_end_virtual(int page)
 }
 
 #ifndef NANO_SMALL
-/* Called only from edit_add, and therefore expects a
- * converted-to-only-spaces line */
+/* This takes care of the case where there is a mark that covers only */
+/* the current line. */
+
+/* It expects a line with no tab characers (ie: the type that edit_add
+/* deals with */
 void add_marked_sameline(int begin, int end, filestruct * fileptr, int y,
 			 int virt_cur_x, int this_page)
 {
+    /*
+     * The general idea is to break the line up into 3 sections: before
+     * the mark, the mark, and after the mark.  We then paint each in
+     * turn (for those that are currently visible, of course
+     *
+     * 3 start points: 0 -> begin, begin->end, end->strlen(data)
+     *    in data    :    pre          sel           post        
+     */
     int this_page_start = get_page_start_virtual(this_page),
 	this_page_end = get_page_end_virtual(this_page);
 
-    /* 3 start points: 0 -> begin, begin->end, end->strlen(data) */
-    /*    in data    :    pre          sel           post        */
     /* likewise, 3 data lengths */
     int pre_data_len = begin, sel_data_len = end - begin, post_data_len = 0;	/* Determined from the other two */
 
@@ -578,17 +592,17 @@ void add_marked_sameline(int begin, int end, filestruct * fileptr, int y,
     if (end < this_page_start)
 	end = this_page_start;
 
-    /* we don't care about end, because it will just get cropped
-     * due to length */
     if (begin > this_page_end)
 	begin = this_page_end;
 
     if (end > this_page_end)
 	end = this_page_end;
 
+    /* Now calculate the lengths */
     sel_data_len = end - begin;
     post_data_len = this_page_end - end;
 
+    /* Paint this line! */
     mvwaddnstr(edit, y, 0, &fileptr->data[this_page_start], pre_data_len);
     wattron(edit, A_REVERSE);
     mvwaddnstr(edit, y, begin - this_page_start,
@@ -599,39 +613,57 @@ void add_marked_sameline(int begin, int end, filestruct * fileptr, int y,
 }
 #endif
 
-/* Called only from update_line.  Expects a converted-to-not-have-tabs
+/* edit_add takes care of the job of actually painting a line into the
+ * edit window.
+ * 
+ * Called only from update_line.  Expects a converted-to-not-have-tabs
  * line */
 void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 	      int virt_mark_beginx, int this_page)
 {
 #ifndef NANO_SMALL
-    if (ISSET(MARK_ISSET)) {
-	if ((fileptr->lineno > mark_beginbuf->lineno
+    /* There are quite a few cases that could take place, we'll deal
+     * with them each in turn */
+    if (ISSET(MARK_ISSET)    
+	&& !((fileptr->lineno > mark_beginbuf->lineno
 	     && fileptr->lineno > current->lineno)
 	    || (fileptr->lineno < mark_beginbuf->lineno
-		&& fileptr->lineno < current->lineno)) {
-
-	    /* We're on a normal, unselected line */
-	    mvwaddnstr(edit, yval, 0, fileptr->data, COLS);
-	} else {
+		&& fileptr->lineno < current->lineno)))
+    {
+	    /* If we get here we are on a line that is atleast
+	     * partially selected.  The lineno checks above determined
+	     * that */
 	    if (fileptr != mark_beginbuf && fileptr != current) {
-		/* We're on selected text */
+		/* We are on a completely marked line, paint it all
+		 * inverse */
 		wattron(edit, A_REVERSE);
 		mvwaddnstr(edit, yval, 0, fileptr->data, COLS);
 		wattroff(edit, A_REVERSE);
 	    } else if (fileptr == mark_beginbuf && fileptr == current) {
 		/* Special case, we're still on the same line we started
-		 * marking */
-		if (virt_cur_x < virt_mark_beginx)
+		 * marking -- so we call our helper function */
+		if (virt_cur_x < virt_mark_beginx) {
+		    /* To the right of us is marked */
 		    add_marked_sameline(virt_cur_x, virt_mark_beginx,
 					fileptr, yval, virt_cur_x,
 					this_page);
-		else
+		} else {
+		    /* To the left of us is marked */
 		    add_marked_sameline(virt_mark_beginx, virt_cur_x,
 					fileptr, yval, virt_cur_x,
 					this_page);
+		}
 	    } else if (fileptr == mark_beginbuf) {
-		/* we're updating the line that was first marked */
+		/*
+		 * we're updating the line that was first marked
+		 * but we're not currently on it.  So we want to
+		 * figur out which half to invert based on our
+		 * relative line numbers.
+		 *
+		 * i.e. If we're above the "beginbuf" line, we want to
+		 * mark the left side.  Otherwise we're below, so we
+		 * mark the right
+		 */
 		int target;
 
 		if (mark_beginbuf->lineno > current->lineno)
@@ -660,7 +692,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 
 	    } else if (fileptr == current) {
 		/* we're on the cursors line, but it's not the first
-		 * one we marked... */
+		 * one we marked.  Similar to the previous logic. */
 		int this_page_start = get_page_start_virtual(this_page),
 		    this_page_end = get_page_end_virtual(this_page);
 
@@ -691,17 +723,18 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 
 		if (mark_beginbuf->lineno > current->lineno)
 		    wattroff(edit, A_REVERSE);
-	    }
 	}
 
     } else
 #endif
+    /* Just paint the string (no mark on this line) */
 	mvwaddnstr(edit, yval, 0, &fileptr->data[start],
 		   get_page_end_virtual(this_page) - start);
 }
 
 /*
- * Just update one line in the edit buffer 
+ * Just update one line in the edit buffer.  Basically a wrapper for
+ * edit_add
  *
  * index gives is a place in the string to update starting from.
  * Likely args are current_x or 0.
