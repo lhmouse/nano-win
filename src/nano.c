@@ -3094,8 +3094,8 @@ int main(int argc, char *argv[])
     };
 #endif
 
-#ifdef ENABLE_NLS
     setlocale(LC_ALL, "");
+#ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCALEDIR);
     textdomain(PACKAGE);
 #endif

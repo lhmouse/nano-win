@@ -88,6 +88,9 @@ CVS code -
 	- Move the reset_cursor() call to the beginning of the main
 	  input loop, and remove the apparently unnecessary wrefresh()
 	  call. (David Benbennick)
+	- Call setlocale() outside the ENABLE_NLS #ifdef, since UTF-8
+	  support won't work properly if the locale isn't set, whether
+	  NLS is enabled or not. (Junichi Uekawa)
 - nano.h:
 	- Reassign the key for full justification to Ctrl-U, for
 	  compatibility with the current version of Pico. (DLR)
