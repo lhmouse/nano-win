@@ -135,8 +135,13 @@ CVS code -
 - faq.html:
 	- Add question explaining how verbatim input works, as well as a
 	  few minor fixes. (DLR)
+- nano.1, nanorc.5:
+	- Add nano version numbers (minus any "-cvs" suffixes). (DLR)
 - nano.spec.in:
 	- Update for the 1.3 branch of nano. (DLR)
+- NEWS:
+	- Reformat so all lines are limited to 72 columns, add a few
+	  typo fixes, and make a few minor cosmetic cleanups. (DLR)
 - THANKS:
 	- Add Danilo Segan, for the Serbian translation.
 
