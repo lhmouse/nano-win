@@ -76,6 +76,8 @@
 - When typing in a string in serahc or replace and hitting CASE_SENSITVE
   or the other search string, the current string edit is blown away in
   favor of the last stored search (47) [FIXED]
+- If nano fails to open a file when it starts up,doing almost anything
+  causes a segfault (discovered by Ben Roberts) (48). [FIXED]
 
 ** Open BUGS **
 
