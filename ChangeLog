@@ -28,6 +28,12 @@ CVS code -
   write_marked()
 	- New function used to write the current marked selection to a
 	  file, split out from do_writeout(). (DLR)
+  filestat()
+	- Removed, as it is only called in one place and is
+	  redundant. (DLR)
+  do_browser()
+	- Replace the filestat() call with an equivalent stat() call.
+	  (DLR)
 - global.c:
   shortcut_init()
 	- Only allow verbatim input when we're not in view mode. (DLR)

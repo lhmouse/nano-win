@@ -2369,15 +2369,6 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
 #endif /* !DISABLE_TABCOMP */
 
 #ifndef DISABLE_BROWSER
-/* Return the stat of the file pointed to by path */
-struct stat filestat(const char *path)
-{
-    struct stat st;
-
-    stat(path, &st);
-    return st;
-}
-
 /* Our sort routine for file listings -- sort directories before
  * files, and then alphabetically. */ 
 int diralphasort(const void *va, const void *vb)
@@ -2780,7 +2771,7 @@ char *do_browser(const char *inpath)
 		if (S_ISLNK(st.st_mode)) {
 		     /* Aha!  It's a symlink!  Now, is it a dir?  If so,
 			mark it as such */
-		    st = filestat(filelist[j]);
+		    stat(filelist[j], &st);
 		    if (S_ISDIR(st.st_mode))
 			strcpy(foo + longest - 5, "(dir)");
 		    else

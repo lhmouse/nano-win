@@ -193,7 +193,6 @@ char **cwd_tab_completion(char *buf, int *num_matches);
 char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list);
 #endif
 #ifndef DISABLE_BROWSER
-struct stat filestat(const char *path);
 int diralphasort(const void *va, const void *vb);
 void free_charptrarray(char **array, int len);
 const char *tail(const char *foo);
