@@ -969,160 +969,157 @@ bool close_open_file(void)
 #endif /* ENABLE_MULTIBUFFER */
 
 #if !defined(DISABLE_SPELLER) || !defined(DISABLE_OPERATINGDIR)
-/*
- * When passed "[relative path]" or "[relative path][filename]" in
+/* When passed "[relative path]" or "[relative path][filename]" in
  * origpath, return "[full path]" or "[full path][filename]" on success,
- * or NULL on error.  This is still done if the file doesn't exist but
- * the relative path does (since the file could exist in memory but not
- * yet on disk); it is not done if the relative path doesn't exist (since
- * the first call to chdir() will fail then).
- */
+ * or NULL on error.  Do this if the file doesn't exist but the relative
+ * path does, since the file could exist in memory but not yet on disk).
+ * Don't do this if the relative path doesn't exist, since we won't be
+ * able to go there. */
 char *get_full_path(const char *origpath)
 {
-    char *newpath = NULL, *last_slash, *d_here, *d_there, *d_there_file, tmp;
-    int path_only, last_slash_index;
-    struct stat fileinfo;
-    char *expanded_origpath;
+    char *d_here, *d_there = NULL;
 
-    /* first, get the current directory, and tack a slash onto the end of
-       it, unless it turns out to be "/", in which case leave it alone */
+    if (origpath == NULL)
+    	return NULL;
 
-    d_here = getcwd(NULL, PATH_MAX + 1);
+    /* Get the current directory. */
+#if PATH_MAX != -1
+    d_here = charalloc(PATH_MAX + 1);
+#else
+    d_here = NULL;
+#endif
+    d_here = getcwd(d_here, PATH_MAX + 1);
+#if PATH_MAX != -1
+    align(&d_here);
+#endif
 
     if (d_here != NULL) {
+	const char *last_slash;
+	char *d_there_file = NULL;
+	bool path_only;
+	struct stat fileinfo;
 
-	align(&d_here);
+	/* If the current directory isn't "/", tack a slash onto the end
+	 * of it. */
 	if (strcmp(d_here, "/") != 0) {
 	    d_here = charealloc(d_here, strlen(d_here) + 2);
 	    strcat(d_here, "/");
 	}
 
-	/* stat origpath; if stat() fails, assume that origpath refers to
-	   a new file that hasn't been saved to disk yet (i. e. set
-	   path_only to 0); if stat() succeeds, set path_only to 0 if
-	   origpath doesn't refer to a directory, or to 1 if it does */
-	path_only = !stat(origpath, &fileinfo) && S_ISDIR(fileinfo.st_mode);
+	d_there = real_dir_from_tilde(origpath);
 
-	expanded_origpath = real_dir_from_tilde(origpath);
-	/* save the value of origpath in both d_there and d_there_file */
-	d_there = mallocstrcpy(NULL, expanded_origpath);
-	d_there_file = mallocstrcpy(NULL, expanded_origpath);
-	free(expanded_origpath);
+	assert(d_there != NULL);
 
-	/* if we have a path but no filename, tack slashes onto the ends
-	   of both d_there and d_there_file, if they don't end in slashes
-	   already */
+	/* Stat d_there.  If stat() fails, assume that d_there refers to
+	 * a new file that hasn't been saved to disk yet.  Set path_only
+	 * to TRUE if d_there refers to a directory, and FALSE if
+	 * d_there refers to a file. */
+	path_only = !stat(d_there, &fileinfo) &&
+		S_ISDIR(fileinfo.st_mode);
+
+	/* If path_only is TRUE, make sure d_there ends in a slash. */
 	if (path_only) {
-	    tmp = d_there[strlen(d_there) - 1];
-	    if (tmp != '/') {
-		d_there = charealloc(d_there, strlen(d_there) + 2);
+	    size_t d_there_len = strlen(d_there);
+
+	    if (d_there[d_there_len - 1] != '/') {
+		d_there = charealloc(d_there, d_there_len + 2);
 		strcat(d_there, "/");
-		d_there_file = charealloc(d_there_file, strlen(d_there_file) + 2);
-		strcat(d_there_file, "/");
 	    }
 	}
 
-	/* search for the last slash in d_there */
+	/* Search for the last slash in d_there. */
 	last_slash = strrchr(d_there, '/');
 
-	/* if we didn't find one, copy d_here into d_there; all data is
-	   then set up */
-	if (last_slash == NULL)
-	    d_there = mallocstrcpy(d_there, d_here);
-	else {
-	    /* otherwise, remove all non-path elements from d_there
-	       (i. e. everything after the last slash) */
-	    last_slash_index = strlen(d_there) - strlen(last_slash);
-	    null_at(&d_there, last_slash_index + 1);
+	/* If we didn't find one, then make sure the answer is in the
+	 * format "d_here/d_there". */
+	if (last_slash == NULL) {
+	    assert(!path_only);
 
-	    /* and remove all non-file elements from d_there_file (i. e.
-	       everything before and including the last slash); if we
-	       have a path but no filename, don't do anything */
-	    if (!path_only) {
-		last_slash = strrchr(d_there_file, '/');
-		last_slash++;
-		strcpy(d_there_file, last_slash);
-		align(&d_there_file);
-	    }
+	    d_there_file = d_there;
+	    d_there = d_here;
+	} else {
+	    /* If path_only is FALSE, then save the filename portion of
+	     * the answer, everything after the last slash, in
+	     * d_there_file. */
+	    if (!path_only)
+		d_there_file = mallocstrcpy(NULL, last_slash + 1);
 
-	    /* now go to the path specified in d_there */
-	    if (chdir(d_there) != -1) {
-		/* get the full pathname, and save it back in d_there,
-		   tacking a slash on the end if we have a path but no
-		   filename; if the saving fails, get out */
+	    /* And remove the filename portion of the answer from
+	     * d_there. */
+	    null_at(&d_there, last_slash - d_there + 1);
 
+	    /* Go to the path specified in d_there. */
+	    if (chdir(d_there) == -1) {
 		free(d_there);
-
-		d_there = getcwd(NULL, PATH_MAX + 1);
-
+		d_there = NULL;
+	    } else {
+		/* Get the full path and save it in d_there. */
+		free(d_there);
+#if PATH_MAX != -1
+		d_there = charalloc(PATH_MAX + 1);
+#else
+		d_there = NULL;
+#endif
+		d_there = getcwd(d_there, PATH_MAX + 1);
+#if PATH_MAX != -1
 		align(&d_there);
-		if (d_there != NULL) {
+#endif
 
-		    /* add a slash to d_there, unless it's "/", in which
-		       case we don't need it */
-		    if (strcmp(d_there, "/") != 0) {
-			d_there = charealloc(d_there, strlen(d_there) + 2);
-			strcat(d_there, "/");
-		    }
+		if (d_there == NULL)
+		    /* If we couldn't get the full path, set path_only
+		     * to TRUE so that we clean up correctly, free all
+		     * allocated memory, and return NULL. */
+		    path_only = TRUE;
+		else if (strcmp(d_there, "/") != 0) {
+		    /* Make sure d_there ends in a slash. */
+		    d_there = charealloc(d_there, strlen(d_there) + 2);
+		    strcat(d_there, "/");
 		}
-		else
-		    return NULL;
+
+		/* Finally, go back to the path specified in d_here,
+		 * where we were before. */
+		chdir(d_here);
 	    }
 
-	    /* finally, go back to where we were before, d_here (no error
-	       checking is done on this chdir(), because we can do
-	       nothing if it fails) */
-	    chdir(d_here);
-	}
-	
-	/* all data is set up; fill in newpath */
-
-	/* if we have a path and a filename, newpath = d_there +
-	   d_there_file; otherwise, newpath = d_there */
-	if (!path_only) {
-	    newpath = charalloc(strlen(d_there) + strlen(d_there_file) + 1);
-	    strcpy(newpath, d_there);
-	    strcat(newpath, d_there_file);
-	}
-	else {
-	    newpath = charalloc(strlen(d_there) + 1);
-	    strcpy(newpath, d_there);
+	    /* Free d_here, since we're done using it. */
+	    free(d_here);
 	}
 
-	/* finally, clean up */
+	/* At this point, if path_only is FALSE and d_there exists,
+	 * d_there contains the path portion of the answer and
+	 * d_there_file contains the filename portion of the answer.  If
+	 * this is the case, tack d_there_file onto the end of
+	 * d_there, so that d_there contains the complete answer. */
+	if (!path_only && d_there) {
+	    d_there = charealloc(d_there, strlen(d_there) +
+		strlen(d_there_file) + 1);
+	    strcat(d_there, d_there_file);
+ 	}
+
+	/* Free d_there_file, since we're done using it. */
 	free(d_there_file);
-	free(d_there);
-	free(d_here);
     }
 
-    return newpath;
+    return d_there;
 }
 #endif /* !DISABLE_SPELLER || !DISABLE_OPERATINGDIR */
 
 #ifndef DISABLE_SPELLER
-/*
- * This function accepts a path and returns the full path (via
- * get_full_path()).  On error, if the path doesn't reference a
- * directory, or if the directory isn't writable, it returns NULL.
- */
+/* Return the full version of path, as returned by get_full_path().  On
+ * error, if path doesn't reference a directory, or if the directory
+ * isn't writable, return NULL. */
 char *check_writable_directory(const char *path)
 {
     char *full_path = get_full_path(path);
-    int writable;
-    struct stat fileinfo;
 
-    /* if get_full_path() failed, return NULL */
+    /* If get_full_path() fails, return NULL. */
     if (full_path == NULL)
 	return NULL;
 
-    /* otherwise, stat() the full path to see if it's writable by the
-       user; set writable to 1 if it is, or 0 if it isn't */
-    writable = !stat(full_path, &fileinfo) && (fileinfo.st_mode & S_IWUSR);
-
-    /* if the full path doesn't end in a slash (meaning get_full_path()
-       found that it isn't a directory) or isn't writable, free full_path
-       and return NULL */
-    if (full_path[strlen(full_path) - 1] != '/' || writable == 0) {
+    /* If we can't write to path or path isn't a directory, return
+     * NULL. */
+    if (access(full_path, W_OK) != 0 ||
+		full_path[strlen(full_path) - 1] != '/') {
 	free(full_path);
 	return NULL;
     }
