@@ -2273,12 +2273,6 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
     size_t index;
 	/* Current position in converted. */
 
-    /* If dollars is TRUE, make room for the "$" at the end of the
-     * line.  Also make sure that we don't try to display only part of a
-     * multicolumn character there. */
-    if (dollars && len > 0 && strlenpt(buf) > start_col + len)
-	len--;
-
     if (len == 0)
 	return mallocstrcpy(NULL, "");
 
@@ -2293,7 +2287,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
     index = 0;
 
     if (column < start_col || (dollars && column > 0 &&
-		buf[start_index] != '\t')) {
+	buf[start_index] != '\t')) {
 	int wide_buf, wide_buf_len;
 
 	/* We don't display all of buf[start_index] since it starts to
@@ -2347,15 +2341,9 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	}
 #ifdef NANO_WIDE
 	else if (wcwidth((wchar_t)wide_buf) > 1) {
-	    /* If dollars is TRUE, make room for the "$" at the
-	     * beginning of the line.  Also make sure that we don't try
-	     * to display only part of a multicolumn character there. */
-	    converted[0] = ' ';
-	    index = 1;
-	    if (dollars && column == start_col) {
-		converted[1] = ' ';
-		index = 2;
-	    }
+	    index++;
+	    if (dollars && column == start_col)
+		index++;
 
 	    start_col++;
 	    start_index += wide_buf_len;
