@@ -2387,7 +2387,7 @@ void do_justify(int full_justify)
      * unjustifies.  Note we don't need to save totlines. */
     int current_x_save = current_x;
     int current_y_save = current_y;
-    int flags_save = flags;
+    long flags_save = flags;
     long totsize_save = totsize;
     filestruct *current_save = current;
     filestruct *edittop_save = edittop;
@@ -2715,7 +2715,7 @@ void do_exit(void)
 
     if (!ISSET(MODIFIED))
 	i = 0;		/* Pretend the user chose not to save. */
-    else if (ISSET(TEMP_OPT))
+    else if (ISSET(TEMP_FILE))
 	i = 1;
     else
 	i = do_yesno(FALSE,
@@ -3234,7 +3234,7 @@ int main(int argc, char *argv[])
 	    break;
 #endif
 	case 't':
-	    SET(TEMP_OPT);
+	    SET(TEMP_FILE);
 	    break;
 	case 'v':
 	    SET(VIEW_MODE);

@@ -264,7 +264,7 @@ typedef struct historyheadtype {
 #define VIEW_MODE		(1<<9)
 #define USE_MOUSE		(1<<10)
 #define USE_REGEXP		(1<<11)
-#define TEMP_OPT		(1<<12)
+#define TEMP_FILE		(1<<12)
 #define CUT_TO_END		(1<<13)
 #define REVERSE_SEARCH		(1<<14)
 #define MULTIBUFFER		(1<<15)

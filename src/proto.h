@@ -39,8 +39,7 @@ extern int placewewant;
 extern int mark_beginx;
 #endif
 extern long totsize;
-extern int temp_opt;
-extern int flags;
+extern long flags;
 extern int tabsize;
 extern int search_last_line;
 extern int search_offscreen;
@@ -370,7 +369,7 @@ char *parse_argument(char *ptr);
 #ifdef ENABLE_COLOR
 int colortoint(const char *colorname, int *bright);
 char *parse_next_regex(char *ptr);
-int nregcomp(regex_t *preg, const char *regex, int flags);
+int nregcomp(regex_t *preg, const char *regex, int eflags);
 void parse_syntax(char *ptr);
 void parse_colors(char *ptr);
 #endif /* ENABLE_COLOR */

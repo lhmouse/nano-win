@@ -899,7 +899,8 @@ void do_find_bracket(void)
     char ch_under_cursor, wanted_ch;
     const char *pos, *brackets = "([{<>}])";
     char regexp_pat[] = "[  ]";
-    int old_pww = placewewant, current_x_save, flagsave, count = 1;
+    int old_pww = placewewant, current_x_save, count = 1;
+    long flags_save;
     filestruct *current_save;
 
     ch_under_cursor = current->data[current_x];
@@ -915,7 +916,7 @@ void do_find_bracket(void)
 
     current_x_save = current_x;
     current_save = current;
-    flagsave = flags;
+    flags_save = flags;
     SET(USE_REGEXP);
 
     /* Apparent near redundancy with regexp_pat[] here is needed.
@@ -958,7 +959,7 @@ void do_find_bracket(void)
     }
 
     regexp_cleanup();
-    flags = flagsave;
+    flags = flags_save;
 }
 #endif
 

@@ -6,10 +6,14 @@ CVS code -
 	- Change more instances of ints that can never be negative to
 	  size_t's. (DLR)
 	- Convert the shortcut list functions and most related functions
-	  to return void instead of int, as the return values of all 
+	  to return void instead of int, as the return values of all
 	  those functions are essentially unused.  Changes to
 	  sc_init_one(), shortcut_init(), etc. (David Benbennick and
 	  DLR)
+	- Make flags and all variables meant to store the value of flags
+	  longs for consistency. (David Benbennick)
+	- Rename the TEMP_OPT flags to TEMP_FILE, as it's more 
+	  descriptive. (DLR)
 - files.c:
   close_open_file()
 	- Tweak to no longer rely on the return values of
@@ -25,10 +29,14 @@ CVS code -
 	- Change the last variables in the prototypes for do_justify()
 	  and get_mouseinput() to match the ones used in the actual
 	  functions. (DLR)
+	- Remove unused declaration of temp_opt. (David Benbennick)
 - rcfile.c:
   parse_rcfile()
 	- Have whitespace display default to off instead of on. (Mike
 	  Frysinger)
+  nregcomp()
+	- Rename the variable flags to eflags so as not to conflict with
+	  the global flags. (DLR)
 - winio.c:
   get_control_kbinput()
 	- Fix erroneous debugging statement so that nano compiles with

@@ -1794,7 +1794,7 @@ int do_writeout(int exiting)
     currshortcut = writefile_list;
 #endif
 
-    if (exiting && filename[0] != '\0' && ISSET(TEMP_OPT)) {
+    if (exiting && filename[0] != '\0' && ISSET(TEMP_FILE)) {
 	i = write_file(filename, FALSE, 0, FALSE);
 	if (i == 1) {
 	    /* Write succeeded. */
@@ -1901,7 +1901,7 @@ int do_writeout(int exiting)
 #endif
 
 #ifdef NANO_EXTRA
-	if (exiting && !ISSET(TEMP_OPT) && !strcasecmp(answer, "zzy")
+	if (exiting && !ISSET(TEMP_FILE) && !strcasecmp(answer, "zzy")
 		&& !did_cred) {
 	    do_credits();
 	    did_cred = TRUE;

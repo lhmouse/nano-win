@@ -39,7 +39,7 @@ char *last_replace = NULL;	/* Last replacement string */
 int search_last_line;		/* Is this the last search line? */
 int search_offscreen;		/* Search lines not displayed */
 
-int flags = 0;			/* Our new flag containing many options */
+long flags = 0;			/* Our flag containing many options */
 WINDOW *edit;			/* The file portion of the editor */
 WINDOW *topwin;			/* Top line of screen */
 WINDOW *bottomwin;		/* Bottom buffer */

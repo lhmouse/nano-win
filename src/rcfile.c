@@ -92,7 +92,7 @@ const static rcoption rcopts[] = {
 #endif
     {"suspend", SUSPEND},
     {"tabsize", 0},
-    {"tempfile", TEMP_OPT},
+    {"tempfile", TEMP_FILE},
     {"view", VIEW_MODE},
 #ifndef NANO_SMALL
     {"whitespace", 0},
@@ -253,11 +253,11 @@ char *parse_next_regex(char *ptr)
     return ptr;
 }
 
-/* Compile the regular expression regex to preg.  Returns FALSE on success,
-   TRUE if the expression is invalid. */
-int nregcomp(regex_t *preg, const char *regex, int flags)
+/* Compile the regular expression regex to preg.  Returns FALSE on
+ * success, or TRUE if the expression is invalid. */
+int nregcomp(regex_t *preg, const char *regex, int eflags)
 {
-    int rc = regcomp(preg, regex, REG_EXTENDED | flags);
+    int rc = regcomp(preg, regex, REG_EXTENDED | eflags);
 
     if (rc != 0) {
 	size_t len = regerror(rc, preg, NULL, 0);
