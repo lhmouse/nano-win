@@ -85,7 +85,8 @@ CVS Code -
 	  printed as-is and be interpreted as commands by xterm, which
 	  will corrupt the display.) (DLR)
 	- Add command line option -I/--ignorercfiles to ignore
-	  /etc/nanorc and ~/.nanorc. (Carl Drinkwater)
+	  /etc/nanorc and ~/.nanorc. (Carl Drinkwater).   Fix to parsing
+	  getopt args (DLR).
 	- Fix minor bugs with importing certain text files in Mac
 	  format. (DLR)
 - files.c:

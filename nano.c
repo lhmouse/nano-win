@@ -2916,35 +2916,26 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef ENABLE_NANORC
-    /* scan through the options and handle -I/--ignorercfiles first, so
-       that it's handled before we call do_rcfile() and read the other
-       options */
-
-    /* stop getopt throwing up an error if we supply other options
-       as arguments */
-    opterr = 0;
-
+    {
+	/* scan through the options and handle -I/--ignorercfiles
+	   first, so that it's handled before we call do_rcfile() and
+	   read the other options; don't use getopt()/getopt_long()
+	   here, because there's no way to reset it properly
+	   afterward */
+	int i;
+	for (i = 1; i < argc; i++) {
+	    if (!strcmp(argv[i], "--"))
+		break;
+	    else if (!strcmp(argv[i], "-I"))
+		SET(NO_RCFILE);
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "I",
-				 long_options, &option_index)) != EOF) {
-#else
-    while ((optchr =
-	    getopt(argc, argv, "I")) != EOF) {
+	    else if (!strcmp(argv[i], "--ignorercfiles"))
+		SET(NO_RCFILE);
 #endif
-	switch (optchr) {
-	case 'I':
-	    SET(NO_RCFILE);
-            break;
 	}
     }
-
-    if (!ISSET(NO_RCFILE))
-	do_rcfile();
-
-    /* reset the getopt variables so we can read through the command line
-       arguments again */
-    optind = 1;
-    opterr = 1;
+	if (!ISSET(NO_RCFILE))
+	    do_rcfile();
 #endif /* ENABLE_NANORC */
 
 #ifdef HAVE_GETOPT_LONG
@@ -2983,8 +2974,6 @@ int main(int argc, char *argv[])
 	    break;
 #endif
 #ifdef ENABLE_NANORC
-        /* we need -I/--ignorercfiles again to stop getopt giving us an
-	   error if we've already supplied it */
 	case 'I':
             break;
 #endif
