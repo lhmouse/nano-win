@@ -1144,8 +1144,9 @@ bool open_pipe(const char *command)
 
 void do_verbatim_input(void)
 {
-    int *kbinput;	/* Used to hold verbatim input. */
-    size_t kbinput_len;	/* Length of verbatim input. */
+    int *kbinput;
+    size_t kbinput_len, i;
+    char *output;
 
     statusbar(_("Verbatim input"));
 
@@ -1153,9 +1154,15 @@ void do_verbatim_input(void)
     kbinput = get_verbatim_kbinput(edit, &kbinput_len);
 
     /* Display all the verbatim characters at once. */
-    do_output(kbinput, kbinput_len);
+    output = charalloc(kbinput_len + 1);
 
-    free(kbinput);
+    for (i = 0; i < kbinput_len; i++)
+	output[i] = (char)kbinput[i];
+    output[i] = '\0';
+
+    do_output(output, kbinput_len);
+
+    free(output);
 }
 
 void do_backspace(void)
@@ -1178,7 +1185,7 @@ void do_delete(void)
     placewewant = xplustabs();
 
     if (current->data[current_x] != '\0') {
-	int char_len = parse_char(current->data + current_x, NULL
+	int char_buf_len = parse_mbchar(current->data + current_x, NULL
 #ifdef NANO_WIDE
 		, NULL
 #endif
@@ -1189,15 +1196,15 @@ void do_delete(void)
 
 	/* Let's get dangerous. */
 	charmove(&current->data[current_x],
-		&current->data[current_x + char_len],
-		line_len - char_len + 1);
+		&current->data[current_x + char_buf_len],
+		line_len - char_buf_len + 1);
 
-	null_at(&current->data, current_x + line_len - char_len);
+	null_at(&current->data, current_x + line_len - char_buf_len);
 #ifndef NANO_SMALL
 	if (current_x < mark_beginx && mark_beginbuf == current)
-	    mark_beginx -= char_len;
+	    mark_beginx -= char_buf_len;
 #endif
-	totsize -= char_len;
+	totsize -= char_buf_len;
     } else if (current != filebot && (current->next != filebot ||
 	current->data[0] == '\0')) {
 	/* We can delete the line before filebot only if it is blank: it
@@ -1251,8 +1258,9 @@ void do_delete(void)
 
 void do_tab(void)
 {
-    int kbinput = '\t';
-    do_output(&kbinput, 1);
+    char *kbinput = "\t";
+
+    do_output(kbinput, 1);
 }
 
 /* Someone hits return *gasp!* */
@@ -1455,7 +1463,7 @@ bool do_wrap(filestruct *inptr)
     wrap_line = inptr->data + i;
     for (; i < len; i++, wrap_line++) {
 	/* Record where the last word ended. */
-	if (!isblank(*wrap_line))
+	if (!is_blank_char(*wrap_line))
 	    word_back = i;
 	/* If we have found a legal wrap point and the current word
 	 * extends too far, then we stop. */
@@ -1463,7 +1471,7 @@ bool do_wrap(filestruct *inptr)
 		strnlenpt(inptr->data, word_back + 1) > fill)
 	    break;
 	/* We record the latest legal wrap point. */
-	if (word_back != i && !isblank(wrap_line[1]))
+	if (word_back != i && !is_blank_char(wrap_line[1]))
 	    wrap_loc = i;
     }
     if (i == len)
@@ -1536,7 +1544,7 @@ bool do_wrap(filestruct *inptr)
 	 * between after_break and wrap_line.  If the line already ends
 	 * in a tab or a space, we don't add a space and decrement
 	 * totsize to account for that. */
-	if (!isblank(newline[new_line_len - 1]))
+	if (!is_blank_char(newline[new_line_len - 1]))
 	    strcat(newline, " ");
 	else
 	    totsize--;
@@ -2172,7 +2180,7 @@ size_t indent_length(const char *line)
     size_t len = 0;
 
     assert(line != NULL);
-    while (isblank(*line)) {
+    while (is_blank_char(*line)) {
 	line++;
 	len++;
     }
@@ -2200,7 +2208,7 @@ void justify_format(filestruct *line, size_t skip)
     assert(line != NULL);
     assert(line->data != NULL);
     assert(skip < strlen(line->data));
-    assert(!isblank(line->data[skip]));
+    assert(!is_blank_char(line->data[skip]));
 
     back = line->data + skip;
     for (front = back; ; front++) {
@@ -2497,10 +2505,10 @@ bool breakable(const char *line, ssize_t goal)
     while (*line != '\0' && goal >= 0) {
 	size_t pos = 0;
 
-	if (isblank(*line))
+	if (is_blank_char(*line))
 	    return TRUE;
 
-	line += parse_char(line, NULL
+	line += parse_mbchar(line, NULL
 #ifdef NANO_WIDE
 		, NULL
 #endif
@@ -2538,7 +2546,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool force)
 
 	assert(*line != '\t');
 
-	line_len = parse_char(line, NULL
+	line_len = parse_mbchar(line, NULL
 #ifdef NANO_WIDE
 		, NULL
 #endif
@@ -3468,7 +3476,16 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	    if (kbinput != NULL) {
 		/* Display all the characters in the input buffer at
 		 * once. */
-		do_output(kbinput, kbinput_len);
+		char *output = charalloc(kbinput_len + 1);
+		size_t i;
+
+		for (i = 0; i < kbinput_len; i++)
+		    output[i] = (char)kbinput[i];
+		output[i] = '\0';
+
+		do_output(output, kbinput_len);
+
+		free(output);
 
 		/* Empty the input buffer. */
 		kbinput_len = 0;
@@ -3588,55 +3605,45 @@ bool do_mouse(void)
 }
 #endif /* !DISABLE_MOUSE */
 
-/* The user typed kbinput_len wide characters.  Add them to the edit
- * buffer as multibyte characters. */
-void do_output(int *kbinput, size_t kbinput_len)
+/* The user typed kbinput_len multibyte characters.  Add them to the
+ * edit buffer. */
+void do_output(char *output, size_t output_len)
 {
-    size_t i, current_len = strlen(current->data);
+    size_t current_len = strlen(current->data), i = 0;
     bool old_constupdate = ISSET(CONSTUPDATE);
     bool do_refresh = FALSE;
 	/* Do we have to call edit_refresh(), or can we get away with
 	 * update_line()? */
 
-    char *key =
-#ifdef NANO_WIDE
-	!ISSET(NO_UTF8) ? charalloc(MB_CUR_MAX) :
-#endif
-	charalloc(1);
+    char *char_buf = charalloc(mb_cur_max());
+    int char_buf_len;
 
     assert(current != NULL && current->data != NULL);
 
     /* Turn off constant cursor position display. */
     UNSET(CONSTUPDATE);
 
-    for (i = 0; i < kbinput_len; i++) {
-	int key_len;
-
+    while (i < output_len) {
 	/* Null to newline, if needed. */
-	if (kbinput[i] == '\0')
-	    kbinput[i] = '\n';
+	if (output[i] == '\0')
+	    output[i] = '\n';
 	/* Newline to Enter, if needed. */
-	else if (kbinput[i] == '\n') {
+	else if (output[i] == '\n') {
 	    do_enter();
+	    i++;
 	    continue;
 	}
 
+	/* Interpret the next multibyte character.  If it's an invalid
+	 * multibyte character, interpret it as though it's a byte
+	 * character. */
+	char_buf_len = parse_mbchar(output + i, char_buf
 #ifdef NANO_WIDE
-	/* Change the wide character to its multibyte value.  If it's
-	 * invalid, go on to the next character. */
-	if (!ISSET(NO_UTF8)) {
-	    key_len = wctomb(key, (wchar_t)kbinput[i]);
+		, NULL
+#endif
+		, NULL);
 
-	    if (key_len == -1)
-		continue;
-	/* Interpret the character as a single-byte sequence. */
-	} else {
-#endif
-	    key_len = 1;
-	    key[0] = (unsigned char)kbinput[i];
-#ifdef NANO_WIDE
-	}
-#endif
+	i += char_buf_len;
 
 	/* When a character is inserted on the current magicline, it
 	 * means we need a new one! */
@@ -3644,30 +3651,30 @@ void do_output(int *kbinput, size_t kbinput_len)
 	    new_magicline();
 
 	/* More dangerousness fun =) */
-	current->data = charealloc(current->data,
-		current_len + (key_len * 2));
+	current->data = charealloc(current->data, current_len +
+		(char_buf_len * 2));
 
 	assert(current_x <= current_len);
 
-	charmove(&current->data[current_x + key_len],
+	charmove(&current->data[current_x + char_buf_len],
 		&current->data[current_x],
-		current_len - current_x + key_len);
-	charcpy(&current->data[current_x], key, key_len);
-	current_len += key_len;
-	totsize += key_len;
+		current_len - current_x + char_buf_len);
+	charcpy(&current->data[current_x], char_buf, char_buf_len);
+	current_len += char_buf_len;
+	totsize += char_buf_len;
 	set_modified();
 
 #ifndef NANO_SMALL
 	/* Note that current_x has not yet been incremented. */
 	if (current == mark_beginbuf && current_x < mark_beginx)
-	    mark_beginx += key_len;
+	    mark_beginx += char_buf_len;
 #endif
 
 	do_right(FALSE);
 
 #ifndef DISABLE_WRAPPING
 	/* If we're wrapping text, we need to call edit_refresh(). */
-	if (!ISSET(NO_WRAP) && kbinput[i] != '\t') {
+	if (!ISSET(NO_WRAP) && output[i] != '\t') {
 	    bool do_refresh_save = do_refresh;
 
 	    do_refresh = do_wrap(current);
@@ -3692,7 +3699,7 @@ void do_output(int *kbinput, size_t kbinput_len)
     if (old_constupdate)
 	SET(CONSTUPDATE);
 
-    free(key);
+    free(char_buf);
 
     if (do_refresh)
 	edit_refresh();

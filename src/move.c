@@ -2,7 +2,7 @@
 /**************************************************************************
  *   move.c                                                               *
  *                                                                        *
- *   Copyright (C) 1999-2004 Chris Allegretta                             *
+ *   Copyright (C) 1999-2005 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -58,7 +58,7 @@ void do_home(void)
     if (ISSET(SMART_HOME)) {
 	size_t current_x_save = current_x;
 
-	for (current_x = 0; isblank(current->data[current_x]) &&
+	for (current_x = 0; is_blank_char(current->data[current_x]) &&
 		current->data[current_x] != '\0'; current_x++)
 	    ;
 

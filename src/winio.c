@@ -32,11 +32,7 @@
 #include "proto.h"
 #include "nano.h"
 
-#if defined(HAVE_WCHAR_H) && defined(NANO_WIDE)
-#include <wchar.h>
-#endif
-
-static buffer *key_buffer = NULL;
+static int *key_buffer = NULL;
 				/* The default keystroke buffer,
 				 * containing all the keystrokes we have
 				 * at a given point. */
@@ -131,32 +127,18 @@ void reset_kbinput(void)
  * default keystroke buffer is empty. */
 void get_buffer(WINDOW *win)
 {
-    int input, input_key_code;
+    int input;
 
     /* If the keystroke buffer isn't empty, get out. */
     if (key_buffer != NULL)
 	return;
 
     /* Read in the first character using blocking input. */
-    nodelay(win, FALSE);
-
 #ifndef NANO_SMALL
     allow_pending_sigwinch(TRUE);
 #endif
 
-#ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
-	wint_t tmp;
-
-	input_key_code = wget_wch(win, &tmp);
-	input = (int)tmp;
-    } else {
-#endif
-	input = wgetch(win);
-	input_key_code = !is_byte_char(input);
-#ifdef NANO_WIDE
-    }
-#endif
+    input = wgetch(win);
 
 #ifndef NANO_SMALL
     allow_pending_sigwinch(FALSE);
@@ -166,13 +148,8 @@ void get_buffer(WINDOW *win)
      * the keystroke in key, and set key_code to TRUE if the keystroke
      * is an extended keypad value or FALSE if it isn't. */
     key_buffer_len++;
-    key_buffer = (buffer *)nmalloc(sizeof(buffer));
-    key_buffer[0].key = input;
-    key_buffer[0].key_code =
-#ifdef NANO_WIDE
-	!ISSET(NO_UTF8) ? (input_key_code == KEY_CODE_YES) :
-#endif
-	input_key_code;
+    key_buffer = (int *)nmalloc(sizeof(int));
+    key_buffer[0] = input;
 
     /* Read in the remaining characters using non-blocking input. */
     nodelay(win, TRUE);
@@ -182,25 +159,10 @@ void get_buffer(WINDOW *win)
 	allow_pending_sigwinch(TRUE);
 #endif
 
-#ifdef NANO_WIDE
-	if (!ISSET(NO_UTF8)) {
-	    wint_t tmp;
+	input = wgetch(win);
 
-	    input_key_code = wget_wch(win, &tmp);
-	    input = (int)tmp;
-	} else {
-#endif
-	    input = wgetch(win);
-	    input_key_code = !is_byte_char(input);
-#ifdef NANO_WIDE
-	}
-#endif
 	/* If there aren't any more characters, stop reading. */
-	if (
-#ifdef NANO_WIDE
-		(!ISSET(NO_UTF8) && input_key_code == ERR) ||
-#endif
-		input == ERR)
+	if (input == ERR)
 	    break;
 
 	/* Otherwise, increment the length of the keystroke buffer, save
@@ -208,14 +170,9 @@ void get_buffer(WINDOW *win)
 	 * if the keystroke is an extended keypad value or FALSE if it
 	 * isn't. */
 	key_buffer_len++;
-	key_buffer = (buffer *)nrealloc(key_buffer, key_buffer_len *
-		sizeof(buffer));
-	key_buffer[key_buffer_len - 1].key = input;
-	key_buffer[key_buffer_len - 1].key_code =
-#ifdef NANO_WIDE
-		!ISSET(NO_UTF8) ? (input_key_code == KEY_CODE_YES) :
-#endif
-		input_key_code;
+	key_buffer = (int *)nrealloc(key_buffer, key_buffer_len *
+		sizeof(int));
+	key_buffer[key_buffer_len - 1] = input;
 
 #ifndef NANO_SMALL
 	allow_pending_sigwinch(FALSE);
@@ -232,121 +189,57 @@ size_t get_buffer_len(void)
     return key_buffer_len;
 }
 
-/* Return the key values stored in the keystroke buffer input,
- * discarding the key_code values in it. */
-int *buffer_to_keys(buffer *input, size_t input_len)
-{
-    int *sequence = (int *)nmalloc(input_len * sizeof(int));
-    size_t i;
-
-    for (i = 0; i < input_len; i++)
-	sequence[i] = input[i].key;
-
-    return sequence;
-}
-
-/* Return the buffer equivalent of the key values in input, adding
- * key_code values of FALSE to all of them. */
-buffer *keys_to_buffer(int *input, size_t input_len)
-{
-    buffer *sequence = (buffer *)nmalloc(input_len * sizeof(buffer));
-    size_t i;
-
-    for (i = 0; i < input_len; i++) {
-	sequence[i].key = input[i];
-	sequence[i].key_code = FALSE;
-    }
-
-    return sequence;
-}
-
 /* Add the contents of the keystroke buffer input to the default
  * keystroke buffer. */
-void unget_input(buffer *input, size_t input_len)
+void unget_input(int *input, size_t input_len)
 {
-    buffer *clean_input = NULL;
-    size_t clean_input_len = 0;
-
 #ifndef NANO_SMALL
     allow_pending_sigwinch(TRUE);
     allow_pending_sigwinch(FALSE);
 #endif
 
-#ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
-	size_t i;
-	char *key = charalloc(MB_CUR_MAX);
-
-	/* Keep all valid wide keystrokes, discarding the others. */
-	for (i = 0; i < input_len; i++) {
-	    int key_len = input[i].key_code ? 1 :
-		wctomb(key, (wchar_t)input[i].key);
-
-	    if (key_len != -1) {
-		clean_input_len++;
-		clean_input = (buffer *)nrealloc(clean_input,
-			clean_input_len * sizeof(buffer));
-
-		clean_input[clean_input_len - 1].key = input[i].key;
-		clean_input[clean_input_len - 1].key_code =
-			input[i].key_code;
-	    }
-	}
-
-	free(key);
-    } else {
-#endif
-	clean_input = input;
-	clean_input_len = input_len;
-#ifdef NANO_WIDE
-    }
-#endif
-
     /* If input is empty, get out. */
-    if (clean_input_len == 0)
+    if (input_len == 0)
 	return;
 
     /* If adding input would put the default keystroke buffer beyond
      * maximum capacity, only add enough of input to put it at maximum
      * capacity. */
-    if (key_buffer_len + clean_input_len < key_buffer_len)
-	clean_input_len = (size_t)-1 - key_buffer_len;
+    if (key_buffer_len + input_len < key_buffer_len)
+	input_len = (size_t)-1 - key_buffer_len;
 
     /* Add the length of input to the length of the default keystroke
      * buffer, and reallocate the default keystroke buffer so that it
      * has enough room for input. */
-    key_buffer_len += clean_input_len;
-    key_buffer = (buffer *)nrealloc(key_buffer, key_buffer_len *
-	sizeof(buffer));
+    key_buffer_len += input_len;
+    key_buffer = (int *)nrealloc(key_buffer, key_buffer_len *
+	sizeof(int));
 
     /* If the default keystroke buffer wasn't empty before, move its
      * beginning forward far enough so that we can add input to its
      * beginning. */
-    if (key_buffer_len > clean_input_len)
-	memmove(key_buffer + clean_input_len, key_buffer,
-		(key_buffer_len - clean_input_len) * sizeof(buffer));
+    if (key_buffer_len > input_len)
+	memmove(key_buffer + input_len, key_buffer,
+		(key_buffer_len - input_len) * sizeof(int));
 
     /* Copy input to the beginning of the default keystroke buffer. */
-    memcpy(key_buffer, clean_input, clean_input_len * sizeof(buffer));
+    memcpy(key_buffer, input, input_len * sizeof(int));
 }
 
-/* Put back the character stored in kbinput.  If func_key is TRUE and
- * the character is out of byte range, interpret it as an extended
- * keypad value.  If meta_key is TRUE, put back the Escape character
- * after putting back kbinput. */	
+/* Put back the character stored in kbinput, putting it in byte range
+ * beforehand.  If meta_key is TRUE, put back the Escape character after
+ * putting back kbinput.  If func_key is TRUE, put back the function key
+ * (a value outside byte range) without putting it in byte range. */
 void unget_kbinput(int kbinput, bool meta_key, bool func_key)
 {
-    buffer input;
+    if (!func_key)
+	kbinput = (char)kbinput;
 
-    input.key = kbinput;
-    input.key_code = (func_key && !is_byte_char(kbinput));
-
-    unget_input(&input, 1);
+    unget_input(&kbinput, 1);
 
     if (meta_key) {
-	input.key = NANO_CONTROL_3;
-	input.key_code = FALSE;
-	unget_input(&input, 1);
+	kbinput = NANO_CONTROL_3;
+	unget_input(&kbinput, 1);
     }
 }
 
@@ -355,9 +248,9 @@ void unget_kbinput(int kbinput, bool meta_key, bool func_key)
  * read in more characters from win and add them to the default
  * keystroke buffer before doing anything else.  If the default
  * keystroke buffer is empty and win is NULL, return NULL. */
-buffer *get_input(WINDOW *win, size_t input_len)
+int *get_input(WINDOW *win, size_t input_len)
 {
-    buffer *input;
+    int *input;
 
 #ifndef NANO_SMALL
     allow_pending_sigwinch(TRUE);
@@ -382,11 +275,11 @@ buffer *get_input(WINDOW *win, size_t input_len)
      * buffer, and allocate the keystroke buffer input so that it
      * has enough room for input_len keystrokes. */
     key_buffer_len -= input_len;
-    input = (buffer *)nmalloc(input_len * sizeof(buffer));
+    input = (int *)nmalloc(input_len * sizeof(int));
 
     /* Copy input_len characters from the beginning of the default
      * keystroke buffer into input. */
-    memcpy(input, key_buffer, input_len * sizeof(buffer));
+    memcpy(input, key_buffer, input_len * sizeof(int));
 
     /* If the default keystroke buffer is empty, mark it as such. */
     if (key_buffer_len == 0) {
@@ -397,9 +290,9 @@ buffer *get_input(WINDOW *win, size_t input_len)
      * are no longer at its beginning. */
     } else {
 	memmove(key_buffer, key_buffer + input_len, key_buffer_len *
-		sizeof(buffer));
-	key_buffer = (buffer *)nrealloc(key_buffer, key_buffer_len *
-		sizeof(buffer));
+		sizeof(int));
+	key_buffer = (int *)nrealloc(key_buffer, key_buffer_len *
+		sizeof(int));
     }
 
     return input;
@@ -441,8 +334,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 
 {
     static int escapes = 0, byte_digits = 0;
-    buffer *kbinput;
-    int retval = ERR;
+    int *kbinput, retval = ERR;
 
 #ifndef NANO_SMALL
     if (reset) {
@@ -458,264 +350,258 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
     /* Read in a character. */
     while ((kbinput = get_input(win, 1)) == NULL);
 
-    if (kbinput->key_code || is_byte_char(kbinput->key)) {
-	/* If we got an extended keypad value or an ASCII character,
-	 * translate it. */
-	switch (kbinput->key) {
-	    case ERR:
-		break;
-	    case NANO_CONTROL_3:
-		/* Increment the escape counter. */
-		escapes++;
-		switch (escapes) {
-		    case 1:
-			/* One escape: wait for more input. */
-		    case 2:
-			/* Two escapes: wait for more input. */
-			break;
-		    default:
-			/* More than two escapes: reset the escape
-			 * counter and wait for more input. */
-			escapes = 0;
-		}
-		break;
+    switch (*kbinput) {
+	case ERR:
+	    break;
+	case NANO_CONTROL_3:
+	    /* Increment the escape counter. */
+	    escapes++;
+	    switch (escapes) {
+		case 1:
+		    /* One escape: wait for more input. */
+		case 2:
+		    /* Two escapes: wait for more input. */
+		    break;
+		default:
+		    /* More than two escapes: reset the escape counter
+		     * and wait for more input. */
+		    escapes = 0;
+	    }
+	    break;
 #if !defined(NANO_SMALL) && defined(KEY_RESIZE)
-	    /* Since we don't change the default SIGWINCH handler when
-	     * NANO_SMALL is defined, KEY_RESIZE is never generated.
-	     * Also, Slang and SunOS 5.7-5.9 don't support
-	     * KEY_RESIZE. */
-	    case KEY_RESIZE:
-		break;
+	/* Since we don't change the default SIGWINCH handler when
+	 * NANO_SMALL is defined, KEY_RESIZE is never generated.  Also,
+	 * Slang and SunOS 5.7-5.9 don't support KEY_RESIZE. */
+	case KEY_RESIZE:
+	    break;
 #endif
 #ifdef PDCURSES
-	    case KEY_SHIFT_L:
-	    case KEY_SHIFT_R:
-	    case KEY_CONTROL_L:
-	    case KEY_CONTROL_R:
-	    case KEY_ALT_L:
-	    case KEY_ALT_R:
-		break;
+	case KEY_SHIFT_L:
+	case KEY_SHIFT_R:
+	case KEY_CONTROL_L:
+	case KEY_CONTROL_R:
+	case KEY_ALT_L:
+	case KEY_ALT_R:
+	    break;
 #endif
-	    default:
-		switch (escapes) {
-		    case 0:
-			switch (kbinput->key) {
-			    case NANO_CONTROL_8:
-				retval = ISSET(REBIND_DELETE) ?
-					NANO_DELETE_KEY :
-					NANO_BACKSPACE_KEY;
-				break;
-			    case KEY_DOWN:
-				retval = NANO_NEXTLINE_KEY;
-				break;
-			    case KEY_UP:
-				retval = NANO_PREVLINE_KEY;
-				break;
-			    case KEY_LEFT:
-				retval = NANO_BACK_KEY;
-				break;
-			    case KEY_RIGHT:
-				retval = NANO_FORWARD_KEY;
-				break;
+	default:
+	    switch (escapes) {
+		case 0:
+		    switch (*kbinput) {
+			case NANO_CONTROL_8:
+			    retval = ISSET(REBIND_DELETE) ?
+				NANO_DELETE_KEY : NANO_BACKSPACE_KEY;
+			    break;
+			case KEY_DOWN:
+			    retval = NANO_NEXTLINE_KEY;
+			    break;
+			case KEY_UP:
+			    retval = NANO_PREVLINE_KEY;
+			    break;
+			case KEY_LEFT:
+			    retval = NANO_BACK_KEY;
+			    break;
+			case KEY_RIGHT:
+			    retval = NANO_FORWARD_KEY;
+			    break;
 #ifdef KEY_HOME
-			    /* HP-UX 10 and 11 don't support
-			     * KEY_HOME. */
-			    case KEY_HOME:
-				retval = NANO_HOME_KEY;
-				break;
+			/* HP-UX 10 and 11 don't support KEY_HOME. */
+			case KEY_HOME:
+			    retval = NANO_HOME_KEY;
+			    break;
 #endif
-			    case KEY_BACKSPACE:
-				retval = NANO_BACKSPACE_KEY;
-				break;
-			    case KEY_DC:
-				retval = ISSET(REBIND_DELETE) ?
-					NANO_BACKSPACE_KEY :
-					NANO_DELETE_KEY;
-				break;
-			    case KEY_IC:
-				retval = NANO_INSERTFILE_KEY;
-				break;
-			    case KEY_NPAGE:
-				retval = NANO_NEXTPAGE_KEY;
-				break;
-			    case KEY_PPAGE:
-				retval = NANO_PREVPAGE_KEY;
-				break;
-			    case KEY_ENTER:
-				retval = NANO_ENTER_KEY;
-				break;
-			    case KEY_A1:	/* Home (7) on numeric
-						 * keypad with NumLock
-						 * off. */
-				retval = NANO_HOME_KEY;
-				break;
-			    case KEY_A3:	/* PageUp (9) on numeric
-						 * keypad with NumLock
-						 * off. */
-				retval = NANO_PREVPAGE_KEY;
-				break;
-			    case KEY_B2:	/* Center (5) on numeric
-						 * keypad with NumLock
-						 * off. */
-				break;
-			    case KEY_C1:	/* End (1) on numeric
-						 * keypad with NumLock
-						 * off. */
-				retval = NANO_END_KEY;
-				break;
-			    case KEY_C3:	/* PageDown (4) on
-						 * numeric keypad with
-						 * NumLock off. */
-				retval = NANO_NEXTPAGE_KEY;
-				break;
+			case KEY_BACKSPACE:
+			    retval = NANO_BACKSPACE_KEY;
+			    break;
+			case KEY_DC:
+			    retval = ISSET(REBIND_DELETE) ?
+				NANO_BACKSPACE_KEY : NANO_DELETE_KEY;
+			    break;
+			case KEY_IC:
+			    retval = NANO_INSERTFILE_KEY;
+			    break;
+			case KEY_NPAGE:
+			    retval = NANO_NEXTPAGE_KEY;
+			    break;
+			case KEY_PPAGE:
+			    retval = NANO_PREVPAGE_KEY;
+			    break;
+			case KEY_ENTER:
+			    retval = NANO_ENTER_KEY;
+			    break;
+			case KEY_A1:	/* Home (7) on numeric keypad
+					 * with NumLock off. */
+			    retval = NANO_HOME_KEY;
+			    break;
+			case KEY_A3:	/* PageUp (9) on numeric keypad
+					 * with NumLock off. */
+			    retval = NANO_PREVPAGE_KEY;
+			    break;
+			case KEY_B2:	/* Center (5) on numeric keypad
+					 * with NumLock off. */
+			    break;
+			case KEY_C1:	/* End (1) on numeric keypad
+					 * with NumLock off. */
+			    retval = NANO_END_KEY;
+			    break;
+			case KEY_C3:	/* PageDown (4) on numeric
+					 * keypad with NumLock off. */
+			    retval = NANO_NEXTPAGE_KEY;
+			    break;
 #ifdef KEY_BEG
-			    /* Slang doesn't support KEY_BEG. */
-			    case KEY_BEG:	/* Center (5) on numeric
-						 * keypad with NumLock
-						 * off. */
-				break;
+			/* Slang doesn't support KEY_BEG. */
+			case KEY_BEG:	/* Center (5) on numeric keypad
+					 * with NumLock off. */
+			    break;
 #endif
 #ifdef KEY_END
-			    /* HP-UX 10 and 11 don't support KEY_END. */
-			    case KEY_END:
-				retval = NANO_END_KEY;
-				break;
+			/* HP-UX 10 and 11 don't support KEY_END. */
+			case KEY_END:
+			    retval = NANO_END_KEY;
+			    break;
 #endif
 #ifdef KEY_SUSPEND
-			    /* Slang doesn't support KEY_SUSPEND. */
-			    case KEY_SUSPEND:
-				retval = NANO_SUSPEND_KEY;
-				break;
+			/* Slang doesn't support KEY_SUSPEND. */
+			case KEY_SUSPEND:
+			    retval = NANO_SUSPEND_KEY;
+			    break;
 #endif
 #ifdef KEY_SLEFT
-			    /* Slang doesn't support KEY_SLEFT. */
-			    case KEY_SLEFT:
-				retval = NANO_BACK_KEY;
-				break;
+			/* Slang doesn't support KEY_SLEFT. */
+			case KEY_SLEFT:
+			    retval = NANO_BACK_KEY;
+			    break;
 #endif
 #ifdef KEY_SRIGHT
-			    /* Slang doesn't support KEY_SRIGHT. */
-			    case KEY_SRIGHT:
-				retval = NANO_FORWARD_KEY;
-				break;
+			/* Slang doesn't support KEY_SRIGHT. */
+			case KEY_SRIGHT:
+			    retval = NANO_FORWARD_KEY;
+			    break;
 #endif
-			    default:
-				retval = kbinput->key;
-				break;
-			}
-			break;
-		    case 1:
-			/* One escape followed by a non-escape: escape
-			 * sequence mode.  Reset the escape counter.  If
-		 	 * there aren't any other keys waiting, we have
-			 * a meta key sequence, so set meta_key to TRUE
-			 * and save the lowercase version of the
-			 * non-escape character as the result.  If there
-			 * are other keys waiting, we have a true escape
-			 * sequence, so interpret it. */
-			escapes = 0;
-			if (get_buffer_len() == 0) {
-			    *meta_key = TRUE;
-			    retval = tolower(kbinput->key);
-			} else {
-			    buffer *escape_kbinput;
-			    int *sequence;
-			    size_t seq_len;
-			    bool ignore_seq;
+			default:
+			    retval = *kbinput;
+			    break;
+		    }
+		    break;
+		case 1:
+		    /* One escape followed by a non-escape: escape
+		     * sequence mode.  Reset the escape counter.  If
+		     * there aren't any other keys waiting, we have a
+		     * meta key sequence, so set meta_key to TRUE and
+		     * save the lowercase version of the non-escape
+		     * character as the result.  If there are other keys
+		     * waiting, we have a true escape sequence, so
+		     * interpret it. */
+		    escapes = 0;
+		    if (get_buffer_len() == 0) {
+			*meta_key = TRUE;
+			retval = tolower(*kbinput);
+		    } else {
+			int *seq;
+			size_t seq_len;
+			bool ignore_seq;
 
-			    /* Put back the non-escape character, get
-			     * the complete escape sequence, translate
-			     * the sequence into its corresponding key
-			     * value, and save that as the result. */
-			    unget_input(kbinput, 1);
-			    seq_len = get_buffer_len();
-			    escape_kbinput = get_input(NULL, seq_len);
-			    sequence = buffer_to_keys(escape_kbinput,
-				seq_len);
-			    retval = get_escape_seq_kbinput(sequence,
-				seq_len, &ignore_seq);
+			/* Put back the non-escape character, get the
+			 * complete escape sequence, translate the
+			 * sequence into its corresponding key value,
+			 * and save that as the result. */
+			unget_input(kbinput, 1);
+			seq_len = get_buffer_len();
+			seq = get_input(NULL, seq_len);
+			retval = get_escape_seq_kbinput(seq, seq_len,
+				&ignore_seq);
 
-			    /* If the escape sequence is unrecognized
-			     * and not ignored, put back all of its
-			     * characters except for the initial
-			     * escape. */
-			    if (retval == ERR && !ignore_seq)
-				unget_input(escape_kbinput, seq_len);
+			/* If the escape sequence is unrecognized and
+			 * not ignored, put back all of its characters
+			 * except for the initial escape. */
+			if (retval == ERR && !ignore_seq)
+			    unget_input(seq, seq_len);
 
-			    free(escape_kbinput);
-			}
-			break;
-		    case 2:
-			/* Two escapes followed by one or more decimal
-			 * digits: byte sequence mode.  If the word
-			 * sequence's range is limited to 2XX (the first
-			 * digit is in the '0' to '2' range and it's the
-			 * first digit, or it's in the '0' to '9' range
-			 * and it's not the first digit), increment the
-			 * byte sequence counter and interpret the
-			 * digit.  If the byte sequence's range is not
-			 * limited to 2XX, fall through. */
-			if (('0' <= kbinput->key && kbinput->key <= '6'
-				&& byte_digits == 0) ||
-				('0' <= kbinput->key && kbinput->key <= '9'
-				&& byte_digits > 0)) {
-			    int byte_kbinput;
+			free(seq);
+		    }
+		    break;
+		case 2:
+		    /* Two escapes followed by one or more decimal
+		     * digits: byte sequence mode.  If the word
+		     * sequence's range is limited to 2XX (the first
+		     * digit is in the '0' to '2' range and it's the
+		     * first digit, or it's in the '0' to '9' range and
+		     * it's not the first digit), increment the byte
+		     * sequence counter and interpret the digit.  If the
+		     * byte sequence's range is not limited to 2XX, fall
+		     * through. */
+		    if (('0' <= *kbinput && *kbinput <= '6' &&
+			byte_digits == 0) || ('0' <= *kbinput &&
+			*kbinput <= '9' && byte_digits > 0)) {
+			int byte;
 
-			    byte_digits++;
-			    byte_kbinput = get_byte_kbinput(kbinput->key
+			byte_digits++;
+			byte = get_byte_kbinput(*kbinput
 #ifndef NANO_SMALL
 				, FALSE
 #endif
 				);
 
-			    if (byte_kbinput != ERR) {
-				/* If we've read in a complete byte
-				 * sequence, reset the byte sequence
-				 * counter and the escape counter,
-				 * and put back the corresponding byte
-				 * value. */
-				byte_digits = 0;
-				escapes = 0;
-				unget_kbinput(byte_kbinput, FALSE,
-					FALSE);
-			    }
-			} else {
-			    /* Reset the escape counter. */
-			    escapes = 0;
-			    if (byte_digits == 0)
-				/* Two escapes followed by a non-decimal
-				 * digit or a decimal digit that would
-				 * create a byte sequence greater than
-				 * 2XX, and we're not in the middle of a
-				 * byte sequence: control character
-				 * sequence mode.  Interpret the control
-				 * sequence and save the corresponding
-				 * control character as the result. */
-				retval = get_control_kbinput(kbinput->key);
-			    else {
-				/* If we're in the middle of a word
-				 * sequence, reset the word sequence
-				 * counter and save the character we got
-				 * as the result. */
-				byte_digits = 0;
-				retval = kbinput->key;
-			    }
-			}
-			break;
-		}
-	}
+			if (byte != ERR) {
+			    char *byte_mb = charalloc(mb_cur_max());
+			    int byte_mb_len, *seq, i;
 
-	/* If we have a result and it's an extended keypad value, set
-	 * func_key to TRUE. */
-	if (retval != ERR)
-	    *func_key = !is_byte_char(retval);
-    } else
-	/* If we didn't get an extended keypad value or an ASCII
-	 * character, leave it as-is. */
-	retval = kbinput->key;
+			    /* If we've read in a complete byte
+			     * sequence, reset the byte sequence counter
+			     * and the escape counter, and put back the
+			     * corresponding byte value. */
+			    byte_digits = 0;
+			    escapes = 0;
+
+			    /* Put back the multibyte equivalent of the
+			     * byte value. */
+			    byte_mb = make_mbchar(byte, byte_mb,
+				&byte_mb_len);
+
+			    seq = (int *)nmalloc(byte_mb_len *
+				sizeof(int));
+
+			    for (i = 0; i < byte_mb_len; i++)
+				seq[i] = (unsigned char)byte_mb[i];
+
+			    unget_input(seq, byte_mb_len);
+
+			    free(seq);
+			    free(byte_mb);
+			}
+		    } else {
+			/* Reset the escape counter. */
+			escapes = 0;
+			if (byte_digits == 0)
+			    /* Two escapes followed by a non-decimal
+			     * digit or a decimal digit that would
+			     * create a byte sequence greater than 2XX,
+			     * and we're not in the middle of a byte
+			     * sequence: control character sequence
+			     * mode.  Interpret the control sequence and
+			     * save the corresponding control character
+			     * as the result. */
+			    retval = get_control_kbinput(*kbinput);
+			else {
+			    /* If we're in the middle of a byte
+			     * sequence, reset the byte sequence counter
+			     * and save the character we got as the
+			     * result. */
+			    byte_digits = 0;
+			    retval = *kbinput;
+			}
+		    }
+		    break;
+	    }
+    }
+
+    /* If we have a result and it's an extended keypad value (i.e, a
+     * value outside of byte range), set func_key to TRUE. */
+    if (retval != ERR)
+	*func_key = !is_byte(retval);
 
 #ifdef DEBUG
-    fprintf(stderr, "parse_kbinput(): kbinput->key = %d, meta_key = %d, func_key = %d, escapes = %d, byte_digits = %d, retval = %d\n", kbinput->key, (int)*meta_key, (int)*func_key, escapes, byte_digits, retval);
+    fprintf(stderr, "parse_kbinput(): kbinput = %d, meta_key = %d, func_key = %d, escapes = %d, byte_digits = %d, retval = %d\n", *kbinput, (int)*meta_key, (int)*func_key, escapes, byte_digits, retval);
 #endif
 
     /* Return the result. */
@@ -729,7 +615,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
  * ERR and set ignore_seq to TRUE; if it's unrecognized, return ERR and
  * set ignore_seq to FALSE.  Assume that Escape has already been read
  * in. */
-int get_escape_seq_kbinput(const int *sequence, size_t seq_len, bool
+int get_escape_seq_kbinput(const int *seq, size_t seq_len, bool
 	*ignore_seq)
 {
     int retval = ERR;
@@ -737,12 +623,12 @@ int get_escape_seq_kbinput(const int *sequence, size_t seq_len, bool
     *ignore_seq = FALSE;
 
     if (seq_len > 1) {
-	switch (sequence[0]) {
+	switch (seq[0]) {
 	    case 'O':
-		switch (sequence[1]) {
+		switch (seq[1]) {
 		    case '2':
 			if (seq_len >= 3) {
-			    switch (sequence[2]) {
+			    switch (seq[2]) {
 				case 'P': /* Esc O 2 P == F13 on
 					   * xterm. */
 				    retval = KEY_F(13);
@@ -769,7 +655,7 @@ int get_escape_seq_kbinput(const int *sequence, size_t seq_len, bool
 			       * VT100/VT320/xterm. */
 		    case 'D': /* Esc O D == Left on
 			       * VT100/VT320/xterm. */
-			retval = get_escape_seq_abcd(sequence[1]);
+			retval = get_escape_seq_abcd(seq[1]);
 			break;
 		    case 'E': /* Esc O E == Center (5) on numeric keypad
 			       * with NumLock off on xterm. */
@@ -824,7 +710,7 @@ int get_escape_seq_kbinput(const int *sequence, size_t seq_len, bool
 		    case 'b': /* Esc O b == Ctrl-Down on rxvt. */
 		    case 'c': /* Esc O c == Ctrl-Right on rxvt. */
 		    case 'd': /* Esc O d == Ctrl-Left on rxvt. */
-			retval = get_escape_seq_abcd(sequence[1]);
+			retval = get_escape_seq_abcd(seq[1]);
 			break;
 		    case 'j': /* Esc O j == '*' on numeric keypad with
 			       * NumLock off on VT100/VT220/VT320/xterm/
@@ -909,20 +795,20 @@ int get_escape_seq_kbinput(const int *sequence, size_t seq_len, bool
 		}
 		break;
 	    case 'o':
-		switch (sequence[1]) {
+		switch (seq[1]) {
 		    case 'a': /* Esc o a == Ctrl-Up on Eterm. */
 		    case 'b': /* Esc o b == Ctrl-Down on Eterm. */
 		    case 'c': /* Esc o c == Ctrl-Right on Eterm. */
 		    case 'd': /* Esc o d == Ctrl-Left on Eterm. */
-			retval = get_escape_seq_abcd(sequence[1]);
+			retval = get_escape_seq_abcd(seq[1]);
 			break;
 		}
 		break;
 	    case '[':
-		switch (sequence[1]) {
+		switch (seq[1]) {
 		    case '1':
 			if (seq_len >= 3) {
-			    switch (sequence[2]) {
+			    switch (seq[2]) {
 				case '1': /* Esc [ 1 1 ~ == F1 on rxvt/
 					   * Eterm. */
 				    retval = KEY_F(1);
@@ -960,10 +846,10 @@ int get_escape_seq_kbinput(const int *sequence, size_t seq_len, bool
 				    break;
 				case ';':
     if (seq_len >= 4) {
-	switch (sequence[3]) {
+	switch (seq[3]) {
 	    case '2':
 		if (seq_len >= 5) {
-		    switch (sequence[4]) {
+		    switch (seq[4]) {
 			case 'A': /* Esc [ 1 ; 2 A == Shift-Up on
 				   * xterm. */
 			case 'B': /* Esc [ 1 ; 2 B == Shift-Down on
@@ -972,14 +858,14 @@ int get_escape_seq_kbinput(const int *sequence, size_t seq_len, bool
 				   * xterm. */
 			case 'D': /* Esc [ 1 ; 2 D == Shift-Left on
 				   * xterm. */
-			    retval = get_escape_seq_abcd(sequence[4]);
+			    retval = get_escape_seq_abcd(seq[4]);
 			    break;
 		    }
 		}
 		break;
 	    case '5':
 		if (seq_len >= 5) {
-		    switch (sequence[4]) {
+		    switch (seq[4]) {
 			case 'A': /* Esc [ 1 ; 5 A == Ctrl-Up on
 				   * xterm. */
 			case 'B': /* Esc [ 1 ; 5 B == Ctrl-Down on
@@ -988,7 +874,7 @@ int get_escape_seq_kbinput(const int *sequence, size_t seq_len, bool
 				   * xterm. */
 			case 'D': /* Esc [ 1 ; 5 D == Ctrl-Left on
 				   * xterm. */
-			    retval = get_escape_seq_abcd(sequence[4]);
+			    retval = get_escape_seq_abcd(seq[4]);
 			    break;
 		    }
 		}
@@ -1005,7 +891,7 @@ int get_escape_seq_kbinput(const int *sequence, size_t seq_len, bool
 			break;
 		    case '2':
 			if (seq_len >= 3) {
-			    switch (sequence[2]) {
+			    switch (seq[2]) {
 				case '0': /* Esc [ 2 0 ~ == F9 on
 					   * VT220/VT320/Linux console/
 					   * xterm/rxvt/Eterm. */
@@ -1096,7 +982,7 @@ int get_escape_seq_kbinput(const int *sequence, size_t seq_len, bool
 		    case 'D': /* Esc [ D == Left on ANSI/VT220/Linux
 			       * console/FreeBSD console/Mach console/
 			       * rxvt/Eterm. */
-			retval = get_escape_seq_abcd(sequence[1]);
+			retval = get_escape_seq_abcd(seq[1]);
 			break;
 		    case 'E': /* Esc [ E == Center (5) on numeric keypad
 			       * with NumLock off on FreeBSD console. */
@@ -1130,7 +1016,7 @@ int get_escape_seq_kbinput(const int *sequence, size_t seq_len, bool
 			break;
 		    case 'O':
 			if (seq_len >= 3) {
-			    switch (sequence[2]) {
+			    switch (seq[2]) {
 				case 'P': /* Esc [ O P == F1 on
 					   * xterm. */
 				    retval = KEY_F(1);
@@ -1191,11 +1077,11 @@ int get_escape_seq_kbinput(const int *sequence, size_t seq_len, bool
 		    case 'c': /* Esc [ c == Shift-Right on rxvt/
 			       * Eterm. */
 		    case 'd': /* Esc [ d == Shift-Left on rxvt/Eterm. */
-			retval = get_escape_seq_abcd(sequence[1]);
+			retval = get_escape_seq_abcd(seq[1]);
 			break;
 		    case '[':
 			if (seq_len >= 3) {
-			    switch (sequence[2]) {
+			    switch (seq[2]) {
 				case 'A': /* Esc [ [ A == F1 on Linux
 					   * console. */
 				    retval = KEY_F(1);
@@ -1258,13 +1144,13 @@ int get_byte_kbinput(int kbinput
 #endif
 	)
 {
-    static int byte_digits = 0, byte_kbinput = 0;
+    static int byte_digits = 0, byte = 0;
     int retval = ERR;
 
 #ifndef NANO_SMALL
     if (reset) {
 	byte_digits = 0;
-	byte_kbinput = 0;
+	byte = 0;
 	return ERR;
     }
 #endif
@@ -1277,9 +1163,9 @@ int get_byte_kbinput(int kbinput
 	    /* One digit: reset the byte sequence holder and add the
 	     * digit we got to the 100's position of the byte sequence
 	     * holder. */
-	    byte_kbinput = 0;
+	    byte = 0;
 	    if ('0' <= kbinput && kbinput <= '2')
-		byte_kbinput += (kbinput - '0') * 100;
+		byte += (kbinput - '0') * 100;
 	    else
 		/* If the character we got isn't a decimal digit, or if
 		 * it is and it would put the byte sequence out of byte
@@ -1289,10 +1175,9 @@ int get_byte_kbinput(int kbinput
 	case 2:
 	    /* Two digits: add the digit we got to the 10's position of
 	     * the byte sequence holder. */
-	    if (('0' <= kbinput && kbinput <= '5') ||
-		(byte_kbinput < 200 && '6' <= kbinput &&
-		kbinput <= '9'))
-		byte_kbinput += (kbinput - '0') * 10;
+	    if (('0' <= kbinput && kbinput <= '5') || (byte < 200 &&
+		'6' <= kbinput && kbinput <= '9'))
+		byte += (kbinput - '0') * 10;
 	    else
 		/* If the character we got isn't a decimal digit, or if
 		 * it is and it would put the byte sequence out of byte
@@ -1303,11 +1188,10 @@ int get_byte_kbinput(int kbinput
 	    /* Three digits: add the digit we got to the 1's position of
 	     * the byte sequence holder, and save the corresponding word
 	     * value as the result. */
-	    if (('0' <= kbinput && kbinput <= '5') ||
-		(byte_kbinput < 250 && '6' <= kbinput &&
-		kbinput <= '9')) {
-		byte_kbinput += (kbinput - '0');
-		retval = byte_kbinput;
+	    if (('0' <= kbinput && kbinput <= '5') || (byte < 250 &&
+		'6' <= kbinput && kbinput <= '9')) {
+		byte += (kbinput - '0');
+		retval = byte;
 	    } else
 		/* If the character we got isn't a decimal digit, or if
 		 * it is and it would put the word sequence out of word
@@ -1325,11 +1209,11 @@ int get_byte_kbinput(int kbinput
      * sequence holder. */
     if (retval != ERR) {
 	byte_digits = 0;
-	byte_kbinput = 0;
+	byte = 0;
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "get_byte_kbinput(): kbinput = %d, byte_digits = %d, byte_kbinput = %d, retval = %d\n", kbinput, byte_digits, byte_kbinput, retval);
+    fprintf(stderr, "get_byte_kbinput(): kbinput = %d, byte_digits = %d, byte = %d, retval = %d\n", kbinput, byte_digits, byte, retval);
 #endif
 
     return retval;
@@ -1343,13 +1227,13 @@ int get_word_kbinput(int kbinput
 #endif
 	)
 {
-    static int word_digits = 0, word_kbinput = 0;
+    static int word_digits = 0, word = 0;
     int retval = ERR;
 
 #ifndef NANO_SMALL
     if (reset) {
 	word_digits = 0;
-	word_kbinput = 0;
+	word = 0;
 	return ERR;
     }
 #endif
@@ -1362,11 +1246,11 @@ int get_word_kbinput(int kbinput
 	    /* One digit: reset the word sequence holder and add the
 	     * digit we got to the 4096's position of the word sequence
 	     * holder. */
-	    word_kbinput = 0;
+	    word = 0;
 	    if ('0' <= kbinput && kbinput <= '9')
-		word_kbinput += (kbinput - '0') * 4096;
+		word += (kbinput - '0') * 4096;
 	    else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
-		word_kbinput += (tolower(kbinput) + 10 - 'a') * 4096;
+		word += (tolower(kbinput) + 10 - 'a') * 4096;
 	    else
 		/* If the character we got isn't a hexadecimal digit, or
 		 * if it is and it would put the word sequence out of
@@ -1377,9 +1261,9 @@ int get_word_kbinput(int kbinput
 	    /* Two digits: add the digit we got to the 256's position of
 	     * the word sequence holder. */
 	    if ('0' <= kbinput && kbinput <= '9')
-		word_kbinput += (kbinput - '0') * 256;
+		word += (kbinput - '0') * 256;
 	    else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
-		word_kbinput += (tolower(kbinput) + 10 - 'a') * 256;
+		word += (tolower(kbinput) + 10 - 'a') * 256;
 	    else
 		/* If the character we got isn't a hexadecimal digit, or
 		 * if it is and it would put the word sequence out of
@@ -1390,9 +1274,9 @@ int get_word_kbinput(int kbinput
 	    /* Three digits: add the digit we got to the 16's position
 	     * of the word sequence holder. */
 	    if ('0' <= kbinput && kbinput <= '9')
-		word_kbinput += (kbinput - '0') * 16;
+		word += (kbinput - '0') * 16;
 	    else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
-		word_kbinput += (tolower(kbinput) + 10 - 'a') * 16;
+		word += (tolower(kbinput) + 10 - 'a') * 16;
 	    else
 		/* If the character we got isn't a hexadecimal digit, or
 		 * if it is and it would put the word sequence out of
@@ -1404,12 +1288,12 @@ int get_word_kbinput(int kbinput
 	     * the word sequence holder, and save the corresponding word
 	     * value as the result. */
 	    if ('0' <= kbinput && kbinput <= '9') {
-		word_kbinput += (kbinput - '0');
-		retval = word_kbinput;
+		word += (kbinput - '0');
+		retval = word;
 	    } else if ('a' <= tolower(kbinput) &&
 		tolower(kbinput) <= 'f') {
-		word_kbinput += (tolower(kbinput) + 10 - 'a');
-		retval = word_kbinput;
+		word += (tolower(kbinput) + 10 - 'a');
+		retval = word;
 	    } else
 		/* If the character we got isn't a hexadecimal digit, or
 		 * if it is and it would put the word sequence out of
@@ -1427,11 +1311,11 @@ int get_word_kbinput(int kbinput
      * sequence holder. */
     if (retval != ERR) {
 	word_digits = 0;
-	word_kbinput = 0;
+	word = 0;
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "get_word_kbinput(): kbinput = %d, word_digits = %d, word_kbinput = %d, retval = %d\n", kbinput, word_digits, word_kbinput, retval);
+    fprintf(stderr, "get_word_kbinput(): kbinput = %d, word_digits = %d, word = %d, retval = %d\n", kbinput, word_digits, word, retval);
 #endif
 
     return retval;
@@ -1469,22 +1353,25 @@ int get_control_kbinput(int kbinput)
     return retval;
 }
 
-/* Put the output-formatted key values in the input buffer kbinput back
- * into the default keystroke buffer, starting at position pos, so that
- * they can be parsed again. */
-void unparse_kbinput(size_t pos, int *kbinput, size_t kbinput_len)
+/* Put the output-formatted characters in output back into the default
+ * keystroke buffer, so that they can be parsed and displayed as output
+ * again. */
+void unparse_kbinput(char *output, size_t output_len)
 {
-    if (pos < kbinput_len - 1) {
-	size_t seq_len = kbinput_len - (kbinput_len - pos);
-	buffer *sequence = keys_to_buffer(&kbinput[pos + 1],
-		seq_len);
+    int *input;
+    size_t i;
 
-	unget_input(sequence, seq_len);
-	free(sequence);
-    }
+    if (output_len == 0)
+	return;
+
+    input = (int *)nmalloc(output_len * sizeof(int));
+    for (i = 0; i < output_len; i++)
+	input[i] = (int)output[i];
+    unget_input(input, output_len);
+    free(input);
 }
 
-/* Read in a string of characters verbatim, and return the length of the
+/* Read in a stream of characters verbatim, and return the length of the
  * string in kbinput_len.  Assume nodelay(win) is FALSE. */
 int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 {
@@ -1509,19 +1396,19 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     return retval;
 }
 
-/* Read in a stream of all available characters.  Translate the first
- * few characters of the input into the corresponding word value if
- * possible.  After that, leave the input as-is. */ 
+/* Read in a stream of all available characters, and return the length
+ * of the string in kbinput_len.  Translate the first few characters of
+ * the input into the corresponding word value if possible.  After that,
+ * leave the input as-is. */ 
 int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 {
-    buffer *kbinput, *sequence;
-    int word, *retval;
+    int *kbinput, word, *retval;
 
     /* Read in the first keystroke. */
     while ((kbinput = get_input(win, 1)) == NULL);
 
     /* Check whether the first keystroke is a hexadecimal digit. */
-    word = get_word_kbinput(kbinput->key
+    word = get_word_kbinput(*kbinput
 #ifndef NANO_SMALL
 	, FALSE
 #endif
@@ -1534,30 +1421,37 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     /* Otherwise, read in keystrokes until we have a complete word
      * sequence, and put back the corresponding word value. */
     else {
-	buffer word_kbinput;
+	char *word_mb = charalloc(mb_cur_max());
+	int word_mb_len, *seq, i;
 
 	while (word == ERR) {
 	    while ((kbinput = get_input(win, 1)) == NULL);
 
-	    word = get_word_kbinput(kbinput->key
+	    word = get_word_kbinput(*kbinput
 #ifndef NANO_SMALL
 		, FALSE
 #endif
 		);
 	}
 
-	word_kbinput.key = word;
-	word_kbinput.key_code = FALSE;
+	/* Put back the multibyte equivalent of the word value. */
+	word_mb = make_mbchar(word, word_mb, &word_mb_len);
 
-	unget_input(&word_kbinput, 1);
+	seq = (int *)nmalloc(word_mb_len * sizeof(int));
+
+	for (i = 0; i < word_mb_len; i++)
+	    seq[i] = (unsigned char)word_mb[i];
+
+	unget_input(seq, word_mb_len);
+
+	free(seq);
+	free(word_mb);
     }
 
-    /* Get the complete sequence, and save the key values in it as the
+    /* Get the complete sequence, and save the characters in it as the
      * result. */
     *kbinput_len = get_buffer_len();
-    sequence = get_input(NULL, *kbinput_len);
-    retval = buffer_to_keys(sequence, *kbinput_len);
-    free(sequence);
+    retval = get_input(NULL, *kbinput_len);
 
     return retval;
 }
@@ -1787,12 +1681,21 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	 * characters in the input buffer if it isn't empty. */
 	 if (*s_or_t == TRUE || get_buffer_len() == 0) {
 	    if (kbinput != NULL) {
-		bool got_enter;
-			/* Whether we got the Enter key. */
 
 		/* Display all the characters in the input buffer at
 		 * once. */
-		do_statusbar_output(kbinput, kbinput_len, &got_enter);
+		char *output = charalloc(kbinput_len + 1);
+		size_t i;
+		bool got_enter;
+			/* Whether we got the Enter key. */
+
+		for (i = 0; i < kbinput_len; i++)
+		    output[i] = (char)kbinput[i];
+		output[i] = '\0';
+
+		do_statusbar_output(output, kbinput_len, &got_enter);
+
+		free(output);
 
 		/* Empty the input buffer. */
 		kbinput_len = 0;
@@ -1900,7 +1803,7 @@ void do_statusbar_home(void)
 #ifndef NANO_SMALL
     if (ISSET(SMART_HOME)) {
 	size_t statusbar_x_save = statusbar_x;
-	for (statusbar_x = 0; isblank(answer[statusbar_x]) &&
+	for (statusbar_x = 0; is_blank_char(answer[statusbar_x]) &&
 		statusbar_x < statusbar_xend; statusbar_x++)
 	    ;
 	if (statusbar_x == statusbar_x_save ||
@@ -1939,15 +1842,16 @@ void do_statusbar_backspace(void)
 void do_statusbar_delete(void)
 {
     if (statusbar_x < statusbar_xend) {
-	int char_len = parse_char(answer + statusbar_x, NULL
+	int char_buf_len = parse_mbchar(answer + statusbar_x, NULL
 #ifdef NANO_WIDE
 		, NULL
 #endif
 		, NULL);
 
-	charmove(answer + statusbar_x, answer + statusbar_x + char_len,
-		statusbar_xend - statusbar_x - char_len + 1);
-	statusbar_xend -= char_len;
+	charmove(answer + statusbar_x, answer + statusbar_x +
+		char_buf_len, statusbar_xend - statusbar_x -
+		char_buf_len + 1);
+	statusbar_xend -= char_buf_len;
     }
 }
 
@@ -1960,8 +1864,9 @@ void do_statusbar_cut_text(void)
 
 void do_statusbar_verbatim_input(bool *got_enter)
 {
-    int *kbinput;	/* Used to hold verbatim input. */
-    size_t kbinput_len;	/* Length of verbatim input. */
+    int *kbinput;
+    size_t kbinput_len, i;
+    char *output;
 
     *got_enter = FALSE;
 
@@ -1969,73 +1874,69 @@ void do_statusbar_verbatim_input(bool *got_enter)
     kbinput = get_verbatim_kbinput(bottomwin, &kbinput_len);
 
     /* Display all the verbatim characters at once. */
-    do_statusbar_output(kbinput, kbinput_len, got_enter);
+    output = charalloc(kbinput_len + 1);
 
-    free(kbinput);
+    for (i = 0; i < kbinput_len; i++)
+	output[i] = (char)kbinput[i];
+    output[i] = '\0';
+
+    do_statusbar_output(output, kbinput_len, got_enter);
+
+    free(output);
 }
 
-void do_statusbar_output(int *kbinput, size_t kbinput_len, bool
+void do_statusbar_output(char *output, size_t output_len, bool
 	*got_enter)
 {
-    size_t i;
+    size_t i = 0;
 
-    char *key =
-#ifdef NANO_WIDE
-	!ISSET(NO_UTF8) ? charalloc(MB_CUR_MAX) :
-#endif
-	charalloc(1);
+    char *char_buf = charalloc(mb_cur_max());
+    int char_buf_len;
 
     assert(answer != NULL);
 
     *got_enter = FALSE;
 
-    for (i = 0; i < kbinput_len; i++) {
-	int key_len;
-
+    while (i < output_len) {
 	/* Null to newline, if needed. */
-	if (kbinput[i] == '\0')
-	    kbinput[i] = '\n';
+	if (output[i] == '\0')
+	    output[i] = '\n';
 	/* Newline to Enter, if needed. */
-	else if (kbinput[i] == '\n') {
+	else if (output[i] == '\n') {
 	    /* Set got_enter to TRUE to indicate that we got the Enter
-	     * key, put back the rest of the keystrokes in kbinput so
-	     * that they can be parsed again, and get out. */
+	     * key, put back the rest of the characters in output so
+	     * that they can be parsed and output again, and get out. */
 	    *got_enter = TRUE;
-	    unparse_kbinput(i, kbinput, kbinput_len);
+	    unparse_kbinput(output + i, output_len - i);
 	    return;
 	}
 
+	/* Interpret the next multibyte character.  If it's an invalid
+	 * multibyte character, interpret it as though it's a byte
+	 * character. */
+	char_buf_len = parse_mbchar(output + i, char_buf
 #ifdef NANO_WIDE
-	/* Change the wide character to its multibyte value.  If it's
-	 * invalid, go on to the next character. */
-	if (!ISSET(NO_UTF8)) {
-	    key_len = wctomb(key, (wchar_t)kbinput[i]);
+		, NULL
+#endif
+		, NULL);
 
-	    if (key_len == -1)
-		continue;
-	/* Interpret the character as a single-byte sequence. */
-	} else {
-#endif
-	    key_len = 1;
-	    key[0] = (unsigned char)kbinput[i];
-#ifdef NANO_WIDE
-	}
-#endif
+	i += char_buf_len;
 
 	/* More dangerousness fun =) */
-	answer = charealloc(answer, statusbar_xend + key_len + 1);
+	answer = charealloc(answer, statusbar_xend + char_buf_len + 1);
 
 	assert(statusbar_x <= statusbar_xend);
 
-	charmove(&answer[statusbar_x + key_len], &answer[statusbar_x],
-		statusbar_xend - statusbar_x + key_len);
-	charcpy(&answer[statusbar_x], key, key_len);
-	statusbar_xend += key_len;
+	charmove(&answer[statusbar_x + char_buf_len],
+		&answer[statusbar_x], statusbar_xend - statusbar_x +
+		char_buf_len);
+	charcpy(&answer[statusbar_x], char_buf, char_buf_len);
+	statusbar_xend += char_buf_len;
 
 	do_statusbar_right();
     }
 
-    free(key);
+    free(char_buf);
 }
 
 /* Return the placewewant associated with current_x.  That is, xplustabs
@@ -2059,7 +1960,7 @@ size_t actual_x(const char *str, size_t xplus)
     assert(str != NULL);
 
     while (*str != '\0') {
-	int str_len = parse_char(str, NULL
+	int str_len = parse_mbchar(str, NULL
 #ifdef NANO_WIDE
 		, NULL
 #endif
@@ -2088,7 +1989,7 @@ size_t strnlenpt(const char *str, size_t size)
     assert(str != NULL);
 
     while (*str != '\0') {
-	int str_len = parse_char(str, NULL
+	int str_len = parse_mbchar(str, NULL
 #ifdef NANO_WIDE
 		, NULL
 #endif
@@ -2170,6 +2071,12 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
     size_t index;
 	/* Current position in converted. */
 
+    char *buf_mb = charalloc(mb_cur_max());
+    int buf_mb_len;
+#ifdef NANO_WIDE
+    bool bad_char;
+#endif
+
     /* If dollars is TRUE, make room for the "$" at the end of the
      * line. */
     if (dollars && len > 0 && strlenpt(buf) > start_col + len)
@@ -2183,92 +2090,59 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
     assert(column <= start_col);
 
-#ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8))
-	alloc_len = MB_CUR_MAX * (len + 2);
-    else
-#endif
-	alloc_len = len + 2;
+    /* Allocate enough space for the entire line.  It should contain
+     * (len + 2) multibyte characters at most. */
+    alloc_len = mb_cur_max() * (len + 2);
 
     converted = charalloc(alloc_len + 1);
     index = 0;
 
     if (column < start_col || (dollars && column > 0 &&
 	buf[start_index] != '\t')) {
-	int wide_buf, mb_buf_len;
-
 	/* We don't display all of buf[start_index] since it starts to
 	 * the left of the screen. */
-	mb_buf_len = parse_char(buf + start_index, &wide_buf
+	buf_mb_len = parse_mbchar(buf + start_index, buf_mb
 #ifdef NANO_WIDE
 		, NULL
 #endif
 		, NULL);
 
-	if (is_cntrl_char(wide_buf)) {
+	if (is_cntrl_mbchar(buf_mb)) {
 	    if (column < start_col) {
-		char *ctrl_mb_buf =
-#ifdef NANO_WIDE
-			!ISSET(NO_UTF8) ? charalloc(MB_CUR_MAX) :
-#endif
-			charalloc(1);
-		int ctrl_mb_buf_len, i;
+		char *ctrl_buf_mb = charalloc(mb_cur_max());
+		int ctrl_buf_mb_len, i;
 
-		wide_buf = control_rep((unsigned char)wide_buf);
+		ctrl_buf_mb = control_mbrep(buf_mb, ctrl_buf_mb,
+			&ctrl_buf_mb_len);
 
-#ifdef NANO_WIDE
-		if (!ISSET(NO_UTF8))
-		    ctrl_mb_buf_len = wctomb(ctrl_mb_buf,
-			(wchar_t)wide_buf);
-		else {
-#endif
-		    ctrl_mb_buf_len = 1;
-		    ctrl_mb_buf[0] = (unsigned char)wide_buf;
-#ifdef NANO_WIDE
-		}
-#endif
+		for (i = 0; i < ctrl_buf_mb_len; i++)
+		    converted[index++] = ctrl_buf_mb[i];
 
-		for (i = 0; i < ctrl_mb_buf_len; i++)
-		    converted[index++] = ctrl_mb_buf[i];
+		start_col += mbwidth(ctrl_buf_mb);
 
-		free(ctrl_mb_buf);
+		free(ctrl_buf_mb);
 
-#ifdef NANO_WIDE
-		if (!ISSET(NO_UTF8)) {
-		    int width = wcwidth((wchar_t)wide_buf);
-
-		    if (width != -1)
-			start_col += width;
-		} else
-#endif
-		    start_col++;
-
-		start_index += mb_buf_len;
+		start_index += buf_mb_len;
 	    }
 	}
 #ifdef NANO_WIDE
-	else if (wcwidth((wchar_t)wide_buf) > 1) {
+	else if (mbwidth(buf_mb) > 1) {
 	    converted[index++] = ' ';
-
 	    start_col++;
-	    start_index += mb_buf_len;
+
+	    start_index += buf_mb_len;
 	}
 #endif
     }
 
     while (index < alloc_len - 1 && buf[start_index] != '\0') {
-	int wide_buf, mb_buf_len;
-#ifdef NANO_WIDE
-	bool bad_char;
-#endif
-
-	mb_buf_len = parse_char(buf + start_index, &wide_buf
+	buf_mb_len = parse_mbchar(buf + start_index, buf_mb
 #ifdef NANO_WIDE
 		, &bad_char
 #endif
 		, NULL);
 
-	if (wide_buf == '\t') {
+	if (*buf_mb == '\t') {
 	    converted[index++] =
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 		ISSET(WHITESPACE_DISPLAY) ? whitespace[0] :
@@ -2282,45 +2156,23 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	/* If buf contains a control character, interpret it.  If it
 	 * contains an invalid multibyte control character, interpret
 	 * that character as though it's a normal control character. */
-	} else if (is_cntrl_char(wide_buf)) {
-	    char *ctrl_mb_buf =
-#ifdef NANO_WIDE
-		!ISSET(NO_UTF8) ? charalloc(MB_CUR_MAX) :
-#endif
-		charalloc(1);
-	    int ctrl_mb_buf_len, i;
+	} else if (is_cntrl_mbchar(buf_mb)) {
+	    char *ctrl_buf_mb = charalloc(mb_cur_max());
+	    int ctrl_buf_mb_len, i;
 
 	    converted[index++] = '^';
 	    start_col++;
-	    wide_buf = control_rep((unsigned char)wide_buf);
 
-#ifdef NANO_WIDE
-	    if (!ISSET(NO_UTF8))
-		ctrl_mb_buf_len = wctomb(ctrl_mb_buf,
-			(wchar_t)wide_buf);
-	    else {
-#endif
-		ctrl_mb_buf_len = 1;
-		ctrl_mb_buf[0] = (unsigned char)wide_buf;
-#ifdef NANO_WIDE
-	    }
-#endif
+	    ctrl_buf_mb = control_mbrep(buf_mb, ctrl_buf_mb,
+		&ctrl_buf_mb_len);
 
-	    for (i = 0; i < ctrl_mb_buf_len; i++)
-		converted[index++] = ctrl_mb_buf[i];
+	    for (i = 0; i < ctrl_buf_mb_len; i++)
+		converted[index++] = ctrl_buf_mb[i];
 
-	    free(ctrl_mb_buf);
+	    start_col += mbwidth(ctrl_buf_mb);
 
-#ifdef NANO_WIDE
-	    if (!ISSET(NO_UTF8)) {
-		int width = wcwidth((wchar_t)wide_buf);
-
-		if (width != -1)
-		    start_col += width;
-	    } else
-#endif
-		start_col++;
-	} else if (wide_buf == ' ') {
+	    free(ctrl_buf_mb);
+	} else if (*buf_mb == ' ') {
 	    converted[index++] =
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 		ISSET(WHITESPACE_DISPLAY) ? whitespace[1] :
@@ -2335,33 +2187,30 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	     * character, interpret that character as though it's a
 	     * normal non-control character. */
 	    if (!ISSET(NO_UTF8) && bad_char) {
-		char *bad_mb_buf = charalloc(MB_CUR_MAX);
-		int bad_mb_buf_len;
+		char *bad_buf_mb = charalloc(mb_cur_max());
+		int bad_buf_mb_len;
 
-		bad_mb_buf_len = wctomb(bad_mb_buf, (wchar_t)wide_buf);
+		bad_buf_mb = make_mbchar((unsigned int)*buf_mb,
+			bad_buf_mb, &bad_buf_mb_len);
 
-		for (i = 0; i < bad_mb_buf_len; i++)
-		    converted[index++] = bad_mb_buf[i];
+		for (i = 0; i < bad_buf_mb_len; i++)
+		    converted[index++] = bad_buf_mb[i];
 
-		free(bad_mb_buf);
+		start_col += mbwidth(bad_buf_mb);
+
+		free(bad_buf_mb);
 	    } else {
 #endif
-		for (i = 0; i < mb_buf_len; i++)
+		for (i = 0; i < buf_mb_len; i++)
 		    converted[index++] = buf[start_index + i];
+
+		start_col += mbwidth(buf_mb);
 #ifdef NANO_WIDE
 	    }
-
-	    if (!ISSET(NO_UTF8)) {
-		int width = wcwidth((wchar_t)wide_buf);
-
-		if (width != -1)
-		    start_col += width;
-	    } else
 #endif
-		start_col++;
 	}
 
-	start_index += mb_buf_len;
+	start_index += buf_mb_len;
     }
 
     if (index < alloc_len - 1)

@@ -100,12 +100,8 @@
 # endif
 #endif
 
-/* If no isblank(), strcasecmp(), strncasecmp(), strcasestr(),
- * strnlen(), getdelim(), or getline(), use the versions we have. */
-#ifndef HAVE_ISBLANK
-#define isblank is_blank_char
-#endif
-
+/* If no strcasecmp(), strncasecmp(), strcasestr(), strnlen(),
+ * getdelim(), or getline(), use the versions we have. */
 #ifndef HAVE_STRCASECMP
 #define strcasecmp nstricmp
 #endif
@@ -161,11 +157,6 @@ typedef enum {
 } topmidnone;
 
 /* Structure types. */
-typedef struct buffer {
-    int key;
-    bool key_code;
-} buffer;
-
 typedef struct filestruct {
     char *data;
     struct filestruct *next;	/* Next node. */

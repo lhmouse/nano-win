@@ -2175,7 +2175,7 @@ char *input_tab(char *buf, int place, bool *lastwastab, int *newplace,
 	tmp = matchbuf;
 
 	/* skip any leading white space */
-	while (*tmp && isblank(*tmp))
+	while (*tmp && is_blank_char(*tmp))
 	    ++tmp;
 
 	/* Free up any memory already allocated */

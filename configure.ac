@@ -40,7 +40,7 @@ AM_GNU_GETTEXT([external], [need-ngettext])
 
 dnl Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS(fcntl.h getopt.h libintl.h limits.h regex.h termios.h wchar.h)
+AC_CHECK_HEADERS(fcntl.h getopt.h libintl.h limits.h regex.h termios.h wchar.h wctype.h)
 AC_CHECK_HEADER(regex.h,
     AC_MSG_CHECKING([for broken regexec])
     AC_TRY_RUN([
@@ -291,7 +291,7 @@ AC_MSG_WARN([*** Can not use slang when cross-compiling])),
     esac], [AC_MSG_RESULT(no)])
 
 dnl Checks for functions
-AC_CHECK_FUNCS(snprintf vsnprintf isblank strcasecmp strncasecmp strcasestr strnlen getline getdelim mbtowc wctomb wcwidth)
+AC_CHECK_FUNCS(snprintf vsnprintf isblank iswblank strcasecmp strncasecmp strcasestr strnlen getline getdelim mblen mbtowc wctomb wcwidth)
 if test "x$ac_cv_func_snprintf" = "xno" -o "x$ac_cv_func_vsnprintf" = "xno"
 then
 	AM_PATH_GLIB_2_0(2.0.0,,
@@ -357,9 +357,9 @@ then
 	LDFLAGS="$LDFLAGS $GLIB_LIBS"
 fi
 
-if test "x$CURSES_LIB_WIDE" = "xyes" -a "x$ac_cv_func_mbtowc" = "xyes" -a "x$ac_cv_func_wctomb" = "xyes" -a "x$ac_cv_func_wcwidth" = "xyes"
+if test "x$CURSES_LIB_WIDE" = "xyes" -a "x$ac_cv_func_mblen" = "xyes" -a "x$ac_cv_func_mbtowc" = "xyes" -a "x$ac_cv_func_wctomb" = "xyes" -a "x$ac_cv_func_wcwidth" = "xyes"
 then
-	AC_DEFINE(NANO_WIDE, 1, [Define this if your system has wide character support (a wide curses library, mbtowc(), wctomb(), and wcwidth()).])
+	AC_DEFINE(NANO_WIDE, 1, [Define this if your system has wide character support (a wide curses library, mblen(), mbtowc(), wctomb(), and wcwidth()).])
 else
 	AC_MSG_WARN([Insufficient wide character support found.  nano will not be able to support UTF-8.])
 fi

@@ -33,10 +33,6 @@
 #include "proto.h"
 #include "nano.h"
 
-#if defined(HAVE_WCHAR_H) && defined(NANO_WIDE)
-#include <wchar.h>
-#endif
-
 #ifdef HAVE_REGEX_H
 #ifdef BROKEN_REGEXEC
 int regexec_safe(const regex_t *preg, const char *string, size_t nmatch,
@@ -56,29 +52,6 @@ int regexp_bol_or_eol(const regex_t *preg, const char *string)
 }
 #endif /* HAVE_REGEX_H */
 
-#ifndef HAVE_ISBLANK
-/* This function is equivalent to isblank(). */
-int is_blank_char(int c)
-{
-    return isspace(c) && (!is_cntrl_char(c) || c == '\t');
-}
-#endif
-
-/* This function is equivalent to iscntrl(), except in that it also
- * handles control characters with their high bits set. */
-int is_cntrl_char(int c)
-{
-    return (-128 <= c && c < -96) || (0 <= c && c < 32) ||
-	(127 <= c && c < 160);
-}
-
-/* Return TRUE if the character c is in byte range, and FALSE
- * otherwise. */
-bool is_byte_char(int c)
-{
-    return (unsigned int)c == (unsigned char)c;
-}
-
 int num_of_digits(int n)
 {
     int i = 1;
@@ -94,17 +67,9 @@ int num_of_digits(int n)
     return i;
 }
 
-/* c is a control character.  It displays as ^@, ^?, or ^[ch] where ch
- * is c + 64.  We return that character. */
-unsigned char control_rep(unsigned char c)
+bool is_byte(int c)
 {
-    /* Treat newlines embedded in a line as encoded nulls. */
-    if (c == '\n')
-	return '@';
-    else if (c == NANO_CONTROL_8)
-	return '?';
-    else
-	return c + 64;
+    return ((unsigned int)c == (unsigned char)c);
 }
 
 /* Read a ssize_t from str, and store it in *val (if val is not NULL).
@@ -128,116 +93,6 @@ bool parse_num(const char *str, ssize_t *val)
     return TRUE;
 }
 
-/* Parse a multibyte character from buf.  Return the number of bytes
- * used.  If chr isn't NULL, store the wide character in it.  If
- * bad_chr isn't NULL, set it to TRUE if we have a null byte or a bad
- * multibyte character.  If col isn't NULL, store the new display width
- * in it.  If *str is '\t', we expect col to have the current display
- * width. */
-int parse_char(const char *buf, int *chr
-#ifdef NANO_WIDE
-	, bool *bad_chr
-#endif
-	, size_t *col)
-{
-    int wide_buf, mb_buf_len;
-
-    assert(buf != NULL);
-
-#ifdef NANO_WIDE
-    if (bad_chr != NULL)
-	*bad_chr = FALSE;
-
-    if (!ISSET(NO_UTF8)) {
-	wchar_t tmp;
-
-	/* Get the wide character equivalent of the multibyte
-	 * character. */
-	mb_buf_len = mbtowc(&tmp, buf, MB_CUR_MAX);
-	wide_buf = (int)tmp;
-
-	/* If buf contains a null byte or an invalid multibyte
-	 * character, interpret buf's first byte as a single-byte
-	 * sequence and set bad_chr to TRUE. */
-	if (mb_buf_len <= 0) {
-	    mb_buf_len = 1;
-	    wide_buf = (unsigned char)*buf;
-	    if (bad_chr != NULL)
-		*bad_chr = TRUE;
-	}
-
-	/* Save the wide character in chr. */
-	if (chr != NULL)
-	    *chr = wide_buf;
-
-	/* Save the column width of the wide character in col. */
-	if (col != NULL) {
-	    /* If we have a tab, get its width in columns using the
-	     * current value of col. */
-	    if (wide_buf == '\t')
-		*col += tabsize - *col % tabsize;
-	    /* If we have a control character, get its width using one
-	     * column for the "^" that will be displayed in front of it,
-	     * and the width in columns of its visible equivalent as
-	     * returned by control_rep(). */
-	    else if (is_cntrl_char(wide_buf)) {
-		char *ctrl_mb_buf = charalloc(MB_CUR_MAX);
-
-		(*col)++;
-		wide_buf = control_rep((unsigned char)wide_buf);
-
-		if (wctomb(ctrl_mb_buf, (wchar_t)wide_buf) != -1) {
-		    int width = wcwidth((wchar_t)wide_buf);
-
-		    if (width != -1)
-			*col += width;
-		}
-		else
-		    (*col)++;
-
-		free(ctrl_mb_buf);
-	    /* If we have a normal character, get its width in columns
-	     * normally. */
-	    } else {
-		int width = wcwidth((wchar_t)wide_buf);
-
-		if (width != -1)
-		    *col += width;
-	    }
-	}
-    } else {
-#endif
-	/* Interpret buf's first character as a single-byte sequence. */
-	mb_buf_len = 1;
-	wide_buf = (unsigned char)*buf;
-
-	/* Save the single-byte sequence in chr as though it's a wide
-	 * character. */
-	if (chr != NULL)
-	    *chr = wide_buf;
-
-	if (col != NULL) {
-	    /* If we have a tab, get its width in columns using the
-	     * current value of col. */
-	    if (wide_buf == '\t')
-		*col += tabsize - *col % tabsize;
-	    /* If we have a control character, it's two columns wide:
-	     * one column for the "^" that will be displayed in front of
-	     * it, and one column for its visible equivalent as returned
-	     * by control_rep(). */
-	    else if (is_cntrl_char(wide_buf))
-		*col += 2;
-	    /* If we have a normal character, it's one column wide. */
-	    else
-		(*col)++;
-	}
-#ifdef NANO_WIDE
-    }
-#endif
-
-    return mb_buf_len;
-}
-
 /* Return the index in buf of the beginning of the character before the
  * one at pos. */
 size_t move_left(const char *buf, size_t pos)
@@ -249,16 +104,16 @@ size_t move_left(const char *buf, size_t pos)
     /* There is no library function to move backward one multibyte
      * character.  Here is the naive, O(pos) way to do it. */
     while (TRUE) {
-	int mb_buf_len = parse_char(buf + pos - pos_prev, NULL
+	int buf_mb_len = parse_mbchar(buf + pos - pos_prev, NULL
 #ifdef NANO_WIDE
 		, NULL
 #endif
 		, NULL);
 
-	if (pos_prev <= mb_buf_len)
+	if (pos_prev <= buf_mb_len)
 	    break;
 
-	pos_prev -= mb_buf_len;
+	pos_prev -= buf_mb_len;
     }
 
     return pos - pos_prev;
@@ -268,7 +123,7 @@ size_t move_left(const char *buf, size_t pos)
  * one at pos. */
 size_t move_right(const char *buf, size_t pos)
 {
-    return pos + parse_char(buf + pos, NULL
+    return pos + parse_mbchar(buf + pos, NULL
 #ifdef NANO_WIDE
 	, NULL
 #endif

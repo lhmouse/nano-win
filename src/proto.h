@@ -150,6 +150,31 @@ extern char *homedir;
 
 /* Functions we want available. */
 
+/* Public functions in chars.c. */
+bool is_blank_char(unsigned char c);
+bool is_blank_mbchar(const char *c);
+#ifdef NANO_WIDE
+bool is_blank_wchar(wchar_t wc);
+#endif
+bool is_cntrl_char(unsigned char c);
+bool is_cntrl_mbchar(const char *c);
+#ifdef NANO_WIDE
+bool is_cntrl_wchar(wchar_t wc);
+#endif
+unsigned char control_rep(unsigned char c);
+char *control_mbrep(const char *c, char *crep, int *crep_len);
+#ifdef NANO_WIDE
+wchar_t control_wrep(wchar_t c);
+#endif
+int mbwidth(const char *c);
+int mb_cur_max(void);
+char *make_mbchar(unsigned int chr, char *chr_mb, int *chr_mb_len);
+int parse_mbchar(const char *buf, char *chr
+#ifdef NANO_WIDE
+	, bool *bad_chr
+#endif
+	, size_t *col);
+
 /* Public functions in color.c. */
 #ifdef ENABLE_COLOR
 void set_colorpairs(void);
@@ -396,7 +421,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 #ifndef DISABLE_MOUSE
 bool do_mouse(void);
 #endif
-void do_output(int *kbinput, size_t kbinput_len);
+void do_output(char *output, size_t output_len);
 
 /* Public functions in rcfile.c. */
 #ifdef ENABLE_NANORC
@@ -470,19 +495,9 @@ int regexec_safe(const regex_t *preg, const char *string, size_t nmatch,
 #endif
 int regexp_bol_or_eol(const regex_t *preg, const char *string);
 #endif
-#ifndef HAVE_ISBLANK
-int is_blank_char(int c);
-#endif
-int is_cntrl_char(int c);
-bool is_byte_char(int c);
 int num_of_digits(int n);
-unsigned char control_rep(unsigned char c);
+bool is_byte(int c);
 bool parse_num(const char *str, ssize_t *val);
-int parse_char(const char *buf, int *chr
-#ifdef NANO_WIDE
-	, bool *bad_chr
-#endif
-	, size_t *col);
 size_t move_left(const char *buf, size_t pos);
 size_t move_right(const char *buf, size_t pos);
 void align(char **strp);
@@ -541,18 +556,16 @@ void reset_kbinput(void);
 #endif
 void get_buffer(WINDOW *win);
 size_t get_buffer_len(void);
-int *buffer_to_keys(buffer *input, size_t input_len);
-buffer *keys_to_buffer(int *input, size_t input_len);
-void unget_input(buffer *input, size_t input_len);
+void unget_input(int *input, size_t input_len);
 void unget_kbinput(int kbinput, bool meta_key, bool func_key);
-buffer *get_input(WINDOW *win, size_t input_len);
+int *get_input(WINDOW *win, size_t input_len);
 int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key);
 int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 #ifndef NANO_SMALL
 	, bool reset
 #endif
 	);
-int get_escape_seq_kbinput(const int *sequence, size_t seq_len, bool
+int get_escape_seq_kbinput(const int *seq, size_t seq_len, bool
 	*ignore_seq);
 int get_escape_seq_abcd(int kbinput);
 int get_byte_kbinput(int kbinput
@@ -566,7 +579,7 @@ int get_word_kbinput(int kbinput
 #endif
 	);
 int get_control_kbinput(int kbinput);
-void unparse_kbinput(size_t pos, int *kbinput, size_t kbinput_len);
+void unparse_kbinput(char *output, size_t output_len);
 int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len);
 int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len);
 #ifndef DISABLE_MOUSE
@@ -590,7 +603,7 @@ void do_statusbar_backspace(void);
 void do_statusbar_delete(void);
 void do_statusbar_cut_text(void);
 void do_statusbar_verbatim_input(bool *got_enter);
-void do_statusbar_output(int *kbinput, size_t kbinput_len, bool
+void do_statusbar_output(char *output, size_t output_len, bool
 	*got_enter);
 size_t xplustabs(void);
 size_t actual_x(const char *str, size_t xplus);
