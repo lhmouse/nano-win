@@ -780,6 +780,11 @@ void update_line(filestruct * fileptr, int index)
 		virt_cur_x--;
 	    if (i < mark_beginx)
 		virt_mark_beginx--;
+	} 
+	else if (realdata[i] >= 1 && realdata[i] <= 26) {
+	/* Treat control characters as ^letter */
+	    fileptr->data[pos++] = '^';
+	    fileptr->data[pos++] = realdata[i] + 64;
 	} else {
 	    fileptr->data[pos++] = realdata[i];
 	}

@@ -27,6 +27,11 @@ CVS Code
 	  lack of reversed text on searching with MARK_ISSET.
   onekey()
 	- Off by one error fix (Rocco Corsi).
+  update_line()
+	- Added check for binary data >= 1 and <= 26, and use ^+letter
+	  to display it.   Should fix editing text files with binary
+	  data in them.  Placing of the cursor seems to be a bit screwed
+	  though...
 - search.c:
   search_abort()
 	- Now calls edit_refresh_clearok when MARK_ISSET to handle screen
