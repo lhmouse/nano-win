@@ -22,6 +22,11 @@ CVS Code -
   toggle_init()
 	- Added #ifdef around toggle_regex_msg to get rid of compiler 
 	  warning.
+
+- nano.c:
+  keypad_on()
+	- New function, toggles turning the keypad on and off in edit and
+	  bottomwin().  Added call to this in finish(), fixes bug #45.
 - search.c
   findnexstr()
 	- New arg for begin_x variable, basically a rewrite that

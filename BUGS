@@ -43,6 +43,8 @@
   until a pageup/down occurs (22)[FIXED]
 - In search/replace code there is too much refreshing in bottomwin (26)
  [FIXED]
+- In replace, there is no way to accept the default replace string. (27)
+ [FIXED]
 - Using nano -t, user can not exit until a filename is given via ^O. (30)
  [FIXED]
 - Using -k cut text is not pasted properly. (34) [FIXED].
@@ -65,6 +67,8 @@
 - The keypad does not work when nano runs in the Gnome terminal (43). [FIXED]
 - When reading in a file, if the file is a directory the contents of the
   file being edited are blown away (discovered by  Chris Pimlot) (44). [FIXED]
+- in certain terms, nano will leave a "ghost" of screen upon exit
+  when called from inside mutt (among other settings) (45). [FIXED]
 - In replace, hitting the Goto line shortcut key does nothing after a
   search string is entered (discovered by Rocco Corsi) (46) [FIXED].
 
@@ -75,9 +79,6 @@
   the new line. (8) { Is this an issue? compare to pico 3.5 }
 - Spelling support is not elegant like pico's integration of the 'spell'
   program.  Nano only uses ispell (for now) (12).
-- In replace, there is no way to accept the default replace string. (27)
 - totsize problems still abound in do_justify (33).
-- in certain terms, nano will leave a "ghost" of screen upon exit
-  when called from inside mutt (among other settings) (45).
 
 $Id$

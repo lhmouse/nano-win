@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-11-02 10:29-0500\n"
+"POT-Creation-Date: 2000-11-02 20:28-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,7 +55,7 @@ msgstr ""
 msgid "File to insert [from ./] "
 msgstr ""
 
-#: files.c:274 files.c:298 files.c:486 nano.c:1134
+#: files.c:274 files.c:298 files.c:486 nano.c:1145
 msgid "Cancelled"
 msgstr ""
 
@@ -388,17 +388,17 @@ msgstr ""
 msgid "No Replace"
 msgstr ""
 
-#: nano.c:115
+#: nano.c:125
 msgid ""
 "\n"
 "Buffer written to 'nano.save'\n"
 msgstr ""
 
-#: nano.c:122
+#: nano.c:132
 msgid "Key illegal in VIEW mode"
 msgstr ""
 
-#: nano.c:158
+#: nano.c:169
 msgid ""
 " nano help text\n"
 "\n"
@@ -419,312 +419,312 @@ msgid ""
 "\n"
 msgstr ""
 
-#: nano.c:261
+#: nano.c:272
 msgid "free_node(): free'd a node, YAY!\n"
 msgstr ""
 
-#: nano.c:266
+#: nano.c:277
 msgid "free_node(): free'd last node.\n"
 msgstr ""
 
-#: nano.c:318
+#: nano.c:329
 msgid ""
 "Usage: nano [GNU long option] [option] +LINE <file>\n"
 "\n"
 msgstr ""
 
-#: nano.c:319
+#: nano.c:330
 msgid "Option\t\tLong option\t\tMeaning\n"
 msgstr ""
 
-#: nano.c:321
+#: nano.c:332
 msgid " -T \t\t--tabsize=[num]\t\tSet width of a tab to num\n"
 msgstr ""
 
-#: nano.c:324
+#: nano.c:335
 msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
 msgstr ""
 
-#: nano.c:328
+#: nano.c:339
 msgid " -V \t\t--version\t\tPrint version information and exit\n"
 msgstr ""
 
-#: nano.c:330
+#: nano.c:341
 msgid " -c \t\t--const\t\t\tConstantly show cursor position\n"
 msgstr ""
 
-#: nano.c:332
+#: nano.c:343
 msgid " -h \t\t--help\t\t\tShow this message\n"
 msgstr ""
 
-#: nano.c:335
+#: nano.c:346
 msgid " -k \t\t--cut\t\t\tLet ^K cut from cursor to end of line\n"
 msgstr ""
 
-#: nano.c:338
+#: nano.c:349
 msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
 msgstr ""
 
-#: nano.c:340
+#: nano.c:351
 msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
 msgstr ""
 
-#: nano.c:343
+#: nano.c:354
 msgid " -m \t\t--mouse\t\t\tEnable mouse\n"
 msgstr ""
 
-#: nano.c:348
+#: nano.c:359
 msgid ""
 " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
 msgstr ""
 
-#: nano.c:350
+#: nano.c:361
 msgid " -p\t \t--pico\t\t\tMake bottom 2 lines more Pico-like\n"
 msgstr ""
 
-#: nano.c:352
+#: nano.c:363
 msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
 msgstr ""
 
-#: nano.c:354
+#: nano.c:365
 msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
 msgstr ""
 
-#: nano.c:356
+#: nano.c:367
 msgid " -v \t\t--view\t\t\tView (read only) mode\n"
 msgstr ""
 
-#: nano.c:358
+#: nano.c:369
 msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
 msgstr ""
 
-#: nano.c:360
+#: nano.c:371
 msgid " -x \t\t--nohelp\t\tDon't show help window\n"
 msgstr ""
 
-#: nano.c:362
+#: nano.c:373
 msgid " -z \t\t--suspend\t\tEnable suspend\n"
 msgstr ""
 
-#: nano.c:364
+#: nano.c:375
 msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
 msgstr ""
 
-#: nano.c:366
+#: nano.c:377
 msgid ""
 "Usage: nano [option] +LINE <file>\n"
 "\n"
 msgstr ""
 
-#: nano.c:367
+#: nano.c:378
 msgid "Option\t\tMeaning\n"
 msgstr ""
 
-#: nano.c:368
+#: nano.c:379
 msgid " -T [num]\tSet width of a tab to num\n"
 msgstr ""
 
-#: nano.c:369
+#: nano.c:380
 msgid " -R\t\tUse regular expressions for search\n"
 msgstr ""
 
-#: nano.c:370
+#: nano.c:381
 msgid " -V \t\tPrint version information and exit\n"
 msgstr ""
 
-#: nano.c:371
+#: nano.c:382
 msgid " -c \t\tConstantly show cursor position\n"
 msgstr ""
 
-#: nano.c:372
+#: nano.c:383
 msgid " -h \t\tShow this message\n"
 msgstr ""
 
-#: nano.c:374
+#: nano.c:385
 msgid " -k \t\tLet ^K cut from cursor to end of line\n"
 msgstr ""
 
-#: nano.c:376
+#: nano.c:387
 msgid " -i \t\tAutomatically indent new lines\n"
 msgstr ""
 
-#: nano.c:378
+#: nano.c:389
 msgid " -l \t\tDon't follow symbolic links, overwrite\n"
 msgstr ""
 
-#: nano.c:381
+#: nano.c:392
 msgid " -m \t\tEnable mouse\n"
 msgstr ""
 
-#: nano.c:385
+#: nano.c:396
 msgid " -r [#cols] \tSet fill cols to (wrap lines at) #cols\n"
 msgstr ""
 
-#: nano.c:386
+#: nano.c:397
 msgid " -s [prog]  \tEnable alternate speller\n"
 msgstr ""
 
-#: nano.c:387
+#: nano.c:398
 msgid " -p \t\tMake bottom 2 lines more Pico-like\n"
 msgstr ""
 
-#: nano.c:388
+#: nano.c:399
 msgid " -t \t\tAuto save on exit, don't prompt\n"
 msgstr ""
 
-#: nano.c:389
+#: nano.c:400
 msgid " -v \t\tView (read only) mode\n"
 msgstr ""
 
-#: nano.c:390
+#: nano.c:401
 msgid " -w \t\tDon't wrap long lines\n"
 msgstr ""
 
-#: nano.c:391
+#: nano.c:402
 msgid " -x \t\tDon't show help window\n"
 msgstr ""
 
-#: nano.c:392
+#: nano.c:403
 msgid " -z \t\tEnable suspend\n"
 msgstr ""
 
-#: nano.c:393
+#: nano.c:404
 msgid " +LINE\t\tStart at line number LINE\n"
 msgstr ""
 
-#: nano.c:400
+#: nano.c:411
 #, c-format
 msgid " nano version %s by Chris Allegretta (compiled %s, %s)\n"
 msgstr ""
 
-#: nano.c:403
+#: nano.c:414
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org\n"
 msgstr ""
 
-#: nano.c:438
+#: nano.c:449
 msgid "Mark Set"
 msgstr ""
 
-#: nano.c:443
+#: nano.c:454
 msgid "Mark UNset"
 msgstr ""
 
-#: nano.c:870
+#: nano.c:881
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr ""
 
-#: nano.c:921
+#: nano.c:932
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr ""
 
-#: nano.c:974
+#: nano.c:985
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr ""
 
-#: nano.c:1043
+#: nano.c:1054
 msgid "Error deleting tempfile, ack!"
 msgstr ""
 
-#: nano.c:1061
+#: nano.c:1072
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr ""
 
-#: nano.c:1084
+#: nano.c:1095
 #, c-format
 msgid "Could not invoke spell program \"%s\""
 msgstr ""
 
 #. Why 32512? I dont know!
-#: nano.c:1090
+#: nano.c:1101
 msgid "Could not invoke \"ispell\""
 msgstr ""
 
-#: nano.c:1103
+#: nano.c:1114
 msgid "Finished checking spelling"
 msgstr ""
 
-#: nano.c:1121
+#: nano.c:1132
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 
-#: nano.c:1284
+#: nano.c:1295
 msgid "Cannot resize top win"
 msgstr ""
 
-#: nano.c:1286
+#: nano.c:1297
 msgid "Cannot move top win"
 msgstr ""
 
-#: nano.c:1288
+#: nano.c:1299
 msgid "Cannot resize edit win"
 msgstr ""
 
-#: nano.c:1290
+#: nano.c:1301
 msgid "Cannot move edit win"
 msgstr ""
 
-#: nano.c:1292
+#: nano.c:1303
 msgid "Cannot resize bottom win"
 msgstr ""
 
-#: nano.c:1294
+#: nano.c:1305
 msgid "Cannot move bottom win"
 msgstr ""
 
-#: nano.c:1567
+#: nano.c:1576
 msgid "Justify Complete"
 msgstr ""
 
-#: nano.c:1635
+#: nano.c:1644
 #, c-format
 msgid "%s enable/disable"
 msgstr ""
 
-#: nano.c:1647
+#: nano.c:1656
 msgid "enabled"
 msgstr ""
 
-#: nano.c:1648
+#: nano.c:1657
 msgid "disabled"
 msgstr ""
 
-#: nano.c:1878
+#: nano.c:1887
 msgid "Main: set up windows\n"
 msgstr ""
 
-#: nano.c:1892
+#: nano.c:1900
 msgid "Main: bottom win\n"
 msgstr ""
 
-#: nano.c:1898
+#: nano.c:1906
 msgid "Main: open file\n"
 msgstr ""
 
-#: nano.c:1932
+#: nano.c:1940
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:1954
+#: nano.c:1962
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:1987
+#: nano.c:1995
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2035
+#: nano.c:2043
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2061
+#: nano.c:2069
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr ""

@@ -66,6 +66,12 @@ static char *help_text_init = "";
 				/* Initial message, not including shortcuts */
 static struct sigaction act;	/* For all out fun signal handlers */
 
+void keypad_on(int yesno)
+{
+    keypad(edit, yesno);
+    keypad(bottomwin, yesno);
+}
+
 /* What we do when we're all set to exit */
 RETSIGTYPE finish(int sigage)
 {
@@ -74,7 +80,11 @@ RETSIGTYPE finish(int sigage)
 	mvwaddstr(bottomwin, 2, 0, hblank);
     } else
 	mvwaddstr(bottomwin, 0, 0, hblank);
-
+    
+    /* Apparently you REALLY can't get away with not calling keypad()
+       or your window looks awful when it exits.  so we just call it right
+       before we exit, muhaha :-) */
+    keypad_on(TRUE);
     wrefresh(bottomwin);
     endwin();
 
@@ -121,6 +131,7 @@ void print_view_warning(void)
 {
     statusbar(_("Key illegal in VIEW mode"));
 }
+
 
 /* Initialize global variables - no better way for now */
 void global_init(void)
@@ -1356,16 +1367,14 @@ void mouse_init(void)
 #ifndef NANO_SMALL
 #ifdef NCURSES_MOUSE_VERSION
     if (ISSET(USE_MOUSE)) {
-	keypad(edit, TRUE);
-	keypad(bottomwin, TRUE);
+	keypad_on(TRUE);
 
 	mousemask(BUTTON1_RELEASED, NULL);
 	mouseinterval(50);
 
     } else {
 	mousemask(0, NULL);
-	keypad(edit, FALSE);
-	keypad(bottomwin, FALSE);
+	keypad_on(FALSE);
     }
 #endif
 #endif
@@ -1884,8 +1893,7 @@ int main(int argc, char *argv[])
 #ifdef PDCURSES
     /* Must have this for the arrow, et al, keys to even work in 
        PDCurses+cygwin under Windows */
-    keypad(edit, TRUE);
-    keypad(bottomwin, TRUE);
+    keypad_on(TRUE);
 #endif
 
 #ifdef DEBUG
