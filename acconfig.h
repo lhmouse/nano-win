@@ -24,5 +24,8 @@
 /* Define to use the slang wrappers for curses instead of native curses */
 #undef USE_SLANG
 
+/* Define this to enable the extra stuff */
+#undef NANO_EXTRA
+
 /* Define to disable the tab completion code Chris worked so hard on! */
 #undef DISABLE_TABCOMP

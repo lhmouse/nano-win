@@ -131,6 +131,9 @@ void page_up_center(void);
 void blank_edit(void);
 void search_init_globals(void);
 void replace_abort(void);
+#ifdef NANO_EXTRA
+void do_credits(void);
+#endif
 
 int do_writeout_void(void), do_exit(void), do_gotoline_void(void);
 int do_insertfile(void), do_search(void), page_up(void), page_down(void);

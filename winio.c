@@ -22,6 +22,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "config.h"
 #include "proto.h"
 #include "nano.h"
@@ -1327,3 +1328,97 @@ void fix_editbot(void)
     for (i = 0; (i <= editwinrows - 1) && (editbot->next != NULL)
 	 && (editbot != filebot); i++, editbot = editbot->next);
 }
+
+#ifdef NANO_EXTRA
+#define CREDIT_LEN 43
+void do_credits(void)
+{
+    int i, j = 0, place = 0, start_x;
+    char *what;
+
+    char *nanotext = _("The nano text editor");
+    char *version = _("version ");
+    char *brought = _("Brought to you by:");
+    char *specialthx = _("Special thanks to:");
+    char *fsf = _("The Free Software Foundation");
+    char *ncurses = _("Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses");
+    char *anyonelse = _("and anyone else we forgot...");
+    char *thankyou = _("Thank you for using nano!\n");
+
+    char *credits[CREDIT_LEN] = {nanotext, 
+			version, 
+			VERSION, 
+			"",
+			brought,
+			"Chris Allegretta",
+			"Jordi Mallach",
+			"Adam Rogoyski",
+			"Rob Siemborski",
+			"Rocco Corsi",
+			"Ken Tyler",
+			"Sven Guckes",
+			"Florian König",
+			"Pauli Virtanen",
+			"Daniele Medri",
+			"Clement Laforet",
+			"Tedi Heriyanto",
+			"Erik Anderson",
+			"Big Gaute",
+			"Joshua Jensen",
+			"",
+			specialthx,
+			"Plattsburgh State University",
+			"Benet Laboratories",
+			"Amy Allegretta",
+			"Linda Young",
+			"Jeremy Robichaud",
+			"Richard Kolb II",
+			fsf,
+			"Linus Torvalds",
+			ncurses,
+			anyonelse,
+			thankyou,
+			"", "", "", "",
+			"(c) 2000 Chris Allegretta",
+			"", "", "", "",
+			"www.nano-editor.org"
+    };
+
+    curs_set(0);
+    nodelay(edit, TRUE);
+    blank_bottombars();
+    mvwaddstr(topwin, 0, 0, hblank);
+    wrefresh(bottomwin);
+    wrefresh(topwin);
+
+    while (wgetch(edit) == ERR) {
+	blank_edit();
+	for (i = editwinrows / 2 - 1; i >= (editwinrows / 2 - 1 - j); i--) {
+	    mvwaddstr(edit, i * 2, 0, hblank);
+
+	    if (place - (editwinrows / 2 - 1 - i) < CREDIT_LEN)
+		what = credits[place - (editwinrows / 2 - 1 - i)];
+	    else
+		what = "";
+
+	    start_x = center_x - strlen(what) / 2 - 1;
+	    mvwaddstr(edit, i * 2, start_x, what);
+	}
+
+	if (j < editwinrows / 2 - 1)
+	    j++;
+
+	place++;
+	wrefresh(edit);
+	sleep(1);
+
+	if (place >= CREDIT_LEN + editwinrows / 2)
+	    break;
+    }
+
+    nodelay(edit, FALSE);
+    curs_set(1);
+    display_main_list();
+    total_refresh();
+ }
+#endif

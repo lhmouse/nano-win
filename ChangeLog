@@ -6,6 +6,8 @@ CVS code -
 	- Username tab completion code, and cleaned up existing tabcomp
 	  code. New functions real_dir_from_tide(), append_slash_if_dir(),
 	  username_tab_completion is more than a stub now =-).
+	- New options --enable-extra.  New code in nano.c:version() to 
+	  print out various options from ./configure, function do_credits().
 - files.c:
   write_file()
 	- Unsetting modified on temp files bug fixed (Rocco Corsi).

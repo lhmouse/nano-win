@@ -417,7 +417,25 @@ void version(void)
     printf(_(" nano version %s by Chris Allegretta (compiled %s, %s)\n"),
 	   VERSION, __TIME__, __DATE__);
     printf(_
-	   (" Email: nano@nano-editor.org	Web: http://www.nano-editor.org\n"));
+	   (" Email: nano@nano-editor.org	Web: http://www.nano-editor.org"));
+
+#if defined(NANO_SMALL) || defined(NANO_EXTRA) || defined(DISABLE_TABCOMP) || defined(USE_SLANG)
+    printf(_("\n Compiled options:"));
+#endif
+#ifdef NANO_SMALL
+    printf(" --enable-tiny");
+#endif
+#ifdef NANO_EXTRA
+    printf(" --enable-extra");
+#endif
+#ifdef DISABLE_TABCOMP
+    printf(" --disable-tabcomp");
+#endif
+#ifdef USE_SLANG
+    printf(" --with-slang");
+#endif
+    printf("\n");
+
 }
 
 filestruct *make_new_node(filestruct * prevnode)

@@ -455,6 +455,9 @@ int write_file(char *name, int tmp)
 int do_writeout(int exiting)
 {
     int i = 0;
+#ifdef NANO_EXTRA
+    static int did_cred = 0;
+#endif
 
     answer = mallocstrcpy(answer, filename);
 
@@ -480,6 +483,14 @@ int do_writeout(int exiting)
 
 #ifdef DEBUG
 	    fprintf(stderr, _("filename is %s"), answer);
+#endif
+
+#ifdef NANO_EXTRA
+	    if (exiting && !ISSET(TEMP_OPT) && !strcasecmp(answer, "zzy") && !did_cred) {
+		do_credits();
+		did_cred = 1;
+		return - 1;
+	    }
 #endif
 	    if (strcmp(answer, filename)) {
 		struct stat st;
