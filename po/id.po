@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano-0.9.10\n"
-"POT-Creation-Date: 2000-11-21 01:23-0500\n"
+"POT-Creation-Date: 2000-11-22 20:20-0500\n"
 "PO-Revision-Date: 2000-06-08 20:56+07:00\n"
 "Last-Translator: Tedi Heriyanto <tedi-h@usa.net>\n"
 "Language-Team: Indonesian <id@li.org>\n"
@@ -800,41 +800,41 @@ msgstr "%d tempat terganti"
 msgid "Replaced 1 occurence"
 msgstr "Terganti 1 tempat"
 
-#: search.c:479 search.c:572 search.c:588
+#: search.c:479 search.c:575 search.c:591
 msgid "Replace Cancelled"
 msgstr "Batalkan penggantian"
 
-#: search.c:522
+#: search.c:525
 msgid "Replace this instance?"
 msgstr "Ganti kata ini?"
 
-#: search.c:530
+#: search.c:533
 msgid "Replace failed: unknown subexpression!"
 msgstr ""
 
-#: search.c:613
+#: search.c:616
 #, c-format
 msgid "Replace with [%s]"
 msgstr "Ganti dengan [%s]"
 
-#: search.c:617 search.c:621
+#: search.c:620 search.c:624
 msgid "Replace with"
 msgstr "Ganti dengan"
 
 #. Ask for it
-#: search.c:656
+#: search.c:659
 msgid "Enter line number"
 msgstr "Masukkan nomor baris"
 
-#: search.c:658
+#: search.c:661
 msgid "Aborted"
 msgstr "Dibatalkan"
 
-#: search.c:678
+#: search.c:681
 msgid "Come on, be reasonable"
 msgstr "Ayo, yang masuk akal"
 
-#: search.c:683
+#: search.c:686
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr "Hanya %d baris tersedia, melompat ke baris akhir"

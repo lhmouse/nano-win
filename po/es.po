@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.9.19+CVS\n"
-"POT-Creation-Date: 2000-11-21 01:23-0500\n"
+"POT-Creation-Date: 2000-11-22 20:20-0500\n"
 "PO-Revision-Date: 2000-11-01 17:55+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -798,41 +798,41 @@ msgstr "%d ocurrencias reemplazadas"
 msgid "Replaced 1 occurence"
 msgstr "1 ocurrencia reemplazada"
 
-#: search.c:479 search.c:572 search.c:588
+#: search.c:479 search.c:575 search.c:591
 msgid "Replace Cancelled"
 msgstr "Reemplazar Cancelado"
 
-#: search.c:522
+#: search.c:525
 msgid "Replace this instance?"
 msgstr "Reemplazar esta instancia?"
 
-#: search.c:530
+#: search.c:533
 msgid "Replace failed: unknown subexpression!"
 msgstr "Fallo en reemplazar: subexpresión desconocida!"
 
-#: search.c:613
+#: search.c:616
 #, c-format
 msgid "Replace with [%s]"
 msgstr "Reemplazar con [%s]"
 
-#: search.c:617 search.c:621
+#: search.c:620 search.c:624
 msgid "Replace with"
 msgstr "Reemplazar con"
 
 #. Ask for it
-#: search.c:656
+#: search.c:659
 msgid "Enter line number"
 msgstr "Introduce número de línea"
 
-#: search.c:658
+#: search.c:661
 msgid "Aborted"
 msgstr "Abortado"
 
-#: search.c:678
+#: search.c:681
 msgid "Come on, be reasonable"
 msgstr "Venga ya, se razonable"
 
-#: search.c:683
+#: search.c:686
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr "Sólo hay %d líneas, saltando hasta la última"
