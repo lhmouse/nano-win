@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.12\n"
 "POT-Creation-Date: 2002-10-24 22:05-0400\n"
-"PO-Revision-Date: 2002-10-25 16:18+0200\n"
+"PO-Revision-Date: 2002-11-02 03:15+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -31,22 +31,22 @@ msgstr "read_line: inte på första raden och prev är NULL"
 #, c-format
 msgid "Read %d line (Converted from Mac format)"
 msgid_plural "Read %d lines (Converted from Mac format)"
-msgstr[0] "Läste %d rader (konverterade från Mac-format)"
-msgstr[1] "Läste %d rad (konverterad från Mac-format)"
+msgstr[0] "Läste %d rad (konverterad från Mac-format)"
+msgstr[1] "Läste %d rader (konverterade från Mac-format)"
 
 #: files.c:308
 #, c-format
 msgid "Read %d line (Converted from DOS format)"
 msgid_plural "Read %d lines (Converted from DOS format)"
-msgstr[0] "Läste %d rader (konverterade från DOS-format)"
-msgstr[1] "Läste %d rad (konverterad från DOS-format)"
+msgstr[0] "Läste %d rad (konverterad från DOS-format)"
+msgstr[1] "Läste %d rader (konverterade från DOS-format)"
 
 #: files.c:313
 #, c-format
 msgid "Read %d line"
 msgid_plural "Read %d lines"
-msgstr[0] "Läste %d rader"
-msgstr[1] "Läste %d rad"
+msgstr[0] "Läste %d rad"
+msgstr[1] "Läste %d rader"
 
 #: files.c:333 search.c:52
 #, c-format
@@ -204,8 +204,8 @@ msgstr "Kunde inte sätta rättigheterna %o på %s: %s"
 #, c-format
 msgid "Wrote %d line"
 msgid_plural "Wrote %d lines"
-msgstr[0] "Skrev %d rader"
-msgstr[1] "Skrev %d rad"
+msgstr[0] "Skrev %d rad"
+msgstr[1] "Skrev %d rader"
 
 #: files.c:1695
 msgid " [Mac Format]"
