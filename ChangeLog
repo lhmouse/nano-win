@@ -1,17 +1,26 @@
 CVS code -
-- po/de.po:
-	- Updated German translation (Karl Eichwalder).
+- General
+	- Backported 1.1's m4/ dirs to nano so nano has its own 
+	  self-contained checks for gettext, etc.  This was basically
+	  ripped verbatim out of mutt.
 - nano.c:
+  do_cont()
+	- Run signal_init() after doupdate() so ^Y wont suddenly
+	  start suspending after returning from ^Z suspend in Hurd.
   do_spell()
 	- Dont prompt for replace if we don't change the word in 
 	  question (Rocco Corsi).
   main()
 	- Added better Hurd support for function keys (Alt-V,U,9,@,F).
   signal_init()
-	- do SIG_IGN for the SIGTSTP sigaction regardless of whether
-	  we have _POSIX_VDISABLE or not (more Hurd fixes)
+	- Unconditionally disable VDSUSP if it exists, stops ^Y 
+	  suspending nano on the Hurd.
+- po/Makefile.in.in:
+	- Change datadir to @datadir@ for Cygwin (Gareth Pearce).
 - po/fr.po:
 	- French translation update, by Michel Robitaille.
+- po/de.po:
+	- Updated German translation (Karl Eichwalder).
 
 nano-1.0.6 - 10/29/2001
 - General

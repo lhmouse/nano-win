@@ -1698,6 +1698,9 @@ RETSIGTYPE do_cont(int signal)
 	SIGTSTP handler */
 
     doupdate();
+    /* The Hurd seems to need this, otherwise a ^Y after a ^Z will
+	start suspending again */
+   signal_init();
 }
 
 void handle_sigwinch(int s)
@@ -1792,18 +1795,25 @@ void signal_init(void)
     act.sa_handler = handle_sigwinch;
     sigaction(SIGWINCH, &act, NULL);
 
+
+#ifdef _POSIX_VDISABLE
+    tcgetattr(0, &term);
+
+#ifdef VDSUSP
+    term.c_cc[VDSUSP] = _POSIX_VDISABLE;
+#endif /* VDSUSP */
+
+#endif /* _POSIX_VDISABLE */
+
     if (!ISSET(SUSPEND)) {
 
 /* Insane! */
 #ifdef _POSIX_VDISABLE
-	tcgetattr(0, &term);
 	term.c_cc[VSUSP] = _POSIX_VDISABLE;
-	tcsetattr(0, TCSANOW, &term);
-#endif
-
-	/* The HURD seems to need this anyway! */
+#else
 	act.sa_handler = SIG_IGN;
 	sigaction(SIGTSTP, &act, NULL);
+#endif
 
     } else {
 	/* if we don't do this, it seems other stuff interrupts the
@@ -1816,6 +1826,12 @@ void signal_init(void)
 	act.sa_handler = do_cont;
 	sigaction(SIGCONT, &act, NULL);
     }
+
+
+#ifdef _POSIX_VDISABLE
+    tcsetattr(0, TCSANOW, &term);
+#endif
+
 
 }
 
