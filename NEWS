@@ -1,3 +1,21 @@
+2005.03.20 - GNU nano 1.3.6 "shout it from the rooftops" is released.
+		This release finally includes the long-awaited support
+		for UTF-8.   Other new features include the ability to
+		insert UTF-8 characters using verbatim input; the
+		ability to delete all text from the cursor position to
+		the end of the file via ^W^X as (patched) Pico does;
+		improvements to input and output so that pasted text
+		displays faster, improvements to the statusbar prompt so
+		that more edit window shortcuts, including verbatim
+		input and previous/next word search, work in it; a new
+		option to allow using the formerly always-blank second
+		line of the screen as part of the edit window; and the
+		ability to refresh the help browser and file browser
+		windows via Ctrl-L.  Notable bug fixes include a fix for
+		a segfault when using full justify, and a fix for the
+		long-standing bug where nano would keep running if the
+		terminal it was in died unexpectedly.  Enjoy.
+
 2004.11.22 - GNU nano 1.3.5 hurls itself forward.  New features in this
 		release include the ability to replace only marked text
 		when the mark is on, improvements to smooth scrolling so
