@@ -3,15 +3,17 @@ Content-type: text/html
 <HTML><HEAD><TITLE>Manpage of NANO</TITLE>
 </HEAD><BODY>
 <H1>NANO</H1>
-Section: User Commands  (1)<BR>Updated: November 1, 2002<BR><A HREF="#index">Index</A>
+Section: User Commands  (1)<BR>Updated: February 9, 2003<BR><A HREF="#index">Index</A>
 <A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 
 
+<P>
 <A NAME="lbAB">&nbsp;</A>
 <H2>NAME</H2>
 
 nano - Nano's ANOther editor, an enhanced free Pico clone
+<P>
 <A NAME="lbAC">&nbsp;</A>
 <H2>SYNOPSIS</H2>
 
@@ -21,6 +23,7 @@ nano - Nano's ANOther editor, an enhanced free Pico clone
 
 <BR>
 
+<P>
 <A NAME="lbAD">&nbsp;</A>
 <H2>DESCRIPTION</H2>
 
@@ -35,6 +38,7 @@ Pico, the default editor included in the non-free Pine package. Rather
 than just copying Pico's look and feel, <B>nano</B> also implements some
 missing (or disabled by default) features in Pico, such as &quot;search and
 replace&quot; and &quot;go to line number&quot;.
+<P>
 <A NAME="lbAE">&nbsp;</A>
 <H2>OPTIONS</H2>
 
@@ -180,61 +184,17 @@ Enable suspend ability.
 
 <DD>
 Ignored, for compatibility with Pico.
+<P>
 </DL>
 <A NAME="lbAF">&nbsp;</A>
 <H2>INITIALIZATION FILE</H2>
 
 <B>nano</B> will read initialization files in the following 
-order: $SYSCONFDIR/nanorc, then ~/.nanorc.  Please see the example 
-file <B>nanorc.sample</B> which should be provided with <B>nano</B>.
-All lines beginning with a hash symbol (
-#
-) are considered comments 
-and will be ignored.  The following commands are understood in the 
-initialization file:
-<DL COMPACT>
-<DT><B>[un]set </B><I>option</I> [<I>value</I>]
-
-<DD>
-Set (or unset) the flag <I>option</I>.  Any long option listed above can 
-be set or unset by removing the leading dashes (e.g. &quot;set nowrap&quot;).  If 
-the option takes an argument it will be set to <I>value</I>.
-</DL>
+order: $SYSCONFDIR/nanorc, then ~/.nanorc.  Please see <A HREF="http://localhost/cgi-bin/man/man2html?5+nanorc">nanorc</A>(5) and 
+the example file <B>nanorc.sample</B> which should be provided with 
+<B>nano</B>. 
 <P>
-
-<B>COLOR SYNTAX HIGHLIGHTING</B> (if supported by your curses library)
-<P>
-
-<DL COMPACT>
-<DT><B>syntax </B><I>str</I> [<I>fileregex</I> ... ]
-
-<DD>
-Defines a syntax named <I>str</I> which can be activated via the 
-<B>-Y</B> flag, or will be automatically activated if the current 
-filename matches <I>fileregex</I>.  All following <B>color</B> statements 
-will apply to <I>syntax</I> until a new syntax is defined.
-<DT><B>color </B><I>fgcolor</I>[,<I>bgcolor</I>] <I>regex</I> ...
-
-<DD>
-For the currently defined syntax, display all expressions matching 
-<I>regex</I> with foreground color <I>fgcolor</I> and optional background 
-color <I>bgcolor</I>. Legal colors for foreground and background color are: 
-white, black, red, blue, green, yellow, magenta, and cyan.  You may use 
-the prefix &quot;bright&quot; to force a stronger color highlight.  If your 
-terminal supports transparency, not specifying a <I>bgcolor</I> tells 
-<B>nano</B> to attempt to use a transparent background.
-<DT><B>color </B><I>fgcolor</I>[,<I>bgcolor</I>] start=<I>sr</I> end=<I>er</I>
-
-<DD>
-Display expressions which start with <I>sr</I> and end with <I>er</I> 
-with foreground color <I>fgcolor</I> and optional 
-background color <I>bgcolor</I>.  This allows syntax highlighting to span 
-multiple lines.  Note that all subsequent instances of <I>sr</I> after 
-an initial <I>sr</I> is found will be highlighted until the first 
-instance of <I>er</I>.
-<I>
-</DL>
-</I><A NAME="lbAG">&nbsp;</A>
+<A NAME="lbAG">&nbsp;</A>
 <H2>NOTES</H2>
 
 <B>nano</B> will try to dump the buffer into an emergency file in some
@@ -246,6 +206,7 @@ name already exists in the current directory, &quot;.save&quot; and a number (e.
 &quot;.save.1&quot;) will be suffixed to the current filename in order to make it
 unique. In multibuffer mode, <B>nano</B> will write all the open buffers
 to the respective emergency files.
+<P>
 <A NAME="lbAH">&nbsp;</A>
 <H2>BUGS</H2>
 
@@ -263,11 +224,24 @@ The <B>nano</B> mailing list is available from
 
 To subscribe, email to <A HREF="mailto:nano-devel-request@gnu.org">nano-devel-request@gnu.org</A> with a
 subject of &quot;subscribe&quot;.
+<P>
 <A NAME="lbAI">&nbsp;</A>
 <H2>HOMEPAGE</H2>
 
-<A HREF="http://www.nano-editor.org">http://www.nano-editor.org</A>
+<A HREF="http://www.nano-editor.org/">http://www.nano-editor.org/</A>
+<P>
 <A NAME="lbAJ">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+
+<DL COMPACT>
+<DT><B><A HREF="http://localhost/cgi-bin/man/man2html?5+nanorc">nanorc</A></B>(5)<DD>
+</DL>
+<P>
+
+<I>/usr/share/doc/nano/</I> (or equivalent on your system)
+<P>
+<A NAME="lbAK">&nbsp;</A>
 <H2>AUTHOR</H2>
 
 Chris Allegretta &lt;<A HREF="mailto:chrisa@asty.org">chrisa@asty.org</A>&gt;, et al (see AUTHORS and THANKS for
@@ -288,12 +262,13 @@ used by others).
 <DT><A HREF="#lbAG">NOTES</A><DD>
 <DT><A HREF="#lbAH">BUGS</A><DD>
 <DT><A HREF="#lbAI">HOMEPAGE</A><DD>
-<DT><A HREF="#lbAJ">AUTHOR</A><DD>
+<DT><A HREF="#lbAJ">SEE ALSO</A><DD>
+<DT><A HREF="#lbAK">AUTHOR</A><DD>
 </DL>
 <HR>
 This document was created by
 <A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 14:15:34 GMT, February 04, 2003
+Time: 04:08:28 GMT, February 13, 2003
 </BODY>
 </HTML>

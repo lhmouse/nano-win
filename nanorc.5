@@ -49,14 +49,14 @@ Constantly update the cursor position.
 \fBset/unset cut\fP
 Use cut to end of line with ^K by default.
 .TP
-\fBset fill n\fP
-Set fill cols to n.
+\fBset fill \fIn\fP\fP
+Set the column where lines will be wrapped at to \fIn\fP.
 .TP
 \fBset/unset keypad\fP
 Use alternate keypad routines.
 .TP
 \fBset/unset multibuffer\fP
-Allow multiple file buffers.
+Allow inserting files into their own buffers.
 .TP
 \fBset/unset noconvert\fP
 Don't convert files from DOS/Mac format.
@@ -70,13 +70,13 @@ Don't display the help lists at the bottom of the screen.
 \fBset/unset nowrap\fP
 Don't wrap text at all.
 .TP
-\fBset operatingdir "directory"\fP
-Set operating directory (chroots the user to "directory" and below).
+\fBset operatingdir "\fIdirectory\fP"\fP
+Set operating directory (chroots the user to \fIdirectory\fP and below).
 .TP
 \fBset/unset preserve\fP
 Preserve the XON and XOFF keys (^Q and ^S).
 .TP
-\fBset quotestr "string"\fP
+\fBset quotestr "\fIstring\fP"\fP
 The email-quote string.  This is a "regular expression" if your
 system supports them, otherwise a literal string.
 Default value is set quotestr "^([ \t]*[|>:}#])+" if you have regexps,
@@ -88,14 +88,15 @@ Do regular expression searches by default.
 \fBset/unset smooth\fP
 Use smooth scrolling by default.
 .TP
-\fBset speller aspell\fP
-Use this spelling checker instead of the default (spell).
+\fBset speller \fIspellprog\fP\fP
+Use spelling checker \fIspellprog\fP instead of the default (spell).
 .TP
 \fBset/unset suspend\fP
 Allow nano to be suspended with ^Z.
 .TP
-\fBset tabsize n\fP
-Use a tab size of n instead of the default (8); must be greater than 0.
+\fBset tabsize \fIn\fP\fP
+Use a tab size of \fIn\fP instead of the default (8); must be greater 
+than 0.
 .TP
 \fBset/unset tempfile\fP
 Save automatically on exit, don't prompt.
@@ -106,14 +107,29 @@ Enable ~/.nano_history for saving and reading search/replace strings.
 \fBset/unset view\fP
 Disallow file modification.
 .TP
-\fBsyntax "short description" "regexp"\fP
-Define a color syntax name and a regexp to associate files to it.
+.B syntax "\fIstr\fP" ["\fIfileregex\fP" ... ]
+Defines a syntax named \fIstr\fP which can be activated via the 
+\fB-Y\fP flag, or will be automatically activated if the current 
+filename matches \fIfileregex\fP.  All following \fBcolor\fP statements 
+will apply to \fIsyntax\fP until a new syntax is defined.
 .TP
-\fBcolor "foreground" "[background]" "regexp" ["regexp"...]\fP
-Define color rules for different strings. Specifying background is optional,
-and you can define multiple regexps to a color rule.
+.B color \fIfgcolor\fP[,\fIbgcolor\fP] "\fIregex\fP" ...
+For the currently defined syntax, display all expressions matching 
+\fIregex\fP with foreground color \fIfgcolor\fP and optional background 
+color \fIbgcolor\fP. Legal colors for foreground and background color are: 
+white, black, red, blue, green, yellow, magenta, and cyan.  You may use 
+the prefix "bright" to force a stronger color highlight.  If your 
+terminal supports transparency, not specifying a \fIbgcolor\fP tells 
+\fBnano\fP to attempt to use a transparent background.
 .TP
-Every "syntax" command must be followed by one or more "color" rules.
+.B color \fIfgcolor\fP[,\fIbgcolor\fP] start="\fIsr\fP" end="\fIer\fP"
+Display expressions which start with \fIsr\fP and end with \fIer\fP 
+with foreground color \fIfgcolor\fP and optional 
+background color \fIbgcolor\fP.  This allows syntax highlighting to span 
+multiple lines.  Note that all subsequent instances of \fIsr\fP after 
+an initial \fIsr\fP is found will be highlighted until the first 
+instance of \fIer\fP.
+\fI
 
 .SH SEE ALSO
 .PD 0

@@ -25,8 +25,8 @@ MAKEINFO = makeinfo --no-split
 
 EXTRA_DIST =	ABOUT-NLS AUTHORS BUGS COPYING ChangeLog INSTALL NEWS \
 		README THANKS TODO config.rpath install-sh missing \
-		mkinstalldirs nano.1.html faq.html nanorc.sample nano.spec \
-		$(man_MANS)
+		mkinstalldirs nano.1.html nanorc.5.html faq.html \
+		nanorc.sample nano.spec $(man_MANS)
 
 SUBDIRS = po m4
 

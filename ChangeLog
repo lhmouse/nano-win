@@ -87,6 +87,10 @@ CVS code
 	  bracketed to underlined to emphasize that they are not 
 	  optional.
 	- Add SEE ALSO section (Jordi).
+	- Moved nano.1 color and syntax sections to nanorc, pointed
+	  nano.1 to nanorc.5 for initialization file.  Changed 
+	  nanorc.5 variables to be italics to match nano.1.  Added 
+	  nanorc.5.html to CVS tree.
 - nanorc.5:
 	- Add nanorc manpage, with descriptions of all available commands
 	  (Jordi).
