@@ -1592,11 +1592,11 @@ msgstr "En hyväksy 0-pituista säännöllisen lausekkeen osumaa"
 
 #: winio.c:1297
 msgid "Yy"
-msgstr "Kk"
+msgstr "KkYy"
 
 #: winio.c:1298
 msgid "Nn"
-msgstr "Ee"
+msgstr "EeNn"
 
 #: winio.c:1299
 msgid "Aa"

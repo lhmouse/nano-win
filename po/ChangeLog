@@ -1,3 +1,9 @@
+2003-10-30  Jordi Mallach  <jordi@gnu.org>
+
+	* fi.po: Patch from Martin-Eric Racine <q-funk@pp.fishpool.fi>
+	to accept "Yy" and "Nn" as well as the Finnish letters in Yes/No
+	prompts.
+
 2003-10-18  Jordi Mallach  <jordi@gnu.org>
 
 	* ca.po: Updated Catalan translation.
