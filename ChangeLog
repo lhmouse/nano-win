@@ -112,6 +112,8 @@ CVS code -
 	  in files.c, and replace them with a static file_format enum.
 	  Change the openfilestruct structure accordingly in order to
 	  handle this. (DLR)
+- cut.c:
+	- Make marked_line a static enum instead of a static int. (DLR)
 - files.c:
   read_file()
 	- Rename variable fileformat to format, to avoid confusion with

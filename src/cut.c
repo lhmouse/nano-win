@@ -30,9 +30,8 @@
 
 static bool keep_cutbuffer = FALSE;
 	/* Should we keep the contents of the cutbuffer? */
-static int marked_cut;
-	/* Is the cutbuffer from a mark?  0 means whole-line cut, 1
-	 * means mark, and 2 means cut-from-cursor. */
+static cut_type marked_cut = CUT_LINE;
+	/* What type of cut is in the cutbuffer? */
 #ifndef NANO_SMALL
 static bool concatenate_cut = FALSE;
 	/* Should we add this cut string to the end of the last one? */
@@ -210,7 +209,7 @@ void do_cut_text(void)
     if (!keep_cutbuffer) {
 	free_filestruct(cutbuffer);
 	cutbuffer = NULL;
-	marked_cut = 0;
+	marked_cut = CUT_LINE;
 #ifndef NANO_SMALL
 	concatenate_cut = FALSE;
 #endif
@@ -238,7 +237,7 @@ void do_cut_text(void)
 	    /* If the line is empty and we didn't just cut a non-blank
 	     * line, create a dummy blank line and add it to the
 	     * cutbuffer. */
-	    if (marked_cut != 1 && current->next != filebot) {
+	    if (marked_cut != CUT_MARKED && current->next != filebot) {
 		filestruct *junk = make_new_node(current);
 
 		junk->data = charalloc(1);
@@ -250,7 +249,7 @@ void do_cut_text(void)
 	    }
 
 	    do_delete();
-	    marked_cut = 2;
+	    marked_cut = CUT_TO_END;
 	    return;
 	} else {
 	    SET(MARK_ISSET);
@@ -269,9 +268,10 @@ void do_cut_text(void)
 	/* If we just did a marked cut of part of a line, we should add
 	 * the first line of any cut done immediately afterward to the
 	 * end of this cut, as Pico does. */
-	if (current == mark_beginbuf && current_x < strlen(current->data))
+	if (current == mark_beginbuf && current_x <
+		strlen(current->data))
 	    concatenate_cut = TRUE;
-	marked_cut = 1;
+	marked_cut = CUT_MARKED;
 	edit_refresh();
 	set_modified();
 	return;
@@ -300,7 +300,7 @@ void do_cut_text(void)
     current_x = 0;
     edit_refresh();
     set_modified();
-    marked_cut = 0;
+    marked_cut = CUT_LINE;
 #ifndef NANO_SMALL
     concatenate_cut = FALSE;
 #endif
@@ -323,9 +323,9 @@ void do_uncut_text(void)
      * we're not at the beginning of the line.  If we are at the
      * beginning of the line, set placewewant to 0.  Pico does both of
      * these. */
-    if (marked_cut == 0) {
+    if (marked_cut == CUT_LINE) {
 	if (current_x > 0)
-	    marked_cut = 2;
+	    marked_cut = CUT_TO_END;
 	else
 	    placewewant = 0;
     }
@@ -335,7 +335,7 @@ void do_uncut_text(void)
     if (current->next == NULL)
 	new_magicline();
 
-    if (marked_cut == 0 || cutbuffer->next != NULL) {
+    if (marked_cut == CUT_LINE || cutbuffer->next != NULL) {
 	newbuf = copy_filestruct(cutbuffer);
 	for (newend = newbuf; newend->next != NULL && newend != NULL;
 		newend = newend->next)
@@ -343,7 +343,7 @@ void do_uncut_text(void)
     }
 
     /* Hook newbuf in at current. */
-    if (marked_cut != 0) {
+    if (marked_cut != CUT_LINE) {
 	filestruct *hold = current;
 
 	/* If there's only one line in the cutbuffer... */
@@ -351,10 +351,12 @@ void do_uncut_text(void)
 	    size_t buf_len = strlen(cutbuffer->data);
 	    size_t cur_len = strlen(current->data);
 
-	    current->data = charealloc(current->data, cur_len + buf_len + 1);
+	    current->data = charealloc(current->data, cur_len +
+		buf_len + 1);
 	    charmove(current->data + current_x + buf_len,
-			current->data + current_x, cur_len - current_x + 1);
-	    strncpy(current->data + current_x, cutbuffer->data, buf_len);
+		current->data + current_x, cur_len - current_x + 1);
+	    strncpy(current->data + current_x, cutbuffer->data,
+		buf_len);
 		/* Use strncpy() to not copy the null terminator. */
 
 	    current_x += buf_len;
@@ -374,7 +376,7 @@ void do_uncut_text(void)
 
 	    /* New end. */
 	    tmpstr2 = charalloc(strlen(newend->data) +
-			      strlen(&current->data[current_x]) + 1);
+		strlen(&current->data[current_x]) + 1);
 	    strcpy(tmpstr2, newend->data);
 	    strcat(tmpstr2, &current->data[current_x]);
 
@@ -408,10 +410,10 @@ void do_uncut_text(void)
 	    current = newend;
 	}
 
-	/* If marked cut == 2, it means that we're doing a cut to end
-	 * and we don't want anything else on the line, so we have to
-	 * screw up all the work we just did and separate the line. */
-	if (marked_cut == 2) {
+	/* If we're doing a cut to end, we don't want anything else on
+	 * the line, so we have to screw up all the work we just did and
+	 * separate the line. */
+	if (marked_cut == CUT_TO_END) {
 	    tmp = make_new_node(current);
 	    tmp->data = mallocstrcpy(NULL, current->data + current_x);
 	    splice_node(current, tmp, current->next);
