@@ -227,7 +227,7 @@ int open_prevfile_void(void), open_nextfile_void(void);
 char *charalloc (size_t howmuch);
 char *get_next_filename(char *name);
 
-#if defined (ENABLE_MULTIBUFFER) || !defined (DISABLE_SPELLER) || !defined (DISABLE_OPERATINGDIR)
+#if !defined (DISABLE_SPELLER) || !defined (DISABLE_OPERATINGDIR)
 char *get_full_path(const char *origpath);
 #endif
 
