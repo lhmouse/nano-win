@@ -412,7 +412,8 @@ void search_abort(void)
 int do_search(void)
 {
     int i;
-    filestruct *fileptr = current;
+    filestruct *fileptr = current, *didfind;
+    int fileptr_x = current_x;
 
     wrap_reset();
     i = search_init(0);
@@ -449,8 +450,14 @@ int do_search(void)
 	last_search = mallocstrcpy(last_search, answer);
 
     search_last_line = 0;
-    findnextstr(FALSE, FALSE, current, current_x, answer);
+    didfind = findnextstr(FALSE, FALSE, current, current_x, answer);
+
+    if ((fileptr == current) && (fileptr_x == current_x) &&
+	didfind != NULL)
+	statusbar(_("This is the only occurrence"));
+
     search_abort();
+
     return 1;
 }
 

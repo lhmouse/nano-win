@@ -58,6 +58,9 @@ CVS code -
   parse_next_word()
 	- Added support for "\ ", in word parsing.
 - search.c:
+  do_search()
+	- Check position of cursor and return value of findnextstr and
+	  tell user if search string only occurs once (Rocco & Chris).
   findnextstr()
 	- Fix off by one in check for wrap around (Rocco Corsi).
 - winio.c:
