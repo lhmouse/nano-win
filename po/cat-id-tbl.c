@@ -114,9 +114,9 @@ bottom and shows important messages. The bottom two lines show the most \
 commonly used shortcuts in the editor.\n\
 \n\
  The notation for shortcuts is as follows: Control-key sequences are notated \
-with a caret (^) symbol and are entered with the Control (Ctrl) hey.  \
+with a caret (^) symbol and are entered with the Control (Ctrl) key.  \
 Escape-key sequences are notated with the Meta (M) symbol and can be entered \
-using either Esc, Alt or Meta depending on your keyboard setup. The \
+using either the Esc, Alt or Meta key depending on your keyboard setup.  The \
 following keystrokes are available in the main editor window. Optional keys \
 are shown in parentheses:\n\
 \n", 94},
