@@ -132,7 +132,8 @@
   Corsi) (67) [FIXED].
 - ^C does not work after a suspend in tcsh (discovered by
   Trevor Cordes) (68) [FIXED].
-
+- Home and End control keys (^A, ^E) do not always work in filename
+  prompt (bug found by Ian Turner) (69) [FIXED].
 
 ** Open BUGS **
 

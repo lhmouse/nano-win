@@ -1,4 +1,8 @@
 CVS code -
+- winio.c:
+  nanogetstr()
+	- Add NANO_HOME_KEY and NANO_END_KEY to the home and
+	  end key code (fixes BUG #69).
 - THANKS:
 	- Added missing entry for Eivind Kjørstad.
 - po/no.po:

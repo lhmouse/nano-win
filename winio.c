@@ -303,16 +303,17 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 #endif
 		break;
 	case KEY_HOME:
+	case NANO_HOME_KEY:
 	    x = x_left;
 	    nanoget_repaint(buf, inputbuf, x);
 	    break;
 	case KEY_END:
+	case NANO_END_KEY:
 	    x = x_left + strlen(inputbuf);
 	    nanoget_repaint(buf, inputbuf, x);
 	    break;
 	case KEY_RIGHT:
 	case NANO_FORWARD_KEY:
-
 	    if (x < xend)
 		x++;
 	    wmove(bottomwin, 0, x);
