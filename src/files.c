@@ -296,6 +296,7 @@ void read_file(FILE *f, const char *filename)
 	} else if (fileptr->next == NULL) {
 	    filebot = fileptr;
 	    new_magicline();
+	    totsize--;
 	}
     }
 
