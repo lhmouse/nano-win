@@ -774,9 +774,9 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 #ifdef ENABLE_COLOR
     colortype *tmpcolor = NULL;
     int k, paintlen;
+    filestruct *e, *s;
+    regoff_t ematch, smatch;
 #endif
-
-
 
     /* Just paint the string in any case (we'll add color or reverse on
        just the text that needs it */
@@ -788,44 +788,145 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 	for (tmpcolor = colorstrings; tmpcolor != NULL;
 	     tmpcolor = tmpcolor->next) {
 
-	    k = start;
-	    regcomp(&search_regexp, tmpcolor->start, 0);
-	    while (!regexec(&search_regexp, &fileptr->data[k], 1,
-			    regmatches, 0)) {
+	    if (tmpcolor->end == NULL) {
 
-		if (regmatches[0].rm_eo - regmatches[0].rm_so < 1) {
-		    statusbar("Refusing 0 length regex match");
-		    break;
-		}
+		/* First, highlight all single-line regexes */
+		k = start;
+		regcomp(&search_regexp, tmpcolor->start, 0);
+		while (!regexec(&search_regexp, &fileptr->data[k], 1,
+				regmatches, 0)) {
+
+		    if (regmatches[0].rm_eo - regmatches[0].rm_so < 1) {
+			statusbar("Refusing 0 length regex match");
+			break;
+		    }
 #ifdef DEBUG
-		fprintf(stderr, "Match! (%d chars) \"%s\"\n",
-			regmatches[0].rm_eo - regmatches[0].rm_so,
-			&fileptr->data[k + regmatches[0].rm_so]);
+		    fprintf(stderr, "Match! (%d chars) \"%s\"\n",
+			    regmatches[0].rm_eo - regmatches[0].rm_so,
+			    &fileptr->data[k + regmatches[0].rm_so]);
 #endif
-		if (regmatches[0].rm_so < COLS - 1) {
+		    if (regmatches[0].rm_so < COLS - 1) {
+			if (tmpcolor->bright)
+			    wattron(edit, A_BOLD);
+			wattron(edit, COLOR_PAIR(tmpcolor->pairnum));
+
+			if (regmatches[0].rm_eo + k <= COLS)
+			    paintlen =
+				regmatches[0].rm_eo - regmatches[0].rm_so;
+			else
+			    paintlen = COLS - k - regmatches[0].rm_so - 1;
+
+			mvwaddnstr(edit, yval, regmatches[0].rm_so + k,
+				   &fileptr->data[k + regmatches[0].rm_so],
+				   paintlen);
+
+		    }
+
 		    if (tmpcolor->bright)
-			wattron(edit, A_BOLD);
-		    wattron(edit, COLOR_PAIR(tmpcolor->pairnum));
+			wattroff(edit, A_BOLD);
+		    wattroff(edit, COLOR_PAIR(tmpcolor->pairnum));
 
-		    if (regmatches[0].rm_eo + k <= COLS)
-			paintlen =
-			    regmatches[0].rm_eo - regmatches[0].rm_so;
-		    else
-			paintlen = COLS - k - regmatches[0].rm_so - 1;
-
-		    mvwaddnstr(edit, yval, regmatches[0].rm_so + k,
-			       &fileptr->data[k + regmatches[0].rm_so],
-			       paintlen);
-
+		    k += regmatches[0].rm_eo;
 
 		}
-
-		if (tmpcolor->bright)
-		    wattroff(edit, A_BOLD);
-		wattroff(edit, COLOR_PAIR(tmpcolor->pairnum));
-
-		k += regmatches[0].rm_eo;
 	    }
+	    /* Now, if there's an 'end' somewhere below, and a 'start'
+	       somewhere above, things get really fun.  We have to look
+	       down for an end, make sure there's not a start before 
+	       the end after us, and then look up for a start, 
+	       and see if there's an end after the start, before us :) */
+	    else {
+
+		s = fileptr;
+		while (s != NULL) {
+		    regcomp(&search_regexp, tmpcolor->start, 0);
+		    if (!regexec
+			(&search_regexp, s->data, 1, regmatches, 0))
+			break;
+		    s = s->prev;
+		}
+
+		if (s != NULL) {
+		    /* We found a start, mark it */
+		    smatch = regmatches[0].rm_so;
+
+		    e = s;
+		    while (e != NULL && e != fileptr) {
+			regcomp(&search_regexp, tmpcolor->end, 0);
+			if (!regexec
+			    (&search_regexp, e->data, 1, regmatches, 0))
+			    break;
+			e = e->next;
+		    }
+
+		    if (e != fileptr)
+			continue;	/* There's an end before us */
+		    else {	/* Keep looking for an end */
+			while (e != NULL) {
+			    regcomp(&search_regexp, tmpcolor->end, 0);
+			    if (!regexec
+				(&search_regexp, e->data, 1, regmatches,
+				 0))
+				break;
+			    e = e->next;
+			}
+
+			if (e == NULL)
+			    continue;	/* There's no start before the end :) */
+			else {	/* Okay, we found an end, mark it! */
+			    ematch = regmatches[0].rm_eo;
+
+			    while (e != NULL) {
+				regcomp(&search_regexp, tmpcolor->end, 0);
+				if (!regexec
+				    (&search_regexp, e->data, 1,
+				     regmatches, 0))
+				    break;
+				e = e->next;
+			    }
+
+			    if (e == NULL)
+				continue;	/* No end, oh well :) */
+
+			    /* Didn't find another end, we must be in the 
+			       middle of a highlighted bit */
+
+			    if (tmpcolor->bright)
+				wattron(edit, A_BOLD);
+
+			    wattron(edit, COLOR_PAIR(tmpcolor->pairnum));
+
+			    if (s == fileptr && e == fileptr)
+				mvwaddnstr(edit, yval, start + smatch, 
+					&fileptr->data[start + smatch],
+					ematch - smatch);
+		    	    else if (s == fileptr)
+				mvwaddnstr(edit, yval, start + smatch, 
+					&fileptr->data[start + smatch],
+					COLS - smatch);
+			    else if (e == fileptr)
+				mvwaddnstr(edit, yval, start, 
+					&fileptr->data[start],
+					ematch - start);
+			    else
+				mvwaddnstr(edit, yval, start, 
+					&fileptr->data[start],
+					COLS);
+
+			    if (tmpcolor->bright)
+				wattroff(edit, A_BOLD);
+
+			    wattroff(edit, COLOR_PAIR(tmpcolor->pairnum));
+
+			}
+
+		    }
+
+		    /* Else go to the next string, yahoo! =) */
+		}
+
+	    }
+
 	}
 #endif				/* ENABLE_COLOR */
 #ifndef NANO_SMALL

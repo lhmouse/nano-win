@@ -7,6 +7,10 @@ CVS code -
 	- Better partial word checking code. New function 
 	  search.c:is_whole_word(), changes to findnextstr(), 
 	  and nano.c:do_int_spell_fix() (Rocco Corsi).
+	- Added multiple-line regex support.  Format in .nanorc is
+	  start="regex" end="regex".  Cleaned up nanorc:parse_colors(),
+	  added parse_next_regex(), changes to edit_add in winio.c(), 
+	  changes to colortype, cleaning up some old cruft. 
 - color.c:
   do_colorinit()
 	- Moved some comments and braces around so color can work 
@@ -39,6 +43,7 @@ CVS code -
   General
 	- Took silly variables being passed everywhere like lineno and
 	  filename and made them static variables.
+	- Re-indented.
   rcfile_error()
 	- Now automatically prpends the "error in line blah at foo"
 	  message to error messages.

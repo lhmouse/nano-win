@@ -122,12 +122,12 @@ typedef struct rcoption {
 #define COLORSTRNUM 16
 
 typedef struct colortype {
-    int fg;
-    int bg;
-    int bright;
-    int pairnum;
-    char *start;
-    char *end;
+    int fg;			/* fg color */
+    int bg;			/* bg color */
+    int bright;			/* Is this color A_BOLD? */
+    int pairnum;		/* Color pair number used for this fg/bg */
+    char *start;		/* Start (or all) of the regex string */
+    char *end;			/* End of the regex string */
     struct colortype *next;
 } colortype;
 

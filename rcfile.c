@@ -40,37 +40,37 @@
 #endif
 
 #ifndef DISABLE_WRAPJUSTIFY
-    #define NUM_RCOPTS 19
+#define NUM_RCOPTS 19
 #else
-    #define NUM_RCOPTS 18
+#define NUM_RCOPTS 18
 #endif
 
 /* Static stuff for the nanorc file */
-rcoption rcopts[NUM_RCOPTS] = 
-{
-{"regexp", USE_REGEXP},
-{"const", CONSTUPDATE},
-{"autoindent", AUTOINDENT},
-{"cut", CUT_TO_END},
-{"nofollow", FOLLOW_SYMLINKS},
-{"mouse", USE_MOUSE},
-{"operatingdir", 0},
-{"pico", PICO_MODE},
-{"tabsize", 0},
+rcoption rcopts[NUM_RCOPTS] = {
+    {"regexp", USE_REGEXP},
+    {"const", CONSTUPDATE},
+    {"autoindent", AUTOINDENT},
+    {"cut", CUT_TO_END},
+    {"nofollow", FOLLOW_SYMLINKS},
+    {"mouse", USE_MOUSE},
+    {"operatingdir", 0},
+    {"pico", PICO_MODE},
+    {"tabsize", 0},
 
 #ifndef DISABLE_WRAPJUSTIFY
-{"fill", 0},
+    {"fill", 0},
 #endif
 
-{"speller", 0},
-{"tempfile", TEMP_OPT},
-{"view", VIEW_MODE},
-{"nowrap", NO_WRAP}, 
-{"nohelp", NO_HELP}, 
-{"suspend", SUSPEND},
-{"multibuffer", MULTIBUFFER},
-{"smooth", SMOOTHSCROLL},
-{"keypad", ALT_KEYPAD}};
+    {"speller", 0},
+    {"tempfile", TEMP_OPT},
+    {"view", VIEW_MODE},
+    {"nowrap", NO_WRAP},
+    {"nohelp", NO_HELP},
+    {"suspend", SUSPEND},
+    {"multibuffer", MULTIBUFFER},
+    {"smooth", SMOOTHSCROLL},
+    {"keypad", ALT_KEYPAD}
+};
 
 static int errors = 0;
 static int lineno = 0;
@@ -89,8 +89,7 @@ void rcfile_error(char *msg, ...)
     va_end(ap);
     fprintf(stderr, _("\nPress return to continue starting nano\n"));
 
-    while (getchar() != '\n')
-	;
+    while (getchar() != '\n');
 
 }
 
@@ -113,13 +112,8 @@ void rcfile_msg(char *msg, ...)
 /* Parse the next word from the string.  Returns NULL if we hit EOL */
 char *parse_next_word(char *ptr)
 {
-    char *prev = " ";
-
-    while ((*ptr != ' ' || *prev == '\\')
-	   && *ptr != '\t' && *ptr != '\n' && *ptr != '\0') {
+    while (*ptr != ' ' && *ptr != '\t' && *ptr != '\n' && *ptr != '\0')
 	ptr++;
-	prev = ptr;
-    }
 
     if (*ptr == '\0')
 	return NULL;
@@ -133,7 +127,28 @@ char *parse_next_word(char *ptr)
     return ptr;
 }
 
-int colortoint(char *colorname, int *bright) 
+char *parse_next_regex(char *ptr)
+{
+    char prev = ' ';
+    while ((*ptr != '"' || prev == '\\') && *ptr != '\n' && *ptr != '\0') {
+	prev = *ptr;
+	ptr++;
+    }
+
+    if (*ptr == '\0')
+	return NULL;
+
+    /* Null terminate and advance ptr */
+    *ptr++ = 0;
+
+    while ((*ptr == ' ' || *ptr == '\t') && *ptr != '\0')
+	ptr++;
+
+    return ptr;
+
+}
+
+int colortoint(char *colorname, int *bright)
 {
     int mcolor = 0;
 
@@ -144,7 +159,7 @@ int colortoint(char *colorname, int *bright)
 	*bright = 1;
 	colorname += 6;
     }
-    
+
     if (!strcasecmp(colorname, "green"))
 	mcolor += COLOR_GREEN;
     else if (!strcasecmp(colorname, "red"))
@@ -162,10 +177,10 @@ int colortoint(char *colorname, int *bright)
     else if (!strcasecmp(colorname, "black"))
 	mcolor += COLOR_BLACK;
     else {
-        rcfile_error(_("color %s not understood.\n"
-		"Valid colors are \"green\", \"red\", \"blue\", \n"
-		"\"white\", \"yellow\", \"cyan\", \"magenta\" and \n"
-		"\"black\", with the optional prefix \"bright\".\n"));
+	rcfile_error(_("color %s not understood.\n"
+		       "Valid colors are \"green\", \"red\", \"blue\", \n"
+		       "\"white\", \"yellow\", \"cyan\", \"magenta\" and \n"
+		       "\"black\", with the optional prefix \"bright\".\n"));
 	exit(1);
     }
 
@@ -175,11 +190,10 @@ int colortoint(char *colorname, int *bright)
 
 #ifdef ENABLE_COLOR
 /* Parse the color stuff into the colorstrings array */
-void parse_colors(FILE *rcstream, char *buf, char *ptr)
+void parse_colors(FILE * rcstream, char *buf, char *ptr)
 {
-    int i = 0, fg, bg, bright = 0, loopdone = 0;
-    int expectend = 0;			/* Do we expect an end= line? */
-    char prev = '\\';
+    int fg, bg, bright = 0;
+    int expectend = 0;		/* Do we expect an end= line? */
     char *tmp = NULL, *beginning, *fgstr, *bgstr;
     colortype *tmpcolor = NULL;
 
@@ -201,113 +215,101 @@ void parse_colors(FILE *rcstream, char *buf, char *ptr)
     bg = colortoint(bgstr, &bright);
 
     /* Now the fun part, start adding regexps to individual strings
-	in the colorstrings array, woo! */
+       in the colorstrings array, woo! */
 
-    if (!strncasecmp(ptr, "start=", 6)) {
-	ptr += 6;
-	expectend = 1;
-    }
+    while (*ptr != '\0') {
 
-    i = 0;
-    beginning = ptr;
-    while (*ptr != '\0' && !loopdone) {
-	switch (*ptr) {
-	case '\n':
-	    *ptr = ' ';
-	case ' ':
-	    if (prev != '\\') {
-		/* This is the end of the regex, uh I guess.
-		   Add it to the colorstrings array for this color */	
-
-		if (i == 0) {
-		    rcfile_error(_("regex length must be > 0"));
-		    continue;
-		}
-		
- 		tmp = NULL;
-		tmp = charalloc(i + 1);
-		strncpy(tmp, beginning, i);
-		tmp[i] = '\0';
-
-		/* Get rid of the leading space */
-		ptr = parse_next_word(ptr);
-		if (ptr == NULL)
-		    return;
-
-		if (colorstrings == NULL) {
-		    colorstrings = nmalloc(sizeof(colortype));
-		    colorstrings->fg = fg;
-		    colorstrings->bg = bg;
-		    colorstrings->bright = bright;
-		    colorstrings->start = tmp;
-		    colorstrings->next = NULL;
-		    tmpcolor = colorstrings;
-
-#ifdef DEBUG
-		    fprintf(stderr, "Starting a new colorstring for fg %d bg %d\n", fg, bg);
-		    fprintf(stderr, "string val=%s\n", tmp);
-#endif
-
-		} else {
-		    for (tmpcolor = colorstrings; tmpcolor->next != NULL;
-			  tmpcolor = tmpcolor->next)
-			;
-#ifdef DEBUG
-		    fprintf(stderr, "Adding new entry for fg %d bg %d\n", fg, bg);
-		    fprintf(stderr, "string val=%s\n", tmp);
-#endif
-
-		    tmpcolor->next = nmalloc(sizeof(colortype));
-		    tmpcolor->next->fg = fg;
-		    tmpcolor->next->bg = bg;
-		    tmpcolor->next->bright = bright;
-		    tmpcolor->next->start = tmp;
-		    tmpcolor->next->next = NULL;
-		    tmpcolor = tmpcolor->next;
-		}
-
-		i = 0;
-		beginning = ptr;
-
-		if (expectend)
-		    loopdone = 1;
-
-		break;
-	    }
-	    /* Else drop through to the default case */		
-	default:
-	    i++;
-	    prev = *ptr;
+	while (*ptr == ' ')
 	    ptr++;
+
+	if (*ptr == '\n' || *ptr == '\0')
 	    break;
-	}
-    }
 
-    if (expectend) {
-	if (ptr == NULL || strncasecmp(ptr, "end=", 4)) {
-	    rcfile_error(
-		_("\n\t\"start=\" requires a corresponding \"end=\""));
-	    return;
+	if (!strncasecmp(ptr, "start=", 6)) {
+	    ptr += 6;
+	    expectend = 1;
 	}
 
-	ptr += 4;
+	if (*ptr != '"') {
+	    rcfile_error(_("regex strings must begin and end with a \" character\n"));
+	    continue;
+	}
+	ptr++;
+
 	beginning = ptr;
-	ptr = parse_next_word(ptr);
-#ifdef DEBUG
-	fprintf(stderr, "For end part, beginning = \"%s\"\n", beginning);
-#endif
+	ptr = parse_next_regex(ptr);
+
 	tmp = NULL;
 	tmp = mallocstrcpy(tmp, beginning);
-	tmpcolor->end = tmp;
+
+	if (colorstrings == NULL) {
+	    colorstrings = nmalloc(sizeof(colortype));
+	    colorstrings->fg = fg;
+	    colorstrings->bg = bg;
+	    colorstrings->bright = bright;
+	    colorstrings->start = tmp;
+	    colorstrings->next = NULL;
+	    tmpcolor = colorstrings;
+#ifdef DEBUG
+	    fprintf(stderr,
+		    "Starting a new colorstring for fg %d bg %d\n",
+		    fg, bg);
+	    fprintf(stderr, "string val=%s\n", tmp);
+#endif
+
+	} else {
+	    for (tmpcolor = colorstrings;
+		 tmpcolor->next != NULL; tmpcolor = tmpcolor->next);
+#ifdef DEBUG
+	    fprintf(stderr, "Adding new entry for fg %d bg %d\n", fg, bg);
+	    fprintf(stderr, "string val=%s\n", tmp);
+#endif
+
+	    tmpcolor->next = nmalloc(sizeof(colortype));
+	    tmpcolor->next->fg = fg;
+	    tmpcolor->next->bg = bg;
+	    tmpcolor->next->bright = bright;
+	    tmpcolor->next->start = tmp;
+	    tmpcolor->next->next = NULL;
+	    tmpcolor = tmpcolor->next;
+	}
+
+	if (expectend) {
+	    if (ptr == NULL || strncasecmp(ptr, "end=", 4)) {
+		rcfile_error(_
+			     ("\n\t\"start=\" requires a corresponding \"end=\""));
+		return;
+	    }
+
+	    ptr += 4;
+
+	    if (*ptr != '"') {
+		rcfile_error(_
+			     ("regex strings must begin and end with a \" character\n"));
+		continue;
+	    }
+	    ptr++;
+
+
+	    beginning = ptr;
+	    ptr = parse_next_regex(ptr);
+#ifdef DEBUG
+	    fprintf(stderr, "For end part, beginning = \"%s\"\n",
+		    beginning);
+#endif
+	    tmp = NULL;
+	    tmp = mallocstrcpy(tmp, beginning);
+	    tmpcolor->end = tmp;
+
+	} else
+	    tmpcolor->end = NULL;
 
     }
-
-
 }
-#endif /* ENABLE_COLOR */
+#endif				/* ENABLE_COLOR */
 
 /* Parse the RC file, once it has been opened successfully */
-void parse_rcfile(FILE *rcstream)
+void parse_rcfile(FILE * rcstream)
 {
     char *buf, *ptr, *keyword, *option;
     int set = 0, i;
@@ -316,8 +318,8 @@ void parse_rcfile(FILE *rcstream)
     while (fgets(buf, 1023, rcstream) > 0) {
 	lineno++;
 	ptr = buf;
-	while ((*ptr == ' ' || *ptr == '\t') && 
-		(*ptr != '\n' && *ptr != '\0'))
+	while ((*ptr == ' ' || *ptr == '\t') &&
+	       (*ptr != '\n' && *ptr != '\0'))
 	    ptr++;
 
 	if (*ptr == '\n' || *ptr == '\0')
@@ -327,7 +329,7 @@ void parse_rcfile(FILE *rcstream)
 #ifdef DEBUG
 	    fprintf(stderr, _("parse_rcfile: Read a comment\n"));
 #endif
-	    continue;	/* Skip past commented lines */
+	    continue;		/* Skip past commented lines */
 	}
 
 	/* Else skip to the next space */
@@ -344,7 +346,7 @@ void parse_rcfile(FILE *rcstream)
 #ifdef ENABLE_COLOR
 	else if (!strcasecmp(keyword, "color"))
 	    parse_colors(rcstream, buf, ptr);
-#endif /* ENABLE_COLOR */
+#endif				/* ENABLE_COLOR */
 	else {
 	    rcfile_msg(_("command %s not understood"), keyword);
 	    continue;
@@ -356,28 +358,28 @@ void parse_rcfile(FILE *rcstream)
 
 	if (set != 0) {
 	    for (i = 0; i <= NUM_RCOPTS - 1; i++) {
-	        if (!strcasecmp(option, rcopts[i].name)) {
+		if (!strcasecmp(option, rcopts[i].name)) {
 #ifdef DEBUG
-		    fprintf(stderr, _("parse_rcfile: Parsing option %s\n"), 
-				rcopts[i].name);
+		    fprintf(stderr, _("parse_rcfile: Parsing option %s\n"),
+			    rcopts[i].name);
 #endif
 		    if (set == 1 || rcopts[i].flag == FOLLOW_SYMLINKS) {
-			if (
-			    !strcasecmp(rcopts[i].name, "operatingdir") ||
+			if (!strcasecmp(rcopts[i].name, "operatingdir") ||
 			    !strcasecmp(rcopts[i].name, "tabsize") ||
 #ifndef DISABLE_WRAPJUSTIFY
-			    !strcasecmp(rcopts[i].name, "fill") || 
+			    !strcasecmp(rcopts[i].name, "fill") ||
 #endif
 #ifndef DISABLE_SPELLER
 			    !strcasecmp(rcopts[i].name, "speller")
 #else
-				0
+			    0
 #endif
-			   ) {
+			    ) {
 
 			    if (*ptr == '\n' || *ptr == '\0') {
-	    			rcfile_error(_("option %s requires an argument"),
-						rcopts[i].name);
+				rcfile_error(_
+					     ("option %s requires an argument"),
+					     rcopts[i].name);
 				continue;
 			    }
 			    option = ptr;
@@ -386,36 +388,42 @@ void parse_rcfile(FILE *rcstream)
 #ifndef DISABLE_WRAPJUSTIFY
 
 				if ((i = atoi(option)) < MIN_FILL_LENGTH) {
-	    		 	    rcfile_error(
-		_("requested fill size %d too small"), i);
-				}
-				else
-				     fill = i;
+				    rcfile_error(_
+						 ("requested fill size %d too small"),
+						 i);
+				} else
+				    fill = i;
 #endif
-			    } else if (!strcasecmp(rcopts[i].name, "tabsize")) {
-			    	if ((i = atoi(option)) <= 0) {
-			    		rcfile_error(
-			    		_("requested tab size %d too small"), i);
-			    	} else {
-			    		tabsize = i;
-			    	}
+			    } else
+				if (!strcasecmp(rcopts[i].name, "tabsize"))
+			    {
+				if ((i = atoi(option)) <= 0) {
+				    rcfile_error(_
+						 ("requested tab size %d too small"),
+						 i);
+				} else {
+				    tabsize = i;
+				}
 			    } else {
 #ifndef DISABLE_SPELLER
-				alt_speller = charalloc(strlen(option) + 1);
-            			strcpy(alt_speller, option);
+				alt_speller =
+				    charalloc(strlen(option) + 1);
+				strcpy(alt_speller, option);
 #endif
 			    }
-			} else 
+			} else
 			    SET(rcopts[i].flag);
 #ifdef DEBUG
-			fprintf(stderr, _("set flag %d!\n"), rcopts[i].flag);
+			fprintf(stderr, _("set flag %d!\n"),
+				rcopts[i].flag);
 #endif
 		    } else {
 			UNSET(rcopts[i].flag);
 #ifdef DEBUG
-			fprintf(stderr, _("unset flag %d!\n"), rcopts[i].flag);
+			fprintf(stderr, _("unset flag %d!\n"),
+				rcopts[i].flag);
 #endif
-		   }			
+		    }
 		}
 	    }
 	}
@@ -448,7 +456,7 @@ void do_rcfile(void)
 	if (errno != ENOENT)
 	    rcfile_error(unable, errno);
 	return;
-   }
+    }
 
     if ((rcstream = fopen(nanorc, "r")) == NULL) {
 	rcfile_error(unable, strerror(errno));
@@ -461,5 +469,4 @@ void do_rcfile(void)
 }
 
 
-#endif /* ENABLE_NANORC */
-
+#endif				/* ENABLE_NANORC */
