@@ -310,7 +310,7 @@ int write_file(char *name, int tmp)
 	    if ((fd = open(name, O_APPEND, S_IRUSR | S_IWUSR | S_IRGRP |
 		S_IWGRP | S_IROTH | S_IWOTH)) == -1) {
 		UNSET(TEMP_OPT);
-		do_writeout(1);
+		return do_writeout(1);
 	    }
 	    else
 		close(fd);
@@ -318,6 +318,10 @@ int write_file(char *name, int tmp)
 	if ((fd = open(name, O_WRONLY | O_CREAT | O_TRUNC,
 		       S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH |
 		       S_IWOTH)) == -1) {
+	    if (ISSET(TEMP_OPT)) {
+		UNSET(TEMP_OPT);
+		return do_writeout(1);
+	    }
 	    statusbar(_("Could not open file for writing: %s"),
 		      strerror(errno));
 	    return -1;
@@ -334,13 +338,15 @@ int write_file(char *name, int tmp)
 	strcat(buf, name);
 	strcat(buf, ".XXXXXX");
 	if ((fd = mkstemp(buf)) == -1) {
+	    if (ISSET(TEMP_OPT)) {
+		UNSET(TEMP_OPT);
+		return do_writeout(1);
+    	    }
 	    statusbar(_("Could not open file for writing: %s"),
 		      strerror(errno));
 	    return -1;
 	}
     }
-
-
 
     dump_buffer(fileage);
     while (fileptr != NULL && fileptr->next != NULL) {
