@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.11\n"
-"POT-Creation-Date: 2000-06-20 22:31-0400\n"
+"POT-Creation-Date: 2000-06-23 02:43+0200\n"
 "PO-Revision-Date: 2000-06-21 12:19+0200\n"
 "Last-Translator: Florian König <floki@bigfoot.com>\n"
 "Language-Team: German <floki@bigfoot.com>\n"
@@ -55,7 +55,7 @@ msgstr "Lese Datei"
 msgid "File to insert [from ./] "
 msgstr "Datei zum Einfügen [von ./] "
 
-#: files.c:270 files.c:294 files.c:458 nano.c:1166
+#: files.c:270 files.c:294 files.c:458 nano.c:1165
 msgid "Cancelled"
 msgstr "Abgebrochen"
 
@@ -221,7 +221,8 @@ msgstr "Zeilenumbruch an der Cursorposition einfügen"
 
 #: global.c:140
 msgid "Make the current search or replace case (in)sensitive"
-msgstr "Groß- und Kleinschreibung bei Suche oder Erstzen (nicht) berücksichtigen"
+msgstr ""
+"Groß- und Kleinschreibung bei Suche oder Erstzen (nicht) berücksichtigen"
 
 #: global.c:141
 msgid "Cancel the current function"
@@ -349,7 +350,7 @@ msgid "To Replace"
 msgstr "Ersetzen"
 
 #: global.c:273 global.c:289 global.c:299 global.c:315 global.c:319
-#: global.c:325 winio.c:975
+#: global.c:325 winio.c:970
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -358,7 +359,7 @@ msgstr "Abbrechen"
 msgid "To Search"
 msgstr "Suche"
 
-#: nano.c:112
+#: nano.c:111
 msgid ""
 "\n"
 "Buffer written to 'nano.save'\n"
@@ -366,11 +367,11 @@ msgstr ""
 "\n"
 "Puffer in 'nano.save' geschrieben\n"
 
-#: nano.c:119
+#: nano.c:118
 msgid "Key illegal in VIEW mode"
 msgstr "Unzulässige Taste im View Modus"
 
-#: nano.c:159
+#: nano.c:158
 msgid ""
 " nano help text\n"
 "\n"
@@ -404,15 +405,15 @@ msgstr ""
 "Optionale Tasten sind eingeklammert.\n"
 "\n"
 
-#: nano.c:260
+#: nano.c:259
 msgid "free_node(): free'd a node, YAY!\n"
 msgstr "free_node(): Knoten freigegeben.\n"
 
-#: nano.c:265
+#: nano.c:264
 msgid "free_node(): free'd last node.\n"
 msgstr "free_node(): letzter Knoten freigegeben.\n"
 
-#: nano.c:310
+#: nano.c:309
 msgid ""
 "Usage: nano [GNU long option] [option] +LINE <file>\n"
 "\n"
@@ -420,78 +421,83 @@ msgstr ""
 "Aufruf: nano [lange GNU Option] [Option] +ZEILE <Datei>\n"
 "\n"
 
-#: nano.c:311
+#: nano.c:310
 msgid "Option\t\tLong option\t\tMeaning\n"
 msgstr "Option\t\tlange Option\t\tBedeutung\n"
 
-#: nano.c:314
+#: nano.c:313
 msgid " -T \t\t--tabsize=[num]\t\tSet width of a tab to num\n"
 msgstr " -T \t\t--tabsize=[Anzahl]\tTabulator-Größe auf Anzahl setzen\n"
 
-#: nano.c:318
+#: nano.c:317
 msgid " -V \t\t--version\t\tPrint version information and exit\n"
 msgstr " -V \t\t--version\t\tVersionsinfo ausgeben und beenden\n"
 
-#: nano.c:320
+#: nano.c:319
 msgid " -c \t\t--const\t\t\tConstantly show cursor position\n"
 msgstr " -c \t\t--const\t\t\tCursorposition ständig anzeigen\n"
 
-#: nano.c:322
+#: nano.c:321
 msgid " -h \t\t--help\t\t\tShow this message\n"
 msgstr " -h \t\t--help\t\t\tDiese Meldung anzeigen\n"
 
-#: nano.c:324
+#: nano.c:323
 msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
 msgstr " -i \t\t--autoindent\t\tNeue Zeilen automatisch einrücken\n"
 
-#: nano.c:326
+#: nano.c:325
 msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite.\n"
-msgstr " -l \t\t--nofollow\t\tSymbolischen Links nicht folgen, sondern überschreiben.\n"
+msgstr ""
+" -l \t\t--nofollow\t\tSymbolischen Links nicht folgen, sondern "
+"überschreiben.\n"
 
-#: nano.c:329
+#: nano.c:328
 msgid " -m \t\t--mouse\t\t\tEnable mouse\n"
 msgstr " -m \t\t--mouse\t\t\tMaus aktivieren\n"
 
-#: nano.c:334
+#: nano.c:333
 msgid ""
 " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
 msgstr ""
 " -r [#Spalten] \t--fill=[#Spalten]\tSpalten auffüllen (Zeilenumbruch bei) "
 "#Spalten\n"
 
-#: nano.c:336
+#: nano.c:335
 msgid " -p\t \t--pico\t\t\tMake bottom 2 lines more Pico-like\n"
 msgstr " -p\t \t--pico\t\t\tErscheinungsbild von Pico stärker imitieren\n"
 
-#: nano.c:338
+#: nano.c:337
 msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
-msgstr " -s [Programm] \t--speller=[Programm]\tAlternative Rechtschreibprüfung\n"
+msgstr ""
+" -s [Programm] \t--speller=[Programm]\tAlternative Rechtschreibprüfung\n"
 
-#: nano.c:340
+#: nano.c:339
 msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
 msgstr " -t \t\t--tempfile\t\tBeim Beenden ohne Rückfrage speichern\n"
 
-#: nano.c:342
+#: nano.c:341
 msgid " -v \t\t--view\t\t\tView (read only) mode\n"
-msgstr " -v \t\t--view\t\t\tNur zum Lesen öffnen (keine Veränderungen möglich)\n"
+msgstr ""
+" -v \t\t--view\t\t\tNur zum Lesen öffnen (keine Veränderungen möglich)\n"
 
-#: nano.c:344
+#: nano.c:343
 msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
 msgstr " -w \t\t--nowrap\t\tLange Zeilen nicht in neue Zeilen umbrechen\n"
 
-#: nano.c:346
+#: nano.c:345
 msgid " -x \t\t--nohelp\t\tDon't show help window\n"
 msgstr " -x \t\t--nohelp\t\tHilfe-Fenster nicht anzeigen\n"
 
-#: nano.c:348
+#: nano.c:347
 msgid " -z \t\t--suspend\t\tEnable suspend\n"
-msgstr " -z \t\t--suspend\t\tSuspend (anhalten und zurück zur Shell) aktivieren\n"
+msgstr ""
+" -z \t\t--suspend\t\tSuspend (anhalten und zurück zur Shell) aktivieren\n"
 
-#: nano.c:350
+#: nano.c:349
 msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
 msgstr " +ZEILE\t\t\t\t\tBei Zeile ZEILE beginnen\n"
 
-#: nano.c:352
+#: nano.c:351
 msgid ""
 "Usage: nano [option] +LINE <file>\n"
 "\n"
@@ -499,175 +505,175 @@ msgstr ""
 "Aufruf: nano [Option] +ZEILE <Datei>\n"
 "\n"
 
-#: nano.c:353
+#: nano.c:352
 msgid "Option\t\tMeaning\n"
 msgstr "Option\t\tBedeutung\n"
 
-#: nano.c:355
+#: nano.c:354
 msgid " -T [num]\tSet width of a tab to num\n"
 msgstr " -T [Anzahl]\tTabulator-Größe auf Anzahl setzen\n"
 
-#: nano.c:357
+#: nano.c:356
 msgid " -V \t\tPrint version information and exit\n"
 msgstr " -V \t\tVersionsinfo ausgeben und beenden\n"
 
-#: nano.c:358
+#: nano.c:357
 msgid " -c \t\tConstantly show cursor position\n"
 msgstr " -c \t\tCursorposition ständig anzeigen\n"
 
-#: nano.c:359
+#: nano.c:358
 msgid " -h \t\tShow this message\n"
 msgstr " -h \t\tDiese Meldung anzeigen\n"
 
-#: nano.c:360
+#: nano.c:359
 msgid " -i \t\tAutomatically indent new lines\n"
 msgstr " -i \t\tNeue Zeilen automatisch einrücken\n"
 
-#: nano.c:362
+#: nano.c:361
 msgid " -l \t\tDon't follow symbolic links, overwrite.\n"
 msgstr " -l \t\tSymbolischen Links nicht folgen, sondern überschreiben\n"
 
-#: nano.c:365
+#: nano.c:364
 msgid " -m \t\tEnable mouse\n"
 msgstr " -m \t\tMaus aktivieren\n"
 
-#: nano.c:369
+#: nano.c:368
 msgid " -r [#cols] \tSet fill cols to (wrap lines at) #cols\n"
 msgstr " -r [#Spalten] \tSpalten auffüllen (Zeilenumbruch bei) #Spalten\n"
 
-#: nano.c:370
+#: nano.c:369
 msgid " -s [prog]  \tEnable alternate speller\n"
 msgstr " -s [Programm]  \tAlternative Rechtschreibprüfung\n"
 
-#: nano.c:371
+#: nano.c:370
 msgid " -p \t\tMake bottom 2 lines more Pico-like\n"
 msgstr " -p \t\tErscheinungsbild von Pico stärker imitieren\n"
 
-#: nano.c:372
+#: nano.c:371
 msgid " -t \t\tAuto save on exit, don't prompt\n"
 msgstr " -t \t\tBeim Beenden ohne Rückfrage speichern\n"
 
-#: nano.c:373
+#: nano.c:372
 msgid " -v \t\tView (read only) mode\n"
 msgstr " -v \t\tNur zum Lesen öffnen (keine Veränderungen möglich)\n"
 
-#: nano.c:374
+#: nano.c:373
 msgid " -w \t\tDon't wrap long lines\n"
 msgstr " -w \t\tLange Zeilen nicht in neue Zeilen umbrechen\n"
 
-#: nano.c:375
+#: nano.c:374
 msgid " -x \t\tDon't show help window\n"
 msgstr " -x \t\tHilfe-Fenster nicht anzeigen\n"
 
-#: nano.c:376
+#: nano.c:375
 msgid " -z \t\tEnable suspend\n"
 msgstr " -z \t\tSuspend (anhalten und zurück zur Shell) aktivieren\n"
 
-#: nano.c:377
+#: nano.c:376
 msgid " +LINE\t\tStart at line number LINE\n"
 msgstr " +ZEILE\t\tBei Zeile ZEILE beginnen\n"
 
-#: nano.c:384
+#: nano.c:383
 #, c-format
 msgid " nano version %s by Chris Allegretta (compiled %s, %s)\n"
 msgstr " nano Version %s von Chris Allegretta (compiliert um %s, %s)\n"
 
-#: nano.c:386
+#: nano.c:385
 msgid " Email: nano@asty.org\tWeb: http://www.asty.org/nano\n"
 msgstr " Email: nano@asty.org\tWWW: http://www.asty.org/nano\n"
 
-#: nano.c:411
+#: nano.c:410
 msgid "Mark Set"
 msgstr "Markierung gesetzt"
 
-#: nano.c:416
+#: nano.c:415
 msgid "Mark UNset"
 msgstr "Markierung gelöscht"
 
-#: nano.c:848
+#: nano.c:847
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap aufgerufen mit inptr->data=\"%s\"\n"
 
-#: nano.c:926
+#: nano.c:925
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data jetzt = \"%s\"\n"
 
-#: nano.c:970
+#: nano.c:969
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Nachher, data = \"%s\"\n"
 
-#: nano.c:1033
+#: nano.c:1032
 msgid "Error deleting tempfile, ack!"
 msgstr "Konnte temporäre Datei nicht löschen"
 
-#: nano.c:1046 nano.c:1096
+#: nano.c:1045 nano.c:1095
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Konnte keine temporäre Datei erzeugen: %s"
 
-#: nano.c:1068 nano.c:1118
+#: nano.c:1067 nano.c:1117
 #, c-format
 msgid "Could not invoke spell program \"%s\""
 msgstr "Konnte Rechtschreibprogramm \"%s\" nicht aufrufen"
 
 #. Why 32512? I dont know!
-#: nano.c:1074 nano.c:1124
+#: nano.c:1073 nano.c:1123
 msgid "Could not invoke \"ispell\""
 msgstr "Konnte \"ispell\" nicht aufrufen"
 
-#: nano.c:1086 nano.c:1136
+#: nano.c:1085 nano.c:1135
 msgid "Finished checking spelling"
 msgstr "Rechtschreibprüfung abgeschlossen"
 
-#: nano.c:1153
+#: nano.c:1152
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Veränderten Puffer speichern (\"Nein\" verwirft die Änderungen) ? "
 
-#: nano.c:1276
+#: nano.c:1275
 msgid "Cannot resize top win"
 msgstr "Kann die Größe des oberen Fensters nicht verändern"
 
-#: nano.c:1278
+#: nano.c:1277
 msgid "Cannot move top win"
 msgstr "Kann oberes Fenster nicht verschieben"
 
-#: nano.c:1280
+#: nano.c:1279
 msgid "Cannot resize edit win"
 msgstr "Kann Größe des Bearbeitungsfensters nicht verändern"
 
-#: nano.c:1282
+#: nano.c:1281
 msgid "Cannot move edit win"
 msgstr "Kann Bearbeitungsfenster nicht verschieben"
 
-#: nano.c:1284
+#: nano.c:1283
 msgid "Cannot resize bottom win"
 msgstr "Kann Größe des unteren Fensters nicht verändern"
 
-#: nano.c:1286
+#: nano.c:1285
 msgid "Cannot move bottom win"
 msgstr "Kann unteres Fenster nicht verschieben"
 
-#: nano.c:1750
+#: nano.c:1749
 msgid "Main: set up windows\n"
 msgstr "Hauptprogramm: Fenster konfigurieren\n"
 
-#: nano.c:1772
+#: nano.c:1771
 msgid "Main: bottom win\n"
 msgstr "Hauptprogramm: unteres Fenster\n"
 
-#: nano.c:1778
+#: nano.c:1777
 msgid "Main: open file\n"
 msgstr "Hauptprogramm: Datei öffnen\n"
 
-#: nano.c:1851
+#: nano.c:1850
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Erhielt Alt-[-%c! (%d)\n"
 
-#: nano.c:1867
+#: nano.c:1866
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Erhielt Alt-%c! (%d)\n"
@@ -740,86 +746,82 @@ msgstr "Nur %d Zeilen vorhanden, springe zur letzten Zeile"
 msgid "actual_x_from_start for xplus=%d returned %d\n"
 msgstr "actual_x für xplus=%d gab %d zurück\n"
 
-#: winio.c:412
+#: winio.c:408
 #, c-format
 msgid "input '%c' (%d)\n"
 msgstr "Eingabe '%c' (%d)\n"
 
-#: winio.c:448
+#: winio.c:442
 msgid "New Buffer"
 msgstr "Neuer Puffer"
 
-#: winio.c:451
+#: winio.c:445
 msgid "  File: ..."
 msgstr "  Datei: ..."
 
-#: winio.c:459
+#: winio.c:453
 msgid "Modified"
 msgstr "Verändert"
 
-#: winio.c:892
+#: winio.c:886
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr "Nach (%d, %d) im Bearbeitungspuffer verschoben\n"
 
-#: winio.c:903
+#: winio.c:897
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr "current->data = \"%s\"\n"
 
-#: winio.c:946
+#: winio.c:940
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "Erhielt \"%s\"\n"
 
-#: winio.c:970
-msgid " Y"
-msgstr " J"
-
-#: winio.c:970
+#: winio.c:965
 msgid "Yes"
 msgstr "Ja"
 
-#: winio.c:972
-msgid " A"
-msgstr " A"
-
-#: winio.c:972
+#: winio.c:967
 msgid "All"
 msgstr "Alle"
 
-#: winio.c:974
-msgid " N"
-msgstr " N"
-
-#: winio.c:974
+#: winio.c:969
 msgid "No"
 msgstr "Nein"
 
-#: winio.c:975
-msgid "^C"
-msgstr "^C"
-
-#: winio.c:1114
+#: winio.c:1105
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
-#: winio.c:1118
+#: winio.c:1109
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "Zeile %d von %d (%.0f%%), Zeichen %d von %d (%.0f%%)"
 
-#: winio.c:1242
+#: winio.c:1233
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Gebe Datei Puffer nach stderr aus...\n"
 
-#: winio.c:1244
+#: winio.c:1235
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Gebe Inhalt der Zwischenablage nach stderr aus...\n"
 
-#: winio.c:1246
+#: winio.c:1237
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Gebe einen Puffer nach stderr aus...\n"
+
+#~ msgid " Y"
+#~ msgstr " J"
+
+#~ msgid " A"
+#~ msgstr " A"
+
+#~ msgid " N"
+#~ msgstr " N"
+
+#~ msgid "^C"
+#~ msgstr "^C"
 
 #~ msgid "nano: malloc: out of memory!"
 #~ msgstr "nano: malloc: Kein Speicher verfügbar!"

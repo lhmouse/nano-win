@@ -6,7 +6,8 @@ CVS code changes since last release -
 - winio.c
   do_yesno(), nanogetstr():
 	- Removed now unnecessary raw/cbreak combos.
-	
+	- Removed gettext calls from "Y(es)", "N(o)", "A(ll)" and "^C", till
+	  we decide if those keybindings should be translated. (Jordi)
 
 nano-0.9.11 - 06/20/2000
 - New flag "-T" or "--tabsize" to specify how to display tab widths.

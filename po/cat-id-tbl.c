@@ -199,18 +199,14 @@ Usage: nano [option] +LINE <file>\n\
   {"Moved to (%d, %d) in edit buffer\n", 168},
   {"current->data = \"%s\"\n", 169},
   {"I got \"%s\"\n", 170},
-  {" Y", 171},
-  {"Yes", 172},
-  {" A", 173},
-  {"All", 174},
-  {" N", 175},
-  {"No", 176},
-  {"^C", 177},
-  {"do_cursorpos: linepct = %f, bytepct = %f\n", 178},
-  {"line %d of %d (%.0f%%), character %d of %d (%.0f%%)", 179},
-  {"Dumping file buffer to stderr...\n", 180},
-  {"Dumping cutbuffer to stderr...\n", 181},
-  {"Dumping a buffer to stderr...\n", 182},
+  {"Yes", 171},
+  {"All", 172},
+  {"No", 173},
+  {"do_cursorpos: linepct = %f, bytepct = %f\n", 174},
+  {"line %d of %d (%.0f%%), character %d of %d (%.0f%%)", 175},
+  {"Dumping file buffer to stderr...\n", 176},
+  {"Dumping cutbuffer to stderr...\n", 177},
+  {"Dumping a buffer to stderr...\n", 178},
 };
 
-int _msg_tbl_length = 182;
+int _msg_tbl_length = 178;

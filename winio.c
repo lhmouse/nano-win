@@ -959,14 +959,15 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
     blank_statusbar_refresh();
     wattroff(bottomwin, A_REVERSE);
 
+    /* Remove gettext call for keybindings until we clear the thing up */
     if (!ISSET(NO_HELP)) {
 	wmove(bottomwin, 1, 0);
-	onekey(_(" Y"), _("Yes"));
+	onekey(" Y", _("Yes"));
 	if (all)
-	    onekey(_(" A"), _("All"));
+	    onekey(" A", _("All"));
 	wmove(bottomwin, 2, 0);
-	onekey(_(" N"), _("No"));
-	onekey(_("^C"), _("Cancel"));
+	onekey(" N", _("No"));
+	onekey("^C", _("Cancel"));
     }
     va_start(ap, msg);
     vsnprintf(foo, 132, msg, ap);
