@@ -254,8 +254,6 @@ ssize_t ngetline(char **lineptr, size_t *n, FILE *stream)
  * GNU mailutils' getdelim() function. */
 ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 {
-    static const int line_size = 128;
-	/* Default value for line length. */
     size_t indx = 0;
     int c;
 
@@ -265,15 +263,15 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 
     /* Allocate the line the first time. */
     if (*lineptr == NULL) {
-	*lineptr = charalloc(line_size);
-	*n = line_size;
+	*lineptr = charalloc(128);
+	*n = 128;
     }
 
     while ((c = getc(stream)) != EOF) {
 	/* Check if more memory is needed. */
 	if (indx >= *n) {
-	    *lineptr = charealloc(*lineptr, *n + line_size);
-	    *n += line_size;
+	    *lineptr = charealloc(*lineptr, *n + 128);
+	    *n += 128;
 	}
 
 	/* Push the result in the line. */
@@ -286,8 +284,8 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 
     /* Make room for the null character. */
     if (indx >= *n) {
-	*lineptr = charealloc(*lineptr, *n + line_size);
-	*n += line_size;
+	*lineptr = charealloc(*lineptr, indx + 1);
+	*n = indx + 1;
     }
 
     /* Null terminate the buffer. */
