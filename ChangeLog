@@ -1,4 +1,4 @@
-2CVS code -
+CVS code -
 - General
 	- malloc->calloc, etc cleanups (DLR).
 	- New option, noconvert (-N, --noconvert) to completely stop
@@ -27,6 +27,8 @@
 	- Add SYSCONFDIR to DEFS, so we can have an /etc/nanorc.
 	- Change localedir line to 1.0's version.
 	- Moved m4/ stuff to its own m4/Makefile.am.
+	- Re-added M4DIR & ACLOCAL_AMFLAGS, make seems to fail without 
+	  it Jordi ;-)
 - configure.in:
 	- Renamed to configure.ac.
 - configure.ac:

@@ -1,5 +1,7 @@
 ## $Id$
 AUTOMAKE_OPTIONS = gnu no-dependencies
+M4DIR = $(srcdir)/m4
+ACLOCAL_AMFLAGS = -I $(M4DIR)
 
 DEFS= -DSYSCONFDIR=\"$(sysconfdir)\"
 
