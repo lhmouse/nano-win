@@ -1325,7 +1325,8 @@ void do_next_word(void)
 
     assert(current != NULL && current->data != NULL);
 
-    /* Skip letters in this word first. */
+    /* Move forward until we find the character after the last letter of
+     * the current word. */
     while (current->data[current_x] != '\0') {
 	char_mb_len = parse_mbchar(current->data + current_x,
 		char_mb
@@ -1334,13 +1335,15 @@ void do_next_word(void)
 #endif
 		, NULL);
 
+	/* If we've found it, stop moving forward through the current
+	 * line. */
 	if (!is_alnum_mbchar(char_mb))
 	    break;
 
 	current_x += char_mb_len;
     }
 
-    /* Go until we find the first letter of the next word. */
+    /* Move forward until we find the first letter of the next word. */
     for (; current != NULL; current = current->next) {
 	while (current->data[current_x] != '\0') {
 	    char_mb_len = parse_mbchar(current->data + current_x,
@@ -1350,12 +1353,16 @@ void do_next_word(void)
 #endif
 		, NULL);
 
+	    /* If we've found it, stop moving forward through the
+	     * current line. */
 	    if (is_alnum_mbchar(char_mb))
 		break;
 
 	    current_x += char_mb_len;
 	}
 
+	/* If we've found it, stop moving forward to the beginnings of
+	 * subsequent lines. */
 	if (current->data[current_x] != '\0')
 	    break;
 
@@ -1364,6 +1371,8 @@ void do_next_word(void)
 
     free(char_mb);
 
+    /* If we haven't found it, leave the cursor at the end of the
+     * file. */
     if (current == NULL)
 	current = filebot;
 
@@ -1378,36 +1387,105 @@ void do_prev_word(void)
 {
     size_t pww_save = placewewant;
     const filestruct *current_save = current;
+    char *char_mb = charalloc(mb_cur_max());
+    int char_mb_len;
+    bool begin_line = FALSE;
 
     assert(current != NULL && current->data != NULL);
 
-    current_x++;
+    /* Move backward until we find the character before the first letter
+     * of the current word. */
+    while (!begin_line) {
+	char_mb_len = parse_mbchar(current->data + current_x,
+		char_mb
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		, NULL);
 
-    /* Skip letters in this word first. */
-    while (current_x > 0 && isalnum(current->data[current_x - 1]))
-	current_x--;
-
-    /* Go until we find the first letter of the previous word. */
-    for (; current != NULL; current = current->prev) {
-	while (current_x > 0 && !isalnum(current->data[current_x - 1]))
-	    current_x--;
-
-	if (current_x > 0)
+	/* If we've found it, stop moving backward through the current
+	 * line. */
+	if (!is_alnum_mbchar(char_mb))
 	    break;
 
-	if (current->prev != NULL)
-	    current_x = strlen(current->prev->data) + 1;
+	if (current_x == 0)
+	    begin_line = TRUE;
+	else
+	    current_x = move_mbleft(current->data, current_x);
     }
 
-    current_x--;
+    /* Move backward until we find the last letter of the previous
+     * word. */
+    for (; current != NULL; current = current->prev) {
+	while (!begin_line) {
+	    char_mb_len = parse_mbchar(current->data + current_x,
+		char_mb
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		, NULL);
 
+	    /* If we've found it, stop moving backward through the
+	     * current line. */
+	    if (is_alnum_mbchar(char_mb))
+		break;
+
+	    if (current_x == 0)
+		begin_line = TRUE;
+	    else
+		current_x = move_mbleft(current->data, current_x);
+	}
+
+	/* If we've found it, stop moving backward to the ends of
+	 * previous lines. */
+	if (!begin_line)
+	    break;
+
+	if (current->prev != NULL) {
+	    begin_line = FALSE;
+	    current_x = strlen(current->prev->data);
+	}
+    }
+
+    /* If we haven't found it, leave the cursor at the beginning of the
+     * file. */
     if (current == NULL) {
 	current = fileage;
 	current_x = 0;
-    } else {
-	while (current_x > 0 && isalnum(current->data[current_x - 1]))
-	    current_x--;
+    /* If we've found it, move backward until we find the character
+     * before the first letter of the previous word. */
+    } else if (!begin_line) {
+	if (current_x == 0)
+	    begin_line = TRUE;
+	else
+	    current_x = move_mbleft(current->data, current_x);
+
+	while (!begin_line) {
+	    char_mb_len = parse_mbchar(current->data + current_x,
+		char_mb
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		, NULL);
+
+	    /* If we've found it, stop moving backward through the
+	     * current line. */
+	    if (!is_alnum_mbchar(char_mb))
+		break;
+
+	    if (current_x == 0)
+		begin_line = TRUE;
+	    else
+		current_x = move_mbleft(current->data, current_x);
+	}
+
+	/* If we've found it, move forward to the first letter of the
+	 * previous word. */
+	if (!begin_line)
+	    current_x += char_mb_len;
     }
+
+    free(char_mb);
 
     placewewant = xplustabs();
 
