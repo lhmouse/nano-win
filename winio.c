@@ -579,7 +579,7 @@ void titlebar(char *path)
     reset_cursor();
 }
 
-void onekey(char *keystroke, char *desc, int len)
+void onekey(char *keystroke, const char *desc, int len)
 {
     int i;
 

@@ -97,6 +97,13 @@ extern toggle *toggles;
 
 /* Programs we want available */
 
+/* public functions in global.c */
+int length_of_list(const shortcut *s);
+void shortcut_init(int unjustify);
+void thanks_for_all_the_fish(void);
+
+
+
 char *revstrstr(char *haystack, char *needle, char *rev_start);
 char *stristr(char *haystack, char *needle);
 char *revstristr(char *haystack, char *needle, char *rev_start);
@@ -122,7 +129,6 @@ int no_help(void);
 int renumber_all(void);
 int open_file(char *filename, int insert, int quiet);
 int do_insertfile(int loading_file);
-int length_of_list(shortcut *s);
 int num_of_digits(int n);
 int open_pipe(char *command);
 int read_file(FILE *f, char *filename, int quiet);
@@ -156,7 +162,6 @@ int check_wildcard_match(const char *text, const char *pattern);
 char *input_tab(char *buf, int place, int *lastWasTab, int *newplace, int *list);
 char *real_dir_from_tilde(char *buf);
 
-void shortcut_init(int unjustify);
 void signal_init(void);
 void lowercase(char *src);
 void blank_bottombars(void);
@@ -223,8 +228,6 @@ void unlink_opennode(openfilestruct * fileptr);
 
 void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
                         int bot_x, int destructive);
-void free_shortcutage(shortcut **src);
-void thanks_for_all_the_fish(void);
 
 #ifdef ENABLE_NANORC
 void do_rcfile(void);

@@ -15,6 +15,9 @@ CVS code -
 	- Change from read() and write() to file streams by Jay Carlson.
 	  Allows OS to implement read and write ahead rather than making
 	  us do it.  Hopefully merged properly.
+	- More cleanups with DISABLE flags, better free_shortcutage and
+	  free_toggle, and get rid of unnecessary variable decls with 
+	  NANO_SMALL in shortcut_init() by David Benbennick.
 - configure.ac:
 	- Define NDEBUG to silence asserts (David Benbennick).
 - files.c:

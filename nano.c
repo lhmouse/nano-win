@@ -696,7 +696,8 @@ int no_help(void)
 	return 0;
 }
 
-#if defined(DISABLE_JUSTIFY) || defined(DISABLE_SPELLER) || defined(DISABLE_HELP)
+#if defined(DISABLE_JUSTIFY) || defined(DISABLE_SPELLER) || \
+	defined(DISABLE_HELP) || defined(NANO_SMALL)
 void nano_disabled_msg(void)
 {
     statusbar("Sorry, support for this function has been disabled");
@@ -746,33 +747,36 @@ int do_enter(filestruct * inptr)
 {
     filestruct *newnode;
     char *tmp;
-#ifndef NANO_SMALL
-    char *spc;
-    int extra = 0;
-#endif
 
     newnode = make_new_node(inptr);
+    assert(current->data != NULL);
     tmp = &current->data[current_x];
-    current_x = 0;
 
 #ifndef NANO_SMALL
     /* Do auto-indenting, like the neolithic Turbo Pascal editor */
     if (ISSET(AUTOINDENT)) {
-	spc = current->data;
-	if (spc) {
-	    while ((*spc == ' ') || (*spc == '\t')) {
-		extra++;
-		spc++;
-		current_x++;
-		totsize++;
-	    }
-	    newnode->data = charalloc(strlen(tmp) + extra + 1);
-	    strncpy(newnode->data, current->data, extra);
-	    strcpy(&newnode->data[extra], tmp);
+	int extra = 0;
+	char *spc = current->data;
+	while ((*spc == ' ') || (*spc == '\t')) {
+	    extra++;
+	    spc++;
 	}
+	/* If the cursor is in the indentation, only indent to the cursor. 
+	 * Ex, if cursor is at col 0, don't indent at all.
+	 */
+	if (current_x < extra)
+	    extra = current_x;
+	else
+	    current_x = extra;
+	totsize += extra;
+
+	newnode->data = charalloc(strlen(tmp) + extra + 1);
+	strncpy(newnode->data, current->data, extra);
+	strcpy(&newnode->data[extra], tmp);
     } else 
 #endif
     {
+	current_x = 0;
 	newnode->data = charalloc(strlen(tmp) + 1);
 	strcpy(newnode->data, tmp);
     }
@@ -2477,7 +2481,9 @@ void help_init(void)
     int i, sofar = 0, meta_shortcut = 0, helplen;
     long allocsize = 1;		/* How much space we're gonna need for the help text */
     char buf[BUFSIZ] = "", *ptr = NULL;
+#ifndef NANO_SMALL
     toggle *t;
+#endif
     shortcut *s;
 
     helplen = length_of_list(currshortcut);
@@ -2579,12 +2585,14 @@ void help_init(void)
 	s = s->next;
     }
 
+#ifndef NANO_SMALL
     /* If we're on the main list, we also allocate space for toggle help text. */
     if (currshortcut == main_list) {
 	for (t = toggles; t != NULL; t = t->next)
 	    if (t->desc != NULL)
 		allocsize += strlen(t->desc) + 30;
     }
+#endif /* !NANO_SMALL */
 
     allocsize += strlen(ptr);
 
@@ -2658,6 +2666,7 @@ void help_init(void)
 	s = s->next;
     }
 
+#ifndef NANO_SMALL
     /* And the toggles... */
     if (currshortcut == main_list)
 	for (t = toggles; t != NULL; t = t->next) {
@@ -2670,15 +2679,13 @@ void help_init(void)
 	strcat(help_text, buf);
 	strcat(help_text, "\n");
     }
-
+#endif /* !NANO_SMALL */
 }
 #endif
 
+#ifndef NANO_SMALL
 void do_toggle(toggle *which)
 {
-#ifdef NANO_SMALL
-    nano_disabled_msg();
-#else
     char *enabled = _("enabled");
     char *disabled = _("disabled");
 
@@ -2733,9 +2740,8 @@ void do_toggle(toggle *which)
 	else
 	    statusbar("%s %s", which->desc, enabled);
     }
-
-#endif
 }
+#endif /* !NANO_SMALL */
 
 /* If the NumLock key has made the keypad go awry, print an error
    message; hopefully we can address it later. */

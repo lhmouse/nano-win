@@ -99,14 +99,16 @@ typedef struct shortcut {
    int misc2;
    int viewok;		/* is this function legal in view mode? */
    int (*func) (void);	/* Function to call when we catch this key */
-   char *desc;		/* Description, e.g. "Page Up" */
-   char *help;		/* Help file entry text */
+   const char *desc;	/* Description, e.g. "Page Up" */
+#ifndef DISABLE_HELP
+   const char *help;	/* Help file entry text */
+#endif
    struct shortcut *next;
 } shortcut;
 
 typedef struct toggle {
    int val;		/* Sequence to toggle the key.  Should only need 1 */
-   char *desc;		/* Description for when toggle is, uh, toggled,
+   const char *desc;	/* Description for when toggle is, uh, toggled,
 			   e.g. "Pico Messages"; we'll append Enabled or
 			   Disabled */
    int flag;		/* What flag actually gets toggled */
