@@ -290,6 +290,7 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 
     /* Null terminate the buffer. */
     null_at(lineptr, indx++);
+    *n = indx;
 
     /* The last line may not have the delimiter, we have to return what
      * we got and the error will be seen on the next iteration. */
