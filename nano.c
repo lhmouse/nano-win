@@ -703,18 +703,22 @@ assert (strlenpt(inptr->data) >= fill);
     else {
 
 	/* Case 2a: cursor before word at wrap point. */
-	if (current_x < current_word_start) {
-	    temp->data = nmalloc(strlen(&inptr->data[current_word_start]) + 1);
+        if (current_x < current_word_start) {
+            temp->data = nmalloc(strlen(&inptr->data[current_word_start]) + 1);
             strcpy(temp->data, &inptr->data[current_word_start]);
-
-	    /* Do this in either case, else words after current_x
-		get chopped... */
-	    i = current_word_start - 1;
-	    while (isspace(inptr->data[i])) {
-		i--;
-		assert (i >= 0);
-	    }
-
+        
+            if (!isspace(input_char)) {
+                i = current_word_start - 1;
+                while (isspace(inptr->data[i])) {  
+                    i--;
+                    assert (i >= 0);
+                }
+            }
+            else if (current_x <= last_word_end)  
+                i = last_word_end - 1;     
+            else
+                i = current_x - 1;
+                
             inptr->data = nrealloc(inptr->data, i + 2);
             inptr->data[i + 1] = 0;
         }
