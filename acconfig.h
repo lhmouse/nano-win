@@ -54,4 +54,5 @@
 /* Define this to disable the mouse functions */
 #undef DISABLE_MOUSE
 
-
+/* Define this to use the .nanorc file */
+#undef ENABLE_NANORC

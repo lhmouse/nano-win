@@ -7,6 +7,9 @@ Cvs code -
 	  to its own flag, --disable mouse.  The --tiny option defines
 	  this automatically, but now just mouse support can be disabled
 	  if desired.
+- configure.in:
+	- New option, --enable-nanorc which currently does nothing but
+	  sets a define.  Will do more later...
 
 nano 1.1 tree forked here 04/07/2001
 
