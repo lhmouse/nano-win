@@ -8,7 +8,7 @@ To successfully compile GNU nano from CVS, you'll need the
 following packages:
 
 - autoconf (version >= 2.52)
-- automake (version >= 1.5-pl5, 1.6.x recommended)
+- automake (version >= 1.5-pl5, 1.7.x recommended)
 - gettext (version >= 0.11)
 - texinfo
 - cvs
