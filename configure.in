@@ -38,6 +38,16 @@ AC_ARG_WITH(slang,
 	    CPPFLAGS="-I$with_slang/include $CPPFLAGS"
 	fi
 
+	AC_CHECK_LIB(m, sin)
+	if test "$ac_cv_lib_m_sin" != "yes"
+	then
+	    AC_MSG_WARN([
+*** The libm library was not found.  Some BSD systems require libm
+*** in order for slang to work.  If nano fails to build, consider
+*** obtaining libm or running configure without the --with-slang option
+])
+	fi
+
 	AC_CHECK_HEADER(slcurses.h,
 	    AC_CHECK_LIB(slang, SLcurses_newwin, [
 		AC_DEFINE(USE_SLANG)
@@ -149,6 +159,7 @@ if test "x$glib_libs" != "x"
 then
 	LDFLAGS="$LDFLAGS $glib_libs"
 fi
+
 
 dnl i18n stuff - pretty incomplete for now
 AM_GNU_GETTEXT

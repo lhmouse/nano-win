@@ -15,6 +15,7 @@ CVS code
 	  Christian Weisgerber)
 - configure.in:
 	- New slang test code (Albert Chin-A-Young)
+	- Test for libm if --with-slang called.
 
 nano-0.9.15 - 08/03/2000
 - Changed edit_update call to take arguments TOP, CENTER or BOTTOM.

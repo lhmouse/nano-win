@@ -172,6 +172,9 @@
 /* Define if you have the i library (-li).  */
 #undef HAVE_LIBI
 
+/* Define if you have the m library (-lm).  */
+#undef HAVE_LIBM
+
 /* Name of package */
 #undef PACKAGE
 
