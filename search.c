@@ -285,7 +285,7 @@ filestruct *findnextstr(int quiet, filestruct * begin, int beginx,
 	current_x_find++;
 
     /* Ensure we haven't wrapped around again! */
-    if ((search_last_line) && (current_x_find >= beginx)) {
+    if ((search_last_line) && (current_x_find > beginx)) {
 	if (!quiet)
 	    not_found_msg(needle);
 	return NULL;
