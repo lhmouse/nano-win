@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.12\n"
 "POT-Creation-Date: 2002-10-24 22:05-0400\n"
-"PO-Revision-Date: 2002-10-27 00:20+0100\n"
+"PO-Revision-Date: 2002-10-29 11:00+0100\n"
 "Last-Translator: Jean-Philippe Guérard <jean-philippe.guerard@laposte.net>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -145,7 +145,7 @@ msgstr "Impossible de lire %s pour créer une copie de sécurité : %s"
 #: files.c:1366
 #, c-format
 msgid "Couldn't write backup: %s"
-msgstr "Impossible d'écrire pour créer une copie de sécurité : %s"
+msgstr "Impossible d'écrire une copie de sécurité : %s"
 
 #: files.c:1372
 #, c-format
@@ -155,17 +155,17 @@ msgstr "Copie de sécurité de %s vers %s\n"
 #: files.c:1384
 #, c-format
 msgid "Could not set permissions %o on backup %s: %s"
-msgstr "Impossible de donner les permissions %o à la copie de sécurité %s : %s"
+msgstr "Échec du passage à %o des droits de la copie de sécu. %s : %s"
 
 #: files.c:1390
 #, c-format
 msgid "Could not set owner %d/group %d on backup %s: %s"
-msgstr "Impossible de passer à %d/%d les propriétaire/groupe de la copie de sécurité %s : %s"
+msgstr "Échec du transfert à %d:%d de la copie de sécu. %s : %s"
 
 #: files.c:1395
 #, c-format
 msgid "Could not set access/modification time on backup %s: %s"
-msgstr "Impossible de modifier les heures de dernier accès/modification de la copie sauvegarde %s : %s"
+msgstr "Impossible de modifier la date de la copie de sécu. %s : %s"
 
 #: files.c:1430 files.c:1446 files.c:1458 files.c:1480 files.c:1513
 #: files.c:1520 files.c:1532
@@ -250,7 +250,7 @@ msgstr "Nom du fichier où écrire"
 
 #: files.c:1795
 msgid "File exists, OVERWRITE ?"
-msgstr "Fichier existant ! Voulez-vous l'écraser ?"
+msgstr "Fichier existant ! VOULEZ-VOUS L'ÉCRASER ?"
 
 #: files.c:2288
 msgid "(more)"
@@ -258,11 +258,11 @@ msgstr "(suite)"
 
 #: files.c:2588
 msgid "Can't move up a directory"
-msgstr "Impossible de remonter au répertoire de niveau supérieur"
+msgstr "Impossible de passer au répertoire supérieur"
 
 #: files.c:2600
 msgid "Can't visit parent in restricted mode"
-msgstr "En mode restreint, remonter au niveau supérieur est impossible"
+msgstr "En mode restreint, impossible de passer au répertoire parent"
 
 #: files.c:2626 files.c:2684
 #, c-format
@@ -404,7 +404,7 @@ msgstr "Indiquer la position du curseur"
 
 #: global.c:349
 msgid "Invoke the spell checker, if available"
-msgstr "Appeler le correcteur orthographique (si disponible)"
+msgstr "Appeler le correcteur orthographique (si dispo.)"
 
 #: global.c:350
 msgid "Move up one line"
@@ -464,7 +464,7 @@ msgstr "Insérer un retour de chariot à la position du curseur"
 
 #: global.c:366
 msgid "Make the current search or replace case (in)sensitive"
-msgstr "Exécuter rechercher/remplacer avec/sans respect de la casse"
+msgstr "Respecter (ou non) la casse"
 
 #: global.c:367
 msgid "Go to file browser"
@@ -504,7 +504,7 @@ msgstr "Écriture du fichier au format Mac"
 
 #: global.c:376
 msgid "Back up original file when saving"
-msgstr "Créer une copie de sécurité du fichier en sauvegardant"
+msgstr "Créer une copie de sécu. du fichier en sauvant"
 
 #: global.c:378
 msgid "Use regular expressions"
@@ -890,7 +890,7 @@ msgid ""
 msgstr ""
 "Aide du vérification d'orthographe\n"
 "\n"
-" Le vérificateur d'orthographe vérifie l'orthographe de tout le texte du fichier en cours.  Lorsqu'un mot inconnu est rencontré, il est surligné et peut être corrigé.  Il vous sera alors proposé de remplacer toutes les instances de ce mot dans le fichier courant.\n"
+" Le vérificateur d'orthographe traite tout le texte du fichier en cours.  Lorsqu'un mot inconnu est rencontré, il est surligné et peut être corrigé.  Il vous sera alors proposé de remplacer toutes les instances de ce mot dans le fichier courant.\n"
 "\n"
 " Les touches de fonctions suivantes sont disponibles en mode vérification d'orthographe :\n"
 "\n"
@@ -1196,7 +1196,7 @@ msgstr "Impossible de créer le nom de fichier temporaire: %s"
 
 #: nano.c:1900
 msgid "Spell checking failed: unable to write temp file!"
-msgstr "Échec de la correction orthographique : impossible de créer un fichier temporaire !"
+msgstr "Échec de la vérif. orthogra. : échec d'écriture dans le fichier temp. !"
 
 #: nano.c:1919
 msgid "Finished checking spelling"
@@ -1259,7 +1259,7 @@ msgstr "Impossible de bouger la fenêtre du bas"
 
 #: nano.c:2820
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
-msgstr "Problème lié à VerrNum détecté.  Le pavé numérique fonctionnera mal si VerrNum est désactivé"
+msgstr "Problème avec VerrNum. Le pavé num. fonctionnera mal si VerrNum est désactivé"
 
 #: nano.c:2870
 msgid "enabled"
@@ -1357,7 +1357,7 @@ msgstr ""
 
 #: rcfile.c:255 rcfile.c:367 rcfile.c:414
 msgid "regex strings must begin and end with a \" character\n"
-msgstr "les expressions rationnelles doivent être encadrées par des « \" »\n"
+msgstr "les expr. rationnelles doivent être encadrées par des « \" »\n"
 
 #: rcfile.c:264
 msgid "Missing syntax name"
@@ -1382,12 +1382,12 @@ msgstr "un directive de colorisation nécessite une ligne « syntax »"
 #: rcfile.c:377
 #, c-format
 msgid "Starting a new colorstring for fg %d bg %d\n"
-msgstr "Démarrage d'une nouvelle chaîne de colorisation avec fond %d et texte %d\n"
+msgstr "Nouvelle chaîne de couleur pour texte %d, fond %d\n"
 
 #: rcfile.c:384
 #, c-format
 msgid "Adding new entry for fg %d bg %d\n"
-msgstr "Ajout d'une nouvelle entrée avec fond %d et texte %d\n"
+msgstr "Nouvelle entrée pour texte %d, fond %d\n"
 
 #: rcfile.c:398
 #, c-format
@@ -1405,7 +1405,7 @@ msgstr ""
 #: rcfile.c:423
 #, c-format
 msgid "For end part, beginning = \"%s\"\n"
-msgstr "Pour la partie final, début = « %s »\n"
+msgstr "Pour la partie finale, début = « %s »\n"
 
 #: rcfile.c:450
 msgid "parse_rcfile: Read a comment\n"
@@ -1434,7 +1434,7 @@ msgstr "la colonne max. %d n'est pas valide"
 #: rcfile.c:554
 #, c-format
 msgid "requested tab size %d invalid"
-msgstr "taille de tabulation %d demandée n'est pas valide"
+msgstr "taille de tabulation %d demandée non valide"
 
 #: rcfile.c:562
 #, c-format
@@ -1452,7 +1452,7 @@ msgstr "Le fichier .nanorc comporte des erreurs"
 
 #: rcfile.c:611
 msgid "I can't find my home directory!  Wah!"
-msgstr "Impossible de trouver mon répertoire personnel ! Ouah !"
+msgstr "Je ne peux pas trouver mon répertoire personnel ! Ouah !"
 
 #: rcfile.c:619
 #, c-format
