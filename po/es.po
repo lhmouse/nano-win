@@ -70,7 +70,7 @@ msgstr "filename es %s"
 #: files.c:330
 #, c-format
 msgid "Can't insert file from outside of %s"
-msgstr ""
+msgstr "No se puede insertar fichero desde fuera de %s"
 
 #: files.c:393 files.c:1022 files.c:1349 nano.c:1657
 msgid "Cancelled"
@@ -83,7 +83,7 @@ msgstr "No hay más ficheros abiertos"
 #: files.c:1045
 #, c-format
 msgid "Can't write outside of %s"
-msgstr ""
+msgstr "No se puede escribir fuera de %s"
 
 #: files.c:1082 files.c:1098 files.c:1112 files.c:1129 files.c:1136
 #, c-format
@@ -148,7 +148,7 @@ msgstr "No puedo ascender de directorio"
 
 #: files.c:2123
 msgid "Can't visit parent in restricted mode"
-msgstr ""
+msgstr "No se puede visitar el directorio padre en modo restrigido"
 
 # y, c-format
 #. We can't open this dir for some reason.  Complain
@@ -164,7 +164,7 @@ msgstr "Ir a Directorio"
 #: files.c:2169
 #, c-format
 msgid "Can't go outside of %s in restricted mode"
-msgstr ""
+msgstr "No se puede ir fuera de %s en modo restringido"
 
 #: files.c:2176
 msgid "Goto Cancelled"
@@ -646,12 +646,11 @@ msgstr " -m \t\t--mouse\t\t\tHabilitar ratón\n"
 
 #: nano.c:439
 msgid " -o [dir] \t--operatingdir\t\tSet operating directory\n"
-msgstr ""
+msgstr " -o [dir] \t--operatingdir\t\tEstablecer el directorio de operación\n"
 
 #: nano.c:442
-#, fuzzy
 msgid " -p \t\t--pico\t\t\tEmulate Pico as closely as possible\n"
-msgstr " -p\t \t--pico\t\t\tEmular a Pico lo máximo posible\n"
+msgstr " -p \t\t--pico\t\t\tEmular a Pico lo máximo posible\n"
 
 #: nano.c:447
 msgid ""
@@ -740,7 +739,7 @@ msgstr " -m \t\tHabilitar ratón\n"
 
 #: nano.c:490
 msgid " -o [dir] \tSet operating directory\n"
-msgstr ""
+msgstr "-o [dir] \tEstablecer el directorio de operación\n"
 
 #: nano.c:492
 msgid " -p \t\tEmulate Pico as closely as possible\n"
