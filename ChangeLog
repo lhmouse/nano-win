@@ -245,6 +245,8 @@ Changes
 	- Miscellaneous fixes and updates for typos, broken links, and
 	  slashes at the end of directories.  It is now fully compliant
 	  with HTML 4.01 Transitional. (DLR and David Benbennick)
+	- Added docs about the new unified search string interface and 
+	  search histories, and added --enable-all into configure docs.
 - nano.texi:
 	- Typo fixes and updates. (David Benbennick)
 	- Updates for the most recent and not so recent changes.

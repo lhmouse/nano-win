@@ -34,8 +34,9 @@
 <blockquote><p><a href="#4.1">4.1. Ack! My backspace/delete/enter/double bucky/meta key doesn't seem to work! What can I do?</a><br>
   <a href="#4.2">4.2. Nano crashes when I type &lt;insert keystroke here&gt;!</a><br>
   <a href="#4.3">4.3. Nano crashes when I resize my window. How can I fix that?</a><br>
-  <a href="#4.4">4.4. Why does nano show ^\ in the shortcut list instead of ^J?</a><br>
-  <a href="#4.5">4.5. When I type in a search string, the string I last searched for is already in front of my cursor! What happened?!</a><br>
+  <a href="#4.4">4.4. [version 1.1.12 and earlier] Why does nano show ^\ in the shortcut list instead of ^J?</a><br>
+  <a href="#4.5a">4.5a. [version 1.1.12 and earlier] When I type in a search string, the string I last searched for is already in front of my cursor! What happened?!</a><br>
+  <a href="#4.5b">4.5b. [version 1.2.0 and later] Hey, the search string behavior has reverted, it's now like Pico, what happened to the consistency?</a><br>
   <a href="#4.6">4.6. I get the message &quot;NumLock glitch detected. Keypad will malfunction with NumLock off.&quot; What gives?</a><br>
   <a href="#4.7">4.7. How do I make nano my default editor (in Pine, mutt, etc.)?</a></p></blockquote>
 <h2><a href="#5">5. Internationalization</a></h2>
@@ -152,7 +153,8 @@
   <b>--enable-extra</b>          Enable extra functions, including easter eggs
   <b>--enable-nanorc</b>         Enable use of .nanorc file
   <b>--enable-color</b>          Enables color and syntax highlighting
-  <b>--enable-multibuffer</b>    Enables having multiple file buffers open</pre></blockquote>
+  <b>--enable-multibuffer</b>    Enables having multiple file buffers open
+  <b>--enable-all</b>            Enables all of the above features</pre></blockquote>
 <h2><a name="3.7"></a>3.7. Tell me more about this multibuffer stuff!</h2>
 <blockquote><p>To use multiple file buffers, you must be using nano 1.1.12 or newer, and you must have configured nano with <b>--enable-multibuffer</b> or <b>--enable-extra</b> (use nano -V to check). Then when you want to enable inserting a file into its own buffer instead of into the current file, just hit <b>Meta-F</b>, then insert the file as normal with <b>^R</b>.  If you always want files to be loaded into their own buffers, use the <b>--multibuffer</b> or <b>-F</b> flag when you invoke nano. </p>
   <p>You can move between the buffers you have open with the <b>Meta-&lt;</b> and <b>Meta-&gt;</b> keys, or more easily with <b>Meta-,</b> and <b>Meta-.</b> (clear as mud, right? =-). When you have more than one file buffer open, the ^X shortcut will say &quot;Close&quot;, instead of the normal &quot;Exit&quot; when only one buffer is open.</p></blockquote>
@@ -168,10 +170,13 @@
 <blockquote><p>If you aren't trying some bizarre keystroke combination with some bizarre $TERM entry, chances are you have found a bug. You are welcome to submit it to the <a href="mailto:nano-devel@gnu.org">nano-devel</a> list or to <a href="mailto:nano@nano-editor.org">nano@nano-editor.org</a>.</p></blockquote>
 <h2><a name="4.3"></a>4.3. Nano crashes when I resize my window. How can I fix that?</h2>
 <blockquote><p>Older versions of nano had this problem, please upgrade to a newer version (at least 0.9.9 would be great, 0.9.12 is recommended).</p></blockquote>
-<h2><a name="4.4"></a>4.4. Why does nano show ^\ in the shortcut list instead of ^J?</h2>
+<h2><a name="4.4"></a>4.4. [version 1.1.12 and earlier] Why does nano show ^\ in the shortcut list instead of ^J?</h2>
 <blockquote><p>The help (^G) and justify (^J) function were among the last to be written. To show the improvements that nano had over Pico (go to line # and replace), ^_ and ^\ were put on the shortcut list. Later, ^G came back in place of ^_ as it proved to be very valuable for new Unix users. If you use the <b>-p</b> option to nano (or hit Meta-P) you will get the same shortcuts at the bottom as Pico.</p></blockquote>
-<h2><a name="4.5"></a>4.5. When I type in a search string, the string I last searched for is already in front of my cursor! What happened?!</h2>
+<a name="4.5"></a>
+<h2><a name="4.5a"></a>4.5a. [version 1.1.12 and earlier] When I type in a search string, the string I last searched for is already in front of my cursor! What happened?!</h2>
 <blockquote><p>In nano version 0.9.20, the default is to have a completely consistent user interface across all user input functions. This means that regardless of whether you're being asked for a filename to insert or write, or a string to search for, the previous value is already inserted before the cursor. If you prefer the old behavior, use the Pico emulation mode (-p or --pico) or just hit Meta-P while in nano (see the ^G help text for more details).</p></blockquote>
+<h2><a name="4.5b"></a>4.5b. [version 1.2.0 and later] Hey, the search string behavior has reverted, it's now like Pico, what happened to the consistency?</h2>
+<blockquote><p>It was decided that consistency was nice, but people are used to Pico's inconsistent behavior.  Also, in version 1.1.99pre1, search and replace history was introduced.  If you wish to edit your previous search/replace entry (or any previous entry), you can do so by hitting the up arrow to cycle through your history.  This method allows the best of both worlds: You don't need to erase the previous string if you want to enter a new one, but you can with one keystroke recall previous entries for editing. Therefore there is now no "Pico mode", nano is and has always been a Pico <b>clone</b>, and clones by default should be compatible.</p></blockquote>
 <h2><a name="4.6"></a>4.6. I get the message &quot;NumLock glitch detected. Keypad will malfunction with NumLock off.&quot; What gives?</h2>
 <blockquote><p>Nano (and actually almost all console editors) has issues when cycling the NumLock key in certain X terminals (rxvt, aterm, wterm, etc...). When you switch NumLock from on to off, you put the terminal into an &quot;application mode&quot; that changes what sequences are sent by the keypad. These sequences vary sufficiently from terminal to terminal that it is nearly impossible to work around them from within nano.</p>
   <p>In a nutshell, if you want to be able to use the keypad with the arrow and page up/down functionality, you have to exit nano and reset your terminal (presumably with &quot;reset&quot; or &quot;stty sane&quot; or similar) and then run nano again with NumLock off. If you know an easier way to restore &quot;normal mode&quot;, please mail <a href="mailto:nano@nano-editor.org">nano@nano-editor.org</a>.</p></blockquote>
@@ -226,7 +231,10 @@
 <h2><a name="7.5"></a>7.5. Can I have CVS write access?</h2>
 <blockquote><p>Re-read Section <a href="#7.4">7.4</a> and you should know the answer.</p></blockquote>
 <h2><a name="8"></a>8. ChangeLog</h2>
-<blockquote><p>2002/12/28 - More misc. fixes (David Benbennick, DLR).<br>
+<blockquote>
+<p>
+2003/01/16 - Split section 4.5 into 4.5a and 4.5b for search string behavior.  Added --enable-all docs.<br>
+2002/12/28 - More misc. fixes (David Benbennick, DLR).<br>
 2002/10/25 - Misc. fixes and link updates (DLR).<br>
 2002/09/10 - Another typo fix (DLR).<br>
 2002/05/15 - Typo fix (DLR).<br>
