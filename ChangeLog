@@ -1,4 +1,8 @@
 CVS Code -
+- winio.c:
+  edit_refresh()
+	- Rename lines to nlines to fix AIX breakage (reported by
+	  Dennis Cranston, re-reported by arh14@cornell.edu).
 - po/pl.po:
 	- New Polish, partial translation, by Cezary Sliwa <sliwa@cft.edu.pl>.
 - po/it.po:
