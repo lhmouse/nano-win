@@ -1037,9 +1037,12 @@ void exit_spell(char *tmpfilename, char *foo)
  * better =-)
  */
 
-#ifndef NANO_SMALL
 int do_spell(void)
 {
+#ifdef NANO_SMALL
+    nano_small_msg();
+    return 1;
+#else
     char *temp, *foo;
     int i, size;
 
@@ -1088,8 +1091,8 @@ int do_spell(void)
     exit_spell(temp, foo);
     statusbar(_("Finished checking spelling"));
     return 1;
-}
 #endif
+}
 
 int do_exit(void)
 {
