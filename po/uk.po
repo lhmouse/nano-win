@@ -4,14 +4,15 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.8\n"
+"Project-Id-Version: nano 1.1.12\n"
 "POT-Creation-Date: 2002-10-24 22:05-0400\n"
-"PO-Revision-Date: 2002-04-18 08:51+0300\n"
+"PO-Revision-Date: 2002-11-07 08:51+0300\n"
 "Last-Translator: Sergey A. Ribalchenko <fisher@obu.ck.ua>\n"
 "Language-Team: Ukrainian <translation-team-uk@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=koi8-u\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: cut.c:42
 #, c-format
@@ -27,25 +28,28 @@ msgid "read_line: not on first line and prev is NULL"
 msgstr "read_line: не на першому рядку, та ще й попередн╕й ╓ NULL"
 
 #: files.c:304
-#, fuzzy, c-format
+#, c-format
 msgid "Read %d line (Converted from Mac format)"
 msgid_plural "Read %d lines (Converted from Mac format)"
-msgstr[0] "Прочитано %d рядк╕в (перетворених з формату Mac)"
-msgstr[1] "Прочитано %d рядк╕в (перетворених з формату Mac)"
+msgstr[0] "Прочитано %d рядок (перетворено з формату Mac)"
+msgstr[1] "Прочитано %d рядка (перетворених з формату Mac)"
+msgstr[2] "Прочитано %d рядк╕в (перетворених з формату Mac)"
 
 #: files.c:308
-#, fuzzy, c-format
+#, c-format
 msgid "Read %d line (Converted from DOS format)"
 msgid_plural "Read %d lines (Converted from DOS format)"
-msgstr[0] "Прочитано %d рядк╕в (перетворених з формату DOS)"
-msgstr[1] "Прочитано %d рядк╕в (перетворених з формату DOS)"
+msgstr[0] "Прочитано %d рядок (перетворено з формату DOS)"
+msgstr[1] "Прочитано %d рядка (перетворених з формату DOS)"
+msgstr[2] "Прочитано %d рядк╕в (перетворених з формату DOS)"
 
 #: files.c:313
-#, fuzzy, c-format
+#, c-format
 msgid "Read %d line"
 msgid_plural "Read %d lines"
-msgstr[0] "Прочитано %d рядк╕в"
-msgstr[1] "Прочитано %d рядк╕в"
+msgstr[0] "Прочитано %d рядок"
+msgstr[1] "Прочитано %d рядка"
+msgstr[2] "Прочитано %d рядк╕в"
 
 #: files.c:333 search.c:52
 #, c-format
@@ -57,7 +61,7 @@ msgid "New File"
 msgstr "Новий файл"
 
 #: files.c:350
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" is a directory"
 msgstr "Файл \"%s\" ╓ директор╕╓ю"
 
@@ -71,9 +75,9 @@ msgid "Reading File"
 msgstr "Чита╓мо файл.."
 
 #: files.c:425
-#, fuzzy, c-format
+#, c-format
 msgid "File to insert into new buffer [from %s] "
-msgstr "Файл до вставки [в╕д %s] "
+msgstr "Файл до вставки (в новий буфер) [в╕д %s] "
 
 #: files.c:429
 #, c-format
@@ -81,9 +85,8 @@ msgid "File to insert [from %s] "
 msgstr "Файл до вставки [в╕д %s] "
 
 #: files.c:436
-#, fuzzy
 msgid "File to insert into new buffer [from ./] "
-msgstr "Файл до вставки [в╕д ./] "
+msgstr "Файл до вставки (в новий буфер) [в╕д ./] "
 
 #: files.c:439
 msgid "File to insert [from ./] "
@@ -91,9 +94,9 @@ msgstr "Файл до вставки [в╕д ./] "
 
 #: files.c:444 files.c:698 files.c:756 files.c:850 files.c:862 files.c:913
 #: files.c:924 files.c:1780
-#, fuzzy, c-format
+#, c-format
 msgid "filename is %s\n"
-msgstr "╕м'я файлу ╓ %s"
+msgstr "╕м'я файлу: %s\n"
 
 #: files.c:473
 #, c-format
@@ -113,14 +116,12 @@ msgid "Key illegal in non-multibuffer mode"
 msgstr "Нев╕рна кнопка в не-мультибуферному режим╕"
 
 #: files.c:666
-#, fuzzy
 msgid "delete_opennode(): free'd a node, YAY!\n"
-msgstr "delete_node(): Oй.. вузол зв╕льнено!\n"
+msgstr "delete_opennode(): Oй.. вузол зв╕льнено!\n"
 
 #: files.c:671
-#, fuzzy
 msgid "delete_opennode(): free'd last node.\n"
-msgstr "delete_node(): зв╕льнено останнього вузла.\n"
+msgstr "delete_opennode(): зв╕льнено останнього вузла.\n"
 
 #: files.c:842 files.c:905
 msgid "No more open files"
@@ -137,34 +138,34 @@ msgid "Can't write outside of %s"
 msgstr "Не можу записати поза %s"
 
 #: files.c:1355
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read %s for backup: %s"
-msgstr "Не можу в╕дкрити %s для запису: %s"
+msgstr "Не можу прочитати %s для резервування: %s"
 
 #: files.c:1366
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't write backup: %s"
-msgstr "Не можу зачинити %s: %s"
+msgstr "Не можу записати резерв: %s"
 
 #: files.c:1372
 #, c-format
 msgid "Backing up %s to %s\n"
-msgstr ""
+msgstr "Роблю резервну коп╕ю файлу %s, резервний файл: %s\n"
 
 #: files.c:1384
-#, fuzzy, c-format
+#, c-format
 msgid "Could not set permissions %o on backup %s: %s"
-msgstr "Не можу встановити права %o на %s: %s"
+msgstr "Не можу встановити права %o на резервний файл %s: %s"
 
 #: files.c:1390
-#, fuzzy, c-format
+#, c-format
 msgid "Could not set owner %d/group %d on backup %s: %s"
-msgstr "Не можу встановити права %o на %s: %s"
+msgstr "Не можу встановити власника %d/групу %d на резервний файл %s: %s"
 
 #: files.c:1395
-#, fuzzy, c-format
+#, c-format
 msgid "Could not set access/modification time on backup %s: %s"
-msgstr "Не можу встановити права %o на %s: %s"
+msgstr "Не можу встановити час останьо╖ зм╕ни/звертання на резервний файл %s: %s"
 
 #: files.c:1430 files.c:1446 files.c:1458 files.c:1480 files.c:1513
 #: files.c:1520 files.c:1532
@@ -183,12 +184,12 @@ msgid "Could not close %s: %s"
 msgstr "Не можу зачинити %s: %s"
 
 #: files.c:1555 files.c:1560 files.c:1588
-#, fuzzy, c-format
+#, c-format
 msgid "Could not reopen %s: %s"
-msgstr "Не можу зачинити %s: %s"
+msgstr "Не вда╓ться перев╕дкрити %s: %s"
 
 #: files.c:1565 files.c:1571 files.c:1580
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open %s for prepend: %s"
 msgstr "Не можу в╕дкрити %s для запису: %s"
 
@@ -203,11 +204,12 @@ msgid "Could not set permissions %o on %s: %s"
 msgstr "Не можу встановити права %o на %s: %s"
 
 #: files.c:1649
-#, fuzzy, c-format
+#, c-format
 msgid "Wrote %d line"
 msgid_plural "Wrote %d lines"
-msgstr[0] "Записано %d рядк╕в"
-msgstr[1] "Записано %d рядк╕в"
+msgstr[0] "Записано %d рядок"
+msgstr[1] "Записано %d рядка"
+msgstr[2] "Записано %d рядк╕в"
 
 #: files.c:1695
 msgid " [Mac Format]"
@@ -218,41 +220,36 @@ msgid " [DOS Format]"
 msgstr " [формат DOS]"
 
 #: files.c:1702
-#, fuzzy
 msgid " [Backup]"
-msgstr " [Назад]"
+msgstr " [Резерв]"
 
 #: files.c:1710
-#, fuzzy
 msgid "Prepend Selection to File"
-msgstr "Додати Виб╕р до файлу"
+msgstr "Додати Вид╕лене до файлу (в початок файла)"
 
 #: files.c:1713
 msgid "Append Selection to File"
-msgstr "Додати Виб╕р до файлу"
+msgstr "Додати Вид╕лене до файлу"
 
 #: files.c:1716
 msgid "Write Selection to File"
-msgstr "Записати Виб╕р до файлу"
+msgstr "Записати Вид╕лене до файлу"
 
 #: files.c:1720 files.c:1731
-#, fuzzy
 msgid "File Name to Prepend to"
 msgstr "╤м'я файлу для додавання"
 
 #: files.c:1723 files.c:1734
-#, fuzzy
 msgid "File Name to Append to"
 msgstr "╤м'я файлу для додавання"
 
 #: files.c:1726 files.c:1737
-#, fuzzy
 msgid "File Name to Write"
 msgstr "╤м'я файлу до запису"
 
 #: files.c:1795
 msgid "File exists, OVERWRITE ?"
-msgstr "Файл ╕сну╓, ПЕРЕПИСУ╢МО ?"
+msgstr "Файл ╕сну╓, ПЕРЕПИСАТИ ?"
 
 #: files.c:2288
 msgid "(more)"
@@ -264,7 +261,7 @@ msgstr "Не можу перем╕стити директор╕ю"
 
 #: files.c:2600
 msgid "Can't visit parent in restricted mode"
-msgstr "Не можу в╕дв╕дати батька в обмеженому режим╕"
+msgstr "Не можу в╕дв╕дати батька (cd ./..) в обмеженому режим╕"
 
 #: files.c:2626 files.c:2684
 #, c-format
@@ -325,9 +322,8 @@ msgid "Writing file in Mac format"
 msgstr "Запис файлу у формат╕ Mac"
 
 #: global.c:240
-#, fuzzy
 msgid "Backing up file"
-msgstr "Main: в╕дкрити файл\n"
+msgstr "Роблю резервну коп╕ю файла"
 
 #: global.c:241 nano.c:641
 msgid "Smooth scrolling"
@@ -335,7 +331,7 @@ msgstr "Плавна прокрутка"
 
 #: global.c:243
 msgid "Color syntax highlighting"
-msgstr ""
+msgstr "П╕дсв╕чування синтаксису кольором"
 
 #: global.c:246
 msgid "Auto wrap"
@@ -362,7 +358,6 @@ msgid "Exit from nano"
 msgstr "Вих╕д з nano"
 
 #: global.c:338
-#, fuzzy
 msgid "Go to a specific line number"
 msgstr "Перейти до вказаного рядка"
 
@@ -405,12 +400,10 @@ msgstr ""
 "\t\t\t до поточного рядка"
 
 #: global.c:348
-#, fuzzy
 msgid "Show the position of the cursor"
 msgstr "Показати позиц╕ю курсора"
 
 #: global.c:349
-#, fuzzy
 msgid "Invoke the spell checker, if available"
 msgstr "Викликати програму пошуку друкарських помилок (якщо ╓)"
 
@@ -483,7 +476,6 @@ msgid "Execute external command"
 msgstr "Виконати зовн╕шню команду"
 
 #: global.c:369
-#, fuzzy
 msgid "Go to directory"
 msgstr "До Директор╕╖"
 
@@ -496,9 +488,8 @@ msgid "Append to the current file"
 msgstr "Додати до поточного файлу"
 
 #: global.c:372
-#, fuzzy
 msgid "Prepend to the current file"
-msgstr "Додати до поточного файлу"
+msgstr "Додати до поточного файлу (в початок файла)"
 
 #: global.c:373
 msgid "Search backwards"
@@ -514,10 +505,9 @@ msgstr "Запис файлу у формат╕ Mac"
 
 #: global.c:376
 msgid "Back up original file when saving"
-msgstr ""
+msgstr "Зробити резервну коп╕ю файлу при збер╕ганн╕"
 
 #: global.c:378
-#, fuzzy
 msgid "Use regular expressions"
 msgstr "Формальн╕ вирази (regexp)"
 
@@ -648,27 +638,24 @@ msgid "Enter"
 msgstr "Ввод"
 
 #: global.c:541 global.c:586 global.c:619
-#, fuzzy
 msgid "Go To Line"
 msgstr "До Рядка"
 
 #: global.c:546
 msgid "Next Word"
-msgstr ""
+msgstr "НастСлово"
 
 #: global.c:547
-#, fuzzy
 msgid "Move forward one word"
-msgstr "Вперед на одну л╕теру"
+msgstr "Вперед на одне слово"
 
 #: global.c:550
 msgid "Prev Word"
-msgstr ""
+msgstr "ПопСлово"
 
 #: global.c:551
-#, fuzzy
 msgid "Move backward one word"
-msgstr "Назад на одну л╕теру"
+msgstr "Назад на одне слово"
 
 #: global.c:555
 msgid "Find Other Bracket"
@@ -729,14 +716,12 @@ msgid "Append"
 msgstr "Додати"
 
 #: global.c:698
-#, fuzzy
 msgid "Prepend"
-msgstr "Додати"
+msgstr "Додати(0)"
 
 #: global.c:702
-#, fuzzy
 msgid "Backup File"
-msgstr "Заб╕й"
+msgstr "Зробити резервну коп╕ю"
 
 #: global.c:722
 msgid "Execute Command"
@@ -747,7 +732,6 @@ msgid "New Buffer"
 msgstr "Новий Буфер"
 
 #: global.c:765
-#, fuzzy
 msgid "Go To Dir"
 msgstr "До Директор╕╖"
 
@@ -770,171 +754,116 @@ msgstr ""
 "%s не записано (надто багато резервних файл╕в?)\n"
 
 #: nano.c:177
-#, fuzzy
 msgid "Window size is too small for nano...\n"
-msgstr "Розм╕р в╕кна замалий для Nano..."
+msgstr "Розм╕р в╕кна замалий для Nano...\n"
 
 #: nano.c:182
 msgid "Key illegal in VIEW mode"
 msgstr "Нев╕рна кнопка в режим╕ VIEW"
 
 #: nano.c:269
-#, fuzzy
 msgid ""
 "Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, then hit "
-"enter.  If there is a match for the text you entered, the screen will be "
-"updated to the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, then hit enter.  If there is a match for the text you entered, the screen will be updated to the location of the nearest match for the search string.\n"
 "\n"
-" If using Pico Mode via the -p or --pico flags, the Meta-P toggle, or a "
-"nanorc file, the previous search string will be shown in brackets after the "
-"Search: prompt.  Hitting Enter without entering any text will perform the "
-"previous search.  Otherwise, the previous string will be placed before the "
-"cursor, and can be edited or deleted before hitting enter.\n"
+" If using Pico Mode via the -p or --pico flags, the Meta-P toggle, or a nanorc file, the previous search string will be shown in brackets after the Search: prompt.  Hitting Enter without entering any text will perform the previous search.  Otherwise, the previous string will be placed before the cursor, and can be edited or deleted before hitting enter.\n"
 "\n"
 " The following function keys are available in Search mode:\n"
 "\n"
 msgstr ""
 "Текст допомоги команди пошуку\n"
 "\n"
-" Введ╕ть слова або л╕тери як╕ Ви шука╓те, та натисн╕ть Enter. Якщо для "
-"введено╖ Вами умови знайдеться в╕дпов╕дний зб╕г, екран перем╕ститься в "
-"положення поблизу цього зб╕гу.\n"
+" Введ╕ть слова або л╕тери як╕ Ви шука╓те, та натисн╕ть Enter. Якщо для введено╖ Вами умови знайдеться в╕дпов╕дний зб╕г, екран перем╕ститься в положення поблизу цього зб╕гу.\n"
 "\n"
-" Якщо застосовано режим Pico за допомогою опц╕й -p або --pico, або через "
-"комб╕нац╕ю Meta-P, або користуючись файлом nanorc, попередня умова зб╕гу "
-"з'явиться у квадратних дужках п╕сля запрошення \"Пошук:\". Натиснення Enter "
-"без редагування будь-якого тексту призведе до пошуку попередньо╖ умови "
-"зб╕гу. ╤накше, рядок ╕з попередньою умовою пошуку буде розм╕щено поперед "
-"курсором та може бути в╕дредаговано або видалено перед тим як тиснути "
-"Enter.\n"
+" Якщо застосовано режим Pico за допомогою опц╕й -p або --pico, або через комб╕нац╕ю Meta-P, або користуючись файлом nanorc, попередня умова зб╕гу з'явиться у квадратних дужках п╕сля запрошення \"Пошук:\". Натиснення Enter без редагування будь-якого тексту призведе до пошуку попередньо╖ умови зб╕гу. ╤накше, рядок ╕з попередньою умовою пошуку буде розм╕щено поперед курсором та може бути в╕дредаговано або видалено перед тим як тиснути Enter.\n"
 "\n"
 " Наступн╕ функц╕ональн╕ клав╕ш╕ наявн╕ у режим╕ Пошуку:\n"
 "\n"
 
 #: nano.c:283
-#, fuzzy
 msgid ""
 "Go To Line Help Text\n"
 "\n"
-" Enter the line number that you wish to go to and hit Enter.  If there are "
-"fewer lines of text than the number you entered, you will be brought to the "
-"last line of the file.\n"
+" Enter the line number that you wish to go to and hit Enter.  If there are fewer lines of text than the number you entered, you will be brought to the last line of the file.\n"
 "\n"
 " The following function keys are available in Go To Line mode:\n"
 "\n"
 msgstr ""
 "Текст допомоги режиму До_рядка\n"
 "\n"
-" Введ╕ть номер рядка до якого Ви бажа╓те д╕статись та натисн╕ть Enter. Якщо "
-"к╕льк╕сть рядк╕в у файл╕ менша за число яке Ви ввели, Ви попадете на "
-"останн╕й рядок файлу.\n"
+" Введ╕ть номер рядка до якого Ви бажа╓те д╕статись та натисн╕ть Enter. Якщо к╕льк╕сть рядк╕в у файл╕ менша за число яке Ви ввели, Ви попадете на останн╕й рядок файлу.\n"
 "\n"
 " Наступн╕ функц╕ональн╕ клав╕ш╕ наявн╕ у режим╕ До_рядка:\n"
 "\n"
 
 #: nano.c:290
-#, fuzzy
 msgid ""
 "Insert File Help Text\n"
 "\n"
-" Type in the name of a file to be inserted into the current file buffer at "
-"the current cursor location.\n"
+" Type in the name of a file to be inserted into the current file buffer at the current cursor location.\n"
 "\n"
-" If you have compiled nano with multiple file buffer support, and enable "
-"multiple buffers with the -F or --multibuffer command line flags, the Meta-F "
-"toggle, or a nanorc file, inserting a file will cause it to be loaded into a "
-"separate buffer (use Meta-< and > to switch between file buffers).\n"
+" If you have compiled nano with multiple file buffer support, and enable multiple buffers with the -F or --multibuffer command line flags, the Meta-F toggle, or a nanorc file, inserting a file will cause it to be loaded into a separate buffer (use Meta-< and > to switch between file buffers).\n"
 "\n"
-" If you need another blank buffer, do not enter any filename, or type in a "
-"nonexistent filename at the prompt and press Enter.\n"
+" If you need another blank buffer, do not enter any filename, or type in a nonexistent filename at the prompt and press Enter.\n"
 "\n"
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
 "Текст допомоги режиму Вставити Файл\n"
 "\n"
-" Введ╕ть ╕м'я файлу до вставки в поточний файловий буфер в поточну позиц╕ю "
-"курсору.\n"
+" Введ╕ть ╕м'я файлу до вставки в поточний файловий буфер в поточну позиц╕ю курсору.\n"
 "\n"
-" Якщо Ваш nano з╕браний ╕з п╕дтримкою дек╕лькох файлових буфер╕в, та ця "
-"можлив╕сть вв╕мкнена через опц╕╖ командного рядку -F або --multibuffer, або "
-"через комб╕нац╕ю Meta-F, або за допомогою файлу nanorc, файл вставиться в "
-"окремий файловий буфер (користуйтесь Meta-< та > щоб перемикатись м╕ж "
-"буферами).\n"
+" Якщо Ваш nano з╕браний ╕з п╕дтримкою дек╕лькох файлових буфер╕в, та ця можлив╕сть вв╕мкнена через опц╕╖ командного рядку -F або --multibuffer, або через комб╕нац╕ю Meta-F, або за допомогою файлу nanorc, файл вставиться в окремий файловий буфер (користуйтесь Meta-< та > щоб перемикатись м╕ж буферами).\n"
 "\n"
-" Якщо Вам потр╕бен окремий пустий буфер, просто жм╕ть Enter в рядку "
-"запрошення без вписування ╕мен╕ файлу, або впиш╕ть ╕м'я не╕снуючого файлу та "
-"натисн╕ть Enter.\n"
+" Якщо Вам потр╕бен окремий пустий буфер, просто жм╕ть Enter в рядку запрошення без вписування ╕мен╕ файлу, або впиш╕ть ╕м'я не╕снуючого файлу та натисн╕ть Enter.\n"
 "\n"
 " Наступн╕ функц╕ональн╕ клав╕ш╕ наявн╕ в режим╕ Вставити Файл:\n"
 "\n"
 
 #: nano.c:304
-#, fuzzy
 msgid ""
 "Write File Help Text\n"
 "\n"
-" Type the name that you wish to save the current file as and hit Enter to "
-"save the file.\n"
+" Type the name that you wish to save the current file as and hit Enter to save the file.\n"
 "\n"
-" If you have selected text with Ctrl-^, you will be prompted to save only "
-"the selected portion to a separate file.  To reduce the chance of "
-"overwriting the current file with just a portion of it, the current filename "
-"is not the default in this mode.\n"
+" If you have selected text with Ctrl-^, you will be prompted to save only the selected portion to a separate file.  To reduce the chance of overwriting the current file with just a portion of it, the current filename is not the default in this mode.\n"
 "\n"
 " The following function keys are available in Write File mode:\n"
 "\n"
 msgstr ""
 "Текст допомоги режиму Зберегти Файл\n"
 "\n"
-" Введ╕ть ╕м'я п╕д яким Ви бажа╓те зберегти поточний файл та натисн╕ть "
-"Enter.\n"
+" Введ╕ть ╕м'я п╕д яким Ви бажа╓те зберегти поточний файл та натисн╕ть Enter.\n"
 "\n"
-" Якщо Ви користу╓тесь кодом в╕дм╕тки ╕з Ctrl-^ та пом╕тили деякий текст, "
-"з'явиться запит ╕з п╕дказкою, чи записати обраний блок в окремий файл. Щоб "
-"зменшити шанси перезапису поточного файлу лише частиною цього файлу, ╕м'я "
-"поточного файлу не буде ╕м'ям по замовченню в цьому режим╕.\n"
+" Якщо Ви користу╓тесь кодом в╕дм╕тки ╕з Ctrl-^ та пом╕тили деякий текст, з'явиться запит ╕з п╕дказкою, чи записати обраний блок в окремий файл. Щоб зменшити шанси перезапису поточного файлу лише частиною цього файлу, ╕м'я поточного файлу не буде ╕м'ям по замовченню в цьому режим╕.\n"
 "\n"
 " Наступн╕ функц╕ональн╕ клав╕ш╕ наявн╕ в режим╕ Зберегти Файл\n"
 "\n"
 
 #: nano.c:315
-#, fuzzy
 msgid ""
 "File Browser Help Text\n"
 "\n"
-" The file browser is used to visually browse the directory structure to "
-"select a file for reading or writing.  You may use the arrow keys or Page Up/"
-"Down to browse through the files, and S or Enter to choose the selected file "
-"or enter the selected directory.  To move up one level, select the directory "
-"called \"..\" at the top of the file list.\n"
+" The file browser is used to visually browse the directory structure to select a file for reading or writing.  You may use the arrow keys or Page Up/Down to browse through the files, and S or Enter to choose the selected file or enter the selected directory.  To move up one level, select the directory called \"..\" at the top of the file list.\n"
 "\n"
 " The following function keys are available in the file browser:\n"
 "\n"
 msgstr ""
 "Текст допомоги режиму Переглядач Файл╕в\n"
 "\n"
-" Переглядач файл╕в використову╓ться для в╕зуального перегляду зм╕сту "
-"директор╕╖ та обирання потр╕бного файлу для запису або читання. Ви ма╓те "
-"користуватись клав╕шами керування курсором та PageUp/PageDown для "
-"пересування кр╕зь файли, та обирати потр╕бний файл або входити до обрано╖ "
-"директор╕╖ клав╕шею S або Enter. Щоб перем╕ститись на директор╕ю вище, "
-"обер╕ть директор╕ю \"..\" в початку списку файл╕в.\n"
+" Переглядач файл╕в використову╓ться для в╕зуального перегляду зм╕сту директор╕╖ та обирання потр╕бного файлу для запису або читання. Ви ма╓те користуватись клав╕шами керування курсором та PageUp/PageDown для пересування кр╕зь файли, та обирати потр╕бний файл або входити до обрано╖ директор╕╖ клав╕шею S або Enter. Щоб перем╕ститись на директор╕ю вище, обер╕ть директор╕ю \"..\" в початку списку файл╕в.\n"
 "\n"
 " Наступн╕ функц╕ональн╕ клав╕ш╕ наявн╕ в режим╕ Переглядач Файл╕в:\n"
 "\n"
 
 #: nano.c:326
-#, fuzzy
 msgid ""
 "Browser Go To Directory Help Text\n"
 "\n"
 " Enter the name of the directory you would like to browse to.\n"
 "\n"
-" If tab completion has not been disabled, you can use the TAB key to "
-"(attempt to) automatically complete the directory name.\n"
+" If tab completion has not been disabled, you can use the TAB key to (attempt to) automatically complete the directory name.\n"
 "\n"
 " The following function keys are available in Browser Go To Directory mode:\n"
 "\n"
@@ -943,31 +872,23 @@ msgstr ""
 "\n"
 " Введ╕ть ╕м'я директор╕╖, яку Ви бажа╓те переглянути.\n"
 "\n"
-" Якщо tab-доповнення не заборонено, Ви можете користуватись клав╕шею TAB для "
-"(спроби) автоматичного доповнення назви директор╕╖.\n"
+" Якщо tab-доповнення не заборонено, Ви можете користуватись клав╕шею TAB для (спроби) автоматичного доповнення назви директор╕╖.\n"
 "\n"
-" Наступн╕ функц╕ональн╕ клав╕ш╕ наявн╕ в режим╕ переглядача файл╕в "
-"До_Директор╕╖:\n"
+" Наступн╕ функц╕ональн╕ клав╕ш╕ наявн╕ в режим╕ переглядача файл╕в До_Директор╕╖:\n"
 "\n"
 
 #: nano.c:334
 msgid ""
 "Spell Check Help Text\n"
 "\n"
-" The spell checker checks the spelling of all text in the current file.  "
-"When an unknown word is encountered, it is highlighted and a replacement can "
-"be edited.  It will then prompt to replace every instance of the given "
-"misspelled word in the current file.\n"
+" The spell checker checks the spelling of all text in the current file.  When an unknown word is encountered, it is highlighted and a replacement can be edited.  It will then prompt to replace every instance of the given misspelled word in the current file.\n"
 "\n"
 " The following other functions are available in Spell Check mode:\n"
 "\n"
 msgstr ""
 "Текст допомоги режиму Правопис\n"
 "\n"
-" Програма перев╕рки правопису перев╕ря╓ орфограф╕ю всього тексту в поточному "
-"файл╕. Коли зустр╕ча╓ться незнайоме слово, воно вид╕ля╓ться та з'явля╓ться "
-"можлив╕сть в╕дредагувати пропоновану зам╕ну. Пот╕м з'явиться запит на зам╕ну "
-"кожного входження цього незнайомого слова в поточному файл╕.\n"
+" Програма перев╕рки правопису перев╕ря╓ орфограф╕ю всього тексту в поточному файл╕. Коли зустр╕ча╓ться незнайоме слово, воно вид╕ля╓ться та з'явля╓ться можлив╕сть в╕дредагувати пропоновану зам╕ну. Пот╕м з'явиться запит на зам╕ну кожного входження цього незнайомого слова в поточному файл╕.\n"
 "\n"
 " Наступн╕ ╕нш╕ функц╕╖ наявн╕ в режим╕ Правопис:\n"
 "\n"
@@ -976,85 +897,57 @@ msgstr ""
 msgid ""
 "External Command Help Text\n"
 "\n"
-" This menu allows you to insert the output of a command run by the shell "
-"into the current buffer (or a new buffer in multibuffer mode).\n"
+" This menu allows you to insert the output of a command run by the shell into the current buffer (or a new buffer in multibuffer mode).\n"
 "\n"
 " The following keys are available in this mode:\n"
 "\n"
 msgstr ""
 "Текст допомоги режиму Зовн╕шня Команда\n"
 "\n"
-" Це меню дозволя╓ вам вставити вив╕д команди, що виконуватиметься в "
-"оболонц╕, в поточний буфер (або у новий буфер в багато-буферному режим╕).\n"
+" Це меню дозволя╓ вам вставити вив╕д команди, що виконуватиметься в оболонц╕, в поточний буфер (або у новий буфер в багато-буферному режим╕).\n"
 "\n"
 " Наступн╕ клав╕ш╕ наявн╕ у цьому режим╕:\n"
 "\n"
 
 #: nano.c:351
-#, fuzzy
 msgid ""
 " nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor: The "
-"top line shows the program version, the current filename being edited, and "
-"whether or not the file has been modified.  Next is the main editor window "
-"showing the file being edited.  The status line is the third line from the "
-"bottom and shows important messages. The bottom two lines show the most "
-"commonly used shortcuts in the editor.\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor: The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages. The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
-" The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
-"key sequences are notated with the Meta (M) symbol and can be entered using "
-"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
-"following keystrokes are available in the main editor window.  Alternative "
-"keys are shown in parentheses:\n"
+" The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt or Meta key depending on your keyboard setup.  The following keystrokes are available in the main editor window.  Alternative keys are shown in parentheses:\n"
 "\n"
 msgstr ""
 " текст допомоги nano\n"
 "\n"
-" Редактор  nano  розроблено  для  емуляц╕╖  функц╕ональност╕  та  простоти "
-"використання редактору  UW Pico.  Редактор под╕ля╓ться на 4 головн╕ секц╕╖: "
-"верхн╕й рядок м╕стить верс╕ю програми, ╕м'я поточного файлу, що редагу╓ться, "
-"та ╕нформац╕ю про те, чи внесено будь-як╕ зм╕ни до файлу. Наступна секц╕я - "
-"це головне в╕кно редагування, в якому можна побачити зм╕ст поточного файлу. "
-"Рядок статуту ╓ 3 знизу рядком та м╕стить важлив╕ пов╕домлення. Останн╕ два "
-"рядки м╕стять найб╕льш загальн╕ комб╕нац╕╖ клав╕ш редактору.\n"
+" Редактор  nano  розроблено  для  емуляц╕╖  функц╕ональност╕  та  простоти використання редактору  UW Pico.  Редактор под╕ля╓ться на 4 головн╕ секц╕╖: верхн╕й рядок м╕стить верс╕ю програми, ╕м'я поточного файлу, що редагу╓ться, та ╕нформац╕ю про те, чи внесено будь-як╕ зм╕ни до файлу. Наступна секц╕я - це головне в╕кно редагування, в якому можна побачити зм╕ст поточного файлу. Рядок статуту ╓ 3 знизу рядком та м╕стить важлив╕ пов╕домлення. Останн╕ два рядки м╕стять найб╕льш загальн╕ комб╕нац╕╖ клав╕ш редактору.\n"
 "\n"
-"  Нотатки до комб╕нац╕й: комб╕нац╕╖ з клав╕шею Control показан╕ ╕з символом "
-"'^' та  вводяться  з  натиснутою  клав╕шею  Control (Ctrl).   Esc-комб╕нац╕╖ "
-"показан╕ символом 'M' та вводяться з використанням клав╕ш╕ Esc, Alt або Meta "
-"в залежност╕ в╕д  Вашо╖ клав╕атури. Наступн╕ комб╕нац╕╖ доступн╕ в головному "
-"в╕кн╕ редагування. Додатков╕ комб╕нац╕╖ показан╕ у дужках:\n"
+"  Нотатки до комб╕нац╕й: комб╕нац╕╖ з клав╕шею Control показан╕ ╕з символом '^' та  вводяться  з  натиснутою  клав╕шею  Control (Ctrl).   Esc-комб╕нац╕╖ показан╕ символом 'M' та вводяться з використанням клав╕ш╕ Esc, Alt або Meta в залежност╕ в╕д  Вашо╖ клав╕атури. Наступн╕ комб╕нац╕╖ доступн╕ в головному в╕кн╕ редагування. Додатков╕ комб╕нац╕╖ показан╕ у дужках:\n"
 "\n"
 
 #: nano.c:404 nano.c:407
-#, fuzzy
 msgid "Space"
-msgstr "Зам╕на"
+msgstr "Проб╕л"
 
 #: nano.c:446
-#, fuzzy, c-format
+#, c-format
 msgid "%.*s enable/disable\n"
-msgstr "%s - дозволити/заборонити"
+msgstr "%.*s - дозволити/заборонити\n"
 
 #: nano.c:553
-#, fuzzy
 msgid "delete_node(): free'd a node, YAY!\n"
 msgstr "delete_node(): Oй.. вузол зв╕льнено!\n"
 
 #: nano.c:558
-#, fuzzy
 msgid "delete_node(): free'd last node.\n"
 msgstr "delete_node(): зв╕льнено останнього вузла.\n"
 
 #: nano.c:610
-#, fuzzy
 msgid ""
 "Usage: nano [+LINE] [GNU long option] [option] [file]\n"
 "\n"
 msgstr ""
-"Використання: nano [довг╕ опц╕╖ GNU] [опц╕╖] +РЯДОК <файл>\n"
+"Використання: nano [+РЯДОК] [довг╕ опц╕╖ GNU] [опц╕╖] [файл]\n"
 "\n"
 
 #: nano.c:611
@@ -1062,12 +955,11 @@ msgid "Option\t\tLong option\t\tMeaning\n"
 msgstr "Опц╕╖\t\tДовг╕ опц╕╖\t\tЗначення\n"
 
 #: nano.c:613
-#, fuzzy
 msgid ""
 "Usage: nano [+LINE] [option] [file]\n"
 "\n"
 msgstr ""
-"Використання: nano [опц╕я] +РЯДОК <файл>\n"
+"Використання: nano [+РЯДОК] [опц╕я] [файл]\n"
 "\n"
 
 #: nano.c:614
@@ -1088,7 +980,7 @@ msgstr "Почати з рядка номер РЯДОК"
 
 #: nano.c:620
 msgid "Backup existing files on save"
-msgstr ""
+msgstr "Робити резервн╕ коп╕╖ ╕снуючих файл╕в при запису"
 
 #: nano.c:621
 msgid "Write file in DOS format"
@@ -1100,7 +992,7 @@ msgstr "Дозволити дек╕лька файлових буфер╕в"
 
 #: nano.c:627
 msgid "Don't look at nanorc files"
-msgstr ""
+msgstr "Не дивитися в nanorcфайли"
 
 #: nano.c:629
 msgid "Use alternate keypad routines"
@@ -1119,16 +1011,14 @@ msgid "-Q [str]"
 msgstr "-Q [рядок]"
 
 #: nano.c:635
-#, fuzzy
 msgid "--quotestr=[str]"
-msgstr "--quotestr [рядок]"
+msgstr "--quotestr=[рядок]"
 
 #: nano.c:635
 msgid "Quoting string, default \"> \""
 msgstr "Рядок посилання, по замовченню \"> \""
 
 #: nano.c:638
-#, fuzzy
 msgid "Do regular expression searches"
 msgstr "Пошук по формальному виразу (regexp)"
 
@@ -1141,36 +1031,30 @@ msgid "--tabsize=[num]"
 msgstr "--tabsize=[чис]"
 
 #: nano.c:643
-#, fuzzy
 msgid "Set width of a tab to num"
 msgstr "Встановити розм╕р табуляц╕╖ =чис"
 
 #: nano.c:644
-#, fuzzy
 msgid "Print version information and exit"
 msgstr "Показати верс╕ю та вийти"
 
 #: nano.c:646
-#, fuzzy
 msgid "-Y [str]"
-msgstr "-Q [рядок]"
+msgstr "-Y [рядок]"
 
 #: nano.c:646
-#, fuzzy
 msgid "--syntax [str]"
-msgstr "--quotestr [рядок]"
+msgstr "--syntax [рядок]"
 
 #: nano.c:646
 msgid "Syntax definition to use"
-msgstr ""
+msgstr "Визначення синтаксису до використання"
 
 #: nano.c:648
-#, fuzzy
 msgid "Constantly show cursor position"
 msgstr "Пост╕йно показувати позиц╕ю курсора"
 
 #: nano.c:650
-#, fuzzy
 msgid "Automatically indent new lines"
 msgstr "Автоматично вир╕внювати нов╕ рядки"
 
@@ -1179,7 +1063,6 @@ msgid "Let ^K cut from cursor to end of line"
 msgstr "Дозволити ^K вир╕зати в╕д курсора до к╕нця рядка"
 
 #: nano.c:653
-#, fuzzy
 msgid "Don't follow symbolic links, overwrite"
 msgstr "Не йти за с╕мл╕нками, але переписувати"
 
@@ -1200,7 +1083,6 @@ msgid "Set operating directory"
 msgstr "Встановити робочий каталог"
 
 #: nano.c:662
-#, fuzzy
 msgid "Emulate Pico as closely as possible"
 msgstr "Емулювати Pico наск╕льки можливо"
 
@@ -1229,7 +1111,6 @@ msgid "Enable alternate speller"
 msgstr "Альтернативна програма перев╕рки правопису"
 
 #: nano.c:669
-#, fuzzy
 msgid "Auto save on exit, don't prompt"
 msgstr "АвтоЗапис при виход╕, без запитань"
 
@@ -1238,26 +1119,23 @@ msgid "View (read only) mode"
 msgstr "Режим переглядання (т╕льки читання)"
 
 #: nano.c:672
-#, fuzzy
 msgid "Don't wrap long lines"
 msgstr "Не загортати довг╕ рядки"
 
 #: nano.c:674
-#, fuzzy
 msgid "Don't show help window"
 msgstr "Не показувати в╕кно допомоги"
 
 #: nano.c:675
-#, fuzzy
 msgid "Enable suspend"
 msgstr "Дозволити призупинку"
 
 #: nano.c:678
 msgid "(ignored, for Pico compatibility)"
-msgstr ""
+msgstr "(╕гноровано, для сум╕сност╕ ╕з Pico)"
 
 #: nano.c:685
-#, fuzzy, c-format
+#, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
 msgstr " GNU nano верс╕╖ %s (з╕бране %s, %s)\n"
 
@@ -1275,7 +1153,7 @@ msgstr ""
 
 #: nano.c:761
 msgid "Sorry, support for this function has been disabled"
-msgstr ""
+msgstr "Вибачте, п╕дтримка ц╕╓╖ функц╕╖ було заборонено"
 
 #: nano.c:794
 msgid "Could not pipe"
@@ -1326,16 +1204,16 @@ msgstr "Перев╕рка орфограф╕╖ не вдалася"
 
 #: nano.c:1982
 msgid "'\")}]>"
-msgstr ""
+msgstr "'\")}]>"
 
 #: nano.c:1983
 msgid ".?!"
-msgstr ""
+msgstr ".?!"
 
 #: nano.c:2253
-#, fuzzy, c-format
+#, c-format
 msgid "Bad quote string %s: %s"
-msgstr "Не можу зачинити %s: %s"
+msgstr "Поганий рядок цитування %s: %s"
 
 #: nano.c:2502
 msgid "Can now UnJustify!"
@@ -1346,9 +1224,8 @@ msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Зберегти зм╕нений буфер (В╕дпов╕дь \"Н╕\" СКАСУ╢ ВС╤ ЗМ╤НИ) ? "
 
 #: nano.c:2698
-#, fuzzy
 msgid "Received SIGHUP or SIGTERM"
-msgstr "Прийнято SIGHUP"
+msgstr "Прийнято SIGHUP або SIGTERM"
 
 #: nano.c:2777
 msgid "Cannot resize top win"
@@ -1387,9 +1264,8 @@ msgid "disabled"
 msgstr "заборонено"
 
 #: nano.c:3085
-#, fuzzy
 msgid "Tab size is too small for nano...\n"
-msgstr "Розм╕р в╕кна замалий для Nano..."
+msgstr "Розм╕р табуляц╕╖ замалий для nano...\n"
 
 #: nano.c:3224
 msgid "Main: set up windows\n"
@@ -1404,9 +1280,9 @@ msgid "Main: open file\n"
 msgstr "Main: в╕дкрити файл\n"
 
 #: nano.c:3287
-#, fuzzy, c-format
+#, c-format
 msgid "AHA!  %c (%d)\n"
-msgstr "Ага! '%c' (%d)\n"
+msgstr "Ага! %c (%d)\n"
 
 #: nano.c:3303
 #, c-format
@@ -1435,12 +1311,12 @@ msgstr "Я п╕ймав Alt-%c! (%d)\n"
 
 #: nano.c:3515
 msgid "XOFF ignored, mumble mumble."
-msgstr ""
+msgstr "XOFF игноровано, прим-п╕м-п╕м"
 
 #: nano.c:3579
-#, fuzzy, c-format
+#, c-format
 msgid "I got %c (%d)!\n"
-msgstr "Я п╕ймав Alt-%c! (%d)\n"
+msgstr "Я п╕ймав %c (%d)!\n"
 
 #: rcfile.c:102
 #, c-format
@@ -1458,7 +1334,7 @@ msgstr ""
 #: rcfile.c:172
 #, c-format
 msgid "argument %s has unterminated \""
-msgstr ""
+msgstr "аргумент %s ма╓ зак╕нчуватися на \""
 
 #: rcfile.c:214
 #, c-format
@@ -1475,21 +1351,19 @@ msgstr ""
 
 #: rcfile.c:255 rcfile.c:367 rcfile.c:414
 msgid "regex strings must begin and end with a \" character\n"
-msgstr ""
-"рядки формальних вираз╕в повинн╕ починатись та зак╕нчуватись символом '\"'\n"
+msgstr "рядки формальних вираз╕в повинн╕ починатись та зак╕нчуватись символом '\"'\n"
 
 #: rcfile.c:264
-#, fuzzy
 msgid "Missing syntax name"
-msgstr "В╕дсутня назва кольору"
+msgstr "В╕дсутня назва синтаксису"
 
 #: rcfile.c:279
 msgid "Adding new syntax after 1st\n"
-msgstr ""
+msgstr "Дода╓мо новий синтакс п╕сля першого\n"
 
 #: rcfile.c:287
 msgid "Starting a new syntax type\n"
-msgstr ""
+msgstr "Почина╓мо новий тип синтаксу\n"
 
 #: rcfile.c:330
 msgid "Missing color name"
@@ -1497,22 +1371,22 @@ msgstr "В╕дсутня назва кольору"
 
 #: rcfile.c:343
 msgid "Cannot add a color directive without a syntax line"
-msgstr ""
+msgstr "Не можу додати команду кольору без рядка синтаксису"
 
 #: rcfile.c:377
 #, c-format
 msgid "Starting a new colorstring for fg %d bg %d\n"
-msgstr ""
+msgstr "Почина╓мо новий рядок кольору для кольору %d на фон╕ %d\n"
 
 #: rcfile.c:384
 #, c-format
 msgid "Adding new entry for fg %d bg %d\n"
-msgstr ""
+msgstr "Дода╓мо новий запис для кольору %d на фон╕ %d\n"
 
 #: rcfile.c:398
 #, c-format
 msgid "string val=%s\n"
-msgstr ""
+msgstr "рядок val=%s\n"
 
 #: rcfile.c:406
 msgid ""
@@ -1525,7 +1399,7 @@ msgstr ""
 #: rcfile.c:423
 #, c-format
 msgid "For end part, beginning = \"%s\"\n"
-msgstr ""
+msgstr "Для к╕нцево╖ частини, початок = \"%s\"\n"
 
 #: rcfile.c:450
 msgid "parse_rcfile: Read a comment\n"
@@ -1547,14 +1421,14 @@ msgid "option %s requires an argument"
 msgstr "опц╕я %s потребу╓ аргумента"
 
 #: rcfile.c:530
-#, fuzzy, c-format
+#, c-format
 msgid "requested fill size %d invalid"
-msgstr "запитаний розм╕р заповнення %d занадто малий"
+msgstr "запитаний розм╕р заповнення %d ╓ некоректним"
 
 #: rcfile.c:554
-#, fuzzy, c-format
+#, c-format
 msgid "requested tab size %d invalid"
-msgstr "запрошений розм╕р табуляц╕╖ %d занадто малий"
+msgstr "запрошений розм╕р табуляц╕╖ %d ╓ некоректним"
 
 #: rcfile.c:562
 #, c-format
@@ -1572,7 +1446,7 @@ msgstr "Знайдено помилки у файл╕ .nanorc"
 
 #: rcfile.c:611
 msgid "I can't find my home directory!  Wah!"
-msgstr ""
+msgstr "Я не можу знайти свою дом╕вку! Жах!"
 
 #: rcfile.c:619
 #, c-format
@@ -1585,7 +1459,6 @@ msgid "\"%s...\" not found"
 msgstr "\"%s...\" не знайдено"
 
 #: search.c:140
-#, fuzzy
 msgid "Search"
 msgstr "Пошук"
 
@@ -1618,12 +1491,11 @@ msgid "This is the only occurrence"
 msgstr "Це ╓дине сп╕впад╕ння"
 
 #: search.c:554
-#, fuzzy, c-format
+#, c-format
 msgid "Replaced %d occurrences"
 msgstr "Зам╕нено %d входжень"
 
 #: search.c:556
-#, fuzzy
 msgid "Replaced 1 occurrence"
 msgstr "Зам╕нено 1 входження"
 
@@ -1677,9 +1549,9 @@ msgid "nano: realloc: out of memory!"
 msgstr "nano: realloc: нема╓ в╕льно╖ пам'ят╕!"
 
 #: winio.c:90
-#, fuzzy, c-format
+#, c-format
 msgid "actual_x for xplus=%d returns %d\n"
-msgstr "actual_x_from_start для xplus=%d повернуто %d\n"
+msgstr "actual_x для xplus=%d поверта╓ %d\n"
 
 #: winio.c:228 winio.c:380
 #, c-format
@@ -1708,17 +1580,16 @@ msgid " DIR: "
 msgstr " Дир: "
 
 #: winio.c:465
-#, fuzzy
 msgid " Modified "
-msgstr "Зм╕нено"
+msgstr " Зм╕нено "
 
 #: winio.c:467
 msgid " View "
-msgstr ""
+msgstr " Перегляд "
 
 #: winio.c:653
 msgid "Refusing 0 length regex match"
-msgstr ""
+msgstr "В╕дкида╓мо сп╕впад╕ння формального виразу довжиною 0"
 
 #: winio.c:975
 #, c-format
@@ -1765,10 +1636,9 @@ msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
 #: winio.c:1381
-#, fuzzy, c-format
+#, c-format
 msgid "line %d/%d (%.0f%%), col %ld/%ld (%.0f%%), char %ld/%ld (%.0f%%)"
-msgstr ""
-"рядок %d/%d (%.0f%%), стовпчик %ld/%ld (%.0f%%, л╕тера %ld/%ld (%.0f%%)"
+msgstr "рядок %d/%d (%.0f%%), стовпчик %ld/%ld (%.0f%%, л╕тера %ld/%ld (%.0f%%)"
 
 #: winio.c:1637
 msgid "Dumping file buffer to stderr...\n"
@@ -1814,135 +1684,6 @@ msgstr "та ╕ншим кого ми забули..."
 msgid "Thank you for using nano!\n"
 msgstr "Дяку╓мо Вам за те, що вибрали nano!\n"
 
-#, fuzzy
-#~ msgid "Could not open file: Path length exceeded."
-#~ msgstr "Не можу в╕дкрити файл для запису: %s"
-
-#, fuzzy
-#~ msgid "free_node(): free'd a node, YAY!\n"
-#~ msgstr "delete_node(): Oй.. вузол зв╕льнено!\n"
-
-#, fuzzy
-#~ msgid "free_node(): free'd last node.\n"
-#~ msgstr "delete_node(): зв╕льнено останнього вузла.\n"
-
-#, fuzzy
-#~ msgid " -T \t\t--tabsize=[num]\t\tSet width of a tab to num\n"
-#~ msgstr " -T [ном]\t--tabsize=[ном]\t\tВстановити розм╕р табуляц╕╖ до ном\n"
-
-#~ msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
-#~ msgstr " -R\t\t--regexp\t\tШукати користуючись Формальними Виразами\n"
-
-#~ msgid " -V \t\t--version\t\tPrint version information and exit\n"
-#~ msgstr " -V \t\t--version\t\tНадрукувати верс╕ю та вийти\n"
-
-#~ msgid " -c \t\t--const\t\t\tConstantly show cursor position\n"
-#~ msgstr " -c \t\t--const\t\t\tПост╕йно показувати позиц╕ю курсора\n"
-
-#~ msgid " -h \t\t--help\t\t\tShow this message\n"
-#~ msgstr " -h \t\t--help\t\t\tПоказати це пов╕домлення\n"
-
-#~ msgid " -k \t\t--cut\t\t\tLet ^K cut from cursor to end of line\n"
-#~ msgstr ""
-#~ " -k \t\t--cut\t\t\tДозволити вир╕зати в╕д курсора до к╕нця\n"
-#~ "\t\t\t\t\tрядка за допомогою ^K\n"
-
-#~ msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
-#~ msgstr " -i \t\t--autoindent\t\tАвтоматично вир╕внювати нов╕ рядки\n"
-
-#~ msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
-#~ msgstr " -l \t\t--nofollow\t\tНе йти за с╕мл╕нками, але переписувати\n"
-
-#~ msgid " -m \t\t--mouse\t\t\tEnable mouse\n"
-#~ msgstr " -m \t\t--mouse\t\t\tДозволити мишу\n"
-
-#~ msgid ""
-#~ " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
-#~ msgstr ""
-#~ " -r [#стовп]\t--fill=[#стовп]\t\tЗагортати рядки в позиц╕╖ стовпця "
-#~ "#стовп\n"
-
-#, fuzzy
-#~ msgid " -p\t \t--pico\t\t\tEmulate Pico as closely as possible\n"
-#~ msgstr " -p\t \t--pico\t\t\tЕмулювати Pico наск╕льки це можливо\n"
-
-#~ msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
-#~ msgstr ""
-#~ " -s [прог] \t--speller=[прог]\tАльтерн. програма перев╕рки правопису\n"
-
-#~ msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
-#~ msgstr " -t \t\t--tempfile\t\tАвтоЗапис при виход╕, без запитань\n"
-
-#~ msgid " -v \t\t--view\t\t\tView (read only) mode\n"
-#~ msgstr " -v \t\t--view\t\t\tРежим переглядання (т╕льки читання)\n"
-
-#~ msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
-#~ msgstr " -w \t\t--nowrap\t\tНе загортати довг╕ рядки\n"
-
-#~ msgid " -x \t\t--nohelp\t\tDon't show help window\n"
-#~ msgstr " -x \t\t--nohelp\t\tНе показувати в╕кно допомоги\n"
-
-#~ msgid " -z \t\t--suspend\t\tEnable suspend\n"
-#~ msgstr " -z \t\t--suspend\t\tДозволити призупинку\n"
-
-#~ msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
-#~ msgstr " +РЯДОК\t\t\t\t\tПочати з рядка номер РЯДОК\n"
-
-#~ msgid " -R\t\tUse regular expressions for search\n"
-#~ msgstr " -R\t\tКористуватися Формальними Виразами для пошуку\n"
-
-#, fuzzy
-#~ msgid " -h \t\tShow this message\n"
-#~ msgstr " -h \t\t--help\t\t\tПоказати це пов╕домлення\n"
-
-#, fuzzy
-#~ msgid " -k \t\tLet ^K cut from cursor to end of line\n"
-#~ msgstr ""
-#~ " -k \t\t--cut\t\t\tДозволити вир╕зати в╕д курсора до к╕нця\n"
-#~ "\t\t\t\t\tрядка за допомогою ^K\n"
-
-#, fuzzy
-#~ msgid " -m \t\tEnable mouse\n"
-#~ msgstr " -m \t\t--mouse\t\t\tДозволити мишу\n"
-
-#, fuzzy
-#~ msgid " -r [#cols] \tSet fill cols to (wrap lines at) #cols\n"
-#~ msgstr ""
-#~ " -r [#стовп]\t--fill=[#стовп]\t\tЗагортати рядки в позиц╕╖ стовпця "
-#~ "#стовп\n"
-
-#, fuzzy
-#~ msgid " -s [prog]  \tEnable alternate speller\n"
-#~ msgstr ""
-#~ " -s [прог] \t--speller=[прог]\tАльтерн. програма перев╕рки правопису\n"
-
-#, fuzzy
-#~ msgid " -v \t\tView (read only) mode\n"
-#~ msgstr " -v \t\t--view\t\t\tРежим переглядання (т╕льки читання)\n"
-
-#, fuzzy
-#~ msgid " +LINE\t\tStart at line number LINE\n"
-#~ msgstr " +РЯДОК\t\t\t\t\tПочати з рядка номер РЯДОК\n"
-
-#~ msgid "check_wrap called with inptr->data=\"%s\"\n"
-#~ msgstr "check_wrap визвано з inptr->data=\"%s\"\n"
-
-#~ msgid "Case Sensitive Regexp Search%s%s"
-#~ msgstr "Регистрозалежний пошук Формального Виразу%s%s"
-
-#~ msgid "Regexp Search%s%s"
-#~ msgstr "Пошук Формального Виразу%s%s"
-
-#, fuzzy
-#~ msgid "Case Sensitive Search%s%s"
-#~ msgstr "Регистрозалежний пошук Формального Виразу%s%s"
-
-#~ msgid "Only %d lines available, skipping to last line"
-#~ msgstr "Т╕льки %d рядк╕в у наявност╕, скипа╓мо до останнього рядка"
-
-#~ msgid "Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses"
-#~ msgstr "Павло Курт╕с, Зейд син-Хал╕ма та Ер╕к С. Реймонд за ncurses"
-
 #~ msgid "Backwards search"
 #~ msgstr "Пошук Назад"
 
@@ -1951,6 +1692,9 @@ msgstr "Дяку╓мо Вам за те, що вибрали nano!\n"
 
 #~ msgid "Goto"
 #~ msgstr "До Рядка"
+
+#~ msgid "check_wrap called with inptr->data=\"%s\"\n"
+#~ msgstr "check_wrap визвано з inptr->data=\"%s\"\n"
 
 #~ msgid "nano: calloc: out of memory!"
 #~ msgstr "nano: calloc: нема╓ в╕льно╖ пам'ят╕!"
@@ -1971,14 +1715,66 @@ msgstr "Дяку╓мо Вам за те, що вибрали nano!\n"
 #~ msgstr " -N \t\t--noconvert\t\tНе обертати файли ╕з формат╕в DOS/Mac\n"
 
 #~ msgid " -Q [str]\t--quotestr [str]\tQuoting string, default \"> \"\n"
-#~ msgstr ""
-#~ " -Q [str]\t--quotestr [str]\tРядок посилання, по замовченню \"> \"\n"
+#~ msgstr " -Q [str]\t--quotestr [str]\tРядок посилання, по замовченню \"> \"\n"
 
 #~ msgid " -S\t\t--smooth\t\tSmooth scrolling\n"
 #~ msgstr " -S\t\t--smooth\t\tПлавна прокрутка\n"
 
+#~ msgid " -T [num]\t--tabsize=[num]\t\tSet width of a tab to num\n"
+#~ msgstr " -T [ном]\t--tabsize=[ном]\t\tВстановити розм╕р табуляц╕╖ до ном\n"
+
+#~ msgid " -V \t\t--version\t\tPrint version information and exit\n"
+#~ msgstr " -V \t\t--version\t\tНадрукувати верс╕ю та вийти\n"
+
+#~ msgid " -c \t\t--const\t\t\tConstantly show cursor position\n"
+#~ msgstr " -c \t\t--const\t\t\tПост╕йно показувати позиц╕ю курсора\n"
+
+#~ msgid " -h \t\t--help\t\t\tShow this message\n"
+#~ msgstr " -h \t\t--help\t\t\tПоказати це пов╕домлення\n"
+
+#~ msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
+#~ msgstr " -i \t\t--autoindent\t\tАвтоматично вир╕внювати нов╕ рядки\n"
+
+#~ msgid " -k \t\t--cut\t\t\tLet ^K cut from cursor to end of line\n"
+#~ msgstr ""
+#~ " -k \t\t--cut\t\t\tДозволити вир╕зати в╕д курсора до к╕нця\n"
+#~ "\t\t\t\t\tрядка за допомогою ^K\n"
+
+#~ msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
+#~ msgstr " -l \t\t--nofollow\t\tНе йти за с╕мл╕нками, але переписувати\n"
+
+#~ msgid " -m \t\t--mouse\t\t\tEnable mouse\n"
+#~ msgstr " -m \t\t--mouse\t\t\tДозволити мишу\n"
+
 #~ msgid " -o [dir] \t--operatingdir=[dir]\tSet operating directory\n"
 #~ msgstr " -o [dir] \t--operatingdir=[dir]\tВстановити робочий каталог\n"
+
+#~ msgid " -p \t\t--pico\t\t\tEmulate Pico as closely as possible\n"
+#~ msgstr " -p\t \t--pico\t\t\tЕмулювати Pico наск╕льки це можливо\n"
+
+#~ msgid " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
+#~ msgstr " -r [#стовп]\t--fill=[#стовп]\t\tЗагортати рядки в позиц╕╖ стовпця #стовп\n"
+
+#~ msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
+#~ msgstr " -s [прог] \t--speller=[прог]\tАльтерн. програма перев╕рки правопису\n"
+
+#~ msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
+#~ msgstr " -t \t\t--tempfile\t\tАвтоЗапис при виход╕, без запитань\n"
+
+#~ msgid " -v \t\t--view\t\t\tView (read only) mode\n"
+#~ msgstr " -v \t\t--view\t\t\tРежим переглядання (т╕льки читання)\n"
+
+#~ msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
+#~ msgstr " -w \t\t--nowrap\t\tНе загортати довг╕ рядки\n"
+
+#~ msgid " -x \t\t--nohelp\t\tDon't show help window\n"
+#~ msgstr " -x \t\t--nohelp\t\tНе показувати в╕кно допомоги\n"
+
+#~ msgid " -z \t\t--suspend\t\tEnable suspend\n"
+#~ msgstr " -z \t\t--suspend\t\tДозволити призупинку\n"
+
+#~ msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
+#~ msgstr " +РЯДОК\t\t\t\t\tПочати з рядка номер РЯДОК\n"
 
 #~ msgid " -D \t\tWrite file in DOS format\n"
 #~ msgstr " -D \t\tЗапис файлу у формат╕ DOS\n"
@@ -1986,11 +1782,29 @@ msgstr "Дяку╓мо Вам за те, що вибрали nano!\n"
 #~ msgid " -M \t\tWrite file in Mac format\n"
 #~ msgstr " -M \t\tЗапис файлу у формат╕ Mac\n"
 
+#~ msgid " -R\t\tUse regular expressions for search\n"
+#~ msgstr " -R\t\tКористуватися Формальними Виразами для пошуку\n"
+
 #~ msgid " -S\t\tSmooth scrolling\n"
 #~ msgstr " -S\t\tПлавна прокрутка\n"
+
+#~ msgid "Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses"
+#~ msgstr "Павло Курт╕с, Зейд син-Хал╕ма та Ер╕к С. Реймонд за ncurses"
 
 #~ msgid "File already loaded"
 #~ msgstr "Файл вже завантажено"
 
+#~ msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
+#~ msgstr " -R\t\t--regexp\t\tШукати користуючись Формальними Виразами\n"
+
 #~ msgid "Write"
 #~ msgstr "Записати"
+
+#~ msgid "Case Sensitive Regexp Search%s%s"
+#~ msgstr "Регистрозалежний пошук Формального Виразу%s%s"
+
+#~ msgid "Regexp Search%s%s"
+#~ msgstr "Пошук Формального Виразу%s%s"
+
+#~ msgid "Only %d lines available, skipping to last line"
+#~ msgstr "Т╕льки %d рядк╕в у наявност╕, скипа╓мо до останнього рядка"
