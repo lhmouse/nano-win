@@ -455,12 +455,12 @@ void usage(void)
     print1opt("-N", "--noconvert", _("Don't convert files from DOS/Mac format"));
 #endif
 #ifndef DISABLE_JUSTIFY
-    print1opt("-Q [str]", "--quotestr [str]", _("Quoting string, default \"> \""));
+    print1opt(_("-Q [str]"), _("--quotestr [str]"), _("Quoting string, default \"> \""));
 #endif
 #ifndef NANO_SMALL
     print1opt("-S", "--smooth", _("Smooth scrolling"));
 #endif
-    print1opt("-T [num]", "--tabsize=[num]", _("Set width of a tab to num"));
+    print1opt(_("-T [num]"), _("--tabsize=[num]"), _("Set width of a tab to num"));
     print1opt("-V", "--version", _("Print version information and exit"));
     print1opt("-c", "--const", _("Constantly show cursor position"));
     print1opt("-h", "--help", _("Show this message"));
@@ -475,15 +475,15 @@ void usage(void)
 #endif
 #endif
 #ifndef DISABLE_OPERATINGDIR
-    print1opt("-o [dir]", "--operatingdir=[dir]", _("Set operating directory"));
+    print1opt(_("-o [dir]"), _("--operatingdir=[dir]"), _("Set operating directory"));
 #endif
     print1opt("-p", "--pico", _("Emulate Pico as closely as possible"));
 
 #ifndef DISABLE_WRAPJUSTIFY
-    print1opt("-r [#cols]", "--fill=[#cols]", _("Set fill cols to (wrap lines at) #cols"));
+    print1opt(_("-r [#cols]"), _("--fill=[#cols]"), _("Set fill cols to (wrap lines at) #cols"));
 #endif
 #ifndef DISABLE_SPELLER
-    print1opt("-s [prog]", "--speller=[prog]", _("Enable alternate speller"));
+    print1opt(_("-s [prog]"), _("--speller=[prog]"), _("Enable alternate speller"));
 #endif
     print1opt("-t", "--tempfile", _("Auto save on exit, don't prompt"));
     print1opt("-v", "--view", _("View (read only) mode"));
@@ -492,7 +492,7 @@ void usage(void)
 #endif
     print1opt("-x", "--nohelp", _("Don't show help window"));
     print1opt("-z", "--suspend", _("Enable suspend"));
-    print1opt("+LINE", "", _("Start at line number LINE"));
+    print1opt(_("+LINE"), "", _("Start at line number LINE"));
 
     exit(0);
 }
