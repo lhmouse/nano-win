@@ -111,8 +111,7 @@ CVS code -
 	- Remove the DOS_FILE and MAC_FILE flags, as they're only used
 	  in files.c, and replace them with a static file_format enum.
 	  Change the openfilestruct structure accordingly in order to
-	  handle this.  Also move the PATH_MAX definition to nano.h.
-	  (DLR)
+	  handle this. (DLR)
 - files.c:
   read_file()
 	- Rename variable fileformat to format, to avoid confusion with
@@ -217,6 +216,7 @@ CVS code -
 - nano.h:
 	- Add WIDTH_OF_TAB #define, containing the default width of a
 	  tab. (DLR)
+	- Move the PATH_MAX #define here from files.c.
 	- Remove unused COPYFILEBLOCKSIZE #define. (DLR)
 - rcfile.c:
   parse_rcfile()
