@@ -1911,6 +1911,7 @@ int do_writeout(bool exiting)
     } /* while (TRUE) */
 
     free(ans);
+
     return retval;
 }
 
@@ -1920,71 +1921,96 @@ void do_writeout_void(void)
     display_main_list();
 }
 
-/* Return a malloc()ed string containing the actual directory, used
- * to convert ~user and ~/ notation... */
+/* Return a malloc()ed string containing the actual directory, used to
+ * convert ~user/ and ~/ notation. */
 char *real_dir_from_tilde(const char *buf)
 {
     char *dirtmp = NULL;
 
+    if (buf == NULL)
+    	return NULL;
+
     if (buf[0] == '~') {
 	size_t i;
-	const struct passwd *userdata;
+	const char *tilde_dir;
 
-	/* Figure how how much of the str we need to compare */
+	/* Figure out how much of the str we need to compare. */
 	for (i = 1; buf[i] != '/' && buf[i] != '\0'; i++)
 	    ;
 
-	/* Determine home directory using getpwuid() or getpwent(),
-	   don't rely on $HOME */
-	if (i == 1)
-	    userdata = getpwuid(geteuid());
-	else {
+	/* Get the home directory. */
+	if (i == 1) {
+	    get_homedir();
+	    tilde_dir = homedir;
+	} else {
+	    const struct passwd *userdata;
+
 	    do {
 		userdata = getpwent();
 	    } while (userdata != NULL &&
 		strncmp(userdata->pw_name, buf + 1, i - 1) != 0);
+	    endpwent();
+	    tilde_dir = userdata->pw_dir;
 	}
-	endpwent();
 
-	if (userdata != NULL) {	/* User found */
-	    dirtmp = charalloc(strlen(userdata->pw_dir) +
-		strlen(buf + i) + 1);
-	    sprintf(dirtmp, "%s%s", userdata->pw_dir, &buf[i]);
+	if (tilde_dir != NULL) {
+	    dirtmp = charalloc(strlen(tilde_dir) + strlen(buf + i) + 1);
+	    sprintf(dirtmp, "%s%s", tilde_dir, buf + i);
 	}
     }
 
+    /* Set a default value for dirtmp, in case the user's home directory
+     * isn't found. */
     if (dirtmp == NULL)
-	dirtmp = mallocstrcpy(dirtmp, buf);
+	dirtmp = mallocstrcpy(NULL, buf);
 
     return dirtmp;
 }
 
+#if !defined(DISABLE_TABCOMP) || !defined(DISABLE_BROWSER)
+/* Our sort routine for file listings.  Sort directories before
+ * filenames, alphabetically and ignoring case differences.  Sort
+ * filenames the same way, except for ignoring an initial dot. */
+int diralphasort(const void *va, const void *vb)
+{
+    struct stat fileinfo;
+    const char *a = *(const char *const *)va;
+    const char *b = *(const char *const *)vb;
+    bool aisdir = stat(a, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode);
+    bool bisdir = stat(b, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode);
+
+    if (aisdir && !bisdir)
+	return -1;
+    if (!aisdir && bisdir)
+	return 1;
+
+    if (*a == '.')
+	a++;
+    if (*b == '.')
+	b++;
+
+    return strcasecmp(a, b);
+}
+#endif
+
 #ifndef DISABLE_TABCOMP
-/* Tack a slash onto the string we're completing if it's a directory.
- * We assume there is room for one more character on the end of buf.
- * The return value says whether buf is a directory. */
-int append_slash_if_dir(char *buf, bool *lastwastab, int *place)
+/* Is the given file a directory? */
+int is_dir(const char *buf)
 {
     char *dirptr = real_dir_from_tilde(buf);
     struct stat fileinfo;
-    int ret = 0;
 
-    assert(dirptr != buf);
+    int ret = (stat(dirptr, &fileinfo) != -1 &&
+		S_ISDIR(fileinfo.st_mode));
 
-    if (stat(dirptr, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode)) {
-	strncat(buf, "/", 1);
-	(*place)++;
-	/* now we start over again with # of tabs so far */
-	*lastwastab = FALSE;
-	ret = 1;
-    }
+    assert(buf != NULL && dirptr != buf);
 
     free(dirptr);
+
     return ret;
 }
 
-/*
- * These functions (username_tab_completion(), cwd_tab_completion(), and
+/* These functions (username_tab_completion(), cwd_tab_completion(), and
  * input_tab()) were taken from busybox 0.46 (cmdedit.c).  Here is the
  * notice from that file:
  *
@@ -1999,46 +2025,38 @@ int append_slash_if_dir(char *buf, bool *lastwastab, int *place)
  * You may use this code as you wish, so long as the original author(s)
  * are attributed in any redistributions of the source code.
  * This code is 'as is' with no warranty.
- * This code may safely be consumed by a BSD or GPL license.
- */
+ * This code may safely be consumed by a BSD or GPL license. */
 
-char **username_tab_completion(char *buf, int *num_matches)
+/* We consider the first buflen characters of buf for ~username tab
+ * completion. */
+char **username_tab_completion(const char *buf, size_t *num_matches,
+	size_t buflen)
 {
-    char **matches = (char **)NULL;
-    char *matchline = NULL;
-    struct passwd *userdata;
+    char **matches = NULL;
+    const struct passwd *userdata;
+
+    assert(buf != NULL && num_matches != NULL && buflen > 0);
 
     *num_matches = 0;
-    matches = (char **)nmalloc(BUFSIZ * sizeof(char *));
-
-    strcat(buf, "*");
 
     while ((userdata = getpwent()) != NULL) {
-
-	if (check_wildcard_match(userdata->pw_name, &buf[1])) {
-
-	    /* Cool, found a match.  Add it to the list
-	     * This makes a lot more sense to me (Chris) this way...
-	     */
+	if (strncmp(userdata->pw_name, buf + 1, buflen - 1) == 0) {
+	    /* Cool, found a match.  Add it to the list.  This makes a
+	     * lot more sense to me (Chris) this way... */
 
 #ifndef DISABLE_OPERATINGDIR
 	    /* ...unless the match exists outside the operating
-               directory, in which case just go to the next match */
-
-	    if (operating_dir != NULL) {
-		if (check_operating_dir(userdata->pw_dir, TRUE) != 0)
-		    continue;
-	    }
+	     * directory, in which case just go to the next match. */
+	    if (check_operating_dir(userdata->pw_dir, TRUE))
+		continue;
 #endif
 
-	    matchline = charalloc(strlen(userdata->pw_name) + 2);
-	    sprintf(matchline, "~%s", userdata->pw_name);
-	    matches[*num_matches] = matchline;
+	    matches = (char **)nrealloc(matches, (*num_matches + 1) *
+		sizeof(char *));
+	    matches[*num_matches] =
+		charalloc(strlen(userdata->pw_name) + 2);
+	    sprintf(matches[*num_matches], "~%s", userdata->pw_name);
 	    ++(*num_matches);
-
-	    /* If there's no more room, bail out */
-	    if (*num_matches == BUFSIZ)
-		break;
 	}
     }
     endpwent();
@@ -2047,365 +2065,271 @@ char **username_tab_completion(char *buf, int *num_matches)
 }
 
 /* This was originally called exe_n_cwd_tab_completion, but we're not
-   worried about executables, only filenames :> */
-
-char **cwd_tab_completion(char *buf, int *num_matches)
+ * worried about executables, only filenames :> */
+char **cwd_tab_completion(const char *buf, size_t *num_matches, size_t
+	buflen)
 {
-    char *dirname, *dirtmp = NULL, *tmp = NULL, *tmp2 = NULL;
-    char **matches = (char **)NULL;
+    char *dirname = mallocstrcpy(NULL, buf);
+    char *filename;
+#ifndef DISABLE_OPERATINGDIR
+    size_t dirnamelen;
+#endif
+    size_t filenamelen;
+    char **matches = NULL;
     DIR *dir;
-    struct dirent *next;
+    const struct dirent *next;
 
-    matches = (char **)nmalloc(BUFSIZ * sizeof(char *));
+    assert(dirname != NULL && num_matches != NULL && buflen >= 0);
 
-    /* Stick a wildcard onto the buf, for later use */
-    strcat(buf, "*");
+    *num_matches = 0;
+    null_at(&dirname, buflen);
 
-    /* Okie, if there's a / in the buffer, strip out the directory part */
-    if (buf[0] != '\0' && strstr(buf, "/") != NULL) {
-	dirname = charalloc(strlen(buf) + 1);
-	tmp = buf + strlen(buf);
-	while (*tmp != '/' && tmp != buf)
-	    tmp--;
+    /* Okie, if there's a / in the buffer, strip out the directory
+     * part. */
+    filename = strrchr(dirname, '/');
+    if (filename != NULL) {
+	char *tmpdirname = filename + 1;
 
-	tmp++;
-
-	strncpy(dirname, buf, tmp - buf + 1);
-	dirname[tmp - buf] = '\0';
-
+	filename = mallocstrcpy(NULL, tmpdirname);
+	*tmpdirname = '\0';
+	tmpdirname = dirname;
+	dirname = real_dir_from_tilde(dirname);
+	free(tmpdirname);
     } else {
-
-	if ((dirname = getcwd(NULL, PATH_MAX + 1)) == NULL)
-	    return matches;
-	else
-	    tmp = buf;
+	filename = dirname;
+	dirname = mallocstrcpy(NULL, "./");
     }
 
-#ifdef DEBUG
-    fprintf(stderr, "\nDir = %s\n", dirname);
-    fprintf(stderr, "\nbuf = %s\n", buf);
-    fprintf(stderr, "\ntmp = %s\n", tmp);
-#endif
-
-    dirtmp = real_dir_from_tilde(dirname);
-    free(dirname);
-    dirname = dirtmp;
-
-#ifdef DEBUG
-    fprintf(stderr, "\nDir = %s\n", dirname);
-    fprintf(stderr, "\nbuf = %s\n", buf);
-    fprintf(stderr, "\ntmp = %s\n", tmp);
-#endif
-
+    assert(dirname[strlen(dirname) - 1] == '/');
 
     dir = opendir(dirname);
+
     if (dir == NULL) {
-	/* Don't print an error, just shut up and return */
-	*num_matches = 0;
+	/* Don't print an error, just shut up and return. */
 	beep();
-	return matches;
+	free(filename);
+	free(dirname);
+	return NULL;
     }
+
+#ifndef DISABLE_OPERATINGDIR
+    dirnamelen = strlen(dirname);
+#endif
+    filenamelen = strlen(filename);
+
     while ((next = readdir(dir)) != NULL) {
 
 #ifdef DEBUG
 	fprintf(stderr, "Comparing \'%s\'\n", next->d_name);
 #endif
-	/* See if this matches */
-	if (check_wildcard_match(next->d_name, tmp)) {
-
-	    /* Cool, found a match.  Add it to the list
-	     * This makes a lot more sense to me (Chris) this way...
-	     */
+	/* See if this matches. */
+	if (strncmp(next->d_name, filename, filenamelen) == 0 &&
+		(*filename == '.' || (strcmp(next->d_name, ".") != 0 &&
+		strcmp(next->d_name, "..") != 0))) {
+	    /* Cool, found a match.  Add it to the list.  This makes a
+	     * lot more sense to me (Chris) this way... */
 
 #ifndef DISABLE_OPERATINGDIR
 	    /* ...unless the match exists outside the operating
-               directory, in which case just go to the next match; to
-	       properly do operating directory checking, we have to add the
-	       directory name to the beginning of the proposed match
-	       before we check it */
+	     * directory, in which case just go to the next match.  To
+	     * properly do operating directory checking, we have to add
+	     * the directory name to the beginning of the proposed match
+	     * before we check it. */
+	    char *tmp2 = charalloc(strlen(dirname) +
+		strlen(next->d_name) + 1);
 
-	    if (operating_dir != NULL) {
-		tmp2 = charalloc(strlen(dirname) + strlen(next->d_name) + 2);
-		strcpy(tmp2, dirname);
-		strcat(tmp2, "/");
-		strcat(tmp2, next->d_name);
-		if (check_operating_dir(tmp2, TRUE) != 0) {
-		    free(tmp2);
-		    continue;
-		}
-	        free(tmp2);
+	    sprintf(tmp2, "%s%s", dirname, next->d_name);
+	    if (check_operating_dir(tmp2, TRUE)) {
+		free(tmp2);
+		continue;
 	    }
+	    free(tmp2);
 #endif
 
-	    tmp2 = NULL;
-	    tmp2 = charalloc(strlen(next->d_name) + 1);
-	    strcpy(tmp2, next->d_name);
-	    matches[*num_matches] = tmp2;
-	    ++*num_matches;
-
-	    /* If there's no more room, bail out */
-	    if (*num_matches == BUFSIZ)
-		break;
+	    matches = (char **)nrealloc(matches, (*num_matches + 1) *
+		sizeof(char *));
+	    matches[*num_matches] = mallocstrcpy(NULL, next->d_name);
+	    ++(*num_matches);
 	}
     }
     closedir(dir);
     free(dirname);
+    free(filename);
 
     return matches;
 }
 
-/* This function now has an arg which refers to how much the statusbar
- * (place) should be advanced, i.e. the new cursor pos. */
-char *input_tab(char *buf, int place, bool *lastwastab, int *newplace,
-	bool *list)
+/* Do tab completion.  This function now has an arg which refers to how
+ * much the statusbar cursor position (place) should be advanced. */
+char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 {
-    /* Do TAB completion */
-    static int num_matches = 0, match_matches = 0;
-    static char **matches = (char **)NULL;
-    int pos = place, i = 0, col = 0, editline = 0;
-    int longestname = 0, is_dir = 0;
-    char *foo;
+    size_t num_matches = 0;
+    char **matches = NULL;
 
-    *list = FALSE;
+    assert(buf != NULL && place != NULL && *place <= strlen(buf) && lastwastab != NULL && list != NULL);
 
-    if (*lastwastab == FALSE) {
-	char *tmp, *copyto, *matchbuf;
+    *list = 0;
 
-	*lastwastab = TRUE;
+    /* If the word starts with `~' and there is no slash in the word,
+     * then try completing this word as a username. */
+    if (*place > 0 && *buf == '~') {
+	const char *bob = strchr(buf, '/');
 
-	/* Make a local copy of the string -- up to the position of the
-	   cursor */
-	matchbuf = charalloc(strlen(buf) + 2);
-	memset(matchbuf, '\0', strlen(buf) + 2);
+	if (bob == NULL || bob >= buf + *place)
+	    matches = username_tab_completion(buf, &num_matches,
+		*place);
+    }
 
-	strncpy(matchbuf, buf, place);
-	tmp = matchbuf;
+    /* Match against files relative to the current working directory. */
+    if (matches == NULL)
+	matches = cwd_tab_completion(buf, &num_matches, *place);
 
-	/* skip any leading white space */
-	while (*tmp && is_blank_char(*tmp))
-	    ++tmp;
+    if (num_matches <= 0)
+	beep();
+    else {
+	size_t match, common_len = 0;
+	size_t lastslash = strrchrn(buf, '/', *place);
+	    /* Ignore the first match_strip characters of matches
+	     * entries.  The entries of matches are tilde expanded. */
+	char *mzero;
 
-	/* Free up any memory already allocated */
-	if (matches != NULL) {
-	    for (i = i; i < num_matches; i++)
-		free(matches[i]);
-	    free(matches);
-	    matches = (char **)NULL;
-	    num_matches = 0;
-	}
+	while (TRUE) {
+	    for (match = 1; match < num_matches; match++) {
+		if (matches[0][common_len] !=
+			matches[match][common_len])
+		    break;
+	    }
 
-	/* If the word starts with `~' and there is no slash in the word, 
-	 * then try completing this word as a username. */
-
-	/* If the original string begins with a tilde, and the part
-	   we're trying to tab-complete doesn't contain a slash, copy
-	   the part we're tab-completing into buf, so tab completion
-	   will result in buf's containing only the tab-completed
-	   username. */
-	if (buf[0] == '~' && strchr(tmp, '/') == NULL) {
-	    buf = mallocstrcpy(buf, tmp);
-	    matches = username_tab_completion(tmp, &num_matches);
-	}
-	/* If we're in the middle of the original line, copy the string
-	   only up to the cursor position into buf, so tab completion
-	   will result in buf's containing only the tab-completed
-	   path/filename. */
-	else if (strlen(buf) > strlen(tmp))
-	    buf = mallocstrcpy(buf, tmp);
-
-	/* Try to match everything in the current working directory that
-	 * matches.  */
-	if (matches == NULL)
-	    matches = cwd_tab_completion(tmp, &num_matches);
-
-	/* Don't leak memory */
-	free(matchbuf);
-
-#ifdef DEBUG
-	fprintf(stderr, "%d matches found...\n", num_matches);
-#endif
-	/* Did we find exactly one match? */
-	switch (num_matches) {
-	case 0:
-	    blank_edit();
-	    wrefresh(edit);
-	    break;
-	case 1:
-
-	    buf = charealloc(buf, strlen(buf) + strlen(matches[0]) + 1);
-
-	    if (buf[0] != '\0' && strstr(buf, "/") != NULL) {
-		for (tmp = buf + strlen(buf); *tmp != '/' && tmp != buf;
-		     tmp--);
-		tmp++;
-	    } else
-		tmp = buf;
-
-	    if (strcmp(tmp, matches[0]) == 0)
-		is_dir = append_slash_if_dir(buf, lastwastab, newplace);
-
-	    if (is_dir != 0)
+	    if (match < num_matches || matches[0][common_len] == '\0')
 		break;
 
-	    copyto = tmp;
-	    for (pos = 0; *tmp == matches[0][pos] &&
-		 pos <= strlen(matches[0]); pos++)
-		tmp++;
+	    common_len++;
+	}
 
-	    /* write out the matched name */
-	    strncpy(copyto, matches[0], strlen(matches[0]) + 1);
-	    *newplace += strlen(matches[0]) - pos;
+	mzero = charalloc(lastslash + common_len + 1);
+	sprintf(mzero, "%.*s%.*s", lastslash, buf, common_len,
+		matches[0]);
 
-	    /* if an exact match is typed in and Tab is pressed,
-	       *newplace will now be negative; in that case, make it
-	       zero, so that the cursor will stay where it is instead of
-	       moving backward */
-	    if (*newplace < 0)
-		*newplace = 0;
+	common_len += lastslash;
 
-	    /* Is it a directory? */
-	    append_slash_if_dir(buf, lastwastab, newplace);
+	assert(common_len >= *place);
 
-	    break;
-	default:
-	    /* Check to see if all matches share a beginning, and, if so,
-	       tack it onto buf and then beep */
+	if (num_matches == 1 && is_dir(mzero)) {
+	    mzero[common_len] = '/';
+	    common_len++;
+	    assert(common_len > *place);
+	}
 
-	    if (buf[0] != '\0' && strstr(buf, "/") != NULL) {
-		for (tmp = buf + strlen(buf); *tmp != '/' && tmp != buf;
-		     tmp--);
-		tmp++;
-	    } else
-		tmp = buf;
+	if (num_matches > 1 && (common_len != *place ||
+		*lastwastab == FALSE))
+	    beep();
 
-	    for (pos = 0; *tmp == matches[0][pos] && *tmp != '\0' &&
-		 pos <= strlen(matches[0]); pos++)
-		tmp++;
+	/* If there is more match to display on the statusbar, show it.
+	 * We reset lastwastab to FALSE: it requires hitting Tab twice
+	 * in succession with no statusbar changes to see a match
+	 * list. */
+	if (common_len != *place) {
+	    size_t buflen = strlen(buf);
 
-	    while (TRUE) {
-		match_matches = 0;
+	    *lastwastab = FALSE;
+	    buf = charealloc(buf, common_len + buflen - *place + 1);
+	    charmove(buf + common_len, buf + *place, buflen - *place + 1);
+	    strncpy(buf, mzero, common_len);
+	    *place = common_len;
+	} else if (*lastwastab == FALSE || num_matches < 2)
+	    *lastwastab = TRUE;
+	else {
+	    int longest_name = 0, editline = 0;
+	    size_t columns;
 
-		for (i = 0; i < num_matches; i++) {
-		    if (matches[i][pos] == 0)
-			break;
-		    else if (matches[i][pos] == matches[0][pos])
-			match_matches++;
-		}
-		if (match_matches == num_matches &&
-		    (i == num_matches || matches[i] != 0)) {
-		    /* All the matches have the same character at pos+1,
-		       so paste it into buf... */
-		    buf = charealloc(buf, strlen(buf) + 2);
-		    strncat(buf, matches[0] + pos, 1);
-		    *newplace += 1;
-		    pos++;
-		} else {
-		    beep();
+	    /* Now we show a list of the available choices. */
+	    assert(num_matches > 1);
+
+	    /* Sort the list. */
+	    qsort(matches, num_matches, sizeof(char *), diralphasort);
+
+	    for (match = 0; match < num_matches; match++) {
+		common_len = strnlenpt(matches[match], COLS - 1);
+		if (common_len > COLS - 1) {
+		    longest_name = COLS - 1;
 		    break;
 		}
+		if (common_len > longest_name)
+		    longest_name = common_len;
 	    }
-	}
-    } else {
-	/* Ok -- the last char was a TAB.  Since they
-	 * just hit TAB again, print a list of all the
-	 * available choices... */
-	if (matches != NULL && num_matches > 1) {
 
-	    /* Blank the edit window, and print the matches out there */
+	    assert(longest_name <= COLS - 1);
+
+	    /* Each column will be longest_name + 2 characters wide,
+	     * i.e, two spaces between columns, except that there will
+	     * be only one space after the last column. */
+	    columns = (COLS + 1) / (longest_name + 2);
+
+	    /* Blank the edit window, and print the matches out
+	     * there. */
 	    blank_edit();
 	    wmove(edit, 0, 0);
 
-	    editline = 0;
+	    /* Disable el cursor. */
+	    curs_set(0);
 
-	    /* Figure out the length of the longest filename */
-	    for (i = 0; i < num_matches; i++)
-		if (strlen(matches[i]) > longestname)
-		    longestname = strlen(matches[i]);
+	    for (match = 0; match < num_matches; match++) {
+		char *disp;
 
-	    if (longestname > COLS - 1)
-		longestname = COLS - 1;
+		wmove(edit, editline, (longest_name + 2) *
+			(match % columns));
 
-	    foo = charalloc(longestname + 5);
-
-	    /* Print the list of matches */
-	    for (i = 0, col = 0; i < num_matches; i++) {
-
-		/* make each filename shown be the same length as the
-		   longest filename, with two spaces at the end */
-		snprintf(foo, longestname + 1, "%s", matches[i]);
-		while (strlen(foo) < longestname)
-		    strcat(foo, " ");
-
-		strcat(foo, "  ");
-
-		/* Disable el cursor */
-		curs_set(0);
-		/* now, put the match on the screen */
-		waddnstr(edit, foo, strlen(foo));
-		col += strlen(foo);
-
-		/* And if the next match isn't going to fit on the
-		   line, move to the next one */
-		if (col > COLS - longestname && i + 1 < num_matches) {
-		    editline++;
-		    wmove(edit, editline, 0);
-		    if (editline == editwinrows - 1) {
-			waddstr(edit, _("(more)"));
-			break;
-		    }
-		    col = 0;
+		if (match % columns == 0 && editline == editwinrows - 1
+			&& num_matches - match > columns) {
+		    waddstr(edit, _("(more)"));
+		    break;
 		}
+
+		disp = display_string(matches[match], 0, longest_name,
+			FALSE);
+		waddstr(edit, disp);
+		free(disp);
+
+		if ((match + 1) % columns == 0)
+		    editline++;
 	    }
-	    free(foo);
 	    wrefresh(edit);
 	    *list = TRUE;
-	} else
-	    beep();
+	}
+
+	free(mzero);
     }
 
+    free_charptrarray(matches, num_matches);
+
     /* Only refresh the edit window if we don't have a list of filename
-       matches on it */
+     * matches on it. */
     if (*list == FALSE)
 	edit_refresh();
+
+    /* Enable el cursor. */
     curs_set(1);
+
     return buf;
 }
 #endif /* !DISABLE_TABCOMP */
 
-/* Only print the last part of a path; isn't there a shell
- * command for this? */
+/* Only print the last part of a path.  Isn't there a shell command for
+ * this? */
 const char *tail(const char *foo)
 {
-    const char *tmp = foo + strlen(foo);
+    const char *tmp = strrchr(foo, '/');
 
-    while (*tmp != '/' && tmp != foo)
-	tmp--;
-
-    if (*tmp == '/')
+    if (tmp == NULL)
+	tmp = foo;
+    else if (*tmp == '/')
 	tmp++;
 
     return tmp;
 }
 
 #ifndef DISABLE_BROWSER
-/* Our sort routine for file listings -- sort directories before
- * files, and then alphabetically. */ 
-int diralphasort(const void *va, const void *vb)
-{
-    struct stat fileinfo;
-    const char *a = *(char *const *)va, *b = *(char *const *)vb;
-    int aisdir = stat(a, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode);
-    int bisdir = stat(b, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode);
-
-    if (aisdir != 0 && bisdir == 0)
-	return -1;
-    if (aisdir == 0 && bisdir != 0)
-	return 1;
-
-    return strcasecmp(a, b);
-}
-
-/* Free our malloc()ed memory */
+/* Free our malloc()ed memory. */
 void free_charptrarray(char **array, size_t len)
 {
     for (; len > 0; len--)
@@ -2419,25 +2343,10 @@ void striponedir(char *foo)
     char *tmp;
 
     assert(foo != NULL);
-    /* Don't strip the root dir */
-    if (*foo == '\0' || strcmp(foo, "/") == 0)
-	return;
 
-    tmp = foo + strlen(foo) - 1;
-    assert(tmp >= foo);
-    if (*tmp == '/')
-	*tmp = '\0';
-
-    while (*tmp != '/' && tmp != foo)
-	tmp--;
-
-    if (tmp != foo)
-	*tmp = '\0';
-    else { /* SPK may need to make a 'default' path here */
-        if (*tmp != '/')
-	    *tmp = '.';
-	*(tmp + 1) = '\0';
-    }
+    tmp = strrchr(foo, '/');
+    if (tmp != NULL)
+ 	*tmp = '\0';
 }
 
 int readable_dir(const char *path)
@@ -2528,7 +2437,7 @@ char *do_browser(const char *inpath)
     filelist = browser_init(path, &longest, &numents);
     foo = charalloc(longest + 8);
 
-    /* Sort the list by directory first, then alphabetically */
+    /* Sort the list. */
     qsort(filelist, numents, sizeof(char *), diralphasort);
 
     titlebar(path);

@@ -2530,17 +2530,11 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 #endif
 #ifndef DISABLE_TABCOMP
 	    if (allow_tabs) {
-		int shift = 0;
-
-		answer = input_tab(answer, statusbar_x, &tabbed, &shift,
-			list);
-		statusbar_xend = strlen(answer);
-		statusbar_x += shift;
-		if (statusbar_x > statusbar_xend)
-		    statusbar_x = statusbar_xend;
+		answer = input_tab(answer, &statusbar_x, &tabbed, list);
+		statusbar_xend = statusbar_x;
 	    }
-#endif
 	    break;
+#endif
 	case NANO_PREVLINE_KEY:
 #ifndef NANO_SMALL
 	    if (history_list != NULL) {

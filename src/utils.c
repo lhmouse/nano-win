@@ -27,6 +27,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <pwd.h>
 #include <ctype.h>
 #include <errno.h>
 #include <assert.h>
@@ -65,6 +66,23 @@ int num_of_digits(int n)
     }
 
     return i;
+}
+
+/* Return the user's home directory.  We use $HOME, and if that fails,
+ * we fall back on getpwuid(). */
+void get_homedir(void)
+{
+    if (homedir == NULL) {
+	const char *homenv = getenv("HOME");
+
+	if (homenv == NULL) {
+	    const struct passwd *userage = getpwuid(geteuid());
+
+	    if (userage != NULL)
+		homenv = userage->pw_dir;
+	}
+	homedir = mallocstrcpy(NULL, homenv);
+    }
 }
 
 /* Read a ssize_t from str, and store it in *val (if val is not NULL).
@@ -414,105 +432,3 @@ void get_totals(const filestruct *begin, const filestruct *end, int
 	}
     }
 }
-
-#ifndef DISABLE_TABCOMP
-/*
- * Routine to see if a text string is matched by a wildcard pattern.
- * Returns TRUE if the text is matched, or FALSE if it is not matched
- * or if the pattern is invalid.
- *  *		matches zero or more characters
- *  ?		matches a single character
- *  [abc]	matches 'a', 'b' or 'c'
- *  \c		quotes character c
- * Adapted from code written by Ingo Wilken, and
- * then taken from sash, Copyright (c) 1999 by David I. Bell
- * Permission is granted to use, distribute, or modify this source,
- * provided that this copyright notice remains intact.
- * Permission to distribute this code under the GPL has been granted.
- */
-int check_wildcard_match(const char *text, const char *pattern)
-{
-    const char *retrypat;
-    const char *retrytext;
-    int ch;
-    int found;
-    int len;
-
-    retrypat = NULL;
-    retrytext = NULL;
-
-    while (*text != '\0' || *pattern != '\0') {
-	ch = *pattern++;
-
-	switch (ch) {
-	case '*':
-	    retrypat = pattern;
-	    retrytext = text;
-	    break;
-
-	case '[':
-	    found = FALSE;
-
-	    while ((ch = *pattern++) != ']') {
-		if (ch == '\\')
-		    ch = *pattern++;
-
-		if (ch == '\0')
-		    return FALSE;
-
-		if (*text == ch)
-		    found = TRUE;
-	    }
-	    len = strlen(text);
-	    if (!found && len != 0) {
-		return FALSE;
-	    }
-	    if (found) {
-		if (strlen(pattern) == 0 && len == 1) {
-		    return TRUE;
-		}
-		if (len != 0) {
-		    text++;
-		    continue;
-		}
-	    }
-
-	    /* fall into next case */
-
-	case '?':
-	    if (*text++ == '\0')
-		return FALSE;
-
-	    break;
-
-	case '\\':
-	    ch = *pattern++;
-
-	    if (ch == '\0')
-		return FALSE;
-
-	    /* fall into next case */
-
-	default:
-	    if (*text == ch) {
-		if (*text != '\0')
-		    text++;
-		break;
-	    }
-
-	    if (*text != '\0') {
-		pattern = retrypat;
-		text = ++retrytext;
-		break;
-	    }
-
-	    return FALSE;
-	}
-
-	if (pattern == NULL)
-	    return FALSE;
-    }
-
-    return TRUE;
-}
-#endif

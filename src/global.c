@@ -183,9 +183,7 @@ bool curses_ended = FALSE;	/* Indicates to statusbar() to simply
 				 * write to stderr, since endwin() has
 				 * ended curses mode. */
 
-#ifdef ENABLE_NANORC
 char *homedir = NULL;		/* $HOME or from /etc/passwd. */
-#endif
 
 size_t length_of_list(const shortcut *s)
 {

@@ -30,7 +30,6 @@
 #include <errno.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <pwd.h>
 #include <ctype.h>
 #include <assert.h>
 #include "proto.h"
@@ -666,18 +665,7 @@ void do_rcfile(void)
 
     lineno = 0;
 
-    {
-	const char *homenv = getenv("HOME");
-
-	/* Rely on $HOME, fall back on getpwuid() */
-	if (homenv == NULL) {
-	    const struct passwd *userage = getpwuid(geteuid());
-
-	    if (userage != NULL)
-		homenv = userage->pw_dir;
-	}
-	homedir = mallocstrcpy(NULL, homenv);
-    }
+    get_homedir();
 
     if (homedir == NULL) {
 	rcfile_error(N_("I can't find my home directory!  Wah!"));

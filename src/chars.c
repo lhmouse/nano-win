@@ -41,13 +41,13 @@
 
 /* Return TRUE if the value of c is in byte range, and FALSE
  * otherwise. */
-bool is_byte(unsigned int c)
+bool is_byte(int c)
 {
-    return (c == (unsigned char)c);
+    return ((unsigned int)c == (unsigned char)c);
 }
 
 /* This function is equivalent to isalnum(). */
-bool is_alnum_char(unsigned int c)
+bool is_alnum_char(int c)
 {
     return isalnum(c);
 }
@@ -82,7 +82,7 @@ bool is_alnum_wchar(wchar_t wc)
 #endif
 
 /* This function is equivalent to isblank(). */
-bool is_blank_char(unsigned int c)
+bool is_blank_char(int c)
 {
     return
 #ifdef HAVE_ISBLANK
@@ -130,9 +130,10 @@ bool is_blank_wchar(wchar_t wc)
 
 /* This function is equivalent to iscntrl(), except in that it also
  * handles control characters with their high bits set. */
-bool is_cntrl_char(unsigned int c)
+bool is_cntrl_char(int c)
 {
-    return (0 <= c && c < 32) || (127 <= c && c < 160);
+    return (-128 <= c && c < -96) || (0 <= c && c < 32) ||
+	(127 <= c && c < 160);
 }
 
 /* This function is equivalent to iscntrl() for multibyte characters,
@@ -273,7 +274,7 @@ int mb_cur_max(void)
 /* Convert the value in chr to a multibyte character with the same
  * wide character value as chr.  Return the multibyte character and its
  * length. */
-char *make_mbchar(unsigned int chr, char *chr_mb, int *chr_mb_len)
+char *make_mbchar(int chr, char *chr_mb, int *chr_mb_len)
 {
     assert(chr_mb != NULL && chr_mb_len != NULL);
 
@@ -412,7 +413,7 @@ size_t move_mbleft(const char *buf, size_t pos)
 #endif
 		, NULL);
 
-	if (pos_prev <= buf_mb_len)
+	if (pos_prev <= (size_t)buf_mb_len)
 	    break;
 
 	pos_prev -= buf_mb_len;
@@ -759,4 +760,18 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 #else
 		nstrnlen(s, maxlen);
 #endif
+}
+
+/* Find the one-based position of the last occurrence of character c in
+ * the first n characters of s.  Return 0 if c is not found. */
+size_t strrchrn(const char *s, int c, size_t n)
+{
+    assert(n <= strlen(s));
+
+    for (s += n - 1; n >= 1; n--, s--) {
+	if (c == *s)
+	    return n;
+    }
+
+    return 0;
 }

@@ -144,25 +144,23 @@ extern historyheadtype replace_history;
 
 extern bool curses_ended;
 
-#ifdef ENABLE_NANORC
 extern char *homedir;
-#endif
 
 /* Functions we want available. */
 
 /* Public functions in chars.c. */
-bool is_byte(unsigned int c);
-bool is_alnum_char(unsigned int c);
+bool is_byte(int c);
+bool is_alnum_char(int c);
 bool is_alnum_mbchar(const char *c);
 #ifdef NANO_WIDE
 bool is_alnum_wchar(wchar_t wc);
 #endif
-bool is_blank_char(unsigned int c);
+bool is_blank_char(int c);
 bool is_blank_mbchar(const char *c);
 #ifdef NANO_WIDE
 bool is_blank_wchar(wchar_t wc);
 #endif
-bool is_cntrl_char(unsigned int c);
+bool is_cntrl_char(int c);
 bool is_cntrl_mbchar(const char *c);
 #ifdef NANO_WIDE
 bool is_cntrl_wchar(wchar_t wc);
@@ -174,7 +172,7 @@ wchar_t control_wrep(wchar_t c);
 #endif
 int mbwidth(const char *c);
 int mb_cur_max(void);
-char *make_mbchar(unsigned int chr, char *chr_mb, int *chr_mb_len);
+char *make_mbchar(int chr, char *chr_mb, int *chr_mb_len);
 int parse_mbchar(const char *buf, char *chr
 #ifdef NANO_WIDE
 	, bool *bad_chr
@@ -207,6 +205,7 @@ size_t mbstrlen(const char *s);
 size_t nstrnlen(const char *s, size_t maxlen);
 #endif
 size_t mbstrnlen(const char *s, size_t maxlen);
+size_t strrchrn(const char *s, int c, size_t n);
 
 /* Public functions in color.c. */
 #ifdef ENABLE_COLOR
@@ -287,16 +286,18 @@ int write_marked(const char *name, bool tmp, int append);
 int do_writeout(bool exiting);
 void do_writeout_void(void);
 char *real_dir_from_tilde(const char *buf);
+#if !defined(DISABLE_TABCOMP) || !defined(DISABLE_BROWSER)
+int diralphasort(const void *va, const void *vb);
+#endif
 #ifndef DISABLE_TABCOMP
-int append_slash_if_dir(char *buf, bool *lastwastab, int *place);
-char **username_tab_completion(char *buf, int *num_matches);
-char **cwd_tab_completion(char *buf, int *num_matches);
-char *input_tab(char *buf, int place, bool *lastwastab, int *newplace,
-	bool *list);
+char **username_tab_completion(const char *buf, size_t *num_matches,
+	size_t buflen);
+char **cwd_tab_completion(const char *buf, size_t *num_matches, size_t
+	buflen);
+char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list);
 #endif
 const char *tail(const char *foo);
 #ifndef DISABLE_BROWSER
-int diralphasort(const void *va, const void *vb);
 void free_charptrarray(char **array, size_t len);
 void striponedir(char *foo);
 int readable_dir(const char *path);
@@ -531,6 +532,7 @@ int regexec_safe(const regex_t *preg, const char *string, size_t nmatch,
 int regexp_bol_or_eol(const regex_t *preg, const char *string);
 #endif
 int num_of_digits(int n);
+void get_homedir(void);
 bool parse_num(const char *str, ssize_t *val);
 void align(char **strp);
 void null_at(char **data, size_t index);
@@ -560,9 +562,6 @@ void mark_order(const filestruct **top, size_t *top_x, const filestruct
 #endif
 void get_totals(const filestruct *begin, const filestruct *end, int
 	*lines, size_t *size);
-#ifndef DISABLE_TABCOMP
-int check_wildcard_match(const char *text, const char *pattern);
-#endif
 
 /* Public functions in winio.c. */
 #ifndef NANO_SMALL
