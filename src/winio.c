@@ -1558,6 +1558,11 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
        input */
     wrefresh(edit);
 
+    /* If we're using restricted mode, we aren't allowed to change the
+     * name of a file once it has one because that would allow writing
+     * to files not specified on the command line.  In this case,
+     * disable all keys that would change the text if the filename isn't
+     * blank and we're at the "Write File" prompt. */
     while ((kbinput = get_kbinput(bottomwin, &meta_key)) != NANO_ENTER_KEY) {
 	for (t = s; t != NULL; t = t->next) {
 #ifdef DEBUG
@@ -1620,6 +1625,8 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		x++;
 	    break;
 	case NANO_DELETE_KEY:
+	    /* If we're using restricted mode, the filename isn't blank,
+	     * and we're at the "Write File" prompt, disable Delete. */
 	    if (!ISSET(RESTRICTED) || filename[0] == '\0' || s != writefile_list) {
 		if (x < xend) {
 		    charmove(answer + x, answer + x + 1, xend - x);
@@ -1629,6 +1636,9 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    break;
 	case NANO_CUT_KEY:
 	case NANO_UNCUT_KEY:
+	    /* If we're using restricted mode, the filename isn't blank,
+	     * and we're at the "Write File" prompt, disable Cut and
+	     * UnCut. */
 	    if (!ISSET(RESTRICTED) || filename[0] == '\0' || s != writefile_list) {
 		null_at(&answer, 0);
 		xend = 0;
@@ -1636,6 +1646,9 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    }
 	    break;
 	case NANO_BACKSPACE_KEY:
+	    /* If we're using restricted mode, the filename isn't blank,
+	     * and we're at the "Write File" prompt, disable
+	     * Backspace. */
 	    if (!ISSET(RESTRICTED) || filename[0] == '\0' || s != writefile_list) {
 		if (x > 0) {
 		    charmove(answer + x - 1, answer + x, xend - x + 1);
@@ -1780,6 +1793,10 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 			return kbinput;
 		}
 
+	    /* If we're using restricted mode, the filename isn't blank,
+	     * and we're at the "Write File" prompt, act as though the
+	     * unhandled character we got is a control character and
+	     * throw it away. */
 	    if (is_cntrl_char(kbinput) || (ISSET(RESTRICTED) && filename[0] != '\0' && s == writefile_list))
 		break;
 	    answer = charealloc(answer, xend + 2);

@@ -276,6 +276,8 @@ void toggle_init(void)
 
     toggle_init_one(TOGGLE_NOHELP_KEY, toggle_nohelp_msg, NO_HELP);
 #ifdef ENABLE_MULTIBUFFER
+    /* If we're using restricted mode, the multibuffer toggle is
+     * disabled.  It's useless since inserting files is disabled. */
     if (!ISSET(RESTRICTED))
 	toggle_init_one(TOGGLE_MULTIBUFFER_KEY, toggle_multibuffer_msg, MULTIBUFFER);
 #endif
@@ -285,11 +287,17 @@ void toggle_init(void)
     toggle_init_one(TOGGLE_WRAP_KEY, toggle_wrap_msg, NO_WRAP);
 #endif
     toggle_init_one(TOGGLE_CUTTOEND_KEY, toggle_cuttoend_msg, CUT_TO_END);
+    /* If we're using restricted mode, the suspend toggle is disabled.
+     * It's useless since suspending is disabled. */
     if (!ISSET(RESTRICTED))
 	toggle_init_one(TOGGLE_SUSPEND_KEY, toggle_suspend_msg, SUSPEND);
 #ifndef DISABLE_MOUSE
     toggle_init_one(TOGGLE_MOUSE_KEY, toggle_mouse_msg, USE_MOUSE);
 #endif
+    /* If we're using restricted mode, the no-conversion, DOS format,
+     * Mac format, and backup toggles are disabled.  The first, second,
+     * and third are useless since inserting files is disabled, and the
+     * fourth is useless since backups are disabled. */
     if (!ISSET(RESTRICTED)) {
 	toggle_init_one(TOGGLE_NOCONVERT_KEY, toggle_noconvert_msg, NO_CONVERT);
 	toggle_init_one(TOGGLE_DOS_KEY, toggle_dos_msg, DOS_FILE);
@@ -482,7 +490,11 @@ void shortcut_init(int unjustify)
 #endif
 		);
 
-    /* this is so we can view multiple files */
+    /* We allow inserting files in view mode if multibuffers are
+     * available, so that we can view multiple files. */
+    /* If we're using restricted mode, inserting files is disabled since
+     * it allows reading from or writing to files not specified on the
+     * command line. */
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_INSERTFILE_KEY, _("Read File"),
 		IFHELP(nano_insert_msg, NANO_NO_KEY), NANO_INSERTFILE_FKEY,
@@ -530,6 +542,9 @@ void shortcut_init(int unjustify)
 		IFHELP(nano_cursorpos_msg, NANO_NO_KEY), NANO_CURSORPOS_FKEY,
 		NANO_NO_KEY, VIEW, do_cursorpos_void);
 
+    /* If we're using restricted mode, spell checking is disabled
+     * because it allows reading from or writing to files not specified
+     * on the command line. */
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_SPELL_KEY, _("To Spell"),
 		IFHELP(nano_spell_msg, NANO_NO_KEY), NANO_SPELL_FKEY,
@@ -854,6 +869,8 @@ void shortcut_init(int unjustify)
 		);
 
 #ifndef DISABLE_BROWSER
+    /* If we're using restricted mode, the file browser is disabled.
+     * It's useless since inserting files is disabled. */
     /* Translators: try to keep this string under 16 characters long */
     if (!ISSET(RESTRICTED))
 	sc_init_one(&writefile_list, NANO_TOFILES_KEY, _("To Files"),
@@ -862,6 +879,12 @@ void shortcut_init(int unjustify)
 #endif
 
 #ifndef NANO_SMALL
+    /* If we're using restricted mode, the DOS format, Mac format,
+     * append, prepend, and backup toggles are disabled.  The first and
+     * second are useless since inserting files is disabled, the third
+     * and fourth are disabled because they allow writing to files not
+     * specified on the command line, and the fifth is useless since
+     * backups are disabled. */
     /* Translators: try to keep this string under 16 characters long */
     if (!ISSET(RESTRICTED))
 	sc_init_one(&writefile_list, NANO_NO_KEY, _("DOS Format"),
@@ -916,6 +939,8 @@ void shortcut_init(int unjustify)
 		NANO_NO_KEY, VIEW, 0);
 
 #ifndef DISABLE_BROWSER
+    /* If we're using restricted mode, the file browser is disabled.
+     * It's useless since inserting files is disabled. */
     if (!ISSET(RESTRICTED))
 	sc_init_one(&insertfile_list, NANO_TOFILES_KEY, _("To Files"),
 		IFHELP(nano_tofiles_msg, NANO_NO_KEY), NANO_NO_KEY,
@@ -923,6 +948,8 @@ void shortcut_init(int unjustify)
 #endif
 
 #ifndef NANO_SMALL
+    /* If we're using restricted mode, command execution is disabled.
+     * It's useless since inserting files is disabled. */
     /* Translators: try to keep this string under 22 characters long */
     if (!ISSET(RESTRICTED))
 	sc_init_one(&insertfile_list, NANO_EXTCMD_KEY, _("Execute Command"),
@@ -930,6 +957,8 @@ void shortcut_init(int unjustify)
 		NANO_NO_KEY, NOVIEW, 0);
 
 #ifdef ENABLE_MULTIBUFFER
+    /* If we're using restricted mode, the multibuffer toggle is
+     * disabled.  It's useless since inserting files is disabled. */
     /* Translators: try to keep this string under 22 characters long */
     if (!ISSET(RESTRICTED))
 	sc_init_one(&insertfile_list, NANO_NO_KEY, _("New Buffer"),

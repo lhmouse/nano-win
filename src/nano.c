@@ -155,7 +155,9 @@ void die_save_file(const char *die_filename)
     char *ret;
     int i = -1;
 
-    /* No emergency files in restricted mode! */
+    /* If we're using restricted mode, don't write any emergency backup
+     * files, since that would allow reading from or writing to files
+     * not specified on the command line. */
     if (ISSET(RESTRICTED))
 	return;
 
@@ -3270,12 +3272,14 @@ int main(int argc, char *argv[])
 	}
     }
 
-    /* If filename starts with 'r', we use restricted mode. */
+    /* If the executable filename starts with 'r', we use restricted
+     * mode. */
     if (*(tail(argv[0])) == 'r')
 	SET(RESTRICTED);
 
-    /* If we're using restricted mode, disable suspending, backup files,
-     * and reading rcfiles. */
+    /* If we're using restricted mode, disable suspending, backups, and
+     * reading rcfiles, since they all would allow reading from or
+     * writing to files not specified on the command line. */
     if (ISSET(RESTRICTED)) {
 	UNSET(SUSPEND);
 	UNSET(BACKUP_FILE);
@@ -3368,9 +3372,10 @@ int main(int argc, char *argv[])
 
 #ifndef NANO_SMALL
     /* Set up the backup directory (unless we're using restricted mode,
-     * in which case backups are disabled).  This entails making sure it
-     * exists and is a directory, so that backup files will be saved
-     * there. */
+     * in which case backups are disabled, since they would allow
+     * reading from or writing to files not specified on the command
+     * line).  This entails making sure it exists and is a directory, so
+     * that backup files will be saved there. */
     if (!ISSET(RESTRICTED))
 	init_backup_dir();
 #endif
@@ -3392,9 +3397,10 @@ int main(int argc, char *argv[])
 
 #ifndef DISABLE_SPELLER
     /* If we don't have an alternative spell checker after reading the
-     * command line and/or rcfile, check $SPELL for one, as Pico
+     * command line and/or rcfile(s), check $SPELL for one, as Pico
      * does (unless we're using restricted mode, in which case spell
-     * checking is disabled). */
+     * checking is disabled, since it would allow reading from or
+     * writing to files not specified on the command line). */
     if (!ISSET(RESTRICTED) && alt_speller == NULL) {
 	char *spellenv = getenv("SPELL");
 	if (spellenv != NULL)

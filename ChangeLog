@@ -91,6 +91,8 @@ CVS code -
 	  need_vertical_update(), edit_scroll(), and edit_redraw().
 	  Also rename the int refresh in do_delete() and do_backspace()
 	  to do_refresh so as not to conflict with refresh(). (DLR)
+	- Add some comments better explaining what is disabled in
+	  restricted mode and why. (DLR)
 - files.c:
   add_open_file()
 	- Rearrange the NANO_SMALL #ifdef so that the code to set the

@@ -1930,6 +1930,11 @@ int do_writeout(int exiting)
 		i = do_yesno(FALSE, _("File exists, OVERWRITE ?"));
 		if (i == 0 || i == -1)
 		    continue;
+	    /* If we're using restricted mode, we aren't allowed to
+	     * change the name of a file once it has one because that
+	     * would allow reading from or writing to files not
+	     * specified on the command line.  In this case, don't
+	     * bother showing the "Different Name" prompt. */
 	    } else if (!ISSET(RESTRICTED) && filename[0] != '\0'
 #ifndef NANO_SMALL
 		&& (exiting || !ISSET(MARK_ISSET))
@@ -1942,8 +1947,10 @@ int do_writeout(int exiting)
 	}
 
 #ifndef NANO_SMALL
-	/* Here's where we allow the selected text to be written to
-	 * a separate file. */
+	/* Here's where we allow the selected text to be written to a
+	 * separate file.  If we're using restricted mode, this is
+	 * disabled since it allows reading from or writing to files not
+	 * specified on the command line. */
 	if (!ISSET(RESTRICTED) && !exiting && ISSET(MARK_ISSET))
 	    i = write_marked(answer, FALSE, append);
 	else
