@@ -1205,7 +1205,6 @@ char *do_browser(char *inpath)
 
     titlebar(path);
     bottombars(browser_list, BROWSER_LIST_LEN);
-    keypad_on(TRUE);
     curs_set(0);
     wmove(edit, 0, 0);
     i = 0;

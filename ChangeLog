@@ -5,6 +5,10 @@ General -
 	  filestat().  New shortcut list browser_list.  Some new
 	  strings to translate.  Chris needs to add comments to his
 	  code.
+	- We only call keypad() once now for each window, at the beginning.
+	  FINALLY!  No more keypad_on(), no more individual calls in
+	  main(), do_help(), do_browser(), etc etc etc.  Removed call to
+	  timeout(0) in main() (which caused the whole mess), fixes BUG #49.
 - faq.html:
 	- Fix typos and small mistakes (Jordi).
 - files.c:

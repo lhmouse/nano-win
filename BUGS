@@ -78,6 +78,9 @@
   favor of the last stored search (47) [FIXED]
 - If nano fails to open a file when it starts up,doing almost anything
   causes a segfault (discovered by Ben Roberts) (48). [FIXED]
+- In certain terminals, nano would not work properly with keypad().
+  Turned out to be the silly timeout(0) call which is completely
+  unneeded anyway.  (49) [FIXED]
 
 ** Open BUGS **
 

@@ -1183,11 +1183,6 @@ int do_help(void)
     int i, j, row = 0, page = 1, kbinput = 0, no_more = 0;
     int no_help_flag = 0;
 
-
-    /* Oh well, they've asked for the help menu, if the keypad is not on now
-       we're going to have to turn it on */
-    keypad_on(TRUE);
-
     blank_edit();
     curs_set(0);
     blank_statusbar();

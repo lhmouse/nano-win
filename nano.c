@@ -74,12 +74,6 @@ char *last_search = NULL;	/* Last string we searched for */
 char *last_replace = NULL;	/* Last replacement string */
 int search_last_line;		/* Is this the last search line? */
 
-void keypad_on(int yesno)
-{
-    keypad(edit, yesno);
-    keypad(bottomwin, yesno);
-}
-
 /* What we do when we're all set to exit */
 RETSIGTYPE finish(int sigage)
 {
@@ -89,10 +83,6 @@ RETSIGTYPE finish(int sigage)
     } else
 	mvwaddstr(bottomwin, 0, 0, hblank);
     
-    /* Apparently you REALLY can't get away with not calling keypad()
-       or your window looks awful when it exits.  so we just call it right
-       before we exit, muhaha :-) */
-    keypad_on(TRUE);
     wrefresh(bottomwin);
     endwin();
 
@@ -1649,6 +1639,10 @@ void window_init(void)
     /* And the other windows */
     topwin = newwin(2, COLS, 0, 0);
     bottomwin = newwin(3 - no_help(), COLS, LINES - 3 + no_help(), 0);
+
+    /* HAHA! Only do this once! */
+    keypad(edit, TRUE);
+    keypad(bottomwin, TRUE);
 }
 
 void mouse_init(void)
@@ -1656,15 +1650,12 @@ void mouse_init(void)
 #ifndef NANO_SMALL
 #ifdef NCURSES_MOUSE_VERSION
     if (ISSET(USE_MOUSE)) {
-	keypad_on(TRUE);
-
 	mousemask(BUTTON1_RELEASED, NULL);
 	mouseinterval(50);
 
-    } else {
+    } else
 	mousemask(0, NULL);
-	keypad_on(FALSE);
-    }
+
 #endif
 #endif
 
@@ -2215,7 +2206,6 @@ int main(int argc, char *argv[])
     nonl();
     cbreak();
     noecho();
-    timeout(0);
 
     /* Set up some global variables */
     global_init();
@@ -2232,12 +2222,6 @@ int main(int argc, char *argv[])
 
     window_init();
     mouse_init();
-
-#ifdef PDCURSES
-    /* Must have this for the arrow, et al, keys to even work in 
-       PDCurses+cygwin under Windows */
-    keypad_on(TRUE);
-#endif
 
 #ifdef DEBUG
     fprintf(stderr, _("Main: bottom win\n"));
