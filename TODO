@@ -20,8 +20,9 @@ Current Version:
 
 For Next Version:
 - Undo/Redo key?
-- single line scroll up/down?
+- Single line scroll up/down?
 - Color syntax highlighting? (certainly seems like there's a demand for it.)
 - .nanorc ?????
+- Backup making (filename~)?
 
 $Id$
