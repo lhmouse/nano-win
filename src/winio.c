@@ -376,12 +376,6 @@ int get_translated_kbinput(int kbinput, seq_type *seq
 			    break;
 #endif
 			default:
-			    /* A character with its high bit set: UTF-8
-			     * sequence mode.  Set seq to UTF8_SEQ. */
-			    if ((-128 <= kbinput && kbinput < 0) ||
-				(127 < kbinput && kbinput <= 255))
-				*seq = UTF8_SEQ;
-
 			    retval = kbinput;
 			    break;
 		    }
@@ -460,6 +454,11 @@ int get_translated_kbinput(int kbinput, seq_type *seq
 		    }
 	    }
     }
+
+    /* A character other than ERR with its high bit set: UTF-8 sequence
+     * mode.  Set seq to UTF8_SEQ. */
+    if (retval != ERR && 127 < retval && retval <= 255)
+	*seq = UTF8_SEQ;
 
 #ifdef DEBUG
     fprintf(stderr, "get_translated_kbinput(): kbinput = %d, seq = %d, escapes = %d, ascii_digits = %lu, retval = %d\n", kbinput, (int)*seq, escapes, (unsigned long)ascii_digits, retval);
