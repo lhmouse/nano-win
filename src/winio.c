@@ -4120,17 +4120,22 @@ void do_credits(void)
 	    break;
 
 	if (crpos < CREDIT_LEN) {
-	    const char *what = credits[crpos];
+	    char *what;
 	    size_t start_x;
 
-	    if (what == NULL) {
+	    if (credits[crpos] == NULL) {
 		assert(0 <= xlpos && xlpos < XLCREDIT_LEN);
-		what = _(xlcredits[xlpos]);
+
+		what = mallocstrcpy(NULL, _(xlcredits[xlpos]));
 		xlpos++;
-	    }
+	    } else
+		what = make_mbstring(credits[crpos]);
+
 	    start_x = COLS / 2 - strlenpt(what) / 2 - 1;
-	    mvwaddstr(edit, editwinrows - 1 - editwinrows % 2, start_x,
-		what);
+	    mvwaddstr(edit, editwinrows - 1 - (editwinrows % 2),
+		start_x, what);
+
+	    free(what);
 	}
 
 	napms(700);
