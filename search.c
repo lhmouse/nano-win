@@ -731,6 +731,7 @@ int do_gotoline(long defline)
 	edit_update(current, CENTER);
     }
 
+    placewewant = xplustabs();
     goto_abort();
     return 1;
 }

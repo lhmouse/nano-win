@@ -9,6 +9,9 @@ CVS code -
 - nano.c:
   do_int_speller()
 	- Fix zombie processes and spelling buffer issues (Rocco Corsi)
+- search.c:
+  do_gotoline()
+	- Set placewewant if we actually move to a different line.
 - winio.c:
   nanogetstr()
 	- Add NANO_HOME_KEY and NANO_END_KEY to the home and

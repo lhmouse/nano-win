@@ -262,4 +262,4 @@ fi
 dnl i18n stuff - pretty incomplete for now
 NANO_AM_GNU_GETTEXT
 
-AC_OUTPUT([Makefile intl/Makefile po/Makefile.in])
+AC_OUTPUT([Makefile intl/Makefile po/Makefile.in nano.spec])
