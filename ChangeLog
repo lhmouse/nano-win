@@ -6,6 +6,8 @@ CVS code -
 	- Added Meta-Y toggle to disable/enable color syntax highlighting
 	  completely.  This may eventually be per-buffer, but that's too
 	  complicated for a feature freeze.
+	- Disable VSTOP keystroke.  Stops people accidentally locking up
+	  nano (suggested by David Benbennick).
 
 GNU nano 1.1.11 - 10/01/2002
 - General:

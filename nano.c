@@ -2642,6 +2642,9 @@ void signal_init(void)
 #ifdef _POSIX_VDISABLE
     tcgetattr(0, &term);
 
+    /* Ignore ^s, much to Chris' chagrin */
+    term.c_cc[VSTOP] = _POSIX_VDISABLE;
+
 #ifdef VDSUSP
     term.c_cc[VDSUSP] = _POSIX_VDISABLE;
 #endif /* VDSUSP */
@@ -3488,6 +3491,12 @@ int main(int argc, char *argv[])
 		break;
 	    }
 	}
+
+#ifdef _POSIX_VDISABLE
+	/* Don't even think about changing this string */
+	if (kbinput == 19)
+	    statusbar(_("XOFF ignored, mumble mumble."));
+#endif
 	/* If we're in raw mode or using Alt-Alt-x, we have to catch
 	   Control-S and Control-Q */
 	if (kbinput == 17 || kbinput == 19)
