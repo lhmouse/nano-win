@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.7\n"
-"POT-Creation-Date: 2001-07-18 21:49-0400\n"
+"POT-Creation-Date: 2001-07-28 19:55-0400\n"
 "PO-Revision-Date: 2001-05-13 17:17GMT\n"
 "Last-Translator: Marco Colombo <magicdice@inwind.it>\n"
 "Language-Team: Italiano\n"
@@ -69,7 +69,7 @@ msgstr "File da inserire [da ./] "
 msgid "filename is %s"
 msgstr "Il nome file è %s"
 
-#: files.c:379 files.c:883 files.c:1198 nano.c:1629
+#: files.c:379 files.c:883 files.c:1198 nano.c:1630
 msgid "Cancelled"
 msgstr "Annullato"
 
@@ -793,133 +793,133 @@ msgstr "Imposta mark"
 msgid "Mark UNset"
 msgstr "Rimuovi mark"
 
-#: nano.c:1105
+#: nano.c:1106
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap chiamata con inptr->data=\"%s\"\n"
 
-#: nano.c:1157
+#: nano.c:1158
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data ora = \"%s\"\n"
 
-#: nano.c:1209
+#: nano.c:1210
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Dopo, data = \"%s\"\n"
 
-#: nano.c:1310
+#: nano.c:1311
 msgid "Edit a replacement"
 msgstr "Modifica sostituzione"
 
-#: nano.c:1548
+#: nano.c:1549
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Impossibile creare un nome file temporaneo: %s"
 
-#: nano.c:1554
+#: nano.c:1555
 msgid "Spell checking failed: unable to write temp file!"
 msgstr ""
 "Controllo ortografico fallito: impossibile scrivere su file temporaneo!"
 
-#: nano.c:1566
+#: nano.c:1567
 msgid "Finished checking spelling"
 msgstr "Controllo ortografico terminato"
 
-#: nano.c:1568
+#: nano.c:1569
 msgid "Spell checking failed"
 msgstr "Controllo ortografico fallito"
 
-#: nano.c:1597
+#: nano.c:1598
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 "Salva il buffer modificato? (RISPONDENDO \"No\" ANNULLERETE I CAMBIAMENTI "
 "AVVENUTI) "
 
-#: nano.c:1733
+#: nano.c:1734
 msgid "Received SIGHUP"
 msgstr "Ricevuto SIGHUP"
 
-#: nano.c:1797
+#: nano.c:1798
 msgid "Cannot resize top win"
 msgstr "Impossibile ridimensionare la finestra superiore"
 
-#: nano.c:1799
+#: nano.c:1800
 msgid "Cannot move top win"
 msgstr "Impossibile spostare la finestra superiore"
 
-#: nano.c:1801
+#: nano.c:1802
 msgid "Cannot resize edit win"
 msgstr "Impossibile ridimensionare la finestra di modifica"
 
-#: nano.c:1803
+#: nano.c:1804
 msgid "Cannot move edit win"
 msgstr "Impossibile spostare finestra di modifica"
 
-#: nano.c:1805
+#: nano.c:1806
 msgid "Cannot resize bottom win"
 msgstr "Impossibile ridimensionare la finestra inferiore"
 
-#: nano.c:1807
+#: nano.c:1808
 msgid "Cannot move bottom win"
 msgstr "Impossibile spostare la finestra inferiore"
 
-#: nano.c:2132
+#: nano.c:2133
 msgid "Can now UnJustify!"
 msgstr "Impossibile togliere giustificazione!"
 
-#: nano.c:2248
+#: nano.c:2249
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s abilita/disabilita"
 
-#: nano.c:2267
+#: nano.c:2268
 msgid "enabled"
 msgstr "abilitato"
 
-#: nano.c:2268
+#: nano.c:2269
 msgid "disabled"
 msgstr "disabilitato"
 
-#: nano.c:2321
+#: nano.c:2322
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "Rilevata pressione del NumLock: il keypad potrebbe non funzionare col "
 "Numlock spento"
 
-#: nano.c:2576
+#: nano.c:2577
 msgid "Main: set up windows\n"
 msgstr "Main: configura finestre\n"
 
-#: nano.c:2587
+#: nano.c:2588
 msgid "Main: bottom win\n"
 msgstr "Main: finestra inferiore\n"
 
-#: nano.c:2593
+#: nano.c:2594
 msgid "Main: open file\n"
 msgstr "Main: apri file\n"
 
-#: nano.c:2651
+#: nano.c:2652
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Premuto Alt-O-%c! (%d)\n"
 
-#: nano.c:2678
+#: nano.c:2679
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Premuto Alt-[-1-%c! (%d)\n"
 
-#: nano.c:2716
+#: nano.c:2717
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Premuto Alt-[-2-%c! (%d)\n"
 
-#: nano.c:2770
+#: nano.c:2771
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Premuto Alt-[-%c! (%d)\n"
 
-#: nano.c:2805
+#: nano.c:2806
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Premuto Alt-%c! (%d)\n"

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.1.0\n"
-"POT-Creation-Date: 2001-07-18 21:49-0400\n"
+"POT-Creation-Date: 2001-07-28 19:55-0400\n"
 "PO-Revision-Date: 2001-05-02 19:14+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <jordi@sindominio.net>\n"
@@ -68,7 +68,7 @@ msgstr "Fitxer a inserir [des de ./] "
 msgid "filename is %s"
 msgstr "filename és %s"
 
-#: files.c:379 files.c:883 files.c:1198 nano.c:1629
+#: files.c:379 files.c:883 files.c:1198 nano.c:1630
 msgid "Cancelled"
 msgstr "Cancel·lat"
 
@@ -784,129 +784,129 @@ msgstr "Marca Establida"
 msgid "Mark UNset"
 msgstr "Marca Esborrada"
 
-#: nano.c:1105
+#: nano.c:1106
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap cridat amb inptr->data=\"%s\"\n"
 
-#: nano.c:1157
+#: nano.c:1158
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data ara = \"%d\"\n"
 
-#: nano.c:1209
+#: nano.c:1210
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Després, data = \"%s\"\n"
 
-#: nano.c:1310
+#: nano.c:1311
 msgid "Edit a replacement"
 msgstr "Editar un reemplaçament"
 
-#: nano.c:1548
+#: nano.c:1549
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "No s'ha pogut crear un fitxer temporal: %s"
 
-#: nano.c:1554
+#: nano.c:1555
 msgid "Spell checking failed: unable to write temp file!"
 msgstr "Revisió d'ortografia fallida: no s'ha pogut escriure fitxer temporal!"
 
-#: nano.c:1566
+#: nano.c:1567
 msgid "Finished checking spelling"
 msgstr "Revisió d'ortografia finalitzada"
 
-#: nano.c:1568
+#: nano.c:1569
 msgid "Spell checking failed"
 msgstr "Revisió d'ortografia fallida"
 
-#: nano.c:1597
+#: nano.c:1598
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Desar el buffer modificat (RESPONDRE \"No\" DESTRUIRÀ ELS CAMVIS) ?"
 
-#: nano.c:1733
+#: nano.c:1734
 msgid "Received SIGHUP"
 msgstr "SIGHUP rebut"
 
-#: nano.c:1797
+#: nano.c:1798
 msgid "Cannot resize top win"
 msgstr "No es pot canviar la mida de la finestra superior"
 
-#: nano.c:1799
+#: nano.c:1800
 msgid "Cannot move top win"
 msgstr "No es pot moure la finestra superior"
 
-#: nano.c:1801
+#: nano.c:1802
 msgid "Cannot resize edit win"
 msgstr "No es pot canviar la mida de la finestra d'edició"
 
-#: nano.c:1803
+#: nano.c:1804
 msgid "Cannot move edit win"
 msgstr "No es pot moure la finestra d'edició"
 
-#: nano.c:1805
+#: nano.c:1806
 msgid "Cannot resize bottom win"
 msgstr "No es pot canviar la mida de la finestra inferior"
 
-#: nano.c:1807
+#: nano.c:1808
 msgid "Cannot move bottom win"
 msgstr "No es pot moure la finestra inferior"
 
-#: nano.c:2132
+#: nano.c:2133
 msgid "Can now UnJustify!"
 msgstr "Ara pots desjustificar!"
 
-#: nano.c:2248
+#: nano.c:2249
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s habilitar/inhabilitar"
 
-#: nano.c:2267
+#: nano.c:2268
 msgid "enabled"
 msgstr "habilitat"
 
-#: nano.c:2268
+#: nano.c:2269
 msgid "disabled"
 msgstr "inhabilitat"
 
-#: nano.c:2321
+#: nano.c:2322
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "Detectat NumLock trencat.  El tecl. numèric funcionarà amb NumLock activat"
 
-#: nano.c:2576
+#: nano.c:2577
 msgid "Main: set up windows\n"
 msgstr "Main: configurar les finestres\n"
 
-#: nano.c:2587
+#: nano.c:2588
 msgid "Main: bottom win\n"
 msgstr "Main: finestra inferior\n"
 
-#: nano.c:2593
+#: nano.c:2594
 msgid "Main: open file\n"
 msgstr "Main: obrir fitxer\n"
 
-#: nano.c:2651
+#: nano.c:2652
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "He agafat Alt-O-%c! (%d)\n"
 
-#: nano.c:2678
+#: nano.c:2679
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "He agafat Alt-[-1-%c! (%d)\n"
 
-#: nano.c:2716
+#: nano.c:2717
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "He agafat Alt-[-2-%c! (%d)\n"
 
-#: nano.c:2770
+#: nano.c:2771
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "He agafat Alt-[-%c! (%d)\n"
 
-#: nano.c:2805
+#: nano.c:2806
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "He agafat Alt-%c! (%d)\n"

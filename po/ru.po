@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.0.1\n"
-"POT-Creation-Date: 2001-07-18 21:49-0400\n"
+"POT-Creation-Date: 2001-07-28 19:55-0400\n"
 "PO-Revision-Date: 2001-05-16 10:10+0200\n"
 "Last-Translator: Sergey A. Ribalchenko <fisher@obu.ck.ua>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -66,7 +66,7 @@ msgstr "Файл для вставки [от ./]"
 msgid "filename is %s"
 msgstr "имя файла %s"
 
-#: files.c:379 files.c:883 files.c:1198 nano.c:1629
+#: files.c:379 files.c:883 files.c:1198 nano.c:1630
 msgid "Cancelled"
 msgstr "Отменено"
 
@@ -784,128 +784,128 @@ msgstr "Метка установлена"
 msgid "Mark UNset"
 msgstr "Метка снята"
 
-#: nano.c:1105
+#: nano.c:1106
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap вызвано с inptr->data=\"%s\"\n"
 
-#: nano.c:1157
+#: nano.c:1158
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data сейчас = \"%s\"\n"
 
-#: nano.c:1209
+#: nano.c:1210
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "После, data = \"%s\"\n"
 
-#: nano.c:1310
+#: nano.c:1311
 msgid "Edit a replacement"
 msgstr "Редактировать замену"
 
-#: nano.c:1548
+#: nano.c:1549
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Не могу создать временное имя файла: %s"
 
-#: nano.c:1554
+#: nano.c:1555
 msgid "Spell checking failed: unable to write temp file!"
 msgstr "Проверка правописания облом-с: не могу записать временный файл."
 
-#: nano.c:1566
+#: nano.c:1567
 msgid "Finished checking spelling"
 msgstr "Проверка правописания завершена"
 
-#: nano.c:1568
+#: nano.c:1569
 msgid "Spell checking failed"
 msgstr "Проверка правописания не удалась"
 
-#: nano.c:1597
+#: nano.c:1598
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Сохранить измененный буфер (Ответ \"Нет\" УНИЧТОЖИТ все изменения) ?"
 
-#: nano.c:1733
+#: nano.c:1734
 msgid "Received SIGHUP"
 msgstr "Получили SIGHUP"
 
-#: nano.c:1797
+#: nano.c:1798
 msgid "Cannot resize top win"
 msgstr "Не могу изменить размер верхнего окна"
 
-#: nano.c:1799
+#: nano.c:1800
 msgid "Cannot move top win"
 msgstr "Не могу переместить верхнее окно"
 
-#: nano.c:1801
+#: nano.c:1802
 msgid "Cannot resize edit win"
 msgstr "Не могу изменить размер окна редактирования"
 
-#: nano.c:1803
+#: nano.c:1804
 msgid "Cannot move edit win"
 msgstr "Не могу переместить окно редактирования"
 
-#: nano.c:1805
+#: nano.c:1806
 msgid "Cannot resize bottom win"
 msgstr "Не могу изменить размер нижнего окна"
 
-#: nano.c:1807
+#: nano.c:1808
 msgid "Cannot move bottom win"
 msgstr "Не могу переместить нижнее окно"
 
-#: nano.c:2132
+#: nano.c:2133
 msgid "Can now UnJustify!"
 msgstr "Сейчас можно отменить выравнивание! (^U)"
 
-#: nano.c:2248
+#: nano.c:2249
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s - разрешить/запретить"
 
-#: nano.c:2267
+#: nano.c:2268
 msgid "enabled"
 msgstr "разрешено"
 
-#: nano.c:2268
+#: nano.c:2269
 msgid "disabled"
 msgstr "запрещено"
 
-#: nano.c:2321
+#: nano.c:2322
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr "Обнаружен сбой NumLock'а. Цифровая клавиатура недоступна (NumLock off)"
 
-#: nano.c:2576
+#: nano.c:2577
 msgid "Main: set up windows\n"
 msgstr "Main: установить окна\n"
 
-#: nano.c:2587
+#: nano.c:2588
 msgid "Main: bottom win\n"
 msgstr "Main: нижнее окно\n"
 
-#: nano.c:2593
+#: nano.c:2594
 msgid "Main: open file\n"
 msgstr "Main: открыть файл\n"
 
-#: nano.c:2651
+#: nano.c:2652
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Поймал Alt-O-%c! (%d)\n"
 
-#: nano.c:2678
+#: nano.c:2679
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Поймал Alt-[-1-%c! (%d)\n"
 
-#: nano.c:2716
+#: nano.c:2717
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Поймал Alt-[-2-%c! (%d)\n"
 
-#: nano.c:2770
+#: nano.c:2771
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Поймал Alt-[-%c! (%d)\n"
 
-#: nano.c:2805
+#: nano.c:2806
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Поймал Alt-%c! (%d)\n"

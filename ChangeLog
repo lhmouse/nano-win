@@ -1,11 +1,12 @@
-CVS code - 
+nano-1.1.1 - 07/28/2001
 - General
 	- Reverted included gettext from 0.10.38 to 0.10.35 in intl/ dir.
 	- Added m4/ directory to allow rebuilding using only the internal
 	  version of gettext.m4 (Albert Chin).
 - nano.c:
   main()
-	- Change the getop option to 'F' (David Lawrence Ramsey)
+	- Change the multibuffer getopt option to 'F' (David Lawrence
+	  Ramsey)
   do_mark()
 	- Temporarily disable cursorpos when enabled to be able to see
 	  the mark (un)set message (Ken Tyler).

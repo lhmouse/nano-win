@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.9\n"
-"POT-Creation-Date: 2001-07-18 21:49-0400\n"
+"POT-Creation-Date: 2001-07-28 19:55-0400\n"
 "PO-Revision-Date: 2000-07-09 01:32+0100\n"
 "Last-Translator: Clement Laforet <sheep.killer@free.fr>\n"
 "Language-Team: French <LL@li.org>\n"
@@ -70,7 +70,7 @@ msgstr "Fichier à insérer [depuis ./] "
 msgid "filename is %s"
 msgstr "Le nom du fichier est %s"
 
-#: files.c:379 files.c:883 files.c:1198 nano.c:1629
+#: files.c:379 files.c:883 files.c:1198 nano.c:1630
 msgid "Cancelled"
 msgstr "Annulé"
 
@@ -806,128 +806,128 @@ msgstr "Marque enregistrée"
 msgid "Mark UNset"
 msgstr "Marque effacée"
 
-#: nano.c:1105
+#: nano.c:1106
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap appelée avec inptr->data=\"%s\"\n"
 
-#: nano.c:1157
+#: nano.c:1158
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data vaut maintenant \"%s\"\n"
 
-#: nano.c:1209
+#: nano.c:1210
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Après, data = \"%s\"\n"
 
-#: nano.c:1310
+#: nano.c:1311
 msgid "Edit a replacement"
 msgstr ""
 
-#: nano.c:1548
+#: nano.c:1549
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Impossible de créer un nom de fichier temporaire: %s"
 
-#: nano.c:1554
+#: nano.c:1555
 msgid "Spell checking failed: unable to write temp file!"
 msgstr ""
 
-#: nano.c:1566
+#: nano.c:1567
 msgid "Finished checking spelling"
 msgstr "Vérification orthographique terminée"
 
-#: nano.c:1568
+#: nano.c:1569
 msgid "Spell checking failed"
 msgstr ""
 
-#: nano.c:1597
+#: nano.c:1598
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Sauver le buffer modifié (RÉPONDRE \"No\" EFFACERA LES CHANGEMENTS"
 
-#: nano.c:1733
+#: nano.c:1734
 msgid "Received SIGHUP"
 msgstr ""
 
-#: nano.c:1797
+#: nano.c:1798
 msgid "Cannot resize top win"
 msgstr "Impossible de redimensionner la fenêtre du haut"
 
-#: nano.c:1799
+#: nano.c:1800
 msgid "Cannot move top win"
 msgstr "Impossible de bouger la fenêtre du haut"
 
-#: nano.c:1801
+#: nano.c:1802
 msgid "Cannot resize edit win"
 msgstr "Impossible de redimensionner la fenêtre d'édition"
 
-#: nano.c:1803
+#: nano.c:1804
 msgid "Cannot move edit win"
 msgstr "Impossible de bouger la fenêtre d'édition"
 
-#: nano.c:1805
+#: nano.c:1806
 msgid "Cannot resize bottom win"
 msgstr "Impossible de redimensionner la fenêtre du bas"
 
-#: nano.c:1807
+#: nano.c:1808
 msgid "Cannot move bottom win"
 msgstr "Impossible de bouger la fenêtre du bas"
 
-#: nano.c:2132
+#: nano.c:2133
 msgid "Can now UnJustify!"
 msgstr ""
 
-#: nano.c:2248
+#: nano.c:2249
 #, c-format
 msgid "%s enable/disable"
 msgstr ""
 
-#: nano.c:2267
+#: nano.c:2268
 msgid "enabled"
 msgstr ""
 
-#: nano.c:2268
+#: nano.c:2269
 msgid "disabled"
 msgstr ""
 
-#: nano.c:2321
+#: nano.c:2322
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 
-#: nano.c:2576
+#: nano.c:2577
 msgid "Main: set up windows\n"
 msgstr "Main: configuration des fenêtres\n"
 
-#: nano.c:2587
+#: nano.c:2588
 msgid "Main: bottom win\n"
 msgstr "Main: fenêtre du bas\n"
 
-#: nano.c:2593
+#: nano.c:2594
 msgid "Main: open file\n"
 msgstr "Main: ouvrir fichier\n"
 
-#: nano.c:2651
+#: nano.c:2652
 #, fuzzy, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "J'ai reçu Alt-[-%c! (%d)\n"
 
-#: nano.c:2678
+#: nano.c:2679
 #, fuzzy, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "J'ai reçu Alt-[-%c! (%d)\n"
 
-#: nano.c:2716
+#: nano.c:2717
 #, fuzzy, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "J'ai reçu Alt-[-%c! (%d)\n"
 
-#: nano.c:2770
+#: nano.c:2771
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "J'ai reçu Alt-[-%c! (%d)\n"
 
-#: nano.c:2805
+#: nano.c:2806
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "J'ai reçu Alt-%c! (%d)\n"

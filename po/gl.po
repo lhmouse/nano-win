@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.0\n"
-"POT-Creation-Date: 2001-07-18 21:49-0400\n"
+"POT-Creation-Date: 2001-07-28 19:55-0400\n"
 "PO-Revision-Date: 2001-04-30 00:16+02:00\n"
 "Last-Translator: Jacobo Tarrio <jtarrio@trasno.net>\n"
 "Language-Team: Galician <trasno@ceu.fi.udc.es>\n"
@@ -66,7 +66,7 @@ msgstr "Ficheiro a inserir [dende ./]"
 msgid "filename is %s"
 msgstr "filename é %s"
 
-#: files.c:379 files.c:883 files.c:1198 nano.c:1629
+#: files.c:379 files.c:883 files.c:1198 nano.c:1630
 msgid "Cancelled"
 msgstr "Cancelado"
 
@@ -779,130 +779,130 @@ msgstr "Marca Posta"
 msgid "Mark UNset"
 msgstr "Marca Quitada"
 
-#: nano.c:1105
+#: nano.c:1106
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "chamouse a check_wrap con inptr->data=\"%s\"\n"
 
-#: nano.c:1157
+#: nano.c:1158
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data agora = \"%s\"\n"
 
-#: nano.c:1209
+#: nano.c:1210
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Despois, data = \"%s\"\n"
 
-#: nano.c:1310
+#: nano.c:1311
 msgid "Edit a replacement"
 msgstr "Editar unha substitución"
 
-#: nano.c:1548
+#: nano.c:1549
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Non se puido crear un ficheiro temporal: %s"
 
-#: nano.c:1554
+#: nano.c:1555
 msgid "Spell checking failed: unable to write temp file!"
 msgstr ""
 "Fallou a corrección ortográfica: non se puido grava-lo ficheiro temporal"
 
-#: nano.c:1566
+#: nano.c:1567
 msgid "Finished checking spelling"
 msgstr "Rematou a corrección ortográfica"
 
-#: nano.c:1568
+#: nano.c:1569
 msgid "Spell checking failed"
 msgstr "Fallou a corrección ortográfica"
 
-#: nano.c:1597
+#: nano.c:1598
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 "¿Grava-lo buffer modificado (SE RESPOSTA \"Non\" HANSE PERDE-LOS CAMBIOS)? "
 
-#: nano.c:1733
+#: nano.c:1734
 msgid "Received SIGHUP"
 msgstr "Recibiuse SIGHUP"
 
-#: nano.c:1797
+#: nano.c:1798
 msgid "Cannot resize top win"
 msgstr "Non se pode cambia-lo tamaño da fiestra superior"
 
-#: nano.c:1799
+#: nano.c:1800
 msgid "Cannot move top win"
 msgstr "Non se pode move-la fiestra superior"
 
-#: nano.c:1801
+#: nano.c:1802
 msgid "Cannot resize edit win"
 msgstr "Non se pode cambia-lo tamaño da fiestra de edición"
 
-#: nano.c:1803
+#: nano.c:1804
 msgid "Cannot move edit win"
 msgstr "Non se pode move-la fiestra de edición"
 
-#: nano.c:1805
+#: nano.c:1806
 msgid "Cannot resize bottom win"
 msgstr "Non se pode cambia-lo tamaño da fiestra inferior"
 
-#: nano.c:1807
+#: nano.c:1808
 msgid "Cannot move bottom win"
 msgstr "Non se pode move-la fiestra inferior"
 
-#: nano.c:2132
+#: nano.c:2133
 msgid "Can now UnJustify!"
 msgstr "¡Agora pode Des-Xustificar!"
 
-#: nano.c:2248
+#: nano.c:2249
 #, c-format
 msgid "%s enable/disable"
 msgstr "Activar/desactivar %s"
 
-#: nano.c:2267
+#: nano.c:2268
 msgid "enabled"
 msgstr "activado"
 
-#: nano.c:2268
+#: nano.c:2269
 msgid "disabled"
 msgstr "desactivado"
 
-#: nano.c:2321
+#: nano.c:2322
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr "Detectouse un fallo en BloqNum. BloqNum ha estar activado sempre."
 
-#: nano.c:2576
+#: nano.c:2577
 msgid "Main: set up windows\n"
 msgstr "Main: configura-las fiestras\n"
 
-#: nano.c:2587
+#: nano.c:2588
 msgid "Main: bottom win\n"
 msgstr "Main: fiestra inferior\n"
 
-#: nano.c:2593
+#: nano.c:2594
 msgid "Main: open file\n"
 msgstr "Main: abrir ficheiro\n"
 
-#: nano.c:2651
+#: nano.c:2652
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "¡Recibiuse Alt-O-%c! (%d)\n"
 
-#: nano.c:2678
+#: nano.c:2679
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "¡Recibiuse Alt-[-1-%c! (%d)\n"
 
-#: nano.c:2716
+#: nano.c:2717
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "¡Recibiuse Alt-[-2-%c! (%d)\n"
 
-#: nano.c:2770
+#: nano.c:2771
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "¡Recibiuse Alt-[-%c! (%d)\n"
 
-#: nano.c:2805
+#: nano.c:2806
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "¡Recibiuse Alt-%c! (%d)\n"

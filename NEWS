@@ -1,3 +1,15 @@
+07/28/2001 - GNU nano 1.1.1 is released.  Our second 1.1 unstable release
+		features many bugfixes from the initial release, in
+		particular fixs for the multibuffer code, and various
+		compiler macro fixes.  The shortcut lists for
+		the search and replace prompts are a little more logical
+		(with cancel the last option again), and the included
+		gettext was re-downgraded to 0.10.35 due to problems
+		on the PPC platform.  GNU nano now includes its own
+		aclocal macros in the m4/ directory to allow rebuilding
+		the configure script to work on platforms regardless of
+		their gettext version.
+
 07/15/2001 - GNU nano 1.1.0 is released.  This is the first release
 		in the 1.1.x unstable series of GNU nano. It
 		incorporates all changes up to the 1.0.3 release, 

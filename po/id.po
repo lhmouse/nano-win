@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.0.2\n"
-"POT-Creation-Date: 2001-07-18 21:49-0400\n"
+"POT-Creation-Date: 2001-07-28 19:55-0400\n"
 "PO-Revision-Date: 2001-06-22 14:38GMT+0700\n"
 "Last-Translator: Tedi Heriyanto <tedi_h@gmx.net>\n"
 "Language-Team: Indonesian <id@li.org>\n"
@@ -67,7 +67,7 @@ msgstr "File untuk disisipkan [dari ./] "
 msgid "filename is %s"
 msgstr "Namafile adalah %s"
 
-#: files.c:379 files.c:883 files.c:1198 nano.c:1629
+#: files.c:379 files.c:883 files.c:1198 nano.c:1630
 msgid "Cancelled"
 msgstr "Dibatalkan"
 
@@ -786,130 +786,130 @@ msgstr "Set Tanda"
 msgid "Mark UNset"
 msgstr "Unset Tanda"
 
-#: nano.c:1105
+#: nano.c:1106
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap dipanggil dengan inptr->data=\"%s\"\n"
 
-#: nano.c:1157
+#: nano.c:1158
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data sekarang =\"%s\"\n"
 
-#: nano.c:1209
+#: nano.c:1210
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Setelah, data= \"%s\"\n"
 
-#: nano.c:1310
+#: nano.c:1311
 msgid "Edit a replacement"
 msgstr "Edit pengganti"
 
-#: nano.c:1548
+#: nano.c:1549
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Tidak dapat membuat nama file sementara: %s"
 
-#: nano.c:1554
+#: nano.c:1555
 msgid "Spell checking failed: unable to write temp file!"
 msgstr "Spell checking gagal: tidak dapat menulis file temp!"
 
-#: nano.c:1566
+#: nano.c:1567
 msgid "Finished checking spelling"
 msgstr "Selesai memeriksa ejaan"
 
-#: nano.c:1568
+#: nano.c:1569
 msgid "Spell checking failed"
 msgstr "Spell checking gagal"
 
-#: nano.c:1597
+#: nano.c:1598
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Simpan buffer termodifikasi (JAWAB \"No\" AKAN MENGHAPUS PERUBAHAN) ?"
 
-#: nano.c:1733
+#: nano.c:1734
 msgid "Received SIGHUP"
 msgstr "Menerima SIGHUP"
 
-#: nano.c:1797
+#: nano.c:1798
 msgid "Cannot resize top win"
 msgstr "Tidak dapat menganti ukuran jendela atas"
 
-#: nano.c:1799
+#: nano.c:1800
 msgid "Cannot move top win"
 msgstr "Tidak dapat memindahkan jendela atas"
 
-#: nano.c:1801
+#: nano.c:1802
 msgid "Cannot resize edit win"
 msgstr "Tidak dapat mengganti ukuran jendela edit"
 
-#: nano.c:1803
+#: nano.c:1804
 msgid "Cannot move edit win"
 msgstr "Tidak dapat memindah jendela edit"
 
-#: nano.c:1805
+#: nano.c:1806
 msgid "Cannot resize bottom win"
 msgstr "Tidak dapat mengganti ukuran jendela bawah"
 
-#: nano.c:1807
+#: nano.c:1808
 msgid "Cannot move bottom win"
 msgstr "Tidak dapat memindah jendela bawah"
 
-#: nano.c:2132
+#: nano.c:2133
 msgid "Can now UnJustify!"
 msgstr "Sekarang dapat melakukan UnJustify"
 
-#: nano.c:2248
+#: nano.c:2249
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s enable/disable"
 
-#: nano.c:2267
+#: nano.c:2268
 msgid "enabled"
 msgstr "enabled"
 
-#: nano.c:2268
+#: nano.c:2269
 msgid "disabled"
 msgstr "disabled"
 
-#: nano.c:2321
+#: nano.c:2322
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "Glitch pada NumLock terdeteksi. Keypad akan tidak berfungsi dg tombol "
 "NumLock off"
 
-#: nano.c:2576
+#: nano.c:2577
 msgid "Main: set up windows\n"
 msgstr "Main: menset jendela\n"
 
-#: nano.c:2587
+#: nano.c:2588
 msgid "Main: bottom win\n"
 msgstr "Main: jendela bawah\n"
 
-#: nano.c:2593
+#: nano.c:2594
 msgid "Main: open file\n"
 msgstr "Main: membuka file\n"
 
-#: nano.c:2651
+#: nano.c:2652
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Saya mendapat Alt-O-%c! (%d)\n"
 
-#: nano.c:2678
+#: nano.c:2679
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Saya mendapat Alt-[-1-%c! (%d)\n"
 
-#: nano.c:2716
+#: nano.c:2717
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Saya mendapat Alt-[-2-%c! (%d)\n"
 
-#: nano.c:2770
+#: nano.c:2771
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"
 
-#: nano.c:2805
+#: nano.c:2806
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"
