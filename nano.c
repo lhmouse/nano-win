@@ -767,6 +767,7 @@ int do_enter_void(void)
     return do_enter(current);
 }
 
+#ifndef NANO_SMALL
 void do_next_word(void)
 {
     filestruct *fileptr, *old;
@@ -818,6 +819,7 @@ void do_next_word(void)
     }
 
 }
+#endif /* NANO_SMALL */
 
 #ifndef DISABLE_WRAPPING
 void do_wrap(filestruct * inptr, char input_char)
@@ -2999,9 +3001,12 @@ int main(int argc, char *argv[])
 		break;
 #endif
 #endif
+
+#ifndef NANO_SMALL
 	    case 0:		/* Erg */
 		do_next_word();
 		break;
+#endif
 
 	    case -1:		/* Stuff that we don't want to do squat */
 	    case 410:		/* Must ignore this, it gets sent when we resize */
