@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.9.19+CVS\n"
-"POT-Creation-Date: 2000-11-17 22:07-0500\n"
+"POT-Creation-Date: 2000-11-21 01:23-0500\n"
 "PO-Revision-Date: 2000-11-01 17:55+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -727,27 +727,27 @@ msgstr "Main: ventana inferior\n"
 msgid "Main: open file\n"
 msgstr "Main: abrir fichero\n"
 
-#: nano.c:2150
+#: nano.c:2153
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Pillé Alt-O-%c! (%d)\n"
 
-#: nano.c:2172
+#: nano.c:2175
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Pillé Alt-[-1-%c! (%d)\n"
 
-#: nano.c:2205
+#: nano.c:2208
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Pillé Alt-[-2-%c! (%d)\n"
 
-#: nano.c:2253
+#: nano.c:2256
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Pillé Alt-[-%c! (%d)\n"
 
-#: nano.c:2279
+#: nano.c:2282
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Pillé Alt-%c! (%d)\n"

@@ -11,9 +11,11 @@ CVS code -
   search_init()
 	- Silly typo in our "one simple call" of statusq.  Stopped
 	  previous search string from being displayed.
+  do_replace()
+	- Copy back the previous value of last_replace into answer if
+	  using PICO_MODE and answer == ""
 - nano.1, nano.1.html
 	- Updated man page for new -p definition.
-
 
 nano 0.9.20 - 11/18/2000
 - General

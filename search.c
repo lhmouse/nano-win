@@ -490,6 +490,9 @@ int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
         }
     }
 
+    if (ISSET(PICO_MODE) && !strcmp(answer, ""))
+	answer = mallocstrcpy(answer, last_replace);
+
     last_replace = mallocstrcpy(last_replace, answer);
     while (1) {
 
