@@ -256,12 +256,16 @@ CVS code -
 	- Remove now-inaccurate note about verbatim input's not working
 	  at prompts, and update its description to mention that it
 	  handles hexadecimal values now. (DLR)
-- doc/nanorc.sample:
+- nanorc.sample:
 	- Add return to the "c-file" regexes. (DLR)
 	- Clarify the text describing good values for whitespace
 	  display.  Since ASCII is technically only seven bits wide,
 	  characters 128-255 aren't ASCII. (DLR, suggested by Michael
 	  Piefel)
+	- Add the "morespace" option. (DLR)
+- nano.1. nanorc.5, nano.texi:
+	- Add the "morespace" option, and sync with the descriptions in
+	  nanorc.sample in a few places. (DLR)
 - src/Makefile.am:
 	- Add chars.c to nano_SOURCES. (DLR)
 	- If we're installing and the "rnano" symlink already exists,

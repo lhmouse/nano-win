@@ -59,7 +59,7 @@ closing brackets, can end sentences.
 Constantly display the cursor position in the status bar.
 .TP
 \fBset/unset cut\fP
-Use cut to end of line with ^K by default.
+Use cut to end of line by default.
 .TP
 \fBset fill \fIn\fP\fP
 Wrap lines at column number \fIn\fP.  If \fIn\fP is 0 or less, the line
@@ -69,6 +69,13 @@ length will be the screen width less \fIn\fP.  The default value is -8.
 Enable
 .I ~/.nano_history
 for saving and reading search/replace strings.
+.TP
+\fBset/unset morespace\fP
+Allow use of the blank line below the titlebar as extra editing space.
+.TP
+\fBset/unset mouse\fP
+Enable mouse support, so that mouse clicks can be used to set the mark
+and run shortcuts.
 .TP
 \fBset/unset multibuffer\fP
 Allow inserting files into their own buffers.
@@ -132,7 +139,7 @@ Use spelling checker \fIspellprog\fP instead of the built-in one, which
 calls \fIspell\fP.
 .TP
 \fBset/unset suspend\fP
-Allow nano to be suspended with ^Z.
+Allow nano to be suspended.
 .TP
 \fBset tabsize \fIn\fP\fP
 Use a tab size of \fIn\fP columns instead of the default (8); must be

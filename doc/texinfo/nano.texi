@@ -342,13 +342,13 @@ The following global toggles are available:
 @item Backup File Toggle (Meta-B)
 toggles the -B (@code{--backup}) command line flag.
 
-@item Multiple Files Toggle (Meta-F)
+@item Multiple File Buffers Toggle (Meta-F)
 toggles the -F (@code{--multibuffer}) command line flag.
 
 @item Backup File Toggle (Meta-H)
 toggles the -A (@code{--smarthome}) command line flag.
 
-@item AutoIndent Toggle (Meta-I)
+@item Auto Indent Toggle (Meta-I)
 toggles the -i (@code{--autoindent}) command line flag.
 
 @item Cut To End Toggle (Meta-K)
@@ -359,6 +359,9 @@ toggles the -w (@code{--nowrap}) command line flag.
 
 @item Mouse Toggle (Meta-M)
 toggles the -m (@code{--mouse}) command line flag.
+
+@item More Space Toggle (Meta-O)
+toggles the -O (@code{--morespace}) command line flag.
 
 @item Smooth Scrolling Toggle (Meta-S)
 toggles the -S (@code{--smooth}) command line flag.

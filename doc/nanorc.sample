@@ -38,8 +38,11 @@
 ## Enable ~/.nano_history for saving and reading search/replace strings.
 # set historylog
 
-## Enable mouse support so that mouse clicks can be used to set the mark
-## and run shortcuts.
+## Use the blank line below the titlebar as extra editing space.
+# set morespace
+
+## Enable mouse support, so that mouse clicks can be used to set the
+## mark and run shortcuts.
 # set mouse
 
 ## Allow multiple file buffers (inserting a file will put it into a
@@ -242,7 +245,7 @@
 ## highlight possible errors and parameters
 #color brightwhite "^ *(set|unset|syntax|color).*$"
 ## set, unset and syntax
-#color cyan "^ *(set|unset) +(autoindent|backup|backupdir|brackets|const|cut|fill|historylog|mouse|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|punct|quotestr|rebinddelete|regexp|smarthome|smooth|speller|suspend|tabsize|tempfile|view|whitespace)"
+#color cyan "^ *(set|unset) +(autoindent|backup|backupdir|brackets|const|cut|fill|historylog|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|punct|quotestr|rebinddelete|regexp|smarthome|smooth|speller|suspend|tabsize|tempfile|view|whitespace)"
 #color green "^ *(set|unset|syntax)\>"
 ## colors
 #color yellow "^ *color +(bright)?(white|black|red|blue|green|yellow|magenta|cyan)(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
