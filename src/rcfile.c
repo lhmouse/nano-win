@@ -63,6 +63,7 @@ const static rcoption rcopts[] = {
 #ifdef ENABLE_MULTIBUFFER
     {"multibuffer", MULTIBUFFER},
 #endif
+    {"morespace", MORE_SPACE},
 #ifndef NANO_SMALL
     {"noconvert", NO_CONVERT},
 #endif

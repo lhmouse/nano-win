@@ -41,8 +41,8 @@ char *last_replace = NULL;	/* Last replacement string */
 int search_last_line;		/* Is this the last search line? */
 
 long flags = 0;			/* Our flag containing many options */
+WINDOW *topwin;			/* Top buffer */
 WINDOW *edit;			/* The file portion of the editor */
-WINDOW *topwin;			/* Top line of screen */
 WINDOW *bottomwin;		/* Bottom buffer */
 char *filename = NULL;		/* Name of the file */
 
@@ -1073,12 +1073,13 @@ void toggle_init(void)
     /* If we're using restricted mode, the multibuffer toggle is
      * disabled.  It's useless since inserting files is disabled. */
     if (!ISSET(RESTRICTED))
-	toggle_init_one(TOGGLE_MULTIBUFFER_KEY, N_("Multiple file buffers"),
-		MULTIBUFFER);
+	toggle_init_one(TOGGLE_MULTIBUFFER_KEY,
+		N_("Multiple file buffers"), MULTIBUFFER);
 #endif
     toggle_init_one(TOGGLE_CONST_KEY, N_("Constant cursor position"),
 	CONSTUPDATE);
-    toggle_init_one(TOGGLE_AUTOINDENT_KEY, N_("Auto indent"), AUTOINDENT);
+    toggle_init_one(TOGGLE_AUTOINDENT_KEY, N_("Auto indent"),
+	AUTOINDENT);
 #ifndef DISABLE_WRAPPING
     toggle_init_one(TOGGLE_WRAP_KEY, N_("Auto line wrap"), NO_WRAP);
 #endif
@@ -1098,9 +1099,12 @@ void toggle_init(void)
     /* If we're using restricted mode, the backup toggle is disabled.
      * It's useless since backups are disabled. */
     if (!ISSET(RESTRICTED))
-	toggle_init_one(TOGGLE_BACKUP_KEY, N_("Backup files"), BACKUP_FILE);
-    toggle_init_one(TOGGLE_SMOOTH_KEY, N_("Smooth scrolling"), SMOOTHSCROLL);
-    toggle_init_one(TOGGLE_SMARTHOME_KEY, N_("Smart home key"), SMART_HOME);
+	toggle_init_one(TOGGLE_BACKUP_KEY, N_("Backup files"),
+		BACKUP_FILE);
+    toggle_init_one(TOGGLE_SMOOTH_KEY, N_("Smooth scrolling"),
+	SMOOTHSCROLL);
+    toggle_init_one(TOGGLE_SMARTHOME_KEY, N_("Smart home key"),
+	SMART_HOME);
 #ifdef ENABLE_COLOR
     toggle_init_one(TOGGLE_SYNTAX_KEY, N_("Color syntax highlighting"),
 	COLOR_SYNTAX);
@@ -1109,6 +1113,8 @@ void toggle_init(void)
     toggle_init_one(TOGGLE_WHITESPACE_KEY, N_("Whitespace display"),
 	WHITESPACE_DISPLAY);
 #endif
+    toggle_init_one(TOGGLE_MORESPACE_KEY, N_("Use of more space for editing"),
+	MORE_SPACE);
 }
 
 #ifdef DEBUG

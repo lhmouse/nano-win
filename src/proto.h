@@ -375,6 +375,7 @@ void print1opt(const char *shortflag, const char *longflag, const char
 	*desc);
 void usage(void);
 void version(void);
+int no_more_space(void);
 int no_help(void);
 void nano_disabled_msg(void);
 #ifndef NANO_SMALL
@@ -618,6 +619,7 @@ size_t actual_x(const char *str, size_t xplus);
 size_t strnlenpt(const char *buf, size_t size);
 size_t strlenpt(const char *buf);
 void blank_titlebar(void);
+void blank_topbar(void);
 void blank_edit(void);
 void blank_statusbar(void);
 void check_statusblank(void);

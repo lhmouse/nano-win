@@ -2041,6 +2041,12 @@ void blank_titlebar(void)
     mvwaddstr(topwin, 0, 0, hblank);
 }
 
+void blank_topbar(void)
+{
+    if (!ISSET(MORE_SPACE))
+	mvwaddstr(topwin, 1, 0, hblank);
+}
+
 void blank_edit(void)
 {
     int i;
@@ -3604,7 +3610,7 @@ void total_refresh(void)
     clearok(bottomwin, FALSE);
     titlebar(NULL);
     edit_refresh();
-    /* FIXME: bottomwin needs to be refreshed too. */
+    bottombars(currshortcut);
 }
 
 void display_main_list(void)
@@ -3742,6 +3748,7 @@ void do_help(void)
 	UNSET(NO_HELP);
 	window_init();
     }
+
     bottombars(help_list);
 
     do {
@@ -3982,6 +3989,7 @@ void do_credits(void)
     nodelay(edit, TRUE);
     scrollok(edit, TRUE);
     blank_titlebar();
+    blank_topbar();
     blank_edit();
     blank_statusbar();
     blank_bottombars();
@@ -4018,7 +4026,6 @@ void do_credits(void)
     scrollok(edit, FALSE);
     nodelay(edit, FALSE);
     curs_set(1);
-    display_main_list();
     total_refresh();
 }
 #endif

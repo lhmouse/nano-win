@@ -71,14 +71,14 @@
 #endif /* CURSES_H */
 
 #ifdef ENABLE_NLS
-#  ifdef HAVE_LIBINTL_H
-#    include <libintl.h>
-#  endif
-#  define _(string) gettext(string)
-#  define P_(singular, plural, number) ngettext(singular, plural, number)
+#ifdef HAVE_LIBINTL_H
+#include <libintl.h>
+#endif
+#define _(string) gettext(string)
+#define P_(singular, plural, number) ngettext(singular, plural, number)
 #else
-#  define _(string) (string)
-#  define P_(singular, plural, number) (number == 1 ? singular : plural)
+#define _(string) (string)
+#define P_(singular, plural, number) (number == 1 ? singular : plural)
 #endif
 #define gettext_noop(string) (string)
 #define N_(string) gettext_noop(string)
@@ -308,7 +308,8 @@ typedef struct historyheadtype {
 #define RESTRICTED		(1<<26)
 #define SMART_HOME		(1<<27)
 #define WHITESPACE_DISPLAY	(1<<28)
-#define NO_UTF8			(1<<29)
+#define MORE_SPACE		(1<<29)
+#define NO_UTF8			(1<<30)
 
 /* Control key sequences, changing these would be very very bad. */
 #define NANO_CONTROL_SPACE 0
@@ -495,7 +496,7 @@ typedef struct historyheadtype {
 #define TOGGLE_SYNTAX_KEY	NANO_ALT_Y
 #define TOGGLE_SMARTHOME_KEY	NANO_ALT_H
 #define TOGGLE_WHITESPACE_KEY	NANO_ALT_P
-#define TOGGLE_NOUTF8_KEY	NANO_ALT_O
+#define TOGGLE_MORESPACE_KEY	NANO_ALT_O
 #endif /* !NANO_SMALL */
 
 #define MAIN_VISIBLE 12

@@ -195,7 +195,7 @@ void global_init(bool save_cutbuffer)
     current_x = 0;
     current_y = 0;
 
-    editwinrows = LINES - 5 + no_help();
+    editwinrows = LINES - 5 + no_more_space() + no_help();
     if (editwinrows < MIN_EDITOR_ROWS || COLS < MIN_EDITOR_COLS)
 	die_too_small();
 
@@ -223,7 +223,7 @@ void global_init(bool save_cutbuffer)
 
 void window_init(void)
 {
-    editwinrows = LINES - 5 + no_help();
+    editwinrows = LINES - 5 + no_more_space() + no_help();
     if (editwinrows < MIN_EDITOR_ROWS)
 	die_too_small();
 
@@ -235,8 +235,8 @@ void window_init(void)
 	delwin(bottomwin);
 
     /* Set up the windows. */
-    topwin = newwin(2, COLS, 0, 0);
-    edit = newwin(editwinrows, COLS, 2, 0);
+    topwin = newwin(2 - no_more_space(), COLS, 0, 0);
+    edit = newwin(editwinrows, COLS, 2 - no_more_space(), 0);
     bottomwin = newwin(3 - no_help(), COLS, LINES - 3 + no_help(), 0);
 
     /* Turn the keypad back on. */
@@ -925,6 +925,7 @@ void usage(void)
 #ifndef NANO_SMALL
     print1opt("-N", "--noconvert", N_("Don't convert files from DOS/Mac format"));
 #endif
+    print1opt("-O", "--morespace", N_("Use more space for editing"));
 #ifndef DISABLE_JUSTIFY
     print1opt(_("-Q [str]"), _("--quotestr=[str]"), N_("Quoting string, default \"> \""));
 #endif
@@ -1035,6 +1036,11 @@ void version(void)
     printf(" --with-slang");
 #endif
     printf("\n");
+}
+
+int no_more_space(void)
+{
+    return ISSET(MORE_SPACE) ? 1 : 0;
 }
 
 int no_help(void)
@@ -3317,7 +3323,7 @@ void handle_sigwinch(int s)
      * But not in all cases, argh. */
     COLS = win.ws_col;
     LINES = win.ws_row;
-    editwinrows = LINES - 5 + no_help();
+    editwinrows = LINES - 5 + no_more_space() + no_help();
     if (editwinrows < MIN_EDITOR_ROWS || COLS < MIN_EDITOR_COLS)
 	die_too_small();
 
@@ -3371,10 +3377,10 @@ void handle_sigwinch(int s)
 
     /* Redraw the contents of the windows that need it. */
     blank_statusbar();
-    display_main_list();
+    currshortcut = main_list;
     total_refresh();
 
-    /* Turn cursor back on for sure. */
+    /* Turn the cursor back on for sure. */
     curs_set(1);
 
     /* Reset all the input routines that rely on character sequences. */
@@ -3404,30 +3410,27 @@ void do_toggle(const toggle *which)
     TOGGLE(which->flag);
 
     switch (which->val) {
-	case TOGGLE_SUSPEND_KEY:
-	    signal_init();
-	    break;
 #ifndef DISABLE_MOUSE
 	case TOGGLE_MOUSE_KEY:
 	    mouse_init();
 	    break;
 #endif
+	case TOGGLE_MORESPACE_KEY:
 	case TOGGLE_NOHELP_KEY:
-	    blank_statusbar();
-	    blank_bottombars();
-	    wrefresh(bottomwin);
 	    window_init();
-	    edit_refresh();
-	    display_main_list();
+	    total_refresh();
 	    break;
-#ifdef ENABLE_COLOR
-	case TOGGLE_SYNTAX_KEY:
-	    edit_refresh();
+	case TOGGLE_SUSPEND_KEY:
+	    signal_init();
 	    break;
-#endif
 #ifdef ENABLE_NANORC
 	case TOGGLE_WHITESPACE_KEY:
 	    titlebar(NULL);
+	    edit_refresh();
+	    break;
+#endif
+#ifdef ENABLE_COLOR
+	case TOGGLE_SYNTAX_KEY:
 	    edit_refresh();
 	    break;
 #endif
@@ -3849,6 +3852,7 @@ int main(int argc, char **argv)
 #endif
 	{"ignorercfiles", 0, 0, 'I'},
 #endif
+	{"morespace", 0, 0, 'O'},
 #ifndef DISABLE_JUSTIFY
 	{"quotestr", 1, 0, 'Q'},
 #endif
@@ -3926,9 +3930,9 @@ int main(int argc, char **argv)
 
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
-	getopt_long(argc, argv, "h?ABE:FHINQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz", long_options, NULL)
+	getopt_long(argc, argv, "h?ABE:FHINOQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz", long_options, NULL)
 #else
-	getopt(argc, argv, "h?ABE:FHINQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz")
+	getopt(argc, argv, "h?ABE:FHINOQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz")
 #endif
 		) != -1) {
 
@@ -3972,6 +3976,9 @@ int main(int argc, char **argv)
 		SET(NO_CONVERT);
 		break;
 #endif
+	    case 'O':
+		SET(MORE_SPACE);
+		break;
 #ifndef DISABLE_JUSTIFY
 	    case 'Q':
 		quotestr = mallocstrcpy(quotestr, optarg);

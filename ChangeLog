@@ -116,6 +116,13 @@ CVS code -
 	  do_statusbar_verbatim_kbinput(), do_statusbar_output(), and
 	  display_string(); removal of buffer_to_keys() and
 	  keys_to_buffer(). (DLR)
+	- Add -O/--morespace command line option, plus a corresponding
+	  Meta-O toggle and a "morespace" rcfile option.  When these are
+	  used, the normally-unused blank line below the titlebar will
+	  be treated as part of the edit window.  New functions
+	  no_more_space() and blank_topbar(); changes to global_init(),
+	  window_init(), handle_sigwinch(), do_toggle(), etc. (DLR;
+	  suggested by Mike Frysinger, Rocco, and Robert Schultz)
 - cut.c:
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the
@@ -227,6 +234,9 @@ CVS code -
   bottombars()
 	- Initialize foo, in case a keystroke meets none of the handled
 	  cases. (DLR)
+  total_refresh()
+	- Refresh bottomwin using the value of currshortcut, and change
+	  the code around do_refresh() calls to accommodate this. (DLR)
 - configure.ac:
 	- Remove specific references to control key shortcuts. (DLR)
 	- Check for the wide version of ncurses, without which multibyte
