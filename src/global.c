@@ -323,7 +323,8 @@ void shortcut_init(int unjustify)
     const char *nano_multibuffer_msg = N_("Insert into new buffer");
 #endif
 #ifndef DISABLE_BROWSER
-    const char *nano_gotodir_msg = N_("Go to directory");
+    const char *nano_exit_browser_msg = N_("Exit from the file browser");
+    const char *nano_goto_dir_msg = N_("Go to directory");
 #endif
 #endif /* !DISABLE_HELP */
 
@@ -913,8 +914,8 @@ void shortcut_init(int unjustify)
 #endif
 		);
 
-    sc_init_one(&browser_list, NANO_CANCEL_KEY, cancel_msg,
-	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
+    sc_init_one(&browser_list, NANO_EXIT_KEY, exit_msg,
+	IFHELP(nano_exit_browser_msg, NANO_NO_KEY), NANO_EXIT_FKEY,
 	NANO_NO_KEY, VIEW, 0);
 
     sc_init_one(&browser_list, NANO_PREVPAGE_KEY, prev_page_msg,
@@ -927,7 +928,7 @@ void shortcut_init(int unjustify)
 
     /* Translators: try to keep this string under 22 characters long */
     sc_init_one(&browser_list, NANO_GOTO_KEY, N_("Go To Dir"),
-	IFHELP(nano_gotodir_msg, NANO_ALT_GOTO_KEY), NANO_GOTO_FKEY,
+	IFHELP(nano_goto_dir_msg, NANO_ALT_GOTO_KEY), NANO_GOTO_FKEY,
 	NANO_NO_KEY, VIEW, 0);
 
     free_shortcutage(&gotodir_list);

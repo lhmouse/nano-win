@@ -554,8 +554,10 @@ void total_refresh(void);
 void display_main_list(void);
 void do_cursorpos(int constant);
 void do_cursorpos_void(void);
-size_t line_len(const char *ptr);
+#ifndef DISABLE_HELP
+int help_line_len(const char *ptr);
 void do_help(void);
+#endif
 void do_replace_highlight(int highlight_flag, const char *word);
 #ifdef DEBUG
 void dump_buffer(const filestruct *inptr);

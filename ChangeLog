@@ -61,21 +61,34 @@ CVS code -
   shortcut_init()
 	- Fix erroneous #ifdef so that nano compiles with
 	  --disable-justify again. (DLR; found by Mike Frysinger)
+	- Change the Cancel shortcut in the file browser to an Exit
+	  shortcut, to be more compatible with the current version of
+	  Pico. (DLR)
   thanks_for_all_the_fish()
 	- Delete topwin, edit, and bottomwin. (David Benbennick)
 - nano.c:
   do_justify()
-	- Add on_next_line flag, used to indicate when we've moved to
+	- Add allow_respacing flag, used to indicate when we've moved to
 	  the next line after justifying the current line, and only run
 	  the respacing routine when it's true.  This keeps the
 	  respacing routine from erroneously being run more than once on
 	  the same line. (DLR)
+	- Check for first_par_line's not being NULL and only run the
+	  renumbering and cutbuffer-splicing routines depending on that
+	  if that's the case.  This fixes a segfault occurring when
+	  trying to do full justification on a file with no paragraphs
+	  (in which case there are no normal lines to renumber and no
+	  backed-up lines to be stored in the cutbuffer or spliced back
+	  in during unjustify). (DLR)
   do_exit()
 	- Tweak for efficiency. (David Benbennick)
   main()
 	- Move the reset_cursor() call to the beginning of the main
 	  input loop, and remove the apparently unnecessary wrefresh()
 	  call. (David Benbennick)
+- nano.h:
+	- Reassign the key for full justification to Ctrl-U, for
+	  compatibility with the current version of Pico. (DLR)
 - proto.h:
 	- Change the variables in the prototypes for do_justify(),
 	  get_verbatim_kbinput(), and get_mouseinput() to match the ones
@@ -108,6 +121,18 @@ CVS code -
 	- Tweak the code to update the edit window just before getting
 	  statusbar input for efficiency, and update bottomwin just
 	  before then too. (David Benbennick)
+	- Don't delete the statusbar line on UnCut, since the current
+	  version of Pico doesn't. (DLR)
+  line_len()
+	- Rename to help_line_len() so as not to conflict with the
+	  line_len variable used elsewhere, and move inside the
+	  DISABLE_HELP #ifdef surrounding do_help() since it's only
+	  called in do_help(). (DLR)
+  do_help()
+	- Have help_line_len() properly return an int again, since its
+	  value can't be larger than COLS. (DLR)
+	- Allow the user to exit the help browser via Ctrl-C as well as
+	  Ctrl-X, for consistency with the file browser. (DLR)
 
 GNU nano 1.3.3 - 2004.06.28
 - General:

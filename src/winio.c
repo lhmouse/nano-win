@@ -1669,10 +1669,8 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    }
 	    break;
 	case NANO_CUT_KEY:
-	case NANO_UNCUT_KEY:
 	    /* If we're using restricted mode, the filename isn't blank,
-	     * and we're at the "Write File" prompt, disable Cut and
-	     * UnCut. */
+	     * and we're at the "Write File" prompt, disable Cut. */
 	    if (!ISSET(RESTRICTED) || filename[0] == '\0' || s != writefile_list) {
 		null_at(&answer, 0);
 		xend = 0;
@@ -3000,10 +2998,11 @@ void do_cursorpos_void(void)
     do_cursorpos(FALSE);
 }
 
+#ifndef DISABLE_HELP
 /* Calculate the next line of help_text, starting at ptr. */
-size_t line_len(const char *ptr)
+int help_line_len(const char *ptr)
 {
-    size_t j = 0;
+    int j = 0;
 
     while (*ptr != '\n' && *ptr != '\0' && j < COLS - 5) {
 	ptr++;
@@ -3026,7 +3025,6 @@ size_t line_len(const char *ptr)
     return j;
 }
 
-#ifndef DISABLE_HELP
 /* Our dynamic, shortcut-list-compliant help function. */
 void do_help(void)
 {
@@ -3113,13 +3111,13 @@ void do_help(void)
 	/* Calculate where in the text we should be, based on the
 	 * page. */
 	for (i = 0; i < line; i++) {
-	    ptr += line_len(ptr);
+	    ptr += help_line_len(ptr);
 	    if (*ptr == '\n')
 		ptr++;
 	}
 
 	for (i = 0; i < editwinrows && *ptr != '\0'; i++) {
-	    int j = line_len(ptr);
+	    int j = help_line_len(ptr);
 
 	    mvwaddnstr(edit, i, 0, ptr, j);
 	    ptr += j;
@@ -3130,7 +3128,8 @@ void do_help(void)
 
   skip_redisplay:
 	kbinput = get_kbinput(edit, &meta_key);
-    } while (kbinput != NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
+    } while (kbinput != NANO_CANCEL_KEY && kbinput != NANO_EXIT_KEY &&
+	kbinput != NANO_EXIT_FKEY);
 
 #ifndef DISABLE_MOUSE
     currshortcut = oldshortcut;

@@ -2638,12 +2638,15 @@ void do_justify(int full_justify)
     /* We are now done justifying the paragraph or the file, so clean
      * up.  totlines, totsize, and current_y have been maintained above.
      * Set last_par_line to the new end of the paragraph, update
-     * fileage, and set current_x.  Also, edit_refresh() needs the line
-     * numbers to be right, so renumber(). */
+     * fileage, and renumber() since edit_refresh() needs the line
+     * numbers to be right (but only do the last two if we actually
+     * justified something). */
     last_par_line = current->prev;
-    if (first_par_line->prev == NULL)
-	fileage = first_par_line;
-    renumber(first_par_line);
+    if (first_par_line != NULL) {
+	if (first_par_line->prev == NULL)
+	    fileage = first_par_line;
+	renumber(first_par_line);
+    }
 
     edit_refresh();
 
@@ -2681,20 +2684,23 @@ void do_justify(int full_justify)
 	current_y = current_y_save;
 	edittop = edittop_save;
 
-	/* Splice the cutbuffer back into the file. */
-	cutbottom->next = last_par_line->next;
-	cutbottom->next->prev = cutbottom;
+	/* Splice the cutbuffer back into the file, but only if we
+	 * actually justified something. */
+	if (first_par_line != NULL) {
+	    cutbottom->next = last_par_line->next;
+	    cutbottom->next->prev = cutbottom;
 	    /* The line numbers after the end of the paragraph have been
 	     * changed, so we change them back. */
-	renumber(cutbottom->next);
-	if (first_par_line->prev != NULL) {
-	    cutbuffer->prev = first_par_line->prev;
-	    cutbuffer->prev->next = cutbuffer;
-	} else
-	    fileage = cutbuffer;
+	    renumber(cutbottom->next);
+	    if (first_par_line->prev != NULL) {
+		cutbuffer->prev = first_par_line->prev;
+		cutbuffer->prev->next = cutbuffer;
+	    } else
+		fileage = cutbuffer;
 
-	last_par_line->next = NULL;
-	free_filestruct(first_par_line);
+	    last_par_line->next = NULL;
+	    free_filestruct(first_par_line);
+	}
 
 	/* Restore global variables from before the justify. */
 	totsize = totsize_save;
