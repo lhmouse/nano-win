@@ -12,8 +12,6 @@ CVS Code -
   not_found_msg in search.c for displaying truncated strings in satusbar
   when the string is not found.
 
-  *** Note that backspace key makes input be off by one when entring
-  *** a string > COLS in length.  This must be fixed before a new release
 - files.c:
   do_writeout()
 	- Change strcpy to answer to mallocstrcpy.
@@ -49,9 +47,13 @@ CVS Code -
 	  into statusbar" bug in odd $TERMs like iris-ansi.
 	- Changed check to return -2 on "enter" from answer == ""
 	  to answer == def.
+	- Silly kludge in backspace code to temporarily decrement x
+	  before refreshing to keep the cursor visually aligned.
   nanoget_repaint()
 	- New function, removes about 30 lines of duplicate code in 
 	  nanogetstr().
+	- Black magic code to make $ appear in prompt if we're past
+	  COLS.
 - es.po:
 	- Updated translation to 0.9.19-CVS (Jordi).
   
