@@ -250,6 +250,11 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 	xend = strlen(buf) + strlen(inputbuf);
 
 	switch (kbinput) {
+	/* Stuff we want to equate with <enter>, ASCII 13 */
+	case 343:	
+	    ungetch(13);	/* Enter on iris-ansi $TERM, sometimes */
+	    break;
+
 	case KEY_HOME:
 	    x = x_left;
 	    blank_statusbar();

@@ -3,6 +3,10 @@ CVS Code -
   toggle_init()
 	- Added #ifdef around toggle_regex_msg to get rid of compiler 
 	  warning.
+- winio.c
+  nanogetstr()
+	- Added check for 343 in while loop to get rid of getting "locked"
+	  into statusbar" bug in odd $TERMs like iris-ansi.
   
 nano 0.9.19 - 10/02/2000
 - General
