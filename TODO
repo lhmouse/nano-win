@@ -1,0 +1,14 @@
+TODO file (? means the feature may be implemented, but not definitely)
+-----------------------------------------------------------------------------
+
+- Implement Spelling [DONE, mostly...]
+- Implement Help [DONE]
+- Internationalization [In progress, translators welcome!]
+- Allow nano to be resized in X. [DONE]
+- Color syntax highlighting? (certainly seems like there's a demand for it.)
+- On page up/down, put the cursor on the first line (like Pico), not the
+  center line [DONE]
+- Undo/Redo key?
+- single line scroll up/down?
+- Rewrite edit_refresh, if at all possible [In progress]
+- Implement justify function [DONE]

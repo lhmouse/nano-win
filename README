@@ -1,0 +1,82 @@
+
+	The nano editor (Nano's ANOther editor) by Chris Allegretta
+                                      
+Manifesto
+
+     Nano is the editor formerly known as TIP (TIP Isn't Pico).
+     The nano project was started because of three main problems with the
+     wonderfully easy-to-use and friendly Pico text editor:
+     
+     - It's license is not the GNU GPL, and hence some Linux
+     distributions, including Debian (my favorite) don't always
+     include it/don't include binaries.  This is not necessarily a
+     problem, but an issue nonetheless.
+     
+     - Until recently, it had no ability to go to a line # from within
+     the editor. There was the +number command line option, but who wants
+     to exit a file to go to a specific line number? When I want to go to
+     a line, since I have to exit anyway, I just call up vi temporarily.
+     
+     - No search and replace feature. Well, apparently there is a flag
+     that lets you do a search and replace (-b in newer versions) but,
+     well, I still dont like it.
+     
+     nano aims to solve these problems by emulating the functionality of
+     Pico as closely as possible while adressing the problems above and
+     perhaps providing other extra functionality.
+     
+How to compile and install nano
+
+     Download the nano source code, then:
+     tar zxvf nano-x.y.z.tar.gz
+     cd nano-x.y.z
+     ./configure
+     make
+     make install
+     
+     It's that simple. Use --prefix to override the default installation
+     directory of /usr/local.
+     
+Web Page
+
+	http://www.asty.org/nano
+     
+Mailing List and Bug Reports
+
+	SourceForge hosts all the nano-related mailing-lists.
+	+ nano-announce@lists.sourceforge.net is a very low traffic list
+	  used to announce new Nano versions or other important information
+	  about the project.
+	+ nano-devel@lists.sourceforge.net is the list used by the people
+	  that make Nano and a general development discussion list, with
+	  moderate traffic.
+	To subscribe, send email to nano-<name>-request@lists.sourceforge.net
+	with a subject of "subscribe", where <name> is the list you want to
+	subscribe to.
+	For general bug reports, send a description of the problem to
+	nano@asty.org or directly to the development list.
+
+Current Status
+
+     nano is currently at version 0.9.x, and it will probably remain there
+     for awhile. This reflects the adage that the last 10% of a project
+     takes 90% of the time. Version 1.0 will be released when there are
+     no unresolved bugs, and not before. I am also currently looking for
+     patches for all things listed in the TODO file. If you have a
+     comment or suggestion, please let me know, all help is appreciated.
+
+     Warning:  This program can and possibly will corrupt your data in
+     its current form!  It is beta software, so treat it as such!  
+     Thank you.
+     
+     Note that the primary aim of nano is to emulate Pico while adding a
+     few key "missing" features. I do NOT want just a GPL'ed Pico clone,
+     nor do I want something that strays too far from the Pico design
+     (simple and straightforward). If you don't like this, feel free to
+     fork my code at any time, but please call your editor something
+     else, believe it or not I struggled awhile before coming up with
+     the name nano (and before that TIP), and it would be much easier for
+     everyone if there weren't five versions of the same program. As you
+     can guess, I'm not much of an emacs fan ;)
+     
+   Chris Allegretta (chrisa@asty.org)

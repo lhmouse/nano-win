@@ -1,0 +1,11 @@
+# List of source files containing translatable strings.
+
+# Package source files
+cut.c
+global.c
+nano.c
+winio.c
+
+# Package header files
+nano.h
+proto.h

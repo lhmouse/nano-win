@@ -1,0 +1,36 @@
+- Marked cutting sometimes leaves a newline in the file unintelligently,
+  such as when all of a line is selected but the mark doesn't proceed to
+  the new line. (8) 
+  { I know I posted this, but is it really a bug, Pico 3.5 seems to behave
+    in the same way. I must be scatterbrained or something.
+    - Rob Siemborski }
+
+- Certains are not lined up properly when there are tabs in them at 
+  certain col values. (9) [FIXED]
+- edit_refresh() and update_line() do not handle selecting text when the
+  cursor is beyond COLS (10)
+- no way to do a replace with the empty string. (11)
+- Spelling support is not elegant like pico's integration of the 'spell'
+  program.  Nano only uses ispell (for now) (12)
+- Moving to the end of a line when close to a multiple of COLS and at
+  least COLS * 2 does not make the screen jump early like it would for
+  if we were around COLS (bugs in edit_refresh, update_line) (13)
+  [FIXED, mostly]
+- When at the very bottom of the edit window, do_wrap goes berzerk and
+  puts the curor somewhere bad, subsequent keystrokes crash the program
+  (14) [FIXED, mostly]
+- Doing a replacement of a substring of the replace string (e.g. replacing
+  "ed" with "fred" causes an infinite loop. (15) [FIXED]
+- Cutting a file with marked text and both marker ends on the same line
+  causes a random segfault (16)
+- Cutting more than one line resets the KEEP_CUTBUFFER flag in 0.9.3
+  Error is in bitwise assignment (nano.h). (17) [FIXED]
+- The wrapping code does not work right for lines like the following:
+ *                                                                     *
+  Error is in do_wrap, must be rewritten (18).
+- Wrapping a line with autoindent mode sometimes causes a segfault (19).
+- Nano fails to follow symlinks, even though -l isn't being used (20).
+  [Bug in global flag init, FIXED]
+- When using --help or --version, the SIGINT character gets lost. (21) [FIXED]
+- When inserting files, the display sometimes fails to display properly
+  until a pageup/down occurs (22).
