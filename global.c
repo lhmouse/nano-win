@@ -75,6 +75,11 @@ char *help_text;		/* The text in the help window */
 filestruct *mark_beginbuf;	/* the begin marker buffer */
 int mark_beginx;		/* X value in the string to start */
 
+#ifndef DISABLE_OPERATINGDIR
+char *operating_dir = NULL;	/* Operating directory, which we can't go
+				   higher than */
+#endif
+
 #ifndef DISABLE_SPELLER
 char *alt_speller;		/* Alternative spell command */
 #endif

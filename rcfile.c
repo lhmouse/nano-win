@@ -39,7 +39,7 @@
 #define _(string) (string)
 #endif
 
-#define NUM_RCOPTS 15
+#define NUM_RCOPTS 16
 /* Static stuff for the nanorc file */
 rcoption rcopts[NUM_RCOPTS] = 
 {
@@ -49,6 +49,7 @@ rcoption rcopts[NUM_RCOPTS] =
 {"cut", CUT_TO_END},
 {"nofollow", FOLLOW_SYMLINKS},
 {"mouse", USE_MOUSE},
+{"operatingdir", 0},
 {"pico", PICO_MODE},
 
 #ifndef DISABLE_WRAPJUSTIFY
@@ -166,6 +167,7 @@ void parse_rcfile(FILE *rcstream, char *filename)
 #endif
 		    if (set == 1 || rcopts[i].flag == FOLLOW_SYMLINKS) {
 			if (
+			    !strcasecmp(rcopts[i].name, "operatingdir") ||
 #ifndef DISABLE_WRAPJUSTIFY
 			    !strcasecmp(rcopts[i].name, "fill") || 
 #endif

@@ -44,16 +44,20 @@
 #endif
 
 /* Load file into edit buffer - takes data from file struct */
-void load_file(void)
+void load_file(int quiet)
 {
     current = fileage;
 
 #ifdef ENABLE_MULTIBUFFER
-    /* add a new entry to the open_files structure, and check for
-       duplicate entries; if a duplicate entry was found, reload the
-       currently open file (it may have been changed during duplicate
-       handling) */
-    if (add_open_file(0, 1) == 2)
+    /* if quiet is zero, add a new entry to the open_files structure, and
+       do duplicate checking; otherwise, update the current entry and
+       don't do duplicate checking (the latter is needed in the case of
+       the alternate spell checker); if a duplicate entry was found,
+       reload the currently open file (it may have been changed during
+       duplicate handling) */
+    if (quiet != 0)
+	quiet = 1;
+    if (add_open_file(quiet, 1 - quiet) == 2)
 	load_open_file();
 #endif
 
@@ -79,8 +83,8 @@ void new_file(void)
     /* if there aren't any entries in open_files, create the entry for
        this new file, and, of course, don't bother checking for
        duplicates; without this, if nano is started without a filename on
-       the command line, a new file with no name will be created, but it
-       will be given no open_files entry, leading to problems later on */
+       the command line, a new file will be created, but it will be given
+       no open_files entry, leading to problems later on */
     if (!open_files)
 	add_open_file(0, 0);
 #endif
@@ -149,7 +153,7 @@ filestruct *read_line(char *buf, filestruct * prev, int *line1ins)
 }
 
 
-int read_file(int fd, char *filename)
+int read_file(int fd, char *filename, int quiet)
 {
     long size, num_lines = 0, linetemp = 0;
     char input[2];		/* buffer */
@@ -220,7 +224,7 @@ int read_file(int fd, char *filename)
 	totsize--;
 
 	/* Update the edit buffer */
-	load_file();
+	load_file(quiet);
     }
     statusbar(_("Read %d lines"), num_lines);
     totlines += num_lines;
@@ -262,13 +266,14 @@ int open_file(char *filename, int insert, int quiet)
 		/* Don't open character or block files.  Sorry, /dev/sndstat! */
 		statusbar(_("File \"%s\" is a device file"), filename);
 
+
 	    if (!insert)
 		new_file();
 	    return -1;
 	}
 	if (!quiet)
 	    statusbar(_("Reading File"));
-	read_file(fd, filename);
+	read_file(fd, filename, quiet);
     }
 
     return 1;
@@ -319,6 +324,15 @@ int do_insertfile(int loading_file)
 	}
 #endif
 
+#ifndef DISABLE_OPERATINGDIR
+	if (operating_dir) {
+	    if (check_operating_dir(realname, 0)) {
+		statusbar(_("Can't insert file from outside of %s"), operating_dir);
+		return 0;
+	    }
+	}
+#endif
+
 #ifdef ENABLE_MULTIBUFFER
 	if (loading_file) {
 
@@ -346,7 +360,7 @@ int do_insertfile(int loading_file)
 
 #ifdef ENABLE_MULTIBUFFER
 	if (loading_file)
-	    load_file();
+	    load_file(0);
 	else
 #endif
 
@@ -475,9 +489,7 @@ int add_open_file(int update, int dup_fix)
     while (current->prev)
 	current = current->prev;
     open_files->file = copy_filestruct(current);
-    do_gotoline(open_files->lineno, 1);
-    placewewant = open_files->file_placewewant;
-    update_line(current, current_x);
+    do_gotopos(open_files->lineno, open_files->file_current_x, open_files->file_current_y, open_files->file_placewewant);
 
     /* save current modification status */
     open_files->file_modified = ISSET(MODIFIED);
@@ -525,13 +537,9 @@ int load_open_file(void)
     totlines = open_files->file_totlines;
     totsize = open_files->file_totsize;
 
-    /* since do_gotoline() resets the x-coordinate but not the
-       y-coordinate, set all coordinates up this way */
-    current_y = open_files->file_current_y;
-    do_gotoline(open_files->lineno, 1);
-    current_x = open_files->file_current_x;
-    placewewant = open_files->file_placewewant;
-    update_line(current, current_x);
+    /* restore full file position: line number, x-coordinate, y-
+       coordinate, place we want */
+    do_gotopos(open_files->lineno, open_files->file_current_x, open_files->file_current_y, open_files->file_placewewant);
 
     /* set up modification status and update the titlebar */
     if (open_files->file_modified)
@@ -556,7 +564,7 @@ int load_open_file(void)
  *
  * Note: This should only be called inside open_file_dup_fix().
  */
-filestruct *open_file_dup_search(void)
+filestruct *open_file_dup_search(int update)
 {
     filestruct *tmp;
     char *path;
@@ -582,9 +590,18 @@ filestruct *open_file_dup_search(void)
 
 	if (!strcmp(tmp->file_path, path)) {
 
-	    /* if it's not the current entry, we've found a duplicate */
-	    if (tmp != open_files) 
+	    if (!update)
+		/* if we're making a new entry and there's an entry with
+		   the same full path, we've found a duplicate */
 		return tmp;
+	    else {
+
+		/* if we're updating an existing entry and there's an
+		   entry with the same full path that isn't the current
+		   entry, we've	found a duplicate */
+		if (tmp != open_files) 
+		    return tmp;
+	    }
 	}
 
 	/* go to the next entry */
@@ -602,7 +619,7 @@ filestruct *open_file_dup_search(void)
  */
 int open_file_dup_fix(int update)
 {
-    filestruct *tmp = open_file_dup_search();
+    filestruct *tmp = open_file_dup_search(update);
 
     if (!tmp)
 	return 0;
@@ -766,17 +783,25 @@ int close_open_file(void)
     display_main_list();
     return 0;
 }
+#endif
 
+#if defined (ENABLE_MULTIBUFFER) || !defined (DISABLE_OPERATINGDIR)
 /*
- * When passed "[relative path][filename]" in origpath, return "[full
- * path][filename]" on success, or NULL on error.
+ * When passed "[relative path]" or "[relative path][filename]" in
+ * origpath, return "[full path]" or "[full path][filename]" on success,
+ * or NULL on error.  This is still done if the file doesn't exist but
+ * the relative path does (since the file could exist in memory but not
+ * yet on disk); it is not done if the relative path doesn't exist (since
+ * the first call to chdir() will fail then).
  */
-char *get_full_path(const char *origpath)
+char *get_full_path(char *origpath)
 {
-    char *newpath = NULL, *last_slash, *d_here, *d_there, *d_there_file;
-    int last_slash_index;
+    char *newpath = NULL, *last_slash, *d_here, *d_there, *d_there_file, tmp;
+    int path_only, last_slash_index;
+    struct stat fileinfo;
 
-    /* first, get the current directory */
+    /* first, get the current directory, and tack a slash onto the end of
+       it */
 
 #ifdef PATH_MAX
     d_here = getcwd(NULL, PATH_MAX + 1);
@@ -787,13 +812,41 @@ char *get_full_path(const char *origpath)
     if (d_here) {
 
 	align(&d_here);
+	d_here = nrealloc(d_here, strlen(d_here) + 2);
+	strcat(d_here, "/");
 
-	/* get the filename (with path included) and save it in both
-	   d_there and d_there_file */
+	/* stat origpath; if stat() fails, assume that origpath refers to
+	   a new file that hasn't been saved to disk yet (i. e. set
+	   path_only to 0); if stat() succeeds, set path_only to 0 if
+	   origpath doesn't refer to a directory, or to 1 if it does */
+	path_only = stat(origpath, &fileinfo);
+	if (path_only == -1)
+		path_only = 0;
+	else {
+	    if (S_ISDIR(fileinfo.st_mode))
+		path_only = 1;
+	    else
+		path_only = 0;
+	}
+
+	/* save the value of origpath in both d_there and d_there_file */
 	d_there = charalloc(strlen(origpath) + 1);
 	d_there_file = charalloc(strlen(origpath) + 1);
 	strcpy(d_there, origpath);
 	strcpy(d_there_file, origpath);
+
+	/* if we have a path but no filename, tack slashes onto the ends
+	   of both d_there and d_there_file, if they don't end in slashes
+	   already */
+	if (path_only) {
+	    tmp = d_there[strlen(d_there) - 1];
+	    if (tmp != '/') {
+		d_there = nrealloc(d_there, strlen(d_there) + 2);
+		strcat(d_there, "/");
+		d_there_file = nrealloc(d_there_file, strlen(d_there_file) + 2);
+		strcat(d_there_file, "/");
+	    }
+	}
 
 	/* search for the last slash in d_there */
 	last_slash = strrchr(d_there, '/');
@@ -807,19 +860,27 @@ char *get_full_path(const char *origpath)
 
 	else {
 
-	    /* otherwise, remove all non-path elements from d_there */
+	    /* otherwise, remove all non-path elements from d_there
+	       (i. e. everything after the last slash) */
 	    last_slash_index = strlen(d_there) - strlen(last_slash);
-	    null_at(d_there, last_slash_index);
+	    null_at(d_there, last_slash_index + 1);
 
-	    /* and remove all non-file elements from d_there_file */
-	    last_slash++;
-	    d_there_file = nrealloc(d_there_file, strlen(last_slash) + 1);
-	    strcpy(d_there_file, last_slash);
+	    /* and remove all non-file elements from d_there_file (i. e.
+	       everything before and including the last slash); if we
+	        have a path but no filename, don't do anything */
+	    if (!path_only) {
+		last_slash = strrchr(d_there_file, '/');
+		last_slash++;
+		strcpy(d_there_file, last_slash);
+		align(&d_there_file);
+	    }
 
 	    /* now go to the path specified in d_there */
 	    if (chdir(d_there) != -1) {
 
-		/* get the full pathname, and save it back in d_there */
+		/* get the full pathname, and save it back in d_there,
+		   tacking a slash on the end if we have a path but no
+		   filename; if the saving fails, get out */
 
 		free(d_there);
 
@@ -830,6 +891,12 @@ char *get_full_path(const char *origpath)
 #endif
 
 		align(&d_there);
+		if (d_there) {
+		    d_there = nrealloc(d_there, strlen(d_there) + 2);
+		    strcat(d_there, "/");
+		}
+		else
+		    return NULL;
 	    }
 
 	    /* finally, go back to where we were before, d_here (no error
@@ -840,11 +907,17 @@ char *get_full_path(const char *origpath)
 	
 	/* all data is set up; fill in newpath */
 
-	/* newpath = d_there + "/" + d_there_file */
-	newpath = charalloc(strlen(d_there) + strlen(d_there_file) + 2);
-	strcpy(newpath, d_there);
-	strcat(newpath, "/");
-	strcat(newpath, d_there_file);
+	/* if we have a path and a filename, newpath = d_there +
+	   d_there_file; otherwise, newpath = d_there */
+	if (!path_only) {
+	    newpath = charalloc(strlen(d_there) + strlen(d_there_file) + 1);
+	    strcpy(newpath, d_there);
+	    strcat(newpath, d_there_file);
+	}
+	else {
+	    newpath = charalloc(strlen(d_there) + 1);
+	    strcpy(newpath, d_there);
+	}
 
 	/* finally, clean up */
 	free(d_there_file);
@@ -853,6 +926,72 @@ char *get_full_path(const char *origpath)
     }
 
     return newpath;
+}
+#endif /* ENABLE_MULTIBUFFER || !DISABLE_OPERATINGDIR */
+
+#ifndef DISABLE_OPERATINGDIR
+/*
+ * Check to see if we're inside the operating directory.  Return 0 if we
+ * are, or 1 otherwise.  If allow_tabcomp is nonzero, allow incomplete
+ * names that would be matches for the operating directory, so that tab
+ * completion will work.
+ */
+int check_operating_dir(char *currpath, int allow_tabcomp)
+{
+    /* this is static so that we only need to get it the first time this
+       function is called; also, a relative operating directory path will
+       only be handled properly if this is done */
+    static char *full_operating_dir = NULL;
+
+    char *fullpath, *whereami1, *whereami2 = NULL;
+
+    /* if no operating directory is set, don't bother doing anything */
+    if (!operating_dir)
+	return 0;
+
+    /* if the operating directory is "/", that's the same as having no
+       operating directory, so discard it and get out */
+    if (!strcmp(operating_dir, "/")) {
+	operating_dir = NULL;
+	return 0;
+    }
+
+    /* get the full operating (if we don't have it already) and current
+       directories, and then search the current for the operating (for
+       normal usage) and the operating for the current (for tab
+       completion, if we're allowing it); if the current directory's path
+       doesn't exist, assume we're outside the operating directory */
+    if (!full_operating_dir) {
+	full_operating_dir = get_full_path(operating_dir);
+
+	/* if get_full_path() failed, discard the operating directory */
+	if (!full_operating_dir) {
+	    operating_dir = NULL;
+	    return 0;
+	}
+    }
+
+    fullpath = get_full_path(currpath);
+    if (!fullpath)
+	return 1;
+
+    whereami1 = strstr(fullpath, full_operating_dir);
+    if (allow_tabcomp)
+	whereami2 = strstr(full_operating_dir, fullpath);
+
+    /* if both searches failed, we're outside the operating directory */
+    if (!whereami1 && !whereami2)
+	return 1;
+
+    /* check the search results; if the full operating directory path is
+       not at the beginning of the full current path (for normal usage)
+       and vice versa (for tab completion, if we're allowing it), we're
+       outside the operating directory */
+    if (whereami1 != fullpath && whereami2 != full_operating_dir)
+	return 1;
+
+    /* otherwise, we're still inside it */
+    return 0;
 }
 #endif
 
@@ -896,6 +1035,18 @@ int write_file(char *name, int tmp, int append, int nonamechange)
     realname = real_dir_from_tilde(name);
 #else
     realname = mallocstrcpy(realname, name);
+#endif
+
+#ifndef DISABLE_OPERATINGDIR
+    if (!tmp && operating_dir) {
+	/* if we're writing a temporary file, we're going outside the
+	   operating directory, so skip the operating directory test */
+	if (check_operating_dir(realname, 0)) {
+	    statusbar(_("Can't write outside of %s"), operating_dir);
+
+	    return -1;
+	}
+    }
 #endif
 
     /* Save the state of file at the end of the symlink (if there is one) */
@@ -1325,6 +1476,16 @@ char **username_tab_completion(char *buf, int *num_matches)
 	     * This makes a lot more sense to me (Chris) this way...
 	     */
 
+#ifndef DISABLE_OPERATINGDIR
+	    /* ...unless the match exists outside the operating
+               directory, in which case just go to the next match */
+
+	    if (operating_dir) {
+		if (check_operating_dir(userdata->pw_dir, 1))
+		    continue;
+	    }
+#endif
+
 	    matchline = charalloc(strlen(userdata->pw_name) + 2);
 	    sprintf(matchline, "~%s", userdata->pw_name);
 	    matches[*num_matches] = matchline;
@@ -1415,6 +1576,27 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 	    /* Cool, found a match.  Add it to the list
 	     * This makes a lot more sense to me (Chris) this way...
 	     */
+
+#ifndef DISABLE_OPERATINGDIR
+	    /* ...unless the match exists outside the operating
+               directory, in which case just go to the next match; to
+	       properly do operating directory checking, we have to add the
+	       directory name to the beginning of the proposed match
+	       before we check it */
+
+	    if (operating_dir) {
+		tmp2 = charalloc(strlen(dirName) + strlen(next->d_name) + 2);
+		strcpy(tmp2, dirName);
+		strcat(tmp2, "/");
+		strcat(tmp2, next->d_name);
+		if (check_operating_dir(tmp2, 1)) {
+		    free(tmp2);
+		    continue;
+		}
+	        free(tmp2);
+	    }
+#endif
+
 	    tmp2 = NULL;
 	    tmp2 = charalloc(strlen(next->d_name) + 1);
 	    strcpy(tmp2, next->d_name);
@@ -1517,6 +1699,13 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 	    /* write out the matched name */
 	    strncpy(copyto, matches[0], strlen(matches[0]) + 1);
 	    *newplace += strlen(matches[0]) - pos;
+
+	    /* if an exact match is typed in and Tab is pressed,
+	       *newplace will now be negative; in that case, make it
+	       zero, so that the cursor will stay where it is instead of
+	       moving backward */
+	    if (*newplace < 0)
+		*newplace = 0;
 
 	    /* Is it a directory? */
 	    append_slash_if_dir(buf, lastWasTab, newplace);
@@ -1925,6 +2114,19 @@ char *do_browser(char *inpath)
 
 	    path = mallocstrcpy(path, filelist[selected]);
 
+#ifndef DISABLE_OPERATINGDIR
+	    /* Note: The case of the user's being completely outside the
+	       operating directory is handled elsewhere, before this
+	       point */
+	    if (operating_dir) {
+		if (check_operating_dir(path, 0)) {
+		    statusbar(_("Can't visit parent in restricted mode"));
+		    beep();
+		    break;
+		}
+	    }
+#endif
+
 	    st = filestat(path);
 	    if (S_ISDIR(st.st_mode)) {
 		if ((test_dir = opendir(path)) == NULL) {
@@ -1960,6 +2162,15 @@ char *do_browser(char *inpath)
 	    j = statusq(0, gotodir_list, GOTODIR_LIST_LEN, "", _("Goto Directory"));
 	    bottombars(browser_list, BROWSER_LIST_LEN);
 	    curs_set(0);
+
+#ifndef DISABLE_OPERATINGDIR
+	    if (operating_dir) {
+		if (check_operating_dir(answer, 0)) {
+		    statusbar(_("Can't go outside of %s in restricted mode"), operating_dir);
+		    break;
+		}
+	    }
+#endif
 
 	    if (j < 0) {
 		statusbar(_("Goto Cancelled"));

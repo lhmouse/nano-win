@@ -44,6 +44,9 @@ extern char *answer;
 extern char *hblank, *help_text;
 extern char *last_search;
 extern char *last_replace;
+#ifndef DISABLE_OPERATINGDIR
+extern char *operating_dir;
+#endif
 #ifndef DISABLE_SPELLER
 extern  char *alt_speller;
 #endif
@@ -100,10 +103,19 @@ int do_insertfile(int loading_file);
 int add_open_file(int update, int dup_fix);
 #endif
 
+#ifndef DISABLE_OPERATINGDIR
+int check_operating_dir(char *currpath, int allow_tabcomp);
+#endif
+
 int do_writeout(char *path, int exiting, int append);
 int do_gotoline(long line, int save_pos);
 int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 			int wholewords, int *i);
+
+#ifdef ENABLE_MULTIBUFFER
+void do_gotopos(long line, int pos_x, int pos_y, int pos_placewewant);
+#endif
+
 /* Now in move.c */
 int do_up(void);
 int do_down(void);
@@ -198,8 +210,8 @@ int open_prevfile(int closing_file), open_nextfile(int closing_file);
 
 char *charalloc (size_t howmuch);
 
-#ifdef ENABLE_MULTIBUFFER
-char *get_full_path(const char *origpath);
+#if defined (ENABLE_MULTIBUFFER) || !defined (ENABLE_OPERATINGDIR)
+char *get_full_path(char *origpath);
 #endif
 
 #ifndef DISABLE_BROWSER
@@ -225,5 +237,5 @@ filestruct *findnextstr(int quiet, filestruct * begin,
 			int beginx, char *needle);
 
 #ifdef ENABLE_MULTIBUFFER
-filestruct *open_file_dup_search(void);
+filestruct *open_file_dup_search(int update);
 #endif

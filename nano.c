@@ -434,8 +434,12 @@ void usage(void)
     printf(_(" -m 		--mouse			Enable mouse\n"));
 #endif
 #endif
+#ifndef DISABLE_OPERATINGDIR
     printf(_
-	   (" -p	 	--pico			Emulate Pico as closely as possible\n"));
+	   (" -o [dir] 	--operatingdir		Set operating directory\n"));
+#endif
+    printf(_
+	   (" -p 		--pico			Emulate Pico as closely as possible\n"));
 
 #ifndef DISABLE_WRAPJUSTIFY
     printf
@@ -481,6 +485,9 @@ void usage(void)
 #ifdef NCURSES_MOUSE_VERSION
     printf(_(" -m 		Enable mouse\n"));
 #endif
+#endif
+#ifndef DISABLE_OPERATINGDIR
+    printf(_(" -o [dir] 	Set operating directory\n"));
 #endif
     printf(_(" -p 		Emulate Pico as closely as possible\n"));
 
@@ -546,6 +553,9 @@ void version(void)
 #endif
 #ifdef DISABLE_MOUSE
     printf(" --disable-mouse");
+#endif
+#ifdef DISABLE_OPERATINGDIR
+    printf(" --disable-operatingdir");
 #endif
 #endif /* NANO_SMALL */
 
@@ -1533,16 +1543,12 @@ int do_alt_speller(char *file_name)
     global_init();
     open_file(file_name, 0, 1);
 
-    do_gotoline(lineno_cur, 0);
+    /* go back to the old line while keeping the same position, mark the
+       file as modified, and make sure that the titlebar is refreshed */
+    do_gotoline(lineno_cur, 1);
     set_modified();
-
-#ifdef ENABLE_MULTIBUFFER
-    /* if we have multiple files open, the spell-checked (current) file
-       is now stored after the un-spell-checked file in the open_files
-       structure, so go back to the un-spell-checked file and close it */
-    open_prevfile(0);
-    close_open_file();
-#endif
+    clearok(topwin, FALSE);
+    titlebar(NULL);
 
     return TRUE;
 }
@@ -1568,6 +1574,14 @@ int do_spell(void)
 	statusbar(_("Spell checking failed: unable to write temp file!"));
 	return 0;
     }
+
+#ifdef ENABLE_MULTIBUFFER
+    /* update the current open_files entry before spell-checking, in case
+       any problems occur; the case of there being no open_files entries
+       is handled elsewhere (before we reach this point); no duplicate
+       checking is needed here */
+    add_open_file(1, 0);
+#endif
 
     if (alt_speller)
 	spell_res = do_alt_speller(temp);
@@ -2400,6 +2414,9 @@ int main(int argc, char *argv[])
 	{"fill", 1, 0, 'r'},
 #endif
 	{"mouse", 0, 0, 'm'},
+#ifndef DISABLE_OPERATINGDIR
+	{"operatingdir", 1, 0, 'o'},
+#endif
 	{"pico", 0, 0, 'p'},
 	{"nofollow", 0, 0, 'l'},
 	{"tabsize", 1, 0, 'T'},
@@ -2428,11 +2445,11 @@ int main(int argc, char *argv[])
 #endif /* ENABLE_NANORC */
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "h?FT:RVbcefgijklmpr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "h?FT:RVabcefgijklmo:pr:s:tvwxz",
 				 long_options, &option_index)) != EOF) {
 #else
     while ((optchr =
-	    getopt(argc, argv, "h?FT:RVbcefgijklmpr:s:tvwxz")) != EOF) {
+	    getopt(argc, argv, "h?FT:RVabcefgijklmo:pr:s:tvwxz")) != EOF) {
 #endif
 
 	switch (optchr) {
@@ -2458,6 +2475,7 @@ int main(int argc, char *argv[])
 	case 'V':
 	    version();
 	    exit(0);
+	case 'a':
 	case 'b':
 	case 'e':
 	case 'f':
@@ -2486,6 +2504,20 @@ int main(int argc, char *argv[])
 	case 'm':
 	    SET(USE_MOUSE);
 	    break;
+#ifndef DISABLE_OPERATINGDIR
+	case 'o':
+	    operating_dir = charalloc(strlen(optarg) + 1);
+	    strcpy(operating_dir, optarg);
+
+	    /* make sure we're inside the operating directory */
+	    if (check_operating_dir(".", 0)) {
+		if (chdir(operating_dir) == -1) {
+		    free(operating_dir);
+		    operating_dir = NULL;
+		}
+	    }
+	    break;
+#endif
 	case 'p':
 	    SET(PICO_MODE);
 	    break;

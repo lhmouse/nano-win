@@ -791,3 +791,17 @@ int do_gotoline_void(void)
 {
     return do_gotoline(0, 0);
 }
+
+#ifdef ENABLE_MULTIBUFFER
+void do_gotopos(long line, int pos_x, int pos_y, int pos_placewewant)
+{
+
+    /* since do_gotoline() resets the x-coordinate but not the
+       y-coordinate, set the coordinates up this way */
+    current_y = pos_y;
+    do_gotoline(line, 1);
+    current_x = pos_x;
+    placewewant = pos_placewewant;
+    update_line(current, pos_x);
+}
+#endif

@@ -88,7 +88,10 @@
 /* Define this to disable the mouse functions */
 #undef DISABLE_MOUSE
 
-/* Define this to load files upon inserting them, and allow switching between them; this is disabled if NANO_SMALL is defined */
+/* Define this to disable setting of the operating directory (chroot of sorts) */
+#undef DISABLE_OPERATINGDIR
+
+/* Define this to enable multiple file buffers; this is disabled if NANO_SMALL is defined */
 #undef ENABLE_MULTIBUFFER
 
 /* Define this to use the .nanorc file */

@@ -17,6 +17,9 @@
 # Don't follow symlinks when writing files
 # set nofollow
 
+# Set operating directory (chroot of sorts)
+# set operatingdir "~"
+
 # Use Pico Compatibility mode for the shortcut lists and search text
 # set pico
 
