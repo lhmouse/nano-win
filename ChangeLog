@@ -38,6 +38,9 @@ CVS code -
   do_insertfile()
 	- Wrap one reference to NANO_EXTCMD_KEY in a NANO_SMALL #ifdef.
 	  (DLR)
+	- Save the already-typed answer when switching from "Insert
+	  File" to "Execute Command" mode via Ctrl-X, just in case we
+	  started typing a command before switching. (DLR)
   add_open_files()
 	- Make the saving of marked status in open_files->file_flags
 	  work properly again; a tweak to the ISSET() macro in 1.3.0
@@ -152,6 +155,9 @@ CVS code -
 	  efficiency tweaks. (David Benbennick)  DLR: Tweak to follow
 	  the old behavior of adding non-blank strings entered at the
 	  "Replace: " prompt to the search history. (DLR)
+  do_gotoline()
+	- Simplify the edit_update() call depending on the value of
+	  save_pos. (David Benbennick)
   do_bracket()
 	- Add efficiency tweaks. (David Benbennick)  DLR: Remove
 	  reliance on the hardcoded bracket string length; instead, only

@@ -829,7 +829,7 @@ int do_gotoline(int line, int save_pos)
 
 	line = atoi(answer);
 
-	/* Bounds check */
+	/* Bounds check. */
 	if (line <= 0) {
 	    statusbar(_("Come on, be reasonable"));
 	    display_main_list();
@@ -842,12 +842,10 @@ int do_gotoline(int line, int save_pos)
 
     current_x = 0;
 
-    /* if save_pos is nonzero, don't change the cursor position when
-       updating the edit window */
-    if (save_pos)
-    	edit_update(current, NONE);
-    else
-	edit_update(current, CENTER);
+    /* If save_pos is nonzero, don't change the cursor position when
+     * updating the edit window. */
+    edit_update(current, save_pos ? NONE : CENTER);
+
     placewewant = 0;
     display_main_list();
     return 1;

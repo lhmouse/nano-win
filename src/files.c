@@ -501,7 +501,7 @@ int do_insertfile(int loading_file)
 #endif /* ENABLE_MULTIBUFFER */
 
 	if (i == NANO_EXTCMD_KEY) {
-	    int ts = statusq(TRUE, extcmd_list, "", NULL, 
+	    int ts = statusq(TRUE, extcmd_list, answer, NULL, 
 		_("Command to execute"));
 	    if (ts  == -1 || answer == NULL || answer[0] == '\0') {
 		statusbar(_("Cancelled"));
