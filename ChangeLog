@@ -51,6 +51,11 @@ CVS code -
   do_justify()
 	- For consistency, preserve placewewant if we didn't unjustify
 	  instead of setting it to 0. (DLR)
+- winio.c:
+  get_kbinput(), get_translated_kbinput(), get_ascii_kbinput(),
+  get_untranslated_kbinput()
+	- Make the ascii_digits variables ints instead of size_t's,
+	  since they will only hold very small values. (DLR)
 
 GNU nano 1.3.5 - 2004.11.22
 - General:

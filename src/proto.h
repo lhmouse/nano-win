@@ -531,7 +531,7 @@ int get_translated_kbinput(int kbinput, seq_type *seq
 	, bool reset
 #endif
 	);
-int get_ascii_kbinput(int kbinput, size_t ascii_digits
+int get_ascii_kbinput(int kbinput, int ascii_digits
 #ifndef NANO_SMALL
 	, bool reset
 #endif

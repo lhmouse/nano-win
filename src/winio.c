@@ -271,7 +271,7 @@ int get_translated_kbinput(int kbinput, seq_type *seq
 	)
 {
     static int escapes = 0;
-    static size_t ascii_digits = 0;
+    static int ascii_digits = 0;
     int retval = ERR;
 
 #ifndef NANO_SMALL
@@ -498,7 +498,7 @@ int get_translated_kbinput(int kbinput, seq_type *seq
 	*seq = UTF8_SEQ;
 
 #ifdef DEBUG
-    fprintf(stderr, "get_translated_kbinput(): kbinput = %d, seq = %d, escapes = %d, ascii_digits = %lu, retval = %d\n", kbinput, (int)*seq, escapes, (unsigned long)ascii_digits, retval);
+    fprintf(stderr, "get_translated_kbinput(): kbinput = %d, seq = %d, escapes = %d, ascii_digits = %d, retval = %d\n", kbinput, (int)*seq, escapes, ascii_digits, retval);
 #endif
 
     /* Return the result. */
@@ -507,7 +507,7 @@ int get_translated_kbinput(int kbinput, seq_type *seq
 
 /* Translate an ASCII character sequence: turn a three-digit decimal
  * ASCII code from 000-255 into its corresponding ASCII character. */
-int get_ascii_kbinput(int kbinput, size_t ascii_digits
+int get_ascii_kbinput(int kbinput, int ascii_digits
 #ifndef NANO_SMALL
 	, bool reset
 #endif
@@ -594,7 +594,7 @@ int get_ascii_kbinput(int kbinput, size_t ascii_digits
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "get_ascii_kbinput(): kbinput = %d, ascii_digits = %lu, ascii_kbinput = %d, retval = %d\n", kbinput, (unsigned long)ascii_digits, ascii_kbinput, retval);
+    fprintf(stderr, "get_ascii_kbinput(): kbinput = %d, ascii_digits = %d, ascii_kbinput = %d, retval = %d\n", kbinput, ascii_digits, ascii_kbinput, retval);
 #endif
 
     /* If the result is an ASCII character, reset the ASCII character
@@ -1290,7 +1290,7 @@ int get_untranslated_kbinput(int kbinput, size_t position, bool
 #endif
 	)
 {
-    static size_t ascii_digits = 0;
+    static int ascii_digits = 0;
     int retval;
 
 #ifndef NANO_SMALL
@@ -1337,7 +1337,7 @@ int get_untranslated_kbinput(int kbinput, size_t position, bool
      retval = kbinput;
 
 #ifdef DEBUG
-    fprintf(stderr, "get_untranslated_kbinput(): kbinput = %d, position = %lu, ascii_digits = %lu\n", kbinput, (unsigned long)position, (unsigned long)ascii_digits);
+    fprintf(stderr, "get_untranslated_kbinput(): kbinput = %d, position = %lu, ascii_digits = %d\n", kbinput, (unsigned long)position, ascii_digits);
 #endif
 
     return retval;
