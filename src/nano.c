@@ -3567,14 +3567,15 @@ void do_output(int *kbinput, size_t kbinput_len)
 	/* Do we have to call edit_refresh(), or can we get away with
 	 * update_line()? */
 
-    char key[
+    char *key = charalloc(
 #ifdef NANO_WIDE
-	MB_LEN_MAX
+	MB_CUR_MAX
 #else
 	1
 #endif
-	];		/* The current character we have. */
-    int key_len;	/* The length of the current character. */
+	);		/* The current multibyte character we have. */
+    int key_len;	/* The length of the current multibyte
+			 * character. */
 
     assert(current != NULL && current->data != NULL);
 
@@ -3635,6 +3636,8 @@ void do_output(int *kbinput, size_t kbinput_len)
 #endif
 
 	{
+	    /* FIXME: The movement functions should take multibyte
+	     * characters into account. */
 	    int j;
 	    for (j = 0; j < key_len; j++)
 		do_right(FALSE);
@@ -3661,6 +3664,8 @@ void do_output(int *kbinput, size_t kbinput_len)
 	    do_refresh = TRUE;
 #endif
     }
+
+    free(key);
 
     /* Turn constant cursor position display back on if it was on
      * before. */

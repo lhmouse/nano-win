@@ -263,16 +263,17 @@ void unget_input(buffer *input, size_t input_len)
 #ifdef NANO_WIDE
     if (!ISSET(NO_UTF8)) {
 	size_t i;
+	char *key = charalloc(MB_CUR_MAX);
 
 	/* Change all invalid wide character values to -1. */
 	for (i = 0; i < input_len; i++) {
-	    char key[MB_LEN_MAX];
-
 	    if (!input[i].key_code) {
 		if (wctomb(key, input[i].key) == -1)
 		    input[i].key = -1;
 	    }
 	}
+
+	free(key);
 
 	/* Save all of the non-(-1) wide characters in another
 	 * buffer. */
