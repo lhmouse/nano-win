@@ -560,7 +560,7 @@ inline int get_page_end_virtual(int page)
 /* This takes care of the case where there is a mark that covers only */
 /* the current line. */
 
-/* It expects a line with no tab characers (ie: the type that edit_add
+/* It expects a line with no tab characers (ie: the type that edit_add */
 /* deals with */
 void add_marked_sameline(int begin, int end, filestruct * fileptr, int y,
 			 int virt_cur_x, int this_page)
