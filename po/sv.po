@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: nano 1.3.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-11-22 21:01-0500\n"
-"PO-Revision-Date: 2004-12-13 18:09+0100\n"
+"PO-Revision-Date: 2004-12-15 00:11+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -698,7 +698,7 @@ msgstr "Ingen konvertering från DOS/Mac-format"
 
 #: src/global.c:1085
 msgid "Backup files"
-msgstr "Säkerhetskopiera fil"
+msgstr "Säkerhetskopiera filer"
 
 #: src/global.c:1087 src/nano.c:797
 msgid "Smooth scrolling"
@@ -1533,7 +1533,7 @@ msgstr "Tack för att du använder nano!"
 #~ msgstr "Justera"
 
 #~ msgid "Backup file"
-#~ msgstr "Säkerhetskopiera filer"
+#~ msgstr "Säkerhetskopiera fil"
 
 #~ msgid "%s not found"
 #~ msgstr "%s kunde inte hittas"
