@@ -1,4 +1,8 @@
-CVS code 
+CVS code
+- General:
+	- Translation updates (see po/ChangeLog for details).
+- nanorc.5:
+	- Fix formatting error and update copyright year (Jordi).
 
 GNU nano 1.1.99pre3 - 2003.02.13
 - General:
