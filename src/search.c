@@ -635,8 +635,11 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 	}
 #endif
 
-	if (!replaceall)
+	if (!replaceall) {
+	    placewewant = xplustabs();
 	    edit_redraw(current_save, old_pww);
+	    old_pww = placewewant;
+	}
 
 #ifdef HAVE_REGEX_H
 	if (ISSET(USE_REGEXP))

@@ -124,6 +124,12 @@ CVS code -
   nregcomp()
 	- Rename the variable flags to eflags so as not to conflict with
 	  the global flags. (DLR)
+- search.c:
+  do_replace_loop()
+	- Make sure old_pww is updated to the current value of
+	  placewewant when a new match is found, so that edit_redraw()
+	  will redraw the screen properly when only placewewant changes.
+	  (DLR, found by Mike Frysinger)
 - utils.c:
   parse_num()
 	- New function to parse numeric values, so that we don't have to
