@@ -1766,6 +1766,7 @@ char *do_int_speller(char *tempfile_name)
 	exit(1);
     }
 
+    close(spell_fd[0]);
     close(sort_fd[1]);
 
     /* A new process to run uniq in */
@@ -1791,6 +1792,7 @@ char *do_int_speller(char *tempfile_name)
 	exit(1);
     }
 
+    close(sort_fd[0]);
     close(uniq_fd[1]);
 
     /* Child process was not forked successfully */

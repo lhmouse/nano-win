@@ -157,6 +157,7 @@ Changes
 	  either be improved or removed.  I chose improved].
 	- Change all child error checks to use one goto (gasp!) called 
 	  close_pipes_and_exit, so we don't leak FDs.
+	- Fix FD leaks which occur outside of errors (David Benbennick).
   do_int_speller(), do_alt_speller()
 	- Programs now return char *, NULL for successful completion,
 	  otherwise the error string to display.  This allows us to give
