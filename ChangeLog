@@ -45,6 +45,7 @@ CVS code -
 	  pos has changed and if so update the pos with -c.
 	- Many tweaks and changes from numerics to char equivs
 	  (David Lawrence Ramsey).
+	- Fix the KEY_IC being undefined when using slang.
   do_mouse()
 	- Send 27 when the menu item clicked is an alt key seq... The
 	  lines aren't lined up since the menu width changed though,
@@ -75,6 +76,7 @@ CVS code -
 	- Spread out the menu items, feedback definitely needed on this.
   nanogetstr()
 	- More key fixes (David Lawrence Ramsey)
+	- Don't be clever and wasteful, just repaint every iteration.
 - po/nl.po:
 	- New Dutch translation, by Guus Sliepen <guus@nl.linux.org>.
 - po/ca.po, po/es.po:
