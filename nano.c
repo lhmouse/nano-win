@@ -649,6 +649,7 @@ int do_enter_void(void)
     return do_enter(current);
 }
 
+#ifndef NANO_SMALL
 void do_next_word(void)
 {
     filestruct *fileptr, *old;
@@ -698,8 +699,79 @@ void do_next_word(void)
 
 	update_line(current, current_x);
     }
-
 }
+
+/* the same thing for backwards */
+void do_prev_word(void)
+{
+    filestruct *fileptr, *old;
+    int i;
+
+    if (current == NULL)
+	return;
+
+    old = current;
+    i = current_x;
+    for (fileptr = current; fileptr != NULL; fileptr = fileptr->prev) {
+	if (fileptr == current) {
+	    while (isalnum((int) fileptr->data[i])
+		   && i != 0)
+		i--;
+
+	    if (i == 0) {
+		if (fileptr->prev != NULL)
+		    i = strlen(fileptr->prev->data) - 1;
+		else if (fileptr == fileage && filebot != NULL) {
+		    current_x = 0;
+		    return;
+		}
+		continue;
+	    }
+	}
+
+	while (!isalnum((int) fileptr->data[i]) && i != 0)
+	    i--;
+
+	if (i > 0) {
+	    i--;
+
+	    while (isalnum((int) fileptr->data[i]) && i != 0)
+		i--;
+
+	    i++;
+	    if (i != 0)
+		break;
+
+	}
+	if (fileptr->prev != NULL)
+	    i = strlen(fileptr->prev->data) - 1;
+	else if (fileptr == fileage && filebot != NULL) {
+	    current_x = 0;
+	    return;
+	}
+    }
+    if (fileptr == NULL)
+	current = fileage;
+    else
+	current = fileptr;
+
+    current_x = i;
+    placewewant = xplustabs();
+
+    if (current->lineno <= edittop->lineno)
+	edit_update(current, CENTER);
+    else {
+	/* If we've jumped lines, refresh the old line.  We can't just use
+	 * current->prev here, because we may have skipped over some blank
+	 * lines, in which case the previous line is the wrong one.
+	 */
+	if (current != old)
+	    update_line(old, 0);
+
+	update_line(current, current_x);
+    }
+}
+#endif /* NANO_SMALL */
 
 #ifndef DISABLE_WRAPPING
 void do_wrap(filestruct * inptr, char input_char)
@@ -2465,6 +2537,13 @@ int main(int argc, char *argv[])
 		modify_control_seq = 1;
 		keyhandled = 1;
 		break;
+#ifndef NANO_SMALL
+	    case ' ':
+		/* If control-space is next word, Alt-space should be previous word */
+		do_prev_word();
+		keyhandled = 1;
+		break;
+#endif
 	    case 91:
 		switch (kbinput = wgetch(edit)) {
 		case '1':	/* Alt-[-1-[0-5,7-9] = F1-F8 in X at least */
@@ -2613,7 +2692,7 @@ int main(int argc, char *argv[])
 
 	/* Look through the main shortcut list to see if we've hit a
 	   shortcut key */
-	for (i = 0; i < MAIN_LIST_LEN && !keyhandled; i++) {
+	for (i = 0; i < MAIN_LIST_LEN - 1 && !keyhandled; i++) {
 	    if (kbinput == main_list[i].val ||
 		(main_list[i].misc1 && kbinput == main_list[i].misc1) ||
 		(main_list[i].misc2 && kbinput == main_list[i].misc2)) {
@@ -2647,8 +2726,10 @@ int main(int argc, char *argv[])
 #endif
 #endif
 	    case 0:		/* Erg */
+#ifndef NANO_SMALL
 		do_next_word();
 		break;
+#endif
 
 	    case 331:		/* Stuff that we don't want to do squat */
 	    case -1:
