@@ -1,4 +1,7 @@
 CVS code
+- Changed edit_update call to take arguments TOP, CENTER or BOTTOM.
+  Affects many many functions.  Removed functions edit_update_top and
+  edit_update_bot.
 - nano.c:
   splice_node()
 	- New function, abstracts linking in nodes.   Fixes bug #36.
@@ -14,9 +17,17 @@ CVS code
   edit_refresh()
 	- Added check for current line "running" off the screen.
 	  Hopefully this will not cause any recursive lockups.
+	  (Who am I kidding, of course it will!)
+  edit_update()
+	- Rewritten, hopefully this will remove a lot of the
+	  scrolling the cursor back and forth needlessly.
 - move.c:
   page_down()
-	- do an edit_update() at last case.
+	- do an edit_update() at last case.  Made function more like
+	  Pico's version, only move down to two lines before editbot.
+  page_up()
+	- Made function more like Pico's version, only move down to two
+	  lines after edittop.
 
 nano-0.9.14 - 07/27/2000
 - nano.h:

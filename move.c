@@ -35,12 +35,12 @@
 void page_down_center(void)
 {
     if (editbot != filebot) {
-	edit_update(editbot->next);
+	edit_update(editbot->next, CENTER);
 	center_cursor();
     } else {
 	while (current != filebot)
 	    current = current->next;
-	edit_update(current);
+	edit_update(current, CENTER);
     }
     update_cursor();
 }
@@ -54,17 +54,22 @@ int page_down(void)
     if (current == filebot)
 	return 0;
 
-    if (editbot != filebot) {
+    if (editbot != filebot || edittop == fileage) {
 	current_y = 0;
-	current = editbot;
-	edit_update_top(current);
-    } else
+        current = editbot;
+
+	if (current->prev != NULL)
+	    current = current->prev;
+	if (current->prev != NULL)
+	    current = current->prev;
+	edit_update(current, TOP);
+    } else {
 	while (current != filebot) {
 	    current = current->next;
 	    current_y++;
-
-	    edit_update(current);
 	}
+	edit_update(edittop, TOP);
+    }
 
     update_cursor();
     UNSET(KEEP_CUTBUFFER);
@@ -123,7 +128,7 @@ int do_down(void)
 void page_up_center(void)
 {
     if (edittop != fileage) {
-	edit_update(edittop);
+	edit_update(edittop, CENTER);
 	center_cursor();
     } else
 	current_y = 0;
@@ -134,6 +139,7 @@ void page_up_center(void)
 
 int page_up(void)
 {
+    filestruct *fileptr = edittop;
     wrap_reset();
     current_x = 0;
     placewewant = 0;
@@ -142,7 +148,13 @@ int page_up(void)
 	return 0;
 
     current_y = 0;
-    edit_update_bot(edittop);
+    if (fileptr->next != NULL)
+	fileptr = fileptr->next;
+    if (fileptr->next != NULL)
+	fileptr = fileptr->next;
+
+    current = edittop;
+    edit_update(fileptr, BOTTOM);
     update_cursor();
 
     UNSET(KEEP_CUTBUFFER);

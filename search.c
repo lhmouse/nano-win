@@ -157,7 +157,7 @@ filestruct *findnextstr(int quiet, filestruct * begin, char *needle)
 	    current_x++;
 
 	if (past_editbot)
-	    edit_update(current);
+	    edit_update(current, CENTER);
 	reset_cursor();
     } else {			/* We're at EOF, go back to the top, once */
 
@@ -179,7 +179,7 @@ filestruct *findnextstr(int quiet, filestruct * begin, char *needle)
 	    for (tmp = fileptr->data; tmp != found; tmp++)
 		current_x++;
 
-	    edit_update(current);
+	    edit_update(current, CENTER);
 	    reset_cursor();
 
 	    if (!quiet)
@@ -487,7 +487,7 @@ int do_replace(void)
     current = begin;
     current_x = beginx;
     renumber_all();
-    edit_update(current);
+    edit_update(current, CENTER);
     print_replaced(numreplaced);
     replace_abort();
     return 1;
@@ -521,7 +521,7 @@ int do_gotoline(long defline)
 	if (!strcmp(answer, "$")) {
 	    current = filebot;
 	    current_x = 0;
-	    edit_update(current);
+	    edit_update(current, CENTER);
 	    goto_abort();
 	    return 1;
 	}
@@ -539,14 +539,14 @@ int do_gotoline(long defline)
 		  filebot->lineno);
 	current = filebot;
 	current_x = 0;
-	edit_update(current);
+	edit_update(current, CENTER);
     } else {
 	for (fileptr = fileage; fileptr != NULL && i < line; i++)
 	    fileptr = fileptr->next;
 
 	current = fileptr;
 	current_x = 0;
-	edit_update(current);
+	edit_update(current, CENTER);
     }
 
     goto_abort();

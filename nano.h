@@ -233,4 +233,7 @@ know what you're doing */
 #define VIEW 1
 #define NOVIEW 0
 
+#define TOP 2
+#define CENTER 1
+#define BOTTOM 0
 #endif                             

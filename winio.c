@@ -48,7 +48,7 @@ int do_first_line(void)
     current = fileage;
     placewewant = 0;
     current_x = 0;
-    edit_update(current);
+    edit_update(current, CENTER);
     return 1;
 }
 
@@ -57,7 +57,7 @@ int do_last_line(void)
     current = filebot;
     placewewant = 0;
     current_x = 0;
-    edit_update(current);
+    edit_update(current, CENTER);
     return 1;
 }
 
@@ -839,8 +839,8 @@ void edit_refresh(void)
 	temp = temp->next;
 	lines++;
     }
-    if (!currentcheck) /* Then current has run off the screen... */
-/* 	edit_update(current) */ ;
+    if (!currentcheck) /* Then current has run off the screen... */ 
+	edit_update(current, CENTER);	
 
     if (lines <= editwinrows - 1)
 	while (lines <= editwinrows - 1) {
@@ -857,7 +857,7 @@ void edit_refresh(void)
  * Nice generic routine to update the edit buffer given a pointer to the
  * file struct =) 
  */
-void edit_update(filestruct * fileptr)
+void edit_update(filestruct * fileptr, int topmidbot)
 {
     int i = 0;
     filestruct *temp;
@@ -866,46 +866,19 @@ void edit_update(filestruct * fileptr)
 	return;
 
     temp = fileptr;
-    while (i <= editwinrows / 2 && temp->prev != NULL) {
-	i++;
-	temp = temp->prev;
-    }
+    if (topmidbot == 2)
+	;
+    else if (topmidbot == 0)
+	for (i = 0; i <= editwinrows - 1 && temp->prev != NULL; i++)
+	    temp = temp->prev;
+    else
+	for (i = 0; i <= editwinrows / 2 && temp->prev != NULL; i++)
+	    temp = temp->prev;
 
     edittop = temp;
     fix_editbot();
 
     edit_refresh();
-}
-
-/* Now we want to update the screen using this struct as the top of the edit buffer */
-void edit_update_top(filestruct * fileptr)
-{
-    int i;
-    filestruct *temp = fileptr;
-
-    if (fileptr == NULL)
-	return;
-
-    i = 0;
-    while (i <= editwinrows / 2 && temp->next != NULL) {
-	i++;
-	temp = temp->next;
-    }
-    edit_update(temp);
-}
-
-/* And also for the bottom... */
-void edit_update_bot(filestruct * fileptr)
-{
-    int i;
-    filestruct *temp = fileptr;
-
-    i = 0;
-    while (i <= editwinrows / 2 - 1 && temp->prev != NULL) {
-	i++;
-	temp = temp->prev;
-    }
-    edit_update(temp);
 }
 
 /* This function updates current based on where current_y is, reset_cursor 

@@ -261,7 +261,7 @@ int do_insertfile(void)
 
 	/* If we've gone off the bottom, recenter, otherwise just redraw */
 	if (current->lineno > editbot->lineno)
-	    edit_update(current);
+	    edit_update(current, CENTER);
 	else
 	    edit_refresh();
 

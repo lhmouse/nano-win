@@ -123,7 +123,7 @@ void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
 	}
     }
      if (top->lineno < edittop->lineno)
-	edit_update(top);
+	edit_update(top, CENTER);
 }
 #endif
 
@@ -207,7 +207,7 @@ int do_cut_text(void)
 	if (cuttingtoend)
 	    edit_refresh();
 	else
-	    edit_update(current);
+	    edit_update(current, CENTER);
 
 	return 1;
 #else
@@ -223,7 +223,7 @@ int do_cut_text(void)
 	    totsize--; /* get the newline */
 	    totlines--;
 	    fileptr->prev = NULL;
-	    edit_update(fileage);
+	    edit_update(fileage, CENTER);
 	    current = fileptr;
 	} else {
 	    add_to_cutbuffer(fileptr);
@@ -355,7 +355,7 @@ int do_uncut_text(void)
 
 	    current = newend;
 	    if (i <= newend->lineno)
-		edit_update(current);
+		edit_update(current, CENTER);
 	}
 
 	/* If marked cut == 2, that means that we're doing a cut to end
@@ -407,7 +407,7 @@ int do_uncut_text(void)
     i = editbot->lineno;
     renumber(newbuf);
      if (i < newend->lineno)
-	edit_update(fileptr);
+	edit_update(fileptr, CENTER);
 
     dump_buffer_reverse(fileptr);
 

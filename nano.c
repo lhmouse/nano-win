@@ -545,7 +545,7 @@ int do_enter(filestruct * inptr)
      *       where we think the cursor is.
      */
     if (current_y == editwinrows - 1) {
-	edit_update(current);
+	edit_update(current, CENTER);
 	reset_cursor(); 
     } else {
 	current_y++;
@@ -601,7 +601,7 @@ void do_next_word(void)
     current_x = i;
     placewewant = xplustabs();
     if (current->lineno >= editbot->lineno)
-	edit_update(current);
+	edit_update(current, CENTER);
 
 }
 
@@ -859,7 +859,7 @@ void do_wrap(filestruct * inptr, char input_char)
     /* totsize++; */
 
     renumber(inptr);
-    edit_update_top(edittop);
+    edit_update(edittop, TOP);
 
 
     /* Move the cursor to the new line if appropriate. */
@@ -872,7 +872,7 @@ void do_wrap(filestruct * inptr, char input_char)
 	do_right();
     }
 
-    edit_update_top(edittop);
+    edit_update(edittop, TOP);
     reset_cursor();
     edit_refresh();
 }
@@ -1113,7 +1113,7 @@ int do_spell(void)
     free_filestruct(fileage);
     global_init();
     open_file(temp, 0, 1);
-    edit_update(fileage);
+    edit_update(fileage, CENTER);
     set_modified();
     exit_spell(temp, foo);
     statusbar(_("Finished checking spelling"));
@@ -1274,7 +1274,7 @@ void handle_sigwinch(int s)
     fix_editbot();
 
     if (current_y > editwinrows - 1) {
-	edit_update(editbot);
+	edit_update(editbot, CENTER);
     }
     erase();
 
@@ -1471,7 +1471,7 @@ int do_justify(void)
 
     if ((current_y < 0) || (current_y >= editwinrows - 1)
 	|| (initial_y <= 0)) {
-	edit_update(current);
+	edit_update(current, CENTER);
 	center_cursor();
     } else {
 	fix_editbot();
@@ -1784,7 +1784,7 @@ int main(int argc, char *argv[])
     if (startline > 0)
 	do_gotoline(startline);
     else
-	edit_update(fileage);
+	edit_update(fileage, CENTER);
 
 #ifdef HAVE_TABSIZE
     if (usrtabsize > 0)
