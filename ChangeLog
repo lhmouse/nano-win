@@ -1,4 +1,8 @@
-CVS code - 
+CVS code -
+- Makefile.am:
+	- Include ABOUT-NLS and the new THANKS files to the distributed list.
+- THANKS:
+	- Initial, incomplete list of people to thank.
 - cut.c:
   cut_marked_segment()
 	- Add bizarre copy of bot node, else *BSD goes ballistic (fixes
