@@ -5,6 +5,8 @@ CVS code -
 	- New Dutch translation, by Guus Sliepen <guus@nl.linux.org>.
 - po/ca.po:
 	- Updates to Catalan translation (Jordi).
+- po/da.po:
+	- New Danish translation, by Keld Simonsen <keld@dkuug.dk>.
 
 nano 1.0.4 - 08/24/2001
 - General
