@@ -70,6 +70,9 @@ Cvs code -
 	- If the line is empty when using -k and wasn't already added,
 	  create a dummy line and add it to the cutbuffer (fixes bug #61)
 	- Reset marked_cut if we blow away the cutbuffer.
+	- Moved the case of current == mark_beginbuf into cut_marked
+	  segment, so do_writeout could call it when writing selection to
+	  file.
   do_uncut_text()
 	- Reset cutbuffer even if we're uncutting marked or cut to end text!
 - faq.html:

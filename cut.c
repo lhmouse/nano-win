@@ -68,6 +68,39 @@ void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
 {
     filestruct *tmp, *next, *botcopy;
     char *tmpstr;
+    int newsize;
+
+    /* Special case for cutting part of one line */
+    if (top == bot) {
+        int swap;
+
+	tmp = copy_node(top);
+	newsize = abs(bot_x - top_x) + 1;
+	tmpstr = charalloc(newsize + 1);
+
+	/* Make top_x always be before bot_x */
+	if (top_x > bot_x) {
+	    swap = top_x;
+	    top_x = bot_x;
+	    bot_x = swap;
+	}
+
+	strncpy(tmpstr, &top->data[top_x], newsize);
+
+	if (destructive) {
+	    memmove(&top->data[top_x], &top->data[bot_x],
+		strlen(&top->data[bot_x]) + 1);
+	    align(&top->data);
+	    current_x = top_x;
+	    update_cursor();
+	}
+	tmpstr[newsize - 1] = 0;
+	tmp->data = tmpstr;
+	add_to_cutbuffer(tmp);
+	dump_buffer(cutbuffer);
+
+	return;
+    }
 
     /* Set up the beginning of the cutbuffer */
     tmp = copy_node(top);
@@ -159,8 +192,7 @@ int do_cut_text(void)
 {
     filestruct *tmp, *fileptr = current;
 #ifndef NANO_SMALL
-    char *tmpstr;
-    int newsize, cuttingtoend = 0;
+    int cuttingtoend = 0;
 #endif
 
 
@@ -218,30 +250,7 @@ int do_cut_text(void)
 	}
     }
     if (ISSET(MARK_ISSET)) {
-	if (current->lineno == mark_beginbuf->lineno) {
-	    tmp = copy_node(current);
-	    newsize = abs(mark_beginx - current_x) + 1;
-
-	    tmpstr = charalloc(newsize + 1);
-	    if (current_x < mark_beginx) {
-		strncpy(tmpstr, &current->data[current_x], newsize);
-		memmove(&current->data[current_x],
-			&current->data[mark_beginx],
-			strlen(&current->data[mark_beginx]) + 1);
-	    } else {
-		strncpy(tmpstr, &current->data[mark_beginx], newsize);
-		memmove(&current->data[mark_beginx],
-			&current->data[current_x],
-			strlen(&current->data[current_x]) + 1);
-		current_x = mark_beginx;
-		update_cursor();
-	    }
-	    tmpstr[newsize - 1] = 0;
-	    tmp->data = tmpstr;
-	    add_to_cutbuffer(tmp);
-	    dump_buffer(cutbuffer);
-	    align(&current->data);
-	} else if (current->lineno < mark_beginbuf->lineno)
+	if (current->lineno <= mark_beginbuf->lineno)
 	    cut_marked_segment(current, current_x, mark_beginbuf,
 			       mark_beginx, 1);
 	else

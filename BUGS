@@ -120,8 +120,7 @@
 
 ** Open BUGS **
 
-Informal note - when using marked write to file, if there's only one
-line of text hilighted, it writes the whole rest of the ifle to disk and
-goes bonkers.  Delete this message when fixed.
+Informal note - when using marked write to file, the number of lines
+written is off by one.  Delete this message when fixed.
 
 $Id$

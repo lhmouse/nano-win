@@ -546,10 +546,12 @@ int do_writeout(char *path, int exiting, int append)
     }
 
     while (1) {
+#ifndef NANO_SMALL
 	if (ISSET(MARK_ISSET) && !exiting)
 	    i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, "",
 		    _("%s Selection to File"), append ? _("Append") : _("Write"));
 	else
+#endif
 	    i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, answer,
 		    _("File Name to %s"), append ? _("Append") : _("Write"));
 
@@ -604,6 +606,7 @@ int do_writeout(char *path, int exiting, int append)
 	    filestruct *filebotbak = filebot;
 	    filestruct *cutback = cutbuffer;
 	    int oldmod = 0;
+	    cutbuffer = NULL;
 
 	    /* Okay, since write_file changes the filename, back it up */
 	    if (ISSET(MODIFIED))
@@ -611,7 +614,7 @@ int do_writeout(char *path, int exiting, int append)
 
 	    /* Now, non-destructively add the marked text to the
 	       cutbuffer, and write the file out using the cutbuffer ;) */
-	    if (current->lineno < mark_beginbuf->lineno)
+	    if (current->lineno <= mark_beginbuf->lineno)
 		cut_marked_segment(current, current_x, mark_beginbuf,
 				mark_beginx, 0);
 	    else
