@@ -796,7 +796,7 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 
     /* Okie, if there's a / in the buffer, strip out the directory part */
     if (strcmp(buf, "") && strstr(buf, "/")) {
-	dirName = malloc(strlen(buf) + 1);
+	dirName = nmalloc(strlen(buf) + 1);
 	tmp = buf + strlen(buf);
 	while (*tmp != '/' && tmp != buf)
 	    tmp--;
@@ -882,7 +882,7 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 
 	/* Make a local copy of the string -- up to the position of the
 	   cursor */
-	matchBuf = (char *) calloc(strlen(buf) + 2, sizeof(char));
+	matchBuf = (char *) nmalloc((strlen(buf) + 2) * sizeof(char));
 
 	strncpy(matchBuf, buf, place);
 	tmp = matchBuf;
