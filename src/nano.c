@@ -2516,8 +2516,8 @@ int do_justify(int full_justify)
 			next_line_len - indent_len + 1);
 		    strcpy(current->next->data + indent_len,
 			current->data + break_pos + 1);
-		    current->next->data[indent_len + line_len - break_pos - 1]
-			= ' ';
+		    current->next->data[indent_len + line_len -
+			break_pos - 1] = ' ';
 #ifndef NANO_SMALL
 		    if (mark_beginbuf == current->next) {
 			if (mark_beginx < indent_len)

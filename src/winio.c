@@ -2338,7 +2338,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		 * starts. */
 		end_line = fileptr;
 		while (end_line != NULL &&
-			regexec(tmpcolor->end, end_line->data, 1, &endmatch, 0))
+			regexec(tmpcolor->end, end_line->data, 1,
+			&endmatch, 0) == REG_NOMATCH)
 		    end_line = end_line->next;
 
 		/* No end found, or it is too early. */
