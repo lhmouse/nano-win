@@ -2374,7 +2374,7 @@ then
 *** distribution from ftp://ftp.gnu.org/pub/gnu/ncurses if you get
 *** errors compiling nano." 1>&2
 else
-    echo "$ac_t"""Using $CURSES_LIB_NAME as the termcap library"" 1>&6
+    echo "$ac_t""Using $CURSES_LIB_NAME as the termcap library" 1>&6
 fi
 
 

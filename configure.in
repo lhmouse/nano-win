@@ -62,7 +62,7 @@ AC_ARG_ENABLE(browser,
     AC_DEFINE(DISABLE_BROWSER)
  fi])
 
-AC_MSG_CHECKING(whether to use slang)
+AC_MSG_CHECKING([whether to use slang])
 CURSES_LIB_NAME=""
 AC_ARG_WITH(slang,
 [  --with-slang[=DIR]      Use the slang library instead of curses],
@@ -80,7 +80,7 @@ AC_ARG_WITH(slang,
 	fi
 
 	AC_CHECK_HEADER(slcurses.h,
-	    AC_MSG_CHECKING(for SLtt_initialize in -lslang)
+	    AC_MSG_CHECKING([for SLtt_initialize in -lslang])
 	    _libs=$LIBS
 	    LIBS="$LIBS -lslang"
 	    AC_TRY_RUN([
@@ -99,11 +99,11 @@ int main () { SLtt_initialize (NULL); return 0; }],
 		AC_MSG_RESULT(no)
 		# We might need the term library
 		for termlib in ncurses curses termcap terminfo termlib; do
-		    AC_CHECK_LIB(${termlib}, tputs, [tcap="-l$termlib"])
+		    AC_CHECK_LIB([${termlib}], tputs, [tcap="-l$termlib"])
 		    test -n "$tcap" && break
 		done
 
-		AC_MSG_CHECKING(for SLtt_initialize in -lslang $tcap)
+		AC_MSG_CHECKING([for SLtt_initialize in -lslang $tcap])
 		LIBS="$LIBS $tcap"
 		AC_TRY_RUN([
 #include <stdio.h>
@@ -120,7 +120,7 @@ int main () { SLtt_initialize (NULL); return 0; }],
 		    CURSES_LIB_NAME=slang], [
 		    AC_MSG_RESULT(no)
 		    # We might need the math library
-		    AC_MSG_CHECKING(for SLtt_initialize in -lslang $tcap -lm)
+		    AC_MSG_CHECKING([for SLtt_initialize in -lslang $tcap -lm])
 		    LIBS="$LIBS -lm"
 		    AC_TRY_RUN([
 #include <stdio.h>
@@ -152,17 +152,17 @@ AC_MSG_WARN([*** Can not use slang when cross-compiling])),
 	    LDFLAGS=${_ldflags}
 	fi
 	;;
-    esac], AC_MSG_RESULT(no))
+    esac], [AC_MSG_RESULT(no)])
 
 dnl Checks for functions
 AC_CHECK_FUNCS(snprintf vsnprintf)
 if test "x$ac_cv_func_snprintf" = "xno" -o "xac_cv_func_vsnprintf" = "xno"
 then
 	AM_PATH_GLIB(1.2.4,,
-	    AC_MSG_ERROR([
+	    [AC_MSG_ERROR([
 *** snprintf() and/or vsnprintf() not found.  GLIB not found either.
 *** You need both snprintf() and vsnprintf().  Alternatively you can
-*** install the GLIB library which can be found at ftp://ftp.gtk.org/.]),
+*** install the GLIB library which can be found at ftp://ftp.gtk.org/.])],
 	    glib)
 	glib_cflags=`$GLIB_CONFIG --cflags glib`
 	glib_libs=`$GLIB_CONFIG --libs glib`
@@ -181,23 +181,23 @@ dnl Checks for libraries.
 if eval "test x$CURSES_LIB_NAME = x"
 then
     AC_CHECK_HEADERS(curses.h ncurses.h)
-    AC_CHECK_LIB(ncurses, tgetent,CURSES_LIB="-lncurses" CURSES_LIB_NAME=ncurses)
+    AC_CHECK_LIB(ncurses, tgetent, [CURSES_LIB="-lncurses" CURSES_LIB_NAME=ncurses])
 fi
 
 if eval "test x$CURSES_LIB_NAME = x"
 then
-    AC_CHECK_LIB(curses, tgetent, CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses)
+    AC_CHECK_LIB(curses, tgetent, [CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses])
 fi
 
 # Fallback for PDCurses and less useful curses libs...
 if eval "test x$CURSES_LIB_NAME = x"
 then
-    AC_CHECK_LIB(curses, initscr, CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses)
+    AC_CHECK_LIB(curses, initscr, [CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses])
 fi
 
 if eval "test x$CURSES_LIB_NAME = x"
 then
-    AC_CHECK_LIB(termcap, tgetent, CURSES_LIB="-ltermcap" CURSES_LIB_NAME=termcap)
+    AC_CHECK_LIB(termcap, tgetent, [CURSES_LIB="-ltermcap" CURSES_LIB_NAME=termcap])
 fi
 
 if eval "test x$CURSES_LIB_NAME = x"
@@ -207,15 +207,15 @@ then
 *** distribution from ftp://ftp.gnu.org/pub/gnu/ncurses if you get
 *** errors compiling nano.])
 else
-    AC_MSG_RESULT("Using $CURSES_LIB_NAME as the termcap library")
+    AC_MSG_RESULT([Using $CURSES_LIB_NAME as the termcap library])
 fi
 
 
 if test x$slang_support != xyes; then
-    AC_CHECK_LIB($CURSES_LIB_NAME, wresize, AC_DEFINE(HAVE_WRESIZE))
+    AC_CHECK_LIB([$CURSES_LIB_NAME], wresize, [AC_DEFINE(HAVE_WRESIZE)])
 
     # Taken from aumix (can't tell form the variable name?)
-    AC_CACHE_CHECK(for private member _use_keypad in WINDOW,
+    AC_CACHE_CHECK([for private member _use_keypad in WINDOW],
     aumix_cv_struct_window_usekeypad,
     [AC_TRY_COMPILE([#ifdef HAVE_NCURSES_H
 #include <ncurses.h>
