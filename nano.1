@@ -91,8 +91,8 @@ Nano will try to dump the buffer into an emergency file in some cases.
 Mainly, this will happen if Nano recieves a SIGHUP or runs out of
 memory, when it will write the buffer into a file named "nano.save" if the
 buffer didn't have a name already, or will add a ".save" suffix to the
-current finename. Nano will \fBnot\fP follow symbolic links that are not
-owned by the real userid of the process.
+current finename. Nano will \fBnot\fP write this file if a previous one
+exists in the current directory.
 .SH BUGS
 Please send any comments or bug reports to
 .br
