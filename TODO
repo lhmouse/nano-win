@@ -20,7 +20,8 @@ For version 1.4:
 - Support for Pico's paragraph searching ability.
 - Undo/Redo key?
 - Remindable keys?
-- Keystroke to implement "Add next sequence as raw" like vi's ^V?
+- Keystroke to implement "Add next sequence as raw" like vi's ^V.
+- Spell check selected text only.
 
 Old requests:
 
