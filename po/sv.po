@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.8\n"
 "POT-Creation-Date: 2002-03-30 11:42-0500\n"
-"PO-Revision-Date: 2002-05-05 08:27+0200\n"
+"PO-Revision-Date: 2002-05-13 00:51+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -715,19 +715,19 @@ msgstr "--quotestr [str]"
 
 #: nano.c:460
 msgid "Quoting string, default \"> \""
-msgstr "Citerar sträng, standardvärde \"> \""
+msgstr "Citatsträng, standardvärde \"> \""
 
 #: nano.c:465
 msgid "-T [num]"
-msgstr "-T [num]"
+msgstr "-T [antal]"
 
 #: nano.c:465
 msgid "--tabsize=[num]"
-msgstr "--tabsize=[num]"
+msgstr "--tabsize=[antal]"
 
 #: nano.c:465
 msgid "Set width of a tab to num"
-msgstr "Ställ in bredden på ett tabbsteg till tal"
+msgstr "Ställ in bredden på ett tabbsteg till antal"
 
 #: nano.c:466
 msgid "Print version information and exit"
@@ -779,7 +779,7 @@ msgstr "-r [tecken]"
 
 #: nano.c:485
 msgid "--fill=[#cols]"
-msgstr "--fil=[tecken]"
+msgstr "--fill=[tecken]"
 
 #: nano.c:485
 msgid "Set fill cols to (wrap lines at) #cols"
@@ -1487,7 +1487,7 @@ msgstr "Tack för att du använder nano!\n"
 #~ msgstr " -S\t\t--smooth\t\tMjuk rullning\n"
 
 #~ msgid " -T [num]\t--tabsize=[num]\t\tSet width of a tab to num\n"
-#~ msgstr " -T [tal]\t--tabsize=[tal]\t\tStäll in bredden på ett tabbsteg till tal\n"
+#~ msgstr " -T [antal]\t--tabsize=[antal]\t\tStäll in bredden på ett tabbsteg till antal\n"
 
 #~ msgid " -V \t\t--version\t\tPrint version information and exit\n"
 #~ msgstr " -V \t\t--version\t\tSkriv ut versionsinformation och avsluta\n"
