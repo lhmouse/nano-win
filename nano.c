@@ -2003,6 +2003,7 @@ void do_toggle(int which)
 	wclear(bottomwin);
 	wrefresh(bottomwin);
 	window_init();
+	fix_editbot();
 	edit_refresh();
 	display_main_list();
 	break;

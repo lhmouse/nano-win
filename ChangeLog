@@ -38,6 +38,9 @@ General
 	- Fix off by one error that was making ^G help in normal mode and
 	  ^_ in pico mode not be displayed in the help (bug discovered by
 	  Rocco Corsi).
+  do_toggle()
+	- Added fix_editbot() call to fix improper redisplay of edit
+	  window when using nohelp toggle (bug discovered by Rocco Corsi).
 - nano.1, nano.1.html:
 	- Updated man page for -b, -e, -f and expanded explanation for -p.
 - utils.c:
