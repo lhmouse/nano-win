@@ -910,49 +910,40 @@ void do_mouse(void)
 	return;
 
     /* If mouse not in edit or bottom window, return */
-    if (wenclose(edit, mevent.y, mevent.x)) {
-
-	/* Don't let people screw with the marker when they're in a
-	 * subfunction. */
-	if (currshortcut != main_list)
-	    return;
+    if (wenclose(edit, mevent.y, mevent.x) && currshortcut == main_list) {
+	int sameline;
+	    /* Did they click on the line with the cursor?  If they
+	       clicked on the cursor, we set the mark. */
+	size_t xcur;
+	    /* The character they clicked on. */
 
 	/* Subtract out size of topwin.  Perhaps we need a constant
 	 * somewhere? */
 	mevent.y -= 2;
 
-	/* Selecting where the cursor is sets the mark.  Selecting
-	 * beyond the line length with the cursor at the end of the line
-	 * sets the mark as well. */
-	if ((mevent.y == current_y) &&
-	    ((mevent.x == current_x) || (current_x == strlen(current->data)
-					 && (mevent.x >
-					     strlen(current->data))))) {
+	sameline = mevent.y == current_y;
+
+	/* Move to where the click occurred. */
+	for(; current_y < mevent.y && current->next != NULL; current_y++)
+	    current = current->next;
+	for(; current_y > mevent.y && current->prev != NULL; current_y--)
+	    current = current->prev;
+
+	xcur = actual_x(current, get_page_start(xplustabs()) + mevent.x);
+
+	/* Selecting where the cursor is toggles the mark.  As does
+	   selecting beyond the line length with the cursor at the end of
+	   the line. */
+	if (sameline && xcur == current_x) {
 	    if (ISSET(VIEW_MODE)) {
 		print_view_warning();
 		return;
 	    }
 	    do_mark();
-	} else if (mevent.y > current_y) {
-	    while (mevent.y > current_y) {
-		if (current->next != NULL)
-		    current = current->next;
-		else
-		    break;
-		current_y++;
-	    }
-	} else if (mevent.y < current_y) {
-	    while (mevent.y < current_y) {
-		if (current->prev != NULL)
-		    current = current->prev;
-		else
-		    break;
-		current_y--;
-	    }
 	}
-	current_x = actual_x(current, mevent.x);
-	placewewant = current_x;
-	update_cursor();
+
+	current_x = xcur;
+	placewewant = xplustabs();
 	edit_refresh();
     } else if (wenclose(bottomwin, mevent.y, mevent.x) && !ISSET(NO_HELP)) {
 	int i, k;
