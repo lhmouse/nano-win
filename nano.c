@@ -2265,6 +2265,8 @@ int main(int argc, char *argv[])
 		kbinput = wgetch(edit);
 		if (kbinput <= 'S' && kbinput >= 'P')
 		    kbinput = KEY_F(kbinput - 79);
+		else if (kbinput >= 'j' && kbinput <= 'y')
+		    kbinput = kbinput - 64;
 #ifdef DEBUG
 		else {
 		    fprintf(stderr, _("I got Alt-O-%c! (%d)\n"),
@@ -2458,6 +2460,24 @@ int main(int argc, char *argv[])
 	    case 0:		/* Erg */
 		do_next_word();
 		break;
+
+	    /* Stupid gnome-terminal keypad */
+	    case 349:
+		ungetch('5');
+		break;
+	    case 348:
+		ungetch('7');
+		break;
+	    case 350:
+		ungetch('9');
+		break;
+	    case 351:
+		ungetch('1');
+		break;
+	    case 352:
+		ungetch('3');
+		break;
+
 	    case 331:		/* Stuff that we don't want to do squat */
 	    case -1:
 	    case 410:		/* Must ignore this, it gets sent when we resize */

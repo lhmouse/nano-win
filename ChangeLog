@@ -9,6 +9,8 @@ General -
 	  FINALLY!  No more keypad_on(), no more individual calls in
 	  main(), do_help(), do_browser(), etc etc etc.  Removed call to
 	  timeout(0) in main() (which caused the whole mess), fixes BUG #49.
+	  Added workarounds for gnome-terminal in main() (Alt-O-key and
+	  348-352).
 - faq.html:
 	- Fix typos and small mistakes (Jordi).
 - files.c:
