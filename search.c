@@ -63,8 +63,8 @@ void regexp_cleanup()
 */
 int search_init(int replacing)
 {
-    int i;
-/*    char buf[BUFSIZ]; */
+    int i = 0;
+    char *buf;
     char *prompt, *reprompt = "";
 
    if (last_search == NULL) {
@@ -76,13 +76,23 @@ int search_init(int replacing)
 	last_replace[0] = 0;
    }
 
-/*
-    if (last_search[0]) {
-	snprintf(buf, BUFSIZ, " [%s]", last_search);
-    } else {
-	buf[0] = '\0';
+   buf = nmalloc(strlen(last_search) + 5);
+   buf[0] = 0;
+
+   /* If using Pico messages, we do things the old fashioned way... */
+   if (ISSET(PICO_MSGS)) {
+	if (last_search[0]) {
+
+	    /* We use COLS / 3 here because we need to see more on the line */
+	    if (strlen(last_search) > COLS / 3) {
+		snprintf(buf, COLS / 3 + 3, " [%s", last_search);
+		sprintf(&buf[COLS / 3 + 2], "...]");
+	    } else
+		sprintf(buf, " [%s]", last_search);
+	} else {
+	    buf[0] = '\0';
+	}
     }
-*/
 
     if (ISSET(USE_REGEXP) && ISSET(CASE_SENSITIVE))
 	prompt = _("Case Sensitive Regexp Search%s%s");
@@ -96,7 +106,12 @@ int search_init(int replacing)
     if (replacing)
 	reprompt = _(" (to replace)");
 
-    i = statusq(replacing ? replace_list : whereis_list,
+    if (ISSET(PICO_MSGS))
+	i = statusq(replacing ? replace_list : whereis_list,
+		replacing ? REPLACE_LIST_LEN : WHEREIS_LIST_LEN, "",
+		prompt, reprompt, buf);
+    else
+	i = statusq(replacing ? replace_list : whereis_list,
 		replacing ? REPLACE_LIST_LEN : WHEREIS_LIST_LEN, last_search,
 		prompt, reprompt, "");
 
@@ -418,7 +433,7 @@ int do_replace(void)
 {
     int i, replaceall = 0, numreplaced = 0, beginx;
     filestruct *fileptr, *begin;
-    char *copy, *prevanswer = NULL;
+    char *copy, *prevanswer = NULL, *buf = NULL;
 
     i = search_init(1);
     switch (i) {
@@ -446,7 +461,24 @@ int do_replace(void)
 
     prevanswer = mallocstrcpy(prevanswer, answer);
 
-    i = statusq(replace_list_2, REPLACE_LIST_2_LEN, last_replace, 
+    if (ISSET(PICO_MSGS)) {
+	buf = nmalloc(strlen(last_replace) + 5);
+	if (strcmp(last_replace, "")) {
+	    if (strlen(last_replace) > (COLS / 3)) {
+		strncpy(buf, last_replace, COLS / 3);
+		sprintf(&buf[COLS / 3 - 1], "...");
+	    } else
+		sprintf(buf, "%s", last_replace);
+
+	    i = statusq(replace_list_2, REPLACE_LIST_2_LEN, "",
+			_("Replace with [%s]"), buf);
+	}
+	else
+	    i = statusq(replace_list_2, REPLACE_LIST_2_LEN, "",
+			_("Replace with"));
+    }
+    else
+	i = statusq(replace_list_2, REPLACE_LIST_2_LEN, last_replace, 
 			_("Replace with"));
 
     switch (i) {

@@ -13,6 +13,7 @@ CVS Code -
 	  nightmare, changed last_search, last_replace, answer to
 	  pointers.  New function not_found_msg in search.c for displaying
 	  truncated strings in satusbar when the string is not found.
+	  We disable this feature when using PICO_MSGS (-p).
 - files.c:
   do_writeout()
 	- Change strcpy to answer to mallocstrcpy.
