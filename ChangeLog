@@ -24,6 +24,8 @@ Current CVS:
 	- do not center string found if it is currently visable. (Adam)
 - fr.po:
 	- French update by Clement Laforet <clem_laf@wanadoo.fr>.
+- es.po:
+	- Updated strings to 0.9.13 (Jordi).
 
 nano-0.9.12 - 07/07/2000
 - all:
