@@ -1,4 +1,7 @@
 Cvs code -
+
+nano 1.1 tree forked here 04/07/2001
+
 nano 1.0.1 - 04/06/2001
 - General:
 	- added configure option --disable-wrapping.  Does what it says,
