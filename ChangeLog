@@ -1,4 +1,7 @@
 CVS Code
+- nano.c:
+  do_mouse()
+	- Patch for handling lines w/tabs and mouse better (Ben Roberts).
 - winio.c:
   total_refresh()
 	- Added edit_refresh() call to actually update the screen if messy.
@@ -9,6 +12,8 @@ CVS Code
   search_abort()
 	- Now calls edit_refresh_clearok when MARK_ISSET to handle screen
 	  ugliness bug (reported by Ken Tyler).
+  findnextstr():
+	- Added reset for placewewant (Ben Roberts).
 
 nano-0.9.16 - 08/09/2000
 - cut.c:

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-08-18 23:52-0400\n"
+"POT-Creation-Date: 2000-08-21 21:18-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgstr ""
 msgid "Read %d lines"
 msgstr ""
 
-#: files.c:217 search.c:173 search.c:191
+#: files.c:217 search.c:174 search.c:192
 #, c-format
 msgid "\"%s\" not found"
 msgstr ""
@@ -613,48 +613,48 @@ msgstr ""
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 
-#: nano.c:1257
+#: nano.c:1275
 msgid "Cannot resize top win"
 msgstr ""
 
-#: nano.c:1259
+#: nano.c:1277
 msgid "Cannot move top win"
 msgstr ""
 
-#: nano.c:1261
+#: nano.c:1279
 msgid "Cannot resize edit win"
 msgstr ""
 
-#: nano.c:1263
+#: nano.c:1281
 msgid "Cannot move edit win"
 msgstr ""
 
-#: nano.c:1265
+#: nano.c:1283
 msgid "Cannot resize bottom win"
 msgstr ""
 
-#: nano.c:1267
+#: nano.c:1285
 msgid "Cannot move bottom win"
 msgstr ""
 
-#: nano.c:1733
+#: nano.c:1751
 msgid "Main: set up windows\n"
 msgstr ""
 
-#: nano.c:1755
+#: nano.c:1773
 msgid "Main: bottom win\n"
 msgstr ""
 
-#: nano.c:1761
+#: nano.c:1779
 msgid "Main: open file\n"
 msgstr ""
 
-#: nano.c:1829
+#: nano.c:1847
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:1845
+#: nano.c:1863
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr ""
@@ -687,51 +687,51 @@ msgstr ""
 msgid "Search Cancelled"
 msgstr ""
 
-#: search.c:187
+#: search.c:188
 msgid "Search Wrapped"
 msgstr ""
 
-#: search.c:243
+#: search.c:244
 #, c-format
 msgid "Replaced %d occurences"
 msgstr ""
 
-#: search.c:245
+#: search.c:246
 msgid "Replaced 1 occurence"
 msgstr ""
 
-#: search.c:380 search.c:401 search.c:424
+#: search.c:381 search.c:402 search.c:425
 msgid "Replace Cancelled"
 msgstr ""
 
-#: search.c:397
+#: search.c:398
 #, c-format
 msgid "Replace with [%s]"
 msgstr ""
 
 #. last_search is empty
-#: search.c:422
+#: search.c:423
 msgid "Replace with"
 msgstr ""
 
-#: search.c:463
+#: search.c:464
 msgid "Replace this instance?"
 msgstr ""
 
 #. Ask for it
-#: search.c:514
+#: search.c:515
 msgid "Enter line number"
 msgstr ""
 
-#: search.c:516
+#: search.c:517
 msgid "Aborted"
 msgstr ""
 
-#: search.c:536
+#: search.c:537
 msgid "Come on, be reasonable"
 msgstr ""
 
-#: search.c:541
+#: search.c:542
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr ""

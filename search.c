@@ -159,6 +159,7 @@ filestruct *findnextstr(int quiet, filestruct * begin, char *needle)
 
 	if (past_editbot)
 	    edit_update(current, CENTER);
+	placewewant = xplustabs();
 	reset_cursor();
     } else {			/* We're at EOF, go back to the top, once */
 

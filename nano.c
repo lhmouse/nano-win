@@ -1155,6 +1155,7 @@ int do_exit(void)
 void do_mouse(void)
 {
     MEVENT mevent;
+    int foo = 0, tab_found = 0;
 
     if (getmouse(&mevent) == ERR)
 	return;
@@ -1197,6 +1198,23 @@ void do_mouse(void)
 	}
     }
     current_x = mevent.x;
+    placewewant = current_x;
+    while(foo < current_x) {
+	if(current->data[foo] == NANO_CONTROL_I) {
+	    current_x -= tabsize - (foo % tabsize);
+	    tab_found = 1;
+	} else if(current->data[foo] & 0x80)
+	    ;
+	else if(current->data[foo] < 32)
+	    current_x--;
+	foo++;
+    }
+    /* This is where tab_found comes in.  I can't figure out why,
+     * but without it any line with a tab will place the cursor
+     * one character behind.  Whatever, this fixes it. */
+    if(tab_found == 1)
+	current_x++;
+
     if (current_x > strlen(current->data))
 	current_x = strlen(current->data);
 
