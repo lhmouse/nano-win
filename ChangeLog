@@ -1,9 +1,12 @@
 CVS code -
 - General
-	- Reworked shortcut list for GNU compliance, put "Get Help" into
-	  default list, removed "Goto Line", aligned "Read File"
-	  with "Write Out" and "Replace" with "Where is" for 
-	  consistency.
+  GNU compliance issues:
+	- Reworked shortcut list, put "Get Help" into  default list, 
+	  removed "Goto Line", aligned "Read File" with "Write Out" and 
+	  "Replace" with "Where is" for consistency.
+	- Added texinfo manual nano.texi.  Added texi options to 
+	  Makefile.am.
+	
 - configure.in:
 	- Autoconf compatibility fixes (Pavel Roskin)
 - cut.c:
