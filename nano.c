@@ -2282,10 +2282,9 @@ int do_justify(void)
     totsize += slen;
 
     if ((strlenpt(current->data) > (fill))
-	&& !no_spaces(current->data)) {
+	&& !no_spaces(current->data + qdepth)) {
 	do {
 	    int i = 0, j = 0;
-	    int len2 = 0;
 	    filestruct *tmpline = nmalloc(sizeof(filestruct));
 
 
@@ -2296,16 +2295,12 @@ int do_justify(void)
 /* Note that we CAN break before the first word, since that is how 
  * pico does it. */
             int last_space = -1;  /* index of the last breakpoint */
-            int allowed_width;
 
-            i = qdepth * strlen(quotestr);  /* the line starts with 
-                      indentation, so we must skip it! */
-            allowed_width = fill - i;   /* how wide can our lines be? */
-
-            for(; i<slen; i++) {
+	    for(i=qdepth; i<slen; i++) {
               if (isspace((int) current->data[i])) last_space = i;
               if (last_space!=-1 &&
-                  strnlenpt(current->data,i) >= allowed_width) {
+     /* ARGH!  We must look at the length of the first i+1 characters. */
+		  strnlenpt(current->data,i+1) > fill) {
                 i = last_space;
                 break;
               }
@@ -2318,15 +2313,15 @@ int do_justify(void)
 
 	    current->data[i] = '\0';
 
-	    len2 = strlen(current->data + i + 1);
-	    tmpline->data = charalloc(len2 + 1 + qdepth);
+	    slen -= i + 1 - qdepth;   /* note i > qdepth */
+	    tmpline->data = charalloc(slen + 1);
 
 	    for (j = 0; j < qdepth; j += strlen(quotestr))
 		strcpy(&tmpline->data[j], quotestr);
 
 	    /* Skip the white space in current. */
-	    memcpy(&tmpline->data[j], current->data + i + 1, len2);
-	    tmpline->data[len2 + qdepth] = '\0';
+	    memcpy(&tmpline->data[qdepth], current->data + i + 1, slen-qdepth);
+	    tmpline->data[slen] = '\0';
 
 	    current->data = nrealloc(current->data, i + 1);
 
@@ -2337,10 +2332,9 @@ int do_justify(void)
 
 	    current->next = tmpline;
 	    current = tmpline;
-	    slen -= i + 1;
 	    current_y++;
 	} while ((strlenpt(current->data) > (fill))
-		 && !no_spaces(current->data));
+		 && !no_spaces(current->data + qdepth));
     }
     tmpbot = current;
 

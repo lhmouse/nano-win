@@ -11,6 +11,8 @@ CVS code -
   read_file()
 	- Abort if we read a file of 0 lines (num_lines == 0), fixes BUG #70.
 - nano.c:
+  do_justify()
+	- More fixes for indented justify (David Benbennick).
   help_init()
 	- Capitalize Meta altkeys.
 	- Various fixes and string changes.
