@@ -5,7 +5,9 @@ CVS code -
 	  clear the backupstring without making it global (messy), so we
 	  use a flag instead (just as messy?)
 - nano.texi:
-	-corrected the Mouse Toggle section, noticed by Daniel Bonniot.
+	- corrected the Mouse Toggle section, noticed by Daniel Bonniot.
+- winio.c:
+	- Add David Lawrence Ramsey to credits.
 
 nano-1.1.1 - 07/28/2001
 - General

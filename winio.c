@@ -1653,7 +1653,7 @@ void do_replace_highlight(int highlight_flag, char *word)
 }
 
 #ifdef NANO_EXTRA
-#define CREDIT_LEN 47
+#define CREDIT_LEN 48
 void do_credits(void)
 {
     int i, j = 0, k, place = 0, start_x;
@@ -1692,6 +1692,7 @@ void do_credits(void)
 			"Joshua Jensen",
 			"Ryan Krebs",
 			"Albert Chin",
+			"David Lawrence Ramsey",
 			"",
 			specialthx,
 			"Plattsburgh State University",
