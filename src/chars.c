@@ -348,11 +348,7 @@ int parse_mbchar(const char *buf, char *chr
 	     * and the width in columns of its visible equivalent as
 	     * returned by control_rep(). */
 	    else if (is_cntrl_mbchar(buf)) {
-		char *ctrl_buf_mb =
-#ifdef NANO_WIDE
-			!ISSET(NO_UTF8) ? charalloc(MB_CUR_MAX) :
-#endif
-			charalloc(1);
+		char *ctrl_buf_mb = charalloc(MB_CUR_MAX);
 		int ctrl_buf_mb_len;
 
 		(*col)++;
