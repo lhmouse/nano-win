@@ -10,6 +10,8 @@ CVS code -
 	- Add David Lawrence Ramsey to credits.
   bottombars()
 	- Spread out the menu items, feedback definitely needed on this.
+- po/nl.po:
+	- New Dutch translation, by Guus Sliepen <guus@nl.linux.org>.	
 
 nano-1.1.1 - 07/28/2001
 - General
