@@ -214,7 +214,7 @@ char *safe_tempnam(const char *dirname, const char *filename_prefix);
 #endif
 #ifndef DISABLE_OPERATINGDIR
 void init_operating_dir(void);
-int check_operating_dir(const char *currpath, int allow_tabcomp);
+int check_operating_dir(const char *currpath, bool allow_tabcomp);
 #endif
 #ifndef NANO_SMALL
 void init_backup_dir(void);
@@ -282,9 +282,9 @@ void do_page_up(void);
 void do_page_down(void);
 void do_up(void);
 void do_down(void);
-void do_left(int allow_update);
+void do_left(bool allow_update);
 void do_left_void(void);
-void do_right(int allow_update);
+void do_right(bool allow_update);
 void do_right_void(void);
 
 /* Public functions in nano.c. */

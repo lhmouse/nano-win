@@ -248,7 +248,7 @@ void do_down(void)
     update_line(current, current_x);
 }
 
-void do_left(int allow_update)
+void do_left(bool allow_update)
 {
     size_t pww_save = placewewant;
     if (current_x > 0)
@@ -268,7 +268,7 @@ void do_left_void(void)
     do_left(TRUE);
 }
 
-void do_right(int allow_update)
+void do_right(bool allow_update)
 {
     size_t pww_save = placewewant;
     assert(current_x <= strlen(current->data));

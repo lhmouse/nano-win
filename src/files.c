@@ -1213,7 +1213,7 @@ void init_operating_dir(void)
  * are, or 1 otherwise.  If allow_tabcomp is nonzero, allow incomplete
  * names that would be matches for the operating directory, so that tab
  * completion will work. */
-int check_operating_dir(const char *currpath, int allow_tabcomp)
+int check_operating_dir(const char *currpath, bool allow_tabcomp)
 {
     /* The char *full_operating_dir is global for mem cleanup.  It
      * should have already been initialized by init_operating_dir().

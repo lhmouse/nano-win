@@ -2744,7 +2744,7 @@ void do_justify(bool full_justify)
 	 * and break out of the loop.  Otherwise, refresh the screen and
 	 * get out. */
 	if (do_para_search(&quote_len, &par_len)) {
-	    if (full_justify && current != filebot) {
+	    if (full_justify && first_par_line != filebot) {
 		last_par_line = filebot;
 		break;
 	    } else {
@@ -3643,7 +3643,9 @@ void do_output(int *kbinput, size_t kbinput_len)
 	/* More dangerousness fun =) */
 	current->data = charealloc(current->data,
 		current_len + key_len + 1);
+
 	assert(current_x <= current_len);
+
 	charmove(&current->data[current_x + key_len],
 		&current->data[current_x],
 		current_len - current_x + key_len);

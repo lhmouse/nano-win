@@ -255,9 +255,9 @@ int search_init(bool replacing, bool use_answer)
 #ifndef NANO_SMALL
 		search_history.current = search_history.next;
 #endif
-		/* Put answer up on the statusbar. */
-		do_gotoline(-1, FALSE);
-		/* Fall through. */
+		do_gotoline(-1, FALSE);	/* Put answer up on the
+					 * statusbar and fall
+					 * through. */
 	    default:
 		return -1;
 	}
