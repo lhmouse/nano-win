@@ -77,6 +77,8 @@ CVS code -
 	- Norwegian nynorsk translation updates (Kjetil Torgrim Homme).
 - po/nb.po:
 	- New Norwegian bokmål translation (Stig E Sandoe <stig@ii.uib.no>).
+- po/da.po:
+	- Danish translation update (Keld Simonsen).
 
 nano-1.1.5 - 01/05/2002
 - General
