@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.5-CVS\n"
-"POT-Creation-Date: 2002-01-19 13:10-0500\n"
+"POT-Creation-Date: 2002-01-22 20:01-0500\n"
 "PO-Revision-Date: 2002-01-19 00:17+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -87,7 +87,7 @@ msgstr "filename és %s"
 msgid "Can't insert file from outside of %s"
 msgstr "No es pot insertar fitxer des de fora de %s"
 
-#: files.c:440 files.c:1106 files.c:1467 nano.c:1813
+#: files.c:440 files.c:1106 files.c:1467 nano.c:1825
 msgid "Cancelled"
 msgstr "Cancel·lat"
 
@@ -879,79 +879,79 @@ msgstr "Marca Establida"
 msgid "Mark UNset"
 msgstr "Marca Esborrada"
 
-#: nano.c:1264
+#: nano.c:1268
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap cridat amb inptr->data=\"%s\"\n"
 
-#: nano.c:1316
+#: nano.c:1320
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data ara = \"%s\"\n"
 
-#: nano.c:1368
+#: nano.c:1372
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Després, data = \"%s\"\n"
 
-#: nano.c:1484
+#: nano.c:1492
 msgid "Edit a replacement"
 msgstr "Editar un reemplaçament"
 
-#: nano.c:1724
+#: nano.c:1736
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "No s'ha pogut crear un fitxer temporal: %s"
 
-#: nano.c:1730
+#: nano.c:1742
 msgid "Spell checking failed: unable to write temp file!"
 msgstr "Revisió d'ortografia fallida: no s'ha pogut escriure fitxer temporal!"
 
-#: nano.c:1750
+#: nano.c:1762
 msgid "Finished checking spelling"
 msgstr "Revisió d'ortografia finalitzada"
 
-#: nano.c:1752
+#: nano.c:1764
 msgid "Spell checking failed"
 msgstr "Revisió d'ortografia fallida"
 
-#: nano.c:1781
+#: nano.c:1793
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Desar el buffer modificat (RESPONDRE \"No\" DESTRUIRÀ ELS CAMVIS) ?"
 
-#: nano.c:1928
+#: nano.c:1940
 msgid "Received SIGHUP"
 msgstr "SIGHUP rebut"
 
-#: nano.c:1998
+#: nano.c:2010
 msgid "Cannot resize top win"
 msgstr "No es pot canviar la mida de la finestra superior"
 
-#: nano.c:2000
+#: nano.c:2012
 msgid "Cannot move top win"
 msgstr "No es pot moure la finestra superior"
 
-#: nano.c:2002
+#: nano.c:2014
 msgid "Cannot resize edit win"
 msgstr "No es pot canviar la mida de la finestra d'edició"
 
-#: nano.c:2004
+#: nano.c:2016
 msgid "Cannot move edit win"
 msgstr "No es pot moure la finestra d'edició"
 
-#: nano.c:2006
+#: nano.c:2018
 msgid "Cannot resize bottom win"
 msgstr "No es pot canviar la mida de la finestra inferior"
 
-#: nano.c:2008
+#: nano.c:2020
 msgid "Cannot move bottom win"
 msgstr "No es pot moure la finestra inferior"
 
-#: nano.c:2347
+#: nano.c:2359
 msgid "Can now UnJustify!"
 msgstr "Ara pots desjustificar!"
 
-#: nano.c:2413
+#: nano.c:2425
 msgid ""
 "Search Command Help Text\n"
 "\n"
@@ -985,7 +985,7 @@ msgstr ""
 "Les següents tecles de funció estan disponibles en el modo Cerca:\n"
 "\n"
 
-#: nano.c:2427
+#: nano.c:2439
 msgid ""
 "Goto Line Help Text\n"
 "\n"
@@ -1005,7 +1005,7 @@ msgstr ""
 "Les següents tecles de funció estan disponibles en el modo Anar a Línia:\n"
 "\n"
 
-#: nano.c:2434
+#: nano.c:2446
 msgid ""
 "Insert File Help Text\n"
 "\n"
@@ -1034,7 +1034,7 @@ msgstr ""
 "Les següents tecles de funció estan disponibles en el modo Inserir Fitxer:\n"
 "\n"
 
-#: nano.c:2445
+#: nano.c:2457
 msgid ""
 "Write File Help Text\n"
 "\n"
@@ -1063,7 +1063,7 @@ msgstr ""
 "Les següents tecles de funció estan disponibles en el modo Desar Fitxer:\n"
 "\n"
 
-#: nano.c:2457
+#: nano.c:2469
 msgid ""
 "File Browser Help Text\n"
 "\n"
@@ -1088,7 +1088,7 @@ msgstr ""
 "Les següents tecles de funció estan disponibles en el navegador de fitxers:\n"
 "\n"
 
-#: nano.c:2468
+#: nano.c:2480
 msgid ""
 "Browser Goto Directory Help Text\n"
 "\n"
@@ -1110,7 +1110,7 @@ msgstr ""
 "del Navegador:\n"
 "\n"
 
-#: nano.c:2476
+#: nano.c:2488
 msgid ""
 "Spell Check Help Text\n"
 "\n"
@@ -1133,67 +1133,67 @@ msgstr ""
 "d'Ortografia:\n"
 "\n"
 
-#: nano.c:2560
+#: nano.c:2572
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s habilitar/inhabilitar"
 
-#: nano.c:2579
+#: nano.c:2591
 msgid "enabled"
 msgstr "habilitat"
 
-#: nano.c:2580
+#: nano.c:2592
 msgid "disabled"
 msgstr "inhabilitat"
 
-#: nano.c:2644
+#: nano.c:2656
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "Detectat NumLock trencat.  El tecl. numèric funcionarà amb NumLock activat"
 
-#: nano.c:2941
+#: nano.c:2953
 msgid "Main: set up windows\n"
 msgstr "Main: configurar les finestres\n"
 
-#: nano.c:2958
+#: nano.c:2970
 msgid "Main: bottom win\n"
 msgstr "Main: finestra inferior\n"
 
-#: nano.c:2964
+#: nano.c:2976
 msgid "Main: open file\n"
 msgstr "Main: obrir fitxer\n"
 
-#: nano.c:3023
+#: nano.c:3035
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "He agafat Alt-O-%c! (%d)\n"
 
-#: nano.c:3057
+#: nano.c:3069
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "He agafat Alt-[-1-%c! (%d)\n"
 
-#: nano.c:3087
+#: nano.c:3099
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "He agafat Alt-[-2-%c! (%d)\n"
 
-#: nano.c:3156
+#: nano.c:3168
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "He agafat Alt-[-%c! (%d)\n"
 
-#: nano.c:3194
+#: nano.c:3206
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "He agafat Alt-%c! (%d)\n"
 
-#: rcfile.c:86
+#: rcfile.c:87
 #, c-format
 msgid "Error in %s on line %d: "
 msgstr "Error en %s en línia %d: "
 
-#: rcfile.c:90
+#: rcfile.c:91
 msgid ""
 "\n"
 "Press return to continue starting nano\n"
@@ -1201,7 +1201,7 @@ msgstr ""
 "\n"
 "Polsa una tecla per carregar nano\n"
 
-#: rcfile.c:180
+#: rcfile.c:181
 #, c-format
 msgid ""
 "color %s not understood.\n"
@@ -1214,15 +1214,15 @@ msgstr ""
 "\"white\", \"yellow\", \"cyan\", \"magenta\" i \n"
 "\"black\", amb el prefixe opcional \"bright\".\n"
 
-#: rcfile.c:204
+#: rcfile.c:205
 msgid "Missing color name"
 msgstr "Nom del color inexistent"
 
-#: rcfile.c:234 rcfile.c:288
+#: rcfile.c:235 rcfile.c:289
 msgid "regex strings must begin and end with a \" character\n"
 msgstr ""
 
-#: rcfile.c:280
+#: rcfile.c:281
 msgid ""
 "\n"
 "\t\"start=\" requires a corresponding \"end=\""
@@ -1230,50 +1230,50 @@ msgstr ""
 "\n"
 "\t\"start=\" requereix el seu \"end=\" corresponent"
 
-#: rcfile.c:330
+#: rcfile.c:331
 msgid "parse_rcfile: Read a comment\n"
 msgstr "parse_rcfile: Llegit un comentari\n"
 
-#: rcfile.c:351
+#: rcfile.c:352
 #, c-format
 msgid "command %s not understood"
 msgstr "comandament %s no reconegut"
 
-#: rcfile.c:363
+#: rcfile.c:364
 #, c-format
 msgid "parse_rcfile: Parsing option %s\n"
 msgstr "parse_rcfile: Parsejant opció %s\n"
 
-#: rcfile.c:381
+#: rcfile.c:382
 #, c-format
 msgid "option %s requires an argument"
 msgstr "la opció %s requereix un argument"
 
-#: rcfile.c:392
+#: rcfile.c:393
 #, c-format
 msgid "requested fill size %d too small"
 msgstr "tamany de plenat %d massa petit"
 
-#: rcfile.c:402
+#: rcfile.c:403
 #, c-format
 msgid "requested tab size %d too small"
 msgstr "tamany de tabulador %d massa petit"
 
-#: rcfile.c:417
+#: rcfile.c:418
 #, c-format
 msgid "set flag %d!\n"
 msgstr "establir marca %d!\n"
 
-#: rcfile.c:423
+#: rcfile.c:424
 #, c-format
 msgid "unset flag %d!\n"
 msgstr "llevar marca %d!\n"
 
-#: rcfile.c:433
+#: rcfile.c:434
 msgid "Errors found in .nanorc file"
 msgstr "Errors trobats en fitxer .nanorc"
 
-#: rcfile.c:441
+#: rcfile.c:442
 #, c-format
 msgid "Unable to open ~/.nanorc file, %s"
 msgstr "No sh'a pogut obrir fitxer ~/.nanorc, %s"
@@ -1304,7 +1304,7 @@ msgstr " [Cap Enrere]"
 msgid " (to replace)"
 msgstr " (a reemplaçar)"
 
-#: search.c:151 search.c:438
+#: search.c:151 search.c:439
 msgid "Search Cancelled"
 msgstr "Recerca Cancel·lada"
 
@@ -1317,54 +1317,58 @@ msgstr "\"%s...\" no trobat"
 msgid "Search Wrapped"
 msgstr "Recerca Recomençada"
 
-#: search.c:460
+#: search.c:457
+msgid "This is the only occurrence"
+msgstr ""
+
+#: search.c:467
 #, c-format
 msgid "Replaced %d occurrences"
 msgstr "%d ocurrències reemplaçadas"
 
-#: search.c:462
+#: search.c:469
 msgid "Replaced 1 occurrence"
 msgstr "1 ocurrència reemplaçada"
 
-#: search.c:600 search.c:699 search.c:715
+#: search.c:607 search.c:706 search.c:722
 msgid "Replace Cancelled"
 msgstr "Reemplaçar Cancel·lat"
 
-#: search.c:637
+#: search.c:644
 msgid "Replace this instance?"
 msgstr "Reemplaçar aquesta instància?"
 
-#: search.c:649
+#: search.c:656
 msgid "Replace failed: unknown subexpression!"
 msgstr "Impossible de reemplaçar: subexpressió desconeguda!"
 
-#: search.c:740
+#: search.c:747
 #, c-format
 msgid "Replace with [%s]"
 msgstr "Reemplaçar amb [%s]"
 
-#: search.c:744 search.c:748
+#: search.c:751 search.c:755
 msgid "Replace with"
 msgstr "Reemplaçar amb"
 
-#: search.c:782
+#: search.c:789
 msgid "Enter line number"
 msgstr "Introdueix número de línia"
 
-#: search.c:784
+#: search.c:791
 msgid "Aborted"
 msgstr "Avortat"
 
-#: search.c:793
+#: search.c:800
 msgid "Come on, be reasonable"
 msgstr "Au vinga, sigues assenyat"
 
-#: search.c:855
+#: search.c:862
 msgid "Not a bracket"
 msgstr "No és una clau"
 
 #. didn't find either left or right bracket
-#: search.c:900
+#: search.c:907
 msgid "No matching bracket"
 msgstr "No hi ha clau corresponent"
 

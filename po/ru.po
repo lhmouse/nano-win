@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.5\n"
-"POT-Creation-Date: 2002-01-19 13:10-0500\n"
+"POT-Creation-Date: 2002-01-22 20:01-0500\n"
 "PO-Revision-Date: 2002-01-08 11:10+0300\n"
 "Last-Translator: Sergey A. Ribalchenko <fisher@obu.ck.ua>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -86,7 +86,7 @@ msgstr "имя файла %s"
 msgid "Can't insert file from outside of %s"
 msgstr "Не могу вставить файл снаружи %s"
 
-#: files.c:440 files.c:1106 files.c:1467 nano.c:1813
+#: files.c:440 files.c:1106 files.c:1467 nano.c:1825
 msgid "Cancelled"
 msgstr "Отменено"
 
@@ -879,79 +879,79 @@ msgstr "Метка установлена"
 msgid "Mark UNset"
 msgstr "Метка снята"
 
-#: nano.c:1264
+#: nano.c:1268
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap вызвано с inptr->data=\"%s\"\n"
 
-#: nano.c:1316
+#: nano.c:1320
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data сейчас = \"%s\"\n"
 
-#: nano.c:1368
+#: nano.c:1372
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "После, data = \"%s\"\n"
 
-#: nano.c:1484
+#: nano.c:1492
 msgid "Edit a replacement"
 msgstr "Редактировать замену"
 
-#: nano.c:1724
+#: nano.c:1736
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Не могу создать временное имя файла: %s"
 
-#: nano.c:1730
+#: nano.c:1742
 msgid "Spell checking failed: unable to write temp file!"
 msgstr "Проверка правописания облом-с: не могу записать временный файл."
 
-#: nano.c:1750
+#: nano.c:1762
 msgid "Finished checking spelling"
 msgstr "Проверка правописания завершена"
 
-#: nano.c:1752
+#: nano.c:1764
 msgid "Spell checking failed"
 msgstr "Проверка правописания не удалась"
 
-#: nano.c:1781
+#: nano.c:1793
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Сохранить измененный буфер (Ответ \"Нет\" УНИЧТОЖИТ все изменения) ?"
 
-#: nano.c:1928
+#: nano.c:1940
 msgid "Received SIGHUP"
 msgstr "Получили SIGHUP"
 
-#: nano.c:1998
+#: nano.c:2010
 msgid "Cannot resize top win"
 msgstr "Не могу изменить размер верхнего окна"
 
-#: nano.c:2000
+#: nano.c:2012
 msgid "Cannot move top win"
 msgstr "Не могу переместить верхнее окно"
 
-#: nano.c:2002
+#: nano.c:2014
 msgid "Cannot resize edit win"
 msgstr "Не могу изменить размер окна редактирования"
 
-#: nano.c:2004
+#: nano.c:2016
 msgid "Cannot move edit win"
 msgstr "Не могу переместить окно редактирования"
 
-#: nano.c:2006
+#: nano.c:2018
 msgid "Cannot resize bottom win"
 msgstr "Не могу изменить размер нижнего окна"
 
-#: nano.c:2008
+#: nano.c:2020
 msgid "Cannot move bottom win"
 msgstr "Не могу переместить нижнее окно"
 
-#: nano.c:2347
+#: nano.c:2359
 msgid "Can now UnJustify!"
 msgstr "Сейчас можно отменить выравнивание! (^U)"
 
-#: nano.c:2413
+#: nano.c:2425
 msgid ""
 "Search Command Help Text\n"
 "\n"
@@ -984,7 +984,7 @@ msgstr ""
 " Следующие функциональные клавиши доступны в режиме поиска:\n"
 "\n"
 
-#: nano.c:2427
+#: nano.c:2439
 msgid ""
 "Goto Line Help Text\n"
 "\n"
@@ -1004,7 +1004,7 @@ msgstr ""
 " Следующие функциональные клавиши доступны в режиме Перейти_к_строке:\n"
 "\n"
 
-#: nano.c:2434
+#: nano.c:2446
 msgid ""
 "Insert File Help Text\n"
 "\n"
@@ -1033,7 +1033,7 @@ msgstr ""
 " Следующие функциональные клавиши доступны в режиме Вставить_файл:\n"
 "\n"
 
-#: nano.c:2445
+#: nano.c:2457
 msgid ""
 "Write File Help Text\n"
 "\n"
@@ -1060,7 +1060,7 @@ msgstr ""
 " Следующие клавиши доступны в режиме записи файла:\n"
 "\n"
 
-#: nano.c:2457
+#: nano.c:2469
 msgid ""
 "File Browser Help Text\n"
 "\n"
@@ -1085,7 +1085,7 @@ msgstr ""
 " Следующие функциональные клавиши доступны в просмотрщике файлов:\n"
 "\n"
 
-#: nano.c:2468
+#: nano.c:2480
 msgid ""
 "Browser Goto Directory Help Text\n"
 "\n"
@@ -1105,7 +1105,7 @@ msgstr ""
 "клавиши доступны в режиме Перейти_к_директории Просмотрщика:\n"
 "\n"
 
-#: nano.c:2476
+#: nano.c:2488
 msgid ""
 "Spell Check Help Text\n"
 "\n"
@@ -1128,66 +1128,66 @@ msgstr ""
 " Следующие дополнительные функции доступны в режиме проверки правописания:\n"
 "\n"
 
-#: nano.c:2560
+#: nano.c:2572
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s - разрешить/запретить"
 
-#: nano.c:2579
+#: nano.c:2591
 msgid "enabled"
 msgstr "разрешено"
 
-#: nano.c:2580
+#: nano.c:2592
 msgid "disabled"
 msgstr "запрещено"
 
-#: nano.c:2644
+#: nano.c:2656
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr "Обнаружен сбой NumLock'а. Цифровая клавиатура недоступна (NumLock off)"
 
-#: nano.c:2941
+#: nano.c:2953
 msgid "Main: set up windows\n"
 msgstr "Main: установить окна\n"
 
-#: nano.c:2958
+#: nano.c:2970
 msgid "Main: bottom win\n"
 msgstr "Main: нижнее окно\n"
 
-#: nano.c:2964
+#: nano.c:2976
 msgid "Main: open file\n"
 msgstr "Main: открыть файл\n"
 
-#: nano.c:3023
+#: nano.c:3035
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Поймал Alt-O-%c! (%d)\n"
 
-#: nano.c:3057
+#: nano.c:3069
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Поймал Alt-[-1-%c! (%d)\n"
 
-#: nano.c:3087
+#: nano.c:3099
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Поймал Alt-[-2-%c! (%d)\n"
 
-#: nano.c:3156
+#: nano.c:3168
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Поймал Alt-[-%c! (%d)\n"
 
-#: nano.c:3194
+#: nano.c:3206
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Поймал Alt-%c! (%d)\n"
 
-#: rcfile.c:86
+#: rcfile.c:87
 #, fuzzy, c-format
 msgid "Error in %s on line %d: "
 msgstr "Ошибка в %s в строке %d: команда %s весьма не вразумительна"
 
-#: rcfile.c:90
+#: rcfile.c:91
 msgid ""
 "\n"
 "Press return to continue starting nano\n"
@@ -1195,7 +1195,7 @@ msgstr ""
 "\n"
 "Нажмите Ввод дабы продолжить старт nano\n"
 
-#: rcfile.c:180
+#: rcfile.c:181
 #, c-format
 msgid ""
 "color %s not understood.\n"
@@ -1204,64 +1204,64 @@ msgid ""
 "\"black\", with the optional prefix \"bright\".\n"
 msgstr ""
 
-#: rcfile.c:204
+#: rcfile.c:205
 msgid "Missing color name"
 msgstr ""
 
-#: rcfile.c:234 rcfile.c:288
+#: rcfile.c:235 rcfile.c:289
 msgid "regex strings must begin and end with a \" character\n"
 msgstr ""
 
-#: rcfile.c:280
+#: rcfile.c:281
 msgid ""
 "\n"
 "\t\"start=\" requires a corresponding \"end=\""
 msgstr ""
 
-#: rcfile.c:330
+#: rcfile.c:331
 msgid "parse_rcfile: Read a comment\n"
 msgstr "parse_rcfile: Читаем комментарий\n"
 
-#: rcfile.c:351
+#: rcfile.c:352
 #, fuzzy, c-format
 msgid "command %s not understood"
 msgstr "Ошибка в %s в строке %d: команда %s весьма не вразумительна"
 
-#: rcfile.c:363
+#: rcfile.c:364
 #, c-format
 msgid "parse_rcfile: Parsing option %s\n"
 msgstr "parse_rcfile: Разбираем опцию %s\n"
 
-#: rcfile.c:381
+#: rcfile.c:382
 #, fuzzy, c-format
 msgid "option %s requires an argument"
 msgstr "Ошибка в %s в строке %d: опция %s требует аргумент"
 
-#: rcfile.c:392
+#: rcfile.c:393
 #, fuzzy, c-format
 msgid "requested fill size %d too small"
 msgstr "Ошибка в %s в строке %d: запрошенный размер заполнения %d слишком мал"
 
-#: rcfile.c:402
+#: rcfile.c:403
 #, fuzzy, c-format
 msgid "requested tab size %d too small"
 msgstr "Ошибка в %s в строке %d: запрошенный размер табуляции %d слишком мал"
 
-#: rcfile.c:417
+#: rcfile.c:418
 #, c-format
 msgid "set flag %d!\n"
 msgstr "установите флаг %d!\n"
 
-#: rcfile.c:423
+#: rcfile.c:424
 #, c-format
 msgid "unset flag %d!\n"
 msgstr "cнимите флаг %d!\n"
 
-#: rcfile.c:433
+#: rcfile.c:434
 msgid "Errors found in .nanorc file"
 msgstr "В файле .nanorc найдены ошибки"
 
-#: rcfile.c:441
+#: rcfile.c:442
 #, c-format
 msgid "Unable to open ~/.nanorc file, %s"
 msgstr "Не могу открыть файл ~/.nanorc, %s"
@@ -1292,7 +1292,7 @@ msgstr " [Назад]"
 msgid " (to replace)"
 msgstr " (что менять)"
 
-#: search.c:151 search.c:438
+#: search.c:151 search.c:439
 msgid "Search Cancelled"
 msgstr "Поиск отменен"
 
@@ -1305,54 +1305,58 @@ msgstr "\"%s...\" не найдено"
 msgid "Search Wrapped"
 msgstr "Поиск завернут"
 
-#: search.c:460
+#: search.c:457
+msgid "This is the only occurrence"
+msgstr ""
+
+#: search.c:467
 #, c-format
 msgid "Replaced %d occurrences"
 msgstr "Заменено %d вхождений"
 
-#: search.c:462
+#: search.c:469
 msgid "Replaced 1 occurrence"
 msgstr "Заменено 1 вхождение"
 
-#: search.c:600 search.c:699 search.c:715
+#: search.c:607 search.c:706 search.c:722
 msgid "Replace Cancelled"
 msgstr "Замена отменена"
 
-#: search.c:637
+#: search.c:644
 msgid "Replace this instance?"
 msgstr "Заменить это вхождение?"
 
-#: search.c:649
+#: search.c:656
 msgid "Replace failed: unknown subexpression!"
 msgstr "Замена не получилась: неизвестное подвыражение!"
 
-#: search.c:740
+#: search.c:747
 #, c-format
 msgid "Replace with [%s]"
 msgstr "Заменить на [%s]"
 
-#: search.c:744 search.c:748
+#: search.c:751 search.c:755
 msgid "Replace with"
 msgstr "Заменить на"
 
-#: search.c:782
+#: search.c:789
 msgid "Enter line number"
 msgstr "Введите номер строки"
 
-#: search.c:784
+#: search.c:791
 msgid "Aborted"
 msgstr "Прервано"
 
-#: search.c:793
+#: search.c:800
 msgid "Come on, be reasonable"
 msgstr "Эта, а можно чуть более адекватно?"
 
-#: search.c:855
+#: search.c:862
 msgid "Not a bracket"
 msgstr "Не скобка"
 
 #. didn't find either left or right bracket
-#: search.c:900
+#: search.c:907
 msgid "No matching bracket"
 msgstr "Нет соответствующей скобки"
 
