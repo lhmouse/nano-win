@@ -213,6 +213,7 @@ fi
 
 if test x$slang_support != xyes; then
     AC_CHECK_LIB([$CURSES_LIB_NAME], wresize, [AC_DEFINE(HAVE_WRESIZE)])
+    AC_CHECK_LIB([$CURSES_LIB_NAME], resizeterm, [AC_DEFINE(HAVE_RESIZETERM)])
 
     # Taken from aumix (can't tell form the variable name?)
     AC_CACHE_CHECK([for private member _use_keypad in WINDOW],

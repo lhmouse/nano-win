@@ -1585,7 +1585,7 @@ void handle_sigwinch(int s)
     memset(hblank, ' ', COLS);
     hblank[COLS] = 0;
 
-#ifdef HAVE_NCURSES_H
+#ifdef HAVE_RESIZETERM
     resizeterm(LINES, COLS);
 #ifdef HAVE_WRESIZE
     if (wresize(topwin, 2, COLS) == ERR)
@@ -1601,7 +1601,7 @@ void handle_sigwinch(int s)
     if (mvwin(bottomwin, LINES - 3 + no_help(), 0) == ERR)
 	die(_("Cannot move bottom win"));
 #endif				/* HAVE_WRESIZE */
-#endif				/* HAVE_NCURSES_H */
+#endif				/* HAVE_RESIZETERM */
 
     fix_editbot();
 

@@ -8,6 +8,7 @@ CVS code -
 	  Makefile.am.	
 - configure.in:
 	- Autoconf compatibility fixes (Pavel Roskin)
+	- Added separate check for resizeterm().
 - cut.c:
   do_cut_text()
 	- marked text cut fixes (Rocco) (Fixes bug #54).
