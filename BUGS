@@ -95,10 +95,13 @@
 - Alt speller argument (-s, --speller) does not take a string argument of
   more than one word. (53) [FIXED].
 - Cut to end cutting (-k) causes segfaults (try cutting "- Backup making
-  (filename~)?" line in TODO file) (discovred by
+  (filename~)?" line in TODO file) (discovered by
   higuita@cadernoverde.com) (54) [FIXED].
 
 
 ** Open BUGS **
 
 $Id$
+
+- When using autoindent (-i), wrapped text does not get auto-indented
+  (55, discovered by Mark Senior).
