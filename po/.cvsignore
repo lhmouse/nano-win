@@ -4,4 +4,5 @@ POTFILES
 *.gmo
 *.pot
 cat-id*
+messages
 stamp-cat*
