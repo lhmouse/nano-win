@@ -1178,8 +1178,8 @@ int check_operating_dir(char *currpath, int allow_tabcomp)
  * tmp means we are writing a tmp file in a secure fashion.  We use
  * it when spell checking or dumping the file on an error.
  *
- * append means, not surprisingly, whether we are appending instead
- * of overwriting.
+ * append == 1 means we are appending instead of overwriting.
+ * append == 2 means we are prepending instead of overwriting.
  *
  * nonamechange means don't change the current filename, it is ignored
  * if tmp == 1.
@@ -1187,9 +1187,9 @@ int check_operating_dir(char *currpath, int allow_tabcomp)
 int write_file(char *name, int tmp, int append, int nonamechange)
 {
     long size, lineswritten = 0;
-    char *buf = NULL;
+    char *buf = NULL, prechar;
     filestruct *fileptr;
-    int fd, mask = 0, realexists, anyexists;
+    int fd, fd2, mask = 0, realexists, anyexists;
     struct stat st, lst;
     char *realname = NULL;
 
@@ -1238,7 +1238,8 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 		if (realexists == -1 || tmp || (!ISSET(FOLLOW_SYMLINKS) &&
 		S_ISLNK(lst.st_mode))) {
        to reflect whether or not to link/unlink/rename the file */
-    else if (ISSET(FOLLOW_SYMLINKS) || !S_ISLNK(lst.st_mode) || tmp) {
+    else if (append != 2 && (ISSET(FOLLOW_SYMLINKS) || !S_ISLNK(lst.st_mode) 
+		|| tmp)) {
 	/* Use O_EXCL if tmp == 1.  This is now copied from joe, because
 	   wiggy says so *shrug*. */
 	if (append)
@@ -1343,6 +1344,26 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	return -1;
     }
 
+    /* if we're prepending, open the real file, and append it here */
+    if (append == 2) {
+	if ((fd = open(buf, O_WRONLY | O_APPEND, (S_IRUSR|S_IWUSR))) == -1) {
+	    statusbar(_("Could not reopen %s: %s"), buf, strerror(errno));
+	    return -1;
+	}
+	if ((fd2 = open(realname, O_RDONLY)) == -1) {
+	    statusbar(_("Could open %s for prepend: %s"), realname, strerror(errno));
+	    return -1;
+	}
+
+	while (read(fd2, &prechar, 1) > 0)
+	    write(fd, &prechar, 1);
+
+	close(fd);
+	close(fd2);
+
+    }
+
+
     if (realexists == -1 || tmp ||
 	(!ISSET(FOLLOW_SYMLINKS) && S_ISLNK(lst.st_mode))) {
 
@@ -1358,7 +1379,8 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	/* Use permissions from file we are overwriting. */
 	mask = st.st_mode;
 
-    if (!tmp && (!ISSET(FOLLOW_SYMLINKS) && S_ISLNK(lst.st_mode))) {
+    if (append == 2 || 
+		(!tmp && (!ISSET(FOLLOW_SYMLINKS) && S_ISLNK(lst.st_mode)))) {
 	if (unlink(realname) == -1) {
 	    if (errno != ENOENT) {
 		statusbar(_("Could not open %s for writing: %s"),
@@ -1438,7 +1460,10 @@ int do_writeout(char *path, int exiting, int append)
 
 	/* Be nice to the translation folks */
 	if (ISSET(MARK_ISSET) && !exiting) {
-	    if (append)
+	    if (append == 2)
+		i = statusq(1, writefile_list, "",
+		    "%s%s", _("Prepend Selection to File"), formatstr);
+	    else if (append)
 		i = statusq(1, writefile_list, "",
 		    "%s%s", _("Append Selection to File"), formatstr);
 	    else
@@ -1447,7 +1472,10 @@ int do_writeout(char *path, int exiting, int append)
 	} else
 #endif
 	{
-	    if (append)
+	    if (append == 2)
+		i = statusq(1, writefile_list, answer,
+		    "%s%s", _("File Name to Prepend"), formatstr);
+	    else if (append)
 		i = statusq(1, writefile_list, answer,
 		    "%s%s", _("File Name to Append"), formatstr);
 	    else
@@ -1481,8 +1509,12 @@ int do_writeout(char *path, int exiting, int append)
 	    UNSET(DOS_FILE);
 	    TOGGLE(MAC_FILE);
 	    return(do_writeout(answer, exiting, append));
-	} else if (i == NANO_APPEND_KEY)
-	    return(do_writeout(answer, exiting, 1 - append));
+	} else if (i == NANO_PREPEND_KEY)
+	    return(do_writeout(answer, exiting, 2));
+	else if (i == NANO_APPEND_KEY && append != 1)
+	    return(do_writeout(answer, exiting, 1));
+	else if (i == NANO_APPEND_KEY)
+	    return(do_writeout(answer, exiting, 0));
 
 #ifdef DEBUG
 	    fprintf(stderr, _("filename is %s"), answer);

@@ -272,7 +272,7 @@ void shortcut_init(int unjustify)
 	"", *nano_backspace_msg = "", *nano_tab_msg =
 	"", *nano_enter_msg = "", *nano_cancel_msg = 
 	"", *nano_unjustify_msg = "", *nano_append_msg =
-	""; 
+	"", *nano_prepend_msg = ""; 
 
 #ifdef ENABLE_MULTIBUFFER
     char *nano_openprev_msg = "", *nano_opennext_msg = "";
@@ -330,6 +330,7 @@ void shortcut_init(int unjustify)
     nano_gotodir_msg = _("Goto Directory");
     nano_cancel_msg = _("Cancel the current function");
     nano_append_msg = _("Append to the current file");
+    nano_prepend_msg = _("Prepend to the current file");
     nano_reverse_msg = _("Search backwards");
     nano_dos_msg = _("Write file out in DOS format");
     nano_mac_msg = _("Write file out in Mac format");
@@ -631,6 +632,10 @@ void shortcut_init(int unjustify)
     sc_init_one(&writefile_list, 
 		NANO_APPEND_KEY, _("Append"),
 		nano_append_msg, 0, 0, 0, NOVIEW, 0);
+
+    sc_init_one(&writefile_list, 
+		NANO_PREPEND_KEY, _("Prepend"),
+		nano_prepend_msg, 0, 0, 0, NOVIEW, 0);
 
     sc_init_one(&writefile_list, NANO_CANCEL_KEY, 
 		_("Cancel"), nano_cancel_msg, 0, 0, 0, VIEW, 0);

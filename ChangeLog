@@ -8,6 +8,9 @@ CVS code -
 	  New functions nano.c:make_new_opennode(), free_openfilestruct(), 
 	  delete_opennode(), unlink_opennode(), splice_opennode(),  
 	  new struct openfilestruct in nano.h. 
+	- Preliminary prepend code.  This may be a bad idea, but I've
+	  been wanting it for awhile now and we'll see how bad it messes
+	  everything up.  Changes to files.c:do_writeout(), write_file().
 - configure.ac:
 	- Define NDEBUG to silence asserts (David Benbennick).
 - files.c:
