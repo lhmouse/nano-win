@@ -4,6 +4,5 @@ config.cache
 config.h
 config.log
 config.status
-configure
 nano
 stamp-h
