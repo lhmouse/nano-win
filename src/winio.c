@@ -33,9 +33,6 @@
 static int statusblank = 0;	/* Number of keystrokes left after
 				 * we call statusbar(), before we
 				 * actually blank the statusbar. */
-static bool resetstatuspos = FALSE;
-				/* Should we reset the statusbar cursor
-				 * position? */
 
 /* Control character compatibility:
  *
@@ -1762,7 +1759,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 #ifndef NANO_SMALL
 		historyheadtype *history_list,
 #endif
-		const shortcut *s
+		const shortcut *s, bool reset_x
 #ifndef DISABLE_TABCOMP
 		, bool *list
 #endif
@@ -1795,11 +1792,12 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 #endif
     xend = strlen(def);
 
-    /* Only put x at the end of the string if it's uninitialized or if
-       it would be past the end of the string as it is.  Otherwise,
-       leave it alone.  This is so the cursor position stays at the same
-       place if a prompt-changing toggle is pressed. */
-    if (x == -1 || x > xend || resetstatuspos)
+    /* Only put x at the end of the string if it's uninitialized, if it
+       would be past the end of the string as it is, or if reset_x is
+       TRUE.  Otherwise, leave it alone.  This is so the cursor position
+       stays at the same place if a prompt-changing toggle is
+       pressed. */
+    if (x == -1 || x > xend || reset_x)
 	x = xend;
 
     answer = charealloc(answer, xend + 1);
@@ -2989,6 +2987,7 @@ int statusq(int allowtabs, const shortcut *s, const char *def,
     va_list ap;
     char *foo = charalloc(COLS - 3);
     int ret;
+    static bool resetstatuspos = FALSE;
 #ifndef DISABLE_TABCOMP
     bool list = FALSE;
 #endif
@@ -3004,7 +3003,7 @@ int statusq(int allowtabs, const shortcut *s, const char *def,
 #ifndef NANO_SMALL
 		which_history,
 #endif
-		s
+		s, resetstatuspos
 #ifndef DISABLE_TABCOMP
 		, &list
 #endif

@@ -161,6 +161,9 @@ CVS code -
 	- Refresh the screen when Ctrl-L is pressed at the statusbar
 	  prompt, as Pico does. (DLR)
 	- Always return the key pressed by the user. (DLR)
+	- Take new parameter reset_x, containing the value of
+	  resetstatuspos, so that resetstatuspos can be a static
+	  variable for just statusq(). (DLR)
   statusq()
 	- Rework slightly to reset the cursor position when the user
 	  hits Enter as well as Cancel.  This means that resetstatuspos

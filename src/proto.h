@@ -555,7 +555,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 #ifndef NANO_SMALL
 		historyheadtype *history_list,
 #endif
-		const shortcut *s
+		const shortcut *s, bool reset_x
 #ifndef DISABLE_TABCOMP
 		, bool *list
 #endif
