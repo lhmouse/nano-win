@@ -62,6 +62,11 @@ CVS code
 	  (David Benbennick).
   colortoint, parse_colors()
 	- Don't add strings with invalid fg colors at all.
+  do_rcfile()
+	- Revert (somewhat) previous behavior of looking at 
+	  $HOME, and only run getpw* if it is NULL.  Most *nix programs
+	  seem to only care about $HOME, and at the user-level 
+	  getpw* may not be reliable (and its slower).
 - search.c:
   do_gotoline()
 	- Only goto_abort() if we *didnt* abort the command, making

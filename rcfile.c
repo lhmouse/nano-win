@@ -635,20 +635,27 @@ void do_rcfile(void)
     }
 #endif
 
-    /* Determine home directory using getpwent(), don't rely on $HOME */
-    do {
-	userage = getpwent();
-    } while (userage != NULL && userage->pw_uid != euid);
-    endpwent();
-
     lineno = 0;
 
-    if (userage == NULL) {
-	rcfile_error(_("I can't find my home directory!  Wah!"));
-	SET(NO_RCFILE);
+    /* Rely on $HOME, fall back on getpwuid() */
+    if (getenv("HOME") != NULL) {
+	nanorc = nrealloc(nanorc, strlen(getenv("HOME")) + 10);
+	sprintf(nanorc, "%s/.nanorc", getenv("HOME"));
     } else {
-	nanorc = nrealloc(nanorc, strlen(userage->pw_dir) + 9);
-	sprintf(nanorc, "%s/.nanorc", userage->pw_dir);
+	userage = getpwuid(euid);
+	endpwent();
+
+	if (userage == NULL) {
+	    rcfile_error(_("I can't find my home directory!  Wah!"));
+	    SET(NO_RCFILE);
+	} else {
+	    nanorc = nrealloc(nanorc, strlen(userage->pw_dir) + 9);
+	    sprintf(nanorc, "%s/.nanorc", userage->pw_dir);
+
+	}
+    }
+
+    if (!ISSET(NO_RCFILE)) {
 
 #if defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
     /* If we've already read $SYSCONFDIR/nanorc (if it's there), we're
