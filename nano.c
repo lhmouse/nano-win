@@ -2011,6 +2011,19 @@ int do_justify(void)
 
     /* Now get a keystroke and see if it's unjustify; if not, unget the keystroke 
        and return */
+
+#ifndef DISABLE_MOUSE
+#ifdef NCURSES_MOUSE_VERSION
+
+    /* If it was a mouse click, parse it with do_mouse and it might become
+	the unjustify key.  Else give it back to the input stream.  */
+    if ((kbinput = wgetch(edit)) == KEY_MOUSE)
+	do_mouse();
+    else
+	ungetch(kbinput);
+#endif
+#endif
+
     if ((kbinput = wgetch(edit)) != NANO_UNJUSTIFY_KEY) {
 	ungetch(kbinput);
 	blank_statusbar_refresh();
