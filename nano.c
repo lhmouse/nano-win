@@ -557,12 +557,12 @@ void free_filestruct(filestruct *src)
 	    src = src->next;
 	    delete_node(src->prev);
 #ifdef DEBUG
-	    fprintf(stderr, _("delete_node(): free'd a node, YAY!\n"));
+	    fprintf(stderr, _("%s: free'd a node, YAY!\n"), "delete_node()");
 #endif
 	}
 	delete_node(src);
 #ifdef DEBUG
-	fprintf(stderr, _("delete_node(): free'd last node.\n"));
+	fprintf(stderr, _("%s: free'd last node.\n"), "delete_node()");
 #endif
     }
 }

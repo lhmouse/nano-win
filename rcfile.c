@@ -448,7 +448,7 @@ void parse_rcfile(FILE *rcstream)
 
 	if (*ptr == '#') {
 #ifdef DEBUG
-	    fprintf(stderr, _("parse_rcfile: Read a comment\n"));
+	    fprintf(stderr, _("%s: Read a comment\n"), "parse_rcfile()");
 #endif
 	    continue;		/* Skip past commented lines */
 	}
@@ -483,8 +483,8 @@ void parse_rcfile(FILE *rcstream)
 	    for (i = 0; rcopts[i].name != NULL; i++) {
 		if (!strcasecmp(option, rcopts[i].name)) {
 #ifdef DEBUG
-		    fprintf(stderr, _("parse_rcfile: Parsing option %s\n"),
-			    rcopts[i].name);
+		    fprintf(stderr, _("%s: Parsing option %s\n"), 
+			    "parse_rcfile()", rcopts[i].name);
 #endif
 		    if (set == 1) {
 			if (!strcasecmp(rcopts[i].name, "tabsize")

@@ -1072,7 +1072,7 @@ void update_cursor(void)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, _("current->data = \"%s\"\n"), current->data);
+    fprintf(stderr, "current->data = \"%s\"\n", current->data);
 #endif
 }
 
@@ -1452,8 +1452,8 @@ int do_cursorpos(int constant)
 	 linepct = 100 * current->lineno / totlines;
 
 #ifdef DEBUG
-    fprintf(stderr, _("do_cursorpos: linepct = %f, bytepct = %f\n"),
-	    linepct, bytepct);
+    fprintf(stderr, "%s: linepct = %f, bytepct = %f\n",
+		"do_cursorpos()", linepct, bytepct);
 #endif
 
     /* if constant is zero, display the position on the statusbar

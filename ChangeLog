@@ -1,4 +1,10 @@
 CVS Code -
+- General
+	- Changed some translatable debug messages to use %s 
+	  instead of the function name, and removed gettext from 
+	  two strings that had no actual words in them that
+	  should be translated.	 Suggested originally by
+	  Christian Rose.
 - nano.c:
   main()
 	- Call load_file with arg 0 for insert, as we aren't really
