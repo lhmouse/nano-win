@@ -123,8 +123,9 @@ CVS code -
 	  used, the normally-unused blank line below the titlebar will
 	  be treated as part of the edit window.  New functions
 	  no_more_space() and blank_topbar(); changes to global_init(),
-	  window_init(), handle_sigwinch(), do_toggle(), etc. (DLR;
-	  suggested by Mike Frysinger, Rocco, and Robert Schultz)
+	  window_init(), handle_sigwinch(), do_toggle(), do_mouse(),
+	  etc. (DLR; suggested by Mike Frysinger, Rocco, and Robert
+	  Schultz)
 	- Add support for moving to the next or previous word at the
 	  statusbar prompt.  New functions do_statusbar_next_word() and
 	  do_statusbar_prev_word(); changes to do_statusbar_input().
