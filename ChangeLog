@@ -54,6 +54,9 @@ CVS code -
 	  extended keypad values.  This is needed for UTF-8 support.
 	  Changes to get_kbinput(), get_translated_kbinput(),
 	  get_shortcut(), get_edit_input(), etc. (DLR)
+	- Add a multibuffer mode toggle to the "Execute Command" prompt,
+	  for consistency with the "Read File" prompt.  Changes to
+	  do_insertfile() and shortcut_init(). (DLR)
 - files.c:
   do_insertfile()
 	- Readd the NANO_SMALL #ifdef around the start_again: label to

@@ -247,6 +247,7 @@ void shortcut_init(int unjustify)
     const char *regexp_msg = N_("Regexp");
 #endif
     const char *history_msg = N_("History");
+    const char *new_buffer_msg = N_("New Buffer");
 #endif /* !NANO_SMALL */
 #ifndef DISABLE_BROWSER
     const char *to_files_msg = N_("To Files");
@@ -898,7 +899,7 @@ void shortcut_init(int unjustify)
      * disabled.  It's useless since inserting files is disabled. */
     /* Translators: try to keep this string under 22 characters long */
     if (!ISSET(RESTRICTED))
-	sc_init_one(&insertfile_list, NANO_NO_KEY, N_("New Buffer"),
+	sc_init_one(&insertfile_list, NANO_NO_KEY, new_buffer_msg,
 		IFHELP(nano_multibuffer_msg, TOGGLE_MULTIBUFFER_KEY), NANO_NO_KEY,
 		NANO_NO_KEY, NOVIEW, 0);
 #endif
@@ -938,6 +939,10 @@ void shortcut_init(int unjustify)
     sc_init_one(&extcmd_list, NANO_CANCEL_KEY, cancel_msg,
 	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, 0);
+
+    sc_init_one(&extcmd_list, NANO_NO_KEY, new_buffer_msg,
+	IFHELP(nano_multibuffer_msg, TOGGLE_MULTIBUFFER_KEY), NANO_NO_KEY,
+	NANO_NO_KEY, NOVIEW, 0);
 #endif
 
 #ifndef DISABLE_BROWSER

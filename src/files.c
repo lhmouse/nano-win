@@ -494,6 +494,7 @@ void do_insertfile(void)
     else
 #endif
 	msg = N_("File to insert [from %s] ");
+
     i = statusq(TRUE, insertfile_list, ans,
 #ifndef NANO_SMALL
 		NULL,
@@ -520,8 +521,29 @@ void do_insertfile(void)
 	}
 #endif /* ENABLE_MULTIBUFFER */
 	if (i == NANO_EXTCMD_KEY) {
-	    int j = statusq(TRUE, extcmd_list, ans, NULL,
-		_("Command to execute"));
+	    int j;
+
+  exec_again:	/* Go here when the user toggles multibuffer mode. */
+
+#ifdef ENABLE_MULTIBUFFER
+	    if (ISSET(MULTIBUFFER))
+		msg = N_("Command to execute in new buffer");
+	    else
+#endif
+		msg = N_("Command to execute");
+
+	    j = statusq(TRUE, extcmd_list, ans, NULL, _(msg));
+
+#ifdef ENABLE_MULTIBUFFER
+	    if (j == TOGGLE_MULTIBUFFER_KEY) {
+		/* Don't allow toggling if we're in view mode. */
+		if (!ISSET(VIEW_MODE)) {
+		    TOGGLE(MULTIBUFFER);
+		    ans = mallocstrcpy(NULL, answer);
+		}
+		goto exec_again;
+	    }
+#endif
 
 	    if (j == -1 || answer == NULL || answer[0] == '\0')
 		goto start_again;
