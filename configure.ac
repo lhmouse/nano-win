@@ -296,12 +296,11 @@ AC_CHECK_FUNCS(snprintf vsnprintf isblank strcasecmp strncasecmp strcasestr strn
 if test "x$ac_cv_func_snprintf" = "xno" -o "xac_cv_func_vsnprintf" = "xno"
 then
 	AM_PATH_GLIB_2_0(2.0.0,,
-	    [AM_PATH_GLIB(1.2.4,,
-		[AC_MSG_ERROR([
-*** snprintf() and/or vsnprintf() not found.  GLIB not found either.
+	    AC_MSG_ERROR([
+*** snprintf() and/or vsnprintf() not found.  GLIB 2.x not found either.
 *** You need both snprintf() and vsnprintf().  Alternatively you can
-*** install the GLIB library which can be found at ftp://ftp.gtk.org/.])],
-		glib)])
+*** install the GLIB library which can be found at ftp://ftp.gtk.org/.]),
+	    glib)
 fi
 
 dnl Checks for typedefs, structures, and compiler characteristics.

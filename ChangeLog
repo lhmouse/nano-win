@@ -261,12 +261,18 @@ CVS code -
 	  initscr(), which ncurses, curses, and pdcurses should all
 	  have, and not tgetent(), which is a termcap-specific function.
 	  (DLR)
+	- Check only for glib 2.x, as it's much more common than
+	  glib 1.2.x now, and it has a better v?snprintf()
+	  implementation. (DLR, suggested by Jordi)
 - nanorc.sample:
 	- Remove specific references to control key shortcuts other than
 	  XON and XOFF. (DLR)
 	- Add continue and goto to the "c-file" regexes. (DLR)
 - doc/man/fr/nano.1, doc/man/fr/nanorc.1:
 	- Updated manpage translations by Jean-Philippe Guérard.
+- README.CVS:
+	- Mention the requirement for glib 2.x on systems lacking
+	  v?snprintf(), and add minor formatting changes.
 
 GNU nano 1.3.4 - 2004.08.17
 - General:
