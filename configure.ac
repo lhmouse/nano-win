@@ -61,7 +61,8 @@ int main(void)
 	AC_DEFINE(BROKEN_REGEXEC, 1, [Define this if your regexec() function segfaults when passed an empty string under certain conditions.]),
 	AC_MSG_RESULT([cross-compiling; assuming no])))
 
-dnl options
+dnl Checks for options.
+
 AC_ARG_ENABLE(debug, 
 [  --enable-debug          Enable debugging (disabled by default)],
 [if test x$enableval = xyes; then
@@ -215,8 +216,7 @@ AC_ARG_WITH(slang,
 	    CPPFLAGS="-I$with_slang/include $CPPFLAGS"
 	fi
 
-	if test x$enable_utf8 != xno
-	then
+	if test x$enable_utf8 != xno; then
 	    AC_CHECK_HEADER(slcurses.h,
 		AC_MSG_CHECKING([for SLutf8_enable in -lslang])
 		_libs=$LIBS
@@ -299,8 +299,12 @@ int main(void)
 	    ]))
 	fi
 
-	if eval "test x$CURSES_LIB_NAME = x"
-	then
+	if eval "test x$CURSES_LIB_NAME = x"; then
+	    # Reset libs if the above slang tests failed
+	    if test x$enable_utf8 != xno; then
+		LIBS=$_libs
+	    fi
+
 	    AC_CHECK_HEADER(slcurses.h,
 		AC_MSG_CHECKING([for SLtt_initialize in -lslang])
 		_libs=$LIBS
@@ -380,7 +384,9 @@ int main(void)
 	    ]))
 	fi
 
-	test ${_libs+set} = set && LIBS=$_libs
+	if test "${_libs+set}" = "set"; then
+	    LIBS=$_libs
+	fi
 
 	if test x$with_slang != xyes; then
 	    LDFLAGS=${_ldflags}
@@ -388,64 +394,58 @@ int main(void)
 	;;
     esac], [AC_MSG_RESULT(no)])
 
-dnl Checks for functions
+dnl Checks for functions.
+
 AC_CHECK_FUNCS(snprintf vsnprintf isblank strcasecmp strncasecmp strcasestr strnlen getline getdelim)
 
-if test x$enable_utf8 != xno
-then
+if test x$enable_utf8 != xno; then
     AC_CHECK_FUNCS(iswalnum mblen mbtowc wctomb wcwidth iswspace iswblank)
 fi
 
-if test x$ac_cv_func_snprintf = xno -o x$ac_cv_func_vsnprintf = xno
-then
-	AM_PATH_GLIB_2_0(2.0.0,,
-	    AC_MSG_ERROR([
+if test x$ac_cv_func_snprintf = xno -o x$ac_cv_func_vsnprintf = xno; then
+    AM_PATH_GLIB_2_0(2.0.0,,
+	AC_MSG_ERROR([
 *** snprintf() and/or vsnprintf() not found.  GLIB 2.x not found either.
 *** You need both snprintf() and vsnprintf().  Alternatively you can
 *** install the GLIB library which can be found at ftp://ftp.gtk.org/.]),
-	    glib)
+	glib)
 fi
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 
 dnl Checks for library functions.
+
 AC_TYPE_SIGNAL
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS(getopt_long)
 
 dnl Checks for libraries.
-if eval "test x$CURSES_LIB_NAME = x"
-then
+
+if eval "test x$CURSES_LIB_NAME = x"; then
     AC_CHECK_HEADERS(ncurses.h)
 
-    if test x$enable_utf8 != xno
-    then
+    if test x$enable_utf8 != xno; then
 	AC_CHECK_LIB(ncursesw, wget_wch, [CURSES_LIB="-lncursesw" CURSES_LIB_NAME=ncursesw CURSES_LIB_WIDE=yes])
     fi
 
-    if eval "test x$CURSES_LIB_NAME = x"
-    then
+    if eval "test x$CURSES_LIB_NAME = x"; then
 	AC_CHECK_LIB(ncurses, initscr, [CURSES_LIB="-lncurses" CURSES_LIB_NAME=ncurses])
     fi
 fi
 
-if eval "test x$CURSES_LIB_NAME = x"
-then
+if eval "test x$CURSES_LIB_NAME = x"; then
     AC_CHECK_HEADERS(curses.h)
 
-    if test x$enable_utf8 != xno
-    then
+    if test x$enable_utf8 != xno; then
 	AC_CHECK_LIB(curses, wget_wch, [CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses CURSES_LIB_WIDE=yes])
     fi
 
-    if eval "test x$CURSES_LIB_NAME = x"
-    then
+    if eval "test x$CURSES_LIB_NAME = x"; then
 	 AC_CHECK_LIB(curses, initscr, [CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses])
     fi
 fi
 
-if eval "test x$CURSES_LIB_NAME = x"
-then
+if eval "test x$CURSES_LIB_NAME = x"; then
     AC_MSG_WARN([
 *** No curses lib available.  Consider getting the official ncurses
 *** distribution from ftp://ftp.gnu.org/pub/gnu/ncurses if you get
@@ -462,13 +462,11 @@ LIBS="$LIBS $CURSES_LIB"
 
 AC_SUBST(CURSES_LIB)
 
-if test "x$GLIB_CFLAGS" != "x"
-then
-	CFLAGS="$CFLAGS $GLIB_CFLAGS"
+if test "x$GLIB_CFLAGS" != "x"; then
+    CFLAGS="$CFLAGS $GLIB_CFLAGS"
 fi
-if test "x$GLIB_LIBS" != "x"
-then
-	LDFLAGS="$LDFLAGS $GLIB_LIBS"
+if test "x$GLIB_LIBS" != "x"; then
+    LDFLAGS="$LDFLAGS $GLIB_LIBS"
 fi
 
 if test x$enable_utf8 != xno && \
@@ -478,20 +476,17 @@ if test x$enable_utf8 != xno && \
         x$ac_cv_func_mbtowc = xyes -a \
         x$ac_cv_func_wctomb = xyes -a \
         x$ac_cv_func_wcwidth = xyes && \
-   test x$ac_cv_func_iswspace = xyes -o x$ac_cv_func_iswblank = xyes
-then
+   test x$ac_cv_func_iswspace = xyes -o x$ac_cv_func_iswblank = xyes; then
 	AC_DEFINE(NANO_WIDE, 1, [Define this if your system has sufficient wide character support (a wide curses library, iswalnum(), iswspace() or iswblank(), mblen(), mbtowc(), wctomb(), and wcwidth()).])
 else
-    if test x$enable_utf8 = xyes
-    then
+    if test x$enable_utf8 = xyes; then
 	AC_MSG_ERROR([
 *** UTF-8 support was requested, but insufficient UTF-8 support was
 *** detected in your curses and/or C libraries.  Please verify that your
 *** slang was built with UTF-8 support or your curses was built with
 *** wide character support, and that your C library was built with wide
 *** character support.])
-    elif test x$enable_utf8 != xno
-    then
+    elif test x$enable_utf8 != xno; then
 	AC_MSG_WARN([
 *** Insufficient UTF-8 support was detected in your curses and/or C
 *** libraries.  If you want UTF-8 support, please verify that your slang
