@@ -536,7 +536,7 @@ void do_insertfile(
 	    statusbar(_("Cancelled"));
 	    break;
 	} else {
-	    size_t old_pww = placewewant;
+	    size_t pww_save = placewewant;
 
 	    ans = mallocstrcpy(ans, answer);
 
@@ -629,7 +629,7 @@ void do_insertfile(
 		set_modified();
 
 		/* Restore the old place we want. */
-		placewewant = old_pww;
+		placewewant = pww_save;
 #ifdef ENABLE_MULTIBUFFER
 	    }
 #endif
