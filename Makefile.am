@@ -25,7 +25,7 @@ MAKEINFO = makeinfo --no-split
 
 EXTRA_DIST =	ABOUT-NLS AUTHORS BUGS COPYING ChangeLog INSTALL NEWS \
 		README THANKS TODO install-sh missing mkinstalldirs \
-		nano.1 nano.1.html faq.html $(ACINCLUDE_INPUTS) nano.spec
+		nano.1 nano.1.html faq.html $(ACINCLUDE_INPUTS)
 
 SUBDIRS = po intl
 
