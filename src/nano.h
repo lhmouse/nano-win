@@ -89,7 +89,7 @@
 #define strncasecmp nstrnicmp
 #endif
 
-/* Note: ERR is defined as -1, so to avoid duplicate case values when
+/* Assume ERR is defined as -1.  To avoid duplicate case values when
    some key definitions are missing, we have to set these all to
    different negative values other than -1. */
 
