@@ -3,6 +3,10 @@ CVS code -
 	- Better integration of View mode (-v) and multibuffer.
 	  Fixes to new_file(), do_insertfile_void(), shortcut_init()
 	  (David Lawrence Ramsey).
+	- The keypad handling has changed (again).  We now use 
+	  the keypad() function by default.  New flag -K, --keypad
+	  allows the old behavior for those using the keypad arrow keys
+	  and rxvt-based terminals.
 - nano.c:
   die()
 	- Only save files that were modified (David Lawrence Ramsey).

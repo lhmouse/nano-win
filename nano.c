@@ -419,6 +419,8 @@ void usage(void)
 	(_
 	 (" -F 		--multibuffer		Enable multiple file buffers\n"));
 #endif
+    printf(_
+	 (" -K 		--keypad		Use alternate keypad routines\n"));
 #ifndef NANO_SMALL
     printf
 	(_
@@ -493,14 +495,15 @@ void usage(void)
 #ifdef ENABLE_MULTIBUFFER
     printf(_(" -F 		Enable multiple file buffers\n"));
 #endif
+    printf(_(" -K		Use alternate keypad routines\n\n"));
 #ifndef NANO_SMALL
     printf(_(" -M 		Write file in Mac format\n"));
 #endif
-    printf(_(" -T [num]	Set width of a tab to num\n"));
     printf(_(" -R		Use regular expressions for search\n"));
 #ifndef NANO_SMALL
     printf(_(" -S		Smooth scrolling\n"));
 #endif
+    printf(_(" -T [num]	Set width of a tab to num\n"));
     printf(_(" -V 		Print version information and exit\n"));
     printf(_(" -c 		Constantly show cursor position\n"));
     printf(_(" -h 		Show this message\n"));
@@ -2710,6 +2713,8 @@ int main(int argc, char *argv[])
 #ifndef NANO_SMALL
 	{"smooth", 0, 0, 'S'},
 #endif
+	{"keypad", 0, 0, 'K'},
+
 	{0, 0, 0, 0}
     };
 #endif
@@ -2730,11 +2735,11 @@ int main(int argc, char *argv[])
 #endif /* ENABLE_NANORC */
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "h?DFMRST:Vabcefgijklmo:pr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "h?DFKMRST:Vabcefgijklmo:pr:s:tvwxz",
 				 long_options, &option_index)) != EOF) {
 #else
     while ((optchr =
-	    getopt(argc, argv, "h?DFMRST:Vabcefgijklmo:pr:s:tvwxz")) != EOF) {
+	    getopt(argc, argv, "h?DFKMRST:Vabcefgijklmo:pr:s:tvwxz")) != EOF) {
 #endif
 
 	switch (optchr) {
@@ -2749,6 +2754,9 @@ int main(int argc, char *argv[])
 	    SET(MULTIBUFFER);
 	    break;
 #endif
+	case 'K':
+	    SET(ALT_KEYPAD);
+	    break;
 #ifndef NANO_SMALL
 	case 'M':
 	    SET(MAC_FILE);
@@ -2925,6 +2933,11 @@ int main(int argc, char *argv[])
 
     window_init();
     mouse_init();
+
+    if (!ISSET(ALT_KEYPAD)) {
+	keypad(edit, TRUE);
+	keypad(bottomwin, TRUE);
+    }
 
 #ifdef ENABLE_COLOR
     do_colorinit();

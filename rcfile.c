@@ -40,9 +40,9 @@
 #endif
 
 #ifndef DISABLE_WRAPJUSTIFY
-    #define NUM_RCOPTS 18
+    #define NUM_RCOPTS 19
 #else
-    #define NUM_RCOPTS 17
+    #define NUM_RCOPTS 18
 #endif
 
 /* Static stuff for the nanorc file */
@@ -69,7 +69,8 @@ rcoption rcopts[NUM_RCOPTS] =
 {"nohelp", NO_HELP}, 
 {"suspend", SUSPEND},
 {"multibuffer", MULTIBUFFER},
-{"smooth", SMOOTHSCROLL}};
+{"smooth", SMOOTHSCROLL},
+{"keypad", ALT_KEYPAD}};
 
 /* We have an error in some part of the rcfile; put it on stderr and
   make the user hit return to continue starting up nano */

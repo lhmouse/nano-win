@@ -165,6 +165,7 @@ typedef struct colortype {
 #define MAC_FILE		(1<<22)
 #define SMOOTHSCROLL		(1<<23)
 #define DISABLE_CURPOS		(1<<24)	/* Damn, we still need it */
+#define ALT_KEYPAD		(1<<25)	/* Damn, we still need it */
 
 /* Control key sequences, changing these would be very very bad */
 
