@@ -1447,6 +1447,16 @@ int statusq(int tabs, const shortcut *s, const char *def,
 	do_last_line();
 	resetstatuspos = 1;
 	break;
+#ifndef DISABLE_JUSTIFY
+    case NANO_PARABEGIN_KEY:
+	do_para_begin();
+	resetstatuspos = 1;
+	break;
+    case NANO_PARAEND_KEY:
+	do_para_end();
+	resetstatuspos = 1;
+	break;
+#endif
     case NANO_CANCEL_KEY:
 	ret = -1;
 	resetstatuspos = 1;

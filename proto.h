@@ -311,8 +311,13 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len,
 			size_t quote_len);
 int breakable(const char *line, int goal);
 int break_line(const char *line, int goal, int force);
+int do_para_operation(int operation);
 #endif /* !DISABLE_JUSTIFY */
 int do_justify(void);
+#ifndef DISABLE_JUSTIFY
+int do_para_begin(void);
+int do_para_end(void);
+#endif
 int do_exit(void);
 void signal_init(void);
 RETSIGTYPE handle_hupterm(int signal);

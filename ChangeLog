@@ -23,6 +23,12 @@ CVS code -
 	- Add the ability to repeat the last search without prompting
 	  via Meta-W, and move the line wrapping toggle to Meta-L.  New
 	  function do_research(). (Wouter van Hemel)
+	- Added the ability to move to the beginning or end of the
+	  paragraph, which Pico has via ^W^W (previous paragraph)
+	  and ^W^O (next paragraph).  Modifications to do_justify(),
+	  new functions do_para_operation(), do_para_begin(), and
+	  do_para_end().  Note that the last three functions are
+	  disabled if justification is disabled. (DLR)
 - files.c:
   do_browser()
 	- Some of the Pico compatibility options in the file browser

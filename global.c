@@ -337,7 +337,8 @@ void shortcut_init(int unjustify)
 	"", *nano_gotodir_msg = "", *nano_case_msg =
 	"", *nano_reverse_msg = "", *nano_execute_msg =
 	"", *nano_dos_msg = "", *nano_mac_msg =
-	"", *nano_backup_msg = "", *nano_editstr_msg = "";
+	"", *nano_backup_msg = "", *nano_editstr_msg =
+	"", *nano_parabegin_msg = "", *nano_paraend_msg = "";
 
 #ifdef ENABLE_MULTIBUFFER
     const char *nano_openprev_msg = "", *nano_opennext_msg =
@@ -395,6 +396,8 @@ void shortcut_init(int unjustify)
     nano_mac_msg = _("Write file out in Mac format");
     nano_backup_msg = _("Back up original file when saving");
     nano_editstr_msg = _("Edit the previous search/replace strings");
+    nano_parabegin_msg = _("Go to the beginning of the current paragraph");
+    nano_paraend_msg = _("Go to the end of the current paragraph");
 #ifdef HAVE_REGEX_H
     nano_regexp_msg = _("Use regular expressions");
     nano_bracket_msg = _("Find other bracket");
@@ -585,44 +588,54 @@ void shortcut_init(int unjustify)
     sc_init_one(&whereis_list, NANO_HELP_KEY, _("Get Help"),
 		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
 
-    /* Translators: try to keep this string under 12 characters long */
+    /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_CANCEL_KEY, _("Cancel"),
 		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
 
-    /* Translators: try to keep this string under 12 characters long */
+    /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_FIRSTLINE_KEY, _("First Line"),
 		IFHELP(nano_firstline_msg, 0),
 		0, 0, VIEW, do_first_line);
 
-    /* Translators: try to keep this string under 12 characters long */
+    /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_LASTLINE_KEY, _("Last Line"),
 		IFHELP(nano_lastline_msg, 0), 0, 0, VIEW, do_last_line);
 
-    /* Translators: try to keep this string under 12 characters long */
+    /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_OTHERSEARCH_KEY, _("Replace"),
 		IFHELP(nano_replace_msg, 0), 0, 0, VIEW, do_replace);
 
-    /* Translators: try to keep this string under 12 characters long */
+    /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_FROMSEARCHTOGOTO_KEY, _("Go To Line"),
 		IFHELP(nano_goto_msg, 0), 0, 0, VIEW, do_gotoline_void);
 
+#ifndef DISABLE_JUSTIFY
+    /* Translators: try to keep this string under 10 characters long */
+    sc_init_one(&whereis_list, NANO_PARABEGIN_KEY, _("Beg of Par"),
+		IFHELP(nano_parabegin_msg, 0), 0, 0, VIEW, do_para_begin);
+
+    /* Translators: try to keep this string under 10 characters long */
+    sc_init_one(&whereis_list, NANO_PARAEND_KEY, _("End of Par"),
+		IFHELP(nano_paraend_msg, 0), 0, 0, VIEW, do_para_end);
+#endif
+
 #ifndef NANO_SMALL
-    /* Translators: try to keep this string under 12 characters long */
+    /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, TOGGLE_CASE_KEY, _("Case Sens"),
 		IFHELP(nano_case_msg, 0), 0, 0, VIEW, 0);
 
-    /* Translators: try to keep this string under 12 characters long */
+    /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, TOGGLE_BACKWARDS_KEY, _("Direction"),
 		IFHELP(nano_reverse_msg, 0), 0, 0, VIEW, 0);
 
 #ifdef HAVE_REGEX_H
-    /* Translators: try to keep this string under 12 characters long */
+    /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, TOGGLE_REGEXP_KEY, _("Regexp"),
 		IFHELP(nano_regexp_msg, 0), 0, 0, VIEW, 0);
 #endif
 
 #ifndef NANO_SMALL
-    /* Translators: try to keep this string under 12 characters long */
+    /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, KEY_UP, _("History"),
 		IFHELP(nano_editstr_msg, 0), NANO_UP_KEY, 0, VIEW, 0);
 #endif
