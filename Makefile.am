@@ -1,9 +1,12 @@
 bin_PROGRAMS = 	nano
 nano_SOURCES =	cut.c \
+		files.c \
 		global.c \
+		move.c \
 		nano.c \
 		nano.h \
 		proto.h \
+		search.c \
 		utils.c \
 		winio.c 
 

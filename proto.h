@@ -58,6 +58,16 @@ int write_file(char *name, int tmpfile);
 int do_cut_text(void);
 int do_uncut_text(void);
 int no_help(void);
+int renumber_all(void);
+int open_file(char *filename, int insert, int quiet);
+int do_writeout(int exiting);
+int do_gotoline(long defline);
+/* Now in move.c */
+int do_up(void);
+int do_down(void);
+int do_left(void);
+int do_right(void);
+
 
 void shortcut_init(void);
 void lowercase(char *src);
@@ -86,6 +96,12 @@ void *nmalloc (size_t howmuch);
 void wrap_reset(void);
 void display_main_list(void);
 void nano_small_msg(void);
+void do_early_abort(void);
+void *nmalloc(size_t howmuch);
+void *nrealloc(void *ptr, size_t howmuch);
+void die(char *msg, ...);
+void new_file(void);
+
 
 int do_writeout_void(void), do_exit(void), do_gotoline_void(void);
 int do_insertfile(void), do_search(void), page_up(void), page_down(void);

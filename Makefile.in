@@ -88,7 +88,7 @@ VERSION = @VERSION@
 l = @l@
 
 bin_PROGRAMS = nano
-nano_SOURCES = cut.c 		global.c 		nano.c 		nano.h 		proto.h 		utils.c 		winio.c 
+nano_SOURCES = cut.c 		files.c 		global.c 		move.c 		nano.c 		nano.h 		proto.h 		search.c 		utils.c 		winio.c 
 
 
 man_MANS = nano.1
@@ -112,7 +112,8 @@ DEFS = @DEFS@ -I. -I$(srcdir) -I.
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-nano_OBJECTS =  cut.o global.o nano.o utils.o winio.o
+nano_OBJECTS =  cut.o files.o global.o move.o nano.o search.o utils.o \
+winio.o
 nano_DEPENDENCIES = 
 nano_LDFLAGS = 
 CFLAGS = @CFLAGS@
@@ -398,7 +399,7 @@ distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
-	    cp -pr $$/$$file $(distdir)/$$file; \
+	    cp -pr $$d/$$file $(distdir)/$$file; \
 	  else \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \

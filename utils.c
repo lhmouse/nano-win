@@ -26,6 +26,13 @@
 #include "nano.h"
 #include "proto.h"
 
+#ifndef NANO_SMALL 
+#include <libintl.h>
+#define _(string) gettext(string)
+#else
+#define _(string) (string)
+#endif
+
 /* Lower case a string - must be null terminated */
 void lowercase(char *src)
 {
@@ -79,3 +86,27 @@ char *strstrwrapper(char *haystack, char *needle)
     else
 	return strcasestr(haystack, needle);
 }
+
+/* Thanks BG, many ppl have been asking for this... */
+void *nmalloc(size_t howmuch)
+{   
+    void *r;
+ 
+    /* Panic save? */
+
+    if (!(r = malloc(howmuch)))
+	die(_("nano: malloc: out of memory!"));
+
+    return r;
+}
+ 
+void *nrealloc(void *ptr, size_t howmuch)
+{   
+    void *r;
+    
+    if (!(r = realloc(ptr, howmuch)))
+	die("nano: realloc: out of memory!");  
+
+    return r;
+}
+
