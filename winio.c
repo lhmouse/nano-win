@@ -334,21 +334,20 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		}
 	    }
 #ifndef DISABLE_TABCOMP
-	    else {
+	    else
+#endif
 #endif
 #ifndef DISABLE_TABCOMP
-		if (allowtabs) {
-		    int shift = 0;
+	    if (allowtabs) {
+		int shift = 0;
 
-		    answer = input_tab(answer, x, &tabbed, &shift, list);
-		    xend = strlen(answer);
-		    x += shift;
-		    if (x > xend)
-			x = xend;
-		}
+		answer = input_tab(answer, x, &tabbed, &shift, list);
+		xend = strlen(answer);
+		x += shift;
+		if (x > xend)
+		    x = xend;
 	    }
 #endif
-#endif /* NANO_SMALL */
 	    break;
 	case KEY_LEFT:
 	case NANO_BACK_KEY:
