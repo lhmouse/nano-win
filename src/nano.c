@@ -3939,7 +3939,7 @@ int main(int argc, char **argv)
 
 #ifdef USE_SLANG
 	if (!ISSET(NO_UTF8))
-	    SLsmg_utf8_enable(TRUE);
+	    SLutf8_enable(TRUE);
 #endif
     }
 #else
