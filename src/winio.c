@@ -322,9 +322,9 @@ int get_ascii_kbinput(WINDOW *win, int kbinput)
  *   keypad value KEY_MOUSE is generated on mouse events instead of the
  *   kmous escape sequence.)
  * - F9 on FreeBSD console == PageDown on Hurd console; the former is
- *   omitted.  (The PC keypad, consisting of Insert, Delete, Home, End,
- *   PageUp, and PageDown, is more important to have working than the
- *   function keys, because the functions of the former are not
+ *   omitted.  (The editing keypad, consisting of Insert, Delete, Home,
+ *   End, PageUp, and PageDown, is more important to have working than
+ *   the function keys, because the functions of the former are not
  *   arbitrary and the functions of the latter are.)
  * - F10 on FreeBSD console == PageUp on Hurd console; the former is
  *   omitted.  (Same as above.)
