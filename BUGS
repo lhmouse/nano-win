@@ -92,5 +92,9 @@
   such as when all of a line is selected but the mark doesn't proceed to
   the new line. (8) { Is this an issue? compare to pico 3.5 }
 - totsize problems still abound in do_justify (33).
+- Resizing the window completely screws up the display if in any other
+  mode than normal editing (help screen, search and replace, file
+  browser..) (52)
+
 
 $Id$
