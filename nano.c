@@ -815,21 +815,6 @@ void do_wrap(filestruct * inptr, char input_char)
 	free(temp->data);
 	free(temp);
 
-	/* The next line line may need to be wrapped as well...
-	   Um, commenting this out for now, as it's actually too good =-)
-	 */
-/*
-	current_y = old_y + 1;
-	current_x = strlen(inptr->next->data);
-	while (current_x >= 0) {
-	    if (isspace(inptr->next->data[current_x])
-		&& (current_x < fill)) break;
-	    current_x--;
-	}
-	if (current_x >= 0)
-	    check_wrap(inptr->next, ' ');
-*/
-
 	current_x = old_x;
 	current_y = old_y;
     }
