@@ -1609,8 +1609,13 @@ void bottombars(const shortcut *s)
     if (s == main_list) {
 	slen = MAIN_VISIBLE;
 	assert(MAIN_VISIBLE <= length_of_list(s));
-    } else
+    } else {
 	slen = length_of_list(s);
+
+	/* Don't show any more shortcuts than the main list does */
+	if (slen > MAIN_VISIBLE)
+	    slen = MAIN_VISIBLE;
+    }
 
     /* There will be this many columns of shortcuts */
     numcols = (slen + (slen % 2)) / 2;
@@ -2227,6 +2232,10 @@ int statusq(int allowtabs, const shortcut *s, const char *def,
 	break;
     case NANO_PARAEND_KEY:
 	do_para_end();
+	resetstatuspos = 1;
+	break;
+    case NANO_FULLJUSTIFY_KEY:
+	do_full_justify();
 	resetstatuspos = 1;
 	break;
 #endif

@@ -473,7 +473,7 @@ void shortcut_init(int unjustify)
 		IFHELP(nano_justify_msg, NANO_NO_KEY),
 		NANO_JUSTIFY_FKEY, NANO_NO_KEY, NOVIEW,
 #ifndef NANO_SMALL
-		do_justify
+		do_justify_void
 #else
 		nano_disabled_msg
 #endif
@@ -681,6 +681,11 @@ void shortcut_init(int unjustify)
     sc_init_one(&whereis_list, NANO_PARAEND_KEY, _("End of Par"),
 		IFHELP(nano_paraend_msg, NANO_NO_KEY), NANO_NO_KEY,
 		NANO_NO_KEY, VIEW, do_para_end);
+
+    /* Translators: try to keep this string under 10 characters long */
+    sc_init_one(&whereis_list, NANO_FULLJUSTIFY_KEY, _("FullJstify"),
+		IFHELP(nano_paraend_msg, NANO_NO_KEY), NANO_NO_KEY,
+		NANO_NO_KEY, VIEW, do_full_justify);
 #endif
 
 #ifndef NANO_SMALL

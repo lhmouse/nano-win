@@ -326,7 +326,9 @@ int do_para_search(int search_type, size_t *quote, size_t *par, size_t
 	*indent, int do_refresh);
 int do_para_begin(void);
 int do_para_end(void);
-int do_justify(void);
+int do_justify(int justify_all);
+int do_justify_void(void);
+int do_full_justify(void);
 #endif /* !DISABLE_JUSTIFY */
 int do_exit(void);
 void signal_init(void);
