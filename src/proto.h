@@ -414,7 +414,7 @@ void do_spell(void);
 size_t indent_length(const char *line);
 #endif
 #ifndef DISABLE_JUSTIFY
-void justify_format(filestruct *line, size_t skip);
+void justify_format(filestruct *paragraph, size_t skip);
 size_t quote_length(const char *line);
 bool quotes_match(const char *a_line, size_t a_quote, const char
 	*b_line);
@@ -426,7 +426,6 @@ bool inpar(const char *str);
 void do_para_end(void);
 filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 	quote_len);
-bool breakable(const char *line, ssize_t goal);
 ssize_t break_line(const char *line, ssize_t goal, bool force);
 bool do_para_search(size_t *const quote, size_t *const par);
 void do_justify(bool full_justify);

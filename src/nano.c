@@ -2354,8 +2354,8 @@ size_t indent_length(const char *line)
 #ifndef DISABLE_JUSTIFY
 /* justify_format() replaces tabs with spaces and multiple spaces by 1
  * (except it maintains 2 after a non-repeated character in punct
- * followed by a character in brackets).  Note that the terminating \0
- * counts as a space.
+ * followed by a character in brackets, and removes all at the end of
+ * the line).
  *
  * justify_format() might make line->data shorter, and change the actual
  * pointer with null_at().
@@ -2363,74 +2363,146 @@ size_t indent_length(const char *line)
  * justify_format() will not look at the first skip characters of line.
  * skip should be at most strlen(line->data).  The character at
  * line[skip + 1] must not be whitespace. */
-void justify_format(filestruct *line, size_t skip)
+void justify_format(filestruct *paragraph, size_t skip)
 {
-    char *back, *front;
+    char *end, *new_end, *new_paragraph_data;
+    size_t shift = 0;
+#ifndef NANO_SMALL
+    size_t mark_shift = 0;
+#endif
 
     /* These four asserts are assumptions about the input data. */
-    assert(line != NULL);
-    assert(line->data != NULL);
-    assert(skip < strlen(line->data));
-    assert(!is_blank_char(line->data[skip]));
+    assert(paragraph != NULL);
+    assert(paragraph->data != NULL);
+    assert(skip < strlen(paragraph->data));
+    assert(!is_blank_char(paragraph->data[skip]));
 
-    back = line->data + skip;
-    for (front = back; ; front++) {
-	bool remove_space = FALSE;
-	    /* Do we want to remove this space? */
+    end = paragraph->data + skip;
+    new_paragraph_data = charalloc(strlen(paragraph->data) + 1);
+    charcpy(new_paragraph_data, paragraph->data, skip);
+    new_end = new_paragraph_data + skip;
 
-	if (*front == '\t')
-	    *front = ' ';
+    while (*end != '\0') {
+	/* If this character is blank, make sure that it's a space with
+	 * no blanks after it. */
+	if (is_blank_char(*end)) {
+	    *new_end = ' ';
+	    new_end++;
+	    end++;
 
-	/* These tests are safe since line->data + skip is not a
-	 * space. */
-	if ((*front == '\0' || *front == ' ') && *(front - 1) == ' ') {
-	    const char *bob = back - 2;
-
-	    remove_space = TRUE;
-	    for (; bob >= line->data + skip; bob--) {
-		if (strchr(punct, *bob) != NULL) {
-		    /* If this character is in punct, don't remove the
-		     * space unless this character and the character
-		     * before it are the same. */
-		    remove_space = (bob > line->data + skip &&
-			*bob == *(bob - 1));
-		    break;
-		}
-		if (strchr(brackets, *bob) == NULL)
-		    break;
+	    while (*end != '\0' && is_blank_char(*end)) {
+		end++;
+		shift++;
+#ifndef NANO_SMALL
+		if (mark_beginbuf == paragraph &&
+			mark_beginx >= end - paragraph->data)
+		    mark_shift++;
+#endif
 	    }
-	}
+	/* If this character is punctuation, there are two ways we can
+	 * handle it. */
+	} else if (strchr(punct, *end) != NULL) {
+	    *new_end = *end;
+	    new_end++;
+	    end++;
 
-	if (remove_space) {
-	    /* Now *front is a space we want to remove.  We do that by
-	     * simply failing to assign it to *back. */
+	    /* If this character is punctuation followed by itself and
+	     * optionally followed by a bracket, make sure there is no
+	     * more than one blank after it, and make sure that the
+	     * blank is a space. */
+	    if (*end != '\0' && *end == *(end - 1)) {
+		*new_end = *end;
+		new_end++;
+		end++;
+
+		if (*end != '\0' && strchr(brackets, *end) != NULL) {
+		    *new_end = *end;
+		    new_end++;
+		    end++;
+		}
+
+		if (*end != '\0' && is_blank_char(*end)) {
+		    *new_end = ' ';
+		    new_end++;
+		    end++;
+		}
+
+		while (*end != '\0' && is_blank_char(*end)) {
+		    end++;
+		    shift++;
 #ifndef NANO_SMALL
-	    if (mark_beginbuf == line && back - line->data < mark_beginx)
-		mark_beginx--;
+		if (mark_beginbuf == paragraph &&
+			mark_beginx >= end - paragraph->data)
+		    mark_shift++;
 #endif
-	    if (*front == '\0')
-		*(back - 1) = '\0';
+		}
+	    /* If this character is punctuation optionally followed by a
+	     * bracket and then followed by spaces, make sure there are
+	     * no more than two blanks after it, and make sure that the
+	     * blanks are spaces. */
+	    } else {
+		if (*end != '\0' && strchr(brackets, *end) != NULL) {
+		    *new_end = *end;
+		    new_end++;
+		    end++;
+		}
+
+		if (*end != '\0' && is_blank_char(*end)) {
+		    *new_end = ' ';
+		    new_end++;
+		    end++;
+		}
+
+		if (*end != '\0' && is_blank_char(*end)) {
+		    *new_end = ' ';
+		    new_end++;
+		    end++;
+		}
+
+		while (*end != '\0' && is_blank_char(*end)) {
+		    end++;
+		    shift++;
+#ifndef NANO_SMALL
+		if (mark_beginbuf == paragraph &&
+			mark_beginx >= end - paragraph->data)
+		    mark_shift++;
+#endif
+		}
+	    }
 	} else {
-	    *back = *front;
-	    back++;
+	    *new_end = *end;
+	    new_end++;
+	    end++;
 	}
-	if (*front == '\0')
-	    break;
     }
 
-    back--;
+    assert(*end == '\0');
 
-    assert(*back == '\0' && *front == '\0');
+    *new_end = *end;
 
-    /* Now back is the new end of line->data. */
-    if (back != front) {
-	totsize -= front - back;
-	null_at(&line->data, back - line->data);
+    while (new_end > new_paragraph_data + skip &&
+	*(new_end - 1) == ' ') {
+	new_end--;
+	shift++;
+    }
+
+    if (shift > 0) {
+	totsize -= shift;
+	null_at(&new_paragraph_data, new_end - new_paragraph_data);
+	free(paragraph->data);
+	paragraph->data = new_paragraph_data;
+
 #ifndef NANO_SMALL
-	if (mark_beginbuf == line && back - line->data < mark_beginx)
-	    mark_beginx = back - line->data;
+	/* Adjust the mark coordinates to compensate for the change in
+	 * the current line. */
+	if (mark_beginbuf == paragraph) {
+	    mark_beginx -= mark_shift;
+	    if (mark_beginx > new_end - new_paragraph_data)
+		mark_beginx = new_end - new_paragraph_data;
+	}
 #endif
-    }
+    } else
+	free(new_paragraph_data);
 }
 
 /* The "quote part" of a line is the largest initial substring matching
@@ -2668,25 +2740,6 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
     return first_line;
 }
 
-/* Is it possible to break line at or before goal? */
-bool breakable(const char *line, ssize_t goal)
-{
-    while (*line != '\0' && goal >= 0) {
-	size_t pos = 0;
-
-	if (is_blank_char(*line))
-	    return TRUE;
-
-	line += parse_mbchar(line, NULL, NULL, &pos);
-
-	goal -= pos;
-    }
-
-    /* If goal is not negative, the whole line (one word) was short
-     * enough. */
-    return (goal >= 0);
-}
-
 /* We are trying to break a chunk off line.  We find the last space such
  * that the display length to there is at most goal + 1.  If there is no
  * such space, and force is TRUE, then we find the first space.  Anyway,
@@ -2871,10 +2924,6 @@ void do_justify(bool full_justify)
     filestruct *last_par_line;
 	/* Will be the line containing the newline after the last line
 	 * of the result.  Also for restoring after unjustify. */
-    bool allow_respacing;
-	/* Whether we should change the spacing at the end of a line
-	 * after justifying it.  This should be TRUE whenever we move
-	 * to the next line after justifying the current line. */
 
     /* We save these global variables to be restored if the user
      * unjustifies.  Note that we don't need to save totlines. */
@@ -2897,11 +2946,18 @@ void do_justify(bool full_justify)
     last_par_line = current;
 
     while (TRUE) {
+	size_t i;
+	    /* Generic loop variable. */
 	size_t quote_len;
 	    /* Length of the initial quotation of the paragraph we
 	     * justify. */
+	size_t indent_len;
+	    /* Length of the initial indentation of the paragraph we
+	     * justify. */
 	size_t par_len;
-	    /* Number of lines in that paragraph. */
+	    /* Number of lines in the paragraph we justify. */
+	ssize_t break_pos;
+	    /* Where we will break lines. */
 
 	/* Find the first line of the paragraph to be justified.  That
 	 * is the start of this paragraph if we're in one, or the start
@@ -2923,212 +2979,142 @@ void do_justify(bool full_justify)
 	    }
 	}
 
-	/* Next step, we loop through the lines of this paragraph,
-	 * justifying each one individually. */
-	for (; par_len > 0; current_y++, par_len--) {
-	    size_t indent_len;
-		/* Generic indentation length. */
-	    size_t line_len;
-	    size_t display_len;
-		/* The width of current in screen columns. */
-	    ssize_t break_pos;
-		/* Where we will break the line. */
+	/* If we haven't already done it, copy the original paragraph(s)
+	 * to the justify buffer. */
+	if (first_par_line == NULL)
+	    first_par_line = backup_lines(current, full_justify ?
+		filebot->lineno - current->lineno : par_len, quote_len);
 
-	    /* We'll be moving to the next line after justifying the
-	     * current line in almost all cases, so allow changing the
-	     * spacing at the ends of justified lines by default. */
-	    allow_respacing = TRUE;
+	/* Next step, we tack all the lines of the paragraph together,
+	 * skipping the quoting and indentation on all lines after the
+	 * first. */
+	for (i = 0; i < par_len - 1; i++) {
+	    filestruct *next_line = current->next;
+	    size_t line_len = strlen(current->data);
+	    size_t next_line_len = strlen(current->next->data);
+
+	    indent_len = quote_len + indent_length(current->next->data +
+		quote_len);
+	    next_line_len -= indent_len;
+	    totsize -= indent_len;
+
+	    if (line_len > 0 && current->data[line_len - 1] != ' ') {
+		line_len++;
+		current->data = charealloc(current->data, line_len + 1);
+		current->data[line_len - 1] = ' ';
+		current->data[line_len] = '\0';
+		totsize++;
+	    }
+
+	    current->data = charealloc(current->data, line_len +
+		next_line_len + 1);
+	    strcat(current->data, next_line->data + indent_len);
+
+	    /* Don't destroy edittop! */
+	    if (edittop == next_line)
+		edittop = current;
+
+#ifndef NANO_SMALL
+	    /* Adjust the mark coordinates to compensate for the change
+	     * in the next line. */
+	    if (mark_beginbuf == next_line) {
+		mark_beginbuf = current;
+		mark_beginx += line_len;
+	    }
+#endif
+
+	    unlink_node(next_line);
+	    delete_node(next_line);
+
+	    /* If we've removed the next line, we need to go through
+	     * this line again. */
+	    i--;
+
+	    par_len--;
+	    totlines--;
+	    totsize--;
+	}
+
+	/* Now we call justify_format() on the paragraph, which will
+	 * remove excess spaces from it and change tabs to spaces. */
+	justify_format(current, quote_len +
+		indent_length(current->data + quote_len));
+
+	while (par_len > 0 && strlenpt(current->data) > fill) {
+	    size_t line_len = strlen(current->data);
 
 	    indent_len = quote_len + indent_length(current->data +
 		quote_len);
 
-	    /* If we haven't already done it, copy the original
-	     * paragraph to the justify buffer. */
-	    if (first_par_line == NULL)
-		first_par_line = backup_lines(current, full_justify ?
-			filebot->lineno - current->lineno : par_len,
-			quote_len);
+	    /* If this line is too long, try to wrap it to the next line
+	     * to make it short enough. */
+	    break_pos = break_line(current->data + indent_len,
+		fill - strnlenpt(current->data, indent_len), TRUE);
 
-	    /* Now we call justify_format() on the current line of the
-	     * paragraph, which will remove excess spaces from it and
-	     * change tabs to spaces. */
-	    justify_format(current, quote_len +
-		indent_length(current->data + quote_len));
+	    /* We can't break the line, or don't need to, so get out. */
+	    if (break_pos == -1 || break_pos + indent_len == line_len)
+		break;
 
-	    line_len = strlen(current->data);
-	    display_len = strlenpt(current->data);
+	    break_pos += indent_len;
 
-	    if (display_len > fill) {
-		/* The line is too long.  Try to wrap it to the next. */
-	        break_pos = break_line(current->data + indent_len,
-			fill - strnlenpt(current->data, indent_len),
-			TRUE);
-		if (break_pos == -1 ||
-			break_pos + indent_len == line_len)
-		    /* We can't break the line, or don't need to, so
-		     * just go on to the next. */
-		    goto continue_loc;
-		break_pos += indent_len;
+	    assert(break_pos < line_len);
 
-		assert(break_pos < line_len);
+	    /* Make a new line and copy the text after where we broke
+	     * this line to the beginning of the new line. */
+	    splice_node(current, make_new_node(current), current->next);
 
-		if (par_len == 1) {
-		    /* There is no next line in this paragraph.  We make
-		     * a new line and copy text after break_pos into
-		     * it. */
-		    splice_node(current, make_new_node(current),
-			current->next);
-		    /* In a non-quoted paragraph, we copy the indent
-		     * only if AUTOINDENT is turned on. */
-		    if (quote_len == 0
+	    /* If this paragraph is non-quoted, and autoindent is turned
+	     * on, set the indentation length to zero so that
+	     * indentation is treated as part of the line. */
+	    if (quote_len == 0
 #ifndef NANO_SMALL
-			&& !ISSET(AUTOINDENT)
+		&& !ISSET(AUTOINDENT)
 #endif
-			)
-			    indent_len = 0;
-		    current->next->data = charalloc(indent_len +
-			line_len - break_pos);
-		    strncpy(current->next->data, current->data,
-			indent_len);
-		    strcpy(current->next->data + indent_len,
-			current->data + break_pos + 1);
+		)
+		indent_len = 0;
 
-		    assert(strlen(current->next->data) ==
-			indent_len + line_len - break_pos - 1);
+	    current->next->data = charalloc(indent_len + line_len -
+		break_pos);
+	    charcpy(current->next->data, current->data, indent_len);
+	    strcpy(current->next->data + indent_len, current->data +
+		break_pos + 1);
 
-		    totlines++;
-		    totsize += indent_len;
-		    par_len++;
-		} else {
-		    size_t next_line_len = strlen(current->next->data);
+	    assert(strlen(current->next->data) == indent_len + line_len - break_pos - 1);
 
-		    indent_len = quote_len +
-			indent_length(current->next->data + quote_len);
-		    current->next->data =
-			charealloc(current->next->data, next_line_len +
-			line_len - break_pos + 1);
+	    par_len++;
+	    totlines++;
+	    totsize += indent_len;
 
-		    charmove(current->next->data + indent_len +
-			line_len - break_pos, current->next->data +
-			indent_len, next_line_len - indent_len + 1);
-		    strcpy(current->next->data + indent_len,
-			current->data + break_pos + 1);
-		    current->next->data[indent_len + line_len -
-			break_pos - 1] = ' ';
 #ifndef NANO_SMALL
-		    if (mark_beginbuf == current->next) {
-			if (mark_beginx < indent_len)
-			    mark_beginx = indent_len;
-			mark_beginx += line_len - break_pos;
-		    }
-#endif
-		}
-#ifndef NANO_SMALL
-		if (mark_beginbuf == current &&
-			mark_beginx > break_pos) {
-		    mark_beginbuf = current->next;
-		    mark_beginx -= break_pos + 1 - indent_len;
-		}
-#endif
-		null_at(&current->data, break_pos);
-
-		/* Go to the next line. */
-		current = current->next;
-	    } else if (display_len < fill && par_len > 1) {
-		size_t next_line_len;
-
-		indent_len = quote_len +
-			indent_length(current->next->data + quote_len);
-		/* If we can't pull a word from the next line up to this
-		 * one, just go on. */
-		if (!breakable(current->next->data + indent_len,
-			fill - display_len - 1))
-		    goto continue_loc;
-
-		break_pos = break_line(current->next->data + indent_len,
-			fill - display_len - 1, FALSE);
-
-		assert(break_pos != -1);
-
-		current->data = charealloc(current->data,
-			line_len + break_pos + 2);
-		current->data[line_len] = ' ';
-		strncpy(current->data + line_len + 1,
-			current->next->data + indent_len, break_pos);
-		current->data[line_len + break_pos + 1] = '\0';
-#ifndef NANO_SMALL
-		if (mark_beginbuf == current->next) {
-		    if (mark_beginx < indent_len + break_pos) {
-			mark_beginbuf = current;
-			if (mark_beginx <= indent_len)
-			    mark_beginx = line_len + 1;
-			else
-			    mark_beginx = line_len + 1 + mark_beginx -
-				indent_len;
-		    } else
-			mark_beginx -= break_pos + 1;
-		}
-#endif
-		next_line_len = strlen(current->next->data);
-		if (indent_len + break_pos == next_line_len) {
-		    filestruct *line = current->next;
-
-		    /* Don't destroy edittop! */
-		    if (line == edittop)
-			edittop = current;
-
-		    unlink_node(line);
-		    delete_node(line);
-		    totlines--;
-		    totsize -= indent_len;
-		    current_y--;
-
-		    /* Don't go to the next line.  Accordingly, don't
-		     * allow changing the spacing at the end of the
-		     * previous justified line, so that we don't end up
-		     * doing it more than once on the same line. */
-		    allow_respacing = FALSE;
-		} else {
-		    charmove(current->next->data + indent_len,
-			current->next->data + indent_len + break_pos + 1,
-			next_line_len - break_pos - indent_len);
-		    null_at(&current->next->data,
-			next_line_len - break_pos);
-
-		    /* Go to the next line. */
-		    current = current->next;
-		}
-	    } else
-  continue_loc:
-		/* Go to the next line. */
-		current = current->next;
-
-	    /* We've moved to the next line after justifying the
-	     * current line.  If the justified line was not the last
-	     * line of the paragraph, add a space to the end of it to
-	     * replace the one removed or left out by justify_format().
-	     * If it was the last line of the paragraph, and
-	     * justify_format() left a space on the end of it, remove
-	     * the space. */
-	    if (allow_respacing) {
-		size_t prev_line_len = strlen(current->prev->data);
-
-		if (par_len > 1) {
-		    current->prev->data =
-			charealloc(current->prev->data,
-			prev_line_len + 2);
-		    current->prev->data[prev_line_len] = ' ';
-		    current->prev->data[prev_line_len + 1] = '\0';
-		    totsize++;
-		} else if (par_len == 1 &&
-			current->prev->data[prev_line_len - 1] == ' ') {
-		    current->prev->data =
-			charealloc(current->prev->data, prev_line_len);
-		    current->prev->data[prev_line_len - 1] = '\0';
-		    totsize--;
-		}
+	    /* Adjust the mark coordinates to compensate for the change
+	     * in the current line. */
+	    if (mark_beginbuf == current && mark_beginx > break_pos) {
+		mark_beginbuf = current->next;
+		mark_beginx -= break_pos + 1 - indent_len;
 	    }
+#endif
+
+	    /* Break the line.  If this isn't the last line of the
+	     * paragraph, add a space after where we break it. */
+	    null_at(&current->data, break_pos);
+	    if (par_len > 1) {
+		current->data = charealloc(current->data,
+			break_pos + 2);
+		current->data[break_pos] = ' ';
+		current->data[break_pos + 1] = '\0';
+		totsize++;
+	    }
+
+	    /* Go to the next line. */
+	    par_len--;
+	    current_y++;
+	    current = current->next;
 	}
+
+	/* Go to the next line, the line after the last line of the
+	 * paragraph. */
+	current_y++;
+	current = current->next;
 
 	/* We've just justified a paragraph. If we're not justifying the
 	 * entire file, break out of the loop.  Otherwise, continue the
