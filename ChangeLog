@@ -97,11 +97,12 @@ CVS code -
 	  control_mbrep(), control_wrep(), mbwidth(), mb_cur_max(), and
 	  make_mbchar(); changes to is_blank_char() (moved to chars.c),
 	  is_cntrl_char() (moved to chars.c), parse_char() (renamed
-	  parse_mbchar() and moved to chars.c), do_verbatim_input(),
-	  do_delete(), do_tab(), do_input(), do_output(), get_buffer(),
-	  unget_input(), unget_kbinput(), get_input(), parse_kbinput(),
-	  unparse_kbinput(), parse_verbatim_kbinput(),
-	  do_statusbar_input(), do_statusbar_verbatim_kbinput(),
+	  parse_mbchar() and moved to chars.c), do_home(),
+	  do_verbatim_input(), do_delete(), do_tab(), do_input(),
+	  do_output(), get_buffer(), unget_input(), unget_kbinput(),
+	  get_input(), parse_kbinput(), unparse_kbinput(),
+	  parse_verbatim_kbinput(), do_statusbar_input(),
+	  do_statusbar_home(), do_statusbar_verbatim_kbinput(),
 	  do_statusbar_output(), and display_string(); removal of
 	  buffer_to_keys() and keys_to_buffer(). (DLR)
 - cut.c:
