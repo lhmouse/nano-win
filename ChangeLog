@@ -26,6 +26,9 @@ CVS code -
 	  by DLR.
 	- Call do_gotopos from do_alt_spell() to keep position
 	  consistent when invoking alt speller (DLR).
+	- Readded DISABLE_CURPOS because in certain instances (like
+	  all the "Search Wrapper" lines) the cursor position will
+	  be different yet we don't want the cursor position displayed.
 - cut.c:
   cut_marked_segment()
 	- Add magic line when cutting a selection including filebot
@@ -64,6 +67,8 @@ CVS code -
 	  bracketed, free-standing modifiers that do not imply a grammar,
 	  and the (to replace) string separately.  Hopefully this resolves
 	  the i18n problems that this provoked.
+  findnextstr()
+	- Various fixes that need testing (Ken Tyler).
 - winio.c:
 	- Add David Lawrence Ramsey to credits.
   bottombars()

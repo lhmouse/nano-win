@@ -3023,7 +3023,9 @@ int main(int argc, char *argv[])
 		}
 		do_char(kbinput);
 	    }
-	if (ISSET(CONSTUPDATE)) 
+	if (ISSET(DISABLE_CURPOS))
+	    UNSET(DISABLE_CURPOS);
+	else if (ISSET(CONSTUPDATE))
 	    if (current != oldcurrent || current_x != oldcurrent_x)
 		do_cursorpos();
 

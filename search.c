@@ -242,11 +242,11 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
     if (!ISSET(REVERSE_SEARCH)) {		/* forward search */
 
 	current_x_find = current_x + 1;
-
-	/* Are we now back to the line where the search started) */
+#if 0
+	/* Are we now back to the place where the search started) */
 	if ((fileptr == begin) && (beginx > current_x_find))
 	    search_last_line = 1;
-
+#endif
 	/* Make sure we haven't passed the end of the string */
 	if (strlen(fileptr->data) < current_x_find)
 	    current_x_find--;
@@ -265,7 +265,7 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 
 	    fileptr = fileptr->next;
 
-	    if (!past_editbuff && (fileptr == editbot))
+	    if (fileptr == editbot)
 		past_editbuff = 1;
 
 	    /* EOF reached ?, wrap around once */
@@ -274,8 +274,10 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 		   return NULL;
 		fileptr = fileage;
 		past_editbuff = 1;
-		if (!quiet)
+		if (!quiet) {
 		   statusbar(_("Search Wrapped"));
+		SET(DISABLE_CURPOS);
+		}
 	    }
 
 	    /* Original start line reached */
@@ -287,19 +289,19 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 
 	/* We found an instance */
 	current_x_find = found - fileptr->data;
-
+#if 0
 	/* Ensure we haven't wrapped around again! */
 	if ((search_last_line) && (current_x_find >= beginx)) {
 	    if (!quiet)
 		not_found_msg(needle);
 	    return NULL;
 	}
-
+#endif
     } else {	/* reverse search */
 
 	current_x_find = current_x - 1;
 
-	/* Are we now back to the line where the search started) */
+	/* Are we now back to the place where the search started) */
 	if ((fileptr == begin) && (current_x_find > beginx))
 	    search_last_line = 1;
 
@@ -323,7 +325,7 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 
 	    fileptr = fileptr->prev;
 
-/* ? */	    if (!past_editbuff && (fileptr == edittop->prev))
+	    if (fileptr == edittop->prev)
 		past_editbuff = 1;
 
 	    /* SOF reached ?, wrap around once */
@@ -332,8 +334,10 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 		   return NULL;
 		fileptr = filebot;
 		past_editbuff = 1;
-		if (!quiet)
+		if (!quiet) {
 		    statusbar(_("Search Wrapped"));
+		    SET(DISABLE_CURPOS);
+		}
 	    }
 
 	    /* Original start line reached */
@@ -346,13 +350,14 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 
 	/* We found an instance */
 	current_x_find = found - fileptr->data;
-
+#if 0
 	/* Ensure we haven't wrapped around again! */
 	if ((search_last_line) && (current_x_find < beginx)) {
 	    if (!quiet)
 		not_found_msg(needle);
 	    return NULL;
 	}
+#endif
     }
 
     /* Set globals now that we are sure we found something */

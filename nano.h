@@ -143,6 +143,7 @@ typedef struct rcoption {
 #define DOS_FILE		(1<<21)
 #define MAC_FILE		(1<<22)
 #define SMOOTHSCROLL		(1<<23)
+#define DISABLE_CURPOS		(1<<24)	/* Damn, we still need it */
 
 /* Control key sequences, changing these would be very very bad */
 
