@@ -832,7 +832,7 @@ void update_line(filestruct * fileptr, int index)
 	edit_add(filetmp, line, col, virt_cur_x, virt_mark_beginx, page);
 	mvwaddch(edit, line, 0, '$');
 
-	if (strlenpt(fileptr->data) > get_page_end_virtual(page))
+	if (strlenpt(fileptr->data) > get_page_end_virtual(page) + 1)
 	    mvwaddch(edit, line, COLS - 1, '$');
     } else {
 	/* It's not the current line means that it's at x=0 and page=1 */
@@ -1329,6 +1329,40 @@ void fix_editbot(void)
     editbot = edittop;
     for (i = 0; (i <= editwinrows - 1) && (editbot->next != NULL)
 	 && (editbot != filebot); i++, editbot = editbot->next);
+}
+
+/* highlight the current word being replaced or spell checked */
+void do_replace_highlight(int highlight_flag, char *word)
+{
+    char *highlight_word = NULL;
+    int x, y;
+
+    highlight_word = mallocstrcpy(highlight_word, &current->data[current_x]);
+    highlight_word[strlen(word)] = '\0';
+
+    /* adjust output when word extends beyond screen*/
+
+    x = xplustabs();
+    y = get_page_end_virtual(get_page_from_virtual(x)) + 1;
+
+    if ((COLS - (y - x) + strlen(word)) > COLS) {
+	highlight_word[y - x - 1] = '$';
+	highlight_word[y - x] = '\0';
+    }
+
+    /* OK display the output */
+
+    reset_cursor();
+    
+    if (highlight_flag)
+	wattron(edit, A_REVERSE);
+
+    waddstr(edit, highlight_word);
+
+    if (highlight_flag)
+	wattroff(edit, A_REVERSE);
+
+    free(highlight_word);
 }
 
 #ifdef NANO_EXTRA

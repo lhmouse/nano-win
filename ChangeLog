@@ -10,6 +10,11 @@ CVS code -
 - winio.c:
   edit_add()
 	- Off by one display error (fix by Rocco Corsi).
+  do_replace_highlight()
+	- New code to handle being past COLS (Roco Corsi).
+	- Moved from search.c, as it's definitely a winio function now =)
+  update_line()
+	- More '$' display fixes (Rocco Corsi).
 
 nano 0.9.22 - 12/02/2000
 - General

@@ -468,27 +468,6 @@ char *replace_line(void)
     return copy;
 }
 
-/* highlight the current word being replaced or spell checked */
-void do_replace_highlight(int highlight_flag, char *word)
-{
-    char *highlight_word = NULL;
-
-    highlight_word = mallocstrcpy(highlight_word, &current->data[current_x]);
-    highlight_word[strlen(word)] = '\0';
-
-    reset_cursor();
-    
-    if (highlight_flag)
-	wattron(edit, A_REVERSE);
-
-    waddstr(edit, highlight_word);
-
-    if (highlight_flag)
-	wattroff(edit, A_REVERSE);
-
-    free(highlight_word);
-}
-
 /* step through each replace word and prompt user before replacing word */
 int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 			int wholewords, int *i)
