@@ -2992,6 +2992,7 @@ void do_justify(bool full_justify)
 
 		break_pos = break_line(current->next->data + indent_len,
 			fill - display_len - 1, FALSE);
+
 		assert(break_pos != -1);
 
 		current->data = charealloc(current->data,
