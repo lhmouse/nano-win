@@ -1487,7 +1487,7 @@ bool do_int_spell_fix(const char *word)
 
 	    if (accepted && strcmp(word, answer) != 0) {
 		current_x--;
-		do_replace_loop(word, current_save, &current_x_save, TRUE);
+		do_replace_loop(word, current, &current_x, TRUE);
 	    }
 
 	    break;

@@ -151,6 +151,10 @@ CVS code -
 	  NANO_SMALL is defined and DISABLE_SPELLER isn't.  Also, turn
 	  the USE_REGEXP flag off during spell checking in order to
 	  avoid a potential segfault. (DLR)
+	- Fix a problem where if the cursor is in the middle of a file,
+	  the spell checker will sometimes only correct the misspelled
+	  word instances that appear before the cursor position and then
+	  stop. (Rocco)
   do_alt_speller()
 	- Call terminal_init() unconditionally after running the
 	  alternate spell checker, so that the terminal state is
