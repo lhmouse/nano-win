@@ -370,9 +370,9 @@ void shortcut_init(bool unjustify)
  * point is that sc_init_one() takes 9 arguments, unless DISABLE_HELP is
  * defined, when the 4th one should not be there. */
 #ifndef DISABLE_HELP
-#  define IFHELP(help, nextvar) help, nextvar
+#define IFHELP(help, nextvar) help, nextvar
 #else
-#  define IFHELP(help, nextvar) nextvar
+#define IFHELP(help, nextvar) nextvar
 #endif
 
     free_shortcutage(&main_list);
