@@ -2,6 +2,9 @@ CVS code -
 - po/de.po:
 	- Updated German translation (Karl Eichwalder).
 - nano.c:
+  do_spell()
+	- Dont prompt for replace if we don't change the word in 
+	  question (Rocco Corsi).
   main()
 	- Added better Hurd support for function keys (Alt-V,U,9,@,F).
   signal_init()
