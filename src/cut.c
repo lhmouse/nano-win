@@ -222,9 +222,9 @@ void do_cut_text(void)
      * does clear the cutbuffer if keep_cutbuffer is FALSE. */
     if (current == filebot
 #ifndef NANO_SMALL
-			&& !ISSET(MARK_ISSET)
+		&& !ISSET(MARK_ISSET)
 #endif
-						)
+		)
 	return;
 
     keep_cutbuffer = TRUE;
