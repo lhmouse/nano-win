@@ -64,7 +64,8 @@ CVS code -
 	- Autogenerate the html versions of the manpages in the
 	  Makefile.am's in doc/man/, make sure that they're properly
 	  installed via "make dist", and make sure that "make distcheck"
-	  works too. (Jordi, DLR and Jeff Bailey)
+	  works too.  Also be sure to set EXTRA_DIST properly. (Jordi,
+	  DLR and Jeff Bailey)
 - files.c:
   read_file()
 	- After we've read in a file and possibly converted it from
