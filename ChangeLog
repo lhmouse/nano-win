@@ -1,7 +1,13 @@
 CVS code
 - nano.c:
-  splice_node():
+  splice_node()
 	- New function, abstracts linking in nodes.   Fixes bug #36.
+  delete_buffer()
+	- Removed, same as free_filestruct().
+- search.c:
+  replace_abort()
+	- redundant, now just calls search abort until it does something
+	  different.  
 
 nano-0.9.14 - 07/27/2000
 - nano.h:

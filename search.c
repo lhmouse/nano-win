@@ -244,14 +244,10 @@ void print_replaced(int num)
 
 void replace_abort(void)
 {
-    UNSET(KEEP_CUTBUFFER);
-    display_main_list();
-    reset_cursor();
-
-#ifdef _POSIX_VERSION
-    if (ISSET(REGEXP_COMPILED))
-        regexp_cleanup();
-#endif
+    /* Identicle to search_abort, so we'll call it here.  If it
+       does something different later, we can change it back.  For now
+       it's just a waste to duplicat code */
+    search_abort();
 }
 
 #ifdef _POSIX_VERSION

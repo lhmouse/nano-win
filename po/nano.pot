@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-07-27 21:00-0400\n"
+"POT-Creation-Date: 2000-07-27 21:18-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,7 +55,7 @@ msgstr ""
 msgid "File to insert [from ./] "
 msgstr ""
 
-#: files.c:272 files.c:296 files.c:486 nano.c:1155
+#: files.c:272 files.c:296 files.c:486 nano.c:1146
 msgid "Cancelled"
 msgstr ""
 
@@ -576,85 +576,85 @@ msgstr ""
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr ""
 
-#: nano.c:941
+#: nano.c:932
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr ""
 
-#: nano.c:994
+#: nano.c:985
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr ""
 
-#: nano.c:1064
+#: nano.c:1055
 msgid "Error deleting tempfile, ack!"
 msgstr ""
 
-#: nano.c:1082
+#: nano.c:1073
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr ""
 
-#: nano.c:1105
+#: nano.c:1096
 #, c-format
 msgid "Could not invoke spell program \"%s\""
 msgstr ""
 
 #. Why 32512? I dont know!
-#: nano.c:1111
+#: nano.c:1102
 msgid "Could not invoke \"ispell\""
 msgstr ""
 
-#: nano.c:1124
+#: nano.c:1115
 msgid "Finished checking spelling"
 msgstr ""
 
-#: nano.c:1142
+#: nano.c:1133
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 
-#: nano.c:1265
+#: nano.c:1256
 msgid "Cannot resize top win"
 msgstr ""
 
-#: nano.c:1267
+#: nano.c:1258
 msgid "Cannot move top win"
 msgstr ""
 
-#: nano.c:1269
+#: nano.c:1260
 msgid "Cannot resize edit win"
 msgstr ""
 
-#: nano.c:1271
+#: nano.c:1262
 msgid "Cannot move edit win"
 msgstr ""
 
-#: nano.c:1273
+#: nano.c:1264
 msgid "Cannot resize bottom win"
 msgstr ""
 
-#: nano.c:1275
+#: nano.c:1266
 msgid "Cannot move bottom win"
 msgstr ""
 
-#: nano.c:1748
+#: nano.c:1743
 msgid "Main: set up windows\n"
 msgstr ""
 
-#: nano.c:1770
+#: nano.c:1765
 msgid "Main: bottom win\n"
 msgstr ""
 
-#: nano.c:1776
+#: nano.c:1771
 msgid "Main: open file\n"
 msgstr ""
 
-#: nano.c:1849
+#: nano.c:1844
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:1865
+#: nano.c:1860
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr ""
@@ -700,38 +700,38 @@ msgstr ""
 msgid "Replaced 1 occurence"
 msgstr ""
 
-#: search.c:381 search.c:402 search.c:425
+#: search.c:377 search.c:398 search.c:421
 msgid "Replace Cancelled"
 msgstr ""
 
-#: search.c:398
+#: search.c:394
 #, c-format
 msgid "Replace with [%s]"
 msgstr ""
 
 #. last_search is empty
-#: search.c:423
+#: search.c:419
 msgid "Replace with"
 msgstr ""
 
-#: search.c:464
+#: search.c:460
 msgid "Replace this instance?"
 msgstr ""
 
 #. Ask for it
-#: search.c:515
+#: search.c:511
 msgid "Enter line number"
 msgstr ""
 
-#: search.c:517
+#: search.c:513
 msgid "Aborted"
 msgstr ""
 
-#: search.c:537
+#: search.c:533
 msgid "Come on, be reasonable"
 msgstr ""
 
-#: search.c:542
+#: search.c:538
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr ""
