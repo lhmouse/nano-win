@@ -1012,7 +1012,7 @@ int do_verbatim_input(void)
      * on, it will be updated properly. */
     SET(DISABLE_CURPOS);
     for (i = 0; i < verbatim_len; i++)
-	do_char(verbatim_kbinput[i]);
+	do_char((char)verbatim_kbinput[i]);
     UNSET(DISABLE_CURPOS);
 
     free(verbatim_kbinput);
