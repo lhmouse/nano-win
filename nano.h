@@ -287,14 +287,14 @@ know what you're doing */
 
 #ifndef HAVE_REGEX_H
 #define NO_REGEX 1
+#define SMALL_TOO 0
+#else 
+#define NO_REGEX 0
 #ifdef NANO_SMALL
 #define SMALL_TOO 1
 #else
 #define SMALL_TOO 0
 #endif /* NANO_SMALL */
-#else 
-#define NO_REGEX 0
-#define SMALL_TOO 0
 #endif /* HAVE_REGEX_H */
 
 #ifdef DISABLE_BROWSER
