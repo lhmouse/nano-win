@@ -38,6 +38,41 @@
 #include <wctype.h>
 #endif
 
+/* This function is equivalent to isalnum(). */
+bool is_alnum_char(unsigned int c)
+{
+    return isalnum(c);
+}
+
+/* This function is equivalent to isalnum() for multibyte characters. */
+bool is_alnum_mbchar(const char *c)
+{
+    assert(c != NULL);
+
+#ifdef NANO_WIDE
+    if (!ISSET(NO_UTF8)) {
+	wchar_t wc;
+	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX);
+
+	if (c_mb_len <= 0) {
+	    mbtowc(NULL, NULL, 0);
+	    wc = (unsigned char)*c;
+	}
+
+	return is_alnum_wchar(wc);
+    } else
+#endif
+	return is_alnum_char((unsigned char)*c);
+}
+
+#ifdef NANO_WIDE
+/* This function is equivalent to isalnum() for wide characters. */
+bool is_alnum_wchar(wchar_t wc)
+{
+    return iswalnum(wc);
+}
+#endif
+
 /* This function is equivalent to isblank(). */
 bool is_blank_char(unsigned int c)
 {

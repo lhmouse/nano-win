@@ -93,20 +93,22 @@ CVS code -
 	  them to work with multibyte strings as much as possible, add
 	  support to a few more functions as well, and move multibyte
 	  character-specific functions to their own source file.  New
-	  file chars.c; new functions is_blank_mbchar(),
+	  file chars.c; new functions is_alnum_char(),
+	  is_alnum_mbchar(), is_alnum_wchar(), is_blank_mbchar(),
 	  is_blank_wchar(), is_cntrl_mbchar(), is_cntrl_wchar(),
 	  mbstrnlen(), control_mbrep(), control_wrep(), mbwidth(),
 	  mb_cur_max(), and make_mbchar(); changes to is_blank_char()
 	  (moved to chars.c), is_cntrl_char() (moved to chars.c),
 	  nstrnlen() (moved to chars.c), parse_char() (renamed
 	  parse_mbchar() and moved to chars.c), do_home(),
-	  do_verbatim_input(), do_delete(), do_tab(), do_input(),
-	  do_output(), get_buffer(), unget_input(), unget_kbinput(),
-	  get_input(), parse_kbinput(), unparse_kbinput(),
-	  parse_verbatim_kbinput(), do_statusbar_input(),
-	  do_statusbar_home(), do_statusbar_verbatim_kbinput(),
-	  do_statusbar_output(), and display_string(); removal of
-	  buffer_to_keys() and keys_to_buffer(). (DLR)
+	  do_verbatim_input(), do_delete(), do_tab(), do_next_word(),
+	  do_input(), do_output(), get_buffer(), unget_input(),
+	  unget_kbinput(), get_input(), parse_kbinput(),
+	  unparse_kbinput(), parse_verbatim_kbinput(),
+	  do_statusbar_input(), do_statusbar_home(),
+	  do_statusbar_verbatim_kbinput(), do_statusbar_output(), and
+	  display_string(); removal of buffer_to_keys() and
+	  keys_to_buffer(). (DLR)
 - cut.c:
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the

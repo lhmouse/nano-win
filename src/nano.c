@@ -1315,41 +1315,65 @@ void do_enter(void)
 }
 
 #ifndef NANO_SMALL
+/* Move to the next word. */
 void do_next_word(void)
 {
-    size_t old_pww = placewewant;
-    const filestruct *old_current = current;
+    size_t pww_save = placewewant;
+    const filestruct *current_save = current;
+    char *char_mb = charalloc(mb_cur_max());
+
     assert(current != NULL && current->data != NULL);
 
     /* Skip letters in this word first. */
-    while (current->data[current_x] != '\0' &&
-	isalnum(current->data[current_x]))
-	current_x++;
+    while (current->data[current_x] != '\0') {
+	parse_mbchar(current->data + current_x, char_mb
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		, NULL);
 
+	if (!is_alnum_mbchar(char_mb))
+	    break;
+
+	current_x = move_right(current->data, current_x);
+    }
+
+    /* Go until we find the first letter of the next word. */
     for (; current != NULL; current = current->next) {
-	while (current->data[current_x] != '\0' &&
-		!isalnum(current->data[current_x]))
-	    current_x++;
+	while (current->data[current_x] != '\0') {
+	    parse_mbchar(current->data + current_x, char_mb
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		, NULL);
+
+	    if (is_alnum_mbchar(char_mb))
+		break;
+
+	    current_x = move_right(current->data, current_x);
+	}
 
 	if (current->data[current_x] != '\0')
 	    break;
 
 	current_x = 0;
     }
+
     if (current == NULL)
 	current = filebot;
 
     placewewant = xplustabs();
 
     /* Update the screen. */
-    edit_redraw(old_current, old_pww);
+    edit_redraw(current_save, pww_save);
 }
 
-/* The same thing for backwards. */
+/* Move to the previous word. */
 void do_prev_word(void)
 {
-    size_t old_pww = placewewant;
-    const filestruct *old_current = current;
+    size_t pww_save = placewewant;
+    const filestruct *current_save = current;
+
     assert(current != NULL && current->data != NULL);
 
     current_x++;
@@ -1358,6 +1382,7 @@ void do_prev_word(void)
     while (current_x > 0 && isalnum(current->data[current_x - 1]))
 	current_x--;
 
+    /* Go until we find the first letter of the previous word. */
     for (; current != NULL; current = current->prev) {
 	while (current_x > 0 && !isalnum(current->data[current_x - 1]))
 	    current_x--;
@@ -1382,7 +1407,7 @@ void do_prev_word(void)
     placewewant = xplustabs();
 
     /* Update the screen. */
-    edit_redraw(old_current, old_pww);
+    edit_redraw(current_save, pww_save);
 }
 
 void do_mark(void)
