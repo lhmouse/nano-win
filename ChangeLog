@@ -229,6 +229,8 @@ Changes
 	  Also fix minor problem with search history where the current
 	  search item could be at the bottom of the history twice in a
 	  row under certain conditions. (DLR)
+	- Move down NANO_SMALL in tab check so nano won't complain if
+	  just NANO_SMALL is defined (David Benbennick, presumed fix).
   edit_refresh()
 	- Miscellaneous cleanups that fix a bug where the screen
 	  isn't updated after uncutting chunks of upwardly marked cut

@@ -336,7 +336,6 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 #ifndef DISABLE_TABCOMP
 	    else {
 #endif
-#endif
 #ifndef DISABLE_TABCOMP
 		if (allowtabs) {
 		    int shift = 0;
@@ -349,6 +348,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		}
 	    }
 #endif
+#endif /* NANO_SMALL */
 	    break;
 	case KEY_LEFT:
 	case NANO_BACK_KEY:
