@@ -10,6 +10,9 @@ CVS code -
 	  shortcut isn't clicked.  New functions get_shortcut(),
 	  get_toggle(), get_edit_input(), and get_edit_mouse(); changes
 	  to do_browser(), do_justify(), do_help(), and main(). (DLR)
+- global.c:
+  shortcut_init()
+	- Remove redundant NANO_SMALL #ifdef. (DLR)
 - rcfile.c:
   parse_rcfile()
 	- Add missing brackets around an if statement block so that

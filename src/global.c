@@ -629,13 +629,10 @@ void shortcut_init(int unjustify)
 	NANO_NO_KEY, VIEW, 0);
 #endif
 
-#ifndef NANO_SMALL
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_HISTORY_KEY, history_msg,
 	IFHELP(nano_editstr_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, 0);
-#endif
-
 #endif /* !NANO_SMALL */
 
     free_shortcutage(&replace_list);
