@@ -8,6 +8,8 @@ CVS code -
 	- Replaced by mutt's mutt_stristr function, because the thought 
 	  of dynamically allocating memory and copying each line in a file
 	  to do a search or replace was causing me to lose sleep.
+- po/it.po
+	- Updated Italian translation by Marco Colombo.
 
 nano 1.0.2 - 05/12/2001
 - General:
