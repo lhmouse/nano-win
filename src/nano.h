@@ -35,6 +35,7 @@
 /* Define charalloc as a macro rather than duplicating code */
 #define charalloc(howmuch) (char *)nmalloc((howmuch) * sizeof(char))
 #define charealloc(ptr, howmuch) (char *)nrealloc(ptr, (howmuch) * sizeof(char))
+#define charmove(dest, src, n) memmove(dest, src, (n) * sizeof(char))
 #ifdef BROKEN_REGEXEC
 #define regexec(preg, string, nmatch, pmatch, eflags) regexec_safe(preg, string, nmatch, pmatch, eflags)
 #endif

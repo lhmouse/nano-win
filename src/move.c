@@ -81,7 +81,7 @@ int do_page_up(void)
 #endif
     }
     /* Get the equivalent x-coordinate of the new line. */
-    current_x = actual_x(current, placewewant);
+    current_x = actual_x(current->data, placewewant);
 
     edit_refresh();
 
@@ -125,7 +125,7 @@ int do_page_down(void)
 #endif
     }
     /* Get the equivalent x-coordinate of the new line. */
-    current_x = actual_x(current, placewewant);
+    current_x = actual_x(current->data, placewewant);
 
     edit_refresh();
 
@@ -145,7 +145,7 @@ int do_up(void)
 
     assert(current_y == current->lineno - edittop->lineno);
     current = current->prev;
-    current_x = actual_x(current, placewewant);
+    current_x = actual_x(current->data, placewewant);
     if (current_y > 0) {
 	update_line(current->next, 0);
 	    /* It was necessary to change current first, so the mark
@@ -175,7 +175,7 @@ int do_down(void)
 
     assert(current_y == current->lineno - edittop->lineno);
     current = current->next;
-    current_x = actual_x(current, placewewant);
+    current_x = actual_x(current->data, placewewant);
 
     /* Note that current_y is zero-based.  This test checks for the
      * cursor's being not on the last row of the edit window. */

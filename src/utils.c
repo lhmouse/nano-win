@@ -302,6 +302,28 @@ void new_magicline(void)
     totsize++;
 }
 
+#ifndef NANO_SMALL
+/* Set top_x and bot_x to the top and bottom x-coordinates of the mark,
+ * respectively, based on the locations of top and bot. */
+void mark_order(const filestruct **top, size_t *top_x,
+		const filestruct **bot, size_t *bot_x)
+{
+    assert(top != NULL && top_x != NULL && bot != NULL && bot_x != NULL);
+    if ((current->lineno == mark_beginbuf->lineno && current_x > mark_beginx)
+	|| current->lineno > mark_beginbuf->lineno) {
+	*top = mark_beginbuf;
+	*top_x = mark_beginx;
+	*bot = current;
+	*bot_x = current_x;
+    } else {
+	*bot = mark_beginbuf;
+	*bot_x = mark_beginx;
+	*top = current;
+	*top_x = current_x;
+    }
+}
+#endif
+
 #ifndef DISABLE_TABCOMP
 /*
  * Routine to see if a text string is matched by a wildcard pattern.

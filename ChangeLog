@@ -38,6 +38,20 @@ CVS code -
 	  wrap_reset() calls with DISABLE_WRAPPING #ifdefs. (DLR)
 	- Change enum "topmidbotnone" to "topmidnone", as there's no
 	  BOTTOM option anymore. (DLR)
+	- Split out the string-displaying routine from update_line()
+	  into a separate function; convert the edit window, statusbar
+	  display, and statusbar prompt to use it, so that they can all
+	  properly display control characters and tabs; free and NULL
+	  the backup search string in one place in the search code
+	  instead of several; and do some other minor refactoring of
+	  related display functions to simplify them.  New functions
+	  mark_order() and display_string(); changes to actual_x(),
+	  edit_add(), update_line(), statusbar(), and
+	  do_replace_highlight(). (David Benbennick)  DLR: Add minor
+	  cosmetic tweaks, add missing NANO_SMALL #ifdef around the text
+	  for a backwards search in the refactored code, and enclose
+	  dump_buffer() and dump_buffer_reverse() in one ENABLE_DEBUG
+	  #ifdef instead of two.
 - files.c:
   do_browser()
 	- Some of the Pico compatibility options in the file browser

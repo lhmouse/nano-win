@@ -917,7 +917,7 @@ void do_mouse(void)
 	for(; current_y > mevent.y && current->prev != NULL; current_y--)
 	    current = current->prev;
 
-	xcur = actual_x(current, get_page_start(xplustabs()) + mevent.x);
+	xcur = actual_x(current->data, get_page_start(xplustabs()) + mevent.x);
 
 	/* Selecting where the cursor is toggles the mark.  As does
 	   selecting beyond the line length with the cursor at the end of

@@ -426,6 +426,10 @@ void *nmalloc(size_t howmuch);
 void *nrealloc(void *ptr, size_t howmuch);
 char *mallocstrcpy(char *dest, const char *src);
 void new_magicline(void);
+#ifndef NANO_SMALL
+void mark_order(const filestruct **top, size_t *top_x,
+		const filestruct **bot, size_t *bot_x);
+#endif
 #ifndef DISABLE_TABCOMP
 int check_wildcard_match(const char *text, const char *pattern);
 #endif
@@ -443,7 +447,7 @@ int do_first_line(void);
 int do_last_line(void);
 int xpt(const filestruct *fileptr, int index);
 size_t xplustabs(void);
-size_t actual_x(const filestruct *fileptr, size_t xplus);
+size_t actual_x(const char *str, size_t xplus);
 size_t strnlenpt(const char *buf, size_t size);
 size_t strlenpt(const char *buf);
 void blank_bottombars(void);
@@ -452,7 +456,8 @@ void blank_edit(void);
 void blank_statusbar(void);
 void blank_statusbar_refresh(void);
 void check_statblank(void);
-void nanoget_repaint(const char *buf, const char *inputbuf, int x);
+char *display_string(const char *buf, size_t start_col, int len);
+void nanoget_repaint(const char *buf, const char *inputbuf, size_t x);
 int nanogetstr(int allowtabs, const char *buf, const char *def,
 #ifndef NANO_SMALL
 		historyheadtype *history_list,
@@ -473,12 +478,9 @@ int get_page_start(int column);
 void reset_cursor(void);
 void add_marked_sameline(int begin, int end, filestruct *fileptr, int y,
 			 int virt_cur_x, int this_page);
-void edit_add(const filestruct *fileptr, int yval, int start
-#ifndef NANO_SMALL
-		, int virt_mark_beginx,	int virt_cur_x
-#endif
-		);
-void update_line(filestruct *fileptr, int index);
+void edit_add(const filestruct *fileptr, const char *converted,
+		int yval, size_t start);
+void update_line(const filestruct *fileptr, size_t index);
 void update_cursor(void);
 void center_cursor(void);
 void edit_refresh(void);

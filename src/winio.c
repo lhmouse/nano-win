@@ -343,35 +343,31 @@ size_t xplustabs(void)
     return strnlenpt(current->data, current_x);
 }
 
-/* Return what current_x should be, given xplustabs() for the line. */
-size_t actual_x(const filestruct *fileptr, size_t xplus)
+/* actual_x() gives the index in str of the character displayed at
+ * column xplus.  That is, actual_x() is the largest value such that
+ * strnlenpt(str, actual_x(str, xplus)) <= xplus. */
+size_t actual_x(const char *str, size_t xplus)
 {
     size_t i = 0;
-	/* the position in fileptr->data, returned */
+	/* the position in str, returned */
     size_t length = 0;
-	/* the screen display width to data[i] */
-    char *c;
-	/* fileptr->data + i */
+	/* the screen display width to str[i] */
 
-    assert(fileptr != NULL && fileptr->data != NULL);
+    assert(str != NULL);
 
-    for (c = fileptr->data; length < xplus && *c != '\0'; i++, c++) {
-	if (*c == '\t')
+    for (; length < xplus && *str != '\0'; i++, str++) {
+	if (*str == '\t')
 	    length += tabsize - length % tabsize;
-	else if (is_cntrl_char((int)*c))
+	else if (is_cntrl_char((int)*str))
 	    length += 2;
 	else
 	    length++;
     }
-    assert(length == strnlenpt(fileptr->data, i));
-    assert(i <= strlen(fileptr->data));
+    assert(length == strnlenpt(str - i, i));
+    assert(i <= strlen(str - i));
 
     if (length > xplus)
 	i--;
-
-#ifdef DEBUG
-    fprintf(stderr, "actual_x for xplus=%d returns %d\n", xplus, i);
-#endif
 
     return i;
 }
@@ -444,26 +440,97 @@ void check_statblank(void)
     }
 }
 
+/* Convert buf into a string that can be displayed on screen.  The
+ * caller wants to display buf starting with column start_col, and
+ * extending for at most len columns.  start_col is zero-based.  len is
+ * one-based, so len == 0 means you get "" returned.  The returned
+ * string is dynamically allocated, and should be freed. */
+char *display_string(const char *buf, size_t start_col, int len)
+{
+    size_t start_index;
+	/* Index in buf of first character shown in return value. */
+    size_t column;
+	/* Screen column start_index corresponds to. */
+    size_t end_index;
+	/* Index in buf of last character shown in return value. */
+    size_t alloc_len;
+	/* The length of memory allocated for converted. */
+    char *converted;
+	/* The string we return. */
+    size_t index;
+	/* Current position in converted. */
+
+    if (len == 0)
+	return mallocstrcpy(NULL, "");
+
+    start_index = actual_x(buf, start_col);
+    column = strnlenpt(buf, start_index);
+    assert(column <= start_col);
+    end_index = actual_x(buf, start_col + len - 1);
+    alloc_len = strnlenpt(buf, end_index + 1) - column;
+    if (len > alloc_len + column - start_col)
+	len = alloc_len + column - start_col;
+    converted = charalloc(alloc_len + 1);
+    buf += start_index;
+    index = 0;
+
+    for (; index < alloc_len; buf++) {
+	if (*buf == '\t')
+	    do {
+		converted[index++] = ' ';
+	    } while ((column + index) % tabsize);
+	else if (is_cntrl_char(*buf)) {
+	    converted[index++] = '^';
+	    if (*buf == '\n')
+		/* Treat newlines embedded in a line as encoded nulls;
+		 * the line in question should be run through unsunder()
+		 * before reaching here. */
+		converted[index++] = '@';
+	    else if (*buf == NANO_CONTROL_8)
+		converted[index++] = '?';
+	    else
+		converted[index++] = *buf + 64;
+	} else
+	    converted[index++] = *buf;
+    }
+    assert(len <= alloc_len + column - start_col);
+    charmove(converted, converted + start_col - column, len);
+    null_at(&converted, len);
+
+    return charealloc(converted, len + 1);
+}
+
 /* Repaint the statusbar when getting a character in nanogetstr().  buf
- * should be no longer than COLS - 4.
+ * should be no longer than max(0, COLS - 4).
  *
  * Note that we must turn on A_REVERSE here, since do_help() turns it
  * off! */
-void nanoget_repaint(const char *buf, const char *inputbuf, int x)
+void nanoget_repaint(const char *buf, const char *inputbuf, size_t x)
 {
-    int len = strlen(buf) + 2;
-    int wid = COLS - len;
+    size_t x_real = strnlenpt(inputbuf, x);
+    int wid = COLS - strlen(buf) - 2;
 
-    assert(wid >= 2);
     assert(0 <= x && x <= strlen(inputbuf));
 
     wattron(bottomwin, A_REVERSE);
     blank_statusbar();
+
     mvwaddstr(bottomwin, 0, 0, buf);
     waddch(bottomwin, ':');
-    waddch(bottomwin, x < wid ? ' ' : '$');
-    waddnstr(bottomwin, &inputbuf[wid * (x / wid)], wid);
-    wmove(bottomwin, 0, (x % wid) + len);
+
+    if (COLS > 1)
+	waddch(bottomwin, x_real < wid ? ' ' : '$');
+    if (COLS > 2) {
+	size_t page_start = x_real - x_real % wid;
+	char *expanded = display_string(inputbuf, page_start, wid);
+
+	assert(wid > 0);
+	assert(strlen(expanded) <= wid);
+	waddstr(bottomwin, expanded);
+	free(expanded);
+	wmove(bottomwin, 0, COLS - wid + x_real - page_start);
+    } else
+	wmove(bottomwin, 0, COLS - 1);
     wattroff(bottomwin, A_REVERSE);
 }
 
@@ -933,23 +1000,34 @@ void reset_cursor(void)
     wmove(edit, current_y, x - get_page_start(x));
 }
 
-/* edit_add() takes care of the job of actually painting a line into
- * the edit window.  Called only from update_line().  Expects a
- * converted-to-not-have-tabs line. */
-void edit_add(const filestruct *fileptr, int yval, int start
-#ifndef NANO_SMALL
-		, int virt_mark_beginx,	int virt_cur_x
-#endif
-		)
+/* edit_add() takes care of the job of actually painting a line into the
+ * edit window.  fileptr is the line to be painted, at row yval of the
+ * window.  converted is the actual string to be written to the window,
+ * with tabs and control characters replaced by strings of regular
+ * characters.  start is the column number of the first character
+ * of this page.  That is, the first character of converted corresponds to
+ * character number actual_x(fileptr->data, start) of the line. */
+void edit_add(const filestruct *fileptr, const char *converted,
+		int yval, size_t start)
 {
-#ifdef DEBUG
-    fprintf(stderr, "Painting line %d, current is %d\n", fileptr->lineno,
-		current->lineno);
+#if defined(ENABLE_COLOR) || !defined(NANO_SMALL)
+    size_t startpos = actual_x(fileptr->data, start);
+	/* The position in fileptr->data of the leftmost character
+	 * that displays at least partially on the window. */
+    size_t endpos = actual_x(fileptr->data, start + COLS - 1) + 1;
+	/* The position in fileptr->data of the first character that is
+	 * completely off the window to the right.
+	 *
+	 * Note that endpos might be beyond the null terminator of the
+	 * string. */
 #endif
 
+    assert(fileptr != NULL && converted != NULL);
+    assert(strlen(converted) <= COLS);
+
     /* Just paint the string in any case (we'll add color or reverse on
-       just the text that needs it */
-    mvwaddnstr(edit, yval, 0, &fileptr->data[start], COLS);
+     * just the text that needs it). */
+    mvwaddstr(edit, yval, 0, converted);
 
 #ifdef ENABLE_COLOR
     if (colorstrings != NULL && ISSET(COLOR_SYNTAX)) {
@@ -959,16 +1037,16 @@ void edit_add(const filestruct *fileptr, int yval, int start
 	    int x_start;
 		/* Starting column for mvwaddnstr.  Zero-based. */
 	    int paintlen;
-		/* number of chars to paint on this line.  There are COLS
+		/* Number of chars to paint on this line.  There are COLS
 		 * characters on a whole line. */
-	    regmatch_t startmatch;	/* match position for start_regexp*/
-	    regmatch_t endmatch;	/* match position for end_regexp*/
+	    regmatch_t startmatch;	/* match position for start_regexp */
+	    regmatch_t endmatch;	/* match position for end_regexp */
 
 	    if (tmpcolor->bright)
 		wattron(edit, A_BOLD);
 	    wattron(edit, COLOR_PAIR(tmpcolor->pairnum));
-	    /* Two notes about regexec.  Return value 0 means there is a
-	     * match.  Also, rm_eo is the first non-matching character
+	    /* Two notes about regexec().  Return value 0 means there is
+	     * a match.  Also, rm_eo is the first non-matching character
 	     * after the match. */
 
 	    /* First case, tmpcolor is a single-line expression. */
@@ -976,16 +1054,16 @@ void edit_add(const filestruct *fileptr, int yval, int start
 		size_t k = 0;
 
 		/* We increment k by rm_eo, to move past the end of the
-		   last match.  Even though two matches may overlap, we
-		   want to ignore them, so that we can highlight C-strings
-		   correctly. */
-		while (k < start + COLS) {
-		    /* Note the fifth parameter to regexec.  It says not to
-		     * match the beginning-of-line character unless
-		     * k == 0.  If regexec returns nonzero, there are no
-		     * more matches in the line. */
+		 * last match.  Even though two matches may overlap, we
+		 * want to ignore them, so that we can highlight
+		 * C-strings correctly. */
+		while (k < endpos) {
+		    /* Note the fifth parameter to regexec().  It says
+		     * not to match the beginning-of-line character
+		     * unless k is 0.  If regexec() returns REG_NOMATCH,
+		     * there are no more matches in the line. */
 		    if (regexec(&tmpcolor->start, &fileptr->data[k], 1,
-				&startmatch, k == 0 ? 0 : REG_NOTBOL))
+			&startmatch, k == 0 ? 0 : REG_NOTBOL) == REG_NOMATCH)
 			break;
 		    /* Translate the match to the beginning of the line. */
 		    startmatch.rm_so += k;
@@ -993,20 +1071,23 @@ void edit_add(const filestruct *fileptr, int yval, int start
 		    if (startmatch.rm_so == startmatch.rm_eo) {
 			startmatch.rm_eo++;
 			statusbar(_("Refusing 0 length regex match"));
-		    } else if (startmatch.rm_so < start + COLS &&
-				startmatch.rm_eo > start) {
-			x_start = startmatch.rm_so - start;
-			if (x_start < 0)
+		    } else if (startmatch.rm_so < endpos &&
+				startmatch.rm_eo > startpos) {
+			if (startmatch.rm_so <= startpos)
 			    x_start = 0;
-			paintlen = startmatch.rm_eo - start - x_start;
+			else
+			    x_start = strnlenpt(fileptr->data, startmatch.rm_so)
+				- start;
+			paintlen = strnlenpt(fileptr->data, startmatch.rm_eo)
+				- start - x_start;
 			if (paintlen > COLS - x_start)
 			    paintlen = COLS - x_start;
 
 			assert(0 <= x_start && 0 < paintlen &&
 				x_start + paintlen <= COLS);
 			mvwaddnstr(edit, yval, x_start,
-				fileptr->data + start + x_start, paintlen);
- 		    }
+				converted + x_start, paintlen);
+		    }
 		    k = startmatch.rm_eo;
 		}
 	    } else {
@@ -1022,7 +1103,7 @@ void edit_add(const filestruct *fileptr, int yval, int start
 		 * before fileptr, then paint the beginning of this line. */
 
 		const filestruct *start_line = fileptr->prev;
-		    /* the first line before fileptr matching start*/
+		    /* the first line before fileptr matching start */
 		regoff_t start_col;
 		    /* where it starts in that line */
 		const filestruct *end_line;
@@ -1032,11 +1113,11 @@ void edit_add(const filestruct *fileptr, int yval, int start
 
 		while (start_line != NULL &&
 			regexec(&tmpcolor->start, start_line->data, 1,
-				&startmatch, 0)) {
+			&startmatch, 0) == REG_NOMATCH) {
 		    /* If there is an end on this line, there is no need
 		     * to look for starts on earlier lines. */
-		    if (!regexec(tmpcolor->end, start_line->data, 1,
-				&endmatch, 0))
+		    if (regexec(tmpcolor->end, start_line->data, 0, NULL, 0)
+			== 0)
 			goto step_two;
 		    start_line = start_line->prev;
 		}
@@ -1051,43 +1132,44 @@ void edit_add(const filestruct *fileptr, int yval, int start
 		while (1) {
 		    start_col += startmatch.rm_so;
 		    startmatch.rm_eo -= startmatch.rm_so;
-		    if (regexec(tmpcolor->end,
-			    start_line->data + start_col + startmatch.rm_eo,
-			    1, &endmatch,
-			    start_col + startmatch.rm_eo == 0 ? 0 : REG_NOTBOL))
-			/* No end found after this start */
+ 		    if (regexec(tmpcolor->end,
+ 			start_line->data + start_col + startmatch.rm_eo,
+			0, NULL, start_col + startmatch.rm_eo == 0 ? 0 :
+			REG_NOTBOL) == REG_NOMATCH)
+			/* No end found after this start. */
 			break;
 		    start_col++;
 		    if (regexec(&tmpcolor->start,
 			    start_line->data + start_col, 1, &startmatch,
-			    REG_NOTBOL))
+			    REG_NOTBOL) == REG_NOMATCH)
 			/* No later start on this line. */
 			goto step_two;
 		}
-		/* Indeed, there is a start not followed on this line by an
-		 * end. */
+		/* Indeed, there is a start not followed on this line by
+		 * an end. */
 
 		/* We have already checked that there is no end before
 		 * fileptr and after the start.  Is there an end after
-		 * the start at all?  We don't paint unterminated starts. */
+		 * the start at all?  We don't paint unterminated
+		 * starts. */
 		end_line = fileptr;
 		while (end_line != NULL &&
 			regexec(tmpcolor->end, end_line->data, 1, &endmatch, 0))
 		    end_line = end_line->next;
 
 		/* No end found, or it is too early. */
-		if (end_line == NULL || end_line->lineno < fileptr->lineno ||
-			(end_line == fileptr && endmatch.rm_eo <= start))
+		if (end_line == NULL ||
+			(end_line == fileptr && endmatch.rm_eo <= startpos))
 		    goto step_two;
 
 		/* Now paint the start of fileptr. */
-		paintlen = end_line != fileptr
-				? COLS : endmatch.rm_eo - start;
+		paintlen = end_line != fileptr ? COLS :
+			strnlenpt(fileptr->data, endmatch.rm_eo) - start;
 		if (paintlen > COLS)
 		    paintlen = COLS;
 
 		assert(0 < paintlen && paintlen <= COLS);
-		mvwaddnstr(edit, yval, 0, fileptr->data + start, paintlen);
+		mvwaddnstr(edit, yval, 0, converted, paintlen);
 
 		/* We have already painted the whole line. */
 		if (paintlen == COLS)
@@ -1095,10 +1177,11 @@ void edit_add(const filestruct *fileptr, int yval, int start
 
   step_two:	/* Second step, we look for starts on this line. */
 		start_col = 0;
-		while (start_col < start + COLS) {
+		while (start_col < endpos) {
 		    if (regexec(&tmpcolor->start, fileptr->data + start_col, 1,
-				&startmatch, start_col == 0 ? 0 : REG_NOTBOL)
-			    || start_col + startmatch.rm_so >= start + COLS)
+			&startmatch, start_col == 0 ? 0 : REG_NOTBOL)
+			== REG_NOMATCH || start_col + startmatch.rm_so >=
+			endpos)
 			/* No more starts on this line. */
 			break;
 		    /* Translate the match to be relative to the
@@ -1106,52 +1189,54 @@ void edit_add(const filestruct *fileptr, int yval, int start
 		    startmatch.rm_so += start_col;
 		    startmatch.rm_eo += start_col;
 
-		    x_start = startmatch.rm_so - start;
-		    if (x_start < 0) {
+		    if (startmatch.rm_so <= startpos)
 			x_start = 0;
-			startmatch.rm_so = start;
-		    }
-		    if (!regexec(tmpcolor->end, fileptr->data + startmatch.rm_eo,
-				1, &endmatch,
-				startmatch.rm_eo == 0 ? 0 : REG_NOTBOL)) {
+		    else
+			x_start = strnlenpt(fileptr->data, startmatch.rm_so)
+					- start;
+		    if (regexec(tmpcolor->end, fileptr->data + startmatch.rm_eo,
+			1, &endmatch, startmatch.rm_eo == 0 ? 0 :
+			REG_NOTBOL) == 0) {
 			/* Translate the end match to be relative to the
-			   beginning of the line. */
+			 * beginning of the line. */
 			endmatch.rm_so += startmatch.rm_eo;
 			endmatch.rm_eo += startmatch.rm_eo;
 			/* There is an end on this line.  But does it
-			   appear on this page, and is the match more than
-			   zero characters long? */
-			if (endmatch.rm_eo > start &&
+			 * appear on this page, and is the match more than
+			 * zero characters long? */
+			if (endmatch.rm_eo > startpos &&
 				endmatch.rm_eo > startmatch.rm_so) {
-			    paintlen = endmatch.rm_eo - start - x_start;
+			    paintlen = strnlenpt(fileptr->data, endmatch.rm_eo)
+					- start - x_start;
 			    if (x_start + paintlen > COLS)
 				paintlen = COLS - x_start;
 
 			    assert(0 <= x_start && 0 < paintlen &&
 				    x_start + paintlen <= COLS);
 			    mvwaddnstr(edit, yval, x_start,
-				fileptr->data + start + x_start, paintlen);
+				converted + x_start, paintlen);
 			}
 		    } else if (!searched_later_lines) {
 			searched_later_lines = 1;
 			/* There is no end on this line.  But we haven't
 			 * yet looked for one on later lines. */
 			end_line = fileptr->next;
-			while (end_line != NULL && regexec(tmpcolor->end,
-				end_line->data, 1, &endmatch, 0))
+			while (end_line != NULL &&
+				regexec(tmpcolor->end, end_line->data, 0,
+				NULL, 0) == REG_NOMATCH)
 			    end_line = end_line->next;
 			if (end_line != NULL) {
 			    assert(0 <= x_start && x_start < COLS);
 			    mvwaddnstr(edit, yval, x_start,
-			    		fileptr->data + start + x_start,
-			    		COLS - x_start);
+					converted + x_start,
+					COLS - x_start);
 			    /* We painted to the end of the line, so
 			     * don't bother checking any more starts. */
 			    break;
 			}
 		    }
 		    start_col = startmatch.rm_so + 1;
-		} /* while start_col < start + COLS */
+		} /* while start_col < endpos */
 	    } /* if (tmp_color->end != NULL) */
 
   skip_step_two:
@@ -1169,43 +1254,39 @@ void edit_add(const filestruct *fileptr, int yval, int start
 		|| fileptr->lineno >= current->lineno)) {
 	/* fileptr is at least partially selected. */
 
+	const filestruct *top;
+	    /* Either current or mark_beginbuf, whichever is first. */
+	size_t top_x;
+	    /* current_x or mark_beginx, corresponding to top. */
+	const filestruct *bot;
+	size_t bot_x;
 	int x_start;
 	    /* Starting column for mvwaddnstr.  Zero-based. */
 	int paintlen;
-	    /* number of chars to paint on this line.  There are COLS
+	    /* Number of chars to paint on this line.  There are COLS
 	     * characters on a whole line. */
 
-	if (mark_beginbuf == fileptr && current == fileptr) {
-	    x_start = virt_mark_beginx < virt_cur_x ? virt_mark_beginx
-	    					    : virt_cur_x;
-	    paintlen = abs(virt_mark_beginx - virt_cur_x);
-	} else {
-	    if (mark_beginbuf->lineno < fileptr->lineno ||
-		    current->lineno < fileptr->lineno)
-		x_start = 0;
-	    else
-		x_start = mark_beginbuf == fileptr ? virt_mark_beginx
-						   : virt_cur_x;
+	mark_order(&top, &top_x, &bot, &bot_x);
 
-	    if (mark_beginbuf->lineno > fileptr->lineno ||
-		    current->lineno > fileptr->lineno)
-		paintlen = start + COLS;
+	if (top->lineno < fileptr->lineno || top_x < startpos)
+	    top_x = startpos;
+	if (bot->lineno > fileptr->lineno || bot_x > endpos)
+	    bot_x = endpos;
+
+	/* the selected bit of fileptr is on this page */
+	if (top_x < endpos && bot_x > startpos) {
+	    assert(startpos <= top_x);
+	    x_start = strnlenpt(fileptr->data + startpos, top_x - startpos);
+
+	    if (bot_x >= endpos)
+		paintlen = -1;  /* Paint everything. */
 	    else
-		paintlen = mark_beginbuf == fileptr ? virt_mark_beginx
-						    : virt_cur_x;
-	}
-	x_start -= start;
-	if (x_start < 0) {
-	    paintlen += x_start;
-	    x_start = 0;
-	}
-	if (x_start + paintlen > COLS)
-	    paintlen = COLS - x_start;
-	if (paintlen > 0) {
+		paintlen = strnlenpt(fileptr->data + top_x, bot_x - top_x);
+
+	    assert(x_start >= 0 && x_start <= strlen(converted));
+
 	    wattron(edit, A_REVERSE);
-	    assert(x_start >= 0 && paintlen > 0 && x_start + paintlen <= COLS);
-	    mvwaddnstr(edit, yval, x_start,
-			fileptr->data + start + x_start, paintlen);
+	    mvwaddnstr(edit, yval, x_start, converted + x_start, paintlen);
 	    wattroff(edit, A_REVERSE);
 	}
     }
@@ -1213,27 +1294,21 @@ void edit_add(const filestruct *fileptr, int yval, int start
 }
 
 /* Just update one line in the edit buffer.  Basically a wrapper for
- * edit_add().  If fileptr != current, then index is considered 0.
+ * edit_add().
+ *
+ * If fileptr != current, then index is considered 0.
  * The line will be displayed starting with fileptr->data[index].
  * Likely args are current_x or 0. */
-void update_line(filestruct *fileptr, int index)
+void update_line(const filestruct *fileptr, size_t index)
 {
     int line;
 	/* line in the edit window for CURSES calls */
-#ifndef NANO_SMALL
-    int virt_cur_x;
-    int virt_mark_beginx;
-#endif
-    char *original;
-	/* The original string fileptr->data. */
     char *converted;
 	/* fileptr->data converted to have tabs and control characters
 	 * expanded. */
-    size_t pos;
     size_t page_start;
 
-    if (fileptr == NULL)
-	return;
+    assert(fileptr != NULL);
 
     line = fileptr->lineno - edittop->lineno;
 
@@ -1246,54 +1321,22 @@ void update_line(filestruct *fileptr, int index)
     /* First, blank out the line (at a minimum) */
     mvwaddstr(edit, line, 0, hblank);
 
-    original = fileptr->data;
-    converted = charalloc(strlenpt(original) + 1);
+    /* Next, convert variables that index the line to their equivalent
+     * positions in the expanded line. */
+    index = fileptr == current ? strnlenpt(fileptr->data, index) : 0;
+    page_start = get_page_start(index);
 
-    /* Next, convert all the tabs to spaces, so everything else is easy.
-     * Note the internal speller sends us index == -1. */
-    index = fileptr == current && index > 0 ? strnlenpt(original, index) : 0;
-#ifndef NANO_SMALL
-    virt_cur_x = fileptr == current ? strnlenpt(original, current_x) : current_x;
-    virt_mark_beginx = fileptr == mark_beginbuf ? strnlenpt(original, mark_beginx) : mark_beginx;
-#endif
-
-    pos = 0;
-    for (; *original != '\0'; original++) {
-	if (*original == '\t')
-	    do {
-		converted[pos++] = ' ';
-	    } while (pos % tabsize);
-	else if (is_cntrl_char(*original)) {
-	    converted[pos++] = '^';
-	    if (*original == 127)
-		converted[pos++] = '?';
-	    else if (*original == '\n')
-		/* Treat newlines (ASCII 10's) embedded in a line as encoded
-	   	 * nulls (ASCII 0's); the line in question should be run
-		 * through unsunder() before reaching here */
-		converted[pos++] = '@';
-	    else
-		converted[pos++] = *original + 64;
-	} else
-	    converted[pos++] = *original;
-    }
-    converted[pos] = '\0';
+    /* Expand the line, replacing Tab by spaces, and control characters
+     * by their display form. */
+    converted = display_string(fileptr->data, page_start, COLS);
 
     /* Now, paint the line */
-    original = fileptr->data;
-    fileptr->data = converted;
-    page_start = get_page_start(index);
-    edit_add(fileptr, line, page_start
-#ifndef NANO_SMALL
-		, virt_mark_beginx, virt_cur_x
-#endif
-		);
+    edit_add(fileptr, converted, line, page_start);
     free(converted);
-    fileptr->data = original;
 
     if (page_start > 0)
 	mvwaddch(edit, line, 0, '$');
-    if (pos > page_start + COLS)
+    if (strlenpt(fileptr->data) > page_start + COLS)
 	mvwaddch(edit, line, COLS - 1, '$');
 }
 
@@ -1328,8 +1371,8 @@ void center_cursor(void)
 /* Refresh the screen without changing the position of lines. */
 void edit_refresh(void)
 {
-    /* Neither of these conditions should occur, but they do.  edittop is
-     * NULL when you open an existing file on the command line, and
+    /* Neither of these conditions should occur, but they do.  edittop
+     * is NULL when you open an existing file on the command line, and
      * ENABLE_COLOR is defined.  Yuck. */
     if (current == NULL)
 	return;
@@ -1346,7 +1389,8 @@ void edit_refresh(void)
     else {
 	int nlines = 0;
 
-	/* Don't make the cursor jump around the screen whilst updating */
+	/* Don't make the cursor jump around the screen whilst
+	 * updating. */
 	leaveok(edit, TRUE);
 
 	editbot = edittop;
@@ -1362,7 +1406,7 @@ void edit_refresh(void)
 	    nlines++;
 	}
 	/* What the hell are we expecting to update the screen if this
-	   isn't here?  Luck? */
+	 * isn't here?  Luck? */
 	wrefresh(edit);
 	leaveok(edit, FALSE);
     }
@@ -1377,10 +1421,8 @@ void edit_refresh_clearok(void)
     clearok(edit, FALSE);
 }
 
-/*
- * Nice generic routine to update the edit buffer, given a pointer to the
- * file struct =) 
- */
+/* Nice generic routine to update the edit buffer, given a pointer to the
+ * file struct =) */
 void edit_update(filestruct *fileptr, topmidnone location)
 {
     if (fileptr == NULL)
@@ -1396,14 +1438,12 @@ void edit_update(filestruct *fileptr, topmidnone location)
     edit_refresh();
 }
 
-/*
- * Ask a question on the statusbar.  Answer will be stored in answer
+/* Ask a question on the statusbar.  Answer will be stored in answer
  * global.  Returns -1 on aborted enter, -2 on a blank string, and 0
  * otherwise, the valid shortcut key caught.  Def is any editable text we
  * want to put up by default.
  *
- * New arg tabs tells whether or not to allow tab completion.
- */
+ * New arg tabs tells whether or not to allow tab completion. */
 int statusq(int tabs, const shortcut *s, const char *def,
 #ifndef NANO_SMALL
 		historyheadtype *which_history,
@@ -1469,7 +1509,7 @@ int statusq(int tabs, const shortcut *s, const char *def,
 #ifndef DISABLE_TABCOMP
 	/* if we've done tab completion, there might be a list of
 	   filename matches on the edit window at this point; make sure
-	   they're cleared off */
+	   they're cleared off. */
 	if (list)
 	    edit_refresh();
 #endif
@@ -1477,11 +1517,9 @@ int statusq(int tabs, const shortcut *s, const char *def,
     return ret;
 }
 
-/*
- * Ask a simple yes/no question on the statusbar.  Returns 1 for Y, 0
+/* Ask a simple yes/no question on the statusbar.  Returns 1 for Y, 0
  * for N, 2 for All (if all is nonzero when passed in) and -1 for abort
- * (^C).
- */
+ * (^C). */
 int do_yesno(int all, int leavecursor, const char *msg, ...)
 {
     va_list ap;
@@ -1491,18 +1529,19 @@ int do_yesno(int all, int leavecursor, const char *msg, ...)
     const char *nostr;		/* Same for no */
     const char *allstr;		/* And all, surprise! */
 
-    /* Yes, no and all are strings of any length.  Each string consists of
-       all characters accepted as a valid character for that value.
-       The first value will be the one displayed in the shortcuts. */
+    /* Yes, no and all are strings of any length.  Each string consists
+     * of all characters accepted as a valid character for that value.
+     * The first value will be the one displayed in the shortcuts. */
     yesstr = _("Yy");
     nostr = _("Nn");
     allstr = _("Aa");
 
-    /* Remove gettext call for keybindings until we clear the thing up */
+    /* Remove gettext call for keybindings until we clear the thing
+     * up. */
     if (!ISSET(NO_HELP)) {
-	char shortstr[3];		/* Temp string for Y, N, A */
+	char shortstr[3];		/* Temp string for Y, N, A. */
 
-	/* Write the bottom of the screen */
+	/* Write the bottom of the screen. */
 	blank_bottombars();
 
 	sprintf(shortstr, " %c", yesstr[0]);
@@ -1555,20 +1594,21 @@ int do_yesno(int all, int leavecursor, const char *msg, ...)
 		mevent.y >= editwinrows + 3) {
 	    int x = mevent.x /= 16;
 		/* Did we click in the first column of shortcuts, or the
-		   second? */
+		 * second? */
 	    int y = mevent.y - editwinrows - 3;
 		/* Did we click in the first row of shortcuts? */
 
 	    assert(0 <= x && x <= 1 && 0 <= y && y <= 1);
 	    /* x = 0 means they clicked Yes or No.
-	       y = 0 means Yes or All. */
+	     * y = 0 means Yes or All. */
 	    ok = -2 * x * y + x - y + 1;
 
 	    if (ok == 2 && !all)
 		ok = -2;
 	}
 #endif
-	/* Look for the kbinput in the yes, no and (optionally) all str */
+	/* Look for the kbinput in the yes, no and (optionally) all
+	 * str. */
 	else if (strchr(yesstr, kbinput) != NULL)
 	    ok = 1;
 	else if (strchr(nostr, kbinput) != NULL)
@@ -1608,52 +1648,52 @@ void display_main_list(void)
 void statusbar(const char *msg, ...)
 {
     va_list ap;
-    char *foo;
-    int start_x = 0;
-    size_t foo_len;
 
     va_start(ap, msg);
 
-    /* Curses mode is turned off.  If we use wmove() now, it will muck up
-       the terminal settings.  So we just use vfprintf(). */
+    /* Curses mode is turned off.  If we use wmove() now, it will muck
+     * up the terminal settings.  So we just use vfprintf(). */
     if (curses_ended) {
 	vfprintf(stderr, msg, ap);
 	va_end(ap);
 	return;
     }
 
-    assert(COLS >= 4);
-    foo = charalloc(COLS - 3);
-
-    vsnprintf(foo, COLS - 3, msg, ap);
-    va_end(ap);
-
-    foo[COLS - 4] = '\0';
-    foo_len = strlen(foo);
-    start_x = (COLS - foo_len - 4) / 2;
-
-    /* Blank out line */
+    /* Blank out the line. */
     blank_statusbar();
 
-    wmove(bottomwin, 0, start_x);
+    if (COLS >= 4) {
+	char *bar;
+	char *foo;
+	int start_x = 0;
+	size_t foo_len;
+	bar = charalloc(COLS - 3);
+	vsnprintf(bar, COLS - 3, msg, ap);
+	va_end(ap);
+	foo = display_string(bar, 0, COLS - 4);
+	free(bar);
+	foo_len = strlen(foo);
+	start_x = (COLS - foo_len - 4) / 2;
 
-    wattron(bottomwin, A_REVERSE);
+	wmove(bottomwin, 0, start_x);
+	wattron(bottomwin, A_REVERSE);
 
-    waddstr(bottomwin, "[ ");
-    waddstr(bottomwin, foo);
-    free(foo);
-    waddstr(bottomwin, " ]");
-
-    wattroff(bottomwin, A_REVERSE);
-
-    wrefresh(bottomwin);
+	waddstr(bottomwin, "[ ");
+	waddstr(bottomwin, foo);
+	free(foo);
+	waddstr(bottomwin, " ]");
+	wattroff(bottomwin, A_REVERSE);
+	wnoutrefresh(bottomwin);
+	wrefresh(edit);
+	    /* Leave the cursor at its position in the edit window, not
+	     * in the statusbar. */
+    }
 
     SET(DISABLE_CURPOS);
     statblank = 26;
 }
 
-/*
- * If constant is false, the user typed ^C so we unconditionally display
+/* If constant is false, the user typed ^C so we unconditionally display
  * the cursor position.  Otherwise, we display it only if the character
  * position changed, and DISABLE_CURPOS is not set.
  *
@@ -1685,9 +1725,9 @@ int do_cursorpos(int constant)
 	return 0;
     }
 
-    /* if constant is false, display the position on the statusbar
-       unconditionally; otherwise, only display the position when the
-       character values have changed */
+    /* If constant is false, display the position on the statusbar
+     * unconditionally; otherwise, only display the position when the
+     * character values have changed. */
     if (!constant || old_i != i || old_totsize != totsize) {
 	unsigned long xpt = xplustabs() + 1;
 	unsigned long cur_len = strlenpt(current->data) + 1;
@@ -1728,12 +1768,12 @@ int line_len(const char *ptr)
 	/* Don't wrap at the first of two spaces following a period. */
 	if (*ptr == ' ' && *(ptr + 1) == ' ')
 	    j++;
-	/* Don't print half a word if we've run out of space */
+	/* Don't print half a word if we've run out of space. */
 	while (*ptr != ' ' && j > 0) {
 	    ptr--;
 	    j--;
 	}
-	/* Word longer than COLS - 5 chars just gets broken */
+	/* Word longer than COLS - 5 chars just gets broken. */
 	if (j == 0)
 	    j = COLS - 5;
     }
@@ -1741,8 +1781,8 @@ int line_len(const char *ptr)
     return j;
 }
 
-/* Our shortcut-list-compliant help function, which is
- * better than nothing, and dynamic! */
+/* Our shortcut-list-compliant help function, which is better than
+ * nothing, and dynamic! */
 int do_help(void)
 {
 #ifndef DISABLE_HELP
@@ -1755,7 +1795,7 @@ int do_help(void)
     wattroff(bottomwin, A_REVERSE);
     blank_statusbar();
 
-    /* set help_text as the string to display */
+    /* Set help_text as the string to display. */
     help_init();
     assert(help_text != NULL);
 
@@ -1765,8 +1805,8 @@ int do_help(void)
 
     if (ISSET(NO_HELP)) {
 
-	/* Well, if we're going to do this, we should at least
-	   do it the right way */
+	/* Well, if we're going to do this, we should at least do it the
+	 * right way. */
 	no_help_flag = 1;
 	UNSET(NO_HELP);
 	window_init();
@@ -1801,7 +1841,8 @@ int do_help(void)
 	    break;
 	}
 
-	/* Calculate where in the text we should be, based on the page */
+	/* Calculate where in the text we should be, based on the
+	 * page. */
 	for (i = 1; i < page * (editwinrows - 1); i++) {
 	    ptr += line_len(ptr);
 	    if (*ptr == '\n')
@@ -1837,7 +1878,7 @@ int do_help(void)
     edit_refresh();
 
     /* The help_init() at the beginning allocated help_text, which has
-       now been written to screen. */
+     * now been written to the screen. */
     free(help_text);
     help_text = NULL;
 
@@ -1848,49 +1889,31 @@ int do_help(void)
     return 1;
 }
 
-/* Highlight the current word being replaced or spell checked. */
+/* Highlight the current word being replaced or spell checked.  We
+ * expect word to have tabs and control characters expanded. */
 void do_replace_highlight(int highlight_flag, const char *word)
 {
-    char *highlight_word = NULL;
-    int x, y, word_len;
+    int y = xplustabs();
+    size_t word_len = strlen(word);
 
-    highlight_word =
-	mallocstrcpy(highlight_word, &current->data[current_x]);
-
-#ifdef HAVE_REGEX_H
-    if (ISSET(USE_REGEXP))
-	/* if we're using regexps, the highlight is the length of the
-	   search result, not the length of the regexp string */
-	word_len = regmatches[0].rm_eo - regmatches[0].rm_so;
-    else
-#endif
-	word_len = strlen(word);
-
-    highlight_word[word_len] = '\0';
-
-    /* adjust output when word extends beyond screen */
-
-    x = xplustabs();
-    y = get_page_start(x) + COLS;
-
-    if ((COLS - (y - x) + word_len) > COLS) {
-	highlight_word[y - x - 1] = '$';
-	highlight_word[y - x] = '\0';
-    }
-
-    /* OK display the output */
+    y = get_page_start(y) + COLS - y;
+	/* Now y is the number of characters we can display on this
+	 * line. */
 
     reset_cursor();
 
     if (highlight_flag)
 	wattron(edit, A_REVERSE);
 
-    waddstr(edit, highlight_word);
+    waddnstr(edit, word, y - 1);
+
+    if (word_len > y)
+	waddch(edit, '$');
+    else if (word_len == y)
+	waddch(edit, word[word_len - 1]);
 
     if (highlight_flag)
 	wattroff(edit, A_REVERSE);
-
-    free(highlight_word);
 }
 
 /* Fix editbot, based on the assumption that edittop is correct. */
@@ -1904,8 +1927,9 @@ void fix_editbot(void)
 }
 
 #ifdef DEBUG
-/* Dump the current file structure to stderr */
-void dump_buffer(const filestruct *inptr) {
+/* Dump the passed-in file structure to stderr. */
+void dump_buffer(const filestruct *inptr)
+{
     if (inptr == fileage)
 	fprintf(stderr, "Dumping file buffer to stderr...\n");
     else if (inptr == cutbuffer)
@@ -1918,9 +1942,8 @@ void dump_buffer(const filestruct *inptr) {
 	inptr = inptr->next;
     }
 }
-#endif /* DEBUG */
 
-#ifdef DEBUG
+/* Dump the file structure to stderr in reverse. */
 void dump_buffer_reverse(void)
 {
     const filestruct *fileptr = filebot;
