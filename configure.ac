@@ -2,24 +2,24 @@
 #
 # Copyright (C) 1999, 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
 #
-# GNU Nano is free software; you can redistribute it and/or modify
+# GNU nano is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2, or (at your option)
 # any later version.
 #
-# GNU Nano is distributed in the hope that it will be useful,
+# GNU nano is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with GNU Nano; if not, write to the Free Software
+# along with GNU nano; if not, write to the Free Software
 # Foundation, Inc.
 # 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 # $Id$
 
-AC_INIT([GNU Nano], [1.2.99-cvs], [nano-devel@gnu.org], [nano])
+AC_INIT([GNU nano], [1.2.99-cvs], [nano-devel@gnu.org], [nano])
 AC_CONFIG_SRCDIR([src/nano.c])
 AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER([config.h:config.h.in])

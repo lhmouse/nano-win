@@ -933,7 +933,6 @@ void bottombars(const shortcut *s)
  * very small and keystroke and desc are long. */
 void onekey(const char *keystroke, const char *desc, int len)
 {
-
     wattron(bottomwin, A_REVERSE);
     waddnstr(bottomwin, keystroke, len);
     wattroff(bottomwin, A_REVERSE);

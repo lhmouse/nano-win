@@ -138,6 +138,9 @@ CVS code -
   do_credits()
 	- Update the copyright years to "1999-2003", to match those
 	  given in the rest of the code. (DLR)
+- configure.ac:
+	- Change instances of "GNU Nano" to "GNU nano" for consistency.
+	  (DLR)
 - nano.1, nanorc.5, nano.texi:
 	- Change all instances of $SYSCONFDIR to SYSCONFDIR, since
 	  SYSCONFDIR is set at compile time and can't be overridden by
