@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <signal.h>
+#include <setjmp.h>
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
@@ -77,6 +78,8 @@ static char *help_text_init = ""; /* Initial message, not including shortcuts */
 char *last_search = NULL;	/* Last string we searched for */
 char *last_replace = NULL;	/* Last replacement string */
 int search_last_line;		/* Is this the last search line? */
+
+static sigjmp_buf jmpbuf;	/* Used to return to mainloop after SIGWINCH */
 
 /* What we do when we're all set to exit */
 RETSIGTYPE finish(int sigage)
@@ -1610,7 +1613,12 @@ void handle_sigwinch(int s)
     titlebar(NULL);
     edit_refresh();
     display_main_list();
+    blank_statusbar();
     total_refresh();
+
+    /* Jump back to mainloop */
+    siglongjmp(jmpbuf, 1);
+
 #endif
 }
 
@@ -2089,8 +2097,8 @@ int main(int argc, char *argv[])
     int optchr;
     int kbinput;		/* Input from keyboard */
     long startline = 0;		/* Line to try and start at */
-    int keyhandled = 0;		/* Have we handled the keystroke yet? */
-    int i, modify_control_seq = 0;
+    int keyhandled;		/* Have we handled the keystroke yet? */
+    int i, modify_control_seq;
     char *argv0;
 #ifdef _POSIX_VDISABLE
     struct termios term;
@@ -2303,6 +2311,14 @@ int main(int argc, char *argv[])
 	do_gotoline(startline);
     else
 	edit_update(fileage, CENTER);
+
+    /* return here after a sigwinch */
+    sigsetjmp(jmpbuf,1);
+
+    /* Fix clobber-age */
+    kbinput = 0;
+    keyhandled = 0;
+    modify_control_seq = 0;
 
     edit_refresh();
     reset_cursor();

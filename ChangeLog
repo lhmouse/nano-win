@@ -5,6 +5,8 @@ General
 	  easily replaced with COLS / 2 (oops, not current_x & y (Rob)).
 	- Deleted free_node, duplicate of delete_node, and changed all
 	  free_node calls to delete_node.
+	- Fix for resizing the window in modes other than normal edit mode 
+	  Changes to handle_sigwinch(), main().  Fixes bug #52 (Rocco).
 - files.c:
   write_file()
 	- Don't free() realname on error, if it needs to be free()d later

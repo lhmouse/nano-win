@@ -141,7 +141,7 @@ void do_replace_highlight(int highlight_flag, char *word);
 void nano_disabled_msg(void);
 void window_init(void);
 #ifdef NANO_EXTRA
-void do_credits(void);
+void do_credits(int junk);
 #endif
 
 int do_writeout_void(void), do_exit(void), do_gotoline_void(void);
@@ -160,6 +160,7 @@ struct stat filestat(const char *path);
 char *do_browse_from(char *inpath);
 #endif
 
+RETSIGTYPE main_loop (int junk);
 
 filestruct *copy_node(filestruct * src);
 filestruct *copy_filestruct(filestruct * src);
