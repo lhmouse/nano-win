@@ -71,11 +71,9 @@ extern openfilestruct *open_files;
 #endif
 
 #ifdef ENABLE_COLOR
-extern colortype *colorstrings;
+extern const colortype *colorstrings;
 extern syntaxtype *syntaxes;
 extern char *syntaxstr;
-extern regex_t color_regexp;
-extern regmatch_t colormatches[1];
 #endif
 
 extern shortcut *shortcut_list;
@@ -110,6 +108,7 @@ extern toggle *toggles;
 
 /* Public functions in color.c */
 #ifdef ENABLE_COLOR
+void set_colorpairs(void);
 void do_colorinit(void);
 void update_color(void);
 #endif /* ENABLE_COLOR */
@@ -401,15 +400,18 @@ void set_modified(void);
 void titlebar(const char *path);
 void bottombars(const shortcut *s);
 void onekey(const char *keystroke, const char *desc, int len);
-int get_page_start_virtual(int page);
-int get_page_from_virtual(int virtual);
-int get_page_end_virtual(int page);
+#ifndef NDEBUG
+int check_linenumbers(const filestruct *fileptr);
+#endif
 int get_page_start(int column);
 void reset_cursor(void);
 void add_marked_sameline(int begin, int end, filestruct *fileptr, int y,
 			 int virt_cur_x, int this_page);
-void edit_add(filestruct *fileptr, int yval, int start, int virt_cur_x,
-	      int virt_mark_beginx, int this_page);
+void edit_add(const filestruct *fileptr, int yval, int start
+#ifndef NANO_SMALL
+		, int virt_mark_beginx,	int virt_cur_x
+#endif
+		);
 void update_line(filestruct *fileptr, int index);
 void update_cursor(void);
 void center_cursor(void);

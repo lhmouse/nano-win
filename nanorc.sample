@@ -102,7 +102,8 @@
 # because syntax highlighting rules will be applied in the order they are
 # read in
 
-# color brightyellow "<[^= ]*>" "\"(\\.|[^\\"])*\""
+# color brightyellow "<[^= ]*>" ""(\\.|[^\"])*""
+# color brightyellow start=""(\\.|[^\"])*\\( |	)*$" end="^(\\.|[^\"])*""
 # color brightblue "//.*"
 # color brightblue start="/\*" end="\*/"
 

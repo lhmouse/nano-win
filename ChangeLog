@@ -24,6 +24,9 @@ CVS code -
 	  properly.  New function init_operating_dir() to handle
 	  setting it both on the command line and in the nanorc file.
 	  (David Benbennick)
+	- Major rewrite of color and screen update routines to fix
+	  minor bugs and increase efficiency.  New function
+	  set_colorpairs() for the former. (David Benbennick)
 - configure.ac:
 	- Added pt_BR to ALL_LINGUAS (Jordi).
 	- Changed --enable-color warning to be slightly less severe.
@@ -122,7 +125,9 @@ CVS code -
 	  format ({} instead of \{\}) (found by DLR).
 	- Add a better string matching sequence that includes escaped
 	  quotes (thanks to Carl E. Lindberg, who doesn't even know he
-	  helped ;-)
+	  helped ;-).  Some unneeded \'s in that sequence removed, and
+	  a new sequence to handle multi-line quotes added, by David
+	  Benbennick.
 - rcfile.c:
   parse_colors()
 	- Stop infinite loop when syntax doesn't begin with " char.

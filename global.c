@@ -125,7 +125,7 @@ shortcut *browser_list = NULL;
 #endif
 
 #ifdef ENABLE_COLOR
-    colortype *colorstrings = NULL;
+    const colortype *colorstrings = NULL;
     syntaxtype *syntaxes = NULL;
     char *syntaxstr = NULL;
 #endif
@@ -145,13 +145,6 @@ regex_t search_regexp;		/* Global to store compiled search regexp */
 regmatch_t regmatches[10];	/* Match positions for parenthetical
 				   subexpressions, max of 10 */
 #endif
-#ifdef ENABLE_COLOR
-regex_t color_regexp;          /* Global to store compiled search regexp */
-regmatch_t colormatches[1];    /* Match positions for parenthetical */
-
-regex_t syntaxfile_regexp;     /* Global to store compiled search regexp */
-regmatch_t synfilematches[1];  /* Match positions for parenthetical */
-#endif /* ENABLE_COLOR */
 
 int length_of_list(const shortcut *s) 
 {

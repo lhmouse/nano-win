@@ -40,72 +40,91 @@
 #define _(string) (string)
 #endif
 
+/* For each syntax list entry, we go through the list of colors and
+ * assign color pairs. */
+void set_colorpairs(void)
+{
+    const syntaxtype *this_syntax = syntaxes;
+
+    for(; this_syntax != NULL; this_syntax = this_syntax->next) {
+	colortype *this_color = this_syntax->color;
+	int color_pair = 1;
+
+	for(; this_color != NULL; this_color = this_color->next) {
+	    const colortype *beforenow = this_syntax->color;
+
+	    for(; beforenow != NULL && beforenow != this_color && 
+			(beforenow->fg != this_color->fg ||
+			 beforenow->bg != this_color->bg ||
+			 beforenow->bright != this_color->bright);
+		    beforenow = beforenow->next)
+		;
+
+	    if (beforenow != NULL && beforenow != this_color)
+		this_color->pairnum = beforenow->pairnum;
+	    else {
+		this_color->pairnum = color_pair;
+		color_pair++;
+	    }
+	}
+    }
+}
+
 void do_colorinit(void)
 {
-    int i;
-    colortype *tmpcolor = NULL, *beforenow = NULL;
-    int defok = 0;
-
     if (has_colors()) {
+	const colortype *tmpcolor = NULL;
+#ifdef HAVE_USE_DEFAULT_COLORS
+	int defok;
+#endif
+
 	start_color();
 	/* Add in colors, if available */
 
 #ifdef HAVE_USE_DEFAULT_COLORS
- 	if (use_default_colors() != ERR)
-	    defok = 1;
+	defok = use_default_colors() != ERR;
 #endif
 
-	i = 1;
 	for (tmpcolor = colorstrings; tmpcolor != NULL; 
 		tmpcolor = tmpcolor->next) {
+	    short background = tmpcolor->bg;
 
-	    for (beforenow = colorstrings; beforenow != NULL
-		 && beforenow != tmpcolor && 
-		 (beforenow->fg != tmpcolor->fg || beforenow->bg != tmpcolor->bg
-		 || beforenow->bright != tmpcolor->bright);
-		beforenow = beforenow->next)
-		;
+	    if (background == -1)
+#ifdef HAVE_USE_DEFAULT_COLORS
+		if (!defok)
+#endif
+		    background = COLOR_BLACK;
 
-	    if (beforenow != NULL && beforenow != tmpcolor) {
-		tmpcolor->pairnum = beforenow->pairnum;
-		continue;
-	    }
-	    
-	    if (defok && tmpcolor->bg == -1)
-		init_pair(i, tmpcolor->fg, -1);
-            else if (tmpcolor->bg == -1)
-		init_pair(i, tmpcolor->fg, COLOR_BLACK);
-	    else /* They picked a fg and bg color */
-		init_pair(i, tmpcolor->fg, tmpcolor->bg);
+	    init_pair(tmpcolor->pairnum, tmpcolor->fg, background);
 
 #ifdef DEBUG
 	    fprintf(stderr, _("Running init_pair with fg = %d and bg = %d\n"), tmpcolor->fg, tmpcolor->bg);
 #endif
-
-	    tmpcolor->pairnum = i;
-	    i++;
 	}
     }
-
-    return;
 }
 
 /* Update the color information based on the current filename */
 void update_color(void)
 {
-    syntaxtype *tmpsyntax;
+    const syntaxtype *tmpsyntax;
 
     colorstrings = NULL;
     for (tmpsyntax = syntaxes; tmpsyntax != NULL; tmpsyntax = tmpsyntax->next) {
-	exttype *e;
+	const exttype *e;
+
 	for (e = tmpsyntax->extensions; e != NULL; e = e->next) {
-	    regcomp(&syntaxfile_regexp, e->val, REG_EXTENDED);
+	    regex_t syntaxfile_regexp;
+
+	    regcomp(&syntaxfile_regexp, e->val, REG_EXTENDED | REG_NOSUB);
 
 	    /* Set colorstrings if we matched the extension regex */
-            if (!regexec(&syntaxfile_regexp, filename, 1, synfilematches, 0))
+            if (!regexec(&syntaxfile_regexp, filename, 0, NULL, 0))
 		colorstrings = tmpsyntax->color;
 
 	    regfree(&syntaxfile_regexp);
+	    if (colorstrings != NULL)
+		break;
 	}
     }
 

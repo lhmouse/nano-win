@@ -631,6 +631,9 @@ void do_rcfile(void)
     }
 
     free(nanorc);
+#ifdef ENABLE_COLOR
+    set_colorpairs();
+#endif
 }
 
 #endif /* ENABLE_NANORC */
