@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.10\n"
 "POT-Creation-Date: 2002-07-27 06:36-0400\n"
-"PO-Revision-Date: 2002-07-29 13:00+0100\n"
+"PO-Revision-Date: 2002-08-29 13:00+0100\n"
 "Last-Translator: Jean-Philippe Guérard <jean-philippe.guerard@laposte.net>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -175,7 +175,7 @@ msgstr "Impossible de rouvrir %s : %s"
 #: files.c:1602 files.c:1608 files.c:1617
 #, c-format
 msgid "Could not open %s for prepend: %s"
-msgstr "Impossible d'ouvrir %s pour ajouter en début : %s"
+msgstr "Impossible d'ouvrir %s pour ajouter en tête : %s"
 
 #: files.c:1654 files.c:1663 files.c:1668
 #, c-format
@@ -210,7 +210,7 @@ msgstr "Ajouter la sélection au début d'un fichier"
 
 #: files.c:1745
 msgid "Append Selection to File"
-msgstr "Ajouter la sélection à un fichier"
+msgstr "Ajouter la sélection en fin d'un fichier"
 
 #: files.c:1748
 msgid "Write Selection to File"
@@ -224,7 +224,7 @@ msgstr "Nom du fichier au début duquel ajouter"
 #
 #: files.c:1755 files.c:1766
 msgid "File Name to Append to"
-msgstr "Nom du fichier où ajouter"
+msgstr "Nom du fichier à la fin duquel ajouter"
 
 #: files.c:1758 files.c:1769
 msgid "File Name to Write"
@@ -462,11 +462,11 @@ msgstr "Annuler la fonction courante"
 
 #: global.c:376
 msgid "Append to the current file"
-msgstr "Ajouter à la fin du fichier en cours"
+msgstr "Ajouter à la fin du fichier"
 
 #: global.c:377
 msgid "Prepend to the current file"
-msgstr "Ajouter au début du fichier en cours"
+msgstr "Ajouter au début du fichier"
 
 #: global.c:378
 msgid "Search backwards"
@@ -688,11 +688,11 @@ msgstr "Format Mac"
 
 #: global.c:701
 msgid "Append"
-msgstr "Ajouter"
+msgstr "Ajout (en fin)"
 
 #: global.c:704
 msgid "Prepend"
-msgstr "Ajouter en début"
+msgstr "Ajout (en tête)"
 
 #: global.c:708
 msgid "Backup File"
