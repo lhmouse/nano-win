@@ -921,8 +921,7 @@ void do_wrap(filestruct * inptr, char input_char)
 		space or tab, then null terminate it so we can strcat it
 		to hell */
 	    while ((inptr->next->data[non] == ' ' 
-	    	|| inptr->next->data[non] == '\t')
-	    	&& inptr->next->data[non] != 0)
+	    	|| inptr->next->data[non] == '\t'))
 	    	    p[non] = inptr->next->data[non++];
 
 	    p[non] = 0;
