@@ -4,6 +4,9 @@ CVS code -
 	- Added tmp check to TMP_OPT section (how apropriate).
 	- Added new consistency checking code from securityfocus 
 	  article by Oliver Friedrichs, and use O_EXCL if tmp == 1.
+	- We now run check on result of lstat(), not stat(), to be
+	  safer.  New variable anyexists, we use still use realexists
+	  later in the program.
 - winio.c:
   edit_add()
 	- Off by one display error (fix by Rocco Corsi).
