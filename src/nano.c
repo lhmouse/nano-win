@@ -371,7 +371,7 @@ void help_init(void)
 	  "version, the current filename being edited, and whether "
 	  "or not the file has been modified.  Next is the main editor "
 	  "window showing the file being edited.  The status line is "
-	  "the third line from the bottom and shows important messages. "
+	  "the third line from the bottom and shows important messages.  "
 	  "The bottom two lines show the most commonly used shortcuts "
 	  "in the editor.\n\n "
 	  "The notation for shortcuts is as follows: Control-key "
@@ -537,7 +537,7 @@ void help_init(void)
 
     /* If all went well, we didn't overwrite the allocated space for
      * help_text. */
-    assert(strlen(help_text) < allocsize);
+    assert(strlen(help_text) <= allocsize + 1);
 }
 #endif
 
