@@ -307,7 +307,7 @@ AC_DEFUN([NANO_AM_GNU_GETTEXT],
    AC_REQUIRE([AC_TYPE_SIZE_T])dnl
    AC_REQUIRE([AC_FUNC_ALLOCA])dnl
    AC_REQUIRE([AC_FUNC_MMAP])dnl
-   AC_REQUIRE([jm_GLIBC21])dnl
+   AC_REQUIRE([nano_jm_GLIBC21])dnl
 
    AC_CHECK_HEADERS([argz.h limits.h locale.h nl_types.h malloc.h stddef.h \
 stdlib.h string.h unistd.h sys/param.h])
