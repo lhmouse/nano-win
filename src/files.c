@@ -1392,6 +1392,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
     size_t lineswritten = 0;
     const filestruct *fileptr = fileage;
     int fd;
+	/* The file descriptor we use. */
     mode_t original_umask = 0;
 	/* Our umask, from when nano started. */
     int realexists;
@@ -1401,12 +1402,12 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
     struct stat st;
 	/* The status fields filled in by stat(). */
     int anyexists;
-	/* Result of lstat().  Same as realexists unless name is a
+	/* The result of lstat().  Same as realexists unless name is a
 	 * link. */
     struct stat lst;
 	/* The status fields filled in by lstat(). */
     char *realname;
-	/* name after ~ expansion. */
+	/* name after tilde expansion. */
     FILE *f;
 	/* The actual file, realname, we are writing to. */
     char *tempname = NULL;
