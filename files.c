@@ -780,10 +780,9 @@ int add_open_file(int update)
 #endif
     }
 
-    /* if we're in view mode and updating, the file contents won't
-       have changed, so we won't bother resaving the filestruct
-       then; otherwise, we will */
-    if (!(ISSET(VIEW_MODE) || !update)) {
+    /* if we're not in view mode and not updating, the file contents
+       might have changed, so save the filestruct; otherwise, don't */
+    if (!(ISSET(VIEW_MODE) && !update)) {
 	/* save current file buffer */
 	open_files->fileage = fileage;
 	open_files->filebot = filebot;

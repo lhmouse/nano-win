@@ -39,6 +39,11 @@ CVS Code -
 	  (David Benbennick).
   open_file()
 	- Fix FD leak with file load error (David Benbennick).
+  add_open_file()
+	- Revert the fix for the supposed minor logic error from before;
+	  it was keeping some updates from happening when they should,
+	  which was leading to segfaults with both multibuffer and view
+	  mode on. (DLR; found by David Benbennick)
   save_history()
 	- Fix nrealloc return value being ignored (David Benbennick).
 - nano.c:

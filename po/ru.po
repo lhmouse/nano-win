@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.8\n"
-"POT-Creation-Date: 2003-01-17 17:17-0500\n"
+"POT-Creation-Date: 2003-02-01 17:05-0500\n"
 "PO-Revision-Date: 2002-04-18 11:10+0300\n"
 "Last-Translator: Sergey A. Ribalchenko <fisher@obu.ck.ua>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -22,242 +22,242 @@ msgstr "add_to_cutbuffer вызван с inptr->data = %s\n"
 msgid "Blew away cutbuffer =)\n"
 msgstr "cutbuffer сдуло ветром =)\n"
 
-#: files.c:335 search.c:53
+#: files.c:341 search.c:58
 #, c-format
 msgid "\"%s\" not found"
 msgstr "\"%s\" не найден"
 
-#: files.c:339
+#: files.c:345
 msgid "New File"
 msgstr "Новый Файл"
 
-#: files.c:358
+#: files.c:351
 #, fuzzy, c-format
 msgid "\"%s\" is a directory"
 msgstr "Файл \"%s\" - это директория"
 
-#: files.c:361
+#: files.c:352
 #, c-format
 msgid "File \"%s\" is a device file"
 msgstr "Файл \"%s\" является файлом устройства"
 
-#: files.c:368
+#: files.c:370
 msgid "Reading File"
 msgstr "Читаем Файл"
 
-#: files.c:439
+#: files.c:442
 #, fuzzy, c-format
 msgid "File to insert into new buffer [from %s] "
 msgstr "Файл для вставки [от %s]"
 
-#: files.c:447
+#: files.c:450
 #, c-format
 msgid "File to insert [from %s] "
 msgstr "Файл для вставки [от %s]"
 
-#: files.c:458
+#: files.c:461
 #, fuzzy
 msgid "File to insert into new buffer [from ./] "
 msgstr "Файл для вставки [от ./]"
 
-#: files.c:465
+#: files.c:468
 msgid "File to insert [from ./] "
 msgstr "Файл для вставки [от ./]"
 
-#: files.c:470 files.c:732 files.c:790 files.c:885 files.c:897 files.c:948
-#: files.c:959 files.c:1818
+#: files.c:473 files.c:735 files.c:793 files.c:881 files.c:893 files.c:944
+#: files.c:955 files.c:1814
 #, fuzzy, c-format
 msgid "filename is %s\n"
 msgstr "имя файла %s"
 
-#: files.c:495
+#: files.c:498
 #, c-format
 msgid "Can't insert file from outside of %s"
 msgstr "Не могу вставить файл снаружи %s"
 
-#: files.c:513
+#: files.c:516
 msgid "Command to execute "
 msgstr "Команда для выполнения "
 
-#: files.c:515 files.c:604 files.c:1344 files.c:1779 nano.c:2730
+#: files.c:518 files.c:607 files.c:1340 files.c:1775 nano.c:2717
 msgid "Cancelled"
 msgstr "Отменено"
 
-#: files.c:628
+#: files.c:631
 msgid "Key illegal in non-multibuffer mode"
 msgstr "Неверная клавиша в не-мультибуфферном режиме"
 
-#: files.c:700
-#, fuzzy
-msgid "delete_opennode(): free'd a node, YAY!\n"
+#: files.c:703 nano.c:567
+#, fuzzy, c-format
+msgid "%s: free'd a node, YAY!\n"
 msgstr "delete_node(): ой, узел освобожден!..\n"
 
-#: files.c:705
-#, fuzzy
-msgid "delete_opennode(): free'd last node.\n"
+#: files.c:708 nano.c:572
+#, fuzzy, c-format
+msgid "%s: free'd last node.\n"
 msgstr "delete_node(): освобожден последний узел.\n"
 
-#: files.c:877 files.c:940
+#: files.c:873 files.c:936
 msgid "No more open files"
 msgstr "Нет больше открытых файлов"
 
-#: files.c:904 files.c:967
+#: files.c:900 files.c:963
 #, c-format
 msgid "Switched to %s"
 msgstr "Переключено в %s"
 
-#: files.c:1356
+#: files.c:1352
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Не могу записать снаружи %s"
 
-#: files.c:1387
+#: files.c:1383
 #, fuzzy, c-format
 msgid "Could not read %s for backup: %s"
 msgstr "Не могу открыть %s на запись: %s"
 
-#: files.c:1398
+#: files.c:1394
 #, fuzzy, c-format
 msgid "Couldn't write backup: %s"
 msgstr "Не могу закрыть %s: %s"
 
-#: files.c:1404
+#: files.c:1400
 #, c-format
 msgid "Backing up %s to %s\n"
 msgstr ""
 
-#: files.c:1416
+#: files.c:1412
 #, fuzzy, c-format
 msgid "Could not set permissions %o on backup %s: %s"
 msgstr "Не могу установить права %o на %s: %s"
 
-#: files.c:1422
+#: files.c:1418
 #, fuzzy, c-format
 msgid "Could not set owner %d/group %d on backup %s: %s"
 msgstr "Не могу установить права %o на %s: %s"
 
-#: files.c:1427
+#: files.c:1423
 #, fuzzy, c-format
 msgid "Could not set access/modification time on backup %s: %s"
 msgstr "Не могу установить права %o на %s: %s"
 
-#: files.c:1462 files.c:1478 files.c:1490 files.c:1512 files.c:1545
-#: files.c:1552 files.c:1564
+#: files.c:1458 files.c:1474 files.c:1486 files.c:1508 files.c:1541
+#: files.c:1548 files.c:1560
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "Не могу открыть файл на запись: %s"
 
-#: files.c:1519
+#: files.c:1515
 #, c-format
 msgid "Wrote >%s\n"
 msgstr "Записано >%s\n"
 
-#: files.c:1575
+#: files.c:1571
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "Не могу закрыть %s: %s"
 
-#: files.c:1587 files.c:1592 files.c:1620
+#: files.c:1583 files.c:1588 files.c:1616
 #, fuzzy, c-format
 msgid "Could not reopen %s: %s"
 msgstr "Не могу закрыть %s: %s"
 
-#: files.c:1597 files.c:1603 files.c:1612
+#: files.c:1593 files.c:1599 files.c:1608
 #, fuzzy, c-format
 msgid "Could not open %s for prepend: %s"
 msgstr "Не могу открыть %s на запись: %s"
 
-#: files.c:1650 files.c:1659 files.c:1664
+#: files.c:1646 files.c:1655 files.c:1660
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr "Не могу открыть %s на запись: %s"
 
-#: files.c:1671
+#: files.c:1667
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr "Не могу установить права %o на %s: %s"
 
-#: files.c:1733
+#: files.c:1729
 msgid " [Mac Format]"
 msgstr " [формат Mac]"
 
-#: files.c:1735
+#: files.c:1731
 msgid " [DOS Format]"
 msgstr " [формат DOS]"
 
-#: files.c:1740
+#: files.c:1736
 #, fuzzy
 msgid " [Backup]"
 msgstr " [Назад]"
 
-#: files.c:1748
+#: files.c:1744
 #, fuzzy
 msgid "Prepend Selection to File"
 msgstr "Добавить Выбранное к файлу"
 
-#: files.c:1751
+#: files.c:1747
 msgid "Append Selection to File"
 msgstr "Добавить Выбранное к файлу"
 
-#: files.c:1754
+#: files.c:1750
 msgid "Write Selection to File"
 msgstr "Записать Выбраное в файл"
 
-#: files.c:1758 files.c:1769
+#: files.c:1754 files.c:1765
 #, fuzzy
 msgid "File Name to Prepend to"
 msgstr "Имя Файла для добавления"
 
-#: files.c:1761 files.c:1772
+#: files.c:1757 files.c:1768
 #, fuzzy
 msgid "File Name to Append to"
 msgstr "Имя Файла для добавления"
 
-#: files.c:1764 files.c:1775
+#: files.c:1760 files.c:1771
 #, fuzzy
 msgid "File Name to Write"
 msgstr "Имя Файла на запись"
 
-#: files.c:1833
+#: files.c:1829
 msgid "File exists, OVERWRITE ?"
 msgstr "Файл существует, ПЕРЕПИШЕМ ?"
 
-#: files.c:2324
+#: files.c:2320
 msgid "(more)"
 msgstr "(еще)"
 
-#: files.c:2615
+#: files.c:2623
 msgid "Can't move up a directory"
 msgstr "Не могу переместить директорию"
 
-#: files.c:2627
+#: files.c:2633
 msgid "Can't visit parent in restricted mode"
 msgstr "Не могу посетить предка в ограниченном режиме"
 
-#: files.c:2653 files.c:2715
+#: files.c:2661 files.c:2721
 #, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "Не могу открыть \"%s\": %s"
 
-#: files.c:2687
+#: files.c:2695
 msgid "Goto Directory"
 msgstr "К директории"
 
-#: files.c:2694
+#: files.c:2700
+msgid "Goto Cancelled"
+msgstr "Переход Отменен"
+
+#: files.c:2713
 #, c-format
 msgid "Can't go outside of %s in restricted mode"
 msgstr "Не могу выйти за границы %s в ограниченном режиме"
 
-#: files.c:2701
-msgid "Goto Cancelled"
-msgstr "Переход Отменен"
-
-#: files.c:2879
+#: files.c:2891
 #, fuzzy, c-format
 msgid "Unable to open ~/.nano_history file, %s"
 msgstr "Не могу открыть файл ~/.nanorc, %s"
 
-#: files.c:2925 files.c:2934 files.c:2939 files.c:2946
+#: files.c:2937 files.c:2946 files.c:2951 files.c:2958
 #, fuzzy, c-format
 msgid "Unable to write ~/.nano_history file, %s"
 msgstr "Не могу открыть файл ~/.nanorc, %s"
@@ -303,7 +303,7 @@ msgstr "Запись файла в формате Mac"
 msgid "Backing up file"
 msgstr "Main: открыть файл\n"
 
-#: global.c:250 nano.c:649
+#: global.c:250 nano.c:656
 msgid "Smooth scrolling"
 msgstr "Плавная прокрутка"
 
@@ -572,7 +572,7 @@ msgstr "ТекПозиция"
 msgid "To Spell"
 msgstr "Орфография"
 
-#: global.c:478 nano.c:415 winio.c:594
+#: global.c:478 nano.c:422 winio.c:594
 msgid "Up"
 msgstr "Вверх"
 
@@ -661,7 +661,7 @@ msgstr "Следующий Файл"
 
 #: global.c:561 global.c:601 global.c:637 global.c:656 global.c:710
 #: global.c:718 global.c:740 global.c:750 global.c:760 global.c:780
-#: winio.c:1270
+#: winio.c:1275
 msgid "Cancel"
 msgstr "Отменить"
 
@@ -759,7 +759,7 @@ msgstr "Размер окна слишком мал для Nano..."
 msgid "Key illegal in VIEW mode"
 msgstr "Неверная клавиша в режиме Просмотра"
 
-#: nano.c:279
+#: nano.c:286
 #, fuzzy
 msgid ""
 "Search Command Help Text\n"
@@ -791,7 +791,7 @@ msgstr ""
 " Следующие функциональные клавиши доступны в режиме поиска:\n"
 "\n"
 
-#: nano.c:289
+#: nano.c:296
 #, fuzzy
 msgid ""
 "Go To Line Help Text\n"
@@ -812,7 +812,7 @@ msgstr ""
 " Следующие функциональные клавиши доступны в режиме Перейти_к_строке:\n"
 "\n"
 
-#: nano.c:296
+#: nano.c:303
 #, fuzzy
 msgid ""
 "Insert File Help Text\n"
@@ -849,7 +849,7 @@ msgstr ""
 " Следующие функциональные клавиши доступны в режиме Вставить_файл:\n"
 "\n"
 
-#: nano.c:310
+#: nano.c:317
 #, fuzzy
 msgid ""
 "Write File Help Text\n"
@@ -877,7 +877,7 @@ msgstr ""
 " Следующие клавиши доступны в режиме записи файла:\n"
 "\n"
 
-#: nano.c:321
+#: nano.c:328
 #, fuzzy
 msgid ""
 "File Browser Help Text\n"
@@ -903,7 +903,7 @@ msgstr ""
 " Следующие функциональные клавиши доступны в просмотрщике файлов:\n"
 "\n"
 
-#: nano.c:332
+#: nano.c:339
 #, fuzzy
 msgid ""
 "Browser Go To Directory Help Text\n"
@@ -927,7 +927,7 @@ msgstr ""
 "Просмотрщика:\n"
 "\n"
 
-#: nano.c:340
+#: nano.c:347
 msgid ""
 "Spell Check Help Text\n"
 "\n"
@@ -950,7 +950,7 @@ msgstr ""
 " Следующие дополнительные функции доступны в режиме проверки правописания:\n"
 "\n"
 
-#: nano.c:350
+#: nano.c:357
 msgid ""
 "External Command Help Text\n"
 "\n"
@@ -968,7 +968,7 @@ msgstr ""
 " Нижеследующие кнопки доступны в этом режиме:\n"
 "\n"
 
-#: nano.c:357
+#: nano.c:364
 #, fuzzy
 msgid ""
 " nano help text\n"
@@ -1008,27 +1008,17 @@ msgstr ""
 "Дополнительные комбинации показаны в скобках:\n"
 "\n"
 
-#: nano.c:410 nano.c:413
+#: nano.c:417 nano.c:420
 #, fuzzy
 msgid "Space"
 msgstr "Замена"
 
-#: nano.c:453
+#: nano.c:460
 #, fuzzy, c-format
 msgid "%.*s enable/disable\n"
 msgstr "%s - разрешить/запретить"
 
-#: nano.c:560
-#, fuzzy
-msgid "delete_node(): free'd a node, YAY!\n"
-msgstr "delete_node(): ой, узел освобожден!..\n"
-
-#: nano.c:565
-#, fuzzy
-msgid "delete_node(): free'd last node.\n"
-msgstr "delete_node(): освобожден последний узел.\n"
-
-#: nano.c:617
+#: nano.c:624
 #, fuzzy
 msgid ""
 "Usage: nano [+LINE] [GNU long option] [option] [file]\n"
@@ -1037,11 +1027,11 @@ msgstr ""
 "Использование: nano [длинные опции GNU] [опции] +СТРОКА <файл>\n"
 "\n"
 
-#: nano.c:618
+#: nano.c:625
 msgid "Option\t\tLong option\t\tMeaning\n"
 msgstr "Опция\t\tДлинная опция\t\tЗначение\n"
 
-#: nano.c:620
+#: nano.c:627
 #, fuzzy
 msgid ""
 "Usage: nano [+LINE] [option] [file]\n"
@@ -1050,214 +1040,207 @@ msgstr ""
 "Использование: nano [опция] +СТРОКА <файл>\n"
 "\n"
 
-#: nano.c:621
+#: nano.c:628
 msgid "Option\t\tMeaning\n"
 msgstr "Опция\t\tЗначение\n"
 
-#: nano.c:624
+#: nano.c:631
 msgid "Show this message"
 msgstr "Показать это сообщение"
 
-#: nano.c:625
+#: nano.c:632
 msgid "+LINE"
 msgstr "+СТРОКА"
 
-#: nano.c:625
+#: nano.c:632
 msgid "Start at line number LINE"
 msgstr "Начать со строки номер СТРОКА"
 
-#: nano.c:627
+#: nano.c:634
 msgid "Backup existing files on save"
 msgstr ""
 
-#: nano.c:628
+#: nano.c:635
 msgid "Write file in DOS format"
 msgstr "Запись файла в формате DOS"
 
-#: nano.c:631
+#: nano.c:638
 msgid "Enable multiple file buffers"
 msgstr "Разрешить несколько файловых буфферов"
 
-#: nano.c:634
-msgid "Log and read search/replace string history"
-msgstr ""
+#: nano.c:641
+#, fuzzy
+msgid "Log & read search/replace string history"
+msgstr "Переместиться на предыдущий экран"
 
-#: nano.c:635
+#: nano.c:642
 msgid "Don't look at nanorc files"
 msgstr ""
 
-#: nano.c:637
+#: nano.c:644
 msgid "Use alternate keypad routines"
 msgstr "Использовать альтернативные подпрограммы для keypad"
 
-#: nano.c:639
+#: nano.c:646
 msgid "Write file in Mac format"
 msgstr "Запись файла в формате Mac"
 
-#: nano.c:640
+#: nano.c:647
 msgid "Don't convert files from DOS/Mac format"
 msgstr "Не преобразовывать из DOS/Mac формата"
 
-#: nano.c:643
+#: nano.c:650
 msgid "-Q [str]"
 msgstr "-Q [стр]"
 
-#: nano.c:643
+#: nano.c:650
 #, fuzzy
 msgid "--quotestr=[str]"
 msgstr "--quotestr [стр]"
 
-#: nano.c:643
+#: nano.c:650
 msgid "Quoting string, default \"> \""
 msgstr "Строка цитирования, по умолчанию \"> \""
 
-#: nano.c:646
+#: nano.c:653
 #, fuzzy
 msgid "Do regular expression searches"
 msgstr "Поиск по формальному выражению (regexp)"
 
-#: nano.c:651
+#: nano.c:658
 msgid "-T [num]"
 msgstr "-T [чис]"
 
-#: nano.c:651
+#: nano.c:658
 msgid "--tabsize=[num]"
 msgstr "--tabsize=[чис]"
 
-#: nano.c:651
+#: nano.c:658
 #, fuzzy
 msgid "Set width of a tab to num"
 msgstr "Установить ширину табуляции в чис"
 
-#: nano.c:652
+#: nano.c:659
 #, fuzzy
 msgid "Print version information and exit"
 msgstr "Показать версию и выйти"
 
-#: nano.c:654
+#: nano.c:661
 #, fuzzy
 msgid "-Y [str]"
 msgstr "-Q [стр]"
 
-#: nano.c:654
+#: nano.c:661
 #, fuzzy
 msgid "--syntax [str]"
 msgstr "--quotestr [стр]"
 
-#: nano.c:654
+#: nano.c:661
 msgid "Syntax definition to use"
 msgstr ""
 
-#: nano.c:656
+#: nano.c:663
 #, fuzzy
 msgid "Constantly show cursor position"
 msgstr "Постоянно показывать позицию курсора"
 
-#: nano.c:658
+#: nano.c:665
 #, fuzzy
 msgid "Automatically indent new lines"
 msgstr "Автоматически выравнивать новые строки"
 
-#: nano.c:659
+#: nano.c:666
 msgid "Let ^K cut from cursor to end of line"
 msgstr "^K вырезает от курсора до конца строки"
 
-#: nano.c:661
+#: nano.c:668
 #, fuzzy
 msgid "Don't follow symbolic links, overwrite"
 msgstr "Не следовать символьным ссылкам, переписывать"
 
-#: nano.c:663
+#: nano.c:670
 msgid "Enable mouse"
 msgstr "Разрешить мышь"
 
-#: nano.c:666
+#: nano.c:673
 msgid "-o [dir]"
 msgstr "-o [дир]"
 
-#: nano.c:666
+#: nano.c:673
 msgid "--operatingdir=[dir]"
 msgstr "--operatingdir=[дир]"
 
-#: nano.c:666
+#: nano.c:673
 msgid "Set operating directory"
 msgstr "Установить рабочую директорию"
 
-#: nano.c:668
-msgid "-p"
-msgstr ""
-
-#: nano.c:668
-msgid "--preserve"
-msgstr ""
-
-#: nano.c:668
+#: nano.c:675
 msgid "Preserve XON (^Q) and XOFF (^S) keys"
 msgstr ""
 
-#: nano.c:670
+#: nano.c:677
 msgid "-r [#cols]"
 msgstr "-r [#стол]"
 
-#: nano.c:670
+#: nano.c:677
 msgid "--fill=[#cols]"
 msgstr "--fill=[#стол]"
 
-#: nano.c:670
+#: nano.c:677
 msgid "Set fill cols to (wrap lines at) #cols"
 msgstr "Заворачивать (wrap) строки в позиции #стол"
 
-#: nano.c:673
+#: nano.c:680
 msgid "-s [prog]"
 msgstr "-s [прог]"
 
-#: nano.c:673
+#: nano.c:680
 msgid "--speller=[prog]"
 msgstr "--speller=[прог]"
 
-#: nano.c:673
+#: nano.c:680
 msgid "Enable alternate speller"
 msgstr "Разрешить альтернативный спеллчекер"
 
-#: nano.c:675
+#: nano.c:682
 #, fuzzy
 msgid "Auto save on exit, don't prompt"
 msgstr "Автозапись при выходе, без лишних вопросов"
 
-#: nano.c:676
+#: nano.c:683
 msgid "View (read only) mode"
 msgstr "Режим просмотра (только чтение)"
 
-#: nano.c:678
+#: nano.c:685
 #, fuzzy
 msgid "Don't wrap long lines"
 msgstr "Не заворачивать длинные линии"
 
-#: nano.c:680
+#: nano.c:687
 #, fuzzy
 msgid "Don't show help window"
 msgstr "Не показывать окно помощи"
 
-#: nano.c:681
+#: nano.c:688
 #, fuzzy
 msgid "Enable suspend"
 msgstr "Разрешить приостановку"
 
-#: nano.c:684
+#: nano.c:691
 msgid "(ignored, for Pico compatibility)"
 msgstr ""
 
-#: nano.c:691
+#: nano.c:698
 #, fuzzy, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
 msgstr " GNU nano версии %s (собрано %s, %s)\n"
 
-#: nano.c:694
+#: nano.c:701
 #, fuzzy
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
 msgstr " Емыло: nano@nano-editor.org\tПаутина: http://www.nano-editor.org"
 
-#: nano.c:695
+#: nano.c:702
 msgid ""
 "\n"
 " Compiled options:"
@@ -1265,226 +1248,214 @@ msgstr ""
 "\n"
 " Собрано с опциями:"
 
-#: nano.c:767
+#: nano.c:774
 msgid "Sorry, support for this function has been disabled"
 msgstr ""
 
-#: nano.c:773
+#: nano.c:780
 msgid ""
 "\n"
-"The -p flag now invokes the Pico \"preserve\" flag.  The Pico\n"
-msgstr ""
-
-#: nano.c:774
-msgid "compatibility flag has been removed as nano is now fully Pico\n"
-msgstr ""
-
-#: nano.c:775
-msgid ""
-"compatible.  Please see the nano FAQ for more info on this change...\n"
+"The -p flag now invokes the Pico \"preserve\" flag.\n"
+"The Pico compatibility flag has been removed as nano\n"
+"now fully Pico compatible.  Please see the nano FAQ\n"
+"for more info on this change...\n"
 "\n"
+"Press return to continue\n"
 msgstr ""
 
-#: nano.c:776
-#, fuzzy
-msgid "Press return to continue\n"
-msgstr ""
-"\n"
-"Нажмите Ввод дабы продолжить старт nano\n"
-
-#: nano.c:810
+#: nano.c:818
 msgid "Could not pipe"
 msgstr "Не могу перенаправить в канал (pipe)"
 
-#: nano.c:832 nano.c:1808 nano.c:1941
+#: nano.c:840 nano.c:1794 nano.c:1927
 msgid "Could not fork"
 msgstr "Не могу сделать fork()"
 
-#: nano.c:1048
+#: nano.c:1046
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data сейчас = \"%s\"\n"
 
-#: nano.c:1108
+#: nano.c:1106
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "После, data = \"%s\"\n"
 
-#: nano.c:1383
+#: nano.c:1381
 msgid "Mark Set"
 msgstr "Метка установлена"
 
-#: nano.c:1388
+#: nano.c:1386
 msgid "Mark UNset"
 msgstr "Метка снята"
 
-#: nano.c:1658
+#: nano.c:1649
 msgid "Edit a replacement"
 msgstr "Редактировать замену"
 
-#: nano.c:1716
+#: nano.c:1702
 #, fuzzy
 msgid "Could not create pipe"
 msgstr "Не могу перенаправить в канал (pipe)"
 
-#: nano.c:1718
+#: nano.c:1704
 msgid "Creating misspelled word list, please wait..."
 msgstr ""
 
-#: nano.c:1814
+#: nano.c:1800
 #, fuzzy
 msgid "Could not get size of pipe buffer"
 msgstr "Не могу открыть %s на запись: %s"
 
-#: nano.c:1866
+#: nano.c:1852
 msgid "Error invoking \"spell\""
 msgstr ""
 
-#: nano.c:1869
+#: nano.c:1855
 msgid "Error invoking \"sort -f\""
 msgstr ""
 
-#: nano.c:1872
+#: nano.c:1858
 msgid "Error invoking \"uniq\""
 msgstr ""
 
-#: nano.c:1948
+#: nano.c:1934
 #, fuzzy, c-format
 msgid "Could not invoke \"%s\""
 msgstr "Не могу закрыть %s: %s"
 
-#: nano.c:1988
+#: nano.c:1974
 msgid "Generic error"
 msgstr ""
 
-#: nano.c:1991
+#: nano.c:1977
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Не могу создать временное имя файла: %s"
 
-#: nano.c:1997
+#: nano.c:1983
 msgid "Spell checking failed: unable to write temp file!"
 msgstr "Проверка правописания облом-с: не могу записать временный файл."
 
-#: nano.c:2015
+#: nano.c:2001
 msgid "Finished checking spelling"
 msgstr "Проверка правописания завершена"
 
-#: nano.c:2018
+#: nano.c:2004
 #, fuzzy, c-format
 msgid "Spell checking failed: %s"
 msgstr "Проверка правописания не удалась"
 
-#: nano.c:2351
+#: nano.c:2337
 #, fuzzy, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Не могу закрыть %s: %s"
 
-#: nano.c:2604
+#: nano.c:2590
 msgid "Can now UnJustify!"
 msgstr "Сейчас можно отменить выравнивание! (^U)"
 
-#: nano.c:2700
+#: nano.c:2687
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Сохранить измененный буфер (Ответ \"Нет\" УНИЧТОЖИТ все изменения) ?"
 
-#: nano.c:2800
+#: nano.c:2787
 #, fuzzy
 msgid "Received SIGHUP or SIGTERM"
 msgstr "Получили SIGHUP"
 
-#: nano.c:2879
+#: nano.c:2866
 msgid "Cannot resize top win"
 msgstr "Не могу изменить размер верхнего окна"
 
-#: nano.c:2881
+#: nano.c:2868
 msgid "Cannot move top win"
 msgstr "Не могу переместить верхнее окно"
 
-#: nano.c:2883
+#: nano.c:2870
 msgid "Cannot resize edit win"
 msgstr "Не могу изменить размер окна редактирования"
 
-#: nano.c:2885
+#: nano.c:2872
 msgid "Cannot move edit win"
 msgstr "Не могу переместить окно редактирования"
 
-#: nano.c:2887
+#: nano.c:2874
 msgid "Cannot resize bottom win"
 msgstr "Не могу изменить размер нижнего окна"
 
-#: nano.c:2889
+#: nano.c:2876
 msgid "Cannot move bottom win"
 msgstr "Не могу переместить нижнее окно"
 
-#: nano.c:2922
+#: nano.c:2909
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr "Обнаружен сбой NumLock'а. Цифровая клавиатура недоступна (NumLock off)"
 
-#: nano.c:2971
+#: nano.c:2958
 msgid "enabled"
 msgstr "разрешено"
 
-#: nano.c:2971
+#: nano.c:2958
 msgid "disabled"
 msgstr "запрещено"
 
-#: nano.c:3177
+#: nano.c:3164
 #, fuzzy
 msgid "Tab size is too small for nano...\n"
 msgstr "Размер окна слишком мал для Nano..."
 
-#: nano.c:3389
+#: nano.c:3376
 msgid "Main: set up windows\n"
 msgstr "Main: установить окна\n"
 
-#: nano.c:3414
+#: nano.c:3401
 msgid "Main: bottom win\n"
 msgstr "Main: нижнее окно\n"
 
-#: nano.c:3420
+#: nano.c:3407
 msgid "Main: open file\n"
 msgstr "Main: открыть файл\n"
 
-#: nano.c:3470
+#: nano.c:3460
 #, fuzzy, c-format
 msgid "AHA!  %c (%d)\n"
 msgstr "Ага! '%c' (%d)\n"
 
-#: nano.c:3490
+#: nano.c:3480
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Поймал Alt-O-%c! (%d)\n"
 
-#: nano.c:3517
+#: nano.c:3507
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Поймал Alt-[-1-%c! (%d)\n"
 
-#: nano.c:3547
+#: nano.c:3537
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Поймал Alt-[-2-%c! (%d)\n"
 
-#: nano.c:3616
+#: nano.c:3606
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Поймал Alt-[-%c! (%d)\n"
 
-#: nano.c:3657
+#: nano.c:3647
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Поймал Alt-%c! (%d)\n"
 
-#: nano.c:3707
+#: nano.c:3697
 msgid "XOFF ignored, mumble mumble."
 msgstr ""
 
-#: nano.c:3709
+#: nano.c:3699
 msgid "XON ignored, mumble mumble."
 msgstr ""
 
-#: nano.c:3748
+#: nano.c:3738
 #, fuzzy, c-format
 msgid "I got %c (%d)!\n"
 msgstr "Поймал Alt-%c! (%d)\n"
@@ -1574,7 +1545,8 @@ msgid "For end part, beginning = \"%s\"\n"
 msgstr ""
 
 #: rcfile.c:451
-msgid "parse_rcfile: Read a comment\n"
+#, fuzzy, c-format
+msgid "%s: Read a comment\n"
 msgstr "parse_rcfile: Читаем комментарий\n"
 
 #: rcfile.c:474
@@ -1583,8 +1555,8 @@ msgid "command %s not understood"
 msgstr "команда %s весьма не вразумительна"
 
 #: rcfile.c:486
-#, c-format
-msgid "parse_rcfile: Parsing option %s\n"
+#, fuzzy, c-format
+msgid "%s: Parsing option %s\n"
 msgstr "parse_rcfile: Разбираем опцию %s\n"
 
 #: rcfile.c:506
@@ -1625,81 +1597,85 @@ msgstr ""
 msgid "Unable to open ~/.nanorc file, %s"
 msgstr "Не могу открыть файл ~/.nanorc, %s"
 
-#: search.c:58
+#: search.c:63
 #, c-format
 msgid "\"%s...\" not found"
 msgstr "\"%s...\" не найдено"
 
-#: search.c:126
+#: search.c:131
 #, fuzzy
 msgid "Search"
 msgstr "Поиск"
 
-#: search.c:130
+#: search.c:135
 msgid " [Case Sensitive]"
 msgstr " [РегЗависим]"
 
-#: search.c:134
+#: search.c:139
 msgid " [Regexp]"
 msgstr " [ФормВыр]"
 
-#: search.c:138
+#: search.c:143
 msgid " [Backwards]"
 msgstr " [Назад]"
 
-#: search.c:140
+#: search.c:145
 msgid " (to replace)"
 msgstr " (что менять)"
 
-#: search.c:148
+#: search.c:153
 msgid "Search Cancelled"
 msgstr "Поиск отменен"
 
-#: search.c:274 search.c:328
+#: search.c:174
+msgid "Invalid regex!"
+msgstr ""
+
+#: search.c:288 search.c:340
 msgid "Search Wrapped"
 msgstr "Поиск завернут"
 
-#: search.c:405
+#: search.c:415
 msgid "This is the only occurrence"
 msgstr "Это единственное совпадение"
 
-#: search.c:553 search.c:674
+#: search.c:566 search.c:695
 msgid "Replace Cancelled"
 msgstr "Замена отменена"
 
-#: search.c:593
+#: search.c:606
 msgid "Replace this instance?"
 msgstr "Заменить это вхождение?"
 
-#: search.c:605
+#: search.c:621
 msgid "Replace failed: unknown subexpression!"
 msgstr "Замена не получилась: неизвестное подвыражение!"
 
-#: search.c:711
+#: search.c:732
 msgid "Replace with"
 msgstr "Заменить на"
 
-#: search.c:753
+#: search.c:774
 msgid "Enter line number"
 msgstr "Введите номер строки"
 
-#: search.c:754
+#: search.c:775
 msgid "Aborted"
 msgstr "Прервано"
 
-#: search.c:763
+#: search.c:784
 msgid "Come on, be reasonable"
 msgstr "Эта, а можно чуть более адекватно?"
 
-#: search.c:823
+#: search.c:844
 msgid "Not a bracket"
 msgstr "Не скобка"
 
-#: search.c:874
+#: search.c:895
 msgid "No matching bracket"
 msgstr "Нет соответствующей скобки"
 
-#: utils.c:205 utils.c:215
+#: utils.c:213 utils.c:223
 #, fuzzy
 msgid "nano is out of memory!"
 msgstr "nano: malloc: нет памяти!"
@@ -1753,95 +1729,113 @@ msgstr ""
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr "Перемещено на (%d, %d) в буфере редактирования\n"
 
-#: winio.c:1075
-#, c-format
-msgid "current->data = \"%s\"\n"
-msgstr "current->data = \"%s\"\n"
-
-#: winio.c:1211
+#: winio.c:1218
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "Поймал \"%s\"\n"
 
-#: winio.c:1245
+#: winio.c:1249
 msgid "Yy"
 msgstr "YyДд"
 
-#: winio.c:1246
+#: winio.c:1250
 msgid "Nn"
 msgstr "NnНн"
 
-#: winio.c:1247
+#: winio.c:1251
 msgid "Aa"
 msgstr "AaВв"
 
-#: winio.c:1259
+#: winio.c:1262
 msgid "Yes"
 msgstr "Да"
 
-#: winio.c:1263
+#: winio.c:1267
 msgid "All"
 msgstr "Все"
 
-#: winio.c:1268
+#: winio.c:1272
 msgid "No"
 msgstr "Нет"
 
-#: winio.c:1455
-#, c-format
-msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
-msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
-
-#: winio.c:1464
+#: winio.c:1442
 #, fuzzy, c-format
-msgid "line %d/%d (%.0f%%), col %ld/%ld (%.0f%%), char %ld/%ld (%.0f%%)"
+msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%ld (%d%%)"
 msgstr ""
 "строка %d/%d (%.0f%%), столбец %ld/%ld (%.0f%%), символ %ld/%ld (%.0f%%)"
 
-#: winio.c:1718
+#: winio.c:1698
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Сброс буфера файла на stderr...\n"
 
-#: winio.c:1720
+#: winio.c:1700
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Сброс cutbuffer'а на stderr...\n"
 
-#: winio.c:1722
+#: winio.c:1702
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Сброс буффера на stderr...\n"
 
-#: winio.c:1803
+#: winio.c:1783
 msgid "The nano text editor"
 msgstr "Текстовый редактор nano"
 
-#: winio.c:1804
+#: winio.c:1784
 msgid "version "
 msgstr "версия "
 
-#: winio.c:1805
+#: winio.c:1785
 msgid "Brought to you by:"
 msgstr "Предоставлен вам:"
 
-#: winio.c:1806
+#: winio.c:1786
 msgid "Special thanks to:"
 msgstr "Особая благодарность:"
 
-#: winio.c:1807
+#: winio.c:1787
 msgid "The Free Software Foundation"
 msgstr ""
 "The Free Software Foundation (фонд свободного программного обеспечения)"
 
-#: winio.c:1808
+#: winio.c:1788
 msgid "For ncurses:"
 msgstr "Для ncurses:"
 
-#: winio.c:1809
+#: winio.c:1789
 msgid "and anyone else we forgot..."
 msgstr "и всем остальным, кого мы забыли упомянуть..."
 
-#: winio.c:1810
+#: winio.c:1790
 msgid "Thank you for using nano!\n"
 msgstr "Спасибо Вам за выбор nano!\n"
+
+#, fuzzy
+#~ msgid "delete_opennode(): free'd a node, YAY!\n"
+#~ msgstr "delete_node(): ой, узел освобожден!..\n"
+
+#, fuzzy
+#~ msgid "delete_opennode(): free'd last node.\n"
+#~ msgstr "delete_node(): освобожден последний узел.\n"
+
+#, fuzzy
+#~ msgid "delete_node(): free'd a node, YAY!\n"
+#~ msgstr "delete_node(): ой, узел освобожден!..\n"
+
+#, fuzzy
+#~ msgid "delete_node(): free'd last node.\n"
+#~ msgstr "delete_node(): освобожден последний узел.\n"
+
+#, fuzzy
+#~ msgid "Press return to continue\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Нажмите Ввод дабы продолжить старт nano\n"
+
+#~ msgid "current->data = \"%s\"\n"
+#~ msgstr "current->data = \"%s\"\n"
+
+#~ msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
+#~ msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
 #~ msgid "read_line: not on first line and prev is NULL"
 #~ msgstr "read_line: не на первой строке и предыдущая NULL"
@@ -1894,14 +1888,6 @@ msgstr "Спасибо Вам за выбор nano!\n"
 #, fuzzy
 #~ msgid "Could not open file: Path length exceeded."
 #~ msgstr "Не могу открыть файл на запись: %s"
-
-#, fuzzy
-#~ msgid "free_node(): free'd a node, YAY!\n"
-#~ msgstr "delete_node(): ой, узел освобожден!..\n"
-
-#, fuzzy
-#~ msgid "free_node(): free'd last node.\n"
-#~ msgstr "delete_node(): освобожден последний узел.\n"
 
 #, fuzzy
 #~ msgid " -T \t\t--tabsize=[num]\t\tSet width of a tab to num\n"
