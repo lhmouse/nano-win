@@ -175,7 +175,13 @@ char *get_next_filename(const char *name);
 void execute_command(const char *command);
 #endif
 void load_buffer(const char *name);
-void do_insertfile(void);
+void do_insertfile(
+#ifndef NANO_SMALL
+	bool execute
+#else
+	void
+#endif
+	);
 void do_insertfile_void(void);
 #ifdef ENABLE_MULTIBUFFER
 openfilestruct *make_new_opennode(openfilestruct *prevnode);

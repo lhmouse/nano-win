@@ -68,7 +68,9 @@ CVS code -
   do_insertfile()
 	- Readd the NANO_SMALL #ifdef around the start_again: label to
 	  avoid a warning. (DLR)
-	- Simplify by reusing variables whereever possible. (DLR)
+	- Simplify by reusing variables whereever possible, and add a
+	  parameter execute to indicate whether or not to be in "Execute
+	  Command" mode. (DLR)
 - global.c:
   shortcut_init()
 	- Remove redundant NANO_SMALL #ifdef. (DLR)
@@ -171,6 +173,7 @@ CVS code -
 - nanorc.sample:
 	- Remove specific references to control key shortcuts other than
 	  XON and XOFF. (DLR)
+	- Add continue and goto to the "c-file" regexes. (DLR)
 - doc/man/fr/nano.1, doc/man/fr/nanorc.1:
 	- Updated manpage translations by Jean-Philippe Guérard.
 
@@ -256,7 +259,7 @@ GNU nano 1.3.4 - 2004.08.17
 	- Consolidate some if blocks to remove some redundant code.
 	  (David Benbennick)
 	- Fix warnings when compiling with ENABLE_NLS undefined and with
-	  -the fwritable-strings option. (David Benbennick)
+	  the fwritable-strings option. (David Benbennick)
 	- Add various #ifdefs to fix warnings and compilation problems
 	  when compiling with every option manually turned on, including
 	  NANO_SMALL. (David Benbennick)

@@ -474,16 +474,19 @@ void load_buffer(const char *name)
 	load_file();
 }
 
-void do_insertfile(void)
+void do_insertfile(
+#ifndef NANO_SMALL
+	bool execute
+#else
+	void
+#endif
+	)
 {
     int i;
     const char *msg;
     char *ans = mallocstrcpy(NULL, "");
 	/* The last answer the user typed on the statusbar.  Saved for if
 	 * they do M-F or cancel the file browser. */
-#ifndef NANO_SMALL
-    bool extcmd = FALSE;
-#endif
 
     wrap_reset();
 
@@ -492,7 +495,7 @@ void do_insertfile(void)
 #endif
 
 #ifndef NANO_SMALL
-    if (extcmd) {
+    if (execute) {
 #ifdef ENABLE_MULTIBUFFER
 	if (ISSET(MULTIBUFFER))
 	    msg = N_("Command to execute in new buffer [from %s] ");
@@ -513,7 +516,7 @@ void do_insertfile(void)
 
     i = statusq(TRUE,
 #ifndef NANO_SMALL
-		extcmd ? extcmd_list :
+		execute ? extcmd_list :
 #endif
 		insertfile_list, ans,
 #ifndef NANO_SMALL
@@ -553,11 +556,11 @@ void do_insertfile(void)
 
 #ifndef NANO_SMALL
 	if (i == NANO_TOOTHERINSERT_KEY) {
-	    extcmd = !extcmd;
+	    execute = !execute;
 	    goto start_again;
 	}
 
-	if (extcmd)
+	if (execute)
 	    execute_command(answer);
 	else {
 #endif
@@ -600,7 +603,11 @@ void do_insertfile_void(void)
 	statusbar(_("Key illegal in non-multibuffer mode"));
     else
 #endif
-	do_insertfile();
+	do_insertfile(
+#ifndef NANO_SMALL
+		FALSE
+#endif
+		);
 
     display_main_list();
 }
@@ -1846,10 +1853,10 @@ int do_writeout(int exiting)
 	} else
 #endif /* !NANO_SMALL */
 	if (i == NANO_PREPEND_KEY) {
-	    append = append == 2 ? 0 : 2;
+	    append = (append == 2) ? 0 : 2;
 	    continue;
 	} else if (i == NANO_APPEND_KEY) {
-	    append = append == 1 ? 0 : 1;
+	    append = (append == 1) ? 0 : 1;
 	    continue;
 	}
 
