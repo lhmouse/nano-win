@@ -1,4 +1,10 @@
 CVS changes -
+- General
+	- Added PDCurses support under cygwin, which allows building
+	  a nice stand-alone nano.exe for those poor Windows users.
+	  Extra check in configure.in for initscr() in -lcurses (as
+	  PDcurses has no tgetent), some #ifdef PDCURSES statements
+	  in main().
 nano 0.9.18 - 09/18/2000
 - General
 	- Changed _POSIX_VERSION checks in regex code to HAVE_REGEX_H, 

@@ -148,6 +148,12 @@ then
     AC_CHECK_LIB(curses, tgetent, CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses)
 fi
 
+# Fallback for PDCurses and less useful curses libs...
+if eval "test x$CURSES_LIB_NAME = x"
+then
+    AC_CHECK_LIB(curses, initscr, CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses)
+fi
+
 if eval "test x$CURSES_LIB_NAME = x"
 then
     AC_CHECK_LIB(termcap, tgetent, CURSES_LIB="-ltermcap" CURSES_LIB_NAME=termcap)

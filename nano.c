@@ -1702,7 +1702,9 @@ int main(int argc, char *argv[])
     int keyhandled = 0;		/* Have we handled the keystroke yet? */
     int i;
     char *argv0;
+#ifdef _POSIX_VDISABLE
     struct termios term;
+#endif
 
 #ifdef HAVE_GETOPT_LONG
     int option_index = 0;
@@ -1880,6 +1882,13 @@ int main(int argc, char *argv[])
 
     window_init();
     mouse_init();
+
+#ifdef PDCURSES
+    /* Must have this for the arrow, et al, keys to even work in 
+       PDCurses+cygwin under Windows */
+    keypad(edit, TRUE);
+    keypad(bottomwin, TRUE);
+#endif
 
 #ifdef DEBUG
     fprintf(stderr, _("Main: bottom win\n"));
@@ -2101,6 +2110,12 @@ int main(int argc, char *argv[])
 	    case 331:		/* Stuff that we don't want to do squat */
 	    case -1:
 	    case 410:		/* Must ignore this, it gets sent when we resize */
+#ifdef PDCURSES
+	    case 541:	/* ???? */
+	    case 542:	/* Control and alt in Windows *shrug* */
+	    case 544:
+#endif
+		
 		break;
 	    default:
 #ifdef DEBUG

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-09-15 11:48-0400\n"
+"POT-Creation-Date: 2000-09-21 00:31-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,63 +47,63 @@ msgstr ""
 msgid "File \"%s\" is a directory"
 msgstr ""
 
-#: files.c:235
+#: files.c:236
 msgid "Reading File"
 msgstr ""
 
-#: files.c:248
+#: files.c:249
 msgid "File to insert [from ./] "
 msgstr ""
 
-#: files.c:273 files.c:297 files.c:487 nano.c:1132
+#: files.c:274 files.c:298 files.c:488 nano.c:1132
 msgid "Cancelled"
 msgstr ""
 
-#: files.c:319 files.c:339 files.c:352 files.c:369 files.c:375
+#: files.c:320 files.c:340 files.c:353 files.c:370 files.c:376
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr ""
 
-#: files.c:327
+#: files.c:328
 msgid "Could not open file: Path length exceeded."
 msgstr ""
 
-#: files.c:357
+#: files.c:358
 #, c-format
 msgid "Wrote >%s\n"
 msgstr ""
 
-#: files.c:384
+#: files.c:385
 #, c-format
 msgid "Could not close %s: %s"
 msgstr ""
 
 #. Try a rename??
-#: files.c:405 files.c:416 files.c:421
+#: files.c:406 files.c:417 files.c:422
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr ""
 
-#: files.c:427
+#: files.c:428
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr ""
 
-#: files.c:434
+#: files.c:435
 #, c-format
 msgid "Wrote %d lines"
 msgstr ""
 
-#: files.c:466
+#: files.c:467
 msgid "File Name to write"
 msgstr ""
 
-#: files.c:471
+#: files.c:472
 #, c-format
 msgid "filename is %s"
 msgstr ""
 
-#: files.c:476
+#: files.c:477
 msgid "File exists, OVERWRITE ?"
 msgstr ""
 
@@ -688,39 +688,39 @@ msgstr ""
 msgid "disabled"
 msgstr ""
 
-#: nano.c:1878
+#: nano.c:1880
 msgid "Main: set up windows\n"
 msgstr ""
 
-#: nano.c:1885
+#: nano.c:1894
 msgid "Main: bottom win\n"
 msgstr ""
 
-#: nano.c:1891
+#: nano.c:1900
 msgid "Main: open file\n"
 msgstr ""
 
-#: nano.c:1925
+#: nano.c:1934
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:1949
+#: nano.c:1958
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:1982
+#: nano.c:1991
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2030
+#: nano.c:2039
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2056
+#: nano.c:2065
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr ""
