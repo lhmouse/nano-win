@@ -38,19 +38,18 @@ CVS code -
 	- Disable "Where Is Next" in tiny mode. (DLR)
 	- Added the ability to justify the entire file at once, which
 	  Pico has via ^W^J.  Changes to do_justify(); new functions
-	  do_justify_void() and do_full_justify().  Note that this
-	  feature is disabled if justification is disabled. (DLR)
+	  do_justify_void() and do_full_justify(). (DLR)
 	- Modify the justification algorithm to work the same way as in
 	  the current version of Pico, i.e, add a space at the end of
 	  each line of the justified paragraph except for the last one,
 	  and if there was a space at the end of the last one, remove
-	  it.  Changes to justify_format() and do_justify().  (Note that
-	  the addition of spaces to justified lines means that
-	  first_mod_line can no longer be used to reliably detect the
-	  first modified line in a paragraph, since a line unmodified by
-	  justify_format() may get a space tacked onto the end of it
-	  later, so now the entire original paragraph is always backed
-	  up.) (DLR)
+	  it.  Changes to justify_format() and do_justify().  Note that
+	  we can no longer reliably detect the first modified line in a
+	  paragraph, since a line unmodified by justify_format() may get
+	  a space tacked onto the end of it or removed from the end of
+	  it later.  The entire original paragraph is now always backed
+	  up, and justify_format() no longer has a non-modifying mode,
+	  so it's now only called in backup_lines(). (DLR)
 	- Wrap the long jump code in NANO_SMALL #ifdefs, since we only
 	  use it if we're resizing the window, which is disabled when
 	  NANO_SMALL is defined. (DLR)

@@ -2455,12 +2455,11 @@ int do_justify(int full_justify)
 	    indent_len = quote_len + indent_length(current->data +
 		quote_len);
 
-	    /* justify_format() removes excess spaces from the line, and
-	     * changes tabs to spaces.  After calling it, we call
-	     * backup_lines(), which copies the original paragraph to
-	     * the cutbuffer for unjustification and then calls
-	     * justify_format() on the remaining lines. */
-	    justify_format(current, indent_len);
+	    /* We now call backup_lines(), which copies the original
+	     * paragraph to the cutbuffer for unjustification and then
+	     * calls justify_format() on each line of the original
+	     * paragraph.  justify_format() removes excess spaces from
+	     * the line, and changes tabs to spaces. */
 	    if (first_par_line == NULL)
 		first_par_line = backup_lines(current, full_justify ?
 			filebot->lineno - current->lineno : par_len, quote_len);
