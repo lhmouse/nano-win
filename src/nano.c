@@ -1833,9 +1833,9 @@ size_t indent_length(const char *line)
 
 #ifndef DISABLE_JUSTIFY
 /* justify_format() replaces Tab by Space and multiple spaces by 1
- * (except it maintains 2 after a character in punct followed by a
- * character in brackets).  Note that the terminating \0 counts as a
- * space.
+ * (except it maintains 2 after a non-repeated character in punct
+ * followed by a character in brackets).  Note that the terminating \0
+ * counts as a space.
  *
  * justify_format() might make line->data shorter, and change the actual
  * pointer with null_at().
@@ -1864,12 +1864,16 @@ void justify_format(filestruct *line, size_t skip)
 	/* These tests are safe since line->data + skip is not a
 	 * space. */
 	if ((*front == '\0' || *front == ' ') && *(front - 1) == ' ') {
-	    const char *bob = front - 2;
+	    const char *bob = back - 2;
 
 	    remove_space = TRUE;
-	    for (bob = back - 2; bob >= line->data + skip; bob--) {
+	    for (; bob >= line->data + skip; bob--) {
 		if (strchr(punct, *bob) != NULL) {
-		    remove_space = FALSE;
+		    /* If this character is in punct, don't remove the
+		     * space unless this character and the character
+		     * before it are the same. */
+		    remove_space = (bob > line->data + skip &&
+			*bob == *(bob - 1));
 		    break;
 		}
 		if (strchr(brackets, *bob) == NULL)

@@ -50,6 +50,11 @@ CVS code -
   die_save_file()
 	- Clarify the error message when there are too many backup files
 	  and the current one can't be written. (DLR)
+  justify_format()
+	- For more compatibility with Pico, remove extra space after a
+	  character in punct if that character is the same as the one
+	  before it.  For example, with the default values of punct and
+	  brackets, only one space will be left after "...". (DLR)
   do_para_begin(), do_para_end()
 	- Maintain current_y's value when moving up or down lines so
 	  that smooth scrolling works correctly. (DLR)
