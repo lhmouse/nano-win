@@ -107,6 +107,8 @@ CVS code -
 	- Remove redundant assignment. (DLR)
   do_para_search()
 	- Remove unneeded edit_update() calls. (David Benbennick)
+	- Convert to use an enum to specify the search type: JUSTIFY,
+	  BEGIN, or END. (DLR)
   do_justify()
 	- Remove unneeded edit_update() calls, and add a few minor
 	  efficiency tweaks. (David Benbennick)
@@ -167,6 +169,7 @@ CVS code -
 - nano.h:
 	- Since REGEXP_COMPILED is only used in search.c, convert it
 	  from a flag to a static int there. (DLR)
+	- Add justbegend enum, used in do_para_search(). (DLR)
 - proto.h:
 	- Remove unused xpt() and add_marked_sameline() prototypes.
 	  (DLR)

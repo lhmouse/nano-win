@@ -324,8 +324,8 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 	quote_len);
 int breakable(const char *line, int goal);
 int break_line(const char *line, int goal, int force);
-int do_para_search(int search_type, size_t *quote, size_t *par, size_t
-	*indent, int do_refresh);
+int do_para_search(justbegend search_type, size_t *quote, size_t *par,
+	size_t *indent, int do_refresh);
 int do_para_begin(void);
 int do_para_end(void);
 int do_justify(int justify_all);

@@ -2104,16 +2104,17 @@ int break_line(const char *line, int goal, int force)
     return space_loc;
 }
 
-/* Search a paragraph.  If search_type is 0, search for the beginning of
- * the current paragraph or, if we're at the end of it, the beginning of
- * the next paragraph.  If search_type is 1, search for the beginning of
- * the current paragraph or, if we're already there, the beginning of
- * the previous paragraph.  If search_type is 2, search for the end of
- * the current paragraph or, if we're already there, the end of the next
- * paragraph.  Afterwards, save the quote length, paragraph length, and
- * indentation length in *quote, *par, and *indent if they aren't NULL,
- * and refresh the screen if do_refresh is TRUE.  Return 0 if we found a
- * paragraph, or 1 if there was an error or we didn't find a paragraph.
+/* Search a paragraph.  If search_type is JUSTIFY, search for the
+ * beginning of the current paragraph or, if we're at the end of it, the
+ * beginning of the next paragraph.  If search_type is BEGIN, search for
+ * the beginning of the current paragraph or, if we're already there,
+ * the beginning of the previous paragraph.  If search_type is END,
+ * search for the end of the current paragraph or, if we're already
+ * there, the end of the next paragraph.  Afterwards, save the quote
+ * length, paragraph length, and indentation length in *quote, *par, and
+ * *indent if they aren't NULL, and refresh the screen if do_refresh is
+ * TRUE.  Return 0 if we found a paragraph, or 1 if there was an error
+ * or we didn't find a paragraph.
  *
  * To explain the searching algorithm, I first need to define some
  * phrases about paragraphs and quotation:
@@ -2142,8 +2143,8 @@ int break_line(const char *line, int goal, int force)
  *   A contiguous set of lines is a "paragraph" if each line is part of
  *   a paragraph and only the first line is the beginning of a
  *   paragraph. */
-int do_para_search(int search_type, size_t *quote, size_t *par, size_t
-	*indent, int do_refresh)
+int do_para_search(justbegend search_type, size_t *quote, size_t *par,
+	size_t *indent, int do_refresh)
 {
     size_t quote_len;
 	/* Length of the initial quotation of the paragraph we
@@ -2215,7 +2216,7 @@ int do_para_search(int search_type, size_t *quote, size_t *par, size_t
 	    current = current->prev;
 	    current_y--;
 	}
-    } else if (search_type == 1) {
+    } else if (search_type == BEGIN) {
 	/* This line is not part of a paragraph.  Move up until we get
 	 * to a non "blank" line, and then move down once. */
 	do {
@@ -2284,7 +2285,7 @@ int do_para_search(int search_type, size_t *quote, size_t *par, size_t
 	par_len++;
     }
 
-    if (search_type == 1) {
+    if (search_type == BEGIN) {
 	/* We're on the same line we started on.  Move up until we get
 	 * to a non-"blank" line, restart the search from there until we
 	 * find a line that's part of a paragraph, and search once more
@@ -2328,7 +2329,7 @@ int do_para_search(int search_type, size_t *quote, size_t *par, size_t
 
     /* If we're searching for the end of the paragraph, move down the
      * number of lines in the paragraph. */
-    if (search_type == 2) {
+    if (search_type == END) {
 	for (; par_len > 0; current_y++, par_len--)
 	    current = current->next;
     }
@@ -2351,12 +2352,12 @@ int do_para_search(int search_type, size_t *quote, size_t *par, size_t
 
 int do_para_begin(void)
 {
-    return do_para_search(1, NULL, NULL, NULL, TRUE);
+    return do_para_search(BEGIN, NULL, NULL, NULL, TRUE);
 }
 
 int do_para_end(void)
 {
-    return do_para_search(2, NULL, NULL, NULL, TRUE);
+    return do_para_search(END, NULL, NULL, NULL, TRUE);
 }
 
 /* If full_justify is TRUE, justify the entire file.  Otherwise, justify
@@ -2412,7 +2413,8 @@ int do_justify(int full_justify)
 	 * where it'll be anyway if we've searched the entire file, and
 	 * break out of the loop; otherwise, refresh the screen and get
 	 * out. */
-	if (do_para_search(0, &quote_len, &par_len, &indent_len, FALSE) != 0) {
+	if (do_para_search(JUSTIFY, &quote_len, &par_len, &indent_len,
+		FALSE) != 0) {
 	    if (full_justify) {
 		/* This should be safe in the event of filebot->prev's
 		 * being NULL, since only last_par_line->next is used if
@@ -2542,7 +2544,8 @@ int do_justify(int full_justify)
 			if (mark_beginx <= indent_len)
 			    mark_beginx = line_len + 1;
 			else
-			    mark_beginx = line_len + 1 + mark_beginx - indent_len;
+			    mark_beginx = line_len + 1 + mark_beginx -
+				indent_len;
 		    } else
 			mark_beginx -= break_pos + 1;
 		}
