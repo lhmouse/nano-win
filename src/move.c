@@ -191,6 +191,7 @@ void do_up(void)
 	return;
 
     assert(current_y == current->lineno - edittop->lineno);
+
     current = current->prev;
     current_x = actual_x(current->data, placewewant);
 

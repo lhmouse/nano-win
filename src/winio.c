@@ -44,8 +44,6 @@ static int statusblank = 0;	/* The number of keystrokes left after
 				 * actually blank the statusbar. */
 static size_t statusbar_x = (size_t)-1;
 				/* The cursor position in answer. */
-static size_t statusbar_xend = 0;
-				/* The length of answer. */
 static bool resetstatuspos = FALSE;
 				/* Should we reset the cursor position
 				 * at the statusbar prompt? */
@@ -1828,7 +1826,7 @@ void do_statusbar_home(void)
 	statusbar_x = indent_length(answer);
 
 	if (statusbar_x == statusbar_x_save ||
-		statusbar_x == statusbar_xend)
+		statusbar_x == strlen(answer))
 	    statusbar_x = 0;
     } else
 #endif
@@ -1837,12 +1835,12 @@ void do_statusbar_home(void)
 
 void do_statusbar_end(void)
 {
-    statusbar_x = statusbar_xend;
+    statusbar_x = strlen(answer);
 }
 
 void do_statusbar_right(void)
 {
-    if (statusbar_x < statusbar_xend)
+    if (statusbar_x < strlen(answer))
 	statusbar_x = move_mbright(answer, statusbar_x);
 }
 
@@ -1862,26 +1860,30 @@ void do_statusbar_backspace(void)
 
 void do_statusbar_delete(void)
 {
-    if (statusbar_x < statusbar_xend) {
+    if (answer[statusbar_x] != '\0') {
 	int char_buf_len = parse_mbchar(answer + statusbar_x, NULL,
 		NULL, NULL);
+	size_t line_len = strlen(answer + statusbar_x);
+
+	assert(statusbar_x < strlen(answer));
 
 	charmove(answer + statusbar_x, answer + statusbar_x +
-		char_buf_len, statusbar_xend - statusbar_x -
+		char_buf_len, strlen(answer) - statusbar_x -
 		char_buf_len + 1);
-	statusbar_xend -= char_buf_len;
+
+	null_at(&answer, statusbar_x + line_len - char_buf_len);
     }
 }
 
 void do_statusbar_cut_text(void)
 {
-    if (ISSET(CUT_TO_END)) {
+    assert(answer != NULL);
+
+    if (ISSET(CUT_TO_END))
 	null_at(&answer, statusbar_x);
-	statusbar_xend = statusbar_x;
-    } else {
+    else {
 	null_at(&answer, 0);
 	statusbar_x = 0;
-	statusbar_xend = 0;
     }
 }
 
@@ -1897,7 +1899,7 @@ void do_statusbar_next_word(void)
 
     /* Move forward until we find the character after the last letter of
      * the current word. */
-    while (statusbar_x < statusbar_xend) {
+    while (answer[statusbar_x] != '\0') {
 	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb, NULL,
 		NULL);
 
@@ -1910,10 +1912,10 @@ void do_statusbar_next_word(void)
     }
 
     /* Move forward until we find the first letter of the next word. */
-    if (statusbar_x < statusbar_xend)
-	current_x += char_mb_len;
+    if (answer[statusbar_x] != '\0')
+	statusbar_x += char_mb_len;
 
-    while (statusbar_x < statusbar_xend) {
+    while (answer[statusbar_x] != '\0') {
 	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb, NULL,
 		NULL);
 
@@ -2036,8 +2038,7 @@ void do_statusbar_verbatim_input(bool *got_enter)
 void do_statusbar_output(char *output, size_t output_len, bool
 	*got_enter)
 {
-    size_t i = 0;
-
+    size_t answer_len = strlen(answer), i = 0;
     char *char_buf = charalloc(mb_cur_max());
     int char_buf_len;
 
@@ -2067,16 +2068,15 @@ void do_statusbar_output(char *output, size_t output_len, bool
 	i += char_buf_len;
 
 	/* More dangerousness fun =) */
-	answer = charealloc(answer, statusbar_xend +
-		(char_buf_len * 2));
+	answer = charealloc(answer, answer_len + (char_buf_len * 2));
 
-	assert(statusbar_x <= statusbar_xend);
+	assert(statusbar_x <= answer_len);
 
 	charmove(&answer[statusbar_x + char_buf_len],
-		&answer[statusbar_x], statusbar_xend - statusbar_x +
+		&answer[statusbar_x], answer_len - statusbar_x +
 		char_buf_len);
 	charcpy(&answer[statusbar_x], char_buf, char_buf_len);
-	statusbar_xend += char_buf_len;
+	answer_len += char_buf_len;
 
 	do_statusbar_right();
     }
@@ -2084,9 +2084,9 @@ void do_statusbar_output(char *output, size_t output_len, bool
     free(char_buf);
 }
 
-/* Return the placewewant associated with current_x.  That is, xplustabs
- * is the zero-based column position of the cursor.  Value is no smaller
- * than current_x. */
+/* Return the placewewant associated with current_x, i.e, the zero-based
+ * column position of the cursor.  The value will be no smaller than
+ * current_x. */
 size_t xplustabs(void)
 {
     return strnlenpt(current->data, current_x);
@@ -2410,6 +2410,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
     bool meta_key, func_key, s_or_t, ran_func, finished;
     bool tabbed = FALSE;
 	/* used by input_tab() */
+    size_t answer_len = strlen(def);
 
 #ifndef NANO_SMALL
    /* for history */
@@ -2426,19 +2427,18 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
        answer or restored from answer to currentbuf. */
     int use_cb = 0;
 #endif
-    statusbar_xend = strlen(def);
 
     /* Only put statusbar_x at the end of the string if it's
      * uninitialized, if it would be past the end of the string as it
      * is, or if resetstatuspos is TRUE.  Otherwise, leave it alone.
      * This is so the cursor position stays at the same place if a
      * prompt-changing toggle is pressed. */
-    if (statusbar_x == (size_t)-1 || statusbar_x > statusbar_xend ||
+    if (statusbar_x == (size_t)-1 || statusbar_x > answer_len ||
 		resetstatuspos)
-	statusbar_x = statusbar_xend;
+	statusbar_x = answer_len;
 
-    answer = charealloc(answer, statusbar_xend + 1);
-    if (statusbar_xend > 0)
+    answer = charealloc(answer, answer_len + 1);
+    if (answer_len > 0)
 	strcpy(answer, def);
     else
 	answer[0] = '\0';
@@ -2468,8 +2468,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 	if (finished)
 	    break;
 
-	assert(statusbar_x <= statusbar_xend &&
-		statusbar_xend == strlen(answer));
+	assert(statusbar_x <= answer_len && answer_len == strlen(answer));
 
 	if (kbinput != '\t')
 	    tabbed = FALSE;
@@ -2485,10 +2484,11 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 		}
 
 		if (history_list->len > 0) {
-		    complete = get_history_completion(history_list, answer);
-		    statusbar_x = strlen(complete);
-		    statusbar_xend = statusbar_x;
+		    complete = get_history_completion(history_list,
+			answer);
 		    answer = mallocstrcpy(answer, complete);
+		    answer_len = strlen(answer);
+		    statusbar_x = answer_len;
 		}
 	    }
 #ifndef DISABLE_TABCOMP
@@ -2498,7 +2498,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 #ifndef DISABLE_TABCOMP
 	    if (allow_tabs) {
 		answer = input_tab(answer, &statusbar_x, &tabbed, list);
-		statusbar_xend = strlen(answer);
+		answer_len = strlen(answer);
 	    }
 	    break;
 #endif
@@ -2529,20 +2529,21 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 		    answer = mallocstrcpy(answer, currentbuf);
 		    free(currentbuf);
 		    currentbuf = NULL;
-		    statusbar_xend = strlen(answer);
+		    answer_len = strlen(answer);
 		    use_cb = 0;
 
 		/* else get older search from the history list and save
 		   it in answer; if there is no older search, blank out 
 		   answer */
-		} else if ((history = get_history_older(history_list)) != NULL) {
+		} else if ((history =
+			get_history_older(history_list)) != NULL) {
 		    answer = mallocstrcpy(answer, history);
-		    statusbar_xend = strlen(history);
+		    answer_len = strlen(history);
 		} else {
 		    answer = mallocstrcpy(answer, "");
-		    statusbar_xend = 0;
+		    answer_len = 0;
 		}
-		statusbar_x = statusbar_xend;
+		statusbar_x = answer_len;
 	    }
 #endif
 	    break;
@@ -2554,7 +2555,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 		   in answer */
 		if ((history = get_history_newer(history_list)) != NULL) {
 		    answer = mallocstrcpy(answer, history);
-		    statusbar_xend = strlen(history);
+		    answer_len = strlen(history);
 
 		/* if there is no newer search, we're here */
 		
@@ -2566,9 +2567,9 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 		   1 */
 		} else if (currentbuf != NULL && use_cb != 2) {
 		    answer = mallocstrcpy(answer, currentbuf);
+		    answer_len = strlen(answer);
 		    free(currentbuf);
 		    currentbuf = NULL;
-		    statusbar_xend = strlen(answer);
 		    use_cb = 1;
 
 		/* otherwise, if currentbuf is NULL and use_cb isn't 2, 
@@ -2582,10 +2583,10 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 			currentbuf = mallocstrcpy(currentbuf, answer);
 			answer = mallocstrcpy(answer, "");
 		    }
-		    statusbar_xend = 0;
+		    answer_len = 0;
 		    use_cb = 2;
 		}
-		statusbar_x = statusbar_xend;
+		statusbar_x = answer_len;
 	    }
 #endif
 	    break;
