@@ -446,9 +446,9 @@ int write_file(char *name, int tmp)
     if (!tmp) {
 	strncpy(filename, realname, 132);
 	statusbar(_("Wrote %d lines"), lineswritten);
+        UNSET(MODIFIED);
+        titlebar();
     }
-    UNSET(MODIFIED);
-    titlebar();
     return 1;
 }
 
