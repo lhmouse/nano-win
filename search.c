@@ -85,6 +85,14 @@ int search_init(int replacing)
     buf = charalloc(strlen(last_search) + 5);
     buf[0] = 0;
 
+
+    /* Clear the backupstring if we've changed from Pico mode to regular
+	mode */
+    if (ISSET(CLEAR_BACKUPSTRING)) {
+	free(backupstring);
+	backupstring = NULL;
+    }
+	
      /* Okay, fun time.  backupstring is our holder for what is being 
 	returned from the statusq call.  Using answer for this would be tricky.
 	Here, if we're using PICO_MODE, we only want nano to put the
@@ -183,17 +191,6 @@ int search_init(int replacing)
     case NANO_OTHERSEARCH_KEY:
 	backupstring = mallocstrcpy(backupstring, answer);
 	return -2;		/* Call the opposite search function */
-/*
-    } else if (i == NANO_REVERSESEARCH_KEY) {
-	free(backupstring);
-	backupstring = NULL;
-	backupstring = mallocstrcpy(backupstring, answer);
-
-	TOGGLE(REVERSE_SEARCH);
-
-	return 1;
-    } else if (i == NANO_FROMSEARCHTOGOTO_KEY) {
-*/
     case NANO_FROMSEARCHTOGOTO_KEY:
 	free(backupstring);
 	backupstring = NULL;

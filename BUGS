@@ -117,7 +117,11 @@
 - Blank lines are not kept when cutting with -k (discovered by Rocco)
   (61) [FIXED].
 - Nano will not suspend properly inside of mutt (62) [FIXED].
-
+- When switching from Pico mode to normal mode, the previous search is
+  not displayed until cancelling the search (63) [FIXED].
+- If you change search options but don't change the search string in
+  normal mode, hitting  enter causes the search/replace to abort (64)
+  (Jordi Mallach) [FIXED].
 
 ** Open BUGS **
 

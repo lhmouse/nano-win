@@ -258,7 +258,7 @@ following toggles are available:
 `Cut To End Toggle (Meta-K)'
      toggles the -k (-cut) command line flag.
 
-`Cut To End Toggle (Meta-M)'
+`Mouse Toggle (Meta-M)'
      toggles the -m (-mouse) command line flag.
 
 `Pico Mode Toggle (Meta-P)'
@@ -404,8 +404,8 @@ Node: The Statusbar6367
 Node: Shortcut Lists6948
 Node: Online Help7341
 Node: Feature Toggles7717
-Node: The File Browser8860
-Node: Pico Compatibility9569
-Node: Building and Configure Options11611
+Node: The File Browser8855
+Node: Pico Compatibility9564
+Node: Building and Configure Options11606
 
 End Tag Table

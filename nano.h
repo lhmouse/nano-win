@@ -140,6 +140,7 @@ typedef struct rcoption {
 #define DISABLE_CURPOS         	(1<<18)
 #define REVERSE_SEARCH		(1<<19)
 #define MULTIBUFFER		(1<<20)
+#define CLEAR_BACKUPSTRING	(1<<21)
 
 /* Control key sequences, changing these would be very very bad */
 

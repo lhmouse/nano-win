@@ -1,4 +1,9 @@
 CVS code -
+- General
+	- Added BUGS #63 & 64.  Fixes in search_init() and nanogetstr(),
+	  new flag CLEAR_BACKUPSTRING because there's no easy way to
+	  clear the backupstring without making it global (messy), so we
+	  use a flag instead (just as messy?)
 - nano.texi:
 	-corrected the Mouse Toggle section, noticed by Daniel Bonniot.
 
