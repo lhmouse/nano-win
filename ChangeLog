@@ -214,7 +214,9 @@ CVS code -
 	- Use napms() instead of nanosleep(), as it does the same thing
 	  (aside from taking an argument in milliseconds instead of
 	  microseconds) and curses includes it. (DLR)
-	- Overhaul for efficiency. (David Benbennick)
+	- Overhaul for efficiency, and make sure the xlcredits
+	  translations are done after initialization in order to avoid
+	  an error when compiling with -pedantic. (David Benbennick)
 - configure.ac:
 	- Add tests for isblank() and strcasestr(), and define
 	  _GNU_SOURCE so that the tests work properly.  Increase the

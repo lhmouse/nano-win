@@ -2750,14 +2750,14 @@ void do_credits(void)
     };
 
     const char *xlcredits[XLCREDIT_LEN] = {
-	_("The nano text editor"),
-	_("version"),
-	_("Brought to you by:"),
-	_("Special thanks to:"),
-	_("The Free Software Foundation"),
-	_("For ncurses:"),
-	_("and anyone else we forgot..."),
-	_("Thank you for using nano!")
+	"The nano text editor",
+	"version",
+	"Brought to you by:",
+	"Special thanks to:",
+	"The Free Software Foundation",
+	"For ncurses:",
+	"and anyone else we forgot...",
+	"Thank you for using nano!"
     };
 
     curs_set(0);
@@ -2780,7 +2780,7 @@ void do_credits(void)
 
 	    if (what == NULL) {
 		assert(0 <= xlpos && xlpos < XLCREDIT_LEN);
-		what = xlcredits[xlpos];
+		what = _(xlcredits[xlpos]);
 		xlpos++;
 	    }
 	    start_x = COLS / 2 - strlen(what) / 2 - 1;
