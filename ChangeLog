@@ -99,21 +99,21 @@ CVS code -
 	  control_mbrep(), control_wrep(), mbwidth(), mb_cur_max(),
 	  make_mbchar(), mbstrlen(), mbstrnlen(), mbstrcasecmp(),
 	  mbstrncasecmp(), mbstrcasestr(), and mbrevstrcasestr();
-	  changes to is_byte() (moved to chars.c), is_blank_char()
-	  (moved to chars.c), is_cntrl_char() (moved to chars.c),
-	  nstricmp() (renamed nstrcasecmp() and moved to chars.c),
-	  nstrnicmp() (renamed nstrncasecmp() and moved to chars.c),
-	  nstristr() (renamed nstrcasestr() and moved to chars.c),
-	  revstrstr() (moved to chars.c), revstristr() (renamed
-	  revstrcasestr() and moved to chars.c), nstrnlen() (moved to
-	  chars.c), parse_char() (renamed parse_mbchar() and moved to
-	  chars.c), move_left() (renamed move_mbleft() and moved to
-	  chars.c), move_right() (renamed move_mbright() and moved to
-	  chars.c), do_home(), do_verbatim_input(), do_delete(),
-	  do_tab(), do_enter(), indent_length(), do_next_word(),
-	  do_prev_word(), do_wrap(), do_input(), do_output(),
-	  is_whole_word(), strstrwrapper(), get_buffer(), unget_input(),
-	  unget_kbinput(), get_input(), parse_kbinput(),
+	  changes to help_init(), is_byte() (moved to chars.c),
+	  is_blank_char() (moved to chars.c), is_cntrl_char() (moved to
+	  chars.c), nstricmp() (renamed nstrcasecmp() and moved to
+	  chars.c), nstrnicmp() (renamed nstrncasecmp() and moved to
+	  chars.c), nstristr() (renamed nstrcasestr() and moved to
+	  chars.c), revstrstr() (moved to chars.c), revstristr()
+	  (renamed revstrcasestr() and moved to chars.c), nstrnlen()
+	  (moved to chars.c), parse_char() (renamed parse_mbchar() and
+	  moved to chars.c), move_left() (renamed move_mbleft() and
+	  moved to chars.c), move_right() (renamed move_mbright() and
+	  moved to chars.c), do_home(), do_verbatim_input(),
+	  do_delete(), do_tab(), do_enter(), indent_length(),
+	  do_next_word(), do_prev_word(), do_wrap(), do_input(),
+	  do_output(), is_whole_word(), strstrwrapper(), get_buffer(),
+	  unget_input(), unget_kbinput(), get_input(), parse_kbinput(),
 	  unparse_kbinput(), parse_verbatim_kbinput(),
 	  do_statusbar_input(), do_statusbar_home(),
 	  do_statusbar_verbatim_kbinput(), do_statusbar_output(), and
@@ -162,8 +162,6 @@ CVS code -
 	  routine to get the current user's home directory into the new
 	  function get_homedir(), and use it where necessary.  Also add
 	  a few miscellaneous tweaks.
-	- Still more steps toward multibyte/wide character support.
-	  Changes to help_init(). (DLR)
 - cut.c:
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the
