@@ -133,6 +133,8 @@ CVS code -
 	  NANO_SMALL is defined and DISABLE_SPELLER isn't.  Also, turn
 	  the USE_REGEXP flag off during spell checking in order to
 	  avoid a potential segfault. (DLR)
+	- Fully save the position in the file, using edittop, current,
+	  current_x, and placewewant. (DLR)
   do_alt_speller()
 	- Call terminal_init() unconditionally after running the
 	  alternate spell checker, so that the terminal state is
