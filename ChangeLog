@@ -22,6 +22,8 @@ CVS code -
 	- Change input var to one char instead of array (David Benbennick).
 	- Move NO_CONVERT check up so chars get read in properly (DLR).
 - nano.c:
+	- Move the termios things in main() up to signal_init(), where
+	  they should probably be anyway.
   do_justify()
 	- More fixes for indented justify (David Benbennick).
   do_int_speller()
