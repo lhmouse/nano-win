@@ -1814,9 +1814,9 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	dollars)
 {
     size_t start_index;
-	/* Index in buf of first character shown in return value. */
+	/* Index in buf of the first character shown. */
     size_t column;
-	/* Screen column start_index corresponds to. */
+	/* Screen column that start_index corresponds to. */
     size_t alloc_len;
 	/* The length of memory allocated for converted. */
     char *converted;
@@ -1856,7 +1856,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		);
 
 	if (is_cntrl_char(wide_buf)) {
-	    if (dollars && column > start_col) {
+	    if (column > start_col) {
 		char *ctrl_wide_buf = charalloc(MB_CUR_MAX);
 		int ctrl_wide_buf_len, i;
 
