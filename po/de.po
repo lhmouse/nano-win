@@ -2,13 +2,13 @@
 # German Messages for the nano editor
 # Florian Kˆnig <floki@bigfoot.com> June 21, 2000
 # Copyright (C) 2000 Free Software Foundation, Inc.
-# Florian Kˆnig <floki@bigfoot.com>, 2000.
+# Florian Kˆnig <floki@bigfoot.com>, 2001.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 0.9.17\n"
+"Project-Id-Version: nano 1.0.0\n"
 "POT-Creation-Date: 2001-01-31 18:08-0500\n"
-"PO-Revision-Date: 2000-09-09 11:55+0200\n"
+"PO-Revision-Date: 2001-02-08 17:56+0200\n"
 "Last-Translator: Florian Kˆnig <floki@bigfoot.com>\n"
 "Language-Team: German <floki@bigfoot.com>\n"
 "MIME-Version: 1.0\n"
@@ -48,11 +48,11 @@ msgstr "Neue Datei"
 msgid "File \"%s\" is a directory"
 msgstr "Datei \"%s\" ist ein Verzeichnis"
 
-#. Don't open character or block files.  Sorry, /dev/sndstat!
+#. Don't open character or block files. Sorry, /dev/sndstat!
 #: files.c:241
-#, fuzzy, c-format
+#, c-format
 msgid "File \"%s\" is a device file"
-msgstr "Datei \"%s\" ist ein Verzeichnis"
+msgstr "Datei \"%s\" ist eine Ger‰tedatei"
 
 #: files.c:248
 msgid "Reading File"
@@ -60,7 +60,7 @@ msgstr "Lese Datei"
 
 #: files.c:262
 msgid "File to insert [from ./] "
-msgstr "Datei zum Einf¸gen [von ./] "
+msgstr "Datei einf¸gen [von ./] "
 
 #: files.c:309 files.c:334 files.c:566 nano.c:1444
 msgid "Cancelled"
@@ -85,7 +85,7 @@ msgstr "Konnte %s nicht schlieﬂen: %s"
 #: files.c:465 files.c:474 files.c:479
 #, c-format
 msgid "Could not open %s for writing: %s"
-msgstr "Konnte nicht in %s schreiben: %s"
+msgstr "Konnte %s nicht zum Schreiben ˆffnen: %s"
 
 #: files.c:486
 #, c-format
@@ -112,17 +112,17 @@ msgstr "Datei exisitiert, ‹BERSCHREIBEN ?"
 
 #: files.c:971
 msgid "(more)"
-msgstr ""
+msgstr "(mehr)"
 
 #: files.c:1236
 msgid "Can't move up a directory"
-msgstr ""
+msgstr "Konnte nicht in Åbergeordnetes Verzeichnis wechseln"
 
-#. We can't open this dir for some reason.  Complain
+#. We can't open this dir for some reason. Complain
 #: files.c:1244
-#, fuzzy, c-format
+#, c-format
 msgid "Can't open \"%s\": %s"
-msgstr "Konnte %s nicht schlieﬂen: %s"
+msgstr "Konnte \"%s\" nicht ˆffnen: %s"
 
 #: global.c:131
 msgid "Constant cursor position"
@@ -141,9 +141,8 @@ msgid "Help mode"
 msgstr "Hilfe-Modus"
 
 #: global.c:135
-#, fuzzy
 msgid "Pico mode"
-msgstr "Pico Meldungen"
+msgstr "Pico-Modus"
 
 #: global.c:136
 msgid "Mouse support"
@@ -183,7 +182,7 @@ msgstr "Absatz ausrichten"
 
 #: global.c:190
 msgid "Unjustify after a justify"
-msgstr ""
+msgstr "Absatzausrochtung r¸ckg‰ngig machen"
 
 #: global.c:191
 msgid "Replace text within the editor"
@@ -284,7 +283,7 @@ msgstr ""
 
 #: global.c:217
 msgid "Go to file browser"
-msgstr ""
+msgstr "Zum Dateibrowser"
 
 #: global.c:218
 msgid "Cancel the current function"
@@ -335,13 +334,12 @@ msgid "Cut Text"
 msgstr "Ausschneiden"
 
 #: global.c:270
-#, fuzzy
 msgid "UnJustify"
-msgstr "Ausrichten"
+msgstr "Ausrichten r¸ckg‰ngig"
 
 #: global.c:273
 msgid "UnCut Txt"
-msgstr "Einf¸gen"
+msgstr "Ausschneiden r¸ckg‰ngig"
 
 #: global.c:277
 msgid "Cur Pos"
@@ -421,18 +419,17 @@ msgid "No Replace"
 msgstr "Keine Ersetzung"
 
 #: global.c:417
-#, fuzzy
 msgid "To Files"
-msgstr "Neue Datei"
+msgstr "In Dateien"
 
 #: nano.c:140
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Buffer written to %s\n"
 msgstr ""
 "\n"
-"Puffer in 'nano.save' geschrieben\n"
+"Puffer in %s geschrieben\n"
 
 #: nano.c:142
 #, c-format
@@ -440,10 +437,12 @@ msgid ""
 "\n"
 "No %s written (file exists?)\n"
 msgstr ""
+"\n"
+"%s nicht geschrieben (Datei existiert?)\n"
 
 #: nano.c:151
 msgid "Window size is too small for Nano..."
-msgstr ""
+msgstr "Fenstergrˆﬂe ist zu klein f¸r Nano..."
 
 #: nano.c:159
 msgid "Key illegal in VIEW mode"
@@ -454,17 +453,17 @@ msgid ""
 " nano help text\n"
 "\n"
 " The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor: The "
+"the UW Pico text editor. |There are four main sections of the editor: The "
 "top line shows the program version, the current filename being edited, and "
-"whether or not the file has been modified.  Next is the main editor window "
-"showing the file being edited.  The status line is the third line from the "
+"whether or not the file has been modified. |Next is the main editor window "
+"showing the file being edited. |The status line is the third line from the "
 "bottom and shows important messages. The bottom two lines show the most "
 "commonly used shortcuts in the editor.\n"
 "\n"
 " The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  "
+"with a caret (^) symbol and are entered with the Control (Ctrl) key. |"
 "Escape-key sequences are notated with the Meta (M) symbol and can be entered "
-"using either the Esc, Alt or Meta key depending on your keyboard setup.  The "
+"using either the Esc, Alt or Meta key depending on your keyboard setup. |The "
 "following keystrokes are available in the main editor window. Optional keys "
 "are shown in parentheses:\n"
 "\n"
@@ -472,28 +471,27 @@ msgstr ""
 " nano Hilfe\n"
 "\n"
 " Nano wurde konzipiert um die Funktionalit‰t und die Benutzerfreundlichkeit "
-"des UW Pico Texteditors zu imitieren. Es gibt vier Hauptbereiche: Die "
+"des UW Pico Texteditors zu imitieren. | Es gibt vier Hauptbereiche: Die "
 "Titelzeile zeigt die Version des Programms, den Namen der aktuell editierten "
-"Datei und ob die Datei ver‰ndert wurde oder nicht. Das Hauptfenster enth‰lt "
-"die geˆffnete Datei. Die Statuszeile (die dritte Zeile von unten) zeigt "
+"Datei und ob die Datei ver‰ndert wurde oder nicht. | Das Hauptfenster enth‰lt "
+"die geˆffnete Datei. | Die Statuszeile (die dritte Zeile von unten) zeigt "
 "wichtige Meldungen. Die untersten zwei Zeilen listen die meistgebrauchten "
 "Tastenkombinationen von nano auf.\n"
 "\n"
-" Tastenkombinationen werden wie folgt abgek¸rzt: Kombinationen mit der "
-"Strg-Taste werden mit einem ^ ausgedr¸ckt, Alt-Taste-Kombinationen mit dem "
-"Meta (M) Symbol. Die folgenden Tasten(kombinationen) sind im Hauptfenster "
-"verf¸gbar. Optionale Tasten sind eingeklammert.\n"
+" Tastenkombinationen werden wie folgt abgek‰rzt: Kombinationen mit der "
+"Strg-Taste werden mit einem ^ ausgedr‰ckt. Escape-Sequenzen werden mit "
+"dem Meta (M)-Symbol angegeben und kˆnnen je nach Tastatureinstellung mit "
+"Esc, Alt oder Meta eingegeben werden. | Die folgenden Tasten(kombinationen) "
+"sind im Hauptfenster verf¸gbar. Optionale Tasten sind eingeklammert.\n"
 "\n"
 
 #: nano.c:297
-#, fuzzy
 msgid "delete_node(): free'd a node, YAY!\n"
-msgstr "free_node(): Knoten freigegeben.\n"
+msgstr "delete_node(): Knoten freigegeben.\n"
 
 #: nano.c:302
-#, fuzzy
 msgid "delete_node(): free'd last node.\n"
-msgstr "free_node(): letzter Knoten freigegeben.\n"
+msgstr "delete_node(): letzter Knoten freigegeben.\n"
 
 #: nano.c:357
 msgid ""
@@ -508,9 +506,8 @@ msgid "Option\t\tLong option\t\tMeaning\n"
 msgstr "Option\t\tlange Option\t\tBedeutung\n"
 
 #: nano.c:360
-#, fuzzy
 msgid " -T [num]\t--tabsize=[num]\t\tSet width of a tab to num\n"
-msgstr " -T \t\t--tabsize=[Anzahl]\tTabulator-Grˆﬂe auf Anzahl setzen\n"
+msgstr " -T [Anzahl]\t--tabsize=[Anzahl]\t\tTabulator-Grˆﬂe auf Anzahl setzen\n"
 
 #: nano.c:363
 msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
@@ -540,7 +537,7 @@ msgstr " -k \t\t--cut\t\t\t^K schneidet vom Cursor bis zum Zeilenende aus\n"
 msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
 msgstr ""
 " -l \t\t--nofollow\t\tSymbolischen Links nicht folgen, sondern "
-"¸berschreiben.\n"
+"‹berschreiben.\n"
 
 #: nano.c:382
 msgid " -m \t\t--mouse\t\t\tEnable mouse\n"
@@ -548,8 +545,7 @@ msgstr " -m \t\t--mouse\t\t\tMaus aktivieren\n"
 
 #: nano.c:386
 msgid " -p\t \t--pico\t\t\tEmulate Pico as closely as possible\n"
-msgstr ""
-
+msgstr " -\t \t--pico\t\t\tPico so genau wie mˆglich imitieren\n"
 #: nano.c:389
 msgid ""
 " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
@@ -569,7 +565,7 @@ msgstr " -t \t\t--tempfile\t\tBeim Beenden ohne R¸ckfrage speichern\n"
 #: nano.c:397
 msgid " -v \t\t--view\t\t\tView (read only) mode\n"
 msgstr ""
-" -v \t\t--view\t\t\tNur zum Lesen ˆffnen (keine Ver‰nderungen mˆglich)\n"
+" -v \t\t--view\t\t\tNur zum Lesen ˆffnen (keine Ver‰nderungen m˜glich)\n"
 
 #: nano.c:399
 msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
@@ -638,15 +634,15 @@ msgstr " -m \t\tMaus aktivieren\n"
 
 #: nano.c:425
 msgid " -p \t\tEmulate Pico as closely as possible\n"
-msgstr ""
+msgstr "i -p \t\tPico so genau wie mˆglich imitieren\n"
 
 #: nano.c:426
 msgid " -r [#cols] \tSet fill cols to (wrap lines at) #cols\n"
 msgstr " -r [#Spalten] \tSpalten auff¸llen (Zeilenumbruch bei) #Spalten\n"
 
 #: nano.c:428
-msgid " -s [prog]  \tEnable alternate speller\n"
-msgstr " -s [Programm]  \tAlternative Rechtschreibpr¸fung\n"
+msgid " -s [prog] |\tEnable alternate speller\n"
+msgstr " -s [Programm] |\tAlternative Rechtschreibpr¸fung\n"
 
 #: nano.c:430
 msgid " -t \t\tAuto save on exit, don't prompt\n"
@@ -671,22 +667,23 @@ msgstr " -z \t\tSuspend (anhalten und zur¸ck zur Shell) aktivieren\n"
 #: nano.c:435
 msgid " +LINE\t\tStart at line number LINE\n"
 msgstr " +ZEILE\t\tBei Zeile ZEILE beginnen\n"
-
 #: nano.c:442
+
 #, c-format
 msgid " nano version %s by Chris Allegretta (compiled %s, %s)\n"
 msgstr " nano Version %s von Chris Allegretta (compiliert um %s, %s)\n"
 
 #: nano.c:445
-#, fuzzy
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
-msgstr " Email: nano@nano-editor.org\tWWW: http://www.nano-editor.org\n"
+msgstr " Email: nano@nano-editor.org\tWWW: http://www.nano-editor.org"
 
 #: nano.c:446
 msgid ""
 "\n"
 " Compiled options:"
 msgstr ""
+"\n"
+" Kompilierte Optionen:"
 
 #: nano.c:511
 msgid "Mark Set"
@@ -713,7 +710,7 @@ msgstr "Nachher, data = \"%s\"\n"
 
 #: nano.c:1160
 msgid "Edit a replacement"
-msgstr ""
+msgstr "Ersetzung editieren"
 
 #: nano.c:1391
 #, c-format
@@ -722,7 +719,7 @@ msgstr "Konnte keine tempor‰re Datei erzeugen: %s"
 
 #: nano.c:1397
 msgid "Spell checking failed: unable to write temp file!"
-msgstr ""
+msgstr "Rechtschreibpr¸fung fehlgeschlagen: konnte nicht in tempor‰re Datei schreiben"
 
 #: nano.c:1409
 msgid "Finished checking spelling"
@@ -730,15 +727,15 @@ msgstr "Rechtschreibpr¸fung abgeschlossen"
 
 #: nano.c:1411
 msgid "Spell checking failed"
-msgstr ""
+msgstr "Rechtschreibpr¸fung fehlgeschlagen"
 
 #: nano.c:1431
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
-msgstr "Ver‰nderten Puffer speichern (\"Nein\" verwirft die ƒnderungen) ? "
+msgstr "Ver‰nderten Puffer speichern (\"Nein\" VERWIRFT DIE ƒNDERUGNEN) ? "
 
 #: nano.c:1527
 msgid "Received SIGHUP"
-msgstr ""
+msgstr "SIGHUP empfangen"
 
 #: nano.c:1590
 msgid "Cannot resize top win"
@@ -766,12 +763,12 @@ msgstr "Kann unteres Fenster nicht verschieben"
 
 #: nano.c:1908
 msgid "Can now UnJustify!"
-msgstr ""
+msgstr "Kann Absatzausrichtung nicht r¸ckg‰ngig machen"
 
 #: nano.c:2005
 #, c-format
 msgid "%s enable/disable"
-msgstr "%s  aktivieren/deaktivieren"
+msgstr "%s aktivieren/deaktivieren"
 
 #: nano.c:2020
 msgid "enabled"
@@ -782,8 +779,8 @@ msgid "disabled"
 msgstr "deaktiviert"
 
 #: nano.c:2073
-msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
-msgstr ""
+msgid "NumLock glitch detected. |Keypad will malfunction with NumLock off"
+msgstr "NumLock Problem entdeckt. | Tastenblock funktioniert nicht, wenn NumLock ausgeschaltet ist"
 
 #: nano.c:2288
 msgid "Main: set up windows\n"
@@ -798,19 +795,19 @@ msgid "Main: open file\n"
 msgstr "Hauptprogramm: Datei ˆffnen\n"
 
 #: nano.c:2353
-#, fuzzy, c-format
+#, c-format
 msgid "I got Alt-O-%c! (%d)\n"
-msgstr "Erhielt Alt-[-%c! (%d)\n"
+msgstr "Erhielt Alt-0-%c! (%d)\n"
 
 #: nano.c:2380
-#, fuzzy, c-format
+#, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
-msgstr "Erhielt Alt-[-%c! (%d)\n"
+msgstr "Erhielt Alt-[-1-%c! (%d)\n"
 
 #: nano.c:2413
-#, fuzzy, c-format
+#, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
-msgstr "Erhielt Alt-[-%c! (%d)\n"
+msgstr "Erhielt Alt-[-2-%c! (%d)\n"
 
 #: nano.c:2455
 #, c-format
@@ -853,9 +850,9 @@ msgid "Search Cancelled"
 msgstr "Suche abgebrochen"
 
 #: search.c:194
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s...\" not found"
-msgstr "\"%s\" nicht gefunden"
+msgstr "\"%s...\" nicht gefunden"
 
 #: search.c:243
 msgid "Search Wrapped"
@@ -876,7 +873,7 @@ msgstr "Ersetzung abgebrochen"
 
 #: search.c:533
 msgid "Replace this instance?"
-msgstr "Ersetzen?"
+msgstr "Fundstelle ersetzen?"
 
 #: search.c:545
 msgid "Replace failed: unknown subexpression!"
@@ -912,7 +909,7 @@ msgstr "Nur %d Zeilen vorhanden, springe zur letzten Zeile"
 #: winio.c:121
 #, c-format
 msgid "actual_x_from_start for xplus=%d returned %d\n"
-msgstr "actual_x_from_start f¸r xplus=%d gab %d zur¸ck\n"
+msgstr "actual_x_from_start f¸r xplus=%d gab %d zurÅck\n"
 
 #: winio.c:443
 #, c-format
@@ -924,13 +921,12 @@ msgid "New Buffer"
 msgstr "Neuer Puffer"
 
 #: winio.c:489
-msgid "  File: ..."
-msgstr "  Datei: ..."
+msgid " |File: ..."
+msgstr " |Datei: ..."
 
 #: winio.c:491
-#, fuzzy
-msgid "   DIR: ..."
-msgstr "  Datei: ..."
+msgid " || DIR: ..."
+msgstr " || Verzeichnis: ..."
 
 #: winio.c:502
 msgid "Modified"
@@ -986,89 +982,71 @@ msgstr "Gebe einen Puffer nach stderr aus...\n"
 
 #: winio.c:1382
 msgid "The nano text editor"
-msgstr ""
+msgstr "Der nano Text-Editor"
 
 #: winio.c:1383
-#, fuzzy
 msgid "version "
-msgstr "Version"
+msgstr "Version "
 
 #: winio.c:1384
 msgid "Brought to you by:"
-msgstr ""
+msgstr "Entwickelt von:"
 
 #: winio.c:1385
 msgid "Special thanks to:"
-msgstr ""
+msgstr "Speziellen Dank an:"
 
 #: winio.c:1386
 msgid "The Free Software Foundation"
-msgstr ""
+msgstr "The Free Software Foundation"
 
 #: winio.c:1387
 msgid "Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses"
-msgstr ""
+msgstr "Pavel Curtis, Zeyd Ben-Halim und Eric S. Raymond f¸r ncurses"
 
 #: winio.c:1388
 msgid "and anyone else we forgot..."
-msgstr ""
+msgstr "und alle Nichtgenannten..."
 
 #: winio.c:1389
 msgid "Thank you for using nano!\n"
-msgstr ""
+msgstr "Danke f¸r die Benutzung von nano!\n"
 
 #~ msgid "Could not open file: Path length exceeded."
 #~ msgstr "Konnte Datei nicht ˆffnen: Pfad zu lang."
-
 #~ msgid "Justify Complete"
 #~ msgstr "Ausrichten abgeschlossen"
-
 #~ msgid " -p\t \t--pico\t\t\tMake bottom 2 lines more Pico-like\n"
 #~ msgstr " -p\t \t--pico\t\t\tErscheinungsbild von Pico st‰rker imitieren\n"
-
 #~ msgid " -p \t\tMake bottom 2 lines more Pico-like\n"
 #~ msgstr " -p \t\tErscheinungsbild von Pico st‰rker imitieren\n"
-
 #~ msgid "Error deleting tempfile, ack!"
 #~ msgstr "Konnte tempor‰re Datei nicht lˆschen"
-
 #~ msgid "Could not invoke spell program \"%s\""
 #~ msgstr "Konnte Rechtschreibprogramm \"%s\" nicht aufrufen"
-
 #~ msgid "Could not invoke \"ispell\""
 #~ msgstr "Konnte \"ispell\" nicht aufrufen"
-
 #~ msgid "%s: %s"
 #~ msgstr "%s: %s"
-
 #~ msgid ".XXXXXX"
 #~ msgstr ".XXXXXX"
-
 #~ msgid "\n"
 #~ msgstr "\n"
-
 #~ msgid "nano.save"
 #~ msgstr "nano.save"
-
 #~ msgid ".save"
 #~ msgstr ".save"
-
 #~ msgid "Sorry, this function not available with nano-tiny option"
 #~ msgstr ""
 #~ "Tut mir leid, dies Funktion ist im Minimalmodus von nano nicht verf¸gbar"
-
 #~ msgid " "
 #~ msgstr " "
-
 #~ msgid "nano."
 #~ msgstr "nano."
-
 #~ msgid "%s %s"
 #~ msgstr "%s %s"
-
 #~ msgid "ispell %s"
 #~ msgstr "ispell %s"
-
 #~ msgid ""
 #~ "\n"
 #~ "\n"
@@ -1083,134 +1061,89 @@ msgstr ""
 #~ "\n"
 #~ "\n"
 #~ "Benutzen Sie \"fg\" um zu nano zur¸ckzukehren\n"
-
 #~ msgid "^%c\t"
 #~ msgstr "^%c\t"
-
 #~ msgid "(F%d)\t"
 #~ msgstr "(F%d)\t"
-
 #~ msgid "\t"
 #~ msgstr "\t"
-
 #~ msgid "(M-%c)\t"
 #~ msgstr "(M-%c)\t"
-
 #~ msgid "%s"
 #~ msgstr "%s"
-
 #~ msgid "M-%c\t\t\t"
 #~ msgstr "M-%c\t\t\t"
-
 #~ msgid "regexp"
 #~ msgstr "regul‰rer Ausdruck"
-
 #~ msgid "const"
 #~ msgstr "const"
-
 #~ msgid "suspend"
 #~ msgstr "suspend"
-
-#, fuzzy
 #~ msgid "nowrap"
 #~ msgstr "nowrap"
-
 #~ msgid "nohelp"
 #~ msgstr "nohelp"
-
 #~ msgid "help"
 #~ msgstr "help"
-
 #~ msgid "cut"
 #~ msgstr "cut"
-
-#, fuzzy
 #~ msgid "autoindent"
 #~ msgstr "autoindent"
-
 #~ msgid "tempfile"
 #~ msgstr "tempfile"
-
 #~ msgid "speller"
 #~ msgstr "speller"
-
 #~ msgid "fill"
 #~ msgstr "fill"
-
 #~ msgid "mouse"
 #~ msgstr "mouse"
-
 #~ msgid "pico"
 #~ msgstr "pico"
-
 #~ msgid "nofollow"
 #~ msgstr "nofollow"
-
 #~ msgid "tabsize"
 #~ msgstr "tabsize"
-
 #~ msgid "?T:RVchiklmpr:s:tvwxz"
 #~ msgstr "?T:RVchiklmpr:s:tvwxz"
-
 #~ msgid "h?T:RVciklmpr:s:tvwxz"
 #~ msgstr "h?T:RVciklmpr:s:tvwxz"
-
 #~ msgid "I got %c (%d)!\n"
 #~ msgstr "Erhielt %c (%d)!\n"
-
 #~ msgid " [%s]"
 #~ msgstr " [%s]"
-
 #~ msgid "$"
 #~ msgstr "DM"
-
 #~ msgid "File: "
 #~ msgstr "Datei: "
-
 #~ msgid " %-11s"
 #~ msgstr " %-11s"
-
 #~ msgid "^%c"
 #~ msgstr "^%c"
-
 #~ msgid ": "
 #~ msgstr ": "
-
 #~ msgid " Y"
 #~ msgstr " J"
-
 #~ msgid " A"
 #~ msgstr " A"
-
 #~ msgid " N"
 #~ msgstr " N"
-
 #~ msgid "^C"
 #~ msgstr "^C"
-
 #~ msgid "[ "
 #~ msgstr "[ "
-
 #~ msgid " ]"
 #~ msgstr " ]"
-
 #~ msgid "(%ld) %s\n"
 #~ msgstr "(%ld) %s\n"
-
 #~ msgid "To Replace"
 #~ msgstr "Ersetzen"
-
 #~ msgid "To Search"
 #~ msgstr "Suche"
-
 #~ msgid "nano: malloc: out of memory!"
 #~ msgstr "nano: malloc: Kein Speicher verf¸gbar!"
-
 #~ msgid "nano: realloc: out of memory!"
 #~ msgstr "nano: realloc: Kein Speicher verf¸gbar!"
-
 #~ msgid "Suspend nano if suspend is enabled"
 #~ msgstr "nano anhalten und zur Shell zur¸ckkehren (nur wenn aktiviert)"
-
 #~ msgid "xplustabs for current_x=%d returned %d\n"
 #~ msgstr "xplustabs f¸r current_x=%d gab %d zur¸ck\n"

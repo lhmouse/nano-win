@@ -8,9 +8,14 @@ CVS code -
   do_justify()
 	- If the keystroke after the justify is not the unjustify key,
 	  blank the statsubar (bug reported by Neil Parks).
-
+- de.po:
+	- Translation updates by  Florian König.
+- fi.po:
+	- Translation updates by Pauli Virtanen.
 - hu.po:
 	- Hungarian translation by Horvath Szabolcs.
+- id.po: 
+	- Translation updates by Tedi Heriyanto.
 
 nano-0.9.99pre2 - 01/31/2001
 General
