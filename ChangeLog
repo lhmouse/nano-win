@@ -44,6 +44,7 @@ CVS code -
 	  no longer needed. (David Benbennick)
 	- Rename several variables to make their use clearer and to
 	  avoid conflicts. (DLR)
+	- Set the input mode before turning the keypad on. (DLR)
 - files.c:
   do_insertfile()
 	- Wrap one reference to NANO_EXTCMD_KEY in a NANO_SMALL #ifdef.
@@ -114,6 +115,8 @@ CVS code -
 	  curses setup routines, and turn the keypad on before setting
 	  the input mode. (DLR)
 	- Remove stray HAVE_GETOPT_LONG #ifdefs. (DLR)
+	- Don't call keypad() before initializing the windows it needs
+	  via window_init().
 - nano.h:
 	- Move the NANO_H include guard up before the first #include.
 	  (DLR)

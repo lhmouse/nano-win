@@ -225,21 +225,19 @@ void window_init(void)
     if (editwinrows < MIN_EDITOR_ROWS)
 	die_too_small();
 
-    if (edit != NULL)
-	delwin(edit);
     if (topwin != NULL)
 	delwin(topwin);
+    if (edit != NULL)
+	delwin(edit);
     if (bottomwin != NULL)
 	delwin(bottomwin);
 
-    /* Set up the main text window. */
-    edit = newwin(editwinrows, COLS, 2, 0);
-
-    /* And the other windows. */
+    /* Set up the windows. */
     topwin = newwin(2, COLS, 0, 0);
+    edit = newwin(editwinrows, COLS, 2, 0);
     bottomwin = newwin(3 - no_help(), COLS, LINES - 3 + no_help(), 0);
 
-    /* Turn the keypad on, so that it still works after a Meta-X. */
+    /* Turn the keypad on in the windows we'll be reading input from. */
     keypad(edit, TRUE);
     keypad(bottomwin, TRUE);
 }
@@ -2939,13 +2937,13 @@ void handle_sigwinch(int s)
     /* Turn cursor back on for sure. */
     curs_set(1);
 
-    /* Turn the keypad on and switch to cbreak mode, so that the keypad
+    /* Switch to cbreak mode and turn the keypad on, so that the keypad
      * and input still work if we resized during verbatim input. */
-    keypad(edit, TRUE);
-    keypad(bottomwin, TRUE);
 #ifdef _POSIX_VDISABLE
     cbreak();
 #endif
+    keypad(edit, TRUE);
+    keypad(bottomwin, TRUE);
 
     /* Jump back to the main loop. */
     siglongjmp(jmpbuf, 1);
@@ -2964,7 +2962,7 @@ void allow_pending_sigwinch(int allow)
 #endif /* !NANO_SMALL */
 
 /* If the NumLock key has made the keypad go awry, print an error
-   message; hopefully we can address it later. */
+ * message; hopefully we can address it later. */
 void print_numlock_warning(void)
 {
     static int didmsg = 0;
@@ -3428,17 +3426,14 @@ int main(int argc, char *argv[])
    /* Curses initialization stuff: Start curses, save the state of the
     * the terminal mode, disable translation of carriage return (^M)
     * into newline (^J) so we can catch the Enter key and use ^J for
-    * Justify, turn the keypad on for the windows that read input, put
-    * the terminal in cbreak mode (read one character at a time and
-    * interpret the special control keys) if we can selectively disable
-    * the special control keys or raw mode (read one character at a
-    * time and don't interpret the special control keys) if we
+    * Justify, put the terminal in cbreak mode (read one character at a
+    * time and interpret the special control keys) if we can selectively
+    * disable the special control keys or raw mode (read one character
+    * at a time and don't interpret the special control keys) if we
     * can't, and turn off echoing of characters as they're typed. */
     initscr();
     savetty();
     nonl();
-    keypad(edit, TRUE);
-    keypad(bottomwin, TRUE);
 #ifdef _POSIX_VDISABLE
     cbreak();
 #else

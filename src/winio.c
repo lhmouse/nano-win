@@ -74,14 +74,14 @@ int *get_verbatim_kbinput(WINDOW *win, int *kbinput_len, int
     allow_pending_sigwinch(TRUE);
 #endif
 
-    /* Turn the keypad off so that we don't get extended keypad values,
-     * all of which are outside the ASCII range, and switch to raw mode
-     * so that we can type ^C, ^Q, ^S, ^Z, and ^\ (and ^Y on the Hurd)
-     * without getting interrupts. */
-    keypad(win, FALSE);
+    /* Switch to raw mode so that we can type ^C, ^Q, ^S, ^Z, and ^\
+     * (and ^Y on the Hurd) without getting interrupts, and Turn the
+     * keypad off so that we don't get extended keypad values all of
+     * which are outside the ASCII range. */
 #ifdef _POSIX_VDISABLE
     raw();
 #endif
+    keypad(win, FALSE);
 
     kbinput = wgetch(win);
     verbatim_kbinput = (int *)nmalloc(sizeof(int));
@@ -103,12 +103,12 @@ int *get_verbatim_kbinput(WINDOW *win, int *kbinput_len, int
 	nodelay(win, FALSE);
     }
 
-    /* Turn the keypad back on and switch back to cbreak mode now that
+    /* Switch back to cbreak mode and turn the keypad back on now that
      * we're done. */
-    keypad(win, TRUE);
 #ifdef _POSIX_VDISABLE
     cbreak();
 #endif
+    keypad(win, TRUE);
 
 #ifdef DEBUG
     fprintf(stderr, "get_verbatim_kbinput(): verbatim_kbinput = %s\n", verbatim_kbinput);
