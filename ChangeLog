@@ -1,4 +1,6 @@
 CVS code -
+- nano.texi:
+	-corrected the Mouse Toggle section, noticed by Daniel Bonniot.
 
 nano-1.1.1 - 07/28/2001
 - General
