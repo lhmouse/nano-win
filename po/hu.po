@@ -427,7 +427,7 @@ msgstr "Sorkizár"
 #. this is so we can view multiple files
 #: global.c:330 global.c:334 global.c:343 global.c:347
 msgid "Read File"
-msgstr "Állomány olvasás"
+msgstr "Beolvasás"
 
 #: global.c:353 global.c:424 global.c:459
 msgid "Replace"
@@ -439,11 +439,11 @@ msgstr "Keresés"
 
 #: global.c:361 global.c:539 global.c:590
 msgid "Prev Page"
-msgstr "Elõzõ Oldal"
+msgstr "Elõzõ old."
 
 #: global.c:365 global.c:543 global.c:594
 msgid "Next Page"
-msgstr "Következõ Oldal"
+msgstr "Köv. old."
 
 #: global.c:369
 msgid "Cut Text"
@@ -1139,7 +1139,7 @@ msgstr ""
 #: nano.c:2572
 #, c-format
 msgid "%s enable/disable"
-msgstr "%s engedélyezés/kikapcsolás"
+msgstr "%s be/kikapcsolás"
 
 #: nano.c:2591
 msgid "enabled"
