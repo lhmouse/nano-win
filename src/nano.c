@@ -1902,8 +1902,6 @@ size_t indent_length(const char *line)
  * line[skip + 1] must not be whitespace. */
 void justify_format(filestruct *line, size_t skip)
 {
-    const char *punct = ".?!";
-    const char *brackets = "'\")}]>";
     char *back, *front;
 
     /* These four asserts are assumptions about the input data. */
@@ -3392,6 +3390,12 @@ int main(int argc, char *argv[])
 #endif
 
 #ifndef DISABLE_JUSTIFY
+    if (punct == NULL)
+	    punct = mallocstrcpy(punct, ".?!");
+
+    if (brackets == NULL)
+	    brackets = mallocstrcpy(brackets, "'\")}]>");
+
     if (quotestr == NULL)
 #ifdef HAVE_REGEX_H
 	quotestr = mallocstrcpy(NULL, "^([ \t]*[|>:}#])+");

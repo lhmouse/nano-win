@@ -101,6 +101,9 @@ CVS code -
 	  "whitespace".  This is disabled if nanorc support is disabled
 	  or if we're in tiny mode. (Mike Frysinger; minor changes and
 	  adaptations by DLR)
+	- Add the ability to change the closing punctuation and closing
+	  brackets used to control justification, via the rcfile
+	  entries "punct" and "brackets". (DLR)
 - files.c:
   add_open_file()
 	- Rearrange the NANO_SMALL #ifdef so that the code to set the
@@ -374,6 +377,7 @@ CVS code -
 	- Document the smart home key option. (DLR)
 	- Document the whitespace option. (DLR, adapted from
 	  documentation by Mike Frysinger)
+	- Document the punct and brackets options. (DLR)
 - nano.texi:
 	- Fix toggle inaccuracies: Meta-L now toggles line wrapping, and
 	  Meta-< and Meta-> aren't toggles. (DLR)

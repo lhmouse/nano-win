@@ -47,6 +47,8 @@ extern int search_offscreen;
 extern int currslen;
 
 #ifndef DISABLE_JUSTIFY
+extern char *punct;
+extern char *brackets;
 extern char *quotestr;
 #endif
 

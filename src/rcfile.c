@@ -44,6 +44,9 @@ const static rcoption rcopts[] = {
     {"backup", BACKUP_FILE},
     {"backupdir", 0},
 #endif
+#ifndef DISABLE_JUSTIFY
+    {"brackets", 0},
+#endif
     {"const", CONSTUPDATE},
 #ifndef NANO_SMALL
     {"cut", CUT_TO_END},
@@ -73,6 +76,7 @@ const static rcoption rcopts[] = {
 #endif
     {"preserve", PRESERVE},
 #ifndef DISABLE_JUSTIFY
+    {"punct", 0},
     {"quotestr", 0},
 #endif
     {"rebinddelete", REBIND_DELETE},
@@ -152,12 +156,12 @@ char *parse_next_word(char *ptr)
 }
 
 /* The keywords operatingdir, backupdir, fill, tabsize, speller,
- * quotestr, and whitespace take an argument when set.  Among these,
- * operatingdir, backupdir, speller, quotestr, and whitespace have to
- * allow tabs and spaces in the argument.  Thus, if the next word starts
- * with a ", we say it ends with the last " of the line.  Otherwise, the
- * word is interpreted as usual.  That is so the arguments can contain
- * "s too. */
+ * punct, brackets, quotestr, and whitespace take an argument when set.
+ * Among these, operatingdir, backupdir, speller, punct, brackets,
+ * quotestr, and whitespace have to allow tabs and spaces in the
+ * argument.  Thus, if the next word starts with a ", we say it ends
+ * with the last " of the line.  Otherwise, the word is interpreted as
+ * usual.  That is so the arguments can contain "s too. */
 char *parse_argument(char *ptr)
 {
     const char *ptr_bak = ptr;
@@ -545,6 +549,8 @@ void parse_rcfile(FILE *rcstream)
 				|| !strcasecmp(rcopts[i].name, "fill")
 #endif
 #ifndef DISABLE_JUSTIFY
+				|| !strcasecmp(rcopts[i].name, "punct")
+				|| !strcasecmp(rcopts[i].name, "brackets")
 				|| !strcasecmp(rcopts[i].name, "quotestr")
 #endif
 #ifndef NANO_SMALL
@@ -589,9 +595,22 @@ void parse_rcfile(FILE *rcstream)
 			    } else
 #endif
 #ifndef DISABLE_JUSTIFY
-			    if (!strcasecmp(rcopts[i].name, "quotestr"))
+			    if (!strcasecmp(rcopts[i].name, "punct")) {
+				punct = mallocstrcpy(NULL, option);
+				if (strchr(punct, '\t') != NULL || strchr(punct, ' ') != NULL) {
+				    rcfile_error(_("Non-tab and non-space characters required"));
+				    free(punct);
+				    punct = NULL;
+				}
+			    } else if (!strcasecmp(rcopts[i].name, "brackets")) {
+				brackets = mallocstrcpy(NULL, option);
+				if (strchr(brackets, '\t') != NULL || strchr(brackets, ' ') != NULL) {
+				    rcfile_error(_("Non-tab and non-space characters required"));
+				    free(brackets);
+				    brackets = NULL;
+				}
+			    } else if (!strcasecmp(rcopts[i].name, "quotestr"))
 				quotestr = mallocstrcpy(NULL, option);
-			    else
 #endif
 #ifndef NANO_SMALL
 			    if (!strcasecmp(rcopts[i].name, "backupdir"))

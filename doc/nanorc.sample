@@ -17,6 +17,12 @@
 ## The directory to put the backup files in.
 # set backupdir ""
 
+## The characters treated as closing brackets.  They cannot contain tabs
+## or spaces.  Only closing punctuation, optionally followed by closing
+## brackets, can end sentences.
+##
+# set brackets "'")}]>"
+
 ## Constantly display the cursor position in the status bar.
 # set const
 
@@ -63,6 +69,12 @@
 
 ## Preserve the XON and XOFF keys (^Q and ^S).
 # set preserve
+
+## The characters treated as closing punctuation.  They cannot contain
+## tabs or spaces.  Only closing punctuation, optionally followed by
+## closing brackets, can end sentences.
+##
+# set punct ".?!"
 
 ## The email-quote string, used to justify email-quoted paragraphs.
 ## This is an extended regular expression if your system supports them,
@@ -219,7 +231,7 @@
 ## highlight possible errors and parameters
 #color brightwhite "^ *(set|unset|syntax|color).*$"
 ## set, unset and syntax
-#color cyan "^ *(set|unset) +(autoindent|backup|backupdir|const|cut|fill|historylog|mouse|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|quotestr|rebinddelete|regexp|smarthome|smooth|speller|suspend|tabsize|tempfile|view|whitespace)"
+#color cyan "^ *(set|unset) +(autoindent|backup|backupdir|brackets|const|cut|fill|historylog|mouse|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|punct|quotestr|rebinddelete|regexp|smarthome|smooth|speller|suspend|tabsize|tempfile|view|whitespace)"
 #color green "^ *(set|unset|syntax)\>"
 ## colors
 #color yellow "^ *color +(bright)?(white|black|red|blue|green|yellow|magenta|cyan)(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"

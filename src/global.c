@@ -67,6 +67,11 @@ openfilestruct *open_files = NULL;	/* The list of open files */
 #endif
 
 #ifndef DISABLE_JUSTIFY
+char *punct = NULL;		/* Closing punctuation that can end
+				   sentences. */
+char *brackets = NULL;		/* Closing brackets that can follow
+				   closing punctuation and can end
+				   sentences. */
 char *quotestr = NULL;		/* Quote string.  The default value is
 				   set in main(). */
 #endif

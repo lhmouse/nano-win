@@ -50,6 +50,10 @@ Create backup files in
 \fBset backupdir "\fIdirectory\fP"\fP
 Set the directory where \fBnano\fP puts the backup files if file backups
 are enabled.
+\fBset brackets "\fIstring\fP"\fP
+Set the characters treated as closing brackets.  They cannot contain
+tabs or spaces.  Only closing punctuation, optionally followed by
+closing brackets, can end sentences.
 .TP
 \fBset/unset const\fP
 Constantly display the cursor position in the status bar.
@@ -89,6 +93,11 @@ feature is turned off.
 .TP
 \fBset/unset preserve\fP
 Preserve the XON and XOFF keys (^Q and ^S).
+.TP
+\fBset punct "\fIstring\fP"\fP
+Set the characters treated as closing punctuation.  They cannot contain
+tabs or spaces.  Only closing punctuation, optionally followed by
+closing brackets, can end sentences.
 .TP
 \fBset quotestr "\fIstring\fP"\fP
 The email-quote string, used to justify email-quoted paragraphs.  This
