@@ -517,6 +517,7 @@ int do_writeout_void(void)
  * This code may safely be consumed by a BSD or GPL license.
  */
 
+#if 0
 char **username_tab_completion(char *buf, int *num_matches)
 {
     char **matches = (char **) NULL;
@@ -526,6 +527,7 @@ char **username_tab_completion(char *buf, int *num_matches)
 #endif
     return (matches);
 }
+#endif
 
 /* This was originally called exe_n_cwd_tab_completion, but we're not
    worried about executables, only filenames :> */
@@ -541,10 +543,6 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 
     /* Stick a wildcard onto the buf, for later use */
     strcat(buf, "*");
-
-    /* Now wall the current directory */
-/*    if (!strcmp(filename, ""))
-	dirName = get_current_dir_name(); */
 
     /* Okie, if there's a / in the buffer, strip out the directory part */
     if (strcmp(buf, "") && strstr(buf, "/")) {
@@ -635,7 +633,7 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 	tmp = matchBuf;
 
 	/* skip any leading white space */
-	while (*tmp && isspace(*tmp))
+	while (*tmp && isspace((int) *tmp))
 	    ++tmp;
 
 	/* Free up any memory already allocated */

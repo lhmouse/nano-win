@@ -504,11 +504,11 @@ int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 	if (wholewords)
 	{
 	    /* start of line or previous character not a letter */
-	    if ((current_x == 0) || (!isalpha(fileptr->data[current_x-1])))
+	    if ((current_x == 0) || (!isalpha((int) fileptr->data[current_x-1])))
 	    {
 		/* end of line or next character not a letter */
 		if (((current_x + strlen(prevanswer)) == strlen(fileptr->data))
-			|| (!isalpha(fileptr->data[current_x + strlen(prevanswer)])))
+			|| (!isalpha((int) fileptr->data[current_x + strlen(prevanswer)])))
 		    ;
 		else
 		    continue;
