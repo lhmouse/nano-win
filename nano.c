@@ -1031,7 +1031,6 @@ void do_wrap(filestruct * inptr, char input_char)
 		while ((inptr->next->data[i] == ' '
 			|| inptr->next->data[i] == '\t')) {
 		    i++;
-		    right++;
 		}
 	    }
 #endif
@@ -1102,7 +1101,6 @@ void do_wrap(filestruct * inptr, char input_char)
 		while ((inptr->next->data[i] == ' '
 			|| inptr->next->data[i] == '\t')) {
 		    i++;
-		    right++;
 		}
 	    }
 #endif
@@ -1223,6 +1221,7 @@ void do_wrap(filestruct * inptr, char input_char)
 		    extra++;
 		    spc++;
 		    totsize++;
+		    right++;
 		}
 		t = charalloc(strlen(temp->data) + extra + 1);
 		strncpy(t, inptr->data, extra);
