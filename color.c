@@ -193,6 +193,15 @@ void update_color(void)
 		colorstrings = tmpsyntax->color; 
 	}
     }
+
+    /* if we haven't found a match, use the override string */
+    if (colorstrings == NULL && syntaxstr != NULL) {
+	for (tmpsyntax = syntaxes; tmpsyntax != NULL; 
+	     tmpsyntax = tmpsyntax->next) {
+	    if (!strcasecmp(tmpsyntax->desc, syntaxstr))
+		colorstrings = tmpsyntax->color;
+	}
+    }
     do_colorinit();
     edit_refresh();
 }

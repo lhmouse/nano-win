@@ -510,11 +510,15 @@ void usage(void)
 #ifndef DISABLE_JUSTIFY
     print1opt(_("-Q [str]"), _("--quotestr [str]"), _("Quoting string, default \"> \""));
 #endif
+
 #ifndef NANO_SMALL
     print1opt("-S", "--smooth", _("Smooth scrolling"));
 #endif
     print1opt(_("-T [num]"), _("--tabsize=[num]"), _("Set width of a tab to num"));
     print1opt("-V", "--version", _("Print version information and exit"));
+#ifdef ENABLE_COLOR
+    print1opt(_("-Y [str]"), _("--syntax [str]"), _("Syntax definition to use"));
+#endif
     print1opt("-c", "--const", _("Constantly show cursor position"));
     print1opt("-h", "--help", _("Show this message"));
 #ifndef NANO_SMALL
@@ -2837,6 +2841,9 @@ int main(int argc, char *argv[])
 #ifndef NANO_SMALL
 	{"smooth", 0, 0, 'S'},
 #endif
+#ifdef ENABLE_COLOR
+	{"syntax", 1, 0, 'Y'},
+#endif
 	{"keypad", 0, 0, 'K'},
 	{0, 0, 0, 0}
     };
@@ -2858,11 +2865,11 @@ int main(int argc, char *argv[])
 #endif /* ENABLE_NANORC */
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "h?DFKMNQ:RST:Vabcefgijklmo:pr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "h?DFKMNQ:RST:VY:abcefgijklmo:pr:s:tvwxz",
 				 long_options, &option_index)) != EOF) {
 #else
     while ((optchr =
-	    getopt(argc, argv, "h?DFKMNQ:RST:Vabcefgijklmo:pr:s:tvwxz")) != EOF) {
+	    getopt(argc, argv, "h?DFKMNQ:RST:VY:abcefgijklmo:pr:s:tvwxz")) != EOF) {
 #endif
 
 	switch (optchr) {
@@ -2916,6 +2923,11 @@ int main(int argc, char *argv[])
 	case 'V':
 	    version();
 	    exit(0);
+#ifdef ENABLE_COLOR
+	case 'Y':
+	    syntaxstr = mallocstrcpy(syntaxstr, optarg);
+	    break;
+#endif
 	case 'a':
 	case 'b':
 	case 'e':

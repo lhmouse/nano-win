@@ -111,6 +111,7 @@ shortcut *browser_list = NULL;
     colorstruct colors[NUM_NCOLORS];
     colortype *colorstrings = NULL;
     syntaxtype *syntaxes = NULL;
+    char *syntaxstr = NULL;
 #endif
 
 #if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE) || !defined (DISABLE_HELP)

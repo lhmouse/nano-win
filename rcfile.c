@@ -197,7 +197,7 @@ void parse_syntax(FILE * rcstream, char *buf, char *ptr)
 
     if (*ptr != '"') {
 	rcfile_error(_("regex strings must begin and end with a \" character\n"));
-	exit(1);
+	return;
     }
     ptr++;
 
@@ -206,7 +206,7 @@ void parse_syntax(FILE * rcstream, char *buf, char *ptr)
 
     if (ptr == NULL) {
 	rcfile_error(_("Missing syntax name"));
-	exit(1);
+	return;
     }
 
 	if (syntaxes == NULL) {
@@ -284,7 +284,7 @@ void parse_colors(FILE * rcstream, char *buf, char *ptr)
 
     if (ptr == NULL) {
 	rcfile_error(_("Missing color name"));
-	exit(1);
+	return;
     }
 
     if (strstr(fgstr, ",")) {
@@ -298,7 +298,7 @@ void parse_colors(FILE * rcstream, char *buf, char *ptr)
 
     if (syntaxes == NULL) {
 	rcfile_error(_("Cannot add a color directive without a syntax line"));
-	exit(1);
+	return;
     }
 
     for (tmpsyntax = syntaxes; tmpsyntax->next != NULL;

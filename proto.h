@@ -67,6 +67,7 @@ extern openfilestruct *open_files;
 #ifdef ENABLE_COLOR
 extern colortype *colorstrings;
 extern syntaxtype *syntaxes;
+extern char *syntaxstr;
 #endif
 
 extern shortcut *shortcut_list;
