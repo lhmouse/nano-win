@@ -1,6 +1,6 @@
 2005.03.20 - GNU nano 1.3.6 "shout it from the rooftops" is released.
 		This release finally includes the long-awaited support
-		for UTF-8.   Other new features include the ability to
+		for UTF-8.  Other new features include the ability to
 		insert UTF-8 characters using verbatim input; the
 		ability to delete all text from the cursor position to
 		the end of the file via ^W^X as (patched) Pico does;
