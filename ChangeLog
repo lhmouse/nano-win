@@ -55,6 +55,10 @@ CVS code -
 	  display "UnJustify" in the shortcut list anymore. (DLR)
   do_wrap()
 	- Make wrap_loc and word_back ssize_t's, to match fill. (DLR)
+  break_line()
+	- Fix compilation problem caused by its returning int when it
+	  should return ssize_t according to its prototype. (Jeremy
+	  Huddleston)
   do_justify()
 	- For consistency, preserve placewewant if we didn't unjustify
 	  instead of setting it to 0. (DLR)

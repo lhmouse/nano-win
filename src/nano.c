@@ -2572,7 +2572,7 @@ bool breakable(const char *line, ssize_t goal)
  * such space, and force is TRUE, then we find the first space.  Anyway,
  * we then take the last space in that group of spaces.  The terminating
  * '\0' counts as a space. */
-int break_line(const char *line, ssize_t goal, bool force)
+ssize_t break_line(const char *line, ssize_t goal, bool force)
 {
     ssize_t space_loc = -1;
 	/* Current tentative return value.  Index of the last space we
