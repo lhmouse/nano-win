@@ -444,7 +444,7 @@ void new_magicline(void)
 /* Remove the magicline from filebot, if there is one. */
 void remove_magicline(void)
 {
-    if (filebot->data[0] == '\0') {
+    if (filebot->data[0] == '\0' && filebot->prev != NULL) {
 	filebot = filebot->prev;
 	free_filestruct(filebot->next);
 	filebot->next = NULL;
