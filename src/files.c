@@ -2955,7 +2955,7 @@ void load_history(void)
             if (errno != ENOENT) {
 		/* Don't save history when we quit. */
 		UNSET(HISTORYLOG);
-		rcfile_error(N_("Unable to open ~/.nano_history file: %s"), strerror(errno));
+		rcfile_error(N_("Unable to open ~/.nano_history file: %s\n"), strerror(errno));
 	    }
 	    free(nanohist);
 	} else {
@@ -3005,7 +3005,7 @@ void save_history(void)
     if (homenv != NULL || userage != NULL) {
 	hist = fopen(nanohist, "wb");
 	if (hist == NULL)
-	    rcfile_error(N_("Unable to write ~/.nano_history file: %s"), strerror(errno));
+	    rcfile_error(N_("Unable to write ~/.nano_history file: %s\n"), strerror(errno));
 	else {
 	    /* set rw only by owner for security ?? */
 	    chmod(nanohist, S_IRUSR | S_IWUSR);
@@ -3014,19 +3014,19 @@ void save_history(void)
 		h->data = charealloc(h->data, strlen(h->data) + 2);
 		strcat(h->data, "\n");
 		if (fputs(h->data, hist) == EOF) {
-		    rcfile_error(N_("Unable to write ~/.nano_history file: %s"), strerror(errno));
+		    rcfile_error(N_("Unable to write ~/.nano_history file: %s\n"), strerror(errno));
 		    goto come_from;
 		}
 	    }
 	    if (fputs("\n", hist) == EOF) {
-		    rcfile_error(N_("Unable to write ~/.nano_history file: %s"), strerror(errno));
+		    rcfile_error(N_("Unable to write ~/.nano_history file: %s\n"), strerror(errno));
 		    goto come_from;
 	    }
 	    for (h = replace_history.tail; h->prev; h = h->prev) {
 		h->data = charealloc(h->data, strlen(h->data) + 2);
 		strcat(h->data, "\n");
 		if (fputs(h->data, hist) == EOF) {
-		    rcfile_error(N_("Unable to write ~/.nano_history file: %s"), strerror(errno));
+		    rcfile_error(N_("Unable to write ~/.nano_history file: %s\n"), strerror(errno));
 		    goto come_from;
 		}
 	    }

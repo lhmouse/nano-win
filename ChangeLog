@@ -60,6 +60,11 @@ CVS code -
 	  New functions begpar() and inpar(); changes to quote_length(),
 	  quotes_match(), do_para_search(), do_para_begin(),
 	  do_para_end(), and do_justify(). (David Benbennick)
+	- Readded the errors flag and moved the ending prompt from
+	  rcfile_error() to parse_rcfile() so that we only get prompted
+	  once for all errors instead of separately for each error.
+	  Also make sure that each rcfile error message ends in a
+	  newline. (DLR)
 - files.c:
   close_open_file()
 	- Tweak to no longer rely on the return values of
