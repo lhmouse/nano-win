@@ -100,7 +100,6 @@ int do_colorinit(void)
 {
     int i, fg, bg;
     colortype *tmpcolor = NULL;
-    colorstr *tmpstr = NULL;
     int defok = 0;
 
     if (has_colors()) {
