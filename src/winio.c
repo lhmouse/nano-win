@@ -2380,6 +2380,7 @@ void statusbar(const char *msg, ...)
 	waddstr(bottomwin, " ]");
 	wattroff(bottomwin, A_REVERSE);
 	wnoutrefresh(bottomwin);
+	reset_cursor();
 	wrefresh(edit);
 	    /* Leave the cursor at its position in the edit window, not
 	     * in the statusbar. */

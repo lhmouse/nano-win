@@ -31,24 +31,39 @@
 #include "proto.h"
 #include "nano.h"
 
-/* Regular expression helper functions */
 
 #ifdef HAVE_REGEX_H
+static int regexp_compiled = FALSE;
+
+/* Regular expression helper functions. */
+
+/* Compile the given regular expression.  Return value 0 means the
+ * expression was invalid, and we wrote an error message on the status
+ * bar.  Return value 1 means success. */
 int regexp_init(const char *regexp)
 {
-    /* Hmm, perhaps we should check for whether regcomp returns successfully */
-    if (regcomp(&search_regexp, regexp, (ISSET(CASE_SENSITIVE) ? 0 : REG_ICASE) 
-		| REG_EXTENDED) != 0)
-	return 0;
+    int rc = regcomp(&search_regexp, regexp, REG_EXTENDED |
+	(ISSET(CASE_SENSITIVE) ? 0 : REG_ICASE));
 
-    SET(REGEXP_COMPILED);
+    assert(!regexp_compiled);
+    if (rc != 0) {
+	size_t len = regerror(rc, &search_regexp, NULL, 0);
+	char *str = charalloc(len);
+
+	regerror(rc, &search_regexp, str, len);
+	statusbar(_("Bad regex \"%s\": %s"), regexp, str);
+	free(str);
+	return 0;
+    }
+
+    regexp_compiled = TRUE;
     return 1;
 }
 
 void regexp_cleanup(void)
 {
-    if (ISSET(REGEXP_COMPILED)) {
-	UNSET(REGEXP_COMPILED);
+    if (regexp_compiled) {
+	regexp_compiled = FALSE;
 	regfree(&search_regexp);
     }
 }
@@ -146,9 +161,12 @@ int search_init(int replacing)
 #endif
 		"",
 
+#ifdef HAVE_REGEX_H
 	/* This string is just a modifier for the search prompt; no
 	 * grammar is implied. */
-	ISSET(USE_REGEXP) ? _(" [Regexp]") : "",
+	ISSET(USE_REGEXP) ? _(" [Regexp]") :
+#endif
+		"",
 
 #ifndef NANO_SMALL
 	/* This string is just a modifier for the search prompt; no
@@ -170,7 +188,6 @@ int search_init(int replacing)
     if (i == -1 || (i < 0 && last_search[0] == '\0') ||
 	    (!replacing && i == 0 && answer[0] == '\0')) {
 	statusbar(_("Search Cancelled"));
-	reset_cursor();
 #ifndef NANO_SMALL
 	search_history.current = search_history.next;
 #endif
@@ -180,21 +197,15 @@ int search_init(int replacing)
 	case -2:	/* It's the same string. */
 #ifdef HAVE_REGEX_H
 	    /* Since answer is "", use last_search! */
-	    if (ISSET(USE_REGEXP) && regexp_init(last_search) == 0) {
-		statusbar(_("Invalid regex \"%s\""), last_search);
-		reset_cursor();
+	    if (ISSET(USE_REGEXP) && regexp_init(last_search) == 0)
 		return -1;
-	    }
 #endif
 	    break;
 	case 0:		/* They entered something new. */
 	    last_replace[0] = '\0';
 #ifdef HAVE_REGEX_H
-	    if (ISSET(USE_REGEXP) && regexp_init(answer) == 0) {
-		statusbar(_("Invalid regex \"%s\""), answer);
-		reset_cursor();
+	    if (ISSET(USE_REGEXP) && regexp_init(answer) == 0)
 		return -1;
-	    }
 #endif
 	    break;
 #ifndef NANO_SMALL
@@ -424,11 +435,8 @@ int do_research(void)
 
 #ifdef HAVE_REGEX_H
 	/* Since answer is "", use last_search! */
-	if (ISSET(USE_REGEXP) && regexp_init(last_search) == 0) {
-		statusbar(_("Invalid regex \"%s\""), last_search);
-		reset_cursor();
-		return -1;
-	    }
+	if (ISSET(USE_REGEXP) && regexp_init(last_search) == 0)
+	    return -1;
 #endif
 
 	search_last_line = 0;
@@ -914,7 +922,7 @@ int do_find_bracket(void)
 
     regexp_init(regexp_pat);
     /* We constructed regexp_pat to be a valid expression. */
-    assert(ISSET(REGEXP_COMPILED));
+    assert(regexp_compiled);
 
     search_last_line = 0;
     while (TRUE) {
