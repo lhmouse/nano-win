@@ -107,17 +107,170 @@ void rcfile_msg(int *errors, char *msg, ...)
 /* Parse the next word from the string.  Returns NULL if we hit EOL */
 char *parse_next_word(char *ptr)
 {
-    while (*ptr != ' ' && *ptr != '\n' && ptr != '\0')
+    while (*ptr != ' ' && *ptr != '\t' && *ptr != '\n' && ptr != '\0')
 	ptr++;
 
-    if (*ptr == '\0')
+    if (*ptr == '\0' || *ptr == '\n')
 	return NULL;
-
+	
     /* Null terminate and advance ptr */
     *ptr++ = 0;
 
+    while ((*ptr == ' ' || *ptr == '\t') && *ptr != '\0')
+	ptr++;
+
     return ptr;
 }
+
+int colortoint(char *colorname, char *filename, int *lineno) 
+{
+    int mcolor = 0;
+
+    if (colorname == NULL)
+	return -1;
+
+    if (strcasestr(colorname, "bright")) {
+	mcolor += 8;
+	colorname += 6;
+    }
+    
+    if (!strcasecmp(colorname, "green"))
+	mcolor += COLOR_GREEN;
+    else if (!strcasecmp(colorname, "red"))
+	mcolor += COLOR_RED;
+    else if (!strcasecmp(colorname, "blue"))
+	mcolor += COLOR_BLUE;
+    else if (!strcasecmp(colorname, "white"))
+	mcolor += COLOR_WHITE;
+    else if (!strcasecmp(colorname, "yellow"))
+	mcolor += COLOR_YELLOW;
+    else if (!strcasecmp(colorname, "cyan"))
+	mcolor += COLOR_CYAN;
+    else if (!strcasecmp(colorname, "magenta"))
+	mcolor += COLOR_MAGENTA;
+    else if (!strcasecmp(colorname, "black"))
+	mcolor += COLOR_BLACK;
+    else {
+	printf("Error in %s on line %d: color %s not understood.\n",
+		filename, *lineno, colorname);
+	printf("Valid colors are \"green\", \"red\", \"blue\", "
+	       "\"white\", \"yellow\", \"cyan\", \"magenta\" and "
+	       "\"black\", with the optional prefix \"bright\".\n");
+	exit(1);
+    }
+
+    return mcolor;
+}
+
+
+#ifdef ENABLE_COLOR
+/* Parse the color stuff into the colorstrings array */
+void parse_colors(FILE *rcstream, char *filename, int *lineno, char *buf, char *ptr)
+{
+    int i = 0, fg, bg;
+    char prev = '\\';
+    char *tmp = NULL, *beginning, *fgstr, *bgstr;
+    colortype *tmpcolor = NULL;
+    colorstr *tmpstr = NULL;
+
+    fgstr = ptr;
+    ptr = parse_next_word(ptr);
+
+    if (ptr == NULL) {
+	printf("Error in %s on line %d: Missing color name.\n",
+		filename, *lineno);
+	exit(1);
+    }
+
+    if (strstr(fgstr, ",")) {
+	strtok(fgstr, ",");
+	bgstr = strtok(NULL, ",");
+    } else
+	bgstr = NULL;
+
+    fg = colortoint(fgstr, filename, lineno);
+    bg = colortoint(bgstr, filename, lineno);
+
+    /* Now the fun part, start adding regexps to individual strings
+	in the colorstrings array, woo! */
+
+    i = 0;
+    beginning = ptr;
+    while (*ptr != '\0') {
+	switch (*ptr) {
+	case '\n':
+	    *ptr = ' ';
+	    i++;
+	case ' ':
+	    if (prev != '\\') {
+		/* This is the end of the regex, uh I guess.
+		   Add it to the colorstrings array for this color */	
+		
+ 		tmp = NULL;
+		tmp = charalloc(i + 1);
+		strncpy(tmp, beginning, i);
+		tmp[i] = '\0';
+
+		ptr = parse_next_word(ptr);
+		if (ptr == NULL)
+		    return;
+
+		if (colorstrings == NULL) {
+		    colorstrings = nmalloc(sizeof(colortype));
+		    colorstrings->fg = fg;
+		    colorstrings->bg = bg;
+		    colorstrings->str = NULL;
+		    colorstrings->str = nmalloc(sizeof(colorstr));
+		    colorstrings->str->val = tmp;
+		    colorstrings->str->next = NULL;
+		    colorstrings->next = NULL;
+		} else {
+		    for (tmpcolor = colorstrings;
+			tmpcolor->next != NULL && !(tmpcolor->fg == fg 
+			&& tmpcolor->bg == bg); tmpcolor = tmpcolor->next)
+			;
+
+		    /* An entry for this color pair already exists, add it
+			to the str list */
+		    if (tmpcolor->fg == fg && tmpcolor->bg == bg) {
+			for (tmpstr = tmpcolor->str; tmpstr->next != NULL;
+				tmpstr = tmpstr->next)
+			    ;
+
+		    fprintf(stderr, "Adding to existing entry for fg %d bg %d\n", fg, bg);
+
+			tmpstr->next = nmalloc (sizeof(colorstr));
+			tmpstr->next->val = tmp;
+			tmpstr->next->next = NULL;
+		    } else {
+
+		    fprintf(stderr, "Adding new entry for fg %d bg %d\n", fg, bg);
+
+			tmpcolor->next = nmalloc(sizeof(colortype));
+			tmpcolor->next->fg = fg;
+			tmpcolor->next->bg = bg;
+			tmpcolor->next->str = nmalloc(sizeof(colorstr));
+			tmpcolor->next->str->val = tmp;
+			tmpcolor->next->str->next = NULL;
+			tmpcolor->next->next = NULL;
+		    }
+		}
+
+		i = 0;
+		beginning = ptr;
+		break;
+	    }
+	    /* Else drop through to the default case */		
+	default:
+	    i++;
+	    prev = *ptr;
+	    ptr++;
+	    break;
+	}
+    }
+
+}
+#endif /* ENABLE_COLOR */
 
 /* Parse the RC file, once it has been opened successfully */
 void parse_rcfile(FILE *rcstream, char *filename)
@@ -155,6 +308,10 @@ void parse_rcfile(FILE *rcstream, char *filename)
 	    set = 1;
 	else if (!strcasecmp(keyword, "unset"))
 	    set = -1;
+#ifdef ENABLE_COLOR
+	else if (!strcasecmp(keyword, "color"))
+	    parse_colors(rcstream, filename, &lineno, buf, ptr);
+#endif /* ENABLE_COLOR */
 	else {
 	    rcfile_msg(&errors, _("Error in %s on line %d: command %s not understood"),
 		filename, lineno, keyword);
@@ -247,6 +404,7 @@ void do_rcfile(void)
     char *unable = _("Unable to open ~/.nanorc file, %s");
     struct stat fileinfo;
     FILE *rcstream;
+
 
     if (getenv("HOME") == NULL)
 	return;

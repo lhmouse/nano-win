@@ -117,6 +117,26 @@ typedef struct rcoption {
  
 #endif /* ENABLE_NANORC */
 
+#ifdef ENABLE_COLOR
+
+#define COLORSTRNUM 16
+
+typedef struct colorstr {
+    char *val;
+    struct colorstr *next;
+} colorstr;
+
+typedef struct colortype {
+    int fg;
+    int bg;
+    int pairnum;
+    colorstr *str;
+    struct colortype *next;
+} colortype;
+
+#endif /* ENABLE_COLOR */
+
+
 /* Bitwise flags so we can save space (or more correctly, not waste it) */
 
 #define MODIFIED		(1<<0)

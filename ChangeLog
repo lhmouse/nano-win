@@ -1,4 +1,9 @@
 CVS Code -
+- General
+	- Preliminary syntax highlighting support.  New functions
+	  colortoint() and parse_color() in rcfile.c, new code in 
+	  edit_add() in winio.c to actually do the highlighting.  It's
+	  not even close to pretty yet :P
 - files.c:
   add_open_file()
 	- Get rid of unsetting MARK_ISSET because otherwise writing

@@ -55,3 +55,26 @@
 # this to work
 #
 # set multibuffer
+
+#
+# Color setup
+# Format: color foreground,background regex [regex...]
+#
+# Legal colors are: white, black, red, blue, green, yellow, purple, cyan
+# You may use the preefix "bright" to mean a stronger color hilight
+#
+# If your system supports transparency, not specifying a background
+# color will use a transparent color.  If you don't want this, be sure
+# to set the background color to black or white.
+#
+#color brightred float\  char\  int\  void\  NULL [A-Z_]\{2,\} static
+#color brightred [\ ]struct ^struct if\  while[\ \n\(] do[\ \n\(] else[\ \n] case\ switch\ break;
+#color brightcyan #define #include #ifn*def #endif #elif #else
+
+# You will in general want your comments and strings to come last, becase
+# syntax highlighting rules will be applied in the order they are read in
+
+#color brightyellow <.*> ".*"
+#color brightblue /\*.**/
+# multi-line comment hack
+#color brightblue /\*.* [^\/][^\*]*\*\/ ^.*\*+*\**$ ^\ *\*\{1,\}\/$  \/\/.*

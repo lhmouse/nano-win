@@ -100,6 +100,7 @@ shortcut browser_list[BROWSER_LIST_LEN];
 
 #ifdef ENABLE_COLOR
     colorstruct colors[NUM_NCOLORS];
+    colortype *colorstrings = NULL;
 #endif
 
 #if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE) || !defined (DISABLE_HELP)

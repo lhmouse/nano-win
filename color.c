@@ -98,14 +98,70 @@ void colorinit_one(int colortoset, short fg, short bg, int bold)
 
 int do_colorinit(void)
 {
+    int i, fg, bg;
+    colortype *tmpcolor = NULL;
+    colorstr *tmpstr = NULL;
+    int defok = 0;
+
     if (has_colors()) {
 	start_color();
 	/* Add in colors, if available */
+
 #ifdef HAVE_USE_DEFAULT_COLORS
-	/* Use if at all possible for transparent terminals =-) */
-	use_default_colors();
+ 	if (use_default_colors() != ERR) {
+	    defok = 1;
 #endif
-	/* Some defaults values to play with */
+
+	i = 1;
+	for (tmpcolor = colorstrings; tmpcolor != NULL; 
+		tmpcolor = tmpcolor->next) {
+
+	    if (tmpcolor->fg > 8)
+		fg = tmpcolor->fg - 8;
+	    else
+		fg = tmpcolor->fg;
+
+	    if (tmpcolor->bg > 8)
+		bg = tmpcolor->bg - 8;
+	    else
+		bg = tmpcolor->bg;
+
+	    if (defok && bg == -1)
+		init_pair(i, fg, -1);
+            else if (bg == -1)
+		init_pair(i, fg, COLOR_BLACK);
+	    else /* They picked a fg and bg color */
+		init_pair(i, fg, bg);
+
+	    fprintf(stderr, "Running init_pair with fg = %d and bg = %d\n", fg, bg);
+
+	    tmpcolor->pairnum = i;
+	    i++;
+	}
+    }
+
+/*
+	if (use_default_colors() != ERR) {
+	    init_pair(COLOR_BLACK, -1, -1);
+	    init_pair(COLOR_GREEN, COLOR_GREEN, -1);
+	    init_pair(COLOR_WHITE, COLOR_WHITE, -1);
+	    init_pair(COLOR_RED, COLOR_RED, -1);
+	    init_pair(COLOR_CYAN, COLOR_CYAN, -1);
+	    init_pair(COLOR_MAGENTA, COLOR_MAGENTA, -1);
+	    init_pair(COLOR_BLUE, COLOR_BLUE, -1);
+	    init_pair(COLOR_YELLOW, COLOR_YELLOW, -1);
+
+	} else {
+	    init_pair(COLOR_BLACK, COLOR_BLACK, COLOR_BLACK);
+	    init_pair(COLOR_GREEN, COLOR_GREEN, COLOR_BLACK);
+	    init_pair(COLOR_WHITE, COLOR_WHITE, COLOR_BLACK);
+	    init_pair(COLOR_RED, COLOR_RED, COLOR_BLACK);
+	    init_pair(COLOR_CYAN, COLOR_CYAN, COLOR_BLACK);
+	    init_pair(COLOR_MAGENTA, COLOR_MAGENTA, COLOR_BLACK);
+	    init_pair(COLOR_BLUE, COLOR_BLUE, COLOR_BLACK);
+	    init_pair(COLOR_YELLOW, COLOR_YELLOW, COLOR_BLACK);
+	}
+*/
 
 	/*  Okay I'll be nice and comment these out for the commit =)
 	colorinit_one(COLOR_TITLEBAR, COLOR_GREEN, COLOR_BLUE, 1);

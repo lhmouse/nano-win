@@ -772,6 +772,7 @@ void add_marked_sameline(int begin, int end, filestruct * fileptr, int y,
 void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 	      int virt_mark_beginx, int this_page)
 {
+
 #ifndef NANO_SMALL
     /* There are quite a few cases that could take place; we'll deal
      * with them each in turn */
@@ -940,6 +941,64 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 	/* Just paint the string (no mark on this line) */
 	mvwaddnstr(edit, yval, 0, &fileptr->data[start],
 		   get_page_end_virtual(this_page) - start + 1);
+
+#ifdef ENABLE_COLOR
+    {
+    colortype *tmpcolor = NULL;
+    colorstr *tmpstr = NULL;
+    int k, paintlen;
+
+    if (colorstrings != NULL)
+    for (tmpcolor = colorstrings; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
+	for (tmpstr = tmpcolor->str; tmpstr != NULL; tmpstr = tmpstr->next) {
+
+	    k = start;
+	    regcomp(&search_regexp, tmpstr->val, 0);
+	    while (!regexec(&search_regexp, &fileptr->data[k], 1, 
+		regmatches, 0)) {
+
+#ifdef DEBUG
+		fprintf(stderr, "Match! (%d chars) \"%s\"\n",
+		    regmatches[0].rm_eo - regmatches[0].rm_so,
+		    &fileptr->data[k + regmatches[0].rm_so]);
+#endif
+		if (regmatches[0].rm_so < COLS - 1) {
+		    if (tmpcolor->fg > 8 || tmpcolor->bg > 8) {
+			wattron(edit, A_BOLD);
+			wattron(edit, COLOR_PAIR(tmpcolor->pairnum));
+		    }
+		    else
+			wattron(edit, COLOR_PAIR(tmpcolor->pairnum));
+
+		    if (regmatches[0].rm_eo - regmatches[0].rm_so 
+			+ k <= COLS)
+			paintlen = regmatches[0].rm_eo - regmatches[0].rm_so;
+		    else
+			paintlen = COLS - (regmatches[0].rm_eo 
+					-  regmatches[0].rm_so);
+
+		    mvwaddnstr(edit, yval, regmatches[0].rm_so + k,
+			&fileptr->data[k + regmatches[0].rm_so], 
+			paintlen);
+
+
+		}
+
+		if (tmpcolor->fg > 8 || tmpcolor->bg > 8) {
+		    wattroff(edit, A_BOLD);
+		    wattroff(edit, COLOR_PAIR(tmpcolor->pairnum));
+		}
+		else
+		    wattroff(edit, COLOR_PAIR(tmpcolor->pairnum));
+
+		k += regmatches[0].rm_eo;
+	    }
+	}
+    }
+    }
+
+#endif
+
 }
 
 /*

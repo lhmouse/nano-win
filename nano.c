@@ -2871,12 +2871,14 @@ int main(int argc, char *argv[])
     fprintf(stderr, _("Main: set up windows\n"));
 #endif
 
-#ifdef ENABLE_COLOR
-    do_colorinit();
-#endif /* ENABLE_COLOR */
-
     window_init();
     mouse_init();
+
+#ifdef ENABLE_COLOR
+    do_colorinit();
+
+    fprintf(stderr, "COLORS = %d, COLOR_PAIRS = %d\n", COLORS, COLOR_PAIRS);
+#endif /* ENABLE_COLOR */
 
 #ifdef DEBUG
     fprintf(stderr, _("Main: bottom win\n"));

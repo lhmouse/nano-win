@@ -59,6 +59,10 @@ extern filestruct *cutbuffer, *mark_beginbuf;
 extern filestruct *open_files;
 #endif
 
+#ifdef ENABLE_COLOR
+colortype *colorstrings;
+#endif
+
 extern shortcut *shortcut_list;
 extern shortcut main_list[MAIN_LIST_LEN], whereis_list[WHEREIS_LIST_LEN];
 extern shortcut replace_list[REPLACE_LIST_LEN], goto_list[GOTO_LIST_LEN];
@@ -245,3 +249,5 @@ filestruct *open_file_dup_search(int update);
 #ifndef DISABLE_HELP
 void help_init(void);
 #endif
+
+
