@@ -183,6 +183,8 @@ int parse_mbchar(const char *buf, char *chr
 	, bool *bad_chr
 #endif
 	, size_t *col);
+size_t move_mbleft(const char *buf, size_t pos);
+size_t move_mbright(const char *buf, size_t pos);
 
 /* Public functions in color.c. */
 #ifdef ENABLE_COLOR
@@ -507,8 +509,6 @@ int regexp_bol_or_eol(const regex_t *preg, const char *string);
 int num_of_digits(int n);
 bool is_byte(unsigned int c);
 bool parse_num(const char *str, ssize_t *val);
-size_t move_left(const char *buf, size_t pos);
-size_t move_right(const char *buf, size_t pos);
 void align(char **strp);
 void null_at(char **data, size_t index);
 void unsunder(char *str, size_t true_len);

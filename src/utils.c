@@ -93,43 +93,6 @@ bool parse_num(const char *str, ssize_t *val)
     return TRUE;
 }
 
-/* Return the index in buf of the beginning of the character before the
- * one at pos. */
-size_t move_left(const char *buf, size_t pos)
-{
-    size_t pos_prev = pos;
-
-    assert(str != NULL && pos <= strlen(buf));
-
-    /* There is no library function to move backward one multibyte
-     * character.  Here is the naive, O(pos) way to do it. */
-    while (TRUE) {
-	int buf_mb_len = parse_mbchar(buf + pos - pos_prev, NULL
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
-
-	if (pos_prev <= buf_mb_len)
-	    break;
-
-	pos_prev -= buf_mb_len;
-    }
-
-    return pos - pos_prev;
-}
-
-/* Return the index in buf of the beginning of the character after the
- * one at pos. */
-size_t move_right(const char *buf, size_t pos)
-{
-    return pos + parse_mbchar(buf + pos, NULL
-#ifdef NANO_WIDE
-	, NULL
-#endif
-	, NULL);
-}
-
 /* Fix the memory allocation for a string. */
 void align(char **strp)
 {

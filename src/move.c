@@ -71,7 +71,7 @@ void do_home(void)
 	    if (!is_blank_mbchar(blank_mb))
 		break;
 
-	    current_x = move_right(current->data, current_x);
+	    current_x = move_mbright(current->data, current_x);
 	}
 
 	free(blank_mb);
@@ -266,7 +266,7 @@ void do_left(bool allow_update)
 {
     size_t pww_save = placewewant;
     if (current_x > 0)
-	current_x = move_left(current->data, current_x);
+	current_x = move_mbleft(current->data, current_x);
     else if (current != fileage) {
 	do_up();
 	current_x = strlen(current->data);
@@ -288,7 +288,7 @@ void do_right(bool allow_update)
     assert(current_x <= strlen(current->data));
 
     if (current->data[current_x] != '\0')
-	current_x = move_right(current->data, current_x);
+	current_x = move_mbright(current->data, current_x);
     else if (current->next != NULL) {
 	do_down();
 	current_x = 0;

@@ -1818,7 +1818,7 @@ void do_statusbar_home(void)
 	    if (!is_blank_mbchar(blank_mb))
 		break;
 
-	    statusbar_x = move_right(answer, statusbar_x);
+	    statusbar_x = move_mbright(answer, statusbar_x);
 	}
 
 	free(blank_mb);
@@ -1839,13 +1839,13 @@ void do_statusbar_end(void)
 void do_statusbar_right(void)
 {
     if (statusbar_x < statusbar_xend)
-	statusbar_x = move_right(answer, statusbar_x);
+	statusbar_x = move_mbright(answer, statusbar_x);
 }
 
 void do_statusbar_left(void)
 {
     if (statusbar_x > 0)
-	statusbar_x = move_left(answer, statusbar_x);
+	statusbar_x = move_mbleft(answer, statusbar_x);
 }
 
 void do_statusbar_backspace(void)

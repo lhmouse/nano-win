@@ -1335,7 +1335,7 @@ void do_next_word(void)
 	if (!is_alnum_mbchar(char_mb))
 	    break;
 
-	current_x = move_right(current->data, current_x);
+	current_x = move_mbright(current->data, current_x);
     }
 
     /* Go until we find the first letter of the next word. */
@@ -1350,7 +1350,7 @@ void do_next_word(void)
 	    if (is_alnum_mbchar(char_mb))
 		break;
 
-	    current_x = move_right(current->data, current_x);
+	    current_x = move_mbright(current->data, current_x);
 	}
 
 	if (current->data[current_x] != '\0')

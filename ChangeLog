@@ -100,7 +100,9 @@ CVS code -
 	  mb_cur_max(), and make_mbchar(); changes to is_blank_char()
 	  (moved to chars.c), is_cntrl_char() (moved to chars.c),
 	  nstrnlen() (moved to chars.c), parse_char() (renamed
-	  parse_mbchar() and moved to chars.c), do_home(),
+	  parse_mbchar() and moved to chars.c), move_left() (renamed
+	  move_mbleft() and moved to chars.c), move_right() (renamed
+	  move_mbright() and moved to chars.c), do_home(),
 	  do_verbatim_input(), do_delete(), do_tab(), do_next_word(),
 	  do_input(), do_output(), get_buffer(), unget_input(),
 	  unget_kbinput(), get_input(), parse_kbinput(),
