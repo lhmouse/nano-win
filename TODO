@@ -10,7 +10,8 @@ For version 1.4:
 - Rebindable keys?
 - Keystroke to implement "Add next sequence as raw" like vi's ^V.
   [DONE for edit window, needs to be done for statusbar prompt]
-- Spell check selected text only. [DONE]
+- Spell check selected text only. [DONE for internal spell checker,
+  partially done for external spell checker]
 - Make "To Line" (^W^T) and "Read from Command" (^R^X) reenter their
   parent menu when their keystroke is entered a second time (^W^T^T and
   (^R^X^X) (requires figuring out when to keep cursor position and when

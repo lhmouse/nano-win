@@ -610,8 +610,8 @@ char *replace_line(const char *needle)
  *
  * needle is the string to seek.  We replace it with answer.  Return -1
  * if needle isn't found, else the number of replacements performed. */
-int do_replace_loop(const char *needle, const filestruct *real_current,
-	size_t *real_current_x, bool wholewords)
+int do_replace_loop(const char *needle, filestruct *real_current, size_t
+	*real_current_x, bool wholewords)
 {
     int numreplaced = -1;
     size_t old_pww = placewewant, current_x_save = *real_current_x;
@@ -623,8 +623,13 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 #endif
 #ifndef NANO_SMALL
     bool old_mark_set = ISSET(MARK_ISSET);
+    const filestruct *top, *bot;
+    size_t top_x, bot_x;
 
     if (old_mark_set) {
+	/* Save the locations where the mark begins and ends. */
+	mark_order(&top, &top_x, &bot, &bot_x);
+
 	UNSET(MARK_ISSET);
 	edit_refresh();
     }
@@ -643,7 +648,25 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 	, current_save, current_x_save, needle)) {
 
 	int i = 0;
-	size_t match_len;
+	size_t match_len =
+#ifdef HAVE_REGEX_H
+		ISSET(USE_REGEXP) ?
+		regmatches[0].rm_eo - regmatches[0].rm_so :
+#endif
+		strlen(needle);
+
+#ifndef NANO_SMALL
+	/* If we've found a match outside the marked text, skip over it
+	 * and search for another one. */
+	if (old_mark_set) {
+	    if (current->lineno < top->lineno
+		|| current->lineno > bot->lineno
+		|| (current == top && current_x < top_x)
+		|| (current == bot && (current_x > bot_x ||
+		current_x + match_len > bot_x)))
+		continue;
+	}
+#endif
 
 #ifdef HAVE_REGEX_H
 	/* If the bol_or_eol flag is set, we've found a match on the
@@ -667,13 +690,6 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 	    edit_redraw(current_save, old_pww);
 	    old_pww = placewewant;
 	}
-
-#ifdef HAVE_REGEX_H
-	if (ISSET(USE_REGEXP))
-	    match_len = regmatches[0].rm_eo - regmatches[0].rm_so;
-	else
-#endif
-	    match_len = strlen(needle);
 
 	/* Record for the return value that we found the search string. */
 	if (numreplaced == -1)
@@ -733,6 +749,22 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 		    *real_current_x = current_x + match_len;
 		*real_current_x += length_change;
 	    }
+
+#ifndef NANO_SMALL
+	    /* Since the locations where the mark begins and ends may
+	     * have changed, keep our saved locations in sync with
+	     * them. */
+	    if (old_mark_set) {
+		filestruct *old_current = current;
+		size_t old_current_x = current_x;
+
+		current = real_current;
+		current_x = *real_current_x;
+		mark_order(&top, &top_x, &bot, &bot_x);
+		current = old_current;
+		current_x = old_current_x;
+	    }
+#endif
 
 	    /* Set the cursor at the last character of the replacement
 	     * text, so searching will resume after the replacement
