@@ -6,7 +6,7 @@ AC_PREREQ(2.52)
 AM_INIT_AUTOMAKE(nano, 1.1.9-cvs)
 AM_CONFIG_HEADER(config.h:config.h.in)
 dnl AM_ACLOCAL_INCLUDE(m4)
-ALL_LINGUAS="es de fr it id fi hu ca cs gl uk ru sv nn nl da pl nb"
+ALL_LINGUAS="es de fr it id fi hu ca cs gl uk ru sv nn nl da pl nb ms"
 
 dnl Checks for programs.
 AC_PROG_CC

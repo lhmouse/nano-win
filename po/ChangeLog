@@ -1,3 +1,8 @@
+2002-07-03  Jordi Mallach  <jordi@sindominio.net>
+
+	* ms.po: New Bahasa Melayu translation by
+	Sharuzzaman Ahmat Raslan.
+
 2002-06-03  gettextize  <bug-gnu-gettext@gnu.org>
 
 	* Makefile.in.in: Upgrade to gettext-0.11.2.
