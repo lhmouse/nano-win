@@ -229,17 +229,19 @@ int do_search(void)
     filestruct *fileptr = current;
 
     wrap_reset();
-    if ((i = search_init(0)) == -1) {
+    i = search_init(0);
+    switch (i) {
+    case -1:
 	current = fileptr;
 	search_abort();
 	return 0;
-    } else if (i == -3) {
+    case -3:
 	search_abort();
 	return 0;
-    } else if (i == -2) {
+    case -2:
 	do_replace();
 	return 0;
-    } else if (i == 1) {
+    case 1:
 	do_search();
 	search_abort();
 	return 1;
@@ -388,17 +390,19 @@ int do_replace(void)
     filestruct *fileptr, *begin;
     char *copy, prevanswer[132] = "";
 
-    if ((i = search_init(1)) == -1) {
+    i = search_init(1);
+    switch (i) {
+    case -1:
 	statusbar(_("Replace Cancelled"));
 	replace_abort();
 	return 0;
-    } else if (i == 1) {
+    case 1:
 	do_replace();
 	return 1;
-    } else if (i == -2) {
+    case -2:
 	do_search();
 	return 0;
-    } else if (i == -3) {
+    case -3:
 	replace_abort();
 	return 0;
     }
@@ -418,17 +422,20 @@ int do_replace(void)
     else
 	i = statusq(replace_list, REPLACE_LIST_LEN, "", _("Replace with"));
 
-    if (i == -1) {		/* Aborted enter */
+    switch (i) {
+    case -1:				/* Aborted enter */
 	if (strcmp(last_replace, ""))
 	    strncpy(answer, last_replace, 132);
 	statusbar(_("Replace Cancelled"));
 	replace_abort();
 	return 0;
-    } else if (i == 0)	/* They actually entered something */
+    case 0:		/* They actually entered something */
 	strncpy(last_replace, answer, 132);
-    else if (i == NANO_NULL_KEY)	/* They actually entered something */
+	break;
+    case NANO_NULL_KEY:		/* They want the null string */
 	strcpy(last_replace, "");
-    else if (i == NANO_CASE_KEY) {	/* They asked for case sensitivity */
+	break;
+    case NANO_CASE_KEY:		/* They asked for case sensitivity */
 	if (ISSET(CASE_SENSITIVE))
 	    UNSET(CASE_SENSITIVE);
 	else
@@ -436,14 +443,16 @@ int do_replace(void)
 
 	do_replace();
 	return 0;
-    } else if (i == NANO_FROMSEARCHTOGOTO_KEY) {	/* oops... */
+    case NANO_FROMSEARCHTOGOTO_KEY:	/* Oops, they want goto line... */
 	do_gotoline_void();
 	return 0;
-    } else if (i != -2) {	/* First page, last page, for example 
+    default:
+        if (i != -2) {	/* First page, last page, for example 
 				   could get here */
 	    do_early_abort();
 	    replace_abort();
 	    return 0;
+        }
     }
 
     /* save where we are */
@@ -453,10 +462,8 @@ int do_replace(void)
 
     while (1) {
 
-	if (replaceall)
-	    fileptr = findnextstr(1, begin, beginx, prevanswer);
-	else
-	    fileptr = findnextstr(0, begin, beginx, prevanswer);
+	/* Sweet optimization by Rocco here */
+	fileptr = findnextstr(replaceall, begin, beginx, prevanswer);
 
 	/* No more matches.  Done! */
 	if (!fileptr)

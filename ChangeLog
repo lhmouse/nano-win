@@ -20,6 +20,11 @@ CVS Code -
   do_replace()
 	- Added code for Gotoline key after entering the search term.
 	  Fixes bug #46.
+	- Removed redundant code involving processing replacemenet string.
+	  Converted if statements to switch statements.
+	- Optimizations by Rocco Corsi.
+  do_search()
+	- Converted if statements to one switch statement.
 - winio.c
   nanogetstr()
 	- Added check for 343 in while loop to get rid of getting "locked"
