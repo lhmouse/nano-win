@@ -768,7 +768,6 @@ void do_wrap(filestruct * inptr, char input_char)
 
     /* Category 1a: one word taking up the whole line with no beginning spaces. */
     if ((last_word_end == -1) && (!isspace((int) inptr->data[0]))) {
-fprintf(stderr, "1a\n");
 	for (i = current_word_end; i < len; i++) {
 	    if (!isspace((int) inptr->data[i]) && i < len) {
 		current_word_start = i;
@@ -809,8 +808,7 @@ fprintf(stderr, "1a\n");
 	    if (ISSET(AUTOINDENT)) {
 		int i = 0;
 		while ((inptr->next->data[i] == ' ' 
-	    		|| inptr->next->data[i] == '\t')
-	    		&& inptr->next->data[i] != 0) {
+	    		|| inptr->next->data[i] == '\t')) {
 		    i++;
 		    right++;
 		}			
@@ -828,7 +826,6 @@ fprintf(stderr, "1a\n");
 
     /* Category 2: two or more words on the line. */
     else {
-fprintf(stderr, "2a\n");
 	/* Case 2a: cursor before word at wrap point. */
 	if (current_x < current_word_start) {
 	    temp->data =
@@ -864,8 +861,7 @@ fprintf(stderr, "2a\n");
 	    if (ISSET(AUTOINDENT)) {
 		int i = 0;
 		while ((inptr->next->data[i] == ' ' 
-	    		|| inptr->next->data[i] == '\t')
-	    		&& inptr->next->data[i] != 0) {
+	    		|| inptr->next->data[i] == '\t')) {
 		    i++;
 		    right++;
 		}			
@@ -891,7 +887,6 @@ fprintf(stderr, "2a\n");
 
 	/* Case 2c: cursor past word at wrap point. */
 	else {
-fprintf(stderr, "2c\n");
 	    temp->data =
 		nmalloc(strlen(&inptr->data[current_word_start]) + 1);
 	    strcpy(temp->data, &inptr->data[current_word_start]);
