@@ -143,7 +143,15 @@ void page_up(void)
     if (edittop != fileage) {
 	if (!ISSET(SMOOTHSCROLL)) {
 	    edit_update(edittop, CENTER);
-	    center_cursor();
+	    /* Now that we've updated the edit window, edittop might be
+	       at the top of the file; if so, just move the cursor up one
+	       line and don't center it. */
+	    if (edittop != fileage)
+		center_cursor();
+	    else {
+		current = current->prev;
+		reset_cursor();
+	    }
 	} else {
 	    edit_update(edittop->prev, NONE);
 	}

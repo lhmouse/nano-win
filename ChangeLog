@@ -17,7 +17,7 @@ CVS code -
 	- Mac file writing supported too.  Flag -M, --mac.  Toggle 
 	  Meta-O (MacOS? OS-X? =-)
 	- New smooth scroll code by Ken Tyler.  New flag -S, --smooth,
-	  changes to page_up() and page_down(). Fixes to paging by
+	  changes to page_up() and page_down().  Many fixes to paging by
 	  David Lawrence Ramsey.
 	- Bracket (brace, parens, etc) matching code by Ken Tyler.  
 	  New functions do_find_bracket(), changes to findnextstr(),
