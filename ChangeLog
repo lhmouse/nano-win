@@ -112,7 +112,7 @@ CVS code -
 	  console with keypad(TRUE) generates Ctrl-Z instead of
 	  KEY_SUSPEND, both unlike ncurses. (DLR)
 	- Define KEY_RESIZE as -1 if it isn't defined, as it isn't in
-	  the curses library included with SunOS 5.7/5.8.  Also define
+	  the curses library included with SunOS 5.7-5.9.  Also define
 	  KEY_SUSPEND as -1 if it isn't defined, in case it isn't in
 	  more than just Slang. (DLR)
 - move.c:

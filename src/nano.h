@@ -98,7 +98,7 @@
 #define KEY_END -1
 #endif
 
-/* Slang and SunOS 5.7 & 5.8 do not seem to support KEY_RESIZE */
+/* Slang and SunOS 5.7-5.9 do not seem to support KEY_RESIZE */
 #ifndef KEY_RESIZE
 #define KEY_RESIZE -1
 #endif
