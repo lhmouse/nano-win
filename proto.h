@@ -113,7 +113,7 @@ int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 			int wholewords, int *i);
 int do_find_bracket(void);
 
-#ifdef ENABLE_MULTIBUFFER
+#if defined (ENABLE_MULTIBUFFER) || !defined (DISABLE_SPELLER)
 void do_gotopos(long line, int pos_x, int pos_y, int pos_placewewant);
 #endif
 

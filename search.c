@@ -806,7 +806,7 @@ int do_gotoline_void(void)
     return do_gotoline(0, 0);
 }
 
-#ifdef ENABLE_MULTIBUFFER
+#if (defined ENABLE_MULTIBUFFER || !defined DISABLE_SPELLER)
 void do_gotopos(long line, int pos_x, int pos_y, int pos_placewewant)
 {
 

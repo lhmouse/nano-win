@@ -1526,7 +1526,7 @@ int do_int_speller(char *tempfile_name)
 /* External spell checking */
 int do_alt_speller(char *file_name)
 {
-    int alt_spell_status, y_cur = current_y;
+    int alt_spell_status, x_cur = current_x, y_cur = current_y, pww_cur = placewewant;
     pid_t pid_spell;
     char *ptr;
     long lineno_cur = current->lineno;
@@ -1579,10 +1579,9 @@ int do_alt_speller(char *file_name)
     global_init(1);
     open_file(file_name, 0, 1);
 
-    /* go back to the old line while keeping the same position, mark the
-       file as modified, and make sure that the titlebar is refreshed */
-    current_y = y_cur;
-    do_gotoline(lineno_cur, 1);
+    /* go back to the old position, mark the file as modified, and make
+       sure that the titlebar is refreshed */
+    do_gotopos(lineno_cur, x_cur, y_cur, pww_cur);
     set_modified();
     clearok(topwin, FALSE);
     titlebar(NULL);

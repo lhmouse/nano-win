@@ -78,6 +78,7 @@ void new_file(void)
     editbot = fileage;
     current = fileage;
     totlines = 1;
+    totsize = 0;
 
 #ifdef ENABLE_MULTIBUFFER
     /* if there aren't any entries in open_files, create the entry for

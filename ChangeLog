@@ -24,10 +24,14 @@ CVS code -
 	  command is Meta-] (hope you dont mind since I already sold off
 	  Meta-O to the MacOS file code Ken...) Fixes to bracket_msg
 	  by DLR.
+	- Call do_gotopos from do_alt_spell() to keep position
+	  consistent when invoking alt speller (DLR).
 - files.c:
   do_writeout()
 	- Expanded strings to not use %s and ?: to determine
 	  write/append string to be nice to translators.
+  new_file()
+	- Initialize totsize (DLR).
 - nano.c:
   main()
 	- Added vars oldcurrent and oldcurrent_x to check whether cursor
