@@ -34,6 +34,8 @@ GNU nano will read one command per line.
 Options in rcfiles take precedence over nano's defaults, and command line
 options override rcfile settings.
 
+Options are unset by default, except for options that take an argument.
+
 The supported commands and arguments are:
 
 .TP 3
@@ -44,13 +46,14 @@ Use auto-indentation.
 Create backup files in filename~.
 .TP
 \fBset/unset const\fP
-Constantly update the cursor position.
+Constantly display the cursor position in the status bar.
 .TP
 \fBset/unset cut\fP
 Use cut to end of line with ^K by default.
 .TP
 \fBset fill \fIn\fP\fP
-Set the column where lines will be wrapped at to \fIn\fP.
+Wrap lines at column number \fIn\fP.  If \fIn\fP is 0 or less, the line
+length will be the screen width less \fIn\fP.  The default value is -8.
 .TP
 \fBset/unset keypad\fP
 Use alternate keypad routines.
@@ -71,16 +74,23 @@ Don't display the help lists at the bottom of the screen.
 Don't wrap text at all.
 .TP
 \fBset operatingdir "\fIdirectory\fP"\fP
-Set operating directory (chroots the user to \fIdirectory\fP and below).
+\fBnano\fP will only read and write files inside \fIdirectory\fP and its
+subdirectories.  Also, the current directory is changed to here, so files
+are inserted from this dir.  By default the operating directory feature is
+turned off.
 .TP
 \fBset/unset preserve\fP
 Preserve the XON and XOFF keys (^Q and ^S).
 .TP
 \fBset quotestr "\fIstring\fP"\fP
-The email-quote string.  This is a "regular expression" if your
-system supports them, otherwise a literal string.
-Default value is set quotestr "^([ \t]*[|>:}#])+" if you have regexps,
-otherwise set quotestr "> ".
+The email-quote string, used to justify email-quoted paragraphs.  This is
+an "extended regular expression" if your system supports them, otherwise a
+literal string.  The default value is
+
+	set quotestr "^([ \\t]*[|>:}#])+"
+
+if you have regexps, otherwise set quotestr "> ".  Note that '\\t' above
+stands for a literal Tab character.
 .TP
 \fBset/unset regexp\fP
 Do regular expression searches by default.
@@ -89,7 +99,8 @@ Do regular expression searches by default.
 Use smooth scrolling by default.
 .TP
 \fBset speller \fIspellprog\fP\fP
-Use spelling checker \fIspellprog\fP instead of the default (spell).
+Use spelling checker \fIspellprog\fP instead of the built-in one, which
+calls \fIspell\fP.
 .TP
 \fBset/unset suspend\fP
 Allow nano to be suspended with ^Z.
