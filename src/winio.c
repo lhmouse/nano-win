@@ -2206,9 +2206,7 @@ size_t display_string_len(const char *buf, size_t start_col, size_t
 	    /* If we have a control character, add one byte to account
 	     * for the "^" that will be displayed in front of it, and
 	     * then add the number of bytes for its visible equivalent
-	     * as returned by control_rep().  If we have an invalid
-	     * multibyte control character, interpret that character as
-	     * though it's a normal control character. */
+	     * as returned by control_rep(). */
 	    else if (is_cntrl_char(wide_buf)) {
 		char ctrl_wide_buf =
 			control_rep((unsigned char)wide_buf);
@@ -2222,25 +2220,6 @@ size_t display_string_len(const char *buf, size_t start_col, size_t
 	    /* If we have a normal character, add its width in bytes
 	     * normally. */
 	    } else
-#ifdef NANO_WIDE
-	    /* If buf contains an invalid multibyte non-control
-	     * character, interpret that character as though it's a
-	     * normal non-control character. */
-	    if (!ISSET(NO_UTF8) && bad_char) {
-		char *bad_wide_buf = charalloc(MB_CUR_MAX);
-		int bad_wide_buf_len;
-
-		bad_wide_buf_len = wctomb(bad_wide_buf,
-			(wchar_t)wide_buf);
-
-		free(bad_wide_buf);
-
-		if (bad_wide_buf_len != -1)
-		    retval += bad_wide_buf_len;
-		else
-		    retval++;
-	    } else
-#endif
 		retval += wide_buf_len;
 #ifdef NANO_WIDE
 	}
