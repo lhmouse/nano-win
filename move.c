@@ -62,7 +62,9 @@ int page_down(void)
 	while (current != filebot) {
 	    current = current->next;
 	    current_y++;
-	    edit_update(current);
+
+	    if (edittop != fileage)
+		edit_update(current);
 	}
 
     update_cursor();
