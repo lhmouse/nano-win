@@ -7,7 +7,7 @@ more care than the official stable and unstable tarballs.
 To succesfully compile GNU nano from CVS, you'll need the
 following packages:
 
-- autoconf (version >= 2.50)
+- autoconf (version >= 2.52)
 - automake (version 1.4-pl5 recommended)
 - autoheader
 - gettext (version 0.10.40)
