@@ -63,8 +63,9 @@ CVS code -
 	  make them read the shortcut lists for functions instead of
 	  manually running them, to make nanogetstr() less complex, and
 	  to increase flexibility.  Note that currshortcut is now used
-	  regardless of #ifdefs.  Changes to shortcut_init() and
-	  nanogetstr(); new functions do_statusbar_input(),
+	  regardless of #ifdefs, and that cutting text at the statusbar
+	  now respects the CUT_TO_END flag.  Changes to shortcut_init()
+	  and nanogetstr(); new functions do_statusbar_input(),
 	  do_statusbar_mouse(), do_statusbar_home(), do_statusbar_end(),
 	  do_statusbar_right(), do_statusbar_left(),
 	  do_statusbar_backspace(), do_statusbar_delete(),
