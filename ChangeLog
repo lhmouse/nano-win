@@ -20,6 +20,11 @@ General -
 	- removed skipping . and .. when tabulating matches.
 	- Added the (char *) sizeof when allocating memory for the filename
 	  array (Rocco).
+  do_browser()
+	- Don't decrement longest by the length of path.  Fixes crashes
+	  on entering various dirs  (Rocco).
+	- Don't ungetch() the exit key, unneeded, fixes inerting a file
+	  causes exit code.
 - nano.c:
   main()
 	- Reorder the getopt options to be more or less alphabetical

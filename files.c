@@ -1131,8 +1131,6 @@ char **browser_init(char *path, int *longest, int *numents)
 	i++;
     }
 
-    longest -= strlen(path);
-
     if (*longest > COLS - 1)
 	*longest = COLS - 1;
 
@@ -1323,9 +1321,6 @@ char *do_browser(char *inpath)
 		/* Start over again with the new path value */
 		return do_browser(path);
 	    } else {
-
-		/* Work around for duplicating code */
-		ungetch(NANO_EXIT_KEY);
 		retval = path;
 		abort = 1;
 	    }
