@@ -24,8 +24,8 @@ CVS code -
 	- Typo fixes (David Lawrence Ramsey).
 - po/sv.po:
 	- Swedish translation update (Christian Rose).
-- po/ru.po:
-	- Russian translation update (Sergey A. Ribalchenko).
+- po/ru.po, uk.po:
+	- Russian and Ukrainian translations updates (Sergey A. Ribalchenko).
 - po/ca.po, es.po:
 	- Catalan and Spanish translations updates (Jordi).
 - po/pl.po:
@@ -36,6 +36,8 @@ CVS code -
 	- Galician translation update (Jacobo Tarrío).
 - po/it.po:
 	- Italian translation update (Marco Colombo).
+- po/de.po:
+	- German translation update (Michael Piefel).
 
 nano-1.1.4 - 12/11/2001
 - General

@@ -1,13 +1,13 @@
-# Ukrainian translation of GNU nano.
+# Ukrainian messages for GNU nano.
 # Copyright (C) 2001 Free Software Foundation, Inc.
 # Sergey A. Ribalchenko <fisher@obu.ck.ua>, 2001.
 # $Id$
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.2\n"
+"Project-Id-Version: nano 1.1.4\n"
 "POT-Creation-Date: 2001-12-11 21:21-0500\n"
-"PO-Revision-Date: 2001-10-08 18:41+0300\n"
+"PO-Revision-Date: 2001-12-28 18:41+0300\n"
 "Last-Translator: Sergey A. Ribalchenko <fisher@obu.ck.ua>\n"
 "Language-Team: Ukrainian <kick@renome.rovno.ua>\n"
 "MIME-Version: 1.0\n"
@@ -17,15 +17,15 @@ msgstr ""
 #: cut.c:43
 #, c-format
 msgid "add_to_cutbuffer called with inptr->data = %s\n"
-msgstr "add_to_cutbuffer визвано з inptr->data = %s\n"
+msgstr "add_to_cutbuffer викликано з inptr->data = %s\n"
 
 #: cut.c:215
 msgid "Blew away cutbuffer =)\n"
-msgstr "cutbuffer здуто в╕тром =)\n"
+msgstr "cutbuffer здуте в╕тром =)\n"
 
 #: files.c:67
 msgid "File already loaded"
-msgstr ""
+msgstr "Файл вже завантажено"
 
 #: files.c:168
 msgid "read_line: not on first line and prev is NULL"
@@ -39,12 +39,12 @@ msgstr "Прочитано %d рядк╕в"
 #: files.c:262
 #, c-format
 msgid "Read %d lines (Converted Mac format)"
-msgstr ""
+msgstr "Прочитано %d рядк╕в (перетворених з формату Mac)"
 
 #: files.c:264
 #, c-format
 msgid "Read %d lines (Converted DOS format)"
-msgstr ""
+msgstr "Прочитано %d рядк╕в (перетворених з формату DOS)"
 
 #: files.c:286 search.c:217
 #, c-format
@@ -65,7 +65,7 @@ msgstr "Файл \"%s\" ╓ директор╕╓ю"
 #: files.c:306
 #, c-format
 msgid "File \"%s\" is a device file"
-msgstr "Файл \"%s\" ╓ файлом пристрою"
+msgstr "Файл \"%s\" ╓ файлом пристр╕ю"
 
 #: files.c:314
 msgid "Reading File"
@@ -260,7 +260,7 @@ msgstr "Записати поточний файл на диск"
 
 #: global.c:261
 msgid "Close currently loaded file/Exit from nano"
-msgstr "Закрити загружений зараз файл/Вийти ╕з nano"
+msgstr "Закрити завантажений зараз файл/Вийти ╕з nano"
 
 #: global.c:263
 msgid "Exit from nano"
@@ -292,7 +292,7 @@ msgstr "Шукати текст в межах редактору"
 
 #: global.c:272
 msgid "Move to the previous screen"
-msgstr "Перейти до попередього екрану"
+msgstr "Перейти до попереднього екрану"
 
 #: global.c:273
 msgid "Move to the next screen"
@@ -326,27 +326,27 @@ msgstr "Перем╕ститися на рядок нижче"
 
 #: global.c:280
 msgid "Move forward one character"
-msgstr "Вперед на одну лiтеру"
+msgstr "Вперед на одну л╕теру"
 
 #: global.c:281
 msgid "Move back one character"
-msgstr "Назад на одну лiтеру"
+msgstr "Назад на одну л╕теру"
 
 #: global.c:282
 msgid "Move to the beginning of the current line"
-msgstr "Перемiститися до початку поточного рядка"
+msgstr "Перем╕ститися до початку поточного рядка"
 
 #: global.c:283
 msgid "Move to the end of the current line"
-msgstr "Перемiститися на кiнець поточного рядка"
+msgstr "Перем╕ститися на к╕нець поточного рядка"
 
 #: global.c:284
 msgid "Go to the first line of the file"
-msgstr "Перемiститися до першого рядка файлу"
+msgstr "Перем╕ститися до першого рядка файлу"
 
 #: global.c:285
 msgid "Go to the last line of the file"
-msgstr "Перемiститися до останього рядка файлу"
+msgstr "Перем╕ститися до останнього рядка файлу"
 
 #: global.c:286
 msgid "Refresh (redraw) the current screen"
@@ -366,15 +366,15 @@ msgstr "Видалити л╕теру зл╕ва в╕д курсора"
 
 #: global.c:291
 msgid "Insert a tab character"
-msgstr "Вставити симбол табуляцi╖"
+msgstr "Вставити символ табуляц╕╖"
 
 #: global.c:292
 msgid "Insert a carriage return at the cursor position"
-msgstr "Вставити симбол CR (повернення гол╕вки) в поз. курсора"
+msgstr "Вставити символ CR (повернення гол╕вки) в поз. курсора"
 
 #: global.c:294
 msgid "Make the current search or replace case (in)sensitive"
-msgstr "Зробити поточний пошук або зам╕ну (не)залежним в╕д регистру л╕тер"
+msgstr "Зробити поточний пошук або зам╕ну (не)залежним в╕д рег╕стру л╕тер"
 
 #: global.c:295
 msgid "Go to file browser"
@@ -382,7 +382,7 @@ msgstr "До переглядача файл╕в"
 
 #: global.c:297
 msgid "Cancel the current function"
-msgstr "Скасувати поточну функцiю"
+msgstr "Скасувати поточну функц╕ю"
 
 #: global.c:298
 msgid "Append to the current file"
@@ -411,7 +411,7 @@ msgstr "Закрити"
 
 #: global.c:315 global.c:531 global.c:571
 msgid "Exit"
-msgstr "Вихiд"
+msgstr "Вих╕д"
 
 #: global.c:318
 msgid "WriteOut"
@@ -560,21 +560,13 @@ msgstr "До Рядка"
 
 #: nano.c:177
 #, c-format
-msgid ""
-"\n"
-"Buffer written to %s\n"
-msgstr ""
-"\n"
-"Буфер записано до %s\n"
+msgid "\nBuffer written to %s\n"
+msgstr "\nБуфер записано до %s\n"
 
 #: nano.c:179
 #, c-format
-msgid ""
-"\n"
-"No %s written (file exists?)\n"
-msgstr ""
-"\n"
-"%s не записано (файл ╕сну╓?)\n"
+msgid "\nNo %s written (file exists?)\n"
+msgstr "\n%s не записано (файл ╕сну╓?)\n"
 
 #: nano.c:186
 msgid "Window size is too small for Nano..."
@@ -588,37 +580,16 @@ msgstr "Нев╕рна кнопка в режим╕ VIEW"
 msgid ""
 " nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor: The "
-"top line shows the program version, the current filename being edited, and "
-"whether or not the file has been modified.  Next is the main editor window "
-"showing the file being edited.  The status line is the third line from the "
-"bottom and shows important messages. The bottom two lines show the most "
-"commonly used shortcuts in the editor.\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor: The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages. The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
-" The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  "
-"Escape-key sequences are notated with the Meta (M) symbol and can be entered "
-"using either the Esc, Alt or Meta key depending on your keyboard setup.  The "
-"following keystrokes are available in the main editor window. Optional keys "
-"are shown in parentheses:\n"
+" The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt or Meta key depending on your keyboard setup.  The following keystrokes are available in the main editor window. Optional keys are shown in parentheses:\n"
 "\n"
 msgstr ""
 " текст допомоги nano\n"
 "\n"
-" Редактор  nano  розроблено  для  емуляц╕╖  функц╕ональност╕  та  простоти "
-"використання редактору  UW Pico.  Редактор под╕ля╓ться на 4 головн╕ секц╕╖: "
-"верхн╕й рядок м╕стить верс╕ю програми, ╕м'я поточного файлу, що редагу╓ться, "
-"та ╕нформац╕ю про те, чи внесено будь-як╕ зм╕ни до файлу. Наступна секц╕я - "
-"це головне в╕кно редагування, в якому можна побачити зм╕ст поточного файлу. "
-"Рядок статуту ╓ 3 знизу рядком та м╕стить важлив╕ пов╕домлення. Останн╕ два "
-"рядки м╕стять найб╕льш загальн╕ комб╕нац╕╖ клав╕ш редактору.\n"
+" Редактор  nano  розроблено  для  емуляц╕╖  функц╕ональност╕  та  простоти використання редактору  UW Pico.  Редактор под╕ля╓ться на 4 головн╕ секц╕╖: верхн╕й рядок м╕стить верс╕ю програми, ╕м'я поточного файлу, що редагу╓ться, та ╕нформац╕ю про те, чи внесено будь-як╕ зм╕ни до файлу. Наступна секц╕я - це головне в╕кно редагування, в якому можна побачити зм╕ст поточного файлу. Рядок статуту ╓ 3 знизу рядком та м╕стить важлив╕ пов╕домлення. Останн╕ два рядки м╕стять найб╕льш загальн╕ комб╕нац╕╖ клав╕ш редактору.\n"
 "\n"
-"  Нотац╕я для комб╕нац╕й: комб╕нац╕╖ з клав╕шею Control показано ╕з симболом "
-"'^' та  вводяться  з  натиснутою  клав╕шею  Control (Ctrl).   Esc-комб╕нац╕╖ "
-"показано симболом 'M' та вводяться з використанням клав╕ши Esc, Alt або Meta "
-"в залежност╕ в╕д  Вашо╖ клав╕атури. Наступн╕ комб╕нац╕╖ доступн╕ в головному "
-"в╕кн╕ редагування. Додатков╕ комб╕нац╕╖ показан╕ у дужках:\n"
+"  Нотатки до комб╕нац╕й: комб╕нац╕╖ з клав╕шею Control показан╕ ╕з символом '^' та  вводяться  з  натиснутою  клав╕шею  Control (Ctrl).   Esc-комб╕нац╕╖ показан╕ символом 'M' та вводяться з використанням клав╕ш╕ Esc, Alt або Meta в залежност╕ в╕д  Вашо╖ клав╕атури. Наступн╕ комб╕нац╕╖ доступн╕ в головному в╕кн╕ редагування. Додатков╕ комб╕нац╕╖ показан╕ у дужках:\n"
 "\n"
 
 #: nano.c:345
@@ -630,12 +601,8 @@ msgid "delete_node(): free'd last node.\n"
 msgstr "delete_node(): зв╕льнено останнього вузла.\n"
 
 #: nano.c:407
-msgid ""
-"Usage: nano [GNU long option] [option] +LINE <file>\n"
-"\n"
-msgstr ""
-"Використання: nano [довг╕ опц╕╖ GNU] [опц╕╖] +РЯДОК <файл>\n"
-"\n"
+msgid "Usage: nano [GNU long option] [option] +LINE <file>\n\n"
+msgstr "Використання: nano [довг╕ опц╕╖ GNU] [опц╕╖] +РЯДОК <файл>\n\n"
 
 #: nano.c:408
 msgid "Option\t\tLong option\t\tMeaning\n"
@@ -704,10 +671,8 @@ msgid " -p \t\t--pico\t\t\tEmulate Pico as closely as possible\n"
 msgstr " -p\t \t--pico\t\t\tЕмулювати Pico наск╕льки це можливо\n"
 
 #: nano.c:465
-msgid ""
-" -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
-msgstr ""
-" -r [#стовб]\t--fill=[#стовб]\t\tЗагортати рядки в позиц╕╖ стовбця #стовб\n"
+msgid " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
+msgstr " -r [#стовп]\t--fill=[#стовп]\t\tЗагортати рядки в позиц╕╖ стовпця #стовп\n"
 
 #: nano.c:469
 msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
@@ -738,12 +703,8 @@ msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
 msgstr " +РЯДОК\t\t\t\t\tПочати з рядка номер РЯДОК\n"
 
 #: nano.c:486
-msgid ""
-"Usage: nano [option] +LINE <file>\n"
-"\n"
-msgstr ""
-"Використання: nano [опц╕я] +РЯДОК <файл>\n"
-"\n"
+msgid "Usage: nano [option] +LINE <file>\n\n"
+msgstr "Використання: nano [опц╕я] +РЯДОК <файл>\n\n"
 
 #: nano.c:487
 msgid "Option\t\tMeaning\n"
@@ -844,19 +805,15 @@ msgstr " +РЯДОК\t\tПочати з рядка номер РЯДОК\n"
 #: nano.c:542
 #, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
-msgstr " GNU nano верс╕╖ %s (з╕брано %s, %s)\n"
+msgstr " GNU nano верс╕╖ %s (з╕бране %s, %s)\n"
 
 #: nano.c:545
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 msgstr " Е-мило: nano@nano-editor.org\tПавутиння: http://www.nano-editor.org"
 
 #: nano.c:546
-msgid ""
-"\n"
-" Compiled options:"
-msgstr ""
-"\n"
-" З╕брано з опц╕ями:"
+msgid "\n Compiled options:"
+msgstr "\n З╕брано з опц╕ями:"
 
 #: nano.c:635
 msgid "Mark Set"
@@ -942,77 +899,93 @@ msgstr "Можу зараз же СкасВир╕внювання!"
 msgid ""
 "Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, then hit enter. "
-" If there is a match for the text you entered, the screen will be updated to "
-"the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, then hit enter.  If there is a match for the text you entered, the screen will be updated to the location of the nearest match for the search string.\n"
 "\n"
-" If using Pico Mode via the -p or --pico flags, using the Meta-P toggle or "
-"using a nanorc file, the previous search string will be shown in brackets "
-"after the Search: prompt.  Hitting enter without entering any text will "
-"preform the previous search. Otherwise, the previous string will be placed "
-"in front of the cursor, and can be edited or deleted before hitting enter.\n"
+" If using Pico Mode via the -p or --pico flags, using the Meta-P toggle or using a nanorc file, the previous search string will be shown in brackets after the Search: prompt.  Hitting enter without entering any text will preform the previous search. Otherwise, the previous string will be placed in front of the cursor, and can be edited or deleted before hitting enter.\n"
 "\n"
 " The following functions keys are available in Search mode:\n"
 "\n"
 msgstr ""
+"Текст допомоги команди пошуку\n"
+"\n"
+" Введ╕ть слова або л╕тери як╕ Ви шука╓те, та натисн╕ть Enter. Якщо для введено╖ Вами умови знайдеться в╕дпов╕дний зб╕г, екран перем╕ститься в положення поблизу цього зб╕гу.\n"
+"\n"
+" Якщо застосовано режим Pico за допомогою опц╕й -p або --pico, або через комб╕нац╕ю Meta-P, або користуючись файлом nanorc, попередня умова зб╕гу з'явиться у квадратних дужках п╕сля запрошення \"Пошук:\". Натиснення Enter без редагування будь-якого тексту призведе до пошуку попередньо╖ умови зб╕гу. ╤накше, рядок ╕з попередньою умовою пошуку буде розм╕щено поперед курсором та може бути отредаговано або видалено перед тим як тиснути Enter.\n"
+"\n"
+" Наступн╕ функц╕ональн╕ клав╕ш╕ наявн╕ у режим╕ Пошуку:\n"
+"\n"
 
 #: nano.c:2391
 msgid ""
 "Goto Line Help Text\n"
 "\n"
-" Enter the line number that you wish to go to and hit Enter.  If there are "
-"fewer lines of text than the number you entered, you will be brought to the "
-"last line of the file.\n"
+" Enter the line number that you wish to go to and hit Enter.  If there are fewer lines of text than the number you entered, you will be brought to the last line of the file.\n"
 "\n"
 " The following functions keys are available in Goto Line mode:\n"
 "\n"
 msgstr ""
+"Текст допомоги режиму До_рядка\n"
+"\n"
+" Введ╕ть номер рядка до якого Ви бажа╓те д╕статись та натисн╕ть Enter. Якщо к╕льк╕сть рядк╕в у файл╕ менша за число яке Ви ввели, Ви попадете на останн╕й рядок файлу.\n"
+"\n"
+" Наступн╕ функц╕ональн╕ клав╕ши наявн╕ у режим╕ До_рядка:\n"
+"\n"
 
 #: nano.c:2398
 msgid ""
 "Insert File Help Text\n"
 "\n"
-" Type in the name of a file to be inserted into the current file buffer at "
-"the current cursor location.\n"
+" Type in the name of a file to be inserted into the current file buffer at the current cursor location.\n"
 "\n"
-" If you have compiled nano with multiple file buffer support, and enable "
-"multiple buffers with the -F or --multibuffer command line flags, the Meta-F "
-"toggle or using a nanorc file, inserting a file will cause it to be loaded "
-"into a separate buffer (use Ctrl-< and > to switch between file buffers).\n"
+" If you have compiled nano with multiple file buffer support, and enable multiple buffers with the -F or --multibuffer command line flags, the Meta-F toggle or using a nanorc file, inserting a file will cause it to be loaded into a separate buffer (use Ctrl-< and > to switch between file buffers).\n"
 "\n"
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
+"Текст допомоги режиму Вставити Файл\n"
+"\n"
+" Введ╕ть ╕м'я файлу до вставки в поточний файловий буфер в поточну позиц╕ю курсору.\n"
+"\n"
+" Якщо Ваш nano з╕браний ╕з п╕дтримкою дек╕лькох файлових буфер╕в, та ця можлив╕сть вв╕мкнена через опц╕╖ командного рядку -F або --multibuffer, або через комб╕нац╕ю Meta-F, або за допомогою файлу nanorc, файл вставиться в окремий файловий буфер (користуйтесь Ctrl-< та > щоб перемикатись м╕ж буферами).\n"
+"\n"
+" Наступн╕ функц╕ональн╕ клав╕ши наявн╕ в режим╕ Вставити Файл:\n"
+"\n"
 
 #: nano.c:2409
 msgid ""
 "Write File Help Text\n"
 "\n"
-" Type the name that you wish to save the current file as and hit enter to "
-"save the file.\n"
+" Type the name that you wish to save the current file as and hit enter to save the file.\n"
 "\n"
-" If you are using the marker code with Ctrl-^ and have selected text, you "
-"will be prompted to save only the selected portion to a separate file.  To "
-"reduce the chance of overwriting the current file with just a portion of it, "
-"the current filename is not the default in this mode.\n"
+" If you are using the marker code with Ctrl-^ and have selected text, you will be prompted to save only the selected portion to a separate file.  To reduce the chance of overwriting the current file with just a portion of it, the current filename is not the default in this mode.\n"
 "\n"
 " The following function keys are available in Write File mode:\n"
 "\n"
 msgstr ""
+"Текст допомоги режиму Зберегти Файл\n"
+"\n"
+" Введ╕ть ╕м'я п╕д яким Ви бажа╓те зберегти поточний файл та натисн╕ть Enter.\n"
+"\n"
+" Якщо Ви користу╓тесь кодом в╕дм╕тки ╕з Ctrl-^ та пом╕тили деякий текст, з'явиться запит ╕з п╕дказкою, чи записати обраний блок в окремий файл. Щоб зменшити шанси перезапису поточного файлу лише частиною цього файлу, ╕м'я поточного файлу не буде ╕м'ям по замовченню в цьому режим╕.\n"
+"\n"
+" Наступн╕ функц╕ональн╕ клав╕ши наявн╕ в режим╕ Зберегти Файл\n"
+"\n"
 
 #: nano.c:2421
 msgid ""
 "File Browser Help Text\n"
 "\n"
-" The file browser is used to visually browse the directory structure to "
-"select a file for reading or writing.  You may use the arrow keys or Page "
-"Up/Down to browse through the files, and S or Enter to choose the selected "
-"file or enter the selected directory. To move up one level, select the "
-"directory called \"..\" at the top of the file list.\n"
+" The file browser is used to visually browse the directory structure to select a file for reading or writing.  You may use the arrow keys or Page Up/Down to browse through the files, and S or Enter to choose the selected file or enter the selected directory. To move up one level, select the directory called \"..\" at the top of the file list.\n"
 "\n"
 " The following functions keys are available in the file browser:\n"
 "\n"
 msgstr ""
+"Текст допомоги режиму Переглядач Файл╕в\n"
+"\n"
+" Переглядач файл╕в використову╓ться для в╕зуального перегляду зм╕сту директор╕╖ та обирання потр╕бного файлу для запису або читання. Ви ма╓те користуватись клав╕шами керування курсором та PageUp/PageDown для пересування кр╕зь файли, та обирати потр╕бний файл або входити до обрано╖ директор╕╖ клав╕шею S або Enter. Щоб перем╕ститись на директор╕ю вище, обер╕ть директор╕ю \"..\" в початку списку файл╕в.\n"
+"\n"
+" Наступн╕ функц╕ональн╕ клав╕ши наявн╕ в режим╕ Переглядач Файл╕в:\n"
+"\n"
 
 #: nano.c:2432
 msgid ""
@@ -1020,24 +993,31 @@ msgid ""
 "\n"
 " Enter the name of the directory you would like to browse to.\n"
 "\n"
-" If tab completion has not been disabled, you can use the TAB key to "
-"(attempt to) automatically complete the directory name.  The following "
-"function keys are available in Browser GotoDir mode:\n"
+" If tab completion has not been disabled, you can use the TAB key to (attempt to) automatically complete the directory name.  The following function keys are available in Browser GotoDir mode:\n"
 "\n"
 msgstr ""
+"Текст допомоги режиму переглядача файл╕в До_директор╕╖\n"
+"\n"
+" Введ╕ть ╕м'я директор╕╖, яку Ви бажа╓те переглянути.\n"
+"\n"
+" Якщо tab-доповнення не заборонено, Ви можете користуватись клав╕шею TAB для (спроби) автоматичного доповнення ╕м'я директор╕╖. Наступн╕ функц╕ональн╕ клав╕ши наявн╕ в режим╕ переглядача файл╕в До_Директор╕╖:\n"
+"\n"
 
 #: nano.c:2440
 msgid ""
 "Spell Check Help Text\n"
 "\n"
-" The spell checker checks the spelling of all text in the current file.  "
-"When an unknown word is encountered, it is highlighted and a replacement can "
-"be edited.  It will then prompt to replace every instance of the given "
-"misspelled word in the current file.\n"
+" The spell checker checks the spelling of all text in the current file.  When an unknown word is encountered, it is highlighted and a replacement can be edited.  It will then prompt to replace every instance of the given misspelled word in the current file.\n"
 "\n"
 " The following other functions are available in Spell Check mode:\n"
 "\n"
 msgstr ""
+"Текст допомоги режиму Правопис\n"
+"\n"
+" Програма перев╕рки правопису перев╕ря╓ орфограф╕ю всього тексту в поточному файл╕. Коли зустр╕ча╓ться незнайоме слово, воно вид╕ля╓ться та з'явля╓ться можлив╕сть в╕дредагувати пропоновану зам╕ну. Пот╕м з'явиться запит на зам╕ну кожного входження цього незнайомого слова в поточному файл╕.\n"
+"\n"
+" Наступн╕ ╕нш╕ функц╕╖ наявн╕ в режим╕ Правопис:\n"
+"\n"
 
 #: nano.c:2524
 #, c-format
@@ -1094,16 +1074,12 @@ msgid "I got Alt-%c! (%d)\n"
 msgstr "Я п╕ймав Alt-%c! (%d)\n"
 
 #: rcfile.c:84
-msgid ""
-"\n"
-"Press return to continue starting nano\n"
-msgstr ""
-"\n"
-"Нажм╕ть Enter щоб продовжити завантаження nano\n"
+msgid "\nPress return to continue starting nano\n"
+msgstr "\nНажм╕ть Enter щоб продовжити завантаження nano\n"
 
 #: rcfile.c:281
 msgid "parse_rcfile: Read a comment\n"
-msgstr "parse_rcfile: чита╓мо коментар╕й\n"
+msgstr "parse_rcfile: чита╓мо коментар\n"
 
 #: rcfile.c:302
 #, c-format
@@ -1138,7 +1114,7 @@ msgstr "встановить флаг %d!\n"
 #: rcfile.c:372
 #, c-format
 msgid "unset flag %d!\n"
-msgstr "убрер╕ть флаг %d!\n"
+msgstr "скиньте флаг %d!\n"
 
 #: rcfile.c:381
 msgid "Errors found in .nanorc file"
@@ -1387,4 +1363,4 @@ msgstr "Дяку╓мо Вам за те, що вибрали nano!\n"
 #~ msgstr "Пошук Формального Виразу%s%s"
 
 #~ msgid "Only %d lines available, skipping to last line"
-#~ msgstr "Т╕льки %d рядк╕в у наявност╕, ск╕па╓мо до останього рядка"
+#~ msgstr "Т╕льки %d рядк╕в у наявност╕, скипа╓мо до останнього рядка"
