@@ -1,6 +1,10 @@
 CVS Code -
 - nano.c:
-  usage():
+  main()
+	- Call load_file with arg 0 for insert, as we aren't really
+	  doing an insert, allows new_file() to run if we open a 
+	  non-file at startup.
+  usage()
   	- Remove gettext markings from -p/--preserve (Jordi).
   do_preserve_msg():
 	- Unsplit error message into a single fprintf call (Jordi).
