@@ -608,22 +608,25 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 			int *beginx, int wholewords, int *i)
 {
     int replaceall = 0, numreplaced = -1;
-
+#ifdef HAVE_REGEX_H
+    int dollarreplace = 0;
+	/* Whether we're doing a forward regex replace of "$". */
+#endif
     filestruct *fileptr = NULL;
     char *copy;
 
     switch (*i) {
-    case -1:		/* Aborted enter */
-	if (last_replace[0] != '\0')
-	    answer = mallocstrcpy(answer, last_replace);
-	statusbar(_("Replace Cancelled"));
-	replace_abort();
-	return 0;
-    case 0:		/* They actually entered something */
-	break;
-    default:
-        if (*i != -2) {	/* First page, last page, for example, could
-			   get here */
+	case -1:	/* Aborted enter. */
+	    if (last_replace[0] != '\0')
+		answer = mallocstrcpy(answer, last_replace);
+	    statusbar(_("Replace Cancelled"));
+	    replace_abort();
+	    return 0;
+	case 0:		/* They actually entered something. */
+	    break;
+	default:
+	if (*i != -2) {	/* First page, last page, for example, could
+			 * get here. */
 	    do_early_abort();
 	    replace_abort();
 	    return 0;
@@ -634,7 +637,7 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
     while (1) {
 	size_t match_len;
 
-	/* Sweet optimization by Rocco here */
+	/* Sweet optimization by Rocco here. */
 	fileptr = findnextstr(fileptr || replaceall || search_last_line,
 				FALSE, begin, *beginx, prevanswer);
 
@@ -646,11 +649,11 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 	if (fileptr == NULL)
 	    break;
 
-	/* Make sure only whole words are found */
+	/* Make sure only whole words are found. */
 	if (wholewords && !is_whole_word(current_x, fileptr->data, prevanswer))
 	    continue;
 
-	/* If we're here, we've found the search string */
+	/* If we're here, we've found the search string. */
 	if (numreplaced == -1)
 	    numreplaced = 0;
 
@@ -695,9 +698,18 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 	    length_change = strlen(copy) - strlen(current->data);
 
 #ifdef HAVE_REGEX_H
-	    if (ISSET(USE_REGEXP))
+	    if (ISSET(USE_REGEXP)) {
 		match_len = regmatches[0].rm_eo - regmatches[0].rm_so;
-	    else
+		/* If we're on the line we started the replace on, the
+		 * match length is 0, and current_x is at the end of the
+		 * the line, we're doing a forward regex replace of "$".
+		 * We have to handle this as a special case so that we
+		 * don't end up infinitely tacking the replace string
+		 * onto the end of the line. */
+		if (current == begin && match_len == 0 && current_x ==
+			strlen(current->data))
+		    dollarreplace = 1;
+	    } else
 #endif
 		match_len = strlen(prevanswer);
 
@@ -725,7 +737,7 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 #endif
 		current_x += match_len + length_change - 1;
 
-	    /* Cleanup */
+	    /* Cleanup. */
 	    totsize += length_change;
 	    free(current->data);
 	    current->data = copy;
@@ -733,8 +745,28 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 	    edit_refresh();
 	    set_modified();
 	    numreplaced++;
-	} else if (*i == -1)	/* Abort, else do nothing and continue
-				   loop */
+
+#ifdef HAVE_REGEX_H
+	    if (dollarreplace == 1) {
+		/* If we're here, we're doing a forward regex replace of
+		 * "$", and the replacement's just been made.  Avoid
+		 * infinite replacement by manually moving the search to
+		 * the next line, wrapping to the first line if we're on
+		 * the last line of the file.  Afterwards, if we're back
+		 * on the line where we started, manually break out of
+		 * the loop. */
+		current_x = 0;
+		if (current->next != NULL)
+		    current = current->next;
+		else
+		    current = fileage;
+		if (current == begin)
+		    break;
+	    }
+#endif
+
+	} else if (*i == -1)	/* Break out of the loop, else do
+				 * nothing and continue loop. */
 	    break;
     }
 
