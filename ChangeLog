@@ -33,6 +33,9 @@ CVS Code -
   do_replace_loop()
 	- Fix various bugs having to do with replace string length
 	  and positioning (David Benbennick).
+  edit_refresh()
+	- Fix cursor being above as well as below the current screen
+	  (David Benbennick).
 - winio.c:
   bottombars()
 	- Change strcpy of gettext() "Up" string to strncpy of max

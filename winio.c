@@ -1093,7 +1093,8 @@ void edit_refresh(void)
     if (edittop == NULL)
 	edittop = current;
 
-    if (current->lineno >= edittop->lineno + editwinrows)
+    if (current->lineno < edittop->lineno ||
+	    current->lineno >= edittop->lineno + editwinrows)
 	/* Note that edit_update() changes edittop so that
 	 * current->lineno = edittop->lineno + editwinrows / 2.  Thus
 	 * when it then calls edit_refresh(), there is no danger of
