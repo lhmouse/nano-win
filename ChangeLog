@@ -12,6 +12,7 @@ General
 	  discovered by David Sobon).
   username_tab_completion()
 	- Optimization and removal of useless vars (Rocco).
+	- Rewritten using getpwent (suggested by Rocco).
   real_dir_from_tilde()
 	- Rewritten using getpwent (suggested by Adam, much optimized by Rocco).
 - global.c:

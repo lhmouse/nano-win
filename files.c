@@ -676,78 +676,37 @@ int append_slash_if_dir(char *buf, int *lastWasTab, int *place)
 
 char **username_tab_completion(char *buf, int *num_matches)
 {
-    char **matches = (char **) NULL, *line = NULL, *lineptr;
+    char **matches = (char **) NULL;
     char *matchline = NULL;
-
-    int fd, i = 0, status = 1;
-    char byte[1];
-
-    if ((fd = open("/etc/passwd", O_RDONLY)) == -1) {
-	return NULL;
-    }
+    struct passwd *userdata;
 
     *num_matches = 0;
     matches = nmalloc(BUFSIZ * sizeof(char *));
 
     strcat(buf, "*");
 
-    do {
-	i = 0;
-	line = nrealloc(line, 1);
-	while ((status = read(fd, byte, 1)) == 1 && byte[0] != '\n') {
+    while ((userdata = getpwent()) != NULL) {
 
-	    line[i] = byte[0];
-	    i++;
-	    line = nrealloc(line, i + 1);
-	}
-
-	if (i == 0)
+ 	if (userdata == NULL)
 	    break;
 
-	line[i] = 0;
-	lineptr = strtok(line, ":");
-
-	if (check_wildcard_match(line, &buf[1]) == TRUE) {
+	if (check_wildcard_match(userdata->pw_name, &buf[1]) == TRUE) {
 
 	    /* Cool, found a match.  Add it to the list
 	     * This makes a lot more sense to me (Chris) this way...
 	     */
 
-	    matchline = nmalloc(strlen(line) + 2);
-	    sprintf(matchline, "~%s", line);
+	    matchline = nmalloc(strlen(userdata->pw_name) + 2);
+	    sprintf(matchline, "~%s", userdata->pw_name);
+	    matches[*num_matches] = matchline;
+	    ++*num_matches;
 
-	    for (i = 0; i <= 4 && lineptr != NULL; i++)
-		lineptr = strtok(NULL, ":");
-
-	    if (lineptr != NULL) {
-
-		/* /etc/passwd entry has the required number of fields */
-
-		matches[*num_matches] = matchline;
-		++*num_matches;
-
-		/* If there's no more room, bail out */
-		if (*num_matches == BUFSIZ)
-		    break;
-	    }
-	    else {
-
-		/* /etc/passwd entry is missing at least one field */
-
-		free(matchline);
-	    }
+	    /* If there's no more room, bail out */
+	    if (*num_matches == BUFSIZ)
+		break;
 	}
-
-
-    } while (status == 1);
-
-    free(line);
-
-    close(fd);
-
-#ifdef DEBUG
-    fprintf(stderr, "\nin username_tab_completion\n");
-#endif
+    }
+    endpwent();
 
     return (matches);
 }
