@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.0.3\n"
-"POT-Creation-Date: 2001-08-20 09:49-0400\n"
+"POT-Creation-Date: 2001-10-03 19:08-0400\n"
 "PO-Revision-Date: 2001-07-03 11:53+02:00\n"
 "Last-Translator: Jacobo Tarrio <jtarrio@iname.com>\n"
 "Language-Team: Galician <gpul-traduccion@ceu.fi.udc.es>\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "add_to_cutbuffer called with inptr->data = %s\n"
 msgstr "chamouse a add_to_cutbuffer con inptr->data = %s\n"
 
-#: cut.c:158
+#: cut.c:161
 msgid "Blew away cutbuffer =)\n"
 msgstr "Borrouse o buffer de cortado =)\n"
 
@@ -976,6 +976,7 @@ msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
 #: winio.c:1207
+#, c-format
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "liña %d de %d (%.0f%%), carácter %d de %d (%.0f%%)"
 

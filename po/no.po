@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.3\n"
-"POT-Creation-Date: 2001-08-20 09:49-0400\n"
+"POT-Creation-Date: 2001-10-03 19:08-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eivind Kjørstad <ekj@vestdata.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "add_to_cutbuffer called with inptr->data = %s\n"
 msgstr "add_to_cutbuffer vart kalla med inptr->data = %s\n"
 
-#: cut.c:158
+#: cut.c:161
 msgid "Blew away cutbuffer =)\n"
 msgstr "Frigjorde cut-bufferet\n"
 
@@ -985,6 +985,7 @@ msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
 #: winio.c:1207
+#, c-format
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "linje %d av %d (%.0f%%), tegn %d av %d (%.0f%%)"
 

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.0.4\n"
-"POT-Creation-Date: 2001-08-20 09:49-0400\n"
+"POT-Creation-Date: 2001-10-03 19:08-0400\n"
 "PO-Revision-Date: 2001-10-03 20:31+02:00\n"
 "Last-Translator: Marco Colombo <magicdice@inwind.it>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 msgid "add_to_cutbuffer called with inptr->data = %s\n"
 msgstr "add_to_cutbuffer chiamato con inptr->data = %s\n"
 
-#: cut.c:158
+#: cut.c:161
 msgid "Blew away cutbuffer =)\n"
 msgstr "Svuota cutbuffer =)\n"
 
@@ -468,9 +468,22 @@ msgid ""
 msgstr ""
 "Aiuto di nano\n"
 "\n"
-" nano è un editor di testi disegnato per emulare le funzionalità e la facilità d'uso di Pico. Ci sono quattro sezioni principali dell'editor: La riga superiore mostra la versione del programma, il nome del file correntemente in uso e se il file è stato modificato oppure no. Più sotto c'è la finestra principale che mostra il contenuto del file che si sta editando. La barra di stato è la terza riga dal basso e mostra importanti messaggi. Le due righe finali mostrano le abbreviazioni più comunemente usate. \n"
+" nano è un editor di testi disegnato per emulare le funzionalità e la "
+"facilità d'uso di Pico. Ci sono quattro sezioni principali dell'editor: La "
+"riga superiore mostra la versione del programma, il nome del file "
+"correntemente in uso e se il file è stato modificato oppure no. Più sotto "
+"c'è la finestra principale che mostra il contenuto del file che si sta "
+"editando. La barra di stato è la terza riga dal basso e mostra importanti "
+"messaggi. Le due righe finali mostrano le abbreviazioni più comunemente "
+"usate. \n"
 "\n"
-" La notazione per le abbreviazioni è la seguente: Le sequenze col tasto Control sono identificate con il simbolo (^) e sono introdotte col tasto Control (Ctrl). Le sequenze col tasto Escape sono identificate col simbolo Meta (M) e possono essere inserite usato alternativamente il tasto Esc, Alt o Meta secondo la configurazione della vostra tastiera. Le seguenti abbreviazioni sono disponibili nella finestra principale dell'editor. Le sequenze alternative sono mostrate tra parentesi.\n"
+" La notazione per le abbreviazioni è la seguente: Le sequenze col tasto "
+"Control sono identificate con il simbolo (^) e sono introdotte col tasto "
+"Control (Ctrl). Le sequenze col tasto Escape sono identificate col simbolo "
+"Meta (M) e possono essere inserite usato alternativamente il tasto Esc, Alt "
+"o Meta secondo la configurazione della vostra tastiera. Le seguenti "
+"abbreviazioni sono disponibili nella finestra principale dell'editor. Le "
+"sequenze alternative sono mostrate tra parentesi.\n"
 "\n"
 
 #: nano.c:298
@@ -485,7 +498,9 @@ msgstr "delete_node(): liberato l'ultimo nodo.\n"
 msgid ""
 "Usage: nano [GNU long option] [option] +LINE <file>\n"
 "\n"
-msgstr "Utilizzo: nano [opzioni lunghe GNU] [opzioni] +RIGA <file>\n\n"
+msgstr ""
+"Utilizzo: nano [opzioni lunghe GNU] [opzioni] +RIGA <file>\n"
+"\n"
 
 #: nano.c:359
 msgid "Option\t\tLong option\t\tMeaning\n"
@@ -493,7 +508,8 @@ msgstr "Opzioni\t\tOpzioni lunghe\t\tSignificato\n"
 
 #: nano.c:361
 msgid " -T [num]\t--tabsize=[num]\t\tSet width of a tab to num\n"
-msgstr " -T [num]\t--tabsize=[num]\t\tImposta la lunghezza della tabulazione a num\n"
+msgstr ""
+" -T [num]\t--tabsize=[num]\t\tImposta la lunghezza della tabulazione a num\n"
 
 #: nano.c:364
 msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
@@ -540,11 +556,13 @@ msgstr ""
 
 #: nano.c:393
 msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
-msgstr " -s [prog] \t--speller=[prog]\tAttiva correttore ortografico alternativo\n"
+msgstr ""
+" -s [prog] \t--speller=[prog]\tAttiva correttore ortografico alternativo\n"
 
 #: nano.c:396
 msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
-msgstr " -t \t\t--tempfile\t\tSalvataggio automatico in uscita senza conferma\n"
+msgstr ""
+" -t \t\t--tempfile\t\tSalvataggio automatico in uscita senza conferma\n"
 
 #: nano.c:398
 msgid " -v \t\t--view\t\t\tView (read only) mode\n"
@@ -570,7 +588,9 @@ msgstr " +RIGA\t\t\t\t\tInizia alla riga numero RIGA\n"
 msgid ""
 "Usage: nano [option] +LINE <file>\n"
 "\n"
-msgstr "Utilizzo: nano [opzioni] +RIGA <file>\n\n"
+msgstr ""
+"Utilizzo: nano [opzioni] +RIGA <file>\n"
+"\n"
 
 #: nano.c:411
 msgid "Option\t\tMeaning\n"
@@ -618,7 +638,8 @@ msgstr " -p \t\tEmula Pico il più possibile\n"
 
 #: nano.c:429
 msgid " -r [#cols] \tSet fill cols to (wrap lines at) #cols\n"
-msgstr " -r [#cols] \tConfigura riempimento colonne (interrompi righe a) #cols\n"
+msgstr ""
+" -r [#cols] \tConfigura riempimento colonne (interrompi righe a) #cols\n"
 
 #: nano.c:431
 msgid " -s [prog]  \tEnable alternate speller\n"
@@ -699,7 +720,8 @@ msgstr "Impossibile creare un nome file temporaneo: %s"
 
 #: nano.c:1469
 msgid "Spell checking failed: unable to write temp file!"
-msgstr "Controllo ortografico fallito: impossibile scrivere su file temporaneo!"
+msgstr ""
+"Controllo ortografico fallito: impossibile scrivere su file temporaneo!"
 
 #: nano.c:1481
 msgid "Finished checking spelling"
@@ -711,7 +733,9 @@ msgstr "Controllo ortografico fallito"
 
 #: nano.c:1503
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
-msgstr "Salva il buffer modificato? (RISPONDENDO \"No\" ANNULLERETE I CAMBIAMENTI AVVENUTI) "
+msgstr ""
+"Salva il buffer modificato? (RISPONDENDO \"No\" ANNULLERETE I CAMBIAMENTI "
+"AVVENUTI) "
 
 #: nano.c:1599
 msgid "Received SIGHUP"
@@ -760,7 +784,9 @@ msgstr "disabilitato"
 
 #: nano.c:2162
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
-msgstr "Rilevata pressione del NumLock. Il keypad potrebbe non funzionare col Numlock spento"
+msgstr ""
+"Rilevata pressione del NumLock. Il keypad potrebbe non funzionare col "
+"Numlock spento"
 
 #: nano.c:2388
 msgid "Main: set up windows\n"
@@ -962,6 +988,7 @@ msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
 #: winio.c:1207
+#, c-format
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "Riga %d di %d (%.0f%%), carattere %d di %d (%.0f%%)"
 

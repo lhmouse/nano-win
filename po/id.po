@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.0.2\n"
-"POT-Creation-Date: 2001-08-20 09:49-0400\n"
+"POT-Creation-Date: 2001-10-03 19:08-0400\n"
 "PO-Revision-Date: 2001-06-22 14:38GMT+0700\n"
 "Last-Translator: Tedi Heriyanto <tedi_h@gmx.net>\n"
 "Language-Team: Indonesian <id@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 msgid "add_to_cutbuffer called with inptr->data = %s\n"
 msgstr "add_to_cutbuffer dipanggil dgn inptr->data = %s\n"
 
-#: cut.c:158
+#: cut.c:161
 msgid "Blew away cutbuffer =)\n"
 msgstr "Hapus cutbuffer =)\n"
 
@@ -980,6 +980,7 @@ msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
 #: winio.c:1207
+#, c-format
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "baris %d dari %d (%f.0f%%), karakter %d dari %d (%.0f%%)"
 

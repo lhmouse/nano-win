@@ -1,4 +1,4 @@
-/* config.h.in.  Generated automatically from configure.in by autoheader 2.13.  */
+/* config.h.in.  Generated automatically from configure.in by autoheader.  */
 
 /* Define if using alloca.c.  */
 #undef C_ALLOCA
@@ -31,6 +31,9 @@
 /* Define to `long' if <sys/types.h> doesn't define.  */
 #undef off_t
 
+/* Define if you need to in order for stat and other things to work.  */
+#undef _POSIX_SOURCE
+
 /* Define as the return type of signal handlers (int or void).  */
 #undef RETSIGTYPE
 
@@ -57,6 +60,21 @@
 
 /* Define this if your curses lib has the _use_keypad flag */
 #undef HAVE_USEKEYPAD
+
+/* Define this if you have NLS */
+#undef ENABLE_NLS
+
+/* Define this is you have the catgets command */
+#undef HAVE_CATGETS
+
+/* Define this is you have GNU gettext */
+#undef HAVE_GETTEXT
+
+/* Define this for HAVE_LC_MESSAGES */
+#undef HAVE_LC_MESSAGES
+
+/* Define this if you have the stpcpy function (cool) */
+#undef HAVE_STPCPY
 
 /* Define this to make the nano executable as small as possible */
 #undef NANO_SMALL
@@ -97,35 +115,14 @@
 /* Define if you have the dcgettext function.  */
 #undef HAVE_DCGETTEXT
 
-/* Define if you have the feof_unlocked function.  */
-#undef HAVE_FEOF_UNLOCKED
-
-/* Define if you have the fgets_unlocked function.  */
-#undef HAVE_FGETS_UNLOCKED
-
 /* Define if you have the getcwd function.  */
 #undef HAVE_GETCWD
-
-/* Define if you have the getegid function.  */
-#undef HAVE_GETEGID
-
-/* Define if you have the geteuid function.  */
-#undef HAVE_GETEUID
-
-/* Define if you have the getgid function.  */
-#undef HAVE_GETGID
 
 /* Define if you have the getopt_long function.  */
 #undef HAVE_GETOPT_LONG
 
 /* Define if you have the getpagesize function.  */
 #undef HAVE_GETPAGESIZE
-
-/* Define if you have the getuid function.  */
-#undef HAVE_GETUID
-
-/* Define if you have the mempcpy function.  */
-#undef HAVE_MEMPCPY
 
 /* Define if you have the munmap function.  */
 #undef HAVE_MUNMAP
@@ -153,12 +150,6 @@
 
 /* Define if you have the strdup function.  */
 #undef HAVE_STRDUP
-
-/* Define if you have the strtoul function.  */
-#undef HAVE_STRTOUL
-
-/* Define if you have the tsearch function.  */
-#undef HAVE_TSEARCH
 
 /* Define if you have the vsnprintf function.  */
 #undef HAVE_VSNPRINTF
@@ -193,12 +184,6 @@
 /* Define if you have the <regex.h> header file.  */
 #undef HAVE_REGEX_H
 
-/* Define if you have the <stddef.h> header file.  */
-#undef HAVE_STDDEF_H
-
-/* Define if you have the <stdlib.h> header file.  */
-#undef HAVE_STDLIB_H
-
 /* Define if you have the <string.h> header file.  */
 #undef HAVE_STRING_H
 
@@ -214,28 +199,12 @@
 /* Define if you have the <unistd.h> header file.  */
 #undef HAVE_UNISTD_H
 
+/* Define if you have the i library (-li).  */
+#undef HAVE_LIBI
+
 /* Name of package */
 #undef PACKAGE
 
 /* Version number of package */
 #undef VERSION
-
-/* Define if you have the iconv() function. */
-#undef HAVE_ICONV
-
-/* Define as const if the declaration of iconv() needs const. */
-#undef ICONV_CONST
-
-/* Define if you have <langinfo.h> and nl_langinfo(CODESET). */
-#undef HAVE_LANGINFO_CODESET
-
-/* Define if your <locale.h> file defines LC_MESSAGES. */
-#undef HAVE_LC_MESSAGES
-
-/* Define to 1 if translation of program messages to the user's native language
-   is requested. */
-#undef ENABLE_NLS
-
-/* Define if the GNU gettext() function is already present or preinstalled. */
-#undef HAVE_GETTEXT
 

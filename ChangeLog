@@ -1,4 +1,4 @@
-CVS code -
+nano 1.0.5 - 10/03/2001
 - cut.c:
   do_cut_text()
 	- Don't recenter the line when cutting one line (David Lawrence
