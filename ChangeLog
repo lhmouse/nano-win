@@ -32,6 +32,8 @@ CVS Code -
   nanoget_repaint()
 	- New function, removes about 30 lines of duplicate code in 
 	  nanogetstr().
+- es.po:
+	- Translated new NULL replace strings.
   
 nano 0.9.19 - 10/02/2000
 - General
