@@ -29,6 +29,10 @@ Cvs code -
 	- Added the "Goto Directory" code (Rocco)
 - global.c:
 	- Updated some of the lists for the "Goto Directory" code (Rocco)
+- move.c:
+  page_up()
+	- Rewritten with a loop to make screen updates work when
+	  mark is set (fixes bug #59).
 - nano.c:
   do_alt_speller()
 	- Reposition cursor on same line as before ^T was called (Rocco)
