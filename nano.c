@@ -3251,7 +3251,7 @@ int main(int argc, char *argv[])
 	case 'v':
 	    SET(VIEW_MODE);
 	    break;
-#ifdef DISABLE_WRAPPING
+#ifndef DISABLE_WRAPPING
 	case 'w':
 	    SET(NO_WRAP);
 	    break;
