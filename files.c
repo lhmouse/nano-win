@@ -550,7 +550,7 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 	dirName = malloc(strlen(buf) + 1);
 	tmp = buf + strlen(buf);
 	while (*tmp != '/' && tmp != buf)
-	   tmp--;
+	    tmp--;
 
 	tmp++;
 
@@ -570,7 +570,7 @@ char **cwd_tab_completion(char *buf, int *num_matches)
     fprintf(stderr, "\nbuf = %s\n", buf);
     fprintf(stderr, "\ntmp = %s\n", tmp);
 #endif
-    
+
     dir = opendir(dirName);
     if (!dir) {
 	/* Don't print an error, just shut up and return */
@@ -608,7 +608,7 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 /* This function now has an arg which refers to how much the 
  * statusbar (place) should be advanced, i.e. the new cursor pos.
  */
-char *input_tab(char *buf, int place, int lastWasTab, int *newplace)
+char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 {
     /* Do TAB completion */
     static int num_matches = 0, match_matches = 0;
@@ -618,8 +618,10 @@ char *input_tab(char *buf, int place, int lastWasTab, int *newplace)
     char *foo;
     struct stat fileinfo;
 
-    if (lastWasTab == FALSE) {
+    if (*lastWasTab == FALSE) {
 	char *tmp, *copyto, *matchBuf;
+
+	*lastWasTab = 1;
 
 	/* For now, we will not bother with trying to distinguish
 	 * whether the cursor is in/at a command extression -- we
@@ -651,8 +653,8 @@ char *input_tab(char *buf, int place, int lastWasTab, int *newplace)
 	 * then try completing this word as a username. */
 
 	/* FIXME -- this check is broken!
-	if (*tmp == '~' && !strchr(tmp, '/'))
-	    matches = username_tab_completion(tmp, &num_matches); */
+	   if (*tmp == '~' && !strchr(tmp, '/'))
+	   matches = username_tab_completion(tmp, &num_matches); */
 
 	/* Try to match everything in the current working directory that
 	 * matches.  */
@@ -666,7 +668,7 @@ char *input_tab(char *buf, int place, int lastWasTab, int *newplace)
 	fprintf(stderr, "%d matches found...\n", num_matches);
 #endif
 	/* Did we find exactly one match? */
-	switch(num_matches) {
+	switch (num_matches) {
 	case 0:
 	    blank_edit();
 	    break;
@@ -675,65 +677,57 @@ char *input_tab(char *buf, int place, int lastWasTab, int *newplace)
 	    buf = nrealloc(buf, strlen(buf) + strlen(matches[0]) + 1);
 
 	    if (strcmp(buf, "") && strstr(buf, "/")) {
-		for (tmp = buf + strlen(buf); *tmp != '/' && tmp != buf; tmp--)
-		    ;
+		for (tmp = buf + strlen(buf); *tmp != '/' && tmp != buf;
+		     tmp--);
 		tmp++;
-	    }
-	    else
+	    } else
 		tmp = buf;
 
 	    if (!strcmp(tmp, matches[0])) {
 
 		/* Is it a directory? */
 		if (stat(buf, &fileinfo) == -1)
-			break;
+		    break;
 		else if (S_ISDIR(fileinfo.st_mode)) {
-			strncat(buf, "/", 1);
-			*newplace += 1;
+		    strncat(buf, "/", 1);
+		    *newplace += 1;
+		    /* now we start over again with # of tabs so far */
+		    *lastWasTab = 0;
 		}
 		break;
 	    }
 
 	    copyto = tmp;
-	    for (pos = 0; *tmp == matches[0][pos] && 
-			pos <= strlen(matches[0]); pos++)
+	    for (pos = 0; *tmp == matches[0][pos] &&
+		 pos <= strlen(matches[0]); pos++)
 		tmp++;
 
-
-#ifdef DEBUG
-	    fprintf(stderr, "buf = \'%s\'\n", buf);
-/*	    fprintf(stderr, "copyto = \'%s\'\n", copyto); */
-	    fprintf(stderr, "matches[0] = \'%s\'\n", matches[0]);
-	    fprintf(stderr, "pos = %d\n", pos);
-	    fflush(stderr);
-#endif
-
 	    /* write out the matched command */
-	    strncpy(copyto, matches[0],  strlen(matches[0]) + 1);
+	    strncpy(copyto, matches[0], strlen(matches[0]) + 1);
 	    *newplace += strlen(matches[0]) - pos;
 
-		if (stat(buf, &fileinfo) == -1)
-		    ;
-		else if (S_ISDIR(fileinfo.st_mode)) {
-			strncat(buf, "/", 1);
-			*newplace += 1;
-		}
+	    if (stat(buf, &fileinfo) == -1);
+	    else if (S_ISDIR(fileinfo.st_mode)) {
+		strncat(buf, "/", 1);
+		*newplace += 1;
+		/* now we start over again with # of tabs so far */
+		*lastWasTab = 0;
+	    }
 
 	    break;
 	default:
 	    /* Check to see if all matches share a beginning, and if so
-		tack it onto buf and then beep */
+	       tack it onto buf and then beep */
 
 	    if (strcmp(buf, "") && strstr(buf, "/")) {
-		for (tmp = buf + strlen(buf); *tmp != '/' && tmp != buf; tmp--)
-		    ;
+		for (tmp = buf + strlen(buf); *tmp != '/' && tmp != buf;
+		     tmp--);
 		tmp++;
-	    }
-	    else
+	    } else
 		tmp = buf;
 
 	    for (pos = 0; *tmp == matches[0][pos] && *tmp != 0 &&
-			pos <= strlen(matches[0]); pos++)
+		 pos <= strlen(matches[0]); pos++)
 		tmp++;
 
 	    while (1) {
@@ -745,13 +739,13 @@ char *input_tab(char *buf, int place, int lastWasTab, int *newplace)
 		    else if (matches[i][pos] == matches[0][pos])
 			match_matches++;
 		}
-		if (match_matches == num_matches && 
-			(i == num_matches || matches[i] != 0)) {
+		if (match_matches == num_matches &&
+		    (i == num_matches || matches[i] != 0)) {
 		    /* All the matches have the same character at pos+1,
-			so paste it into buf... */
+		       so paste it into buf... */
 		    buf = nrealloc(buf, strlen(buf) + 2);
 		    strncat(buf, matches[0] + pos, 1);
-	 	    *newplace += 1;
+		    *newplace += 1;
 		    pos++;
 		} else {
 		    beep();
@@ -783,9 +777,9 @@ char *input_tab(char *buf, int place, int lastWasTab, int *newplace)
 
 	    /* Print the list of matches */
 	    for (i = 0, col = 0; i < num_matches; i++) {
-		
+
 		/* make each filename shown be the same length as the longest
-			filename, with two spaces at the end */
+		   filename, with two spaces at the end */
 		snprintf(foo, longestname + 1, matches[i]);
 		while (strlen(foo) < longestname)
 		    strcat(foo, " ");
@@ -800,13 +794,13 @@ char *input_tab(char *buf, int place, int lastWasTab, int *newplace)
 
 		/* And if the next match isn't going to fit on the
 		   line, move to the next one */
-		if (col > (COLS - longestname)  && matches[i + 1] != NULL) {
+		if (col > (COLS - longestname) && matches[i + 1] != NULL) {
 		    editline++;
 		    wmove(edit, editline, 0);
-                    if (editline == editwinrows - 1) {
-                        waddstr(edit, _("(more)"));
-                        break;
-                    }
+		    if (editline == editwinrows - 1) {
+			waddstr(edit, _("(more)"));
+			break;
+		    }
 		    col = 0;
 		}
 	    }

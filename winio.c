@@ -334,13 +334,11 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 	    break;
 	case NANO_CONTROL_I:
 	    if (allowtabs) {
-		tabbed++;
 		shift = 0;
 		inputbuf = input_tab(inputbuf, (x - x_left), 
-				tabbed - 1, &shift);
+				&tabbed, &shift);
 		x += shift;
 		nanoget_repaint(buf, inputbuf, x);
-		tabbed = 1;
 	    }
 	    break;
 	case KEY_LEFT:
