@@ -960,7 +960,7 @@ void insert_node(historytype *h, const char *s)
 {
     historytype *a;
 
-    a = nmalloc(sizeof(historytype));
+    a = (historytype *)nmalloc(sizeof(historytype));
     a->next = h->next;
     a->prev = h->next->prev;
     h->next->prev = a;

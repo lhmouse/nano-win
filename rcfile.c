@@ -640,7 +640,7 @@ void do_rcfile(void)
 
     /* Rely on $HOME, fall back on getpwuid() */
     if (homenv != NULL) {
-	nanorc = nrealloc(nanorc, strlen(homenv) + 10);
+	nanorc = charealloc(nanorc, strlen(homenv) + 10);
 	sprintf(nanorc, "%s/.nanorc", homenv);
     } else {
 	userage = getpwuid(euid);
@@ -650,7 +650,7 @@ void do_rcfile(void)
 	    rcfile_error(_("I can't find my home directory!  Wah!"));
 	    SET(NO_RCFILE);
 	} else {
-	    nanorc = nrealloc(nanorc, strlen(userage->pw_dir) + 9);
+	    nanorc = charealloc(nanorc, strlen(userage->pw_dir) + 9);
 	    sprintf(nanorc, "%s/.nanorc", userage->pw_dir);
 
 	}

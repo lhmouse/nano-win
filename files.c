@@ -236,7 +236,7 @@ int read_file(FILE *f, const char *filename, int quiet)
 	       decrease it at all.  We do free it at the end, though. */
 	    if (i >= bufx - 1) {
 		bufx += 128;
-		buf = nrealloc(buf, bufx);
+		buf = charealloc(buf, bufx);
 	    }
 	    buf[i] = input;
 	    buf[i + 1] = '\0';
@@ -645,7 +645,7 @@ int do_insertfile_void(void)
 /* Create a new openfilestruct node. */
 openfilestruct *make_new_opennode(openfilestruct *prevnode)
 {
-    openfilestruct *newnode = nmalloc(sizeof(openfilestruct));
+    openfilestruct *newnode = (openfilestruct *)nmalloc(sizeof(openfilestruct));
 
     newnode->filename = NULL;
     newnode->fileage = NULL;
@@ -1038,7 +1038,7 @@ char *get_full_path(const char *origpath)
 
 	align(&d_here);
 	if (strcmp(d_here, "/")) {
-	    d_here = nrealloc(d_here, strlen(d_here) + 2);
+	    d_here = charealloc(d_here, strlen(d_here) + 2);
 	    strcat(d_here, "/");
 	}
 
@@ -1060,9 +1060,9 @@ char *get_full_path(const char *origpath)
 	if (path_only) {
 	    tmp = d_there[strlen(d_there) - 1];
 	    if (tmp != '/') {
-		d_there = nrealloc(d_there, strlen(d_there) + 2);
+		d_there = charealloc(d_there, strlen(d_there) + 2);
 		strcat(d_there, "/");
-		d_there_file = nrealloc(d_there_file, strlen(d_there_file) + 2);
+		d_there_file = charealloc(d_there_file, strlen(d_there_file) + 2);
 		strcat(d_there_file, "/");
 	    }
 	}
@@ -1110,7 +1110,7 @@ char *get_full_path(const char *origpath)
 		    /* add a slash to d_there, unless it's "/", in which
 		       case we don't need it */
 		    if (strcmp(d_there, "/")) {
-			d_there = nrealloc(d_there, strlen(d_there) + 2);
+			d_there = charealloc(d_there, strlen(d_there) + 2);
 			strcat(d_there, "/");
 		    }
 		}
@@ -1223,7 +1223,7 @@ char *safe_tempnam(const char *dirname, const char *filename_prefix)
 	strcpy(full_tempdir, "/tmp/");
     }
 
-    full_tempdir = nrealloc(full_tempdir, strlen(full_tempdir) + 12);
+    full_tempdir = charealloc(full_tempdir, strlen(full_tempdir) + 12);
 
     /* like tempnam(), use only the first 5 characters of the prefix */
     strncat(full_tempdir, filename_prefix, 5);
@@ -1970,7 +1970,7 @@ char **username_tab_completion(char *buf, int *num_matches)
     struct passwd *userdata;
 
     *num_matches = 0;
-    matches = nmalloc(BUFSIZ * sizeof(char *));
+    matches = (char **)nmalloc(BUFSIZ * sizeof(char *));
 
     strcat(buf, "*");
 
@@ -2017,7 +2017,7 @@ char **cwd_tab_completion(char *buf, int *num_matches)
     DIR *dir;
     struct dirent *next;
 
-    matches = nmalloc(BUFSIZ * sizeof(char *));
+    matches = (char **)nmalloc(BUFSIZ * sizeof(char *));
 
     /* Stick a wildcard onto the buf, for later use */
     strcat(buf, "*");
@@ -2140,8 +2140,8 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
 
 	/* Make a local copy of the string -- up to the position of the
 	   cursor */
-	matchbuf = (char *)nmalloc((strlen(buf) + 2) * sizeof(char));
-	memset(matchbuf, '\0', (strlen(buf) + 2));
+	matchbuf = charalloc(strlen(buf) + 2);
+	memset(matchbuf, '\0', strlen(buf) + 2);
 
 	strncpy(matchbuf, buf, place);
 	tmp = matchbuf;
@@ -2197,7 +2197,7 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
 	    break;
 	case 1:
 
-	    buf = nrealloc(buf, strlen(buf) + strlen(matches[0]) + 1);
+	    buf = charealloc(buf, strlen(buf) + strlen(matches[0]) + 1);
 
 	    if (buf[0] != '\0' && strstr(buf, "/") != NULL) {
 		for (tmp = buf + strlen(buf); *tmp != '/' && tmp != buf;
@@ -2260,7 +2260,7 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
 		    (i == num_matches || matches[i] != 0)) {
 		    /* All the matches have the same character at pos+1,
 		       so paste it into buf... */
-		    buf = nrealloc(buf, strlen(buf) + 2);
+		    buf = charealloc(buf, strlen(buf) + 2);
 		    strncat(buf, matches[0] + pos, 1);
 		    *newplace += 1;
 		    pos++;
@@ -2449,7 +2449,7 @@ char **browser_init(const char *path, int *longest, int *numents)
     rewinddir(dir);
     *longest += 10;
 
-    filelist = nmalloc(*numents * sizeof (char *));
+    filelist = (char **)nmalloc(*numents * sizeof (char *));
 
     if (!strcmp(path, "/"))
 	path = "";
@@ -2876,12 +2876,12 @@ void load_history(void)
 
 
     if (homenv != NULL) {
-        nanohist = nrealloc(nanohist, strlen(homenv) + 15);
+        nanohist = charealloc(nanohist, strlen(homenv) + 15);
         sprintf(nanohist, "%s/.nano_history", homenv);
     } else {
 	userage = getpwuid(geteuid());
 	endpwent();
-        nanohist = nrealloc(nanohist, strlen(userage->pw_dir) + 15);
+        nanohist = charealloc(nanohist, strlen(userage->pw_dir) + 15);
         sprintf(nanohist, "%s/.nano_history", userage->pw_dir);
     }
 
@@ -2931,12 +2931,12 @@ void save_history(void)
 	return;
 
     if (homenv != NULL) {
-	nanohist = nrealloc(nanohist, strlen(homenv) + 15);
+	nanohist = charealloc(nanohist, strlen(homenv) + 15);
 	sprintf(nanohist, "%s/.nano_history", homenv);
     } else {
 	userage = getpwuid(geteuid());
 	endpwent();
-	nanohist = nrealloc(nanohist, strlen(userage->pw_dir) + 15);
+	nanohist = charealloc(nanohist, strlen(userage->pw_dir) + 15);
 	sprintf(nanohist, "%s/.nano_history", userage->pw_dir);
     }
 
@@ -2949,7 +2949,7 @@ void save_history(void)
 	    chmod(nanohist, S_IRUSR | S_IWUSR);
 	    /* write oldest first */
 	    for (h = search_history.tail ; h->prev ; h = h->prev) {
-		h->data = nrealloc(h->data, strlen(h->data) + 2);
+		h->data = charealloc(h->data, strlen(h->data) + 2);
 		strcat(h->data, "\n");
 		if (fputs(h->data, hist) == EOF) {
 		    rcfile_msg(_("Unable to write ~/.nano_history file, %s"), strerror(errno));
@@ -2961,7 +2961,7 @@ void save_history(void)
 		    goto come_from;
 	    }
 	    for (h = replace_history.tail ; h->prev ; h = h->prev) {
-		h->data = nrealloc(h->data, strlen(h->data) + 2);
+		h->data = charealloc(h->data, strlen(h->data) + 2);
 		strcat(h->data, "\n");
 		if (fputs(h->data, hist) == EOF) {
 		    rcfile_msg(_("Unable to write ~/.nano_history file, %s"), strerror(errno));

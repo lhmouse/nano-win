@@ -210,7 +210,15 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
     char *history = NULL;
     char *currentbuf = NULL;
     char *complete = NULL;
-    int last_kbinput = 0, ret2cb = 0;
+    int last_kbinput = 0;
+
+    /* This variable is used in the search history code.  use_cb == 0 
+       means that we're using the existing history and ignoring
+       currentbuf.  use_cb == 1 means that the entry in answer should be
+       moved to currentbuf or restored from currentbuf to answer. 
+       use_cb == 2 means that the entry in currentbuf should be moved to
+       answer or restored from answer to currentbuf. */
+    int use_cb = 0;
 #endif
     xend = strlen(def);
 
@@ -361,16 +369,34 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
   do_upkey:
 	    if (history_list != NULL) {
 
-		/* If there's no previous temp holder, or if we already
-		   arrowed back down to it and (possibly edited it),
-		   update the holder */
-		if (currentbuf == NULL || (ret2cb == 1 && strcmp(currentbuf, answer))) {
+		/* if currentbuf is NULL, or if use_cb is 1, currentbuf
+		   isn't NULL, and currentbuf is different from answer,
+		   it means that we're scrolling up at the top of the
+		   search history, and we need to save the current
+		   answer in currentbuf; do this and reset use_cb to
+		   0 */
+		if (currentbuf == NULL || (use_cb == 1 && strcmp(currentbuf, answer))) {
 		    currentbuf = mallocstrcpy(currentbuf, answer);
-		    ret2cb = 0;
+		    use_cb = 0;
 		}
 
-		/* get older search from the history list */
-		if ((history = get_history_older(history_list)) != NULL) {
+		/* if currentbuf isn't NULL, use_cb is 2, and currentbuf 
+		   is different from answer, it means that we're
+		   scrolling up at the bottom of the search history, and
+		   we need to make the string in currentbuf the current
+		   answer; do this, blow away currentbuf since we don't
+		   need it anymore, and reset use_cb to 0 */
+		if (currentbuf != NULL && use_cb == 2 && strcmp(currentbuf, answer)) {
+		    answer = mallocstrcpy(answer, currentbuf);
+		    free(currentbuf);
+		    currentbuf = NULL;
+		    xend = strlen(answer);
+		    use_cb = 0;
+
+		/* else get older search from the history list and save
+		   it in answer; if there is no older search, blank out 
+		   answer */
+		} else if ((history = get_history_older(history_list)) != NULL) {
 		    answer = mallocstrcpy(answer, history);
 		    xend = strlen(history);
 		} else {
@@ -386,22 +412,38 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 #ifndef NANO_SMALL
   do_downkey:
 	    if (history_list != NULL) {
-		/* get newer search from the history list */
+
+		/* get newer search from the history list and save it 
+		   in answer */
 		if ((history = get_history_newer(history_list)) != NULL) {
 		    answer = mallocstrcpy(answer, history);
 		    xend = strlen(history);
 
-		/* else if we ran out of history, regurgitate the temporary
-		   buffer and blow away currentbuf */
-		} else if (currentbuf != NULL) {
+		/* if there is no newer search, we're here */
+		
+		/* if currentbuf isn't NULL and use_cb isn't 2, it means 
+		   that we're scrolling down at the bottom of the search
+		   history and we need to make the string in currentbuf
+		   the current answer; do this, blow away currentbuf
+		   since we don't need it anymore, and set use_cb to
+		   1 */
+		} else if (currentbuf != NULL && use_cb != 2) {
 		    answer = mallocstrcpy(answer, currentbuf);
 		    free(currentbuf);
 		    currentbuf = NULL;
 		    xend = strlen(answer);
-		    ret2cb = 1;
-		} else {
+		    use_cb = 1;
+
+		/* otherwise, if currentbuf is NULL and use_cb isn't 2, 
+		   it means that we're scrolling down at the bottom of
+		   the search history and the current answer needs to be
+		   saved in currentbuf; do this, blank out answer, and
+		   set use_cb to 2 */
+		} else if (use_cb != 2) {
+		    currentbuf = mallocstrcpy(currentbuf, answer);
 		    answer = mallocstrcpy(answer, "");
 		    xend = 0;
+		    use_cb = 2;
 		}
 		x = xend;
 	    }
@@ -486,7 +528,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	default:
 	    if (kbinput < 32)
 		break;
-	    answer = nrealloc(answer, xend + 2);
+	    answer = charealloc(answer, xend + 2);
 	    memmove(answer + x + 1, answer + x, xend - x + 1);
 	    xend++;
 	    answer[x] = kbinput;

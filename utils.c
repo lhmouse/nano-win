@@ -66,8 +66,9 @@ int num_of_digits(int n)
 /* Fix the memory allocation for a string. */
 void align(char **strp)
 {
-    if (strp != NULL)
-	*strp = nrealloc(*strp, strlen(*strp) + 1);
+    assert(strp != NULL);
+    if (*strp != NULL)
+	*strp = charealloc(*strp, strlen(*strp) + 1);
 }
 
 /* Null a string at a certain index and align it. */
@@ -259,7 +260,7 @@ char *mallocstrcpy(char *dest, const char *src)
 /* Append a new magic-line to filebot. */
 void new_magicline(void)
 {
-    filebot->next = nmalloc(sizeof(filestruct));
+    filebot->next = (filestruct *)nmalloc(sizeof(filestruct));
     filebot->next->data = charalloc(1);
     filebot->next->data[0] = '\0';
     filebot->next->prev = filebot;

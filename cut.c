@@ -361,7 +361,7 @@ int do_uncut_text(void)
 	    size_t buf_len = strlen(cutbuffer->data);
 	    size_t cur_len = strlen(current->data);
 
-	    current->data = nrealloc(current->data, cur_len + buf_len + 1);
+	    current->data = charealloc(current->data, cur_len + buf_len + 1);
 	    memmove(current->data + current_x + buf_len,
 			current->data + current_x, cur_len - current_x + 1);
 	    strncpy(current->data + current_x, cutbuffer->data, buf_len);

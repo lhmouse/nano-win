@@ -1,9 +1,40 @@
 CVS code -
 - General:
 	- Translation updates (see po/ChangeLog for details).
+	- Change uncast nrealloc()s assigned to char pointers/arrays to
+	  charealloc()s, and cast all other nrealloc()s and all
+	  nmalloc()s. (David Benbennick and DLR)
+- utils.c:
+  align()
+	- Tweak to avoid a potential problem when strp is non-NULL but
+	  *strp is NULL. (David Benbennick)
+- winio.c:
+  nanogetstr()
+	- Fix problem with search history where a temporary string
+	  added at the bottom of the history (but which was not in the
+	  history) would not be preserved after scrolling down to the
+	  blank bottom entry and then scrolling back up. (DLR)
+- configure.ac:
+	- Change the program used to detect a broken regexec() function
+	  so that it works properly, using information found at
+	  http://sources.redhat.com/ml/libc-hacker/2001-06/msg00015.html.
+	  (DLR)
+- nanorc.sample:
+	- Revised comment explaining the non-escaping of quotes to cover
+	  non-escaping of all shell-interpreted characters. (DLR)
+	- Fixes to the descriptions and examples in the comments, and
+	  changes to some default values. (David Benbennick and DLR)
+	- Add regexes for Perl syntax. (Richard Smith, tweaked for
+	  greater efficiency by David Benbennick)
+	- Add regexes for Java source syntax. (David Benbennick)
+	  Regex for C++-style comments (colored the same way as C-style
+	  comments) added by DLR.
 - THANKS:
 	- Added Laurentiu Buzdugan, for Romanian.
 	- Added Geir Helland, for Norwegian Bokmål.
+- TODO:
+	- Move the items for nano 1.2 to the "Old Requests" section,
+	  and mark color syntax highlighting as done. (David Benbennick)
 - nano.1, nanorc.5:
 	- Formatting improvements by Jean-Philippe Guérard.
 

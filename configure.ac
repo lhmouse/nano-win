@@ -43,9 +43,9 @@ AC_CHECK_HEADER(regex.h,
     AC_TRY_RUN([
 #include <sys/types.h>
 #include <regex.h>
-int main() { regex_t reg; size_t n; regmatch_t r; regcomp(&reg, ".", 0); regexec(&reg, "", n, &r, 0); return 0; }],
+int main () { regex_t reg; size_t n = 1; regmatch_t r; regcomp(&reg, "\\<", 0); regexec(&reg, "", n, &r, 0); regfree(&reg); return 0; }],
 	AC_MSG_RESULT(no),
-	AC_MSG_RESULT(yes); AC_DEFINE(BROKEN_REGEXEC, 1, [Define this if your regexec() function segfaults when passed an empty string.])
+	AC_MSG_RESULT(yes); AC_DEFINE(BROKEN_REGEXEC, 1, [Define this if your regexec() function segfaults when passed an empty string under certain conditions.])
     )
 )
 

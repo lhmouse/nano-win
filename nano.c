@@ -988,7 +988,7 @@ void do_char(char ch)
     }
 
     /* more dangerousness fun =) */
-    current->data = nrealloc(current->data, current_len + 2);
+    current->data = charealloc(current->data, current_len + 2);
     assert(current_x <= current_len);
     memmove(&current->data[current_x + 1],
 	    &current->data[current_x],
@@ -1056,7 +1056,7 @@ int do_backspace(void)
 	    mark_beginbuf = previous;
 	}
 #endif
-	previous->data = nrealloc(previous->data,
+	previous->data = charealloc(previous->data,
 				  current_x + strlen(current->data) + 1);
 	strcpy(previous->data + current_x, current->data);
 
@@ -1128,7 +1128,7 @@ int do_delete(void)
 
 	filestruct *foo;
 
-	current->data = nrealloc(current->data,
+	current->data = charealloc(current->data,
 				 strlen(current->data) +
 				 strlen(current->next->data) + 1);
 	strcat(current->data, current->next->data);
@@ -1792,7 +1792,7 @@ char *do_int_speller(char *tempfile_name)
     while ((bytesread = read(uniq_fd[0], read_buff_ptr, pipe_buff_size)) > 0) {
 	read_buff_read += bytesread;
 	read_buff_size += pipe_buff_size;
-	read_buff = read_buff_ptr = nrealloc(read_buff, read_buff_size);
+	read_buff = read_buff_ptr = charealloc(read_buff, read_buff_size);
 	read_buff_ptr += read_buff_read;
 
     }
@@ -1885,12 +1885,12 @@ char *do_alt_speller(char *tempfile_name)
 
     /* Set up an argument list to pass the execvp function */
     if (spellargs == NULL) {
-	spellargs = nmalloc(arglen * sizeof(char *));
+	spellargs = (char **)nmalloc(arglen * sizeof(char *));
 
 	spellargs[0] = strtok(alt_speller, " ");
 	while ((ptr = strtok(NULL, " ")) != NULL) {
 	    arglen++;
-	    spellargs = nrealloc(spellargs, arglen * sizeof(char *));
+	    spellargs = (char **)nrealloc(spellargs, arglen * sizeof(char *));
 	    spellargs[arglen - 3] = ptr;
 	}
 	spellargs[arglen - 1] = NULL;
@@ -2865,7 +2865,7 @@ void handle_sigwinch(int s)
 	fill = 0;
 #endif
 
-    hblank = nrealloc(hblank, COLS + 1);
+    hblank = charealloc(hblank, COLS + 1);
     memset(hblank, ' ', COLS);
     hblank[COLS] = '\0';
 

@@ -174,12 +174,12 @@ void sc_init_one(shortcut **shortcutage, int key, const char *desc,
     shortcut *s;
 
     if (*shortcutage == NULL) {
-	*shortcutage = nmalloc(sizeof(shortcut));
+	*shortcutage = (shortcut *)nmalloc(sizeof(shortcut));
 	s = *shortcutage;
     } else {
 	for (s = *shortcutage; s->next != NULL; s = s->next)
 	    ;
-	s->next = nmalloc(sizeof(shortcut));
+	s->next = (shortcut *)nmalloc(sizeof(shortcut));
 	s = s->next; 
     }
 
@@ -204,12 +204,12 @@ void toggle_init_one(int val, const char *desc, int flag)
     toggle *u;
 
     if (toggles == NULL) {
-	toggles = nmalloc(sizeof(toggle));
+	toggles = (toggle *)nmalloc(sizeof(toggle));
 	u = toggles;
     } else {
 	for (u = toggles; u->next != NULL; u = u->next)
 	    ;
-	u->next = nmalloc(sizeof(toggle));
+	u->next = (toggle *)nmalloc(sizeof(toggle));
 	u = u->next;
     }
 
