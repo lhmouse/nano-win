@@ -194,13 +194,13 @@ int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 		    *meta_key = TRUE;
 		    retval = tolower(kbinput);
 		/* If the escape sequence is more than one character
-		 * long, set meta_key to FALSE, translate the escape
+		 * long, set func_key to TRUE, translate the escape
 		 * sequence into the corresponding key value, and save
 		 * that as the result. */
 		} else if (seq_len > 1) {
 		    bool ignore_seq;
 
-		    *meta_key = FALSE;
+		    *func_key = TRUE;
 		    retval = get_escape_seq_kbinput(sequence, seq_len,
 			&ignore_seq);
 
@@ -215,9 +215,9 @@ int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 		}
 	    /* Handle UTF-8 sequences. */
 	    } else if (seq == UTF8_SEQ) {
-		/* If we have a UTF-8 sequence, set func_key to FALSE,
-		 * translate the UTF-8 sequence into the corresponding
-		 * wide character value, and save that as the result. */
+		/* If we have a UTF-8 sequence, translate the UTF-8
+		 * sequence into the corresponding wide character value,
+		 * and save that as the result. */
 		int i = 0;
 		char *s = charalloc(seq_len + 1);
 		wchar_t wc;
@@ -226,7 +226,6 @@ int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 		    s[i] = (char)sequence[i];
 		s[seq_len] = '\0';
 
-		*func_key = FALSE;
 		if (mbtowc(&wc, s, MB_CUR_MAX) == -1) {
 		    /* This UTF-8 sequence is unrecognized.  Send it
 		     * back. */
