@@ -315,7 +315,7 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	    /* If we're searching for whole words, see if this potential
 	     * match is a whole word. */
 	    if (wholeword) {
-		char *word = mallocstrncpy(word, found, found_len + 1);
+		char *word = mallocstrncpy(NULL, found, found_len + 1);
 		word[found_len] = '\0';
 
 		found_whole = is_whole_word(found - fileptr->data,
