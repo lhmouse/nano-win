@@ -509,15 +509,17 @@ void titlebar(char *path)
     reset_cursor();
 }
 
-void onekey(char *keystroke, char *desc)
+void onekey(char *keystroke, char *desc, int len)
 {
-    char description[80];
+    int i;
 
-    snprintf(description, 12, " %-10s", desc);
     wattron(bottomwin, A_REVERSE);
     waddstr(bottomwin, keystroke);
     wattroff(bottomwin, A_REVERSE);
-    waddstr(bottomwin, description);
+    waddch(bottomwin, ' ');
+    waddnstr(bottomwin, desc, len - 3);
+    for (i = strlen(desc); i < len - 3; i++)
+	waddch(bottomwin, ' ');
 }
 
 void clear_bottomwin(void)
@@ -531,32 +533,23 @@ void clear_bottomwin(void)
 
 void bottombars(shortcut s[], int slen)
 {
-    int i, j, k;
+    int i;
     char keystr[10];
 
     if (ISSET(NO_HELP))
 	return;
 
-    /* Determine how many extra spaces are needed to fill the bottom of the screen */
-    k = COLS / 6 - 13;
-
     clear_bottomwin();
     wmove(bottomwin, 1, 0);
     for (i = 0; i <= slen - 1; i += 2) {
 	snprintf(keystr, 10, "^%c", s[i].val + 64);
-	onekey(keystr, s[i].desc);
-
-	for (j = 0; j < k; j++)
-	    waddch(bottomwin, ' ');
+	onekey(keystr, s[i].desc, COLS / 6);
     }
 
     wmove(bottomwin, 2, 0);
     for (i = 1; i <= slen - 1; i += 2) {
 	snprintf(keystr, 10, "^%c", s[i].val + 64);
-	onekey(keystr, s[i].desc);
-
-	for (j = 0; j < k; j++)
-	    waddch(bottomwin, ' ');
+	onekey(keystr, s[i].desc, COLS / 6);
     }
 
     wrefresh(bottomwin);
@@ -1049,18 +1042,18 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
 	wmove(bottomwin, 1, 0);
 
 	snprintf(shortstr, 3, " %c", yesstr[0]);
-	onekey(shortstr, _("Yes"));
+	onekey(shortstr, _("Yes"), 16);
 
 	if (all) {
 	    snprintf(shortstr, 3, " %c", allstr[0]);
-	    onekey(shortstr, _("All"));
+	    onekey(shortstr, _("All"), 16);
 	}
 	wmove(bottomwin, 2, 0);
 
 	snprintf(shortstr, 3, " %c", nostr[0]);
-	onekey(shortstr, _("No"));
+	onekey(shortstr, _("No"), 16);
 
-	onekey("^C", _("Cancel"));
+	onekey("^C", _("Cancel"), 16);
     }
     va_start(ap, msg);
     vsnprintf(foo, 132, msg, ap);

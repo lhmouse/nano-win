@@ -3,6 +3,8 @@ CVS code -
   nanogetstr()
 	- Add NANO_HOME_KEY and NANO_END_KEY to the home and
 	  end key code (fixes BUG #69).
+  bottombars(), onekey()
+	- Make bottom list dynamic with screen size (Guus Sliepen & Chris).
 - THANKS:
 	- Added missing entry for Eivind Kjørstad.
 - po/no.po:
