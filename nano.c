@@ -2117,7 +2117,10 @@ int main(int argc, char *argv[])
 #endif
 
     titlebar();
-    if (argc == 1)
+
+    /* Now we check to see if argv[optind] is non-null to determine if
+       we're dealing with a new file or not, not argc == 1... */
+    if (argv[optind] == NULL)
 	new_file();
     else
 	open_file(filename, 0, 0);

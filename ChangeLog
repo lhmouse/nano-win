@@ -1,6 +1,10 @@
 CVS code -
 - AUTHORS
 	- Added Rocco Corsi.
+- nano.c:
+  main()
+	- Changed check for argc == 1 to argv[optind] == NULL to decide
+	  whether or not to display "New File" in the statusbar.
 - search.c:
   findnextstr()
 	- Fix curent_x increment bug by using another variable (Rocco Corsi).
@@ -9,6 +13,7 @@ CVS code -
 	  previous search string from being displayed.
 - nano.1, nano.1.html
 	- Updated man page for new -p definition.
+
 
 nano 0.9.20 - 11/18/2000
 - General

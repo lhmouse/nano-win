@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-11-20 17:19-0500\n"
+"POT-Creation-Date: 2000-11-21 01:19-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -702,27 +702,27 @@ msgstr ""
 msgid "Main: open file\n"
 msgstr ""
 
-#: nano.c:2150
+#: nano.c:2153
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2172
+#: nano.c:2175
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2205
+#: nano.c:2208
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2253
+#: nano.c:2256
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2279
+#: nano.c:2282
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr ""
