@@ -83,6 +83,9 @@ CVS code -
 	  is disabled when NANO_SMALL is defined. (DLR, based on ideas
 	  from a patch for Pico by Eduardo Chappa, suggested by Ryan
 	  Dlugosz and Paul Adams)
+	- Implement verbatim input for the statusbar prompt.  Changes to
+	  do_statusbar_input(); new function
+	  do_statusbar_verbatim_input(). (DLR)
 - cut.c:
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the
@@ -184,6 +187,9 @@ CVS code -
 	  obsolete and it defines a struct termio that we don't use
 	  anywhere. (DLR)
 	- Typo fixes. (DLR)
+- doc/faq.html:
+	- Remove now-inaccurate note about verbatim input's not working
+	  at prompts. (DLR)
 - doc/nanorc.sample:
 	- Add return to the "c-file" regexes. (DLR)
 

@@ -1651,7 +1651,8 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	input == NANO_HOME_KEY || input == NANO_END_KEY ||
 	input == NANO_FORWARD_KEY || input == NANO_BACK_KEY ||
 	input == NANO_BACKSPACE_KEY || input == NANO_DELETE_KEY ||
-	input == NANO_CUT_KEY);
+	input == NANO_CUT_KEY || (*meta_key == TRUE &&
+	input == NANO_VERBATIM_KEY));
 
     /* Set s_or_t to TRUE if we got a shortcut. */
     *s_or_t = have_shortcut;
@@ -1728,6 +1729,16 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 			currshortcut != writefile_list)
 			do_statusbar_cut_text();
 		    break;
+		case NANO_VERBATIM_KEY:
+		    if (*meta_key == TRUE) {
+			/* If we're using restricted mode, the filename
+			 * isn't blank, and we're at the "Write File"
+			 * prompt, disable verbatim input. */
+			if (!ISSET(RESTRICTED) || filename[0] == '\0' ||
+				currshortcut != writefile_list)
+			    do_statusbar_verbatim_input();
+			break;
+		    }
 		/* Handle the normal statusbar prompt shortcuts, setting
 		 * finished to TRUE to indicate that we're done after
 		 * running or trying to run their associated
@@ -1819,6 +1830,20 @@ void do_statusbar_cut_text(void)
     null_at(&answer, 0);
     statusbar_x = 0;
     statusbar_xend = 0;
+}
+
+void do_statusbar_verbatim_input(void)
+{
+    int *kbinput;	/* Used to hold verbatim input. */
+    size_t kbinput_len;	/* Length of verbatim input. */
+
+    /* Read in all the verbatim characters. */
+    kbinput = get_verbatim_kbinput(bottomwin, &kbinput_len);
+
+    /* Display all the verbatim characters at once. */
+    do_statusbar_output(kbinput, kbinput_len);
+
+    free(kbinput);
 }
 
 void do_statusbar_output(int *kbinput, size_t kbinput_len)

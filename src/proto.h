@@ -582,6 +582,7 @@ void do_statusbar_left(void);
 void do_statusbar_backspace(void);
 void do_statusbar_delete(void);
 void do_statusbar_cut_text(void);
+void do_statusbar_verbatim_input(void);
 void do_statusbar_output(int *kbinput, size_t kbinput_len);
 size_t xplustabs(void);
 size_t actual_x(const char *str, size_t xplus);
