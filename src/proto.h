@@ -392,21 +392,22 @@ void not_found_msg(const char *str);
 void search_abort(void);
 void search_init_globals(void);
 int search_init(bool replacing);
-int is_whole_word(int curr_pos, const char *datastr, const char
+bool is_whole_word(int curr_pos, const char *datastr, const char
 	*searchword);
-int findnextstr(int can_display_wrap, int wholeword, const filestruct
-	*begin, size_t beginx, const char *needle, int no_sameline);
+bool findnextstr(bool can_display_wrap, bool wholeword, bool
+	no_sameline, const filestruct *begin, size_t beginx, const char
+	*needle);
 void do_search(void);
 #ifndef NANO_SMALL
 void do_research(void);
 #endif
 void replace_abort(void);
 #ifdef HAVE_REGEX_H
-int replace_regexp(char *string, int create_flag);
+int replace_regexp(char *string, bool create_flag);
 #endif
 char *replace_line(const char *needle);
 int do_replace_loop(const char *needle, const filestruct *real_current,
-	size_t *real_current_x, int wholewords);
+	size_t *real_current_x, bool wholewords);
 void do_replace(void);
 void do_gotoline(int line, bool save_pos);
 void do_gotoline_void(void);

@@ -249,7 +249,7 @@ int search_init(bool replacing)
     return 0;
 }
 
-int is_whole_word(int curr_pos, const char *datastr, const char
+bool is_whole_word(int curr_pos, const char *datastr, const char
 	*searchword)
 {
     size_t sln = curr_pos + strlen(searchword);
@@ -266,13 +266,15 @@ int is_whole_word(int curr_pos, const char *datastr, const char
  * If can_display_wrap is nonzero, we put messages on the statusbar, and
  * wrap around the file boundaries.  The return value specifies whether
  * we found anything. */
-int findnextstr(int can_display_wrap, int wholeword, const filestruct
-	*begin, size_t beginx, const char *needle, int no_sameline)
+bool findnextstr(bool can_display_wrap, bool wholeword, bool
+	no_sameline, const filestruct *begin, size_t beginx, const char
+	*needle)
 {
     filestruct *fileptr = current;
     const char *rev_start = NULL, *found = NULL;
     size_t current_x_find = 0;
 	/* Where needle was found. */
+    int current_y_find = current_y;
 
     /* rev_start might end up 1 character before the start or after the
      * end of the line.  This won't be a problem because strstrwrapper()
@@ -302,21 +304,36 @@ int findnextstr(int can_display_wrap, int wholeword, const filestruct
 		not_found_msg(needle);
 	    return 0;
 	}
-	fileptr =
+
 #ifndef NANO_SMALL
-		ISSET(REVERSE_SEARCH) ? fileptr->prev :
+	if (ISSET(REVERSE_SEARCH)) {
+	    fileptr = fileptr->prev;
+	    current_y_find--;
+	} else {
 #endif
-		fileptr->next;
+	    fileptr = fileptr->next;
+	    current_y_find++;
+#ifndef NANO_SMALL
+	}
+#endif
 
 	/* Start or end of buffer reached; wrap around. */
 	if (fileptr == NULL) {
 	    if (!can_display_wrap)
 		return 0;
-	    fileptr =
+
 #ifndef NANO_SMALL
-		ISSET(REVERSE_SEARCH) ? filebot :
+	    if (ISSET(REVERSE_SEARCH)) {
+		fileptr = filebot;
+		current_y_find = editwinrows - 1;
+	    } else {
 #endif
-		fileage;
+		fileptr = fileage;
+		current_y_find = 0;
+#ifndef NANO_SMALL
+	    }
+#endif
+
 	    if (can_display_wrap)
 		statusbar(_("Search Wrapped"));
 	}
@@ -352,6 +369,7 @@ int findnextstr(int can_display_wrap, int wholeword, const filestruct
     /* Set globals now that we are sure we found something. */
     current = fileptr;
     current_x = current_x_find;
+    current_y = current_y_find;
 
     return 1;
 }
@@ -360,7 +378,8 @@ int findnextstr(int can_display_wrap, int wholeword, const filestruct
 void do_search(void)
 {
     size_t old_pww = placewewant, fileptr_x = current_x;
-    int i, didfind;
+    int i;
+    bool didfind;
     filestruct *fileptr = current;
 
 #ifndef DISABLE_WRAPPING
@@ -395,7 +414,7 @@ void do_search(void)
 #endif
 
     search_last_line = FALSE;
-    didfind = findnextstr(TRUE, FALSE, current, current_x, answer, FALSE);
+    didfind = findnextstr(TRUE, FALSE, FALSE, current, current_x, answer);
 
     /* Check to see if there's only one occurrence of the string and
      * we're on it now. */
@@ -408,8 +427,8 @@ void do_search(void)
 	 * which case it's the only occurrence. */
 	if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp,
 		last_search)) {
-	    didfind = findnextstr(TRUE, FALSE, current, current_x,
-		answer, TRUE);
+	    didfind = findnextstr(TRUE, FALSE, TRUE, current, current_x,
+		answer);
 	    if (fileptr == current && fileptr_x == current_x && !didfind)
 		statusbar(_("This is the only occurrence"));
 	} else {
@@ -430,7 +449,7 @@ void do_search(void)
 void do_research(void)
 {
     size_t old_pww = placewewant, fileptr_x = current_x;
-    int didfind;
+    bool didfind;
     filestruct *fileptr = current;
 
 #ifndef DISABLE_WRAPPING
@@ -447,8 +466,8 @@ void do_research(void)
 #endif
 
 	search_last_line = FALSE;
-	didfind = findnextstr(TRUE, FALSE, current, current_x,
-		last_search, FALSE);
+	didfind = findnextstr(TRUE, FALSE, FALSE, current, current_x,
+		last_search);
 
 	/* Check to see if there's only one occurrence of the string and
 	 * we're on it now. */
@@ -461,8 +480,8 @@ void do_research(void)
 	     * found again, in which case it's the only occurrence. */
 	    if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp,
 		last_search)) {
-		didfind = findnextstr(TRUE, FALSE, current, current_x,
-			answer, TRUE);
+		didfind = findnextstr(TRUE, FALSE, TRUE, current,
+			current_x, answer);
 		if (fileptr == current && fileptr_x == current_x && !didfind)
 		    statusbar(_("This is the only occurrence"));
 	    } else {
@@ -491,9 +510,9 @@ void replace_abort(void)
 }
 
 #ifdef HAVE_REGEX_H
-int replace_regexp(char *string, int create_flag)
+int replace_regexp(char *string, bool create_flag)
 {
-    /* Split personality here - if create_flag is zero, just calculate
+    /* Split personality here - if create_flag is FALSE, just calculate
      * the size of the replacement line (necessary because of
      * subexpressions \1 to \9 in the replaced text). */
 
@@ -520,7 +539,7 @@ int replace_regexp(char *string, int create_flag)
 	    /* But add the length of the subexpression to new_size. */
 	    new_size += i;
 
-	    /* And if create_flag is nonzero, append the result of the
+	    /* And if create_flag is TRUE, append the result of the
 	     * subexpression match to the new line. */
 	    if (create_flag) {
 		strncpy(string, current->data + current_x +
@@ -586,24 +605,24 @@ char *replace_line(const char *needle)
  * needle is the string to seek.  We replace it with answer.  Return -1
  * if needle isn't found, else the number of replacements performed. */
 int do_replace_loop(const char *needle, const filestruct *real_current,
-	size_t *real_current_x, int wholewords)
+	size_t *real_current_x, bool wholewords)
 {
-    int replaceall = FALSE, numreplaced = -1;
+    int numreplaced = -1;
     size_t old_pww = placewewant, current_x_save = current_x;
     const filestruct *current_save = current;
+    bool replaceall = FALSE;
 #ifdef HAVE_REGEX_H
     /* The starting-line match and bol/eol regex flags. */
-    int begin_line = FALSE, bol_or_eol = FALSE;
+    bool begin_line = FALSE, bol_or_eol = FALSE;
 #endif
 #ifndef NANO_SMALL
-    int mark_set = ISSET(MARK_ISSET);
+    bool old_mark_isset = ISSET(MARK_ISSET);
 
     UNSET(MARK_ISSET);
     edit_refresh();
 #endif
 
-    while (findnextstr(TRUE, wholewords, current_save, current_x_save,
-	needle,
+    while (findnextstr(TRUE, wholewords,
 #ifdef HAVE_REGEX_H
 	/* We should find a bol and/or eol regex only once per line.  If
 	 * the bol_or_eol flag is set, it means that the last search
@@ -613,7 +632,7 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 #else
 	FALSE
 #endif
-	) != 0) {
+	, current_save, current_x_save, needle)) {
 
 	int i = 0;
 	size_t match_len;
@@ -739,7 +758,7 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 	new_magicline();
 
 #ifndef NANO_SMALL
-    if (mark_set)
+    if (old_mark_isset)
 	SET(MARK_ISSET);
 #endif
 
@@ -956,8 +975,8 @@ void do_find_bracket(void)
 
     search_last_line = FALSE;
     while (TRUE) {
-	if (findnextstr(FALSE, FALSE, current, current_x, regexp_pat,
-		FALSE) != 0) {
+	if (findnextstr(FALSE, FALSE, FALSE, current, current_x,
+		regexp_pat)) {
 	    /* Found identical bracket. */
 	    if (current->data[current_x] == ch_under_cursor)
 		count++;

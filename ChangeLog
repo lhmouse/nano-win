@@ -16,13 +16,19 @@ CVS code -
 	- Remove redundant NANO_SMALL #ifdef. (DLR)
 - nano.c:
   do_para_begin(), do_para_end()
-	- Maintain current_y as do_justify() does, for consistency with
-	  it. (DLR)
+	- Maintain current_y's value when moving up or down lines so
+	  that smooth scrolling works correctly. (DLR)
 - rcfile.c:
   parse_rcfile()
 	- Add missing brackets around an if statement block so that
 	  parsing the numeric argument after "tabsize" works properly
 	  again. (DLR, found by Mike Frysinger)
+- search.c:
+  findnextstr()
+	- Take the no_sameline parameter after can_display_wrap and
+	  wholewords, not after all other parameters. (DLR)
+	- Maintain current_y's value when moving up or down lines so
+	  that smooth scrolling works correctly. (DLR)
 - winio.c:
   unget_kbinput()
 	- New function used as a wrapper for ungetch(). (DLR)

@@ -1431,7 +1431,7 @@ bool do_int_spell_fix(const char *word)
     search_last_line = FALSE;
 
     /* Find the first whole-word occurrence of word. */
-    while (findnextstr(TRUE, TRUE, fileage, 0, word, FALSE) != 0)
+    while (findnextstr(TRUE, TRUE, FALSE, fileage, 0, word))
 	if (is_whole_word(current_x, current->data, word)) {
 	    edit_refresh();
 
