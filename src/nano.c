@@ -280,13 +280,15 @@ void help_init(void)
 	     || currshortcut == replace_list_2)
 	htx = N_("Search Command Help Text\n\n "
 		"Enter the words or characters you would like to search "
-		"for, then hit enter.  If there is a match for the text you "
+		"for, then hit Enter.  If there is a match for the text you "
 		"entered, the screen will be updated to the location of the "
-		"nearest match for the search string.\n\n "
-		"The previous search string will be shown in brackets after "
-		"the Search: prompt.  Hitting Enter without entering any text "
-		"will perform the previous search.\n\n The following function "
-		"keys are available in Search mode:\n\n");
+		"nearest match for the search string.\n\n The previous "
+		"search string will be shown in brackets after the search "
+		"prompt.  Hitting Enter without entering any text will "
+		"perform the previous search.  If you have selected text "
+		"with the mark and then search to replace, only matches in "
+		"the selected text will be replaced.\n\n The following "
+		"function keys are available in Search mode:\n\n");
     else if (currshortcut == gotoline_list)
 	htx = N_("Go To Line Help Text\n\n "
 		"Enter the line number that you wish to go to and hit "
@@ -312,7 +314,7 @@ void help_init(void)
 	htx = N_("Write File Help Text\n\n "
 		"Type the name that you wish to save the current file "
 		"as and hit Enter to save the file.\n\n If you have "
-		"selected text with Ctrl-^, you will be prompted to "
+		"selected text with the mark, you will be prompted to "
 		"save only the selected portion to a separate file.  To "
 		"reduce the chance of overwriting the current file with "
 		"just a portion of it, the current filename is not the "
@@ -334,7 +336,7 @@ void help_init(void)
 	htx = N_("Browser Go To Directory Help Text\n\n "
 		"Enter the name of the directory you would like to "
 		"browse to.\n\n If tab completion has not been disabled, "
-		"you can use the TAB key to (attempt to) automatically "
+		"you can use the Tab key to (attempt to) automatically "
 		"complete the directory name.\n\n The following function "
 		"keys are available in Browser Go To Directory mode:\n\n");
 #endif
@@ -346,8 +348,9 @@ void help_init(void)
 		"encountered, it is highlighted and a replacement can "
 		"be edited.  It will then prompt to replace every "
 		"instance of the given misspelled word in the "
-		"current file.\n\n The following other functions are "
-		"available in Spell Check mode:\n\n");
+		"current file, or, if you have selected text with the "
+		"mark, in the selected text.\n\n The following other "
+		"functions are available in Spell Check mode:\n\n");
 #endif
 #ifndef NANO_SMALL
     else if (currshortcut == extcmd_list)
@@ -1125,7 +1128,7 @@ void do_enter(void)
 void do_next_word(void)
 {
     size_t old_pww = placewewant;
-    const filestruct *current_save = current;
+    const filestruct *old_current = current;
     assert(current != NULL && current->data != NULL);
 
     /* Skip letters in this word first. */
@@ -1148,16 +1151,15 @@ void do_next_word(void)
 
     placewewant = xplustabs();
 
-    /* Refresh the screen.  If current has run off the bottom, this
-     * call puts it at the center line. */
-    edit_redraw(current_save, old_pww);
+    /* Update the screen. */
+    edit_redraw(old_current, old_pww);
 }
 
 /* The same thing for backwards. */
 void do_prev_word(void)
 {
     size_t old_pww = placewewant;
-    const filestruct *current_save = current;
+    const filestruct *old_current = current;
     assert(current != NULL && current->data != NULL);
 
     /* Skip letters in this word first. */
@@ -1185,9 +1187,8 @@ void do_prev_word(void)
 
     placewewant = xplustabs();
 
-    /* Refresh the screen.  If current has run off the top, this call
-     * puts it at the center line. */
-    edit_redraw(current_save, old_pww);
+    /* Update the screen. */
+    edit_redraw(old_current, old_pww);
 }
 
 void do_mark(void)

@@ -122,6 +122,9 @@ CVS code -
 	  miscellaneous meta key sequence to be displayed in a shortcut
 	  that has a control key, a primary meta key sequence, and a
 	  miscellaneous meta key sequence, but no function key. (DLR)
+	- Update the help text to mention replacing and spell checking
+	  only selected text, and also add a few cosmetic fixes to it.
+	  (DLR)
   do_int_spell_fix()
 	- Move the REVERSE_SEARCH flag toggling into the NANO_SMALL
 	  #ifdef, since the tiny version of nano doesn't support reverse
@@ -188,6 +191,10 @@ CVS code -
 	  wholewords, not after all other parameters. (DLR)
 	- Maintain current_y's value when moving up or down lines so
 	  that smooth scrolling works correctly. (DLR)
+- utils.c:
+  regexp_bol_or_eol()
+	- Don't assume any longer that string will be found if
+	  REG_NOTBOL and REG_NOTEOL are not set. (DLR)
 - winio.c:
   unget_kbinput()
 	- New function used as a wrapper for ungetch(). (DLR)

@@ -44,12 +44,10 @@ int regexec_safe(const regex_t *preg, const char *string, size_t nmatch,
 #define regexec(preg, string, nmatch, pmatch, eflags) regexec_safe(preg, string, nmatch, pmatch, eflags)
 #endif /* BROKEN_REGEXEC */
 
-/* Assume that string will be found by regexec() if the REG_NOTBOL and
- * REG_NOTEOL flags are not set. */
 int regexp_bol_or_eol(const regex_t *preg, const char *string)
 {
-    return (regexec(preg, string, 0, NULL, REG_NOTBOL | REG_NOTEOL) ==
-	REG_NOMATCH);
+    return (regexec(preg, string, 0, NULL, 0) == 0 &&
+	regexec(preg, string, 0, NULL, REG_NOTBOL | REG_NOTEOL) ==
 }
 #endif /* HAVE_REGEX_H */
 
