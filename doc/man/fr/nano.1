@@ -34,7 +34,7 @@ Cette page de manuel décrit brièvement la commande \fBnano\fR.
 .\" \fI<whatever>\fP escape sequences to invoke bold face and italics,
 .\" respectively.
 \fBnano\fR est un éditeur petit, sympathique et libre, qui vise à remplacer
-Pico, l'éditeur par défaut du paquet non-libre Pine. \fBnano\fR ne se
+Pico, l'éditeur par défaut du paquet non libre Pine. \fBnano\fR ne se
 contentant pas de copier l'interface et l'ergonomie de Pico, il offre
 également certaines fonctions manquantes (ou désactivées par défaut)
 dans Pico. Ces fonctionnalités sont, par exemple, les fonctions de
@@ -49,7 +49,7 @@ Démarre avec le curseur positionné à la ligne numéro \fILIGNE\fR.
 .B \-A (\-\-smarthome)
 Active le fonctionnement évolué de la touche «\ Début\ ». Lorsque cette
 touche est pressée à n'importe quel endroit excepté au tout début du
-texte d'une ligne (i.\ e. au premier caractère non-blanc), le curseur se
+texte d'une ligne (i.\ e. au premier caractère non blanc), le curseur se
 positionnera à ce début de ligne (qu'il soit en avant ou en arrière). Si
 le curseur est déjà au tout début de la ligne, il se placera au vrai
 début de la ligne.
@@ -66,7 +66,7 @@ Définit le répertoire utilisé par \fBnano\fP pour enregistrer les copies
 de sécurité si celles-ci sont activées.
 .TP
 .B \-F (\-\-multibuffer)
-Active le mode multifichiers, autorisant l'édition simultanée de plusieurs
+Active le mode multifichier, autorisant l'édition simultanée de plusieurs
 fichiers, si ce mode est disponible.
 .TP
 .B \-H (\-\-historylog)
@@ -88,7 +88,7 @@ DOS.
 .TP
 .B \-Q \fIchaîne\fP (\-\-quotestr=\fIchaîne\fP)
 Définit le préfixe par défaut des citations. Nano utilise ce préfixe
-pour réaliser une justification correcte des citations.  Si nano est
+pour réaliser une justification correcte des citations. Si nano est
 capable d'utiliser des expressions rationnelles, le préfixe par défaut
 sera "^([\ \\t]*[|>:}#])+", sinon, ce sera ">\ ".
 .TP
@@ -127,7 +127,7 @@ Affiche en permanence la position du curseur.
 .B \-d (\-\-rebinddelete)
 Interprète différemment la touche «\ Supprimer\ », afin que les touches
 «\ Effacement arrière\ » et «\ Supprimer\ » fonctionnent correctement. 
-Vous devriez uniquement avoir besoin de cette option si la touche 
+Vous devriez n'avoir besoin de cette option que si la touche 
 «\ Effacement arrière\ » produit l'effet de la touche «\ Supprimer\ » 
 sur votre système.
 .TP
@@ -153,7 +153,7 @@ système).
 .TP
 .B \-o \fIrépertoire\fP (\-\-operatingdir=\fIrépertoire\fP)
 Définit le répertoire de travail. Demande à nano de mettre en place
-quelque-chose de similaire à un environnement d'exécution restreint
+quelque chose de similaire à un environnement d'exécution restreint
 (\fIchroot\fR).
 .TP
 .B \-p (\-\-preserve)
@@ -207,9 +207,9 @@ d'édition dans un fichier de secours. Cela arrivera principalement si
 mémoire. Le nom de ce fichier de secours sera \fInano.save\fR si le fichier en
 cours n'avait pas encore de nom, ou sera composé du nom du fichier en cours
 suivi du suffixe «\ .save\ ». Si un fichier de ce nom existe déjà dans
-le répertoire, un «\ .save\ » et un nombre seront ajoutée à la fin du
+le répertoire, un «\ .save\ » et un nombre seront ajoutés à la fin du
 nom du fichier en cours afin de le rendre unique (par exemple,
-«\ .save.1\ »). En mode multifichiers, \fBnano\fR réalisera une
+«\ .save.1\ »). En mode multifichier, \fBnano\fR réalisera une
 sauvegarde de tous les fichiers en cours dans leurs fichiers de secours
 respectifs.
 
@@ -242,5 +242,5 @@ Chris Allegretta <chrisa@asty.org> et d'autres (voir les fichiers
 
 .SH TRADUCTION
 
-Adaptation française du 31\ août 2004\ par
+Adaptation française du 4\ septembre\ 2004 par
 Jean-Philippe\ Guérard\ <jean-philippe.guerard@corbeaunoir.org>.
