@@ -29,44 +29,73 @@ if test "$debug_support" != "yes"; then
     AC_DEFINE(NDEBUG, 1, [Shut up the assert warnings :-)]) 
 fi
 
-AC_ARG_ENABLE(tiny,
-[  --enable-tiny           Disable features for the sake of size
-                          (currently disables detailed help and i18n)],
-[if test x$enableval = xyes; then
-    AC_DEFINE(NANO_SMALL, 1, [Define this to make the nano executable as small as possible.]) tiny_support=yes
-    AC_DEFINE(DISABLE_TABCOMP, 1, [Define to disable the tab completion code Chris worked so hard on!]) 
-    AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the use(full|less) spelling functions.]) 
-    AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the ^G help menu.]) 
-    AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routine.]) 
-    AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in (crappy) file browser.]) 
-    AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable the mouse functions.]) 
-    AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable setting of the operating directory (chroot of sorts).]) 
- fi])
-
 AC_ARG_ENABLE(extra,
 [  --enable-extra          Enable extra (optional) functions, including easter eggs],
 [if test x$enableval = xyes; then
     AC_DEFINE(NANO_EXTRA, 1, [Define this to enable the extra stuff.]) extra_support=yes
     AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.]) multibuffer_support=yes
-    AC_DEFINE(ENABLE_UNDO, 1, [Define this to enable undoing... something]) undo_support=yes
  fi])
 
-AC_ARG_ENABLE(undo,
-[  --enable-undo           Enable undo support],
-[if test x$enableval = xyes && test x$tiny_support != xyes; then
-    AC_DEFINE(ENABLE_UNDO, 1, [Define this to enable undoing... something.]) undo_support=yes
- fi])
-
-AC_ARG_ENABLE(multibuffer,
-[  --enable-multibuffer    Enable multiple file buffers],
+AC_ARG_ENABLE(tiny,
+[  --enable-tiny           Disable features for the sake of size
+                          (currently disables detailed help and i18n)],
 [if test x$enableval = xyes; then
-    AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.]) multibuffer_support=yes
+    AC_DEFINE(NANO_SMALL, 1, [Define this to make the nano executable as small as possible.]) tiny_support=yes
+    AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in (crappy) file browser.]) 
+    AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the ^G help menu.]) 
+    AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routine.]) 
+    AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable the mouse functions.]) 
+    AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable setting of the operating directory (chroot of sorts).]) 
+    AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the use(full|less) spelling functions.]) 
+    AC_DEFINE(DISABLE_TABCOMP, 1, [Define to disable the tab completion code Chris worked so hard on!]) 
  fi])
 
-AC_ARG_ENABLE(nanorc,
-[  --enable-nanorc         Enable use of .nanorc file],
-[if test x$enableval = xyes; then
-    AC_DEFINE(ENABLE_NANORC, 1, [Define this to use the .nanorc file.]) nanorc_support=yes
+AC_ARG_ENABLE(browser,
+[  --disable-browser       Disable mini file browser],
+ [if test x$enableval != xyes; then
+    AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in (crappy) file browser.])
+ fi])
+
+AC_ARG_ENABLE(help,
+[  --disable-help          Disable help function (^G)],
+ [if test x$enableval != xyes; then
+    AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the ^G help menu.])
+ fi])
+
+AC_ARG_ENABLE(justify,
+[  --disable-justify       Disable justify/unjustify function],
+ [if test x$enableval != xyes; then
+    AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routine.]) 
+ fi])
+
+AC_ARG_ENABLE(mouse,
+[  --disable-mouse         Disable mouse support (and -m flag)],
+ [if test x$enableval != xyes; then
+    AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable the mouse functions.])
+ fi])
+
+AC_ARG_ENABLE(operatingdir,
+[  --disable-operatingdir  Disable setting of operating directory (chroot of sorts)],
+ [if test x$enableval != xyes; then
+    AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable setting of the operating directory (chroot of sorts).])
+ fi])
+
+AC_ARG_ENABLE(speller,
+[  --disable-speller       Disable spell checker function],
+ [if test x$enableval != xyes; then
+    AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the use(full|less) spelling functions.])
+ fi])
+
+AC_ARG_ENABLE(tabcomp,
+[  --disable-tabcomp       Disable tab completion code for a smaller binary],
+ [if test x$enableval != xyes; then
+    AC_DEFINE(DISABLE_TABCOMP, 1, [Define to disable the tab completion code Chris worked so hard on!]) 
+ fi])
+
+AC_ARG_ENABLE(wrapping,
+[  --disable-wrapping      Disable all wrapping of text (and -w flag)],
+ [if test x$enableval != xyes; then
+    AC_DEFINE(DISABLE_WRAPPING, 1, [Define this to disable any and all text wrapping.])
  fi])
 
 AC_ARG_ENABLE(color,
@@ -83,52 +112,16 @@ AC_ARG_ENABLE(color,
 ])
 fi])
 
-AC_ARG_ENABLE(tabcomp,
-[  --disable-tabcomp       Disable tab completion code for a smaller binary],
- [if test x$enableval != xyes; then
-    AC_DEFINE(DISABLE_TABCOMP, 1, [Define to disable the tab completion code Chris worked so hard on!]) 
+AC_ARG_ENABLE(multibuffer,
+[  --enable-multibuffer    Enable multiple file buffers],
+[if test x$enableval = xyes; then
+    AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.]) multibuffer_support=yes
  fi])
 
-AC_ARG_ENABLE(justify,
-[  --disable-justify       Disable justify/unjustify function],
- [if test x$enableval != xyes; then
-    AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routine.]) 
- fi])
-
-AC_ARG_ENABLE(speller,
-[  --disable-speller       Disable spell checker function],
- [if test x$enableval != xyes; then
-    AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the use(full|less) spelling functions.])
- fi])
-
-AC_ARG_ENABLE(help,
-[  --disable-help          Disable help function (^G)],
- [if test x$enableval != xyes; then
-    AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the ^G help menu.])
- fi])
-
-AC_ARG_ENABLE(browser,
-[  --disable-browser       Disable mini file browser],
- [if test x$enableval != xyes; then
-    AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in (crappy) file browser.])
- fi])
-
-AC_ARG_ENABLE(wrapping,
-[  --disable-wrapping      Disable all wrapping of text (and -w flag)],
- [if test x$enableval != xyes; then
-    AC_DEFINE(DISABLE_WRAPPING, 1, [Define this to disable any and all text wrapping.])
- fi])
-
-AC_ARG_ENABLE(mouse,
-[  --disable-mouse         Disable mouse support (and -m flag)],
- [if test x$enableval != xyes; then
-    AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable the mouse functions.])
- fi])
-
-AC_ARG_ENABLE(operatingdir,
-[  --disable-operatingdir  Disable setting of operating directory (chroot of sorts)],
- [if test x$enableval != xyes; then
-    AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable setting of the operating directory (chroot of sorts).])
+AC_ARG_ENABLE(nanorc,
+[  --enable-nanorc         Enable use of .nanorc file],
+[if test x$enableval = xyes; then
+    AC_DEFINE(ENABLE_NANORC, 1, [Define this to use the .nanorc file.]) nanorc_support=yes
  fi])
 
 AC_MSG_CHECKING([whether to use slang])

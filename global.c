@@ -217,19 +217,6 @@ void toggle_init_one(int val, const char *desc, int flag)
     u->next = NULL;
 }
 
-#ifdef DEBUG
-/* Deallocate all of the toggles. */
-void free_toggles(void)
-{
-    while (toggles != NULL) {
-	toggle *pt = toggles;	/* Think "previous toggle" */
-
-	toggles = toggles->next;
-	free(pt);
-    }
-}
-#endif
-
 void toggle_init(void)
 {
     char *toggle_const_msg, *toggle_autoindent_msg, *toggle_suspend_msg,
@@ -288,6 +275,19 @@ void toggle_init(void)
     toggle_init_one(TOGGLE_BACKUP_KEY, toggle_backup_msg, BACKUP_FILE);
     toggle_init_one(TOGGLE_SMOOTH_KEY, toggle_smooth_msg, SMOOTHSCROLL);
 }
+
+#ifdef DEBUG
+/* Deallocate all of the toggles. */
+void free_toggles(void)
+{
+    while (toggles != NULL) {
+	toggle *pt = toggles;	/* Think "previous toggle" */
+
+	toggles = toggles->next;
+	free(pt);
+    }
+}
+#endif
 #endif /* !NANO_SMALL */
 
 /* Deallocate the given shortcut. */
@@ -325,8 +325,8 @@ void shortcut_init(int unjustify)
 	"", *nano_backup_msg = "";
 
 #ifdef ENABLE_MULTIBUFFER
-    char *nano_openprev_msg = "", *nano_opennext_msg = "",
-	*nano_multibuffer_msg = "";
+    char *nano_openprev_msg = "", *nano_opennext_msg =
+	"", *nano_multibuffer_msg = "";
 #endif
 #ifdef HAVE_REGEX_H
     char *nano_regexp_msg = "", *nano_bracket_msg = "";
@@ -727,7 +727,7 @@ void shortcut_init(int unjustify)
 		IFHELP(nano_execute_msg, 0), 0, 0, NOVIEW, 0);
 #endif
 #ifdef ENABLE_MULTIBUFFER
-    sc_init_one(&insertfile_list, TOGGLE_LOAD_KEY, _("New Buffer"),
+    sc_init_one(&insertfile_list, NANO_LOAD_KEY, _("New Buffer"),
 		IFHELP(nano_multibuffer_msg, 0), 0, 0, NOVIEW, 0);
 #endif
 
@@ -811,8 +811,10 @@ void thanks_for_all_the_fish(void)
     if (alt_speller != NULL)
 	free(alt_speller);
 #endif
+#ifndef DISABLE_HELP
     if (help_text != NULL)
 	free(help_text);
+#endif
     if (filename != NULL)
 	free(filename);
     if (answer != NULL)

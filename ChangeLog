@@ -11,13 +11,27 @@ CVS code -
 	  need to keep the translatable strings, and (b) added a
 	  variable inspath to keep track of what the string was before
 	  toggling.  I'm sure there's bugs, have at it.
+ 	- Make sure all functions have prototypes in proto.h, and swap
+ 	  some functions around to put similar functions closer
+ 	  together (for this, rename clear_bottombars() to
+ 	  blank_bottombars()). (DLR; suggested by David Benbennick)
 - configure.ac:
 	- Added pt_BR to ALL_LINGUAS (Jordi).
 	- Changed --enable-color warning to be slightly less severe.
+ 	- Put the configure options in more or less alphabetical order,
+ 	  and remove --enable-undo, since it doesn't do anything. (DLR)
 - files.c:
   open_file()
 	- String change: "File "x" is a directory" -> ""x" is a
 	  directory". (Jordi)
+  do_insertfile()
+	- Disallow multibuffer toggling at the "Insert File" prompt if
+	  we're in both view and multibuffer mode, so as to keep proper
+	  integration between the two, and make sure the toggle
+	  actually works all the time otherwise.  Also, use
+	  NANO_LOAD_KEY as an alias for TOGGLE_LOAD_KEY, so
+	  --enable-tiny and --enable-multibuffer can be used together
+	  again. (DLR)
   open_prevfile_void(), open_nextfile_void()
 	- Return the return values of open_prevfile() and
 	  open_nextfile(), respectively, instead of (incorrectly)
@@ -29,6 +43,14 @@ CVS code -
 	- Most likely fixed the check marked with FIXME, so that tab
 	  completion works properly when we're trying to tab-complete a
 	  username and the string already contains data. (DLR)
+- global.c:
+  shortcut_init()
+	- Use NANO_LOAD_KEY as an alias for TOGGLE_LOAD_KEY, so
+	  --enable-tiny and --enable-multibuffer can be used together
+	  again. (DLR)
+  thanks_for_all_the_fish()
+	- Make sure the reference to help_text is #ifdefed out when
+	  --disable-help is used. (DLR) 
 - move.c:
   page_up()
 	- Fix bug where current is moved up two lines when the up arrow
@@ -42,6 +64,12 @@ CVS code -
 	  off, pressing the down arrow on that last line centers the
 	  cursor without updating the edit window. (Jeff DeFouw)
 - nano.c:
+  version()
+	- Put the listed configure options in more or less alphabetical
+	  order. (DLR)
+  open_pipe()
+	- If we're in view mode here (in which case we're also in
+	  multibuffer mode), don't set the modification flag. (DLR)
   do_next_word(), do_prev_word()
   	- If we're on the last/first line of the file, don't center the
   	  screen; Pico doesn't in the former case. (DLR)
@@ -65,6 +93,10 @@ CVS code -
   do_justify()
 	- Fix cosmetic problems caused when justifying on the
 	  magicline. (David Benbennick)
+  main()
+	- When searching through the main shortcut list looking for a
+	  shortcut key, stop searching after finding one; this avoids a
+	  rare segfault. (DLR)
 - nano.h:
 	- Change search toggles for case sensitive searching and regexp
 	  searching to M-C and M-R, respectively. (DLR; suggested by

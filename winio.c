@@ -155,6 +155,15 @@ void blank_bottombars(void)
     }
 }
 
+void blank_bottomwin(void)
+{
+    if (ISSET(NO_HELP))
+	return;
+
+    mvwaddstr(bottomwin, 1, 0, hblank);
+    mvwaddstr(bottomwin, 2, 0, hblank);
+}
+
 void blank_edit(void)
 {
     int i;
@@ -210,11 +219,11 @@ void nanoget_repaint(const char *buf, const char *inputbuf, int x)
 /* Get the input from the kb; this should only be called from
  * statusq(). */
 int nanogetstr(int allowtabs, const char *buf, const char *def,
-			const shortcut *s
+		const shortcut *s
 #ifndef DISABLE_TABCOMP
-			, int *list
+		, int *list
 #endif
-			)
+		)
 {
     int kbinput;
     int x;
@@ -241,7 +250,8 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 
     nanoget_repaint(buf, answer, x);
 
-    /* Make sure any editor screen updates are displayed before getting input */
+    /* Make sure any editor screen updates are displayed before getting
+       input */
     wrefresh(edit);
 
     while ((kbinput = wgetch(bottomwin)) != 13) {
@@ -253,7 +263,8 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    if (kbinput == t->val && kbinput < 32) {
 
 #ifndef DISABLE_HELP
-		/* Have to do this here, it would be too late to do it in statusq */
+		/* Have to do this here, it would be too late to do it
+		   in statusq() */
 		if (kbinput == NANO_HELP_KEY || kbinput == NANO_HELP_FKEY) {
 		    do_help();
 		    break;
@@ -435,6 +446,16 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	return 0;
 }
 
+/* If modified is not already set, set it and update titlebar. */
+void set_modified(void)
+{
+    if (!ISSET(MODIFIED)) {
+	SET(MODIFIED);
+	titlebar(NULL);
+	wrefresh(topwin);
+    }
+}
+
 void titlebar(const char *path)
 {
     int namelen, space;
@@ -483,35 +504,6 @@ void titlebar(const char *path)
     reset_cursor();
 }
 
-/* Write a shortcut key to the help area at the bottom of the window. 
- * keystroke is e.g. "^G" and desc is e.g. "Get Help".
- * We are careful to write exactly len characters, even if len is
- * very small and keystroke and desc are long. */
-void onekey(const char *keystroke, const char *desc, int len)
-{
-    wattron(bottomwin, A_REVERSE);
-    waddnstr(bottomwin, keystroke, len);
-    wattroff(bottomwin, A_REVERSE);
-    len -= strlen(keystroke);
-    if (len > 0) {
-	waddch(bottomwin, ' ');
-	len--;
-	waddnstr(bottomwin, desc, len);
-	len -= strlen(desc);
-	for (; len > 0; len--)
-	    waddch(bottomwin, ' ');
-    }
-}
-
-void clear_bottomwin(void)
-{
-    if (ISSET(NO_HELP))
-	return;
-
-    mvwaddstr(bottomwin, 1, 0, hblank);
-    mvwaddstr(bottomwin, 2, 0, hblank);
-}
-
 void bottombars(const shortcut *s)
 {
     int i, j, numcols;
@@ -530,7 +522,7 @@ void bottombars(const shortcut *s)
     /* There will be this many columns of shortcuts */
     numcols = (slen + (slen % 2)) / 2;
 
-    clear_bottomwin();
+    blank_bottomwin();
 
     for (i = 0; i < numcols; i++) {
 	for (j = 0; j <= 1; j++) {
@@ -562,20 +554,30 @@ void bottombars(const shortcut *s)
     wrefresh(bottomwin);
 }
 
-/* If modified is not already set, set it and update titlebar. */
-void set_modified(void)
+/* Write a shortcut key to the help area at the bottom of the window. 
+ * keystroke is e.g. "^G" and desc is e.g. "Get Help".
+ * We are careful to write exactly len characters, even if len is
+ * very small and keystroke and desc are long. */
+void onekey(const char *keystroke, const char *desc, int len)
 {
-    if (!ISSET(MODIFIED)) {
-	SET(MODIFIED);
-	titlebar(NULL);
-	wrefresh(topwin);
+    wattron(bottomwin, A_REVERSE);
+    waddnstr(bottomwin, keystroke, len);
+    wattroff(bottomwin, A_REVERSE);
+    len -= strlen(keystroke);
+    if (len > 0) {
+	waddch(bottomwin, ' ');
+	len--;
+	waddnstr(bottomwin, desc, len);
+	len -= strlen(desc);
+	for (; len > 0; len--)
+	    waddch(bottomwin, ' ');
     }
 }
 
-/* And so start the display update routines */
-/* Given a column, this returns the "page" it is on  */
-/* "page" in the case of the display columns, means which set of 80 */
-/* characters is viewable (e.g.: page 1 shows from 1 to COLS) */
+/* And so start the display update routines.  Given a column, this
+ * returns the "page" it is on.  "page", in the case of the display
+ * columns, means which set of 80 characters is viewable (e.g. page 1
+ * shows from 1 to COLS). */
 int get_page_from_virtual(int virtual)
 {
     int page = 2;
@@ -637,12 +639,10 @@ void reset_cursor(void)
 }
 
 #ifndef NANO_SMALL
-/* This takes care of the case where there is a mark that covers only */
-/* the current line. */
-
-/* It expects a line with no tab characters (i.e.: the type that edit_add */
-/* deals with */
-void add_marked_sameline(int begin, int end, filestruct * fileptr, int y,
+/* This takes care of the case where there is a mark that covers only
+ * the current line.  It expects a line with no tab characters (i.e.
+ * the type that edit_add() deals with. */
+void add_marked_sameline(int begin, int end, filestruct *fileptr, int y,
 			 int virt_cur_x, int this_page)
 {
     /*
@@ -691,12 +691,10 @@ void add_marked_sameline(int begin, int end, filestruct * fileptr, int y,
 }
 #endif
 
-/* edit_add takes care of the job of actually painting a line into the
- * edit window.
- * 
- * Called only from update_line.  Expects a converted-to-not-have-tabs
- * line */
-void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
+/* edit_add() takes care of the job of actually painting a line into
+ * the edit window.  Called only from update_line().  Expects a
+ * converted-to-not-have-tabs line. */
+void edit_add(filestruct *fileptr, int yval, int start, int virt_cur_x,
 	      int virt_mark_beginx, int this_page)
 {
 
@@ -1007,12 +1005,10 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 
 /*
  * Just update one line in the edit buffer.  Basically a wrapper for
- * edit_add
- *
- * index gives us a place in the string to update starting from.
- * Likely args are current_x or 0.
+ * edit_add().  index gives us a place in the string to update starting
+ * from.  Likely args are current_x or 0.
  */
-void update_line(filestruct * fileptr, int index)
+void update_line(filestruct *fileptr, int index)
 {
     filestruct *filetmp;
     int line = 0, col = 0;
@@ -1112,6 +1108,28 @@ void update_line(filestruct * fileptr, int index)
     free(tmp);
 }
 
+/* This function updates current, based on where current_y is;
+ * reset_cursor() does the opposite. */
+void update_cursor(void)
+{
+    int i = 0;
+
+#ifdef DEBUG
+    fprintf(stderr, _("Moved to (%d, %d) in edit buffer\n"), current_y,
+	    current_x);
+#endif
+
+    current = edittop;
+    while (i < current_y && current->next != NULL) {
+	current = current->next;
+	i++;
+    }
+
+#ifdef DEBUG
+    fprintf(stderr, _("current->data = \"%s\"\n"), current->data);
+#endif
+}
+
 void center_cursor(void)
 {
     current_y = editwinrows / 2;
@@ -1194,28 +1212,6 @@ void edit_update(filestruct *fileptr, topmidbotnone location)
     edit_refresh();
 }
 
-/* This function updates current, based on where current_y is;
- * reset_cursor() does the opposite. */
-void update_cursor(void)
-{
-    int i = 0;
-
-#ifdef DEBUG
-    fprintf(stderr, _("Moved to (%d, %d) in edit buffer\n"), current_y,
-	    current_x);
-#endif
-
-    current = edittop;
-    while (i < current_y && current->next != NULL) {
-	current = current->next;
-	i++;
-    }
-
-#ifdef DEBUG
-    fprintf(stderr, _("current->data = \"%s\"\n"), current->data);
-#endif
-}
-
 /*
  * Ask a question on the statusbar.  Answer will be stored in answer
  * global.  Returns -1 on aborted enter, -2 on a blank string, and 0
@@ -1278,8 +1274,9 @@ int statusq(int tabs, const shortcut *s, const char *def,
 }
 
 /*
- * Ask a simple yes/no question on the statusbar.  Returns 1 for Y, 0 for
- * N, 2 for All (if all is non-zero when passed in) and -1 for abort (^C)
+ * Ask a simple yes/no question on the statusbar.  Returns 1 for Y, 0
+ * for N, 2 for All (if all is non-zero when passed in) and -1 for
+ * abort (^C).
  */
 int do_yesno(int all, int leavecursor, const char *msg, ...)
 {
@@ -1303,7 +1300,7 @@ int do_yesno(int all, int leavecursor, const char *msg, ...)
     allstr = _("Aa");
 
     /* Write the bottom of the screen */
-    clear_bottomwin();
+    blank_bottomwin();
 
     /* Remove gettext call for keybindings until we clear the thing up */
     if (!ISSET(NO_HELP)) {
@@ -1412,6 +1409,28 @@ int do_yesno(int all, int leavecursor, const char *msg, ...)
 	return ok;
 }
 
+int total_refresh(void)
+{
+    clearok(edit, TRUE);
+    clearok(topwin, TRUE);
+    clearok(bottomwin, TRUE);
+    wnoutrefresh(edit);
+    wnoutrefresh(topwin);
+    wnoutrefresh(bottomwin);
+    doupdate();
+    clearok(edit, FALSE);
+    clearok(topwin, FALSE);
+    clearok(bottomwin, FALSE);
+    edit_refresh();
+    titlebar(NULL);
+    return 1;
+}
+
+void display_main_list(void)
+{
+    bottombars(main_list);
+}
+
 void statusbar(const char *msg, ...)
 {
     va_list ap;
@@ -1450,28 +1469,6 @@ void statusbar(const char *msg, ...)
 	statblank = 1;
     else
 	statblank = 25;
-}
-
-void display_main_list(void)
-{
-    bottombars(main_list);
-}
-
-int total_refresh(void)
-{
-    clearok(edit, TRUE);
-    clearok(topwin, TRUE);
-    clearok(bottomwin, TRUE);
-    wnoutrefresh(edit);
-    wnoutrefresh(topwin);
-    wnoutrefresh(bottomwin);
-    doupdate();
-    clearok(edit, FALSE);
-    clearok(topwin, FALSE);
-    clearok(bottomwin, FALSE);
-    edit_refresh();
-    titlebar(NULL);
-    return 1;
 }
 
 int do_cursorpos(int constant)
@@ -1703,45 +1700,20 @@ int do_help(void)
     return 1;
 }
 
-#ifdef DEBUG
-/* Dump the current file structure to stderr */
-void dump_buffer(const filestruct *inptr) {
-    if (inptr == fileage)
-	fprintf(stderr, _("Dumping file buffer to stderr...\n"));
-    else if (inptr == cutbuffer)
-	fprintf(stderr, _("Dumping cutbuffer to stderr...\n"));
-    else
-	fprintf(stderr, _("Dumping a buffer to stderr...\n"));
-
-    while (inptr != NULL) {
-	fprintf(stderr, "(%d) %s\n", inptr->lineno, inptr->data);
-	inptr = inptr->next;
-    }
-}
-#endif /* DEBUG */
-
-#ifdef DEBUG
-void dump_buffer_reverse(void) {
-    const filestruct *fileptr = filebot;
-
-    while (fileptr != NULL) {
-	fprintf(stderr, "(%d) %s\n", fileptr->lineno, fileptr->data);
-	fileptr = fileptr->prev;
-    }
-}
-#endif /* DEBUG */
-
-/* Fix editbot, based on the assumption that edittop is correct */
-void fix_editbot(void)
+int keypad_on(WINDOW * win, int newval)
 {
-    int i;
-
-    editbot = edittop;
-    for (i = 0; i < editwinrows && editbot->next != NULL; i++)
-	editbot = editbot->next;
+/* This is taken right from aumix.  Don't sue me. */
+#ifdef HAVE_USEKEYPAD
+    int old = win->_use_keypad;
+    keypad(win, newval);
+    return old;
+#else
+    keypad(win, newval);
+    return 1;
+#endif /* HAVE_USEKEYPAD */
 }
 
-/* highlight the current word being replaced or spell checked */
+/* Highlight the current word being replaced or spell checked. */
 void do_replace_highlight(int highlight_flag, const char *word)
 {
     char *highlight_word = NULL;
@@ -1785,6 +1757,44 @@ void do_replace_highlight(int highlight_flag, const char *word)
 
     free(highlight_word);
 }
+
+/* Fix editbot, based on the assumption that edittop is correct. */
+void fix_editbot(void)
+{
+    int i;
+
+    editbot = edittop;
+    for (i = 0; i < editwinrows && editbot->next != NULL; i++)
+	editbot = editbot->next;
+}
+
+#ifdef DEBUG
+/* Dump the current file structure to stderr */
+void dump_buffer(const filestruct *inptr) {
+    if (inptr == fileage)
+	fprintf(stderr, _("Dumping file buffer to stderr...\n"));
+    else if (inptr == cutbuffer)
+	fprintf(stderr, _("Dumping cutbuffer to stderr...\n"));
+    else
+	fprintf(stderr, _("Dumping a buffer to stderr...\n"));
+
+    while (inptr != NULL) {
+	fprintf(stderr, "(%d) %s\n", inptr->lineno, inptr->data);
+	inptr = inptr->next;
+    }
+}
+#endif /* DEBUG */
+
+#ifdef DEBUG
+void dump_buffer_reverse(void) {
+    const filestruct *fileptr = filebot;
+
+    while (fileptr != NULL) {
+	fprintf(stderr, "(%d) %s\n", fileptr->lineno, fileptr->data);
+	fileptr = fileptr->prev;
+    }
+}
+#endif /* DEBUG */
 
 #ifdef NANO_EXTRA
 #define CREDIT_LEN 52
@@ -1904,16 +1914,3 @@ void do_credits(void)
     total_refresh();
 }
 #endif
-
-int keypad_on(WINDOW * win, int newval)
-{
-/* This is taken right from aumix.  Don't sue me. */
-#ifdef HAVE_USEKEYPAD
-    int old = win->_use_keypad;
-    keypad(win, newval);
-    return old;
-#else
-    keypad(win, newval);
-    return 1;
-#endif /* HAVE_USEKEYPAD */
-}

@@ -103,7 +103,6 @@ void new_file(void)
 #ifdef ENABLE_COLOR
     update_color();
 #endif
-
 }
 
 filestruct *read_line(char *buf, filestruct *prev, int *line1ins, int len)
@@ -453,13 +452,10 @@ int do_insertfile(int loading_file)
 	    i = statusq(1, insertfile_list, inspath, _("File to insert [from ./] "));
 
     if (i != -1) {
-
 	inspath = mallocstrcpy(inspath, answer);
-
 #ifdef DEBUG
 	fprintf(stderr, _("filename is %s\n"), answer);
 #endif
-
 
 #ifndef DISABLE_TABCOMP
 	realname = real_dir_from_tilde(answer);
@@ -494,9 +490,12 @@ int do_insertfile(int loading_file)
 #endif
 
 #ifdef ENABLE_MULTIBUFFER
-	if (i == TOGGLE_LOAD_KEY) {
-	    TOGGLE(MULTIBUFFER);
-	    return do_insertfile(loading_file);
+	if (i == NANO_LOAD_KEY) {
+	    /* don't allow toggling if we're in both view mode and
+	       multibuffer mode now */
+	    if (!ISSET(VIEW_MODE) || !ISSET(MULTIBUFFER))
+		TOGGLE(MULTIBUFFER);
+	    return do_insertfile(ISSET(MULTIBUFFER));
 	}
 #endif
 #ifndef NANO_SMALL
@@ -573,8 +572,6 @@ int do_insertfile(int loading_file)
 #ifdef ENABLE_MULTIBUFFER
 	}
 #endif
-
-	
 
 	/* If we've gone off the bottom, recenter; otherwise, just redraw */
 	if (current->lineno > editbot->lineno)
@@ -1139,8 +1136,8 @@ char *get_full_path(char *origpath)
  * get_full_path()).  On error, if the path doesn't reference a
  * directory, or if the directory isn't writable, it returns NULL.
  */
-char *check_writable_directory(char *path) {
-
+char *check_writable_directory(char *path)
+{
     char *full_path = get_full_path(path);
     int writable;
     struct stat fileinfo;
@@ -1178,8 +1175,8 @@ char *check_writable_directory(char *path) {
  * implementation is to go on generating random filenames regardless of
  * it.
  */
-char *safe_tempnam(const char *dirname, const char *filename_prefix) {
-
+char *safe_tempnam(const char *dirname, const char *filename_prefix)
+{
     char *buf, *tempdir = NULL, *full_tempdir = NULL;
     int filedesc;
 
@@ -2221,6 +2218,12 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
 	    buf = mallocstrcpy(buf, tmp);
 	    matches = username_tab_completion(tmp, &num_matches);
 	}
+	/* If we're in the middle of the original line, copy the string
+	   only up to the cursor position into buf, so tab completion
+	   will result in buf's containing only the tab-completed
+	   path/filename. */
+	else if (strlen(buf) > strlen(tmp))
+	    buf = mallocstrcpy(buf, tmp);
 
 	/* Try to match everything in the current working directory that
 	 * matches.  */
@@ -2416,51 +2419,6 @@ int diralphasort(const void *va, const void *vb)
 
 }
 
-/* Initialize the browser code, including the list of files in *path */
-char **browser_init(char *path, int *longest, int *numents)
-{
-    DIR *dir;
-    struct dirent *next;
-    char **filelist = (char **) NULL;
-    int i = 0;
-
-    dir = opendir(path);
-    if (!dir) 
-	return NULL;
-
-    *numents = 0;
-    while ((next = readdir(dir)) != NULL) {
-	if (!strcmp(next->d_name, "."))
-	   continue;
-	(*numents)++;
-	if (strlen(next->d_name) > *longest)
-	    *longest = strlen(next->d_name);
-    }
-    rewinddir(dir);
-    *longest += 10;
-
-    filelist = nmalloc(*numents * sizeof (char *));
-
-    while ((next = readdir(dir)) != NULL) {
-	if (!strcmp(next->d_name, "."))
-	   continue;
-	filelist[i] = charalloc(strlen(next->d_name) + strlen(path) + 2);
-
-	if (!strcmp(path, "/"))
-	    snprintf(filelist[i], strlen(next->d_name) + strlen(path) + 1, 
-			"%s%s", path, next->d_name);
-	else
-	    snprintf(filelist[i], strlen(next->d_name) + strlen(path) + 2, 
-			"%s/%s", path, next->d_name);
-	i++;
-    }
-
-    if (*longest > COLS - 1)
-	*longest = COLS - 1;
-
-    return filelist;
-}
-
 /* Free our malloc()ed memory */
 void free_charptrarray(char **array, int len)
 {
@@ -2511,6 +2469,51 @@ void striponedir(char *foo)
     }
 
     return;
+}
+
+/* Initialize the browser code, including the list of files in *path */
+char **browser_init(char *path, int *longest, int *numents)
+{
+    DIR *dir;
+    struct dirent *next;
+    char **filelist = (char **) NULL;
+    int i = 0;
+
+    dir = opendir(path);
+    if (!dir) 
+	return NULL;
+
+    *numents = 0;
+    while ((next = readdir(dir)) != NULL) {
+	if (!strcmp(next->d_name, "."))
+	   continue;
+	(*numents)++;
+	if (strlen(next->d_name) > *longest)
+	    *longest = strlen(next->d_name);
+    }
+    rewinddir(dir);
+    *longest += 10;
+
+    filelist = nmalloc(*numents * sizeof (char *));
+
+    while ((next = readdir(dir)) != NULL) {
+	if (!strcmp(next->d_name, "."))
+	   continue;
+	filelist[i] = charalloc(strlen(next->d_name) + strlen(path) + 2);
+
+	if (!strcmp(path, "/"))
+	    snprintf(filelist[i], strlen(next->d_name) + strlen(path) + 1, 
+			"%s%s", path, next->d_name);
+	else
+	    snprintf(filelist[i], strlen(next->d_name) + strlen(path) + 2, 
+			"%s/%s", path, next->d_name);
+	i++;
+    }
+
+    if (*longest > COLS - 1)
+	*longest = COLS - 1;
+
+    return filelist;
 }
 
 /* Our browser function.  inpath is the path to start browsing from */

@@ -35,43 +35,6 @@
 #define _(string) (string)
 #endif
 
-int do_page_down(void)
-{
-    wrap_reset();
-    current_x = 0;
-    placewewant = 0;
-
-    if (current == filebot)
-	return 0;
-
-    /* AHEM, if we only have a screen or less of text, DON'T do an
-       edit_update, just move the cursor to editbot! */
-    if (edittop == fileage && editbot == filebot && totlines < editwinrows) {
-	current = editbot;
-	reset_cursor();
-    } else if (editbot != filebot || edittop == fileage) {
-	current_y = 0;
-	current = editbot;
-
-	if (current->prev != NULL)
-	    current = current->prev;
-	if (current->prev != NULL)
-	    current = current->prev;
-	edit_update(current, TOP);
-    } else {
-	while (current != filebot) {
-	    current = current->next;
-	    current_y++;
-	}
-	edit_update(edittop, TOP);
-    }
-
-    update_cursor();
-    UNSET(KEEP_CUTBUFFER);
-    check_statblank();
-    return 1;
-}
-
 int do_home(void)
 {
     UNSET(KEEP_CUTBUFFER);
@@ -138,6 +101,43 @@ int do_page_up(void)
     return 1;
 }
 
+int do_page_down(void)
+{
+    wrap_reset();
+    current_x = 0;
+    placewewant = 0;
+
+    if (current == filebot)
+	return 0;
+
+    /* AHEM, if we only have a screen or less of text, DON'T do an
+       edit_update, just move the cursor to editbot! */
+    if (edittop == fileage && editbot == filebot && totlines < editwinrows) {
+	current = editbot;
+	reset_cursor();
+    } else if (editbot != filebot || edittop == fileage) {
+	current_y = 0;
+	current = editbot;
+
+	if (current->prev != NULL)
+	    current = current->prev;
+	if (current->prev != NULL)
+	    current = current->prev;
+	edit_update(current, TOP);
+    } else {
+	while (current != filebot) {
+	    current = current->next;
+	    current_y++;
+	}
+	edit_update(edittop, TOP);
+    }
+
+    update_cursor();
+    UNSET(KEEP_CUTBUFFER);
+    check_statblank();
+    return 1;
+}
+
 int do_up(void)
 {
     wrap_reset();
@@ -197,6 +197,21 @@ int do_down(void) {
     return 1;
 }
 
+int do_left(void)
+{
+    if (current_x > 0)
+	current_x--;
+    else if (current != fileage) {
+	do_up();
+	current_x = strlen(current->data);
+    }
+    placewewant = xplustabs();
+    update_line(current, current_x);
+    UNSET(KEEP_CUTBUFFER);
+    check_statblank();
+    return 1;
+}
+
 int do_right(void)
 {
     assert(current_x <= strlen(current->data));
@@ -206,21 +221,6 @@ int do_right(void)
     else if (current->next) {
 	do_down();
 	current_x = 0;
-    }
-    placewewant = xplustabs();
-    update_line(current, current_x);
-    UNSET(KEEP_CUTBUFFER);
-    check_statblank();
-    return 1;
-}
-
-int do_left(void)
-{
-    if (current_x > 0)
-	current_x--;
-    else if (current != fileage) {
-	do_up();
-	current_x = strlen(current->data);
     }
     placewewant = xplustabs();
     update_line(current, current_x);

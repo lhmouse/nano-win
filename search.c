@@ -53,6 +53,33 @@ void regexp_cleanup(void)
 }
 #endif
 
+void not_found_msg(const char *str)
+{
+    if (strlen(str) <= COLS / 2)
+	statusbar(_("\"%s\" not found"), str);
+    else {
+	char *foo = mallocstrcpy(NULL, str);
+
+	foo[COLS / 2] = '\0';
+	statusbar(_("\"%s...\" not found"), foo);
+	free(foo);
+    }
+}
+
+void search_abort(void)
+{
+    UNSET(KEEP_CUTBUFFER);
+    display_main_list();
+    wrefresh(bottomwin);
+    if (ISSET(MARK_ISSET))
+	edit_refresh_clearok();
+
+#ifdef HAVE_REGEX_H
+    if (ISSET(REGEXP_COMPILED))
+	regexp_cleanup();
+#endif
+}
+
 void search_init_globals(void)
 {
     if (last_search == NULL) {
@@ -67,10 +94,11 @@ void search_init_globals(void)
 
 /* Set up the system variables for a search or replace.  Returns -1 on
    abort, 0 on success, and 1 on rerun calling program 
-   Return -2 to run opposite program (search -> replace, replace -> search)
+   Return -2 to run opposite program (search -> replace, replace ->
+   search).
 
-   replacing = 1 if we call from do_replace, 0 if called from do_search func.
-*/
+   replacing = 1 if we call from do_replace, 0 if called from do_search
+   func. */
 int search_init(int replacing)
 {
     int i = 0;
@@ -196,19 +224,6 @@ int search_init(int replacing)
     return 0;
 }
 
-void not_found_msg(const char *str)
-{
-    if (strlen(str) <= COLS / 2)
-	statusbar(_("\"%s\" not found"), str);
-    else {
-	char *foo = mallocstrcpy(NULL, str);
-
-	foo[COLS / 2] = '\0';
-	statusbar(_("\"%s...\" not found"), foo);
-	free(foo);
-    }
-}
-
 int is_whole_word(int curr_pos, const char *datastr, const char *searchword)
 {
     size_t sln = curr_pos + strlen(searchword);
@@ -223,7 +238,8 @@ static int past_editbuff;
 	/* findnextstr() is now searching lines not displayed */
 
 filestruct *findnextstr(int quiet, int bracket_mode,
-		const filestruct *begin, int beginx, const char *needle)
+			const filestruct *begin, int beginx,
+			const char *needle)
 {
     filestruct *fileptr = current;
     const char *searchstr, *rev_start = NULL, *found = NULL;
@@ -363,20 +379,6 @@ filestruct *findnextstr(int quiet, int bracket_mode,
     return fileptr;
 }
 
-void search_abort(void)
-{
-    UNSET(KEEP_CUTBUFFER);
-    display_main_list();
-    wrefresh(bottomwin);
-    if (ISSET(MARK_ISSET))
-	edit_refresh_clearok();
-
-#ifdef HAVE_REGEX_H
-    if (ISSET(REGEXP_COMPILED))
-	regexp_cleanup();
-#endif
-}
-
 /* Search for a string. */
 int do_search(void)
 {
@@ -428,14 +430,6 @@ int do_search(void)
     search_abort();
 
     return 1;
-}
-
-void print_replaced(int num)
-{
-    if (num > 1)
-	statusbar(_("Replaced %d occurrences"), num);
-    else if (num == 1)
-	statusbar(_("Replaced 1 occurrence"));
 }
 
 void replace_abort(void)
@@ -559,6 +553,14 @@ char *replace_line(void)
     strcat(copy, tmp);
 
     return copy;
+}
+
+void print_replaced(int num)
+{
+    if (num > 1)
+	statusbar(_("Replaced %d occurrences"), num);
+    else if (num == 1)
+	statusbar(_("Replaced 1 occurrence"));
 }
 
 /* step through each replace word and prompt user before replacing word */

@@ -188,24 +188,6 @@ char *parse_argument(char *ptr)
 
 #ifdef ENABLE_COLOR
 
-char *parse_next_regex(char *ptr)
-{
-    while ((*ptr != '"' || (*(ptr + 1) != ' ' && *(ptr + 1) != '\n'))
-	   && *ptr != '\n' && *ptr != '\0')
-	ptr++;
-
-    if (*ptr == '\0')
-	return NULL;
-
-    /* Null terminate and advance ptr */
-    *ptr++ = '\0';
-
-    while (*ptr == ' ' || *ptr == '\t')
-	ptr++;
-
-    return ptr;
-}
-
 int colortoint(const char *colorname, int *bright)
 {
     int mcolor = 0;
@@ -243,6 +225,24 @@ int colortoint(const char *colorname, int *bright)
     }
 
     return mcolor;
+}
+
+char *parse_next_regex(char *ptr)
+{
+    while ((*ptr != '"' || (*(ptr + 1) != ' ' && *(ptr + 1) != '\n'))
+	   && *ptr != '\n' && *ptr != '\0')
+	ptr++;
+
+    if (*ptr == '\0')
+	return NULL;
+
+    /* Null terminate and advance ptr */
+    *ptr++ = '\0';
+
+    while (*ptr == ' ' || *ptr == '\t')
+	ptr++;
+
+    return ptr;
 }
 
 void parse_syntax(char *ptr)

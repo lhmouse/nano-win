@@ -97,7 +97,7 @@ void sunder(char *str)
 /* None of this is needed if we're using NANO_SMALL! */
 #ifndef NANO_SMALL
 const char *revstrstr(const char *haystack, const char *needle,
-	const char *rev_start)
+			const char *rev_start)
 {
     for(; rev_start >= haystack ; rev_start--) {
 	const char *r, *q;
@@ -111,7 +111,7 @@ const char *revstrstr(const char *haystack, const char *needle,
 }
 
 const char *revstristr(const char *haystack, const char *needle,
-	const char *rev_start)
+			const char *rev_start)
 {
     for (; rev_start >= haystack; rev_start--) {
 	const char *r = rev_start, *q = needle;
@@ -147,7 +147,7 @@ const char *stristr(const char *haystack, const char *needle)
 }
 
 const char *strstrwrapper(const char *haystack, const char *needle,
-	const char *rev_start, int line_pos)
+			const char *rev_start, int line_pos)
 {
 #ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP)) {
@@ -195,7 +195,8 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 /* This is a wrapper for the perror function.  The wrapper takes care of 
  * ncurses, calls perror (which writes to STDERR), then refreshes the 
  * screen.  Note that nperror causes the window to flicker once. */
-void nperror(const char *s) {
+void nperror(const char *s)
+{
 	/* leave ncurses mode, go to the terminal */
     if (endwin() != ERR) {
 	perror(s);		/* print the error */
