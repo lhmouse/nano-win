@@ -111,20 +111,22 @@ shortcut *writefile_list = NULL;
 shortcut *insertfile_list = NULL;
 shortcut *help_list = NULL;
 shortcut *spell_list = NULL;
+
 #ifndef NANO_SMALL
 shortcut *extcmd_list = NULL;
 #endif
+
 #ifndef DISABLE_BROWSER
 shortcut *browser_list = NULL;
 #endif
 
 #ifdef ENABLE_COLOR
-    const colortype *colorstrings = NULL;
-    syntaxtype *syntaxes = NULL;
-    char *syntaxstr = NULL;
+const colortype *colorstrings = NULL;
+syntaxtype *syntaxes = NULL;
+char *syntaxstr = NULL;
 #endif
 
-#if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE) || !defined(DISABLE_HELP)
+#if !defined(DISABLE_BROWSER) || !defined(DISABLE_HELP) || (!defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION))
 const shortcut *currshortcut;	/* Current shortcut list we're using */
 #endif
 
@@ -207,9 +209,12 @@ void toggle_init_one(int val, const char *desc, int flag)
 void toggle_init(void)
 {
     char *toggle_const_msg, *toggle_autoindent_msg, *toggle_suspend_msg,
-	*toggle_nohelp_msg, *toggle_picomode_msg, *toggle_mouse_msg,
-	*toggle_cuttoend_msg, *toggle_noconvert_msg, *toggle_dos_msg,
-	*toggle_mac_msg, *toggle_backup_msg, *toggle_smooth_msg;
+	*toggle_nohelp_msg, *toggle_picomode_msg, *toggle_cuttoend_msg,
+	*toggle_noconvert_msg, *toggle_dos_msg, *toggle_mac_msg,
+	*toggle_backup_msg, *toggle_smooth_msg;
+#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+    char *toggle_mouse_msg;
+#endif
 #ifndef DISABLE_WRAPPING
     char *toggle_wrap_msg;
 #endif
@@ -232,7 +237,9 @@ void toggle_init(void)
     toggle_suspend_msg = _("Suspend");
     toggle_nohelp_msg = _("Help mode");
     toggle_picomode_msg = _("Pico mode");
+#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
     toggle_mouse_msg = _("Mouse support");
+#endif
     toggle_cuttoend_msg = _("Cut to end");
     toggle_noconvert_msg = _("No conversion from DOS/Mac format");
     toggle_dos_msg = _("Writing file in DOS format");
@@ -257,7 +264,9 @@ void toggle_init(void)
 #ifndef DISABLE_WRAPPING
     toggle_init_one(TOGGLE_WRAP_KEY, toggle_wrap_msg, NO_WRAP);
 #endif
+#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
     toggle_init_one(TOGGLE_MOUSE_KEY, toggle_mouse_msg, USE_MOUSE);
+#endif
     toggle_init_one(TOGGLE_CUTTOEND_KEY, toggle_cuttoend_msg, CUT_TO_END);
 #ifdef ENABLE_MULTIBUFFER
     toggle_init_one(TOGGLE_LOAD_KEY, toggle_load_msg, MULTIBUFFER);
@@ -401,7 +410,7 @@ void shortcut_init(int unjustify)
 		do_help);
 
 #ifdef ENABLE_MULTIBUFFER
-    if (open_files != NULL && (open_files->prev || open_files->next))
+    if (open_files != NULL && (open_files->prev != NULL || open_files->next != NULL))
 	sc_init_one(&main_list, NANO_EXIT_KEY, _("Close"),
 		IFHELP(nano_exit_msg, 0), NANO_EXIT_FKEY, 0, VIEW,
 		do_exit);
@@ -775,7 +784,7 @@ void shortcut_init(int unjustify)
 		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
 #endif
 
-#if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE) || !defined (DISABLE_HELP)
+#if !defined(DISABLE_BROWSER) || !defined(DISABLE_HELP) || (!defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION))
     currshortcut = main_list;
 #endif
 #ifndef NANO_SMALL

@@ -210,7 +210,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
     else
 	answer[0] = '\0';
 
-#if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
+#if !defined(DISABLE_HELP) || (!defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION))
     currshortcut = s;
 #endif
 
@@ -261,12 +261,10 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	case 545:		/* Right alt again */
 	    break;
 #endif
-#ifndef DISABLE_MOUSE
-#ifdef NCURSES_MOUSE_VERSION
+#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
 	case KEY_MOUSE:
 	    do_mouse();
 	    break;
-#endif
 #endif
 	case NANO_HOME_KEY:
 	case KEY_HOME:
@@ -515,7 +513,7 @@ void bottombars(const shortcut *s)
 	    s = s->next;
 	    if (s == NULL)
 		goto break_completely_out;
-	}	
+	}
     }
 
   break_completely_out:
@@ -572,8 +570,8 @@ void reset_cursor(void)
     const filestruct *ptr = edittop;
     size_t x;
 
-    /* Yuck.  This condition can be true after open_file when opening the
-     * first file. */
+    /* Yuck.  This condition can be true after open_file() when opening
+     * the first file. */
     if (edittop == NULL)
 	return;
 
@@ -640,8 +638,8 @@ void edit_add(const filestruct *fileptr, int yval, int start
 		while (k < start + COLS) {
 		    /* Note the fifth parameter to regexec.  It says not to
 		     * match the beginning-of-line character unless
-		     * k == 0.  If regexec returns non-zero, there are
-		     * no more matches in the line. */
+		     * k == 0.  If regexec returns nonzero, there are no
+		     * more matches in the line. */
 		    if (regexec(&start_regexp, &fileptr->data[k], 1,
 				&startmatch, k == 0 ? 0 : REG_NOTBOL))
 			break;
@@ -732,14 +730,12 @@ void edit_add(const filestruct *fileptr, int yval, int start
 		 * fileptr and after the start.  Is there an end after
 		 * the start at all?  We don't paint unterminated starts. */
 		end_line = fileptr;
-		while (end_line != NULL &&
-			regexec(&end_regexp, end_line->data, 1,
-				&endmatch, 0))
+		while (end_line != NULL && regexec(&end_regexp, end_line->data,
+				1, &endmatch, 0))
 		    end_line = end_line->next;
 
 		/* No end found, or it is too early. */
-		if (end_line == NULL ||
-			end_line->lineno < fileptr->lineno ||
+		if (end_line == NULL || end_line->lineno < fileptr->lineno ||
 			(end_line == fileptr && endmatch.rm_eo <= start))
 		    goto step_two;
 
@@ -801,9 +797,8 @@ void edit_add(const filestruct *fileptr, int yval, int start
 			/* There is no end on this line.  But we haven't
 			 * yet looked for one on later lines. */
 			end_line = fileptr->next;
-			while (end_line != NULL &&
-				regexec(&end_regexp, end_line->data, 1,
-				&endmatch, 0))
+			while (end_line != NULL && regexec(&end_regexp,
+				end_line->data, 1, &endmatch, 0))
 			    end_line = end_line->next;
 			if (end_line != NULL) {
 			    assert(0 <= x_start && x_start < COLS);
@@ -900,7 +895,7 @@ void update_line(filestruct *fileptr, int index)
     size_t pos;
     size_t page_start;
 
-    if (!fileptr)
+    if (fileptr == NULL)
 	return;
 
     line = fileptr->lineno - edittop->lineno;
@@ -996,9 +991,6 @@ void center_cursor(void)
 /* Refresh the screen without changing the position of lines. */
 void edit_refresh(void)
 {
-    static int noloop = 0;
-    int nlines = 0, currentcheck = 0;
-
     /* Neither of these conditions should occur, but they do.  edittop is
      * NULL when you open an existing file on the command line, and
      * ENABLE_COLOR is defined.  Yuck. */
@@ -1007,40 +999,35 @@ void edit_refresh(void)
     if (edittop == NULL)
 	edittop = current;
 
-    /* Don't make the cursor jump around the screen whilst updating */
-    leaveok(edit, TRUE);
-
-    editbot = edittop;
-    while (nlines < editwinrows) {
-	update_line(editbot, current_x);
-	if (editbot == current)
-	    currentcheck = 1;
-
-	nlines++;
-
-	if (editbot->next == NULL)
-	    break;
-	editbot = editbot->next;
-    }
-
-    /* If noloop == 1, then we already did an edit_update without finishing
-       this function.  So we don't run edit_update again */
-    if (!currentcheck && !noloop) {
-		/* Then current has run off the screen... */
+    if (current->lineno >= edittop->lineno + editwinrows)
+	/* Note that edit_update() changes edittop so that
+	 * current->lineno = edittop->lineno + editwinrows / 2.  Thus
+	 * when it then calls edit_refresh(), there is no danger of
+	 * getting an infinite loop. */
 	edit_update(current, CENTER);
-	noloop = 1;
-    } else if (noloop)
-	noloop = 0;
+    else {
+	int nlines = 0;
 
-    while (nlines < editwinrows) {
-	mvwaddstr(edit, nlines, 0, hblank);
-	nlines++;
+	/* Don't make the cursor jump around the screen whilst updating */
+	leaveok(edit, TRUE);
+
+	editbot = edittop;
+	while (nlines < editwinrows) {
+	    update_line(editbot, current_x);
+	    nlines++;
+	    if (editbot->next == NULL)
+		break;
+	    editbot = editbot->next;
+	}
+	while (nlines < editwinrows) {
+	    mvwaddstr(edit, nlines, 0, hblank);
+	    nlines++;
+	}
+	/* What the hell are we expecting to update the screen if this
+	   isn't here?  Luck?? */
+	wrefresh(edit);
+	leaveok(edit, FALSE);
     }
-
-    /* What the hell are we expecting to update the screen if this isn't 
-       here? Luck?? */
-    wrefresh(edit);
-    leaveok(edit, FALSE);
 }
 
 /*
@@ -1137,8 +1124,8 @@ int statusq(int tabs, const shortcut *s, const char *def,
 
 /*
  * Ask a simple yes/no question on the statusbar.  Returns 1 for Y, 0
- * for N, 2 for All (if all is non-zero when passed in) and -1 for
- * abort (^C).
+ * for N, 2 for All (if all is nonzero when passed in) and -1 for abort
+ * (^C).
  */
 int do_yesno(int all, int leavecursor, const char *msg, ...)
 {
@@ -1148,10 +1135,8 @@ int do_yesno(int all, int leavecursor, const char *msg, ...)
     const char *yesstr;		/* String of yes characters accepted */
     const char *nostr;		/* Same for no */
     const char *allstr;		/* And all, surprise! */
-#ifndef DISABLE_MOUSE
-#ifdef NCURSES_MOUSE_VERSION
+#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
     MEVENT mevent;
-#endif
 #endif
 
     /* Yes, no and all are strings of any length.  Each string consists of
@@ -1204,8 +1189,7 @@ int do_yesno(int all, int leavecursor, const char *msg, ...)
 	kbinput = wgetch(edit);
 
 	switch (kbinput) {
-#ifndef DISABLE_MOUSE
-#ifdef NCURSES_MOUSE_VERSION
+#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
 	case KEY_MOUSE:
 
 	    /* Look ma!  We get to duplicate lots of code from do_mouse!! */
@@ -1232,7 +1216,6 @@ int do_yesno(int all, int leavecursor, const char *msg, ...)
 		ungetch(yesnosquare[mevent.y][mevent.x / (COLS / 6)]);
 	    }
 	    break;
-#endif
 #endif
 	case NANO_CONTROL_C:
 	    ok = -2;
@@ -1436,12 +1419,10 @@ int do_help(void)
 	const char *ptr = help_text;
 
 	switch (kbinput) {
-#ifndef DISABLE_MOUSE
-#ifdef NCURSES_MOUSE_VERSION
+#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
 	case KEY_MOUSE:
 	    do_mouse();
 	    break;
-#endif
 #endif
 	case 27:
 	    kbinput = wgetch(edit);
@@ -1562,7 +1543,7 @@ int do_help(void)
     return 1;
 }
 
-int keypad_on(WINDOW * win, int newval)
+int keypad_on(WINDOW *win, int newval)
 {
 /* This is taken right from aumix.  Don't sue me. */
 #ifdef HAVE_USEKEYPAD

@@ -9,9 +9,72 @@ CVS code -
 	- Minor cosmetic tweaks to the ngettext() macro, and fix to
 	  properly detect systems lacking ngettext() and correctly
 	  compile on them; the previous fix didn't work. (DLR)
+	- Fix problems with some code sections' not being #ifdef'ed out
+	  when they should be, or being #ifdef'ed out improperly. (David
+	  Benbennick and DLR)
+	- Change FOLLOW_SYMLINKS to NOFOLLOW_SYMLINKS, and rework the
+	  associated logic accordingly, throughout the code. (David
+	  Benbennick)
+	- Rework #ifdefs to not include mouse_init() at all if
+	  DISABLE_MOUSE is defined or NCURSES_MOUSE_VERSION isn't. (DLR)
+	- For consistency, change many references of (!x) to (x == NULL)
+	  and (x) to (x != NULL). (DLR)
+	- Define KEY_IC properly (and KEY_DC more portably) when slang
+	  support is enabled, and remove the hack to work around the
+	  former's not being defined. (David Benbennick and DLR)
 - configure.ac:
 	- Added tr to ALL_LINGUAS (Jordi).
+	- Fix now inaccurate description of --enable-tiny's effects; it
+	  no longer disables NLS support. (DLR)
+	- Fix typo. (David Benbennick)
+	- Check for strcasecmp() and strncasecmp(), since they are
+	  apparently only standard under BSD. (DLR)
+- cut.c:
+  do_cut_text()
+	- Fix a memory corruption problem caused by accessing edittop
+	  after it was freed but before it was reset to a sane value
+	  from current. (David Benbennick)
+  do_uncut_text()
+	- If uncutting more than one line of unmarked text at editbot,
+	  don't center the screen, since Pico doesn't. (DLR)
+- files.c:
+  read_line()
+	- Miscellaneous cleanups. (David Benbennick)
+  read_file()
+	- Miscellaneous cleanups. (David Benbennick)
+	- Fix len's being off by one when reading in Mac-format files,
+	  exposed by one of David Benbennick's cleanups. (DLR)
+	- If NO_CONVERT isn't set when we first enter, and it gets set
+	  while reading in the file, unset it again afterwards. (DLR)
+  add_open_file()
+	- Fix minor logic error when determining when to resave fileage
+	  and filebot. (DLR)
+  write_file()
+	- Change lineswritten from a long to an int, to match
+	  filestruct->lineno. (DLR; mismatch found by David Benbennick)
+  input_tab()
+	- Variable name change: matchBuf -> matchbuf. (DLR)
+  diralphasort()
+	- Remove the HAVE_STRCASECMP #ifdef block; see the changes to
+	  configure.ac and nano.h for why. (DLR)
+- move.c:
+  do_page_down()
+	- If there's a page or less of text, do an edit_update() if the
+	  mark is on; otherwise, the highlight won't be displayed. (DLR)
 - nano.c:
+  do_prev_word()
+	- Make the assert match that in do_next_word(). (DLR)
+  do_enter()
+	- If smooth scrolling is on, and Enter is pressed on the
+	  magicline, don't center the screen. (DLR)
+  do_justify()
+	- Fix memory corruption problem triggered when edittop and
+	  current->next pointed to the same value and current->next was
+	  destroyed during justification. (DLR)
+	- Center the screen when justification moves the cursor entirely
+	  off the bottom of the screen, instead of when it moves the
+	  cursor near the bottom of the screen, to more closely match
+	  Pico's behavior. (DLR)
   version()
 	- Remove obsolete reference to --enable-undo. (David Benbennick)
   do_int_speller()
@@ -23,7 +86,22 @@ CVS code -
 	- Programs now return char *, NULL for successful completion,
 	  otherwise the error string to display.  This allows us to give
 	  more useful feedback to the user when spell checking fails.
+  ABCD()
+	- Renamed abcd(). (DLR)
+- nano.h:
+	- Make sure NO_RCFILE and COLOR_SYNTAX aren't set to the same
+	  value. (DLR; discovered by Ken Tyler)
+	- If strcasecmp() and/or strncasecmp() aren't available, use
+	  strcmp() and/or strncmp instead. (DLR)
+- utils.c:
+  is_cntrl_char()
+	- Rework to fix a problem with displaying certain high-bit
+	  characters. (David Benbennick; reported by Andrzej Marecki)
 - winio.c:
+  edit_refresh()
+	- Miscellaneous cleanups that fix a bug where the screen
+	  isn't updated after uncutting chunks of upwardly marked cut
+	  text that are over a page in length. (David Benbennick)
   do_credits()
 	- Add David Benbennick to credits. (DLR)
 - nanorc.sample:

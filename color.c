@@ -78,13 +78,13 @@ void do_colorinit(void)
 	defok = use_default_colors() != ERR;
 #endif
 
-	for (tmpcolor = colorstrings; tmpcolor != NULL; 
+	for (tmpcolor = colorstrings; tmpcolor != NULL;
 		tmpcolor = tmpcolor->next) {
 	    short background = tmpcolor->bg;
 
 	    if (background == -1)
 #ifdef HAVE_USE_DEFAULT_COLORS
-		if (!defok)
+		if (defok == 0)
 #endif
 		    background = COLOR_BLACK;
 

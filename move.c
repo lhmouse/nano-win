@@ -104,10 +104,16 @@ int do_page_down(void)
 	return 0;
 
     /* AHEM, if we only have a screen or less of text, DON'T do an
-       edit_update, just move the cursor to editbot! */
+       edit_update(), just move the cursor to editbot! */
     if (edittop == fileage && editbot == filebot && totlines < editwinrows) {
 	current = editbot;
 	reset_cursor();
+#ifndef NANO_SMALL
+	/* ...unless marking is on, in which case we need it to update
+	   the highlight. */
+	if (ISSET(MARK_ISSET))
+	    edit_update(current, NONE);
+#endif
     } else if (editbot != filebot || edittop == fileage) {
 	current_y = 0;
 	current = editbot;
@@ -153,7 +159,8 @@ int do_up(void)
 
 /* Return value 1 means we moved down, 0 means we were already at the
  * bottom. */
-int do_down(void) {
+int do_down(void)
+{
     wrap_reset();
     UNSET(KEEP_CUTBUFFER);
     check_statblank();
@@ -211,7 +218,7 @@ int do_right(void)
 
     if (current->data[current_x] != '\0')
 	current_x++;
-    else if (current->next) {
+    else if (current->next != NULL) {
 	do_down();
 	current_x = 0;
     }

@@ -30,6 +30,9 @@
 #include "proto.h"
 #include "nano.h"
 
+static int past_editbuff;
+	/* findnextstr() is now searching lines not displayed */
+
 /* Regular expression helper functions */
 
 #ifdef HAVE_REGEX_H
@@ -101,7 +104,7 @@ int search_init(int replacing)
     search_init_globals();
 
     /* Clear the backupstring if we've changed from Pico mode to regular
-	mode */
+       mode */
     if (ISSET(CLEAR_BACKUPSTRING)) {
 	free(backupstring);
 	backupstring = NULL;
@@ -117,14 +120,16 @@ int search_init(int replacing)
 	last_search. */
 
     if (ISSET(PICO_MODE)) {
-	if (backupstring == NULL || !strcmp(backupstring, last_search))
-	    backupstring = mallocstrcpy(backupstring, "");
+	if (backupstring == NULL || !strcmp(backupstring, last_search)) {
+	    backupstring = charalloc(1);
+	    backupstring[0] = '\0';
+	}
     }
     else if (backupstring == NULL)
 	backupstring = mallocstrcpy(backupstring, last_search);
 
     /* If using Pico messages, we do things the old fashioned way... */
-    if (ISSET(PICO_MODE) && last_search[0]) {
+    if (ISSET(PICO_MODE) && last_search[0] != '\0') {
 	buf = charalloc(COLS / 3 + 7);
 	/* We use COLS / 3 here because we need to see more on the line */
 	sprintf(buf, " [%.*s%s]", COLS / 3, last_search,
@@ -227,9 +232,6 @@ int is_whole_word(int curr_pos, const char *datastr, const char *searchword)
 	(sln == strlen(datastr) || !isalpha((int) datastr[sln]));
 }
 
-static int past_editbuff;
-	/* findnextstr() is now searching lines not displayed */
-
 filestruct *findnextstr(int quiet, int bracket_mode,
 			const filestruct *begin, int beginx,
 			const char *needle)
@@ -326,7 +328,7 @@ filestruct *findnextstr(int quiet, int bracket_mode,
 	    if (fileptr == edittop->prev)
 		past_editbuff = 1;
 
-	    /* SOF reached ?, wrap around once */
+	    /* SOF reached?, wrap around once */
 /* ? */	    if (fileptr == NULL) {
 		if (bracket_mode)
 		   return NULL;
@@ -416,8 +418,7 @@ int do_search(void)
     search_last_line = 0;
     didfind = findnextstr(FALSE, FALSE, current, current_x, answer);
 
-    if ((fileptr == current) && (fileptr_x == current_x) &&
-	didfind != NULL)
+    if ((fileptr == current) && (fileptr_x == current_x) && didfind != NULL)
 	statusbar(_("This is the only occurrence"));
 
     search_abort();
@@ -451,7 +452,7 @@ int replace_regexp(char *string, int create_flag)
      * replacement using \1, \2, \3, etc. */
 
     c = last_replace;
-    while (*c) {
+    while (*c != '\0') {
 	if (*c != '\\') {
 	    if (create_flag)
 		*string++ = *c;
@@ -532,7 +533,7 @@ char *replace_line(void)
 	strcat(copy, last_replace);
 #ifdef HAVE_REGEX_H
     else
-	(void) replace_regexp(copy + current_x, 1);
+	replace_regexp(copy + current_x, 1);
 #endif
 
     /* The tail of the original line */
@@ -593,7 +594,7 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 				FALSE, begin, *beginx, prevanswer);
 
 	/* No more matches.  Done! */
-	if (!fileptr)
+	if (fileptr == NULL)
 	    break;
 
 	/* Make sure only whole words are found */
@@ -616,7 +617,7 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 		replaceall = 1;
 
 	    copy = replace_line();
-	    if (!copy) {
+	    if (copy == NULL) {
 		statusbar(_("Replace failed: unknown subexpression!"));
 		replace_abort();
 		return 0;
@@ -773,7 +774,7 @@ int do_gotoline(int line, int save_pos)
 
     current_x = 0;
 
-    /* if save_pos is non-zero, don't change the cursor position when
+    /* if save_pos is nonzero, don't change the cursor position when
        updating the edit window */
     if (save_pos)
     	edit_update(current, NONE);
@@ -820,7 +821,7 @@ int do_find_bracket(void)
 
     ch_under_cursor = current->data[current_x];
  
-    if ((!(pos = strchr(brackets, ch_under_cursor))) || (!((offset = pos - brackets) < 8))) {
+    if (((pos = strchr(brackets, ch_under_cursor)) == NULL) || (((offset = pos - brackets) < 8) == 0)) {
 	statusbar(_("Not a bracket"));
 	return 1;
     }
@@ -850,7 +851,7 @@ int do_find_bracket(void)
 
     while (1) {
 	search_last_line = 0;
-	if (findnextstr(1, 1, current, current_x, regexp_pat)) {
+	if (findnextstr(1, 1, current, current_x, regexp_pat) != NULL) {
 	    have_past_editbuff |= past_editbuff;
 	    if (current->data[current_x] == ch_under_cursor)	/* found identical bracket */
 		count++;

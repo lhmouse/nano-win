@@ -29,7 +29,8 @@
 #include "nano.h"
 
 static int marked_cut;		/* Is the cutbuffer from a mark? */
-static filestruct *cutbottom = NULL; /* Pointer to end of cutbuffer */
+static filestruct *cutbottom = NULL;
+				/* Pointer to end of cutbuffer */
 
 filestruct *get_cutbottom(void)
 {
@@ -39,7 +40,7 @@ filestruct *get_cutbottom(void)
 void add_to_cutbuffer(filestruct *inptr)
 {
 #ifdef DEBUG
-    fprintf(stderr, _("add_to_cutbuffer called with inptr->data = %s\n"),
+    fprintf(stderr, _("add_to_cutbuffer() called with inptr->data = %s\n"),
 	    inptr->data);
 #endif
 
@@ -57,6 +58,7 @@ void add_to_cutbuffer(filestruct *inptr)
 
 #ifndef NANO_SMALL
 /* Cut a marked segment instead of a whole line.
+ *
  * The first cut character is top->data[top_x].  Unless top == bot, the
  * last cut line has length bot_x.  That is, if bot_x > 0 then we cut to
  * bot->data[bot_x - 1].
@@ -121,8 +123,8 @@ void cut_marked_segment(filestruct *top, size_t top_x, filestruct *bot,
 	} else {
 	    totsize -= bot_x + 1;
 
-	    /* Here, the remainder line might get longer, so we realloc
-	       it first. */
+	    /* Here, the remainder line might get longer, so we
+	       realloc() it first. */
 	    top->data = (char *)nrealloc(top->data,
 					sizeof(char) * newsize);
 	    memmove(top->data + top_x, bot->data + bot_x,
@@ -248,12 +250,11 @@ int do_cut_text(void)
 	UNSET(MARK_ISSET);
 
 	marked_cut = 1;
-	set_modified();
-	if (dontupdate) {
-	    fix_editbot();
+	if (dontupdate)
 	    edit_refresh();
-	} else
+	else
 	    edit_update(current, CENTER);
+	set_modified();
 
 	return 1;
     }
@@ -291,8 +292,7 @@ int do_cut_text(void)
 int do_uncut_text(void)
 {
     filestruct *tmp = current, *fileptr = current;
-    filestruct *newbuf = NULL;
-    filestruct *newend = NULL;
+    filestruct *newbuf = NULL, *newend = NULL;
 #ifndef NANO_SMALL
     char *tmpstr, *tmpstr2;
     filestruct *hold = current;
@@ -305,7 +305,7 @@ int do_uncut_text(void)
 	return 0;		/* AIEEEEEEEEEEEE */
 
 #ifndef NANO_SMALL
-    if (!marked_cut || cutbuffer->next != NULL)
+    if (marked_cut == 0 || cutbuffer->next != NULL)
 #endif
     {
 	newbuf = copy_filestruct(cutbuffer);
@@ -316,7 +316,7 @@ int do_uncut_text(void)
 
     /* Hook newbuf into fileptr */
 #ifndef NANO_SMALL
-    if (marked_cut) {
+    if (marked_cut != 0) {
 	int recenter_me = 0;
 	    /* Should we eventually use edit_update(CENTER)? */
 
@@ -329,7 +329,7 @@ int do_uncut_text(void)
 	    memmove(current->data + current_x + buf_len,
 			current->data + current_x, cur_len - current_x + 1);
 	    strncpy(current->data + current_x, cutbuffer->data, buf_len);
-		/* Use strncpy to not copy the terminal '\0'. */
+		/* Use strncpy() to not copy the terminal '\0'. */
 
 	    current_x += buf_len;
 	    totsize += buf_len;
@@ -398,8 +398,7 @@ int do_uncut_text(void)
 
 	if (marked_cut == 2) {
 	    tmp = make_new_node(current);
-	    tmp->data = charalloc(strlen(&current->data[current_x]) + 1);
-	    strcpy(tmp->data, &current->data[current_x]);
+	    tmp->data = mallocstrcpy(NULL, current->data + current_x);
 	    splice_node(current, tmp, current->next);
 	    null_at(&current->data, current_x);
 	    current = current->next;
@@ -449,7 +448,9 @@ int do_uncut_text(void)
 
     i = editbot->lineno;
     renumber(newbuf);
-    if (i < newend->lineno)
+    /* Center the screen if we've moved beyond the line numbers of both
+       the old and new editbots */
+    if (i < newend->lineno && editbot->lineno < newend->lineno)
 	edit_update(fileptr, CENTER);
     else
 	edit_refresh();

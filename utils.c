@@ -32,10 +32,8 @@
 
 int is_cntrl_char(int c)
 {
-    if (iscntrl(c) || ((c & 127) != 127 && iscntrl(c & 127)))
-	return 1;
-    else
-	return 0;
+    return (-128 <= c && c < -96) || (0 <= c && c < 32) ||
+		(127 <= c && c < 160);
 }
 
 int num_of_digits(int n)
@@ -120,20 +118,20 @@ const char *revstristr(const char *haystack, const char *needle,
 #endif /* !NANO_SMALL */
 
 /* This is now mutt's version (called mutt_stristr) because it doesn't
-   use memory allocation to do a simple search (yuck). */
+ * use memory allocation to do a simple search (yuck). */
 const char *stristr(const char *haystack, const char *needle)
 {
     const char *p, *q;
 
-    if (!haystack)
+    if (haystack == NULL)
 	return NULL;
-    if (!needle)  
-	return (haystack);
+    if (needle == NULL)
+	return haystack;
     
-    while (*(p = haystack)) {
-	for (q = needle; *p && *q && tolower(*p) == tolower(*q); p++, q++)
+    while (*(p = haystack) != '\0') {
+	for (q = needle; *p != 0 && *q != 0 && tolower(*p) == tolower(*q); p++, q++)
 	    ;
-	if (!*q)
+	if (*q == 0)
 	    return haystack;
 	haystack++;
     }
@@ -191,7 +189,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
  * screen.  Note that nperror causes the window to flicker once. */
 void nperror(const char *s)
 {
-	/* leave ncurses mode, go to the terminal */
+    /* leave ncurses mode, go to the terminal */
     if (endwin() != ERR) {
 	perror(s);		/* print the error */
 	total_refresh();	/* return to ncurses and repaint */
@@ -205,14 +203,14 @@ void *nmalloc(size_t howmuch)
 
     /* Panic save? */
 
-    if (!(r = malloc(howmuch)))
+    if ((r = malloc(howmuch)) == NULL)
 	die(_("nano: malloc: out of memory!"));
 
     return r;
 }
 
-/* We're going to need this too - Hopefully this will minimize
-   the transition cost of moving to the appropriate function. */
+/* We're going to need this too - Hopefully this will minimize the
+ * transition cost of moving to the appropriate function. */
 char *charalloc(size_t howmuch)
 {
     char *r = (char *)malloc(howmuch * sizeof(char));
@@ -227,7 +225,7 @@ void *nrealloc(void *ptr, size_t howmuch)
 {
     void *r;
 
-    if (!(r = realloc(ptr, howmuch)))
+    if ((r = realloc(ptr, howmuch)) == NULL)
 	die(_("nano: realloc: out of memory!"));
 
     return r;
@@ -240,10 +238,10 @@ char *mallocstrcpy(char *dest, const char *src)
     if (src == dest)
 	return dest;
 
-    if (dest)
+    if (dest != NULL)
 	free(dest);
 
-    if (!src)
+    if (src == NULL)
 	return NULL;
 
     dest = charalloc(strlen(src) + 1);
@@ -292,7 +290,7 @@ int check_wildcard_match(const char *text, const char *pattern)
     retrypat = NULL;
     retrytext = NULL;
 
-    while (*text || *pattern) {
+    while (*text != '\0' || *pattern != '\0') {
 	ch = *pattern++;
 
 	switch (ch) {
@@ -346,12 +344,12 @@ int check_wildcard_match(const char *text, const char *pattern)
 
 	default:
 	    if (*text == ch) {
-		if (*text)
+		if (*text != '\0')
 		    text++;
 		break;
 	    }
 
-	    if (*text) {
+	    if (*text != '\0') {
 		pattern = retrypat;
 		text = ++retrytext;
 		break;
@@ -360,7 +358,7 @@ int check_wildcard_match(const char *text, const char *pattern)
 	    return FALSE;
 	}
 
-	if (!pattern)
+	if (pattern == NULL)
 	    return FALSE;
     }
 

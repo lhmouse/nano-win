@@ -33,7 +33,9 @@ extern int wrap_at;
 extern int editwinrows;
 extern int current_x, current_y, totlines;
 extern int placewewant;
+#ifndef NANO_SMALL
 extern int mark_beginx;
+#endif
 extern long totsize;
 extern int temp_opt;
 extern int wrap_at, flags, tabsize;
@@ -64,7 +66,10 @@ extern char *alt_speller;
 
 extern struct stat fileinfo;
 extern filestruct *current, *fileage, *edittop, *editbot, *filebot; 
-extern filestruct *cutbuffer, *mark_beginbuf;
+extern filestruct *cutbuffer;
+#ifndef NANO_SMALL
+extern filestruct *mark_beginbuf;
+#endif
 
 #ifdef ENABLE_MULTIBUFFER
 extern openfilestruct *open_files;
@@ -215,7 +220,9 @@ void die_too_small(void);
 void print_view_warning(void);
 void global_init(int save_cutbuffer);
 void window_init(void);
+#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
 void mouse_init(void);
+#endif
 #ifndef DISABLE_HELP
 void help_init(void);
 #endif
@@ -300,7 +307,7 @@ void print_numlock_warning(void);
 #ifndef NANO_SMALL
 void do_toggle(const toggle *which);
 #endif
-int ABCD(int input);
+int abcd(int input);
 
 /* Public functions in rcfile.c */
 #ifdef ENABLE_NANORC

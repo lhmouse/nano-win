@@ -37,8 +37,7 @@ AC_ARG_ENABLE(extra,
  fi])
 
 AC_ARG_ENABLE(tiny,
-[  --enable-tiny           Disable features for the sake of size
-                          (currently disables detailed help and i18n)],
+[  --enable-tiny           Disable features for the sake of size],
 [if test x$enableval = xyes; then
     AC_DEFINE(NANO_SMALL, 1, [Define this to make the nano executable as small as possible.]) tiny_support=yes
     AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in (crappy) file browser.]) 
@@ -223,7 +222,7 @@ AC_MSG_WARN([*** Can not use slang when cross-compiling])),
     esac], [AC_MSG_RESULT(no)])
 
 dnl Checks for functions
-AC_CHECK_FUNCS(snprintf vsnprintf)
+AC_CHECK_FUNCS(snprintf vsnprintf strcasecmp strncasecmp)
 if test "x$ac_cv_func_snprintf" = "xno" -o "xac_cv_func_vsnprintf" = "xno"
 then
 	AM_PATH_GLIB(1.2.4,,
@@ -284,7 +283,7 @@ if test x$slang_support != xyes; then
     AC_CHECK_LIB([$CURSES_LIB_NAME], wresize, AC_DEFINE(HAVE_WRESIZE, 1, [Define this if you have the wresize function in your ncurses-type library.]))
     AC_CHECK_LIB([$CURSES_LIB_NAME], resizeterm, AC_DEFINE(HAVE_RESIZETERM, 1, [Define this if you have the resizeterm function in your ncurses-type library.]))
 
-    # Taken from aumix (can't tell form the variable name?)
+    # Taken from aumix (can't tell from the variable name?)
     AC_CACHE_CHECK([for private member _use_keypad in WINDOW],
     aumix_cv_struct_window_usekeypad,
     [AC_TRY_COMPILE([#ifdef HAVE_NCURSES_H

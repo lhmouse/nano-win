@@ -39,7 +39,8 @@
 
 #ifdef USE_SLANG	/* Slang support enabled */
 #include <slcurses.h>
-#define KEY_DC 0x113
+#define KEY_IC SL_KEY_IC
+#define KEY_DC SL_KEY_DELETE
 #elif defined(HAVE_NCURSES_H)
 #include <ncurses.h>
 #else /* Uh oh */
@@ -71,6 +72,15 @@
 # endif
 #endif
 
+#if !defined(HAVE_STRCASECMP) || !defined(HAVE_STRNCASECMP)
+# ifndef HAVE_STRCASECMP
+#  define strcasecmp strcmp
+# endif
+# ifndef HAVE_STRNCASECMP
+#  define strncasecmp strncmp
+# endif
+#endif
+
 /* HP-UX 10 & 11 do not seem to support KEY_HOME and KEY_END */
 #ifndef KEY_HOME
 #define KEY_HOME -1
@@ -79,7 +89,6 @@
 #ifndef KEY_END
 #define KEY_END -1
 #endif /* KEY_END */
-
 
 #define VERMSG "GNU nano " VERSION
 
@@ -191,7 +200,7 @@ typedef struct syntaxtype {
 #define CONSTUPDATE		(1<<4)
 #define NO_HELP			(1<<5)
 #define PICO_MODE		(1<<6)
-#define FOLLOW_SYMLINKS		(1<<7)
+#define NOFOLLOW_SYMLINKS	(1<<7)
 #define SUSPEND			(1<<8)
 #define NO_WRAP			(1<<9)
 #define AUTOINDENT		(1<<10)
@@ -213,7 +222,7 @@ typedef struct syntaxtype {
 #define NO_CONVERT		(1<<26)
 #define BACKUP_FILE		(1<<27)
 #define NO_RCFILE		(1<<28)
-#define COLOR_SYNTAX		(1<<28)
+#define COLOR_SYNTAX		(1<<29)
 
 /* Control key sequences, changing these would be very very bad */
 

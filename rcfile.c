@@ -50,7 +50,7 @@ const static rcoption rcopts[] = {
     {"fill", 0},
 #endif
     {"keypad", ALT_KEYPAD},
-#ifndef DISABLE_MOUSE
+#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
     {"mouse", USE_MOUSE},
 #endif
 #ifdef ENABLE_MULTIBUFFER
@@ -59,7 +59,7 @@ const static rcoption rcopts[] = {
 #ifndef NANO_SMALL
     {"noconvert", NO_CONVERT},
 #endif
-    {"nofollow", FOLLOW_SYMLINKS},
+    {"nofollow", NOFOLLOW_SYMLINKS},
     {"nohelp", NO_HELP},
 #ifndef DISABLE_WRAPPING
     {"nowrap", NO_WRAP},
@@ -68,7 +68,7 @@ const static rcoption rcopts[] = {
     {"operatingdir", 0},
 #endif
     {"pico", PICO_MODE},
-#ifndef NANO_SMALL
+#ifndef DISABLE_JUSTIFY
     {"quotestr", 0},
 #endif
 #ifdef HAVE_REGEX_H
@@ -403,7 +403,7 @@ void parse_colors(char *ptr)
 	else {
 	    if (ptr == NULL || strncasecmp(ptr, "end=", 4)) {
 		rcfile_error(_
-			     ("\n\t\"start=\" requires a corresponding \"end=\""));
+			     ("\"start=\" requires a corresponding \"end=\""));
 		return;
 	    }
 
@@ -455,7 +455,7 @@ void parse_rcfile(FILE *rcstream)
 	/* Else skip to the next space */
 	keyword = ptr;
 	ptr = parse_next_word(ptr);
-	if (!ptr)
+	if (ptr == NULL)
 	    continue;
 
 	/* Else try to parse the keyword */
@@ -485,7 +485,7 @@ void parse_rcfile(FILE *rcstream)
 		    fprintf(stderr, _("parse_rcfile: Parsing option %s\n"),
 			    rcopts[i].name);
 #endif
-		    if (set == 1 || rcopts[i].flag == FOLLOW_SYMLINKS) {
+		    if (set == 1) {
 			if (!strcasecmp(rcopts[i].name, "tabsize")
 #ifndef DISABLE_OPERATINGDIR
 				|| !strcasecmp(rcopts[i].name, "operatingdir")
