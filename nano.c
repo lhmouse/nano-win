@@ -1689,6 +1689,7 @@ int do_int_speller(char *tempfile_name)
     if (pipe(spell_fd) == -1)
 	return FALSE;
 
+    statusbar(_("Creating misspelled word list, please wait..."));
     /* A new process to run spell in */
 
     if ((pid_spell = fork()) == 0) {
