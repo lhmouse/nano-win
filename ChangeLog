@@ -1,4 +1,9 @@
 CVS code -
+- nano.c:
+  main()
+	- Move the call to raw() on systems that don't define
+	  _POSIX_VDISABLE outside the main input/output loop, as it
+	  doesn't need to be called every time through the loop. (DLR)
 - README:
 	- Reformat to 72 characters per line, fix wording in one spot,
 	  and fix spacing in several spots. (DLR)

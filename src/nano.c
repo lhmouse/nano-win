@@ -3434,6 +3434,11 @@ int main(int argc, char *argv[])
     cbreak();
     noecho();
 
+#ifndef _POSIX_VDISABLE
+    /* We're going to have to do it the old way, i.e, on Cygwin. */
+    raw();
+#endif
+
     /* Set up some global variables */
     global_init(0);
     shortcut_init(0);
@@ -3506,11 +3511,6 @@ int main(int argc, char *argv[])
 
 #if !defined(DISABLE_BROWSER) || !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
 	currshortcut = main_list;
-#endif
-
-#ifndef _POSIX_VDISABLE
-	/* We're going to have to do it the old way, i.e. on cygwin */
-	raw();
 #endif
 
 	kbinput = get_kbinput(edit, &meta);
