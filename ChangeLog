@@ -70,11 +70,11 @@ CVS code -
 	  do_statusbar_backspace(), do_statusbar_delete(),
 	  do_statusbar_cut_text(), and do_statusbar_output(). (DLR)
 	- Even more steps toward wide character/multibyte character
-	  support.  Movement and (most) cursor display at the statusbar
-	  prompt should now work properly with a string containing
-	  multibyte characters, and text display of such strings should
-	  now (mostly) work properly as well.  Changes to
-	  do_statusbar_right(), do_statusbar_left(),
+	  support.  Movement and cursor display at the statusbar prompt
+	  should now work properly with a string containing multibyte
+	  characters, and text display of such strings should now work
+	  properly as well.  Changes to search_init(),
+	  nanoget_repaint(), do_statusbar_right(), do_statusbar_left(),
 	  do_statusbar_backspace(), and do_statusbar_delete(). (David
 	  Benbennick and DLR)
 	- Implement cutting from the current position to the end of the

@@ -2,7 +2,7 @@
 /**************************************************************************
  *   search.c                                                             *
  *                                                                        *
- *   Copyright (C) 2000-2004 Chris Allegretta                             *
+ *   Copyright (C) 2000-2005 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -152,7 +152,7 @@ int search_init(bool replacing, bool use_answer)
     if (last_search[0] != '\0') {
 	char *disp = display_string(last_search, 0, COLS / 3, FALSE);
 
-	buf = charalloc(COLS / 3 + 7);
+	buf = charalloc(strlen(disp) + 7);
 	/* We use COLS / 3 here because we need to see more on the
 	 * line. */
 	sprintf(buf, " [%s%s]", disp,

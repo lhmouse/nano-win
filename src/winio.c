@@ -2329,9 +2329,9 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 void nanoget_repaint(const char *buf, const char *inputbuf, size_t x)
 {
     size_t x_real = strnlenpt(inputbuf, x);
-    int wid = COLS - strlen(buf) - 2;
+    int wid = COLS - strlenpt(buf) - 2;
 
-    assert(0 <= x && x <= strlen(inputbuf));
+    assert(x <= strlen(inputbuf));
 
     wattron(bottomwin, A_REVERSE);
     blank_statusbar();
