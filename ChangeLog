@@ -163,7 +163,10 @@ CVS code -
 	  NLS is enabled or not. (Junichi Uekawa)
 	- Add titlebar() calls before all open_file() calls and remove 
 	  the titlebar() call after them, so that the titlebar is 
-	  displayed properly for all file(s) loaded. (DLR)
+	  displayed properly for all file(s) loaded.  Also call
+	  display_main_list() after adding the first file to open_files,
+	  so that "Close" is properly displayed then instead of "Exit".
+	  (DLR)
 - nano.h:
 	- Reassign the key for full justification to Ctrl-U, for
 	  compatibility with the current version of Pico. (DLR)

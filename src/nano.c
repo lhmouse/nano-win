@@ -3459,23 +3459,21 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef DEBUG
-    fprintf(stderr, "Main: bottom win\n");
+    fprintf(stderr, "Main: top and bottom win\n");
 #endif
-    /* Set up bottom of window */
+    titlebar(NULL);
     display_main_list();
 
 #ifdef DEBUG
     fprintf(stderr, "Main: open file\n");
 #endif
-
-    titlebar(NULL);
     open_file(filename, FALSE, FALSE);
 #ifdef ENABLE_MULTIBUFFER
     /* If we're using multibuffers and more than one file is specified
        on the command line, load them all and switch to the first one
-       afterward */
+       afterward. */
     if (optind + 1 < argc) {
-	bool old_multibuffer = ISSET(MULTIBUFFER);
+	bool old_multibuffer = ISSET(MULTIBUFFER), list = FALSE;
 	SET(MULTIBUFFER);
 	for (optind++; optind < argc; optind++) {
 	    add_open_file(TRUE);
@@ -3484,6 +3482,13 @@ int main(int argc, char *argv[])
 	    titlebar(NULL);
 	    open_file(filename, FALSE, FALSE);
 	    load_file(FALSE);
+	    /* Display the main list with "Close" if we haven't 
+	     * already. */
+	    if (!list) {
+		shortcut_init(FALSE);
+		list = TRUE;
+		display_main_list();
+	    }
 	}
 	open_nextfile_void();
 	if (!old_multibuffer)
