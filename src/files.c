@@ -1392,7 +1392,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
     size_t lineswritten = 0;
     const filestruct *fileptr = fileage;
     int fd;
-    mode_t original_umask;
+    mode_t original_umask = 0;
 	/* Our umask, from when nano started. */
     int realexists;
 	/* The result of stat().  TRUE if the file exists, FALSE
