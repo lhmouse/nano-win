@@ -146,6 +146,8 @@ CVS code -
 	  value can't be larger than COLS. (DLR)
 	- Allow the user to exit the help browser via Ctrl-C as well as
 	  Ctrl-X, for consistency with the file browser. (DLR)
+- nanorc.sample:
+	- Add sample regexes for patch files. (Mike Frysinger)
 
 GNU nano 1.3.3 - 2004.06.28
 - General:

@@ -225,6 +225,17 @@
 # color brightblue start="/\*\*" end="\*/"
 # color brightgreen,green " +$"
 
+## Here is an example for patch files
+##
+# syntax "patch" "\.(patch|diff)$"
+# color brightgreen "^\+.*"
+# color green "^\+\+\+.*"
+# color brightblue "^ .*"
+# color brightred "^-.*"
+# color red "^---.*"
+# color brightyellow "^@@.*"
+# color magenta "^diff.*"
+
 ## Here is an example for your .nanorc
 ##
 #syntax "nanorc" "(\.|/|)nanorc$"
