@@ -3520,7 +3520,9 @@ int main(int argc, char *argv[])
     /* If we're using multibuffers and more than one file is specified
        on the command line, load them all and switch to the first one
        afterward */
-    if (ISSET(MULTIBUFFER) && optind + 1 < argc) {
+    if (optind + 1 < argc) {
+	int old_multibuffer = ISSET(MULTIBUFFER);
+	SET(MULTIBUFFER);
 	for (optind++; optind < argc; optind++) {
 	    add_open_file(1);
 	    new_file();
@@ -3529,6 +3531,8 @@ int main(int argc, char *argv[])
 	    load_file(0);
 	}
 	open_nextfile_void();
+	if (!old_multibuffer)
+	    UNSET(MULTIBUFFER);
     }
 #endif
 

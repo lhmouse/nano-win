@@ -65,6 +65,14 @@ CVS code -
 	- Don't open the first file in quiet mode, since if we do, an
 	  error message won't be shown if it's unreadable. (DLR; found
 	  by Jaap Eldering)
+	- If we've specified multiple files on the command line and
+	  multibuffer support is compiled in, turn multibuffer mode on
+	  when reading those files and turn it off afterward if it was
+	  off before.  This allows us to open multiple files without
+	  having to turn multibuffer mode on at the command line or in
+	  the nanorc first, both of which are unintuitive.  Multibuffer
+	  mode should only affect how the "Read File" command behaves
+	  anyway. (DLR)
 - nano.h:
 	- Since REGEXP_COMPILED is only used in search.c, convert it
 	  from a flag to a static int there. (DLR)
