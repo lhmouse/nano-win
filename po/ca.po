@@ -858,7 +858,7 @@ msgstr "check_wrap cridat amb inptr->data=\"%s\"\n"
 #: nano.c:1219
 #, c-format
 msgid "current->data now = \"%s\"\n"
-msgstr "current->data ara = \"%d\"\n"
+msgstr "current->data ara = \"%s\"\n"
 
 #: nano.c:1271
 #, c-format
