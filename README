@@ -55,7 +55,7 @@ Current Status
 
 	This is the 1.1 or unstable branch of nano.  New features
 	will be added and things will be changed around and basically
-	stabiliity is not guaranteed.  If this is not what you're
+	stability is not guaranteed.  If this is not what you're
 	interested in, please use the latest 1.0.x release of nano.
 
 	New features in this branch include:
@@ -77,7 +77,7 @@ Current Status
 	+ Better non-*nix file support.  GNU nano now automatically
 	  converts files from DOS format or Mac format to standard file
 	  format.  It can also write files in either format by using the
-	  apropriate command line (-D, --dos or -M, --mac) or toggle
+	  appropriate command line (-D, --dos or -M, --mac) or toggle
 	  (Meta-D, Meta-O).
 
    Chris Allegretta (chrisa@asty.org)
