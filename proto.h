@@ -141,7 +141,7 @@ void do_replace_highlight(int highlight_flag, char *word);
 void nano_disabled_msg(void);
 void window_init(void);
 #ifdef NANO_EXTRA
-void do_credits(int junk);
+void do_credits(void);
 #endif
 
 int do_writeout_void(void), do_exit(void), do_gotoline_void(void);

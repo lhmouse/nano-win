@@ -1,4 +1,4 @@
-CVS code -
+nano-0.9.99pre2 - 01/31/2001
 General
 	- Removed center_x and center_y globals.  center_y was
 	  completely unused and center_x was only used a few places,
@@ -30,6 +30,8 @@ General
   do_alt_speller()
 	- Added code to parse multi-word alt_speller strings.
 	- Fix initialization before fork()  (Rocco).
+- proto.h:
+	- Fix do_credits() proto (oops!)
 - winio.c:
   nanogetstr()
 	- Sanity check for x overrunning the string buffer len.
