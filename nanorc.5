@@ -10,11 +10,6 @@
 .\"
 .SH NAME
 nanorc \- GNU nano's rcfile
-.SH SYNOPSIS
-.B /etc/nanorc
-.br
-.B $HOME/.nanorc
-.br
 .SH DESCRIPTION
 This manual page documents GNU \fBnano\fP's rcfile.
 .PP
@@ -23,6 +18,12 @@ Pico, the default editor included in the non-free Pine package. Rather
 than just copying Pico's look and feel, \fBnano\fP also implements some
 missing (or disabled by default) features in Pico, such as "search and
 replace" and "go to line number".
+.PP
+The \fInanorc\fP file contains the default settings for \fBnano\fP. 
+During startup, \fBnano\fP will first read its system-wide settings from
+.IR $SYSCONFDIR/nanorc ,
+and then user-specific settings from
+.IR $HOME/.nanorc .
 
 .SH OPTIONS
 The configuration file accepts a series of "set" and "unset" commands,
@@ -43,7 +44,8 @@ The supported commands and arguments are:
 Use auto-indentation.
 .TP
 \fBset/unset backup\fP
-Create backup files in filename~.
+Create backup files in
+.IR filename~ .
 .TP
 \fBset/unset const\fP
 Constantly display the cursor position in the status bar.
@@ -87,10 +89,10 @@ The email-quote string, used to justify email-quoted paragraphs.  This is
 an "extended regular expression" if your system supports them, otherwise a
 literal string.  The default value is
 
-	set quotestr "^([ \\t]*[|>:}#])+"
+	set quotestr "^([\ \\t]*[|>:}#])+"
 
-if you have regexps, otherwise set quotestr "> ".  Note that '\\t' above
-stands for a literal Tab character.
+if you have regexps, otherwise set quotestr ">\ ".  Note that '\\t' 
+above stands for a literal Tab character.
 .TP
 \fBset/unset regexp\fP
 Do regular expression searches by default.
@@ -113,7 +115,9 @@ than 0.
 Save automatically on exit, don't prompt.
 .TP
 \fBset/unset historylog\fP
-Enable ~/.nano_history for saving and reading search/replace strings.
+Enable
+.I~/.nano_history
+for saving and reading search/replace strings.
 .TP
 \fBset/unset view\fP
 Disallow file modification.
@@ -142,13 +146,24 @@ an initial \fIsr\fP is found will be highlighted until the first
 instance of \fIer\fP.
 \fI
 
+.SH FILES
+.TP
+.I $SYSCONFDIR/nanorc
+System-wide configuration file
+.TP
+.I $HOME/.nanorc
+Per-user configuration file
 .SH SEE ALSO
 .PD 0
 .TP
 \fBnano\fP(1)
 .PP
-\fI/usr/share/doc/nano/examples/nanorc.sample\fP (or equivalent on your system)
+\fI/usr/share/doc/nano/examples/nanorc.sample\fP (or equivalent on your 
+system)
 .SH AUTHOR
-Chris Allegretta <chrisa@asty.org>, et al (see AUTHORS and THANKS for
-details).
+Chris Allegretta <chrisa@asty.org>, et al (see
+.I AUTHORS
+and
+.I THANKS
+for details).
 This manual page was written by Jordi Mallach <jordi@gnu.org>.
