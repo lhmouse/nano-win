@@ -90,10 +90,36 @@ CVS Code -
 	- Fix minor bugs with importing certain text files in Mac
 	  format. (DLR)
 - files.c:
+  append_slash_if_dir(), input_tab()
+	- Changed variable names: lastWasTab -> lastwastab, matchBuf ->
+	  matchbuf. (DLR)
+  check_operating_dir()
+	- Memory leak fix. (David Benbennick)
+  check_writable_directory()
+	- Optimizations (David Benbennick).
+  cwd_tab_completion()
+	- Changed a variable name: dirName -> dirname. (DLR)
+  do_browser()
+	- Optimizations and mouse selection fixes (David Benbennick).
+  do_writeout()
+	- Fix problem with formatstr's being defined as NULL when
+	  --enable-tiny is used.  Since formatstr isn't ever used in tiny
+	  mode, don't bother even creating the variable. (David
+	  Benbennick and DLR)
+  do_insertfile()
+	- Memory leak fix (accidentally dropped 1st time). 
+	  (David Benbennick).
+  get_full_path()
+	- Memory leak fix.  Also, make it properly interpret ~/ notation
+	  so, among other things, the option "--operatingdir ~" works.
+	  (David Benbennick)
+	- More optimizations (David Benbennick).
   new_file()
 	- Make sure current_x is zero; this fixes a problem where the
 	  current cursor position wasn't reset when reading in a file in
 	  multibuffer mode. (David Benbennick)
+	- Use make_new_node rather than setting up fileage by hand 
+	  (David Benbennick).
   read_file(), read_line()
 	- Rework to properly handle nulls in the input file, fix
 	  detection of binary files to properly mark a file as binary if
@@ -108,24 +134,7 @@ CVS Code -
 	  writing a marked selection to a file, save and restore totsize
 	  so it isn't decreased by the size of the selection afterward.
 	  (DLR)
-  do_writeout()
-	- Fix problem with formatstr's being defined as NULL when
-	  --enable-tiny is used.  Since formatstr isn't ever used in tiny
-	  mode, don't bother even creating the variable. (David
-	  Benbennick and DLR)
-  do_insertfile()
-	- Memory leak fix. (David Benbennick)
-  get_full_path()
-	- Memory leak fix.  Also, make it properly interpret ~/ notation
-	  so, among other things, the option "--operatingdir ~" works.
-	  (David Benbennick)
-  check_operating_dir()
-	- Memory leak fix. (David Benbennick)
-  cwd_tab_completion()
-	- Changed a variable name: dirName -> dirname. (DLR)
-  append_slash_if_dir(), input_tab()
-	- Changed variable names: lastWasTab -> lastwastab, matchBuf ->
-	  matchbuf. (DLR)
+	- Optimizations (David Benbennick).
 - global.c:
   free_toggles()
 	- Only include if we're not using tiny mode. (David Benbennick)
@@ -150,39 +159,43 @@ CVS Code -
 - nanorc.sample:
 	- Put in much less crappy example regex rules for c-file.
 - nano.c:
+  clear_filename()
+	- Remove this function, as it has unneeded functionality, is
+	  short enough to be inlined, and is only called in two spots
+	  anyway. (DLR)
+  die()
+	- Rework slightly to remove redundant printing of last message
+	  and print all messages after resetting the terminal. (DLR)
+  do_backspace()
+	- Make sure placewewant is set properly, and that the mark is
+	  moved backwards. (David Benbennick)
   do_char()
 	- Fix a problem where, if ENABLE_COLOR wasn't used, typing
 	  characters on a marked line before the beginning of the mark
 	  would make the highlight short by one. (David Benbennick)
-  die()
-	- Rework slightly to remove redundant printing of last message
-	  and print all messages after resetting the terminal. (DLR)
-  global_init()
-	- Call die_too_small() when fill is 0. (DLR)
-  usage()
-	- List the options that are ignored for the purpose of Pico
-	  compatibility, and make some minor consistency fixes. (DLR)
+  do_cont()
+	- Handle the case where the window was resized while we were
+	  stopped. (David Benbennick)
+  do_delete()
+	- Make sure placewewant is set properly, to match Pico's
+	  behavior. (DLR)
+  do_int_spell(), do_alt_spell()
+	- Rework to save the marked selection before doing spell checking
+	  and restore it afterward. (DLR)
   do_next_word(), do_prev_word()
 	- Fix a problem where highlighting isn't done properly after
 	  calling either of these, and another problem where the cursor
 	  would move back too far in certain cases with do_prev_word().
 	  (David Benbennick)
-  do_backspace()
-	- Make sure placewewant is set properly, and that the mark is
-	  moved backwards. (David Benbennick)
-  do_delete()
-	- Make sure placewewant is set properly, to match Pico's
-	  behavior. (DLR)
-  clear_filename()
-	- Remove this function, as it has unneeded functionality, is
-	  short enough to be inlined, and is only called in two spots
-	  anyway. (DLR)
-  do_int_spell(), do_alt_spell()
-	- Rework to save the marked selection before doing spell checking
-	  and restore it afterward. (DLR)
-  do_cont()
-	- Handle the case where the window was resized while we were
-	  stopped. (David Benbennick)
+  do_toggle()
+	- Since the search mode toggles aren't global anymore, we don't
+	  need to explicitly block them here anymore (which will end up
+	  blocking the global backup mode toggle, which is the same as
+	  the backwards search toggle). (DLR)
+  do_wrap()
+	- fill fixes and 'two short word wrap' bug (David Benbennick).
+  global_init()
+	- Call die_too_small() when fill is 0. (DLR)
   handle_sigwinch()
 	- Make sure we adjust fill when the window is resized. (David
 	  Benbennick)
@@ -190,11 +203,6 @@ CVS Code -
   help_init()
 	- Since the return value of snprintf() isn't well defined, use
 	  sprintf() instead. (David Benbennick)
-  do_toggle()
-	- Since the search mode toggles aren't global anymore, we don't
-	  need to explicitly block them here anymore (which will end up
-	  blocking the global backup mode toggle, which is the same as
-	  the backwards search toggle). (DLR)
   main()
 	- Rework to blank out filename manually before doing anything
 	  with it, instead of calling clear_filename() in two places.
@@ -211,6 +219,9 @@ CVS Code -
 	  can be treated separately from -r/-T string. (DLR)
 	- Fix so that Esc-Esc-Space is properly treated as Ctrl-Space.
 	  (DLR)
+  usage()
+	- List the options that are ignored for the purpose of Pico
+	  compatibility, and make some minor consistency fixes. (DLR)
 - nano.h:
 	- Fix some space/tab formatting for flags (DLR).
 - proto.h:

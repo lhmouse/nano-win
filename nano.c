@@ -212,7 +212,7 @@ static void global_init(int save_cutbuffer)
 
 #ifndef DISABLE_WRAPJUSTIFY
     fill = wrap_at;
-    if (fill < 0)
+    if (fill <= 0)
 	fill += COLS;
     if (fill < MIN_FILL_LENGTH)
 	die_too_small();
@@ -573,7 +573,7 @@ void do_char(char ch)
     do_right();
 
 #ifndef DISABLE_WRAPPING
-    if (!ISSET(NO_WRAP) && (ch != '\t'))
+    if (!ISSET(NO_WRAP) && ch != '\t')
 	refresh = do_wrap(current);
 #endif
 
@@ -841,7 +841,7 @@ int do_wrap(filestruct *inptr)
 	    wrap_loc = i;
 	}
     }
-    if (wrap_loc < 0 || wrap_loc == (len - 1))
+    if (wrap_loc < 0 || wrap_loc == len - 1 || i == len)
 	return 0;
 
 /* Step 2, making the new wrap line.  It will consist of indentation +
@@ -959,11 +959,7 @@ int do_wrap(filestruct *inptr)
      * right. */
     if (mark_beginbuf == inptr && mark_beginx > wrap_loc) {
 	mark_beginbuf = inptr->next;
-	mark_beginx -=
-#ifndef NANO_SMALL
-		-indent_len +
-#endif
-		wrap_loc + 1;
+	mark_beginx -= wrap_loc - indent_len + 1;
     } else if (wrapping && mark_beginbuf == inptr->next)
 	mark_beginx += after_break_len;
 #endif /* !NANO_SMALL */
@@ -1780,7 +1776,7 @@ void handle_sigwinch(int s)
 
 #ifndef DISABLE_WRAPJUSTIFY
     fill = wrap_at;
-    if (fill < 0)
+    if (fill <= 0)
 	fill += COLS;
     if (fill < MIN_FILL_LENGTH)
 	die_too_small();
@@ -1929,7 +1925,8 @@ int do_tab(void)
     return 1;
 }
 
-#if !defined(DISABLE_WRAPJUSTIFY) && !defined(NANO_SMALL)
+#if !defined(DISABLE_WRAPPING) && !defined(NANO_SMALL) || \
+	!defined(DISABLE_JUSTIFY)
 /* The "indentation" of a line is the white-space between the quote part
  * and the non-white-space of the line. */
 size_t indent_length(const char *line) {
@@ -1942,7 +1939,7 @@ size_t indent_length(const char *line) {
     }
     return len;
 }
-#endif /* !DISABLE_WRAPJUSTIFY && !NANO_SMALL */
+#endif /* !DISABLE_WRAPPING && !NANO_SMALL || !DISABLE_JUSTIFY */
 
 #ifndef DISABLE_JUSTIFY
 /* justify_format() replaces Tab by Space and multiple spaces by 1 (except

@@ -72,16 +72,14 @@ void load_file(int update)
 /* What happens when there is no file to open? aiee! */
 void new_file(void)
 {
-    fileage = nmalloc(sizeof(filestruct));
+    fileage = make_new_node(NULL);
     fileage->data = charalloc(1);
     fileage->data[0] = '\0';
-    fileage->prev = NULL;
-    fileage->next = NULL;
-    fileage->lineno = 1;
     filebot = fileage;
     edittop = fileage;
     editbot = fileage;
     current = fileage;
+    current_x = 0;
     totlines = 1;
     totsize = 0;
 
@@ -258,7 +256,6 @@ int read_file(FILE *f, const char *filename, int quiet)
 
     /* Did we not get a newline but still have stuff to do? */
     if (len > 0) {
-
 #ifndef NANO_SMALL
 	/* If file conversion isn't disabled, the last character in
 	   this file is a CR and fileformat isn't set yet, make sure
@@ -433,18 +430,14 @@ int do_insertfile(int loading_file)
 #endif
 
 #ifndef DISABLE_OPERATINGDIR
-    if (operating_dir && (strcmp(operating_dir, "."))) {
+    if (operating_dir && strcmp(operating_dir, "."))
 	i = statusq(1, insertfile_list, "", _("File to insert [from %s] "),
 		operating_dir);
-    } else {
+    else
 #endif
-    i = statusq(1, insertfile_list, "", _("File to insert [from ./] "));
-#ifndef DISABLE_OPERATINGDIR
-    }
-#endif
+	i = statusq(1, insertfile_list, "", _("File to insert [from ./] "));
 
     if (i != -1) {
-
 #ifdef DEBUG
 	fprintf(stderr, _("filename is %s\n"), answer);
 #endif
@@ -457,28 +450,27 @@ int do_insertfile(int loading_file)
 
 #ifndef DISABLE_BROWSER
 	if (i == NANO_TOFILES_KEY) {
-	    
 	    char *tmp = do_browse_from(realname);
+
 #if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
 	    currshortcut = insertfile_list;
 #endif
-
 #ifdef DISABLE_TABCOMP
 	    realname = NULL;
 #endif
-	    if 	(tmp != NULL)
-		realname = mallocstrcpy(realname, tmp);
-	    else
+	    if (tmp != NULL) {
+		free(realname);
+		realname = tmp;
+	    } else
 		return do_insertfile(loading_file);
 	}
 #endif
 
 #ifndef DISABLE_OPERATINGDIR
-	if (operating_dir) {
-	    if (check_operating_dir(realname, 0)) {
-		statusbar(_("Can't insert file from outside of %s"), operating_dir);
-		return 0;
-	    }
+	if (operating_dir && check_operating_dir(realname, 0)) {
+	    statusbar(_("Can't insert file from outside of %s"),
+			operating_dir);
+	    return 0;
 	}
 #endif
 
@@ -497,10 +489,8 @@ int do_insertfile(int loading_file)
 
 #ifdef ENABLE_MULTIBUFFER
 	if (loading_file) {
-
 	    /* update the current entry in the open_files structure */
 	    add_open_file(1);
-
 	    new_file();
 	    UNSET(MODIFIED);
 #ifndef NANO_SMALL
@@ -510,14 +500,11 @@ int do_insertfile(int loading_file)
 #endif
 
 #ifndef NANO_SMALL
-	if (i == NANO_EXTCMD_KEY) {
+	if (i == NANO_EXTCMD_KEY)
 	    i = open_pipe(answer);
-	}
 	else 
 #endif /* NANO_SMALL */
-	{
 	    i = open_file(realname, 1, loading_file);
-	}
 
 #ifdef ENABLE_MULTIBUFFER
 	if (loading_file)
@@ -535,7 +522,6 @@ int do_insertfile(int loading_file)
 	    load_file(0);
 	else
 #endif
-
 	    set_modified();
 
 	/* Here we want to rebuild the edit window */
@@ -990,11 +976,12 @@ int close_open_file(void)
  * yet on disk); it is not done if the relative path doesn't exist (since
  * the first call to chdir() will fail then).
  */
-char *get_full_path(const char *origpath)
+char *get_full_path(char *origpath)
 {
     char *newpath = NULL, *last_slash, *d_here, *d_there, *d_there_file, tmp;
     int path_only, last_slash_index;
     struct stat fileinfo;
+    char *expanded_origpath;
 
     /* first, get the current directory, and tack a slash onto the end of
        it, unless it turns out to be "/", in which case leave it alone */
@@ -1017,21 +1004,13 @@ char *get_full_path(const char *origpath)
 	   a new file that hasn't been saved to disk yet (i. e. set
 	   path_only to 0); if stat() succeeds, set path_only to 0 if
 	   origpath doesn't refer to a directory, or to 1 if it does */
-	path_only = stat(origpath, &fileinfo);
-	if (path_only == -1)
-		path_only = 0;
-	else {
-	    if (S_ISDIR(fileinfo.st_mode))
-		path_only = 1;
-	    else
-		path_only = 0;
-	}
+	path_only = !stat(origpath, &fileinfo) && S_ISDIR(fileinfo.st_mode);
 
+	expanded_origpath = real_dir_from_tilde(origpath);
 	/* save the value of origpath in both d_there and d_there_file */
-	d_there = charalloc(strlen(origpath) + 1);
-	d_there_file = charalloc(strlen(origpath) + 1);
-	strcpy(d_there, origpath);
-	strcpy(d_there_file, origpath);
+	d_there = mallocstrcpy(NULL, expanded_origpath);
+	d_there_file = mallocstrcpy(NULL, expanded_origpath);
+	free(expanded_origpath);
 
 	/* if we have a path but no filename, tack slashes onto the ends
 	   of both d_there and d_there_file, if they don't end in slashes
@@ -1051,13 +1030,9 @@ char *get_full_path(const char *origpath)
 
 	/* if we didn't find one, copy d_here into d_there; all data is
 	   then set up */
-	if (!last_slash) {
-	    d_there = nrealloc(d_there, strlen(d_here) + 1);
-	    strcpy(d_there, d_here);
-	}
-
+	if (!last_slash)
+	    d_there = mallocstrcpy(d_there, d_here);
 	else {
-
 	    /* otherwise, remove all non-path elements from d_there
 	       (i. e. everything after the last slash) */
 	    last_slash_index = strlen(d_there) - strlen(last_slash);
@@ -1075,7 +1050,6 @@ char *get_full_path(const char *origpath)
 
 	    /* now go to the path specified in d_there */
 	    if (chdir(d_there) != -1) {
-
 		/* get the full pathname, and save it back in d_there,
 		   tacking a slash on the end if we have a path but no
 		   filename; if the saving fails, get out */
@@ -1138,7 +1112,7 @@ char *get_full_path(const char *origpath)
  * get_full_path()).  On error, if the path doesn't reference a
  * directory, or if the directory isn't writable, it returns NULL.
  */
-char *check_writable_directory(const char *path) {
+char *check_writable_directory(char *path) {
 
     char *full_path = get_full_path(path);
     int writable;
@@ -1150,11 +1124,7 @@ char *check_writable_directory(const char *path) {
 
     /* otherwise, stat() the full path to see if it's writable by the
        user; set writable to 1 if it is, or 0 if it isn't */
-    stat(full_path, &fileinfo);
-    if (fileinfo.st_mode & S_IWUSR)
-	writable = 1;
-    else
-	writable = 0;
+    writable = !stat(full_path, &fileinfo) && (fileinfo.st_mode & S_IWUSR);
 
     /* if the full path doesn't end in a slash (meaning get_full_path()
        found that it isn't a directory) or isn't writable, free full_path
@@ -1280,6 +1250,7 @@ int check_operating_dir(char *currpath, int allow_tabcomp)
     /* if the operating directory is "/", that's the same as having no
        operating directory, so discard it and get out */
     if (!strcmp(operating_dir, "/")) {
+	free(operating_dir);
 	operating_dir = NULL;
 	return 0;
     }
@@ -1294,6 +1265,7 @@ int check_operating_dir(char *currpath, int allow_tabcomp)
 
 	/* if get_full_path() failed, discard the operating directory */
 	if (!full_operating_dir) {
+	    free(operating_dir);
 	    operating_dir = NULL;
 	    return 0;
 	}
@@ -1302,6 +1274,8 @@ int check_operating_dir(char *currpath, int allow_tabcomp)
 	   having no operating directory, so discard it and get out */
 	if (!strcmp(full_operating_dir, "/")) {
 	    free(full_operating_dir);
+	    full_operating_dir = NULL;
+	    free(operating_dir);
 	    operating_dir = NULL;
 	    return 0;
 	}
@@ -2567,42 +2541,41 @@ char *do_browser(char *inpath)
 	col = 0;
 	    
 	/* Compute line number we're on now, so we don't divide by zero later */
-	if (width == 0)
-	    lineno = selected;
-	else
-	    lineno = selected / width;
+	lineno = selected;
+	if (width != 0)
+	    lineno /= width;
 
 	switch (kbinput) {
 
 #ifndef DISABLE_MOUSE
 #ifdef NCURSES_MOUSE_VERSION
-        case KEY_MOUSE:
+	case KEY_MOUSE:
 	    if (getmouse(&mevent) == ERR)
-	        return retval;
+		return retval;
  
 	    /* If they clicked in the edit window, they probably clicked
 		on a file */
- 	    if (wenclose(edit, mevent.y, mevent.x)) { 
+	    if (wenclose(edit, mevent.y, mevent.x)) { 
 		int selectedbackup = selected;
 
 		mevent.y -= 2;
 
-		/* If we're on line 0, don't toy with finding out what
-			page we're on */
-		if (lineno / editwinrows == 0)
-		    selected = mevent.y * width + mevent.x / longest;
-		else
-		    selected = (lineno / editwinrows) * editwinrows * width 
-			+ mevent.y * width + mevent.x / longest;
+		/* Longest is the width of each column.  There are two
+		 * spaces between each column. */
+		selected = (lineno / editwinrows) * editwinrows * width 
+			+ mevent.y * width + mevent.x / (longest + 2);
+
+		/* If they clicked beyond the end of a row, select the
+		 * end of that row. */
+		if (mevent.x > width * (longest + 2))
+		    selected--;
 
 		/* If we're off the screen, reset to the last item.
 		   If we clicked where we did last time, select this name! */
 		if (selected > numents - 1)
 		    selected = numents - 1;
-		else if (selectedbackup == selected) {
+		else if (selectedbackup == selected)
 		    ungetch('s');	/* Unget the 'select' key */
-		    break;
-		}
 	    } else	/* Must be clicking a shortcut */
 		do_mouse();
 
@@ -2639,16 +2612,7 @@ char *do_browser(char *inpath)
 	case NANO_PREVPAGE_FKEY:
 	case KEY_PPAGE:
 	case '-':
-
-	    if (lineno % editwinrows == 0) {
-		if (selected - (editwinrows * width) >= 0)
-		    selected -= editwinrows * width; 
-		else
-		    selected = 0;
-	    }
-	    else if (selected - (editwinrows + 
-		lineno % editwinrows) * width  >= 0)
-
+	    if (selected >= (editwinrows + lineno % editwinrows) * width)
 		selected -= (editwinrows + lineno % editwinrows) * width; 
 	    else
 		selected = 0;
@@ -2657,16 +2621,8 @@ char *do_browser(char *inpath)
 	case NANO_NEXTPAGE_FKEY:
 	case KEY_NPAGE:	
 	case ' ':
-	    if (lineno % editwinrows == 0) {
-		if (selected + (editwinrows * width) <= numents - 1)
-		    selected += editwinrows * width; 
-		else
-		    selected = numents - 1;
-	    }
-	    else if (selected + (editwinrows - 
-			lineno %  editwinrows) * width <= numents - 1)
- 		selected += (editwinrows - lineno % editwinrows) * width; 
- 	    else
+	    selected += (editwinrows - lineno % editwinrows) * width;
+	    if (selected >= numents)
 		selected = numents - 1;
 	    break;
 	case NANO_HELP_KEY:
@@ -2677,7 +2633,6 @@ char *do_browser(char *inpath)
 	case NANO_ENTER_KEY:
 	case 's': /* More Pico compatibility */
 	case 'S':
-
 	    /* You can't cd up from / */
 	    if (!strcmp(filelist[selected], "/..") && !strcmp(path, "/")) {
 		statusbar(_("Can't move up a directory"));
@@ -2767,9 +2722,8 @@ char *do_browser(char *inpath)
 	    }
 
 	    if (answer[0] != '/') {
-		char *saveanswer = NULL;
+		char *saveanswer = mallocstrcpy(NULL, answer);
 
-		saveanswer = mallocstrcpy(saveanswer, answer);
 		answer = nrealloc(answer, strlen(path) + strlen(saveanswer) + 2);
 		sprintf(answer, "%s/%s", path, saveanswer);
 		free(saveanswer);
@@ -2793,8 +2747,8 @@ char *do_browser(char *inpath)
 	case 'E':
 	case NANO_CANCEL_KEY:
 	case NANO_EXIT_FKEY:
-		abort = 1;
-		break;
+	    abort = 1;
+	    break;
 	}
 	if (abort)
 	    break;
@@ -2846,13 +2800,11 @@ char *do_browser(char *inpath)
 	    }
 
 	    /* Hilight the currently selected file/dir */
-	    if (j == selected) {
+	    if (j == selected)
 		wattron(edit, A_REVERSE);
-	    }
-	    waddnstr(edit, foo, strlen(foo));
-	    if (j == selected) {
+	    waddstr(edit, foo);
+	    if (j == selected)
 		wattroff(edit, A_REVERSE);
-	    }
 
 	    /* And add some space between the cols */
 	    waddstr(edit, "  ");
@@ -2860,7 +2812,7 @@ char *do_browser(char *inpath)
 
 	    /* And if the next entry isn't going to fit on the
 		line, move to the next one */
-	    if (col > (COLS - longest)) {
+	    if (col > COLS - longest) {
 		editline++;
 		wmove(edit, editline, 0);
 		col = 0;
