@@ -4,6 +4,12 @@ Changes in CVS -
 - cut.c:
   do_cut_text()
 	- Added check for MARK_ISSET when using CUT_TO_END.  Fixes bug #31.
+	- Simplified check for freeing cutbuffer.  Added checks for doing
+	  multiple cuts with -k, now sets marked_cut to 2 for later
+	  processing by do_uncut_text().
+  do_uncut_text()
+	- Added handler for uncutting with -k cuts.
+
 - files.c:
   write_file()
 	- Removed (redundant) check for writing out files with -t.
