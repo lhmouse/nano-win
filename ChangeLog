@@ -4,12 +4,12 @@ General -
 	  helper functions browser_init(), tail(), striponedir(),
 	  filestat().  New shortcut list browser_list.  Some new
 	  strings to translate.  Added function do_browse_from().
-	- We only call keypad() once now for each window, at the beginning.
-	  FINALLY!  No more keypad_on(), no more individual calls in
-	  main(), do_help(), do_browser(), etc etc etc.  Removed call to
-	  timeout(0) in main() (which caused the whole mess), fixes BUG #49.
-	  Added workarounds for gnome-terminal in main() (Alt-O-key and
-	  348-352).
+	- Keypad code has been changed slightly.  Now checks for
+	  _use_keypad flag in window to see whether or not to turn 
+	  the keypad() back off when finished (taken from aumix).  Moved
+	  to winio.c where it should probably be anyway.  New confgure
+	  check for _use_keypad in window sstruct.  This will have to do
+	  for now.
 - faq.html:
 	- Fix typos and small mistakes (Jordi).
 - files.c:

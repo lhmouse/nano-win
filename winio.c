@@ -1180,19 +1180,20 @@ int do_help(void)
 {
 #if !defined(NANO_SMALL) && !defined(DISABLE_HELP)
     char *ptr = help_text, *end;
-    int i, j, row = 0, page = 1, kbinput = 0, no_more = 0;
+    int i, j, row = 0, page = 1, kbinput = 0, no_more = 0, kp;
     int no_help_flag = 0;
 
     blank_edit();
     curs_set(0);
     blank_statusbar();
 
+    kp = keypad_on(edit, 1);
+
     if (ISSET(NO_HELP)) {
 
 	no_help_flag = 1;
 	delwin(bottomwin);
 	bottomwin = newwin(3, COLS, LINES - 3, 0);
-	keypad(bottomwin, TRUE);
 
 	editwinrows -= no_help();
 	UNSET(NO_HELP);
@@ -1277,13 +1278,14 @@ int do_help(void)
 	delwin(bottomwin);
 	SET(NO_HELP);
 	bottomwin = newwin(3 - no_help(), COLS, LINES - 3 + no_help(), 0);
-	keypad(bottomwin, TRUE);
 	editwinrows += no_help();
     } else
 	display_main_list();
 
     curs_set(1);
     edit_refresh();
+    kp = keypad_on(edit, kp);
+
 #elif defined(NANO_SMALL)
     nano_small_msg();
 #elif defined(DISABLE_HELP)
@@ -1470,3 +1472,23 @@ void do_credits(void)
     total_refresh();
  }
 #endif
+
+int             keypad_on(WINDOW * win, int new)
+{
+
+/* This is taken right from aumix.  Don't sue me */
+#ifdef HAVE_USEKEYPAD
+    int             old;
+
+    old = win->_use_keypad;
+    keypad(win, new);
+    return old;
+#else
+    keypad(win, new);
+    return 1;
+#endif                          /* HAVE_USEKEYPAD */
+
+}
+
+
+

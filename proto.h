@@ -151,12 +151,14 @@ int do_home(void), do_end(void), total_refresh(void), do_mark(void);
 int do_delete(void), do_backspace(void), do_tab(void), do_justify(void);
 int do_first_line(void), do_last_line(void);
 int do_replace(void), do_help(void), do_enter_void(void);
+int keypad_on(WINDOW * win, int new);
 
 #if !defined(DISABLE_BROWSER) && !defined(NANO_SMALL)
 char *do_browser(char *path);
 struct stat filestat(const char *path);
 char *do_browse_from(char *inpath);
 #endif
+
 
 filestruct *copy_node(filestruct * src);
 filestruct *copy_filestruct(filestruct * src);

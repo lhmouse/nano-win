@@ -3,6 +3,9 @@
 /* Define this if you have the wresize function in your ncurses-type library */
 #undef HAVE_WRESIZE
 
+/* Define this if your curses lib has the _use_keypad flag */
+#undef HAVE_USEKEYPAD
+
 /* Define this if you have NLS */
 #undef ENABLE_NLS
 

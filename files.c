@@ -1194,7 +1194,7 @@ char *do_browser(char *inpath)
     static char *path = NULL;
     int numents = 0, i = 0, j = 0, kbinput = 0, longest = 0, abort = 0;
     int col = 0, selected = 0, editline = 0, width = 0, filecols = 0;
-    int lineno = 0;
+    int lineno = 0, kb;
     char **filelist = (char **) NULL;
 
     /* If path isn't the same as inpath, we are being passed a new
@@ -1215,6 +1215,7 @@ char *do_browser(char *inpath)
     /* Sort the list by directory first then alphabetically */
     qsort(filelist, numents, sizeof(char *), diralphasort);
 
+    kb = keypad_on(edit, 1);
     titlebar(path);
     bottombars(browser_list, BROWSER_LIST_LEN);
     curs_set(0);
@@ -1395,6 +1396,7 @@ char *do_browser(char *inpath)
     blank_edit();
     titlebar(NULL); 
     edit_refresh();
+    kb = keypad_on(edit, kb);
 
     /* cleanup */
     free_charptrarray(filelist, numents);

@@ -77,6 +77,10 @@ int search_last_line;		/* Is this the last search line? */
 /* What we do when we're all set to exit */
 RETSIGTYPE finish(int sigage)
 {
+
+    keypad(edit, TRUE);
+    keypad(bottomwin, TRUE);
+
     if (!ISSET(NO_HELP)) {
 	mvwaddstr(bottomwin, 1, 0, hblank);
 	mvwaddstr(bottomwin, 2, 0, hblank);
@@ -1640,9 +1644,6 @@ void window_init(void)
     topwin = newwin(2, COLS, 0, 0);
     bottomwin = newwin(3 - no_help(), COLS, LINES - 3 + no_help(), 0);
 
-    /* HAHA! Only do this once! */
-    keypad(edit, TRUE);
-    keypad(bottomwin, TRUE);
 }
 
 void mouse_init(void)
@@ -1650,6 +1651,8 @@ void mouse_init(void)
 #ifndef NANO_SMALL
 #ifdef NCURSES_MOUSE_VERSION
     if (ISSET(USE_MOUSE)) {
+	keypad_on(edit, 1);
+
 	mousemask(BUTTON1_RELEASED, NULL);
 	mouseinterval(50);
 
@@ -2258,6 +2261,9 @@ int main(int argc, char *argv[])
 #endif
 
 	kbinput = wgetch(edit);
+#ifdef DEBUG
+	fprintf(stderr, "AHA!  %c (%d)\n", kbinput, kbinput);
+#endif
 	if (kbinput == 27) {	/* Grab Alt-key stuff first */
 	    switch (kbinput = wgetch(edit)) {
 		/* Alt-O, suddenly very important ;) */
@@ -2265,8 +2271,6 @@ int main(int argc, char *argv[])
 		kbinput = wgetch(edit);
 		if (kbinput <= 'S' && kbinput >= 'P')
 		    kbinput = KEY_F(kbinput - 79);
-		else if (kbinput >= 'j' && kbinput <= 'y')
-		    kbinput = kbinput - 64;
 #ifdef DEBUG
 		else {
 		    fprintf(stderr, _("I got Alt-O-%c! (%d)\n"),
@@ -2459,23 +2463,6 @@ int main(int argc, char *argv[])
 #endif
 	    case 0:		/* Erg */
 		do_next_word();
-		break;
-
-	    /* Stupid gnome-terminal keypad */
-	    case 349:
-		ungetch('5');
-		break;
-	    case 348:
-		ungetch('7');
-		break;
-	    case 350:
-		ungetch('9');
-		break;
-	    case 351:
-		ungetch('1');
-		break;
-	    case 352:
-		ungetch('3');
 		break;
 
 	    case 331:		/* Stuff that we don't want to do squat */
