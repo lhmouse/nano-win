@@ -499,15 +499,19 @@ int no_help(void)
 	return 0;
 }
 
+#ifdef NANO_SMALL
 void nano_small_msg(void)
 {
     statusbar("Sorry, this function not available with nano-tiny option");
 }
+#endif
 
+#if defined(DISABLE_JUSTIFY) || defined(DISABLE_SPELL)
 void nano_disabled_msg(void)
 {
     statusbar("Sorry, support for this function has been disabled");
 }
+#endif
 
 /* The user typed a printable character; add it to the edit buffer */
 void do_char(char ch)

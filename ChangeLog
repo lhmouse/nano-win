@@ -50,6 +50,9 @@ CVS code -
   version()
 	- Took out huge check for the various --disabled macros,
 	  eventually there will be too many to reasonably check for.  
+  nano_small_msg(), nano_disabled_msg()
+	- Added checks for disabled functions to see whether or not to
+	  declare them.
 - search.c:
   do_replace_hilight()
 	- New function, displays the currently selected word as hilighted
