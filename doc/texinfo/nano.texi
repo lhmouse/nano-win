@@ -395,17 +395,18 @@ are certain differences between the editors:
 
 @table @code
 @item Search and Replace History
-As of version 1.2.2 of @code{nano}, text entered as search or replace
-strings will be stored and can be accessed with the up/down arrow keys.
-Previously, @code{nano} offered a more consistent, but incompatible with
-Pico, method for entering search and replace strings.  In the old
-method, previous entries would be displayed by default as editable text
-in front of the cursor, as opposed to being bracketed and uneditable as
-it is in Pico.  The old behavior could be made compatible with Pico via
-the @code{-p} flag, but recent versions of Pico use the @code{-p} flag
-to preserve the XON and XOFF sequences within the editor.  Since with
-the new method search and replace strings can still be edited by simply
-hitting the up arrow key once, the old method was removed completely.
+As of version 1.1.99pre1 of @code{nano}, text entered as search or
+replace strings will be stored and can be accessed with the up/down
+arrow keys.  Previously, @code{nano} offered a more consistent, but
+incompatible with Pico, method for entering search and replace strings.
+In the old method, previous entries would be displayed by default as
+editable text in front of the cursor, as opposed to being bracketed and
+uneditable as it is in Pico.  The old behavior could be made compatible
+with Pico via the @code{-p} flag, but recent versions of Pico use the
+@code{-p} flag to preserve the XON and XOFF sequences within the editor.
+Since with the new method search and replace strings can still be edited
+by simply hitting the up arrow key once, the old method was removed
+completely.
 
 
 @item Writing or Appending Selected Text to Files
@@ -432,9 +433,9 @@ replace it.  The @code{nano} implementation will stop at each search
 string found and query whether to replace this instance or not.  The
 internal spell checker operates similarly.  Note that these is no way to
 force these functions to behave in the Pico fashion.  As of version
-1.2.2, misspelled words are sorted and trimmed for uniqueness in the
-internal spell checker such that the words 'apple' and 'Apple' will be
-prompted for correction separately.
+1.1.99pre1, misspelled words are sorted and trimmed for uniqueness in
+the internal spell checker such that the words 'apple' and 'Apple' will
+be prompted for correction separately.
 @end table
 
 @node Building and Configure Options, , Pico Compatibility, Top
