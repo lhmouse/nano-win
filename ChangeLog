@@ -156,6 +156,8 @@ Changes
 	  Pico's behavior. (DLR)
   version()
 	- Remove obsolete reference to --enable-undo. (David Benbennick)
+	- Move up check for --disable-nls as it's independent of 
+	  --enable-tiny now (DLR).
   do_int_speller()
 	- Make internal spell program use sort -f and uniq to create a less
 	  redundant word list.  [The only reason this is going in during 

@@ -694,6 +694,9 @@ void version(void)
 	   (" Email: nano@nano-editor.org	Web: http://www.nano-editor.org/"));
     printf(_("\n Compiled options:"));
 
+#ifndef ENABLE_NLS
+    printf(" --disable-nls");
+#endif
 #ifdef DEBUG
     printf(" --enable-debug");
 #endif
@@ -714,9 +717,6 @@ void version(void)
 #endif
 #if defined(DISABLE_MOUSE) || !defined(NCURSES_MOUSE_VERSION)
     printf(" --disable-mouse");
-#endif
-#ifndef ENABLE_NLS
-    printf(" --disable-nls");
 #endif
 #ifdef DISABLE_OPERATINGDIR
     printf(" --disable-operatingdir");
