@@ -346,10 +346,12 @@ void align(char **strp)
 }
 
 /* Null a string at a certain index and align it */
-void null_at(char *data, int index)
+void null_at(char **data, int index)
 {
-    data[index] = 0;
-    align(&data);
+
+    /* Ahh!  Damn dereferencing */
+    (*data)[index] = 0;
+    align(data);
 }
 
 void usage(void)
@@ -828,7 +830,7 @@ void do_wrap(filestruct * inptr, char input_char)
 	    down = 1;
 	}
 
-	null_at(inptr->data, current_x);
+	null_at(&inptr->data, current_x);
 
 	if (ISSET(MARK_ISSET) && (mark_beginbuf == inptr)) {
 	    mark_beginbuf = temp;
@@ -884,7 +886,7 @@ void do_wrap(filestruct * inptr, char input_char)
 		&& (current_x == current_word_start)) {
 		current_x = current_word_start;
 
-		null_at(inptr->data, current_word_start);
+		null_at(&inptr->data, current_word_start);
 	    } else {
 
 		while (isspace((int) inptr->data[i])) {

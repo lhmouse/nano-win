@@ -96,7 +96,7 @@ void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
     free(top->data);
     top->data = tmpstr;
 
-    null_at(bot->data, bot_x);
+    null_at(&bot->data, bot_x);
     next = bot->next;
 
     /* We explicitly don't decrement totlines here because we don't snarf
@@ -399,7 +399,7 @@ int do_uncut_text(void)
 	    tmp->data = nmalloc(strlen(&current->data[current_x]) + 1);
 	    strcpy(tmp->data, &current->data[current_x]);
 	    splice_node(current, tmp, current->next);
-	    null_at(current->data, current_x);
+	    null_at(&current->data, current_x);
 	    current = current->next;
 	    current_x = 0;
 	    placewewant = 0;

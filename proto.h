@@ -131,7 +131,7 @@ void die(char *msg, ...);
 void new_file(void);
 void new_magicline(void);
 void splice_node(filestruct *begin, filestruct *newnode, filestruct *end);
-void null_at(char *data, int index);
+void null_at(char **data, int index);
 void page_up_center(void);
 void blank_edit(void);
 void search_init_globals(void);
