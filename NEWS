@@ -1,3 +1,14 @@
+12/18/2000 - Nano 0.9.24 is released.  This versions contains the last of
+		the security fixes for writing files, as well as for a
+		nasty segfault when nano is unable to open a file for
+		reading, among other fixes.  Nano also now cowardly
+		refuses to open device files, to stop silly things like
+		trying to open /dev/zero.  New features include being
+		Able to use Meta-Meta-<key> as Control-<key>, better
+		HURD support, and some new flags have been added for Pico
+		compatibility.  Upgrading to this version is highly 
+		recommended.
+
 12/08/2000 - Nano 0.9.23 is the "race conditions bite" release.  The
 		main reason for this release is the less-than-optimal
 		fix for the security issue in nano with following symbolic

@@ -1,4 +1,4 @@
-CVS code -
+nano 0.9.24 - 12/18/2000
 General
 	- Added --disable-help option, affects acconfig.h, configure(.in),
 	  winio.c:do_help, nano.c:help_init,help_text_init,version.
