@@ -367,7 +367,7 @@ void help_init(void)
 	htx = N_(" nano help text\n\n "
 	  "The nano editor is designed to emulate the functionality and "
 	  "ease-of-use of the UW Pico text editor.  There are four main "
-	  "sections of the editor: The top line shows the program "
+	  "sections of the editor.  The top line shows the program "
 	  "version, the current filename being edited, and whether "
 	  "or not the file has been modified.  Next is the main editor "
 	  "window showing the file being edited.  The status line is "
