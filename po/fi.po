@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.18\n"
-"POT-Creation-Date: 2001-02-16 22:45-0500\n"
+"POT-Creation-Date: 2001-02-18 00:43-0500\n"
 "PO-Revision-Date: 2001-01-12 17:21+02:00\n"
 "Last-Translator: Pauli Virtanen <pauli.virtanen@saunalahti.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"

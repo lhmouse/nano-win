@@ -722,7 +722,7 @@ fi
 
 PACKAGE=nano
 
-VERSION=0.9.99-cvs
+VERSION=0.9.99pre3
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
