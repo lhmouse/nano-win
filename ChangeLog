@@ -1,4 +1,4 @@
-CVS code -
+nano-1.1.3 - 10/26/2001
 - General
 	- Finally wrote function-specific help mode.  Changes to
 	  nano.c:help_init() and winio.c:do_help().  Changed
