@@ -34,11 +34,8 @@
 
 void page_down_center(void)
 {
-    if (editbot->next != NULL && editbot->next != filebot) {
+    if (editbot != filebot) {
 	edit_update(editbot->next);
-	center_cursor();
-    } else if (editbot != filebot) {
-	edit_update(editbot);
 	center_cursor();
     } else {
 	while (current != filebot)
@@ -46,7 +43,6 @@ void page_down_center(void)
 	edit_update(current);
     }
     update_cursor();
-
 }
 
 int page_down(void)
