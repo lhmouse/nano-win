@@ -3312,7 +3312,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		    goto step_two;
 
 		/* Now paint the start of fileptr. */
-		paintlen = end_line != fileptr ? -1 :
+		paintlen = (end_line != fileptr) ? -1 :
 			actual_x(converted, strnlenpt(fileptr->data,
 			endmatch.rm_eo) - start);
 
@@ -3453,7 +3453,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		paintlen = actual_x(converted + index, paintlen);
 
 	    wattron(edit, A_REVERSE);
-	    mvwaddnstr(edit, yval, x_start, converted + x_start, paintlen);
+	    mvwaddnstr(edit, yval, x_start, converted + x_start,
+		paintlen);
 	    wattroff(edit, A_REVERSE);
 	}
     }
