@@ -1214,7 +1214,7 @@ char *do_browser(char *inpath)
 
 		/* If we're off the screen, reset to the last item.
 		   If we clicked where we did last time, select this name! */
-		if (selected >= numents - 1)
+		if (selected > numents - 1)
 		    selected = numents - 1;
 		else if (selectedbackup == selected) {
 		    ungetch('s');	/* Unget the 'select' key */
