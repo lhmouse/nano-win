@@ -480,81 +480,79 @@ msgstr "Bruk: nano [GNU lange opsjoner] [opsjoner] +LINJE <fil>\n"
 
 #: nano.c:361
 msgid "Option\t\tLong option\t\tMeaning\n"
-msgstr "Opsjon          Lang opsjon             Mening\n"
+msgstr "Opsjon\t\tLang opsjon\t\tBetydning\n"
 
 #: nano.c:363
 msgid " -T [num]\t--tabsize=[num]\t\tSet width of a tab to num\n"
-msgstr " -T [num]       --tabsize=[num]         Set størrelsen på tab til num\n"
+msgstr " -T [num]\t--tabsize=[num]\t\tSett størrelsen på tab til num\n"
 
 #: nano.c:366
 msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
-msgstr " -R             --regexp                Bruk regulære uttrykk\n"
+msgstr " -R\t\t--regexp\t\tBruk regulære uttrykk i søk\n"
 
 #: nano.c:370
 msgid " -V \t\t--version\t\tPrint version information and exit\n"
-msgstr " -V             --version               Skriv ut versjonsnummer og avslutt\n"
+msgstr " -V \t\t--version\t\tSkriv ut versjonsnummer og avslutt\n"
 
 #: nano.c:372
 msgid " -c \t\t--const\t\t\tConstantly show cursor position\n"
-msgstr " -c             --const                 Vis kursorposisjon\n"
+msgstr " -c \t\t--const\t\t\tVis pekerposisjon hele tiden\n"
 
 #: nano.c:374
 msgid " -h \t\t--help\t\t\tShow this message\n"
-msgstr " -h             --help                  Vis denne meldinga\n"
+msgstr " -h \t\t--help\t\t\tVis denne meldinga\n"
 
 #: nano.c:376
 msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
-msgstr " -i             --autonindent           Indenter nye linjer automatisk\n"
+msgstr " -i \t\t--autoindent\t\tIndenter nye linjer automatisk\n"
 
 #: nano.c:379
 msgid " -k \t\t--cut\t\t\tLet ^K cut from cursor to end of line\n"
-msgstr " -k             --cut                   La ^K klippe fra kursoren\n"
+msgstr " -k \t\t--cut\t\t\tLa ^K klippe fra peker til linjeslutt\n"
 
 #: nano.c:382
 msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
-msgstr " -l             --nofollow              Ikke følg symbolske lenker, overskriv\n"
+msgstr " -l \t\t--nofollow\t\tIkke følg symbolske linker, skriv over\n"
 
 #: nano.c:385
 msgid " -m \t\t--mouse\t\t\tEnable mouse\n"
-msgstr " -m             --mouse                 Skru på musstøttet\n"
+msgstr " -m \t\t--mouse\t\t\tSkru på musstøtte\n"
 
 #: nano.c:389
-#, fuzzy
 msgid " -p\t \t--pico\t\t\tEmulate Pico as closely as possible\n"
 msgstr " -p\t \t--pico\t\t\tEtterlign Pico så mye som mulig\n"
 
 #: nano.c:392
 msgid " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
-msgstr " -r [#cols]     --fill=[#cols]          Bryt linjer på posisjon #cols\n"
+msgstr " -r [#cols] \t--fill=[#cols]\t\tBryt linjer på posisjon #cols\n"
 
 #: nano.c:395
 msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
-msgstr " -s [prog]      --speller=[prog]        Bruk prog for stavesjekk\n"
+msgstr " -s [prog] \t--speller=[prog]\tBruk prog for stavesjekk\n"
 
 #: nano.c:398
 msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
-msgstr " -t             --tempfile              Autolagre ved avslutting\n"
+msgstr " -t \t\t--tempfile\t\tAutolagre ved avslutting\n"
 
 #: nano.c:400
 msgid " -v \t\t--view\t\t\tView (read only) mode\n"
-msgstr " -v             --view                  Vis (bare lesing) modus\n"
+msgstr " -v \t\t--view\t\t\tVis (bare lesing) modus\n"
 
 #: nano.c:403
 msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
-msgstr " -w             --nowrap                Ikke bryt lange linjer\n"
+msgstr " -w \t\t--nowrap\t\tIkke bryt lange linjer\n"
 
 #: nano.c:406
 msgid " -x \t\t--nohelp\t\tDon't show help window\n"
 msgstr " -x             --nohelp                Ikke vis hjelpevindu\n"
 
-# Kva i alle dagar er "suspend" på norsk?
 #: nano.c:408
 msgid " -z \t\t--suspend\t\tEnable suspend\n"
-msgstr " -z             --suspend               Skru på suspend\n"
+msgstr " -z \t\t--suspend\t\tSkru på pausemodus\n"
 
 #: nano.c:410
 msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
-msgstr " +LINJE                                 Start på linje LINJE\n"
+msgstr " +LINJE\t\t\t\t\tStart på linje LINJE\n"
 
 #: nano.c:412
 msgid "Usage: nano [option] +LINE <file>\n\n"
@@ -562,79 +560,79 @@ msgstr "Bruk: nano [opsjon] +LINJE <fil>\n\n"
 
 #: nano.c:413
 msgid "Option\t\tMeaning\n"
-msgstr "Opsjon          Betydning\n"
+msgstr "Opsjon\t\tBetydning\n"
 
 #: nano.c:414
 msgid " -T [num]\tSet width of a tab to num\n"
-msgstr " -T [num]       Set bredden på en tab til num\n"
+msgstr " -T [num]\tSett bredden på en tab til num\n"
 
 #: nano.c:415
 msgid " -R\t\tUse regular expressions for search\n"
-msgstr " -R             Bruk regulære uttrykk for søking\n"
+msgstr " -R\t\tBruk regulære uttrykk for søking\n"
 
 #: nano.c:416
 msgid " -V \t\tPrint version information and exit\n"
-msgstr " -V             Skriv versjonsnummeret og avslutt\n"
+msgstr " -V \t\tSkriv versjonsnummeret og avslutt\n"
 
 #: nano.c:417
 msgid " -c \t\tConstantly show cursor position\n"
-msgstr " -c             Vis kursorposisjonen konstant\n"
+msgstr " -c \t\tVis pekerposisjonen hele tiden\n"
 
 #: nano.c:418
 msgid " -h \t\tShow this message\n"
-msgstr " -h             Vis denne meldinga\n"
+msgstr " -h \t\tVis denne meldingen\n"
 
 #: nano.c:419
 msgid " -i \t\tAutomatically indent new lines\n"
-msgstr " -i             Indenter nye linjer automagisk\n"
+msgstr " -i \t\tIndenter nye linjer automagisk\n"
 
 #: nano.c:421
 msgid " -k \t\tLet ^K cut from cursor to end of line\n"
-msgstr " -k             La ^K kutte frå kursoren\n"
+msgstr " -k \t\tLa ^K kutte frå kursoren\n"
 
 #: nano.c:424
 msgid " -l \t\tDon't follow symbolic links, overwrite\n"
-msgstr " -l             Ikke følg symbolske linkar, skriv over\n"
+msgstr " -l \t\tIkke følg symbolske linker, skriv over\n"
 
 #: nano.c:427
 msgid " -m \t\tEnable mouse\n"
-msgstr " -m             Skru på støtte for mus\n"
+msgstr " -m \t\tSkru på støtte for mus\n"
 
 #: nano.c:430
 msgid " -p \t\tEmulate Pico as closely as possible\n"
-msgstr " -p             Etterlign Pico så nøyaktig som mulig\n"
+msgstr " -p \t\tEtterlign Pico så nøyaktig som mulig\n"
 
 #: nano.c:431
 msgid " -r [#cols] \tSet fill cols to (wrap lines at) #cols\n"
-msgstr " -r [#cols]     Bryt linjer ved posisjon #cols\n"
+msgstr " -r [#cols] \tBryt linjer ved posisjon #cols\n"
 
 #: nano.c:433
 msgid " -s [prog]  \tEnable alternate speller\n"
-msgstr " -s [prog]      Bruk prog til stavesjekking\n"
+msgstr " -s [prog]  \tBruk prog til stavesjekking\n"
 
 #: nano.c:435
 msgid " -t \t\tAuto save on exit, don't prompt\n"
-msgstr " -t             Autolagre ved avslutning\n"
+msgstr " -t \t\tAutolagre ved avslutning, ikke spør\n"
 
 #: nano.c:436
 msgid " -v \t\tView (read only) mode\n"
-msgstr " -v             Vis (bare les) modus\n"
+msgstr " -v \t\tVis (bare les) modus\n"
 
 #: nano.c:438
 msgid " -w \t\tDon't wrap long lines\n"
-msgstr " -w             Ikke bryt lange linjer\n"
+msgstr " -w \t\tIkke bryt lange linjer\n"
 
 #: nano.c:440
 msgid " -x \t\tDon't show help window\n"
-msgstr " -x             Ikke vis hjelpevindu\n"
+msgstr " -x \t\tIkke vis hjelpevindu\n"
 
 #: nano.c:441
 msgid " -z \t\tEnable suspend\n"
-msgstr " -z             Tillat suspend\n"
+msgstr " -z \t\tTillat pausemodus\n"
 
 #: nano.c:442
 msgid " +LINE\t\tStart at line number LINE\n"
-msgstr " +LINJE         Start på linje nummer LINJE\n"
+msgstr " +LINJE\t\tStart på linje nummer LINJE\n"
 
 #: nano.c:449
 #, c-format
@@ -643,7 +641,7 @@ msgstr "GNU nano versjon %s (kompilert %s, %s)\n"
 
 #: nano.c:452
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
-msgstr "Epost: nano@nano-editor.org     Www: http://www.nano-editor.org"
+msgstr "Epost: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 
 #: nano.c:453
 msgid "\n Compiled options:"
@@ -655,7 +653,7 @@ msgstr "Merke satt"
 
 #: nano.c:529
 msgid "Mark UNset"
-msgstr "Merke fjerna"
+msgstr "Merke fjernede"
 
 #: nano.c:1103
 #, c-format
@@ -866,7 +864,7 @@ msgstr "Kom igjen, samarbeid litt"
 #: search.c:720
 #, c-format
 msgid "Only %d lines available, skipping to last line"
-msgstr ""
+msgstr "Kun %d linjer tilgjengelig, hopper til siste linje"
 
 #: winio.c:124
 #, c-format
