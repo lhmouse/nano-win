@@ -100,6 +100,8 @@ Changes
 	  redundant word list.  [The only reason this is going in during 
 	  feature freeze is because the int speller is useless as is and should
 	  either be improved or removed.  I chose improved].
+	- Change all child error checks to use one goto (gasp!) called 
+	  close_pipes_and_exit, so we don't leak FDs.
   do_int_speller(), do_alt_speller()
 	- Programs now return char *, NULL for successful completion,
 	  otherwise the error string to display.  This allows us to give

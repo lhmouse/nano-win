@@ -1695,15 +1695,14 @@ char *do_int_speller(char *tempfile_name)
 {
     char *read_buff, *read_buff_ptr, *read_buff_word;
     size_t pipe_buff_size, read_buff_size, read_buff_read, bytesread;
-    int spell_fd[2], sort_fd[2], uniq_fd[2], tempfile_fd;
+    int spell_fd[2], sort_fd[2], uniq_fd[2], tempfile_fd = -1;
     pid_t pid_spell, pid_sort, pid_uniq;
     int spell_status, sort_status, uniq_status;
 
-    char *pipe_msg = _("Could not create pipe");
-    /* Create a pipe to spell program */
+    /* Create all three pipes up front */
 
-    if (pipe(spell_fd) == -1)
-	return pipe_msg;
+    if (pipe(spell_fd) == -1 || pipe(sort_fd) == -1 || pipe(uniq_fd) == -1)
+	return _("Could not create pipe");
 
     statusbar(_("Creating misspelled word list, please wait..."));
     /* A new process to run spell in */
@@ -1715,59 +1714,44 @@ char *do_int_speller(char *tempfile_name)
 	close(spell_fd[0]);
 
 	/* replace the standard in with the tempfile */
-	if ((tempfile_fd = open(tempfile_name, O_RDONLY)) == -1) {
-	    close(spell_fd[1]);
-	    exit(1);
-	}
-	if (dup2(tempfile_fd, STDIN_FILENO) != STDIN_FILENO) {
-	    close(tempfile_fd);
-	    close(spell_fd[1]);
-	    exit(1);
-	}
+	if ((tempfile_fd = open(tempfile_name, O_RDONLY)) == -1)
+	    goto close_pipes_and_exit;
+
+	if (dup2(tempfile_fd, STDIN_FILENO) != STDIN_FILENO)
+	    goto close_pipes_and_exit;
+
 	close(tempfile_fd);
 
 	/* send spell's standard out to the pipe */
+	if (dup2(spell_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
+	    goto close_pipes_and_exit;
 
-	if (dup2(spell_fd[1], STDOUT_FILENO) != STDOUT_FILENO) {
-	    close(spell_fd[1]);
-	    exit(1);
-	}
 	close(spell_fd[1]);
 
 	/* Start spell program, we are using the PATH here!?!? */
 	execlp("spell", "spell", NULL);
 
 	/* Should not be reached, if spell is found!!! */
-
 	exit(1);
     }
 
     /* Parent continues here */
-
     close(spell_fd[1]);
 
-    if (pipe(sort_fd) == -1)
-	return pipe_msg;
-
     /* A new process to run sort in */
-
     if ((pid_sort = fork()) == 0) {
 
 	/* Child continues, (i.e. future spell process) */
 	/* replace the standard in with output of the old pipe */
-	if (dup2(spell_fd[0], STDIN_FILENO) != STDIN_FILENO) {
-	    close(spell_fd[0]);
-	    close(sort_fd[1]);
-	    exit(1);
-	}
+	if (dup2(spell_fd[0], STDIN_FILENO) != STDIN_FILENO)
+	    goto close_pipes_and_exit;
+
 	close(spell_fd[0]);
 
 	/* send sort's standard out to the new pipe */
+	if (dup2(sort_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
+	    goto close_pipes_and_exit;
 
-	if (dup2(sort_fd[1], STDOUT_FILENO) != STDOUT_FILENO) {
-	    close(sort_fd[1]);
-	    exit(1);
-	}
 	close(sort_fd[1]);
 
 	/* Start sort program.  Use -f to remove mixed case without having
@@ -1775,64 +1759,49 @@ char *do_int_speller(char *tempfile_name)
 	execlp("sort", "sort", "-f", NULL);
 
 	/* Should not be reached, if sort is found */
-
 	exit(1);
     }
 
     close(sort_fd[1]);
 
-    /* And one more for uniq! */
-
-    if (pipe(uniq_fd) == -1)
-	return pipe_msg;
-
     /* A new process to run uniq in */
-
     if ((pid_uniq = fork()) == 0) {
 
 	/* Child continues, (i.e. future uniq process) */
 	/* replace the standard in with output of the old pipe */
-	if (dup2(sort_fd[0], STDIN_FILENO) != STDIN_FILENO) {
-	    close(sort_fd[0]);
-	    close(uniq_fd[1]);
-	    exit(1);
-	}
+	if (dup2(sort_fd[0], STDIN_FILENO) != STDIN_FILENO)
+	    goto close_pipes_and_exit;
+
 	close(sort_fd[0]);
 
 	/* send uniq's standard out to the new pipe */
+	if (dup2(uniq_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
+	    goto close_pipes_and_exit;
 
-	if (dup2(uniq_fd[1], STDOUT_FILENO) != STDOUT_FILENO) {
-	    close(uniq_fd[1]);
-	    exit(1);
-	}
 	close(uniq_fd[1]);
 
 	/* Start uniq program, we are using PATH */
 	execlp("uniq", "uniq", NULL);
 
 	/* Should not be reached, if uniq is found */
-
 	exit(1);
     }
 
     close(uniq_fd[1]);
 
     /* Child process was not forked successfully */
-
     if (pid_spell < 0 || pid_sort < 0 || pid_uniq < 0) {
 	close(uniq_fd[0]);
 	return _("Could not fork");
     }
 
     /* Get system pipe buffer size */
-
     if ((pipe_buff_size = fpathconf(uniq_fd[0], _PC_PIPE_BUF)) < 1) {
 	close(uniq_fd[0]);
 	return _("Could not get size of pipe buffer");
     }
 
     /* Read-in the returned spelling errors */
-
     read_buff_read = 0;
     read_buff_size = pipe_buff_size + 1;
     read_buff = read_buff_ptr = charalloc(read_buff_size);
@@ -1849,7 +1818,6 @@ char *do_int_speller(char *tempfile_name)
     close(uniq_fd[0]);
 
     /* Process the spelling errors */
-
     read_buff_word = read_buff_ptr = read_buff;
 
     while (*read_buff_ptr != '\0') {
@@ -1892,6 +1860,18 @@ char *do_int_speller(char *tempfile_name)
 
     /* Otherwise... */
     return NULL;
+
+close_pipes_and_exit:
+
+    /* Don't leak any handles */
+    close(tempfile_fd);
+    close(spell_fd[0]);
+    close(spell_fd[1]);
+    close(sort_fd[0]);
+    close(sort_fd[1]);
+    close(uniq_fd[0]);
+    close(uniq_fd[1]);
+    exit(1);
 }
 
 /* External spell checking.  Return value: NULL for normal termination,
