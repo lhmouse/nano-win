@@ -199,7 +199,8 @@ void global_init(int save_cutbuffer)
     current_x = 0;
     current_y = 0;
 
-    if ((editwinrows = LINES - 5 + no_help()) < MIN_EDITOR_ROWS)
+    editwinrows = LINES - 5 + no_help();
+    if (editwinrows < MIN_EDITOR_ROWS || COLS < MIN_EDITOR_COLS)
 	die_too_small();
 
     fileage = NULL;
@@ -216,8 +217,8 @@ void global_init(int save_cutbuffer)
     fill = wrap_at;
     if (fill <= 0)
 	fill += COLS;
-    if (fill < MIN_FILL_LENGTH)
-	die_too_small();
+    if (fill < 0)
+	fill = 0;
 #endif
 
     hblank = charalloc(COLS + 1);
@@ -227,7 +228,8 @@ void global_init(int save_cutbuffer)
 
 void window_init(void)
 {
-    if ((editwinrows = LINES - 5 + no_help()) < MIN_EDITOR_ROWS)
+    editwinrows = LINES - 5 + no_help();
+    if (editwinrows < MIN_EDITOR_ROWS)
 	die_too_small();
 
     if (edit != NULL)
@@ -2867,15 +2869,16 @@ void handle_sigwinch(int s)
      * But not in all cases, argh. */
     COLS = win.ws_col;
     LINES = win.ws_row;
-    if ((editwinrows = LINES - 5 + no_help()) < MIN_EDITOR_ROWS)
+    editwinrows = LINES - 5 + no_help();
+    if (editwinrows < MIN_EDITOR_ROWS || COLS < MIN_EDITOR_COLS)
 	die_too_small();
 
 #ifndef DISABLE_WRAPJUSTIFY
     fill = wrap_at;
     if (fill <= 0)
 	fill += COLS;
-    if (fill < MIN_FILL_LENGTH)
-	die_too_small();
+    if (fill < 0)
+	fill = 0;
 #endif
 
     hblank = nrealloc(hblank, COLS + 1);

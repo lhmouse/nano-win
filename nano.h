@@ -417,13 +417,12 @@ typedef enum {
 /* Minimum editor window rows required for nano to work correctly */
 #define MIN_EDITOR_ROWS 3
 
+/* Minimum editor window cols required for nano to work correctly */
+#define MIN_EDITOR_COLS 10
+
 /* Default number of characters from end-of-line where text wrapping
    occurs */
 #define CHARS_FROM_EOL 8
-
-/* Minimum fill length (space available for text before wrapping
-   occurs) */
-#define MIN_FILL_LENGTH 10
 
 /* Maximum number of search history strings saved, same value used for
    replace history */

@@ -3,6 +3,12 @@ CVS code
 	- Translation updates (see po/ChangeLog for details).
 	- Fix globals and externs such that nano will compile with
 	  DISABLE_SPELLER (David Benbennick).
+	- Fix unreasonable fill values by wrapping at length 0 instead
+	  of erroring out, and don't start up if the window size is too
+	  small but fill is set reasonably.  Changes to 
+	  nano.c:global_init(), window_init(), and handle_sigwinch().
+	  New macro MIN_EDITOR_COLS replaces MIN_FILL_LENGTH
+	  (David Benbennick).
 - files.c:
   cwd_tab_completion()
 	- Memory leak fix (David Benbennick).
