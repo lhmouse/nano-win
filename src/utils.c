@@ -110,6 +110,7 @@ bool parse_num(const char *str, ssize_t *val)
 void align(char **strp)
 {
     assert(strp != NULL);
+
     if (*strp != NULL)
 	*strp = charealloc(*strp, strlen(*strp) + 1);
 }

@@ -55,7 +55,7 @@
 /* Set a default value for PATH_MAX, so we can use it in lines like
  * "path = getcwd(NULL, PATH_MAX + 1);". */
 #ifndef PATH_MAX
-#define PATH_MAX -1
+#define PATH_MAX 4096
 #endif
 
 #ifdef USE_SLANG

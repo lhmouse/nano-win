@@ -12,8 +12,18 @@ CVS code -
   cut_to_eol()
 	- Fix inaccurate comment. (DLR)
 - files.c:
+  get_full_path()
+	- Rework handling of the results of getcwd() in order to avoid
+	  segfaults if they fail, and to remove uses of the nonportable
+	  GNU extension where passing a size of 0 will get a string as
+	  long as we need. (DLR)
   do_browser()
 	- Rename variable lineno to fileline to avoid confusion. (DLR)
+  do_browse_from()
+	- Rework handling of the results of getcwd() in order to avoid
+	  segfaults if they fail, and to remove uses of the nonportable
+	  GNU extension where passing a size of 0 will get a string as
+	  long as we need. (DLR)
 - nano.c:
   help_init()
 	- When calculating allocsize, take multibyte characters into
@@ -39,6 +49,11 @@ CVS code -
 	- Instead of breaking a line at a space and readding the space
 	  afterwards, just break the line after the space, as it's more
 	  efficient. (DLR)
+- nano.h:
+	- Define PATH_MAX as 4096 if it isn't defined, as passing a size
+	  of 0 to get a string as long as we need is a nonportable GNU
+	  extension, and hence it won't work on non-GNU systems that
+	  don't define PATH_MAX. (DLR)
 - utils.c:
   regexec_safe()
 	- Rename to safe_regexec() for consistency. (DLR)

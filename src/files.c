@@ -983,21 +983,16 @@ char *get_full_path(const char *origpath)
     	return NULL;
 
     /* Get the current directory. */
-#if PATH_MAX != -1
     d_here = charalloc(PATH_MAX + 1);
-#else
-    d_here = NULL;
-#endif
     d_here = getcwd(d_here, PATH_MAX + 1);
-#if PATH_MAX != -1
-    align(&d_here);
-#endif
 
     if (d_here != NULL) {
 	const char *last_slash;
 	char *d_there_file = NULL;
 	bool path_only;
 	struct stat fileinfo;
+
+	align(&d_here);
 
 	/* If the current directory isn't "/", tack a slash onto the end
 	 * of it. */
@@ -1055,26 +1050,24 @@ char *get_full_path(const char *origpath)
 	    } else {
 		/* Get the full path and save it in d_there. */
 		free(d_there);
-#if PATH_MAX != -1
-		d_there = charalloc(PATH_MAX + 1);
-#else
-		d_there = NULL;
-#endif
-		d_there = getcwd(d_there, PATH_MAX + 1);
-#if PATH_MAX != -1
-		align(&d_there);
-#endif
 
-		if (d_there == NULL)
+		d_there = charalloc(PATH_MAX + 1);
+		d_there = getcwd(d_there, PATH_MAX + 1);
+
+		if (d_there != NULL) {
+		    align(&d_there);
+
+		    if (strcmp(d_there, "/") != 0) {
+			/* Make sure d_there ends in a slash. */
+			d_there = charealloc(d_there,
+				strlen(d_there) + 2);
+			strcat(d_there, "/");
+		    }
+		} else
 		    /* If we couldn't get the full path, set path_only
 		     * to TRUE so that we clean up correctly, free all
 		     * allocated memory, and return NULL. */
 		    path_only = TRUE;
-		else if (strcmp(d_there, "/") != 0) {
-		    /* Make sure d_there ends in a slash. */
-		    d_there = charealloc(d_there, strlen(d_there) + 2);
-		    strcat(d_there, "/");
-		}
 
 		/* Finally, go back to the path specified in d_here,
 		 * where we were before. */
@@ -1090,7 +1083,7 @@ char *get_full_path(const char *origpath)
 	 * d_there_file contains the filename portion of the answer.  If
 	 * this is the case, tack d_there_file onto the end of
 	 * d_there, so that d_there contains the complete answer. */
-	if (!path_only && d_there) {
+	if (!path_only && d_there != NULL) {
 	    d_there = charealloc(d_there, strlen(d_there) +
 		strlen(d_there_file) + 1);
 	    strcat(d_there, d_there_file);
@@ -2764,7 +2757,7 @@ char *do_browse_from(const char *inpath)
     struct stat st;
     char *path;
 	/* This holds the tilde-expanded version of inpath. */
-    DIR *dir;
+    DIR *dir = NULL;
 
     assert(inpath != NULL);
 
@@ -2780,15 +2773,12 @@ char *do_browse_from(const char *inpath)
 	striponedir(path);
 	if (stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
 	    free(path);
-#if PATH_MAX != -1
+
 	    path = charalloc(PATH_MAX + 1);
-#else
-	    path = NULL;
-#endif
 	    path = getcwd(path, PATH_MAX + 1);
-#if PATH_MAX != -1
-	    align(&path);
-#endif
+
+	    if (path != NULL)
+		align(&path);
 	}
     }
 
@@ -2802,7 +2792,9 @@ char *do_browse_from(const char *inpath)
     }
 #endif
 
-    dir = opendir(path);
+    if (path != NULL)
+	dir = opendir(path);
+
     if (dir == NULL) {
 	beep();
 	free(path);
