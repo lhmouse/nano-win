@@ -233,7 +233,7 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 {
     filestruct *fileptr;
     char *searchstr, *rev_start = NULL, *found = NULL;
-    int current_x_find;
+    int current_x_find = 0;
 
     fileptr = current;
 
@@ -297,7 +297,9 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 	    return NULL;
 	}
 #endif
-    } else {	/* reverse search */
+    } 
+#ifndef NANO_SMALL
+    else {	/* reverse search */
 
 	current_x_find = current_x - 1;
 
@@ -359,6 +361,7 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 	}
 #endif
     }
+#endif /* NANO_SMALL */
 
     /* Set globals now that we are sure we found something */
     current = fileptr;

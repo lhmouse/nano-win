@@ -29,6 +29,7 @@ CVS code -
 	- Readded DISABLE_CURPOS because in certain instances (like
 	  all the "Search Wrapper" lines) the cursor position will
 	  be different yet we don't want the cursor position displayed.
+	- Take control-space out of -tiny build, unneeded.
 - cut.c:
   cut_marked_segment()
 	- Add magic line when cutting a selection including filebot
