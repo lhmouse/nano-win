@@ -93,11 +93,19 @@ void new_file(void)
        duplicates; without this, if nano is started without a filename on
        the command line, a new file will be created, but it will be given
        no open_files entry, leading to problems later on */
-    if (!open_files)
+    if (!open_files) {
 	add_open_file(0, 0);
+	/* turn off view mode in this case; this is for consistency
+	   whether multibuffers are compiled in or not */
+	UNSET(VIEW_MODE);
+    }
+#else
+    /* if multibuffers haven't been compiled in, turn off view mode
+       unconditionally; otherwise, don't turn them off (except in the
+       above case), so that we can view multiple files properly */
+    UNSET(VIEW_MODE);
 #endif
 
-    UNSET(VIEW_MODE);
 }
 
 
@@ -440,7 +448,14 @@ int do_insertfile_void(void)
 {
     int result = 0;
 #ifdef ENABLE_MULTIBUFFER
-    result = do_insertfile(ISSET(MULTIBUFFER));
+    if (ISSET(VIEW_MODE)) {
+	if (ISSET(MULTIBUFFER))
+	    result = do_insertfile(1);
+	else
+	    statusbar(_("Key illegal in non-multibuffer mode"));
+    }
+    else
+	result = do_insertfile(ISSET(MULTIBUFFER));
 #else
     result = do_insertfile(0);
 #endif
@@ -523,10 +538,16 @@ int add_open_file(int update, int dup_fix)
     /* save current line number */
     open_files->lineno = current->lineno;
 
-    /* save current filestruct and restore full file position afterward */
-    open_files->file = nmalloc(sizeof(filestruct));
-    open_files->file = copy_filestruct(fileage);
-    do_gotopos(open_files->lineno, open_files->file_current_x, open_files->file_current_y, open_files->file_placewewant);
+    /* if we're in view mode and updating, the file contents won't
+       have changed, so we won't bother resaving the filestruct
+       then; otherwise, we will */
+    if (!(ISSET(VIEW_MODE) && !update)) {
+	/* save current filestruct and restore full file position
+	   afterward */
+	open_files->file = nmalloc(sizeof(filestruct));
+	open_files->file = copy_filestruct(fileage);
+	do_gotopos(open_files->lineno, open_files->file_current_x, open_files->file_current_y, open_files->file_placewewant);
+    }
 
     /* save current modification status */
     open_files->file_modified = ISSET(MODIFIED);

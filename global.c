@@ -324,15 +324,31 @@ void shortcut_init(int unjustify)
 		    nano_justify_msg, 0, NANO_JUSTIFY_FKEY, 0,
 		    NOVIEW, do_justify);
     else
+
+#ifdef ENABLE_MULTIBUFFER
+	/* this is so we can view multiple files */
+	sc_init_one(&main_list[3], NANO_INSERTFILE_KEY, _("Read File"),
+		nano_insert_msg,
+		0, NANO_INSERTFILE_FKEY, 0, VIEW, do_insertfile_void);
+#else
 	sc_init_one(&main_list[3], NANO_INSERTFILE_KEY, _("Read File"),
 		nano_insert_msg,
 		0, NANO_INSERTFILE_FKEY, 0, NOVIEW, do_insertfile_void);
-
+#endif
 
     if (ISSET(PICO_MODE))
+
+#ifdef ENABLE_MULTIBUFFER
+	/* this is so we can view multiple files */
+	sc_init_one(&main_list[4], NANO_INSERTFILE_KEY, _("Read File"),
+		nano_insert_msg,
+		0, NANO_INSERTFILE_FKEY, 0, VIEW, do_insertfile_void);
+#else
 	sc_init_one(&main_list[4], NANO_INSERTFILE_KEY, _("Read File"),
 		nano_insert_msg,
 		0, NANO_INSERTFILE_FKEY, 0, NOVIEW, do_insertfile_void);
+#endif
+
     else
 	sc_init_one(&main_list[4], NANO_REPLACE_KEY, _("Replace"),
 		    nano_replace_msg,

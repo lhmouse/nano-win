@@ -122,12 +122,12 @@ void die(char *msg, ...)
 
     fprintf(stderr, msg);
 
-    /* save the currently loaded file (if modified, its open_files entry
-       isn't up to date) */
-    die_save_file(filename);
+    /* save the currently loaded file if it's been modified */
+    if (ISSET(MODIFIED))
+	die_save_file(filename);
 
 #ifdef ENABLE_MULTIBUFFER
-    /* then save all of the other loaded files, if any */
+    /* then save all of the other modified loaded files, if any */
     if (open_files) {
         filestruct *tmp;
 
@@ -142,7 +142,9 @@ void die(char *msg, ...)
 	       currently loaded file), don't save it again */
 	    if (tmp != open_files) {
 		fileage = open_files->file;
-		die_save_file(open_files->data);
+		/* save the file if it's been modified */
+		if (open_files->file_modified)
+		    die_save_file(open_files->data);
 	    }
 
 	    open_files = open_files->next;
@@ -3101,16 +3103,10 @@ int main(int argc, char *argv[])
 		case '9':	/* Alt-[-9 = Delete in Hurd Console */
 		    kbinput = KEY_DC;
 		    break;
-		case '@':	/* Alt-[-9 = Insert in Hurd Console */
-		case 'L':		/* Insert Key - FreeBSD Console */
-#ifdef ENABLE_MULTIBUFFER
-		    do_insertfile(ISSET(MULTIBUFFER));
-#else
-		    do_insertfile(0);
-#endif
-		    keyhandled = 1;
-		    break;
-		case '[':	/* Alt-[-[-[A-E], F1-F5 in linux console */
+		case '@':	/* Alt-[-@ = Insert in Hurd Console */
+		case 'L':	/* Alt-[-L = Insert - FreeBSD Console */
+		    goto do_insertkey;
+		case '[':	/* Alt-[-[-[A-E], F1-F5 in Linux console */
 		    kbinput = wgetch(edit);
 		    if (kbinput >= 'A' && kbinput <= 'E')
 			kbinput = KEY_F(kbinput - 64);
@@ -3224,9 +3220,12 @@ int main(int argc, char *argv[])
 	  do_insertkey:
 
 #ifdef ENABLE_MULTIBUFFER
-	    do_insertfile(ISSET(MULTIBUFFER));
+	    /* do_insertfile_void() contains the logic needed to
+	       handle view mode with the view mode/multibuffer
+	       exception, so use it here */
+	    do_insertfile_void();
 #else
-	    do_insertfile(0);
+	    print_view_warning();
 #endif
 
 	    keyhandled = 1;

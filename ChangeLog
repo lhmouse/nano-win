@@ -1,5 +1,11 @@
 CVS code -
+- General
+	- Better integration of View mode (-v) and multibuffer.
+	  Fixes to new_file(), do_insertfile_void(), shortcut_init()
+	  (David Lawrence Ramsey).
 - nano.c:
+  die()
+	- Only save files that were modified (David Lawrence Ramsey).
   do_cont()
 	- Run signal_init() after doupdate() so ^Y wont suddenly
 	  start suspending after returning from ^Z suspend in Hurd.
@@ -13,6 +19,8 @@ CVS code -
 	- Typo in file switch string (found by David Lawrence Ramsey).
   main()
 	- Handle Alt prev/next file keys (,.), as well as normal ones (<>).
+	- Handle OS-specific insert keys by jump to do_insertkey (David
+	  Lawrence Ramsey).
 - files.c:
   read_file()
 	- Make conversion message less confusing (suggested by Jordi).
