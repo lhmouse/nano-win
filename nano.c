@@ -2,7 +2,7 @@
 /**************************************************************************
  *   nano.c                                                               *
  *                                                                        *
- *   Copyright (C) 1999-2002 Chris                              *
+ *   Copyright (C) 1999-2002 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -260,7 +260,7 @@ void mouse_init(void)
  * help_text should be NULL initially. */
 void help_init(void)
 {
-    size_t allocated = 1;	/* space needed for help_text */
+    size_t allocsize = 1;	/* space needed for help_text */
     char *ptr = NULL;
 #ifndef NANO_SMALL
     const toggle *t;
@@ -366,11 +366,11 @@ void help_init(void)
 	  "following keystrokes are available in the main editor window.  "
 	  "Alternative keys are shown in parentheses:\n\n");
 
-    allocated += strlen(ptr);
+    allocsize += strlen(ptr);
 
     /* The space needed for the shortcut lists, at most COLS characters,
      * plus '\n'. */
-    allocated += (COLS + 1) * length_of_list(currshortcut);
+    allocsize += (COLS + 1) * length_of_list(currshortcut);
 
 #ifndef NANO_SMALL
     /* If we're on the main list, we also count the toggle help text. 
@@ -378,7 +378,7 @@ void help_init(void)
      * COLS - 24 characters, plus '\n'.*/
     if (currshortcut == main_list)
 	for (t = toggles; t != NULL; t = t->next)
-	    allocated += COLS - 17;
+	    allocsize += COLS - 17;
 #endif /* !NANO_SMALL */
 
     /* help_text has been freed and set to NULL unless the user resized
@@ -386,7 +386,7 @@ void help_init(void)
     free(help_text);
 
     /* Allocate space for the help text */
-    help_text = charalloc(allocated);
+    help_text = charalloc(allocsize);
 
     /* Now add the text we want */
     strcpy(help_text, ptr);
@@ -450,7 +450,7 @@ void help_init(void)
 
     /* If all went well, we didn't overwrite the allocated space for
        help_text. */
-    assert(strlen(help_text) < allocated);
+    assert(strlen(help_text) < allocsize);
 }
 #endif
 
@@ -2187,30 +2187,30 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len,
     /* We put the original lines, not copies, into the cut buffer, just
      * out of a misguided sense of consistency, so if you un-cut, you
      * get the actual same paragraph back, not a copy. */
-    filestruct *letter = first_line;
+    filestruct *alice = first_line;
 
     set_modified();
     cutbuffer = NULL;
     for(; par_len > 0; par_len--) {
-	filestruct *bob = copy_node(letter);
+	filestruct *bob = copy_node(alice);
 
-	if (letter == first_line)
+	if (alice == first_line)
 	    first_line = bob;
-	if (letter == current)
+	if (alice == current)
 	    current = bob;
-	if (letter == edittop)
+	if (alice == edittop)
 	    edittop = bob;
 #ifndef NANO_SMALL
-	if (letter == mark_beginbuf)
+	if (alice == mark_beginbuf)
 	    mark_beginbuf = bob;
 #endif
 	justify_format(1, bob,
 			quote_len + indent_length(bob->data + quote_len));
 
-	assert(letter != NULL && bob != NULL);
-	add_to_cutbuffer(letter);
+	assert(alice != NULL && bob != NULL);
+	add_to_cutbuffer(alice);
 	splice_node(bob->prev, bob, bob->next);
-	letter = bob->next;
+	alice = bob->next;
     }
     return first_line;
 }
@@ -2966,7 +2966,7 @@ void do_toggle(const toggle *which)
 /* This function returns the correct keystroke, given the A,B,C or D
    input key.  This is a common sequence of many terms which send
    Esc-O-[A-D] or Esc-[-[A-D]. */
-int alphabet(int input)
+int abcd(int input)
 {
     switch (input) {
     case 'A':
@@ -3087,11 +3087,11 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "h?BDFIKMNQ:RST:VY::pr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "h?BDFIKMNQ:RST:VY:abcefgijklmo:pr:s:tvwxz",
 				 long_options, &option_index)) != -1) {
 #else
     while ((optchr =
-	    getopt(argc, argv, "h?BDFIKMNQ:RST:VY::pr:s:tvwxz")) != -1) {
+	    getopt(argc, argv, "h?BDFIKMNQ:RST:VY:abcefgijklmo:pr:s:tvwxz")) != -1) {
 #endif
 
 	switch (optchr) {
@@ -3460,7 +3460,7 @@ int main(int argc, char *argv[])
 		    kbinput = wgetch(edit);
 		if ((kbinput <= 'D' && kbinput >= 'A') ||
 			(kbinput <= 'd' && kbinput >= 'a'))
-		    kbinput = alphabet(kbinput);
+		    kbinput = abcd(kbinput);
 		else if (kbinput <= 'z' && kbinput >= 'j')
 		    print_numlock_warning();
 		else if (kbinput <= 'S' && kbinput >= 'P')
@@ -3582,7 +3582,7 @@ int main(int argc, char *argv[])
 		case 'b':
 		case 'c':
 		case 'd':
-		    kbinput = alphabet(kbinput);
+		    kbinput = abcd(kbinput);
 		    break;
 		case 'H':
 		    kbinput = KEY_HOME;
