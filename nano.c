@@ -2398,7 +2398,7 @@ void help_init(void)
 		"If using Pico Mode via the -p or --pico flags, using the "
 		"Meta-P toggle or using a nanorc file, the previous search "
 		"string will be shown in brackets after the Search: prompt.  "
-		"Hitting enter without entering any text will preform the "
+		"Hitting enter without entering any text will perform the "
 		"previous search. Otherwise, the previous string will be "
 		"placed in front of the cursor, and can be edited or deleted "
 		"before hitting enter.\n\n The following functions keys are "
