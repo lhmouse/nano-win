@@ -2688,7 +2688,7 @@ void do_exit(void)
     if (i == 0 || (i == 1 && do_writeout(TRUE) > 0)) {
 #ifdef ENABLE_MULTIBUFFER
 	/* Exit only if there are no more open buffers. */
-	if (close_open_file() != 0)
+	if (!close_open_file())
 #endif
 	    finish();
     } else if (i != 1)

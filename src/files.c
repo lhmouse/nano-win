@@ -696,7 +696,7 @@ void free_openfilestruct(openfilestruct *src)
  * FALSE, a new entry is created; otherwise, the current entry is
  * updated.
  */
-void add_open_file(int update)
+void add_open_file(bool update)
 {
     openfilestruct *tmp;
 
@@ -849,7 +849,7 @@ void load_open_file(void)
  * Otherwise, we are about to close that entry, so don't bother doing
  * so.
  */
-void open_prevfile(int closing_file)
+void open_prevfile(bool closing_file)
 {
     if (open_files == NULL)
 	return;
@@ -891,7 +891,7 @@ void open_prevfile(int closing_file)
     load_open_file();
 
     statusbar(_("Switched to %s"),
-      ((open_files->filename[0] == '\0') ? "New Buffer" :
+      ((open_files->filename[0] == '\0') ? _("New Buffer") :
 	open_files->filename));
 
 #ifdef DEBUG
@@ -909,7 +909,7 @@ void open_prevfile_void(void)
  * FALSE, update the current entry before switching from it.  Otherwise,
  * we are about to close that entry, so don't bother doing so.
  */
-void open_nextfile(int closing_file)
+void open_nextfile(bool closing_file)
 {
     if (open_files == NULL)
 	return;
@@ -951,7 +951,7 @@ void open_nextfile(int closing_file)
     load_open_file();
 
     statusbar(_("Switched to %s"),
-      ((open_files->filename[0] == '\0') ? "New Buffer" :
+      ((open_files->filename[0] == '\0') ? _("New Buffer") :
 	open_files->filename));
 
 #ifdef DEBUG
@@ -967,14 +967,14 @@ void open_nextfile_void(void)
 /*
  * Delete an entry from the open_files filestruct.  After deletion of an
  * entry, the next or previous entry is opened, whichever is found first.
- * Return 0 on success or 1 on error.
+ * Return TRUE on success or FALSE on error.
  */
-int close_open_file(void)
+bool close_open_file(void)
 {
     openfilestruct *tmp;
 
     if (open_files == NULL)
-	return 1;
+	return FALSE;
 
     /* make sure open_files->fileage and fileage, and open_files->filebot
        and filebot, are in sync; they might not be if lines have been cut
@@ -988,14 +988,14 @@ int close_open_file(void)
     else if (open_files->prev != NULL)
 	open_prevfile(TRUE);
     else
-	return 1;
+	return FALSE;
 
     unlink_opennode(tmp);
     delete_opennode(tmp);
 
     shortcut_init(FALSE);
     display_main_list();
-    return 0;
+    return TRUE;
 }
 #endif /* ENABLE_MULTIBUFFER */
 

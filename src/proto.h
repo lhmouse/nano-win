@@ -190,13 +190,13 @@ void splice_opennode(openfilestruct *begin, openfilestruct *newnode,
 void unlink_opennode(const openfilestruct *fileptr);
 void delete_opennode(openfilestruct *fileptr);
 void free_openfilestruct(openfilestruct *src);
-void add_open_file(int update);
+void add_open_file(bool update);
 void load_open_file(void);
-void open_prevfile(int closing_file);
+void open_prevfile(bool closing_file);
 void open_prevfile_void(void);
-void open_nextfile(int closing_file);
+void open_nextfile(bool closing_file);
 void open_nextfile_void(void);
-int close_open_file(void);
+bool close_open_file(void);
 #endif
 #if !defined(DISABLE_SPELLER) || !defined(DISABLE_OPERATINGDIR)
 char *get_full_path(const char *origpath);
