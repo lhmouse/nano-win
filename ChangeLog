@@ -11,6 +11,7 @@ CVS code -
 	- Preliminary prepend code.  This may be a bad idea, but I've
 	  been wanting it for awhile now and we'll see how bad it messes
 	  everything up.  Changes to files.c:do_writeout(), write_file().
+	  Fixes for O_CREAT & append compatibililty by David Benbennick.
 - configure.ac:
 	- Define NDEBUG to silence asserts (David Benbennick).
 - files.c:

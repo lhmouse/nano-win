@@ -1243,7 +1243,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	/* Use O_EXCL if tmp == 1.  This is now copied from joe, because
 	   wiggy says so *shrug*. */
 	if (append)
-	    fd = open(realname, O_WRONLY | O_APPEND, (S_IRUSR|S_IWUSR));
+	    fd = open(realname, O_WRONLY | O_CREAT | O_APPEND, (S_IRUSR|S_IWUSR));
 	else if (tmp)
 	    fd = open(realname, O_WRONLY | O_CREAT | O_EXCL, (S_IRUSR|S_IWUSR));
 	else
@@ -1350,8 +1350,9 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	    statusbar(_("Could not reopen %s: %s"), buf, strerror(errno));
 	    return -1;
 	}
-	if ((fd2 = open(realname, O_RDONLY)) == -1) {
-	    statusbar(_("Could open %s for prepend: %s"), realname, strerror(errno));
+	if ((fd2 = open(realname, O_RDONLY | O_CREAT)) == -1) {
+	    statusbar(_("Could not open %s for prepend: %s"), realname,
+		strerror(errno));
 	    return -1;
 	}
 
@@ -1510,11 +1511,9 @@ int do_writeout(char *path, int exiting, int append)
 	    TOGGLE(MAC_FILE);
 	    return(do_writeout(answer, exiting, append));
 	} else if (i == NANO_PREPEND_KEY)
-	    return(do_writeout(answer, exiting, 2));
-	else if (i == NANO_APPEND_KEY && append != 1)
-	    return(do_writeout(answer, exiting, 1));
+	    return(do_writeout(answer, exiting, append==2 ? 0 : 2));
 	else if (i == NANO_APPEND_KEY)
-	    return(do_writeout(answer, exiting, 0));
+	    return(do_writeout(answer, exiting, append==1 ? 0 : 1));
 
 #ifdef DEBUG
 	    fprintf(stderr, _("filename is %s"), answer);
