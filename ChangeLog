@@ -52,12 +52,12 @@ CVS code -
 	  Movement and cursor display in the edit window should now work
 	  properly with files containing multibyte characters, and text
 	  display of such files should work properly some of the time.
-	  New functions control_rep(), parse_char(), move_left(),
-	  move_right(), and display_string_len(); changes to do_left(),
-	  do_right(), do_delete(), breakable(), break_line(),
-	  do_output(), get_buffer(), unget_input(), actual_x(),
-	  strnlenpt(), display_string(), titlebar(), statusbar(),
-	  onekey(), and do_credits(). (David Benbennick and DLR)
+	  New functions control_rep(), parse_char(), move_left(), and
+	  move_right(); changes to do_left(), do_right(), do_delete(),
+	  breakable(), break_line(), do_output(), get_buffer(),
+	  unget_input(), actual_x(), strnlenpt(), display_string(),
+	  titlebar(), statusbar(), onekey(), and do_credits(). (David
+	  Benbennick and DLR)
 - cut.c:
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the

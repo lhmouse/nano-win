@@ -3596,11 +3596,9 @@ void do_output(int *kbinput, size_t kbinput_len)
 
     char *key =
 #ifdef NANO_WIDE
-	charalloc(MB_CUR_MAX)
-#else
-	charalloc(1)
+	!ISSET(NO_UTF8) ? charalloc(MB_CUR_MAX) :
 #endif
-	;
+	charalloc(1);
 
     assert(current != NULL && current->data != NULL);
 
