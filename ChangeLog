@@ -1,5 +1,6 @@
 CVS code -
 - General:
+	- Translation updates (see po/ChangeLog for details).
 	- Forward-ported Chris' --disable-wrapping-as-root option from
 	  1.0.9.  Per Jordi's suggestions, have it override /etc/nanorc
 	  but not ~/.nanorc. (DLR)
