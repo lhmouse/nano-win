@@ -1,3 +1,13 @@
+12/08/2000 - Nano 0.9.23 is the "race conditions bite" release.  The
+		main reason for this release is the less-than-optimal
+		fix for the security issue in nano with following symbolic
+		links.  Hopefully this will fix the probelm permanently.  
+		The --nofollow option also works again for those who
+		are real security nuts.  There are also some display and
+		search fixes, and the --disable-spell function was renamed
+		to --disable-speller to be in line with nano and pico's
+		"speller" term.
+
 12/02/2000 - Nano 0.9.22 is released, with many more changes and 
 		additions than imaginable.  The most important change is
 		a fix for unsafe handling of symbolic links which could
