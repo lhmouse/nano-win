@@ -263,6 +263,9 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 
     nanoget_repaint(buf, inputbuf, x);
 
+    /* Make sure any editor screen updates are displayed before getting input */
+    wrefresh(edit);
+
     while ((kbinput = wgetch(bottomwin)) != 13) {
 	for (j = 0; j <= slen - 1; j++) {
 	    if (kbinput == s[j].val) {
