@@ -1,4 +1,8 @@
 CVS code - 
+- nano.c:
+  do_alt_speller()
+	- Try to go to the same line we were on before before spell check
+	  (Rocco).
 
 nano 1.0.2 - 05/12/2001
 - General:
