@@ -63,8 +63,8 @@ CVS code -
 	- More key fixes (David Lawrence Ramsey)
 - po/nl.po:
 	- New Dutch translation, by Guus Sliepen <guus@nl.linux.org>.
-- po/es.po:
-	- Updated Spanish translation (Jordi).
+- po/ca.po, po/es.po:
+	- Updated Catalan and Spanish translation (Jordi).
 - po/gl.po:
 	- Updated Galician translation (Jacobo Tarrío).
 - po/da.po:
