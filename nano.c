@@ -1036,58 +1036,8 @@ void exit_spell(char *tmpfilename, char *foo)
  * This is Chris' very ugly spell function.  Someone please make this
  * better =-)
  */
-int do_oldspell(void)
-{
-    char *temp, *foo;
-    int i, size;
 
-    if ((temp = tempnam(0, "nano.")) == NULL) {
-	statusbar(_("Could not create a temporary filename: %s"),
-		  strerror(errno));
-	return 0;
-    }
-    if (write_file(temp, 1) == -1)
-	return 0;
-
-    if (alt_speller) {
-	size = strlen(temp) + strlen(alt_speller) + 2;
-	foo = nmalloc(size);
-	snprintf(foo, size, "%s %s", alt_speller, temp);
-    } else {
-
-	/* For now, we only try ispell because we're not capable of
-	   handling the normal spell program (yet...) */
-	size = strlen(temp) + 8;
-	foo = nmalloc(size);
-	snprintf(foo, size, "ispell %s", temp);
-    }
-
-    endwin();
-    resetty();
-    if (alt_speller) {
-	if ((i = system(foo)) == -1 || i == 32512) {
-	    statusbar(_("Could not invoke spell program \"%s\""),
-		      alt_speller);
-	    exit_spell(temp, foo);
-	    return 0;
-	}
-    } else if ((i = system(foo)) == -1 || i == 32512) {	/* Why 32512? I dont know! */
-	statusbar(_("Could not invoke \"ispell\""));
-	exit_spell(temp, foo);
-	return 0;
-    }
-    initscr();
-
-    free_filestruct(fileage);
-    global_init();
-    open_file(temp, 0, 1);
-    edit_update(fileage);
-    set_modified();
-    exit_spell(temp, foo);
-    statusbar(_("Finished checking spelling"));
-    return 1;
-}
-
+#ifndef NANO_SMALL
 int do_spell(void)
 {
     char *temp, *foo;
@@ -1139,6 +1089,7 @@ int do_spell(void)
     statusbar(_("Finished checking spelling"));
     return 1;
 }
+#endif
 
 int do_exit(void)
 {

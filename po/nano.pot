@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-06-30 16:38-0400\n"
+"POT-Creation-Date: 2000-07-02 23:06-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,7 +55,7 @@ msgstr ""
 msgid "File to insert [from ./] "
 msgstr ""
 
-#: files.c:270 files.c:294 files.c:458 nano.c:1165
+#: files.c:270 files.c:294 files.c:458 nano.c:1120
 msgid "Cancelled"
 msgstr ""
 
@@ -574,71 +574,71 @@ msgstr ""
 msgid "Error deleting tempfile, ack!"
 msgstr ""
 
-#: nano.c:1045 nano.c:1095
+#: nano.c:1047
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr ""
 
-#: nano.c:1067 nano.c:1117
+#: nano.c:1071
 #, c-format
 msgid "Could not invoke spell program \"%s\""
 msgstr ""
 
 #. Why 32512? I dont know!
-#: nano.c:1073 nano.c:1123
+#: nano.c:1077
 msgid "Could not invoke \"ispell\""
 msgstr ""
 
-#: nano.c:1085 nano.c:1135
+#: nano.c:1089
 msgid "Finished checking spelling"
 msgstr ""
 
-#: nano.c:1152
+#: nano.c:1107
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 
-#: nano.c:1275
+#: nano.c:1230
 msgid "Cannot resize top win"
 msgstr ""
 
-#: nano.c:1277
+#: nano.c:1232
 msgid "Cannot move top win"
 msgstr ""
 
-#: nano.c:1279
+#: nano.c:1234
 msgid "Cannot resize edit win"
 msgstr ""
 
-#: nano.c:1281
+#: nano.c:1236
 msgid "Cannot move edit win"
 msgstr ""
 
-#: nano.c:1283
+#: nano.c:1238
 msgid "Cannot resize bottom win"
 msgstr ""
 
-#: nano.c:1285
+#: nano.c:1240
 msgid "Cannot move bottom win"
 msgstr ""
 
-#: nano.c:1749
+#: nano.c:1704
 msgid "Main: set up windows\n"
 msgstr ""
 
-#: nano.c:1771
+#: nano.c:1726
 msgid "Main: bottom win\n"
 msgstr ""
 
-#: nano.c:1777
+#: nano.c:1732
 msgid "Main: open file\n"
 msgstr ""
 
-#: nano.c:1850
+#: nano.c:1805
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:1866
+#: nano.c:1821
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr ""

@@ -9,6 +9,8 @@ CVS code changes since last release -
 	- changed 'sprintf' calls to safer 'snprintf'
 - nano.c:
 	- Removed dual alt_speller variables, oops! (Rocco Corsi)
+	- Removed unnecessary do_oldspell function (Rocco Corsi).  Added
+	  SMALL_NANO #ifdef around actual spell function.
 - de.po:
 	- Revised translations by floki@bigfoot.com.
 - fi.po:
