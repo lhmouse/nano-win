@@ -31,7 +31,6 @@
 #include "proto.h"
 #include "nano.h"
 
-
 #ifdef HAVE_REGEX_H
 static int regexp_compiled = FALSE;
 
@@ -102,14 +101,10 @@ void search_abort(void)
 
 void search_init_globals(void)
 {
-    if (last_search == NULL) {
-	last_search = charalloc(1);
-	last_search[0] = '\0';
-    }
-    if (last_replace == NULL) {
-	last_replace = charalloc(1);
-	last_replace[0] = '\0';
-    }
+    if (last_search == NULL)
+	last_search = mallocstrcpy(NULL, "");
+    if (last_replace == NULL)
+	last_replace = mallocstrcpy(NULL, "");
 }
 
 /* Set up the system variables for a search or replace.  If use_answer
@@ -209,48 +204,48 @@ int search_init(bool replacing, bool use_answer)
 	return -1;
     } else {
 	switch (i) {
-	case -2:	/* It's the same string. */
+	    case -2:		/* It's the same string. */
 #ifdef HAVE_REGEX_H
-	    /* Since answer is "", use last_search! */
-	    if (ISSET(USE_REGEXP) && regexp_init(last_search) == 0)
-		return -1;
+		/* Since answer is "", use last_search! */
+		if (ISSET(USE_REGEXP) && regexp_init(last_search) == 0)
+		    return -1;
 #endif
-	    break;
-	case 0:		/* They entered something new. */
-	    last_replace[0] = '\0';
+		break;
+	    case 0:		/* They entered something new. */
+		last_replace[0] = '\0';
 #ifdef HAVE_REGEX_H
-	    if (ISSET(USE_REGEXP) && regexp_init(answer) == 0)
-		return -1;
+		if (ISSET(USE_REGEXP) && regexp_init(answer) == 0)
+		    return -1;
 #endif
-	    break;
+		break;
 #ifndef NANO_SMALL
-	case TOGGLE_CASE_KEY:
-	    TOGGLE(CASE_SENSITIVE);
-	    backupstring = mallocstrcpy(backupstring, answer);
-	    return 1;
-	case TOGGLE_BACKWARDS_KEY:
-	    TOGGLE(REVERSE_SEARCH);
-	    backupstring = mallocstrcpy(backupstring, answer);
-	    return 1;
+	    case TOGGLE_CASE_KEY:
+		TOGGLE(CASE_SENSITIVE);
+		backupstring = mallocstrcpy(backupstring, answer);
+		return 1;
+	    case TOGGLE_BACKWARDS_KEY:
+		TOGGLE(REVERSE_SEARCH);
+		backupstring = mallocstrcpy(backupstring, answer);
+		return 1;
 #ifdef HAVE_REGEX_H
-	case TOGGLE_REGEXP_KEY:
-	    TOGGLE(USE_REGEXP);
-	    backupstring = mallocstrcpy(backupstring, answer);
-	    return 1;
+	    case TOGGLE_REGEXP_KEY:
+		TOGGLE(USE_REGEXP);
+		backupstring = mallocstrcpy(backupstring, answer);
+		return 1;
 #endif
 #endif /* !NANO_SMALL */
-	case NANO_TOOTHERSEARCH_KEY:
-	    backupstring = mallocstrcpy(backupstring, answer);
-	    return -2;	/* Call the opposite search function. */
-	case NANO_TOGOTOLINE_KEY:
+	    case NANO_TOOTHERSEARCH_KEY:
+		backupstring = mallocstrcpy(backupstring, answer);
+		return -2;	/* Call the opposite search function. */
+	    case NANO_TOGOTOLINE_KEY:
 #ifndef NANO_SMALL
-	    search_history.current = search_history.next;
+		search_history.current = search_history.next;
 #endif
-	    /* Put answer up on the statusbar. */
-	    do_gotoline(-1, FALSE);
-	    /* Fall through. */
-	default:
-	    return -1;
+		/* Put answer up on the statusbar. */
+		do_gotoline(-1, FALSE);
+		/* Fall through. */
+	    default:
+		return -1;
 	}
     }
     return 0;
@@ -533,7 +528,8 @@ int replace_regexp(char *string, bool create_flag)
     while (*c != '\0') {
 	int num = (int)(*(c + 1) - '0');
 
-	if (*c != '\\' || num < 1 || num > 9 || num > search_regexp.re_nsub) {
+	if (*c != '\\' || num < 1 || num > 9 || num >
+		search_regexp.re_nsub) {
 	    if (create_flag)
 		*string++ = *c;
 	    c++;

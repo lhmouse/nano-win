@@ -45,7 +45,7 @@ int regexec_safe(const regex_t *preg, const char *string, size_t nmatch,
 #endif /* BROKEN_REGEXEC */
 
 /* Assume that string will be found by regexec() if the REG_NOTBOL and
- * REG_NOTEOL glags are not set. */
+ * REG_NOTEOL flags are not set. */
 int regexp_bol_or_eol(const regex_t *preg, const char *string)
 {
     return (regexec(preg, string, 0, NULL, REG_NOTBOL | REG_NOTEOL) ==
