@@ -156,8 +156,16 @@ void do_uncut_text(void)
 	return;
 
     /* Add a copy of the text in the cutbuffer to the current filestruct
-     * at the current cursor position. */
+     * at the current cursor position.  Note that if the text in the
+     * cutbuffer doesn't end in a newline and the current cursor
+     * position is on the magicline, a new magicline will be added. */
     copy_from_filestruct(cutbuffer, cutbottom);
+
+    /* If the text in the cutbuffer does end in a newline and the
+     * current cursor position is on the magicline, add a new magicline
+     * for consistency. */
+    if (current == filebot)
+	new_magicline();
 
     /* Set the current place we want to where the text from the
      * cutbuffer ends. */
