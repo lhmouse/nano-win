@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano-0.9.10\n"
-"POT-Creation-Date: 2000-07-21 18:43-0400\n"
+"POT-Creation-Date: 2000-07-24 23:24-0400\n"
 "PO-Revision-Date: 2000-06-08 20:56+07:00\n"
 "Last-Translator: Tedi Heriyanto <tedi-h@usa.net>\n"
 "Language-Team: Indonesian <id@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "add_to_cutbuffer called with inptr->data = %s\n"
 msgstr "add_to_cutbuffer dipangil dgn inptr->data = %s\n"
 
-#: cut.c:148
+#: cut.c:149
 msgid "Blew away cutbuffer =)\n"
 msgstr "Hapus cutbuffer =>\n"
 
@@ -54,55 +54,55 @@ msgstr "Membaca File"
 msgid "File to insert [from ./] "
 msgstr "File untuk disisipkan "
 
-#: files.c:272 files.c:296 files.c:488 nano.c:1147
+#: files.c:272 files.c:296 files.c:486 nano.c:1149
 msgid "Cancelled"
 msgstr "Dibatalkan"
 
-#: files.c:331 files.c:351 files.c:364 files.c:381 files.c:387
+#: files.c:318 files.c:338 files.c:351 files.c:368 files.c:374
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "Tidak dapat membuka file untuk menulis: %s"
 
-#: files.c:339
+#: files.c:326
 msgid "Could not open file: Path length exceeded."
 msgstr "Tidak dapat membuka file: panjang path terlampaui"
 
-#: files.c:369
+#: files.c:356
 #, c-format
 msgid "Wrote >%s\n"
 msgstr "Tulis >%s\n"
 
-#: files.c:396
+#: files.c:383
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "Tidak dapat menutup %s: %s"
 
 #. Try a rename??
-#: files.c:417 files.c:428 files.c:433
+#: files.c:404 files.c:415 files.c:420
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr "Tidak dapat membuka %s untuk menulis: %s"
 
-#: files.c:439
+#: files.c:426
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr "Tidak dapat menset permisi %o pada %s: %s"
 
-#: files.c:446
+#: files.c:433
 #, c-format
 msgid "Wrote %d lines"
 msgstr "Menulis %d baris"
 
-#: files.c:467
+#: files.c:465
 msgid "File Name to write"
 msgstr "Nama file untuk ditulis"
 
-#: files.c:472
+#: files.c:470
 #, c-format
 msgid "filename is %s"
 msgstr "Namafile adalah %s"
 
-#: files.c:477
+#: files.c:475
 msgid "File exists, OVERWRITE ?"
 msgstr "File ada, DITIMPA ?"
 
@@ -592,90 +592,90 @@ msgstr "Set Tanda"
 msgid "Mark UNset"
 msgstr "Unset Tanda"
 
-#: nano.c:873
+#: nano.c:875
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap dipanggil dengan inptr->data=\"%s\"\n"
 
-#: nano.c:933
+#: nano.c:935
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data sekarang =\"%s\"\n"
 
-#: nano.c:986
+#: nano.c:988
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Setelah, data= \"%s\"\n"
 
-#: nano.c:1056
+#: nano.c:1058
 msgid "Error deleting tempfile, ack!"
 msgstr "Kesalahan menghapus tempfile, ack!"
 
-#: nano.c:1074
+#: nano.c:1076
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Tidak dapat membuat nama file sementara: %s"
 
-#: nano.c:1097
+#: nano.c:1099
 #, c-format
 msgid "Could not invoke spell program \"%s\""
 msgstr "Tidak dapat memanggil program ejaan \"%s\""
 
 #. Why 32512? I dont know!
-#: nano.c:1103
+#: nano.c:1105
 msgid "Could not invoke \"ispell\""
 msgstr "Tidak dapat memanggil \"ispell\""
 
-#: nano.c:1116
+#: nano.c:1118
 msgid "Finished checking spelling"
 msgstr "Selesai memeriksa ejaan"
 
-#: nano.c:1134
+#: nano.c:1136
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Simpan buffer termodifikasi (JAWAB \"No\" AKAN MENGHAPUS PERUBAHAN) ?"
 
-#: nano.c:1257
+#: nano.c:1259
 msgid "Cannot resize top win"
 msgstr "Tidak dapat menganti ukuran jendela atas"
 
-#: nano.c:1259
+#: nano.c:1261
 msgid "Cannot move top win"
 msgstr "Tidak dapat memindahkan jendela atas"
 
-#: nano.c:1261
+#: nano.c:1263
 msgid "Cannot resize edit win"
 msgstr "Tidak dapat mengganti ukuran jendela edit"
 
-#: nano.c:1263
+#: nano.c:1265
 msgid "Cannot move edit win"
 msgstr "Tidak dapat memindah jendela edit"
 
-#: nano.c:1265
+#: nano.c:1267
 msgid "Cannot resize bottom win"
 msgstr "Tidak dapat mengganti ukuran jendela bawah"
 
-#: nano.c:1267
+#: nano.c:1269
 msgid "Cannot move bottom win"
 msgstr "Tidak dapat memindah jendela bawah"
 
-#: nano.c:1736
+#: nano.c:1742
 msgid "Main: set up windows\n"
 msgstr "Main: menset jendela\n"
 
-#: nano.c:1758
+#: nano.c:1764
 msgid "Main: bottom win\n"
 msgstr "Main: jendela bawah\n"
 
-#: nano.c:1764
+#: nano.c:1770
 msgid "Main: open file\n"
 msgstr "Main: membuka file\n"
 
-#: nano.c:1837
+#: nano.c:1843
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"
 
-#: nano.c:1853
+#: nano.c:1859
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.11\n"
-"POT-Creation-Date: 2000-07-21 18:43-0400\n"
+"POT-Creation-Date: 2000-07-24 23:24-0400\n"
 "PO-Revision-Date: 2000-06-21 12:19+0200\n"
 "Last-Translator: Florian König <floki@bigfoot.com>\n"
 "Language-Team: German <floki@bigfoot.com>\n"
@@ -19,7 +19,7 @@ msgstr ""
 msgid "add_to_cutbuffer called with inptr->data = %s\n"
 msgstr "add_to_cutbuffer aufgerufen mit inptr->data = %s\n"
 
-#: cut.c:148
+#: cut.c:149
 msgid "Blew away cutbuffer =)\n"
 msgstr "Inhalt der Zwischenablage verworfen\n"
 
@@ -55,55 +55,55 @@ msgstr "Lese Datei"
 msgid "File to insert [from ./] "
 msgstr "Datei zum Einfügen [von ./] "
 
-#: files.c:272 files.c:296 files.c:488 nano.c:1147
+#: files.c:272 files.c:296 files.c:486 nano.c:1149
 msgid "Cancelled"
 msgstr "Abgebrochen"
 
-#: files.c:331 files.c:351 files.c:364 files.c:381 files.c:387
+#: files.c:318 files.c:338 files.c:351 files.c:368 files.c:374
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "Konnte nicht in Datei schreiben: %s"
 
-#: files.c:339
+#: files.c:326
 msgid "Could not open file: Path length exceeded."
 msgstr "Konnte Datei nicht öffnen: Pfad zu lang."
 
-#: files.c:369
+#: files.c:356
 #, c-format
 msgid "Wrote >%s\n"
 msgstr "Schrieb >%s\n"
 
-#: files.c:396
+#: files.c:383
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "Konnte %s nicht schließen: %s"
 
 #. Try a rename??
-#: files.c:417 files.c:428 files.c:433
+#: files.c:404 files.c:415 files.c:420
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr "Konnte nicht in %s schreiben: %s"
 
-#: files.c:439
+#: files.c:426
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr "Konnte Rechte %o für %s nicht setzen: %s"
 
-#: files.c:446
+#: files.c:433
 #, c-format
 msgid "Wrote %d lines"
 msgstr "%d Zeilen geschrieben"
 
-#: files.c:467
+#: files.c:465
 msgid "File Name to write"
 msgstr "Dateiname zum Speichern"
 
-#: files.c:472
+#: files.c:470
 #, c-format
 msgid "filename is %s"
 msgstr "Dateiname ist %s"
 
-#: files.c:477
+#: files.c:475
 msgid "File exists, OVERWRITE ?"
 msgstr "Datei exisitiert, ÜBERSCHREIBEN ?"
 
@@ -600,90 +600,90 @@ msgstr "Markierung gesetzt"
 msgid "Mark UNset"
 msgstr "Markierung gelöscht"
 
-#: nano.c:873
+#: nano.c:875
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap aufgerufen mit inptr->data=\"%s\"\n"
 
-#: nano.c:933
+#: nano.c:935
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data jetzt = \"%s\"\n"
 
-#: nano.c:986
+#: nano.c:988
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Nachher, data = \"%s\"\n"
 
-#: nano.c:1056
+#: nano.c:1058
 msgid "Error deleting tempfile, ack!"
 msgstr "Konnte temporäre Datei nicht löschen"
 
-#: nano.c:1074
+#: nano.c:1076
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Konnte keine temporäre Datei erzeugen: %s"
 
-#: nano.c:1097
+#: nano.c:1099
 #, c-format
 msgid "Could not invoke spell program \"%s\""
 msgstr "Konnte Rechtschreibprogramm \"%s\" nicht aufrufen"
 
 #. Why 32512? I dont know!
-#: nano.c:1103
+#: nano.c:1105
 msgid "Could not invoke \"ispell\""
 msgstr "Konnte \"ispell\" nicht aufrufen"
 
-#: nano.c:1116
+#: nano.c:1118
 msgid "Finished checking spelling"
 msgstr "Rechtschreibprüfung abgeschlossen"
 
-#: nano.c:1134
+#: nano.c:1136
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Veränderten Puffer speichern (\"Nein\" verwirft die Änderungen) ? "
 
-#: nano.c:1257
+#: nano.c:1259
 msgid "Cannot resize top win"
 msgstr "Kann die Größe des oberen Fensters nicht verändern"
 
-#: nano.c:1259
+#: nano.c:1261
 msgid "Cannot move top win"
 msgstr "Kann oberes Fenster nicht verschieben"
 
-#: nano.c:1261
+#: nano.c:1263
 msgid "Cannot resize edit win"
 msgstr "Kann Größe des Bearbeitungsfensters nicht verändern"
 
-#: nano.c:1263
+#: nano.c:1265
 msgid "Cannot move edit win"
 msgstr "Kann Bearbeitungsfenster nicht verschieben"
 
-#: nano.c:1265
+#: nano.c:1267
 msgid "Cannot resize bottom win"
 msgstr "Kann Größe des unteren Fensters nicht verändern"
 
-#: nano.c:1267
+#: nano.c:1269
 msgid "Cannot move bottom win"
 msgstr "Kann unteres Fenster nicht verschieben"
 
-#: nano.c:1736
+#: nano.c:1742
 msgid "Main: set up windows\n"
 msgstr "Hauptprogramm: Fenster konfigurieren\n"
 
-#: nano.c:1758
+#: nano.c:1764
 msgid "Main: bottom win\n"
 msgstr "Hauptprogramm: unteres Fenster\n"
 
-#: nano.c:1764
+#: nano.c:1770
 msgid "Main: open file\n"
 msgstr "Hauptprogramm: Datei öffnen\n"
 
-#: nano.c:1837
+#: nano.c:1843
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Erhielt Alt-[-%c! (%d)\n"
 
-#: nano.c:1853
+#: nano.c:1859
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Erhielt Alt-%c! (%d)\n"
