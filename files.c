@@ -327,7 +327,7 @@ int write_file(char *name, int tmp)
     lstat(realname, &st);
 
     /* Open the file and truncate it.  Trust the symlink. */
-    if ((ISSET(FOLLOW_SYMLINKS) || !S_ISLNK(st.st_mode)) && !tmp) {
+    if (!tmp && (ISSET(FOLLOW_SYMLINKS) || !S_ISLNK(st.st_mode))) {
 
 	if ((fd = open(realname, O_WRONLY | O_CREAT | O_TRUNC,
 		       S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH |
