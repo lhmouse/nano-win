@@ -428,10 +428,10 @@ void shortcut_init(int unjustify)
 /* The following macro is to be used in calling sc_init_one.  The point is
  * that sc_init_one takes 9 arguments, unless DISABLE_HELP is defined,
  * when the fourth one should not be there. */
-#ifdef DISABLE_HELP
-#  define IFHELP(help, nextvar) nextvar
-#else
+#ifndef DISABLE_HELP
 #  define IFHELP(help, nextvar) help, nextvar
+#else
+#  define IFHELP(help, nextvar) nextvar
 #endif
 
     /* Translators: try to keep this string under 10 characters long */
