@@ -15,6 +15,10 @@ CVS code -
 	  builds with DEBUG defined again. (Mike Frysinger, found by
 	  Dmitri Vassilenko)
 - files.c:
+  do_insertfile()
+	- Fix problem where going into the help browser at the "Insert
+	  File" prompt would always result in the current answer's being
+	  used as the filename afterward. (DLR)
   get_full_path()
 	- Rework handling of the results of getcwd() in order to avoid
 	  segfaults if they fail, and to remove uses of the nonportable

@@ -557,8 +557,7 @@ void do_insertfile(
 #ifdef ENABLE_MULTIBUFFER
 		&& !ISSET(MULTIBUFFER)
 #endif
-		))
-	{
+		)) {
 	    statusbar(_("Cancelled"));
 	    break;
 	} else {
@@ -581,6 +580,7 @@ void do_insertfile(
 
 		if (tmp == NULL)
 		    continue;
+
 		free(answer);
 		answer = tmp;
 
@@ -596,6 +596,11 @@ void do_insertfile(
 		continue;
 	    }
 #endif
+
+	    /* If we don't have a file yet, go back to the statusbar
+	     * prompt. */
+	    if (i != 0)
+		continue;
 
 #ifdef ENABLE_MULTIBUFFER
 	    if (!ISSET(MULTIBUFFER)) {
