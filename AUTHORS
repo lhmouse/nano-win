@@ -19,3 +19,8 @@ Robert Siemborski <rjs3@andrew.cmu.edu>
 	* Miscellaneous cut, display, replace, and other bug fixes,
 	  original and new "magic line" code, read_line() function, new
 	  edit display routines.
+
+Rocco Corsi <rocco.corsi@sympatico.ca>
+	* Internal spelling code, many optimizations and bug fixes for 
+	  findnextstr and search-related functions, various display and
+	  file handling fixes.
