@@ -6,6 +6,7 @@ CVS Code -
 	  non-file at startup.
   usage()
   	- Remove gettext markings from -p/--preserve (Jordi).
+	- Revamp -H option message to fit in 80 column terminal.
   do_preserve_msg():
 	- Unsplit error message into a single fprintf call (Jordi).
 

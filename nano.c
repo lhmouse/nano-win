@@ -631,7 +631,7 @@ void usage(void)
     print1opt("-F", "--multibuffer", _("Enable multiple file buffers"));
 #endif
 #ifdef ENABLE_NANORC
-    print1opt("-H", "--historylog", _("Log and read search/replace string history"));
+    print1opt("-H", "--historylog", _("Log & read search/replace string history"));
     print1opt("-I", "--ignorercfiles", _("Don't look at nanorc files"));
 #endif
     print1opt("-K", "--keypad", _("Use alternate keypad routines"));
