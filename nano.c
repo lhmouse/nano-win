@@ -1912,11 +1912,11 @@ void help_init(void)
 {
     int i, sofar = 0;
     long allocsize = 1;		/* How much space we're gonna need for the help text */
-    char buf[BUFSIZ];
+    char buf[BUFSIZ] = "";
 
     /* Compute the space needed for the shortcut lists - we add 15 to
        have room for the shortcut abbrev and its possible alternate keys */
-    for (i = 0; i < MAIN_LIST_LEN; i++)
+    for (i = 0; i <= MAIN_LIST_LEN - 1; i++)
 	if (main_list[i].help != NULL)
 	    allocsize += strlen(main_list[i].help) + 15;
 
@@ -1937,7 +1937,7 @@ void help_init(void)
     strcpy(help_text, help_text_init);
 
     /* Now add our shortcut info */
-    for (i = 0; i < MAIN_LIST_LEN - 1; i++) {
+    for (i = 0; i <= MAIN_LIST_LEN - 1; i++) {
 	sofar = snprintf(buf, BUFSIZ, "^%c	", main_list[i].val + 64);
 
 	if (main_list[i].misc1 > KEY_F0 && main_list[i].misc1 <= KEY_F(64))
