@@ -39,6 +39,13 @@ AC_ARG_ENABLE(nanorc,
     AC_DEFINE(ENABLE_NANORC) nanorc_support=yes
  fi])
 
+AC_ARG_ENABLE(color,
+[  --enable-color          Enable color and syntax hilighting],
+[if test x$enableval = xyes; then
+    AC_DEFINE(ENABLE_NANORC) nanorc_support=yes
+    AC_DEFINE(ENABLE_COLOR) color_support=yes
+ fi])
+
 AC_ARG_ENABLE(tabcomp,
 [  --disable-tabcomp       Disables tab completion code for a smaller binary],
  [if test x$enableval != xyes; then

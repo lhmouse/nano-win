@@ -501,8 +501,9 @@ return (int) gettext ("")]ifelse([$2], need-ngettext, [ + (int) ngettext ("", ""
       POSUB=po
     fi
     AC_OUTPUT_COMMANDS(
-     [case " $CONFIG_FILES " in *" po/Makefile.in "* | *" po/Makefile.in:"*)
+     [case " "$CONFIG_FILES" " in *" po/Makefile.in "* | *" po/Makefile.in:"*)
         sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile
+        ;;
       esac])
 
 

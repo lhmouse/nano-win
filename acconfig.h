@@ -56,3 +56,7 @@
 
 /* Define this to use the .nanorc file */
 #undef ENABLE_NANORC
+
+/* Define this to have syntax hilighting, requires ENABLE_NANORC too! */
+#undef ENABLE_COLOR
+

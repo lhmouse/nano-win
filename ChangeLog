@@ -17,8 +17,11 @@ Cvs code -
 	- After "Alternate" spell checker is called, cursor is repositioned on
 	  the same line as before ^T was called.
 - configure.in:
-	- New option, --enable-nanorc which currently does nothing but
-	  sets a define.  Will do more later...
+	- New option, --enable-nanorc which allows people to have a .nanorc
+	  initialization file and set options normally used on the command
+	  line, and color later on.
+	- Added --enable-color option to allow color and syntax hilighting
+	  (stub as of now).
 - files.c:
   do_browser()
 	- Minor fixes to the processing of SELECT function (Rocco)
