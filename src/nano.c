@@ -1537,6 +1537,8 @@ bool do_int_spell_fix(const char *word)
 #endif
 #ifndef NANO_SMALL
     bool old_mark_set = ISSET(MARK_ISSET);
+    bool added_magicline = FALSE;
+	/* Whether we added a magicline after filebot. */
     bool right_side_up = FALSE;
 	/* TRUE if (mark_beginbuf, mark_beginx) is the top of the mark,
 	 * FALSE if (current, current_x) is. */
@@ -1568,10 +1570,13 @@ bool do_int_spell_fix(const char *word)
 #ifndef NANO_SMALL
     if (old_mark_set) {
 	/* If the mark is on, partition the filestruct so that it
-	 * contains only the marked text, and turn the mark off. */
+	 * contains only the marked text, keep track of whether the text
+	 * will have a magicline added when we're done correcting
+	 * misspelled words, and turn the mark off. */
 	mark_order((const filestruct **)&top, &top_x,
 	    (const filestruct **)&bot, &bot_x, &right_side_up);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
+	added_magicline = (filebot->data[0] != '\0');
 	UNSET(MARK_ISSET);
     }
 #endif
@@ -1600,17 +1605,9 @@ bool do_int_spell_fix(const char *word)
 	    do_replace_highlight(FALSE, word);
 
 	    if (!canceled && strcmp(word, answer) != 0) {
-		bool added_magicline = (filebot->data[0] != '\0');
-			/* Whether we added a magicline after
-			 * filebot. */
-
 		current_x--;
 		do_replace_loop(word, current, &current_x, TRUE,
 			&canceled);
-
-		/* If we added a magicline, remove it now. */
-		if (added_magicline)
-		    remove_magicline();
 	    }
 
 	    break;
@@ -1619,16 +1616,26 @@ bool do_int_spell_fix(const char *word)
 
 #ifndef NANO_SMALL
     if (old_mark_set) {
-	size_t bot_data_len = strlen(filebot->data);
+	size_t bot_data_len;
+
+	/* If we added a magicline, remove it now. */
+	if (added_magicline)
+	    remove_magicline();
 
 	/* If the mark ended in the middle of a word and that word was
 	 * spell-checked, put either current_x_save or mark_beginx,
 	 * depending on the value of right_side_up, at the end of the
 	 * spell-checked word. */
+	bot_data_len = strlen(filebot->data);
 	if (right_side_up)
 	    current_x_save = bot_data_len;
 	else
 	    mark_beginx = bot_data_len;
+
+	/* If the mark was on, unpartition the filestruct so that it
+	 * contains all the text again, and turn the mark back on. */
+	unpartition_filestruct(filepart);
+	SET(MARK_ISSET);
     }
 #endif
 
@@ -1637,15 +1644,6 @@ bool do_int_spell_fix(const char *word)
     last_search = save_search;
     free(last_replace);
     last_replace = save_replace;
-
-#ifndef NANO_SMALL
-    if (old_mark_set) {
-	/* If the mark was on, unpartition the filestruct so that it
-	 * contains all the text again, and turn the mark back on. */
-	unpartition_filestruct(filepart);
-	SET(MARK_ISSET);
-    }
-#endif
 
     /* Restore where we were. */
     edittop = edittop_save;
