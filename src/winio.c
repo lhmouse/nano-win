@@ -3185,7 +3185,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 	    int paintlen;
 		/* Number of chars to paint on this line.  There are COLS
 		 * characters on a whole line. */
-	    size_t index;
+	    size_t index = 0;
 		/* Index in converted where we paint. */
 	    regmatch_t startmatch;	/* match position for start_regexp */
 	    regmatch_t endmatch;	/* match position for end_regexp */
@@ -3408,7 +3408,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 	int paintlen;
 	    /* Number of chars to paint on this line.  There are COLS
 	     * characters on a whole line. */
-	size_t index;
+	size_t index = 0;
 	    /* Index in converted where we paint. */
 
 	mark_order(&top, &top_x, &bot, &bot_x, NULL);
