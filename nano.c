@@ -307,6 +307,13 @@ void align(char **strp)
     *strp = nrealloc(*strp, strlen(*strp) + 1);
 }
 
+/* Null a string at a certain index and align it */
+void null_at(char *data, int index)
+{
+    data[index] = 0;
+    align(&data);
+}
+
 void usage(void)
 {
 #ifdef HAVE_GETOPT_LONG
@@ -717,8 +724,7 @@ void do_wrap(filestruct * inptr, char input_char)
 	    down = 1;
 	}
 
-	inptr->data = nrealloc(inptr->data, current_x + 1);
-	inptr->data[current_x] = 0;
+	null_at(inptr->data, current_x);
 
 	if (ISSET(MARK_ISSET) && (mark_beginbuf == inptr)) {
 	    mark_beginbuf = temp;
@@ -765,9 +771,7 @@ void do_wrap(filestruct * inptr, char input_char)
 	    if (isspace(input_char) && (current_x == current_word_start)) {
 		current_x = current_word_start;
 
-		inptr->data =
-		    nrealloc(inptr->data, current_word_start + 1);
-		inptr->data[current_word_start] = 0;
+		null_at(inptr->data, current_word_start);
 	    } else {
 
 		while (isspace(inptr->data[i])) {

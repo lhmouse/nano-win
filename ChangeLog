@@ -2,6 +2,8 @@ CVS code
 - nano.c:
   splice_node()
 	- New function, abstracts linking in nodes.   Fixes bug #36.
+  null_at()
+	- New function, nulls a string at a given index and realigns it.
   delete_buffer()
 	- Removed, same as free_filestruct().
 - search.c:

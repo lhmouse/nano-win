@@ -108,6 +108,7 @@ void die(char *msg, ...);
 void new_file(void);
 void new_magicline(void);
 void splice_node(filestruct *begin, filestruct *new, filestruct *end);
+void null_at(char *data, int index)
 
 int do_writeout_void(void), do_exit(void), do_gotoline_void(void);
 int do_insertfile(void), do_search(void), page_up(void), page_down(void);
