@@ -105,7 +105,8 @@ void new_file(void)
 #endif
 }
 
-filestruct *read_line(char *buf, filestruct *prev, int *line1ins, int len)
+filestruct *read_line(char *buf, filestruct *prev, int *line1ins, size_t
+	len)
 {
     filestruct *fileptr = (filestruct *)nmalloc(sizeof(filestruct));
 
@@ -2454,7 +2455,7 @@ int diralphasort(const void *va, const void *vb)
 }
 
 /* Free our malloc()ed memory */
-void free_charptrarray(char **array, int len)
+void free_charptrarray(char **array, size_t len)
 {
     for (; len > 0; len--)
 	free(array[len - 1]);

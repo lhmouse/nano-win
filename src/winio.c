@@ -129,14 +129,11 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len, int
     allow_pending_sigwinch(TRUE);
 #endif
 
-    /* Switch to raw mode if necessary so that we can type ^C, ^Q, ^S,
-     * ^Z, and ^\ (and ^Y on systems supporting delayed suspend) without
-     * getting interrupts, and turn the keypad off so that we don't get
-     * extended keypad values, all of which are outside the ASCII
-     * range. */
-#ifdef _POSIX_VDISABLE
-    raw();
-#endif
+    /* Turn off flow control characters if necessary so that we can type
+     * them in verbatim, and turn the keypad off so that we don't get
+     * extended keypad values outside the ASCII range. */
+    if (ISSET(PRESERVE))
+	disable_flow_control();
     keypad(win, FALSE);
 
     kbinput = wgetch(win);
@@ -165,11 +162,10 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len, int
 	nodelay(win, FALSE);
     }
 
-    /* Switch back to cbreak mode if necessary and turn the keypad back
-     * on now that we're done. */
-#ifdef _POSIX_VDISABLE
-    cbreak();
-#endif
+    /* Turn flow control characters back on if necessary and turn the
+     * keypad back on now that we're done. */
+    if (ISSET(PRESERVE))
+	enable_flow_control();
     keypad(win, TRUE);
 
 #ifndef NANO_SMALL
@@ -1096,26 +1092,14 @@ size_t strlenpt(const char *buf)
     return strnlenpt(buf, (size_t)-1);
 }
 
-void blank_bottombars(void)
+void blank_titlebar(void)
 {
-    if (!ISSET(NO_HELP)) {
-	mvwaddstr(bottomwin, 1, 0, hblank);
-	mvwaddstr(bottomwin, 2, 0, hblank);
-    }
-}
-
-void blank_bottomwin(void)
-{
-    if (ISSET(NO_HELP))
-	return;
-
-    mvwaddstr(bottomwin, 1, 0, hblank);
-    mvwaddstr(bottomwin, 2, 0, hblank);
+    mvwaddstr(topwin, 0, 0, hblank);
 }
 
 void blank_edit(void)
 {
-    int i;
+    size_t i;
     for (i = 0; i < editwinrows; i++)
 	mvwaddstr(edit, i, 0, hblank);
 }
@@ -1141,12 +1125,20 @@ void check_statblank(void)
     }
 }
 
+void blank_bottombars(void)
+{
+    if (!ISSET(NO_HELP)) {
+	mvwaddstr(bottomwin, 1, 0, hblank);
+	mvwaddstr(bottomwin, 2, 0, hblank);
+    }
+}
+
 /* Convert buf into a string that can be displayed on screen.  The
  * caller wants to display buf starting with column start_col, and
  * extending for at most len columns.  start_col is zero-based.  len is
  * one-based, so len == 0 means you get "" returned.  The returned
  * string is dynamically allocated, and should be freed. */
-char *display_string(const char *buf, size_t start_col, int len)
+char *display_string(const char *buf, size_t start_col, size_t len)
 {
     size_t start_index;
 	/* Index in buf of first character shown in return value. */
@@ -1539,16 +1531,6 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	return 0;
 }
 
-/* If modified is not already set, set it and update titlebar. */
-void set_modified(void)
-{
-    if (!ISSET(MODIFIED)) {
-	SET(MODIFIED);
-	titlebar(NULL);
-	wrefresh(topwin);
-    }
-}
-
 void titlebar(const char *path)
 {
     int namelen, space;
@@ -1559,7 +1541,7 @@ void titlebar(const char *path)
 
     wattron(topwin, A_REVERSE);
 
-    mvwaddstr(topwin, 0, 0, hblank);
+    blank_titlebar();
     mvwaddnstr(topwin, 0, 2, VERMSG, COLS - 3);
 
     space = COLS - sizeof(VERMSG) - 23;
@@ -1597,6 +1579,64 @@ void titlebar(const char *path)
     reset_cursor();
 }
 
+/* If modified is not already set, set it and update titlebar. */
+void set_modified(void)
+{
+    if (!ISSET(MODIFIED)) {
+	SET(MODIFIED);
+	titlebar(NULL);
+	wrefresh(topwin);
+    }
+}
+
+void statusbar(const char *msg, ...)
+{
+    va_list ap;
+
+    va_start(ap, msg);
+
+    /* Curses mode is turned off.  If we use wmove() now, it will muck
+     * up the terminal settings.  So we just use vfprintf(). */
+    if (curses_ended) {
+	vfprintf(stderr, msg, ap);
+	va_end(ap);
+	return;
+    }
+
+    /* Blank out the line. */
+    blank_statusbar();
+
+    if (COLS >= 4) {
+	char *bar;
+	char *foo;
+	size_t start_x = 0, foo_len;
+	bar = charalloc(COLS - 3);
+	vsnprintf(bar, COLS - 3, msg, ap);
+	va_end(ap);
+	foo = display_string(bar, 0, COLS - 4);
+	free(bar);
+	foo_len = strlen(foo);
+	start_x = (COLS - foo_len - 4) / 2;
+
+	wmove(bottomwin, 0, start_x);
+	wattron(bottomwin, A_REVERSE);
+
+	waddstr(bottomwin, "[ ");
+	waddstr(bottomwin, foo);
+	free(foo);
+	waddstr(bottomwin, " ]");
+	wattroff(bottomwin, A_REVERSE);
+	wnoutrefresh(bottomwin);
+	reset_cursor();
+	wrefresh(edit);
+	    /* Leave the cursor at its position in the edit window, not
+	     * in the statusbar. */
+    }
+
+    SET(DISABLE_CURPOS);
+    statblank = 26;
+}
+
 void bottombars(const shortcut *s)
 {
     int i, j, numcols;
@@ -1620,7 +1660,7 @@ void bottombars(const shortcut *s)
     /* There will be this many columns of shortcuts */
     numcols = (slen + (slen % 2)) / 2;
 
-    blank_bottomwin();
+    blank_bottombars();
 
     for (i = 0; i < numcols; i++) {
 	for (j = 0; j <= 1; j++) {
@@ -2370,15 +2410,15 @@ int do_yesno(int all, const char *msg)
 
 int total_refresh(void)
 {
-    clearok(edit, TRUE);
     clearok(topwin, TRUE);
+    clearok(edit, TRUE);
     clearok(bottomwin, TRUE);
-    wnoutrefresh(edit);
     wnoutrefresh(topwin);
+    wnoutrefresh(edit);
     wnoutrefresh(bottomwin);
     doupdate();
-    clearok(edit, FALSE);
     clearok(topwin, FALSE);
+    clearok(edit, FALSE);
     clearok(bottomwin, FALSE);
     edit_refresh();
     titlebar(NULL);
@@ -2390,62 +2430,13 @@ void display_main_list(void)
     bottombars(main_list);
 }
 
-void statusbar(const char *msg, ...)
-{
-    va_list ap;
-
-    va_start(ap, msg);
-
-    /* Curses mode is turned off.  If we use wmove() now, it will muck
-     * up the terminal settings.  So we just use vfprintf(). */
-    if (curses_ended) {
-	vfprintf(stderr, msg, ap);
-	va_end(ap);
-	return;
-    }
-
-    /* Blank out the line. */
-    blank_statusbar();
-
-    if (COLS >= 4) {
-	char *bar;
-	char *foo;
-	int start_x = 0;
-	size_t foo_len;
-	bar = charalloc(COLS - 3);
-	vsnprintf(bar, COLS - 3, msg, ap);
-	va_end(ap);
-	foo = display_string(bar, 0, COLS - 4);
-	free(bar);
-	foo_len = strlen(foo);
-	start_x = (COLS - foo_len - 4) / 2;
-
-	wmove(bottomwin, 0, start_x);
-	wattron(bottomwin, A_REVERSE);
-
-	waddstr(bottomwin, "[ ");
-	waddstr(bottomwin, foo);
-	free(foo);
-	waddstr(bottomwin, " ]");
-	wattroff(bottomwin, A_REVERSE);
-	wnoutrefresh(bottomwin);
-	reset_cursor();
-	wrefresh(edit);
-	    /* Leave the cursor at its position in the edit window, not
-	     * in the statusbar. */
-    }
-
-    SET(DISABLE_CURPOS);
-    statblank = 26;
-}
-
-/* If constant is false, the user typed ^C so we unconditionally display
+/* If constant is FALSE, the user typed ^C so we unconditionally display
  * the cursor position.  Otherwise, we display it only if the character
  * position changed, and DISABLE_CURPOS is not set.
  *
- * If constant and DISABLE_CURPOS is set, we unset it and update old_i and
- * old_totsize.  That way, we leave the current statusbar alone, but next
- * time we will display. */
+ * If constant is TRUE and DISABLE_CURPOS is set, we unset it and update
+ * old_i and old_totsize.  That way, we leave the current statusbar
+ * alone, but next time we will display. */
 int do_cursorpos(int constant)
 {
     const filestruct *fileptr;
@@ -2533,7 +2524,7 @@ int line_len(const char *ptr)
 int do_help(void)
 {
     int i, page = 0, kbinput = ERR, meta_key, no_more = 0;
-    int no_help_flag = 0;
+    int no_help_flag = FALSE;
     const shortcut *oldshortcut;
 
     blank_edit();
@@ -2553,7 +2544,7 @@ int do_help(void)
 
 	/* Well, if we're going to do this, we should at least do it the
 	 * right way. */
-	no_help_flag = 1;
+	no_help_flag = TRUE;
 	UNSET(NO_HELP);
 	window_init();
 	bottombars(help_list);
@@ -2701,17 +2692,13 @@ void dump_buffer_reverse(void)
 /* Easter egg: Display credits.  Assume nodelay(edit) is FALSE. */
 void do_credits(void)
 {
-    int i, j = 0, k, place = 0, start_x;
-
-    const char *what;
-    const char *xlcredits[XLCREDIT_LEN];
-
-    const char *credits[CREDIT_LEN] = { 
-	"0",				/* "The nano text editor" */
-	"1",				/* "version" */
+    int crpos = 0, xlpos = 0;
+    const char *credits[CREDIT_LEN] = {
+	NULL,				/* "The nano text editor" */
+	NULL,				/* "version" */
 	VERSION,
 	"",
-	"2",				/* "Brought to you by:" */
+	NULL,				/* "Brought to you by:" */
 	"Chris Allegretta",
 	"Jordi Mallach",
 	"Adam Rogoyski",
@@ -2734,80 +2721,82 @@ void do_credits(void)
 	"Ryan Krebs",
 	"Albert Chin",
 	"",
-	"3",				/* "Special thanks to:" */
+	NULL,				/* "Special thanks to:" */
 	"Plattsburgh State University",
 	"Benet Laboratories",
 	"Amy Allegretta",
 	"Linda Young",
 	"Jeremy Robichaud",
 	"Richard Kolb II",
-	"4",				/* "The Free Software Foundation" */
+	NULL,				/* "The Free Software Foundation" */
 	"Linus Torvalds",
-	"5",				/* "For ncurses:" */
+	NULL,				/* "For ncurses:" */
 	"Thomas Dickey",
 	"Pavel Curtis",
 	"Zeyd Ben-Halim",
 	"Eric S. Raymond",
-	"6",				/* "and anyone else we forgot..." */
-	"7",				/* "Thank you for using nano!\n" */
-	"", "", "", "",
+	NULL,				/* "and anyone else we forgot..." */
+	NULL,				/* "Thank you for using nano!" */
+	"",
+	"",
+	"",
+	"",
 	"(c) 1999-2004 Chris Allegretta",
-	"", "", "", "",
+	"",
+	"",
+	"",
+	"",
 	"http://www.nano-editor.org/"
     };
 
-    xlcredits[0] = _("The nano text editor");
-    xlcredits[1] = _("version ");
-    xlcredits[2] = _("Brought to you by:");
-    xlcredits[3] = _("Special thanks to:");
-    xlcredits[4] = _("The Free Software Foundation");
-    xlcredits[5] = _("For ncurses:");
-    xlcredits[6] = _("and anyone else we forgot...");
-    xlcredits[7] = _("Thank you for using nano!\n");
+    const char *xlcredits[XLCREDIT_LEN] = {
+	_("The nano text editor"),
+	_("version"),
+	_("Brought to you by:"),
+	_("Special thanks to:"),
+	_("The Free Software Foundation"),
+	_("For ncurses:"),
+	_("and anyone else we forgot..."),
+	_("Thank you for using nano!")
+    };
 
     curs_set(0);
     nodelay(edit, TRUE);
-    blank_bottombars();
-    mvwaddstr(topwin, 0, 0, hblank);
+    scrollok(edit, TRUE);
+    blank_titlebar();
     blank_edit();
+    blank_statusbar();
+    blank_bottombars();
+    wrefresh(topwin);
     wrefresh(edit);
     wrefresh(bottomwin);
-    wrefresh(topwin);
 
-    while (wgetch(edit) == ERR) {
-	for (k = 0; k <= 1; k++) {
-	    blank_edit();
-	    for (i = editwinrows / 2 - 1; i >= (editwinrows / 2 - 1 - j);
-		 i--) {
-		mvwaddstr(edit, i * 2 - k, 0, hblank);
-
-		if (place - (editwinrows / 2 - 1 - i) < CREDIT_LEN) {
-		    what = credits[place - (editwinrows / 2 - 1 - i)];
-
-		    /* God I've missed hacking.  If what is exactly
-			1 char long, it's a sentinel for a translated
-			string, so use that instead.  This means no
-			thanking people with 1 character long names ;-) */
-		    if (strlen(what) == 1)
-			what = xlcredits[atoi(what)];
-		} else
-		    what = "";
-
-		start_x = COLS / 2 - strlen(what) / 2 - 1;
-		mvwaddstr(edit, i * 2 - k, start_x, what);
-	    }
-	    napms(700);
-	    wrefresh(edit);
-	}
-	if (j < editwinrows / 2 - 1)
-	    j++;
-
-	place++;
-
-	if (place >= CREDIT_LEN + editwinrows / 2)
+    for (crpos = 0; crpos < CREDIT_LEN + editwinrows / 2; crpos++) {
+	if (wgetch(edit) != ERR)
 	    break;
+	if (crpos < CREDIT_LEN) {
+	    const char *what = credits[crpos];
+	    size_t start_x;
+
+	    if (what == NULL) {
+		assert(0 <= xlpos && xlpos < XLCREDIT_LEN);
+		what = xlcredits[xlpos];
+		xlpos++;
+	    }
+	    start_x = COLS / 2 - strlen(what) / 2 - 1;
+	    mvwaddstr(edit, editwinrows - 1 - editwinrows % 2, start_x, what);
+	}
+	napms(700);
+	scroll(edit);
+	wrefresh(edit);
+	if (wgetch(edit) != ERR)
+	    break;
+	napms(700);
+	scroll(edit);
+	wrefresh(edit);
     }
 
+    scrollok(edit, FALSE);
     nodelay(edit, FALSE);
     curs_set(1);
     display_main_list();

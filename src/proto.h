@@ -54,7 +54,7 @@ extern char *quotestr;
 extern char *backup_dir;
 #endif
 
-extern WINDOW *edit, *topwin, *bottomwin;
+extern WINDOW *topwin, *edit, *bottomwin;
 extern char *filename;
 extern struct stat originalfilestat;
 extern char *answer;
@@ -151,7 +151,8 @@ int do_uncut_text(void);
 /* Public functions in files.c */
 void load_file(int update);
 void new_file(void);
-filestruct *read_line(char *buf, filestruct *prev, int *line1ins, int len);
+filestruct *read_line(char *buf, filestruct *prev, int *line1ins, size_t
+	len);
 int read_file(FILE *f, const char *filename, int quiet);
 int open_file(const char *filename, int insert, int quiet);
 char *get_next_filename(const char *name);
@@ -202,7 +203,7 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
 const char *tail(const char *foo);
 #ifndef DISABLE_BROWSER
 int diralphasort(const void *va, const void *vb);
-void free_charptrarray(char **array, int len);
+void free_charptrarray(char **array, size_t len);
 void striponedir(char *foo);
 int readable_dir(const char *path);
 char **browser_init(const char *path, int *longest, int *numents);
@@ -268,7 +269,6 @@ void print1opt(const char *shortflag, const char *longflag,
 		const char *desc);
 void usage(void);
 void version(void);
-void do_early_abort(void);
 int no_help(void);
 int nano_disabled_msg(void);
 #ifndef NANO_SMALL
@@ -342,6 +342,14 @@ void allow_pending_sigwinch(int allow);
 #ifndef NANO_SMALL
 void do_toggle(const toggle *which);
 #endif
+#if !defined(NANO_SMALL) || defined(USE_SLANG)
+void disable_signals(void);
+#endif
+#ifndef NANO_SMALL
+void enable_signals(void);
+#endif
+void disable_flow_control(void);
+void enable_flow_control(void);
 
 /* Public functions in rcfile.c */
 #ifdef ENABLE_NANORC
@@ -469,13 +477,13 @@ size_t xplustabs(void);
 size_t actual_x(const char *str, size_t xplus);
 size_t strnlenpt(const char *buf, size_t size);
 size_t strlenpt(const char *buf);
-void blank_bottombars(void);
-void blank_bottomwin(void);
+void blank_titlebar(void);
 void blank_edit(void);
 void blank_statusbar(void);
 void blank_statusbar_refresh(void);
 void check_statblank(void);
-char *display_string(const char *buf, size_t start_col, int len);
+void blank_bottombars(void);
+char *display_string(const char *buf, size_t start_col, size_t len);
 void nanoget_repaint(const char *buf, const char *inputbuf, size_t x);
 int nanogetstr(int allowtabs, const char *buf, const char *def,
 #ifndef NANO_SMALL
@@ -486,8 +494,9 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		, int *list
 #endif
 		);
-void set_modified(void);
 void titlebar(const char *path);
+void set_modified(void);
+void statusbar(const char *msg, ...);
 void bottombars(const shortcut *s);
 void onekey(const char *keystroke, const char *desc, int len);
 #ifndef NDEBUG
@@ -511,7 +520,6 @@ int statusq(int allowtabs, const shortcut *s, const char *def,
 int do_yesno(int all, const char *msg);
 int total_refresh(void);
 void display_main_list(void);
-void statusbar(const char *msg, ...);
 int do_cursorpos(int constant);
 int do_cursorpos_void(void);
 int line_len(const char *ptr);

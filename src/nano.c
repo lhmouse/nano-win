@@ -25,7 +25,6 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <signal.h>
-#include <setjmp.h>
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
@@ -54,6 +53,10 @@
 #include <getopt.h>
 #endif
 
+#ifndef NANO_SMALL
+#include <setjmp.h>
+#endif
+
 #ifndef DISABLE_WRAPJUSTIFY
 static int fill = 0;	/* Fill - where to wrap lines, basically */
 #endif
@@ -65,21 +68,22 @@ static int same_line_wrap = 0;	/* Whether wrapped text should be
 static struct termios oldterm;	/* The user's original term settings */
 static struct sigaction act;	/* For all our fun signal handlers */
 
+#ifndef NANO_SMALL
 static sigjmp_buf jmpbuf;	/* Used to return to mainloop after SIGWINCH */
+#endif
 
 /* What we do when we're all set to exit */
 RETSIGTYPE finish(int sigage)
 {
-    if (!ISSET(NO_HELP)) {
-	mvwaddstr(bottomwin, 1, 0, hblank);
-	mvwaddstr(bottomwin, 2, 0, hblank);
-    } else
-	mvwaddstr(bottomwin, 0, 0, hblank);
+    if (!ISSET(NO_HELP))
+	blank_bottombars();
+    else
+	blank_statusbar();
 
     wrefresh(bottomwin);
     endwin();
 
-    /* Restore the old term settings */
+    /* Restore the old terminal settings. */
     tcsetattr(0, TCSANOW, &oldterm);
 
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
@@ -102,7 +106,7 @@ void die(const char *msg, ...)
     endwin();
     curses_ended = TRUE;
 
-    /* Restore the old term settings */
+    /* Restore the old terminal settings. */
     tcsetattr(0, TCSANOW, &oldterm);
 
     va_start(ap, msg);
@@ -241,7 +245,7 @@ void window_init(void)
     edit = newwin(editwinrows, COLS, 2, 0);
     bottomwin = newwin(3 - no_help(), COLS, LINES - 3 + no_help(), 0);
 
-    /* Turn the keypad on in the windows we'll be reading input from. */
+    /* Turn the keypad back on. */
     keypad(edit, TRUE);
     keypad(bottomwin, TRUE);
 }
@@ -758,13 +762,6 @@ void version(void)
     printf("\n");
 }
 
-/* Stuff we do when we abort from programs and want to clean up the
- * screen.  This doesn't do much right now. */
-void do_early_abort(void)
-{
-    blank_statusbar_refresh();
-}
-
 int no_help(void)
 {
     return ISSET(NO_HELP) ? 2 : 0;
@@ -792,13 +789,10 @@ int open_pipe(const char *command)
     FILE *f;
     struct sigaction oldaction, newaction;
 			/* original and temporary handlers for SIGINT */
-#ifdef _POSIX_VDISABLE
-    struct termios term, newterm;
-#endif /* _POSIX_VDISABLE */
     int cancel_sigs = 0;
     /* cancel_sigs == 1 means that sigaction() failed without changing
      * the signal handlers.  cancel_sigs == 2 means the signal handler
-     * was changed, but the tcsetattr didn't succeed.
+     * was changed, but the tcsetattr() didn't succeed.
      *
      * I use this variable since it is important to put things back when
      * we finish, even if we get errors. */
@@ -834,6 +828,9 @@ int open_pipe(const char *command)
 
     /* Before we start reading the forked command's output, we set
      * things up so that ^C will cancel the new process. */
+
+    enable_signals();
+
     if (sigaction(SIGINT, NULL, &newaction) == -1) {
 	cancel_sigs = 1;
 	nperror("sigaction");
@@ -846,24 +843,6 @@ int open_pipe(const char *command)
     }
     /* Note that now oldaction is the previous SIGINT signal handler,
      * to be restored later. */
-
-    /* See if the platform supports disabling individual control
-     * characters. */
-#ifdef _POSIX_VDISABLE
-    if (cancel_sigs == 0 && tcgetattr(0, &term) == -1) {
-	cancel_sigs = 2;
-	nperror("tcgetattr");
-    }
-    if (cancel_sigs == 0) {
-	newterm = term;
-	/* Grab oldterm's VINTR key :-) */
-	newterm.c_cc[VINTR] = oldterm.c_cc[VINTR];
-	if (tcsetattr(0, TCSANOW, &newterm) == -1) {
-	    cancel_sigs = 2;
-	    nperror("tcsetattr");
-	}
-    }
-#endif   /* _POSIX_VDISABLE */
 
     f = fdopen(fd[0], "rb");
     if (f == NULL)
@@ -878,13 +857,10 @@ int open_pipe(const char *command)
     if (wait(NULL) == -1)
 	nperror("wait");
 
-#ifdef _POSIX_VDISABLE
-    if (cancel_sigs == 0 && tcsetattr(0, TCSANOW, &term) == -1)
-	nperror("tcsetattr");
-#endif   /* _POSIX_VDISABLE */
-
     if (cancel_sigs != 1 && sigaction(SIGINT, &oldaction, NULL) == -1)
 	nperror("sigaction");
+
+    disable_signals();
 
     return 0;
 }
@@ -2769,10 +2745,6 @@ int do_exit(void)
 
 void signal_init(void)
 {
-#ifdef _POSIX_VDISABLE
-    struct termios term;
-#endif
-
     /* Trap SIGINT and SIGQUIT because we want them to do useful
      * things. */
     memset(&act, 0, sizeof(struct sigaction));
@@ -2792,31 +2764,10 @@ void signal_init(void)
     allow_pending_sigwinch(FALSE);
 #endif
 
-#ifdef _POSIX_VDISABLE
-    tcgetattr(0, &term);
-
-    if (!ISSET(PRESERVE)) {
-	/* Trap XOFF (^S) and XON (^Q), much to Chris' chagrin, because
-	 * we want to block them. */
-	term.c_cc[VSTOP] = _POSIX_VDISABLE;
-	term.c_cc[VSTART] = _POSIX_VDISABLE;
-    }
-#ifdef VDSUSP
-    /* Trap delayed suspend (^Y) so we can handle it ourselves. */
-    term.c_cc[VDSUSP] = _POSIX_VDISABLE;
-#endif
-
-#endif /* _POSIX_VDISABLE */
-
+    /* Trap normal suspend (^Z) so we can handle it ourselves. */
     if (!ISSET(SUSPEND)) {
-        /* Trap normal suspend (^Z) so we can handle it ourselves.  If
-	 * we can't trap the key, trap the signal instead.  Insane! */
-#ifdef _POSIX_VDISABLE
-	term.c_cc[VSUSP] = _POSIX_VDISABLE;
-#else
 	act.sa_handler = SIG_IGN;
 	sigaction(SIGTSTP, &act, NULL);
-#endif
     } else {
 	/* Block all other signals in the suspend and continue handlers.
 	 * If we don't do this, other stuff interrupts them! */
@@ -2828,54 +2779,44 @@ void signal_init(void)
 	act.sa_handler = do_cont;
 	sigaction(SIGCONT, &act, NULL);
     }
-
-#ifdef _POSIX_VDISABLE
-    tcsetattr(0, TCSANOW, &term);
-#endif
 }
 
-/* Handler for SIGHUP and SIGTERM. */
+/* Handler for SIGHUP (hangup) and SIGTERM (terminate). */
 RETSIGTYPE handle_hupterm(int signal)
 {
     die(_("Received SIGHUP or SIGTERM\n"));
 }
 
-/* What do we do when we catch the suspend signal */
+/* Handler for SIGTSTP (suspend). */
 RETSIGTYPE do_suspend(int signal)
 {
     endwin();
     printf("\n\n\n\n\n%s\n", _("Use \"fg\" to return to nano"));
     fflush(stdout);
 
-    /* Restore the terminal settings for the disabled keys */
+    /* Restore the old terminal settings. */
     tcsetattr(0, TCSANOW, &oldterm);
 
     /* Trap SIGHUP and SIGTERM so we can properly deal with them while
-       suspended */
+     * suspended. */
     act.sa_handler = handle_hupterm;
     sigaction(SIGHUP, &act, NULL);
     sigaction(SIGTERM, &act, NULL);
 
-    /* We used to re-enable the default SIG_DFL and raise SIGTSTP, but 
-       then we could be (and were) interrupted in the middle of the call.
-       So we do it the mutt way instead */
+    /* Do what mutt does: send ourselves a SIGSTOP. */
     kill(0, SIGSTOP);
 }
 
-/* Restore the suspend handler when we come back into the prog */
+/* Handler for SIGCONT (continue after suspend). */
 RETSIGTYPE do_cont(int signal)
 {
-    /* Now we just update the screen instead of having to reenable the
-     * SIGTSTP handler. */
-    doupdate();
-
 #ifndef NANO_SMALL
-    /* Perhaps the user resized the window while we slept. */
+    /* Perhaps the user resized the window while we slept.  Handle it
+     * and update the screen in the process. */
     handle_sigwinch(0);
 #else
-    /* Set up the signal handlers again, so that the special control
-     * keys all work the same as before. */
-    signal_init();
+    /* Just update the screen. */
+    doupdate();
 #endif
 }
 
@@ -2919,45 +2860,35 @@ void handle_sigwinch(int s)
     memset(hblank, ' ', COLS);
     hblank[COLS] = '\0';
 
-#ifdef HAVE_RESIZETERM
-    resizeterm(LINES, COLS);
-#ifdef HAVE_WRESIZE
-    if (wresize(topwin, 2, COLS) == ERR)
-	die(_("Cannot resize top win"));
-    if (mvwin(topwin, 0, 0) == ERR)
-	die(_("Cannot move top win"));
-    if (wresize(edit, editwinrows, COLS) == ERR)
-	die(_("Cannot resize edit win"));
-    if (mvwin(edit, 2, 0) == ERR)
-	die(_("Cannot move edit win"));
-    if (wresize(bottomwin, 3 - no_help(), COLS) == ERR)
-	die(_("Cannot resize bottom win"));
-    if (mvwin(bottomwin, LINES - 3 + no_help(), 0) == ERR)
-	die(_("Cannot move bottom win"));
-#endif				/* HAVE_WRESIZE */
-#endif				/* HAVE_RESIZETERM */
+#ifdef USE_SLANG
+    /* Slang curses emulation brain damage, part 1: If we just do what
+     * curses does here, it'll only work properly if the resize made the
+     * window smaller.  Do what mutt does: Leave and immediately reenter
+     * Slang screen management mode. */
+    SLsmg_reset_smg();
+    SLsmg_init_smg();
+#else
+    /* Do the equivalent of what Minimum Profit does: Leave and
+     * immediately reenter curses mode. */
+    endwin();
+    refresh();
+#endif
 
-    display_main_list();
+    /* Do the equivalent of what both mutt and Minimum Profit do:
+     * Reinitialize all the windows based on the new screen
+     * dimensions. */
+    window_init();
+
+    /* Redraw the contents of the windows that need it. */
     blank_statusbar();
+    display_main_list();
     total_refresh();
 
     /* Turn cursor back on for sure. */
     curs_set(1);
 
-    /* Put the terminal in cbreak mode (read one character at a time and
-     * interpret the special control keys) if we can selectively disable
-     * the special control keys. */
-#ifdef _POSIX_VDISABLE
-    cbreak();
-#endif
-
-    /* Set up the signal handlers again, so that the special control
-     * keys all work the same as before. */
-    signal_init();
-
-    /* Turn the keypad on in the windows we'll be reading input from. */
-    keypad(edit, TRUE);
-    keypad(bottomwin, TRUE);
+    /* Restore the terminal to its previously saved state. */
+    resetty();
 
     /* Jump back to the main loop. */
     siglongjmp(jmpbuf, 1);
@@ -2993,7 +2924,8 @@ void do_toggle(const toggle *which)
 	break;
 #endif
     case TOGGLE_NOHELP_KEY:
-	wclear(bottomwin);
+	blank_statusbar();
+	blank_bottombars();
 	wrefresh(bottomwin);
 	window_init();
 	edit_refresh();
@@ -3022,6 +2954,46 @@ void do_toggle(const toggle *which)
 }
 #endif /* !NANO_SMALL */
 
+#if !defined(NANO_SMALL) || defined(USE_SLANG)
+void disable_signals(void)
+{
+    struct termios term;
+
+    tcgetattr(0, &term);
+    term.c_lflag &= ~ISIG;
+    tcsetattr(0, TCSANOW, &term);
+}
+#endif
+
+#ifndef NANO_SMALL
+void enable_signals(void)
+{
+    struct termios term;
+
+    tcgetattr(0, &term);
+    term.c_lflag |= ISIG;
+    tcsetattr(0, TCSANOW, &term);
+}
+#endif
+
+void disable_flow_control(void)
+{
+    struct termios term;
+
+    tcgetattr(0, &term);
+    term.c_iflag &= ~(IXON|IXOFF);
+    tcsetattr(0, TCSANOW, &term);
+}
+
+void enable_flow_control(void)
+{
+    struct termios term;
+
+    tcgetattr(0, &term);
+    term.c_iflag |= (IXON|IXOFF);
+    tcsetattr(0, TCSANOW, &term);
+}
+
 int main(int argc, char *argv[])
 {
     int optchr;
@@ -3035,9 +3007,6 @@ int main(int argc, char *argv[])
 
 #ifndef NANO_SMALL
     const toggle *t;
-#endif
-#ifdef _POSIX_VDISABLE
-    struct termios term;
 #endif
 #ifdef HAVE_GETOPT_LONG
     const struct option long_options[] = {
@@ -3428,36 +3397,35 @@ int main(int argc, char *argv[])
 	    filename = mallocstrcpy(filename, argv[optind]);
     }
 
-    /* Termios initialization stuff: Back up the old settings so that
-     * they can be restored, disable SIGINT on ^C and SIGQUIT on ^\,
-     * since we need them for Cancel and Replace, and disable
-     * implementation-defined input processing. */
+    /* Back up the old terminal settings so that they can be restored. */
     tcgetattr(0, &oldterm);
-#ifdef _POSIX_VDISABLE
-    term = oldterm;
-    term.c_cc[VINTR] = _POSIX_VDISABLE;
-    term.c_cc[VQUIT] = _POSIX_VDISABLE;
-    term.c_lflag &= ~IEXTEN;
-    tcsetattr(0, TCSANOW, &term);
-#endif
 
    /* Curses initialization stuff: Start curses, save the state of the
-    * the terminal mode, disable translation of carriage return (^M)
-    * into newline (^J) so we can catch the Enter key and use ^J for
-    * Justify, put the terminal in cbreak mode (read one character at a
-    * time and interpret the special control keys) if we can selectively
-    * disable the special control keys or raw mode (read one character
-    * at a time and don't interpret the special control keys) if we
-    * can't, and turn off echoing of characters as they're typed. */
+    * terminal mode, put the terminal in raw mode (read one character at
+    * a time and don't interpret the special control keys), disable
+    * translation of carriage return (^M) into newline (^J) so that we
+    * can tell the difference between the Enter key and ^J, and disable
+    * echoing of characters as they're typed.  Finally, if we're in
+    * preserve mode, turn the flow control characters back on. */
     initscr();
-    savetty();
-    nonl();
-#ifdef _POSIX_VDISABLE
-    cbreak();
-#else
     raw();
+#ifdef USE_SLANG
+    /* Slang curses emulation brain damage, part 2: Raw mode acts just
+     * like cbreak mode here and doesn't disable interpretation of the
+     * special control keys.  Work around this by manually disabling
+     * interpretation of the special control keys. */
+    disable_signals();
 #endif
+    nonl();
     noecho();
+    if (ISSET(PRESERVE))
+	enable_flow_control();
+
+#ifndef NANO_SMALL
+    /* Save the terminal's current state, so that we can restore it
+     * after a resize. */
+    savetty();
+#endif
 
     /* Set up the global variables and the shortcuts. */
     global_init(0);
@@ -3511,8 +3479,10 @@ int main(int argc, char *argv[])
     if (startline > 0)
 	do_gotoline(startline, 0);
 
-    /* Return here after a sigwinch */
+#ifndef NANO_SMALL
+    /* Return here after a SIGWINCH. */
     sigsetjmp(jmpbuf, 1);
+#endif
 
     /* SHUT UP GCC! */
     startline = 0;
@@ -3598,13 +3568,12 @@ int main(int argc, char *argv[])
 	if (!keyhandled)
 	    UNSET(KEEP_CUTBUFFER);
 
-#ifdef _POSIX_VDISABLE
 	/* Don't even think about changing this string */
 	if (kbinput == NANO_CONTROL_Q)
 	    statusbar(_("XON ignored, mumble mumble."));
 	if (kbinput == NANO_CONTROL_S)
 	    statusbar(_("XOFF ignored, mumble mumble."));
-#endif
+
 	/* If we're in raw mode or using Alt-Alt-x, we have to catch
 	   Control-S and Control-Q */
 	if (kbinput == NANO_CONTROL_Q || kbinput == NANO_CONTROL_S)

@@ -54,9 +54,10 @@
 #endif
 
 #ifdef USE_SLANG
-/* Slang support enabled.  Work around Slang's not defining KEY_DC or
- * KEY_IC. */
+/* Slang support enabled. */
 #include <slcurses.h>
+/* Slang curses emulation brain damage, part 3: Slang doesn't define the
+ * curses equivalents of the Insert or Delete keys. */
 #define KEY_DC SL_KEY_DELETE
 #define KEY_IC SL_KEY_IC
 #elif defined(HAVE_NCURSES_H)
