@@ -427,6 +427,10 @@ int do_insertfile(int loading_file)
 
     wrap_reset();
 
+#if !defined(DISABLE_BROWSER) || !defined(NANO_SMALL) && defined(ENABLE_MULTIBUFFER)
+  start_again:	/* Goto here when the user cancels the file browser. */
+#endif
+
 #if !defined(DISABLE_BROWSER) || (!defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION))
     currshortcut = insertfile_list;
 #endif
@@ -473,55 +477,46 @@ int do_insertfile(int loading_file)
 	fprintf(stderr, _("filename is %s\n"), answer);
 #endif
 
-	realname = real_dir_from_tilde(answer);
-
-#ifndef DISABLE_BROWSER
-	if (i == NANO_TOFILES_KEY) {
-	    char *tmp = do_browse_from(realname);
-
-#if !defined(DISABLE_HELP) || (!defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION))
-	    currshortcut = insertfile_list;
-#endif
-#ifdef DISABLE_TABCOMP
-	    realname = NULL;
-#endif
-	    if (tmp != NULL) {
-		free(realname);
-		realname = tmp;
-	    } else
-		return do_insertfile(loading_file);
-	}
-#endif
-
-#ifndef DISABLE_OPERATINGDIR
-	if (operating_dir != NULL && check_operating_dir(realname, 0)) {
-	    statusbar(_("Can't insert file from outside of %s"),
-			operating_dir);
-	    return 0;
-	}
-#endif
-
 #ifndef NANO_SMALL
 #ifdef ENABLE_MULTIBUFFER
 	if (i == TOGGLE_LOAD_KEY) {
-	    /* don't allow toggling if we're in both view mode and
-	       multibuffer mode now */
-	    if (!ISSET(VIEW_MODE) || !ISSET(MULTIBUFFER))
+	    /* Don't allow toggling if we're in view mode. */
+	    if (!ISSET(VIEW_MODE))
 		TOGGLE(MULTIBUFFER);
-	    return do_insertfile(ISSET(MULTIBUFFER));
+	    loading_file = ISSET(MULTIBUFFER);
+	    goto start_again;
 	}
 #endif /* ENABLE_MULTIBUFFER */
+
 	if (i == NANO_EXTCMD_KEY) {
-	    int ts;
-	    ts = statusq(1, extcmd_list, "", 0, _("Command to execute "));
-	    if (ts == -1  || answer == NULL || answer[0] == '\0') {
-		statusbar(_("Cancelled"));
+	    int ts = statusq(TRUE, extcmd_list, "", NULL, 
+		_("Command to execute"));
+	    if (ts  == -1 || answer == NULL || answer[0] == '\0') {
+		statusbar("Cancelled");
 		UNSET(KEEP_CUTBUFFER);
 		display_main_list();
 		return 0;
 	    }
 	}
 #endif /* !NANO_SMALL */
+#ifndef DISABLE_BROWSER
+	if (i == NANO_TOFILES_KEY) {
+	    char *tmp = do_browse_from(answer);
+
+	    if (tmp != NULL)
+		answer = tmp;
+	    else
+		goto start_again;
+	}
+#endif
+
+#ifndef DISABLE_OPERATINGDIR
+	if (i != NANO_EXTCMD_KEY && check_operating_dir(answer, FALSE)) {
+	    statusbar(_("Can't insert file from outside of %s"),
+			operating_dir);
+	    return 0;
+	}
+#endif
 
 #ifdef ENABLE_MULTIBUFFER
 	if (loading_file) {
@@ -536,11 +531,15 @@ int do_insertfile(int loading_file)
 #endif
 
 #ifndef NANO_SMALL
-	if (i == NANO_EXTCMD_KEY)
+	if (i == NANO_EXTCMD_KEY) {
+	    realname = mallocstrcpy(realname, "");
 	    i = open_pipe(answer);
-	else 
+	} else
 #endif /* NANO_SMALL */
+	{
+	    realname = real_dir_from_tilde(answer);
 	    i = open_file(realname, 1, loading_file);
+	}
 
 #ifdef ENABLE_MULTIBUFFER
 	if (loading_file) {

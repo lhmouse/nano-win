@@ -48,6 +48,9 @@ CVS Code -
 	- Fix goto directory operating dir check and tilde expansion
 	  (David Benbennick).
 	- Even more checks and operating dir fixes (David Benbennick).
+  do_insertfile()
+	- Add some more checks and fix recursion when toggling 
+	  multibuffer (David Benbennick).
   open_file()
 	- Fix FD leak with file load error (David Benbennick).
   add_open_file()

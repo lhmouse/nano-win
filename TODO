@@ -22,6 +22,9 @@ For version 1.4:
 - Remindable keys?
 - Keystroke to implement "Add next sequence as raw" like vi's ^V.
 - Spell check selected text only.
+- Make "To line" (^W^T) and "Read from Command" (^R^X) re-enter their
+  parent menu when their keystroke is entered a second time (^W^T^T and
+  (^R^X^X)(requires figuring out when to keep cursor pos and when not to).
 
 Old requests:
 
