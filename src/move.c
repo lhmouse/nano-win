@@ -32,37 +32,37 @@
 
 void do_first_line(void)
 {
-    size_t old_pww = placewewant;
+    size_t pww_save = placewewant;
     current = fileage;
     placewewant = 0;
     current_x = 0;
-    if (edittop != fileage || need_vertical_update(old_pww))
+    if (edittop != fileage || need_vertical_update(pww_save))
 	edit_update(TOP);
 }
 
 void do_last_line(void)
 {
-    size_t old_pww = placewewant;
+    size_t pww_save = placewewant;
     current = filebot;
     placewewant = 0;
     current_x = 0;
     if (edittop->lineno + (editwinrows / 2) != filebot->lineno ||
-	need_vertical_update(old_pww))
+	need_vertical_update(pww_save))
 	edit_update(CENTER);
 }
 
 void do_home(void)
 {
-    size_t old_pww = placewewant;
+    size_t pww_save = placewewant;
 #ifndef NANO_SMALL
     if (ISSET(SMART_HOME)) {
-	size_t old_current_x = current_x;
+	size_t current_save_x = current_x;
 
 	for (current_x = 0; isblank(current->data[current_x]) &&
 		current->data[current_x] != '\0'; current_x++)
 	    ;
 
-	if (current_x == old_current_x || current->data[current_x] == '\0')
+	if (current_x == current_save_x || current->data[current_x] == '\0')
 	    current_x = 0;
 
 	placewewant = xplustabs();
@@ -74,24 +74,24 @@ void do_home(void)
     }
 #endif
     check_statusblank();
-    if (need_horizontal_update(old_pww))
+    if (need_horizontal_update(pww_save))
 	update_line(current, current_x);
 }
 
 void do_end(void)
 {
-    size_t old_pww = placewewant;
+    size_t pww_save = placewewant;
     current_x = strlen(current->data);
     placewewant = xplustabs();
     check_statusblank();
-    if (need_horizontal_update(old_pww))
+    if (need_horizontal_update(pww_save))
 	update_line(current, current_x);
 }
 
 void do_page_up(void)
 {
-    size_t old_pww = placewewant;
-    const filestruct *old_current = current;
+    size_t pww_save = placewewant;
+    const filestruct *current_save = current;
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
@@ -129,15 +129,15 @@ void do_page_up(void)
     current_x = actual_x(current->data, placewewant);
 
     /* Update all the lines that need to be updated. */
-    edit_redraw(old_current, old_pww);
+    edit_redraw(current_save, pww_save);
 
     check_statusblank();
 }
 
 void do_page_down(void)
 {
-    size_t old_pww = placewewant;
-    const filestruct *old_current = current;
+    size_t pww_save = placewewant;
+    const filestruct *current_save = current;
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
@@ -176,7 +176,7 @@ void do_page_down(void)
     current_x = actual_x(current->data, placewewant);
 
     /* Update all the lines that need to be updated. */
-    edit_redraw(old_current, old_pww);
+    edit_redraw(current_save, pww_save);
 
     check_statusblank();
 }
@@ -249,7 +249,7 @@ void do_down(void)
 
 void do_left(int allow_update)
 {
-    size_t old_pww = placewewant;
+    size_t pww_save = placewewant;
     if (current_x > 0)
 	current_x--;
     else if (current != fileage) {
@@ -258,7 +258,7 @@ void do_left(int allow_update)
     }
     placewewant = xplustabs();
     check_statusblank();
-    if (allow_update && need_horizontal_update(old_pww))
+    if (allow_update && need_horizontal_update(pww_save))
 	update_line(current, current_x);
 }
 
@@ -269,7 +269,7 @@ void do_left_void(void)
 
 void do_right(int allow_update)
 {
-    size_t old_pww = placewewant;
+    size_t pww_save = placewewant;
     assert(current_x <= strlen(current->data));
 
     if (current->data[current_x] != '\0')
@@ -280,7 +280,7 @@ void do_right(int allow_update)
     }
     placewewant = xplustabs();
     check_statusblank();
-    if (allow_update && need_horizontal_update(old_pww))
+    if (allow_update && need_horizontal_update(pww_save))
 	update_line(current, current_x);
 }
 
