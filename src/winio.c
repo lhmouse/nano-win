@@ -1437,6 +1437,10 @@ const shortcut *get_shortcut(const shortcut *s_list, int kbinput, bool
     const shortcut *s = s_list;
     size_t slen = length_of_list(s_list);
 
+#ifdef DEBUG
+    fprintf(stderr, "get_shortcut(): kbinput = %d, meta_key = %d, func_key = %d\n", kbinput, (int)*meta_key, (int)*func_key);
+#endif
+
     /* Check for shortcuts. */
     for (; slen > 0; slen--) {
 	/* We've found a shortcut if:
@@ -1479,6 +1483,10 @@ const shortcut *get_shortcut(const shortcut *s_list, int kbinput, bool
 const toggle *get_toggle(int kbinput, bool meta_key)
 {
     const toggle *t = toggles;
+
+#ifdef DEBUG
+    fprintf(stderr, "get_toggle(): kbinput = %d, meta_key = %d\n", kbinput, (int)meta_key);
+#endif
 
     /* Check for toggles. */
     for (; t != NULL; t = t->next) {

@@ -61,6 +61,8 @@ CVS code -
   get_untranslated_kbinput()
 	- Make the ascii_digits variables ints instead of size_t's,
 	  since they will only hold very small values. (DLR)
+  get_shortcut(), get_toggle()
+	- Add debug messages. (DLR)
 
 GNU nano 1.3.5 - 2004.11.22
 - General:
