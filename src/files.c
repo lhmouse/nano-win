@@ -558,10 +558,13 @@ void do_insertfile(
 	if (i == NANO_TOFILES_KEY) {
 	    char *tmp = do_browse_from(answer);
 
-	    if (tmp == NULL)
-		goto start_again;
-	    free(answer);
-	    answer = tmp;
+	    if (tmp != NULL) {
+		free(answer);
+		answer = tmp;
+		ans = mallocstrcpy(ans, answer);
+		unget_kbinput(NANO_ENTER_KEY, FALSE);
+	    }
+	    goto start_again;
 	}
 #endif
 
