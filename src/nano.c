@@ -1173,8 +1173,6 @@ int do_enter(void)
 #ifndef NANO_SMALL
 int do_next_word(void)
 {
-    filestruct *old = current;
-
     assert(current != NULL && current->data != NULL);
 
     /* Skip letters in this word first. */
@@ -1197,31 +1195,10 @@ int do_next_word(void)
 
     placewewant = xplustabs();
 
-    if (current->lineno >= editbot->lineno) {
-	/* If we're on the last line, don't center the screen. */
-	if (current->lineno == filebot->lineno)
-	    edit_refresh();
-	else
-	    edit_update(current, CENTER);
-    }
-    else {
-	/* If we've jumped lines, refresh the old line.  We can't just
-	   use current->prev here, because we may have skipped over some
-	   blank lines, in which case the previous line is the wrong
-	   one. */
-	if (current != old) {
-	    update_line(old, 0);
-	    /* If the mark was set, then the lines between old and
-	       current have to be updated too. */
-	    if (ISSET(MARK_ISSET)) {
-		while (old->next != current) {
-		    old = old->next;
-		    update_line(old, 0);
-		}
-	    }
-	}
-	update_line(current, current_x);
-    }
+    /* Refresh the screen.  If current has run off the bottom, this
+     * call puts it at the center line. */
+    edit_refresh();
+
     return 0;
 }
 

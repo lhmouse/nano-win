@@ -66,6 +66,9 @@ CVS code -
 	- Remove the now-unneeded code to disable XON, XOFF, and
 	  suspend, since we now go into raw mode in
 	  get_verbatim_kbinput() and bypass them. (DLR)
+  do_next_word()
+	- Simplify and remove references to editbot so as to avoid a
+	  segfault. (David Benbennick)
   do_int_speller(), do_alt_speller(), do_spell()
 	- Modify to write only the current selection from a file to the
 	  temporary file used for spell checking when the mark is on,
