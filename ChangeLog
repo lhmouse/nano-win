@@ -6,6 +6,21 @@ CVS code -
 - files.c:
   do_browser()
 	- Rename variable lineno to fileline to avoid confusion. (DLR)
+- nano.c:
+  print1opt()
+	- Don't include longflag if HAVE_GETOPT_LONG isn't defined.
+	  Rename this function to print1opt_full(), leave out the
+	  longflag parameter if HAVE_GETOPT_LONG isn't defined, and make
+	  print1opt() a macro for print1opt_full() that does that
+	  without the need for a lot of extra #ifdefs. (David
+	  Benbennick)  DLR: Rename print1opt_f() to print1opt_full().
+	- Rework the special case of options that are ignored for Pico
+	  compatibility so that they display more neatly when
+	  HAVE_GETOPT_LONG isn't defined. (DLR)
+  usage()
+	- Fix erroneous #ifdef that resulted in the -d/--rebinddelete
+	  and -k/--cut options' not being printed when NANO_SMALL was
+	  defined. (DLR)
 - utils.c:
   regexec_safe()
 	- Rename to safe_regexec() for consistency. (DLR)

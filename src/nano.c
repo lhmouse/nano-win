@@ -927,10 +927,13 @@ void renumber(filestruct *fileptr)
 }
 
 /* Print one usage string to the screen.  This cuts down on duplicate
- * strings to translate and leaves out the parts that shouldn't be
+ * strings to translate, and leaves out the parts that shouldn't be
  * translatable (the flag names). */
-void print1opt(const char *shortflag, const char *longflag, const char
-	*desc)
+void print1opt_full(const char *shortflag
+#ifdef HAVE_GETOPT_LONG
+	, const char *longflag
+#endif
+	, const char *desc)
 {
     printf(" %s\t", shortflag);
     if (strlen(shortflag) < 8)
@@ -993,11 +996,11 @@ void usage(void)
 #endif
     print1opt("-Z", "--restricted", N_("Restricted mode"));
     print1opt("-c", "--const", N_("Constantly show cursor position"));
-#ifndef NANO_SMALL
     print1opt("-d", "--rebinddelete", N_("Fix Backspace/Delete confusion problem"));
+#ifndef NANO_SMALL
     print1opt("-i", "--autoindent", N_("Automatically indent new lines"));
-    print1opt("-k", "--cut", N_("Cut from cursor to end of line"));
 #endif
+    print1opt("-k", "--cut", N_("Cut from cursor to end of line"));
     print1opt("-l", "--nofollow", N_("Don't follow symbolic links, overwrite"));
 #ifndef DISABLE_MOUSE
     print1opt("-m", "--mouse", N_("Enable mouse"));
@@ -1021,7 +1024,8 @@ void usage(void)
     print1opt("-z", "--suspend", N_("Enable suspend"));
 
     /* This is a special case. */
-    printf(" %s\t\t\t%s\n","-a, -b, -e, -f, -g, -j", _("(ignored, for Pico compatibility)"));
+    print1opt("-a, -b, -e,", "", "");
+    print1opt("-f, -g, -j", "", _("(ignored, for Pico compatibility)"));
 
     exit(0);
 }

@@ -382,8 +382,11 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 void copy_from_filestruct(filestruct *file_top, filestruct *file_bot);
 void renumber_all(void);
 void renumber(filestruct *fileptr);
-void print1opt(const char *shortflag, const char *longflag, const char
-	*desc);
+void print1opt_full(const char *shortflag
+#ifdef HAVE_GETOPT_LONG
+	, const char *longflag
+#endif
+	, const char *desc);
 void usage(void);
 void version(void);
 int no_more_space(void);

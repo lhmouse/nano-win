@@ -46,6 +46,13 @@
 #define charmove(dest, src, n) memmove(dest, src, (n) * sizeof(char))
 #define charcpy(dest, src, n) memcpy(dest, src, (n) * sizeof(char))
 
+/* Other macros. */
+#ifdef HAVE_GETOPT_LONG
+#define print1opt(shortflag, longflag, desc) print1opt_full(shortflag, longflag, desc)
+#else
+#define print1opt(shortflag, longflag, desc) print1opt_full(shortflag, desc)
+#endif
+
 #ifdef BROKEN_REGEXEC
 #undef regexec
 #define regexec(preg, string, nmatch, pmatch, eflags) safe_regexec(preg, string, nmatch, pmatch, eflags)
