@@ -13,6 +13,10 @@ CVS code
 	  __ identifier (Jordi).
 	- Memory leak fixes for files.c:do_insertfile(),do_browser(),
 	  nano.c:do_spell(), and search.c:do_replace() (David Benbennick).
+	- Change various const char *s to char *s because Irix curses
+	  waddnstr() complains about const char's, I imagine this is a
+	  common System V curses issue.
+	  
 - files.c:
   cwd_tab_completion()
 	- Memory leak fix (David Benbennick).
@@ -46,6 +50,9 @@ CVS code
 	- Only goto_abort() if we *didnt* abort the command, making
 	  the function seem horribly misnamed ;-) (David Benbennick).
 - winio.c:
+  do_yesno(), do_help()
+	- Add defined(NCURSES_MOUSE_VERSION) to macro so systems that
+	  don't understand MEVENT will compile.
   nanogetstr()
 	- Remove unnecessary reset of x since it is now handled
 	  elsewhere (David Lawrence Ramsey).

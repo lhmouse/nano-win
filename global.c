@@ -163,9 +163,9 @@ int length_of_list(const shortcut *s)
 }
 
 /* Initialize a struct *without* our lovely braces =( */
-void sc_init_one(shortcut **shortcutage, int key, const char *desc,
+void sc_init_one(shortcut **shortcutage, int key, char *desc,
 #ifndef DISABLE_HELP
-	const char *help,
+	char *help,
 #endif
 	int alt, int misc1, int misc2, int view, int (*func) (void))
 {
@@ -316,7 +316,7 @@ void free_shortcutage(shortcut **shortcutage)
 void shortcut_init(int unjustify)
 {
 #ifndef DISABLE_HELP
-    const char *nano_help_msg = "", *nano_writeout_msg = "", *nano_exit_msg =
+    char *nano_help_msg = "", *nano_writeout_msg = "", *nano_exit_msg =
 	"", *nano_goto_msg = "", *nano_justify_msg =
 	"", *nano_replace_msg = "", *nano_insert_msg =
 	"", *nano_whereis_msg = "", *nano_prevpage_msg =
@@ -337,11 +337,11 @@ void shortcut_init(int unjustify)
 	"", *nano_backup_msg = "", *nano_editstr_msg = "";
 
 #ifdef ENABLE_MULTIBUFFER
-    const char *nano_openprev_msg = "", *nano_opennext_msg =
+    char *nano_openprev_msg = "", *nano_opennext_msg =
 	"", *nano_multibuffer_msg = "";
 #endif
 #ifdef HAVE_REGEX_H
-    const char *nano_regexp_msg = "", *nano_bracket_msg = "";
+    char *nano_regexp_msg = "", *nano_bracket_msg = "";
 #endif
 
     nano_help_msg = _("Invoke the help menu");
