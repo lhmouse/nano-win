@@ -24,5 +24,6 @@ For Next Version:
 - Color syntax highlighting? (certainly seems like there's a demand for it.)
 - .nanorc ?????
 - Backup making (filename~)?
+- Search (etc) string history [1.1]
 
 $Id$
