@@ -235,6 +235,10 @@ CVS code -
 	- Fix compilation problem caused by its returning int when it
 	  should return ssize_t according to its prototype. (Jeremy
 	  Huddleston)
+  indent_length()
+	- Make the #ifdef around it match that of its prototype to avoid
+	  compilation problems when compiling with --enable-tiny and
+	  without DISABLE_JUSTIFY's being defined. (DLR)
   do_justify()
 	- For consistency, preserve placewewant if we didn't unjustify
 	  instead of setting it to 0. (DLR)
