@@ -61,6 +61,12 @@ CVS code -
 	  support, pressing Ctrl-Z to suspend nano at the Linux console
 	  with keypad(TRUE) generates Ctrl-Z instead of KEY_SUSPEND
 	  (which is what ncurses generates then). (DLR)
+- rcfile.c:
+  parse_colors()
+	- Generate an error if we try to use a bright background color
+	  in a nanorc file. (DLR; found by Brand Huntsman)
+	- Make sure all rcfile error messages are capitalized, for
+	  consistency. (DLR)
 - winio.c:
   titlebar()
 	- Fix problem with the available space for a filename on the
@@ -82,6 +88,9 @@ CVS code -
 - nanorc.sample:
 	- Remove duplicate "historylog" entry, remove "keypad" entry,
 	  and add "rebinddelete" entry. (DLR)
+	- Update the regexes for nanorc files. (Brand Huntsman, slightly
+	  modified by DLR)
+	- Fix one attempt at a bright background color. (DLR)
 - AUTHORS
 	- Updated to show 1.2/1.3 maintainers.
 

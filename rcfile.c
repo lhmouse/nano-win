@@ -170,7 +170,7 @@ char *parse_argument(char *ptr)
 	    ptr = NULL;
 	else
 	    *ptr++ = '\0';
-	rcfile_error(_("argument %s has unterminated \""), ptr_bak);
+	rcfile_error(_("Argument %s has unterminated \""), ptr_bak);
     } else {
 	*last_quote = '\0';
 	ptr = last_quote + 1;
@@ -212,11 +212,11 @@ int colortoint(const char *colorname, int *bright)
     else if (!strcasecmp(colorname, "black"))
 	mcolor = COLOR_BLACK;
     else {
-	rcfile_error(_("color %s not understood.\n"
-		       "Valid colors are \"green\", \"red\", \"blue\", \n"
-		       "\"white\", \"yellow\", \"cyan\", \"magenta\" and \n"
-		       "\"black\", with the optional prefix \"bright\".\n"),
-			colorname);
+	rcfile_error(_("Color %s not understood.\n"
+			"Valid colors are \"green\", \"red\", \"blue\", \n"
+			"\"white\", \"yellow\", \"cyan\", \"magenta\" and \n"
+			"\"black\", with the optional prefix \"bright\" \n"
+			"for foreground colors.\n"), colorname);
 	mcolor = -1;
     }
     return mcolor;
@@ -271,7 +271,7 @@ void parse_syntax(char *ptr)
 	return;
 
     if (*ptr != '"') {
-	rcfile_error(_("regex strings must begin and end with a \" character\n"));
+	rcfile_error(_("Regex strings must begin and end with a \" character\n"));
 	return;
     }
     ptr++;
@@ -354,8 +354,14 @@ void parse_colors(char *ptr)
     }
 
     if (strstr(fgstr, ",")) {
+	char *bgcolorname;
 	strtok(fgstr, ",");
-	bg = colortoint(strtok(NULL, ","), &bright);
+	bgcolorname = strtok(NULL, ",");
+	if (!strncasecmp(bgcolorname, "bright", 6)) {
+	    rcfile_error(_("Background color %s cannot be bright"), bgcolorname);
+	    return;
+	}
+	bg = colortoint(bgcolorname, &bright);
     } else
 	bg = -1;
 
@@ -395,7 +401,7 @@ void parse_colors(char *ptr)
 	}
 
 	if (*ptr != '"') {
-	    rcfile_error(_("regex strings must begin and end with a \" character\n"));
+	    rcfile_error(_("Regex strings must begin and end with a \" character\n"));
 	    ptr = parse_next_regex(ptr);
 	    continue;
 	}
@@ -442,7 +448,7 @@ void parse_colors(char *ptr)
 
 	    if (*ptr != '"') {
 		rcfile_error(_
-			     ("regex strings must begin and end with a \" character\n"));
+			     ("Regex strings must begin and end with a \" character\n"));
 		continue;
 	    }
 	    ptr++;
@@ -538,7 +544,7 @@ void parse_rcfile(FILE *rcstream)
 				) {
 			    if (*ptr == '\n' || *ptr == '\0') {
 				rcfile_error(_
-					     ("option %s requires an argument"),
+					     ("Option %s requires an argument"),
 					     rcopts[i].name);
 				continue;
 			    }
@@ -563,7 +569,7 @@ void parse_rcfile(FILE *rcstream)
 				 * errors. */
 				j = (int)strtol(option, &first_error, 10);
 				if (errno == ERANGE || *option == '\0' || *first_error != '\0')
-				    rcfile_error(_("requested fill size %d invalid"),
+				    rcfile_error(_("Requested fill size %d invalid"),
 						 j);
 				else
 				    wrap_at = j;
@@ -587,7 +593,7 @@ void parse_rcfile(FILE *rcstream)
 				 * errors. */
 				j = (int)strtol(option, &first_error, 10);
 				if (errno == ERANGE || *option == '\0' || *first_error != '\0')
-				    rcfile_error(_("requested tab size %d invalid"),
+				    rcfile_error(_("Requested tab size %d invalid"),
 						 j);
 				else
 				    tabsize = j;
