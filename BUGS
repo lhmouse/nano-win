@@ -122,6 +122,8 @@
 - If you change search options but don't change the search string in
   normal mode, hitting  enter causes the search/replace to abort (64)
   (Jordi Mallach) [FIXED].
+- Cutting one line of text cause the screen to recenter the line 
+  (reported and fixed by David Lawrence Ramsey) (65) [FIXED].
 
 ** Open BUGS **
 

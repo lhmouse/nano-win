@@ -140,6 +140,7 @@ int do_cut_text(void)
 #ifndef NANO_SMALL
     char *tmpstr;
     int newsize, cuttingtoend = 0;
+    int cuttingpartialline = 0;
 #endif
 
 
@@ -198,6 +199,7 @@ int do_cut_text(void)
     }
     if (ISSET(MARK_ISSET)) {
 	if (current->lineno == mark_beginbuf->lineno) {
+	    cuttingpartialline = 1;
 	    tmp = copy_node(current);
 	    newsize = abs(mark_beginx - current_x) + 1;
 
@@ -232,7 +234,7 @@ int do_cut_text(void)
 
 	marked_cut = 1;
 	set_modified();
-	if (cuttingtoend)
+	if (cuttingpartialline || cuttingtoend)
 	    edit_refresh();
 	else
 	    edit_update(current, CENTER);

@@ -1,4 +1,8 @@
 CVS code -
+- cut.c:
+  do_cut_text()
+	- Don't recenter the line when cutting one line (David Lawrence
+	  Ramsey) (Bug #65).
 - winio.c:
 	- Added David Lawrence Ramsey to credits.
 - po/nl.po:
