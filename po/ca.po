@@ -6,9 +6,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano_1_0 1.0.5\n"
+"Project-Id-Version: nano_1_0 1.0.7\n"
 "POT-Creation-Date: 2001-12-17 18:48-0500\n"
-"PO-Revision-Date: 2001-10-15 16:30+0200\n"
+"PO-Revision-Date: 2001-12-27 17:05+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
 "MIME-Version: 1.0\n"
