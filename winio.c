@@ -237,14 +237,10 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 	strcpy(answer, def);
 	strcpy(inputbuf, def);
     }
-    /* Go into raw mode so we can actually get ^C, for example */
-    raw();
 
     while ((kbinput = wgetch(bottomwin)) != 13) {
 	for (j = 0; j <= slen - 1; j++) {
 	    if (kbinput == s[j].val) {
-		noraw();
-		cbreak();
 		strcpy(answer, "");
 		return s[j].val;
 	    }
@@ -417,8 +413,6 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 
     strncpy(answer, inputbuf, 132);
 
-    noraw();
-    cbreak();
     if (!strcmp(answer, ""))
 	return -2;
     else
@@ -985,8 +979,6 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
     if (leavecursor == 1)
 	reset_cursor();
 
-    raw();
-
     while (ok == -1) {
 	kbinput = wgetch(edit);
 
@@ -1009,8 +1001,6 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
 	    break;
 	}
     }
-    noraw();
-    cbreak();
 
     /* Then blank the screen */
     blank_statusbar_refresh();

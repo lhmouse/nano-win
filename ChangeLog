@@ -3,6 +3,10 @@ CVS code changes since last release -
 	- Removed dual alt_speller variables, oops! (Rocco Corsi)
 - de.po
 	- Revised translations by floki@bigfoot.com.
+- winio.c
+  do_yesno(), nanogetstr():
+	- Removed now unnecessary raw/cbreak combos.
+	
 
 nano-0.9.11 - 06/20/2000
 - New flag "-T" or "--tabsize" to specify how to display tab widths.
