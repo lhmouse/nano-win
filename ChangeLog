@@ -1,6 +1,12 @@
 CVS code -
 - po/de.po:
 	- Updated German translation (Karl Eichwalder).
+- nano.c:
+  main()
+	- Added better Hurd support for function keys (Alt-V,U,9,@,F).
+  signal_init()
+	- do SIG_IGN for the SIGTSTP sigaction regardless of whether
+	  we have _POSIX_VDISABLE or not (more Hurd fixes)
 
 nano-1.0.6 - 10/29/2001
 - General

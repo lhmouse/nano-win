@@ -1797,10 +1797,11 @@ void signal_init(void)
 	tcgetattr(0, &term);
 	term.c_cc[VSUSP] = _POSIX_VDISABLE;
 	tcsetattr(0, TCSANOW, &term);
-#else
+#endif
+
+	/* The HURD seems to need this anyway! */
 	act.sa_handler = SIG_IGN;
 	sigaction(SIGTSTP, &act, NULL);
-#endif
 
     } else {
 	/* if we don't do this, it seems other stuff interrupts the
@@ -2613,6 +2614,7 @@ int main(int argc, char *argv[])
 		    kbinput = KEY_PPAGE;
 		    wgetch(edit);
 		    break;
+		case 'V':	/* Alt-[-V = Page Up in Hurd Console */
 		case 'I':	/* Alt-[-I = Page Up - FreeBSD Console */
 		    kbinput = KEY_PPAGE;
 		    break;
@@ -2620,6 +2622,7 @@ int main(int argc, char *argv[])
 		    kbinput = KEY_NPAGE;
 		    wgetch(edit);
 		    break;
+		case 'U':	/* Alt-[-U = Page Down in Hurd Console */
 		case 'G':	/* Alt-[-G = Page Down - FreeBSD Console */
 		    kbinput = KEY_NPAGE;
 		    break;
@@ -2631,6 +2634,10 @@ int main(int argc, char *argv[])
 		    kbinput = KEY_END;
 		    wgetch(edit);
 		    break;
+		case '9':	/* Alt-[-9 = Delete in Hurd Console */
+		    kbinput = KEY_DC;
+		    break;
+		case '@':	/* Alt-[-9 = Insert in Hurd Console */
 		case 'L':		/* Insert Key - FreeBSD Console */
 		    do_insertfile();
 		    keyhandled = 1;
@@ -2654,6 +2661,7 @@ int main(int argc, char *argv[])
 		    kbinput = KEY_HOME;
 		    break;
 		case 'F':
+		case 'Y':		/* End Key in Hurd Console */
 		    kbinput = KEY_END;
 		    break;
 		default:
