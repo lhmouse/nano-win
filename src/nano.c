@@ -3574,8 +3574,7 @@ int main(int argc, char *argv[])
 #endif
 	    }
 #ifdef DEBUG
-	    fprintf(stderr, "I got Alt-%c! (%d)\n", kbinput,
-		kbinput);
+	    fprintf(stderr, "I got Alt-%c! (%d)\n", kbinput, kbinput);
 #endif
 	}
 
