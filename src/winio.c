@@ -3211,7 +3211,7 @@ void dump_buffer_reverse(void)
     const filestruct *fileptr = filebot;
 
     while (fileptr != NULL) {
-	fprintf(stderr, "(%lu) %s\n", (unsigned long)fileptr->lineno, fileptr->data);
+	fprintf(stderr, "(%d) %s\n", fileptr->lineno, fileptr->data);
 	fileptr = fileptr->prev;
     }
 }
