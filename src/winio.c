@@ -2316,7 +2316,8 @@ int statusq(int allowtabs, const shortcut *s, const char *def,
 	resetstatuspos = 1;
 	break;
     case NANO_FULLJUSTIFY_KEY:
-	do_full_justify();
+	if (!ISSET(VIEW_MODE))
+	    do_full_justify();
 	resetstatuspos = 1;
 	break;
 #endif
