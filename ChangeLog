@@ -10,6 +10,9 @@ CVS code -
 	- Minor patch for intl check (Christian Weisgerber)
 - cs.po:
 	- Czech translation from Vaclav Haisman.
+- winio.c:
+  statusq()
+	- Added NANO_BACK_KEY and NANO_FORWARD_KEY cases for left and right.
 
 1.0-test prerelease - 03/17/2001
 - nano.c:
