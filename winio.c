@@ -1402,7 +1402,7 @@ void do_credits(void)
 			"Tedi Heriyanto",
 			"Bill Soudan",
 			"Christian Weisgerber",
-			"Erik Anderson",
+			"Erik Andersen",
 			"Big Gaute",
 			"Joshua Jensen",
 			"",

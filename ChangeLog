@@ -17,6 +17,9 @@ CVS code -
   do_cursorpos()
 	- Optimizations and cleanups by Rocco Corsi.
 
+  do_credits()
+	- Spell Erik Andersen's name right.
+
 nano 0.9.24 - 12/18/2000
 General
 	- Added --disable-help option, affects acconfig.h, configure(.in),
