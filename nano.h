@@ -34,6 +34,7 @@
 #define SET(bit) flags |= bit
 #define UNSET(bit) flags &= ~bit
 #define ISSET(bit) (flags & bit)
+#define TOGGLE(bit) flags ^= bit
 
 
 #ifdef USE_SLANG	/* Slang support enabled */
@@ -206,7 +207,6 @@ know what you're doing */
 #define NANO_REPLACE_FKEY	KEY_F(14)
 #define NANO_ALT_REPLACE_KEY	NANO_ALT_R
 #define NANO_OTHERSEARCH_KEY	NANO_CONTROL_R
-#define NANO_REVERSESEARCH_KEY NANO_CONTROL_B
 #define NANO_PREVPAGE_KEY	NANO_CONTROL_Y
 #define NANO_PREVPAGE_FKEY	KEY_F(7)
 #define NANO_NEXTPAGE_KEY	NANO_CONTROL_V
@@ -222,7 +222,6 @@ know what you're doing */
 #define NANO_FIRSTLINE_KEY	NANO_PREVPAGE_KEY
 #define NANO_LASTLINE_KEY	NANO_NEXTPAGE_KEY
 #define NANO_CANCEL_KEY		NANO_CONTROL_C
-#define NANO_CASE_KEY		NANO_CONTROL_A
 #define NANO_REFRESH_KEY	NANO_CONTROL_L
 #define NANO_JUSTIFY_KEY	NANO_CONTROL_J
 #define NANO_JUSTIFY_FKEY	KEY_F(4)
@@ -241,7 +240,7 @@ know what you're doing */
 #define NANO_ENTER_KEY		NANO_CONTROL_M
 #define NANO_FROMSEARCHTOGOTO_KEY NANO_CONTROL_T
 #define NANO_TOFILES_KEY	NANO_CONTROL_T
-#define NANO_APPEND_KEY		NANO_CONTROL_A
+#define NANO_APPEND_KEY		NANO_ALT_A
 
 #define TOGGLE_CONST_KEY	NANO_ALT_C
 #define TOGGLE_AUTOINDENT_KEY	NANO_ALT_I
@@ -252,11 +251,23 @@ know what you're doing */
 #define TOGGLE_CUTTOEND_KEY	NANO_ALT_K
 #define TOGGLE_REGEXP_KEY	NANO_ALT_E
 #define TOGGLE_WRAP_KEY		NANO_ALT_W
+#define TOGGLE_BACKWARDS_KEY	NANO_ALT_B
+#define TOGGLE_CASE_KEY		NANO_ALT_A
+
+/* Toggle stuff, these static lengths need to go away RSN */
+
+#ifdef HAVE_REGEX_H
+#define TOGGLE_LEN 11
+#define WHEREIS_LIST_LEN 8
+#define REPLACE_LIST_LEN 8
+#else
+#define TOGGLE_LEN 10
+#define WHEREIS_LIST_LEN 7
+#define REPLACE_LIST_LEN 7
+#endif
 
 #define MAIN_LIST_LEN 26
 #define MAIN_VISIBLE 12
-#define WHEREIS_LIST_LEN 7
-#define REPLACE_LIST_LEN 7
 #define REPLACE_LIST_2_LEN 3
 #define GOTO_LIST_LEN 3
 #define GOTODIR_LIST_LEN 1
@@ -270,12 +281,6 @@ know what you're doing */
 #else
 #define WRITEFILE_LIST_LEN 3
 #define IMSERTFILE_LIST_LEN 1
-#endif
-
-#ifdef HAVE_REGEX_H
-#define TOGGLE_LEN 9
-#else
-#define TOGGLE_LEN 8
 #endif
 
 #define VIEW 1

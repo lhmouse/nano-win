@@ -40,6 +40,17 @@ Cvs code -
 	  nano_reverse_msg, new functions revstrstr and revstrcasestr,
 	  many changes to search functions.  Not too big a code size
 	  increase!
+	- Moved extension functions (Case Sensitive, Regexp, and Backwards
+	  Search, Append key in write file function) to Meta keys, as
+	  people are complaining loudly about nano not being control-key
+	  compatible with Pico, which is a Bag Thing (TM).  Changes to
+	  shortcut_init, toggle_init, new toggles for backwards and regexp
+	  (and you can now toggle all search options including regexp at
+	  the Search: prompt!)  Changes to nanogetstr to enable Meta
+	  keys to be grabbed, changes to onekey to print M-style shortcuts. 
+	- New macro TOGGLE which just toggles, no more silly checking
+	  ISSET and then using SET or UNSET when we want a simple toggle
+	  for a flag.
 - configure.in:
 	- New option, --enable-nanorc, which allows people to have a .nanorc
 	  initialization file and set options normally used on the command

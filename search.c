@@ -72,7 +72,7 @@ void search_init_globals(void)
 */
 int search_init(int replacing)
 {
-    int i = 0;
+    int i = 0, j;
     char *buf;
     char *prompt;
     static char *backupstring = NULL;
@@ -137,7 +137,10 @@ int search_init(int replacing)
 	free(backupstring);
 	backupstring = NULL;
 	return -1;
-    } else if (i == -2) {	/* Same string */
+    } else 
+    switch (i) {
+
+    case -2:	/* Same string */
 #ifdef HAVE_REGEX_H
 	if (ISSET(USE_REGEXP)) {
 
@@ -147,10 +150,9 @@ int search_init(int replacing)
 	    else
 		regexp_init(answer);
 	}
-#else
-	;
 #endif
-    } else if (i == 0) {	/* They entered something new */
+	break;
+    case 0:		/* They entered something new */
 #ifdef HAVE_REGEX_H
 	if (ISSET(USE_REGEXP))
 	    regexp_init(answer);
@@ -158,37 +160,41 @@ int search_init(int replacing)
 	free(backupstring);
 	backupstring = NULL;
 	last_replace[0] = '\0';
-    } else if (i == NANO_CASE_KEY) {	/* They want it case sensitive */
+	break;
+    case TOGGLE_CASE_KEY:
+    case TOGGLE_BACKWARDS_KEY:
+#ifdef HAVE_REGEX_H
+    case TOGGLE_REGEXP_KEY:
+#endif
 	free(backupstring);
 	backupstring = NULL;
 	backupstring = mallocstrcpy(backupstring, answer);
 
-	if (ISSET(CASE_SENSITIVE))
-	    UNSET(CASE_SENSITIVE);
-	else
-	    SET(CASE_SENSITIVE);
+	for (j = 0; j <= TOGGLE_LEN - 1; j++)
+	    if (i == toggles[j].val)
+		TOGGLE(toggles[j].flag);
 
 	return 1;
-    } else if (i == NANO_OTHERSEARCH_KEY) {
+    case NANO_OTHERSEARCH_KEY:
 	backupstring = mallocstrcpy(backupstring, answer);
 	return -2;		/* Call the opposite search function */
+/*
     } else if (i == NANO_REVERSESEARCH_KEY) {
 	free(backupstring);
 	backupstring = NULL;
 	backupstring = mallocstrcpy(backupstring, answer);
 
-	if (ISSET(REVERSE_SEARCH))
-	    UNSET(REVERSE_SEARCH);
-	else
-	    SET(REVERSE_SEARCH);
+	TOGGLE(REVERSE_SEARCH);
 
 	return 1;
     } else if (i == NANO_FROMSEARCHTOGOTO_KEY) {
+*/
+    case NANO_FROMSEARCHTOGOTO_KEY:
 	free(backupstring);
 	backupstring = NULL;
 	do_gotoline_void();
 	return -3;
-    } else {			/* First line key, etc. */
+    default:
 	do_early_abort();
 	free(backupstring);
 	backupstring = NULL;

@@ -139,7 +139,8 @@ void toggle_init(void)
 #ifndef NANO_SMALL
     char *toggle_const_msg, *toggle_autoindent_msg, *toggle_suspend_msg,
 	*toggle_nohelp_msg, *toggle_picomode_msg, *toggle_mouse_msg,
-	*toggle_cuttoend_msg, *toggle_wrap_msg;
+	*toggle_cuttoend_msg, *toggle_wrap_msg, *toggle_case_msg, 
+	*toggle_backwards_msg;
 #ifdef HAVE_REGEX_H
     char *toggle_regexp_msg;
 #endif
@@ -151,6 +152,8 @@ void toggle_init(void)
     toggle_picomode_msg = _("Pico mode");
     toggle_mouse_msg = _("Mouse support");
     toggle_cuttoend_msg = _("Cut to end");
+    toggle_backwards_msg = _("Backwards Search");
+    toggle_case_msg = _("Case Sensitive Search");
 #ifdef HAVE_REGEX_H
     toggle_regexp_msg = _("Regular expressions");
 #endif
@@ -172,8 +175,12 @@ void toggle_init(void)
 		    USE_MOUSE);
     toggle_init_one(&toggles[7], TOGGLE_CUTTOEND_KEY, toggle_cuttoend_msg,
 		    CUT_TO_END);
+    toggle_init_one(&toggles[8], TOGGLE_BACKWARDS_KEY, toggle_backwards_msg,
+		    REVERSE_SEARCH);
+    toggle_init_one(&toggles[9], TOGGLE_CASE_KEY, toggle_case_msg,
+		    CASE_SENSITIVE);    
 #ifdef HAVE_REGEX_H
-    toggle_init_one(&toggles[8], TOGGLE_REGEXP_KEY, toggle_regexp_msg,
+    toggle_init_one(&toggles[10], TOGGLE_REGEXP_KEY, toggle_regexp_msg,
 		    USE_REGEXP);
 #endif
 #endif
@@ -194,7 +201,8 @@ void shortcut_init(int unjustify)
 	"", *nano_backspace_msg = "", *nano_tab_msg =
 	"", *nano_enter_msg = "", *nano_case_msg =
 	"", *nano_cancel_msg = "", *nano_unjustify_msg = 
-	"", *nano_append_msg = "", *nano_reverse_msg = "";
+	"", *nano_append_msg = "", *nano_reverse_msg = 
+	"", *nano_regexp_msg = "";
 
 #ifndef NANO_SMALL
     char *nano_tofiles_msg = "";
@@ -237,6 +245,7 @@ void shortcut_init(int unjustify)
     nano_cancel_msg = _("Cancel the current function");
     nano_append_msg = _("Append to the current file");
     nano_reverse_msg = _("Search Backwards");
+    nano_regexp_msg = _("Use Regular Expressions");
 #endif
 
 	sc_init_one(&main_list[0], NANO_HELP_KEY, _("Get Help"),
@@ -359,22 +368,26 @@ void shortcut_init(int unjustify)
     sc_init_one(&whereis_list[1], NANO_LASTLINE_KEY, _("Last Line"),
 		nano_lastline_msg, 0, 0, 0, VIEW, do_last_line);
 
-    sc_init_one(&whereis_list[2], NANO_CASE_KEY, _("Case Sens"),
-		nano_case_msg, 0, 0, 0, VIEW, 0);
-
-
-    sc_init_one(&whereis_list[3], NANO_OTHERSEARCH_KEY, _("Replace"),
+    sc_init_one(&whereis_list[2], NANO_OTHERSEARCH_KEY, _("Replace"),
 		nano_replace_msg, 0, 0, 0, VIEW, do_replace);
 
-    sc_init_one(&whereis_list[4], NANO_FROMSEARCHTOGOTO_KEY,
+    sc_init_one(&whereis_list[3], NANO_FROMSEARCHTOGOTO_KEY,
 		_("Goto Line"), nano_goto_msg, 0, 0, 0, VIEW,
 		do_gotoline_void);
 
-    sc_init_one(&whereis_list[5], NANO_REVERSESEARCH_KEY, _("Backward"),
+    sc_init_one(&whereis_list[4], NANO_CANCEL_KEY, _("Cancel"),
+		nano_cancel_msg, 0, 0, 0, VIEW, 0);
+
+    sc_init_one(&whereis_list[5], TOGGLE_CASE_KEY, _("Case Sens"),
+		nano_case_msg, 0, 0, 0, VIEW, 0);
+
+    sc_init_one(&whereis_list[6], TOGGLE_BACKWARDS_KEY, _("Backward"),
 		nano_reverse_msg, 0, 0, 0, VIEW, 0);
 
-    sc_init_one(&whereis_list[6], NANO_CANCEL_KEY, _("Cancel"),
-		nano_cancel_msg, 0, 0, 0, VIEW, 0);
+#ifdef HAVE_REGEX_H
+    sc_init_one(&whereis_list[7], TOGGLE_REGEXP_KEY, _("Regexp"),
+		nano_regexp_msg, 0, 0, 0, VIEW, 0);
+#endif
 
     sc_init_one(&replace_list[0], NANO_FIRSTLINE_KEY, _("First Line"),
 		nano_firstline_msg, 0, 0, 0, VIEW, do_first_line);
@@ -382,21 +395,26 @@ void shortcut_init(int unjustify)
     sc_init_one(&replace_list[1], NANO_LASTLINE_KEY, _("Last Line"),
 		nano_lastline_msg, 0, 0, 0, VIEW, do_last_line);
 
-    sc_init_one(&replace_list[2], NANO_CASE_KEY, _("Case Sens"),
-		nano_case_msg, 0, 0, 0, VIEW, 0);
-
-    sc_init_one(&replace_list[3], NANO_OTHERSEARCH_KEY, _("No Replace"),
+    sc_init_one(&replace_list[2], NANO_OTHERSEARCH_KEY, _("No Replace"),
 		nano_whereis_msg, 0, 0, 0, VIEW, do_search);
 
-    sc_init_one(&replace_list[4], NANO_FROMSEARCHTOGOTO_KEY,
+    sc_init_one(&replace_list[3], NANO_FROMSEARCHTOGOTO_KEY,
 		_("Goto Line"), nano_goto_msg, 0, 0, 0, VIEW,
 		do_gotoline_void);
 
-    sc_init_one(&replace_list[5], NANO_REVERSESEARCH_KEY, _("Backward"),
+    sc_init_one(&replace_list[4], NANO_CANCEL_KEY, _("Cancel"),
+		nano_cancel_msg, 0, 0, 0, VIEW, 0);
+
+    sc_init_one(&replace_list[5], TOGGLE_CASE_KEY, _("Case Sens"),
+		nano_case_msg, 0, 0, 0, VIEW, 0);
+
+    sc_init_one(&replace_list[6], TOGGLE_BACKWARDS_KEY, _("Backward"),
 		nano_reverse_msg, 0, 0, 0, VIEW, 0);
 
-    sc_init_one(&replace_list[6], NANO_CANCEL_KEY, _("Cancel"),
-		nano_cancel_msg, 0, 0, 0, VIEW, 0);
+#ifdef HAVE_REGEX_H
+    sc_init_one(&replace_list[7], TOGGLE_REGEXP_KEY, _("Regexp"),
+		nano_regexp_msg, 0, 0, 0, VIEW, 0);
+#endif
 
 
     sc_init_one(&replace_list_2[0], NANO_FIRSTLINE_KEY, _("First Line"),

@@ -2146,10 +2146,8 @@ void do_toggle(int which)
     char *enabled = _("enabled");
     char *disabled = _("disabled");
 
-    if (ISSET(toggles[which].flag))
-	UNSET(toggles[which].flag);
-    else
-	SET(toggles[which].flag);
+    /* Even easier! */
+    TOGGLE(toggles[which].flag);
 
     switch (toggles[which].val) {
     case TOGGLE_PICOMODE_KEY:

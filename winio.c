@@ -291,7 +291,7 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 	    fprintf(stderr, _("Aha! \'%c\' (%d)\n"), kbinput, kbinput);
 #endif
 
-	    if (kbinput == s[j].val) {
+	    if (kbinput == s[j].val && kbinput < 32) {
 
 		/* We shouldn't discard the answer it gave, just because
 		   we hit a keystroke, GEEZ! */
@@ -327,10 +327,12 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 	    break;
 #endif
 #endif
+	case NANO_HOME_KEY:
 	case KEY_HOME:
 	    x = x_left;
 	    nanoget_repaint(buf, inputbuf, x);
 	    break;
+	case NANO_END_KEY:
 	case KEY_END:
 	    x = x_left + strlen(inputbuf);
 	    nanoget_repaint(buf, inputbuf, x);
@@ -450,11 +452,29 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 		    nodelay(edit, FALSE);
 		    break;
 		}
+	    default:
+
+		for (j = 0; j <= slen - 1; j++) {
+#ifdef DEBUG
+	    fprintf(stderr, _("Aha! \'%c\' (%d)\n"), kbinput, kbinput);
+#endif
+		    if (kbinput == s[j].val || kbinput == s[j].val - 32) {
+
+			/* We hit an Alt key.   Do like above.  We don't
+			   just ungetch the letter and let it get caught
+			   above cause that screws the keypad... */
+			answer = mallocstrcpy(answer, inputbuf);
+			free(inputbuf);
+			return s[j].val;
+		    }
+		}
+
 	    }
 	    nanoget_repaint(buf, inputbuf, x);
 	    break;
 
 	default:
+
 	    if (kbinput < 32)
 		break;
 
@@ -553,7 +573,7 @@ void onekey(char *keystroke, char *desc)
 {
     char description[80];
 
-    snprintf(description, 12, " %-10s", desc);
+    snprintf(description, 12 - (strlen(keystroke) - 2), " %-10s", desc);
     wattron(bottomwin, A_REVERSE);
     waddstr(bottomwin, keystroke);
     wattroff(bottomwin, A_REVERSE);
@@ -586,8 +606,14 @@ void bottombars(shortcut s[], int slen)
 
     clear_bottomwin();
     wmove(bottomwin, 1, 0);
-    for (i = 0; i <= slen - 1; i += 2) {
-	snprintf(keystr, 10, "^%c", s[i].val + 64);
+
+    for (i = 0; i <= slen - 2; i += 2) {
+
+	if (s[i].val < 97)
+	    snprintf(keystr, 10, "^%c", s[i].val + 64);
+	else
+	    snprintf(keystr, 10, "M-%c", s[i].val - 32);
+
 	onekey(keystr, s[i].desc);
 
 	for (j = 0; j < k; j++)
@@ -596,7 +622,12 @@ void bottombars(shortcut s[], int slen)
 
     wmove(bottomwin, 2, 0);
     for (i = 1; i <= slen - 1; i += 2) {
-	snprintf(keystr, 10, "^%c", s[i].val + 64);
+
+	if (s[i].val < 97)
+	    snprintf(keystr, 10, "^%c", s[i].val + 64);
+	else
+	    snprintf(keystr, 10, "M-%c", s[i].val - 32);
+
 	onekey(keystr, s[i].desc);
 
 	for (j = 0; j < k; j++)
