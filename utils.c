@@ -159,7 +159,7 @@ void new_magicline(void)
     totsize++;
 }
 
-#ifndef DISABLE_TABCOMP
+#if !defined(DISABLE_TABCOMP) && !defined(NANO_SMALL)
 /*
  * Routine to see if a text string is matched by a wildcard pattern.
  * Returns TRUE if the text is matched, or FALSE if it is not matched
