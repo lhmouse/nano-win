@@ -294,10 +294,12 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 #endif
 	case NANO_HOME_KEY:
 	case KEY_HOME:
+	do_home:
 	    x = 0;
 	    break;
 	case NANO_END_KEY:
 	case KEY_END:
+	do_end:
 	    x = xend;
 	    break;
 	case KEY_RIGHT:
@@ -484,6 +486,12 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		case 'D':
 		    if (x > 0)
 			x--;
+		    break;
+		case 'F':
+		    goto do_end;
+		    break;
+		case 'H':
+		    goto do_home;
 		    break;
 		case '1':
 		case '7':

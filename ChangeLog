@@ -14,6 +14,8 @@ CVS code -
 	  added at the bottom of the history (but which was not in the
 	  history) would not be preserved after scrolling down to the
 	  blank bottom entry and then scrolling back up. (DLR)
+	- Add handler for Alt-[-H and F as home and end when -K is
+	  used.  Basically a workaround until a cleaner way can be found.
 - configure.ac:
 	- Change the program used to detect a broken regexec() function
 	  so that it works properly, using information found at
