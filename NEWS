@@ -1,3 +1,15 @@
+06/xx/2000 - Nano 0.9.11 presents drastic rewrites of the most buggy
+		routines in the program, specifically the wrapping code
+		and almost all of the display routines.  There are many
+		improvements and bugfixes to the display subsystem in 
+		general, but there may be bugs lurking yet.  Also, after
+		many MANY requests, there is now an option to set the
+		displayed tab width (-T, --tabsize).  Note that 
+		this function just changes the way tabs LOOK in the
+		editor, the tabs you input are still real tabs of normal
+		width  (usually 8 characters); nano just makes them look
+		smaller or bigger whlie in the editor.
+
 06/06/2000 - Nano 0.9.10 is primarily a bugfix for the loss of SIGINT when
 		using "run and terminate" flags (for example, --help).
 		There are also some minor documentation updates.  This
