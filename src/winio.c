@@ -2273,6 +2273,11 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
     size_t index;
 	/* Current position in converted. */
 
+    /* If dollars is TRUE, make room for the "$" at the end of the
+     * line. */
+    if (dollars && len > 0 && strlenpt(buf) > start_col + len)
+	len--;
+
     if (len == 0)
 	return mallocstrcpy(NULL, "");
 
@@ -2341,9 +2346,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	}
 #ifdef NANO_WIDE
 	else if (wcwidth((wchar_t)wide_buf) > 1) {
-	    index++;
-	    if (dollars && column == start_col)
-		index++;
+	    converted[index++] = ' ';
 
 	    start_col++;
 	    start_index += wide_buf_len;
