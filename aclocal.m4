@@ -1,4 +1,4 @@
-dnl aclocal.m4 generated automatically by aclocal 1.4-p4
+dnl aclocal.m4 generated automatically by aclocal 1.4
 
 dnl Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
@@ -816,10 +816,12 @@ AC_SUBST($1)dnl
 #
 # This file can be copied and used freely without restrictions.  It can
 # be used in projects which are not available under the GNU General Public
-# License but which still want to provide support for the GNU gettext
-# functionality.
-# Please note that the actual code of GNU gettext is covered by the GNU
-# General Public License and is *not* in the public domain.
+# License or the GNU Library General Public License but which still want
+# to provide support for the GNU gettext functionality.
+# Please note that the actual code of the GNU gettext library is covered
+# by the GNU Library General Public License, and the rest of the GNU
+# gettext package package is covered by the GNU General Public License.
+# They are *not* in the public domain.
 
 # serial 2
 
