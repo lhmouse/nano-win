@@ -295,6 +295,9 @@ CVS code -
 - README.CVS:
 	- Mention the requirement for glib 2.x on systems lacking
 	  v?snprintf(), and add minor formatting changes.
+- nano.1, nano.texi
+	- Eliminate references to the now removed -D/--dos and -M/--mac
+	  command line options. (DLR)
 - m4/glib-2.0.m4:
 	- New file imported from glib 2.4.7.  This is needed to detect
 	  glib 2.x on systems that may not have it installed. (DLR,

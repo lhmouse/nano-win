@@ -118,9 +118,6 @@ line.
 When saving a file, back up the previous version of it to the current
 filename suffixed with a ~.
 
-@item -D, --dos
-Write file in DOS format.
-
 @item -E, --backupdir=[dir]
 Set the directory where @code{nano} puts the backup files if file
 backups are enabled.
@@ -131,9 +128,6 @@ Enable multiple file buffers, if available.
 @item -I, --ignorercfiles
 Don't look at SYSCONFDIR/nanorc or ~/.nanorc, if nanorc support is
 available.
-
-@item -M, --mac
-Write file in Mac format.
 
 @item -N, --noconvert
 Do not convert files from DOS/Mac format.
@@ -349,7 +343,7 @@ The following global toggles are available:
 toggles the -B (@code{--backup}) command line flag.
 
 @item DOS Format Toggle (Meta-D)
-toggles the -D (@code{--dos}) command line flag.
+toggles writing the file in DOS format.
 
 @item Multiple Files Toggle (Meta-F)
 toggles the -F (@code{--multibuffer}) command line flag.
@@ -370,7 +364,7 @@ toggles the -w (@code{--nowrap}) command line flag.
 toggles the -m (@code{--mouse}) command line flag.
 
 @item Mac Format Toggle (Meta-O)
-toggles the -M (@code{--mac}) command line flag.
+toggles writing the file in Mac format.
 
 @item Smooth Scrolling Toggle (Meta-S)
 toggles the -S (@code{--smooth}) command line flag.
