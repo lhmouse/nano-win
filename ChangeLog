@@ -1,17 +1,19 @@
 CVS code -
+- files.c:
+  read_file()
+	- Abort if we read a file of 0 lines (num_lines == 0), fixes BUG #70.
 - winio.c:
   nanogetstr()
 	- Add NANO_HOME_KEY and NANO_END_KEY to the home and
 	  end key code (fixes BUG #69).
   bottombars(), onekey()
 	- Make bottom list dynamic with screen size (Guus Sliepen & Chris).
+  do_credits()
+	- Add Thomas Dickey.
 - utils.c:
   strcasestr()
 	- Renamed to stristr since strcasestr has not been confirmed to
 	  be detected properly on various Linux systems.
-- winio.c:
-  do_credits()
-	- Add Thomas Dickey.
 - THANKS:
 	- Added missing entry for Eivind Kjørstad.
 - po/no.po:

@@ -180,7 +180,15 @@ int read_file(int fd, char *filename)
 	num_lines++;
 	buf[0] = 0;
     }
-    /* Did we even GET a file? */
+
+   /* Did we try to insert a file of 0 bytes? */
+    if (num_lines == 0)
+    {
+        statusbar(_("Read %d lines"), 0);
+        return 1;
+    }
+
+    /* Did we even GET a file if we don't already have one? */
     if (totsize == 0 || fileptr == NULL) {
 	new_file();
 	statusbar(_("Read %d lines"), num_lines);

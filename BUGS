@@ -134,7 +134,7 @@
   Trevor Cordes) (68) [FIXED].
 - Home and End control keys (^A, ^E) do not always work in filename
   prompt (bug found by Ian Turner) (69) [FIXED].
-
+- Trying to insert a file of 0 bytes will hang nano (70) [FIXED].
 ** Open BUGS **
 
 $Id$
