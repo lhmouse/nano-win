@@ -14,6 +14,8 @@ CVS code -
 	  new code in read_line and write_file.  New cmdline flag
 	  (-D --dos) to automatically write the file in DOS format,
 	  regardless of the original format.
+	- Mac file writing supported too.  Flag -M, --mac.  No toggle
+	  as of yet.
 - nano.c:
   main()
 	- Added vars oldcurrent and oldcurrent_x to check whether cursor

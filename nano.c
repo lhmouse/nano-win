@@ -412,6 +412,11 @@ void usage(void)
 	(_
 	 (" -F 		--multibuffer		Enable multiple file buffers\n"));
 #endif
+#ifndef NANO_SMALL
+    printf
+	(_
+	 (" -M 		--mac			Write file in Mac format\n"));
+#endif
 #ifdef HAVE_REGEX_H
     printf(_
 	   (" -R		--regexp		Use regular expressions for search\n"));
@@ -476,6 +481,9 @@ void usage(void)
 #endif
 #ifdef ENABLE_MULTIBUFFER
     printf(_(" -F 		Enable multiple file buffers\n"));
+#endif
+#ifndef NANO_SMALL
+    printf(_(" -M 		Write file in Mac format\n"));
 #endif
     printf(_(" -T [num]	Set width of a tab to num\n"));
     printf(_(" -R		Use regular expressions for search\n"));
@@ -2416,6 +2424,7 @@ int main(int argc, char *argv[])
 #ifndef NANO_SMALL
 	{"cut", 0, 0, 'k'},
 	{"dos", 0, 0, 'D'},
+	{"mac", 0, 0, 'M'},
 	{"autoindent", 0, 0, 'i'},
 #endif
 	{"tempfile", 0, 0, 't'},
@@ -2458,11 +2467,11 @@ int main(int argc, char *argv[])
 #endif /* ENABLE_NANORC */
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "h?DFRT:Vabcefgijklmo:pr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "h?DFMRT:Vabcefgijklmo:pr:s:tvwxz",
 				 long_options, &option_index)) != EOF) {
 #else
     while ((optchr =
-	    getopt(argc, argv, "h?DFRT:Vabcefgijklmo:pr:s:tvwxz")) != EOF) {
+	    getopt(argc, argv, "h?DFMRT:Vabcefgijklmo:pr:s:tvwxz")) != EOF) {
 #endif
 
 	switch (optchr) {
@@ -2477,7 +2486,11 @@ int main(int argc, char *argv[])
 	    SET(MULTIBUFFER);
 	    break;
 #endif
-
+#ifndef NANO_SMALL
+	case 'M':
+	    SET(MAC_FILE);
+	    break;
+#endif
 	case 'T':
 	    tabsize = atoi(optarg);
 	    if (tabsize <= 0) {

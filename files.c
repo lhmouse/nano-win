@@ -184,7 +184,11 @@ int read_file(int fd, char *filename, int quiet)
     /* Read the entire file into file struct */
     while ((size = read_byte(fd, filename, input)) > 0) {
 	linetemp = 0;
-	if (input[0] == '\n') {
+	if (input[0] == '\n'
+#ifndef NANO_SMALL
+	    || (ISSET(MAC_FILE) && input[0] == '\r')
+#endif
+	) {
 	    fileptr = read_line(buf, fileptr, &line1ins);
 	    num_lines++;
 	    buf[0] = 0;
@@ -1125,10 +1129,12 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 #endif
 	}
 #ifndef NANO_SMALL
-	if (ISSET(DOS_FILE))
+	if (ISSET(DOS_FILE) || ISSET(MAC_FILE))
 	    write(fd, "\r", 1);
+
+	if (!ISSET(MAC_FILE))
 #endif
-	write(fd, "\n", 1);
+	    write(fd, "\n", 1);
 
 	fileptr = fileptr->next;
 	lineswritten++;
@@ -1151,13 +1157,17 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 		    return -1;
 		}
 	    }
+
+	    if (!ISSET(MAC_FILE))
 #endif
-	    size = write(fd, "\n", 1);
-	    lineswritten++;
-	    if (size == -1) {
-		statusbar(_("Could not open file for writing: %s"),
+	    {
+		size = write(fd, "\n", 1);
+		lineswritten++;
+		if (size == -1) {
+		    statusbar(_("Could not open file for writing: %s"),
 			  strerror(errno));
-		return -1;
+		    return -1;
+		}
 	    }
 	}
     }

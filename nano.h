@@ -141,6 +141,7 @@ typedef struct rcoption {
 #define MULTIBUFFER		(1<<19)
 #define CLEAR_BACKUPSTRING	(1<<20)
 #define DOS_FILE		(1<<21)
+#define MAC_FILE		(1<<22)
 
 /* Control key sequences, changing these would be very very bad */
 
