@@ -2750,8 +2750,9 @@ char *do_browser(char *path, DIR *dir)
     return retval;
 }
 
-/* Browser front end, checks to see if inpath has a dir in it and, if
-   so, starts do_browser from there, else from the current dir */
+/* The file browser front end.  We check to see if inpath has a dir in
+ * it.  If it does, we start do_browser() from there.  Otherwise, we
+ * start do_browser() from the current directory. */
 char *do_browse_from(const char *inpath)
 {
     struct stat st;
