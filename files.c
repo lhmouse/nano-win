@@ -257,9 +257,9 @@ int do_insertfile(void)
 #endif
 
 #ifndef DISABLE_TABCOMP
-        realname = real_dir_from_tilde(answer);
+	realname = real_dir_from_tilde(answer);
 #else
-        realname = mallocstrcpy(realname, answer);
+	realname = mallocstrcpy(realname, answer);
 #endif
 
 	i = open_file(realname, 1, 0);
@@ -302,7 +302,7 @@ int write_file(char *name, int tmp)
     char buf[PATH_MAX + 1];
     filestruct *fileptr;
     int fd, mask = 0, realexists, anyexists;
-    struct stat st, st2;
+    struct stat st, lst, st2;
     static char *realname = NULL;
 
     if (!strcmp(name, "")) {
@@ -321,31 +321,29 @@ int write_file(char *name, int tmp)
     realname = mallocstrcpy(realname, name);
 #endif
 
-    /* Save the state of file at the end of the symlink */
+    /* Save the state of file at the end of the symlink (if there is one) */
     realexists = stat(realname, &st);
 
-    /* Check to see if the file is a regular file and FOLLOW_SYMLINKS is
-       set.  If so then don't do the delete and recreate code which would
-       cause unexpected behavior */
-    anyexists = lstat(realname, &st);
+    /* Stat the link itself for the check... */
+    anyexists = lstat(realname, &lst);
 
     /* New case: if the file exists, just give up */
     if (tmp && anyexists != -1)
-	 return -1;
+	return -1;
     /* NOTE: If you change this statement, you MUST CHANGE the if 
-	statement below (that starts "if ((!ISSET(FOLLOW_SYMLINKS)...")
-	to reflect whether or not to link/unlink/rename the file */
-    else if (ISSET(FOLLOW_SYMLINKS) || !S_ISLNK(st.st_mode)) {
+       statement below (that starts "if ((!ISSET(FOLLOW_SYMLINKS)...")
+       to reflect whether or not to link/unlink/rename the file */
+    else if (ISSET(FOLLOW_SYMLINKS) || !S_ISLNK(lst.st_mode) || tmp) {
 
 	/* Use O_EXCL if tmp == 1, I suppose */
 	if (tmp)
 	    fd = open(realname, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC,
-			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH |
-			S_IWOTH);
-	else 
+		      S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH |
+		      S_IWOTH);
+	else
 	    fd = open(realname, O_WRONLY | O_CREAT | O_TRUNC,
-			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH |
-			S_IWOTH);
+		      S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH |
+		      S_IWOTH);
 
 	/* First, just give up if we couldn't even open the file */
 	if (fd == -1) {
@@ -362,11 +360,11 @@ int write_file(char *name, int tmp)
 	/* Now we fstat() the file, to make sure it's the same file still!
 	   Thanks to Oliver Friedrichs(?) for this code from securityfocus */
 
- 	if (fstat(fd, &st2) != 0) {
+	if (fstat(fd, &st2) != 0) {
 	    close(fd);
-	    return -1; 
+	    return -1;
 	}
-      
+
     }
     /* Don't follow symlink.  Create new file. */
     else {
@@ -434,55 +432,53 @@ int write_file(char *name, int tmp)
 	return -1;
     }
 
-    if ((!ISSET(FOLLOW_SYMLINKS) && S_ISLNK(st.st_mode)) || tmp) {
-	if (realexists == -1) {
-	    /* Use default umask as file permisions if file is a new file. */
-	    mask = umask(0);
-	    umask(mask);
+    if (realexists == -1 || tmp ||
+	(!ISSET(FOLLOW_SYMLINKS) && S_ISLNK(lst.st_mode))) {
 
-	    if (tmp)		/* We don't want anyone reading our temporary file! */
-		mask = 0600;
-	    else
-		mask = 0666 & ~mask;
+	/* Use default umask as file permisions if file is a new file. */
+	mask = umask(0);
+	umask(mask);
 
-	} else {
-	    /* Use permissions from file we are overwriting. */
-	    mask = st.st_mode;
-	    if (unlink(realname) == -1) {
-		if (errno != ENOENT) {
-		    statusbar(_("Could not open %s for writing: %s"),
-			      realname, strerror(errno));
-		    unlink(buf);
-		    return -1;
-		}
-	    }
-	}
+	if (tmp)		/* We don't want anyone reading our temporary file! */
+	    mask = 0600;
+	else
+	    mask = 0666 & ~mask;
+    } else
+	mask = st.st_mode;
 
-	if (!tmp) {
-	    if (link(buf, realname) != -1)
-		unlink(buf);
-	    else if (errno != EPERM) {
+    if (!tmp && (!ISSET(FOLLOW_SYMLINKS) && S_ISLNK(lst.st_mode))) {
+	/* Use permissions from file we are overwriting. */
+	if (unlink(realname) == -1) {
+	    if (errno != ENOENT) {
 		statusbar(_("Could not open %s for writing: %s"),
-		      name, strerror(errno));
-		unlink(buf);
-		return -1;
-	    } else if (rename(buf, realname) == -1) {	/* Try a rename?? */
- 		statusbar(_("Could not open %s for writing: %s"),
-		      realname, strerror(errno));
+			  realname, strerror(errno));
 		unlink(buf);
 		return -1;
 	    }
 	}
-	if (chmod(realname, mask) == -1)
-	    statusbar(_("Could not set permissions %o on %s: %s"),
-		      mask, realname, strerror(errno));
-
+	if (link(buf, realname) != -1)
+	    unlink(buf);
+	else if (errno != EPERM) {
+	    statusbar(_("Could not open %s for writing: %s"),
+		      name, strerror(errno));
+	    unlink(buf);
+	    return -1;
+	} else if (rename(buf, realname) == -1) {	/* Try a rename?? */
+	    statusbar(_("Could not open %s for writing: %s"),
+		      realname, strerror(errno));
+	    unlink(buf);
+	    return -1;
+	}
     }
+    if (chmod(realname, mask) == -1)
+	statusbar(_("Could not set permissions %o on %s: %s"),
+		  mask, realname, strerror(errno));
+
     if (!tmp) {
 	strncpy(filename, realname, 132);
 	statusbar(_("Wrote %d lines"), lineswritten);
-        UNSET(MODIFIED);
-        titlebar();
+	UNSET(MODIFIED);
+	titlebar();
     }
     return 1;
 }
@@ -521,10 +517,11 @@ int do_writeout(int exiting)
 #endif
 
 #ifdef NANO_EXTRA
-	    if (exiting && !ISSET(TEMP_OPT) && !strcasecmp(answer, "zzy") && !did_cred) {
+	    if (exiting && !ISSET(TEMP_OPT) && !strcasecmp(answer, "zzy")
+		&& !did_cred) {
 		do_credits();
 		did_cred = 1;
-		return - 1;
+		return -1;
 	    }
 #endif
 	    if (strcmp(answer, filename)) {
@@ -559,7 +556,7 @@ static char **homedirs;
 /* Return a malloc()ed string containing the actual directory, used
  * to convert ~user and ~/ notation...
  */
-char *real_dir_from_tilde (char *buf)
+char *real_dir_from_tilde(char *buf)
 {
     char *dirtmp = NULL, *line = NULL, byte[1], *lineptr;
     int fd, i, status, searchctr = 1;
@@ -573,30 +570,29 @@ char *real_dir_from_tilde (char *buf)
 
 		sprintf(dirtmp, "%s/%s", getenv("HOME"), &buf[2]);
 	    }
-	}
-	else if (buf[1] != 0) {
+	} else if (buf[1] != 0) {
 
-	    if((fd = open("/etc/passwd", O_RDONLY)) == -1)
+	    if ((fd = open("/etc/passwd", O_RDONLY)) == -1)
 		goto abort;
 
 	    /* Figure how how much of of the str we need to compare */
 	    for (searchctr = 1; buf[searchctr] != '/' &&
-			buf[searchctr] != 0; searchctr++)
-		;
+		 buf[searchctr] != 0; searchctr++);
 
 	    do {
 		i = 0;
 		line = nmalloc(1);
-		while ((status = read(fd, byte, 1)) != 0 && byte[0] != '\n') {
+		while ((status = read(fd, byte, 1)) != 0
+		       && byte[0] != '\n') {
 
 		    line[i] = byte[0];
 		    i++;
-		    line = nrealloc(line, i+1);
+		    line = nrealloc(line, i + 1);
 		}
 		line[i] = 0;
 
 		if (i == 0)
-		     goto abort;
+		    goto abort;
 
 		line[i] = 0;
 		lineptr = strtok(line, ":");
@@ -610,25 +606,24 @@ char *real_dir_from_tilde (char *buf)
 		    if (lineptr == NULL)
 			goto abort;
 
-		     /* Else copy the new string into the new buf */
+		    /* Else copy the new string into the new buf */
 		    dirtmp = nmalloc(strlen(buf) + 2 + strlen(lineptr));
 
 		    sprintf(dirtmp, "%s%s", lineptr, &buf[searchctr]);
 		    free(line);
 		    break;
 		}
-	
+
 		free(line);
 
 	    } while (status != 0);
 	}
-    }
-    else
+    } else
 	dirtmp = mallocstrcpy(dirtmp, buf);
 
-    return dirtmp;	
+    return dirtmp;
 
-abort:		
+  abort:
     dirtmp = mallocstrcpy(dirtmp, buf);
     return dirtmp;
 }
@@ -643,7 +638,7 @@ int append_slash_if_dir(char *buf, int *lastWasTab, int *place)
     dirptr = real_dir_from_tilde(buf);
 
     if (stat(dirptr, &fileinfo) == -1)
-    	ret = 0;
+	ret = 0;
     else if (S_ISDIR(fileinfo.st_mode)) {
 	strncat(buf, "/", 1);
 	*place += 1;
@@ -653,7 +648,7 @@ int append_slash_if_dir(char *buf, int *lastWasTab, int *place)
     }
 
     if (dirptr != buf)
-    	free(dirptr);
+	free(dirptr);
 
     return ret;
 }
@@ -681,11 +676,11 @@ char **username_tab_completion(char *buf, int *num_matches)
 {
     char **matches = (char **) NULL, *line = NULL, *lineptr;
     char *matchline = NULL, *matchdir = NULL;
-	
+
     int fd, i = 0, status = 1;
     char byte[1];
 
-    if((fd = open("/etc/passwd", O_RDONLY)) == -1) {
+    if ((fd = open("/etc/passwd", O_RDONLY)) == -1) {
 	return NULL;
     }
 
@@ -706,7 +701,7 @@ char **username_tab_completion(char *buf, int *num_matches)
 
 	    line[i] = byte[0];
 	    i++;
-	    line = nrealloc(line, i+1);
+	    line = nrealloc(line, i + 1);
 	}
 
 	if (i == 0)
@@ -885,8 +880,8 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 	 * then try completing this word as a username. */
 
 	/* FIXME -- this check is broken! */
-	   if (*tmp == '~' && !strchr(tmp, '/'))
-	   matches = username_tab_completion(tmp, &num_matches);
+	if (*tmp == '~' && !strchr(tmp, '/'))
+	    matches = username_tab_completion(tmp, &num_matches);
 
 	/* Try to match everything in the current working directory that
 	 * matches.  */

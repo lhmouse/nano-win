@@ -13,6 +13,8 @@ General
 	- OOPS, line up link/unlink/rename check if conditional with 
 	  top if conditional.  Option -l has been broken for 9 versions,
 	  no one noticed?!
+	- Added saving perms at end of link so we can apply them to the
+	  new file if --nofollow is used.
 - winio.c:
   edit_add()
 	- Off by one display error (fix by Rocco Corsi).
