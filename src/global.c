@@ -898,7 +898,7 @@ void shortcut_init(int unjustify)
      * disabled.  It's useless since inserting files is disabled. */
     /* Translators: try to keep this string under 22 characters long */
     if (!ISSET(RESTRICTED))
-	sc_init_one(&insertfile_list, NANO_NO_KEY, _("New Buffer"),
+	sc_init_one(&insertfile_list, NANO_NO_KEY, N_("New Buffer"),
 		IFHELP(nano_multibuffer_msg, TOGGLE_MULTIBUFFER_KEY), NANO_NO_KEY,
 		NANO_NO_KEY, NOVIEW, 0);
 #endif

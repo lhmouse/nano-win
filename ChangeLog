@@ -61,6 +61,8 @@ CVS code -
 - global.c:
   shortcut_init()
 	- Remove redundant NANO_SMALL #ifdef. (DLR)
+	- Change an erroneous _() around the "New Buffer" string to
+	  N_(). (DLR)
 - nano.c:
   die_save_file()
 	- Clarify the error message when there are too many backup files
