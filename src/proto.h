@@ -416,7 +416,7 @@ int replace_regexp(char *string, bool create_flag);
 #endif
 char *replace_line(const char *needle);
 ssize_t do_replace_loop(const char *needle, filestruct *real_current,
-	size_t *real_current_x, bool wholewords);
+	size_t *real_current_x, bool wholewords, bool *canceled);
 void do_replace(void);
 void do_gotoline(int line, bool save_pos);
 void do_gotoline_void(void);

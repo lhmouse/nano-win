@@ -155,6 +155,9 @@ CVS code -
 	  the spell checker will sometimes only correct the misspelled
 	  word instances that appear before the cursor position and then
 	  stop. (Rocco)
+	- Use do_replace_loop()'s canceled parameter in order to ensure
+	  that the spell checking stops if we canceled at the replace
+	  prompt. (DLR)
   do_alt_speller()
 	- Call terminal_init() unconditionally after running the
 	  alternate spell checker, so that the terminal state is
@@ -221,6 +224,8 @@ CVS code -
 	  replacing only marked text when the mark is on. (DLR,
 	  suggested by Joseph Birthisel)
 	- Return ssize_t instead of int. (DLR)
+	- Add new parameter canceled, set to TRUE if we canceled at the
+	  prompt and FALSE otherwise. (DLR)
 - utils.c:
   regexp_bol_or_eol()
 	- Don't assume any longer that string will be found if

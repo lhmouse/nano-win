@@ -652,9 +652,10 @@ char *replace_line(const char *needle)
  * is replaced by a shorter word.
  *
  * needle is the string to seek.  We replace it with answer.  Return -1
- * if needle isn't found, else the number of replacements performed. */
+ * if needle isn't found, else the number of replacements performed.  If
+ * canceled isn't NULL, set it to TRUE if we canceled. */
 ssize_t do_replace_loop(const char *needle, filestruct *real_current,
-	size_t *real_current_x, bool wholewords)
+	size_t *real_current_x, bool wholewords, bool *canceled)
 {
     ssize_t numreplaced = -1;
     size_t match_len;
@@ -686,6 +687,9 @@ ssize_t do_replace_loop(const char *needle, filestruct *real_current,
 	edit_refresh();
     }
 #endif
+
+    if (canceled != NULL)
+	*canceled = FALSE;
 
     while (findnextstr(TRUE, wholewords,
 #ifdef HAVE_REGEX_H
@@ -772,8 +776,11 @@ ssize_t do_replace_loop(const char *needle, filestruct *real_current,
 	    free(exp_word);
 	    curs_set(1);
 
-	    if (i == -1)	/* We canceled the replace. */
+	    if (i == -1) {	/* We canceled the replace. */
+		if (canceled != NULL)
+		    *canceled = TRUE;
 		break;
+	    }
 	}
 
 #ifdef HAVE_REGEX_H
@@ -937,7 +944,8 @@ void do_replace(void)
     beginx = current_x;
     pww_save = placewewant;
 
-    numreplaced = do_replace_loop(last_search, begin, &beginx, FALSE);
+    numreplaced = do_replace_loop(last_search, begin, &beginx, FALSE,
+	NULL);
 
     /* Restore where we were. */
     edittop = edittop_save;

@@ -1424,7 +1424,7 @@ bool do_int_spell_fix(const char *word)
     filestruct *edittop_save = edittop;
     filestruct *current_save = current;
 	/* Save where we are. */
-    bool accepted = TRUE;
+    bool canceled = FALSE;
 	/* The return value. */
     bool case_sens_set = ISSET(CASE_SENSITIVE);
 #ifndef NANO_SMALL
@@ -1477,17 +1477,18 @@ bool do_int_spell_fix(const char *word)
 	    do_replace_highlight(TRUE, word);
 
 	    /* Allow all instances of the word to be corrected. */
-	    accepted = (statusq(FALSE, spell_list, word,
+	    canceled = (statusq(FALSE, spell_list, word,
 #ifndef NANO_SMALL
 			NULL,
 #endif
-			 _("Edit a replacement")) != -1);
+			 _("Edit a replacement")) == -1);
 
 	    do_replace_highlight(FALSE, word);
 
-	    if (accepted && strcmp(word, answer) != 0) {
+	    if (!canceled && strcmp(word, answer) != 0) {
 		current_x--;
-		do_replace_loop(word, current, &current_x, TRUE);
+		do_replace_loop(word, current, &current_x, TRUE,
+			&canceled);
 	    }
 
 	    break;
@@ -1526,7 +1527,7 @@ bool do_int_spell_fix(const char *word)
 	SET(MARK_ISSET);
 #endif
 
-    return accepted;
+    return !canceled;
 }
 
 /* Integrated spell checking using 'spell' program.  Return value: NULL
