@@ -65,7 +65,7 @@
 #ifndef DISABLE_WRAPJUSTIFY
 /* Former globals, now static */
 int fill = 0;/* Fill - where to wrap lines, basically */
-int wrap_at = 0;	/* Right justified fill value, allows resize */
+int wrap_at = 0;/* Right justified fill value, allows resize */
 #endif
 
 struct termios oldterm;		/* The user's original term settings */
@@ -2420,11 +2420,7 @@ void help_init(void)
     toggle *t;
     shortcut *s;
 
-/*
-    if (currshortcut = main_list)
-	helplen = MAIN_VISIBLE;
-    else  */
-	helplen = length_of_list(currshortcut);
+    helplen = length_of_list(currshortcut);
 
     /* First set up the initial help text for the current function */
     if (currshortcut == whereis_list || currshortcut == replace_list
