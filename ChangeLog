@@ -5,8 +5,9 @@ General
 	  shoudl be left out in that circumstance.  Saves at least 5k.
 	- Previous change to #ifdefs DISABLE_TABCOMP and NANO_SMALL rolled
 	  back.
-	- Changed nano.h to automatically define 5 DISABLE varibles when
-	  NANO_SMALL (enable-tiny) is requested at configure.
+	- Changed configure.in to automatically define the 5 DISABLE
+	  varibles when NANO_SMALL (enable-tiny) is requested at
+	  configure.
 - configure.in:
 	- Fix for _use_keypad check breaking slang support (Christian
 	  Weisgerber).
