@@ -27,13 +27,15 @@ CVS code -
 	- Added localized yes, no and all strings to function and rewrote
 	  handler for the new format.
 - de.po:
-	- Translation updates by  Florian König.
+	- Translation updates by Florian König.
 - fi.po:
 	- Translation updates by Pauli Virtanen.
 - hu.po:
 	- Hungarian translation by Horvath Szabolcs.
 - id.po: 
 	- Translation updates by Tedi Heriyanto.
+- es.po:
+	- Translation updates (Jordi).
 
 nano-0.9.99pre2 - 01/31/2001
 General

@@ -1,5 +1,5 @@
 # $Id$
-# Spanish Messages for the nano editor.
+# Spanish Messages for the GNU nano editor.
 # Jordi Mallach <jordi@sindominio.net> January 9, 2000
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Jordi Mallach <jordi@sindominio.net>, 2000.
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.9.99pre2-CVS\n"
 "POT-Creation-Date: 2001-02-16 20:46-0500\n"
-"PO-Revision-Date: 2001-02-04 01:00+0100\n"
+"PO-Revision-Date: 2001-02-16 20:58+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -952,15 +952,15 @@ msgstr "Pillé \"%s\"\n"
 #. The first value will be the one displayed in the shortcuts.
 #: winio.c:1035
 msgid "Yy"
-msgstr ""
+msgstr "Ss"
 
 #: winio.c:1036
 msgid "Nn"
-msgstr ""
+msgstr "Nn"
 
 #: winio.c:1037
 msgid "Aa"
-msgstr ""
+msgstr "Tt"
 
 #: winio.c:1050
 msgid "Yes"
