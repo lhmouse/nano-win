@@ -709,6 +709,9 @@ void version(void)
 #ifdef DISABLE_MOUSE
     printf(" --disable-mouse");
 #endif
+#ifndef ENABLE_NLS
+    printf(" --disable-nls");
+#endif
 #ifdef DISABLE_OPERATINGDIR
     printf(" --disable-operatingdir");
 #endif

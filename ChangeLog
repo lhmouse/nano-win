@@ -24,6 +24,9 @@ CVS code -
 	  and not just assigned to it, to avoid memory corruption
 	  problems. (DLR)
 - nano.c:
+  version()
+	- If ENABLE_NLS isn't defined, display "--disable-nls"
+	  (suggested by Ken Tyler). (DLR)
   justify_format()
 	- Make sure the double space maintained after sentence-ending
 	  punctuation is done when that punctuation is immediately
