@@ -326,6 +326,12 @@ int read_file(FILE *f, const char *filename, int quiet)
 	statusbar(P_("Read %d line", "Read %d lines", num_lines),
 			num_lines);
 
+#ifndef NANO_SMALL
+	/* Set fileformat back to 0, now that we've read the file in and
+	   possibly converted it from DOS/Mac format. */
+	fileformat = 0;
+#endif
+
     totlines += num_lines;
 
     return 1;
@@ -2570,34 +2576,28 @@ char *do_browser(const char *inpath)
 #endif
 	case NANO_UP_KEY:
 	case KEY_UP:
-	case 'u':
 	    if (selected - width >= 0)
 		selected -= width;
 	    break;
 	case NANO_BACK_KEY:
 	case KEY_LEFT:
-	case NANO_BACKSPACE_KEY:
-	case 127:
-	case 'l':
 	    if (selected > 0)
 		selected--;
 	    break;
 	case KEY_DOWN:
 	case NANO_DOWN_KEY:
-	case 'd':
 	    if (selected + width <= numents - 1)
 		selected += width;
 	    break;
 	case KEY_RIGHT:
 	case NANO_FORWARD_KEY:
-	case 'r':
 	    if (selected < numents - 1)
 		selected++;
 	    break;
 	case NANO_PREVPAGE_KEY:
 	case NANO_PREVPAGE_FKEY:
 	case KEY_PPAGE:
-	case '-':
+	case '-': /* Pico compatibility */
 	    if (selected >= (editwinrows + lineno % editwinrows) * width)
 		selected -= (editwinrows + lineno % editwinrows) * width; 
 	    else
@@ -2606,19 +2606,20 @@ char *do_browser(const char *inpath)
 	case NANO_NEXTPAGE_KEY:
 	case NANO_NEXTPAGE_FKEY:
 	case KEY_NPAGE:	
-	case ' ':
+	case ' ': /* Pico compatibility */
 	    selected += (editwinrows - lineno % editwinrows) * width;
 	    if (selected >= numents)
 		selected = numents - 1;
 	    break;
 	case NANO_HELP_KEY:
 	case NANO_HELP_FKEY:
+	case '?': /* Pico compatibility */
 	     do_help();
 	     break;
 	case KEY_ENTER:
 	case NANO_ENTER_KEY:
-	case 's': /* More Pico compatibility */
-	case 'S':
+	case 'S': /* Pico compatibility */
+	case 's':
 	    /* You can't cd up from / */
 	    if (!strcmp(filelist[selected], "/..") && !strcmp(path, "/")) {
 		statusbar(_("Can't move up a directory"));

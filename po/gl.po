@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.99pre3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-11 21:49-0400\n"
+"POT-Creation-Date: 2003-12-27 11:17-0500\n"
 "PO-Revision-Date: 2003-02-15 18:46+0100\n"
 "Last-Translator: Jacobo Tarrio <jtarrio@trasno.net>\n"
 "Language-Team: Galician <gpul-traduccion@ceu.fi.udc.es>\n"
@@ -1285,51 +1285,51 @@ msgstr "Recibiuse SIGHUP ou SIGTERM\n"
 msgid "Use \"fg\" to return to nano"
 msgstr "Empregue \"fg\" para voltar a nano"
 
-#: nano.c:2876
+#: nano.c:2882
 msgid "Cannot resize top win"
 msgstr "Non se pode cambia-lo tamaño da fiestra superior"
 
-#: nano.c:2878
+#: nano.c:2884
 msgid "Cannot move top win"
 msgstr "Non se pode move-la fiestra superior"
 
-#: nano.c:2880
+#: nano.c:2886
 msgid "Cannot resize edit win"
 msgstr "Non se pode cambia-lo tamaño da fiestra de edición"
 
-#: nano.c:2882
+#: nano.c:2888
 msgid "Cannot move edit win"
 msgstr "Non se pode move-la fiestra de edición"
 
-#: nano.c:2884
+#: nano.c:2890
 msgid "Cannot resize bottom win"
 msgstr "Non se pode cambia-lo tamaño da fiestra inferior"
 
-#: nano.c:2886
+#: nano.c:2892
 msgid "Cannot move bottom win"
 msgstr "Non se pode move-la fiestra inferior"
 
-#: nano.c:2919
+#: nano.c:2925
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr "Detectouse un fallo en BloqNum. BloqNum ha estar activado sempre."
 
-#: nano.c:2968
+#: nano.c:2974
 msgid "enabled"
 msgstr "activado"
 
-#: nano.c:2968
+#: nano.c:2974
 msgid "disabled"
 msgstr "desactivado"
 
-#: nano.c:3160
+#: nano.c:3166
 msgid "Tab size is too small for nano...\n"
 msgstr "O tamaño de tabulación é pequeno de máis para nano...\n"
 
-#: nano.c:3711
+#: nano.c:3717
 msgid "XOFF ignored, mumble mumble."
 msgstr "Ignórase XOFF, mmmm..."
 
-#: nano.c:3713
+#: nano.c:3719
 msgid "XON ignored, mumble mumble."
 msgstr "Ignórase XON, mmmm..."
 
@@ -1465,46 +1465,46 @@ msgstr "Buscando dende o Principio"
 msgid "This is the only occurrence"
 msgstr "Esta é a única aparición"
 
-#: search.c:574 search.c:703
+#: search.c:577 search.c:735
 msgid "Replace Cancelled"
 msgstr "Substitución Cancelada"
 
-#: search.c:614
+#: search.c:617
 msgid "Replace this instance?"
 msgstr "¿Substituír?"
 
-#: search.c:629
+#: search.c:632
 msgid "Replace failed: unknown subexpression!"
 msgstr "Fallou a substitución: subexpresión descoñecida"
 
-#: search.c:740
+#: search.c:772
 msgid "Replace with"
 msgstr "Substituír por"
 
-#: search.c:760
+#: search.c:792
 #, c-format
 msgid "Replaced %d occurrence"
 msgid_plural "Replaced %d occurrences"
 msgstr[0] "Fíxose %d substitución"
 msgstr[1] "Fixéronse %d substitucións"
 
-#: search.c:777
+#: search.c:809
 msgid "Enter line number"
 msgstr "Introduza o número de liña"
 
-#: search.c:781
+#: search.c:813
 msgid "Aborted"
 msgstr "Abortado"
 
-#: search.c:791
+#: search.c:823
 msgid "Come on, be reasonable"
 msgstr "Vamos, sexa razonable"
 
-#: search.c:851
+#: search.c:883
 msgid "Not a bracket"
 msgstr "Non é un delimitador"
 
-#: search.c:902
+#: search.c:934
 msgid "No matching bracket"
 msgstr "Non se atopou a parella do delimitador"
 

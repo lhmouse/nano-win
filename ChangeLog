@@ -1,16 +1,41 @@
 CVS code -
 - General:
 	- Translation updates (see po/ChangeLog for details).
+	- Make sure the "historylog" option isn't included at all if
+	  NANO_SMALL is defined. (DLR)
+- files.c:
+  read_file()
+	- After we've read in a file and possibly converted it from
+	  DOS/Mac format, set fileformat back to 0 to prevent erroneous
+	  conversion messages when we read other files in. (DLR)
+  do_browser()
+  	- Allow '?' to open the help browser, for compatibility with
+  	  Pico.  Also remove some of the Pico compatibility options in
+  	  the file browser that don't work properly for current Pico.
+  	  Backspace, 'l', 'q', and 'u' are invalid.  'd' deletes the
+  	  highlighted file, and 'r' renames the highlighted file;
+  	  neither of these are implemented. (DLR)
 - nano.c:
+  window_init()
+	- If keypad() was TRUE before we pressed Meta-X (as Meta-X
+  	  apparently turns it off under both ncurses and PDCurses), set
+  	  it to TRUE afterwards. (DLR)
   do_suspend()
         - Use handle_hupterm() to handle SIGHUP and SIGTERM so we can
           properly deal with them while nano is suspended. (DLR; problem
           found by David Benbennick)
+- proto.h:
+	- Surround the do_prev_word() and do_next_word() prototypes with
+	  NANO_SMALL #ifdefs, since the actual functions aren't included
+	  in tiny mode. (DLR)
 - search.c:
-  do_replace_loop()
-	- Fix potential infinite loop when doing a forward regex replace
-	  of "$". (DLR; found by Mike Frysinger)
-
+  findnextstr(), do_replace_loop()
+	- Fix potential infinite loops and other misbehavior when doing
+	  certain zero-length regex replacements ("^", "$", and "^$").
+	  Add a no_sameline parameter to findnextstr(), and set it in
+	  the calls in do_replace_loop() when such regexes are found, so
+	  that such regexes are only found once per line. (DLR; found by
+	  Mike Frysinger and DLR, match_len by David Benbennick)
 - winio.c:
   titlebar()
 	- Fix problem with the available space for a filename on the
@@ -18,6 +43,8 @@ CVS code -
   do_credits()
 	- Update the copyright years to "1999-2003", to match those
 	  given in the rest of the code. (DLR)
+- nanorc.sample:
+	- Remove duplicate "historylog" entry. (DLR)
 - AUTHORS:
 	- Updated to show 1.2/1.3 maintainers.
 - THANKS:

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.99pre3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-11 21:49-0400\n"
+"POT-Creation-Date: 2003-12-27 11:17-0500\n"
 "PO-Revision-Date: 2003-02-17 10:51+0300\n"
 "Last-Translator: Sergey A. Ribalchenko <fisher@obu.ck.ua>\n"
 "Language-Team: Ukrainian <translation-team-uk@lists.sourceforge.net>\n"
@@ -1286,51 +1286,51 @@ msgstr "Прийнято SIGHUP або SIGTERM\n"
 msgid "Use \"fg\" to return to nano"
 msgstr "Користуйтеся командою \"fg\" для того, щоб повернутися до nano"
 
-#: nano.c:2876
+#: nano.c:2882
 msgid "Cannot resize top win"
 msgstr "Не можу зм╕нити розм╕р верхнього в╕кна"
 
-#: nano.c:2878
+#: nano.c:2884
 msgid "Cannot move top win"
 msgstr "Не можу перем╕стити верхнього в╕кно"
 
-#: nano.c:2880
+#: nano.c:2886
 msgid "Cannot resize edit win"
 msgstr "Не можу зм╕нити розм╕р в╕кна редагування"
 
-#: nano.c:2882
+#: nano.c:2888
 msgid "Cannot move edit win"
 msgstr "Не можу перем╕стити в╕кно редагування"
 
-#: nano.c:2884
+#: nano.c:2890
 msgid "Cannot resize bottom win"
 msgstr "Не можу зм╕нити розм╕р нижнього в╕кна"
 
-#: nano.c:2886
+#: nano.c:2892
 msgid "Cannot move bottom win"
 msgstr "Не можу перем╕стити нижн╓ в╕кно"
 
-#: nano.c:2919
+#: nano.c:2925
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr "пом╕чено глюк NumLock'а. Додаткова клав╕атура може не працювати"
 
-#: nano.c:2968
+#: nano.c:2974
 msgid "enabled"
 msgstr "дозволено"
 
-#: nano.c:2968
+#: nano.c:2974
 msgid "disabled"
 msgstr "заборонено"
 
-#: nano.c:3160
+#: nano.c:3166
 msgid "Tab size is too small for nano...\n"
 msgstr "Розм╕р табуляц╕╖ замалий для nano...\n"
 
-#: nano.c:3711
+#: nano.c:3717
 msgid "XOFF ignored, mumble mumble."
 msgstr "XOFF игноровано, прим-п╕м-п╕м"
 
-#: nano.c:3713
+#: nano.c:3719
 msgid "XON ignored, mumble mumble."
 msgstr "XON игноровано, мур-мур-мур"
 
@@ -1467,23 +1467,23 @@ msgstr "Д╕сталися к╕нця файла, почали спочатку"
 msgid "This is the only occurrence"
 msgstr "Це ╓дине сп╕впад╕ння"
 
-#: search.c:574 search.c:703
+#: search.c:577 search.c:735
 msgid "Replace Cancelled"
 msgstr "Зам╕ну скасовано"
 
-#: search.c:614
+#: search.c:617
 msgid "Replace this instance?"
 msgstr "Зам╕нити цей прим╕рник?"
 
-#: search.c:629
+#: search.c:632
 msgid "Replace failed: unknown subexpression!"
 msgstr "Зам╕на невдала: незнайомий п╕двираз!"
 
-#: search.c:740
+#: search.c:772
 msgid "Replace with"
 msgstr "Зам╕нити на"
 
-#: search.c:760
+#: search.c:792
 #, c-format
 msgid "Replaced %d occurrence"
 msgid_plural "Replaced %d occurrences"
@@ -1491,23 +1491,23 @@ msgstr[0] "Зам╕нено %d входження"
 msgstr[1] "Зам╕нен╕ %d входження"
 msgstr[2] "Зам╕нено %d входжень"
 
-#: search.c:777
+#: search.c:809
 msgid "Enter line number"
 msgstr "Введ╕ть номер рядка"
 
-#: search.c:781
+#: search.c:813
 msgid "Aborted"
 msgstr "Прервано"
 
-#: search.c:791
+#: search.c:823
 msgid "Come on, be reasonable"
 msgstr "Гей, будьте автотентичн╕"
 
-#: search.c:851
+#: search.c:883
 msgid "Not a bracket"
 msgstr "Не дужка"
 
-#: search.c:902
+#: search.c:934
 msgid "No matching bracket"
 msgstr "Нема в╕дпов╕дно╖ дужки"
 

@@ -275,8 +275,10 @@ int do_backspace(void);
 int do_delete(void);
 int do_tab(void);
 int do_enter(void);
+#ifndef NANO_SMALL
 int do_next_word(void);
 int do_prev_word(void);
+#endif
 int do_mark(void);
 void wrap_reset(void);
 #ifndef DISABLE_WRAPPING
@@ -356,7 +358,7 @@ int search_init(int replacing);
 int is_whole_word(int curr_pos, const char *datastr, const char *searchword);
 filestruct *findnextstr(int quiet, int bracket_mode,
 			const filestruct *begin, int beginx,
-			const char *needle);
+			const char *needle, int no_sameline);
 int do_search(void);
 void replace_abort(void);
 #ifdef HAVE_REGEX_H

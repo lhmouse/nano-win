@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.99pre2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-11 21:49-0400\n"
+"POT-Creation-Date: 2003-12-27 11:17-0500\n"
 "PO-Revision-Date: 2003-02-05 10:10+0200\n"
 "Last-Translator: Wojciech Kotwica <wkotwica@post.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -1289,52 +1289,52 @@ msgstr "Otrzymano SIGHUP lub SIGTERM\n"
 msgid "Use \"fg\" to return to nano"
 msgstr ""
 
-#: nano.c:2876
+#: nano.c:2882
 msgid "Cannot resize top win"
 msgstr "Nie mo¿na zmieniæ rozmiaru górnego okna"
 
-#: nano.c:2878
+#: nano.c:2884
 msgid "Cannot move top win"
 msgstr "Nie mo¿na przesun±æ górnego okna"
 
-#: nano.c:2880
+#: nano.c:2886
 msgid "Cannot resize edit win"
 msgstr "Nie mo¿na zmieniæ rozmiaru okna edycji"
 
-#: nano.c:2882
+#: nano.c:2888
 msgid "Cannot move edit win"
 msgstr "Nie mo¿na przesun±æ okna edycji"
 
-#: nano.c:2884
+#: nano.c:2890
 msgid "Cannot resize bottom win"
 msgstr "Nie mo¿na zmieniæ rozmiaru dolnego okna"
 
-#: nano.c:2886
+#: nano.c:2892
 msgid "Cannot move bottom win"
 msgstr "Nie mo¿na przesun±æ dolnego okna"
 
-#: nano.c:2919
+#: nano.c:2925
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "Wykryto prze³±czenie NumLock.  Klawiatura numeryczna nie bêdzie dzia³aæ"
 
-#: nano.c:2968
+#: nano.c:2974
 msgid "enabled"
 msgstr "w³±czony(e)"
 
-#: nano.c:2968
+#: nano.c:2974
 msgid "disabled"
 msgstr "wy³±czony(e)"
 
-#: nano.c:3160
+#: nano.c:3166
 msgid "Tab size is too small for nano...\n"
 msgstr "Rozmiar okna za ma³y dla nano...\n"
 
-#: nano.c:3711
+#: nano.c:3717
 msgid "XOFF ignored, mumble mumble."
 msgstr "Zignorowano XOFF, hmm, hmm."
 
-#: nano.c:3713
+#: nano.c:3719
 msgid "XON ignored, mumble mumble."
 msgstr "Zignorowano XON, hmm, hmm."
 
@@ -1469,23 +1469,23 @@ msgstr "Wyszukiwanie minê³o granicê pliku - kontynuowane od pocz±tku (koñca)"
 msgid "This is the only occurrence"
 msgstr "To jedyne wyst±pienie"
 
-#: search.c:574 search.c:703
+#: search.c:577 search.c:735
 msgid "Replace Cancelled"
 msgstr "Zastêpowanie anulowane"
 
-#: search.c:614
+#: search.c:617
 msgid "Replace this instance?"
 msgstr "Czy zast±piæ to wyst±pienie?"
 
-#: search.c:629
+#: search.c:632
 msgid "Replace failed: unknown subexpression!"
 msgstr "Zastêpowanie nie powiod³o siê: nieznane podwyra¿enie!"
 
-#: search.c:740
+#: search.c:772
 msgid "Replace with"
 msgstr "Zast±p przez"
 
-#: search.c:760
+#: search.c:792
 #, fuzzy, c-format
 msgid "Replaced %d occurrence"
 msgid_plural "Replaced %d occurrences"
@@ -1493,23 +1493,23 @@ msgstr[0] "Zast±piono %d wyst±pien(ia)"
 msgstr[1] "Zast±piono %d wyst±pien(ia)"
 msgstr[2] "Zast±piono %d wyst±pien(ia)"
 
-#: search.c:777
+#: search.c:809
 msgid "Enter line number"
 msgstr "Wprowad¼ numer linii"
 
-#: search.c:781
+#: search.c:813
 msgid "Aborted"
 msgstr "Przerwane"
 
-#: search.c:791
+#: search.c:823
 msgid "Come on, be reasonable"
 msgstr "Cz³owieku, wiêcej rozs±dku"
 
-#: search.c:851
+#: search.c:883
 msgid "Not a bracket"
 msgstr "To nie nawias"
 
-#: search.c:902
+#: search.c:934
 msgid "No matching bracket"
 msgstr "Brak nawiasu do pary"
 

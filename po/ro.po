@@ -7,7 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.2.2\n"
-"POT-Creation-Date: 2003-08-11 21:49-0400\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-12-27 11:17-0500\n"
 "PO-Revision-Date: 2003-11-24 12:00-0500\n"
 "Last-Translator: Laurentiu Buzdugan <buzdugan@voyager.net>\n"
 "Language-Team: Romanian <translation-team-ro@lists.sourceforge.net>\n"
@@ -422,7 +423,8 @@ msgstr "Insereazã un caracter tab"
 
 #: global.c:382
 msgid "Insert a carriage return at the cursor position"
-msgstr "Insereazã un caracter \"carriage return\" la poziþia curentã a cursorului"
+msgstr ""
+"Insereazã un caracter \"carriage return\" la poziþia curentã a cursorului"
 
 #: global.c:384
 msgid "Make the current search or replace case (in)sensitive"
@@ -734,18 +736,26 @@ msgstr "Tastã ilegalã în modul VIZUALIZARE"
 msgid ""
 "Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, then hit enter.  If there is a match for the text you entered, the screen will be updated to the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, then hit "
+"enter.  If there is a match for the text you entered, the screen will be "
+"updated to the location of the nearest match for the search string.\n"
 "\n"
-" The previous search string will be shown in brackets after the Search: prompt.  Hitting Enter without entering any text will perform the previous search.\n"
+" The previous search string will be shown in brackets after the Search: "
+"prompt.  Hitting Enter without entering any text will perform the previous "
+"search.\n"
 "\n"
 " The following function keys are available in Search mode:\n"
 "\n"
 msgstr ""
 "Text de ajutor pentru comanda \"Cautã\"\n"
 "\n"
-"Introduceþi cuvântul sau caracterele pe care aþi dori sã le cãutaþi, apoi apãsaþi Enter.  Dacã existã vreo potrivire pentru textul cãutat, ecranul va fi actualizat la locaþia cea mai apropiatã de locul unde aceastã potrivire a avut loc.\n"
+"Introduceþi cuvântul sau caracterele pe care aþi dori sã le cãutaþi, apoi "
+"apãsaþi Enter.  Dacã existã vreo potrivire pentru textul cãutat, ecranul va "
+"fi actualizat la locaþia cea mai apropiatã de locul unde aceastã potrivire a "
+"avut loc.\n"
 "\n"
-"ªirul cãutat anterior va fi arãtat în paranteze dupã cuvântul Cautã: . Apãsând Enter fãrã a introduce vreun text va executa cãutarea anterioarã.\n"
+"ªirul cãutat anterior va fi arãtat în paranteze dupã cuvântul Cautã: . "
+"Apãsând Enter fãrã a introduce vreun text va executa cãutarea anterioarã.\n"
 "\n"
 "Urmãtoarele taste de funcþii sunt disponibile în modul \"Cautã\"\n"
 "\n"
@@ -754,14 +764,18 @@ msgstr ""
 msgid ""
 "Go To Line Help Text\n"
 "\n"
-" Enter the line number that you wish to go to and hit Enter.  If there are fewer lines of text than the number you entered, you will be brought to the last line of the file.\n"
+" Enter the line number that you wish to go to and hit Enter.  If there are "
+"fewer lines of text than the number you entered, you will be brought to the "
+"last line of the file.\n"
 "\n"
 " The following function keys are available in Go To Line mode:\n"
 "\n"
 msgstr ""
 "Textul de ajutor pentru \"Du-te la linia\"\n"
 "\n"
-" Introduceþi numãrul liniei unde doriþi sã mergeþi ºi apãsaþi Enter. Dacã existã mai puþine linii de text decât numãrul introdus veþi ajunge la ultima linie a fiºierului.\n"
+" Introduceþi numãrul liniei unde doriþi sã mergeþi ºi apãsaþi Enter. Dacã "
+"existã mai puþine linii de text decât numãrul introdus veþi ajunge la ultima "
+"linie a fiºierului.\n"
 "\n"
 " Urmãtoarele taste de funcþii sunt disponibile în modul \"Du-te la linia\" \n"
 
@@ -769,41 +783,61 @@ msgstr ""
 msgid ""
 "Insert File Help Text\n"
 "\n"
-" Type in the name of a file to be inserted into the current file buffer at the current cursor location.\n"
+" Type in the name of a file to be inserted into the current file buffer at "
+"the current cursor location.\n"
 "\n"
-" If you have compiled nano with multiple file buffer support, and enable multiple buffers with the -F or --multibuffer command line flags, the Meta-F toggle, or a nanorc file, inserting a file will cause it to be loaded into a separate buffer (use Meta-< and > to switch between file buffers).\n"
+" If you have compiled nano with multiple file buffer support, and enable "
+"multiple buffers with the -F or --multibuffer command line flags, the Meta-F "
+"toggle, or a nanorc file, inserting a file will cause it to be loaded into a "
+"separate buffer (use Meta-< and > to switch between file buffers).\n"
 "\n"
-" If you need another blank buffer, do not enter any filename, or type in a nonexistent filename at the prompt and press Enter.\n"
+" If you need another blank buffer, do not enter any filename, or type in a "
+"nonexistent filename at the prompt and press Enter.\n"
 "\n"
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
 "Textul de ajutor pentru \"Insereazã fiºier\"\n"
 "\n"
-" Tastaþi numele unui fiºier de introdus în buffer-ul pentru fiºierul curent la poziþia curentã a cursorului.\n"
+" Tastaþi numele unui fiºier de introdus în buffer-ul pentru fiºierul curent "
+"la poziþia curentã a cursorului.\n"
 "\n"
-"  Dacã aþi compilat nano cu suport pentru multiple buffere ºi aþi activat acestã opþiune cu indicatorii de linie de comandã -F sau --multibuffer, comutatorul Meta-F, sau un fiºier nanorc, inserând un fiºier va face ca acesta sã fie încãrcat într-un alt buffer (folosiþi Meta-< ºi > pentru a comuta între buffere).\n"
+"  Dacã aþi compilat nano cu suport pentru multiple buffere ºi aþi activat "
+"acestã opþiune cu indicatorii de linie de comandã -F sau --multibuffer, "
+"comutatorul Meta-F, sau un fiºier nanorc, inserând un fiºier va face ca "
+"acesta sã fie încãrcat într-un alt buffer (folosiþi Meta-< ºi > pentru a "
+"comuta între buffere).\n"
 "\n"
-"Dacã aveþi nevoie de un alt buffer liber, nu introduceþi nici un nume sau introduceþi un nume de fiºier ce nu existã ºi apãsaþi Enter.\n"
+"Dacã aveþi nevoie de un alt buffer liber, nu introduceþi nici un nume sau "
+"introduceþi un nume de fiºier ce nu existã ºi apãsaþi Enter.\n"
 "\n"
-" Urmãtoarele taste de funcþii sunt disponibile în modul \"Insereazã fiºier\" \n"
+" Urmãtoarele taste de funcþii sunt disponibile în modul \"Insereazã fiºier"
+"\" \n"
 
 #: nano.c:310
 msgid ""
 "Write File Help Text\n"
 "\n"
-" Type the name that you wish to save the current file as and hit Enter to save the file.\n"
+" Type the name that you wish to save the current file as and hit Enter to "
+"save the file.\n"
 "\n"
-" If you have selected text with Ctrl-^, you will be prompted to save only the selected portion to a separate file.  To reduce the chance of overwriting the current file with just a portion of it, the current filename is not the default in this mode.\n"
+" If you have selected text with Ctrl-^, you will be prompted to save only "
+"the selected portion to a separate file.  To reduce the chance of "
+"overwriting the current file with just a portion of it, the current filename "
+"is not the default in this mode.\n"
 "\n"
 " The following function keys are available in Write File mode:\n"
 "\n"
 msgstr ""
 "Textul de ajutor pentru \"Scrie fiºier\"\n"
 "\n"
-" Tastaþi numele sub care doriþi sã salvaþi fiºierul curent ºi apãsaþi Enter pentru a salva fiºierul.\n"
+" Tastaþi numele sub care doriþi sã salvaþi fiºierul curent ºi apãsaþi Enter "
+"pentru a salva fiºierul.\n"
 "\n"
-" Dacã aþi selectat text cu Ctrl-^, veþi fi interpolat sã salvaþi numai porþiunea selectatã într-un fiºier separat.  Pentru a reduce ºansa de a suprascrie fiºierul curent cu doar o porþiune a sa, numele de fiºier curent nu este implicit în acest mod.\n"
+" Dacã aþi selectat text cu Ctrl-^, veþi fi interpolat sã salvaþi numai "
+"porþiunea selectatã într-un fiºier separat.  Pentru a reduce ºansa de a "
+"suprascrie fiºierul curent cu doar o porþiune a sa, numele de fiºier curent "
+"nu este implicit în acest mod.\n"
 "\n"
 " Urmãtoarele taste de funcþii sunt disponibile în modul \"Scrie fiºier\"\n"
 "\n"
@@ -812,14 +846,23 @@ msgstr ""
 msgid ""
 "File Browser Help Text\n"
 "\n"
-" The file browser is used to visually browse the directory structure to select a file for reading or writing.  You may use the arrow keys or Page Up/Down to browse through the files, and S or Enter to choose the selected file or enter the selected directory.  To move up one level, select the directory called \"..\" at the top of the file list.\n"
+" The file browser is used to visually browse the directory structure to "
+"select a file for reading or writing.  You may use the arrow keys or Page Up/"
+"Down to browse through the files, and S or Enter to choose the selected file "
+"or enter the selected directory.  To move up one level, select the directory "
+"called \"..\" at the top of the file list.\n"
 "\n"
 " The following function keys are available in the file browser:\n"
 "\n"
 msgstr ""
 "Textul de ajutor pentru \"Navigator fiºiere\"\n"
 "\n"
-" Navigatorul de fiºiere este folosit pentru a naviga vizual structura de directoare ºi a selecta un fiºier pentru citire sau scriere.  Puteþi folosi tastele cu sãgeþi sau Page Up/Down pentru a naviga prin fiºiere, ºi S sau Enter pentru a alege fiºierul selectat sau a intra într-un director selectat. Pentru a vã muta în sus un nivel, selectaþi directorul numit \"..\" din capãtul de sus a listei de fiºiere.\n"
+" Navigatorul de fiºiere este folosit pentru a naviga vizual structura de "
+"directoare ºi a selecta un fiºier pentru citire sau scriere.  Puteþi folosi "
+"tastele cu sãgeþi sau Page Up/Down pentru a naviga prin fiºiere, ºi S sau "
+"Enter pentru a alege fiºierul selectat sau a intra într-un director "
+"selectat. Pentru a vã muta în sus un nivel, selectaþi directorul numit \".."
+"\" din capãtul de sus a listei de fiºiere.\n"
 "\n"
 " Urmãtoarele taste de funcþii sunt disponibile în \"Navigator fiºiere\":\n"
 "\n"
@@ -830,7 +873,8 @@ msgid ""
 "\n"
 " Enter the name of the directory you would like to browse to.\n"
 "\n"
-" If tab completion has not been disabled, you can use the TAB key to (attempt to) automatically complete the directory name.\n"
+" If tab completion has not been disabled, you can use the TAB key to "
+"(attempt to) automatically complete the directory name.\n"
 "\n"
 " The following function keys are available in Browser Go To Directory mode:\n"
 "\n"
@@ -839,39 +883,51 @@ msgstr ""
 "\n"
 " Introduceþi numele directorului pe care aþi dori sã-l navigaþi.\n"
 "\n"
-" Dacã completarea cu tab nu a fost deactivatã, puteþi folosi tasta TAB pentru a încerca sã completaþi automat numele directorului.\n"
+" Dacã completarea cu tab nu a fost deactivatã, puteþi folosi tasta TAB "
+"pentru a încerca sã completaþi automat numele directorului.\n"
 "\n"
-" Urmãtoarele taste de funcþii sunt disponibile în modul \"Navigator Du-te la Directorul\":\n"
+" Urmãtoarele taste de funcþii sunt disponibile în modul \"Navigator Du-te la "
+"Directorul\":\n"
 "\n"
 
 #: nano.c:341
 msgid ""
 "Spell Check Help Text\n"
 "\n"
-" The spell checker checks the spelling of all text in the current file.  When an unknown word is encountered, it is highlighted and a replacement can be edited.  It will then prompt to replace every instance of the given misspelled word in the current file.\n"
+" The spell checker checks the spelling of all text in the current file.  "
+"When an unknown word is encountered, it is highlighted and a replacement can "
+"be edited.  It will then prompt to replace every instance of the given "
+"misspelled word in the current file.\n"
 "\n"
 " The following other functions are available in Spell Check mode:\n"
 "\n"
 msgstr ""
 "Text de ajutor pentru \"Corector ortografic\"\n"
 "\n"
-" Corectorul ortografic verificã ortografierea întregului text din fiºierul curent. Când un cuvânt necunoscut este întâlnit, acesta este evidenþiat ºi un înlocuitor poate fi introdus/editat.  Corectorul vã va întreba dacã doriþi sã înlocuiþi toate apariþiile cu aceeaºi greºealã în fiºierul curent.\n"
+" Corectorul ortografic verificã ortografierea întregului text din fiºierul "
+"curent. Când un cuvânt necunoscut este întâlnit, acesta este evidenþiat ºi "
+"un înlocuitor poate fi introdus/editat.  Corectorul vã va întreba dacã "
+"doriþi sã înlocuiþi toate apariþiile cu aceeaºi greºealã în fiºierul "
+"curent.\n"
 "\n"
-" Urmãtoarele alte funcþii sunt disponibile în modul \"Corector ortografic\":\n"
+" Urmãtoarele alte funcþii sunt disponibile în modul \"Corector ortografic"
+"\":\n"
 "\n"
 
 #: nano.c:352
 msgid ""
 "External Command Help Text\n"
 "\n"
-" This menu allows you to insert the output of a command run by the shell into the current buffer (or a new buffer in multibuffer mode).\n"
+" This menu allows you to insert the output of a command run by the shell "
+"into the current buffer (or a new buffer in multibuffer mode).\n"
 "\n"
 " The following keys are available in this mode:\n"
 "\n"
 msgstr ""
 "Text de ajutor \"Comandã externã\"\n"
 "\n"
-" Acest meniu vã permite sã inseraþi ieºirea unei comenzi executate de shell în buffer-ul curent (sau într-un nou buffer în modul multibuffer).\n"
+" Acest meniu vã permite sã inseraþi ieºirea unei comenzi executate de shell "
+"în buffer-ul curent (sau într-un nou buffer în modul multibuffer).\n"
 "\n"
 " Urmãtoarele taste sunt disponibile în acest mod:\n"
 "\n"
@@ -880,16 +936,40 @@ msgstr ""
 msgid ""
 " nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor: The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages. The bottom two lines show the most commonly used shortcuts in the editor.\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of "
+"the UW Pico text editor.  There are four main sections of the editor: The "
+"top line shows the program version, the current filename being edited, and "
+"whether or not the file has been modified.  Next is the main editor window "
+"showing the file being edited.  The status line is the third line from the "
+"bottom and shows important messages. The bottom two lines show the most "
+"commonly used shortcuts in the editor.\n"
 "\n"
-" The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt or Meta key depending on your keyboard setup.  The following keystrokes are available in the main editor window.  Alternative keys are shown in parentheses:\n"
+" The notation for shortcuts is as follows: Control-key sequences are notated "
+"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
+"key sequences are notated with the Meta (M) symbol and can be entered using "
+"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
+"following keystrokes are available in the main editor window.  Alternative "
+"keys are shown in parentheses:\n"
 "\n"
 msgstr ""
 " text ajutor pentru nano\n"
 "\n"
-" Editotul nano este proiectat sa emuleze funþionalitatea ºi uºurinþa de folosire a editorului de texte UW Pico.  Existã patru secþiuni principale ale editorului: Linia de sus aratã versiunea programului, numele fiºierului curent ce este editat ºi dacã fiºierul a fost sau nu modificat.  Urmãtoarea secþiune principalã este fereastra de editare ce aratã fiºierul ce este editat.  Linia de stare este a treia linie de jos ºi aratã mesaje importante.  Ultimele douã linii aratã cele mai frecvente scurtãturi folosite în editor.\n"
+" Editotul nano este proiectat sa emuleze funþionalitatea ºi uºurinþa de "
+"folosire a editorului de texte UW Pico.  Existã patru secþiuni principale "
+"ale editorului: Linia de sus aratã versiunea programului, numele fiºierului "
+"curent ce este editat ºi dacã fiºierul a fost sau nu modificat.  Urmãtoarea "
+"secþiune principalã este fereastra de editare ce aratã fiºierul ce este "
+"editat.  Linia de stare este a treia linie de jos ºi aratã mesaje "
+"importante.  Ultimele douã linii aratã cele mai frecvente scurtãturi "
+"folosite în editor.\n"
 "\n"
-" Notaþia pentru scurtãturi este dupã cum urmeazã: secvenþe Control-tastã sunt notate cu un simbol (^) ºi sunt introduse cu tasta Control (Ctrl). Secvenþele Escape-tastã sunt notate cu sombolul Meta (M) ºi pot fi introduse folosind oricare din tastele Esc, Alt sau Meta, în funcþie de setarea tastaturii d-voastrã.  Urmãtoarele combinaþii de taste sunt disponibile în fereastra de editare principalã.  Tastele alternative sunt arãtate în paranteze:\n"
+" Notaþia pentru scurtãturi este dupã cum urmeazã: secvenþe Control-tastã "
+"sunt notate cu un simbol (^) ºi sunt introduse cu tasta Control (Ctrl). "
+"Secvenþele Escape-tastã sunt notate cu sombolul Meta (M) ºi pot fi introduse "
+"folosind oricare din tastele Esc, Alt sau Meta, în funcþie de setarea "
+"tastaturii d-voastrã.  Urmãtoarele combinaþii de taste sunt disponibile în "
+"fereastra de editare principalã.  Tastele alternative sunt arãtate în "
+"paranteze:\n"
 "\n"
 
 #: nano.c:388 nano.c:458
@@ -1195,7 +1275,8 @@ msgstr "Nu pot De-Alinia!"
 
 #: nano.c:2696
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
-msgstr "Salvez buffer-ul modificat (RÃSPUNSUL \"Nu\" VA DISTRUGE SCHIMBÃRILE) ?"
+msgstr ""
+"Salvez buffer-ul modificat (RÃSPUNSUL \"Nu\" VA DISTRUGE SCHIMBÃRILE) ?"
 
 #: nano.c:2796
 msgid "Received SIGHUP or SIGTERM\n"
@@ -1205,51 +1286,53 @@ msgstr "Am recepþionat SIGHUP sau SIGTERM\n"
 msgid "Use \"fg\" to return to nano"
 msgstr "Folosiþi \"fg\" pentru a vã întoarce la nano"
 
-#: nano.c:2876
+#: nano.c:2882
 msgid "Cannot resize top win"
 msgstr "Nu pot redimensiona fereastra de sus"
 
-#: nano.c:2878
+#: nano.c:2884
 msgid "Cannot move top win"
 msgstr "Nu pot muta fereastra de sus"
 
-#: nano.c:2880
+#: nano.c:2886
 msgid "Cannot resize edit win"
 msgstr "Nu pot redimensiona fereastra de editare"
 
-#: nano.c:2882
+#: nano.c:2888
 msgid "Cannot move edit win"
 msgstr "Nu pot muta fereastra de editare"
 
-#: nano.c:2884
+#: nano.c:2890
 msgid "Cannot resize bottom win"
 msgstr "Nu pot redimensiona fereastra de jos"
 
-#: nano.c:2886
+#: nano.c:2892
 msgid "Cannot move bottom win"
 msgstr "Nu pot muta fereastra de jos"
 
-#: nano.c:2919
+#: nano.c:2925
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
-msgstr "Am detectat problema cu NumLock.  Keypad-ul va funcþiona greºit cu NumLock deactivat"
+msgstr ""
+"Am detectat problema cu NumLock.  Keypad-ul va funcþiona greºit cu NumLock "
+"deactivat"
 
-#: nano.c:2968
+#: nano.c:2974
 msgid "enabled"
 msgstr "activat"
 
-#: nano.c:2968
+#: nano.c:2974
 msgid "disabled"
 msgstr "deactivat"
 
-#: nano.c:3160
+#: nano.c:3166
 msgid "Tab size is too small for nano...\n"
 msgstr "Dimensiune tab prea micã pentr nano...\n"
 
-#: nano.c:3711
+#: nano.c:3717
 msgid "XOFF ignored, mumble mumble."
 msgstr "XOFF ignorat, murmur, murmur."
 
-#: nano.c:3713
+#: nano.c:3719
 msgid "XON ignored, mumble mumble."
 msgstr "XON ignorat, murmur, murmur."
 
@@ -1384,46 +1467,46 @@ msgstr "Cãutare de la început"
 msgid "This is the only occurrence"
 msgstr "Aceasta este singura apariþie"
 
-#: search.c:574 search.c:703
+#: search.c:577 search.c:735
 msgid "Replace Cancelled"
 msgstr "Înlocuire Anulatã"
 
-#: search.c:614
+#: search.c:617
 msgid "Replace this instance?"
 msgstr "Înlocuieºte în acest caz?"
 
-#: search.c:629
+#: search.c:632
 msgid "Replace failed: unknown subexpression!"
 msgstr "Înlocuire eºuatã: subexpresie necunoscutã!"
 
-#: search.c:740
+#: search.c:772
 msgid "Replace with"
 msgstr "Înlocuieºte cu"
 
-#: search.c:760
+#: search.c:792
 #, c-format
 msgid "Replaced %d occurrence"
 msgid_plural "Replaced %d occurrences"
 msgstr[0] "Am înlocuit în %d loc"
 msgstr[1] "Am înlocuit în %d locuri"
 
-#: search.c:777
+#: search.c:809
 msgid "Enter line number"
 msgstr "Introduceþi numãrul liniei"
 
-#: search.c:781
+#: search.c:813
 msgid "Aborted"
 msgstr "Renunþat"
 
-#: search.c:791
+#: search.c:823
 msgid "Come on, be reasonable"
 msgstr "Haideþi, fiþi rezonabil"
 
-#: search.c:851
+#: search.c:883
 msgid "Not a bracket"
 msgstr "Nu este o parantezã"
 
-#: search.c:902
+#: search.c:934
 msgid "No matching bracket"
 msgstr "Nici o parantezã pereche"
 
@@ -1486,7 +1569,8 @@ msgstr "Nu"
 #: winio.c:1499
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%ld (%d%%)"
-msgstr "linia %ld/%ld (%d%%), coloana %lu/%lu (%d%%), caracterul %lu/%ld (%d%%)"
+msgstr ""
+"linia %ld/%ld (%d%%), coloana %lu/%lu (%d%%), caracterul %lu/%ld (%d%%)"
 
 #: winio.c:1838
 msgid "The nano text editor"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-11 21:49-0400\n"
+"POT-Creation-Date: 2003-12-27 11:17-0500\n"
 "PO-Revision-Date: 2003-01-02 13:13+01:00\n"
 "Last-Translator: Marco Colombo <magicdice@inwind.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -1273,53 +1273,53 @@ msgstr "Ricevuto SIGHUP o SIGTERM\n"
 msgid "Use \"fg\" to return to nano"
 msgstr ""
 
-#: nano.c:2876
+#: nano.c:2882
 msgid "Cannot resize top win"
 msgstr "Impossibile ridimensionare la finestra superiore"
 
-#: nano.c:2878
+#: nano.c:2884
 msgid "Cannot move top win"
 msgstr "Impossibile spostare la finestra superiore"
 
-#: nano.c:2880
+#: nano.c:2886
 msgid "Cannot resize edit win"
 msgstr "Impossibile ridimensionare la finestra di modifica"
 
-#: nano.c:2882
+#: nano.c:2888
 msgid "Cannot move edit win"
 msgstr "Impossibile spostare finestra di modifica"
 
-#: nano.c:2884
+#: nano.c:2890
 msgid "Cannot resize bottom win"
 msgstr "Impossibile ridimensionare la finestra inferiore"
 
-#: nano.c:2886
+#: nano.c:2892
 msgid "Cannot move bottom win"
 msgstr "Impossibile spostare la finestra inferiore"
 
-#: nano.c:2919
+#: nano.c:2925
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "Rilevato difetto di funzionamento del NumLock. Il keypad potrebbe non "
 "funzionare col Numlock spento"
 
-#: nano.c:2968
+#: nano.c:2974
 msgid "enabled"
 msgstr "abilitato"
 
-#: nano.c:2968
+#: nano.c:2974
 msgid "disabled"
 msgstr "disabilitato"
 
-#: nano.c:3160
+#: nano.c:3166
 msgid "Tab size is too small for nano...\n"
 msgstr "La lunghezza della tabulazione è troppo piccola per nano...\n"
 
-#: nano.c:3711
+#: nano.c:3717
 msgid "XOFF ignored, mumble mumble."
 msgstr "XOFF ignorato, mmm..."
 
-#: nano.c:3713
+#: nano.c:3719
 msgid "XON ignored, mumble mumble."
 msgstr "XON ignorato, mmm..."
 
@@ -1455,46 +1455,46 @@ msgstr "Ricerca interrotta"
 msgid "This is the only occurrence"
 msgstr "Questa è l'unica occorrenza"
 
-#: search.c:574 search.c:703
+#: search.c:577 search.c:735
 msgid "Replace Cancelled"
 msgstr "Sostituzione annullata"
 
-#: search.c:614
+#: search.c:617
 msgid "Replace this instance?"
 msgstr "Sostituisci questa occorrenza?"
 
-#: search.c:629
+#: search.c:632
 msgid "Replace failed: unknown subexpression!"
 msgstr "Sostituzione fallita: espressione sconosciuta!"
 
-#: search.c:740
+#: search.c:772
 msgid "Replace with"
 msgstr "Sostituisci con"
 
-#: search.c:760
+#: search.c:792
 #, c-format
 msgid "Replaced %d occurrence"
 msgid_plural "Replaced %d occurrences"
 msgstr[0] ""
 msgstr[1] ""
 
-#: search.c:777
+#: search.c:809
 msgid "Enter line number"
 msgstr "Inserisci numero di riga"
 
-#: search.c:781
+#: search.c:813
 msgid "Aborted"
 msgstr "Operazione annullata"
 
-#: search.c:791
+#: search.c:823
 msgid "Come on, be reasonable"
 msgstr "Avanti, sii ragionevole"
 
-#: search.c:851
+#: search.c:883
 msgid "Not a bracket"
 msgstr "Non è una parentesi"
 
-#: search.c:902
+#: search.c:934
 msgid "No matching bracket"
 msgstr "Parentesi corrispondente non trovata"
 

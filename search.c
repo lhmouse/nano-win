@@ -246,7 +246,7 @@ int is_whole_word(int curr_pos, const char *datastr, const char *searchword)
 
 filestruct *findnextstr(int quiet, int bracket_mode,
 			const filestruct *begin, int beginx,
-			const char *needle)
+			const char *needle, int no_sameline)
 {
     filestruct *fileptr = current;
     const char *searchstr, *rev_start = NULL, *found = NULL;
@@ -264,8 +264,12 @@ filestruct *findnextstr(int quiet, int bracket_mode,
 
 	searchstr = &fileptr->data[current_x_find];
 
-	/* Look for needle in searchstr */
-	while ((found = strstrwrapper(searchstr, needle, rev_start, current_x_find)) == NULL) {
+	/* Look for needle in searchstr.  Keep going until we find it
+	 * and, if no_sameline is set, until it isn't on the current
+	 * line.  If we don't find it, we'll end up at
+	 * current[current_x] regardless of whether no_sameline is
+	 * set. */
+	while ((found = strstrwrapper(searchstr, needle, rev_start, current_x_find)) == NULL || (no_sameline && fileptr == current)) {
 
 	    /* finished processing file, get out */
 	    if (search_last_line) {
@@ -319,8 +323,13 @@ filestruct *findnextstr(int quiet, int bracket_mode,
 	rev_start = &fileptr->data[current_x_find];
 	searchstr = fileptr->data;
 
-	/* Look for needle in searchstr */
-	while ((found = strstrwrapper(searchstr, needle, rev_start, current_x_find)) == NULL) {
+	/* Look for needle in searchstr.  Keep going until we find it
+	 * and, if no_sameline is set, until it isn't on the current
+	 * line.  If we don't find it, we'll end up at
+	 * current[current_x] regardless of whether no_sameline is
+	 * set. */
+	while ((found = strstrwrapper(searchstr, needle, rev_start, current_x_find)) == NULL || (no_sameline && fileptr == current)) {
+
 	    /* finished processing file, get out */
 	    if (search_last_line) {
 		if (!quiet)
@@ -417,7 +426,7 @@ int do_search(void)
 #endif	/* !NANO_SMALL */
 
     search_last_line = 0;
-    didfind = findnextstr(FALSE, FALSE, current, current_x, answer);
+    didfind = findnextstr(FALSE, FALSE, current, current_x, answer, 0);
 
     if (fileptr == current && fileptr_x == current_x && didfind != NULL)
 	statusbar(_("This is the only occurrence"));
@@ -564,8 +573,8 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 {
     int replaceall = 0, numreplaced = -1;
 #ifdef HAVE_REGEX_H
-    int dollarreplace = 0;
-	/* Whether we're doing a forward regex replace of "$". */
+    /* The starting-line match and zero-length regex flags. */
+    int beginline = 0, caretdollar = 0;
 #endif
     filestruct *fileptr = NULL;
     char *copy;
@@ -590,9 +599,39 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 
     last_replace = mallocstrcpy(last_replace, answer);
     while (1) {
+	size_t match_len;
+
 	/* Sweet optimization by Rocco here. */
 	fileptr = findnextstr(fileptr || replaceall || search_last_line,
-				FALSE, begin, *beginx, prevanswer);
+		FALSE, begin, *beginx, prevanswer,
+#ifdef HAVE_REGEX_H
+		/* We should find a zero-length regex only once per
+		 * line.  If the caretdollar flag is set, it means that
+		 * the last search found one on the beginning line, so we
+		 * should skip over the beginning line when doing this
+		 * search. */
+		caretdollar
+#else
+		0
+#endif
+		);
+
+#ifdef HAVE_REGEX_H
+	/* If the caretdollar flag is set, we've found a match on the
+	 * beginning line already, and we're still on the beginning line
+	 * after the search, it means that we've wrapped around, so
+	 * we're done. */
+	if (caretdollar && beginline && fileptr == begin)
+	    fileptr = NULL;
+	/* Otherwise, set the beginline flag if we've found a match on
+	 * the beginning line, reset the caretdollar flag, and
+	 * continue. */
+	else {
+	    if (fileptr == begin)
+		beginline = 1;
+	    caretdollar = 0;
+	}
+#endif
 
 	if (current->lineno <= edittop->lineno
 	    || current->lineno >= editbot->lineno)
@@ -610,6 +649,13 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 	if (numreplaced == -1)
 	    numreplaced = 0;
 
+#ifdef HAVE_REGEX_H
+	if (ISSET(USE_REGEXP))
+	    match_len = regmatches[0].rm_eo - regmatches[0].rm_so;
+    	else
+#endif
+	    match_len = strlen(prevanswer);
+
 	if (!replaceall) {
 	    curs_set(0);
 	    do_replace_highlight(TRUE, prevanswer);
@@ -619,6 +665,13 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 	    do_replace_highlight(FALSE, prevanswer);
 	    curs_set(1);
 	}
+
+#ifdef HAVE_REGEX_H
+	/* Set the caretdollar flag if we're doing a zero-length regex
+	 * replace (such as "^", "$", or "^$"). */
+	if (ISSET(USE_REGEXP) && match_len == 0)
+	    caretdollar = 1;
+#endif
 
 	if (*i > 0 || replaceall) {	/* Yes, replace it!!!! */
 	    long length_change;
@@ -637,18 +690,9 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 	    length_change = strlen(copy) - strlen(current->data);
 
 #ifdef HAVE_REGEX_H
-	    if (ISSET(USE_REGEXP)) {
+	    if (ISSET(USE_REGEXP))
 		match_len = regmatches[0].rm_eo - regmatches[0].rm_so;
-		/* If we're on the line we started the replace on, the
-		 * match length is 0, and current_x is at the end of the
-		 * the line, we're doing a forward regex replace of "$".
-		 * We have to handle this as a special case so that we
-		 * don't end up infinitely tacking the replace string
-		 * onto the end of the line. */
-		if (current == begin && match_len == 0 && current_x ==
-			strlen(current->data))
-		    dollarreplace = 1;
-	    } else
+	    else
 #endif
 		match_len = strlen(prevanswer);
 
@@ -669,8 +713,8 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 	    }
 
 	    /* Set the cursor at the last character of the replacement
-	     * text, so searching will resume after the replacement text.
-	     * Note that current_x might be set to -1 here. */
+	     * text, so searching will resume after the replacement
+	     * text.  Note that current_x might be set to -1 here. */
 #ifndef NANO_SMALL
 	    if (!ISSET(REVERSE_SEARCH))
 #endif
@@ -684,25 +728,6 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 	    edit_refresh();
 	    set_modified();
 	    numreplaced++;
-
-#ifdef HAVE_REGEX_H
-	    if (dollarreplace == 1) {
-		/* If we're here, we're doing a forward regex replace of
-		 * "$", and the replacement's just been made.  Avoid
-		 * infinite replacement by manually moving the search to
-		 * the next line, wrapping to the first line if we're on
-		 * the last line of the file.  Afterwards, if we're back
-		 * on the line where we started, manually break out of
-		 * the loop. */
-		current_x = 0;
-		if (current->next != NULL)
-		    current = current->next;
-		else
-		    current = fileage;
-		if (current == begin)
-		    break;
-	    }
-#endif
 
 	} else if (*i == -1)	/* Break out of the loop, else do
 				 * nothing and continue loop. */
@@ -909,7 +934,7 @@ int do_find_bracket(void)
 
     while (1) {
 	search_last_line = 0;
-	if (findnextstr(1, 1, current, current_x, regexp_pat) != NULL) {
+	if (findnextstr(1, 1, current, current_x, regexp_pat, 0) != NULL) {
 	    have_search_offscreen |= search_offscreen;
 
 	    /* found identical bracket */

@@ -84,7 +84,9 @@ const static rcoption rcopts[] = {
     {"tabsize", 0},
     {"tempfile", TEMP_OPT},
     {"view", VIEW_MODE},
+#ifndef NANO_SMALL
     {"historylog", HISTORYLOG},
+#endif
     {NULL, 0}
 };
 

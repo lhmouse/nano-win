@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-11 21:49-0400\n"
+"POT-Creation-Date: 2003-12-27 11:17-0500\n"
 "PO-Revision-Date: 2003-02-22 16:31:14+0100\n"
 "Last-Translator: Guus Sliepen <guus@sliepen.warande.net>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
@@ -1288,53 +1288,53 @@ msgstr "SIGHUP of SIGTERM ontvangen\n"
 msgid "Use \"fg\" to return to nano"
 msgstr "Gebruik \"fg\" om terug te keren naar nano"
 
-#: nano.c:2876
+#: nano.c:2882
 msgid "Cannot resize top win"
 msgstr "Kan bovenste venster niet herschalen"
 
-#: nano.c:2878
+#: nano.c:2884
 msgid "Cannot move top win"
 msgstr "Kan bovenste venster niet verplaatsen"
 
-#: nano.c:2880
+#: nano.c:2886
 msgid "Cannot resize edit win"
 msgstr "Kan bewerkingsvenster niet herschalen"
 
-#: nano.c:2882
+#: nano.c:2888
 msgid "Cannot move edit win"
 msgstr "Kan bewerkingsvenster niet verplaatsen"
 
-#: nano.c:2884
+#: nano.c:2890
 msgid "Cannot resize bottom win"
 msgstr "Kan onderste venster niet herschalen"
 
-#: nano.c:2886
+#: nano.c:2892
 msgid "Cannot move bottom win"
 msgstr "Kan onderste venster niet verplaatsen"
 
-#: nano.c:2919
+#: nano.c:2925
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "NumLock fout gedetecteerd. Numeriek toetsenbord zal niet goed functioneren "
 "zonder NumLock"
 
-#: nano.c:2968
+#: nano.c:2974
 msgid "enabled"
 msgstr "aangezet"
 
-#: nano.c:2968
+#: nano.c:2974
 msgid "disabled"
 msgstr "uitgezet"
 
-#: nano.c:3160
+#: nano.c:3166
 msgid "Tab size is too small for nano...\n"
 msgstr "Tabgrootte te klein voor nano...\n"
 
-#: nano.c:3711
+#: nano.c:3717
 msgid "XOFF ignored, mumble mumble."
 msgstr "XOFF genegeerd, mopper mopper."
 
-#: nano.c:3713
+#: nano.c:3719
 msgid "XON ignored, mumble mumble."
 msgstr "XON genegeerd, mopper mopper."
 
@@ -1469,46 +1469,46 @@ msgstr "Zoeken van boven herstart"
 msgid "This is the only occurrence"
 msgstr "Dit is de enige overeenkomst"
 
-#: search.c:574 search.c:703
+#: search.c:577 search.c:735
 msgid "Replace Cancelled"
 msgstr "Vervangen afgebroken"
 
-#: search.c:614
+#: search.c:617
 msgid "Replace this instance?"
 msgstr "Vervang deze instantie?"
 
-#: search.c:629
+#: search.c:632
 msgid "Replace failed: unknown subexpression!"
 msgstr "Vervangen faalde: onbekende deeluitdrukking!"
 
-#: search.c:740
+#: search.c:772
 msgid "Replace with"
 msgstr "Vervang met"
 
-#: search.c:760
+#: search.c:792
 #, c-format
 msgid "Replaced %d occurrence"
 msgid_plural "Replaced %d occurrences"
 msgstr[0] "%d voorval vervangen"
 msgstr[1] "%d voorvallen vervangen"
 
-#: search.c:777
+#: search.c:809
 msgid "Enter line number"
 msgstr "Geef regelnummer"
 
-#: search.c:781
+#: search.c:813
 msgid "Aborted"
 msgstr "Afgebroken"
 
-#: search.c:791
+#: search.c:823
 msgid "Come on, be reasonable"
 msgstr "Kom zeg, wees redelijk"
 
-#: search.c:851
+#: search.c:883
 msgid "Not a bracket"
 msgstr "Geen rechte haak"
 
-#: search.c:902
+#: search.c:934
 msgid "No matching bracket"
 msgstr "Geen overeenkomende rechte haak"
 
