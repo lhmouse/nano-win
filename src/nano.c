@@ -1000,8 +1000,8 @@ void do_char(char ch)
 
 int do_verbatim_input(void)
 {
-    char *verbatim_kbinput;	/* Used to hold verbatim input */
-    int verbatim_len;		/* Length of verbatim input */
+    int *verbatim_kbinput;	/* Used to hold verbatim input. */
+    int verbatim_len;		/* Length of verbatim input. */
     int i;
 
     statusbar(_("Verbatim input"));

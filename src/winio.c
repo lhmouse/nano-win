@@ -54,11 +54,10 @@ int get_kbinput(WINDOW *win, int *meta)
 /* Read in a string of input characters (e.g. an escape sequence)
  * verbatim, and return the length of the string in kbinput_len.  Assume
  * nodelay(win) is FALSE. */
-char *get_verbatim_kbinput(WINDOW *win, int *kbinput_len,
-	int allow_ascii)
+int *get_verbatim_kbinput(WINDOW *win, int *kbinput_len, int
+	allow_ascii)
 {
-    char *verbatim_kbinput;
-    int kbinput;
+    int kbinput, *verbatim_kbinput;
 
     /* Turn the keypad off so that we don't get extended keypad values,
      * all of which are outside the ASCII range, and switch to raw mode
@@ -70,7 +69,7 @@ char *get_verbatim_kbinput(WINDOW *win, int *kbinput_len,
 #endif
 
     kbinput = wgetch(win);
-    verbatim_kbinput = charalloc(1);
+    verbatim_kbinput = (int *)nmalloc(sizeof(int));
     verbatim_kbinput[0] = kbinput;
     *kbinput_len = 1;
 
@@ -78,13 +77,13 @@ char *get_verbatim_kbinput(WINDOW *win, int *kbinput_len,
 	/* Entering a three-digit decimal ASCII code from 000-255 in
 	 * verbatim mode will produce the corresponding ASCII
 	 * character. */
-	verbatim_kbinput[0] = (char)get_ascii_kbinput(win, kbinput);
+	verbatim_kbinput[0] = get_ascii_kbinput(win, kbinput);
     else {
 	nodelay(win, TRUE);
 	while ((kbinput = wgetch(win)) != ERR) {
 	    (*kbinput_len)++;
-	    verbatim_kbinput = charealloc(verbatim_kbinput, *kbinput_len);
-	    verbatim_kbinput[*kbinput_len - 1] = (char)kbinput;
+	    verbatim_kbinput = realloc(verbatim_kbinput, *kbinput_len * sizeof(int));
+	    verbatim_kbinput[*kbinput_len - 1] = kbinput;
 	}
 	nodelay(win, FALSE);
     }
@@ -174,8 +173,7 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta)
 		 * Hemel. */
 		case '[':
 		{
-		    int old_kbinput = kbinput, escape_seq_len;
-		    char *escape_seq;
+		    int old_kbinput = kbinput, *escape_seq, escape_seq_len;
 		    nodelay(win, TRUE);
 		    kbinput = wgetch(win);
 		    switch (kbinput) {
@@ -350,7 +348,7 @@ int get_ascii_kbinput(WINDOW *win, int kbinput)
  *   omitted.  (Same as above.)
  * - The Hurd console has no escape sequences for F11, F12, F13, or
  *   F14. */
-int get_escape_seq_kbinput(WINDOW *win, char *escape_seq, int
+int get_escape_seq_kbinput(WINDOW *win, int *escape_seq, int
 	escape_seq_len)
 {
     int kbinput = ERR;
@@ -436,36 +434,7 @@ int get_escape_seq_kbinput(WINDOW *win, char *escape_seq, int
 	    case '[':
 		switch (escape_seq[1]) {
 		    case '1':
-			if (escape_seq_len >= 5) {
-			    if (!strncmp(escape_seq + 2, ";2", 2)) {
-				switch (escape_seq[4]) {
-				    case 'A': /* Esc [ 1 ; 2 A ==
-					       * Shift-Up on xterm. */
-				    case 'B': /* Esc [ 1 ; 2 B ==
-					       * Shift-Down on xterm. */
-				    case 'C': /* Esc [ 1 ; 2 C ==
-					       * Shift-Right on
-					       * xterm. */
-				    case 'D': /* Esc [ 1 ; 2 D ==
-					       * Shift-Left on xterm. */
-					kbinput = get_escape_seq_abcd(escape_seq[1]);
-					break;
-				}
-			    } else if (!strncmp(escape_seq + 2, ";5", 2)) {
-				switch (escape_seq[4]) {
-				    case 'A': /* Esc [ 1 ; 5 A ==
-					       * Ctrl-Up on xterm. */
-				    case 'B': /* Esc [ 1 ; 5 B ==
-					       * Ctrl-Down on xterm. */
-				    case 'C': /* Esc [ 1 ; 5 C ==
-					       * Ctrl-Right on xterm. */
-				    case 'D': /* Esc [ 1 ; 5 D ==
-					       * Ctrl-Left on xterm. */
-					kbinput = get_escape_seq_abcd(escape_seq[1]);
-					break;
-				}
-			    }
-			} else if (escape_seq_len >= 3) {
+			if (escape_seq_len >= 3) {
 			    switch (escape_seq[2]) {
 				case '1': /* Esc [ 1 1 ~ == F1 on
 					   * rxvt/Eterm. */
@@ -498,6 +467,44 @@ int get_escape_seq_kbinput(WINDOW *win, char *escape_seq, int
 				case '9': /* Esc [ 1 9 ~ == F8 on Linux
 					   * console/xterm/rxvt/Eterm. */
 				    kbinput = KEY_F(8);
+				    break;
+				case ';':
+    if (escape_seq_len >= 4) {
+	switch (escape_seq[3]) {
+	    case '2':
+		if (escape_seq_len >= 5) {
+		    switch (escape_seq[4]) {
+			case 'A': /* Esc [ 1 ; 2 A == Shift-Up on
+				   * xterm. */
+			case 'B': /* Esc [ 1 ; 2 B == Shift-Down on
+				   * xterm. */
+			case 'C': /* Esc [ 1 ; 2 C == Shift-Right on
+				   * xterm. */
+			case 'D': /* Esc [ 1 ; 2 D == Shift-Left on
+				   * xterm. */
+			    kbinput = get_escape_seq_abcd(escape_seq[4]);
+			    break;
+		    }
+		}
+		break;
+	    case '5':
+		if (escape_seq_len >= 5) {
+		    switch (escape_seq[4]) {
+			case 'A': /* Esc [ 1 ; 5 A == Ctrl-Up on
+				   * xterm. */
+			case 'B': /* Esc [ 1 ; 5 B == Ctrl-Down on
+				   * xterm. */
+			case 'C': /* Esc [ 1 ; 5 C == Ctrl-Right on
+				   * xterm. */
+			case 'D': /* Esc [ 1 ; 5 D == Ctrl-Left on
+				   * xterm. */
+			    kbinput = get_escape_seq_abcd(escape_seq[4]);
+			    break;
+		    }
+		}
+		break;
+	}
+    }
 				    break;
 				default: /* Esc [ 1 ~ == Home on Linux
 					  * console. */

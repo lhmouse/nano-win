@@ -60,12 +60,18 @@ CVS code -
 	  Also, with keypad() set to TRUE, xterm generates KEY_BACKSPACE
 	  when the user hits Ctrl-H, which, when cut down to ASCII
 	  range, ends up being Ctrl-G, which can be confusing. (DLR)
+	- For consistency with get_kbinput(), use an int* to store and
+	  return the input instead of a char*, and tweak the functions
+	  that call it to handle this. (DLR)
   get_accepted_kbinput()
 	- Don't use "kbinput = wgetch(win)" as a switch value. (DLR)
   get_escape_seq_kbinput()
 	- Add support for the escape sequences for F1-F14 whenever
 	  possible (i.e, whenever a conflict doesn't occur), some
 	  additional comments, and a few cosmetic cleanups. (DLR)
+	- Use switch statements instead of strncmp() to read in the long
+	  xterm sequences for Ctrl-[arrow key] and Shift-[arrow key].
+	  (DLR)
   get_escape_seq_abcd()
 	- A resurrected version of the old abcd() function, readded in
 	  order to simplify get_escape_seq_kbinput(). (DLR)
