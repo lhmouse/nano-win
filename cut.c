@@ -223,8 +223,8 @@ int do_cut_text(void)
 	    totsize--; /* get the newline */
 	    totlines--;
 	    fileptr->prev = NULL;
-	    edit_update(fileage, CENTER);
 	    current = fileptr;
+	    edit_update(fileage, CENTER);
 	} else {
 	    add_to_cutbuffer(fileptr);
 	    fileage = make_new_node(NULL);

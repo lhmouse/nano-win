@@ -1,4 +1,7 @@
 CVS code
+- cut.c:
+  do_cut_text()
+	- Fixed getting locked into cutbuffer on cutting first line of file.
 - nano.c:
   main()
 	- Changed tabsize long arg to actually accept an argument *sigh*.
