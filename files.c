@@ -179,7 +179,7 @@ int read_file(int fd, char *filename)
 	buf[0] = 0;
     }
     /* Did we even GET a file? */
-    if (totsize == 0) {
+    if (totsize == 0 || fileptr == NULL) {
 	new_file();
 	statusbar(_("Read %d lines"), num_lines);
 	return 1;
