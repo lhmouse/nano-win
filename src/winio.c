@@ -62,7 +62,8 @@ char *get_verbatim_kbinput(WINDOW *win, int *kbinput_len,
 
     /* Turn the keypad off so that we don't get extended keypad values,
      * all of which are outside the ASCII range, and switch to raw mode
-     * so that we can type ^Q, ^S, and ^Z without getting interrupts. */
+     * so that we can type ^C, ^Q, ^S, ^Z, and ^\ without getting
+     * interrupts. */
     keypad(win, FALSE);
 #ifdef _POSIX_VDISABLE
     raw();
