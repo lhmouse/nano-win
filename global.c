@@ -99,6 +99,7 @@ shortcut *writefile_list = NULL;
 shortcut *insertfile_list = NULL;
 shortcut *help_list = NULL;
 shortcut *spell_list = NULL;
+shortcut *extcmd_list = NULL;
 #ifndef DISABLE_BROWSER
 shortcut *browser_list = NULL;
 #endif
@@ -268,7 +269,7 @@ void shortcut_init(int unjustify)
 
 #ifndef NANO_SMALL
     char *nano_tofiles_msg = "", *nano_gotodir_msg = "", *nano_case_msg =
-	"", *nano_reverse_msg = "";
+	"", *nano_reverse_msg = "", *nano_execute_msg = "";
     char *nano_dos_msg = "", *nano_mac_msg = ""; 
 
 #ifdef HAVE_REGEX_H
@@ -317,6 +318,7 @@ void shortcut_init(int unjustify)
     nano_case_msg =
 	_("Make the current search or replace case (in)sensitive");
     nano_tofiles_msg = _("Go to file browser");
+    nano_execute_msg = _("Execute external command");
     nano_gotodir_msg = _("Goto Directory");
     nano_cancel_msg = _("Cancel the current function");
     nano_append_msg = _("Append to the current file");
@@ -638,6 +640,10 @@ void shortcut_init(int unjustify)
     sc_init_one(&insertfile_list, NANO_TOFILES_KEY, _("To Files"),
 		nano_tofiles_msg, 0, 0, 0, NOVIEW, 0);
 #endif
+#ifndef NANO_SMALL
+    sc_init_one(&insertfile_list, NANO_EXTCMD_KEY, _("Execute Command"),
+		nano_execute_msg, 0, 0, 0, NOVIEW, 0);
+#endif
 
     sc_init_one(&spell_list, NANO_HELP_KEY,
 		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
@@ -645,6 +651,13 @@ void shortcut_init(int unjustify)
     sc_init_one(&spell_list, NANO_CANCEL_KEY, _("Cancel"),
 		nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
+#ifndef NANO_SMALL
+    sc_init_one(&extcmd_list, NANO_HELP_KEY,
+		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
+
+    sc_init_one(&extcmd_list, NANO_CANCEL_KEY, _("Cancel"),
+		nano_cancel_msg, 0, 0, 0, VIEW, 0);
+#endif
 
 #ifndef DISABLE_BROWSER
 

@@ -2,9 +2,14 @@ CVS code -
 - General
 	- Type misalignments and mem leaks in renumber_all, do_justify
 	  and do_spell (Rocco & Steven Kneizys).
+	- New "External Command" code, originally by Dwayne Rightler.
+	  New function files.c:open_pipe(), changes to do_insertfile(),
+	  new list extcmd_list, cmd is ^X after ^R by default.
 - files.c:
   check_writable_directory()
 	- Stat full_path, not path (Steven Kneizys).
+  read_file()
+	- Abort if we read a file of 0 lines (num_lines == 0), fixes BUG #70.
 - nano.c:
   help_init()
 	- Capitalize Meta altkeys.

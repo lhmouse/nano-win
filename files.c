@@ -241,7 +241,15 @@ int read_file(int fd, char *filename, int quiet)
 	num_lines++;
 	buf[0] = 0;
     }
-    /* Did we even GET a file? */
+
+    /* Did we try to insert a file of 0 bytes? */
+    if (num_lines == 0)
+    {
+	statusbar(_("Read %d lines"), 0);
+	return 1;
+    }
+
+    /* Did we even GET a file if we don't already have one? */
     if (totsize == 0 || fileptr == NULL) {
 	new_file();
 	statusbar(_("Read %d lines"), num_lines);
@@ -279,6 +287,45 @@ int read_file(int fd, char *filename, int quiet)
 
     return 1;
 }
+
+#ifndef NANO_SMALL
+int open_pipe(char *command)
+{
+    int forkpid, fd;
+    char *pipefile, *execute;
+
+    execute = charalloc(strlen(command) + 24);
+    if ((pipefile = safe_tempnam(0, "nano.")) == NULL) {
+        statusbar(_("Could not create a temporary filename: %s"),
+                  strerror(errno));
+	free(execute);
+	free(pipefile);
+        return 1;
+    }
+
+    sprintf(execute,"%s 2>&1 > %s",command,pipefile);
+    umask(0);
+    mkfifo(pipefile,0700);
+    forkpid = fork();
+    if (forkpid == -1) {
+	statusbar(_("Could not fork"));
+	free(execute);
+	free(pipefile);
+	return 1;
+    }
+    else if (forkpid == 0) {
+	execl("/bin/sh","/bin/sh","-c",execute,0);
+	exit(0);
+    }
+    fd = open(pipefile,O_RDONLY);
+    read_file(fd,"stdin",0);
+    unlink(pipefile);
+    free(execute);
+    free(pipefile);
+    set_modified();
+    return 0;
+}
+#endif /* NANO_SMALL */
 
 /* Open the file (and decide if it exists) */
 int open_file(char *filename, int insert, int quiet)
@@ -427,7 +474,24 @@ int do_insertfile(int loading_file)
 	}
 #endif
 
-	i = open_file(realname, 1, loading_file);
+#ifndef NANO_SMALL
+	if (i == NANO_EXTCMD_KEY) {
+	    i = statusq(1, extcmd_list, "", _("Command to execute "));
+	    if (i == -1) {
+		statusbar(_("Cancelled"));
+		UNSET(KEEP_CUTBUFFER);
+		display_main_list();
+		return 0;
+	    }
+	    if (answer != NULL) {
+		i = open_pipe(answer);
+	    }
+	}
+	else 
+#endif /* NANO_SMALL */
+	{
+	    i = open_file(realname, 1, loading_file);
+	}
 
 #ifdef ENABLE_MULTIBUFFER
 	if (loading_file)

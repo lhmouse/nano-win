@@ -2504,6 +2504,14 @@ void help_init(void)
 		"instance of the given misspelled word in the "
 		"current file.\n\n The following other functions are "
 		"available in Spell Check mode:\n\n");
+#ifndef NANO_SMALL
+    else if (currshortcut == extcmd_list)
+	ptr = _("External Command Help Text\n\n "
+		"This menu allows you to insert the output of a command "
+		"run by the shell into the current buffer (or a new "
+		"buffer in multibuffer mode).\n\n The following keys are "
+		"available in this mode:\n\n");
+#endif
     else /* Default to the main help list */
 	ptr = help_text_init;
 

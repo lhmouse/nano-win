@@ -72,7 +72,7 @@ extern shortcut *shortcut_list;
 extern shortcut *main_list, *whereis_list;
 extern shortcut *replace_list, *goto_list;
 extern shortcut *writefile_list, *insertfile_list;
-extern shortcut *spell_list, *replace_list_2;
+extern shortcut *spell_list, *replace_list_2, *extcmd_list;
 extern shortcut *help_list;
 #ifndef DISABLE_BROWSER
 extern shortcut *browser_list, *gotodir_list;
