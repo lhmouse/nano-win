@@ -6,7 +6,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.0\n"
+"Project-Id-Version: 1.0.3\n"
 "POT-Creation-Date: 2001-06-23 05:02+0200\n"
 "PO-Revision-Date: 2001-06-23 05:06+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
