@@ -49,6 +49,9 @@ const static rcoption rcopts[] = {
 #ifndef DISABLE_WRAPJUSTIFY
     {"fill", 0},
 #endif
+#ifndef NANO_SMALL
+    {"historylog", HISTORYLOG},
+#endif
 #if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
     {"mouse", USE_MOUSE},
 #endif
@@ -84,7 +87,6 @@ const static rcoption rcopts[] = {
     {"tabsize", 0},
     {"tempfile", TEMP_OPT},
     {"view", VIEW_MODE},
-    {"historylog", HISTORYLOG},
     {NULL, 0}
 };
 

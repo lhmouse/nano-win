@@ -29,6 +29,8 @@ CVS code -
 	  new functions do_para_operation(), do_para_begin(), and
 	  do_para_end().  Note that the last three functions are
 	  disabled if justification is disabled. (DLR)
+	- Make sure the "historylog" option isn't included at all if
+	  NANO_SMALL is defined. (DLR)
 - files.c:
   do_browser()
 	- Some of the Pico compatibility options in the file browser

@@ -630,7 +630,9 @@ void usage(void)
     print1opt("-F", "--multibuffer", _("Enable multiple file buffers"));
 #endif
 #ifdef ENABLE_NANORC
+#ifndef NANO_SMALL
     print1opt("-H", "--historylog", _("Log & read search/replace string history"));
+#endif
     print1opt("-I", "--ignorercfiles", _("Don't look at nanorc files"));
 #endif
 #ifndef NANO_SMALL
@@ -3128,7 +3130,9 @@ int main(int argc, char *argv[])
 	{"multibuffer", 0, 0, 'F'},
 #endif
 #ifdef ENABLE_NANORC
+#ifndef NANO_SMALL
 	{"historylog", 0, 0, 'H'},
+#endif
 	{"ignorercfiles", 0, 0, 'I'},
 #endif
 #ifndef DISABLE_JUSTIFY
@@ -3223,9 +3227,11 @@ int main(int argc, char *argv[])
 	    break;
 #endif
 #ifdef ENABLE_NANORC
+#ifndef NANO_SMALL
 	case 'H':
 	    SET(HISTORYLOG);
 	    break;
+#endif
 	case 'I':
 	    SET(NO_RCFILE);
 	    break;

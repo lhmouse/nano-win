@@ -2870,7 +2870,7 @@ void load_history(void)
 
     if (homenv != NULL || userage != NULL) {
 	hist = fopen(nanohist, "r");
-	if (!hist) {
+	if (hist == NULL) {
             if (errno != ENOENT) {
 		/* Don't save history when we quit. */
 		UNSET(HISTORYLOG);
@@ -2923,7 +2923,7 @@ void save_history(void)
 
     if (homenv != NULL || userage != NULL) {
 	hist = fopen(nanohist, "wb");
-	if (!hist) {
+	if (hist == NULL) {
 	    rcfile_msg(_("Unable to write ~/.nano_history file, %s"), strerror(errno));
 	} else {
 	    /* set rw only by owner for security ?? */
