@@ -3320,35 +3320,34 @@ void do_toggle(const toggle *which)
 {
     bool enabled;
 
-    /* Even easier! */
     TOGGLE(which->flag);
 
     switch (which->val) {
-    case TOGGLE_SUSPEND_KEY:
-	signal_init();
-	break;
+	case TOGGLE_SUSPEND_KEY:
+	    signal_init();
+	    break;
 #ifndef DISABLE_MOUSE
-    case TOGGLE_MOUSE_KEY:
-	mouse_init();
-	break;
+	case TOGGLE_MOUSE_KEY:
+	    mouse_init();
+	    break;
 #endif
-    case TOGGLE_NOHELP_KEY:
-	blank_statusbar();
-	blank_bottombars();
-	wrefresh(bottomwin);
-	window_init();
-	edit_refresh();
-	display_main_list();
-	break;
+	case TOGGLE_NOHELP_KEY:
+	    blank_statusbar();
+	    blank_bottombars();
+	    wrefresh(bottomwin);
+	    window_init();
+	    edit_refresh();
+	    display_main_list();
+	    break;
 #ifdef ENABLE_COLOR
-    case TOGGLE_SYNTAX_KEY:
-	edit_refresh();
-	break;
+	case TOGGLE_SYNTAX_KEY:
+	    edit_refresh();
+	    break;
 #endif
 #ifdef ENABLE_NANORC
-    case TOGGLE_WHITESPACE_KEY:
-	edit_refresh();
-	break;
+	case TOGGLE_WHITESPACE_KEY:
+	    edit_refresh();
+	    break;
 #endif
     }
 
