@@ -110,14 +110,14 @@ void search_init_globals(void)
 }
 
 /* Set up the system variables for a search or replace.  Return -1 if
- * the search should be cancelled (due to Cancel, Go to Line, or a
- * failed regcomp()).  Return 0 on success, and 1 on rerun calling
- * program.  Return -2 to run opposite program (search -> replace,
- * replace -> search).
+ * the search should be canceled (due to Cancel, Go to Line, or a failed
+ * regcomp()).  Return 0 on success, and 1 on rerun calling program.
+ * Return -2 to run opposite program (search -> replace, replace ->
+ * search).
  *
- * replacing = 1 if we call from do_replace(), 0 if called from
+ * replacing is TRUE if we call from do_replace(), FALSE if called from
  * do_search(). */
-int search_init(int replacing)
+int search_init(bool replacing)
 {
     int i = 0;
     char *buf;
@@ -194,7 +194,7 @@ int search_init(int replacing)
     /* Cancel any search, or just return with no previous search. */
     if (i == -1 || (i < 0 && last_search[0] == '\0') ||
 	    (!replacing && i == 0 && answer[0] == '\0')) {
-	statusbar(_("Search Cancelled"));
+	statusbar(_("Cancelled"));
 #ifndef NANO_SMALL
 	search_history.current = search_history.next;
 #endif
@@ -805,7 +805,7 @@ void do_replace(void)
 	if (i == -1) {		/* Cancel. */
 	    if (last_replace[0] != '\0')
 		answer = mallocstrcpy(answer, last_replace);
-	    statusbar(_("Replace Cancelled"));
+	    statusbar(_("Cancelled"));
 	}
 	replace_abort();
 	return;

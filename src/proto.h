@@ -391,7 +391,7 @@ void regexp_cleanup(void);
 void not_found_msg(const char *str);
 void search_abort(void);
 void search_init_globals(void);
-int search_init(int replacing);
+int search_init(bool replacing);
 int is_whole_word(int curr_pos, const char *datastr, const char
 	*searchword);
 int findnextstr(int can_display_wrap, int wholeword, const filestruct
