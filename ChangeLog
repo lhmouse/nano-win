@@ -140,7 +140,7 @@ CVS code -
 	  supposed to return void anyway.  Also, the value of RETSIGTYPE
 	  is sometimes misdetected as int, leading to compilation
 	  warnings or errors.  Changes to cancel_fork(),
-	  handle_hipterm(), do_suspend(), and do_cont(). (David
+	  handle_hupterm(), do_suspend(), and do_cont(). (David
 	  Benbennick)
 	- Change flags to an unsigned long, and totsize to a size_t.
 	  (DLR)
@@ -161,6 +161,8 @@ CVS code -
 	  routine to get the current user's home directory into the new
 	  function get_homedir(), and use it where necessary.  Also add
 	  a few miscellaneous tweaks.
+	- Still more steps toward multibyte/wide character support.
+	  Changes to help_init(). (DLR)
 - cut.c:
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the

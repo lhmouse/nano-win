@@ -270,6 +270,11 @@ void help_init(void)
     const shortcut *s;
 #ifndef NANO_SMALL
     const toggle *t;
+#ifdef ENABLE_NANORC
+    bool old_whitespace = ISSET(WHITESPACE_DISPLAY);
+
+    UNSET(WHITESPACE_DISPLAY);
+#endif
 #endif
 
     /* First, set up the initial help text for the current function. */
@@ -394,10 +399,10 @@ void help_init(void)
      * Each line has "M-%c\t\t\t", which fills 24 columns, plus a space,
      * plus translated text, plus '\n'. */
     if (currshortcut == main_list) {
-	size_t endislen = strlen(_("enable/disable"));
+	size_t endis_len = strlen(_("enable/disable"));
 
 	for (t = toggles; t != NULL; t = t->next)
-	    allocsize += 8 + strlen(t->desc) + endislen;
+	    allocsize += 8 + strlen(t->desc) + endis_len;
     }
 #endif
 
@@ -424,13 +429,22 @@ void help_init(void)
 	if (s->ctrlval != NANO_NO_KEY) {
 	    entries++;
 #ifndef NANO_SMALL
-	    if (s->ctrlval == NANO_HISTORY_KEY)
-		ptr += sprintf(ptr, "%.7s", _("Up"));
-	    else
+	    if (s->ctrlval == NANO_HISTORY_KEY) {
+		char *up_ptr = display_string(_("Up"), 0, 7, FALSE);
+
+		ptr += sprintf(ptr, "%s", up_ptr);
+
+		free(up_ptr);
+	    } else
 #endif
-	    if (s->ctrlval == NANO_CONTROL_SPACE)
-		ptr += sprintf(ptr, "^%.6s", _("Space"));
-	    else if (s->ctrlval == NANO_CONTROL_8)
+	    if (s->ctrlval == NANO_CONTROL_SPACE) {
+		char *space_ptr = display_string(_("Space"), 0, 6,
+			FALSE);
+
+		ptr += sprintf(ptr, "^%s", space_ptr);
+
+		free(space_ptr);
+	    } else if (s->ctrlval == NANO_CONTROL_8)
 		ptr += sprintf(ptr, "^?");
 	    else
 		ptr += sprintf(ptr, "^%c", s->ctrlval + 64);
@@ -459,9 +473,14 @@ void help_init(void)
 	    }
 	    /* If the primary meta key sequence is the first entry,
 	     * don't put parentheses around it. */
-	    if (entries == 1 && s->metaval == NANO_ALT_SPACE)
-		ptr += sprintf(ptr, "M-%.5s", _("Space"));
-	    else
+	    if (entries == 1 && s->metaval == NANO_ALT_SPACE) {
+		char *space_ptr = display_string(_("Space"), 0, 5,
+			FALSE);
+
+		ptr += sprintf(ptr, "M-%s", space_ptr);
+
+		free(space_ptr);
+	    } else
 		ptr += sprintf(ptr, entries == 1 ? "M-%c" : "(M-%c)",
 			toupper(s->metaval));
 	    *(ptr++) = '\t';
@@ -486,7 +505,16 @@ void help_init(void)
 	}
 
 	assert(s->help != NULL);
-	ptr += sprintf(ptr, "%.*s\n", COLS > 24 ? COLS - 24 : 0, s->help);
+
+	if (COLS > 24) {
+	    char *help_ptr = display_string(s->help, 0, COLS - 24,
+		FALSE);
+
+	    ptr += sprintf(ptr, help_ptr);
+
+	    free(help_ptr);
+	}
+	ptr += sprintf(ptr, "\n");
     }
 
 #ifndef NANO_SMALL
@@ -498,7 +526,12 @@ void help_init(void)
 		t->desc, _("enable/disable"));
 	}
     }
-#endif /* !NANO_SMALL */
+
+#ifdef ENABLE_NANORC
+    if (old_whitespace)
+	SET(WHITESPACE_DISPLAY);
+#endif
+#endif
 
     /* If all went well, we didn't overwrite the allocated space for
      * help_text. */
