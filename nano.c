@@ -608,6 +608,7 @@ int do_mark(void)
 	edit_refresh();
     }
 #endif
+    SET(DISABLE_CURPOS);
     return 1;
 }
 

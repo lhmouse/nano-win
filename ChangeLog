@@ -6,6 +6,9 @@ CVS code -
 - nano.c:
   main()
 	- Change the getop option to 'F' (David Lawrence Ramsey)
+  do_mark()
+	- Temporarily disable cursorpos when enabled to be able to see
+	  the mark (un)set message (Ken Tyler).
 - nanorc.sample
 	- Typo fixes and updates (David Lawrence Ramsey)
 - files.c:
