@@ -19,12 +19,12 @@
  *                                                                        *
  **************************************************************************/
 
+#ifndef NANO_H
+#define NANO_H 1
+
 #ifdef HAVE_LIMITS_H
 #include <limits.h>
 #endif
-
-#ifndef NANO_H
-#define NANO_H 1
 
 /* Macros for the flags int... */
 #define SET(bit) flags |= bit

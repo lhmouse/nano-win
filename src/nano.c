@@ -3268,8 +3268,6 @@ int main(int argc, char *argv[])
 #endif
 	case 'p':
 	    SET(PRESERVE);
-#ifdef HAVE_GETOPT_LONG
-#endif
 	    break;
 #ifndef DISABLE_WRAPJUSTIFY
 	case 'r':
