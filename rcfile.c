@@ -371,6 +371,7 @@ void parse_colors(char *ptr)
 
 	if (*ptr != '"') {
 	    rcfile_error(_("regex strings must begin and end with a \" character\n"));
+	    ptr = parse_next_regex(ptr);
 	    continue;
 	}
 	ptr++;

@@ -119,6 +119,9 @@ CVS code -
 	- Add a better string matching sequence that includes escaped
 	  quotes (thanks to Carl E. Lindberg, who doesn't even know he
 	  helped ;-)
+- rcfile.c:
+  parse_colors()
+	- Stop infinite loop when syntax doesn't begin with " char.
 - utils.c:
   charalloc()
 	- Switch from using calloc() to using malloc(). (David
