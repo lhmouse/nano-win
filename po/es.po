@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.2pre3\n"
+"Project-Id-Version: nano 1.1.2\n"
 "POT-Creation-Date: 2001-10-03 17:47-0400\n"
-"PO-Revision-Date: 2001-10-03 12:09+0200\n"
+"PO-Revision-Date: 2001-10-05 04:07+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -147,7 +147,7 @@ msgstr "No puedo ascender de directorio"
 
 #: files.c:2191
 msgid "Can't visit parent in restricted mode"
-msgstr "No se puede visitar el directorio padre en modo restrigido"
+msgstr "No se puede visitar el directorio padre en modo restringido"
 
 # y, c-format
 #. We can't open this dir for some reason.  Complain
