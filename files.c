@@ -1238,6 +1238,7 @@ char *do_browser(char *inpath)
 		selected++;
 	    break;
 	case NANO_PREVPAGE_KEY:
+	case NANO_PREVPAGE_FKEY:
 	case KEY_PPAGE:
 	    if ((selected / width) % editwinrows == 0) {
 		if (selected - (editwinrows * width) >= 0)
@@ -1253,6 +1254,7 @@ char *do_browser(char *inpath)
 		selected = 0;
 	    break;
 	case NANO_NEXTPAGE_KEY:
+	case NANO_NEXTPAGE_FKEY:
 	case KEY_NPAGE:	
 	    if ((selected / width) % editwinrows == 0) {
 		if (selected + (editwinrows * width) <= numents - 1)
@@ -1302,6 +1304,7 @@ char *do_browser(char *inpath)
 	case 'Q':
 	case 'e':	/* Pico compatibility, yeech */
 	case 'E':
+	case NANO_EXIT_FKEY:
 		abort = 1;
 		break;
 	}
