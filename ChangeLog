@@ -25,7 +25,8 @@ CVS code -
 	  call and the loop that ungetch()es its returned int*,
 	  respectively. (DLR)
 - proto.h:
-	- Remove unused add_marked_sameline() prototype. (DLR)
+	- Remove unused xpt() and add_marked_sameline() prototypes.
+	  (DLR)
 - rcfile.c:
 	- Move "rebinddelete" up in the list of options so that the list
 	  is in alphabetical order. (DLR)

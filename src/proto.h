@@ -462,7 +462,6 @@ int get_escape_seq_abcd(int kbinput);
 int get_mouseinput(int *mouse_x, int *mouse_y, int shortcut);
 int do_first_line(void);
 int do_last_line(void);
-int xpt(const filestruct *fileptr, int index);
 size_t xplustabs(void);
 size_t actual_x(const char *str, size_t xplus);
 size_t strnlenpt(const char *buf, size_t size);
