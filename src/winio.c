@@ -283,15 +283,33 @@ int get_translated_kbinput(int kbinput, int *es
 			case KEY_ENTER:
 			    retval = NANO_ENTER_KEY;
 			    break;
+			case KEY_A1:	/* Home (7) on numeric keypad
+					 * with NumLock off. */
+			    retval = NANO_HOME_KEY;
+			    break;
+			case KEY_A3:	/* PageUp (9) on numeric keypad
+					 * with NumLock off. */
+			    retval = NANO_PREVPAGE_KEY;
+			    break;
 			case KEY_B2:	/* Center (5) on numeric keypad
-					 * with NumLock off on xterm. */
+					 * with NumLock off. */
+			    retval = ERR;
+			    break;
+			case KEY_C1:	/* End (1) on numeric keypad
+					 * with NumLock off. */
+			    retval = NANO_END_KEY;
+			    break;
+			case KEY_C3:	/* PageDown (4) on numeric
+					 * keypad with NumLock off. */
+			    retval = NANO_NEXTPAGE_KEY;
+			    break;
 #ifdef KEY_BEG
 			/* Slang doesn't support KEY_BEG. */
 			case KEY_BEG:	/* Center (5) on numeric keypad
-					 * with NumLock off on Eterm. */
-#endif
+					 * with NumLock off. */
 			    retval = ERR;
 			    break;
+#endif
 #ifdef KEY_END
 			/* HP-UX 10 and 11 don't support KEY_END. */
 			case KEY_END:
