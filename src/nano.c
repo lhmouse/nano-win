@@ -2958,6 +2958,11 @@ void do_justify(bool full_justify)
 	    /* Number of lines in the paragraph we justify. */
 	ssize_t break_pos;
 	    /* Where we will break lines. */
+	char *indent_string = mallocstrcpy(NULL, "");
+	    /* The first indentation that doesn't match the initial
+	     * indentation of the paragraph we justify.  This is put at
+	     * the beginning of every line broken off the first
+	     * justified line of the paragraph. */
 
 	/* Find the first line of the paragraph to be justified.  That
 	 * is the start of this paragraph if we're in one, or the start
@@ -2985,9 +2990,36 @@ void do_justify(bool full_justify)
 	    first_par_line = backup_lines(current, full_justify ?
 		filebot->lineno - current->lineno : par_len, quote_len);
 
-	/* Next step, we tack all the lines of the paragraph together,
-	 * skipping the quoting and indentation on all lines after the
-	 * first. */
+	/* Find the first indentation in the paragraph that doesn't
+	 * match the indentation of the first line, and save it in
+	 * indent_string.  If all the indentations are the same, save
+	 * the indentation of the first line in indent_string. */
+	{
+	    const filestruct *indent_line = current;
+	    bool past_first_line = FALSE;
+
+	    for (i = 0; i < par_len; i++) {
+		size_t indent_len = quote_len +
+			indent_length(indent_line->data + quote_len);
+
+		if (indent_len != strlen(indent_string)) {
+		    indent_string = mallocstrncpy(indent_string,
+			indent_line->data, indent_len + 1);
+		    indent_string[indent_len] = '\0';
+
+		    if (past_first_line)
+			break;
+		}
+
+		if (indent_line == current)
+		    past_first_line = TRUE;
+
+		indent_line = indent_line->next;
+	    }
+	}
+
+	/* Now tack all the lines of the paragraph together, skipping
+	 * the quoting and indentation on all lines after the first. */
 	for (i = 0; i < par_len - 1; i++) {
 	    filestruct *next_line = current->next;
 	    size_t line_len = strlen(current->data);
@@ -2995,9 +3027,12 @@ void do_justify(bool full_justify)
 
 	    indent_len = quote_len + indent_length(current->next->data +
 		quote_len);
+
 	    next_line_len -= indent_len;
 	    totsize -= indent_len;
 
+	    /* We're just about to tack the next line onto this one.  If
+	     * this line isn't blank, make sure it ends in a space. */
 	    if (line_len > 0 && current->data[line_len - 1] != ' ') {
 		line_len++;
 		current->data = charealloc(current->data, line_len + 1);
@@ -3035,16 +3070,16 @@ void do_justify(bool full_justify)
 	    totsize--;
 	}
 
-	/* Now we call justify_format() on the paragraph, which will
-	 * remove excess spaces from it and change tabs to spaces. */
+	/* Call justify_format() on the paragraph, which will remove
+	 * excess spaces from it and change all blank characters to
+	 * spaces. */
 	justify_format(current, quote_len +
 		indent_length(current->data + quote_len));
 
 	while (par_len > 0 && strlenpt(current->data) > fill) {
 	    size_t line_len = strlen(current->data);
 
-	    indent_len = quote_len + indent_length(current->data +
-		quote_len);
+	    indent_len = strlen(indent_string);
 
 	    /* If this line is too long, try to wrap it to the next line
 	     * to make it short enough. */
@@ -3075,11 +3110,10 @@ void do_justify(bool full_justify)
 
 	    current->next->data = charalloc(indent_len + line_len -
 		break_pos);
-	    charcpy(current->next->data, current->data, indent_len);
+	    charcpy(current->next->data, indent_string, indent_len);
+
 	    strcpy(current->next->data + indent_len, current->data +
 		break_pos + 1);
-
-	    assert(strlen(current->next->data) == indent_len + line_len - break_pos - 1);
 
 	    par_len++;
 	    totlines++;
@@ -3110,6 +3144,11 @@ void do_justify(bool full_justify)
 	    current_y++;
 	    current = current->next;
 	}
+
+	/* We're done breaking lines, so we don't need indent_string
+	 * anymore. */
+	free(indent_string);
+	indent_string = NULL;
 
 	/* Go to the next line, the line after the last line of the
 	 * paragraph. */
