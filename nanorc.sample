@@ -1,95 +1,95 @@
-# Sample initialization file for GNU nano
-# Please note that you must have configured nano with 
-# --enable-nanorc for this file to be read!
-#
-# To make sure a value is not enabled, use "unset <option>"
+## Sample initialization file for GNU nano
+## Please note that you must have configured nano with 
+## --enable-nanorc for this file to be read!
+##
+## To make sure a value is not enabled, use "unset <option>"
 
-# Use auto-indentation
+## Use auto-indentation
 # set autoindent
 
-# Backup files to filename~
+## Backup files to filename~
 # set backup
 
-# Constantly update the cursor position
+## Constantly update the cursor position
 # set const
 
-# Use cut to end of line with ^K by default
+## Use cut to end of line with ^K by default
 # set cut
 
-# Use this value instead of the default
-# An out-of-range negative value can make nano die complaining that the
-# screen is too small
-# set fill -8
+## Use this value instead of the default
+## An out-of-range negative value can make nano die complaining that the
+## screen is too small
+## set fill -8
 
-# Use alternate keypad routines
+## Use alternate keypad routines
 # set keypad
 
-# Allow multiple file buffers (using ^R inserts into separate buffer)
-# You must have configured with --enable-multibuffer or --enable-extra
-# for this to work
-#
-# set multibuffer
+## Allow multiple file buffers (using ^R inserts into separate buffer)
+## You must have configured with --enable-multibuffer or --enable-extra
+## for this to work
+##
+## set multibuffer
 
-# Don't convert files from DOS/Mac format
+## Don't convert files from DOS/Mac format
 # set noconvert
 
-# Don't follow symlinks when writing files
+## Don't follow symlinks when writing files
 # set nofollow
 
-# Don't display the help lists at the bottom of the screen
+## Don't display the help lists at the bottom of the screen
 # set nohelp
 
-# Don't wrap text at all
+## Don't wrap text at all
 # set nowrap
 
-# Set operating directory (chroot of sorts)
+## Set operating directory (chroot of sorts)
 # set operatingdir "~"
 
-# Use Pico Compatibility mode for the shortcut lists and search text
-# set pico
+## Preserve the XON and XOFF keys (^Q and ^S)
+# set preserve
 
-# The email-quote string.  This is a "regular expression" if your
-# system supports them, otherwise a literal string.  Default
+## The email-quote string.  This is a "regular expression" if your
+## system supports them, otherwise a literal string.  Default
 # set quotestr "^([ \t]*[|>:}#])+" if you have regexps, otherwise
 # set quotestr "> ".
-# You can get old nano quoted-justify behavior via:
+## You can get old nano quoted-justify behavior via:
 # set quotestr "(> )+"
 
-# Do regular expression searches by default 
+## Do regular expression searches by default 
 # set regexp
 
-# Use smooth scrolling as the default
+## Use smooth scrolling as the default
 # set smooth
 
-# Use this spelling checker instead of the default one
+## Use this spelling checker instead of the default one
 # set speller aspell
 
-# Allow nano to be suspended with ^Z
+## Allow nano to be suspended with ^Z
 # set suspend
 
-# Use this tab size instead of the default; it must be greater than 0
+## Use this tab size instead of the default; it must be greater than 0
 # set tabsize 4
 
-# Save automatically on exit, don't prompt
+## Save automatically on exit, don't prompt
 # set tempfile
 
-# Disallow file modification, why would you want this in an rc file? ;)
+## Disallow file modification, why would you want this in an rc file? ;)
 # set view
 
-# Color setup
-# Format: 
-# syntax "short description" ["filename regex" ...]
-# color foreground,background "regex" ["regex"...]
-#
-# Legal colors are: white, black, red, blue, green, yellow, purple,
-# cyan.  You may use the prefix "bright" to mean a stronger color
-# highlight.
-#
-# To use multi-line regexes use the start="regex" end="regex" format.
-#
-# If your system supports transparency, not specifying a background
-# color will use a transparent color.  If you don't want this, be sure
-# to set the background color to black or white.
+## Color setup
+## Format: 
+## syntax "short description" ["filename regex" ...]
+## color foreground,background "regex" ["regex"...]
+##
+## Legal colors are: white, black, red, blue, green, yellow, purple,
+## cyan.  You may use the prefix "bright" to mean a stronger color
+## highlight.
+##
+## To use multi-line regexes use the start="regex" end="regex" format.
+##
+## If your system supports transparency, not specifying a background
+## color will use a transparent color.  If you don't want this, be sure
+## to set the background color to black or white.
 
 # syntax "c-file" ".*\.c$" ".*\.h$"
 # color red "\<[A-Z_]{2,}\>" 
@@ -99,17 +99,22 @@
 # color brightcyan "#define" "#include" "#ifn*def" "#endif" 
 # color brightcyan "#elif" "#else" "#if"
 
-# You will in general want your comments and strings to come last,
-# because syntax highlighting rules will be applied in the order they
-# are read in.  Note that quotes in regexes should not be escaped (use "
-# instead of \").
+## You will in general want your comments and strings to come last,
+## because syntax highlighting rules will be applied in the order they
+## are read in.  Note that quotes in regexes should not be escaped (use "
+## instead of \").
 
 # color brightyellow "<[^= ]*>" ""(\\.|[^\"])*""
+
+## This string is VERY resource intensive!!!
 # color brightyellow start=""(\\.|[^\"])*\\( |	)*$" end="^(\\.|[^\"])*""
+
+## And we want to have some nice comment highlighting too
 # color brightblue "//.*"
 # color brightblue start="/\*" end="\*/"
 
-# Here are some short examples for TeX files and HTML
+
+## Here are some short examples for TeX files and HTML
 # syntax "HTML" "\.html$"
 #
 # color blue start="<" end=">"
@@ -121,8 +126,49 @@
 # color magenta "\{" "\}"
 # color blue "%.*"
 
-# For this you will probably want to set your editor to "nano -Y mutt"
 
+## For this you will probably want to set your editor to "nano -Y mutt"
 # syntax "mutt"
 # color green "^>.*"
 
+
+## Here is are examples for groff and for your .nanorc
+
+#syntax "groff" "\.ms$" "\.mm$" "\.me$" "\.tmac$" "^tmac." ".rof"
+## The argument of .nr or .ds
+#color cyan "^\.ds [^ ]*"
+#color cyan "^\.nr [^ ]*"
+## Single character escapes
+#color brightmagenta "\\."
+## Highlight the argument of \f or \s in the same colour
+#color brightmagenta "\\f."
+#color brightmagenta "\\f\(.."
+#color brightmagenta "\\s(\+|\-)?[0-9]"
+## \n
+#color cyan "(\\|\\\\)n."
+#color cyan "(\\|\\\\)n\(.."
+#color cyan start="(\\|\\\\)n\[" end="]"
+## Requests
+#color brightgreen "^\. *[^ ]*"
+## Comments
+#color yellow "^\.\\\".*$"
+## Strings
+#color green "(\\|\\\\)\*."
+#color green "(\\|\\\\)\*\(.."
+#color green start="(\\|\\\\)\*\[" end="]"
+## Characters
+#color brightred "\\\(.."
+#color brightred start="\\\[" end="]"
+## Macro arguments
+#color brightcyan "\\\\\$[1-9]"
+
+
+#syntax "nanorc" "[\.]*nanorc$"
+#color white "^ *(set|unset).*$"
+#color cyan "^ *(set|unset) (autoindent|backup|const|cut|fill|keypad|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|quotestr|regexp|smooth|speller|suspend|tabsize|tempfile|view)"
+#color brightwhite "^ *syntax [^ ]*"
+#color brightblue "^ *set\>" "^ *unset\>" "^ *syntax\>"
+#color white "^ *color\>.*"
+#color yellow "^ *color [^ ]*"
+#color magenta "^ *color\>"
+#color green "^#.*$"

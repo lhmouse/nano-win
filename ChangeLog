@@ -126,6 +126,10 @@ Changes
 	- Added comment to explain the non-escaping of quotes in
 	  color regexes, based on info provided by David Benbennick.
 	  (DLR)
+	- Added some examples for groff and the nanorc courtesy of 
+	  Robert D. Goulding.
+	- Added double hash marks to comment lines, so people who 
+	  uncomment the beginning of every line won't get syntax errors.
 - faq.html:
 	- Miscellaneous fixes and updates for typos and broken links.
 	  It is now fully compliant with HTML 4.01 Transitional. (DLR)
