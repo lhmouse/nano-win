@@ -667,7 +667,7 @@ void do_rcfile(void)
     if (!ISSET(NO_RCFILE)) {
 
 #if defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
-    /* If we've already read $SYSCONFDIR/nanorc (if it's there), we're
+    /* If we've already read SYSCONFDIR/nanorc (if it's there), we're
        root, and --disable-wrapping-as-root is used, turn wrapping off */
 	if (euid == 0)
 	    SET(NO_WRAP);
