@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.0.0\n"
-"POT-Creation-Date: 2001-05-19 22:52-0400\n"
+"POT-Creation-Date: 2001-05-24 14:58+0200\n"
 "PO-Revision-Date: 2001-02-08 17:56+0200\n"
 "Last-Translator: Florian König <floki@bigfoot.com>\n"
 "Language-Team: German <floki@bigfoot.com>\n"
@@ -477,9 +477,9 @@ msgid ""
 "commonly used shortcuts in the editor.\n"
 "\n"
 " The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  "
-"Escape-key sequences are notated with the Meta (M) symbol and can be entered "
-"using either the Esc, Alt or Meta key depending on your keyboard setup.  The "
+"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
+"key sequences are notated with the Meta (M) symbol and can be entered using "
+"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
 "following keystrokes are available in the main editor window. Optional keys "
 "are shown in parentheses:\n"
 "\n"
@@ -494,11 +494,11 @@ msgstr ""
 "zeigt wichtige Meldungen. Die untersten zwei Zeilen listen die "
 "meistgebrauchten Tastenkombinationen von nano auf.\n"
 "\n"
-" Tastenkombinationen werden wie folgt abgekärzt: Kombinationen mit der "
-"Strg-Taste werden mit einem ^ ausgedräckt. Escape-Sequenzen werden mit dem "
-"Meta (M)-Symbol angegeben und können je nach Tastatureinstellung mit Esc, "
-"Alt oder Meta eingegeben werden. | Die folgenden Tasten(kombinationen) sind "
-"im Hauptfenster verfügbar. Optionale Tasten sind eingeklammert.\n"
+" Tastenkombinationen werden wie folgt abgekärzt: Kombinationen mit der Strg-"
+"Taste werden mit einem ^ ausgedräckt. Escape-Sequenzen werden mit dem Meta "
+"(M)-Symbol angegeben und können je nach Tastatureinstellung mit Esc, Alt "
+"oder Meta eingegeben werden. | Die folgenden Tasten(kombinationen) sind im "
+"Hauptfenster verfügbar. Optionale Tasten sind eingeklammert.\n"
 "\n"
 
 #: nano.c:301
@@ -842,6 +842,55 @@ msgstr "Erhielt Alt-[-%c! (%d)\n"
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Erhielt Alt-%c! (%d)\n"
 
+#: rcfile.c:75
+msgid ""
+"\n"
+"Press return to continue starting nano\n"
+msgstr ""
+
+#: rcfile.c:133
+msgid "parse_rcfile: Read a comment\n"
+msgstr ""
+
+#: rcfile.c:150
+#, c-format
+msgid "Error in %s on line %d: command %s not understood"
+msgstr ""
+
+#: rcfile.c:163
+#, c-format
+msgid "parse_rcfile: Parsing option %s\n"
+msgstr ""
+
+#: rcfile.c:179
+#, c-format
+msgid "Error in %s on line %d: option %s requires an argument"
+msgstr ""
+
+#: rcfile.c:190
+#, c-format
+msgid "Error in %s on line %d: requested fill size %d too small"
+msgstr ""
+
+#: rcfile.c:206
+#, c-format
+msgid "set flag %d!\n"
+msgstr ""
+
+#: rcfile.c:211
+#, c-format
+msgid "unset flag %d!\n"
+msgstr ""
+
+#: rcfile.c:220
+msgid "Errors found in .nanorc file"
+msgstr ""
+
+#: rcfile.c:229
+#, c-format
+msgid "Unable to open ~/.nanorc file, %s"
+msgstr ""
+
 #: search.c:118
 #, c-format
 msgid "Case Sensitive Regexp Search%s%s"
@@ -1018,6 +1067,7 @@ msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
 #: winio.c:1407
+#, c-format
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "Zeile %d von %d (%.0f%%), Zeichen %d von %d (%.0f%%)"
 

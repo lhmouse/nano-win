@@ -112,7 +112,7 @@
   Corsi) (58) [FIXED].
 - When page up is used after two page down's, the screen doesn't update
   properly (discovered by David Lawrence Ramsey) (59) [FIXED].
-- On BSD systenms, marked cutting sna paste often screws up the
+- On BSD systems, marked cutting sna paste often screws up the
   last line in the cutbuffer (discovered by Barry Pederson) (60) [FIXED]
 
 ** Open BUGS **

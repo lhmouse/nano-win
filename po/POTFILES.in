@@ -7,6 +7,7 @@ files.c
 global.c
 move.c
 nano.c
+rcfile.c
 search.c
 utils.c
 winio.c

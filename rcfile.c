@@ -160,7 +160,7 @@ void parse_rcfile(FILE *rcstream, char *filename)
 	    for (i = 0; i <= NUM_RCOPTS - 1; i++) {
 	        if (!strcasecmp(option, rcopts[i].name)) {
 #ifdef DEBUG
-		    fprintf(stderr, "parse_rcfile: Parsing option %s\n", 
+		    fprintf(stderr, _("parse_rcfile: Parsing option %s\n"), 
 				rcopts[i].name);
 #endif
 		    if (set == 1 || rcopts[i].flag == FOLLOW_SYMLINKS) {
@@ -203,12 +203,12 @@ void parse_rcfile(FILE *rcstream, char *filename)
 			} else 
 			    SET(rcopts[i].flag);
 #ifdef DEBUG
-			fprintf(stderr, "set flag %d!\n", rcopts[i].flag);
+			fprintf(stderr, _("set flag %d!\n"), rcopts[i].flag);
 #endif
 		    } else {
 			UNSET(rcopts[i].flag);
 #ifdef DEBUG
-			fprintf(stderr, "unset flag %d!\n", rcopts[i].flag);
+			fprintf(stderr, _("unset flag %d!\n"), rcopts[i].flag);
 #endif
 		   }			
 		}
