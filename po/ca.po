@@ -6,9 +6,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.8\n"
+"Project-Id-Version: nano 1.1.9\n"
 "POT-Creation-Date: 2002-05-12 19:29-0400\n"
-"PO-Revision-Date: 2002-04-05 12:50+0200\n"
+"PO-Revision-Date: 2002-05-13 16:35+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
 "MIME-Version: 1.0\n"
@@ -118,7 +118,7 @@ msgstr "No es pot escriure fora de %s"
 #: files.c:1366 files.c:1378
 #, c-format
 msgid "Could not open file for writing: %s"
-msgstr "No he pogut obrir el fitxer per a escriure: %s"
+msgstr "No s'ha pogut obrir el fitxer per a escriure: %s"
 
 #: files.c:1338
 #, c-format
@@ -128,28 +128,28 @@ msgstr "Escrites >%s\n"
 #: files.c:1390
 #, c-format
 msgid "Could not close %s: %s"
-msgstr "No he pogut tancar %s: %s"
+msgstr "No s'ha pogut tancar %s: %s"
 
 #: files.c:1402 files.c:1407 files.c:1435
-#, fuzzy, c-format
+#, c-format
 msgid "Could not reopen %s: %s"
-msgstr "No he pogut tancar %s: %s"
+msgstr "No s'ha pogut reobrir %s: %s"
 
 #: files.c:1412 files.c:1418 files.c:1427
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open %s for prepend: %s"
-msgstr "No he pogut obrir %s per a escriure: %s"
+msgstr "No s'ha pogut obrir %s per a avantposar: %s"
 
 #. Try a rename??
 #: files.c:1465 files.c:1474 files.c:1479
 #, c-format
 msgid "Could not open %s for writing: %s"
-msgstr "No he pogut obrir %s per a escriure: %s"
+msgstr "No s'ha pogut obrir %s per a escriure: %s"
 
 #: files.c:1486
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
-msgstr "No he pogut establir permisos %o en %s: %s"
+msgstr "No s'ha pogut establir permisos %o en %s: %s"
 
 #: files.c:1493
 #, c-format
@@ -165,9 +165,8 @@ msgid " [DOS Format]"
 msgstr " [Format DOS]"
 
 #: files.c:1544
-#, fuzzy
 msgid "Prepend Selection to File"
-msgstr "Afegir sel·lecció a fitxer"
+msgstr "Avantposar sel·lecció a fitxer"
 
 #: files.c:1547
 msgid "Append Selection to File"
@@ -178,17 +177,16 @@ msgid "Write Selection to File"
 msgstr "Escriure sel·lecció a fitxer"
 
 #: files.c:1556
-#, fuzzy
 msgid "File Name to Prepend"
-msgstr "Nom de Fitxer a afegir"
+msgstr "Nom del fitxer a afegir"
 
 #: files.c:1559
 msgid "File Name to Append"
-msgstr "Nom de Fitxer a afegir"
+msgstr "Nom del fitxer a afegir"
 
 #: files.c:1562
 msgid "File Name to Write"
-msgstr "Nom de Fitxer a escriure"
+msgstr "Nom del fitxer a escriure"
 
 #: files.c:1611
 msgid "File exists, OVERWRITE ?"
@@ -430,9 +428,8 @@ msgid "Append to the current file"
 msgstr "Afegir al fitxer actual"
 
 #: global.c:375
-#, fuzzy
 msgid "Prepend to the current file"
-msgstr "Afegir al fitxer actual"
+msgstr "Avantposar al fitxer actual"
 
 #: global.c:376
 msgid "Search backwards"
@@ -591,21 +588,19 @@ msgstr "Següent Fitxer"
 
 #: global.c:565
 msgid "Next Word"
-msgstr ""
+msgstr "Següent Paraula"
 
 #: global.c:566
-#, fuzzy
 msgid "Move forward one word"
-msgstr "Moure endavant un caràcter"
+msgstr "Moure endavant una paraula"
 
 #: global.c:568
 msgid "Prev Word"
-msgstr ""
+msgstr "Paraula Anterior"
 
 #: global.c:569
-#, fuzzy
 msgid "Move backward one word"
-msgstr "Moure endarrere un caràcter"
+msgstr "Moure endarrere una paraula"
 
 #: global.c:580 global.c:622 global.c:664 global.c:681 global.c:740
 #: global.c:749 global.c:770 global.c:781 global.c:816 winio.c:1463
@@ -653,9 +648,8 @@ msgid "Append"
 msgstr "Afegir"
 
 #: global.c:735
-#, fuzzy
 msgid "Prepend"
-msgstr "Afegir"
+msgstr "Avantposar"
 
 #: global.c:759
 msgid "Execute Command"
@@ -667,21 +661,13 @@ msgstr "Anar a"
 
 #: nano.c:194
 #, c-format
-msgid ""
-"\n"
-"Buffer written to %s\n"
-msgstr ""
-"\n"
-"Buffer escrit a %s\n"
+msgid "\nBuffer written to %s\n"
+msgstr "\nBuffer escrit a %s\n"
 
 #: nano.c:196
 #, c-format
-msgid ""
-"\n"
-"No %s written (too many backup files?)\n"
-msgstr ""
-"\n"
-"No s'ha escrit %s (massa còpies de seguretat?)\n"
+msgid "\nNo %s written (too many backup files?)\n"
+msgstr "\nNo s'ha escrit %s (massa còpies de seguretat?)\n"
 
 #: nano.c:205
 msgid "Window size is too small for Nano..."
@@ -695,39 +681,16 @@ msgstr "Tecla il·legal en mode VISUALITZACIÓ"
 msgid ""
 " nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor: The "
-"top line shows the program version, the current filename being edited, and "
-"whether or not the file has been modified.  Next is the main editor window "
-"showing the file being edited.  The status line is the third line from the "
-"bottom and shows important messages. The bottom two lines show the most "
-"commonly used shortcuts in the editor.\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor: The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages. The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
-" The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
-"key sequences are notated with the Meta (M) symbol and can be entered using "
-"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
-"following keystrokes are available in the main editor window. Optional keys "
-"are shown in parentheses:\n"
+" The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt or Meta key depending on your keyboard setup.  The following keystrokes are available in the main editor window. Optional keys are shown in parentheses:\n"
 "\n"
 msgstr ""
 " texte d'ajuda de nano\n"
 "\n"
-" L'editor nano està dissenyat per a emular la funcionalitat i la facilitat "
-"d'ús de Pico, l'editor de text de la UW. Hi ha quatre seccions a l'editor: "
-"la línia superior mostra la versió del programa, el nom del fitxer editat i "
-"si el fitxer ha estat o no modificat. També tenim la finestra principal de "
-"edició, que mostra el fitxer que s'està editant. La línia d'estat és la "
-"tercera des de baix i mostra missatges importants. Les últimes dues línies "
-"mostren les dreceres més utilitzades a l'editor.\n"
+" L'editor nano està dissenyat per a emular la funcionalitat i la facilitat d'ús de Pico, l'editor de text de la UW. Hi ha quatre seccions a l'editor: la línia superior mostra la versió del programa, el nom del fitxer editat i si el fitxer ha estat o no modificat. També tenim la finestra principal de edició, que mostra el fitxer que s'està editant. La línia d'estat és la tercera des de baix i mostra missatges importants. Les últimes dues línies mostren les dreceres més utilitzades a l'editor.\n"
 "\n"
-" La notació de les dreceres és la següent: les sequències amb la tecla "
-"Control estan anotades amb el símbol circunflex (^) i són accedides "
-"mitjançant la tecla Control. Les seqüències amb tecles d'escapada estan "
-"anotades amb el símbol Meta (M) i s'hi pot accedir mitjançant les tecles "
-"Esc, Alt o Meta, tot depenent de la configuració del teu teclat. Les "
-"següents combinacions estan disponibles a la finestra principal. Les tecles "
-"opcionals estan representades entre parèntesi:\n"
+" La notació de les dreceres és la següent: les sequències amb la tecla Control estan anotades amb el símbol circunflex (^) i són accedides mitjançant la tecla Control. Les seqüències amb tecles d'escapada estan anotades amb el símbol Meta (M) i s'hi pot accedir mitjançant les tecles Esc, Alt o Meta, tot depenent de la configuració del teu teclat. Les següents combinacions estan disponibles a la finestra principal. Les tecles opcionals estan representades entre parèntesi:\n"
 "\n"
 
 #: nano.c:388
@@ -739,34 +702,24 @@ msgid "delete_node(): free'd last node.\n"
 msgstr "delete_node(): alliberat l'últim node.\n"
 
 #: nano.c:413
-#, fuzzy
 msgid "delete_opennode(): free'd a node, YAY!\n"
-msgstr "delete_node(): alliberat un node, YEAH!\n"
+msgstr "delete_opennode(): alliberat un node, YEAH!\n"
 
 #: nano.c:418
-#, fuzzy
 msgid "delete_opennode(): free'd last node.\n"
-msgstr "delete_node(): alliberat l'últim node.\n"
+msgstr "delete_opennode(): alliberat l'últim node.\n"
 
 #: nano.c:499
-msgid ""
-"Usage: nano [GNU long option] [option] +LINE <file>\n"
-"\n"
-msgstr ""
-"Sintaxi: nano [opció llarga GNU] [opció] +LÍNIA <fitxer>\n"
-"\n"
+msgid "Usage: nano [GNU long option] [option] +LINE <file>\n\n"
+msgstr "Sintaxi: nano [opció llarga GNU] [opció] +LÍNIA <fitxer>\n\n"
 
 #: nano.c:500
 msgid "Option\t\tLong option\t\tMeaning\n"
 msgstr "Opció\t\tOpció llarga\t\tSignificat\n"
 
 #: nano.c:502
-msgid ""
-"Usage: nano [option] +LINE <file>\n"
-"\n"
-msgstr ""
-"Sintaxi: nano [opció] +LÍNIA <fitxer>\n"
-"\n"
+msgid "Usage: nano [option] +LINE <file>\n\n"
+msgstr "Sintaxi: nano [opció] +LÍNIA <fitxer>\n\n"
 
 #: nano.c:503
 msgid "Option\t\tMeaning\n"
@@ -821,18 +774,16 @@ msgid "Print version information and exit"
 msgstr "Imprimir informació sobre la versió i sortir"
 
 #: nano.c:527
-#, fuzzy
 msgid "-Y [str]"
-msgstr "-Q [cad]"
+msgstr "-Y [cad]"
 
 #: nano.c:527
-#, fuzzy
 msgid "--syntax [str]"
-msgstr "--quotestr [cad]"
+msgstr "--syntax [cad]"
 
 #: nano.c:527
 msgid "Syntax definition to use"
-msgstr ""
+msgstr "Definició de sintaxi a utilitzar"
 
 #: nano.c:529
 msgid "Constantly show cursor position"
@@ -936,12 +887,8 @@ msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 msgstr " Correu-e: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 
 #: nano.c:570
-msgid ""
-"\n"
-" Compiled options:"
-msgstr ""
-"\n"
-" Opcions compilades:"
+msgid "\n Compiled options:"
+msgstr "\n Opcions compilades:"
 
 #: nano.c:686
 msgid "Mark Set"
@@ -1036,32 +983,18 @@ msgstr "Ara pots desjustificar!"
 msgid ""
 "Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, then hit "
-"enter.  If there is a match for the text you entered, the screen will be "
-"updated to the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, then hit enter.  If there is a match for the text you entered, the screen will be updated to the location of the nearest match for the search string.\n"
 "\n"
-" If using Pico Mode via the -p or --pico flags, using the Meta-P toggle or "
-"using a nanorc file, the previous search string will be shown in brackets "
-"after the Search: prompt.  Hitting enter without entering any text will "
-"perform the previous search. Otherwise, the previous string will be placed "
-"in front of the cursor, and can be edited or deleted before hitting enter.\n"
+" If using Pico Mode via the -p or --pico flags, using the Meta-P toggle or using a nanorc file, the previous search string will be shown in brackets after the Search: prompt.  Hitting enter without entering any text will perform the previous search. Otherwise, the previous string will be placed in front of the cursor, and can be edited or deleted before hitting enter.\n"
 "\n"
 " The following functions keys are available in Search mode:\n"
 "\n"
 msgstr ""
 "Text d'ajuda per a la ordre Cerca\n"
 "\n"
-" Introduiu les paraules o caràcters que voleu cercar i polseu intro.  Si hi "
-"ha una coincidència per a el texte que heu introduit, la pantalla "
-"s'actualitzarà al lloc on està la coincidència de la cadena cercada més "
-"propera.\n"
+" Introduiu les paraules o caràcters que voleu cercar i polseu intro.  Si hi ha una coincidència per a el texte que heu introduit, la pantalla s'actualitzarà al lloc on està la coincidència de la cadena cercada més propera.\n"
 "\n"
-" Si esteu fent servir el Modo Pico mitjançant les opcions -p o --pico, fent "
-"servir l'interruptor Meta-P o un fitxer nanorc, la cadena de la cerca "
-"anterior es mostrarà després del indicatiu Cercar:. Polsar intro sense "
-"introduir cap texte durà a terme la anterior cerca. Si no, la anterior "
-"cadena es posarà davant del cursor i es podrà editar o esborrar abans de "
-"polsar intro.\n"
+" Si esteu fent servir el Modo Pico mitjançant les opcions -p o --pico, fent servir l'interruptor Meta-P o un fitxer nanorc, la cadena de la cerca anterior es mostrarà després del indicatiu Cercar:. Polsar intro sense introduir cap texte durà a terme la anterior cerca. Si no, la anterior cadena es posarà davant del cursor i es podrà editar o esborrar abans de polsar intro.\n"
 "\n"
 " Les següents tecles de funció estan disponibles en el mode Cerca:\n"
 "\n"
@@ -1070,18 +1003,14 @@ msgstr ""
 msgid ""
 "Goto Line Help Text\n"
 "\n"
-" Enter the line number that you wish to go to and hit Enter.  If there are "
-"fewer lines of text than the number you entered, you will be brought to the "
-"last line of the file.\n"
+" Enter the line number that you wish to go to and hit Enter.  If there are fewer lines of text than the number you entered, you will be brought to the last line of the file.\n"
 "\n"
 " The following functions keys are available in Goto Line mode:\n"
 "\n"
 msgstr ""
 "Text d'ajuda de Anar a Línia\n"
 "\n"
-" Introduiu el número de la línia a la que voleu anar i polseu Intro. Si hi "
-"ha menys línias de texte que el número que heu introduit, el cursor es mourà "
-"a la última línia del fitxer.\n"
+" Introduiu el número de la línia a la que voleu anar i polseu Intro. Si hi ha menys línias de texte que el número que heu introduit, el cursor es mourà a la última línia del fitxer.\n"
 "\n"
 " Les següents tecles de funció estan disponibles en el mode Anar a Línia:\n"
 "\n"
@@ -1090,33 +1019,22 @@ msgstr ""
 msgid ""
 "Insert File Help Text\n"
 "\n"
-" Type in the name of a file to be inserted into the current file buffer at "
-"the current cursor location.\n"
+" Type in the name of a file to be inserted into the current file buffer at the current cursor location.\n"
 "\n"
-" If you have compiled nano with multiple file buffer support, and enable "
-"multiple buffers with the -F or --multibuffer command line flags, the Meta-F "
-"toggle or using a nanorc file, inserting a file will cause it to be loaded "
-"into a separate buffer (use Meta-< and > to switch between file buffers).\n"
+" If you have compiled nano with multiple file buffer support, and enable multiple buffers with the -F or --multibuffer command line flags, the Meta-F toggle or using a nanorc file, inserting a file will cause it to be loaded into a separate buffer (use Meta-< and > to switch between file buffers).\n"
 "\n"
-" If you need another blank buffer, do not enter any filename, or type in a "
-"nonexistent filename at the prompt and press Enter.\n"
+" If you need another blank buffer, do not enter any filename, or type in a nonexistent filename at the prompt and press Enter.\n"
 "\n"
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
 "Text d'ajuda d'Inserir Fitxer\n"
 "\n"
-" Escriviu el nom del fitxer a afegir en el buffer actual en la posició "
-"actual del cursor.\n"
+" Escriviu el nom del fitxer a afegir en el buffer actual en la posició actual del cursor.\n"
 "\n"
-" Si s'ha compilat nano amb suport per a múltiples fitxers i heu habilitat "
-"els buffers múltiples amb les opcions -F o --multibuffer, fent servir "
-"l'interruptor Meta-F o amb un fitxer nanorc, la inserció d'un fitxer farà "
-"que es carregue en un buffer different (feu servir Meta-< i > per a canviar "
-"de buffers de fitxer).\n"
+" Si s'ha compilat nano amb suport per a múltiples fitxers i heu habilitat els buffers múltiples amb les opcions -F o --multibuffer, fent servir l'interruptor Meta-F o amb un fitxer nanorc, la inserció d'un fitxer farà que es carregue en un buffer different (feu servir Meta-< i > per a canviar de buffers de fitxer).\n"
 "\n"
-" Si necessiteu un altre buffer en blanc, no inseriu cap nom de fitxer o "
-"escriviu el nom d'un fitxer no existent en l'indicatiu i polseu Intro.\n"
+" Si necessiteu un altre buffer en blanc, no inseriu cap nom de fitxer o escriviu el nom d'un fitxer no existent en l'indicatiu i polseu Intro.\n"
 "\n"
 " Les següents tecles de funció estan disponibles en el mode Inserir Fitxer:\n"
 "\n"
@@ -1125,27 +1043,18 @@ msgstr ""
 msgid ""
 "Write File Help Text\n"
 "\n"
-" Type the name that you wish to save the current file as and hit enter to "
-"save the file.\n"
+" Type the name that you wish to save the current file as and hit enter to save the file.\n"
 "\n"
-" If you are using the marker code with Ctrl-^ and have selected text, you "
-"will be prompted to save only the selected portion to a separate file.  To "
-"reduce the chance of overwriting the current file with just a portion of it, "
-"the current filename is not the default in this mode.\n"
+" If you are using the marker code with Ctrl-^ and have selected text, you will be prompted to save only the selected portion to a separate file.  To reduce the chance of overwriting the current file with just a portion of it, the current filename is not the default in this mode.\n"
 "\n"
 " The following function keys are available in Write File mode:\n"
 "\n"
 msgstr ""
 "Text d'ajuda de Desar Fitxer\n"
 "\n"
-" Escriviu el nom amb el que voleu desar el fitxer actual i polseu intro per "
-"a salvar-ho.\n"
+" Escriviu el nom amb el que voleu desar el fitxer actual i polseu intro per a salvar-ho.\n"
 "\n"
-" Si esteu fent servir el codi de marcat amb Ctrl-^ i heu sel·leccionat "
-"texte, se vos preguntarà si voleu desar només la porció marcada a un fitxer "
-"diferent. Per a reduir la posibilitat de sobreescriure el fitxer actual amb "
-"només una part d'ell, el nom del fitxer actual no és el predeterminat en "
-"aquest mode.\n"
+" Si esteu fent servir el codi de marcat amb Ctrl-^ i heu sel·leccionat texte, se vos preguntarà si voleu desar només la porció marcada a un fitxer diferent. Per a reduir la posibilitat de sobreescriure el fitxer actual amb només una part d'ell, el nom del fitxer actual no és el predeterminat en aquest mode.\n"
 "\n"
 " Les següents tecles de funció estan disponibles en el mode Desar Fitxer:\n"
 "\n"
@@ -1154,26 +1063,16 @@ msgstr ""
 msgid ""
 "File Browser Help Text\n"
 "\n"
-" The file browser is used to visually browse the directory structure to "
-"select a file for reading or writing.  You may use the arrow keys or Page Up/"
-"Down to browse through the files, and S or Enter to choose the selected file "
-"or enter the selected directory. To move up one level, select the directory "
-"called \"..\" at the top of the file list.\n"
+" The file browser is used to visually browse the directory structure to select a file for reading or writing.  You may use the arrow keys or Page Up/Down to browse through the files, and S or Enter to choose the selected file or enter the selected directory. To move up one level, select the directory called \"..\" at the top of the file list.\n"
 "\n"
 " The following functions keys are available in the file browser:\n"
 "\n"
 msgstr ""
 "Text d'ajuda del Navegador de Fitxers\n"
 "\n"
-" El navegador de fitxers s'utilitza per a navegar visualment la estructura "
-"del directori per a seleccionar un fitxer per a lectura o escriptura. Podeu "
-"fer servir els cursors o Re/Av Pag per a navegar per els fitxers i S o Intro "
-"per a triar el fitxer seleccionat o entrar dins del directori seleccionat. "
-"Per a pujar un nivel, seleccioneu el directori \"..\" en la part superior de "
-"la llista de fitxers.\n"
+" El navegador de fitxers s'utilitza per a navegar visualment la estructura del directori per a seleccionar un fitxer per a lectura o escriptura. Podeu fer servir els cursors o Re/Av Pag per a navegar per els fitxers i S o Intro per a triar el fitxer seleccionat o entrar dins del directori seleccionat. Per a pujar un nivel, seleccioneu el directori \"..\" en la part superior de la llista de fitxers.\n"
 "\n"
-" Les següents tecles de funció estan disponibles en el navegador de "
-"fitxers:\n"
+" Les següents tecles de funció estan disponibles en el navegador de fitxers:\n"
 "\n"
 
 #: nano.c:2563
@@ -1182,8 +1081,7 @@ msgid ""
 "\n"
 " Enter the name of the directory you would like to browse to.\n"
 "\n"
-" If tab completion has not been disabled, you can use the TAB key to "
-"(attempt to) automatically complete the directory name.\n"
+" If tab completion has not been disabled, you can use the TAB key to (attempt to) automatically complete the directory name.\n"
 "\n"
 "  The following function keys are available in Browser GotoDir mode:\n"
 "\n"
@@ -1192,57 +1090,45 @@ msgstr ""
 "\n"
 " Introduïu el nom del directori per el que voleu navegar.\n"
 "\n"
-" Si el completat amb el tabulador no està desactivat, podeu fer servir la "
-"tecla TAB per a (intentar) completar automàticament el nom del directori.\n"
+" Si el completat amb el tabulador no està desactivat, podeu fer servir la tecla TAB per a (intentar) completar automàticament el nom del directori.\n"
 "\n"
-" Les següents tecles de funció estan disponibles en el mode Anar a Directori "
-"del Navegador:\n"
+" Les següents tecles de funció estan disponibles en el mode Anar a Directori del Navegador:\n"
 "\n"
 
 #: nano.c:2571
 msgid ""
 "Spell Check Help Text\n"
 "\n"
-" The spell checker checks the spelling of all text in the current file.  "
-"When an unknown word is encountered, it is highlighted and a replacement can "
-"be edited.  It will then prompt to replace every instance of the given "
-"misspelled word in the current file.\n"
+" The spell checker checks the spelling of all text in the current file.  When an unknown word is encountered, it is highlighted and a replacement can be edited.  It will then prompt to replace every instance of the given misspelled word in the current file.\n"
 "\n"
 " The following other functions are available in Spell Check mode:\n"
 "\n"
 msgstr ""
 "Text d'ajuda del Corrector d'Ortografia\n"
 "\n"
-" El Corrector d'ortografia comprova la ortografia de tot el texte en el "
-"fitxer actual. Quan es troba una paraula desconeguda, aquesta es marca i es "
-"pot editar una substitució. Després preguntarà si es vol reemplaçar totes "
-"les coincidències d'eixa paraula mal escrita el el fitxer actual.\n"
+" El Corrector d'ortografia comprova la ortografia de tot el texte en el fitxer actual. Quan es troba una paraula desconeguda, aquesta es marca i es pot editar una substitució. Després preguntarà si es vol reemplaçar totes les coincidències d'eixa paraula mal escrita el el fitxer actual.\n"
 "\n"
-" Les següents tecles de funció estan disponibles en el mode Corrector "
-"d'Ortografia:\n"
+" Les següents tecles de funció estan disponibles en el mode Corrector d'Ortografia:\n"
 "\n"
 
 #: nano.c:2581
 msgid ""
 "External Command Help Text\n"
 "\n"
-" This menu allows you to insert the output of a command run by the shell "
-"into the current buffer (or a new buffer in multibuffer mode).\n"
+" This menu allows you to insert the output of a command run by the shell into the current buffer (or a new buffer in multibuffer mode).\n"
 "\n"
 " The following keys are available in this mode:\n"
 "\n"
 msgstr ""
 "Text d'ajuda de l'Ordre Externa\n"
 "\n"
-" Aquest menú vos permet inserir l'eixida d'una ordre executada per "
-"l'intèrpret en el buffer actual (o un nou buffer en el mode multibuffer).\n"
+" Aquest menú vos permet inserir l'eixida d'una ordre executada per l'intèrpret en el buffer actual (o un nou buffer en el mode multibuffer).\n"
 "\n"
 " Les següents tecles de funció estan disponibles en el mode Ordre Externa:\n"
 
 #: nano.c:2629 nano.c:2645
-#, fuzzy
 msgid "Space"
-msgstr "Reemplaçar"
+msgstr "Espai"
 
 #: nano.c:2684
 #, c-format
@@ -1259,8 +1145,7 @@ msgstr "inhabilitat"
 
 #: nano.c:2759
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
-msgstr ""
-"Detectat NumLock trencat.  El tecl. numèric funcionarà amb NumLock activat"
+msgstr "Detectat NumLock trencat.  El tecl. numèric funcionarà amb NumLock activat"
 
 #: nano.c:3077
 msgid "Main: set up windows\n"
@@ -1305,12 +1190,8 @@ msgid "Error in %s on line %d: "
 msgstr "Error en %s en línia %d: "
 
 #: rcfile.c:88
-msgid ""
-"\n"
-"Press return to continue starting nano\n"
-msgstr ""
-"\n"
-"Polsa una tecla per carregar nano\n"
+msgid "\nPress return to continue starting nano\n"
+msgstr "\nPolsa una tecla per carregar nano\n"
 
 #: rcfile.c:176
 #, c-format
@@ -1330,9 +1211,8 @@ msgid "regex strings must begin and end with a \" character\n"
 msgstr "les cadenes de regex han de començar i acabar amb un caràcter \"\n"
 
 #: rcfile.c:210
-#, fuzzy
 msgid "Missing syntax name"
-msgstr "Nom del color inexistent"
+msgstr "Nom de la sintaxi inexistent"
 
 #: rcfile.c:288
 msgid "Missing color name"
@@ -1340,15 +1220,11 @@ msgstr "Nom del color inexistent"
 
 #: rcfile.c:302
 msgid "Cannot add a color directive without a syntax line"
-msgstr ""
+msgstr "No s'ha pogut afegir la directiva de color sense una línia de sintaxi"
 
 #: rcfile.c:373
-msgid ""
-"\n"
-"\t\"start=\" requires a corresponding \"end=\""
-msgstr ""
-"\n"
-"\t\"start=\" requereix el seu \"end=\" corresponent"
+msgid "\n\t\"start=\" requires a corresponding \"end=\""
+msgstr "\n\t\"start=\" requereix el seu \"end=\" corresponent"
 
 #: rcfile.c:423
 msgid "parse_rcfile: Read a comment\n"
@@ -1400,7 +1276,7 @@ msgstr "No sh'a pogut obrir fitxer ~/.nanorc, %s"
 
 #: rcfile.c:573
 msgid "I can't find my home directory!  Wah!"
-msgstr ""
+msgstr "No s'ha pogut trobar el directori d'usuari! Wah!"
 
 #: search.c:131
 msgid "Search"
@@ -1549,11 +1425,11 @@ msgstr "Modificat"
 
 #: winio.c:570
 msgid "View"
-msgstr ""
+msgstr "Veure"
 
 #: winio.c:816
 msgid "Refusing 0 length regex match"
-msgstr ""
+msgstr "Rebutjant coincidència de expreg de mida 0"
 
 #: winio.c:1321
 #, c-format
@@ -1661,15 +1537,13 @@ msgstr "Gràcies per fer servir nano!\n"
 #~ msgstr " -F \t\t--multibuffer\t\tHabilitar múltiples buffers de fitxers\n"
 
 #~ msgid " -K \t\t--keypad\t\tUse alternate keypad routines\n"
-#~ msgstr ""
-#~ " -K \t\t--keypad\t\tFer servir rutines de teclat numèric alternatives\n"
+#~ msgstr " -K \t\t--keypad\t\tFer servir rutines de teclat numèric alternatives\n"
 
 #~ msgid " -M \t\t--mac\t\t\tWrite file in Mac format\n"
 #~ msgstr " -M \t\t--mac\t\t\tEscriure fitxer en format Mac\n"
 
 #~ msgid " -N \t\t--noconvert\t\tDon't convert files from DOS/Mac format\n"
-#~ msgstr ""
-#~ " -N \t\t--noconvert\t\tNo convertir els fitxers des del format DOS/Mac\n"
+#~ msgstr " -N \t\t--noconvert\t\tNo convertir els fitxers des del format DOS/Mac\n"
 
 #~ msgid " -Q [str]\t--quotestr [str]\tQuoting string, default \"> \"\n"
 #~ msgstr " -Q [cad]\t--quotestr [cad]\tMarcador de cita, per defecte \"> \"\n"
@@ -1696,8 +1570,7 @@ msgstr "Gràcies per fer servir nano!\n"
 #~ msgstr " -k \t\t--cut\t\t\t^K talla des del cursor al final de línia\n"
 
 #~ msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
-#~ msgstr ""
-#~ " -l \t\t--nofollow\t\tNo seguir enllaços simbólics, sobreescriure'ls\n"
+#~ msgstr " -l \t\t--nofollow\t\tNo seguir enllaços simbólics, sobreescriure'ls\n"
 
 #~ msgid " -m \t\t--mouse\t\t\tEnable mouse\n"
 #~ msgstr " -m \t\t--mouse\t\t\tHabilitar ratolí\n"
@@ -1708,14 +1581,11 @@ msgstr "Gràcies per fer servir nano!\n"
 #~ msgid " -p \t\t--pico\t\t\tEmulate Pico as closely as possible\n"
 #~ msgstr " -p \t\t--pico\t\t\tEmular a Pico tant com sigui possible\n"
 
-#~ msgid ""
-#~ " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
-#~ msgstr ""
-#~ " -r [#cols] \t--fill=[#cols]\t\tReplenar columnes (ajustar en) #cols\n"
+#~ msgid " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
+#~ msgstr " -r [#cols] \t--fill=[#cols]\t\tReplenar columnes (ajustar en) #cols\n"
 
 #~ msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
-#~ msgstr ""
-#~ " -s [prog] \t--speller=[prog]\tHabilitar corrector ortogràfic alternatiu\n"
+#~ msgstr " -s [prog] \t--speller=[prog]\tHabilitar corrector ortogràfic alternatiu\n"
 
 #~ msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
 #~ msgstr " -t \t\t--tempfile\t\tAutodesar en sortir, sense preguntar\n"
