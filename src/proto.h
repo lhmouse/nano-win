@@ -528,9 +528,6 @@ const char *revstrstr(const char *haystack, const char *needle, const
 const char *revstristr(const char *haystack, const char *needle, const
 	char *rev_start);
 #endif
-#ifndef HAVE_STRNLEN
-size_t nstrnlen(const char *s, size_t maxlen);
-#endif
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 #ifndef HAVE_GETLINE
 ssize_t ngetline(char **lineptr, size_t *n, FILE *stream);
