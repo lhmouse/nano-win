@@ -3063,8 +3063,8 @@ void do_justify(bool full_justify)
 	     * this line to the beginning of the new line. */
 	    splice_node(current, make_new_node(current), current->next);
 
-	    /* If this paragraph is non-quoted, and autoindent is turned
-	     * on, set the indentation length to zero so that
+	    /* If this paragraph is non-quoted, and autoindent isn't
+	     * turned on, set the indentation length to zero so that the
 	     * indentation is treated as part of the line. */
 	    if (quote_len == 0
 #ifndef NANO_SMALL
