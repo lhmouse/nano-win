@@ -261,7 +261,6 @@ int no_help(void);
 #if defined(DISABLE_JUSTIFY) || defined(DISABLE_SPELLER) || defined(DISABLE_HELP) || defined(NANO_SMALL)
 void nano_disabled_msg(void);
 #endif
-void do_preserve_msg(void);
 #ifndef NANO_SMALL
 RETSIGTYPE cancel_fork(int signal);
 int open_pipe(const char *command);

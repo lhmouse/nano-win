@@ -780,16 +780,6 @@ void nano_disabled_msg(void)
 }
 #endif
 
-void do_preserve_msg(void)
-{
-    fprintf(stderr, _("\nThe -p flag now invokes the Pico \"preserve\" flag.\n"
-		      "The Pico compatibility flag has been removed as nano\n"
-		      "now fully Pico compatible.  Please see the nano FAQ\n"
-		      "for more info on this change...\n\n"
-		      "Press return to continue\n"));
-    while (getchar() != '\n');
-}
-
 #ifndef NANO_SMALL
 static int pid;		/* This is the PID of the newly forked process 
 			 * below.  It must be global since the signal
@@ -3025,9 +3015,6 @@ int main(int argc, char *argv[])
     int keyhandled = 0;	/* Have we handled the keystroke yet? */
     int kbinput = -1;		/* Input from keyboard */
 
-#ifdef HAVE_GETOPT_LONG
-    int preserveopt = 0;	/* Did the cmdline include --preserve? */
-#endif
 #ifndef NANO_SMALL
     const toggle *t;
 #endif
@@ -3096,20 +3083,6 @@ int main(int argc, char *argv[])
     setlocale(LC_ALL, "");
     bindtextdomain(PACKAGE, LOCALEDIR);
     textdomain(PACKAGE);
-#endif
-
-#ifdef HAVE_GETOPT_LONG
-    {
-	/* Check for the --preserve flag, and report error if people are
-	   still using --pico. */
-	int i;
-	for (i = 1; i < argc; i++) {
-	    if (!strcmp(argv[i], "--preserve"))
-		preserveopt = 1;
-	    else if (!strcmp(argv[i], "--pico"))
-		do_preserve_msg();
-	}
-    }
 #endif
 
 #if !defined(ENABLE_NANORC) && defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
@@ -3237,8 +3210,6 @@ int main(int argc, char *argv[])
 	case 'p':
 	    SET(PRESERVE);
 #ifdef HAVE_GETOPT_LONG
-	    if (!preserveopt)
-		do_preserve_msg();
 #endif
 	    break;
 #ifndef DISABLE_WRAPJUSTIFY
