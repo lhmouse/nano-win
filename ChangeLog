@@ -69,6 +69,8 @@ CVS code -
   do_next_word()
 	- Simplify and remove references to editbot so as to avoid a
 	  segfault. (David Benbennick)
+  do_prev_word()
+	- Simplify and remove references to edittop. (David Benbennick)
   do_int_speller(), do_alt_speller(), do_spell()
 	- Modify to write only the current selection from a file to the
 	  temporary file used for spell checking when the mark is on,
