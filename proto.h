@@ -65,7 +65,7 @@ extern toggle toggles[TOGGLE_LEN];
 
 /* Programs we want available */
 
-char *strcasestr(char *haystack, char *needle);
+char *stristr(char *haystack, char *needle);
 char *strstrwrapper(char *haystack, char *needle);
 int search_init(int replacing);
 int renumber(filestruct * fileptr);

@@ -50,7 +50,7 @@ void lowercase(char *src)
 
 /* This is now mutt's version (called mutt_stristr) because it doesn't
    use memory allocation to do a simple search (yuck). */
-char *strcasestr(char *haystack, char *needle)
+char *stristr(char *haystack, char *needle)
 {
     const char *p, *q;
 
@@ -83,7 +83,7 @@ char *strstrwrapper(char *haystack, char *needle)
     if (ISSET(CASE_SENSITIVE))
 	return strstr(haystack, needle);
     else
-	return strcasestr(haystack, needle);
+	return stristr(haystack, needle);
 }
 
 /* Thanks BG, many ppl have been asking for this... */

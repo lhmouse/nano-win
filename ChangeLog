@@ -5,6 +5,10 @@ CVS code -
 	  end key code (fixes BUG #69).
   bottombars(), onekey()
 	- Make bottom list dynamic with screen size (Guus Sliepen & Chris).
+- utils.c:
+  strcasestr()
+	- Renamed to stristr since strcasestr has not been confirmed to
+	  be detected properly on various Linux systems.
 - THANKS:
 	- Added missing entry for Eivind Kjørstad.
 - po/no.po:
