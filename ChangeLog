@@ -363,6 +363,9 @@ CVS code -
 - README.CVS:
 	- Mention the requirement for glib 2.x on systems lacking
 	  v?snprintf(), and add minor formatting changes.
+- faq.html:
+	- Fixed inaccuracy: Pico compatibility mode was made the default
+	  in nano 1.1.99pre1, not 1.2.2. (DLR)
 - nano.1:
 	- Eliminate references to the now removed -D/--dos and -M/--mac
 	  command line options. (DLR)

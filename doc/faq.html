@@ -37,7 +37,7 @@
   <a href="#4.3">4.3. Nano crashes when I resize my window. How can I fix that?</a><br>
   <a href="#4.4">4.4. [version 1.1.12 and earlier] Why does nano show ^\ in the shortcut list instead of ^J?</a><br>
   <a href="#4.5a">4.5a. [version 1.1.12 and earlier] When I type in a search string, the string I last searched for is already in front of my cursor! What happened?!</a><br>
-  <a href="#4.5b">4.5b. [version 1.2.2 and later] Hey, the search string behavior has reverted, it's now like Pico, what happened to the consistency?</a><br>
+  <a href="#4.5b">4.5b. [version 1.1.99pre1 and later] Hey, the search string behavior has reverted, it's now like Pico, what happened to the consistency?</a><br>
   <a href="#4.6">4.6. How do I make nano my default editor (in Pine, mutt, etc.)?</a><br>
   <a href="#4.7">4.7. I've compiled nano with color support, but I don't see any color when I run it!</a></p></blockquote>
 <h2><a href="#5">5. Internationalization</a></h2>
@@ -180,7 +180,7 @@
 <a name="4.5"></a>
 <h2><a name="4.5a"></a>4.5a. [version 1.1.12 and earlier] When I type in a search string, the string I last searched for is already in front of my cursor! What happened?!</h2>
 <blockquote><p>In nano version 0.9.20, the default is to have a completely consistent user interface across all user input functions. This means that regardless of whether you're being asked for a filename to insert or write, or a string to search for, the previous value is already inserted before the cursor. If you prefer the old behavior, use the Pico emulation mode (-p or --pico) or just hit Meta-P while in nano (see the ^G help text for more details).</p></blockquote>
-<h2><a name="4.5b"></a>4.5b. [version 1.2.2 and later] Hey, the search string behavior has reverted, it's now like Pico, what happened to the consistency?</h2>
+<h2><a name="4.5b"></a>4.5b. [version 1.1.99pre1 and later] Hey, the search string behavior has reverted, it's now like Pico, what happened to the consistency?</h2>
 <blockquote><p>It was decided that consistency was nice, but people are used to Pico's inconsistent behavior.  Also, in version 1.1.99pre1, search and replace history was introduced.  If you wish to edit your previous search/replace entry (or any previous entry), you can do so by hitting the up arrow to cycle through your history.  This method allows the best of both worlds: You don't need to erase the previous string if you want to enter a new one, but you can with one keystroke recall previous entries for editing. Therefore there is now no "Pico mode", nano is and has always been a Pico <b>clone</b>, and clones by default should be compatible.</p></blockquote>
 <h2><a name="4.6"></a>4.6. How do I make nano my default editor (in Pine, mutt, etc.)?</h2>
 <blockquote><p>You need to make nano your $EDITOR. If you want this to be saved, you should put a line like this in your <b>.bashrc</b> if you use bash (or <b>.zshrc</b> if you believe in zsh):</p>
