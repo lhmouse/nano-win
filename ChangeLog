@@ -13,6 +13,12 @@ CVS Code -
 	- Add Esc-[-[IGL] keys for FreeBSD Console (PgUp,PgDn,Insert).
   help_init()
 	- Typo fixes and additions to the new help texts.
+- po/de.po:
+	- German translation updates (Karl Eichwalder).
+- po/ru.po:
+	- Russian translation updates (Sergey A. Ribalchenko).
+- po/sv.po:
+	- Swedish translation updates (Christian Rose).
 
 nano-1.1.3 - 10/26/2001
 - General
