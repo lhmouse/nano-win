@@ -11,12 +11,14 @@ Current Version:
 - Rewrite edit_refresh, if at all possible [DONE]
 - Implement justify function [DONE]
 - Cut to end of line [DONE]
-- Unjustify command (^U after ^J)
 - Built-in speller command [needed for version 1.0] [DONE]
 - Better statusbar interaction (scrolling, tab completion for filename)
   [needed for version 1.0] [DONE]
-- Now do username completion (~user, would be nice, need based on user
-  feedback).
+- Now do username completion [DONE].
+
+Needed for version 1.0:
+- Unjustify command (^U after ^J)
+- Username completion (~user).
 
 For Next Version:
 - Undo/Redo key?

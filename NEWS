@@ -1,4 +1,10 @@
-11/18/00 - Nano 0.9.20 is finally out the door.  Probably the biggest
+11/23/2000 - Happy Thanksgiving!  Nano 0.9.21 is our "last version was 
+		a big turkey" release.  It fixes several bugs introduced
+		by the previous version, as well as a few long-
+		standing display bugs.  All 0.9.20 users are strongly
+		encouraged to upgrade to this release.
+
+11/18/2000 - Nano 0.9.20 is finally out the door.  Probably the biggest
 		change is the brand new way nano displays previous search
 		and replace strings (they are now editable!)  This is a
 		break from Pico's (inconsistent) interface, so if you
