@@ -60,6 +60,11 @@ Cvs code -
   do_replace()
 	- If we manage to make it in somehow with VIEW_MODE on, abort
 	  nicely (fixes BUG #59).
+- utils.c
+  strcasestr()
+	- Replaced by mutt's mutt_stristr function, because the thought
+	  of dynamically allocating memory and copying each line in a file
+	  to do a search or replace was causing me to lose sleep.
 - winio.c:
   actual_x()
 	- Remove inline from function decl (Albert Chin).
