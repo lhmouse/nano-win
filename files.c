@@ -38,6 +38,12 @@
 #include "proto.h"
 #include "nano.h"
 
+/* Set a default value for PATH_MAX, so we can use it below in lines like
+	path = getcwd(NULL, PATH_MAX + 1); */
+#ifndef PATH_MAX
+#define PATH_MAX -1
+#endif
+
 #ifndef NANO_SMALL
 static int fileformat = 0;	/* 0 = *nix, 1 = DOS, 2 = Mac */
 #endif
@@ -2408,6 +2414,16 @@ void striponedir(char *foo)
     }
 }
 
+int readable_dir(const char *path)
+{
+    DIR *dir = opendir(path);
+
+    /* If dir is NULL, don't do closedir(), since that changes errno. */
+    if (dir != NULL)
+	closedir(dir);
+    return dir != NULL;
+}
+
 /* Initialize the browser code, including the list of files in *path */
 char **browser_init(const char *path, int *longest, int *numents)
 {
@@ -2810,34 +2826,39 @@ char *do_browser(const char *inpath)
 char *do_browse_from(const char *inpath)
 {
     struct stat st;
-    char *tmp;
     char *bob;
+	/* The result of do_browser; the selected file name. */
+    char *path;
+	/* inpath, tilde expanded. */
 
-    /* If there's no / in the string, we may as well start from . */
-    if (inpath == NULL || strchr(inpath, '/') == NULL) {
-#ifdef PATH_MAX
-	char *from = getcwd(NULL, PATH_MAX + 1);
-#else
-	char *from = getcwd(NULL, 0);
-#endif
+    assert(inpath != NULL);
 
-	bob = do_browser(from != NULL ? from : "./");
-	free(from);
-	return bob;
+    path = real_dir_from_tilde(inpath);
+
+    /*
+     * Perhaps path is a directory.  If so, we will pass that to
+     * do_browser.  Otherwise, perhaps path is a directory / a file.  So
+     * we try stripping off the last path element.  If it still isn't a
+     * directory, just use the current directory. */
+
+    if (stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
+	striponedir(path);
+	if (stat(path, &st) == -1 || !S_ISDIR(st.st_mode))
+	    path = getcwd(NULL, PATH_MAX + 1);
     }
 
-    /* If the string is a directory, pass do_browser() that */
-    st = filestat(inpath);
-    if (S_ISDIR(st.st_mode))
-	return do_browser(inpath);
+#ifndef DISABLE_OPERATINGDIR
+    /* If the resulting path isn't in the operating directory, use that. */
+    if (check_operating_dir(path, FALSE))
+	path = mallocstrcpy(path, operating_dir);
+#endif
 
-    tmp = mallocstrcpy(NULL, inpath);
-    /* Okay, there's a dir in there, but not at the end of the string... 
-       try stripping it off */
-    striponedir(tmp);
-    align(&tmp);
-    bob = do_browser(tmp);
-    free(tmp);
+    if (!readable_dir(path)) {
+	beep();
+	bob = NULL;
+    } else
+	bob = do_browser(path);
+    free(path);
     return bob;
 }
 #endif /* !DISABLE_BROWSER */

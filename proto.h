@@ -182,6 +182,7 @@ int diralphasort(const void *va, const void *vb);
 void free_charptrarray(char **array, int len);
 const char *tail(const char *foo);
 void striponedir(char *foo);
+int readable_dir(const char *path);
 char **browser_init(const char *path, int *longest, int *numents);
 char *do_browser(const char *inpath);
 char *do_browse_from(const char *inpath);

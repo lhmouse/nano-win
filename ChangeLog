@@ -26,6 +26,12 @@ CVS Code -
 	- Fix incorrect cursor location when cutting long lines
 	  (David Benbennick).
 - files.c:
+	- Set a default PATH_MAX for getcwd() etc calls (David 
+	  Benbennick).
+  do_browse_from()
+	- Fix path checking to fix bad paths, escaping 
+	  the operating directory, new function readable_dir() (David 
+	  Benbennick).
   do_browser()
 	- Fix incorrect path check for check_operating_dir() 
 	  (David Benbennick).
