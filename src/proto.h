@@ -223,6 +223,10 @@ char **browser_init(const char *path, int *longest, int *numents);
 char *do_browser(const char *inpath);
 char *do_browse_from(const char *inpath);
 #endif
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+void load_history(void);
+void save_history(void);
+#endif
 
 /* Public functions in global.c */
 size_t length_of_list(const shortcut *s);
@@ -409,17 +413,15 @@ void do_gotopos(int line, int pos_x, int pos_y, size_t pos_pww);
 void do_find_bracket(void);
 #ifndef NANO_SMALL
 void history_init(void);
-historytype *find_node(historytype *h, char *s);
+historytype *find_node(historytype *h, const char *s);
 void remove_node(historytype *r);
 void insert_node(historytype *h, const char *s);
-void update_history(historyheadtype *h, char *s);
+void update_history(historyheadtype *h, const char *s);
 char *get_history_older(historyheadtype *h);
 char *get_history_newer(historyheadtype *h);
 char *get_history_completion(historyheadtype *h, char *s);
+#ifdef DEBUG
 void free_history(historyheadtype *h);
-#ifdef ENABLE_NANORC
-void load_history(void);
-void save_history(void);
 #endif
 #endif
 

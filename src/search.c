@@ -1006,7 +1006,7 @@ void history_init(void)
 }
 
 /* find first node containing string *s in history list *h */
-historytype *find_node(historytype *h, char *s)
+historytype *find_node(historytype *h, const char *s)
 {
     for (; h->next != NULL; h = h->next)
 	if (strcmp(s, h->data) == 0)
@@ -1030,14 +1030,14 @@ void insert_node(historytype *h, const char *s)
 
     a = (historytype *)nmalloc(sizeof(historytype));
     a->next = h->next;
-    a->prev = h->next->prev;
+    a->prev = h;
     h->next->prev = a;
     h->next = a;
     a->data = mallocstrcpy(NULL, s);
 }
 
 /* update history list */
-void update_history(historyheadtype *h, char *s)
+void update_history(historyheadtype *h, const char *s)
 {
     historytype *p;
 
@@ -1095,14 +1095,16 @@ char *get_history_completion(historyheadtype *h, char *s)
     return s;
 }
 
+#ifdef DEBUG
 /* free a history list */
 void free_history(historyheadtype *h)
 {
-    historytype *p, *n;
+    historytype *p;
 
-    for (p = h->next; (n = p->next); p = n)
+    for (p = h->next; p->next != NULL; p = p->next)
 	remove_node(p);
 }
+#endif
 
 /* end of history support functions */
 #endif /* !NANO_SMALL */

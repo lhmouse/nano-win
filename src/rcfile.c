@@ -118,6 +118,8 @@ void rcfile_error(const char *msg, ...)
     va_start(ap, msg);
     vfprintf(stderr, _(msg), ap);
     va_end(ap);
+
+    fprintf(stderr, "\n");
 }
 
 /* Parse the next word from the string.  Returns NULL if we hit EOL. */
@@ -166,7 +168,7 @@ char *parse_argument(char *ptr)
 	    ptr = NULL;
 	else
 	    *ptr++ = '\0';
-	rcfile_error(N_("Argument %s has unterminated \"\n"), ptr_bak);
+	rcfile_error(N_("Argument %s has unterminated \""), ptr_bak);
     } else {
 	*last_quote = '\0';
 	ptr = last_quote + 1;
@@ -212,7 +214,7 @@ int colortoint(const char *colorname, int *bright)
 		"Valid colors are \"green\", \"red\", \"blue\", \n"
 		"\"white\", \"yellow\", \"cyan\", \"magenta\" and \n"
 		"\"black\", with the optional prefix \"bright\" \n"
-		"for foreground colors.\n"), colorname);
+		"for foreground colors."), colorname);
 	mcolor = -1;
     }
     return mcolor;
@@ -247,7 +249,7 @@ int nregcomp(regex_t *preg, const char *regex, int eflags)
 	char *str = charalloc(len);
 
 	regerror(rc, preg, str, len);
-	rcfile_error(N_("Bad regex \"%s\": %s\n"), regex, str);
+	rcfile_error(N_("Bad regex \"%s\": %s"), regex, str);
 	free(str);
     }
     return rc != 0;
@@ -267,7 +269,7 @@ void parse_syntax(char *ptr)
 	return;
 
     if (*ptr != '"') {
-	rcfile_error(N_("Regex strings must begin and end with a \" character\n"));
+	rcfile_error(N_("Regex strings must begin and end with a \" character"));
 	return;
     }
     ptr++;
@@ -276,7 +278,7 @@ void parse_syntax(char *ptr)
     ptr = parse_next_regex(ptr);
 
     if (ptr == NULL) {
-	rcfile_error(N_("Missing syntax name\n"));
+	rcfile_error(N_("Missing syntax name"));
 	return;
     }
 
@@ -345,7 +347,7 @@ void parse_colors(char *ptr)
     ptr = parse_next_word(ptr);
 
     if (ptr == NULL) {
-	rcfile_error(N_("Missing color name\n"));
+	rcfile_error(N_("Missing color name"));
 	return;
     }
 
@@ -354,7 +356,7 @@ void parse_colors(char *ptr)
 	strtok(fgstr, ",");
 	bgcolorname = strtok(NULL, ",");
 	if (strncasecmp(bgcolorname, "bright", 6) == 0) {
-	    rcfile_error(N_("Background color %s cannot be bright\n"), bgcolorname);
+	    rcfile_error(N_("Background color %s cannot be bright"), bgcolorname);
 	    return;
 	}
 	bg = colortoint(bgcolorname, &bright);
@@ -368,7 +370,7 @@ void parse_colors(char *ptr)
 	return;
 
     if (syntaxes == NULL) {
-	rcfile_error(N_("Cannot add a color directive without a syntax line\n"));
+	rcfile_error(N_("Cannot add a color directive without a syntax line"));
 	return;
     }
 
@@ -397,7 +399,7 @@ void parse_colors(char *ptr)
 	}
 
 	if (*ptr != '"') {
-	    rcfile_error(N_("Regex strings must begin and end with a \" character\n"));
+	    rcfile_error(N_("Regex strings must begin and end with a \" character"));
 	    ptr = parse_next_regex(ptr);
 	    continue;
 	}
@@ -434,14 +436,14 @@ void parse_colors(char *ptr)
 
 	if (expectend) {
 	    if (ptr == NULL || strncasecmp(ptr, "end=", 4) != 0) {
-		rcfile_error(N_("\"start=\" requires a corresponding \"end=\"\n"));
+		rcfile_error(N_("\"start=\" requires a corresponding \"end=\""));
 		return;
 	    }
 
 	    ptr += 4;
 
 	    if (*ptr != '"') {
-		rcfile_error(N_("Regex strings must begin and end with a \" character\n"));
+		rcfile_error(N_("Regex strings must begin and end with a \" character"));
 		continue;
 	    }
 	    ptr++;
@@ -505,7 +507,7 @@ void parse_rcfile(FILE *rcstream)
 	    parse_colors(ptr);
 #endif				/* ENABLE_COLOR */
 	else {
-	    rcfile_error(N_("Command %s not understood\n"), keyword);
+	    rcfile_error(N_("Command %s not understood"), keyword);
 	    continue;
 	}
 
@@ -544,7 +546,7 @@ void parse_rcfile(FILE *rcstream)
 #endif
 				) {
 			    if (*ptr == '\n' || *ptr == '\0') {
-				rcfile_error(N_("Option %s requires an argument\n"), rcopts[i].name);
+				rcfile_error(N_("Option %s requires an argument"), rcopts[i].name);
 				continue;
 			    }
 			    option = ptr;
@@ -562,7 +564,7 @@ void parse_rcfile(FILE *rcstream)
 #ifndef DISABLE_WRAPJUSTIFY
 			    if (strcasecmp(rcopts[i].name, "fill") == 0) {
 				if (!parse_num(option, &wrap_at)) {
-				    rcfile_error(N_("Requested fill size %s invalid\n"), option);
+				    rcfile_error(N_("Requested fill size %s invalid"), option);
 				    wrap_at = -CHARS_FROM_EOL;
 				}
 			    } else
@@ -573,7 +575,7 @@ void parse_rcfile(FILE *rcstream)
 				whitespace = mallocstrcpy(NULL, option);
 				ws_len = strlen(whitespace);
 				if (ws_len != 2 || (ws_len == 2 && (is_cntrl_char(whitespace[0]) || is_cntrl_char(whitespace[1])))) {
-				    rcfile_error(N_("Two non-control characters required\n"));
+				    rcfile_error(N_("Two non-control characters required"));
 				    free(whitespace);
 				    whitespace = NULL;
 				}
@@ -583,14 +585,14 @@ void parse_rcfile(FILE *rcstream)
 			    if (strcasecmp(rcopts[i].name, "punct") == 0) {
 				punct = mallocstrcpy(NULL, option);
 				if (strchr(punct, '\t') != NULL || strchr(punct, ' ') != NULL) {
-				    rcfile_error(N_("Non-tab and non-space characters required\n"));
+				    rcfile_error(N_("Non-tab and non-space characters required"));
 				    free(punct);
 				    punct = NULL;
 				}
 			    } else if (strcasecmp(rcopts[i].name, "brackets") == 0) {
 				brackets = mallocstrcpy(NULL, option);
 				if (strchr(brackets, '\t') != NULL || strchr(brackets, ' ') != NULL) {
-				    rcfile_error(N_("Non-tab and non-space characters required\n"));
+				    rcfile_error(N_("Non-tab and non-space characters required"));
 				    free(brackets);
 				    brackets = NULL;
 				}
@@ -610,7 +612,7 @@ void parse_rcfile(FILE *rcstream)
 #endif
 			    if (strcasecmp(rcopts[i].name, "tabsize") == 0) {
 				if (!parse_num(option, &tabsize) || tabsize <= 0)
-				    rcfile_error(N_("Requested tab size %s invalid\n"), option);
+				    rcfile_error(N_("Requested tab size %s invalid"), option);
 				    tabsize = -1;
 			    }
 			} else
@@ -673,7 +675,7 @@ void do_rcfile(void)
 	endpwent();
 
 	if (userage == NULL) {
-	    rcfile_error(N_("I can't find my home directory!  Wah!\n"));
+	    rcfile_error(N_("I can't find my home directory!  Wah!"));
 	    SET(NO_RCFILE);
 	} else {
 	    nanorc = charealloc(nanorc, strlen(userage->pw_dir) + 9);
@@ -693,7 +695,7 @@ void do_rcfile(void)
 	if ((rcstream = fopen(nanorc, "r")) == NULL) {
 	    /* Don't complain about the file not existing */
 	    if (errno != ENOENT) {
-		rcfile_error(N_("Unable to open ~/.nanorc file: %s\n"), strerror(errno));
+		rcfile_error(N_("Error reading %s: %s"), nanorc, strerror(errno));
 		SET(NO_RCFILE);
 	    }
 	} else {

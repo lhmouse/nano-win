@@ -167,10 +167,8 @@ int nstrnicmp(const char *s1, const char *s2, size_t n)
 
     if (n > 0)
 	return (tolower(*s1) - tolower(*s2));
-    else if (n == 0)
-	return 0;
     else
-	return -1;
+	return 0;
 }
 #endif
 

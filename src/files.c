@@ -371,7 +371,7 @@ bool open_file(const char *filename, int insert, int quiet)
 		|| ISSET(MULTIBUFFER)
 #endif
 		)
-	    statusbar("%s: %s", strerror(errno), filename);
+	    statusbar("Error reading %s: %s", filename, strerror(errno));
 	if (!insert)
 	    new_file();
 	return FALSE;
@@ -1026,11 +1026,7 @@ char *get_full_path(const char *origpath)
     /* first, get the current directory, and tack a slash onto the end of
        it, unless it turns out to be "/", in which case leave it alone */
 
-#ifdef PATH_MAX
     d_here = getcwd(NULL, PATH_MAX + 1);
-#else
-    d_here = getcwd(NULL, 0);
-#endif
 
     if (d_here != NULL) {
 
@@ -1096,11 +1092,7 @@ char *get_full_path(const char *origpath)
 
 		free(d_there);
 
-#ifdef PATH_MAX
 		d_there = getcwd(NULL, PATH_MAX + 1);
-#else
-		d_there = getcwd(NULL, 0);
-#endif
 
 		align(&d_there);
 		if (d_there != NULL) {
@@ -1847,8 +1839,8 @@ int do_writeout(int exiting)
 	/* If we're using restricted mode, the filename isn't blank,
 	 * and we're at the "Write File" prompt, disable tab
 	 * completion. */
-	i = statusq(!ISSET(RESTRICTED) || filename[0] == '\0' ? TRUE :
-		FALSE, writefile_list,
+	i = statusq(!ISSET(RESTRICTED) || filename[0] == '\0',
+		writefile_list,
 #ifndef NANO_SMALL
 		ans, NULL, "%s%s%s", _(msg), formatstr, backupstr
 #else
@@ -2115,12 +2107,7 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 
     } else {
 
-#ifdef PATH_MAX
 	if ((dirname = getcwd(NULL, PATH_MAX + 1)) == NULL)
-#else
-	/* The better, but apparently segfault-causing way */
-	if ((dirname = getcwd(NULL, 0)) == NULL)
-#endif /* PATH_MAX */
 	    return matches;
 	else
 	    tmp = buf;
@@ -2742,7 +2729,7 @@ char *do_browser(const char *inpath)
 	    path = new_path;
 	    return do_browser(path);
 
-	/* Goto a specific directory */
+	/* Go to a specific directory */
 	case NANO_GOTO_KEY:
 	case NANO_GOTO_FKEY:
 	case 'G': /* Pico compatibility */
@@ -2752,12 +2739,12 @@ char *do_browser(const char *inpath)
 #ifndef NANO_SMALL
 		NULL,
 #endif
-		_("Goto Directory"));
+		_("Go To Directory"));
 	    bottombars(browser_list);
 	    curs_set(0);
 
 	    if (j < 0) {
-		statusbar(_("Goto Cancelled"));
+		statusbar(_("Cancelled"));
 		break;
 	    }
 
@@ -2926,8 +2913,7 @@ char *do_browse_from(const char *inpath)
 }
 #endif /* !DISABLE_BROWSER */
 
-#ifndef NANO_SMALL
-#ifdef ENABLE_NANORC
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 void load_history(void)
 {
     FILE *hist;
@@ -2939,24 +2925,24 @@ void load_history(void)
 
 
     if (homenv != NULL) {
-        nanohist = charealloc(nanohist, strlen(homenv) + 15);
-        sprintf(nanohist, "%s/.nano_history", homenv);
+	nanohist = charealloc(nanohist, strlen(homenv) + 15);
+	sprintf(nanohist, "%s/.nano_history", homenv);
     } else {
 	userage = getpwuid(geteuid());
 	endpwent();
-        nanohist = charealloc(nanohist, strlen(userage->pw_dir) + 15);
-        sprintf(nanohist, "%s/.nano_history", userage->pw_dir);
+	nanohist = charealloc(nanohist, strlen(userage->pw_dir) + 15);
+	sprintf(nanohist, "%s/.nano_history", userage->pw_dir);
     }
 
-    /* assume do_rcfile has reported missing home dir */
+    /* assume do_rcfile() has reported missing home dir */
 
     if (homenv != NULL || userage != NULL) {
 	hist = fopen(nanohist, "r");
 	if (hist == NULL) {
-            if (errno != ENOENT) {
+	    if (errno != ENOENT) {
 		/* Don't save history when we quit. */
 		UNSET(HISTORYLOG);
-		rcfile_error(N_("Unable to open ~/.nano_history file: %s\n"), strerror(errno));
+		rcfile_error(N_("Error reading %s: %s"), nanohist, strerror(errno));
 	    }
 	    free(nanohist);
 	} else {
@@ -2990,7 +2976,7 @@ void save_history(void)
 
     /* don't save unchanged or empty histories */
     if ((search_history.count == 0 && replace_history.count == 0) ||
-			!ISSET(HISTORY_CHANGED) || ISSET(VIEW_MODE))
+	!ISSET(HISTORY_CHANGED) || ISSET(VIEW_MODE))
 	return;
 
     if (homenv != NULL) {
@@ -3006,7 +2992,7 @@ void save_history(void)
     if (homenv != NULL || userage != NULL) {
 	hist = fopen(nanohist, "wb");
 	if (hist == NULL)
-	    rcfile_error(N_("Unable to write ~/.nano_history file: %s\n"), strerror(errno));
+	    rcfile_error(N_("Error writing %s: %s"), nanohist, strerror(errno));
 	else {
 	    /* set rw only by owner for security ?? */
 	    chmod(nanohist, S_IRUSR | S_IWUSR);
@@ -3015,12 +3001,12 @@ void save_history(void)
 		h->data = charealloc(h->data, strlen(h->data) + 2);
 		strcat(h->data, "\n");
 		if (fputs(h->data, hist) == EOF) {
-		    rcfile_error(N_("Unable to write ~/.nano_history file: %s\n"), strerror(errno));
+		    rcfile_error(N_("Error writing %s: %s"), nanohist, strerror(errno));
 		    goto come_from;
 		}
 	    }
 	    if (fputs("\n", hist) == EOF) {
-		    rcfile_error(N_("Unable to write ~/.nano_history file: %s\n"), strerror(errno));
+		    rcfile_error(N_("Error writing %s: %s"), nanohist, strerror(errno));
 		    goto come_from;
 	    }
 	    for (h = replace_history.tail; h->prev; h = h->prev) {
@@ -3037,5 +3023,4 @@ void save_history(void)
 	free(nanohist);
     }
 }
-#endif /* ENABLE_NANORC */
-#endif /* !NANO_SMALL */
+#endif /* !NANO_SMALL && ENABLE_NANORC */

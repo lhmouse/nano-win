@@ -68,8 +68,8 @@ CVS code -
 	- Readded the errors flag and moved the ending prompt from
 	  rcfile_error() to parse_rcfile() so that we only get prompted
 	  once for all errors instead of separately for each error.
-	  Also make sure that each rcfile error message ends in a
-	  newline. (DLR)
+	  (DLR)  David Benbennick: Make sure that no rcfile error 
+	  messages end in newlines.
 	- Don't treat the return value of strn?(case)?cmp() as boolean.
 	  (DLR and David Benbennick)
 	- Automatically install a symlink "rnano" pointing to nano.
@@ -83,6 +83,10 @@ CVS code -
 	- Add various #ifdefs to fix warnings and compilation problems
 	  when compiling with every option manually turned on, including
 	  NANO_SMALL. (David Benbennick)
+	- Simplify some of the rcfile and statusbar error messages, and
+	  make some of them more consistent. (David Benbennick and DLR)
+	- Change some functions to take const char*'s instead of char*'s
+	  where possible. (David Benbennick)
 - files.c:
   get_next_filename()
 	- Tweak for efficiency, and add the ".save" suffix to the file
@@ -95,7 +99,7 @@ CVS code -
 	  the mode of newly created files 666 instead of 600 before
 	  it's modified by the umask. (DLR)
   do_writeout()
-	- If we're in restricted mode abd the current filename isn't
+	- If we're in restricted mode and the current filename isn't
 	  blank, we can't change it, so disable tab completion in that
 	  case. (DLR)
 	- Fix spacing problem in the "Save Under Different Name"
@@ -170,6 +174,8 @@ CVS code -
 	  used in the actual functions. (DLR)
 	- Remove unused declaration of temp_opt. (David Benbennick)
 	- Add missing copy_file() prototype. (David Benbennick)
+	- Move the load_history() and save_history() prototypes up to 
+	  match their corresponding location in files.c. (DLR)
 - rcfile.c:
   rcfile_msg()
 	- Removed along with the related static int errors, and replaced
@@ -197,14 +203,20 @@ CVS code -
 	- Use parse_num() to interpret a line entered by the user, and
 	  start the search for a line from current instead of fileage.
 	  (DLR)
-  do_gotopos()
+  do_gotopos(), find_node(), free_history()
 	- Tweak for efficiency. (David Benbennick)
+  free_history()
+	- Only include when DEBUG is defined. (David Benbennick)
 - utils.c:
   parse_num()
 	- New function to parse numeric values, so that we don't have to
 	  duplicate code that calls strtol() all over the place. (David
 	  Benbennick)  DLR: Renamed from parse_int() to parse_num() and
 	  converted to use ssize_t instead of int.
+  nstrnicmp()
+	- Remove code chacking for n's being less than 0 that will never
+	  be run, since n is a size_t and is hence unsigned. (David
+	  Benbennick)
 - winio.c:
   get_kbinput()
 	- Since the only valid values for escapes are 0, 1, and 2, 
