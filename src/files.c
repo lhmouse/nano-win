@@ -62,7 +62,8 @@ void load_file(int update)
 
 #ifdef ENABLE_COLOR
     update_color();
-    edit_refresh();
+    if (ISSET(COLOR_SYNTAX))
+	edit_refresh();
 #endif
 }
 
@@ -100,7 +101,8 @@ void new_file(void)
 
 #ifdef ENABLE_COLOR
     update_color();
-    edit_refresh();
+    if (ISSET(COLOR_SYNTAX))
+	edit_refresh();
 #endif
 }
 
@@ -1647,7 +1649,8 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 	    filename = mallocstrcpy(filename, realname);
 #ifdef ENABLE_COLOR
 	    update_color();
-	    edit_refresh();
+	    if (ISSET(COLOR_SYNTAX))
+		edit_refresh();
 #endif
 	}
 

@@ -1,4 +1,9 @@
 CVS code -
+- General:
+	- Change instances in the code that refresh the entire edit
+	  window when color support is enabled (in order to properly
+	  handle multi-line color regexes) to only do so when
+	  it's necessary, i.e, when COLOR_SYNTAX is set. (DLR)
 - nano.c:
   main()
 	- Move the call to raw() on systems that don't define

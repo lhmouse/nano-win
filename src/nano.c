@@ -988,7 +988,8 @@ void do_char(char ch)
 #endif
 
 #ifdef ENABLE_COLOR
-    refresh = 1;
+    if (ISSET(COLOR_SYNTAX))
+	refresh = 1;
 #endif
 
 #if !defined(DISABLE_WRAPPING) || defined(ENABLE_COLOR)
@@ -1067,7 +1068,8 @@ int do_delete(void)
 
 	align(&current->data);
 #ifdef ENABLE_COLOR
-	refresh = 1;
+	if (ISSET(COLOR_SYNTAX))
+	    refresh = 1;
 #endif
     } else if (current->next != NULL && (current->next != filebot || blbf)) {
 	/* We can delete the line before filebot only if it is blank: it
