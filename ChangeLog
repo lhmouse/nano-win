@@ -20,8 +20,8 @@ CVS code -
 	- Swedish translation update (Christian Rose).
 - po/ru.po:
 	- Russian translation update (Sergey A. Ribalchenko).
-- po/es.po:
-	- Spanish translation update (Jordi).
+- po/ca.po, es.po:
+	- Catalan and Spanish translations updates (Jordi).
 
 nano-1.1.4 - 12/11/2001
 - General
