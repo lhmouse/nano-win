@@ -1,6 +1,8 @@
 CVS code 
 - General:
 	- Translation updates (see po/ChangeLog for details).
+	- Fix globals and externs such that nano will compile with
+	  DISABLE_SPELLER (David Benbennick).
 - nano.c:
   main()
 	- Fix nano not compiling with ENABLE_RCFILE and DISABLE_TABCOMP

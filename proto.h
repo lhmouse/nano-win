@@ -86,15 +86,23 @@ extern shortcut *shortcut_list;
 extern shortcut *main_list, *whereis_list;
 extern shortcut *replace_list, *goto_list;
 extern shortcut *writefile_list, *insertfile_list;
-extern shortcut *spell_list, *replace_list_2;
+extern shortcut *replace_list_2;
 #ifndef NANO_SMALL
 extern shortcut *extcmd_list;
 #endif
+#ifndef DISABLE_HELP
 extern shortcut *help_list;
+#endif
+#ifndef DISABLE_SPELLER
+extern shortcut *spell_list;
+#endif
 #ifndef DISABLE_BROWSER
 extern shortcut *browser_list, *gotodir_list;
 #endif
+
+#if !defined(DISABLE_BROWSER) || !defined(DISABLE_HELP) || (!defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION))
 extern const shortcut *currshortcut;
+#endif
 
 #ifdef HAVE_REGEX_H
 extern int use_regexp, regexp_compiled;

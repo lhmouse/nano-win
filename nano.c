@@ -341,6 +341,7 @@ void help_init(void)
 		"complete the directory name.\n\n The following function "
 		"keys are available in Browser Go To Directory mode:\n\n");
 #endif
+#ifndef DISABLE_SPELLER
     else if (currshortcut == spell_list)
 	ptr = _("Spell Check Help Text\n\n "
 		"The spell checker checks the spelling of all text "
@@ -350,6 +351,7 @@ void help_init(void)
 		"instance of the given misspelled word in the "
 		"current file.\n\n The following other functions are "
 		"available in Spell Check mode:\n\n");
+#endif
 #ifndef NANO_SMALL
     else if (currshortcut == extcmd_list)
 	ptr = _("External Command Help Text\n\n "

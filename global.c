@@ -105,7 +105,6 @@ shortcut *whereis_list = NULL;
 shortcut *replace_list = NULL;
 shortcut *replace_list_2 = NULL; 	/* 2nd half of replace dialog */
 shortcut *goto_list = NULL;
-shortcut *gotodir_list = NULL;
 shortcut *writefile_list = NULL;
 shortcut *insertfile_list = NULL;
 #ifndef DISABLE_HELP
@@ -119,7 +118,9 @@ shortcut *extcmd_list = NULL;
 #endif
 #ifndef DISABLE_BROWSER
 shortcut *browser_list = NULL;
+shortcut *gotodir_list = NULL;
 #endif
+
 #ifdef ENABLE_COLOR
 const colortype *colorstrings = NULL;
 syntaxtype *syntaxes = NULL;
