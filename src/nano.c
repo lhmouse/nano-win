@@ -2939,6 +2939,10 @@ void handle_sigwinch(int s)
     /* Turn cursor back on for sure. */
     curs_set(1);
 
+    /* Set up the signal handlers again, so that the special control
+     * keys all work the same as before. */
+    signal_init();
+
     /* Switch to cbreak mode and turn the keypad on, so that the keypad
      * and input still work if we resized during verbatim input. */
 #ifdef _POSIX_VDISABLE
@@ -2946,10 +2950,6 @@ void handle_sigwinch(int s)
 #endif
     keypad(edit, TRUE);
     keypad(bottomwin, TRUE);
-
-    /* Set up the signal handlers again, so that the special control
-     * keys all work the same as before. */
-    signal_init();
 
     /* Jump back to the main loop. */
     siglongjmp(jmpbuf, 1);
