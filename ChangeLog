@@ -17,6 +17,8 @@ Cvs code -
 	- After "Alternate" spell checker is called, cursor is repositioned on
 	  the same line as before ^T was called. 
 	- Moved config.h up in all .c files #include list (Albert Chin).
+	- Added config.guess and config.sub to distribution because
+	  apparently newer autoconf/automakes can't live without them.
 - configure.in:
 	- New option, --enable-nanorc which allows people to have a .nanorc
 	  initialization file and set options normally used on the command
