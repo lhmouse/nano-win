@@ -115,7 +115,7 @@ filename suffixed with a ~.
 Write file in DOS format.
 
 @item -E, --backupdir=[dir]
-Set the directory where @code{nano) puts the backup files if file
+Set the directory where @code{nano} puts the backup files if file
 backups are enabled.
 
 @item -F, --multibuffer
