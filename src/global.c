@@ -162,7 +162,7 @@ int curses_ended = FALSE;	/* Indicates to statusbar() to simply
 				 * ended curses mode. */
 
 
-int length_of_list(const shortcut *s) 
+int length_of_list(const shortcut *s)
 {
     int i = 0;
 
