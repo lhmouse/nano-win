@@ -6,7 +6,7 @@
 .\" Public License for copying conditions.  There is NO warranty.
 .\"
 .\" $Id$
-.TH NANO 1 "version 1.3.5" "January 17, 2005"
+.TH NANO 1 "version 1.3.6" "March 11, 2005"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 
@@ -119,11 +119,11 @@ Indent new lines to the previous line's indentation.  Useful when
 editing source code.
 .TP
 .B \-k (\-\-cut)
-Enable cut from cursor to end of line with ^K.
+Enable cut from cursor to end of line.
 .TP
 .B \-l (\-\-nofollow)
 If the file being edited is a symbolic link, replace the link with
-a new file, do not follow it.  Good for editing files in
+a new file instead of following it.  Good for editing files in
 .IR /tmp ,
 perhaps?
 .TP
@@ -148,7 +148,7 @@ to vary along with the screen width if resized.
 Enable alternative spell checker command.
 .TP
 .B \-t (\-\-tempfile)
-Always save changed buffer without prompting.  Same as Pico -t option.
+Always save changed buffer without prompting.  Same as Pico's -t option.
 .TP
 .B \-v (\-\-view)
 View file (read only) mode.

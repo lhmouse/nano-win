@@ -333,9 +333,11 @@ CVS code -
 	- Add the hexadecimal equivalents of the decimal values
 	  suggested for whitespace display, now that it can handle
 	  multibyte characters. (DLR)
+	- Add "manpage" regex. (Mike Frysinger, minor tweaks by DLR)
 - nano.1. nanorc.5, nano.texi:
 	- Add the "morespace" option, and sync with the descriptions in
 	  nanorc.sample in a few places. (DLR)
+	- Miscellaneous wording tweaks. (DLR)
 - src/Makefile.am:
 	- Add chars.c to nano_SOURCES. (DLR)
 	- If we're installing and the "rnano" symlink already exists,
