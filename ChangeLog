@@ -92,6 +92,14 @@ CVS code -
 	  fill_flag_used to avoid warnings when compiling with
 	  --disable-wrapping, --disable-justify, or a combination of the
 	  two. (DLR)
+	- Overhaul the routines used to read the rcfiles and history
+	  files for efficiency, make them work properly on lines over
+	  1023 characters long and on lines containing nulls, and make
+	  them properly handle the case where the user's home directory
+	  changes in the middle of a session.  New functions
+	  histfilename() and writehist(); changes to
+	  thanks_for_all_the_fish(), load_history(), save_history(), and
+	  do_rcfile(). (David Benbennick)
 - files.c:
   get_next_filename()
 	- Tweak for efficiency, and add the ".save" suffix to the file
@@ -112,7 +120,7 @@ CVS code -
 - global.c:
   shortcut_init()
 	- Fix erroneous #ifdef so that nano compiles with
-	  --disable-justify again. (DLR; found by Mike Frysinger)
+	  --disable-justify again. (DLR, found by Mike Frysinger)
 	- Change the Cancel shortcut in the file browser to an Exit
 	  shortcut, to be more compatible with the current version of
 	  Pico. (DLR)
@@ -186,8 +194,8 @@ CVS code -
 	  match their corresponding location in files.c. (DLR)
 - rcfile.c:
   rcfile_msg()
-	- Removed along with the related static int errors, and replaced
-	  with calls to rcfile_error(). (David Benbennick)
+	- Removed and replaced with calls to rcfile_error(). (David
+	  Benbennick)
 	- Removed the reference to "starting nano" in the statusbar
 	  message, as it may be called when we exit if the history file
 	  can't be saved. (DLR)
@@ -225,9 +233,13 @@ CVS code -
 	- Remove code chacking for n's being less than 0 that will never
 	  be run, since n is a size_t and is hence unsigned. (David
 	  Benbennick)
+  ngetdelim(), ngetline()
+	- New functions equivalent to getdelim() and getline(), which
+	  are both GNU extensions. (DLR, adapted from GNU mailutils
+	  0.5)
 - winio.c:
   get_kbinput()
-	- Since the only valid values for escapes are 0, 1, and 2, 
+	- Since the only valid values for escapes are 0, 1, and 2,
 	  convert it to an int. (DLR)
   get_control_kbinput()
 	- Fix erroneous debugging statement so that nano compiles with
@@ -254,6 +266,8 @@ CVS code -
 - configure.ac:
 	- Add AC_PROG_LN_S, so that we can portably create symlinks.
 	  (DLR)
+	- Check for getdelim() and getline(), which are both GNU
+	  extensions. (DLR)
 - nanorc.sample:
 	- Add sample regexes for patch files. (Mike Frysinger)
 	- Various improvements to the "c-file" regexes.  Add double,

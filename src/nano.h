@@ -95,8 +95,8 @@
 # endif
 #endif
 
-/* If no isblank(), strcasecmp(), strncasecmp(), strcasestr(), or
- * strnlen(), use the versions we have. */
+/* If no isblank(), strcasecmp(), strncasecmp(), strcasestr(),
+ * strnlen(), getdelim(), or getline(), use the versions we have. */
 #ifndef HAVE_ISBLANK
 #define isblank is_blank_char
 #endif
@@ -115,6 +115,14 @@
 
 #ifndef HAVE_STRNLEN
 #define strnlen nstrnlen
+#endif
+
+#ifndef HAVE_GETDELIM
+#define getdelim ngetdelim
+#endif
+
+#ifndef HAVE_GETLINE
+#define getline ngetline
 #endif
 
 /* Assume ERR is defined as -1.  To avoid duplicate case values when

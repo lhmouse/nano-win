@@ -101,7 +101,7 @@ const static rcoption rcopts[] = {
 
 static bool errors = FALSE;
 static int lineno = 0;
-static char *nanorc;
+static const char *nanorc;
 
 /* We have an error in some part of the rcfile; put it on stderr and
    make the user hit return to continue starting up nano. */
@@ -648,16 +648,13 @@ void parse_rcfile(FILE *rcstream)
 void do_rcfile(void)
 {
     FILE *rcstream;
-    const struct passwd *userage;
-    uid_t euid = geteuid();
-    char *homenv = getenv("HOME");
 
 #ifdef SYSCONFDIR
     assert(sizeof(SYSCONFDIR) == strlen(SYSCONFDIR) + 1);
-    nanorc = charalloc(sizeof(SYSCONFDIR) + 7);
-    sprintf(nanorc, "%s/nanorc", SYSCONFDIR);
+    nanorc = SYSCONFDIR "/nanorc";
     /* Try to open system nanorc */
-    if ((rcstream = fopen(nanorc, "r")) != NULL) {
+    rcstream = fopen(nanorc, "r");
+    if (rcstream != NULL) {
 	/* Parse it! */
 	parse_rcfile(rcstream);
 	fclose(rcstream);
@@ -666,33 +663,38 @@ void do_rcfile(void)
 
     lineno = 0;
 
-    /* Rely on $HOME, fall back on getpwuid() */
-    if (homenv != NULL) {
-	nanorc = charealloc(nanorc, strlen(homenv) + 10);
-	sprintf(nanorc, "%s/.nanorc", homenv);
-    } else {
-	userage = getpwuid(euid);
-	endpwent();
+    {
+	const char *homenv = getenv("HOME");
 
-	if (userage == NULL) {
-	    rcfile_error(N_("I can't find my home directory!  Wah!"));
-	    SET(NO_RCFILE);
-	} else {
-	    nanorc = charealloc(nanorc, strlen(userage->pw_dir) + 9);
-	    sprintf(nanorc, "%s/.nanorc", userage->pw_dir);
+	/* Rely on $HOME, fall back on getpwuid() */
+	if (homenv == NULL) {
+	    const struct passwd *userage = getpwuid(geteuid());
 
+	    if (userage != NULL)
+		homenv = userage->pw_dir;
 	}
+	homedir = mallocstrcpy(NULL, homenv);
     }
 
-    if (!ISSET(NO_RCFILE)) {
+    if (homedir == NULL) {
+	rcfile_error(N_("I can't find my home directory!  Wah!"));
+	SET(NO_RCFILE);
+    } else {
+	size_t homelen = strlen(homedir);
+	char *nanorcf = charalloc(homelen + 9);
+
+	nanorc = nanorcf;
+	strcpy(nanorcf, homedir);
+	strcpy(nanorcf + homelen, "/.nanorc");
 
 #if defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
     /* If we've already read SYSCONFDIR/nanorc (if it's there), we're
        root, and --disable-wrapping-as-root is used, turn wrapping off */
-	if (euid == NANO_ROOT_UID)
+	if (geteuid() == NANO_ROOT_UID)
 	    SET(NO_WRAP);
 #endif
-	if ((rcstream = fopen(nanorc, "r")) == NULL) {
+	rcstream = fopen(nanorc, "r");
+	if (rcstream == NULL) {
 	    /* Don't complain about the file not existing */
 	    if (errno != ENOENT) {
 		rcfile_error(N_("Error reading %s: %s"), nanorc, strerror(errno));
@@ -702,10 +704,10 @@ void do_rcfile(void)
 	    parse_rcfile(rcstream);
 	    fclose(rcstream);
 	}
+	free(nanorcf);
     }
     lineno = 0;
 
-    free(nanorc);
 #ifdef ENABLE_COLOR
     set_colorpairs();
 #endif

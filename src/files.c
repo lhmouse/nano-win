@@ -2914,30 +2914,30 @@ char *do_browse_from(const char *inpath)
 #endif /* !DISABLE_BROWSER */
 
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+/* Return $HOME/.nano_history, or NULL if we can't find the homedir.
+ * The string is dynamically allocated, and should be freed. */
+char *histfilename(void)
+{
+    char *nanohist = NULL;
+
+    if (homedir != NULL) {
+	size_t homelen = strlen(homedir);
+
+	nanohist = charalloc(homelen + 15);
+	strcpy(nanohist, homedir);
+	strcpy(nanohist + homelen, "/.nano_history");
+    }
+    return nanohist;
+}
+
 void load_history(void)
 {
-    FILE *hist;
-    const struct passwd *userage = NULL;
-    static char *nanohist;
-    char *buf, *ptr;
-    char *homenv = getenv("HOME");
-    historyheadtype *history = &search_history;
-
-
-    if (homenv != NULL) {
-	nanohist = charealloc(nanohist, strlen(homenv) + 15);
-	sprintf(nanohist, "%s/.nano_history", homenv);
-    } else {
-	userage = getpwuid(geteuid());
-	endpwent();
-	nanohist = charealloc(nanohist, strlen(userage->pw_dir) + 15);
-	sprintf(nanohist, "%s/.nano_history", userage->pw_dir);
-    }
+    char *nanohist = histfilename();
 
     /* assume do_rcfile() has reported missing home dir */
+    if (nanohist != NULL) {
+	FILE *hist = fopen(nanohist, "r");
 
-    if (homenv != NULL || userage != NULL) {
-	hist = fopen(nanohist, "r");
 	if (hist == NULL) {
 	    if (errno != ENOENT) {
 		/* Don't save history when we quit. */
@@ -2947,80 +2947,72 @@ void load_history(void)
 		while (getchar() != '\n')
 		    ;
 	    }
-	    free(nanohist);
 	} else {
-	    buf = charalloc(1024);
-	    while (fgets(buf, 1023, hist) != 0) {
-		ptr = buf;
-		while (*ptr != '\n' && *ptr != '\0' && ptr < buf + 1023)
-		    ptr++;
-		*ptr = '\0';
-		if (strlen(buf))
-		    update_history(history, buf);
-		else
+	    historyheadtype *history = &search_history;
+	    char *line = NULL;
+	    size_t buflen = 0;
+	    ssize_t read;
+
+	    while ((read = getline(&line, &buflen, hist)) >= 0) {
+		if (read > 0 && line[read - 1] == '\n') {
+		    read--;
+		    line[read] = '\0';
+		}
+		if (read > 0) {
+		    unsunder(line, read);
+		    update_history(history, line);
+		} else
 		    history = &replace_history;
 	    }
 	    fclose(hist);
-	    free(buf);
-	    free(nanohist);
+	    free(line);
 	    UNSET(HISTORY_CHANGED);
 	}
+	free(nanohist);
     }
+}
+
+bool writehist(FILE *hist, historyheadtype *histhead)
+{
+    historytype *h;
+
+    /* write oldest first */
+    for (h = histhead->tail; h->prev != NULL; h = h->prev) {
+	size_t len = strlen(h->data);
+
+	sunder(h->data);
+	if (fwrite(h->data, sizeof(char), len, hist) < len ||
+		putc('\n', hist) == EOF)
+	    return FALSE;
+    }
+    return TRUE;
 }
 
 /* save histories to ~/.nano_history */
 void save_history(void)
 {
-    FILE *hist;
-    const struct passwd *userage = NULL;
-    char *nanohist = NULL;
-    char *homenv = getenv("HOME");
-    historytype *h;
+    char *nanohist;
 
     /* don't save unchanged or empty histories */
     if ((search_history.count == 0 && replace_history.count == 0) ||
 	!ISSET(HISTORY_CHANGED) || ISSET(VIEW_MODE))
 	return;
 
-    if (homenv != NULL) {
-	nanohist = charealloc(nanohist, strlen(homenv) + 15);
-	sprintf(nanohist, "%s/.nano_history", homenv);
-    } else {
-	userage = getpwuid(geteuid());
-	endpwent();
-	nanohist = charealloc(nanohist, strlen(userage->pw_dir) + 15);
-	sprintf(nanohist, "%s/.nano_history", userage->pw_dir);
-    }
+    nanohist = histfilename();
 
-    if (homenv != NULL || userage != NULL) {
-	hist = fopen(nanohist, "wb");
+    if (nanohist != NULL) {
+	FILE *hist = fopen(nanohist, "wb");
+
 	if (hist == NULL)
 	    rcfile_error(N_("Error writing %s: %s"), nanohist, strerror(errno));
 	else {
 	    /* set rw only by owner for security ?? */
 	    chmod(nanohist, S_IRUSR | S_IWUSR);
-	    /* write oldest first */
-	    for (h = search_history.tail; h->prev; h = h->prev) {
-		h->data = charealloc(h->data, strlen(h->data) + 2);
-		strcat(h->data, "\n");
-		if (fputs(h->data, hist) == EOF) {
-		    rcfile_error(N_("Error writing %s: %s"), nanohist, strerror(errno));
-		    goto come_from;
-		}
-	    }
-	    if (fputs("\n", hist) == EOF) {
+
+	    if (!writehist(hist, &search_history) ||
+		    putc('\n', hist) == EOF ||
+		    !writehist(hist, &replace_history))
 		rcfile_error(N_("Error writing %s: %s"), nanohist, strerror(errno));
-		goto come_from;
-	    }
-	    for (h = replace_history.tail; h->prev; h = h->prev) {
-		h->data = charealloc(h->data, strlen(h->data) + 2);
-		strcat(h->data, "\n");
-		if (fputs(h->data, hist) == EOF) {
-		    rcfile_error(N_("Error writing %s: %s"), nanohist, strerror(errno));
-		    goto come_from;
-		}
-	    }
-  come_from:
 	    fclose(hist);
 	}
 	free(nanohist);

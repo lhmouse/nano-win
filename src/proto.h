@@ -142,6 +142,10 @@ extern historyheadtype replace_history;
 
 extern bool curses_ended;
 
+#ifdef ENABLE_NANORC
+extern char *homedir;
+#endif
+
 /* Functions we want available. */
 
 /* Public functions in color.c */
@@ -224,7 +228,9 @@ char *do_browser(const char *inpath);
 char *do_browse_from(const char *inpath);
 #endif
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+char *histfilename(void);
 void load_history(void);
+bool writehist(FILE *hist, historyheadtype *histhead);
 void save_history(void);
 #endif
 
@@ -460,6 +466,12 @@ const char *revstristr(const char *haystack, const char *needle, const
 #endif
 #ifndef HAVE_STRNLEN
 size_t nstrnlen(const char *s, size_t maxlen);
+#endif
+#ifndef HAVE_GETLINE
+ssize_t ngetline(char **lineptr, size_t *n, FILE *stream);
+#endif
+#ifndef HAVE_GETDELIM
+ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream);
 #endif
 const char *strstrwrapper(const char *haystack, const char *needle,
 	const char *start);

@@ -3000,7 +3000,7 @@ void terminal_init(void)
 	disable_flow_control();
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
     int optchr;
     int startline = 0;		/* Line to try and start at */

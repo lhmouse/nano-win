@@ -240,6 +240,65 @@ size_t nstrnlen(const char *s, size_t maxlen)
 }
 #endif
 
+#ifndef HAVE_GETLINE
+/* This function is equivalent to getline().  It was adapted from
+ * GNU mailutils' getline() function. */
+ssize_t ngetline(char **lineptr, size_t *n, FILE *stream)
+{
+    return getdelim(lineptr, n, '\n', stream);
+}
+#endif
+
+#ifndef HAVE_GETDELIM
+/* This function is equivalent to getdelim().  It was adapted from
+ * GNU mailutils' getdelim() function. */
+ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
+{
+    static const int line_size = 128;
+	/* Default value for line length. */
+    size_t indx = 0;
+    int c;
+
+    /* Sanity checks. */
+    if (lineptr == NULL || n == NULL || stream == NULL)
+	return -1;
+
+    /* Allocate the line the first time. */
+    if (*lineptr == NULL) {
+	*lineptr = charalloc(line_size);
+	*n = line_size;
+    }
+
+    while ((c = getc(stream)) != EOF) {
+	/* Check if more memory is needed. */
+	if (indx >= *n) {
+	    *lineptr = charealloc(*lineptr, *n + line_size);
+	    *n += line_size;
+	}
+
+	/* Push the result in the line. */
+	(*lineptr)[indx++] = (char)c;
+
+	/* Bail out. */
+	if (c == delim)
+	    break;
+    }
+
+    /* Make room for the null character. */
+    if (indx >= *n) {
+	*lineptr = charealloc(*lineptr, *n + line_size);
+	*n += line_size;
+    }
+
+    /* Null terminate the buffer. */
+    (*lineptr)[indx++] = '\0';
+
+    /* The last line may not have the delimiter, we have to return what
+     * we got and the error will be seen on the next iteration. */
+    return (c == EOF && (indx - 1) == 0) ? -1 : indx - 1;
+}
+#endif
+
 /* If we are searching backwards, we will find the last match that
  * starts no later than start.  Otherwise we find the first match
  * starting no earlier than start.  If we are doing a regexp search, we

@@ -178,6 +178,10 @@ bool curses_ended = FALSE;	/* Indicates to statusbar() to simply
 				 * write to stderr, since endwin() has
 				 * ended curses mode. */
 
+#ifdef ENABLE_NANORC
+char *homedir = NULL;		/* $HOME or from /etc/passwd. */
+#endif
+
 size_t length_of_list(const shortcut *s)
 {
     size_t i = 0;
@@ -1187,6 +1191,9 @@ void thanks_for_all_the_fish(void)
     /* free history lists */
     free_history(&search_history);
     free_history(&replace_history);
+#endif
+#ifdef ENABLE_NANORC
+    free(homedir);
 #endif
 }
 #endif /* DEBUG */
