@@ -271,9 +271,10 @@ int do_cut_text(void)
 
 int do_uncut_text(void)
 {
-    filestruct *tmp = current, *hold = current, *fileptr = current, *newbuf, *newend;
+    filestruct *tmp = current, *fileptr = current, *newbuf, *newend;
 #ifndef NANO_SMALL
     char *tmpstr, *tmpstr2;
+    filestruct *hold = current;
 #endif
     int i;
 

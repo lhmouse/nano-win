@@ -1,4 +1,7 @@
 CVS code -
+General
+	- Added --disable-help option, affects acconfig.h, configure(.in),
+	  winio.c:do_help, nano.c:help_init,help_text_init.
 - cut.c:
   do_uncut_text()
 	- Fix renumbering bug when uncutting marked test at filebot.

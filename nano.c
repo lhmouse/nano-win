@@ -177,7 +177,7 @@ void global_init(void)
 void init_help_msg(void)
 {
 
-#ifndef NANO_SMALL
+#if !defined(NANO_SMALL) && !defined(DISABLE_HELP)
 
     help_text_init =
 	_(" nano help text\n\n "
@@ -517,7 +517,7 @@ void nano_small_msg(void)
 }
 #endif
 
-#if defined(DISABLE_JUSTIFY) || defined(DISABLE_SPELLER)
+#if defined(DISABLE_JUSTIFY) || defined(DISABLE_SPELLER) || defined(DISABLE_HELP)
 void nano_disabled_msg(void)
 {
     statusbar("Sorry, support for this function has been disabled");
@@ -1900,7 +1900,7 @@ int do_justify(void)
 #endif
 }
 
-
+#if !defined(NANO_SMALL) && !defined(DISABLE_HELP)
 void help_init(void)
 {
     int i, sofar = 0;
@@ -1968,6 +1968,7 @@ void help_init(void)
     }
 
 }
+#endif
 
 void do_toggle(int which)
 {
@@ -2199,7 +2200,9 @@ int main(int argc, char *argv[])
     global_init();
     shortcut_init(0);
     init_help_msg();
+#if !defined(NANO_SMALL) && !defined(DISABLE_HELP)
     help_init();
+#endif
     signal_init();
 
 #ifdef DEBUG

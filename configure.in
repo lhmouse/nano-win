@@ -45,6 +45,12 @@ AC_ARG_ENABLE(speller,
     AC_DEFINE(DISABLE_SPELLER) 
  fi])
 
+AC_ARG_ENABLE(help,
+[  --disable-help          Disables help function (^G)],
+ [if test x$enableval != xyes; then
+    AC_DEFINE(DISABLE_HELP) 
+ fi])
+
 AC_MSG_CHECKING(whether to use slang)
 CURSES_LIB_NAME=""
 AC_ARG_WITH(slang,

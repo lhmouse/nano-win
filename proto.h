@@ -119,6 +119,7 @@ void *mallocstrcpy(void *dest, void *src);
 void wrap_reset(void);
 void display_main_list(void);
 void nano_small_msg(void);
+void nano_disable_msg(void);
 void do_early_abort(void);
 void *nmalloc(size_t howmuch);
 void *nrealloc(void *ptr, size_t howmuch);

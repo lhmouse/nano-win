@@ -36,4 +36,6 @@
 /* Define this to disable the use(full|less) spelling functions */
 #undef DISABLE_SPELLER
 
+/* Define this to disable the ^G help menu */
+#undef DISABLE_HELP
 
