@@ -380,7 +380,7 @@ int do_insertfile(int loading_file)
 	       that could create them are taken care of elsewhere) */
 	    add_open_file(1, 0);
 
-	    free_filestruct(current);
+	    free_filestruct(fileage);
 	    new_file();
 	    UNSET(MODIFIED);
 	}
@@ -461,7 +461,7 @@ int add_open_file(int update, int dup_fix)
 {
     filestruct *tmp;
 
-    if (!current || !filename)
+    if (!fileage || !current || !filename)
 	return 1;
 
     /* first, if duplicate checking is allowed, do it */
@@ -477,8 +477,8 @@ int add_open_file(int update, int dup_fix)
 	open_files = make_new_node(NULL);
 
 	/* if open_files->file is NULL at the nrealloc() below, we get a
-	   segfault */
-	open_files->file = open_files;
+	   segfault
+	open_files->file = open_files; */
     }
 
     else if (!update) {
@@ -523,11 +523,9 @@ int add_open_file(int update, int dup_fix)
     /* save current line number */
     open_files->lineno = current->lineno;
 
-    /* save current filestruct */
+    /* save current filestruct and restore full file position afterward */
     open_files->file = nmalloc(sizeof(filestruct));
-    while (current->prev)
-	current = current->prev;
-    open_files->file = copy_filestruct(current);
+    open_files->file = copy_filestruct(fileage);
     do_gotopos(open_files->lineno, open_files->file_current_x, open_files->file_current_y, open_files->file_placewewant);
 
     /* save current modification status */
@@ -584,6 +582,11 @@ int load_open_file(void)
        coordinate, place we want */
     do_gotopos(open_files->lineno, open_files->file_current_x, open_files->file_current_y, open_files->file_placewewant);
 
+    /* restore the bottom of the file */
+    filebot = current;
+    while (filebot->next)
+	filebot = filebot->next;
+
     /* set up modification status and update the titlebar */
     if (open_files->file_modified)
 	SET(MODIFIED);
@@ -592,9 +595,11 @@ int load_open_file(void)
     clearok(topwin, FALSE);
     titlebar(NULL);
 
-    /* if we're constantly displaying the cursor position, update it */
+    /* if we're constantly displaying the cursor position, update it (and do so
+       unconditionally, in the rare case that the character count is the same
+       but the line count isn't) */
     if (ISSET(CONSTUPDATE))
-	do_cursorpos();
+	do_cursorpos(0);
 
     /* now we're done */
     return 0;
@@ -1707,7 +1712,7 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 /* This function now has an arg which refers to how much the 
  * statusbar (place) should be advanced, i.e. the new cursor pos.
  */
-char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
+char *input_tab(char *buf, int place, int *lastWasTab, int *newplace, int *list)
 {
     /* Do TAB completion */
     static int num_matches = 0, match_matches = 0;
@@ -1715,6 +1720,8 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
     int pos = place, i = 0, col = 0, editline = 0;
     int longestname = 0, is_dir = 0;
     char *foo;
+
+    *list = 0;
 
     if (*lastWasTab == FALSE) {
 	char *tmp, *copyto, *matchBuf;
@@ -1846,7 +1853,7 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 	/* Ok -- the last char was a TAB.  Since they
 	 * just hit TAB again, print a list of all the
 	 * available choices... */
-	if (matches && num_matches > 0) {
+	if (matches && num_matches > 1) {
 
 	    /* Blank the edit window, and print the matches out there */
 	    blank_edit();
@@ -1895,12 +1902,16 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 	    }
 	    free(foo);
 	    wrefresh(edit);
+	    *list = 1;
 	} else
 	    beep();
 
     }
 
-    edit_refresh();
+    /* Only refresh the edit window if we don't have a list of filename
+       matches on it */
+    if (*list == 0)
+	edit_refresh();
     curs_set(1);
     return buf;
 }

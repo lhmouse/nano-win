@@ -363,7 +363,7 @@ void shortcut_init(int unjustify)
 
     sc_init_one(&main_list[10], NANO_CURSORPOS_KEY, _("Cur Pos"),
 		nano_cursorpos_msg,
-		0, NANO_CURSORPOS_FKEY, 0, VIEW, do_cursorpos);
+		0, NANO_CURSORPOS_FKEY, 0, VIEW, do_cursorpos_void);
 
     sc_init_one(&main_list[11], NANO_SPELL_KEY, _("To Spell"),
 		nano_spell_msg, 0, NANO_SPELL_FKEY, 0, NOVIEW, do_spell);

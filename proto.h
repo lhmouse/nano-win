@@ -113,13 +113,13 @@ int check_operating_dir(char *currpath, int allow_tabcomp);
 #endif
 
 int do_writeout(char *path, int exiting, int append);
-int do_gotoline(long line, int save_pos);
+int do_gotoline(int line, int save_pos);
 int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 			int wholewords, int *i);
 int do_find_bracket(void);
 
 #if defined (ENABLE_MULTIBUFFER) || !defined (DISABLE_SPELLER)
-void do_gotopos(long line, int pos_x, int pos_y, int pos_placewewant);
+void do_gotopos(int line, int pos_x, int pos_y, int pos_placewewant);
 #endif
 
 /* Now in move.c */
@@ -129,7 +129,7 @@ int do_left(void);
 int do_right(void);
 int check_wildcard_match(const char *text, const char *pattern);
 
-char *input_tab(char *buf, int place, int *lastWasTab, int *newplace);
+char *input_tab(char *buf, int place, int *lastWasTab, int *newplace, int *list);
 char *real_dir_from_tilde(char *buf);
 
 void shortcut_init(int unjustify);
@@ -201,7 +201,7 @@ int load_open_file(void), close_open_file(void);
 #endif
 
 int do_page_up(void), do_page_down(void);
-int do_cursorpos(void), do_spell(void);
+int do_cursorpos(int constant), do_cursorpos_void(void), do_spell(void);
 int do_up(void), do_down (void), do_right(void), do_left (void);
 int do_home(void), do_end(void), total_refresh(void), do_mark(void);
 int do_delete(void), do_backspace(void), do_tab(void), do_justify(void);

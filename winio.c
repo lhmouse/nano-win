@@ -260,7 +260,7 @@ void nanoget_repaint(char *buf, char *inputbuf, int x)
 
 /* Get the input from the kb; this should only be called from statusq */
 int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen, 
-	       int start_x)
+	       int start_x, int list)
 {
     int kbinput = 0, j = 0, x = 0, xend;
     int x_left = 0, inputlen, tabbed = 0;
@@ -389,7 +389,7 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 	    if (allowtabs) {
 		shift = 0;
 		inputbuf = input_tab(inputbuf, (x - x_left), 
-				&tabbed, &shift);
+				&tabbed, &shift, &list);
 		x += shift;
 		if (x - x_left > strlen(inputbuf))
 		    x = strlen(inputbuf) + x_left;
@@ -1048,7 +1048,7 @@ void update_line(filestruct * fileptr, int index)
 		virt_cur_x--;
 	    if (i < mark_beginx)
 		virt_mark_beginx--;
-	} else if (realdata[i] >= 1 && realdata[i] <= 26) {
+	} else if (realdata[i] < 32) {
 	    /* Treat control characters as ^letter */
 	    fileptr->data[pos++] = '^';
 	    fileptr->data[pos++] = realdata[i] + 64;
@@ -1213,6 +1213,10 @@ int statusq(int tabs, shortcut s[], int slen, char *def, char *msg, ...)
     char foo[133];
     int ret;
 
+#ifndef DISABLE_TABCOMP
+    int list;
+#endif
+
     bottombars(s, slen);
 
     va_start(ap, msg);
@@ -1227,7 +1231,13 @@ int statusq(int tabs, shortcut s[], int slen, char *def, char *msg, ...)
 #endif
 
 
-    ret = nanogetstr(tabs, foo, def, s, slen, (strlen(foo) + 3));
+#ifndef DISABLE_TABCOMP
+    ret = nanogetstr(tabs, foo, def, s, slen, (strlen(foo) + 3), list);
+#else
+    /* if we've disabled tab completion, the value of list won't be
+       used at all, so it's safe to use 0 (NULL) as a placeholder */
+    ret = nanogetstr(tabs, foo, def, s, slen, (strlen(foo) + 3), 0);
+#endif
 
 #ifdef ENABLE_COLOR
     color_off(bottomwin, COLOR_STATUSBAR);
@@ -1245,6 +1255,13 @@ int statusq(int tabs, shortcut s[], int slen, char *def, char *msg, ...)
 	do_last_line();
 	break;
     case NANO_CANCEL_KEY:
+#ifndef DISABLE_TABCOMP
+	/* if we've done tab completion, there might be a list of
+	   filename matches on the edit window at this point; make sure
+	   they're cleared off */
+	if (list)
+	    edit_refresh();
+#endif
 	return -1;
     default:
 	blank_statusbar();
@@ -1480,11 +1497,12 @@ void previous_line(void)
 	current_y--;
 }
 
-int do_cursorpos(void)
+int do_cursorpos(int constant)
 {
     filestruct *fileptr;
     float linepct = 0.0, bytepct = 0.0;
     long i = 0;
+    static long old_i = -1, old_totsize = -1;
 
     if (current == NULL || fileage == NULL)
 	return 0;
@@ -1498,6 +1516,12 @@ int do_cursorpos(void)
 
     i += current_x;
 
+    if (old_i == -1)
+	old_i = i;
+
+    if (old_totsize == -1)
+	old_totsize = totsize;
+
     if (totlines > 0)
 	linepct = 100 * current->lineno / totlines;
 
@@ -1509,10 +1533,24 @@ int do_cursorpos(void)
 	    linepct, bytepct);
 #endif
 
-    statusbar(_("line %d of %d (%.0f%%), character %ld of %ld (%.0f%%)"),
-	      current->lineno, totlines, linepct, i, totsize, bytepct);
+    /* if constant is zero, display the position on the statusbar
+       unconditionally; otherwise, only display the position when the
+       character values have changed */
+    if (!constant || (old_i != i || old_totsize != totsize)) {
+	statusbar(_("line %d of %d (%.0f%%), character %ld of %ld (%.0f%%)"),
+		current->lineno, totlines, linepct, i, totsize, bytepct);
+    }
+
+    old_i = i;
+    old_totsize = totsize;
+
     reset_cursor();
     return 1;
+}
+
+int do_cursorpos_void(void)
+{
+    return do_cursorpos(0);
 }
 
 /* Our broken, non-shortcut list compliant help function.

@@ -4,7 +4,10 @@ CVS Code -
 	  colortoint() and parse_color() in rcfile.c, new code in 
 	  edit_add() in winio.c to actually do the highlighting.  It's
 	  not even close to pretty yet :P
+	- Many int/long alignments (David Lawrence Ramsey).
 - files.c:
+	- Fixes for tab completion and screen refresh (David Lawrence
+	  Ramsey).
   add_open_file()
 	- Get rid of unsetting MARK_ISSET because otherwise writing
 	  marked text will automatically unset the marker with
@@ -22,6 +25,11 @@ CVS Code -
           we have _POSIX_VDISABLE or not (more Hurd fixes)
   help_init()
 	- Typo fixes and additions to the new help texts.
+  do_curpos()
+	- Now takes arg for constant updating to always show the cursor
+	  position (David Lawrence Ramsey).
+  do_wrap()
+	- Many fixes (David Lawrence Ramsey).
 - po/de.po:
 	- German translation updates (Karl Eichwalder).
 - po/ru.po:
@@ -82,7 +90,7 @@ nano-1.1.3 - 10/26/2001
 	- Fix incorrect number of rc options (David Lawrence Ramsey).
 - po/sv.po:
 	- Updated Swedish translation (Christian Rose).
-- po/sv.po:
+- po/da.po:
 	- Updated Danish translation (Keld Simonsen).
 - po/es.po:
 	- Style updates to Spanish translation (Santiago Vila).

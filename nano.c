@@ -996,10 +996,18 @@ void do_wrap(filestruct * inptr, char input_char)
 	    down = 1;
 	}
 
+	/* Subtract length of original line, plus one for the newline, from
+	   totsize. */
+	totsize -= (strlen(inptr->data) + 1);
+
 	temp->data = charalloc(strlen(&inptr->data[current_word_start]) + 1);
 	strcpy(temp->data, &inptr->data[current_word_start]);
 	inptr->data = nrealloc(inptr->data, last_word_end + 2);
 	inptr->data[last_word_end + 1] = 0;
+
+	/* Now add lengths of new lines, plus two for the newlines, to totsize. */
+	totsize += (strlen(inptr->data) + strlen(temp->data) + 2);
+
     } else
 	/* Category 1b: one word on the line and word not taking up whole line
 	   (i.e. there are spaces at the beginning of the line) */
@@ -1011,9 +1019,6 @@ void do_wrap(filestruct * inptr, char input_char)
 	if (current_x >= current_word_start) {
 	    right = current_x - current_word_start;
 
-	    /* Decrease totsize by the number of spaces we removed, less
-	       one for the new line we're replacing the spaces with. */
-	    totsize -= (current_word_start - 1);
 	    current_x = 0;
 #ifndef NANO_SMALL
 	    if (ISSET(AUTOINDENT)) {
@@ -1028,7 +1033,14 @@ void do_wrap(filestruct * inptr, char input_char)
 	    down = 1;
 	}
 
+	/* Subtract length of original line, plus one for the newline, from
+	   totsize. */
+	totsize -= (strlen(inptr->data) + 1);
+
 	null_at(&inptr->data, current_x);
+
+	/* Now add lengths of new lines, plus two for the newlines, to totsize. */
+	totsize += (strlen(inptr->data) + strlen(temp->data) + 2);
 
 	if (ISSET(MARK_ISSET) && (mark_beginbuf == inptr)) {
 	    mark_beginbuf = temp;
@@ -1047,22 +1059,25 @@ void do_wrap(filestruct * inptr, char input_char)
 	    if (!isspace((int) input_char)) {
 		i = current_word_start - 1;
 
-		/* Decrement totsize each time we remove a space. */
 		while (isspace((int) inptr->data[i])) {
 		    i--;
-		    totsize--;
 		    assert(i >= 0);
 		}
-		/* And increment it to account for the blank line we're
-		   replacing the spaces with. */
-		totsize++;
 	    } else if (current_x <= last_word_end)
 		i = last_word_end - 1;
 	    else
 		i = current_x;
 
+	    /* Subtract length of original line, plus one for the newline, from
+	       totsize. */
+	    totsize -= (strlen(inptr->data) + 1);
+
 	    inptr->data = nrealloc(inptr->data, i + 2);
 	    inptr->data[i + 1] = 0;
+
+	    /* Now add lengths of new lines, plus two for the newlines, to totsize. */
+	    totsize += (strlen(inptr->data) + strlen(temp->data) + 2);
+
 	}
 
 
@@ -1089,12 +1104,14 @@ void do_wrap(filestruct * inptr, char input_char)
 	    i = current_word_start - 1;
 	    current_x = current_word_start;
 
+	    /* Subtract length of original line, plus one for the newline, from
+	       totsize. */
+	    totsize -= (strlen(inptr->data) + 1);
+
 	    null_at(&inptr->data, current_word_start);
 
-	    /* Increment totsize to account for the new line that
-	       will be added below, so that it won't end up being
-	       short by one. */
-	    totsize++;
+	    /* Now add lengths of new lines, plus two for the newlines, to totsize. */
+	    totsize += (strlen(inptr->data) + strlen(temp->data) + 2);
 	}
 
 
@@ -1110,17 +1127,20 @@ void do_wrap(filestruct * inptr, char input_char)
 	    current_x = current_word_start;
 	    i = current_word_start - 1;
 
-	    /* Decrement totsize each time we remove a space. */
 	    while (isspace((int) inptr->data[i])) {
 		i--;
-		totsize--;
 		assert(i >= 0);
-		inptr->data = nrealloc(inptr->data, i + 2);
-		inptr->data[i + 1] = 0;
 	    }
-	    /* And increment it to account for the blank line we're
-	       replacing the spaces with. */
-	    totsize++;
+
+	    /* Subtract length of original line, plus one for the newline, from
+	       totsize. */
+	    totsize -= (strlen(inptr->data) + 1);
+
+	    inptr->data = nrealloc(inptr->data, i + 2);
+	    inptr->data[i + 1] = 0;
+
+	    /* Now add lengths of new lines, plus two for the newlines, to totsize. */
+	    totsize += (strlen(inptr->data) + strlen(temp->data) + 2);
 	}
     }
 
@@ -1359,6 +1379,12 @@ int do_delete(void)
 {
     filestruct *foo;
 
+    /* blbf -> blank line before filebot (see below) */
+    int blbf = 0;
+
+    if (current->next == filebot && !strcmp(current->data, ""))
+	blbf = 1;
+
     if (current_x != strlen(current->data)) {
 	/* Let's get dangerous */
 	memmove(&current->data[current_x], &current->data[current_x + 1],
@@ -1366,9 +1392,11 @@ int do_delete(void)
 
 	align(&current->data);
 
-	/* Now that we have a magic lnie again, we can check for both being
-	   on the line before filebot as well as at filebot */
-    } else if (current->next != NULL && current->next != filebot) {
+	/* Now that we have a magic line again, we can check for both being
+	   on the line before filebot as well as at filebot; it's a special
+	   case if we're on the line before filebot and it's blank, since we
+	   should be able to delete it */
+    } else if (current->next != NULL && (current->next != filebot || blbf)) {
 	current->data = nrealloc(current->data,
 				 strlen(current->data) +
 				 strlen(current->next->data) + 1);
@@ -2611,7 +2639,6 @@ int main(int argc, char *argv[])
     int keyhandled;		/* Have we handled the keystroke yet? */
     int i, modify_control_seq;
     char *argv0;
-    long constcheck;	/* Check to constantly update */
 
 #ifdef _POSIX_VDISABLE
     struct termios term;
@@ -2916,7 +2943,6 @@ int main(int argc, char *argv[])
     reset_cursor();
 
     while (1) {
-	constcheck = current->lineno + current_x + current_y + totsize;
 
 #ifndef DISABLE_MOUSE
 	currshortcut = main_list;
@@ -3227,8 +3253,7 @@ int main(int argc, char *argv[])
 	if (ISSET(DISABLE_CURPOS))
 	    UNSET(DISABLE_CURPOS);
 	else if (ISSET(CONSTUPDATE))
-	if (constcheck != current->lineno + current_x + current_y + totsize)
-		do_cursorpos();
+		do_cursorpos(1);
 
 	reset_cursor();
 	wrefresh(edit);

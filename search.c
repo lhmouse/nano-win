@@ -289,7 +289,7 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 
 	/* We found an instance */
 	current_x_find = found - fileptr->data;
-#if 0
+#if 1
 	/* Ensure we haven't wrapped around again! */
 	if ((search_last_line) && (current_x_find >= beginx)) {
 	    if (!quiet)
@@ -308,7 +308,7 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 	    search_last_line = 1;
 
 	/* Make sure we haven't passed the begining of the string */
-#if 0	/* Is this required here ? */
+#if 1	/* Is this required here ? */
 	if (!(&fileptr->data[current_x_find] - fileptr->data))      
 	    current_x_find++;
 #endif
@@ -352,7 +352,7 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 
 	/* We found an instance */
 	current_x_find = found - fileptr->data;
-#if 0
+#if 1
 	/* Ensure we haven't wrapped around again! */
 	if ((search_last_line) && (current_x_find < beginx)) {
 	    if (!quiet)
@@ -651,8 +651,10 @@ int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 	    }
 
 	    /* Cleanup */
+	    totsize -= strlen(current->data);
 	    free(current->data);
 	    current->data = copy;
+	    totsize += strlen(current->data);
 
 	    /* Stop bug where we replace a substring of the replacement text */
 	    current_x += strlen(last_replace) - 1;
@@ -768,13 +770,13 @@ void goto_abort(void)
     display_main_list();
 }
 
-int do_gotoline(long line, int save_pos)
+int do_gotoline(int line, int save_pos)
 {
-    long i = 1;
+    int i = 1;
 
     if (line <= 0) {		/* Ask for it */
 
-	long j = 0;
+	int j = 0;
 
 	j = statusq(0, goto_list, GOTO_LIST_LEN, "", _("Enter line number"));
 	if (j != 0) {
@@ -815,13 +817,21 @@ int do_gotoline_void(void)
 }
 
 #if (defined ENABLE_MULTIBUFFER || !defined DISABLE_SPELLER)
-void do_gotopos(long line, int pos_x, int pos_y, int pos_placewewant)
+void do_gotopos(int line, int pos_x, int pos_y, int pos_placewewant)
 {
 
     /* since do_gotoline() resets the x-coordinate but not the
        y-coordinate, set the coordinates up this way */
     current_y = pos_y;
     do_gotoline(line, 1);
+
+    /* recalculate the x-coordinate and place we want, just in case their
+       values are insane; if they aren't, they won't be changed by this */
+    current_x = pos_x;
+    pos_placewewant = xplustabs();
+    pos_x = actual_x(current, pos_placewewant);
+
+    /* set the rest of the coordinates up */
     current_x = pos_x;
     placewewant = pos_placewewant;
     update_line(current, pos_x);
