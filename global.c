@@ -260,7 +260,7 @@ void toggle_init(void)
     toggle_syntax_msg = _("Color syntax highlighting");
 #endif
 #ifndef DISABLE_WRAPPING
-    toggle_wrap_msg = _("Auto wrap");
+    toggle_wrap_msg = _("Auto line wrap");
 #endif
 #ifdef ENABLE_MULTIBUFFER
     toggle_load_msg = _("Multiple file buffers");
@@ -321,10 +321,11 @@ void shortcut_init(int unjustify)
     const char *nano_help_msg = "", *nano_writeout_msg = "", *nano_exit_msg =
 	"", *nano_goto_msg = "", *nano_justify_msg =
 	"", *nano_replace_msg = "", *nano_insert_msg =
-	"", *nano_whereis_msg = "", *nano_prevpage_msg =
-	"", *nano_nextpage_msg = "", *nano_cut_msg =
-	"", *nano_uncut_msg = "", *nano_cursorpos_msg =
-	"", *nano_spell_msg = "", *nano_up_msg = "", *nano_down_msg =
+	"", *nano_whereis_msg = "", *nano_whereis_next_msg =
+	"", *nano_prevpage_msg = "", *nano_nextpage_msg =
+	"", *nano_cut_msg = "", *nano_uncut_msg =
+	"", *nano_cursorpos_msg = "", *nano_spell_msg =
+	"", *nano_up_msg = "", *nano_down_msg =
 	"", *nano_forward_msg = "", *nano_back_msg = "", *nano_home_msg =
 	"", *nano_end_msg = "", *nano_firstline_msg =
 	"", *nano_lastline_msg = "", *nano_refresh_msg =
@@ -359,6 +360,7 @@ void shortcut_init(int unjustify)
     nano_replace_msg = _("Replace text within the editor");
     nano_insert_msg = _("Insert another file into the current one");
     nano_whereis_msg = _("Search for text within the editor");
+    nano_whereis_next_msg = _("Repeat last search");
     nano_prevpage_msg = _("Move to the previous screen");
     nano_nextpage_msg = _("Move to the next screen");
     nano_cut_msg = _("Cut the current line and store it in the cutbuffer");
@@ -564,6 +566,11 @@ void shortcut_init(int unjustify)
 		    IFHELP(nano_bracket_msg, NANO_BRACKET_KEY),
 		    0, 0, VIEW, do_find_bracket);
 #endif
+
+    sc_init_one(&main_list, -9, _("Where Is Next"),
+		IFHELP(nano_whereis_next_msg, NANO_WHEREIS_NEXT_KEY), 0, 0,
+		NOVIEW, do_research);
+
 #ifdef ENABLE_MULTIBUFFER
     sc_init_one(&main_list, -9, _("Previous File"),
 		    IFHELP(nano_openprev_msg, NANO_OPENPREV_KEY),

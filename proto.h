@@ -358,6 +358,7 @@ filestruct *findnextstr(int quiet, int bracket_mode,
 			const filestruct *begin, int beginx,
 			const char *needle);
 int do_search(void);
+int do_research(void);
 void replace_abort(void);
 #ifdef HAVE_REGEX_H
 int replace_regexp(char *string, int create_flag);

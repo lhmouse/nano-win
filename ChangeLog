@@ -20,6 +20,12 @@ CVS code -
 	  notably FreeBSD; if your Backspace key acts like Delete, this
 	  option will fix that. (DLR)
 	- Remove unneeded breaks at the ends of default: clauses. (DLR)
+	- Add the ability to repeat the last search without prompting
+	  via Meta-W, and move the line wrapping toggle to Meta-L.  New
+	  function do_research(). (Wouter van Hemel)
+	- Change the message for the line wrapping toggle from "Auto
+	  wrap" to "Auto line wrap", to more clearly associate it with
+	  Meta-L. (DLR)
 - files.c:
   do_browser():
 	- Some of the Pico compatibility options in the file browser

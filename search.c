@@ -430,6 +430,46 @@ int do_search(void)
     return 1;
 }
 
+/* Search for the next string without prompting. */
+int do_research(void)
+{
+    filestruct *fileptr = current, *didfind;
+    int fileptr_x = current_x;
+#ifdef HAVE_REGEX_H
+    const char *regex_error = _("Invalid regex \"%s\"");
+#endif /* HAVE_REGEX_H */
+
+    wrap_reset();
+    search_init_globals();
+
+    if (last_search[0] != '\0') {
+
+#ifdef HAVE_REGEX_H
+	if (ISSET(USE_REGEXP))
+	    if (regexp_init(last_search) == 0) {
+		statusbar(regex_error, last_search);
+		reset_cursor();
+		return -3;
+	    }
+#endif
+
+	search_last_line = 0;
+	didfind = findnextstr(FALSE, FALSE, current, current_x, last_search);
+
+	if (fileptr == current && fileptr_x == current_x && didfind != NULL)
+	    statusbar(_("This is the only occurrence"));
+	else if (current->lineno <= edittop->lineno
+	    || current->lineno >= editbot->lineno)
+	    edit_update(current, CENTER);
+
+    } else
+        statusbar(_("No current search pattern"));
+
+    search_abort();
+
+    return 1;
+}
+
 void replace_abort(void)
 {
     /* Identical to search_abort, so we'll call it here.  If it
