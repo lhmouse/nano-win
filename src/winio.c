@@ -2897,7 +2897,7 @@ void edit_refresh(void)
 	 * current->lineno = edittop->lineno + editwinrows / 2.  Thus
 	 * when it then calls edit_refresh(), there is no danger of
 	 * getting an infinite loop. */
-	edit_update(current, CENTER);
+	edit_update(CENTER);
     else {
 	int nlines = 0;
 	const filestruct *foo = edittop;
@@ -2922,20 +2922,22 @@ void edit_refresh(void)
     }
 }
 
-/* Nice generic routine to update the edit buffer, given a pointer to the
- * file struct =) */
-void edit_update(filestruct *fileptr, topmidnone location)
+/* A nice generic routine to update the edit buffer. */
+void edit_update(topmidnone location)
 {
-    if (fileptr == NULL)
+    filestruct *foo = current;
+
+    /* We shouldn't need this check.  Yuck. */
+    if (current == NULL)
 	return;
 
     if (location != TOP) {
 	int goal = (location == NONE) ? current_y : editwinrows / 2;
 
-	for (; goal > 0 && fileptr->prev != NULL; goal--)
-	    fileptr = fileptr->prev;
+	for (; goal > 0 && foo->prev != NULL; goal--)
+	    foo = foo->prev;
     }
-    edittop = fileptr;
+    edittop = foo;
     edit_refresh();
 }
 

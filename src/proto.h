@@ -565,7 +565,7 @@ int need_vertical_update(size_t old_pww);
 void edit_scroll(updown direction, int nlines);
 void edit_redraw(const filestruct *old_current, size_t old_pww);
 void edit_refresh(void);
-void edit_update(filestruct *fileptr, topmidnone location);
+void edit_update(topmidnone location);
 int statusq(int allowtabs, const shortcut *s, const char *def,
 #ifndef NANO_SMALL
 		historyheadtype *history_list,

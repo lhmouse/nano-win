@@ -877,7 +877,7 @@ void do_gotoline(int line, bool save_pos)
 
     /* If save_pos is TRUE, don't change the cursor position when
      * updating the edit window. */
-    edit_update(current, save_pos ? NONE : CENTER);
+    edit_update(save_pos ? NONE : CENTER);
 
     placewewant = 0;
     display_main_list();

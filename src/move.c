@@ -35,7 +35,7 @@ void do_first_line(void)
     placewewant = 0;
     current_x = 0;
     if (edittop != fileage || need_vertical_update(old_pww))
-	edit_update(current, TOP);
+	edit_update(TOP);
 }
 
 void do_last_line(void)
@@ -46,7 +46,7 @@ void do_last_line(void)
     current_x = 0;
     if (edittop->lineno + (editwinrows / 2) != filebot->lineno ||
 	need_vertical_update(old_pww))
-	edit_update(current, CENTER);
+	edit_update(CENTER);
 }
 
 void do_home(void)

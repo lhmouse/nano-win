@@ -29,6 +29,9 @@ CVS code -
 	- If there are more than MAIN_VISIBLE shortcuts available, only
 	  register clicks on the first MAIN_VISIBLE shortcuts, since
 	  bottombars() only shows that many shortcuts. (DLR)
+  edit_update()
+	- Simplify so as not to require the fileptr parameter anymore,
+	  since it's set to current in all calls. (DLR)
   do_yesno()
 	- Don't bother assigning the value of get_mouseinput() to
 	  anything.  Since allow_shortcuts is FALSE, its return value
