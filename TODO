@@ -13,6 +13,7 @@ For version 1.4:
   (^R^X^X)(requires figuring out when to keep cursor pos and when not
   to).
 - Fix resetstatuspos global which we shouldn't have.
+- Rewrite the nano FAQ in SGML.
 
 Old requests:
 

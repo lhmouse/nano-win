@@ -31,6 +31,8 @@ CVS code -
 	  disabled if justification is disabled. (DLR)
 	- Make sure the "historylog" option isn't included at all if
 	  NANO_SMALL is defined. (DLR)
+	- Source reorganization: move code to src/, docs to doc/. (Jordi)
+	- Translation updates (see po/ChangeLog for details).
 - files.c:
   do_browser()
 	- Some of the Pico compatibility options in the file browser
@@ -85,6 +87,7 @@ CVS code -
 	  interpreted as Ctrl-[character], and the support for Pico's
 	  Esc Esc [three-digit decimal ASCII code] input method, if
 	  applicable. (DLR)
+	- French translation by Jean-Philippe Guérard.
 - nano.1.html, nanorc.5.html:
 	- Regenerated. (DLR)
 - nanorc.sample:

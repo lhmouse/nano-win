@@ -20,7 +20,7 @@
 # $Id$
 
 AC_INIT([GNU Nano], [1.2.99-cvs], [nano-devel@gnu.org], [nano])
-AC_CONFIG_SRCDIR([nano.c])
+AC_CONFIG_SRCDIR([src/nano.c])
 AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER([config.h:config.h.in])
 
@@ -347,5 +347,16 @@ then
 	LDFLAGS="$LDFLAGS $glib_libs"
 fi
 
-AC_CONFIG_FILES([Makefile m4/Makefile po/Makefile.in nano.spec])
+AC_CONFIG_FILES([
+Makefile
+doc/Makefile
+doc/man/Makefile
+doc/man/fr/Makefile
+doc/texinfo/Makefile
+m4/Makefile
+po/Makefile.in
+src/Makefile
+nano.spec
+])
+
 AC_OUTPUT
