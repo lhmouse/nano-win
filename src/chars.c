@@ -436,66 +436,19 @@ size_t move_mbright(const char *buf, size_t pos)
 /* This function is equivalent to strcasecmp(). */
 int nstrcasecmp(const char *s1, const char *s2)
 {
-    assert(s1 != NULL && s2 != NULL);
-
-    for (; *s1 != '\0' && *s2 != '\0'; s1++, s2++) {
-	if (tolower(*s1) != tolower(*s2))
-	    break;
-    }
-
-    return (tolower(*s1) - tolower(*s2));
+    return
+#ifdef HAVE_STRNCASECMP
+	strncasecmp(s1, s2, (size_t)-1);
+#else
+	nstrncasecmp(s1, s2, (size_t)-1);
+#endif
 }
 #endif
 
 /* This function is equivalent to strcasecmp() for multibyte strings. */
 int mbstrcasecmp(const char *s1, const char *s2)
 {
-#ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
-	char *s1_mb = charalloc(MB_CUR_MAX);
-	char *s2_mb = charalloc(MB_CUR_MAX);
-	wchar_t ws1, ws2;
-
-	assert(s1 != NULL && s2 != NULL);
-
-	while (*s1 != '\0' && *s2 != '\0') {
-	    int s1_mb_len, s2_mb_len;
-
-	    s1_mb_len = parse_mbchar(s1, s1_mb, NULL, NULL);
-
-	    if (mbtowc(&ws1, s1_mb, s1_mb_len) <= 0) {
-		mbtowc(NULL, NULL, 0);
-		ws1 = (unsigned char)*s1_mb;
-	    }
-
-
-	    s2_mb_len = parse_mbchar(s2, s2_mb, NULL, NULL);
-
-	    if (mbtowc(&ws2, s2_mb, s2_mb_len) <= 0) {
-		mbtowc(NULL, NULL, 0);
-		ws2 = (unsigned char)*s2_mb;
-	    }
-
-
-	    if (towlower(ws1) != towlower(ws2))
-		break;
-
-	    s1 += s1_mb_len;
-	    s2 += s2_mb_len;
-	}
-
-	free(s1_mb);
-	free(s2_mb);
-
-	return (towlower(ws1) - towlower(ws2));
-    } else
-#endif
-	return
-#ifdef HAVE_STRCASECMP
-		strcasecmp(s1, s2);
-#else
-		nstrcasecmp(s1, s2);
-#endif
+    return mbstrncasecmp(s1, s2, (size_t)-1);
 }
 
 #ifndef HAVE_STRNCASECMP
@@ -752,6 +705,12 @@ const char *mbrevstrcasestr(const char *haystack, const char *needle,
 }
 #endif
 
+/* This function is equivalent to strlen() for multibyte strings. */
+size_t mbstrlen(const char *s)
+{
+    return mbstrnlen(s, (size_t)-1);
+}
+
 #ifndef HAVE_STRNLEN
 /* This function is equivalent to strnlen(). */
 size_t nstrnlen(const char *s, size_t maxlen)
@@ -779,18 +738,19 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 	int s_mb_len;
 
 	while (*s != '\0') {
-	    s_mb_len = parse_mbchar(s + n, s_mb, NULL, NULL);
+	    s_mb_len = parse_mbchar(s, s_mb, NULL, NULL);
 
 	    if (maxlen == 0)
 		break;
 
 	    maxlen--;
-	    n += s_mb_len;
+	    s += s_mb_len;
+	    n++;
 	}
 
 	free(s_mb);
 
-	return strnlenpt(s, n);
+	return n;
     } else
 #endif
 	return

@@ -202,6 +202,7 @@ const char *revstrcasestr(const char *haystack, const char *needle,
 const char *mbrevstrcasestr(const char *haystack, const char *needle,
 	const char *rev_start);
 #endif
+size_t mbstrlen(const char *s);
 #ifndef HAVE_STRNLEN
 size_t nstrnlen(const char *s, size_t maxlen);
 #endif
