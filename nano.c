@@ -438,6 +438,11 @@ void usage(void)
 	(_
 	 (" -N 		--noconvert		Don't convert files from DOS/Mac format\n"));
 #endif
+#ifndef DISABLE_JUSTIFY
+    printf
+	(_
+	 (" -Q [str]	--quotestr [num]	Quoting string, default \"> \"\n"));
+#endif
 #ifndef NANO_SMALL
     printf(_
 	   (" -S		--smooth		Smooth scrolling\n"));
@@ -506,6 +511,9 @@ void usage(void)
     printf(_(" -K		Use alternate keypad routines\n"));
 #ifndef NANO_SMALL
     printf(_(" -M 		Write file in Mac format\n"));
+#endif
+#ifndef DISABLE_JUSTIFY
+    printf(_(" -Q [str] 	Quoting string, default \"> \"\n"));
 #endif
     printf(_(" -R		Use regular expressions for search\n"));
 #ifndef NANO_SMALL
@@ -2220,8 +2228,14 @@ int do_justify(void)
     int slen = 0;		/* length of combined lines on one line. */
     int initial_y, kbinput = 0, totbak;
     filestruct *initial = NULL, *tmpjust = NULL, *cutbak, *tmptop, *tmpbot;
+    filestruct *samecheck = current;
+    int qdepth = 0;
 
-    if (empty_line(current->data)) {
+    /* Compute quote depth level */
+    while (!strncmp(&current->data[qdepth], quotestr, strlen(quotestr)))
+	qdepth += strlen(quotestr);
+
+    if (empty_line(&current->data[qdepth])) {
 	/* Justify starting at first non-empty line. */
 	do {
 	    if (!current->next)
@@ -2230,14 +2244,23 @@ int do_justify(void)
 	    current = current->next;
 	    current_y++;
 	}
-	while (empty_line(current->data));
+	while (strlen(current->data) >= qdepth 
+		&& !strncmp(current->data, samecheck->data, qdepth) 
+		&& empty_line(&current->data[qdepth]));
+
     } else {
 	/* Search back for the beginning of the paragraph, where
 	 *   Paragraph is  1)  A line with leading whitespace
 	 *             or  2)  A line following an empty line.
 	 */
 	while (current->prev != NULL) {
-	    if (isspace((int) current->data[0]) || !current->data[0])
+	    if (strncmp(current->data, samecheck->data, qdepth)
+
+		/* Don't keep going back if the previous line is more 
+			intented quotestr-wise than samecheck */
+		|| !strncmp(&current->data[qdepth], quotestr, strlen(quotestr))
+		|| isspace((int) current->data[qdepth]) 
+		|| empty_line(&current->data[qdepth]))
 		break;
 
 	    current = current->prev;
@@ -2245,7 +2268,9 @@ int do_justify(void)
 	}
 
 	/* First line with leading whitespace may be empty. */
-	if (empty_line(current->data)) {
+	if (strncmp(current->data, samecheck->data, qdepth)
+		|| !strncmp(&current->data[qdepth], quotestr, strlen(quotestr))
+		|| empty_line(&current->data[qdepth])) {
 	    if (current->next) {
 		current = current->next;
 		current_y++;
@@ -2263,16 +2288,18 @@ int do_justify(void)
 
     tmptop = current;
     tmpjust = copy_node(current);
+    samecheck = tmpjust;
 
     /* This is annoying because it mucks with totsize */
     add_to_cutbuffer(tmpjust);
 
     /* Put the whole paragraph into one big line. */
     while (current->next && !isspace((int) current->next->data[0])
-	   && current->next->data[0]) {
+	   && !strncmp(current->next->data, samecheck->data, qdepth)
+	   && !empty_line(&current->next->data[qdepth])) {
 	filestruct *tmpnode = current->next;
 	int len = strlen(current->data);
-	int len2 = strlen(current->next->data);
+	int len2 = strlen(current->next->data) - qdepth;
 
 	tmpjust = NULL;
 	tmpjust = copy_node(current->next);
@@ -2286,7 +2313,7 @@ int do_justify(void)
 	current->data[len++] = ' ';
 	current->data[len] = '\0';
 
-	strncat(current->data, current->next->data, len2);
+	strncat(current->data, &current->next->data[qdepth], len2);
 
 	unlink_node(tmpnode);
 	delete_node(tmpnode);
@@ -2300,7 +2327,7 @@ int do_justify(void)
     if ((strlenpt(current->data) > (fill))
 	&& !no_spaces(current->data)) {
 	do {
-	    int i = 0;
+	    int i = 0, j = 0;
 	    int len2 = 0;
 	    filestruct *tmpline = nmalloc(sizeof(filestruct));
 
@@ -2325,10 +2352,14 @@ int do_justify(void)
 	    current->data[i] = '\0';
 
 	    len2 = strlen(current->data + i + 1);
-	    tmpline->data = charalloc(len2 + 1);
+	    tmpline->data = charalloc(len2 + 1 + qdepth);
+
+	    tmpline->data[0] = '\0';
+	    for (j = 0; j < qdepth; j += strlen(quotestr))
+		strcpy(&tmpline->data[j], quotestr);
 
 	    /* Skip the white space in current. */
-	    memcpy(tmpline->data, current->data + i + 1, len2);
+	    memcpy(&tmpline->data[j], current->data + i + 1, len2);
 	    tmpline->data[len2] = '\0';
 
 	    current->data = nrealloc(current->data, i + 1);
@@ -2786,11 +2817,11 @@ int main(int argc, char *argv[])
 #endif /* ENABLE_NANORC */
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "h?DFKMNRST:Vabcefgijklmo:pr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "h?DFKMNQ:RST:Vabcefgijklmo:pr:s:tvwxz",
 				 long_options, &option_index)) != EOF) {
 #else
     while ((optchr =
-	    getopt(argc, argv, "h?DFKMNRST:Vabcefgijklmo:pr:s:tvwxz")) != EOF) {
+	    getopt(argc, argv, "h?DFKMNQ:RST:Vabcefgijklmo:pr:s:tvwxz")) != EOF) {
 #endif
 
 	switch (optchr) {
@@ -2815,6 +2846,14 @@ int main(int argc, char *argv[])
 	case 'N':
 	    SET(NO_CONVERT);
 	    break;
+#endif
+	case 'Q':
+#ifndef DISABLE_JUSTIFY
+	    quotestr = optarg;
+	    break;
+#else
+	    usage();	/* To stop bogus data for tab width */
+	    finish(1);
 #endif
 #ifdef HAVE_REGEX_H
 	case 'R':

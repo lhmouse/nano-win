@@ -23,6 +23,8 @@ CVS code -
 	  name!) & free_toggles(), and big cleanup program 
 	  thanks_for_all_the_fish() (originally 
 	  thanks_for_the_memories()).  Mods to shortcut_init() by Chris.
+	- Preliminary quoting support for justify.  New arg -Q, --quotestr,
+	  changes to do_justify(), global variable quotestr().
 - Makefile.am:
 	- Add SYSCONFDIR to DEFS, so we can have an /etc/nanorc.
 	- Change localedir line to 1.0's version.

@@ -59,6 +59,10 @@ filestruct *cutbuffer = NULL;	/* A place to store cut text */
 filestruct *open_files = NULL;	/* The list of open files */
 #endif
 
+#ifndef DISABLE_JUSTIFY
+char *quotestr = "> ";		/* Quote string */
+#endif
+
 char *answer = NULL;			/* Answer str to many questions */
 int totlines = 0;		/* Total number of lines in the file */
 long totsize = 0;		/* Total number of bytes in the file */

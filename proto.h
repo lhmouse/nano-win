@@ -39,6 +39,10 @@ extern int fill, wrap_at, flags,tabsize;
 extern int search_last_line;
 extern int currslen;
 
+#ifndef DISABLE_JUSTIFY
+char *quotestr;
+#endif
+
 extern WINDOW *edit, *topwin, *bottomwin;
 extern char *filename;
 extern char *answer;
