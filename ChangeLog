@@ -3,7 +3,7 @@ CVS code -
   write_file()
 	- Added tmp check to TMP_OPT section (how apropriate).
 	- Added new consistency checking code from securityfocus 
-	  article by Oliver Friedrichs.
+	  article by Oliver Friedrichs, and use O_EXCL if tmp == 1.
 - winio.c:
   edit_add()
 	- Off by one display error (fix by Rocco Corsi).
