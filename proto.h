@@ -62,7 +62,7 @@ int no_help(void);
 void shortcut_init(void);
 void lowercase(char *src);
 void blank_bottombars(void);
-void check_wrap(filestruct * inptr);
+void check_wrap(filestruct * inptr, char ch);
 void dump_buffer(filestruct * inptr);
 void align(char **strp);
 void edit_refresh(void);
