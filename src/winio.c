@@ -3056,9 +3056,9 @@ void bottombars(const shortcut *s)
  * the whole string!  We do not bother padding the entry with blanks. */
 void onekey(const char *keystroke, const char *desc, size_t len)
 {
-    assert(keystroke != NULL && desc != NULL);
-
     size_t keystroke_len = strlenpt(keystroke) + 1;
+
+    assert(keystroke != NULL && desc != NULL);
 
     wattron(bottomwin, A_REVERSE);
     waddnstr(bottomwin, keystroke, actual_x(keystroke, len));

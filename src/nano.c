@@ -2512,7 +2512,7 @@ bool breakable(const char *line, ssize_t goal)
 
     /* If goal is not negative, the whole line (one word) was short
      * enough. */
-    return goal >= 0;
+    return (goal >= 0);
 }
 
 /* We are trying to break a chunk off line.  We find the last space such
