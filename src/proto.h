@@ -491,7 +491,8 @@ int get_ascii_kbinput(int kbinput, size_t ascii_digits
 #endif
 	);
 int get_control_kbinput(int kbinput);
-int get_escape_seq_kbinput(int *escape_seq, size_t es_len);
+int get_escape_seq_kbinput(int *escape_seq, size_t es_len, int
+	*ignore_seq);
 int get_escape_seq_abcd(int kbinput);
 int *get_verbatim_kbinput(WINDOW *win, int *verbatim_kbinput, size_t
 	*verbatim_len, int allow_ascii);

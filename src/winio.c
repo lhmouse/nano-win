@@ -152,14 +152,18 @@ int get_kbinput(WINDOW *win, int *meta_key)
 	    escape_seq = get_verbatim_kbinput(win, escape_seq, &es_len,
 		FALSE);
 
+	    /* If the escape sequence is more than one character
+	     * long, set meta_key to FALSE, translate the escape
+	     * sequence into the corresponding key value, and save
+	     * that as the result. */
 	    if (es_len > 1) {
-		/* The escape sequence is more than one character
-		 * long.  Set meta_key to FALSE, translate the escape
-		 * sequence into the corresponding key value, and save
-		 * that as the result. */
+		int ignore_seq;
+
 		*meta_key = FALSE;
-		if ((retval = get_escape_seq_kbinput(escape_seq,
-			es_len)) == ERR) {
+		retval = get_escape_seq_kbinput(escape_seq, es_len,
+			&ignore_seq);
+
+		if (retval == ERR && !ignore_seq) {
 		    /* This escape sequence is unrecognized.  Send it
 		     * back. */
 		    for (; es_len > 1; es_len--)
@@ -236,7 +240,6 @@ int get_translated_kbinput(int kbinput, int *es
 	case KEY_ALT_L:
 	case KEY_ALT_R:
 #endif
-	    retval = ERR;
 	    break;
 	default:
 	    switch (escapes) {
@@ -293,7 +296,6 @@ int get_translated_kbinput(int kbinput, int *es
 			    break;
 			case KEY_B2:	/* Center (5) on numeric keypad
 					 * with NumLock off. */
-			    retval = ERR;
 			    break;
 			case KEY_C1:	/* End (1) on numeric keypad
 					 * with NumLock off. */
@@ -307,7 +309,6 @@ int get_translated_kbinput(int kbinput, int *es
 			/* Slang doesn't support KEY_BEG. */
 			case KEY_BEG:	/* Center (5) on numeric keypad
 					 * with NumLock off. */
-			    retval = ERR;
 			    break;
 #endif
 #ifdef KEY_END
@@ -558,11 +559,17 @@ int get_control_kbinput(int kbinput)
 
 /* Translate escape sequences, most of which correspond to extended
  * keypad values, nto their corresponding key values.  These sequences
- * are generated when the keypad doesn't support the needed keys.
- * Assume that Escape has already been read in. */
-int get_escape_seq_kbinput(int *escape_seq, size_t es_len)
+ * are generated when the keypad doesn't support the needed keys.  If
+ * the escape sequence is recognized but we want to ignore it, return
+ * ERR and set ignore_seq to TRUE; if it's unrecognized, return ERR and
+ * set ignore_seq to FALSE.  Assume that Escape has already been read
+ * in. */
+int get_escape_seq_kbinput(int *escape_seq, size_t es_len, int
+	*ignore_seq)
 {
     int retval = ERR;
+
+    *ignore_seq = FALSE;
 
     if (es_len > 1) {
 	switch (escape_seq[0]) {
@@ -593,7 +600,7 @@ int get_escape_seq_kbinput(int *escape_seq, size_t es_len)
 			break;
 		    case 'E': /* Esc O E == Center (5) on numeric keypad
 			       * with NumLock off on xterm. */
-			retval = ERR;
+			*ignore_seq = TRUE;
 			break;
 		    case 'F': /* Esc O F == End on xterm. */
 			retval = NANO_END_KEY;
@@ -704,7 +711,7 @@ int get_escape_seq_kbinput(int *escape_seq, size_t es_len)
 		    case 'u': /* Esc O u == Center (5) on numeric keypad
 			       * with NumLock off on
 			       * VT100/VT220/VT320/rxvt/Eterm. */
-			retval = ERR;
+			*ignore_seq = TRUE;
 			break;
 		    case 'v': /* Esc O v == Right (6) on numeric keypad
 			       * with NumLock off on
@@ -910,7 +917,7 @@ int get_escape_seq_kbinput(int *escape_seq, size_t es_len)
 			break;
 		    case 'E': /* Esc [ E == Center (5) on numeric keypad
 			       * with NumLock off on FreeBSD console. */
-			retval = ERR;
+			*ignore_seq = TRUE;
 			break;
 		    case 'F': /* Esc [ F == End on FreeBSD
 			       * console/Eterm. */
@@ -1036,7 +1043,7 @@ int get_escape_seq_kbinput(int *escape_seq, size_t es_len)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "get_escape_seq_kbinput(): retval = %d\n", retval);
+    fprintf(stderr, "get_escape_seq_kbinput(): retval = %d, ignore_seq = %d\n", retval, *ignore_seq);
 #endif
 
     return retval;
