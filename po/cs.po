@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
-"POT-Creation-Date: 2001-07-28 19:55-0400\n"
+"POT-Creation-Date: 2001-09-18 23:21-0400\n"
 "Last-Translator: Václav Haisman <V.Haisman@sh.cvut.cz>\n"
 "Language-Team: N/A\n"
 "MIME-Version: 1.0\n"
@@ -22,495 +22,514 @@ msgstr "add_to_cutbuffer voláno s inptr->data = %s\n"
 msgid "Blew away cutbuffer =)\n"
 msgstr "Blew away cutbuffer =)\n"
 
-#: files.c:145
+#: files.c:149
 msgid "read_line: not on first line and prev is NULL"
 msgstr "read_line: nejsme na první øádce a pøedchozí je NULL"
 
-#: files.c:207 files.c:225
+#: files.c:211 files.c:229
 #, c-format
 msgid "Read %d lines"
 msgstr "Pøeèteno %d øádek"
 
-#: files.c:243 search.c:215
+#: files.c:247 search.c:213
 #, c-format
 msgid "\"%s\" not found"
 msgstr "\"%s\" nenalezen"
 
 #. We have a new file
-#: files.c:247
+#: files.c:251
 msgid "New File"
 msgstr "Nový Soubor"
 
-#: files.c:260
+#: files.c:264
 #, c-format
 msgid "File \"%s\" is a directory"
 msgstr "Soubor \"%s\" je adresáø"
 
 #. Don't open character or block files.  Sorry, /dev/sndstat!
-#: files.c:263
+#: files.c:267
 #, fuzzy, c-format
 msgid "File \"%s\" is a device file"
 msgstr "Soubor \"%s\" je soubor zaøízení"
 
-#: files.c:270
+#: files.c:275
 msgid "Reading File"
 msgstr "Ètu Soubor"
 
-#: files.c:290
+#: files.c:295
 msgid "File to insert [from ./] "
 msgstr "Soubor pro vlo¾ení [z ./] "
 
-#: files.c:294 files.c:437 files.c:486 files.c:661 files.c:673 files.c:716
-#: files.c:727 files.c:1113
+#: files.c:299 files.c:451 files.c:498 files.c:678 files.c:690 files.c:733
+#: files.c:744 files.c:1264
 #, c-format
 msgid "filename is %s"
 msgstr "jméno souboru je %s"
 
-#: files.c:379 files.c:883 files.c:1198 nano.c:1630
+#: files.c:330
+#, c-format
+msgid "Can't insert file from outside of %s"
+msgstr ""
+
+#: files.c:393 files.c:1022 files.c:1349 nano.c:1657
 msgid "Cancelled"
 msgstr "Zru¹eno"
 
-#: files.c:653 files.c:708
+#: files.c:670 files.c:725
 msgid "No more open files"
 msgstr ""
 
-#: files.c:931 files.c:947 files.c:961 files.c:978 files.c:985
+#: files.c:1045
+#, c-format
+msgid "Can't write outside of %s"
+msgstr ""
+
+#: files.c:1082 files.c:1098 files.c:1112 files.c:1129 files.c:1136
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "Nemohu otevøít soubor pro zápis: %s"
 
-#: files.c:966
+#: files.c:1117
 #, c-format
 msgid "Wrote >%s\n"
 msgstr "Zapsáno >%s\n"
 
-#: files.c:994
+#: files.c:1145
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "Nemohu zavøít %s: %s"
 
 #. Try a rename??
-#: files.c:1017 files.c:1026 files.c:1031
+#: files.c:1168 files.c:1177 files.c:1182
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr "Nemohu otevøít %s pro zápis: %s"
 
-#: files.c:1038
+#: files.c:1189
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr "Nemohu nastavit pøístupvá práva %o na %s: %s"
 
-#: files.c:1045
+#: files.c:1196
 #, c-format
 msgid "Wrote %d lines"
 msgstr "Zapsáno %d øádek"
 
-#: files.c:1085
+#: files.c:1236
 #, c-format
 msgid "%s Selection to File"
 msgstr ""
 
-#: files.c:1085 files.c:1089 global.c:499
+#: files.c:1236 files.c:1240 global.c:504
 #, fuzzy
 msgid "Append"
 msgstr "Zastavit"
 
-#: files.c:1085 files.c:1089
+#: files.c:1236 files.c:1240
 #, fuzzy
 msgid "Write"
 msgstr "Zapi¹"
 
-#: files.c:1089
+#: files.c:1240
 #, fuzzy, c-format
 msgid "File Name to %s"
 msgstr "Jméno Souboru pro zapsání"
 
-#: files.c:1127
+#: files.c:1278
 msgid "File exists, OVERWRITE ?"
 msgstr "Soubor existuje, PØEPSAT ?"
 
-#: files.c:1609
+#: files.c:1798
 msgid "(more)"
 msgstr "(více)"
 
-#: files.c:1922
+#: files.c:2111
 msgid "Can't move up a directory"
 msgstr "Nemohu se pøesunout o adresáø vý¹e"
 
+#: files.c:2123
+msgid "Can't visit parent in restricted mode"
+msgstr ""
+
 #. We can't open this dir for some reason.  Complain
-#: files.c:1932 files.c:1980
+#: files.c:2134 files.c:2191
 #, fuzzy, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "Nemohu zavøít %s: %s"
 
-#: files.c:1960 global.c:275
+#: files.c:2162 global.c:280
 #, fuzzy
 msgid "Goto Directory"
 msgstr "Jdi na Øádku"
 
-#: files.c:1965
+#: files.c:2169
+#, c-format
+msgid "Can't go outside of %s in restricted mode"
+msgstr ""
+
+#: files.c:2176
 #, fuzzy
 msgid "Goto Cancelled"
 msgstr "Zru¹eno"
 
-#: global.c:159
+#: global.c:164
 #, fuzzy
 msgid "Constant cursor position"
 msgstr "Konstantní pozice kurzoru"
 
-#: global.c:160
+#: global.c:165
 msgid "Auto indent"
 msgstr "Automatické odsazení"
 
-#: global.c:161
+#: global.c:166
 msgid "Suspend"
 msgstr "Zastavit"
 
-#: global.c:162
+#: global.c:167
 msgid "Help mode"
 msgstr "Nápovìdný mód"
 
-#: global.c:163
+#: global.c:168
 msgid "Pico mode"
 msgstr "Pico mód"
 
-#: global.c:164
+#: global.c:169
 msgid "Mouse support"
 msgstr "Podpora my¹i"
 
-#: global.c:165
+#: global.c:170
 msgid "Cut to end"
 msgstr "Vyjmout do konce"
 
-#: global.c:166
+#: global.c:171
 msgid "Backwards Search"
 msgstr ""
 
-#: global.c:167
+#: global.c:172
 #, fuzzy
 msgid "Case Sensitive Search"
 msgstr "Hledání (rozli¹uj malá/VELKÁ písmena)%s%s"
 
-#: global.c:169
+#: global.c:174
 msgid "Regular expressions"
 msgstr "Regulární výrazy"
 
-#: global.c:171
+#: global.c:176
 msgid "Auto wrap"
 msgstr "Automatické zalamování"
 
-#: global.c:174
+#: global.c:179
 msgid "Multiple file buffers"
 msgstr ""
 
-#: global.c:175
+#: global.c:180
 msgid "Open previously loaded file"
 msgstr ""
 
-#: global.c:176
+#: global.c:181
 msgid "Open next loaded file"
 msgstr ""
 
-#: global.c:236
+#: global.c:241
 msgid "Invoke the help menu"
 msgstr "Vyvolat menu nápovìdy"
 
-#: global.c:237
+#: global.c:242
 msgid "Write the current file to disk"
 msgstr "Zapsat aktuální soubor na disk"
 
-#: global.c:240
+#: global.c:245
 msgid "Close currently loaded file/Exit from nano"
 msgstr ""
 
-#: global.c:242
+#: global.c:247
 msgid "Exit from nano"
 msgstr "Ukonèit nano"
 
-#: global.c:245
+#: global.c:250
 #, fuzzy
 msgid "Goto a specific line number"
 msgstr "Jdi na øádku"
 
-#: global.c:246
+#: global.c:251
 msgid "Justify the current paragraph"
 msgstr "Zarovnej aktuální odstavec"
 
-#: global.c:247
+#: global.c:252
 msgid "Unjustify after a justify"
 msgstr "Zru¹ pøedchozí zarovnání"
 
-#: global.c:248
+#: global.c:253
 msgid "Replace text within the editor"
 msgstr "Zamìn text v editoru"
 
-#: global.c:249
+#: global.c:254
 msgid "Insert another file into the current one"
 msgstr "Vlo¾ soubor do aktuálního souboru"
 
-#: global.c:250
+#: global.c:255
 msgid "Search for text within the editor"
 msgstr "Hledej text v editoru"
 
-#: global.c:251
+#: global.c:256
 msgid "Move to the previous screen"
 msgstr "Pøesuò se na pøedchozí obrazovku"
 
-#: global.c:252
+#: global.c:257
 msgid "Move to the next screen"
 msgstr "Pøesuò se na dal¹í obrazovku"
 
-#: global.c:253
+#: global.c:258
 msgid "Cut the current line and store it in the cutbuffer"
 msgstr "Vyjmi aktuální øádku a ulo¾ ji v cutbufferu"
 
-#: global.c:254
+#: global.c:259
 msgid "Uncut from the cutbuffer into the current line"
 msgstr "Vlo¾ z cutbufferu do aktuální øádky"
 
-#: global.c:255
+#: global.c:260
 msgid "Show the position of the cursor"
 msgstr "Uka¾ pozici kurzoru"
 
-#: global.c:256
+#: global.c:261
 msgid "Invoke the spell checker (if available)"
 msgstr "Vyvolej kontrolu pravopisu (pokud je k dispozici)"
 
-#: global.c:257
+#: global.c:262
 msgid "Move up one line"
 msgstr "Pøesun o rádek nahoru"
 
-#: global.c:258
+#: global.c:263
 msgid "Move down one line"
 msgstr "Pøesun o øádek dolu"
 
-#: global.c:259
+#: global.c:264
 msgid "Move forward one character"
 msgstr "Pøesun o znak dopøedu"
 
-#: global.c:260
+#: global.c:265
 msgid "Move back one character"
 msgstr "Pøesun o znak zpìt"
 
-#: global.c:261
+#: global.c:266
 msgid "Move to the beginning of the current line"
 msgstr "Pøesun na zaèátek aktuální øádky"
 
-#: global.c:262
+#: global.c:267
 msgid "Move to the end of the current line"
 msgstr "Pøesun na konec aktuální øádky"
 
-#: global.c:263
+#: global.c:268
 msgid "Go to the first line of the file"
 msgstr "Pøesun na první øádku souboru"
 
-#: global.c:264
+#: global.c:269
 msgid "Go to the last line of the file"
 msgstr "Pøesun na poslední øádku souboru"
 
-#: global.c:265
+#: global.c:270
 msgid "Refresh (redraw) the current screen"
 msgstr "Obnov (pøekresli) obrazovku"
 
-#: global.c:266
+#: global.c:271
 msgid "Mark text at the current cursor location"
 msgstr "Oznaè text na souèasné pozici kurzoru"
 
-#: global.c:267
+#: global.c:272
 msgid "Delete the character under the cursor"
 msgstr "Sma¾ znak pod kurzorem"
 
-#: global.c:269
+#: global.c:274
 msgid "Delete the character to the left of the cursor"
 msgstr "Sma¾ znak nalevo od kurzoru"
 
-#: global.c:270
+#: global.c:275
 msgid "Insert a tab character"
 msgstr "Vlo¾ znak tabulátoru"
 
-#: global.c:271
+#: global.c:276
 msgid "Insert a carriage return at the cursor position"
 msgstr "Vlo¾ konec øádky na pozici kurzoru"
 
-#: global.c:273
+#: global.c:278
 msgid "Make the current search or replace case (in)sensitive"
 msgstr "(Ne)rozly¹uj malá/VELKÁ písmena v souèasném vyhledávání nebo zámìnì"
 
-#: global.c:274
+#: global.c:279
 msgid "Go to file browser"
 msgstr "Jdi do prohlí¾eè souborù"
 
-#: global.c:276
+#: global.c:281
 msgid "Cancel the current function"
 msgstr "Zru¹ aktuální funkci"
 
-#: global.c:277
+#: global.c:282
 #, fuzzy
 msgid "Append to the current file"
 msgstr "Pøesun na konec aktuální øádky"
 
-#: global.c:278
+#: global.c:283
 #, fuzzy
 msgid "Search Backwards"
 msgstr "Hledání Zru¹eno"
 
-#: global.c:279
+#: global.c:284
 #, fuzzy
 msgid "Use Regular Expressions"
 msgstr "Regulární výrazy"
 
-#: global.c:282
+#: global.c:287
 msgid "Get Help"
 msgstr "Nápovìda"
 
-#: global.c:287
+#: global.c:292
 msgid "Close"
 msgstr ""
 
-#: global.c:291 global.c:490 global.c:528
+#: global.c:296 global.c:495 global.c:533
 msgid "Exit"
 msgstr "Konec"
 
-#: global.c:294
+#: global.c:299
 msgid "WriteOut"
 msgstr "Zapi¹"
 
-#: global.c:299 global.c:388
+#: global.c:304 global.c:393
 msgid "Justify"
 msgstr "Zarovnání"
 
-#: global.c:303 global.c:309
+#: global.c:308 global.c:314
 #, fuzzy
 msgid "Read File"
 msgstr "Èíst Soubor"
 
-#: global.c:313 global.c:384 global.c:408
+#: global.c:318 global.c:389 global.c:413
 #, fuzzy
 msgid "Replace"
 msgstr "Zámìna"
 
-#: global.c:317
+#: global.c:322
 msgid "Where Is"
 msgstr "Kde Je"
 
-#: global.c:321 global.c:482 global.c:517
+#: global.c:326 global.c:487 global.c:522
 msgid "Prev Page"
 msgstr "Pøedchozí Strana"
 
-#: global.c:325 global.c:486 global.c:521
+#: global.c:330 global.c:491 global.c:526
 msgid "Next Page"
 msgstr "Dal¹í Strana"
 
-#: global.c:329
+#: global.c:334
 msgid "Cut Text"
 msgstr "Vyjmi Text"
 
-#: global.c:333
+#: global.c:338
 msgid "UnJustify"
 msgstr "OdZarovnej"
 
-#: global.c:336
+#: global.c:341
 msgid "UnCut Txt"
 msgstr "Zru¹ vyjmutí textu"
 
-#: global.c:340
+#: global.c:345
 msgid "Cur Pos"
 msgstr "Pozice Kurzoru"
 
-#: global.c:344
+#: global.c:349
 msgid "To Spell"
 msgstr "Pravopis"
 
-#: global.c:348
+#: global.c:353
 msgid "Up"
 msgstr "Nahoru"
 
-#: global.c:351
+#: global.c:356
 msgid "Down"
 msgstr "Dolu"
 
-#: global.c:354
+#: global.c:359
 msgid "Forward"
 msgstr "Dopøedu"
 
-#: global.c:357
+#: global.c:362
 msgid "Back"
 msgstr "Zpìt"
 
-#: global.c:360
+#: global.c:365
 msgid "Home"
 msgstr "Domù"
 
-#: global.c:363
+#: global.c:368
 msgid "End"
 msgstr "Konec"
 
-#: global.c:366
+#: global.c:371
 msgid "Refresh"
 msgstr "Obnov"
 
-#: global.c:369
+#: global.c:374
 #, fuzzy
 msgid "Mark Text"
 msgstr "Oznaè Text"
 
-#: global.c:372
+#: global.c:377
 msgid "Delete"
 msgstr "Zma¾"
 
-#: global.c:376
+#: global.c:381
 msgid "Backspace"
 msgstr "Backspace"
 
-#: global.c:380
+#: global.c:385
 msgid "Tab"
 msgstr "Tab"
 
-#: global.c:392
+#: global.c:397
 msgid "Enter"
 msgstr "Enter"
 
-#: global.c:396 global.c:412 global.c:442
+#: global.c:401 global.c:417 global.c:447
 msgid "Goto Line"
 msgstr "Jdi na Øádku"
 
-#: global.c:402 global.c:432 global.c:462 global.c:472
+#: global.c:407 global.c:437 global.c:467 global.c:477
 msgid "First Line"
 msgstr "První Øádka"
 
-#: global.c:405 global.c:435 global.c:465 global.c:475
+#: global.c:410 global.c:440 global.c:470 global.c:480
 msgid "Last Line"
 msgstr "Poslední Øádka"
 
-#: global.c:416 global.c:446
+#: global.c:421 global.c:451
 msgid "Case Sens"
 msgstr "Case Sens"
 
-#: global.c:419 global.c:449
+#: global.c:424 global.c:454
 #, fuzzy
 msgid "Backward"
 msgstr "Zpìt"
 
-#: global.c:424 global.c:454
+#: global.c:429 global.c:459
 msgid "Regexp"
 msgstr ""
 
-#: global.c:429 global.c:459 global.c:468 global.c:478 global.c:502
-#: global.c:510 global.c:513 global.c:531 winio.c:1239
+#: global.c:434 global.c:464 global.c:473 global.c:483 global.c:507
+#: global.c:515 global.c:518 global.c:536 winio.c:1241
 msgid "Cancel"
 msgstr "Storno"
 
-#: global.c:438
+#: global.c:443
 #, fuzzy
 msgid "No Replace"
 msgstr "Bez zámìny"
 
-#: global.c:495 global.c:506
+#: global.c:500 global.c:511
 #, fuzzy
 msgid "To Files"
 msgstr "K Souborùm"
 
-#: global.c:525
+#: global.c:530
 #, fuzzy
 msgid "Goto"
 msgstr "Jdi na Øádku"
@@ -622,7 +641,7 @@ msgstr " -c \t\t--const\t\t\tStále ukazuj pozici kurzoru\n"
 msgid " -h \t\t--help\t\t\tShow this message\n"
 msgstr " -h \t\t--help\t\t\tUka¾ tuto zpráva\n"
 
-#: nano.c:425
+#: nano.c:426
 msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
 msgstr " -i \t\t--autoindent\t\tAutomaticky odsazuj nové øádky\n"
 
@@ -638,46 +657,51 @@ msgstr " -l \t\t--nofollow\t\tNenásleduj symbolické odkazy, pøepi¹ je\n"
 msgid " -m \t\t--mouse\t\t\tEnable mouse\n"
 msgstr " -m \t\t--mouse\t\t\tPovol my¹\n"
 
-#: nano.c:438
-msgid " -p\t \t--pico\t\t\tEmulate Pico as closely as possible\n"
+#: nano.c:439
+msgid " -o [dir] \t--operatingdir\t\tSet operating directory\n"
+msgstr ""
+
+#: nano.c:442
+#, fuzzy
+msgid " -p \t\t--pico\t\t\tEmulate Pico as closely as possible\n"
 msgstr " -p\t \t--pico\t\t\tNapodobuj Pico tak, jak jen to jde\n"
 
-#: nano.c:443
+#: nano.c:447
 msgid ""
 " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
 msgstr ""
 " -r [#sloupce] \t--fill=[#sloupce]\t\tNastav vyplnìné sloupce na (zalom "
 "øádky na) #sloupce\n"
 
-#: nano.c:447
+#: nano.c:451
 msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
 msgstr " -s [program] \t--speller=[program]\tPou¾ij jiný kontroler pravopisu\n"
 
-#: nano.c:450
+#: nano.c:454
 msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
 msgstr " -t \t\t--tempfile\t\tAutomaticky ulo¾ pøi ukonèení, nedotazuj se\n"
 
-#: nano.c:452
+#: nano.c:456
 msgid " -v \t\t--view\t\t\tView (read only) mode\n"
 msgstr " -t \t\t--view\t\t\tPROHLÍ®ECÍ re¾im (pouze pro ètení)\n"
 
-#: nano.c:455
+#: nano.c:459
 msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
 msgstr " -w \t\t--nowrap\t\tNezalamuj dlouhé øádky\n"
 
-#: nano.c:458
+#: nano.c:462
 msgid " -x \t\t--nohelp\t\tDon't show help window\n"
 msgstr " -x \t\t--nohelp\t\tNeukazuj okno nápovìdy\n"
 
-#: nano.c:460
+#: nano.c:464
 msgid " -z \t\t--suspend\t\tEnable suspend\n"
 msgstr " -z \t\t--suspend\t\tPovol zastavení\n"
 
-#: nano.c:462
+#: nano.c:466
 msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
 msgstr " +ØÁDKA\t\t\t\t\tZaèni na øádce èíslo ØÁDKA\n"
 
-#: nano.c:464
+#: nano.c:468
 msgid ""
 "Usage: nano [option] +LINE <file>\n"
 "\n"
@@ -685,98 +709,102 @@ msgstr ""
 "Pou¾ití: nano [volba] +ØÁDKA <soubor>\n"
 "\n"
 
-#: nano.c:465
+#: nano.c:469
 msgid "Option\t\tMeaning\n"
 msgstr "Volba\t\tSmysl\n"
 
-#: nano.c:467
+#: nano.c:471
 msgid " -F \t\tEnable multiple file buffers\n"
 msgstr ""
 
-#: nano.c:469
+#: nano.c:473
 msgid " -T [num]\tSet width of a tab to num\n"
 msgstr " -T [èís]\tNastav velikost tab na èís\n"
 
-#: nano.c:470
+#: nano.c:474
 msgid " -R\t\tUse regular expressions for search\n"
 msgstr " -R\t\tPou¾ívej pro vyhledávání regulární výrazy\n"
 
-#: nano.c:471
+#: nano.c:475
 msgid " -V \t\tPrint version information and exit\n"
 msgstr " -V \t\tVypi¹ informace o verzi a skonèi\n"
 
-#: nano.c:472
+#: nano.c:476
 msgid " -c \t\tConstantly show cursor position\n"
 msgstr " -c \t\tStále ukazuj pozici kurzoru\n"
 
-#: nano.c:473
+#: nano.c:477
 msgid " -h \t\tShow this message\n"
 msgstr " -h \t\tUka¾ tuto zprávu\n"
 
-#: nano.c:474
+#: nano.c:479
 msgid " -i \t\tAutomatically indent new lines\n"
 msgstr " -i \t\tAutomaticky odsazuj nové øádky\n"
 
-#: nano.c:476
+#: nano.c:480
 msgid " -k \t\tLet ^K cut from cursor to end of line\n"
 msgstr " -k \t\tNech ^K vyjímat od kurzoru do konce øádky\n"
 
-#: nano.c:479
+#: nano.c:483
 msgid " -l \t\tDon't follow symbolic links, overwrite\n"
 msgstr " -l \t\tNenásleduj symbolické odkazy, pøepi¹ je\n"
 
-#: nano.c:482
+#: nano.c:486
 msgid " -m \t\tEnable mouse\n"
 msgstr " -m \t\tPovol my¹\n"
 
-#: nano.c:485
+#: nano.c:490
+msgid " -o [dir] \tSet operating directory\n"
+msgstr ""
+
+#: nano.c:492
 msgid " -p \t\tEmulate Pico as closely as possible\n"
 msgstr " -p \t\tNapodobuj Pico tak, jak jen to jde\n"
 
-#: nano.c:489
+#: nano.c:496
 msgid " -r [#cols] \tSet fill cols to (wrap lines at) #cols\n"
 msgstr ""
 " -r [#sloupce] \tNastav vyplnìné sloupce na (zalom øádky na) #sloupce\n"
 
-#: nano.c:492
+#: nano.c:499
 msgid " -s [prog]  \tEnable alternate speller\n"
 msgstr " -s [program]  \tPou¾ij jiný kontroler pravopisu\n"
 
-#: nano.c:494
+#: nano.c:501
 msgid " -t \t\tAuto save on exit, don't prompt\n"
 msgstr " -t \t\tAutomaticky ulo¾ pøi ukonèení, nedotazuj se\n"
 
-#: nano.c:495
+#: nano.c:502
 msgid " -v \t\tView (read only) mode\n"
 msgstr " -v \t\tPROHLÍ®ECÍ re¾im (pouze pro ètení)\n"
 
-#: nano.c:497
+#: nano.c:504
 msgid " -w \t\tDon't wrap long lines\n"
 msgstr " -w \t\tNezalamuj dlouhé øádky\n"
 
-#: nano.c:499
+#: nano.c:506
 msgid " -x \t\tDon't show help window\n"
 msgstr " -x \t\tNeukazuj okno pomoci\n"
 
-#: nano.c:500
+#: nano.c:507
 msgid " -z \t\tEnable suspend\n"
 msgstr " -z \t\tPovol zastavení\n"
 
-#: nano.c:501
+#: nano.c:508
 msgid " +LINE\t\tStart at line number LINE\n"
 msgstr " +ØÁDKA\t\tZaèni na øádce ØÁDKA\n"
 
-#: nano.c:508
+#: nano.c:515
 #, fuzzy, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
 msgstr " GNU nano verze %s (kompilováno %s, %s)\n"
 
-#: nano.c:511
+#: nano.c:518
 #, fuzzy
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 msgstr " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 
-#: nano.c:512
+#: nano.c:519
 msgid ""
 "\n"
 " Compiled options:"
@@ -784,266 +812,266 @@ msgstr ""
 "\n"
 " Skompilované volby:"
 
-#: nano.c:598
+#: nano.c:608
 msgid "Mark Set"
 msgstr "Znaèka Nastavena"
 
-#: nano.c:603
+#: nano.c:613
 msgid "Mark UNset"
 msgstr "Znaèka OdNastavena"
 
-#: nano.c:1106
+#: nano.c:1129
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap zavoláno s inptr->data=\"%s\"\n"
 
-#: nano.c:1158
+#: nano.c:1181
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data nyní = \"%s\"\n"
 
-#: nano.c:1210
+#: nano.c:1233
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Poté, data = \"%s\"\n"
 
-#: nano.c:1311
+#: nano.c:1334
 msgid "Edit a replacement"
 msgstr "Edituj náhradu"
 
-#: nano.c:1549
+#: nano.c:1568
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Nemohu vytvoøit doèasný soubor: %s"
 
-#: nano.c:1555
+#: nano.c:1574
 msgid "Spell checking failed: unable to write temp file!"
 msgstr "Kontrola pravopisu selhala: nemohu zapisovat do doèasného souboru!"
 
-#: nano.c:1567
+#: nano.c:1594
 msgid "Finished checking spelling"
 msgstr "Kontrola pravopisu dokonèena"
 
-#: nano.c:1569
+#: nano.c:1596
 msgid "Spell checking failed"
 msgstr "Kontrola pravopisu selhala"
 
-#: nano.c:1598
+#: nano.c:1625
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Ulo¾ zmìnìný buffer (ODPOVÌÏÍ \"Ne\" ZTRATÍTE ZMÌNY) ? "
 
-#: nano.c:1734
+#: nano.c:1761
 msgid "Received SIGHUP"
 msgstr "Pøijat signál SIGHUP"
 
-#: nano.c:1798
+#: nano.c:1825
 msgid "Cannot resize top win"
 msgstr "Nemohu zmìnit velikost vrchního okna"
 
-#: nano.c:1800
+#: nano.c:1827
 msgid "Cannot move top win"
 msgstr "Nemohu pøesunout vrchní okno"
 
-#: nano.c:1802
+#: nano.c:1829
 msgid "Cannot resize edit win"
 msgstr "Nemohu zmìnit velikost editovacího okna"
 
-#: nano.c:1804
+#: nano.c:1831
 msgid "Cannot move edit win"
 msgstr "Nemohu pøesunout editovací okno"
 
-#: nano.c:1806
+#: nano.c:1833
 msgid "Cannot resize bottom win"
 msgstr "Nemohu zmìnit velikost spodního okna"
 
-#: nano.c:1808
+#: nano.c:1835
 msgid "Cannot move bottom win"
 msgstr "Nemohu pøesunout spodní okno"
 
-#: nano.c:2133
+#: nano.c:2160
 msgid "Can now UnJustify!"
 msgstr "Mù¾e nyní OdZarovnat!"
 
-#: nano.c:2249
+#: nano.c:2276
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s povol/zaka¾"
 
-#: nano.c:2268
+#: nano.c:2295
 msgid "enabled"
 msgstr "povoleno"
 
-#: nano.c:2269
+#: nano.c:2296
 msgid "disabled"
 msgstr "zakázáno"
 
-#: nano.c:2322
+#: nano.c:2348
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "Zji¹tìna porucha NumLocku.  Numerická klávesnice nebude fungovat s vypnutým "
 "NumLockem"
 
-#: nano.c:2577
+#: nano.c:2624
 msgid "Main: set up windows\n"
 msgstr "Main: nastav okna\n"
 
-#: nano.c:2588
+#: nano.c:2635
 msgid "Main: bottom win\n"
 msgstr "Main: spodní okno\n"
 
-#: nano.c:2594
+#: nano.c:2641
 msgid "Main: open file\n"
 msgstr "Main: otevøi soubor\n"
 
-#: nano.c:2652
+#: nano.c:2701
 #, fuzzy, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Mám Alt-O-%c! (%d)\n"
 
-#: nano.c:2679
+#: nano.c:2728
 #, fuzzy, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Mám Alt-[-1-%c! (%d)\n"
 
-#: nano.c:2717
+#: nano.c:2766
 #, fuzzy, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Mám Alt-[-2-%c! (%d)\n"
 
-#: nano.c:2771
+#: nano.c:2820
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Mám Alt-[-%c! (%d)\n"
 
-#: nano.c:2806
+#: nano.c:2855
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Mám Alt-%c! (%d)\n"
 
-#: rcfile.c:76
+#: rcfile.c:77
 msgid ""
 "\n"
 "Press return to continue starting nano\n"
 msgstr ""
 
-#: rcfile.c:134
+#: rcfile.c:135
 msgid "parse_rcfile: Read a comment\n"
 msgstr ""
 
-#: rcfile.c:151
+#: rcfile.c:152
 #, c-format
 msgid "Error in %s on line %d: command %s not understood"
 msgstr ""
 
-#: rcfile.c:164
+#: rcfile.c:165
 #, c-format
 msgid "parse_rcfile: Parsing option %s\n"
 msgstr ""
 
-#: rcfile.c:180
+#: rcfile.c:182
 #, c-format
 msgid "Error in %s on line %d: option %s requires an argument"
 msgstr ""
 
-#: rcfile.c:191
+#: rcfile.c:193
 #, c-format
 msgid "Error in %s on line %d: requested fill size %d too small"
 msgstr ""
 
-#: rcfile.c:207
+#: rcfile.c:209
 #, c-format
 msgid "set flag %d!\n"
 msgstr ""
 
-#: rcfile.c:212
+#: rcfile.c:214
 #, c-format
 msgid "unset flag %d!\n"
 msgstr ""
 
-#: rcfile.c:221
+#: rcfile.c:223
 msgid "Errors found in .nanorc file"
 msgstr ""
 
-#: rcfile.c:230
+#: rcfile.c:232
 #, c-format
 msgid "Unable to open ~/.nanorc file, %s"
 msgstr ""
 
-#: search.c:129
+#: search.c:138
 #, fuzzy
 msgid "Case Sensitive "
 msgstr "Case Sens"
 
-#: search.c:130
+#: search.c:139
 msgid "Regexp "
 msgstr ""
 
-#: search.c:131
+#: search.c:140
 #, fuzzy
 msgid "Search"
 msgstr "Hledání"
 
-#: search.c:132
+#: search.c:141
 msgid " Backwards"
 msgstr ""
 
-#: search.c:133
+#: search.c:142
 msgid " (to replace)"
 msgstr " (k zámìnì)"
 
-#: search.c:138 search.c:404
+#: search.c:147 search.c:402
 msgid "Search Cancelled"
 msgstr "Hledání Zru¹eno"
 
-#: search.c:221
+#: search.c:219
 #, fuzzy, c-format
 msgid "\"%s...\" not found"
 msgstr "\"%s...\" nenalezen"
 
-#: search.c:270 search.c:326
+#: search.c:268 search.c:324
 msgid "Search Wrapped"
 msgstr "Hledání Zalomeno"
 
-#: search.c:426
+#: search.c:424
 #, fuzzy, c-format
 msgid "Replaced %d occurrences"
 msgstr "Zamìnìno %d výskytù"
 
-#: search.c:428
+#: search.c:426
 #, fuzzy
 msgid "Replaced 1 occurrence"
 msgstr "Zamìnìn 1 výskyt"
 
-#: search.c:566 search.c:676 search.c:692
+#: search.c:564 search.c:674 search.c:690
 msgid "Replace Cancelled"
 msgstr "Zámìna Zru¹ena"
 
-#: search.c:616
+#: search.c:614
 msgid "Replace this instance?"
 msgstr "Zamìnit tuto instanci?"
 
-#: search.c:628
+#: search.c:626
 msgid "Replace failed: unknown subexpression!"
 msgstr "Zámìna selhala: neznámý podvýraz!"
 
-#: search.c:717
+#: search.c:715
 #, c-format
 msgid "Replace with [%s]"
 msgstr "Zamìn s [%s]"
 
-#: search.c:721 search.c:725
+#: search.c:719 search.c:723
 msgid "Replace with"
 msgstr "Zamìn s"
 
-#: search.c:759
+#: search.c:757
 msgid "Enter line number"
 msgstr "Zadej èíslo øádky"
 
-#: search.c:761
+#: search.c:759
 msgid "Aborted"
 msgstr "Pøeru¹eno"
 
-#: search.c:770
+#: search.c:768
 msgid "Come on, be reasonable"
 msgstr "Notak, buï rozumný."
 
@@ -1076,34 +1104,34 @@ msgstr "vstup '%c' (%d)\n"
 msgid "input '%c' (%d)\n"
 msgstr "vstup '%c' (%d)\n"
 
-#: winio.c:542
+#: winio.c:540
 msgid "New Buffer"
 msgstr "Nový Buffer"
 
-#: winio.c:546
+#: winio.c:544
 msgid "  File: ..."
 msgstr "  Soubor: ..."
 
-#: winio.c:548
+#: winio.c:546
 #, fuzzy
 msgid "   DIR: ..."
 msgstr "   Adresáø: ..."
 
-#: winio.c:559
+#: winio.c:557
 msgid "Modified"
 msgstr "Zmìnìn"
 
-#: winio.c:1115
+#: winio.c:1117
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr "Pøesunut na (%d, %d) v editovacím bufferu\n"
 
-#: winio.c:1126
+#: winio.c:1128
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr "current->data = \"%s\"\n"
 
-#: winio.c:1183
+#: winio.c:1185
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "Mám \"%s\"\n"
@@ -1111,81 +1139,81 @@ msgstr "Mám \"%s\"\n"
 #. Yes, no and all are strings of any length.  Each string consists of
 #. all characters accepted as a valid character for that value.
 #. The first value will be the one displayed in the shortcuts.
-#: winio.c:1212
+#: winio.c:1214
 msgid "Yy"
 msgstr "Aa"
 
-#: winio.c:1213
+#: winio.c:1215
 msgid "Nn"
 msgstr "Nn"
 
-#: winio.c:1214
+#: winio.c:1216
 msgid "Aa"
 msgstr "Vv"
 
-#: winio.c:1228
+#: winio.c:1230
 msgid "Yes"
 msgstr "Ano"
 
-#: winio.c:1232
+#: winio.c:1234
 msgid "All"
 msgstr "V¹e"
 
-#: winio.c:1237
+#: winio.c:1239
 msgid "No"
 msgstr "Ne"
 
-#: winio.c:1437
+#: winio.c:1439
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
-#: winio.c:1441
+#: winio.c:1443
 #, c-format
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "øádka %d z %d (%.0f%%), znak %d z %d (%.0f%%)"
 
-#: winio.c:1585
+#: winio.c:1587
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Vyhazuji souborový buffer od stderr...\n"
 
-#: winio.c:1587
+#: winio.c:1589
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Vyhazuji cutbuffer do stderr...\n"
 
-#: winio.c:1589
+#: winio.c:1591
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Vyhazuji buffer do stderr...\n"
 
-#: winio.c:1664
+#: winio.c:1666
 msgid "The nano text editor"
 msgstr "Nano texotvý editor"
 
-#: winio.c:1665
+#: winio.c:1667
 msgid "version "
 msgstr "verze "
 
-#: winio.c:1666
+#: winio.c:1668
 msgid "Brought to you by:"
 msgstr "Pøinesen k Vám od:"
 
-#: winio.c:1667
+#: winio.c:1669
 msgid "Special thanks to:"
 msgstr "Speciální díky:"
 
-#: winio.c:1668
+#: winio.c:1670
 msgid "The Free Software Foundation"
 msgstr "The Free Software Foundation"
 
-#: winio.c:1669
+#: winio.c:1671
 msgid "Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses"
 msgstr "Pavel Curtis, Zeyd Ben-Halim a Eric S. Raymond za ncurses"
 
-#: winio.c:1670
+#: winio.c:1672
 msgid "and anyone else we forgot..."
 msgstr "a komukoliv na koho jsem zapomìli..."
 
-#: winio.c:1671
+#: winio.c:1673
 msgid "Thank you for using nano!\n"
 msgstr "Dìkuji za u¾ívání nano!\n"
 
