@@ -2284,41 +2284,21 @@ void do_toggle(int which)
 	display_main_list();
 	break;
 
-#ifdef ENABLE_LOADONINSERT
-    case NANO_OPENPREV_KEY:
-	open_prevfile(0);
-	break;
-    case NANO_OPENNEXT_KEY:
-	open_nextfile(0);
-	break;
-#endif
-
     }
 
-#ifdef ENABLE_LOADONINSERT
-    /* NANO_OPENPREV_KEY and NANO_OPENNEXT_KEY aren't really toggles, so
-       don't display anything on the statusbar if they're pressed */
-    if (toggles[which].val != NANO_OPENPREV_KEY &&
-	toggles[which].val != NANO_OPENNEXT_KEY) {
-#endif
-
-	if (!ISSET(toggles[which].flag)) {
-	    if (toggles[which].val == TOGGLE_NOHELP_KEY ||
-		toggles[which].val == TOGGLE_WRAP_KEY)
-		statusbar("%s %s", toggles[which].desc, enabled);
-	    else
-		statusbar("%s %s", toggles[which].desc, disabled);
-	} else {
-	    if (toggles[which].val == TOGGLE_NOHELP_KEY ||
-		toggles[which].val == TOGGLE_WRAP_KEY)
-		statusbar("%s %s", toggles[which].desc, disabled);
-	    else
-		statusbar("%s %s", toggles[which].desc, enabled);
-	}
-
-#ifdef ENABLE_LOADONINSERT
+    if (!ISSET(toggles[which].flag)) {
+	if (toggles[which].val == TOGGLE_NOHELP_KEY ||
+	    toggles[which].val == TOGGLE_WRAP_KEY)
+	    statusbar("%s %s", toggles[which].desc, enabled);
+	else
+	    statusbar("%s %s", toggles[which].desc, disabled);
+    } else {
+	if (toggles[which].val == TOGGLE_NOHELP_KEY ||
+	    toggles[which].val == TOGGLE_WRAP_KEY)
+	    statusbar("%s %s", toggles[which].desc, disabled);
+	else
+	    statusbar("%s %s", toggles[which].desc, enabled);
     }
-#endif
 
     SET(DISABLE_CURPOS);
 
@@ -2787,8 +2767,15 @@ int main(int argc, char *argv[])
 		    break;
 		}
 		break;
+	    case NANO_OPENPREV_KEY:
+		open_prevfile(0);
+		keyhandled = 1;
+		break;
+	    case NANO_OPENNEXT_KEY:
+		open_nextfile(0);
+		keyhandled = 1;
+		break;
 	    default:
-
 		/* Check for the altkey defs.... */
 		for (i = 0; i <= MAIN_LIST_LEN - 1; i++)
 		    if (kbinput == main_list[i].altval ||
