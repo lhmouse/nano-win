@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-09-02 14:48-0400\n"
+"POT-Creation-Date: 2000-09-02 21:13-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -112,7 +112,7 @@ msgid "Constant cursor position"
 msgstr ""
 
 #: global.c:119
-msgid "Autoindent"
+msgid "Auto indent"
 msgstr ""
 
 #: global.c:120

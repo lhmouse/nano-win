@@ -29,7 +29,7 @@ const struct _msg_ent _msg_tbl[] = {
   {"filename is %s", 20},
   {"File exists, OVERWRITE ?", 21},
   {"Constant cursor position", 22},
-  {"Autoindent", 23},
+  {"Auto indent", 23},
   {"Suspend", 24},
   {"Help mode", 25},
   {"Pico messages", 26},

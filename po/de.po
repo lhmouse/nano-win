@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.14pre1\n"
-"POT-Creation-Date: 2000-09-02 03:33-0400\n"
+"POT-Creation-Date: 2000-09-02 21:13-0400\n"
 "PO-Revision-Date: 2000-07-27 11:44+0200\n"
 "Last-Translator: Florian König <floki@bigfoot.com>\n"
 "Language-Team: German <floki@bigfoot.com>\n"
@@ -56,7 +56,7 @@ msgstr "Lese Datei"
 msgid "File to insert [from ./] "
 msgstr "Datei zum Einfügen [von ./] "
 
-#: files.c:273 files.c:297 files.c:487 nano.c:1146
+#: files.c:273 files.c:297 files.c:487 nano.c:1131
 msgid "Cancelled"
 msgstr "Abgebrochen"
 
@@ -115,7 +115,7 @@ msgstr " -c \t\tCursorposition ständig anzeigen\n"
 
 #: global.c:119
 #, fuzzy
-msgid "Autoindent"
+msgid "Auto indent"
 msgstr "autoindent"
 
 #: global.c:120
@@ -123,7 +123,7 @@ msgid "Suspend"
 msgstr "Suspend"
 
 #: global.c:121
-msgid "No help mode"
+msgid "Help mode"
 msgstr ""
 
 #: global.c:122
@@ -144,8 +144,9 @@ msgid "Regular expressions"
 msgstr " -R\t\tRegulären Ausdruck zur Suche verwenden\n"
 
 #: global.c:126
-msgid "No auto wrap"
-msgstr ""
+#, fuzzy
+msgid "Auto wrap"
+msgstr "nowrap"
 
 #: global.c:166
 msgid "Invoke the help menu"
@@ -385,7 +386,7 @@ msgid "Case Sens"
 msgstr "GROSZ/klein"
 
 #: global.c:331 global.c:350 global.c:360 global.c:376 global.c:380
-#: global.c:386 winio.c:994
+#: global.c:386 winio.c:999
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -643,90 +644,90 @@ msgstr "Markierung gesetzt"
 msgid "Mark UNset"
 msgstr "Markierung gelöscht"
 
-#: nano.c:881
+#: nano.c:866
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap aufgerufen mit inptr->data=\"%s\"\n"
 
-#: nano.c:932
+#: nano.c:917
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data jetzt = \"%s\"\n"
 
-#: nano.c:985
+#: nano.c:970
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Nachher, data = \"%s\"\n"
 
-#: nano.c:1055
+#: nano.c:1040
 msgid "Error deleting tempfile, ack!"
 msgstr "Konnte temporäre Datei nicht löschen"
 
-#: nano.c:1073
+#: nano.c:1058
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Konnte keine temporäre Datei erzeugen: %s"
 
-#: nano.c:1096
+#: nano.c:1081
 #, c-format
 msgid "Could not invoke spell program \"%s\""
 msgstr "Konnte Rechtschreibprogramm \"%s\" nicht aufrufen"
 
 #. Why 32512? I dont know!
-#: nano.c:1102
+#: nano.c:1087
 msgid "Could not invoke \"ispell\""
 msgstr "Konnte \"ispell\" nicht aufrufen"
 
-#: nano.c:1115
+#: nano.c:1100
 msgid "Finished checking spelling"
 msgstr "Rechtschreibprüfung abgeschlossen"
 
-#: nano.c:1133
+#: nano.c:1118
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Veränderten Puffer speichern (\"Nein\" verwirft die Änderungen) ? "
 
-#: nano.c:1274
+#: nano.c:1259
 msgid "Cannot resize top win"
 msgstr "Kann die Größe des oberen Fensters nicht verändern"
 
-#: nano.c:1276
+#: nano.c:1261
 msgid "Cannot move top win"
 msgstr "Kann oberes Fenster nicht verschieben"
 
-#: nano.c:1278
+#: nano.c:1263
 msgid "Cannot resize edit win"
 msgstr "Kann Größe des Bearbeitungsfensters nicht verändern"
 
-#: nano.c:1280
+#: nano.c:1265
 msgid "Cannot move edit win"
 msgstr "Kann Bearbeitungsfenster nicht verschieben"
 
-#: nano.c:1282
+#: nano.c:1267
 msgid "Cannot resize bottom win"
 msgstr "Kann Größe des unteren Fensters nicht verändern"
 
-#: nano.c:1284
+#: nano.c:1269
 msgid "Cannot move bottom win"
 msgstr "Kann unteres Fenster nicht verschieben"
 
-#: nano.c:1821
+#: nano.c:1818
 msgid "Main: set up windows\n"
 msgstr "Hauptprogramm: Fenster konfigurieren\n"
 
-#: nano.c:1836
+#: nano.c:1833
 msgid "Main: bottom win\n"
 msgstr "Hauptprogramm: unteres Fenster\n"
 
-#: nano.c:1842
+#: nano.c:1839
 msgid "Main: open file\n"
 msgstr "Hauptprogramm: Datei öffnen\n"
 
-#: nano.c:1910
+#: nano.c:1907
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Erhielt Alt-[-%c! (%d)\n"
 
-#: nano.c:1936
+#: nano.c:1933
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Erhielt Alt-%c! (%d)\n"
@@ -832,51 +833,51 @@ msgstr "  Datei: ..."
 msgid "Modified"
 msgstr "Verändert"
 
-#: winio.c:910
+#: winio.c:915
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr "Nach (%d, %d) im Bearbeitungspuffer verschoben\n"
 
-#: winio.c:921
+#: winio.c:926
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr "current->data = \"%s\"\n"
 
-#: winio.c:964
+#: winio.c:969
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "Erhielt \"%s\"\n"
 
-#: winio.c:989
+#: winio.c:994
 msgid "Yes"
 msgstr "Ja"
 
-#: winio.c:991
+#: winio.c:996
 msgid "All"
 msgstr "Alle"
 
-#: winio.c:993
+#: winio.c:998
 msgid "No"
 msgstr "Nein"
 
-#: winio.c:1129
+#: winio.c:1134
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
-#: winio.c:1133
+#: winio.c:1138
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "Zeile %d von %d (%.0f%%), Zeichen %d von %d (%.0f%%)"
 
-#: winio.c:1257
+#: winio.c:1262
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Gebe Datei Puffer nach stderr aus...\n"
 
-#: winio.c:1259
+#: winio.c:1264
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Gebe Inhalt der Zwischenablage nach stderr aus...\n"
 
-#: winio.c:1261
+#: winio.c:1266
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Gebe einen Puffer nach stderr aus...\n"
 
@@ -940,9 +941,6 @@ msgstr "Gebe einen Puffer nach stderr aus...\n"
 
 #~ msgid "suspend"
 #~ msgstr "suspend"
-
-#~ msgid "nowrap"
-#~ msgstr "nowrap"
 
 #~ msgid "nohelp"
 #~ msgstr "nohelp"

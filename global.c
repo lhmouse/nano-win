@@ -116,7 +116,7 @@ void toggle_init(void)
 	*toggle_cuttoend_msg, *toggle_regexp_msg, *toggle_wrap_msg;
 
     toggle_const_msg = _("Constant cursor position");
-    toggle_autoindent_msg = _("Autoindent");
+    toggle_autoindent_msg = _("Auto indent");
     toggle_suspend_msg = _("Suspend");
     toggle_nohelp_msg = _("Help mode");
     toggle_picomode_msg = _("Pico messages");

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano-0.9.10\n"
-"POT-Creation-Date: 2000-09-02 03:33-0400\n"
+"POT-Creation-Date: 2000-09-02 21:13-0400\n"
 "PO-Revision-Date: 2000-06-08 20:56+07:00\n"
 "Last-Translator: Tedi Heriyanto <tedi-h@usa.net>\n"
 "Language-Team: Indonesian <id@li.org>\n"
@@ -55,7 +55,7 @@ msgstr "Membaca File"
 msgid "File to insert [from ./] "
 msgstr "File untuk disisipkan "
 
-#: files.c:273 files.c:297 files.c:487 nano.c:1146
+#: files.c:273 files.c:297 files.c:487 nano.c:1131
 msgid "Cancelled"
 msgstr "Dibatalkan"
 
@@ -113,15 +113,16 @@ msgid "Constant cursor position"
 msgstr "-c     Menampilkan posisi kursor secara konstan\n"
 
 #: global.c:119
-msgid "Autoindent"
-msgstr ""
+#, fuzzy
+msgid "Auto indent"
+msgstr "Ke baris"
 
 #: global.c:120
 msgid "Suspend"
 msgstr ""
 
 #: global.c:121
-msgid "No help mode"
+msgid "Help mode"
 msgstr ""
 
 #: global.c:122
@@ -141,7 +142,7 @@ msgid "Regular expressions"
 msgstr ""
 
 #: global.c:126
-msgid "No auto wrap"
+msgid "Auto wrap"
 msgstr ""
 
 #: global.c:166
@@ -382,7 +383,7 @@ msgid "Case Sens"
 msgstr "Case Sens"
 
 #: global.c:331 global.c:350 global.c:360 global.c:376 global.c:380
-#: global.c:386 winio.c:994
+#: global.c:386 winio.c:999
 msgid "Cancel"
 msgstr "Batal"
 
@@ -633,90 +634,90 @@ msgstr "Set Tanda"
 msgid "Mark UNset"
 msgstr "Unset Tanda"
 
-#: nano.c:881
+#: nano.c:866
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap dipanggil dengan inptr->data=\"%s\"\n"
 
-#: nano.c:932
+#: nano.c:917
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data sekarang =\"%s\"\n"
 
-#: nano.c:985
+#: nano.c:970
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Setelah, data= \"%s\"\n"
 
-#: nano.c:1055
+#: nano.c:1040
 msgid "Error deleting tempfile, ack!"
 msgstr "Kesalahan menghapus tempfile, ack!"
 
-#: nano.c:1073
+#: nano.c:1058
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Tidak dapat membuat nama file sementara: %s"
 
-#: nano.c:1096
+#: nano.c:1081
 #, c-format
 msgid "Could not invoke spell program \"%s\""
 msgstr "Tidak dapat memanggil program ejaan \"%s\""
 
 #. Why 32512? I dont know!
-#: nano.c:1102
+#: nano.c:1087
 msgid "Could not invoke \"ispell\""
 msgstr "Tidak dapat memanggil \"ispell\""
 
-#: nano.c:1115
+#: nano.c:1100
 msgid "Finished checking spelling"
 msgstr "Selesai memeriksa ejaan"
 
-#: nano.c:1133
+#: nano.c:1118
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Simpan buffer termodifikasi (JAWAB \"No\" AKAN MENGHAPUS PERUBAHAN) ?"
 
-#: nano.c:1274
+#: nano.c:1259
 msgid "Cannot resize top win"
 msgstr "Tidak dapat menganti ukuran jendela atas"
 
-#: nano.c:1276
+#: nano.c:1261
 msgid "Cannot move top win"
 msgstr "Tidak dapat memindahkan jendela atas"
 
-#: nano.c:1278
+#: nano.c:1263
 msgid "Cannot resize edit win"
 msgstr "Tidak dapat mengganti ukuran jendela edit"
 
-#: nano.c:1280
+#: nano.c:1265
 msgid "Cannot move edit win"
 msgstr "Tidak dapat memindah jendela edit"
 
-#: nano.c:1282
+#: nano.c:1267
 msgid "Cannot resize bottom win"
 msgstr "Tidak dapat mengganti ukuran jendela bawah"
 
-#: nano.c:1284
+#: nano.c:1269
 msgid "Cannot move bottom win"
 msgstr "Tidak dapat memindah jendela bawah"
 
-#: nano.c:1821
+#: nano.c:1818
 msgid "Main: set up windows\n"
 msgstr "Main: menset jendela\n"
 
-#: nano.c:1836
+#: nano.c:1833
 msgid "Main: bottom win\n"
 msgstr "Main: jendela bawah\n"
 
-#: nano.c:1842
+#: nano.c:1839
 msgid "Main: open file\n"
 msgstr "Main: membuka file\n"
 
-#: nano.c:1910
+#: nano.c:1907
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"
 
-#: nano.c:1936
+#: nano.c:1933
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"
@@ -821,51 +822,51 @@ msgstr " File: ..."
 msgid "Modified"
 msgstr "Dimodifikasi"
 
-#: winio.c:910
+#: winio.c:915
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr "Pindah ke (%d, %d) dalam buffer edit\n"
 
-#: winio.c:921
+#: winio.c:926
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr "current->data = \"%s\"\n"
 
-#: winio.c:964
+#: winio.c:969
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "Saya mendapat \"%s\"\n"
 
-#: winio.c:989
+#: winio.c:994
 msgid "Yes"
 msgstr "Ya"
 
-#: winio.c:991
+#: winio.c:996
 msgid "All"
 msgstr "Semua"
 
-#: winio.c:993
+#: winio.c:998
 msgid "No"
 msgstr "Tidak"
 
-#: winio.c:1129
+#: winio.c:1134
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
-#: winio.c:1133
+#: winio.c:1138
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "baris %d dari %d (%f.0f%%), karakter %d dari %d (%.0f%%)"
 
-#: winio.c:1257
+#: winio.c:1262
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Kirim buffer file ke stderr...\n"
 
-#: winio.c:1259
+#: winio.c:1264
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Kirim cutbuffer ke stderr...\n"
 
-#: winio.c:1261
+#: winio.c:1266
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Kirim buffer ke stderr...\n"
 
