@@ -1,4 +1,6 @@
 CVS code -
+- General:
+	- Translation updates (see po/ChangeLog for details).
 - configure.ac:
 	- Added pt_BR to ALL_LINGUAS (Jordi).
 
