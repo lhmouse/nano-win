@@ -2,6 +2,9 @@ CVS code -
 - nano.c:
   main()
 	- Change the getop option to 'F' (David Lawrence Ramsey)
+- files.c:
+  do_writeout()
+	- Check for open_files == NULL before using it (Ryan Krebs)
 - global.c:
   shortcut_init()
 	- Rewrote the whereis and replace lists to put CANCEL at the end

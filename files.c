@@ -1168,7 +1168,7 @@ int do_writeout(char *path, int exiting, int append)
 		   update the filename and full path stored in the
 		   current entry, and then update the current entry,
 		   checking for duplicate entries */
-		if (strcmp(open_files->data, filename)) {
+		if (open_files != NULL && strcmp(open_files->data, filename)) {
 		    open_file_change_name();
 		    add_open_file(1, 1);
 		}
