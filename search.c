@@ -128,6 +128,7 @@ filestruct *findnextstr(int quiet, filestruct * begin, char *needle)
 {
     filestruct *fileptr;
     char *searchstr, *found = NULL, *tmp;
+    int past_editbot = 0;
 
     fileptr = current;
 
@@ -135,7 +136,11 @@ filestruct *findnextstr(int quiet, filestruct * begin, char *needle)
     /* Look for searchstr until EOF */
     while (fileptr != NULL &&
 	   (found = strstrwrapper(searchstr, needle)) == NULL) {
+	if (!past_editbot && (fileptr == editbot))
+	    past_editbot = 1;
+
 	fileptr = fileptr->next;
+
 
 	if (fileptr == begin)
 	    return NULL;
@@ -151,7 +156,8 @@ filestruct *findnextstr(int quiet, filestruct * begin, char *needle)
 	for (tmp = fileptr->data; tmp != found; tmp++)
 	    current_x++;
 
-	edit_update(current);
+	if (past_editbot)
+	    edit_update(current);
 	reset_cursor();
     } else {			/* We're at EOF, go back to the top, once */
 
@@ -173,7 +179,8 @@ filestruct *findnextstr(int quiet, filestruct * begin, char *needle)
 	    for (tmp = fileptr->data; tmp != found; tmp++)
 		current_x++;
 
-	    edit_update(current);
+	    if (past_editbot)
+		edit_update(current);
 	    reset_cursor();
 
 	    if (!quiet)
