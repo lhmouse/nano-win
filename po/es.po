@@ -108,7 +108,7 @@ msgstr "filename es %s"
 
 #: files.c:555
 msgid "File exists, OVERWRITE ?"
-msgstr "El fichero existe, SOBREESCRIBIR ?"
+msgstr "El fichero existe, ¿ SOBREESCRIBIR ?"
 
 #: files.c:971
 msgid "(more)"
@@ -319,11 +319,11 @@ msgstr "Buscar"
 
 #: global.c:254 global.c:397 global.c:421
 msgid "Prev Page"
-msgstr "Pag Prev"
+msgstr "Pág Ant"
 
 #: global.c:258 global.c:401 global.c:425
 msgid "Next Page"
-msgstr "Pag Sig"
+msgstr "Pág Sig"
 
 #: global.c:262
 msgid "Cut Text"
@@ -489,7 +489,7 @@ msgstr ""
 
 #: nano.c:297
 msgid "delete_node(): free'd a node, YAY!\n"
-msgstr "delete_node(): liberado un nodo, YEAH!\n"
+msgstr "delete_node(): liberado un nodo, ¡YEAH!\n"
 
 #: nano.c:302
 msgid "delete_node(): free'd last node.\n"
@@ -505,7 +505,7 @@ msgstr ""
 
 #: nano.c:358
 msgid "Option\t\tLong option\t\tMeaning\n"
-msgstr "Opcion\t\tOpcion larga\t\tSignificado\n"
+msgstr "Opción\t\tOpción larga\t\tSignificado\n"
 
 #: nano.c:360
 msgid " -T [num]\t--tabsize=[num]\t\tSet width of a tab to num\n"
@@ -716,7 +716,7 @@ msgstr "No pude crear un fichero temporal: %s"
 #: nano.c:1399
 msgid "Spell checking failed: unable to write temp file!"
 msgstr ""
-"Comprobación de ortografía fallida: no se pudo escribir fichero temporal!"
+"Comprobación de ortografía fallida: ¡no se pudo escribir fichero temporal!"
 
 #: nano.c:1411
 msgid "Finished checking spelling"
@@ -728,7 +728,7 @@ msgstr "Comprobación de ortografía fallida"
 
 #: nano.c:1433
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
-msgstr "Salvar el buffer modificado (RESPONDER \"No\" DESTRUIRÁ LOS CAMBIOS) ?"
+msgstr "¿ Salvar el buffer modificado (RESPONDER \"No\" DESTRUIRÁ LOS CAMBIOS) ?"
 
 #: nano.c:1529
 msgid "Received SIGHUP"
@@ -760,7 +760,7 @@ msgstr "No se puede mover la ventana inferior"
 
 #: nano.c:1910
 msgid "Can now UnJustify!"
-msgstr "Ahora puedes desjustificar!"
+msgstr "¡Ahora puedes desjustificar!"
 
 #: nano.c:2008
 #, c-format
@@ -795,27 +795,27 @@ msgstr "Main: abrir fichero\n"
 #: nano.c:2358
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
-msgstr "Pillé Alt-O-%c! (%d)\n"
+msgstr "¡Pillé Alt-O-%c! (%d)\n"
 
 #: nano.c:2385
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
-msgstr "Pillé Alt-[-1-%c! (%d)\n"
+msgstr "¡Pillé Alt-[-1-%c! (%d)\n"
 
 #: nano.c:2418
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
-msgstr "Pillé Alt-[-2-%c! (%d)\n"
+msgstr "¡Pillé Alt-[-2-%c! (%d)\n"
 
 #: nano.c:2460
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
-msgstr "Pillé Alt-[-%c! (%d)\n"
+msgstr "¡Pillé Alt-[-%c! (%d)\n"
 
 #: nano.c:2486
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
-msgstr "Pillé Alt-%c! (%d)\n"
+msgstr "¡Pillé Alt-%c! (%d)\n"
 
 #: search.c:118
 #, c-format
@@ -869,11 +869,11 @@ msgstr "Reemplazar Cancelado"
 
 #: search.c:533
 msgid "Replace this instance?"
-msgstr "Reemplazar esta instancia?"
+msgstr "¿Reemplazar esta instancia?"
 
 #: search.c:545
 msgid "Replace failed: unknown subexpression!"
-msgstr "Fallo en reemplazar: subexpresión desconocida!"
+msgstr "Fallo en reemplazar: ¡subexpresión desconocida!"
 
 #: search.c:628
 #, c-format
@@ -997,7 +997,7 @@ msgstr "Volcando un buffer a stderr...\n"
 
 #: winio.c:1415
 msgid "The nano text editor"
-msgstr "El editor de textos nano"
+msgstr "El editor de textos GNU nano"
 
 #: winio.c:1416
 msgid "version "
@@ -1025,4 +1025,4 @@ msgstr "y cualquiera del que nos hayamos olvidado..."
 
 #: winio.c:1422
 msgid "Thank you for using nano!\n"
-msgstr "Gracias por usar nano!\n"
+msgstr "¡Gracias por usar nano!\n"
