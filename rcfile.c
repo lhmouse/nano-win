@@ -50,7 +50,11 @@ rcoption rcopts[NUM_RCOPTS] =
 {"nofollow", FOLLOW_SYMLINKS},
 {"mouse", USE_MOUSE},
 {"pico", PICO_MODE},
+
+#ifndef DISABLE_WRAPJUSTIFY
 {"fill", 0},
+#endif
+
 {"speller", 0},
 {"tempfile", TEMP_OPT},
 {"view", VIEW_MODE},
@@ -160,8 +164,16 @@ void parse_rcfile(FILE *rcstream, char *filename)
 				rcopts[i].name);
 #endif
 		    if (set == 1 || rcopts[i].flag == FOLLOW_SYMLINKS) {
-			if (!strcasecmp(rcopts[i].name, "fill") || 
-			    !strcasecmp(rcopts[i].name, "speller")) {
+			if (
+#ifndef DISABLE_WRAPJUSTIFY
+			    !strcasecmp(rcopts[i].name, "fill") || 
+#endif
+#ifndef DISABLE_SPELLER
+			    !strcasecmp(rcopts[i].name, "speller")
+#else
+				0
+#endif
+			   ) {
 
 			    if (*ptr == '\n' || *ptr == '\0') {
 	    			rcfile_msg(&errors, _("Error in %s on line %d: option %s requires an argument"),
@@ -171,6 +183,8 @@ void parse_rcfile(FILE *rcstream, char *filename)
 			    option = ptr;
 			    ptr = parse_next_word(ptr);
 			    if (!strcasecmp(rcopts[i].name, "fill")) {
+#ifndef DISABLE_WRAPJUSTIFY
+
 				if ((i = atoi(option)) < MIN_FILL_LENGTH) {
 	    		 	    rcfile_msg(&errors, 
 		_("Error in %s on line %d: requested fill size %d too small"),
@@ -178,10 +192,13 @@ void parse_rcfile(FILE *rcstream, char *filename)
 				}
 				else
 				     fill = i;
+#endif
 			    } 
 			    else {
+#ifndef DISABLE_SPELLER
 				alt_speller = charalloc(strlen(option) + 1);
             			strcpy(alt_speller, option);
+#endif
 			    }
 			} else 
 			    SET(rcopts[i].flag);

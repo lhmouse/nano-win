@@ -271,8 +271,11 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
     x_left = strlen(buf);
     x = strlen(def) + x_left;
 
+#ifndef DISABLE_MOUSE
     currshortcut = s;
     currslen = slen;
+#endif
+
     /* Get the input! */
     if (strlen(def) > 0)
 	strcpy(inputbuf, def);
@@ -1420,8 +1423,11 @@ int do_help(void)
     curs_set(0);
     blank_statusbar();
 
+#ifndef DISABLE_MOUSE
     currshortcut = help_list;
     currslen = HELP_LIST_LEN;
+#endif
+
     kp = keypad_on(edit, 1);
     kp2 = keypad_on(bottomwin, 1);
 

@@ -2,7 +2,7 @@ Cvs code -
 - General
 	- New global variables currshortcut and currslen to support using
 	  the mouse with the shortcuts.  Also supports clicking on files
-	  in browser.
+	  in browser.  Added #ifdef DISABLE_MOUSE around this code also.
 	- Changed mouse disabling code from depending on --enable-tiny
 	  to its own flag, --disable-mouse.  The --tiny option defines
 	  this automatically, but now just mouse support can be disabled
@@ -23,6 +23,14 @@ Cvs code -
 	- Changed all string allocations to charalloc(), new function
 	  designed to take nmalloc argument but call calloc based on 
 	  (char *) size.
+	- New macro DISABLE_WRAPJUSTIFY to easily check for both wrapping
+	  and justify being disabled.  This allows us to compile out the 
+	  -r flag if neither are set, and will also allow us to comment
+	  out -W when it is written.
+	- Allow fill to take a negative value ot signify a "from right side"
+	  value.  This allows the value to vary with the screen size yet
+	  still be correct.  New static value wrap_at to minimize code
+	  inpact.  Updated man page and info file.
 - configure.in:
 	- New option, --enable-nanorc, which allows people to have a .nanorc
 	  initialization file and set options normally used on the command

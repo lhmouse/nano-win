@@ -63,6 +63,10 @@
 
 #define VERMSG "GNU nano " VERSION
 
+#if defined(DISABLE_WRAPPING) && defined(DISABLE_JUSTIFY)
+#define DISABLE_WRAPJUSTIFY 1
+#endif
+
 /* Structure types */
 typedef struct filestruct {
     char *data;

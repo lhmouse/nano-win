@@ -62,8 +62,11 @@
 #include <getopt.h>
 #endif
 
+#ifndef DISABLE_WRAPJUSTIFY
 /* Former globals, now static */
 int fill = 0;			/* Fill - where to wrap lines, basically */
+int wrap_at = 0;		/* Right justified fill value, allows resize */
+#endif
 
 struct termios oldterm;		/* The user's original term settings */
 static struct sigaction act;	/* For all our fun signal handlers */
@@ -181,11 +184,15 @@ void global_init(void)
     totlines = 0;
     placewewant = 0;
 
-    if (!fill)
+#ifndef DISABLE_WRAPJUSTIFY
+    if (wrap_at)
+	fill = COLS + wrap_at;
+    else if (!fill)
 	fill = COLS - CHARS_FROM_EOL;
 
     if (fill < MIN_FILL_LENGTH)
 	die_too_small();
+#endif
 
     hblank = charalloc(COLS + 1);
     memset(hblank, ' ', COLS);
@@ -381,9 +388,12 @@ void usage(void)
 #endif
     printf(_
 	   (" -p	 	--pico			Emulate Pico as closely as possible\n"));
+
+#ifndef DISABLE_WRAPJUSTIFY
     printf
 	(_
 	 (" -r [#cols] 	--fill=[#cols]		Set fill cols to (wrap lines at) #cols\n"));
+#endif
 #ifndef DISABLE_SPELLER
     printf(_
 	   (" -s [prog] 	--speller=[prog]	Enable alternate speller\n"));
@@ -422,8 +432,11 @@ void usage(void)
 #endif
 #endif
     printf(_(" -p 		Emulate Pico as closely as possible\n"));
+
+#ifndef DISABLE_WRAPJUSTIFY
     printf(_
 	   (" -r [#cols] 	Set fill cols to (wrap lines at) #cols\n"));
+#endif
 #ifndef DISABLE_SPELLER
     printf(_(" -s [prog]  	Enable alternate speller\n"));
 #endif
@@ -1672,8 +1685,10 @@ void handle_sigwinch(int s)
     if ((editwinrows = LINES - 5 + no_help()) < MIN_EDITOR_ROWS)
 	die_too_small();
 
+#ifndef DISABLE_WRAPJUSTIFY
     if ((fill = COLS - CHARS_FROM_EOL) < MIN_FILL_LENGTH)
 	die_too_small();
+#endif
 
     hblank = nrealloc(hblank, COLS + 1);
     memset(hblank, ' ', COLS);
@@ -2243,7 +2258,10 @@ int main(int argc, char *argv[])
 #ifndef DISABLE_SPELLER
 	{"speller", 1, 0, 's'},
 #endif
+
+#ifndef DISABLE_WRAPJUSTIFY
 	{"fill", 1, 0, 'r'},
+#endif
 	{"mouse", 0, 0, 'm'},
 	{"pico", 0, 0, 'p'},
 	{"nofollow", 0, 0, 'l'},
@@ -2323,12 +2341,20 @@ int main(int argc, char *argv[])
 	    SET(PICO_MODE);
 	    break;
 	case 'r':
+#ifndef DISABLE_WRAPJUSTIFY
 	    fill = atoi(optarg);
-	    if (fill <= 0) {
+	    if (fill < 0)
+		wrap_at = fill;
+	    else if (fill == 0) {
 		usage();	/* To stop bogus data (like a string) */
 		finish(1);
 	    }
 	    break;
+#else
+	    usage();
+	    exit(0);
+
+#endif
 #ifndef DISABLE_SPELLER
 	case 's':
 	    alt_speller = charalloc(strlen(optarg) + 1);
@@ -2461,8 +2487,10 @@ int main(int argc, char *argv[])
 
     while (1) {
 
+#ifndef DISABLE_MOUSE
 	currshortcut = main_list;
 	currslen = MAIN_VISIBLE;
+#endif
 
 #ifndef _POSIX_VDISABLE
 	/* We're going to have to do it the old way, i.e. on cygwin */

@@ -259,8 +259,12 @@ int do_insertfile(void)
     char *realname = NULL;
 
     wrap_reset();
+
+#ifndef DISABLE_MOUSE
     currshortcut = writefile_list;
     currslen = WRITEFILE_LIST_LEN;
+#endif
+
     i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, "",
 		_("File to insert [from ./] "));
     if (i != -1) {
@@ -279,8 +283,10 @@ int do_insertfile(void)
 	if (i == NANO_TOFILES_KEY) {
 	    
 	    char *tmp = do_browse_from(realname);
+#ifndef DISABLE_MOUSE
 	    currshortcut = writefile_list;
 	    currslen = WRITEFILE_LIST_LEN;
+#endif
 
 #ifdef DISABLE_TABCOMP
 	    realname = NULL;
@@ -508,8 +514,11 @@ int do_writeout(char *path, int exiting)
     static int did_cred = 0;
 #endif
 
+#ifndef DISABLE_MOUSE
     currshortcut = writefile_list;
     currslen = WRITEFILE_LIST_LEN;
+#endif
+
     answer = mallocstrcpy(answer, path);
 
     if ((exiting) && (ISSET(TEMP_OPT))) {
@@ -536,8 +545,11 @@ int do_writeout(char *path, int exiting)
 	if (i == NANO_TOFILES_KEY) {
 
 	    char *tmp = do_browse_from(answer);
+
+#ifndef DISABLE_MOUSE
 	    currshortcut = writefile_list;
 	    currslen = WRITEFILE_LIST_LEN;
+#endif
 
 	    if (tmp != NULL)
 		answer = mallocstrcpy(answer, tmp);
@@ -1178,8 +1190,11 @@ char *do_browser(char *inpath)
 
 	blank_statusbar_refresh();
 
+#ifndef DISABLE_MOUSE
 	currshortcut = browser_list;
 	currslen = BROWSER_LIST_LEN;
+#endif
+
  	editline = 0;
 	col = 0;
 	    

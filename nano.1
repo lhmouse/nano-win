@@ -70,7 +70,9 @@ search and replace strings.
 .TP
 .B \-r (\-\-fill)
 Wrap lines at column #cols.  By default, this is the width of the screen,
-less eight.
+less eight.  If this value is negative, wrapping will occur at #cols from
+the right of the screen, allowing it to vary along with the screen width
+if the screen is resized.
 .TP
 .B \-s (\-\-speller)
 Enable alternative spell checker command.

@@ -97,7 +97,9 @@ Command Line Options
 
 `-r [#cols], --fill=[#cols].'
      Wrap lines at column #cols.  By default this is the width of the
-     screen, less eight.
+     screen, less eight. If this value is negative, wrapping will occur
+     at #cols from the right of the screen, allowing it to vary along
+     with the screen width if the screen is resized.
 
 `-s [prog], --speller=[prog]'
      Invoke [prog] as the spell checker.  By default, `nano' uses its
@@ -393,17 +395,17 @@ Node: Top199
 Node: Introduction507
 Node: Overview933
 Node: Command Line Options1513
-Ref: Expert Mode3235
-Node: Editor Basics4078
-Node: Entering Text4303
-Node: Special Functions4643
-Node: The Titlebar5498
-Node: The Statusbar6196
-Node: Shortcut Lists6777
-Node: Online Help7170
-Node: Feature Toggles7546
-Node: The File Browser8689
-Node: Pico Compatibility9398
-Node: Building and Configure Options11440
+Ref: Expert Mode3405
+Node: Editor Basics4248
+Node: Entering Text4473
+Node: Special Functions4813
+Node: The Titlebar5668
+Node: The Statusbar6366
+Node: Shortcut Lists6947
+Node: Online Help7340
+Node: Feature Toggles7716
+Node: The File Browser8859
+Node: Pico Compatibility9568
+Node: Building and Configure Options11610
 
 End Tag Table

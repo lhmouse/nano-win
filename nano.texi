@@ -145,7 +145,9 @@ emulation.  @xref{Pico Compatibility}, for more info.
 
 @item -r [#cols], --fill=[#cols].
 Wrap lines at column #cols.  By default this is the width of the screen,
-less eight.
+less eight. If this value is negative, wrapping will occur at #cols from
+the right of the screen, allowing it to vary along with the screen width
+if the screen is resized.
 
 @item -s [prog], --speller=[prog]
 Invoke [prog] as the spell checker.  By default, @code{nano} uses its
