@@ -1265,6 +1265,7 @@ char *do_browser(char *inpath)
 	case NANO_PREVPAGE_KEY:
 	case NANO_PREVPAGE_FKEY:
 	case KEY_PPAGE:
+	case '-':
 
 	    if (lineno % editwinrows == 0) {
 		if (selected - (editwinrows * width) >= 0)
@@ -1282,6 +1283,7 @@ char *do_browser(char *inpath)
 	case NANO_NEXTPAGE_KEY:
 	case NANO_NEXTPAGE_FKEY:
 	case KEY_NPAGE:	
+	case ' ':
 	    if (lineno % editwinrows == 0) {
 		if (selected + (editwinrows * width) <= numents - 1)
 		    selected += editwinrows * width; 

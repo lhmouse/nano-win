@@ -3,6 +3,8 @@ CVS code -
   real_dir_from_tilde()
 	- Oops, fix case where buf ="~", silly crash (bug discovered by
 	  Neil Parks).
+  do_browser()
+	- Added space and - keys to do page up and down.
 
 nano 0.9.25 - 01/07/2001
 General - 
