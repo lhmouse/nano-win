@@ -267,15 +267,18 @@ bool is_whole_word(int curr_pos, const char *datastr, const char
  * is the line where we first started searching, at column beginx.  If
  * can_display_wrap is TRUE, we put messages on the statusbar, and wrap
  * around the file boundaries.  The return value specifies whether we
- * found anything. */
+ * found anything.  If we did, and needle_len isn't NULL, set it to the
+ * length of the string we found. */
 bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	no_sameline, const filestruct *begin, size_t beginx, const char
-	*needle)
+	*needle, size_t *needle_len)
 {
     filestruct *fileptr = current;
     const char *rev_start = NULL, *found = NULL;
+    size_t found_len;
+	/* The length of the match we found. */
     size_t current_x_find = 0;
-	/* Where needle was found. */
+	/* The location of the match we found. */
     int current_y_find = current_y;
 
     /* rev_start might end up 1 character before the start or after the
@@ -293,9 +296,37 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
     while (TRUE) {
 	found = strstrwrapper(fileptr->data, needle, rev_start);
 
-	if (found != NULL && (!wholeword || is_whole_word(found -
-		fileptr->data, fileptr->data, needle))) {
-	    if (!no_sameline || fileptr != current)
+	/* We've found a potential match. */
+	if (found != NULL) {
+	    bool found_whole = FALSE;
+		/* Is this potential match a whole word? */
+
+	    /* Set found_len to the length of the potential match. */
+	    found_len =
+#ifdef HAVE_REGEX_H
+		ISSET(USE_REGEXP) ?
+		regmatches[0].rm_eo - regmatches[0].rm_so :
+#endif
+		strlen(needle);
+
+	    /* If we're searching for whole words, see if this potential
+	     * match is a whole word. */
+	    if (wholeword) {
+		char *word = charalloc(found_len + 1);
+		strncpy(word, found, found_len);
+		word[found_len] = '\0';
+
+		found_whole = is_whole_word(found - fileptr->data,
+			fileptr->data, word);
+		free(word);
+	    }
+
+	    /* If we're searching for whole words and this potential
+	     * match isn't a whole word, or if we're not allowed to find
+	     * a match on the same line we started on and this potential
+	     * match is on that line, continue searching. */
+	    if ((!wholeword || found_whole) && (!no_sameline ||
+		fileptr != current))
 		break;
 	}
 
@@ -371,6 +402,8 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
     current = fileptr;
     current_x = current_x_find;
     current_y = current_y_find;
+    if (needle_len != NULL)
+	*needle_len = found_len;
 
     return TRUE;
 }
@@ -416,7 +449,8 @@ void do_search(void)
 #endif
 
     search_last_line = FALSE;
-    didfind = findnextstr(TRUE, FALSE, FALSE, current, current_x, answer);
+    didfind = findnextstr(TRUE, FALSE, FALSE, current, current_x,
+	answer, NULL);
 
     /* Check to see if there's only one occurrence of the string and
      * we're on it now. */
@@ -430,7 +464,7 @@ void do_search(void)
 	if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp,
 		last_search)) {
 	    didfind = findnextstr(TRUE, FALSE, TRUE, current, current_x,
-		answer);
+		answer, NULL);
 	    if (fileptr == current && fileptr_x == current_x && !didfind)
 		statusbar(_("This is the only occurrence"));
 	} else {
@@ -470,7 +504,7 @@ void do_research(void)
 
 	search_last_line = FALSE;
 	didfind = findnextstr(TRUE, FALSE, FALSE, current, current_x,
-		last_search);
+		last_search, NULL);
 
 	/* Check to see if there's only one occurrence of the string and
 	 * we're on it now. */
@@ -484,7 +518,7 @@ void do_research(void)
 	    if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp,
 		last_search)) {
 		didfind = findnextstr(TRUE, FALSE, TRUE, current,
-			current_x, answer);
+			current_x, answer, NULL);
 		if (fileptr == current && fileptr_x == current_x && !didfind)
 		    statusbar(_("This is the only occurrence"));
 	    } else {
@@ -608,10 +642,11 @@ char *replace_line(const char *needle)
  *
  * needle is the string to seek.  We replace it with answer.  Return -1
  * if needle isn't found, else the number of replacements performed. */
-int do_replace_loop(const char *needle, filestruct *real_current, size_t
-	*real_current_x, bool wholewords)
+ssize_t do_replace_loop(const char *needle, filestruct *real_current,
+	size_t *real_current_x, bool wholewords)
 {
-    int numreplaced = -1;
+    ssize_t numreplaced = -1;
+    size_t match_len;
     size_t old_pww = placewewant, current_x_save = *real_current_x;
     const filestruct *current_save = real_current;
     bool replaceall = FALSE;
@@ -650,15 +685,9 @@ int do_replace_loop(const char *needle, filestruct *real_current, size_t
 #else
 	FALSE
 #endif
-	, current_save, current_x_save, needle)) {
+	, current_save, current_x_save, needle, &match_len)) {
 
 	int i = 0;
-	size_t match_len =
-#ifdef HAVE_REGEX_H
-		ISSET(USE_REGEXP) ?
-		regmatches[0].rm_eo - regmatches[0].rm_so :
-#endif
-		strlen(needle);
 
 #ifndef NANO_SMALL
 	/* If we've found a match outside the marked text, skip over it
@@ -809,9 +838,10 @@ int do_replace_loop(const char *needle, filestruct *real_current, size_t
 /* Replace a string. */
 void do_replace(void)
 {
-    int i, numreplaced;
+    int i;
     filestruct *edittop_save, *begin;
     size_t beginx;
+    ssize_t numreplaced;
 
     if (ISSET(VIEW_MODE)) {
 	print_view_warning();
@@ -889,8 +919,8 @@ void do_replace(void)
     edit_refresh();
 
     if (numreplaced >= 0)
-	statusbar(P_("Replaced %d occurrence", "Replaced %d occurrences",
-		numreplaced), numreplaced);
+	statusbar(P_("Replaced %ld occurrence", "Replaced %ld occurrences",
+		(long)numreplaced), (long)numreplaced);
 
     replace_abort();
 }
@@ -1026,7 +1056,7 @@ void do_find_bracket(void)
     search_last_line = FALSE;
     while (TRUE) {
 	if (findnextstr(FALSE, FALSE, FALSE, current, current_x,
-		regexp_pat)) {
+		regexp_pat, NULL)) {
 	    /* Found identical bracket. */
 	    if (current->data[current_x] == ch_under_cursor)
 		count++;

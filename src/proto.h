@@ -406,7 +406,7 @@ bool is_whole_word(int curr_pos, const char *datastr, const char
 	*searchword);
 bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	no_sameline, const filestruct *begin, size_t beginx, const char
-	*needle);
+	*needle, size_t *needle_len);
 void do_search(void);
 #ifndef NANO_SMALL
 void do_research(void);
@@ -416,8 +416,8 @@ void replace_abort(void);
 int replace_regexp(char *string, bool create_flag);
 #endif
 char *replace_line(const char *needle);
-int do_replace_loop(const char *needle, filestruct *real_current, size_t
-	*real_current_x, bool wholewords);
+ssize_t do_replace_loop(const char *needle, filestruct *real_current,
+	size_t *real_current_x, bool wholewords);
 void do_replace(void);
 void do_gotoline(int line, bool save_pos);
 void do_gotoline_void(void);
