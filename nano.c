@@ -839,9 +839,10 @@ void do_prev_word(void)
 	    if (i == 0) {
 		if (fileptr->prev != NULL)
 		    i = strlen(fileptr->prev->data) - 1;
-		else if (fileptr == fileage && filebot != NULL)
-		    i = strlen(filebot->data) - 1;
-
+		else if (fileptr == fileage && filebot != NULL) {
+		    current_x = 0;
+		    return;
+		}
 		continue;
 	    }
 	}
@@ -862,8 +863,10 @@ void do_prev_word(void)
 	}
 	if (fileptr->prev != NULL)
 	    i = strlen(fileptr->prev->data) - 1;
-	else if (fileptr == fileage && filebot != NULL)
-	    i = strlen(filebot->data) - 1;
+	else if (fileptr == fileage && filebot != NULL) {
+	    current_x = 0;
+	    return;
+	}
     }
     if (fileptr == NULL)
 	current = fileage;
