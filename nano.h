@@ -226,8 +226,10 @@ typedef struct colortype {
 #define NANO_ALT_X 'x'
 #define NANO_ALT_Y 'y'
 #define NANO_ALT_Z 'z'
-#define NANO_ALT_LCARAT ','
-#define NANO_ALT_RCARAT '.'
+#define NANO_ALT_PERIOD ','
+#define NANO_ALT_COMMA '.'
+#define NANO_ALT_LCARAT '<'
+#define NANO_ALT_RCARAT '>'
 #define NANO_ALT_BRACKET ']'
 
 /* Some semi-changeable keybindings; don't play with unless you're sure you
@@ -286,6 +288,8 @@ know what you're doing */
 #define NANO_APPEND_KEY		NANO_ALT_A
 #define NANO_OPENPREV_KEY	NANO_ALT_LCARAT
 #define NANO_OPENNEXT_KEY	NANO_ALT_RCARAT
+#define NANO_OPENPREV_ALTKEY	NANO_ALT_COMMA
+#define NANO_OPENNEXT_ALTKEY	NANO_ALT_PERIOD
 #define NANO_BRACKET_KEY	NANO_ALT_BRACKET
 
 #define TOGGLE_CONST_KEY	NANO_ALT_C

@@ -10,6 +10,9 @@ CVS code -
 	- Typo fixes in help strings (Jordi).
 	- New variable helplen needes cause currslen is not always
 	  the length we want (bug found by David Lawrence Ramsey).
+	- Typo in file switch string (found by David Lawrence Ramsey).
+  main()
+	- Handle Alt prev/next file keys (,.), as well as normal ones (<>).
 - files.c:
   read_file()
 	- Make conversion message less confusing (suggested by Jordi).

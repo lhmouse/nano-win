@@ -2423,7 +2423,7 @@ void help_init(void)
 		"support, and enable multiple buffers with the -F "
 		"or --multibuffer command line flags, the Meta-F toggle or "
 		"using a nanorc file, inserting a file will cause it to be "
-		"loaded into a separate buffer (use Ctrl-< and > to switch "
+		"loaded into a separate buffer (use Meta-< and > to switch "
 		"between file buffers).\n\n The following function keys are "
 		"available in Insert File mode:\n\n");
     else if (currshortcut == writefile_list)
@@ -3142,10 +3142,12 @@ int main(int argc, char *argv[])
 		break;
 #ifdef ENABLE_MULTIBUFFER
 	    case NANO_OPENPREV_KEY:
+	    case NANO_OPENPREV_ALTKEY:
 		open_prevfile(0);
 		keyhandled = 1;
 		break;
 	    case NANO_OPENNEXT_KEY:
+	    case NANO_OPENNEXT_ALTKEY:
 		open_nextfile(0);
 		keyhandled = 1;
 		break;
