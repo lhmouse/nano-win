@@ -236,9 +236,9 @@ CVS code -
 	- For consistency, preserve placewewant if we didn't unjustify
 	  instead of setting it to 0. (DLR)
 	- When justifying the entire file, properly break out of the
-	  loop if there are no more paragraphs after the current one and
-	  the paragraph search left us on the magicline, so as to avoid
-	  a segfault. (DLR)
+	  loop if we've found at least one paragraph, there are no more
+	  paragraphs after the current one, and the paragraph search
+	  left us on the magicline.  This avoids a segfault. (DLR)
   do_input()
 	- Add finished parameter, used to indicate when we run or try to
 	  run a function associated with a shortcut. (DLR)

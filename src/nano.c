@@ -2958,14 +2958,19 @@ void do_justify(bool full_justify)
 	 * is the start of this paragraph if we're in one, or the start
 	 * of the next otherwise.  Save the quote length and paragraph
 	 * length (number of lines).  Don't refresh the screen yet,
-	 * since we'll do that after we justify.  If the search
-	 * failed, we're justifying the whole file, and the search
-	 * didn't leave us on the last line of the file, set the last
-	 * line of the text to be justified to the last line of the file
-	 * and break out of the loop.  Otherwise, refresh the screen and
-	 * get out. */
+	 * since we'll do that after we justify.
+	 *
+	 * If the search failed, we do one of two things.  If we're
+	 * justifying the whole file, we've found at least one
+	 * paragraph, and the search didn't leave us on the last line of
+	 * the file, it means that we should justify all the way to the
+	 * last line of the file, so set the last line of the text to be
+	 * justified to the last line of the file and break out of the
+	 * loop.  Otherwise, it means that there are no paragraph(s) to
+	 * justify, so refresh the screen and get out. */
 	if (!find_paragraph(&quote_len, &par_len)) {
-	    if (full_justify && first_par_line != filebot) {
+	    if (full_justify && first_par_line != NULL &&
+		first_par_line != filebot) {
 		last_par_line = filebot;
 		break;
 	    } else {
