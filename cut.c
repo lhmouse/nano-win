@@ -197,6 +197,7 @@ int do_cut_text(void)
 	    tmp = fileptr;
 	    fileage = fileptr;
 	    add_to_cutbuffer(fileptr->prev);
+	    totsize--; /* get the newline */
 	    totlines--;
 	    fileptr->prev = NULL;
 	    edit_update(fileage);
@@ -216,6 +217,7 @@ int do_cut_text(void)
 	    (fileptr->next)->prev = fileptr->prev;
 	    current = fileptr->next;
 	    totlines--;
+	    totsize--; /* get the newline */
 	} else {
 	    /* we're deleteing the last line
 	       and replacing it with a dummy line,
