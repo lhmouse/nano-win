@@ -238,6 +238,11 @@ CVS code -
   regexp_bol_or_eol()
 	- Don't assume any longer that string will be found if
 	  REG_NOTBOL and REG_NOTEOL are not set. (DLR)
+  mallocstrncpy()
+	- New function, used as a malloc()ing equivalent of strncpy().
+	  (DLR)
+  mallocstrcpy()
+	- Refactor to be a wrapper for mallocstrncpy(). (DLR)
 - winio.c:
   unget_kbinput()
 	- New function used as a wrapper for ungetch(). (DLR)

@@ -490,6 +490,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 void nperror(const char *s);
 void *nmalloc(size_t howmuch);
 void *nrealloc(void *ptr, size_t howmuch);
+char *mallocstrncpy(char *dest, const char *src, size_t n);
 char *mallocstrcpy(char *dest, const char *src);
 char *mallocstrassn(char *dest, char *src);
 void new_magicline(void);
