@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-11-06 08:18-0500\n"
+"POT-Creation-Date: 2000-11-09 23:23-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,7 +55,7 @@ msgstr ""
 msgid "File to insert [from ./] "
 msgstr ""
 
-#: files.c:276 files.c:300 files.c:488 nano.c:1347
+#: files.c:276 files.c:300 files.c:488 nano.c:1355
 msgid "Cancelled"
 msgstr ""
 
@@ -628,105 +628,101 @@ msgstr ""
 msgid "After, data = \"%s\"\n"
 msgstr ""
 
-#: nano.c:1062
-msgid "Error deleting tempfile, ack!"
-msgstr ""
-
-#: nano.c:1106
+#: nano.c:1093
 msgid "Edit a replacement"
 msgstr ""
 
-#: nano.c:1292
+#: nano.c:1304
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr ""
 
-#: nano.c:1312
+#: nano.c:1320
 msgid "Finished checking spelling"
 msgstr ""
 
-#: nano.c:1314
+#: nano.c:1322
 msgid "Spell checking failed"
 msgstr ""
 
-#: nano.c:1334
+#: nano.c:1342
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 
-#: nano.c:1497
+#: nano.c:1505
 msgid "Cannot resize top win"
 msgstr ""
 
-#: nano.c:1499
+#: nano.c:1507
 msgid "Cannot move top win"
 msgstr ""
 
-#: nano.c:1501
+#: nano.c:1509
 msgid "Cannot resize edit win"
 msgstr ""
 
-#: nano.c:1503
+#: nano.c:1511
 msgid "Cannot move edit win"
 msgstr ""
 
-#: nano.c:1505
+#: nano.c:1513
 msgid "Cannot resize bottom win"
 msgstr ""
 
-#: nano.c:1507
+#: nano.c:1515
 msgid "Cannot move bottom win"
 msgstr ""
 
-#: nano.c:1778
+#: nano.c:1786
 msgid "Justify Complete"
 msgstr ""
 
-#: nano.c:1846
+#: nano.c:1854
 #, c-format
 msgid "%s enable/disable"
 msgstr ""
 
-#: nano.c:1858
+#: nano.c:1866
 msgid "enabled"
 msgstr ""
 
-#: nano.c:1859
+#: nano.c:1867
 msgid "disabled"
 msgstr ""
 
-#: nano.c:2089
+#: nano.c:2097
 msgid "Main: set up windows\n"
 msgstr ""
 
-#: nano.c:2102
+#: nano.c:2110
 msgid "Main: bottom win\n"
 msgstr ""
 
-#: nano.c:2108
+#: nano.c:2116
 msgid "Main: open file\n"
 msgstr ""
 
-#: nano.c:2142
+#: nano.c:2150
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2164
+#: nano.c:2172
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2197
+#: nano.c:2205
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2245
+#: nano.c:2253
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2271
+#: nano.c:2279
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr ""

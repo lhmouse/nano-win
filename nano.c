@@ -1053,19 +1053,6 @@ void wrap_reset(void)
 
 #ifndef NANO_SMALL
 
-/* Stuff we want to do when we exit the spell program one of its many ways */
-void exit_spell(char *tmpfilename, char *foo)
-{
-    free(foo);
-
-    if (remove(tmpfilename) == -1)
-	statusbar(_("Error deleting tempfile, ack!"));
-    display_main_list();
-}
-#endif
-
-#ifndef NANO_SMALL
-
 int do_int_spell_fix(char *word)
 {
     char *prevanswer = NULL, *save_search = NULL, *save_replace = NULL;
@@ -1128,125 +1115,127 @@ int do_int_spell_fix(char *word)
 #ifndef NANO_SMALL
 
 /* Integrated spell checking using 'spell' program */
-int do_int_speller(void)
+int do_int_speller(char *tempfile_name)
 {
-
-    filestruct *fileptr;
-    char read_buff[2], *read_buff_ptr;
-    char curr_word[132],  *curr_word_ptr;
-    int in_fd[2], out_fd[2];
+    char *read_buff, *read_buff_ptr, *read_buff_word;
+    long pipe_buff_size;
+    int in_fd[2], tempfile_fd;
     int spell_status;
     pid_t pid_spell;
     ssize_t bytesread;
 
-    /* Input from spell pipe */
+    /* Create a pipe to spell program */
+
     if (pipe(in_fd) == -1)
 	return FALSE;
 
-    /* Output to spell pipe */
-    if (pipe(out_fd) == -1) {
-
-	close(in_fd[0]);
-	close(in_fd[1]);
-
-	return FALSE;
-    }
+    /* A new process to run spell in */
 
     if ( (pid_spell = fork()) == 0) {
 
 	/* Child continues, (i.e. future spell process) */
 
-	close(in_fd[1]);
-	close(out_fd[0]);
-
-	/* setup spell standard in */
-	if (dup2(in_fd[0], STDIN_FILENO) != STDIN_FILENO)
-	{
-	    close(in_fd[0]);
-	    close(out_fd[1]);
-	    return FALSE;
-	}
 	close(in_fd[0]);
 
-	/* setup spell standard out */
-	if (dup2(out_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
-	{
-	    close(out_fd[1]);
-	    return FALSE;
-	}
-	close(out_fd[1]);
+	/* replace the standard in with the tempfile */
 
-	/* Start spell program */
+	if ( (tempfile_fd = open(tempfile_name, O_RDONLY)) == -1) {
+
+	    close(in_fd[1]);
+	    exit(1);
+	}
+
+	if (dup2(tempfile_fd, STDIN_FILENO) != STDIN_FILENO) {
+
+	    close(tempfile_fd);
+	    close(in_fd[1]);
+	    exit(1);
+	}
+	close(tempfile_fd);
+
+	/* send spell's standard out to the pipe */
+
+	if (dup2(in_fd[1], STDOUT_FILENO) != STDOUT_FILENO) {
+
+	    close(in_fd[1]);
+	    exit(1);
+	}
+	close(in_fd[1]);
+
+	/* Start spell program, we are using the PATH here!?!? */
 	execlp("spell", "spell", NULL);
 
-	/* Should not be reached, if spell is available!!! */
+	/* Should not be reached, if spell is found!!! */
 
-	exit(-1);
+	exit(1);
     }
 
     /* Parent continues here */
 
-    close(in_fd[0]);		/* close child's input pipe */
-    close(out_fd[1]);		/* close child's output pipe */
+    close(in_fd[1]);
+
+    /* Child process was not forked successfully */
 
     if (pid_spell < 0) {
 
-	/* Child process was not forked successfully */
-
-	close(in_fd[1]);	/* close parent's output pipe */
-	close(out_fd[0]);	/* close parent's input pipe */
-
+	close(in_fd[0]);
 	return FALSE;
     }
 
-    /* Send out the file content to spell program */
+    /* Get system pipe buffer size */
 
-    fileptr = fileage;
+    if ( (pipe_buff_size = fpathconf(in_fd[0], _PC_PIPE_BUF)) < 1) {
 
-    while ( fileptr != NULL )
-    {
-	write(in_fd[1], fileptr->data, strlen(fileptr->data));
-	write(in_fd[1], "\n", 1);
-	fileptr = fileptr->next;
-    }
-    close(in_fd[1]);
-
-    /* Let spell process the file */
-
-    wait(&spell_status);
-    if (spell_status != 0)
+	close(in_fd[0]);
 	return FALSE;
+    }
 
-    /* Read spelling errors from spell */
+    read_buff = nmalloc( pipe_buff_size + 1 );
 
-    curr_word_ptr = curr_word;
+    /* Process the returned spelling errors */
 
-    while ( (bytesread = read(out_fd[0], read_buff, sizeof(read_buff) - 1)) > 0)
-    {
-	read_buff[bytesread]=(char) NULL;
-	read_buff_ptr = read_buff;
+    while ( (bytesread = read(in_fd[0], read_buff, pipe_buff_size)) > 0) {
 
-	while (*read_buff_ptr != (char) NULL)
-	{
+	read_buff[bytesread] = (char) NULL;
+	read_buff_word = read_buff_ptr = read_buff;
+
+	while (*read_buff_ptr != (char) NULL) {
+
+	    /* Windows version may need to process additional char '\r' */
+
+	    /* Possible problem here if last word not followed by '\n' */
+
 	    if (*read_buff_ptr == '\n') {
-		*curr_word_ptr = (char) NULL;
-	        if (do_int_spell_fix(curr_word) == FALSE)
-		{
-		     close(out_fd[0]);
-		     return TRUE;
-		}
-	        curr_word_ptr = curr_word;
-	    }
-	    else {
-		*curr_word_ptr = *read_buff_ptr;
-		curr_word_ptr++;
+		*read_buff_ptr = (char) NULL;
+		if (!do_int_spell_fix(read_buff_word)) { 
+
+		    close(in_fd[0]);
+		    free(read_buff);
+		    replace_abort();
+
+		    return TRUE;
+	        }
+		read_buff_word = read_buff_ptr;
+		read_buff_word++;
 	    }
 
 	    read_buff_ptr++;
 	}
     }
-    close(out_fd[0]);
+
+    close(in_fd[0]);
+    free(read_buff);
     replace_abort();
+
+    /* Process end of spell process */
+
+    wait(&spell_status);
+    if (WIFEXITED(spell_status)) {
+	if (WEXITSTATUS(spell_status) != 0)
+	    return FALSE;
+    }
+    else
+	return FALSE;
 
     return TRUE;
 }
@@ -1255,21 +1244,46 @@ int do_int_speller(void)
 #ifndef NANO_SMALL
 
 /* External spell checking */
-int do_alt_speller(char *command_line, char *file_name)
+int do_alt_speller(char *file_name)
 {
-    int i;
+    int alt_spell_status;
+    pid_t pid_spell;
 
     endwin();
 
-    if ( (i = system(command_line) == -1) || (i == 32512))
+    /* Start a new process for the alternate speller */
+
+    if ( (pid_spell = fork()) == 0) {
+
+	/* Start alternate spell program, we are using the PATH here!?!? */
+	execlp(alt_speller, alt_speller, file_name, NULL);
+
+	/* Should not be reached, if alternate speller is found!!! */
+
+	exit(1);
+    }
+
+    /* Could not fork?? */
+
+    if (pid_spell < 0)
+	return FALSE;
+
+    /* Wait for alternate speller to complete */
+
+    wait(&alt_spell_status);
+    if (WIFEXITED(alt_spell_status)) {
+	if (WEXITSTATUS(alt_spell_status) != 0)
+	    return FALSE;
+    }
+    else
 	return FALSE;
 
     refresh();
-
     free_filestruct(fileage);
     global_init();
     open_file(file_name, 0, 1);
     edit_update(fileage, CENTER);
+    display_main_list();
     set_modified();
 
     return TRUE;
@@ -1283,30 +1297,24 @@ int do_spell(void)
     nano_small_msg();
     return (TRUE);
 #else
-    char *temp, *foo;
-    int size, spell_res;
+    char *temp;
+    int spell_res;
 
-    if (alt_speller) {
+    if ((temp = tempnam(0, "nano.")) == NULL) {
+	statusbar(_("Could not create a temporary filename: %s"),
+			strerror(errno));
+	return 0;
+    }
 
-	if ((temp = tempnam(0, "nano.")) == NULL) {
-	    statusbar(_("Could not create a temporary filename: %s"),
-		strerror(errno));
-	    return 0;
-	}
+    if (write_file(temp, 1) == -1)
+	return 0;
 
-	if (write_file(temp, 1) == -1)
-	    return 0;
+    if (alt_speller)
+	spell_res = do_alt_speller(temp);
+    else
+	spell_res = do_int_speller(temp);
 
-	size = strlen(temp) + strlen(alt_speller) + 2;
-	foo = nmalloc(size);
-	snprintf(foo, size, "%s %s", alt_speller, temp);
-
-	spell_res = do_alt_speller(foo, temp);
-
-	exit_spell(temp, foo);
-
-    } else
-	spell_res = do_int_speller();
+    remove(temp);
 
     if (spell_res)
 	statusbar(_("Finished checking spelling"));
