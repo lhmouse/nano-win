@@ -1,4 +1,9 @@
-2003-02-08  Chris ALlegreta <chrisa@asty.org>
+2003-02-10  Jordi Mallach  <jordi@gnu.org>
+
+	* fi.po: Updated Finnish translation by Kalle Kivimaa and
+	Kalle Olavi Niemitalo.
+
+2003-02-08  Chris Allegretta <chrisa@asty.org>
 
 	* it.po: Fix broken format string in translation.
 

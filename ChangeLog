@@ -35,6 +35,8 @@ CVS code
 	- Make nanorc entry less tolerant of invalid colors.
 - nano.spec.in:
 	- Change default flags to --enable-all.
+- THANKS:
+	- Add Kalle Kivimaa and Kalle Olavi Niemitalo, for Finnish (Jordi).
 
 GNU nano 1.1.99pre2 - 2003.02.03
 - General:
