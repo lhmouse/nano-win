@@ -1,5 +1,22 @@
+01/22/2002 - GNU nano 1.1.6 is released.  Lots of new features in this
+		release.  New Meta-keys were added as alternates for 
+		control sequences: Meta-A for the marker key (^^), and
+		Meta-G for the 'goto dir' key in the file browser (^_).
+		The color syntax highlighting now supports multiple
+		lines via start="regex" end="regex" syntax, and the
+		.nanorc regex format itself has changed. Also, the
+		gettext code was upgraded to version 0.10.40, and nano
+		will now display a message if only occurrence of a
+		given search exists. 
+			For bugfixes, there are fixes for spelling,
+		stray newlines in the usage() function, suspend issues
+		with tcsh, auto-indent and wrapping clashes, ugly code 
+		in rcfile.c, global variable compatibility with AIX.
+		There are also oodles of translation updates.
+		Have fun with it.
+
 01/05/2002 - GNU nano 1.1.5 is out.  The main new feature in this 
-		release if the changed behavior of the keypad.  Nano now 
+		release is the changed behavior of the keypad.  Nano now 
 		does the Right Thing and used keypad() by default.  If
 		you wish to use the keypad arrow keys in certain 
 		terminals, you may use the -K or --keypad flag to
