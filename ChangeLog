@@ -69,6 +69,8 @@ CVS code -
 	  preserve them across multiple file buffers.  Changes to
 	  read_file(), add_open_file(), and load_open_file().  (DLR,
 	  suggested by Bill Soudan)
+	- Remove the -D/--dos and -M/--mac command line options, as they
+	  aren't much use with the new file format autodetection. (DLR)
 - files.c:
   do_insertfile()
 	- Readd the NANO_SMALL #ifdef around the start_again: label to

@@ -667,7 +667,6 @@ void usage(void)
 #ifndef NANO_SMALL
     print1opt("-A", "--smarthome", N_("Enable smart home key"));
     print1opt("-B", "--backup", N_("Backup existing files on save"));
-    print1opt("-D", "--dos", N_("Write file in DOS format"));
     print1opt(_("-E [dir]"), _("--backupdir=[dir]"), N_("Directory for writing backup files"));
 #endif
 #ifdef ENABLE_MULTIBUFFER
@@ -680,7 +679,6 @@ void usage(void)
     print1opt("-I", "--ignorercfiles", N_("Don't look at nanorc files"));
 #endif
 #ifndef NANO_SMALL
-    print1opt("-M", "--mac", N_("Write file in Mac format"));
     print1opt("-N", "--noconvert", N_("Don't convert files from DOS/Mac format"));
 #endif
 #ifndef DISABLE_JUSTIFY
@@ -3048,9 +3046,7 @@ int main(int argc, char **argv)
 #ifndef NANO_SMALL
 	{"smarthome", 0, 0, 'A'},
 	{"backup", 0, 0, 'B'},
-	{"dos", 0, 0, 'D'},
 	{"backupdir", 1, 0, 'E'},
-	{"mac", 0, 0, 'M'},
 	{"noconvert", 0, 0, 'N'},
 	{"smooth", 0, 0, 'S'},
 	{"restricted", 0, 0, 'Z'},
@@ -3076,9 +3072,9 @@ int main(int argc, char **argv)
 
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
-	getopt_long(argc, argv, "h?ABDE:FHIMNQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz", long_options, NULL)
+	getopt_long(argc, argv, "h?ABE:FHINQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz", long_options, NULL)
 #else
-	getopt(argc, argv, "h?ABDE:FHIMNQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz")
+	getopt(argc, argv, "h?ABE:FHINQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz")
 #endif
 		) != -1) {
 
@@ -3097,9 +3093,6 @@ int main(int argc, char **argv)
 		break;
 	    case 'B':
 		SET(BACKUP_FILE);
-		break;
-	    case 'D':
-		SET(DOS_FILE);
 		break;
 	    case 'E':
 		backup_dir = mallocstrcpy(backup_dir, optarg);
@@ -3121,9 +3114,6 @@ int main(int argc, char **argv)
 		break;
 #endif
 #ifndef NANO_SMALL
-	    case 'M':
-		SET(MAC_FILE);
-		break;
 	    case 'N':
 		SET(NO_CONVERT);
 		break;
