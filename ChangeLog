@@ -97,8 +97,8 @@ CVS code -
 	  is_alnum_mbchar(), is_alnum_wchar(), is_blank_mbchar(),
 	  is_blank_wchar(), is_cntrl_mbchar(), is_cntrl_wchar(),
 	  control_mbrep(), control_wrep(), mbwidth(), mb_cur_max(),
-	  make_mbchar(), mbstrnlen(), mbstrcasecmp(), and
-	  mbstrncasecmp(); changes to is_byte() (moved to chars.c),
+	  make_mbchar(), mbstrnlen(), mbstrcasecmp(), mbstrncasecmp(),
+	  and mbstrcasestr(); changes to is_byte() (moved to chars.c),
 	  is_blank_char() (moved to chars.c), is_cntrl_char() (moved to
 	  chars.c), nstricmp() (renamed nstrcasecmp() and moved to
 	  chars.c), nstrnicmp() (renamed nstrncasecmp() and moved to
@@ -110,8 +110,8 @@ CVS code -
 	  moved to chars.c), move_right() (renamed move_mbright() and
 	  moved to chars.c), do_home(), do_verbatim_input(),
 	  do_delete(), do_tab(), do_next_word(), do_prev_word(),
-	  do_input(), do_output(), get_buffer(), unget_input(),
-	  unget_kbinput(), get_input(), parse_kbinput(),
+	  do_input(), do_output(), strstrwrapper(), get_buffer(),
+	  unget_input(), unget_kbinput(), get_input(), parse_kbinput(),
 	  unparse_kbinput(), parse_verbatim_kbinput(),
 	  do_statusbar_input(), do_statusbar_home(),
 	  do_statusbar_verbatim_kbinput(), do_statusbar_output(), and
@@ -137,7 +137,9 @@ CVS code -
 	- Use void instead of RETSIGTYPE, as signal handlers are
 	  supposed to return void anyway.  Also, the value of RETSIGTYPE
 	  is sometimes misdetected as int, leading to compilation
-	  warnings or errors. (David Benbennick)
+	  warnings or errors.  Changes to cancel_fork(),
+	  handle_hipterm(), do_suspend(), and do_cont(). (David
+	  Benbennick)
 - cut.c:
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the

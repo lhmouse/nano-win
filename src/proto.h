@@ -193,6 +193,7 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n);
 #ifndef HAVE_STRCASESTR
 const char *nstrcasestr(const char *haystack, const char *needle);
 #endif
+const char *mbstrcasestr(const char *haystack, const char *needle);
 #ifndef NANO_SMALL
 const char *revstrstr(const char *haystack, const char *needle, const
 	char *rev_start);

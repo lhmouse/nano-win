@@ -245,7 +245,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
     else if (ISSET(REVERSE_SEARCH))
 	return revstrcasestr(haystack, needle, start);
 #endif
-    return strcasestr(start, needle);
+    return mbstrcasestr(start, needle);
 }
 
 /* This is a wrapper for the perror() function.  The wrapper takes care

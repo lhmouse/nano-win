@@ -30,12 +30,13 @@
 #include "proto.h"
 #include "nano.h"
 
-#if defined(HAVE_WCHAR_H) && defined(NANO_WIDE)
+#ifdef NANO_WIDE
+#ifdef HAVE_WCHAR_H
 #include <wchar.h>
 #endif
-
-#if defined(HAVE_WCTYPE_H) && defined(NANO_WIDE)
+#ifdef HAVE_WCTYPE_H
 #include <wctype.h>
+#endif
 #endif
 
 /* Return TRUE if the value of c is in byte range, and FALSE
@@ -262,12 +263,11 @@ int mbwidth(const char *c)
 /* Return the maximum width in bytes of a multibyte character. */
 int mb_cur_max(void)
 {
+    return
 #ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8))
-	return MB_CUR_MAX;
-    else
+	!ISSET(NO_UTF8) ? MB_CUR_MAX :
 #endif
-	return 1;
+	1;
 }
 
 /* Convert the value in chr to a multibyte character with the same
@@ -348,7 +348,11 @@ int parse_mbchar(const char *buf, char *chr
 	     * and the width in columns of its visible equivalent as
 	     * returned by control_rep(). */
 	    else if (is_cntrl_mbchar(buf)) {
-		char *ctrl_buf_mb = charalloc(mb_cur_max());
+		char *ctrl_buf_mb =
+#ifdef NANO_WIDE
+			!ISSET(NO_UTF8) ? charalloc(MB_CUR_MAX) :
+#endif
+			charalloc(1);
 		int ctrl_buf_mb_len;
 
 		(*col)++;
@@ -452,19 +456,16 @@ int mbstrcasecmp(const char *s1, const char *s2)
 {
 #ifdef NANO_WIDE
     if (!ISSET(NO_UTF8)) {
-	char *s1_mb = charalloc(mb_cur_max());
-	char *s2_mb = charalloc(mb_cur_max());
-	int s1_mb_len, s2_mb_len;
+	char *s1_mb = charalloc(MB_CUR_MAX);
+	char *s2_mb = charalloc(MB_CUR_MAX);
 	wchar_t ws1, ws2;
 
 	assert(s1 != NULL && s2 != NULL);
 
 	while (*s1 != '\0' && *s2 != '\0') {
-	    s1_mb_len = parse_mbchar(s1, s1_mb
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+	    int s1_mb_len, s2_mb_len;
+
+	    s1_mb_len = parse_mbchar(s1, s1_mb, NULL, NULL);
 
 	    if (mbtowc(&ws1, s1_mb, s1_mb_len) <= 0) {
 		mbtowc(NULL, NULL, 0);
@@ -472,11 +473,7 @@ int mbstrcasecmp(const char *s1, const char *s2)
 	    }
 
 
-	    s2_mb_len = parse_mbchar(s2, s2_mb
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+	    s2_mb_len = parse_mbchar(s2, s2_mb, NULL, NULL);
 
 	    if (mbtowc(&ws2, s2_mb, s2_mb_len) <= 0) {
 		mbtowc(NULL, NULL, 0);
@@ -529,30 +526,23 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 {
 #ifdef NANO_WIDE
     if (!ISSET(NO_UTF8)) {
-	char *s1_mb = charalloc(mb_cur_max());
-	char *s2_mb = charalloc(mb_cur_max());
-	int s1_mb_len, s2_mb_len;
+	char *s1_mb = charalloc(MB_CUR_MAX);
+	char *s2_mb = charalloc(MB_CUR_MAX);
 	wchar_t ws1, ws2;
 
 	assert(s1 != NULL && s2 != NULL);
 
 	while (n > 0 && *s1 != '\0' && *s2 != '\0') {
-	    s1_mb_len = parse_mbchar(s1, s1_mb
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+	    int s1_mb_len, s2_mb_len;
+
+	    s1_mb_len = parse_mbchar(s1, s1_mb, NULL, NULL);
 
 	    if (mbtowc(&ws1, s1_mb, s1_mb_len) <= 0) {
 		mbtowc(NULL, NULL, 0);
 		ws1 = (unsigned char)*s1_mb;
 	    }
 
-	    s2_mb_len = parse_mbchar(s2, s2_mb
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+	    s2_mb_len = parse_mbchar(s2, s2_mb, NULL, NULL);
 
 	    if (mbtowc(&ws2, s2_mb, s2_mb_len) <= 0) {
 		mbtowc(NULL, NULL, 0);
@@ -601,6 +591,66 @@ const char *nstrcasestr(const char *haystack, const char *needle)
     return NULL;
 }
 #endif
+
+/* This function is equivalent to strcasestr() for multibyte strings. */
+const char *mbstrcasestr(const char *haystack, const char *needle)
+{
+#ifdef NANO_WIDE
+    if (!ISSET(NO_UTF8)) {
+	char *p_mb = charalloc(MB_CUR_MAX);
+	char *q_mb = charalloc(MB_CUR_MAX);
+	wchar_t wp, wq;
+	bool found_needle = FALSE;
+
+	assert(haystack != NULL && needle != NULL);
+
+	while (*haystack != '\0') {
+	    const char *p = haystack, *q = needle;
+	    int p_mb_len, q_mb_len;
+
+	    while (*q != '\0') {
+		p_mb_len = parse_mbchar(p, p_mb, NULL, NULL);
+
+		if (mbtowc(&wp, p_mb, p_mb_len) <= 0) {
+		    mbtowc(NULL, NULL, 0);
+		    wp = (unsigned char)*p;
+		}
+
+		q_mb_len = parse_mbchar(q, q_mb, NULL, NULL);
+
+		if (mbtowc(&wq, q_mb, q_mb_len) <= 0) {
+		    mbtowc(NULL, NULL, 0);
+		    wq = (unsigned char)*q;
+		}
+
+		if (towlower(wp) != towlower(wq))
+		    break;
+
+		p += p_mb_len;
+		q += q_mb_len;
+	    }
+
+	    if (*q == '\0') {
+		found_needle = TRUE;
+		break;
+	    }
+
+	    haystack += parse_mbchar(haystack, NULL, NULL, NULL);
+	}
+
+	free(p_mb);
+	free(q_mb);
+
+	return found_needle ? haystack : NULL;
+    } else
+#endif
+	return
+#ifdef HAVE_STRCASESTR
+		strcasestr(haystack, needle);
+#else
+		nstrcasestr(haystack, needle);
+#endif
+}
 
 #ifndef NANO_SMALL
 /* This function is equivalent to strstr(), except in that it scans the
@@ -667,15 +717,11 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 #ifdef NANO_WIDE
     if (!ISSET(NO_UTF8)) {
 	size_t n = 0;
-	char *s_mb = charalloc(mb_cur_max());
+	char *s_mb = charalloc(MB_CUR_MAX);
 	int s_mb_len;
 
 	while (*s != '\0') {
-	    s_mb_len = parse_mbchar(s + n, s_mb
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+	    s_mb_len = parse_mbchar(s + n, s_mb, NULL, NULL);
 
 	    if (maxlen == 0)
 		break;

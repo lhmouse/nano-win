@@ -100,16 +100,10 @@
 #endif
 #endif
 
-/* If no strcasestr(), getdelim(), or getline(), use the versions we
- * have. */
-#ifndef HAVE_STRCASESTR
-#define strcasestr nstrcasestr
-#endif
-
+/* If no getdelim() or getline(), use the versions we have. */
 #ifndef HAVE_GETDELIM
 #define getdelim ngetdelim
 #endif
-
 #ifndef HAVE_GETLINE
 #define getline ngetline
 #endif
