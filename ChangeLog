@@ -57,7 +57,7 @@ Changes
 	  done here, as some function in winio.c should handle this, 
 	  but I can't seem to find a good place to put this check.
 - configure.ac:
-	- Added tr to ALL_LINGUAS (Jordi).
+	- Added tr and eu to ALL_LINGUAS (Jordi).
 	- Fix now inaccurate description of --enable-tiny's effects; it
 	  no longer disables NLS support. (DLR)
 	- Fix typo. (David Benbennick)
@@ -232,7 +232,7 @@ Changes
 - TODO
 	- Added some wishlist stuff.
 - THANKS:
-	- Added Doruk Fisek (Jordi).
+	- Added Doruk Fisek and Peio Ziarsolo (Jordi).
 
 GNU nano 1.1.12 - 10/24/2002
 - General:
