@@ -1362,6 +1362,8 @@ void do_next_word(void)
 	current_x = 0;
     }
 
+    free(char_mb);
+
     if (current == NULL)
 	current = filebot;
 
