@@ -134,6 +134,9 @@ CVS code -
 	  N_(). (DLR)
 	- Add new key aliases: F15 for "Mark Text" (DLR) and F16 for
 	  "Where Is Next" (Chris).
+	- Leave "Mark Text" and "Where Is Next" out entirely when
+	  NANO_SMALL is defined.  Since they aren't in the visible main
+	  list, there's no point in having them in but disabled. (DLR)
 - nano.c:
   die_save_file()
 	- Clarify the error message when there are too many backup files
