@@ -98,8 +98,8 @@ void colorinit_one(int colortoset, short fg, short bg, int bold)
 
 int do_colorinit(void)
 {
-    int i, fg, bg;
-    colortype *tmpcolor = NULL;
+    int i;
+    colortype *tmpcolor = NULL, *beforenow = NULL;
     int defok = 0;
 
     if (has_colors()) {
@@ -115,24 +115,26 @@ int do_colorinit(void)
 	for (tmpcolor = colorstrings; tmpcolor != NULL; 
 		tmpcolor = tmpcolor->next) {
 
-	    if (tmpcolor->fg > 8)
-		fg = tmpcolor->fg - 8;
-	    else
-		fg = tmpcolor->fg;
+	    for (beforenow = colorstrings; beforenow != NULL
+		 && beforenow != tmpcolor && 
+		 (beforenow->fg != tmpcolor->fg || beforenow->bg != tmpcolor->bg
+		 || beforenow->bright != tmpcolor->bright);
+		beforenow = beforenow->next)
+		;
 
-	    if (tmpcolor->bg > 8)
-		bg = tmpcolor->bg - 8;
-	    else
-		bg = tmpcolor->bg;
-
-	    if (defok && bg == -1)
-		init_pair(i, fg, -1);
-            else if (bg == -1)
-		init_pair(i, fg, COLOR_BLACK);
+	    if (beforenow != NULL && beforenow != tmpcolor) {
+		tmpcolor->pairnum = beforenow->pairnum;
+		continue;
+	    }
+	    
+	    if (defok && tmpcolor->bg == -1)
+		init_pair(i, tmpcolor->fg, -1);
+            else if (tmpcolor->bg == -1)
+		init_pair(i, tmpcolor->fg, COLOR_BLACK);
 	    else /* They picked a fg and bg color */
-		init_pair(i, fg, bg);
+		init_pair(i, tmpcolor->fg, tmpcolor->bg);
 
-	    fprintf(stderr, "Running init_pair with fg = %d and bg = %d\n", fg, bg);
+	    fprintf(stderr, "Running init_pair with fg = %d and bg = %d\n", tmpcolor->fg, tmpcolor->bg);
 
 	    tmpcolor->pairnum = i;
 	    i++;

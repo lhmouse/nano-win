@@ -129,6 +129,7 @@ typedef struct colorstr {
 typedef struct colortype {
     int fg;
     int bg;
+    int bright;
     int pairnum;
     colorstr *str;
     struct colortype *next;

@@ -122,7 +122,7 @@ char *parse_next_word(char *ptr)
     return ptr;
 }
 
-int colortoint(char *colorname, char *filename, int *lineno) 
+int colortoint(char *colorname, int *bright, char *filename, int *lineno) 
 {
     int mcolor = 0;
 
@@ -130,7 +130,7 @@ int colortoint(char *colorname, char *filename, int *lineno)
 	return -1;
 
     if (strcasestr(colorname, "bright")) {
-	mcolor += 8;
+	*bright = 1;
 	colorname += 6;
     }
     
@@ -167,7 +167,7 @@ int colortoint(char *colorname, char *filename, int *lineno)
 /* Parse the color stuff into the colorstrings array */
 void parse_colors(FILE *rcstream, char *filename, int *lineno, char *buf, char *ptr)
 {
-    int i = 0, fg, bg;
+    int i = 0, fg, bg, bright = 0;
     char prev = '\\';
     char *tmp = NULL, *beginning, *fgstr, *bgstr;
     colortype *tmpcolor = NULL;
@@ -188,8 +188,8 @@ void parse_colors(FILE *rcstream, char *filename, int *lineno, char *buf, char *
     } else
 	bgstr = NULL;
 
-    fg = colortoint(fgstr, filename, lineno);
-    bg = colortoint(bgstr, filename, lineno);
+    fg = colortoint(fgstr, &bright, filename, lineno);
+    bg = colortoint(bgstr, &bright, filename, lineno);
 
     /* Now the fun part, start adding regexps to individual strings
 	in the colorstrings array, woo! */
@@ -219,45 +219,28 @@ void parse_colors(FILE *rcstream, char *filename, int *lineno, char *buf, char *
 		    colorstrings = nmalloc(sizeof(colortype));
 		    colorstrings->fg = fg;
 		    colorstrings->bg = bg;
+		    colorstrings->bright = bright;
 		    colorstrings->str = NULL;
 		    colorstrings->str = nmalloc(sizeof(colorstr));
 		    colorstrings->str->val = tmp;
 		    colorstrings->str->next = NULL;
 		    colorstrings->next = NULL;
 		} else {
-		    for (tmpcolor = colorstrings;
-			tmpcolor->next != NULL && !(tmpcolor->fg == fg 
-			&& tmpcolor->bg == bg); tmpcolor = tmpcolor->next)
+		    for (tmpcolor = colorstrings; tmpcolor->next != NULL;
+			  tmpcolor = tmpcolor->next)
 			;
-
-		    /* An entry for this color pair already exists, add it
-			to the str list */
-		    if (tmpcolor->fg == fg && tmpcolor->bg == bg) {
-			for (tmpstr = tmpcolor->str; tmpstr->next != NULL;
-				tmpstr = tmpstr->next)
-			    ;
-
-#ifdef DEBUG
-		    fprintf(stderr, "Adding to existing entry for fg %d bg %d\n", fg, bg);
-#endif
-
-			tmpstr->next = nmalloc (sizeof(colorstr));
-			tmpstr->next->val = tmp;
-			tmpstr->next->next = NULL;
-		    } else {
-
 #ifdef DEBUG
 		    fprintf(stderr, "Adding new entry for fg %d bg %d\n", fg, bg);
 #endif
 
-			tmpcolor->next = nmalloc(sizeof(colortype));
-			tmpcolor->next->fg = fg;
-			tmpcolor->next->bg = bg;
-			tmpcolor->next->str = nmalloc(sizeof(colorstr));
-			tmpcolor->next->str->val = tmp;
-			tmpcolor->next->str->next = NULL;
-			tmpcolor->next->next = NULL;
-		    }
+		    tmpcolor->next = nmalloc(sizeof(colortype));
+		    tmpcolor->next->fg = fg;
+		    tmpcolor->next->bg = bg;
+		    tmpcolor->next->bright = bright;
+		    tmpcolor->next->str = nmalloc(sizeof(colorstr));
+		    tmpcolor->next->str->val = tmp;
+		    tmpcolor->next->str->next = NULL;
+		    tmpcolor->next->next = NULL;
 		}
 
 		i = 0;

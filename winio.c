@@ -741,9 +741,6 @@ void add_marked_sameline(int begin, int end, filestruct * fileptr, int y,
     sel_data_len = end - begin;
     post_data_len = this_page_end - end;
 
-    /* Paint this line! */
-    mvwaddnstr(edit, y, 0, &fileptr->data[this_page_start], pre_data_len);
-
 #ifdef ENABLE_COLOR
     color_on(edit, COLOR_MARKER);
 #else
@@ -759,8 +756,6 @@ void add_marked_sameline(int begin, int end, filestruct * fileptr, int y,
     wattroff(edit, A_REVERSE);
 #endif /* ENABLE_COLOR */
 
-    mvwaddnstr(edit, y, end - this_page_start,
-	       &fileptr->data[end], post_data_len);
 }
 #endif
 
@@ -774,10 +769,65 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 {
 
 #ifndef NANO_SMALL
+    colortype *tmpcolor = NULL;
+    colorstr *tmpstr = NULL;
+    int k, paintlen;
+#endif
+
+
+
+    /* Just paint the string in any case (we'll add color or reverse on
+	just the text that needs it */
+    mvwaddnstr(edit, yval, 0, &fileptr->data[start],
+	    get_page_end_virtual(this_page) - start + 1);
+
+#ifndef NANO_SMALL
+    if (colorstrings != NULL)
+	for (tmpcolor = colorstrings; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
+	    for (tmpstr = tmpcolor->str; tmpstr != NULL; tmpstr = tmpstr->next) {
+
+		k = start;
+		regcomp(&search_regexp, tmpstr->val, 0);
+		while (!regexec(&search_regexp, &fileptr->data[k], 1, 
+		    regmatches, 0)) {
+
+#ifdef DEBUG
+		    fprintf(stderr, "Match! (%d chars) \"%s\"\n",
+			regmatches[0].rm_eo - regmatches[0].rm_so,
+			&fileptr->data[k + regmatches[0].rm_so]);
+#endif
+		    if (regmatches[0].rm_so < COLS - 1) {
+			if (tmpcolor->bright)
+			    wattron(edit, A_BOLD);
+			wattron(edit, COLOR_PAIR(tmpcolor->pairnum));
+
+			if (regmatches[0].rm_eo - regmatches[0].rm_so 
+			    + k <= COLS)
+			    paintlen = regmatches[0].rm_eo - regmatches[0].rm_so;
+			else
+			    paintlen = COLS - (regmatches[0].rm_eo 
+					-  regmatches[0].rm_so);
+
+			mvwaddnstr(edit, yval, regmatches[0].rm_so + k,
+			    &fileptr->data[k + regmatches[0].rm_so], 
+			    paintlen);
+
+
+		    }
+
+		    if (tmpcolor->bright)
+			wattroff(edit, A_BOLD);
+		    wattroff(edit, COLOR_PAIR(tmpcolor->pairnum));
+
+		    k += regmatches[0].rm_eo;
+		}
+	    }
+	}
+
     /* There are quite a few cases that could take place; we'll deal
      * with them each in turn */
-    if (ISSET(MARK_ISSET)
-	&& !((fileptr->lineno > mark_beginbuf->lineno
+    if (ISSET(MARK_ISSET) &&  
+	!((fileptr->lineno > mark_beginbuf->lineno
 	      && fileptr->lineno > current->lineno)
 	     || (fileptr->lineno < mark_beginbuf->lineno
 		 && fileptr->lineno < current->lineno))) {
@@ -832,23 +882,11 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 #else
 		wattron(edit, A_REVERSE);
 #endif /* ENABLE_COLOR */
-	    }
 
-	    target =
-		(virt_mark_beginx <
-		 COLS - 1) ? virt_mark_beginx : COLS - 1;
+		target =
+		    (virt_mark_beginx < COLS - 1) ? virt_mark_beginx : COLS - 1;
 
-	    mvwaddnstr(edit, yval, 0, fileptr->data, target);
-
-	    if (mark_beginbuf->lineno < current->lineno) {
-
-#ifdef ENABLE_COLOR
-		color_on(edit, COLOR_MARKER);
-#else
-		wattron(edit, A_REVERSE);
-#endif /* ENABLE_COLOR */
-
-	    } else {
+		mvwaddnstr(edit, yval, 0, fileptr->data, target);
 
 #ifdef ENABLE_COLOR
 		color_off(edit, COLOR_MARKER);
@@ -856,16 +894,23 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 		wattroff(edit, A_REVERSE);
 #endif /* ENABLE_COLOR */
 
+
 	    }
 
-	    target = (COLS - 1) - virt_mark_beginx;
-	    if (target < 0)
-		target = 0;
-
-	    mvwaddnstr(edit, yval, virt_mark_beginx,
-		       &fileptr->data[virt_mark_beginx], target);
-
 	    if (mark_beginbuf->lineno < current->lineno) {
+#ifdef ENABLE_COLOR
+		color_on(edit, COLOR_MARKER);
+#else
+		wattron(edit, A_REVERSE);
+#endif /* ENABLE_COLOR */
+
+		target = (COLS - 1) - virt_mark_beginx;
+
+		if (target < 0)
+		    target = 0;
+
+		mvwaddnstr(edit, yval, virt_mark_beginx,
+		       &fileptr->data[virt_mark_beginx], target);
 
 #ifdef ENABLE_COLOR
 		color_off(edit, COLOR_MARKER);
@@ -889,14 +934,19 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 		wattron(edit, A_REVERSE);
 #endif /* ENABLE_COLOR */
 
-	    }
-
-	    if (virt_cur_x > COLS - 2) {
-		mvwaddnstr(edit, yval, 0,
+		if (virt_cur_x > COLS - 2) {
+		    mvwaddnstr(edit, yval, 0,
 			   &fileptr->data[this_page_start],
 			   virt_cur_x - this_page_start);
-	    } else {
-		mvwaddnstr(edit, yval, 0, fileptr->data, virt_cur_x);
+		} else
+		    mvwaddnstr(edit, yval, 0, fileptr->data, virt_cur_x);
+
+#ifdef ENABLE_COLOR
+		color_off(edit, COLOR_MARKER);
+#else
+		wattroff(edit, A_REVERSE);
+#endif /* ENABLE_COLOR */
+
 	    }
 
 	    if (mark_beginbuf->lineno > current->lineno) {
@@ -907,25 +957,13 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 		wattron(edit, A_REVERSE);
 #endif /* ENABLE_COLOR */
 
-	    } else {
-
-#ifdef ENABLE_COLOR
-		color_off(edit, COLOR_MARKER);
-#else
-		wattroff(edit, A_REVERSE);
-#endif /* ENABLE_COLOR */
-
-	    }
-
-	    if (virt_cur_x > COLS - 2)
-		mvwaddnstr(edit, yval, virt_cur_x - this_page_start,
+		if (virt_cur_x > COLS - 2)
+		    mvwaddnstr(edit, yval, virt_cur_x - this_page_start,
 			   &fileptr->data[virt_cur_x],
 			   this_page_end - virt_cur_x);
-	    else
-		mvwaddnstr(edit, yval, virt_cur_x,
+		else
+		    mvwaddnstr(edit, yval, virt_cur_x,
 			   &fileptr->data[virt_cur_x], COLS - virt_cur_x);
-
-	    if (mark_beginbuf->lineno > current->lineno) {
 
 #ifdef ENABLE_COLOR
 		color_off(edit, COLOR_MARKER);
@@ -935,68 +973,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 
 	    }
 	}
-
-    } else
-#endif
-	/* Just paint the string (no mark on this line) */
-	mvwaddnstr(edit, yval, 0, &fileptr->data[start],
-		   get_page_end_virtual(this_page) - start + 1);
-
-#ifdef ENABLE_COLOR
-    {
-    colortype *tmpcolor = NULL;
-    colorstr *tmpstr = NULL;
-    int k, paintlen;
-
-    if (colorstrings != NULL)
-    for (tmpcolor = colorstrings; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
-	for (tmpstr = tmpcolor->str; tmpstr != NULL; tmpstr = tmpstr->next) {
-
-	    k = start;
-	    regcomp(&search_regexp, tmpstr->val, 0);
-	    while (!regexec(&search_regexp, &fileptr->data[k], 1, 
-		regmatches, 0)) {
-
-#ifdef DEBUG
-		fprintf(stderr, "Match! (%d chars) \"%s\"\n",
-		    regmatches[0].rm_eo - regmatches[0].rm_so,
-		    &fileptr->data[k + regmatches[0].rm_so]);
-#endif
-		if (regmatches[0].rm_so < COLS - 1) {
-		    if (tmpcolor->fg > 8 || tmpcolor->bg > 8) {
-			wattron(edit, A_BOLD);
-			wattron(edit, COLOR_PAIR(tmpcolor->pairnum));
-		    }
-		    else
-			wattron(edit, COLOR_PAIR(tmpcolor->pairnum));
-
-		    if (regmatches[0].rm_eo - regmatches[0].rm_so 
-			+ k <= COLS)
-			paintlen = regmatches[0].rm_eo - regmatches[0].rm_so;
-		    else
-			paintlen = COLS - (regmatches[0].rm_eo 
-					-  regmatches[0].rm_so);
-
-		    mvwaddnstr(edit, yval, regmatches[0].rm_so + k,
-			&fileptr->data[k + regmatches[0].rm_so], 
-			paintlen);
-
-
-		}
-
-		if (tmpcolor->fg > 8 || tmpcolor->bg > 8) {
-		    wattroff(edit, A_BOLD);
-		    wattroff(edit, COLOR_PAIR(tmpcolor->pairnum));
-		}
-		else
-		    wattroff(edit, COLOR_PAIR(tmpcolor->pairnum));
-
-		k += regmatches[0].rm_eo;
-	    }
-	}
     }
-    }
-
 #endif
 
 }
