@@ -886,7 +886,7 @@ int open_pipe(const char *command)
 
     return 0;
 }
-#endif /* NANO_SMALL */
+#endif /* !NANO_SMALL */
 
 #ifndef DISABLE_MOUSE
 void do_mouse(void)
