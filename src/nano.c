@@ -1729,7 +1729,8 @@ const char *do_int_speller(char *tempfile_name)
 const char *do_alt_speller(char *tempfile_name)
 {
     int alt_spell_status, lineno_cur = current->lineno;
-    int x_cur = current_x, y_cur = current_y, pww_cur = placewewant;
+    int x_cur = current_x, y_cur = current_y;
+    size_t pww_cur = placewewant;
     pid_t pid_spell;
     char *ptr;
     static int arglen = 3;
@@ -2151,7 +2152,7 @@ int break_line(const char *line, int goal, int force)
 int do_para_search(justbegend search_type, size_t *quote, size_t *par,
 	size_t *indent, int do_refresh)
 {
-    int old_pww = placewewant;
+    size_t old_pww = placewewant;
     const filestruct *current_save = current;
     size_t quote_len;
 	/* Length of the initial quotation of the paragraph we
