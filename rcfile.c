@@ -432,11 +432,23 @@ void do_rcfile(void)
 {
     char *unable = _("Unable to open ~/.nanorc file, %s");
     struct stat fileinfo;
+    int skip=0;
     FILE *rcstream;
-
 
     if (getenv("HOME") == NULL)
 	return;
+
+    nanorc = charalloc(strlen(SYSCONFDIR) + 10);
+    sprintf(nanorc, "%s/nanorc", SYSCONFDIR);
+
+    /* Try to open system nanorc */
+    if (stat(nanorc, &fileinfo) != -1)
+	if ((rcstream = fopen(nanorc, "r")) != NULL) {
+
+	   /* Parse it! */
+	    parse_rcfile(rcstream);
+	    fclose(rcstream);
+	}
 
     nanorc = charalloc(strlen(getenv("HOME")) + 10);
     sprintf(nanorc, "%s/.nanorc", getenv("HOME"));

@@ -26,6 +26,8 @@ CVS code -
   parse_next_regex()
 	- Allow " symbol to be in regex without leading \ by checking
 	  for *ptr+1 is not the end of the regex.
+  do_rcfile()
+	- Parse rcfile in $SYSCONFDIR as well (Dwayne Rightler).
 - nano.c:
   help_init()
 	- Added message re: having multiple blank buffers (DLR).
