@@ -160,7 +160,7 @@ typedef struct openfilestruct {
 				 * position. */
     int file_current_y;		/* Current file's y-coordinate
 				 * position. */
-    int file_flags;		/* Current file's flags: modification
+    long file_flags;		/* Current file's flags: modification
 				 * status (and marking status, if
 				 * available). */
     int file_placewewant;	/* Current file's place we want. */
