@@ -1,4 +1,7 @@
 CVS code -
+- faq.html
+	- Removed nano-editor.org FTP site address [deprecated] and added
+	the GNU one.
 - files.c:
 	- Added status messages for converted DOS and Mac files.
 	  People should know that their file wasnt normally formatted.
