@@ -38,7 +38,7 @@ extern int fill, flags,tabsize;
 
 extern WINDOW *edit, *topwin, *bottomwin;
 extern char filename[PATH_MAX];
-extern char answer[132];
+extern char *answer;
 extern char *hblank, *help_text;
 extern struct stat fileinfo;
 extern filestruct *current, *fileage, *edittop, *editbot, *filebot; 
@@ -107,6 +107,7 @@ void center_cursor(void);
 void bottombars(shortcut s[], int slen);
 void blank_statusbar_refresh(void);
 void *nmalloc (size_t howmuch);
+void *mallocstrcpy(void *dest, void *src);
 void wrap_reset(void);
 void display_main_list(void);
 void nano_small_msg(void);

@@ -5,6 +5,15 @@ CVS Code -
   replace with the null string without needing a special key for it.  
   changed code in search_init(), do_replace(), nanogetstr (see below).
 - Added some missing gettext calls here and there (Jordi).
+- Revamped nanogetsr() and calls to it to use variable length strings.
+  MANY changes in nanogetstr(), many chances in search.c, new function
+  mallocstrcpy which is sure to be a programmatic nightmare, changed
+  last_search, last_replace, answer to pointers.  New function
+  not_found_msg in search.c for displaying truncated strings in satusbar
+  when the string is not found.
+
+  *** Note that backspace key makes input be off by one when entring
+  *** a string > COLS in length.  This must be fixed before a new release
 
 - global.c
 	- New global replace_list_2, for 2nd half of the replace dialog

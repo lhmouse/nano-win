@@ -34,8 +34,8 @@
 #define _(string) (string)
 #endif
 
-static char last_search[132] = "";	/* Last string we searched for */
-static char last_replace[132] = "";	/* Last replacement string */
+static char *last_search = NULL;	/* Last string we searched for */
+static char *last_replace = NULL;	/* Last replacement string */
 static int search_last_line;
 
 
@@ -67,6 +67,15 @@ int search_init(int replacing)
 /*    char buf[BUFSIZ]; */
     char *prompt, *reprompt = "";
 
+   if (last_search == NULL) {
+	last_search = nmalloc(1);
+	last_search[0] = 0;
+   }
+   if (last_replace == NULL) {
+	last_replace = nmalloc(1);
+	last_replace[0] = 0;
+   }
+
 /*
     if (last_search[0]) {
 	snprintf(buf, BUFSIZ, " [%s]", last_search);
@@ -97,13 +106,13 @@ int search_init(int replacing)
 	reset_cursor();
 	return -1;
     } else if (i == -2) {	/* Same string */
-	strncpy(answer, last_search, 132);
+	answer = mallocstrcpy(answer, last_search);
 #ifdef HAVE_REGEX_H
 	if (ISSET(USE_REGEXP))
 	    regexp_init(answer);
 #endif
     } else if (i == 0) {	/* They entered something new */
-	strncpy(last_search, answer, 132);
+	last_search = mallocstrcpy(last_search, answer);
 #ifdef HAVE_REGEX_H
 	if (ISSET(USE_REGEXP))
 	    regexp_init(answer);
@@ -129,6 +138,19 @@ int search_init(int replacing)
     }
 
     return 0;
+}
+
+void not_found_msg(char *str)
+{
+    char foo[COLS];
+
+    if (strlen(str) < COLS / 2)
+	statusbar(_("\"%s\" not found"), str);
+    else {
+	strncpy(foo, str, COLS / 2);
+	foo[COLS / 2] = 0;
+	statusbar(_("\"%s...\" not found"), foo);
+    }
 }
 
 filestruct *findnextstr(int quiet, filestruct * begin, int beginx,
@@ -158,7 +180,7 @@ filestruct *findnextstr(int quiet, filestruct * begin, int beginx,
 	/* finished processing file, get out */
 	if (search_last_line) {
 	    if (!quiet)
-		statusbar(_("\"%s\" not found"), needle);
+		not_found_msg(needle);
 	    return NULL;
 	}
 
@@ -193,7 +215,7 @@ filestruct *findnextstr(int quiet, filestruct * begin, int beginx,
     /* Ensure we haven't wrap around again! */
     if ((search_last_line) && (current_x >= beginx)) {
 	if (!quiet)
-	    statusbar(_("\"%s\" not found"), needle);
+	    not_found_msg(needle);
 	return NULL;
     }
 
@@ -396,7 +418,7 @@ int do_replace(void)
 {
     int i, replaceall = 0, numreplaced = 0, beginx;
     filestruct *fileptr, *begin;
-    char *copy, prevanswer[132] = "";
+    char *copy, *prevanswer = NULL;
 
     i = search_init(1);
     switch (i) {
@@ -422,7 +444,7 @@ int do_replace(void)
 	return 0;
     }
 
-    strncpy(prevanswer, answer, 132);
+    prevanswer = mallocstrcpy(prevanswer, answer);
 
 /*
     if (strcmp(last_replace, "")) 	* There's a previous replace str *
@@ -438,12 +460,12 @@ int do_replace(void)
     switch (i) {
     case -1:				/* Aborted enter */
 	if (strcmp(last_replace, ""))
-	    strncpy(answer, last_replace, 132);
+	    answer = mallocstrcpy(answer, last_replace);
 	statusbar(_("Replace Cancelled"));
 	replace_abort();
 	return 0;
     case 0:		/* They actually entered something */
-	strncpy(last_replace, answer, 132);
+	last_replace = mallocstrcpy(last_replace, answer);
 	break;
     default:
         if (i != -2) {	/* First page, last page, for example 

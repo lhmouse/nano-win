@@ -222,32 +222,38 @@ void check_statblank(void)
 void nanoget_repaint(char *buf, char *inputbuf, int x)
 {
     blank_statusbar();
-    mvwaddstr(bottomwin, 0, 0, buf);
-    waddstr(bottomwin, inputbuf);
-    wmove(bottomwin, 0, x);
+    if (x <= COLS) { 
+        mvwaddstr(bottomwin, 0, 0, buf);
+        waddnstr(bottomwin, inputbuf, COLS - strlen(buf));
+
+    } else if (x > COLS && x <= COLS * 2)
+	mvwaddnstr(bottomwin, 0, 0, &inputbuf[COLS - strlen(buf)], COLS);
+    else
+	mvwaddnstr(bottomwin, 0, 0, &inputbuf[COLS * (x / COLS) - 
+					strlen(buf)], COLS);
+
+    wmove(bottomwin, 0, (x % COLS));
+
 }
 
 /* Get the input from the kb, this should only be called from statusq */
 int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 {
     int kbinput = 0, j = 0, x = 0, xend;
-    int x_left = 0;
-    char inputstr[132], inputbuf[132] = "";
-
-    blank_statusbar();
-    mvwaddstr(bottomwin, 0, 0, buf);
-    if (strlen(def) > 0)
-	waddstr(bottomwin, def);
-    wrefresh(bottomwin);
+    int x_left = 0, inputlen;
+    char *inputbuf;
+    
+    inputbuf = nmalloc(strlen(def) + 1);
+    inputbuf[0] = 0;
 
     x_left = strlen(buf);
     x = strlen(def) + x_left;
 
     /* Get the input! */
-    if (strlen(def) > 0) {
-	strcpy(answer, def);
+    if (strlen(def) > 0)
 	strcpy(inputbuf, def);
-    }
+
+    nanoget_repaint(buf, inputbuf, x);
 
     while ((kbinput = wgetch(bottomwin)) != 13) {
 	for (j = 0; j <= slen - 1; j++) {
@@ -307,9 +313,7 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 		    inputbuf[strlen(inputbuf) - 1] = 0;
 		}
 	    }
-	    blank_statusbar();
-	    mvwaddstr(bottomwin, 0, 0, buf);
-	    waddstr(bottomwin, inputbuf);
+	    nanoget_repaint(buf, inputbuf, x);
 	case KEY_LEFT:
 	    if (x > strlen(buf))
 		x--;
@@ -378,11 +382,15 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 	default:
 	    if (kbinput < 32)
 		break;
-	    strcpy(inputstr, inputbuf);
-	    inputstr[x - strlen(buf)] = kbinput;
-	    strcpy(&inputstr[x - strlen(buf) + 1],
-		   &inputbuf[x - strlen(buf)]);
-	    strcpy(inputbuf, inputstr);
+
+	    inputlen = strlen(inputbuf);
+	    inputbuf = nrealloc(inputbuf, inputlen + 2);
+
+	    memmove(&inputbuf[x - x_left + 1], 
+			&inputbuf[x - x_left],
+                        inputlen - (x - x_left) + 1);
+	    inputbuf[x - x_left] = kbinput;
+
 	    x++;
 
 	    nanoget_repaint(buf, inputbuf, x);
@@ -393,7 +401,7 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 	wrefresh(bottomwin);
     }
 
-    strncpy(answer, inputbuf, 132);
+    answer = mallocstrcpy(answer, inputbuf);
 
     /* Now that the text is editable instead of bracketed, we have to 
        check for answer == def, instead of answer == "" */

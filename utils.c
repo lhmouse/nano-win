@@ -119,6 +119,23 @@ void *nrealloc(void *ptr, size_t howmuch)
     return r;
 }
 
+/* Copy one malloced string to another pointer.
+
+   Should be used as dest = mallocstrcpy(dest, src);
+*/
+void *mallocstrcpy(void *dest, void *src)
+{
+
+    if (dest != NULL)
+	free(dest);
+
+    dest = nmalloc(strlen(src) + 1);
+    strcpy(dest, src);
+
+    return dest;
+}
+
+
 /* Append a new magic-line to filebot */
 void new_magicline(void)
 {

@@ -54,7 +54,7 @@ filestruct *editbot = NULL;	/* Same for the bottom */
 filestruct *filebot = NULL;	/* Last node in the file struct */
 filestruct *cutbuffer = NULL;	/* A place to store cut text */
 
-char answer[132];		/* Answer str to many questions */
+char *answer = NULL;			/* Answer str to many questions */
 int totlines = 0;		/* Total number of lines in the file */
 int totsize = 0;		/* Total number of bytes in the file */
 int placewewant = 0;		/* The collum we'd like the cursor
