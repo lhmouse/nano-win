@@ -102,6 +102,9 @@ int search_init(int replacing)
     int i = 0;
     char *buf;
     static char *backupstring = NULL;
+#ifdef HAVE_REGEX_H
+    const char *regex_error = _("Invalid regex \"%s\"");
+#endif /* HAVE_REGEX_H */
 
     search_init_globals();
 
@@ -164,14 +167,20 @@ int search_init(int replacing)
 #ifdef HAVE_REGEX_H
 	    if (ISSET(USE_REGEXP))
 		/* If answer is "", use last_search! */
-		regexp_init(last_search);
+		if (regexp_init(last_search) == 0) {
+		    statusbar(regex_error, last_search);
+		    reset_cursor();
+		    free(backupstring);
+		    backupstring = NULL;
+		    return -3;
+		}
 #endif
 	    break;
 	case 0:		/* They entered something new */
 #ifdef HAVE_REGEX_H
 	    if (ISSET(USE_REGEXP))
 		if (regexp_init(answer) == 0) {
-		    statusbar(_("Invalid regex!"));
+		    statusbar(regex_error, answer);
 		    reset_cursor();
 		    free(backupstring);
 		    backupstring = NULL;
