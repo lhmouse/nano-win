@@ -1310,8 +1310,8 @@ int get_untranslated_kbinput(int kbinput, size_t position, bool
 	 * the first digit), increment the ASCII digit counter and
 	 * interpret the digit.  If the digit sequence's range is not
 	 * limited to 2XX, fall through. */
-	if (position == ascii_digits && kbinput >= '0' && kbinput <=
-		'9') {
+	if (position == ascii_digits && kbinput >= '0' &&
+		kbinput <= '9') {
 	    if (kbinput <= '2' || ascii_digits > 0) {
 		ascii_digits++;
 		kbinput = get_ascii_kbinput(kbinput, ascii_digits

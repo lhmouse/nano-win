@@ -584,8 +584,8 @@ int replace_regexp(char *string, bool create_flag)
     while (*c != '\0') {
 	int num = (int)(*(c + 1) - '0');
 
-	if (*c != '\\' || num < 1 || num > 9 || num >
-		search_regexp.re_nsub) {
+	if (*c != '\\' || num < 1 || num > 9 ||
+		num > search_regexp.re_nsub) {
 	    if (create_flag)
 		*string++ = *c;
 	    c++;
@@ -790,8 +790,8 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 	     * the top of it, don't change mark_beginx. */
 	    if (!old_mark_set || !right_side_up) {
 		/* Keep mark_beginx in sync with the text changes. */
-		if (current == mark_beginbuf && mark_beginx >
-			current_x) {
+		if (current == mark_beginbuf &&
+			mark_beginx > current_x) {
 		    if (mark_beginx < current_x + match_len)
 			mark_beginx = current_x;
 		    else
@@ -804,8 +804,8 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 	    if (!old_mark_set || right_side_up) {
 #endif
 		/* Keep real_current_x in sync with the text changes. */
-		if (current == real_current && current_x <=
-			*real_current_x) {
+		if (current == real_current &&
+			current_x <= *real_current_x) {
 		    if (*real_current_x < current_x + match_len)
 			*real_current_x = current_x + match_len;
 		    *real_current_x += length_change;

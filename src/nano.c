@@ -1252,8 +1252,8 @@ void do_delete(void)
 	/* Do we have to call edit_refresh(), or can we get away with
 	 * update_line()? */
 
-    assert(current != NULL && current->data != NULL && current_x <=
-	strlen(current->data));
+    assert(current != NULL && current->data != NULL &&
+	current_x <= strlen(current->data));
 
     placewewant = xplustabs();
 
@@ -1531,8 +1531,8 @@ bool do_wrap(filestruct *inptr)
 	    word_back = i;
 	/* If we have found a legal wrap point and the current word
 	 * extends too far, then we stop. */
-	if (wrap_loc != -1 && strnlenpt(inptr->data, word_back + 1) >
-		fill)
+	if (wrap_loc != -1 &&
+		strnlenpt(inptr->data, word_back + 1) > fill)
 	    break;
 	/* We record the latest legal wrap point. */
 	if (word_back != i && !isblank(wrap_line[1]))
@@ -2893,8 +2893,8 @@ void do_justify(bool full_justify)
 #endif
 		}
 #ifndef NANO_SMALL
-		if (mark_beginbuf == current && mark_beginx >
-			break_pos) {
+		if (mark_beginbuf == current &&
+			mark_beginx > break_pos) {
 		    mark_beginbuf = current->next;
 		    mark_beginx -= break_pos + 1 - indent_len;
 		}
