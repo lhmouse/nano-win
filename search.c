@@ -412,64 +412,38 @@ int do_replace(void)
     }
     strncpy(prevanswer, answer, 132);
 
-    if (strcmp(last_replace, "")) {	/* There's a previous replace str */
+    if (strcmp(last_replace, "")) 	/* There's a previous replace str */
 	i = statusq(replace_list, REPLACE_LIST_LEN, "",
 		    _("Replace with [%s]"), last_replace);
-
-	if (i == -1) {		/* Aborted enter */
-	    strncpy(answer, last_replace, 132);
-	    statusbar(_("Replace Cancelled"));
-	    replace_abort();
-	    return 0;
-	} else if (i == 0)	/* They actually entered something */
-	    strncpy(last_replace, answer, 132);
-	else if (i == NANO_NULL_KEY)	/* They actually entered something */
-	    strcpy(last_replace, "");
-	else if (i == NANO_CASE_KEY) {	/* They asked for case sensitivity */
-	    if (ISSET(CASE_SENSITIVE))
-		UNSET(CASE_SENSITIVE);
-	    else
-		SET(CASE_SENSITIVE);
-
-	    do_replace();
-	    return 0;
-	} else if (i == NANO_FROMSEARCHTOGOTO_KEY) {	/* oops... */
-	    do_gotoline_void();
-	    return 0;
-	} else if (i != -2) {	/* First page, last page, for example could get here */
-
-	    do_early_abort();
-	    replace_abort();
-	    return 0;
-	}
-    } else {			/* last_search is empty */
-
+    else
 	i = statusq(replace_list, REPLACE_LIST_LEN, "", _("Replace with"));
-	if (i == -1) {
-	    statusbar(_("Replace Cancelled"));
-	    replace_abort();
-	    return 0;
-	} else if (i == 0)	/* They entered something new */
-	    strncpy(last_replace, answer, 132);
-	else if (i == NANO_CASE_KEY) {	/* They want it case sensitive */
-	    if (ISSET(CASE_SENSITIVE))
-		UNSET(CASE_SENSITIVE);
-	    else
-		SET(CASE_SENSITIVE);
 
-	    do_replace();
-	    return -1;
-	} else if (i == NANO_FROMSEARCHTOGOTO_KEY) {	/* oops... */
-	    do_gotoline_void();
-	    return 0;
-	} else if (i == NANO_NULL_KEY)
-	    strcpy(last_replace, "");
-	else {			/* First line key, etc. */
+    if (i == -1) {		/* Aborted enter */
+	if (strcmp(last_replace, ""))
+	    strncpy(answer, last_replace, 132);
+	statusbar(_("Replace Cancelled"));
+	replace_abort();
+	return 0;
+    } else if (i == 0)	/* They actually entered something */
+	strncpy(last_replace, answer, 132);
+    else if (i == NANO_NULL_KEY)	/* They actually entered something */
+	strcpy(last_replace, "");
+    else if (i == NANO_CASE_KEY) {	/* They asked for case sensitivity */
+	if (ISSET(CASE_SENSITIVE))
+	    UNSET(CASE_SENSITIVE);
+	else
+	    SET(CASE_SENSITIVE);
 
+	do_replace();
+	return 0;
+    } else if (i == NANO_FROMSEARCHTOGOTO_KEY) {	/* oops... */
+	do_gotoline_void();
+	return 0;
+    } else if (i != -2) {	/* First page, last page, for example 
+				   could get here */
 	    do_early_abort();
 	    replace_abort();
 	    return 0;
-	}
     }
 
     /* save where we are */

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-10-27 00:34-0400\n"
+"POT-Creation-Date: 2000-10-27 01:32-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -774,7 +774,7 @@ msgstr ""
 msgid "Replaced 1 occurence"
 msgstr ""
 
-#: search.c:392 search.c:421 search.c:449
+#: search.c:392 search.c:424
 msgid "Replace Cancelled"
 msgstr ""
 
@@ -789,29 +789,28 @@ msgstr ""
 msgid "Replace with [%s]"
 msgstr ""
 
-#. last_search is empty
-#: search.c:447
+#: search.c:419
 msgid "Replace with"
 msgstr ""
 
-#: search.c:493
+#: search.c:467
 msgid "Replace this instance?"
 msgstr ""
 
 #. Ask for it
-#: search.c:554
+#: search.c:528
 msgid "Enter line number"
 msgstr ""
 
-#: search.c:556
+#: search.c:530
 msgid "Aborted"
 msgstr ""
 
-#: search.c:576
+#: search.c:550
 msgid "Come on, be reasonable"
 msgstr ""
 
-#: search.c:581
+#: search.c:555
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr ""
