@@ -47,7 +47,7 @@ extern shortcut *shortcut_list;
 extern shortcut main_list[MAIN_LIST_LEN], whereis_list[WHEREIS_LIST_LEN];
 extern shortcut replace_list[REPLACE_LIST_LEN], goto_list[GOTO_LIST_LEN];
 extern shortcut writefile_list[WRITEFILE_LIST_LEN], help_list[HELP_LIST_LEN];
-extern shortcut spell_list[SPELL_LIST_LEN];
+extern shortcut spell_list[SPELL_LIST_LEN], replace_list_2[REPLACE_LIST_LEN];
 
 #ifdef HAVE_REGEX_H
 extern int use_regexp, regexp_compiled;

@@ -240,7 +240,8 @@ know what you're doing */
 #define MAIN_LIST_LEN 26
 #define MAIN_VISIBLE 12
 #define WHEREIS_LIST_LEN 6
-#define REPLACE_LIST_LEN 7
+#define REPLACE_LIST_LEN 6
+#define REPLACE_LIST_2_LEN 4
 #define GOTO_LIST_LEN 3
 #define WRITEFILE_LIST_LEN 1
 #define HELP_LIST_LEN 3

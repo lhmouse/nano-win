@@ -74,6 +74,7 @@ int mark_beginx;		/* X value in the string to start */
 shortcut main_list[MAIN_LIST_LEN];
 shortcut whereis_list[WHEREIS_LIST_LEN];
 shortcut replace_list[REPLACE_LIST_LEN];
+shortcut replace_list_2[REPLACE_LIST_LEN]; /* 2nd half of replace dialog */
 shortcut goto_list[GOTO_LIST_LEN];
 shortcut writefile_list[WRITEFILE_LIST_LEN];
 shortcut help_list[HELP_LIST_LEN];
@@ -361,10 +362,21 @@ void shortcut_init(void)
 		_("Goto Line"), nano_goto_msg, 0, 0, 0, VIEW,
 		do_gotoline_void);
 
-    sc_init_one(&replace_list[5], NANO_NULL_KEY, _("Null Str"),
+    sc_init_one(&replace_list[5], NANO_CANCEL_KEY, _("Cancel"),
+		nano_cancel_msg, 0, 0, 0, VIEW, 0);
+
+
+
+    sc_init_one(&replace_list_2[0], NANO_FIRSTLINE_KEY, _("First Line"),
+		nano_firstline_msg, 0, 0, 0, VIEW, do_first_line);
+
+    sc_init_one(&replace_list_2[1], NANO_LASTLINE_KEY, _("Last Line"),
+		nano_lastline_msg, 0, 0, 0, VIEW, do_last_line);
+
+    sc_init_one(&replace_list_2[2], NANO_NULL_KEY, _("Null Str"),
 		nano_null_msg, 0, 0, 0, VIEW, 0);
 
-    sc_init_one(&replace_list[6], NANO_CANCEL_KEY, _("Cancel"),
+    sc_init_one(&replace_list_2[3], NANO_CANCEL_KEY, _("Cancel"),
 		nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
 

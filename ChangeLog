@@ -1,9 +1,13 @@
 CVS Code -
 - Ran source through indent -kr again.  Make everything pretty.
-- Added "replace with null" option.  ^N in replace.  New alias
-  NANO_NULL_KEY, and code in do_replace to check for it.  Readded
-  NANO_NULL_KEY case to search_init code.
+- Changed behavior of "search" and "replace" prompts to make all
+  previous values editable.  This change was made so that you can 
+  replace with the null string without needing a special key for it.  
+  changed code in search_init(), do_replace(), nanogetstr (see below).
 - global.c
+	- New global replace_list_2, for 2nd half of the replace dialog
+	  ("Replace with:"), has fewer options than first half because
+	  they were inapropriate.  
   toggle_init()
 	- Added #ifdef around toggle_regex_msg to get rid of compiler 
 	  warning.
@@ -23,12 +27,15 @@ CVS Code -
 	- Removed redundant code involving processing replacemenet string.
 	  Converted if statements to switch statements.
 	- Optimizations by Rocco Corsi.
+	- Removed code for deleted shortcuts from in replace_list_2.
   do_search()
 	- Converted if statements to one switch statement.
 - winio.c
   nanogetstr()
 	- Added check for 343 in while loop to get rid of getting "locked"
 	  into statusbar" bug in odd $TERMs like iris-ansi.
+	- Changed check to return -2 on "enter" from answer == ""
+	  to answer == def.
   nanoget_repaint()
 	- New function, removes about 30 lines of duplicate code in 
 	  nanogetstr().

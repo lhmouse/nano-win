@@ -64,14 +64,16 @@ void regexp_cleanup()
 int search_init(int replacing)
 {
     int i;
-    char buf[BUFSIZ];
+/*    char buf[BUFSIZ]; */
     char *prompt, *reprompt = "";
 
+/*
     if (last_search[0]) {
 	snprintf(buf, BUFSIZ, " [%s]", last_search);
     } else {
 	buf[0] = '\0';
     }
+*/
 
     if (ISSET(USE_REGEXP) && ISSET(CASE_SENSITIVE))
 	prompt = _("Case Sensitive Regexp Search%s%s");
@@ -86,8 +88,8 @@ int search_init(int replacing)
 	reprompt = _(" (to replace)");
 
     i = statusq(replacing ? replace_list : whereis_list,
-		replacing ? REPLACE_LIST_LEN : WHEREIS_LIST_LEN, "",
-		prompt, reprompt, buf);
+		replacing ? REPLACE_LIST_LEN : WHEREIS_LIST_LEN, last_search,
+		prompt, reprompt, "");
 
     /* Cancel any search, or just return with no previous search */
     if ((i == -1) || (i < 0 && !last_search[0])) {
@@ -121,9 +123,7 @@ int search_init(int replacing)
     } else if (i == NANO_FROMSEARCHTOGOTO_KEY) {
 	do_gotoline_void();
 	return -3;
-    } else if (i == NANO_NULL_KEY)	/* They hit ^N! */
-	strncpy(last_search, "", 132);
-    else {			/* First line key, etc. */
+    } else {			/* First line key, etc. */
 	do_early_abort();
 	return -3;
     }
@@ -407,20 +407,18 @@ int do_replace(void)
 	return 0;
     }
 
-    if (!strcmp(answer, "")) {
-	/* They used ^N in the search field, shame on them.
-	   Any Dungeon fans out there? */
-	statusbar(_("Nothing Happens"));
-	replace_abort();
-	return 0;
-    }
     strncpy(prevanswer, answer, 132);
 
-    if (strcmp(last_replace, "")) 	/* There's a previous replace str */
-	i = statusq(replace_list, REPLACE_LIST_LEN, "",
+/*
+    if (strcmp(last_replace, "")) 	* There's a previous replace str *
+	i = statusq(replace_list_2, REPLACE_LIST_2_LEN, "",
 		    _("Replace with [%s]"), last_replace);
     else
-	i = statusq(replace_list, REPLACE_LIST_LEN, "", _("Replace with"));
+	i = statusq(replace_list_2, REPLACE_LIST_2_LEN, "", _("Replace with"));
+*/
+
+	i = statusq(replace_list_2, REPLACE_LIST_2_LEN, last_replace, 
+			_("Replace with"));
 
     switch (i) {
     case -1:				/* Aborted enter */
@@ -435,17 +433,6 @@ int do_replace(void)
     case NANO_NULL_KEY:		/* They want the null string */
 	strcpy(last_replace, "");
 	break;
-    case NANO_CASE_KEY:		/* They asked for case sensitivity */
-	if (ISSET(CASE_SENSITIVE))
-	    UNSET(CASE_SENSITIVE);
-	else
-	    SET(CASE_SENSITIVE);
-
-	do_replace();
-	return 0;
-    case NANO_FROMSEARCHTOGOTO_KEY:	/* Oops, they want goto line... */
-	do_gotoline_void();
-	return 0;
     default:
         if (i != -2) {	/* First page, last page, for example 
 				   could get here */
