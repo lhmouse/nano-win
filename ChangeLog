@@ -64,7 +64,11 @@ CVS code -
 - global.c:
   shortcut_init()
 	- Allow WHEREIS_NEXT_KEY to be used in view mode. (DLR)
-- nano,c:
+- nano.c:
+  do_int_spell_fix()
+	- Add comment explaining why findnextstr() is called with
+	  bracket_mode set to TRUE even though we aren't doing a bracket
+	  search. (DLR)
   do_para_operation()
 	- Convert to use the new low-level input functions. (DLR)
   main()

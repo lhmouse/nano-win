@@ -986,7 +986,7 @@ int do_find_bracket(void)
 
     while (1) {
 	search_last_line = 0;
-	if (findnextstr(1, 1, current, current_x, regexp_pat, 0) != NULL) {
+	if (findnextstr(TRUE, TRUE, current, current_x, regexp_pat, 0) != NULL) {
 	    have_search_offscreen |= search_offscreen;
 
 	    /* found identical bracket */
