@@ -1,4 +1,4 @@
-CVS code -
+GNU nano 1.3.2 - 2004.03.31
 - General:
 	- Change instances in the code that refresh the entire edit
 	  window when color support is enabled (in order to properly
