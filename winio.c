@@ -169,7 +169,7 @@ void reset_cursor(void)
 	wmove(edit, current_y, x);
     else
 	wmove(edit, current_y, x -
-		get_page_start_virtual(get_page_from_virtual(xplustabs())));
+		get_page_start_virtual(get_page_from_virtual(x)));
 
 }
 
@@ -528,10 +528,10 @@ inline int get_page_from_virtual(int virtual) {
     int page = 2;
 
     if(virtual <= COLS - 2) return 1;
-    virtual -= (COLS - 2);
+    virtual -= (COLS - 1);
 
     while (virtual > COLS - 2 - 7) {
-	virtual -= (COLS - 2 - 7);
+	virtual -= (COLS - 1 - 7);
 	page++;
     }
 
@@ -539,10 +539,7 @@ inline int get_page_from_virtual(int virtual) {
 }
 
 inline int get_page_start_virtual(int page) {
-    int virtual;
-    virtual = --page * (COLS - 7);
-    if(page) virtual -= 2 * page - 1;
-    return virtual;
+    return --page * (COLS - 7);
 }
 
 inline int get_page_end_virtual(int page) {
@@ -614,7 +611,8 @@ void add_marked_sameline(int begin, int end, filestruct *fileptr, int y)
 }
 #endif
 
-void edit_add(filestruct * fileptr, int yval, int xval, int start)
+/* we used to have xval.  turns out it should always be zero */
+void edit_add(filestruct * fileptr, int yval, int start)
 {
 #ifndef NANO_SMALL
     int col;
@@ -710,8 +708,8 @@ void edit_add(filestruct * fileptr, int yval, int xval, int start)
 
     } else
 #endif
-	mvwaddnstr(edit, yval, xval, &fileptr->data[start],
-	   actual_x_from_start(fileptr,COLS - xval,start));
+	mvwaddnstr(edit, yval, 0, &fileptr->data[start],
+	   actual_x_from_start(fileptr,COLS,start));
 
 }
 
@@ -738,13 +736,13 @@ void update_line(filestruct * fileptr, int index)
 	col = get_page_start_virtual(page);
 	actual_col = actual_x(filetmp, col);
 
-	edit_add(filetmp, line, 0, actual_col);
+	edit_add(filetmp, line, actual_col);
 	mvwaddch(edit, line, 0, '$');
 
 	if (strlenpt(fileptr->data) > get_page_end_virtual(page))
 	     mvwaddch(edit, line, COLS - 1, '$');
     } else {
-	edit_add(filetmp, line, 0, 0);
+	edit_add(filetmp, line, 0);
 
 	if (strlenpt(&filetmp->data[actual_col]) > COLS)
 	     mvwaddch(edit, line, COLS - 1, '$');
