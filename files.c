@@ -279,6 +279,10 @@ int do_insertfile(void)
 		free(realname);
 		realname = tmp;
 	    }
+	    else {
+		free(realname);
+		return do_insertfile();
+	    }
 	}
 #endif
 
@@ -529,6 +533,8 @@ int do_writeout(int exiting)
 		free(answer);
 		answer = tmp;
 	    }
+	    else
+		return do_writeout(exiting);
 	}
 #endif
 
