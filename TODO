@@ -28,7 +28,7 @@ For Next Version:
 - Implement Pico's -j and -g flags, as they are pretty easy to do.
 - Make mouse support work with clicking on the shortcuts (-m).  Must
   make global variable pointing to current shortcut list to determine what
-  keystroke to ungetch().
+  keystroke to ungetch(). [DONE].
 - Implement -o (chroot of sorts)
 
 $Id$

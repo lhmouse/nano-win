@@ -1,8 +1,8 @@
 Cvs code -
 - General
 	- New global variables currshortcut and currslen to support using
-	  the mouse with the shortcuts.  FIXME - Does not support clicking
-	  on filenames in the browser, yet.
+	  the mouse with the shortcuts.  Also supports clicking on files
+	  in browser.
 	- Changed mouse disabling code from depending on --enable-tiny
 	  to its own flag, --disable-mouse.  The --tiny option defines
 	  this automatically, but now just mouse support can be disabled

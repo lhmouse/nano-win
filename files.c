@@ -1139,6 +1139,11 @@ char *do_browser(char *inpath)
     int col = 0, selected = 0, editline = 0, width = 0, filecols = 0;
     int lineno = 0, kb;
     char **filelist = (char **) NULL;
+#ifndef DISABLE_MOUSE
+#ifdef NCURSES_MOUSE_VERSION
+    MEVENT mevent;
+#endif
+#endif
 
     currshortcut = browser_list;
     currslen = BROWSER_LIST_LEN;
@@ -1186,10 +1191,38 @@ char *do_browser(char *inpath)
 
 	switch (kbinput) {
 
-#ifndef NANO_SMALL
+#ifndef DISABLE_MOUSE
 #ifdef NCURSES_MOUSE_VERSION
         case KEY_MOUSE:
-            do_mouse();
+	    if (getmouse(&mevent) == ERR)
+	        return retval;
+ 
+	    /* If they clicked in the edit window, they probably clicked
+		on a file */
+ 	    if (wenclose(edit, mevent.y, mevent.x)) { 
+		int selectedbackup = selected;
+
+		mevent.y -= 2;
+
+		/* If we're on line 0, don't toy with finding out what
+			page we're on */
+		if (lineno / editwinrows == 0)
+		    selected = mevent.y * width + mevent.x / longest;
+		else
+		    selected = (lineno / editwinrows) * editwinrows * width 
+			+ mevent.y * width + mevent.x / longest;
+
+		/* If we're off the screen, reset to the last item.
+		   If we clicked where we did last time, select this name! */
+		if (selected >= numents - 1)
+		    selected = numents - 1;
+		else if (selectedbackup == selected) {
+		    ungetch('s');	/* Unget the 'select' key */
+		    break;
+		}
+	    } else	/* Must be clicking a shortcut */
+		do_mouse();
+
             break;
 #endif
 #endif
