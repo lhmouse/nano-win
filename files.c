@@ -533,10 +533,6 @@ int add_open_file(int update, int dup_fix)
     /* save current modification status */
     open_files->file_modified = ISSET(MODIFIED);
 
-    /* Unset the marker because nano can't (yet) handle marked text flipping between
-	open files */
-    UNSET(MARK_ISSET);
-
 #ifdef DEBUG
     fprintf(stderr, _("filename is %s"), open_files->data);
 #endif

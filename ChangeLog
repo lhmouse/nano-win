@@ -1,4 +1,9 @@
 CVS Code -
+- files.c:
+  add_open_file()
+	- Get rid of unsetting MARK_ISSET because otherwise writing
+	  marked text will automatically unset the marker with
+	  multibuffer enabled.
 - global.c:
 	- Define currshortcut and currslen when either DISABLE_MOUSE
 	  or DISABLE_HELP or DISABLE_BROWSER is not defined (Silvan
