@@ -662,8 +662,11 @@ void do_char(char ch)
 int do_enter(filestruct * inptr)
 {
     filestruct *newnode;
-    char *tmp, *spc;
+    char *tmp;
+#ifndef NANO_SMALL
+    char *spc;
     int extra = 0;
+#endif
 
     newnode = make_new_node(inptr);
     tmp = &current->data[current_x];
