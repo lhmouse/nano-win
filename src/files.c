@@ -499,6 +499,7 @@ void do_insertfile(
     char *ans = mallocstrcpy(NULL, "");
 	/* The last answer the user typed on the statusbar. */
     filestruct *edittop_save = edittop;
+    int current_y_save = current_y;
     bool at_edittop = FALSE;
 	/* Whether we're at the top of the edit window. */
 
@@ -620,6 +621,15 @@ void do_insertfile(
 	    {
 		filestruct *top_save = fileage;
 
+		/* If we didn't insert into a new buffer, and we were at
+		 * the top of the edit window before, set the saved
+		 * value of edittop to the new top of the edit window,
+		 * and update the current y-coordinate to account for
+		 * the number of lines inserted. */
+		if (at_edittop)
+		    edittop_save = fileage;
+		current_y += current_y_save;
+
 		/* If we didn't insert into a new buffer, unpartition
 		 * the filestruct so that it contains all the text
 		 * again.  Note that we've replaced the non-text
@@ -630,12 +640,6 @@ void do_insertfile(
 		/* Renumber starting with the beginning line of the old
 		 * partition. */
 		renumber(top_save);
-
-		/* If we were at the top of the edit window before, set
-		 * the saved value of edittop to the new top of the edit
-		 * window. */
-		if (at_edittop)
-		    edittop_save = fileage;
 
 		/* Set edittop back to what it was before. */
 		edittop = edittop_save;
