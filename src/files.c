@@ -499,6 +499,8 @@ void do_insertfile(
     char *ans = mallocstrcpy(NULL, "");
 	/* The last answer the user typed on the statusbar. */
     filestruct *edittop_save = edittop;
+    bool at_edittop = FALSE;
+	/* Whether we're at the top of the edit window. */
 
 #ifndef DISABLE_WRAPPING
     wrap_reset();
@@ -591,11 +593,12 @@ void do_insertfile(
 #endif
 		/* If we're not inserting into a new buffer, partition
 		 * the filestruct so that it contains no text and hence
-		 * looks like a new buffer, and set edittop to the top
-		 * of the partition. */
+		 * looks like a new buffer, and keep track of whether
+		 * the top of the partition is the top of the edit
+		 * window. */
 		filepart = partition_filestruct(current, current_x,
 			current, current_x);
-		edittop = fileage;
+		at_edittop = (fileage == edittop);
 #ifdef ENABLE_MULTIBUFFER
 	    }
 #endif
@@ -627,6 +630,12 @@ void do_insertfile(
 		/* Renumber starting with the beginning line of the old
 		 * partition. */
 		renumber(top_save);
+
+		/* If we were at the top of the edit window before, set
+		 * the saved value of edittop to the new top of the edit
+		 * window. */
+		if (at_edittop)
+		    edittop_save = fileage;
 
 		/* Set edittop back to what it was before. */
 		edittop = edittop_save;
