@@ -2999,7 +2999,7 @@ void do_justify(bool full_justify)
 	    bool past_first_line = FALSE;
 
 	    for (i = 0; i < par_len; i++) {
-		size_t indent_len = quote_len +
+		indent_len = quote_len +
 			indent_length(indent_line->data + quote_len);
 
 		if (indent_len != strlen(indent_string)) {
@@ -3054,7 +3054,7 @@ void do_justify(bool full_justify)
 	     * in the next line. */
 	    if (mark_beginbuf == next_line) {
 		mark_beginbuf = current;
-		mark_beginx += line_len;
+		mark_beginx += line_len - indent_len;
 	    }
 #endif
 
@@ -3131,6 +3131,7 @@ void do_justify(bool full_justify)
 	    /* Break the line.  If this isn't the last line of the
 	     * paragraph, add a space after where we break it. */
 	    null_at(&current->data, break_pos);
+
 	    if (par_len > 1) {
 		current->data = charealloc(current->data,
 			break_pos + 2);
