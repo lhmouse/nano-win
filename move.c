@@ -168,8 +168,6 @@ int do_up(void)
 {
     wrap_reset();
     if (current->prev != NULL) {
-	update_line(current, 0);
-
 	if (placewewant > 0)
 	    current_x = actual_x(current->prev, placewewant);
 
