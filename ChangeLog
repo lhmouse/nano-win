@@ -28,6 +28,9 @@ CVS code -
 	- Italian translation updates (Marco Colombo).
 - po/cs.po:
 	- Partial Czech translation updates (Vaclav Haisman).
+- po/hu.po:
+	- Hungarian translation updates, or to be precise, rewrite
+	  (Gergely Nagy).
 
 nano-1.1.6 - 01/25/2002
 - General
