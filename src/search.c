@@ -188,7 +188,16 @@ int search_init(bool replacing, bool use_answer)
 #endif
 		"",
 
-	replacing ? _(" (to replace)") : "",
+	replacing ?
+#ifndef NANO_SMALL
+		(ISSET(MARK_ISSET) ? _(" (to replace) in selection") :
+#endif
+		_(" (to replace)")
+#ifndef NANO_SMALL
+		)
+#endif
+		: "",
+
 	buf);
 
     /* Release buf now that we don't need it anymore. */
