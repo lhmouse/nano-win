@@ -858,8 +858,10 @@ void do_prev_word(void)
 	    while (isalnum((int) fileptr->data[i]) && i != 0)
 		i--;
 
-	    i++;
-	    if (i != 0)
+	    if (!isalnum((int) fileptr->data[i]))
+		i++;
+
+	    if (i != 0 || i != current_x)
 		break;
 
 	}
