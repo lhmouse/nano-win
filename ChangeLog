@@ -31,6 +31,10 @@ Cvs code -
 	  value.  This allows the value to vary with the screen size yet
 	  still be correct.  New static value wrap_at to minimize code
 	  inpact.  Updated man page and info file.
+	- Allow file appending.  New shortcut list nano_insertfile_list (since
+	  insert and write routines can't share shortcut lists anymore), 
+	  new args to do_writeout and write_file called append, and of source
+	  code changes to those functions.
 - configure.in:
 	- New option, --enable-nanorc, which allows people to have a .nanorc
 	  initialization file and set options normally used on the command
@@ -43,6 +47,9 @@ Cvs code -
   cut_marked_segment()
 	- Add bizarre copy of bot node, else *BSD goes ballistic (fixes
           BUG #60).
+	- Added 'destructive' argument.  Allows the selected text to be
+	  added to the cutbuffer without changing the contents of the 
+	  file.  This allows writing selection to separate files.
 - faq.html:
 	- Brought the FAQ up to date, many little changes (Jordi).
 - files.c:
@@ -51,6 +58,10 @@ Cvs code -
 	- Added the "Goto Directory" code (Rocco)
 	- Don't shift the size of the file is it's less than 1K. Fixed
 	  files less than 1K being displayed as 0B (Rocco).
+  do_writeout()
+	- New code to allow writing selected text to a separate file.
+	  When this is done, the current filename is not changed, the
+	  modification state is preserved, etc.
 - global.c:
 	- Updated some of the lists for the "Goto Directory" code (Rocco)
 - move.c:

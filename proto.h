@@ -53,8 +53,9 @@ extern filestruct *cutbuffer, *mark_beginbuf;
 extern shortcut *shortcut_list;
 extern shortcut main_list[MAIN_LIST_LEN], whereis_list[WHEREIS_LIST_LEN];
 extern shortcut replace_list[REPLACE_LIST_LEN], goto_list[GOTO_LIST_LEN];
-extern shortcut writefile_list[WRITEFILE_LIST_LEN], help_list[HELP_LIST_LEN];
+extern shortcut writefile_list[WRITEFILE_LIST_LEN], insertfile_list[INSERTFILE_LIST_LEN];
 extern shortcut spell_list[SPELL_LIST_LEN], replace_list_2[REPLACE_LIST_LEN];
+extern shortcut help_list[HELP_LIST_LEN];
 #ifndef DISABLE_BROWSER
 extern shortcut browser_list[BROWSER_LIST_LEN], gotodir_list[GOTODIR_LIST_LEN];
 #endif
@@ -80,13 +81,13 @@ int do_yesno(int all, int leavecursor, char *msg, ...);
 int actual_x(filestruct * fileptr, int xplus);
 int strlenpt(char *buf);
 int statusq(int allowtabs, shortcut s[], int slen, char *def, char *msg, ...);
-int write_file(char *name, int tmpfile);
+int write_file(char *name, int tmpfile, int append);
 int do_cut_text(void);
 int do_uncut_text(void);
 int no_help(void);
 int renumber_all(void);
 int open_file(char *filename, int insert, int quiet);
-int do_writeout(char *path, int exiting);
+int do_writeout(char *path, int exiting, int append);
 int do_gotoline(long defline);
 int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 			int wholewords, int *i);
@@ -147,6 +148,8 @@ void nano_disabled_msg(void);
 void window_init(void);
 void do_mouse(void);
 void print_view_warning(void);
+void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
+                        int bot_x, int destructive);
 
 #ifdef ENABLE_NANORC
 void do_rcfile(void);

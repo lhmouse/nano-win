@@ -1524,7 +1524,7 @@ int do_exit(void)
 #endif
 
     if (i == 1) {
-	if (do_writeout(filename, 1) > 0)
+	if (do_writeout(filename, 1, 0) > 0)
 	    finish(0);
     } else if (i == 0)
 	finish(0);

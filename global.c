@@ -82,6 +82,7 @@ shortcut replace_list_2[REPLACE_LIST_LEN]; /* 2nd half of replace dialog */
 shortcut goto_list[GOTO_LIST_LEN];
 shortcut gotodir_list[GOTODIR_LIST_LEN];
 shortcut writefile_list[WRITEFILE_LIST_LEN];
+shortcut insertfile_list[INSERTFILE_LIST_LEN];
 shortcut help_list[HELP_LIST_LEN];
 shortcut spell_list[SPELL_LIST_LEN];
 #ifndef DISABLE_BROWSER
@@ -192,7 +193,8 @@ void shortcut_init(int unjustify)
 	"", *nano_mark_msg = "", *nano_delete_msg =
 	"", *nano_backspace_msg = "", *nano_tab_msg =
 	"", *nano_enter_msg = "", *nano_case_msg =
-	"", *nano_cancel_msg = "", *nano_unjustify_msg = "";
+	"", *nano_cancel_msg = "", *nano_unjustify_msg = 
+	"", *nano_append_msg = "";
 
 #ifndef NANO_SMALL
     char *nano_tofiles_msg = "";
@@ -233,6 +235,7 @@ void shortcut_init(int unjustify)
     nano_tofiles_msg = _("Go to file browser");
     nano_gotodir_msg = _("Goto Directory");
     nano_cancel_msg = _("Cancel the current function");
+    nano_append_msg = _("Append to the current file");
 #endif
 
 	sc_init_one(&main_list[0], NANO_HELP_KEY, _("Get Help"),
@@ -428,7 +431,18 @@ void shortcut_init(int unjustify)
 		nano_tofiles_msg, 0, 0, 0, NOVIEW, 0);
 #endif
 
+    sc_init_one(&writefile_list[WRITEFILE_LIST_LEN - 2], NANO_APPEND_KEY, _("Append"),
+		nano_append_msg, 0, 0, 0, NOVIEW, 0);
+
     sc_init_one(&writefile_list[WRITEFILE_LIST_LEN - 1], NANO_CANCEL_KEY, _("Cancel"),
+		nano_cancel_msg, 0, 0, 0, VIEW, 0);
+
+#ifndef DISABLE_BROWSER
+    sc_init_one(&insertfile_list[0], NANO_TOFILES_KEY, _("To Files"),
+		nano_tofiles_msg, 0, 0, 0, NOVIEW, 0);
+#endif
+
+    sc_init_one(&insertfile_list[INSERTFILE_LIST_LEN - 1], NANO_CANCEL_KEY, _("Cancel"),
 		nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
     sc_init_one(&spell_list[0], NANO_CANCEL_KEY, _("Cancel"),

@@ -58,8 +58,12 @@ void add_to_cutbuffer(filestruct * inptr)
 }
 
 #ifndef NANO_SMALL
+/* Cut a marked segment instead of a whole line.  Only called from do_cut_text().
+   destructive is whether to actually modify the file structure, if not then
+   just copy the buffer into cutbuffer and don't pull it from the file */
+
 void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
-			int bot_x)
+			int bot_x, int destructive)
 {
     filestruct *tmp, *next, *botcopy;
     char *tmpstr;
@@ -74,12 +78,22 @@ void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
     /* Chop off the end of the first line */
     tmpstr = charalloc(top_x + 1);
     strncpy(tmpstr, top->data, top_x);
-    free(top->data);
-    top->data = tmpstr;
+
+    if (destructive) {
+	free(top->data);
+	top->data = tmpstr;
+    }
 
     do {
 	next = tmp->next;
-	add_to_cutbuffer(tmp);
+	if (destructive)
+	    add_to_cutbuffer(tmp);
+	else {
+	    filestruct *tmpcopy = NULL;
+	    
+	    tmpcopy = copy_node(tmp);
+	    add_to_cutbuffer(tmpcopy);
+	}
 	totlines--;
 	totsize--;		/* newline (add_to_cutbuffer doesn't count newlines) */
 	tmp = next;
@@ -89,48 +103,54 @@ void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
     dump_buffer(cutbuffer);
     if (next == NULL)
 	return;
+
     /* Now, paste bot[bot_x] into top[top_x] */
-    tmpstr = charalloc(strlen(top->data) + strlen(&bot->data[bot_x]));
-    strncpy(tmpstr, top->data, top_x);
-    strcpy(&tmpstr[top_x], &bot->data[bot_x]);
-    free(top->data);
-    top->data = tmpstr;
+    if (destructive) {
 
-    null_at(bot->data, bot_x);
-    next = bot->next;
+	tmpstr = charalloc(strlen(top->data) + strlen(&bot->data[bot_x]));
+	strncpy(tmpstr, top->data, top_x);
+	strcpy(&tmpstr[top_x], &bot->data[bot_x]);
+	free(top->data);
+	top->data = tmpstr;
 
-    /* We explicitly don't decrement totlines here because we don't snarf
-     * up a newline when we're grabbing the last line of the mark.  For
-     * the same reason, we don't do an extra totsize decrement. */
-
+	/* We explicitly don't decrement totlines here because we don't snarf
+	 * up a newline when we're grabbing the last line of the mark.  For
+ 	 * the same reason, we don't do an extra totsize decrement. */
+    }
 
     /* I honestly do not know why this is needed.  After many hours of
-       using gdb on an OpenBSD box, I can honestly say something is 
-       screwed somewhere.  Not doing this causes update_line to annihilate
-       the last line copied into the cutbuffer when the mark is set ?!?!? */
+	using gdb on an OpenBSD box, I can honestly say something is 
+ 	screwed somewhere.  Not doing this causes update_line to annihilate
+	the last line copied into the cutbuffer when the mark is set ?!?!? */
     botcopy = copy_node(bot);
+    null_at(botcopy->data, bot_x);
+    next = botcopy->next;
     add_to_cutbuffer(botcopy);
-    free(bot);
 
-    top->next = next;
-    if (next != NULL)
-	next->prev = top;
 
-    dump_buffer(cutbuffer);
-    renumber(top);
-    current = top;
-    current_x = top_x;
+    if (destructive) {
+	free(bot);
 
-    /* If we're hitting the end of the buffer, we should clean that up. */
-    if (bot == filebot) {
-	if (next != NULL) {
-	    filebot = next;
-	} else {
-	    filebot = top;
+	top->next = next;
+ 	if (next != NULL)
+	    next->prev = top;
+
+	dump_buffer(cutbuffer);
+	renumber(top);
+	current = top;
+ 	current_x = top_x;
+
+ 	/* If we're hitting the end of the buffer, we should clean that up. */
+	if (bot == filebot) {
+	    if (next != NULL) {
+		filebot = next;
+	    } else {
+		filebot = top;
+	    }
 	}
+	if (top->lineno < edittop->lineno)
+	    edit_update(top, CENTER);
     }
-    if (top->lineno < edittop->lineno)
-	edit_update(top, CENTER);
 }
 #endif
 
@@ -203,10 +223,10 @@ int do_cut_text(void)
 	    align(&current->data);
 	} else if (current->lineno < mark_beginbuf->lineno)
 	    cut_marked_segment(current, current_x, mark_beginbuf,
-			       mark_beginx);
+			       mark_beginx, 1);
 	else
 	    cut_marked_segment(mark_beginbuf, mark_beginx, current,
-			       current_x);
+			       current_x, 1);
 
 	placewewant = xplustabs();
 	UNSET(MARK_ISSET);

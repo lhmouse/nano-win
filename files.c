@@ -261,11 +261,11 @@ int do_insertfile(void)
     wrap_reset();
 
 #ifndef DISABLE_MOUSE
-    currshortcut = writefile_list;
-    currslen = WRITEFILE_LIST_LEN;
+    currshortcut = insertfile_list;
+    currslen = INSERTFILE_LIST_LEN;
 #endif
 
-    i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, "",
+    i = statusq(1, insertfile_list, INSERTFILE_LIST_LEN, "",
 		_("File to insert [from ./] "));
     if (i != -1) {
 
@@ -284,8 +284,8 @@ int do_insertfile(void)
 	    
 	    char *tmp = do_browse_from(realname);
 #ifndef DISABLE_MOUSE
-	    currshortcut = writefile_list;
-	    currslen = WRITEFILE_LIST_LEN;
+	    currshortcut = insertfile_list;
+	    currslen = INSERTFILE_LIST_LEN;
 #endif
 
 #ifdef DISABLE_TABCOMP
@@ -331,8 +331,11 @@ int do_insertfile(void)
  * 
  * tmp means we are writing a tmp file in a secure fashion.  We use
  * it when spell checking or dumping the file on an error.
+ *
+ * append means, not surprisingly, whether we are appending instead
+ * of overwriting.
  */
-int write_file(char *name, int tmp)
+int write_file(char *name, int tmp, int append)
 {
     long size, lineswritten = 0;
     static char *buf = NULL;
@@ -377,7 +380,9 @@ int write_file(char *name, int tmp)
     else if (ISSET(FOLLOW_SYMLINKS) || !S_ISLNK(lst.st_mode) || tmp) {
 	/* Use O_EXCL if tmp == 1.  This is now copied from joe, because
 	   wiggy says so *shrug*. */
-	if (tmp)
+	if (append)
+	    fd = open(realname, O_WRONLY | O_APPEND, (S_IRUSR|S_IWUSR));
+	else if (tmp)
 	    fd = open(realname, O_WRONLY | O_CREAT | O_EXCL, (S_IRUSR|S_IWUSR));
 	else
 	    fd = open(realname, O_WRONLY | O_CREAT | O_TRUNC, (S_IRUSR|S_IWUSR));
@@ -386,7 +391,7 @@ int write_file(char *name, int tmp)
 	if (fd == -1) {
 	    if (!tmp && ISSET(TEMP_OPT)) {
 		UNSET(TEMP_OPT);
-		return do_writeout(filename, 1);
+		return do_writeout(filename, 1, 0);
 	    }
 	    statusbar(_("Could not open file for writing: %s"),
 		      strerror(errno));
@@ -402,7 +407,7 @@ int write_file(char *name, int tmp)
 	if ((fd = mkstemp(buf)) == -1) {
 	    if (ISSET(TEMP_OPT)) {
 		UNSET(TEMP_OPT);
-		return do_writeout(filename, 1);
+		return do_writeout(filename, 1, 0);
 	    }
 	    statusbar(_("Could not open file for writing: %s"),
 		      strerror(errno));
@@ -506,7 +511,7 @@ int write_file(char *name, int tmp)
     return 1;
 }
 
-int do_writeout(char *path, int exiting)
+int do_writeout(char *path, int exiting, int append)
 {
     int i = 0;
 
@@ -523,7 +528,7 @@ int do_writeout(char *path, int exiting)
 
     if ((exiting) && (ISSET(TEMP_OPT))) {
 	if (filename[0]) {
-	    i = write_file(answer, 0);
+	    i = write_file(answer, 0, 0);
 	    display_main_list();
 	    return i;
 	} else {
@@ -536,8 +541,12 @@ int do_writeout(char *path, int exiting)
     }
 
     while (1) {
-	i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, answer,
-		    _("File Name to write"));
+	if (ISSET(MARK_ISSET) && !exiting)
+	    i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, answer,
+		    _("%s Selection to File"), append ? _("Append") : _("Write"));
+	else
+	    i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, answer,
+		    _("File Name to %s"), append ? _("Append") : _("Write"));
 
 	if (i != -1) {
 
@@ -551,12 +560,14 @@ int do_writeout(char *path, int exiting)
 	    currslen = WRITEFILE_LIST_LEN;
 #endif
 
-	    if (tmp != NULL)
+	    if (tmp != NULL) {
 		answer = mallocstrcpy(answer, tmp);
-	    else
-		return do_writeout(answer, exiting);
-	}
+	    } else
+		return do_writeout(answer, exiting, append);
+	} else
 #endif
+	if (i == NANO_APPEND_KEY)
+	    return(do_writeout(answer, exiting, 1 - append));
 
 #ifdef DEBUG
 	    fprintf(stderr, _("filename is %s"), answer);
@@ -570,7 +581,7 @@ int do_writeout(char *path, int exiting)
 		return -1;
 	    }
 #endif
-	    if (strcmp(answer, filename)) {
+	    if (!append && strcmp(answer, filename)) {
 		struct stat st;
 		if (!stat(answer, &st)) {
 		    i = do_yesno(0, 0, _("File exists, OVERWRITE ?"));
@@ -579,8 +590,48 @@ int do_writeout(char *path, int exiting)
 			continue;
 		}
 	    }
-	    i = write_file(answer, 0);
+#ifndef NANO_SMALL
 
+	/* Here's where we allow the selected text to be written to 
+	   a separate file. */
+	if (ISSET(MARK_ISSET) && !exiting) {
+	    char *backup = NULL;
+	    filestruct *fileagebak = fileage;	
+	    filestruct *filebotbak = filebot;
+	    filestruct *cutback = cutbuffer;
+	    int oldmod = 0;
+
+	    /* Okay, since write_file changes the filename, back it up */
+	    backup = mallocstrcpy(backup, filename);
+	    if (ISSET(MODIFIED))
+		oldmod = 1;
+
+	    /* Now, non-destructively add the marked text to the
+	       cutbuffer, and write the file out using the cutbuffer ;) */
+	    if (current->lineno < mark_beginbuf->lineno)
+		cut_marked_segment(current, current_x, mark_beginbuf,
+				mark_beginx, 0);
+	    else
+		cut_marked_segment(mark_beginbuf, mark_beginx, current,
+				current_x, 0);
+
+	    fileage = cutbuffer;
+	    for (filebot = cutbuffer; filebot->next != NULL; 
+			filebot = filebot->next)
+		;
+	    i = write_file(answer, 0, append);
+
+	    /* Now restore everything */
+	    backup = mallocstrcpy(filename, backup);
+	    fileage = fileagebak;
+	    filebot = filebotbak;
+	    cutbuffer = cutback;
+	    if (oldmod)
+		set_modified();
+	} else
+#endif
+	    i = write_file(answer, 0, append);
+	
 	    display_main_list();
 	    return i;
 	} else {
@@ -593,7 +644,7 @@ int do_writeout(char *path, int exiting)
 
 int do_writeout_void(void)
 {
-    return do_writeout(filename, 0);
+    return do_writeout(filename, 0, 0);
 }
 
 #ifndef DISABLE_TABCOMP
