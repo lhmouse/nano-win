@@ -6,9 +6,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.6\n"
+"Project-Id-Version: nano 1.1.7\n"
 "POT-Creation-Date: 2002-03-05 18:20-0500\n"
-"PO-Revision-Date: 2002-01-25 21:11+0100\n"
+"PO-Revision-Date: 2002-03-09 17:50+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
 "MIME-Version: 1.0\n"
@@ -69,9 +69,9 @@ msgid "Reading File"
 msgstr "S'està llegint el Fitxer"
 
 #: files.c:371
-#, fuzzy, c-format
+#, c-format
 msgid "File to insert [from %s] "
-msgstr "Fitxer a inserir [des de ./] "
+msgstr "Fitxer a inserir [des de %s] "
 
 #: files.c:375
 msgid "File to insert [from ./] "
@@ -103,7 +103,7 @@ msgstr "No hi ha més fitxers oberts"
 #: files.c:695 files.c:759
 #, c-format
 msgid "Switched to %s"
-msgstr ""
+msgstr "S'ha canviat a %s"
 
 #: files.c:1201
 #, c-format
@@ -144,11 +144,11 @@ msgstr "%d línies escrites"
 
 #: files.c:1414
 msgid " [Mac Format]"
-msgstr ""
+msgstr " [Format Mac]"
 
 #: files.c:1416
 msgid " [DOS Format]"
-msgstr ""
+msgstr " [Format DOS]"
 
 #: files.c:1424
 msgid "Append Selection to File"
@@ -238,21 +238,20 @@ msgid "Case sensitive search"
 msgstr "Recerca Majúscules/Minúscules"
 
 #: global.c:216
-#, fuzzy
 msgid "Regular expression search"
-msgstr "Expressions regulars"
+msgstr "Cerca amb expressions regulars"
 
 #: global.c:219
 msgid "No conversion from DOS/Mac format"
-msgstr ""
+msgstr "No convertir des del format DOS/Mac"
 
 #: global.c:220
 msgid "Writing file in DOS format"
-msgstr "Escrivint fitxer en format DOS"
+msgstr "Escrivint el fitxer en format DOS"
 
 #: global.c:221
 msgid "Writing file in Mac format"
-msgstr "Escrivint fitxer en format Mac"
+msgstr "Escrivint el fitxer en format Mac"
 
 #: global.c:222
 msgid "Smooth scrolling"
@@ -407,14 +406,12 @@ msgid "Search backwards"
 msgstr "Cercar Endarrere"
 
 #: global.c:324
-#, fuzzy
 msgid "Write file out in DOS format"
-msgstr "Escrivint fitxer en format DOS"
+msgstr "Escriure el fitxer en format DOS"
 
 #: global.c:325
-#, fuzzy
 msgid "Write file out in Mac format"
-msgstr "Escrivint fitxer en format Mac"
+msgstr "Escriure el fitxer en format Mac"
 
 #: global.c:327
 msgid "Use Regular expressions"
@@ -435,7 +432,7 @@ msgstr "Obrir el següent fitxer carregat"
 #: global.c:339 global.c:492 global.c:527 global.c:562 global.c:577
 #: global.c:606 global.c:632 global.c:643 global.c:655 global.c:676
 msgid "Get Help"
-msgstr "Veure Ajuda"
+msgstr "Ajuda"
 
 #: global.c:344
 msgid "Close"
@@ -456,7 +453,7 @@ msgstr "Justificar"
 #. this is so we can view multiple files
 #: global.c:363 global.c:367 global.c:376 global.c:380
 msgid "Read File"
-msgstr "L. Fitxer"
+msgstr "Llegir F."
 
 #: global.c:386 global.c:457 global.c:503
 msgid "Replace"
@@ -552,12 +549,11 @@ msgstr "Trobar Clau Corresponent"
 
 #: global.c:480
 msgid "Previous File"
-msgstr ""
+msgstr "Anterior Fitxer"
 
 #: global.c:483
-#, fuzzy
 msgid "Next File"
-msgstr "Nou Fitxer"
+msgstr "Següent Fitxer"
 
 #: global.c:495 global.c:530 global.c:565 global.c:579 global.c:626
 #: global.c:634 global.c:645 global.c:678 winio.c:1419
@@ -594,15 +590,15 @@ msgstr "A Fitxers"
 
 #: global.c:615
 msgid "DOS Format"
-msgstr ""
+msgstr "Format DOS"
 
 #: global.c:618
 msgid "Mac Format"
-msgstr ""
+msgstr "Format Mac"
 
 #: global.c:622
 msgid "Append"
-msgstr "afegir"
+msgstr "Afegir"
 
 #: global.c:668
 msgid "Goto"
@@ -618,13 +614,13 @@ msgstr ""
 "Buffer escrit a %s\n"
 
 #: nano.c:188
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "No %s written (too many backup files?)\n"
 msgstr ""
 "\n"
-"No s'ha escrit %s (existeix el fitxer?)\n"
+"No s'ha escrit %s (massa còpies de seguretat?)\n"
 
 #: nano.c:197
 msgid "Window size is too small for Nano..."
@@ -711,13 +707,12 @@ msgid " -M \t\t--mac\t\t\tWrite file in Mac format\n"
 msgstr " -M \t\t--mac\t\t\tEscriure fitxer en format Mac\n"
 
 #: nano.c:439
-#, fuzzy
 msgid " -N \t\t--noconvert\t\tDon't convert files from DOS/Mac format\n"
-msgstr " -D \t\t--dos\t\t\tEscriure fitxer en format DOS\n"
+msgstr " -N \t\t--noconvert\t\tNo convertir els fitxers des del format DOS/Mac\n"
 
 #: nano.c:444
 msgid " -Q [str]\t--quotestr [str]\tQuoting string, default \"> \"\n"
-msgstr ""
+msgstr " -Q [cad]\t--quotestr [cad]\tMarcador de cita, per defecte \"> \"\n"
 
 #: nano.c:448
 msgid " -S\t\t--smooth\t\tSmooth scrolling\n"
@@ -827,7 +822,7 @@ msgstr " -M \t\tEscriure fitxer en format Mac\n"
 
 #: nano.c:516
 msgid " -Q [str] \tQuoting string, default \"> \"\n"
-msgstr ""
+msgstr " -Q [str] \tMarcador de cita, per defecte \"> \"\n"
 
 #: nano.c:518
 msgid " -R\t\tUse regular expressions for search\n"
@@ -1031,14 +1026,14 @@ msgstr ""
 "s'actualitzarà al lloc on està la coincidència de la cadena cercada més "
 "propera.\n"
 "\n"
-"Si esteu fent servir el Modo Pico mitjançant les opcions -p o --pico, fent "
+" Si esteu fent servir el Modo Pico mitjançant les opcions -p o --pico, fent "
 "servir l'interruptor Meta-P o un fitxer nanorc, la cadena de la cerca "
 "anterior es mostrarà després del indicatiu Cercar:. Polsar intro sense "
 "introduir cap texte durà a terme la anterior cerca. Si no, la anterior "
 "cadena es posarà davant del cursor i es podrà editar o esborrar abans de "
 "polsar intro.\n"
 "\n"
-"Les següents tecles de funció estan disponibles en el modo Cerca:\n"
+" Les següents tecles de funció estan disponibles en el modo Cerca:\n"
 "\n"
 
 #: nano.c:2504
@@ -1058,11 +1053,10 @@ msgstr ""
 "ha menys línias de texte que el número que heu introduit, el cursor es mourà "
 "a la última línia del fitxer.\n"
 "\n"
-"Les següents tecles de funció estan disponibles en el modo Anar a Línia:\n"
+" Les següents tecles de funció estan disponibles en el modo Anar a Línia:\n"
 "\n"
 
 #: nano.c:2511
-#, fuzzy
 msgid ""
 "Insert File Help Text\n"
 "\n"
@@ -1086,13 +1080,16 @@ msgstr ""
 " Escriviu el nom del fitxer a afegir en el buffer actual en la posició "
 "actual del cursor.\n"
 "\n"
-"Si s'ha compilat nano amb suport per a múltiples fitxers i heu habilitat els "
+" Si s'ha compilat nano amb suport per a múltiples fitxers i heu habilitat els "
 "buffers múltiples amb les opcions -F o --multibuffer, fent servir "
 "l'interruptor Meta-F o amb un fitxer nanorc, la inserció d'un fitxer farà "
 "que es carregue en un buffer different (feu servir Meta-< i > per a canviar "
 "de buffers de fitxer).\n"
 "\n"
-"Les següents tecles de funció estan disponibles en el modo Inserir Fitxer:\n"
+" Si necessiteu un altre buffer en blanc, només teniu que polsar Intro en "
+"l'indicatiu sense escriure un nom de fixer, o escriure el nom d'un fitxer no "
+"existent en l'indicatiu i polsar Intro.\n"
+" Les següents tecles de funció estan disponibles en el modo Inserir Fitxer:\n"
 "\n"
 
 #: nano.c:2525
@@ -1115,13 +1112,13 @@ msgstr ""
 " Escriviu el nom amb el que voleu desar el fitxer actual i polseu intro per "
 "a salvar-ho.\n"
 "\n"
-"Si esteu fent servir el codi de marcat amb Ctrl-^ i heu sel·leccionat texte, "
+" Si esteu fent servir el codi de marcat amb Ctrl-^ i heu sel·leccionat texte, "
 "se vos preguntarà si voleu desar només la porció marcada a un fitxer "
 "diferent. Per a reduir la posibilitat de sobreescriure el fitxer actual amb "
 "només una part d'ell, el nom del fitxer actual no és el predeterminat en "
 "aquest mode.\n"
 "\n"
-"Les següents tecles de funció estan disponibles en el modo Desar Fitxer:\n"
+" Les següents tecles de funció estan disponibles en el modo Desar Fitxer:\n"
 "\n"
 
 #: nano.c:2537
@@ -1146,7 +1143,7 @@ msgstr ""
 "Per a pujar un nivel, seleccioneu el directori \"..\" en la part superior de "
 "la llista de fitxers.\n"
 "\n"
-"Les següents tecles de funció estan disponibles en el navegador de fitxers:\n"
+" Les següents tecles de funció estan disponibles en el navegador de fitxers:\n"
 "\n"
 
 #: nano.c:2548
@@ -1167,7 +1164,7 @@ msgstr ""
 " Si el completat amb el tabulador no està desactivat, podeu fer servir la "
 "tecla TAB per a (intentar) completar automàticament el nom del directori.\n"
 "\n"
-"Les següents tecles de funció estan disponibles en el modo Anar a Directori "
+" Les següents tecles de funció estan disponibles en el modo Anar a Directori "
 "del Navegador:\n"
 "\n"
 
@@ -1190,7 +1187,7 @@ msgstr ""
 "pot editar una substitució. Després preguntarà si es vol reemplaçar totes "
 "les coincidències d'eixa paraula mal escrita el el fitxer actual.\n"
 "\n"
-"Les següents tecles de funció estan disponibles en el modo Corrector "
+" Les següents tecles de funció estan disponibles en el modo Corrector "
 "d'Ortografia:\n"
 "\n"
 
@@ -1532,9 +1529,9 @@ msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
 #: winio.c:1639
-#, fuzzy, c-format
+#, c-format
 msgid "line %d/%d (%.0f%%), col %ld/%ld (%.0f%%), char %ld/%ld (%.0f%%)"
-msgstr "línia %d de %d (%.0f%%), caràcter %ld de %ld (%.0f%%)"
+msgstr "línia %d/%d (%.0f%%), col %ld/%ld (%.0f%%), car %ld/%ld (%.0f%%)"
 
 #: winio.c:1800
 msgid "Dumping file buffer to stderr...\n"

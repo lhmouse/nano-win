@@ -69,9 +69,9 @@ msgid "Reading File"
 msgstr "Leyendo Fichero"
 
 #: files.c:371
-#, fuzzy, c-format
+#, c-format
 msgid "File to insert [from %s] "
-msgstr "Fichero a insertar [desde ./] "
+msgstr "Fichero a insertar [desde %s] "
 
 #: files.c:375
 msgid "File to insert [from ./] "
@@ -107,7 +107,7 @@ msgstr "No hay más ficheros abiertos"
 #: files.c:695 files.c:759
 #, c-format
 msgid "Switched to %s"
-msgstr ""
+msgstr "Se ha cambiado a %s"
 
 #: files.c:1201
 #, c-format
@@ -155,11 +155,11 @@ msgstr "%d líneas escritas"
 
 #: files.c:1414
 msgid " [Mac Format]"
-msgstr ""
+msgstr " [Formatp Mac]"
 
 #: files.c:1416
 msgid " [DOS Format]"
-msgstr ""
+msgstr " [Formato DOS]"
 
 # Como antes, me suena raro que antes de Fichero no haya "un" o "el". sv
 #: files.c:1424
@@ -262,21 +262,20 @@ msgid "Case sensitive search"
 msgstr "Búsqueda con mayúsculas/minúsculas"
 
 #: global.c:216
-#, fuzzy
 msgid "Regular expression search"
-msgstr "Expresiones regulares"
+msgstr "Búsqueda con expresiones regulares"
 
 #: global.c:219
 msgid "No conversion from DOS/Mac format"
-msgstr ""
+msgstr "No convertir desde el formato DOS/Mac"
 
 #: global.c:220
 msgid "Writing file in DOS format"
-msgstr "Escribiendo fichero en formato DOS"
+msgstr "Escribiendo el fichero en formato DOS"
 
 #: global.c:221
 msgid "Writing file in Mac format"
-msgstr "Escribiendo fichero en formato Mac"
+msgstr "Escribiendo el fichero en formato Mac"
 
 #: global.c:222
 msgid "Smooth scrolling"
@@ -436,14 +435,12 @@ msgid "Search backwards"
 msgstr "Buscar hacia atrás"
 
 #: global.c:324
-#, fuzzy
 msgid "Write file out in DOS format"
-msgstr "Escribiendo fichero en formato DOS"
+msgstr "Escribir el fichero en formato DOS"
 
 #: global.c:325
-#, fuzzy
 msgid "Write file out in Mac format"
-msgstr "Escribiendo fichero en formato Mac"
+msgstr "Escribir el fichero en formato Mac"
 
 #: global.c:327
 msgid "Use Regular expressions"
@@ -585,12 +582,11 @@ msgstr "Buscar la otra llave"
 
 #: global.c:480
 msgid "Previous File"
-msgstr ""
+msgstr "Fichero Anterior"
 
 #: global.c:483
-#, fuzzy
 msgid "Next File"
-msgstr "Nuevo Fichero"
+msgstr "Fichero Siguiente"
 
 #: global.c:495 global.c:530 global.c:565 global.c:579 global.c:626
 #: global.c:634 global.c:645 global.c:678 winio.c:1419
@@ -627,11 +623,11 @@ msgstr "A Ficheros"
 
 #: global.c:615
 msgid "DOS Format"
-msgstr ""
+msgstr "Formato DOS"
 
 #: global.c:618
 msgid "Mac Format"
-msgstr ""
+msgstr "Formato Mac"
 
 #: global.c:622
 msgid "Append"
@@ -651,13 +647,13 @@ msgstr ""
 "Buffer escrito en %s\n"
 
 #: nano.c:188
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "No %s written (too many backup files?)\n"
 msgstr ""
 "\n"
-"No se ha escrito %s (¿existe el fichero?)\n"
+"No se ha escrito %s (¿demasiadas copias de seguridad?)\n"
 
 #: nano.c:197
 msgid "Window size is too small for Nano..."
@@ -747,13 +743,12 @@ msgid " -M \t\t--mac\t\t\tWrite file in Mac format\n"
 msgstr " -M \t\t--mac\t\t\tEscribir fichero en formato Mac\n"
 
 #: nano.c:439
-#, fuzzy
 msgid " -N \t\t--noconvert\t\tDon't convert files from DOS/Mac format\n"
-msgstr " -D \t\t--dos\t\t\tEscribir fichero en formato DOS\n"
+msgstr " -N \t\t--noconvert\t\tNo convertir ficheros desde el formato DOS/Mac\n"
 
 #: nano.c:444
 msgid " -Q [str]\t--quotestr [str]\tQuoting string, default \"> \"\n"
-msgstr ""
+msgstr " -Q [cad]\t--quotestr [cad]\tMarcador de cita, por defecto \"> \"\n"
 
 #: nano.c:448
 msgid " -S\t\t--smooth\t\tSmooth scrolling\n"
@@ -863,7 +858,7 @@ msgstr " -M \t\tEscribir fichero en formato Mac\n"
 
 #: nano.c:516
 msgid " -Q [str] \tQuoting string, default \"> \"\n"
-msgstr ""
+msgstr " -Q [str] \tMarcador de cita, por defecto \"> \"\n"
 
 #: nano.c:518
 msgid " -R\t\tUse regular expressions for search\n"
@@ -1071,7 +1066,7 @@ msgstr ""
 "actualizará al lugar donde está la coincidencia de la cadena buscada más "
 "cercana.\n"
 "\n"
-"Si estás usando el Modo Pico mediante las opciones -p o --pico, usando el "
+" Si estás usando el Modo Pico mediante las opciones -p o --pico, usando el "
 "interruptor Meta-P o usando un fichero nanorc, la cadena de la búsqueda "
 "anterior se mostrará después del indicador Buscar:.  Pulsar intro sin "
 "introducir ningún texto llevará a cabo la anterior búsqueda. Si no, la "
@@ -1102,7 +1097,6 @@ msgstr ""
 "\n"
 
 #: nano.c:2511
-#, fuzzy
 msgid ""
 "Insert File Help Text\n"
 "\n"
@@ -1131,6 +1125,9 @@ msgstr ""
 "Meta-F o usando un fichero nanorc, la inserción de un fichero hará que se "
 "cargue en un buffer diferente (usa Meta-< y > para cambiar de buffers de "
 "fichero).\n"
+" Si necesitas otro buffer en blanco, simplemente pulsa Intro en el indicativo "
+"sin escribir nada o escribe el nombre de un fichero no existente y pulsa "
+"Intro.\n"
 "\n"
 " Las siguientes teclas de función están disponibles en el modo Insertar "
 "Fichero:\n"
@@ -1162,7 +1159,7 @@ msgstr ""
 "sólo una parte de el, el nombre del fichero actual no es el predeterminado "
 "en este modo.\n"
 "\n"
-"Las siguientes teclas de función están disponibles en el modo Guardar "
+" Las siguientes teclas de función están disponibles en el modo Guardar "
 "Fichero:\n"
 "\n"
 
@@ -1210,7 +1207,7 @@ msgstr ""
 " Si el completado con el tabulador no está desactivado, puedes usar la tecla "
 "TAB para (intentar) completar automáticamente el nombre del directorio.\n"
 "\n"
-"Las siguientes teclas de función están disponibles en el modo Ir a "
+" Las siguientes teclas de función están disponibles en el modo Ir a "
 "Directorio del Navegador:\n"
 "\n"
 
@@ -1586,9 +1583,9 @@ msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
 #: winio.c:1639
-#, fuzzy, c-format
+#, c-format
 msgid "line %d/%d (%.0f%%), col %ld/%ld (%.0f%%), char %ld/%ld (%.0f%%)"
-msgstr "línea %d de %d (%.0f%%), carácter %ld de %ld (%.0f%%)"
+msgstr "línea %d/%d (%.0f%%), col %ld/%ld (%.0f%%), car %ld/%ld (%.0f%%)"
 
 #: winio.c:1800
 msgid "Dumping file buffer to stderr...\n"
