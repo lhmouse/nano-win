@@ -1677,11 +1677,15 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 
     if (allow_funcs) {
 	/* If we got a character, and it isn't a shortcut, toggle, or
-	 * ASCII control character, it's a normal text character.
-	 * Display the warning if we're in view mode, or add the
-	 * character to the input buffer if we're not. */
-	if (input != ERR && *s_or_t == FALSE &&
-		(!is_ascii_char(input) || !is_cntrl_char(input))) {
+	 * control character, it's a normal text character.  Display the
+	 * warning if we're in view mode, or add the character to the
+	 * input buffer if we're not. */
+	if (input != ERR && *s_or_t == FALSE && (
+#ifdef NANO_WIDE
+		/* Keep non-ASCII control characters in UTF-8 mode. */
+		(!ISSET(NO_UTF8) && !is_ascii_char(input)) ||
+#endif
+		!is_cntrl_char(input))) {
 	    /* If we're using restricted mode, the filename isn't blank,
 	     * and we're at the "Write File" prompt, disable text
 	     * input. */
