@@ -2531,7 +2531,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 #ifndef DISABLE_TABCOMP
 	    if (allow_tabs) {
 		answer = input_tab(answer, &statusbar_x, &tabbed, list);
-		statusbar_xend = statusbar_x;
+		statusbar_xend = strlen(answer);
 	    }
 	    break;
 #endif
