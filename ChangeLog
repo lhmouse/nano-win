@@ -69,6 +69,9 @@ Changes
   do_uncut_text()
 	- If uncutting more than one line of unmarked text at editbot,
 	  don't center the screen, since Pico doesn't. (DLR)
+	- If uncutting previously unmarked text, uncut to end if we're
+	  not at the beginning of the line, and set placewewant to 0 if
+	  we are.  This matches Pico's behavior. (DLR)
 - files.c:
   load_file()
 	- Remove unneeded wmove() call. (David Benbennick)
@@ -162,6 +165,9 @@ Changes
 	  so that functions only used with tab completion are properly
 	  #ifdef'ed out. (DLR)
 - search.c:
+  do_search()
+	- Remove erroneously introduced near-duplicate call to
+	  update_history(). (DLR)
   print_replaced()
 	- Remove and replace with an equivalent ngettext() call. (DLR)
   do_replace_loop()

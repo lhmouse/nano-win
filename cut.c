@@ -293,10 +293,8 @@ int do_uncut_text(void)
 {
     filestruct *tmp = current, *fileptr = current;
     filestruct *newbuf = NULL, *newend = NULL;
-#ifndef NANO_SMALL
     char *tmpstr, *tmpstr2;
     filestruct *hold = current;
-#endif
     int i;
 
     wrap_reset();
@@ -304,9 +302,18 @@ int do_uncut_text(void)
     if (cutbuffer == NULL || fileptr == NULL)
 	return 0;		/* AIEEEEEEEEEEEE */
 
-#ifndef NANO_SMALL
+    /* If we're uncutting a previously non-marked block, uncut to end if
+       we're not at the beginning of the line.  If we are at the
+       beginning of the line, set placewewant to 0.  Pico does both of
+       these. */
+    if (marked_cut == 0) {
+	if (current_x != 0)
+	    marked_cut = 2;
+	else
+	    placewewant = 0;
+    }
+
     if (marked_cut == 0 || cutbuffer->next != NULL)
-#endif
     {
 	newbuf = copy_filestruct(cutbuffer);
 	for (newend = newbuf; newend->next != NULL && newend != NULL;
@@ -315,7 +322,6 @@ int do_uncut_text(void)
     }
 
     /* Hook newbuf into fileptr */
-#ifndef NANO_SMALL
     if (marked_cut != 0) {
 	int recenter_me = 0;
 	    /* Should we eventually use edit_update(CENTER)? */
@@ -424,7 +430,6 @@ int do_uncut_text(void)
 	UNSET(KEEP_CUTBUFFER);
 	return 0;
     }
-#endif
 
     if (fileptr != fileage) {
 	tmp = fileptr->prev;

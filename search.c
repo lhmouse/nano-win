@@ -90,8 +90,8 @@ void search_init_globals(void)
  * abort, 0 on success, and 1 on rerun calling program.  Return -2 to
  * run opposite program (search -> replace, replace -> search).
  *
- * replacing = 1 if we call from do_replace, 0 if called from do_search
- * func. */
+ * replacing = 1 if we call from do_replace(), 0 if called from
+ * do_search(). */
 int search_init(int replacing)
 {
     int i = 0;
@@ -399,13 +399,8 @@ int do_search(void)
 
 #ifndef NANO_SMALL
     /* add this search string to the search history list */
-    if (strcmp(answer, ""))
+    if (answer[0] != '\0')
 	update_history(&search_history, answer);
-#endif	/* !NANO_SMALL */
-
-#ifndef NANO_SMALL
-    /* add this search string to the search history list */
-    update_history(&search_history, answer);
 #endif	/* !NANO_SMALL */
 
     search_last_line = 0;
