@@ -1,0 +1,7 @@
+Makefile
+Makefile.in
+POTFILES
+*.gmo
+*.pot
+cat-id*
+stamp-cat*
