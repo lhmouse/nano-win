@@ -61,8 +61,12 @@ char *get_verbatim_kbinput(WINDOW *win, int *kbinput_len,
     int kbinput;
 
     /* Turn the keypad off so that we don't get extended keypad values,
-     * all of which are outside the ASCII range. */
+     * all of which are outside the ASCII range, and switch to raw mode
+     * so that we can type ^Q, ^S, and ^Z without getting interrupts. */
     keypad(win, FALSE);
+#ifndef _POSIX_VDISABLE
+    raw();
+#endif
 
     kbinput = wgetch(win);
     verbatim_kbinput = charalloc(1);
@@ -84,8 +88,12 @@ char *get_verbatim_kbinput(WINDOW *win, int *kbinput_len,
 	nodelay(win, FALSE);
     }
 
-    /* Turn the keypad back on now that we're done. */
+    /* Turn the keypad back on and switch back to cbreak mode now that
+     * we're done. */
     keypad(win, TRUE);
+#ifndef _POSIX_VDISABLE
+    cbreak();
+#endif
 
 #ifdef DEBUG
     fprintf(stderr, "get_verbatim_kbinput(): verbatim_kbinput = %s\n", verbatim_kbinput);

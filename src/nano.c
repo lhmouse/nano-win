@@ -1003,18 +1003,7 @@ int do_verbatim_input(void)
 {
     char *verbatim_kbinput;	/* Used to hold verbatim input */
     int verbatim_len;		/* Length of verbatim input */
-    int old_preserve = ISSET(PRESERVE), old_suspend = ISSET(SUSPEND);
     int i;
-
-    /* Turn off Ctrl-Q (XON), Ctrl-S (XOFF), and Ctrl-Z (suspend) if
-     * they're on, so that we can use them to insert ^Q, ^S, and ^Z
-     * verbatim. */
-    if (old_preserve)
-	UNSET(PRESERVE);
-    if (old_suspend)
-	UNSET(SUSPEND);
-    if (old_preserve || old_suspend)
-	signal_init();
 
     statusbar(_("Verbatim input"));
     verbatim_kbinput = get_verbatim_kbinput(edit, &verbatim_len, 1);
@@ -1028,15 +1017,6 @@ int do_verbatim_input(void)
     UNSET(DISABLE_CURPOS);
 
     free(verbatim_kbinput);
-
-    /* Turn Ctrl-Q, Ctrl-S, and Ctrl-Z back on if they were on
-     * before. */
-    if (old_preserve)
-	SET(PRESERVE);
-    if (old_suspend)
-	SET(SUSPEND);
-    if (old_preserve || old_suspend)
-	signal_init();
 
     return 1;
 }
@@ -3447,13 +3427,13 @@ int main(int argc, char *argv[])
     initscr();
     savetty();
     nonl();
-    cbreak();
-    noecho();
-
 #ifndef _POSIX_VDISABLE
     /* We're going to have to do it the old way, i.e, on Cygwin. */
     raw();
+#else
+    cbreak();
 #endif
+    noecho();
 
     /* Set up some global variables */
     global_init(0);

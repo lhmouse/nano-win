@@ -14,6 +14,10 @@ CVS code -
 	- New function used to write the current marked selection to a
 	  file, split out from do_writeout(). (DLR)
 - nano.c:
+  do_verbatim_input()
+	- Remove the now-unneeded code to disable XON, XOFF, and
+	  suspend, since we now go into raw mode in
+	  get_verbatim_kbinput() and bypass them. (DLR)
   do_spell(), do_int_speller(), do_alt_speller()
 	- Modify to write only the current selection from a file to the
 	  temporary file used for spell checking when the mark is on,
@@ -26,7 +30,9 @@ CVS code -
   main()
 	- Move the call to raw() on systems that don't define
 	  _POSIX_VDISABLE outside the main input/output loop, as it
-	  doesn't need to be called every time through the loop. (DLR)
+	  doesn't need to be called every time through the loop.  Call it
+	  instead of cbreak() on such systems, as it overrides cbreak()
+	  anyway. (DLR)
 - search.c:
   do_replace_loop()
 	- Fix segfault when doing a regex replace of a string that
@@ -34,12 +40,16 @@ CVS code -
 	  anything). (David Benbennick)
 - winio.c:
   get_verbatim_kbinput()
-	- Set keypad() to FALSE while reading input, and set it back to
-	  TRUE afterwards.  This ensures that we don't end up reading in
-	  extended keypad values that are outside the ASCII range.
-	  (Also, with keypad() set to TRUE, xterm generates
+	- Set keypad() to FALSE and switch to raw mode while reading
+	  input, and set it keypad() back to TRUE and go back into
+	  cbreak mode afterwards.  (Note that if _POSIX_VDISABLE isn't
+	  defined, we don't need to change to or from raw mode since
+	  we're already in it exclusively.)  This ensures that we don't
+	  end up reading in extended keypad values that are outside the
+	  ASCII range or having to deal with interrupt-generating key
+	  values.  Also, with keypad() set to TRUE, xterm generates
 	  KEY_BACKSPACE when the user hits Ctrl-H, which, when cut down
-	  to ASCII range, ends up being Ctrl-G, which can be confusing.)
+	  to ASCII range, ends up being Ctrl-G, which can be confusing.
 	  (DLR)
   get_accepted_kbinput()
 	- Don't use "kbinput = wgetch(win)" as a switch value. (DLR)
