@@ -53,6 +53,8 @@ CVS code -
 - winio.c:
   do_credits()
 	- Add Thomas Dickey.
+  do_cursorpos()
+	- Make col numbering start from 1 (suggested by Andrew Ho).
   update_line(), xpt()
 	- Add check for 127 (DLR).
 - po/sv.po:
