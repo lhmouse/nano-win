@@ -3953,7 +3953,7 @@ void do_credits(void)
 	"",
 	"",
 	"",
-	"(c) 1999-2004 Chris Allegretta",
+	"(c) 1999-2005 Chris Allegretta",
 	"",
 	"",
 	"",
