@@ -479,7 +479,7 @@ int do_replace(void)
 	    current->data = copy;
 
 	    /* Stop bug where we replace a substring of the replacement text */
-	    current_x += strlen(last_replace);
+	    current_x += strlen(last_replace) - 1;
 
 	    edit_refresh();
 	    set_modified();

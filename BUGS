@@ -41,5 +41,5 @@
 - In search/replace code there is too much refreshing in bottomwin (26)
 - In replace, there is no way to accept the default replace string. (27)
 - In replace with completely adjacent strings, every other search string
-  will be missed (try replace ':' in a string like ':::::::::') (28)
+  will be missed (try replace ':' in a string like ':::::::::') (28) [FIXED]
 
