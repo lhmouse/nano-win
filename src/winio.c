@@ -1819,26 +1819,8 @@ void do_statusbar_home(void)
 #ifndef NANO_SMALL
     if (ISSET(SMART_HOME)) {
 	size_t statusbar_x_save = statusbar_x;
-	char *blank_mb = charalloc(mb_cur_max());
-	int blank_mb_len;
 
-	statusbar_x = 0;
-
-	while (statusbar_x < statusbar_xend) {
-	    blank_mb_len = parse_mbchar(answer + statusbar_x,
-		blank_mb
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
-
-	    if (!is_blank_mbchar(blank_mb))
-		break;
-
-	    statusbar_x += blank_mb_len;
-	}
-
-	free(blank_mb);
+	statusbar_x = indent_length(answer);
 
 	if (statusbar_x == statusbar_x_save ||
 		statusbar_x == statusbar_xend)
@@ -1904,10 +1886,12 @@ void do_statusbar_cut_text(void)
 #ifndef NANO_SMALL
 void do_statusbar_next_word(void)
 {
-    char *char_mb = charalloc(mb_cur_max());
+    char *char_mb;
     int char_mb_len;
 
     assert(answer != NULL);
+
+    char_mb = charalloc(mb_cur_max());
 
     /* Move forward until we find the character after the last letter of
      * the current word. */
@@ -1950,11 +1934,13 @@ void do_statusbar_next_word(void)
 
 void do_statusbar_prev_word(void)
 {
-    char *char_mb = charalloc(mb_cur_max());
+    char *char_mb;
     int char_mb_len;
     bool begin_line = FALSE;
 
     assert(answer != NULL);
+
+    char_mb = charalloc(mb_cur_max());
 
     /* Move backward until we find the character before the first letter
      * of the current word. */

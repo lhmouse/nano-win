@@ -1330,10 +1330,12 @@ void do_next_word(void)
 {
     size_t pww_save = placewewant;
     const filestruct *current_save = current;
-    char *char_mb = charalloc(mb_cur_max());
+    char *char_mb;
     int char_mb_len;
 
     assert(current != NULL && current->data != NULL);
+
+    char_mb = charalloc(mb_cur_max());
 
     /* Move forward until we find the character after the last letter of
      * the current word. */
@@ -1399,11 +1401,13 @@ void do_prev_word(void)
 {
     size_t pww_save = placewewant;
     const filestruct *current_save = current;
-    char *char_mb = charalloc(mb_cur_max());
+    char *char_mb;
     int char_mb_len;
     bool begin_line = FALSE;
 
     assert(current != NULL && current->data != NULL);
+
+    char_mb = charalloc(mb_cur_max());
 
     /* Move backward until we find the character before the first letter
      * of the current word. */
@@ -1633,7 +1637,7 @@ bool do_wrap(filestruct *inptr)
     if (ISSET(AUTOINDENT)) {
 	/* Indentation comes from the next line if wrapping, else from
 	 * this line. */
-	indentation = (wrapping ? wrap_line : inptr->data);
+	indentation = wrapping ? wrap_line : inptr->data;
 	indent_len = indent_length(indentation);
 	if (wrapping)
 	    /* The wrap_line text should not duplicate indentation.
@@ -2296,21 +2300,38 @@ void do_spell(void)
 }
 #endif /* !DISABLE_SPELLER */
 
-#if !defined(NANO_SMALL) || !defined(DISABLE_JUSTIFY)
+#ifndef NANO_SMALL
 /* The "indentation" of a line is the whitespace between the quote part
  * and the non-whitespace of the line. */
 size_t indent_length(const char *line)
 {
     size_t len = 0;
+    char *blank_mb;
+    int blank_mb_len;
 
     assert(line != NULL);
-    while (is_blank_char(*line)) {
-	line++;
-	len++;
+
+    blank_mb = charalloc(mb_cur_max());
+
+    while (*line != '\0') {
+	blank_mb_len = parse_mbchar(line, blank_mb
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		, NULL);
+
+	if (!is_blank_mbchar(blank_mb))
+	    break;
+
+	line += blank_mb_len;
+	len += blank_mb_len;
     }
+
+    free(blank_mb);
+
     return len;
 }
-#endif /* !NANO_SMALL || !DISABLE_JUSTIFY */
+#endif /* !NANO_SMALL */
 
 #ifndef DISABLE_JUSTIFY
 /* justify_format() replaces Tab by Space and multiple spaces by 1
