@@ -1,4 +1,4 @@
-CVS Code -
+nano-1.1.4 - 12/11/2001
 - General
 	- Preliminary syntax highlighting support.  New functions
 	  colortoint() and parse_color() in rcfile.c, new code in 
