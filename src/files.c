@@ -86,7 +86,7 @@ void new_file(void)
        on the command line, a new file will be created, but it will be
        given no open_files entry */
     if (open_files == NULL) {
-	add_open_file(0);
+	add_open_file(FALSE);
 	/* turn off view mode in this case; this is for consistency
 	   whether multibuffers are compiled in or not */
 	UNSET(VIEW_MODE);
@@ -424,7 +424,7 @@ char *get_next_filename(const char *name)
     return buf;
 }
 
-int do_insertfile(int loading_file)
+void do_insertfile(int loading_file)
 {
     int i, old_current_x = current_x;
     char *realname = NULL;
@@ -507,7 +507,7 @@ int do_insertfile(int loading_file)
 	    if (ts  == -1 || answer == NULL || answer[0] == '\0') {
 		statusbar(_("Cancelled"));
 		display_main_list();
-		return 0;
+		return;
 	    }
 	}
 #endif /* !NANO_SMALL */
@@ -529,17 +529,17 @@ int do_insertfile(int loading_file)
 #ifndef NANO_SMALL
 		i != NANO_EXTCMD_KEY &&
 #endif
-		check_operating_dir(answer, 0) != 0) {
+		check_operating_dir(answer, FALSE) != 0) {
 	    statusbar(_("Can't insert file from outside of %s"),
 			operating_dir);
-	    return 0;
+	    return;
 	}
 #endif
 
 #ifdef ENABLE_MULTIBUFFER
 	if (loading_file) {
 	    /* update the current entry in the open_files structure */
-	    add_open_file(1);
+	    add_open_file(TRUE);
 	    new_file();
 	    UNSET(MODIFIED);
 #ifndef NANO_SMALL
@@ -584,7 +584,7 @@ int do_insertfile(int loading_file)
 
 #ifdef ENABLE_MULTIBUFFER
 	if (loading_file)
-	    load_file(0);
+	    load_file(FALSE);
 	else
 #endif
 	    set_modified();
@@ -627,27 +627,24 @@ int do_insertfile(int loading_file)
     inspath = NULL;
 
     display_main_list();
-    return i;
 }
 
-int do_insertfile_void(void)
+void do_insertfile_void(void)
 {
-    int result = 0;
 #ifdef ENABLE_MULTIBUFFER
     if (ISSET(VIEW_MODE)) {
 	if (ISSET(MULTIBUFFER))
-	    result = do_insertfile(1);
+	    do_insertfile(TRUE);
 	else
 	    statusbar(_("Key illegal in non-multibuffer mode"));
     }
     else
-	result = do_insertfile(ISSET(MULTIBUFFER));
+	do_insertfile(ISSET(MULTIBUFFER));
 #else
-    result = do_insertfile(0);
+    do_insertfile(FALSE);
 #endif
 
     display_main_list();
-    return result;
 }
 
 #ifdef ENABLE_MULTIBUFFER
@@ -722,15 +719,15 @@ void free_openfilestruct(openfilestruct *src)
 
 /*
  * Add/update an entry to the open_files openfilestruct.  If update is
- * zero, a new entry is created; otherwise, the current entry is updated.
- * Return 0 on success or 1 on error.
+ * FALSE, a new entry is created; otherwise, the current entry is
+ * updated.
  */
-int add_open_file(int update)
+void add_open_file(int update)
 {
     openfilestruct *tmp;
 
     if (fileage == NULL || current == NULL || filename == NULL)
-	return 1;
+	return;
 
     /* if no entries, make the first one */
     if (open_files == NULL)
@@ -805,19 +802,16 @@ int add_open_file(int update)
 #ifdef DEBUG
     fprintf(stderr, "filename is %s\n", open_files->filename);
 #endif
-
-    return 0;
 }
 
 /*
  * Read the current entry in the open_files structure and set up the
- * currently open file using that entry's information.  Return 0 on
- * success or 1 on error.
+ * currently open file using that entry's information.
  */
-int load_open_file(void)
+void load_open_file(void)
 {
     if (open_files == NULL)
-	return 1;
+	return;
 
     /* set up the filename, the file buffer, the total number of lines in
        the file, and the total file size */
@@ -858,33 +852,30 @@ int load_open_file(void)
     /* update the titlebar */
     clearok(topwin, FALSE);
     titlebar(NULL);
-
-    /* now we're done */
-    return 0;
 }
 
 /*
  * Open the previous entry in the open_files structure.  If closing_file
- * is zero, update the current entry before switching from it.
- * Otherwise, we are about to close that entry, so don't bother doing so.
- * Return 0 on success and 1 on error.
+ * is FALSE, update the current entry before switching from it.
+ * Otherwise, we are about to close that entry, so don't bother doing
+ * so.
  */
-int open_prevfile(int closing_file)
+void open_prevfile(int closing_file)
 {
     if (open_files == NULL)
-	return 1;
+	return;
 
     /* if we're not about to close the current entry, update it before
        doing anything */
     if (!closing_file)
-	add_open_file(1);
+	add_open_file(TRUE);
 
     if (open_files->prev == NULL && open_files->next == NULL) {
 
 	/* only one file open */
 	if (!closing_file)
 	    statusbar(_("No more open file buffers"));
-	return 1;
+	return;
     }
 
     if (open_files->prev != NULL) {
@@ -911,43 +902,40 @@ int open_prevfile(int closing_file)
     load_open_file();
 
     statusbar(_("Switched to %s"),
-      ((open_files->filename[0] == '\0') ? "New Buffer" : open_files->filename));
+      ((open_files->filename[0] == '\0') ? "New Buffer" :
+	open_files->filename));
 
 #ifdef DEBUG
     dump_buffer(current);
 #endif
-
-    return 0;
 }
 
-/* This function is used by the shortcut list. */
-int open_prevfile_void(void)
+void open_prevfile_void(void)
 {
-    return open_prevfile(0);
+    open_prevfile(FALSE);
 }
 
 /*
  * Open the next entry in the open_files structure.  If closing_file is
- * zero, update the current entry before switching from it.  Otherwise, we
- * are about to close that entry, so don't bother doing so.  Return 0 on
- * success and 1 on error.
+ * FALSE, update the current entry before switching from it.  Otherwise,
+ * we are about to close that entry, so don't bother doing so.
  */
-int open_nextfile(int closing_file)
+void open_nextfile(int closing_file)
 {
     if (open_files == NULL)
-	return 1;
+	return;
 
     /* if we're not about to close the current entry, update it before
        doing anything */
     if (!closing_file)
-	add_open_file(1);
+	add_open_file(TRUE);
 
     if (open_files->prev == NULL && open_files->next == NULL) {
 
 	/* only one file open */
 	if (!closing_file)
 	    statusbar(_("No more open file buffers"));
-	return 1;
+	return;
     }
 
     if (open_files->next != NULL) {
@@ -974,19 +962,17 @@ int open_nextfile(int closing_file)
     load_open_file();
 
     statusbar(_("Switched to %s"),
-      ((open_files->filename[0] == '\0') ? "New Buffer" : open_files->filename));
+      ((open_files->filename[0] == '\0') ? "New Buffer" :
+	open_files->filename));
 
 #ifdef DEBUG
     dump_buffer(current);
 #endif
-
-    return 0;
 }
 
-/* This function is used by the shortcut list. */
-int open_nextfile_void(void)
+void open_nextfile_void(void)
 {
-    return open_nextfile(0);
+    open_nextfile(FALSE);
 }
 
 /*
@@ -1008,10 +994,12 @@ int close_open_file(void)
     open_files->filebot = filebot;
 
     tmp = open_files;
-    if (open_nextfile(1)) {
-	if (open_prevfile(1))
-	    return 1;
-    }
+    if (open_files->next != NULL)
+	open_nextfile(TRUE);
+    else if (open_files->prev != NULL)
+	open_prevfile(TRUE);
+    else
+	return 1;
 
     unlink_opennode(tmp);
     delete_opennode(tmp);
@@ -1437,7 +1425,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 #ifndef DISABLE_OPERATINGDIR
     /* If we're writing a temporary file, we're probably going outside
      * the operating directory, so skip the operating directory test. */
-    if (!tmp && check_operating_dir(realname, 0) != 0) {
+    if (!tmp && check_operating_dir(realname, FALSE) != 0) {
 	statusbar(_("Can't write outside of %s"), operating_dir);
 	goto cleanup_and_exit;
     }
@@ -1958,16 +1946,16 @@ int do_writeout(int exiting)
 	/* If we're not about to exit, update the current entry in
 	 * the open_files structure. */
 	if (!exiting)
-	    add_open_file(1);
+	    add_open_file(TRUE);
 #endif
 	display_main_list();
 	return i;
     } /* while (TRUE) */
 }
 
-int do_writeout_void(void)
+void do_writeout_void(void)
 {
-    return do_writeout(FALSE);
+    do_writeout(FALSE);
 }
 
 /* Return a malloc()ed string containing the actual directory, used
@@ -2075,7 +2063,7 @@ char **username_tab_completion(char *buf, int *num_matches)
                directory, in which case just go to the next match */
 
 	    if (operating_dir != NULL) {
-		if (check_operating_dir(userdata->pw_dir, 1) != 0)
+		if (check_operating_dir(userdata->pw_dir, TRUE) != 0)
 		    continue;
 	    }
 #endif
@@ -2183,7 +2171,7 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 		strcpy(tmp2, dirname);
 		strcat(tmp2, "/");
 		strcat(tmp2, next->d_name);
-		if (check_operating_dir(tmp2, 1) != 0) {
+		if (check_operating_dir(tmp2, TRUE) != 0) {
 		    free(tmp2);
 		    continue;
 		}
@@ -2696,7 +2684,7 @@ char *do_browser(const char *inpath)
 	    /* Note: the selected file can be outside the operating
 	     * directory if it is .. or if it is a symlink to 
 	     * directory outside the operating directory. */
-	    if (check_operating_dir(filelist[selected], 0) != 0) {
+	    if (check_operating_dir(filelist[selected], FALSE) != 0) {
 		statusbar(_("Can't go outside of %s in restricted mode"), operating_dir);
 		beep();
 		break;
@@ -2769,7 +2757,7 @@ char *do_browser(const char *inpath)
 	    }
 
 #ifndef DISABLE_OPERATINGDIR
-	    if (check_operating_dir(new_path, 0) != 0) {
+	    if (check_operating_dir(new_path, FALSE) != 0) {
 		statusbar(_("Can't go outside of %s in restricted mode"), operating_dir);
 		free(new_path);
 		break;
@@ -2912,7 +2900,7 @@ char *do_browse_from(const char *inpath)
 
 #ifndef DISABLE_OPERATINGDIR
     /* If the resulting path isn't in the operating directory, use that. */
-    if (check_operating_dir(path, 0) != 0)
+    if (check_operating_dir(path, FALSE) != 0)
 	path = mallocstrcpy(path, operating_dir);
 #endif
 

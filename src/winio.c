@@ -2924,7 +2924,7 @@ int do_yesno(int all, const char *msg)
     return ok;
 }
 
-int total_refresh(void)
+void total_refresh(void)
 {
     clearok(topwin, TRUE);
     clearok(edit, TRUE);
@@ -2938,7 +2938,6 @@ int total_refresh(void)
     clearok(bottomwin, FALSE);
     edit_refresh();
     titlebar(NULL);
-    return 1;
 }
 
 void display_main_list(void)
@@ -2953,7 +2952,7 @@ void display_main_list(void)
  * If constant is TRUE and DISABLE_CURPOS is set, we unset it and update
  * old_i and old_totsize.  That way, we leave the current statusbar
  * alone, but next time we will display. */
-int do_cursorpos(int constant)
+void do_cursorpos(int constant)
 {
     const filestruct *fileptr;
     unsigned long i = 0;
@@ -2975,7 +2974,7 @@ int do_cursorpos(int constant)
 	UNSET(DISABLE_CURPOS);
 	old_i = i;
 	old_totsize = totsize;
-	return 0;
+	return;
     }
 
     /* If constant is FALSE, display the position on the statusbar
@@ -3000,12 +2999,11 @@ int do_cursorpos(int constant)
     old_totsize = totsize;
 
     reset_cursor();
-    return 0;
 }
 
-int do_cursorpos_void(void)
+void do_cursorpos_void(void)
 {
-    return do_cursorpos(FALSE);
+    do_cursorpos(FALSE);
 }
 
 /* Calculate the next line of help_text, starting at ptr. */
@@ -3036,7 +3034,7 @@ int line_len(const char *ptr)
 
 #ifndef DISABLE_HELP
 /* Our dynamic, shortcut-list-compliant help function. */
-int do_help(void)
+void do_help(void)
 {
     int line = 0;
 	/* The line number in help_text of the first displayed help line.
@@ -3160,8 +3158,6 @@ int do_help(void)
      * anymore. */
     free(help_text);
     help_text = NULL;
-
-    return 1;
 }
 #endif /* !DISABLE_HELP */
 

@@ -28,7 +28,7 @@
 #include "proto.h"
 #include "nano.h"
 
-int do_first_line(void)
+void do_first_line(void)
 {
     int old_pww = placewewant;
     current = fileage;
@@ -36,10 +36,9 @@ int do_first_line(void)
     current_x = 0;
     if (edittop != fileage || need_vertical_update(old_pww))
 	edit_update(current, TOP);
-    return 1;
 }
 
-int do_last_line(void)
+void do_last_line(void)
 {
     int old_pww = placewewant;
     current = filebot;
@@ -48,10 +47,9 @@ int do_last_line(void)
     if (edittop->lineno + (editwinrows / 2) != filebot->lineno ||
 	need_vertical_update(old_pww))
 	edit_update(current, CENTER);
-    return 1;
 }
 
-int do_home(void)
+void do_home(void)
 {
     int old_pww = placewewant;
 #ifndef NANO_SMALL
@@ -76,10 +74,9 @@ int do_home(void)
     check_statblank();
     if (need_horizontal_update(old_pww))
 	update_line(current, current_x);
-    return 1;
 }
 
-int do_end(void)
+void do_end(void)
 {
     int old_pww = placewewant;
     current_x = strlen(current->data);
@@ -87,10 +84,9 @@ int do_end(void)
     check_statblank();
     if (need_horizontal_update(old_pww))
 	update_line(current, current_x);
-    return 1;
 }
 
-int do_page_up(void)
+void do_page_up(void)
 {
     int old_pww = placewewant;
     const filestruct *old_current = current;
@@ -134,10 +130,9 @@ int do_page_up(void)
     edit_redraw(old_current, old_pww);
 
     check_statblank();
-    return 1;
 }
 
-int do_page_down(void)
+void do_page_down(void)
 {
     int old_pww = placewewant;
     const filestruct *old_current = current;
@@ -182,10 +177,9 @@ int do_page_down(void)
     edit_redraw(old_current, old_pww);
 
     check_statblank();
-    return 1;
 }
 
-int do_up(void)
+void do_up(void)
 {
 #ifndef DISABLE_WRAPPING
     wrap_reset();
@@ -193,7 +187,7 @@ int do_up(void)
     check_statblank();
 
     if (current->prev == NULL)
-	return 0;
+	return;
 
     assert(current_y == current->lineno - edittop->lineno);
     current = current->prev;
@@ -216,13 +210,9 @@ int do_up(void)
     if (need_vertical_update(0))
 	update_line(current->next, 0);
     update_line(current, current_x);
-
-    return 1;
 }
 
-/* Return value 1 means we moved down, 0 means we were already at the
- * bottom. */
-int do_down(void)
+void do_down(void)
 {
 #ifndef DISABLE_WRAPPING
     wrap_reset();
@@ -230,7 +220,7 @@ int do_down(void)
     check_statblank();
 
     if (current->next == NULL)
-	return 0;
+	return;
 
     assert(current_y == current->lineno - edittop->lineno);
     current = current->next;
@@ -253,11 +243,9 @@ int do_down(void)
     if (need_vertical_update(0))
 	update_line(current->prev, 0);
     update_line(current, current_x);
-
-    return 1;
 }
 
-int do_left(int allow_update)
+void do_left(int allow_update)
 {
     int old_pww = placewewant;
     if (current_x > 0)
@@ -270,15 +258,14 @@ int do_left(int allow_update)
     check_statblank();
     if (allow_update && need_horizontal_update(old_pww))
 	update_line(current, current_x);
-    return 1;
 }
 
-int do_left_void(void)
+void do_left_void(void)
 {
-    return do_left(TRUE);
+    do_left(TRUE);
 }
 
-int do_right(int allow_update)
+void do_right(int allow_update)
 {
     int old_pww = placewewant;
     assert(current_x <= strlen(current->data));
@@ -293,10 +280,9 @@ int do_right(int allow_update)
     check_statblank();
     if (allow_update && need_horizontal_update(old_pww))
 	update_line(current, current_x);
-    return 1;
 }
 
-int do_right_void(void)
+void do_right_void(void)
 {
-    return do_right(TRUE);
+    do_right(TRUE);
 }

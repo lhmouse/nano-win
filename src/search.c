@@ -240,7 +240,7 @@ int search_init(int replacing)
 #endif
 	    i = (int)strtol(answer, &buf, 10);	/* Just testing answer here. */
 	    if (!(errno == ERANGE || *answer == '\0' || *buf != '\0'))
-		do_gotoline(-1, 0);
+		do_gotoline(-1, FALSE);
 	    else
 		do_gotoline_void();
 	    /* Fall through. */
@@ -359,7 +359,7 @@ int findnextstr(int can_display_wrap, int wholeword, const filestruct
 }
 
 /* Search for a string. */
-int do_search(void)
+void do_search(void)
 {
     int old_pww = placewewant, i, fileptr_x = current_x, didfind;
     filestruct *fileptr = current;
@@ -380,7 +380,7 @@ int do_search(void)
 #endif
 
     if (i != 0)
-	return 0;
+	return;
 
     /* If answer is now "", copy last_search into answer. */
     if (answer[0] == '\0')
@@ -422,13 +422,11 @@ int do_search(void)
     placewewant = xplustabs();
     edit_redraw(fileptr, old_pww);
     search_abort();
-
-    return 1;
 }
 
 #ifndef NANO_SMALL
 /* Search for the next string without prompting. */
-int do_research(void)
+void do_research(void)
 {
     int old_pww = placewewant, fileptr_x = current_x, didfind;
     filestruct *fileptr = current;
@@ -443,7 +441,7 @@ int do_research(void)
 #ifdef HAVE_REGEX_H
 	/* Since answer is "", use last_search! */
 	if (ISSET(USE_REGEXP) && regexp_init(last_search) == 0)
-	    return -1;
+	    return;
 #endif
 
 	search_last_line = FALSE;
@@ -475,8 +473,6 @@ int do_research(void)
     placewewant = xplustabs();
     edit_redraw(fileptr, old_pww);
     search_abort();
-
-    return 1;
 }
 #endif
 
@@ -743,7 +739,7 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 }
 
 /* Replace a string. */
-int do_replace(void)
+void do_replace(void)
 {
     int i, numreplaced;
     filestruct *edittop_save, *begin;
@@ -752,23 +748,23 @@ int do_replace(void)
     if (ISSET(VIEW_MODE)) {
 	print_view_warning();
 	replace_abort();
-	return 0;
+	return;
     }
 
     i = search_init(1);
     if (i == -1) {		/* Cancel, Go to Line, blank search
 				 * string, or regcomp() failed. */
 	replace_abort();
-	return 0;
+	return;
     } else if (i == -2) {	/* No Replace. */
 	do_search();
-	return 0;
+	return;
     } else if (i == 1)		/* Case Sensitive, Backwards, or Regexp
 				 * search toggle. */
 	do_replace();
 
     if (i != 0)
-	return 0;
+	return;
 
     /* If answer is not "", add answer to the search history list and
      * copy answer into last_search. */
@@ -804,7 +800,7 @@ int do_replace(void)
 	    statusbar(_("Replace Cancelled"));
 	}
 	replace_abort();
-	return 0;
+	return;
     }
 
     last_replace = mallocstrcpy(last_replace, answer);
@@ -828,10 +824,9 @@ int do_replace(void)
 		numreplaced), numreplaced);
 
     replace_abort();
-    return 1;
 }
 
-int do_gotoline(int line, int save_pos)
+void do_gotoline(int line, int save_pos)
 {
     if (line <= 0) {		/* Ask for it */
 	char *ans = mallocstrcpy(NULL, answer);
@@ -848,7 +843,7 @@ int do_gotoline(int line, int save_pos)
 	    statusbar(_("Aborted"));
 	if (st != 0) {
 	    display_main_list();
-	    return 0;
+	    return;
 	}
 
 	line = atoi(answer);
@@ -857,7 +852,7 @@ int do_gotoline(int line, int save_pos)
 	if (line <= 0) {
 	    statusbar(_("Come on, be reasonable"));
 	    display_main_list();
-	    return 0;
+	    return;
 	}
     }
 
@@ -866,18 +861,17 @@ int do_gotoline(int line, int save_pos)
 
     current_x = 0;
 
-    /* If save_pos is nonzero, don't change the cursor position when
+    /* If save_pos is TRUE, don't change the cursor position when
      * updating the edit window. */
     edit_update(current, save_pos ? NONE : CENTER);
 
     placewewant = 0;
     display_main_list();
-    return 1;
 }
 
-int do_gotoline_void(void)
+void do_gotoline_void(void)
 {
-    return do_gotoline(0, 0);
+    do_gotoline(0, FALSE);
 }
 
 #if defined(ENABLE_MULTIBUFFER) || !defined(DISABLE_SPELLER)
@@ -886,7 +880,7 @@ void do_gotopos(int line, int pos_x, int pos_y, int pos_placewewant)
     /* since do_gotoline() resets the x-coordinate but not the
        y-coordinate, set the coordinates up this way */
     current_y = pos_y;
-    do_gotoline(line, 1);
+    do_gotoline(line, TRUE);
 
     /* make sure that the x-coordinate is sane here */
     if (pos_x > strlen(current->data))
@@ -900,7 +894,7 @@ void do_gotopos(int line, int pos_x, int pos_y, int pos_placewewant)
 #endif
 
 #if !defined(NANO_SMALL) && defined(HAVE_REGEX_H)
-int do_find_bracket(void)
+void do_find_bracket(void)
 {
     char ch_under_cursor, wanted_ch;
     const char *pos, *brackets = "([{<>}])";
@@ -913,7 +907,7 @@ int do_find_bracket(void)
     pos = strchr(brackets, ch_under_cursor);
     if (ch_under_cursor == '\0' || pos == NULL) {
 	statusbar(_("Not a bracket"));
-	return 1;
+	return;
     }
 
     assert(strlen(brackets) % 2 == 0);
@@ -965,7 +959,6 @@ int do_find_bracket(void)
 
     regexp_cleanup();
     flags = flagsave;
-    return 0;
 }
 #endif
 

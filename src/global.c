@@ -186,7 +186,7 @@ void sc_init_one(shortcut **shortcutage, int ctrlval, const char *desc,
 #ifndef DISABLE_HELP
 	const char *help,
 #endif
-	int metaval, int funcval, int miscval, int view, int
+	int metaval, int funcval, int miscval, int view, void
 	(*func)(void))
 {
     shortcut *s;

@@ -772,10 +772,9 @@ int no_help(void)
     return ISSET(NO_HELP) ? 2 : 0;
 }
 
-int nano_disabled_msg(void)
+void nano_disabled_msg(void)
 {
     statusbar(_("Sorry, support for this function has been disabled"));
-    return 1;
 }
 
 #ifndef NANO_SMALL
@@ -988,7 +987,7 @@ void do_char(char ch)
 	update_line(current, current_x);
 }
 
-int do_verbatim_input(void)
+void do_verbatim_input(void)
 {
     int *v_kbinput = NULL;	/* Used to hold verbatim input. */
     size_t v_len;		/* Length of verbatim input. */
@@ -1007,20 +1006,17 @@ int do_verbatim_input(void)
     UNSET(DISABLE_CURPOS);
 
     free(v_kbinput);
-
-    return 1;
 }
 
-int do_backspace(void)
+void do_backspace(void)
 {
     if (current != fileage || current_x > 0) {
 	do_left(FALSE);
 	do_delete();
     }
-    return 1;
 }
 
-int do_delete(void)
+void do_delete(void)
 {
     int do_refresh = FALSE;
 	/* Do we have to call edit_refresh(), or can we get away with
@@ -1076,7 +1072,7 @@ int do_delete(void)
 	totlines--;
 	wrap_reset();
     } else
-	return 0;
+	return;
 
     totsize--;
     set_modified();
@@ -1092,18 +1088,15 @@ int do_delete(void)
 	edit_refresh();
     else
 	update_line(current, current_x);
-
-    return 1;
 }
 
-int do_tab(void)
+void do_tab(void)
 {
     do_char('\t');
-    return 1;
 }
 
 /* Someone hits return *gasp!* */
-int do_enter(void)
+void do_enter(void)
 {
     filestruct *newnode = make_new_node(current);
     size_t extra = 0;
@@ -1159,12 +1152,10 @@ int do_enter(void)
     totlines++;
     set_modified();
     placewewant = xplustabs();
-
-    return 1;
 }
 
 #ifndef NANO_SMALL
-int do_next_word(void)
+void do_next_word(void)
 {
     int old_pww = placewewant;
     const filestruct *current_save = current;
@@ -1193,12 +1184,10 @@ int do_next_word(void)
     /* Refresh the screen.  If current has run off the bottom, this
      * call puts it at the center line. */
     edit_redraw(current_save, old_pww);
-
-    return 0;
 }
 
 /* The same thing for backwards. */
-int do_prev_word(void)
+void do_prev_word(void)
 {
     int old_pww = placewewant;
     const filestruct *current_save = current;
@@ -1232,11 +1221,9 @@ int do_prev_word(void)
     /* Refresh the screen.  If current has run off the top, this call
      * puts it at the center line. */
     edit_redraw(current_save, old_pww);
-
-    return 0;
 }
 
-int do_mark(void)
+void do_mark(void)
 {
     TOGGLE(MARK_ISSET);
     if (ISSET(MARK_ISSET)) {
@@ -1247,7 +1234,6 @@ int do_mark(void)
 	statusbar(_("Mark UNset"));
 	edit_refresh();
     }
-    return 1;
 }
 #endif /* !NANO_SMALL */
 
@@ -1833,7 +1819,7 @@ const char *do_alt_speller(char *tempfile_name)
     return NULL;
 }
 
-int do_spell(void)
+void do_spell(void)
 {
     int i;
     char *temp = safe_tempnam(0, "nano.");
@@ -1841,7 +1827,7 @@ int do_spell(void)
 
     if (temp == NULL) {
 	statusbar(_("Could not create temp file: %s"), strerror(errno));
-	return 0;
+	return;
     }
 
 #ifndef NANO_SMALL
@@ -1854,13 +1840,13 @@ int do_spell(void)
     if (i == -1) {
 	statusbar(_("Unable to write temp file: %s"), strerror(errno));
 	free(temp);
-	return 0;
+	return;
     }
 
 #ifdef ENABLE_MULTIBUFFER
     /* Update the current open_files entry before spell-checking, in
      * case any problems occur. */
-    add_open_file(1);
+    add_open_file(TRUE);
 #endif
 
     spell_msg = alt_speller != NULL ? do_alt_speller(temp) :
@@ -1871,11 +1857,9 @@ int do_spell(void)
     if (spell_msg != NULL) {
 	statusbar(_("Spell checking failed: %s: %s"), spell_msg,
 		strerror(errno));
-	return 0;
+	return;
     } else
 	statusbar(_("Finished checking spelling"));
-
-    return 1;
 }
 #endif /* !DISABLE_SPELLER */
 
@@ -2370,19 +2354,19 @@ int do_para_search(justbegend search_type, size_t *quote, size_t *par,
     return 0;
 }
 
-int do_para_begin(void)
+void do_para_begin(void)
 {
-    return do_para_search(BEGIN, NULL, NULL, NULL, TRUE);
+    do_para_search(BEGIN, NULL, NULL, NULL, TRUE);
 }
 
-int do_para_end(void)
+void do_para_end(void)
 {
-    return do_para_search(END, NULL, NULL, NULL, TRUE);
+    do_para_search(END, NULL, NULL, NULL, TRUE);
 }
 
 /* If full_justify is TRUE, justify the entire file.  Otherwise, justify
  * the current paragraph. */
-int do_justify(int full_justify)
+void do_justify(int full_justify)
 {
     size_t quote_len;
 	/* Length of the initial quotation of the paragraph we
@@ -2444,7 +2428,7 @@ int do_justify(int full_justify)
 		break;
 	    } else {
 		edit_refresh();
-		return 0;
+		return;
 	    }
 	}
 
@@ -2712,73 +2696,45 @@ int do_justify(int full_justify)
     /* Display the shortcut list with UnCut. */
     shortcut_init(FALSE);
     display_main_list();
-
-    return 0;
 }
 
-int do_justify_void(void)
+void do_justify_void(void)
 {
-    return do_justify(FALSE);
+    do_justify(FALSE);
 }
 
-int do_full_justify(void)
+void do_full_justify(void)
 {
-    return do_justify(TRUE);
+    do_justify(TRUE);
 }
 #endif /* !DISABLE_JUSTIFY */
 
-int do_exit(void)
+void do_exit(void)
 {
     int i;
 
-    if (!ISSET(MODIFIED)) {
-
-#ifdef ENABLE_MULTIBUFFER
-	if (!close_open_file()) {
-	    display_main_list();
-	    return 1;
-	}
-	else
-#endif
-	    finish();
-    }
-
-    if (ISSET(TEMP_OPT))
+    if (!ISSET(MODIFIED))
+	i = 0;		/* Pretend the user chose not to save. */
+    else if (ISSET(TEMP_OPT))
 	i = 1;
     else
-	i = do_yesno(FALSE, _("Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "));
-    
+	i = do_yesno(FALSE,
+		_("Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "));
+
 #ifdef DEBUG
     dump_buffer(fileage);
 #endif
 
-    if (i == 1) {
-	if (do_writeout(TRUE) > 0) {
-
+    if (i == 0 || (i == 1 && do_writeout(TRUE) > 0)) {
 #ifdef ENABLE_MULTIBUFFER
-	    if (!close_open_file()) {
-		display_main_list();
-		return 1;
-	    }
-	    else
-#endif
-		finish();
-	}
-    } else if (i == 0) {
-
-#ifdef ENABLE_MULTIBUFFER
-	if (!close_open_file()) {
-	    display_main_list();
-	    return 1;
-	}
-	else
+	/* Exit only if there are no more open buffers. */
+	if (close_open_file() != 0)
 #endif
 	    finish();
-    } else
+    } else if (i != 1)
 	statusbar(_("Cancelled"));
 
     display_main_list();
-    return 1;
 }
 
 void signal_init(void)
@@ -3537,11 +3493,11 @@ int main(int argc, char *argv[])
 	int old_multibuffer = ISSET(MULTIBUFFER);
 	SET(MULTIBUFFER);
 	for (optind++; optind < argc; optind++) {
-	    add_open_file(1);
+	    add_open_file(TRUE);
 	    new_file();
 	    filename = mallocstrcpy(filename, argv[optind]);
 	    open_file(filename, 0, 0);
-	    load_file(0);
+	    load_file(FALSE);
 	}
 	open_nextfile_void();
 	if (!old_multibuffer)

@@ -152,8 +152,8 @@ void cutbuffer_reset(void);
 filestruct *get_cutbottom(void);
 void add_to_cutbuffer(filestruct *inptr, int allow_concat);
 void cut_marked_segment(void);
-int do_cut_text(void);
-int do_uncut_text(void);
+void do_cut_text(void);
+void do_uncut_text(void);
 
 /* Public functions in files.c */
 void load_file(int update);
@@ -163,20 +163,20 @@ filestruct *read_line(char *buf, filestruct *prev, int *line1ins, size_t
 int read_file(FILE *f, const char *filename, int quiet);
 int open_file(const char *filename, int insert, int quiet);
 char *get_next_filename(const char *name);
-int do_insertfile(int loading_file);
-int do_insertfile_void(void);
+void do_insertfile(int loading_file);
+void do_insertfile_void(void);
 #ifdef ENABLE_MULTIBUFFER
 openfilestruct *make_new_opennode(openfilestruct *prevnode);
 void splice_opennode(openfilestruct *begin, openfilestruct *newnode, openfilestruct *end);
 void unlink_opennode(const openfilestruct *fileptr);
 void delete_opennode(openfilestruct *fileptr);
 void free_openfilestruct(openfilestruct *src);
-int add_open_file(int update);
-int load_open_file(void);
-int open_prevfile(int closing_file);
-int open_prevfile_void(void);
-int open_nextfile(int closing_file);
-int open_nextfile_void(void);
+void add_open_file(int update);
+void load_open_file(void);
+void open_prevfile(int closing_file);
+void open_prevfile_void(void);
+void open_nextfile(int closing_file);
+void open_nextfile_void(void);
 int close_open_file(void);
 #endif
 #if !defined(DISABLE_SPELLER) || !defined(DISABLE_OPERATINGDIR)
@@ -198,7 +198,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange);
 int write_marked(const char *name, int tmp, int append);
 #endif
 int do_writeout(int exiting);
-int do_writeout_void(void);
+void do_writeout_void(void);
 char *real_dir_from_tilde(const char *buf);
 #ifndef DISABLE_TABCOMP
 int append_slash_if_dir(char *buf, int *lastwastab, int *place);
@@ -223,7 +223,7 @@ void sc_init_one(shortcut **shortcutage, int key, const char *desc,
 #ifndef DISABLE_HELP
 	const char *help,
 #endif
-	int metaval, int funcval, int miscval, int view, int
+	int metaval, int funcval, int miscval, int view, void
 	(*func)(void));
 #ifndef NANO_SMALL
 void toggle_init_one(int val, const char *desc, int flag);
@@ -239,18 +239,18 @@ void thanks_for_all_the_fish(void);
 #endif
 
 /* Public functions in move.c */
-int do_first_line(void);
-int do_last_line(void);
-int do_home(void);
-int do_end(void);
-int do_page_up(void);
-int do_page_down(void);
-int do_up(void);
-int do_down(void);
-int do_left(int allow_update);
-int do_left_void(void);
-int do_right(int allow_update);
-int do_right_void(void);
+void do_first_line(void);
+void do_last_line(void);
+void do_home(void);
+void do_end(void);
+void do_page_up(void);
+void do_page_down(void);
+void do_up(void);
+void do_down(void);
+void do_left(int allow_update);
+void do_left_void(void);
+void do_right(int allow_update);
+void do_right_void(void);
 
 /* Public functions in nano.c */
 void finish(void);
@@ -280,7 +280,7 @@ void print1opt(const char *shortflag, const char *longflag,
 void usage(void);
 void version(void);
 int no_help(void);
-int nano_disabled_msg(void);
+void nano_disabled_msg(void);
 #ifndef NANO_SMALL
 RETSIGTYPE cancel_fork(int signal);
 int open_pipe(const char *command);
@@ -289,15 +289,15 @@ int open_pipe(const char *command);
 void do_mouse(void);
 #endif
 void do_char(char ch);
-int do_verbatim_input(void);
-int do_backspace(void);
-int do_delete(void);
-int do_tab(void);
-int do_enter(void);
+void do_verbatim_input(void);
+void do_backspace(void);
+void do_delete(void);
+void do_tab(void);
+void do_enter(void);
 #ifndef NANO_SMALL
-int do_next_word(void);
-int do_prev_word(void);
-int do_mark(void);
+void do_next_word(void);
+void do_prev_word(void);
+void do_mark(void);
 #endif
 #ifndef DISABLE_WRAPPING
 void wrap_reset(void);
@@ -307,7 +307,7 @@ int do_wrap(filestruct *inptr);
 int do_int_spell_fix(const char *word);
 const char *do_int_speller(char *tempfile_name);
 const char *do_alt_speller(char *tempfile_name);
-int do_spell(void);
+void do_spell(void);
 #endif
 #if !defined(DISABLE_WRAPPING) && !defined(NANO_SMALL) || !defined(DISABLE_JUSTIFY)
 size_t indent_length(const char *line);
@@ -334,13 +334,13 @@ int breakable(const char *line, int goal);
 int break_line(const char *line, int goal, int force);
 int do_para_search(justbegend search_type, size_t *quote, size_t *par,
 	size_t *indent, int do_refresh);
-int do_para_begin(void);
-int do_para_end(void);
-int do_justify(int justify_all);
-int do_justify_void(void);
-int do_full_justify(void);
+void do_para_begin(void);
+void do_para_end(void);
+void do_justify(int full_justify);
+void do_justify_void(void);
+void do_full_justify(void);
 #endif /* !DISABLE_JUSTIFY */
-int do_exit(void);
+void do_exit(void);
 void signal_init(void);
 RETSIGTYPE handle_hupterm(int signal);
 RETSIGTYPE do_suspend(int signal);
@@ -391,9 +391,9 @@ int is_whole_word(int curr_pos, const char *datastr, const char
 	*searchword);
 int findnextstr(int can_display_wrap, int wholeword, const filestruct
 	*begin, size_t beginx, const char *needle, int no_sameline);
-int do_search(void);
+void do_search(void);
 #ifndef NANO_SMALL
-int do_research(void);
+void do_research(void);
 #endif
 void replace_abort(void);
 #ifdef HAVE_REGEX_H
@@ -402,13 +402,13 @@ int replace_regexp(char *string, int create_flag);
 char *replace_line(const char *needle);
 int do_replace_loop(const char *needle, const filestruct *real_current,
 	size_t *real_current_x, int wholewords);
-int do_replace(void);
-int do_gotoline(int line, int save_pos);
-int do_gotoline_void(void);
+void do_replace(void);
+void do_gotoline(int line, int save_pos);
+void do_gotoline_void(void);
 #if defined (ENABLE_MULTIBUFFER) || !defined (DISABLE_SPELLER)
 void do_gotopos(int line, int pos_x, int pos_y, int pos_placewewant);
 #endif
-int do_find_bracket(void);
+void do_find_bracket(void);
 #ifndef NANO_SMALL
 void history_init(void);
 historytype *find_node(historytype *h, char *s);
@@ -550,12 +550,12 @@ int statusq(int allowtabs, const shortcut *s, const char *def,
 #endif
 		const char *msg, ...);
 int do_yesno(int all, const char *msg);
-int total_refresh(void);
+void total_refresh(void);
 void display_main_list(void);
-int do_cursorpos(int constant);
-int do_cursorpos_void(void);
+void do_cursorpos(int constant);
+void do_cursorpos_void(void);
 int line_len(const char *ptr);
-int do_help(void);
+void do_help(void);
 void do_replace_highlight(int highlight_flag, const char *word);
 #ifdef DEBUG
 void dump_buffer(const filestruct *inptr);

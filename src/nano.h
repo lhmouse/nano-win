@@ -179,7 +179,7 @@ typedef struct shortcut {
     int funcval;	/* Function key we want bound. */
     int miscval;	/* Other Meta key we want bound. */
     int viewok;		/* Is this function legal in view mode? */
-    int (*func) (void);	/* Function to call when we catch this key. */
+    void (*func)(void);	/* Function to call when we catch this key. */
     const char *desc;	/* Description, e.g. "Page Up". */
 #ifndef DISABLE_HELP
     const char *help;	/* Help file entry text. */

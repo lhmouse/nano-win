@@ -199,7 +199,7 @@ void cut_marked_segment(void)
 }
 #endif
 
-int do_cut_text(void)
+void do_cut_text(void)
 {
     filestruct *fileptr;
 
@@ -226,7 +226,7 @@ int do_cut_text(void)
 			&& !ISSET(MARK_ISSET)
 #endif
 						)
-	return 0;
+	return;
 
     keep_cutbuffer = TRUE;
 
@@ -251,7 +251,7 @@ int do_cut_text(void)
 
 	    do_delete();
 	    marked_cut = 2;
-	    return 1;
+	    return;
 	} else {
 	    SET(MARK_ISSET);
 
@@ -274,8 +274,7 @@ int do_cut_text(void)
 	marked_cut = 1;
 	edit_refresh();
 	set_modified();
-
-	return 1;
+	return;
     }
 #endif /* !NANO_SMALL */
 
@@ -305,10 +304,9 @@ int do_cut_text(void)
 #ifndef NANO_SMALL
     concatenate_cut = FALSE;
 #endif
-    return 1;
 }
 
-int do_uncut_text(void)
+void do_uncut_text(void)
 {
     filestruct *tmp = current;
     filestruct *newbuf = NULL;
@@ -319,7 +317,7 @@ int do_uncut_text(void)
 #endif
     check_statblank();
     if (cutbuffer == NULL || current == NULL)
-	return 0;		/* AIEEEEEEEEEEEE */
+	return;			/* AIEEEEEEEEEEEE */
 
     /* If we're uncutting a previously non-marked block, uncut to end if
      * we're not at the beginning of the line.  If we are at the
@@ -410,11 +408,9 @@ int do_uncut_text(void)
 	    current = newend;
 	}
 
-	/* If marked cut == 2, that means that we're doing a cut to end
+	/* If marked cut == 2, it means that we're doing a cut to end
 	 * and we don't want anything else on the line, so we have to
-	 * screw up all the work we just did and separate the line.
-	 * There must be a better way to do this, but not at 1 AM on a
-	 * work night. */
+	 * screw up all the work we just did and separate the line. */
 	if (marked_cut == 2) {
 	    tmp = make_new_node(current);
 	    tmp->data = mallocstrcpy(NULL, current->data + current_x);
@@ -437,7 +433,7 @@ int do_uncut_text(void)
 #endif
 	set_modified();
 	edit_refresh();
-	return 0;
+	return;
     }
 
     if (current != fileage) {
@@ -468,5 +464,4 @@ int do_uncut_text(void)
 #endif
 
     set_modified();
-    return 1;
 }
