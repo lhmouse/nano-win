@@ -114,6 +114,12 @@ CVS code -
 	  handle this. (DLR)
 	- Convert some ints with predefined boundaries to enums. (DLR)
 - cut.c:
+  do_cut_text()
+	- Set concatenate_cut to TRUE unconditionally when doing a
+	  marked cut.  This fixes an incompatibility with Pico where an
+	  extra line is uncut if we do a marked cut that includes the
+	  magicline and immediately follow it with an unmarked cut.
+	  (DLR)
   do_uncut_text()
 	- Maintain current_y's value when uncutting blocks so that
 	  smooth scrolling works correctly. (DLR)

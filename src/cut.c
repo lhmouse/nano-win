@@ -264,13 +264,9 @@ void do_cut_text(void)
 	placewewant = xplustabs();
 	UNSET(MARK_ISSET);
 
-	/* If we just did a marked cut of part of a line, we should add
-	 * the first line of any cut done immediately afterward to the
-	 * end of this cut, as Pico does. */
-	if (current == mark_beginbuf && current_x <
-		strlen(current->data))
-	    concatenate_cut = TRUE;
 	marked_cut = CUT_MARKED;
+	concatenate_cut = TRUE;
+
 	edit_refresh();
 	set_modified();
 	return;
