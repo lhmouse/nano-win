@@ -12,6 +12,7 @@ CVS code -
 	  added parse_next_regex(), changes to edit_add in winio.c(), 
 	  changes to colortype, cleaning up some old cruft. 
 	- Upgrade to gettext 0.10.40, probably broke everything again :)
+	- Upgraded missing and installdirs scripts
 - color.c:
   do_colorinit()
 	- Moved some comments and braces around so color can work 
