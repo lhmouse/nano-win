@@ -2266,15 +2266,6 @@ void edit_refresh(void)
     }
 }
 
-/* Same as above, but touch the window first, so everything is
- * redrawn. */
-void edit_refresh_clearok(void)
-{
-    clearok(edit, TRUE);
-    edit_refresh();
-    clearok(edit, FALSE);
-}
-
 /* Nice generic routine to update the edit buffer, given a pointer to the
  * file struct =) */
 void edit_update(filestruct *fileptr, topmidnone location)

@@ -516,7 +516,6 @@ void update_line(const filestruct *fileptr, size_t index);
 void update_cursor(void);
 void center_cursor(void);
 void edit_refresh(void);
-void edit_refresh_clearok(void);
 void edit_update(filestruct *fileptr, topmidnone location);
 int statusq(int allowtabs, const shortcut *s, const char *def,
 #ifndef NANO_SMALL
