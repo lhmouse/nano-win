@@ -413,7 +413,7 @@ void help_init(void)
     /* Now add our shortcut info */
     for (s = currshortcut; s != NULL; s = s->next) {
 	/* true if the character in s->metaval is shown in first column */
-	int meta_shortcut = 0;
+	int meta_shortcut = FALSE;
 
 	if (s->ctrlval != NANO_NO_KEY) {
 #ifndef NANO_SMALL
@@ -430,7 +430,7 @@ void help_init(void)
 	}
 #ifndef NANO_SMALL
 	else if (s->metaval != NANO_NO_KEY) {
-	    meta_shortcut = 1;
+	    meta_shortcut = TRUE;
 	    if (s->metaval == NANO_ALT_SPACE)
 		ptr += snprintf(ptr, 8, "M-%.5s", _("Space"));
 	    else
@@ -880,8 +880,7 @@ void do_mouse(void)
 {
     int mouse_x, mouse_y;
 
-    if (get_mouseinput(&mouse_x, &mouse_y, 1) == 0) {
-
+    if (get_mouseinput(&mouse_x, &mouse_y, TRUE) == FALSE) {
 	/* Click in the edit window to move the cursor, but only when
 	   we're not in a subfunction. */
 	if (wenclose(edit, mouse_y, mouse_x) && currshortcut == main_list) {
@@ -906,7 +905,7 @@ void do_mouse(void)
 	    xcur = actual_x(current->data, get_page_start(xplustabs()) +
 		mouse_x);
 
-	    /* Selecting where the cursor is toggles the mark.  As does
+	    /* Selecting where the cursor is toggles the mark, as does
 	       selecting beyond the line length with the cursor at the
 	       end of the line. */
 	    if (sameline && xcur == current_x) {
@@ -1810,7 +1809,7 @@ const char *do_alt_speller(char *tempfile_name)
 	/* Only reload the temp file if it isn't a marked selection. */
 #endif
 	free_filestruct(fileage);
-	global_init(1);
+	global_init(TRUE);
 	open_file(tempfile_name, 0, 1);
 #ifndef NANO_SMALL
     }
@@ -2412,9 +2411,10 @@ int do_justify(int full_justify)
     filestruct *mark_beginbuf_save = mark_beginbuf;
     int mark_beginx_save = mark_beginx;
 #endif
+    int kbinput;
+    int meta_key;
 
     size_t indent_len;	/* Generic indentation length. */
-    size_t i;		/* Generic loop variable. */
 
     /* If we're justifying the entire file, start at the beginning. */
     if (full_justify)
@@ -2645,28 +2645,29 @@ int do_justify(int full_justify)
 
     statusbar(_("Can now UnJustify!"));
     /* Display the shortcut list with UnJustify. */
-    shortcut_init(1);
+    shortcut_init(TRUE);
     display_main_list();
     reset_cursor();
 
     /* Now get a keystroke and see if it's unjustify; if not, unget the
      * keystroke and return. */
-    {
-	int meta_key;
-	i = get_kbinput(edit, &meta_key);
-#ifndef DISABLE_MOUSE
-	/* If it was a mouse click, parse it with do_mouse() and it
-	 * might become the unjustify key.  Else give it back to the
-	 * input stream. */
-	if (i == KEY_MOUSE) {
-	    do_mouse();
-	    i = get_kbinput(edit, &meta_key);
-	}
-#endif
-    }
+    kbinput = get_kbinput(edit, &meta_key);
 
-    if (i != NANO_UNJUSTIFY_KEY && i != NANO_UNJUSTIFY_FKEY) {
-	ungetch(i);
+#ifndef DISABLE_MOUSE
+    /* If it was a mouse click, parse it with do_mouse() and it
+     * might become the unjustify key.  Else give it back to the
+     * input stream. */
+    if (kbinput == KEY_MOUSE) {
+	do_mouse();
+	kbinput = get_kbinput(edit, &meta_key);
+    }
+#endif
+
+    if (meta_key || (kbinput != NANO_UNJUSTIFY_KEY &&
+	kbinput != NANO_UNJUSTIFY_FKEY)) {
+	ungetch(kbinput);
+	if (meta_key)
+	    ungetch(NANO_CONTROL_3);
 	placewewant = 0;
     } else {
 	/* Else restore the justify we just did (ungrateful user!). */
@@ -2704,11 +2705,12 @@ int do_justify(int full_justify)
 	    titlebar(NULL);
 	edit_refresh();
     }
+
     cutbuffer = cutbuffer_save;
     /* Note that now cutbottom is invalid, but that's okay. */
     blank_statusbar();
     /* Display the shortcut list with UnCut. */
-    shortcut_init(0);
+    shortcut_init(FALSE);
     display_main_list();
 
     return 0;
@@ -3501,8 +3503,8 @@ int main(int argc, char *argv[])
 #endif
 
     /* Set up the global variables and the shortcuts. */
-    global_init(0);
-    shortcut_init(0);
+    global_init(FALSE);
+    shortcut_init(FALSE);
 
     /* Set up the signal handlers. */
     signal_init();
@@ -3642,14 +3644,11 @@ int main(int argc, char *argv[])
 	    cutbuffer_reset();
 
 	/* Don't even think about changing this string */
-	if (kbinput == NANO_CONTROL_Q)
+	if (kbinput == NANO_XON_KEY)
 	    statusbar(_("XON ignored, mumble mumble."));
-	if (kbinput == NANO_CONTROL_S)
+	if (kbinput == NANO_XOFF_KEY)
 	    statusbar(_("XOFF ignored, mumble mumble."));
-
-	/* If we're in raw mode or using Alt-Alt-x, we have to catch
-	   Control-S and Control-Q */
-	if (kbinput == NANO_CONTROL_Q || kbinput == NANO_CONTROL_S)
+	if (kbinput == NANO_XON_KEY || kbinput == NANO_XOFF_KEY)
 	    keyhandled = TRUE;
 
 	/* Catch ^Z by hand when triggered also */

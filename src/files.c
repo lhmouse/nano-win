@@ -439,10 +439,7 @@ int do_insertfile(int loading_file)
     wrap_reset();
 #endif
 
-#if !defined(DISABLE_BROWSER) || !defined(NANO_SMALL) && defined(ENABLE_MULTIBUFFER)
-  start_again:	/* Goto here when the user cancels the file browser. */
-#endif
-
+  start_again:
 #if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE)
     currshortcut = insertfile_list;
 #endif
@@ -599,7 +596,7 @@ int do_insertfile(int loading_file)
 	    titlebar(NULL);
 
 	    /* And re-init the shortcut list */
-	    shortcut_init(0);
+	    shortcut_init(FALSE);
 	}
 #endif
 
@@ -1019,7 +1016,7 @@ int close_open_file(void)
     unlink_opennode(tmp);
     delete_opennode(tmp);
 
-    shortcut_init(0);
+    shortcut_init(FALSE);
     display_main_list();
     return 0;
 }

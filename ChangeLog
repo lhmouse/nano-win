@@ -1,8 +1,17 @@
 CVS code -
+- General:
+	- More minor comment cleanups. (DLR)
+	- Convert more ints used as boolean values to use TRUE and
+	  FALSE. (David Benbennick and DLR)
+	- Change more instances of ints that can never be negative to
+	  size_t's. (DLR)
 - global.c:
   shortcut_init()
 	- Fix erroneous #ifdef so that nano compiles with
 	  --disable-justify again. (DLR; found by Mike Frysinger)
+- proto.h:
+	- Change the last variable in the prototype for get_mouseinput()
+	  to match the one used in the actual function. (DLR)
 - rcfile.c:
   parse_rcfile()
 	- Have whitespace display default to off instead of on. (Mike

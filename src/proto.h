@@ -218,7 +218,7 @@ char *do_browse_from(const char *inpath);
 #endif
 
 /* Public functions in global.c */
-int length_of_list(const shortcut *s);
+size_t length_of_list(const shortcut *s);
 void sc_init_one(shortcut **shortcutage, int key, const char *desc,
 #ifndef DISABLE_HELP
 	const char *help,
@@ -503,7 +503,7 @@ int get_untranslated_kbinput(int kbinput, size_t position, int
 #endif
 	);
 #ifndef DISABLE_MOUSE
-int get_mouseinput(int *mouse_x, int *mouse_y, int shortcut);
+int get_mouseinput(int *mouse_x, int *mouse_y, int allow_shortcuts);
 #endif
 size_t xplustabs(void);
 size_t actual_x(const char *str, size_t xplus);

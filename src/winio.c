@@ -1239,12 +1239,12 @@ int get_untranslated_kbinput(int kbinput, size_t position, int
 #ifndef DISABLE_MOUSE
 /* Check for a mouse event, and if one's taken place, save the
  * coordinates where it took place in mouse_x and mouse_y.  After that,
- * if allow_shortcuts is zero, return 0.  Otherwise, if the mouse event
- * took place on the shortcut list on the bottom two lines of the screen
- * (assuming that the shortcut list is visible), figure out which
- * shortcut was clicked and ungetch() the equivalent keystroke(s).
- * Return 0 if no keystrokes were ungetch()ed, or 1 if at least one was.
- * Assume that KEY_MOUSE has already been read in. */
+ * assuming allow_shortcuts is FALSE, if the shortcut list on the
+ * bottom two lines of the screen is visible and the mouse event took
+ * place on it, figure out which shortcut was clicked and ungetch() the 
+ * equivalent keystroke(s).  Return FALSE if no keystrokes were 
+ * ungetch()ed, or TRUE if at least one was.  Assume that KEY_MOUSE has 
+ * already been read in. */
 int get_mouseinput(int *mouse_x, int *mouse_y, int allow_shortcuts)
 {
     MEVENT mevent;
@@ -1254,7 +1254,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, int allow_shortcuts)
 
     /* First, get the actual mouse event. */
     if (getmouse(&mevent) == ERR)
-	return 0;
+	return FALSE;
 
     /* Save the screen coordinates where the mouse event took place. */
     *mouse_x = mevent.x;
@@ -1262,7 +1262,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, int allow_shortcuts)
 
     /* If we're not allowing shortcuts' we're done now. */
     if (!allow_shortcuts)
-	return 0;
+	return FALSE;
 
     /* Otherwise, if the current shortcut list is being displayed on the
      * last two lines of the screen and the mouse event took place
@@ -1270,7 +1270,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, int allow_shortcuts)
      * ungetch() the equivalent keystroke(s) for it. */
     if (!ISSET(NO_HELP) && wenclose(bottomwin, *mouse_y, *mouse_x)) {
 	int i, j;
-	int currslen;
+	size_t currslen;
 	    /* The number of shortcuts in the current shortcut list. */
 	const shortcut *s = currshortcut;
 	    /* The actual shortcut we clicked on, starting at the first
@@ -1318,9 +1318,9 @@ int get_mouseinput(int *mouse_x, int *mouse_y, int allow_shortcuts)
 	    ungetch(NANO_CONTROL_3);
 	}
 
-	return 1;
+	return TRUE;
     }
-    return 0;
+    return FALSE;
 }
 #endif
 
@@ -2888,7 +2888,7 @@ int do_yesno(int all, const char *msg)
 	/* Look ma!  We get to duplicate lots of code from
 	 * do_mouse()!! */
 	else if (kbinput == KEY_MOUSE) {
-	    kbinput = get_mouseinput(&mouse_x, &mouse_y, 0);
+	    kbinput = get_mouseinput(&mouse_x, &mouse_y, FALSE);
 
 	    if (mouse_x != -1 && mouse_y != -1 && !ISSET(NO_HELP) &&
 		wenclose(bottomwin, mouse_y, mouse_x) && mouse_x <
@@ -3005,7 +3005,7 @@ int do_cursorpos(int constant)
 
 int do_cursorpos_void(void)
 {
-    return do_cursorpos(0);
+    return do_cursorpos(FALSE);
 }
 
 /* Calculate the next line of help_text, starting at ptr. */

@@ -362,6 +362,8 @@ typedef struct historyheadtype {
 #define NANO_HISTORY_KEY	-3
 
 /* Normal keys. */
+#define NANO_XON_KEY		NANO_CONTROL_Q
+#define NANO_XOFF_KEY		NANO_CONTROL_S
 #define NANO_INSERTFILE_KEY	NANO_CONTROL_R
 #define NANO_INSERTFILE_FKEY	KEY_F(5)
 #define NANO_EXIT_KEY		NANO_CONTROL_X
@@ -457,8 +459,8 @@ typedef struct historyheadtype {
 
 #define MAIN_VISIBLE 12
 
-#define VIEW 1
-#define NOVIEW 0
+#define VIEW TRUE
+#define NOVIEW FALSE
 
 typedef enum {
     JUSTIFY, BEGIN, END
