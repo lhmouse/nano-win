@@ -43,6 +43,8 @@ CVS code -
 	- Get rid of that annoying reversed line when color is on! :)
   edit_add()
 	- Little fixes to let color highlights not bleed onto the next line.
+  statusq()
+	- Initialize "list".
 - m4/gettext.m4:
 	- Back down to 1.1.3 version.
 - faq.html:

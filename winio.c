@@ -1194,7 +1194,7 @@ int statusq(int tabs, shortcut s[], int slen, char *def, char *msg, ...)
     int ret;
 
 #ifndef DISABLE_TABCOMP
-    int list;
+    int list = 0;
 #endif
 
     bottombars(s, slen);
