@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-06-19 01:45-0400\n"
+"POT-Creation-Date: 2000-06-19 01:59-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,6 +21,90 @@ msgstr ""
 
 #: cut.c:148
 msgid "Blew away cutbuffer =)\n"
+msgstr ""
+
+#: files.c:119
+msgid "read_line: not on first line and prev is NULL"
+msgstr ""
+
+#: files.c:180 files.c:193
+#, c-format
+msgid "Read %d lines"
+msgstr ""
+
+#: files.c:211 search.c:126 search.c:144
+#, c-format
+msgid "\"%s\" not found"
+msgstr ""
+
+#. We have a new file
+#: files.c:215
+msgid "New File"
+msgstr ""
+
+#: files.c:224
+#, c-format
+msgid "File \"%s\" is a directory"
+msgstr ""
+
+#: files.c:229
+msgid "Reading File"
+msgstr ""
+
+#: files.c:242
+msgid "File to insert [from ./] "
+msgstr ""
+
+#: files.c:271 files.c:295 files.c:459 nano.c:1171
+msgid "Cancelled"
+msgstr ""
+
+#: files.c:307 files.c:323 files.c:335 files.c:352 files.c:358
+#, c-format
+msgid "Could not open file for writing: %s"
+msgstr ""
+
+#: files.c:315
+msgid "Could not open file: Path length exceeded."
+msgstr ""
+
+#: files.c:340
+#, c-format
+msgid "Wrote >%s\n"
+msgstr ""
+
+#: files.c:367
+#, c-format
+msgid "Could not close %s: %s"
+msgstr ""
+
+#. Try a rename??
+#: files.c:388 files.c:399 files.c:404
+#, c-format
+msgid "Could not open %s for writing: %s"
+msgstr ""
+
+#: files.c:410
+#, c-format
+msgid "Could not set permissions %o on %s: %s"
+msgstr ""
+
+#: files.c:417
+#, c-format
+msgid "Wrote %d lines"
+msgstr ""
+
+#: files.c:438
+msgid "File Name to write"
+msgstr ""
+
+#: files.c:443
+#, c-format
+msgid "filename is %s"
+msgstr ""
+
+#: files.c:448
+msgid "File exists, OVERWRITE ?"
 msgstr ""
 
 #: global.c:110
@@ -509,10 +593,6 @@ msgstr ""
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 
-#: nano.c:1171
-msgid "Cancelled"
-msgstr ""
-
 #: nano.c:1281
 msgid "Cannot resize top win"
 msgstr ""
@@ -557,6 +637,69 @@ msgstr ""
 #: nano.c:1839
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
+msgstr ""
+
+#: search.c:54
+#, c-format
+msgid "Case Sensitive Search%s"
+msgstr ""
+
+#: search.c:55
+#, c-format
+msgid "Search%s"
+msgstr ""
+
+#: search.c:59
+msgid "Search Cancelled"
+msgstr ""
+
+#: search.c:140
+msgid "Search Wrapped"
+msgstr ""
+
+#: search.c:190
+#, c-format
+msgid "Replaced %d occurences"
+msgstr ""
+
+#: search.c:192
+msgid "Replaced 1 occurence"
+msgstr ""
+
+#: search.c:210 search.c:232 search.c:255
+msgid "Replace Cancelled"
+msgstr ""
+
+#: search.c:228
+#, c-format
+msgid "Replace with [%s]"
+msgstr ""
+
+#. last_search is empty
+#: search.c:253
+msgid "Replace with"
+msgstr ""
+
+#: search.c:294
+msgid "Replace this instance?"
+msgstr ""
+
+#. Ask for it
+#: search.c:359
+msgid "Enter line number"
+msgstr ""
+
+#: search.c:361
+msgid "Aborted"
+msgstr ""
+
+#: search.c:381
+msgid "Come on, be reasonable"
+msgstr ""
+
+#: search.c:386
+#, c-format
+msgid "Only %d lines available, skipping to last line"
 msgstr ""
 
 #: winio.c:116
