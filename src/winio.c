@@ -1941,7 +1941,8 @@ void do_statusbar_output(char *output, size_t output_len, bool
 	i += char_buf_len;
 
 	/* More dangerousness fun =) */
-	answer = charealloc(answer, statusbar_xend + char_buf_len + 1);
+	answer = charealloc(answer, statusbar_xend +
+		(char_buf_len * 2));
 
 	assert(statusbar_x <= statusbar_xend);
 
