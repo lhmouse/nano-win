@@ -46,14 +46,14 @@ static int statblank = 0;	/* Number of keystrokes left after
  *   VT220, and VT320.
  * - NANO_XOFF_KEY is Ctrl-S, which is XOFF under ASCII, ANSI, VT100,
  *   VT220, and VT320.
- * - NANO_CONTROL_8 is Ctrl-? (Ctrl-8), which is Delete under ASCII,
+ * - NANO_CONTROL_8 is Ctrl-8 (Ctrl-?), which is Delete under ASCII,
  *   ANSI, VT100, and VT220, and which is Backspace under VT320.
  *
  * Note: VT220s and VT320s also generate Esc [ 3 ~ for Delete.  By
- * default, xterm assumes it's running on a VT320 and generates Ctrl-?
- * (Ctrl-8) for Backspace and Esc [ 3 ~ for Delete.  This causes
+ * default, xterm assumes it's running on a VT320 and generates Ctrl-8
+ * (Ctrl-?) for Backspace and Esc [ 3 ~ for Delete.  This causes
  * problems for VT100-derived terminals such as the FreeBSD console,
- * which expect Ctrl-H for Backspace and Ctrl-? (Ctrl-8) for Delete, and
+ * which expect Ctrl-H for Backspace and Ctrl-8 (Ctrl-?) for Delete, and
  * on which the VT320 sequences are translated by the keypad to KEY_DC
  * and [nothing].  We work around this conflict via the REBIND_DELETE
  * flag: if it's not set, we assume VT320 compatibility, and if it is,
