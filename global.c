@@ -352,7 +352,7 @@ void shortcut_init(int unjustify)
     else
 	sc_init_one(&main_list[4], NANO_REPLACE_KEY, _("Replace"),
 		    nano_replace_msg,
-		    NANO_ALT_R, NANO_REPLACE_FKEY, 0, NOVIEW, do_replace);
+		    NANO_ALT_REPLACE_KEY, NANO_REPLACE_FKEY, 0, NOVIEW, do_replace);
 
     sc_init_one(&main_list[5], NANO_WHEREIS_KEY, _("Where Is"),
 		nano_whereis_msg,
@@ -435,7 +435,7 @@ void shortcut_init(int unjustify)
 
     sc_init_one(&main_list[25], NANO_GOTO_KEY, _("Goto Line"),
 		    nano_goto_msg,
-		    NANO_ALT_G, NANO_GOTO_FKEY, 0, VIEW, do_gotoline_void);
+		    NANO_ALT_GOTO_KEY, NANO_GOTO_FKEY, 0, VIEW, do_gotoline_void);
 
 #if (!defined NANO_SMALL) && (defined HAVE_REGEX_H)
     sc_init_one(&main_list[26], -9, _("Find Other Bracket"),

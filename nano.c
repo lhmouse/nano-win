@@ -3173,7 +3173,8 @@ int main(int argc, char *argv[])
 		/* And for toggle switches */
 		for (i = 0; i <= TOGGLE_LEN - 1 && !keyhandled; i++)
 		    if (kbinput == toggles[i].val ||
-			kbinput == toggles[i].val - 32) {
+			(toggles[i].val > 'a' && 
+				kbinput == toggles[i].val - 32)) {
 			do_toggle(i);
 			keyhandled = 1;
 			break;
