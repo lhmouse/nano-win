@@ -1,8 +1,8 @@
 CVS code -
 - General:
 	- More minor comment cleanups. (DLR)
-	- Convert more ints using 0 and 1 to bools using TRUE and FALSE.
-	  (David Benbennick and DLR)
+	- Convert more ints and functions using 0 and 1 to bools using
+	  TRUE and FALSE. (David Benbennick and DLR)
 	- Change more instances of ints that have large enough upper
 	  bounds and which can never be negative to size_t's, and
 	  convert nano to handle them properly. (DLR)
@@ -102,6 +102,11 @@ CVS code -
   thanks_for_all_the_fish()
 	- Delete topwin, edit, and bottomwin. (David Benbennick)
 - nano.c:
+  help_init()
+	- Fix the display of the translated key descriptions "Up" and
+	  "Space" under all circumstances, and make the help browser
+	  work properly when there are fewer than 24 columns available.
+	  (David Benbennick)
   usage()
 	- Don't translate the option strings for -Z/--restricted.
 	  (David Benbennick)

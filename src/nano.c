@@ -61,7 +61,7 @@ static ssize_t fill = 0;	/* Fill - where to wrap lines,
 				   basically */
 #endif
 #ifndef DISABLE_WRAPPING
-static int same_line_wrap = FALSE;	/* Whether wrapped text should
+static bool same_line_wrap = FALSE;	/* Whether wrapped text should
 					   be prepended to the next
 					   line */
 #endif
@@ -159,7 +159,7 @@ void die(const char *msg, ...)
 void die_save_file(const char *die_filename)
 {
     char *ret;
-    int i = -1;
+    bool failed = TRUE;
 
     /* If we're using restricted mode, don't write any emergency backup
      * files, since that would allow reading from or writing to files
@@ -180,9 +180,9 @@ void die_save_file(const char *die_filename)
 	free(buf);
     }
     if (ret[0] != '\0')
-	i = write_file(ret, TRUE, FALSE, TRUE);
+	failed = -1 == write_file(ret, TRUE, FALSE, TRUE);
 
-    if (i != -1)
+    if (!failed)
 	fprintf(stderr, _("\nBuffer written to %s\n"), ret);
     else
 	fprintf(stderr, _("\nNo %s written (too many backup files?)\n"), ret);
@@ -203,8 +203,8 @@ void print_view_warning(void)
 }
 
 /* Initialize global variables -- no better way for now.  If
- * save_cutbuffer is nonzero, don't set cutbuffer to NULL. */
-void global_init(int save_cutbuffer)
+ * save_cutbuffer is TRUE, don't set cutbuffer to NULL. */
+void global_init(bool save_cutbuffer)
 {
     current_x = 0;
     current_y = 0;
@@ -393,12 +393,12 @@ void help_init(void)
 
     /* The space needed for the shortcut lists, at most COLS characters,
      * plus '\n'. */
-    allocsize += (COLS + 1) * length_of_list(currshortcut);
+    allocsize += (COLS < 21 ? 21 : COLS + 1) * length_of_list(currshortcut);
 
 #ifndef NANO_SMALL
     /* If we're on the main list, we also count the toggle help text.
-     * Each line has "M-%c\t\t\t", which fills 24 columns, plus at most
-     * COLS - 24 characters, plus '\n'.*/
+     * Each line has "M-%c\t\t\t", which fills 24 columns, plus a space,
+     * plus translated text, plus '\n'. */
     if (currshortcut == main_list) {
 	size_t endislen = strlen(_("enable/disable"));
 
@@ -420,18 +420,18 @@ void help_init(void)
 
     /* Now add our shortcut info. */
     for (s = currshortcut; s != NULL; s = s->next) {
-	int meta_shortcut = FALSE;
+	bool meta_shortcut = FALSE;
 		/* TRUE if the character in s->metaval is shown in the
 		 * first column. */
 
 	if (s->ctrlval != NANO_NO_KEY) {
 #ifndef NANO_SMALL
 	    if (s->ctrlval == NANO_HISTORY_KEY)
-		ptr += sprintf(ptr, "%.2s", _("Up"));
+		ptr += sprintf(ptr, "%.7s", _("Up"));
 	    else
 #endif
 	    if (s->ctrlval == NANO_CONTROL_SPACE)
-		ptr += sprintf(ptr, "^%.5s", _("Space"));
+		ptr += sprintf(ptr, "^%.6s", _("Space"));
 	    else if (s->ctrlval == NANO_CONTROL_8)
 		ptr += sprintf(ptr, "^?");
 	    else
@@ -441,7 +441,7 @@ void help_init(void)
 	else if (s->metaval != NANO_NO_KEY) {
 	    meta_shortcut = TRUE;
 	    if (s->metaval == NANO_ALT_SPACE)
-		ptr += snprintf(ptr, 8, "M-%.5s", _("Space"));
+		ptr += sprintf(ptr, "M-%.5s", _("Space"));
 	    else
 		ptr += sprintf(ptr, "M-%c", toupper(s->metaval));
 	}
@@ -794,26 +794,26 @@ RETSIGTYPE cancel_fork(int signal)
 	nperror("kill");
 }
 
-int open_pipe(const char *command)
+/* Return TRUE on success. */
+bool open_pipe(const char *command)
 {
     int fd[2];
     FILE *f;
     struct sigaction oldaction, newaction;
 			/* Original and temporary handlers for
 			 * SIGINT. */
-    int cancel_sigs = 0;
-    /* cancel_sigs == 1 means that sigaction() failed without changing
-     * the signal handlers.  cancel_sigs == 2 means the signal handler
-     * was changed, but the tcsetattr() didn't succeed.
+    bool sig_failed = FALSE;
+    /* sig_failed means that sigaction() failed without changing the
+     * signal handlers.
      *
-     * I use this variable since it is important to put things back when
-     * we finish, even if we get errors. */
+     * We use this variable since it is important to put things back
+     * when we finish, even if we get errors. */
 
     /* Make our pipes. */
 
     if (pipe(fd) == -1) {
 	statusbar(_("Could not pipe"));
-	return 1;
+	return FALSE;
     }
 
     /* Fork a child. */
@@ -823,7 +823,7 @@ int open_pipe(const char *command)
 	dup2(fd[1], fileno(stdout));
 	dup2(fd[1], fileno(stderr));
 	/* If execl() returns at all, there was an error. */
-      
+
 	execl("/bin/sh", "sh", "-c", command, 0);
 	exit(0);
     }
@@ -835,7 +835,7 @@ int open_pipe(const char *command)
     if (pid == -1) {
 	close(fd[0]);
 	statusbar(_("Could not fork"));
-	return 1;
+	return FALSE;
     }
 
     /* Before we start reading the forked command's output, we set
@@ -846,12 +846,12 @@ int open_pipe(const char *command)
     enable_signals();
 
     if (sigaction(SIGINT, NULL, &newaction) == -1) {
-	cancel_sigs = 1;
+	sig_failed = TRUE;
 	nperror("sigaction");
     } else {
 	newaction.sa_handler = cancel_fork;
 	if (sigaction(SIGINT, &newaction, &oldaction) == -1) {
-	    cancel_sigs = 1;
+	    sig_failed = TRUE;
 	    nperror("sigaction");
 	}
     }
@@ -860,9 +860,9 @@ int open_pipe(const char *command)
 
     f = fdopen(fd[0], "rb");
     if (f == NULL)
-      nperror("fdopen");
+	nperror("fdopen");
     
-    read_file(f, "stdin", 0);
+    read_file(f, "stdin", FALSE);
     /* If multibuffer mode is on, we could be here in view mode.  If so,
      * don't set the modification flag. */
     if (!ISSET(VIEW_MODE))
@@ -871,14 +871,14 @@ int open_pipe(const char *command)
     if (wait(NULL) == -1)
 	nperror("wait");
 
-    if (cancel_sigs != 1 && sigaction(SIGINT, &oldaction, NULL) == -1)
+    if (!sig_failed && sigaction(SIGINT, &oldaction, NULL) == -1)
 	nperror("sigaction");
 
     /* Disable interpretation of the special control keys so that we can
      * use Ctrl-C for other things. */
     disable_signals();
 
-    return 0;
+    return TRUE;
 }
 #endif /* !NANO_SMALL */
 
@@ -891,7 +891,7 @@ void do_mouse(void)
 	/* Click in the edit window to move the cursor, but only when
 	   we're not in a subfunction. */
 	if (wenclose(edit, mouse_y, mouse_x) && currshortcut == main_list) {
-	    int sameline;
+	    bool sameline;
 		/* Did they click on the line with the cursor?  If they
 		   clicked on the cursor, we set the mark. */
 	    size_t xcur;
@@ -938,7 +938,7 @@ void do_char(char ch)
 {
     size_t current_len = strlen(current->data);
 #if !defined(DISABLE_WRAPPING) || defined(ENABLE_COLOR)
-    int do_refresh = FALSE;
+    bool do_refresh = FALSE;
 	/* Do we have to call edit_refresh(), or can we get away with
 	 * update_line()? */
 #endif
@@ -1026,7 +1026,7 @@ void do_backspace(void)
 
 void do_delete(void)
 {
-    int do_refresh = FALSE;
+    bool do_refresh = FALSE;
 	/* Do we have to call edit_refresh(), or can we get away with
 	 * update_line()? */
 
@@ -1248,7 +1248,7 @@ void wrap_reset(void)
 /* We wrap the given line.  Precondition: we assume the cursor has been
  * moved forward since the last typed character.  Return value: whether
  * we wrapped. */
-int do_wrap(filestruct *inptr)
+bool do_wrap(filestruct *inptr)
 {
     size_t len = strlen(inptr->data);
 	/* Length of the line we wrap. */
@@ -1264,7 +1264,7 @@ int do_wrap(filestruct *inptr)
 #endif
     const char *after_break;	/* Text after the wrap point. */
     size_t after_break_len;	/* strlen(after_break) */
-    int wrapping = FALSE;	/* Do we prepend to the next line? */
+    bool wrapping = FALSE;	/* Do we prepend to the next line? */
     const char *wrap_line = NULL;
 	/* The next line, minus indentation. */
     size_t wrap_line_len = 0;	/* strlen(wrap_line) */
@@ -1447,8 +1447,8 @@ int do_wrap(filestruct *inptr)
 
 #ifndef DISABLE_SPELLER
 /* A word is misspelled in the file.  Let the user replace it.  We
- * return zero if the user cancels. */
-int do_int_spell_fix(const char *word)
+ * return FALSE if the user cancels. */
+bool do_int_spell_fix(const char *word)
 {
     char *save_search;
     char *save_replace;
@@ -1456,12 +1456,12 @@ int do_int_spell_fix(const char *word)
     filestruct *current_save = current;
     filestruct *edittop_save = edittop;
 	/* Save where we are. */
-    int i = 0;
+    bool accepted = TRUE;
 	/* The return value. */
-    int reverse_search_set = ISSET(REVERSE_SEARCH);
+    bool reverse_search_set = ISSET(REVERSE_SEARCH);
 #ifndef NANO_SMALL
-    int case_sens_set = ISSET(CASE_SENSITIVE);
-    int mark_set = ISSET(MARK_ISSET);
+    bool case_sens_set = ISSET(CASE_SENSITIVE);
+    bool mark_set = ISSET(MARK_ISSET);
 
     SET(CASE_SENSITIVE);
     /* Make sure the marking highlight is off during spell-check. */
@@ -1493,7 +1493,7 @@ int do_int_spell_fix(const char *word)
 	    do_replace_highlight(TRUE, word);
 
 	    /* Allow the replace word to be corrected. */
-	    i = statusq(FALSE, spell_list, word,
+	    accepted = -1 != statusq(FALSE, spell_list, word,
 #ifndef NANO_SMALL
 			NULL,
 #endif
@@ -1501,7 +1501,7 @@ int do_int_spell_fix(const char *word)
 
 	    do_replace_highlight(FALSE, word);
 
-	    if (i != -1 && strcmp(word, answer) != 0) {
+	    if (accepted && strcmp(word, answer) != 0) {
 		search_last_line = FALSE;
 		current_x--;
 		do_replace_loop(word, current_save, &current_x_save, TRUE);
@@ -1534,12 +1534,12 @@ int do_int_spell_fix(const char *word)
 	SET(MARK_ISSET);
 #endif
 
-    return i != -1;
+    return accepted;
 }
 
 /* Integrated spell checking using 'spell' program.  Return value: NULL
  * for normal termination, otherwise the error string. */
-const char *do_int_speller(char *tempfile_name)
+const char *do_int_speller(const char *tempfile_name)
 {
     char *read_buff, *read_buff_ptr, *read_buff_word;
     size_t pipe_buff_size, read_buff_size, read_buff_read, bytesread;
@@ -1735,7 +1735,7 @@ const char *do_alt_speller(char *tempfile_name)
     static int arglen = 3;
     static char **spellargs = (char **)NULL;
 #ifndef NANO_SMALL
-    int mark_set = ISSET(MARK_ISSET);
+    bool mark_set = ISSET(MARK_ISSET);
     int mbb_lineno_cur = 0;
 	/* We're going to close the current file, and open the output of
 	 * the alternate spell command.  The line that mark_beginbuf
@@ -1791,23 +1791,22 @@ const char *do_alt_speller(char *tempfile_name)
     }
 
     refresh();
-#ifndef NANO_SMALL
-    if (!mark_set) {
-	/* Only reload the temp file if it isn't a marked selection. */
-#endif
-	free_filestruct(fileage);
-	terminal_init();
-	global_init(TRUE);
-	open_file(tempfile_name, FALSE, TRUE);
-#ifndef NANO_SMALL
-    }
 
+#ifndef NANO_SMALL
     if (mark_set) {
 	do_gotopos(mbb_lineno_cur, mark_beginx, y_cur, 0);
 	mark_beginbuf = current;
 	/* In case the line got shorter, assign mark_beginx. */
 	mark_beginx = current_x;
 	SET(MARK_ISSET);
+    } else {
+#endif
+	/* Only reload the temp file if it isn't a marked selection. */
+	free_filestruct(fileage);
+	terminal_init();
+	global_init(TRUE);
+	open_file(tempfile_name, FALSE, TRUE);
+#ifndef NANO_SMALL
     }
 #endif
 
@@ -1856,11 +1855,10 @@ void do_spell(void)
     unlink(temp);
     free(temp);
 
-    if (spell_msg != NULL) {
+    if (spell_msg != NULL)
 	statusbar(_("Spell checking failed: %s: %s"), spell_msg,
 		strerror(errno));
-	return;
-    } else
+    else
 	statusbar(_("Finished checking spelling"));
 }
 #endif /* !DISABLE_SPELLER */
@@ -1904,7 +1902,7 @@ void justify_format(filestruct *line, size_t skip)
 
     back = line->data + skip;
     for (front = back; ; front++) {
-	int remove_space = FALSE;
+	bool remove_space = FALSE;
 	    /* Do we want to remove this space? */
 
 	if (*front == '\t')
@@ -1987,7 +1985,8 @@ size_t quote_length(const char *line)
 /* a_line and b_line are lines of text.  The quotation part of a_line is
  * the first a_quote characters.  Check that the quotation part of
  * b_line is the same. */
-int quotes_match(const char *a_line, size_t a_quote, const char *b_line)
+bool quotes_match(const char *a_line, size_t a_quote, const char
+	*b_line)
 {
     /* Here is the assumption about a_quote: */
     assert(a_quote == quote_length(a_line));
@@ -1997,7 +1996,7 @@ int quotes_match(const char *a_line, size_t a_quote, const char *b_line)
 
 /* We assume a_line and b_line have no quote part.  Then, we return
  * whether b_line could follow a_line in a paragraph. */
-size_t indents_match(const char *a_line, size_t a_indent, const char
+bool indents_match(const char *a_line, size_t a_indent, const char
 	*b_line, size_t b_indent)
 {
     assert(a_indent == indent_length(a_line));
@@ -2153,13 +2152,13 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 }
 
 /* Is it possible to break line at or before goal? */
-int breakable(const char *line, int goal)
+bool breakable(const char *line, int goal)
 {
     for (; *line != '\0' && goal >= 0; line++) {
 	if (isblank(*line))
 	    return TRUE;
 
-	if (is_cntrl_char(*line) != 0)
+	if (is_cntrl_char(*line))
 	    goal -= 2;
 	else
 	    goal -= 1;
@@ -2171,10 +2170,10 @@ int breakable(const char *line, int goal)
 
 /* We are trying to break a chunk off line.  We find the last space such
  * that the display length to there is at most goal + 1.  If there is no
- * such space, and force is not 0, then we find the first space.
- * Anyway, we then take the last space in that group of spaces.  The
- * terminating '\0' counts as a space. */
-int break_line(const char *line, int goal, int force)
+ * such space, and force is TRUE, then we find the first space.  Anyway,
+ * we then take the last space in that group of spaces.  The terminating
+ * '\0' counts as a space. */
+int break_line(const char *line, int goal, bool force)
 {
     /* Note that we use int instead of size_t, since goal is at most
      * COLS, the screen width, which will always be reasonably small. */
@@ -2333,7 +2332,7 @@ bool do_para_search(size_t *const quote, size_t *const par)
 
 /* If full_justify is TRUE, justify the entire file.  Otherwise, justify
  * the current paragraph. */
-void do_justify(int full_justify)
+void do_justify(bool full_justify)
 {
     filestruct *first_par_line = NULL;
 	/* Will be the first line of the resulting justified paragraph.
@@ -2881,7 +2880,7 @@ void handle_sigwinch(int s)
     siglongjmp(jmpbuf, 1);
 }
 
-void allow_pending_sigwinch(int allow)
+void allow_pending_sigwinch(bool allow)
 {
     sigset_t winch;
     sigemptyset(&winch);
@@ -2896,7 +2895,7 @@ void allow_pending_sigwinch(int allow)
 #ifndef NANO_SMALL
 void do_toggle(const toggle *which)
 {
-    int enabled;
+    bool enabled;
 
     /* Even easier! */
     TOGGLE(which->flag);
@@ -3006,9 +3005,9 @@ int main(int argc, char *argv[])
 {
     int optchr;
     int startline = 0;		/* Line to try and start at */
-    int fill_flag_used = FALSE;	/* Was the fill option used? */
+    bool fill_flag_used = FALSE;	/* Was the fill option used? */
     const shortcut *s;
-    int keyhandled = FALSE;	/* Have we handled the keystroke yet? */
+    bool keyhandled = FALSE;	/* Have we handled the keystroke yet? */
     int kbinput;		/* Input from keyboard */
     int meta_key;
 

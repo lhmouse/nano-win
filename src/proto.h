@@ -265,7 +265,7 @@ void die(const char *msg, ...);
 void die_save_file(const char *die_filename);
 void die_too_small(void);
 void print_view_warning(void);
-void global_init(int save_cutbuffer);
+void global_init(bool save_cutbuffer);
 void window_init(void);
 #ifndef DISABLE_MOUSE
 void mouse_init(void);
@@ -291,7 +291,7 @@ int no_help(void);
 void nano_disabled_msg(void);
 #ifndef NANO_SMALL
 RETSIGTYPE cancel_fork(int signal);
-int open_pipe(const char *command);
+bool open_pipe(const char *command);
 #endif
 #ifndef DISABLE_MOUSE
 void do_mouse(void);
@@ -309,11 +309,11 @@ void do_mark(void);
 #endif
 #ifndef DISABLE_WRAPPING
 void wrap_reset(void);
-int do_wrap(filestruct *inptr);
+bool do_wrap(filestruct *inptr);
 #endif
 #ifndef DISABLE_SPELLER
-int do_int_spell_fix(const char *word);
-const char *do_int_speller(char *tempfile_name);
+bool do_int_spell_fix(const char *word);
+const char *do_int_speller(const char *tempfile_name);
 const char *do_alt_speller(char *tempfile_name);
 void do_spell(void);
 #endif
@@ -323,8 +323,9 @@ size_t indent_length(const char *line);
 #ifndef DISABLE_JUSTIFY
 void justify_format(filestruct *line, size_t skip);
 size_t quote_length(const char *line);
-int quotes_match(const char *a_line, size_t a_quote, const char *b_line);
-size_t indents_match(const char *a_line, size_t a_indent, const char
+bool quotes_match(const char *a_line, size_t a_quote, const char
+	*b_line);
+bool indents_match(const char *a_line, size_t a_indent, const char
 	*b_line, size_t b_indent);
 bool begpar(const filestruct *const foo);
 void do_para_begin(void);
@@ -332,10 +333,10 @@ bool inpar(const char *str);
 void do_para_end(void);
 filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 	quote_len);
-int breakable(const char *line, int goal);
-int break_line(const char *line, int goal, int force);
+bool breakable(const char *line, int goal);
+int break_line(const char *line, int goal, bool force);
 bool do_para_search(size_t *const quote, size_t *const par);
-void do_justify(int full_justify);
+void do_justify(bool full_justify);
 void do_justify_void(void);
 void do_full_justify(void);
 #endif /* !DISABLE_JUSTIFY */
@@ -346,7 +347,7 @@ RETSIGTYPE do_suspend(int signal);
 RETSIGTYPE do_cont(int signal);
 #ifndef NANO_SMALL
 void handle_sigwinch(int s);
-void allow_pending_sigwinch(int allow);
+void allow_pending_sigwinch(bool allow);
 #endif
 #ifndef NANO_SMALL
 void do_toggle(const toggle *which);
