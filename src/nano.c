@@ -240,8 +240,7 @@ void window_init(void)
     topwin = newwin(2, COLS, 0, 0);
     bottomwin = newwin(3 - no_help(), COLS, LINES - 3 + no_help(), 0);
 
-    /* Turn the keypad on, so that it still works after a Meta-X, for
-     * example. */
+    /* Turn the keypad on, so that it still works after a Meta-X. */
     keypad(edit, TRUE);
     keypad(bottomwin, TRUE);
 }
@@ -2978,10 +2977,13 @@ void handle_sigwinch(int s)
     /* Turn cursor back on for sure. */
     curs_set(1);
 
-    /* Turn the keypad on, so that it still works if we resized during
-     * verbatim input, for example. */
+    /* Turn the keypad on and switch to cbreak mode, so that the keypad
+     * and input still work if we resized during verbatim input. */
     keypad(edit, TRUE);
     keypad(bottomwin, TRUE);
+#ifdef _POSIX_VDISABLE
+    cbreak();
+#endif
 
     /* Jump back to the main loop. */
     siglongjmp(jmpbuf, 1);
