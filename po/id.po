@@ -488,8 +488,8 @@ msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
 msgstr "-i      --autoindent    Indentasi baris barus secara otomatis\n"
 
 #: nano.c:340
-msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite.\n"
-msgstr "-l      --nofollow      Jangan ikuti link simbolik, timpa.\n"
+msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
+msgstr "-l      --nofollow      Jangan ikuti link simbolik, timpa\n"
 
 #: nano.c:343
 msgid " -m \t\t--mouse\t\t\tEnable mouse\n"
@@ -574,8 +574,8 @@ msgid " -i \t\tAutomatically indent new lines\n"
 msgstr "-i     Indent baris barus secara otomatis\n"
 
 #: nano.c:378
-msgid " -l \t\tDon't follow symbolic links, overwrite.\n"
-msgstr "-l     Jangan ikuti link simbolik, timpa.\n"
+msgid " -l \t\tDon't follow symbolic links, overwrite\n"
+msgstr "-l     Jangan ikuti link simbolik, timpa\n"
 
 #: nano.c:381
 msgid " -m \t\tEnable mouse\n"

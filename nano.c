@@ -337,7 +337,7 @@ void usage(void)
     printf(_
 	   (" -i 		--autoindent		Automatically indent new lines\n"));
     printf(_
-	   (" -l 		--nofollow		Don't follow symbolic links, overwrite.\n"));
+	   (" -l 		--nofollow		Don't follow symbolic links, overwrite\n"));
 #ifndef NANO_SMALL
 #ifdef NCURSES_MOUSE_VERSION
     printf(_(" -m 		--mouse			Enable mouse\n"));
@@ -375,7 +375,7 @@ void usage(void)
 #endif
     printf(_(" -i 		Automatically indent new lines\n"));
     printf(_
-	   (" -l 		Don't follow symbolic links, overwrite.\n"));
+	   (" -l 		Don't follow symbolic links, overwrite\n"));
 #ifndef NANO_SMALL
 #ifdef NCURSES_MOUSE_VERSION
     printf(_(" -m 		Enable mouse\n"));

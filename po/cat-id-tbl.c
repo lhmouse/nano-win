@@ -133,7 +133,7 @@ Usage: nano [GNU long option] [option] +LINE <file>\n\
   {" -h \t\t--help\t\t\tShow this message\n", 103},
   {" -k \t\t--cut\t\t\tLet ^K cut from cursor to end of line\n", 104},
   {" -i \t\t--autoindent\t\tAutomatically indent new lines\n", 105},
-  {" -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite.\n", 106},
+  {" -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n", 106},
   {" -m \t\t--mouse\t\t\tEnable mouse\n", 107},
   {"\
  -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n", 108},
@@ -156,7 +156,7 @@ Usage: nano [option] +LINE <file>\n\
   {" -h \t\tShow this message\n", 123},
   {" -k \t\tLet ^K cut from cursor to end of line\n", 124},
   {" -i \t\tAutomatically indent new lines\n", 125},
-  {" -l \t\tDon't follow symbolic links, overwrite.\n", 126},
+  {" -l \t\tDon't follow symbolic links, overwrite\n", 126},
   {" -m \t\tEnable mouse\n", 127},
   {" -r [#cols] \tSet fill cols to (wrap lines at) #cols\n", 128},
   {" -s [prog]  \tEnable alternate speller\n", 129},

@@ -500,7 +500,7 @@ msgstr ""
 " -i \t\t--autoindent\t\tIndenter automatiquement les nouvelles lignes\n"
 
 #: nano.c:340
-msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite.\n"
+msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
 msgstr ""
 " -l \t\t--nofollow\t\tNe suit pas les liens symboliques. Outrepasse "
 "l'écriture\n"
@@ -593,7 +593,7 @@ msgid " -i \t\tAutomatically indent new lines\n"
 msgstr " -i \t\tIndenter automatiquement les nouvelles lignes\n"
 
 #: nano.c:378
-msgid " -l \t\tDon't follow symbolic links, overwrite.\n"
+msgid " -l \t\tDon't follow symbolic links, overwrite\n"
 msgstr "-l \t\tNe pas suivre les liens symboliques. Outrepasse à l'écriture\n"
 
 #: nano.c:381

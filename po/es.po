@@ -489,9 +489,9 @@ msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
 msgstr " -i \t\t--autoindent\t\tIndentar automáticamente nuevas líneas\n"
 
 #: nano.c:340
-msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite.\n"
+msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
 msgstr ""
-" -l \t\t--nofollow\t\tNo seguir enlaces simbólicos, sobreescribirlos.\n"
+" -l \t\t--nofollow\t\tNo seguir enlaces simbólicos, sobreescribirlos\n"
 
 #: nano.c:343
 msgid " -m \t\t--mouse\t\t\tEnable mouse\n"
@@ -575,8 +575,8 @@ msgid " -i \t\tAutomatically indent new lines\n"
 msgstr " -v \t\tIndentar automáticamente nuevas líneas\n"
 
 #: nano.c:378
-msgid " -l \t\tDon't follow symbolic links, overwrite.\n"
-msgstr " -l \t\tNo seguir enlaces simbólicos, sobreescribirlos.\n"
+msgid " -l \t\tDon't follow symbolic links, overwrite\n"
+msgstr " -l \t\tNo seguir enlaces simbólicos, sobreescribirlos\n"
 
 #: nano.c:381
 msgid " -m \t\tEnable mouse\n"

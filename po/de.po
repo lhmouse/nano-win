@@ -487,7 +487,7 @@ msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
 msgstr " -i \t\t--autoindent\t\tNeue Zeilen automatisch einrücken\n"
 
 #: nano.c:340
-msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite.\n"
+msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
 msgstr ""
 " -l \t\t--nofollow\t\tSymbolischen Links nicht folgen, sondern "
 "überschreiben.\n"
@@ -579,7 +579,7 @@ msgid " -i \t\tAutomatically indent new lines\n"
 msgstr " -i \t\tNeue Zeilen automatisch einrücken\n"
 
 #: nano.c:378
-msgid " -l \t\tDon't follow symbolic links, overwrite.\n"
+msgid " -l \t\tDon't follow symbolic links, overwrite\n"
 msgstr " -l \t\tSymbolischen Links nicht folgen, sondern überschreiben\n"
 
 #: nano.c:381
