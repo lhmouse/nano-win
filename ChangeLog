@@ -104,6 +104,8 @@ CVS code -
 - nanorc.sample:
 	- Fix the c-file regex for all caps words to be extended regex
 	  format ({} instead of \{\}) (found by DLR).
+- faq.html:
+	- Typo fix. (DLR)
 - TODO:
 	- Add entry in the 1.4 section for Pico's paragraph searching
 	  ability (at the search prompt, ^W goes to the paragraph's
