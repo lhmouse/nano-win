@@ -4,7 +4,6 @@
 # Clement Laforet <sheep.killer@free.fr>, 2000.
 # Michel Robitaille <robitail@IRO.UMontreal.CA>, 2001.
 # Jean-Philippe Guérard <jean-philippe.guerard@laposte.net>, 2001, 2002.
-# $Id$
 #
 msgid ""
 msgstr ""
@@ -187,7 +186,7 @@ msgstr "En mode restreint, sortir de %s est impossible"
 
 #: files.c:2304
 msgid "Goto Cancelled"
-msgstr "Mouvement annulé"
+msgstr "Changement de répertoire annulé"
 
 #: global.c:167
 msgid "Constant cursor position"
@@ -681,7 +680,7 @@ msgstr " -o [rép] \t--operatingdir=[rép]\tDéfinir le répertoire de travail\n"
 
 #: nano.c:464
 msgid " -p \t\t--pico\t\t\tEmulate Pico as closely as possible\n"
-msgstr " -p \t\t--pico\t\t\tImiter Pico le mieux possible\n"
+msgstr " -p \t\t--pico\t\t\tImiter Pico du mieux possible\n"
 
 #: nano.c:469
 msgid " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
@@ -785,7 +784,7 @@ msgstr " -o [rép] \tDéfinir le répertoire de travail\n"
 
 #: nano.c:524
 msgid " -p \t\tEmulate Pico as closely as possible\n"
-msgstr " -p \t\tImiter Pico le mieux possible\n"
+msgstr " -p \t\tImiter Pico du mieux possible\n"
 
 #: nano.c:528
 msgid " -r [#cols] \tSet fill cols to (wrap lines at) #cols\n"
