@@ -173,6 +173,9 @@ CVS code -
   open_prevfile(), open_nextfile()
 	- Translate the "New Buffer" string when displaying "Switched
 	  to" messages on the statusbar. (DLR)
+  input_tab()
+	- Fix snprintf() call so that we don't segfault when trying to
+	  complete a filename containing %'s. (Ulf Harnhammar)
 - global.c:
   shortcut_init()
 	- Remove redundant NANO_SMALL #ifdef. (DLR)

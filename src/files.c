@@ -2406,7 +2406,7 @@ char *input_tab(char *buf, int place, bool *lastwastab, int *newplace,
 
 		/* make each filename shown be the same length as the
 		   longest filename, with two spaces at the end */
-		snprintf(foo, longestname + 1, matches[i]);
+		snprintf(foo, longestname + 1, "%s", matches[i]);
 		while (strlen(foo) < longestname)
 		    strcat(foo, " ");
 
