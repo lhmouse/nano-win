@@ -51,6 +51,10 @@ Cvs code -
 	- New macro TOGGLE which just toggles, no more silly checking
 	  ISSET and then using SET or UNSET when we want a simple toggle
 	  for a flag.
+- Makefile.am:
+	- Include ABOUT-NLS and the new THANKS files to the distributed list.
+- THANKS:
+	- Initial, incomplete list of people to thank.
 - configure.in:
 	- New option, --enable-nanorc, which allows people to have a .nanorc
 	  initialization file and set options normally used on the command
