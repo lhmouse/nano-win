@@ -579,9 +579,9 @@ const char *nstrcasestr(const char *haystack, const char *needle)
     assert(haystack != NULL && needle != NULL);
 
     for (; *haystack != '\0'; haystack++) {
-	const char *p = haystack, *q = needle;
+	const char *r = haystack, *q = needle;
 
-	for (; tolower(*p) == tolower(*q) && *q != '\0'; p++, q++)
+	for (; tolower(*r) == tolower(*q) && *q != '\0'; r++, q++)
 	    ;
 
 	if (*q == '\0')
@@ -597,23 +597,23 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 {
 #ifdef NANO_WIDE
     if (!ISSET(NO_UTF8)) {
-	char *p_mb = charalloc(MB_CUR_MAX);
+	char *r_mb = charalloc(MB_CUR_MAX);
 	char *q_mb = charalloc(MB_CUR_MAX);
-	wchar_t wp, wq;
+	wchar_t wr, wq;
 	bool found_needle = FALSE;
 
 	assert(haystack != NULL && needle != NULL);
 
 	while (*haystack != '\0') {
-	    const char *p = haystack, *q = needle;
-	    int p_mb_len, q_mb_len;
+	    const char *r = haystack, *q = needle;
+	    int r_mb_len, q_mb_len;
 
 	    while (*q != '\0') {
-		p_mb_len = parse_mbchar(p, p_mb, NULL, NULL);
+		r_mb_len = parse_mbchar(r, r_mb, NULL, NULL);
 
-		if (mbtowc(&wp, p_mb, p_mb_len) <= 0) {
+		if (mbtowc(&wr, r_mb, r_mb_len) <= 0) {
 		    mbtowc(NULL, NULL, 0);
-		    wp = (unsigned char)*p;
+		    wr = (unsigned char)*r;
 		}
 
 		q_mb_len = parse_mbchar(q, q_mb, NULL, NULL);
@@ -623,10 +623,10 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 		    wq = (unsigned char)*q;
 		}
 
-		if (towlower(wp) != towlower(wq))
+		if (towlower(wr) != towlower(wq))
 		    break;
 
-		p += p_mb_len;
+		r += r_mb_len;
 		q += q_mb_len;
 	    }
 
@@ -638,7 +638,7 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 	    haystack += parse_mbchar(haystack, NULL, NULL, NULL);
 	}
 
-	free(p_mb);
+	free(r_mb);
 	free(q_mb);
 
 	return found_needle ? haystack : NULL;
