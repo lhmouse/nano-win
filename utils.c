@@ -48,37 +48,26 @@ void lowercase(char *src)
 }
 
 
-/* I can't believe I have to write this function */
+/* This is now mutt's version (called mutt_stristr) because it doesn't
+   use memory allocation to do a simple search (yuck). */
 char *strcasestr(char *haystack, char *needle)
 {
-    char *localneedle, *localhaystack, *found, *tmp, *tmp2;
+    const char *p, *q;
 
-    /* Make a copy of the search string and search space */
-    localneedle = nmalloc(strlen(needle) + 2);
-    localhaystack = nmalloc(strlen(haystack) + 2);
-
-    strcpy(localneedle, needle);
-    strcpy(localhaystack, haystack);
-
-    /* Make them lowercase */
-    lowercase(localneedle);
-    lowercase(localhaystack);
-
-    /* Look for the lowercased substring in the lowercased search space -
-       return NULL if we didn't find anything */
-    if ((found = strstr(localhaystack, localneedle)) == NULL) {
-	free(localneedle);
-	free(localhaystack);
+    if (!haystack)
 	return NULL;
+    if (!needle)  
+	return (haystack);
+    
+    while (*(p = haystack))
+    {
+	for (q = needle; *p && *q && tolower (*p) == tolower (*q); p++, q++)
+	    ;
+	if (!*q)
+	    return (haystack);
+        haystack++;
     }
-    /* Else return the pointer to the same place in the real search space */
-    tmp2 = haystack;
-    for (tmp = localhaystack; tmp != found; tmp++)
-	tmp2++;
-
-    free(localneedle);
-    free(localhaystack);
-    return tmp2;
+    return NULL;
 }
 
 char *strstrwrapper(char *haystack, char *needle)
