@@ -48,7 +48,9 @@ THE HECK DO I DO NOW?</a></font>
 <br><font color="#330000"><a href="#3.4">3.4. I get errors about 'bindtextdomain',
 'gettext' and/or 'gettextdomain'.&nbsp; What can I do about it?</a></font>
 <br><font color="#330000"><a href="#3.5">3.5. Nano should automatically 
-run strip on the binary when installing it!</a></font></blockquote>
+run strip on the binary when installing it!</a></font>
+<br><font color="#330000"><a href="#3.6">3.6. How can I make the
+executable smaller?  This is too bloated!</a></font></blockquote>
 
 <h2>
 <font color="#330000"><a href="#4">4. Running</a></font></h2>
@@ -310,7 +312,8 @@ try this:</font>
 <p><font color="#330000">(again, where x.y.z is the version number in question).&nbsp;
 Then you need to run configure with any options you might want (if any).</font>
 <p><font color="#330000">The average case is this:</font>
-<p><b><font color="#330000">./configure</font></b>
+<p><b><font color="#330000">cd nano-x.y.z/</font></b>
+<br><b><font color="#330000">./configure</font></b>
 <br><b><font color="#330000">make</font></b>
 <br><font color="#330000"><b>make install </b>(as root, of course)</font></blockquote>
 
@@ -340,8 +343,31 @@ run strip on the binary when installing it!</font></h2>
 <b>make install-strip</b>.  The default make install does not, and will
 not, run strip automatically.</font></blockquote>
 
-<hr WIDTH="100%">
-<h1>
+<h2>
+<a NAME="3.6"></a><font color="#330000">
+3.6. How can I make the executable smaller?  This is too
+bloated!</font></h2>
+
+<blockquote><font color="#330000">Actually, there are several parts of the
+editor that can be disabled.  You can pass arguments to the
+<b>configure</b> script that disable certain features.   Here's a brief
+list:
+<pre>
+<b>--disable-tabcomp</b>       Disables tab completion code for a smaller binary
+<b>--disable-justify</b>       Disable justify/unjustify function
+<b>--disable-speller</b>       Disables spell checker function
+<b>--disable-help</b>          Disables help function (^G)
+<b>--disable-browser</b>       Disables mini file browser
+</pre><br>
+There's also the <b>--enable-tiny</b> option which disabled everything
+above, as well as some larger chunks of the program (like the marker code
+that you use Control-^ to select with).  Also, if you know you aren't
+going to be using other languages you can use <b>--disable-nls</b> to
+disable internationalization and save a few K to a few dozen K depending
+on if you have locale support on your system. And finally there's always
+good old <b>strip</b> to strip all debugging code and code that exists in
+libraries on your system.
+</font></blockquote> <hr WIDTH="100%"> <h1>
 <a NAME="4"></a><font color="#330000">4. Running</font></h1>
 
 <h2>
