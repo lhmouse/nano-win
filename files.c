@@ -1085,7 +1085,7 @@ void free_charptrarray(char **array, int len)
 {
     int i;
 
-    for (i = 0; i < len - 1; i++)
+    for (i = 0; i < len; i++)
 	free(array[i]);
     free(array);
 }
@@ -1124,7 +1124,10 @@ void striponedir(char *foo)
     if (tmp != foo)
 	*tmp = 0;
     else
+    { /* SPK may need to make a 'default' path here */
+        if (*tmp != '/') *(tmp) = '.';
 	*(tmp+1) = 0;
+    }
 
     return;
 }
@@ -1253,6 +1256,17 @@ char *do_browser(char *inpath)
 	    else
 		path = mallocstrcpy(path, filelist[selected]);
 
+	    /* SPK for '.' path, get the current path via getcwd */
+	    if (!strcmp(path, "./..")) {
+		free(path);
+		path = getcwd(NULL, 0);
+		striponedir(path);		    
+		align(&path);
+		free_charptrarray(filelist, numents);
+		free(foo);
+		return do_browser(path);
+	    }
+
 	    st = filestat(path);
 	    if (S_ISDIR(st.st_mode)) {
 		if (opendir(path) == NULL) {
@@ -1272,6 +1286,8 @@ char *do_browser(char *inpath)
 		}
 
 		/* Start over again with the new path value */
+		free_charptrarray(filelist, numents);
+		free(foo);
 		return do_browser(path);
 	    } else {
 		retval = path;
