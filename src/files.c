@@ -1842,7 +1842,7 @@ int do_writeout(const char *path, int exiting, int append)
 #ifndef NANO_SMALL
 		&& (!ISSET(MARK_ISSET) || exiting)
 #endif
-							) {
+		) {
 		i = do_yesno(0, 0, _("Save file under DIFFERENT NAME ?"));
 		if (i == 0 || i == -1)
 		    continue;
