@@ -2307,6 +2307,9 @@ int do_justify(void)
     /* Put the whole paragraph into one big line. */
     while (current->next && !isspace((int) current->next->data[0])
 	   && !strncmp(current->next->data, samecheck->data, qdepth)
+
+	   /* Don't continue if current->next is indented more! */
+	   && strncmp(&current->next->data[qdepth], quotestr, strlen(quotestr))
 	   && !empty_line(&current->next->data[qdepth])) {
 	filestruct *tmpnode = current->next;
 	int len = strlen(current->data);

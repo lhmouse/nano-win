@@ -57,6 +57,9 @@ CVS code -
   justify_format(), do_justify()
         - Various fixes for starting blank spaces, spaces after
           punctuation, & segfault with quoting strings (David Benbennick).
+  do_justify()
+	- Don't continue to justify string if it's indented more 
+	  (quoting wise) than the beginning of the justification.
   help_init()
 	- Added message re: having multiple blank buffers (DLR).
   main()
