@@ -1,6 +1,6 @@
 
 	GNU nano - an enhanced clone of the Pico text editor.
-                                      
+
 Overview
 
      The nano project was started because of a few "problems" with the
@@ -53,11 +53,10 @@ Mailing List and Bug Reports
 
 Current Status
 
-	GNU nano has finally reached its first stable release (1.0).
-	The development tree will fork soon and it will be called 1.1.x,
-	in the Linux kernel naming style.  Many thanks to all of our
-	bug reporters and contributors of code to get nano where it is
-	today.
+	This is the 1.1 or unstable branch of nano.  New features
+	will be added and things will be changed around and basically
+	stabiliity is not guaranteed.  If this is not what you're
+	interested in, please use the latest 1.0.x release of nano.
 
    Chris Allegretta (chrisa@asty.org)
 
