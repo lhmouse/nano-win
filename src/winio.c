@@ -1656,8 +1656,15 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	input == NANO_HOME_KEY || input == NANO_END_KEY ||
 	input == NANO_FORWARD_KEY || input == NANO_BACK_KEY ||
 	input == NANO_BACKSPACE_KEY || input == NANO_DELETE_KEY ||
-	input == NANO_CUT_KEY || (*meta_key == TRUE &&
-	input == NANO_VERBATIM_KEY));
+	input == NANO_CUT_KEY ||
+#ifndef NANO_SMALL
+		input == NANO_NEXTWORD_KEY ||
+#endif
+		(*meta_key == TRUE && (
+#ifndef NANO_SMALL
+		input == NANO_PREVWORD_KEY ||
+#endif
+		input == NANO_VERBATIM_KEY)));
 
     /* Set s_or_t to TRUE if we got a shortcut. */
     *s_or_t = have_shortcut;
@@ -1746,6 +1753,15 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 			currshortcut != writefile_list)
 			do_statusbar_cut_text();
 		    break;
+#ifndef NANO_SMALL
+		case NANO_NEXTWORD_KEY:
+		    do_statusbar_next_word();
+		    break;
+		case NANO_PREVWORD_KEY:
+		    if (*meta_key == TRUE)
+			do_statusbar_prev_word();
+		    break;
+#endif
 		case NANO_VERBATIM_KEY:
 		    if (*meta_key == TRUE) {
 			/* If we're using restricted mode, the filename
@@ -1884,6 +1900,142 @@ void do_statusbar_cut_text(void)
 	statusbar_xend = 0;
     }
 }
+
+#ifndef NANO_SMALL
+void do_statusbar_next_word(void)
+{
+    char *char_mb = charalloc(mb_cur_max());
+    int char_mb_len;
+
+    assert(answer != NULL);
+
+    /* Move forward until we find the character after the last letter of
+     * the current word. */
+    while (statusbar_x < statusbar_xend) {
+	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		, NULL);
+
+	/* If we've found it, stop moving forward through the current
+	 * line. */
+	if (!is_alnum_mbchar(char_mb))
+	    break;
+
+	statusbar_x += char_mb_len;
+    }
+
+    /* Move forward until we find the first letter of the next word. */
+    if (statusbar_x < statusbar_xend)
+	current_x += char_mb_len;
+
+    while (statusbar_x < statusbar_xend) {
+	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		, NULL);
+
+	/* If we've found it, stop moving forward through the current
+	 * line. */
+	if (is_alnum_mbchar(char_mb))
+	    break;
+
+	statusbar_x += char_mb_len;
+    }
+
+    free(char_mb);
+}
+
+void do_statusbar_prev_word(void)
+{
+    char *char_mb = charalloc(mb_cur_max());
+    int char_mb_len;
+    bool begin_line = FALSE;
+
+    assert(answer != NULL);
+
+    /* Move backward until we find the character before the first letter
+     * of the current word. */
+    while (!begin_line) {
+	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		, NULL);
+
+	/* If we've found it, stop moving backward through the current
+	 * line. */
+	if (!is_alnum_mbchar(char_mb))
+	    break;
+
+	if (statusbar_x == 0)
+	    begin_line = TRUE;
+	else
+	    statusbar_x = move_mbleft(answer, statusbar_x);
+    }
+
+    /* Move backward until we find the last letter of the previous
+     * word. */
+    if (statusbar_x == 0)
+	begin_line = TRUE;
+    else
+	statusbar_x = move_mbleft(answer, statusbar_x);
+
+    while (!begin_line) {
+	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		, NULL);
+
+	/* If we've found it, stop moving backward through the current
+	 * line. */
+	if (is_alnum_mbchar(char_mb))
+	    break;
+
+	if (statusbar_x == 0)
+	    begin_line = TRUE;
+	else
+	    statusbar_x = move_mbleft(answer, statusbar_x);
+    }
+
+    /* If we've found it, move backward until we find the character
+     * before the first letter of the previous word. */
+    if (!begin_line) {
+	if (statusbar_x == 0)
+	    begin_line = TRUE;
+	else
+	    statusbar_x = move_mbleft(answer, statusbar_x);
+
+	while (!begin_line) {
+	    char_mb_len = parse_mbchar(answer + statusbar_x, char_mb
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		, NULL);
+
+	    /* If we've found it, stop moving backward through the
+	     * current line. */
+	    if (!is_alnum_mbchar(char_mb))
+		break;
+
+	    if (statusbar_x == 0)
+		begin_line = TRUE;
+	    else
+		statusbar_x = move_mbleft(answer, statusbar_x);
+	}
+
+	/* If we've found it, move forward to the first letter of the
+	 * previous word. */
+	if (!begin_line)
+	    statusbar_x += char_mb_len;
+    }
+
+    free(char_mb);
+}
+#endif
 
 void do_statusbar_verbatim_input(bool *got_enter)
 {

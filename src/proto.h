@@ -611,6 +611,10 @@ void do_statusbar_left(void);
 void do_statusbar_backspace(void);
 void do_statusbar_delete(void);
 void do_statusbar_cut_text(void);
+#ifndef NANO_SMALL
+void do_statusbar_next_word(void);
+void do_statusbar_prev_word(void);
+#endif
 void do_statusbar_verbatim_input(bool *got_enter);
 void do_statusbar_output(char *output, size_t output_len, bool
 	*got_enter);

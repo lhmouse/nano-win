@@ -124,6 +124,10 @@ CVS code -
 	  no_more_space() and blank_topbar(); changes to global_init(),
 	  window_init(), handle_sigwinch(), do_toggle(), etc. (DLR;
 	  suggested by Mike Frysinger, Rocco, and Robert Schultz)
+	- Add support for moving to the next or previous word at the
+	  statusbar prompt.  New functions do_statusbar_next_word() and
+	  do_statusbar_prev_word(); changes to do_statusbar_input().
+	  (DLR)
 - cut.c:
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the
