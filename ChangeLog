@@ -102,7 +102,7 @@ CVS code -
 	  beginning characters of tabs and spaces via the rcfile entry
 	  "whitespace".  This is disabled if nanorc support is disabled
 	  or if we're in tiny mode.  Displaying the new characters is
-	  toggled on and off by Meta-P; the default is off. (Mike
+	  toggled on and off by Meta-P; the default is on. (Mike
 	  Frysinger; minor changes and adaptations by DLR)
 	- Add the ability to change the closing punctuation and closing
 	  brackets used to control justification, via the rcfile

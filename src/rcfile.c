@@ -605,7 +605,8 @@ void parse_rcfile(FILE *rcstream)
 				    rcfile_error(_("Two non-control characters required"));
 				    free(whitespace);
 				    whitespace = NULL;
-				}
+				} else
+				    SET(WHITESPACE_DISPLAY);
 			    } else
 #endif
 #ifndef DISABLE_JUSTIFY
