@@ -14,7 +14,8 @@ man_MANS = nano.1
 nano_LDADD = @INTLLIBS@
 
 EXTRA_DIST =	AUTHORS BUGS COPYING ChangeLog INSTALL NEWS README \
-		TODO install-sh missing mkinstalldirs nano.1 nano.1.html
+		TODO install-sh missing mkinstalldirs nano.1 nano.1.html \
+		faq.html
 
 SUBDIRS = po intl
 
