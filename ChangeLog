@@ -54,6 +54,9 @@ CVS code -
 - nano.1:
 	- Added Noconvert option to man page (DLR).
 - nano.c:
+  justify_format(), do_justify()
+        - Various fixes for starting blank spaces, spaces after
+          punctuation, & segfault with quoting strings (David Benbennick).
   help_init()
 	- Added message re: having multiple blank buffers (DLR).
   main()
@@ -72,13 +75,16 @@ CVS code -
 	- Make bottom list dynamic with screen size (Guus Sliepen & Chris).
 	- More cleanups w/width of shortcut.
 - utils.c:
-  strstrwrapper()
-	- NANO_SMALL test was backwards (Ken Tyler).
-- utils.c:
   strcasestr(),revstrcasestr()
 	- Renamed to stristr and revstristr since strcasestr has not
 	  been confirmed to be detected properly on various Linux
 	  systems.
+  strstrwrapper()
+	- NANO_SMALL test was backwards (Ken Tyler).
+- winio.c:
+  strlenpt()    
+        - Changed main function to strnlenpt() for new justify changes,
+          original function now just a stub.
 - nanorc.sample
 	- Mention unset in the sample nanorc.
 - po/ca.po, po/es.po:

@@ -2201,8 +2201,8 @@ void justify_format(char *data)
     int i = 0;
     int len = strlen(data);
 
-    /* Skip first character regardless and leading whitespace. */
-    for (i = 1; i < len; i++) {
+    /* Skip leading whitespace. */
+    for (i = 0; i < len; i++) {
 	if (!isspace((int) data[i]))
 	    break;
     }
@@ -2212,12 +2212,21 @@ void justify_format(char *data)
     /* No double spaces allowed unless following a period.  Tabs -> space.  No double tabs. */
     for (; i < len; i++) {
 	if (isspace((int) data[i]) && isspace((int) data[i - 1])
-	    && (data[i - 2] != '.')) {
+	    && (data[i - 2] != '.')
+            && (data[i-2]!='!') && (data[i-2]!='?')) {
 	    memmove(data + i, data + i + 1, len - i);
 	    len--;
 	    i--;
 	}
     }
+   /* Skip trailing whitespace.
+    * i<=len iff there was a non-space in the line.  In that case, we
+    * strip spaces from the end of the line.  Note that "line" means the
+    * whole paragraph. */
+  if (i<=len) {
+    for(i=len-1; i>0 && isspace((int) data[i]); i--);
+    data[i+1] = '\0';
+  }
 }
 #endif
 
@@ -2333,23 +2342,33 @@ int do_justify(void)
 	    int len2 = 0;
 	    filestruct *tmpline = nmalloc(sizeof(filestruct));
 
-	    /* Start at fill , unless line isn't that long (but it 
-	     * appears at least fill long with tabs.
-	     */
-	    if (slen > fill)
-		i = fill;
-	    else
-		i = slen;
 
-	    for (; i > 0; i--) {
-		if (isspace((int) current->data[i]) &&
-		    ((strlenpt(current->data) - strlen(current->data + i))
-		     <= fill))
-		    break;
-	    }
+/* The following code maybe could be better.  In particular, can we 
+ * merely increment instead of calling strnlenpt for each new character?  
+ * In fact, can we assume the only tabs are at the beginning of the line?
+ */
+/* Note that we CAN break before the first word, since that is how 
+ * pico does it. */
+            int last_space = -1;  /* index of the last breakpoint */
+            int allowed_width;
 
-	    if (!i)
-		break;
+            i = qdepth * strlen(quotestr);  /* the line starts with 
+                      indentation, so we must skip it! */
+            allowed_width = fill - i;   /* how wide can our lines be? */
+
+            for(; i<slen; i++) {
+              if (isspace((int) current->data[i])) last_space = i;
+              if (last_space!=-1 &&
+                  strnlenpt(current->data,i) >= allowed_width) {
+                i = last_space;
+                break;
+              }
+            }
+/* Now data[i] is a space.  We want to break at the LAST space in this
+ * group.  Probably, the only possibility is two in a row, but let's be 
+ * generic.  Note that we actually replace this final space with \0.  Is
+ * this okay?  It seems to work fine. */
+            for(; i<slen-1 && isspace((int) current->data[i+1]); i++) ;
 
 	    current->data[i] = '\0';
 

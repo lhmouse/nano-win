@@ -99,6 +99,7 @@ int free_filestruct(filestruct * src);
 int xplustabs(void);
 int do_yesno(int all, int leavecursor, char *msg, ...);
 int actual_x(filestruct * fileptr, int xplus);
+int strnlenpt(char *buf, int size);
 int strlenpt(char *buf);
 int statusq(int allowtabs, shortcut s[], char *def, char *msg, ...);
 int write_file(char *name, int tmpfile, int append, int nonamechange);

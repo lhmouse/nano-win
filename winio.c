@@ -134,14 +134,14 @@ int actual_x(filestruct * fileptr, int xplus)
 }
 
 /* a strlen with tabs factored in, similar to xplustabs() */
-int strlenpt(char *buf)
+int strnlenpt(char *buf, int size)
 {
     int i, tabs = 0;
 
     if (buf == NULL)
 	return 0;
 
-    for (i = 0; buf[i] != 0; i++) {
+    for (i = 0; i < size; i++) {
 	tabs++;
 
 	if (buf[i] == NANO_CONTROL_I) {
@@ -156,6 +156,11 @@ int strlenpt(char *buf)
     }
 
     return tabs;
+}
+
+int strlenpt(char *buf)
+{
+    return strnlenpt(buf, strlen(buf));
 }
 
 
