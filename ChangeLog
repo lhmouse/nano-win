@@ -1,4 +1,4 @@
-CVS code -
+GNU nano 1.3.0 - 2003.10.22
 - General:
 	- Complete overhaul and abstraction of the lowest level of
 	  keyboard input, mostly rewritten but incorporating a few bits

@@ -1,3 +1,15 @@
+2003.10.22 - GNU nano 1.3.0 is loosed upon the world.  This is the first
+		release in the unstable 1.3.x series, and as such it
+		includes a lot of new features, including the addition
+		of a -d option for those FreeBSD users with Backspace
+		keys that act like Delete keys, the ability to repeat
+		the last search without prompting, the ability to search
+		for the beginning or end of a paragraph, new smooth
+		paging routines to go with the smooth scrolling
+		routines, and various improvements to the input and
+		display routines to make them behave more intuitively.
+		It also includes the usual load of bugfixes.  Enjoy.
+
 2003.08.11 - GNU nano 1.2.2 is released, only four months since the 
 		last version :-).  This release includes fixes for
 		broken regex detection, search history recall, and 
