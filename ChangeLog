@@ -10,6 +10,8 @@ CVS code -
   signal_init()
 	- do SIG_IGN for the SIGTSTP sigaction regardless of whether
 	  we have _POSIX_VDISABLE or not (more Hurd fixes)
+- po/fr.po:
+	- French translation update, by Michel Robitaille.
 
 nano-1.0.6 - 10/29/2001
 - General
