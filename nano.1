@@ -46,12 +46,17 @@ Write file in DOS format.
 Enable multiple file buffers, if available.
 .TP
 .B \-H (\-\-historylog)
-Log search and replace strings to ~/.nano_history so they may be
-stored for later editing, if nanorc support is configured.
+Log search and replace strings to
+.I~/.nano_history
+so they may be stored for later editing, if nanorc support is 
+configured.
 .TP
 .B \-I (\-\-ignorercfiles)
-Don't look at $SYSCONFDIR/nanorc or ~/.nanorc, if nanorc support is
-available.
+Don't look at
+.I $SYSCONFDIR/nanorc
+or
+.IR ~/.nanorc ,
+if nanorc support is available.
 .TP
 .B \-K (\-\-keypad)
 Do not use the ncurses keypad() call unless necessary.  Try this flag if
@@ -66,8 +71,8 @@ Disable automatic conversion of files from DOS/Mac format.
 .TP
 .B \-Q \fIstr\fP (\-\-quotestr=\fIstr\fP)
 Set the quoting string for justifying.  The default is
-"^([ \\t]*[|>:}#])+" if regular expression support is available, or
-"> " otherwise.
+"^([\ \\t]*[|>:}#])+" if regular expression support is available, or
+">\ " otherwise.
 .TP
 .B \-R (\-\-regexp)
 Enable regular expression matching for search strings, as well as
@@ -84,8 +89,9 @@ Set the size (width) of a tab.
 Show the current version number and author.
 .TP
 .B \-Y \fIstr\fP (\-\-syntax=\fIstr\fP)
-Specify a specific syntax highlighting from the .nanorc to use, if
-available.
+Specify a specific syntax highlighting from the
+.I .nanorc
+to use, if available.
 .TP
 .B \-c (\-\-const)
 Constantly show the cursor position.
@@ -102,7 +108,9 @@ Enable cut from cursor to end of line with ^K.
 .TP
 .B \-l (\-\-nofollow)
 If the file being edited is a symbolic link, replace the link with
-a new file, do not follow it.  Good for editing files in /tmp, perhaps?
+a new file, do not follow it.  Good for editing files in
+.IR /tmp ,
+perhaps?
 .TP
 .B \-m (\-\-mouse)
 Enable mouse support (if available for your system).
@@ -144,31 +152,38 @@ Ignored, for compatibility with Pico.
 
 .SH INITIALIZATION FILE
 \fBnano\fP will read initialization files in the following 
-order: $SYSCONFDIR/nanorc, then ~/.nanorc.  Please see nanorc(5) and 
-the example file \fBnanorc.sample\fP which should be provided with 
+order:
+.IR $SYSCONFDIR/nanorc ,
+then
+.IR ~/.nanorc .
+Please see
+.BR nanorc (5)
+and the example file \fBnanorc.sample\fP which should be provided with 
 \fBnano\fP. 
 
 .SH NOTES
 \fBnano\fP will try to dump the buffer into an emergency file in some
 cases.  Mainly, this will happen if \fBnano\fP receives a SIGHUP or
 SIGTERM or runs out of memory, when it will write the buffer into a file
-named "nano.save" if the buffer didn't have a name already, or will add
-a ".save" suffix to the current filename. If an emergency file with that
-name already exists in the current directory, ".save" and a number (e.g.
-".save.1") will be suffixed to the current filename in order to make it
-unique. In multibuffer mode, \fBnano\fP will write all the open buffers
-to the respective emergency files.
+named
+.I nano.save
+if the buffer didn't have a name already, or will add a ".save" suffix 
+to the current filename. If an emergency file with that name already 
+exists in the current directory, ".save" and a number (e.g. ".save.1") 
+will be suffixed to the current filename in order to make it unique. In 
+multibuffer mode, \fBnano\fP will write all the open buffers to the 
+respective emergency files.
 
 .SH BUGS
 Please send any comments or bug reports to
-.br
-.B nano@nano-editor.org.
-.br
+.BR nano@nano-editor.org .
+
 The \fBnano\fP mailing list is available from
-.br
-.B nano-devel@gnu.org.
-To subscribe, email to nano-devel-request@gnu.org with a
-subject of "subscribe".
+.BR nano-devel@gnu.org .
+
+To subscribe, email to
+.B nano-devel-request@gnu.org
+with a subject of "subscribe".
 
 .SH HOMEPAGE
 http://www.nano-editor.org/
@@ -181,8 +196,10 @@ http://www.nano-editor.org/
 \fI/usr/share/doc/nano/\fP (or equivalent on your system)
 
 .SH AUTHOR
-Chris Allegretta <chrisa@asty.org>, et al (see AUTHORS and THANKS for
-details).
-This manual page was originally written by Jordi Mallach
+Chris Allegretta <chrisa@asty.org>, et al (see
+.I AUTHORS
+and
+.I THANKS
+for details). This manual page was originally written by Jordi Mallach
 <jordi@sindominio.net>, for the Debian GNU system (but may be
 used by others).

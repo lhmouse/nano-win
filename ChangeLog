@@ -1,6 +1,10 @@
 CVS code -
+- General:
+	- Translation updates (see po/ChangeLog for details).
 - THANKS:
 	- Added Laurentiu Buzdugan, for Romanian.
+- nano.1:
+	- Formatting improvements by Jean-Philippe Guérard.
 
 GNU nano 1.2.1 - 2003.04.19
 - General:
