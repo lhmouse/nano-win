@@ -126,7 +126,6 @@ int do_uncut_text(void);
 void load_file(int update);
 void new_file(void);
 filestruct *read_line(char *buf, filestruct *prev, int *line1ins, int len);
-int write_file(char *name, int tmpfile, int append, int nonamechange);
 int read_file(FILE *f, const char *filename, int quiet);
 int open_file(const char *filename, int insert, int quiet);
 char *get_next_filename(const char *name);
@@ -147,20 +146,21 @@ int open_nextfile_void(void);
 int close_open_file(void);
 #endif
 #if !defined(DISABLE_SPELLER) || !defined(DISABLE_OPERATINGDIR)
-char *get_full_path(char *origpath);
+char *get_full_path(const char *origpath);
 #endif
 #ifndef DISABLE_SPELLER
-char *check_writable_directory(char *path);
+char *check_writable_directory(const char *path);
 char *safe_tempnam(const char *dirname, const char *filename_prefix);
 #endif
 #ifndef DISABLE_OPERATINGDIR
-int check_operating_dir(char *currpath, int allow_tabcomp);
+void init_operating_dir(void);
+int check_operating_dir(const char *currpath, int allow_tabcomp);
 #endif
-int write_file(char *name, int tmp, int append, int nonamechange);
-int do_writeout(char *path, int exiting, int append);
+int write_file(const char *name, int tmp, int append, int nonamechange);
+int do_writeout(const char *path, int exiting, int append);
 int do_writeout_void(void);
 #ifndef DISABLE_TABCOMP
-char *real_dir_from_tilde(char *buf);
+char *real_dir_from_tilde(const char *buf);
 #endif
 int append_slash_if_dir(char *buf, int *lastwastab, int *place);
 char **username_tab_completion(char *buf, int *num_matches);
@@ -170,11 +170,11 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
 struct stat filestat(const char *path);
 int diralphasort(const void *va, const void *vb);
 void free_charptrarray(char **array, int len);
-char *tail(char *foo);
+const char *tail(const char *foo);
 void striponedir(char *foo);
-char **browser_init(char *path, int *longest, int *numents);
-char *do_browser(char *inpath);
-char *do_browse_from(char *inpath);
+char **browser_init(const char *path, int *longest, int *numents);
+char *do_browser(const char *inpath);
+char *do_browse_from(const char *inpath);
 #endif
 
 /* Public functions in global.c */

@@ -19,13 +19,14 @@
  *                                                                        *
  **************************************************************************/
 
+#include "config.h"
+
 #include <stdarg.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <ctype.h>
 #include <assert.h>
-#include "config.h"
 #include "proto.h"
 #include "nano.h"
 
@@ -1804,10 +1805,10 @@ void do_credits(void)
 {
     int i, j = 0, k, place = 0, start_x;
 
-    char *what;
-    char *xlcredits[XLCREDIT_LEN];
+    const char *what;
+    const char *xlcredits[XLCREDIT_LEN];
 
-    char *credits[CREDIT_LEN] = { 
+    const char *credits[CREDIT_LEN] = { 
 	"0",				/* "The nano text editor" */
 	"1",				/* "version" */
 	VERSION,

@@ -19,6 +19,8 @@
  *                                                                        *
  **************************************************************************/
 
+#include "config.h"
+
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
@@ -30,7 +32,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <assert.h>
-#include "config.h"
 #include "proto.h"
 #include "nano.h"
 
@@ -43,7 +44,7 @@
 #define _(string) (string)
 #endif
 
-static rcoption rcopts[] = {
+const static rcoption rcopts[] = {
 #ifndef NANO_SMALL
     {"autoindent", AUTOINDENT},
     {"backup", BACKUP_FILE},
@@ -90,7 +91,7 @@ static rcoption rcopts[] = {
     {"tabsize", 0},
     {"tempfile", TEMP_OPT},
     {"view", VIEW_MODE},
-    {"", 0}
+    {NULL, 0}
 };
 
 static int errors = 0;
@@ -483,7 +484,7 @@ void parse_rcfile(FILE *rcstream)
 	/* We don't care if ptr == NULL, as it should if using proper syntax */
 
 	if (set != 0) {
-	    for (i = 0; rcopts[i].name != ""; i++) {
+	    for (i = 0; rcopts[i].name != NULL; i++) {
 		if (!strcasecmp(option, rcopts[i].name)) {
 #ifdef DEBUG
 		    fprintf(stderr, _("parse_rcfile: Parsing option %s\n"),

@@ -15,6 +15,15 @@ CVS code -
  	  some functions around to put similar functions closer
  	  together (for this, rename clear_bottombars() to
  	  blank_bottombars()). (DLR; suggested by David Benbennick)
+	- More changes of char *'s to const char *'s when possible.
+	  (David Benbennick)
+	- Fix various minor memory leaks in files.c. (David Benbennick)
+	- Fix minor problems with the operating directory code: set the
+	  operating directory properly if it's specified only in a
+	  nanorc file, and handle an operating directory of "/"
+	  properly.  New function init_operating_dir() to handle
+	  setting it both on the command line and in the nanorc file.
+	  (David Benbennick)
 - configure.ac:
 	- Added pt_BR to ALL_LINGUAS (Jordi).
 	- Changed --enable-color warning to be slightly less severe.
@@ -28,10 +37,9 @@ CVS code -
 	- Disallow multibuffer toggling at the "Insert File" prompt if
 	  we're in both view and multibuffer mode, so as to keep proper
 	  integration between the two, and make sure the toggle
-	  actually works all the time otherwise.  Also, use
-	  NANO_LOAD_KEY as an alias for TOGGLE_LOAD_KEY, so
-	  --enable-tiny and --enable-multibuffer can be used together
-	  again. (DLR)
+	  actually works all the time otherwise.  Also, make sure
+	  TOGGLE_LOAD_KEY isn't referenced when NANO_SMALL and
+	  ENABLE_MULTIBUFFER are both defined. (DLR)
   open_prevfile_void(), open_nextfile_void()
 	- Return the return values of open_prevfile() and
 	  open_nextfile(), respectively, instead of (incorrectly)
@@ -45,9 +53,9 @@ CVS code -
 	  username and the string already contains data. (DLR)
 - global.c:
   shortcut_init()
-	- Use NANO_LOAD_KEY as an alias for TOGGLE_LOAD_KEY, so
-	  --enable-tiny and --enable-multibuffer can be used together
-	  again. (DLR)
+	- Disable the new multibuffer toggle at the file insertion
+	  prompt when NANO_SMALL and ENABLE_MULTIBUFFER are both
+	  defined. (DLR)
   thanks_for_all_the_fish()
 	- Make sure the reference to help_text is #ifdefed out when
 	  --disable-help is used. (DLR) 
@@ -92,7 +100,9 @@ CVS code -
   	  Benbennick)
   do_justify()
 	- Fix cosmetic problems caused when justifying on the
-	  magicline. (David Benbennick)
+	  magicline, and a minor problem where the cursor would
+	  sometimes be moved to the wrong line after justification.
+	  (David Benbennick)
   main()
 	- When searching through the main shortcut list looking for a
 	  shortcut key, stop searching after finding one; this avoids a
@@ -104,6 +114,10 @@ CVS code -
 - nanorc.sample:
 	- Fix the c-file regex for all caps words to be extended regex
 	  format ({} instead of \{\}) (found by DLR).
+- utils.c:
+  charalloc()
+	- Switch from using calloc() to using malloc(). (David
+	  Benbennick)
 - faq.html:
 	- Typo fix. (DLR)
 - TODO:

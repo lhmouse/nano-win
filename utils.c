@@ -19,13 +19,14 @@
  *                                                                        *
  **************************************************************************/
 
+#include "config.h"
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <assert.h>
-#include "config.h"
 #include "proto.h"
 #include "nano.h"
 
@@ -221,12 +222,10 @@ void *nmalloc(size_t howmuch)
    the transition cost of moving to the appropriate function. */
 char *charalloc(size_t howmuch)
 {
-    char *r;
+    char *r = (char *)malloc(howmuch * sizeof(char));
 
-    /* Panic save? */
-
-    if (!(r = (char *)calloc(howmuch, sizeof (char))))
-	die(_("nano: calloc: out of memory!"));
+    if (r == NULL)
+	die(_("nano: malloc: out of memory!"));
 
     return r;
 }

@@ -153,10 +153,10 @@ regex_t syntaxfile_regexp;     /* Global to store compiled search regexp */
 regmatch_t synfilematches[1];  /* Match positions for parenthetical */
 #endif /* ENABLE_COLOR */
 
-
 int length_of_list(const shortcut *s) 
 {
     int i = 0;
+
     for (; s != NULL; s = s->next)
 	i++;
     return i;
@@ -304,7 +304,7 @@ void free_shortcutage(shortcut **shortcutage)
 void shortcut_init(int unjustify)
 {
 #ifndef DISABLE_HELP
-    char *nano_help_msg = "", *nano_writeout_msg = "", *nano_exit_msg =
+    const char *nano_help_msg = "", *nano_writeout_msg = "", *nano_exit_msg =
 	"", *nano_goto_msg = "", *nano_justify_msg =
 	"", *nano_replace_msg = "", *nano_insert_msg =
 	"", *nano_whereis_msg = "", *nano_prevpage_msg =
@@ -325,11 +325,11 @@ void shortcut_init(int unjustify)
 	"", *nano_backup_msg = "";
 
 #ifdef ENABLE_MULTIBUFFER
-    char *nano_openprev_msg = "", *nano_opennext_msg =
+    const char *nano_openprev_msg = "", *nano_opennext_msg =
 	"", *nano_multibuffer_msg = "";
 #endif
 #ifdef HAVE_REGEX_H
-    char *nano_regexp_msg = "", *nano_bracket_msg = "";
+    const char *nano_regexp_msg = "", *nano_bracket_msg = "";
 #endif
 
     nano_help_msg = _("Invoke the help menu");
@@ -725,10 +725,10 @@ void shortcut_init(int unjustify)
 #ifndef NANO_SMALL
     sc_init_one(&insertfile_list, NANO_EXTCMD_KEY, _("Execute Command"),
 		IFHELP(nano_execute_msg, 0), 0, 0, NOVIEW, 0);
-#endif
 #ifdef ENABLE_MULTIBUFFER
-    sc_init_one(&insertfile_list, NANO_LOAD_KEY, _("New Buffer"),
+    sc_init_one(&insertfile_list, TOGGLE_LOAD_KEY, _("New Buffer"),
 		IFHELP(nano_multibuffer_msg, 0), 0, 0, NOVIEW, 0);
+#endif
 #endif
 
     free_shortcutage(&spell_list);

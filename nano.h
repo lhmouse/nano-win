@@ -137,7 +137,7 @@ typedef struct toggle {
 
 #ifdef ENABLE_NANORC
 typedef struct rcoption {
-   char *name;
+   const char *name;
    int flag;
 } rcoption;
 #endif /* ENABLE_NANORC */
@@ -326,7 +326,6 @@ know what you're doing */
 #define NANO_TOFILES_KEY	NANO_CONTROL_T
 #define NANO_APPEND_KEY		NANO_ALT_A
 #define NANO_PREPEND_KEY	NANO_ALT_P
-#define NANO_LOAD_KEY		NANO_ALT_F
 #define NANO_OPENPREV_KEY	NANO_ALT_LCARAT
 #define NANO_OPENNEXT_KEY	NANO_ALT_RCARAT
 #define NANO_OPENPREV_ALTKEY	NANO_ALT_COMMA

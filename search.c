@@ -820,7 +820,7 @@ void do_gotopos(int line, int pos_x, int pos_y, int pos_placewewant)
 int do_find_bracket(void)
 {
     char ch_under_cursor, wanted_ch;
-    char *pos, *brackets = "([{<>}])";
+    const char *pos, *brackets = "([{<>}])";
     char regexp_pat[] = "[  ]";
     int offset, have_past_editbuff = 0, flagsave, current_x_save, count = 1;
     filestruct *current_save;

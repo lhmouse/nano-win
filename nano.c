@@ -2177,7 +2177,7 @@ int do_justify(void)
  *	2) the line above it is not part of a paragraph, or
  *	3) the line above it does not have precisely the same quote
  *	   part, or
- *	4) the indentation of this line is not a subset of the
+ *	4) the indentation of this line is not an initial substring of the
  *	   indentation of the previous line, or
  *	5) this line has no quote part and some indentation, and
  *	   AUTOINDENT is not set.
@@ -2250,29 +2250,28 @@ int do_justify(void)
     current_x = 0;
     if (current->data[quote_len + indent_len] != '\0') {
 	/* This line is part of a paragraph.  So we must search back to
-	 * the first line of this paragraph. */
-	if (quote_len > 0 || indent_len == 0
-#ifndef NANO_SMALL
-		|| ISSET(AUTOINDENT)
-#endif
-					) {
-	    /* We don't justify indented paragraphs unless AUTOINDENT is
-	     * turned on.  See 5) above. */
-	    while (current->prev && quotes_match(current->data,
+	 * the first line of this paragraph.  First we check items 1) and
+	 * 3) above. */
+	while (current->prev && quotes_match(current->data,
 			quote_len, IFREG(current->prev->data, &qreg))) {
-		/* indentation length of the previous line */
-		size_t temp_id_len =
+	    size_t temp_id_len =
 			indent_length(current->prev->data + quote_len);
+		/* The indentation length of the previous line. */
 
-		if (!indents_match(current->prev->data + quote_len,
-				temp_id_len, current->data + quote_len,
-				indent_len) ||
-			current->prev->data[quote_len + temp_id_len] == '\0')
-		    break;
-		indent_len = temp_id_len;
-		current = current->prev;
-		current_y--;
-	    }
+	    /* Is this line the beginning of a paragraph, according to
+	       items 2), 5), or 4) above?  If so, stop. */
+	    if (current->prev->data[quote_len + temp_id_len] == '\0' ||
+		    (quote_len == 0 && indent_len > 0
+#ifndef NANO_SMALL
+			&& !ISSET(AUTOINDENT)
+#endif
+			) ||
+		    !indents_match(current->prev->data + quote_len,
+			temp_id_len, current->data + quote_len, indent_len))
+		break;
+	    indent_len = temp_id_len;
+	    current = current->prev;
+	    current_y--;
 	}
     } else {
 	/* This line is not part of a paragraph.  Move down until we get
@@ -2646,15 +2645,13 @@ void signal_init(void)
 #endif /* _POSIX_VDISABLE */
 
     if (!ISSET(SUSPEND)) {
-
-/* Insane! */
+	/* Insane! */
 #ifdef _POSIX_VDISABLE
 	term.c_cc[VSUSP] = _POSIX_VDISABLE;
 #else
 	act.sa_handler = SIG_IGN;
 	sigaction(SIGTSTP, &act, NULL);
 #endif
-
     } else {
 	/* If we don't do this, it seems other stuff interrupts the
 	   suspend handler!  Try using nano with mutt without this
@@ -3091,12 +3088,6 @@ int main(int argc, char *argv[])
 #ifndef DISABLE_OPERATINGDIR
 	case 'o':
 	    operating_dir = mallocstrcpy(operating_dir, optarg);
-
-	    /* make sure we're inside the operating directory */
-	    if (check_operating_dir(".", 0) && chdir(operating_dir) == -1) {
-		free(operating_dir);
-		operating_dir = NULL;
-	    }
 	    break;
 #endif
 	case 'p':
@@ -3149,6 +3140,12 @@ int main(int argc, char *argv[])
 	    exit(0);
 	}
     }
+
+#ifndef DISABLE_OPERATINGDIR
+    /* Set up the operating directory.  This entails chdir()ing there, so
+       that file reads and writes will be based there. */
+    init_operating_dir();
+#endif
 
     /* Clear the filename we'll be using */
     filename = charalloc(1);

@@ -489,16 +489,16 @@ int do_insertfile(int loading_file)
 	}
 #endif
 
+#ifndef NANO_SMALL
 #ifdef ENABLE_MULTIBUFFER
-	if (i == NANO_LOAD_KEY) {
+	if (i == TOGGLE_LOAD_KEY) {
 	    /* don't allow toggling if we're in both view mode and
 	       multibuffer mode now */
 	    if (!ISSET(VIEW_MODE) || !ISSET(MULTIBUFFER))
 		TOGGLE(MULTIBUFFER);
 	    return do_insertfile(ISSET(MULTIBUFFER));
 	}
-#endif
-#ifndef NANO_SMALL
+#endif /* ENABLE_MULTIBUFFER */
 	if (i == NANO_EXTCMD_KEY) {
 	    int ts;
 	    ts = statusq(1, extcmd_list, "", _("Command to execute "));
@@ -509,7 +509,7 @@ int do_insertfile(int loading_file)
 		return 0;
 	    }
 	}
-#endif
+#endif /* !NANO_SMALL */
 
 #ifdef ENABLE_MULTIBUFFER
 	if (loading_file) {
@@ -1000,7 +1000,7 @@ int close_open_file(void)
  * yet on disk); it is not done if the relative path doesn't exist (since
  * the first call to chdir() will fail then).
  */
-char *get_full_path(char *origpath)
+char *get_full_path(const char *origpath)
 {
     char *newpath = NULL, *last_slash, *d_here, *d_there, *d_there_file, tmp;
     int path_only, last_slash_index;
@@ -1136,7 +1136,7 @@ char *get_full_path(char *origpath)
  * get_full_path()).  On error, if the path doesn't reference a
  * directory, or if the directory isn't writable, it returns NULL.
  */
-char *check_writable_directory(char *path)
+char *check_writable_directory(const char *path)
 {
     char *full_path = get_full_path(path);
     int writable;
@@ -1177,49 +1177,27 @@ char *check_writable_directory(char *path)
  */
 char *safe_tempnam(const char *dirname, const char *filename_prefix)
 {
-    char *buf, *tempdir = NULL, *full_tempdir = NULL;
+    char *full_tempdir = NULL;
+    const char *TMPDIR_env;
     int filedesc;
 
-    /* if $TMPDIR is set and non-empty, set tempdir to it, run it through
-       get_full_path(), and save the result in full_tempdir; otherwise,
-       leave full_tempdir set to to NULL */
-    if (getenv("TMPDIR") && strcmp(getenv("TMPDIR"),"")) {
+      /* if $TMPDIR is set and non-empty, set tempdir to it, run it through
+         get_full_path(), and save the result in full_tempdir; otherwise,
+         leave full_tempdir set to to NULL */
+    TMPDIR_env = getenv("TMPDIR");
+    if (TMPDIR_env && TMPDIR_env[0] != '\0')
+	full_tempdir = check_writable_directory(TMPDIR_env);
 
-	/* store the value of $TMPDIR in tempdir, run its value through
-	   get_full_path(), and save the result in full_tempdir */
-	tempdir = charalloc(strlen(getenv("TMPDIR")) + 1);
-	sprintf(tempdir, "%s", getenv("TMPDIR"));
-	full_tempdir = check_writable_directory(tempdir);
-
-	/* we don't need the value of tempdir anymore */
-	free(tempdir);
-    }
-
-    if (!full_tempdir) {
-
-	/* if $TMPDIR is blank or isn't set, or isn't a writable
-	   directory, and dirname isn't NULL, try it; otherwise, leave
-	   full_tempdir set to NULL */
-	if (dirname) {
-	    tempdir = charalloc(strlen(dirname) + 1);
-	    strcpy(tempdir, dirname);
-	    full_tempdir = check_writable_directory(tempdir);
-
-	    /* we don't need the value of tempdir anymore */
-	    free(tempdir);
-	}
-    }
+    /* if $TMPDIR is blank or isn't set, or isn't a writable
+       directory, and dirname isn't NULL, try it; otherwise, leave
+       full_tempdir set to NULL */
+    if (!full_tempdir && dirname)
+	full_tempdir = check_writable_directory(dirname);
 
     /* if $TMPDIR is blank or isn't set, or if it isn't a writable
        directory, and dirname is NULL, try P_tmpdir instead */
-    if (!full_tempdir) {
-	tempdir = charalloc(strlen(P_tmpdir) + 1);
-	strcpy(tempdir, P_tmpdir);
-	full_tempdir = check_writable_directory(tempdir);
-
-	/* we don't need the value of tempdir anymore */
-	free(tempdir);
-    }
+    if (!full_tempdir)
+	full_tempdir = check_writable_directory(P_tmpdir);
 
     /* if P_tmpdir didn't work, use /tmp instead */
     if (!full_tempdir) {
@@ -1227,83 +1205,67 @@ char *safe_tempnam(const char *dirname, const char *filename_prefix)
 	strcpy(full_tempdir, "/tmp/");
     }
 
-    buf = charalloc(strlen(full_tempdir) + 12);
-    sprintf(buf, "%s", full_tempdir);
+    full_tempdir = nrealloc(full_tempdir, strlen(full_tempdir) + 12);
 
     /* like tempnam(), use only the first 5 characters of the prefix */
-    strncat(buf, filename_prefix, 5);
+    strncat(full_tempdir, filename_prefix, 5);
+    strcat(full_tempdir, "XXXXXX");
+    filedesc = mkstemp(full_tempdir);
 
-    strcat(buf, "XXXXXX");
-    filedesc = mkstemp(buf);
-
-    /* if mkstemp() failed, get out */
-    if (filedesc == -1)
-	return NULL;
-
-    /* otherwise, close the resulting file; afterwards, it'll be 0 bytes
-       long, so delete it; finally, return the filename (all that's left
-       of it) */
-    else {
+    /* if mkstemp succeeded, close the resulting file; afterwards, it'll be
+       0 bytes long, so delete it; finally, return the filename (all that's
+       left of it) */
+    if (filedesc != -1) {
 	close(filedesc);
-	unlink(buf);
-	return buf;
+	unlink(full_tempdir);
+	return full_tempdir;
     }
+
+    free(full_tempdir);
+    return NULL;
 }
 #endif /* !DISABLE_SPELLER */
 
 #ifndef DISABLE_OPERATINGDIR
+/* Initialize full_operating_dir based on operating_dir. */
+void init_operating_dir(void)
+{
+    assert(full_operating_dir == NULL);
+
+    if (!operating_dir)
+	return;
+    full_operating_dir = get_full_path(operating_dir);
+
+    /* If get_full_path() failed or the operating directory is
+       inaccessible, unset operating_dir. */
+    if (!full_operating_dir || chdir(full_operating_dir) == -1) {
+	free(full_operating_dir);
+	full_operating_dir = NULL;
+	free(operating_dir);
+	operating_dir = NULL;
+    }
+}
+
 /*
  * Check to see if we're inside the operating directory.  Return 0 if we
  * are, or 1 otherwise.  If allow_tabcomp is nonzero, allow incomplete
  * names that would be matches for the operating directory, so that tab
  * completion will work.
  */
-int check_operating_dir(char *currpath, int allow_tabcomp)
+int check_operating_dir(const char *currpath, int allow_tabcomp)
 {
     /* The char *full_operating_dir is global for mem cleanup, and
        therefore we only need to get it the first time this function
        is called; also, a relative operating directory path will
        only be handled properly if this is done */
 
-    char *fullpath, *whereami1, *whereami2 = NULL;
+    char *fullpath;
+    int retval = 0;
+    const char *whereami1, *whereami2 = NULL;
 
     /* if no operating directory is set, don't bother doing anything */
     if (!operating_dir)
 	return 0;
-
-    /* if the operating directory is "/", that's the same as having no
-       operating directory, so discard it and get out */
-    if (!strcmp(operating_dir, "/")) {
-	free(operating_dir);
-	operating_dir = NULL;
-	return 0;
-    }
-
-    /* get the full operating (if we don't have it already) and current
-       directories, and then search the current for the operating (for
-       normal usage) and the operating for the current (for tab
-       completion, if we're allowing it); if the current directory's path
-       doesn't exist, assume we're outside the operating directory */
-    if (!full_operating_dir) {
-	full_operating_dir = get_full_path(operating_dir);
-
-	/* if get_full_path() failed, discard the operating directory */
-	if (!full_operating_dir) {
-	    free(operating_dir);
-	    operating_dir = NULL;
-	    return 0;
-	}
-
-	/* if the full operating directory is "/", that's the same as
-	   having no operating directory, so discard it and get out */
-	if (!strcmp(full_operating_dir, "/")) {
-	    free(full_operating_dir);
-	    full_operating_dir = NULL;
-	    free(operating_dir);
-	    operating_dir = NULL;
-	    return 0;
-	}
-    }
 
     fullpath = get_full_path(currpath);
     if (!fullpath)
@@ -1314,18 +1276,16 @@ int check_operating_dir(char *currpath, int allow_tabcomp)
 	whereami2 = strstr(full_operating_dir, fullpath);
 
     /* if both searches failed, we're outside the operating directory */
-    if (!whereami1 && !whereami2)
-	return 1;
-
+    /* otherwise */
     /* check the search results; if the full operating directory path is
        not at the beginning of the full current path (for normal usage)
        and vice versa (for tab completion, if we're allowing it), we're
        outside the operating directory */
     if (whereami1 != fullpath && whereami2 != full_operating_dir)
-	return 1;
-
+	retval = 1;
+    free(fullpath);	
     /* otherwise, we're still inside it */
-    return 0;
+    return retval;
 }
 #endif
 
@@ -1343,11 +1303,14 @@ int check_operating_dir(char *currpath, int allow_tabcomp)
  * nonamechange means don't change the current filename, it is ignored
  * if tmp == 1 or if we're appending/prepending.
  */
-int write_file(char *name, int tmp, int append, int nonamechange)
+int write_file(const char *name, int tmp, int append, int nonamechange)
 {
+    int retval = -1;
+	/* Instead of returning in this function, you should always
+	 * merely set retval then goto cleanup_and_exit. */
     long size, lineswritten = 0;
     char *buf = NULL;
-    filestruct *fileptr;
+    const filestruct *fileptr;
     FILE *f;
     int fd;
     int mask = 0, realexists, anyexists;
@@ -1361,12 +1324,6 @@ int write_file(char *name, int tmp, int append, int nonamechange)
     titlebar(NULL);
     fileptr = fileage;
 
-    if (realname != NULL)
-	free(realname);
-
-    if (buf != NULL)
-	free(buf);
-
 #ifndef DISABLE_TABCOMP
     realname = real_dir_from_tilde(name);
 #else
@@ -1374,19 +1331,16 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 #endif
 
 #ifndef DISABLE_OPERATINGDIR
-    if (!tmp && operating_dir) {
-	/* if we're writing a temporary file, we're probably going
-	   outside the operating directory, so skip the operating
-	   directory test */
-	if (check_operating_dir(realname, 0)) {
-	    statusbar(_("Can't write outside of %s"), operating_dir);
-
-	    return -1;
-	}
+    /* If we're writing a temporary file, we're probably going outside
+       the operating directory, so skip the operating directory test. */
+    if (!tmp && operating_dir && check_operating_dir(realname, 0)) {
+	statusbar(_("Can't write outside of %s"), operating_dir);
+	goto cleanup_and_exit;
     }
 #endif
 
-    /* Save the state of file at the end of the symlink (if there is one) */
+    /* Save the state of file at the end of the symlink (if there is
+       one). */
     realexists = stat(realname, &st);
 
 #ifndef NANO_SMALL
@@ -1463,7 +1417,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 
     /* New case: if the file exists, just give up */
     if (tmp && anyexists != -1)
-	return -1;
+	goto cleanup_and_exit;
     /* NOTE: If you change this statement, you MUST CHANGE the if 
        statement below (that says:
 		if (realexists == -1 || tmp || (!ISSET(FOLLOW_SYMLINKS) &&
@@ -1484,11 +1438,11 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	if (fd == -1) {
 	    if (!tmp && ISSET(TEMP_OPT)) {
 		UNSET(TEMP_OPT);
-		return do_writeout(filename, 1, 0);
-	    }
-	    statusbar(_("Could not open file for writing: %s"),
-		      strerror(errno));
-	    return -1;
+		retval = do_writeout(filename, 1, 0);
+	    } else
+		statusbar(_("Could not open file for writing: %s"),
+			strerror(errno));
+	    goto cleanup_and_exit;
 	}
 
     }
@@ -1500,11 +1454,11 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	if ((fd = mkstemp(buf)) == -1) {
 	    if (ISSET(TEMP_OPT)) {
 		UNSET(TEMP_OPT);
-		return do_writeout(filename, 1, 0);
-	    }
-	    statusbar(_("Could not open file for writing: %s"),
-		      strerror(errno));
-	    return -1;
+		retval = do_writeout(filename, 1, 0);
+	    } else
+		statusbar(_("Could not open file for writing: %s"),
+			strerror(errno));
+	    goto cleanup_and_exit;
 	}
     }
 
@@ -1514,13 +1468,13 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 
     f = fdopen(fd, append == 1 ? "ab" : "wb");
     if (!f) {
-        statusbar(_("Could not open file for writing: %s"),
-                  strerror(errno));
-        return -1;
+	statusbar(_("Could not open file for writing: %s"), strerror(errno));
+	goto cleanup_and_exit;
     }
 
     while (fileptr != NULL && fileptr->next != NULL) {
 	int data_len;
+
 	/* Next line is so we discount the "magic line" */
 	if (filebot == fileptr && fileptr->data[0] == '\0')
 	    break;
@@ -1539,7 +1493,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	    statusbar(_("Could not open file for writing: %s"),
 		      strerror(errno));
 	    fclose(f);
-	    return -1;
+	    goto cleanup_and_exit;
 	}
 #ifdef DEBUG
 	else
@@ -1558,9 +1512,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
     }
 
     if (fileptr != NULL) {
-	int data_len;
-
-	data_len = strlen(fileptr->data);
+	int data_len = strlen(fileptr->data);
 
 	/* newlines to nulls, just before we write to disk */
 	sunder(fileptr->data);
@@ -1573,7 +1525,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	if (size < data_len) {
 	    statusbar(_("Could not open file for writing: %s"),
 		      strerror(errno));
-	    return -1;
+	    goto cleanup_and_exit;
 	} else if (data_len > 0) {
 #ifndef NANO_SMALL
 	    if (ISSET(DOS_FILE) || ISSET(MAC_FILE)) {
@@ -1581,7 +1533,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 		    statusbar(_("Could not open file for writing: %s"),
 			  strerror(errno));
 		    fclose(f);
-		    return -1;
+		    goto cleanup_and_exit;
 		}
 		lineswritten++;
 	    }
@@ -1593,7 +1545,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 		    statusbar(_("Could not open file for writing: %s"),
 			  strerror(errno));
 		    fclose(f);
-		    return -1;
+		    goto cleanup_and_exit;
 		}
 		lineswritten++;
 	    }
@@ -1603,7 +1555,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
     if (fclose(f)) {
 	statusbar(_("Could not close %s: %s"), realname, strerror(errno));
 	unlink(buf);
-	return -1;
+	goto cleanup_and_exit;
     }
 
     /* if we're prepending, open the real file, and append it here */
@@ -1614,25 +1566,25 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 
 	if ((fd_dest = open(buf, O_WRONLY | O_APPEND, (S_IRUSR|S_IWUSR))) == -1) {
 	    statusbar(_("Could not reopen %s: %s"), buf, strerror(errno));
-	    return -1;
+	    goto cleanup_and_exit;
 	}
 	f_dest = fdopen(fd_dest, "wb");
 	if (!f_dest) {
 	    statusbar(_("Could not reopen %s: %s"), buf, strerror(errno));
 	    close(fd_dest);
-	    return -1;
+	    goto cleanup_and_exit;
 	}
 	if ((fd_source = open(realname, O_RDONLY | O_CREAT)) == -1) {
 	    statusbar(_("Could not open %s for prepend: %s"), realname, strerror(errno));
 	    fclose(f_dest);
-	    return -1;
+	    goto cleanup_and_exit;
 	}
 	f_source = fdopen(fd_source, "rb");
 	if (!f_source) {
 	    statusbar(_("Could not open %s for prepend: %s"), realname, strerror(errno));
 	    fclose(f_dest);
 	    close(fd_source);
-	    return -1;
+	    goto cleanup_and_exit;
 	}
 
         /* Doing this in blocks is an exercise left to some other reader. */
@@ -1641,7 +1593,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 		statusbar(_("Could not open %s for prepend: %s"), realname, strerror(errno));
 		fclose(f_source);
 		fclose(f_dest);
-		return -1;
+		goto cleanup_and_exit;
 	    }
 	}
 
@@ -1649,7 +1601,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	    statusbar(_("Could not reopen %s: %s"), buf, strerror(errno));
 	    fclose(f_source);
 	    fclose(f_dest);
-	    return -1;
+	    goto cleanup_and_exit;
 	}
 	    
 	fclose(f_source);
@@ -1678,7 +1630,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 		statusbar(_("Could not open %s for writing: %s"),
 			  realname, strerror(errno));
 		unlink(buf);
-		return -1;
+		goto cleanup_and_exit;
 	    }
 	}
 	if (link(buf, realname) != -1)
@@ -1687,12 +1639,12 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	    statusbar(_("Could not open %s for writing: %s"),
 		      name, strerror(errno));
 	    unlink(buf);
-	    return -1;
+	    goto cleanup_and_exit;
 	} else if (rename(buf, realname) == -1) {	/* Try a rename?? */
 	    statusbar(_("Could not open %s for writing: %s"),
 		      realname, strerror(errno));
 	    unlink(buf);
-	    return -1;
+	    goto cleanup_and_exit;
 	}
     }
     if (chmod(realname, mask) == -1)
@@ -1711,15 +1663,18 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	UNSET(MODIFIED);
 	titlebar(NULL);
     }
-    return 1;
+
+    retval = 1;
+
+  cleanup_and_exit:
+    free(realname);
+    free(buf);
+    return retval;
 }
 
-int do_writeout(char *path, int exiting, int append)
+int do_writeout(const char *path, int exiting, int append)
 {
     int i = 0;
-#ifndef NANO_SMALL
-    const char *formatstr, *backupstr;
-#endif
 #ifdef NANO_EXTRA
     static int did_cred = 0;
 #endif
@@ -1730,7 +1685,7 @@ int do_writeout(char *path, int exiting, int append)
 
     answer = mallocstrcpy(answer, path);
 
-    if ((exiting) && (ISSET(TEMP_OPT))) {
+    if (exiting && ISSET(TEMP_OPT)) {
 	if (filename[0]) {
 	    i = write_file(answer, 0, 0, 0);
 	    display_main_list();
@@ -1745,8 +1700,9 @@ int do_writeout(char *path, int exiting, int append)
     }
 
     while (1) {
-
 #ifndef NANO_SMALL
+	const char *formatstr, *backupstr;
+
 	if (ISSET(MAC_FILE))
 	   formatstr = _(" [Mac Format]");
 	else if (ISSET(DOS_FILE))
@@ -1793,64 +1749,67 @@ int do_writeout(char *path, int exiting, int append)
 		"%s", _("File Name to Write"));
 #endif /* !NANO_SMALL */
 
-	if (i != -1) {
+	if (i == -1) {
+	    statusbar(_("Cancelled"));
+	    display_main_list();
+	    return 0;
+	}
 
 #ifndef DISABLE_BROWSER
 	if (i == NANO_TOFILES_KEY) {
-
 	    char *tmp = do_browse_from(answer);
 
-#if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE)
 	    currshortcut = writefile_list;
-#endif
-
-	    if (tmp != NULL) {
-		answer = mallocstrcpy(answer, tmp);
-	    } else
-		return do_writeout(answer, exiting, append);
+	    if (tmp == NULL)
+		continue;
+	    free(answer);
+	    answer = tmp;
 	} else
-#endif
+#endif /* !DISABLE_BROWSER */
 #ifndef NANO_SMALL
 	if (i == TOGGLE_DOS_KEY) {
 	    UNSET(MAC_FILE);
 	    TOGGLE(DOS_FILE);
-	    return(do_writeout(answer, exiting, append));
+	    continue;
 	} else if (i == TOGGLE_MAC_KEY) {
 	    UNSET(DOS_FILE);
 	    TOGGLE(MAC_FILE);
-	    return(do_writeout(answer, exiting, append));
+	    continue;
 	} else if (i == TOGGLE_BACKUP_KEY) {
 	    TOGGLE(BACKUP_FILE);
-	    return(do_writeout(answer, exiting, append));
-#else
-	if (0) {
-#endif
-	} else if (i == NANO_PREPEND_KEY)
-	    return(do_writeout(answer, exiting, append == 2 ? 0 : 2));
-	else if (i == NANO_APPEND_KEY)
-	    return(do_writeout(answer, exiting, append == 1 ? 0 : 1));
+	    continue;
+	} else
+#endif /* ! NANO_SMALL */
+	if (i == NANO_PREPEND_KEY) {
+	    append = append == 2 ? 0 : 2;
+	    continue;
+	} else if (i == NANO_APPEND_KEY) {
+	    append = append == 1 ? 0 : 1;
+	    continue;
+	}
 
 #ifdef DEBUG
-	    fprintf(stderr, _("filename is %s\n"), answer);
+	fprintf(stderr, _("filename is %s\n"), answer);
 #endif
 
 #ifdef NANO_EXTRA
-	    if (exiting && !ISSET(TEMP_OPT) && !strcasecmp(answer, "zzy")
+	if (exiting && !ISSET(TEMP_OPT) && !strcasecmp(answer, "zzy")
 		&& !did_cred) {
-		do_credits();
-		did_cred = 1;
-		return -1;
-	    }
+	    do_credits();
+	    did_cred = 1;
+	    return -1;
+	}
 #endif
-	    if (!append && strcmp(answer, filename)) {
-		struct stat st;
-		if (!stat(answer, &st)) {
-		    i = do_yesno(0, 0, _("File exists, OVERWRITE ?"));
+	if (!append && strcmp(answer, filename)) {
+	    struct stat st;
 
-		    if (!i || (i == -1))
-			continue;
-		}
+	    if (!stat(answer, &st)) {
+		i = do_yesno(0, 0, _("File exists, OVERWRITE ?"));
+
+		if (i == 0 || i == -1)
+		    continue;
 	    }
+	}
 
 #ifndef NANO_SMALL
 	/* Here's where we allow the selected text to be written to 
@@ -1859,56 +1818,40 @@ int do_writeout(char *path, int exiting, int append)
 	    filestruct *fileagebak = fileage;	
 	    filestruct *filebotbak = filebot;
 	    filestruct *cutback = cutbuffer;
-	    long totsizebak = totsize;
-	    int oldmod = 0;
+	    int oldmod = ISSET(MODIFIED);
+		/* write_file() unsets the MODIFIED flag. */
+
 	    cutbuffer = NULL;
 
-	    /* Okay, since write_file changes the filename, back it up */
-	    if (ISSET(MODIFIED))
-		oldmod = 1;
-
-	    /* Now, non-destructively add the marked text to the
-	       cutbuffer, and write the file out using the cutbuffer ;) */
-	    if (current->lineno <= mark_beginbuf->lineno)
-		cut_marked_segment(current, current_x, mark_beginbuf,
+	    /* Put the marked text in the cutbuffer without changing
+	       the open file. */
+	    cut_marked_segment(current, current_x, mark_beginbuf,
 				mark_beginx, 0);
-	    else
-		cut_marked_segment(mark_beginbuf, mark_beginx, current,
-				current_x, 0);
 
 	    fileage = cutbuffer;
-	    for (filebot = cutbuffer; filebot->next != NULL; 
-			filebot = filebot->next)
-		;
+	    filebot = get_cutbottom();
 	    i = write_file(answer, 0, append, 1);
 
 	    /* Now restore everything */
+	    free_filestruct(cutbuffer);
 	    fileage = fileagebak;
 	    filebot = filebotbak;
 	    cutbuffer = cutback;
-	    totsize = totsizebak;
 	    if (oldmod)
 		set_modified();
 	} else
 #endif /* !NANO_SMALL */
-
 	    i = write_file(answer, 0, append, 0);
 
 #ifdef ENABLE_MULTIBUFFER
-	    /* if we're not about to exit, update the current entry in
-	       the open_files structure */
-	    if (!exiting)
-		add_open_file(1);
+	/* If we're not about to exit, update the current entry in
+	   the open_files structure. */
+	if (!exiting)
+	    add_open_file(1);
 #endif
-
-	    display_main_list();
-	    return i;
-	} else {
-	    statusbar(_("Cancelled"));
-	    display_main_list();
-	    return 0;
-	}
-    }
+	display_main_list();
+	return i;
+    } /* while (1) */
 }
 
 int do_writeout_void(void)
@@ -1919,76 +1862,67 @@ int do_writeout_void(void)
 #ifndef DISABLE_TABCOMP
 
 /* Return a malloc()ed string containing the actual directory, used
- * to convert ~user and ~/ notation...
- */
-char *real_dir_from_tilde(char *buf)
+ * to convert ~user and ~/ notation... */
+char *real_dir_from_tilde(const char *buf)
 {
     char *dirtmp = NULL;
-    int i = 1;
-    struct passwd *userdata;
-
-    /* set a default value for dirtmp, in the case user home dir not found */
-    dirtmp = mallocstrcpy(dirtmp, buf);
 
     if (buf[0] == '~') {
-	if (buf[1] == 0 || buf[1] == '/') {
+	size_t i;
+	const struct passwd *userdata;
+
+	/* Figure how how much of the str we need to compare */
+	for (i = 1; buf[i] != '/' && buf[i] != '\0'; i++)
+	    ;
+
+	if (i == 1) {
 	    /* Determine home directory using getpwent(), don't rely on
 	       $HOME */
 	    uid_t euid = geteuid();
+
 	    do {
 		userdata = getpwent();
 	    } while (userdata != NULL && userdata->pw_uid != euid);
-	}
-	else {
-	    char *find_user = NULL;
-
-	    /* Figure how how much of the str we need to compare */
-	    for (i = 1; buf[i] != '/' && buf[i] != 0; i++)
-		;
-
-	    find_user = mallocstrcpy(find_user, &buf[1]);
-	    find_user[i - 1] = '\0';
-
-	    for (userdata = getpwent(); userdata != NULL &&
-		 strcmp(userdata->pw_name, find_user);
-		userdata = getpwent());
-
-	    free(find_user);
+	} else {
+	    do {
+		userdata = getpwent();
+	    } while (userdata != NULL &&
+			strncmp(userdata->pw_name, buf + 1, i - 1));
 	}
 	endpwent();
 
 	if (userdata != NULL) {  /* User found */
-	    free(dirtmp);
-	    dirtmp = charalloc(strlen(buf) + 2 + strlen(userdata->pw_dir));
+	    dirtmp = charalloc(strlen(userdata->pw_dir) + strlen(buf + i) + 1);
 	    sprintf(dirtmp, "%s%s", userdata->pw_dir, &buf[i]);
 	}
     }
 
+    if (dirtmp == NULL)
+	dirtmp = mallocstrcpy(dirtmp, buf);
+
     return dirtmp;
 }
 
-/* Tack a slash onto the string we're completing if it's a directory */
+/* Tack a slash onto the string we're completing if it's a directory.  We
+ * assume there is room for one more character on the end of buf.  The
+ * return value says whether buf is a directory. */
 int append_slash_if_dir(char *buf, int *lastwastab, int *place)
 {
-    char *dirptr;
+    char *dirptr = real_dir_from_tilde(buf);
     struct stat fileinfo;
     int ret = 0;
 
-    dirptr = real_dir_from_tilde(buf);
+    assert(dirptr != buf);
 
-    if (stat(dirptr, &fileinfo) == -1)
-	ret = 0;
-    else if (S_ISDIR(fileinfo.st_mode)) {
+    if (stat(dirptr, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode)) {
 	strncat(buf, "/", 1);
-	*place += 1;
+	(*place)++;
 	/* now we start over again with # of tabs so far */
 	*lastwastab = 0;
 	ret = 1;
     }
 
-    if (dirptr != buf)
-	free(dirptr);
-
+    free(dirptr);
     return ret;
 }
 
@@ -2383,7 +2317,7 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
     curs_set(1);
     return buf;
 }
-#endif
+#endif /* !DISABLE_TABCOMP */
 
 #ifndef DISABLE_BROWSER
 
@@ -2397,57 +2331,53 @@ struct stat filestat(const char *path)
 }
 
 /* Our sort routine for file listings - sort directories before
- * files, and then alphabetically
- */ 
+ * files, and then alphabetically. */ 
 int diralphasort(const void *va, const void *vb)
 {
-    struct stat file1info, file2info;
-    char *a = *(char **)va, *b = *(char **)vb;
-    int aisdir, bisdir;
+    struct stat fileinfo;
+    const char *a = *(char *const *)va, *b = *(char *const *)vb;
+    int aisdir = stat(a, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode);
+    int bisdir = stat(b, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode);
 
-    aisdir = (stat(a, &file1info) != -1) && S_ISDIR(file1info.st_mode);
-    bisdir = (stat(b, &file2info) != -1) && S_ISDIR(file2info.st_mode);
-
-    if (aisdir && !bisdir) return -1;
-    if (!aisdir && bisdir) return 1;
+    if (aisdir && !bisdir)
+	return -1;
+    if (!aisdir && bisdir)
+	return 1;
 
 #ifdef HAVE_STRCASECMP
-    return(strcasecmp(a,b));
+    return strcasecmp(a, b);
 #else
-    return(strcmp(a,b));
+    return strcmp(a, b);
 #endif
-
 }
 
 /* Free our malloc()ed memory */
 void free_charptrarray(char **array, int len)
 {
-    int i;
-
-    for (i = 0; i < len; i++)
-	free(array[i]);
+    for (; len > 0; len--)
+	free(array[len - 1]);
     free(array);
 }
 
-/* only print the last part of a path; isn't there a shell 
-   command for this? */
-char *tail(char *foo)
+/* Only print the last part of a path; isn't there a shell 
+ * command for this? */
+const char *tail(const char *foo)
 {
-    char *tmp = NULL;
+    const char *tmp = foo + strlen(foo);
 
-    tmp = foo + strlen(foo);
     while (*tmp != '/' && tmp != foo)
 	tmp--;
 
-    tmp++;
+    if (*tmp == '/')
+	tmp++;
 
     return tmp;
 }
 
-/* Strip one dir from the end of a string */
+/* Strip one dir from the end of a string. */
 void striponedir(char *foo)
 {
-    char *tmp = NULL;
+    char *tmp;
 
     /* Don't strip the root dir */
     if (!strcmp(foo, "/"))
@@ -2461,23 +2391,22 @@ void striponedir(char *foo)
 	tmp--;
 
     if (tmp != foo)
-	*tmp = 0;
-    else
-    { /* SPK may need to make a 'default' path here */
-        if (*tmp != '/') *(tmp) = '.';
-	*(tmp+1) = 0;
+	*tmp = '\0';
+    else { /* SPK may need to make a 'default' path here */
+        if (*tmp != '/')
+	    *tmp = '.';
+	*(tmp + 1) = '\0';
     }
-
-    return;
 }
 
 /* Initialize the browser code, including the list of files in *path */
-char **browser_init(char *path, int *longest, int *numents)
+char **browser_init(const char *path, int *longest, int *numents)
 {
     DIR *dir;
     struct dirent *next;
-    char **filelist = (char **) NULL;
+    char **filelist;
     int i = 0;
+    size_t path_len;
 
     dir = opendir(path);
     if (!dir) 
@@ -2496,17 +2425,16 @@ char **browser_init(char *path, int *longest, int *numents)
 
     filelist = nmalloc(*numents * sizeof (char *));
 
+    if (!strcmp(path, "/"))
+	path = "";
+    path_len = strlen(path);
+
     while ((next = readdir(dir)) != NULL) {
 	if (!strcmp(next->d_name, "."))
 	   continue;
-	filelist[i] = charalloc(strlen(next->d_name) + strlen(path) + 2);
 
-	if (!strcmp(path, "/"))
-	    snprintf(filelist[i], strlen(next->d_name) + strlen(path) + 1, 
-			"%s%s", path, next->d_name);
-	else
-	    snprintf(filelist[i], strlen(next->d_name) + strlen(path) + 2, 
-			"%s/%s", path, next->d_name);
+	filelist[i] = charalloc(strlen(next->d_name) + path_len + 2);
+	sprintf(filelist[i], "%s/%s", path, next->d_name);
 	i++;
     }
 
@@ -2517,7 +2445,7 @@ char **browser_init(char *path, int *longest, int *numents)
 }
 
 /* Our browser function.  inpath is the path to start browsing from */
-char *do_browser(char *inpath)
+char *do_browser(const char *inpath)
 {
     struct stat st;
     char *foo, *retval = NULL;
@@ -2532,6 +2460,8 @@ char *do_browser(char *inpath)
 #endif
 #endif
 
+    assert(inpath != NULL);
+
     /* If path isn't the same as inpath, we are being passed a new
 	dir as an arg.  We free it here so it will be copied from 
 	inpath below */
@@ -2542,7 +2472,7 @@ char *do_browser(char *inpath)
 
     /* if path doesn't exist, make it so */
     if (path == NULL)
-	path = mallocstrcpy(path, inpath);
+	path = mallocstrcpy(NULL, inpath);
 
     filelist = browser_init(path, &longest, &numents);
     foo = charalloc(longest + 8);
@@ -2868,34 +2798,37 @@ char *do_browser(char *inpath)
 
 /* Browser front end, checks to see if inpath has a dir in it and, if so,
  starts do_browser from there, else from the current dir */
-char *do_browse_from(char *inpath)
+char *do_browse_from(const char *inpath)
 {
     struct stat st;
-    char *tmp = NULL;
-
-    tmp = mallocstrcpy(tmp, inpath);
-
+    char *tmp;
+    char *bob;
 
     /* If there's no / in the string, we may as well start from . */
-    if (tmp == NULL || *tmp == '\0' || !strstr(tmp, "/")) {
+    if (inpath == NULL || strchr(inpath, '/') == NULL) {
 #ifdef PATH_MAX
 	char *from = getcwd(NULL, PATH_MAX + 1);
 #else
 	char *from = getcwd(NULL, 0);
-#endif /* PATH_MAX */
-	return do_browser(from ? from : "./");
+#endif
+
+	bob = do_browser(from ? from : "./");
+	free(from);
+	return bob;
     }
 
     /* If the string is a directory, pass do_browser that */
-    st = filestat(tmp);
+    st = filestat(inpath);
     if (S_ISDIR(st.st_mode))
-	return do_browser(tmp);
+	return do_browser(inpath);
 
+    tmp = mallocstrcpy(NULL, inpath);
     /* Okay, there's a dir in there, but not at the end of the string... 
        try stripping it off */
     striponedir(tmp);
     align(&tmp);
-    return do_browser(tmp);
-
+    bob = do_browser(tmp);
+    free(tmp);
+    return bob;
 }
 #endif /* !DISABLE_BROWSER */
