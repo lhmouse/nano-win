@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-07-07 00:29-0400\n"
+"POT-Creation-Date: 2000-07-07 01:16-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -344,7 +344,7 @@ msgid "Case Sens"
 msgstr ""
 
 #: global.c:282 global.c:301 global.c:311 global.c:327 global.c:331
-#: global.c:337 winio.c:963
+#: global.c:337 winio.c:964
 msgid "Cancel"
 msgstr ""
 
@@ -724,72 +724,72 @@ msgstr ""
 msgid "Only %d lines available, skipping to last line"
 msgstr ""
 
-#: winio.c:118
+#: winio.c:119
 #, c-format
 msgid "actual_x_from_start for xplus=%d returned %d\n"
 msgstr ""
 
-#: winio.c:408
+#: winio.c:409
 #, c-format
 msgid "input '%c' (%d)\n"
 msgstr ""
 
-#: winio.c:442
+#: winio.c:443
 msgid "New Buffer"
 msgstr ""
 
-#: winio.c:445
+#: winio.c:446
 msgid "  File: ..."
 msgstr ""
 
-#: winio.c:453
+#: winio.c:454
 msgid "Modified"
 msgstr ""
 
-#: winio.c:879
+#: winio.c:880
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr ""
 
-#: winio.c:890
+#: winio.c:891
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr ""
 
-#: winio.c:933
+#: winio.c:934
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr ""
 
-#: winio.c:958
+#: winio.c:959
 msgid "Yes"
 msgstr ""
 
-#: winio.c:960
+#: winio.c:961
 msgid "All"
 msgstr ""
 
-#: winio.c:962
+#: winio.c:963
 msgid "No"
 msgstr ""
 
-#: winio.c:1098
+#: winio.c:1099
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr ""
 
-#: winio.c:1102
+#: winio.c:1103
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr ""
 
-#: winio.c:1226
+#: winio.c:1227
 msgid "Dumping file buffer to stderr...\n"
 msgstr ""
 
-#: winio.c:1228
+#: winio.c:1229
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr ""
 
-#: winio.c:1230
+#: winio.c:1231
 msgid "Dumping a buffer to stderr...\n"
 msgstr ""

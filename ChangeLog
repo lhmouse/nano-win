@@ -40,6 +40,7 @@ CVS code changes since last release -
 - utils.c:
 	- Added new_magicline()
 - winio.c:
+	- Added stdlib.h to includes, found by OpenBSD gcc.
   do_yesno(), nanogetstr():
 	- Removed now unnecessary raw/cbreak combos.
 	- Removed gettext calls from "Y(es)", "N(o)", "A(ll)" and "^C", till

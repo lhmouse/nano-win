@@ -20,6 +20,7 @@
 
 #include <stdarg.h>
 #include <string.h>
+#include <stdlib.h>
 #include "config.h"
 #include "proto.h"
 #include "nano.h"
