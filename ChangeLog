@@ -128,6 +128,18 @@ CVS code -
 	  statusbar prompt.  New functions do_statusbar_next_word() and
 	  do_statusbar_prev_word(); changes to do_statusbar_input().
 	  (DLR)
+	- Make resizing more flexible.  We now can work with as few as
+	  one row, and with no limit on the number of columns (except of
+	  course the curses-imposed limit that it be greater than zero).
+	  New function resize_variables(); changes to die_too_small()
+	  (renamed check_die_too_small()), global_init(), window_init(),
+	  and handle_sigwinch(). (David Benbennick)  DLR: Tweak the
+	  coordinate formula in window_init() so that the statusbar
+	  prompt is always visible.
+	- Use void instead of RETSIGTYPE, as signal handlers are
+	  supposed to return void anyway.  Also, the value of RETSIGTYPE
+	  is sometimes misdetected as int, leading to compilation
+	  warnings or errors. (David Benbennick)
 - cut.c:
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the
@@ -186,6 +198,7 @@ CVS code -
 - nano.h:
 	- Remove now-unneeded #defines for functions that now have
 	  multibyte equivalents. (DLR)
+	- Remove now-unneeded MIN_EDITOR_COLS. (David Benbennick)
 - utils.c:
   regexec_safe()
 	- Remove redundant regexec #define, and move the regexec #undef

@@ -79,6 +79,11 @@ static filestruct *jusbottom = NULL;
 	/* Pointer to end of justify buffer. */
 #endif
 
+void print_view_warning(void)
+{
+    statusbar(_("Key illegal in VIEW mode"));
+}
+
 /* What we do when we're all set to exit. */
 void finish(void)
 {
@@ -178,36 +183,17 @@ void die_save_file(const char *die_filename)
 
 /* Die with an error message that the screen was too small if, well, the
  * screen is too small. */
-void die_too_small(void)
+void check_die_too_small(void)
 {
-    die(_("Window size is too small for nano...\n"));
-}
-
-void print_view_warning(void)
-{
-    statusbar(_("Key illegal in VIEW mode"));
-}
-
-/* Initialize global variables -- no better way for now.  If
- * save_cutbuffer is TRUE, don't set cutbuffer to NULL. */
-void global_init(bool save_cutbuffer)
-{
-    current_x = 0;
-    current_y = 0;
-
     editwinrows = LINES - 5 + no_more_space() + no_help();
-    if (editwinrows < MIN_EDITOR_ROWS || COLS < MIN_EDITOR_COLS)
-	die_too_small();
+    if (editwinrows < MIN_EDITOR_ROWS)
+	die(_("Window size is too small for nano...\n"));
+}
 
-    fileage = NULL;
-    if (!save_cutbuffer)
-	cutbuffer = NULL;
-    current = NULL;
-    edittop = NULL;
-    totlines = 0;
-    totsize = 0;
-    placewewant = 0;
-
+/* Reassign variables that depend on the window size.  That is, fill and
+ * hblank. */
+void resize_variables(void)
+{
 #ifndef DISABLE_WRAPJUSTIFY
     fill = wrap_at;
     if (fill <= 0)
@@ -216,16 +202,33 @@ void global_init(bool save_cutbuffer)
 	fill = 0;
 #endif
 
-    hblank = charalloc(COLS + 1);
+    hblank = charealloc(hblank, COLS + 1);
     memset(hblank, ' ', COLS);
     hblank[COLS] = '\0';
 }
 
+/* Initialize global variables -- no better way for now.  If
+ * save_cutbuffer is TRUE, don't set cutbuffer to NULL. */
+void global_init(bool save_cutbuffer)
+{
+    check_die_too_small();
+    resize_variables();
+
+    fileage = NULL;
+    edittop = NULL;
+    current = NULL;
+    if (!save_cutbuffer)
+	cutbuffer = NULL;
+    current_x = 0;
+    placewewant = 0;
+    current_y = 0;
+    totlines = 0;
+    totsize = 0;
+}
+
 void window_init(void)
 {
-    editwinrows = LINES - 5 + no_more_space() + no_help();
-    if (editwinrows < MIN_EDITOR_ROWS)
-	die_too_small();
+    check_die_too_small();
 
     if (topwin != NULL)
 	delwin(topwin);
@@ -237,7 +240,7 @@ void window_init(void)
     /* Set up the windows. */
     topwin = newwin(2 - no_more_space(), COLS, 0, 0);
     edit = newwin(editwinrows, COLS, 2 - no_more_space(), 0);
-    bottomwin = newwin(3 - no_help(), COLS, LINES - 3 + no_help(), 0);
+    bottomwin = newwin(3 - no_help(), COLS, editwinrows + 1, 0);
 
     /* Turn the keypad back on. */
     keypad(edit, TRUE);
@@ -1054,7 +1057,7 @@ void nano_disabled_msg(void)
 }
 
 #ifndef NANO_SMALL
-RETSIGTYPE cancel_fork(int signal)
+void cancel_fork(int signal)
 {
     if (kill(pid, SIGKILL) == -1)
 	nperror("kill");
@@ -3259,13 +3262,13 @@ void signal_init(void)
 }
 
 /* Handler for SIGHUP (hangup) and SIGTERM (terminate). */
-RETSIGTYPE handle_hupterm(int signal)
+void handle_hupterm(int signal)
 {
     die(_("Received SIGHUP or SIGTERM\n"));
 }
 
 /* Handler for SIGTSTP (suspend). */
-RETSIGTYPE do_suspend(int signal)
+void do_suspend(int signal)
 {
     endwin();
     printf("\n\n\n\n\n%s\n", _("Use \"fg\" to return to nano"));
@@ -3285,7 +3288,7 @@ RETSIGTYPE do_suspend(int signal)
 }
 
 /* Handler for SIGCONT (continue after suspend). */
-RETSIGTYPE do_cont(int signal)
+void do_cont(int signal)
 {
 #ifndef NANO_SMALL
     /* Perhaps the user resized the window while we slept.  Handle it
@@ -3321,21 +3324,9 @@ void handle_sigwinch(int s)
      * But not in all cases, argh. */
     COLS = win.ws_col;
     LINES = win.ws_row;
-    editwinrows = LINES - 5 + no_more_space() + no_help();
-    if (editwinrows < MIN_EDITOR_ROWS || COLS < MIN_EDITOR_COLS)
-	die_too_small();
 
-#ifndef DISABLE_WRAPJUSTIFY
-    fill = wrap_at;
-    if (fill <= 0)
-	fill += COLS;
-    if (fill < 0)
-	fill = 0;
-#endif
-
-    hblank = charealloc(hblank, COLS + 1);
-    memset(hblank, ' ', COLS);
-    hblank[COLS] = '\0';
+    check_die_too_small();
+    resize_variables();
 
     /* If we've partitioned the filestruct, unpartition it now. */
     if (filepart != NULL)

@@ -343,11 +343,12 @@ void do_right(bool allow_update);
 void do_right_void(void);
 
 /* Public functions in nano.c. */
+void print_view_warning(void);
 void finish(void);
 void die(const char *msg, ...);
 void die_save_file(const char *die_filename);
-void die_too_small(void);
-void print_view_warning(void);
+void check_die_too_small(void);
+void resize_variables(void);
 void global_init(bool save_cutbuffer);
 void window_init(void);
 #ifndef DISABLE_MOUSE
@@ -380,7 +381,7 @@ int no_more_space(void);
 int no_help(void);
 void nano_disabled_msg(void);
 #ifndef NANO_SMALL
-RETSIGTYPE cancel_fork(int signal);
+void cancel_fork(int signal);
 bool open_pipe(const char *command);
 #endif
 void do_verbatim_input(void);
@@ -428,9 +429,9 @@ void do_full_justify(void);
 #endif /* !DISABLE_JUSTIFY */
 void do_exit(void);
 void signal_init(void);
-RETSIGTYPE handle_hupterm(int signal);
-RETSIGTYPE do_suspend(int signal);
-RETSIGTYPE do_cont(int signal);
+void handle_hupterm(int signal);
+void do_suspend(int signal);
+void do_cont(int signal);
 #ifndef NANO_SMALL
 void handle_sigwinch(int s);
 void allow_pending_sigwinch(bool allow);
