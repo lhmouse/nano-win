@@ -1084,7 +1084,7 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
 	    for (i = 0; yesstr[i] != 0 && yesstr[i] != kbinput; i++)
 		;
 	    if (yesstr[i] != 0) {
-		ok = 0;
+		ok = 1;
 	 	break;
 	    }
 

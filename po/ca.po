@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.9.99pre2-CVS\n"
-"POT-Creation-Date: 2001-02-16 00:12+0100\n"
+"POT-Creation-Date: 2001-02-16 22:45-0500\n"
 "PO-Revision-Date: 2001-02-16 00:12+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <jordi@sindominio.net>\n"
@@ -471,20 +471,20 @@ msgstr ""
 " texte d'ajuda de nano\n"
 "\n"
 " L'editor nano està disenyat per a emul·lar la funcionalitat i la facilitat "
-"d'uso de Pico, l'editor de texte de la UW. Hi ha quatre seccions en el editor: "
-"la línia superior mostra la versió del programa, el nom del fitxer editado "
-"i si el fitxer ha sigut o no modificat. També tenims la finestra principal "
-"de edició, que mostra el fitxer que està sent editat. La línia d'estat és "
-"la tercera des de baix i mostra missatges importants. "
-"Les últimes dos línies mostren les dreceres més utilitzats en el editor.\n"
+"d'uso de Pico, l'editor de texte de la UW. Hi ha quatre seccions en el "
+"editor: la línia superior mostra la versió del programa, el nom del fitxer "
+"editado i si el fitxer ha sigut o no modificat. També tenims la finestra "
+"principal de edició, que mostra el fitxer que està sent editat. La línia "
+"d'estat és la tercera des de baix i mostra missatges importants. Les últimes "
+"dos línies mostren les dreceres més utilitzats en el editor.\n"
 "\n"
 " La notació de les dreceres és la següent: les sequències amb la tecla "
 "Control estàn anotades amb el símbol circunflexe (^) i són accedides "
 "mitjançant la tecla Control. Les sequencies amb tecles d'escape estàn "
 "anotades amb el símbol Meta (M) i es pot accedir a elles mitjançant les "
 "tecles Esc, Alt o Meta depenent de la configuració del teu teclat. Les "
-"següents combinacions estàn disponibles en la finestra principal. Les "
-"tecles opcionals estàn representades entre parèntesis:\n"
+"següents combinacions estàn disponibles en la finestra principal. Les tecles "
+"opcionals estàn representades entre parèntesis:\n"
 "\n"
 
 #: nano.c:297
@@ -554,7 +554,8 @@ msgstr " -r [#cols] \t--fill=[#cols]\t\tReplenar columnes (ajustar en) #cols\n"
 
 #: nano.c:392
 msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
-msgstr " -s [prog] \t--speller=[prog]\tHabilitar corrector ortogràfic alternatiu\n"
+msgstr ""
+" -s [prog] \t--speller=[prog]\tHabilitar corrector ortogràfic alternatiu\n"
 
 #: nano.c:395
 msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
@@ -715,8 +716,7 @@ msgstr "No s'ha pogut crear un fitxer temporal: %s"
 
 #: nano.c:1399
 msgid "Spell checking failed: unable to write temp file!"
-msgstr ""
-"Revisió d'ortografia fallida: no s'ha pogut escriure fitxer temporal!"
+msgstr "Revisió d'ortografia fallida: no s'ha pogut escriure fitxer temporal!"
 
 #: nano.c:1411
 msgid "Finished checking spelling"

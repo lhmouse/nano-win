@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.9.99pre2-CVS\n"
-"POT-Creation-Date: 2001-02-16 20:46-0500\n"
+"POT-Creation-Date: 2001-02-16 22:45-0500\n"
 "PO-Revision-Date: 2001-02-16 20:58+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -728,7 +728,8 @@ msgstr "Comprobación de ortografía fallida"
 
 #: nano.c:1433
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
-msgstr "¿ Salvar el buffer modificado (RESPONDER \"No\" DESTRUIRÁ LOS CAMBIOS) ?"
+msgstr ""
+"¿ Salvar el buffer modificado (RESPONDER \"No\" DESTRUIRÁ LOS CAMBIOS) ?"
 
 #: nano.c:1529
 msgid "Received SIGHUP"
