@@ -1197,6 +1197,7 @@ char *do_browser(char *inpath)
     static char *path = NULL;
     int numents = 0, i = 0, j = 0, kbinput = 0, longest = 0, abort = 0;
     int col = 0, selected = 0, editline = 0, width = 0, filecols = 0;
+    int lineno = 0;
     char **filelist = (char **) NULL;
 
     /* If path isn't the same as inpath, we are being passed a new
@@ -1231,6 +1232,12 @@ char *do_browser(char *inpath)
 	blank_statusbar();
  	editline = 0;
 	col = 0;
+	    
+	/* Compute line number we're on now so we don't divide by zero later */
+	if (width == 0)
+	    lineno = selected;
+	else
+	    lineno = selected / width;
 
 	switch (kbinput) {
 	case KEY_UP:
@@ -1256,31 +1263,32 @@ char *do_browser(char *inpath)
 	case NANO_PREVPAGE_KEY:
 	case NANO_PREVPAGE_FKEY:
 	case KEY_PPAGE:
-	    if ((selected / width) % editwinrows == 0) {
+
+	    if (lineno % editwinrows == 0) {
 		if (selected - (editwinrows * width) >= 0)
 		    selected -= editwinrows * width; 
 		else
 		    selected = 0;
 	    }
 	    else if (selected - (editwinrows + 
-			(selected / width) % editwinrows) * width  >= 0)
-		selected -= (editwinrows + (selected / width) % 
-				editwinrows) * width; 
+		lineno % editwinrows) * width  >= 0)
+
+		selected -= (editwinrows + lineno % editwinrows) * width; 
 	    else
 		selected = 0;
 	    break;
 	case NANO_NEXTPAGE_KEY:
 	case NANO_NEXTPAGE_FKEY:
 	case KEY_NPAGE:	
-	    if ((selected / width) % editwinrows == 0) {
+	    if (lineno % editwinrows == 0) {
 		if (selected + (editwinrows * width) <= numents - 1)
 		    selected += editwinrows * width; 
 		else
 		    selected = numents - 1;
 	    }
 	    else if (selected + (editwinrows - 
-			(selected / width) %  editwinrows) * width <= numents - 1)
- 		selected += (editwinrows - (selected / width) % editwinrows) * width; 
+			lineno %  editwinrows) * width <= numents - 1)
+ 		selected += (editwinrows - lineno % editwinrows) * width; 
  	    else
 		selected = numents - 1;
 	    break;
