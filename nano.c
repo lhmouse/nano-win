@@ -112,12 +112,13 @@ void die(char *msg, ...)
     /* if we can't save we have REAL bad problems,
      * but we might as well TRY. */
     if (filename[0] == '\0') {
-	write_file("nano.save", 0);
+	write_file("nano.save", 1);
     } else {
-	char buf[BUFSIZ];
-	strncpy(buf, filename, BUFSIZ);
-	strncat(buf, ".save", BUFSIZ - strlen(buf));
-	write_file(buf, 0);
+	
+	char *buf = nmalloc(strlen(filename) + 6);
+	strcpy(buf, filename);
+	strcat(buf, ".save");
+	write_file(buf, 1);
     }
     /* Restore the old term settings */
     tcsetattr(0, TCSANOW, &oldterm);
@@ -1489,8 +1490,7 @@ void do_mouse(void)
 /* Handler for SIGHUP */
 RETSIGTYPE handle_hup(int signal)
 {
-    write_file("nano.save", 0);
-    finish(1);
+    die(_("Received SIGHUP"));
 }
 
 /* What do we do when we catch the suspend signal */

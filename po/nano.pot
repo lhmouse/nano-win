@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-12-01 18:47-0500\n"
+"POT-Creation-Date: 2000-12-01 21:30-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,7 +55,7 @@ msgstr ""
 msgid "File to insert [from ./] "
 msgstr ""
 
-#: files.c:284 files.c:309 files.c:517 nano.c:1409
+#: files.c:284 files.c:309 files.c:517 nano.c:1410
 msgid "Cancelled"
 msgstr ""
 
@@ -400,17 +400,17 @@ msgstr ""
 msgid "No Replace"
 msgstr ""
 
-#: nano.c:131
+#: nano.c:132
 msgid ""
 "\n"
 "Buffer written to 'nano.save'\n"
 msgstr ""
 
-#: nano.c:138
+#: nano.c:139
 msgid "Key illegal in VIEW mode"
 msgstr ""
 
-#: nano.c:175
+#: nano.c:176
 msgid ""
 " nano help text\n"
 "\n"
@@ -431,236 +431,240 @@ msgid ""
 "\n"
 msgstr ""
 
-#: nano.c:278
+#: nano.c:279
 msgid "free_node(): free'd a node, YAY!\n"
 msgstr ""
 
-#: nano.c:283
+#: nano.c:284
 msgid "free_node(): free'd last node.\n"
 msgstr ""
 
-#: nano.c:335
+#: nano.c:336
 msgid ""
 "Usage: nano [GNU long option] [option] +LINE <file>\n"
 "\n"
 msgstr ""
 
-#: nano.c:336
+#: nano.c:337
 msgid "Option\t\tLong option\t\tMeaning\n"
 msgstr ""
 
-#: nano.c:338
+#: nano.c:339
 msgid " -T \t\t--tabsize=[num]\t\tSet width of a tab to num\n"
 msgstr ""
 
-#: nano.c:341
+#: nano.c:342
 msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
 msgstr ""
 
-#: nano.c:345
+#: nano.c:346
 msgid " -V \t\t--version\t\tPrint version information and exit\n"
 msgstr ""
 
-#: nano.c:347
+#: nano.c:348
 msgid " -c \t\t--const\t\t\tConstantly show cursor position\n"
 msgstr ""
 
-#: nano.c:349
+#: nano.c:350
 msgid " -h \t\t--help\t\t\tShow this message\n"
 msgstr ""
 
-#: nano.c:352
+#: nano.c:353
 msgid " -k \t\t--cut\t\t\tLet ^K cut from cursor to end of line\n"
 msgstr ""
 
-#: nano.c:355
+#: nano.c:356
 msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
 msgstr ""
 
-#: nano.c:357
+#: nano.c:358
 msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
 msgstr ""
 
-#: nano.c:360
+#: nano.c:361
 msgid " -m \t\t--mouse\t\t\tEnable mouse\n"
 msgstr ""
 
-#: nano.c:365
+#: nano.c:366
 msgid ""
 " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
 msgstr ""
 
-#: nano.c:367
+#: nano.c:368
 msgid " -p\t \t--pico\t\t\tEmulate Pico as closely as possible\n"
 msgstr ""
 
-#: nano.c:369
+#: nano.c:370
 msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
 msgstr ""
 
-#: nano.c:371
+#: nano.c:372
 msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
 msgstr ""
 
-#: nano.c:373
+#: nano.c:374
 msgid " -v \t\t--view\t\t\tView (read only) mode\n"
 msgstr ""
 
-#: nano.c:375
+#: nano.c:376
 msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
 msgstr ""
 
-#: nano.c:377
+#: nano.c:378
 msgid " -x \t\t--nohelp\t\tDon't show help window\n"
 msgstr ""
 
-#: nano.c:379
+#: nano.c:380
 msgid " -z \t\t--suspend\t\tEnable suspend\n"
 msgstr ""
 
-#: nano.c:381
+#: nano.c:382
 msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
 msgstr ""
 
-#: nano.c:383
+#: nano.c:384
 msgid ""
 "Usage: nano [option] +LINE <file>\n"
 "\n"
 msgstr ""
 
-#: nano.c:384
+#: nano.c:385
 msgid "Option\t\tMeaning\n"
 msgstr ""
 
-#: nano.c:385
+#: nano.c:386
 msgid " -T [num]\tSet width of a tab to num\n"
 msgstr ""
 
-#: nano.c:386
+#: nano.c:387
 msgid " -R\t\tUse regular expressions for search\n"
 msgstr ""
 
-#: nano.c:387
+#: nano.c:388
 msgid " -V \t\tPrint version information and exit\n"
 msgstr ""
 
-#: nano.c:388
+#: nano.c:389
 msgid " -c \t\tConstantly show cursor position\n"
 msgstr ""
 
-#: nano.c:389
+#: nano.c:390
 msgid " -h \t\tShow this message\n"
 msgstr ""
 
-#: nano.c:391
+#: nano.c:392
 msgid " -k \t\tLet ^K cut from cursor to end of line\n"
 msgstr ""
 
-#: nano.c:393
+#: nano.c:394
 msgid " -i \t\tAutomatically indent new lines\n"
 msgstr ""
 
-#: nano.c:395
+#: nano.c:396
 msgid " -l \t\tDon't follow symbolic links, overwrite\n"
 msgstr ""
 
-#: nano.c:398
+#: nano.c:399
 msgid " -m \t\tEnable mouse\n"
 msgstr ""
 
-#: nano.c:402
+#: nano.c:403
 msgid " -r [#cols] \tSet fill cols to (wrap lines at) #cols\n"
 msgstr ""
 
-#: nano.c:403
+#: nano.c:404
 msgid " -s [prog]  \tEnable alternate speller\n"
 msgstr ""
 
-#: nano.c:404
+#: nano.c:405
 msgid " -p \t\tEmulate Pico as closely as possible\n"
 msgstr ""
 
-#: nano.c:405
+#: nano.c:406
 msgid " -t \t\tAuto save on exit, don't prompt\n"
 msgstr ""
 
-#: nano.c:406
+#: nano.c:407
 msgid " -v \t\tView (read only) mode\n"
 msgstr ""
 
-#: nano.c:407
+#: nano.c:408
 msgid " -w \t\tDon't wrap long lines\n"
 msgstr ""
 
-#: nano.c:408
+#: nano.c:409
 msgid " -x \t\tDon't show help window\n"
 msgstr ""
 
-#: nano.c:409
+#: nano.c:410
 msgid " -z \t\tEnable suspend\n"
 msgstr ""
 
-#: nano.c:410
+#: nano.c:411
 msgid " +LINE\t\tStart at line number LINE\n"
 msgstr ""
 
-#: nano.c:417
+#: nano.c:418
 #, c-format
 msgid " nano version %s by Chris Allegretta (compiled %s, %s)\n"
 msgstr ""
 
-#: nano.c:420
+#: nano.c:421
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 msgstr ""
 
-#: nano.c:421
+#: nano.c:422
 msgid ""
 "\n"
 " Compiled options:"
 msgstr ""
 
-#: nano.c:477
+#: nano.c:478
 msgid "Mark Set"
 msgstr ""
 
-#: nano.c:482
+#: nano.c:483
 msgid "Mark UNset"
 msgstr ""
 
-#: nano.c:930
+#: nano.c:931
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr ""
 
-#: nano.c:981
+#: nano.c:982
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr ""
 
-#: nano.c:1034
+#: nano.c:1035
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr ""
 
-#: nano.c:1134
+#: nano.c:1135
 msgid "Edit a replacement"
 msgstr ""
 
-#: nano.c:1358
+#: nano.c:1359
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr ""
 
-#: nano.c:1374
+#: nano.c:1375
 msgid "Finished checking spelling"
 msgstr ""
 
-#: nano.c:1376
+#: nano.c:1377
 msgid "Spell checking failed"
 msgstr ""
 
-#: nano.c:1396
+#: nano.c:1397
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
+msgstr ""
+
+#: nano.c:1493
+msgid "Received SIGHUP"
 msgstr ""
 
 #: nano.c:1559

@@ -57,6 +57,12 @@ CVS code -
 	- Update the previous line as well as the current one in case we
 	  have moved beyond COLS or back from COLS, patch submitted
 	  by Ryan Krebs.
+  die()
+	- Now creates .save file using variable-length strings.  Also
+	  calls write_file with tmp == 1, which happens to do exactly what
+	  we want (ignore symlinks and use mode 0600).
+  handle_sighup()
+	- Now calls die instead of writing on its own and exiting normally.
 - search.c:
   do_replace_hilight()
 	- New function, displays the currently selected word as hilighted
