@@ -182,13 +182,21 @@ CVS code -
 	- Remove v_first parameter, and go back to the old behavior of
 	  putting back the first character of the escape sequence, as it
 	  worked just as well and was less complicated. (DLR)
+  get_mouseinput()
+	- Return TRUE instead of FALSE only when we have a control key,
+	  a prinary meta key sequence, or both. (DLR)
   get_shortcut()
 	- Add a debug message. (DLR)
 	- Take kbinput as a reference instead of a value, so that it's
 	  translated when the key is translated to its equivalent
 	  control key or meta key shortcut. (DLR)
+	- Return s instead of NULL only when we have a control key, a
+	  prinary meta key sequence, or both. (DLR)
   get_toggle()
 	- Add a debug message. (DLR)
+  bottombars()
+	- Initialize foo, in case a keystroke meets none of the handled
+	  cases. (DLR)
 - configure.ac:
 	- Remove specific references to control key shortcuts. (DLR)
 	- Check for the wide version of ncurses, without which multibyte

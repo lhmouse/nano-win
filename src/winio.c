@@ -1639,12 +1639,13 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	/* And put back the equivalent key.  Assume that each shortcut
 	 * has, at the very least, an equivalent control key, an
 	 * equivalent primary meta key sequence, or both. */
-	if (s->ctrlval != NANO_NO_KEY)
+	if (s->ctrlval != NANO_NO_KEY) {
 	    unget_kbinput(s->ctrlval, FALSE, FALSE);
-	else if (s->metaval != NANO_NO_KEY)
+	    return TRUE;
+	} else if (s->metaval != NANO_NO_KEY) {
 	    unget_kbinput(s->metaval, TRUE, FALSE);
-
-	return TRUE;
+	    return TRUE;
+	}
     }
     return FALSE;
 }
@@ -1689,12 +1690,13 @@ const shortcut *get_shortcut(const shortcut *s_list, int *kbinput, bool
 	    *meta_key = FALSE;
 	    *func_key = FALSE;
 	    *kbinput = s->ctrlval;
+	    return s;
 	} else if (s->metaval != NANO_NO_KEY) {
 	    *meta_key = TRUE;
 	    *func_key = FALSE;
 	    *kbinput = s->metaval;
+	    return s;
 	}
-	return s;
     }
 
     return NULL;
@@ -3020,7 +3022,7 @@ void bottombars(const shortcut *s)
 	    keystr = _("Up");
 	else {
 #endif
-	    char foo[4];
+	    char foo[4] = "";
 
 	    if (s->ctrlval == NANO_CONTROL_SPACE)
 		strcpy(foo, "^ ");
