@@ -2404,8 +2404,8 @@ char *input_tab(char *buf, int place, bool *lastwastab, int *newplace,
 	    /* Print the list of matches */
 	    for (i = 0, col = 0; i < num_matches; i++) {
 
-		/* make each filename shown be the same length as the longest
-		   filename, with two spaces at the end */
+		/* make each filename shown be the same length as the
+		   longest filename, with two spaces at the end */
 		snprintf(foo, longestname + 1, matches[i]);
 		while (strlen(foo) < longestname)
 		    strcat(foo, " ");
