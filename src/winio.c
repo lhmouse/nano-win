@@ -1512,9 +1512,9 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	else
 	    i = COLS / ((currslen / 2) + (currslen % 2));
 
-	/* Calculate the y-coordinates relative to the beginning of
-	 * bottomwin, i.e, the bottom three lines of the screen. */
-	j = *mouse_y - (editwinrows + 3);
+	/* Calculate the y-coordinate relative to the beginning of
+	 * bottomwin. */
+	j = *mouse_y - ((2 - no_more_space()) + 1) - editwinrows;
 
 	/* If we're on the statusbar, beyond the end of the shortcut
 	 * list, or beyond the end of a shortcut on the right side of
