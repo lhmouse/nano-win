@@ -441,7 +441,8 @@ void load_buffer(const char *name)
 
 #ifndef DISABLE_OPERATINGDIR
     if (check_operating_dir(name, FALSE)) {
-	statusbar(_("Can't insert file from outside of %s"), operating_dir);
+	statusbar(_("Can't insert file from outside of %s"),
+		operating_dir);
 	return;
     }
 #endif
