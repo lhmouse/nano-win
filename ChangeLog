@@ -23,6 +23,10 @@ CVS code -
 	  New functions do_find_bracket(), changes to findnextstr(),
 	  command is Meta-] (hope you dont mind since I already sold off
 	  Meta-O to the MacOS file code Ken...)
+- files.c:
+  do_writeout()
+	- Expanded strings to not use %s and ?: to determine
+	  write/append string to be nice to translators.
 - nano.c:
   main()
 	- Added vars oldcurrent and oldcurrent_x to check whether cursor

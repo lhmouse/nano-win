@@ -1284,14 +1284,26 @@ int do_writeout(char *path, int exiting, int append)
     }
 
     while (1) {
+
+	/* Be nice to the translation folks */
 #ifndef NANO_SMALL
-	if (ISSET(MARK_ISSET) && !exiting)
-	    i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, "",
-		    _("%s Selection to File"), append ? _("Append") : _("Write"));
-	else
+	if (ISSET(MARK_ISSET) && !exiting) {
+	    if (append)
+		i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, "",
+		    _("Append Selection to File"));
+	    else
+		i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, "",
+		    _("Write Selection to File"));
+	} else {
 #endif
-	    i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, answer,
-		    _("File Name to %s"), append ? _("Append") : _("Write"));
+	    if (append)
+		i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, answer,
+		    _("File Name to Append"));
+	    else
+		i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, answer,
+		    _("File Name to Write"));
+
+	}
 
 	if (i != -1) {
 
