@@ -90,7 +90,8 @@ CVS code -
 	  do_right_void(), need_horizontal_update(),
 	  need_vertical_update(), edit_scroll(), and edit_redraw().  All
 	  of these functions but the first two require the previous
-	  versions of current and/or placewewant as parameters.  Also
+	  versions of current and/or placewewant as parameters, so that
+	  they can redraw properly when the location has changed.  Also
 	  rename the int refresh in do_delete() and do_backspace() to
 	  do_refresh so as not to conflict with refresh(). (DLR)
 	- Add some comments better explaining what is disabled in

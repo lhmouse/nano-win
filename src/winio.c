@@ -2610,7 +2610,8 @@ void edit_scroll(updown direction, int nlines)
  * updated. */
 void edit_redraw(const filestruct *old_current, int old_pww)
 {
-    int do_refresh = need_vertical_update(old_pww);
+    int do_refresh = need_vertical_update(0) ||
+	need_vertical_update(old_pww);
     const filestruct *foo;
 
     /* If either old_current or current is offscreen, refresh the screen
@@ -2623,9 +2624,9 @@ void edit_redraw(const filestruct *old_current, int old_pww)
 	return;
     }
 
-    /* Update old_current and current if we're not on the first page.
-     * If the mark is on, update all the lines between old_current and
-     * current too. */
+    /* Update old_current and current if we're not on the first page
+     * and/or we're not on the same page as before.  If the mark is on,
+     * update all the lines between old_current and current too. */
     foo = old_current;
     while (foo != current) {
 	if (do_refresh)
