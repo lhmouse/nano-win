@@ -453,7 +453,7 @@ void shortcut_init(int unjustify)
 		nano_mark_msg, NANO_ALT_MARK_KEY, 0, 0, NOVIEW, do_mark);
 
     sc_init_one(&main_list, NANO_DELETE_KEY, _("Delete"),
-		nano_delete_msg, 0, KEY_DC,
+		nano_delete_msg, 0, 0,
 		NANO_CONTROL_D, NOVIEW, do_delete);
 
     sc_init_one(&main_list, NANO_BACKSPACE_KEY, _("Backspace"),
