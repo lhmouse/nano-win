@@ -133,6 +133,7 @@ int read_file(int fd, char *filename)
     int line1ins = 0;
 
     buf = nmalloc(bufx);
+    buf[0] = '\0';
 
     if (fileptr != NULL && fileptr->prev != NULL) {
 	fileptr = fileptr->prev;

@@ -58,8 +58,8 @@
 #endif
 
 /* Former globals, now static */
-char *last_search;		/* Last string we searched for */
-char *last_replace;		/* Last replacement string */
+char *last_search = "\0";		/* Last string we searched for */
+char *last_replace = "\0";		/* Last replacement string */
 int fill = 0;			/* Fill - where to wrap lines, basically */
 static char *alt_speller;	/* Alternative spell command */
 struct termios oldterm;		/* The user's original term settings */
@@ -1054,6 +1054,7 @@ void exit_spell(char *tmpfilename, char *foo)
 
     if (remove(tmpfilename) == -1)
 	statusbar(_("Error deleting tempfile, ack!"));
+    display_main_list();
 }
 
 /*
@@ -1091,7 +1092,6 @@ int do_spell(void)
     }
 
     endwin();
-    resetty();
     if (alt_speller) {
 	if ((i = system(foo)) == -1 || i == 32512) {
 	    statusbar(_("Could not invoke spell program \"%s\""),
@@ -1104,7 +1104,8 @@ int do_spell(void)
 	exit_spell(temp, foo);
 	return 0;
     }
-    initscr();
+/*    initscr(); */
+    refresh();
 
     free_filestruct(fileage);
     global_init();
@@ -1695,12 +1696,10 @@ int main(int argc, char *argv[])
     /* First back up the old settings so they can be restored, duh */
     tcgetattr(0, &oldterm);
 
-    /* Adam's code to blow away intr character so ^C can show cursor pos */
-    tcgetattr(0, &term);
-    for (i = 0; i < NCCS; i++) {
-	if (term.c_cc[i] == CINTR || term.c_cc[i] == CQUIT)
-	    term.c_cc[i] = 0;
-    }
+    term = oldterm;
+    term.c_cc[VINTR] = _POSIX_VDISABLE;
+    term.c_cc[VQUIT] = _POSIX_VDISABLE;
+    term.c_lflag &= ~IEXTEN;
     tcsetattr(0, TCSANOW, &term);
 
     /* now ncurses init stuff... */

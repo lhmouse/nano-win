@@ -11,8 +11,16 @@ Current CVS:
 - nano.c:
   main():
 	- TABSIZE now set before first call to edit_refresh (Bill Soudan)
+	- Different ^C kill code (patch by Christian Weisgerber).
   die():
 	- More intelligent emergency-save filename selection (Rob)
+  do_spell():
+	- Changed exit semantincs a bit so that aspell wouldn't get
+	  all screwy (bug disovered by Joshua Jensen.
+- files.c:
+  read_file():
+	- Added init of buf variable, hopefully this will stop the 
+	  "bleeding" of text seen with mutt and using i18n.
 - search.c:
   search_init():
 	- Added " (to replace)" statement to end of search string if 
