@@ -159,13 +159,10 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 		, NULL);
 
 	    if (s_mb_len > maxlen)
-		s_mb_len = maxlen;
+		break;
 
 	    maxlen -= s_mb_len;
 	    n += s_mb_len;
-
-	    if (maxlen == 0)
-		break;
 	}
 
 	free(s_mb);
