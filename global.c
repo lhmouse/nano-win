@@ -249,7 +249,7 @@ void shortcut_init(int unjustify)
 #ifndef NANO_SMALL
     char *nano_tofiles_msg = "", *nano_gotodir_msg = "", *nano_case_msg =
 	"", *nano_reverse_msg = "", *nano_regexp_msg = "",
-	*nano_bracket_msg;
+	*nano_bracket_msg = "";
 
     nano_help_msg = _("Invoke the help menu");
     nano_writeout_msg = _("Write the current file to disk");
