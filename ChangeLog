@@ -45,6 +45,10 @@ CVS code -
 	  support, pressing Ctrl-Z to suspend nano at the Linux console
 	  with keypad(TRUE) generates Ctrl-Z instead of KEY_SUSPEND
 	  (which is what ncurses generates then). (DLR)
+- winio.c:
+  titlebar()
+	- Fix problem with the available space for a filename on the
+	  titlebar's being short by one. (DLR)
 - AUTHORS
 	- Updated to show 1.2/1.3 maintainers.
 

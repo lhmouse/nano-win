@@ -779,7 +779,7 @@ void titlebar(const char *path)
     mvwaddstr(topwin, 0, 0, hblank);
     mvwaddnstr(topwin, 0, 2, VERMSG, COLS - 3);
 
-    space = COLS - sizeof(VERMSG) - 22;
+    space = COLS - sizeof(VERMSG) - 23;
 
     namelen = strlen(what);
 
