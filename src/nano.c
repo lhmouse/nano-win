@@ -3113,9 +3113,11 @@ void do_justify(bool full_justify)
 	    if (break_pos == -1 || break_pos + indent_len == line_len)
 		break;
 
-	    break_pos += indent_len;
+	    /* Move forward to the character after the indentation and
+	     * just after the space. */
+	    break_pos += indent_len + 1;
 
-	    assert(break_pos < line_len);
+	    assert(break_pos <= line_len);
 
 	    /* Make a new line, and copy the text after where we're
 	     * going to break this line to the beginning of the new
@@ -3132,11 +3134,13 @@ void do_justify(bool full_justify)
 		)
 		indent_len = 0;
 
-	    current->next->data = charalloc(indent_len + line_len -
+	    /* Copy the text after where we're going to break the
+	     * current line to the next line. */
+	    current->next->data = charalloc(indent_len + 1 + line_len -
 		break_pos);
 	    charcpy(current->next->data, indent_string, indent_len);
 	    strcpy(current->next->data + indent_len, current->data +
-		break_pos + 1);
+		break_pos);
 
 	    par_len++;
 	    totlines++;
@@ -3147,12 +3151,12 @@ void do_justify(bool full_justify)
 	     * in the current line. */
 	    if (mark_beginbuf == current && mark_beginx > break_pos) {
 		mark_beginbuf = current->next;
-		mark_beginx -= break_pos + 1 - indent_len;
+		mark_beginx -= break_pos - indent_len;
 	    }
 #endif
 
-	    /* Break the line at the character just after the space. */
-	    null_at(&current->data, break_pos + 1);
+	    /* Break the current line. */
+	    null_at(&current->data, break_pos);
 
 	    /* Go to the next line. */
 	    par_len--;
