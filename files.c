@@ -444,10 +444,10 @@ int write_file(char *name, int tmp)
 	else
 	    mask = 0666 & ~mask;
     } else
+	/* Use permissions from file we are overwriting. */
 	mask = st.st_mode;
 
     if (!tmp && (!ISSET(FOLLOW_SYMLINKS) && S_ISLNK(lst.st_mode))) {
-	/* Use permissions from file we are overwriting. */
 	if (unlink(realname) == -1) {
 	    if (errno != ENOENT) {
 		statusbar(_("Could not open %s for writing: %s"),
