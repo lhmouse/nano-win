@@ -63,6 +63,9 @@ Changes
 	- Fix typo. (David Benbennick)
 	- Check for strcasecmp() and strncasecmp(), since they are
 	  apparently only standard under BSD. (DLR)
+	- Small cleanups. Add copyright header, add autopoint support and
+	  define bug report address and full package name in AC_INIT. Move
+	  ALL_LINGUAS to po/LINGUAS, recommended place for gettext 0.11.
 - color.c:
   update_color():
 	- Remove an unneeded edit_refresh() call after do_colorinit().

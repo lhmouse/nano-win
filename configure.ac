@@ -1,17 +1,39 @@
+# Configuration for GNU nano - a small and user-friendly text editor
+#
+# Copyright (C) 1999, 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
+#
+# GNU Nano is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+#
+# GNU Nano is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GNU Nano; if not, write to the Free Software
+# Foundation, Inc.
+# 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
 # $Id$
-dnl Process this file with autoconf to produce a configure script.
-AC_INIT
+
+AC_INIT([GNU Nano], [1.1.12-cvs], [nano-devel@gnu.org], [nano])
 AC_CONFIG_SRCDIR([nano.c])
+AM_INIT_AUTOMAKE
+AC_CONFIG_HEADERS([config.h])
+
 AC_PREREQ(2.52)
-AM_INIT_AUTOMAKE(nano, 1.1.12-cvs)
-AM_CONFIG_HEADER(config.h:config.h.in)
-dnl AM_ACLOCAL_INCLUDE(m4)
-ALL_LINGUAS="es de fr it id fi hu ca cs gl uk ru sv nn nl da pl nb ms pt_BR tr"
 
 dnl Checks for programs.
 AC_PROG_CC
 AC_ISC_POSIX
 AC_SYS_LARGEFILE
+
+dnl Internationalization macros.
+AM_GNU_GETTEXT_VERSION(0.11.5)
+AM_GNU_GETTEXT([external], [need-ngettext])
 
 dnl Checks for header files.
 AC_HEADER_STDC
@@ -312,9 +334,6 @@ if test "x$glib_libs" != "x"
 then
 	LDFLAGS="$LDFLAGS $glib_libs"
 fi
-
-dnl i18n stuff - pretty incomplete for now
-AM_GNU_GETTEXT([external], [need-ngettext])
 
 AC_CONFIG_FILES([Makefile m4/Makefile po/Makefile.in nano.spec])
 AC_OUTPUT
