@@ -1,6 +1,8 @@
 CVS Code -
 - po/pl.po:
 	- New Polish, partial translation, by Cezary Sliwa <sliwa@cft.edu.pl>.
+- po/it.po:
+	- Italian translation update (Marco Colombo).
 
 nano-1.0.7 - 12/17/2001
 - General

@@ -5,11 +5,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.0.4\n"
+"Project-Id-Version: nano_1_0 1.0.7\n"
 "POT-Creation-Date: 2001-12-17 18:48-0500\n"
-"PO-Revision-Date: 2001-10-03 20:31+02:00\n"
+"PO-Revision-Date: 2001-12-22 23:43+01:00\n"
 "Last-Translator: Marco Colombo <magicdice@inwind.it>\n"
-"Language-Team: Italian <it@li.org>\n"
+"Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -51,7 +51,7 @@ msgstr "Il file \"%s\" è una directory"
 #: files.c:242
 #, c-format
 msgid "File \"%s\" is a device file"
-msgstr "Il file \"%s\" è un file di device"
+msgstr "Il file \"%s\" è un device file"
 
 #: files.c:249
 msgid "Reading File"
@@ -422,21 +422,13 @@ msgstr "Nuovo file"
 
 #: nano.c:141
 #, c-format
-msgid ""
-"\n"
-"Buffer written to %s\n"
-msgstr ""
-"\n"
-"Buffer scritto su %s\n"
+msgid "\nBuffer written to %s\n"
+msgstr "\nBuffer scritto su %s\n"
 
 #: nano.c:143
 #, c-format
-msgid ""
-"\n"
-"No %s written (file exists?)\n"
-msgstr ""
-"\n"
-"%s non scritto (il file esiste?)\n"
+msgid "\nNo %s written (file exists?)\n"
+msgstr "\n%s non scritto (il file esiste?)\n"
 
 #: nano.c:152
 msgid "Window size is too small for Nano..."
@@ -450,40 +442,16 @@ msgstr "Chiave illegale nella modalità VISTA"
 msgid ""
 " nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor: The "
-"top line shows the program version, the current filename being edited, and "
-"whether or not the file has been modified.  Next is the main editor window "
-"showing the file being edited.  The status line is the third line from the "
-"bottom and shows important messages. The bottom two lines show the most "
-"commonly used shortcuts in the editor.\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor: The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages. The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
-" The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  "
-"Escape-key sequences are notated with the Meta (M) symbol and can be entered "
-"using either the Esc, Alt or Meta key depending on your keyboard setup.  The "
-"following keystrokes are available in the main editor window. Optional keys "
-"are shown in parentheses:\n"
+" The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt or Meta key depending on your keyboard setup.  The following keystrokes are available in the main editor window. Optional keys are shown in parentheses:\n"
 "\n"
 msgstr ""
 "Aiuto di nano\n"
 "\n"
-" nano è un editor di testi disegnato per emulare le funzionalità e la "
-"facilità d'uso di Pico. Ci sono quattro sezioni principali dell'editor: La "
-"riga superiore mostra la versione del programma, il nome del file "
-"correntemente in uso e se il file è stato modificato oppure no. Più sotto "
-"c'è la finestra principale che mostra il contenuto del file che si sta "
-"editando. La barra di stato è la terza riga dal basso e mostra importanti "
-"messaggi. Le due righe finali mostrano le abbreviazioni più comunemente "
-"usate. \n"
+" nano è un editor di testi disegnato per emulare le funzionalità e la facilità d'uso di Pico. Ci sono quattro sezioni principali dell'editor: La riga superiore mostra la versione del programma, il nome del file correntemente in uso e se il file è stato modificato oppure no. Più sotto c'è la finestra principale che mostra il contenuto del file che si sta editando. La barra di stato è la terza riga dal basso e mostra importanti messaggi. Le due righe finali mostrano le abbreviazioni più comunemente usate. \n"
 "\n"
-" La notazione per le abbreviazioni è la seguente: Le sequenze col tasto "
-"Control sono identificate con il simbolo (^) e sono introdotte col tasto "
-"Control (Ctrl). Le sequenze col tasto Escape sono identificate col simbolo "
-"Meta (M) e possono essere inserite usato alternativamente il tasto Esc, Alt "
-"o Meta secondo la configurazione della vostra tastiera. Le seguenti "
-"abbreviazioni sono disponibili nella finestra principale dell'editor. Le "
-"sequenze alternative sono mostrate tra parentesi.\n"
+" La notazione per le abbreviazioni è la seguente: Le sequenze col tasto Control sono identificate con il simbolo (^) e sono introdotte col tasto Control (Ctrl). Le sequenze col tasto Escape sono identificate col simbolo Meta (M) e possono essere inserite usato alternativamente il tasto Esc, Alt o Meta secondo la configurazione della vostra tastiera. Le seguenti abbreviazioni sono disponibili nella finestra principale dell'editor. Le sequenze alternative sono mostrate tra parentesi.\n"
 "\n"
 
 #: nano.c:298
@@ -495,12 +463,8 @@ msgid "delete_node(): free'd last node.\n"
 msgstr "delete_node(): liberato l'ultimo nodo.\n"
 
 #: nano.c:360
-msgid ""
-"Usage: nano [GNU long option] [option] +LINE <file>\n"
-"\n"
-msgstr ""
-"Utilizzo: nano [opzioni lunghe GNU] [opzioni] +RIGA <file>\n"
-"\n"
+msgid "Usage: nano [GNU long option] [option] +LINE <file>\n\n"
+msgstr "Utilizzo: nano [opzioni lunghe GNU] [opzioni] +RIGA <file>\n\n"
 
 #: nano.c:361
 msgid "Option\t\tLong option\t\tMeaning\n"
@@ -508,8 +472,7 @@ msgstr "Opzioni\t\tOpzioni lunghe\t\tSignificato\n"
 
 #: nano.c:363
 msgid " -T [num]\t--tabsize=[num]\t\tSet width of a tab to num\n"
-msgstr ""
-" -T [num]\t--tabsize=[num]\t\tImposta la lunghezza della tabulazione a num\n"
+msgstr " -T [num]\t--tabsize=[num]\t\tImposta la lunghezza della tabulazione a num\n"
 
 #: nano.c:366
 msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
@@ -548,21 +511,16 @@ msgid " -p\t \t--pico\t\t\tEmulate Pico as closely as possible\n"
 msgstr " -p\t \t--pico\t\t\tEmula Pico il più possibile\n"
 
 #: nano.c:392
-msgid ""
-" -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
-msgstr ""
-" -r [#cols] \t--fill=[#cols]\t\tConfigura riempimento colonne a (interrompi "
-"righe a) #cols\n"
+msgid " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
+msgstr " -r [#cols] \t--fill=[#cols]\t\tConfigura riempimento colonne a (interrompi righe a) #cols\n"
 
 #: nano.c:395
 msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
-msgstr ""
-" -s [prog] \t--speller=[prog]\tAttiva correttore ortografico alternativo\n"
+msgstr " -s [prog] \t--speller=[prog]\tAttiva correttore ortografico alternativo\n"
 
 #: nano.c:398
 msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
-msgstr ""
-" -t \t\t--tempfile\t\tSalvataggio automatico in uscita senza conferma\n"
+msgstr " -t \t\t--tempfile\t\tSalvataggio automatico in uscita senza conferma\n"
 
 #: nano.c:400
 msgid " -v \t\t--view\t\t\tView (read only) mode\n"
@@ -585,12 +543,8 @@ msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
 msgstr " +RIGA\t\t\t\t\tInizia alla riga numero RIGA\n"
 
 #: nano.c:412
-msgid ""
-"Usage: nano [option] +LINE <file>\n"
-"\n"
-msgstr ""
-"Utilizzo: nano [opzioni] +RIGA <file>\n"
-"\n"
+msgid "Usage: nano [option] +LINE <file>\n\n"
+msgstr "Utilizzo: nano [opzioni] +RIGA <file>\n\n"
 
 #: nano.c:413
 msgid "Option\t\tMeaning\n"
@@ -638,8 +592,7 @@ msgstr " -p \t\tEmula Pico il più possibile\n"
 
 #: nano.c:431
 msgid " -r [#cols] \tSet fill cols to (wrap lines at) #cols\n"
-msgstr ""
-" -r [#cols] \tConfigura riempimento colonne (interrompi righe a) #cols\n"
+msgstr " -r [#cols] \tConfigura riempimento colonne (interrompi righe a) #cols\n"
 
 #: nano.c:433
 msgid " -s [prog]  \tEnable alternate speller\n"
@@ -679,12 +632,8 @@ msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 msgstr " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 
 #: nano.c:453
-msgid ""
-"\n"
-" Compiled options:"
-msgstr ""
-"\n"
-" Opzioni di compilazione:"
+msgid "\n Compiled options:"
+msgstr "\n Opzioni di compilazione:"
 
 #: nano.c:521
 msgid "Mark Set"
@@ -692,7 +641,7 @@ msgstr "Marcatura impostata"
 
 #: nano.c:526
 msgid "Mark UNset"
-msgstr "Marcatura rimossa"
+msgstr "Marcatura disattivata"
 
 #: nano.c:1101
 #, c-format
@@ -720,8 +669,7 @@ msgstr "Impossibile creare un nome file temporaneo: %s"
 
 #: nano.c:1547
 msgid "Spell checking failed: unable to write temp file!"
-msgstr ""
-"Controllo ortografico fallito: impossibile scrivere su file temporaneo!"
+msgstr "Controllo ortografico fallito: impossibile scrivere su file temporaneo!"
 
 #: nano.c:1559
 msgid "Finished checking spelling"
@@ -733,9 +681,7 @@ msgstr "Controllo ortografico fallito"
 
 #: nano.c:1581
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
-msgstr ""
-"Salva il buffer modificato? (RISPONDENDO \"No\" ANNULLERETE I CAMBIAMENTI "
-"AVVENUTI) "
+msgstr "Salva il buffer modificato? (RISPONDENDO \"No\" ANNULLERETE I CAMBIAMENTI AVVENUTI) "
 
 #: nano.c:1677
 msgid "Received SIGHUP"
@@ -784,9 +730,7 @@ msgstr "disabilitato"
 
 #: nano.c:2257
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
-msgstr ""
-"Rilevata pressione del NumLock. Il keypad potrebbe non funzionare col "
-"Numlock spento"
+msgstr "Rilevata pressione del NumLock. Il keypad potrebbe non funzionare col Numlock spento"
 
 #: nano.c:2483
 msgid "Main: set up windows\n"
