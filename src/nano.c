@@ -240,7 +240,8 @@ void window_init(void)
     /* Set up the windows. */
     topwin = newwin(2 - no_more_space(), COLS, 0, 0);
     edit = newwin(editwinrows, COLS, 2 - no_more_space(), 0);
-    bottomwin = newwin(3 - no_help(), COLS, editwinrows + 1, 0);
+    bottomwin = newwin(3 - no_help(), COLS, editwinrows +
+	(2 - no_more_space()), 0);
 
     /* Turn the keypad back on. */
     keypad(edit, TRUE);

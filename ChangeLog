@@ -133,9 +133,7 @@ CVS code -
 	  course the curses-imposed limit that it be greater than zero).
 	  New function resize_variables(); changes to die_too_small()
 	  (renamed check_die_too_small()), global_init(), window_init(),
-	  and handle_sigwinch(). (David Benbennick)  DLR: Tweak the
-	  coordinate formula in window_init() so that the statusbar
-	  prompt is always visible.
+	  and handle_sigwinch(). (David Benbennick)
 	- Use void instead of RETSIGTYPE, as signal handlers are
 	  supposed to return void anyway.  Also, the value of RETSIGTYPE
 	  is sometimes misdetected as int, leading to compilation
