@@ -3902,6 +3902,11 @@ int main(int argc, char **argv)
 	if (locale == NULL || (locale != NULL &&
 		strstr(locale, "UTF-8") == NULL))
 	    SET(NO_UTF8);
+
+#ifdef USE_SLANG
+	if (!ISSET(NO_UTF8))
+	    SLsmg_utf8_enable(TRUE);
+#endif
     }
 #else
     setlocale(LC_ALL, "");
