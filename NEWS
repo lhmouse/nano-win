@@ -1,3 +1,11 @@
+07/2?/2000 - Nano 0.9.13 has a few new bits and bobs, most notably the
+		-k option from Pico (cut to end of line).  The majority
+		of changes in this release are bugfixes however, including
+		the usual display fixes and fixes for writing to symbolic
+		links and un-writeable files.  Barring any other major 
+		changes, this should be the feature set for nano 1.0,
+		whenever it might be released =-)
+
 07/07/2000 - Nano 0.9.12 (The "lucky day" release) is bursting with new
 		features, bug fixes, and yummy fruit flavor.  For
 		changes, the alternate replace keystroke ^W^T is now

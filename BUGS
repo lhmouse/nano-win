@@ -13,6 +13,9 @@
   "ed" with "fred" causes an infinite loop. (15) [FIXED]
 - Cutting more than one line resets the KEEP_CUTBUFFER flag in 0.9.3
   Error is in bitwise assignment (nano.h). (17) [FIXED]
+- The wrapping code does not work right for lines like the following:
+ *                                                                     *
+  Error is in do_wrap, must be rewritten. (18) [FIXED]
 - Nano fails to follow symlinks, even though -l isn't being used (20).
   [Bug in global flag init, FIXED]
 - When using --help or --version, the SIGINT character gets lost. (21) [FIXED]
@@ -40,9 +43,6 @@
   program.  Nano only uses ispell (for now) (12)
 - Cutting a file with marked text and both marker ends on the same line
   causes a random segfault (16)
-- The wrapping code does not work right for lines like the following:
- *                                                                     *
-  Error is in do_wrap, must be rewritten (18).
 - Wrapping a line with autoindent mode sometimes causes a segfault (19).
 - When inserting files, the display sometimes fails to display properly
   until a pageup/down occurs (22).
