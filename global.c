@@ -87,7 +87,7 @@ char *full_operating_dir = NULL;/* go higher than */
 #endif
 
 #ifndef DISABLE_SPELLER
-char *alt_speller;		/* Alternative spell command */
+char *alt_speller = NULL;		/* Alternative spell command */
 #endif
 
 shortcut *main_list = NULL;

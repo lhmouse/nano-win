@@ -102,6 +102,10 @@ void new_file(void)
     UNSET(VIEW_MODE);
 #endif
 
+#ifdef ENABLE_COLOR
+    update_color();
+#endif
+
 }
 
 filestruct *read_line(char *buf, filestruct * prev, int *line1ins)

@@ -803,7 +803,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 				colormatches, 0)) {
 
 		    if (colormatches[0].rm_eo - colormatches[0].rm_so < 1) {
-			statusbar("Refusing 0 length regex match");
+			statusbar(_("Refusing 0 length regex match"));
 			break;
 		    }
 #ifdef DEBUG
@@ -816,11 +816,22 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 			    wattron(edit, A_BOLD);
 			wattron(edit, COLOR_PAIR(tmpcolor->pairnum));
 
-			if (colormatches[0].rm_eo + k <= COLS)
+			if (colormatches[0].rm_eo + k <= COLS) {
 			    paintlen =
 				colormatches[0].rm_eo - colormatches[0].rm_so;
-			else
+#ifdef DEBUG
+			    fprintf(stderr, "paintlen (%d) = eo (%d) - so (%d)\n", 
+				paintlen, colormatches[0].rm_eo, colormatches[0].rm_so);
+#endif
+
+			}
+			else {
 			    paintlen = COLS - k - colormatches[0].rm_so - 1;
+#ifdef DEBUG
+			    fprintf(stderr, "paintlen (%d) = COLS (%d) - k (%d), - rm.so (%d) - 1\n", 
+					paintlen, COLS, k, colormatches[0].rm_so);
+#endif
+			}
 
 			mvwaddnstr(edit, yval, colormatches[0].rm_so + k,
 				   &fileptr->data[k + colormatches[0].rm_so],
@@ -902,18 +913,23 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 
 			    wattron(edit, COLOR_PAIR(tmpcolor->pairnum));
 
-			    if (s == fileptr && e == fileptr)
+			    if (s == fileptr && e == fileptr && ematch < COLS) {
 				mvwaddnstr(edit, yval, start + smatch, 
 					&fileptr->data[start + smatch],
 					ematch - smatch);
-		    	    else if (s == fileptr)
+#ifdef DEBUG
+			fprintf(stderr, "start = %d, smatch = %d, ematch = %d\n", start,
+				smatch, ematch);
+#endif
+
+		    	    } else if (s == fileptr)
 				mvwaddnstr(edit, yval, start + smatch, 
 					&fileptr->data[start + smatch],
 					COLS - smatch);
 			    else if (e == fileptr)
 				mvwaddnstr(edit, yval, start, 
 					&fileptr->data[start],
-					ematch - start);
+					COLS - start);
 			    else
 				mvwaddnstr(edit, yval, start, 
 					&fileptr->data[start],

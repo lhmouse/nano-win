@@ -24,7 +24,6 @@ CVS code -
 	  syntaxfile_regexp and synfilematches.  Global flag -Y ,--syntax
 	  to specify the type on the command line, if there's no good 
 	  filename regex to use.  Global variable syntaxstr.
-	- Made some rc file errors less fatal.
 - configure.ac:
 	- Define NDEBUG to silence asserts (David Benbennick).
 - files.c:
@@ -40,6 +39,8 @@ CVS code -
 	- Optimizations (David Benbennick).
   do_wrap()
 	- Complete rewrite (David Benbennick).
+  main()
+	- Changed charalloc(), strcpy()s to mallocstrcpy()s.
 - nano.h:
 	- NANO_ALT_COMMAND and NANO_ALT_PERIOD were reversed (lol)
 	  (David Benbennick).
@@ -48,6 +49,11 @@ CVS code -
 	  by default (Im an idiot).
 - nano.1:
 	- Changed references to Debian GNU/Linux to Debian GNU (Jordi).
+- rcfile.c
+	- Made some rc file errors less fatal.
+- winio.c:
+  edit_add()
+	- Changed some syntax hilight computations for the sake of COLS.
 - po/gl.po:
 	- Galician translation updates (Jacobo Tarrio).
 - po/de.po:

@@ -2959,8 +2959,7 @@ int main(int argc, char *argv[])
 	    break;
 #ifndef DISABLE_OPERATINGDIR
 	case 'o':
-	    operating_dir = charalloc(strlen(optarg) + 1);
-	    strcpy(operating_dir, optarg);
+	    operating_dir = mallocstrcpy(operating_dir, optarg);
 
 	    /* make sure we're inside the operating directory */
 	    if (check_operating_dir(".", 0)) {
@@ -2991,8 +2990,7 @@ int main(int argc, char *argv[])
 #endif
 #ifndef DISABLE_SPELLER
 	case 's':
-	    alt_speller = charalloc(strlen(optarg) + 1);
-	    strcpy(alt_speller, optarg);
+	    alt_speller = mallocstrcpy(alt_speller, optarg);
 	    break;
 #endif
 	case 't':
