@@ -443,7 +443,10 @@ void do_insertfile(int loading_file)
     wrap_reset();
 #endif
 
+#ifndef NANO_SMALL
   start_again:
+#endif
+
 #if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE)
     currshortcut = insertfile_list;
 #endif
