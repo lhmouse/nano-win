@@ -76,7 +76,7 @@ CVS code -
 	- Simplify by reusing variables whereever possible, and add a
 	  parameter execute to indicate whether or not to be in "Execute
 	  Command" mode. (DLR)
-- open_prevfile(), open_nextfile()
+  open_prevfile(), open_nextfile()
 	- Translate the "New Buffer" string when displaying "Switched
 	  to" messages on the statusbar. (DLR)
 - global.c:
