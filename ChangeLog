@@ -1,4 +1,9 @@
 CVS code -
+- files.c:
+  write_file()
+	- Added O_EXCL to open call if tmp is set, more security which hopefully
+	  fixes any remaining security issues.
+
 nano 0.9.22 - 12/02/2000
 - General
 	- Username tab completion code, and cleaned up existing tabcomp

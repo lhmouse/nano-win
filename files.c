@@ -335,10 +335,17 @@ int write_file(char *name, int tmp)
 	 return -1;
     else if (ISSET(FOLLOW_SYMLINKS) || !S_ISLNK(st.st_mode)) {
 
-	/* Open the file and truncate it.  Trust the symlink. */
-	if ((fd = open(realname, O_WRONLY | O_CREAT | O_TRUNC,
+	/* If tmp is set, use O_EXCL, more security, YAY! */
+	if (tmp)
+	    fd = open(realname, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC,
 		       S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH |
-		       S_IWOTH)) == -1) {
+		       S_IWOTH);
+	else
+	    fd = open(realname, O_WRONLY | O_CREAT | O_TRUNC,
+		       S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH |
+		       S_IWOTH);
+	/* Open the file and truncate it.  Trust the symlink. */
+	if (fd == -1) {
 	    if (ISSET(TEMP_OPT)) {
 		UNSET(TEMP_OPT);
 		return do_writeout(1);
