@@ -445,6 +445,9 @@ void version(void)
 #ifdef NANO_EXTRA
     printf(" --enable-extra");
 #endif
+#ifdef ENABLE_BROWSER
+    printf(" --enable-browser");
+#endif
 #ifdef DISABLE_TABCOMP
     printf(" --disable-tabcomp");
 #endif
