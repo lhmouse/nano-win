@@ -1368,7 +1368,7 @@ char *do_browse_from(char *inpath)
 #ifdef PATH_MAX
 	char *from = getcwd(NULL, PATH_MAX+1);
 #else
-	char *from = getcwd(NULL, 0));
+	char *from = getcwd(NULL, 0);
 #endif /* PATH_MAX */
 	return do_browser(from ? from : "./");
     }
