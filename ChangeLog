@@ -67,6 +67,8 @@ CVS code -
 	  newline. (DLR)
 	- Don't treat the return value of strn?(case)?cmp() as boolean.
 	  (DLR and David Benbennick)
+	- Automatically install a symlink "rnano" pointing to nano.
+	  Changes to src/Marefile.am. (DLR)
 - files.c:
   close_open_file()
 	- Tweak to no longer rely on the return values of
@@ -196,6 +198,9 @@ CVS code -
 	  value can't be larger than COLS. (DLR)
 	- Allow the user to exit the help browser via Ctrl-C as well as
 	  Ctrl-X, for consistency with the file browser. (DLR)
+- configure.ac:
+	- Add AC_PROG_LN_S, so that we can portably create symlinks.
+	  (DLR)
 - nanorc.sample:
 	- Add sample regexes for patch files. (Mike Frysinger)
 	- Various improvements to the "c-file" regexes.  Add double,
