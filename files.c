@@ -352,7 +352,6 @@ int write_file(char *name, int tmp)
 	    }
 	    statusbar(_("Could not open file for writing: %s"),
 		      strerror(errno));
-	    fprintf(stderr, "1\n");
 	    free(realname);
 	    return -1;
 	}
@@ -362,7 +361,6 @@ int write_file(char *name, int tmp)
 
  	if (fstat(fd, &st2) != 0) {
 	    close(fd);
-	    fprintf(stderr, "2\n");
 	    return -1; 
 	}
       
@@ -384,7 +382,6 @@ int write_file(char *name, int tmp)
 	    }
 	    statusbar(_("Could not open file for writing: %s"),
 		      strerror(errno));
-	    fprintf(stderr, "3\n");
 	    return -1;
 	}
     }
@@ -399,7 +396,6 @@ int write_file(char *name, int tmp)
 	if (size == -1) {
 	    statusbar(_("Could not open file for writing: %s"),
 		      strerror(errno));
-	    fprintf(stderr, "4\n");
 	    return -1;
 	} else {
 #ifdef DEBUG
@@ -417,14 +413,12 @@ int write_file(char *name, int tmp)
 	if (size == -1) {
 	    statusbar(_("Could not open file for writing: %s"),
 		      strerror(errno));
-	    fprintf(stderr, "5\n");
 	    return -1;
 	} else if (size > 0) {
 	    size = write(fd, "\n", 1);
 	    if (size == -1) {
 		statusbar(_("Could not open file for writing: %s"),
 			  strerror(errno));
-	    fprintf(stderr, "6\n");
 		return -1;
 	    }
 	}
@@ -434,7 +428,6 @@ int write_file(char *name, int tmp)
     if (close(fd) == -1) {
 	statusbar(_("Could not close %s: %s"), realname, strerror(errno));
 	unlink(buf);
-	    fprintf(stderr, "7\n");
 	return -1;
     }
 
@@ -456,7 +449,6 @@ int write_file(char *name, int tmp)
 		if (errno != ENOENT) {
 		    statusbar(_("Could not open %s for writing: %s"),
 			      realname, strerror(errno));
-	    fprintf(stderr, "8\n");
 		    unlink(buf);
 		    return -1;
 		}
@@ -470,13 +462,11 @@ int write_file(char *name, int tmp)
 		statusbar(_("Could not open %s for writing: %s"),
 		      name, strerror(errno));
 		unlink(buf);
-	    fprintf(stderr, "9\n");
 		return -1;
 	    } else if (rename(buf, realname) == -1) {	/* Try a rename?? */
  		statusbar(_("Could not open %s for writing: %s"),
 		      realname, strerror(errno));
 		unlink(buf);
-	    fprintf(stderr, "10\n");
 		return -1;
 	    }
 	}
