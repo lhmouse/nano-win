@@ -134,10 +134,7 @@ CVS code -
 - configure.ac:
 	- Remove specific references to control key shortcuts. (DLR)
 	- Check for the wide version of ncurses, without which multibyte
-	  strings don't seem to be displayed properly. (DLR; check for
-	  addwstr() in curses to determine whether it has wide character
-	  support inspired by mutt 1.4.2.1i's checking for waddnwstr()
-	  for the same reason)
+	  strings don't seem to be displayed properly. (DLR)
 - doc/nanorc.sample:
 	- Add return to the "c-file" regexes. (DLR)
 

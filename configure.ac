@@ -313,7 +313,7 @@ dnl Checks for libraries.
 if eval "test x$CURSES_LIB_NAME = x"
 then
     AC_CHECK_HEADERS(ncurses.h)
-    AC_CHECK_LIB(ncursesw, addwstr, [CURSES_LIB="-lncursesw" CURSES_LIB_NAME=ncursesw CURSES_LIB_WIDE="yes"])
+    AC_CHECK_LIB(ncursesw, wget_wch, [CURSES_LIB="-lncursesw" CURSES_LIB_NAME=ncursesw CURSES_LIB_WIDE="yes"])
     if eval "test x$CURSES_LIB_NAME = x"
     then
 	 AC_CHECK_LIB(ncurses, initscr, [CURSES_LIB="-lncurses" CURSES_LIB_NAME=ncurses])
@@ -323,7 +323,7 @@ fi
 if eval "test x$CURSES_LIB_NAME = x"
 then
     AC_CHECK_HEADERS(curses.h)
-    AC_CHECK_LIB(curses, addwstr, [CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses CURSES_LIB_WIDE="yes"])
+    AC_CHECK_LIB(curses, wget_wch, [CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses CURSES_LIB_WIDE="yes"])
     if eval "test x$CURSES_LIB_NAME = x"
     then
 	 AC_CHECK_LIB(curses, initscr, [CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses])
