@@ -2767,6 +2767,7 @@ int main(int argc, char *argv[])
 		    break;
 		}
 		break;
+#ifdef ENABLE_LOADONINSERT
 	    case NANO_OPENPREV_KEY:
 		open_prevfile(0);
 		keyhandled = 1;
@@ -2775,6 +2776,7 @@ int main(int argc, char *argv[])
 		open_nextfile(0);
 		keyhandled = 1;
 		break;
+#endif
 	    default:
 		/* Check for the altkey defs.... */
 		for (i = 0; i <= MAIN_LIST_LEN - 1; i++)
