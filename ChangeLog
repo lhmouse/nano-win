@@ -4,6 +4,8 @@ CVS code -
 	  always turned on.  Changes to do_alt_speller(),
 	  handle_sigwinch(), and main(). (DLR)
 - chars.c:
+  make_mbchar()
+	- Remove unneeded assert. (DLR)
   move_mbleft()
 	- Fix assert to reference the proper variable, so that nano
 	  builds with DEBUG defined again. (Mike Frysinger, found by

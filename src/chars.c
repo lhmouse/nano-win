@@ -278,7 +278,7 @@ char *make_mbchar(int chr, int *chr_mb_len)
 {
     char *chr_mb;
 
-    assert(chr_mb != NULL && chr_mb_len != NULL);
+    assert(chr_mb_len != NULL);
 
 #ifdef NANO_WIDE
     if (!ISSET(NO_UTF8)) {
