@@ -92,6 +92,13 @@ Specify a specific syntax highlighting from the
 .I .nanorc
 to use, if available.
 .TP
+.B \-Z (\-\-restricted)
+Restricted mode: Don't read or write to any file not specified on the
+command line, read any nanorc files, allow suspending, or allow a file
+to be appended to, prepended to, or saved under a different name if it
+already has one.  Also accessible by invoking \fBnano\fP with any name
+beginning with 'r' (e.g. "rnano").
+.TP
 .B \-c (\-\-const)
 Constantly show the cursor position.
 .TP

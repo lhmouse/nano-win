@@ -199,9 +199,7 @@ char **username_tab_completion(char *buf, int *num_matches);
 char **cwd_tab_completion(char *buf, int *num_matches);
 char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list);
 #endif
-#if !defined(DISABLE_BROWSER) || !defined(NANO_SMALL)
 const char *tail(const char *foo);
-#endif
 #ifndef DISABLE_BROWSER
 int diralphasort(const void *va, const void *vb);
 void free_charptrarray(char **array, int len);
@@ -272,9 +270,7 @@ void usage(void);
 void version(void);
 void do_early_abort(void);
 int no_help(void);
-#if defined(DISABLE_JUSTIFY) || defined(DISABLE_SPELLER) || defined(DISABLE_HELP) || defined(NANO_SMALL)
-void nano_disabled_msg(void);
-#endif
+int nano_disabled_msg(void);
 #ifndef NANO_SMALL
 RETSIGTYPE cancel_fork(int signal);
 int open_pipe(const char *command);
@@ -291,8 +287,8 @@ int do_enter(void);
 #ifndef NANO_SMALL
 int do_next_word(void);
 int do_prev_word(void);
-#endif
 int do_mark(void);
+#endif
 #ifndef DISABLE_WRAPPING
 void wrap_reset(void);
 int do_wrap(filestruct *inptr);
@@ -301,8 +297,8 @@ int do_wrap(filestruct *inptr);
 int do_int_spell_fix(const char *word);
 char *do_int_speller(char *tempfile_name);
 char *do_alt_speller(char *tempfile_name);
-#endif
 int do_spell(void);
+#endif
 #if !defined(DISABLE_WRAPPING) && !defined(NANO_SMALL) || !defined(DISABLE_JUSTIFY)
 size_t indent_length(const char *line);
 #endif
@@ -330,8 +326,8 @@ int do_para_search(int search_type, size_t *quote, size_t *par, size_t
 	*indent, int do_refresh);
 int do_para_begin(void);
 int do_para_end(void);
-#endif /* !DISABLE_JUSTIFY */
 int do_justify(void);
+#endif /* !DISABLE_JUSTIFY */
 int do_exit(void);
 void signal_init(void);
 RETSIGTYPE handle_hupterm(int signal);

@@ -157,6 +157,13 @@ Print the version number and copyright and quit.
 Specify a specific syntax highlighting from the .nanorc to use, if
 available.
 
+@item -Z, --restricted
+Restricted mode: Don't read or write to any file not specified on the
+command line, read any nanorc files, allow suspending, or allow a file
+to be appended to, prepended to, or saved under a different name if it
+already has one.  Also accessible by invoking @code{nano} with any name
+beginning with 'r' (e.g. "rnano").
+
 @item -c, --const
 Constantly display the cursor position and line number on the statusbar.
 

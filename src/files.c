@@ -1808,24 +1808,12 @@ int do_writeout(int exiting)
     currshortcut = writefile_list;
 #endif
 
-    if (exiting && ISSET(TEMP_OPT)) {
-	i = -1;
-	if (filename[0] != '\0') {
-	    i = write_file(filename, FALSE, 0, FALSE);
-	    if (i == 1) {
-		/* Write succeeded. */
-		display_main_list();
-		return 1;
-	    }
-	}
-
-	/* No filename or the write above failed. */
-	if (i == -1) {
-	    UNSET(TEMP_OPT);
-	    do_exit();
-
-	    /* They cancelled; abort quit. */
-	    return -1;
+    if (exiting && filename[0] != '\0' && ISSET(TEMP_OPT)) {
+	i = write_file(filename, FALSE, 0, FALSE);
+	if (i == 1) {
+	    /* Write succeeded. */
+	    display_main_list();
+	    return 1;
 	}
     }
 
@@ -1941,9 +1929,9 @@ int do_writeout(int exiting)
 		i = do_yesno(FALSE, _("File exists, OVERWRITE ?"));
 		if (i == 0 || i == -1)
 		    continue;
-	    } else if (filename[0] != '\0'
+	    } else if (!ISSET(RESTRICTED) && filename[0] != '\0'
 #ifndef NANO_SMALL
-		&& (!ISSET(MARK_ISSET) || exiting)
+		&& (exiting || !ISSET(MARK_ISSET))
 #endif
 		) {
 		i = do_yesno(FALSE, _("Save file under DIFFERENT NAME ?"));
@@ -1955,7 +1943,7 @@ int do_writeout(int exiting)
 #ifndef NANO_SMALL
 	/* Here's where we allow the selected text to be written to
 	 * a separate file. */
-	if (ISSET(MARK_ISSET) && !exiting)
+	if (!ISSET(RESTRICTED) && !exiting && ISSET(MARK_ISSET))
 	    i = write_marked(answer, FALSE, append, FALSE);
 	else
 #endif /* !NANO_SMALL */
@@ -2432,7 +2420,6 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
 }
 #endif /* !DISABLE_TABCOMP */
 
-#if !defined(DISABLE_BROWSER) || !defined(NANO_SMALL)
 /* Only print the last part of a path; isn't there a shell
  * command for this? */
 const char *tail(const char *foo)
@@ -2447,7 +2434,6 @@ const char *tail(const char *foo)
 
     return tmp;
 }
-#endif
 
 #ifndef DISABLE_BROWSER
 /* Our sort routine for file listings -- sort directories before

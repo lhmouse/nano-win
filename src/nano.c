@@ -151,6 +151,10 @@ void die_save_file(const char *die_filename)
     char *ret;
     int i = -1;
 
+    /* No emergency files in restricted mode! */
+    if (ISSET(RESTRICTED))
+	return;
+
     /* If we can't save, we have REAL bad problems, but we might as well
        TRY. */
     if (die_filename[0] == '\0')
@@ -656,6 +660,7 @@ void usage(void)
 #ifdef ENABLE_COLOR
     print1opt(_("-Y [str]"), _("--syntax [str]"), _("Syntax definition to use"));
 #endif
+    print1opt(_("-Z"), _("--restricted"), _("Restricted mode"));
     print1opt("-c", "--const", _("Constantly show cursor position"));
 #ifndef NANO_SMALL
     print1opt("-d", "--rebinddelete", _("Fix Backspace/Delete confusion problem"));
@@ -765,12 +770,11 @@ int no_help(void)
     return ISSET(NO_HELP) ? 2 : 0;
 }
 
-#if defined(DISABLE_JUSTIFY) || defined(DISABLE_SPELLER) || defined(DISABLE_HELP) || defined(NANO_SMALL)
-void nano_disabled_msg(void)
+int nano_disabled_msg(void)
 {
     statusbar(_("Sorry, support for this function has been disabled"));
+    return 1;
 }
-#endif
 
 #ifndef NANO_SMALL
 static int pid;		/* This is the PID of the newly forked process
@@ -1231,13 +1235,9 @@ int do_prev_word(void)
 
     return 0;
 }
-#endif /* !NANO_SMALL */
 
 int do_mark(void)
 {
-#ifdef NANO_SMALL
-    nano_disabled_msg();
-#else
     TOGGLE(MARK_ISSET);
     if (ISSET(MARK_ISSET)) {
 	statusbar(_("Mark Set"));
@@ -1247,9 +1247,9 @@ int do_mark(void)
 	statusbar(_("Mark UNset"));
 	edit_refresh();
     }
-#endif
     return 1;
 }
+#endif /* !NANO_SMALL */
 
 #ifndef DISABLE_WRAPPING
 void wrap_reset(void)
@@ -1829,14 +1829,9 @@ char *do_alt_speller(char *tempfile_name)
 
     return NULL;
 }
-#endif
 
 int do_spell(void)
 {
-#ifdef DISABLE_SPELLER
-    nano_disabled_msg();
-    return 1;
-#else
     int i;
     char *temp, *spell_msg;
 
@@ -1879,8 +1874,8 @@ int do_spell(void)
 
     statusbar(_("Finished checking spelling"));
     return 1;
-#endif
 }
+#endif /* !DISABLE_SPELLER */
 
 #if !defined(NANO_SMALL) || !defined(DISABLE_JUSTIFY)
 /* The "indentation" of a line is the white-space between the quote part
@@ -2404,15 +2399,10 @@ int do_para_end(void)
 {
     return do_para_search(2, NULL, NULL, NULL, TRUE);
 }
-#endif
 
 /* Justify a paragraph. */
 int do_justify(void)
 {
-#ifdef DISABLE_JUSTIFY
-    nano_disabled_msg();
-    return 1;
-#else
     size_t quote_len;
 	/* Length of the initial quotation of the paragraph we
 	 * justify. */
@@ -2706,8 +2696,8 @@ int do_justify(void)
     display_main_list();
 
     return 0;
-#endif /* !DISABLE_JUSTIFY */
 }
+#endif /* !DISABLE_JUSTIFY */
 
 int do_exit(void)
 {
@@ -3088,6 +3078,7 @@ int main(int argc, char *argv[])
 	{"mac", 0, 0, 'M'},
 	{"noconvert", 0, 0, 'N'},
 	{"smooth", 0, 0, 'S'},
+	{"restricted", 0, 0, 'Z'},
 	{"autoindent", 0, 0, 'i'},
 	{"cut", 0, 0, 'k'},
 #endif
@@ -3109,11 +3100,11 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "h?BDE:FHIMNQ:RST:VY:abcdefgijklmo:pr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "h?BDE:FHIMNQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz",
 				 long_options, NULL)) != -1) {
 #else
     while ((optchr =
-	    getopt(argc, argv, "h?BDE:FHIMNQ:RST:VY:abcdefgijklmo:pr:s:tvwxz")) != -1) {
+	    getopt(argc, argv, "h?BDE:FHIMNQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz")) != -1) {
 #endif
 
 	switch (optchr) {
@@ -3201,6 +3192,9 @@ int main(int argc, char *argv[])
 	    syntaxstr = mallocstrcpy(syntaxstr, optarg);
 	    break;
 #endif
+	case 'Z':
+	    SET(RESTRICTED);
+	    break;
 	case 'c':
 	    SET(CONSTUPDATE);
 	    break;
@@ -3273,6 +3267,18 @@ int main(int argc, char *argv[])
 	default:
 	    usage();
 	}
+    }
+
+    /* If filename starts with 'r', we use restricted mode. */
+    if (*(tail(argv[0])) == 'r')
+	SET(RESTRICTED);
+
+    /* If we're using restricted mode, disable suspending, backup files,
+     * and reading rcfiles. */
+    if (ISSET(RESTRICTED)) {
+	UNSET(SUSPEND);
+	UNSET(BACKUP_FILE);
+	SET(NO_RCFILE);
     }
 
 /* We've read through the command line options.  Now back up the flags

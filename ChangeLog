@@ -9,14 +9,42 @@ CVS code -
 	- Add better explanations for and in the "Terminal breakage"
 	  comments, and handle missing key #ifdefs inside the functions
 	  that use those keys. (DLR)
+	- Add restricted mode, accessible via the -Z/--restricted
+	  command line option or by invoking nano with any name
+	  beginning with 'r' (e.g. "rnano").  In restricted mode, nano
+	  will not read or write to any file not specified on the
+	  command line, read any nanorc files, allow suspending, or
+	  allow a file to be appended to, prepended to, or saved under a
+	  different name if it already has one. (IO ERROR)  DLR: Also
+	  disable backup files and spell checking (since the latter can
+	  leave a pre-spell-checked version of the file in a temporary
+	  directory), use tail() to get the program name so that the
+	  check for its beginning with 'r' will work when a path is
+	  specified, disable toggles that are only useful with options
+	  that are disabled in restricted mode, call nano_disabled_msg()
+	  when trying to read or spell check a file instead of leaving
+	  the shortcuts out of the main list, and instead of acting as
+	  though TEMP_OPT is enabled when exiting with a modified file
+	  (which caused problems if the filename was blank), only allow
+	  a filename to be modified at the writeout prompt if it's blank
+	  beforehand.  Changes to do_writeout(), toggle_init(),
+	  shortcut_init(), die_save_file(), and nanogetstr().
+	- Call nano_disabled_msg() directly from the shortcut list
+	  instead of inside the disabled functions. (David Benbennick)
 - files.c:
   add_open_file()
 	- Rearrange the NANO_SMALL #ifdef so that the code to set the
 	  MODIFIED flag in open_files->flags is included only once.
 	  (DLR)
+  do_writeout()
+	- Refactor so that no recursion is needed if we try to exit with
+	  a modified file that has no name when TEMP_OPT is set. (DLR)
 - nano.c:
   do_delete()
 	- Tweak for efficiency. (David Benbennick)
+  do_exit()
+	- Refactor so that no recursion is needed if we try to exit with
+	  a modified file that has no name when TEMP_OPT is set. (DLR)
   print_numlock_warning()
 	- Removed, as it's no longer needed and was never called
 	  anywhere after the input overhaul. (DLR)
@@ -72,9 +100,14 @@ CVS code -
 	- Use napms() instead of nanosleep(), as it does the same thing
 	  (aside from taking an argument in milliseconds instead of
 	  microseconds) and curses includes it. (DLR)
+- nano.1:
+	- Document restricted mode. (IO ERROR)  DLR: Add minor
+	  modifications to account for the above changes.
 - nano.texi:
 	- Fix inaccuracies: Meta-L now toggles line wrapping, and Meta-<
 	  and Meta-> aren't toggles. (DLR)
+	- Document restricted mode. (IO ERROR)  DLR: Add minor
+	  modifications to account for the above changes.
 - faq.html:
 	- Removed question about the NumLock glitch, as it's no longer
 	  needed. (DLR)

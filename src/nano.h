@@ -268,6 +268,7 @@ typedef struct historyheadtype {
 #define PRESERVE		(1<<27)
 #define HISTORY_CHANGED		(1<<28)
 #define HISTORYLOG		(1<<29)
+#define RESTRICTED		(1<<30)
 
 /* Control key sequences, changing these would be very very bad. */
 #define NANO_CONTROL_SPACE 0

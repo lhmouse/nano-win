@@ -1311,22 +1311,28 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		x++;
 	    break;
 	case NANO_DELETE_KEY:
-	    if (x < xend) {
-		charmove(answer + x, answer + x + 1, xend - x);
-		xend--;
+	    if (!ISSET(RESTRICTED) || filename[0] == '\0' || s != writefile_list) {
+		if (x < xend) {
+		    charmove(answer + x, answer + x + 1, xend - x);
+		    xend--;
+		}
 	    }
 	    break;
 	case NANO_CUT_KEY:
 	case NANO_UNCUT_KEY:
-	    null_at(&answer, 0);
-	    xend = 0;
-	    x = 0;
+	    if (!ISSET(RESTRICTED) || filename[0] == '\0' || s != writefile_list) {
+		null_at(&answer, 0);
+		xend = 0;
+		x = 0;
+	    }
 	    break;
 	case NANO_BACKSPACE_KEY:
-	    if (x > 0) {
-		charmove(answer + x - 1, answer + x, xend - x + 1);
-		x--;
-		xend--;
+	    if (!ISSET(RESTRICTED) || filename[0] == '\0' || s != writefile_list) {
+		if (x > 0) {
+		    charmove(answer + x - 1, answer + x, xend - x + 1);
+		    x--;
+		    xend--;
+		}
 	    }
 	    break;
 	case NANO_TAB_KEY:
@@ -1465,7 +1471,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 			return kbinput;
 		}
 
-	    if (is_cntrl_char(kbinput))
+	    if (is_cntrl_char(kbinput) || (ISSET(RESTRICTED) && filename[0] != '\0' && s == writefile_list))
 		break;
 	    answer = charealloc(answer, xend + 2);
 	    charmove(answer + x + 1, answer + x, xend - x + 1);
@@ -2471,11 +2477,11 @@ int line_len(const char *ptr)
     return j;
 }
 
+#ifndef DISABLE_HELP
 /* Our shortcut-list-compliant help function, which is better than
  * nothing, and dynamic! */
 int do_help(void)
 {
-#ifndef DISABLE_HELP
     int i, page = 0, kbinput = ERR, meta_key, no_more = 0;
     int no_help_flag = 0;
     const shortcut *oldshortcut;
@@ -2572,12 +2578,9 @@ int do_help(void)
     free(help_text);
     help_text = NULL;
 
-#elif defined(DISABLE_HELP)
-    nano_disabled_msg();
-#endif
-
     return 1;
 }
+#endif /* !DISABLE_HELP */
 
 /* Highlight the current word being replaced or spell checked.  We
  * expect word to have tabs and control characters expanded. */
