@@ -149,6 +149,8 @@ CVS code -
 - proto.h:
 	- Remove unused xpt() and add_marked_sameline() prototypes.
 	  (DLR)
+	- Add missing #ifdefs around the nstristr() and get_mouseinput()
+	  prototypes. (DLR)
 - rcfile.c:
 	- Move "rebinddelete" up in the list of options so that the list
 	  is in alphabetical order. (DLR)

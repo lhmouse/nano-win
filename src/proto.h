@@ -438,7 +438,9 @@ int nstricmp(const char *s1, const char *s2);
 #ifndef HAVE_STRNCASECMP
 int nstrnicmp(const char *s1, const char *s2, size_t n);
 #endif
+#ifndef HAVE_STRCASESTR
 const char *nstristr(const char *haystack, const char *needle);
+#endif
 #ifndef NANO_SMALL
 const char *revstrstr(const char *haystack, const char *needle, const
 	char *rev_start);
@@ -470,7 +472,9 @@ int get_ascii_kbinput(WINDOW *win, int kbinput);
 int get_escape_seq_kbinput(WINDOW *win, int *escape_seq, size_t
 	escape_seq_len);
 int get_escape_seq_abcd(int kbinput);
+#ifndef DISABLE_MOUSE
 int get_mouseinput(int *mouse_x, int *mouse_y, int shortcut);
+#endif
 int do_first_line(void);
 int do_last_line(void);
 size_t xplustabs(void);
