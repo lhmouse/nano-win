@@ -840,7 +840,7 @@ void do_prev_word(void)
 
 	    if (i == 0) {
 		if (fileptr->prev != NULL)
-		    i = strlen(fileptr->prev->data) - 1;
+		    i = strlen(fileptr->prev->data);
 		else if (fileptr == fileage && filebot != NULL) {
 		    current_x = 0;
 		    return;
@@ -864,7 +864,7 @@ void do_prev_word(void)
 
 	}
 	if (fileptr->prev != NULL)
-	    i = strlen(fileptr->prev->data) - 1;
+	    i = strlen(fileptr->prev->data);
 	else if (fileptr == fileage && filebot != NULL) {
 	    current_x = 0;
 	    return;
