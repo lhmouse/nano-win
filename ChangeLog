@@ -1,4 +1,4 @@
-CVS code -
+GNU nano 1.3.4 - 2004.08.17
 - General:
 	- More minor comment cleanups. (DLR)
 	- Convert more ints and functions using 0 and 1 to bools using

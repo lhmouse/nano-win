@@ -1,3 +1,23 @@
+2004.08.17 - GNU nano 1.3.4 marches forth after a false start.  This
+		release mainly features fixes for the bugs that crept
+		into the last release.  Among other things, nano now
+		compiles again with certain options, quoted justify now
+		works properly on systems without regex.h, full justify
+		no longer segfaults when used on a file with no
+		paragraphs, previous paragraph searching works properly
+		again, tab completion is properly disabled when needed
+		in restricted mode, Ctrl-C is no longer disabled after
+		using the alternate spell checker, the permissions of a
+		newly created file now match those of nano 1.2.x again,
+		and replacing all text in a file now properly updates
+		the screen in all cases.  New features include sample
+		regexes for patch files, improvements to the sample
+		regexes for C files, and support for strings 
+		greater than 1023 characters and/or containing nulls in
+		.nano_history.  Additionally, the full justify keystroke
+		has been changed to match current Pico, and whitespace
+		display mode is now turned off by default.  Enjoy.
+
 2004.06.28 - GNU nano 1.3.3 marches forth.  There are several new
 		features in this release, including a restricted mode
 		that provides better security than just setting an
