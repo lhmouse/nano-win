@@ -490,7 +490,7 @@ void bottombars(shortcut s[], int slen)
     clear_bottomwin();
     wmove(bottomwin, 1, 0);
     for (i = 0; i <= slen - 1; i += 2) {
-	sprintf(keystr, "^%c", s[i].val + 64);
+	snprintf(keystr, 10, "^%c", s[i].val + 64);
 	onekey(keystr, s[i].desc);
 
 	for (j = 0; j < k; j++)
@@ -499,7 +499,7 @@ void bottombars(shortcut s[], int slen)
 
     wmove(bottomwin, 2, 0);
     for (i = 1; i <= slen - 1; i += 2) {
-	sprintf(keystr, "^%c", s[i].val + 64);
+	snprintf(keystr, 10, "^%c", s[i].val + 64);
 	onekey(keystr, s[i].desc);
 
 	for (j = 0; j < k; j++)

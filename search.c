@@ -41,10 +41,10 @@
 int search_init(int replacing)
 {
     int i;
-    char buf[135];
+    char buf[BUFSIZ];
 
     if (last_search[0]) {
-	sprintf(buf, " [%s]", last_search);
+	snprintf(buf, BUFSIZ, " [%s]", last_search);
     } else {
 	buf[0] = '\0';
     }

@@ -1039,7 +1039,7 @@ void exit_spell(char *tmpfilename, char *foo)
 int do_oldspell(void)
 {
     char *temp, *foo;
-    int i;
+    int i, size;
 
     if ((temp = tempnam(0, "nano.")) == NULL) {
 	statusbar(_("Could not create a temporary filename: %s"),
@@ -1050,14 +1050,16 @@ int do_oldspell(void)
 	return 0;
 
     if (alt_speller) {
-	foo = nmalloc(strlen(temp) + strlen(alt_speller) + 2);
-	sprintf(foo, "%s %s", alt_speller, temp);
+	size = strlen(temp) + strlen(alt_speller) + 2;
+	foo = nmalloc(size);
+	snprintf(foo, size, "%s %s", alt_speller, temp);
     } else {
 
 	/* For now, we only try ispell because we're not capable of
 	   handling the normal spell program (yet...) */
-	foo = nmalloc(strlen(temp) + 8);
-	sprintf(foo, "ispell %s", temp);
+	size = strlen(temp) + 8;
+	foo = nmalloc(size);
+	snprintf(foo, size, "ispell %s", temp);
     }
 
     endwin();
@@ -1089,7 +1091,7 @@ int do_oldspell(void)
 int do_spell(void)
 {
     char *temp, *foo;
-    int i;
+    int i, size;
 
     if ((temp = tempnam(0, "nano.")) == NULL) {
 	statusbar(_("Could not create a temporary filename: %s"),
@@ -1100,14 +1102,16 @@ int do_spell(void)
 	return 0;
 
     if (alt_speller) {
-	foo = nmalloc(strlen(temp) + strlen(alt_speller) + 2);
-	sprintf(foo, "%s %s", alt_speller, temp);
+	size = strlen(temp) + strlen(alt_speller) + 2;
+	foo = nmalloc(size);
+	snprintf(foo, size, "%s %s", alt_speller, temp);
     } else {
 
 	/* For now, we only try ispell because we're not capable of
 	   handling the normal spell program (yet...) */
-	foo = nmalloc(strlen(temp) + 8);
-	sprintf(foo, "ispell %s", temp);
+	size = strlen(temp) + 8;
+	foo = nmalloc(size);
+	snprintf(foo, size, "ispell %s", temp);
     }
 
     endwin();
@@ -1533,22 +1537,22 @@ void help_init(void)
 
     /* Now add our shortcut info */
     for (i = 0; i < MAIN_LIST_LEN; i++) {
-	sofar = sprintf(buf, "^%c	", main_list[i].val + 64);
+	sofar = snprintf(buf, BUFSIZ, "^%c	", main_list[i].val + 64);
 
 	if (main_list[i].misc1 > KEY_F0 && main_list[i].misc1 <= KEY_F(64))
-	    sofar += sprintf(&buf[sofar], "(F%d)	",
+	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "(F%d)	",
 			     main_list[i].misc1 - KEY_F0);
 	else
-	    sofar += sprintf(&buf[sofar], "	");
+	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "	");
 
 	if (main_list[i].altval > 0)
-	    sofar += sprintf(&buf[sofar], "(@%c)	",
+	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "(@%c)	",
 			     main_list[i].altval - 32);
 	else
-	    sofar += sprintf(&buf[sofar], "	");
+	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "	");
 
 	if (main_list[i].help != NULL)
-	    sprintf(&buf[sofar], "%s\n", main_list[i].help);
+	    snprintf(&buf[sofar], BUFSIZ - sofar, "%s\n", main_list[i].help);
 
 	strcat(help_text, buf);
     }
