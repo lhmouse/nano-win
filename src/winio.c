@@ -171,10 +171,16 @@ int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 #endif
 		);
 
+	/* If we have a complete sequence now, we should interpret its
+	 * translated value instead of the value of the last character
+	 * we got. */
+	if (retval != ERR)
+	    kbinput = retval;
+
 	/* If we got a one-character sequence and it's outside the ASCII
 	 * range, set func_key to TRUE. */
 	if (seq == NO_SEQ) {
-	    if (retval > 255)
+	    if (kbinput > 255)
 		*func_key = TRUE;
 	/* If we got a multi-character sequence, read it in, including
 	 * the initial character, as verbatim input. */
