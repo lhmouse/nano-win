@@ -12,6 +12,8 @@ Current CVS:
   do_search(), do_replace():
 	- Removed call to search_abort()/replace_abort() before call to
 	  the opposite function.
+- fr.po:
+	- French update by Clement Laforet <clem_laf@wanadoo.fr>.
 
 nano-0.9.12 - 07/07/2000
 - all:
