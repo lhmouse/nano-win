@@ -2356,12 +2356,12 @@ size_t indent_length(const char *line)
  * (except it maintains up to 2 after a character in punct optionally
  * followed by a character in brackets, and removes all from the end).
  *
- * justify_format() might make line->data shorter, and change the actual
- * pointer with null_at().
+ * justify_format() might make paragraph->data shorter, and change the
+ * actual pointer with null_at().
  *
- * justify_format() will not look at the first skip characters of line.
- * skip should be at most strlen(line->data).  The character at
- * line[skip + 1] must not be blank. */
+ * justify_format() will not look at the first skip characters of
+ * paragraph.  skip should be at most strlen(paragraph->data).  The
+ * character at paragraph[skip + 1] must not be blank. */
 void justify_format(filestruct *paragraph, size_t skip)
 {
     char *end, *new_end, *new_paragraph_data;
