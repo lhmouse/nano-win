@@ -164,7 +164,7 @@ filestruct *read_line(char *buf, filestruct *prev, int *line1ins, int len)
 int read_file(FILE *f, const char *filename, int quiet)
 {
     int num_lines = 0, len = 0;
-    char input;		/* current input character */
+    char input = 0; 		/* current input character */
     char *buf;
     long i = 0, bufx = 128;
     filestruct *fileptr = current, *tmp = NULL;
