@@ -542,7 +542,7 @@ int do_writeout(char *path, int exiting, int append)
 
     while (1) {
 	if (ISSET(MARK_ISSET) && !exiting)
-	    i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, answer,
+	    i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, "",
 		    _("%s Selection to File"), append ? _("Append") : _("Write"));
 	else
 	    i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, answer,
