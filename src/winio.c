@@ -3920,7 +3920,7 @@ void do_credits(void)
 	"Ken Tyler",
 	"Sven Guckes",
 #ifdef NANO_WIDE
-	!ISSET(NO_UTF8) ? "Florian K\xC3\xB6nig" :
+	!ISSET(NO_UTF8) ? "Florian KÃ¶nig" :
 #endif
 		"Florian König",
 	"Pauli Virtanen",
