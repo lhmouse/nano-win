@@ -869,16 +869,14 @@ void do_gotoline(int line, bool save_pos)
 	free(ans);
 
 	/* Cancel, or Enter with blank string. */
-	if (i < 0)
+	if (i < 0) {
 	    statusbar(_("Cancelled"));
-
-	if (i == NANO_TOOTHERWHEREIS_KEY) {
-	    do_search();
+	    display_main_list();
 	    return;
 	}
 
-	if (i != 0) {
-	    display_main_list();
+	if (i == NANO_TOOTHERWHEREIS_KEY) {
+	    do_search();
 	    return;
 	}
 
