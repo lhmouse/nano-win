@@ -443,11 +443,13 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
     buffer *kbinput;
     int retval = ERR;
 
+#ifndef NANO_SMALL
     if (reset) {
 	escapes = 0;
 	word_digits = 0;
 	return ERR;
     }
+#endif
 
     *meta_key = FALSE;
     *func_key = FALSE;
