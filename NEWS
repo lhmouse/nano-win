@@ -1,3 +1,25 @@
+2003.02.03 - GNU nano 1.1.99pre2 "bugs in my pockets, bugs in my
+		shoes" is released.  There are, not suprisingly,
+		only bugfixes in this release as we move toward the
+		stable 1.2.0 release.  Fixes are included for
+		translable string format, subexpression replacement,
+		constant cursor position, invalid search regexes,
+		justify, screen state on SIGHUP and SIGTERM, cutting
+		to end cuts with long lines, many file browser and
+		operating directory bugs, memory and file descriptor
+		leaks, marker code, spell checker, the mouse code
+		with long lines, multiple buffers and non-file
+		open errors, replacement string length, and a 
+		silly but serious history message crash.  There is 
+		also a drastic improvement in CPU utliization for
+		the color regex code.  
+			Depending on the number of bugs found in this
+		release, there may be a 1.1.99pre3 or RC1, or just
+		a 1.2.0 release.  Most of the major bugs seem to have
+		been worked out, so if you are waiting for a good time
+		to test nano before the official 1.2.0 release, this
+		would be the one to use.  Happy bug hunting!
+
 2003.01.17 - GNU nano 1.1.99pre1 "enough already" has been released.
 		This release is, barring bug fixes and documentation
 		updates, what version 1.2.0 has looked like, feature
