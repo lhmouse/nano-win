@@ -82,6 +82,9 @@ shortcut spell_list[SPELL_LIST_LEN];
 shortcut browser_list[BROWSER_LIST_LEN];
 #endif
 
+shortcut *currshortcut = main_list;	/* Current shortcut list we're using */
+int currslen = MAIN_VISIBLE;		/* Length of current shortcut list */
+
 #ifndef NANO_SMALL
 toggle toggles[TOGGLE_LEN];
 #endif

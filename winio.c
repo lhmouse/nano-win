@@ -262,6 +262,8 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
     x_left = strlen(buf);
     x = strlen(def) + x_left;
 
+    currshortcut = s;
+    currslen = slen;
     /* Get the input! */
     if (strlen(def) > 0)
 	strcpy(inputbuf, def);
@@ -273,6 +275,10 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 
     while ((kbinput = wgetch(bottomwin)) != 13) {
 	for (j = 0; j <= slen - 1; j++) {
+#ifdef DEBUG
+	    fprintf(stderr, _("Aha! \'%c\' (%d)\n"), kbinput, kbinput);
+#endif
+
 	    if (kbinput == s[j].val) {
 
 		/* We shouldn't discard the answer it gave, just because
@@ -288,7 +294,8 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 	    tabbed = 0;
 
 	switch (kbinput) {
-	    /* Stuff we want to equate with <enter>, ASCII 13 */
+
+	/* Stuff we want to equate with <enter>, ASCII 13 */
 	case 343:
 	    ungetch(13);	/* Enter on iris-ansi $TERM, sometimes */
 	    break;
@@ -299,8 +306,15 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 	case 543:			/* Right ctrl again */
 	case 544:
 	case 545: 			/* Right alt again */
+	    break;
 #endif
-		break;
+#ifndef NANO_SMALL
+#ifdef NCURSES_MOUSE_VERSION
+	case KEY_MOUSE:
+	    do_mouse();
+	    break;
+#endif
+#endif
 	case KEY_HOME:
 	    x = x_left;
 	    nanoget_repaint(buf, inputbuf, x);
@@ -1217,14 +1231,17 @@ int do_help(void)
 {
 #ifndef DISABLE_HELP
     char *ptr = help_text, *end;
-    int i, j, row = 0, page = 1, kbinput = 0, no_more = 0, kp;
+    int i, j, row = 0, page = 1, kbinput = 0, no_more = 0, kp, kp2;
     int no_help_flag = 0;
 
     blank_edit();
     curs_set(0);
     blank_statusbar();
 
+    currshortcut = help_list;
+    currslen = HELP_LIST_LEN;
     kp = keypad_on(edit, 1);
+    kp2 = keypad_on(bottomwin, 1);
 
     if (ISSET(NO_HELP)) {
 
@@ -1241,6 +1258,13 @@ int do_help(void)
     do {
 	ptr = help_text;
 	switch (kbinput) {
+#ifndef NANO_SMALL
+#ifdef NCURSES_MOUSE_VERSION
+        case KEY_MOUSE:
+            do_mouse();
+            break;
+#endif
+#endif
 	case NANO_NEXTPAGE_KEY:
 	case NANO_NEXTPAGE_FKEY:
 	case KEY_NPAGE:
@@ -1320,6 +1344,7 @@ int do_help(void)
     curs_set(1);
     edit_refresh();
     kp = keypad_on(edit, kp);
+    kp2 = keypad_on(bottomwin, kp2);
 
 #elif defined(DISABLE_HELP)
     nano_disabled_msg();

@@ -258,6 +258,8 @@ int do_insertfile(void)
     char *realname = NULL;
 
     wrap_reset();
+    currshortcut = writefile_list;
+    currslen = WRITEFILE_LIST_LEN;
     i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, "",
 		_("File to insert [from ./] "));
     if (i != -1) {
@@ -276,6 +278,8 @@ int do_insertfile(void)
 	if (i == NANO_TOFILES_KEY) {
 	    
 	    char *tmp = do_browse_from(realname);
+	    currshortcut = writefile_list;
+	    currslen = WRITEFILE_LIST_LEN;
 
 #ifdef DISABLE_TABCOMP
 	    realname = NULL;
@@ -503,6 +507,8 @@ int do_writeout(char *path, int exiting)
     static int did_cred = 0;
 #endif
 
+    currshortcut = writefile_list;
+    currslen = WRITEFILE_LIST_LEN;
     answer = mallocstrcpy(answer, path);
 
     if ((exiting) && (ISSET(TEMP_OPT))) {
@@ -529,6 +535,8 @@ int do_writeout(char *path, int exiting)
 	if (i == NANO_TOFILES_KEY) {
 
 	    char *tmp = do_browse_from(answer);
+	    currshortcut = writefile_list;
+	    currslen = WRITEFILE_LIST_LEN;
 
 	    if (tmp != NULL)
 		answer = mallocstrcpy(answer, tmp);
@@ -1131,6 +1139,8 @@ char *do_browser(char *inpath)
     int lineno = 0, kb;
     char **filelist = (char **) NULL;
 
+    currshortcut = browser_list;
+    currslen = BROWSER_LIST_LEN;
     /* If path isn't the same as inpath, we are being passed a new
 	dir as an arg.  We free it here so it will be copied from 
 	inpath below */
@@ -1172,6 +1182,14 @@ char *do_browser(char *inpath)
 	    lineno = selected / width;
 
 	switch (kbinput) {
+
+#ifndef NANO_SMALL
+#ifdef NCURSES_MOUSE_VERSION
+        case KEY_MOUSE:
+            do_mouse();
+            break;
+#endif
+#endif
 	case KEY_UP:
 	case 'u':
 	    if (selected - width >= 0)

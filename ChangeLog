@@ -1,4 +1,8 @@
 Cvs code -
+- General
+	- New global variables currshortcut and currslen to support using
+	  the mouse with the shortcuts.  FIXME - Does not support the
+	  do_yesno function yet as that will have to be done by hand.
 
 nano 1.1 tree forked here 04/07/2001
 

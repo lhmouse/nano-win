@@ -36,6 +36,7 @@ extern int mark_beginx, samelinewrap;
 extern int totsize, temp_opt;
 extern int fill, flags,tabsize;
 extern int search_last_line;
+extern int currslen;
 
 extern WINDOW *edit, *topwin, *bottomwin;
 extern char *filename;
@@ -54,6 +55,7 @@ extern shortcut spell_list[SPELL_LIST_LEN], replace_list_2[REPLACE_LIST_LEN];
 #ifndef DISABLE_BROWSER
 extern shortcut browser_list[BROWSER_LIST_LEN];
 #endif
+extern shortcut *currshortcut;
 
 #ifdef HAVE_REGEX_H
 extern int use_regexp, regexp_compiled;
@@ -140,6 +142,7 @@ void add_to_cutbuffer(filestruct * inptr);
 void do_replace_highlight(int highlight_flag, char *word);
 void nano_disabled_msg(void);
 void window_init(void);
+void do_mouse(void);
 #ifdef NANO_EXTRA
 void do_credits(void);
 #endif
