@@ -2730,7 +2730,6 @@ void titlebar(const char *path)
     assert(COLS >= 0);
 
     wattron(topwin, A_REVERSE);
-
     blank_titlebar();
 
     if (COLS <= 5 || COLS - 5 < verlen)
@@ -2752,7 +2751,7 @@ void titlebar(const char *path)
 
     if (ISSET(MODIFIED))
 	state = _("Modified");
-    else if (path == NULL && ISSET(VIEW_MODE))
+    else if (ISSET(VIEW_MODE))
 	state = _("View");
     else {
 	if (space > 0)
@@ -2760,6 +2759,7 @@ void titlebar(const char *path)
 	state = &hblank[COLS - statelen];
     }
     statelen = strnlenpt(state, COLS);
+
     /* We need a space before state. */
     if ((ISSET(MODIFIED) || ISSET(VIEW_MODE)) && statelen < COLS)
 	statelen++;
@@ -2783,6 +2783,7 @@ void titlebar(const char *path)
     assert(statelen < space);
 
     prefixlen = strnlenpt(prefix, space - statelen);
+
     /* If newfie is FALSE, we need a space after prefix. */
     if (!newfie && prefixlen + statelen < space)
 	prefixlen++;
@@ -2794,6 +2795,7 @@ void titlebar(const char *path)
     else
 	space = 0;
 	/* space is now the room we have for the file name. */
+
     if (!newfie) {
 	size_t lenpt = strlenpt(path), start_col;
 
@@ -2814,7 +2816,7 @@ void titlebar(const char *path)
 
 	/* There is room for the whole filename, so we center it. */
 	waddnstr(topwin, hblank, (space - exppathlen) / 3);
-	waddnstr(topwin, prefix, prefixlen);
+	waddnstr(topwin, prefix, actual_x(prefix, prefixlen));
 	if (!newfie) {
 	    assert(strlenpt(prefix) + 1 == prefixlen);
 
@@ -2823,7 +2825,7 @@ void titlebar(const char *path)
 	}
     } else {
 	/* We will say something like "File: ...ename". */
-	waddnstr(topwin, prefix, prefixlen);
+	waddnstr(topwin, prefix, actual_x(prefix, prefixlen));
 	if (space <= -3 || newfie)
 	    goto the_end;
 	waddch(topwin, ' ');
@@ -2837,12 +2839,13 @@ void titlebar(const char *path)
     free(exppath);
 
     if (COLS <= 1 || statelen >= COLS - 1)
-	mvwaddnstr(topwin, 0, 0, state, COLS);
+	mvwaddnstr(topwin, 0, 0, state, actual_x(state, COLS));
     else {
 	assert(COLS - statelen - 2 >= 0);
 
 	mvwaddch(topwin, 0, COLS - statelen - 2, ' ');
-	mvwaddnstr(topwin, 0, COLS - statelen - 1, state, statelen);
+	mvwaddnstr(topwin, 0, COLS - statelen - 1, state,
+		actual_x(state, statelen));
     }
 
     wattroff(topwin, A_REVERSE);

@@ -40,6 +40,14 @@ CVS code -
   regexec_safe()
 	- Rename to safe_regexec() for consistency. (DLR)
 - winio.c:
+  titlebar()
+	- Make sure that the (mv)?waddnstr() calls take the proper
+	  number of bytes when using multibyte characters, so that
+	  multibyte strings aren't prematurely cut off. (DLR, found by
+	  Jordi)
+	- Allow the "View" state to be displayed when a filename is
+	  passed in, in case we're in multibuffer mode and inside the
+	  file browser. (DLR)
   help_line_len()
 	- Make the text display more flexible, and closer to what nano
 	  1.2.x does. (DLR)
