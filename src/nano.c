@@ -943,7 +943,7 @@ void do_char(char ch)
 {
     size_t current_len = strlen(current->data);
 #if !defined(DISABLE_WRAPPING) || defined(ENABLE_COLOR)
-    int refresh = 0;
+    int refresh = FALSE;
 	/* Do we have to run edit_refresh(), or can we get away with
 	 * update_line()? */
 #endif
@@ -986,7 +986,7 @@ void do_char(char ch)
 
 #ifdef ENABLE_COLOR
     if (ISSET(COLOR_SYNTAX))
-	refresh = 1;
+	refresh = TRUE;
 #endif
 
 #if !defined(DISABLE_WRAPPING) || defined(ENABLE_COLOR)
@@ -1028,38 +1028,41 @@ int do_backspace(void)
 
 int do_delete(void)
 {
-    int refresh = 0;
-
-    /* blbf -> blank line before filebot (see below) */
-    int blbf = 0;
-
-    if (current->next == filebot && current->data[0] == '\0')
-	blbf = 1;
+    assert(current != NULL && current->data != NULL && current_x <=
+	strlen(current->data));
 
     placewewant = xplustabs();
 
-    if (current_x != strlen(current->data)) {
-	/* Let's get dangerous */
+    if (current->data[current_x] != '\0') {
+	size_t linelen = strlen(current->data + current_x);
+
+	assert(current_x < strlen(current->data));
+
+	/* Let's get dangerous. */
 	charmove(&current->data[current_x], &current->data[current_x + 1],
-		strlen(current->data) - current_x);
+		linelen);
 
-	align(&current->data);
-#ifdef ENABLE_COLOR
-	if (ISSET(COLOR_SYNTAX))
-	    refresh = 1;
+	null_at(&current->data, linelen + current_x - 1);
+#ifndef NANO_SMALL
+	if (current_x < mark_beginx && mark_beginbuf == current)
+	    mark_beginx--;
 #endif
-    } else if (current->next != NULL && (current->next != filebot || blbf)) {
+    } else if (current != filebot && (current->next != filebot ||
+	current->data[0] == '\0')) {
 	/* We can delete the line before filebot only if it is blank: it
-	   becomes the new magic line then. */
+	 * becomes the new magic line then. */
+	filestruct *foo = current->next;
 
-	filestruct *foo;
-
-	current->data = charealloc(current->data,
-				 strlen(current->data) +
-				 strlen(current->next->data) + 1);
-	strcat(current->data, current->next->data);
-
-	foo = current->next;
+	assert(current_x == strlen(current->data));
+	current->data = charealloc(current->data, current_x +
+		strlen(foo->data) + 1);
+	strcpy(current->data + current_x, foo->data);
+#ifndef NANO_SMALL
+	if (mark_beginbuf == current->next) {
+	    mark_beginx += current_x;
+	    mark_beginbuf = current;
+	}
+#endif
 	if (filebot == foo)
 	    filebot = current;
 
@@ -1067,15 +1070,13 @@ int do_delete(void)
 	delete_node(foo);
 	renumber(current);
 	totlines--;
-	refresh = 1;
+	wrap_reset();
     } else
 	return 0;
 
     totsize--;
     set_modified();
-    update_line(current, current_x);
-    if (refresh)
-	edit_refresh();
+    edit_refresh();
     return 1;
 }
 
