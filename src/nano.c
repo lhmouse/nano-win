@@ -1329,9 +1329,9 @@ bool do_wrap(filestruct *inptr)
 	/* Length of the line we wrap. */
     size_t i = 0;
 	/* Generic loop variable. */
-    int wrap_loc = -1;
+    ssize_t wrap_loc = -1;
 	/* Index of inptr->data where we wrap. */
-    int word_back = -1;
+    ssize_t word_back = -1;
 #ifndef NANO_SMALL
     const char *indentation = NULL;
 	/* Indentation to prepend to the new line. */
@@ -1353,12 +1353,12 @@ bool do_wrap(filestruct *inptr)
  * after a whitespace character.  In this step, we set wrap_loc as the
  * location of this replacement.
  *
- * Where should we break the line?  We need the last "legal wrap point"
+ * Where should we break the line?  We need the last legal wrap point
  * such that the last word before it ended at or before fill.  If there
  * is no such point, we settle for the first legal wrap point.
  *
- * A "legal wrap point" is a whitespace character that is not followed
- * by whitespace.
+ * A legal wrap point is a whitespace character that is not followed by
+ * whitespace.
  *
  * If there is no legal wrap point or we found the last character of the
  * line, we should return without wrapping.
@@ -1378,11 +1378,12 @@ bool do_wrap(filestruct *inptr)
 	/* Record where the last word ended. */
 	if (!isblank(*wrap_line))
 	    word_back = i;
-	/* If we have found a "legal wrap point" and the current word
+	/* If we have found a legal wrap point and the current word
 	 * extends too far, then we stop. */
-	if (wrap_loc != -1 && strnlenpt(inptr->data, word_back + 1) > fill)
+	if (wrap_loc != -1 && strnlenpt(inptr->data, word_back + 1) >
+		fill)
 	    break;
-	/* We record the latest "legal wrap point". */
+	/* We record the latest legal wrap point. */
 	if (word_back != i && !isblank(wrap_line[1]))
 	    wrap_loc = i;
     }

@@ -1,4 +1,7 @@
 CVS code -
+- nano.c:
+  do_wrap()
+	- Make wrap_loc and word_back ssize_t's, to match fill. (DLR)
 
 GNU nano 1.3.5 - 2004.11.22
 - General:
