@@ -33,6 +33,7 @@ CVS code -
 	  instead of inside the disabled functions. (David Benbennick)
 	- Clarifications to comments explaining exactly what control
 	  characters and escape sequences are supported. (DLR)
+	- Disable "Where Is Next" in tiny mode. (DLR)
 - files.c:
   add_open_file()
 	- Rearrange the NANO_SMALL #ifdef so that the code to set the

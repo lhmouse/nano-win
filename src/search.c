@@ -420,6 +420,7 @@ int do_search(void)
     return 1;
 }
 
+#ifndef NANO_SMALL
 /* Search for the next string without prompting. */
 int do_research(void)
 {
@@ -471,6 +472,7 @@ int do_research(void)
 
     return 1;
 }
+#endif
 
 void replace_abort(void)
 {

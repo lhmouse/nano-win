@@ -372,7 +372,9 @@ int is_whole_word(int curr_pos, const char *datastr, const char
 int findnextstr(int can_display_wrap, int wholeword, const filestruct
 	*begin, size_t beginx, const char *needle, int no_sameline);
 int do_search(void);
+#ifndef NANO_SMALL
 int do_research(void);
+#endif
 void replace_abort(void);
 #ifdef HAVE_REGEX_H
 int replace_regexp(char *string, int create_flag);

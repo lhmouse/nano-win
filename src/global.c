@@ -622,7 +622,8 @@ void shortcut_init(int unjustify)
 		NANO_OPENNEXT_ALTKEY, VIEW, open_nextfile_void);
 #endif
 
-#if !defined(NANO_SMALL) && defined(HAVE_REGEX_H)
+#ifndef NANO_SMALL
+#ifdef HAVE_REGEX_H
     sc_init_one(&main_list, NANO_NO_KEY, _("Find Other Bracket"),
 		IFHELP(nano_bracket_msg, NANO_BRACKET_KEY), NANO_NO_KEY,
 		NANO_NO_KEY, VIEW, do_find_bracket);
@@ -631,6 +632,7 @@ void shortcut_init(int unjustify)
     sc_init_one(&main_list, NANO_NO_KEY, _("Where Is Next"),
 		IFHELP(nano_whereis_next_msg, NANO_WHEREIS_NEXT_KEY),
 		NANO_NO_KEY, NANO_NO_KEY, VIEW, do_research);
+#endif
 
     free_shortcutage(&whereis_list);
 
