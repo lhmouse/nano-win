@@ -144,6 +144,16 @@ CVS code -
 	  placewewant when a new match is found, so that edit_redraw()
 	  will redraw the screen properly when only placewewant changes.
 	  (DLR, found by Mike Frysinger)
+  do_replace()
+	- Instead of using edit_update() to redraw the screen with
+	  edittop at the top, set edittop beforehand and call
+	  edit_refresh(). (DLR)
+  do_gotoline()
+	- Use parse_num() to interpret a line entered by the user, and
+	  start the search for a line from current instead of fileage.
+	  (DLR)
+  do_gotopos()
+	- Tweak for efficiency. (David Benbennick)
 - utils.c:
   parse_num()
 	- New function to parse numeric values, so that we don't have to

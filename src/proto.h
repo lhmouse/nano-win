@@ -402,7 +402,7 @@ char *replace_line(const char *needle);
 int do_replace_loop(const char *needle, const filestruct *real_current,
 	size_t *real_current_x, int wholewords);
 void do_replace(void);
-void do_gotoline(ssize_t line, int save_pos);
+void do_gotoline(int line, int save_pos);
 void do_gotoline_void(void);
 #if defined (ENABLE_MULTIBUFFER) || !defined (DISABLE_SPELLER)
 void do_gotopos(int line, int pos_x, int pos_y, size_t pos_pww);

@@ -822,10 +822,11 @@ void do_replace(void)
     numreplaced = do_replace_loop(last_search, begin, &beginx, FALSE);
 
     /* Restore where we were. */
+    edittop = edittop_save;
     current = begin;
     current_x = beginx;
     renumber_all();
-    edit_update(edittop_save, TOP);
+    edit_refresh();
 
     if (numreplaced >= 0)
 	statusbar(P_("Replaced %d occurrence", "Replaced %d occurrences",
@@ -834,11 +835,11 @@ void do_replace(void)
     replace_abort();
 }
 
-void do_gotoline(ssize_t line, int save_pos)
+void do_gotoline(int line, int save_pos)
 {
-    if (line <= 0) {		/* Ask for it */
+    if (line <= 0) {		/* Ask for it. */
 	char *ans = mallocstrcpy(NULL, answer);
-	int st = statusq(FALSE, goto_list, line != 0 ? ans : "",
+	int st = statusq(FALSE, goto_list, line < 0 ? ans : "",
 #ifndef NANO_SMALL
 		NULL,
 #endif
@@ -854,18 +855,23 @@ void do_gotoline(ssize_t line, int save_pos)
 	    return;
 	}
 
-	line = (ssize_t)atol(answer);
-
 	/* Bounds check. */
-	if (line <= 0) {
+	if (parse_num(answer, &line) == -1 || line < 0) {
 	    statusbar(_("Come on, be reasonable"));
 	    display_main_list();
 	    return;
 	}
     }
 
-    for (current = fileage; current->next != NULL && line > 1; line--)
-	current = current->next;
+    if (current->lineno > line) {
+	for (; current->prev != NULL && current->lineno > line;
+		current = current->prev)
+	    ;
+    } else {
+	for (; current->next != NULL && current->lineno < line;
+		current = current->next)
+	    ;
+    }
 
     current_x = 0;
 
@@ -885,17 +891,17 @@ void do_gotoline_void(void)
 #if defined(ENABLE_MULTIBUFFER) || !defined(DISABLE_SPELLER)
 void do_gotopos(int line, int pos_x, int pos_y, size_t pos_pww)
 {
-    /* since do_gotoline() resets the x-coordinate but not the
-       y-coordinate, set the coordinates up this way */
+    /* Since do_gotoline() resets the x-coordinate but not the
+     * y-coordinate, set the coordinates up this way. */
     current_y = pos_y;
     do_gotoline(line, TRUE);
 
-    /* make sure that the x-coordinate is sane here */
-    if (pos_x > strlen(current->data))
-	pos_x = strlen(current->data);
+    /* Make sure that the x-coordinate is sane here. */
+    current_x = strlen(current->data);
+    if (pos_x < current_x)
+	current_x = pos_x;
 
-    /* set the rest of the coordinates up */
-    current_x = pos_x;
+    /* Set the rest of the coordinates up. */
     placewewant = pos_pww;
     update_line(current, pos_x);
 }
