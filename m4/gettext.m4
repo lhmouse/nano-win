@@ -21,21 +21,9 @@ AC_DEFUN(NANO_AM_WITH_NLS,
 
     USE_INCLUDED_LIBINTL=no
 
-    AC_ARG_WITH(locale-dir,
-      [  --with-locale-dir=DIR   specify locale directory],
-      LOCALE_DIR=$withval)
-    test -z "$LOCALE_DIR" && LOCALE_DIR='$(datadir)/locale'
-    AC_SUBST(LOCALE_DIR)
-
-    AC_ARG_WITH(gnu-locale-dir,
-      [  --with-gnu-locale-dir=DIR specify GNU locale directory],
-      GNU_LOCALE_DIR=$withval)
-    test -z "$GNU_LOCALE_DIR" && GNU_LOCALE_DIR='$(prefix)/share/locale'
-    AC_SUBST(GNU_LOCALE_DIR)
-
     dnl If we use NLS figure out what method
     if test "$USE_NLS" = "yes"; then
-      AC_DEFINE(ENABLE_NLS, 1, [Define to 1 if NLS is requested.])
+      AC_DEFINE(ENABLE_NLS)
       AC_MSG_CHECKING([whether included gettext is requested])
       AC_ARG_WITH(included-gettext,
         [  --with-included-gettext use the GNU gettext library included here],
@@ -60,13 +48,18 @@ AC_DEFUN(NANO_AM_WITH_NLS,
 
 	   if test "$gt_cv_func_gettext_libc" != "yes"; then
 	     AC_CHECK_LIB(intl, bindtextdomain,
-	       [AC_CHECK_LIB(intl, gettext)])
+	       [AC_CHECK_LIB(intl, gettext,
+	         gt_cv_func_gettext_libintl=yes,
+		 gt_cv_func_gettext_libintl=no)])
+	   fi
+	   
+	   if test "$gt_cv_func_gettext_libintl" = yes; then
+	     LIBS="$LIBS -lintl"
 	   fi
 
 	   if test "$gt_cv_func_gettext_libc" = "yes" \
-	      || test "$ac_cv_lib_intl_gettext" = "yes"; then
-	      AC_DEFINE(HAVE_GETTEXT, 1,
-	  [Define to 1 if you have gettext and don't want to use GNU gettext.])
+	      || test "$gt_cv_func_gettext_libintl" = "yes"; then
+	      AC_DEFINE(HAVE_GETTEXT)
 	      NANO_AM_PATH_PROG_WITH_TEST(MSGFMT, msgfmt,
 		[test -z "`$ac_dir/$ac_word -h 2>&1 | grep 'dv '`"], no)dnl
 	      if test "$MSGFMT" != "no"; then

@@ -45,6 +45,8 @@ CVS Code -
 	- Spanish translation updates (Jordi).
 - po/fr.po:
 	- French translation updates (Michel Robitaille).
+- m4/gettext.m4:
+	- diff against mutt 1.2.5's gettext.m4.
 
 nano-1.1.3 - 10/26/2001
 - General

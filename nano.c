@@ -2906,7 +2906,6 @@ int main(int argc, char *argv[])
 #ifdef ENABLE_COLOR
     do_colorinit();
 
-    fprintf(stderr, "COLORS = %d, COLOR_PAIRS = %d\n", COLORS, COLOR_PAIRS);
 #endif /* ENABLE_COLOR */
 
 #ifdef DEBUG

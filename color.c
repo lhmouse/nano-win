@@ -134,7 +134,9 @@ int do_colorinit(void)
 	    else /* They picked a fg and bg color */
 		init_pair(i, tmpcolor->fg, tmpcolor->bg);
 
+#ifdef DEBUG
 	    fprintf(stderr, "Running init_pair with fg = %d and bg = %d\n", tmpcolor->fg, tmpcolor->bg);
+#endif
 
 	    tmpcolor->pairnum = i;
 	    i++;
