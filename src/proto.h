@@ -331,6 +331,7 @@ RETSIGTYPE do_suspend(int signal);
 RETSIGTYPE do_cont(int signal);
 #ifndef NANO_SMALL
 void handle_sigwinch(int s);
+void allow_pending_sigwinch(int allow);
 #endif
 void print_numlock_warning(void);
 #ifndef NANO_SMALL

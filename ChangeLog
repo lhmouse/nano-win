@@ -15,6 +15,11 @@ CVS code -
 	- Add more intuitive Meta-key aliases for moving to the
 	  beginning and ending lines of a paragraph at the search
 	  prompt: Meta-P and Meta-N. (DLR)
+	- Block SIGWINCH after setting up its handler, and only unblock
+	  and handle it when we're in a stable state, i.e, when we're
+	  waiting for input from the user.  New function
+	  allow_pending_sigwinch(); changes to signal_init(),
+	  get_kbinput(), and get_verbatim_kbinput(). (DLR)
 - files.c:
   add_open_files()
 	- Make the saving of marked status in open_files->file_flags
@@ -50,6 +55,9 @@ CVS code -
 	  doesn't need to be called every time through the loop.  Call it
 	  instead of cbreak() on such systems, as it overrides cbreak()
 	  anyway. (DLR)
+	- Add more descriptive comments explaining the termios and
+	  curses setup routines, and turn the keypad on before setting
+	  the input mode. (DLR)
 - search.c:
   do_replace_loop()
 	- Fix segfault when doing a regex replace of a string that

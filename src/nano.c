@@ -2815,6 +2815,7 @@ void signal_init(void)
 #ifndef NANO_SMALL
     act.sa_handler = handle_sigwinch;
     sigaction(SIGWINCH, &act, NULL);
+    allow_pending_sigwinch(FALSE);
 #endif
 
 #ifdef _POSIX_VDISABLE
@@ -2987,6 +2988,17 @@ void handle_sigwinch(int s)
 
     /* Jump back to the main loop. */
     siglongjmp(jmpbuf, 1);
+}
+
+void allow_pending_sigwinch(int allow)
+{
+    sigset_t winch;
+    sigemptyset(&winch);
+    sigaddset(&winch, SIGWINCH);
+    if (allow)
+	sigprocmask(SIG_UNBLOCK, &winch, NULL);
+    else
+	sigprocmask(SIG_BLOCK, &winch, NULL);
 }
 #endif /* !NANO_SMALL */
 
@@ -3419,9 +3431,11 @@ int main(int argc, char *argv[])
 	    filename = mallocstrcpy(filename, argv[optind]);
     }
 
-    /* First back up the old settings so they can be restored, duh */
+    /* Termios initialization stuff: Back up the old settings so that
+     * they can be restored, disable SIGINT on ^C and SIGQUIT on ^\,
+     * since we need them for Cancel and Replace, and disable
+     * implementation-defined input processing. */
     tcgetattr(0, &oldterm);
-
 #ifdef _POSIX_VDISABLE
     term = oldterm;
     term.c_cc[VINTR] = _POSIX_VDISABLE;
@@ -3430,21 +3444,32 @@ int main(int argc, char *argv[])
     tcsetattr(0, TCSANOW, &term);
 #endif
 
-    /* now ncurses init stuff... */
+   /* Curses initialization stuff: Start curses, save the state of the
+    * the terminal mode, disable translation of carriage return (^M)
+    * into newline (^J) so we can catch the Enter key and use ^J for
+    * Justify, turn the keypad on for the windows that read input, put
+    * the terminal in cbreak mode (read one character at a time and
+    * interpret the special control keys) if we can selectively disable
+    * the special control keys or raw mode (read one character at a
+    * time and don't interpret the special control keys) if we
+    * can't, and turn off echoing of characters as they're typed. */
     initscr();
     savetty();
     nonl();
+    keypad(edit, TRUE);
+    keypad(bottomwin, TRUE);
 #ifdef _POSIX_VDISABLE
     cbreak();
 #else
-    /* We're going to have to do it the old way, i.e, on Cygwin. */
     raw();
 #endif
     noecho();
 
-    /* Set up some global variables */
+    /* Set up the global variables and the shortcuts. */
     global_init(0);
     shortcut_init(0);
+
+    /* Set up the signal handlers. */
     signal_init();
 
 #ifdef DEBUG
@@ -3455,10 +3480,6 @@ int main(int argc, char *argv[])
 #ifndef DISABLE_MOUSE
     mouse_init();
 #endif
-
-    /* Turn the keypad on */
-    keypad(edit, TRUE);
-    keypad(bottomwin, TRUE);
 
 #ifdef DEBUG
     fprintf(stderr, "Main: bottom win\n");

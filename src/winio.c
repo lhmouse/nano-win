@@ -45,8 +45,16 @@ int get_kbinput(WINDOW *win, int *meta)
 {
     int kbinput, retval;
 
+#ifndef NANO_SMALL
+    allow_pending_sigwinch(TRUE);
+#endif
+
     kbinput = get_ignored_kbinput(win);
     retval = get_accepted_kbinput(win, kbinput, meta);
+
+#ifndef NANO_SMALL
+    allow_pending_sigwinch(FALSE);
+#endif
 
     return retval;
 }
@@ -58,6 +66,10 @@ int *get_verbatim_kbinput(WINDOW *win, int *kbinput_len, int
 	allow_ascii)
 {
     int kbinput, *verbatim_kbinput;
+
+#ifndef NANO_SMALL
+    allow_pending_sigwinch(TRUE);
+#endif
 
     /* Turn the keypad off so that we don't get extended keypad values,
      * all of which are outside the ASCII range, and switch to raw mode
@@ -98,6 +110,11 @@ int *get_verbatim_kbinput(WINDOW *win, int *kbinput_len, int
 #ifdef DEBUG
     fprintf(stderr, "get_verbatim_kbinput(): verbatim_kbinput = %s\n", verbatim_kbinput);
 #endif
+
+#ifndef NANO_SMALL
+    allow_pending_sigwinch(FALSE);
+#endif
+
     return verbatim_kbinput;
 }
 
