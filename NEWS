@@ -1,3 +1,15 @@
+07/15/2001 - GNU nano 1.1.0 is released.  This is the first release
+		in the 1.1.x unstable series of GNU nano. It
+		incorporates all changes up to the 1.0.3 release, 
+		and also includes many many new features, including 
+		appending to as well as overwriting files, writing 
+		marked text to a separate file, dynamic wrap length, 
+		lots more compatibility with Pico, and new optional 
+		features like .nanorc file support and multiple file 
+		buffers!  All in all, plenty of new stuff that's sure 
+		to introduce lots of bugs ;-) Have fun with it, but
+		be careful, unstable means unstable.
+
 04/06/2001 - GNU nano 1.0.1 is out there.  The only new feature is a 
 		configure option for those who want to disable all
 		word wrapping from nano, --disable-wrapping.  Bug fixes
