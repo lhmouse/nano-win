@@ -1567,12 +1567,10 @@ bool do_int_spell_fix(const char *word)
 #ifndef NANO_SMALL
     if (old_mark_set) {
 	/* If the mark is on, partition the filestruct so that it
-	 * contains only the marked text, set edittop to the top of the
-	 * marked text, and turn the mark off. */
+	 * contains only the marked text, and turn the mark off. */
 	mark_order((const filestruct **)&top, &top_x,
 	    (const filestruct **)&bot, &bot_x);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
-	edittop = fileage;
 	UNSET(MARK_ISSET);
     }
 #endif

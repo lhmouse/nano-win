@@ -687,7 +687,7 @@ ssize_t do_replace_loop(const char *needle, const filestruct
     if (old_mark_set) {
 	/* If the mark is on, partition the filestruct so that it
 	 * contains only the marked text, set right_side_up properly,
-	 * set edittop to the top of the marked text, turn the mark off,
+	 * set edittop to the top of the partition, turn the mark off,
 	 * and refresh the screen. */
 	mark_order((const filestruct **)&top, &top_x,
 	    (const filestruct **)&bot, &bot_x);
