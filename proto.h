@@ -148,7 +148,7 @@ void nano_disabled_msg(void);
 void window_init(void);
 void do_mouse(void);
 
-#ifdef ENABLE_RCFILE
+#ifdef ENABLE_NANORC
 void do_rcfile(void);
 #endif
 
