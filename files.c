@@ -1024,36 +1024,35 @@ char *get_full_path(const char *origpath)
 
 #ifndef DISABLE_SPELLER
 /*
- * This function accepts a path and a pointer to an integer, and returns
- * the full path (via get_full_path()).  It also sets the integer
- * pointer's referenced value to 1 if the full path is writable, and 0
- * otherwise.  On error, it returns NULL, and sets the pointer's
- * referenced value to 0.
+ * This function accepts a path and returns the full path (via
+ * get_full_path()).  On error, if the path doesn't reference a
+ * directory, or if the directory isn't writable, it returns NULL.
  */
-char *check_writable_directory(const char *path, int *writable) {
+char *check_writable_directory(const char *path) {
 
     char *full_path = get_full_path(path);
+    int writable;
     struct stat fileinfo;
 
-    /* if get_full_path() failed, set *writable to 0 and return NULL */
-    if (!full_path) {
-	*writable = 0;
+    /* if get_full_path() failed, return NULL */
+    if (!full_path)
 	return NULL;
-    }
-    else {
-	/* otherwise, stat() the full path to see if it's writable by the
-	   user; set *writable to 1 if it is, or 0 if it isn't */
-	stat(path, &fileinfo);
-	if (fileinfo.st_mode & S_IWUSR)
-	    *writable = 1;
-	else
-	    *writable = 0;
-    }
+
+    /* otherwise, stat() the full path to see if it's writable by the
+       user; set writable to 1 if it is, or 0 if it isn't */
+    stat(path, &fileinfo);
+    if (fileinfo.st_mode & S_IWUSR)
+	writable = 1;
+    else
+	writable = 0;
 
     /* if the full path doesn't end in a slash (meaning get_full_path()
-       found that it isn't a directory) or isn't writable, return NULL */
-    if (full_path[strlen(full_path) - 1] != '/' || *writable == 0)
+       found that it isn't a directory) or isn't writable, free full_path
+       and return NULL */
+    if (full_path[strlen(full_path) - 1] != '/' || writable == 0) {
+	free(full_path);
 	return NULL;
+    }
 
     /* otherwise, return the full path */
     return full_path;
@@ -1064,12 +1063,18 @@ char *check_writable_directory(const char *path, int *writable) {
  * way that tempnam() does, determines the location for its temporary
  * file the same way that tempnam() does, safely creates the temporary
  * file there via mkstemp(), and returns the name of the temporary file
- * the same way that tempnam() does.
+ * the same way that tempnam() does.  It does not reference the value of
+ * TMP_MAX because the total number of random filenames that it can
+ * generate using one prefix is equal to 256**6, which is a sufficiently
+ * large number to handle most cases.  Since the behavior after tempnam()
+ * generates TMP_MAX random filenames is implementation-defined, my
+ * implementation is to go on generating random filenames regardless of
+ * it.
  */
 char *safe_tempnam(const char *dirname, const char *filename_prefix) {
 
     char *buf, *tempdir = NULL, *full_tempdir = NULL;
-    int writable = 0, filedesc;
+    int filedesc;
 
     /* if $TMPDIR is set and non-empty, set tempdir to it, run it through
        get_full_path(), and save the result in full_tempdir; otherwise,
@@ -1080,7 +1085,7 @@ char *safe_tempnam(const char *dirname, const char *filename_prefix) {
 	   get_full_path(), and save the result in full_tempdir */
 	tempdir = charalloc(strlen(getenv("TMPDIR")) + 1);
 	sprintf(tempdir, "%s", getenv("TMPDIR"));
-	full_tempdir = check_writable_directory(tempdir, &writable);
+	full_tempdir = check_writable_directory(tempdir);
 
 	/* we don't need the value of tempdir anymore */
 	free(tempdir);
@@ -1094,7 +1099,7 @@ char *safe_tempnam(const char *dirname, const char *filename_prefix) {
 	if (dirname) {
 	    tempdir = charalloc(strlen(dirname) + 1);
 	    strcpy(tempdir, dirname);
-	    full_tempdir = check_writable_directory(tempdir, &writable);
+	    full_tempdir = check_writable_directory(tempdir);
 
 	    /* we don't need the value of tempdir anymore */
 	    free(tempdir);
@@ -1106,7 +1111,7 @@ char *safe_tempnam(const char *dirname, const char *filename_prefix) {
     if (!full_tempdir) {
 	tempdir = charalloc(strlen(P_tmpdir) + 1);
 	strcpy(tempdir, P_tmpdir);
-	full_tempdir = check_writable_directory(tempdir, &writable);
+	full_tempdir = check_writable_directory(tempdir);
 
 	/* we don't need the value of tempdir anymore */
 	free(tempdir);

@@ -239,15 +239,14 @@ int is_whole_word(int curr_pos, filestruct *fileptr, char *searchword)
     return FALSE;
 }
 
-int past_editbuff;	/* search is now looking through lines not displayed */
+int past_editbuff;	/* findnextstr() is now searching lines not displayed */
 
 filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beginx,
 			char *needle)
 {
     filestruct *fileptr;
     char *searchstr, *rev_start = NULL, *found = NULL;
-    int current_x_find = 0;
-
+    int current_x_find;
     fileptr = current;
 
     past_editbuff = 0;
@@ -315,13 +314,13 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
     else {	/* reverse search */
 
 	current_x_find = current_x - 1;
-
+#if 0
 	/* Are we now back to the place where the search started) */
 	if ((fileptr == begin) && (current_x_find > beginx))
 	    search_last_line = 1;
-
+#endif
 	/* Make sure we haven't passed the begining of the string */
-#if 1	/* Is this required here ? */
+#if 0	/* Is this required here ? */
 	if (!(&fileptr->data[current_x_find] - fileptr->data))      
 	    current_x_find++;
 #endif
@@ -596,7 +595,8 @@ int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 			int wholewords, int *i)
 {
     int replaceall = 0, numreplaced = 0;
-    filestruct *fileptr;
+
+    filestruct *fileptr = NULL;
     char *copy;
 
     switch (*i) {
@@ -624,7 +624,14 @@ int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
     while (1) {
 
 	/* Sweet optimization by Rocco here */
+#if 0
 	fileptr = findnextstr(replaceall, FALSE, begin, *beginx, prevanswer);
+#else
+	if (fileptr != 0)
+	    fileptr = findnextstr(1, FALSE, begin, *beginx, prevanswer);
+	else
+	    fileptr = findnextstr(replaceall || (search_last_line ? 1 : 0), FALSE, begin, *beginx, prevanswer);
+#endif
 
 	/* No more matches.  Done! */
 	if (!fileptr)
@@ -663,17 +670,29 @@ int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 	    current->data = copy;
 	    totsize += strlen(current->data);
 
-	    /* Stop bug where we replace a substring of the replacement text */
-	    current_x += strlen(last_replace) - 1;
+	    if (!ISSET(REVERSE_SEARCH)) {
+		/* Stop bug where we replace a substring of the replacement text */
+		current_x += strlen(last_replace) - 1;
 
-	    /* Adjust the original cursor position - COULD BE IMPROVED */
-	    if (search_last_line) {
-		*beginx += strlen(last_replace) - strlen(last_search);
+		/* Adjust the original cursor position - COULD BE IMPROVED */
+		if (search_last_line) {
+		    *beginx += strlen(last_replace) - strlen(last_search);
 
-		/* For strings that cross the search start/end boundary */
-		/* Don't go outside of allocated memory */
-		if (*beginx < 1)
-		    *beginx = 1;
+		    /* For strings that cross the search start/end boundary */
+		    /* Don't go outside of allocated memory */
+		    if (*beginx < 1)
+			*beginx = 1;
+		}
+	    } else {
+		if (current_x > 1)
+		    current_x--;
+
+		if (search_last_line) {
+		    *beginx += strlen(last_replace) - strlen(last_search);
+
+		    if (*beginx > strlen(current->data))
+			*beginx = strlen(current->data);
+		}
 	    }
 
 	    edit_refresh();
@@ -755,15 +774,23 @@ int do_replace(void)
 
     /* save where we are */
     begin = current;
+#if 0
+    /* why + 1  ? isn't this taken care of in findnextstr() ? */
     beginx = current_x + 1;
-
+#else
+    beginx = current_x;
+#endif
     search_last_line = 0;
 
     numreplaced = do_replace_loop(prevanswer, begin, &beginx, FALSE, &i);
 
     /* restore where we were */
     current = begin;
+#if 0
     current_x = beginx - 1;
+#else
+    current_x = beginx;
+#endif
     renumber_all();
     edit_update(current, CENTER);
     print_replaced(numreplaced);

@@ -598,7 +598,7 @@ void clear_bottomwin(void)
 
 void bottombars(shortcut *s)
 {
-    int i, k;
+    int i, j, numcols;
     char keystr[10];
     shortcut *t;
     int slen;
@@ -620,41 +620,29 @@ void bottombars(shortcut *s)
 
     /* Determine how many extra spaces are needed to fill the bottom of the screen */
     if (slen < 2)
-	k = COLS / 6;
+	numcols = 6;
     else
-	k = COLS / ((slen + (slen % 2)) / 2);
-
+	numcols = (slen + (slen % 2)) / 2;
 
     clear_bottomwin();
 
     t = s;
-    for (i = 0; i < slen / 2; i++) {
+    for (i = 0; i < numcols; i++) {
+	for (j = 0; j <= 1; j++) {
 
-	wmove(bottomwin, 1, i * k);
+	    wmove(bottomwin, 1 + j, i * ((COLS - 1) / numcols));
 
-	if (t->val < 97)
-	    snprintf(keystr, 10, "^%c", t->val + 64);
-	else
-	    snprintf(keystr, 10, "M-%c", t->val - 32);
+	    if (t->val < 97)
+		snprintf(keystr, 10, "^%c", t->val + 64);
+	    else
+		snprintf(keystr, 10, "M-%c", t->val - 32);
 
-	onekey(keystr, t->desc, k);
+	    onekey(keystr, t->desc, (COLS - 1) / numcols);
 
-	if (t->next == NULL)
-	    break;
-	t = t->next;
-
-	wmove(bottomwin, 2, i * k);
-
-	if (t->val < 97)
-	    snprintf(keystr, 10, "^%c", t->val + 64);
-	else
-	    snprintf(keystr, 10, "M-%c", t->val - 32);
-
-	onekey(keystr, t->desc, k);
-
-	if (t->next == NULL)
-	    break;
-	t = t->next;
+	    if (t->next == NULL)
+		break;
+	    t = t->next;
+	}
 	
     }
 

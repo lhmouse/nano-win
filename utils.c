@@ -112,16 +112,15 @@ char *strstrwrapper(char *haystack, char *needle, char *rev_start)
 	} else {
 	    char *i, *j;
 
-	    /* do quick check first */
+	    /* do a quick search forward first */
 	    if (!(regexec(&search_regexp, haystack, 10, regmatches, 0))) {
-		/* there is a match */
+		/* there's a match somewhere in the line - now search for it backwards, much slower */
 		for(i = rev_start ; i >= haystack ; --i)
 		    if (!(result = regexec(&search_regexp, i, 10, regmatches, 0))) {
 			j = i + regmatches[0].rm_so;
 			if (j <= rev_start)
 			    return j;
 		    }
-
 	    }
 #endif
 	}

@@ -40,7 +40,7 @@
 #define _(string) (string)
 #endif
 
-#define NUM_RCOPTS 21
+#define NUM_RCOPTS 20
 
 /* Static stuff for the nanorc file */
 rcoption rcopts[NUM_RCOPTS] = {
@@ -63,7 +63,6 @@ rcoption rcopts[NUM_RCOPTS] = {
     {"multibuffer", MULTIBUFFER},
     {"smooth", SMOOTHSCROLL},
     {"keypad", ALT_KEYPAD},
-    {"relative", RELATIVECHARS},
     {"noconvert", NO_CONVERT}
 };
 

@@ -224,7 +224,7 @@ char *get_full_path(const char *origpath);
 #endif
 
 #ifndef DISABLE_SPELLER
-char *check_writable_directory(const char *path, int *writable);
+char *check_writable_directory(const char *path);
 char *safe_tempnam(const char *dirname, const char *filename_prefix);
 #endif
 

@@ -4,7 +4,8 @@ CVS code -
 	- New option, noconvert (-N, --noconvert) to completely stop
 	  the translation of files from DOS or Mac format (DLR).
 	- New functions wheck_writable_directory() and safe_tempnam()
-	  to get around the tempnam warning. (DLR)  Needs testing
+	  to get around the tempnam warning. More improvements (DLR)  
+	  Still eeds testing.
 	- Added DOS and Mac format options to write file routine.
 	  Changes to shortcut_init() and do_writeout().	
 	- Removed stupid static definitions of toggles and shortcut
@@ -31,12 +32,18 @@ CVS code -
   main()
 	- Add 407 as equiv of 26, this seems to be sent when using
 	  ^Z in linux console with keypad() enabled.
+- rcfile.c:
+	- Get rid of unneeded relativechars from rcopts (DLR).
+- search.c
+  do_replace(), findnextstr()
+	- Fixes for various search issues (Ken Tyler)
 - winio.c:
   do_cursorpos()
 	- Rewritten to show col place as well as charcter place, without
 	  needing an entirely separate flag.
   bottombars(), onekey()
 	- Make bottom list dynamic with screen size (Guus Sliepen & Chris).
+	- More cleanups w/width of shortcut.
 - utils.c:
   strstrwrapper()
 	- NANO_SMALL test was backwards (Ken Tyler).
