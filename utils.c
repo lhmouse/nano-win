@@ -154,6 +154,7 @@ void new_magicline(void)
     totlines++;
 }
 
+#ifndef DISABLE_TABCOMP
 /*
  * Routine to see if a text string is matched by a wildcard pattern.
  * Returns TRUE if the text is matched, or FALSE if it is not matched
@@ -253,3 +254,4 @@ int check_wildcard_match(const char *text, const char *pattern)
 
     return TRUE;
 }
+#endif

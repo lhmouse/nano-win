@@ -256,7 +256,11 @@ int do_insertfile(void)
 	fprintf(stderr, "filename is %s", answer);
 #endif
 
+#ifndef DISABLE_TABCOMP
         realname = real_dir_from_tilde(answer);
+#else
+        realname = mallocstrcpy(realname, answer);
+#endif
 
 	i = open_file(realname, 1, 0);
 	free(realname);

@@ -1,8 +1,8 @@
 CVS code -
 - General
-	- Added configure argument --disable tabcomp.  Affects
-	  configure.in, configure, bottom of files.c and write_file, and
-	  winio.c:nanogettsr().
+	- Added configure argument --disable-tabcomp.  Affects
+	  configure.in, configure, bottom of files.c and write_file,
+	  utils.c:check_wildcard_match() and winio.c:nanogettsr().
 	- Username tab completion code, and cleaned up existing tabcomp
 	  code. New functions real_dir_from_tide(), append_slash_if_dir(),
 	  username_tab_completion is more than a stub now =-).
@@ -16,7 +16,8 @@ CVS code -
   write_file()
 	- Unsetting modified on temp files bug fixed (Rocco Corsi).
   do_insertfile()
-	- Added call to real_name_from tilde, oops.
+	- Added call to real_name_from tilde, oops.  Added check for
+	  DISABLE_TABCOMP.
   read_file()
 	- Added check for fileptr == NULL.
 - global.c:
