@@ -231,6 +231,7 @@ int get_translated_kbinput(int kbinput, int *es
 	 * NANO_SMALL is defined, KEY_RESIZE is never generated.  Also,
 	 * Slang and SunOS 5.7-5.9 don't support KEY_RESIZE. */
 	case KEY_RESIZE:
+	    break;
 #endif
 #ifdef PDCURSES
 	case KEY_SHIFT_L:
@@ -239,8 +240,8 @@ int get_translated_kbinput(int kbinput, int *es
 	case KEY_CONTROL_R:
 	case KEY_ALT_L:
 	case KEY_ALT_R:
-#endif
 	    break;
+#endif
 	default:
 	    switch (escapes) {
 		case 0:
