@@ -129,8 +129,8 @@ void read_file(FILE *f, const char *filename)
 {
     size_t num_lines = 0;
 	/* The number of lines in the file. */
-    size_t num_chars = 0;
-	/* The number of bytes in the file. */
+    size_t num_chars;
+	/* The number of characters in the file. */
     size_t len = 0;
 	/* The length of the current line of the file. */
     size_t i = 0;
