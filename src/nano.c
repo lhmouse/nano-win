@@ -1898,16 +1898,13 @@ size_t indent_length(const char *line)
  * (except it maintains 2 after a . ! or ?).  Note the terminating \0
  * counts as a space.
  *
- * If changes_allowed is FALSE and justify_format() needs to make a
- * change, it returns 1, otherwise returns 0.
- *
- * If changes_allowed is TRUE, justify_format() might make line->data
- * shorter, and change the actual pointer with null_at().
+ * justify_format() might make line->data shorter, and change the actual
+ * pointer with null_at().
  *
  * justify_format() will not look at the first skip characters of line.
  * skip should be at most strlen(line->data).  The character at
  * line[skip + 1] must not be whitespace. */
-int justify_format(int changes_allowed, filestruct *line, size_t skip)
+void justify_format(filestruct *line, size_t skip)
 {
     const char *punct = ".?!";
     const char *brackets = "'\")}]>";
@@ -1924,11 +1921,9 @@ int justify_format(int changes_allowed, filestruct *line, size_t skip)
 	int remove_space = FALSE;
 	    /* Do we want to remove this space? */
 
-	if (*front == '\t') {
-	    if (!changes_allowed)
-		return 1;
+	if (*front == '\t')
 	    *front = ' ';
-	}
+
 	/* These tests are safe since line->data + skip is not a
 	 * space. */
 	if ((*front == '\0' || *front == ' ') && *(front - 1) == ' ') {
@@ -1948,8 +1943,6 @@ int justify_format(int changes_allowed, filestruct *line, size_t skip)
 	if (remove_space) {
 	    /* Now *front is a space we want to remove.  We do that by
 	     * simply failing to assign it to *back. */
-	    if (!changes_allowed)
-		return 1;
 #ifndef NANO_SMALL
 	    if (mark_beginbuf == line && back - line->data < mark_beginx)
 		mark_beginx--;
@@ -1967,9 +1960,6 @@ int justify_format(int changes_allowed, filestruct *line, size_t skip)
     back--;
     assert(*back == '\0' && *front == '\0');
 
-    /* This assert merely documents a fact about the loop above. */
-    assert(changes_allowed || back == front);
-
     /* Now back is the new end of line->data. */
     if (back != front) {
 	totsize -= front - back;
@@ -1979,7 +1969,6 @@ int justify_format(int changes_allowed, filestruct *line, size_t skip)
 	    mark_beginx = back - line->data;
 #endif
     }
-    return 0;
 }
 
 /* The "quote part" of a line is the largest initial substring matching
@@ -2043,9 +2032,9 @@ size_t indents_match(const char *a_line, size_t a_indent, const char
 filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 	quote_len)
 {
-    /* We put the original lines, not copies, into the cut buffer, just
-     * out of a misguided sense of consistency, so if you un-cut, you
-     * get the actual same paragraph back, not a copy. */
+    /* We put the original lines, not copies, into the cutbuffer, just
+     * out of a misguided sense of consistency, so if you uncut, you get
+     * the actual same paragraph back, not a copy. */
     filestruct *alice = first_line;
 
     set_modified();
@@ -2063,8 +2052,7 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 	if (alice == mark_beginbuf)
 	    mark_beginbuf = bob;
 #endif
-	justify_format(TRUE, bob,
-			quote_len + indent_length(bob->data + quote_len));
+	justify_format(bob, quote_len + indent_length(bob->data + quote_len));
 
 	assert(alice != NULL && bob != NULL);
 	add_to_cutbuffer(alice, FALSE);
@@ -2401,15 +2389,14 @@ int do_justify(int full_justify)
 	 * justify. */
     size_t par_len;
 	/* Number of lines in that paragraph. */
-    filestruct *first_mod_line = NULL;
-	/* Will be the first line of the resulting justified paragraph
-	 * that differs from the original.  For restoring after
-	 * uncut. */
-    filestruct *last_par_line = current;
+    filestruct *first_par_line = NULL;
+	/* Will be the first line of the resulting justified paragraph.
+	 * For restoring after uncut. */
+    filestruct *last_par_line = NULL;
 	/* Will be the last line of the result, also for uncut. */
     filestruct *cutbuffer_save = cutbuffer;
 	/* When the paragraph gets modified, all lines from the changed
-	 * one down are stored in the cut buffer.  We back up the
+	 * one down are stored in the cutbuffer.  We back up the
 	 * original to restore it later. */
 
     /* We save these global variables to be restored if the user
@@ -2428,12 +2415,11 @@ int do_justify(int full_justify)
     size_t indent_len;	/* Generic indentation length. */
     size_t i;		/* Generic loop variable. */
 
-    /* If we're justifying the entire file, start at the beginning of
-     * it and move the first line of the text we're justifying to it. */
-    if (full_justify) {
+    /* If we're justifying the entire file, start at the beginning. */
+    if (full_justify)
 	current = fileage;
-	last_par_line = fileage;
-    }
+
+    last_par_line = current;
 
     while (TRUE) {
 
@@ -2473,14 +2459,13 @@ int do_justify(int full_justify)
 		quote_len; 
 
 	    /* justify_format() removes excess spaces from the line, and
-	     * changes tabs to spaces.  The first argument, FALSE, means
-	     * don't change the line, just say whether there are changes
-	     * to be made.  If there are, we do backup_lines(), which
-	     * copies the original paragraph to the cutbuffer for
-	     * unjustification, and then calls justify_format() on the
-	     * remaining lines. */
-	    if (first_mod_line == NULL && justify_format(FALSE, current, indent_len))
-		first_mod_line = backup_lines(current, full_justify ?
+	     * changes tabs to spaces.  After calling it, we call
+	     * backup_lines(), which copies the original paragraph to
+	     * the cutbuffer for unjustification and then calls
+	     * justify_format() on the remaining lines. */
+	    justify_format(current, indent_len);
+	    if (first_par_line == NULL)
+		first_par_line = backup_lines(current, full_justify ?
 			filebot->lineno - current->lineno : par_len, quote_len);
 
 	    line_len = strlen(current->data);
@@ -2496,10 +2481,6 @@ int do_justify(int full_justify)
 		    goto continue_loc;
 		break_pos += indent_len;
 		assert(break_pos < line_len);
-		/* If we haven't backed up the paragraph, do it now. */
-		if (first_mod_line == NULL)
-		    first_mod_line = backup_lines(current, full_justify ?
-			filebot->lineno - current->lineno : par_len, quote_len);
 		if (par_len == 1) {
 		    /* There is no next line in this paragraph.  We make
 		     * a new line and copy text after break_pos into
@@ -2565,11 +2546,6 @@ int do_justify(int full_justify)
 			fill - display_len - 1))
 		    goto continue_loc;
 
-		/* If we haven't backed up the paragraph, do it now. */
-		if (first_mod_line == NULL)
-		    first_mod_line = backup_lines(current, full_justify ?
-			filebot->lineno - current->lineno : par_len, quote_len);
-
 		break_pos = break_line(current->next->data + indent_len,
 			fill - display_len - 1, FALSE);
 		assert(break_pos != -1);
@@ -2614,32 +2590,40 @@ int do_justify(int full_justify)
 		}
 	    } else
   continue_loc:
+		/* Go to the next line. */
 		current = current->next;
+
+	    /* If the line we were on before still exists, and it was
+	     * not the last line of the paragraph, add a space to the
+	     * end of it to replace the one removed by
+	     * justify_format(). */
+	    if (current->prev != NULL && par_len > 1) {
+		size_t prev_line_len = strlen(current->prev->data);
+		current->prev->data = charealloc(current->prev->data,
+			prev_line_len + 2);
+		current->prev->data[prev_line_len] = ' ';
+		current->prev->data[prev_line_len + 1] = '\0';
+		totsize++;
+	    }
 	}
 
-	/* We are now done justifying the paragraph.  There are cleanup
-	 * things to do, and we check for unjustify. */
-
-	/* totlines, totsize, and current_y have been maintained above.
-	 * We now set last_par_line to the new end of the paragraph,
-	 * update fileage, set current_x.  Also, edit_refresh() needs
-	 * the line numbers to be right, so we renumber(). */
-	last_par_line = current->prev;
-	if (first_mod_line != NULL) {
-	    if (first_mod_line->prev == NULL)
-		fileage = first_mod_line;
-	    renumber(first_mod_line);
-	}
-
-	/* We've just justified a paragraph and renumbered the lines in
-	 * it.  If we're not justifying the entire file, break out of
-	 * the loop.  Otherwise, continue the loop so that we justify
-	 * and renumber the lines in all paragraphs down to the end of
-	 * the file. */
+	/* We've just justified a paragraph. If we're not justifying the
+	 * entire file, break out of the loop.  Otherwise, continue the
+	 * loop so that we justify all the paragraphs in the file. */
 	if (!full_justify)
 	    break;
 
     } /* while (TRUE) */
+
+    /* We are now done justifying the paragraph or the file, so clean
+     * up.  totlines, totsize, and current_y have been maintained above.
+     * Set last_par_line to the new end of the paragraph, update
+     * fileage, and set current_x.  Also, edit_refresh() needs the line
+     * numbers to be right, so renumber(). */
+    last_par_line = current->prev;
+    if (first_par_line->prev == NULL)
+	fileage = first_par_line;
+    renumber(first_par_line);
 
     edit_refresh();
 
@@ -2669,47 +2653,43 @@ int do_justify(int full_justify)
 
     if (i != NANO_UNJUSTIFY_KEY && i != NANO_UNJUSTIFY_FKEY) {
 	ungetch(i);
-	/* Did we back up anything at all? */
-	if (cutbuffer != cutbuffer_save)
-	    free_filestruct(cutbuffer);
 	placewewant = 0;
     } else {
-	/* Else restore the justify we just did (ungrateful user!) */
+	/* Else restore the justify we just did (ungrateful user!). */
+	filestruct *cutbottom = get_cutbottom();
+
 	current = current_save;
 	current_x = current_x_save;
 	current_y = current_y_save;
 	edittop = edittop_save;
-	if (first_mod_line != NULL) {
-	    filestruct *cutbottom = get_cutbottom();
 
-	    /* Splice the cut buffer back into the file. */
-	    cutbottom->next = last_par_line->next;
-	    cutbottom->next->prev = cutbottom;
-		/* The line numbers after the end of the paragraph have
-		 * been changed, so we change them back. */
-	    renumber(cutbottom->next);
-	    if (first_mod_line->prev != NULL) {
-		cutbuffer->prev = first_mod_line->prev;
-		cutbuffer->prev->next = cutbuffer;
-	    } else
-		fileage = cutbuffer;
-	    cutbuffer = NULL;
+	/* Splice the cutbuffer back into the file. */
+	cutbottom->next = last_par_line->next;
+	cutbottom->next->prev = cutbottom;
+	    /* The line numbers after the end of the paragraph have been
+	     * changed, so we change them back. */
+	renumber(cutbottom->next);
+	if (first_par_line->prev != NULL) {
+	    cutbuffer->prev = first_par_line->prev;
+	    cutbuffer->prev->next = cutbuffer;
+	} else
+	    fileage = cutbuffer;
+	cutbuffer = NULL;
 
-	    last_par_line->next = NULL;
-	    free_filestruct(first_mod_line);
+	last_par_line->next = NULL;
+	free_filestruct(first_par_line);
 
-	    /* Restore global variables from before the justify. */
-	    totsize = totsize_save;
-	    totlines = filebot->lineno;
+	/* Restore global variables from before the justify. */
+	totsize = totsize_save;
+	totlines = filebot->lineno;
 #ifndef NANO_SMALL
-	    mark_beginbuf = mark_beginbuf_save;
-	    mark_beginx = mark_beginx_save;
+	mark_beginbuf = mark_beginbuf_save;
+	mark_beginx = mark_beginx_save;
 #endif
-	    flags = flags_save;
-	    if (!ISSET(MODIFIED)) {
-		titlebar(NULL);
-		wrefresh(topwin);
-	    }
+	flags = flags_save;
+	if (!ISSET(MODIFIED)) {
+	    titlebar(NULL);
+	    wrefresh(topwin);
 	}
 	edit_refresh();
     }

@@ -303,7 +303,7 @@ int do_spell(void);
 size_t indent_length(const char *line);
 #endif
 #ifndef DISABLE_JUSTIFY
-int justify_format(int changes_allowed, filestruct *line, size_t skip);
+void justify_format(filestruct *line, size_t skip);
 #ifdef HAVE_REGEX_H
 size_t quote_length(const char *line, const regex_t *qreg);
 #else

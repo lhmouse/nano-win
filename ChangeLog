@@ -38,6 +38,16 @@ CVS code -
 	  Pico has via ^W^J.  Changes to do_justify(); new functions
 	  do_justify_void() and do_full_justify().  Note that this
 	  feature is disabled if justification is disabled. (DLR)
+	- Modify the justification algorithm to work the same way as in
+	  the current version of Pico, i.e, add a space at the end of
+	  each line of the justified paragraph except for the last one.
+	  Changes to justify_format() and do_justify().  (Note that the
+	  addition of spaces to justified lines means that
+	  first_mod_line can no longer be used to reliably detect the
+	  first modified line in a paragraph, since a line unmodified by
+	  justify_format() may get a space tacked onto the end of it
+	  later, so now the entire original paragraph is always backed
+	  up.) (DLR)
 - files.c:
   add_open_file()
 	- Rearrange the NANO_SMALL #ifdef so that the code to set the
@@ -51,7 +61,9 @@ CVS code -
 	- Tweak for efficiency. (David Benbennick)
   justify_format()
 	- Remove redundant assignment. (DLR)
-  do_para_search(), do_justify()
+  do_para_search()
+	- Remove unneeded edit_update() calls. (David Benbennick)
+  do_justify()
 	- Remove unneeded edit_update() calls. (David Benbennick)
 	- Simplify an if statement. (DLR)
   do_exit()
