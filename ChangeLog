@@ -171,6 +171,9 @@ CVS code -
 	- Leave "Mark Text" and "Where Is Next" out entirely when
 	  NANO_SMALL is defined.  Since they aren't in the visible main
 	  list, there's no point in having them in but disabled. (DLR)
+	- In the search prompt shortcut list, move "Full Justify" to
+	  after "History", so that the latter is visible onscreen
+	  again. (DLR)
 - nano.c:
   die_save_file()
 	- Clarify the error message when there are too many backup files

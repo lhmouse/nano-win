@@ -629,11 +629,6 @@ void shortcut_init(int unjustify)
     sc_init_one(&whereis_list, NANO_PARAEND_KEY, end_of_par_msg,
 	IFHELP(nano_paraend_msg, NANO_PARAEND_ALTKEY1), NANO_NO_KEY,
 	NANO_PARAEND_ALTKEY2, VIEW, do_para_end);
-
-    /* Translators: try to keep this string under 10 characters long */
-    sc_init_one(&whereis_list, NANO_FULLJUSTIFY_KEY, fulljstify_msg,
-	IFHELP(nano_fulljustify_msg, NANO_FULLJUSTIFY_ALTKEY),
-	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_full_justify);
 #endif
 
 #ifndef NANO_SMALL
@@ -658,6 +653,13 @@ void shortcut_init(int unjustify)
     sc_init_one(&whereis_list, NANO_HISTORY_KEY, history_msg,
 	IFHELP(nano_editstr_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, 0);
+
+#ifndef DISABLE_JUSTIFY
+    /* Translators: try to keep this string under 10 characters long */
+    sc_init_one(&whereis_list, NANO_FULLJUSTIFY_KEY, fulljstify_msg,
+	IFHELP(nano_fulljustify_msg, NANO_FULLJUSTIFY_ALTKEY),
+	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_full_justify);
+#endif
 #endif /* !NANO_SMALL */
 
     free_shortcutage(&replace_list);
