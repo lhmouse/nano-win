@@ -190,6 +190,8 @@ int parse_char(const char *str, int *chr, size_t *col
 
 		if (wctomb(ctrl_wide_str, (wchar_t)wide_str) != -1)
 		    *col += wcwidth(wide_str);
+		else
+		    (*col)++;
 
 		free(ctrl_wide_str);
 	    /* If we have a normal character, get its width in columns
