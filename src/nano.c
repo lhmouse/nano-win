@@ -2768,18 +2768,20 @@ void signal_init(void)
     struct termios term;
 #endif
 
-    /* Trap SIGINT and SIGQUIT cuz we want them to do useful things. */
+    /* Trap SIGINT and SIGQUIT because we want them to do useful
+     * things. */
     memset(&act, 0, sizeof(struct sigaction));
     act.sa_handler = SIG_IGN;
     sigaction(SIGINT, &act, NULL);
     sigaction(SIGQUIT, &act, NULL);
 
-    /* Trap SIGHUP and SIGTERM cuz we want to write the file out. */
+    /* Trap SIGHUP and SIGTERM because we want to write the file out. */
     act.sa_handler = handle_hupterm;
     sigaction(SIGHUP, &act, NULL);
     sigaction(SIGTERM, &act, NULL);
 
 #ifndef NANO_SMALL
+    /* Trap SIGWINCH because we want to handle window resizes. */
     act.sa_handler = handle_sigwinch;
     sigaction(SIGWINCH, &act, NULL);
     allow_pending_sigwinch(FALSE);
@@ -2789,18 +2791,21 @@ void signal_init(void)
     tcgetattr(0, &term);
 
     if (!ISSET(PRESERVE)) {
-	/* Ignore ^S and ^Q, much to Chris' chagrin */
+	/* Trap XOFF (^S) and XON (^Q), much to Chris' chagrin, because
+	 * we want to block them. */
 	term.c_cc[VSTOP] = _POSIX_VDISABLE;
 	term.c_cc[VSTART] = _POSIX_VDISABLE;
     }
 #ifdef VDSUSP
+    /* Trap delayed suspend (^Y) so we can handle it ourselves. */
     term.c_cc[VDSUSP] = _POSIX_VDISABLE;
-#endif /* VDSUSP */
+#endif
 
 #endif /* _POSIX_VDISABLE */
 
     if (!ISSET(SUSPEND)) {
-	/* Insane! */
+        /* Trap normal suspend (^Z) so we can handle it ourselves.  If
+	 * we can't trap the key, trap the signal instead.  Insane! */
 #ifdef _POSIX_VDISABLE
 	term.c_cc[VSUSP] = _POSIX_VDISABLE;
 #else
@@ -2808,9 +2813,8 @@ void signal_init(void)
 	sigaction(SIGTSTP, &act, NULL);
 #endif
     } else {
-	/* If we don't do this, it seems other stuff interrupts the
-	   suspend handler!  Try using nano with mutt without this
-	   line. */
+	/* Block all other signals in the suspend and continue handlers.
+	 * If we don't do this, other stuff interrupts them! */
 	sigfillset(&act.sa_mask);
 
 	act.sa_handler = do_suspend;
@@ -2825,7 +2829,7 @@ void signal_init(void)
 #endif
 }
 
-/* Handler for SIGHUP and SIGTERM */
+/* Handler for SIGHUP and SIGTERM. */
 RETSIGTYPE handle_hupterm(int signal)
 {
     die(_("Received SIGHUP or SIGTERM\n"));
@@ -2857,16 +2861,16 @@ RETSIGTYPE do_suspend(int signal)
 RETSIGTYPE do_cont(int signal)
 {
     /* Now we just update the screen instead of having to reenable the
-       SIGTSTP handler. */
+     * SIGTSTP handler. */
     doupdate();
-
-    /* The Hurd seems to need this, otherwise a ^Y after a ^Z will
-       start suspending again. */
-    signal_init();
 
 #ifndef NANO_SMALL
     /* Perhaps the user resized the window while we slept. */
     handle_sigwinch(0);
+#else
+    /* Set up the signal handlers again, so that the special control
+     * keys all work the same as before. */
+    signal_init();
 #endif
 }
 
@@ -2942,6 +2946,10 @@ void handle_sigwinch(int s)
 #endif
     keypad(edit, TRUE);
     keypad(bottomwin, TRUE);
+
+    /* Set up the signal handlers again, so that the special control
+     * keys all work the same as before. */
+    signal_init();
 
     /* Jump back to the main loop. */
     siglongjmp(jmpbuf, 1);

@@ -75,9 +75,9 @@ int *get_verbatim_kbinput(WINDOW *win, int *kbinput_len, int
 #endif
 
     /* Switch to raw mode so that we can type ^C, ^Q, ^S, ^Z, and ^\
-     * (and ^Y on the Hurd) without getting interrupts, and Turn the
-     * keypad off so that we don't get extended keypad values all of
-     * which are outside the ASCII range. */
+     * (and ^Y on systems supporting delayed suspend) without getting
+     * interrupts, and turn the keypad off so that we don't get extended
+     * keypad values, all of which are outside the ASCII range. */
 #ifdef _POSIX_VDISABLE
     raw();
 #endif

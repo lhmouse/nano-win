@@ -1,6 +1,9 @@
 CVS code -
 - General:
 	- Minor comment cleanups. (DLR)
+	- Make sure the special control keys are handled the same way
+	  after the window is resized or we come out of suspend mode.
+	  Changes to do_cont() and handle_sigwinch(). (DLR)
 - files.c:
   add_open_file()
 	- Rearrange the NANO_SMALL #ifdef so that the code to set the
