@@ -94,9 +94,10 @@ void null_at(char **data, size_t index)
 void unsunder(char *str, size_t true_len)
 {
     assert(str != NULL);
-    for (; true_len > 0; true_len--, str++)
+    for (; true_len > 0; true_len--, str++) {
 	if (*str == '\0')
 	    *str = '\n';
+    }
 }
 
 /* For non-null-terminated lines.  A line, by definition, shouldn't
@@ -104,9 +105,10 @@ void unsunder(char *str, size_t true_len)
 void sunder(char *str)
 {
     assert(str != NULL);
-    for (; *str != '\0'; str++)
+    for (; *str != '\0'; str++) {
 	if (*str == '\n')
 	    *str = '\0';
+    }
 }
 
 #ifndef HAVE_STRCASECMP

@@ -652,7 +652,7 @@ void usage(void)
 #ifndef NANO_SMALL
     print1opt("-S", "--smooth", _("Smooth scrolling"));
 #endif
-    print1opt(_("-T [num]"), _("--tabsize=[num]"), _("Set width of a tab to num"));
+    print1opt(_("-T [#cols]"), _("--tabsize=[#cols]"), _("Set width of a tab in cols to #cols"));
     print1opt("-V", "--version", _("Print version information and exit"));
 #ifdef ENABLE_COLOR
     print1opt(_("-Y [str]"), _("--syntax [str]"), _("Syntax definition to use"));

@@ -32,6 +32,8 @@ CVS code -
   shortcut_init()
 	- Only allow verbatim input when we're not in view mode. (DLR)
 - nano.c:
+  usage()
+	- Clarify the description for -T/--tabsize a bit. (DLR)
   do_verbatim_input()
 	- Remove the now-unneeded code to disable XON, XOFF, and
 	  suspend, since we now go into raw mode in
