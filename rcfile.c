@@ -1,6 +1,6 @@
 /* $Id$ */
 /**************************************************************************
- *   cut.c                                                                *
+ *   rcfile.c                                                             *
  *                                                                        *
  *   Copyright (C) 1999 Chris Allegretta                                  *
  *   This program is free software; you can redistribute it and/or modify *
