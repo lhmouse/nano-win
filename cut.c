@@ -39,15 +39,12 @@ static filestruct *cutbottom = NULL;	/* Pointer to end of cutbuffer */
 
 void add_to_cutbuffer(filestruct * inptr)
 {
-    filestruct *tmp;
-
 #ifdef DEBUG
     fprintf(stderr, _("add_to_cutbuffer called with inptr->data = %s\n"),
 	    inptr->data);
 #endif
 
     totsize -= strlen(inptr->data);
-    tmp = cutbuffer;
     if (cutbuffer == NULL) {
 	cutbuffer = inptr;
 	inptr->prev = NULL;

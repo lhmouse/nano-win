@@ -4,6 +4,9 @@ Cvs code -
 	- Added config.guess and config.sub to distribution because
 	  apparently newer autoconf/automakes can't live without them.
 	- Various spelling updates by David Lawrence Ramsey.
+- cut.c:
+  add_to_cutbuffer()
+	- Remove useless statements (Rocco).      
 - move.c:
   page_up()
 	- Rewritten with a loop to make screen updates work when
