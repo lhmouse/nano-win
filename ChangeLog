@@ -1,8 +1,10 @@
 CVS code changes since last release -
 - nano.c:
 	- Removed dual alt_speller variables, oops! (Rocco Corsi)
-- de.po
+- de.po:
 	- Revised translations by floki@bigfoot.com.
+- fi.po:
+	- Finnish translation by pauli.virtanen@saunalahti.fi.
 - winio.c
   do_yesno(), nanogetstr():
 	- Removed now unnecessary raw/cbreak combos.
