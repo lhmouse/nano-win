@@ -61,7 +61,7 @@ void add_to_cutbuffer(filestruct * inptr)
 void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
 			int bot_x)
 {
-    filestruct *tmp, *next;
+    filestruct *tmp, *next, *botcopy;
     char *tmpstr;
 
     /* Set up the beginning of the cutbuffer */
@@ -103,7 +103,15 @@ void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
      * up a newline when we're grabbing the last line of the mark.  For
      * the same reason, we don't do an extra totsize decrement. */
 
-    add_to_cutbuffer(bot);
+
+    /* I honestly do not know why this is needed.  After many hours of
+       using gdb on an OpenBSD box, I can honestly say something is 
+       screwed somewhere.  Not doing this causes update_line to annihilate
+       the last line copied into the cutbuffer when the mark is set ?!?!? */
+    botcopy = copy_node(bot);
+    add_to_cutbuffer(botcopy);
+    free(bot);
+
     top->next = next;
     if (next != NULL)
 	next->prev = top;

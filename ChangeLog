@@ -1,4 +1,7 @@
 CVS code - 
+- cut.c:
+  cut_marked_segment()
+	- Add bizarre copy of bot node, else *BSD goes ballistic.
 - nano.c:
   do_alt_speller()
 	- Try to go to the same line we were on before before spell check
