@@ -143,9 +143,14 @@ void die(char *msg, ...)
 	    /* if we already saved the file above (i. e. if it was the
 	       currently loaded file), don't save it again */
 	    if (tmp != open_files) {
+		/* make sure open_files->fileage and fileage, and
+		   open_files->filebot and filebot, are in sync; they
+		   might not be if lines have been cut from the top or
+		   bottom of the file */
 		fileage = open_files->fileage;
+		filebot = open_files->filebot;
 		/* save the file if it's been modified */
-		if (open_files->file_modified)
+		if (open_files->file_flags & MODIFIED)
 		    die_save_file(open_files->filename);
 	    }
 
@@ -168,7 +173,7 @@ void die_save_file(char *die_filename)
     if (die_filename[0] == '\0') {
 	name = "nano.save";
 	ret = get_next_filename(name);
-	if (strcmp(ret, ""))
+	if (ret[0] != '\0')
 	    i = write_file(ret, 1, 0, 0);
 	name = ret;
     }
@@ -177,7 +182,7 @@ void die_save_file(char *die_filename)
 	strcpy(buf, die_filename);
 	strcat(buf, ".save");
 	ret = get_next_filename(buf);
-	if (strcmp(ret, ""))
+	if (ret[0] != '\0')
 	    i = write_file(ret, 1, 0, 0);
 	name = ret;
 	free(buf);
@@ -637,6 +642,7 @@ openfilestruct *make_new_opennode(openfilestruct * prevnode)
     newnode = nmalloc(sizeof(openfilestruct));
     newnode->filename = NULL;
     newnode->fileage = NULL;
+    newnode->filebot = NULL;
 
     newnode->prev = prevnode;
     newnode->next = NULL;
@@ -1267,7 +1273,7 @@ int do_backspace(void)
 	       line we're on now is NOT blank.  if it is blank we
 	       can just use IT for the magic line.   This is how Pico
 	       appears to do it, in any case */
-	    if (strcmp(current->data, "")) {
+	    if (current->data[0] != '\0') {
 		new_magicline();
 		fix_editbot();
 	    }
@@ -1297,7 +1303,7 @@ int do_delete(void)
     /* blbf -> blank line before filebot (see below) */
     int blbf = 0;
 
-    if (current->next == filebot && !strcmp(current->data, ""))
+    if (current->next == filebot && current->data[0] == '\0')
 	blbf = 1;
 
     if (current_x != strlen(current->data)) {
@@ -1329,7 +1335,7 @@ int do_delete(void)
 
 	/* Please see the comment in do_backspace if you don't understand
 	   this test */
-	if (current == filebot && strcmp(current->data, "")) {
+	if (current == filebot && current->data[0] != '\0') {
 	    new_magicline();
 	    fix_editbot();
 	    totsize++;
@@ -1407,7 +1413,7 @@ int do_int_spell_fix(char *word)
 
 	    search_last_line = FALSE;
 
-	    if (strcmp(prevanswer,answer) != 0) {
+	    if (strcmp(prevanswer, answer)) {
 		j = i;
 		do_replace_loop(prevanswer, fileage, &beginx_top, TRUE, &j);
 	    }
@@ -1474,7 +1480,6 @@ int do_int_speller(char *tempfile_name)
 	    exit(1);
 	}
 	close(tempfile_fd);
-
 
 	/* send spell's standard out to the pipe */
 
@@ -1662,8 +1667,7 @@ int do_spell(void)
 
 #ifdef ENABLE_MULTIBUFFER
     /* update the current open_files entry before spell-checking, in case
-       any problems occur; the case of there being no open_files entries
-       is handled elsewhere (before we reach this point) */
+       any problems occur */
     add_open_file(1);
 #endif
 
@@ -3098,14 +3102,14 @@ int main(int argc, char *argv[])
     fprintf(stderr, _("Main: open file\n"));
 #endif
 
-    titlebar(NULL);
-
     /* Now we check to see if argv[optind] is non-null to determine if
        we're dealing with a new file or not, not argc == 1... */
     if (argv[optind] == NULL)
 	new_file();
     else
 	open_file(filename, 0, 0);
+
+    titlebar(NULL);
 
     if (startline > 0)
 	do_gotoline(startline, 0);

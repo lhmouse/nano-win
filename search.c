@@ -56,11 +56,11 @@ void search_init_globals(void)
 {
     if (last_search == NULL) {
 	last_search = charalloc(1);
-	last_search[0] = 0;
+	last_search[0] = '\0';
     }
     if (last_replace == NULL) {
 	last_replace = charalloc(1);
-	last_replace[0] = 0;
+	last_replace[0] = '\0';
     }
 }
 
@@ -82,7 +82,7 @@ int search_init(int replacing)
     search_init_globals();
 
     buf = charalloc(strlen(last_search) + 5);
-    buf[0] = 0;
+    buf[0] = '\0';
 
 
     /* Clear the backupstring if we've changed from Pico mode to regular
@@ -123,7 +123,7 @@ int search_init(int replacing)
 	}
     }
     else
-	strcpy(buf, "");
+	buf[0] = '\0';
 
     /* This is now one simple call.  It just does a lot */
     i = statusq(0, replacing ? replace_list : whereis_list, backupstring,
@@ -247,10 +247,9 @@ int past_editbuff;	/* findnextstr() is now searching lines not displayed */
 filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beginx,
 			char *needle)
 {
-    filestruct *fileptr;
+    filestruct *fileptr = current;
     char *searchstr, *rev_start = NULL, *found = NULL;
     int current_x_find = 0;
-    fileptr = current;
 
     past_editbuff = 0;
 
@@ -278,6 +277,7 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 	        return NULL;
 	    }
 
+	    update_line(fileptr, 0);
 	    fileptr = fileptr->next;
 
 	    if (fileptr == editbot)
@@ -286,12 +286,12 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 	    /* EOF reached ?, wrap around once */
 	    if (fileptr == NULL) {
 		if (bracket_mode)		/* don't wrap if looking for bracket match */
-		   return NULL;
+		    return NULL;
 		fileptr = fileage;
 		past_editbuff = 1;
 		if (!quiet) {
-		   statusbar(_("Search Wrapped"));
-		SET(DISABLE_CURPOS);
+		    statusbar(_("Search Wrapped"));
+		    SET(DISABLE_CURPOS);
 		}
 	    }
 
@@ -340,6 +340,7 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 		return NULL;
 	    }
 
+	    update_line(fileptr, 0);
 	    fileptr = fileptr->prev;
 
 	    if (fileptr == edittop->prev)
@@ -436,7 +437,7 @@ int do_search(void)
     }
 
     /* The sneaky user deleted the previous search string */
-    if (!ISSET(PICO_MODE) && !strcmp(answer, "")) {
+    if (!ISSET(PICO_MODE) && answer[0] == '\0') {
 	statusbar(_("Search Cancelled"));
 	search_abort();
 	return 0;
@@ -445,7 +446,7 @@ int do_search(void)
      /* If answer is now == "", then PICO_MODE is set.  So, copy
 	last_search into answer... */
 
-    if (!strcmp(answer, ""))
+    if (answer[0] == '\0')
 	answer = mallocstrcpy(answer, last_search);
     else
 	last_search = mallocstrcpy(last_search, answer);
@@ -604,7 +605,7 @@ int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 
     switch (*i) {
     case -1:				/* Aborted enter */
-	if (strcmp(last_replace, ""))
+	if (last_replace[0] != '\0')
 	    answer = mallocstrcpy(answer, last_replace);
 	statusbar(_("Replace Cancelled"));
 	replace_abort();
@@ -620,7 +621,7 @@ int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
         }
     }
 
-    if (ISSET(PICO_MODE) && !strcmp(answer, ""))
+    if (ISSET(PICO_MODE) && answer[0] == '\0')
 	answer = mallocstrcpy(answer, last_replace);
 
     last_replace = mallocstrcpy(last_replace, answer);
@@ -739,7 +740,7 @@ int do_replace(void)
     }
 
     /* Again, there was a previous string, but they deleted it and hit enter */
-    if (!ISSET(PICO_MODE) && !strcmp(answer, "")) {
+    if (!ISSET(PICO_MODE) && answer[0] == '\0') {
 	statusbar(_("Replace Cancelled"));
 	replace_abort();
 	return 0;
@@ -747,7 +748,7 @@ int do_replace(void)
 
      /* If answer is now == "", then PICO_MODE is set.  So, copy
 	last_search into answer (and prevanswer)... */
-    if (!strcmp(answer, "")) {
+    if (answer[0] == '\0') {
 	answer = mallocstrcpy(answer, last_search);
 	prevanswer = mallocstrcpy(prevanswer, last_search);
     } else {
@@ -757,7 +758,7 @@ int do_replace(void)
 
     if (ISSET(PICO_MODE)) {
 	buf = charalloc(strlen(last_replace) + 5);
-	if (strcmp(last_replace, "")) {
+	if (last_replace[0] != '\0') {
 	    if (strlen(last_replace) > (COLS / 3)) {
 		strncpy(buf, last_replace, COLS / 3);
 		sprintf(&buf[COLS / 3 - 1], "...");
@@ -857,7 +858,6 @@ int do_gotoline_void(void)
 #if (defined ENABLE_MULTIBUFFER || !defined DISABLE_SPELLER)
 void do_gotopos(int line, int pos_x, int pos_y, int pos_placewewant)
 {
-
     /* since do_gotoline() resets the x-coordinate but not the
        y-coordinate, set the coordinates up this way */
     current_y = pos_y;
@@ -877,7 +877,6 @@ void do_gotopos(int line, int pos_x, int pos_y, int pos_placewewant)
 #endif
 
 #if !defined(NANO_SMALL) && defined(HAVE_REGEX_H)
-
 int do_find_bracket(void)
 {
     char ch_under_cursor, wanted_ch;

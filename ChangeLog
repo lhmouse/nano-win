@@ -24,6 +24,11 @@ CVS code -
 	  syntaxfile_regexp and synfilematches.  Global flag -Y ,--syntax
 	  to specify the type on the command line, if there's no good 
 	  filename regex to use.  Global variable syntaxstr.
+	- Changed many strcmp()s and strcpy()s to their equivalent
+	  '\0' conterparts (David Lawrence Ramsey).
+	- Many chanes to allow marked cutting to work with multiple
+	  file buffers: changes to openfilestruct type in nano.h and
+	  files.c (David Lawrence Ramsey).
 - configure.ac:
 	- Define NDEBUG to silence asserts (David Benbennick).
 - files.c:
@@ -47,10 +52,15 @@ CVS code -
 - nano.spec.in:
 	- Don't put Chris' name as the Packager in the distribution
 	  by default (Im an idiot).
+	- Fixed Source line (David Lawrence Ramsey).
 - nano.1:
 	- Changed references to Debian GNU/Linux to Debian GNU (Jordi).
+- nano.1.html:
+	- Updated for -Y option (David Lawrence Ramsey).
 - rcfile.c
 	- Made some rc file errors less fatal.
+	- Added in my patch for getpwent instead of relying on $HOME
+	  (David Lawrence Ramsey).
 - winio.c:
   edit_add()
 	- Changed some syntax hilight computations for the sake of COLS.

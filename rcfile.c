@@ -24,6 +24,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <errno.h>
+#include <unistd.h>
+#include <pwd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -546,9 +548,7 @@ void do_rcfile(void)
     char *unable = _("Unable to open ~/.nanorc file, %s");
     struct stat fileinfo;
     FILE *rcstream;
-
-    if (getenv("HOME") == NULL)
-	return;
+    struct passwd *userage;
 
     nanorc = charalloc(strlen(SYSCONFDIR) + 10);
     sprintf(nanorc, "%s/nanorc", SYSCONFDIR);
@@ -562,10 +562,21 @@ void do_rcfile(void)
 	    fclose(rcstream);
 	}
 
-    nanorc = charalloc(strlen(getenv("HOME")) + 10);
-    sprintf(nanorc, "%s/.nanorc", getenv("HOME"));
-
     lineno = 0;
+
+    /* Determine home directory using getpwent(), don't rely on $HOME */
+    for (userage = getpwent(); userage != NULL
+	 && userage->pw_uid != geteuid(); userage = getpwent())
+	;
+
+    if (userage == NULL) {
+	rcfile_error(_("I can't find my home directory!  Wah!"));
+	return;
+    }
+
+    nanorc = charalloc(strlen(userage->pw_dir) + 10);
+    sprintf(nanorc, "%s/.nanorc", userage->pw_dir);
+
     if (stat(nanorc, &fileinfo) == -1) {
 
 	/* Abort if the file doesn't exist and there's some other kind

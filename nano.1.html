@@ -88,6 +88,10 @@ Set the size (width) of a tab.
 
 <DD>
 Show the current version number and author.
+<DT><B>-Y (--syntax=[str])</B>
+
+<DD>
+Specify a specific syntax hilighting from the .nanorc to use (if available).
 <DT><B>-c (--const)</B>
 
 <DD>
@@ -171,9 +175,11 @@ Nano will try to dump the buffer into an emergency file in some cases.
 Mainly, this will happen if Nano receives a SIGHUP or runs out of
 memory, when it will write the buffer into a file named &quot;nano.save&quot; if the
 buffer didn't have a name already, or will add a &quot;.save&quot; suffix to the
-current filename. In multibuffer mode, nano will write all the open buffers to
-the respective emergency files. Nano will <B>not</B> write this file if a
-previous one exists in the current directory.
+current filename. If an emergency file with that name already exists in
+the current directory, &quot;.save&quot; and a number (e.g. &quot;.save.1&quot;) will be
+suffixed to the current filename in order to make it unique. In
+multibuffer mode, nano will write all the open buffers to the respective
+emergency files.
 <A NAME="lbAG">&nbsp;</A>
 <H2>BUGS</H2>
 
@@ -201,7 +207,7 @@ subject of &quot;subscribe&quot;.
 Chris Allegretta &lt;<A HREF="mailto:chrisa@asty.org">chrisa@asty.org</A>&gt;, et al (see AUTHORS and THANKS for
 details).
 This manual page was originally written by Jordi Mallach
-&lt;<A HREF="mailto:jordi@sindominio.net">jordi@sindominio.net</A>&gt;, for the Debian GNU/Linux system (but may be
+&lt;<A HREF="mailto:jordi@sindominio.net">jordi@sindominio.net</A>&gt;, for the Debian GNU system (but may be
 used by others).
 <P>
 
@@ -221,6 +227,6 @@ used by others).
 This document was created by
 <A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 12:14:20 GMT, March 04, 2002
+Time: 19:17:30 GMT, May 08, 2002
 </BODY>
 </HTML>

@@ -91,14 +91,12 @@ int xpt(filestruct * fileptr, int index)
     return tabs;
 }
 
-
 /* Return the actual place on the screen of current->data[current_x], which 
    should always be > current_x */
 int xplustabs(void)
 {
     return xpt(current, current_x);
 }
-
 
 /* Return what current_x should be, given xplustabs() for the line, 
  * given a start position in the filestruct's data */
@@ -111,19 +109,20 @@ int actual_x_from_start(filestruct * fileptr, int xplus, int start)
 
     for (i = start; tot <= xplus && fileptr->data[i] != 0; i++, tot++)
 	if (fileptr->data[i] == NANO_CONTROL_I) {
-	    if (tot % tabsize == 0)
-		tot++;
-	    else
+	    if (tot % tabsize != 0)
 		tot += tabsize - (tot % tabsize);
 	} else if (fileptr->data[i] & 0x80)
 	    tot++;		/* Make 8 bit chars only 1 column (again) */
-	else if (fileptr->data[i] < 32)
+	else if (fileptr->data[i] < 32 || fileptr->data[i] == 127) {
+	    i++;
 	    tot += 2;
+	}
 
 #ifdef DEBUG
     fprintf(stderr, _("actual_x_from_start for xplus=%d returned %d\n"),
 	    xplus, i);
 #endif
+
     return i - start;
 }
 
@@ -151,7 +150,7 @@ int strnlenpt(char *buf, int size)
 	} else if (buf[i] & 0x80)
 	    /* Make 8 bit chars only 1 column! */
 	    ;
-	else if (buf[i] < 32)
+	else if (buf[i] < 32 || buf[i] == 127)
 	    tabs++;
     }
 
@@ -162,7 +161,6 @@ int strlenpt(char *buf)
 {
     return strnlenpt(buf, strlen(buf));
 }
-
 
 /* resets current_y, based on the position of current, and puts the cursor at 
    (current_y, current_x) */
@@ -510,7 +508,7 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut *s,
     free(inputbuf);
 
     /* In pico mode, just check for a blank answer here */
-    if (((ISSET(PICO_MODE)) && !strcmp(answer, "")))
+    if (ISSET(PICO_MODE) && answer[0] == '\0')
 	return -2;
     else
 	return 0;
@@ -546,7 +544,7 @@ void titlebar(char *path)
 
     namelen = strlen(what);
 
-    if (!strcmp(what, ""))
+    if (what[0] == '\0')
 	mvwaddstr(topwin, 0, COLS / 2 - 6, _("New Buffer"));
     else {
 	if (namelen > space) {
@@ -567,7 +565,8 @@ void titlebar(char *path)
     }
     if (ISSET(MODIFIED))
 	mvwaddstr(topwin, 0, COLS - 10, _("Modified"));
-
+    else if (ISSET(VIEW_MODE))
+	mvwaddstr(topwin, 0, COLS - 10, _("View"));
 
 #ifdef ENABLE_COLOR
     color_off(topwin, COLOR_TITLEBAR);
@@ -1170,7 +1169,7 @@ void update_line(filestruct * fileptr, int index)
 
     fileptr->data[pos] = '\0';
 
-    /* Now, Paint the line */
+    /* Now, paint the line */
     if (current == fileptr && index > COLS - 2) {
 	/* This handles when the current line is beyond COLS */
 	/* It requires figuring out what page we're on      */

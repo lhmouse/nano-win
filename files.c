@@ -50,15 +50,15 @@ static int fileformat = 0;	/* 0 = *nix, 1 = DOS, 2 = Mac */
 #endif
 
 /* Load file into edit buffer - takes data from file struct */
-void load_file(int quiet)
+void load_file(int update)
 {
     current = fileage;
 
 #ifdef ENABLE_MULTIBUFFER
-    /* if quiet is zero, add a new entry to the open_files structure;
+    /* if update is zero, add a new entry to the open_files structure;
        otherwise, update the current entry (the latter is needed in the
        case of the alternate spell checker) */
-    add_open_file(quiet);
+    add_open_file(update);
 #endif
 
 #ifdef ENABLE_COLOR
@@ -73,7 +73,7 @@ void new_file(void)
 {
     fileage = nmalloc(sizeof(filestruct));
     fileage->data = charalloc(1);
-    strcpy(fileage->data, "");
+    fileage->data[0] = '\0';
     fileage->prev = NULL;
     fileage->next = NULL;
     fileage->lineno = 1;
@@ -88,7 +88,7 @@ void new_file(void)
     /* if there aren't any entries in open_files, create the entry for
        this new file; without this, if nano is started without a filename
        on the command line, a new file will be created, but it will be
-       given no open_files entry, leading to problems later on */
+       given no open_files entry */
     if (!open_files) {
 	add_open_file(0);
 	/* turn off view mode in this case; this is for consistency
@@ -108,7 +108,7 @@ void new_file(void)
 
 }
 
-filestruct *read_line(char *buf, filestruct * prev, int *line1ins)
+filestruct *read_line(char *buf, filestruct *prev, int *line1ins)
 {
     filestruct *fileptr;
 
@@ -156,10 +156,10 @@ filestruct *read_line(char *buf, filestruct * prev, int *line1ins)
     return fileptr;
 }
 
-int read_file(FILE *f, char *filename, int quiet)
+int read_file(FILE *f, const char *filename, int quiet)
 {
     int num_lines = 0;
-    char input;		/* current input character */
+    signed char input;		/* current input character */
     char *buf;
     long i = 0, bufx = 128;
     filestruct *fileptr = current, *tmp = NULL;
@@ -260,7 +260,9 @@ int read_file(FILE *f, char *filename, int quiet)
 	new_magicline();
 	totsize--;
 
-	/* Update the edit buffer */
+	/* Update the edit buffer; note that if using multibuffers, a
+	   quiet load will update the current open_files entry, while a
+	   noisy load will add a new open_files entry */
 	load_file(quiet);
     }
 
@@ -281,15 +283,14 @@ int read_file(FILE *f, char *filename, int quiet)
     return 1;
 }
 
-
 /* Open the file (and decide if it exists) */
-int open_file(char *filename, int insert, int quiet)
+int open_file(const char *filename, int insert, int quiet)
 {
     int fd;
     FILE *f;
     struct stat fileinfo;
 
-    if (!strcmp(filename, "") || stat(filename, &fileinfo) == -1) {
+    if (filename[0] == '\0' || stat(filename, &fileinfo) == -1) {
 	if (insert && !quiet) {
 	    statusbar(_("\"%s\" not found"), filename);
 	    return -1;
@@ -313,7 +314,6 @@ int open_file(char *filename, int insert, int quiet)
 		/* Don't open character or block files.  Sorry, /dev/sndstat! */
 		statusbar(_("File \"%s\" is a device file"), filename);
 
-
 	    if (!insert)
 		new_file();
 	    return -1;
@@ -330,7 +330,6 @@ int open_file(char *filename, int insert, int quiet)
 
     return 1;
 }
-
 
 /* This function will return the name of the first available extension
    of a filename (starting with the filename, then filename.1, etc).
@@ -365,7 +364,7 @@ char *get_next_filename(const char *name)
 
 int do_insertfile(int loading_file)
 {
-    int i;
+    int i, old_current_x = current_x;
     char *realname = NULL;
 
     wrap_reset();
@@ -428,7 +427,7 @@ int do_insertfile(int loading_file)
 	if (i == NANO_EXTCMD_KEY) {
 	    int ts;
 	    ts = statusq(1, extcmd_list, "", _("Command to execute "));
-	    if (ts == -1  || answer == NULL || !strcmp(answer,"")) {
+	    if (ts == -1  || answer == NULL || answer[0] == '\0') {
 		statusbar(_("Cancelled"));
 		UNSET(KEEP_CUTBUFFER);
 		display_main_list();
@@ -445,6 +444,9 @@ int do_insertfile(int loading_file)
 
 	    new_file();
 	    UNSET(MODIFIED);
+#ifndef NANO_SMALL
+	    UNSET(MARK_ISSET);
+#endif
 	}
 #endif
 
@@ -486,6 +488,17 @@ int do_insertfile(int loading_file)
 
 	    /* And re-init the shortcut list */
 	    shortcut_init(0);
+	}
+#endif
+
+#ifdef ENABLE_MULTIBUFFER
+	if (!loading_file) {
+#endif
+
+	    /* Restore the old x-coordinate position */
+	    current_x = old_current_x;
+
+#ifdef ENABLE_MULTIBUFFER
 	}
 #endif
 
@@ -582,37 +595,32 @@ int add_open_file(int update)
     /* save current line number */
     open_files->file_lineno = current->lineno;
 
+    /* if we're updating, save current modification status (and marking
+       status, if available) */
+    if (update) {
+#ifndef NANO_SMALL
+	open_files->file_flags = (MODIFIED & ISSET(MODIFIED)) | (MARK_ISSET & ISSET(MARK_ISSET));
+	if (ISSET(MARK_ISSET)) {
+	    open_files->file_mark_beginbuf = mark_beginbuf;
+	    open_files->file_mark_beginx = mark_beginx;
+	}
+#else
+	open_files->file_flags = (MODIFIED & ISSET(MODIFIED));
+#endif
+    }
+
     /* if we're in view mode and updating, the file contents won't
        have changed, so we won't bother resaving the filestruct
        then; otherwise, we will */
     if (!(ISSET(VIEW_MODE) && !update)) {
-	/* save current filestruct and restore full file position
-	   afterward */
-	open_files->fileage = fileage; 
-	do_gotopos(open_files->file_lineno, open_files->file_current_x, open_files->file_current_y, open_files->file_placewewant);
+	/* save current file buffer */
+	open_files->fileage = fileage;
+	open_files->filebot = filebot;
     }
-
-    /* save current modification status */
-    open_files->file_modified = ISSET(MODIFIED);
 
 #ifdef DEBUG
     fprintf(stderr, _("filename is %s"), open_files->filename);
 #endif
-
-    return 0;
-}
-
-/*
- * Update only the filename stored in the current entry.  Return 0 on
- * success or 1 on error.
- */ 
-int open_file_change_name(void)
-{
-    if (!open_files || !filename)
-	return 1;
-
-    /* save current filename */
-    open_files->filename = mallocstrcpy(open_files->filename, filename);
 
     return 0;
 }
@@ -624,7 +632,6 @@ int open_file_change_name(void)
  */
 int load_open_file(void)
 {
-
     if (!open_files)
 	return 1;
 
@@ -633,27 +640,31 @@ int load_open_file(void)
     filename = mallocstrcpy(filename, open_files->filename);
     fileage = open_files->fileage;
     current = fileage;
+    filebot = open_files->filebot;
     totlines = open_files->file_totlines;
     totsize = open_files->file_totsize;
 
-    /* Unset the marker because nano can't (yet) handle marked text
-       flipping between open files */
-    UNSET(MARK_ISSET);
+    /* restore modification status */
+    if (open_files->file_flags & MODIFIED)
+	SET(MODIFIED);
+    else
+	UNSET(MODIFIED);
+
+#ifndef NANO_SMALL
+    /* restore marking status */
+    if (open_files->file_flags & MARK_ISSET) {
+	mark_beginbuf = open_files->file_mark_beginbuf;
+	mark_beginx = open_files->file_mark_beginx;
+	SET(MARK_ISSET);
+    } else
+	UNSET(MARK_ISSET);
+#endif
 
     /* restore full file position: line number, x-coordinate, y-
        coordinate, place we want */
     do_gotopos(open_files->file_lineno, open_files->file_current_x, open_files->file_current_y, open_files->file_placewewant);
 
-    /* restore the bottom of the file */
-    filebot = current;
-    while (filebot->next)
-	filebot = filebot->next;
-
-    /* set up modification status and update the titlebar */
-    if (open_files->file_modified)
-	SET(MODIFIED);
-    else
-	UNSET(MODIFIED);
+    /* update the titlebar */
     clearok(topwin, FALSE);
     titlebar(NULL);
 
@@ -811,7 +822,11 @@ int close_open_file(void)
     if (!open_files)
 	return 1;
 
+    /* make sure open_files->fileage and fileage, and open_files->filebot
+       and filebot, are in sync; they might not be if lines have been cut
+       from the top or bottom of the file */
     open_files->fileage = fileage;
+    open_files->filebot = filebot;
 
     tmp = open_files;
     if (open_nextfile(1)) {
@@ -1203,7 +1218,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
     struct stat st, lst;
     char *realname = NULL;
 
-    if (!strcmp(name, "")) {
+    if (name[0] == '\0') {
 	statusbar(_("Cancelled"));
 	return -1;
     }
@@ -1224,8 +1239,9 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 
 #ifndef DISABLE_OPERATINGDIR
     if (!tmp && operating_dir) {
-	/* if we're writing a temporary file, we're going outside the
-	   operating directory, so skip the operating directory test */
+	/* if we're writing a temporary file, we're probably going
+	   outside the operating directory, so skip the operating
+	   directory test */
 	if (check_operating_dir(realname, 0)) {
 	    statusbar(_("Can't write outside of %s"), operating_dir);
 
@@ -1634,21 +1650,8 @@ int do_writeout(char *path, int exiting, int append)
 #ifdef ENABLE_MULTIBUFFER
 	    /* if we're not about to exit, update the current entry in
 	       the open_files structure */
-	    if (!exiting) {
-
-		/* first, if the filename was changed during the save,
-		   update the filename stored in the current entry, and
-		   then update the current entry */
-		if (strcmp(open_files->filename, filename)) {
-		    open_file_change_name();
-		    add_open_file(1);
-		}
-		else {
-
-		    /* otherwise, just update the current entry */
-		    add_open_file(1);
-		}
-	    }
+	    if (!exiting)
+		add_open_file(1);
 #endif
 
 	    display_main_list();
@@ -1825,7 +1828,7 @@ char **cwd_tab_completion(char *buf, int *num_matches)
     strcat(buf, "*");
 
     /* Okie, if there's a / in the buffer, strip out the directory part */
-    if (strcmp(buf, "") && strstr(buf, "/")) {
+    if (buf[0] != '\0' && strstr(buf, "/")) {
 	dirName = charalloc(strlen(buf) + 1);
 	tmp = buf + strlen(buf);
 	while (*tmp != '/' && tmp != buf)
@@ -1988,7 +1991,7 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace, int *list)
 
 	    buf = nrealloc(buf, strlen(buf) + strlen(matches[0]) + 1);
 
-	    if (strcmp(buf, "") && strstr(buf, "/")) {
+	    if (buf[0] != '\0' && strstr(buf, "/")) {
 		for (tmp = buf + strlen(buf); *tmp != '/' && tmp != buf;
 		     tmp--);
 		tmp++;
@@ -2025,7 +2028,7 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace, int *list)
 	    /* Check to see if all matches share a beginning, and, if so,
 	       tack it onto buf and then beep */
 
-	    if (strcmp(buf, "") && strstr(buf, "/")) {
+	    if (buf[0] != '\0' && strstr(buf, "/")) {
 		for (tmp = buf + strlen(buf); *tmp != '/' && tmp != buf;
 		     tmp--);
 		tmp++;
@@ -2624,7 +2627,7 @@ char *do_browser(char *inpath)
     } while ((kbinput = wgetch(edit)) != NANO_EXIT_KEY);
     curs_set(1);
     blank_edit();
-    titlebar(NULL); 
+    titlebar(NULL);
     edit_refresh();
     kb = keypad_on(edit, kb);
 

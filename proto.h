@@ -132,11 +132,11 @@ int do_cut_text(void);
 int do_uncut_text(void);
 int no_help(void);
 int renumber_all(void);
-int open_file(char *filename, int insert, int quiet);
+int open_file(const char *filename, int insert, int quiet);
 int do_insertfile(int loading_file);
 int num_of_digits(int n);
 int open_pipe(char *command);
-int read_file(FILE *f, char *filename, int quiet);
+int read_file(FILE *f, const char *filename, int quiet);
 
 #ifdef ENABLE_MULTIBUFFER
 int add_open_file(int update);
