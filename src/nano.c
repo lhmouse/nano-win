@@ -262,10 +262,10 @@ void help_init(void)
 {
     size_t allocsize = 1;	/* space needed for help_text */
     char *ptr = NULL;
+    const shortcut *s;
 #ifndef NANO_SMALL
     const toggle *t;
 #endif
-    const shortcut *s;
 
     /* First set up the initial help text for the current function */
     if (currshortcut == whereis_list || currshortcut == replace_list
@@ -405,18 +405,18 @@ void help_init(void)
 	/* true if the character in s->metaval is shown in first column */
 	int meta_shortcut = 0;
 
-	if (s->val != NANO_NO_KEY) {
+	if (s->ctrlval != NANO_NO_KEY) {
 #ifndef NANO_SMALL
-	    if (s->val == NANO_HISTORY_KEY)
+	    if (s->ctrlval == NANO_HISTORY_KEY)
 		ptr += sprintf(ptr, "%.2s", _("Up"));
 	    else
 #endif
-	    if (s->val == NANO_CONTROL_SPACE)
+	    if (s->ctrlval == NANO_CONTROL_SPACE)
 		ptr += sprintf(ptr, "^%.5s", _("Space"));
-	    else if (s->val == NANO_CONTROL_8)
+	    else if (s->ctrlval == NANO_CONTROL_8)
 		ptr += sprintf(ptr, "^?");
 	    else
-		ptr += sprintf(ptr, "^%c", s->val + 64);
+		ptr += sprintf(ptr, "^%c", s->ctrlval + 64);
 	}
 #ifndef NANO_SMALL
 	else if (s->metaval != NANO_NO_KEY) {
@@ -430,15 +430,15 @@ void help_init(void)
 
 	*(ptr++) = '\t';
 
-	if (s->func_key != NANO_NO_KEY)
-	    ptr += sprintf(ptr, "(F%d)", s->func_key - KEY_F0);
+	if (s->funcval != NANO_NO_KEY)
+	    ptr += sprintf(ptr, "(F%d)", s->funcval - KEY_F0);
 
 	*(ptr++) = '\t';
 
 	if (!meta_shortcut && s->metaval != NANO_NO_KEY)
 	    ptr += sprintf(ptr, "(M-%c)", toupper(s->metaval));
-	else if (meta_shortcut && s->misc != NANO_NO_KEY)
-	    ptr += sprintf(ptr, "(M-%c)", toupper(s->misc));
+	else if (meta_shortcut && s->miscval != NANO_NO_KEY)
+	    ptr += sprintf(ptr, "(M-%c)", toupper(s->miscval));
 
 	*(ptr++) = '\t';
 
@@ -448,12 +448,13 @@ void help_init(void)
 
 #ifndef NANO_SMALL
     /* And the toggles... */
-    if (currshortcut == main_list)
+    if (currshortcut == main_list) {
 	for (t = toggles; t != NULL; t = t->next) {
 	    assert(t->desc != NULL);
 	    ptr += sprintf(ptr, "M-%c\t\t\t%s %s\n", toupper(t->val), t->desc,
 				_("enable/disable"));
 	}
+    }
 #endif /* !NANO_SMALL */
 
     /* If all went well, we didn't overwrite the allocated space for
@@ -2641,8 +2642,8 @@ int do_justify(void)
      * keystroke and return. */
 
     {
-	int meta;
-	i = get_kbinput(edit, &meta);
+	int meta_key;
+	i = get_kbinput(edit, &meta_key);
 #ifndef DISABLE_MOUSE
 	/* If it was a mouse click, parse it with do_mouse() and it
 	 * might become the unjustify key.  Else give it back to the
@@ -2651,7 +2652,7 @@ int do_justify(void)
 	    do_mouse();
 	else
 	    ungetch(i);
-	i = get_kbinput(edit, &meta);
+	i = get_kbinput(edit, &meta_key);
 #endif
     }
 
@@ -3030,7 +3031,7 @@ int main(int argc, char *argv[])
     const shortcut *s;
     int keyhandled = 0;	/* Have we handled the keystroke yet? */
     int kbinput;		/* Input from keyboard */
-    int meta;
+    int meta_key;
 
 #ifndef NANO_SMALL
     const toggle *t;
@@ -3518,15 +3519,15 @@ int main(int argc, char *argv[])
 	currshortcut = main_list;
 #endif
 
-	kbinput = get_kbinput(edit, &meta);
+	kbinput = get_kbinput(edit, &meta_key);
 #ifdef DEBUG
 	fprintf(stderr, "AHA!  %c (%d)\n", kbinput, kbinput);
 #endif
-	if (meta == 1) {
-	    /* Check for the metaval and misc defs... */
+	if (meta_key == 1) {
+	    /* Check for the metaval and miscval defs... */
 	    for (s = main_list; s != NULL; s = s->next)
 		if ((s->metaval != NANO_NO_KEY && kbinput == s->metaval) ||
-		    (s->misc != NANO_NO_KEY && kbinput == s->misc)) {
+		    (s->miscval != NANO_NO_KEY && kbinput == s->miscval)) {
 		    if (ISSET(VIEW_MODE) && !s->viewok)
 			print_view_warning();
 		    else {
@@ -3561,8 +3562,8 @@ int main(int argc, char *argv[])
 #else
 	    for (s = main_list; s != NULL && !keyhandled; s = s->next) {
 #endif
-		if ((s->val != NANO_NO_KEY && kbinput == s->val) ||
-		    (s->func_key != NANO_NO_KEY && kbinput == s->func_key)) {
+		if ((s->ctrlval != NANO_NO_KEY && kbinput == s->ctrlval) ||
+		    (s->funcval != NANO_NO_KEY && kbinput == s->funcval)) {
 		    if (ISSET(VIEW_MODE) && !s->viewok)
 			print_view_warning();
 		    else {

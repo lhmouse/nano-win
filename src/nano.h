@@ -187,11 +187,11 @@ typedef struct openfilestruct {
 
 typedef struct shortcut {
     /* Key values that aren't used should be set to NANO_NO_KEY. */
-    int val;		/* Special sentinel key or control key we want
+    int ctrlval;	/* Special sentinel key or control key we want
 			 * bound. */
-    int metaval;		/* Meta key we want bound. */
-    int func_key;	/* Function key we want bound. */
-    int misc;		/* Other Meta key we want bound. */
+    int metaval;	/* Meta key we want bound. */
+    int funcval;	/* Function key we want bound. */
+    int miscval;	/* Other Meta key we want bound. */
     int viewok;		/* Is this function legal in view mode? */
     int (*func) (void);	/* Function to call when we catch this key. */
     const char *desc;	/* Description, e.g. "Page Up". */

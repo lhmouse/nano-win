@@ -44,7 +44,7 @@ static int statblank = 0;	/* Number of keystrokes left after
  * consist of [arrow key], Ctrl-[arrow key], Shift-[arrow key], Enter,
  * Backspace, Insert, Delete, Home, End, PageUp, PageDown, and F1-F14.
  * Assume nodelay(win) is FALSE. */
-int get_kbinput(WINDOW *win, int *meta)
+int get_kbinput(WINDOW *win, int *meta_key)
 {
     int kbinput, retval;
 
@@ -53,7 +53,7 @@ int get_kbinput(WINDOW *win, int *meta)
 #endif
 
     kbinput = get_ignored_kbinput(win);
-    retval = get_accepted_kbinput(win, kbinput, meta);
+    retval = get_accepted_kbinput(win, kbinput, meta_key);
 
 #ifndef NANO_SMALL
     allow_pending_sigwinch(FALSE);
@@ -151,11 +151,11 @@ int get_ignored_kbinput(WINDOW *win)
 }
 
 /* Translate acceptable ASCII, extended keypad values, and/or escape
- * sequences.  Set meta to 1 if we get a Meta sequence.  Assume
+ * sequences.  Set meta_key to 1 if we get a Meta sequence.  Assume
  * nodelay(win) is FALSE. */
-int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta)
+int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta_key)
 {
-    *meta = 0;
+    *meta_key = FALSE;
 
     switch (kbinput) {
 	case NANO_CONTROL_3: /* Escape */
@@ -199,7 +199,7 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta)
 		    switch (kbinput) {
 			case ERR:
 			    kbinput = tolower(old_kbinput);
-			    *meta = 1;
+			    *meta_key = TRUE;
 			    break;
 			default:
 			    ungetch(kbinput);
@@ -214,7 +214,7 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta)
 		default:
 		    /* Esc [character] == Meta-[character] */
 		    kbinput = tolower(kbinput);
-		    *meta = 1;
+		    *meta_key = TRUE;
 	    }
 	    break;
 	case NANO_CONTROL_8:
@@ -272,7 +272,7 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta)
 	    break;
     }
 #ifdef DEBUG
-    fprintf(stderr, "get_accepted_kbinput(): kbinput = %d, meta = %d\n", kbinput, *meta);
+    fprintf(stderr, "get_accepted_kbinput(): kbinput = %d, meta_key = %d\n", kbinput, *meta_key);
 #endif
     return kbinput;
 }
@@ -833,13 +833,16 @@ int get_mouseinput(int *mouse_x, int *mouse_y, int allow_shortcuts)
 	for (; j > 0; j--)
 	    s = s->next;
 
-	/* And ungetch() the equivalent keystroke. */
-	ungetch(s->val);
-
-	/* If it's not a control character, assume it's a Meta key
-	 * sequence, in which case we need to ungetch() Escape too. */
-	if (!is_cntrl_char(s->val))
-	   ungetch(NANO_CONTROL_3);
+	/* And ungetch() the equivalent control key.  If it's a Meta key
+	 * sequence, we need to ungetch() Escape too.  Assume that the
+	 * shortcut has an equivalent control key, meta key sequence, or
+	 * both. */
+	if (s->ctrlval != NANO_NO_KEY)
+	    ungetch(s->ctrlval);
+	else {
+	    ungetch(s->metaval);
+	    ungetch(NANO_CONTROL_3);
+	}
 
 	return 1;
     }
@@ -1078,7 +1081,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		)
 {
     int kbinput;
-    int meta;
+    int meta_key;
     static int x = -1;
 	/* the cursor position in 'answer' */
     int xend;
@@ -1129,16 +1132,17 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
        input */
     wrefresh(edit);
 
-    while ((kbinput = get_kbinput(bottomwin, &meta)) != NANO_ENTER_KEY) {
+    while ((kbinput = get_kbinput(bottomwin, &meta_key)) != NANO_ENTER_KEY) {
 	for (t = s; t != NULL; t = t->next) {
 #ifdef DEBUG
 	    fprintf(stderr, "Aha! \'%c\' (%d)\n", kbinput, kbinput);
 #endif
 
-	    if (kbinput == t->func_key)
-		kbinput = t->val;
+	    /* Temporary hack to interpret NANO_HELP_FKEY correctly. */
+	    if (kbinput == t->funcval)
+		kbinput = t->ctrlval;
 
-	    if (kbinput == t->val && is_cntrl_char(kbinput)) {
+	    if (kbinput == t->ctrlval && is_cntrl_char(kbinput)) {
 
 #ifndef DISABLE_HELP
 		/* Have to do this here, it would be too late to do it
@@ -1154,7 +1158,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		    break;
 #endif
 
-		return t->val;
+		return t->ctrlval;
 	    }
 	}
 	assert(0 <= x && x <= xend && xend == strlen(answer));
@@ -1325,7 +1329,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		    fprintf(stderr, "Aha! \'%c\' (%d)\n", kbinput,
 			    kbinput);
 #endif
-		    if (meta == 1 && (kbinput == t->metaval || kbinput == t->misc))
+		    if (meta_key == TRUE && (kbinput == t->metaval || kbinput == t->miscval))
 			/* We hit a Meta key.  Do like above.  We don't
 			 * just ungetch() the letter and let it get
 			 * caught above cause that screws the
@@ -1446,18 +1450,18 @@ void bottombars(const shortcut *s)
 	    wmove(bottomwin, 1 + j, i * (COLS / numcols));
 
 	    /* Yucky sentinel values we can't handle a better way */
-	    if (s->val != NANO_NO_KEY) {
+	    if (s->ctrlval != NANO_NO_KEY) {
 #ifndef NANO_SMALL
-		if (s->val == NANO_HISTORY_KEY)
+		if (s->ctrlval == NANO_HISTORY_KEY)
 		    strncpy(keystr, _("Up"), 8);
 		else
 #endif
-		if (s->val == NANO_CONTROL_SPACE)
+		if (s->ctrlval == NANO_CONTROL_SPACE)
 		    strcpy(keystr, "^ ");
-		else if (s->val == NANO_CONTROL_8)
+		else if (s->ctrlval == NANO_CONTROL_8)
 		    strcpy(keystr, "^?");
 		else
-		    sprintf(keystr, "^%c", s->val + 64);
+		    sprintf(keystr, "^%c", s->ctrlval + 64);
 	    } else if (s->metaval != NANO_NO_KEY)
 		sprintf(keystr, "M-%c", toupper(s->metaval));
 
@@ -2143,12 +2147,12 @@ int do_yesno(int all, const char *msg)
 
     do {
 	int kbinput;
-	int meta;
+	int meta_key;
 #ifndef DISABLE_MOUSE
 	int mouse_x, mouse_y;
 #endif
 
-	kbinput = get_kbinput(edit, &meta);
+	kbinput = get_kbinput(edit, &meta_key);
 
 	if (kbinput == NANO_CANCEL_KEY)
 	    ok = -1;
@@ -2355,7 +2359,7 @@ int line_len(const char *ptr)
 int do_help(void)
 {
 #ifndef DISABLE_HELP
-    int i, page = 0, kbinput = -1, meta, no_more = 0;
+    int i, page = 0, kbinput = ERR, meta_key, no_more = 0;
     int no_help_flag = 0;
     const shortcut *oldshortcut;
 
@@ -2431,7 +2435,7 @@ int do_help(void)
 	    no_more = 1;
 	    continue;
 	}
-    } while ((kbinput = get_kbinput(edit, &meta)) != NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
+    } while ((kbinput = get_kbinput(edit, &meta_key)) != NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
 
     currshortcut = oldshortcut;
 

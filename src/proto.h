@@ -218,7 +218,8 @@ void sc_init_one(shortcut **shortcutage, int key, const char *desc,
 #ifndef DISABLE_HELP
 	const char *help,
 #endif
-	int meta, int func_key, int misc, int view, int (*func) (void));
+	int metaval, int funcval, int miscval, int view, int
+	(*func)(void));
 #ifndef NANO_SMALL
 void toggle_init_one(int val, const char *desc, int flag);
 void toggle_init(void);
@@ -450,11 +451,11 @@ int check_wildcard_match(const char *text, const char *pattern);
 #endif
 
 /* Public functions in winio.c */
-int get_kbinput(WINDOW *win, int *meta);
+int get_kbinput(WINDOW *win, int *meta_key);
 int *get_verbatim_kbinput(WINDOW *win, int *kbinput_len, int
 	allow_ascii);
 int get_ignored_kbinput(WINDOW *win);
-int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta);
+int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta_key);
 int get_ascii_kbinput(WINDOW *win, int kbinput);
 int get_escape_seq_kbinput(WINDOW *win, int *escape_seq, int
 	escape_seq_len);

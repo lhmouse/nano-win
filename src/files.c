@@ -2567,7 +2567,7 @@ char *do_browser(const char *inpath)
     struct stat st;
     char *foo, *retval = NULL;
     static char *path = NULL;
-    int numents = 0, i = 0, j = 0, kbinput = -1, meta, longest = 0;
+    int numents = 0, i = 0, j = 0, kbinput = ERR, meta_key, longest = 0;
     int abort = 0, col = 0, selected = 0, editline = 0, width = 0;
     int filecols = 0, lineno = 0;
     char **filelist = (char **)NULL;
@@ -2881,7 +2881,7 @@ char *do_browser(const char *inpath)
 	    }
 	}
  	wrefresh(edit);
-    } while ((kbinput = get_kbinput(edit, &meta)) != NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
+    } while ((kbinput = get_kbinput(edit, &meta_key)) != NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
     curs_set(1);
     blank_edit();
     titlebar(NULL);

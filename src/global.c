@@ -171,11 +171,12 @@ int length_of_list(const shortcut *s)
 }
 
 /* Initialize a struct *without* our lovely braces =( */
-void sc_init_one(shortcut **shortcutage, int key, const char *desc,
+void sc_init_one(shortcut **shortcutage, int ctrlval, const char *desc,
 #ifndef DISABLE_HELP
 	const char *help,
 #endif
-	int meta, int func_key, int misc, int view, int (*func) (void))
+	int metaval, int funcval, int miscval, int view, int
+	(*func)(void))
 {
     shortcut *s;
 
@@ -189,14 +190,14 @@ void sc_init_one(shortcut **shortcutage, int key, const char *desc,
 	s = s->next; 
     }
 
-    s->val = key;
+    s->ctrlval = ctrlval;
     s->desc = desc;
 #ifndef DISABLE_HELP
     s->help = help;
 #endif
-    s->metaval = meta;
-    s->func_key = func_key;
-    s->misc = misc;
+    s->metaval = metaval;
+    s->funcval = funcval;
+    s->miscval = miscval;
     s->viewok = view;
     s->func = func;
     s->next = NULL;
@@ -741,7 +742,7 @@ void shortcut_init(int unjustify)
 		NANO_NO_KEY, VIEW, do_last_line);
 
 #ifndef NANO_SMALL
-    sc_init_one(&replace_list_2, NANO_PREVLINE_KEY, _("History"),
+    sc_init_one(&replace_list_2, NANO_HISTORY_KEY, _("History"),
 		IFHELP(nano_editstr_msg, NANO_NO_KEY), NANO_NO_KEY,
 		NANO_NO_KEY, VIEW, 0);
 #endif

@@ -42,6 +42,8 @@ CVS code -
 	- Remove the last editbot references, to avoid any potential
 	  segfaults related to them.  Also remove fix_editbot(), as it's
 	  no longer needed. (David Benbennick)
+	- Rename several variables to make their use clearer and to
+	  avoid conflicts. (DLR)
 - files.c:
   do_insertfile()
 	- Wrap one reference to NANO_EXTCMD_KEY in a NANO_SMALL #ifdef.
@@ -219,6 +221,9 @@ CVS code -
   get_escape_seq_abcd()
 	- A resurrected version of the old abcd() function, readded in
 	  order to simplify get_escape_seq_kbinput(). (DLR)
+  get_mouse_kbinput()
+	- Interpret shortcut key values slightly more stringently when
+	  ungetch()ing them. (DLR)
   get_page_start()
 	- For consistency, tweak so that scrolling always occurs when we
 	  try to move onto the "$" at the end of the line, as opposed to
