@@ -99,12 +99,12 @@ CVS code -
 	  control_mbrep(), control_wrep(), mbwidth(), mb_cur_max(),
 	  make_mbchar(), mbstrlen(), mbstrnlen(), mbstrcasecmp(),
 	  mbstrncasecmp(), mbstrcasestr(), and mbrevstrcasestr();
-	  changes to help_init(), is_byte() (moved to chars.c),
-	  is_blank_char() (moved to chars.c), is_cntrl_char() (moved to
-	  chars.c), nstricmp() (renamed nstrcasecmp() and moved to
-	  chars.c), nstrnicmp() (renamed nstrncasecmp() and moved to
-	  chars.c), nstristr() (renamed nstrcasestr() and moved to
-	  chars.c), revstrstr() (moved to chars.c), revstristr()
+	  changes to help_init(), break_line(), is_byte() (moved to
+	  chars.c), is_blank_char() (moved to chars.c), is_cntrl_char()
+	  (moved to chars.c), nstricmp() (renamed nstrcasecmp() and
+	  moved to chars.c), nstrnicmp() (renamed nstrncasecmp() and
+	  moved to chars.c), nstristr() (renamed nstrcasestr() and moved
+	  to chars.c), revstrstr() (moved to chars.c), revstristr()
 	  (renamed revstrcasestr() and moved to chars.c), nstrnlen()
 	  (moved to chars.c), parse_char() (renamed parse_mbchar() and
 	  moved to chars.c), move_left() (renamed move_mbleft() and
@@ -116,9 +116,9 @@ CVS code -
 	  unget_input(), unget_kbinput(), get_input(), parse_kbinput(),
 	  unparse_kbinput(), parse_verbatim_kbinput(),
 	  do_statusbar_input(), do_statusbar_home(),
-	  do_statusbar_verbatim_kbinput(), do_statusbar_output(), and
-	  display_string(); removal of buffer_to_keys() and
-	  keys_to_buffer(). (DLR)
+	  do_statusbar_verbatim_kbinput(), do_statusbar_output(),
+	  do_help(), help_line_len(), and display_string(); removal of
+	  buffer_to_keys() and keys_to_buffer(). (DLR)
 	- Add -O/--morespace command line option, plus a corresponding
 	  Meta-O toggle and a "morespace" rcfile option.  When these are
 	  used, the normally-unused blank line below the titlebar will
@@ -188,7 +188,7 @@ CVS code -
 	  make whitespace display mode work with multibyte characters,
 	  and add a few related documentation updates.  New function
 	  make_mbstring(); changes to make_mbchar(), make_mbstring(),
-	  do_help(), main(), parse_rcfile(), and display_string(). (DLR)
+	  main(), parse_rcfile(), display_string(), and do_help(). (DLR)
 - cut.c:
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the

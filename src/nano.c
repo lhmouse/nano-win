@@ -2323,6 +2323,86 @@ void do_spell(void)
 }
 #endif /* !DISABLE_SPELLER */
 
+#if !defined(DISABLE_HELP) || !defined(DISABLE_JUSTIFY)
+/* We are trying to break a chunk off line.  We find the last blank such
+ * that the display length to there is at most goal + 1.  If there is no
+ * such blank, and force is TRUE, then we find the first blank.  Anyway,
+ * we then take the last blank in that group of blanks.  The terminating
+ * '\0' counts as a blank, as does a '\n' if newline is TRUE. */
+ssize_t break_line(const char *line, ssize_t goal, bool newline, bool
+	force)
+{
+    ssize_t blank_loc = -1;
+	/* Current tentative return value.  Index of the last blank we
+	 * found with short enough display width.  */
+    ssize_t cur_loc = 0;
+	/* Current index in line. */
+    int line_len;
+
+    assert(line != NULL);
+
+    while (*line != '\0' && goal >= 0) {
+	size_t pos = 0;
+
+	line_len = parse_mbchar(line, NULL, NULL, &pos);
+
+	if (is_blank_mbchar(line) || (newline && *line == '\n')) {
+	    blank_loc = cur_loc;
+
+	    if (newline && *line == '\n')
+		break;
+	}
+
+	goal -= pos;
+	line += line_len;
+	cur_loc += line_len;
+    }
+
+    if (goal >= 0)
+	/* In fact, the whole line displays shorter than goal. */
+	return cur_loc;
+
+    if (blank_loc == -1) {
+	/* No blank was found that was short enough. */
+	if (force) {
+	    bool found_blank = FALSE;
+
+	    while (*line != '\0') {
+		line_len = parse_mbchar(line, NULL, NULL, NULL);
+
+		if (is_blank_mbchar(line) ||
+			(newline && *line == '\n')) {
+		    if (!found_blank)
+			found_blank = TRUE;
+		} else if (found_blank)
+		    return cur_loc - line_len;
+
+		line += line_len;
+		cur_loc += line_len;
+	    }
+
+	    return -1;
+	}
+    }
+
+    /* Move to the last blank after blank_loc, if there is one. */
+    line -= cur_loc;
+    line += blank_loc;
+    line_len = parse_mbchar(line, NULL, NULL, NULL);
+    line += line_len;
+
+    while (*line != '\0' && (is_blank_mbchar(line) ||
+	(newline && *line == '\n'))) {
+	line_len = parse_mbchar(line, NULL, NULL, NULL);
+
+	line += line_len;
+	blank_loc += line_len;
+    }
+
+    return blank_loc;
+}
+#endif /* !DISABLE_HELP || !DISABLE_JUSTIFY */
+
 #if !defined(NANO_SMALL) || !defined(DISABLE_JUSTIFY)
 /* The "indentation" of a line is the whitespace between the quote part
  * and the non-whitespace of the line. */
@@ -2759,77 +2839,6 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
     return first_line;
 }
 
-/* We are trying to break a chunk off line.  We find the last blank such
- * that the display length to there is at most goal + 1.  If there is no
- * such blank, and force is TRUE, then we find the first blank.  Anyway,
- * we then take the last blank in that group of blanks.  The terminating
- * '\0' counts as a blank. */
-ssize_t break_line(const char *line, ssize_t goal, bool force)
-{
-    ssize_t blank_loc = -1;
-	/* Current tentative return value.  Index of the last blank we
-	 * found with short enough display width.  */
-    ssize_t cur_loc = 0;
-	/* Current index in line. */
-    int line_len;
-
-    assert(line != NULL);
-
-    while (*line != '\0' && goal >= 0) {
-	size_t pos = 0;
-
-	line_len = parse_mbchar(line, NULL, NULL, &pos);
-
-	if (is_blank_mbchar(line))
-	    blank_loc = cur_loc;
-
-	goal -= pos;
-	line += line_len;
-	cur_loc += line_len;
-    }
-
-    if (goal >= 0)
-	/* In fact, the whole line displays shorter than goal. */
-	return cur_loc;
-
-    if (blank_loc == -1) {
-	/* No blank was found that was short enough. */
-	if (force) {
-	    bool found_blank = FALSE;
-
-	    while (*line != '\0') {
-		line_len = parse_mbchar(line, NULL, NULL, NULL);
-
-		if (is_blank_mbchar(line)) {
-		    if (!found_blank)
-			found_blank = TRUE;
-		} else if (found_blank)
-		    return cur_loc - line_len;
-
-		line += line_len;
-		cur_loc += line_len;
-	    }
-
-	    return -1;
-	}
-    }
-
-    /* Move to the last blank after blank_loc, if there is one. */
-    line -= cur_loc;
-    line += blank_loc;
-    line_len = parse_mbchar(line, NULL, NULL, NULL);
-    line += line_len;
-
-    while (*line != '\0' && is_blank_mbchar(line)) {
-	line_len = parse_mbchar(line, NULL, NULL, NULL);
-
-	line += line_len;
-	blank_loc += line_len;
-    }
-
-    return blank_loc;
-}
-
 /* Find the beginning of the current paragraph if we're in one, or the
  * beginning of the next paragraph if we're not.  Afterwards, save the
  * quote length and paragraph length in *quote and *par.  Return TRUE if
@@ -3082,7 +3091,8 @@ void do_justify(bool full_justify)
 	    /* If this line is too long, try to wrap it to the next line
 	     * to make it short enough. */
 	    break_pos = break_line(current->data + indent_len,
-		fill - strnlenpt(current->data, indent_len), TRUE);
+		fill - strnlenpt(current->data, indent_len), FALSE,
+		TRUE);
 
 	    /* We can't break the line, or don't need to, so get out. */
 	    if (break_pos == -1 || break_pos + indent_len == line_len)

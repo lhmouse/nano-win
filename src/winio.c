@@ -3826,31 +3826,26 @@ void do_cursorpos_void(void)
 
 #ifndef DISABLE_HELP
 /* Calculate the next line of help_text, starting at ptr. */
-int help_line_len(const char *ptr)
+size_t help_line_len(const char *ptr)
 {
-    int j = 0;
+    int help_cols = (COLS > 80) ? COLS - 8 : 72;
 
-    while (*ptr != '\n' && *ptr != '\0' && j < COLS - 5) {
-	ptr++;
-	j++;
-    }
-    if (j == COLS - 5) {
-	/* Don't wrap at the first of two spaces following a period. */
-	if (*ptr == ' ' && *(ptr + 1) == ' ')
-	    j++;
-	/* Don't print half a word if we've run out of space. */
-	while (*ptr != ' ' && j > 0) {
-	    ptr--;
-	    j--;
-	}
-	/* A word longer than (COLS - 5) chars just gets broken. */
-	if (j == 0)
-	    j = COLS - 5;
-    }
+    /* Try to break the line at (COLS - 8) columns if we have more than
+     * 80 columns, and at 72 columns otherwise. */
+    size_t retval = break_line(ptr, help_cols, TRUE, TRUE);
+    size_t retval_save = retval;
 
-    assert(j >= 0 && j <= COLS - 4 && (j > 0 || *ptr == '\n'));
+    /* Get the length of the entire line up to a null or a newline. */
+    while (*(ptr + retval) != '\0' && *(ptr + retval) != '\n')
+	retval += move_mbright(ptr + retval, 0);
 
-    return j;
+    /* If the entire line doesn't go more than 8 columns beyond where we
+     * tried to break it, we should display it as-is.  Otherwise, we
+     * should display it only up to the break. */
+    if (strnlenpt(ptr, retval) > help_cols + 8)
+	retval = retval_save;
+
+    return retval;
 }
 
 /* Our dynamic, shortcut-list-compliant help function. */
@@ -3944,8 +3939,6 @@ void do_help(void)
 	    blank_edit();
 	}
 
-	assert(COLS > 5);
-
 	/* Calculate where in the text we should be, based on the
 	 * page. */
 	for (i = 0; i < line; i++) {
@@ -3955,7 +3948,7 @@ void do_help(void)
 	}
 
 	for (i = 0; i < editwinrows && *ptr != '\0'; i++) {
-	    int j = help_line_len(ptr);
+	    size_t j = help_line_len(ptr);
 
 	    mvwaddnstr(edit, i, 0, ptr, j);
 	    ptr += j;

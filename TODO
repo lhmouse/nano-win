@@ -2,8 +2,8 @@ TODO file (? means the feature may be implemented, but not definitely)
 -----------------------------------------------------------------------------
 
 For version 1.4:
-- UTF-8 support. [DONE except for edit window text wrapping, help window
-  text wrapping, and the NO_CONVERT flag.]
+- UTF-8 support. [DONE except for edit window text wrapping and the
+  NO_CONVERT flag, which should allow editing UTF-8 as raw bytes.]
 - Support for paragraph searches. [DONE]
 - Support for justifying the entire file at once. [DONE]
 - Support for filename searches in the file browser.

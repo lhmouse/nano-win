@@ -413,6 +413,10 @@ const char *do_int_speller(const char *tempfile_name);
 const char *do_alt_speller(char *tempfile_name);
 void do_spell(void);
 #endif
+#if !defined(DISABLE_HELP) || !defined(DISABLE_JUSTIFY)
+ssize_t break_line(const char *line, ssize_t goal, bool newline, bool
+	force);
+#endif
 #if !defined(NANO_SMALL) || !defined(DISABLE_JUSTIFY)
 size_t indent_length(const char *line);
 #endif
@@ -431,7 +435,6 @@ void do_para_end(bool allow_update);
 void do_para_end_void(void);
 filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 	quote_len);
-ssize_t break_line(const char *line, ssize_t goal, bool force);
 bool find_paragraph(size_t *const quote, size_t *const par);
 void do_justify(bool full_justify);
 void do_justify_void(void);
@@ -680,7 +683,7 @@ void display_main_list(void);
 void do_cursorpos(bool constant);
 void do_cursorpos_void(void);
 #ifndef DISABLE_HELP
-int help_line_len(const char *ptr);
+size_t help_line_len(const char *ptr);
 void do_help(void);
 #endif
 void do_replace_highlight(bool highlight_flag, const char *word);
