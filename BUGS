@@ -95,6 +95,7 @@
 - Resizing the window completely screws up the display if in any other
   mode than normal editing (help screen, search and replace, file
   browser..) (52)
-
+- Alt speller argument (-s, --speller) does not take a string argument of
+  more than one word. (53).
 
 $Id$
