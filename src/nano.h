@@ -48,7 +48,7 @@
 
 #ifdef BROKEN_REGEXEC
 #undef regexec
-#define regexec(preg, string, nmatch, pmatch, eflags) regexec_safe(preg, string, nmatch, pmatch, eflags)
+#define regexec(preg, string, nmatch, pmatch, eflags) safe_regexec(preg, string, nmatch, pmatch, eflags)
 #endif
 
 /* Set a default value for PATH_MAX, so we can use it in lines like
@@ -82,7 +82,7 @@
 #endif
 #define gettext_noop(string) (string)
 #define N_(string) gettext_noop(string)
-	/* Mark a string that will be sent to gettext later. */
+	/* Mark a string that will be sent to gettext() later. */
 
 #include <stddef.h>
 #include <sys/types.h>

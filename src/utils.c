@@ -36,7 +36,7 @@
 
 #ifdef HAVE_REGEX_H
 #ifdef BROKEN_REGEXEC
-int regexec_safe(const regex_t *preg, const char *string, size_t nmatch,
+int safe_regexec(const regex_t *preg, const char *string, size_t nmatch,
 	regmatch_t pmatch[], int eflags)
 {
     if (string != NULL && *string != '\0')
