@@ -10,6 +10,10 @@ CVS code -
   do_replace_loop()
 	- Fix potential infinite loop when doing a forward regex replace
 	  of "$". (DLR; found by Mike Frysinger)
+- winio.c:
+  get_accepted_kbinput()
+	- Translate Ctrl-8 into NANO_DELETE_KEY, since it apparently is
+	  generated at the statusbar prompt sometimes on Linux. (DLR)
 
 GNU nano 1.3.0 - 2003.10.22
 - General:

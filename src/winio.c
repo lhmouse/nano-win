@@ -166,6 +166,11 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta,
 		    *meta = 1;
 	    }
 	    break;
+	case NANO_CONTROL_8:
+	    /* Terminal breakage, part 2: We shouldn't get Ctrl-8
+	     * (Ctrl-?) for Backspace, but we do sometimes on Linux. */
+	    kbinput = NANO_BACKSPACE_KEY;
+	    break;
 	case KEY_DOWN:
 	    kbinput = NANO_DOWN_KEY;
 	    break;
@@ -185,7 +190,7 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta,
 	    kbinput = NANO_BACKSPACE_KEY;
 	    break;
 	case KEY_DC:
-	    /* Terminal breakage, part 2: We should only get KEY_DC when
+	    /* Terminal breakage, part 3: We should only get KEY_DC when
 	     * hitting Delete, but we get it when hitting Backspace
 	     * sometimes on FreeBSD.  Thank you, Lee Nelson. */
 	    kbinput = (rebind_delete) ? NANO_BACKSPACE_KEY : NANO_DELETE_KEY;
