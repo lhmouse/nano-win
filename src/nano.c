@@ -3566,7 +3566,7 @@ int main(int argc, char *argv[])
 	keyhandled = FALSE;
 
 	if (ISSET(CONSTUPDATE))
-	    do_cursorpos(1);
+	    do_cursorpos(TRUE);
 
 #if !defined(DISABLE_BROWSER) || !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
 	currshortcut = main_list;
