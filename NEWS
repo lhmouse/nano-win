@@ -1,3 +1,14 @@
+07/01/2001 - GNU nano 1.0.3 is the "mutt" release.  This release features
+		oodles of bug fixes with cutting text, especially with the
+		-k (cut to end) option.  There is also a new suspend
+		handler which should make nano play better with mutt
+		(the code for which came from mutt itself; many many
+		thanks to Jordi Mallach and Tom Lear for working late into
+		the night fixing this).  Nano now also features mutt's
+		case insensitive string compare function for more
+		speed and less memory usage.  Two new translations are
+		included, Ukranian and Russian.
+	
 05/12/2001 - GNU nano 1.0.2 is the "just the bugfixes ma'am" release.
 		The most noticeable fixes are for display errors using page
 		up/down with the marker code, and view mode (-v) not

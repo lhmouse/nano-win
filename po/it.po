@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.7\n"
-"POT-Creation-Date: 2001-06-28 12:55-0400\n"
+"POT-Creation-Date: 2001-07-01 00:31-0400\n"
 "PO-Revision-Date: 2001-05-13 17:17GMT\n"
 "Last-Translator: Marco Colombo <magicdice@inwind.it>\n"
 "Language-Team: Italiano\n"
@@ -743,86 +743,86 @@ msgstr ""
 msgid "Received SIGHUP"
 msgstr "Ricevuto SIGHUP"
 
-#: nano.c:1664
+#: nano.c:1661
 msgid "Cannot resize top win"
 msgstr "Impossibile ridimensionare la finestra superiore"
 
-#: nano.c:1666
+#: nano.c:1663
 msgid "Cannot move top win"
 msgstr "Impossibile spostare la finestra superiore"
 
-#: nano.c:1668
+#: nano.c:1665
 msgid "Cannot resize edit win"
 msgstr "Impossibile ridimensionare la finestra di modifica"
 
-#: nano.c:1670
+#: nano.c:1667
 msgid "Cannot move edit win"
 msgstr "Impossibile spostare finestra di modifica"
 
-#: nano.c:1672
+#: nano.c:1669
 msgid "Cannot resize bottom win"
 msgstr "Impossibile ridimensionare la finestra inferiore"
 
-#: nano.c:1674
+#: nano.c:1671
 msgid "Cannot move bottom win"
 msgstr "Impossibile spostare la finestra inferiore"
 
-#: nano.c:1985
+#: nano.c:1995
 msgid "Can now UnJustify!"
 msgstr "Impossibile togliere giustificazione!"
 
-#: nano.c:2083
+#: nano.c:2093
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s abilita/disabilita"
 
-#: nano.c:2098
+#: nano.c:2108
 msgid "enabled"
 msgstr "abilitato"
 
-#: nano.c:2099
+#: nano.c:2109
 msgid "disabled"
 msgstr "disabilitato"
 
-#: nano.c:2151
+#: nano.c:2161
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "Rilevata pressione del NumLock: il keypad potrebbe non funzionare col "
 "Numlock spento"
 
-#: nano.c:2377
+#: nano.c:2387
 msgid "Main: set up windows\n"
 msgstr "Main: configura finestre\n"
 
-#: nano.c:2384
+#: nano.c:2394
 msgid "Main: bottom win\n"
 msgstr "Main: finestra inferiore\n"
 
-#: nano.c:2390
+#: nano.c:2400
 msgid "Main: open file\n"
 msgstr "Main: apri file\n"
 
-#: nano.c:2443
+#: nano.c:2453
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Premuto Alt-O-%c! (%d)\n"
 
-#: nano.c:2470
+#: nano.c:2480
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Premuto Alt-[-1-%c! (%d)\n"
 
-#: nano.c:2503
+#: nano.c:2513
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Premuto Alt-[-2-%c! (%d)\n"
 
-#: nano.c:2549
+#: nano.c:2559
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Premuto Alt-[-%c! (%d)\n"
 
-#: nano.c:2575
+#: nano.c:2585
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Premuto Alt-%c! (%d)\n"

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.0.0\n"
-"POT-Creation-Date: 2001-06-28 12:55-0400\n"
+"POT-Creation-Date: 2001-07-01 00:31-0400\n"
 "PO-Revision-Date: 2001-02-08 17:56+0200\n"
 "Last-Translator: Florian König <floki@bigfoot.com>\n"
 "Language-Team: German <floki@bigfoot.com>\n"
@@ -743,87 +743,87 @@ msgstr "Veränderten Puffer speichern (\"Nein\" VERWIRFT DIE ÄNDERUGNEN) ? "
 msgid "Received SIGHUP"
 msgstr "SIGHUP empfangen"
 
-#: nano.c:1664
+#: nano.c:1661
 msgid "Cannot resize top win"
 msgstr "Kann die Größe des oberen Fensters nicht verändern"
 
-#: nano.c:1666
+#: nano.c:1663
 msgid "Cannot move top win"
 msgstr "Kann oberes Fenster nicht verschieben"
 
-#: nano.c:1668
+#: nano.c:1665
 msgid "Cannot resize edit win"
 msgstr "Kann Größe des Bearbeitungsfensters nicht verändern"
 
-#: nano.c:1670
+#: nano.c:1667
 msgid "Cannot move edit win"
 msgstr "Kann Bearbeitungsfenster nicht verschieben"
 
-#: nano.c:1672
+#: nano.c:1669
 msgid "Cannot resize bottom win"
 msgstr "Kann Größe des unteren Fensters nicht verändern"
 
-#: nano.c:1674
+#: nano.c:1671
 msgid "Cannot move bottom win"
 msgstr "Kann unteres Fenster nicht verschieben"
 
-#: nano.c:1985
+#: nano.c:1995
 msgid "Can now UnJustify!"
 msgstr "Kann Absatzausrichtung nicht rückgängig machen"
 
-#: nano.c:2083
+#: nano.c:2093
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s aktivieren/deaktivieren"
 
-#: nano.c:2098
+#: nano.c:2108
 msgid "enabled"
 msgstr "aktiviert"
 
-#: nano.c:2099
+#: nano.c:2109
 msgid "disabled"
 msgstr "deaktiviert"
 
-#: nano.c:2151
+#: nano.c:2161
 #, fuzzy
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "NumLock Problem entdeckt. | Tastenblock funktioniert nicht, wenn NumLock "
 "ausgeschaltet ist"
 
-#: nano.c:2377
+#: nano.c:2387
 msgid "Main: set up windows\n"
 msgstr "Hauptprogramm: Fenster konfigurieren\n"
 
-#: nano.c:2384
+#: nano.c:2394
 msgid "Main: bottom win\n"
 msgstr "Hauptprogramm: unteres Fenster\n"
 
-#: nano.c:2390
+#: nano.c:2400
 msgid "Main: open file\n"
 msgstr "Hauptprogramm: Datei öffnen\n"
 
-#: nano.c:2443
+#: nano.c:2453
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Erhielt Alt-0-%c! (%d)\n"
 
-#: nano.c:2470
+#: nano.c:2480
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Erhielt Alt-[-1-%c! (%d)\n"
 
-#: nano.c:2503
+#: nano.c:2513
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Erhielt Alt-[-2-%c! (%d)\n"
 
-#: nano.c:2549
+#: nano.c:2559
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Erhielt Alt-[-%c! (%d)\n"
 
-#: nano.c:2575
+#: nano.c:2585
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Erhielt Alt-%c! (%d)\n"

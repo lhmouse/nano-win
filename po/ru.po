@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.0.1\n"
-"POT-Creation-Date: 2001-06-28 12:55-0400\n"
+"POT-Creation-Date: 2001-07-01 00:31-0400\n"
 "PO-Revision-Date: 2001-05-16 10:10+0200\n"
 "Last-Translator: Sergey A. Ribalchenko <fisher@obu.ck.ua>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -732,84 +732,84 @@ msgstr "Сохранить измененный буфер (Ответ \"Нет\" УНИЧТОЖИТ все изменения) ?"
 msgid "Received SIGHUP"
 msgstr "Получили SIGHUP"
 
-#: nano.c:1664
+#: nano.c:1661
 msgid "Cannot resize top win"
 msgstr "Не могу изменить размер верхнего окна"
 
-#: nano.c:1666
+#: nano.c:1663
 msgid "Cannot move top win"
 msgstr "Не могу переместить верхнее окно"
 
-#: nano.c:1668
+#: nano.c:1665
 msgid "Cannot resize edit win"
 msgstr "Не могу изменить размер окна редактирования"
 
-#: nano.c:1670
+#: nano.c:1667
 msgid "Cannot move edit win"
 msgstr "Не могу переместить окно редактирования"
 
-#: nano.c:1672
+#: nano.c:1669
 msgid "Cannot resize bottom win"
 msgstr "Не могу изменить размер нижнего окна"
 
-#: nano.c:1674
+#: nano.c:1671
 msgid "Cannot move bottom win"
 msgstr "Не могу переместить нижнее окно"
 
-#: nano.c:1985
+#: nano.c:1995
 msgid "Can now UnJustify!"
 msgstr "Сейчас можно отменить выравнивание! (^U)"
 
-#: nano.c:2083
+#: nano.c:2093
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s - разрешить/запретить"
 
-#: nano.c:2098
+#: nano.c:2108
 msgid "enabled"
 msgstr "разрешено"
 
-#: nano.c:2099
+#: nano.c:2109
 msgid "disabled"
 msgstr "запрещено"
 
-#: nano.c:2151
+#: nano.c:2161
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr "Обнаружен сбой NumLock'а. Цифровая клавиатура недоступна (NumLock off)"
 
-#: nano.c:2377
+#: nano.c:2387
 msgid "Main: set up windows\n"
 msgstr "Main: установить окна\n"
 
-#: nano.c:2384
+#: nano.c:2394
 msgid "Main: bottom win\n"
 msgstr "Main: нижнее окно\n"
 
-#: nano.c:2390
+#: nano.c:2400
 msgid "Main: open file\n"
 msgstr "Main: открыть файл\n"
 
-#: nano.c:2443
+#: nano.c:2453
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Поймал Alt-O-%c! (%d)\n"
 
-#: nano.c:2470
+#: nano.c:2480
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Поймал Alt-[-1-%c! (%d)\n"
 
-#: nano.c:2503
+#: nano.c:2513
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Поймал Alt-[-2-%c! (%d)\n"
 
-#: nano.c:2549
+#: nano.c:2559
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Поймал Alt-[-%c! (%d)\n"
 
-#: nano.c:2575
+#: nano.c:2585
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Поймал Alt-%c! (%d)\n"
