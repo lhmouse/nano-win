@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 <body text="#330000" bgcolor="#ffffff" link="#0000ef" vlink="#51188e" alink="#ff0000">
-<h1>The nano FAQ</h1>
+<h1>The GNU nano editor FAQ</h1>
 <h2>Table of Contents</h2>
 <h2><a href="#1">1. General</a></h2>
 <blockquote><p><a href="#1.1">1.1 About this FAQ</a><br>
@@ -24,23 +24,24 @@
 <blockquote><p><a href="#3.1">3.1. How do I install the RPM or DEB package?</a><br>
   <a href="#3.2">3.2. Compiling from source: WHAT THE HECK DO I DO NOW?</a><br>
   <a href="#3.3">3.3. Why does everything go into /usr/local?</a><br>
-  <a href="#3.4">3.4. I get errors about 'bindtextdomain','gettext' and/or 'gettextdomain'. What can I do about it?</a><br>
+  <a href="#3.4">3.4. I get errors about 'bindtextdomain','gettext', and/or 'gettextdomain'. What can I do about it?</a><br>
   <a href="#3.5">3.5. Nano should automatically run strip on the binary when installing it!</a><br>
   <a href="#3.6">3.6. How can I make the executable smaller? This is too bloated!</a><br>
   <a href="#3.7">3.7. Tell me more about this multibuffer stuff!</a><br>
   <a href="#3.8">3.8. Tell me more about this verbatim input stuff!</a><br>
   <a href="#3.9">3.9. How do I make a .nanorc file that nano will read when I start it?</a></p></blockquote>
 <h2><a href="#4">4. Running</a></h2>
-<blockquote><p><a href="#4.1">4.1. Ack! My backspace/delete/enter/double bucky/meta key doesn't seem to work! What can I do?</a><br>
-  <a href="#4.2">4.2. How do I type the F13-F16 keys shown in the help browser? My keyboard only has F1-F12!</a><br>
-  <a href="#4.3">4.3. Nano crashes when I type &lt;insert keystroke here&gt;!</a><br>
-  <a href="#4.4">4.4. Nano crashes when I resize my window. How can I fix that?</a><br>
-  <a href="#4.5">4.5. [version 1.1.12 and earlier] Why does nano show ^\ in the shortcut list instead of ^J?</a><br>
-  <a href="#4.6a">4.6a. [version 1.1.12 and earlier] When I type in a search string, the string I last searched for is already in front of my cursor! What happened?!</a><br>
-  <a href="#4.6b">4.6b. [version 1.1.99pre1 and later] Hey, the search string behavior has reverted, it's now like Pico, what happened to the consistency?</a><br>
-  <a href="#4.7">4.7. How do I make nano my default editor (in Pine, mutt, etc.)?</a><br>
-  <a href="#4.8">4.8. I've compiled nano with color support, but I don't see any color when I run it!</a><br>
-  <a href="#4.9">4.9. How do I select text for the clipboard in an X terminal when I'm running nano in one and nano's mouse support is turned on?</a></p></blockquote>
+<blockquote><p><a href="#4.1">4.1. How do I open a file with a name beginning with '+' from the command line?</a><br>
+  <a href="#4.2">4.2. Ack! My backspace/delete/enter/double bucky/meta key doesn't seem to work! What can I do?</a><br>
+  <a href="#4.3">4.3. How do I type the F13-F16 keys shown in the help browser? My keyboard only has F1-F12!</a><br>
+  <a href="#4.4">4.4. Nano crashes when I type &lt;insert keystroke here&gt;!</a><br>
+  <a href="#4.5">4.5. Nano crashes when I resize my window. How can I fix that?</a><br>
+  <a href="#4.6">4.6. [version 1.1.12 and earlier] Why does nano show ^\ in the shortcut list instead of ^J?</a><br>
+  <a href="#4.7a">4.7a. [version 1.1.12 and earlier] When I type in a search string, the string I last searched for is already in front of my cursor! What happened?!</a><br>
+  <a href="#4.7b">4.7b. [version 1.1.99pre1 and later] Hey, the search string behavior has reverted, it's now like Pico, what happened to the consistency?</a><br>
+  <a href="#4.8">4.8. How do I make nano my default editor (in Pine, mutt, etc.)?</a><br>
+  <a href="#4.9">4.9. I've compiled nano with color support, but I don't see any color when I run it!</a><br>
+  <a href="#4.10">4.10. How do I select text for the clipboard in an X terminal when I'm running nano in one and nano's mouse support is turned on?</a></p></blockquote>
 <h2><a href="#5">5. Internationalization</a></h2>
 <blockquote><p><a href="#5.1">5.1. There's no translation for my language!</a><br>
   <a href="#5.2">5.2. I don't like the translation for &lt;x&gt; in my language. How can I fix it?</a></p></blockquote>
@@ -52,7 +53,7 @@
   <a href="#6.5">6.5. Why doesn't UW simply change their license?</a><br>
   <a href="#6.6">6.6. What if tomorrow UW changes the license to be truly Free Software?</a></p></blockquote>
 <h2><a href="#7">7. Miscellaneous</a></h2>
-<blockquote><p><a href="#7.1">7.1. Nano related mailing lists.</a><br>
+<blockquote><p><a href="#7.1">7.1. Nano-related mailing lists.</a><br>
   <a href="#7.2">7.2. I want to send the development team a big load of cash (or just a thank you).</a><br>
   <a href="#7.3">7.3. How do I submit a patch?</a><br>
   <a href="#7.4">7.4. How do I join the development team?</a><br>
@@ -134,7 +135,7 @@
 <blockquote><p>Well, that's what the <b>configure</b> script defaults to. If you wish to change this, simply do this:</p>
   <p><b>./configure --prefix=/usr</b></p>
   <p>to put nano into /usr/bin when you run <b>make install</b>.</p></blockquote>
-<h2><a name="3.4"></a>3.4. I get errors about 'bindtextdomain', 'gettext' and/or 'gettextdomain'. What can I do about it?</h2>
+<h2><a name="3.4"></a>3.4. I get errors about 'bindtextdomain', 'gettext', and/or 'gettextdomain'. What can I do about it?</h2>
 <blockquote><p>Try doing a <b>./configure --with-included-gettext</b> and see if that solves your problem. You may need to do a <b>make clean; make</b> to get it to work fully.</p></blockquote>
 <h2><a name="3.5"></a>3.5. Nano should automatically run strip on the binary when installing it!</h2>
 <blockquote><p>Actually, it does, but you have to use <b>make install-strip</b>. The default make install does not, and will not, run strip automatically.</p></blockquote>
@@ -171,23 +172,26 @@
 <blockquote><p>It's not hard at all! But, your version of nano must have been compiled with <b>--enable-nanorc</b>, and again must be version 1.1.12 or newer (use nano -V to check your version and compiled features). Then simply copy the <b>nanorc.sample</b> that came with the nano source or your nano package (most likely in /usr/doc/nano) to .nanorc in your home directory. If you didn't get one, the syntax is simple. Flags are turned on and off by using the word <b>set</b> and the getopt_long flag for the feature, for example &quot;set nowrap&quot; or &quot;set suspend&quot;.</p></blockquote>
 <hr width="100%">
 <h1><a name="4"></a>4. Running</h1>
-<h2><a name="4.1"></a>4.1. Ack! My backspace/delete/enter/double bucky/meta key doesn't seem to work! What can I do?</h2>
+<h2><a name="4.1"></a>4.1. How do I open a file with a name beginning with '+' from the command line?</h2>
+<blockquote><p>A command line option that begins with '+' is always treated as a starting line number. The option just after it, though, is always treated as a filename.  So if you want to open '+filename.txt' starting on line 1, you should use:</p>
+  <p><b>nano +1 +filename.txt</b></p></blockquote>
+<h2><a name="4.2"></a>4.2. Ack! My backspace/delete/enter/double bucky/meta key doesn't seem to work! What can I do?</h2>
 <blockquote><p>Try setting your $TERM variable to 'vt100'. Nano doesn't yet support every term entry under the sun.</p>
   <p>Bourne shell users (bash and sh): <b>export TERM=vt100</b><br>
   C Shell users (tcsh and csh): <b>setenv TERM vt100</b></p></blockquote>
-<h2><a name="4.2"></a>4.2. How do I type the F13-F16 keys shown in the help browser? My keyboard only has F1-F12!</h2>
+<h2><a name="4.3"></a>4.3. How do I type the F13-F16 keys shown in the help browser? My keyboard only has F1-F12!</h2>
 <blockquote><p>It depends on the terminal type you're using. On some terminals, such as the FreeBSD console, xterm, konsole, and gnome-terminal, Shift-F1 to Shift-F4 will generate F13 to F16. On other terminals, such as the Linux console, rxvt, or Eterm, Shift-F3 to Shift-F6 will generate F13 to F16.</p></blockquote>
-<h2><a name="4.3"></a>4.3. Nano crashes when I type &lt;insert keystroke here&gt;!</h2>
+<h2><a name="4.4"></a>4.4. Nano crashes when I type &lt;insert keystroke here&gt;!</h2>
 <blockquote><p>If you aren't trying some bizarre keystroke combination with some bizarre $TERM entry, chances are you have found a bug. You are welcome to submit it to the <a href="mailto:nano-devel@gnu.org">nano-devel</a> list or to <a href="mailto:nano@nano-editor.org">nano@nano-editor.org</a>.</p></blockquote>
-<h2><a name="4.4"></a>4.4. Nano crashes when I resize my window. How can I fix that?</h2>
+<h2><a name="4.5"></a>4.5. Nano crashes when I resize my window. How can I fix that?</h2>
 <blockquote><p>Older versions of nano had this problem, please upgrade to a newer version (at least 0.9.9 would be great, 0.9.12 is recommended).</p></blockquote>
-<h2><a name="4.5"></a>4.5. [version 1.1.12 and earlier] Why does nano show ^\ in the shortcut list instead of ^J?</h2>
+<h2><a name="4.6"></a>4.6. [version 1.1.12 and earlier] Why does nano show ^\ in the shortcut list instead of ^J?</h2>
 <blockquote><p>The help (^G) and justify (^J) function were among the last to be written. To show the improvements that nano had over Pico (go to line # and replace), ^_ and ^\ were put on the shortcut list. Later, ^G came back in place of ^_ as it proved to be very valuable for new Unix users. If you use the <b>-p</b> option to nano (or hit Meta-P) you will get the same shortcuts at the bottom as Pico.</p></blockquote>
-<h2><a name="4.6a"></a>4.6a. [version 1.1.12 and earlier] When I type in a search string, the string I last searched for is already in front of my cursor! What happened?!</h2>
+<h2><a name="4.7a"></a>4.7a. [version 1.1.12 and earlier] When I type in a search string, the string I last searched for is already in front of my cursor! What happened?!</h2>
 <blockquote><p>In nano version 0.9.20, the default is to have a completely consistent user interface across all user input functions. This means that regardless of whether you're being asked for a filename to insert or write, or a string to search for, the previous value is already inserted before the cursor. If you prefer the old behavior, use the Pico emulation mode (-p or --pico) or just hit Meta-P while in nano (see the ^G help text for more details).</p></blockquote>
-<h2><a name="4.6b"></a>4.6b. [version 1.1.99pre1 and later] Hey, the search string behavior has reverted, it's now like Pico, what happened to the consistency?</h2>
+<h2><a name="4.7b"></a>4.7b. [version 1.1.99pre1 and later] Hey, the search string behavior has reverted, it's now like Pico, what happened to the consistency?</h2>
 <blockquote><p>It was decided that consistency was nice, but people are used to Pico's inconsistent behavior.  Also, in version 1.1.99pre1, search and replace history was introduced.  If you wish to edit your previous search/replace entry (or any previous entry), you can do so by hitting the up arrow to cycle through your history.  This method allows the best of both worlds: You don't need to erase the previous string if you want to enter a new one, but you can with one keystroke recall previous entries for editing. Therefore there is now no "Pico mode", nano is and has always been a Pico <b>clone</b>, and clones by default should be compatible.</p></blockquote>
-<h2><a name="4.7"></a>4.7. How do I make nano my default editor (in Pine, mutt, etc.)?</h2>
+<h2><a name="4.8"></a>4.8. How do I make nano my default editor (in Pine, mutt, etc.)?</h2>
 <blockquote><p>You need to make nano your $EDITOR. If you want this to be saved, you should put a line like this in your <b>.bashrc</b> if you use bash (or <b>.zshrc</b> if you believe in zsh):</p>
   <p><b>export EDITOR=/usr/local/bin/nano</b></p>
   <p>or if you use tcsh put this in your <b>.cshrc</b> file:</p>
@@ -200,9 +204,9 @@
   <p>Mutt users should see an effect immediately the next time you log in, no further configuration is needed. However, if you want to let people know you use nano to compose your email messages, you can put a line like this in your <b>.muttrc</b>:</p>
   <p><b>my_hdr X-Composer: nano x.y.z</b></p>
   <p>Again, replace x.y.z with the version of nano you use.</p></blockquote>
-<h2><a name="4.8"></a>4.8. I've compiled nano with color support, but I don't see any color when I run it!</h2>
+<h2><a name="4.9"></a>4.9. I've compiled nano with color support, but I don't see any color when I run it!</h2>
 <blockquote><p>If you want nano to actually use color, you have to specify the color configurations you want it to use in your .nanorc. Some example configurations are in the <b>nanorc.sample</b> that comes with the nano source or your nano package. See Section <a href="#3.9">3.9</a>.</p></blockquote>
-<h2><a name="4.9"></a>4.9. How do I select text for the clipboard in an X terminal when I'm running nano in one and nano's mouse support is turned on?</h2>
+<h2><a name="4.10"></a>4.10. How do I select text for the clipboard in an X terminal when I'm running nano in one and nano's mouse support is turned on?</h2>
 <blockquote><p>Try holding down the Shift key and selecting the text as you normally would.</p></blockquote>
 <hr width="100%">
 <h1><a name="5"></a>5. Internationalization</h1>
@@ -228,7 +232,7 @@
 <blockquote><p>Honestly nothing would make me happier than to see that happen. Nano would continue to be developed independently until such time as Pico had all the features nano did or the projects merged. That just does not seem very likely given that there has been no sign of any changes in the past few years in a positive direction.</p></blockquote>
 <hr width="100%">
 <h1><a name="7"></a>7. Miscellaneous</h1>
-<h2><a name="7.1"></a>7.1. Nano related mailing lists.</h2>
+<h2><a name="7.1"></a>7.1. Nano-related mailing lists.</h2>
 <blockquote><p>There are three mailing lists for nano hosted at <a href="http://savannah.gnu.org/">Savannah</a>, info-nano, help-nano and nano-devel. Info-nano is a very low traffic list where new versions of nano are announced (surprise!) Help-nano is for getting help with the editor without needing to hear all of the development issues surrounding it. Nano-devel is a normally low, sometimes high traffic list for discussing the present and future development of nano. Here are links to where you can sign up for a given list:</p>
   <p>info-nano - <a href="http://mail.gnu.org/mailman/listinfo/info-nano/">http://mail.gnu.org/mailman/listinfo/info-nano/</a><br>
   help-nano - <a href="http://mail.gnu.org/mailman/listinfo/help-nano/">http://mail.gnu.org/mailman/listinfo/help-nano/</a><br>
@@ -244,8 +248,9 @@
 <h2><a name="8"></a>8. ChangeLog</h2>
 <blockquote>
 <p>
-2005/01/03 - Remove now-inaccurate note about verbatim input's not working at prompts, and update its description to mention that it handles hexadecimal values now. (DLR)
-2004/11/21 - List sh as an example of a Bourne shell. (DLR)
+2005/03/09 - Added question about opening files with names beginning with '+'s, and added a few more miscellaneous cosmetic fixes. (DLR)<br>
+2005/01/03 - Removed now-inaccurate note about verbatim input's not working at prompts, and update its description to mention that it handles hexadecimal values now. (DLR)<br>
+2004/11/21 - Listed sh as an example of a Bourne shell. (DLR)<br>
 2004/11/05 - Fixed inaccuracy: Pico compatibility mode was made the default in nano 1.1.99pre1, not 1.2.2. Also added question about how to type F13-F16 on terminals lacking keys past F12 (suggested by Chris), question about how to select text for the clipboard in X terminals with nano's mouse support turned on (answer found by Joseph Birthisel), and misc. fixes and link updates. (DLR)<br>
 2004/04/07 - Removed NumLock glitch question, as it's no longer needed. (DLR)<br>
 2004/01/30 - Fixed inaccuracy: multibuffer mode was first in nano 1.1.0, not 1.1.12. (DLR)<br>

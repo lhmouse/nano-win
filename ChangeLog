@@ -306,6 +306,8 @@ CVS code -
 	- Remove now-inaccurate note about verbatim input's not working
 	  at prompts, and update its description to mention that it
 	  handles hexadecimal values now. (DLR)
+	- Add question about opening files with names beginning with
+	  '+'s, and add a few more miscellaneous cosmetic fixes.
 - nanorc.sample:
 	- Add return to the "c-file" regexes. (DLR)
 	- Clarify the text describing good values for whitespace
