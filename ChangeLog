@@ -1,4 +1,4 @@
-CVS code -
+nano-1.0.6 - 10/29/2001
 - General
 	- Fixed null_at to ACTUALLY DO SOMETHING with its arg.  Again,
 	  this was causing nasty errors if the call to nrealloc moved

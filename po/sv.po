@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.0.3\n"
-"POT-Creation-Date: 2001-10-03 19:08-0400\n"
+"POT-Creation-Date: 2001-10-29 18:51-0500\n"
 "PO-Revision-Date: 2001-07-06 22:27+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -60,7 +60,7 @@ msgstr "Läser filen"
 msgid "File to insert [from ./] "
 msgstr "Fil att infoga [från ./] "
 
-#: files.c:310 files.c:335 files.c:567 nano.c:1516
+#: files.c:310 files.c:335 files.c:567 nano.c:1592
 msgid "Cancelled"
 msgstr "Avbruten"
 
@@ -492,7 +492,7 @@ msgstr "delete_node(): frigjorde en nod, JIPPI!\n"
 msgid "delete_node(): free'd last node.\n"
 msgstr "delete_node(): frigjorde sista noden.\n"
 
-#: nano.c:358
+#: nano.c:360
 msgid ""
 "Usage: nano [GNU long option] [option] +LINE <file>\n"
 "\n"
@@ -500,86 +500,86 @@ msgstr ""
 "Användning: nano [lång GNU-flagga] [flagga] +RAD <fil>\n"
 "\n"
 
-#: nano.c:359
+#: nano.c:361
 msgid "Option\t\tLong option\t\tMeaning\n"
 msgstr "Flagga\t\tLång flagga\t\tBetydelse\n"
 
-#: nano.c:361
+#: nano.c:363
 msgid " -T [num]\t--tabsize=[num]\t\tSet width of a tab to num\n"
 msgstr ""
 " -T [tal]\t--tabsize=[tal]\t\tStäll bredden på ett tabulatorsteg till tal\n"
 
-#: nano.c:364
+#: nano.c:366
 msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
 msgstr " -R\t\t--regexp\t\tAnvänd reguljära uttryck för sökning\n"
 
-#: nano.c:368
+#: nano.c:370
 msgid " -V \t\t--version\t\tPrint version information and exit\n"
 msgstr " -V \t\t--version\t\tSkriv ut versionsinformation och avsluta\n"
 
-#: nano.c:370
+#: nano.c:372
 msgid " -c \t\t--const\t\t\tConstantly show cursor position\n"
 msgstr " -c \t\t--const\t\t\tVisa markörposition hela tiden\n"
 
-#: nano.c:372
+#: nano.c:374
 msgid " -h \t\t--help\t\t\tShow this message\n"
 msgstr " -h \t\t--help\t\t\tVisa detta meddelande\n"
 
-#: nano.c:374
+#: nano.c:376
 msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
 msgstr " -i \t\t--autoindent\t\tDra automatiskt in nya rader\n"
 
-#: nano.c:377
+#: nano.c:379
 msgid " -k \t\t--cut\t\t\tLet ^K cut from cursor to end of line\n"
 msgstr ""
 " -k \t\t--cut\t\t\tLåt ^K klippa ut från markören till slutet på raden\n"
 
-#: nano.c:380
+#: nano.c:382
 msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
 msgstr " -l \t\t--nofollow\t\tFölj inte symboliska länkar, skriv över\n"
 
-#: nano.c:383
+#: nano.c:385
 msgid " -m \t\t--mouse\t\t\tEnable mouse\n"
 msgstr " -m \t\t--mouse\t\t\tAnvänd mus\n"
 
-#: nano.c:387
+#: nano.c:389
 msgid " -p\t \t--pico\t\t\tEmulate Pico as closely as possible\n"
 msgstr " -p\t \t--pico\t\t\tEmulera Pico så nära som möjligt\n"
 
-#: nano.c:390
+#: nano.c:392
 msgid ""
 " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
 msgstr " -r [tecken] \t--fill=[#tecken]\t\tBryt rader efter antal tecken\n"
 
-#: nano.c:393
+#: nano.c:395
 msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
 msgstr " -s [prog] \t--speller=[prog]\tAnvänd alternativ stavningskontroll\n"
 
-#: nano.c:396
+#: nano.c:398
 msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
 msgstr " -t \t\t--tempfile\t\tSpara automatiskt vid avslut, fråga inte\n"
 
-#: nano.c:398
+#: nano.c:400
 msgid " -v \t\t--view\t\t\tView (read only) mode\n"
 msgstr " -v \t\t--view\t\t\tVisningsläge (skrivskyddat)\n"
 
-#: nano.c:401
+#: nano.c:403
 msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
 msgstr " -w \t\t--nowrap\t\tRadbryt inte långa rader\n"
 
-#: nano.c:404
+#: nano.c:406
 msgid " -x \t\t--nohelp\t\tDon't show help window\n"
 msgstr " -x \t\t--nohelp\t\tVisa inte hjälpfönster\n"
 
-#: nano.c:406
+#: nano.c:408
 msgid " -z \t\t--suspend\t\tEnable suspend\n"
 msgstr " -z \t\t--suspend\t\tAnvänd suspend\n"
 
-#: nano.c:408
+#: nano.c:410
 msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
 msgstr " +RAD\t\t\t\t\tStarta vid radnummer RAD\n"
 
-#: nano.c:410
+#: nano.c:412
 msgid ""
 "Usage: nano [option] +LINE <file>\n"
 "\n"
@@ -587,92 +587,92 @@ msgstr ""
 "Användning: nano [flagga] +RAD <fil>\n"
 "\n"
 
-#: nano.c:411
+#: nano.c:413
 msgid "Option\t\tMeaning\n"
 msgstr "Flagga\t\tBetydelse\n"
 
-#: nano.c:412
+#: nano.c:414
 msgid " -T [num]\tSet width of a tab to num\n"
 msgstr " -T [tal]\tStäll bredden på ett tabulatorsteg till tal\n"
 
-#: nano.c:413
+#: nano.c:415
 msgid " -R\t\tUse regular expressions for search\n"
 msgstr " -R\t\tAnvänd reguljära uttryck för sökning\n"
 
-#: nano.c:414
+#: nano.c:416
 msgid " -V \t\tPrint version information and exit\n"
 msgstr " -V \t\tSkriv ut versionsinformation och avsluta\n"
 
-#: nano.c:415
+#: nano.c:417
 msgid " -c \t\tConstantly show cursor position\n"
 msgstr " -c \t\tVisa markörposition hela tiden\n"
 
-#: nano.c:416
+#: nano.c:418
 msgid " -h \t\tShow this message\n"
 msgstr " -h \t\tVisa detta meddelande\n"
 
-#: nano.c:417
+#: nano.c:419
 msgid " -i \t\tAutomatically indent new lines\n"
 msgstr " -i \t\tDra automatiskt in nya rader\n"
 
-#: nano.c:419
+#: nano.c:421
 msgid " -k \t\tLet ^K cut from cursor to end of line\n"
 msgstr " -k \t\tLåt ^K klippa ut från markören till slutet på raden\n"
 
-#: nano.c:422
+#: nano.c:424
 msgid " -l \t\tDon't follow symbolic links, overwrite\n"
 msgstr " -l \t\tFölj inte symboliska länkar, skriv över\n"
 
-#: nano.c:425
+#: nano.c:427
 msgid " -m \t\tEnable mouse\n"
 msgstr " -m \t\tAnvänd mus\n"
 
-#: nano.c:428
+#: nano.c:430
 msgid " -p \t\tEmulate Pico as closely as possible\n"
 msgstr " -p \t\tEmulera Pico så nära som möjligt\n"
 
-#: nano.c:429
+#: nano.c:431
 msgid " -r [#cols] \tSet fill cols to (wrap lines at) #cols\n"
 msgstr " -r [tecken] \tBryt rader efter antal tecken\n"
 
-#: nano.c:431
+#: nano.c:433
 msgid " -s [prog]  \tEnable alternate speller\n"
 msgstr " -s [prog]  \tAnvänd alternativ stavningskontroll\n"
 
-#: nano.c:433
+#: nano.c:435
 msgid " -t \t\tAuto save on exit, don't prompt\n"
 msgstr " -t \t\tSpara automatiskt vid avslut, fråga inte\n"
 
-#: nano.c:434
+#: nano.c:436
 msgid " -v \t\tView (read only) mode\n"
 msgstr " -v \t\tVisningsläge (skrivskyddat)\n"
 
-#: nano.c:436
+#: nano.c:438
 msgid " -w \t\tDon't wrap long lines\n"
 msgstr " -w \t\tRadbryt inte långa rader\n"
 
-#: nano.c:438
+#: nano.c:440
 msgid " -x \t\tDon't show help window\n"
 msgstr " -x \t\tVisa inte hjälpfönster\n"
 
-#: nano.c:439
+#: nano.c:441
 msgid " -z \t\tEnable suspend\n"
 msgstr " -z \t\tAnvänd suspend\n"
 
-#: nano.c:440
+#: nano.c:442
 msgid " +LINE\t\tStart at line number LINE\n"
 msgstr " +RAD\t\tStarta vid radnummer RAD\n"
 
-#: nano.c:447
+#: nano.c:449
 #, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
 msgstr " GNU nano version %s (kompilerad %s, %s)\n"
 
-#: nano.c:450
+#: nano.c:452
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 msgstr " E-post: nano@nano-editor.org\tHemsida: http://www.nano-editor.org"
 
-#: nano.c:451
+#: nano.c:453
 msgid ""
 "\n"
 " Compiled options:"
@@ -680,138 +680,138 @@ msgstr ""
 "\n"
 " Kompileringsflaggor:"
 
-#: nano.c:519
+#: nano.c:521
 msgid "Mark Set"
 msgstr "Markering satt"
 
-#: nano.c:524
+#: nano.c:526
 msgid "Mark UNset"
 msgstr "Markering borttagen"
 
-#: nano.c:1025
+#: nano.c:1101
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap anropades med inptr->data=\"%s\"\n"
 
-#: nano.c:1077
+#: nano.c:1153
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data nu = \"%s\"\n"
 
-#: nano.c:1129
+#: nano.c:1205
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Efter, data = \"%s\"\n"
 
-#: nano.c:1231
+#: nano.c:1307
 msgid "Edit a replacement"
 msgstr "Redigera en ersättning"
 
-#: nano.c:1463
+#: nano.c:1539
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Kunde inte skapa ett temporärt filnamn: %s"
 
-#: nano.c:1469
+#: nano.c:1545
 msgid "Spell checking failed: unable to write temp file!"
 msgstr "Stavningskontroll misslyckades: kan inte skriva till temporärfil!"
 
-#: nano.c:1481
+#: nano.c:1557
 msgid "Finished checking spelling"
 msgstr "Stavningskontrollen slutfördes"
 
-#: nano.c:1483
+#: nano.c:1559
 msgid "Spell checking failed"
 msgstr "Stavningskontrollen misslyckades"
 
-#: nano.c:1503
+#: nano.c:1579
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 "Spara ändrad buffert (ATT SVARA \"Nej\" KOMMER ATT FÖRSTÖRA ÄNDRINGAR)? "
 
-#: nano.c:1599
+#: nano.c:1675
 msgid "Received SIGHUP"
 msgstr "Mottog SIGHUP"
 
-#: nano.c:1661
+#: nano.c:1737
 msgid "Cannot resize top win"
 msgstr "Kan inte ändra storlek på övre fönstret"
 
-#: nano.c:1663
+#: nano.c:1739
 msgid "Cannot move top win"
 msgstr "Kan inte flytta övre fönstret"
 
-#: nano.c:1665
+#: nano.c:1741
 msgid "Cannot resize edit win"
 msgstr "Kan inte ändra storlek på redigeringsfönstret"
 
-#: nano.c:1667
+#: nano.c:1743
 msgid "Cannot move edit win"
 msgstr "Kan inte flytta redigeringsfönstret"
 
-#: nano.c:1669
+#: nano.c:1745
 msgid "Cannot resize bottom win"
 msgstr "Kan inte ändra storlek på nedre fönstret"
 
-#: nano.c:1671
+#: nano.c:1747
 msgid "Cannot move bottom win"
 msgstr "Kan inte flytta nedre fönstret"
 
-#: nano.c:1995
+#: nano.c:2071
 msgid "Can now UnJustify!"
 msgstr "Kan ojustera nu!"
 
-#: nano.c:2093
+#: nano.c:2169
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s aktivera/deaktivera"
 
-#: nano.c:2108
+#: nano.c:2184
 msgid "enabled"
 msgstr "aktiverad"
 
-#: nano.c:2109
+#: nano.c:2185
 msgid "disabled"
 msgstr "deaktiverad"
 
-#: nano.c:2162
+#: nano.c:2238
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "NumLock-problem upptäcktes. Tangenterna kommer inte att fungera utan NumLock"
 
-#: nano.c:2388
+#: nano.c:2464
 msgid "Main: set up windows\n"
 msgstr "Main: konfigurera fönster\n"
 
-#: nano.c:2395
+#: nano.c:2471
 msgid "Main: bottom win\n"
 msgstr "Main: nedre fönstret\n"
 
-#: nano.c:2401
+#: nano.c:2477
 msgid "Main: open file\n"
 msgstr "Main: öppna fil\n"
 
-#: nano.c:2454
+#: nano.c:2530
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Jag mottog Alt-O-%c! (%d)\n"
 
-#: nano.c:2481
+#: nano.c:2564
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Jag mottog Alt-[-1-%c! (%d)\n"
 
-#: nano.c:2514
+#: nano.c:2597
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Jag mottog Alt-[-2-%c! (%d)\n"
 
-#: nano.c:2568
+#: nano.c:2661
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Jag mottog Alt-[-%c! (%d)\n"
 
-#: nano.c:2594
+#: nano.c:2687
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Jag mottog Alt-%c! (%d)\n"
@@ -980,7 +980,6 @@ msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
 #: winio.c:1207
-#, c-format
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "rad %d av %d (%.0f%%), tecken %d av %d (%.0f%%)"
 

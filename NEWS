@@ -1,3 +1,21 @@
+10/29/2001 - GNU nano 1.0.6 [XGP] is released.  As this is a stable
+		release, there aren't a lot of new features, but the
+		"do previous word" function (Meta-Space) has been
+		backported from nano 1.1.  The biggest bug fix is
+		the huge bug in null_at which was discarding
+		reallocated memory addresses.  This one bug probably
+		accounted for a good portion of the (seemingly) random
+		crashes in nano.  There were some minor fixes in the
+		cutting code, and some display fixes also.  The
+		source code headers have also been fixed from saying
+		"GPL version 1" to "GPL version 2", which is the
+		correct version for the COPYING file that's been 
+		included in nano forever.
+			The null_at bugfix is probably the biggest
+		bugfix in well over a year.  Thus it is HIGHLY
+		recommended all users of nano upgrade to this version of
+		nano.  
+
 10/03/2001 - GNU nano 1.0.5 is released.  This release is mostly
 		to add and update translations, there is now a new
 		Dutch translation, a new Danish translation, and updates
