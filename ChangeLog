@@ -1,4 +1,9 @@
 CVS code -
+- rcfile.c:
+  parse_rcfile()
+	- Add missing brackets around an if statement block so that
+	  parsing the numeric argument after "tabsize" works properly
+	  again. (DLR, found by Mike Frysinger)
 
 GNU nano 1.3.4 - 2004.08.17
 - General:

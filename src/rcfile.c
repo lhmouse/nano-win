@@ -611,9 +611,10 @@ void parse_rcfile(FILE *rcstream)
 			    else
 #endif
 			    if (strcasecmp(rcopts[i].name, "tabsize") == 0) {
-				if (!parse_num(option, &tabsize) || tabsize <= 0)
+				if (!parse_num(option, &tabsize) || tabsize <= 0) {
 				    rcfile_error(N_("Requested tab size %s invalid"), option);
 				    tabsize = -1;
+				}
 			    }
 			} else
 			    SET(rcopts[i].flag);
