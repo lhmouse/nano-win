@@ -266,13 +266,13 @@ bool is_whole_word(int curr_pos, const char *datastr, const char
 /* Look for needle, starting at current, column current_x.  If
  * no_sameline is TRUE, skip over begin when looking for needle.  begin
  * is the line where we first started searching, at column beginx.  If
- * can_display_wrap is TRUE, we put messages on the statusbar, and wrap
- * around the file boundaries.  The return value specifies whether we
- * found anything.  If we did, and needle_len isn't NULL, set it to the
- * length of the string we found. */
+ * can_display_wrap is TRUE, we put messages on the statusbar, wrap
+ * around the file boundaries, and set wrapped to TRUE if it isn't NULL.
+ * The return value specifies whether we found anything.  If we did, set
+ * needle_len to the length of the string we found if it isn't NULL. */
 bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	no_sameline, const filestruct *begin, size_t beginx, const char
-	*needle, size_t *needle_len)
+	*needle, bool *wrapped, size_t *needle_len)
 {
     filestruct *fileptr = current;
     const char *rev_start = NULL, *found = NULL;
@@ -283,6 +283,10 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
     int current_y_find = current_y;
     bool search_last_line = FALSE;
 	/* Have we gone past the last line while searching? */
+
+    /* wrapped holds the value of search_last_line. */
+    if (wrapped != NULL)
+	*wrapped = FALSE;
 
     /* rev_start might end up 1 character before the start or after the
      * end of the line.  This won't be a problem because strstrwrapper()
@@ -374,8 +378,11 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	}
 
 	/* Original start line reached. */
-	if (fileptr == begin)
+	if (fileptr == begin) {
 	    search_last_line = TRUE;
+	    if (wrapped != NULL)
+		*wrapped = TRUE;
+	}
 	rev_start = fileptr->data;
 #ifndef NANO_SMALL
 	if (ISSET(REVERSE_SEARCH))
@@ -405,6 +412,8 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
     current = fileptr;
     current_x = current_x_find;
     current_y = current_y_find;
+
+    /* needle_len holds the length of needle. */
     if (needle_len != NULL)
 	*needle_len = found_len;
 
@@ -452,7 +461,7 @@ void do_search(void)
 #endif
 
     didfind = findnextstr(TRUE, FALSE, FALSE, current, current_x,
-	answer, NULL);
+	answer, NULL, NULL);
 
     /* Check to see if there's only one occurrence of the string and
      * we're on it now. */
@@ -466,7 +475,7 @@ void do_search(void)
 	if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp,
 		last_search)) {
 	    didfind = findnextstr(TRUE, FALSE, TRUE, current, current_x,
-		answer, NULL);
+		answer, NULL, NULL);
 	    if (fileptr == current && fileptr_x == current_x && !didfind)
 		statusbar(_("This is the only occurrence"));
 	} else {
@@ -505,7 +514,7 @@ void do_research(void)
 #endif
 
 	didfind = findnextstr(TRUE, FALSE, FALSE, current, current_x,
-		last_search, NULL);
+		last_search, NULL, NULL);
 
 	/* Check to see if there's only one occurrence of the string and
 	 * we're on it now. */
@@ -519,7 +528,7 @@ void do_research(void)
 	    if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp,
 		last_search)) {
 		didfind = findnextstr(TRUE, FALSE, TRUE, current,
-			current_x, answer, NULL);
+			current_x, answer, NULL, NULL);
 		if (fileptr == current && fileptr_x == current_x && !didfind)
 		    statusbar(_("This is the only occurrence"));
 	    } else {
@@ -656,9 +665,10 @@ ssize_t do_replace_loop(const char *needle, filestruct *real_current,
     bool begin_line = FALSE, bol_or_eol = FALSE;
 #endif
 #ifndef NANO_SMALL
-    bool old_mark_set = ISSET(MARK_ISSET);
+    bool old_mark_set = ISSET(MARK_ISSET), wrapped;
     const filestruct *top, *bot;
     size_t top_x, bot_x;
+    int wraps = 0;
 
     if (old_mark_set) {
 	/* Save the locations where the mark begins and ends. */
@@ -686,7 +696,16 @@ ssize_t do_replace_loop(const char *needle, filestruct *real_current,
 #else
 	FALSE
 #endif
-	, current_save, current_x_save, needle, &match_len)) {
+	, current_save, current_x_save, needle,
+#ifndef NANO_SMALL
+	/* If we're replacing marked text, we should take note of when
+	 * the search wraps.  If the wrapped flag is set, it means that
+	 * we've wrapped since the last search. */
+	&wrapped
+#else
+	NULL
+#endif
+	, &match_len)) {
 
 	int i = 0;
 
@@ -697,8 +716,18 @@ ssize_t do_replace_loop(const char *needle, filestruct *real_current,
 	    if (current->lineno < top->lineno || current->lineno >
 		bot->lineno || (current == top && current_x < top_x) ||
 		(current == bot && (current_x > bot_x || current_x +
-		match_len > bot_x)))
+		match_len > bot_x))) {
+		/* Keep track of how many times the search has wrapped.
+		 * If it's wrapped more than once, it means that the
+		 * only matches left are those outside the marked text,
+		 * so we're done. */
+		if (wrapped) {
+		    wraps++;
+		    if (wraps > 1)
+			break;
+		}
 		continue;
+	    }
 	}
 #endif
 
@@ -1056,7 +1085,7 @@ void do_find_bracket(void)
 
     while (TRUE) {
 	if (findnextstr(FALSE, FALSE, FALSE, current, current_x,
-		regexp_pat, NULL)) {
+		regexp_pat, NULL, NULL)) {
 	    /* Found identical bracket. */
 	    if (current->data[current_x] == ch_under_cursor)
 		count++;

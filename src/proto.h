@@ -405,7 +405,7 @@ bool is_whole_word(int curr_pos, const char *datastr, const char
 	*searchword);
 bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	no_sameline, const filestruct *begin, size_t beginx, const char
-	*needle, size_t *needle_len);
+	*needle, bool *wrapped, size_t *needle_len);
 void do_search(void);
 #ifndef NANO_SMALL
 void do_research(void);
