@@ -1294,6 +1294,8 @@ char *do_browser(char *inpath)
 	    break;
 	case KEY_ENTER:
 	case NANO_CONTROL_M:
+	case 's': /* More Pico compatibility */
+	case 'S':
 
 	    /* You can't cd up from / */
 	    if (!strcmp(filelist[selected], "/..") && !strcmp(path, "/"))
