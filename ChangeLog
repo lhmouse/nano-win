@@ -53,8 +53,9 @@ CVS code -
 	- Add a func_key flag to the low-level input functions and the
 	  currently existing high-level input functions, to indicate
 	  extended keypad values.  This is needed for UTF-8 support.
-	  Changes to get_kbinput(), get_translated_kbinput(),
-	  get_shortcut(), get_edit_input(), etc. (DLR)
+	  Changes to unget_kbinput(), get_kbinput(),
+	  get_translated_kbinput(), get_shortcut(), get_edit_input(),
+	  etc. (DLR)
 	- Add a multibuffer mode toggle to the "Execute Command" prompt,
 	  for consistency with the "Read File" prompt.  Changes to
 	  do_insertfile() and shortcut_init(). (DLR)

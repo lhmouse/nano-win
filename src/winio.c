@@ -104,9 +104,29 @@ void reset_kbinput(void)
 
 /* Put back the input character stored in kbinput.  If meta_key is TRUE,
  * put back the Escape character after putting back kbinput. */
-void unget_kbinput(int kbinput, bool meta_key)
+void unget_kbinput(int kbinput, bool meta_key, bool func_key)
 {
-    ungetch(kbinput);
+    /* If this character is outside the ASCII range and func_key is
+     * FALSE, treat it as a wide character and put back its equivalent
+     * multibyte sequence. */
+    if (kbinput > 255 && !func_key)
+    {
+	int i;
+	char *s = charalloc(MB_CUR_MAX + 1);
+	wchar_t wc = (wchar_t)kbinput;
+
+	i = wctomb(s, wc);
+
+	if (i == -1)
+	    /* This wide character is unrecognized.  Send it back. */
+	    ungetch(kbinput);
+	else {
+	    for (; i > 0; i--)
+		ungetch(s[i - 1]);
+	}
+	free(s);
+    } else
+	ungetch(kbinput);
     if (meta_key)
 	ungetch(NANO_CONTROL_3);
 }
@@ -181,7 +201,8 @@ int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 			/* This escape sequence is unrecognized.  Send
 			 * it back. */
 			for (; seq_len > 1; seq_len--)
-			    unget_kbinput(sequence[seq_len - 1], FALSE);
+			    unget_kbinput(sequence[seq_len - 1], FALSE,
+				FALSE);
 			retval = sequence[0];
 		    }
 		}
@@ -203,10 +224,12 @@ int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 		    /* This UTF-8 sequence is unrecognized.  Send it
 		     * back. */
 		    for (; seq_len > 1; seq_len--)
-			unget_kbinput(sequence[seq_len - 1], FALSE);
+			unget_kbinput(sequence[seq_len - 1], FALSE,
+				FALSE);
 		    retval = sequence[0];
 		} else
 		    retval = wc;
+		free(s);
 	    }
 	    free(sequence);
 	}
@@ -1365,9 +1388,9 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	 * has, at the very least, an equivalent control key, an
 	 * equivalent primary meta key sequence, or both. */
 	if (s->ctrlval != NANO_NO_KEY)
-	    unget_kbinput(s->ctrlval, FALSE);
+	    unget_kbinput(s->ctrlval, FALSE, FALSE);
 	else if (s->metaval != NANO_NO_KEY)
-	    unget_kbinput(s->metaval, TRUE);
+	    unget_kbinput(s->metaval, TRUE, FALSE);
 
 	return TRUE;
     }

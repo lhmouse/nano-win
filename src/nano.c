@@ -2671,7 +2671,7 @@ void do_justify(bool full_justify)
 	edit_refresh();
     } else {
 	placewewant = 0;
-	unget_kbinput(kbinput, meta_key);
+	unget_kbinput(kbinput, meta_key, func_key);
     }
 
     cutbuffer = cutbuffer_save;

@@ -502,7 +502,7 @@ int check_wildcard_match(const char *text, const char *pattern);
 #ifndef NANO_SMALL
 void reset_kbinput(void);
 #endif
-void unget_kbinput(int kbinput, bool meta_key);
+void unget_kbinput(int kbinput, bool meta_key, bool func_key);
 int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key);
 int get_translated_kbinput(int kbinput, seq_type *seq
 #ifndef NANO_SMALL

@@ -2624,8 +2624,10 @@ char *do_browser(const char *inpath)
 		if (selected > numents - 1)
 		    selected = numents - 1;
 		else if (selectedbackup == selected)
-		    unget_kbinput('s', FALSE);	/* Unget the 'select' key */
-	    } else {	/* Must be clicking a shortcut */
+		    /* Unget the 'select' key */
+		    unget_kbinput('s', FALSE, FALSE);
+	    } else {
+		/* Must be clicking a shortcut */
 		int mouse_x, mouse_y;
 		get_mouseinput(&mouse_x, &mouse_y, TRUE);
 	    }
