@@ -3404,9 +3404,9 @@ int main(int argc, char *argv[])
     * terminal mode, put the terminal in raw mode (read one character at
     * a time and don't interpret the special control keys), disable
     * translation of carriage return (^M) into newline (^J) so that we
-    * can tell the difference between the Enter key and ^J, and disable
-    * echoing of characters as they're typed.  Finally, if we're in
-    * preserve mode, turn the flow control characters back on. */
+    * can tell the difference between the Enter key and Ctrl-J, and
+    * disable echoing of characters as they're typed.  Finally, if we're
+    * in preserve mode, turn the flow control characters back on. */
     initscr();
     raw();
 #ifdef USE_SLANG
