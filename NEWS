@@ -1,3 +1,13 @@
+01/16/2002 - GNU nano 1.0.8 ships :)  Quite a few changes in just under
+		a month!  There are some spelling fixes, more suspend
+		changes (this time for tcsh and ^C), some wrapping
+		tweaks, search fixes, and a compatibility fix for AIX
+		variable names.  New features include adding Meta-A
+		as an alternate key for the marker key (^^) for our 
+		international users, and a new configure option,
+		--disable-wrapping-as-root, which does what it says.
+		Anyway, enjoy the latest and greatest in nano fashion.
+
 12/17/2001 - GNU nano 1.0.7 is released.  The m4/ dir was backported
 		from 1.1 so that nano should be rebuildable regardless
 		of the version of gettext installed on a system.  The

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano_1_0 1.0.6\n"
-"POT-Creation-Date: 2001-10-29 18:51-0500\n"
+"POT-Creation-Date: 2002-01-15 20:03-0500\n"
 "PO-Revision-Date: 2001-12-14 19:35+0200\n"
 "Last-Translator: Cezary Sliwa <sliwa@cft.edu.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -61,7 +61,7 @@ msgstr "Wczytywanie pliku"
 msgid "File to insert [from ./] "
 msgstr "Plik do wstawienia [z ./] "
 
-#: files.c:310 files.c:335 files.c:567 nano.c:1592
+#: files.c:310 files.c:335 files.c:567 nano.c:1605
 msgid "Cancelled"
 msgstr "Anulowano"
 
@@ -468,18 +468,18 @@ msgid ""
 msgstr ""
 " tekst pomocy nano\n"
 "\n"
-" Edytor nano zosta³ zaprojektowany z my¶l± o emulacji funkcjonalno¶ci "
-"i prostoty obs³ugi edytora tekstowego UW Pico. Ekran edycji mo¿na "
-"podzieliæ na cztery czê¶ci: górna linia pokazuje wersjê programu i nazwê "
-"w³a¶nie edytowanego pliku oraz mówi, czy plik zosta³ zmieniony. Dalej, "
-"g³ówne okno edytora zawiera edytowany tekst. Trzecia linia od do³u, czyli "
-"linia stanu, s³u¿y do wy¶wietlania wa¿nych komunikatów. Dwie najni¿sze "
-"linie przypominaj± najczê¶ciej u¿ywane kombinacje klawiszy.\n"
+" Edytor nano zosta³ zaprojektowany z my¶l± o emulacji funkcjonalno¶ci i "
+"prostoty obs³ugi edytora tekstowego UW Pico. Ekran edycji mo¿na podzieliæ na "
+"cztery czê¶ci: górna linia pokazuje wersjê programu i nazwê w³a¶nie "
+"edytowanego pliku oraz mówi, czy plik zosta³ zmieniony. Dalej, g³ówne okno "
+"edytora zawiera edytowany tekst. Trzecia linia od do³u, czyli linia stanu, "
+"s³u¿y do wy¶wietlania wa¿nych komunikatów. Dwie najni¿sze linie przypominaj± "
+"najczê¶ciej u¿ywane kombinacje klawiszy.\n"
 "\n"
 " Kombinacje klawiszy zosta³y opisane w nastêpuj±cy sposób: sekwencje "
 "steruj±ce wprowadzane klawiszem Control (Ctrl) s± oznaczone daszkiem (^). "
-"Sekwencje Escape, wprowadzane zale¿nie od uk³adu klawiatury jednym "
-"z klawiszy Esc, Alt lub Meta, s± oznaczone Meta (M). W g³ównym oknie edytora "
+"Sekwencje Escape, wprowadzane zale¿nie od uk³adu klawiatury jednym z "
+"klawiszy Esc, Alt lub Meta, s± oznaczone Meta (M). W g³ównym oknie edytora "
 "dostêpne s± wymienione poni¿ej kombinacje klawiszy. Klawisze opcjonalne "
 "ujêto w nawiasy:\n"
 "\n"
@@ -586,8 +586,9 @@ msgstr ""
 "\n"
 
 #: nano.c:413
-msgid "Opcja\t\tZnaczenie\n"
-msgstr ""
+#, fuzzy
+msgid "Option\t\tMeaning\n"
+msgstr "Opcja\t\tD³uga opcja\t\tZnaczenie\n"
 
 #: nano.c:414
 msgid " -T [num]\tSet width of a tab to num\n"
@@ -678,136 +679,136 @@ msgstr ""
 "\n"
 " Skompilowane opcje:"
 
-#: nano.c:521
+#: nano.c:524
 msgid "Mark Set"
 msgstr "Znacznik ustawiony"
 
-#: nano.c:526
+#: nano.c:529
 msgid "Mark UNset"
 msgstr "Znacznik skasowany"
 
-#: nano.c:1101
+#: nano.c:1103
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr ""
 
-#: nano.c:1153
+#: nano.c:1155
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr ""
 
-#: nano.c:1205
+#: nano.c:1207
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr ""
 
-#: nano.c:1307
+#: nano.c:1315
 msgid "Edit a replacement"
 msgstr ""
 
-#: nano.c:1539
+#: nano.c:1552
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Nie mo¿na utworzyæ nazwy pliku tymczasowego: %s"
 
-#: nano.c:1545
+#: nano.c:1558
 msgid "Spell checking failed: unable to write temp file!"
 msgstr ""
 
-#: nano.c:1557
+#: nano.c:1570
 msgid "Finished checking spelling"
 msgstr "Zakoñczono sprawdzanie pisowni"
 
-#: nano.c:1559
+#: nano.c:1572
 msgid "Spell checking failed"
 msgstr "Niepowodzenie sprawdzania pisowni"
 
-#: nano.c:1579
+#: nano.c:1592
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Zapisaæ zmieniony bufor (ODPOWIED¬ \"Nie\" SPOWODUJE UTRATÊ ZMIAN) ? "
 
-#: nano.c:1675
+#: nano.c:1688
 msgid "Received SIGHUP"
 msgstr ""
 
-#: nano.c:1737
+#: nano.c:1756
 msgid "Cannot resize top win"
 msgstr ""
 
-#: nano.c:1739
+#: nano.c:1758
 msgid "Cannot move top win"
 msgstr ""
 
-#: nano.c:1741
+#: nano.c:1760
 msgid "Cannot resize edit win"
 msgstr ""
 
-#: nano.c:1743
+#: nano.c:1762
 msgid "Cannot move edit win"
 msgstr ""
 
-#: nano.c:1745
+#: nano.c:1764
 msgid "Cannot resize bottom win"
 msgstr ""
 
-#: nano.c:1747
+#: nano.c:1766
 msgid "Cannot move bottom win"
 msgstr ""
 
-#: nano.c:2071
+#: nano.c:2104
 msgid "Can now UnJustify!"
 msgstr "Mo¿na cofn±æ justowanie"
 
-#: nano.c:2169
+#: nano.c:2202
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s w³±cz/wy³±cz"
 
-#: nano.c:2184
+#: nano.c:2217
 msgid "enabled"
 msgstr "w³±czony(e)"
 
-#: nano.c:2185
+#: nano.c:2218
 msgid "disabled"
 msgstr "wy³±czony(e)"
 
-#: nano.c:2238
+#: nano.c:2271
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 
-#: nano.c:2464
+#: nano.c:2501
 msgid "Main: set up windows\n"
 msgstr ""
 
-#: nano.c:2471
+#: nano.c:2508
 msgid "Main: bottom win\n"
 msgstr ""
 
-#: nano.c:2477
+#: nano.c:2514
 msgid "Main: open file\n"
 msgstr ""
 
-#: nano.c:2530
+#: nano.c:2567
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2564
+#: nano.c:2601
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2597
+#: nano.c:2634
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2661
+#: nano.c:2705
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2687
+#: nano.c:2731
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr ""
@@ -836,7 +837,7 @@ msgstr "Wyszukaj%s%s"
 msgid " (to replace)"
 msgstr " (i zast±p)"
 
-#: search.c:145 search.c:336
+#: search.c:145 search.c:350
 msgid "Search Cancelled"
 msgstr "Wyszukiwanie anulowane"
 
@@ -845,54 +846,54 @@ msgstr "Wyszukiwanie anulowane"
 msgid "\"%s...\" not found"
 msgstr "\"%s...\" nie znalezione"
 
-#: search.c:258
+#: search.c:272
 msgid "Search Wrapped"
 msgstr ""
 
-#: search.c:358
+#: search.c:372
 #, c-format
 msgid "Replaced %d occurrences"
 msgstr "Zamieniono %d wyst±pien(ia)"
 
-#: search.c:360
+#: search.c:374
 msgid "Replaced 1 occurrence"
 msgstr "Zamieniono 1 wyst±pienie"
 
-#: search.c:498 search.c:608 search.c:624
+#: search.c:512 search.c:609 search.c:625
 msgid "Replace Cancelled"
 msgstr "Zastêpowanie anulowane"
 
-#: search.c:548
+#: search.c:549
 msgid "Replace this instance?"
 msgstr "Czy zamieniæ to wyst±pienie?"
 
-#: search.c:560
+#: search.c:561
 msgid "Replace failed: unknown subexpression!"
 msgstr "Zamiana nie powiod³a siê: nieznane podwyra¿enie!"
 
-#: search.c:649
+#: search.c:650
 #, c-format
 msgid "Replace with [%s]"
 msgstr "Zast±p fraz± [%s]"
 
-#: search.c:653 search.c:657
+#: search.c:654 search.c:658
 msgid "Replace with"
 msgstr "Zast±p fraz±"
 
 #. Ask for it
-#: search.c:692
+#: search.c:693
 msgid "Enter line number"
 msgstr "Wprowad¼ numer linii"
 
-#: search.c:694
+#: search.c:695
 msgid "Aborted"
 msgstr "Przerwane"
 
-#: search.c:714
+#: search.c:715
 msgid "Come on, be reasonable"
 msgstr "Cz³owieku, wiêcej rozs±dku"
 
-#: search.c:719
+#: search.c:720
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr ""

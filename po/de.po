@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano_1_0 1.0.6\n"
-"POT-Creation-Date: 2001-12-17 18:48-0500\n"
+"POT-Creation-Date: 2002-01-15 20:03-0500\n"
 "PO-Revision-Date: 2001-11-02 18:41+0200\n"
 "Last-Translator: Michael Piefel <piefel@informatik.hu-berlin.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -62,7 +62,7 @@ msgstr "Lese Datei"
 msgid "File to insert [from ./] "
 msgstr "Datei einfügen [von ./] "
 
-#: files.c:310 files.c:335 files.c:567 nano.c:1594
+#: files.c:310 files.c:335 files.c:567 nano.c:1605
 msgid "Cancelled"
 msgstr "Abgebrochen"
 
@@ -688,139 +688,139 @@ msgstr ""
 "\n"
 " Kompilierte Optionen:"
 
-#: nano.c:521
+#: nano.c:524
 msgid "Mark Set"
 msgstr "Markierung gesetzt"
 
-#: nano.c:526
+#: nano.c:529
 msgid "Mark UNset"
 msgstr "Markierung gelöscht"
 
-#: nano.c:1101
+#: nano.c:1103
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap aufgerufen mit inptr->data=\"%s\"\n"
 
-#: nano.c:1153
+#: nano.c:1155
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data jetzt = \"%s\"\n"
 
-#: nano.c:1205
+#: nano.c:1207
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Nachher, data = \"%s\"\n"
 
-#: nano.c:1307
+#: nano.c:1315
 msgid "Edit a replacement"
 msgstr "Ersetzung editieren"
 
-#: nano.c:1541
+#: nano.c:1552
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Konnte keine temporäre Datei erzeugen: %s"
 
-#: nano.c:1547
+#: nano.c:1558
 msgid "Spell checking failed: unable to write temp file!"
 msgstr ""
 "Rechtschreibprüfung fehlgeschlagen: konnte nicht in temporäre Datei schreiben"
 
-#: nano.c:1559
+#: nano.c:1570
 msgid "Finished checking spelling"
 msgstr "Rechtschreibprüfung abgeschlossen"
 
-#: nano.c:1561
+#: nano.c:1572
 msgid "Spell checking failed"
 msgstr "Rechtschreibprüfung fehlgeschlagen"
 
-#: nano.c:1581
+#: nano.c:1592
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Veränderten Puffer speichern (\"Nein\" VERWIRFT DIE ÄNDERUGNEN) ? "
 
-#: nano.c:1677
+#: nano.c:1688
 msgid "Received SIGHUP"
 msgstr "SIGHUP empfangen"
 
-#: nano.c:1742
+#: nano.c:1756
 msgid "Cannot resize top win"
 msgstr "Kann die Größe des oberen Fensters nicht verändern"
 
-#: nano.c:1744
+#: nano.c:1758
 msgid "Cannot move top win"
 msgstr "Kann oberes Fenster nicht verschieben"
 
-#: nano.c:1746
+#: nano.c:1760
 msgid "Cannot resize edit win"
 msgstr "Kann Größe des Bearbeitungsfensters nicht verändern"
 
-#: nano.c:1748
+#: nano.c:1762
 msgid "Cannot move edit win"
 msgstr "Kann Bearbeitungsfenster nicht verschieben"
 
-#: nano.c:1750
+#: nano.c:1764
 msgid "Cannot resize bottom win"
 msgstr "Kann Größe des unteren Fensters nicht verändern"
 
-#: nano.c:1752
+#: nano.c:1766
 msgid "Cannot move bottom win"
 msgstr "Kann unteres Fenster nicht verschieben"
 
-#: nano.c:2090
+#: nano.c:2104
 msgid "Can now UnJustify!"
 msgstr "Kann Absatzausrichtung nicht rückgängig machen"
 
-#: nano.c:2188
+#: nano.c:2202
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s aktivieren/deaktivieren"
 
-#: nano.c:2203
+#: nano.c:2217
 msgid "enabled"
 msgstr "aktiviert"
 
-#: nano.c:2204
+#: nano.c:2218
 msgid "disabled"
 msgstr "deaktiviert"
 
-#: nano.c:2257
+#: nano.c:2271
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "NumLock-Problem entdeckt.  Tastenblock funktioniert bei ausgeschaltetem "
 "NumLock nicht"
 
-#: nano.c:2483
+#: nano.c:2501
 msgid "Main: set up windows\n"
 msgstr "Hauptprogramm: Fenster konfigurieren\n"
 
-#: nano.c:2490
+#: nano.c:2508
 msgid "Main: bottom win\n"
 msgstr "Hauptprogramm: unteres Fenster\n"
 
-#: nano.c:2496
+#: nano.c:2514
 msgid "Main: open file\n"
 msgstr "Hauptprogramm: Datei öffnen\n"
 
-#: nano.c:2549
+#: nano.c:2567
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Erhielt Alt-0-%c! (%d)\n"
 
-#: nano.c:2583
+#: nano.c:2601
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Erhielt Alt-[-1-%c! (%d)\n"
 
-#: nano.c:2616
+#: nano.c:2634
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Erhielt Alt-[-2-%c! (%d)\n"
 
-#: nano.c:2687
+#: nano.c:2705
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Erhielt Alt-[-%c! (%d)\n"
 
-#: nano.c:2713
+#: nano.c:2731
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Erhielt Alt-%c! (%d)\n"
@@ -851,7 +851,7 @@ msgstr "Suche%s%s"
 msgid " (to replace)"
 msgstr " (zu ersetzen)"
 
-#: search.c:145 search.c:336
+#: search.c:145 search.c:350
 msgid "Search Cancelled"
 msgstr "Suche abgebrochen"
 
@@ -860,54 +860,54 @@ msgstr "Suche abgebrochen"
 msgid "\"%s...\" not found"
 msgstr "\"%s...\" nicht gefunden"
 
-#: search.c:258
+#: search.c:272
 msgid "Search Wrapped"
 msgstr "Suche in neue Zeile umgebrochen"
 
-#: search.c:358
+#: search.c:372
 #, c-format
 msgid "Replaced %d occurrences"
 msgstr "%d Ersetzungen vorgenommen"
 
-#: search.c:360
+#: search.c:374
 msgid "Replaced 1 occurrence"
 msgstr "1 Ersetzung vorgenommen"
 
-#: search.c:498 search.c:608 search.c:624
+#: search.c:512 search.c:609 search.c:625
 msgid "Replace Cancelled"
 msgstr "Ersetzung abgebrochen"
 
-#: search.c:548
+#: search.c:549
 msgid "Replace this instance?"
 msgstr "Fundstelle ersetzen?"
 
-#: search.c:560
+#: search.c:561
 msgid "Replace failed: unknown subexpression!"
 msgstr "Ersetzung gescheitert: unbekannter Unterausdruck"
 
-#: search.c:649
+#: search.c:650
 #, c-format
 msgid "Replace with [%s]"
 msgstr "Ersetzen mit [%s]"
 
-#: search.c:653 search.c:657
+#: search.c:654 search.c:658
 msgid "Replace with"
 msgstr "Ersetzen mit"
 
 #. Ask for it
-#: search.c:692
+#: search.c:693
 msgid "Enter line number"
 msgstr "Zeilennummer eingeben"
 
-#: search.c:694
+#: search.c:695
 msgid "Aborted"
 msgstr "Abgebrochen"
 
-#: search.c:714
+#: search.c:715
 msgid "Come on, be reasonable"
 msgstr "Komm schon, sei vernünftig"
 
-#: search.c:719
+#: search.c:720
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr "Nur %d Zeilen vorhanden, springe zur letzten Zeile"
