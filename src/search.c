@@ -846,7 +846,7 @@ void do_gotoline(ssize_t line, int save_pos)
 	    return;
 	}
 
-	line = atoi(answer);
+	line = (ssize_t)atol(answer);
 
 	/* Bounds check. */
 	if (line <= 0) {
