@@ -1632,21 +1632,20 @@ char *do_int_speller(char *tempfile_name)
     pid_t pid_spell, pid_sort, pid_uniq;
     int spell_status, sort_status, uniq_status;
 
-    /* Create all three pipes up front */
-
+    /* Create all three pipes up front. */
     if (pipe(spell_fd) == -1 || pipe(sort_fd) == -1 || pipe(uniq_fd) == -1)
 	return _("Could not create pipe");
 
     statusbar(_("Creating misspelled word list, please wait..."));
-    /* A new process to run spell in */
 
+    /* A new process to run spell in. */
     if ((pid_spell = fork()) == 0) {
 
-	/* Child continues, (i.e. future spell process) */
+	/* Child continues (i.e, future spell process). */
 
 	close(spell_fd[0]);
 
-	/* replace the standard in with the tempfile */
+	/* Replace the standard input with the temp file. */
 	if ((tempfile_fd = open(tempfile_name, O_RDONLY)) == -1)
 	    goto close_pipes_and_exit;
 
@@ -1655,88 +1654,89 @@ char *do_int_speller(char *tempfile_name)
 
 	close(tempfile_fd);
 
-	/* send spell's standard out to the pipe */
+	/* Send spell's standard output to the pipe. */
 	if (dup2(spell_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
 	    goto close_pipes_and_exit;
 
 	close(spell_fd[1]);
 
-	/* Start spell program, we are using the PATH here!?!? */
+	/* Start spell program; we are using PATH. */
 	execlp("spell", "spell", NULL);
 
-	/* Should not be reached, if spell is found!!! */
+	/* Should not be reached, if spell is found. */
 	exit(1);
     }
 
-    /* Parent continues here */
+    /* Parent continues here. */
     close(spell_fd[1]);
 
-    /* A new process to run sort in */
+    /* A new process to run sort in. */
     if ((pid_sort = fork()) == 0) {
 
-	/* Child continues, (i.e. future spell process) */
-	/* replace the standard in with output of the old pipe */
+	/* Child continues (i.e, future spell process).  Replace the
+	 * standard input with the standard output of the old pipe. */
 	if (dup2(spell_fd[0], STDIN_FILENO) != STDIN_FILENO)
 	    goto close_pipes_and_exit;
 
 	close(spell_fd[0]);
 
-	/* send sort's standard out to the new pipe */
+	/* Send sort's standard output to the new pipe. */
 	if (dup2(sort_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
 	    goto close_pipes_and_exit;
 
 	close(sort_fd[1]);
 
-	/* Start sort program.  Use -f to remove mixed case without having
-	   to have ANOTHER pipe for tr.  If this isn't portable, let me know. */
+	/* Start sort program.  Use -f to remove mixed case without
+	 * having to have ANOTHER pipe for tr.  If this isn't portable,
+	 * let me know. */
 	execlp("sort", "sort", "-f", NULL);
 
-	/* Should not be reached, if sort is found */
+	/* Should not be reached, if sort is found. */
 	exit(1);
     }
 
     close(spell_fd[0]);
     close(sort_fd[1]);
 
-    /* A new process to run uniq in */
+    /* A new process to run uniq in. */
     if ((pid_uniq = fork()) == 0) {
 
-	/* Child continues, (i.e. future uniq process) */
-	/* replace the standard in with output of the old pipe */
+	/* Child continues (i.e, future uniq process).  Replace the
+	 * standard input with the standard output of the old pipe. */
 	if (dup2(sort_fd[0], STDIN_FILENO) != STDIN_FILENO)
 	    goto close_pipes_and_exit;
 
 	close(sort_fd[0]);
 
-	/* send uniq's standard out to the new pipe */
+	/* Send uniq's standard output to the new pipe. */
 	if (dup2(uniq_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
 	    goto close_pipes_and_exit;
 
 	close(uniq_fd[1]);
 
-	/* Start uniq program, we are using PATH */
+	/* Start uniq program; we are using PATH. */
 	execlp("uniq", "uniq", NULL);
 
-	/* Should not be reached, if uniq is found */
+	/* Should not be reached, if uniq is found. */
 	exit(1);
     }
 
     close(sort_fd[0]);
     close(uniq_fd[1]);
 
-    /* Child process was not forked successfully */
+    /* Child process was not forked successfully. */
     if (pid_spell < 0 || pid_sort < 0 || pid_uniq < 0) {
 	close(uniq_fd[0]);
 	return _("Could not fork");
     }
 
-    /* Get system pipe buffer size */
+    /* Get system pipe buffer size. */
     if ((pipe_buff_size = fpathconf(uniq_fd[0], _PC_PIPE_BUF)) < 1) {
 	close(uniq_fd[0]);
 	return _("Could not get size of pipe buffer");
     }
 
-    /* Read-in the returned spelling errors */
+    /* Read in the returned spelling errors. */
     read_buff_read = 0;
     read_buff_size = pipe_buff_size + 1;
     read_buff = read_buff_ptr = charalloc(read_buff_size);
@@ -1752,7 +1752,7 @@ char *do_int_speller(char *tempfile_name)
     *read_buff_ptr = (char)NULL;
     close(uniq_fd[0]);
 
-    /* Process the spelling errors */
+    /* Process the spelling errors. */
     read_buff_word = read_buff_ptr = read_buff;
 
     while (*read_buff_ptr != '\0') {
@@ -1770,7 +1770,7 @@ char *do_int_speller(char *tempfile_name)
 	read_buff_ptr++;
     }
 
-    /* special case where last word doesn't end with \n or \r */
+    /* Special case where last word doesn't end with \n or \r. */
     if (read_buff_word != read_buff_ptr)
 	do_int_spell_fix(read_buff_word);
 
@@ -1778,8 +1778,7 @@ char *do_int_speller(char *tempfile_name)
     replace_abort();
     edit_refresh();
 
-    /* Process end of spell process */
-
+    /* Process end of spell process. */
     waitpid(pid_spell, &spell_status, 0);
     waitpid(pid_sort, &sort_status, 0);
     waitpid(pid_uniq, &uniq_status, 0);
@@ -1796,9 +1795,9 @@ char *do_int_speller(char *tempfile_name)
     /* Otherwise... */
     return NULL;
 
-close_pipes_and_exit:
+  close_pipes_and_exit:
 
-    /* Don't leak any handles */
+    /* Don't leak any handles. */
     close(tempfile_fd);
     close(spell_fd[0]);
     close(spell_fd[1]);
@@ -1823,9 +1822,9 @@ char *do_alt_speller(char *tempfile_name)
     int mark_set = ISSET(MARK_ISSET);
     int mbb_lineno_cur = 0;
 	/* We're going to close the current file, and open the output of
-	   the alternate spell command.  The line that mark_beginbuf
-	   points to will be freed, so we save the line number and restore
-	   afterwards. */
+	 * the alternate spell command.  The line that mark_beginbuf
+	 * points to will be freed, so we save the line number and
+	 * restore afterwards. */
 
     if (mark_set) {
 	mbb_lineno_cur = mark_beginbuf->lineno;
@@ -1835,7 +1834,7 @@ char *do_alt_speller(char *tempfile_name)
 
     endwin();
 
-    /* Set up an argument list to pass the execvp function */
+    /* Set up an argument list to pass execvp(). */
     if (spellargs == NULL) {
 	spellargs = (char **)nmalloc(arglen * sizeof(char *));
 
@@ -1849,9 +1848,9 @@ char *do_alt_speller(char *tempfile_name)
     }
     spellargs[arglen - 2] = tempfile_name;
 
-    /* Start a new process for the alternate speller */
+    /* Start a new process for the alternate speller. */
     if ((pid_spell = fork()) == 0) {
-	/* Start alternate spell program; we are using the PATH here!?!? */
+	/* Start alternate spell program; we are using PATH. */
 	execvp(spellargs[0], spellargs);
 
 	/* Should not be reached, if alternate speller is found!!! */
@@ -1862,9 +1861,9 @@ char *do_alt_speller(char *tempfile_name)
     if (pid_spell < 0)
 	return _("Could not fork");
 
-    /* Wait for alternate speller to complete */
-
+    /* Wait for alternate speller to complete. */
     wait(&alt_spell_status);
+
     if (!WIFEXITED(alt_spell_status) || WEXITSTATUS(alt_spell_status) != 0) {
 	char *altspell_error = NULL;
 	char *invoke_error = _("Could not invoke \"%s\"");
@@ -1876,22 +1875,27 @@ char *do_alt_speller(char *tempfile_name)
     }
 
     refresh();
-    free_filestruct(fileage);
-    global_init(1);
-    open_file(tempfile_name, 0, 1);
-
 #ifndef NANO_SMALL
+    if (!mark_set) {
+	/* Only reload the temp file if it isn't a marked selection. */
+#endif
+	free_filestruct(fileage);
+	global_init(1);
+	open_file(tempfile_name, 0, 1);
+#ifndef NANO_SMALL
+    }
+
     if (mark_set) {
 	do_gotopos(mbb_lineno_cur, mark_beginx, y_cur, 0);
 	mark_beginbuf = current;
+	/* In case the line got shorter, assign mark_beginx. */
 	mark_beginx = current_x;
-	    /* In case the line got shorter, assign mark_beginx. */
 	SET(MARK_ISSET);
     }
 #endif
 
-    /* go back to the old position, mark the file as modified, and make
-       sure that the titlebar is refreshed */
+    /* Go back to the old position, mark the file as modified, and make
+     * sure that the titlebar is refreshed. */
     do_gotopos(lineno_cur, x_cur, y_cur, pww_cur);
     set_modified();
     clearok(topwin, FALSE);
@@ -1905,8 +1909,9 @@ int do_spell(void)
 {
 #ifdef DISABLE_SPELLER
     nano_disabled_msg();
-    return TRUE;
+    return 1;
 #else
+    int i;
     char *temp, *spell_msg;
 
     if ((temp = safe_tempnam(0, "nano.")) == NULL) {
@@ -1915,15 +1920,22 @@ int do_spell(void)
 	return 0;
     }
 
-    if (write_file(temp, 1, 0, 0) == -1) {
+#ifndef NANO_SMALL
+    if (ISSET(MARK_ISSET))
+	i = write_marked(temp, 1, 0, 0);
+    else
+#endif
+	i = write_file(temp, 1, 0, 0);
+
+    if (i == -1) {
 	statusbar(_("Spell checking failed: unable to write temp file!"));
 	free(temp);
 	return 0;
     }
 
 #ifdef ENABLE_MULTIBUFFER
-    /* update the current open_files entry before spell-checking, in case
-       any problems occur */
+    /* Update the current open_files entry before spell-checking, in
+     * case any problems occur. */
     add_open_file(1);
 #endif
 
@@ -1931,7 +1943,7 @@ int do_spell(void)
 	spell_msg = do_alt_speller(temp);
     else
 	spell_msg = do_int_speller(temp);
-    remove(temp);
+    unlink(temp);
     free(temp);
 
     if (spell_msg != NULL) {

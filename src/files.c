@@ -1672,6 +1672,69 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
     return retval;
 }
 
+#ifndef NANO_SMALL
+/* Write a marked selection from a file out.  First, set fileage and
+ * filebot as the top and bottom of the mark, respectively.  Then call
+ * write_file() with the values of name, temp, append, and nonamechange.
+ * Finally, set fileage and filebot back to their old values and
+ * return. */
+int write_marked(const char *name, int tmp, int append, int
+	nonamechange)
+{
+    int retval = -1;
+    filestruct *fileagebak = fileage;
+    filestruct *filebotbak = filebot;
+    int oldmod = ISSET(MODIFIED);
+	/* write_file() unsets the MODIFIED flag. */
+    size_t topx;
+	/* The column of the beginning of the mark. */
+    char origchar;
+	/* We replace the character at the end of the mark with '\0'.
+	 * We save the original character, to restore it. */
+    char *origcharloc;
+	/* The location of the character we nulled. */
+
+    if (!ISSET(MARK_ISSET))
+	return -1;
+
+    /* Set fileage as the top of the mark, and filebot as the bottom. */
+    if (current->lineno > mark_beginbuf->lineno ||
+		(current->lineno == mark_beginbuf->lineno &&
+		current_x > mark_beginx)) {
+	fileage = mark_beginbuf;
+	topx = mark_beginx;
+	filebot = current;
+	origcharloc = current->data + current_x;
+    } else {
+	fileage = current;
+	topx = current_x;
+	filebot = mark_beginbuf;
+	origcharloc = mark_beginbuf->data + mark_beginx;
+    }
+    origchar = *origcharloc;
+    *origcharloc = '\0';
+    fileage->data += topx;
+
+    /* If the line at filebot is blank, treat it as the magicline and
+     * hence the end of the file.  Otherwise, treat the line after
+     * filebot as the end of the file. */
+    if (filebot->data[0] != '\0' && filebot->next != NULL)
+	filebot = filebot->next;
+
+    retval = write_file(name, tmp, append, nonamechange);
+
+    /* Now restore everything. */
+    fileage->data -= topx;
+    *origcharloc = origchar;
+    fileage = fileagebak;
+    filebot = filebotbak;
+    if (oldmod)
+	set_modified();
+
+    return retval;
+}
+#endif /* !NANO_SMALL */
+
 int do_writeout(const char *path, int exiting, int append)
 {
     int i = 0;
@@ -1821,53 +1884,9 @@ int do_writeout(const char *path, int exiting, int append)
 #ifndef NANO_SMALL
 	/* Here's where we allow the selected text to be written to
 	 * a separate file. */
-	if (ISSET(MARK_ISSET) && !exiting) {
-	    filestruct *fileagebak = fileage;
-	    filestruct *filebotbak = filebot;
-	    int oldmod = ISSET(MODIFIED);
-		/* write_file() unsets the MODIFIED flag. */
-	    size_t topx;
-		/* The column of the beginning of the mark. */
-	    char origchar;
-		/* We replace the character at the end of the mark with
-		 * '\0'.  We save the original character, to restore
-		 * it. */
-	    char *origcharloc;
-		/* The location of the character we nulled. */
-
-	    /* Set fileage as the top of the mark, and filebot as the
-	     * bottom. */
-	    if (current->lineno > mark_beginbuf->lineno ||
-		(current->lineno == mark_beginbuf->lineno &&
-		current_x > mark_beginx)) {
-		fileage = mark_beginbuf;
-		topx = mark_beginx;
-		filebot = current;
-		origcharloc = current->data + current_x;
-	    } else {
-		fileage = current;
-		topx = current_x;
-		filebot = mark_beginbuf;
-		origcharloc = mark_beginbuf->data + mark_beginx;
-	    }
-	    origchar = *origcharloc;
-	    *origcharloc = '\0';
-	    fileage->data += topx;
-	    /* If the line at filebot is blank, treat it as the
-	     * magicline and hence the end of the file.  Otherwise,
-	     * treat the line after filebot as the end of the file. */
-	    if (filebot->data[0] != '\0' && filebot->next != NULL)
-		filebot = filebot->next;
-	    i = write_file(answer, 0, append, 1);
-
-	    /* Now restore everything. */
-	    fileage->data -= topx;
-	    *origcharloc = origchar;
-	    fileage = fileagebak;
-	    filebot = filebotbak;
-	    if (oldmod)
-		set_modified();
-	} else
+	if (ISSET(MARK_ISSET) && !exiting)
+	    i = write_marked(answer, 0, append, 1);
+	else
 #endif /* !NANO_SMALL */
 	    i = write_file(answer, 0, append, 0);
 

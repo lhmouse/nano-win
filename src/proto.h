@@ -179,6 +179,10 @@ void init_operating_dir(void);
 int check_operating_dir(const char *currpath, int allow_tabcomp);
 #endif
 int write_file(const char *name, int tmp, int append, int nonamechange);
+#ifndef NANO_SMALL
+int write_marked(const char *name, int tmp, int append, int
+	nonamechange);
+#endif
 int do_writeout(const char *path, int exiting, int append);
 int do_writeout_void(void);
 char *real_dir_from_tilde(const char *buf);
