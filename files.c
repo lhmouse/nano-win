@@ -2116,6 +2116,8 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 		break;
 	}
     }
+    closedir(dir);
+    free(dirname);
 
     return matches;
 }
@@ -2312,7 +2314,7 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
 
 		/* And if the next match isn't going to fit on the
 		   line, move to the next one */
-		if (col > (COLS - longestname) && matches[i + 1] != NULL) {
+		if (col > COLS - longestname && i + 1 < num_matches) {
 		    editline++;
 		    wmove(edit, editline, 0);
 		    if (editline == editwinrows - 1) {

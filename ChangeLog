@@ -3,6 +3,10 @@ CVS code
 	- Translation updates (see po/ChangeLog for details).
 	- Fix globals and externs such that nano will compile with
 	  DISABLE_SPELLER (David Benbennick).
+- files.c:
+  intput_tab()
+	- Fix assumption that matches is null terminated (David 
+	  Benbennick).
 - nano.c:
   main()
 	- Fix nano not compiling with ENABLE_RCFILE and DISABLE_TABCOMP
