@@ -6,9 +6,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.9.24-CVS\n"
-"POT-Creation-Date: 2001-01-31 18:08-0500\n"
-"PO-Revision-Date: 2001-01-04 17:45+0100\n"
+"Project-Id-Version: 0.9.99pre2-CVS\n"
+"POT-Creation-Date: 2001-02-04 00:39+0100\n"
+"PO-Revision-Date: 2001-02-04 01:00+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -442,7 +442,7 @@ msgstr ""
 
 #: nano.c:151
 msgid "Window size is too small for Nano..."
-msgstr ""
+msgstr "El tamaño de la terminal es demasiado pequeña para Nano..."
 
 #: nano.c:159
 msgid "Key illegal in VIEW mode"
@@ -488,14 +488,12 @@ msgstr ""
 "\n"
 
 #: nano.c:297
-#, fuzzy
 msgid "delete_node(): free'd a node, YAY!\n"
-msgstr "free_node(): liberado un nodo, YEAH!\n"
+msgstr "delete_node(): liberado un nodo, YEAH!\n"
 
 #: nano.c:302
-#, fuzzy
 msgid "delete_node(): free'd last node.\n"
-msgstr "free_node(): liberado el último nodo.\n"
+msgstr "delete_node(): liberado el último nodo.\n"
 
 #: nano.c:357
 msgid ""
@@ -510,9 +508,8 @@ msgid "Option\t\tLong option\t\tMeaning\n"
 msgstr "Opcion\t\tOpcion larga\t\tSignificado\n"
 
 #: nano.c:360
-#, fuzzy
 msgid " -T [num]\t--tabsize=[num]\t\tSet width of a tab to num\n"
-msgstr " -T \t\t--tabsize=[num]\t\tFijar el ancho de tab a num\n"
+msgstr " -T [num]\t--tabsize=[num]\t\tFijar el ancho de tab en num\n"
 
 #: nano.c:363
 msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
@@ -780,7 +777,7 @@ msgstr "deshabilitado"
 
 #: nano.c:2073
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
-msgstr ""
+msgstr "Detectado NumLock roto.  El tecl. numérico funcionará con NumLock activado"
 
 #: nano.c:2288
 msgid "Main: set up windows\n"
