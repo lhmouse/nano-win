@@ -1,4 +1,4 @@
-CVS code -
+nano-1.1.5 - 01/05/2002
 - General
 	- Better integration of View mode (-v) and multibuffer.
 	  Fixes to new_file(), do_insertfile_void(), shortcut_init()

@@ -1,4 +1,4 @@
-12/05/2002 - GNU nano 1.1.5 is out.  The main new feature in this 
+01/05/2002 - GNU nano 1.1.5 is out.  The main new feature in this 
 		release if the changed behavior of the keypad.  Nano now 
 		does the Right Thing and used keypad() by default.  If
 		you wish to use the keypad arrow keys in certain 

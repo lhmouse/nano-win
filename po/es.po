@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.4-cvs\n"
-"POT-Creation-Date: 2001-12-25 21:39+0100\n"
+"POT-Creation-Date: 2002-01-05 14:33-0500\n"
 "PO-Revision-Date: 2001-12-26 00:30+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -27,85 +27,90 @@ msgstr "Nos hemos cargado el cutbuffer =)\n"
 msgid "File already loaded"
 msgstr "Fichero ya cargado"
 
-#: files.c:168
+#: files.c:176
 msgid "read_line: not on first line and prev is NULL"
 msgstr "read_line: no estamos en la primera línea y la anterior es NULL"
 
-#: files.c:241 files.c:267
+#: files.c:249 files.c:275
 #, c-format
 msgid "Read %d lines"
 msgstr "%d líneas leídas"
 
-#: files.c:262
-#, c-format
-msgid "Read %d lines (Converted Mac format)"
+#: files.c:270
+#, fuzzy, c-format
+msgid "Read %d lines (Converted from Mac format)"
 msgstr "%d líneas leídas (formato Mac convertido)"
 
-#: files.c:264
-#, c-format
-msgid "Read %d lines (Converted DOS format)"
+#: files.c:272
+#, fuzzy, c-format
+msgid "Read %d lines (Converted from DOS format)"
 msgstr "%d líneas leídas (formato DOS convertido)"
 
-#: files.c:286 search.c:217
+#: files.c:294 search.c:217
 #, c-format
 msgid "\"%s\" not found"
 msgstr "\"%s\" no encontrado"
 
 #. We have a new file
-#: files.c:290
+#: files.c:298
 msgid "New File"
 msgstr "Nuevo Fichero"
 
 # Aquí pegaría poner "El fichero...", como en el mensaje siguiente. sv
-#: files.c:303
+#: files.c:311
 #, c-format
 msgid "File \"%s\" is a directory"
 msgstr "El fichero \"%s\" es un directorio"
 
 #. Don't open character or block files.  Sorry, /dev/sndstat!
-#: files.c:306
+#: files.c:314
 #, c-format
 msgid "File \"%s\" is a device file"
 msgstr "El fichero \"%s\" es un dispositivo"
 
-#: files.c:314
+#: files.c:322
 msgid "Reading File"
 msgstr "Leyendo Fichero"
 
-#: files.c:334
+#: files.c:342
 msgid "File to insert [from ./] "
 msgstr "Fichero a insertar [desde ./] "
 
 # También podría ser "el nombre del fichero es..."
 # ¿Cuál es el contexto? sv
 # Es debug, el nombre de una variable. jm
-#: files.c:338 files.c:490 files.c:535 files.c:726 files.c:738 files.c:781
-#: files.c:792 files.c:1361
+#: files.c:346 files.c:505 files.c:556 files.c:747 files.c:759 files.c:802
+#: files.c:813 files.c:1382
 #, c-format
 msgid "filename is %s"
 msgstr "filename es %s"
 
 # queda raro no usar ni "un" ni "el" antes de fichero. sv
-#: files.c:369
+#: files.c:377
 #, c-format
 msgid "Can't insert file from outside of %s"
 msgstr "No se puede insertar un fichero desde fuera de %s"
 
-#: files.c:432 files.c:1085 files.c:1446 nano.c:1801
+#: files.c:440 files.c:1106 files.c:1467 nano.c:1806
 msgid "Cancelled"
 msgstr "Cancelado"
 
-#: files.c:718 files.c:773
+#: files.c:455
+#, fuzzy
+msgid "Key illegal in non-multibuffer mode"
+msgstr "Tecla ilegal en modo VISUALIZACIÓN"
+
+#: files.c:739 files.c:794
 msgid "No more open files"
 msgstr "No hay más ficheros abiertos"
 
-#: files.c:1108
+#: files.c:1129
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "No se puede escribir fuera de %s"
 
-#: files.c:1145 files.c:1161 files.c:1175 files.c:1198 files.c:1207
-#: files.c:1219
+#: files.c:1166 files.c:1182 files.c:1196 files.c:1219 files.c:1228
+#: files.c:1240
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "No pude abrir el fichero para escribir: %s"
@@ -115,84 +120,84 @@ msgstr "No pude abrir el fichero para escribir: %s"
 # En este caso sería "Se escribió >%s\n". sv
 # Vale, esto viene de lejos, del primer día que traduje.
 # Lo cambio, estoy totalmente de acuerdo.
-#: files.c:1180
+#: files.c:1201
 #, c-format
 msgid "Wrote >%s\n"
 msgstr "Se escribió >%s\n"
 
 # Lo mismo. No se pudo cerrar. sv
-#: files.c:1229
+#: files.c:1250
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "No se pudo cerrar %s: %s"
 
 # Ídem de ídem. Te dejo que revises los que siguen.
 #. Try a rename??
-#: files.c:1252 files.c:1261 files.c:1266
+#: files.c:1273 files.c:1282 files.c:1287
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr "No se pudo abrir %s para escribir: %s"
 
-#: files.c:1273
+#: files.c:1294
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr "No se pudo establecer permisos %o en %s: %s"
 
-#: files.c:1280
+#: files.c:1301
 #, c-format
 msgid "Wrote %d lines"
 msgstr "%d líneas escritas"
 
 # Como antes, me suena raro que antes de Fichero no haya "un" o "el". sv
-#: files.c:1323
+#: files.c:1344
 msgid "Append Selection to File"
 msgstr "Añadir Selección a el Fichero"
 
 # a el -> al. jm
-#: files.c:1326
+#: files.c:1347
 msgid "Write Selection to File"
 msgstr "Escribir Selección a el Fichero"
 
 # de -> del. sv
-#: files.c:1332
+#: files.c:1353
 msgid "File Name to Append"
 msgstr "Nombre del Fichero a Añadir"
 
 # ídem. sv
-#: files.c:1335
+#: files.c:1356
 msgid "File Name to Write"
 msgstr "Nombre del Fichero a Escribir"
 
-#: files.c:1375
+#: files.c:1396
 msgid "File exists, OVERWRITE ?"
 msgstr "El fichero existe, ¿ SOBREESCRIBIR ?"
 
-#: files.c:1897
+#: files.c:1918
 msgid "(more)"
 msgstr "(más)"
 
 # No se puede. sv
-#: files.c:2218
+#: files.c:2239
 msgid "Can't move up a directory"
 msgstr "No se puede ascender de directorio"
 
-#: files.c:2230
+#: files.c:2251
 msgid "Can't visit parent in restricted mode"
 msgstr "No se puede visitar el directorio padre en modo restringido"
 
 # y, c-format
 #. We can't open this dir for some reason.  Complain
-#: files.c:2241 files.c:2298
+#: files.c:2262 files.c:2319
 #, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "No se puede abrir \"%s\": %s"
 
 # a un. sv
-#: files.c:2269 global.c:296
+#: files.c:2290 global.c:296
 msgid "Goto Directory"
 msgstr "Ir a un Directorio"
 
-#: files.c:2276
+#: files.c:2297
 #, c-format
 msgid "Can't go outside of %s in restricted mode"
 msgstr "No se puede ir fuera de %s en modo restringido"
@@ -200,7 +205,7 @@ msgstr "No se puede ir fuera de %s en modo restringido"
 # En inglés vale, pero en español podría ser ambiguo.
 # ¿Qué tal "`Ir a' cancelado"? De otra forma parece que cancelado es el
 # sitio a donde va (como en el chiste ese de "bienvenido a disminuya" :-). sv
-#: files.c:2283
+#: files.c:2304
 msgid "Goto Cancelled"
 msgstr "`Ir a' Cancelado"
 
@@ -429,8 +434,8 @@ msgstr "Usar expresiones regulares"
 msgid "Find other bracket"
 msgstr "Buscar la otra llave"
 
-#: global.c:306 global.c:432 global.c:465 global.c:498 global.c:511
-#: global.c:536 global.c:550 global.c:561 global.c:569 global.c:586
+#: global.c:306 global.c:448 global.c:481 global.c:514 global.c:527
+#: global.c:552 global.c:566 global.c:577 global.c:585 global.c:602
 msgid "Get Help"
 msgstr "Ver Ayuda"
 
@@ -438,7 +443,7 @@ msgstr "Ver Ayuda"
 msgid "Close"
 msgstr "Cerrar"
 
-#: global.c:315 global.c:531 global.c:571
+#: global.c:315 global.c:547 global.c:587
 msgid "Exit"
 msgstr "Salir"
 
@@ -446,151 +451,152 @@ msgstr "Salir"
 msgid "WriteOut"
 msgstr "Guardar"
 
-#: global.c:323 global.c:412
+#: global.c:323 global.c:428
 msgid "Justify"
 msgstr "Justificar"
 
-#: global.c:327 global.c:333
+#. this is so we can view multiple files
+#: global.c:330 global.c:334 global.c:343 global.c:347
 msgid "Read File"
 msgstr "L Fichero"
 
-#: global.c:337 global.c:408 global.c:443
+#: global.c:353 global.c:424 global.c:459
 msgid "Replace"
 msgstr "Reemplazar"
 
-#: global.c:341
+#: global.c:357
 msgid "Where Is"
 msgstr "Buscar"
 
-#: global.c:345 global.c:523 global.c:574
+#: global.c:361 global.c:539 global.c:590
 msgid "Prev Page"
 msgstr "Pág Ant"
 
-#: global.c:349 global.c:527 global.c:578
+#: global.c:365 global.c:543 global.c:594
 msgid "Next Page"
 msgstr "Pág Sig"
 
-#: global.c:353
+#: global.c:369
 msgid "Cut Text"
 msgstr "CortarTxt"
 
-#: global.c:357
+#: global.c:373
 msgid "UnJustify"
 msgstr "Desjustificar"
 
-#: global.c:360
+#: global.c:376
 msgid "UnCut Txt"
 msgstr "PegarTxt"
 
-#: global.c:364
+#: global.c:380
 msgid "Cur Pos"
 msgstr "Pos Act"
 
-#: global.c:368
+#: global.c:384
 msgid "To Spell"
 msgstr "Ortografía"
 
-#: global.c:372
+#: global.c:388
 msgid "Up"
 msgstr "Arriba"
 
-#: global.c:375
+#: global.c:391
 msgid "Down"
 msgstr "Abajo"
 
-#: global.c:378
+#: global.c:394
 msgid "Forward"
 msgstr "Adelante"
 
-#: global.c:381
+#: global.c:397
 msgid "Back"
 msgstr "Atrás"
 
-#: global.c:384
+#: global.c:400
 msgid "Home"
 msgstr "Inicio"
 
-#: global.c:387
+#: global.c:403
 msgid "End"
 msgstr "Fin"
 
-#: global.c:390
+#: global.c:406
 msgid "Refresh"
 msgstr "Refrescar"
 
-#: global.c:393
+#: global.c:409
 msgid "Mark Text"
 msgstr "MarcarTxt"
 
-#: global.c:396
+#: global.c:412
 msgid "Delete"
 msgstr "Suprimir"
 
-#: global.c:400
+#: global.c:416
 msgid "Backspace"
 msgstr "Borrar"
 
-#: global.c:404
+#: global.c:420
 msgid "Tab"
 msgstr "Tab"
 
 # Intro (?). sv
 # O introducir, no encuentro el contexto...
 # Ok, es Intro (pero no se usa, parece, reportaré el bug) jm
-#: global.c:416
+#: global.c:432
 msgid "Enter"
 msgstr "Intro"
 
-#: global.c:420 global.c:447 global.c:480
+#: global.c:436 global.c:463 global.c:496
 msgid "Goto Line"
 msgstr "Ir a Línea"
 
-#: global.c:425
+#: global.c:441
 msgid "Find Other Bracket"
 msgstr "Buscar la otra llave"
 
-#: global.c:435 global.c:468 global.c:501 global.c:513 global.c:538
-#: global.c:552 global.c:563 global.c:588 winio.c:1306
+#: global.c:451 global.c:484 global.c:517 global.c:529 global.c:554
+#: global.c:568 global.c:579 global.c:604 winio.c:1307
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: global.c:437 global.c:470 global.c:503 global.c:516
+#: global.c:453 global.c:486 global.c:519 global.c:532
 msgid "First Line"
 msgstr "Primera Línea"
 
-#: global.c:440 global.c:473 global.c:506 global.c:519
+#: global.c:456 global.c:489 global.c:522 global.c:535
 msgid "Last Line"
 msgstr "Última Línea"
 
-#: global.c:451 global.c:484
+#: global.c:467 global.c:500
 msgid "Case Sens"
 msgstr "May/Min"
 
-#: global.c:454 global.c:487
+#: global.c:470 global.c:503
 msgid "Direction"
 msgstr "Dirección"
 
-#: global.c:459 global.c:492
+#: global.c:475 global.c:508
 msgid "Regexp"
 msgstr "ExpReg"
 
-#: global.c:476
+#: global.c:492
 msgid "No Replace"
 msgstr "No Reemplazar"
 
-#: global.c:542 global.c:556
+#: global.c:558 global.c:572
 msgid "To Files"
 msgstr "A Ficheros"
 
-#: global.c:546
+#: global.c:562
 msgid "Append"
 msgstr "Añadir"
 
-#: global.c:582
+#: global.c:598
 msgid "Goto"
 msgstr "Ir a"
 
-#: nano.c:177
+#: nano.c:179
 #, c-format
 msgid ""
 "\n"
@@ -599,7 +605,7 @@ msgstr ""
 "\n"
 "Buffer escrito en %s\n"
 
-#: nano.c:179
+#: nano.c:181
 #, c-format
 msgid ""
 "\n"
@@ -608,11 +614,11 @@ msgstr ""
 "\n"
 "No se ha escrito %s (¿existe el fichero?)\n"
 
-#: nano.c:186
+#: nano.c:188
 msgid "Window size is too small for Nano..."
 msgstr "El tamaño de la terminal es demasiado pequeña para Nano..."
 
-#: nano.c:194
+#: nano.c:196
 msgid "Key illegal in VIEW mode"
 msgstr "Tecla ilegal en modo VISUALIZACIÓN"
 
@@ -620,7 +626,7 @@ msgstr "Tecla ilegal en modo VISUALIZACIÓN"
 # queda mucho más natural.
 # de tu teclado -> del teclado, no hace falta decir de quién es :-)
 # son accedidas -> se accede a ellas. sv
-#: nano.c:246
+#: nano.c:248
 msgid ""
 " nano help text\n"
 "\n"
@@ -633,9 +639,9 @@ msgid ""
 "commonly used shortcuts in the editor.\n"
 "\n"
 " The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
-"key sequences are notated with the Meta (M) symbol and can be entered using "
-"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
+"with a caret (^) symbol and are entered with the Control (Ctrl) key.  "
+"Escape-key sequences are notated with the Meta (M) symbol and can be entered "
+"using either the Esc, Alt or Meta key depending on your keyboard setup.  The "
 "following keystrokes are available in the main editor window. Optional keys "
 "are shown in parentheses:\n"
 "\n"
@@ -659,15 +665,15 @@ msgstr ""
 "teclas opcionales están representadas entre paréntesis:\n"
 "\n"
 
-#: nano.c:345
+#: nano.c:347
 msgid "delete_node(): free'd a node, YAY!\n"
 msgstr "delete_node(): liberado un nodo, ¡YEAH!\n"
 
-#: nano.c:350
+#: nano.c:352
 msgid "delete_node(): free'd last node.\n"
 msgstr "delete_node(): liberado el último nodo.\n"
 
-#: nano.c:407
+#: nano.c:409
 msgid ""
 "Usage: nano [GNU long option] [option] +LINE <file>\n"
 "\n"
@@ -675,105 +681,109 @@ msgstr ""
 "Uso: nano [opción larga GNU] [opción] +LÍNEA <fichero>\n"
 "\n"
 
-#: nano.c:408
+#: nano.c:410
 msgid "Option\t\tLong option\t\tMeaning\n"
 msgstr "Opción\t\tOpción larga\t\tSignificado\n"
 
-#: nano.c:413
+#: nano.c:415
 msgid " -D \t\t--dos\t\t\tWrite file in DOS format\n"
 msgstr " -D \t\t--dos\t\t\tEscribir fichero en formato DOS\n"
 
-#: nano.c:418
+#: nano.c:420
 msgid " -F \t\t--multibuffer\t\tEnable multiple file buffers\n"
 msgstr " -F \t\t--multibuffer\t\tHabilitar múltiples buffers de ficheros\n"
 
 #: nano.c:423
+msgid " -K \t\t--keypad\t\tUse alternate keypad routines\n"
+msgstr ""
+
+#: nano.c:427
 msgid " -M \t\t--mac\t\t\tWrite file in Mac format\n"
 msgstr " -M \t\t--mac\t\t\tEscribir fichero en formato Mac\n"
 
-#: nano.c:427
+#: nano.c:431
 msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
 msgstr " -R\t\t--regexp\t\tUsar expresiones regulares para las búsquedas\n"
 
-#: nano.c:431
+#: nano.c:435
 msgid " -S\t\t--smooth\t\tSmooth scrolling\n"
 msgstr " -S\t\t--smooth\t\tDesplazamiento suave\n"
 
-#: nano.c:434
+#: nano.c:438
 msgid " -T [num]\t--tabsize=[num]\t\tSet width of a tab to num\n"
 msgstr " -T [num]\t--tabsize=[num]\t\tFijar el ancho de tab en num\n"
 
-#: nano.c:437
+#: nano.c:441
 msgid " -V \t\t--version\t\tPrint version information and exit\n"
 msgstr " -V \t\t--version\t\tImprimir versión y salir\n"
 
-#: nano.c:439
+#: nano.c:443
 msgid " -c \t\t--const\t\t\tConstantly show cursor position\n"
 msgstr " -c \t\t--const\t\t\tMostrar constantemente la posición del cursor\n"
 
-#: nano.c:441
+#: nano.c:445
 msgid " -h \t\t--help\t\t\tShow this message\n"
 msgstr " -h \t\t--help\t\t\tMostrar este mensaje\n"
 
-#: nano.c:444
+#: nano.c:448
 msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
 msgstr " -i \t\t--autoindent\t\tIndentar automáticamente nuevas líneas\n"
 
-#: nano.c:446
+#: nano.c:450
 msgid " -k \t\t--cut\t\t\tLet ^K cut from cursor to end of line\n"
 msgstr " -k \t\t--cut\t\t\t^K corta desde el cursor al final de línea\n"
 
-#: nano.c:449
+#: nano.c:453
 msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
 msgstr " -l \t\t--nofollow\t\tNo seguir enlaces simbólicos, sobreescribirlos\n"
 
-#: nano.c:452
+#: nano.c:456
 msgid " -m \t\t--mouse\t\t\tEnable mouse\n"
 msgstr " -m \t\t--mouse\t\t\tHabilitar ratón\n"
 
-#: nano.c:457
+#: nano.c:461
 msgid " -o [dir] \t--operatingdir=[dir]\tSet operating directory\n"
 msgstr ""
 " -o [dir] \t--operatingdir=[dir]\tEstablecer el directorio de operación\n"
 
-#: nano.c:460
+#: nano.c:464
 msgid " -p \t\t--pico\t\t\tEmulate Pico as closely as possible\n"
 msgstr " -p \t\t--pico\t\t\tEmular a Pico lo máximo posible\n"
 
-#: nano.c:465
+#: nano.c:469
 msgid ""
 " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
 msgstr " -r [#cols] \t--fill=[#cols]\t\tRellenar columnas (wrapear en) #cols\n"
 
-#: nano.c:469
+#: nano.c:473
 msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
 msgstr " -s [prog] \t--speller=[prog]\tHabilitar corrector alternativo\n"
 
-#: nano.c:472
+#: nano.c:476
 msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
 msgstr " -t \t\t--tempfile\t\tAutosalvar al salir, sin preguntar\n"
 
-#: nano.c:474
+#: nano.c:478
 msgid " -v \t\t--view\t\t\tView (read only) mode\n"
 msgstr " -v \t\t--view\t\t\tModo visualización (sólo lectura)\n"
 
-#: nano.c:477
+#: nano.c:481
 msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
 msgstr " -w \t\t--nowrap\t\tNo wrapear líneas largas\n"
 
-#: nano.c:480
+#: nano.c:484
 msgid " -x \t\t--nohelp\t\tDon't show help window\n"
 msgstr " -x \t\t--nohelp\t\tNo mostrar la ventana de ayuda\n"
 
-#: nano.c:482
+#: nano.c:486
 msgid " -z \t\t--suspend\t\tEnable suspend\n"
 msgstr " -z \t\t--suspend\t\tHabilitar suspensión\n"
 
-#: nano.c:484
+#: nano.c:488
 msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
 msgstr " +LINE\t\t\t\t\tComenzar en la línea número LÍNEA\n"
 
-#: nano.c:486
+#: nano.c:490
 msgid ""
 "Usage: nano [option] +LINE <file>\n"
 "\n"
@@ -781,112 +791,118 @@ msgstr ""
 "Uso: nano [opción] +LÍNEA <fichero>\n"
 "\n"
 
-#: nano.c:487
+#: nano.c:491
 msgid "Option\t\tMeaning\n"
 msgstr "Opción\t\tSignificado\n"
 
-#: nano.c:489
+#: nano.c:493
 msgid " -D \t\tWrite file in DOS format\n"
 msgstr " -D \t\tEscribir fichero en formato DOS\n"
 
-#: nano.c:492
+#: nano.c:496
 msgid " -F \t\tEnable multiple file buffers\n"
 msgstr " -F \t\tHabilitar múltiples buffers de ficheros\n"
 
-#: nano.c:495
+#: nano.c:498
+msgid ""
+" -K\t\tUse alternate keypad routines\n"
+"\n"
+msgstr ""
+
+#: nano.c:500
 msgid " -M \t\tWrite file in Mac format\n"
 msgstr " -M \t\tEscribir fichero en formato Mac\n"
 
-#: nano.c:497
-msgid " -T [num]\tSet width of a tab to num\n"
-msgstr " -T [num]\tFijar el ancho de tab a num\n"
-
-#: nano.c:498
+#: nano.c:502
 msgid " -R\t\tUse regular expressions for search\n"
 msgstr " -R\t\tUsar expresiones regulares para las búsquedas\n"
 
-#: nano.c:500
+#: nano.c:504
 msgid " -S\t\tSmooth scrolling\n"
 msgstr " -S\t\tDesplazamiento suave\n"
 
-#: nano.c:502
+#: nano.c:506
+msgid " -T [num]\tSet width of a tab to num\n"
+msgstr " -T [num]\tFijar el ancho de tab a num\n"
+
+#: nano.c:507
 msgid " -V \t\tPrint version information and exit\n"
 msgstr " -V \t\tImprimir información sobre la versión y salir\n"
 
-#: nano.c:503
+#: nano.c:508
 msgid " -c \t\tConstantly show cursor position\n"
 msgstr " -c \t\tMostrar constantemente la posición del cursor\n"
 
-#: nano.c:504
+#: nano.c:509
 msgid " -h \t\tShow this message\n"
 msgstr " -h \t\tMostrar este mensaje\n"
 
-#: nano.c:506
+#: nano.c:511
 msgid " -i \t\tAutomatically indent new lines\n"
 msgstr " -v \t\tIndentar automáticamente nuevas líneas\n"
 
-#: nano.c:507
+#: nano.c:512
 msgid " -k \t\tLet ^K cut from cursor to end of line\n"
 msgstr " -k \t\t^K corta desde el cursor al final de línea\n"
 
-#: nano.c:510
+#: nano.c:515
 msgid " -l \t\tDon't follow symbolic links, overwrite\n"
 msgstr " -l \t\tNo seguir enlaces simbólicos, sobreescribirlos\n"
 
-#: nano.c:513
+#: nano.c:518
 msgid " -m \t\tEnable mouse\n"
 msgstr " -m \t\tHabilitar ratón\n"
 
-#: nano.c:517
+#: nano.c:522
 msgid " -o [dir] \tSet operating directory\n"
 msgstr "-o [dir] \tEstablecer el directorio de operación\n"
 
-#: nano.c:519
+#: nano.c:524
 msgid " -p \t\tEmulate Pico as closely as possible\n"
 msgstr " -p \t\tEmular a Pico lo máximo posible\n"
 
-#: nano.c:523
+#: nano.c:528
 msgid " -r [#cols] \tSet fill cols to (wrap lines at) #cols\n"
 msgstr " -r [#cols] \tRellenar columnas (wrapear líneas en) #cols\n"
 
-#: nano.c:526
+#: nano.c:531
 msgid " -s [prog]  \tEnable alternate speller\n"
 msgstr " -s [prog] \tHabilitar corrector alternativo\n"
 
-#: nano.c:528
+#: nano.c:533
 msgid " -t \t\tAuto save on exit, don't prompt\n"
 msgstr " -t \t\tAutosalvar al salir, no preguntar\n"
 
-#: nano.c:529
+#: nano.c:534
 msgid " -v \t\tView (read only) mode\n"
 msgstr " -v \t\tModo visualización (sólo lectura)\n"
 
-#: nano.c:531
+#: nano.c:536
 msgid " -w \t\tDon't wrap long lines\n"
 msgstr " -w \t\tNo wrapear líneas largas\n"
 
-#: nano.c:533
+#: nano.c:538
 msgid " -x \t\tDon't show help window\n"
 msgstr " -x \t\tNo mostrar la ventana de ayuda\n"
 
-#: nano.c:534
+#: nano.c:539
 msgid " -z \t\tEnable suspend\n"
 msgstr " -z \t\tHabilitar suspensión\n"
 
-#: nano.c:535
+#: nano.c:540
 msgid " +LINE\t\tStart at line number LINE\n"
 msgstr " +LÍNEA\t\tComenzar en la línea número LÍNEA\n"
 
-#: nano.c:542
+#: nano.c:547
 #, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
 msgstr " GNU nano versión %s (compilado %s, %s)\n"
 
-#: nano.c:545
+#: nano.c:550
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 msgstr " Correo-e: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 
-#: nano.c:546
+#: nano.c:551
 msgid ""
 "\n"
 " Compiled options:"
@@ -894,97 +910,97 @@ msgstr ""
 "\n"
 " Opciones compiladas:"
 
-#: nano.c:635
+#: nano.c:640
 msgid "Mark Set"
 msgstr "Marca Establecida"
 
-#: nano.c:640
+#: nano.c:645
 msgid "Mark UNset"
 msgstr "Marca Borrada"
 
-#: nano.c:1262
+#: nano.c:1267
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap llamada con inptr->data=\"%s\"\n"
 
-#: nano.c:1314
+#: nano.c:1319
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data ahora = \"%s\"\n"
 
-#: nano.c:1366
+#: nano.c:1371
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Después, data = \"%s\"\n"
 
-#: nano.c:1475
+#: nano.c:1480
 msgid "Edit a replacement"
 msgstr "Editar un reemplazo"
 
 # Ídem con lo de la primera persona. No se pudo. sv
-#: nano.c:1712
+#: nano.c:1717
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "No se pudo crear un fichero temporal: %s"
 
-#: nano.c:1718
+#: nano.c:1723
 msgid "Spell checking failed: unable to write temp file!"
 msgstr ""
 "Comprobación de ortografía fallida: ¡no se pudo escribir fichero temporal!"
 
-#: nano.c:1738
+#: nano.c:1743
 msgid "Finished checking spelling"
 msgstr "Revisión de ortografía finalizada"
 
-#: nano.c:1740
+#: nano.c:1745
 msgid "Spell checking failed"
 msgstr "Comprobación de ortografía fallida"
 
-#: nano.c:1769
+#: nano.c:1774
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 "¿ Salvar el buffer modificado (RESPONDER \"No\" DESTRUIRÁ LOS CAMBIOS) ?"
 
-#: nano.c:1916
+#: nano.c:1921
 msgid "Received SIGHUP"
 msgstr "SIGHUP recibido"
 
-#: nano.c:1983
+#: nano.c:1988
 msgid "Cannot resize top win"
 msgstr "No se puede cambiar el tamaño de la ventana superior"
 
-#: nano.c:1985
+#: nano.c:1990
 msgid "Cannot move top win"
 msgstr "No se puede mover la ventana superior"
 
-#: nano.c:1987
+#: nano.c:1992
 msgid "Cannot resize edit win"
 msgstr "No se puede cambiar el tamaño de la ventana de edición"
 
-#: nano.c:1989
+#: nano.c:1994
 msgid "Cannot move edit win"
 msgstr "No se puede mover la ventana de edición"
 
-#: nano.c:1991
+#: nano.c:1996
 msgid "Cannot resize bottom win"
 msgstr "No se puede cambiar el tamaño de la ventana inferior"
 
-#: nano.c:1993
+#: nano.c:1998
 msgid "Cannot move bottom win"
 msgstr "No se puede mover la ventana inferior"
 
 # ahora se puede. sv
-#: nano.c:2332
+#: nano.c:2337
 msgid "Can now UnJustify!"
 msgstr "¡Ahora se puede desjustificar!"
 
-#: nano.c:2393
+#: nano.c:2403
 msgid ""
 "Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, then hit "
-"enter.  If there is a match for the text you entered, the screen will be "
-"updated to the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, then hit enter. "
+" If there is a match for the text you entered, the screen will be updated to "
+"the location of the nearest match for the search string.\n"
 "\n"
 " If using Pico Mode via the -p or --pico flags, using the Meta-P toggle or "
 "using a nanorc file, the previous search string will be shown in brackets "
@@ -1012,7 +1028,7 @@ msgstr ""
 " Las siguientes teclas de función están disponibles en el modo Búsqueda:\n"
 "\n"
 
-#: nano.c:2407
+#: nano.c:2417
 msgid ""
 "Goto Line Help Text\n"
 "\n"
@@ -1032,7 +1048,8 @@ msgstr ""
 " Las siguientes teclas de función están disponibles en el modo Ir a Línea:\n"
 "\n"
 
-#: nano.c:2414
+#: nano.c:2424
+#, fuzzy
 msgid ""
 "Insert File Help Text\n"
 "\n"
@@ -1042,7 +1059,7 @@ msgid ""
 " If you have compiled nano with multiple file buffer support, and enable "
 "multiple buffers with the -F or --multibuffer command line flags, the Meta-F "
 "toggle or using a nanorc file, inserting a file will cause it to be loaded "
-"into a separate buffer (use Ctrl-< and > to switch between file buffers).\n"
+"into a separate buffer (use Meta-< and > to switch between file buffers).\n"
 "\n"
 " The following function keys are available in Insert File mode:\n"
 "\n"
@@ -1062,7 +1079,7 @@ msgstr ""
 "Fichero:\n"
 "\n"
 
-#: nano.c:2425
+#: nano.c:2435
 msgid ""
 "Write File Help Text\n"
 "\n"
@@ -1092,15 +1109,15 @@ msgstr ""
 "Fichero:\n"
 "\n"
 
-#: nano.c:2437
+#: nano.c:2447
 msgid ""
 "File Browser Help Text\n"
 "\n"
 " The file browser is used to visually browse the directory structure to "
-"select a file for reading or writing.  You may use the arrow keys or Page Up/"
-"Down to browse through the files, and S or Enter to choose the selected file "
-"or enter the selected directory. To move up one level, select the directory "
-"called \"..\" at the top of the file list.\n"
+"select a file for reading or writing.  You may use the arrow keys or Page "
+"Up/Down to browse through the files, and S or Enter to choose the selected "
+"file or enter the selected directory. To move up one level, select the "
+"directory called \"..\" at the top of the file list.\n"
 "\n"
 " The following functions keys are available in the file browser:\n"
 "\n"
@@ -1118,7 +1135,7 @@ msgstr ""
 "ficheros:\n"
 "\n"
 
-#: nano.c:2448
+#: nano.c:2458
 msgid ""
 "Browser Goto Directory Help Text\n"
 "\n"
@@ -1140,7 +1157,7 @@ msgstr ""
 "Directorio del Navegador:\n"
 "\n"
 
-#: nano.c:2456
+#: nano.c:2466
 msgid ""
 "Spell Check Help Text\n"
 "\n"
@@ -1163,62 +1180,62 @@ msgstr ""
 "de ortografía:\n"
 "\n"
 
-#: nano.c:2540
+#: nano.c:2550
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s habilitar/deshabilitar"
 
-#: nano.c:2559
+#: nano.c:2569
 msgid "enabled"
 msgstr "habilitado"
 
-#: nano.c:2560
+#: nano.c:2570
 msgid "disabled"
 msgstr "deshabilitado"
 
-#: nano.c:2624
+#: nano.c:2634
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "Detectado NumLock roto.  El tecl. numérico funcionará con NumLock activado"
 
-#: nano.c:2916
+#: nano.c:2931
 msgid "Main: set up windows\n"
 msgstr "Main: configurar las ventanas\n"
 
-#: nano.c:2928
+#: nano.c:2948
 msgid "Main: bottom win\n"
 msgstr "Main: ventana inferior\n"
 
-#: nano.c:2934
+#: nano.c:2954
 msgid "Main: open file\n"
 msgstr "Main: abrir fichero\n"
 
-#: nano.c:2993
+#: nano.c:3013
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "¡Pillé Alt-O-%c! (%d)\n"
 
-#: nano.c:3027
+#: nano.c:3047
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "¡Pillé Alt-[-1-%c! (%d)\n"
 
-#: nano.c:3057
+#: nano.c:3077
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "¡Pillé Alt-[-2-%c! (%d)\n"
 
-#: nano.c:3132
+#: nano.c:3146
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "¡Pillé Alt-[-%c! (%d)\n"
 
-#: nano.c:3167
+#: nano.c:3183
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "¡Pillé Alt-%c! (%d)\n"
 
-#: rcfile.c:84
+#: rcfile.c:85
 msgid ""
 "\n"
 "Press return to continue starting nano\n"
@@ -1226,55 +1243,55 @@ msgstr ""
 "\n"
 "Pulsa enter para iniciar nano\n"
 
-#: rcfile.c:281
+#: rcfile.c:282
 msgid "parse_rcfile: Read a comment\n"
 msgstr "parse_rcfile: Comentario leído\n"
 
 # en la línea. sv
 # el comando -> la orden.
-#: rcfile.c:302
+#: rcfile.c:303
 #, c-format
 msgid "Error in %s on line %d: command %s not understood"
 msgstr "Error en %s en la línea %d: no entiendo la orden %s"
 
 # Analizando la opción. sv
-#: rcfile.c:315
+#: rcfile.c:316
 #, c-format
 msgid "parse_rcfile: Parsing option %s\n"
 msgstr "parse_rcfile: Analizando opción %s\n"
 
-#: rcfile.c:333
+#: rcfile.c:334
 #, c-format
 msgid "Error in %s on line %d: option %s requires an argument"
 msgstr "Error en %s en la línea %d: la opción %s requiere un argumento"
 
-#: rcfile.c:344
+#: rcfile.c:345
 #, c-format
 msgid "Error in %s on line %d: requested fill size %d too small"
 msgstr "Error en %s en la línea %d: tamaño de llenado %d demasiado pequeño"
 
-#: rcfile.c:353
+#: rcfile.c:354
 #, c-format
 msgid "Error in %s on line %d: requested tab size %d too small"
 msgstr "Error en %s en la línea %d: tamaño de tabulador %d demasiado pequeño"
 
-#: rcfile.c:367
+#: rcfile.c:368
 #, c-format
 msgid "set flag %d!\n"
 msgstr "establecer marca %d!\n"
 
-#: rcfile.c:372
+#: rcfile.c:373
 #, c-format
 msgid "unset flag %d!\n"
 msgstr "quitar marca %d!\n"
 
 # Se encontraron errores en el fichero .nanorc. sv
-#: rcfile.c:381
+#: rcfile.c:382
 msgid "Errors found in .nanorc file"
 msgstr "Se encontraron errores en el fichero .nanorc"
 
 # No se puede abrir. sv
-#: rcfile.c:390
+#: rcfile.c:391
 #, c-format
 msgid "Unable to open ~/.nanorc file, %s"
 msgstr "No se puede abrir fichero ~/.nanorc, %s"
@@ -1424,17 +1441,17 @@ msgstr " DIR: "
 msgid "Modified"
 msgstr "Modificado"
 
-#: winio.c:1165
+#: winio.c:1166
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr "Moviendo a (%d, %d) en buffer de edición\n"
 
-#: winio.c:1176
+#: winio.c:1177
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr "current->data = \"%s\"\n"
 
-#: winio.c:1250
+#: winio.c:1251
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "Pillé \"%s\"\n"
@@ -1442,81 +1459,80 @@ msgstr "Pillé \"%s\"\n"
 #. Yes, no and all are strings of any length.  Each string consists of
 #. all characters accepted as a valid character for that value.
 #. The first value will be the one displayed in the shortcuts.
-#: winio.c:1279
+#: winio.c:1280
 msgid "Yy"
 msgstr "Ss"
 
-#: winio.c:1280
+#: winio.c:1281
 msgid "Nn"
 msgstr "Nn"
 
-#: winio.c:1281
+#: winio.c:1282
 msgid "Aa"
 msgstr "Tt"
 
-#: winio.c:1295
+#: winio.c:1296
 msgid "Yes"
 msgstr "Sí"
 
-#: winio.c:1299
+#: winio.c:1300
 msgid "All"
 msgstr "Todas"
 
-#: winio.c:1304
+#: winio.c:1305
 msgid "No"
 msgstr "No"
 
-#: winio.c:1511
+#: winio.c:1512
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
-#: winio.c:1519
-#, c-format
+#: winio.c:1520
 msgid "line %d of %d (%.0f%%), character %ld of %ld (%.0f%%)"
 msgstr "línea %d de %d (%.0f%%), carácter %ld de %ld (%.0f%%)"
 
-#: winio.c:1684
+#: winio.c:1685
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Volcando buffer de fichero a stderr...\n"
 
-#: winio.c:1686
+#: winio.c:1687
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Volcando el cutbuffer a stderr...\n"
 
-#: winio.c:1688
+#: winio.c:1689
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Volcando un buffer a stderr...\n"
 
-#: winio.c:1763
+#: winio.c:1764
 msgid "The nano text editor"
 msgstr "El editor de textos GNU nano"
 
-#: winio.c:1764
+#: winio.c:1765
 msgid "version "
 msgstr "versión "
 
-#: winio.c:1765
+#: winio.c:1766
 msgid "Brought to you by:"
 msgstr "Por cortesía de:"
 
-#: winio.c:1766
+#: winio.c:1767
 msgid "Special thanks to:"
 msgstr "Agradecimientos especiales para:"
 
-#: winio.c:1767
+#: winio.c:1768
 msgid "The Free Software Foundation"
 msgstr "La Free Software Foundation"
 
-#: winio.c:1768
+#: winio.c:1769
 msgid "Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses"
 msgstr "Pavel Curtis, Zeyd Ben-Halim y Eric S. Raymond por ncurses"
 
-#: winio.c:1769
+#: winio.c:1770
 msgid "and anyone else we forgot..."
 msgstr "y cualquiera del que nos hayamos olvidado..."
 
-#: winio.c:1770
+#: winio.c:1771
 msgid "Thank you for using nano!\n"
 msgstr "¡Gracias por usar nano!\n"
 
