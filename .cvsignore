@@ -8,6 +8,11 @@ config.h.in
 config.log
 config.status
 configure
+config.guess
+config.sub
+install-sh
+missing
+mkinstalldirs
 nano
 nano.info
 stamp-h
