@@ -885,6 +885,7 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 	matchBuf = (char *) nmalloc((strlen(buf) + 2) * sizeof(char));
 
 	strncpy(matchBuf, buf, place);
+	matchBuf[place] = (char) NULL;
 	tmp = matchBuf;
 
 	/* skip any leading white space */
