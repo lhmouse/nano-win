@@ -1002,7 +1002,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, int allow_shortcuts)
 	 * both. */
 	if (s->ctrlval != NANO_NO_KEY)
 	    ungetch(s->ctrlval);
-	else {
+	else if (s->ctrlval != NANO_NO_KEY) {
 	    ungetch(s->metaval);
 	    ungetch(NANO_CONTROL_3);
 	}
@@ -1109,19 +1109,16 @@ void blank_statusbar(void)
     mvwaddstr(bottomwin, 0, 0, hblank);
 }
 
-void blank_statusbar_refresh(void)
-{
-    blank_statusbar();
-    wrefresh(bottomwin);
-}
-
 void check_statblank(void)
 {
     if (statblank > 1)
 	statblank--;
     else if (statblank == 1 && !ISSET(CONSTUPDATE)) {
-	statblank--;
-	blank_statusbar_refresh();
+	statblank = 0;
+	blank_statusbar();
+	wnoutrefresh(bottomwin);
+	reset_cursor();
+	wrefresh(edit);
     }
 }
 
@@ -1544,50 +1541,143 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 
 void titlebar(const char *path)
 {
-    int namelen, space;
-    const char *what = path;
+    size_t space;
+	/* The space we have available for display. */
+    size_t verlen = strlen(VERMSG) + 1;
+	/* The length of the version message. */
+    const char *prefix;
+	/* "File:", "Dir:", or "New Buffer".  Goes before filename. */
+    size_t prefixlen;
+	/* strlen(prefix) + 1. */
+    const char *state;
+	/* "Modified", "View", or spaces the length of "Modified".
+	 * Tells the state of this buffer. */
+    size_t statelen = 0;
+	/* strlen(state) + 1. */
+    char *exppath = NULL;
+	/* The file name, expanded for display. */
+    size_t explen = 0;
+	/* strlen(exppath) + 1. */
+    int newbuffer = FALSE;
+	/* Do we say "New Buffer"? */
+    int dots = FALSE;
+	/* Do we put an ellipsis before the path? */
 
-    if (path == NULL)
-	what = filename;
+    assert(path != NULL || filename != NULL);
+    assert(COLS >= 0);
 
     wattron(topwin, A_REVERSE);
 
     blank_titlebar();
-    mvwaddnstr(topwin, 0, 2, VERMSG, COLS - 3);
 
-    space = COLS - sizeof(VERMSG) - 23;
+    if (COLS <= 5 || COLS - 5 < verlen)
+	space = 0;
+    else {
+	space = COLS - 5 - verlen;
+	/* Reserve 2/3 of the screen for after the version message. */
+	if (space < COLS - (COLS / 3))
+	    space = COLS - (COLS / 3);
+    }
 
-    namelen = strlen(what);
+    if (COLS > 4) {
+	/* The version message should only take up 1/3 of the screen. */
+	mvwaddnstr(topwin, 0, 2, VERMSG, COLS / 3);
+	waddstr(topwin, "  ");
+    }
 
-    if (space > 0) {
-        if (what[0] == '\0')
-      	    mvwaddnstr(topwin, 0, COLS / 2 - 6, _("New Buffer"),
-			COLS / 2 + COLS % 2 - 6);
-        else if (namelen > space) {
-	    if (path == NULL)
-		waddstr(topwin, _("  File: ..."));
-	    else
-		waddstr(topwin, _("   DIR: ..."));
-	    waddstr(topwin, &what[namelen - space]);
-	} else {
-	    if (path == NULL)
-		mvwaddstr(topwin, 0, COLS / 2 - (namelen / 2 + 1),
-				_("File: "));
-	    else
-		mvwaddstr(topwin, 0, COLS / 2 - (namelen / 2 + 1),
-				_(" DIR: "));
-	    waddstr(topwin, what);
-	}
-    } /* If we don't have space, we shouldn't bother */
     if (ISSET(MODIFIED))
-	mvwaddnstr(topwin, 0, COLS - 11, _(" Modified "), 11);
-    else if (ISSET(VIEW_MODE))
-	mvwaddnstr(topwin, 0, COLS - 11, _(" View "), 11);
+	state = _("Modified");
+    else if (path == NULL && ISSET(VIEW_MODE))
+	state = _("View");
+    else {
+	if (space > 0)
+	    statelen = strnlen(_("Modified"), space - 1) + 1;
+	state = &hblank[COLS - statelen];
+    }
+    statelen = strnlen(state, COLS);
+    /* We need a space before state. */
+    if ((ISSET(MODIFIED) || ISSET(VIEW_MODE)) && statelen < COLS)
+	statelen++;
+
+    assert(space >= 0);
+    if (space == 0 || statelen >= space)
+	goto the_end;
+
+#ifndef DISABLE_BROWSER
+    if (path != NULL)
+	prefix = _("DIR:");
+    else
+#endif
+    if (filename[0] == '\0') {
+	prefix = _("New Buffer");
+	newbuffer = TRUE;
+    } else
+	prefix = _("File:");
+    assert(statelen < space);
+    prefixlen = strnlen(prefix, space - statelen);
+    /* If newbuffer is FALSE, we need a space after prefix. */
+    if (!newbuffer && prefixlen + statelen < space)
+	prefixlen++;
+
+    if (path == NULL)
+	path = filename;
+    if (space > prefixlen + statelen)
+	space -= prefixlen + statelen;
+    else
+	space = 0;
+	/* space is now the room we have for the file name. */
+    if (!newbuffer) {
+	size_t lenpt = strlenpt(path), start_col;
+
+	if (lenpt > space)
+	    start_col = actual_x(path, lenpt - space);
+	else
+	    start_col = 0;
+	exppath = display_string(path, start_col, space);
+	dots = (lenpt > space);
+	explen = strlen(exppath);
+    }
+
+    if (!dots) {
+	/* There is room for the whole filename, so we center it. */
+	waddnstr(topwin, hblank, (space - explen) / 3);
+	waddnstr(topwin, prefix, prefixlen);
+	if (!newbuffer) {
+	    assert(strlen(prefix) + 1 == prefixlen);
+	    waddch(topwin, ' ');
+	    waddstr(topwin, exppath);
+	}
+    } else {
+	/* We will say something like "File: ...ename". */
+	waddnstr(topwin, prefix, prefixlen);
+	if (space == 0 || newbuffer)
+	    goto the_end;
+	waddch(topwin, ' ');
+	waddnstr(topwin, "...", space);
+	if (space <= 3)
+	    goto the_end;
+	space -= 3;
+	assert(explen = space + 3);
+	waddnstr(topwin, exppath + 3, space);
+    }
+
+  the_end:
+
+    free(exppath);
+
+    if (COLS <= 1 || statelen >= COLS - 1)
+	mvwaddnstr(topwin, 0, 0, state, COLS);
+    else {
+	assert(COLS - statelen - 2 >= 0);
+	mvwaddch(topwin, 0, COLS - statelen - 2, ' ');
+	mvwaddnstr(topwin, 0, COLS - statelen - 1, state, statelen);
+    }
 
     wattroff(topwin, A_REVERSE);
 
-    wrefresh(topwin);
+    wnoutrefresh(topwin);
     reset_cursor();
+    wrefresh(edit);
 }
 
 /* If modified is not already set, set it and update titlebar. */
@@ -1596,7 +1686,6 @@ void set_modified(void)
     if (!ISSET(MODIFIED)) {
 	SET(MODIFIED);
 	titlebar(NULL);
-	wrefresh(topwin);
     }
 }
 
@@ -1650,79 +1739,75 @@ void statusbar(const char *msg, ...)
 
 void bottombars(const shortcut *s)
 {
-    int i, j, numcols;
-    char keystr[9];
-    int slen;
+    size_t i, colwidth, slen;
+    char *keystr;
 
     if (ISSET(NO_HELP))
 	return;
 
     if (s == main_list) {
 	slen = MAIN_VISIBLE;
-	assert(MAIN_VISIBLE <= length_of_list(s));
+	assert(slen <= length_of_list(s));
     } else {
 	slen = length_of_list(s);
 
-	/* Don't show any more shortcuts than the main list does */
+	/* Don't show any more shortcuts than the main list does. */
 	if (slen > MAIN_VISIBLE)
 	    slen = MAIN_VISIBLE;
     }
 
-    /* There will be this many columns of shortcuts */
-    numcols = (slen + (slen % 2)) / 2;
+    /* There will be this many characters per column.  We need at least
+     * 3 to display anything properly.*/
+    colwidth = COLS / ((slen / 2) + (slen % 2));
+    keystr = charalloc(colwidth);
 
     blank_bottombars();
 
-    for (i = 0; i < numcols; i++) {
-	for (j = 0; j <= 1; j++) {
+    for (i = 0; i < slen; i++, s = s->next) {
+	wmove(bottomwin, 1 + i % 2, (i / 2) * colwidth);
 
-	    wmove(bottomwin, 1 + j, i * (COLS / numcols));
-
-	    /* Yucky sentinel values we can't handle a better way */
-	    if (s->ctrlval != NANO_NO_KEY) {
+	/* Yucky sentinel values we can't handle a better way. */
 #ifndef NANO_SMALL
-		if (s->ctrlval == NANO_HISTORY_KEY)
-		    strncpy(keystr, _("Up"), 8);
-		else
+	if (s->ctrlval == NANO_HISTORY_KEY)
+	    strncpy(keystr, _("Up"), colwidth);
+	else
 #endif
-		if (s->ctrlval == NANO_CONTROL_SPACE)
-		    strcpy(keystr, "^ ");
-		else if (s->ctrlval == NANO_CONTROL_8)
-		    strcpy(keystr, "^?");
-		else
-		    sprintf(keystr, "^%c", s->ctrlval + 64);
-	    } else if (s->metaval != NANO_NO_KEY)
-		sprintf(keystr, "M-%c", toupper(s->metaval));
+	if (s->ctrlval == NANO_CONTROL_SPACE)
+	    strncpy(keystr, "^ ", colwidth);
+	else if (s->ctrlval == NANO_CONTROL_8)
+	    strncpy(keystr, "^?", colwidth);
+	/* Normal values.  Assume that the shortcut has an equivalent
+	 * control key, meta key sequence, or both. */
+	else if (s->ctrlval != NANO_NO_KEY)
+	    snprintf(keystr, colwidth, "^%c", s->ctrlval + 64);
+	else if (s->metaval != NANO_NO_KEY)
+	    snprintf(keystr, colwidth, "M-%c", toupper(s->metaval));
 
-	    onekey(keystr, s->desc, COLS / numcols);
-
-	    s = s->next;
-	    if (s == NULL)
-		goto break_completely_out;
-	}
+	onekey(keystr, s->desc, colwidth);
     }
 
-  break_completely_out:
-    wrefresh(bottomwin);
+    free(keystr);
+
+    wnoutrefresh(bottomwin);
+    reset_cursor();
+    wrefresh(edit);
 }
 
-/* Write a shortcut key to the help area at the bottom of the window. 
- * keystroke is e.g. "^G" and desc is e.g. "Get Help".
- * We are careful to write exactly len characters, even if len is
- * very small and keystroke and desc are long. */
-void onekey(const char *keystroke, const char *desc, int len)
+/* Write a shortcut key to the help area at the bottom of the window.
+ * keystroke is e.g. "^G" and desc is e.g. "Get Help".  We are careful
+ * to write at most len characters, even if len is very small and
+ * keystroke and desc are long.  Note that waddnstr(,,(size_t)-1) adds
+ * the whole string!  We do not bother padding the entry with blanks. */
+void onekey(const char *keystroke, const char *desc, size_t len)
 {
+    assert(keystroke != NULL && desc != NULL && len >= 0);
     wattron(bottomwin, A_REVERSE);
     waddnstr(bottomwin, keystroke, len);
     wattroff(bottomwin, A_REVERSE);
-    len -= strlen(keystroke);
+    len -= strlen(keystroke) + 1;
     if (len > 0) {
 	waddch(bottomwin, ' ');
-	len--;
 	waddnstr(bottomwin, desc, len);
-	len -= strlen(desc);
-	for (; len > 0; len--)
-	    waddch(bottomwin, ' ');
     }
 }
 
@@ -2330,7 +2415,7 @@ int do_yesno(int all, const char *msg)
     nostr = _("Nn");
     allstr = _("Aa");
 
-    /* Remove gettext call for keybindings until we clear the thing
+    /* Remove gettext() call for keybindings until we clear the thing
      * up. */
     if (!ISSET(NO_HELP)) {
 	char shortstr[3];		/* Temp string for Y, N, A. */

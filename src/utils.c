@@ -209,6 +209,21 @@ const char *revstristr(const char *haystack, const char *needle, const
 }
 #endif /* !NANO_SMALL */
 
+#ifndef HAVE_STRNLEN
+/* This function is equivalent to strnlen(). */
+size_t nstrnlen(const char *s, size_t maxlen)
+{
+    size_t n = 0;
+
+    assert(s != NULL);
+
+    for (; maxlen > 0 && *s != '\0'; maxlen--, n++, s++)
+	;
+
+    return n;
+}
+#endif
+
 /* If we are searching backwards, we will find the last match that
  * starts no later than start.  Otherwise we find the first match
  * starting no earlier than start.  If we are doing a regexp search, we

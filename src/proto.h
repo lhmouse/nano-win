@@ -295,8 +295,8 @@ int do_wrap(filestruct *inptr);
 #endif
 #ifndef DISABLE_SPELLER
 int do_int_spell_fix(const char *word);
-char *do_int_speller(char *tempfile_name);
-char *do_alt_speller(char *tempfile_name);
+const char *do_int_speller(char *tempfile_name);
+const char *do_alt_speller(char *tempfile_name);
 int do_spell(void);
 #endif
 #if !defined(DISABLE_WRAPPING) && !defined(NANO_SMALL) || !defined(DISABLE_JUSTIFY)
@@ -447,6 +447,9 @@ const char *revstrstr(const char *haystack, const char *needle, const
 const char *revstristr(const char *haystack, const char *needle, const
 	char *rev_start);
 #endif
+#ifndef HAVE_STRNLEN
+size_t nstrnlen(const char *s, size_t maxlen);
+#endif
 const char *strstrwrapper(const char *haystack, const char *needle,
 	const char *start);
 void nperror(const char *s);
@@ -484,7 +487,6 @@ size_t strlenpt(const char *buf);
 void blank_titlebar(void);
 void blank_edit(void);
 void blank_statusbar(void);
-void blank_statusbar_refresh(void);
 void check_statblank(void);
 void blank_bottombars(void);
 char *display_string(const char *buf, size_t start_col, size_t len);
@@ -502,7 +504,7 @@ void titlebar(const char *path);
 void set_modified(void);
 void statusbar(const char *msg, ...);
 void bottombars(const shortcut *s);
-void onekey(const char *keystroke, const char *desc, int len);
+void onekey(const char *keystroke, const char *desc, size_t len);
 #ifndef NDEBUG
 int check_linenumbers(const filestruct *fileptr);
 #endif

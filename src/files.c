@@ -1453,7 +1453,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
     /* If NOFOLLOW_SYMLINKS is set, it doesn't make sense to prepend or
      * append to a symlink.  Here we warn about the contradiction. */
     if (ISSET(NOFOLLOW_SYMLINKS) && anyexists && S_ISLNK(lst.st_mode)) {
-	statusbar(_("Cannot prepend or append to a symlink with --nofollow set."));
+	statusbar(_("Cannot prepend or append to a symlink with --nofollow set"));
 	goto cleanup_and_exit;
     }
 
@@ -2592,7 +2592,7 @@ char *do_browser(const char *inpath)
 	char *new_path;
 	    /* Used by the Go To Directory prompt. */
 
-	blank_statusbar_refresh();
+	check_statblank();
 
 #if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
 	currshortcut = browser_list;
@@ -2951,7 +2951,7 @@ void load_history(void)
             if (errno != ENOENT) {
 		/* Don't save history when we quit. */
 		UNSET(HISTORYLOG);
-		rcfile_error(_("Unable to open ~/.nano_history file, %s"), strerror(errno));
+		rcfile_error(_("Unable to open ~/.nano_history file: %s"), strerror(errno));
 	    }
 	    free(nanohist);
 	} else {
@@ -3001,28 +3001,28 @@ void save_history(void)
     if (homenv != NULL || userage != NULL) {
 	hist = fopen(nanohist, "wb");
 	if (hist == NULL) {
-	    rcfile_msg(_("Unable to write ~/.nano_history file, %s"), strerror(errno));
+	    rcfile_msg(_("Unable to write ~/.nano_history file: %s"), strerror(errno));
 	} else {
 	    /* set rw only by owner for security ?? */
 	    chmod(nanohist, S_IRUSR | S_IWUSR);
 	    /* write oldest first */
-	    for (h = search_history.tail ; h->prev ; h = h->prev) {
+	    for (h = search_history.tail; h->prev; h = h->prev) {
 		h->data = charealloc(h->data, strlen(h->data) + 2);
 		strcat(h->data, "\n");
 		if (fputs(h->data, hist) == EOF) {
-		    rcfile_msg(_("Unable to write ~/.nano_history file, %s"), strerror(errno));
+		    rcfile_msg(_("Unable to write ~/.nano_history file: %s"), strerror(errno));
 		    goto come_from;
 		}
 	    }
 	    if (fputs("\n", hist) == EOF) {
-		    rcfile_msg(_("Unable to write ~/.nano_history file, %s"), strerror(errno));
+		    rcfile_msg(_("Unable to write ~/.nano_history file: %s"), strerror(errno));
 		    goto come_from;
 	    }
-	    for (h = replace_history.tail ; h->prev ; h = h->prev) {
+	    for (h = replace_history.tail; h->prev; h = h->prev) {
 		h->data = charealloc(h->data, strlen(h->data) + 2);
 		strcat(h->data, "\n");
 		if (fputs(h->data, hist) == EOF) {
-		    rcfile_msg(_("Unable to write ~/.nano_history file, %s"), strerror(errno));
+		    rcfile_msg(_("Unable to write ~/.nano_history file: %s"), strerror(errno));
 		    goto come_from;
 		}
 	    }

@@ -1531,7 +1531,7 @@ int do_int_spell_fix(const char *word)
 
 /* Integrated spell checking using 'spell' program.  Return value: NULL
  * for normal termination, otherwise the error string. */
-char *do_int_speller(char *tempfile_name)
+const char *do_int_speller(char *tempfile_name)
 {
     char *read_buff, *read_buff_ptr, *read_buff_word;
     size_t pipe_buff_size, read_buff_size, read_buff_read, bytesread;
@@ -1717,7 +1717,7 @@ char *do_int_speller(char *tempfile_name)
 
 /* External spell checking.  Return value: NULL for normal termination,
  * otherwise the error string. */
-char *do_alt_speller(char *tempfile_name)
+const char *do_alt_speller(char *tempfile_name)
 {
     int alt_spell_status, lineno_cur = current->lineno;
     int x_cur = current_x, y_cur = current_y, pww_cur = placewewant;
@@ -1814,11 +1814,11 @@ char *do_alt_speller(char *tempfile_name)
 int do_spell(void)
 {
     int i;
-    char *temp, *spell_msg;
+    char *temp = safe_tempnam(0, "nano.");
+    const char *spell_msg;
 
-    if ((temp = safe_tempnam(0, "nano.")) == NULL) {
-	statusbar(_("Could not create a temporary filename: %s"),
-		  strerror(errno));
+    if (temp == NULL) {
+	statusbar(_("Could not create temp file: %s"), strerror(errno));
 	return 0;
     }
 
@@ -1830,7 +1830,7 @@ int do_spell(void)
 	i = write_file(temp, 1, 0, 0);
 
     if (i == -1) {
-	statusbar(_("Spell checking failed: unable to write temp file!"));
+	statusbar(_("Unable to write temp file: %s"), strerror(errno));
 	free(temp);
 	return 0;
     }
@@ -1841,19 +1841,18 @@ int do_spell(void)
     add_open_file(1);
 #endif
 
-    if (alt_speller != NULL)
-	spell_msg = do_alt_speller(temp);
-    else
-	spell_msg = do_int_speller(temp);
+    spell_msg = alt_speller != NULL ? do_alt_speller(temp) :
+	do_int_speller(temp);
     unlink(temp);
     free(temp);
 
     if (spell_msg != NULL) {
-	statusbar(_("Spell checking failed: %s"), spell_msg);
+	statusbar(_("Spell checking failed: %s: %s"), spell_msg,
+		strerror(errno));
 	return 0;
-    }
+    } else
+	statusbar(_("Finished checking spelling"));
 
-    statusbar(_("Finished checking spelling"));
     return 1;
 }
 #endif /* !DISABLE_SPELLER */
@@ -2436,8 +2435,8 @@ int do_justify(int full_justify)
 	    int break_pos;
 		/* Where we will break the line. */
 
-	    indent_len = indent_length(current->data + quote_len) +
-		quote_len; 
+	    indent_len = quote_len + indent_length(current->data +
+		quote_len);
 
 	    /* justify_format() removes excess spaces from the line, and
 	     * changes tabs to spaces.  After calling it, we call
@@ -2540,7 +2539,7 @@ int do_justify(int full_justify)
 #ifndef NANO_SMALL
 		if (mark_beginbuf == current->next) {
 		    if (mark_beginx < indent_len + break_pos) {
- 			mark_beginbuf = current;
+			mark_beginbuf = current;
 			if (mark_beginx <= indent_len)
 			    mark_beginx = line_len + 1;
 			else
@@ -2616,7 +2615,6 @@ int do_justify(int full_justify)
 
     /* Now get a keystroke and see if it's unjustify; if not, unget the
      * keystroke and return. */
-
     {
 	int meta_key;
 	i = get_kbinput(edit, &meta_key);
@@ -2624,11 +2622,10 @@ int do_justify(int full_justify)
 	/* If it was a mouse click, parse it with do_mouse() and it
 	 * might become the unjustify key.  Else give it back to the
 	 * input stream. */
-	if (i == KEY_MOUSE)
+	if (i == KEY_MOUSE) {
 	    do_mouse();
-	else
-	    ungetch(i);
-	i = get_kbinput(edit, &meta_key);
+	    i = get_kbinput(edit, &meta_key);
+	}
 #endif
     }
 
@@ -2655,7 +2652,6 @@ int do_justify(int full_justify)
 	    cutbuffer->prev->next = cutbuffer;
 	} else
 	    fileage = cutbuffer;
-	cutbuffer = NULL;
 
 	last_par_line->next = NULL;
 	free_filestruct(first_par_line);
@@ -2668,14 +2664,13 @@ int do_justify(int full_justify)
 	mark_beginx = mark_beginx_save;
 #endif
 	flags = flags_save;
-	if (!ISSET(MODIFIED)) {
+	if (!ISSET(MODIFIED))
 	    titlebar(NULL);
-	    wrefresh(topwin);
-	}
 	edit_refresh();
     }
     cutbuffer = cutbuffer_save;
-    blank_statusbar_refresh();
+    /* Note that now cutbottom is invalid, but that's okay. */
+    blank_statusbar();
     /* Display the shortcut list with UnCut. */
     shortcut_init(0);
     display_main_list();

@@ -539,7 +539,7 @@ char *replace_line(const char *needle)
     /* Calculate the size of the new line. */
 #ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP)) {
- 	search_match_count = regmatches[0].rm_eo - regmatches[0].rm_so;
+	search_match_count = regmatches[0].rm_eo - regmatches[0].rm_so;
 	new_line_size = replace_regexp(NULL, 0);
     } else {
 #endif
