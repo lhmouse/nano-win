@@ -918,6 +918,7 @@ int do_enter(filestruct * inptr)
 
     update_cursor();
     edit_refresh();
+    placewewant = xplustabs();
     return 1;
 }
 
