@@ -35,7 +35,7 @@
 
 #ifdef ENABLE_NANORC
 
-#ifndef NANO_SMALL
+#ifdef ENABLE_NLS
 #include <libintl.h>
 #define _(string) gettext(string)
 #else
@@ -222,7 +222,7 @@ void parse_syntax(FILE * rcstream, char *buf, char *ptr)
 #ifdef DEBUG
 	    fprintf(stderr,
 		    "Starting a new syntax type\n");
-	    fprintf(stderr, "string val=%s\n", tmp);
+	    fprintf(stderr, "string val=%s\n", nameptr);
 #endif
 
 	} else {

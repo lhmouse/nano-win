@@ -43,7 +43,7 @@
 #include "proto.h"
 #include "nano.h"
 
-#ifndef NANO_SMALL
+#ifdef ENABLE_NLS
 #include <libintl.h>
 #define _(string) gettext(string)
 #else
@@ -100,7 +100,9 @@ RETSIGTYPE finish(int sigage)
     /* Restore the old term settings */
     tcsetattr(0, TCSANOW, &oldterm);
 
+#ifdef DEBUG
     thanks_for_all_the_fish();
+#endif
 
     exit(sigage);
 }
@@ -882,6 +884,11 @@ void do_next_word(void)
     }
 }
 
+int do_next_word_void(void) {
+    do_next_word();
+    return 0;
+}
+
 /* the same thing for backwards */
 void do_prev_word(void)
 {
@@ -954,6 +961,11 @@ void do_prev_word(void)
 	update_line(current, current_x);
     }
 
+}
+
+int do_prev_word_void(void) {
+    do_prev_word();
+    return 0;
 }
 #endif /* NANO_SMALL */
 
@@ -1298,8 +1310,6 @@ int do_backspace(void)
 
 int do_delete(void)
 {
-    filestruct *foo;
-
     /* blbf -> blank line before filebot (see below) */
     int blbf = 0;
 
@@ -1313,11 +1323,12 @@ int do_delete(void)
 
 	align(&current->data);
 
-	/* Now that we have a magic line again, we can check for both being
-	   on the line before filebot as well as at filebot; it's a special
-	   case if we're on the line before filebot and it's blank, since we
-	   should be able to delete it */
     } else if (current->next != NULL && (current->next != filebot || blbf)) {
+	/* We can delete the line before filebot only if it is blank: it
+	 * becomes the new magic line then. */
+
+	filestruct *foo;
+
 	current->data = nrealloc(current->data,
 				 strlen(current->data) +
 				 strlen(current->next->data) + 1);
@@ -1332,14 +1343,6 @@ int do_delete(void)
 	unlink_node(foo);
 	delete_node(foo);
 	update_line(current, current_x);
-
-	/* Please see the comment in do_backspace if you don't understand
-	   this test */
-	if (current == filebot && current->data[0] != '\0') {
-	    new_magicline();
-	    fix_editbot();
-	    totsize++;
-	}
 	renumber(current);
 	totlines--;
     } else
@@ -2486,9 +2489,9 @@ int do_justify(void)
 #ifndef DISABLE_HELP
 void help_init(void)
 {
-    int i, sofar = 0, meta_shortcut = 0, helplen;
+    int i, sofar = 0, helplen;
     long allocsize = 1;		/* How much space we're gonna need for the help text */
-    char buf[BUFSIZ] = "", *ptr = NULL;
+    char *ptr = NULL;
 #ifndef NANO_SMALL
     toggle *t;
 #endif
@@ -2612,64 +2615,60 @@ void help_init(void)
 
     /* Now add the text we want */
     strcpy(help_text, ptr);
+    sofar = strlen(help_text);
 
     /* Now add our shortcut info */
     s = currshortcut;
     for (i = 0; i <= helplen - 1; i++) {
-	if (s->val > 0 && s->val < 'a')
-	    sofar = snprintf(buf, BUFSIZ, "^%c	", s->val + 64);
-	else {
-	    if (s->altval > 0) {
-		sofar = 0;
-		meta_shortcut = 1;
-	    }
-	    else
-		sofar = snprintf(buf, BUFSIZ, "	");
-	}
+	int meta_shortcut = 0;
+
+	if (s->val > 0 && s->val < 32)
+	    sofar += sprintf(help_text + sofar, "^%c\t", s->val + 64);
+#ifndef NANO_SMALL
+	else if (s->val == NANO_CONTROL_SPACE)
+	    sofar += sprintf(help_text + sofar, "^%s\t", _("Space"));
+#endif
+	else if (s->altval > 0)
+	    meta_shortcut = 1;
+	else
+	    help_text[sofar++] = '\t';
 
 	if (!meta_shortcut) {
 	    if (s->misc1 > KEY_F0 && s->misc1 <= KEY_F(64))
-		sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "(F%d)	",
-				  s->misc1 - KEY_F0);
-	    else
-		sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "	");
+		sofar += sprintf(help_text + sofar, "(F%d)",
+				s->misc1 - KEY_F0);
+	    help_text[sofar++] = '\t';
 	}
 
-	if (s->altval > 0 && s->altval < 91 
-		&& (s->altval - 32) > 32)
-	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar,
-	    (meta_shortcut ? "M-%c	" : "(M-%c)	"),
-	    s->altval - 32);
-	else if (s->altval >= 'a')
-	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar,
-	    (meta_shortcut ? "M-%c	" : "(M-%c)	"),
-	    s->altval - 32);
-	else if (s->altval > 0)
-	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar,
-	    (meta_shortcut ? "M-%c	" : "(M-%c)	"),
-	    s->altval);
+#ifndef NANO_SMALL
+	if (s->altval == NANO_ALT_SPACE)
+	    sofar += sprintf(help_text + sofar, "M-%s",	_("Space"));
+	else
+#endif
+	if (s->altval > 0)
+	    sofar += sprintf(help_text + sofar,
+		(meta_shortcut ? "M-%c" : "(M-%c)"), s->altval -
+		(('A' <= s->altval && s->altval <= 'Z') || 'a' <= s->altval
+			? 32 : 0));
 	/* Hack */
 	else if (s->val >= 'a')
-	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar,
-	    (meta_shortcut ? "(M-%c)	" : "M-%c	"),
-	    s->val - 32);
-	else
-	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "	");
+	    sofar += sprintf(help_text + sofar,
+		(meta_shortcut ? "(M-%c)\t" : "M-%c\t"), s->val - 32);
+
+	help_text[sofar++] = '\t';
 
 	if (meta_shortcut) {
 	    if (s->misc1 > KEY_F0 && s->misc1 <= KEY_F(64))
-		sofar += snprintf(&buf[sofar], BUFSIZ - sofar,
-			"(F%d)		", s->misc1 - KEY_F0);
-	    else
-		sofar += snprintf(&buf[sofar], BUFSIZ - sofar,
-			"		");
+		sofar += sprintf(help_text + sofar,
+				"(F%d)", s->misc1 - KEY_F0);
+	    help_text[sofar++] = '\t';
+	    help_text[sofar++] = '\t';
 	}
 
 	if (s->help != NULL)
-	    snprintf(&buf[sofar], BUFSIZ - sofar, "%s", s->help);
+	    sofar += sprintf(help_text + sofar, "%s", s->help);
 
-	strcat(help_text, buf);
-	strcat(help_text, "\n");
+	help_text[sofar++] = '\n';
 
 	s = s->next;
     }
@@ -2678,15 +2677,14 @@ void help_init(void)
     /* And the toggles... */
     if (currshortcut == main_list)
 	for (t = toggles; t != NULL; t = t->next) {
-		sofar = snprintf(buf, BUFSIZ,
-			     "M-%c			", t->val - 32);
+	    sofar += sprintf(help_text + sofar, "M-%c\t\t\t",
+				t->val - 32);
 	    if (t->desc != NULL) {
-		    snprintf(&buf[sofar], BUFSIZ - sofar, _("%s enable/disable"),
-			 t->desc);
+		sofar += sprintf(help_text + sofar,
+				_("%s enable/disable"), t->desc);
+	    }
+	    help_text[sofar++] = '\n';
 	}
-	strcat(help_text, buf);
-	strcat(help_text, "\n");
-    }
 #endif /* !NANO_SMALL */
 }
 #endif
@@ -3169,13 +3167,6 @@ int main(int argc, char *argv[])
 		modify_control_seq = 1;
 		keyhandled = 1;
 		break;
-#ifndef NANO_SMALL
-	    case ' ':
-		/* If control-space is next word, Alt-space should be previous word */
-		do_prev_word();
-		keyhandled = 1;
-		break;
-#endif
 	    case '[':
 		switch (kbinput = wgetch(edit)) {
 		case '1':	/* Alt-[-1-[0-5,7-9] = F1-F8 in X at least */
@@ -3310,19 +3301,16 @@ int main(int argc, char *argv[])
 		break;
 #endif
 
-#if !defined (NANO_SMALL) && defined (HAVE_REGEX_H)
-	    case NANO_BRACKET_KEY:
-		do_find_bracket();
-		keyhandled = 1;
-		break;
-#endif
-
 	    default:
 		/* Check for the altkey defs.... */
 		for (s = main_list; s != NULL; s = s->next)
 		    if (kbinput == s->altval ||
-			kbinput == s->altval - 32) {
-			kbinput = s->val;
+			    kbinput == s->altval - 32) {
+			if (ISSET(VIEW_MODE) && !s->viewok)
+			    print_view_warning();
+			else
+			    s->func();
+			keyhandled = 1;
 			break;
 		    }
 #ifndef NANO_SMALL
@@ -3419,11 +3407,6 @@ int main(int argc, char *argv[])
 #endif
 
 	    case 0:		/* Erg */
-#ifndef NANO_SMALL
-		do_next_word();
-		break;
-#endif
-
 	    case -1:		/* Stuff that we don't want to do squat */
 	    case 410:		/* Must ignore this, it gets sent when we resize */
 	    case 29:		/* Ctrl-] */

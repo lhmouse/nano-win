@@ -25,10 +25,11 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <assert.h>
 #include "proto.h"
 #include "nano.h"
 
-#ifndef NANO_SMALL
+#ifdef ENABLE_NLS
 #include <libintl.h>
 #define _(string) gettext(string)
 #else
@@ -578,17 +579,24 @@ void titlebar(char *path)
     reset_cursor();
 }
 
-void onekey(char *keystroke, const char *desc, int len)
+/* Write a shortcut key to the help area at the bottom of the window. 
+ * keystroke is e.g. "^G" and desc is e.g. "Get Help".
+ * We are careful to write exactly len characters, even if len is
+ * very small and keystroke and desc are long. */
+static void onekey(const char *keystroke, const char *desc, int len)
 {
-    int i;
-
     wattron(bottomwin, A_REVERSE);
-    waddstr(bottomwin, keystroke);
+    waddnstr(bottomwin, keystroke, len);
     wattroff(bottomwin, A_REVERSE);
-    waddch(bottomwin, ' ');
-    waddnstr(bottomwin, desc, len - 3);
-    for (i = strlen(desc); i < len - 3; i++)
-        waddch(bottomwin, ' ');
+    len -= strlen(keystroke);
+    if (len > 0) {
+	waddch(bottomwin, ' ');
+	len--;
+	waddnstr(bottomwin, desc, len);
+	len -= strlen(desc);
+	for (; len > 0; len--)
+	    waddch(bottomwin, ' ');
+    }
 }
 
 void clear_bottomwin(void)
@@ -600,20 +608,20 @@ void clear_bottomwin(void)
     mvwaddstr(bottomwin, 2, 0, hblank);
 }
 
-void bottombars(shortcut *s)
+void bottombars(const shortcut *s)
 {
     int i, j, numcols;
-    char keystr[10];
-    shortcut *t;
+    char keystr[4];
     int slen;
-
-    if (s == main_list)
-	slen = MAIN_VISIBLE;
-    else
-	slen = length_of_list(s);
 
     if (ISSET(NO_HELP))
 	return;
+
+    if (s == main_list) {
+	slen = MAIN_VISIBLE;
+	assert(MAIN_VISIBLE <= length_of_list(s));
+    } else
+	slen = length_of_list(s);
 
 #ifdef ENABLE_COLOR
     color_on(bottomwin, COLOR_BOTTOMBARS);
@@ -622,40 +630,43 @@ void bottombars(shortcut *s)
 	wattroff(bottomwin, A_REVERSE);
 #endif
 
-    /* Determine how many extra spaces are needed to fill the bottom of the screen */
-    if (slen < 2)
-	numcols = 6;
-    else
-	numcols = (slen + (slen % 2)) / 2;
+    /* There will be this many columns of shortcuts */
+    numcols = (slen + (slen % 2)) / 2;
 
     clear_bottomwin();
 
-    t = s;
     for (i = 0; i < numcols; i++) {
 	for (j = 0; j <= 1; j++) {
 
-	    wmove(bottomwin, 1 + j, i * ((COLS - 1) / numcols));
+	    wmove(bottomwin, 1 + j, i * (COLS / numcols));
 
-	    if (t->val < 97)
-		snprintf(keystr, 10, "^%c", t->val + 64);
+#ifndef NANO_SMALL
+	    if (s->val == NANO_CONTROL_SPACE)
+		strcpy(keystr, "^ ");
 	    else
-		snprintf(keystr, 10, "M-%c", t->val - 32);
+#endif /* !NANO_SMALL */
+	    if (s->val > 0) {
+		if (s->val < 64)
+		    sprintf(keystr, "^%c", s->val + 64);
+		else
+		    sprintf(keystr, "M-%c", s->val - 32);
+	    } else if (s->altval > 0)
+		sprintf(keystr, "M-%c", s->altval);
 
-	    onekey(keystr, t->desc, (COLS - 1) / numcols);
+	    onekey(keystr, s->desc, COLS / numcols);
 
-	    if (t->next == NULL)
-		break;
-	    t = t->next;
-	}
-	
+	    s = s->next;
+	    if (s == NULL)
+		goto break_completely_out;
+	}	
     }
+break_completely_out:
 
 #ifdef ENABLE_COLOR
     color_off(bottomwin, COLOR_BOTTOMBARS);
 #endif
 
     wrefresh(bottomwin);
-
 }
 
 /* If modified is not already set, set it and update titlebar */
@@ -1396,7 +1407,6 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
     char *yesstr;		/* String of yes characters accepted */
     char *nostr;		/* Same for no */
     char *allstr;		/* And all, surprise! */
-    char shortstr[5];		/* Temp string for above */
 #ifndef DISABLE_MOUSE
 #ifdef NCURSES_MOUSE_VERSION
     MEVENT mevent;
@@ -1420,18 +1430,20 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
 
     /* Remove gettext call for keybindings until we clear the thing up */
     if (!ISSET(NO_HELP)) {
+	char shortstr[3];		/* Temp string for Y, N, A */
+
 	wmove(bottomwin, 1, 0);
 
-	snprintf(shortstr, 3, " %c", yesstr[0]);
+	sprintf(shortstr, " %c", yesstr[0]);
 	onekey(shortstr, _("Yes"), 16);
 
 	if (all) {
-	    snprintf(shortstr, 3, " %c", allstr[0]);
+	    shortstr[1] = allstr[0];
 	    onekey(shortstr, _("All"), 16);
 	}
 	wmove(bottomwin, 2, 0);
 
-	snprintf(shortstr, 3, " %c", nostr[0]);
+	shortstr[1] = nostr[0];
 	onekey(shortstr, _("No"), 16);
 
 	onekey("^C", _("Cancel"), 16);

@@ -193,6 +193,9 @@ typedef struct syntaxtype {
 
 /* Control key sequences, changing these would be very very bad */
 
+#ifndef NANO_SMALL
+#  define NANO_CONTROL_SPACE 0
+#endif
 #define NANO_CONTROL_A 1
 #define NANO_CONTROL_B 2
 #define NANO_CONTROL_C 3
@@ -256,6 +259,9 @@ typedef struct syntaxtype {
 #define NANO_ALT_LCARAT '<'
 #define NANO_ALT_RCARAT '>'
 #define NANO_ALT_BRACKET ']'
+#ifndef NANO_SMALL
+#  define NANO_ALT_SPACE ' '
+#endif
 
 /* Some semi-changeable keybindings; don't play with unless you're sure you
 know what you're doing */
@@ -319,6 +325,10 @@ know what you're doing */
 #define NANO_OPENNEXT_ALTKEY	NANO_ALT_PERIOD
 #define NANO_BRACKET_KEY	NANO_ALT_BRACKET
 #define NANO_EXTCMD_KEY		NANO_CONTROL_X
+#ifndef NANO_SMALL
+#  define NANO_NEXTWORD_KEY	NANO_CONTROL_SPACE
+#  define NANO_PREVWORD_KEY	NANO_ALT_SPACE
+#endif
 
 #define TOGGLE_CONST_KEY	NANO_ALT_C
 #define TOGGLE_AUTOINDENT_KEY	NANO_ALT_I

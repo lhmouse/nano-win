@@ -26,7 +26,7 @@
 #include "nano.h"
 #include "proto.h"
 
-#ifndef NANO_SMALL
+#ifdef ENABLE_NLS
 #include <libintl.h>
 #define _(string) gettext(string)
 #else
@@ -561,6 +561,15 @@ void shortcut_init(int unjustify)
 		    NANO_OPENNEXT_KEY, 0, 0, VIEW, open_nextfile_void);
 #endif
 
+#ifndef NANO_SMALL
+    sc_init_one(&main_list, NANO_NEXTWORD_KEY, _("Next Word"),
+		IFHELP(_("Move forward one word"),)
+		0, 0, 0, VIEW, do_next_word_void);
+    sc_init_one(&main_list, -9, _("Prev Word"),
+		IFHELP(_("Move backward one word"),) NANO_PREVWORD_KEY, 0, 0,
+		VIEW, do_prev_word_void);
+#endif
+
     free_shortcutage(&whereis_list);
 
     sc_init_one(&whereis_list, NANO_HELP_KEY,
@@ -820,13 +829,15 @@ void shortcut_init(int unjustify)
 #endif
 }
 
+/* This function is called just before calling exit().  Practically, the
+ * only effect is to cause a segmentation fault if the various data
+ * structures got bolloxed earlier.  Thus, we don't bother having this
+ * function unless debugging is turned on.
+ */
+#ifdef DEBUG
 /* added by SPK for memory cleanup, gracefully return our malloc()s */
 void thanks_for_all_the_fish(void) 
 {
-#ifdef ENABLE_MULTIBUFFER
-    openfilestruct * current_open_file;
-#endif
-
 #ifndef DISABLE_OPERATINGDIR
     if (operating_dir != NULL)
 	free(operating_dir);
@@ -871,29 +882,21 @@ void thanks_for_all_the_fish(void)
 #endif
 
 #ifdef ENABLE_MULTIBUFFER
-/* Cleanup of Multibuffers . . .
-   Do not cleanup the current one, that is fileage . . . do the
-   rest of them though! (should be none if all went well) */
-    current_open_file = open_files;
     if (open_files != NULL) {
-	while (open_files->prev != NULL) 
+	/* We free the memory associated with each open file. */
+	openfilestruct *next;
+
+	while (open_files->prev != NULL)
 	    open_files = open_files->prev;
-	while (open_files->next != NULL) {
-  /* cleanup of a multi buf . . . */
-	    open_files = open_files->next;
-	    if (open_files->prev != current_open_file) 
-		free_openfilestruct(open_files->prev);
-        }
-  /* cleanup of last multi buf . . . */
-	free_openfilestruct(open_files);
+	do {
+	    next = open_files->next;
+	    free_openfilestruct(open_files);
+	    open_files = next;
+	} while (open_files != NULL);
     }
 #else
-  /* starting the cleanup of fileage now . . . */
-
     if (fileage != NULL)
 	free_filestruct(fileage);
 #endif
-
-    /* that is all for now */
-
 }
+#endif /* DEBUG */

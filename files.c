@@ -37,7 +37,7 @@
 #include "proto.h"
 #include "nano.h"
 
-#ifndef NANO_SMALL
+#ifdef ENABLE_NLS
 #include <libintl.h>
 #define _(string) gettext(string)
 #else
@@ -449,6 +449,13 @@ int do_insertfile(int loading_file)
 #endif
 	}
 #endif
+
+	/* Here is a kludge.  If the current file is blank (including
+	 * after new_file()), then totlines==1 and totsize==0.  Thus
+	 * after open_pipe() or open_file() below, the totsize is short
+	 * by one. */
+	if (totlines==1 && totsize==0)
+	    totsize++;
 
 #ifndef NANO_SMALL
 	if (i == NANO_EXTCMD_KEY) {

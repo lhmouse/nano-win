@@ -29,6 +29,10 @@ CVS code -
 	- Many chanes to allow marked cutting to work with multiple
 	  file buffers: changes to openfilestruct type in nano.h and
 	  files.c (David Lawrence Ramsey).
+	- Changed NANO_SMALL to ENABLE_NLS for gettext disabling 
+	  (David Benbennick).
+	- Move next_key and pev_key definitions out of main() and into
+	  global.c where they belong (David Benbennick).
 - configure.ac:
 	- Define NDEBUG to silence asserts (David Benbennick).
 - files.c:
@@ -37,6 +41,8 @@ CVS code -
 - global.c:
   shortcut_init()
 	- Add missing free_shortcutage()s (David Benbennick).
+  thanks_for_all_the_fish()
+	- Only defined when using DEBUG, makes sense (David Benbennick).
 - nano.c:
   die_save_file()
 	- Add missing free (David Benbennick).
@@ -44,6 +50,10 @@ CVS code -
 	- Optimizations (David Benbennick).
   do_wrap()
 	- Complete rewrite (David Benbennick).
+  help_init()
+	- A little les readable, a lot shorer :-) (David Benbennick).
+	- Fix Meta-A not getting capitalized, and convert the ASCII
+	  #s to their character equivalent.
   main()
 	- Changed charalloc(), strcpy()s to mallocstrcpy()s.
 - nano.h:
@@ -57,13 +67,15 @@ CVS code -
 	- Changed references to Debian GNU/Linux to Debian GNU (Jordi).
 - nano.1.html:
 	- Updated for -Y option (David Lawrence Ramsey).
-- rcfile.c
+- rcfile.c:
 	- Made some rc file errors less fatal.
 	- Added in my patch for getpwent instead of relying on $HOME
 	  (David Lawrence Ramsey).
 - winio.c:
   edit_add()
 	- Changed some syntax hilight computations for the sake of COLS.
+  botombars(), onekey()
+	- Cleanups (David Benbennick).
 - po/gl.po:
 	- Galician translation updates (Jacobo Tarrio).
 - po/de.po:

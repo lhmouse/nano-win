@@ -30,7 +30,7 @@
 #include "nano.h"
 #include "proto.h"
 
-#ifndef NANO_SMALL
+#ifdef ENABLE_NLS
 #include <libintl.h>
 #define _(string) gettext(string)
 #else

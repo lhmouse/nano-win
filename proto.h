@@ -105,7 +105,9 @@ extern toggle *toggles;
 /* public functions in global.c */
 int length_of_list(const shortcut *s);
 void shortcut_init(int unjustify);
+#ifdef DEBUG
 void thanks_for_all_the_fish(void);
+#endif
 
 
 
@@ -145,6 +147,11 @@ int add_open_file(int update);
 #ifndef DISABLE_OPERATINGDIR
 int check_operating_dir(char *currpath, int allow_tabcomp);
 #endif
+
+#ifndef NANO_SMALL
+int do_next_word_void(void);
+int do_prev_word_void(void);
+#endif /* !NANO_SMALL */
 
 int do_writeout(char *path, int exiting, int append);
 int do_gotoline(int line, int save_pos);
@@ -193,7 +200,7 @@ void blank_statusbar(void);
 void titlebar(char *path);
 void previous_line(void);
 void center_cursor(void);
-void bottombars(shortcut *s);
+void bottombars(const shortcut *s);
 void blank_statusbar_refresh(void);
 void nperror(const char *s);
 void *mallocstrcpy(char *dest, char *src);
