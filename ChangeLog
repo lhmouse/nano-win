@@ -49,6 +49,11 @@ CVS code -
 	  changes to terminal_init(). (DLR)
 	- Remove redundant include of limits.h from nano.c.  nano.c
 	  includes nano.h and nano.h includes limits.h. (DLR)
+	- Add a func_key flag to the low-level input functions and the
+	  currently existing high-level input functions, to indicate
+	  extended keypad values.  This is needed for UTF-8 support.
+	  Changes to get_kbinput(), get_translated_kbinput(),
+	  get_shortcut(), get_edit_input(), etc. (DLR)
 - files.c:
   do_insertfile()
 	- Readd the NANO_SMALL #ifdef around the start_again: label to

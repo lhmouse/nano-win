@@ -499,8 +499,8 @@ int check_wildcard_match(const char *text, const char *pattern);
 void reset_kbinput(void);
 #endif
 void unget_kbinput(int kbinput, bool meta_key);
-int get_kbinput(WINDOW *win, bool *meta_key);
-int get_translated_kbinput(int kbinput, bool *es
+int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key);
+int get_translated_kbinput(int kbinput, bool *func_key, bool *es
 #ifndef NANO_SMALL
 	, bool reset
 #endif
@@ -526,11 +526,11 @@ int get_untranslated_kbinput(int kbinput, size_t position, bool
 bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts);
 #endif
 const shortcut *get_shortcut(const shortcut *s_list, int kbinput, bool
-	*meta_key);
+	*meta_key, bool *func_key);
 #ifndef NANO_SMALL
 const toggle *get_toggle(int kbinput, bool meta_key);
 #endif
-int get_edit_input(bool *meta_key, bool allow_funcs);
+int get_edit_input(bool *meta_key, bool *func_key, bool allow_funcs);
 #ifndef DISABLE_MOUSE
 bool get_edit_mouse(void);
 #endif

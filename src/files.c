@@ -2485,7 +2485,7 @@ char *do_browser(const char *inpath)
     int numents = 0, i = 0, j = 0, longest = 0, abort = 0, col = 0;
     int selected = 0, editline = 0, width = 0, filecols = 0, lineno = 0;
     int kbinput = ERR;
-    bool meta_key;
+    bool meta_key, func_key;
     char **filelist = (char **)NULL;
 #ifndef DISABLE_MOUSE
     MEVENT mevent;
@@ -2808,7 +2808,8 @@ char *do_browser(const char *inpath)
 	    }
 	}
 	wrefresh(edit);
-    } while ((kbinput = get_kbinput(edit, &meta_key)) != NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
+    } while ((kbinput = get_kbinput(edit, &meta_key, &func_key)) !=
+	NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
     curs_set(1);
     blank_edit();
     titlebar(NULL);

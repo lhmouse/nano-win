@@ -2343,7 +2343,7 @@ void do_justify(bool full_justify)
     int mark_beginx_save = mark_beginx;
 #endif
     int kbinput;
-    bool meta_key;
+    bool meta_key, func_key;
 
     /* If we're justifying the entire file, start at the beginning. */
     if (full_justify)
@@ -2604,7 +2604,7 @@ void do_justify(bool full_justify)
 
     /* Now get a keystroke and see if it's unjustify; if not, unget the
      * keystroke and return. */
-    kbinput = get_edit_input(&meta_key, FALSE);
+    kbinput = get_edit_input(&meta_key, &func_key, FALSE);
 
     if (!meta_key && kbinput == NANO_UNJUSTIFY_KEY) {
 	/* Restore the justify we just did (ungrateful user!). */
@@ -2998,7 +2998,7 @@ int main(int argc, char **argv)
 #endif
     int kbinput;
 	/* Input from keyboard. */
-    bool meta_key;
+    bool meta_key, func_key;
 #ifdef HAVE_GETOPT_LONG
     const struct option long_options[] = {
 	{"help", 0, 0, 'h'},
@@ -3496,7 +3496,7 @@ int main(int argc, char **argv)
 	currshortcut = main_list;
 #endif
 
-	kbinput = get_edit_input(&meta_key, TRUE);
+	kbinput = get_edit_input(&meta_key, &func_key, TRUE);
 
 	/* Last gasp, stuff that's not in the main lists. */
 	if (kbinput != ERR && !is_cntrl_char(kbinput)) {

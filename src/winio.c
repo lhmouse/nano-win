@@ -93,7 +93,7 @@ static int statblank = 0;	/* Number of keystrokes left after
 /* Reset all the input routines that rely on character sequences. */
 void reset_kbinput(void)
 {
-    get_translated_kbinput(0, NULL, TRUE);
+    get_translated_kbinput(0, NULL, NULL, TRUE);
     get_ascii_kbinput(0, 0, TRUE);
     get_untranslated_kbinput(0, 0, FALSE, TRUE);
 }
@@ -111,12 +111,13 @@ void unget_kbinput(int kbinput, bool meta_key)
 /* Read in a single input character.  If it's ignored, swallow it and go
  * on.  Otherwise, try to translate it from ASCII, extended keypad
  * values, and/or escape sequences.  Set meta_key to TRUE when we get a
- * meta sequence.  Supported extended keypad values consist of [arrow
+ * meta sequence, and set func_key to TRUE when we get an extended
+ * keypad sequence.  Supported extended keypad values consist of [arrow
  * key], Ctrl-[arrow key], Shift-[arrow key], Enter, Backspace, the
  * editing keypad (Insert, Delete, Home, End, PageUp, and PageDown), the
  * function keypad (F1-F14), and the numeric keypad with NumLock off.
  * Assume nodelay(win) is FALSE. */
-int get_kbinput(WINDOW *win, bool *meta_key)
+int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 {
     int kbinput, retval = ERR;
     bool es;
@@ -126,6 +127,7 @@ int get_kbinput(WINDOW *win, bool *meta_key)
 #endif
 
     *meta_key = FALSE;
+    *func_key = FALSE;
 
     while (retval == ERR) {
 	/* Read a character using blocking input, since using
@@ -133,7 +135,7 @@ int get_kbinput(WINDOW *win, bool *meta_key)
 	 * to get_translated_kbinput().  Continue until we get a
 	 * complete sequence. */
 	kbinput = wgetch(win);
-	retval = get_translated_kbinput(kbinput, &es
+	retval = get_translated_kbinput(kbinput, func_key, &es
 #ifndef NANO_SMALL
 		, FALSE
 #endif
@@ -180,7 +182,7 @@ int get_kbinput(WINDOW *win, bool *meta_key)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "get_kbinput(): kbinput = %d, meta_key = %d\n", kbinput, (int)*meta_key);
+    fprintf(stderr, "get_kbinput(): kbinput = %d, meta_key = %d, func_key = %d\n", kbinput, (int)*meta_key, (int)*func_key);
 #endif
 
 #ifndef NANO_SMALL
@@ -191,9 +193,10 @@ int get_kbinput(WINDOW *win, bool *meta_key)
 }
 
 /* Translate acceptable ASCII, extended keypad values, and escape
- * sequences into their corresponding key values.  Set es to TRUE when
- * we get an escape sequence.  Assume nodelay(win) is FALSE. */
-int get_translated_kbinput(int kbinput, bool *es
+ * sequences into their corresponding key values.  Set func_key to TRUE
+ * when we get an extended keypad value, and set es to TRUE when we get
+ * an escape sequence.  Assume nodelay(win) is FALSE. */
+int get_translated_kbinput(int kbinput, bool *func_key, bool *es
 #ifndef NANO_SMALL
 	, bool reset
 #endif
@@ -211,6 +214,7 @@ int get_translated_kbinput(int kbinput, bool *es
     }
 #endif
 
+    *func_key = FALSE;
     *es = FALSE;
 
     switch (kbinput) {
@@ -420,9 +424,13 @@ int get_translated_kbinput(int kbinput, bool *es
 		    }
 	    }
     }
+
+    /* If the result is outside the ASCII range, set func_key to TRUE. */
+    if (retval > 255)
+	*func_key = TRUE;
  
 #ifdef DEBUG
-    fprintf(stderr, "get_translated_kbinput(): kbinput = %d, es = %d, escapes = %d, ascii_digits = %lu, retval = %d\n", kbinput, (int)*es, escapes, (unsigned long)ascii_digits, retval);
+    fprintf(stderr, "get_translated_kbinput(): kbinput = %d, func_key = %d, es = %d, escapes = %d, ascii_digits = %lu, retval = %d\n", kbinput, (int)*func_key, (int)*es, escapes, (unsigned long)ascii_digits, retval);
 #endif
 
     /* Return the result. */
@@ -1337,7 +1345,7 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 #endif /* !DISABLE_MOUSE */
 
 const shortcut *get_shortcut(const shortcut *s_list, int kbinput, bool
-	*meta_key)
+	*meta_key, bool *func_key)
 {
     const shortcut *s = s_list;
     size_t slen = length_of_list(s_list);
@@ -1348,14 +1356,17 @@ const shortcut *get_shortcut(const shortcut *s_list, int kbinput, bool
 	 *
 	 * 1. The key exists.
 	 * 2. The key is a control key in the shortcut list.
-	 * 3. The key is a function key in the shortcut list.
-	 * 4. meta_key is TRUE and the key is a meta sequence.
-	 * 5. meta_key is TRUE and the key is the other meta sequence in
-	 *    the shortcut list. */
+	 * 3. meta_key is TRUE and the key is the primary or
+	 *    miscellaneous meta sequence in the shortcut list.
+	 * 4. func_key is TRUE and the key is a function key in the
+	 *    shortcut list. */
+
 	if (kbinput != NANO_NO_KEY && ((*meta_key == FALSE &&
-		((kbinput == s->ctrlval || kbinput == s->funcval))) ||
-		(*meta_key == TRUE && (kbinput == s->metaval ||
-		kbinput == s->miscval)))) {
+		*func_key == FALSE && kbinput == s->ctrlval) ||
+		(*meta_key == TRUE && *func_key == FALSE &&
+		(kbinput == s->metaval || kbinput == s->miscval)) ||
+		(*meta_key == FALSE && *func_key == TRUE &&
+		kbinput == s->funcval))) {
 	    break;
 	}
 
@@ -1364,7 +1375,7 @@ const shortcut *get_shortcut(const shortcut *s_list, int kbinput, bool
 
     /* Translate the shortcut to either its control key or its meta key
      * equivalent.  Assume that the shortcut has an equivalent control
-     * key, meta key, or both. */
+     * key, an equivalent primary meta key sequence, or both. */
     if (slen > 0) {
 	if (s->ctrlval != NANO_NO_KEY) {
 	    *meta_key = FALSE;
@@ -1396,7 +1407,7 @@ const toggle *get_toggle(int kbinput, bool meta_key)
 }
 #endif /* !NANO_SMALL */
 
-int get_edit_input(bool *meta_key, bool allow_funcs)
+int get_edit_input(bool *meta_key, bool *func_key, bool allow_funcs)
 {
     bool keyhandled = FALSE;
     int kbinput, retval;
@@ -1405,7 +1416,7 @@ int get_edit_input(bool *meta_key, bool allow_funcs)
     const toggle *t;
 #endif
 
-    kbinput = get_kbinput(edit, meta_key);
+    kbinput = get_kbinput(edit, meta_key, func_key);
 
     /* Universal shortcuts.  These aren't in any shortcut lists, but we
      * should handle them anyway. */
@@ -1425,7 +1436,7 @@ int get_edit_input(bool *meta_key, bool allow_funcs)
 #ifndef DISABLE_MOUSE
 	case KEY_MOUSE:
 	    if (get_edit_mouse()) {
-		kbinput = get_kbinput(edit, meta_key);
+		kbinput = get_kbinput(edit, meta_key, func_key);
 		break;
 	    } else
 		return ERR;
@@ -1433,7 +1444,7 @@ int get_edit_input(bool *meta_key, bool allow_funcs)
     }
 
     /* Check for a shortcut in the main list. */
-    s = get_shortcut(main_list, kbinput, meta_key);
+    s = get_shortcut(main_list, kbinput, meta_key, func_key);
 
     if (s != NULL) {
 	/* We got a shortcut.  Run the shortcut's corresponding function
@@ -1755,7 +1766,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		)
 {
     int kbinput;
-    bool meta_key;
+    bool meta_key, func_key;
     static int x = -1;
 	/* the cursor position in 'answer' */
     int xend;
@@ -1812,7 +1823,8 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
      * to files not specified on the command line.  In this case,
      * disable all keys that would change the text if the filename isn't
      * blank and we're at the "Write File" prompt. */
-    while ((kbinput = get_kbinput(bottomwin, &meta_key)) != NANO_ENTER_KEY) {
+    while ((kbinput = get_kbinput(bottomwin, &meta_key, &func_key)) !=
+	NANO_ENTER_KEY) {
 	for (t = s; t != NULL; t = t->next) {
 #ifdef DEBUG
 	    fprintf(stderr, "Aha! \'%c\' (%d)\n", kbinput, kbinput);
@@ -3112,12 +3124,12 @@ int do_yesno(int all, const char *msg)
 
     do {
 	int kbinput;
-	bool meta_key;
+	bool meta_key, func_key;
 #ifndef DISABLE_MOUSE
 	int mouse_x, mouse_y;
 #endif
 
-	kbinput = get_kbinput(edit, &meta_key);
+	kbinput = get_kbinput(edit, &meta_key, &func_key);
 
 	if (kbinput == NANO_CANCEL_KEY)
 	    ok = -1;
@@ -3281,7 +3293,7 @@ void do_help(void)
 	/* no_more means the end of the help text is shown, so don't go
 	 * down any more. */
     int kbinput = ERR;
-    bool meta_key;
+    bool meta_key, func_key;
 
     bool old_no_help = ISSET(NO_HELP);
 #ifndef DISABLE_MOUSE
@@ -3377,7 +3389,7 @@ void do_help(void)
 	no_more = (*ptr == '\0');
 
   skip_redisplay:
-	kbinput = get_kbinput(edit, &meta_key);
+	kbinput = get_kbinput(edit, &meta_key, &func_key);
     } while (kbinput != NANO_CANCEL_KEY && kbinput != NANO_EXIT_KEY &&
 	kbinput != NANO_EXIT_FKEY);
 
