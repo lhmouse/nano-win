@@ -258,6 +258,10 @@ CVS code -
 	- New function to set resetstatuspos to FALSE when we don't
 	  properly exit the statusbar prompt, e.g. when we get a file
 	  from the file browser). (DLR)
+  bottombars()
+	- For efficiency, no longer dynamically allocate space for each
+	  visible shortcut, as they're all of a constant short length.
+	  (David Benbennick)
   reset_cursor()
 	- If this is called before any files have been opened, as it can
 	  be by statusbar(), put the cursor at the top left corner of

@@ -2450,7 +2450,6 @@ void statusbar(const char *msg, ...)
 void bottombars(const shortcut *s)
 {
     size_t i, colwidth, slen;
-    char *keystr;
 
     if (ISSET(NO_HELP))
 	return;
@@ -2469,34 +2468,39 @@ void bottombars(const shortcut *s)
     /* There will be this many characters per column.  We need at least
      * 3 to display anything properly.*/
     colwidth = COLS / ((slen / 2) + (slen % 2));
-    keystr = charalloc(colwidth);
 
     blank_bottombars();
 
     for (i = 0; i < slen; i++, s = s->next) {
-	wmove(bottomwin, 1 + i % 2, (i / 2) * colwidth);
+	const char *keystr;
 
 	/* Yucky sentinel values we can't handle a better way. */
 #ifndef NANO_SMALL
 	if (s->ctrlval == NANO_HISTORY_KEY)
-	    strncpy(keystr, _("Up"), colwidth);
-	else
+	    keystr = _("Up");
+	else {
 #endif
-	if (s->ctrlval == NANO_CONTROL_SPACE)
-	    strncpy(keystr, "^ ", colwidth);
-	else if (s->ctrlval == NANO_CONTROL_8)
-	    strncpy(keystr, "^?", colwidth);
-	/* Normal values.  Assume that the shortcut has an equivalent
-	 * control key, meta key sequence, or both. */
-	else if (s->ctrlval != NANO_NO_KEY)
-	    snprintf(keystr, colwidth, "^%c", s->ctrlval + 64);
-	else if (s->metaval != NANO_NO_KEY)
-	    snprintf(keystr, colwidth, "M-%c", toupper(s->metaval));
+	    char foo[4];
 
+	    if (s->ctrlval == NANO_CONTROL_SPACE)
+		strcpy(foo, "^ ");
+	    else if (s->ctrlval == NANO_CONTROL_8)
+		strcpy(foo, "^?");
+	    /* Normal values.  Assume that the shortcut has an
+	     * equivalent control key, meta key sequence, or both. */
+	    else if (s->ctrlval != NANO_NO_KEY)
+		sprintf(foo, "^%c", s->ctrlval + 64);
+	    else if (s->metaval != NANO_NO_KEY)
+		sprintf(foo, "M-%c", toupper(s->metaval));
+
+	    keystr = foo;
+#ifndef NANO_SMALL
+	}
+#endif
+
+	wmove(bottomwin, 1 + i % 2, (i / 2) * colwidth);
 	onekey(keystr, s->desc, colwidth);
     }
-
-    free(keystr);
 
     wnoutrefresh(bottomwin);
     reset_cursor();
