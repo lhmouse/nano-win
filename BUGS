@@ -63,3 +63,5 @@
   causes a random segfault (16) [FIXED?]
 - In replace, there is no way to accept the default replace string. (27)
 - totsize problems still abound in do_justify (33)
+
+$Id$

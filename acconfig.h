@@ -1,3 +1,5 @@
+/* $Id$ */
+
 /* Define this if you have the wresize function in your ncurses-type library */
 #undef HAVE_WRESIZE
 

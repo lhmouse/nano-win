@@ -1,3 +1,4 @@
+# $Id$
 # French messages for the nano editor
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Pierre Tane <tanep@bigfoot.com>, 2000.

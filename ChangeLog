@@ -897,3 +897,5 @@ nano 0.7.6 - 01/15/2000
 0.2	Read in data to buffer, bound keystrokes to stub functions, 
 	initial cursor movement on screen.  Initial autoconf support.
 0.1	Initial program setup w/ncurses
+
+$Id$

@@ -1,6 +1,6 @@
-# SOME DESCRIPTIVE TITLE.
+# Nano strings file.
 # Copyright (C) YEAR Free Software Foundation, Inc.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Chris Allegretta <chrisa@asty.org>, 2000.
 #
 #, fuzzy
 msgid ""

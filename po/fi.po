@@ -1,3 +1,4 @@
+# $Id$
 # nano Finnish Translation.
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Pauli Virtanen <pauli.virtanen@saunalahti.fi>, 2000.

@@ -1,3 +1,4 @@
+# $Id$
 # German Messages for the nano editor
 # Florian König <floki@bigfoot.com> June 21, 2000
 # Copyright (C) 2000 Free Software Foundation, Inc.

@@ -1,3 +1,4 @@
+# $Id$
 # Spanish Messages for the nano editor.
 # Jordi Mallach <jordi@sindominio.net> January 9, 2000
 # Copyright (C) 2000 Free Software Foundation, Inc.
