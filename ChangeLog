@@ -1,6 +1,8 @@
 CVS code -
 - winio.c:
 	- Added David Lawrence Ramsey to credits.
+- po/nl.po:
+	- New Dutch translation, by Guus Sliepen <guus@nl.linux.org>.
 
 nano 1.0.4 - 08/24/2001
 - General
