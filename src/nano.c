@@ -674,7 +674,8 @@ void unpartition_filestruct(partition *p)
      * with it. */
     tmp = mallocstrcpy(NULL, fileage->data);
     fileage->prev = p->top_prev;
-    fileage->prev->next = fileage;
+    if (fileage->prev != NULL)
+	fileage->prev->next = fileage;
     fileage->data = charealloc(fileage->data, strlen(p->top_data) +
 	strlen(fileage->data) + 1);
     strcpy(fileage->data, p->top_data);
@@ -686,7 +687,8 @@ void unpartition_filestruct(partition *p)
      * the text after bot_x from bot_data.  Free bot_data when we're
      * done with it. */
     filebot->next = p->bot_next;
-    filebot->next->prev = filebot;
+    if (filebot->next != NULL)
+	filebot->next->prev = filebot;
     filebot->data = charealloc(filebot->data, strlen(filebot->data) +
 	strlen(p->bot_data) + 1);
     strcat(filebot->data, p->bot_data);
