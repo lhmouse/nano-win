@@ -85,6 +85,8 @@
   current line to the top of the screen, which it shouldn't do.  (50) 
   [FIXED]
 - with PDCURSES, running meta-X turns off the keypad.  (51) [FIXED]
+- Alt speller argument (-s, --speller) does not take a string argument of
+  more than one word. (53) [FIXED].
 
 ** Open BUGS **
 
@@ -95,7 +97,5 @@
 - Resizing the window completely screws up the display if in any other
   mode than normal editing (help screen, search and replace, file
   browser..) (52)
-- Alt speller argument (-s, --speller) does not take a string argument of
-  more than one word. (53).
 
 $Id$
