@@ -282,6 +282,7 @@ CVS code -
 	  characters 128-255 aren't ASCII. (DLR, suggested by Michael
 	  Piefel)
 	- Add the "morespace" option. (DLR)
+	- Add support for characters to the "c-file" regexes. (DLR)
 - nano.1. nanorc.5, nano.texi:
 	- Add the "morespace" option, and sync with the descriptions in
 	  nanorc.sample in a few places. (DLR)
