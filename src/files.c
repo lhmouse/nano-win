@@ -448,7 +448,7 @@ int do_insertfile(int loading_file)
 #endif
 
 #ifndef DISABLE_OPERATINGDIR
-    if (operating_dir != NULL && strcmp(operating_dir, ".") != 0)
+    if (operating_dir != NULL && strcmp(operating_dir, "."))
 #ifdef ENABLE_MULTIBUFFER 
 	if (ISSET(MULTIBUFFER))
 	    i = statusq(1, insertfile_list, inspath,
@@ -1272,7 +1272,7 @@ void init_operating_dir(void)
     full_operating_dir = get_full_path(operating_dir);
 
     /* If get_full_path() failed or the operating directory is
-       inaccessible, unset operating_dir. */
+     * inaccessible, unset operating_dir. */
     if (full_operating_dir == NULL || chdir(full_operating_dir) == -1) {
 	free(full_operating_dir);
 	full_operating_dir = NULL;
