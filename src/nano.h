@@ -46,8 +46,9 @@
 
 #ifdef USE_SLANG	/* Slang support enabled */
 #include <slcurses.h>
-#define KEY_IC SL_KEY_IC
 #define KEY_DC SL_KEY_DELETE
+#define KEY_IC SL_KEY_IC
+#define KEY_RESIZE -1
 #define KEY_SUSPEND -1
 #elif defined(HAVE_NCURSES_H)
 #include <ncurses.h>

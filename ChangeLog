@@ -60,11 +60,12 @@ CVS code -
 	  interpreted as Ctrl-[character], and the support for Pico's
 	  Esc Esc [three-digit decimal ASCII code] input method. (DLR)
 - nano.h:
-	- Define KEY_SUSPEND as -1 when slang is used, as slang has no
-	  KEY_SUSPEND equivalent.  When nano is compiled with slang
-	  support, pressing Ctrl-Z to suspend nano at the Linux console
-	  with keypad(TRUE) generates Ctrl-Z instead of KEY_SUSPEND
-	  (which is what ncurses generates then). (DLR)
+	- Define KEY_RESIZE and KEY_SUSPEND as -1 when slang is used, as
+	  slang has no equivalent of either.  When nano is compiled with
+	  slang support, resizing the window doesn't generate
+	  KEY_RESIZE, and pressing Ctrl-Z to suspend nano at the Linux
+	  console with keypad(TRUE) generates Ctrl-Z instead of
+	  KEY_SUSPEND, both unlike ncurses. (DLR)
 - rcfile.c:
   parse_colors()
 	- Generate an error if we try to use a bright background color
