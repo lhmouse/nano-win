@@ -1,15 +1,39 @@
 CVS code -
+- General
+	- malloc->calloc, etc cleanups (DLR).
+	- New option, noconvert (-N, --noconvert) to completely stop
+	  the translation of files from DOS or Mac format (DLR).
+	- New functions wheck_writable_directory() and safe_tempnam()
+	  to get around the tempnam warning. (DLR)  Needs testing
+	- Added DOS and Mac format options to write file routine.
+	  Changes to shortcut_init() and do_writeout().	
+	- Removed stupid static definitions of toggles and shortcut
+	  lists.  Many changes to shortcut_init(), toggle_init(),
+	  statusq(), nanogetstr(), main(), and many other places.
+	  FIXME: Mouse support broken by this change.
 - Makefile.am:
 	- Add SYSCONFDIR to DEFS, so we can have an /etc/nanorc.
 	- Change localedir line to 1.0's version.
+- files.c:
+  read_byte()
+	- Added check for conrol characters (indicative of a binary 
+	  file), set NO_CONVERT if found.
+- global.c:
+	- Move openprev and opennext functions to shortcuts, they really
+	  aren't toggles (DLR).
 - rcfile.c:
-  parse_next_rege()
+  parse_next_regex()
 	- Allow " symbol to be in regex without leading \ by checking
 	  for *ptr+1 is not the end of the regex.
+- nano.c:
+  help_init()
+	- Added message re: having multiple blank buffers (DLR).
 - winio.c:
   do_cursorpos()
 	- Rewritten to show col place as well as charcter place, without
 	  needing an entirely separate flag.
+  bottombars(), onekey()
+	- Make bottom list dynamic with screen size (Guus Sliepen & Chris).
 - utils.c:
   strstrwrapper()
 	- NANO_SMALL test was backwards (Ken Tyler).

@@ -258,16 +258,18 @@ void nanoget_repaint(char *buf, char *inputbuf, int x)
 }
 
 /* Get the input from the kb; this should only be called from statusq */
-int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
+int nanogetstr(int allowtabs, char *buf, char *def, shortcut *s,
 	       int start_x, int list)
 {
-    int kbinput = 0, j = 0, x = 0, xend;
+    int kbinput = 0, j = 0, x = 0, xend, slen;
     int x_left = 0, inputlen, tabbed = 0;
     char *inputbuf;
+    shortcut *t;
 #ifndef DISABLE_TABCOMP
     int shift = 0;
 #endif
 
+    slen = length_of_list(s);
     inputbuf = charalloc(strlen(def) + 1);
     inputbuf[0] = 0;
 
@@ -276,7 +278,6 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 
 #if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
     currshortcut = s;
-    currslen = slen;
 #endif
 
     /* Get the input! */
@@ -289,12 +290,12 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
     wrefresh(edit);
 
     while ((kbinput = wgetch(bottomwin)) != 13) {
-	for (j = 0; j <= slen - 1; j++) {
+	for (t = s; t != NULL; t = t->next) {
 #ifdef DEBUG
 	    fprintf(stderr, _("Aha! \'%c\' (%d)\n"), kbinput, kbinput);
 #endif
 
-	    if (kbinput == s[j].val && kbinput < 32) {
+	    if (kbinput == t->val && kbinput < 32) {
 
 #ifndef DISABLE_HELP
 		/* Have to do this here, it would be too late to do it in statusq */
@@ -308,7 +309,7 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 		   we hit a keystroke, GEEZ! */
 		answer = mallocstrcpy(answer, inputbuf);
 		free(inputbuf);
-		return s[j].val;
+		return t->val;
 	    }
 	}
 	xend = strlen(buf) + strlen(inputbuf);
@@ -459,19 +460,19 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 		}
 	    default:
 
-		for (j = 0; j <= slen - 1; j++) {
+		for (t = s; t != NULL; t = t->next) {
 #ifdef DEBUG
 		    fprintf(stderr, _("Aha! \'%c\' (%d)\n"), kbinput,
 			    kbinput);
 #endif
-		    if (kbinput == s[j].val || kbinput == s[j].val - 32) {
+		    if (kbinput == t->val || kbinput == t->val - 32) {
 
 			/* We hit an Alt key.   Do like above.  We don't
 			   just ungetch the letter and let it get caught
 			   above cause that screws the keypad... */
 			answer = mallocstrcpy(answer, inputbuf);
 			free(inputbuf);
-			return s[j].val;
+			return t->val;
 		    }
 		}
 
@@ -573,15 +574,17 @@ void titlebar(char *path)
     reset_cursor();
 }
 
-void onekey(char *keystroke, char *desc)
+void onekey(char *keystroke, char *desc, int len)
 {
-    char description[80];
+    int i;
 
-    snprintf(description, 12 - (strlen(keystroke) - 2), " %-10s", desc);
     wattron(bottomwin, A_REVERSE);
     waddstr(bottomwin, keystroke);
     wattroff(bottomwin, A_REVERSE);
-    waddstr(bottomwin, description);
+    waddch(bottomwin, ' ');
+    waddnstr(bottomwin, desc, len - 3);
+    for (i = strlen(desc); i < len - 3; i++)
+        waddch(bottomwin, ' ');
 }
 
 void clear_bottomwin(void)
@@ -593,10 +596,17 @@ void clear_bottomwin(void)
     mvwaddstr(bottomwin, 2, 0, hblank);
 }
 
-void bottombars(shortcut s[], int slen)
+void bottombars(shortcut *s)
 {
     int i, j, k;
     char keystr[10];
+    shortcut *t;
+    int slen;
+
+    if (s == main_list)
+	slen = MAIN_VISIBLE;
+    else
+	slen = length_of_list(s);
 
     if (ISSET(NO_HELP))
 	return;
@@ -610,39 +620,42 @@ void bottombars(shortcut s[], int slen)
 
     /* Determine how many extra spaces are needed to fill the bottom of the screen */
     if (slen < 2)
-	k = COLS / 6 - 13;
+	k = COLS / 6;
     else
-	k = COLS / ((slen + (slen % 2)) / 2) - 13;
+	k = COLS / ((slen + (slen % 2)) / 2);
 
 
     clear_bottomwin();
-    wmove(bottomwin, 1, 0);
 
-    for (i = 0; i <= slen - 1; i += 2) {
+    t = s;
+    for (i = 0; i < slen / 2; i++) {
 
-	if (s[i].val < 97)
-	    snprintf(keystr, 10, "^%c", s[i].val + 64);
+	wmove(bottomwin, 1, i * k);
+
+	if (t->val < 97)
+	    snprintf(keystr, 10, "^%c", t->val + 64);
 	else
-	    snprintf(keystr, 10, "M-%c", s[i].val - 32);
+	    snprintf(keystr, 10, "M-%c", t->val - 32);
 
-	onekey(keystr, s[i].desc);
+	onekey(keystr, t->desc, k);
 
-	for (j = 0; j < k; j++)
-	    waddch(bottomwin, ' ');
-    }
+	if (t->next == NULL)
+	    break;
+	t = t->next;
 
-    wmove(bottomwin, 2, 0);
-    for (i = 1; i <= slen - 1; i += 2) {
+	wmove(bottomwin, 2, i * k);
 
-	if (s[i].val < 97)
-	    snprintf(keystr, 10, "^%c", s[i].val + 64);
+	if (t->val < 97)
+	    snprintf(keystr, 10, "^%c", t->val + 64);
 	else
-	    snprintf(keystr, 10, "M-%c", s[i].val - 32);
+	    snprintf(keystr, 10, "M-%c", t->val - 32);
 
-	onekey(keystr, s[i].desc);
+	onekey(keystr, t->desc, k);
 
-	for (j = 0; j < k; j++)
-	    waddch(bottomwin, ' ');
+	if (t->next == NULL)
+	    break;
+	t = t->next;
+	
     }
 
 #ifdef ENABLE_COLOR
@@ -1293,17 +1306,17 @@ void update_cursor(void)
  *
  * New arg tabs tells whether or not to allow tab completion.
  */
-int statusq(int tabs, shortcut s[], int slen, char *def, char *msg, ...)
+int statusq(int tabs, shortcut *s, char *def, char *msg, ...)
 {
     va_list ap;
     char foo[133];
-    int ret;
+    int ret, slen;
 
 #ifndef DISABLE_TABCOMP
     int list = 0;
 #endif
 
-    bottombars(s, slen);
+    bottombars(s);
 
     va_start(ap, msg);
     vsnprintf(foo, 132, msg, ap);
@@ -1318,11 +1331,11 @@ int statusq(int tabs, shortcut s[], int slen, char *def, char *msg, ...)
 
 
 #ifndef DISABLE_TABCOMP
-    ret = nanogetstr(tabs, foo, def, s, slen, (strlen(foo) + 3), list);
+    ret = nanogetstr(tabs, foo, def, s, (strlen(foo) + 3), list);
 #else
     /* if we've disabled tab completion, the value of list won't be
        used at all, so it's safe to use 0 (NULL) as a placeholder */
-    ret = nanogetstr(tabs, foo, def, s, slen, (strlen(foo) + 3), 0);
+    ret = nanogetstr(tabs, foo, def, s, (strlen(foo) + 3), 0);
 #endif
 
 #ifdef ENABLE_COLOR
@@ -1399,18 +1412,18 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
 	wmove(bottomwin, 1, 0);
 
 	snprintf(shortstr, 3, " %c", yesstr[0]);
-	onekey(shortstr, _("Yes"));
+	onekey(shortstr, _("Yes"), 16);
 
 	if (all) {
 	    snprintf(shortstr, 3, " %c", allstr[0]);
-	    onekey(shortstr, _("All"));
+	    onekey(shortstr, _("All"), 16);
 	}
 	wmove(bottomwin, 2, 0);
 
 	snprintf(shortstr, 3, " %c", nostr[0]);
-	onekey(shortstr, _("No"));
+	onekey(shortstr, _("No"), 16);
 
-	onekey("^C", _("Cancel"));
+	onekey("^C", _("Cancel"), 16);
     }
     va_start(ap, msg);
     vsnprintf(foo, 132, msg, ap);
@@ -1556,7 +1569,7 @@ void statusbar(char *msg, ...)
 
 void display_main_list(void)
 {
-    bottombars(main_list, MAIN_VISIBLE);
+    bottombars(main_list);
 }
 
 int total_refresh(void)
@@ -1667,10 +1680,8 @@ int do_help(void)
     ptr = help_text;
 
     oldshortcut = currshortcut;
-    oldslen = currslen;
 
     currshortcut = help_list;
-    currslen = HELP_LIST_LEN;
 
     kp = keypad_on(edit, 1);
     kp2 = keypad_on(bottomwin, 1);
@@ -1682,10 +1693,10 @@ int do_help(void)
 	no_help_flag = 1;
 	UNSET(NO_HELP);
 	window_init();
-	bottombars(help_list, HELP_LIST_LEN);
+	bottombars(help_list);
 
     } else
-	bottombars(help_list, HELP_LIST_LEN);
+	bottombars(help_list);
 
     do {
 	ptr = help_text;
@@ -1766,7 +1777,6 @@ int do_help(void)
 	     kbinput != NANO_EXIT_FKEY);
 
     currshortcut = oldshortcut;
-    currslen = oldslen;
 
     if (no_help_flag) {
 	blank_bottombars();
@@ -1774,7 +1784,7 @@ int do_help(void)
 	SET(NO_HELP);
 	window_init();
     } else
-	bottombars(currshortcut, currslen);
+	bottombars(currshortcut);
 
     curs_set(1);
     edit_refresh();
@@ -1895,6 +1905,7 @@ void do_credits(void)
 	"Adam Rogoyski",
 	"Rob Siemborski",
 	"Rocco Corsi",
+	"David Lawrence Ramsey",
 	"Ken Tyler",
 	"Sven Guckes",
 	"Florian König",
@@ -1909,7 +1920,6 @@ void do_credits(void)
 	"Joshua Jensen",
 	"Ryan Krebs",
 	"Albert Chin",
-	"David Lawrence Ramsey",
 	"",
 	specialthx,
 	"Plattsburgh State University",

@@ -97,6 +97,7 @@ typedef struct shortcut {
    int (*func) (void);	/* Function to call when we catch this key */
    char *desc;		/* Description, e.g. "Page Up" */
    char *help;		/* Help file entry text */
+   struct shortcut *next;
 } shortcut;
 
 typedef struct toggle {
@@ -105,8 +106,7 @@ typedef struct toggle {
 			   e.g. "Pico Messages"; we'll append Enabled or
 			   Disabled */
    int flag;		/* What flag actually gets toggled */
-   char override_ch;	/* The character to display on the help screen,
-			   if it isn't NULL */
+   struct toggle *next;
 } toggle;
 
 #ifdef ENABLE_NANORC
@@ -162,6 +162,7 @@ typedef struct colortype {
 #define SMOOTHSCROLL		(1<<23)
 #define DISABLE_CURPOS		(1<<24)	/* Damn, we still need it */
 #define ALT_KEYPAD		(1<<25)
+#define NO_CONVERT		(1<<26)
 
 /* Control key sequences, changing these would be very very bad */
 
@@ -305,57 +306,9 @@ know what you're doing */
 #define TOGGLE_DOS_KEY		NANO_ALT_D
 #define TOGGLE_MAC_KEY		NANO_ALT_O
 #define TOGGLE_SMOOTH_KEY	NANO_ALT_S
+#define TOGGLE_NOCONVERT_KEY	NANO_ALT_N
 
-/* Toggle stuff, these static lengths need to go away RSN */
-
-#ifndef HAVE_REGEX_H
-#define NO_REGEX 1
-#define SMALL_TOO 0
-#else 
-#define NO_REGEX 0
-#ifdef NANO_SMALL
-#define SMALL_TOO 1
-#else
-#define SMALL_TOO 0
-#endif /* NANO_SMALL */
-#endif /* HAVE_REGEX_H */
-
-#ifdef DISABLE_BROWSER
-#define NO_BROWSER 1
-#else
-#define NO_BROWSER 0
-#endif
-
-#ifdef NANO_SMALL
-#ifdef HAVE_REGEX_H
-#define NO_TOGGLES 3
-#else
-#define NO_TOGGLES 2
-#endif /* HAVE_REGEX_H */
-#else
-#define NO_TOGGLES 0
-#endif /* NANO_SMALL */
-
-#ifdef ENABLE_MULTIBUFFER
-#define MULTI_TOGGLES 3
-#else
-#define MULTI_TOGGLES 0
-#endif
-
-#define WHEREIS_LIST_LEN (9 - NO_REGEX - NO_TOGGLES)
-#define REPLACE_LIST_LEN (9 - NO_REGEX - NO_TOGGLES)
-#define TOGGLE_LEN (14 - NO_REGEX + MULTI_TOGGLES)
-#define WRITEFILE_LIST_LEN (4 - NO_BROWSER)
-#define INSERTFILE_LIST_LEN (3 - NO_BROWSER)
-#define BROWSER_LIST_LEN 5
-#define MAIN_LIST_LEN (27 - NO_REGEX - SMALL_TOO)
 #define MAIN_VISIBLE 12
-#define REPLACE_LIST_2_LEN 4
-#define GOTO_LIST_LEN 4
-#define GOTODIR_LIST_LEN 2
-#define HELP_LIST_LEN 3
-#define SPELL_LIST_LEN 2
-
 
 #define VIEW 1
 #define NOVIEW 0

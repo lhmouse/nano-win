@@ -64,13 +64,13 @@ colortype *colorstrings;
 #endif
 
 extern shortcut *shortcut_list;
-extern shortcut main_list[MAIN_LIST_LEN], whereis_list[WHEREIS_LIST_LEN];
-extern shortcut replace_list[REPLACE_LIST_LEN], goto_list[GOTO_LIST_LEN];
-extern shortcut writefile_list[WRITEFILE_LIST_LEN], insertfile_list[INSERTFILE_LIST_LEN];
-extern shortcut spell_list[SPELL_LIST_LEN], replace_list_2[REPLACE_LIST_LEN];
-extern shortcut help_list[HELP_LIST_LEN];
+extern shortcut *main_list, *whereis_list;
+extern shortcut *replace_list, *goto_list;
+extern shortcut *writefile_list, *insertfile_list;
+extern shortcut *spell_list, *replace_list_2;
+extern shortcut *help_list;
 #ifndef DISABLE_BROWSER
-extern shortcut browser_list[BROWSER_LIST_LEN], gotodir_list[GOTODIR_LIST_LEN];
+extern shortcut *browser_list, *gotodir_list;
 #endif
 extern shortcut *currshortcut;
 
@@ -80,7 +80,7 @@ extern regex_t search_regexp;
 extern regmatch_t regmatches[10];  
 #endif
 
-extern toggle toggles[TOGGLE_LEN];
+extern toggle *toggles;
 
 /* Programs we want available */
 
@@ -95,7 +95,7 @@ int xplustabs(void);
 int do_yesno(int all, int leavecursor, char *msg, ...);
 int actual_x(filestruct * fileptr, int xplus);
 int strlenpt(char *buf);
-int statusq(int allowtabs, shortcut s[], int slen, char *def, char *msg, ...);
+int statusq(int allowtabs, shortcut s[], char *def, char *msg, ...);
 int write_file(char *name, int tmpfile, int append, int nonamechange);
 int do_cut_text(void);
 int do_uncut_text(void);
@@ -103,6 +103,7 @@ int no_help(void);
 int renumber_all(void);
 int open_file(char *filename, int insert, int quiet);
 int do_insertfile(int loading_file);
+int length_of_list(shortcut *s);
 
 #ifdef ENABLE_MULTIBUFFER
 int add_open_file(int update, int dup_fix);
@@ -155,7 +156,7 @@ void blank_statusbar(void);
 void titlebar(char *path);
 void previous_line(void);
 void center_cursor(void);
-void bottombars(shortcut s[], int slen);
+void bottombars(shortcut *s);
 void blank_statusbar_refresh(void);
 void *nmalloc (size_t howmuch);
 void *mallocstrcpy(char *dest, char *src);
@@ -194,7 +195,6 @@ void do_rcfile(void);
 void do_credits(void);
 #endif
 
-
 int do_writeout_void(void), do_exit(void), do_gotoline_void(void);
 int do_insertfile_void(void), do_search(void);
 
@@ -214,12 +214,18 @@ int keypad_on(WINDOW * win, int newval);
 #ifdef ENABLE_MULTIBUFFER
 int open_file_dup_fix(int update);
 int open_prevfile(int closing_file), open_nextfile(int closing_file);
+int open_prevfile_void(void), open_nextfile_void(void);
 #endif
 
 char *charalloc (size_t howmuch);
 
-#if defined (ENABLE_MULTIBUFFER) || !defined (ENABLE_OPERATINGDIR)
-char *get_full_path(char *origpath);
+#if defined (ENABLE_MULTIBUFFER) || !defined (DISABLE_SPELLER) || !defined (DISABLE_OPERATINGDIR)
+char *get_full_path(const char *origpath);
+#endif
+
+#ifndef DISABLE_SPELLER
+char *check_writable_directory(const char *path, int *writable);
+char *safe_tempnam(const char *dirname, const char *filename_prefix);
 #endif
 
 #ifndef DISABLE_BROWSER

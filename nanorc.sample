@@ -55,6 +55,12 @@
 # Use smooth scrolling as the default
 # set smooth
 
+# Use alternate keypad routines
+# set keypad
+
+# Don't convert files from DOS/Mac format
+# set noconvert
+
 # Allow multiple file buffers (using ^R inserts into separate buffer)
 # You must have configured with --enable-multibuffer or --enable-extra for
 # this to work

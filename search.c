@@ -76,7 +76,7 @@ int search_init(int replacing)
     char *buf;
     static char *backupstring = NULL;
 #ifndef NANO_SMALL
-    int j;
+    toggle *t;
 #endif
 
     search_init_globals();
@@ -126,8 +126,7 @@ int search_init(int replacing)
 	strcpy(buf, "");
 
     /* This is now one simple call.  It just does a lot */
-    i = statusq(0, replacing ? replace_list : whereis_list,
-	replacing ? REPLACE_LIST_LEN : WHEREIS_LIST_LEN, backupstring,
+    i = statusq(0, replacing ? replace_list : whereis_list, backupstring,
 	"%s%s%s%s%s%s", 
 	_("Search"),
 
@@ -187,9 +186,9 @@ int search_init(int replacing)
 	backupstring = mallocstrcpy(backupstring, answer);
 
 #ifndef NANO_SMALL
-	for (j = 0; j <= TOGGLE_LEN - 1; j++)
-	    if (i == toggles[j].val)
-		TOGGLE(toggles[j].flag);
+	for (t = toggles; t != NULL; t = t->next)
+	    if (i == t->val)
+		TOGGLE(t->flag);
 #endif
 
 	return 1;
@@ -743,15 +742,15 @@ int do_replace(void)
 	    } else
 		sprintf(buf, "%s", last_replace);
 
-	    i = statusq(0, replace_list_2, REPLACE_LIST_2_LEN, "",
+	    i = statusq(0, replace_list_2, "",
 			_("Replace with [%s]"), buf);
 	}
 	else
-	    i = statusq(0, replace_list_2, REPLACE_LIST_2_LEN, "",
+	    i = statusq(0, replace_list_2, "",
 			_("Replace with"));
     }
     else
-	i = statusq(0, replace_list_2, REPLACE_LIST_2_LEN, last_replace, 
+	i = statusq(0, replace_list_2, last_replace, 
 			_("Replace with"));
 
     /* save where we are */
@@ -786,7 +785,7 @@ int do_gotoline(int line, int save_pos)
 
 	int j = 0;
 
-	j = statusq(0, goto_list, GOTO_LIST_LEN, "", _("Enter line number"));
+	j = statusq(0, goto_list, "", _("Enter line number"));
 	if (j != 0) {
 	    statusbar(_("Aborted"));
 	    goto_abort();

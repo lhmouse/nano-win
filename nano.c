@@ -64,8 +64,8 @@
 
 #ifndef DISABLE_WRAPJUSTIFY
 /* Former globals, now static */
-int fill = 0;			/* Fill - where to wrap lines, basically */
-int wrap_at = 0;		/* Right justified fill value, allows resize */
+int fill = 0;/* Fill - where to wrap lines, basically */
+int wrap_at = 0;	/* Right justified fill value, allows resize */
 #endif
 
 struct termios oldterm;		/* The user's original term settings */
@@ -425,10 +425,9 @@ void usage(void)
     printf
 	(_
 	 (" -M 		--mac			Write file in Mac format\n"));
-#endif
-#ifdef HAVE_REGEX_H
-    printf(_
-	   (" -R		--regexp		Use regular expressions for search\n"));
+    printf
+	(_
+	 (" -N 		--noconvert		Don't convert files from DOS/Mac format\n"));
 #endif
 #ifndef NANO_SMALL
     printf(_
@@ -1488,8 +1487,7 @@ int do_int_spell_fix(char *word)
 	    do_replace_highlight(TRUE, prevanswer);
 
 	    /* allow replace word to be corrected */
-	    i = statusq(0, spell_list, SPELL_LIST_LEN, last_replace,
-		_("Edit a replacement"));
+	    i = statusq(0, spell_list, last_replace, _("Edit a replacement"));
 
 	    do_replace_highlight(FALSE, prevanswer);
 
@@ -1732,7 +1730,7 @@ int do_spell(void)
     char *temp;
     int spell_res;
 
-    if ((temp = tempnam(0, "nano.")) == NULL) {
+    if ((temp = safe_tempnam(0, "nano.")) == NULL) {
 	statusbar(_("Could not create a temporary filename: %s"),
 		  strerror(errno));
 	return 0;
@@ -1834,6 +1832,7 @@ void do_mouse(void)
 {
     MEVENT mevent;
     int foo = 0, tab_found = 0;
+    int currslen;
 
     if (getmouse(&mevent) == ERR)
 	return;
@@ -1904,6 +1903,11 @@ void do_mouse(void)
     } else if (wenclose(bottomwin, mevent.y, mevent.x) && !ISSET(NO_HELP)) {
 
 	int k, val = 0;
+
+	if (currshortcut == main_list)
+	    currslen = MAIN_VISIBLE;
+	else
+	    currslen = length_of_list(currshortcut);
 
 	if (currslen < 2)
 	    k = COLS / 6;
@@ -2410,14 +2414,17 @@ int do_justify(void)
 #ifndef DISABLE_HELP
 void help_init(void)
 {
-    int i, sofar = 0, helplen;
+    int i, sofar = 0, meta_shortcut = 0, helplen;
     long allocsize = 1;		/* How much space we're gonna need for the help text */
     char buf[BUFSIZ] = "", *ptr = NULL;
+    toggle *t;
+    shortcut *s;
 
-    if (currslen == MAIN_VISIBLE)
-	helplen = MAIN_LIST_LEN;
-    else 
-	helplen = currslen;
+/*
+    if (currshortcut = main_list)
+	helplen = MAIN_VISIBLE;
+    else  */
+	helplen = length_of_list(currshortcut);
 
     /* First set up the initial help text for the current function */
     if (currshortcut == whereis_list || currshortcut == replace_list
@@ -2451,8 +2458,12 @@ void help_init(void)
 		"or --multibuffer command line flags, the Meta-F toggle or "
 		"using a nanorc file, inserting a file will cause it to be "
 		"loaded into a separate buffer (use Meta-< and > to switch "
-		"between file buffers).\n\n The following function keys are "
-		"available in Insert File mode:\n\n");
+		"between file buffers).\n\n In multiple buffer mode, the "
+		"same file cannot be loaded twice, not even a \"New "
+		"Buffer.\" A workaround to load another blank buffer is to "
+		"load a nonexistent filename into a separate buffer.\n\n "
+		"The following function keys are available in Insert File "
+		"mode:\n\n");
     else if (currshortcut == writefile_list)
 	ptr = _("Write File Help Text\n\n "
 		"Type the name that you wish to save the current file "
@@ -2498,20 +2509,21 @@ void help_init(void)
 
     /* Compute the space needed for the shortcut lists - we add 15 to
        have room for the shortcut abbrev and its possible alternate keys */
-    for (i = 0; i <= helplen - 1; i++)
-	if (currshortcut[i].help != NULL)
-	    allocsize += strlen(currshortcut[i].help) + 15;
+    s = currshortcut;
+    for (i = 0; i <= helplen - 1; i++) {
+	if (s->help != NULL)
+	    allocsize += strlen(s->help) + 15;
+	s = s->next;
+    }
 
     /* If we're on the main list, we also allocate space for toggle help text. */
     if (currshortcut == main_list) {
-	for (i = 0; i <= TOGGLE_LEN - 1; i++)
-	    if (toggles[i].desc != NULL)
-		allocsize += strlen(toggles[i].desc) + 30;
-
+	for (t = toggles; t != NULL; t = t->next)
+	    if (t->desc != NULL)
+		allocsize += strlen(t->desc) + 30;
     }
 
     allocsize += strlen(ptr);
-
 
     if (help_text != NULL)
 	free(help_text);
@@ -2523,59 +2535,71 @@ void help_init(void)
     strcpy(help_text, ptr);
 
     /* Now add our shortcut info */
+    s = currshortcut;
     for (i = 0; i <= helplen - 1; i++) {
-	if (currshortcut[i].val > 0 && currshortcut[i].val < 'a')
-	   sofar = snprintf(buf, BUFSIZ, "^%c	", currshortcut[i].val + 64);
-	else
-	   sofar = snprintf(buf, BUFSIZ, "	");
+	if (s->val > 0 && s->val < 'a')
+	    sofar = snprintf(buf, BUFSIZ, "^%c	", s->val + 64);
+	else {
+	    if (s->altval > 0) {
+		sofar = 0;
+		meta_shortcut = 1;
+	    }
+	    else
+		sofar = snprintf(buf, BUFSIZ, "	");
+	}
 
-	if (currshortcut[i].misc1 > KEY_F0 && currshortcut[i].misc1 <= KEY_F(64))
-	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "(F%d)	",
-			      currshortcut[i].misc1 - KEY_F0);
-	else
-	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "	");
+	if (!meta_shortcut) {
+	    if (s->misc1 > KEY_F0 && s->misc1 <= KEY_F(64))
+		sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "(F%d)	",
+				  s->misc1 - KEY_F0);
+	    else
+		sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "	");
+	}
 
-	if (currshortcut[i].altval > 0 && currshortcut[i].altval < 91)
-	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "(M-%c)	",
-			      currshortcut[i].altval - 32);
-	else if (currshortcut[i].altval > 0)
-	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "(M-%c)	",
-			      currshortcut[i].altval);
+	if (s->altval > 0 && s->altval < 91 
+		&& (s->altval - 32) > 32)
+	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar,
+	    (meta_shortcut ? "M-%c	" : "(M-%c)	"),
+	    s->altval - 32);
+	else if (s->altval > 0)
+	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar,
+	    (meta_shortcut ? "M-%c	" : "(M-%c)	"),
+	    s->altval);
 	/* Hack */
-	else if (currshortcut[i].val >= 'a')
-	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "(M-%c)	",
-			      currshortcut[i].val - 32);
+	else if (s->val >= 'a')
+	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar,
+	    (meta_shortcut ? "(M-%c)	" : "M-%c	"),
+	    s->val - 32);
 	else
 	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "	");
 
+	if (meta_shortcut) {
+	    if (s->misc1 > KEY_F0 && s->misc1 <= KEY_F(64))
+		sofar += snprintf(&buf[sofar], BUFSIZ - sofar,
+			"(F%d)		", s->misc1 - KEY_F0);
+	    else
+		sofar += snprintf(&buf[sofar], BUFSIZ - sofar,
+			"		");
+	}
 
-	if (currshortcut[i].help != NULL)
-	    snprintf(&buf[sofar], BUFSIZ - sofar, "%s", currshortcut[i].help);
-
+	if (s->help != NULL)
+	    snprintf(&buf[sofar], BUFSIZ - sofar, "%s", s->help);
 
 	strcat(help_text, buf);
 	strcat(help_text, "\n");
+
+	s = s->next;
     }
 
     /* And the toggles... */
     if (currshortcut == main_list)
-	for (i = 0; i <= TOGGLE_LEN - 1; i++) {
-	    if (toggles[i].override_ch != 0)
+	for (t = toggles; t != NULL; t = t->next) {
 		sofar = snprintf(buf, BUFSIZ,
-			     "M-%c			", toggles[i].override_ch);
-	    else
-		sofar = snprintf(buf, BUFSIZ,
-			     "M-%c			", toggles[i].val - 32);
-
-	    if (toggles[i].desc != NULL) {
-		if (toggles[i].flag != 0)
+			     "M-%c			", t->val - 32);
+	    if (t->desc != NULL) {
 		    snprintf(&buf[sofar], BUFSIZ - sofar, _("%s enable/disable"),
-			 toggles[i].desc);
-		else
-		    snprintf(&buf[sofar], BUFSIZ - sofar, "%s",
-			 toggles[i].desc);
+			 t->desc);
 	}
-
 	strcat(help_text, buf);
 	strcat(help_text, "\n");
     }
@@ -2583,7 +2607,7 @@ void help_init(void)
 }
 #endif
 
-void do_toggle(int which)
+void do_toggle(toggle *which)
 {
 #ifdef NANO_SMALL
     nano_disabled_msg();
@@ -2591,7 +2615,7 @@ void do_toggle(int which)
     char *enabled = _("enabled");
     char *disabled = _("disabled");
 
-    switch (toggles[which].val) {
+    switch (which->val) {
     case TOGGLE_BACKWARDS_KEY:
     case TOGGLE_CASE_KEY:
     case TOGGLE_REGEXP_KEY:
@@ -2599,9 +2623,9 @@ void do_toggle(int which)
     }
 
     /* Even easier! */
-    TOGGLE(toggles[which].flag);
+    TOGGLE(which->flag);
 
-    switch (toggles[which].val) {
+    switch (which->val) {
     case TOGGLE_PICOMODE_KEY:
 	shortcut_init(0);
 	SET(CLEAR_BACKUPSTRING);
@@ -2629,18 +2653,18 @@ void do_toggle(int which)
 	break;
     }
 
-    if (!ISSET(toggles[which].flag)) {
-	if (toggles[which].val == TOGGLE_NOHELP_KEY ||
-	    toggles[which].val == TOGGLE_WRAP_KEY)
-	    statusbar("%s %s", toggles[which].desc, enabled);
+    if (!ISSET(which->flag)) {
+	if (which->val == TOGGLE_NOHELP_KEY ||
+	    which->val == TOGGLE_WRAP_KEY)
+	    statusbar("%s %s", which->desc, enabled);
 	else
-	    statusbar("%s %s", toggles[which].desc, disabled);
+	    statusbar("%s %s", which->desc, disabled);
     } else {
-	if (toggles[which].val == TOGGLE_NOHELP_KEY ||
-	    toggles[which].val == TOGGLE_WRAP_KEY)
-	    statusbar("%s %s", toggles[which].desc, disabled);
+	if (which->val == TOGGLE_NOHELP_KEY ||
+	    which->val == TOGGLE_WRAP_KEY)
+	    statusbar("%s %s", which->desc, disabled);
 	else
-	    statusbar("%s %s", toggles[which].desc, enabled);
+	    statusbar("%s %s", which->desc, enabled);
     }
 
 #endif
@@ -2689,6 +2713,8 @@ int main(int argc, char *argv[])
     int keyhandled;		/* Have we handled the keystroke yet? */
     int i, modify_control_seq;
     char *argv0;
+    shortcut *s;
+    toggle *t;
 
 #ifdef _POSIX_VDISABLE
     struct termios term;
@@ -2711,6 +2737,7 @@ int main(int argc, char *argv[])
 	{"cut", 0, 0, 'k'},
 	{"dos", 0, 0, 'D'},
 	{"mac", 0, 0, 'M'},
+	{"noconvert", 0, 0, 'N'},
 	{"autoindent", 0, 0, 'i'},
 #endif
 	{"tempfile", 0, 0, 't'},
@@ -2756,11 +2783,11 @@ int main(int argc, char *argv[])
 #endif /* ENABLE_NANORC */
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "h?DFKMRST:Vabcefgijklmo:pr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "h?DFKMNRST:Vabcefgijklmo:pr:s:tvwxz",
 				 long_options, &option_index)) != EOF) {
 #else
     while ((optchr =
-	    getopt(argc, argv, "h?DFKMRST:Vabcefgijklmo:pr:s:tvwxz")) != EOF) {
+	    getopt(argc, argv, "h?DFKMNRST:Vabcefgijklmo:pr:s:tvwxz")) != EOF) {
 #endif
 
 	switch (optchr) {
@@ -2782,14 +2809,10 @@ int main(int argc, char *argv[])
 	case 'M':
 	    SET(MAC_FILE);
 	    break;
-#endif
-	case 'T':
-	    tabsize = atoi(optarg);
-	    if (tabsize <= 0) {
-		usage();	/* To stop bogus data for tab width */
-		finish(1);
-	    }
+	case 'N':
+	    SET(NO_CONVERT);
 	    break;
+#endif
 #ifdef HAVE_REGEX_H
 	case 'R':
 	    SET(USE_REGEXP);
@@ -2800,6 +2823,13 @@ int main(int argc, char *argv[])
 	    SET(SMOOTHSCROLL);
 	    break;
 #endif
+	case 'T':
+	    tabsize = atoi(optarg);
+	    if (tabsize <= 0) {
+		usage();	/* To stop bogus data for tab width */
+		finish(1);
+	    }
+	    break;
 	case 'V':
 	    version();
 	    exit(0);
@@ -3004,7 +3034,6 @@ int main(int argc, char *argv[])
 
 #ifndef DISABLE_MOUSE
 	currshortcut = main_list;
-	currslen = MAIN_VISIBLE;
 #endif
 
 #ifndef _POSIX_VDISABLE
@@ -3170,6 +3199,7 @@ int main(int argc, char *argv[])
 		    break;
 		}
 		break;
+
 #ifdef ENABLE_MULTIBUFFER
 	    case NANO_OPENPREV_KEY:
 	    case NANO_OPENPREV_ALTKEY:
@@ -3182,21 +3212,29 @@ int main(int argc, char *argv[])
 		keyhandled = 1;
 		break;
 #endif
+
+#if !defined (NANO_SMALL) && defined (HAVE_REGEX_H)
+	    case NANO_BRACKET_KEY:
+		do_find_bracket();
+		keyhandled = 1;
+		break;
+#endif
+
 	    default:
 		/* Check for the altkey defs.... */
-		for (i = 0; i <= MAIN_LIST_LEN - 1; i++)
-		    if (kbinput == main_list[i].altval ||
-			kbinput == main_list[i].altval - 32) {
-			kbinput = main_list[i].val;
+		for (s = main_list; s != NULL; s = s->next)
+		    if (kbinput == s->altval ||
+			kbinput == s->altval - 32) {
+			kbinput = s->val;
 			break;
 		    }
 #ifndef NANO_SMALL
 		/* And for toggle switches */
-		for (i = 0; i <= TOGGLE_LEN - 1 && !keyhandled; i++)
-		    if (kbinput == toggles[i].val ||
-			(toggles[i].val > 'a' && 
-				kbinput == toggles[i].val - 32)) {
-			do_toggle(i);
+		for (t = toggles; t != NULL && !keyhandled; t = t->next)
+		    if (kbinput == t->val ||
+			(t->val > 'a' && 
+				kbinput == t->val - 32)) {
+			do_toggle(t);
 			keyhandled = 1;
 			break;
 		    }
@@ -3222,14 +3260,15 @@ int main(int argc, char *argv[])
 
 	/* Look through the main shortcut list to see if we've hit a
 	   shortcut key */
-	for (i = 0; i < MAIN_LIST_LEN && !keyhandled; i++) {
-	    if (kbinput == main_list[i].val ||
-		(main_list[i].misc1 && kbinput == main_list[i].misc1) ||
-		(main_list[i].misc2 && kbinput == main_list[i].misc2)) {
-		if (ISSET(VIEW_MODE) && !main_list[i].viewok)
+        
+	for (s = currshortcut; s != NULL && !keyhandled; s = s->next) {
+	    if (kbinput == s->val ||
+		(s->misc1 && kbinput == s->misc1) ||
+		(s->misc2 && kbinput == s->misc2)) {
+		if (ISSET(VIEW_MODE) && !s->viewok)
 		    print_view_warning();
 		else
-		    main_list[i].func();
+		    s->func();
 		keyhandled = 1;
 	    }
 	}

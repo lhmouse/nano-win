@@ -232,7 +232,7 @@ int do_cut_text(void)
 
 		junk = NULL;
 		junk = make_new_node(current);
-	        junk->data = nmalloc(1 * sizeof (char));
+	        junk->data = charalloc(1);
 		junk->data[0] = 0;
 
 		add_to_cutbuffer(junk);

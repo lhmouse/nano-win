@@ -40,11 +40,7 @@
 #define _(string) (string)
 #endif
 
-#ifndef DISABLE_WRAPJUSTIFY
-#define NUM_RCOPTS 20
-#else
-#define NUM_RCOPTS 19
-#endif
+#define NUM_RCOPTS 21
 
 /* Static stuff for the nanorc file */
 rcoption rcopts[NUM_RCOPTS] = {
@@ -57,11 +53,7 @@ rcoption rcopts[NUM_RCOPTS] = {
     {"operatingdir", 0},
     {"pico", PICO_MODE},
     {"tabsize", 0},
-
-#ifndef DISABLE_WRAPJUSTIFY
     {"fill", 0},
-#endif
-
     {"speller", 0},
     {"tempfile", TEMP_OPT},
     {"view", VIEW_MODE},
@@ -71,7 +63,8 @@ rcoption rcopts[NUM_RCOPTS] = {
     {"multibuffer", MULTIBUFFER},
     {"smooth", SMOOTHSCROLL},
     {"keypad", ALT_KEYPAD},
-    {"relative", RELATIVECHARS}
+    {"relative", RELATIVECHARS},
+    {"noconvert", NO_CONVERT}
 };
 
 static int errors = 0;

@@ -108,7 +108,6 @@ void new_file(void)
 
 }
 
-
 int read_byte(int fd, char *filename, char *input)
 {
     static char buf[BUFSIZ];
@@ -141,8 +140,9 @@ filestruct *read_line(char *buf, filestruct * prev, int *line1ins)
     strcpy(fileptr->data, buf);
 
 #ifndef NANO_SMALL
-    /* If it's a DOS file (CRLF), strip out the CR part*/
-    if (buf[strlen(buf) - 1] == '\r') {
+    /* If it's a DOS file (CRLF), and file conversion isn't disabled,
+       strip out the CR part */
+    if (!ISSET(NO_CONVERT) && buf[strlen(buf) - 1] == '\r') {
 	fileptr->data[strlen(buf) - 1] = 0;
 	totsize--;
 
@@ -179,7 +179,6 @@ filestruct *read_line(char *buf, filestruct * prev, int *line1ins)
     return fileptr;
 }
 
-
 int read_file(int fd, char *filename, int quiet)
 {
     long size;
@@ -211,8 +210,15 @@ int read_file(int fd, char *filename, int quiet)
 	    buf[0] = 0;
 	    i = 0;
 #ifndef NANO_SMALL
-	/* If it's a Mac file (no LF just a CR), handle it! */
-	} else if (i > 0 && buf[i-1] == '\r') {
+	 } else if (!ISSET(NO_CONVERT) && input[0] < 32 
+			&& input[0] != '\r' && input[0] != '\n') 
+	    /* If the file has binary chars in it, don't stupidly
+		assume it's a DOS or Mac formatted file! */
+	    SET(NO_CONVERT);
+
+	/* If it's a Mac file (no LF just a CR), and file conversion
+	   isn't disabled, handle it! */
+	else if (!ISSET(NO_CONVERT) && i > 0 && buf[i-1] == '\r') {
 	    fileformat = 2;
 	    fileptr = read_line(buf, fileptr, &line1ins);
 	    num_lines++;
@@ -335,11 +341,9 @@ int do_insertfile(int loading_file)
 
 #if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE)
     currshortcut = insertfile_list;
-    currslen = INSERTFILE_LIST_LEN;
 #endif
 
-    i = statusq(1, insertfile_list, INSERTFILE_LIST_LEN, "",
-		_("File to insert [from ./] "));
+    i = statusq(1, insertfile_list, "", _("File to insert [from ./] "));
     if (i != -1) {
 
 #ifdef DEBUG
@@ -358,7 +362,6 @@ int do_insertfile(int loading_file)
 	    char *tmp = do_browse_from(realname);
 #if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
 	    currshortcut = insertfile_list;
-	    currslen = INSERTFILE_LIST_LEN;
 #endif
 
 #ifdef DISABLE_TABCOMP
@@ -770,6 +773,13 @@ int open_prevfile(int closing_file)
     return 0;
 }
 
+/* This function is used by the shortcut list. */
+int open_prevfile_void(void)
+{
+    open_prevfile(0);
+    return 0;
+}
+
 /*
  * Open the next entry in the open_files structure.  If closing_file is
  * zero, update the current entry before switching from it.  Otherwise, we
@@ -825,6 +835,13 @@ int open_nextfile(int closing_file)
     return 0;
 }
 
+/* This function is used by the shortcut list. */
+int open_nextfile_void(void)
+{
+    open_nextfile(0);
+    return 0;
+}
+
 /*
  * Delete an entry from the open_files filestruct.  After deletion of an
  * entry, the next or previous entry is opened, whichever is found first.
@@ -852,9 +869,9 @@ int close_open_file(void)
     display_main_list();
     return 0;
 }
-#endif
+#endif /* MULTIBUFFER */
 
-#if defined (ENABLE_MULTIBUFFER) || !defined (DISABLE_OPERATINGDIR)
+#if defined (ENABLE_MULTIBUFFER) || !defined (DISABLE_SPELLER) || !defined (DISABLE_OPERATINGDIR)
 /*
  * When passed "[relative path]" or "[relative path][filename]" in
  * origpath, return "[full path]" or "[full path][filename]" on success,
@@ -863,7 +880,7 @@ int close_open_file(void)
  * yet on disk); it is not done if the relative path doesn't exist (since
  * the first call to chdir() will fail then).
  */
-char *get_full_path(char *origpath)
+char *get_full_path(const char *origpath)
 {
     char *newpath = NULL, *last_slash, *d_here, *d_there, *d_there_file, tmp;
     int path_only, last_slash_index;
@@ -1003,7 +1020,127 @@ char *get_full_path(char *origpath)
 
     return newpath;
 }
-#endif /* ENABLE_MULTIBUFFER || !DISABLE_OPERATINGDIR */
+#endif /* ENABLE_MULTIBUFFER || !DISABLE_SPELLER || !DISABLE_OPERATINGDIR */
+
+#ifndef DISABLE_SPELLER
+/*
+ * This function accepts a path and a pointer to an integer, and returns
+ * the full path (via get_full_path()).  It also sets the integer
+ * pointer's referenced value to 1 if the full path is writable, and 0
+ * otherwise.  On error, it returns NULL, and sets the pointer's
+ * referenced value to 0.
+ */
+char *check_writable_directory(const char *path, int *writable) {
+
+    char *full_path = get_full_path(path);
+    struct stat fileinfo;
+
+    /* if get_full_path() failed, set *writable to 0 and return NULL */
+    if (!full_path) {
+	*writable = 0;
+	return NULL;
+    }
+    else {
+	/* otherwise, stat() the full path to see if it's writable by the
+	   user; set *writable to 1 if it is, or 0 if it isn't */
+	stat(path, &fileinfo);
+	if (fileinfo.st_mode & S_IWUSR)
+	    *writable = 1;
+	else
+	    *writable = 0;
+    }
+
+    /* if the full path doesn't end in a slash (meaning get_full_path()
+       found that it isn't a directory) or isn't writable, return NULL */
+    if (full_path[strlen(full_path) - 1] != '/' || *writable == 0)
+	return NULL;
+
+    /* otherwise, return the full path */
+    return full_path;
+}
+
+/*
+ * This function accepts a directory name and filename prefix the same
+ * way that tempnam() does, determines the location for its temporary
+ * file the same way that tempnam() does, safely creates the temporary
+ * file there via mkstemp(), and returns the name of the temporary file
+ * the same way that tempnam() does.
+ */
+char *safe_tempnam(const char *dirname, const char *filename_prefix) {
+
+    char *buf, *tempdir = NULL, *full_tempdir = NULL;
+    int writable = 0, filedesc;
+
+    /* if $TMPDIR is set and non-empty, set tempdir to it, run it through
+       get_full_path(), and save the result in full_tempdir; otherwise,
+       leave full_tempdir set to to NULL */
+    if (getenv("TMPDIR") && strcmp(getenv("TMPDIR"),"")) {
+
+	/* store the value of $TMPDIR in tempdir, run its value through
+	   get_full_path(), and save the result in full_tempdir */
+	tempdir = charalloc(strlen(getenv("TMPDIR")) + 1);
+	sprintf(tempdir, "%s", getenv("TMPDIR"));
+	full_tempdir = check_writable_directory(tempdir, &writable);
+
+	/* we don't need the value of tempdir anymore */
+	free(tempdir);
+    }
+
+    if (!full_tempdir) {
+
+	/* if $TMPDIR is blank or isn't set, or isn't a writable
+	   directory, and dirname isn't NULL, try it; otherwise, leave
+	   full_tempdir set to NULL */
+	if (dirname) {
+	    tempdir = charalloc(strlen(dirname) + 1);
+	    strcpy(tempdir, dirname);
+	    full_tempdir = check_writable_directory(tempdir, &writable);
+
+	    /* we don't need the value of tempdir anymore */
+	    free(tempdir);
+	}
+    }
+
+    /* if $TMPDIR is blank or isn't set, or if it isn't a writable
+       directory, and dirname is NULL, try P_tmpdir instead */
+    if (!full_tempdir) {
+	tempdir = charalloc(strlen(P_tmpdir) + 1);
+	strcpy(tempdir, P_tmpdir);
+	full_tempdir = check_writable_directory(tempdir, &writable);
+
+	/* we don't need the value of tempdir anymore */
+	free(tempdir);
+    }
+
+    /* if P_tmpdir didn't work, use /tmp instead */
+    if (!full_tempdir) {
+	full_tempdir = charalloc(6);
+	strcpy(full_tempdir, "/tmp/");
+    }
+
+    buf = charalloc(strlen(full_tempdir) + 12);
+    sprintf(buf, "%s", full_tempdir);
+
+    /* like tempnam(), use only the first 5 characters of the prefix */
+    strncat(buf, filename_prefix, 5);
+
+    strcat(buf, "XXXXXX");
+    filedesc = mkstemp(buf);
+
+    /* if mkstemp() failed, get out */
+    if (filedesc == -1)
+	return NULL;
+
+    /* otherwise, close the resulting file; afterwards, it'll be 0 bytes
+       long, so delete it; finally, return the filename (all that's left
+       of it) */
+    else {
+	close(filedesc);
+	unlink(buf);
+	return buf;
+    }
+}
+#endif /* !DISABLE_SPELLER */
 
 #ifndef DISABLE_OPERATINGDIR
 /*
@@ -1308,6 +1445,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 int do_writeout(char *path, int exiting, int append)
 {
     int i = 0;
+    char *formatstr;
 
 #ifdef NANO_EXTRA
     static int did_cred = 0;
@@ -1315,7 +1453,6 @@ int do_writeout(char *path, int exiting, int append)
 
 #if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE)
     currshortcut = writefile_list;
-    currslen = WRITEFILE_LIST_LEN;
 #endif
 
     answer = mallocstrcpy(answer, path);
@@ -1336,24 +1473,32 @@ int do_writeout(char *path, int exiting, int append)
 
     while (1) {
 
-	/* Be nice to the translation folks */
 #ifndef NANO_SMALL
+
+	if (ISSET(MAC_FILE))
+	   formatstr = _(" [Mac Format]");
+	else if (ISSET(DOS_FILE))
+	   formatstr = _(" [DOS Format]");
+	else
+	   formatstr = "";
+
+	/* Be nice to the translation folks */
 	if (ISSET(MARK_ISSET) && !exiting) {
 	    if (append)
-		i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, "",
-		    _("Append Selection to File"));
+		i = statusq(1, writefile_list, "",
+		    "%s%s", _("Append Selection to File"), formatstr);
 	    else
-		i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, "",
-		    _("Write Selection to File"));
+		i = statusq(1, writefile_list, "",
+		    "%s%s", _("Write Selection to File"), formatstr);
 	} else
 #endif
 	{
 	    if (append)
-		i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, answer,
-		    _("File Name to Append"));
+		i = statusq(1, writefile_list, answer,
+		    "%s%s", _("File Name to Append"), formatstr);
 	    else
-		i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, answer,
-		    _("File Name to Write"));
+		i = statusq(1, writefile_list, answer,
+		    "%s%s", _("File Name to Write"), formatstr);
 
 	}
 
@@ -1366,7 +1511,6 @@ int do_writeout(char *path, int exiting, int append)
 
 #if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE)
 	    currshortcut = writefile_list;
-	    currslen = WRITEFILE_LIST_LEN;
 #endif
 
 	    if (tmp != NULL) {
@@ -1375,7 +1519,15 @@ int do_writeout(char *path, int exiting, int append)
 		return do_writeout(answer, exiting, append);
 	} else
 #endif
-	if (i == NANO_APPEND_KEY)
+	if (i == TOGGLE_DOS_KEY) {
+	    UNSET(MAC_FILE);
+	    TOGGLE(DOS_FILE);
+	    return(do_writeout(answer, exiting, append));
+	} else if (i == TOGGLE_MAC_KEY) {
+	    UNSET(DOS_FILE);
+	    TOGGLE(MAC_FILE);
+	    return(do_writeout(answer, exiting, append));
+	} else if (i == NANO_APPEND_KEY)
 	    return(do_writeout(answer, exiting, 1 - append));
 
 #ifdef DEBUG
@@ -2101,7 +2253,7 @@ char *do_browser(char *inpath)
 
     kb = keypad_on(edit, 1);
     titlebar(path);
-    bottombars(browser_list, BROWSER_LIST_LEN);
+    bottombars(browser_list);
     curs_set(0);
     wmove(edit, 0, 0);
     i = 0;
@@ -2116,7 +2268,6 @@ char *do_browser(char *inpath)
 
 #if !defined DISABLE_HELP || !defined(DISABLE_MOUSE)
 	currshortcut = browser_list;
-	currslen = BROWSER_LIST_LEN;
 #endif
 
  	editline = 0;
@@ -2287,8 +2438,8 @@ char *do_browser(char *inpath)
 	case NANO_GOTO_KEY:
 
 	    curs_set(1);
-	    j = statusq(0, gotodir_list, GOTODIR_LIST_LEN, "", _("Goto Directory"));
-	    bottombars(browser_list, BROWSER_LIST_LEN);
+	    j = statusq(0, gotodir_list, "", _("Goto Directory"));
+	    bottombars(browser_list);
 	    curs_set(0);
 
 #ifndef DISABLE_OPERATINGDIR
