@@ -929,9 +929,6 @@ void usage(void)
 #ifndef NANO_SMALL
     print1opt("-N", "--noconvert", N_("Don't convert files from DOS/Mac format"));
 #endif
-#ifdef NANO_WIDE
-    print1opt("-O", "--noutf8", N_("Don't convert files from UTF-8 format"));
-#endif
 #ifndef DISABLE_JUSTIFY
     print1opt(_("-Q [str]"), _("--quotestr=[str]"), N_("Quoting string, default \"> \""));
 #endif
@@ -3732,9 +3729,6 @@ int main(int argc, char **argv)
 #endif
 	{"ignorercfiles", 0, 0, 'I'},
 #endif
-#ifdef NANO_WIDE
-	{"noutf8", 0, 0, 'O'},
-#endif
 #ifndef DISABLE_JUSTIFY
 	{"quotestr", 1, 0, 'Q'},
 #endif
@@ -3812,9 +3806,9 @@ int main(int argc, char **argv)
 
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
-	getopt_long(argc, argv, "h?ABE:FHINOQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz", long_options, NULL)
+	getopt_long(argc, argv, "h?ABE:FHINQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz", long_options, NULL)
 #else
-	getopt(argc, argv, "h?ABE:FHINOQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz")
+	getopt(argc, argv, "h?ABE:FHINQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz")
 #endif
 		) != -1) {
 
@@ -3858,9 +3852,6 @@ int main(int argc, char **argv)
 		SET(NO_CONVERT);
 		break;
 #endif
-	    case 'O':
-		SET(NO_UTF8);
-		break;
 #ifndef DISABLE_JUSTIFY
 	    case 'Q':
 		quotestr = mallocstrcpy(quotestr, optarg);

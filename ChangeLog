@@ -29,11 +29,9 @@ CVS code -
 	  by DLR)
 	- Change references to "open files" to "open file buffers", for
 	  consistency. (DLR)
-	- Add option to disable UTF-8 sequence interpretation:
-	  -O/--noutf8 on the command line, Meta-O as a toggle, and
-	  "noutf8" in the rcfile.  This is so people using single-byte
-	  encodings such as KOI8-R can type properly again. (DLR, found
-	  by Arthur Ivanov)
+	- Add flag to disable UTF-8 sequence interpretation, so that
+	  people using single-byte encodings such as KOI8-R can type
+	  properly again. (DLR, found by Arthur Ivanov)
 	- Massively overhaul the input and output routines to support
 	  buffered input and output, the first steps toward
 	  wide/multibyte character input and output, and

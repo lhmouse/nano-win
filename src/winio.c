@@ -1739,7 +1739,9 @@ size_t display_string_len(const char *buf, size_t start_col, size_t
 	int wide_buf_len;
 	    /* How many bytes wide is this character? */
 	size_t old_col = start_col;
+#ifdef NANO_WIDE
 	bool bad_char;
+#endif
 
 	wide_buf_len = parse_char(buf, &wide_buf, &start_col
 #ifdef NANO_WIDE
@@ -1884,7 +1886,9 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
     while (index < alloc_len && buf[start_index] != '\0') {
 	int wide_buf, wide_buf_len;
+#ifdef NANO_WIDE
 	bool bad_char;
+#endif
 
 	wide_buf_len = parse_char(buf + start_index, &wide_buf, NULL
 #ifdef NANO_WIDE
