@@ -5,7 +5,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.1.6\n"
+"Project-Id-Version: nano 1.1.6\n"
 "POT-Creation-Date: 2002-02-20 14:55+0100\n"
 "PO-Revision-Date: 2002-02-20 17:15+0100\n"
 "Last-Translator: Guus Sliepen <guus@nl.linux.org>\n"
