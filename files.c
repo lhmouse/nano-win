@@ -346,7 +346,7 @@ int write_file(char *name, int tmp)
 		       S_IWOTH);
 	/* Open the file and truncate it.  Trust the symlink. */
 	if (fd == -1) {
-	    if (ISSET(TEMP_OPT)) {
+	    if (!tmp && ISSET(TEMP_OPT)) {
 		UNSET(TEMP_OPT);
 		return do_writeout(1);
 	    }

@@ -3,6 +3,7 @@ CVS code -
   write_file()
 	- Added O_EXCL to open call if tmp is set, more security which hopefully
 	  fixes any remaining security issues.
+	- Added tmp check to TMP_OPT section (how apropriate).
 
 nano 0.9.22 - 12/02/2000
 - General
