@@ -164,6 +164,15 @@ int do_cut_text(void)
 #ifndef NANO_SMALL
     if (ISSET(CUT_TO_END) && !ISSET(MARK_ISSET)) {
 	if (current_x == strlen(current->data)) {
+
+	    /* If the next line is empty, create a dummy line and add it
+		to the cutbuffer */
+	    if (current->next != NULL && strlen(current->next->data) == 0) {
+		filestruct *junk;
+
+		junk = copy_node(current->next);
+		add_to_cutbuffer(junk);
+	    }
 	    do_delete();
 	    SET(KEEP_CUTBUFFER);
 	    marked_cut = 2;

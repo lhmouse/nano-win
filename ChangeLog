@@ -3,6 +3,9 @@ CVS code -
   cut_marked_segment()
 	- Add bizarre copy of bot node, else *BSD goes ballistic (fixes
 	  BUG #60)
+  do_cut_text()
+	- If the next line is empty when using -k, create a dummy line
+	  and add it to the cutbuffer (fixes bug #61)
 - files.c:
   do_browser()
 	- Don't shift the size of the file is it's less than 1K. Fixed
