@@ -49,8 +49,7 @@ void lowercase(char *src)
 
 
 /* This is now mutt's version (called mutt_stristr) because it doesn't
-   Use memory allocation to do a simple search (yuck). */
-
+   use memory allocation to do a simple search (yuck). */
 char *strcasestr(char *haystack, char *needle)
 {
     const char *p, *q;
