@@ -787,34 +787,33 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 	    length_change = strlen(copy) - strlen(current->data);
 
 #ifndef NANO_SMALL
-	    /* Keep mark_beginx in sync with the text changes. */
-	    if (current == mark_beginbuf && mark_beginx > current_x) {
-		/* If the mark was on and (mark_beginbuf, mark_begin_x)
-		 * was the top of it, don't change mark_beginx. */
-		if (!old_mark_set || !right_side_up) {
+	    /* If the mark was on and (mark_beginbuf, mark_begin_x) was
+	     * the top of it, don't change mark_beginx. */
+	    if (!old_mark_set || !right_side_up) {
+		/* Keep mark_beginx in sync with the text changes. */
+		if (current == mark_beginbuf && mark_beginx >
+			current_x) {
 		    if (mark_beginx < current_x + match_len)
 			mark_beginx = current_x;
 		    else
 			mark_beginx += length_change;
 		}
 	    }
-#endif
 
-	    /* Keep real_current_x in sync with the text changes. */
-	    if (current == real_current && current_x <=
-		*real_current_x) {
-#ifndef NANO_SMALL
-		/* If the mark was on and (current, current_x) was the
-		 * top of it, don't change real_current_x. */
-		if (!old_mark_set || right_side_up) {
+	    /* If the mark was on and (current, current_x) was the top
+	     * of it, don't change real_current_x. */
+	    if (!old_mark_set || right_side_up) {
 #endif
+		/* Keep real_current_x in sync with the text changes. */
+		if (current == real_current && current_x <=
+			*real_current_x) {
 		    if (*real_current_x < current_x + match_len)
 			*real_current_x = current_x + match_len;
 		    *real_current_x += length_change;
-#ifndef NANO_SMALL
 		}
-#endif
+#ifndef NANO_SMALL
 	    }
+#endif
 
 	    /* Set the cursor at the last character of the replacement
 	     * text, so searching will resume after the replacement
