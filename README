@@ -71,6 +71,14 @@ Current Status
 	  shortcuts and files in browser, search toggles that are Pico 
 	  extensions moved to Meta keys so as to not interfere with Pico
 	  control sequences.
+	+ Smooth scrolling through files, instead of the jerky half-page
+	  down, half-page up method.  This is available by using the 
+	  -S or --smooth switch, or the Meta-S toggle.
+	+ Better non-*nix file support.  GNU nano now automatically
+	  converts files from DOS format or Mac format to standard file
+	  format.  It can also write files in either format by using the
+	  apropriate command line (-D, --dos or -M, --mac) or toggle
+	  (Meta-D, Meta-O).
 
    Chris Allegretta (chrisa@asty.org)
 
