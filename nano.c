@@ -367,7 +367,7 @@ int free_filestruct(filestruct * src)
 int renumber_all(void)
 {
     filestruct *temp;
-    long i = 1;
+    int i = 1;
 
     for (temp = fileage; temp != NULL; temp = temp->next) {
 	temp->lineno = i++;
@@ -1524,8 +1524,9 @@ int do_int_spell_fix(char *word)
     }
 
     /* restore the search/replace strings */
-    last_search = mallocstrcpy(last_search, save_search);
-    last_replace = mallocstrcpy(last_replace, save_replace);
+    free(last_search);    last_search=save_search;
+    free(last_replace);   last_replace=save_replace;
+    free(prevanswer);
 
     /* restore where we were */
     current = begin;
@@ -1755,6 +1756,7 @@ int do_spell(void)
 
     if (write_file(temp, 1, 0, 0) == -1) {
 	statusbar(_("Spell checking failed: unable to write temp file!"));
+	free(temp);
 	return 0;
     }
 
@@ -1777,6 +1779,7 @@ int do_spell(void)
     else
 	statusbar(_("Spell checking failed"));
 
+    free(temp);
     return spell_res;
 
 #endif
@@ -2237,7 +2240,8 @@ int do_justify(void)
     return 1;
 #else
     int slen = 0;		/* length of combined lines on one line. */
-    int initial_y, kbinput = 0, totbak;
+    int initial_y, kbinput = 0;
+    long totbak;
     filestruct *initial = NULL, *tmpjust = NULL, *cutbak, *tmptop, *tmpbot;
     filestruct *samecheck = current;
     int qdepth = 0;

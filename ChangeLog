@@ -1,5 +1,8 @@
 CVS code -
-
+- General
+	- Type misalignments and mem leaks in renumber_all, do_justify
+	  and do_spell (Rocco & Steven Kneizys).
+	  
 GNU nano 1.1.7 - 03/05/2002
 - General
 	- malloc->calloc, etc cleanups (DLR).
