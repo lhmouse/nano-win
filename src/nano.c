@@ -3055,7 +3055,7 @@ int main(int argc, char *argv[])
     int fill_flag_used = 0;	/* Was the fill option used? */
     const shortcut *s;
     int keyhandled = 0;	/* Have we handled the keystroke yet? */
-    int kbinput = -1;		/* Input from keyboard */
+    int kbinput;		/* Input from keyboard */
     int meta;
 
 #ifndef NANO_SMALL

@@ -75,6 +75,7 @@ CVS code -
 	- Remove unused variable option_index. (DLR)
 	- Fix omission of NANO_NO_KEY in the shortcut list scanning
 	  code. (DLR)
+	- Remove now-unnecessary initialization of kbinput. (DLR)
 - nano.h:
 	- Comment additions and cosmetic tweaks. (DLR)
 - search.c:
