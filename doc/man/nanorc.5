@@ -135,6 +135,10 @@ Save automatically on exit, don't prompt.
 \fBset/unset view\fP
 Disallow file modification.
 .TP
+\fBset whitespace "\fIstring\fP"\fP
+Set the two characters used to display the first characters of tabs and
+spaces.  They cannot be control characters.
+.TP
 .B syntax "\fIstr\fP" ["\fIfileregex\fP" ... ]
 Defines a syntax named \fIstr\fP which can be activated via the \fB-Y\fP
 flag, or will be automatically activated if the current filename matches

@@ -1435,11 +1435,15 @@ char *display_string(const char *buf, size_t start_col, size_t len)
     index = 0;
 
     for (; index < alloc_len; buf++) {
-	if (*buf == '\t')
-	    do {
+	if (*buf == '\t') {
+	    converted[index++] =
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+		ISSET(WHITESPACE_DISPLAY) ? whitespace[0] :
+#endif
+		' '; 
+	    while ((column + index) % tabsize)
 		converted[index++] = ' ';
-	    } while ((column + index) % tabsize);
-	else if (is_cntrl_char(*buf)) {
+	} else if (is_cntrl_char(*buf)) {
 	    converted[index++] = '^';
 	    if (*buf == '\n')
 		/* Treat newlines embedded in a line as encoded nulls;
@@ -1450,7 +1454,13 @@ char *display_string(const char *buf, size_t start_col, size_t len)
 		converted[index++] = '?';
 	    else
 		converted[index++] = *buf + 64;
-	} else
+	} else if (*buf == ' ')
+	    converted[index++] =
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+		ISSET(WHITESPACE_DISPLAY) ? whitespace[1] :
+#endif
+		' ';
+	else
 	    converted[index++] = *buf;
     }
     assert(len <= alloc_len + column - start_col);
@@ -1996,10 +2006,18 @@ void statusbar(const char *msg, ...)
 	char *bar;
 	char *foo;
 	size_t start_x = 0, foo_len;
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+	int old_whitespace = ISSET(WHITESPACE_DISPLAY);
+	UNSET(WHITESPACE_DISPLAY);
+#endif
 	bar = charalloc(COLS - 3);
 	vsnprintf(bar, COLS - 3, msg, ap);
 	va_end(ap);
 	foo = display_string(bar, 0, COLS - 4);
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+	if (old_whitespace)
+	    SET(WHITESPACE_DISPLAY);
+#endif
 	free(bar);
 	foo_len = strlen(foo);
 	start_x = (COLS - foo_len - 4) / 2;

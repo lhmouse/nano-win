@@ -106,6 +106,10 @@
 ## Disallow file modification, why would you want this in an rc file? ;)
 # set view
 
+## The two characters used to display the first characters of tabs and
+## spaces.  ASCII 187 and ASCII 183 seem to be good values for these.
+# set whitespace "  "
+
 ## Color setup
 ## Format:
 ## syntax "short description" ["filename regex" ...]
@@ -215,7 +219,7 @@
 ## highlight possible errors and parameters
 #color brightwhite "^ *(set|unset|syntax|color).*$"
 ## set, unset and syntax
-#color cyan "^ *(set|unset) +(autoindent|backup|backupdir|const|cut|fill|historylog|mouse|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|quotestr|rebinddelete|regexp|smarthome|smooth|speller|suspend|tabsize|tempfile|view)"
+#color cyan "^ *(set|unset) +(autoindent|backup|backupdir|const|cut|fill|historylog|mouse|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|quotestr|rebinddelete|regexp|smarthome|smooth|speller|suspend|tabsize|tempfile|view|whitespace)"
 #color green "^ *(set|unset|syntax)\>"
 ## colors
 #color yellow "^ *color +(bright)?(white|black|red|blue|green|yellow|magenta|cyan)(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"

@@ -52,6 +52,9 @@ extern char *quotestr;
 
 #ifndef NANO_SMALL
 extern char *backup_dir;
+#ifdef ENABLE_NANORC
+extern char *whitespace;
+#endif
 #endif
 
 extern WINDOW *topwin, *edit, *bottomwin;

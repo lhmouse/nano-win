@@ -71,11 +71,18 @@ void regexp_cleanup(void)
 
 void not_found_msg(const char *str)
 {
-    int numchars = actual_x(str, COLS / 2);
-
+    char *disp;
+    int numchars;
+ 
     assert(str != NULL);
-    statusbar(_("\"%.*s%s\" not found"), numchars, str,
-	str[numchars] == '\0' ? "" : "...");
+
+    disp = display_string(str, 0, (COLS / 2) + 1);
+    numchars = strnlen(disp, COLS / 2);
+
+    statusbar(_("\"%.*s%s\" not found"), numchars, disp,
+	disp[numchars] == '\0' ? "" : "...");
+
+    free(disp);
 }
 
 void search_abort(void)

@@ -2960,6 +2960,11 @@ void do_toggle(const toggle *which)
 	edit_refresh();
 	break;
 #endif
+#ifdef ENABLE_NANORC
+    case TOGGLE_WHITESPACE_KEY:
+	edit_refresh();
+	break;
+#endif
     }
 
     /* We are assuming here that shortcut_init() above didn't free and
@@ -3406,6 +3411,11 @@ int main(int argc, char *argv[])
 	if (spellenv != NULL)
 	    alt_speller = mallocstrcpy(NULL, spellenv);
     }
+#endif
+
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+    if (whitespace == NULL)
+	whitespace = mallocstrcpy(NULL, "  ");
 #endif
 
     if (tabsize == -1)

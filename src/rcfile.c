@@ -90,6 +90,9 @@ const static rcoption rcopts[] = {
     {"tabsize", 0},
     {"tempfile", TEMP_OPT},
     {"view", VIEW_MODE},
+#ifndef NANO_SMALL
+    {"whitespace", 0},
+#endif
     {NULL, 0}
 };
 
@@ -148,12 +151,13 @@ char *parse_next_word(char *ptr)
     return ptr;
 }
 
-/* The keywords operatingdir, backupdir, fill, tabsize, speller, and
- * quotestr take an argument when set.  Among these, operatingdir,
- * backupdir, speller, and quotestr have to allow tabs and spaces in the
- * argument.  Thus, if the next word starts with a ", we say it ends
- * with the last " of the line.  Otherwise, the word is interpreted as
- * usual.  That is so the arguments can contain "s too. */
+/* The keywords operatingdir, backupdir, fill, tabsize, speller,
+ * quotestr, and whitespace take an argument when set.  Among these,
+ * operatingdir, backupdir, speller, quotestr, and whitespace have to
+ * allow tabs and spaces in the argument.  Thus, if the next word starts
+ * with a ", we say it ends with the last " of the line.  Otherwise, the
+ * word is interpreted as usual.  That is so the arguments can contain
+ * "s too. */
 char *parse_argument(char *ptr)
 {
     const char *ptr_bak = ptr;
@@ -545,6 +549,7 @@ void parse_rcfile(FILE *rcstream)
 #endif
 #ifndef NANO_SMALL
 			        || !strcasecmp(rcopts[i].name, "backupdir")
+				|| !strcasecmp(rcopts[i].name, "whitespace")
 #endif
 #ifndef DISABLE_SPELLER
 				|| !strcasecmp(rcopts[i].name, "speller")
@@ -592,6 +597,18 @@ void parse_rcfile(FILE *rcstream)
 			    if (!strcasecmp(rcopts[i].name, "backupdir"))
 				backup_dir = mallocstrcpy(NULL, option);
 			    else
+
+			    if (!strcasecmp(rcopts[i].name, "whitespace")) {
+				size_t ws_len;
+				whitespace = mallocstrcpy(NULL, option);
+				ws_len = strlen(whitespace);
+				if (ws_len != 2 || (ws_len == 2 && (is_cntrl_char(whitespace[0]) || is_cntrl_char(whitespace[1])))) {
+				    rcfile_error(_("Two non-control characters required"));
+				    free(whitespace);
+				    whitespace = NULL;
+				} else
+				    SET(WHITESPACE_DISPLAY);
+			    } else
 #endif
 #ifndef DISABLE_SPELLER
 			    if (!strcasecmp(rcopts[i].name, "speller"))

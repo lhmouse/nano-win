@@ -73,6 +73,11 @@ char *quotestr = NULL;		/* Quote string.  The default value is
 
 #ifndef NANO_SMALL
 char *backup_dir = NULL;	/* Backup directory. */
+#ifdef ENABLE_NANORC
+char *whitespace = NULL;	/* Characters used when displaying
+				   the first characters of tabs and
+				   spaces. */
+#endif
 #endif
 
 int resetstatuspos;		/* Hack for resetting the status bar 
@@ -238,11 +243,14 @@ void toggle_init(void)
 #ifndef DISABLE_WRAPPING
     char *toggle_wrap_msg;
 #endif
+#ifdef ENABLE_COLOR
+    char *toggle_syntax_msg;
+#endif
 #ifdef ENABLE_MULTIBUFFER
     char *toggle_multibuffer_msg;
 #endif
-#ifdef ENABLE_COLOR
-    char *toggle_syntax_msg;
+#ifdef ENABLE_NANORC
+    char *toggle_whitespace_msg;
 #endif
 
     /* There is no need to reinitialize the toggles.  They can't
@@ -272,6 +280,9 @@ void toggle_init(void)
 #endif
 #ifdef ENABLE_MULTIBUFFER
     toggle_multibuffer_msg = _("Multiple file buffers");
+#endif
+#ifdef ENABLE_NANORC
+    toggle_whitespace_msg = _("Whitespace display");
 #endif
 
     toggle_init_one(TOGGLE_NOHELP_KEY, toggle_nohelp_msg, NO_HELP);
@@ -308,6 +319,9 @@ void toggle_init(void)
     toggle_init_one(TOGGLE_SMARTHOME_KEY, toggle_smarthome_msg, SMART_HOME);
 #ifdef ENABLE_COLOR
     toggle_init_one(TOGGLE_SYNTAX_KEY, toggle_syntax_msg, COLOR_SYNTAX);
+#endif
+#ifdef ENABLE_NANORC
+    toggle_init_one(TOGGLE_WHITESPACE_KEY, toggle_whitespace_msg, WHITESPACE_DISPLAY);
 #endif
 }
 
