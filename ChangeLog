@@ -21,6 +21,9 @@ CVS code -
 	- Fix erroneous #ifdef that resulted in the -d/--rebinddelete
 	  and -k/--cut options' not being printed when NANO_SMALL was
 	  defined. (DLR)
+  find_paragraph()
+	- Fix problem where a search for the next paragraph would skip
+	  over certain cases of one-line paragraphs. (DLR)
   do_justify()
 	- Instead of breaking a line at a space and readding the space
 	  afterwards, just break the line after the space, as it's more
