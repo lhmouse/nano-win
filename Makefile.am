@@ -2,8 +2,9 @@
 AUTOMAKE_OPTIONS = gnu no-dependencies
 M4DIR = $(srcdir)/m4
 ACLOCAL_AMFLAGS = -I $(M4DIR)
-ACINCLUDE_INPUTS = $(M4DIR)/gettext.m4 $(M4DIR)/largefile.m4 \
-	$(M4DIR)/lcmessage.m4 $(M4DIR)/progtest.m4
+ACINCLUDE_INPUTS = $(M4DIR)/gettext.m4 $(M4DIR)/iconv.m4 $(M4DIR)/largefile.m4 \
+	$(M4DIR)/progtest.m4 $(M4DIR)/codeset.m4 $(M4DIR)/glibc21.m4 \
+	$(M4DIR)/isc-posix.m4 $(M4DIR)/lcmessage.m4
 
 bin_PROGRAMS = 	nano
 nano_SOURCES =	color.c \

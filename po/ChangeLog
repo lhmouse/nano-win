@@ -1,3 +1,23 @@
+2002-01-19  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.40.
+
+2002-01-19  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.40.
+
+2002-01-19  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.40.
+	* cat-id-tbl.c: Remove file.
+	* stamp-cat-id: Remove file.
+
+2002-01-19  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.40.
+	* cat-id-tbl.c: Remove file.
+	* stamp-cat-id: Remove file.
+
 2002-01-19  Jordi Mallach  <jordi@sindominio.net>
 
 	* ca.po: Updated.

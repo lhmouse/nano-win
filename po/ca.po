@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.5-CVS\n"
-"POT-Creation-Date: 2002-01-19 00:16+0100\n"
+"POT-Creation-Date: 2002-01-19 13:10-0500\n"
 "PO-Revision-Date: 2002-01-19 00:17+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -522,7 +522,7 @@ msgid "Find Other Bracket"
 msgstr "Trobar Clau Corresponent"
 
 #: global.c:451 global.c:484 global.c:517 global.c:529 global.c:554
-#: global.c:568 global.c:579 global.c:605 winio.c:1308
+#: global.c:568 global.c:579 global.c:605 winio.c:1413
 msgid "Cancel"
 msgstr "Cancel·lar"
 
@@ -1201,7 +1201,7 @@ msgstr ""
 "\n"
 "Polsa una tecla per carregar nano\n"
 
-#: rcfile.c:165
+#: rcfile.c:180
 #, c-format
 msgid ""
 "color %s not understood.\n"
@@ -1214,15 +1214,15 @@ msgstr ""
 "\"white\", \"yellow\", \"cyan\", \"magenta\" i \n"
 "\"black\", amb el prefixe opcional \"bright\".\n"
 
-#: rcfile.c:190
+#: rcfile.c:204
 msgid "Missing color name"
 msgstr "Nom del color inexistent"
 
-#: rcfile.c:223
-msgid "regex length must be > 0"
-msgstr "la llargària del regex ha de ser > 0"
+#: rcfile.c:234 rcfile.c:288
+msgid "regex strings must begin and end with a \" character\n"
+msgstr ""
 
-#: rcfile.c:289
+#: rcfile.c:280
 msgid ""
 "\n"
 "\t\"start=\" requires a corresponding \"end=\""
@@ -1230,50 +1230,50 @@ msgstr ""
 "\n"
 "\t\"start=\" requereix el seu \"end=\" corresponent"
 
-#: rcfile.c:328
+#: rcfile.c:330
 msgid "parse_rcfile: Read a comment\n"
 msgstr "parse_rcfile: Llegit un comentari\n"
 
-#: rcfile.c:349
+#: rcfile.c:351
 #, c-format
 msgid "command %s not understood"
 msgstr "comandament %s no reconegut"
 
-#: rcfile.c:361
+#: rcfile.c:363
 #, c-format
 msgid "parse_rcfile: Parsing option %s\n"
 msgstr "parse_rcfile: Parsejant opció %s\n"
 
-#: rcfile.c:379
+#: rcfile.c:381
 #, c-format
 msgid "option %s requires an argument"
 msgstr "la opció %s requereix un argument"
 
-#: rcfile.c:390
+#: rcfile.c:392
 #, c-format
 msgid "requested fill size %d too small"
 msgstr "tamany de plenat %d massa petit"
 
-#: rcfile.c:398
+#: rcfile.c:402
 #, c-format
 msgid "requested tab size %d too small"
 msgstr "tamany de tabulador %d massa petit"
 
-#: rcfile.c:411
+#: rcfile.c:417
 #, c-format
 msgid "set flag %d!\n"
 msgstr "establir marca %d!\n"
 
-#: rcfile.c:416
+#: rcfile.c:423
 #, c-format
 msgid "unset flag %d!\n"
 msgstr "llevar marca %d!\n"
 
-#: rcfile.c:425
+#: rcfile.c:433
 msgid "Errors found in .nanorc file"
 msgstr "Errors trobats en fitxer .nanorc"
 
-#: rcfile.c:433
+#: rcfile.c:441
 #, c-format
 msgid "Unable to open ~/.nanorc file, %s"
 msgstr "No sh'a pogut obrir fitxer ~/.nanorc, %s"
@@ -1385,29 +1385,29 @@ msgstr "nano: realloc: memòria insuficient!"
 msgid "actual_x_from_start for xplus=%d returned %d\n"
 msgstr "actual_x_from_start per a xplus=%d ha retornat %d\n"
 
-#: winio.c:295 winio.c:466
+#: winio.c:294 winio.c:464
 #, c-format
 msgid "Aha! '%c' (%d)\n"
 msgstr "Aha! '%c' (%d)\n"
 
-#: winio.c:498
+#: winio.c:496
 #, c-format
 msgid "input '%c' (%d)\n"
 msgstr "entrada '%c' (%d)\n"
 
-#: winio.c:546
+#: winio.c:544
 msgid "New Buffer"
 msgstr "Nou Buffer"
 
-#: winio.c:550
+#: winio.c:548
 msgid "  File: ..."
 msgstr "Fitxer: ..."
 
-#: winio.c:552
+#: winio.c:550
 msgid "   DIR: ..."
 msgstr "   DIR: ..."
 
-#: winio.c:556
+#: winio.c:555
 msgid "File: "
 msgstr "Fitxer: "
 
@@ -1419,17 +1419,17 @@ msgstr " DIR: "
 msgid "Modified"
 msgstr "Modificat"
 
-#: winio.c:1167
+#: winio.c:1272
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr "Mogut a (%d, %d) a buffer d'edició\n"
 
-#: winio.c:1178
+#: winio.c:1283
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr "current->data = \"%s\"\n"
 
-#: winio.c:1252
+#: winio.c:1357
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "He aconseguit \"%s\"\n"
@@ -1437,83 +1437,86 @@ msgstr "He aconseguit \"%s\"\n"
 #. Yes, no and all are strings of any length.  Each string consists of
 #. all characters accepted as a valid character for that value.
 #. The first value will be the one displayed in the shortcuts.
-#: winio.c:1281
+#: winio.c:1386
 msgid "Yy"
 msgstr "Ss"
 
-#: winio.c:1282
+#: winio.c:1387
 msgid "Nn"
 msgstr "Nn"
 
-#: winio.c:1283
+#: winio.c:1388
 msgid "Aa"
 msgstr "Tt"
 
-#: winio.c:1297
+#: winio.c:1402
 msgid "Yes"
 msgstr "Sí"
 
-#: winio.c:1301
+#: winio.c:1406
 msgid "All"
 msgstr "Totes"
 
-#: winio.c:1306
+#: winio.c:1411
 msgid "No"
 msgstr "No"
 
-#: winio.c:1513
+#: winio.c:1617
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
-#: winio.c:1521
+#: winio.c:1626
 #, c-format
 msgid "line %d of %d (%.0f%%), character %ld of %ld (%.0f%%)"
 msgstr "línia %d de %d (%.0f%%), caràcter %ld de %ld (%.0f%%)"
 
-#: winio.c:1686
+#: winio.c:1790
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Abocant buffer de fitxer a stderr...\n"
 
-#: winio.c:1688
+#: winio.c:1792
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Abocant el cutbuffer a stderr...\n"
 
-#: winio.c:1690
+#: winio.c:1794
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Abocant un buffer a stderr...\n"
 
-#: winio.c:1765
+#: winio.c:1870
 msgid "The nano text editor"
 msgstr "L'editor de textos GNU nano"
 
-#: winio.c:1766
+#: winio.c:1871
 msgid "version "
 msgstr "versió "
 
-#: winio.c:1767
+#: winio.c:1872
 msgid "Brought to you by:"
 msgstr "Per cortesia de:"
 
-#: winio.c:1768
+#: winio.c:1873
 msgid "Special thanks to:"
 msgstr "Agraïments especials per a:"
 
-#: winio.c:1769
+#: winio.c:1874
 msgid "The Free Software Foundation"
 msgstr "La Fundació per al Software Lliure (FSF)"
 
-#: winio.c:1770
+#: winio.c:1876
 msgid "Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses"
 msgstr "Pavel Curtis, Zeyd Ben-Halim i Eric S. Raymond per ncurses"
 
-#: winio.c:1771
+#: winio.c:1877
 msgid "and anyone else we forgot..."
 msgstr "i per qualsevol dels qui ens hem oblidat esmentar..."
 
-#: winio.c:1772
+#: winio.c:1878
 msgid "Thank you for using nano!\n"
 msgstr "Gràcies per fer servir nano!\n"
+
+#~ msgid "regex length must be > 0"
+#~ msgstr "la llargària del regex ha de ser > 0"
 
 #~ msgid "Write"
 #~ msgstr "desar"
