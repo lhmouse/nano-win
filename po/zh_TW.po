@@ -1,4 +1,4 @@
-# Tranditional Chinese Messages for the nano editor
+# Traditional Chinese Messages for the nano editor
 # Copyright (C) 2004 Free Software Foundation, Inc.
 # This file is distributed under the same license as the nano package.
 # »¯±©­Û <chaoweilun@pcmail.com.tw>, 2004
