@@ -42,7 +42,10 @@ AC_ARG_WITH(slang,
 	    AC_MSG_CHECKING(for SLtt_initialize in -lslang)
 	    _libs=$LIBS
 	    LIBS="$LIBS -lslang"
-	    AC_TRY_RUN([int main () { SLtt_initialize (); return 0; }],
+	    AC_TRY_RUN([
+#include <stdio.h>
+#include <slcurses.h>
+int main () { SLtt_initialize (NULL); return 0; }],
 		[AC_MSG_RESULT(yes)
 		AC_DEFINE(USE_SLANG)
 		slang_support=yes
@@ -61,7 +64,10 @@ AC_ARG_WITH(slang,
 
 		AC_MSG_CHECKING(for SLtt_initialize in -lslang $tcap)
 		LIBS="$LIBS $tcap"
-		AC_TRY_RUN([int main () { SLtt_initialize (); return 0; }],
+		AC_TRY_RUN([
+#include <stdio.h>
+#include <slcurses.h>
+int main () { SLtt_initialize (NULL); return 0; }],
 		    [AC_MSG_RESULT(yes)
 		    AC_DEFINE(USE_SLANG)
 		    slang_support=yes
@@ -75,7 +81,10 @@ AC_ARG_WITH(slang,
 		    # We might need the math library
 		    AC_MSG_CHECKING(for SLtt_initialize in -lslang $tcap -lm)
 		    LIBS="$LIBS -lm"
-		    AC_TRY_RUN([int main () { SLtt_initialize (); return 0; }],
+		    AC_TRY_RUN([
+#include <stdio.h>
+#include <slcurses.h>
+int main () { SLtt_initialize (NULL); return 0; }],
 			[AC_MSG_RESULT(yes)
 			AC_DEFINE(USE_SLANG)
 			slang_support=yes
