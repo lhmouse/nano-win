@@ -1619,9 +1619,6 @@ RETSIGTYPE do_cont(int signal)
     /* Now we just update the screen instead of having to reenable the
 	SIGTSTP handler */
 
-    wnoutrefresh(edit);
-    wnoutrefresh(bottomwin);
-    wnoutrefresh(topwin);
     doupdate();
 }
 
