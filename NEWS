@@ -1,3 +1,15 @@
+2003.02.13 - GNU nano 1.1.99pre3 "The last testing version, no 
+		really!" is released.  This release includes fixes for
+		wrapping (again), resizing, color syntax highlighting,
+		rcfile parsing, the mouse code, more memory leaks, and
+		some reversion of the code to get the user's home
+		directory (nano will now again rely on $HOME).  There
+		are also translation updates, a new manual page for the
+		nanorc file, and an UPGRADE file detailing the changes
+		since version 1.0. Please submit reports for any bugs
+		you might find to the development team
+		(nano-devel@gnu.org), and enjoy nano almost-1.2.0 ;-)
+		
 2003.02.03 - GNU nano 1.1.99pre2 "bugs in my pockets, bugs in my
 		shoes" is released.  There are, not suprisingly,
 		only bugfixes in this release as we move toward the
