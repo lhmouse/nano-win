@@ -96,7 +96,7 @@ Show the current version number and author.
 .TP
 .B \-Y \fIstr\fP (\-\-syntax=\fIstr\fP)
 Specify a specific syntax highlighting from the
-.I .nanorc
+.I nanorc
 to use, if available.
 .TP
 .B \-Z (\-\-restricted)
@@ -179,6 +179,10 @@ and the example file \fBnanorc.sample\fP which should be provided with
 \fBnano\fP.
 
 .SH NOTES
+If no alternative spell checker command is specified on the command
+line or in one of the nanorc files, \fBnano\fP will check the
+\fBSPELL\fP environment variable for one.
+
 \fBnano\fP will try to dump the buffer into an emergency file in some
 cases.  Mainly, this will happen if \fBnano\fP receives a SIGHUP or
 SIGTERM or runs out of memory, when it will write the buffer into a file

@@ -213,9 +213,10 @@ from the right of the screen, allowing it to vary along with the screen
 width if the screen is resized.
 
 @item -s [prog], --speller=[prog]
-Invoke [prog] as the spell checker.  By default, @code{nano} uses its
-own interactive spell checker that requires the @code{spell} program be
-installed on your system.
+Invoke [prog] as the spell checker.  By default, @code{nano} uses the
+command specified in the SPELL environment variable, or, if SPELL is not
+set, its own interactive spell checker that requires the @code{spell}
+program to be installed on your system.
 
 @item -t, --tempfile
 Do not ask whether or not to save the current contents of the file when

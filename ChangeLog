@@ -399,6 +399,7 @@ CVS code -
 	- Document restricted mode. (IO ERROR)  DLR: Add minor
 	  modifications to account for the above changes.
 	- Document the smart home key option. (DLR)
+	- Document the use of the SPELL environment variable. (DLR)
 - nanorc.5:
 	- Document the smart home key option. (DLR)
 	- Document the whitespace option. (DLR, adapted from
@@ -413,6 +414,7 @@ CVS code -
 	  sorting/uniqueness filtering for the internal spell chacker
 	  were added in nano 1.1.99pre1. (DLR)
 	- Document the smart home key option. (DLR)
+	- Document the use of the SPELL environment variable. (DLR)
 - nanorc.sample:
 	- Add missing mouse entry, and update the nanorc sample regexes
 	  to account for the backupdir and mouse options. (DLR)
