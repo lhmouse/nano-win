@@ -45,8 +45,7 @@ static file_format fmt = NIX_FILE;
 void new_file(void)
 {
     fileage = make_new_node(NULL);
-    fileage->data = charalloc(1);
-    fileage->data[0] = '\0';
+    fileage->data = mallocstrcpy(NULL, "");
     filebot = fileage;
     edittop = fileage;
     current = fileage;
