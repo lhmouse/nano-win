@@ -1,3 +1,5 @@
+CVS -
+
 nano-1.0.0 - 03/22/2001
 - General
 	- Added void to functions declared as () args, nano.c:do_mark()
