@@ -79,7 +79,7 @@ shortcut goto_list[GOTO_LIST_LEN];
 shortcut writefile_list[WRITEFILE_LIST_LEN];
 shortcut help_list[HELP_LIST_LEN];
 shortcut spell_list[SPELL_LIST_LEN];
-#ifdef ENABLE_BROWSER
+#if !defined(DISABLE_BROWSER) && !defined(NANO_SMALL)
 shortcut browser_list[BROWSER_LIST_LEN];
 #endif
 
@@ -174,9 +174,11 @@ void shortcut_init(int unjustify)
 	"", *nano_mark_msg = "", *nano_delete_msg =
 	"", *nano_backspace_msg = "", *nano_tab_msg =
 	"", *nano_enter_msg = "", *nano_case_msg =
-	"", *nano_cancel_msg = "", *nano_unjustify_msg = "", *nano_tofiles_msg = "";
+	"", *nano_cancel_msg = "", *nano_unjustify_msg = "";
 
 #ifndef NANO_SMALL
+    char *nano_tofiles_msg = "";
+
     nano_help_msg = _("Invoke the help menu");
     nano_writeout_msg = _("Write the current file to disk");
     nano_exit_msg = _("Exit from nano");
@@ -408,7 +410,7 @@ void shortcut_init(int unjustify)
 		nano_exit_msg, 0, NANO_EXIT_FKEY, 0, VIEW, do_exit);
 
 
-#ifdef ENABLE_BROWSER
+#if !defined(DISABLE_BROWSER) && !defined(NANO_SMALL)
     sc_init_one(&writefile_list[0], NANO_TOFILES_KEY, _("To Files"),
 		nano_tofiles_msg, 0, 0, 0, NOVIEW, 0);
 #endif
@@ -419,7 +421,7 @@ void shortcut_init(int unjustify)
     sc_init_one(&spell_list[0], NANO_CANCEL_KEY, _("Cancel"),
 		nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
-#ifdef ENABLE_BROWSER
+#if !defined(DISABLE_BROWSER) && !defined(NANO_SMALL)
     sc_init_one(&browser_list[0], NANO_PREVPAGE_KEY, _("Prev Page"),
 		nano_prevpage_msg,
 		0, NANO_PREVPAGE_FKEY, KEY_PPAGE, VIEW, 0);

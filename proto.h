@@ -51,7 +51,7 @@ extern shortcut main_list[MAIN_LIST_LEN], whereis_list[WHEREIS_LIST_LEN];
 extern shortcut replace_list[REPLACE_LIST_LEN], goto_list[GOTO_LIST_LEN];
 extern shortcut writefile_list[WRITEFILE_LIST_LEN], help_list[HELP_LIST_LEN];
 extern shortcut spell_list[SPELL_LIST_LEN], replace_list_2[REPLACE_LIST_LEN];
-#ifdef ENABLE_BROWSER
+#if !defined(DISABLE_BROWSER) && !defined(NANO_SMALL)
 extern shortcut browser_list[BROWSER_LIST_LEN];
 #endif
 
@@ -152,7 +152,7 @@ int do_delete(void), do_backspace(void), do_tab(void), do_justify(void);
 int do_first_line(void), do_last_line(void);
 int do_replace(void), do_help(void), do_enter_void(void);
 
-#ifdef ENABLE_BROWSER
+#if !defined(DISABLE_BROWSER) && !defined(NANO_SMALL)
 char *do_browser(char *path);
 #endif
 
