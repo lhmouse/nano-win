@@ -43,7 +43,7 @@ AC_CHECK_HEADER(regex.h,
     AC_TRY_RUN([
 #include <sys/types.h>
 #include <regex.h>
-int main () { regex_t reg; size_t n = 1; regmatch_t r; regcomp(&reg, "\\<", 0); regexec(&reg, "", n, &r, 0); regfree(&reg); return 0; }],
+int main(void) { regex_t reg; size_t n = 1; regmatch_t r; regcomp(&reg, "\\<", 0); regexec(&reg, "", n, &r, 0); regfree(&reg); return 0; }],
 	AC_MSG_RESULT(no),
 	AC_MSG_RESULT(yes); AC_DEFINE(BROKEN_REGEXEC, 1, [Define this if your regexec() function segfaults when passed an empty string under certain conditions.])
     )
@@ -201,7 +201,7 @@ AC_ARG_WITH(slang,
 	    AC_TRY_RUN([
 #include <stdio.h>
 #include <slcurses.h>
-int main () { SLtt_initialize (NULL); return 0; }],
+int main(void) { SLtt_initialize(NULL); return 0; }],
 		[AC_MSG_RESULT(yes)
 		AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.])
 		slang_support=yes
@@ -223,7 +223,7 @@ int main () { SLtt_initialize (NULL); return 0; }],
 		AC_TRY_RUN([
 #include <stdio.h>
 #include <slcurses.h>
-int main () { SLtt_initialize (NULL); return 0; }],
+int main(void) { SLtt_initialize(NULL); return 0; }],
 		    [AC_MSG_RESULT(yes)
 		    AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.])
 		    slang_support=yes
@@ -240,7 +240,7 @@ int main () { SLtt_initialize (NULL); return 0; }],
 		    AC_TRY_RUN([
 #include <stdio.h>
 #include <slcurses.h>
-int main () { SLtt_initialize (NULL); return 0; }],
+int main(void) { SLtt_initialize(NULL); return 0; }],
 			[AC_MSG_RESULT(yes)
 			AC_DEFINE(USE_SLANG, 1, [Define to use the slang wrappers for curses instead of native curses.])
 			slang_support=yes
