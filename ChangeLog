@@ -15,8 +15,7 @@ CVS code
 	  nano.c:do_spell(), and search.c:do_replace() (David Benbennick).
 	- Change various const char *s to char *s because Irix curses
 	  waddnstr() complains about const char's, I imagine this is a
-	  common System V curses issue.
-	  
+	  common System V curses issue.	  
 - files.c:
   cwd_tab_completion()
 	- Memory leak fix (David Benbennick).
@@ -46,6 +45,9 @@ CVS code
   main()
 	- Fix nano not compiling with ENABLE_RCFILE and DISABLE_TABCOMP
 	  (David Benbennick).
+	- Silence annoying compiler messages about clobbering and 
+	  uninitialized variables by moving variable inits to the top
+	  of main() and re-initializing them after the sigsetjmp().
 - rcfile.c:
   colortoint()
 	- Don't bomb after invalid color and print bad color name

@@ -3019,9 +3019,12 @@ int main(int argc, char *argv[])
 {
     int optchr;
     int startline = 0;		/* Line to try and start at */
-    int modify_control_seq;
+    int modify_control_seq = 0;
     int fill_flag_used = 0;	/* Was the fill option used? */
     const shortcut *s;
+    int keyhandled = 0;	/* Have we handled the keystroke yet? */
+    int kbinput = -1;		/* Input from keyboard */
+
 #ifdef HAVE_GETOPT_LONG
     int preserveopt = 0;	/* Did the cmdline include --preserve? */
 #endif
@@ -3471,6 +3474,11 @@ int main(int argc, char *argv[])
     /* Return here after a sigwinch */
     sigsetjmp(jmpbuf, 1);
 
+    /* SHUT UP GCC! */
+    startline = 0;
+    fill_flag_used = 0;
+    keyhandled = 0;
+
     /* This variable should be initialized after the sigsetjmp(), so we
        can't do Esc-Esc then quickly resize and muck things up. */
     modify_control_seq = 0;
@@ -3479,8 +3487,6 @@ int main(int argc, char *argv[])
     reset_cursor();
 
     while (1) {
-	int keyhandled = 0;	/* Have we handled the keystroke yet? */
-	int kbinput;		/* Input from keyboard */
 
 	if (ISSET(CONSTUPDATE))
 	    do_cursorpos(1);
