@@ -1,3 +1,17 @@
+12/02/2000 - Nano 0.9.22 is released, with many more changes and 
+		additions than imaginable.  The most important change is
+		a fix for unsafe handling of symbolic links which could
+		lead to symlink attacks if nano were to exit because
+		of an error or signal.  Also there are better checks when
+		saving files.
+		    As for new features, username tab completion is
+		now working well, the internal spell checker code has been
+		tweaked, you can now unjustify if you don't like how the
+		justify formatted your text, and there are more
+		options for configure, including --disable-spell and
+		--disable-justify.   All in all, a whole lot of changes in
+		a little over a week.
+
 11/23/2000 - Happy Thanksgiving!  Nano 0.9.21 is our "last version was 
 		a big turkey" release.  It fixes several bugs introduced
 		by the previous version, as well as a few long-
