@@ -98,3 +98,7 @@
 ** Open BUGS **
 
 $Id$
+- Cut to end cutting (-k) causes segfaults (try cutting "- Backup making
+  (filename~)?" line in TODO file) (discovred by
+  higuita@cadernoverde.com) (54).
+
