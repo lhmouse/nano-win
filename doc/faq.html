@@ -174,7 +174,7 @@
 <h1><a name="4"></a>4. Running</h1>
 <h2><a name="4.1"></a>4.1. Ack! My backspace/delete/enter/double bucky/meta key doesn't seem to work! What can I do?</h2>
 <blockquote><p>Try setting your $TERM variable to 'vt100'. Nano doesn't yet support every term entry under the sun.</p>
-  <p>Bourne shell users (like bash): <b>export TERM=vt100</b><br>
+  <p>Bourne shell users (bash and sh): <b>export TERM=vt100</b><br>
   C Shell users (tcsh and csh): <b>setenv TERM vt100</b></p></blockquote>
 <h2><a name="4.2"></a>4.2. How do I type the F13-F16 keys shown in the help browser? My keyboard only has F1-F12!</h2>
 <blockquote><p>It depends on the terminal type you're using. On some terminals, such as the FreeBSD console, xterm, konsole, and gnome-terminal, Shift-F1 to Shift-F4 will generate F13 to F16. On other terminals, such as the Linux console, rxvt, or Eterm, Shift-F3 to Shift-F6 will generate F13 to F16.</p></blockquote>
@@ -245,6 +245,7 @@
 <h2><a name="8"></a>8. ChangeLog</h2>
 <blockquote>
 <p>
+2004/11/21 - List sh as an example of a Bourne shell. (DLR)
 2004/11/05 - Fixed inaccuracy: Pico compatibility mode was made the default in nano 1.1.99pre1, not 1.2.2. Also added question about how to type F13-F16 on terminals lacking keys past F12 (suggested by Chris), question about how to select text for the clipboard in X terminals with nano's mouse support turned on (answer found by Joseph Birthisel), and misc. fixes and link updates. (DLR)<br>
 2004/04/07 - Removed NumLock glitch question, as it's no longer needed. (DLR)<br>
 2004/01/30 - Fixed inaccuracy: multibuffer mode was first in nano 1.1.0, not 1.1.12. (DLR)<br>

@@ -20,7 +20,7 @@ packages:
 These should be available on your GNU mirror.
 
 First, you need to set up cvs to download the CVS tree using ssh.  If
-you're using a Bourne shell (e.g. bash), do
+you're using a Bourne shell (e.g. bash or sh), do
 $ export CVS_RSH=ssh
 If you're using a C shell (e.g. tcsh or csh), do
 $ setenv CVS_RSH ssh

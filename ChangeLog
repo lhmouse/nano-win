@@ -398,6 +398,7 @@ CVS code -
 	  versions of the manpages. (DLR)
 	- Update the given cvs commands so that they work again, and
 	  mention the need for ssh to do cvs checkouts. (DLR)
+	- List sh as an example of a Bourne shell. (DLR)
 - faq.html:
 	- Fixed inaccuracy: Pico compatibility mode was made the default
 	  in nano 1.1.99pre1, not 1.2.2. (DLR)
