@@ -3092,7 +3092,7 @@ void do_justify(bool full_justify)
 	    edit_refresh();
 	}
     } else {
-	/* Blow away the justify buffer.*/
+	/* Blow away the text in the justify buffer.*/
 	free_filestruct(jusbuffer);
 	jusbuffer = NULL;
     }
@@ -3265,8 +3265,8 @@ void handle_sigwinch(int s)
 	unpartition_filestruct(&filepart);
 
 #ifndef DISABLE_JUSTIFY
-    /* If the justify buffer isn't empty, blow it away and display the
-     * shortcut list with UnCut. */
+    /* If the justify buffer isn't empty, blow away the text in it and
+     * display the shortcut list with UnCut. */
     if (jusbuffer != NULL) {
 	free_filestruct(jusbuffer);
 	jusbuffer = NULL;
