@@ -1,3 +1,20 @@
+10/01/2002 - GNU nano 1.1.11 "Oddball" is released.  This release 
+		features a new version of gettext, a new and improved syntax 
+		highlighting engine, and some updates for the nanorc.sample
+		file.  The toggles for case sensitivity (Meta-C) and regular 
+		expressions (Meta-R) have changed in the search and replace 
+		prompts, multibuffer status is now displayed and can be 
+		toggled from the insert file menu, and some wrapping behavior 
+		that changed in 1.1.10 has reverted.  The --enable-color
+		warning was also made less severe, as the color syntax code 
+		has improved, and nano now uses extended regexes in the 
+		.nanorc file.
+			Also included are fixes for various memory leaks,
+		the operating directory option, username tab completion,
+		the page_up and down arrow, go to previous word and next
+		word, nanorc parser and line wrapping code.  Have fun!
+		
+
 07/25/2002 - At long last!  GNU nano 1.1.10 "What didn't we break?" is
 		released.  This version of GNU nano features version
 		0.11.2 of gettext, building with automake 1.6, some new
