@@ -169,7 +169,7 @@ int do_cut_text(void)
 
     	/* If the line is empty and we didn't just cut a non-blank
 		line, create a dummy line and add it to the cutbuffer */
-	    if (marked_cut != 1) {
+	    if (marked_cut != 1 && current->next != filebot) {
 
 		filestruct *junk;
 
