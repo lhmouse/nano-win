@@ -1962,7 +1962,7 @@ const char *do_alt_speller(char *tempfile_name)
 
 #ifndef NANO_SMALL
     if (old_mark_set) {
-	filestruct *old_top = fileage;
+	filestruct *top_save = fileage;
 
 	/* If we added a magicline, remove it now. */
 	if (added_magicline)
@@ -1979,7 +1979,7 @@ const char *do_alt_speller(char *tempfile_name)
 	 * the spell-checked marked text to the saved values of totlines
 	 * and totsize, and then make those saved values the actual
 	 * values. */
-	renumber(old_top);
+	renumber(top_save);
 	old_totlines += totlines;
 	old_totsize += totsize;
 	totlines = old_totlines;
