@@ -1604,7 +1604,7 @@ size_t actual_x(const char *str, size_t xplus)
     for (; length < xplus && *str != '\0'; i++, str++) {
 	if (*str == '\t')
 	    length += tabsize - (length % tabsize);
-	else if (is_cntrl_char((int)*str))
+	else if (is_cntrl_char(*str))
 	    length += 2;
 	else
 	    length++;
@@ -1628,7 +1628,7 @@ size_t strnlenpt(const char *buf, size_t size)
     for (; *buf != '\0' && size != 0; size--, buf++) {
 	if (*buf == '\t')
 	    length += tabsize - (length % tabsize);
-	else if (is_cntrl_char((int)*buf))
+	else if (is_cntrl_char(*buf))
 	    length += 2;
 	else
 	    length++;
