@@ -571,9 +571,6 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
         }
     }
 
-    if (answer[0] == '\0')
-	answer = mallocstrcpy(answer, last_replace);
-
     last_replace = mallocstrcpy(last_replace, answer);
     while (1) {
 	/* Sweet optimization by Rocco here */

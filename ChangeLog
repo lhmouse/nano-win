@@ -168,6 +168,9 @@ Changes
 	- Fix bug where if text on the magicline was replaced (which can
 	  be done via a regexp replace of "^$" with something other than
 	  ""), a new magicline wouldn't be created. (DLR)
+	- Remove check for answer being a blank string, presumed to be
+	  a PICO_MODE holdover, but it stops us from doing a blank 
+	  spelling replacement.
   do_replace()
 	- For greater Pico compatibility, when an attempt to replace a
 	  string results in 0 replacements due to the string's not being
