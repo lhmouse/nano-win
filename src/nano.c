@@ -240,7 +240,8 @@ void window_init(void)
     topwin = newwin(2, COLS, 0, 0);
     bottomwin = newwin(3 - no_help(), COLS, LINES - 3 + no_help(), 0);
 
-    /* This is so the keypad still works after a Meta-X, for example. */
+    /* Turn the keypad on, so that it still works after a Meta-X, for
+     * example. */
     keypad(edit, TRUE);
     keypad(bottomwin, TRUE);
 }
@@ -3468,6 +3469,7 @@ int main(int argc, char *argv[])
     mouse_init();
 #endif
 
+    /* Turn the keypad on */
     keypad(edit, TRUE);
     keypad(bottomwin, TRUE);
 

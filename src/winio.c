@@ -58,8 +58,13 @@ char *get_verbatim_kbinput(WINDOW *win, int *kbinput_len,
 	int allow_ascii)
 {
     char *verbatim_kbinput;
-    int kbinput = wgetch(win);
+    int kbinput;
 
+    /* Turn the keypad off so that we don't get extended keypad values,
+     * all of which are outside the ASCII range. */
+    keypad(win, FALSE);
+
+    kbinput = wgetch(win);
     verbatim_kbinput = charalloc(1);
     verbatim_kbinput[0] = kbinput;
     *kbinput_len = 1;
@@ -78,6 +83,9 @@ char *get_verbatim_kbinput(WINDOW *win, int *kbinput_len,
 	}
 	nodelay(win, FALSE);
     }
+
+    /* Turn the keypad back on now that we're done. */
+    keypad(win, TRUE);
 
 #ifdef DEBUG
     fprintf(stderr, "get_verbatim_kbinput(): verbatim_kbinput = %s\n", verbatim_kbinput);
@@ -308,9 +316,10 @@ int get_ascii_kbinput(WINDOW *win, int kbinput)
     return retval;
 }
 
-/* Translate escape sequences for extended keypad values.  These are
- * generated when the terminal doesn't support the needed keys.  Assume
- * that Escape has already been read in, and that nodelay(win) is TRUE.
+/* Translate escape sequences, most of which correspond to extended
+ * keypad values.  These sequences are generated when the terminal
+ * doesn't support the needed keys.  Assume that Escape has already been
+ * read in, and that nodelay(win) is TRUE.
  *
  * The supported terminals are the Linux console, the FreeBSD console,
  * the Hurd console (a.k.a. the Mach console), xterm, rxvt, and Eterm.

@@ -33,6 +33,14 @@ CVS code -
 	  matches inside a line (e.g. replace the "b" in "abc" with
 	  anything). (David Benbennick)
 - winio.c:
+  get_verbatim_kbinput()
+	- Set keypad() to FALSE while reading input, and set it back to
+	  TRUE afterwards.  This ensures that we don't end up reading in
+	  extended keypad values that are outside the ASCII range.
+	  (Also, with keypad() set to TRUE, xterm generates
+	  KEY_BACKSPACE when the user hits Ctrl-H, which, when cut down
+	  to ASCII range, ends up being Ctrl-G, which can be confusing.)
+	  (DLR)
   get_accepted_kbinput()
 	- Don't use "kbinput = wgetch(win)" as a switch value. (DLR)
   get_escape_seq_kbinput()
