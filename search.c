@@ -91,6 +91,7 @@ int search_init(int replacing)
     if (ISSET(CLEAR_BACKUPSTRING)) {
 	free(backupstring);
 	backupstring = NULL;
+	UNSET(CLEAR_BACKUPSTRING);
     }
 	
      /* Okay, fun time.  backupstring is our holder for what is being 
