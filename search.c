@@ -72,10 +72,13 @@ void search_init_globals(void)
 */
 int search_init(int replacing)
 {
-    int i = 0, j;
+    int i = 0;
     char *buf;
     char *prompt;
     static char *backupstring = NULL;
+#ifndef NANO_SMALL
+    int j;
+#endif
 
     search_init_globals();
 
@@ -170,9 +173,11 @@ int search_init(int replacing)
 	backupstring = NULL;
 	backupstring = mallocstrcpy(backupstring, answer);
 
+#ifndef NANO_SMALL
 	for (j = 0; j <= TOGGLE_LEN - 1; j++)
 	    if (i == toggles[j].val)
 		TOGGLE(toggles[j].flag);
+#endif
 
 	return 1;
     case NANO_OTHERSEARCH_KEY:

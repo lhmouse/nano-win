@@ -2,8 +2,13 @@ CVS code -
 - nano.c:
   main()
 	- Change the getop option to 'F' (David Lawrence Ramsey)
+- nano.h:
+	- Fix type in INSERTFILE_LIST_LEN.
 - rcfile.c:
 	- Update for the multibuffer option (oops) (David Lawrence Ramsey).
+- search.c:
+  search_init()
+	- add #ifdef NANO_SMALL around toggles code.
 
 nano-1.1.0 - 07/15/2001
 - General

@@ -312,7 +312,7 @@ know what you're doing */
 #define BROWSER_LIST_LEN 4
 #else
 #define WRITEFILE_LIST_LEN 3
-#define IMSERTFILE_LIST_LEN 1
+#define INSERTFILE_LIST_LEN 1
 #endif
 
 #define VIEW 1
