@@ -357,6 +357,8 @@ CVS code -
 	- Document restricted mode. (IO ERROR)  DLR: Add minor
 	  modifications to account for the above changes.
 	- Document the smart home key option. (DLR)
+- nanorc.5:
+	- Document the smart home key option. (DLR)
 - nano.texi:
 	- Fix toggle inaccuracies: Meta-L now toggles line wrapping, and
 	  Meta-< and Meta-> aren't toggles. (DLR)
