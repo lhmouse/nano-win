@@ -9,6 +9,8 @@ CVS code -
 	- Minor cosmetic tweaks to the ngettext() macro, and fix to
 	  properly detect systems lacking ngettext() and correctly
 	  compile on them; the previous fix didn't work. (DLR)
+- configure.ac:
+	- Added tr to ALL_LINGUAS (Jordi).
 - nano.c:
   version()
 	- Remove obsolete reference to --enable-undo. (David Benbennick)
@@ -29,6 +31,8 @@ CVS code -
 	  It is now fully compliant with HTML 4.01 Transitional. (DLR)
 - nano.texi:
 	- Typo fixes and updates. (David Benbennick)
+- THANKS:
+	- Added Doruk Fisek (Jordi).
 
 GNU nano 1.1.12 - 10/24/2002
 - General:
