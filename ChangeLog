@@ -17,6 +17,12 @@ CVS code -
 - winio.c:
   get_accepted_kbinput()
 	- Don't use "kbinput = wgetch(win)" as a switch value. (DLR)
+  get_page_start()
+	- For consistency, tweak so that scrolling always occurs when we
+	  try to move onto the "$" at the end of the line, as opposed to
+	  (a) when we move onto the "$" at the end of the line on the
+	  first page and (b) when we move onto the character just before
+	  the "$" on subsequent pages. (DLR)
   do_credits()
 	- Use nanosleep() instead of usleep().  The latter is only
 	  standard under BSD, whereas the former is POSIX compliant.
