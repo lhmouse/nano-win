@@ -2448,8 +2448,7 @@ int main(int argc, char *argv[])
     int keyhandled;		/* Have we handled the keystroke yet? */
     int i, modify_control_seq;
     char *argv0;
-    filestruct *oldcurrent;	/* Check to constantly update */
-    int oldcurrent_x;		/* Same */
+    long constcheck;	/* Check to constantly update */
 
 #ifdef _POSIX_VDISABLE
     struct termios term;
@@ -2752,8 +2751,7 @@ int main(int argc, char *argv[])
     reset_cursor();
 
     while (1) {
-	oldcurrent = current;
-	oldcurrent_x = current_x;
+	constcheck = current->lineno + current_x + totsize;
 
 #ifndef DISABLE_MOUSE
 	currshortcut = main_list;
@@ -3035,7 +3033,7 @@ int main(int argc, char *argv[])
 	if (ISSET(DISABLE_CURPOS))
 	    UNSET(DISABLE_CURPOS);
 	else if (ISSET(CONSTUPDATE))
-	    if (current != oldcurrent || current_x != oldcurrent_x)
+	if (constcheck != current->lineno + current_x + totsize)
 		do_cursorpos();
 
 	reset_cursor();
