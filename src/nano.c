@@ -2967,7 +2967,7 @@ void handle_sigwinch(int s)
 	edit_update(editbot, CENTER);
     erase();
 
-    /* Do these b/c width may have changed... */
+    /* Do these because width may have changed. */
     refresh();
     titlebar(NULL);
     edit_refresh();
@@ -2975,10 +2975,15 @@ void handle_sigwinch(int s)
     blank_statusbar();
     total_refresh();
 
-    /* Turn cursor back on for sure */
+    /* Turn cursor back on for sure. */
     curs_set(1);
 
-    /* Jump back to main loop */
+    /* Turn the keypad on, so that it still works if we resized during
+     * verbatim input, for example. */
+    keypad(edit, TRUE);
+    keypad(bottomwin, TRUE);
+
+    /* Jump back to the main loop. */
     siglongjmp(jmpbuf, 1);
 }
 #endif /* !NANO_SMALL */
@@ -3427,11 +3432,11 @@ int main(int argc, char *argv[])
     initscr();
     savetty();
     nonl();
-#ifndef _POSIX_VDISABLE
+#ifdef _POSIX_VDISABLE
+    cbreak();
+#else
     /* We're going to have to do it the old way, i.e, on Cygwin. */
     raw();
-#else
-    cbreak();
 #endif
     noecho();
 

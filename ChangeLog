@@ -30,6 +30,9 @@ CVS code -
 	  main().  This is consistent with SIGINT, which we trap here
 	  and turn off via termios in main(), as well as with the
 	  associated comment. (DLR)
+  handle_sigwinch()
+	- Set keypad() to TRUE just before calling siglongjmp(), in case
+	  we resized during verbatim input. (DLR)
   main()
 	- Move the call to raw() on systems that don't define
 	  _POSIX_VDISABLE outside the main input/output loop, as it
@@ -44,16 +47,15 @@ CVS code -
 - winio.c:
   get_verbatim_kbinput()
 	- Set keypad() to FALSE and switch to raw mode while reading
-	  input, and set it keypad() back to TRUE and go back into
-	  cbreak mode afterwards.  (Note that if _POSIX_VDISABLE isn't
-	  defined, we don't need to change to or from raw mode since
-	  we're already in it exclusively.)  This ensures that we don't
-	  end up reading in extended keypad values that are outside the
-	  ASCII range or having to deal with interrupt-generating key
-	  values.  Also, with keypad() set to TRUE, xterm generates
-	  KEY_BACKSPACE when the user hits Ctrl-H, which, when cut down
-	  to ASCII range, ends up being Ctrl-G, which can be confusing.
-	  (DLR)
+	  input, and set it back to TRUE and go back into cbreak mode
+	  mode afterwards.  (Note that if _POSIX_VDISABLE isn't defined,
+	  we don't need to change to or from raw mode since we're
+	  already in it exclusively.)  This ensures that we don't end up
+	  reading in extended keypad values that are outside the ASCII
+	  range or having to deal with interrupt-generating key values.
+	  Also, with keypad() set to TRUE, xterm generates KEY_BACKSPACE
+	  when the user hits Ctrl-H, which, when cut down to ASCII
+	  range, ends up being Ctrl-G, which can be confusing. (DLR)
   get_accepted_kbinput()
 	- Don't use "kbinput = wgetch(win)" as a switch value. (DLR)
   get_escape_seq_kbinput()

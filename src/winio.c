@@ -64,7 +64,7 @@ char *get_verbatim_kbinput(WINDOW *win, int *kbinput_len,
      * all of which are outside the ASCII range, and switch to raw mode
      * so that we can type ^Q, ^S, and ^Z without getting interrupts. */
     keypad(win, FALSE);
-#ifndef _POSIX_VDISABLE
+#ifdef _POSIX_VDISABLE
     raw();
 #endif
 
@@ -91,7 +91,7 @@ char *get_verbatim_kbinput(WINDOW *win, int *kbinput_len,
     /* Turn the keypad back on and switch back to cbreak mode now that
      * we're done. */
     keypad(win, TRUE);
-#ifndef _POSIX_VDISABLE
+#ifdef _POSIX_VDISABLE
     cbreak();
 #endif
 
