@@ -14,6 +14,8 @@ CVS code -
   get_accepted_kbinput()
 	- Translate Ctrl-8 into NANO_DELETE_KEY, since it apparently is
 	  generated at the statusbar prompt sometimes on Linux. (DLR)
+- nano.spec.in:
+	- Update for the 1.3 branch of nano. (DLR)
 
 GNU nano 1.3.0 - 2003.10.22
 - General:

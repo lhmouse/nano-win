@@ -9,7 +9,7 @@ Release		: %{rel}
 Copyright	: GPL
 Group		: Console/Editors
 URL		: http://www.nano-editor.org
-Source		: http://www.nano-editor.org/dist/v1.2/%{name}-%{ver}.tar.gz
+Source		: http://www.nano-editor.org/dist/v1.3/%{name}-%{ver}.tar.gz
 BuildRoot	: /var/tmp/%{name}-buildroot
 Requires	: ncurses
 
@@ -30,7 +30,7 @@ make DESTDIR="$RPM_BUILD_ROOT" install
 
 %files
 %defattr(-,root,root)
-%doc AUTHORS BUGS COPYING ChangeLog INSTALL NEWS README THANKS TODO nanorc.sample
+%doc AUTHORS BUGS COPYING ChangeLog INSTALL NEWS README THANKS TODO doc/faq.html doc/nanorc.sample
 %{_bindir}/nano
 %{_mandir}/*/*
 %{_datadir}/locale/*/LC_MESSAGES/nano.mo
