@@ -98,11 +98,12 @@ CVS code -
 	  is_blank_wchar(), is_cntrl_mbchar(), is_cntrl_wchar(),
 	  control_mbrep(), control_wrep(), mbwidth(), mb_cur_max(),
 	  make_mbchar(), mbstrnlen(), mbstrcasecmp(), and
-	  mbstrncasecmp(); changes to is_blank_char() (moved to
-	  chars.c), is_cntrl_char() (moved to chars.c), nstricmp()
-	  (renamed nstrcasecmp() and moved to chars.c), nstrnicmp()
-	  (renamed nstrncasecmp() and moved to chars.c), nstristr()
-	  (renamed nstrcasestr() and moved to chars.c), revstristr()
+	  mbstrncasecmp(); changes to is_byte() (moved to chars.c),
+	  is_blank_char() (moved to chars.c), is_cntrl_char() (moved to
+	  chars.c), nstricmp() (renamed nstrcasecmp() and moved to
+	  chars.c), nstrnicmp() (renamed nstrncasecmp() and moved to
+	  chars.c), nstristr() (renamed nstrcasestr() and moved to
+	  chars.c), revstrstr() (moved to chars.c), revstristr()
 	  (renamed revstrcasestr() and moved to chars.c), nstrnlen()
 	  (moved to chars.c), parse_char() (renamed parse_mbchar() and
 	  moved to chars.c), move_left() (renamed move_mbleft() and

@@ -67,11 +67,6 @@ int num_of_digits(int n)
     return i;
 }
 
-bool is_byte(unsigned int c)
-{
-    return (c == (unsigned char)c);
-}
-
 /* Read a ssize_t from str, and store it in *val (if val is not NULL).
  * On error, we return FALSE and don't change *val.  Otherwise, we
  * return TRUE. */
@@ -131,26 +126,7 @@ void sunder(char *str)
     }
 }
 
-#ifndef NANO_SMALL
-const char *revstrstr(const char *haystack, const char *needle, const
-	char *rev_start)
-{
-    assert(haystack != NULL && needle != NULL && rev_start != NULL);
-
-    for (; rev_start >= haystack; rev_start--) {
-	const char *r, *q;
-
-	for (r = rev_start, q = needle; *q == *r && *q != '\0'; r++, q++)
-	    ;
-
-	if (*q == '\0')
-	    return rev_start;
-    }
-
-    return NULL;
-}
-
-#ifdef ENABLE_NANORC
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 #ifndef HAVE_GETLINE
 /* This function is equivalent to getline().  It was adapted from
  * GNU mailutils' getline() function. */
@@ -208,8 +184,7 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
     return (c == EOF && (indx - 1) == 0) ? -1 : indx - 1;
 }
 #endif
-#endif /* ENABLE_NANORC */
-#endif /* !NANO_SMALL */
+#endif /* !NANO_SMALL && ENABLE_NANORC */
 
 /* If we are searching backwards, we will find the last match that
  * starts no later than start.  Otherwise we find the first match

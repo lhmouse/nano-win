@@ -38,6 +38,13 @@
 #include <wctype.h>
 #endif
 
+/* Return TRUE if the value of c is in byte range, and FALSE
+ * otherwise. */
+bool is_byte(unsigned int c)
+{
+    return (c == (unsigned char)c);
+}
+
 /* This function is equivalent to isalnum(). */
 bool is_alnum_char(unsigned int c)
 {
@@ -596,6 +603,28 @@ const char *nstrcasestr(const char *haystack, const char *needle)
 #endif
 
 #ifndef NANO_SMALL
+/* This function is equivalent to strstr(), except in that it scans the
+ * string in reverse. */
+const char *revstrstr(const char *haystack, const char *needle, const
+	char *rev_start)
+{
+    assert(haystack != NULL && needle != NULL && rev_start != NULL);
+
+    for (; rev_start >= haystack; rev_start--) {
+	const char *r, *q;
+
+	for (r = rev_start, q = needle; *q == *r && *q != '\0'; r++, q++)
+	    ;
+
+	if (*q == '\0')
+	    return rev_start;
+    }
+
+    return NULL;
+}
+
+/* This function is equivalent to strcasestr(), except in that it scans
+ * the string in reverse. */
 const char *revstrcasestr(const char *haystack, const char *needle,
 	const char *rev_start)
 {

@@ -151,6 +151,7 @@ extern char *homedir;
 /* Functions we want available. */
 
 /* Public functions in chars.c. */
+bool is_byte(unsigned int c);
 bool is_alnum_char(unsigned int c);
 bool is_alnum_mbchar(const char *c);
 #ifdef NANO_WIDE
@@ -525,7 +526,6 @@ int regexec_safe(const regex_t *preg, const char *string, size_t nmatch,
 int regexp_bol_or_eol(const regex_t *preg, const char *string);
 #endif
 int num_of_digits(int n);
-bool is_byte(unsigned int c);
 bool parse_num(const char *str, ssize_t *val);
 void align(char **strp);
 void null_at(char **data, size_t index);
