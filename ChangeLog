@@ -23,6 +23,9 @@ CVS code -
   do_wrap()
 	- Move "right" increment to part where new line is created, 
 	  should change (fix?) some wrapping problems with autoindent.
+  version()
+  	- Show --enable-multibuffer independently of --enable-extra being
+	  compiled in (Jordi).
 - global.c:
   shorcut_init()
 	- Replace hard coded ALT_G and ALT_H values in the replace

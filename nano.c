@@ -552,12 +552,10 @@ void version(void)
 
 #ifdef NANO_EXTRA
     printf(" --enable-extra");
-#else
+#endif
 #ifdef ENABLE_MULTIBUFFER
     printf(" --enable-multibuffer");
-#endif /* ENABLE_MULTIBUFFER */
-#endif /* NANO_EXTRA */
-
+#endif
 #ifdef ENABLE_NANORC
     printf(" --enable-nanorc");
 #endif
