@@ -3609,7 +3609,6 @@ int main(int argc, char *argv[])
 	    				 * have been handled before we
 	    				 * got here */
 	    case NANO_CONTROL_5:	/* Ctrl-] */
-	    case NANO_CONTROL_8:	/* Ctrl-? (Delete) */
 		break;
 	    default:
 #ifdef DEBUG
