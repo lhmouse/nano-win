@@ -1,7 +1,7 @@
 CVS code -
 - search.c:
   findnextstr()
-	- Set current_x back before aborting (oops!).
+	- Fix curent_x increment bug by using another variable (Rocco Corsi).
   search_init()
 	- Silly typo in our "one simple call" of statusq.  Stopped
 	  previous search string from being displayed.

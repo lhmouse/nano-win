@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-11-19 14:12-0500\n"
+"POT-Creation-Date: 2000-11-19 20:28-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -751,7 +751,7 @@ msgstr ""
 msgid " (to replace)"
 msgstr ""
 
-#: search.c:136 search.c:322
+#: search.c:136 search.c:318
 msgid "Search Cancelled"
 msgstr ""
 
@@ -760,54 +760,54 @@ msgstr ""
 msgid "\"%s...\" not found"
 msgstr ""
 
-#: search.c:245
+#: search.c:243
 msgid "Search Wrapped"
 msgstr ""
 
-#: search.c:344
+#: search.c:340
 #, c-format
 msgid "Replaced %d occurences"
 msgstr ""
 
-#: search.c:346
+#: search.c:342
 msgid "Replaced 1 occurence"
 msgstr ""
 
-#: search.c:483 search.c:576 search.c:592
+#: search.c:479 search.c:572 search.c:588
 msgid "Replace Cancelled"
 msgstr ""
 
-#: search.c:526
+#: search.c:522
 msgid "Replace this instance?"
 msgstr ""
 
-#: search.c:534
+#: search.c:530
 msgid "Replace failed: unknown subexpression!"
 msgstr ""
 
-#: search.c:617
+#: search.c:613
 #, c-format
 msgid "Replace with [%s]"
 msgstr ""
 
-#: search.c:621 search.c:625
+#: search.c:617 search.c:621
 msgid "Replace with"
 msgstr ""
 
 #. Ask for it
-#: search.c:660
+#: search.c:656
 msgid "Enter line number"
 msgstr ""
 
-#: search.c:662
+#: search.c:658
 msgid "Aborted"
 msgstr ""
 
-#: search.c:682
+#: search.c:678
 msgid "Come on, be reasonable"
 msgstr ""
 
-#: search.c:687
+#: search.c:683
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr ""

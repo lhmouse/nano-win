@@ -202,31 +202,29 @@ filestruct *findnextstr(int quiet, filestruct * begin, int beginx,
 {
     filestruct *fileptr;
     char *searchstr, *found = NULL, *tmp;
-    int past_editbot = 0;
+    int past_editbot = 0, current_x_find = current_x;
 
     fileptr = current;
 
-    current_x++;
+    current_x_find++;
 
     /* Are we searching the last line? (i.e. the line where search started) */
-    if ((fileptr == begin) && (current_x < beginx))
+    if ((fileptr == begin) && (current_x_find < beginx))
 	search_last_line = 1;
 
     /* Make sure we haven't passed the end of the string */
-    if (strlen(fileptr->data) + 1 < current_x)
-	current_x--;
+    if (strlen(fileptr->data) < current_x_find)
+	current_x_find--;
 
-    searchstr = &fileptr->data[current_x];
+    searchstr = &fileptr->data[current_x_find];
 
     /* Look for needle in searchstr */
     while ((found = strstrwrapper(searchstr, needle)) == NULL) {
 
 	/* finished processing file, get out */
 	if (search_last_line) {
-	    if (!quiet) {
+	    if (!quiet)
 		not_found_msg(needle);
-		current_x--;
-	    }
 	    return NULL;
 	}
 
@@ -260,10 +258,8 @@ filestruct *findnextstr(int quiet, filestruct * begin, int beginx,
 
     /* Ensure we haven't wrap around again! */
     if ((search_last_line) && (current_x >= beginx)) {
-	if (!quiet) { 
+	if (!quiet)
 	    not_found_msg(needle);
-	    current_x--;
-	}
 	return NULL;
     }
 
