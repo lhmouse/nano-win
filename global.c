@@ -60,6 +60,8 @@ int placewewant = 0;		/* The collum we'd like the cursor
 				   to jump to when we go to the
 				   next or previous line */
 
+int tabsize = 8;		/* Our internal tabsize variable */
+
 char *hblank;			/* A horizontal blank line */
 char *help_text;		/* The text in the help window */
 

@@ -2,6 +2,8 @@ CVS code
 - Changed edit_update call to take arguments TOP, CENTER or BOTTOM.
   Affects many many functions.  Removed functions edit_update_top and
   edit_update_bot.
+- Added global variable tabsize, we no longer screw with the curses
+  library in order to implement -T (suggested by Christian Weisgerber).
 - configure.in:
 	- Finally fixed check for slang to report "no" if not called
 	  with --with-slang or --without-slang

@@ -319,10 +319,8 @@ void usage(void)
 #ifdef HAVE_GETOPT_LONG
     printf(_("Usage: nano [GNU long option] [option] +LINE <file>\n\n"));
     printf(_("Option		Long option		Meaning\n"));
-#ifdef HAVE_TABSIZE
     printf(_
 	   (" -T 		--tabsize=[num]		Set width of a tab to num\n"));
-#endif
 #ifdef _POSIX_VERSION
     printf(_
          (" -R		--regexp		Use regular expressions for search\n"));
@@ -369,9 +367,7 @@ void usage(void)
 #else
     printf(_("Usage: nano [option] +LINE <file>\n\n"));
     printf(_("Option		Meaning\n"));
-#ifdef HAVE_TABSIZE
     printf(_(" -T [num]	Set width of a tab to num\n"));
-#endif
     printf(_(" -R		Use regular expressions for search\n"));
     printf(_(" -V 		Print version information and exit\n"));
     printf(_(" -c 		Constantly show cursor position\n"));
@@ -646,8 +642,8 @@ void do_wrap(filestruct * inptr, char input_char)
 	}
 
 	if (inptr->data[i] == NANO_CONTROL_I) {
-	    if (i_tabs % TABSIZE != 0);
-	    i_tabs += TABSIZE - (i_tabs % TABSIZE);
+	    if (i_tabs % tabsize != 0);
+	    i_tabs += tabsize - (i_tabs % tabsize);
 	}
 
 	if (current_word_end_t > fill)
@@ -1543,9 +1539,7 @@ int main(int argc, char *argv[])
     struct sigaction act;	/* For our lovely signals */
     int keyhandled = 0;		/* Have we handled the keystroke yet? */
     int tmpkey = 0, i;
-#ifdef HAVE_TABSIZE
     int usrtabsize = 0;		/* User defined tab size */
-#endif
     char *argv0;
     struct termios term;
 
@@ -1571,9 +1565,7 @@ int main(int argc, char *argv[])
 	{"mouse", 0, 0, 'm'},
 	{"pico", 0, 0, 'p'},
 	{"nofollow", 0, 0, 'l'},
-#ifdef HAVE_TABSIZE
 	{"tabsize", 0, 0, 'T'},
-#endif
 	{0, 0, 0, 0}
     };
 #endif
@@ -1595,7 +1587,6 @@ int main(int argc, char *argv[])
 #endif
 
 	switch (optchr) {
-#ifdef HAVE_TABSIZE
 	case 'T':
 	    usrtabsize = atoi(optarg);
 	    if (usrtabsize <= 0) {
@@ -1603,11 +1594,6 @@ int main(int argc, char *argv[])
 		finish(1);
 	    }
 	    break;
-#else
-	case 'T':
-	    usage();		/* Oops!  You dont really have that option */
-	    finish(1);
-#endif
 #ifdef _POSIX_VERSION
 	case 'R':
 	    SET(USE_REGEXP);
@@ -1786,10 +1772,8 @@ int main(int argc, char *argv[])
     else
 	edit_update(fileage, CENTER);
 
-#ifdef HAVE_TABSIZE
     if (usrtabsize > 0)
-	TABSIZE = usrtabsize;
-#endif
+	tabsize = usrtabsize;
 
     edit_refresh();
     reset_cursor();
