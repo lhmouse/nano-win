@@ -3026,8 +3026,8 @@ void do_justify(bool full_justify)
     shortcut_init(TRUE);
     display_main_list();
 
-    /* Now get a keystroke and see if it's unjustify; if not, unget the
-     * keystroke and return. */
+    /* Now get a keystroke and see if it's unjustify.  If not, put back
+     * the keystroke and return. */
     kbinput = get_edit_input(&meta_key, &func_key, FALSE);
 
     if (!meta_key && !func_key && kbinput == NANO_UNJUSTIFY_KEY) {
