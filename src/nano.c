@@ -1930,7 +1930,8 @@ int justify_format(int changes_allowed, filestruct *line, size_t skip)
 		return 1;
 	    *front = ' ';
 	}
-	/* these tests are safe since line->data + skip is not a space */
+	/* These tests are safe since line->data + skip is not a
+	 * space. */
 	if ((*front == '\0' || *front == ' ') && *(front - 1) == ' ') {
 	    const char *bob = front - 2;
 
