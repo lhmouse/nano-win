@@ -456,6 +456,7 @@ void do_research(void)
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
+
     search_init_globals();
 
     if (last_search[0] != '\0') {
