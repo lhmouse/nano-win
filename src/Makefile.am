@@ -1,4 +1,3 @@
-
 DEFS= -DSYSCONFDIR=\"$(sysconfdir)\"
 localedir = $(datadir)/locale
 INCLUDES = -Iintl -DLOCALEDIR=\"$(localedir)\" -I@includedir@

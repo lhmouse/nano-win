@@ -84,6 +84,10 @@ CVS code -
   thanks_for_all_the_fish()
 	- Delete topwin, edit, and bottomwin. (David Benbennick)
 - nano.c:
+  do_enter()
+	- Don't treat it as a special case when the user presses Enter
+	  on the last line of the screen and smooth scrolling is on, for
+	  consistency. (DLR)
   do_alt_speller()
 	- When reloading the newly spell-checked temporary file, call
 	  terminal_init() to make sure that all the original terminal

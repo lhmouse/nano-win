@@ -1140,14 +1140,6 @@ void do_enter(void)
     renumber(current);
     current = newnode;
 
-#ifndef NANO_SMALL
-    /* If we're in smooth scrolling mode and we're on the last line of
-     * the edit window, move edittop down one line so that current is
-     * onscreen.  This prevents edit_refresh() from centering the
-     * screen. */
-    if (ISSET(SMOOTHSCROLL) && current_y == editwinrows - 1)
-	edittop = edittop->next;
-#endif
     edit_refresh();
 
     totlines++;

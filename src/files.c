@@ -530,7 +530,7 @@ void do_insertfile(int loading_file)
 #endif
 		check_operating_dir(answer, FALSE) != 0) {
 	    statusbar(_("Can't insert file from outside of %s"),
-			operating_dir);
+		operating_dir);
 	    return;
 	}
 #endif

@@ -1,4 +1,3 @@
-
 info_TEXINFOS = nano.texi
 MAKEINFO = makeinfo --no-split
 
