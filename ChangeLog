@@ -18,7 +18,7 @@ General
   do_justify()
 	- Added restoration of totsize after unjustify command.
 
-nano 0.9.99-pre1 - 01/17/2001
+nano 0.9.99pre1 - 01/17/2001
 General
 	- Changed #ifdefs to check for both DISABLE_TABCOMP and
 	  NANO_SMALL, makes tiny option leave out tab completion, which
