@@ -1,5 +1,5 @@
 /* Implementation of gettext(3) function.
-   Copyright (C) 1995, 1997, 2000, 2001 Free Software Foundation, Inc.
+   Copyright (C) 1995, 1997 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,14 +23,21 @@
 # define __need_NULL
 # include <stddef.h>
 #else
-# include <stdlib.h>		/* Just for NULL.  */
+# ifdef STDC_HEADERS
+#  include <stdlib.h>		/* Just for NULL.  */
+# else
+#  ifdef HAVE_STRING_H
+#   include <string.h>
+#  else
+#   define NULL ((void *) 0)
+#  endif
+# endif
 #endif
 
-#include "gettextP.h"
 #ifdef _LIBC
 # include <libintl.h>
 #else
-# include "libgnuintl.h"
+# include "libgettext.h"
 #endif
 
 /* @@ end of prolog @@ */
@@ -41,10 +48,10 @@
    prefix.  So we have to make a difference here.  */
 #ifdef _LIBC
 # define GETTEXT __gettext
-# define DCGETTEXT __dcgettext
+# define DGETTEXT __dgettext
 #else
 # define GETTEXT gettext__
-# define DCGETTEXT dcgettext__
+# define DGETTEXT dgettext__
 #endif
 
 /* Look up MSGID in the current default message catalog for the current
@@ -54,7 +61,7 @@ char *
 GETTEXT (msgid)
      const char *msgid;
 {
-  return DCGETTEXT (NULL, msgid, LC_MESSAGES);
+  return DGETTEXT (NULL, msgid);
 }
 
 #ifdef _LIBC

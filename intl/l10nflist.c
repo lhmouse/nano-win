@@ -1,4 +1,5 @@
-/* Copyright (C) 1995-1999, 2000, 2001 Free Software Foundation, Inc.
+/* Handle list of needed message catalogs
+   Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
    Contributed by Ulrich Drepper <drepper@gnu.ai.mit.edu>, 1995.
 
    This program is free software; you can redistribute it and/or modify
@@ -15,18 +16,22 @@
    along with this program; if not, write to the Free Software Foundation,
    Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
-/* Tell glibc's <string.h> to provide a prototype for stpcpy().
-   This must come before <config.h> because <config.h> may include
-   <features.h>, and once <features.h> has been included, it's too late.  */
-#ifndef _GNU_SOURCE
-# define _GNU_SOURCE	1
-#endif
-
 #ifdef HAVE_CONFIG_H
 # include <config.h>
 #endif
 
-#include <string.h>
+
+#if defined HAVE_STRING_H || defined _LIBC
+# ifndef _GNU_SOURCE
+#  define _GNU_SOURCE	1
+# endif
+# include <string.h>
+#else
+# include <strings.h>
+# ifndef memcpy
+#  define memcpy(Dst, Src, Num) bcopy (Src, Dst, Num)
+# endif
+#endif
 #if !HAVE_STRCHR && !defined _LIBC
 # ifndef strchr
 #  define strchr index
@@ -38,7 +43,10 @@
 #endif
 #include <ctype.h>
 #include <sys/types.h>
-#include <stdlib.h>
+
+#if defined STDC_HEADERS || defined _LIBC
+# include <stdlib.h>
+#endif
 
 #include "loadinfo.h"
 
@@ -163,7 +171,7 @@ pop (x)
 struct loaded_l10nfile *
 _nl_make_l10nflist (l10nfile_list, dirlist, dirlist_len, mask, language,
 		    territory, codeset, normalized_codeset, modifier, special,
-		    sponsor, revision, filename, domainbinding, do_allocate)
+		    sponsor, revision, filename, do_allocate)
      struct loaded_l10nfile **l10nfile_list;
      const char *dirlist;
      size_t dirlist_len;
@@ -177,7 +185,6 @@ _nl_make_l10nflist (l10nfile_list, dirlist, dirlist_len, mask, language,
      const char *sponsor;
      const char *revision;
      const char *filename;
-     struct binding *domainbinding;
      int do_allocate;
 {
   char *abs_filename;
@@ -217,7 +224,7 @@ _nl_make_l10nflist (l10nfile_list, dirlist, dirlist_len, mask, language,
 
   /* Construct file name.  */
   memcpy (abs_filename, dirlist, dirlist_len);
-  __argz_stringify (abs_filename, dirlist_len, PATH_SEPARATOR);
+  __argz_stringify (abs_filename, dirlist_len, ':');
   cp = abs_filename + (dirlist_len - 1);
   *cp++ = '/';
   cp = stpcpy (cp, language);
@@ -298,7 +305,6 @@ _nl_make_l10nflist (l10nfile_list, dirlist, dirlist_len, mask, language,
     return NULL;
 
   retval->filename = abs_filename;
-  retval->domainbinding = domainbinding;
   retval->decided = (__argz_count (dirlist, dirlist_len) != 1
 		     || ((mask & XPG_CODESET) != 0
 			 && (mask & XPG_NORM_CODESET) != 0));
@@ -334,8 +340,7 @@ _nl_make_l10nflist (l10nfile_list, dirlist, dirlist_len, mask, language,
 	    = _nl_make_l10nflist (l10nfile_list, dir, strlen (dir) + 1, cnt,
 				  language, territory, codeset,
 				  normalized_codeset, modifier, special,
-				  sponsor, revision, filename, domainbinding,
-				  1);
+				  sponsor, revision, filename, 1);
       }
   retval->successor[entries] = NULL;
 
@@ -344,8 +349,7 @@ _nl_make_l10nflist (l10nfile_list, dirlist, dirlist_len, mask, language,
 
 /* Normalize codeset name.  There is no standard for the codeset
    names.  Normalization allows the user to use any of the common
-   names.  The return value is dynamically allocated and has to be
-   freed by the caller.  */
+   names.  */
 const char *
 _nl_normalize_codeset (codeset, name_len)
      const char *codeset;
