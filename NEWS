@@ -1,3 +1,17 @@
+07/25/2002 - At long last!  GNU nano 1.1.10 "What didn't we break?" is
+		released.  This version of GNU nano features version
+		0.11.2 of gettext, building with automake 1.6, some new
+		code for displaying control characters, browser
+		improvements, a new backup file option (-B, --backup),
+		a new option to ignore rc files (-I,--ignorercfiles), 
+		compatibility with -pedantic, handling null characters
+		before EOF, a slightly sportier nanorc.sample and more.
+			Fixes are included included for justification, the 
+		reading and writing file routines, resizing and fill
+		length, millions of memory leaks, the usage screen was 
+		updated, and the the --quotestr and --regexp really work
+		now ;-)   Enjoy :)
+
 05/12/2002 - GNU nano 1.1.9 is released, happy Mother's Day!  This release
 		includes many new features, including a prepend mode 
 		(^O,M-P), a new "syntax" command in the .nanorc to allow
