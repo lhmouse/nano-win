@@ -768,7 +768,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 	      int virt_mark_beginx, int this_page)
 {
 
-#ifndef NANO_SMALL
+#ifdef ENABLE_COLOR
     colortype *tmpcolor = NULL;
     colorstr *tmpstr = NULL;
     int k, paintlen;
@@ -781,7 +781,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
     mvwaddnstr(edit, yval, 0, &fileptr->data[start],
 	    get_page_end_virtual(this_page) - start + 1);
 
-#ifndef NANO_SMALL
+#ifdef ENABLE_COLOR
     if (colorstrings != NULL)
 	for (tmpcolor = colorstrings; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
 	    for (tmpstr = tmpcolor->str; tmpstr != NULL; tmpstr = tmpstr->next) {
@@ -823,6 +823,8 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 		}
 	    }
 	}
+#endif /* ENABLE_COLOR */
+#ifndef NANO_SMALL
 
     /* There are quite a few cases that could take place; we'll deal
      * with them each in turn */
