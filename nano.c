@@ -165,8 +165,10 @@ void init_help_msg(void)
 	  "The bottom two lines show the most commonly used shortcuts "
 	  "in the editor.\n\n "
 	  "The notation for shortcuts is as follows: Control-key "
-	  "sequences are notated with a caret (^) symbol.  Alt-key "
-	  "sequences are notated with an at (@) symbol.  The following "
+	  "sequences are notated with a caret (^) symbol and are entered "
+	  "with the Control (Ctrl) hey.  Escape-key sequences are notated "
+	  "with the Meta (M) symbol and can be entered using either Esc, "
+	  "Alt or Meta depending on your keyboard setup. The following "
 	  "keystrokes are available in the main editor window. "
 	  "Optional keys are shown in parentheses:\n\n");
 #endif
@@ -1576,7 +1578,7 @@ void help_init(void)
 	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "	");
 
 	if (main_list[i].altval > 0)
-	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "(@%c)	",
+	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "(M-%c)	",
 			     main_list[i].altval - 32);
 	else
 	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "	");
@@ -1593,7 +1595,7 @@ void help_init(void)
     /* And the toggles... */
     for (i = 0; i < TOGGLE_LEN - 1; i++) {
 	sofar = snprintf(buf, BUFSIZ, 
-	"                (@%c)	", toggles[i].val - 32 );
+	"M-%c			", toggles[i].val - 32 );
 
 	if (toggles[i].desc != NULL)
 	    snprintf(&buf[sofar], BUFSIZ - sofar, "%s enable/disable", 
