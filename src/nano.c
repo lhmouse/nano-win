@@ -3096,7 +3096,8 @@ void do_justify(bool full_justify)
 		size_t prev_line_len = strlen(current->prev->data);
 
 		if (par_len > 1) {
-		    current->prev->data = charealloc(current->prev->data,
+		    current->prev->data =
+			charealloc(current->prev->data,
 			prev_line_len + 2);
 		    current->prev->data[prev_line_len] = ' ';
 		    current->prev->data[prev_line_len + 1] = '\0';
