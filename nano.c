@@ -393,7 +393,11 @@ filestruct *read_line(char *buf, filestruct * prev, int *line1ins)
 	fileptr->next = fileage;
 	fileptr->lineno = 1;
 	*line1ins = 0;
+	/* If we're inserting into the first line of the file, then
+	   we want to make sure that our edit buffer stays on the
+	   first line (and that fileage stays up to date!) */
 	fileage = fileptr;
+	edittop = fileptr;
     } else if (fileage == NULL) {
 	fileage = fileptr;
 	fileage->lineno = 1;
@@ -475,7 +479,6 @@ int read_file(int fd, char *filename)
 	renumber(current);
 	current_x = 0;
 	placewewant = 0;
-	edit_update(fileptr);
     } else if (fileptr->next == NULL) {
 	filebot = fileptr;
 	load_file();
@@ -540,7 +543,20 @@ int do_insertfile(void)
 
 	dump_buffer(fileage);
 	set_modified();
-	edit_update(current);
+
+	/* Here we want to rebuild the edit window */
+	for(i = 0, editbot = edittop;
+	       i <= editwinrows - 1
+	    && i <= totlines
+	    && editbot->next != NULL;
+	    editbot = editbot->next, i++);
+
+	/* If we've gone off the bottom, recenter, otherwise just redraw */
+	if(current->lineno > editbot->lineno)
+	    edit_update(current);
+	else
+	    edit_refresh();
+
 	UNSET(KEEP_CUTBUFFER);
 	display_main_list();
 	return i;
