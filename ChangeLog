@@ -91,7 +91,9 @@ GNU nano 1.3.1 - 2004.01.09
 	  the selection and then call write_file(), instead of following
 	  the old hackish behavior with cut_marked_segment() (which
 	  won't work after the cutting code changes anyway). (David
-	  Benbennick)
+	  Benbennick)  DLR: Tweak to not add an extra blank line to the
+	  end of the written selection if the cursor is at the beginning
+	  of the last line of the selection.
   open_prevfile(), open_nextfile()
 	- For consistency with the rest of the multibuffer code, change
 	  "No more open files" to "No more open file buffers". (DLR)
