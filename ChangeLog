@@ -36,6 +36,8 @@ CVS code -
 	- Russian and Ukrainian translation updates (Sergey A. Ribalchenko).
 - po/da.po:
 	- Danish translation updates (Keld Simonsen).
+- po/nb.po:
+	- Norwegian bokmål translation updates (Stig E Sandoe).
 
 nano-1.1.6 - 01/25/2002
 - General
