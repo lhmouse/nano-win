@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.7\n"
-"POT-Creation-Date: 2000-12-02 22:34-0500\n"
+"POT-Creation-Date: 2000-12-08 22:03-0500\n"
 "PO-Revision-Date: 2000-03-03 04:57+0100\n"
 "Last-Translator: Daniele Medri <madrid@linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -55,59 +55,59 @@ msgstr "Lettura file"
 msgid "File to insert [from ./] "
 msgstr "File da inserire [da ./] "
 
-#: files.c:284 files.c:309 files.c:525 nano.c:1419
+#: files.c:284 files.c:309 files.c:541 nano.c:1419
 msgid "Cancelled"
 msgstr "Cancellato"
 
-#: files.c:346 files.c:367 files.c:381 files.c:398 files.c:404
+#: files.c:354 files.c:384 files.c:398 files.c:415 files.c:421
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "Impossibile aprire il file in scrittura: %s"
 
-#: files.c:355
+#: files.c:372
 msgid "Could not open file: Path length exceeded."
 msgstr "Impossibile aprire il file: esagerata lunghezza del percorso."
 
-#: files.c:386
+#: files.c:403
 #, c-format
 msgid "Wrote >%s\n"
 msgstr "Scrivi >%s\n"
 
-#: files.c:413
+#: files.c:430
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "Impossibile chiudere %s: %s"
 
 #. Try a rename??
-#: files.c:434 files.c:446 files.c:451
+#: files.c:453 files.c:462 files.c:467
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr "Impossibile aprire %s in scrittura: %s"
 
-#: files.c:458
+#: files.c:474
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr "Impossibile configurare i permessi di %o su %s: %s"
 
-#: files.c:464
+#: files.c:479
 #, c-format
 msgid "Wrote %d lines"
 msgstr "Scritte %d linee"
 
-#: files.c:496
+#: files.c:511
 msgid "File Name to write"
 msgstr "Salva con nome"
 
-#: files.c:501
+#: files.c:516
 #, c-format
 msgid "filename is %s"
 msgstr "Il nome file è %s"
 
-#: files.c:514
+#: files.c:530
 msgid "File exists, OVERWRITE ?"
 msgstr "File esistente, SOVRASCRIVERE?"
 
-#: files.c:1003
+#: files.c:1017
 msgid "(more)"
 msgstr ""
 
@@ -818,41 +818,41 @@ msgstr "Sostituite %d occorrenze"
 msgid "Replaced 1 occurence"
 msgstr "Sostituita 1 occorrenza"
 
-#: search.c:504 search.c:608 search.c:624
+#: search.c:483 search.c:587 search.c:603
 msgid "Replace Cancelled"
 msgstr "Sostituzione annullata"
 
-#: search.c:554
+#: search.c:533
 msgid "Replace this instance?"
 msgstr "Sostituisci questa istanza?"
 
-#: search.c:566
+#: search.c:545
 msgid "Replace failed: unknown subexpression!"
 msgstr ""
 
-#: search.c:649
+#: search.c:628
 #, c-format
 msgid "Replace with [%s]"
 msgstr "Sostituisci con [%s]"
 
-#: search.c:653 search.c:657
+#: search.c:632 search.c:636
 msgid "Replace with"
 msgstr "Sostituisci con"
 
 #. Ask for it
-#: search.c:692
+#: search.c:671
 msgid "Enter line number"
 msgstr "Inserire numero linea"
 
-#: search.c:694
+#: search.c:673
 msgid "Aborted"
 msgstr "Operazione fallita"
 
-#: search.c:714
+#: search.c:693
 msgid "Come on, be reasonable"
 msgstr "Avanti, sii ragionevole"
 
-#: search.c:719
+#: search.c:698
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr "Solo %d linee disponibili, vai all'ultima"
@@ -927,35 +927,35 @@ msgstr "Copia cutbuffer sullo stderr...\n"
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Copia un buffer sullo stderr...\n"
 
-#: winio.c:1341
+#: winio.c:1375
 msgid "The nano text editor"
 msgstr ""
 
-#: winio.c:1342
+#: winio.c:1376
 msgid "version "
 msgstr ""
 
-#: winio.c:1343
+#: winio.c:1377
 msgid "Brought to you by:"
 msgstr ""
 
-#: winio.c:1344
+#: winio.c:1378
 msgid "Special thanks to:"
 msgstr ""
 
-#: winio.c:1345
+#: winio.c:1379
 msgid "The Free Software Foundation"
 msgstr ""
 
-#: winio.c:1346
+#: winio.c:1380
 msgid "Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses"
 msgstr ""
 
-#: winio.c:1347
+#: winio.c:1381
 msgid "and anyone else we forgot..."
 msgstr ""
 
-#: winio.c:1348
+#: winio.c:1382
 msgid "Thank you for using nano!\n"
 msgstr ""
 

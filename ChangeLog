@@ -1,4 +1,4 @@
-CVS code -
+nano 0.9.23 - 12/08/2000
 General
 	- Changed --disable-spell to --disable speller.  The term is
 	  "speller" for -s, so it should be --disable-speller.
