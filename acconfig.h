@@ -51,3 +51,6 @@
 /* Define this to disable any and all text wrapping */
 #undef DISABLE_WRAPPING
 
+/* Define this to disable wrapping as root by default */
+#undef DISABLE_ROOTWRAP
+

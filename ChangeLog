@@ -5,6 +5,9 @@ CVS Code -
 	  and nano.c:do_int_spell_fix() (Rocco Corsi).
 	- Add Meta-A as alternate keyystroke for ^^ for people with
 	  non-US keyboards.
+	- New configure option --disable-wrapping-as-root.  Added
+	  because the 1.0 series doesn't really allow wrapping disabled
+	  without a flag and debian's installer can't handle that.
 - global.c:
   shorcut_init()
 	- Replace hard coded ALT_G and ALT_H values in the replace

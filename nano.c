@@ -479,6 +479,9 @@ void version(void)
 #ifdef DISABLE_WRAPPING
     printf(" --disable-wrapping");
 #endif
+#ifdef DISABLE_ROOTWRAP
+    printf(" --disable-wrapping-as-root");
+#endif
 #ifdef USE_SLANG
     printf(" --with-slang");
 #endif
@@ -2463,6 +2466,10 @@ int main(int argc, char *argv[])
 	    filename = mallocstrcpy(filename, argv[optind]);
     }
 
+#ifdef DISABLE_ROOTWRAP
+    if (geteuid() == 0)
+	SET(NO_WRAP);
+#endif
 
     /* First back up the old settings so they can be restored, duh */
     tcgetattr(0, &oldterm);
