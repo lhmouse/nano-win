@@ -9,6 +9,8 @@ CVS code -
 - cut.c:
   cut_marked_segment()
 	- Fix off-by one in mem allocation.
+- nano.texi:
+	- Backported fix from 1.1 for Mouse Toggle.
 - po/de.po:
 	- Updated German translation (Karl Eichwalder).
 

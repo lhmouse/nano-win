@@ -287,7 +287,7 @@ toggles the -i (--autoindent) command line flag.
 @item Cut To End Toggle (Meta-K)
 toggles the -k (--cut) command line flag.
 
-@item Cut To End Toggle (Meta-M)
+@item Mouse Toggle (Meta-M)
 toggles the -m (--mouse) command line flag.
 
 @item Pico Mode Toggle (Meta-P)
