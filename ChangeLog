@@ -21,6 +21,10 @@ CVS code -
 	  file if uncutting leaves the cursor on the current one, as
 	  it's actually a bug. (DLR)
 - global.c:
+  shortcut_init()
+	- Fix misplaced #endif keeping the "Full Justify" shortcut in
+	  the search shortcut list from being included when NANO_SMALL
+	  is defined but DISABLE_JUSTIFY isn't. (DLR)
   thanks_for_all_the_fish()
 	- Free the justify buffer if it isn't empty. (DLR)
 - nano.c:

@@ -659,6 +659,7 @@ void shortcut_init(bool unjustify)
     sc_init_one(&whereis_list, NANO_HISTORY_KEY, history_msg,
 	IFHELP(nano_editstr_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, 0);
+#endif /* !NANO_SMALL */
 
 #ifndef DISABLE_JUSTIFY
     /* Translators: try to keep this string under 10 characters long */
@@ -666,7 +667,6 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_fulljustify_msg, NANO_FULLJUSTIFY_ALTKEY),
 	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_full_justify);
 #endif
-#endif /* !NANO_SMALL */
 
     free_shortcutage(&replace_list);
 
