@@ -13,6 +13,8 @@ CVS code -
 	- Stat full_path, not path (Steven Kneizys).
   open_pipe()
 	- I18nize the pipe error (DLR).
+  do_insertfile()
+	- Handle cancel from ExtCmd properly (David Benbennick).
   read_file()
 	- Abort if we read a file of 0 lines (num_lines == 0), fixes BUG #70.
 	- Reverse tests to stop segfault on editing a new file of 0 

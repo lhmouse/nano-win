@@ -472,6 +472,19 @@ int do_insertfile(int loading_file)
 	}
 #endif
 
+#ifndef NANO_SMALL
+	if (i == NANO_EXTCMD_KEY) {
+	    int ts;
+	    ts = statusq(1, extcmd_list, "", _("Command to execute "));
+	    if (ts == -1  || answer == NULL || !strcmp(answer,"")) {
+		statusbar(_("Cancelled"));
+		UNSET(KEEP_CUTBUFFER);
+		display_main_list();
+		return 0;
+	    }
+	}
+#endif
+
 #ifdef ENABLE_MULTIBUFFER
 	if (loading_file) {
 
@@ -485,16 +498,7 @@ int do_insertfile(int loading_file)
 
 #ifndef NANO_SMALL
 	if (i == NANO_EXTCMD_KEY) {
-	    i = statusq(1, extcmd_list, "", _("Command to execute "));
-	    if (i == -1) {
-		statusbar(_("Cancelled"));
-		UNSET(KEEP_CUTBUFFER);
-		display_main_list();
-		return 0;
-	    }
-	    if (answer != NULL) {
-		i = open_pipe(answer);
-	    }
+	    i = open_pipe(answer);
 	}
 	else 
 #endif /* NANO_SMALL */
