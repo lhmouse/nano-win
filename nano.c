@@ -1733,6 +1733,111 @@ int do_spell(void)
 #endif
 }
 
+#ifndef NANO_SMALL
+static int pid;		/* this is the PID of the newly forked process below.  
+			 * It must be global since the signal handler needs it.
+			 */
+
+RETSIGTYPE cancel_fork(int signal) {
+    if (kill(pid, SIGKILL)==-1) nperror("kill");
+}
+
+int open_pipe(char *command)
+{
+    int fd[2];
+    struct sigaction oldaction, newaction;
+			/* original and temporary handlers for SIGINT */
+#ifdef _POSIX_VDISABLE
+    struct termios term, newterm;
+#endif   /* _POSIX_VDISABLE */
+    int cancel_sigs = 0;
+    /* cancel_sigs==1 means that sigaction failed without changing the 
+     * signal handlers.  cancel_sigs==2 means the signal handler was
+     * changed, but the tcsetattr didn't succeed.
+     * I use this variable since it is important to put things back when
+     * we finish, even if we get errors.
+     */
+
+  /* Make our pipes. */
+
+    if (pipe(fd) == -1) {
+	statusbar(_("Could not pipe"));
+	return 1;
+    }
+
+    /* Fork a child */
+
+    if ((pid = fork()) == 0) {
+	close(fd[0]);
+	dup2(fd[1], fileno(stdout));
+	dup2(fd[1], fileno(stderr));
+	/* If execl() returns at all, there was an error. */
+      
+	execl("/bin/sh","sh","-c",command,0);
+	exit(0);
+    }
+
+    /* Else continue as parent */
+
+    close(fd[1]);
+
+    if (pid == -1) {
+	close(fd[0]);
+	statusbar(_("Could not fork"));
+	return 1;
+    }
+
+    /* before we start reading the forked command's output, we set 
+     * things up so that ^C will cancel the new process.
+     */
+    if (sigaction(SIGINT, NULL, &newaction)==-1) {
+	cancel_sigs = 1;
+	nperror("sigaction");
+    } else {
+	newaction.sa_handler = cancel_fork;
+	if (sigaction(SIGINT, &newaction, &oldaction)==-1) {
+	    cancel_sigs = 1;
+	    nperror("sigaction");
+	}
+    }
+    /* note that now oldaction is the previous SIGINT signal handler, to 
+       be restored later */
+
+    /* if the platform supports disabling individual control characters */
+#ifdef _POSIX_VDISABLE
+    if (!cancel_sigs && tcgetattr(0, &term) == -1) {
+	cancel_sigs = 2;
+	nperror("tcgetattr");
+    }
+    if (!cancel_sigs) {
+	newterm = term;
+	/* Grab oldterm's VINTR key :-) */
+	newterm.c_cc[VINTR] = oldterm.c_cc[VINTR];
+	if (tcsetattr(0, TCSANOW, &newterm) == -1) {
+	    cancel_sigs = 2;
+	    nperror("tcsetattr");
+	}
+    }
+#endif   /* _POSIX_VDISABLE */
+
+    read_file(fd[0],"stdin",0);
+    set_modified();
+
+    if (wait(NULL) == -1) 
+	nperror("wait");
+
+#ifdef _POSIX_VDISABLE
+    if (!cancel_sigs && tcsetattr(0, TCSANOW, &term) == -1)
+	nperror("tcsetattr");
+#endif   /* _POSIX_VDISABLE */
+
+    if (cancel_sigs!=1 && sigaction(SIGINT, &oldaction, NULL) == -1)
+	nperror("sigaction");
+
+    return 0;
+}
+#endif /* NANO_SMALL */
+
 int do_exit(void)
 {
     int i;

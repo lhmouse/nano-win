@@ -110,12 +110,8 @@ int read_byte(int fd, char *filename, char *input)
 	index = 0;
 	size = read(fd, buf, BUFSIZ);
 	if (size == -1) {
-	    clear();
-	    refresh();
-	    resetty();
-	    endwin();
-	    perror(filename);
-	    total_refresh();
+	    size = index;	/* note index==0 */
+	    nperror(filename);
 	    return -1;
 	}
 	if (!size)
@@ -292,49 +288,6 @@ int read_file(int fd, char *filename, int quiet)
     return 1;
 }
 
-#ifndef NANO_SMALL
-int open_pipe(char *command)
-{
-    int fd[2], pid;
-    int fork_status;
-  
-  /* Make our pipes. */
-
-    if (pipe(fd) == -1) {
-	statusbar(_("Could not pipe"));
-	return 1;
-    }
-
-    /* Fork a child */
-
-    if ((pid = fork()) == 0) {
-	close(fd[0]);
-	dup2(fd[1], fileno(stdout));
-	dup2(fd[1], fileno(stderr));
-	/* If execl() returns at all, there was an error. */
-      
-	execl("/bin/sh","sh","-c",command,0);
-	exit(0);
-    }
-
-    /* Else continue as parent */
-
-    close(fd[1]);
-
-    if (pid == -1) {
-	close(fd[0]);
-	statusbar(_("Could not fork"));
-	return 1;
-    }
-
-    read_file(fd[0],"stdin",0);
-    set_modified();
-
-    wait(&fork_status);
-
-    return 0;
-}
-#endif /* NANO_SMALL */
 
 /* Open the file (and decide if it exists) */
 int open_file(char *filename, int insert, int quiet)

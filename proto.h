@@ -116,6 +116,8 @@ int open_file(char *filename, int insert, int quiet);
 int do_insertfile(int loading_file);
 int length_of_list(shortcut *s);
 int num_of_digits(int n);
+int open_pipe(char *command);
+int read_file(int fd, char *filename, int quiet);
 
 #ifdef ENABLE_MULTIBUFFER
 int add_open_file(int update);
@@ -171,6 +173,7 @@ void center_cursor(void);
 void bottombars(shortcut *s);
 void blank_statusbar_refresh(void);
 void *nmalloc (size_t howmuch);
+void nperror(const char *s);
 void *mallocstrcpy(char *dest, char *src);
 void wrap_reset(void);
 void display_main_list(void);

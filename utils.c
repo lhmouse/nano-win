@@ -21,6 +21,7 @@
 
 #include "config.h"
 
+#include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
@@ -158,6 +159,18 @@ char *strstrwrapper(char *haystack, char *needle, char *rev_start)
 #ifndef NANO_SMALL
     }
 #endif
+}
+
+/* This is a wrapper for the perror function.  The wrapper takes care of 
+ * ncurses, calls perror (which writes to STDERR), then refreshes the 
+ * screen.  Note that nperror causes the window to flicker once.
+ */
+void nperror(const char *s) {
+	/* leave ncurses mode, go to the terminal */
+    if (endwin() != ERR) {
+	perror(s);		/* print the error */
+	total_refresh();	/* return to ncurses and repaint */
+    }
 }
 
 /* Thanks BG, many ppl have been asking for this... */

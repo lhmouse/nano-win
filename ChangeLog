@@ -3,9 +3,10 @@ CVS code -
 	- Type misalignments and mem leaks in renumber_all, do_justify
 	  and do_spell (Rocco & Steven Kneizys).
 	- New "External Command" code, originally by Dwayne Rightler,
-	  Chris & Rocco. New function files.c:open_pipe(), changes to
-	  do_insertfile(), new list extcmd_list, cmd is ^X after ^R by
-	  default.
+	  various fixes and changes by Chris, Rocco and David Benbennick. 
+	  New function nano.c:open_pipe() and signal handler cancel_fork(), 
+	  changes to do_insertfile(), new list extcmd_list, cmd is 
+	  ^X after ^R.
 	- Added separate regex variable (color_regex and colormatches)
 	  so that color syntax and regex search/replace can coexist.
 - files.c:
@@ -50,6 +51,8 @@ CVS code -
 - utils.c:
   stristr() 
 	- Defined regardless of NANO_SMALL (noticed by Jordi).
+  nperror()
+	- New wrapper for perror (David Benbennick).
 - winio.c:
   do_credits()
 	- Add Thomas Dickey.
