@@ -268,6 +268,8 @@ int mb_cur_max(void)
  * length. */
 char *make_mbchar(unsigned int chr, char *chr_mb, int *chr_mb_len)
 {
+    assert(chr_mb != NULL && chr_mb_len != NULL);
+
 #ifdef NANO_WIDE
     if (!ISSET(NO_UTF8)) {
 	*chr_mb_len = wctomb(chr_mb, chr);
@@ -441,14 +443,14 @@ int nstrcasecmp(const char *s1, const char *s2)
 /* This function is equivalent to strcasecmp() for multibyte strings. */
 int mbstrcasecmp(const char *s1, const char *s2)
 {
-    assert(s1 != NULL && s2 != NULL);
-
 #ifdef NANO_WIDE
     if (!ISSET(NO_UTF8)) {
 	char *s1_mb = charalloc(mb_cur_max());
 	char *s2_mb = charalloc(mb_cur_max());
 	int s1_mb_len, s2_mb_len;
 	wchar_t ws1, ws2;
+
+	assert(s1 != NULL && s2 != NULL);
 
 	while (*s1 != '\0' && *s2 != '\0') {
 	    s1_mb_len = parse_mbchar(s1, s1_mb
@@ -518,14 +520,14 @@ int nstrncasecmp(const char *s1, const char *s2, size_t n)
  * strings. */
 int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 {
-    assert(s1 != NULL && s2 != NULL);
-
 #ifdef NANO_WIDE
     if (!ISSET(NO_UTF8)) {
 	char *s1_mb = charalloc(mb_cur_max());
 	char *s2_mb = charalloc(mb_cur_max());
 	int s1_mb_len, s2_mb_len;
 	wchar_t ws1, ws2;
+
+	assert(s1 != NULL && s2 != NULL);
 
 	while (n > 0 && *s1 != '\0' && *s2 != '\0') {
 	    s1_mb_len = parse_mbchar(s1, s1_mb
