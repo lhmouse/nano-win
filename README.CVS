@@ -1,0 +1,37 @@
+INSTRUCTIONS TO COMPILE AND INSTALL NANO CVS VERSIONS
+-----------------------------------------------------
+
+GNU nano is available from CVS, but building this needs a bit
+more care than the official stable and unstable tarballs.
+
+To succesfully compile GNU nano from CVS, you'll need the
+following packages:
+
+- autoconf (versions 2.13 or >= 2.50)
+- automake (version 1.4-pl4 recommended)
+- autoheader
+- gettext (version 0.10.40)
+- texinfo
+- cvs
+- make, gcc and the normal development libraries (ncurses, etc)
+These should be available on your GNU mirror.
+
+
+To download the CVS tree, execute the following command:
+$ cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/nano login
+and press enter at the password prompt.
+Then, do
+$ cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/nano checkout src
+[FIXME for Savannah] and the nano tree will download.
+
+One you have the sources in the "src" directory, cd into it, and execute
+the "autogen.sh" script in the top dir. This will setup a configure script
+and Makefile.in, and you will be ready to compile with
+$ ./configure [--add-options-here] && make
+Once it's done compiling,
+$ make install
+should put the required files in their respective directories.
+
+
+Please submit any bugs in the CVS branch to nano-devel@lists.sourceforge.net.
+[FIXME needs change for Savannah too]
