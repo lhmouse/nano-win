@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.7\n"
 "POT-Creation-Date: 2002-03-05 18:20-0500\n"
-"PO-Revision-Date: 2002-03-11 11:30+0100\n"
+"PO-Revision-Date: 2002-03-17 00:30+0100\n"
 "Last-Translator: Jean-Philippe Guérard <jean-philippe.guerard@laposte.net>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -274,7 +274,7 @@ msgstr "Écrire le fichier en cours sur le disque"
 
 #: global.c:285
 msgid "Close currently loaded file/Exit from nano"
-msgstr "Fermer le fichier chargé ou quitter nano"
+msgstr "Fermer le fichier en cours et, le cas échéant, quitter nano"
 
 #: global.c:287
 msgid "Exit from nano"
