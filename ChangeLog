@@ -11,10 +11,10 @@ CVS code -
 	  aren't needed for nano-tiny.
 - cut.c:
   do_cut_text()
-	- Backported 1.1 fixes for just doing edit_update when we cut
+	- Backported 1.1 fixes for just doing edit_refresg when we cut
 	  text instead of edit_update.
   do_uncut_text()
-	- Backported David Lawrence Ramsey's fixes for doing refresh
+	- Backported David Lawrence Ramsey's fixes for doing edit_refresh
 	  instead of edit_update when uncutting text.
   cut_marked_segment()
 	- Fix off-by one in mem allocation.
