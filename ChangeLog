@@ -60,6 +60,8 @@ CVS Code -
 	  mode on. (DLR; found by David Benbennick)
   save_history()
 	- Fix nrealloc return value being ignored (David Benbennick).
+	- Fix off-by-one bug causing write to unallocated memory 
+	  (David Benbennick).
 - global.c:
   thanks_for_all_the_fish()
 	- Fix compiling with DEBUG and multibuffer (David Benbennick).
