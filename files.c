@@ -421,6 +421,10 @@ int do_insertfile(int loading_file)
 {
     int i, old_current_x = current_x;
     char *realname = NULL;
+    static char *inspath = NULL;
+
+    if (inspath == NULL)
+	inspath = mallocstrcpy(inspath, "");
 
     wrap_reset();
 
@@ -430,16 +434,32 @@ int do_insertfile(int loading_file)
 
 #ifndef DISABLE_OPERATINGDIR
     if (operating_dir && strcmp(operating_dir, "."))
-	i = statusq(1, insertfile_list, "", _("File to insert [from %s] "),
+#ifdef ENABLE_MULTIBUFFER 
+	if (ISSET(MULTIBUFFER))
+	    i = statusq(1, insertfile_list, inspath, _("File to insert into new buffer [from %s] "),
 		operating_dir);
+	else
+#endif
+	    i = statusq(1, insertfile_list, inspath, _("File to insert [from %s] "),
+		operating_dir);
+
     else
 #endif
-	i = statusq(1, insertfile_list, "", _("File to insert [from ./] "));
+#ifdef ENABLE_MULTIBUFFER 
+	if (ISSET(MULTIBUFFER))
+	    i = statusq(1, insertfile_list, inspath, _("File to insert into new buffer [from ./] "));
+	else
+#endif
+	    i = statusq(1, insertfile_list, inspath, _("File to insert [from ./] "));
 
     if (i != -1) {
+
+	inspath = mallocstrcpy(inspath, answer);
+
 #ifdef DEBUG
 	fprintf(stderr, _("filename is %s\n"), answer);
 #endif
+
 
 #ifndef DISABLE_TABCOMP
 	realname = real_dir_from_tilde(answer);
@@ -473,6 +493,12 @@ int do_insertfile(int loading_file)
 	}
 #endif
 
+#ifdef ENABLE_MULTIBUFFER
+	if (i == TOGGLE_LOAD_KEY) {
+	    TOGGLE(MULTIBUFFER);
+	    return do_insertfile(loading_file);
+	}
+#endif
 #ifndef NANO_SMALL
 	if (i == NANO_EXTCMD_KEY) {
 	    int ts;
@@ -548,6 +574,8 @@ int do_insertfile(int loading_file)
 	}
 #endif
 
+	
+
 	/* If we've gone off the bottom, recenter; otherwise, just redraw */
 	if (current->lineno > editbot->lineno)
 	    edit_update(current, CENTER);
@@ -558,15 +586,17 @@ int do_insertfile(int loading_file)
 	update_color();
 #endif    
 
-	UNSET(KEEP_CUTBUFFER);
-	display_main_list();
-	return i;
     } else {
 	statusbar(_("Cancelled"));
-	UNSET(KEEP_CUTBUFFER);
-	display_main_list();
-	return 0;
+	i = 0;
     }
+
+    free(inspath);
+    inspath = NULL;
+
+    UNSET(KEEP_CUTBUFFER);
+    display_main_list();
+    return i;
 }
 
 int do_insertfile_void(void)

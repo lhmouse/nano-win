@@ -325,7 +325,8 @@ void shortcut_init(int unjustify)
 	"", *nano_backup_msg = "";
 
 #ifdef ENABLE_MULTIBUFFER
-    char *nano_openprev_msg = "", *nano_opennext_msg = "";
+    char *nano_openprev_msg = "", *nano_opennext_msg = "",
+	*nano_multibuffer_msg = "";
 #endif
 #ifdef HAVE_REGEX_H
     char *nano_regexp_msg = "", *nano_bracket_msg = "";
@@ -384,6 +385,7 @@ void shortcut_init(int unjustify)
 #ifdef ENABLE_MULTIBUFFER
     nano_openprev_msg = _("Open previously loaded file");
     nano_opennext_msg = _("Open next loaded file");
+    nano_multibuffer_msg = _("Toggle insert into new buffer");
 #endif
 #endif /* !DISABLE_HELP */
 
@@ -723,6 +725,10 @@ void shortcut_init(int unjustify)
 #ifndef NANO_SMALL
     sc_init_one(&insertfile_list, NANO_EXTCMD_KEY, _("Execute Command"),
 		IFHELP(nano_execute_msg, 0), 0, 0, NOVIEW, 0);
+#endif
+#ifdef ENABLE_MULTIBUFFER
+    sc_init_one(&insertfile_list, TOGGLE_LOAD_KEY, _("New Buffer"),
+		IFHELP(nano_multibuffer_msg, 0), 0, 0, NOVIEW, 0);
 #endif
 
     free_shortcutage(&spell_list);

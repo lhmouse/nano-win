@@ -6,6 +6,11 @@ CVS code -
 	  inaccuracy in the description of -Q/--quotestr. (DLR)
 	- Set REG_EXTENDED in all regcomp() calls. (DLR)
 	- Minor cosmetic code cleanups. (DLR)
+	- Changed do_insertfile to (a) report multibuffer status at the
+	  prompt and allowing it to be toggled, taking into account the
+	  need to keep the translatable strings, and (b) added a
+	  variable inspath to keep track of what the string was before
+	  toggling.  I'm sure there's bugs, have at it.
 - configure.ac:
 	- Added pt_BR to ALL_LINGUAS (Jordi).
 	- Changed --enable-color warning to be slightly less severe.
