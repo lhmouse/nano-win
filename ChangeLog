@@ -1,4 +1,7 @@
 CVS Code -
+- nano.c:
+  main()
+	- Add Esc-[IGL] keys for FreeBSD Console (PgUp,PgDn,Insert).
 
 nano-1.1.3 - 10/26/2001
 - General
