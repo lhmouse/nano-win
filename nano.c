@@ -64,10 +64,6 @@
 /* Former globals, now static */
 int fill = 0;			/* Fill - where to wrap lines, basically */
 
-#ifndef DISABLE_SPELLER
-static char *alt_speller;	/* Alternative spell command */
-#endif
-
 struct termios oldterm;		/* The user's original term settings */
 static struct sigaction act;	/* For all out fun signal handlers */
 
@@ -2242,6 +2238,10 @@ int main(int argc, char *argv[])
     textdomain(PACKAGE);
 #endif
 #endif
+
+#ifdef ENABLE_NANORC
+    do_rcfile();
+#endif /* ENABLE_NANORC */
 
 #ifdef HAVE_GETOPT_LONG
     while ((optchr = getopt_long(argc, argv, "?T:RVbcefghijklmpr:s:tvwxz",

@@ -109,6 +109,19 @@ void *nmalloc(size_t howmuch)
     return r;
 }
 
+/* We're going to need this too */
+void *ncalloc(size_t howmuch, size_t size)
+{
+    void *r;
+
+    /* Panic save? */
+
+    if (!(r = calloc(howmuch, size)))
+	die(_("nano: calloc: out of memory!"));
+
+    return r;
+}
+
 void *nrealloc(void *ptr, size_t howmuch)
 {
     void *r;

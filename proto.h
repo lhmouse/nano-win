@@ -44,6 +44,9 @@ extern char *answer;
 extern char *hblank, *help_text;
 extern char *last_search;
 extern char *last_replace;
+#ifndef DISABLE_SPELLER
+extern  char *alt_speller;
+#endif
 extern struct stat fileinfo;
 extern filestruct *current, *fileage, *edittop, *editbot, *filebot; 
 extern filestruct *cutbuffer, *mark_beginbuf;
@@ -121,6 +124,7 @@ void center_cursor(void);
 void bottombars(shortcut s[], int slen);
 void blank_statusbar_refresh(void);
 void *nmalloc (size_t howmuch);
+void *ncalloc (size_t howmuch, size_t size);
 void *mallocstrcpy(char *dest, char *src);
 void wrap_reset(void);
 void display_main_list(void);
@@ -143,9 +147,15 @@ void do_replace_highlight(int highlight_flag, char *word);
 void nano_disabled_msg(void);
 void window_init(void);
 void do_mouse(void);
+
+#ifdef ENABLE_RCFILE
+void do_rcfile(void);
+#endif
+
 #ifdef NANO_EXTRA
 void do_credits(void);
 #endif
+
 
 int do_writeout_void(void), do_exit(void), do_gotoline_void(void);
 int do_insertfile(void), do_search(void), page_up(void), page_down(void);

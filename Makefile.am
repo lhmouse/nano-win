@@ -7,6 +7,7 @@ nano_SOURCES =	cut.c \
 		nano.c \
 		nano.h \
 		proto.h \
+		rcfile.c \
 		search.c \
 		utils.c \
 		winio.c 

@@ -70,6 +70,10 @@ char *help_text;		/* The text in the help window */
 filestruct *mark_beginbuf;	/* the begin marker buffer */
 int mark_beginx;		/* X value in the string to start */
 
+#ifndef DISABLE_SPELLER
+char *alt_speller;		/* Alternative spell command */
+#endif
+
 shortcut main_list[MAIN_LIST_LEN];
 shortcut whereis_list[WHEREIS_LIST_LEN];
 shortcut replace_list[REPLACE_LIST_LEN];

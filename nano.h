@@ -90,6 +90,14 @@ typedef struct toggle {
    int flag;		/* What flag actually gets toggled */
 } toggle;
 
+#ifdef ENABLE_NANORC
+typedef struct rcoption {
+   char *name;
+   int flag;
+} rcoption;
+ 
+#endif /* ENABLE_NANORC */
+
 /* Bitwise flags so we can save space (or more correctly, not waste it) */
 
 #define MODIFIED		(1<<0)

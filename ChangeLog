@@ -8,6 +8,12 @@ Cvs code -
 	  this automatically, but now just mouse support can be disabled
 	  if desired.
 	- File Browser supports the "Goto Directory"
+	- Added rcfile.c source file.  Only includes much of anything when
+	  --enable-nanorc is used.  Tons of new funcs, most notably
+	  do_rcfile() called from nano.c:main().  Added much needed 
+	  function ncalloc(), will have to go through source code later 
+	  and change the aproproate calls which used nmalloc for lack of
+	  an apropriate calloc function *** FIXME ***
 - configure.in:
 	- New option, --enable-nanorc which currently does nothing but
 	  sets a define.  Will do more later...
