@@ -2,8 +2,7 @@ CVS code -
 - cut.c:
   do_cut_text()
 	- Don't immediately abort if we're on filebot and the marker is
-	  set (fixes unable to select and cut entire file bug,
-	  discovered by Ken Tyler).
+	  set (fixes bug #42).
 
 nano-0.9.17 - 09/04/2000
 - General
