@@ -85,7 +85,7 @@ typedef struct shortcut {
 typedef struct toggle {
    int val;		/* Sequence to toggle the key.  Should only need 1 */
    char *desc;		/* Description for when toggle is, uh, toggled,
-			   e.g. "Pico Messages", we'll append Enabled or
+			   e.g. "Pico Messages"; we'll append Enabled or
 			   Disabled */
    int flag;		/* What flag actually gets toggled */
 } toggle;
@@ -112,7 +112,7 @@ typedef struct toggle {
 #define CUT_TO_END         	(1<<17)
 #define DISABLE_CURPOS         	(1<<18)
 
-/* Control key sequences, chaning these would be very very bad */
+/* Control key sequences, changing these would be very very bad */
 
 #define NANO_CONTROL_A 1
 #define NANO_CONTROL_B 2
@@ -173,7 +173,7 @@ typedef struct toggle {
 #define NANO_ALT_Y 'y'
 #define NANO_ALT_Z 'z'
 
-/* Some semi-changeable keybindings, dont play with unless you're sure you
+/* Some semi-changeable keybindings; don't play with unless you're sure you
 know what you're doing */
 
 #define NANO_INSERTFILE_KEY	NANO_CONTROL_R

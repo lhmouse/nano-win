@@ -11,10 +11,10 @@ Overview
      redistribution.  Because of this, Pine and Pico are not included with
      many GNU/Linux distributions.  Also, other features (like goto line
      number or search and replace) were unavailable until recently or
-     require a command-line flag.  Yuck.
+     require a command line flag.  Yuck.
 
      nano aims to solve these problems by emulating the functionality of
-     Pico as closely as possible while adressing the problems above and
+     Pico as closely as possible while addressing the problems above and
      perhaps providing other extra functionality.
 
      The nano editor is now an official GNU package.  For more information
@@ -29,7 +29,7 @@ How to compile and install nano
      make
      make install
      
-     It's that simple. Use --prefix with configutr to override the 
+     It's that simple. Use --prefix with configure to override the 
      default installation directory of /usr/local.
      
 Web Page

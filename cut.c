@@ -104,7 +104,7 @@ void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
 
     /* We explicitly don't decrement totlines here because we don't snarf
      * up a newline when we're grabbing the last line of the mark.  For
-     * the same reason we don't do an extra totsize decrement */
+     * the same reason, we don't do an extra totsize decrement. */
 
     add_to_cutbuffer(bot);
     top->next = next;
@@ -116,7 +116,7 @@ void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
     current = top;
     current_x = top_x;
 
-    /* If we're hitting the end of the buffer we should clean that up. */
+    /* If we're hitting the end of the buffer, we should clean that up. */
     if (bot == filebot) {
 	if (next != NULL) {
 	    filebot = next;
@@ -335,7 +335,7 @@ int do_uncut_text(void)
 	    newend->next = tmp;
 
 	    /* If tmp isn't null, we're in the middle: update the
-	     * prev pointer.  If it IS null, we're at the end, update
+	     * prev pointer.  If it IS null, we're at the end; update
 	     * the filebot pointer */
 
 	    if (tmp != NULL)

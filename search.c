@@ -66,7 +66,7 @@ void search_init_globals(void)
 
 /* Set up the system variables for a search or replace.  Returns -1 on
    abort, 0 on success, and 1 on rerun calling program 
-   Return -2 to run opposite program (searchg -> replace, replace -> search)
+   Return -2 to run opposite program (search -> replace, replace -> search)
 
    replacing = 1 if we call from do_replace, 0 if called from do_search func.
 */
@@ -261,14 +261,14 @@ filestruct *findnextstr(int quiet, filestruct * begin, int beginx,
     for (tmp = fileptr->data; tmp != found; tmp++)
 	current_x_find++;
 
-    /* Ensure we haven't wrap around again! */
+    /* Ensure we haven't wrapped around again! */
     if ((search_last_line) && (current_x_find >= beginx)) {
 	if (!quiet)
 	    not_found_msg(needle);
 	return NULL;
     }
 
-    /* Set globals now that we are sure we found something */
+    /* Set globals, now that we are sure we found something */
     current = fileptr;
     current_x = current_x_find;
 
@@ -353,9 +353,9 @@ void print_replaced(int num)
 
 void replace_abort(void)
 {
-    /* Identicle to search_abort, so we'll call it here.  If it
+    /* Identical to search_abort, so we'll call it here.  If it
        does something different later, we can change it back.  For now
-       it's just a waste to duplicat code */
+       it's just a waste to duplicate code */
     search_abort();
     placewewant = xplustabs();
 }
@@ -434,7 +434,7 @@ char *replace_line(void)
 	search_match_count = regmatches[0].rm_eo - regmatches[0].rm_so;
 	new_line_size = replace_regexp(NULL, 0);
 	/* If they specified an invalid subexpression in the replace
-	 * text, return NULL indicating an error */
+	 * text, return NULL, indicating an error */
 	if (new_line_size < 0)
 	    return NULL;
     } else {
@@ -463,7 +463,7 @@ char *replace_line(void)
 
     /* The tail of the original line */
     /* This may expose other bugs, because it no longer
-       goes through each character on the string
+       goes through each character in the string
        and tests for string goodness.  But because
        we can assume the invariant that current->data
        is less than current_x + strlen(last_search) long,
@@ -513,7 +513,7 @@ int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 	if (!fileptr)
 	    break;
 
-	/* Make sure only wholewords are found */
+	/* Make sure only whole words are found */
 	if (wholewords)
 	{
 	    /* start of line or previous character not a letter */
@@ -610,7 +610,7 @@ int do_replace(void)
 	return 0;
     }
 
-    /* Again, there was a previous string but they deleted it and hit enter */
+    /* Again, there was a previous string, but they deleted it and hit enter */
     if (!ISSET(PICO_MODE) && !strcmp(answer, "")) {
 	statusbar(_("Replace Cancelled"));
 	replace_abort();
