@@ -246,6 +246,14 @@ int do_search(void)
 	search_abort();
 	return 1;
     }
+
+    /* The sneaky user deleted the previous search string */
+    if (!strcmp(answer, "")) {
+	statusbar("Search Cancelled");
+	search_abort();
+	return 0;
+    }
+
     search_last_line = 0;
     findnextstr(0, current, current_x, answer);
     search_abort();
@@ -403,6 +411,13 @@ int do_replace(void)
 	do_search();
 	return 0;
     case -3:
+	replace_abort();
+	return 0;
+    }
+
+    /* Again, there was a previous string but they deleted it and hit enter */
+    if (!strcmp(answer, "")) {
+	statusbar(_("Replace Cancelled"));
 	replace_abort();
 	return 0;
     }
