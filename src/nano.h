@@ -128,11 +128,6 @@
 #define getline ngetline
 #endif
 
-/* Assume ERR is defined as -1.  To avoid duplicate case values when
- * some key definitions are missing, we have to set all of these, and
- * all of the special sentinel values below, to different negative
- * values other than -1. */
-
 #define VERMSG "GNU nano " VERSION
 
 /* If we aren't using ncurses, turn the mouse support off, as it's
@@ -246,24 +241,28 @@ typedef struct rcoption {
 
 #ifdef ENABLE_COLOR
 typedef struct colortype {
-    int fg;			/* fg color */
-    int bg;			/* bg color */
+    int fg;			/* Foreground color. */
+    int bg;			/* Background color. */
     int bright;			/* Is this color A_BOLD? */
-    int pairnum;		/* Color pair number used for this fg/bg */
-    regex_t start;		/* Start (or all) of the regex string */
-    regex_t *end;		/* End of the regex string */
+    int pairnum;		/* Color pair number used for this
+				 * foreground/background. */
+    regex_t start;		/* Start (or all) of the regex
+				 * string. */
+    regex_t *end;		/* End (if any) of the regex string. */
     struct colortype *next;
 } colortype;
 
 typedef struct exttype {
-    regex_t val;		/* The extensions that match this syntax. */
+    regex_t val;		/* The extensions that match this
+				 * syntax. */
     struct exttype *next;
 } exttype;
 
 typedef struct syntaxtype {
-    char *desc;			/* Name of this syntax type */
-    exttype *extensions;	/* List of extensions that this applies to */
-    colortype *color;		/* color struct for this syntax */
+    char *desc;			/* Name of this syntax type. */
+    exttype *extensions;	/* List of extensions that this syntax
+				 * applies to. */
+    colortype *color;		/* Color struct for this syntax. */
     struct syntaxtype *next;
 } syntaxtype;
 #endif
@@ -278,7 +277,7 @@ typedef struct historytype {
 typedef struct historyheadtype {
     struct historytype *next;	/* Keep *next and *prev members
 				 * together. */
-    struct historytype *prev;	/* And in same order as in
+    struct historytype *prev;	/* And in the same order as in
 				 * historytype. */
     struct historytype *tail;
     struct historytype *current;
@@ -524,8 +523,7 @@ typedef struct historyheadtype {
 /* Default width of a tab. */
 #define WIDTH_OF_TAB 8
 
-/* Maximum number of search history strings saved, same value used for
- * replace history. */
+/* Maximum number of search/replace history strings saved. */
 #define MAX_SEARCH_HISTORY 100
 
 #endif /* !NANO_H */
