@@ -5,6 +5,7 @@ CVS code -
 	  -C, --relative, changes to do_cursorpos().
 - Makefile.am:
 	- Add SYSCONFDIR to DEFS, so we can have an /etc/nanorc.
+	- Change localedir line to 1.0's version.
 - rcfile.c
   parse_next_rege()
 	- Allow " symbol to be in regex without leading \ by checking

@@ -34,7 +34,7 @@ EXTRA_DIST =	ABOUT-NLS AUTHORS BUGS COPYING ChangeLog INSTALL NEWS \
 
 SUBDIRS = po intl
 
-localedir = @LOCALE_DIR@
+localedir = $(datadir)/locale
 INCLUDES = -Iintl -DLOCALEDIR=\"$(localedir)\" -I@includedir@
 
 $(srcdir)/acinclude.m4: $(ACINCLUDE_INPUTS)
