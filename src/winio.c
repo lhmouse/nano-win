@@ -1589,7 +1589,8 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 
     /* Make sure any editor screen updates are displayed before getting
        input */
-    wrefresh(edit);
+    wnoutrefresh(edit);
+    wrefresh(bottomwin);
 
     /* If we're using restricted mode, we aren't allowed to change the
      * name of a file once it has one because that would allow writing

@@ -11,6 +11,10 @@ CVS code -
   get_control_kbinput()
 	- Fix erroneous debugging statement so that nano compiles with
 	  --enable-debug again. (Jon Oberheide)
+  nanogetstr()
+	- Tweak the code to update the edit window just before getting
+	  statusbar input for efficiency, and update bottomwin just
+	  before then too. (David Benbennick)
 
 GNU nano 1.3.3 - 2004.06.28
 - General:
