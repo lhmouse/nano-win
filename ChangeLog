@@ -162,7 +162,9 @@ CVS Code -
 	- Add support for the handled keyboard escape sequences in the
 	  help menu, as they are needed with some terminals (e.g. xterm
 	  with TERM=ansi). (DLR)
-- configure.ac: Added ms to ALL_LINGUAS (Jordi).
+- configure.ac:
+	- Added ms to ALL_LINGUAS (Jordi).
+	- Merged acconfig.h in (Jordi).
 - THANKS:
 	- Completed a bit (Jordi).
 	- Fixed David Benbennick's email address (David Benbennick).
