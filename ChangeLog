@@ -4,6 +4,8 @@ CVS code -
 - cut.c:
   do_cut_text()
 	- marked text cut fixes (Rocco) (Fixes bug #54).
+- hu.po:
+	- Hungarian translation by Horvath Szabolcs.
 
 nano-0.9.99pre2 - 01/31/2001
 General
