@@ -39,7 +39,6 @@
 
 #ifdef HAVE_REGEX_H
 #ifdef BROKEN_REGEXEC
-#undef regexec
 int regexec_safe(const regex_t *preg, const char *string, size_t nmatch,
 	regmatch_t pmatch[], int eflags)
 {
@@ -47,8 +46,7 @@ int regexec_safe(const regex_t *preg, const char *string, size_t nmatch,
 	return regexec(preg, string, nmatch, pmatch, eflags);
     return REG_NOMATCH;
 }
-#define regexec(preg, string, nmatch, pmatch, eflags) regexec_safe(preg, string, nmatch, pmatch, eflags)
-#endif /* BROKEN_REGEXEC */
+#endif
 
 int regexp_bol_or_eol(const regex_t *preg, const char *string)
 {
@@ -62,7 +60,7 @@ int regexp_bol_or_eol(const regex_t *preg, const char *string)
 /* This function is equivalent to isblank(). */
 int is_blank_char(int c)
 {
-    return (c == '\t' || c == ' ');
+    return isspace(c) && (!is_cntrl_char(c) || c == '\t');
 }
 #endif
 

@@ -47,6 +47,7 @@
 #define charcpy(dest, src, n) memcpy(dest, src, (n) * sizeof(char))
 
 #ifdef BROKEN_REGEXEC
+#undef regexec
 #define regexec(preg, string, nmatch, pmatch, eflags) regexec_safe(preg, string, nmatch, pmatch, eflags)
 #endif
 
