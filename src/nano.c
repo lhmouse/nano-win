@@ -2352,9 +2352,9 @@ void do_para_end(void)
     edit_redraw(old_current, old_pww);
 }
 
-/* Put the next par_len lines, starting with first_line, in the cut
- * buffer, not allowing them to be concatenated.  We assume there are
- * enough lines after first_line.  We leave copies of the lines in
+/* Put the next par_len lines, starting with first_line, in the
+ * cutbuffer, not allowing them to be concatenated.  We assume there
+ * are enough lines after first_line.  We leave copies of the lines in
  * place, too.  We return the new copy of first_line. */
 filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 	quote_len)
