@@ -21,6 +21,10 @@ CVS Code -
 	  regex (try "^*").  Changed regexp_init() to return 
 	  1 or 0 based on regcomp()'s return value and search_init 
 	  to exit with an error message (sorry Jordi!)
+	- Move regcomp into rcfile.c rather than each display refresh
+	  of winio.c.  New function rcfile.c:nregcomp().
+	  This fixes much of nano's resource hogging behavior
+	  in syntax higlighting. (David Benbennick).
 - cut.c:
   do_cut_text()
 	- Fix incorrect cursor location when cutting long lines
@@ -46,6 +50,9 @@ CVS Code -
 	  mode on. (DLR; found by David Benbennick)
   save_history()
 	- Fix nrealloc return value being ignored (David Benbennick).
+- global.c:
+  thanks_for_all_the_fish()
+	- Fix compiling with DEBUG and multibuffer (David Benbennick).
 - nano.c:
   do_char()
 	- Remove unneeded check_statblank() (David Benbennick).

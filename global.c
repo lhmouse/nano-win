@@ -856,10 +856,12 @@ void thanks_for_all_the_fish(void)
 #ifdef ENABLE_MULTIBUFFER
     if (open_files != NULL) {
 	/* We free the memory associated with each open file. */
+	while (open_files->prev != NULL)
+	    open_files = open_files->prev;
 	free_openfilestruct(open_files);
+    }
 #else
-    if (fileage != NULL)
-	free_filestruct(fileage);
+    free_filestruct(fileage);
 #endif
 
 #ifdef ENABLE_COLOR
@@ -881,7 +883,8 @@ void thanks_for_all_the_fish(void)
 	    syntaxes->color = bob->next;
 	    regfree(&bob->start);
 	    if (bob->end != NULL)
-		regfree(&bob->end);
+		regfree(bob->end);
+	    free(bob->end);
 	    free(bob);
 	}
 	syntaxes = syntaxes->next;

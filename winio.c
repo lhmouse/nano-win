@@ -708,11 +708,8 @@ void edit_add(const filestruct *fileptr, int yval, int start
 	    int paintlen;
 		/* number of chars to paint on this line.  There are COLS
 		 * characters on a whole line. */
-	    regex_t start_regexp;	/* Compiled search regexp */
 	    regmatch_t startmatch;	/* match position for start_regexp*/
 	    regmatch_t endmatch;	/* match position for end_regexp*/
-
-	    regcomp(&start_regexp, tmpcolor->start, REG_EXTENDED);
 
 	    if (tmpcolor->bright)
 		wattron(edit, A_BOLD);
@@ -734,7 +731,7 @@ void edit_add(const filestruct *fileptr, int yval, int start
 		     * match the beginning-of-line character unless
 		     * k == 0.  If regexec returns nonzero, there are no
 		     * more matches in the line. */
-		    if (regexec(&start_regexp, &fileptr->data[k], 1,
+		    if (regexec(&tmpcolor->start, &fileptr->data[k], 1,
 				&startmatch, k == 0 ? 0 : REG_NOTBOL))
 			break;
 		    /* Translate the match to the beginning of the line. */
@@ -771,7 +768,6 @@ void edit_add(const filestruct *fileptr, int yval, int start
 		 * after start_line matching the end.  If that line is not
 		 * before fileptr, then paint the beginning of this line. */
 
-		regex_t end_regexp;	/* Compiled search regexp */
 		const filestruct *start_line = fileptr->prev;
 		    /* the first line before fileptr matching start*/
 		regoff_t start_col;
@@ -781,14 +777,12 @@ void edit_add(const filestruct *fileptr, int yval, int start
 		    /* Used in step 2.  Have we looked for an end on
 		     * lines after fileptr? */
 
-		regcomp(&end_regexp, tmpcolor->end, REG_EXTENDED);
-
 		while (start_line != NULL &&
-			regexec(&start_regexp, start_line->data, 1,
+			regexec(&tmpcolor->start, start_line->data, 1,
 				&startmatch, 0)) {
 		    /* If there is an end on this line, there is no need
 		     * to look for starts on earlier lines. */
-		    if (!regexec(&end_regexp, start_line->data, 1,
+		    if (!regexec(tmpcolor->end, start_line->data, 1,
 				&endmatch, 0))
 			goto step_two;
 		    start_line = start_line->prev;
@@ -804,14 +798,14 @@ void edit_add(const filestruct *fileptr, int yval, int start
 		while (1) {
 		    start_col += startmatch.rm_so;
 		    startmatch.rm_eo -= startmatch.rm_so;
-		    if (regexec(&end_regexp,
+		    if (regexec(tmpcolor->end,
 			    start_line->data + start_col + startmatch.rm_eo,
 			    1, &endmatch,
 			    start_col + startmatch.rm_eo == 0 ? 0 : REG_NOTBOL))
 			/* No end found after this start */
 			break;
 		    start_col++;
-		    if (regexec(&start_regexp,
+		    if (regexec(&tmpcolor->start,
 			    start_line->data + start_col, 1, &startmatch,
 			    REG_NOTBOL))
 			/* No later start on this line. */
@@ -824,8 +818,8 @@ void edit_add(const filestruct *fileptr, int yval, int start
 		 * fileptr and after the start.  Is there an end after
 		 * the start at all?  We don't paint unterminated starts. */
 		end_line = fileptr;
-		while (end_line != NULL && regexec(&end_regexp, end_line->data,
-				1, &endmatch, 0))
+		while (end_line != NULL &&
+			regexec(tmpcolor->end, end_line->data, 1, &endmatch, 0))
 		    end_line = end_line->next;
 
 		/* No end found, or it is too early. */
@@ -850,7 +844,7 @@ void edit_add(const filestruct *fileptr, int yval, int start
   step_two:	/* Second step, we look for starts on this line. */
 		start_col = 0;
 		while (start_col < start + COLS) {
-		    if (regexec(&start_regexp, fileptr->data + start_col, 1,
+		    if (regexec(&tmpcolor->start, fileptr->data + start_col, 1,
 				&startmatch, start_col == 0 ? 0 : REG_NOTBOL)
 			    || start_col + startmatch.rm_so >= start + COLS)
 			/* No more starts on this line. */
@@ -865,7 +859,7 @@ void edit_add(const filestruct *fileptr, int yval, int start
 			x_start = 0;
 			startmatch.rm_so = start;
 		    }
-		    if (!regexec(&end_regexp, fileptr->data + startmatch.rm_eo,
+		    if (!regexec(tmpcolor->end, fileptr->data + startmatch.rm_eo,
 				1, &endmatch,
 				startmatch.rm_eo == 0 ? 0 : REG_NOTBOL)) {
 			/* Translate the end match to be relative to the
@@ -891,7 +885,7 @@ void edit_add(const filestruct *fileptr, int yval, int start
 			/* There is no end on this line.  But we haven't
 			 * yet looked for one on later lines. */
 			end_line = fileptr->next;
-			while (end_line != NULL && regexec(&end_regexp,
+			while (end_line != NULL && regexec(tmpcolor->end,
 				end_line->data, 1, &endmatch, 0))
 			    end_line = end_line->next;
 			if (end_line != NULL) {
@@ -906,12 +900,9 @@ void edit_add(const filestruct *fileptr, int yval, int start
 		    }
 		    start_col = startmatch.rm_so + 1;
 		} /* while start_col < start + COLS */
-
-  skip_step_two:
-		regfree(&end_regexp);
 	    } /* if (tmp_color->end != NULL) */
 
-	    regfree(&start_regexp);
+  skip_step_two:
 	    wattroff(edit, A_BOLD);
 	    wattroff(edit, COLOR_PAIR(tmpcolor->pairnum));
 	} /* for tmpcolor in colorstrings */

@@ -240,11 +240,29 @@ char *parse_next_regex(char *ptr)
     return ptr;
 }
 
+/* Compile the regular expression regex to preg.  Returns FALSE on success,
+   TRUE if the expression is invalid. */
+int nregcomp(regex_t *preg, const char *regex, int flags)
+{
+    int rc = regcomp(preg, regex, REG_EXTENDED | flags);
+
+    if (rc != 0) {
+	size_t len = regerror(rc, preg, NULL, 0);
+	char *str = charalloc(len);
+
+	regerror(rc, preg, str, len);
+	rcfile_error(_("Bad regex \"%s\": %s"), regex, str);
+	free(str);
+    }
+    return rc != 0;
+}
+
 void parse_syntax(char *ptr)
 {
     syntaxtype *tmpsyntax = NULL;
     const char *fileregptr = NULL, *nameptr = NULL;
-    exttype *exttmp = NULL;
+    exttype *endext = NULL;
+	/* The end of the extensions list for this syntax. */
 
     while (*ptr == ' ')
 	ptr++;
@@ -291,6 +309,9 @@ void parse_syntax(char *ptr)
 
     /* Now load in the extensions to their part of the struct */
     while (*ptr != '\n' && *ptr != '\0') {
+	exttype *newext;
+	    /* The new extension structure. */
+
 	while (*ptr != '"' && *ptr != '\n' && *ptr != '\0')
 	    ptr++;
 
@@ -301,17 +322,17 @@ void parse_syntax(char *ptr)
 	fileregptr = ptr;
 	ptr = parse_next_regex(ptr);
 
-	if (tmpsyntax->extensions == NULL) {
-	    tmpsyntax->extensions = (exttype *)nmalloc(sizeof(exttype));
-	    exttmp = tmpsyntax->extensions;
-	} else {
-	    for (exttmp = tmpsyntax->extensions; exttmp->next != NULL;
-		 exttmp = exttmp->next);
-	    exttmp->next = (exttype *)nmalloc(sizeof(exttype));
-	    exttmp = exttmp->next;
+	newext = (exttype *)nmalloc(sizeof(exttype));
+	if (nregcomp(&newext->val, fileregptr, REG_NOSUB))
+	    free(newext);
+	else {
+	    if (endext == NULL)
+		tmpsyntax->extensions = newext;
+	    else
+		endext->next = newext;
+	    endext = newext;
+	    endext->next = NULL;
 	}
-	exttmp->val = mallocstrcpy(NULL, fileregptr);
-	exttmp->next = NULL;
     }
 }
 
@@ -353,6 +374,11 @@ void parse_colors(char *ptr)
        in the colorstrings array, woo! */
 
     while (*ptr != '\0') {
+	colortype *newcolor;
+	    /* The new color structure. */
+	int cancelled = 0;
+	    /* The start expression was bad. */
+
 	while (*ptr == ' ')
 	    ptr++;
 
@@ -371,37 +397,37 @@ void parse_colors(char *ptr)
 	}
 	ptr++;
 
-	if (tmpsyntax->color == NULL) {
-	    tmpsyntax->color = nmalloc(sizeof(colortype));
-	    tmpcolor = tmpsyntax->color;
-#ifdef DEBUG
-	    fprintf(stderr, _("Starting a new colorstring for fg %d bg %d\n"),
-		    fg, bg);
-#endif
-	} else {
-	    for (tmpcolor = tmpsyntax->color;
-		 tmpcolor->next != NULL; tmpcolor = tmpcolor->next);
-#ifdef DEBUG
-	    fprintf(stderr, _("Adding new entry for fg %d bg %d\n"), fg, bg);
-#endif
-	    tmpcolor->next = nmalloc(sizeof(colortype));
-	    tmpcolor = tmpcolor->next;
-	}
-	tmpcolor->fg = fg;
-	tmpcolor->bg = bg;
-	tmpcolor->bright = bright;
-	tmpcolor->next = NULL;
-
-	tmpcolor->start = ptr;
+	newcolor = (colortype *)nmalloc(sizeof(colortype));
+	fgstr = ptr;
 	ptr = parse_next_regex(ptr);
-	tmpcolor->start = mallocstrcpy(NULL, tmpcolor->start);
-#ifdef DEBUG
-	fprintf(stderr, _("string val=%s\n"), tmpcolor->start);
-#endif
+	if (nregcomp(&newcolor->start, fgstr, 0)) {
+	    free(newcolor);
+	    cancelled = 1;
+	} else {
+	    newcolor->fg = fg;
+	    newcolor->bg = bg;
+	    newcolor->bright = bright;
+	    newcolor->next = NULL;
+	    newcolor->end = NULL;
 
-	if (!expectend)
-	    tmpcolor->end = NULL;
-	else {
+	    if (tmpsyntax->color == NULL) {
+		tmpsyntax->color = newcolor;
+#ifdef DEBUG
+		fprintf(stderr, _("Starting a new colorstring for fg %d bg %d\n"),
+			fg, bg);
+#endif
+	    } else {
+		for (tmpcolor = tmpsyntax->color; tmpcolor->next != NULL;
+			tmpcolor = tmpcolor->next)
+		    ;
+#ifdef DEBUG
+		fprintf(stderr, _("Adding new entry for fg %d bg %d\n"), fg, bg);
+#endif
+		tmpcolor->next = newcolor;
+	    }
+	}
+
+	if (expectend) {
 	    if (ptr == NULL || strncasecmp(ptr, "end=", 4)) {
 		rcfile_error(_
 			     ("\"start=\" requires a corresponding \"end=\""));
@@ -417,13 +443,18 @@ void parse_colors(char *ptr)
 	    }
 	    ptr++;
 
-	    tmpcolor->end = ptr;
+	    fgstr = ptr;
 	    ptr = parse_next_regex(ptr);
-	    tmpcolor->end = mallocstrcpy(NULL, tmpcolor->end);
-#ifdef DEBUG
-	    fprintf(stderr, _("For end part, beginning = \"%s\"\n"),
-		    tmpcolor->end);
-#endif
+
+	    /* If the start regex was invalid, skip past the end regex to
+	     * stay in sync. */
+	    if (cancelled)
+		continue;
+	    newcolor->end = (regex_t *)nmalloc(sizeof(regex_t));
+	    if (nregcomp(newcolor->end, fgstr, 0)) {
+		free(newcolor->end);
+		newcolor->end = NULL;
+	    }
 	}
     }
 }

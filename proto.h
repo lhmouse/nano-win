@@ -326,6 +326,7 @@ char *parse_argument(char *ptr);
 #ifdef ENABLE_COLOR
 int colortoint(const char *colorname, int *bright);
 char *parse_next_regex(char *ptr);
+int nregcomp(regex_t *preg, const char *regex, int flags);
 void parse_syntax(char *ptr);
 void parse_colors(char *ptr);
 #endif /* ENABLE_COLOR */

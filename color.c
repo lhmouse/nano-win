@@ -108,15 +108,10 @@ void update_color(void)
 	const exttype *e;
 
 	for (e = tmpsyntax->extensions; e != NULL; e = e->next) {
-	    regex_t syntaxfile_regexp;
-
-	    regcomp(&syntaxfile_regexp, e->val, REG_EXTENDED | REG_NOSUB);
-
 	    /* Set colorstrings if we matched the extension regex */
-            if (!regexec(&syntaxfile_regexp, filename, 0, NULL, 0))
+	    if (!regexec(&e->val, filename, 0, NULL, 0))
 		colorstrings = tmpsyntax->color;
 
-	    regfree(&syntaxfile_regexp);
 	    if (colorstrings != NULL)
 		break;
 	}

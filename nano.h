@@ -182,13 +182,13 @@ typedef struct colortype {
     int bg;			/* bg color */
     int bright;			/* Is this color A_BOLD? */
     int pairnum;		/* Color pair number used for this fg/bg */
-    char *start;		/* Start (or all) of the regex string */
-    char *end;			/* End of the regex string */
+    regex_t start;		/* Start (or all) of the regex string */
+    regex_t *end;		/* End of the regex string */
     struct colortype *next;
 } colortype;
 
 typedef struct exttype {
-    char *val;
+    regex_t val;		/* The extensions that match this syntax. */
     struct exttype *next;
 } exttype;
 
