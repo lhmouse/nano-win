@@ -133,11 +133,10 @@ void die(char *msg, ...)
     endwin();
 
     fprintf(stderr, msg);
-    fprintf(stderr, "\n");
     if (i != -1)
 	fprintf(stderr, _("\nBuffer written to %s\n"), name);
     else
-	fprintf(stderr, _("No .save file written (symlink encountered?)\n"));
+	fprintf(stderr, _("\nNo .save file written (symlink encountered?)\n"));
 
     exit(1);			/* We have a problem: exit w/ errorlevel(1) */
 }
