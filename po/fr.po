@@ -9,11 +9,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.12\n"
 "POT-Creation-Date: 2002-10-24 22:05-0400\n"
-"PO-Revision-Date: 2002-10-25 20:20+0100\n"
+"PO-Revision-Date: 2002-10-27 00:20+0100\n"
 "Last-Translator: Jean-Philippe Guérard <jean-philippe.guerard@laposte.net>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=ISO-8859-15\n"
 "Content-Transfer-Encoding: 8-bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -117,11 +117,11 @@ msgstr "Touche illégale hors mode multifichier"
 
 #: files.c:666
 msgid "delete_opennode(): free'd a node, YAY!\n"
-msgstr "delete_opennode(): un noeud libéré, Yé !\n"
+msgstr "delete_opennode(): un n½ud libéré, Yé !\n"
 
 #: files.c:671
 msgid "delete_opennode(): free'd last node.\n"
-msgstr "delete_opennode(): dernier noeud libéré.\n"
+msgstr "delete_opennode(): dernier n½ud libéré.\n"
 
 #: files.c:842 files.c:905
 msgid "No more open files"
@@ -396,7 +396,7 @@ msgstr "Couper la ligne courante vers le presse-papiers"
 
 #: global.c:347
 msgid "Uncut from the cutbuffer into the current line"
-msgstr "Coller le presse-papiers sur la ligne courante"
+msgstr "Coller le presse-papiers à partir de la ligne courante"
 
 #: global.c:348
 msgid "Show the position of the cursor"
@@ -938,11 +938,11 @@ msgstr "%.*s (commutateur)\n"
 
 #: nano.c:553
 msgid "delete_node(): free'd a node, YAY!\n"
-msgstr "delete_node(): noeud libéré, Yé !\n"
+msgstr "delete_node(): n½ud libéré, Yé !\n"
 
 #: nano.c:558
 msgid "delete_node(): free'd last node.\n"
-msgstr "delete_node(): dernier noeud libéré.\n"
+msgstr "delete_node(): dernier n½ud libéré.\n"
 
 # Les messages d'aide utilisés pour nano -h doivent tenir
 # sur un écran de 80 caractères.
@@ -984,7 +984,7 @@ msgstr "Démarrer à la ligne NO_LIGNE"
 
 #: nano.c:620
 msgid "Backup existing files on save"
-msgstr "Création d'une copie de sécurité des fichiers existant lors de la sauvegarde"
+msgstr "Sauvegarde avec copie de sécurité"
 
 #: nano.c:621
 msgid "Write file in DOS format"
