@@ -304,7 +304,7 @@ void parse_colors(FILE * rcstream, char *buf, char *ptr)
 void parse_rcfile(FILE * rcstream)
 {
     char *buf, *ptr, *keyword, *option;
-    int set = 0, i;
+    int set = 0, i, j;
 
     buf = charalloc(1024);
     while (fgets(buf, 1023, rcstream) > 0) {
@@ -382,22 +382,22 @@ void parse_rcfile(FILE * rcstream)
 			    if (!strcasecmp(rcopts[i].name, "fill")) {
 #ifndef DISABLE_WRAPJUSTIFY
 
-				if ((i = atoi(option)) < MIN_FILL_LENGTH) {
+				if ((j = atoi(option)) < MIN_FILL_LENGTH) {
 				    rcfile_error(_
 						 ("requested fill size %d too small"),
-						 i);
+						 j);
 				} else
-				    fill = i;
+				    fill = j;
 #endif
 			    } else
 				if (!strcasecmp(rcopts[i].name, "tabsize"))
 			    {
-				if ((i = atoi(option)) <= 0) {
+				if ((j = atoi(option)) <= 0) {
 				    rcfile_error(_
 						 ("requested tab size %d too small"),
-						 i);
+						 j);
 				} else {
-				    tabsize = i;
+				    tabsize = j;
 				}
 #ifndef DISABLE_JUSTIFY
 			    } else

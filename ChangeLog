@@ -8,6 +8,8 @@ CVS code -
 - nano.c:
   main()
 	- Put NANO_SMALL defines around toggle pointer (noticed by Jordi);
+- rcfile.c:
+  
 - utils.c:
   stristr() - Defined regardless of NANO_SMALL (noticed by Jordi).
 	  
