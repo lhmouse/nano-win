@@ -266,7 +266,7 @@ void sc_init_one(shortcut **shortcutage, int key, const char *desc,
 #ifndef DISABLE_HELP
 	const char *help,
 #endif
-	int metaval, int funcval, int miscval, int view, void
+	int metaval, int funcval, int miscval, bool view, void
 	(*func)(void));
 void shortcut_init(bool unjustify);
 void free_shortcutage(shortcut **shortcutage);
