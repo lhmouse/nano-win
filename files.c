@@ -307,20 +307,7 @@ int write_file(char *name, int tmp)
 
     /* Open the file and truncate it.  Trust the symlink. */
     if ((ISSET(FOLLOW_SYMLINKS) || !S_ISLNK(st.st_mode)) && !tmp) {
-	/*
-	 * If TEMP_OPT == 1, check to see if we can append to the file
-	 * first, i.e. to see if we can at least write to the file (stops
-	 * people from getting "locked in" to editor when write fails 
-	 */
-	if (ISSET(TEMP_OPT)) { 
-	    if ((fd = open(name, O_APPEND, S_IRUSR | S_IWUSR | S_IRGRP |
-		S_IWGRP | S_IROTH | S_IWOTH)) == -1) {
-		UNSET(TEMP_OPT);
-		return do_writeout(1);
-	    }
-	    else
-		close(fd);
-	}
+
 	if ((fd = open(name, O_WRONLY | O_CREAT | O_TRUNC,
 		       S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH |
 		       S_IWOTH)) == -1) {
@@ -456,10 +443,18 @@ int do_writeout(int exiting)
 
     strncpy(answer, filename, 132);
 
-    if ((exiting) && (ISSET(TEMP_OPT)) && (filename)) {
-	i = write_file(answer, 0);
-	display_main_list();
-	return i;
+    if ((exiting) && (ISSET(TEMP_OPT))) {
+	if (filename[0])
+	{
+	    i = write_file(answer, 0);
+	    display_main_list();
+	    return i;
+	}
+	else
+	{
+	   UNSET(TEMP_OPT);
+	   return do_exit();
+	}
     }
 
     while (1) {
