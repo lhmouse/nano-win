@@ -54,7 +54,7 @@ filestruct *editbot = NULL;	/* Same for the bottom */
 filestruct *filebot = NULL;	/* Last node in the file struct */
 filestruct *cutbuffer = NULL;	/* A place to store cut text */
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
 filestruct *open_files = NULL;	/* The list of open files */
 #endif
 
@@ -148,7 +148,7 @@ void toggle_init(void)
 	*toggle_cuttoend_msg, *toggle_wrap_msg, *toggle_case_msg, 
 	*toggle_backwards_msg;
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
     char *toggle_load_msg, *nano_openprev_msg, *nano_opennext_msg;
 #endif
 
@@ -170,8 +170,8 @@ void toggle_init(void)
 #endif
     toggle_wrap_msg = _("Auto wrap");
 
-#ifdef ENABLE_LOADONINSERT
-    toggle_load_msg = _("File loading on insertion");
+#ifdef ENABLE_MULTIBUFFER
+    toggle_load_msg = _("Multiple file buffers");
     nano_openprev_msg = _("Open previously loaded file");
     nano_opennext_msg = _("Open next loaded file");
 #endif
@@ -197,9 +197,9 @@ void toggle_init(void)
     toggle_init_one(&toggles[9], TOGGLE_CASE_KEY, toggle_case_msg,
 		    CASE_SENSITIVE, 0);
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
     toggle_init_one(&toggles[10], TOGGLE_LOAD_KEY, toggle_load_msg,
-		    LOADONINSERT, 0);
+		    MULTIBUFFER, 0);
     toggle_init_one(&toggles[11], NANO_OPENPREV_KEY, nano_openprev_msg,
 		    0, '<');
     toggle_init_one(&toggles[12], NANO_OPENNEXT_KEY, nano_opennext_msg,
@@ -238,7 +238,7 @@ void shortcut_init(int unjustify)
     nano_help_msg = _("Invoke the help menu");
     nano_writeout_msg = _("Write the current file to disk");
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
     nano_exit_msg = _("Close currently loaded file/Exit from nano");
 #else
     nano_exit_msg = _("Exit from nano");
@@ -284,7 +284,7 @@ void shortcut_init(int unjustify)
 	sc_init_one(&main_list[0], NANO_HELP_KEY, _("Get Help"),
 		    nano_help_msg, 0, NANO_HELP_FKEY, 0, VIEW, do_help);
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
     if (open_files != NULL && (open_files->prev || open_files->next))
 	sc_init_one(&main_list[1], NANO_EXIT_KEY, _("Close"),
 		nano_exit_msg, 0, NANO_EXIT_FKEY, 0, VIEW, do_exit);

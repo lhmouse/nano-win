@@ -126,7 +126,7 @@ void die(char *msg, ...)
        isn't up to date) */
     die_save_file(filename);
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
     /* then save all of the other loaded files, if any */
     if (open_files) {
         filestruct *tmp;
@@ -402,10 +402,10 @@ void usage(void)
     printf(_("Usage: nano [GNU long option] [option] +LINE <file>\n\n"));
     printf(_("Option		Long option		Meaning\n"));
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
     printf
 	(_
-	 (" -L 		--loadoninsert		Enable file loading on insertion\n"));
+	 (" -F 		--multibuffer		Enable multiple file buffers\n"));
 #endif
 
     printf(_
@@ -463,6 +463,9 @@ void usage(void)
 #else
     printf(_("Usage: nano [option] +LINE <file>\n\n"));
     printf(_("Option		Meaning\n"));
+#ifdef ENABLE_MULTIBUFFER
+    printf(_(" -F 		Enable multiple file buffers\n"));
+#endif
     printf(_(" -T [num]	Set width of a tab to num\n"));
     printf(_(" -R		Use regular expressions for search\n"));
     printf(_(" -V 		Print version information and exit\n"));
@@ -510,10 +513,12 @@ void version(void)
 
 #ifdef NANO_EXTRA
     printf(" --enable-extra");
-#endif
-#ifdef ENABLE_LOADONINSERT
-    printf(" --enable-loadoninsert");
-#endif
+#else
+#ifdef ENABLE_MULTIBUFFER
+    printf(" --enable-multibuffer");
+#endif /* ENABLE_MULTIBUFFER */
+#endif /* NANO_EXTRA */
+
 #ifdef ENABLE_NANORC
     printf(" --enable-nanorc");
 #endif
@@ -1007,9 +1012,10 @@ void do_wrap(filestruct * inptr, char input_char)
 	       space or tab, then null terminate it so we can strcat it
 	       to hell */
 	    while ((inptr->next->data[non] == ' '
-		    || inptr->next->data[non] == '\t'))
-		p[non] = inptr->next->data[non++];
-
+		    || inptr->next->data[non] == '\t')) {
+		p[non] = inptr->next->data[non];
+		non++;
+	    }
 	    p[non] = 0;
 	    strcat(p, temp->data);
 	    strcat(p, " ");
@@ -1516,7 +1522,7 @@ int do_alt_speller(char *file_name)
     do_gotoline(lineno_cur, 0);
     set_modified();
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
     /* if we have multiple files open, the spell-checked (current) file
        is now stored after the un-spell-checked file in the open_files
        structure, so go back to the un-spell-checked file and close it */
@@ -1572,7 +1578,7 @@ int do_exit(void)
 
     if (!ISSET(MODIFIED)) {
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
 	if (!close_open_file()) {
 	    display_main_list();
 	    return 1;
@@ -1598,7 +1604,7 @@ int do_exit(void)
     if (i == 1) {
 	if (do_writeout(filename, 1, 0) > 0) {
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
 	    if (!close_open_file()) {
 		display_main_list();
 		return 1;
@@ -1610,7 +1616,7 @@ int do_exit(void)
 	}
     } else if (i == 0) {
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
 	if (!close_open_file()) {
 	    display_main_list();
 	    return 1;
@@ -2382,8 +2388,8 @@ int main(int argc, char *argv[])
 	{"nofollow", 0, 0, 'l'},
 	{"tabsize", 1, 0, 'T'},
 
-#ifdef ENABLE_LOADONINSERT
-	{"loadoninsert", 0, 0, 'L'},
+#ifdef ENABLE_MULTIBUFFER
+	{"MULTIBUFFER", 0, 0, 'L'},
 #endif
 
 	{0, 0, 0, 0}
@@ -2415,9 +2421,9 @@ int main(int argc, char *argv[])
 
 	switch (optchr) {
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
 	case 'L':
-	    SET(LOADONINSERT);
+	    SET(MULTIBUFFER);
 	    break;
 #endif
 
@@ -2697,8 +2703,8 @@ int main(int argc, char *argv[])
 			break;
 		    case 126:	/* Hack, make insert key do something 
 				   useful, like insert file */
-#ifdef ENABLE_LOADONINSERT
-			do_insertfile(ISSET(LOADONINSERT));
+#ifdef ENABLE_MULTIBUFFER
+			do_insertfile(ISSET(MULTIBUFFER));
 #else
 			do_insertfile(0);
 #endif
@@ -2767,7 +2773,7 @@ int main(int argc, char *argv[])
 		    break;
 		}
 		break;
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
 	    case NANO_OPENPREV_KEY:
 		open_prevfile(0);
 		keyhandled = 1;

@@ -52,13 +52,15 @@ Cvs code -
 	  ISSET and then using SET or UNSET when we want a simple toggle
 	  for a flag.
 	- Added multiple buffer capability (God help us).  New configure
-	  option --enable-loadoninsert (-L), changes to do_insertfile(),
+	  option --enable-multibuffer (-F), changes to do_insertfile(),
 	  do_insertfile_void(), toggle_init(), do_gotoline(), edit_update(),
 	  and write_file(), new functions add_open_file(),
 	  open_file_change_name(), load_open_file(), open_file_dup_search(), 
 	  open_file_dup_fix(), open_prevfile(), open_nextfile(),
 	  close_open_file(), get_full_path(), die_save_file(), etc.
 	  (David Lawrence Ramsey).
+	- Using --enable-extra automatically defines --enable-multibuffer
+	  changes to version() and configure.in.
 - Makefile.am:
 	- Include ABOUT-NLS and the new THANKS files to the distributed list.
 - THANKS:

@@ -55,7 +55,7 @@
 #undef DISABLE_MOUSE
 
 /* Define this to load files upon inserting them, and allow switching between them; this is disabled if NANO_SMALL is defined */
-#undef ENABLE_LOADONINSERT
+#undef ENABLE_MULTIBUFFER
 
 /* Define this to use the .nanorc file */
 #undef ENABLE_NANORC

@@ -51,7 +51,7 @@ extern struct stat fileinfo;
 extern filestruct *current, *fileage, *edittop, *editbot, *filebot; 
 extern filestruct *cutbuffer, *mark_beginbuf;
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
 extern filestruct *open_files;
 #endif
 
@@ -96,7 +96,7 @@ int renumber_all(void);
 int open_file(char *filename, int insert, int quiet);
 int do_insertfile(int loading_file);
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
 int add_open_file(int update, int dup_fix);
 #endif
 
@@ -178,7 +178,7 @@ void do_credits(void);
 int do_writeout_void(void), do_exit(void), do_gotoline_void(void);
 int do_insertfile_void(void), do_search(void);
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
 int load_open_file(void), close_open_file(void);
 #endif
 
@@ -191,14 +191,14 @@ int do_first_line(void), do_last_line(void);
 int do_replace(void), do_help(void), do_enter_void(void);
 int keypad_on(WINDOW * win, int newval);
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
 int open_file_dup_fix(int update);
 int open_prevfile(int closing_file), open_nextfile(int closing_file);
 #endif
 
 char *charalloc (size_t howmuch);
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
 char *get_full_path(const char *origpath);
 #endif
 
@@ -224,6 +224,6 @@ filestruct *make_new_node(filestruct * prevnode);
 filestruct *findnextstr(int quiet, filestruct * begin,
 			int beginx, char *needle);
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
 filestruct *open_file_dup_search(void);
 #endif

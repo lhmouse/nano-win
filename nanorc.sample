@@ -42,5 +42,7 @@
 # set suspend
 
 # Load files upon inserting them, and allow switching between them
-# set loadoninsert
-
+# You must have configured with --enable-multibuffer or --enable-extra for
+# this to work
+#
+# set multibuffer

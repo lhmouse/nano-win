@@ -48,7 +48,7 @@ void load_file(void)
 {
     current = fileage;
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
     /* add a new entry to the open_files structure, and check for
        duplicate entries; if a duplicate entry was found, reload the
        currently open file (it may have been changed during duplicate
@@ -308,7 +308,7 @@ int do_insertfile(int loading_file)
 	}
 #endif
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
 	if (loading_file) {
 
 	    /* update the current entry in the open_files structure; we
@@ -324,7 +324,7 @@ int do_insertfile(int loading_file)
 
 	i = open_file(realname, 1, 0);
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
 	if (loading_file)
 	    filename = mallocstrcpy(filename, realname);
 #endif
@@ -333,7 +333,7 @@ int do_insertfile(int loading_file)
 
 	dump_buffer(fileage);
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
 	if (loading_file)
 	    load_file();
 	else
@@ -344,7 +344,7 @@ int do_insertfile(int loading_file)
 	/* Here we want to rebuild the edit window */
 	fix_editbot();
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
 	/* If we've loaded another file, update the titlebar's contents */
 	if (loading_file) {
 	    clearok(topwin, FALSE);
@@ -375,8 +375,8 @@ int do_insertfile(int loading_file)
 int do_insertfile_void(void)
 {
     int result = 0;
-#ifdef ENABLE_LOADONINSERT
-    result = do_insertfile(ISSET(LOADONINSERT));
+#ifdef ENABLE_MULTIBUFFER
+    result = do_insertfile(ISSET(MULTIBUFFER));
 #else
     result = do_insertfile(0);
 #endif
@@ -385,7 +385,7 @@ int do_insertfile_void(void)
     return result;
 }
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
 /*
  * Add/update an entry to the open_files filestruct.  If update is
  * zero, a new entry is created; otherwise, the current entry is updated.
@@ -1159,7 +1159,7 @@ int do_writeout(char *path, int exiting, int append)
 #endif
 	    i = write_file(answer, 0, append, 0);
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
 	    /* if we're not about to exit, update the current entry in
 	       the open_files structure */
 	    if (!exiting) {

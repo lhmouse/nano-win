@@ -31,12 +31,13 @@ AC_ARG_ENABLE(extra,
 [  --enable-extra          Enable extra (optional) functions, including easter eggs],
 [if test x$enableval = xyes; then
     AC_DEFINE(NANO_EXTRA) extra_support=yes
+    AC_DEFINE(ENABLE_MULTIBUFFER) multibuffer_support=yes
  fi])
 
-AC_ARG_ENABLE(loadoninsert,
-[  --enable-loadoninsert   Enable use of file loading on insertion, and switching between loaded files; this is disabled if --enable-tiny is used],
+AC_ARG_ENABLE(multibuffer,
+[  --enable-multibuffer    Enable use of file loading on insertion, and switching between loaded files; this is disabled if --enable-tiny is used],
 [if test x$enableval = xyes && test x$tiny_support != xyes; then
-    AC_DEFINE(ENABLE_LOADONINSERT) loadoninsert_support=yes
+    AC_DEFINE(ENABLE_MULTIBUFFER) multibuffer_support=yes
  fi])
 
 AC_ARG_ENABLE(nanorc,

@@ -74,7 +74,7 @@ typedef struct filestruct {
     struct filestruct *next;	/* Next node */
     struct filestruct *prev;	/* Previous node */
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
     struct filestruct *file;	/* Current file */
     int file_current_x;		/* Current file's x-coordinate position */
     int file_current_y;		/* Current file's y-coordinate position */
@@ -139,7 +139,7 @@ typedef struct rcoption {
 #define CUT_TO_END         	(1<<17)
 #define DISABLE_CURPOS         	(1<<18)
 #define REVERSE_SEARCH		(1<<19)
-#define LOADONINSERT		(1<<20)
+#define MULTIBUFFER		(1<<20)
 
 /* Control key sequences, changing these would be very very bad */
 
@@ -272,13 +272,13 @@ know what you're doing */
 #define TOGGLE_WRAP_KEY		NANO_ALT_W
 #define TOGGLE_BACKWARDS_KEY	NANO_ALT_B
 #define TOGGLE_CASE_KEY		NANO_ALT_A
-#define TOGGLE_LOAD_KEY		NANO_ALT_L
+#define TOGGLE_LOAD_KEY		NANO_ALT_F
 
 /* Toggle stuff, these static lengths need to go away RSN */
 
 #ifdef HAVE_REGEX_H
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
 #define TOGGLE_LEN 14
 #else
 #define TOGGLE_LEN 11
@@ -288,7 +288,7 @@ know what you're doing */
 #define REPLACE_LIST_LEN 8
 #else
 
-#ifdef ENABLE_LOADONINSERT
+#ifdef ENABLE_MULTIBUFFER
 #define TOGGLE_LEN 13
 #else
 #define TOGGLE_LEN 10
