@@ -305,7 +305,7 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 	current_x_find = found - fileptr->data;
 #if 1
 	/* Ensure we haven't wrapped around again! */
-	if ((search_last_line) && (current_x_find >= beginx)) {
+	if ((search_last_line) && (current_x_find > beginx)) {
 	    if (!quiet)
 		not_found_msg(needle);
 	    return NULL;

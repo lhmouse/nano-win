@@ -20,6 +20,9 @@ CVS code -
   shorcut_init()
 	- Replace hard coded ALT_G and ALT_H values in the replace
 	  and goto shortcuts with their macro counterparts NANO_ALT_*_KEY.	
+- search.c:
+  findnextstr()
+	- Fix off by one in check for wrap around (Rocco Corsi).
 - winio.c:
   edit_refresh()
 	- Rename lines to nlines to fix AIX breakage (reported by
