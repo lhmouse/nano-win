@@ -284,7 +284,7 @@ void shortcut_init(int unjustify)
     const char *nano_home_msg = N_("Move to the beginning of the current line");
     const char *nano_end_msg = N_("Move to the end of the current line");
     const char *nano_refresh_msg = N_("Refresh (redraw) the current screen");
-    const char *nano_mark_msg = N_("Mark text at the current cursor location");
+    const char *nano_mark_msg = N_("Mark text at the cursor position");
     const char *nano_delete_msg = N_("Delete the character under the cursor");
     const char *nano_backspace_msg =
 	N_("Delete the character to the left of the cursor");
