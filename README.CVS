@@ -32,7 +32,7 @@ and Makefile.in, and you will be ready to compile with
 $ ./configure [--add-options-here] && make
 Once it's done compiling,
 $ make install
-should put the required files in their respective directories.
+(as root) should put the required files in their respective directories.
 
 
 Please submit any bugs in the CVS branch to nano-devel@gnu.org.
