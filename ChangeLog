@@ -115,7 +115,7 @@ Cvs code -
 	- Add Alt-whatever-[a-d] support as well as Alt-whatever-[A-D].
   main()
 	- Code to silently process "-g" and "-j" (Rocco)
-	- Added Alt-[-[-7,8 support for home/end keys (Jeff Teunissen).
+	- Added Alt-[-7,8 support for home/end keys (Jeff Teunissen).
   signal_init()
 	- Reorder sigaction calls, use sigfillset() to stop SIGTSTP and
 	  SIGCONT from being interrupted, allows suspending nano

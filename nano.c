@@ -2611,29 +2611,18 @@ int main(int argc, char *argv[])
 		    kbinput = KEY_NPAGE;
 		    wgetch(edit);
 		    break;
+		case '7':
+		    kbinput = KEY_HOME;
+		    wgetch(edit);
+		    break;
+		case '8':
+		    kbinput = KEY_END;
+		    wgetch(edit);
+		    break;
 		case '[':	/* Alt-[-[-[A-E], F1-F5 in linux console */
 		    kbinput = wgetch(edit);
-		    switch(kbinput) {
-		    case 'A':
-		    case 'B':
-		    case 'C':
-		    case 'D':
-		    case 'E':
+		    if (kbinput >= 'A' && kbinput <= 'E')
 			kbinput = KEY_F(kbinput - 64);
-		 	break;
-		    case 7:
-			kbinput = KEY_HOME;
-			break;
-		    case 8:
-			kbinput = KEY_END;
-			break;
-#ifdef DEBUG
-		    default:
-			fprintf(stderr, _("I got Alt-[-[-%c! (%d)\n"),
-				kbinput, kbinput);
-			break;
-#endif
-		    }
 		    break;
 		case 'A':
 		case 'B':
