@@ -2436,24 +2436,24 @@ int do_para_operation(int operation)
     }
 #ifdef HAVE_REGEX_H
     /* We no longer need to check quotation, unless we're searching for
-       the beginning of the paragraph. */
+     * the beginning of the paragraph. */
     if (operation != 1)
 	regfree(&qreg);
 #endif
 /* Now par_len is the number of lines in this paragraph.  Should never
  * call quotes_match() or quote_length() again. */
 
-    /* If operation is nonzero, skip the justification, since we're only
-     * searching through the paragraph.  If operation is 2, move down the
-     * number of lines in the paragraph, so that we end up at the
-     * paragraph's end. */
-    if (operation != 0) {
-	if (operation == 2) {
-	    while (par_len > 0) {
-		current = current->next;
-		current_y++;
-		par_len--;
-	    }
+    /* If we're searching for the beginning of the paragraph, skip the
+     * justification.  If we're searching for the end of the paragraph,
+     * move down the number of lines in the paragraph and skip the
+     * justification. */
+    if (operation == 1)
+	goto skip_justify;
+    else if (operation == 2) {
+	while (par_len > 0) {
+	    current = current->next;
+	    current_y++;
+	    par_len--;
 	}
 	goto skip_justify;
     }
@@ -2629,64 +2629,56 @@ int do_para_operation(int operation)
     }
 
   skip_justify:
-    if (operation != 0) {
-	switch (operation) {
-	    case 1:
-		/* We're on the same line we started on.  Search for the
-		 * first non-"blank" line before the line we're on (if
-		 * there is one), continually restart that search from
-		 * the current position until we find a line that's part
-		 * of a paragraph, and then search once more from there,
-		 * so that we end up on the first line of that
-		 * paragraph.  In the process, skip over lines
-		 * consisting only of spacing characters, as searching
-		 * for the end of the paragraph does.  Then update the
-		 * screen. */
-		if (current != fileage && current == current_save &&
-			!no_restart) {
-		    while (current->prev != NULL) {
-			int j, j_space = 0;
-			current = current->prev;
-			current_y--;
-			for (j = 0; j < strlen(current->data); j++) {
-			    if (isspace(current->data[j]))
-				j_space++;
-			    else {
-				j = -1;
-				break;
-			    }
-			}
-			if (j != j_space && strlen(current->data) >=
-				(quote_len + indent_len) &&
-				current->data[quote_len + indent_len] != '\0') {
-			    no_restart = 1;
-			    break;
-			}
+    if (operation == 1) {
+	/* We're on the same line we started on.  Search for the first
+	 * non-"blank" line before the line we're on (if there is one),
+	 * continually restart that search from the current position
+	 * until we find a line that's part of a paragraph, and then
+	 * search once more from there, so that we end up on the first
+	 * line of that paragraph.  In the process, skip over lines
+	 * consisting only of spacing characters, as searching for the
+	 * end of the paragraph does.  Then update the screen. */
+	if (current != fileage && current == current_save && !no_restart) {
+	    while (current->prev != NULL) {
+		int j, j_space = 0;
+		current = current->prev;
+		current_y--;
+		for (j = 0; j < strlen(current->data); j++) {
+		    if (isspace(current->data[j]))
+			j_space++;
+		    else {
+			j = -1;
+			break;
 		    }
-		    goto restart_bps;
-		} else
-		    no_restart = 0;
+		}
+		if (j != j_space && strlen(current->data) >=
+			(quote_len + indent_len) &&
+			current->data[quote_len + indent_len] != '\0') {
+		    no_restart = 1;
+		    break;
+		}
+	    }
+	    goto restart_bps;
+	} else
+	    no_restart = 0;
 #ifdef HAVE_REGEX_H
-		/* We no longer need to check quotation, if we were
-		   searching for the beginning of the paragraph. */
-		regfree(&qreg);
+	/* We no longer need to check quotation, if we were
+	 * searching for the beginning of the paragraph. */
+	regfree(&qreg);
 #endif
-		if (current_y < 0)
-		    edit_update(current, CENTER);
-		else
-		    edit_refresh();
-		break;
-	    case 2:
-		/* We've already moved to the end of the paragraph.
-		 * Update the screen. */
-		if (current_y > editwinrows - 1)
-		    edit_update(current, CENTER);
-		else
-		    edit_refresh();
-		break;
-	}
-	if (operation != 0)
-	    return 0;
+	if (current_y < 0)
+	    edit_update(current, CENTER);
+	else
+	    edit_refresh();
+	return 0;
+    } else if (operation == 2) {
+	/* We've already moved to the end of the paragraph.  Update the
+	 * screen. */
+	if (current_y > editwinrows - 1)
+	    edit_update(current, CENTER);
+	else
+	    edit_refresh();
+	return 0;
     }
 
     if (current_y > editwinrows - 1)
