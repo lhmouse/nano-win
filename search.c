@@ -129,7 +129,7 @@ int search_init(int replacing)
     /* This is now one simple call.  It just does a lot */
     i = statusq(0, replacing ? replace_list : whereis_list,
 	replacing ? REPLACE_LIST_LEN : WHEREIS_LIST_LEN, backupstring,
-	prompt, reprompt, "");
+	prompt, reprompt, buf);
 
     /* Cancel any search, or just return with no previous search */
     if ((i == -1) || (i < 0 && !last_search[0])) {

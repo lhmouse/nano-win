@@ -2,6 +2,9 @@ CVS code -
 - search.c:
   findnextstr()
 	- Set current_x back before aborting (oops!).
+  search_init()
+	- Silly typo in our "one simple call" of statusq.  Stopped
+	  previous search string from being displayed.
 
 nano 0.9.20 - 11/18/2000
 - General
