@@ -197,13 +197,13 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 #ifndef NANO_SMALL
 	if (ISSET(REVERSE_SEARCH)) {
 		/* When doing a backwards search, haystack is a whole line. */
-	    if (!regexec(&search_regexp, haystack, 1, regmatches, 0) &&
+	    if (regexec(&search_regexp, haystack, 1, regmatches, 0) == 0 &&
 		    haystack + regmatches[0].rm_so <= rev_start) {
 		const char *retval = haystack + regmatches[0].rm_so;
 
 		/* Search forward until there is no more match. */
-		while (!regexec(&search_regexp, retval + 1, 1, regmatches,
-			    REG_NOTBOL) &&
+		while (regexec(&search_regexp, retval + 1, 1, regmatches,
+			    REG_NOTBOL) == 0 &&
 			retval + 1 + regmatches[0].rm_so <= rev_start)
 		    retval += 1 + regmatches[0].rm_so;
 		/* Finally, put the subexpression matches in global
@@ -214,8 +214,8 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 	    }
 	} else
 #endif /* !NANO_SMALL */
-	if (!regexec(&search_regexp, haystack, 10, regmatches,
-			line_pos > 0 ? REG_NOTBOL : 0)) {
+	if (regexec(&search_regexp, haystack, 10, regmatches,
+			line_pos > 0 ? REG_NOTBOL : 0) == 0) {
 	    const char *retval = haystack + regmatches[0].rm_so;
 
 	    regexec(&search_regexp, retval, 10, regmatches, 0);

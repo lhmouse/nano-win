@@ -618,8 +618,8 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 {
     int replaceall = 0, numreplaced = -1;
 #ifdef HAVE_REGEX_H
-    /* The starting-line match and zero-length regex flags. */
-    int beginline = 0, caretdollar = 0;
+    /* The starting-line match and bol/eol regex flags. */
+    int beginline = 0, bol_eol = 0;
 #endif
     filestruct *fileptr = NULL;
 
@@ -649,31 +649,30 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 	fileptr = findnextstr(fileptr || replaceall || search_last_line,
 		FALSE, begin, *beginx, prevanswer,
 #ifdef HAVE_REGEX_H
-		/* We should find a zero-length regex only once per
-		 * line.  If the caretdollar flag is set, it means that
-		 * the last search found one on the beginning line, so we
+		/* We should find a bol and/or eol regex only once per
+		 * line.  If the bol_eol flag is set, it means that the
+		 * last search found one on the beginning line, so we
 		 * should skip over the beginning line when doing this
 		 * search. */
-		caretdollar
+		bol_eol
 #else
 		0
 #endif
 		);
 
 #ifdef HAVE_REGEX_H
-	/* If the caretdollar flag is set, we've found a match on the
+	/* If the bol_eol flag is set, we've found a match on the
 	 * beginning line already, and we're still on the beginning line
 	 * after the search, it means that we've wrapped around, so
 	 * we're done. */
-	if (caretdollar && beginline && fileptr == begin)
+	if (bol_eol && beginline && fileptr == begin)
 	    fileptr = NULL;
 	/* Otherwise, set the beginline flag if we've found a match on
-	 * the beginning line, reset the caretdollar flag, and
-	 * continue. */
+	 * the beginning line, reset the bol_eol flag, and continue. */
 	else {
 	    if (fileptr == begin)
 		beginline = 1;
-	    caretdollar = 0;
+	    bol_eol = 0;
 	}
 #endif
 
@@ -721,10 +720,10 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 	}
 
 #ifdef HAVE_REGEX_H
-	/* Set the caretdollar flag if we're doing a zero-length regex
-	 * replace (such as "^", "$", or "^$"). */
-	if (ISSET(USE_REGEXP) && match_len == 0)
-	    caretdollar = 1;
+	/* Set the bol_eol flag if we're doing a bol and/or eol regex
+	 * replace ("^", "$", or "^$"). */
+	if (ISSET(USE_REGEXP) && regexec(&search_regexp, prevanswer, 1, NULL, REG_NOTBOL | REG_NOTEOL) == REG_NOMATCH)
+	    bol_eol = 1;
 #endif
 
 	if (*i > 0 || replaceall) {	/* Yes, replace it!!!! */
