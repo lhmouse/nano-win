@@ -157,7 +157,6 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta,
 			    break;
 			default:
 			    kbinput = get_escape_seq_kbinput(win, kbinput);
-			    break;
 		    }
 		    nodelay(win, FALSE);
 		    break;
@@ -170,7 +169,6 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta,
 		    if (isupper(kbinput))
 			kbinput = tolower(kbinput);
 		    *meta = 1;
-		    break;
 	    }
 	    break;
 	case KEY_DOWN:
@@ -214,8 +212,6 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta,
 	    break;
 	case KEY_SUSPEND:
 	    kbinput = NANO_SUSPEND_KEY;
-	    break;
-	default:
 	    break;
     }
 #ifdef DEBUG
@@ -299,8 +295,6 @@ int get_escape_seq_kbinput(WINDOW *win, int kbinput)
 	case '3':
 	    /* Esc [ 3 ~ == kdch1 on many terminals. */
 	    kbinput = get_skip_tilde_kbinput(win, kbinput, NANO_DELETE_KEY);
-	    break;
-	default:
 	    break;
     }
     return kbinput;

@@ -3498,7 +3498,6 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "I got Alt-%c! (%d)\n", kbinput,
 			kbinput);
 #endif
-		break;
 	    }
 	}
 

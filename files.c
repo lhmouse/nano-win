@@ -2269,7 +2269,6 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
 		    break;
 		}
 	    }
-	    break;
 	}
     } else {
 	/* Ok -- the last char was a TAB.  Since they

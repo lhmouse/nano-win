@@ -19,6 +19,7 @@ CVS code -
 	  the problem with Backspace/Delete confusion on some terminals,
 	  notably FreeBSD; if your Backspace key acts like Delete, this
 	  option will fix that. (DLR)
+	- Remove unneeded breaks at the ends of default: clauses. (DLR)
 - files.c:
   do_browser():
 	- Some of the Pico compatibility options in the file browser
