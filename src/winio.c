@@ -1843,7 +1843,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
     converted = charalloc(alloc_len + 1);
     index = 0;
 
-    if (column > start_col || (dollars && column > 0 &&
+    if (column < start_col || (dollars && column > 0 &&
 		buf[start_index] != '\t')) {
 	int wide_buf, wide_buf_len;
 
@@ -1856,7 +1856,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		);
 
 	if (is_cntrl_char(wide_buf)) {
-	    if (column > start_col) {
+	    if (column < start_col) {
 		char *ctrl_wide_buf = charalloc(MB_CUR_MAX);
 		int ctrl_wide_buf_len, i;
 
