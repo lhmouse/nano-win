@@ -1296,13 +1296,13 @@ void do_enter(void)
 	filebot = newnode;
     splice_node(current, newnode, current->next);
 
-    totsize++;
     renumber(current);
     current = newnode;
 
     edit_refresh();
 
     totlines++;
+    totsize++;
     set_modified();
     placewewant = xplustabs();
 }
@@ -3649,9 +3649,6 @@ void do_output(int *kbinput, size_t kbinput_len)
 		current_len - current_x + key_len);
 	charcpy(&current->data[current_x], key, key_len);
 	current_len += key_len;
-	/* FIXME: Should totsize be the number of single-byte characters
-	 * or the number of multibyte characters?  Assume the former for
-	 * now. */
 	totsize += key_len;
 	set_modified();
 
