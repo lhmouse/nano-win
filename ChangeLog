@@ -34,6 +34,10 @@ CVS code -
 - utils.c:
   regexec_safe()
 	- Rename to safe_regexec() for consistency. (DLR)
+- winio.c:
+  help_line_len()
+	- Make the text display more flexible, and closer to what nano
+	  1.2.x does. (DLR)
 
 GNU nano 1.3.6 - 2005.03.20
 - General:

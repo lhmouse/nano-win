@@ -3828,10 +3828,10 @@ void do_cursorpos_void(void)
 /* Calculate the next line of help_text, starting at ptr. */
 size_t help_line_len(const char *ptr)
 {
-    int help_cols = (COLS > 80) ? COLS - 8 : 72;
+    int help_cols = (COLS > 24) ? COLS - 8 : 24;
 
     /* Try to break the line at (COLS - 8) columns if we have more than
-     * 80 columns, and at 72 columns otherwise. */
+     * 24 columns, and at 24 columns otherwise. */
     size_t retval = break_line(ptr, help_cols, TRUE);
     size_t retval_save = retval;
 
