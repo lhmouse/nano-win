@@ -256,10 +256,6 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		}
 #endif
 
-		/* We canceled putting in an answer; reset x */
-		if (kbinput == NANO_CANCEL_KEY)
-		    x = -1;
-
 		return t->val;
 	    }
 	}
