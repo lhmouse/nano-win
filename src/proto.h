@@ -303,9 +303,6 @@ void nano_disabled_msg(void);
 RETSIGTYPE cancel_fork(int signal);
 bool open_pipe(const char *command);
 #endif
-#ifndef DISABLE_MOUSE
-void do_mouse(void);
-#endif
 void do_char(char ch);
 void do_verbatim_input(void);
 void do_backspace(void);
@@ -494,31 +491,40 @@ int check_wildcard_match(const char *text, const char *pattern);
 #ifndef NANO_SMALL
 void reset_kbinput(void);
 #endif
-int get_kbinput(WINDOW *win, int *meta_key);
-int get_translated_kbinput(int kbinput, int *es
+int get_kbinput(WINDOW *win, bool *meta_key);
+int get_translated_kbinput(int kbinput, bool *es
 #ifndef NANO_SMALL
-	, int reset
+	, bool reset
 #endif
 	);
 int get_ascii_kbinput(int kbinput, size_t ascii_digits
 #ifndef NANO_SMALL
-	, int reset
+	, bool reset
 #endif
 	);
 int get_control_kbinput(int kbinput);
-int get_escape_seq_kbinput(int *escape_seq, size_t es_len, int
+int get_escape_seq_kbinput(int *escape_seq, size_t es_len, bool
 	*ignore_seq);
 int get_escape_seq_abcd(int kbinput);
 int *get_verbatim_kbinput(WINDOW *win, int *v_kbinput, size_t *v_len,
-	int allow_ascii);
-int get_untranslated_kbinput(int kbinput, size_t position, int
+	bool allow_ascii);
+int get_untranslated_kbinput(int kbinput, size_t position, bool
 	allow_ascii
 #ifndef NANO_SMALL
-	, int reset
+	, bool reset
 #endif
 	);
 #ifndef DISABLE_MOUSE
-int get_mouseinput(int *mouse_x, int *mouse_y, int allow_shortcuts);
+bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts);
+#endif
+const shortcut *get_shortcut(const shortcut *s_list, int kbinput, bool
+	*meta_key);
+#ifndef NANO_SMALL
+const toggle *get_toggle(int kbinput, bool meta_key);
+#endif
+int get_edit_input(bool *meta_key, bool allow_funcs);
+#ifndef DISABLE_MOUSE
+bool get_edit_mouse(void);
 #endif
 size_t xplustabs(void);
 size_t actual_x(const char *str, size_t xplus);
@@ -567,7 +573,7 @@ int statusq(int allowtabs, const shortcut *s, const char *def,
 int do_yesno(int all, const char *msg);
 void total_refresh(void);
 void display_main_list(void);
-void do_cursorpos(int constant);
+void do_cursorpos(bool constant);
 void do_cursorpos_void(void);
 #ifndef DISABLE_HELP
 int help_line_len(const char *ptr);

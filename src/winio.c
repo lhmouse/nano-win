@@ -107,9 +107,10 @@ void reset_kbinput(void)
  * editing keypad (Insert, Delete, Home, End, PageUp, and PageDown), the
  * function keypad (F1-F14), and the numeric keypad with NumLock off.
  * Assume nodelay(win) is FALSE. */
-int get_kbinput(WINDOW *win, int *meta_key)
+int get_kbinput(WINDOW *win, bool *meta_key)
 {
-    int kbinput, es, retval = ERR;
+    int kbinput, retval = ERR;
+    bool es;
 
 #ifndef NANO_SMALL
     allow_pending_sigwinch(TRUE);
@@ -155,7 +156,7 @@ int get_kbinput(WINDOW *win, int *meta_key)
 	     * sequence into the corresponding key value, and save
 	     * that as the result. */
 	    if (es_len > 1) {
-		int ignore_seq;
+		bool ignore_seq;
 
 		*meta_key = FALSE;
 		retval = get_escape_seq_kbinput(escape_seq, es_len,
@@ -174,7 +175,7 @@ int get_kbinput(WINDOW *win, int *meta_key)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "get_kbinput(): kbinput = %d, meta_key = %d\n", kbinput, *meta_key);
+    fprintf(stderr, "get_kbinput(): kbinput = %d, meta_key = %d\n", kbinput, (int)*meta_key);
 #endif
 
 #ifndef NANO_SMALL
@@ -187,9 +188,9 @@ int get_kbinput(WINDOW *win, int *meta_key)
 /* Translate acceptable ASCII, extended keypad values, and escape
  * sequences into their corresponding key values.  Set es to TRUE when
  * we get an escape sequence.  Assume nodelay(win) is FALSE. */
-int get_translated_kbinput(int kbinput, int *es
+int get_translated_kbinput(int kbinput, bool *es
 #ifndef NANO_SMALL
-	, int reset
+	, bool reset
 #endif
 	)
 {
@@ -416,7 +417,7 @@ int get_translated_kbinput(int kbinput, int *es
     }
  
 #ifdef DEBUG
-    fprintf(stderr, "get_translated_kbinput(): kbinput = %d, es = %d, escapes = %d, ascii_digits = %lu, retval = %d\n", kbinput, *es, escapes, (unsigned long)ascii_digits, retval);
+    fprintf(stderr, "get_translated_kbinput(): kbinput = %d, es = %d, escapes = %d, ascii_digits = %lu, retval = %d\n", kbinput, (int)*es, escapes, (unsigned long)ascii_digits, retval);
 #endif
 
     /* Return the result. */
@@ -427,7 +428,7 @@ int get_translated_kbinput(int kbinput, int *es
  * ASCII code from 000-255 into its corresponding ASCII character. */
 int get_ascii_kbinput(int kbinput, size_t ascii_digits
 #ifndef NANO_SMALL
-	, int reset
+	, bool reset
 #endif
 	)
 {
@@ -564,7 +565,7 @@ int get_control_kbinput(int kbinput)
  * ERR and set ignore_seq to TRUE; if it's unrecognized, return ERR and
  * set ignore_seq to FALSE.  Assume that Escape has already been read
  * in. */
-int get_escape_seq_kbinput(int *escape_seq, size_t es_len, int
+int get_escape_seq_kbinput(int *escape_seq, size_t es_len, bool
 	*ignore_seq)
 {
     int retval = ERR;
@@ -1042,7 +1043,7 @@ int get_escape_seq_kbinput(int *escape_seq, size_t es_len, int
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "get_escape_seq_kbinput(): retval = %d, ignore_seq = %d\n", retval, *ignore_seq);
+    fprintf(stderr, "get_escape_seq_kbinput(): retval = %d, ignore_seq = %d\n", retval, (int)*ignore_seq);
 #endif
 
     return retval;
@@ -1071,7 +1072,7 @@ int get_escape_seq_abcd(int kbinput)
  * verbatim.  Store the string in v_kbinput and return the length
  * of the string in v_len.  Assume nodelay(win) is FALSE. */
 int *get_verbatim_kbinput(WINDOW *win, int *v_kbinput, size_t *v_len,
-	int allow_ascii)
+	bool allow_ascii)
 {
     int kbinput;
     size_t i = 0, v_newlen = 0;
@@ -1178,10 +1179,10 @@ int *get_verbatim_kbinput(WINDOW *win, int *v_kbinput, size_t *v_len,
     return v_kbinput;
 }
 
-int get_untranslated_kbinput(int kbinput, size_t position, int
+int get_untranslated_kbinput(int kbinput, size_t position, bool
 	allow_ascii
 #ifndef NANO_SMALL
-	, int reset
+	, bool reset
 #endif
 	)
 {
@@ -1246,7 +1247,7 @@ int get_untranslated_kbinput(int kbinput, size_t position, int
  * equivalent keystroke(s).  Return FALSE if no keystrokes were 
  * ungetch()ed, or TRUE if at least one was.  Assume that KEY_MOUSE has 
  * already been read in. */
-int get_mouseinput(int *mouse_x, int *mouse_y, int allow_shortcuts)
+bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 {
     MEVENT mevent;
 
@@ -1261,15 +1262,12 @@ int get_mouseinput(int *mouse_x, int *mouse_y, int allow_shortcuts)
     *mouse_x = mevent.x;
     *mouse_y = mevent.y;
 
-    /* If we're not allowing shortcuts' we're done now. */
-    if (!allow_shortcuts)
-	return FALSE;
-
-    /* Otherwise, if the current shortcut list is being displayed on the
-     * last two lines of the screen and the mouse event took place
-     * inside it, we need to figure out which shortcut was clicked and
-     * ungetch() the equivalent keystroke(s) for it. */
-    if (!ISSET(NO_HELP) && wenclose(bottomwin, *mouse_y, *mouse_x)) {
+    /* If we're allowing shortcuts, the current shortcut list is being
+     * displayed on the last two lines of the screen, and the mouse
+     * event took place inside it, we need to figure out which shortcut
+     * was clicked and ungetch() the equivalent keystroke(s) for it. */
+    if (allow_shortcuts && !ISSET(NO_HELP) && wenclose(bottomwin,
+	*mouse_y, *mouse_x)) {
 	int i, j;
 	size_t currslen;
 	    /* The number of shortcuts in the current shortcut list. */
@@ -1298,10 +1296,10 @@ int get_mouseinput(int *mouse_x, int *mouse_y, int allow_shortcuts)
 	 * list, or beyond the end of a shortcut on the right side of
 	 * the screen, don't do anything. */
 	if (j < 0 || (*mouse_x / i) >= currslen)
-	    return 0;
+	    return FALSE;
 	j = (*mouse_x / i) * 2 + j;
 	if (j >= currslen)
-	    return 0;
+	    return FALSE;
 
 	/* Go through the shortcut list to determine which shortcut was
 	 * clicked. */
@@ -1323,7 +1321,206 @@ int get_mouseinput(int *mouse_x, int *mouse_y, int allow_shortcuts)
     }
     return FALSE;
 }
+#endif /* !DISABLE_MOUSE */
+
+const shortcut *get_shortcut(const shortcut *s_list, int kbinput, bool
+	*meta_key)
+{
+    const shortcut *s = s_list;
+    size_t slen = length_of_list(s_list);
+
+    /* Check for shortcuts. */
+    for (; slen > 0; slen--) {
+	/* We've found a shortcut if:
+	 *
+	 * 1. The key exists.
+	 * 2. The key is a control key in the shortcut list.
+	 * 3. The key is a function key in the shortcut list.
+	 * 4. meta_key is TRUE and the key is a meta sequence.
+	 * 5. meta_key is TRUE and the key is the other meta sequence in
+	 *    the shortcut list. */
+	if (kbinput != NANO_NO_KEY && ((*meta_key == FALSE &&
+		((kbinput == s->ctrlval || kbinput == s->funcval))) ||
+		(*meta_key == TRUE && (kbinput == s->metaval ||
+		kbinput == s->miscval)))) {
+	    break;
+	}
+
+	s = s->next;
+    }
+
+    /* Translate the shortcut to either its control key or its meta key
+     * equivalent.  Assume that the shortcut has an equivalent control
+     * key, meta key, or both. */
+    if (slen > 0) {
+	if (s->ctrlval != NANO_NO_KEY) {
+	    *meta_key = FALSE;
+	    kbinput = s->ctrlval;
+	} else if (s->metaval != NANO_NO_KEY) {
+	    *meta_key = TRUE;
+	    kbinput = s->metaval;
+	}
+	return s;
+    }
+
+    return NULL;
+}
+
+#ifndef NANO_SMALL
+const toggle *get_toggle(int kbinput, bool meta_key)
+{
+    const toggle *t = toggles;
+
+    /* Check for toggles. */
+    for (; t != NULL; t = t->next) {
+	/* We've found a toggle if meta_key is TRUE and the key is in
+	 * the meta toggle list. */
+	if (meta_key && kbinput == t->val)
+	    break;
+    }
+
+    return t;
+}
+#endif /* !NANO_SMALL */
+
+int get_edit_input(bool *meta_key, bool allow_funcs)
+{
+    bool keyhandled = FALSE;
+    int kbinput, retval;
+    const shortcut *s;
+#ifndef NANO_SMALL
+    const toggle *t;
 #endif
+
+    kbinput = get_kbinput(edit, meta_key);
+
+    /* Universal shortcuts.  These aren't in any shortcut lists, but we
+     * should handle them anyway. */
+    switch (kbinput) {
+	case NANO_XON_KEY:
+	    statusbar(_("XON ignored, mumble mumble."));
+	    return ERR;
+	case NANO_XOFF_KEY:
+	    statusbar(_("XOFF ignored, mumble mumble."));
+	    return ERR;
+#ifndef NANO_SMALL
+	case NANO_SUSPEND_KEY:
+	    if (ISSET(SUSPEND))
+		do_suspend(0);
+	    return ERR;
+#endif
+#ifndef DISABLE_MOUSE
+	case KEY_MOUSE:
+	    if (get_edit_mouse()) {
+		kbinput = get_kbinput(edit, meta_key);
+		break;
+	    } else
+		return ERR;
+#endif
+    }
+
+    /* Check for a shortcut in the main list. */
+    s = get_shortcut(main_list, kbinput, meta_key);
+
+    if (s != NULL) {
+	/* We got a shortcut.  Run the shortcut's corresponding function
+	 * if it has one. */
+	if (s->func != do_cut_text)
+	    cutbuffer_reset();
+	if (s->func != NULL) {
+	    if (allow_funcs)
+		s->func();
+	    keyhandled = TRUE;
+	}
+    }
+
+#ifndef NANO_SMALL
+    else {
+	/* If we didn't get a shortcut, check for a toggle. */
+	t = get_toggle(kbinput, *meta_key);
+
+	/* We got a toggle.  Switch the value of the toggle's
+	 * corresponding flag. */
+	if (t != NULL) {
+	    cutbuffer_reset();
+	    if (allow_funcs)
+		do_toggle(t);
+	    keyhandled = TRUE;
+	}
+    }
+#endif
+
+    /* If we got a shortcut with a corresponding function or a toggle,
+     * reset meta_key and retval.  If we didn't, keep the value of
+     * meta_key and return the key we got in retval. */
+    if (allow_funcs && keyhandled) {
+	*meta_key = FALSE;
+	retval = ERR;
+    } else {
+	cutbuffer_reset();
+	retval = kbinput;
+    }
+
+    return retval;
+}
+
+#ifndef DISABLE_MOUSE
+bool get_edit_mouse(void)
+{
+    int mouse_x, mouse_y;
+    bool retval;
+
+    retval = get_mouseinput(&mouse_x, &mouse_y, TRUE);
+
+    if (!retval) {
+	/* We can click in the edit window to move the cursor. */
+	if (wenclose(edit, mouse_y, mouse_x)) {
+	    bool sameline;
+		/* Did they click on the line with the cursor?  If they
+		 * clicked on the cursor, we set the mark. */
+	    size_t xcur;
+		/* The character they clicked on. */
+
+	    /* Subtract out the size of topwin.  Perhaps we need a
+	     * constant somewhere? */
+	    mouse_y -= 2;
+
+	    sameline = (mouse_y == current_y);
+
+	    /* Move to where the click occurred. */
+	    for (; current_y < mouse_y && current->next != NULL; current_y++)
+		current = current->next;
+	    for (; current_y > mouse_y && current->prev != NULL; current_y--)
+		current = current->prev;
+
+	    xcur = actual_x(current->data, get_page_start(xplustabs()) +
+		mouse_x);
+
+#ifndef NANO_SMALL
+	    /* Clicking where the cursor is toggles the mark, as does
+	     * clicking beyond the line length with the cursor at the
+	     * end of the line. */
+	    if (sameline && xcur == current_x) {
+		if (ISSET(VIEW_MODE)) {
+		    print_view_warning();
+		    return retval;
+		}
+		do_mark();
+	    }
+#endif
+
+	    current_x = xcur;
+	    placewewant = xplustabs();
+	    edit_refresh();
+	}
+    }
+    /* FIXME: If we clicked on a location in the statusbar, the cursor
+     * should move to the location we clicked on.  This functionality
+     * should be in get_statusbar_mouse() when it's written. */
+
+    return retval;
+}
+#endif /* !DISABLE_MOUSE */
 
 /* Return the placewewant associated with current_x.  That is, xplustabs
  * is the zero-based column position of the cursor.  Value is no smaller
@@ -1541,7 +1738,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		)
 {
     int kbinput;
-    int meta_key;
+    bool meta_key;
     static int x = -1;
 	/* the cursor position in 'answer' */
     int xend;
@@ -1635,7 +1832,10 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	switch (kbinput) {
 #ifndef DISABLE_MOUSE
 	case KEY_MOUSE:
-	    do_mouse();
+	    {
+		int mouse_x, mouse_y;
+		get_mouseinput(&mouse_x, &mouse_y, TRUE);
+	    }
 	    break;
 #endif
 	case NANO_HOME_KEY:
@@ -2872,7 +3072,7 @@ int do_yesno(int all, const char *msg)
 
     do {
 	int kbinput;
-	int meta_key;
+	bool meta_key;
 #ifndef DISABLE_MOUSE
 	int mouse_x, mouse_y;
 #endif
@@ -2883,14 +3083,13 @@ int do_yesno(int all, const char *msg)
 	    ok = -1;
 #ifndef DISABLE_MOUSE
 	/* Look ma!  We get to duplicate lots of code from
-	 * do_mouse()!! */
+	 * get_edit_mouse()!! */
 	else if (kbinput == KEY_MOUSE) {
-	    kbinput = get_mouseinput(&mouse_x, &mouse_y, FALSE);
+	    get_mouseinput(&mouse_x, &mouse_y, FALSE);
 
 	    if (mouse_x != -1 && mouse_y != -1 && !ISSET(NO_HELP) &&
 		wenclose(bottomwin, mouse_y, mouse_x) && mouse_x <
 		(width * 2) && mouse_y >= editwinrows + 3) {
-
 		int x = mouse_x / width;
 		    /* Did we click in the first column of shortcuts, or
 		     * the second? */
@@ -2949,7 +3148,7 @@ void display_main_list(void)
  * If constant is TRUE and DISABLE_CURPOS is set, we unset it and update
  * old_i and old_totsize.  That way, we leave the current statusbar
  * alone, but next time we will display. */
-void do_cursorpos(int constant)
+void do_cursorpos(bool constant)
 {
     const filestruct *fileptr;
     unsigned long i = 0;
@@ -3038,12 +3237,13 @@ void do_help(void)
     int line = 0;
 	/* The line number in help_text of the first displayed help line.
 	 * This variable is zero-based. */
-    int no_more = 0;
+    bool no_more = FALSE;
 	/* no_more means the end of the help text is shown, so don't go
 	 * down any more. */
-    int kbinput = ERR, meta_key;
+    int kbinput = ERR;
+    bool meta_key;
 
-    int old_no_help = ISSET(NO_HELP);
+    bool old_no_help = ISSET(NO_HELP);
 #ifndef DISABLE_MOUSE
     const shortcut *oldshortcut = currshortcut;
 	/* We will set currshortcut to allow clicking on the help
@@ -3082,7 +3282,10 @@ void do_help(void)
 	switch (kbinput) {
 #ifndef DISABLE_MOUSE
 	    case KEY_MOUSE:
-		do_mouse();
+		{
+		    int mouse_x, mouse_y;
+		    get_mouseinput(&mouse_x, &mouse_y, TRUE);
+		}
 		break;
 #endif
 	    case NANO_NEXTPAGE_KEY:

@@ -1,9 +1,27 @@
 CVS code -
+- General:
+	- Convert more ints that hold only TRUE and FALSE values to
+	  bools. (DLR)
+	- Consolidate the code for finding a shortcut in a shortcut
+	  list, the code for finding a toogle in a toggle list, and
+	  the code for doing both of those and interpreting mouse clicks
+	  in the edit window.  Also move the code for do_mouse() to
+	  get_edit_mouse() and tweak it to properly handle cases where a
+	  shortcut isn't clicked.  New functions get_shortcut(),
+	  get_toggle(), get_edit_input(), and get_edit_mouse(); changes
+	  to do_browser(), do_justify(), do_help(), and main(). (DLR)
 - rcfile.c:
   parse_rcfile()
 	- Add missing brackets around an if statement block so that
 	  parsing the numeric argument after "tabsize" works properly
 	  again. (DLR, found by Mike Frysinger)
+- winio.c:
+  get_mouseinput()
+	- Consolidate two if statements to increase efficiency. (DLR)
+  do_yesno()
+	- Don't bother assigning the value of get_mouseinput() to
+	  anything.  Since allow_shortcuts is FALSE, its return value
+	  will always be FALSE. (DLR)
 
 GNU nano 1.3.4 - 2004.08.17
 - General:

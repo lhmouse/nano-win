@@ -2534,9 +2534,10 @@ char *do_browser(const char *inpath)
     struct stat st;
     char *foo, *retval = NULL;
     static char *path = NULL;
-    int numents = 0, i = 0, j = 0, kbinput = ERR, meta_key, longest = 0;
-    int abort = 0, col = 0, selected = 0, editline = 0, width = 0;
-    int filecols = 0, lineno = 0;
+    int numents = 0, i = 0, j = 0, longest = 0, abort = 0, col = 0;
+    int selected = 0, editline = 0, width = 0, filecols = 0, lineno = 0;
+    int kbinput = ERR;
+    bool meta_key;
     char **filelist = (char **)NULL;
 #ifndef DISABLE_MOUSE
     MEVENT mevent;
@@ -2619,8 +2620,10 @@ char *do_browser(const char *inpath)
 		    selected = numents - 1;
 		else if (selectedbackup == selected)
 		    ungetch('s');	/* Unget the 'select' key */
-	    } else	/* Must be clicking a shortcut */
-		do_mouse();
+	    } else {	/* Must be clicking a shortcut */
+		int mouse_x, mouse_y;
+		get_mouseinput(&mouse_x, &mouse_y, TRUE);
+	    }
 
             break;
 #endif
@@ -2856,7 +2859,7 @@ char *do_browser(const char *inpath)
 		    width = filecols;
 	    }
 	}
- 	wrefresh(edit);
+	wrefresh(edit);
     } while ((kbinput = get_kbinput(edit, &meta_key)) != NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
     curs_set(1);
     blank_edit();

@@ -876,59 +876,6 @@ bool open_pipe(const char *command)
 }
 #endif /* !NANO_SMALL */
 
-#ifndef DISABLE_MOUSE
-void do_mouse(void)
-{
-    int mouse_x, mouse_y;
-
-    if (!get_mouseinput(&mouse_x, &mouse_y, TRUE)) {
-	/* Click in the edit window to move the cursor, but only when
-	   we're not in a subfunction. */
-	if (wenclose(edit, mouse_y, mouse_x) && currshortcut == main_list) {
-	    bool sameline;
-		/* Did they click on the line with the cursor?  If they
-		   clicked on the cursor, we set the mark. */
-	    size_t xcur;
-		/* The character they clicked on. */
-
-	    /* Subtract out size of topwin.  Perhaps we need a constant
-	       somewhere? */
-	    mouse_y -= 2;
-
-	    sameline = (mouse_y == current_y);
-
-	    /* Move to where the click occurred. */
-	    for (; current_y < mouse_y && current->next != NULL; current_y++)
-		current = current->next;
-	    for (; current_y > mouse_y && current->prev != NULL; current_y--)
-		current = current->prev;
-
-	    xcur = actual_x(current->data, get_page_start(xplustabs()) +
-		mouse_x);
-
-#ifndef NANO_SMALL
-	    /* Selecting where the cursor is toggles the mark, as does
-	       selecting beyond the line length with the cursor at the
-	       end of the line. */
-	    if (sameline && xcur == current_x) {
-		if (ISSET(VIEW_MODE)) {
-		    print_view_warning();
-		    return;
-		}
-		do_mark();
-	    }
-#endif
-
-	    current_x = xcur;
-	    placewewant = xplustabs();
-	    edit_refresh();
-	}
-    }
-    /* FIXME: If we clicked on a location in the statusbar, the cursor
-       should move to the location we clicked on. */
-}
-#endif
-
 /* The user typed a character; add it to the edit buffer. */
 void do_char(char ch)
 {
@@ -2360,7 +2307,7 @@ void do_justify(bool full_justify)
     int mark_beginx_save = mark_beginx;
 #endif
     int kbinput;
-    int meta_key;
+    bool meta_key;
 
     /* If we're justifying the entire file, start at the beginning. */
     if (full_justify)
@@ -2620,26 +2567,10 @@ void do_justify(bool full_justify)
 
     /* Now get a keystroke and see if it's unjustify; if not, unget the
      * keystroke and return. */
-    kbinput = get_kbinput(edit, &meta_key);
+    kbinput = get_edit_input(&meta_key, FALSE);
 
-#ifndef DISABLE_MOUSE
-    /* If it was a mouse click, parse it with do_mouse() and it might
-     * become the unjustify key.  Else give it back to the input
-     * stream. */
-    if (kbinput == KEY_MOUSE) {
-	do_mouse();
-	kbinput = get_kbinput(edit, &meta_key);
-    }
-#endif
-
-    if (meta_key || (kbinput != NANO_UNJUSTIFY_KEY &&
-	kbinput != NANO_UNJUSTIFY_FKEY)) {
-	ungetch(kbinput);
-	if (meta_key)
-	    ungetch(NANO_CONTROL_3);
-	placewewant = 0;
-    } else {
-	/* Else restore the justify we just did (ungrateful user!). */
+    if (!meta_key && kbinput == NANO_UNJUSTIFY_KEY) {
+	/* Restore the justify we just did (ungrateful user!). */
 	filestruct *cutbottom = get_cutbottom();
 
 	current = current_save;
@@ -2676,6 +2607,11 @@ void do_justify(bool full_justify)
 	if (!ISSET(MODIFIED))
 	    titlebar(NULL);
 	edit_refresh();
+    } else {
+	placewewant = 0;
+	ungetch(kbinput);
+	if (meta_key)
+	    ungetch(NANO_CONTROL_3);
     }
 
     cutbuffer = cutbuffer_save;
@@ -3007,14 +2943,8 @@ int main(int argc, char **argv)
 #ifndef DISABLE_WRAPJUSTIFY
     bool fill_flag_used = FALSE;	/* Was the fill option used? */
 #endif
-    const shortcut *s;
-    bool keyhandled = FALSE;	/* Have we handled the keystroke yet? */
     int kbinput;		/* Input from keyboard */
-    int meta_key;
-
-#ifndef NANO_SMALL
-    const toggle *t;
-#endif
+    bool meta_key;
 #ifdef HAVE_GETOPT_LONG
     const struct option long_options[] = {
 	{"help", 0, 0, 'h'},
@@ -3510,8 +3440,6 @@ int main(int argc, char **argv)
     edit_refresh();
 
     while (TRUE) {
-	keyhandled = FALSE;
-
 	reset_cursor();
 	if (ISSET(CONSTUPDATE))
 	    do_cursorpos(TRUE);
@@ -3520,115 +3448,16 @@ int main(int argc, char **argv)
 	currshortcut = main_list;
 #endif
 
-	kbinput = get_kbinput(edit, &meta_key);
-#ifdef DEBUG
-	fprintf(stderr, "AHA!  %c (%d)\n", kbinput, kbinput);
-#endif
-	if (meta_key) {
-	    /* Check for the metaval and miscval defs... */
-	    for (s =
-#if !defined(DISABLE_BROWSER) || !defined (DISABLE_HELP) || !defined(DISABLE_MOUSE)
-		currshortcut
-#else
-		main_list
-#endif
-			; s != NULL && !keyhandled; s = s->next) {
-		if ((s->metaval != NANO_NO_KEY && kbinput == s->metaval) ||
-		    (s->miscval != NANO_NO_KEY && kbinput == s->miscval)) {
-		    if (ISSET(VIEW_MODE) && !s->viewok)
-			print_view_warning();
-		    else {
-			if (s->func != do_cut_text)
-			    cutbuffer_reset();
-			s->func();
-		    }
-		    keyhandled = TRUE;
-		}
-#ifndef NANO_SMALL
-		if (!keyhandled) {
-		    /* And for toggle switches */
-		    for (t = toggles; t != NULL; t = t->next) {
-			if (kbinput == t->val) {
-			    cutbuffer_reset();
-			    do_toggle(t);
-			    keyhandled = TRUE;
-		        }
-		    }
-		}
-#endif
-	    }
-#ifdef DEBUG
-	    fprintf(stderr, "I got Alt-%c! (%d)\n", kbinput, kbinput);
-#endif
-	}
+	kbinput = get_edit_input(&meta_key, TRUE);
 
-	/* Look through the main shortcut list to see if we've hit a
-	   shortcut key or function key */
-
-	if (!keyhandled) {
-	    for (s =
-#if !defined(DISABLE_BROWSER) || !defined (DISABLE_HELP) || !defined(DISABLE_MOUSE)
-		currshortcut
-#else
-		main_list
-#endif
-			; s != NULL && !keyhandled; s = s->next) {
-		if ((s->ctrlval != NANO_NO_KEY && kbinput == s->ctrlval) ||
-		    (s->funcval != NANO_NO_KEY && kbinput == s->funcval)) {
-		    if (ISSET(VIEW_MODE) && !s->viewok)
-			print_view_warning();
-		    else {
-			if (s->func != do_cut_text)
-			    cutbuffer_reset();
-			s->func();
-		    }
-		    keyhandled = TRUE;
-		}
-	    }
-	}
-
-	if (!keyhandled)
-	    cutbuffer_reset();
-
-	/* Don't even think about changing this string */
-	if (kbinput == NANO_XON_KEY)
-	    statusbar(_("XON ignored, mumble mumble."));
-	if (kbinput == NANO_XOFF_KEY)
-	    statusbar(_("XOFF ignored, mumble mumble."));
-	if (kbinput == NANO_XON_KEY || kbinput == NANO_XOFF_KEY)
-	    keyhandled = TRUE;
-
-	/* Catch ^Z by hand when triggered also */
-	if (kbinput == NANO_SUSPEND_KEY) {
-	    if (ISSET(SUSPEND))
-		do_suspend(0);
-	    keyhandled = TRUE;
-	}
-
-	/* Last gasp, stuff that's not in the main lists */
-	if (!keyhandled) {
-	    switch (kbinput) {
-#ifndef DISABLE_MOUSE
-		case KEY_MOUSE:
-		    do_mouse();
-		    break;
-#endif
-		case NANO_CONTROL_3:	/* Ctrl-[ (Esc), which should
-					 * have been handled before we
-					 * got here */
-		case NANO_CONTROL_5:	/* Ctrl-] */
-		    break;
-		default:
-#ifdef DEBUG
-		    fprintf(stderr, "I got %c (%d)!\n", kbinput, kbinput);
-#endif
-		    /* We no longer stop unhandled sequences so that
-		       people with odd character sets can type... */
-		    if (ISSET(VIEW_MODE))
-			print_view_warning();
-		    else
-			do_char((char)kbinput);
-	    }
+	/* Last gasp, stuff that's not in the main lists. */
+	if (kbinput != ERR && !is_cntrl_char(kbinput)) {
+	    /* Don't stop unhandled sequences, so that people with odd
+	     * character sets can type. */
+	    if (ISSET(VIEW_MODE))
+		print_view_warning();
+	    else
+		do_char(kbinput);
 	}
     }
     assert(FALSE);
