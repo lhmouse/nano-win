@@ -35,6 +35,13 @@ replace" and "go to line number".
 .B \+\fILINE\fP
 Places cursor at \fILINE\fP on startup.
 .TP
+.B \-A (\-\-smarthome)
+Make the Home key smarter.  When Home is pressed anywhere but at the
+very beginning of non-whitespace characters on a line, the cursor will
+jump to that beginning (either forwards or backwards).  If the cursor is
+already at that position, it will jump to the true beginning of the
+line.
+.TP
 .B \-B (\-\-backup)
 When saving a file, back up the previous version of it to the current
 filename suffixed with a ~.

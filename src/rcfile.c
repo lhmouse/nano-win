@@ -80,6 +80,7 @@ const static rcoption rcopts[] = {
     {"regexp", USE_REGEXP},
 #endif
 #ifndef NANO_SMALL
+    {"smarthome", SMART_HOME},
     {"smooth", SMOOTHSCROLL},
 #endif
 #ifndef DISABLE_SPELLER

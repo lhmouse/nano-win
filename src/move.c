@@ -23,14 +23,32 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include <assert.h>
 #include "proto.h"
 #include "nano.h"
 
 int do_home(void)
 {
-    current_x = 0;
-    placewewant = 0;
+#ifndef NANO_SMALL
+    if (ISSET(SMART_HOME)) {
+	int old_current_x = current_x;
+
+	for (current_x = 0; isblank(current->data[current_x]) &&
+		current->data[current_x] != '\0'; current_x++)
+	    ;
+
+	if (current_x == old_current_x || current->data[current_x] == '\0')
+	    current_x = 0;
+
+	placewewant = xplustabs();
+    } else {
+#endif
+	current_x = 0;
+	placewewant = 0;
+#ifndef NANO_SMALL
+    }
+#endif
     check_statblank();
     update_line(current, current_x);
     return 1;

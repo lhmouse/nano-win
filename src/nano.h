@@ -278,6 +278,7 @@ typedef struct historyheadtype {
 #define HISTORY_CHANGED		(1<<27)
 #define HISTORYLOG		(1<<28)
 #define RESTRICTED		(1<<29)
+#define SMART_HOME		(1<<30)
 
 /* Control key sequences, changing these would be very very bad. */
 #define NANO_CONTROL_SPACE 0
@@ -446,6 +447,7 @@ typedef struct historyheadtype {
 #define TOGGLE_NOCONVERT_KEY	NANO_ALT_N
 #define TOGGLE_BACKUP_KEY	NANO_ALT_B
 #define TOGGLE_SYNTAX_KEY	NANO_ALT_Y
+#define TOGGLE_SMARTHOME_KEY	NANO_ALT_H
 #endif /* !NANO_SMALL */
 
 #define MAIN_VISIBLE 12

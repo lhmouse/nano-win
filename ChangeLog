@@ -53,6 +53,16 @@ CVS code -
 	- Wrap the long jump code in NANO_SMALL #ifdefs, since we only
 	  use it if we're resizing the window, which is disabled when
 	  NANO_SMALL is defined. (DLR)
+	- Add smart home key option, accessible via -A/--smarthome on
+	  the command line, "set smarthome" in the rcfile, and the
+	  Meta-H toggle in the edit window.  Smart home works as
+	  follows: When Home is pressed anywhere but at the very
+	  beginning of non-whitespace characters on a line, the cursor
+	  will jump to that beginning (either forwards or backwards).
+	  If the cursor is already at that position, it will jump to the
+	  true beginning of the line.  This option is disabled in tiny
+	  mode.  Changes to do_home(), nanogetstr(), etc. (DLR;
+	  suggested by Stephan T. Lavavej)
 - files.c:
   add_open_file()
 	- Rearrange the NANO_SMALL #ifdef so that the code to set the
@@ -231,6 +241,7 @@ CVS code -
 - nano.1:
 	- Document restricted mode. (IO ERROR)  DLR: Add minor
 	  modifications to account for the above changes.
+	- Document the smart home key option. (DLR)
 - nano.texi:
 	- Fix toggle inaccuracies: Meta-L now toggles line wrapping, and
 	  Meta-< and Meta-> aren't toggles. (DLR)
@@ -239,9 +250,11 @@ CVS code -
 	- Fix version number inaccuracies: Search/replace history and
 	  sorting/uniqueness filtering for the internal spell chacker
 	  were added in nano 1.1.99pre1. (DLR)
+	- Document the smart home key option. (DLR)
 - nanorc.sample:
 	- Add missing mouse entry, and update the nanorc sample regexes
 	  to account for the backupdir and mouse options. (DLR)
+	- Add smarthome description. (DLR)
 - README.CVS:
 	- Increase the minimum required autoconf version to 2.54, and
 	  change the recommended automake version 1.7 to the minimum

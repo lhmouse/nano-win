@@ -633,6 +633,7 @@ void usage(void)
     print1opt("-h, -?", "--help", _("Show this message"));
     print1opt(_("+LINE"), "", _("Start at line number LINE"));
 #ifndef NANO_SMALL
+    print1opt("-A", "--smarthome", _("Enable smart home key"));
     print1opt("-B", "--backup", _("Backup existing files on save"));
     print1opt("-D", "--dos", _("Write file in DOS format"));
     print1opt("-E", "--backupdir=[dir]", _("Directory for writing backup files"));
@@ -3057,6 +3058,7 @@ int main(int argc, char *argv[])
 	{"nohelp", 0, 0, 'x'},
 	{"suspend", 0, 0, 'z'},
 #ifndef NANO_SMALL
+	{"smarthome", 0, 0, 'A'},
 	{"backup", 0, 0, 'B'},
 	{"dos", 0, 0, 'D'},
 	{"backupdir", 1, 0, 'E'},
@@ -3085,11 +3087,11 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "h?BDE:FHIMNQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "h?ABDE:FHIMNQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz",
 				 long_options, NULL)) != -1) {
 #else
     while ((optchr =
-	    getopt(argc, argv, "h?BDE:FHIMNQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz")) != -1) {
+	    getopt(argc, argv, "h?ABDE:FHIMNQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz")) != -1) {
 #endif
 
 	switch (optchr) {
@@ -3103,6 +3105,9 @@ int main(int argc, char *argv[])
 	    /* Pico compatibility flags */
 	    break;
 #ifndef NANO_SMALL
+	case 'A':
+	    SET(SMART_HOME);
+	    break;
 	case 'B':
 	    SET(BACKUP_FILE);
 	    break;

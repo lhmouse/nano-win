@@ -1332,7 +1332,18 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    break;
 #endif
 	case NANO_HOME_KEY:
-	    x = 0;
+#ifndef NANO_SMALL
+	    if (ISSET(SMART_HOME)) {
+		int old_x = x;
+
+		for (x = 0; isblank(answer[x]) && x < xend; x++)
+		    ;
+
+		if (x == old_x || x == xend)
+		    x = 0;
+	    } else
+#endif
+		x = 0;
 	    break;
 	case NANO_END_KEY:
 	    x = xend;

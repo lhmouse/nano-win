@@ -107,6 +107,13 @@ Email bug reports to @email{nano@@nano-editor.org}.
 
 @table @code
 
+@item -A, --smarthome
+Make the Home key smarter.  When Home is pressed anywhere but at the
+very beginning of non-whitespace characters on a line, the cursor will
+jump to that beginning (either forwards or backwards).  If the cursor is
+already at that position, it will jump to the true beginning of the
+line.
+
 @item -B, --backup
 When saving a file, back up the previous version of it to the current
 filename suffixed with a ~.
@@ -345,6 +352,9 @@ toggles the -D (@code{--dos}) command line flag.
 
 @item Multiple Files Toggle (Meta-F)
 toggles the -F (@code{--multibuffer}) command line flag.
+
+@item Backup File Toggle (Meta-H)
+toggles the -A (@code{--smarthome}) command line flag.
 
 @item AutoIndent Toggle (Meta-I)
 toggles the -i (@code{--autoindent}) command line flag.

@@ -231,7 +231,7 @@ void toggle_init(void)
     char *toggle_const_msg, *toggle_autoindent_msg, *toggle_suspend_msg,
 	*toggle_nohelp_msg, *toggle_cuttoend_msg,
 	*toggle_noconvert_msg, *toggle_dos_msg, *toggle_mac_msg,
-	*toggle_backup_msg, *toggle_smooth_msg;
+	*toggle_backup_msg, *toggle_smooth_msg, *toggle_smarthome_msg;
 #ifndef DISABLE_MOUSE
     char *toggle_mouse_msg;
 #endif
@@ -263,6 +263,7 @@ void toggle_init(void)
     toggle_mac_msg = _("Writing file in Mac format");
     toggle_backup_msg = _("Backing up file");
     toggle_smooth_msg = _("Smooth scrolling");
+    toggle_smarthome_msg = _("Smart home key");
 #ifdef ENABLE_COLOR
     toggle_syntax_msg = _("Color syntax highlighting");
 #endif
@@ -296,6 +297,7 @@ void toggle_init(void)
 	toggle_init_one(TOGGLE_BACKUP_KEY, toggle_backup_msg, BACKUP_FILE);
     }
     toggle_init_one(TOGGLE_SMOOTH_KEY, toggle_smooth_msg, SMOOTHSCROLL);
+    toggle_init_one(TOGGLE_SMARTHOME_KEY, toggle_smarthome_msg, SMART_HOME);
 #ifdef ENABLE_COLOR
     toggle_init_one(TOGGLE_SYNTAX_KEY, toggle_syntax_msg, COLOR_SYNTAX);
 #endif
