@@ -149,7 +149,7 @@ int do_cut_text(void)
 #endif
     }
 #ifndef NANO_SMALL
-    if (ISSET(CUT_TO_END)) {
+    if (ISSET(CUT_TO_END) && !ISSET(MARK_ISSET)) {
 	SET(MARK_ISSET);
 	mark_beginbuf = current;
 	mark_beginx = strlen(current->data);

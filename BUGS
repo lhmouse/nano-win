@@ -32,6 +32,7 @@
   is made to the buffer, and a write is attempted, nano will not give you
   a dialog about not being able to write the file, and it will not let the
   user exit (29, discovered by Joshua Jensen) [FIXED]
+- Using nano -k, marked text is not cut properly. (31) [FIXED]
 
 ** Open BUGS **
 
@@ -49,4 +50,4 @@
 - totsize becomes incorrect after word-wrapping (25)
 - In search/replace code there is too much refreshing in bottomwin (26)
 - In replace, there is no way to accept the default replace string. (27)
-
+- Using nano -t, user can not exit until a filename is given via ^O. (30)
