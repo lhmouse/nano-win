@@ -38,6 +38,8 @@ CVS code -
 	  lines aren't lined up since the menu width changed though,
 	  this breakage depends on whether the new widths will be kept
 	  or not (FEEDBACK!!)
+	- Change k based on currslen to allow the new widths in
+	  bottombars().
   do_wrap()
 	- Fixes for Pico incompatibility in cases 2b and 2c.  
 	  (David Lawrence Ramsey).

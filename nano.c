@@ -1771,7 +1771,13 @@ void do_mouse(void)
 	update_cursor();
 	edit_refresh();
     } else if (wenclose(bottomwin, mevent.y, mevent.x) && !ISSET(NO_HELP)) {
-	int k = COLS / 6, val = 0;
+
+	int k, val = 0;
+
+	if (currslen < 2)
+	    k = COLS / 6;
+	else 
+	    k = COLS / ((currslen + (currslen %2)) / 2);
 
 	/* Determine what shortcut list was clicked */
 	mevent.y -= (editwinrows + 3);
