@@ -8,11 +8,11 @@ To succesfully compile GNU nano from CVS, you'll need the
 following packages:
 
 - autoconf (version >= 2.52)
-- automake (version 1.4-pl5 recommended)
-- autoheader
+- automake (version >= 1.5-pl5, 1.6.x recommended)
 - gettext (version 0.10.40, >= 0.11 recommended)
 - texinfo
 - cvs
+- glib (if your system doesn't have snprintf() and/or vsnprintf())
 - make, gcc and the normal development libraries (ncurses, etc)
 These should be available on your GNU mirror.
 
