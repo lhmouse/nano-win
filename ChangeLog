@@ -35,6 +35,11 @@ CVS code -
 	  file if uncutting leaves the cursor on the current one.  This
 	  behavior appears to be a bug, as inserting a file in the same
 	  manner doesn't add an extra magicline. (DLR)
+- files.c:
+  get_full_path()
+	- Remove unneeded NANO_SMALL #ifdef, so that it's included
+	  whenever its prototype is, and so it can compile when
+	  DISABLE_OPERATINGDIR isn't defined and NANO_SMALL is. (DLR)
 - global.c:
   shortcut_init()
 	- Fix misplaced #endif keeping the "Full Justify" shortcut in

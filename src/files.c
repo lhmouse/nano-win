@@ -959,7 +959,7 @@ bool close_open_file(void)
 }
 #endif /* ENABLE_MULTIBUFFER */
 
-#if !defined(DISABLE_SPELLER) || !defined(DISABLE_OPERATINGDIR) || !defined(NANO_SMALL)
+#if !defined(DISABLE_SPELLER) || !defined(DISABLE_OPERATINGDIR)
 /*
  * When passed "[relative path]" or "[relative path][filename]" in
  * origpath, return "[full path]" or "[full path][filename]" on success,
