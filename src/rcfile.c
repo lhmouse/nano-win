@@ -253,7 +253,8 @@ int nregcomp(regex_t *preg, const char *regex, int eflags)
 	rcfile_error(N_("Bad regex \"%s\": %s"), regex, str);
 	free(str);
     }
-    return rc != 0;
+
+    return (rc != 0);
 }
 
 void parse_syntax(char *ptr)
@@ -653,6 +654,7 @@ void do_rcfile(void)
 
 #ifdef SYSCONFDIR
     assert(sizeof(SYSCONFDIR) == strlen(SYSCONFDIR) + 1);
+
     nanorc = SYSCONFDIR "/nanorc";
     /* Try to open system nanorc */
     rcstream = fopen(nanorc, "r");
@@ -697,6 +699,7 @@ void do_rcfile(void)
 	}
 	free(nanorcf);
     }
+
     lineno = 0;
 
 #ifdef ENABLE_COLOR
