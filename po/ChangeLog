@@ -1,3 +1,11 @@
+2004-12-01  Jordi Mallach  <jordi@gnu.org>
+
+	* ca.po: Updated Catalan translation.
+	* nb: Updated Norwegian bokmål translation by
+	Geir Helland.
+	* fr.po: Updated French translation by
+	Jean-Philippe Guérard.
+
 2004-11-18  Jordi Mallach  <jordi@gnu.org>
 
 	* fr.po: Updated French translation by
@@ -15,7 +23,7 @@
 
 2004-08-31  Jordi Mallach  <jordi@gnu.org>
 
-	* ca.po: Updated Catalan translation by
+	* es.po: Updated Spanish translation by
 	Ricardo Javier Cárdenes Medina.
 
 2004-08-31  Jordi Mallach  <jordi@gnu.org>
