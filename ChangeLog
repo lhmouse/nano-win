@@ -1,5 +1,9 @@
 CVS code -
-search.c:
+- files.c:
+  do_writeout()
+	- Prompt the user if we're trying to save an existing file under
+	  a different name. (DLR; suggested by Jean-Philippe Guérard)
+- search.c:
   do_replace_loop()
 	- Fix potential infinite loop when doing a forward regex replace
 	  of "$". (DLR; found by Mike Frysinger)

@@ -1834,12 +1834,15 @@ int do_writeout(const char *path, int exiting, int append)
 	if (append == 0 && strcmp(answer, filename)) {
 	    struct stat st;
 
-	    if (!stat(answer, &st)) {
+	    if (!stat(answer, &st))
 		i = do_yesno(0, 0, _("File exists, OVERWRITE ?"));
+	    else if (filename[0] != '\0')
+		i = do_yesno(0, 0, _("Save file under DIFFERENT NAME ?"));
+	    else
+		i = 1;
 
-		if (i == 0 || i == -1)
-		    continue;
-	    }
+	    if (i == 0 || i == -1)
+		continue;
 	}
 
 #ifndef NANO_SMALL
