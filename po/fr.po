@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.9\n"
-"POT-Creation-Date: 2000-07-07 21:26-0400\n"
+"POT-Creation-Date: 2000-07-08 19:47-0400\n"
 "PO-Revision-Date: 2000-03-24 01:32+0100\n"
 "Last-Translator: Pierre Tane <tanep@bigfoot.com>\n"
 "Language-Team: French <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr ""
 msgid "Read %d lines"
 msgstr "%d lignes lues"
 
-#: files.c:215 search.c:163 search.c:181
+#: files.c:215 search.c:166 search.c:184
 #, c-format
 msgid "\"%s\" not found"
 msgstr "\"%s\" non trouvé"
@@ -674,73 +674,78 @@ msgstr "J'ai reçu Alt-%c! (%d)\n"
 
 #: search.c:71
 #, fuzzy, c-format
-msgid "Case Sensitive Regexp Search%s"
-msgstr "Recherche sensible ) la casse%s"
+msgid "Case Sensitive Regexp Search%s%s"
+msgstr "Recherche sensible ) la casse%s%s"
 
 #: search.c:73
-#, c-format
-msgid "Regexp Search%s"
-msgstr ""
+#, fuzzy, c-format
+msgid "Regexp Search%s%s"
+msgstr "Recherche sensible ) la casse%s%s"
 
 #: search.c:76
-#, c-format
-msgid "Case Sensitive Search%s"
-msgstr "Recherche sensible ) la casse%s"
+#, fuzzy, c-format
+msgid "Case Sensitive Search%s%s"
+msgstr "Recherche sensible ) la casse%s%s"
 
 #: search.c:78
 #, c-format
-msgid "Search%s"
+msgid "Search%s%s"
 msgstr ""
 
-#: search.c:86
+#: search.c:81
+#, fuzzy
+msgid " (to replace)"
+msgstr " (rempacer par)"
+
+#: search.c:89
 msgid "Search Cancelled"
 msgstr "Recherche annulée"
 
-#: search.c:177
+#: search.c:180
 msgid "Search Wrapped"
 msgstr "La recherche a bouclé"
 
-#: search.c:232
+#: search.c:235
 #, c-format
 msgid "Replaced %d occurences"
 msgstr "%d occurences remplacées"
 
-#: search.c:234
+#: search.c:237
 msgid "Replaced 1 occurence"
 msgstr "1 occurence remplacée"
 
-#: search.c:373 search.c:395 search.c:418
+#: search.c:376 search.c:398 search.c:421
 msgid "Replace Cancelled"
 msgstr "Remplacement annulé"
 
-#: search.c:391
+#: search.c:394
 #, c-format
 msgid "Replace with [%s]"
 msgstr "Remplacer par [%s]"
 
 #. last_search is empty
-#: search.c:416
+#: search.c:419
 msgid "Replace with"
 msgstr "Rempacer par"
 
-#: search.c:457
+#: search.c:460
 msgid "Replace this instance?"
 msgstr "Remplacer cette occurence?"
 
 #. Ask for it
-#: search.c:508
+#: search.c:511
 msgid "Enter line number"
 msgstr "Entrer le numéro de ligne"
 
-#: search.c:510
+#: search.c:513
 msgid "Aborted"
 msgstr "Annulé"
 
-#: search.c:530
+#: search.c:533
 msgid "Come on, be reasonable"
 msgstr "Allez, soyez raisonnable"
 
-#: search.c:535
+#: search.c:538
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr "Seulement %d lignes sont disponibles, saut jusqu'à la dernière ligne"
@@ -814,10 +819,6 @@ msgstr "Envoi du cutbuffer sur stderr...\n"
 #: winio.c:1264
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Envoi d'un buffer sur stderr...\n"
-
-#, fuzzy
-#~ msgid "To Replace"
-#~ msgstr "Rempacer par"
 
 #~ msgid " Y"
 #~ msgstr " O"

@@ -38,3 +38,4 @@
   implicitly when the "Magic Line" returns, but it is noted here for
   documentation's sake. (24) [FIXED]
 - totsize becomes incorrect after word-wrapping (25)
+- In search/replace code there is too much refreshing in bottomwin (26)

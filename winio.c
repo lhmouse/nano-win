@@ -942,8 +942,8 @@ int statusq(shortcut s[], int slen, char *def, char *msg, ...)
 
     va_start(ap, msg);
     vsnprintf(foo, 132, msg, ap);
-    strncat(foo, ": ", 132);
     va_end(ap);
+    strncat(foo, ": ", 132);
 
     wattron(bottomwin, A_REVERSE);
     ret = nanogetstr(foo, def, s, slen, (strlen(foo) + 3));

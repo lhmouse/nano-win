@@ -2,6 +2,13 @@ Current CVS:
 - nano.c:
   main():
 	- TABSIZE now set before first call to edit_refresh (Bill Soudan)
+- search.c:
+  search_init():
+	- Added " (to replace)" statement to end of search string if 
+	  we are doing a replace.  Manually converted all the translations
+	  from '%s' to '%s%s' to ensure they still work with the new code.
+	  Also put in the translation for " (replace)" in the .po's.  Hope
+	  I didn't step on your toes doing this Jordi. (Chris)
 
 nano-0.9.12 - 07/07/2000
 - all:

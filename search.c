@@ -59,7 +59,7 @@ int search_init(int replacing)
 {
     int i;
     char buf[BUFSIZ];
-    char *prompt;
+    char *prompt, *reprompt = "";
  
     if (last_search[0]) {
 	snprintf(buf, BUFSIZ, " [%s]", last_search);
@@ -68,18 +68,21 @@ int search_init(int replacing)
     }
 
     if (ISSET(USE_REGEXP) && ISSET(CASE_SENSITIVE))
-        prompt = _("Case Sensitive Regexp Search%s");
+        prompt = _("Case Sensitive Regexp Search%s%s");
     else if (ISSET(USE_REGEXP))
-        prompt = _("Regexp Search%s");
+        prompt = _("Regexp Search%s%s");
     else 
     if (ISSET(CASE_SENSITIVE))
-        prompt = _("Case Sensitive Search%s");
+        prompt = _("Case Sensitive Search%s%s");
     else
-        prompt = _("Search%s");            
-        
+        prompt = _("Search%s%s");
+
+    if (replacing)
+	reprompt = _(" (to replace)");
+	        
     i = statusq(replacing ? replace_list : whereis_list,
 		replacing ? REPLACE_LIST_LEN : WHEREIS_LIST_LEN, "",
-		prompt, buf);
+		prompt, reprompt, buf);
 
     /* Cancel any search, or just return with no previous search */
     if ((i == -1) || (i < 0 && !last_search[0])) {

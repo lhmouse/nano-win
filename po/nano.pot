@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-07-07 21:26-0400\n"
+"POT-Creation-Date: 2000-07-08 19:47-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgstr ""
 msgid "Read %d lines"
 msgstr ""
 
-#: files.c:215 search.c:163 search.c:181
+#: files.c:215 search.c:166 search.c:184
 #, c-format
 msgid "\"%s\" not found"
 msgstr ""
@@ -653,73 +653,77 @@ msgstr ""
 
 #: search.c:71
 #, c-format
-msgid "Case Sensitive Regexp Search%s"
+msgid "Case Sensitive Regexp Search%s%s"
 msgstr ""
 
 #: search.c:73
 #, c-format
-msgid "Regexp Search%s"
+msgid "Regexp Search%s%s"
 msgstr ""
 
 #: search.c:76
 #, c-format
-msgid "Case Sensitive Search%s"
+msgid "Case Sensitive Search%s%s"
 msgstr ""
 
 #: search.c:78
 #, c-format
-msgid "Search%s"
+msgid "Search%s%s"
 msgstr ""
 
-#: search.c:86
+#: search.c:81
+msgid " (to replace)"
+msgstr ""
+
+#: search.c:89
 msgid "Search Cancelled"
 msgstr ""
 
-#: search.c:177
+#: search.c:180
 msgid "Search Wrapped"
 msgstr ""
 
-#: search.c:232
+#: search.c:235
 #, c-format
 msgid "Replaced %d occurences"
 msgstr ""
 
-#: search.c:234
+#: search.c:237
 msgid "Replaced 1 occurence"
 msgstr ""
 
-#: search.c:373 search.c:395 search.c:418
+#: search.c:376 search.c:398 search.c:421
 msgid "Replace Cancelled"
 msgstr ""
 
-#: search.c:391
+#: search.c:394
 #, c-format
 msgid "Replace with [%s]"
 msgstr ""
 
 #. last_search is empty
-#: search.c:416
+#: search.c:419
 msgid "Replace with"
 msgstr ""
 
-#: search.c:457
+#: search.c:460
 msgid "Replace this instance?"
 msgstr ""
 
 #. Ask for it
-#: search.c:508
+#: search.c:511
 msgid "Enter line number"
 msgstr ""
 
-#: search.c:510
+#: search.c:513
 msgid "Aborted"
 msgstr ""
 
-#: search.c:530
+#: search.c:533
 msgid "Come on, be reasonable"
 msgstr ""
 
-#: search.c:535
+#: search.c:538
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr ""
