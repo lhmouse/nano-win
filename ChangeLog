@@ -229,6 +229,8 @@ nano-1.1.0 - 07/15/2001
 - faq.html:
 	- Brought the FAQ up to date, many little changes (Jordi).
 	- Added sections 3.7 and 3.8 for the multibuffer and nanorc support.
+	- Notes about the Free Translation Project.
+	- Debian additions.
 - files.c:
   do_browser()
 	- Minor fixes to the processing of SELECT function (Rocco)
