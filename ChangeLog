@@ -11,6 +11,8 @@ CVS code
 	  (David Benbennick).
 	- Change ngettext macro to P_(), to avoid a clash with the reserved C
 	  __ identifier (Jordi).
+	- Memory leak fixes for files.c:do_insertfile(),do_browser(),
+	  nano.c:do_spell(), and search.c:do_replace() (David Benbennick).
 - files.c:
   cwd_tab_completion()
 	- Memory leak fix (David Benbennick).

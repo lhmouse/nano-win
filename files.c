@@ -503,9 +503,10 @@ int do_insertfile(int loading_file)
 	if (i == NANO_TOFILES_KEY) {
 	    char *tmp = do_browse_from(answer);
 
-	    if (tmp != NULL)
+	    if (tmp != NULL) {
+		free(answer);
 		answer = tmp;
-	    else
+	    } else
 		goto start_again;
 	}
 #endif
@@ -2718,6 +2719,8 @@ char *do_browser(const char *inpath)
 	    }
 
 	    /* Start over again with the new path value */
+	    free_charptrarray(filelist, numents);
+	    free(foo);
 	    free(path);
 	    path = new_path;
 	    return do_browser(path);

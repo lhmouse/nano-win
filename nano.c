@@ -1976,7 +1976,7 @@ int do_spell(void)
     nano_disabled_msg();
     return TRUE;
 #else
-    char *temp, *spell_msg = _("Generic error");
+    char *temp, *spell_msg;
 
     if ((temp = safe_tempnam(0, "nano.")) == NULL) {
 	statusbar(_("Could not create a temporary filename: %s"),
@@ -2001,17 +2001,15 @@ int do_spell(void)
     else
 	spell_msg = do_int_speller(temp);
     remove(temp);
+    free(temp);
 
-    if (spell_msg == NULL) {
-	statusbar(_("Finished checking spelling"));
-	return 1;
-    } else {
+    if (spell_msg != NULL) {
 	statusbar(_("Spell checking failed: %s"), spell_msg);
 	return 0;
     }
 
-    free(temp);
-
+    statusbar(_("Finished checking spelling"));
+    return 1;
 #endif
 }
 

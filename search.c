@@ -763,6 +763,7 @@ int do_replace(void)
     else
 	not_found_msg(prevanswer);
 
+    free(prevanswer);
     replace_abort();
     return 1;
 }
