@@ -259,8 +259,8 @@ bool is_whole_word(int curr_pos, const char *datastr, const char
 
     /* Start of line or previous character is not a letter and end of
      * line or next character is not a letter. */
-    return (curr_pos < 1 || !isalpha((int)datastr[curr_pos - 1])) &&
-	(sln == strlen(datastr) || !isalpha((int)datastr[sln]));
+    return (curr_pos < 1 || !isalpha(datastr[curr_pos - 1])) &&
+	(sln == strlen(datastr) || !isalpha(datastr[sln]));
 }
 
 /* Look for needle, starting at current, column current_x.  If

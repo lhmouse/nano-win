@@ -491,8 +491,8 @@ void help_init(void)
     if (currshortcut == main_list) {
 	for (t = toggles; t != NULL; t = t->next) {
 	    assert(t->desc != NULL);
-	    ptr += sprintf(ptr, "M-%c\t\t\t%s %s\n", toupper(t->val), t->desc,
-				_("enable/disable"));
+	    ptr += sprintf(ptr, "M-%c\t\t\t%s %s\n", toupper(t->val),
+		t->desc, _("enable/disable"));
 	}
     }
 #endif /* !NANO_SMALL */
@@ -1133,12 +1133,12 @@ void do_next_word(void)
 
     /* Skip letters in this word first. */
     while (current->data[current_x] != '\0' &&
-	isalnum((int)current->data[current_x]))
+	isalnum(current->data[current_x]))
 	current_x++;
 
     for (; current != NULL; current = current->next) {
 	while (current->data[current_x] != '\0' &&
-		!isalnum((int)current->data[current_x]))
+		!isalnum(current->data[current_x]))
 	    current_x++;
 
 	if (current->data[current_x] != '\0')
@@ -1163,11 +1163,11 @@ void do_prev_word(void)
     assert(current != NULL && current->data != NULL);
 
     /* Skip letters in this word first. */
-    while (current_x >= 0 && isalnum((int)current->data[current_x]))
+    while (current_x >= 0 && isalnum(current->data[current_x]))
 	current_x--;
 
     for (; current != NULL; current = current->prev) {
-	while (current_x >= 0 && !isalnum((int)current->data[current_x]))
+	while (current_x >= 0 && !isalnum(current->data[current_x]))
 	    current_x--;
 
 	if (current_x >= 0)
@@ -1181,7 +1181,7 @@ void do_prev_word(void)
 	current = fileage;
 	current_x = 0;
     } else {
-	while (current_x > 0 && isalnum((int)current->data[current_x - 1]))
+	while (current_x > 0 && isalnum(current->data[current_x - 1]))
 	    current_x--;
     }
 
