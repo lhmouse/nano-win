@@ -109,6 +109,11 @@ CVS code -
   do_writeout_void()
 	- Call display_main_list(), for consistency with
 	  do_insertfile_void(). (DLR)
+  write_file()
+	- If we've tried to write to an unwritable file and we're not
+	  prepending, tempname is NULL when it's passed to unlink().
+	  This can cause problems if unlink() can't handle NULL, so
+	  don't call it in that case. (David Benbennick)
   write_marked()
 	- Remove check for MARK_ISSET's not being set. (DLR)
   open_prevfile(), open_nextfile()

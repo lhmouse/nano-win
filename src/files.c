@@ -1602,7 +1602,9 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
     /* First, just give up if we couldn't even open the file. */
     if (fd == -1) {
 	statusbar(_("Error writing %s: %s"), realname, strerror(errno));
-	unlink(tempname);
+	/* tempname has been set only if we're prepending. */
+	if (tempname != NULL)
+	    unlink(tempname);
 	goto cleanup_and_exit;
     }
 
