@@ -1,6 +1,10 @@
 Current CVS:
 - Implemented Pico's -k mode.  New flag CUT_TO_END, option (-k, --cut), 
   affects do_cut_text in cut.c.
+- move.c
+  page_down()
+	- Don't edit_refresh() if the bottom of the file is in the edit
+	  buffer. (Adam)
 - nano.c:
   main():
 	- TABSIZE now set before first call to edit_refresh (Bill Soudan)
@@ -15,6 +19,8 @@ Current CVS:
 	- Removed call to search_abort()/replace_abort() before call to
 	  the opposite function.
 	- Fixed bug #28.
+  findnextstr()
+	- do not center string found if it is currently visable. (Adam)
 - fr.po:
 	- French update by Clement Laforet <clem_laf@wanadoo.fr>.
 
