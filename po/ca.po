@@ -859,10 +859,8 @@ msgstr "Recerca Recomençada"
 msgid "Replaced %d occurences"
 msgstr "%d ocurrències reemplaçadas"
 
-@@@@@@@
-
 #: search.c:345
-msgid "Replaced 1 occurence" # compte! falta una r: "occurrence"
+msgid "Replaced 1 occurence"
 msgstr "1 ocurrència reemplaçada"
 
 #: search.c:483 search.c:587 search.c:603
