@@ -107,7 +107,7 @@ CVS code -
 	- Add more descriptive comments explaining the termios and
 	  curses setup routines, and turn the keypad on before setting
 	  the input mode. (DLR)
-	- Remove stray HAVE_GETOPT_LONG $ifdefs. (DLR)
+	- Remove stray HAVE_GETOPT_LONG #ifdefs. (DLR)
 - nano.h:
 	- Move the NANO_H include guard up before the first #include.
 	  (DLR)
