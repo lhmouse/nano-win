@@ -1069,6 +1069,7 @@ void do_find_bracket(void)
     }
 
     assert(strlen(brackets) % 2 == 0);
+
     wanted_ch = brackets[(strlen(brackets) - 1) - (pos - brackets)];
 
     current_save = current;
@@ -1079,7 +1080,6 @@ void do_find_bracket(void)
 
     /* Apparent near redundancy with regexp_pat[] here is needed.
      * "[][]" works, "[[]]" doesn't. */
-
     if (pos < brackets + (strlen(brackets) / 2)) {
 	/* On a left bracket. */
 	regexp_pat[1] = wanted_ch;
@@ -1093,6 +1093,7 @@ void do_find_bracket(void)
     }
 
     regexp_init(regexp_pat);
+
     /* We constructed regexp_pat to be a valid expression. */
     assert(regexp_compiled);
 
