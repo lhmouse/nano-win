@@ -516,7 +516,7 @@ int get_ascii_kbinput(int kbinput, size_t ascii_digits
 #endif
 	);
 int get_control_kbinput(int kbinput);
-int get_escape_seq_kbinput(int *escape_seq, size_t es_len, bool
+int get_escape_seq_kbinput(const int *escape_seq, size_t es_len, bool
 	*ignore_seq);
 int get_escape_seq_abcd(int kbinput);
 int *get_verbatim_kbinput(WINDOW *win, int first, int *v_kbinput, size_t

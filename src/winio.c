@@ -581,7 +581,7 @@ int get_control_kbinput(int kbinput)
  * ERR and set ignore_seq to TRUE; if it's unrecognized, return ERR and
  * set ignore_seq to FALSE.  Assume that Escape has already been read
  * in. */
-int get_escape_seq_kbinput(int *escape_seq, size_t es_len, bool
+int get_escape_seq_kbinput(const int *escape_seq, size_t es_len, bool
 	*ignore_seq)
 {
     int retval = ERR;

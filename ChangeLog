@@ -190,6 +190,9 @@ CVS code -
 	  new first parameter to the first character of the sequence
 	  instead of putting that character back and reading the entire
 	  sequence afterwards. (DLR)
+  get_escape_seq_kbinput()
+	- Make the escape_seq parameter a const int*, since it's never
+	  modified. (DLR)
   get_verbatim_kbinput()
 	- Add new parameter first.  If first isn't ERR, make it the
 	  first character in the returned sequence instead of reading
