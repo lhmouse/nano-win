@@ -3479,8 +3479,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 
 	if (have_shortcut) {
 	    switch (input) {
-		/* Handle the "universal" statusbar prompt shortcuts,
-		 * setting ran_s_or_t to TRUE to indicate it. */
+		/* Handle the "universal" statusbar prompt shortcuts. */
 		case NANO_XON_KEY:
 		    statusbar(_("XON ignored, mumble mumble."));
 		    break;
