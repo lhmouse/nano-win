@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano-1.0\n"
-"POT-Creation-Date: 2001-02-20 12:36-0500\n"
+"POT-Creation-Date: 2001-03-18 14:03-0500\n"
 "PO-Revision-Date: 2001-02-08 10:09+07:00\n"
 "Last-Translator: Tedi Heriyanto <tedi-h@usa.net>\n"
 "Language-Team: Indonesian <id@li.org>\n"
@@ -32,7 +32,7 @@ msgstr "read_line: tidak di baris pertama dan sebelumnya adalah NULL"
 msgid "Read %d lines"
 msgstr "Membaca %d baris"
 
-#: files.c:221 search.c:188
+#: files.c:221 search.c:193
 #, c-format
 msgid "\"%s\" not found"
 msgstr "\"%s\" tidak ditemukan"
@@ -61,7 +61,7 @@ msgstr "Membaca File"
 msgid "File to insert [from ./] "
 msgstr "File untuk disisipkan [dari ./] "
 
-#: files.c:309 files.c:334 files.c:566 nano.c:1446
+#: files.c:309 files.c:334 files.c:566 nano.c:1502
 msgid "Cancelled"
 msgstr "Dibatalkan"
 
@@ -689,216 +689,216 @@ msgstr "Set Tanda"
 msgid "Mark UNset"
 msgstr "Unset Tanda"
 
-#: nano.c:957
+#: nano.c:1013
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap dipanggil dengan inptr->data=\"%s\"\n"
 
-#: nano.c:1008
+#: nano.c:1064
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data sekarang =\"%s\"\n"
 
-#: nano.c:1060
+#: nano.c:1116
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Setelah, data= \"%s\"\n"
 
-#: nano.c:1162
+#: nano.c:1218
 msgid "Edit a replacement"
 msgstr "Edit pengganti"
 
-#: nano.c:1393
+#: nano.c:1449
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Tidak dapat membuat nama file sementara: %s"
 
-#: nano.c:1399
+#: nano.c:1455
 msgid "Spell checking failed: unable to write temp file!"
 msgstr "Spell checking gagal: tidak dapat menulis file temp!"
 
-#: nano.c:1411
+#: nano.c:1467
 msgid "Finished checking spelling"
 msgstr "Selesai memeriksa ejaan"
 
-#: nano.c:1413
+#: nano.c:1469
 msgid "Spell checking failed"
 msgstr "Spell checking gagal"
 
-#: nano.c:1433
+#: nano.c:1489
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Simpan buffer termodifikasi (JAWAB \"No\" AKAN MENGHAPUS PERUBAHAN) ?"
 
-#: nano.c:1529
+#: nano.c:1585
 msgid "Received SIGHUP"
 msgstr "Menerima SIGHUP"
 
-#: nano.c:1592
+#: nano.c:1648
 msgid "Cannot resize top win"
 msgstr "Tidak dapat menganti ukuran jendela atas"
 
-#: nano.c:1594
+#: nano.c:1650
 msgid "Cannot move top win"
 msgstr "Tidak dapat memindahkan jendela atas"
 
-#: nano.c:1596
+#: nano.c:1652
 msgid "Cannot resize edit win"
 msgstr "Tidak dapat mengganti ukuran jendela edit"
 
-#: nano.c:1598
+#: nano.c:1654
 msgid "Cannot move edit win"
 msgstr "Tidak dapat memindah jendela edit"
 
-#: nano.c:1600
+#: nano.c:1656
 msgid "Cannot resize bottom win"
 msgstr "Tidak dapat mengganti ukuran jendela bawah"
 
-#: nano.c:1602
+#: nano.c:1658
 msgid "Cannot move bottom win"
 msgstr "Tidak dapat memindah jendela bawah"
 
-#: nano.c:1910
+#: nano.c:1966
 msgid "Can now UnJustify!"
 msgstr "Sekarang dapat melakukan UnJustify"
 
-#: nano.c:2008
+#: nano.c:2064
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s enable/disable"
 
-#: nano.c:2023
+#: nano.c:2079
 msgid "enabled"
 msgstr "enabled"
 
-#: nano.c:2024
+#: nano.c:2080
 msgid "disabled"
 msgstr "disabled"
 
-#: nano.c:2076
+#: nano.c:2132
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "Glitch pada NumLock terdeteksi. Keypad akan tidak berfungsi dg tombol "
 "NumLock off"
 
-#: nano.c:2293
+#: nano.c:2349
 msgid "Main: set up windows\n"
 msgstr "Main: menset jendela\n"
 
-#: nano.c:2300
+#: nano.c:2356
 msgid "Main: bottom win\n"
 msgstr "Main: jendela bawah\n"
 
-#: nano.c:2306
+#: nano.c:2362
 msgid "Main: open file\n"
 msgstr "Main: membuka file\n"
 
-#: nano.c:2358
+#: nano.c:2414
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Saya mendapat Alt-O-%c! (%d)\n"
 
-#: nano.c:2385
+#: nano.c:2441
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Saya mendapat Alt-[-1-%c! (%d)\n"
 
-#: nano.c:2418
+#: nano.c:2474
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Saya mendapat Alt-[-2-%c! (%d)\n"
 
-#: nano.c:2460
+#: nano.c:2516
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"
 
-#: nano.c:2486
+#: nano.c:2542
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"
 
-#: search.c:118
+#: search.c:117
 #, c-format
 msgid "Case Sensitive Regexp Search%s%s"
 msgstr "Pencarian case sensitif Regexp %s%s"
 
-#: search.c:120
+#: search.c:119
 #, c-format
 msgid "Regexp Search%s%s"
 msgstr "Pencarian Regexp %s%s"
 
-#: search.c:122
+#: search.c:121
 #, c-format
 msgid "Case Sensitive Search%s%s"
 msgstr "Pencarian secara case sensitif%s%s"
 
-#: search.c:124
+#: search.c:123
 #, c-format
 msgid "Search%s%s"
 msgstr "Pencarian%s%s"
 
-#: search.c:127
+#: search.c:126
 msgid " (to replace)"
 msgstr " (ganti)"
 
-#: search.c:136 search.c:321
+#: search.c:135 search.c:326
 msgid "Search Cancelled"
 msgstr "Pencarian dibatalkan"
 
-#: search.c:194
+#: search.c:199
 #, c-format
 msgid "\"%s...\" not found"
 msgstr "\"%s...\" tidak ditemukan"
 
-#: search.c:243
+#: search.c:248
 msgid "Search Wrapped"
 msgstr "Pancarian diulangi dari awal"
 
-#: search.c:343
+#: search.c:348
 #, fuzzy, c-format
 msgid "Replaced %d occurrences"
 msgstr "%d tempat terganti"
 
-#: search.c:345
+#: search.c:350
 #, fuzzy
 msgid "Replaced 1 occurrence"
 msgstr "Terganti 1 tempat"
 
-#: search.c:483 search.c:587 search.c:603
+#: search.c:488 search.c:592 search.c:608
 msgid "Replace Cancelled"
 msgstr "Penggantian dibatalkan"
 
-#: search.c:533
+#: search.c:538
 msgid "Replace this instance?"
 msgstr "Ganti kata ini?"
 
-#: search.c:545
+#: search.c:550
 msgid "Replace failed: unknown subexpression!"
 msgstr "Replace gagal: subekspresi tidak dikenal!"
 
-#: search.c:628
+#: search.c:633
 #, c-format
 msgid "Replace with [%s]"
 msgstr "Ganti dengan [%s]"
 
-#: search.c:632 search.c:636
+#: search.c:637 search.c:641
 msgid "Replace with"
 msgstr "Ganti dengan"
 
 #. Ask for it
-#: search.c:671
+#: search.c:676
 msgid "Enter line number"
 msgstr "Masukkan nomor baris"
 
-#: search.c:673
+#: search.c:678
 msgid "Aborted"
 msgstr "Dibatalkan"
 
-#: search.c:693
+#: search.c:698
 msgid "Come on, be reasonable"
 msgstr "Ayo, yang masuk akal"
 
-#: search.c:698
+#: search.c:703
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr "Hanya %d baris tersedia, melompat ke baris akhir"

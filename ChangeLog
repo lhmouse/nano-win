@@ -6,8 +6,10 @@ CVS code -
 	  the "new" C++ reserved word, even though there is likely no way
 	  nano will EVER be compilable with a C++ compiler. (suggested by
 	  Rocco Corsi).
-- aclocal.m4
+- aclocal.m4:
 	- Minor patch for intl check (Christian Weisgerber)
+- cs.po:
+	- Czech translation from Vaclav Haisman.
 
 1.0-test prerelease - 03/17/2001
 - nano.c:

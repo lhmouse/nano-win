@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.7\n"
-"POT-Creation-Date: 2001-02-20 12:36-0500\n"
+"POT-Creation-Date: 2001-03-18 14:03-0500\n"
 "PO-Revision-Date: 2000-03-03 04:57+0100\n"
 "Last-Translator: Daniele Medri <madrid@linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "read_line: no estamos en la primera línea y la anterior es NULL"
 msgid "Read %d lines"
 msgstr "Leggi %d linee"
 
-#: files.c:221 search.c:188
+#: files.c:221 search.c:193
 #, c-format
 msgid "\"%s\" not found"
 msgstr "\"%s\" non trovato"
@@ -61,7 +61,7 @@ msgstr "Lettura file"
 msgid "File to insert [from ./] "
 msgstr "File da inserire [da ./] "
 
-#: files.c:309 files.c:334 files.c:566 nano.c:1446
+#: files.c:309 files.c:334 files.c:566 nano.c:1502
 msgid "Cancelled"
 msgstr "Cancellato"
 
@@ -674,217 +674,217 @@ msgstr ""
 msgid "Mark UNset"
 msgstr ""
 
-#: nano.c:957
+#: nano.c:1013
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap chiamata con inptr->data=\"%s\"\n"
 
-#: nano.c:1008
+#: nano.c:1064
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data ora = \"%d\"\n"
 
-#: nano.c:1060
+#: nano.c:1116
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Dopo, data = \"%s\"\n"
 
-#: nano.c:1162
+#: nano.c:1218
 msgid "Edit a replacement"
 msgstr ""
 
-#: nano.c:1393
+#: nano.c:1449
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Impossibile creare un nome file temporaneo: %s"
 
-#: nano.c:1399
+#: nano.c:1455
 msgid "Spell checking failed: unable to write temp file!"
 msgstr ""
 
-#: nano.c:1411
+#: nano.c:1467
 msgid "Finished checking spelling"
 msgstr "Controllo ortografico terminato"
 
-#: nano.c:1413
+#: nano.c:1469
 msgid "Spell checking failed"
 msgstr ""
 
-#: nano.c:1433
+#: nano.c:1489
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 "Salva il buffer modificato (RISPONDENDO \"No\" ANNULLERETE I CAMBIAMENTI "
 "AVVENUTI) ?"
 
-#: nano.c:1529
+#: nano.c:1585
 msgid "Received SIGHUP"
 msgstr ""
 
-#: nano.c:1592
+#: nano.c:1648
 msgid "Cannot resize top win"
 msgstr "Impossibile ridimensionare la finestra superiore"
 
-#: nano.c:1594
+#: nano.c:1650
 msgid "Cannot move top win"
 msgstr "Impossibile spostare la finestra superiore"
 
-#: nano.c:1596
+#: nano.c:1652
 msgid "Cannot resize edit win"
 msgstr "Impossibile ridimensionare la finestra di modifica"
 
-#: nano.c:1598
+#: nano.c:1654
 msgid "Cannot move edit win"
 msgstr "Impossibile spostare finestra di modifica"
 
-#: nano.c:1600
+#: nano.c:1656
 msgid "Cannot resize bottom win"
 msgstr "Impossibile ridimensionare la finestra inferiore"
 
-#: nano.c:1602
+#: nano.c:1658
 msgid "Cannot move bottom win"
 msgstr "Impossibile spostare la finestra inferiore"
 
-#: nano.c:1910
+#: nano.c:1966
 msgid "Can now UnJustify!"
 msgstr ""
 
-#: nano.c:2008
+#: nano.c:2064
 #, c-format
 msgid "%s enable/disable"
 msgstr ""
 
-#: nano.c:2023
+#: nano.c:2079
 msgid "enabled"
 msgstr ""
 
-#: nano.c:2024
+#: nano.c:2080
 msgid "disabled"
 msgstr ""
 
-#: nano.c:2076
+#: nano.c:2132
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 
-#: nano.c:2293
+#: nano.c:2349
 msgid "Main: set up windows\n"
 msgstr "Main: configura finestre\n"
 
-#: nano.c:2300
+#: nano.c:2356
 msgid "Main: bottom win\n"
 msgstr "Main: finestra inferiore\n"
 
-#: nano.c:2306
+#: nano.c:2362
 msgid "Main: open file\n"
 msgstr "Main: apri file\n"
 
-#: nano.c:2358
+#: nano.c:2414
 #, fuzzy, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Premuto Alt-[-%c! (%d)\n"
 
-#: nano.c:2385
+#: nano.c:2441
 #, fuzzy, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Premuto Alt-[-%c! (%d)\n"
 
-#: nano.c:2418
+#: nano.c:2474
 #, fuzzy, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Premuto Alt-[-%c! (%d)\n"
 
-#: nano.c:2460
+#: nano.c:2516
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Premuto Alt-[-%c! (%d)\n"
 
-#: nano.c:2486
+#: nano.c:2542
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Premuto Alt-%c! (%d)\n"
 
-#: search.c:118
+#: search.c:117
 #, fuzzy, c-format
 msgid "Case Sensitive Regexp Search%s%s"
 msgstr "Ricerca case sensitive%s%s"
 
-#: search.c:120
+#: search.c:119
 #, fuzzy, c-format
 msgid "Regexp Search%s%s"
 msgstr "Ricerca%s%s"
 
-#: search.c:122
+#: search.c:121
 #, fuzzy, c-format
 msgid "Case Sensitive Search%s%s"
 msgstr "Ricerca case sensitive%s%s"
 
-#: search.c:124
+#: search.c:123
 #, fuzzy, c-format
 msgid "Search%s%s"
 msgstr "Ricerca%s%s"
 
-#: search.c:127
+#: search.c:126
 #, fuzzy
 msgid " (to replace)"
 msgstr " (sostituisci)"
 
-#: search.c:136 search.c:321
+#: search.c:135 search.c:326
 msgid "Search Cancelled"
 msgstr "Ricerca annullata"
 
-#: search.c:194
+#: search.c:199
 #, fuzzy, c-format
 msgid "\"%s...\" not found"
 msgstr "\"%s\" non trovato"
 
-#: search.c:243
+#: search.c:248
 msgid "Search Wrapped"
 msgstr "Ricerca interrotta"
 
-#: search.c:343
+#: search.c:348
 #, fuzzy, c-format
 msgid "Replaced %d occurrences"
 msgstr "Sostituite %d occorrenze"
 
-#: search.c:345
+#: search.c:350
 #, fuzzy
 msgid "Replaced 1 occurrence"
 msgstr "Sostituita 1 occorrenza"
 
-#: search.c:483 search.c:587 search.c:603
+#: search.c:488 search.c:592 search.c:608
 msgid "Replace Cancelled"
 msgstr "Sostituzione annullata"
 
-#: search.c:533
+#: search.c:538
 msgid "Replace this instance?"
 msgstr "Sostituisci questa istanza?"
 
-#: search.c:545
+#: search.c:550
 msgid "Replace failed: unknown subexpression!"
 msgstr ""
 
-#: search.c:628
+#: search.c:633
 #, c-format
 msgid "Replace with [%s]"
 msgstr "Sostituisci con [%s]"
 
-#: search.c:632 search.c:636
+#: search.c:637 search.c:641
 msgid "Replace with"
 msgstr "Sostituisci con"
 
 #. Ask for it
-#: search.c:671
+#: search.c:676
 msgid "Enter line number"
 msgstr "Inserire numero linea"
 
-#: search.c:673
+#: search.c:678
 msgid "Aborted"
 msgstr "Operazione fallita"
 
-#: search.c:693
+#: search.c:698
 msgid "Come on, be reasonable"
 msgstr "Avanti, sii ragionevole"
 
-#: search.c:698
+#: search.c:703
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr "Solo %d linee disponibili, vai all'ultima"

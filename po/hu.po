@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.99pre2\n"
-"POT-Creation-Date: 2001-02-20 12:36-0500\n"
+"POT-Creation-Date: 2001-03-18 14:03-0500\n"
 "PO-Revision-Date: 2001-02-03 07:47-0000\n"
 "Last-Translator: Szabolcs Horvath <horvaths@penguinpowered.com>\n"
 "Language-Team: Hungarian <magyar@lists.linux.hu>\n"
@@ -32,7 +32,7 @@ msgstr "read_line: ez nem az elsõ sor és a prew értéke NULL"
 msgid "Read %d lines"
 msgstr "%d sort beolvastam"
 
-#: files.c:221 search.c:188
+#: files.c:221 search.c:193
 #, c-format
 msgid "\"%s\" not found"
 msgstr "\"%s\" nem található"
@@ -61,7 +61,7 @@ msgstr "Fájl beolvasása"
 msgid "File to insert [from ./] "
 msgstr "Fájl beszúrása [a ./-ból] "
 
-#: files.c:309 files.c:334 files.c:566 nano.c:1446
+#: files.c:309 files.c:334 files.c:566 nano.c:1502
 msgid "Cancelled"
 msgstr "Megszakítva"
 
@@ -689,218 +689,218 @@ msgstr "Megjelölés kezdete"
 msgid "Mark UNset"
 msgstr "Megjelölés vége"
 
-#: nano.c:957
+#: nano.c:1013
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap az inptr->data-ból lett meghívva (\"%s\")\n"
 
-#: nano.c:1008
+#: nano.c:1064
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data most = \"%s\"\n"
 
-#: nano.c:1060
+#: nano.c:1116
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Ezután az adat ez lett = \"%s\"\n"
 
-#: nano.c:1162
+#: nano.c:1218
 msgid "Edit a replacement"
 msgstr "A helyettesítõ érték módosítása"
 
-#: nano.c:1393
+#: nano.c:1449
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Az ideiglenes fájlt nem tudtam létrehozni: %s"
 
-#: nano.c:1399
+#: nano.c:1455
 msgid "Spell checking failed: unable to write temp file!"
 msgstr ""
 "A helyesírás-ellenõrzés nem sikerült: képtelen vagyok írni a temp fájlt!"
 
-#: nano.c:1411
+#: nano.c:1467
 msgid "Finished checking spelling"
 msgstr "A helyesírás-ellenõrzés befejezése"
 
-#: nano.c:1413
+#: nano.c:1469
 msgid "Spell checking failed"
 msgstr "Helyesírás-ellenõrzés nem sikerült"
 
-#: nano.c:1433
+#: nano.c:1489
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 "A változásokat elmentsem (HA \"NEM\", AKKOR MINDEN MÓDOSÍTÁS ELVESZIK) ?"
 
-#: nano.c:1529
+#: nano.c:1585
 msgid "Received SIGHUP"
 msgstr "Kaptam egy SIGHUPot"
 
-#: nano.c:1592
+#: nano.c:1648
 msgid "Cannot resize top win"
 msgstr "A felsõ ablakot nem tudom átméretezni"
 
-#: nano.c:1594
+#: nano.c:1650
 msgid "Cannot move top win"
 msgstr "A felsõ ablakot nem tudom mozgatni"
 
-#: nano.c:1596
+#: nano.c:1652
 msgid "Cannot resize edit win"
 msgstr "A szerkesztõ ablakot nem tudom átméretezni"
 
-#: nano.c:1598
+#: nano.c:1654
 msgid "Cannot move edit win"
 msgstr "A szerkesztõ ablakot nem tudom mozgatni"
 
-#: nano.c:1600
+#: nano.c:1656
 msgid "Cannot resize bottom win"
 msgstr "Az alsó ablakot nem tudom átméretezni"
 
-#: nano.c:1602
+#: nano.c:1658
 msgid "Cannot move bottom win"
 msgstr "Az alsó ablakot nem tudom mozgatni"
 
-#: nano.c:1910
+#: nano.c:1966
 msgid "Can now UnJustify!"
 msgstr "A sorokat most már tudom nem sorkizárttá tenni"
 
-#: nano.c:2008
+#: nano.c:2064
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s engedélyezés/kikapcsolás"
 
-#: nano.c:2023
+#: nano.c:2079
 msgid "enabled"
 msgstr "engedélyezve"
 
-#: nano.c:2024
+#: nano.c:2080
 msgid "disabled"
 msgstr "kikapcsolva"
 
-#: nano.c:2076
+#: nano.c:2132
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "NumLock hibát fedeztem fel.  A Keypad rosszul mûködhet, ha a NumLock be van "
 "kapcsolva"
 
-#: nano.c:2293
+#: nano.c:2349
 msgid "Main: set up windows\n"
 msgstr "Fõprogram: az ablakok beállítása\n"
 
-#: nano.c:2300
+#: nano.c:2356
 msgid "Main: bottom win\n"
 msgstr "Fõprogram: alsó ablak\n"
 
-#: nano.c:2306
+#: nano.c:2362
 msgid "Main: open file\n"
 msgstr "Fõprogram: fájl megnyitása\n"
 
-#: nano.c:2358
+#: nano.c:2414
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Az Alt-O-%c billentyûket lenyomtad! (%d)\n"
 
-#: nano.c:2385
+#: nano.c:2441
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Az Alt-[-1-%c billentyûket lenyomtad! (%d)\n"
 
-#: nano.c:2418
+#: nano.c:2474
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Az Alt-[-2-%c billentyûket lenyomtad! (%d)\n"
 
-#: nano.c:2460
+#: nano.c:2516
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Az Alt-[-%c billentyûket lenyomtad! (%d)\n"
 
-#: nano.c:2486
+#: nano.c:2542
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Az Alt-%c billentyûket lenyomtad! (%d)\n"
 
-#: search.c:118
+#: search.c:117
 #, c-format
 msgid "Case Sensitive Regexp Search%s%s"
 msgstr "Regexp keresés (kis/Nagy külön)%s%s"
 
-#: search.c:120
+#: search.c:119
 #, c-format
 msgid "Regexp Search%s%s"
 msgstr "Regexp keresés%s%s"
 
-#: search.c:122
+#: search.c:121
 #, c-format
 msgid "Case Sensitive Search%s%s"
 msgstr "Keresés (kis/Nagy külön)%s%s"
 
-#: search.c:124
+#: search.c:123
 #, c-format
 msgid "Search%s%s"
 msgstr "Keresés%s%s"
 
-#: search.c:127
+#: search.c:126
 msgid " (to replace)"
 msgstr " (cserére)"
 
-#: search.c:136 search.c:321
+#: search.c:135 search.c:326
 msgid "Search Cancelled"
 msgstr "Keresés megszakítva"
 
-#: search.c:194
+#: search.c:199
 #, c-format
 msgid "\"%s...\" not found"
 msgstr "\"%s...\" nem található"
 
-#: search.c:243
+#: search.c:248
 msgid "Search Wrapped"
 msgstr ""
 
-#: search.c:343
+#: search.c:348
 #, fuzzy, c-format
 msgid "Replaced %d occurrences"
 msgstr "%d alkalommal fordult elõ, kicseréltem azokat"
 
-#: search.c:345
+#: search.c:350
 #, fuzzy
 msgid "Replaced 1 occurrence"
 msgstr "Egyszer fordult elõ, kicseréltem"
 
-#: search.c:483 search.c:587 search.c:603
+#: search.c:488 search.c:592 search.c:608
 msgid "Replace Cancelled"
 msgstr "A csere megszakítva"
 
-#: search.c:533
+#: search.c:538
 msgid "Replace this instance?"
 msgstr ""
 
-#: search.c:545
+#: search.c:550
 msgid "Replace failed: unknown subexpression!"
 msgstr "Hiba a cserénél: ismeretlen alkifejezés!"
 
-#: search.c:628
+#: search.c:633
 #, c-format
 msgid "Replace with [%s]"
 msgstr "Cserélés erre [%s]"
 
-#: search.c:632 search.c:636
+#: search.c:637 search.c:641
 msgid "Replace with"
 msgstr "Erre lesz cserélve"
 
 #. Ask for it
-#: search.c:671
+#: search.c:676
 msgid "Enter line number"
 msgstr "Kérem a sor számát"
 
-#: search.c:673
+#: search.c:678
 msgid "Aborted"
 msgstr "Megszakítva"
 
-#: search.c:693
+#: search.c:698
 msgid "Come on, be reasonable"
 msgstr "Gyerünk, adj meg egy hihetõbb értéket :-)"
 
-#: search.c:698
+#: search.c:703
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr "Csak %d sorból áll a szöveg, ezért az utolsóra ugrottam"
