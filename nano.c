@@ -2288,7 +2288,7 @@ void help_init(void)
 
     /* Now add our shortcut info */
     for (i = 0; i <= MAIN_LIST_LEN - 1; i++) {
-	if (main_list[i].val)
+	if (main_list[i].val > 0)
 	   sofar = snprintf(buf, BUFSIZ, "^%c	", main_list[i].val + 64);
 	else
 	   sofar = snprintf(buf, BUFSIZ, "	");
