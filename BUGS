@@ -84,6 +84,7 @@
 - With less than a page of text, doing a page down will move the
   current line to the top of the screen, which it shouldn't do.  (50) 
   [FIXED]
+- with PDCURSES, running meta-X turns off the keypad.  (51) [FIXED]
 
 ** Open BUGS **
 

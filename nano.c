@@ -1644,6 +1644,13 @@ void window_init(void)
     topwin = newwin(2, COLS, 0, 0);
     bottomwin = newwin(3 - no_help(), COLS, LINES - 3 + no_help(), 0);
 
+#ifdef PDCURSES
+    /* Oops, I guess we need this again.
+       Moved here so the keypad still works after a Meta-X, for example */
+    keypad(edit, TRUE);
+    keypad(bottomwin, TRUE);
+#endif
+
 }
 
 void mouse_init(void)
@@ -2252,12 +2259,6 @@ int main(int argc, char *argv[])
 
     edit_refresh();
     reset_cursor();
-
-#ifdef PDCURSES
-    /* Oops, I guess we need this again */
-    keypad(edit, TRUE);
-    keypad(bottomwin, TRUE);
-#endif
 
     while (1) {
 

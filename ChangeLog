@@ -10,6 +10,9 @@ General -
 	  to winio.c where it should probably be anyway.  New confgure
 	  check for _use_keypad in window sstruct.  This will have to do
 	  for now.
+	- Moved keypad() calls for PDCURSES from main() to window_init()
+	  so the keypad continues to work after a Meta-X, for example.
+	  Fixed bug #51.
 - faq.html:
 	- Fix typos and small mistakes (Jordi).
 - files.c:
@@ -28,6 +31,10 @@ General -
 	  on entering various dirs  (Rocco).
 	- Don't ungetch() the exit key, unneeded, fixes inerting a file
 	  causes exit code.
+- move.c:
+  page_down()
+	- Don't do an edit_update when there is only one page of text
+	  (fileage == edittop && filebot == editbot).  Fixes Bug #50.
 - nano.c:
   main()
 	- Reorder the getopt options to be more or less alphabetical

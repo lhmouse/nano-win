@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.17\n"
-"POT-Creation-Date: 2001-01-07 02:32-0500\n"
+"POT-Creation-Date: 2001-01-07 20:37-0500\n"
 "PO-Revision-Date: 2000-09-09 11:55+0200\n"
 "Last-Translator: Florian König <floki@bigfoot.com>\n"
 "Language-Team: German <floki@bigfoot.com>\n"
@@ -757,56 +757,56 @@ msgstr "Kann Größe des unteren Fensters nicht verändern"
 msgid "Cannot move bottom win"
 msgstr "Kann unteres Fenster nicht verschieben"
 
-#: nano.c:1876
+#: nano.c:1883
 msgid "Can now UnJustify!"
 msgstr ""
 
-#: nano.c:1971
+#: nano.c:1978
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s  aktivieren/deaktivieren"
 
-#: nano.c:1984
+#: nano.c:1991
 msgid "enabled"
 msgstr "aktiviert"
 
-#: nano.c:1985
+#: nano.c:1992
 msgid "disabled"
 msgstr "deaktiviert"
 
-#: nano.c:2223
+#: nano.c:2230
 msgid "Main: set up windows\n"
 msgstr "Hauptprogramm: Fenster konfigurieren\n"
 
-#: nano.c:2230
+#: nano.c:2237
 msgid "Main: bottom win\n"
 msgstr "Hauptprogramm: unteres Fenster\n"
 
-#: nano.c:2236
+#: nano.c:2243
 msgid "Main: open file\n"
 msgstr "Hauptprogramm: Datei öffnen\n"
 
-#: nano.c:2282
+#: nano.c:2283
 #, fuzzy, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Erhielt Alt-[-%c! (%d)\n"
 
-#: nano.c:2310
+#: nano.c:2311
 #, fuzzy, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Erhielt Alt-[-%c! (%d)\n"
 
-#: nano.c:2343
+#: nano.c:2344
 #, fuzzy, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Erhielt Alt-[-%c! (%d)\n"
 
-#: nano.c:2391
+#: nano.c:2392
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Erhielt Alt-[-%c! (%d)\n"
 
-#: nano.c:2417
+#: nano.c:2418
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Erhielt Alt-%c! (%d)\n"
@@ -961,48 +961,48 @@ msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "Zeile %d von %d (%.0f%%), Zeichen %d von %d (%.0f%%)"
 
-#: winio.c:1305
+#: winio.c:1303
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Gebe Datei Puffer nach stderr aus...\n"
 
-#: winio.c:1307
+#: winio.c:1305
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Gebe Inhalt der Zwischenablage nach stderr aus...\n"
 
-#: winio.c:1309
+#: winio.c:1307
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Gebe einen Puffer nach stderr aus...\n"
 
-#: winio.c:1384
+#: winio.c:1382
 msgid "The nano text editor"
 msgstr ""
 
-#: winio.c:1385
+#: winio.c:1383
 #, fuzzy
 msgid "version "
 msgstr "Version"
 
-#: winio.c:1386
+#: winio.c:1384
 msgid "Brought to you by:"
 msgstr ""
 
-#: winio.c:1387
+#: winio.c:1385
 msgid "Special thanks to:"
 msgstr ""
 
-#: winio.c:1388
+#: winio.c:1386
 msgid "The Free Software Foundation"
 msgstr ""
 
-#: winio.c:1389
+#: winio.c:1387
 msgid "Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses"
 msgstr ""
 
-#: winio.c:1390
+#: winio.c:1388
 msgid "and anyone else we forgot..."
 msgstr ""
 
-#: winio.c:1391
+#: winio.c:1389
 msgid "Thank you for using nano!\n"
 msgstr ""
 
