@@ -39,6 +39,8 @@ CVS code -
 	- French translation updates (Jean-Philippe Guérard).
 - po/gl.po:
 	- Galician translation updates (Jacobo Tarrio).
+- po/uk.po, po/ru.po:
+	- Russian and Ukrainian translation updates (Sergey A. Ribalchenko).
 	  
 GNU nano 1.1.7 - 03/05/2002
 - General
