@@ -1,3 +1,20 @@
+11/18/00 - Nano 0.9.20 is finally out the door.  Probably the biggest
+		change is the brand new way nano displays previous search
+		and replace strings (they are now editable!)  This is a
+		break from Pico's (inconsistent) interface, so if you
+		don't like the new way, "Pico" mode (-p on the command
+		line or Meta-P within nano) still works the "old" 
+		way.
+		    Other new features include being able to deal with
+		search strings of any length, a new internal spell feature
+		(courtesy of Mr. Rocco Corsi) and tab completion when
+		reading in or writing out files!  There's also the usual
+		billion or so bug fixes.  Feedback on this release is
+		welcome because so much much has changed, especially with
+		the previous string display in search and replace. Email
+		-> nano@nano-editor.org <-. If you like something, don't
+		like something, or just want to order a pizza, let us know!
+
 10/02/2000 - Nano 0.9.19 is the "Chris is getting married in less than
 		a week and needs a distraction" release.  There are only
 		a few actual code changes, mainly portability and compiler

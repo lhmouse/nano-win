@@ -15,7 +15,8 @@ Current Version:
 - Built-in speller command [needed for version 1.0] [DONE]
 - Better statusbar interaction (scrolling, tab completion for filename)
   [needed for version 1.0] [DONE]
-
+- Now do username completion (~user, would be nice, need based on user
+  feedback).
 
 For Next Version:
 - Undo/Redo key?
