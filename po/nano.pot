@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-07-05 18:51-0400\n"
+"POT-Creation-Date: 2000-07-06 18:42-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -555,17 +555,17 @@ msgstr ""
 msgid "Mark UNset"
 msgstr ""
 
-#: nano.c:859
+#: nano.c:857
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr ""
 
-#: nano.c:919
+#: nano.c:917
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr ""
 
-#: nano.c:971
+#: nano.c:970
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr ""
@@ -621,24 +621,24 @@ msgstr ""
 msgid "Cannot move bottom win"
 msgstr ""
 
-#: nano.c:1704
+#: nano.c:1705
 msgid "Main: set up windows\n"
 msgstr ""
 
-#: nano.c:1726
+#: nano.c:1727
 msgid "Main: bottom win\n"
 msgstr ""
 
-#: nano.c:1732
+#: nano.c:1733
 msgid "Main: open file\n"
 msgstr ""
 
-#: nano.c:1805
+#: nano.c:1806
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:1821
+#: nano.c:1822
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr ""
