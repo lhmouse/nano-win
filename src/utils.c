@@ -441,7 +441,8 @@ void new_magicline(void)
 }
 
 #ifndef NANO_SMALL
-/* Remove the magicline from filebot, if there is one. */
+/* Remove the magicline from filebot, if there is one and it isn't the
+ * only line in the file. */
 void remove_magicline(void)
 {
     if (filebot->data[0] == '\0' && filebot->prev != NULL) {
