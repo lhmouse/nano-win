@@ -30,13 +30,6 @@
 #include "proto.h"
 #include "nano.h"
 
-#ifdef ENABLE_NLS
-#include <libintl.h>
-#define _(string) gettext(string)
-#else
-#define _(string) (string)
-#endif
-
 int is_cntrl_char(int c)
 {
     if (iscntrl(c) || ((c & 127) != 127 && iscntrl(c & 127)))

@@ -33,13 +33,6 @@
 
 #ifdef ENABLE_COLOR
 
-#ifdef ENABLE_NLS
-#include <libintl.h>
-#define _(string) gettext(string)
-#else
-#define _(string) (string)
-#endif
-
 /* For each syntax list entry, we go through the list of colors and
  * assign color pairs. */
 void set_colorpairs(void)

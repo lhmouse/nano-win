@@ -28,13 +28,6 @@
 #include "proto.h"
 #include "nano.h"
 
-#ifdef ENABLE_NLS
-#include <libintl.h>
-#define _(string) gettext(string)
-#else
-#define _(string) (string)
-#endif
-
 int do_home(void)
 {
     UNSET(KEEP_CUTBUFFER);

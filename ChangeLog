@@ -8,6 +8,43 @@ CVS code -
 	  complicated for a feature freeze.
 	- Disable VSTOP keystroke.  Stops people accidentally locking up
 	  nano (suggested by David Benbennick).
+	- Pluralize messages with ngettext() where needed. (David
+	  Benbennick)
+	- Update nano.1 and nano.1.html to show that nano now does an
+	  emergency save on receiving SIGHUP or SIGTERM. (DLR)
+	- Don't include "nowrap" in the long options if
+	  DISABLE_WRAPPING is defined. (DLR)
+- files.c:
+  read_file()
+	- Minor efficiency fixes, some of which fit in with the change
+	  to ngettext() usage mentioned above. (David Benbennick)
+  do_browser()
+	- Make sure the value of path is mallocstrcpy()ed into retval
+	  and not just assigned to it, to avoid memory corruption
+	  problems. (DLR)
+- nano.c:
+  justify_format()
+	- Make sure the double space maintained after sentence-ending
+	  punctuation is done when that punctuation is immediately
+	  followed by a bracket-type character, so justifying e.g.
+	  sentences in parentheses works properly. (David Benbennick)
+  handle_hup()
+	- Renamed handle_hupterm() to show that it now handles SIGTERM
+	  as well as SIGHUP. (DLR)
+  signal_init()
+	- Do an emergency save on receiving either SIGHUP or SIGTERM,
+	  not just SIGHUP. (David Benbennick)
+  main()
+	- Fix a problem where control key commands were printed
+	  literally instead of interpreted after a failed search of a
+	  one-line file. (David Benbennick)
+- proto.h:
+  handle_hup()
+	- Renamed handle_hupterm(); see above for why. (DLR)
+- winio.c:
+  edit_add()
+	- Fix a potential infinite loop occurring with certain
+	  zero-length regexes. (David Benbennick)
 
 GNU nano 1.1.11 - 10/01/2002
 - General:

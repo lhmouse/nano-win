@@ -38,13 +38,6 @@
 #include "proto.h"
 #include "nano.h"
 
-#ifdef ENABLE_NLS
-#include <libintl.h>
-#define _(string) gettext(string)
-#else
-#define _(string) (string)
-#endif
-
 #ifndef NANO_SMALL
 static int fileformat = 0;	/* 0 = *nix, 1 = DOS, 2 = Mac */
 #endif
@@ -287,44 +280,38 @@ int read_file(FILE *f, const char *filename, int quiet)
 #endif
 
     /* Did we even GET a file if we don't already have one? */
-    if (totsize == 0 || fileptr == NULL) {
+    if (totsize == 0 || fileptr == NULL)
 	new_file();
-	statusbar(_("Read %d lines"), num_lines);
-	return 1;
-    }
 
     /* Did we try to insert a file of 0 bytes? */
-    if (num_lines == 0)
-    {
-	statusbar(_("Read %d lines"), 0);
-	return 1;
-    }
-
-    if (current != NULL) {
-	fileptr->next = current;
-	current->prev = fileptr;
-	renumber(current);
-	current_x = 0;
-	placewewant = 0;
-    } else if (fileptr->next == NULL) {
-	filebot = fileptr;
-	new_magicline();
-	totsize--;
-
-	/* Update the edit buffer; note that if using multibuffers, a
-	   quiet load will update the current open_files entry, while a
-	   noisy load will add a new open_files entry */
-	load_file(quiet);
+    if (num_lines != 0) {
+	if (current != NULL) {
+	    fileptr->next = current;
+	    current->prev = fileptr;
+	    renumber(current);
+	    current_x = 0;
+	    placewewant = 0;
+	} else if (fileptr->next == NULL) {
+	    filebot = fileptr;
+	    new_magicline();
+	    totsize--;
+	    load_file(quiet);
+	}
     }
 
 #ifndef NANO_SMALL
     if (fileformat == 2)
-	statusbar(_("Read %d lines (Converted from Mac format)"), num_lines);
+	statusbar(ngettext("Read %d line (Converted from Mac format)",
+			"Read %d lines (Converted from Mac format)",
+			num_lines), num_lines);
     else if (fileformat == 1)
-	statusbar(_("Read %d lines (Converted from DOS format)"), num_lines);
+	statusbar(ngettext("Read %d line (Converted from DOS format)",
+			"Read %d lines (Converted from DOS format)",
+			num_lines), num_lines);
     else
 #endif
-	statusbar(_("Read %d lines"), num_lines);
+	statusbar(ngettext("Read %d line", "Read %d lines", num_lines),
+			num_lines);
 
     totlines += num_lines;
 
@@ -1659,7 +1646,8 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 	/* Update originalfilestat to reference the file as it is now. */
 	stat(filename, &originalfilestat);
 #endif
-	statusbar(_("Wrote %d lines"), lineswritten);
+	statusbar(ngettext("Wrote %d line", "Wrote %d lines", lineswritten),
+			lineswritten);
 	UNSET(MODIFIED);
 	titlebar(NULL);
     }
@@ -2655,7 +2643,7 @@ char *do_browser(const char *inpath)
 		free(foo);
 		return do_browser(path);
 	    } else {
-		retval = path;
+		retval = mallocstrcpy(retval, path);
 		abort = 1;
 	    }
 	    break;

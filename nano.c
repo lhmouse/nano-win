@@ -42,13 +42,6 @@
 #include "proto.h"
 #include "nano.h"
 
-#ifdef ENABLE_NLS
-#include <libintl.h>
-#define _(string) gettext(string)
-#else
-#define _(string) (string)
-#endif
-
 #ifdef HAVE_TERMIOS_H
 #include <termios.h>
 #endif
@@ -1973,16 +1966,34 @@ int justify_format(int changes_allowed, filestruct *line, size_t skip)
     back = line->data + skip;
     front = back;
     for (; *front; front++) {
+	int remove_space = 0;
+	    /* Do we want to remove this space? */
+
 	if (*front == '\t') {
 	    if (!changes_allowed)
 		return 1;
 	    *front = ' ';
 	}
 	/* these tests are safe since line->data + skip is not a space */
-	if (*front == ' ' && *(front - 1) == ' ' && *(front - 2) != '.' &&
-		*(front - 2) != '!' && *(front - 2) != '?') {
+	if (*front == ' ' && *(front-1) == ' ') {
+	    const char *brackets = _("'\")}]>");
+	    const char *punct = _(".?!");
+	    const char *bob = front - 2;
+
+	    remove_space = 1;
+	    for (bob = front - 2; bob >= line->data + skip; bob--) {
+		if (strchr(punct, *bob) != NULL) {
+		    remove_space = 0;
+		    break;
+		}
+		if (strchr(brackets, *bob) == NULL)
+		    break;
+	    }
+	}
+
+	if (remove_space) {
 	    /* Now *front is a space we want to remove.  We do that by
-	     * simply failing to assign it to *back */
+	     * simply failing to assign it to *back. */
 	    if (!changes_allowed)
 		return 1;
 #ifndef NANO_SMALL
@@ -2630,9 +2641,10 @@ void signal_init(void)
     act.sa_handler = SIG_IGN;
     sigaction(SIGINT, &act, NULL);
 
-    /* Trap SIGHUP cuz we want to write the file out. */
-    act.sa_handler = handle_hup;
+    /* Trap SIGHUP and SIGTERM cuz we want to write the file out. */
+    act.sa_handler = handle_hupterm;
     sigaction(SIGHUP, &act, NULL);
+    sigaction(SIGTERM, &act, NULL);
 
 #ifndef NANO_SMALL
     act.sa_handler = handle_sigwinch;
@@ -2677,10 +2689,10 @@ void signal_init(void)
 #endif
 }
 
-/* Handler for SIGHUP */
-RETSIGTYPE handle_hup(int signal)
+/* Handler for SIGHUP and SIGTERM */
+RETSIGTYPE handle_hupterm(int signal)
 {
-    die(_("Received SIGHUP"));
+    die(_("Received SIGHUP or SIGTERM"));
 }
 
 /* What do we do when we catch the suspend signal */
@@ -2933,7 +2945,9 @@ int main(int argc, char *argv[])
 #endif
 	{"tempfile", 0, 0, 't'},
 	{"view", 0, 0, 'v'},
+#ifndef DISABLE_WRAPPING
 	{"nowrap", 0, 0, 'w'},
+#endif
 	{"nohelp", 0, 0, 'x'},
 	{"suspend", 0, 0, 'z'},
 #ifndef NANO_SMALL
@@ -3256,7 +3270,7 @@ int main(int argc, char *argv[])
 
     while (1) {
 
-#ifndef DISABLE_MOUSE
+#if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE) || !defined(DISABLE_HELP)
 	currshortcut = main_list;
 #endif
 

@@ -46,8 +46,14 @@
 #include <curses.h> 
 #endif /* CURSES_H */
 
-#ifdef HAVE_LIBINTL_H
-#include <libintl.h>
+#ifdef ENABLE_NLS
+#  ifdef HAVE_LIBINTL_H
+#    include <libintl.h>
+#  endif
+#  define _(string) gettext(string)
+#else
+#  define _(string) (string)
+#  define ngettext(singular, plural, number) number == 1 ? singular : plural
 #endif
 
 #include <sys/types.h>

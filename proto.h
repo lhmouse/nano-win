@@ -290,7 +290,7 @@ int break_line(const char *line, int goal, int force);
 int do_justify(void);
 int do_exit(void);
 void signal_init(void);
-RETSIGTYPE handle_hup(int signal);
+RETSIGTYPE handle_hupterm(int signal);
 RETSIGTYPE do_suspend(int signal);
 RETSIGTYPE do_cont(int signal);
 #ifndef NANO_SMALL

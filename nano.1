@@ -135,10 +135,10 @@ Enable suspend ability.
 Ignored, for compatibility with Pico.
 .SH NOTES
 \fBnano\fP will try to dump the buffer into an emergency file in some
-cases.  Mainly, this will happen if \fBnano\fP receives a SIGHUP or runs
-out of memory, when it will write the buffer into a file named
-"nano.save" if the buffer didn't have a name already, or will add a
-".save" suffix to the current filename. If an emergency file with that
+cases.  Mainly, this will happen if \fBnano\fP receives a SIGHUP or
+SIGTERM or runs out of memory, when it will write the buffer into a file
+named "nano.save" if the buffer didn't have a name already, or will add
+a ".save" suffix to the current filename. If an emergency file with that
 name already exists in the current directory, ".save" and a number (e.g.
 ".save.1") will be suffixed to the current filename in order to make it
 unique. In multibuffer mode, \fBnano\fP will write all the open buffers

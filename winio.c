@@ -30,13 +30,6 @@
 #include "proto.h"
 #include "nano.h"
 
-#ifdef ENABLE_NLS
-#include <libintl.h>
-#define _(string) gettext(string)
-#else
-#define _(string) (string)
-#endif
-
 static int statblank = 0;	/* Number of keystrokes left after
 				   we call statusbar(), before we
 				   actually blank the statusbar */
@@ -655,9 +648,10 @@ void edit_add(const filestruct *fileptr, int yval, int start
 		    /* Translate the match to the beginning of the line. */
 		    startmatch.rm_so += k;
 		    startmatch.rm_eo += k;
-		    if (startmatch.rm_so == startmatch.rm_eo)
+		    if (startmatch.rm_so == startmatch.rm_eo) {
+			startmatch.rm_eo++;
 			statusbar(_("Refusing 0 length regex match"));
-		    else if (startmatch.rm_so < start + COLS &&
+		    } else if (startmatch.rm_so < start + COLS &&
 				startmatch.rm_eo > start) {
 			x_start = startmatch.rm_so - start;
 			if (x_start < 0)

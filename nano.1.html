@@ -3,7 +3,7 @@ Content-type: text/html
 <HTML><HEAD><TITLE>Manpage of NANO</TITLE>
 </HEAD><BODY>
 <H1>NANO</H1>
-Section: User Commands  (1)<BR>Updated: July 30, 2002<BR><A HREF="#index">Index</A>
+Section: User Commands  (1)<BR>Updated: October 13, 2002<BR><A HREF="#index">Index</A>
 <A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 
@@ -180,10 +180,10 @@ Ignored, for compatibility with Pico.
 <H2>NOTES</H2>
 
 <B>nano</B> will try to dump the buffer into an emergency file in some
-cases.  Mainly, this will happen if <B>nano</B> receives a SIGHUP or runs
-out of memory, when it will write the buffer into a file named
-&quot;nano.save&quot; if the buffer didn't have a name already, or will add a
-&quot;.save&quot; suffix to the current filename. If an emergency file with that
+cases.  Mainly, this will happen if <B>nano</B> receives a SIGHUP or
+SIGTERM or runs out of memory, when it will write the buffer into a file
+named &quot;nano.save&quot; if the buffer didn't have a name already, or will add
+a &quot;.save&quot; suffix to the current filename. If an emergency file with that
 name already exists in the current directory, &quot;.save&quot; and a number (e.g.
 &quot;.save.1&quot;) will be suffixed to the current filename in order to make it
 unique. In multibuffer mode, <B>nano</B> will write all the open buffers
@@ -235,6 +235,6 @@ used by others).
 This document was created by
 <A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 21:12:05 GMT, July 30, 2002
+Time: 16:04:40 GMT, October 13, 2002
 </BODY>
 </HTML>

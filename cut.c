@@ -28,13 +28,6 @@
 #include "proto.h"
 #include "nano.h"
 
-#ifdef ENABLE_NLS
-#include <libintl.h>
-#define _(string) gettext(string)
-#else
-#define _(string) (string)
-#endif
-
 static int marked_cut;		/* Is the cutbuffer from a mark? */
 static filestruct *cutbottom = NULL; /* Pointer to end of cutbuffer */
 

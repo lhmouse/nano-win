@@ -37,13 +37,6 @@
 
 #ifdef ENABLE_NANORC
 
-#ifdef ENABLE_NLS
-#include <libintl.h>
-#define _(string) gettext(string)
-#else
-#define _(string) (string)
-#endif
-
 const static rcoption rcopts[] = {
 #ifndef NANO_SMALL
     {"autoindent", AUTOINDENT},

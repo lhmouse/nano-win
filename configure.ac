@@ -15,7 +15,7 @@ AC_SYS_LARGEFILE
 
 dnl Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS(fcntl.h unistd.h termios.h termio.h limits.h getopt.h regex.h)
+AC_CHECK_HEADERS(fcntl.h getopt.h libintl.h limits.h termio.h termios.h regex.h unistd.h)
 
 dnl options
 AC_ARG_ENABLE(debug, 
