@@ -2142,9 +2142,11 @@ int main(int argc, char *argv[])
     SET(FOLLOW_SYMLINKS);
 
 #ifndef NANO_SMALL
+#ifdef ENABLE_NLS
     setlocale(LC_ALL, "");
     bindtextdomain(PACKAGE, LOCALEDIR);
     textdomain(PACKAGE);
+#endif
 #endif
 
 #ifdef HAVE_GETOPT_LONG
