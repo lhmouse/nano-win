@@ -1,12 +1,13 @@
-# $Id$
 # Catalan messages for the GNU nano editor.
-# Jordi Mallach <jordi@sindominio.net> February 16, 2001
-# Copyright (C) 2000 Free Software Foundation, Inc.
-# Jordi Mallach <jordi@sindominio.net>, 2000.
+# Copyright (C) 2000, 2001 Free Software Foundation, Inc.
+# Jordi Mallach <jordi@sindominio.net>, 2000, 2001
+# Miquel Vidal <miquel@sindominio.net>, 2001.
+# $Id$
 #
+
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.1.0\n"
+"Project-Id-Version: 1.1.1\n"
 "POT-Creation-Date: 2001-09-18 23:21-0400\n"
 "PO-Revision-Date: 2001-05-02 19:14+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
