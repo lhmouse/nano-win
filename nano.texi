@@ -329,8 +329,9 @@ Shortcut Lists:
 ^X ^R ^W ^V ^U ^T
 
 Related functions are listed above or below each other by default.  The
-Justify function is listed, and instead shows the "Replace" function.  The
-"Read File" and "WriteOut" functions are also aligned for consistency.
+Justify function is not listed, instead the "Replace" function is
+displayed. The "Read File" and "WriteOut" functions are also aligned for
+consistency.
 
 In Pico Compatibility mode, the default Pico shortcuts are displayed:
 
