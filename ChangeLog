@@ -14,6 +14,9 @@ CVS code -
 	  #246956 (no warning when trying to open non-readable file).
 	- Add an extra titlebar() call (useful when reading in a big 
 	  file).
+- config.rpath:
+	- Replace usage of egrep with grep -E, avoiding a XSI:ism (David
+	  Weinehall)
 
 GNU nano 1.2.3 - 2004.01.17
 - General:
