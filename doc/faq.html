@@ -173,8 +173,10 @@
 <hr width="100%">
 <h1><a name="4"></a>4. Running</h1>
 <h2><a name="4.1"></a>4.1. How do I open a file with a name beginning with '+' from the command line?</h2>
-<blockquote><p>A command line option that begins with '+' is always treated as a starting line number. The option just after it, though, is always treated as a filename.  So if you want to open '+filename.txt' starting on line 1, you should use:</p>
-  <p><b>nano +1 +filename.txt</b></p></blockquote>
+<blockquote><p>If a command line option that begins with '+' is followed by at least one more option, the former is always treated as a starting line number and the latter is always treated as a filename.  If a command line option that begins with '+' isn't followed by any more options, it's always treated as a filename.  Examples:</p>
+  <p>To open '+filename.txt' starting on line 1: <b>nano +filename.txt</b><br>
+  To open '+filename.txt' starting on line 10: <b>nano +10 +filename.txt</b><br>
+  To open '+filename.txt' starting on line 1 and 'filename.txt' starting on line 10 (if nano has been compiled with multibuffer support): <b>nano +1 +filename.txt +20 filename.txt</b></p></blockquote>
 <h2><a name="4.2"></a>4.2. Ack! My backspace/delete/enter/double bucky/meta key doesn't seem to work! What can I do?</h2>
 <blockquote><p>Try setting your $TERM variable to 'vt100'. Nano doesn't yet support every term entry under the sun.</p>
   <p>Bourne shell users (bash and sh): <b>export TERM=vt100</b><br>
