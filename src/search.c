@@ -868,7 +868,7 @@ void do_gotoline(int line, bool save_pos)
 
 	/* Cancel, or Enter with blank string. */
 	if (st == -1 || st == -2)
-	    statusbar(_("Aborted"));
+	    statusbar(_("Cancelled"));
 	if (st != 0) {
 	    display_main_list();
 	    return;
