@@ -1,6 +1,8 @@
 # $Id$
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(nano.c)
+AC_INIT
+AC_CONFIG_SRCDIR([nano.c])
+AC_PREREQ(2.52)
 AM_INIT_AUTOMAKE(nano, 1.1.6-cvs)
 AM_CONFIG_HEADER(config.h:config.h.in)
 ALL_LINGUAS="es de fr it id fi hu ca cs gl uk ru sv nn nl da pl nb"
@@ -8,7 +10,7 @@ ALL_LINGUAS="es de fr it id fi hu ca cs gl uk ru sv nn nl da pl nb"
 dnl Checks for programs.
 AC_PROG_CC
 AC_ISC_POSIX
-NANO_AC_SYS_LARGEFILE
+AC_SYS_LARGEFILE
 
 dnl Checks for header files.
 AC_HEADER_STDC
@@ -306,4 +308,5 @@ fi
 dnl i18n stuff - pretty incomplete for now
 NANO_AM_GNU_GETTEXT
 
-AC_OUTPUT([Makefile intl/Makefile po/Makefile.in])
+AC_CONFIG_FILES([Makefile intl/Makefile m4/Makefile po/Makefile.in])
+AC_OUTPUT

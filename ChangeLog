@@ -21,6 +21,11 @@ CVS code -
 - Makefile.am:
 	- Add SYSCONFDIR to DEFS, so we can have an /etc/nanorc.
 	- Change localedir line to 1.0's version.
+	- Moved m4/ stuff to its own m4/Makefile.am.
+- configure.in:
+	- Renamed to configure.ac.
+- configure.ac:
+	- Moved to autoconf 2.52 (Jeff Bailey).
 - files.c:
   read_byte()
 	- Added check for conrol characters (indicative of a binary 

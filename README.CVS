@@ -7,7 +7,7 @@ more care than the official stable and unstable tarballs.
 To succesfully compile GNU nano from CVS, you'll need the
 following packages:
 
-- autoconf (versions 2.13 or >= 2.50)
+- autoconf (version >= 2.50)
 - automake (version 1.4-pl5 recommended)
 - autoheader
 - gettext (version 0.10.40)
@@ -35,5 +35,4 @@ $ make install
 should put the required files in their respective directories.
 
 
-Please submit any bugs in the CVS branch to nano-devel@lists.sourceforge.net.
-[FIXME needs change for Savannah too]
+Please submit any bugs in the CVS branch to nano-devel@gnu.org.
