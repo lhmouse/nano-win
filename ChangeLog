@@ -27,6 +27,8 @@ CVS code -
 	- Catalan and Spanish translations updates (Jordi).
 - po/pl.po:
 	- New Polish, partial translation, by Cezary Sliwa <sliwa@cft.edu.pl>.
+- po/fr.po:
+	- French translation update (Michel Robitaille).
 
 nano-1.1.4 - 12/11/2001
 - General
