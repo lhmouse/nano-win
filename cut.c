@@ -58,7 +58,8 @@ void add_to_cutbuffer(filestruct * inptr)
 }
 
 #ifndef NANO_SMALL
-/* Cut a marked segment instead of a whole line.  Only called from do_cut_text().
+/* Cut a marked segment instead of a whole line.  Only called from
+   do_cut_text().
    destructive is whether to actually modify the file structure, if not then
    just copy the buffer into cutbuffer and don't pull it from the file */
 
@@ -162,6 +163,7 @@ int do_cut_text(void)
     int newsize, cuttingtoend = 0;
 #endif
 
+
     check_statblank();
     if (fileptr == NULL || fileptr->data == NULL)
 	return 0;
@@ -172,6 +174,7 @@ int do_cut_text(void)
 	free_filestruct(cutbuffer);
 	cutbuffer = NULL;
 
+	marked_cut = 0;
 #ifdef DEBUG
 	fprintf(stderr, _("Blew away cutbuffer =)\n"));
 #endif
@@ -185,15 +188,22 @@ int do_cut_text(void)
     if (ISSET(CUT_TO_END) && !ISSET(MARK_ISSET)) {
 	if (current_x == strlen(current->data)) {
 
-	    /* If the line is empty and we didn't just cut a non-blank
+    	/* If the line is empty and we didn't just cut a non-blank
 		line, create a dummy line and add it to the cutbuffer */
-	    if (current_x == 0 && marked_cut != 1) {
+	    if (marked_cut != 1) {
+
 		filestruct *junk;
 
-		junk = copy_node(current);
+		junk = NULL;
+		junk = make_new_node(current);
+	        junk->data = nmalloc(1 * sizeof (char));
+		junk->data[0] = 0;
 
 		add_to_cutbuffer(junk);
+		dump_buffer(cutbuffer);
+
 	    }
+
 	    do_delete();
 	    SET(KEEP_CUTBUFFER);
 	    marked_cut = 2;
@@ -339,6 +349,8 @@ int do_uncut_text(void)
 	    current->data = tmpstr;
 	    current_x += strlen(cutbuffer->data);
 	    totsize += strlen(cutbuffer->data);
+	    if (strlen(cutbuffer->data) == 0)
+		totlines++;
 
 	    placewewant = xplustabs();
 	    update_cursor();
@@ -399,7 +411,7 @@ int do_uncut_text(void)
 	   screw up all the work we just did and separate the line.  There
 	   must be a better way to do this, but not at 1AM on a work night. */
 
-	if (marked_cut == 2 && current_x != strlen(current->data)) {
+	if (marked_cut == 2) {
 	    tmp = make_new_node(current);
 	    tmp->data = charalloc(strlen(&current->data[current_x]) + 1);
 	    strcpy(tmp->data, &current->data[current_x]);
@@ -408,6 +420,10 @@ int do_uncut_text(void)
 	    current = current->next;
 	    current_x = 0;
 	    placewewant = 0;
+
+	    /* Extra line added, update stuff */
+	    totlines++;
+	    totsize++;
 	}
 	/* Renumber from BEFORE where we pasted ;) */
 	renumber(hold);
@@ -416,6 +432,7 @@ int do_uncut_text(void)
 	dump_buffer(cutbuffer);
 	set_modified();
 	edit_refresh();
+	UNSET(KEEP_CUTBUFFER);
 	return 0;
 #else
     if (0) {

@@ -69,6 +69,9 @@ Cvs code -
   do_cut_text()
 	- If the line is empty when using -k and wasn't already added,
 	  create a dummy line and add it to the cutbuffer (fixes bug #61)
+	- Reset marked_cut if we blow away the cutbuffer.
+  do_uncut_text()
+	- Reset cutbuffer even if we're uncutting marked or cut to end text!
 - faq.html:
 	- Brought the FAQ up to date, many little changes (Jordi).
 - files.c:
