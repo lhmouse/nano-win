@@ -13,12 +13,19 @@ packages:
 - groff
 - texinfo
 - cvs
+- ssh (with support for the SSH version 2 protocol)
 - glib 2.x (if your system doesn't have snprintf() and/or vsnprintf())
 - make, gcc and the normal development libraries (ncurses, etc.)
 
 These should be available on your GNU mirror.
 
-To download the CVS tree, execute the following command:
+First, you need to set up cvs to download the CVS tree using ssh.  If
+you're using a Bourne shell (e.g. bash), do
+$ export CVS_RSH=ssh
+If you're using a C shell (e.g. tcsh or csh), do
+$ setenv CVS_RSH ssh
+
+After it's set up, use the following command to download the CVS tree:
 $ cvs -z3 -d:ext:anoncvs@savannah.gnu.org:/cvsroot/nano checkout nano
 
 If you want to download the stable CVS branch, add "-r nano_1_0_branch":
