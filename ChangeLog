@@ -114,6 +114,10 @@ CVS code -
 	  handle this. (DLR)
 	- Convert some ints with predefined boundaries to enums. (DLR)
 - cut.c:
+  cut_marked_segment()
+	- Respect concatenate_cut, as we need to use it if we do a
+	  marked cut and immediately follow it with a cut-to-end (which
+	  uses this function). (DLR)
   do_cut_text()
 	- Set concatenate_cut to TRUE unconditionally when doing a
 	  marked cut.  This fixes an incompatibility with Pico where an

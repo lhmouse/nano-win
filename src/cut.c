@@ -59,8 +59,8 @@ void add_to_cutbuffer(filestruct *inptr, bool allow_concat)
 	cutbuffer = inptr;
 #ifndef NANO_SMALL
     else if (allow_concat && concatenate_cut) {
-	/* Just tack the text in inptr onto the text in cutbottom,
-	 * unless allow_concat is FALSE. */
+	/* If allow_concat is TRUE and we're concatenating, tack the
+	 * text in inptr onto the text in cutbottom. */
 	cutbottom->data = charealloc(cutbottom->data,
 		strlen(cutbottom->data) + strlen(inptr->data) + 1);
 	strcat(cutbottom->data, inptr->data);
@@ -120,9 +120,26 @@ void cut_marked_segment(void)
 	cutbuffer = tmp;
 	cutbottom = tmp;
     } else {
+	if (concatenate_cut) {
+	    /* If we're concatenating, tack the text in the first line
+	     * of tmp onto the text in the bottom of the cutbuffer, and
+	     * move tmp one line down to where its next line begins. */
+	    cutbottom->data = charealloc(cutbottom->data,
+		strlen(cutbottom->data) + strlen(tmp->data) + 1);
+	    strcat(cutbottom->data, tmp->data);
+	    tmp = tmp->next;
+	}
+
+	/* Put tmp on the line after the bottom of the cutbuffer. */
 	cutbottom->next = tmp;
-	tmp->prev = cutbottom;
-	cutbottom = tmp;
+
+	if (!concatenate_cut) {
+	    /* Tf we're not concatenating, attach tmp to the bottom of
+	     * the cutbuffer, and then move the bottom of the cutbuffer
+	     * one line down to where tmp is. */
+	    tmp->prev = cutbottom;
+	    cutbottom = tmp;
+	}
     }
 
     /* And make the top remainder line manually too.  Update current_x
