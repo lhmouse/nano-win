@@ -206,6 +206,7 @@ typedef struct rcoption {
 #define NANO_ALT_Z 'z'
 #define NANO_ALT_LCARAT ','
 #define NANO_ALT_RCARAT '.'
+#define NANO_ALT_BRACKET ']'
 
 /* Some semi-changeable keybindings; don't play with unless you're sure you
 know what you're doing */
@@ -263,6 +264,7 @@ know what you're doing */
 #define NANO_APPEND_KEY		NANO_ALT_A
 #define NANO_OPENPREV_KEY	NANO_ALT_LCARAT
 #define NANO_OPENNEXT_KEY	NANO_ALT_RCARAT
+#define NANO_BRACKET_KEY	NANO_ALT_BRACKET
 
 #define TOGGLE_CONST_KEY	NANO_ALT_C
 #define TOGGLE_AUTOINDENT_KEY	NANO_ALT_I
@@ -316,7 +318,7 @@ know what you're doing */
 #define WRITEFILE_LIST_LEN (3 - NO_BROWSER)
 #define INSERTFILE_LIST_LEN (2 - NO_BROWSER)
 #define BROWSER_LIST_LEN 4
-#define MAIN_LIST_LEN 26
+#define MAIN_LIST_LEN 27
 #define MAIN_VISIBLE 12
 #define REPLACE_LIST_2_LEN 3
 #define GOTO_LIST_LEN 3

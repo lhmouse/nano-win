@@ -1348,7 +1348,7 @@ int do_int_spell_fix(char *word)
     edit_update(fileage, TOP);
 
     /* make sure word is still mis-spelt (i.e. when multi-errors) */
-    if (findnextstr(TRUE, fileage, beginx_top, prevanswer) != NULL) {
+    if (findnextstr(TRUE, FALSE, fileage, beginx_top, prevanswer) != NULL) {
 	do_replace_highlight(TRUE, prevanswer);
 
 	/* allow replace word to be corrected */
@@ -2266,7 +2266,10 @@ void help_init(void)
 
     /* Now add our shortcut info */
     for (i = 0; i <= MAIN_LIST_LEN - 1; i++) {
-	sofar = snprintf(buf, BUFSIZ, "^%c	", main_list[i].val + 64);
+	if (main_list[i].val)
+	   sofar = snprintf(buf, BUFSIZ, "^%c	", main_list[i].val + 64);
+	else
+	   sofar = snprintf(buf, BUFSIZ, "	");
 
 	if (main_list[i].misc1 > KEY_F0 && main_list[i].misc1 <= KEY_F(64))
 	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "(F%d)	",
@@ -2274,9 +2277,12 @@ void help_init(void)
 	else
 	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "	");
 
-	if (main_list[i].altval > 0)
+	if (main_list[i].altval > 0 && main_list[i].altval < 91)
 	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "(M-%c)	",
 			      main_list[i].altval - 32);
+	else if (main_list[i].altval > 0)
+	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "(M-%c)	",
+			      main_list[i].altval);
 	else
 	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "	");
 
@@ -2321,6 +2327,15 @@ void do_toggle(int which)
 #else
     char *enabled = _("enabled");
     char *disabled = _("disabled");
+
+/*
+    switch (toggles[which].val) {
+    case TOGGLE_BACKWARDS_KEY:
+    case TOGGLE_CASE_KEY:
+    case TOGGLE_REGEXP_KEY:
+	return;
+    }
+*/
 
     /* Even easier! */
     TOGGLE(toggles[which].flag);

@@ -18,6 +18,10 @@ CVS code -
 	  Meta-O (MacOS? OS-X? =-)
 	- New smooth scroll code by Ken Tyler.  New flag -S, --smooth,
 	  changes to page_up() and page_down().
+	- Bracket (brace, parens, etc) matching code by Ken Tyler.  
+	  New functions do_find_bracket(), changes to findnextstr(),
+	  command is Meta-] (hope you dont mind since I already sold off
+	  Meta-O to the MacOS file code Ken...)
 - nano.c:
   main()
 	- Added vars oldcurrent and oldcurrent_x to check whether cursor

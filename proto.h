@@ -111,6 +111,7 @@ int do_writeout(char *path, int exiting, int append);
 int do_gotoline(long line, int save_pos);
 int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 			int wholewords, int *i);
+int do_find_bracket(void);
 
 #ifdef ENABLE_MULTIBUFFER
 void do_gotopos(long line, int pos_x, int pos_y, int pos_placewewant);
@@ -233,7 +234,7 @@ RETSIGTYPE main_loop (int junk);
 filestruct *copy_node(filestruct * src);
 filestruct *copy_filestruct(filestruct * src);
 filestruct *make_new_node(filestruct * prevnode);
-filestruct *findnextstr(int quiet, filestruct * begin,
+filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin,
 			int beginx, char *needle);
 
 #ifdef ENABLE_MULTIBUFFER

@@ -222,21 +222,25 @@ void not_found_msg(char *str)
     }
 }
 
-filestruct *findnextstr(int quiet, filestruct * begin, int beginx,
+int past_editbuff;	/* search is now looking through lines not displayed */
+
+filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beginx,
 			char *needle)
 {
     filestruct *fileptr;
     char *searchstr, *rev_start = NULL, *found = NULL;
-    int past_editbot = 0, current_x_find;
+    int current_x_find;
 
     fileptr = current;
+
+    past_editbuff = 0;
 
     if (!ISSET(REVERSE_SEARCH)) {		/* forward search */
 
 	current_x_find = current_x + 1;
 
 	/* Are we now back to the line where the search started) */
-	if ((fileptr == begin) && (current_x_find < beginx))
+	if ((fileptr == begin) && (beginx >= current_x_find))
 	    search_last_line = 1;
 
 	/* Make sure we haven't passed the end of the string */
@@ -257,15 +261,17 @@ filestruct *findnextstr(int quiet, filestruct * begin, int beginx,
 
 	    fileptr = fileptr->next;
 
-	    if (!past_editbot && (fileptr == editbot))
-		past_editbot = 1;
+	    if (!past_editbuff && (fileptr == editbot))
+		past_editbuff = 1;
 
 	    /* EOF reached ?, wrap around once */
 	    if (fileptr == NULL) {
+		if (bracket_mode)		/* don't wrap if looking for bracket match */
+		   return NULL;
 		fileptr = fileage;
-		past_editbot = 1;
+		past_editbuff = 1;
 		if (!quiet)
-		    statusbar(_("Search Wrapped"));
+		   statusbar(_("Search Wrapped"));
 	    }
 
 	    /* Original start line reached */
@@ -313,13 +319,15 @@ filestruct *findnextstr(int quiet, filestruct * begin, int beginx,
 
 	    fileptr = fileptr->prev;
 
-/* ? */	    if (!past_editbot && (fileptr == edittop->prev))
-		past_editbot = 1;
+/* ? */	    if (!past_editbuff && (fileptr == edittop->prev))
+		past_editbuff = 1;
 
 	    /* SOF reached ?, wrap around once */
 /* ? */	    if (fileptr == NULL) {
+		if (bracket_mode)
+		   return NULL;
 		fileptr = filebot;
-		past_editbot = 1;
+		past_editbuff = 1;
 		if (!quiet)
 		    statusbar(_("Search Wrapped"));
 	    }
@@ -347,13 +355,15 @@ filestruct *findnextstr(int quiet, filestruct * begin, int beginx,
     current = fileptr;
     current_x = current_x_find;
 
-    if (past_editbot)
-	edit_update(fileptr, CENTER);
-    else
-	update_line(current, current_x);
+    if (!bracket_mode) {
+	if (past_editbuff)
+	   edit_update(fileptr, CENTER);
+	else
+	   update_line(current, current_x);
 
-    placewewant = xplustabs();
-    reset_cursor();
+	placewewant = xplustabs();
+	reset_cursor();
+    }
 
     return fileptr;
 }
@@ -413,7 +423,7 @@ int do_search(void)
 	last_search = mallocstrcpy(last_search, answer);
 
     search_last_line = 0;
-    findnextstr(0, current, current_x, answer);
+    findnextstr(FALSE, FALSE, current, current_x, answer);
     search_abort();
     return 1;
 }
@@ -582,7 +592,7 @@ int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
     while (1) {
 
 	/* Sweet optimization by Rocco here */
-	fileptr = findnextstr(replaceall, begin, *beginx, prevanswer);
+	fileptr = findnextstr(replaceall, FALSE, begin, *beginx, prevanswer);
 
 	/* No more matches.  Done! */
 	if (!fileptr)
@@ -803,5 +813,77 @@ void do_gotopos(long line, int pos_x, int pos_y, int pos_placewewant)
     current_x = pos_x;
     placewewant = pos_placewewant;
     update_line(current, pos_x);
+}
+#endif
+
+#if !defined(NANO_SMALL) && defined(HAVE_REGEX_H)
+
+int do_find_bracket(void)
+{
+    char ch_under_cursor, wanted_ch;
+    char *pos, *brackets = "([{<>}])";
+    char regexp_pat[] = "[  ]";
+    int offset, have_past_editbuff = 0, flagsave, current_x_save, count = 1;
+    filestruct *current_save;
+
+    ch_under_cursor = current->data[current_x];
+ 
+    if ((!(pos = strchr(brackets, ch_under_cursor))) || (!((offset = pos - brackets) < 8))) {
+	statusbar(_("Not a bracket"));
+	return 1;
+    }
+
+    blank_statusbar_refresh();
+
+    wanted_ch = *(brackets + ((strlen(brackets) - (offset + 1))));
+
+    current_x_save = current_x;
+    current_save = current;
+    flagsave = flags;
+    SET(USE_REGEXP);
+
+/* apparent near redundancy with regexp_pat[] here is needed, [][] works, [[]] doesn't */ 
+
+    if (offset < (strlen(brackets) / 2)) {			/* on a left bracket */
+	regexp_pat[1] = wanted_ch;
+	regexp_pat[2] = ch_under_cursor;
+	UNSET(REVERSE_SEARCH);
+    } else {							/* on a right bracket */
+	regexp_pat[1] = ch_under_cursor;
+	regexp_pat[2] = wanted_ch;
+	SET(REVERSE_SEARCH);
+    }
+
+    regexp_init(regexp_pat);
+
+    while (1) {
+	search_last_line = 0;
+	if (findnextstr(1, 1, current, current_x, regexp_pat)) {
+	    have_past_editbuff |= past_editbuff;
+	    if (current->data[current_x] == ch_under_cursor)	/* found identical bracket  */
+		count++;
+	    else {						/* found complementary bracket */
+		if (!(--count)) {
+		    if (have_past_editbuff)
+			edit_update(current, CENTER);
+		    else
+			update_line(current, current_x);
+		    placewewant = xplustabs();
+		    reset_cursor();
+		    break ;
+		}
+	    }
+	} else {						/* didn't find either left or right bracket */
+	    statusbar(_("No matching bracket"));
+	    current_x = current_x_save;
+	    current = current_save;
+	    break;
+	}
+    }
+
+    if (ISSET(REGEXP_COMPILED))
+	regexp_cleanup();
+    flags = flagsave;
+    return 0;
 }
 #endif
