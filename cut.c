@@ -366,15 +366,18 @@ int do_uncut_text(void)
 
 	if (marked_cut == 2 && current_x != strlen(current->data)) {
 	    tmp = make_new_node(current);
-	    tmp->data = nmalloc(strlen(&current->data[current_x]));
+	    tmp->data = nmalloc(strlen(&current->data[current_x]) + 1);
 	    strcpy(tmp->data, &current->data[current_x]);
 	    tmp->next = current->next;
 	    current->next = tmp;
 	    tmp->prev = current;
 	    current->data[current_x] = 0;
 	    current->data = nrealloc(current->data, strlen(current->data) + 1);	    
+	    current = current->next;
+	    current_x = 0;
+	    placewewant = 0;
 	}
-	renumber(current);
+	renumber(current->prev);
 	dump_buffer(fileage);
 	dump_buffer(cutbuffer);
 	set_modified();
