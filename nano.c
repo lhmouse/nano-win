@@ -2,7 +2,7 @@
 /**************************************************************************
  *   nano.c                                                               *
  *                                                                        *
- *   Copyright (C) 1999-2002 Chris Allegretta                             *
+ *   Copyright (C) 1999-2003 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -3710,9 +3710,9 @@ int main(int argc, char *argv[])
 		break;
 #endif
 
+	    case -1:		/* Stuff that we don't want to do squat */
 	    case 0:		/* Erg */
 	    case 29:		/* Ctrl-] */
-	    case -1:		/* Stuff that we don't want to do squat */
 	    case 410:		/* Must ignore this, it's sent when we resize */
 #ifdef PDCURSES
 	    case 541:		/* ???? */

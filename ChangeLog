@@ -56,6 +56,9 @@ Changes
 	  do_replace_loop() to do the checks.  It really should not be 
 	  done here, as some function in winio.c should handle this, 
 	  but I can't seem to find a good place to put this check.
+	- Updated all copyright notices to say 2003 rather than 2002, as
+	  nearly all the source files have been worked on this year
+	  (DLR).
 - configure.ac:
 	- Added tr and eu to ALL_LINGUAS (Jordi).
 	- Fix now inaccurate description of --enable-tiny's effects; it

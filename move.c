@@ -2,7 +2,7 @@
 /**************************************************************************
  *   move.c                                                               *
  *                                                                        *
- *   Copyright (C) 1999-2002 Chris Allegretta                             *
+ *   Copyright (C) 1999-2003 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -171,7 +171,7 @@ int do_down(void)
     current = current->next;
     current_x = actual_x(current, placewewant);
 
-    /* Note current_y is zero-based.  This test checks for the cursor
+    /* Note current_y is zero-based.  This test checks for the cursor's
      * being on the last row of the edit window. */
     if (current_y == editwinrows - 1) {
 #ifndef NANO_SMALL
