@@ -1,4 +1,3 @@
-CVS code -
 - General:
 	- Translation updates (see po/ChangeLog for details).
 	- Make sure the "historylog" option isn't included at all if
@@ -31,14 +30,17 @@ CVS code -
 - search.c:
   findnextstr(), do_replace_loop()
 	- Fix potential infinite loops and other misbehavior when doing
-	  certain zero-length regex replacements ("^", "$", and "^$").
-	  Add a no_sameline parameter to findnextstr(), and set it in
-	  the calls in do_replace_loop() when such regexes are found, so
-	  that such regexes are only found once per line.  Also change
-	  length_change from a long to an int; size_t is unsuitable due
-	  to its being unsigned. (DLR; found by Mike Frysinger and DLR,
-	  match_len by David Benbennick)  David Benbennick: Add a few
-	  minor cleanups to do_replace_loop().
+	  beginning-of-line or end-of-line regex replacements ("^", "$",
+	  and "^$").  Add a no_sameline parameter to findnextstr(), and
+	  set it in the calls in do_replace_loop() when such regexes are
+	  found, so that such regexes are only found once per line.
+	  Also change length_change from a long to an int; size_t is
+	  unsuitable due to its being unsigned. (DLR; found by Mike
+	  Frysinger and DLR, match_len by David Benbennick)  David
+	  Benbennick: Add a few minor cleanups to do_replace_loop(), and
+	  fix segfault when doing a regex replace of a string that
+	  matches inside a line (e.g. replace the "b" in "abc" with
+	  anything).
 - winio.c:
   titlebar()
 	- Fix problem with the available space for a filename on the
