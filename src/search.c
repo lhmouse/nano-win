@@ -361,7 +361,8 @@ int findnextstr(int can_display_wrap, int wholeword, const filestruct
 /* Search for a string. */
 void do_search(void)
 {
-    int old_pww = placewewant, i, fileptr_x = current_x, didfind;
+    size_t old_pww = placewewant, i, fileptr_x = current_x;
+    int didfind;
     filestruct *fileptr = current;
 
 #ifndef DISABLE_WRAPPING
@@ -428,7 +429,8 @@ void do_search(void)
 /* Search for the next string without prompting. */
 void do_research(void)
 {
-    int old_pww = placewewant, fileptr_x = current_x, didfind;
+    size_t old_pww = placewewant, fileptr_x = current_x;
+    int didfind;
     filestruct *fileptr = current;
 
 #ifndef DISABLE_WRAPPING
@@ -583,7 +585,7 @@ char *replace_line(const char *needle)
 int do_replace_loop(const char *needle, const filestruct *real_current,
 	size_t *real_current_x, int wholewords)
 {
-    int old_pww = placewewant, replaceall = 0, numreplaced = -1;
+    int old_pww = placewewant, replaceall = FALSE, numreplaced = -1;
     size_t current_x_save = current_x;
     const filestruct *current_save = current;
 #ifdef HAVE_REGEX_H
@@ -677,7 +679,7 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 	    int length_change;
 
 	    if (i == 2)
-		replaceall = 1;
+		replaceall = TRUE;
 
 	    copy = replace_line(needle);
 

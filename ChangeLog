@@ -16,6 +16,18 @@ CVS code -
 	  descriptive. (DLR)
 	- Remove unused global variable search_offscreen. (David
 	  Benbennick)
+	- Add new N_() macro to mark strings that aren't translated
+	  immediately, and convert nano to use it in cases where the
+	  same translated string is stored in a const char* and used
+	  more than once. (David Benbennick)  DLR: Do this for the
+	  toggles list for consistency with the shortcut list.
+	- Overhaul the shortcut list and toggle list initialization
+	  code for efficiency.  Changes to shortcut_init() and
+	  toggle_init(). (David Benbennick)  DLR: Move "Cancel" to just
+	  after "Get Help" in the file browser list, for consistency
+	  with all the other lists, have the replace list accept all the
+	  same function keys as the search list, and clarify a few
+	  shortcut descriptions.
 - files.c:
   close_open_file()
 	- Tweak to no longer rely on the return values of
@@ -32,6 +44,8 @@ CVS code -
   shortcut_init()
 	- Fix erroneous #ifdef so that nano compiles with
 	  --disable-justify again. (DLR; found by Mike Frysinger)
+  thanks_for_all_the_fish()
+	- Delete topwin, edit, and bottomwin. (David Benbennick)
 - nano.c:
   do_justify()
 	- Add on_next_line flag, used to indicate when we've moved to
@@ -47,6 +61,12 @@ CVS code -
 	  used in the actual functions. (DLR)
 	- Remove unused declaration of temp_opt. (David Benbennick)
 - rcfile.c:
+  rcfile_msg()
+	- Removed along with the related static int errors, and replaced
+	  with calls to rcfile_error(). (David Benbennick)
+	- Removed the reference to "starting nano" in the statusbar
+	  message, as it may be called when we exit if the history file
+	  can't be saved. (DLR)
   parse_rcfile()
 	- Have whitespace display default to off instead of on. (Mike
 	  Frysinger)

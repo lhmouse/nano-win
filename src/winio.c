@@ -2945,9 +2945,9 @@ void display_main_list(void)
     bottombars(main_list);
 }
 
-/* If constant is FALSE, the user typed ^C so we unconditionally display
- * the cursor position.  Otherwise, we display it only if the character
- * position changed, and DISABLE_CURPOS is not set.
+/* If constant is FALSE, the user typed Ctrl-C, so we unconditionally
+ * display the cursor position.  Otherwise, we display it only if the
+ * character position changed and DISABLE_CURPOS is not set.
  *
  * If constant is TRUE and DISABLE_CURPOS is set, we unset it and update
  * old_i and old_totsize.  That way, we leave the current statusbar
@@ -3007,9 +3007,9 @@ void do_cursorpos_void(void)
 }
 
 /* Calculate the next line of help_text, starting at ptr. */
-int line_len(const char *ptr)
+size_t line_len(const char *ptr)
 {
-    int j = 0;
+    size_t j = 0;
 
     while (*ptr != '\n' && *ptr != '\0' && j < COLS - 5) {
 	ptr++;
@@ -3288,14 +3288,14 @@ void do_credits(void)
     };
 
     const char *xlcredits[XLCREDIT_LEN] = {
-	"The nano text editor",
-	"version",
-	"Brought to you by:",
-	"Special thanks to:",
-	"The Free Software Foundation",
-	"For ncurses:",
-	"and anyone else we forgot...",
-	"Thank you for using nano!"
+	N_("The nano text editor"),
+	N_("version"),
+	N_("Brought to you by:"),
+	N_("Special thanks to:"),
+	N_("The Free Software Foundation"),
+	N_("For ncurses:"),
+	N_("and anyone else we forgot..."),
+	N_("Thank you for using nano!")
     };
 
     curs_set(0);

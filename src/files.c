@@ -555,7 +555,7 @@ void do_insertfile(int loading_file)
 	} else {
 #endif
 	    realname = real_dir_from_tilde(answer);
-	    i = open_file(realname, 1, loading_file);
+	    i = open_file(realname, TRUE, loading_file);
 #ifndef NANO_SMALL
 	}
 #endif
@@ -848,7 +848,8 @@ void load_open_file(void)
 
     /* restore full file position: line number, x-coordinate, y-
        coordinate, place we want */
-    do_gotopos(open_files->file_lineno, open_files->file_current_x, open_files->file_current_y, open_files->file_placewewant);
+    do_gotopos(open_files->file_lineno, open_files->file_current_x,
+	open_files->file_current_y, open_files->file_placewewant);
 
     /* update the titlebar */
     clearok(topwin, FALSE);
@@ -1821,33 +1822,33 @@ int do_writeout(int exiting)
 	const char *formatstr, *backupstr;
 
 	if (ISSET(MAC_FILE))
-	   formatstr = _(" [Mac Format]");
+	   formatstr = N_(" [Mac Format]");
 	else if (ISSET(DOS_FILE))
-	   formatstr = _(" [DOS Format]");
+	   formatstr = N_(" [DOS Format]");
 	else
 	   formatstr = "";
 
 	if (ISSET(BACKUP_FILE))
-	   backupstr = _(" [Backup]");
+	   backupstr = N_(" [Backup]");
 	else
 	   backupstr = "";
 
 	/* Be nice to the translation folks. */
 	if (ISSET(MARK_ISSET) && !exiting) {
 	    if (append == 2)
-		msg = _("Prepend Selection to File");
+		msg = N_("Prepend Selection to File");
 	    else if (append == 1)
-		msg = _("Append Selection to File");
+		msg = N_("Append Selection to File");
 	    else
-		msg = _("Write Selection to File");
+		msg = N_("Write Selection to File");
 	} else
 #endif /* !NANO_SMALL */
 	if (append == 2)
-	    msg = _("File Name to Prepend to");
+	    msg = N_("File Name to Prepend to");
 	else if (append == 1)
-	    msg = _("File Name to Append to");
+	    msg = N_("File Name to Append to");
 	else
-	    msg = _("File Name to Write");
+	    msg = N_("File Name to Write");
 
 	/* If we're using restricted mode, the filename isn't blank,
 	 * and we're at the "Write File" prompt, disable tab
@@ -1855,9 +1856,9 @@ int do_writeout(int exiting)
 	i = statusq(!ISSET(RESTRICTED) || filename[0] == '\0' ? TRUE :
 		FALSE, writefile_list,
 #ifndef NANO_SMALL
-		ans, NULL, "%s%s%s", msg, formatstr, backupstr
+		ans, NULL, "%s%s%s", _(msg), formatstr, backupstr
 #else
-		filename, "%s", msg
+		filename, "%s", _(msg)
 #endif
 		);
 
@@ -2953,7 +2954,8 @@ void load_history(void)
             if (errno != ENOENT) {
 		/* Don't save history when we quit. */
 		UNSET(HISTORYLOG);
-		rcfile_error(_("Unable to open ~/.nano_history file: %s"), strerror(errno));
+		rcfile_error(N_("Unable to open ~/.nano_history file: %s"),
+			strerror(errno));
 	    }
 	    free(nanohist);
 	} else {
@@ -2986,8 +2988,8 @@ void save_history(void)
     historytype *h;
 
     /* don't save unchanged or empty histories */
-    if (!((search_history.count || replace_history.count) &&
-			ISSET(HISTORY_CHANGED) && !ISSET(VIEW_MODE)))
+    if ((search_history.count == 0 && replace_history.count == 0) ||
+			!ISSET(HISTORY_CHANGED) || ISSET(VIEW_MODE))
 	return;
 
     if (homenv != NULL) {
@@ -3003,7 +3005,8 @@ void save_history(void)
     if (homenv != NULL || userage != NULL) {
 	hist = fopen(nanohist, "wb");
 	if (hist == NULL) {
-	    rcfile_msg(_("Unable to write ~/.nano_history file: %s"), strerror(errno));
+	    rcfile_error(N_("Unable to write ~/.nano_history file: %s"),
+		strerror(errno));
 	} else {
 	    /* set rw only by owner for security ?? */
 	    chmod(nanohist, S_IRUSR | S_IWUSR);
@@ -3012,19 +3015,25 @@ void save_history(void)
 		h->data = charealloc(h->data, strlen(h->data) + 2);
 		strcat(h->data, "\n");
 		if (fputs(h->data, hist) == EOF) {
-		    rcfile_msg(_("Unable to write ~/.nano_history file: %s"), strerror(errno));
+		    rcfile_error(
+			N_("Unable to write ~/.nano_history file: %s"),
+			strerror(errno));
 		    goto come_from;
 		}
 	    }
 	    if (fputs("\n", hist) == EOF) {
-		    rcfile_msg(_("Unable to write ~/.nano_history file: %s"), strerror(errno));
+		    rcfile_error(
+			N_("Unable to write ~/.nano_history file: %s"),
+			strerror(errno));
 		    goto come_from;
 	    }
 	    for (h = replace_history.tail; h->prev; h = h->prev) {
 		h->data = charealloc(h->data, strlen(h->data) + 2);
 		strcat(h->data, "\n");
 		if (fputs(h->data, hist) == EOF) {
-		    rcfile_msg(_("Unable to write ~/.nano_history file: %s"), strerror(errno));
+		    rcfile_error(
+			N_("Unable to write ~/.nano_history file: %s"),
+			strerror(errno));
 		    goto come_from;
 		}
 	    }

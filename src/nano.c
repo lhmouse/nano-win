@@ -1797,7 +1797,7 @@ const char *do_alt_speller(char *tempfile_name)
 #endif
 	free_filestruct(fileage);
 	global_init(TRUE);
-	open_file(tempfile_name, 0, 1);
+	open_file(tempfile_name, FALSE, TRUE);
 #ifndef NANO_SMALL
     }
 
@@ -3504,7 +3504,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, "Main: open file\n");
 #endif
 
-    open_file(filename, 0, 0);
+    open_file(filename, FALSE, FALSE);
 #ifdef ENABLE_MULTIBUFFER
     /* If we're using multibuffers and more than one file is specified
        on the command line, load them all and switch to the first one
@@ -3516,7 +3516,7 @@ int main(int argc, char *argv[])
 	    add_open_file(TRUE);
 	    new_file();
 	    filename = mallocstrcpy(filename, argv[optind]);
-	    open_file(filename, 0, 0);
+	    open_file(filename, FALSE, FALSE);
 	    load_file(FALSE);
 	}
 	open_nextfile_void();

@@ -76,6 +76,9 @@
 #  define _(string) (string)
 #  define P_(singular, plural, number) (number == 1 ? singular : plural)
 #endif
+#define gettext_noop(string) (string)
+#define N_(string) gettext_noop(string)
+	/* Mark a string that will be sent to gettext later. */
 
 #include <sys/types.h>
 #include <sys/stat.h>

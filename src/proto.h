@@ -219,12 +219,6 @@ char *do_browse_from(const char *inpath);
 
 /* Public functions in global.c */
 size_t length_of_list(const shortcut *s);
-void sc_init_one(shortcut **shortcutage, int key, const char *desc,
-#ifndef DISABLE_HELP
-	const char *help,
-#endif
-	int metaval, int funcval, int miscval, int view, void
-	(*func)(void));
 #ifndef NANO_SMALL
 void toggle_init_one(int val, const char *desc, long flag);
 void toggle_init(void);
@@ -232,8 +226,14 @@ void toggle_init(void);
 void free_toggles(void);
 #endif
 #endif
-void free_shortcutage(shortcut **shortcutage);
+void sc_init_one(shortcut **shortcutage, int key, const char *desc,
+#ifndef DISABLE_HELP
+	const char *help,
+#endif
+	int metaval, int funcval, int miscval, int view, void
+	(*func)(void));
 void shortcut_init(int unjustify);
+void free_shortcutage(shortcut **shortcutage);
 #ifdef DEBUG
 void thanks_for_all_the_fish(void);
 #endif
@@ -365,7 +365,6 @@ void enable_flow_control(void);
 /* Public functions in rcfile.c */
 #ifdef ENABLE_NANORC
 void rcfile_error(const char *msg, ...);
-void rcfile_msg(const char *msg, ...);
 char *parse_next_word(char *ptr);
 char *parse_argument(char *ptr);
 #ifdef ENABLE_COLOR
@@ -555,7 +554,7 @@ void total_refresh(void);
 void display_main_list(void);
 void do_cursorpos(int constant);
 void do_cursorpos_void(void);
-int line_len(const char *ptr);
+size_t line_len(const char *ptr);
 void do_help(void);
 void do_replace_highlight(int highlight_flag, const char *word);
 #ifdef DEBUG
