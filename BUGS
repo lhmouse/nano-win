@@ -38,6 +38,8 @@
 - Wrapping a line with autoindent mode sometimes causes a segfault (19)[FIXED]
 - When inserting files, the display sometimes fails to display properly
   until a pageup/down occurs (22)[FIXED]
+- In search/replace code there is too much refreshing in bottomwin (26)
+ [FIXED]
 - Using nano -t, user can not exit until a filename is given via ^O. (30)
  [FIXED]
 - Using -k cut text is not pasted properly. (34) [FIXED].
@@ -58,7 +60,6 @@
   program.  Nano only uses ispell (for now) (12)
 - Cutting a file with marked text and both marker ends on the same line
   causes a random segfault (16) [FIXED?]
-- In search/replace code there is too much refreshing in bottomwin (26)
 - In replace, there is no way to accept the default replace string. (27)
 - totsize problems still abound in do_justify (33)
 - Using -k pasted text is not updated properly if it goes beyond editbot. (35)
