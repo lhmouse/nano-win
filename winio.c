@@ -1453,12 +1453,38 @@ int do_cursorpos_void(void)
     return do_cursorpos(0);
 }
 
+/* Calculate the next line of help_text, starting at ptr. */
+int line_len(const char *ptr)
+{
+    int j = 0;
+
+    while (*ptr != '\n' && *ptr != '\0' && j < COLS - 5) {
+	ptr++;
+	j++;
+    }
+    if (j == COLS - 5) {
+	/* Don't wrap at the first of two spaces following a period. */
+	if (*ptr == ' ' && *(ptr + 1) == ' ')
+	    j++;
+	/* Don't print half a word if we've run out of space */
+	while (*ptr != ' ' && j > 0) {
+	    ptr--;
+	    j--;
+	}
+	/* Word longer than COLS - 5 chars just gets broken */
+	if (j == 0)
+	    j = COLS - 5;
+    }
+    assert(j >= 0 && j <= COLS - 4 && (j > 0 || *ptr == '\n'));
+    return j;
+}
+
 /* Our shortcut-list-compliant help function, which is
  * better than nothing, and dynamic! */
 int do_help(void)
 {
 #ifndef DISABLE_HELP
-    int i, j, row = 0, page = 1, kbinput = 0, no_more = 0, kp, kp2;
+    int i, page = 0, kbinput = 0, no_more = 0, kp, kp2;
     int no_help_flag = 0;
     const shortcut *oldshortcut;
 
@@ -1538,7 +1564,7 @@ int do_help(void)
 	case NANO_PREVPAGE_FKEY:
 	case KEY_PPAGE:
 	  do_pageupkey:
-	    if (page > 1) {
+	    if (page > 0) {
 		no_more = 0;
 		blank_edit();
 		page--;
@@ -1547,43 +1573,21 @@ int do_help(void)
 	}
 
 	/* Calculate where in the text we should be, based on the page */
-	for (i = 1; i < page; i++) {
-	    row = 0;
-	    j = 0;
-
-	    while (row < editwinrows - 2 && *ptr != '\0') {
-		if (*ptr == '\n' || j == COLS - 5) {
-		    j = 0;
-		    row++;
-		}
+	for (i = 1; i < page * (editwinrows - 1); i++) {
+	    ptr += line_len(ptr);
+	    if (*ptr == '\n')
 		ptr++;
-		j++;
-	    }
 	}
 
-	i = 0;
-	j = 0;
-	while (i < editwinrows && *ptr != '\0') {
-	    const char *end = ptr;
-	    while (*end != '\n' && *end != '\0' && j != COLS - 5) {
-		end++;
-		j++;
-	    }
-	    if (j == COLS - 5) {
+	for (i = 0; i < editwinrows && *ptr != '\0'; i++) {
+	    int j = line_len(ptr);
 
-		/* Don't print half a word if we've run out of space */
-		while (*end != ' ' && *end != '\0') {
-		    end--;
-		    j--;
-		}
-	    }
 	    mvwaddnstr(edit, i, 0, ptr, j);
-	    j = 0;
-	    i++;
-	    if (*end == '\n')
-		end++;
-	    ptr = end;
+	    ptr += j;
+	    if (*ptr == '\n')
+		ptr++;
 	}
+
 	if (*ptr == '\0') {
 	    no_more = 1;
 	    continue;

@@ -472,6 +472,7 @@ void display_main_list(void);
 void statusbar(const char *msg, ...);
 int do_cursorpos(int constant);
 int do_cursorpos_void(void);
+int line_len(const char *ptr);
 int do_help(void);
 int keypad_on(WINDOW *win, int newval);
 void do_replace_highlight(int highlight_flag, const char *word);

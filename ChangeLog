@@ -21,6 +21,10 @@ CVS code
 	  (David Benbennick).
   help_init()
 	- Fix crashing in do_help when COLS < 23 (David Benbennick).
+  do_help()
+	- Fix line lengths not being computed properly, causes display
+	  glitches most noticeable with < 20 rows.  New function
+	  nano.c:line_len(). (David Benbennick).
 - rcfile.c:
   colortoint()
 	- Don't bomb after invalid color and print bad color name
