@@ -1,5 +1,6 @@
 CVS code -
 - General:
+	- Miscellaneous comment fixes. (DLR)
 	- After (re)initializing the terminal, make sure the cursor is
 	  always turned on.  Changes to do_alt_speller(),
 	  handle_sigwinch(), and main(). (DLR)
@@ -10,9 +11,6 @@ CVS code -
 	- Fix assert to reference the proper variable, so that nano
 	  builds with DEBUG defined again. (Mike Frysinger, found by
 	  Dmitri Vassilenko)
-- cut.c:
-  cut_to_eol()
-	- Fix inaccurate comment. (DLR)
 - files.c:
   get_full_path()
 	- Rework handling of the results of getcwd() in order to avoid
