@@ -145,7 +145,9 @@ int search_init(int replacing)
 /* NEW TEST */
     if (ISSET(PICO_MODE)) {
 	backupstring = mallocstrcpy(backupstring, "");
+#ifndef NANO_SMALL
 	search_history.current = (historytype *)&search_history.next;
+#endif
     }
 /* */
     /* If using Pico messages, we do things the old fashioned way... */

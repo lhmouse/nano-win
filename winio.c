@@ -456,7 +456,9 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    fprintf(stderr, _("input \'%c\' (%d)\n"), kbinput, kbinput);
 #endif
 	} /* switch (kbinput) */
+#ifndef NANO_SMALL
 	last_kbinput = kbinput;
+#endif
 	nanoget_repaint(buf, answer, x);
 	wrefresh(bottomwin);
     } /* while (kbinput ...) */
@@ -551,10 +553,10 @@ void bottombars(const shortcut *s)
 
 	    wmove(bottomwin, 1 + j, i * (COLS / numcols));
 
-#ifndef NANO_SMALL
 	    /* Yucky sentinel values we can't handle a better way */
 	    if (s->val == NANO_CONTROL_SPACE)
 		strcpy(keystr, "^ ");
+#ifndef NANO_SMALL
 	    else if (s->val == KEY_UP)
 		strcpy(keystr, _("Up"));
 #endif /* NANO_SMALL */
