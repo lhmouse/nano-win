@@ -1148,7 +1148,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	    return -1;
 	} else if (size > 0) {
 #ifndef NANO_SMALL
-	    if (ISSET(DOS_FILE)) {
+	    if (ISSET(DOS_FILE) || ISSET(MAC_FILE)) {
 		size = write(fd, "\r", 1);
 		lineswritten++;
 		if (size == -1) {
