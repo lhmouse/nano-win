@@ -140,10 +140,12 @@
 ## color will use a transparent color.  If you don't want this, be sure
 ## to set the background color to black or white.
 ##
-# syntax "c-file" "\.(c|h)$"
+# syntax "c-file" "\.(c|C|cc|cpp|h|H|hh|hpp)$"
 # color red "\<[A-Z_]{2,}\>" 
-# color green "\<(float|double|char|int|short|long|enum|void|static|const|struct|union|typedef|extern|signed|unsigned|inline)\>"
-# color brightyellow "\<(for|if|while|do|else|case|switch|goto|continue|break|return)\>"
+# color green "\<(float|double|char|int|short|long|sizeof|enum|void|static|const|struct|union|typedef|extern|signed|unsigned|inline)\>"
+# color green "\<(bool|class|namespace|template|public|protected|private|typename|this|friend|virtual|using|mutable|volatile|register|explicit)\>"
+# color brightyellow "\<(for|if|while|do|else|case|default|switch|goto|continue|break|return)\>"
+# color brightyellow "\<(try|throw|catch|operator|new|delete)\>"
 # color brightcyan "^ *# *(define|undef|include|ifn?def|endif|elif|else|if)"
 # color brightmagenta "'([^\]|(\\['abfnrtv\\]))'" "'\\(([0-7][0-7]?)|([0-3][0-7][0-7]))'" "'\\x[0-9A-Fa-f][0-9A-Fa-f]?'"
 ##

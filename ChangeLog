@@ -88,6 +88,8 @@ CVS code -
 - nanorc.sample:
 	- Fix the description for the whitespace option to mention that
 	  only single-column characters are allowed. (DLR)
+	- Add C++ regexes. (Neil Brown, merged into c-file regexes by
+	  DLR)
 - nano.1, nano.texi:
 	- Mention the -? alias for -h/--help, and add various
 	  consistency fixes. (DLR)
