@@ -911,7 +911,7 @@ int open_prevfile(int closing_file)
     load_open_file();
 
     statusbar(_("Switched to %s"),
-      ((open_files->filename[0] == '\0') ? "New Buffer" : open_files->filename));
+      ((open_files->filename[0] == '\0') ? _("New Buffer") : open_files->filename));
 
 #ifdef DEBUG
     dump_buffer(current);
@@ -974,7 +974,7 @@ int open_nextfile(int closing_file)
     load_open_file();
 
     statusbar(_("Switched to %s"),
-      ((open_files->filename[0] == '\0') ? "New Buffer" : open_files->filename));
+      ((open_files->filename[0] == '\0') ? _("New Buffer") : open_files->filename));
 
 #ifdef DEBUG
     dump_buffer(current);
@@ -2319,7 +2319,7 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
 
 		/* make each filename shown be the same length as the longest
 		   filename, with two spaces at the end */
-		snprintf(foo, longestname + 1, matches[i]);
+		snprintf(foo, longestname + 1, "%s", matches[i]);
 		while (strlen(foo) < longestname)
 		    strcat(foo, " ");
 
@@ -2822,7 +2822,7 @@ char *do_browser(const char *inpath)
 	    }
 	}
  	wrefresh(edit);
-    } while ((kbinput = wgetch(edit)) != NANO_EXIT_KEY);
+    } while ((kbinput = blocking_wgetch(edit)) != NANO_EXIT_KEY);
     curs_set(1);
     blank_edit();
     titlebar(NULL);

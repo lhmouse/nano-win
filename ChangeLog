@@ -1,4 +1,45 @@
 CVS code -
+- files.c:
+  open_prevfile(), open_nextfile()
+	- Translate the "New Buffer" string when displaying "Switched
+	  to" messages on the statusbar. (DLR)
+  input_tab()
+	- Fix snprintf() call so that we don't segfault when trying to
+	  complete a filename containing %'s. (Ulf Härnhammar)
+- global.c:
+  shortcut_init()
+	- Move the "Cancel" shortcut up so that it's just after the "Get
+	  Help" shortcut, for consistency with the other shortcut lists.
+	  (DLR)
+- nano.c:
+  do_int_spell_fix()
+	- Move the REVERSE_SEARCH flag toggling into the NANO_SMALL
+	  #ifdef, since the tiny version of nano doesn't support reverse
+	  searching.  Also, turn the USE_REGEXP flag off during spell
+	  checking in order to avoid a potential segfault. (DLR)
+  quote_length()
+	- Fix problem where quoted justify wouldn't work if HAVE_REGEX_H
+	  wasn't set. (David Benbennick)
+  main()
+	- Interpret the escape sequences Esc O F and Esc O H as End and
+	  Home, respectively, as nanogetstr() does.  Also, don't
+	  interpret Esc O z as a "NumLock glitch" value. (DLR)
+	- Call setlocale() outside the ENABLE_NLS #ifdef, since UTF-8
+	  support won't work properly if the locale isn't set, whether
+	  NLS is enabled or not. (Junichi Uekawa)
+- winio.c:
+  blocking_wgetch()
+	- New function used in place of blocking wgetch() calls.  If we
+	  get ERR when using blocking input, it means that the input
+	  source that we were using is gone.  In this case, call
+	  handle_hupterm(), so that nano dies gracefully instead of
+	  going into an infinite loop. (DLR, found by Jim Uhl)
+  get_page_start()
+	- For consistency, tweak so that scrolling always occurs when we
+	  try to move onto the "$" at the end of the line, as opposed to
+	  (a) when we move onto the "$" at the end of the line on the
+	  first page and (b) when we move onto the character just before
+	  the "$" on subsequent pages. (DLR)
 
 GNU nano 1.2.4 - 2004.06.27
 - General:

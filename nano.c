@@ -1601,17 +1601,27 @@ int do_int_spell_fix(const char *word)
 	/* Save where we are. */
     int i = 0;
 	/* The return value. */
-    int reverse_search_set = ISSET(REVERSE_SEARCH);
 #ifndef NANO_SMALL
     int case_sens_set = ISSET(CASE_SENSITIVE);
+    int reverse_search_set = ISSET(REVERSE_SEARCH);
     int mark_set = ISSET(MARK_ISSET);
+#endif
+#ifdef HAVE_REGEX_H
+    int regexp_set = ISSET(USE_REGEXP);
+#endif
 
+#ifndef NANO_SMALL
+    /* Make sure Spell Check is case sensitive */
     SET(CASE_SENSITIVE);
+    /* Make sure Spell Check goes forward only */
+    UNSET(REVERSE_SEARCH);
     /* Make sure the marking highlight is off during Spell Check */
     UNSET(MARK_ISSET);
 #endif
-    /* Make sure Spell Check goes forward only */
-    UNSET(REVERSE_SEARCH);
+#ifdef HAVE_REGEX_H
+    /* Make sure Spell Check doesn't use regular expressions */
+    UNSET(USE_REGEXP);
+#endif
 
     /* save the current search/replace strings */
     search_init_globals();
@@ -1664,17 +1674,23 @@ int do_int_spell_fix(const char *word)
     current_x = current_x_save;
     edittop = edittop_save;
 
+#ifndef NANO_SMALL
+    /* restore case sensitivity setting */
+    if (!case_sens_set)
+	UNSET(CASE_SENSITIVE);
+
     /* restore Search/Replace direction */
     if (reverse_search_set)
 	SET(REVERSE_SEARCH);
 
-#ifndef NANO_SMALL
-    if (!case_sens_set)
-	UNSET(CASE_SENSITIVE);
-
     /* restore marking highlight */
     if (mark_set)
 	SET(MARK_ISSET);
+#endif
+#ifdef HAVE_REGEX_H
+    /* restore regular expression usage setting */
+    if (regexp_set)
+	SET(USE_REGEXP);
 #endif
 
     return i != -1;
@@ -2132,7 +2148,7 @@ size_t quote_length(const char *line)
     size_t qlen = strlen(quotestr);
 
     /* Compute quote depth level */
-    while (!strcmp(line + qdepth, quotestr))
+    while (strncmp(line + qdepth, quotestr, quotelen) == 0)
 	qdepth += qlen;
     return qdepth;
 }
@@ -2619,13 +2635,13 @@ int do_justify(void)
 #if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
     /* If it was a mouse click, parse it with do_mouse() and it might
      * become the unjustify key.  Else give it back to the input stream. */
-    if ((i = wgetch(edit)) == KEY_MOUSE)
+    if ((i = blocking_wgetch(edit)) == KEY_MOUSE)
 	do_mouse();
     else
 	ungetch(i);
 #endif
 
-    if ((i = wgetch(edit)) != NANO_UNJUSTIFY_KEY) {
+    if ((i = blocking_wgetch(edit)) != NANO_UNJUSTIFY_KEY) {
 	ungetch(i);
 	/* Did we back up anything at all? */
 	if (cutbuffer != cutbuffer_save)
@@ -3090,8 +3106,8 @@ int main(int argc, char *argv[])
     };
 #endif
 
-#ifdef ENABLE_NLS
     setlocale(LC_ALL, "");
+#ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCALEDIR);
     textdomain(PACKAGE);
 #endif
@@ -3490,26 +3506,33 @@ int main(int argc, char *argv[])
 	raw();
 #endif
 
-	kbinput = wgetch(edit);
+	kbinput = blocking_wgetch(edit);
 #ifdef DEBUG
 	fprintf(stderr, "AHA!  %c (%d)\n", kbinput, kbinput);
 #endif
 	if (kbinput == 27) {	/* Grab Alt-key stuff first */
-	    kbinput = wgetch(edit);
+	    kbinput = blocking_wgetch(edit);
 	    switch (kbinput) {
 		/* Alt-O, suddenly very important ;) */
 	    case 'O':
-		kbinput = wgetch(edit);
+		kbinput = blocking_wgetch(edit);
 		/* Shift or Ctrl + Arrows are Alt-O-[2,5,6]-[A,B,C,D] on some terms */
 		if (kbinput == '2' || kbinput == '5' || kbinput == '6')
-		    kbinput = wgetch(edit);
+		    kbinput = blocking_wgetch(edit);
 		if ((kbinput <= 'D' && kbinput >= 'A') ||
 			(kbinput <= 'd' && kbinput >= 'a'))
 		    kbinput = abcd(kbinput);
-		else if (kbinput <= 'z' && kbinput >= 'j')
-		    print_numlock_warning();
+		/* Alt-O-H and Alt-O-F are Home and End on some terms */
+		else if (kbinput == 'F')
+		    kbinput = KEY_END;
+		else if (kbinput == 'H')
+		    kbinput = KEY_HOME;
+		/* Alt-O-P through Alt-O-S are F1 through F4 on some terms */
 		else if (kbinput <= 'S' && kbinput >= 'P')
 		    kbinput = KEY_F(kbinput - 79);
+		/* Alt-O-j through Alt-O-y are produced by the NumLock glitch */
+		else if (kbinput <= 'y' && kbinput >= 'j')
+		    print_numlock_warning();
 #ifdef DEBUG
 		else {
 		    fprintf(stderr, "I got Alt-O-%c! (%d)\n",
@@ -3525,16 +3548,16 @@ int main(int argc, char *argv[])
 		keyhandled = 1;
 		break;
 	    case '[':
-		kbinput = wgetch(edit);
+		kbinput = blocking_wgetch(edit);
 		switch (kbinput) {
 		case '1':	/* Alt-[-1-[0-5,7-9] = F1-F8 in X at least */
-		    kbinput = wgetch(edit);
+		    kbinput = blocking_wgetch(edit);
 		    if (kbinput >= '1' && kbinput <= '5') {
 			kbinput = KEY_F(kbinput - 48);
-			wgetch(edit);
+			blocking_wgetch(edit);
 		    } else if (kbinput >= '7' && kbinput <= '9') {
 			kbinput = KEY_F(kbinput - 49);
-			wgetch(edit);
+			blocking_wgetch(edit);
 		    } else if (kbinput == '~')
 			kbinput = KEY_HOME;
 #ifdef DEBUG
@@ -3546,23 +3569,23 @@ int main(int argc, char *argv[])
 #endif
 		    break;
 		case '2':	/* Alt-[-2-[0,1,3,4] = F9-F12 in many terms */
-		    kbinput = wgetch(edit);
+		    kbinput = blocking_wgetch(edit);
 		    switch (kbinput) {
 		    case '0':
 			kbinput = KEY_F(9);
-			wgetch(edit);
+			blocking_wgetch(edit);
 			break;
 		    case '1':
 			kbinput = KEY_F(10);
-			wgetch(edit);
+			blocking_wgetch(edit);
 			break;
 		    case '3':
 			kbinput = KEY_F(11);
-			wgetch(edit);
+			blocking_wgetch(edit);
 			break;
 		    case '4':
 			kbinput = KEY_F(12);
-			wgetch(edit);
+			blocking_wgetch(edit);
 			break;
 		    case '~':
 			kbinput = NANO_INSERTFILE_KEY;
@@ -3577,15 +3600,15 @@ int main(int argc, char *argv[])
 		    break;
 		case '3':	/* Alt-[-3 = Delete? */
 		    kbinput = NANO_DELETE_KEY;
-		    wgetch(edit);
+		    blocking_wgetch(edit);
 		    break;
 		case '4':	/* Alt-[-4 = End? */
 		    kbinput = NANO_END_KEY;
-		    wgetch(edit);
+		    blocking_wgetch(edit);
 		    break;
 		case '5':	/* Alt-[-5 = Page Up */
 		    kbinput = KEY_PPAGE;
-		    wgetch(edit);
+		    blocking_wgetch(edit);
 		    break;
 		case 'V':	/* Alt-[-V = Page Up in Hurd Console */
 		case 'I':	/* Alt-[-I = Page Up - FreeBSD Console */
@@ -3593,7 +3616,7 @@ int main(int argc, char *argv[])
 		    break;
 		case '6':	/* Alt-[-6 = Page Down */
 		    kbinput = KEY_NPAGE;
-		    wgetch(edit);
+		    blocking_wgetch(edit);
 		    break;
 		case 'U':	/* Alt-[-U = Page Down in Hurd Console */
 		case 'G':	/* Alt-[-G = Page Down - FreeBSD Console */
@@ -3601,11 +3624,11 @@ int main(int argc, char *argv[])
 		    break;
 		case '7':
 		    kbinput = KEY_HOME;
-		    wgetch(edit);
+		    blocking_wgetch(edit);
 		    break;
 		case '8':
 		    kbinput = KEY_END;
-		    wgetch(edit);
+		    blocking_wgetch(edit);
 		    break;
 		case '9':	/* Alt-[-9 = Delete in Hurd Console */
 		    kbinput = KEY_DC;
@@ -3615,7 +3638,7 @@ int main(int argc, char *argv[])
 		    kbinput = NANO_INSERTFILE_KEY;
 		    break;
 		case '[':	/* Alt-[-[-[A-E], F1-F5 in Linux console */
-		    kbinput = wgetch(edit);
+		    kbinput = blocking_wgetch(edit);
 		    if (kbinput >= 'A' && kbinput <= 'E')
 			kbinput = KEY_F(kbinput - 64);
 		    break;

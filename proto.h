@@ -427,6 +427,7 @@ int check_wildcard_match(const char *text, const char *pattern);
 #endif
 
 /* Public functions in winio.c */
+int blocking_wgetch(WINDOW *win);
 int do_first_line(void);
 int do_last_line(void);
 int xpt(const filestruct *fileptr, int index);

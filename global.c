@@ -714,6 +714,9 @@ void shortcut_init(int unjustify)
     sc_init_one(&writefile_list, NANO_HELP_KEY, _("Get Help"),
 		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
 
+    sc_init_one(&writefile_list, NANO_CANCEL_KEY, _("Cancel"),
+		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
+
 #ifndef DISABLE_BROWSER
     /* Translators: try to keep this string under 16 characters long */
     sc_init_one(&writefile_list, NANO_TOFILES_KEY, _("To Files"),
@@ -743,9 +746,6 @@ void shortcut_init(int unjustify)
     sc_init_one(&writefile_list, TOGGLE_BACKUP_KEY, _("Backup File"),
 		IFHELP(nano_backup_msg, 0), 0, 0, NOVIEW, 0);
 #endif
-
-    sc_init_one(&writefile_list, NANO_CANCEL_KEY, _("Cancel"),
-		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
 
     free_shortcutage(&insertfile_list);
 

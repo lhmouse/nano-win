@@ -34,6 +34,18 @@ static int statblank = 0;	/* Number of keystrokes left after
 				   we call statusbar(), before we
 				   actually blank the statusbar */
 
+int blocking_wgetch(WINDOW *win)
+{
+    int retval = wgetch(win);
+
+    /* If we get ERR when using blocking input, it means that the input
+     * source that we were using is gone, so die gracefully. */
+    if (retval == ERR)
+	handle_hupterm(0);
+
+    return retval;
+}
+
 int do_first_line(void)
 {
     current = fileage;
@@ -247,7 +259,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
        input */
     wrefresh(edit);
 
-    while ((kbinput = wgetch(bottomwin)) != 13) {
+    while ((kbinput = blocking_wgetch(bottomwin)) != 13) {
 	for (t = s; t != NULL; t = t->next) {
 #ifdef DEBUG
 	    fprintf(stderr, "Aha! \'%c\' (%d)\n", kbinput, kbinput);
@@ -455,9 +467,9 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	case KEY_DC:
 	    goto do_deletekey;
 	case 27:
-	    switch (kbinput = wgetch(edit)) {
+	    switch (kbinput = blocking_wgetch(edit)) {
 	    case 'O':
-		switch (kbinput = wgetch(edit)) {
+		switch (kbinput = blocking_wgetch(edit)) {
 		case 'F':
 		    x = xend;
 		    break;
@@ -467,7 +479,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		}
 		break;
 	    case '[':
-		switch (kbinput = wgetch(edit)) {
+		switch (kbinput = blocking_wgetch(edit)) {
 		case 'A':
 #ifndef NANO_SMALL
 		    goto do_upkey;
@@ -715,7 +727,7 @@ int check_linenumbers(const filestruct *fileptr)
 int get_page_start(int column)
 {
     assert(COLS > 9);
-    return column < COLS - 1 ? 0 : column - 7 - (column - 8) % (COLS - 9);
+    return column < COLS - 1 ? 0 : column - 7 - (column - 7) % (COLS - 8);
 }
 
 /* Resets current_y, based on the position of current, and puts the
@@ -1340,7 +1352,7 @@ int do_yesno(int all, int leavecursor, const char *msg, ...)
     wrefresh(bottomwin);
 
     do {
-	int kbinput = wgetch(edit);
+	int kbinput = blocking_wgetch(edit);
 #if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
 	MEVENT mevent;
 #endif
@@ -1587,19 +1599,19 @@ int do_help(void)
 	    break;
 #endif
 	case 27:
-	    kbinput = wgetch(edit);
+	    kbinput = blocking_wgetch(edit);
 	    switch(kbinput) {
 	    case '[':
-		kbinput = wgetch(edit);
+		kbinput = blocking_wgetch(edit);
 		switch(kbinput) {
 		    case '5':	/* Alt-[-5 = Page Up */
-			wgetch(edit);
+			blocking_wgetch(edit);
 			goto do_pageupkey;
 		    case 'V':	/* Alt-[-V = Page Up in Hurd Console */
 		    case 'I':	/* Alt-[-I = Page Up - FreeBSD Console */
 			goto do_pageupkey;
 		    case '6':	/* Alt-[-6 = Page Down */
-			wgetch(edit);
+			blocking_wgetch(edit);
 			goto do_pagedownkey;
 		    case 'U':	/* Alt-[-U = Page Down in Hurd Console */
 		    case 'G':	/* Alt-[-G = Page Down - FreeBSD Console */
@@ -1649,7 +1661,7 @@ int do_help(void)
 	    no_more = 1;
 	    continue;
 	}
-    } while ((kbinput = wgetch(edit)) != NANO_EXIT_KEY &&
+    } while ((kbinput = blocking_wgetch(edit)) != NANO_EXIT_KEY &&
 	     kbinput != NANO_EXIT_FKEY);
 
     currshortcut = oldshortcut;
