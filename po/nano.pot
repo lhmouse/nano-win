@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-11-28 18:04-0500\n"
+"POT-Creation-Date: 2000-11-28 23:25-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,7 +55,7 @@ msgstr ""
 msgid "File to insert [from ./] "
 msgstr ""
 
-#: files.c:280 files.c:305 files.c:513 nano.c:1373
+#: files.c:280 files.c:305 files.c:513 nano.c:1381
 msgid "Cancelled"
 msgstr ""
 
@@ -642,101 +642,101 @@ msgstr ""
 msgid "After, data = \"%s\"\n"
 msgstr ""
 
-#: nano.c:1111
+#: nano.c:1109
 msgid "Edit a replacement"
 msgstr ""
 
-#: nano.c:1322
+#: nano.c:1330
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr ""
 
-#: nano.c:1338
+#: nano.c:1346
 msgid "Finished checking spelling"
 msgstr ""
 
-#: nano.c:1340
+#: nano.c:1348
 msgid "Spell checking failed"
 msgstr ""
 
-#: nano.c:1360
+#: nano.c:1368
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 
-#: nano.c:1523
+#: nano.c:1531
 msgid "Cannot resize top win"
 msgstr ""
 
-#: nano.c:1525
+#: nano.c:1533
 msgid "Cannot move top win"
 msgstr ""
 
-#: nano.c:1527
+#: nano.c:1535
 msgid "Cannot resize edit win"
 msgstr ""
 
-#: nano.c:1529
+#: nano.c:1537
 msgid "Cannot move edit win"
 msgstr ""
 
-#: nano.c:1531
+#: nano.c:1539
 msgid "Cannot resize bottom win"
 msgstr ""
 
-#: nano.c:1533
+#: nano.c:1541
 msgid "Cannot move bottom win"
 msgstr ""
 
-#: nano.c:1815
+#: nano.c:1823
 msgid "Can now UnJustify!"
 msgstr ""
 
-#: nano.c:1913
+#: nano.c:1921
 #, c-format
 msgid "%s enable/disable"
 msgstr ""
 
-#: nano.c:1925
+#: nano.c:1933
 msgid "enabled"
 msgstr ""
 
-#: nano.c:1926
+#: nano.c:1934
 msgid "disabled"
 msgstr ""
 
-#: nano.c:2156
+#: nano.c:2164
 msgid "Main: set up windows\n"
 msgstr ""
 
-#: nano.c:2169
+#: nano.c:2177
 msgid "Main: bottom win\n"
 msgstr ""
 
-#: nano.c:2175
+#: nano.c:2183
 msgid "Main: open file\n"
 msgstr ""
 
-#: nano.c:2212
+#: nano.c:2220
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2234
+#: nano.c:2242
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2267
+#: nano.c:2275
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2315
+#: nano.c:2323
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2341
+#: nano.c:2349
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr ""
@@ -765,7 +765,7 @@ msgstr ""
 msgid " (to replace)"
 msgstr ""
 
-#: search.c:136 search.c:318
+#: search.c:136 search.c:321
 msgid "Search Cancelled"
 msgstr ""
 
@@ -778,50 +778,50 @@ msgstr ""
 msgid "Search Wrapped"
 msgstr ""
 
-#: search.c:340
+#: search.c:343
 #, c-format
 msgid "Replaced %d occurences"
 msgstr ""
 
-#: search.c:342
+#: search.c:345
 msgid "Replaced 1 occurence"
 msgstr ""
 
-#: search.c:479 search.c:575 search.c:591
+#: search.c:504 search.c:608 search.c:624
 msgid "Replace Cancelled"
 msgstr ""
 
-#: search.c:525
+#: search.c:554
 msgid "Replace this instance?"
 msgstr ""
 
-#: search.c:533
+#: search.c:566
 msgid "Replace failed: unknown subexpression!"
 msgstr ""
 
-#: search.c:616
+#: search.c:649
 #, c-format
 msgid "Replace with [%s]"
 msgstr ""
 
-#: search.c:620 search.c:624
+#: search.c:653 search.c:657
 msgid "Replace with"
 msgstr ""
 
 #. Ask for it
-#: search.c:659
+#: search.c:692
 msgid "Enter line number"
 msgstr ""
 
-#: search.c:661
+#: search.c:694
 msgid "Aborted"
 msgstr ""
 
-#: search.c:681
+#: search.c:714
 msgid "Come on, be reasonable"
 msgstr ""
 
-#: search.c:686
+#: search.c:719
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr ""

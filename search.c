@@ -202,11 +202,11 @@ filestruct *findnextstr(int quiet, filestruct * begin, int beginx,
 {
     filestruct *fileptr;
     char *searchstr, *found = NULL, *tmp;
-    int past_editbot = 0, current_x_find = current_x;
+    int past_editbot = 0, current_x_find;
 
     fileptr = current;
 
-    current_x_find++;
+    current_x_find = current_x + 1;
 
     /* Are we searching the last line? (i.e. the line where search started) */
     if ((fileptr == begin) && (current_x_find < beginx))
@@ -251,17 +251,20 @@ filestruct *findnextstr(int quiet, filestruct * begin, int beginx,
     }
 
     /* We found an instance */
-    current = fileptr;
-    current_x = 0;
+    current_x_find = 0;
     for (tmp = fileptr->data; tmp != found; tmp++)
-	current_x++;
+	current_x_find++;
 
     /* Ensure we haven't wrap around again! */
-    if ((search_last_line) && (current_x >= beginx)) {
+    if ((search_last_line) && (current_x_find >= beginx)) {
 	if (!quiet)
 	    not_found_msg(needle);
 	return NULL;
     }
+
+    /* Set globals now that we are sure we found something */
+    current = fileptr;
+    current_x = current_x_find;
 
     if (past_editbot)
 	edit_update(fileptr, CENTER);
@@ -465,6 +468,28 @@ char *replace_line(void)
     return copy;
 }
 
+/* highlight the current word being replaced or spell checked */
+void do_replace_highlight(int highlight_flag, char *word)
+{
+    char *highlight_word = NULL;
+
+    highlight_word = mallocstrcpy(highlight_word, &current->data[current_x]);
+    highlight_word[strlen(word)] = '\0';
+
+    reset_cursor();
+    
+    if (highlight_flag)
+	wattron(edit, A_REVERSE);
+
+    waddstr(edit, highlight_word);
+
+    if (highlight_flag)
+	wattroff(edit, A_REVERSE);
+
+    free(highlight_word);
+}
+
+/* step through each replace word and prompt user before replacing word */
 int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 			int wholewords, int *i)
 {
@@ -521,8 +546,16 @@ int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 	}
 
 	/* If we're here, we've found the search string */
-	if (!replaceall)
+	if (!replaceall) {
+
+	    curs_set(0);
+	    do_replace_highlight(TRUE, prevanswer);
+
 	    *i = do_yesno(1, 1, _("Replace this instance?"));
+
+	    do_replace_highlight(FALSE, prevanswer);
+	    curs_set(1);
+	}
 
 	if (*i > 0 || replaceall) {	/* Yes, replace it!!!! */
 	    if (*i == 2)

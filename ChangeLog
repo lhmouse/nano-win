@@ -30,6 +30,18 @@ CVS code -
 	  text there, then grabs the next keystroke and, if the unjustify
 	  key, gets rid of the justified text and calls do_uncut_text.
 	  Added macro NANO_UNJUSTIFY_KEY.
+  do_int_spell*
+	- Various fixes (Rocco Corsi).
+	- Changed abort of program to aborting based on value of "edit a
+	  replacement" question, and not caring about the replace loop
+	  return value.  That way the user can get out of the replace loop
+	  and continue spell checking (very important to me anyway).
+- search.c:
+  do_replace_hilight()
+	- New function, displays the currently selected word as hilighted
+	  in the spell check.  Called from do_replace_loop (Rocco Corsi).
+	- Added calls to curs_set(0) and (1) to diable the cursor when
+	  hilighting, looks much better.
 - es.po: 
 	- Traditional Spanish strings updates.
 

@@ -1074,8 +1074,8 @@ void wrap_reset(void)
 int do_int_spell_fix(char *word)
 {
     char *prevanswer = NULL, *save_search = NULL, *save_replace = NULL;
-    filestruct *begin, *begin_top;
-    int i = 0, beginx, beginx_top;
+    filestruct *begin;
+    int i = 0, j = 0, beginx, beginx_top;
 
     /* save where we are */
     begin = current;
@@ -1092,25 +1092,32 @@ int do_int_spell_fix(char *word)
     last_replace = mallocstrcpy(last_replace, word);
 
     /* start from the top of file */
-    begin_top = current = fileage;
-    beginx_top = current_x = -1;
+    current = fileage;
+    current_x = beginx_top = -1;
 
     search_last_line = FALSE;
 
+    edit_update(fileage, TOP);
+
     /* make sure word is still mis-spelt (i.e. when multi-errors) */
-    if (findnextstr(TRUE, begin_top, beginx_top, prevanswer) != NULL)
+    if (findnextstr(TRUE, fileage, beginx_top, prevanswer) != NULL)
     {
+	do_replace_highlight(TRUE, prevanswer);
+
+	/* allow replace word to be corrected */
+	i = statusq(0, spell_list, SPELL_LIST_LEN, last_replace, 
+		_("Edit a replacement"));
+
+	do_replace_highlight(FALSE, prevanswer);
+
 	/* start from the start of this line again */
-	current = begin_top;
+	current = fileage;
 	current_x = beginx_top;
 
 	search_last_line = FALSE;
 
-	/* allow replace word to be corrected */
-	i = statusq(0, replace_list_2, REPLACE_LIST_2_LEN, last_replace, 
-		_("Edit a replacement"));
-
-	do_replace_loop(prevanswer, begin_top, &beginx_top, TRUE, &i);
+	j = i;
+	do_replace_loop(prevanswer, fileage, &beginx_top, TRUE, &j);
     }
 
     /* restore the search/replace strings */
@@ -1170,6 +1177,7 @@ int do_int_speller(char *tempfile_name)
 	    exit(1);
 	}
 	close(tempfile_fd);
+
 
 	/* send spell's standard out to the pipe */
 
