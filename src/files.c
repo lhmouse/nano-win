@@ -326,6 +326,12 @@ int read_file(FILE *f, const char *filename, int quiet)
 	statusbar(P_("Read %d line", "Read %d lines", num_lines),
 			num_lines);
 
+#ifndef NANO_SMALL
+    /* Set fileformat back to 0, now that we've read the file in and
+       possibly converted it from DOS/Mac format. */
+    fileformat = 0;
+#endif
+
     totlines += num_lines;
 
     return 1;

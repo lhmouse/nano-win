@@ -55,6 +55,10 @@ CVS code -
 	- Convert memmove() function calls to charmove() macro calls, as
 	  the former all work on char*'s. (DLR)
 - files.c:
+  read_file()
+	- After we've read in a file and possibly converted it from
+	  DOS/Mac format, set fileformat back to 0 to prevent erroneous
+	  conversion messages when we read other files in. (DLR)
   do_browser()
 	- Some of the Pico compatibility options in the file browser
 	  that don't work properly for current Pico have been removed.
