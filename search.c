@@ -111,14 +111,10 @@ int search_init(int replacing)
     search_init_globals();
 
     if (backupstring == NULL)
-#ifndef NANO_SMALL
-	backupstring = mallocstrcpy(backupstring, search_history.current->data);
-#else
-	backupstring = mallocstrcpy(backupstring, last_search);
-#endif
+	backupstring = mallocstrcpy(backupstring, "");
 
 /* NEW TEST */
-    backupstring = mallocstrcpy(backupstring, "");
+
 #ifndef NANO_SMALL
     search_history.current = (historytype *)&search_history.next;
 #endif

@@ -369,8 +369,8 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		}
 		x = xend;
 	    }
-	    break;
 #endif
+	    break;
 	case KEY_DOWN:
 #ifndef NANO_SMALL
 	    if (history_list) {
