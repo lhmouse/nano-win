@@ -45,7 +45,6 @@
 #define _(string) (string)
 #endif
 
-/* statics for here */
 #ifndef NANO_SMALL
 static int fileformat = 0;	/* 0 = *nix, 1 = DOS, 2 = Mac */
 #endif
@@ -362,7 +361,7 @@ int open_file(const char *filename, int insert, int quiet)
 	if (S_ISDIR(fileinfo.st_mode) || S_ISCHR(fileinfo.st_mode) || 
 		S_ISBLK(fileinfo.st_mode)) {
 	    if (S_ISDIR(fileinfo.st_mode))
-		statusbar(_("File \"%s\" is a directory"), filename);
+		statusbar(_("\"%s\" is a directory"), filename);
 	    else
 		/* Don't open character or block files.  Sorry, /dev/sndstat! */
 		statusbar(_("File \"%s\" is a device file"), filename);
@@ -866,8 +865,7 @@ int open_prevfile(int closing_file)
 /* This function is used by the shortcut list. */
 int open_prevfile_void(void)
 {
-    open_prevfile(0);
-    return 0;
+    return open_prevfile(0);
 }
 
 /*
@@ -930,8 +928,7 @@ int open_nextfile(int closing_file)
 /* This function is used by the shortcut list. */
 int open_nextfile_void(void)
 {
-    open_nextfile(0);
-    return 0;
+    return open_nextfile(0);
 }
 
 /*

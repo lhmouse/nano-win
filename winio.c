@@ -36,15 +36,9 @@
 #define _(string) (string)
 #endif
 
-/* winio.c statics */
 static int statblank = 0;	/* Number of keystrokes left after
 				   we call statusbar(), before we
 				   actually blank the statusbar */
-
-/* Local Function Prototypes for only winio.c */
-static int get_page_start(int column);
-
-/* Window I/O */
 
 int do_first_line(void)
 {
@@ -153,29 +147,6 @@ size_t strlenpt(const char *buf)
     return strnlenpt(buf, -1);
 }
 
-/* Resets current_y, based on the position of current, and puts the
- * cursor at (current_y, current_x). */
-void reset_cursor(void)
-{
-    const filestruct *ptr = edittop;
-    size_t x;
-
-    /* Yuck.  This condition can be true after open_file when opening the
-     * first file. */
-    if (edittop == NULL)
-	return;
-
-    current_y = 0;
-
-    while (ptr != current && ptr != editbot && ptr->next != NULL) {
-	ptr = ptr->next;
-	current_y++;
-    }
-
-    x = xplustabs();
-    wmove(edit, current_y, x - get_page_start(x));
-}
-
 void blank_bottombars(void)
 {
     if (!no_help()) {
@@ -218,8 +189,7 @@ void check_statblank(void)
  *
  * Note that we must turn on A_REVERSE here, since do_help turns it
  * off! */
-static void nanoget_repaint(const char *buf, const char *inputbuf,
-	int x)
+void nanoget_repaint(const char *buf, const char *inputbuf, int x)
 {
     int len = strlen(buf) + 2;
     int wid = COLS - len;
@@ -239,7 +209,7 @@ static void nanoget_repaint(const char *buf, const char *inputbuf,
 
 /* Get the input from the kb; this should only be called from
  * statusq(). */
-static int nanogetstr(int allowtabs, const char *buf, const char *def,
+int nanogetstr(int allowtabs, const char *buf, const char *def,
 			const shortcut *s
 #ifndef DISABLE_TABCOMP
 			, int *list
@@ -517,7 +487,7 @@ void titlebar(const char *path)
  * keystroke is e.g. "^G" and desc is e.g. "Get Help".
  * We are careful to write exactly len characters, even if len is
  * very small and keystroke and desc are long. */
-static void onekey(const char *keystroke, const char *desc, int len)
+void onekey(const char *keystroke, const char *desc, int len)
 {
     wattron(bottomwin, A_REVERSE);
     waddnstr(bottomwin, keystroke, len);
@@ -533,7 +503,7 @@ static void onekey(const char *keystroke, const char *desc, int len)
     }
 }
 
-static void clear_bottomwin(void)
+void clear_bottomwin(void)
 {
     if (ISSET(NO_HELP))
 	return;
@@ -637,12 +607,34 @@ int get_page_end_virtual(int page)
     return get_page_start_virtual(page) + COLS - 1;
 }
 
-static int get_page_start(int column)
+int get_page_start(int column)
 {
     assert(COLS > 9);
     return column < COLS - 1 ? 0 : column - 7 - (column - 8) % (COLS - 9);
 }
 
+/* Resets current_y, based on the position of current, and puts the
+ * cursor at (current_y, current_x). */
+void reset_cursor(void)
+{
+    const filestruct *ptr = edittop;
+    size_t x;
+
+    /* Yuck.  This condition can be true after open_file when opening the
+     * first file. */
+    if (edittop == NULL)
+	return;
+
+    current_y = 0;
+
+    while (ptr != current && ptr != editbot && ptr->next != NULL) {
+	ptr = ptr->next;
+	current_y++;
+    }
+
+    x = xplustabs();
+    wmove(edit, current_y, x - get_page_start(x));
+}
 
 #ifndef NANO_SMALL
 /* This takes care of the case where there is a mark that covers only */
@@ -729,7 +721,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 
 		/* First, highlight all single-line regexes */
 		k = start;
-		regcomp(&color_regexp, tmpcolor->start, 0);
+		regcomp(&color_regexp, tmpcolor->start, REG_EXTENDED);
 		while (!regexec(&color_regexp, &fileptr->data[k], 1,
 				colormatches, 0)) {
 
@@ -789,7 +781,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 
 		s = fileptr;
 		while (s != NULL) {
-		    regcomp(&color_regexp, tmpcolor->start, 0);
+		    regcomp(&color_regexp, tmpcolor->start, REG_EXTENDED);
 		    if (!regexec
 			(&color_regexp, s->data, 1, colormatches, 0)) {
 			regfree(&color_regexp);
@@ -805,7 +797,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 
 		    e = s;
 		    while (e != NULL && e != fileptr) {
-			regcomp(&color_regexp, tmpcolor->end, 0);
+			regcomp(&color_regexp, tmpcolor->end, REG_EXTENDED);
 			if (!regexec
 			    (&color_regexp, e->data, 1, colormatches, 0)) {
 			    regfree(&color_regexp);
@@ -819,7 +811,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 			continue;	/* There's an end before us */
 		    else {	/* Keep looking for an end */
 			while (e != NULL) {
-			    regcomp(&color_regexp, tmpcolor->end, 0);
+			    regcomp(&color_regexp, tmpcolor->end, REG_EXTENDED);
 			    if (!regexec
 				(&color_regexp, e->data, 1, colormatches,
 				 0)) {
@@ -836,7 +828,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 			    ematch = colormatches[0].rm_eo;
 
 			    while (e != NULL) {
-				regcomp(&color_regexp, tmpcolor->end, 0);
+				regcomp(&color_regexp, tmpcolor->end, REG_EXTENDED);
 				if (!regexec
 				    (&color_regexp, e->data, 1,
 				     colormatches, 0)) {

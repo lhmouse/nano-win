@@ -1,9 +1,20 @@
 CVS code -
 - General:
 	- Translation updates (see po/ChangeLog for details).
+	- Updated nano.1, nano.1.html, and nano.texi to fix an
+	  inaccuracy in the description of -Q/--quotestr. (DLR)
+	- Set REG_EXTENDED in all regcomp() calls. (DLR)
+	- Minor cosmetic code cleanups. (DLR)
 - configure.ac:
 	- Added pt_BR to ALL_LINGUAS (Jordi).
 - files.c:
+  open_file()
+	- String change: "File "x" is a directory" -> ""x" is a
+	  directory". (Jordi)
+  open_prevfile_void(), open_nextfile_void()
+	- Return the return values of open_prevfile() and
+	  open_nextfile(), respectively, instead of (incorrectly)
+	  calling them and returning 0. (DLR)
   real_dir_from_tilde()
 	- Rework to use getpwent() exclusively and end reliance on
 	  $HOME.  Adapted from equivalent code in do_rcfile(). (DLR)
@@ -11,6 +22,18 @@ CVS code -
 	- Most likely fixed the check marked with FIXME, so that tab
 	  completion works properly when we're trying to tab-complete a
 	  username and the string already contains data. (DLR)
+- move.c:
+  page_up()
+	- Fix bug where current is moved up two lines when the up arrow
+	  is pressed on the top line of the edit window; this causes a
+	  segfault is the top line in the edit window is the second
+	  line of the file, as the line current ends up on doesn't
+	  exist. (Jeff Defouw)
+  do_down()
+	- Fix bug where, if the last line in the edit window is the
+	  line before the magicline, and smooth scrolling is turned
+	  off, pressing the down arrow on that last line centers the
+	  cursor without updating the edit window. (Jeff DeFouw)
 - nano.c:
   do_next_word(), do_prev_word()
   	- If we're on the last/first line of the file, don't center the
@@ -24,6 +47,25 @@ CVS code -
 	- Rework to only call edit_refresh() unconditionally if
 	  ENABLE_COLOR is defined; if it isn't, and we're not deleting
 	  the end of the line, only call update_line(). (DLR)
+  do_wrap()
+	- Make sure wrapping is done properly when the number of
+	  characters on the line is exactly one over the limit. (David
+	  Benbennick)
+  do_alt_speller()
+  	- Readd DLR's fix to preserve marking when using the alternate
+  	  spell checker; it was accidentally dropped. (David
+  	  Benbennick)
+  do_justify()
+	- Fix cosmetic problems caused when justifying on the
+	  magicline. (David Benbennick)
+- nano.h:
+	- Change search toggles for case sensitive searching and regexp
+	  searching to M-C and M-R, respectively. (DLR; suggested by
+	  Chris)
+- TODO:
+	- Add entry in the 1.4 section for Pico's paragraph searching
+	  ability (at the search prompt, ^W goes to the paragraph's
+	  beginning, and ^O goes to the paragraph's end). (DLR)
 
 GNU nano 1.1.10 - 07/25/2002
 - General:

@@ -49,7 +49,7 @@ int num_of_digits(int n)
     int i = 1;
 
     if (n < 0)
-	n = 0 - n;
+	n = -n;
 
     while (n > 10) {
 	n /= 10;
@@ -96,7 +96,7 @@ void sunder(char *str)
 
 /* None of this is needed if we're using NANO_SMALL! */
 #ifndef NANO_SMALL
-static const char *revstrstr(const char *haystack, const char *needle,
+const char *revstrstr(const char *haystack, const char *needle,
 	const char *rev_start)
 {
     for(; rev_start >= haystack ; rev_start--) {
@@ -110,7 +110,7 @@ static const char *revstrstr(const char *haystack, const char *needle,
     return NULL;
 }
 
-static const char *revstristr(const char *haystack, const char *needle,
+const char *revstristr(const char *haystack, const char *needle,
 	const char *rev_start)
 {
     for (; rev_start >= haystack; rev_start--) {

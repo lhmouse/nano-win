@@ -99,11 +99,11 @@ void update_color(void)
     for (tmpsyntax = syntaxes; tmpsyntax != NULL; tmpsyntax = tmpsyntax->next) {
 	exttype *e;
 	for (e = tmpsyntax->extensions; e != NULL; e = e->next) {
-	    regcomp(&syntaxfile_regexp, e->val, 0);
+	    regcomp(&syntaxfile_regexp, e->val, REG_EXTENDED);
 
 	    /* Set colorstrings if we matched the extension regex */
-            if (!regexec(&syntaxfile_regexp, filename, 1, synfilematches, 0)) 
-		colorstrings = tmpsyntax->color; 
+            if (!regexec(&syntaxfile_regexp, filename, 1, synfilematches, 0))
+		colorstrings = tmpsyntax->color;
 
 	    regfree(&syntaxfile_regexp);
 	}

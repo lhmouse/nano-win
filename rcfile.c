@@ -43,7 +43,6 @@
 #define _(string) (string)
 #endif
 
-/* Static stuff for the nanorc file */
 static rcoption rcopts[] = {
 #ifndef NANO_SMALL
     {"autoindent", AUTOINDENT},
@@ -100,7 +99,7 @@ static char *nanorc;
 
 /* We have an error in some part of the rcfile; put it on stderr and
    make the user hit return to continue starting up nano. */
-static void rcfile_error(const char *msg, ...)
+void rcfile_error(const char *msg, ...)
 {
     va_list ap;
 
@@ -117,7 +116,7 @@ static void rcfile_error(const char *msg, ...)
 }
 
 /* Just print the error (one of many, perhaps) but don't abort, yet. */
-static void rcfile_msg(const char *msg, ...)
+void rcfile_msg(const char *msg, ...)
 {
     va_list ap;
 
@@ -132,7 +131,7 @@ static void rcfile_msg(const char *msg, ...)
 }
 
 /* Parse the next word from the string.  Returns NULL if we hit EOL. */
-static char *parse_next_word(char *ptr)
+char *parse_next_word(char *ptr)
 {
     while (*ptr != ' ' && *ptr != '\t' && *ptr != '\n' && *ptr != '\0')
 	ptr++;
@@ -155,7 +154,8 @@ static char *parse_next_word(char *ptr)
  * next word starts with a ", we say it ends with the last " of the line.
  * Otherwise, the word is interpreted as usual.  That is so the arguments
  * can contain "s too. */
-static char *parse_argument(char *ptr) {
+char *parse_argument(char *ptr)
+{
     const char *ptr_bak = ptr;
     char *last_quote = NULL;
 
@@ -188,7 +188,7 @@ static char *parse_argument(char *ptr) {
 
 #ifdef ENABLE_COLOR
 
-static char *parse_next_regex(char *ptr)
+char *parse_next_regex(char *ptr)
 {
     while ((*ptr != '"' || (*(ptr + 1) != ' ' && *(ptr + 1) != '\n'))
 	   && *ptr != '\n' && *ptr != '\0')
@@ -206,7 +206,7 @@ static char *parse_next_regex(char *ptr)
     return ptr;
 }
 
-static int colortoint(const char *colorname, int *bright)
+int colortoint(const char *colorname, int *bright)
 {
     int mcolor = 0;
 
@@ -245,7 +245,7 @@ static int colortoint(const char *colorname, int *bright)
     return mcolor;
 }
 
-static void parse_syntax(char *ptr)
+void parse_syntax(char *ptr)
 {
     syntaxtype *tmpsyntax = NULL;
     const char *fileregptr = NULL, *nameptr = NULL;
@@ -320,7 +320,7 @@ static void parse_syntax(char *ptr)
 }
 
 /* Parse the color stuff into the colorstrings array */
-static void parse_colors(char *ptr)
+void parse_colors(char *ptr)
 {
     int fg, bg, bright = 0;
     int expectend = 0;		/* Do we expect an end= line? */
@@ -434,7 +434,7 @@ static void parse_colors(char *ptr)
 #endif /* ENABLE_COLOR */
 
 /* Parse the RC file, once it has been opened successfully */
-static void parse_rcfile(FILE *rcstream)
+void parse_rcfile(FILE *rcstream)
 {
     char *buf, *ptr, *keyword, *option;
     int set = 0, i, j;

@@ -105,10 +105,8 @@ void page_up(void)
 	       line and don't center it. */
 	    if (edittop != fileage)
 		center_cursor();
-	    else {
-		current = current->prev;
+	    else
 		reset_cursor();
-	    }
 	}
     } else
 	current_y = 0;
@@ -186,10 +184,10 @@ int do_down(void) {
 	} else
 #endif
 	{
-	    edit_update(editbot->next, CENTER);
-		/* sets edittop so editbot->next is centered */
+	    /* Set edittop so editbot->next (or else editbot) is
+	     * centered, and set current_y = editwinrows / 2. */
+	    edit_update(editbot->next != NULL ? editbot->next : editbot, CENTER);
 	    center_cursor();
-		/* sets current_y = editwinrows / 2 */
 	}
     } else {
 	update_line(current->prev, 0);

@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.1.10
-@set UPDATED 14 Jul 2002
+@set UPDATED 30 Jul 2002
 
 @dircategory Editors
 @direntry
@@ -134,6 +134,10 @@ Write file in Mac format.
 Do not convert files from DOS/Mac format.
 
 @item -Q [str], --quotestr [str]
+Set the quoting string for justifying.  The default is
+"^([ \t]*[|>:@}#])+" if regular expression support is available, or
+"> " otherwise.
+
 Set the quoting string for justifying.  The default is "> ".
 
 @item -R, --regexp

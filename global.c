@@ -163,13 +163,11 @@ int length_of_list(const shortcut *s)
 }
 
 /* Initialize a struct *without* our lovely braces =( */
-static void sc_init_one(shortcut **shortcutage, int key,
-		const char *desc,
+void sc_init_one(shortcut **shortcutage, int key, const char *desc,
 #ifndef DISABLE_HELP
-		const char *help,
+	const char *help,
 #endif
-		int alt, int misc1, int misc2, int view,
-		int (*func) (void))
+	int alt, int misc1, int misc2, int view, int (*func) (void))
 {
     shortcut *s;
 
@@ -199,7 +197,7 @@ static void sc_init_one(shortcut **shortcutage, int key,
 #ifndef NANO_SMALL
 /* Create one new toggle structure, at the end of the toggles
  * linked list. */
-static void toggle_init_one(int val, const char *desc, int flag)
+void toggle_init_one(int val, const char *desc, int flag)
 {
     toggle *u;
 
@@ -221,7 +219,7 @@ static void toggle_init_one(int val, const char *desc, int flag)
 
 #ifdef DEBUG
 /* Deallocate all of the toggles. */
-static void free_toggles(void)
+void free_toggles(void)
 {
     while (toggles != NULL) {
 	toggle *pt = toggles;	/* Think "previous toggle" */
@@ -232,7 +230,7 @@ static void free_toggles(void)
 }
 #endif
 
-static void toggle_init(void)
+void toggle_init(void)
 {
     char *toggle_const_msg, *toggle_autoindent_msg, *toggle_suspend_msg,
 	*toggle_nohelp_msg, *toggle_picomode_msg, *toggle_mouse_msg,
@@ -293,7 +291,7 @@ static void toggle_init(void)
 #endif /* !NANO_SMALL */
 
 /* Deallocate the given shortcut. */
-static void free_shortcutage(shortcut **shortcutage)
+void free_shortcutage(shortcut **shortcutage)
 {
     assert(shortcutage != NULL);
     while (*shortcutage != NULL) {

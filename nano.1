@@ -6,7 +6,7 @@
 .\" Public License for copying conditions. There is NO warranty.
 .\"
 .\" $Id$
-.TH NANO 1 "July 14, 2002"
+.TH NANO 1 "July 30, 2002"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -56,7 +56,9 @@ Write file in Mac format.
 Disable automatic conversion of files from DOS/Mac format.
 .TP
 .B \-Q \fI[str]\fP (\-\-quotestr=\fI[str]\fP)
-Set the quoting string for justifying.  The default is "> ".
+Set the quoting string for justifying.  The default is
+"^([ \\t]*[|>:}#])+" if regular expression support is available, or
+"> " otherwise.
 .TP
 .B \-R (\-\-regexp)
 Enable regular expression matching for search strings, as well as

@@ -42,7 +42,7 @@
 #ifdef HAVE_REGEX_H
 void regexp_init(const char *regexp)
 {
-    regcomp(&search_regexp, regexp, ISSET(CASE_SENSITIVE) ? 0 : REG_ICASE);
+    regcomp(&search_regexp, regexp, (ISSET(CASE_SENSITIVE) ? 0 : REG_ICASE) | REG_EXTENDED);
     SET(REGEXP_COMPILED);
 }
 
@@ -71,7 +71,7 @@ void search_init_globals(void)
 
    replacing = 1 if we call from do_replace, 0 if called from do_search func.
 */
-static int search_init(int replacing)
+int search_init(int replacing)
 {
     int i = 0;
     char *buf;

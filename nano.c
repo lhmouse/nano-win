@@ -62,7 +62,6 @@
 #endif
 
 #ifndef DISABLE_WRAPJUSTIFY
-/* Former global, now static */
 static int fill = 0;	/* Fill - where to wrap lines, basically */
 #endif
 
@@ -72,7 +71,7 @@ static struct sigaction act;	/* For all our fun signal handlers */
 static sigjmp_buf jmpbuf;	/* Used to return to mainloop after SIGWINCH */
 
 /* What we do when we're all set to exit */
-static RETSIGTYPE finish(int sigage)
+RETSIGTYPE finish(int sigage)
 {
     keypad(edit, TRUE);
     keypad(bottomwin, TRUE);
@@ -180,7 +179,7 @@ void die_save_file(const char *die_filename)
 
 /* Die with an error message that the screen was too small if, well, the
  * screen is too small. */
-static void die_too_small(void)
+void die_too_small(void)
 {
     die(_("Window size is too small for nano...\n"));
 }
@@ -192,7 +191,7 @@ void print_view_warning(void)
 
 /* Initialize global variables - no better way for now.  If
  * save_cutbuffer is nonzero, don't set cutbuffer to NULL. */
-static void global_init(int save_cutbuffer)
+void global_init(int save_cutbuffer)
 {
     current_x = 0;
     current_y = 0;
@@ -329,7 +328,7 @@ void renumber(filestruct *fileptr)
 /* Print one usage string to the screen, removes lots of duplicate 
  * strings to translate and takes out the parts that shouldn't be 
  * translatable (the flag names). */
-static void print1opt(const char *shortflag, const char *longflag,
+void print1opt(const char *shortflag, const char *longflag,
 	const char *desc)
 {
     printf(" %s\t", shortflag);
@@ -347,7 +346,7 @@ static void print1opt(const char *shortflag, const char *longflag,
     printf("%s\n", desc);
 }
 
-static void usage(void)
+void usage(void)
 {
 #ifdef HAVE_GETOPT_LONG
     printf(_("Usage: nano [+LINE] [GNU long option] [option] [file]\n\n"));
@@ -423,7 +422,7 @@ static void usage(void)
     exit(0);
 }
 
-static void version(void)
+void version(void)
 {
     printf(_(" GNU nano version %s (compiled %s, %s)\n"),
 	   VERSION, __TIME__, __DATE__);
@@ -790,23 +789,21 @@ int do_wrap(filestruct *inptr)
     int wrap_loc = -1;		/* index of inptr->data where we wrap */
     int word_back = -1;
 #ifndef NANO_SMALL
-    char *indentation = NULL;	/* indentation to prepend to the new line */
+    const char *indentation = NULL;
+	/* indentation to prepend to the new line */
     int indent_len = 0;		/* strlen(indentation) */
 #endif
-    char *after_break;		/* text after the wrap point */
+    const char *after_break;	/* text after the wrap point */
     int after_break_len;	/* strlen(after_break) */
     int wrapping = 0;		/* do we prepend to the next line? */
-    char *wrap_line = NULL;	/* the next line, minus indentation */
+    const char *wrap_line = NULL;
+	/* the next line, minus indentation */
     int wrap_line_len = 0;	/* strlen(wrap_line) */
     char *newline = NULL;	/* the line we create */
     int new_line_len = 0;	/* eventual length of newline */
 
 /* There are three steps.  First, we decide where to wrap.  Then, we
  * create the new wrap line.  Finally, we clean up. */
-
-    /* Is it necessary to do anything? */
-    if (strlenpt(inptr->data) <= fill)
-	return 0;
 
 /* Step 1, finding where to wrap.  We are going to replace a white-space
  * character with a new-line.  In this step, we set wrap_loc as the
@@ -825,32 +822,28 @@ int do_wrap(filestruct *inptr)
  * Note that the initial indentation does not count as a legal wrap
  * point if we are going to auto-indent!
  *
- * Note that the code below could be optimised, by not calling strlenpt
- * so often, and by not calling isspace(inptr->data[i+1]) and then in
- * the next loop calling isspace(inptr->data[i]).  Oh well, fixing the
- * first point would entail expanding the definition of strnlenpt, which
- * I won't do since it will probably change soon.  Fixing the second
- * point would entail nested loops. */
+ * Note that the code below could be optimised, by not calling strnlenpt()
+ * so often. */
 
 #ifndef NANO_SMALL
     if (ISSET(AUTOINDENT))
 	i = indent_length(inptr->data);
 #endif
-    for(; i < len; i++) {
+    wrap_line = inptr->data + i;
+    for(; i < len; i++, wrap_line++) {
 	/* record where the last word ended */
-	if (!isspace((int)inptr->data[i]))
+	if (*wrap_line != ' ' && *wrap_line != '\t')
 	    word_back = i;
 	/* if we have found a "legal wrap point" and the current word
 	 * extends too far, then we stop */
-	if (wrap_loc != -1 && strnlenpt(inptr->data,word_back) > fill)
+	if (wrap_loc != -1 && strnlenpt(inptr->data, word_back + 1) > fill)
 	    break;
 	/* we record the latest "legal wrap point" */
-	if (i != (current_x - 1) && isspace((int)inptr->data[i]) &&
-	   (i == (len - 1) || !isspace((int)inptr->data[i + 1]))) {
+	if (i != current_x - 1 && word_back != i &&
+		wrap_line[1] != ' ' && wrap_line[1] != '\t')
 	    wrap_loc = i;
-	}
     }
-    if (wrap_loc < 0 || wrap_loc == len - 1 || i == len)
+    if (wrap_loc < 0 || i == len)
 	return 0;
 
 /* Step 2, making the new wrap line.  It will consist of indentation +
@@ -906,7 +899,6 @@ int do_wrap(filestruct *inptr)
     }
 #endif
     strcat(newline, after_break);
-    after_break = NULL;
     /* We end the old line at wrap_loc.  Note this eats the space. */
     null_at(&inptr->data, wrap_loc);
     if (wrapping) {
@@ -1130,7 +1122,7 @@ void wrap_reset(void)
 }
 
 #ifndef DISABLE_SPELLER
-static int do_int_spell_fix(const char *word)
+int do_int_spell_fix(const char *word)
 {
     char *save_search;
     char *save_replace;
@@ -1354,17 +1346,22 @@ int do_alt_speller(char *file_name)
 {
     int alt_spell_status, lineno_cur = current->lineno;
     int x_cur = current_x, y_cur = current_y, pww_cur = placewewant;
-#ifndef NANO_SMALL
-    int mark_set;
-#endif
     pid_t pid_spell;
     char *ptr;
     static int arglen = 3;
-    static char **spellargs = (char **) NULL;
-
+    static char **spellargs = (char **)NULL;
 #ifndef NANO_SMALL
-    mark_set = ISSET(MARK_ISSET);
-    UNSET(MARK_ISSET);
+    int mark_set = ISSET(MARK_ISSET);
+    int mbb_lineno_cur = 0;
+	/* We're going to close the current file, and open the output of
+	   the alternate spell command.  The line that mark_beginbuf
+	   points to will be freed, so we save the line number and restore
+	   afterwards. */
+
+    if (mark_set) {
+	mbb_lineno_cur = mark_beginbuf->lineno;
+	UNSET(MARK_ISSET);
+    }
 #endif
 
     endwin();
@@ -1408,8 +1405,13 @@ int do_alt_speller(char *file_name)
     open_file(file_name, 0, 1);
 
 #ifndef NANO_SMALL
-    if (mark_set)
+    if (mark_set) {
+	do_gotopos(mbb_lineno_cur, mark_beginx, y_cur, 0);
+	mark_beginbuf = current;
+	mark_beginx = current_x;
+	    /* In case the line got shorter, assign mark_beginx. */
 	SET(MARK_ISSET);
+    }
 #endif
 
     /* go back to the old position, mark the file as modified, and make
@@ -1751,7 +1753,7 @@ RETSIGTYPE do_suspend(int signal)
 }
 
 /* Restore the suspend handler when we come back into the prog */
-static RETSIGTYPE do_cont(int signal)
+RETSIGTYPE do_cont(int signal)
 {
     /* Now we just update the screen instead of having to reenable the
        SIGTSTP handler. */
@@ -1974,8 +1976,8 @@ size_t indent_length(const char *line) {
  * justify_format will not look at the first skip characters of line.
  * skip should be at most strlen(line->data).  The skip+1st character must
  * not be whitespace. */
-static int justify_format(int changes_allowed, filestruct *line,
-	size_t skip) {
+int justify_format(int changes_allowed, filestruct *line, size_t skip)
+{
     char *back, *front;
 
     /* These four asserts are assumptions about the input data. */
@@ -2041,7 +2043,8 @@ static int justify_format(int changes_allowed, filestruct *line,
  * Note that if !HAVE_REGEX_H then we match concatenated copies of
  * quotestr. */
 #ifdef HAVE_REGEX_H
-static size_t quote_length(const char *line, const regex_t *qreg) {
+size_t quote_length(const char *line, const regex_t *qreg)
+{
     regmatch_t matches;
     int rc = regexec(qreg, line, 1, &matches, 0);
 
@@ -2052,7 +2055,8 @@ static size_t quote_length(const char *line, const regex_t *qreg) {
     return matches.rm_eo;
 }
 #else	/* !HAVE_REGEX_H */
-static size_t quote_length(const char *line) {
+size_t quote_length(const char *line)
+{
     size_t qdepth = 0;
     size_t qlen = strlen(quotestr);
 
@@ -2072,8 +2076,9 @@ static size_t quote_length(const char *line) {
 /* a_line and b_line are lines of text.  The quotation part of a_line is
  * the first a_quote characters.  Check that the quotation part of
  * b_line is the same. */
-static int quotes_match(const char *a_line, size_t a_quote,
-		IFREG(const char *b_line, const regex_t *qreg)) {
+int quotes_match(const char *a_line, size_t a_quote,
+	IFREG(const char *b_line, const regex_t *qreg))
+{
     /* Here is the assumption about a_quote: */
     assert(a_quote == quote_length(IFREG(a_line, qreg)));
     return a_quote == quote_length(IFREG(b_line, qreg)) &&
@@ -2082,8 +2087,9 @@ static int quotes_match(const char *a_line, size_t a_quote,
 
 /* We assume a_line and b_line have no quote part.  Then, we return whether
  * b_line could follow a_line in a paragraph. */
-static size_t indents_match(const char *a_line, size_t a_indent,
-	const char *b_line, size_t b_indent) {
+size_t indents_match(const char *a_line, size_t a_indent,
+	const char *b_line, size_t b_indent)
+{
     assert(a_indent == indent_length(a_line));
     assert(b_indent == indent_length(b_line));
 
@@ -2094,8 +2100,9 @@ static size_t indents_match(const char *a_line, size_t a_indent,
  * buffer.  We assume there are enough lines after first_line.  We leave
  * copies of the lines in place, too.  We return the new copy of
  * first_line. */
-static filestruct *backup_lines(filestruct *first_line, size_t par_len,
-			size_t quote_len) {
+filestruct *backup_lines(filestruct *first_line, size_t par_len,
+	size_t quote_len)
+{
     /* We put the original lines, not copies, into the cut buffer, just
      * out of a misguided sense of consistency, so if you un-cut, you
      * get the actual same paragraph back, not a copy. */
@@ -2132,7 +2139,8 @@ static filestruct *backup_lines(filestruct *first_line, size_t par_len,
  * no such space, and force is not 0, then we find the first space.
  * Anyway, we then take the last space in that group of spaces.  The
  * terminating '\0' counts as a space. */
-static int break_line(const char *line, int goal, int force) {
+int break_line(const char *line, int goal, int force)
+{
     /* Note that we use int instead of size_t, since goal is at most COLS,
      * the screen width, which will always be reasonably small. */
     int space_loc = -1;
@@ -2173,7 +2181,8 @@ static int break_line(const char *line, int goal, int force) {
 #endif /* !DISABLE_JUSTIFY */
 
 /* This function justifies the current paragraph. */
-int do_justify(void) {
+int do_justify(void)
+{
 #ifdef DISABLE_JUSTIFY
     nano_disabled_msg();
     return 1;
@@ -2264,6 +2273,7 @@ int do_justify(void) {
     quote_len = quote_length(IFREG(current->data, &qreg));
     indent_len = indent_length(current->data + quote_len);
 
+    current_x = 0;
     if (current->data[quote_len + indent_len] != '\0') {
 	/* This line is part of a paragraph.  So we must search back to
 	 * the first line of this paragraph. */
@@ -2279,6 +2289,7 @@ int do_justify(void) {
 		/* indentation length of the previous line */
 		size_t temp_id_len =
 			indent_length(current->prev->data + quote_len);
+
 		if (!indents_match(current->prev->data + quote_len,
 				temp_id_len, current->data + quote_len,
 				indent_len) ||
@@ -2286,6 +2297,7 @@ int do_justify(void) {
 		    break;
 		indent_len = temp_id_len;
 		current = current->prev;
+		current_y--;
 	    }
 	}
     } else {
@@ -2293,9 +2305,16 @@ int do_justify(void) {
 	 * to a non "blank" line. */
 	do {
 	    /* There is no next paragraph, so nothing to justify. */
-	    if (current->next == NULL)
+	    if (current->next == NULL) {
+		placewewant = 0;
+		if (current_y > editwinrows - 4)
+		    edit_update(current, CENTER);
+		else
+		    edit_refresh();
 		return 0;
+	    }
 	    current = current->next;
+	    current_y++;
 	    quote_len = quote_length(IFREG(current->data, &qreg));
 	    indent_len = indent_length(current->data + quote_len);
 	} while (current->data[quote_len + indent_len] == '\0');
@@ -2360,7 +2379,7 @@ int do_justify(void) {
 	    /* The line is too long.  Try to wrap it to the next. */
 	    break_pos = break_line(current->data + indent_len,
 			    fill - strnlenpt(current->data, indent_len),
- 			    1);
+			    1);
 	    if (break_pos == -1 || break_pos + indent_len == line_len)
 		/* We can't break the line, or don't need to, so just go
 		 * on to the next. */
@@ -2467,7 +2486,7 @@ int do_justify(void) {
 		current = current->next;
 	    }
 	} else
-continue_loc:
+  continue_loc:
 	    current = current->next;
     }
 /* We are now done justifying the paragraph.  There are cleanup things to
@@ -2478,11 +2497,11 @@ continue_loc:
      * fileage, set current_x.  Also, edit_refresh() needs the line
      * numbers to be right, so we renumber(). */
     last_par_line = current->prev;
-    if (first_mod_line != NULL && first_mod_line->prev == NULL)
-	fileage = first_mod_line;
-    current_x = 0;
-    if (first_mod_line != NULL)
+    if (first_mod_line != NULL) {
+	if (first_mod_line->prev == NULL)
+	    fileage = first_mod_line;
 	renumber(first_mod_line);
+    }
 
     if (current_y > editwinrows - 4)
 	edit_update(current, CENTER);
@@ -2565,7 +2584,6 @@ continue_loc:
     return 0;
 #endif
 }
-
 
 #ifndef DISABLE_HELP
 /* This function allocates help_text, and stores the help string in it. 
@@ -2770,7 +2788,7 @@ void help_init(void)
 #endif
 
 #ifndef NANO_SMALL
-static void do_toggle(const toggle *which)
+void do_toggle(const toggle *which)
 {
     int enabled;
 
