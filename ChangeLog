@@ -20,6 +20,9 @@ CVS Code -
 - nano.c:
   do_preserve_msg():
 	- Unsplit error message into a single fprintf call (Jordi).
+  do_int_spell_fix(), do_int_speller()
+	- Fix crashes with mark position, current_x position, 
+	  and edit_update args (David Benbennick).
   main()
 	- Call load_file with arg 0 for insert, as we aren't really
 	  doing an insert, allows new_file() to run if we open a 
