@@ -1,3 +1,6 @@
+** Open BUGS **
+
+** Fixed BUGS **
 - Marked cutting sometimes leaves a newline in the file unintelligently,
   such as when all of a line is selected but the mark doesn't proceed to
   the new line. (8) [FIXED/IRRELEVANT]
@@ -132,6 +135,5 @@
 - Home and End control keys (^A, ^E) do not always work in filename
   prompt (bug found by Ian Turner) (69) [1.0 series only] [FIXED].
 - Trying to insert a file of 0 bytes will hang nano (70) [FIXED].
-** Open BUGS **
 
 $Id$
