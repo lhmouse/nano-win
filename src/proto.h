@@ -555,7 +555,7 @@ const shortcut *get_shortcut(const shortcut *s_list, int kbinput, bool
 #ifndef NANO_SMALL
 const toggle *get_toggle(int kbinput, bool meta_key);
 #endif
-int get_edit_input(bool *meta_key, bool *func_key);
+int get_edit_input(bool *meta_key, bool *func_key, bool allow_funcs);
 #ifndef DISABLE_MOUSE
 bool get_edit_mouse(void);
 #endif

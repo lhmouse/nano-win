@@ -36,12 +36,6 @@ CVS code -
   do_justify()
 	- For consistency, preserve placewewant if we didn't unjustify
 	  instead of setting it to 0. (DLR)
-- winio.c:
-  get_edit_input()
-	- Remove parameter allow_funcs, as it was only needed as a
-	  workaround for when justified text was stored in the cutbuffer
-	  and the cut shortcut was hit at the "Can now UnJustify!"
-	  prompt. (DLR)
 
 GNU nano 1.3.5 - 2004.11.22
 - General:

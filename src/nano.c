@@ -3038,7 +3038,7 @@ void do_justify(bool full_justify)
 
     /* Now get a keystroke and see if it's unjustify; if not, unget the
      * keystroke and return. */
-    kbinput = get_edit_input(&meta_key, &func_key);
+    kbinput = get_edit_input(&meta_key, &func_key, FALSE);
 
     if (!meta_key && !func_key && kbinput == NANO_UNJUSTIFY_KEY) {
 	/* Restore the justify we just did (ungrateful user!). */
@@ -3092,6 +3092,8 @@ void do_justify(bool full_justify)
 	    edit_refresh();
 	}
     } else {
+	unget_kbinput(kbinput, meta_key, func_key);
+
 	/* Blow away the text in the justify buffer.*/
 	free_filestruct(jusbuffer);
 	jusbuffer = NULL;
@@ -3955,7 +3957,7 @@ int main(int argc, char **argv)
 	currshortcut = main_list;
 #endif
 
-	kbinput = get_edit_input(&meta_key, &func_key);
+	kbinput = get_edit_input(&meta_key, &func_key, TRUE);
 
 	/* Last gasp, stuff that's not in the main lists. */
 	if (kbinput != ERR && !is_cntrl_char(kbinput)) {
