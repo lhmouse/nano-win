@@ -136,7 +136,8 @@ int do_cut_text(void)
     int newsize, cuttingtoend = 0;
 #endif
 
-    if (fileptr == NULL || fileptr->data == NULL)
+    check_statblank();
+    if (fileptr == NULL || fileptr->data == NULL || fileptr == filebot)
 	return 0;
 
     tmp = fileptr->next;
@@ -242,18 +243,8 @@ int do_cut_text(void)
 	    current = fileptr->next;
 	    totlines--;
 	    totsize--; /* get the newline */
-	} else {
-	    /* we're deleteing the last line
-	       and replacing it with a dummy line,
-	       so totlines is the same */
-	    tmp = fileptr->prev;
-	    tmp->next = make_new_node(tmp);
-	    tmp = tmp->next;
-	    tmp->data = nmalloc(1);
-	    strcpy(tmp->data, "");
-	    current = tmp;
-	    filebot = tmp;
-	}
+	}	/* No longer an else here, because we never get here anymore...
+		   No need to cut the magic line, as it's empty */
 
 	add_to_cutbuffer(fileptr);
     }
@@ -285,6 +276,7 @@ int do_uncut_text(void)
     int i;
 
     wrap_reset();
+    check_statblank();
     if (cutbuffer == NULL || fileptr == NULL)
 	return 0;		/* AIEEEEEEEEEEEE */
 
