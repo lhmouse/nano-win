@@ -16,6 +16,9 @@ CVS code -
 	- gettextized a pair of strings.
 - m4/gettext.m4:
 	- Back down to 1.1.3 version.
+- faq.html:
+	- Various link updates and other fixes (Aaron S. Hawley).
+	- Typo fixes (David Lawrence Ramsey).
 - po/sv.po:
 	- Swedish translation update (Christian Rose).
 - po/ru.po:
