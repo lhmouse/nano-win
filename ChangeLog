@@ -11,7 +11,7 @@ CVS Code
 	  the M-key usage and the help text to explain keys whcih generate
 	  Meta.  Moved the toggle Meta keystrokes to the first column
 	  instead of the third as they are the primary keystrokes for the
-	  functions.
+	  functions.  Thanks Mini editor team :->
 	- Changed last_search and last_replace vars to statically 
 	  allocated (hence nulled) and moved to search.c (Matt Kraai).
 - nano.c:
