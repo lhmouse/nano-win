@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.18\n"
-"POT-Creation-Date: 2001-02-18 00:43-0500\n"
+"POT-Creation-Date: 2001-02-20 12:36-0500\n"
 "PO-Revision-Date: 2001-01-12 17:21+02:00\n"
 "Last-Translator: Pauli Virtanen <pauli.virtanen@saunalahti.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -851,12 +851,13 @@ msgid "Search Wrapped"
 msgstr "Etsintä jatkuu"
 
 #: search.c:343
-#, c-format
-msgid "Replaced %d occurences"
+#, fuzzy, c-format
+msgid "Replaced %d occurrences"
 msgstr "%d kohtaa korvattu"
 
 #: search.c:345
-msgid "Replaced 1 occurence"
+#, fuzzy
+msgid "Replaced 1 occurrence"
 msgstr "1 kohta korvattu"
 
 #: search.c:483 search.c:587 search.c:603

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.9\n"
-"POT-Creation-Date: 2001-02-18 00:43-0500\n"
+"POT-Creation-Date: 2001-02-20 12:36-0500\n"
 "PO-Revision-Date: 2000-07-09 01:32+0100\n"
 "Last-Translator: Clement Laforet <sheep.killer@free.fr>\n"
 "Language-Team: French <LL@li.org>\n"
@@ -875,12 +875,13 @@ msgid "Search Wrapped"
 msgstr "La recherche a bouclé"
 
 #: search.c:343
-#, c-format
-msgid "Replaced %d occurences"
+#, fuzzy, c-format
+msgid "Replaced %d occurrences"
 msgstr "%d occurences remplacées"
 
 #: search.c:345
-msgid "Replaced 1 occurence"
+#, fuzzy
+msgid "Replaced 1 occurrence"
 msgstr "1 occurence remplacée"
 
 #: search.c:483 search.c:587 search.c:603

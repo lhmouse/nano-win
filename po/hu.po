@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.99pre2\n"
-"POT-Creation-Date: 2001-02-18 00:43-0500\n"
+"POT-Creation-Date: 2001-02-20 12:36-0500\n"
 "PO-Revision-Date: 2001-02-03 07:47-0000\n"
 "Last-Translator: Szabolcs Horvath <horvaths@penguinpowered.com>\n"
 "Language-Team: Hungarian <magyar@lists.linux.hu>\n"
@@ -857,12 +857,13 @@ msgid "Search Wrapped"
 msgstr ""
 
 #: search.c:343
-#, c-format
-msgid "Replaced %d occurences"
+#, fuzzy, c-format
+msgid "Replaced %d occurrences"
 msgstr "%d alkalommal fordult elõ, kicseréltem azokat"
 
 #: search.c:345
-msgid "Replaced 1 occurence"
+#, fuzzy
+msgid "Replaced 1 occurrence"
 msgstr "Egyszer fordult elõ, kicseréltem"
 
 #: search.c:483 search.c:587 search.c:603

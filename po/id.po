@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano-1.0\n"
-"POT-Creation-Date: 2001-02-18 00:43-0500\n"
+"POT-Creation-Date: 2001-02-20 12:36-0500\n"
 "PO-Revision-Date: 2001-02-08 10:09+07:00\n"
 "Last-Translator: Tedi Heriyanto <tedi-h@usa.net>\n"
 "Language-Team: Indonesian <id@li.org>\n"
@@ -855,12 +855,13 @@ msgid "Search Wrapped"
 msgstr "Pancarian diulangi dari awal"
 
 #: search.c:343
-#, c-format
-msgid "Replaced %d occurences"
+#, fuzzy, c-format
+msgid "Replaced %d occurrences"
 msgstr "%d tempat terganti"
 
 #: search.c:345
-msgid "Replaced 1 occurence"
+#, fuzzy
+msgid "Replaced 1 occurrence"
 msgstr "Terganti 1 tempat"
 
 #: search.c:483 search.c:587 search.c:603

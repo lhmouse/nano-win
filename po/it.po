@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.7\n"
-"POT-Creation-Date: 2001-02-18 00:43-0500\n"
+"POT-Creation-Date: 2001-02-20 12:36-0500\n"
 "PO-Revision-Date: 2000-03-03 04:57+0100\n"
 "Last-Translator: Daniele Medri <madrid@linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -841,12 +841,13 @@ msgid "Search Wrapped"
 msgstr "Ricerca interrotta"
 
 #: search.c:343
-#, c-format
-msgid "Replaced %d occurences"
+#, fuzzy, c-format
+msgid "Replaced %d occurrences"
 msgstr "Sostituite %d occorrenze"
 
 #: search.c:345
-msgid "Replaced 1 occurence"
+#, fuzzy
+msgid "Replaced 1 occurrence"
 msgstr "Sostituita 1 occorrenza"
 
 #: search.c:483 search.c:587 search.c:603
