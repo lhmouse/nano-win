@@ -2,6 +2,11 @@ CVS code -
 - General
 	- Type misalignments and mem leaks in renumber_all, do_justify
 	  and do_spell (Rocco & Steven Kneizys).
+- nano.c:
+  main()
+	- Put NANO_SMALL defines around toggle pointer (noticed by Jordi);
+- utils.c:
+  stristr() - Defined regardless of NANO_SMALL (noticed by Jordi).
 	  
 GNU nano 1.1.7 - 03/05/2002
 - General

@@ -2775,7 +2775,9 @@ int main(int argc, char *argv[])
     int modify_control_seq;
     char *argv0;
     shortcut *s;
+#ifndef NANO_SMALL
     toggle *t;
+#endif
 
 #ifdef _POSIX_VDISABLE
     struct termios term;

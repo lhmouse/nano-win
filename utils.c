@@ -89,6 +89,7 @@ char *revstristr(char *haystack, char *needle, char *rev_start)
     }
     return 0;
 }
+#endif /* NANO_SMALL */
 
 /* This is now mutt's version (called mutt_stristr) because it doesn't
    use memory allocation to do a simple search (yuck). */
@@ -110,7 +111,6 @@ char *stristr(char *haystack, char *needle)
     }
     return NULL;
 }
-#endif /* NANO_SMALL */
 
 char *strstrwrapper(char *haystack, char *needle, char *rev_start)
 {
