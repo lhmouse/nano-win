@@ -20,7 +20,7 @@ Overview
      The nano editor is now an official GNU package.  For more
      information on GNU and the Free Software Foundation please see
      http://www.gnu.org.
-     
+
 How to compile and install nano
 
      Download the nano source code, then:
@@ -29,14 +29,14 @@ How to compile and install nano
      ./configure
      make
      make install
-     
+
      It's that simple.  Use --prefix with configure to override the
      default installation directory of /usr/local.
-     
+
 Web Page
 
 	http://www.nano-editor.org
-     
+
 Mailing List and Bug Reports
 
 	Savannah hosts all the nano-related mailing-lists.
