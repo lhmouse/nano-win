@@ -3345,8 +3345,7 @@ void do_cont(int signal)
 void handle_sigwinch(int s)
 {
     const char *tty = ttyname(0);
-    int fd;
-    int result = 0;
+    int fd, result = 0;
     struct winsize win;
 
     if (tty == NULL)
