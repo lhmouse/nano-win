@@ -3265,7 +3265,7 @@ int main(int argc, char *argv[])
 #ifndef DISABLE_OPERATINGDIR
 	char *operating_dir_cpy = operating_dir;
 #endif
-#ifndef DISABLE_WRAPPING
+#ifndef DISABLE_WRAPJUSTIFY
 	ssize_t wrap_at_cpy = wrap_at;
 #endif
 #ifndef NANO_SMALL
