@@ -39,6 +39,8 @@ CVS code -
 - nano.spec.in:
 	- Don't put Chris' name as the Packager in the distribution
 	  by default (Im an idiot).
+- nano.1:
+	- Changed references to Debian GNU/Linux to Debian GNU (Jordi).
 - po/gl.po:
 	- Galician translation updates (Jacobo Tarrio).
 - po/de.po:
