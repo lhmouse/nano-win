@@ -229,8 +229,14 @@ int open_file(char *filename, int insert, int quiet)
 	    statusbar("%s: %s", strerror(errno), filename);
 	return -1;
     } else {			/* File is A-OK */
-	if (S_ISDIR(fileinfo.st_mode)) {
-	    statusbar(_("File \"%s\" is a directory"), filename);
+	if (S_ISDIR(fileinfo.st_mode) || S_ISCHR(fileinfo.st_mode) || 
+		S_ISBLK(fileinfo.st_mode)) {
+	    if (S_ISDIR(fileinfo.st_mode))
+		statusbar(_("File \"%s\" is a directory"), filename);
+	    else
+		/* Don't open character or block files.  Sorry, /dev/sndstat! */
+		statusbar(_("File \"%s\" is a device file"), filename);
+
 	    if (!insert)
 		new_file();
 	    return -1;
@@ -303,7 +309,7 @@ int write_file(char *name, int tmp)
     char buf[PATH_MAX + 1];
     filestruct *fileptr;
     int fd, mask = 0, realexists, anyexists;
-    struct stat st, lst, st2;
+    struct stat st, lst;
     static char *realname = NULL;
 
     if (!strcmp(name, "")) {
