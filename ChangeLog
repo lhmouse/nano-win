@@ -35,6 +35,8 @@ CVS code -
 	  goofy logic setting x pos to value of last line when hitting the
 	  beginning of first line, prog should simply abort.  Added
 	  the #ifdefs around the code in main().
+  main()
+	- Fixed off by one when checking for MAIN_LIST_LEN. Ugh.
 - rcfile.c:
 	- Fix incorrect number of rc options (David Lawrence Ramsey).
 - po/sv.po:

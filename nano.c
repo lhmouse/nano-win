@@ -3115,7 +3115,7 @@ int main(int argc, char *argv[])
 
 	/* Look through the main shortcut list to see if we've hit a
 	   shortcut key */
-	for (i = 0; i < MAIN_LIST_LEN && !keyhandled; i++) {
+	for (i = 0; i < MAIN_LIST_LEN  - 1 && !keyhandled; i++) {
 	    if (kbinput == main_list[i].val ||
 		(main_list[i].misc1 && kbinput == main_list[i].misc1) ||
 		(main_list[i].misc2 && kbinput == main_list[i].misc2)) {
@@ -3167,8 +3167,8 @@ int main(int argc, char *argv[])
 #endif
 #endif
 
-#ifndef NANO_SMALL
 	    case 0:		/* Erg */
+#ifndef NANO_SMALL
 		do_next_word();
 		break;
 #endif
