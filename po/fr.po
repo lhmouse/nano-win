@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.5\n"
 "POT-Creation-Date: 2002-01-05 14:33-0500\n"
-"PO-Revision-Date: 2002-01-07 09:30+0100\n"
+"PO-Revision-Date: 2002-01-09 21:30+0100\n"
 "Last-Translator: Jean-Philippe Guérard <jean-philippe.guerard@laposte.net>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -307,11 +307,11 @@ msgstr "Aller à l'écran suivant"
 
 #: global.c:274
 msgid "Cut the current line and store it in the cutbuffer"
-msgstr "Copier dans le presse papier, puis supprimer la ligne courante"
+msgstr "Couper la ligne courante vers le presse-papiers"
 
 #: global.c:275
 msgid "Uncut from the cutbuffer into the current line"
-msgstr "Déplacer la chaîne du presse papier vers la ligne courante"
+msgstr "Coller le presse-papiers sur la ligne courante"
 
 #: global.c:276
 msgid "Show the position of the cursor"
@@ -459,7 +459,7 @@ msgstr "Dé-justif."
 
 #: global.c:376
 msgid "UnCut Txt"
-msgstr "Ann. coup."
+msgstr "Coller"
 
 #: global.c:380
 msgid "Cur Pos"
@@ -629,7 +629,7 @@ msgstr " -F \t\t--multibuffer\t\tMode multifichiers\n"
 
 #: nano.c:423
 msgid " -K \t\t--keypad\t\tUse alternate keypad routines\n"
-msgstr " -K \t\t--keypad\t\tUtiliser l'autre gestion du pavé numérique\n"
+msgstr " -K \t\t--keypad\t\tUtiliser l'autre gestion du pavé num.\n"
 
 #: nano.c:427
 msgid " -M \t\t--mac\t\t\tWrite file in Mac format\n"
@@ -693,7 +693,7 @@ msgstr " -s [prog] \t--speller=[prog]\tCorrecteur orthographique à utiliser\n"
 
 #: nano.c:476
 msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
-msgstr " -t \t\t--tempfile\t\tSauver en quittant, sans poser de question\n"
+msgstr " -t \t\t--tempfile\t\tSauver en quittant, sans question\n"
 
 #: nano.c:478
 msgid " -v \t\t--view\t\t\tView (read only) mode\n"
@@ -701,7 +701,7 @@ msgstr " -v \t\t--view\t\t\tMode visualisation (lecture seule)\n"
 
 #: nano.c:481
 msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
-msgstr " -w \t\t--nowrap\t\tNe pas couper les lignes trop longues\n"
+msgstr " -w \t\t--nowrap\t\tNe pas découper les lign. trop longues\n"
 
 #: nano.c:484
 msgid " -x \t\t--nohelp\t\tDon't show help window\n"
@@ -805,7 +805,7 @@ msgstr " -v \t\tMode visualisation (lecture seule)\n"
 
 #: nano.c:536
 msgid " -w \t\tDon't wrap long lines\n"
-msgstr " -w \t\tNe pas couper les lignes longues\n"
+msgstr " -w \t\tNe pas découper les lignes trop longues\n"
 
 #: nano.c:538
 msgid " -x \t\tDon't show help window\n"
