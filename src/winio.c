@@ -3784,21 +3784,23 @@ void display_main_list(void)
  * alone, but next time we will display. */
 void do_cursorpos(bool constant)
 {
-    const filestruct *fileptr;
+    char c;
+    filestruct *f;
     size_t i = 0;
-    static size_t old_i = 0;
-    static long old_totsize = -1;
+    static size_t old_i = 0, old_totsize = (size_t)-1;
 
     assert(current != NULL && fileage != NULL && totlines != 0);
 
-    if (old_totsize == -1)
+    if (old_totsize == (size_t)-1)
 	old_totsize = totsize;
 
-    for (fileptr = fileage; fileptr != current; fileptr = fileptr->next) {
-	assert(fileptr != NULL);
-	i += strlen(fileptr->data) + 1;
-    }
-    i += current_x;
+    c = current->data[current_x];
+    f = current->next;
+    current->data[current_x] = '\0';
+    current->next = NULL;
+    get_totals(fileage, current, NULL, &i);
+    current->data[current_x] = c;
+    current->next = f;
 
     /* Check whether totsize is correct.  Else there is a bug
      * somewhere. */
@@ -3819,13 +3821,13 @@ void do_cursorpos(bool constant)
 	size_t cur_len = strlenpt(current->data) + 1;
 	int linepct = 100 * current->lineno / totlines;
 	int colpct = 100 * xpt / cur_len;
-	int bytepct = totsize == 0 ? 0 : 100 * i / totsize;
+	int bytepct = (totsize == 0) ? 0 : 100 * i / totsize;
 
 	statusbar(
 	    _("line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%ld (%d%%)"),
 		    current->lineno, totlines, linepct,
 		    (unsigned long)xpt, (unsigned long)cur_len, colpct,
-		    (unsigned long)i, totsize, bytepct);
+		    (unsigned long)i, (unsigned long)totsize, bytepct);
 	UNSET(DISABLE_CURPOS);
     }
 

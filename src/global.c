@@ -40,7 +40,7 @@ char *last_search = NULL;	/* Last string we searched for */
 char *last_replace = NULL;	/* Last replacement string */
 int search_last_line;		/* Is this the last search line? */
 
-long flags = 0;			/* Our flag containing many options */
+unsigned long flags = 0;	/* Our flag containing many options */
 WINDOW *topwin;			/* Top buffer */
 WINDOW *edit;			/* The file portion of the editor */
 WINDOW *bottomwin;		/* Bottom buffer */
@@ -103,7 +103,8 @@ char *backup_dir = NULL;	/* Backup directory. */
 
 char *answer = NULL;		/* Answer str to many questions */
 int totlines = 0;		/* Total number of lines in the file */
-long totsize = 0;		/* Total number of bytes in the file */
+size_t totsize = 0;		/* Total number of characters in the
+				   file */
 size_t placewewant = 0;		/* The column we'd like the cursor
 				   to jump to when we go to the
 				   next or previous line */

@@ -373,7 +373,7 @@ void mark_order(const filestruct **top, size_t *top_x, const filestruct
 /* Calculate the number of lines and the number of characters between
  * begin and end, and return them in lines and size, respectively. */
 void get_totals(const filestruct *begin, const filestruct *end, int
-	*lines, long *size)
+	*lines, size_t *size)
 {
     const filestruct *f;
 
@@ -390,7 +390,7 @@ void get_totals(const filestruct *begin, const filestruct *end, int
 
 	/* Count the number of characters on this line. */
 	if (size != NULL) {
-	    *size += strlen(f->data);
+	    *size += mbstrlen(f->data);
 
 	    /* Count the newline if we have one. */
 	    if (f->next != NULL)
@@ -406,7 +406,7 @@ void get_totals(const filestruct *begin, const filestruct *end, int
 
 	/* Count the number of characters on this line. */
 	if (size != NULL) {
-	    *size += strlen(f->data);
+	    *size += mbstrlen(f->data);
 
 	    /* Count the newline if we have one. */
 	    if (f->next != NULL)

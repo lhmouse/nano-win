@@ -701,7 +701,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 	filestruct *top, size_t top_x, filestruct *bot, size_t bot_x)
 {
     filestruct *top_save;
-    long part_totsize;
+    size_t part_totsize;
     bool at_edittop;
 #ifndef NANO_SMALL
     bool mark_inside = FALSE;
@@ -800,7 +800,7 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
 {
     filestruct *top_save;
     int part_totlines;
-    long part_totsize;
+    size_t part_totsize;
     bool at_edittop;
 
     assert(file_top != NULL && file_bot != NULL);
@@ -1214,7 +1214,7 @@ void do_delete(void)
 	if (current_x < mark_beginx && mark_beginbuf == current)
 	    mark_beginx -= char_buf_len;
 #endif
-	totsize -= char_buf_len;
+	totsize--;
     } else if (current != filebot && (current->next != filebot ||
 	current->data[0] == '\0')) {
 	/* We can delete the line before filebot only if it is blank: it
@@ -2099,7 +2099,7 @@ const char *do_alt_speller(char *tempfile_name)
 	 * the alternate spell command.  The line that mark_beginbuf
 	 * points to will be freed, so we save the line number and
 	 * restore afterwards. */
-    long old_totsize = totsize;
+    size_t totsize_save = totsize;
 	/* Our saved value of totsize, used when we spell-check a marked
 	 * selection. */
 
@@ -2161,7 +2161,7 @@ const char *do_alt_speller(char *tempfile_name)
 
 #ifndef NANO_SMALL
     if (old_mark_set) {
-	long part_totsize;
+	size_t part_totsize;
 
 	/* If the mark was on, partition the filestruct so that it
 	 * contains only the marked text, and keep track of whether the
@@ -2176,7 +2176,7 @@ const char *do_alt_speller(char *tempfile_name)
 	 * it from the saved value of totsize.  Note that we don't need
 	 * to save totlines. */
 	get_totals(top, bot, NULL, &part_totsize);
-	old_totsize -= part_totsize;
+	totsize_save -= part_totsize;
     }
 #endif
 
@@ -2225,8 +2225,8 @@ const char *do_alt_speller(char *tempfile_name)
 	 * saved value the actual value. */
 	renumber(top_save);
 	totlines = filebot->lineno;
-	old_totsize += totsize;
-	totsize = old_totsize;
+	totsize_save += totsize;
+	totsize = totsize_save;
 
 	/* Assign mark_beginbuf to the line where the mark began
 	 * before. */
@@ -2842,7 +2842,8 @@ void do_justify(bool full_justify)
      * unjustifies.  Note that we don't need to save totlines. */
     size_t current_x_save = current_x;
     int current_y_save = current_y;
-    long flags_save = flags, totsize_save = totsize;
+    unsigned long flags_save = flags;
+    size_t totsize_save = totsize;
     filestruct *edittop_save = edittop, *current_save = current;
 #ifndef NANO_SMALL
     filestruct *mark_beginbuf_save = mark_beginbuf;
@@ -3770,7 +3771,7 @@ void do_output(char *output, size_t output_len)
 		current_len - current_x + char_buf_len);
 	charcpy(&current->data[current_x], char_buf, char_buf_len);
 	current_len += char_buf_len;
-	totsize += char_buf_len;
+	totsize++;
 	set_modified();
 
 #ifndef NANO_SMALL
@@ -4104,7 +4105,7 @@ int main(int argc, char **argv)
 	char *alt_speller_cpy = alt_speller;
 #endif
 	ssize_t tabsize_cpy = tabsize;
-	long flags_cpy = flags;
+	unsigned long flags_cpy = flags;
 
 #ifndef DISABLE_OPERATINGDIR
 	operating_dir = NULL;

@@ -142,6 +142,13 @@ CVS code -
 	  warnings or errors.  Changes to cancel_fork(),
 	  handle_hipterm(), do_suspend(), and do_cont(). (David
 	  Benbennick)
+	- Change flags to an unsigned long, and totsize to a size_t.
+	  (DLR)
+	- Store the number of multibyte characters instead of the number
+	  of single-byte characters in totsize, and use get_totals() to
+	  get the value of totsize in a few more places.  Changes to
+	  read_line(), read_file(), do_delete(), do_input(),
+	  get_totals(), and do_cursorpos(). (DLR)
 - cut.c:
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the

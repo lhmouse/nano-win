@@ -39,8 +39,8 @@ extern size_t placewewant;
 #ifndef NANO_SMALL
 extern size_t mark_beginx;
 #endif
-extern long totsize;
-extern long flags;
+extern size_t totsize;
+extern unsigned long flags;
 extern ssize_t tabsize;
 extern int currslen;
 
@@ -559,7 +559,7 @@ void mark_order(const filestruct **top, size_t *top_x, const filestruct
 	**bot, size_t *bot_x, bool *right_side_up);
 #endif
 void get_totals(const filestruct *begin, const filestruct *end, int
-	*lines, long *size);
+	*lines, size_t *size);
 #ifndef DISABLE_TABCOMP
 int check_wildcard_match(const char *text, const char *pattern);
 #endif

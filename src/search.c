@@ -1044,7 +1044,7 @@ void do_find_bracket(void)
     char regexp_pat[] = "[  ]";
     size_t current_x_save, pww_save;
     int count = 1;
-    long flags_save;
+    unsigned long flags_save;
     filestruct *current_save;
 
     ch_under_cursor = current->data[current_x];

@@ -80,10 +80,8 @@ filestruct *read_line(char *buf, filestruct *prev, bool *first_line_ins,
 #ifndef NANO_SMALL
     /* If it's a DOS file (CR LF), and file conversion isn't disabled,
      * strip out the CR part. */
-    if (!ISSET(NO_CONVERT) && len > 0 && buf[len - 1] == '\r') {
+    if (!ISSET(NO_CONVERT) && len > 0 && buf[len - 1] == '\r')
 	fileptr->data[len - 1] = '\0';
-	totsize--;
-    }
 #endif
 
     if (*first_line_ins || fileage == NULL) {
@@ -131,6 +129,8 @@ void read_file(FILE *f, const char *filename)
 {
     size_t num_lines = 0;
 	/* The number of lines in the file. */
+    size_t num_chars = 0;
+	/* The number of bytes in the file. */
     size_t len = 0;
 	/* The length of the current line of the file. */
     size_t i = 0;
@@ -220,7 +220,6 @@ void read_file(FILE *f, const char *filename)
 	    len = 1;
 
 	    num_lines++;
-	    totsize++;
 	    buf[0] = input;
 	    buf[1] = '\0';
 	    i = 1;
@@ -238,11 +237,11 @@ void read_file(FILE *f, const char *filename)
 		bufx += 128;
 		buf = charealloc(buf, bufx);
 	    }
+
 	    buf[i] = input;
 	    buf[i + 1] = '\0';
 	    i++;
 	}
-	totsize++;
     }
 
     /* This conditional duplicates previous read_byte() behavior.
@@ -255,9 +254,10 @@ void read_file(FILE *f, const char *filename)
     /* If file conversion isn't disabled and the last character in this
      * file is a CR, read it in properly as a Mac format line. */
     if (len == 0 && !ISSET(NO_CONVERT) && input == '\r') {
+	len = 1;
+
 	buf[0] = input;
 	buf[1] = '\0';
-	len = 1;
     }
 #endif
 
@@ -276,13 +276,13 @@ void read_file(FILE *f, const char *filename)
 	/* Read in the last line properly. */
 	fileptr = read_line(buf, fileptr, &first_line_ins, len);
 	num_lines++;
-	totsize++;
     }
+
     free(buf);
 
     /* If we didn't get a file and we don't already have one, make a new
      * file. */
-    if (totsize == 0 || fileptr == NULL)
+    if (fileptr == NULL)
 	new_file();
 
     /* Did we try to insert a file of 0 bytes? */
@@ -296,9 +296,11 @@ void read_file(FILE *f, const char *filename)
 	} else if (fileptr->next == NULL) {
 	    filebot = fileptr;
 	    new_magicline();
-	    totsize--;
 	}
     }
+
+    get_totals(fileage, filebot, NULL, &num_chars);
+    totsize += num_chars;
 
 #ifndef NANO_SMALL
     if (format == 3)
@@ -319,7 +321,7 @@ void read_file(FILE *f, const char *filename)
     } else
 #endif
 	statusbar(P_("Read %lu line", "Read %lu lines",
-		(unsigned long)num_lines),(unsigned long)num_lines);
+		(unsigned long)num_lines), (unsigned long)num_lines);
 
     totlines += num_lines;
 }
@@ -337,6 +339,7 @@ int open_file(const char *filename, bool newfie, FILE **f)
     struct stat fileinfo;
 
     assert(f != NULL);
+
     if (filename == NULL || filename[0] == '\0' ||
 	    stat(filename, &fileinfo) == -1) {
 	if (newfie) {
@@ -708,6 +711,7 @@ void splice_opennode(openfilestruct *begin, openfilestruct *newnode,
 	openfilestruct *end)
 {
     assert(newnode != NULL && begin != NULL);
+
     newnode->next = end;
     newnode->prev = begin;
     begin->next = newnode;
@@ -719,6 +723,7 @@ void splice_opennode(openfilestruct *begin, openfilestruct *newnode,
 void unlink_opennode(openfilestruct *fileptr)
 {
     assert(fileptr != NULL && fileptr->prev != NULL && fileptr->next != NULL && fileptr != fileptr->prev && fileptr != fileptr->next);
+
     fileptr->prev->next = fileptr->next;
     fileptr->next->prev = fileptr->prev;
     delete_opennode(fileptr);
@@ -728,6 +733,7 @@ void unlink_opennode(openfilestruct *fileptr)
 void delete_opennode(openfilestruct *fileptr)
 {
     assert(fileptr != NULL && fileptr->filename != NULL && fileptr->fileage != NULL);
+
     free(fileptr->filename);
     free_filestruct(fileptr->fileage);
     free(fileptr);
@@ -739,6 +745,7 @@ void delete_opennode(openfilestruct *fileptr)
 void free_openfilestruct(openfilestruct *src)
 {
     assert(src != NULL);
+
     while (src != src->next) {
 	src = src->next;
 	delete_opennode(src->prev);

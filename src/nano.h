@@ -172,8 +172,8 @@ typedef struct openfilestruct {
     size_t placewewant;		/* Current file's place we want. */
     int totlines;		/* Current file's total number of
 				 * lines. */
-    long totsize;		/* Current file's total size. */
-    long flags;			/* Current file's flags: modification
+    size_t totsize;		/* Current file's total size. */
+    unsigned long flags;	/* Current file's flags: modification
 				 * status (and marking status, if
 				 * available). */
     file_format fmt;		/* Current file's format. */
