@@ -301,16 +301,16 @@ int read_file(FILE *f, const char *filename, int quiet)
 
 #ifndef NANO_SMALL
     if (fileformat == 2)
-	statusbar(ngettext("Read %d line (Converted from Mac format)",
+	statusbar(__("Read %d line (Converted from Mac format)",
 			"Read %d lines (Converted from Mac format)",
 			num_lines), num_lines);
     else if (fileformat == 1)
-	statusbar(ngettext("Read %d line (Converted from DOS format)",
+	statusbar(__("Read %d line (Converted from DOS format)",
 			"Read %d lines (Converted from DOS format)",
 			num_lines), num_lines);
     else
 #endif
-	statusbar(ngettext("Read %d line", "Read %d lines", num_lines),
+	statusbar(__("Read %d line", "Read %d lines", num_lines),
 			num_lines);
 
     totlines += num_lines;
@@ -1646,7 +1646,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 	/* Update originalfilestat to reference the file as it is now. */
 	stat(filename, &originalfilestat);
 #endif
-	statusbar(ngettext("Wrote %d line", "Wrote %d lines", lineswritten),
+	statusbar(__("Wrote %d line", "Wrote %d lines", lineswritten),
 			lineswritten);
 	UNSET(MODIFIED);
 	titlebar(NULL);

@@ -223,11 +223,7 @@ AC_MSG_WARN([*** Can not use slang when cross-compiling])),
     esac], [AC_MSG_RESULT(no)])
 
 dnl Checks for functions
-AC_CHECK_FUNCS(ngettext snprintf vsnprintf)
-if test "x$ac_cv_func_ngettext" = "xno"
-then
-	AC_DEFINE(NO_NGETTEXT, 1, [Defined if ngettext() is unavailable])
-fi
+AC_CHECK_FUNCS(snprintf vsnprintf)
 if test "x$ac_cv_func_snprintf" = "xno" -o "xac_cv_func_vsnprintf" = "xno"
 then
 	AM_PATH_GLIB(1.2.4,,
@@ -319,7 +315,7 @@ then
 fi
 
 dnl i18n stuff - pretty incomplete for now
-AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT([external], [need-ngettext])
 
 AC_CONFIG_FILES([Makefile m4/Makefile po/Makefile.in nano.spec])
 AC_OUTPUT

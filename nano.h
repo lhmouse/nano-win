@@ -51,12 +51,10 @@
 #    include <libintl.h>
 #  endif
 #  define _(string) gettext(string)
-#  ifdef NO_NGETTEXT
-#    define ngettext(singular, plural, number) gettext(number == 1 ? singular : plural)
-#  endif
+#  define __(singular, plural, number) ngettext(singular, plural, number)
 #else
 #  define _(string) (string)
-#  define ngettext(singular, plural, number) number == 1 ? singular : plural
+#  define __(singular, plural, number) (number == 1 ? singular : plural)
 #endif
 
 #include <sys/types.h>
