@@ -191,30 +191,26 @@ void get_buffer(WINDOW *win)
 	buffer *clean_key_buffer = NULL;
 	size_t clean_key_buffer_len = 0;
 
-	/* Change all incomplete or invalid multibyte keystrokes to -1,
-	 * and change all complete and valid multibyte keystrokes to
-	 * their wide character values. */
+	/* Change all complete and valid multibyte keystrokes to
+	 * their wide character values, discarding the others. */
 	for (i = 0; i < key_buffer_len; i++) {
 	    wchar_t wide_key;
+	    int wide_key_len;
 
-	    if (!key_buffer[i].key_code) {
-		if (mbtowc(&wide_key,
-			(const char *)&key_buffer[i].key, 1) == -1)
-		    key_buffer[i].key = -1;
-		else
-		    key_buffer[i].key = wide_key;
-	    }
-	}
+	    if (key_buffer[i].key_code) {
+		wide_key_len = 1;
+		wide_key = key_buffer[i].key;
+	    } else
+		wide_key_len = mbtowc(&wide_key,
+			(const char *)&key_buffer[i].key, 1);
 
-	/* Save all of the non-(-1) keystrokes in another buffer. */
-	for (i = 0; i < key_buffer_len; i++) {
-	    if (key_buffer[i].key != -1) {
+	    if (wide_key_len != -1) {
 		clean_key_buffer_len++;
 		clean_key_buffer = (buffer *)nrealloc(clean_key_buffer,
 			clean_key_buffer_len * sizeof(buffer));
 
 		clean_key_buffer[clean_key_buffer_len - 1].key =
-			key_buffer[i].key;
+			wide_key;
 		clean_key_buffer[clean_key_buffer_len - 1].key_code =
 			key_buffer[i].key_code;
 	    }
@@ -264,20 +260,13 @@ void unget_input(buffer *input, size_t input_len)
     if (!ISSET(NO_UTF8)) {
 	size_t i;
 
-	/* Change all invalid wide character values to -1. */
+	/* Keep all valid wide keystrokes, discarding the others. */
 	for (i = 0; i < input_len; i++) {
 	    char key[MB_LEN_MAX];
+	    int key_len = input[i].key_code ? 1 :
+		wctomb(key, input[i].key);
 
-	    if (!input[i].key_code) {
-		if (wctomb(key, input[i].key) == -1)
-		    input[i].key = -1;
-	    }
-	}
-
-	/* Save all of the non-(-1) wide characters in another
-	 * buffer. */
-	for (i = 0; i < input_len; i++) {
-	    if (input[i].key != -1) {
+	    if (key_len != -1) {
 		clean_input_len++;
 		clean_input = (buffer *)nrealloc(clean_input,
 			clean_input_len * sizeof(buffer));
