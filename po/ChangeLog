@@ -1,3 +1,9 @@
+2004-06-01  Jordi Mallach  <jordi@gnu.org>
+
+	* zh_TW.po: Added Chinese (Taiwan) translation by
+	CHAO Wei-Lun <chaoweilun@pcmail.com.tw>.
+	* LINGUAS: Added "zh_TW".
+
 2004-02-24  Jordi Mallach  <jordi@gnu.org>
 
 	* ms.po: Updated Malay translation by Sharuzzaman Ahmat Raslan.
