@@ -1612,7 +1612,7 @@ msgstr "No"
 #: winio.c:1442
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%ld (%d%%)"
-msgstr "Riga %d/%d (%d%%), col %lu/%lu (%.d%%), car %lu/%lu (%.d%%)"
+msgstr "Riga %ld/%ld (%d%%), col %lu/%lu (%.d%%), car %lu/%ld (%d%%)"
 
 #: winio.c:1698
 msgid "Dumping file buffer to stderr...\n"
