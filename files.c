@@ -1086,6 +1086,8 @@ int diralphasort(const void *va, const void *vb) {
     return(answer);
 }
 
+
+/* Initialize the browser code, including the list of files in *path */
 char **browser_init(char *path, int *longest, int *numents)
 {
     DIR *dir;
@@ -1121,10 +1123,6 @@ char **browser_init(char *path, int *longest, int *numents)
 	else
 	    snprintf(filelist[i], strlen(next->d_name) + strlen(path) + 2, 
 			"%s/%s", path, next->d_name);
-
-/*
-	filelist[i] = mallocstrcpy(filelist[i], next->d_name);
-*/
 	i++;
     }
 
@@ -1146,6 +1144,8 @@ void free_charptrarray(char **array, int len)
     free(array);
 }
 
+/* only print the last part of a path, isn't there a shell 
+   command for this? */
 char *tail(char *foo)
 {
     char *tmp = NULL;
@@ -1159,6 +1159,7 @@ char *tail(char *foo)
     return tmp;
 }
 
+/* Strip one dir from the end of a string */
 void striponedir(char *foo)
 {
     char *tmp = NULL;
@@ -1182,6 +1183,7 @@ void striponedir(char *foo)
     return;
 }
 
+/* Our browser function.  inpath is the path to start browsing from */
 char *do_browser(char *inpath)
 {
     struct stat st;
@@ -1191,16 +1193,22 @@ char *do_browser(char *inpath)
     int col = 0, selected = 0, editline = 0, width = 0, filecols = 0;
     char **filelist = (char **) NULL;
 
+    /* If path isn't the same as inpath, we are being passed a new
+	dir as an arg.  We free it here so it will be copied from 
+	inpath below */
     if (path != NULL && strcmp(path, inpath)) {
 	free(path);
 	path = NULL;
     }
 
+    /* if path doesn't exist, make it so */
     if (path == NULL)
 	path = mallocstrcpy(path, inpath);
 
     filelist = browser_init(path, &longest, &numents);
     foo = nmalloc(longest + 8);
+
+    /* Sort the list by directory first then alphabetically */
     qsort(filelist, numents, sizeof(char *), diralphasort);
 
     titlebar(path);
@@ -1210,6 +1218,8 @@ char *do_browser(char *inpath)
     i = 0;
     width = 0;
     filecols = 0;
+
+    /* Loop invariant: Microsoft sucks. */
     do {
 	blank_edit();
 	blank_statusbar();
@@ -1270,6 +1280,8 @@ char *do_browser(char *inpath)
 	    break;
 	case KEY_ENTER:
 	case NANO_CONTROL_M:
+
+	    /* You can't cd up from / */
 	    if (!strcmp(filelist[selected], "/..") && !strcmp(path, "/"))
 		statusbar(_("Can't move up a directory"));
 	    else
@@ -1278,22 +1290,26 @@ char *do_browser(char *inpath)
 	    st = filestat(path);
 	    if (S_ISDIR(st.st_mode)) {
 		if (opendir(path) == NULL) {
+		    /* We can't open this dir for some reason.  Complain */
 		    statusbar(_("Can't open \"%s\": %s"), path, strerror(errno));
 		    striponedir(path);		    
 		    align(&path);
 		    break;
-		}
-	    }
+		} 
 
-	    st = filestat(path);
-	    if (S_ISDIR(st.st_mode)) {
 		if (!strcmp("..", tail(path))) {
+		    /* They want to go up a level, so strip off .. and the
+			current dir */
 		    striponedir(path);
 		    striponedir(path);
 		    align(&path);
 		}
+
+		/* Start over again with the new path value */
 		return do_browser(path);
 	    } else {
+
+		/* Work around for duplicating code */
 		ungetch(NANO_EXIT_KEY);
 		retval = path;
 		abort = 1;
@@ -1342,12 +1358,14 @@ char *do_browser(char *inpath)
 		    sprintf(foo + longest - 7, "%4d KB", (int) st.st_size / 1024);
 	    }
 
+	    /* Hilight the currently selected file/dir */
 	    if (j == selected)
 		wattron(edit, A_REVERSE);
 	    waddnstr(edit, foo, strlen(foo));
 	    if (j == selected)
 		wattroff(edit, A_REVERSE);
 
+	    /* And add some space between the cols */
 	    waddstr(edit, "  ");
 	    col += 2;
 
@@ -1368,6 +1386,7 @@ char *do_browser(char *inpath)
     titlebar(NULL); 
     edit_refresh();
 
+    /* cleanup */
     free_charptrarray(filelist, numents);
     free(foo);
     return retval;
