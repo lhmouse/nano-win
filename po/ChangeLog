@@ -1,3 +1,8 @@
+2002-01-23  Jordi Mallach  <jordi@sindominio.net>
+
+	* ca.po: Updated.
+	* es.po: Updated.
+
 2002-01-19  gettextize  <bug-gnu-utils@gnu.org>
 
 	* Makefile.in.in: Upgrade to gettext-0.10.40.

@@ -1265,7 +1265,7 @@ msgstr "Nombre del color inexistente"
 
 #: rcfile.c:235 rcfile.c:289
 msgid "regex strings must begin and end with a \" character\n"
-msgstr ""
+msgstr "Las cadenas de regex han de empezar y acabar con un carácter \"\n"
 
 #: rcfile.c:281
 msgid ""
@@ -1369,7 +1369,7 @@ msgstr "Búsqueda Recomenzada"
 
 #: search.c:457
 msgid "This is the only occurrence"
-msgstr ""
+msgstr "Ésta es la única coincidencia"
 
 #: search.c:467
 #, c-format
