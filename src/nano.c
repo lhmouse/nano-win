@@ -2352,7 +2352,7 @@ size_t indent_length(const char *line)
 #endif /* !NANO_SMALL */
 
 #ifndef DISABLE_JUSTIFY
-/* justify_format() replaces tabs with spaces and multiple spaces by 1
+/* justify_format() replaces blanks with spaces and multiple spaces by 1
  * (except it maintains 2 after a non-repeated character in punct
  * followed by a character in brackets, and removes all at the end of
  * the line).
@@ -2362,7 +2362,7 @@ size_t indent_length(const char *line)
  *
  * justify_format() will not look at the first skip characters of line.
  * skip should be at most strlen(line->data).  The character at
- * line[skip + 1] must not be whitespace. */
+ * line[skip + 1] must not be blank. */
 void justify_format(filestruct *paragraph, size_t skip)
 {
     char *end, *new_end, *new_paragraph_data;
