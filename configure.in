@@ -304,6 +304,6 @@ then
 fi
 
 dnl i18n stuff - pretty incomplete for now
-AM_GNU_GETTEXT
+NANO_AM_GNU_GETTEXT
 
 AC_OUTPUT([Makefile intl/Makefile po/Makefile.in])
