@@ -2,6 +2,8 @@ Current CVS:
 - Implemented Pico's -k mode.  New flag CUT_TO_END, option (-k, --cut), 
   affects do_cut_text in cut.c.  Not available with SMALL_NANO because it
   depends on the marker code which is not available with that setting.
+- Changed static temp_opt to flag TEMP_OPT.  Fixed bug #29 (using
+  -t with an unwritable file causes users to get locked into editor).
 - move.c
   page_down()
 	- Don't edit_refresh() if the bottom of the file is in the edit

@@ -105,6 +105,7 @@ typedef struct shortcut {
 #define USE_REGEXP              (1<<14)
 #define REGEXP_COMPILED         (1<<15)
 #define CUT_TO_END         	(1<<16)
+#define TEMP_OPT         	(1<<16)
 
 /* Control key sequences, chaning these would be very very bad */
 

@@ -281,7 +281,7 @@ int do_insertfile(void)
  * print out how many lines we wrote on the statusbar.
  * 
  * Note that tmp is only set to 1 for storing temporary files internal
- * to the editor, and is completely different from temp_opt.
+ * to the editor, and is completely different from TEMP_OPT.
  */
 int write_file(char *name, int tmp)
 {
@@ -301,6 +301,20 @@ int write_file(char *name, int tmp)
 
     /* Open the file and truncate it.  Trust the symlink. */
     if (ISSET(FOLLOW_SYMLINKS) && !tmp) {
+	/*
+	 * If TEMP_OPT == 1, check to see if we can append to the file
+	 * first, i.e. to see if we can at least write to the file (stops
+	 * people from getting "locked in" to editor when write fails 
+	 */
+	if (ISSET(TEMP_OPT)) { 
+	    if ((fd = open(name, O_APPEND, S_IRUSR | S_IWUSR | S_IRGRP |
+		S_IWGRP | S_IROTH | S_IWOTH)) == -1) {
+		UNSET(TEMP_OPT);
+		do_writeout(1);
+	    }
+	    else
+		close(fd);
+	}
 	if ((fd = open(name, O_WRONLY | O_CREAT | O_TRUNC,
 		       S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH |
 		       S_IWOTH)) == -1) {
@@ -430,7 +444,7 @@ int do_writeout(int exiting)
 
     strncpy(answer, filename, 132);
 
-    if ((exiting) && (temp_opt) && (filename)) {
+    if ((exiting) && (ISSET(TEMP_OPT)) && (filename)) {
 	i = write_file(answer, 0);
 	display_main_list();
 	return i;

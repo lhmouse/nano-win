@@ -60,7 +60,6 @@
 /* Former globals, now static */
 char *last_search;		/* Last string we searched for */
 char *last_replace;		/* Last replacement string */
-int temp_opt = 0;		/* Editing temp file (pico -t option) */
 int fill = 0;			/* Fill - where to wrap lines, basically */
 static char *alt_speller;	/* Alternative spell command */
 struct termios oldterm;		/* The user's original term settings */
@@ -1120,7 +1119,7 @@ int do_exit(void)
     if (!ISSET(MODIFIED))
 	finish(0);
 
-    if (temp_opt) {
+    if (ISSET(TEMP_OPT)) {
 	i = 1;
     } else {
 	i =
@@ -1640,7 +1639,7 @@ int main(int argc, char *argv[])
 	    strcpy(alt_speller, optarg);
 	    break;
 	case 't':
-	    temp_opt = 1;
+	    SET(TEMP_OPT);
 	    break;
 	case 'v':
 	    SET(VIEW_MODE);
