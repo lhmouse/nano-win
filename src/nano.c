@@ -3387,6 +3387,17 @@ int main(int argc, char *argv[])
 #endif
 #endif /* !DISABLE_JUSTIFY */
 
+#ifndef DISABLE_SPELLER
+    /* If we don't have an alternative spell checker after reading the
+     * command line and/or rcfile, check $SPELL for one, as Pico
+     * does. */
+    if (alt_speller == NULL) {
+	char *spellenv = getenv("SPELL");
+	if (spellenv != NULL)
+	    alt_speller = mallocstrcpy(NULL, spellenv);
+    }
+#endif
+
     if (tabsize == -1)
 	tabsize = 8;
 

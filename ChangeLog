@@ -208,6 +208,8 @@ CVS code -
 	  after the terminal is properly set up, so that we can restore
 	  it easily after a resize. (DLR)
 	- Add missing cast to char when calling do_char(). (DLR)
+	- Check $SPELL for an alternative spell checker if we didn't get
+	  one from the command line and/or rcfile, as Pico does. (DLR)
 - nano.h:
 	- Since REGEXP_COMPILED is only used in search.c, convert it
 	  from a flag to a static int there. (DLR)
