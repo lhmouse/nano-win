@@ -92,6 +92,10 @@ CVS code -
 	- Toggle MARK_ISSET() at the beginning of the function instead
 	  of setting it in one place and unsetting it in another place.
 	  (David Benbennick)
+  do_suspend()
+	- Use handle_hupterm() to handle SIGHUP and SIGTERM so we can
+	  properly deal with them while nano is suspended. (DLR; problem
+	  found by David Benbennick)
   abcd()
 	- Removed, as it's unneeded due to the low-level input overhaul.
 	  (DLR)
