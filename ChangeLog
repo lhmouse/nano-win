@@ -14,6 +14,9 @@ General
 	- Fix magic line not getting created when (you guessed it)
 	  uncutting marked text at filebot (Ryan Krebs).
 - files.c:
+  read_file()
+	- If we encounter an error and insert is not set, run new_file().
+	  (bug discovered by Ben Roberts).
   write_file()
 	- Change open call flags, basically copy joe's way of doing it so
 	  a more recent version will actually be included in (un)stable.

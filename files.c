@@ -227,6 +227,8 @@ int open_file(char *filename, int insert, int quiet)
     } else if ((fd = open(filename, O_RDONLY)) == -1) {
 	if (!quiet)
 	    statusbar("%s: %s", strerror(errno), filename);
+	if (!insert)
+	    new_file();
 	return -1;
     } else {			/* File is A-OK */
 	if (S_ISDIR(fileinfo.st_mode) || S_ISCHR(fileinfo.st_mode) || 
