@@ -3487,6 +3487,7 @@ int main(int argc, char *argv[])
     reset_cursor();
 
     while (1) {
+	keyhandled = 0;
 
 	if (ISSET(CONSTUPDATE))
 	    do_cursorpos(1);
