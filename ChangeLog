@@ -38,9 +38,9 @@ CVS code -
 	  character input and output, and double-Escape/verbatim input
 	  of double-byte Unicode characters instead of single-byte ASCII
 	  characters.  New functions do_input(), do_mouse(),
-	  do_output(), get_buffer(), get_buffer_len(), buffer_to_keys(),
-	  unget_input(), get_input(), parse_kbinput(), and
-	  parse_verbatim_kbinput(); new macro charcpy(); changes to
+	  do_output(), is_byte_char(), get_buffer(), get_buffer_len(),
+	  buffer_to_keys(), unget_input(), get_input(), parse_kbinput(),
+	  and parse_verbatim_kbinput(); new macro charcpy(); changes to
 	  do_char() (renamed to do_output()), get_edit_input() (renamed
 	  to do_input() and moved to nano.c), get_edit_mouse() (renamed
 	  do_mouse() and moved to nano.c), do_verbatim_input(),
