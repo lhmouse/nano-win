@@ -3114,8 +3114,9 @@ void do_justify(bool full_justify)
 
 	    assert(break_pos < line_len);
 
-	    /* Make a new line and copy the text after where we broke
-	     * this line to the beginning of the new line. */
+	    /* Make a new line, and copy the text after where we're
+	     * going to break this line to the beginning of the new
+	     * line. */
 	    splice_node(current, make_new_node(current), current->next);
 
 	    /* If this paragraph is non-quoted, and autoindent isn't
@@ -3136,7 +3137,7 @@ void do_justify(bool full_justify)
 
 	    par_len++;
 	    totlines++;
-	    totsize += indent_len;
+	    totsize += indent_len + 1;
 
 #ifndef NANO_SMALL
 	    /* Adjust the mark coordinates to compensate for the change
@@ -3147,15 +3148,8 @@ void do_justify(bool full_justify)
 	    }
 #endif
 
-	    /* Break the line, and add the space back to where we broke
-	     * it. */
-	    null_at(&current->data, break_pos);
-
-	    current->data = charealloc(current->data, break_pos + 2);
-	    current->data[break_pos] = ' ';
-	    current->data[break_pos + 1] = '\0';
-
-	    totsize++;
+	    /* Break the line at the character just after the space. */
+	    null_at(&current->data, break_pos + 1);
 
 	    /* Go to the next line. */
 	    par_len--;
