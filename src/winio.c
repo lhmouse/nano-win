@@ -2637,7 +2637,7 @@ void statusbar(const char *msg, ...)
 	    SET(WHITESPACE_DISPLAY);
 #endif
 	free(bar);
-	foo_len = strlen(foo);
+	foo_len = strlenpt(foo);
 	start_x = (COLS - foo_len - 4) / 2;
 
 	wmove(bottomwin, 0, start_x);
@@ -2678,7 +2678,7 @@ void bottombars(const shortcut *s)
     }
 
     /* There will be this many characters per column.  We need at least
-     * 3 to display anything properly.*/
+     * 3 to display anything properly. */
     colwidth = COLS / ((slen / 2) + (slen % 2));
 
     blank_bottombars();
@@ -2726,14 +2726,22 @@ void bottombars(const shortcut *s)
  * the whole string!  We do not bother padding the entry with blanks. */
 void onekey(const char *keystroke, const char *desc, size_t len)
 {
-    assert(keystroke != NULL && desc != NULL && len >= 0);
+    assert(keystroke != NULL && desc != NULL);
+
+    size_t keystroke_len = strlenpt(keystroke) + 1;
+
     wattron(bottomwin, A_REVERSE);
-    waddnstr(bottomwin, keystroke, len);
+    waddnstr(bottomwin, keystroke, actual_x(keystroke, len));
     wattroff(bottomwin, A_REVERSE);
-    len -= strlen(keystroke) + 1;
+
+    if (len > keystroke_len)
+	len -= keystroke_len;
+    else
+	len = 0;
+
     if (len > 0) {
 	waddch(bottomwin, ' ');
-	waddnstr(bottomwin, desc, len);
+	waddnstr(bottomwin, desc, actual_x(desc, len));
     }
 }
 

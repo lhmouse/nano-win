@@ -56,8 +56,8 @@ CVS code -
 	  move_right(), and display_string_len(); changes to do_left(),
 	  do_right(), do_delete(), breakable(), break_line(),
 	  do_output(), get_buffer(), unget_input(), actual_x(),
-	  strnlenpt(), display_string(), titlebar(), and do_credits().
-	  (David Benbennick and DLR)
+	  strnlenpt(), display_string(), titlebar(), statusbar(),
+	  onekey(), and do_credits(). (David Benbennick and DLR)
 - cut.c:
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the
