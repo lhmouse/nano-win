@@ -141,7 +141,7 @@ void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
     /* Now, paste bot[bot_x] into top[top_x] */
     if (destructive) {
 
-	tmpstr = charalloc(strlen(top->data) + strlen(&bot->data[bot_x]));
+	tmpstr = charalloc(top_x + strlen(&bot->data[bot_x]) + 1);
 	strncpy(tmpstr, top->data, top_x);
 	strcpy(&tmpstr[top_x], &bot->data[bot_x]);
 	free(top->data);
