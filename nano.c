@@ -1678,8 +1678,9 @@ int do_int_spell_fix(const char *word)
     return TRUE;
 }
 
-/* Integrated spell checking using 'spell' program. */
-int do_int_speller(char *tempfile_name)
+/* Integrated spell checking using 'spell' program. 
+   Return value: NULL for normal termination, otherwise the error string */
+char *do_int_speller(char *tempfile_name)
 {
     char *read_buff, *read_buff_ptr, *read_buff_word;
     size_t pipe_buff_size, read_buff_size, read_buff_read, bytesread;
@@ -1687,10 +1688,11 @@ int do_int_speller(char *tempfile_name)
     pid_t pid_spell, pid_sort, pid_uniq;
     int spell_status, sort_status, uniq_status;
 
+    char *pipe_msg = _("Could not create pipe");
     /* Create a pipe to spell program */
 
     if (pipe(spell_fd) == -1)
-	return FALSE;
+	return pipe_msg;
 
     statusbar(_("Creating misspelled word list, please wait..."));
     /* A new process to run spell in */
@@ -1734,7 +1736,7 @@ int do_int_speller(char *tempfile_name)
     close(spell_fd[1]);
 
     if (pipe(sort_fd) == -1)
-	return FALSE;
+	return pipe_msg;
 
     /* A new process to run sort in */
 
@@ -1771,7 +1773,7 @@ int do_int_speller(char *tempfile_name)
     /* And one more for uniq! */
 
     if (pipe(uniq_fd) == -1)
-	return FALSE;
+	return pipe_msg;
 
     /* A new process to run uniq in */
 
@@ -1808,14 +1810,14 @@ int do_int_speller(char *tempfile_name)
 
     if (pid_spell < 0 || pid_sort < 0 || pid_uniq < 0) {
 	close(uniq_fd[0]);
-	return FALSE;
+	return _("Could not fork");
     }
 
     /* Get system pipe buffer size */
 
     if ((pipe_buff_size = fpathconf(uniq_fd[0], _PC_PIPE_BUF)) < 1) {
 	close(uniq_fd[0]);
-	return FALSE;
+	return _("Could not get size of pipe buffer");
     }
 
     /* Read-in the returned spelling errors */
@@ -1864,23 +1866,26 @@ int do_int_speller(char *tempfile_name)
 
     /* Process end of spell process */
 
-    waitpid(pid_spell, &spell_status, WNOHANG);
-    waitpid(pid_sort, &sort_status, WNOHANG);
-    waitpid(pid_uniq, &uniq_status, WNOHANG);
+    waitpid(pid_spell, &spell_status, 0);
+    waitpid(pid_sort, &sort_status, 0);
+    waitpid(pid_uniq, &uniq_status, 0);
 
-    if (WIFEXITED(spell_status) && WIFEXITED(sort_status) 
-	    && WIFEXITED(uniq_status)) {
-	if (WEXITSTATUS(spell_status) != 0 || WEXITSTATUS(sort_status) != 0 
-		|| WEXITSTATUS(uniq_status) != 0)
-	    return FALSE;
-    } else
-	 return FALSE;
+    if (WIFEXITED(spell_status) == 0 || WEXITSTATUS(spell_status))
+	return _("Error invoking \"spell\"");
 
-    return TRUE;
+    if (WIFEXITED(sort_status)  == 0 || WEXITSTATUS(sort_status))
+	return _("Error invoking \"sort -f\"");
+
+    if (WIFEXITED(uniq_status) == 0 || WEXITSTATUS(uniq_status))
+	return _("Error invoking \"uniq\"");
+
+    /* Otherwise... */
+    return NULL;
 }
 
-/* External spell checking. */
-int do_alt_speller(char *tempfile_name)
+/* External spell checking.
+   Return value: NULL for normal termination, otherwise the error string */
+char *do_alt_speller(char *tempfile_name)
 {
     int alt_spell_status, lineno_cur = current->lineno;
     int x_cur = current_x, y_cur = current_y, pww_cur = placewewant;
@@ -1929,13 +1934,20 @@ int do_alt_speller(char *tempfile_name)
 
     /* Could not fork?? */
     if (pid_spell < 0)
-	return FALSE;
+	return _("Could not fork");
 
     /* Wait for alternate speller to complete */
 
     wait(&alt_spell_status);
-    if (!WIFEXITED(alt_spell_status) || WEXITSTATUS(alt_spell_status) != 0)
-	return FALSE;
+    if (!WIFEXITED(alt_spell_status) || WEXITSTATUS(alt_spell_status) != 0) {
+	char *altspell_error = NULL;
+	char *invoke_error = _("Could not invoke \"%s\"");
+	int msglen = strlen(invoke_error) + strlen(alt_speller) + 2;
+
+	altspell_error = charalloc(msglen);
+	snprintf(altspell_error, msglen, invoke_error, alt_speller);
+	return altspell_error;
+    }
 
     refresh();
     free_filestruct(fileage);
@@ -1959,7 +1971,7 @@ int do_alt_speller(char *tempfile_name)
     clearok(topwin, FALSE);
     titlebar(NULL);
 
-    return TRUE;
+    return NULL;
 }
 #endif
 
@@ -1969,8 +1981,7 @@ int do_spell(void)
     nano_disabled_msg();
     return (TRUE);
 #else
-    char *temp;
-    int spell_res;
+    char *temp, *spell_msg = _("Generic error");
 
     if ((temp = safe_tempnam(0, "nano.")) == NULL) {
 	statusbar(_("Could not create a temporary filename: %s"),
@@ -1991,19 +2002,20 @@ int do_spell(void)
 #endif
 
     if (alt_speller)
-	spell_res = do_alt_speller(temp);
+	spell_msg = do_alt_speller(temp);
     else
-	spell_res = do_int_speller(temp);
-
+	spell_msg = do_int_speller(temp);
     remove(temp);
 
-    if (spell_res)
+    if (spell_msg == NULL) {
 	statusbar(_("Finished checking spelling"));
-    else
-	statusbar(_("Spell checking failed"));
+	return 1;
+    } else {
+	statusbar(_("Spell checking failed: %s"), spell_msg);
+	return 0;
+    }
 
     free(temp);
-    return spell_res;
 
 #endif
 }

@@ -19,6 +19,10 @@ CVS code -
 	  redundant word list.  [The only reason this is going in during 
 	  feature freeze is because the int speller is useless as is and should
 	  either be improved or removed.  I chose improved].
+  do_int_speller(), do_alt_speller()
+	- Programs now return char *, NULL for successful completion,
+	  otherwise the error string to display.  This allows us to give
+	  more useful feedback to the user when spell checking fails.
 - winio.c:
   do_credits()
 	- Add David Benbennick to credits. (DLR)

@@ -260,8 +260,8 @@ int do_wrap(filestruct *inptr);
 #endif
 #ifndef DISABLE_SPELLER
 int do_int_spell_fix(const char *word);
-int do_int_speller(char *tempfile_name);
-int do_alt_speller(char *tempfile_name);
+char *do_int_speller(char *tempfile_name);
+char *do_alt_speller(char *tempfile_name);
 #endif
 int do_spell(void);
 #if !defined(DISABLE_WRAPPING) && !defined(NANO_SMALL) || !defined(DISABLE_JUSTIFY)
