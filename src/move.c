@@ -58,11 +58,13 @@ void do_home(void)
     if (ISSET(SMART_HOME)) {
 	size_t current_x_save = current_x;
 	char *blank_mb = charalloc(mb_cur_max());
+	int blank_mb_len;
 
 	current_x = 0;
 
 	while (current->data[current_x] != '\0') {
-	    parse_mbchar(current->data + current_x, blank_mb
+	    blank_mb_len = parse_mbchar(current->data + current_x,
+		blank_mb
 #ifdef NANO_WIDE
 		, NULL
 #endif
@@ -71,7 +73,7 @@ void do_home(void)
 	    if (!is_blank_mbchar(blank_mb))
 		break;
 
-	    current_x = move_mbright(current->data, current_x);
+	    current_x += blank_mb_len;
 	}
 
 	free(blank_mb);

@@ -1321,12 +1321,14 @@ void do_next_word(void)
     size_t pww_save = placewewant;
     const filestruct *current_save = current;
     char *char_mb = charalloc(mb_cur_max());
+    int char_mb_len;
 
     assert(current != NULL && current->data != NULL);
 
     /* Skip letters in this word first. */
     while (current->data[current_x] != '\0') {
-	parse_mbchar(current->data + current_x, char_mb
+	char_mb_len = parse_mbchar(current->data + current_x,
+		char_mb
 #ifdef NANO_WIDE
 		, NULL
 #endif
@@ -1335,13 +1337,14 @@ void do_next_word(void)
 	if (!is_alnum_mbchar(char_mb))
 	    break;
 
-	current_x = move_mbright(current->data, current_x);
+	current_x += char_mb_len;
     }
 
     /* Go until we find the first letter of the next word. */
     for (; current != NULL; current = current->next) {
 	while (current->data[current_x] != '\0') {
-	    parse_mbchar(current->data + current_x, char_mb
+	    char_mb_len = parse_mbchar(current->data + current_x,
+		char_mb
 #ifdef NANO_WIDE
 		, NULL
 #endif
@@ -1350,7 +1353,7 @@ void do_next_word(void)
 	    if (is_alnum_mbchar(char_mb))
 		break;
 
-	    current_x = move_mbright(current->data, current_x);
+	    current_x += char_mb_len;
 	}
 
 	if (current->data[current_x] != '\0')

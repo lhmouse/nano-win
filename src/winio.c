@@ -1804,11 +1804,12 @@ void do_statusbar_home(void)
     if (ISSET(SMART_HOME)) {
 	size_t statusbar_x_save = statusbar_x;
 	char *blank_mb = charalloc(mb_cur_max());
+	int blank_mb_len;
 
 	statusbar_x = 0;
 
 	while (statusbar_x < statusbar_xend) {
-	    parse_mbchar(answer + statusbar_x,
+	    blank_mb_len = parse_mbchar(answer + statusbar_x,
 		blank_mb
 #ifdef NANO_WIDE
 		, NULL
@@ -1818,7 +1819,7 @@ void do_statusbar_home(void)
 	    if (!is_blank_mbchar(blank_mb))
 		break;
 
-	    statusbar_x = move_mbright(answer, statusbar_x);
+	    statusbar_x += blank_mb_len;
 	}
 
 	free(blank_mb);
