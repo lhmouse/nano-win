@@ -1,4 +1,4 @@
-Cvs code -
+nano 1.0.2 - 05/12/2001
 - General:
 	- Moved config.h up in all .c files #include list (Albert Chin).
 	- Added config.guess and config.sub to distribution because

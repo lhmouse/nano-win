@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.9\n"
-"POT-Creation-Date: 2001-04-30 07:19-0400\n"
+"POT-Creation-Date: 2001-05-11 20:55-0400\n"
 "PO-Revision-Date: 2000-07-09 01:32+0100\n"
 "Last-Translator: Clement Laforet <sheep.killer@free.fr>\n"
 "Language-Team: French <LL@li.org>\n"
@@ -15,12 +15,12 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: cut.c:45
+#: cut.c:43
 #, c-format
 msgid "add_to_cutbuffer called with inptr->data = %s\n"
 msgstr "add_to_cutbuffer appelé avec inptr->data = %s\n"
 
-#: cut.c:151
+#: cut.c:148
 msgid "Blew away cutbuffer =)\n"
 msgstr "cutbuffer annihilé -)\n"
 
@@ -219,7 +219,8 @@ msgid "Uncut from the cutbuffer into the current line"
 msgstr "Copie la chaîne en mémoire vers la ligne courante"
 
 #: global.c:199
-msgid "Show the posititon of the cursor"
+#, fuzzy
+msgid "Show the position of the cursor"
 msgstr "Affiche la position du curseur"
 
 #: global.c:200

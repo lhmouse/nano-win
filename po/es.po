@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2001-04-30 07:19-0400\n"
+"POT-Creation-Date: 2001-05-11 20:55-0400\n"
 "PO-Revision-Date: 2001-03-21 23:46+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -15,12 +15,12 @@ msgstr ""
 "Content-Type: text/plain; charset=iso8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: cut.c:45
+#: cut.c:43
 #, c-format
 msgid "add_to_cutbuffer called with inptr->data = %s\n"
 msgstr "add_to_cutbuffer llamado con inptr->data = %s\n"
 
-#: cut.c:151
+#: cut.c:148
 msgid "Blew away cutbuffer =)\n"
 msgstr "Nos hemos cargado el cutbuffer =)\n"
 
@@ -214,7 +214,8 @@ msgid "Uncut from the cutbuffer into the current line"
 msgstr "Pegar el cutbuffer en la línea actual"
 
 #: global.c:199
-msgid "Show the posititon of the cursor"
+#, fuzzy
+msgid "Show the position of the cursor"
 msgstr "Mostrar la posición del cursor"
 
 #: global.c:200

@@ -6,19 +6,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
-"POT-Creation-Date: 2001-04-30 07:19-0400\n"
+"POT-Creation-Date: 2001-05-11 20:55-0400\n"
 "Last-Translator: Václav Haisman <V.Haisman@sh.cvut.cz>\n"
 "Language-Team: N/A\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-2\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: cut.c:45
+#: cut.c:43
 #, c-format
 msgid "add_to_cutbuffer called with inptr->data = %s\n"
 msgstr "add_to_cutbuffer voláno s inptr->data = %s\n"
 
-#: cut.c:151
+#: cut.c:148
 msgid "Blew away cutbuffer =)\n"
 msgstr "Blew away cutbuffer =)\n"
 
@@ -213,7 +213,8 @@ msgid "Uncut from the cutbuffer into the current line"
 msgstr "Vlo¾ z cutbufferu do aktuální øádky"
 
 #: global.c:199
-msgid "Show the posititon of the cursor"
+#, fuzzy
+msgid "Show the position of the cursor"
 msgstr "Uka¾ pozici kurzoru"
 
 #: global.c:200

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.99pre2\n"
-"POT-Creation-Date: 2001-04-30 07:19-0400\n"
+"POT-Creation-Date: 2001-05-11 20:55-0400\n"
 "PO-Revision-Date: 2001-02-03 07:47-0000\n"
 "Last-Translator: Szabolcs Horvath <horvaths@penguinpowered.com>\n"
 "Language-Team: Hungarian <magyar@lists.linux.hu>\n"
@@ -14,12 +14,12 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-2\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: cut.c:45
+#: cut.c:43
 #, c-format
 msgid "add_to_cutbuffer called with inptr->data = %s\n"
 msgstr "add_to_cutbuffer az inptr->data-val lett meghívva = %s\n"
 
-#: cut.c:151
+#: cut.c:148
 msgid "Blew away cutbuffer =)\n"
 msgstr "a cutbuffert elfújta a szél =)\n"
 
@@ -212,7 +212,8 @@ msgid "Uncut from the cutbuffer into the current line"
 msgstr "A cutbufferben lévõ sor beillesztése az aktuális sorba"
 
 #: global.c:199
-msgid "Show the posititon of the cursor"
+#, fuzzy
+msgid "Show the position of the cursor"
 msgstr "A kurzor helyének mutatása"
 
 #: global.c:200
