@@ -21,6 +21,7 @@ CVS code -
 	- Use nanosleep() instead of usleep().  The latter is only
 	  standard under BSD, whereas the former is POSIX compliant.
 	  (DLR)
+	- Add explanatory comment. (DLR)
 - README:
 	- Reformat to 72 characters per line, fix wording in one spot,
 	  and fix spacing in several spots. (DLR)

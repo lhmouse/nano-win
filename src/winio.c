@@ -2297,6 +2297,7 @@ void dump_buffer_reverse(void)
 #define CREDIT_LEN 53
 #define XLCREDIT_LEN 8
 
+/* Easter egg: Display credits.  Assume nodelay(edit) is FALSE. */
 void do_credits(void)
 {
     int i, j = 0, k, place = 0, start_x;
