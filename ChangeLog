@@ -9,7 +9,7 @@ CVS code -
 	- Minor cosmetic tweaks to the ngettext() macro, and fix to
 	  properly detect systems lacking ngettext() and correctly
 	  compile on them; the previous fix didn't work. (DLR)
-  nano.c:
+- nano.c:
   version()
 	- Remove obsolete reference to --enable-undo. (David Benbennick)
 - winio.c:
