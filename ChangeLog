@@ -12,6 +12,9 @@ CVS code -
 	  to do_browser(), do_justify(), do_help(), and main(). (DLR)
 	- Simplify a few more translated messages. (DLR)
 	- Translation updates (see po/ChangeLog for details).
+	- Remove reference to @includedir@ in src/Makefile.am, as it's
+	  unneeded and can break cross-compilation. (DLR, found by Mike
+	  Frysinger)
 - files.c:
   do_insertfile()
 	- Readd the NANO_SMALL #ifdef around the start_again: label to

@@ -1,6 +1,6 @@
 DEFS= -DSYSCONFDIR=\"$(sysconfdir)\"
 localedir = $(datadir)/locale
-INCLUDES = -Iintl -DLOCALEDIR=\"$(localedir)\" -I@includedir@
+INCLUDES = -Iintl -DLOCALEDIR=\"$(localedir)\"
 
 ACLOCAL_AMFLAGS = -I m4
 
