@@ -24,6 +24,17 @@ CVS code -
   do_alt_speller()
 	- Try to go to the same line we were on before before spell check
 	  (Rocco).
+  signal_init()
+	- Reorder sigaction calls, use sigfillset() to stop SIGTSTP and
+	  SIGCONT from being interrupted, allows suspending nano 
+	  to work more reliably, esp. with mutt, etc.
+  do_suspend()
+	- Don't try to play with the handler inside the handler.  Just
+	  raise a SIGSTOP.  We also now write the "use "fg"" message to
+	  stdout instead of stderr.
+  do_cont()
+	- Now just does a refresh call instead of playing with the SIGTSTP
+	  handler.
 - utils.c:
   strcasestr()
 	- Replaced by mutt's mutt_stristr function, because the thought 

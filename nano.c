@@ -1602,25 +1602,27 @@ RETSIGTYPE handle_hup(int signal)
 /* What do we do when we catch the suspend signal */
 RETSIGTYPE do_suspend(int signal)
 {
-
-    act.sa_handler = SIG_DFL;
-    sigemptyset(&act.sa_mask);
-    sigaction(SIGTSTP, &act, NULL);
-
     endwin();
-    fprintf(stderr, "\n\n\n\n\nUse \"fg\" to return to nano\n");
-    raise(SIGTSTP);
+    printf("\n\n\n\n\nUse \"fg\" to return to nano\n");
+    fflush(stdout);
+
+    /* We used to re-enable the default SIG_DFL and raise SIGTSTP, but 
+	then we could be (and were) interrupted in the middle of the call.
+	So we do it the mutt way instead */
+    kill(0, SIGSTOP);
 }
 
 /* Restore the suspend handler when we come back into the prog */
 RETSIGTYPE do_cont(int signal)
 {
 
-    act.sa_handler = do_suspend;
-    sigemptyset(&act.sa_mask);
-    sigaction(SIGTSTP, &act, NULL);
-    initscr();
-    total_refresh();
+    /* Now we just update the screen instead of having to reenable the
+	SIGTSTP handler */
+
+    wnoutrefresh(edit);
+    wnoutrefresh(bottomwin);
+    wnoutrefresh(topwin);
+    doupdate();
 }
 
 void handle_sigwinch(int s)
@@ -1705,23 +1707,26 @@ void signal_init(void)
     act.sa_handler = SIG_IGN;
     sigaction(SIGINT, &act, NULL);
 
-    if (!ISSET(SUSPEND)) {
-	sigaction(SIGTSTP, &act, NULL);
-    } else {
-	act.sa_handler = do_suspend;
-	sigaction(SIGTSTP, &act, NULL);
-
-	act.sa_handler = do_cont;
-	sigaction(SIGCONT, &act, NULL);
-    }
-
-
     /* Trap SIGHUP cuz we want to write the file out. */
     act.sa_handler = handle_hup;
     sigaction(SIGHUP, &act, NULL);
 
     act.sa_handler = handle_sigwinch;
     sigaction(SIGWINCH, &act, NULL);
+
+    if (!ISSET(SUSPEND)) {
+	sigaction(SIGTSTP, &act, NULL);
+    } else {
+	/* if we don't do this, it seems other stuff interrupts the
+	   suspend handler!  Try using nano with mutt without this line */
+	sigfillset(&act.sa_mask);
+
+	act.sa_handler = do_suspend;
+	sigaction(SIGTSTP, &act, NULL);
+
+	act.sa_handler = do_cont;
+	sigaction(SIGCONT, &act, NULL);
+    }
 
 }
 
