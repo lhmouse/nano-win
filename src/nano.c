@@ -1334,8 +1334,7 @@ void do_next_word(void)
     /* Move forward until we find the character after the last letter of
      * the current word. */
     while (current->data[current_x] != '\0') {
-	char_mb_len = parse_mbchar(current->data + current_x,
-		char_mb
+	char_mb_len = parse_mbchar(current->data + current_x, char_mb
 #ifdef NANO_WIDE
 		, NULL
 #endif
@@ -1405,8 +1404,7 @@ void do_prev_word(void)
     /* Move backward until we find the character before the first letter
      * of the current word. */
     while (!begin_line) {
-	char_mb_len = parse_mbchar(current->data + current_x,
-		char_mb
+	char_mb_len = parse_mbchar(current->data + current_x, char_mb
 #ifdef NANO_WIDE
 		, NULL
 #endif
