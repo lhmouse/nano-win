@@ -127,6 +127,8 @@ void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
 	    filebot = next;
 	} else {
 	    filebot = top;
+	    if (top_x > 0)
+		new_magicline();
 	}
     }
     if (top->lineno < edittop->lineno)

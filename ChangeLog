@@ -2,7 +2,11 @@ CVS code -
 - cut.c:
   do_cut_text()
 	- Don't recenter the line when cutting one line (David Lawrence
-	  Ramsey) (Bug #65).
+	  Ramsey) (BUG #65).
+  cut_marked_segment()
+	- Add magic line when cutting a selection including filebot 
+	  (discovered by David Lawrence Ramsey, fixed by DLR & Chris,
+	  fixes BUG #66).
 - winio.c:
 	- Added David Lawrence Ramsey to credits.
 - po/nl.po:
