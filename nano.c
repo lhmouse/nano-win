@@ -412,150 +412,88 @@ void null_at(char **data, int index)
     align(data);
 }
 
+
+/* Print one usage string to the screen, removes lots of duplicate 
+   strings to translate and takes out the parts that shouldn't be 
+   translatable (the flag names) */
+void print1opt(char *shortflag, char *longflag, char *desc)
+{
+    printf(" %s\t", shortflag);
+    if (strlen(shortflag) < 8)
+	printf("\t");
+
+#ifdef HAVE_GETOPT_LONG
+    printf("%s\t", longflag);
+    if (strlen(longflag) < 8)
+	printf("\t\t");
+    else if (strlen(longflag) < 16)
+	printf("\t");
+#endif
+
+    printf("%s\n", desc);
+}
+
 void usage(void)
 {
 #ifdef HAVE_GETOPT_LONG
     printf(_("Usage: nano [GNU long option] [option] +LINE <file>\n\n"));
     printf(_("Option		Long option		Meaning\n"));
-
-#ifndef NANO_SMALL
-    printf
-	(_
-	 (" -D 		--dos			Write file in DOS format\n"));
-#endif
-#ifdef ENABLE_MULTIBUFFER
-    printf
-	(_
-	 (" -F 		--multibuffer		Enable multiple file buffers\n"));
-#endif
-    printf(_
-	 (" -K 		--keypad		Use alternate keypad routines\n"));
-#ifndef NANO_SMALL
-    printf
-	(_
-	 (" -M 		--mac			Write file in Mac format\n"));
-    printf
-	(_
-	 (" -N 		--noconvert		Don't convert files from DOS/Mac format\n"));
-#endif
-#ifndef DISABLE_JUSTIFY
-    printf
-	(_
-	 (" -Q [str]	--quotestr [str]	Quoting string, default \"> \"\n"));
-#endif
-#ifndef NANO_SMALL
-    printf(_
-	   (" -S		--smooth		Smooth scrolling\n"));
-#endif
-    printf(_
-	   (" -T [num]	--tabsize=[num]		Set width of a tab to num\n"));
-    printf
-	(_
-	 (" -V 		--version		Print version information and exit\n"));
-    printf(_
-	   (" -c 		--const			Constantly show cursor position\n"));
-    printf(_
-	   (" -h 		--help			Show this message\n"));
-#ifndef NANO_SMALL
-    printf(_
-	   (" -i 		--autoindent		Automatically indent new lines\n"));
-    printf(_
-	   (" -k 		--cut			Let ^K cut from cursor to end of line\n"));
-#endif
-    printf(_
-	   (" -l 		--nofollow		Don't follow symbolic links, overwrite\n"));
-#ifndef DISABLE_MOUSE
-#ifdef NCURSES_MOUSE_VERSION
-    printf(_(" -m 		--mouse			Enable mouse\n"));
-#endif
-#endif
-#ifndef DISABLE_OPERATINGDIR
-    printf(_
-	   (" -o [dir] 	--operatingdir=[dir]	Set operating directory\n"));
-#endif
-    printf(_
-	   (" -p 		--pico			Emulate Pico as closely as possible\n"));
-
-#ifndef DISABLE_WRAPJUSTIFY
-    printf
-	(_
-	 (" -r [#cols] 	--fill=[#cols]		Set fill cols to (wrap lines at) #cols\n"));
-#endif
-#ifndef DISABLE_SPELLER
-    printf(_
-	   (" -s [prog] 	--speller=[prog]	Enable alternate speller\n"));
-#endif
-    printf(_
-	   (" -t 		--tempfile		Auto save on exit, don't prompt\n"));
-    printf(_
-	   (" -v 		--view			View (read only) mode\n"));
-#ifndef DISABLE_WRAPPING
-    printf(_
-	   (" -w 		--nowrap		Don't wrap long lines\n"));
-#endif
-    printf(_
-	   (" -x 		--nohelp		Don't show help window\n"));
-    printf(_
-	   (" -z 		--suspend		Enable suspend\n"));
-    printf(_
-	   (" +LINE					Start at line number LINE\n"));
 #else
     printf(_("Usage: nano [option] +LINE <file>\n\n"));
     printf(_("Option		Meaning\n"));
+#endif /* HAVE_GETOPT_LONG */
+
 #ifndef NANO_SMALL
-    printf(_(" -D 		Write file in DOS format\n"));
+    print1opt("-D", "--dos", _("Write file in DOS format"));
 #endif
 #ifdef ENABLE_MULTIBUFFER
-    printf(_(" -F 		Enable multiple file buffers\n"));
+    print1opt("-F", "--multibuffer", _("Enable multiple file buffers"));
 #endif
-    printf(_(" -K		Use alternate keypad routines\n"));
+    print1opt("-K", "--keypad", _("Use alternate keypad routines"));
 #ifndef NANO_SMALL
-    printf(_(" -M 		Write file in Mac format\n"));
-    printf(_(" -N 		Don't convert files from DOS/Mac format\n"));
+    print1opt("-M", "--mac", _("Write file in Mac format"));
+    print1opt("-N", "--noconvert", _("Don't convert files from DOS/Mac format"));
 #endif
 #ifndef DISABLE_JUSTIFY
-    printf(_(" -Q [str] 	Quoting string, default \"> \"\n"));
+    print1opt("-Q [str]", "--quotestr [str]", _("Quoting string, default \"> \""));
 #endif
-    printf(_(" -R		Use regular expressions for search\n"));
 #ifndef NANO_SMALL
-    printf(_(" -S		Smooth scrolling\n"));
+    print1opt("-S", "--smooth", _("Smooth scrolling"));
 #endif
-    printf(_(" -T [num]	Set width of a tab to num\n"));
-    printf(_(" -V 		Print version information and exit\n"));
-    printf(_(" -c 		Constantly show cursor position\n"));
-    printf(_(" -h 		Show this message\n"));
+    print1opt("-T [num]", "--tabsize=[num]", _("Set width of a tab to num"));
+    print1opt("-V", "--version", _("Print version information and exit"));
+    print1opt("-c", "--const", _("Constantly show cursor position"));
+    print1opt("-h", "--help", _("Show this message"));
 #ifndef NANO_SMALL
-    printf(_(" -i 		Automatically indent new lines\n"));
-    printf(_(" -k 		Let ^K cut from cursor to end of line\n"));
+    print1opt("-i", "--autoindent", _("Automatically indent new lines"));
+    print1opt("-k", "--cut", _("Let ^K cut from cursor to end of line"));
 #endif
-    printf(_
-	   (" -l 		Don't follow symbolic links, overwrite\n"));
+    print1opt("-l", "--nofollow", _("Don't follow symbolic links, overwrite"));
 #ifndef DISABLE_MOUSE
 #ifdef NCURSES_MOUSE_VERSION
-    printf(_(" -m 		Enable mouse\n"));
+    print1opt("-m", "--mouse", _("Enable mouse"));
 #endif
 #endif
 #ifndef DISABLE_OPERATINGDIR
-    printf(_(" -o [dir] 	Set operating directory\n"));
+    print1opt("-o [dir]", "--operatingdir=[dir]", _("Set operating directory"));
 #endif
-    printf(_(" -p 		Emulate Pico as closely as possible\n"));
+    print1opt("-p", "--pico", _("Emulate Pico as closely as possible"));
 
 #ifndef DISABLE_WRAPJUSTIFY
-    printf(_
-	   (" -r [#cols] 	Set fill cols to (wrap lines at) #cols\n"));
+    print1opt("-r [#cols]", "--fill=[#cols]", _("Set fill cols to (wrap lines at) #cols"));
 #endif
 #ifndef DISABLE_SPELLER
-    printf(_(" -s [prog]  	Enable alternate speller\n"));
+    print1opt("-s [prog]", "--speller=[prog]", _("Enable alternate speller"));
 #endif
-    printf(_(" -t 		Auto save on exit, don't prompt\n"));
-    printf(_(" -v 		View (read only) mode\n"));
+    print1opt("-t", "--tempfile", _("Auto save on exit, don't prompt"));
+    print1opt("-v", "--view", _("View (read only) mode"));
 #ifndef DISABLE_WRAPPING
-    printf(_(" -w 		Don't wrap long lines\n"));
+    print1opt("-w", "--nowrap", _("Don't wrap long lines"));
 #endif
-    printf(_(" -x 		Don't show help window\n"));
-    printf(_(" -z 		Enable suspend\n"));
-    printf(_(" +LINE		Start at line number LINE\n"));
-#endif
+    print1opt("-x", "--nohelp", _("Don't show help window"));
+    print1opt("-z", "--suspend", _("Enable suspend"));
+    print1opt("+LINE", "", _("Start at line number LINE"));
+
     exit(0);
 }
 

@@ -11,8 +11,10 @@ CVS code -
   main()
 	- Put NANO_SMALL defines around toggle pointer (noticed by Jordi);
   usage()
-	- Add -N to short format (no GETOPT_LONG) strings (noticed by 
-	  Jordi).
+	- Rewritten to encompass systems with and without GETOPT_LONG.
+	  New function print1opt does most of the dirty work, stops
+	  duplication of effort and eases translator's jobs.  Also
+	  breaks all the current translations ;-)
 - rcfile.c:
   parse_rcfile()
 	- Don't use i for both for loop and atoi(), fixes lots of 
