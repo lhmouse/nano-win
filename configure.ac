@@ -22,7 +22,7 @@
 AC_INIT([GNU Nano], [1.1.12-cvs], [nano-devel@gnu.org], [nano])
 AC_CONFIG_SRCDIR([nano.c])
 AM_INIT_AUTOMAKE
-AC_CONFIG_HEADERS([config.h])
+AM_CONFIG_HEADER([config.h:config.h.in])
 
 AC_PREREQ(2.52)
 
