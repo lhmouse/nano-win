@@ -155,7 +155,6 @@ AC_ARG_ENABLE(color,
     AC_DEFINE(ENABLE_NANORC, 1, [Define this to use the .nanorc file.]) nanorc_support=yes
     AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires ENABLE_NANORC too!]) color_support=yes
     AC_MSG_WARN([
-
 ***********************************************************************
 *** WARNING: Color support is far from perfect, but functional.     ***
 *** Be careful with syntax in your .nanorc or nano may malfunction. ***
@@ -275,7 +274,7 @@ int main(void)
 			CURSES_LIB_NAME=slang],
 			[AC_MSG_RESULT(no)],
 AC_MSG_WARN([*** Can not use slang when cross-compiling]))],
-AC_MSG_WARN([*** Can not use slang when cross-compiling]))], 
+AC_MSG_WARN([*** Can not use slang when cross-compiling]))],
 AC_MSG_WARN([*** Can not use slang when cross-compiling])),
 	    AC_MSG_ERROR([
 *** The header file slcurses.h was not found. If you wish to use
