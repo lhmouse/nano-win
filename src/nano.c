@@ -2717,7 +2717,7 @@ void do_justify(bool full_justify)
     size_t mark_beginx_save = mark_beginx;
 #endif
     int kbinput;
-    bool meta_key, func_key, s_or_t, finished;
+    bool meta_key, func_key, s_or_t, ran_func, finished;
 
     /* If we're justifying the entire file, start at the beginning. */
     if (full_justify)
@@ -2983,7 +2983,8 @@ void do_justify(bool full_justify)
 
     /* Now get a keystroke and see if it's unjustify.  If not, put back
      * the keystroke and return. */
-    kbinput = do_input(&meta_key, &func_key, &s_or_t, &finished, FALSE);
+    kbinput = do_input(&meta_key, &func_key, &s_or_t, &ran_func,
+	&finished, FALSE);
 
     if (!meta_key && !func_key && s_or_t &&
 	kbinput == NANO_UNJUSTIFY_KEY) {
@@ -3385,7 +3386,7 @@ void terminal_init(void)
 }
 
 int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
-	*finished, bool allow_funcs)
+	*ran_func, bool *finished, bool allow_funcs)
 {
     int input;
 	/* The character we read in. */
@@ -3401,6 +3402,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 #endif
 
     *s_or_t = FALSE;
+    *ran_func = FALSE;
     *finished = FALSE;
 
     /* Read in a character. */
@@ -3492,8 +3494,9 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 		    break;
 #endif
 		/* Handle the normal edit window shortcuts, setting
-		 * finished to TRUE to indicate that we're done after
-		 * running or trying to run their associated
+		 * ran_func to TRUE if we try to run their associated
+		 * functions and setting finished to TRUE to indicate
+		 * that we're done after trying to run their associated
 		 * functions. */
 		default:
 		    /* Blow away the text in the cutbuffer if we aren't
@@ -3502,6 +3505,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 			cutbuffer_reset();
 
 		    if (s->func != NULL) {
+			*ran_func = TRUE;
 			if (ISSET(VIEW_MODE) && !s->viewok)
 			    print_view_warning();
 			else
@@ -4219,15 +4223,7 @@ int main(int argc, char **argv)
     edit_refresh();
 
     while (TRUE) {
-	bool meta_key;
-		/* Whether we got a meta key sequence. */
-	bool func_key;
-		/* Whether we got a function key. */
-	bool s_or_t;
-		/* Whether we got a shortcut or toggle. */
-	bool ran_s_or_t;
-		/* Whether we ran a function associated with a
-		 * shortcut. */
+	bool meta_key, func_key, s_or_t, ran_func, finished;
 
 	/* Make sure the cursor is in the edit window. */
 	reset_cursor();
@@ -4240,7 +4236,8 @@ int main(int argc, char **argv)
 	currshortcut = main_list;
 
 	/* Read in and interpret characters. */
-	do_input(&meta_key, &func_key, &s_or_t, &ran_s_or_t, TRUE);
+	do_input(&meta_key, &func_key, &s_or_t, &ran_func, &finished,
+		TRUE);
     }
     assert(FALSE);
 }

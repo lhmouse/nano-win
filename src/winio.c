@@ -1724,7 +1724,7 @@ const toggle *get_toggle(int kbinput, bool meta_key)
 #endif /* !NANO_SMALL */
 
 int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
-	bool *finished, bool allow_funcs)
+	bool *ran_func, bool *finished, bool allow_funcs)
 {
     int input;
 	/* The character we read in. */
@@ -1736,6 +1736,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
     bool have_shortcut;
 
     *s_or_t = FALSE;
+    *ran_func = FALSE;
     *finished = FALSE;
 
     /* Read in a character. */
@@ -1865,14 +1866,14 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 			break;
 		    }
 		/* Handle the normal statusbar prompt shortcuts, setting
-		 * finished to TRUE to indicate that we're done after
-		 * running or trying to run their associated
+		 * ran_func to TRUE if we try to run their associated
+		 * functions and setting finished to TRUE to indicate
+		 * that we're done after trying to run their associated
 		 * functions. */
 		default:
 		    if (s->func != NULL) {
-			if (ISSET(VIEW_MODE) && !s->viewok)
-			    print_view_warning();
-			else
+			*ran_func = TRUE;
+			if (!ISSET(VIEW_MODE) || s->viewok)
 			    s->func();
 		    }
 		    *finished = TRUE;
@@ -2422,7 +2423,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 		)
 {
     int kbinput;
-    bool meta_key, func_key, s_or_t, finished;
+    bool meta_key, func_key, s_or_t, ran_func, finished;
     bool tabbed = FALSE;
 	/* used by input_tab() */
 
@@ -2474,11 +2475,12 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
      * disable all keys that would change the text if the filename isn't
      * blank and we're at the "Write File" prompt. */
     while ((kbinput = do_statusbar_input(&meta_key, &func_key,
-	&s_or_t, &finished, TRUE)) != NANO_CANCEL_KEY &&
+	&s_or_t, &ran_func, &finished, TRUE)) != NANO_CANCEL_KEY &&
 	kbinput != NANO_ENTER_KEY) {
 
 	/* If we have a shortcut with an associated function, break out
-	 * if we're finished after running the function. */
+	 * if we're finished after running or trying to run the
+	 * function. */
 	if (finished)
 	    break;
 
@@ -2617,8 +2619,10 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 	wrefresh(bottomwin);
     }
 
-    /* We finished putting in an answer, so reset statusbar_x. */
-    if (kbinput == NANO_CANCEL_KEY || kbinput == NANO_ENTER_KEY)
+    /* We finished putting in an answer or ran a normal shortcut's
+     * associated function, so reset statusbar_x. */
+    if (kbinput == NANO_CANCEL_KEY || kbinput == NANO_ENTER_KEY ||
+	ran_func)
 	statusbar_x = (size_t)-1;
 
     return kbinput;

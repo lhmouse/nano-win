@@ -392,7 +392,7 @@ void disable_flow_control(void);
 void enable_flow_control(void);
 void terminal_init(void);
 int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
-	*finished, bool allow_funcs);
+	*ran_func, bool *finished, bool allow_funcs);
 #ifndef DISABLE_MOUSE
 bool do_mouse(void);
 #endif
@@ -578,7 +578,7 @@ const shortcut *get_shortcut(const shortcut *s_list, int *kbinput, bool
 const toggle *get_toggle(int kbinput, bool meta_key);
 #endif
 int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
-	bool *finished, bool allow_funcs);
+	bool *ran_func, bool *finished, bool allow_funcs);
 #ifndef DISABLE_MOUSE
 bool do_statusbar_mouse(void);
 #endif
