@@ -483,12 +483,7 @@ size_t move_mbright(const char *buf, size_t pos)
 /* This function is equivalent to strcasecmp(). */
 int nstrcasecmp(const char *s1, const char *s2)
 {
-    return
-#ifdef HAVE_STRNCASECMP
-	strncasecmp(s1, s2, (size_t)-1);
-#else
-	nstrncasecmp(s1, s2, (size_t)-1);
-#endif
+    return strncasecmp(s1, s2, (size_t)-1);
 }
 #endif
 
@@ -559,12 +554,7 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 	return (towlower(ws1) - towlower(ws2));
     } else
 #endif
-	return
-#ifdef HAVE_STRNCASECMP
-		strncasecmp(s1, s2, n);
-#else
-		nstrncasecmp(s1, s2, n);
-#endif
+	return strncasecmp(s1, s2, n);
 }
 
 #ifndef HAVE_STRCASESTR
@@ -640,12 +630,7 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 	return found_needle ? haystack : NULL;
     } else
 #endif
-	return
-#ifdef HAVE_STRCASESTR
-		strcasestr(haystack, needle);
-#else
-		nstrcasestr(haystack, needle);
-#endif
+	return strcasestr(haystack, needle);
 }
 
 #if !defined(NANO_SMALL) || !defined(DISABLE_TABCOMP)
@@ -802,12 +787,7 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 	return n;
     } else
 #endif
-	return
-#ifdef HAVE_STRNLEN
-		strnlen(s, maxlen);
-#else
-		nstrnlen(s, maxlen);
-#endif
+	return strnlen(s, maxlen);
 }
 
 #ifndef DISABLE_JUSTIFY
