@@ -16,6 +16,8 @@ CVS code
 	- Add initialization file comments, change some options from 
 	  bracketed to underlined to emphasize that they are not 
 	  optional.
+- nanorc.sample:
+	- Make nanorc entry less tolerant of invalid colors.
 
 GNU nano 1.1.99pre2 - 2003.02.03
 - General:

@@ -172,6 +172,6 @@
 #color brightwhite "^ *syntax [^ ]*"
 #color brightblue "^ *set\>" "^ *unset\>" "^ *syntax\>"
 #color white "^ *color\>.*"
-#color yellow "^ *color [^ ]*"
+#color yellow "^ *color (bright)?(white|black|red|blue|green|yellow|magenta|cyan)\>"
 #color magenta "^ *color\>"
 #color green "^#.*$"
