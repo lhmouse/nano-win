@@ -275,6 +275,7 @@ void parse_syntax(char *ptr)
     if (syntaxes == NULL) {
 	syntaxes = (syntaxtype *)nmalloc(sizeof(syntaxtype));
 	tmpsyntax = syntaxes;
+	SET(COLOR_SYNTAX);
     } else {
 	for (tmpsyntax = syntaxes; tmpsyntax->next != NULL;
 		tmpsyntax = tmpsyntax->next)

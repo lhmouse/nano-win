@@ -614,7 +614,7 @@ void edit_add(const filestruct *fileptr, int yval, int start
     mvwaddnstr(edit, yval, 0, &fileptr->data[start], COLS);
 
 #ifdef ENABLE_COLOR
-    if (colorstrings != NULL) {
+    if (colorstrings != NULL && ISSET(COLOR_SYNTAX)) {
 	const colortype *tmpcolor = colorstrings;
 
 	for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {

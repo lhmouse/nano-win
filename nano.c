@@ -2838,6 +2838,9 @@ void do_toggle(const toggle *which)
     case TOGGLE_MAC_KEY:
 	UNSET(DOS_FILE);
 	break;
+    case TOGGLE_SYNTAX_KEY:
+	edit_refresh();
+ 	break;
     }
 
     /* We are assuming here that shortcut_init() above didn't free and

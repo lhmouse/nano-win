@@ -19,10 +19,6 @@
  *                                                                        *
  **************************************************************************/
 
-#ifdef HAVE_MALLOC_H
-#include <malloc.h>
-#endif
-
 #ifdef HAVE_LIMITS_H
 #include <limits.h>
 #endif
@@ -174,7 +170,6 @@ typedef struct syntaxtype {
     exttype *extensions;	/* List of extensions that this applies to */
     colortype *color;		/* color struct for this syntax */
     struct syntaxtype *next;
-
 } syntaxtype;
 
 #endif /* ENABLE_COLOR */
@@ -211,6 +206,7 @@ typedef struct syntaxtype {
 #define NO_CONVERT		(1<<26)
 #define BACKUP_FILE		(1<<27)
 #define NO_RCFILE		(1<<28)
+#define COLOR_SYNTAX		(1<<28)
 
 /* Control key sequences, changing these would be very very bad */
 
@@ -364,6 +360,7 @@ know what you're doing */
 #define TOGGLE_SMOOTH_KEY	NANO_ALT_S
 #define TOGGLE_NOCONVERT_KEY	NANO_ALT_N
 #define TOGGLE_BACKUP_KEY	NANO_ALT_B
+#define TOGGLE_SYNTAX_KEY	NANO_ALT_Y
 #endif /* !NANO_SMALL */
 
 #define MAIN_VISIBLE 12

@@ -21,6 +21,7 @@
 
 #include "config.h"
 
+#include <stdlib.h>
 #include <assert.h>
 #include <sys/stat.h>
 #include "proto.h"
@@ -222,6 +223,9 @@ void toggle_init(void)
 #ifdef ENABLE_MULTIBUFFER
     char *toggle_load_msg;
 #endif
+#ifdef ENABLE_COLOR
+    char *toggle_syntax_msg;
+#endif
 
     /* There is no need to reinitialize the toggles.  They can't
        change.  In fact, reinitializing them causes a segfault in
@@ -242,6 +246,9 @@ void toggle_init(void)
     toggle_mac_msg = _("Writing file in Mac format");
     toggle_backup_msg = _("Backing up file");
     toggle_smooth_msg = _("Smooth scrolling");
+#ifdef ENABLE_COLOR
+    toggle_syntax_msg = _("Color syntax highlighting");
+#endif
 #ifndef DISABLE_WRAPPING
     toggle_wrap_msg = _("Auto wrap");
 #endif
@@ -267,6 +274,9 @@ void toggle_init(void)
     toggle_init_one(TOGGLE_MAC_KEY, toggle_mac_msg, MAC_FILE);
     toggle_init_one(TOGGLE_BACKUP_KEY, toggle_backup_msg, BACKUP_FILE);
     toggle_init_one(TOGGLE_SMOOTH_KEY, toggle_smooth_msg, SMOOTHSCROLL);
+#ifdef ENABLE_COLOR
+    toggle_init_one(TOGGLE_SYNTAX_KEY, toggle_syntax_msg, COLOR_SYNTAX);
+#endif
 }
 
 #ifdef DEBUG

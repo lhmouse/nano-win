@@ -1,6 +1,11 @@
 CVS code -
 - General:
 	- Translation updates (see po/ChangeLog for details).
+	- Remove malloc.h, as it's unneeded and just causes annoyances on
+	  *BSD systems.  Added stdlib.h to global.c
+	- Added Meta-Y toggle to disable/enable color syntax highlighting
+	  completely.  This may eventually be per-buffer, but that's too
+	  complicated for a feature freeze.
 
 GNU nano 1.1.11 - 10/01/2002
 - General:
