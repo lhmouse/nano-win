@@ -3084,7 +3084,7 @@ void do_justify(bool full_justify)
     } else {
 	unget_kbinput(kbinput, meta_key, func_key);
 
-	/* Blow away the text in the justify buffer.*/
+	/* Blow away the text in the justify buffer. */
 	free_filestruct(jusbuffer);
 	jusbuffer = NULL;
     }
