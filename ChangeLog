@@ -1,6 +1,10 @@
 Cvs code -
 - General:
 	- Moved config.h up in all .c files #include list (Albert Chin).
+- move.c:
+  page_up()
+	- Rewritten with a loop to make screen updates work when
+	  mark is set (fixes bug #59).
 - nano.c:
   ABCD(), main()
 	- Add Alt-whatever-[a-d] support as well as Alt-whatever-[A-D].

@@ -107,6 +107,8 @@
   Matthias Andree) (58) [FIXED].
 - Can modify the current file in view mode with ^W^R (discovered by Rocco
   Corsi) (58) [FIXED].
+- When page up is used after two page down's, the screen doesn't update
+  properly (discovered by David Lawrence Ramsey) (59) [FIXED].
 
 ** Open BUGS **
 

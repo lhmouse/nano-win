@@ -146,7 +146,8 @@ void page_up_center(void)
 
 int page_up(void)
 {
-    filestruct *fileptr = edittop;
+   int i;
+
     wrap_reset();
     current_x = 0;
     placewewant = 0;
@@ -155,13 +156,11 @@ int page_up(void)
 	return 0;
 
     current_y = 0;
-    if (fileptr->next != NULL)
-	fileptr = fileptr->next;
-    if (fileptr->next != NULL)
-	fileptr = fileptr->next;
-
     current = edittop;
-    edit_update(fileptr, BOTTOM);
+    for (i = 0; i <= editwinrows - 3 && current->prev != NULL; i++)
+	current = current->prev;
+
+    edit_update(current, TOP);
     update_cursor();
 
     UNSET(KEEP_CUTBUFFER);
