@@ -1573,7 +1573,7 @@ const toggle *get_toggle(int kbinput, bool meta_key)
     /* Check for toggles. */
     for (; t != NULL; t = t->next) {
 	/* We've found a toggle if meta_key is TRUE and the key is in
-	 * the meta toggle list. */
+	 * the meta key toggle list. */
 	if (meta_key && kbinput == t->val)
 	    break;
     }

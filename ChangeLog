@@ -124,12 +124,12 @@ CVS code -
 	  putting back the first character of the escape sequence, as it
 	  worked just as well and was less complicated. (DLR)
   get_shortcut()
-	- Add debug message. (DLR)
+	- Add a debug message. (DLR)
 	- Take kbinput as a reference instead of a value, so that it's
 	  translated when the key is translated to its equivalent
 	  control key or meta key shortcut. (DLR)
   get_toggle()
-	- Add debug message. (DLR)
+	- Add a debug message. (DLR)
 - configure.ac:
 	- Remove specific references to control key shortcuts. (DLR)
 - doc/nanorc.sample:
