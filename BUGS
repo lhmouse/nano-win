@@ -58,3 +58,7 @@
 - totsize problems still abound in do_justify (33)
 - Using -k cut text is not pasted properly. (34) [FIXED, mostly].
 - Using -k pasted text is not updated properly if it goes beyond editbot. (35)
+- Hitting enter on the magic line makes new lines, but they are not
+  written out to disk when saved..... (37).
+- Page up and page down do not work the same way as Pico (# of lines). (38)
+
