@@ -26,6 +26,10 @@ CVS code -
 	  by DLR.
 	- Call do_gotopos from do_alt_spell() to keep position
 	  consistent when invoking alt speller (DLR).
+- cut.c:
+  cut_marked_segment()
+	- Add magic line when cutting a selection including filebot
+	  (discovered by DLR, fixed by DLR & Chris)
 - files.c:
   do_writeout()
 	- Expanded strings to not use %s and ?: to determine
