@@ -1417,67 +1417,66 @@ void statusbar(const char *msg, ...)
 
     wrefresh(bottomwin);
 
-    if (ISSET(CONSTUPDATE))
-	statblank = 1;
-    else
-	statblank = 25;
+    SET(DISABLE_CURPOS);
+    statblank = 26;
 }
 
+/*
+ * If constant is false, the user typed ^C so we unconditionally display
+ * the cursor position.  Otherwise, we display it only if the character
+ * position changed, and DISABLE_CURPOS is not set.
+ *
+ * If constant and DISABLE_CURPOS is set, we unset it and update old_i and
+ * old_totsize.  That way, we leave the current statusbar alone, but next
+ * time we will display. */
 int do_cursorpos(int constant)
 {
-    filestruct *fileptr;
-    float linepct = 0.0, bytepct = 0.0, colpct = 0.0;
-    long i = 0, j = 0;
-    static long old_i = -1, old_totsize = -1;
+    const filestruct *fileptr;
+    unsigned long i = 0;
+    static unsigned long old_i = 0;
+    static long old_totsize = -1;
 
-    if (current == NULL || fileage == NULL)
-	return 0;
-
-    if (old_i == -1)
-	old_i = i;
+    assert(current != NULL && fileage != NULL && totlines != 0);
 
     if (old_totsize == -1)
 	old_totsize = totsize;
 
-    colpct = 100 * (xplustabs() + 1) / (strlenpt(current->data) + 1);
-
-    for (fileptr = fileage; fileptr != current && fileptr != NULL;
-	 fileptr = fileptr->next)
+    for (fileptr = fileage; fileptr != current; fileptr = fileptr->next) {
+	assert(fileptr != NULL);
 	i += strlen(fileptr->data) + 1;
-
-    if (fileptr == NULL)
-	return -1;
-
+    }
     i += current_x;
 
-    j = totsize;
+    if (constant && ISSET(DISABLE_CURPOS)) {
+	UNSET(DISABLE_CURPOS);
+	old_i = i;
+	old_totsize = totsize;
+	return 0;
+    }
 
-    if (totsize > 0)
-	bytepct = 100 * i / totsize;
-
-    if (totlines > 0)
-	 linepct = 100 * current->lineno / totlines;
-
-#ifdef DEBUG
-    fprintf(stderr, "%s: linepct = %f, bytepct = %f\n",
-		"do_cursorpos()", linepct, bytepct);
-#endif
-
-    /* if constant is zero, display the position on the statusbar
+    /* if constant is false, display the position on the statusbar
        unconditionally; otherwise, only display the position when the
        character values have changed */
-    if (!constant || (old_i != i || old_totsize != totsize)) {
-	statusbar(_
-		  ("line %d/%d (%.0f%%), col %ld/%ld (%.0f%%), char %ld/%ld (%.0f%%)"),
-		  current->lineno, totlines, linepct, xplustabs() + 1, 
-		  strlenpt(current->data) + 1, colpct, i, j, bytepct);
+    if (!constant || old_i != i || old_totsize != totsize) {
+	unsigned long xpt = xplustabs() + 1;
+	unsigned long cur_len = strlenpt(current->data) + 1;
+	int linepct = 100 * current->lineno / totlines;
+	int colpct = 100 * xpt / cur_len;
+	int bytepct = totsize == 0 ? 0 : 100 * i / totsize;
+
+	statusbar(
+	    _("line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%ld (%d%%)"),
+		    current->lineno, totlines, linepct,
+		    xpt, cur_len, colpct,
+		    i, totsize, bytepct);
+	UNSET(DISABLE_CURPOS);
     }
 
     old_i = i;
     old_totsize = totsize;
 
     reset_cursor();
-    return 1;
+    return 0;
 }
 
 int do_cursorpos_void(void)

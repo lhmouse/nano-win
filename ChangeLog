@@ -12,6 +12,11 @@ CVS Code -
 	  of nanogetstr with keys like ^Y and ^V.  New arg
 	  resetpos to nanogetstr(), added static int
 	  resetpos in statusq() (bug found by DLR).
+	- Fix constant curos updates from obliterating other
+	  system messages, and fix statusbar message length.
+	  Affects files.c:load_open_file(), nano.c:main(), 
+	  search.c:findnextstr(), winio.c:statusbar() and 
+	  do_cursorpos() (David Benbennick).
 - cut.c:
   do_cut_text()
 	- Fix incorrect cursor location when cutting long lines

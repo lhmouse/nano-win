@@ -270,10 +270,8 @@ filestruct *findnextstr(int quiet, int bracket_mode,
 		    return NULL;
 		fileptr = fileage;
 		search_offscreen = 1;
-		if (!quiet) {
+		if (!quiet)
 		    statusbar(_("Search Wrapped"));
-		    SET(DISABLE_CURPOS);
-		}
 	    }
 
 	    /* Original start line reached */
@@ -324,10 +322,8 @@ filestruct *findnextstr(int quiet, int bracket_mode,
 		   return NULL;
 		fileptr = filebot;
 		search_offscreen = 1;
-		if (!quiet) {
+		if (!quiet)
 		    statusbar(_("Search Wrapped"));
-		    SET(DISABLE_CURPOS);
-		}
 	    }
 	    /* Original start line reached */
 	    if (fileptr == begin)

@@ -3451,6 +3451,9 @@ int main(int argc, char *argv[])
 	int keyhandled = 0;	/* Have we handled the keystroke yet? */
 	int kbinput;		/* Input from keyboard */
 
+	if (ISSET(CONSTUPDATE))
+	    do_cursorpos(1);
+
 #if !defined(DISABLE_BROWSER) || !defined(DISABLE_HELP) || (!defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION))
 	currshortcut = main_list;
 #endif
@@ -3750,11 +3753,6 @@ int main(int argc, char *argv[])
 		else
 		    do_char(kbinput);
 	    }
-
-	if (ISSET(DISABLE_CURPOS))
-	    UNSET(DISABLE_CURPOS);
-	else if (ISSET(CONSTUPDATE))
-	    do_cursorpos(1);
 
 	reset_cursor();
 	wrefresh(edit);

@@ -840,13 +840,6 @@ int load_open_file(void)
     clearok(topwin, FALSE);
     titlebar(NULL);
 
-    /* if we're constantly displaying the cursor position and
-       DISABLE_CURPOS isn't set, update it (and do so unconditionally,
-       in the rare case that the character count is the same but the
-       line count isn't) */
-    if (ISSET(CONSTUPDATE) && !ISSET(DISABLE_CURPOS))
-	do_cursorpos(0);
-
     /* now we're done */
     return 0;
 }
