@@ -184,10 +184,10 @@ int read_file(FILE *f, const char *filename, int quiet)
     }
     /* Read the entire file into file struct */
     while ((input_int = getc(f)) != EOF) {
-        input = (char) input_int;
+        input = (char)input_int;
 #ifndef NANO_SMALL
-	if (!ISSET(NO_CONVERT) && iscntrl((int) input) && input != '\t'
-		&& input != '\r' && input != '\n') {
+	if (!ISSET(NO_CONVERT) && is_cntrl_char((int)input)
+		&& input != '\t' && input != '\r' && input != '\n') {
 	    /* If the file has binary chars in it, don't stupidly
 	       assume it's a DOS or Mac formatted file! */
 	    SET(NO_CONVERT);
@@ -1788,6 +1788,7 @@ int do_writeout(char *path, int exiting, int append)
 		return do_writeout(answer, exiting, append);
 	} else
 #endif
+#ifndef NANO_SMALL
 	if (i == TOGGLE_DOS_KEY) {
 	    UNSET(MAC_FILE);
 	    TOGGLE(DOS_FILE);
@@ -1796,10 +1797,11 @@ int do_writeout(char *path, int exiting, int append)
 	    UNSET(DOS_FILE);
 	    TOGGLE(MAC_FILE);
 	    return(do_writeout(answer, exiting, append));
-#ifndef NANO_SMALL
 	} else if (i == TOGGLE_BACKUP_KEY) {
 	    TOGGLE(BACKUP_FILE);
 	    return(do_writeout(answer, exiting, append));
+#else
+	if (0) {
 #endif
 	} else if (i == NANO_PREPEND_KEY)
 	    return(do_writeout(answer, exiting, append == 2 ? 0 : 2));
@@ -2040,7 +2042,7 @@ char **username_tab_completion(char *buf, int *num_matches)
 
 char **cwd_tab_completion(char *buf, int *num_matches)
 {
-    char *dirName, *dirtmp = NULL, *tmp = NULL, *tmp2 = NULL;
+    char *dirname, *dirtmp = NULL, *tmp = NULL, *tmp2 = NULL;
     char **matches = (char **) NULL;
     DIR *dir;
     struct dirent *next;
@@ -2052,23 +2054,23 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 
     /* Okie, if there's a / in the buffer, strip out the directory part */
     if (buf[0] != '\0' && strstr(buf, "/")) {
-	dirName = charalloc(strlen(buf) + 1);
+	dirname = charalloc(strlen(buf) + 1);
 	tmp = buf + strlen(buf);
 	while (*tmp != '/' && tmp != buf)
 	    tmp--;
 
 	tmp++;
 
-	strncpy(dirName, buf, tmp - buf + 1);
-	dirName[tmp - buf] = '\0';
+	strncpy(dirname, buf, tmp - buf + 1);
+	dirname[tmp - buf] = '\0';
 
     } else {
 
 #ifdef PATH_MAX
-	if ((dirName = getcwd(NULL, PATH_MAX+1)) == NULL)
+	if ((dirname = getcwd(NULL, PATH_MAX + 1)) == NULL)
 #else
 	/* The better, but apparently segfault-causing way */
-	if ((dirName = getcwd(NULL, 0)) == NULL)
+	if ((dirname = getcwd(NULL, 0)) == NULL)
 #endif /* PATH_MAX */
 	    return matches;
 	else
@@ -2076,23 +2078,23 @@ char **cwd_tab_completion(char *buf, int *num_matches)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "\nDir = %s\n", dirName);
+    fprintf(stderr, "\nDir = %s\n", dirname);
     fprintf(stderr, "\nbuf = %s\n", buf);
     fprintf(stderr, "\ntmp = %s\n", tmp);
 #endif
 
-    dirtmp = real_dir_from_tilde(dirName);
-    free(dirName);
-    dirName = dirtmp;
+    dirtmp = real_dir_from_tilde(dirname);
+    free(dirname);
+    dirname = dirtmp;
 
 #ifdef DEBUG
-    fprintf(stderr, "\nDir = %s\n", dirName);
+    fprintf(stderr, "\nDir = %s\n", dirname);
     fprintf(stderr, "\nbuf = %s\n", buf);
     fprintf(stderr, "\ntmp = %s\n", tmp);
 #endif
 
 
-    dir = opendir(dirName);
+    dir = opendir(dirname);
     if (!dir) {
 	/* Don't print an error, just shut up and return */
 	*num_matches = 0;
@@ -2119,8 +2121,8 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 	       before we check it */
 
 	    if (operating_dir) {
-		tmp2 = charalloc(strlen(dirName) + strlen(next->d_name) + 2);
-		strcpy(tmp2, dirName);
+		tmp2 = charalloc(strlen(dirname) + strlen(next->d_name) + 2);
+		strcpy(tmp2, dirname);
 		strcat(tmp2, "/");
 		strcat(tmp2, next->d_name);
 		if (check_operating_dir(tmp2, 1)) {
@@ -2342,7 +2344,6 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
 	    *list = 1;
 	} else
 	    beep();
-
     }
 
     /* Only refresh the edit window if we don't have a list of filename
@@ -2357,7 +2358,8 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
 #ifndef DISABLE_BROWSER
 
 /* Return the stat of the file pointed to by path */
-struct stat filestat(const char *path) {
+struct stat filestat(const char *path)
+{
     struct stat st;
 
     stat(path, &st);
@@ -2367,7 +2369,8 @@ struct stat filestat(const char *path) {
 /* Our sort routine for file listings - sort directories before
  * files, and then alphabetically
  */ 
-int diralphasort(const void *va, const void *vb) {
+int diralphasort(const void *va, const void *vb)
+{
     struct stat file1info, file2info;
     char *a = *(char **)va, *b = *(char **)vb;
     int aisdir, bisdir;
@@ -2675,7 +2678,11 @@ char *do_browser(char *inpath)
 	    /* SPK for '.' path, get the current path via getcwd */
 	    if (!strcmp(path, "./..")) {
 		free(path);
+#ifdef PATH_MAX
+		path = getcwd(NULL, PATH_MAX + 1);
+#else
 		path = getcwd(NULL, 0);
+#endif
 		striponedir(path);		    
 		align(&path);
 		free_charptrarray(filelist, numents);
@@ -2864,7 +2871,7 @@ char *do_browse_from(char *inpath)
     /* If there's no / in the string, we may as well start from . */
     if (tmp == NULL || *tmp == '\0' || !strstr(tmp, "/")) {
 #ifdef PATH_MAX
-	char *from = getcwd(NULL, PATH_MAX+1);
+	char *from = getcwd(NULL, PATH_MAX + 1);
 #else
 	char *from = getcwd(NULL, 0);
 #endif /* PATH_MAX */
@@ -2883,4 +2890,4 @@ char *do_browse_from(char *inpath)
     return do_browser(tmp);
 
 }
-#endif
+#endif /* !DISABLE_BROWSER */

@@ -126,7 +126,7 @@ void cut_marked_segment(filestruct *top, size_t top_x, filestruct *bot,
 	    top->data = (char *)nrealloc(top->data,
 					sizeof(char) * newsize);
 	} else {
-	    totsize -= bot_x;
+	    totsize -= bot_x + 1;
 
 	    /* Here, the remainder line might get longer, so we realloc
 	       it first. */
@@ -150,7 +150,7 @@ void cut_marked_segment(filestruct *top, size_t top_x, filestruct *bot,
 	if (!destructive)
 	    tmp = copy_node(tmp);
 	else
-	    totsize -= strlen(tmp->data);
+	    totsize -= strlen(tmp->data) + 1;
 	add_to_cutbuffer(tmp);
 	tmp = next;
     }

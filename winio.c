@@ -80,13 +80,13 @@ int xpt(const filestruct *fileptr, int index)
 	    if (tabs % tabsize == 0);
 	    else
 		tabs += tabsize - (tabs % tabsize);
-	} else if (fileptr->data[i] & 0x80)
+	} else if (is_cntrl_char((int)fileptr->data[i]))
+	    tabs++;
+	else if (fileptr->data[i] & 0x80)
 	    /* Make 8 bit chars only 1 column! */
 	    ;
-	else if (iscntrl((int) fileptr->data[i]))
-	    tabs++;
-     }
- 
+    }
+
     return tabs;
 }
 
@@ -113,10 +113,8 @@ size_t actual_x(const filestruct *fileptr, size_t xplus)
     for (c = fileptr->data; length < xplus && *c != '\0'; i++, c++) {
 	if (*c == '\t')
 	    length += tabsize - length % tabsize;
-	else if (iscntrl((int)*c))
+	else if (is_cntrl_char((int)*c))
 	    length += 2;
-	else if ((unsigned char) *c >= 0x80 && (unsigned char) *c <= 0x9f)
-	    length += 4;
 	else
 	    length++;
     }
@@ -142,10 +140,8 @@ size_t strnlenpt(const char *buf, size_t size)
 	for (; *buf != '\0' && size != 0; size--, buf++) {
 	    if (*buf == '\t')
 		length += tabsize - (length % tabsize);
-	    else if (iscntrl((int)*buf))
+	    else if (is_cntrl_char((int)*buf))
 		length += 2;
-	    else if ((unsigned char) *buf >= 0x80 && (unsigned char) *buf <= 0x9f)
-		length += 4;
 	    else
 		length++;
 	}
@@ -610,7 +606,7 @@ void set_modified(void)
 /* Given a column, this returns the "page" it is on  */
 /* "page" in the case of the display columns, means which set of 80 */
 /* characters is viewable (e.g.: page 1 shows from 1 to COLS) */
-inline int get_page_from_virtual(int virtual)
+int get_page_from_virtual(int virtual)
 {
     int page = 2;
 
@@ -627,7 +623,7 @@ inline int get_page_from_virtual(int virtual)
 }
 
 /* The inverse of the above function */
-inline int get_page_start_virtual(int page)
+int get_page_start_virtual(int page)
 {
     int virtual;
     virtual = --page * (COLS - 7);
@@ -636,7 +632,7 @@ inline int get_page_start_virtual(int page)
     return virtual;
 }
 
-inline int get_page_end_virtual(int page)
+int get_page_end_virtual(int page)
 {
     return get_page_start_virtual(page) + COLS - 1;
 }
@@ -1065,17 +1061,9 @@ void update_line(filestruct * fileptr, int index)
 	    if (i < mark_beginx)
 		virt_mark_beginx--;
 	} else if (realdata[i] == 127) {
-	    /* Treat control characters as ^symbol (ASCII 1 - 31 omitting
-	       10, 127) */
+	    /* Treat delete characters (ASCII 127's) as ^?'s */
 	    fileptr->data[pos++] = '^';
 	    fileptr->data[pos++] = '?';
-	    if (i < current_x)
-		virt_cur_x++;
-	    if (i < mark_beginx)
-		virt_mark_beginx++;
-	} else if (realdata[i] >= 1 && realdata[i] <= 31 && realdata[i] != 10) {
-	    fileptr->data[pos++] = '^';
-	    fileptr->data[pos++] = realdata[i] + 64;
 	    if (i < current_x)
 		virt_cur_x++;
 	    if (i < mark_beginx)
@@ -1086,6 +1074,14 @@ void update_line(filestruct * fileptr, int index)
 	       through unsunder() before reaching here */
 	    fileptr->data[pos++] = '^';
 	    fileptr->data[pos++] = '@';
+	    if (i < current_x)
+		virt_cur_x++;
+	    if (i < mark_beginx)
+		virt_mark_beginx++;
+	} else if (is_cntrl_char(realdata[i])) {
+	    /* Treat control characters as ^symbol's */
+	    fileptr->data[pos++] = '^';
+	    fileptr->data[pos++] = realdata[i] + 64;
 	    if (i < current_x)
 		virt_cur_x++;
 	    if (i < mark_beginx)

@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.1.9
-@set UPDATED 27 Jun 2002
+@set UPDATED 14 Jul 2002
 
 @dircategory Editors
 @direntry
@@ -118,6 +118,9 @@ Write file in DOS format.
 
 @item -F, --multibuffer
 Enable multiple file buffers, if available.
+
+@item -I, --ignorercfiles
+Don't look at /etc/nanorc or ~/.nanorc, if nanorc support is available.
 
 @item -K, --keypad
 Do not use the ncurses keypad() call unless necessary.  Try this flag if

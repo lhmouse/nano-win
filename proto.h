@@ -254,6 +254,7 @@ filestruct *findnextstr(int quiet, int bracket_mode, const filestruct *begin,
 const char *stristr(const char *haystack, const char *needle);
 const char *strstrwrapper(const char *haystack, const char *needle,
 		const char *rev_start, int line_pos);
+int is_cntrl_char(int c);
 int num_of_digits(int n);
 int check_wildcard_match(const char *text, const char *pattern);
 void align(char **strp);

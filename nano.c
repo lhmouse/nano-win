@@ -1066,6 +1066,8 @@ int do_delete(void)
     if (current->next == filebot && current->data[0] == '\0')
 	blbf = 1;
 
+    placewewant = xplustabs();
+
     if (current_x != strlen(current->data)) {
 	/* Let's get dangerous */
 	memmove(&current->data[current_x], &current->data[current_x + 1],
@@ -2129,10 +2131,8 @@ static int break_line(const char *line, int goal, int force) {
 	    space_loc = cur_loc;
 	assert(*line != '\t');
 
-	if (iscntrl(*line))
+	if (is_cntrl_char(*line))
 	    goal -= 2;
-	else if ((unsigned char) *line >= 0x80 && (unsigned char) *line <= 0x9f)
-	    goal -= 4;
 	else
 	    goal--;
     }
@@ -3421,11 +3421,13 @@ int main(int argc, char *argv[])
 		break;
 	    }
 	}
-	/* If the modify_control_seq is set, we received an Alt-Alt 
-	   sequence before this, so we make this key a control sequence 
-	   by subtracting 64 or 96, depending on its value. */
+	/* If modify_control_seq is set, we received an Alt-Alt
+	   sequence before this, so we make this key a control sequence
+	   by subtracting 32, 64, or 96, depending on its value. */
 	if (!keyhandled && modify_control_seq) {
-	    if (kbinput >= 'A' && kbinput < 'a')
+	    if (kbinput == ' ')
+		kbinput -= 32;
+	    else if (kbinput >= 'A' && kbinput < 'a')
 		kbinput -= 64;
 	    else if (kbinput >= 'a' && kbinput <= 'z')
 		kbinput -= 96;

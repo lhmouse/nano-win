@@ -6,7 +6,7 @@
 .\" Public License for copying conditions. There is NO warranty.
 .\"
 .\" $Id$
-.TH NANO 1 "July 6, 2002"
+.TH NANO 1 "July 14, 2002"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -40,6 +40,9 @@ Write file in DOS format.
 .TP
 .B \-F (\-\-multibuffer)
 Enable multiple file buffers, if available.
+.TP
+.B \-I (\-\-ignorercfiles)
+Don't look at /etc/nanorc or ~/.nanorc, if nanorc support is available.
 .TP
 .B \-K (\-\-keypad)
 Do not use the ncurses keypad() call unless necessary.  Try this flag if 

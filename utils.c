@@ -36,6 +36,14 @@
 #define _(string) (string)
 #endif
 
+int is_cntrl_char(int c)
+{
+    if (iscntrl(c) || ((c & 127) != 127 && iscntrl(c & 127)))
+	return 1;
+    else
+	return 0;
+}
+
 int num_of_digits(int n)
 {
     int i = 1;

@@ -104,15 +104,10 @@ static int search_init(int replacing)
 
     /* If using Pico messages, we do things the old fashioned way... */
     if (ISSET(PICO_MODE) && last_search[0]) {
-	size_t last_search_len = strlen(last_search);
-
-	buf = charalloc(last_search_len > COLS / 3 ?
-			COLS / 3 + 7 : last_search_len + 4);
+	buf = charalloc(COLS / 3 + 7);
 	/* We use COLS / 3 here because we need to see more on the line */
-	if (last_search_len > COLS / 3)
-	    snprintf(buf, COLS / 3 + 7, " [%s...]", last_search);
-	else
-	    sprintf(buf, " [%s]", last_search);
+	sprintf(buf, " [%.*s%s]", COLS / 3, last_search,
+		strlen(last_search) > COLS / 3 ? "..." : "");
     } else {
 	buf = charalloc(1);
 	buf[0] = '\0';

@@ -78,6 +78,12 @@ CVS Code -
 	  including all the header files, as rcfile.c does; this fixes
 	  a warning about ANSI C'S inability to handle blank files.
 	  (DLR)
+	- Add new function is_cntrl_char() as a wrapper for iscntrl();
+	  this is needed to treat ASCII 0x80-0x9f as control characters
+	  consistently.  (Without this, they will only be treated as
+	  such when gettext is used; when it isn't used, they will be
+	  printed as-is and be interpreted as commands by xterm, which
+	  will corrupt the display.) (DLR)
 	- Add command line option -I/--ignorercfiles to ignore
 	  /etc/nanorc and ~/.nanorc. (Carl Drinkwater)
 - files.c:
@@ -161,6 +167,9 @@ CVS Code -
   do_backspace():
 	- Make sure placewewant is set properly, and that the mark is
 	  moved backwards. (David Benbennick)
+  do_delete():
+	- Make sure placewewant is set properly, to match Pico's
+	  behavior. (DLR)
   clear_filename():
 	- Remove this function, as it has unneeded functionality, is
 	  short enough to be inlined, and is only called in two spots
@@ -197,6 +206,8 @@ CVS Code -
 	  numbers properly in parse_rcfile() (see below) to the
 	  handlers for the -r and -T options as well, so that -r/-T 0
 	  can be treated separately from -r/-T string. (DLR)
+	- Fix so that Esc-Esc-Space is properly treated as Ctrl-Space.
+	  (DLR)
 - proto.h:
 	- Remove external declaration of the global int fill, since
 	  it's now static. (DLR)
@@ -263,9 +274,8 @@ CVS Code -
 	  (which should never occur under normal circumstances; they will
 	  only be there if the line had nulls in it and was unsunder()ed
 	  beforehand) as ^@'s. (DLR)
-	- Display ASCII 0x80-0x9f as backslashes followed by 3-digit
-	  octal values to keep xterm from screwing up the display when
-	  some of them are printed as-is. (David Benbennick)
+	- Fix to properly treat ASCII 128-159 as control characters.
+	  (DLR)
   statusbar():
 	- Limit statusbar display to the number of columns less four, and
 	  don't allow it to go over its original row. (David Benbennick)
