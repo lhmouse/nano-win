@@ -4,6 +4,9 @@ CVS code -
 	- Plug some memory leaks (Steven Kneizys).
   read_file()
 	- Abort if we read a file of 0 lines (num_lines == 0), fixes BUG #70.
+- nano.c:
+  do_int_speller()
+	- Fix zombie processes and spelling buffer issues (Rocco Corsi)
 - winio.c:
   nanogetstr()
 	- Add NANO_HOME_KEY and NANO_END_KEY to the home and
