@@ -74,8 +74,8 @@ Cvs code -
 	- Updated (Jordi).
 - po/gl.po:
 	- Galician translation by Jacobo Tarrío.
-- po/uk.po:
-	- New Ukrainian translation by Sergey A. Ribalchenko
+- po/uk.po, po/ru.po:
+	- New Ukrainian and Russian translations by Sergey A. Ribalchenko
 	  <fisher@obu.ck.ua>, thanks!
 
 nano 1.1 tree forked here 04/07/2001
