@@ -1,3 +1,6 @@
+ABOUT-NLS
+COPYING
+INSTALL
 Makefile
 Makefile.in
 aclocal.m4
@@ -21,3 +24,4 @@ nano.spec
 stamp-h
 stamp-h.in
 stamp-h1
+texinfo.tex
