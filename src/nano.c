@@ -1428,10 +1428,12 @@ bool do_int_spell_fix(const char *word)
     bool case_sens_set = ISSET(CASE_SENSITIVE);
 #ifndef NANO_SMALL
     bool reverse_search_set = ISSET(REVERSE_SEARCH);
-    bool old_mark_set = ISSET(MARK_ISSET);
 #endif
 #ifdef HAVE_REGEX_H
     bool regexp_set = ISSET(USE_REGEXP);
+#endif
+#ifndef NANO_SMALL
+    bool old_mark_set = ISSET(MARK_ISSET);
 #endif
 
     /* Make sure spell-check is case sensitive. */
@@ -1440,13 +1442,14 @@ bool do_int_spell_fix(const char *word)
 #ifndef NANO_SMALL
     /* Make sure spell-check goes forward only. */
     UNSET(REVERSE_SEARCH);
-
-    /* Make sure the marking highlight is off during spell-check. */
-    UNSET(MARK_ISSET);
 #endif
 #ifdef HAVE_REGEX_H
     /* Make sure spell-check doesn't use regular expressions. */
     UNSET(USE_REGEXP);
+#endif
+#ifndef NANO_SMALL
+    /* Make sure the marking highlight is off during spell-check. */
+    UNSET(MARK_ISSET);
 #endif
 
     /* Save the current search/replace strings. */
@@ -1508,15 +1511,16 @@ bool do_int_spell_fix(const char *word)
     /* Restore search/replace direction. */
     if (reverse_search_set)
 	SET(REVERSE_SEARCH);
-
-    /* Restore marking highlight. */
-    if (old_mark_set)
-	SET(MARK_ISSET);
 #endif
 #ifdef HAVE_REGEX_H
     /* Restore regular expression usage setting. */
     if (regexp_set)
 	SET(USE_REGEXP);
+#endif
+#ifndef NANO_SMALL
+    /* Restore marking highlight. */
+    if (old_mark_set)
+	SET(MARK_ISSET);
 #endif
 
     return accepted;
