@@ -33,6 +33,7 @@
   a dialog about not being able to write the file, and it will not let the
   user exit (29, discovered by Joshua Jensen) [FIXED]
 - Using nano -k, marked text is not cut properly. (31) [FIXED]
+- Invoking -t or -k has the effect of invoking both option. (32) [FIXED]
 
 ** Open BUGS **
 

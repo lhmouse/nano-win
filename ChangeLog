@@ -1,3 +1,10 @@
+Changes in CVS
+- nano.h:
+	- Set CUT_TO_END to a different bit than TEMP_OPT.  Fixes bug #32.
+- cut.c:
+  do_cut_text():
+	- Added check for MARK_ISSET when using CUT_TO_END.  Fixes bug #31.
+
 nano-0.9.13 - 07/23/2000
 - Implemented Pico's -k mode.  New flag CUT_TO_END, option (-k, --cut), 
   affects do_cut_text in cut.c.  Not available with SMALL_NANO because it
