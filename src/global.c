@@ -640,12 +640,12 @@ void shortcut_init(int unjustify)
 #ifndef DISABLE_JUSTIFY
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_PARABEGIN_KEY, _("Beg of Par"),
-		IFHELP(nano_parabegin_msg, NANO_PARABEGIN_ALTKEY), NANO_NO_KEY,
+		IFHELP(nano_parabegin_msg, NANO_NO_KEY), NANO_NO_KEY,
 		NANO_NO_KEY, VIEW, do_para_begin);
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_PARAEND_KEY, _("End of Par"),
-		IFHELP(nano_paraend_msg, NANO_PARAEND_ALTKEY), NANO_NO_KEY,
+		IFHELP(nano_paraend_msg, NANO_NO_KEY), NANO_NO_KEY,
 		NANO_NO_KEY, VIEW, do_para_end);
 #endif
 
