@@ -54,6 +54,13 @@ CVS code -
   help_line_len()
 	- Make the text display more flexible, and closer to what nano
 	  1.2.x does. (DLR)
+- configure.ac:
+	- Allow more flexible handling of UTF-8 support by allowing
+	  the --enable-utf8 and --disable-utf8 options. (Mike
+	  Frysinger)  DLR: Extend these options to work with slang as
+	  well as curses, consolidate the warning and error messages
+	  dealing with UTF-8 support as much as possible, and add a few
+	  minor consistency fixes.
 
 GNU nano 1.3.6 - 2005.03.20
 - General:
