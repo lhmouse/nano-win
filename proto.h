@@ -125,7 +125,7 @@ int do_insertfile(int loading_file);
 int length_of_list(shortcut *s);
 int num_of_digits(int n);
 int open_pipe(char *command);
-int read_file(int fd, char *filename, int quiet);
+int read_file(FILE *f, char *filename, int quiet);
 
 #ifdef ENABLE_MULTIBUFFER
 int add_open_file(int update);

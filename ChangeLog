@@ -12,6 +12,9 @@ CVS code -
 	  been wanting it for awhile now and we'll see how bad it messes
 	  everything up.  Changes to files.c:do_writeout(), write_file().
 	  Fixes for O_CREAT & append compatibililty by David Benbennick.
+	- Change from read() and write() to file streams by Jay Carlson.
+	  Allows OS to implement read and write ahead rather than making
+	  us do it.  Hopefully merged properly.
 - configure.ac:
 	- Define NDEBUG to silence asserts (David Benbennick).
 - files.c:

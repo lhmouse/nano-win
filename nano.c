@@ -1689,6 +1689,7 @@ RETSIGTYPE cancel_fork(int signal) {
 int open_pipe(char *command)
 {
     int fd[2];
+    FILE *f;
     struct sigaction oldaction, newaction;
 			/* original and temporary handlers for SIGINT */
 #ifdef _POSIX_VDISABLE
@@ -1764,7 +1765,11 @@ int open_pipe(char *command)
     }
 #endif   /* _POSIX_VDISABLE */
 
-    read_file(fd[0],"stdin",0);
+    f = fdopen(fd[0], "rb");
+    if (!f)
+      nperror("fdopen");
+    
+    read_file(f, "stdin", 0);
     set_modified();
 
     if (wait(NULL) == -1)

@@ -100,27 +100,6 @@ void new_file(void)
 
 }
 
-int read_byte(int fd, char *filename, char *input)
-{
-    static char buf[BUFSIZ];
-    static int index = 0;
-    static int size = 0;
-
-    if (index == size) {
-	index = 0;
-	size = read(fd, buf, BUFSIZ);
-	if (size == -1) {
-	    size = index;	/* note index==0 */
-	    nperror(filename);
-	    return -1;
-	}
-	if (!size)
-	    return 0;
-    }
-    *input = buf[index++];
-    return 1;
-}
-
 filestruct *read_line(char *buf, filestruct * prev, int *line1ins)
 {
     filestruct *fileptr;
@@ -169,15 +148,15 @@ filestruct *read_line(char *buf, filestruct * prev, int *line1ins)
     return fileptr;
 }
 
-int read_file(int fd, char *filename, int quiet)
+int read_file(FILE *f, char *filename, int quiet)
 {
-    long size;
     int num_lines = 0;
     char input;		/* current input character */
     char *buf;
     long i = 0, bufx = 128;
     filestruct *fileptr = current, *tmp = NULL;
     int line1ins = 0;
+    int input_int;
 
     buf = charalloc(bufx);
     buf[0] = '\0';
@@ -191,8 +170,8 @@ int read_file(int fd, char *filename, int quiet)
 	line1ins = 1;
     }
     /* Read the entire file into file struct */
-    while ((size = read_byte(fd, filename, &input)) > 0) {
-
+    while ((input_int = getc(f)) != EOF) {
+        input = (char) input_int;
 #ifndef NANO_SMALL
 	if (!ISSET(NO_CONVERT) && input >= 0 && input <= 31
 		&& input != 127 && input != '\t' && input != '\r'
@@ -232,7 +211,13 @@ int read_file(int fd, char *filename, int quiet)
 	    buf[i + 1] = 0;
 	    i++;
 	}
-	totsize += size;
+	totsize++;
+    }
+
+    if (ferror(f)) {
+        /* This conditional duplicates previous read_byte(); behavior;
+           perhaps this could use some better handling. */
+        nperror(filename);
     }
 
     /* Did we not get a newline but still have stuff to do? */
@@ -283,7 +268,7 @@ int read_file(int fd, char *filename, int quiet)
     totlines += num_lines;
 
     free(buf);
-    close(fd);
+    fclose(f);
 
     return 1;
 }
@@ -293,6 +278,7 @@ int read_file(int fd, char *filename, int quiet)
 int open_file(char *filename, int insert, int quiet)
 {
     int fd;
+    FILE *f;
     struct stat fileinfo;
 
     if (!strcmp(filename, "") || stat(filename, &fileinfo) == -1) {
@@ -326,7 +312,12 @@ int open_file(char *filename, int insert, int quiet)
 	}
 	if (!quiet)
 	    statusbar(_("Reading File"));
-	read_file(fd, filename, quiet);
+	f = fdopen(fd, "rb"); /* Binary for our own line-end munging */
+	if (!f) {
+	    nperror("fdopen");
+	    return -1;
+	}
+	read_file(f, filename, quiet);
     }
 
     return 1;
@@ -1187,9 +1178,11 @@ int check_operating_dir(char *currpath, int allow_tabcomp)
 int write_file(char *name, int tmp, int append, int nonamechange)
 {
     long size, lineswritten = 0;
-    char *buf = NULL, prechar;
+    char *buf = NULL;
     filestruct *fileptr;
-    int fd, fd2, mask = 0, realexists, anyexists;
+    FILE *f;
+    int fd;
+    int mask = 0, realexists, anyexists;
     struct stat st, lst;
     char *realname = NULL;
 
@@ -1278,15 +1271,31 @@ int write_file(char *name, int tmp, int append, int nonamechange)
     }
 
     dump_buffer(fileage);
+
+    if (append == 1) {
+        f = fdopen(fd, "ab");
+    } else {
+        f = fdopen(fd, "wb");
+    }
+
+    if (!f) {
+        statusbar(_("Could not open file for writing: %s"),
+                  strerror(errno));
+        return -1;
+    }
+
     while (fileptr != NULL && fileptr->next != NULL) {
+	int data_len;
 	/* Next line is so we discount the "magic line" */
 	if (filebot == fileptr && fileptr->data[0] == '\0')
 	    break;
 
-	size = write(fd, fileptr->data, strlen(fileptr->data));
-	if (size == -1) {
+	data_len = strlen(fileptr->data);
+	size = fwrite(fileptr->data, 1, data_len, f);
+	if (size < data_len) {
 	    statusbar(_("Could not open file for writing: %s"),
 		      strerror(errno));
+            fclose(f);
 	    return -1;
 	} else {
 #ifdef DEBUG
@@ -1295,50 +1304,53 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	}
 #ifndef NANO_SMALL
 	if (ISSET(DOS_FILE) || ISSET(MAC_FILE))
-	    write(fd, "\r", 1);
+	    putc('\r', f);
 
 	if (!ISSET(MAC_FILE))
 #endif
-	    write(fd, "\n", 1);
+	    putc('\n', f);
 
 	fileptr = fileptr->next;
 	lineswritten++;
     }
 
     if (fileptr != NULL) {
-	size = write(fd, fileptr->data, strlen(fileptr->data));
-	if (size == -1) {
+        int data_len;
+
+        data_len = strlen(fileptr->data);
+	size = fwrite(fileptr->data, 1, data_len, f);
+	if (size < data_len) {
 	    statusbar(_("Could not open file for writing: %s"),
 		      strerror(errno));
 	    return -1;
-	} else if (size > 0) {
+	} else if (data_len > 0) {
 #ifndef NANO_SMALL
 	    if (ISSET(DOS_FILE) || ISSET(MAC_FILE)) {
-		size = write(fd, "\r", 1);
-		lineswritten++;
-		if (size == -1) {
+		if (putc('\r', f) == EOF) {
 		    statusbar(_("Could not open file for writing: %s"),
 			  strerror(errno));
+		    fclose(f);
 		    return -1;
 		}
+		lineswritten++;
 	    }
 
 	    if (!ISSET(MAC_FILE))
 #endif
 	    {
-		size = write(fd, "\n", 1);
-		lineswritten++;
-		if (size == -1) {
+		if (putc('\n', f) == EOF) {
 		    statusbar(_("Could not open file for writing: %s"),
 			  strerror(errno));
+		    fclose(f);
 		    return -1;
 		}
+		lineswritten++;
 	    }
 	}
     }
 
 
-    if (close(fd) == -1) {
+    if (fclose(f)) {
 	statusbar(_("Could not close %s: %s"), realname, strerror(errno));
 	unlink(buf);
 	return -1;
@@ -1346,22 +1358,52 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 
     /* if we're prepending, open the real file, and append it here */
     if (append == 2) {
-	if ((fd = open(buf, O_WRONLY | O_APPEND, (S_IRUSR|S_IWUSR))) == -1) {
+      int fd_source, fd_dest;
+      FILE *f_source, *f_dest;
+      int prechar;
+
+	if ((fd_dest = open(buf, O_WRONLY | O_APPEND, (S_IRUSR|S_IWUSR))) == -1) {
 	    statusbar(_("Could not reopen %s: %s"), buf, strerror(errno));
 	    return -1;
 	}
-	if ((fd2 = open(realname, O_RDONLY | O_CREAT)) == -1) {
-	    statusbar(_("Could not open %s for prepend: %s"), realname,
-		strerror(errno));
+	f_dest = fdopen(fd_dest, "wb");
+	if (!f_dest) {
+	    statusbar(_("Could not reopen %s: %s"), buf, strerror(errno));
+            close(fd_dest);
+	    return -1;
+	}
+	if ((fd_source = open(realname, O_RDONLY)) == -1) {
+	    statusbar(_("Could not open %s for prepend: %s"), realname, strerror(errno));
+            fclose(f_dest);
+	    return -1;
+	}
+	f_source = fdopen(fd_source, "rb");
+	if (!f_source) {
+	    statusbar(_("Could not open %s for prepend: %s"), realname, strerror(errno));
+	    fclose(f_dest);
+	    close(fd_source);
 	    return -1;
 	}
 
-	while (read(fd2, &prechar, 1) > 0)
-	    write(fd, &prechar, 1);
+        /* Doing this in blocks is an exercise left to some other reader. */
+	while ((prechar = getc(f_source)) != EOF) {
+	    if (putc(prechar, f_dest) == EOF) {
+		statusbar(_("Could not open %s for prepend: %s"), realname, strerror(errno));
+		fclose(f_source);
+		fclose(f_dest);
+		return -1;
+	    }
+	}
 
-	close(fd);
-	close(fd2);
-
+	if (ferror(f_source)) {
+	    statusbar(_("Could not reopen %s: %s"), buf, strerror(errno));
+	    fclose(f_source);
+	    fclose(f_dest);
+	    return -1;
+	}
+	    
+	fclose(f_source);
+	fclose(f_dest);
     }
 
 
