@@ -98,6 +98,12 @@ AC_ARG_ENABLE(wrapping,
     AC_DEFINE(DISABLE_WRAPPING, 1, [Define this to disable any and all text wrapping.])
  fi])
 
+AC_ARG_ENABLE(wrapping-as-root,
+[  --disable-wrapping-as-root  Disable wrapping of text as root by default],
+ [if test x$enableval != xyes; then
+    AC_DEFINE(DISABLE_ROOTWRAP, 1, [Define this to disable wrapping as root by default.])
+ fi])
+
 AC_ARG_ENABLE(color,
 [  --enable-color          Enable color and syntax highlighting],
 [if test x$enableval = xyes; then

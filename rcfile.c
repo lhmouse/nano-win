@@ -613,6 +613,12 @@ void do_rcfile(void)
 	nanorc = nrealloc(nanorc, strlen(userage->pw_dir) + 9);
 	sprintf(nanorc, "%s/.nanorc", userage->pw_dir);
 
+#if defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
+    /* If we've already read $SYSCONFDIR/nanorc (if it's there), we're
+       root, and --disable-wrapping-as-root is used, turn wrapping off */
+	if (euid == 0)
+	    SET(NO_WRAP);
+#endif
 	if ((rcstream = fopen(nanorc, "r")) == NULL) {
 	    /* Don't complain about the file not existing */
 	    if (errno != ENOENT)

@@ -1,4 +1,8 @@
 CVS code -
+- General:
+	- Forward-ported Chris' --disable-wrapping-as-root option from
+	  1.0.9.  Per Jordi's suggestions, have it override /etc/nanorc
+	  but not ~/.nanorc. (DLR)
 
 GNU nano 1.1.12 - 10/24/2002
 - General:

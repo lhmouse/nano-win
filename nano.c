@@ -725,6 +725,9 @@ void version(void)
 #ifdef DISABLE_WRAPPING
     printf(" --disable-wrapping");
 #endif
+#ifdef DISABLE_ROOTWRAP
+    printf(" --disable-wrapping-as-root");
+#endif
 #ifdef ENABLE_COLOR
     printf(" --enable-color");
 #endif
@@ -2998,6 +3001,13 @@ int main(int argc, char *argv[])
     }
 	if (!ISSET(NO_RCFILE))
 	    do_rcfile();
+#else
+#if defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
+    /* if we don't have rcfile support, we're root, and
+       --disable-wrapping-as-root is used, turn wrapping off */
+    if (geteuid() == 0)
+	SET(NO_WRAP);
+#endif
 #endif /* ENABLE_NANORC */
 
 #ifdef HAVE_GETOPT_LONG
