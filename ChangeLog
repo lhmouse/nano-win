@@ -21,9 +21,10 @@ CVS code -
 	- Added "syntax" command to .nanorc file, to allow multiple 
 	  syntaxes.  New function color.c:update_color(), calls in various
 	  files.c places, syntaxtype struct, global variables syntaxes,
-	  syntaxfile_regexp and synfilematches.  Global flag 'Y', "--syntax"
+	  syntaxfile_regexp and synfilematches.  Global flag -Y ,--syntax
 	  to specify the type on the command line, if there's no good 
 	  filename regex to use.  Global variable syntaxstr.
+	- Made some rc file errors less fatal.
 - configure.ac:
 	- Define NDEBUG to silence asserts (David Benbennick).
 - files.c:
