@@ -17,7 +17,7 @@ General
 - nano.c:
   do_justify()
 	- Added restoration of totsize after unjustify command.
-  version()
+  usage()
 	- Add arg to -T help (Rocco).
 
 nano 0.9.99pre1 - 01/17/2001
