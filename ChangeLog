@@ -1,7 +1,7 @@
 CVS code -
 General
-	- Removed current_x and current_y globals.  current_y was
-	  completely unused and current_x was only used a few places,
+	- Removed center_x and center_y globals.  center_y was
+	  completely unused and center_x was only used a few places,
 	  easily replaced with COLS / 2.
 	- Deleted free_node, duplicate of delete_node, and changed all
 	  free_node calls to delete_node.
