@@ -95,7 +95,7 @@ CVS code -
 	  characters on the line is exactly one over the limit. (David
 	  Benbennick)
 	- Restore the previous wrapping point behavior (pre 1.1.10)
-	  (David Benbennick).
+	  (David Benbennick, fixes by DLR).
   do_alt_speller()
   	- Readd DLR's fix to preserve marking when using the alternate
   	  spell checker; it was accidentally dropped. (David

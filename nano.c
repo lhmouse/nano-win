@@ -1479,13 +1479,13 @@ int do_wrap(filestruct *inptr)
 
 #ifndef NANO_SMALL
     if (ISSET(AUTOINDENT)) {
-	/* indentation comes from the next line if wrapping, else from
-	 * this line */
+	/* Indentation comes from the next line if wrapping, else from
+	 * this line. */
 	indentation = (wrapping ? wrap_line : inptr->data);
 	indent_len = indent_length(indentation);
 	if (wrapping)
-	    /* The wrap_line text should not duplicate indentation.  Note
-	     * in this case we need not increase new_line_len. */
+	    /* The wrap_line text should not duplicate indentation.
+	     * Note in this case we need not increase new_line_len. */
 	    wrap_line += indent_len;
 	else
 	    new_line_len += indent_len;
@@ -1504,13 +1504,18 @@ int do_wrap(filestruct *inptr)
 #endif
     strcat(newline, after_break);
     /* We end the old line after wrap_loc.  Note this does not eat the
-       space. */
+     * space. */
     null_at(&inptr->data, wrap_loc + 1);
     totsize++;
     if (wrapping) {
 	/* In this case, totsize increases by 1 since we add a space
-	   between after_break and wrap_line. */
-	strcat(newline, " ");
+	 * between after_break and wrap_line.  If the line already ends
+	 * in a space, we don't add a space and decrement totsize to
+	 * account for that. */
+	if (newline[strlen(newline) - 1] != ' ')
+	    strcat(newline, " ");
+	else
+	    totsize--;
 	strcat(newline, wrap_line);
 	free(inptr->next->data);
 	inptr->next->data = newline;
@@ -1518,7 +1523,7 @@ int do_wrap(filestruct *inptr)
 	filestruct *temp = (filestruct *)nmalloc(sizeof(filestruct));
 
 	/* In this case, the file size changes by +1 for the new line, and
-	   +indent_len for the new indentation. */
+	 * +indent_len for the new indentation. */
 #ifndef NANO_SMALL
 	totsize += indent_len;
 #endif
@@ -1528,7 +1533,7 @@ int do_wrap(filestruct *inptr)
 	temp->next = inptr->next;
 	temp->prev->next = temp;
 	/* If !temp->next, then temp is the last line of the file, so we
-	 * must set filebot */
+	 * must set filebot. */
 	if (temp->next)
 	    temp->next->prev = temp;
 	else
