@@ -13,6 +13,9 @@ CVS code -
   main()
 	- Check that alt value is an alpha char before comparing to 
 	  val - 32, fixes Alt-R calling doprev instead of replace.
+  do_suspend()
+	- Call tcsetattr() to restore the old terminal settings, so
+	  tcsh can use ^C after suspend for example (fixes BUG #67).
 - global.c:
   shorcut_init()
 	- Replace hard coded ALT_G and ALT_H values in the replace
