@@ -3,8 +3,14 @@ CVS code -
   do_browser()
 	- More Picoish keystrokes for the browser, ^P, ^N, etc, for up,
 	  down, etc, and add the consistent ^C to exit (Jim Knoble).
-- THANKS
+- THANKS:
 	- Added some more people.
+- po/gl.po:
+	- Updated Galician translation (Jacobo Tarrío).
+- po/no.po:
+	- New Norwegian translation by Eivind Kjørstad <ekj@vestdata.no>.
+- po/sv.po:
+	- New Swedish translation by Christian Rose <menthos@menthos.com>.
 
 nano 1.0.3 - 07/01/2001
 - Makefile.am:
