@@ -9,6 +9,9 @@ CVS changes -
 - nano.c
   main()
 	- Added check for _POSIX_VDISABLE around term variable definition.
+- search.c
+	- Added initializations for last_search and last_replace (Rocco Corsi)
+
 nano 0.9.18 - 09/18/2000
 - General
 	- Changed _POSIX_VERSION checks in regex code to HAVE_REGEX_H, 

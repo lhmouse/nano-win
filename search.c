@@ -34,8 +34,8 @@
 #define _(string) (string)
 #endif
 
-static char last_search[132];		/* Last string we searched for */
-static char last_replace[132];		/* Last replacement string */
+static char last_search[132] = "";	/* Last string we searched for */
+static char last_replace[132] = "";	/* Last replacement string */
 
 /* Regular expression helper functions */
 
