@@ -6,9 +6,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.8\n"
+"Project-Id-Version: nano 1.1.9\n"
 "POT-Creation-Date: 2002-05-12 19:29-0400\n"
-"PO-Revision-Date: 2002-04-05 12:04:42+0200\n"
+"PO-Revision-Date: 2002-05-13 20:01+0200\n"
 "Last-Translator: Michael Piefel <piefel@informatik.hu-berlin.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -77,8 +77,7 @@ msgstr "Datei einfügen [von %s] "
 msgid "File to insert [from ./] "
 msgstr "Datei einfügen [von ./] "
 
-#: files.c:390 files.c:576 files.c:629 files.c:720 files.c:732 files.c:784
-#: files.c:795 files.c:1597
+#: files.c:390 files.c:576 files.c:629 files.c:720 files.c:732 files.c:784 files.c:795 files.c:1597
 #, c-format
 msgid "filename is %s"
 msgstr "Dateiname ist %s"
@@ -114,8 +113,7 @@ msgstr "Umgeschaltet zu %s"
 msgid "Can't write outside of %s"
 msgstr "Kann nicht außerhalb von %s schreiben"
 
-#: files.c:1291 files.c:1307 files.c:1317 files.c:1331 files.c:1359
-#: files.c:1366 files.c:1378
+#: files.c:1291 files.c:1307 files.c:1317 files.c:1331 files.c:1359 files.c:1366 files.c:1378
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "Konnte nicht in Datei schreiben: %s"
@@ -131,14 +129,14 @@ msgid "Could not close %s: %s"
 msgstr "Konnte %s nicht schließen: %s"
 
 #: files.c:1402 files.c:1407 files.c:1435
-#, fuzzy, c-format
+#, c-format
 msgid "Could not reopen %s: %s"
-msgstr "Konnte %s nicht schließen: %s"
+msgstr "Konnte %s nicht erneut öffnen: %s"
 
 #: files.c:1412 files.c:1418 files.c:1427
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open %s for prepend: %s"
-msgstr "Konnte %s nicht zum Schreiben öffnen: %s"
+msgstr "Konnte %s nicht zum Vorn-Anfügen öffnen: %s"
 
 #. Try a rename??
 #: files.c:1465 files.c:1474 files.c:1479
@@ -165,9 +163,8 @@ msgid " [DOS Format]"
 msgstr " [DOS-Format]"
 
 #: files.c:1544
-#, fuzzy
 msgid "Prepend Selection to File"
-msgstr "Auswahl an Datei anhängen"
+msgstr "Auswahl an Datei vorne anfügen"
 
 #: files.c:1547
 msgid "Append Selection to File"
@@ -178,9 +175,8 @@ msgid "Write Selection to File"
 msgstr "Auswahl in Datei schreiben"
 
 #: files.c:1556
-#, fuzzy
 msgid "File Name to Prepend"
-msgstr "Dateiname zum Anhängen"
+msgstr "Dateiname zum Vorn-Anfügen"
 
 #: files.c:1559
 msgid "File Name to Append"
@@ -411,8 +407,7 @@ msgstr "Zeilenumbruch an der Cursorposition einfügen"
 
 #: global.c:369
 msgid "Make the current search or replace case (in)sensitive"
-msgstr ""
-"Groß- und Kleinschreibung bei Suche oder Erstzen (nicht) berücksichtigen"
+msgstr "Groß- und Kleinschreibung bei Suche oder Erstzen (nicht) berücksichtigen"
 
 #: global.c:370
 msgid "Go to file browser"
@@ -431,9 +426,8 @@ msgid "Append to the current file"
 msgstr "An momentane Datei anhängen"
 
 #: global.c:375
-#, fuzzy
 msgid "Prepend to the current file"
-msgstr "An momentane Datei anhängen"
+msgstr "An momentane Datei vorn anfügen"
 
 #: global.c:376
 msgid "Search backwards"
@@ -463,9 +457,7 @@ msgstr "Vorige geladene Datei öffnen"
 msgid "Open next loaded file"
 msgstr "Nächste geladene Datei öffnen"
 
-#: global.c:400 global.c:576 global.c:618 global.c:660 global.c:678
-#: global.c:710 global.c:746 global.c:767 global.c:778 global.c:791
-#: global.c:813
+#: global.c:400 global.c:576 global.c:618 global.c:660 global.c:678 global.c:710 global.c:746 global.c:767 global.c:778 global.c:791 global.c:813
 msgid "Get Help"
 msgstr "Hilfe"
 
@@ -592,24 +584,21 @@ msgstr "Nächste Datei"
 
 #: global.c:565
 msgid "Next Word"
-msgstr ""
+msgstr "Nächstes Wort"
 
 #: global.c:566
-#, fuzzy
 msgid "Move forward one word"
-msgstr "Zum folgenden Zeichen springen"
+msgstr "Zum folgenden Wort springen"
 
 #: global.c:568
 msgid "Prev Word"
-msgstr ""
+msgstr "Vorh. Wort"
 
 #: global.c:569
-#, fuzzy
 msgid "Move backward one word"
-msgstr "Zum vorhergehenden Zeichen springen"
+msgstr "Zum vorhergehenden Wort springen"
 
-#: global.c:580 global.c:622 global.c:664 global.c:681 global.c:740
-#: global.c:749 global.c:770 global.c:781 global.c:816 winio.c:1463
+#: global.c:580 global.c:622 global.c:664 global.c:681 global.c:740 global.c:749 global.c:770 global.c:781 global.c:816 winio.c:1463
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -654,9 +643,8 @@ msgid "Append"
 msgstr "Anhängen"
 
 #: global.c:735
-#, fuzzy
 msgid "Prepend"
-msgstr "Anhängen"
+msgstr "Vorn Anfügen"
 
 #: global.c:759
 msgid "Execute Command"
@@ -696,37 +684,16 @@ msgstr "Unzulässige Taste im View Modus"
 msgid ""
 " nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor: The "
-"top line shows the program version, the current filename being edited, and "
-"whether or not the file has been modified.  Next is the main editor window "
-"showing the file being edited.  The status line is the third line from the "
-"bottom and shows important messages. The bottom two lines show the most "
-"commonly used shortcuts in the editor.\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor: The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages. The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
-" The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
-"key sequences are notated with the Meta (M) symbol and can be entered using "
-"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
-"following keystrokes are available in the main editor window. Optional keys "
-"are shown in parentheses:\n"
+" The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt or Meta key depending on your keyboard setup.  The following keystrokes are available in the main editor window. Optional keys are shown in parentheses:\n"
 "\n"
 msgstr ""
 " nano Hilfe\n"
 "\n"
-" Nano wurde konzipiert, die Funktionalität und die Benutzerfreundlichkeit "
-"des UW-Pico-Texteditors zu imitieren.  Es gibt vier Hauptbereiche: Die "
-"Titelzeile zeigt die Version des Programms, den Namen der momentan "
-"editierten Datei und ob die Datei verändert wurde oder nicht.  Das "
-"Hauptfenster enthält die geöffnete Datei.  Die Statuszeile (die dritte Zeile "
-"von unten) zeigt wichtige Meldungen. Die untersten zwei Zeilen listen die "
-"meistgebrauchten Tastenkombinationen von nano auf.\n"
+" Nano wurde konzipiert, die Funktionalität und die Benutzerfreundlichkeit des UW-Pico-Texteditors zu imitieren.  Es gibt vier Hauptbereiche: Die Titelzeile zeigt die Version des Programms, den Namen der momentan editierten Datei und ob die Datei verändert wurde oder nicht.  Das Hauptfenster enthält die geöffnete Datei.  Die Statuszeile (die dritte Zeile von unten) zeigt wichtige Meldungen. Die untersten zwei Zeilen listen die meistgebrauchten Tastenkombinationen von nano auf.\n"
 "\n"
-" Tastenkombinationen werden wie folgt abgekürzt: Kombinationen mit der Strg-"
-"Taste werden mit einem ^ ausgedrückt.  Escape-Sequenzen werden mit dem Meta-"
-"Symbol (M) angegeben und können je nach Tastatureinstellung mit Esc, Alt "
-"oder Meta eingegeben werden.  Die folgenden Tasten(kombinationen) sind im "
-"Hauptfenster verfügbar. Optionale Tasten sind eingeklammert:\n"
+" Tastenkombinationen werden wie folgt abgekürzt: Kombinationen mit der Strg-Taste werden mit einem ^ ausgedrückt.  Escape-Sequenzen werden mit dem Meta-Symbol (M) angegeben und können je nach Tastatureinstellung mit Esc, Alt oder Meta eingegeben werden.  Die folgenden Tasten(kombinationen) sind im Hauptfenster verfügbar. Optionale Tasten sind eingeklammert:\n"
 "\n"
 
 #: nano.c:388
@@ -738,21 +705,19 @@ msgid "delete_node(): free'd last node.\n"
 msgstr "delete_node(): letzter Knoten freigegeben.\n"
 
 #: nano.c:413
-#, fuzzy
 msgid "delete_opennode(): free'd a node, YAY!\n"
-msgstr "delete_node(): Knoten freigegeben.\n"
+msgstr "delete_opennode(): Knoten freigegeben, KLASSE!\n"
 
 #: nano.c:418
-#, fuzzy
 msgid "delete_opennode(): free'd last node.\n"
-msgstr "delete_node(): letzter Knoten freigegeben.\n"
+msgstr "delete_opennode(): letzter Knoten freigegeben.\n"
 
 #: nano.c:499
 msgid ""
 "Usage: nano [GNU long option] [option] +LINE <file>\n"
 "\n"
 msgstr ""
-"Aufruf: nano [lange GNU Option] [Option] +ZEILE <Datei>\n"
+"Aufruf: nano [lange GNU-Option] [Option] +ZEILE <Datei>\n"
 "\n"
 
 #: nano.c:500
@@ -820,18 +785,16 @@ msgid "Print version information and exit"
 msgstr "Versionsinfo ausgeben und beenden"
 
 #: nano.c:527
-#, fuzzy
 msgid "-Y [str]"
-msgstr "-Q [zkette]"
+msgstr "-Y [zkette]"
 
 #: nano.c:527
-#, fuzzy
 msgid "--syntax [str]"
-msgstr "--quotestr [zkette]"
+msgstr "--syntax [zkette]"
 
 #: nano.c:527
 msgid "Syntax definition to use"
-msgstr ""
+msgstr "Zu benutzende Syntaxdefinition"
 
 #: nano.c:529
 msgid "Constantly show cursor position"
@@ -977,8 +940,7 @@ msgstr "Konnte keine temporäre Datei erzeugen: %s"
 
 #: nano.c:1666
 msgid "Spell checking failed: unable to write temp file!"
-msgstr ""
-"Rechtschreibprüfung fehlgeschlagen: konnte nicht in temporäre Datei schreiben"
+msgstr "Rechtschreibprüfung fehlgeschlagen: konnte nicht in temporäre Datei schreiben"
 
 #: nano.c:1685
 msgid "Finished checking spelling"
@@ -1036,33 +998,18 @@ msgstr "Kann Absatzausrichtung nicht rückgängig machen"
 msgid ""
 "Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, then hit "
-"enter.  If there is a match for the text you entered, the screen will be "
-"updated to the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, then hit enter.  If there is a match for the text you entered, the screen will be updated to the location of the nearest match for the search string.\n"
 "\n"
-" If using Pico Mode via the -p or --pico flags, using the Meta-P toggle or "
-"using a nanorc file, the previous search string will be shown in brackets "
-"after the Search: prompt.  Hitting enter without entering any text will "
-"perform the previous search. Otherwise, the previous string will be placed "
-"in front of the cursor, and can be edited or deleted before hitting enter.\n"
+" If using Pico Mode via the -p or --pico flags, using the Meta-P toggle or using a nanorc file, the previous search string will be shown in brackets after the Search: prompt.  Hitting enter without entering any text will perform the previous search. Otherwise, the previous string will be placed in front of the cursor, and can be edited or deleted before hitting enter.\n"
 "\n"
 " The following functions keys are available in Search mode:\n"
 "\n"
 msgstr ""
 "Hilfetext für das Suchkommando\n"
 "\n"
-" Geben Sie die Wörter oder Buchstaben ein, nach denen Sie suchen möchten, "
-"und drücken Sie die Eingabetaste.  Wenn eine Übereinstimmung für den "
-"eingegebenen Text gefunden wird, dann wird die Anzeige zur nächsten "
-"Fundstelle bewegt.\n"
+" Geben Sie die Wörter oder Buchstaben ein, nach denen Sie suchen möchten, und drücken Sie die Eingabetaste.  Wenn eine Übereinstimmung für den eingegebenen Text gefunden wird, dann wird die Anzeige zur nächsten Fundstelle bewegt.\n"
 "\n"
-" Bei Benutzung des Pico-Modus durch die Kommandozeilenoptionen -p oder --"
-"pico, durch den Meta-P-Umschalter oder mittels einer nanorc-Datei, wird die "
-"vorhergehende Suchzeichenkette in Klammer nach der Such-Aufforderung "
-"angezeigt. Drücken der Eingabetaste ohne Eingabe irgenwelchen Textes führt "
-"die vorhergehende Suche durch. Anderenfalls wird die vorhergehende "
-"Zeichenkette vor dem Cursor angezeigt und kann vor dem Suchen bearbeitet "
-"oder gelöscht werden.\n"
+" Bei Benutzung des Pico-Modus durch die Kommandozeilenoptionen -p oder --pico, durch den Meta-P-Umschalter oder mittels einer nanorc-Datei, wird die vorhergehende Suchzeichenkette in Klammer nach der Such-Aufforderung angezeigt. Drücken der Eingabetaste ohne Eingabe irgenwelchen Textes führt die vorhergehende Suche durch. Anderenfalls wird die vorhergehende Zeichenkette vor dem Cursor angezeigt und kann vor dem Suchen bearbeitet oder gelöscht werden.\n"
 "\n"
 " Die folgenden Funktionstasten sind im Suchmodus verfügbar:\n"
 "\n"
@@ -1071,18 +1018,14 @@ msgstr ""
 msgid ""
 "Goto Line Help Text\n"
 "\n"
-" Enter the line number that you wish to go to and hit Enter.  If there are "
-"fewer lines of text than the number you entered, you will be brought to the "
-"last line of the file.\n"
+" Enter the line number that you wish to go to and hit Enter.  If there are fewer lines of text than the number you entered, you will be brought to the last line of the file.\n"
 "\n"
 " The following functions keys are available in Goto Line mode:\n"
 "\n"
 msgstr ""
 "Hilfetext für »Zu Zeile«\n"
 "\n"
-" Geben Sie die Nummer der gewünschten Zeile ein und drücken Sie die "
-"Eingabetaste. Gibt es weniger Zeilen im Text, so springt nano zur letzten "
-"Zeile der Datei.\n"
+" Geben Sie die Nummer der gewünschten Zeile ein und drücken Sie die Eingabetaste. Gibt es weniger Zeilen im Text, so springt nano zur letzten Zeile der Datei.\n"
 "\n"
 " Die folgenden Funktionstasten sind im Zu-Zeile-Modus verfügbar:\n"
 "\n"
@@ -1091,34 +1034,21 @@ msgstr ""
 msgid ""
 "Insert File Help Text\n"
 "\n"
-" Type in the name of a file to be inserted into the current file buffer at "
-"the current cursor location.\n"
+" Type in the name of a file to be inserted into the current file buffer at the current cursor location.\n"
 "\n"
-" If you have compiled nano with multiple file buffer support, and enable "
-"multiple buffers with the -F or --multibuffer command line flags, the Meta-F "
-"toggle or using a nanorc file, inserting a file will cause it to be loaded "
-"into a separate buffer (use Meta-< and > to switch between file buffers).\n"
+" If you have compiled nano with multiple file buffer support, and enable multiple buffers with the -F or --multibuffer command line flags, the Meta-F toggle or using a nanorc file, inserting a file will cause it to be loaded into a separate buffer (use Meta-< and > to switch between file buffers).\n"
 "\n"
-" If you need another blank buffer, do not enter any filename, or type in a "
-"nonexistent filename at the prompt and press Enter.\n"
+" If you need another blank buffer, do not enter any filename, or type in a nonexistent filename at the prompt and press Enter.\n"
 "\n"
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
 "Hilfetext für »Datei einfügen«\n"
 "\n"
-" Geben Sie den Namen einer Datei ein, die an der momentanen Cursorposition "
-"in den momentanen Dateipuffer eingefügt werden soll.\n"
+" Geben Sie den Namen einer Datei ein, die an der momentanen Cursorposition in den momentanen Dateipuffer eingefügt werden soll.\n"
 "\n"
-" Wenn Sie nano mit Unterstützung für mehrere Dateipuffer compiliert haben "
-"und diese Funktion mit den Kommandozeilenoptionen -F oder --multibuffer, mit "
-"der Tastenkombination Meta-F oder mittels einer nanorc-Datei eingeschaltet "
-"haben, so wird die Einfügeoperation die Datei in einen separaten Puffer "
-"laden. (Benutzen Sie Meta-< und >, um zwischen den Dateipuffern "
-"umzuschalten.)\n"
-" Wenn Sie einen weiteren leeren Puffer benötigen, drücken Sie einfach die "
-"Eingabetaste, ohne einen Dateinamen einzugeben, oder geben Sie einen "
-"nichtexistierenden Dateinamen an.\n"
+" Wenn Sie nano mit Unterstützung für mehrere Dateipuffer compiliert haben und diese Funktion mit den Kommandozeilenoptionen -F oder --multibuffer, mit der Tastenkombination Meta-F oder mittels einer nanorc-Datei eingeschaltet haben, so wird die Einfügeoperation die Datei in einen separaten Puffer laden. (Benutzen Sie Meta-< und >, um zwischen den Dateipuffern umzuschalten.)\n"
+" Wenn Sie einen weiteren leeren Puffer benötigen, drücken Sie einfach die Eingabetaste, ohne einen Dateinamen einzugeben, oder geben Sie einen nichtexistierenden Dateinamen an.\n"
 "\n"
 " Die folgenden Funktionstasten sind im Datei-Einfügen-Modus verfügbar:\n"
 "\n"
@@ -1127,27 +1057,18 @@ msgstr ""
 msgid ""
 "Write File Help Text\n"
 "\n"
-" Type the name that you wish to save the current file as and hit enter to "
-"save the file.\n"
+" Type the name that you wish to save the current file as and hit enter to save the file.\n"
 "\n"
-" If you are using the marker code with Ctrl-^ and have selected text, you "
-"will be prompted to save only the selected portion to a separate file.  To "
-"reduce the chance of overwriting the current file with just a portion of it, "
-"the current filename is not the default in this mode.\n"
+" If you are using the marker code with Ctrl-^ and have selected text, you will be prompted to save only the selected portion to a separate file.  To reduce the chance of overwriting the current file with just a portion of it, the current filename is not the default in this mode.\n"
 "\n"
 " The following function keys are available in Write File mode:\n"
 "\n"
 msgstr ""
 "Hilfetext für »Datei schreiben«\n"
 "\n"
-" Geben Sie den Namen ein, unter dem Sie die momentane Datei speichern wollen "
-"und drücken Sie die Eingabetaste.\n"
+" Geben Sie den Namen ein, unter dem Sie die momentane Datei speichern wollen und drücken Sie die Eingabetaste.\n"
 "\n"
-" Wenn Sie eine Markierung mit Strg-^ benutzen und markierten Text haben, so "
-"werden Sie gefragt, ob Sie nur den ausgewählten Teil des Textes in eine "
-"separate Datei schreiben wollen. Um die Gefahr, eine Datei mit einem Teil "
-"von ihr zu überschreiben, zu minimieren, ist der aktuelle Dateiname in "
-"diesem Modus nicht die Vorgabe.\n"
+" Wenn Sie eine Markierung mit Strg-^ benutzen und markierten Text haben, so werden Sie gefragt, ob Sie nur den ausgewählten Teil des Textes in eine separate Datei schreiben wollen. Um die Gefahr, eine Datei mit einem Teil von ihr zu überschreiben, zu minimieren, ist der aktuelle Dateiname in diesem Modus nicht die Vorgabe.\n"
 "\n"
 " Die folgenden Funktionstasten sind im Datei-Schreiben-Modus verfügbar:\n"
 "\n"
@@ -1156,23 +1077,14 @@ msgstr ""
 msgid ""
 "File Browser Help Text\n"
 "\n"
-" The file browser is used to visually browse the directory structure to "
-"select a file for reading or writing.  You may use the arrow keys or Page Up/"
-"Down to browse through the files, and S or Enter to choose the selected file "
-"or enter the selected directory. To move up one level, select the directory "
-"called \"..\" at the top of the file list.\n"
+" The file browser is used to visually browse the directory structure to select a file for reading or writing.  You may use the arrow keys or Page Up/Down to browse through the files, and S or Enter to choose the selected file or enter the selected directory. To move up one level, select the directory called \"..\" at the top of the file list.\n"
 "\n"
 " The following functions keys are available in the file browser:\n"
 "\n"
 msgstr ""
 "Hilfetext für den Dateiwähler\n"
 "\n"
-" Mit dem Dateiwähler kann die Verzeichnisstruktur visuell durchsucht werden, "
-"um eine Datei für Lese- und Schreiboperationen auszuwählen. Sie können die "
-"Pfeiltasten oder Bild-Auf/Ab benutzen, um durch die Dateien zu blättern, und "
-"S oder die Eingabe, um die markierte Datei bzw. das markierte Verzeichnis "
-"auszuwählen. Um sich eine Ebene aufwärts zu bewegen, wählen Sie das "
-"Verzeichnis namens »..« ganz oben in der Dateiliste.\n"
+" Mit dem Dateiwähler kann die Verzeichnisstruktur visuell durchsucht werden, um eine Datei für Lese- und Schreiboperationen auszuwählen. Sie können die Pfeiltasten oder Bild-Auf/Ab benutzen, um durch die Dateien zu blättern, und S oder die Eingabe, um die markierte Datei bzw. das markierte Verzeichnis auszuwählen. Um sich eine Ebene aufwärts zu bewegen, wählen Sie das Verzeichnis namens »..« ganz oben in der Dateiliste.\n"
 "\n"
 " Die folgenden Funktionstasten sind im Dateiwähler verfügbar:\n"
 "\n"
@@ -1183,8 +1095,7 @@ msgid ""
 "\n"
 " Enter the name of the directory you would like to browse to.\n"
 "\n"
-" If tab completion has not been disabled, you can use the TAB key to "
-"(attempt to) automatically complete the directory name.\n"
+" If tab completion has not been disabled, you can use the TAB key to (attempt to) automatically complete the directory name.\n"
 "\n"
 "  The following function keys are available in Browser GotoDir mode:\n"
 "\n"
@@ -1193,60 +1104,44 @@ msgstr ""
 "\n"
 " Geben Sie den Namen des Verzeichnisses ein, das Sie durchsuchen wollen.\n"
 "\n"
-" Wenn Tabulator-Vervollständigung nicht abgeschaltet worden ist, so können "
-"Sie die Tabulator-Taste benutzen, um (zu versuchen) den Verzeichnisnamen "
-"automatisch vervollständigen zu lassen.\n"
+" Wenn Tabulator-Vervollständigung nicht abgeschaltet worden ist, so können Sie die Tabulator-Taste benutzen, um (zu versuchen) den Verzeichnisnamen automatisch vervollständigen zu lassen.\n"
 "\n"
-" Die folgenden Funktionstasten sind im Gehe-zu-Verzeichnis-Modus des "
-"Dateiwählers verfügbar:\n"
+" Die folgenden Funktionstasten sind im Gehe-zu-Verzeichnis-Modus des Dateiwählers verfügbar:\n"
 "\n"
 
 #: nano.c:2571
 msgid ""
 "Spell Check Help Text\n"
 "\n"
-" The spell checker checks the spelling of all text in the current file.  "
-"When an unknown word is encountered, it is highlighted and a replacement can "
-"be edited.  It will then prompt to replace every instance of the given "
-"misspelled word in the current file.\n"
+" The spell checker checks the spelling of all text in the current file.  When an unknown word is encountered, it is highlighted and a replacement can be edited.  It will then prompt to replace every instance of the given misspelled word in the current file.\n"
 "\n"
 " The following other functions are available in Spell Check mode:\n"
 "\n"
 msgstr ""
 "Hilfetext für die Rechtschreibprüfung\n"
 "\n"
-" Die Rechtschreibprüfung überprüft die Rechtschreibung des gesamten Texts "
-"der aktuellen Datei. Wenn ein unbekanntes Wort gefunden wird, wird es "
-"hervorgehoben und eine Ersetzung kann bearbeitet werden. Sie werden dann "
-"gefragt, ob Sie die vorgenommene Ersetzung in der ganzen Datei vornehmen "
-"lassen wollen.\n"
+" Die Rechtschreibprüfung überprüft die Rechtschreibung des gesamten Texts der aktuellen Datei. Wenn ein unbekanntes Wort gefunden wird, wird es hervorgehoben und eine Ersetzung kann bearbeitet werden. Sie werden dann gefragt, ob Sie die vorgenommene Ersetzung in der ganzen Datei vornehmen lassen wollen.\n"
 "\n"
-" Die folgenden weitern Funktionstasten sind in der Rechtschreibprüfung "
-"verfügbar:\n"
+" Die folgenden weitern Funktionstasten sind in der Rechtschreibprüfung verfügbar:\n"
 "\n"
 
 #: nano.c:2581
 msgid ""
 "External Command Help Text\n"
 "\n"
-" This menu allows you to insert the output of a command run by the shell "
-"into the current buffer (or a new buffer in multibuffer mode).\n"
+" This menu allows you to insert the output of a command run by the shell into the current buffer (or a new buffer in multibuffer mode).\n"
 "\n"
 " The following keys are available in this mode:\n"
 "\n"
 msgstr ""
 "Hilfetext für Externen Befehl\n"
-" Dieses Menü erlaubt es, die Ausgabe eines externen Befehls, der in der "
-"Shell ausgeführt wird, in den aktuellen Puffer einzufügen (oder in einen "
-"neuen Puffer wenn Unterstützung für mehrere Puffer aktiviert ist).\n"
-" Die folgenden weitern Funktionstasten sind in der Rechtschreibprüfung "
-"verfügbar:\n"
+" Dieses Menü erlaubt es, die Ausgabe eines externen Befehls, der in der Shell ausgeführt wird, in den aktuellen Puffer einzufügen (oder in einen neuen Puffer wenn Unterstützung für mehrere Puffer aktiviert ist).\n"
+" Die folgenden weitern Funktionstasten sind in der Rechtschreibprüfung verfügbar:\n"
 "\n"
 
 #: nano.c:2629 nano.c:2645
-#, fuzzy
 msgid "Space"
-msgstr "Ersetzen"
+msgstr "Lerrzeichen"
 
 #: nano.c:2684
 #, c-format
@@ -1263,9 +1158,7 @@ msgstr "deaktiviert"
 
 #: nano.c:2759
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
-msgstr ""
-"NumLock-Problem entdeckt.  Tastenblock funktioniert nicht, wenn NumLock "
-"ausgeschaltet ist"
+msgstr "NumLock-Problem entdeckt.  Tastenblock funktioniert nicht, wenn NumLock ausgeschaltet ist"
 
 #: nano.c:3077
 msgid "Main: set up windows\n"
@@ -1332,13 +1225,11 @@ msgstr ""
 
 #: rcfile.c:201 rcfile.c:327 rcfile.c:381
 msgid "regex strings must begin and end with a \" character\n"
-msgstr ""
-"Zeichenketten für reguläre Ausdrücke müssen mit \" anfangen und enden\n"
+msgstr "Zeichenketten für reguläre Ausdrücke müssen mit \" anfangen und enden\n"
 
 #: rcfile.c:210
-#, fuzzy
 msgid "Missing syntax name"
-msgstr "Fehlender Farbname"
+msgstr "Fehlender Syntaxname"
 
 #: rcfile.c:288
 msgid "Missing color name"
@@ -1346,7 +1237,7 @@ msgstr "Fehlender Farbname"
 
 #: rcfile.c:302
 msgid "Cannot add a color directive without a syntax line"
-msgstr ""
+msgstr "Kann keine Farbdirektive ohne eine Syntaxzeile hinzufügen"
 
 #: rcfile.c:373
 msgid ""
@@ -1406,7 +1297,7 @@ msgstr "Kann Datei ~/.nanorc nicht öffnen, %s"
 
 #: rcfile.c:573
 msgid "I can't find my home directory!  Wah!"
-msgstr ""
+msgstr "Kann mein Heimatverzeichnis nicht finden! Bäh!"
 
 #: search.c:131
 msgid "Search"
@@ -1555,11 +1446,11 @@ msgstr "Verändert"
 
 #: winio.c:570
 msgid "View"
-msgstr ""
+msgstr "Betrachten"
 
 #: winio.c:816
 msgid "Refusing 0 length regex match"
-msgstr ""
+msgstr "Musterüberdeckung der Länge 0 abgewiesen"
 
 #: winio.c:1321
 #, c-format
@@ -1611,8 +1502,7 @@ msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 #: winio.c:1680
 #, c-format
 msgid "line %d/%d (%.0f%%), col %ld/%ld (%.0f%%), char %ld/%ld (%.0f%%)"
-msgstr ""
-"Zeile %d/%d (%.0f%%), Spalte %ld/%ld (%.0f%%), Zeichen %ld/%ld (%.0f%%)"
+msgstr "Zeile %d/%d (%.0f%%), Spalte %ld/%ld (%.0f%%), Zeichen %ld/%ld (%.0f%%)"
 
 #: winio.c:1841
 msgid "Dumping file buffer to stderr...\n"
