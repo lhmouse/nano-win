@@ -3,7 +3,11 @@ since last release (CVS Only) - 06/06/2000
         - Rewrite of display functions to correct the display problems 
 	  we had been seeing. Affects: add_marked_sameline, edit_add,
 	  and many others. (Rob Siemborski)
-	  
+- cut.c
+	- totsize fixes (Rob Siemborski)
+- nano.c
+	- totsize fixes (Rob Siemborski)
+	- experimental do_wrap and check_wrap (Adam Rogoyski)
 
 nano-0.9.10 - 06/04/2000
 - es.po:
