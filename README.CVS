@@ -9,7 +9,7 @@ following packages:
 
 - autoconf (version >= 2.52)
 - automake (version >= 1.5-pl5, 1.6.x recommended)
-- gettext (version 0.10.40, >= 0.11 recommended)
+- gettext (version >= 0.11)
 - texinfo
 - cvs
 - glib (if your system doesn't have snprintf() and/or vsnprintf())
@@ -26,7 +26,7 @@ and the nano tree will download.
 If you want to checkout the stable CVS branch, append -r nano_1_0_branch:
 $ cvs -z3 -d:pserver:anonymous@subversions.gnu.org:/cvsroot/nano checkout -r nano_1_0_branch nano
 
-One you have the sources in the "nano" directory, cd into it, and execute
+Once you have the sources in the "nano" directory, cd into it, and execute
 the "autogen.sh" script in the top dir. This will setup a configure script
 and Makefile.in, and you will be ready to compile with
 $ ./configure [--add-options-here] && make
