@@ -40,7 +40,7 @@ extern int search_last_line;
 extern int currslen;
 
 #ifndef DISABLE_JUSTIFY
-char *quotestr;
+extern char *quotestr;
 #endif
 
 extern WINDOW *edit, *topwin, *bottomwin;
@@ -65,7 +65,7 @@ extern filestruct *open_files;
 #endif
 
 #ifdef ENABLE_COLOR
-colortype *colorstrings;
+extern colortype *colorstrings;
 #endif
 
 extern shortcut *shortcut_list;

@@ -145,6 +145,9 @@ int search_init(int replacing)
 	replacing ? _(" (to replace)") : "",
 	buf);
 
+    /* Release buf now that we don't need it anymore */
+    free(buf);
+
     /* Cancel any search, or just return with no previous search */
     if ((i == -1) || (i < 0 && !last_search[0])) {
 	statusbar(_("Search Cancelled"));

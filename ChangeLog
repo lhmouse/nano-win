@@ -16,10 +16,15 @@ CVS code -
 	  New function print1opt does most of the dirty work, stops
 	  duplication of effort and eases translator's jobs.  Also
 	  breaks all the current translations ;-)
+- proto.h:
+	- Missing externs (Rocco).
 - rcfile.c:
   parse_rcfile()
 	- Don't use i for both for loop and atoi(), fixes lots of 
 	  potential crashes, 1st reported by Jean-Philippe Guérard.
+- search.c:
+  search_init()
+	- Fix a missing free (Rocco).
 - utils.c:
   stristr() - Defined regardless of NANO_SMALL (noticed by Jordi).
 - po/sv.po:
