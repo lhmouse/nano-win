@@ -1860,6 +1860,7 @@ int do_int_speller(char *tempfile_name)
 
     free(read_buff);
     replace_abort();
+    edit_update(current, current_x);
 
     /* Process end of spell process */
 
