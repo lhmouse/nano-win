@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.7\n"
-"POT-Creation-Date: 2002-05-12 19:29-0400\n"
+"POT-Creation-Date: 2002-05-26 01:57+0200\n"
 "PO-Revision-Date: 2002-03-15 11:42+0200\n"
 "Last-Translator: Wojciech Kotwica <wkotwica@post.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -48,7 +48,6 @@ msgstr "Wczytano %d linii (przekonwertowane z formatu DOS)"
 msgid "\"%s\" not found"
 msgstr "Nie znaleziono \"%s\""
 
-#. We have a new file
 #: files.c:299
 msgid "New File"
 msgstr "Nowy plik"
@@ -58,7 +57,6 @@ msgstr "Nowy plik"
 msgid "File \"%s\" is a directory"
 msgstr "Plik \"%s\" jest katalogiem"
 
-#. Don't open character or block files.  Sorry, /dev/sndstat!
 #: files.c:315
 #, c-format
 msgid "File \"%s\" is a device file"
@@ -140,7 +138,6 @@ msgstr "Nie mo¿na zamkn±æ %s: %s"
 msgid "Could not open %s for prepend: %s"
 msgstr "Nie mo¿na otworzyæ %s do zapisu: %s"
 
-#. Try a rename??
 #: files.c:1465 files.c:1474 files.c:1479
 #, c-format
 msgid "Could not open %s for writing: %s"
@@ -206,7 +203,6 @@ msgstr "Nie mo¿na przej¶æ katalog wy¿ej"
 msgid "Can't visit parent in restricted mode"
 msgstr "W trybie ograniczonym nie mo¿na odwiedziæ katalogu nadrzêdnego"
 
-#. We can't open this dir for some reason.  Complain
 #: files.c:2474 files.c:2533
 #, c-format
 msgid "Can't open \"%s\": %s"
@@ -462,9 +458,9 @@ msgstr "Otwórz poprzednio wczytany plik"
 msgid "Open next loaded file"
 msgstr "Otwórz nastêpny wczytany plik"
 
-#: global.c:400 global.c:576 global.c:618 global.c:660 global.c:678
-#: global.c:710 global.c:746 global.c:767 global.c:778 global.c:791
-#: global.c:813
+#: global.c:400 global.c:574 global.c:608 global.c:641 global.c:655
+#: global.c:683 global.c:710 global.c:727 global.c:736 global.c:747
+#: global.c:767
 msgid "Get Help"
 msgstr "Pomoc"
 
@@ -472,7 +468,7 @@ msgstr "Pomoc"
 msgid "Close"
 msgstr "Zamknij"
 
-#: global.c:411 global.c:703 global.c:794
+#: global.c:411 global.c:677 global.c:750
 msgid "Exit"
 msgstr "Wyjd¼"
 
@@ -480,16 +476,15 @@ msgstr "Wyjd¼"
 msgid "WriteOut"
 msgstr "Zapisz"
 
-#: global.c:420 global.c:537
+#: global.c:420 global.c:536
 msgid "Justify"
 msgstr "Wyjustuj"
 
-#. this is so we can view multiple files
 #: global.c:427 global.c:431 global.c:440 global.c:444
 msgid "Read File"
 msgstr "Wczytaj plik"
 
-#: global.c:450 global.c:533 global.c:591
+#: global.c:450 global.c:532 global.c:587
 msgid "Replace"
 msgstr "Zast±p"
 
@@ -497,11 +492,11 @@ msgstr "Zast±p"
 msgid "Where Is"
 msgstr "Wyszukaj"
 
-#: global.c:458 global.c:695 global.c:798
+#: global.c:458 global.c:669 global.c:753
 msgid "Prev Page"
 msgstr "Poprz.str."
 
-#: global.c:462 global.c:699 global.c:802
+#: global.c:462 global.c:673 global.c:757
 msgid "Next Page"
 msgstr "Nast.str."
 
@@ -569,99 +564,99 @@ msgstr "Backspace"
 msgid "Tab"
 msgstr "Tab"
 
-#: global.c:541
+#: global.c:540
 msgid "Enter"
 msgstr "Enter"
 
-#: global.c:545 global.c:595 global.c:638
+#: global.c:544 global.c:590 global.c:623
 msgid "Goto Line"
 msgstr "Przejd¼ do linii"
 
-#: global.c:550
+#: global.c:549
 msgid "Find Other Bracket"
 msgstr "Znajd¼ nawias do pary"
 
-#: global.c:556
+#: global.c:555
 msgid "Previous File"
 msgstr "Poprzedni plik"
 
-#: global.c:559
+#: global.c:558
 msgid "Next File"
 msgstr "Nastêpny plik"
 
-#: global.c:565
+#: global.c:564
 msgid "Next Word"
 msgstr ""
 
-#: global.c:566
+#: global.c:565
 #, fuzzy
 msgid "Move forward one word"
 msgstr "Przejd¼ o znak do przodu"
 
-#: global.c:568
+#: global.c:567
 msgid "Prev Word"
 msgstr ""
 
-#: global.c:569
+#: global.c:568
 #, fuzzy
 msgid "Move backward one word"
 msgstr "Przejd¼ o znak wstecz"
 
-#: global.c:580 global.c:622 global.c:664 global.c:681 global.c:740
-#: global.c:749 global.c:770 global.c:781 global.c:816 winio.c:1463
+#: global.c:577 global.c:611 global.c:644 global.c:658 global.c:705
+#: global.c:713 global.c:730 global.c:739 global.c:770 winio.c:1463
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: global.c:583 global.c:625 global.c:667 global.c:685
+#: global.c:580 global.c:614 global.c:647 global.c:661
 msgid "First Line"
 msgstr "Pierw.lin."
 
-#: global.c:587 global.c:629 global.c:671 global.c:689
+#: global.c:584 global.c:617 global.c:650 global.c:664
 msgid "Last Line"
 msgstr "Ost.lin."
 
-#: global.c:600 global.c:642
+#: global.c:594 global.c:627
 msgid "Case Sens"
 msgstr "Wielk.liter"
 
-#: global.c:604 global.c:646
+#: global.c:597 global.c:630
 msgid "Direction"
 msgstr "Kierunek"
 
-#: global.c:610 global.c:652
+#: global.c:601 global.c:634
 msgid "Regexp"
 msgstr "Wyr.reg."
 
-#: global.c:633
+#: global.c:620
 msgid "No Replace"
 msgstr "Nie zast."
 
-#: global.c:714 global.c:754
+#: global.c:687 global.c:717
 msgid "To Files"
 msgstr "Pliki"
 
-#: global.c:721
+#: global.c:692
 msgid "DOS Format"
 msgstr "Format DOS"
 
-#: global.c:725
+#: global.c:695
 msgid "Mac Format"
 msgstr "Format Mac"
 
-#: global.c:730
+#: global.c:699
 msgid "Append"
 msgstr "Dopisz"
 
-#: global.c:735
+#: global.c:702
 #, fuzzy
 msgid "Prepend"
 msgstr "Dopisz"
 
-#: global.c:759
+#: global.c:721
 msgid "Execute Command"
 msgstr ""
 
-#: global.c:806
+#: global.c:761
 msgid "Goto"
 msgstr "Przejd¼ do"
 
@@ -987,7 +982,6 @@ msgstr "current->data teraz = \"%s\"\n"
 msgid "After, data = \"%s\"\n"
 msgstr "Po,  data = \"%s\"\n"
 
-#. allow replace word to be corrected
 #: nano.c:1409
 msgid "Edit a replacement"
 msgstr "Edytuj zast±pienie"
@@ -1421,20 +1415,14 @@ msgstr ""
 msgid "Search"
 msgstr "Szukaj"
 
-#. This string is just a modifier for the search prompt,
-#. no grammar is implied
 #: search.c:135
 msgid " [Case Sensitive]"
 msgstr " [Uwzgl.wielk.liter]"
 
-#. This string is just a modifier for the search prompt,
-#. no grammar is implied
 #: search.c:139
 msgid " [Regexp]"
 msgstr " [Wyr.reg.]"
 
-#. This string is just a modifier for the search prompt,
-#. no grammar is implied
 #: search.c:143
 msgid " [Backwards]"
 msgstr " [Wstecz]"
@@ -1506,7 +1494,6 @@ msgstr "Cz³owieku, wiêcej rozs±dku"
 msgid "Not a bracket"
 msgstr "To nie nawias"
 
-#. didn't find either left or right bracket
 #: search.c:936
 msgid "No matching bracket"
 msgstr "Brak nawiasu do pary"
@@ -1585,9 +1572,6 @@ msgstr "current->data = \"%s\"\n"
 msgid "I got \"%s\"\n"
 msgstr "Dosta³em \"%s\"\n"
 
-#. Yes, no and all are strings of any length.  Each string consists of
-#. all characters accepted as a valid character for that value.
-#. The first value will be the one displayed in the shortcuts.
 #: winio.c:1434
 msgid "Yy"
 msgstr "Tt"

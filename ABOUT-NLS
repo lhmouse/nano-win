@@ -113,6 +113,13 @@ But in fact, some languages have dialects in different countries.  For
 example, `de_AT' is used for Austria, and `pt_BR' for Brazil.  The
 country code serves to distinguish the dialects.
 
+   The locale naming convention of `LL_CC', with `LL' denoting the
+language and `CC' denoting the country, is the one use on systems based
+on GNU libc.  On other systems, some variations of this scheme are
+used, such as `LL' or `LL_CC.ENCODING'.  You can get the list of
+locales supported by your system for your country by running the command
+`locale -a | grep '^LL''.
+
    Not all programs have translations for all languages.  By default, an
 English message is shown in place of a nonexistent translation.  If you
 understand other languages, you can set up a priority list of languages.
@@ -164,128 +171,202 @@ Available Packages
 ==================
 
    Languages are not equally supported in all packages.  The following
-matrix shows the current state of internationalization, as of September
-2001.  The matrix shows, in regard of each package, for which languages
+matrix shows the current state of internationalization, as of April
+2002.  The matrix shows, in regard of each package, for which languages
 PO files have been submitted to translation coordination, with a
 translation percentage of at least 50%.
 
-     Ready PO files    bg cs da de el en eo es et fi fr gl he hr id it ja
-                     +----------------------------------------------------+
-     a2ps            |          []             []    []                   |
-     bash            |          []       [] []       []                   |
-     bfd             |                                                    |
-     binutils        |                               []                   |
-     bison           |          []          [] []    []                [] |
-     clisp           |          []    []    []       []                   |
-     cpio            |       [] []          []       [] []                |
-     diffutils       |       [] []       [] []       [] []       []       |
-     enscript        |          []                   []                   |
-     error           |                      []       []                   |
-     fetchmail       |                                                    |
-     fileutils       |    [] [] [] []       []       [] []             [] |
-     findutils       |       [] []          [] []    [] []       [] []    |
-     flex            |       []             []       []                   |
-     freetype        |                                                    |
-     gas             |                                                    |
-     gawk            |                               []    []             |
-     gcal            |                                                    |
-     gcc             |                                                    |
-     gettext         |    [] [] [] []       []       [] []       [] [] [] |
-     gnupg           |          []       []    []    [] []          [] [] |
-     gprof           |                                                    |
-     grep            |    []    []       [] [] []    [] []          []    |
-     hello           |       [] [] []    [] [] [] [] [] []          [] [] |
-     id-utils        |       [] []                   []                   |
-     indent          |       [] []             []    [] []                |
-     jpilot          |                               []                   |
-     kbd             |                                                    |
-     ld              |                               []                   |
-     libc            |    [] [] [] []       []       [] []             [] |
-     lilypond        |                                                 [] |
-     lynx            |    [] [] []                                     [] |
-     m4              |    [] [] [] []                [] []       []    [] |
-     make            |       [] []          []       [] []             [] |
-     mysecretdiary   |          []                                        |
-     nano            |                      []          []       []       |
-     opcodes         |                                                    |
-     parted          |          []                      []             [] |
-     ptx             |       [] []          [] []    [] []       []       |
-     python          |                                                    |
-     recode          |       [] [] []    [] []       [] [] []       []    |
-     sed             |    [] [] [] []    []    []    [] [] []    [] [] [] |
-     sh-utils        |    [] [] [] []       [] []    [] []          [] [] |
-     sharutils       |    [] [] [] []       []       [] []             [] |
-     sketch          |                                                    |
-     soundtracker    |          []          []          []                |
-     sp              |                                                    |
-     tar             |    [] [] []          [] []    []             [] [] |
-     texinfo         |    [] [] []       []          []                [] |
-     textutils       |    [] [] [] []       []       [] []             [] |
-     util-linux      |    [] []                                           |
-     wdiff           |       [] []             []                         |
-     wget            |    [] [] [] []       [] []    [] [] []          [] |
-                     +----------------------------------------------------+
-                       bg cs da de el en eo es et fi fr gl he hr id it ja
-                        0 14 24 32 11  1  8 23 13  1 33 22  4  0  7  9 18
+     Ready PO files    bg ca cs da de el en eo es et fi fr
+                     +-------------------------------------+
+     a2ps            |          [] []             []    [] |
+     bash            |             []       [] []       [] |
+     bfd             |                         []       [] |
+     binutils        |                         []       [] |
+     bison           |             []          [] []    [] |
+     clisp           |             []    []    []       [] |
+     cpio            |          [] []          []       [] |
+     diffutils       |       [] [] []       [] []       [] |
+     enscript        |             []                   [] |
+     error           |                         []       [] |
+     fetchmail       |    [] () [] []          []       () |
+     fileutils       |          [] []          [] []    [] |
+     findutils       |          [] []          [] []    [] |
+     flex            |    []    [] []          []       [] |
+     gas             |                         []       [] |
+     gawk            |             []          []       [] |
+     gcal            |    []                            [] |
+     gcc             |                         []       [] |
+     gettext         |    []    [] []          []       [] |
+     gnupg           |             [] []    [] [] []    [] |
+     gprof           |                         []       [] |
+     gpsdrive        |          () ()    ()    ()       () |
+     grep            | [] []       [] []       [] []    [] |
+     gretl           |                                     |
+     hello           |          [] [] []    [] [] [] [] [] |
+     id-utils        |          [] []                   [] |
+     indent          |    []       []       []    []    [] |
+     jpilot          |       () [] []                   [] |
+     jwhois          |                         []       [] |
+     kbd             |                         []       [] |
+     ld              |                         []       [] |
+     libc            |    [] [] [] [] []       []       [] |
+     lilypond        |          []                      [] |
+     lynx            |       [] [] []             []       |
+     m4              |       [] [] [] []                [] |
+     make            |          [] []          []       [] |
+     mysecretdiary   |             []                   [] |
+     nano            |    [] () [] []          []       [] |
+     nano_1_0        |    [] () [] []          []       [] |
+     opcodes         |          []             []       [] |
+     parted          |    []    [] []          []       [] |
+     ptx             |          [] []          [] []    [] |
+     python          |                                     |
+     recode          |          [] [] []    [] []       [] |
+     sed             |       [] [] [] []    [] [] []    [] |
+     sh-utils        |    [] [] [] [] []       [] []    [] |
+     sharutils       |       [] [] [] []       []       [] |
+     sketch          |             ()          []       () |
+     soundtracker    |             []          []       [] |
+     sp              |             []                      |
+     tar             |       [] [] []          [] []    [] |
+     texinfo         |       [] [] []       []          [] |
+     textutils       |    []    [] []          []       [] |
+     util-linux      |       [] [] []          [] []    [] |
+     vorbis-tools    |                                     |
+     wastesedge      |                                     |
+     wdiff           |    []    [] []          [] []    [] |
+     wget            | [] [] [] [] [] []       [] []    [] |
+                     +-------------------------------------+
+                       bg ca cs da de el en eo es et fi fr
+                        2 14 11 31 40 10  1  8 41 16  1 50
      
-                       ko lv nb nl nn no pl pt pt_BR ru sk sl sv tr uk zh
-                     +----------------------------------------------------+
-     a2ps            |          []                   []    []             |  6
-     bash            |                                                    |  4
-     bfd             |                                                    |  0
-     binutils        |                                                    |  1
-     bison           |                               []                   |  6
-     clisp           |          []                                        |  5
-     cpio            | []       []       []     []   []                   | 10
-     diffutils       |                   []          []       [] []       | 11
-     enscript        |          []              []   []                   |  5
-     error           |                                  []       []       |  4
-     fetchmail       |                                                    |  0
-     fileutils       | []       []       []     []   [] [] [] [] []       | 17
-     findutils       | []       []       []     []   []    [] [] []       | 16
-     flex            | []                            []       []          |  6
-     freetype        |                                                    |  0
-     gas             |                                                    |  0
-     gawk            |                                           []       |  3
-     gcal            |                                                    |  0
-     gcc             |                                                    |  0
-     gettext         | []                []     []   []    [] [] []    [] | 18
-     gnupg           |                   []                   [] []       | 10
-     gprof           |                                                    |  0
-     grep            |                   []                [] [] []       | 12
-     hello           | [] [] [] []    [] []          [] []    [] [] []    | 22
-     id-utils        |          []                   []       []          |  6
-     indent          | []       []       []          [] []    [] []       | 12
-     jpilot          |                                                    |  1
-     kbd             |                                           []       |  1
-     ld              |                                                    |  1
-     libc            | []    []       [] []     []      []    [] []       | 16
-     lilypond        |          []                            []          |  3
-     lynx            |          []              []   []       []          |  8
-     m4              |          []       []          []       []          | 12
-     make            | []       []       []     []   []          []       | 12
-     mysecretdiary   |                                                    |  1
-     nano            |                                        []          |  4
-     opcodes         |                                           []       |  1
-     parted          |          []                   []                   |  5
-     ptx             |       [] []    [] [] []       []       [] []       | 15
-     python          |                                                    |  0
-     recode          |                   []          []    [] []          | 13
-     sed             |          []              []   [] [] [] [] []       | 19
-     sh-utils        |       [] []    [] []     []   [] [] [] [] []    [] | 21
-     sharutils       |          []                   []       []          | 11
-     sketch          |                                                    |  0
-     soundtracker    |                                                    |  3
-     sp              |                                                    |  0
-     tar             |       []       [] []     []         [] [] []       | 15
-     texinfo         |                               []                   |  7
-     textutils       |       [] []    [] []     []   [] [] []             | 16
-     util-linux      |                          []               []       |  4
-     wdiff           |                               [] []    [] []       |  7
-     wget            |          []                   [] [] [] [] [] []    | 17
-                     +----------------------------------------------------+
-       33 teams        ko lv nb nl nn no pl pt pt_BR ru sk sl sv tr uk zh
-       53 domains       9  1  6 20  0  6 17  1  13   25 10 11 23 21  2  2  387
+                       gl he hr hu id it ja ko lv nb nl nn
+                     +-------------------------------------+
+     a2ps            |                ()    ()       []    |
+     bash            |                                     |
+     bfd             |                   []                |
+     binutils        |                   []                |
+     bison           |                   []          []    |
+     clisp           |                               []    |
+     cpio            | []                   []       []    |
+     diffutils       | [] []       []    []                |
+     enscript        |       []                      []    |
+     error           |          []                         |
+     fetchmail       |                   []                |
+     fileutils       |          []    [] []                |
+     findutils       | []    []    [] [] [] []       []    |
+     flex            |                      []             |
+     gas             |                                     |
+     gawk            |    []                               |
+     gcal            |                                     |
+     gcc             |                                     |
+     gettext         |                   [] []             |
+     gnupg           | []          [] [] []                |
+     gprof           |                                     |
+     gpsdrive        |                ()             ()    |
+     grep            | [] [] []    [] [] []                |
+     gretl           |                                     |
+     hello           | [] [] [] [] [] [] [] [] [] [] [] [] |
+     id-utils        |                               []    |
+     indent          | []                []          []    |
+     jpilot          |                   ()          ()    |
+     jwhois          |             []                      |
+     kbd             |                                     |
+     ld              |                                     |
+     libc            | []                [] []    []       |
+     lilypond        |                   []          []    |
+     lynx            |                [] []          []    |
+     m4              | []          []    []          []    |
+     make            | [] [] []          [] []       []    |
+     mysecretdiary   |                                     |
+     nano            | []          [] [] ()       [] [] [] |
+     nano_1_0        | []          [] [] ()       []    [] |
+     opcodes         |                               []    |
+     parted          | []                []             [] |
+     ptx             | []          []             [] []    |
+     python          |                                     |
+     recode          | [] []          []                   |
+     sed             | [] []       [] [] [] []       []    |
+     sh-utils        | []             [] []       [] []    |
+     sharutils       | []                []          []    |
+     sketch          |                ()                   |
+     soundtracker    | []                                  |
+     sp              |                                     |
+     tar             | []    []       [] []       []       |
+     texinfo         |    [] []          []                |
+     textutils       | []                   []    []       |
+     util-linux      |                () []                |
+     vorbis-tools    |                                     |
+     wastesedge      |                                     |
+     wdiff           | []          []                      |
+     wget            | [] [] [] []       []          []    |
+                     +-------------------------------------+
+                       gl he hr hu id it ja ko lv nb nl nn
+                       23  9  8  4 12 12 25  9  1  8 20  4
+     
+                       no pl pt pt_BR ru sk sl sv tr uk zh_TW
+                     +----------------------------------------+
+     a2ps            | () () ()  []   []    [] [] ()          |  9
+     bash            |                                        |  4
+     bfd             |                         [] []          |  5
+     binutils        |                            []          |  4
+     bison           |                []       [] []          |  9
+     clisp           |                                        |  5
+     cpio            |    []     []   []       []             | 11
+     diffutils       |    []     []   []       [] []     []   | 16
+     enscript        |           []   []       []             |  7
+     error           |                   []       []     []   |  6
+     fetchmail       |    ()     ()               []          |  6
+     fileutils       |                []    [] [] []     []   | 13
+     findutils       |    []     []   [] [] [] [] []          | 19
+     flex            |                []       [] []          |  9
+     gas             |                            []          |  3
+     gawk            |                         [] []          |  6
+     gcal            |                         [] []          |  4
+     gcc             |                            []          |  3
+     gettext         |                [] [] [] [] []     []   | 13
+     gnupg           |    []                   [] []          | 13
+     gprof           |                         [] []          |  4
+     gpsdrive        |                            ()          |  0
+     grep            |    []          []    []    []          | 17
+     gretl           |                                        |  0
+     hello           | [] []          [] []    [] [] []       | 27
+     id-utils        |                []       []             |  6
+     indent          |                [] []    [] []          | 12
+     jpilot          | ()                      () []          |  4
+     jwhois          |                ()       () []     []   |  5
+     kbd             |                         [] []          |  4
+     ld              |                         [] []          |  4
+     libc            | [] []     []      []    [] []          | 17
+     lilypond        |                         []             |  5
+     lynx            |           []   []       []             | 10
+     m4              |    []          []       []             | 12
+     make            |    []     []   []          []          | 14
+     mysecretdiary   |                         [] []          |  4
+     nano            | () []          []       []    []       | 15
+     nano_1_0        | () []          []       []    []       | 14
+     opcodes         |                         [] []          |  6
+     parted          |       []  []            []             | 11
+     ptx             | [] [] []       []       [] []          | 15
+     python          |                                        |  0
+     recode          |    []          []    [] []             | 13
+     sed             |           []   [] [] [] [] []          | 21
+     sh-utils        | [] []     []   [] [] [] [] []     []   | 22
+     sharutils       |                []       [] []     []   | 13
+     sketch          |           []   ()                      |  3
+     soundtracker    |                         []             |  5
+     sp              |                                        |  1
+     tar             | [] []     []      [] [] [] []          | 18
+     texinfo         |                []       []             | 10
+     textutils       |                []    [] [] []     []   | 13
+     util-linux      |           []            [] []          | 10
+     vorbis-tools    |                         []             |  1
+     wastesedge      |                                        |  0
+     wdiff           |                [] []    [] []          | 12
+     wget            |    []          [] [] [] [] [] []  []   | 23
+                     +----------------------------------------+
+       35 teams        no pl pt pt_BR ru sk sl sv tr uk zh_TW
+       58 domains       5 16  2  14   27 11 11 41 36  4   9    536
 
    Some counters in the preceding matrix are higher than the number of
 visible blocks let us expect.  This is because a few extra PO files are
@@ -298,9 +379,9 @@ distributed as such by its maintainer.  There might be an observable
 lag between the mere existence a PO file and its wide availability in a
 distribution.
 
-   If September 2001 seems to be old, you may fetch a more recent copy
-of this `ABOUT-NLS' file on most GNU archive sites.  The most
-up-to-date matrix with full percentage details can be found at
+   If April 2002 seems to be old, you may fetch a more recent copy of
+this `ABOUT-NLS' file on most GNU archive sites.  The most up-to-date
+matrix with full percentage details can be found at
 `http://www.iro.umontreal.ca/contrib/po/HTML/matrix.html'.
 
 Using `gettext' in new packages

@@ -1,6 +1,8 @@
 CVS Code -
 - General:
 	- Translation updates (see po/ChangeLog for details).
+	- Upgraded to gettext 0.11.2.
+	  Removed intl/ entirely, and a few more tweaks by gettextize.
 - global.c:
   shortcut_init()
 	- Rework IFHELP macro (David Benbennick).

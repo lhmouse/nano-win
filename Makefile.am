@@ -24,10 +24,13 @@ info_TEXINFOS = nano.texi
 MAKEINFO = makeinfo --no-split
 
 EXTRA_DIST =	ABOUT-NLS AUTHORS BUGS COPYING ChangeLog INSTALL NEWS \
-		README THANKS TODO install-sh missing mkinstalldirs \
-		nano.1 nano.1.html faq.html nanorc.sample nano.spec
+		README THANKS TODO config.rpath install-sh missing \
+		mkinstalldirs nano.1 nano.1.html faq.html nanorc.sample \
+		nano.spec
 
-SUBDIRS = po intl m4
+SUBDIRS = po m4
 
 localedir = $(datadir)/locale
 INCLUDES = -Iintl -DLOCALEDIR=\"$(localedir)\" -I@includedir@
+
+ACLOCAL_AMFLAGS = -I m4

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.8\n"
-"POT-Creation-Date: 2002-05-12 19:29-0400\n"
+"POT-Creation-Date: 2002-05-26 01:57+0200\n"
 "PO-Revision-Date: 2002-04-18 11:10+0300\n"
 "Last-Translator: Sergey A. Ribalchenko <fisher@obu.ck.ua>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -46,7 +46,6 @@ msgstr "Прочитано %d строк (конвертировано из формата DOS)"
 msgid "\"%s\" not found"
 msgstr "\"%s\" не найден"
 
-#. We have a new file
 #: files.c:299
 msgid "New File"
 msgstr "Новый Файл"
@@ -56,7 +55,6 @@ msgstr "Новый Файл"
 msgid "File \"%s\" is a directory"
 msgstr "Файл \"%s\" - это директория"
 
-#. Don't open character or block files.  Sorry, /dev/sndstat!
 #: files.c:315
 #, c-format
 msgid "File \"%s\" is a device file"
@@ -138,7 +136,6 @@ msgstr "Не могу закрыть %s: %s"
 msgid "Could not open %s for prepend: %s"
 msgstr "Не могу открыть %s на запись: %s"
 
-#. Try a rename??
 #: files.c:1465 files.c:1474 files.c:1479
 #, c-format
 msgid "Could not open %s for writing: %s"
@@ -204,7 +201,6 @@ msgstr "Не могу переместить директорию"
 msgid "Can't visit parent in restricted mode"
 msgstr "Не могу посетить предка в ограниченном режиме"
 
-#. We can't open this dir for some reason.  Complain
 #: files.c:2474 files.c:2533
 #, c-format
 msgid "Can't open \"%s\": %s"
@@ -460,9 +456,9 @@ msgstr "Открыть предыдущий файл"
 msgid "Open next loaded file"
 msgstr "Открыть следующий файл"
 
-#: global.c:400 global.c:576 global.c:618 global.c:660 global.c:678
-#: global.c:710 global.c:746 global.c:767 global.c:778 global.c:791
-#: global.c:813
+#: global.c:400 global.c:574 global.c:608 global.c:641 global.c:655
+#: global.c:683 global.c:710 global.c:727 global.c:736 global.c:747
+#: global.c:767
 msgid "Get Help"
 msgstr "Помощь"
 
@@ -470,7 +466,7 @@ msgstr "Помощь"
 msgid "Close"
 msgstr "Закрыть"
 
-#: global.c:411 global.c:703 global.c:794
+#: global.c:411 global.c:677 global.c:750
 msgid "Exit"
 msgstr "Выход"
 
@@ -478,16 +474,15 @@ msgstr "Выход"
 msgid "WriteOut"
 msgstr "Записать"
 
-#: global.c:420 global.c:537
+#: global.c:420 global.c:536
 msgid "Justify"
 msgstr "Выровнять"
 
-#. this is so we can view multiple files
 #: global.c:427 global.c:431 global.c:440 global.c:444
 msgid "Read File"
 msgstr "ЧитатьФайл"
 
-#: global.c:450 global.c:533 global.c:591
+#: global.c:450 global.c:532 global.c:587
 msgid "Replace"
 msgstr "Замена"
 
@@ -495,11 +490,11 @@ msgstr "Замена"
 msgid "Where Is"
 msgstr "Поиск"
 
-#: global.c:458 global.c:695 global.c:798
+#: global.c:458 global.c:669 global.c:753
 msgid "Prev Page"
 msgstr "Пред Cтр"
 
-#: global.c:462 global.c:699 global.c:802
+#: global.c:462 global.c:673 global.c:757
 msgid "Next Page"
 msgstr "След Cтр"
 
@@ -567,99 +562,99 @@ msgstr "Забой (BS)"
 msgid "Tab"
 msgstr "Табуляция"
 
-#: global.c:541
+#: global.c:540
 msgid "Enter"
 msgstr "Enter"
 
-#: global.c:545 global.c:595 global.c:638
+#: global.c:544 global.c:590 global.c:623
 msgid "Goto Line"
 msgstr "К строке"
 
-#: global.c:550
+#: global.c:549
 msgid "Find Other Bracket"
 msgstr "Найти Другую Скобку"
 
-#: global.c:556
+#: global.c:555
 msgid "Previous File"
 msgstr "Предыдущий Файл"
 
-#: global.c:559
+#: global.c:558
 msgid "Next File"
 msgstr "Следующий Файл"
 
-#: global.c:565
+#: global.c:564
 msgid "Next Word"
 msgstr ""
 
-#: global.c:566
+#: global.c:565
 #, fuzzy
 msgid "Move forward one word"
 msgstr "Вперед на один символ"
 
-#: global.c:568
+#: global.c:567
 msgid "Prev Word"
 msgstr ""
 
-#: global.c:569
+#: global.c:568
 #, fuzzy
 msgid "Move backward one word"
 msgstr "Назад на один символ"
 
-#: global.c:580 global.c:622 global.c:664 global.c:681 global.c:740
-#: global.c:749 global.c:770 global.c:781 global.c:816 winio.c:1463
+#: global.c:577 global.c:611 global.c:644 global.c:658 global.c:705
+#: global.c:713 global.c:730 global.c:739 global.c:770 winio.c:1463
 msgid "Cancel"
 msgstr "Отменить"
 
-#: global.c:583 global.c:625 global.c:667 global.c:685
+#: global.c:580 global.c:614 global.c:647 global.c:661
 msgid "First Line"
 msgstr "ПервСтрока"
 
-#: global.c:587 global.c:629 global.c:671 global.c:689
+#: global.c:584 global.c:617 global.c:650 global.c:664
 msgid "Last Line"
 msgstr "ПослСтрока"
 
-#: global.c:600 global.c:642
+#: global.c:594 global.c:627
 msgid "Case Sens"
 msgstr "РегЗависим"
 
-#: global.c:604 global.c:646
+#: global.c:597 global.c:630
 msgid "Direction"
 msgstr "Направление"
 
-#: global.c:610 global.c:652
+#: global.c:601 global.c:634
 msgid "Regexp"
 msgstr "ФормВыр"
 
-#: global.c:633
+#: global.c:620
 msgid "No Replace"
 msgstr "НеЗамещать"
 
-#: global.c:714 global.c:754
+#: global.c:687 global.c:717
 msgid "To Files"
 msgstr "К Файлам"
 
-#: global.c:721
+#: global.c:692
 msgid "DOS Format"
 msgstr "формат DOS"
 
-#: global.c:725
+#: global.c:695
 msgid "Mac Format"
 msgstr "формат Mac"
 
-#: global.c:730
+#: global.c:699
 msgid "Append"
 msgstr "Добавить"
 
-#: global.c:735
+#: global.c:702
 #, fuzzy
 msgid "Prepend"
 msgstr "Добавить"
 
-#: global.c:759
+#: global.c:721
 msgid "Execute Command"
 msgstr "Выполнить команду"
 
-#: global.c:806
+#: global.c:761
 msgid "Goto"
 msgstr "Перейти К.."
 
@@ -964,7 +959,6 @@ msgstr "current->data сейчас = \"%s\"\n"
 msgid "After, data = \"%s\"\n"
 msgstr "После, data = \"%s\"\n"
 
-#. allow replace word to be corrected
 #: nano.c:1409
 msgid "Edit a replacement"
 msgstr "Редактировать замену"
@@ -1402,20 +1396,14 @@ msgstr ""
 msgid "Search"
 msgstr "Поиск"
 
-#. This string is just a modifier for the search prompt,
-#. no grammar is implied
 #: search.c:135
 msgid " [Case Sensitive]"
 msgstr " [РегЗависим]"
 
-#. This string is just a modifier for the search prompt,
-#. no grammar is implied
 #: search.c:139
 msgid " [Regexp]"
 msgstr " [ФормВыр]"
 
-#. This string is just a modifier for the search prompt,
-#. no grammar is implied
 #: search.c:143
 msgid " [Backwards]"
 msgstr " [Назад]"
@@ -1487,7 +1475,6 @@ msgstr "Эта, а можно чуть более адекватно?"
 msgid "Not a bracket"
 msgstr "Не скобка"
 
-#. didn't find either left or right bracket
 #: search.c:936
 msgid "No matching bracket"
 msgstr "Нет соответствующей скобки"
@@ -1566,9 +1553,6 @@ msgstr "current->data = \"%s\"\n"
 msgid "I got \"%s\"\n"
 msgstr "Поймал \"%s\"\n"
 
-#. Yes, no and all are strings of any length.  Each string consists of
-#. all characters accepted as a valid character for that value.
-#. The first value will be the one displayed in the shortcuts.
 #: winio.c:1434
 msgid "Yy"
 msgstr "YyДд"

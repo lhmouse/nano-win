@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.6\n"
-"POT-Creation-Date: 2002-05-12 19:29-0400\n"
+"POT-Creation-Date: 2002-05-26 01:57+0200\n"
 "PO-Revision-Date: 2002-02-06 18:42+0200\n"
 "Last-Translator: Gergely Nagy <algernon@debian.org>\n"
 "Language-Team: Hungarian <magyar@lists.linux.hu>\n"
@@ -48,7 +48,6 @@ msgstr "%d sort beolvastam (DOS formátumról átalakítva)"
 msgid "\"%s\" not found"
 msgstr "\"%s\" nem található"
 
-#. We have a new file
 #: files.c:299
 msgid "New File"
 msgstr "Új Állomány"
@@ -58,7 +57,6 @@ msgstr "Új Állomány"
 msgid "File \"%s\" is a directory"
 msgstr "A(z) \"%s\" állomány egy könyvtár"
 
-#. Don't open character or block files.  Sorry, /dev/sndstat!
 #: files.c:315
 #, c-format
 msgid "File \"%s\" is a device file"
@@ -140,7 +138,6 @@ msgstr "Nem lehet lezárni %s: %s."
 msgid "Could not open %s for prepend: %s"
 msgstr "Nem lehet %s-t megnyitni írásra: %s"
 
-#. Try a rename??
 #: files.c:1465 files.c:1474 files.c:1479
 #, c-format
 msgid "Could not open %s for writing: %s"
@@ -206,7 +203,6 @@ msgstr "Nem lehet egy könyvtárral feljebb lépni"
 msgid "Can't visit parent in restricted mode"
 msgstr "Nem lehet feljebb menni korlátozott módban"
 
-#. We can't open this dir for some reason.  Complain
 #: files.c:2474 files.c:2533
 #, c-format
 msgid "Can't open \"%s\": %s"
@@ -465,9 +461,9 @@ msgstr "Elõzõ betöltött állomány megnyitása"
 msgid "Open next loaded file"
 msgstr "Következõ betöltött állomány megnyitása"
 
-#: global.c:400 global.c:576 global.c:618 global.c:660 global.c:678
-#: global.c:710 global.c:746 global.c:767 global.c:778 global.c:791
-#: global.c:813
+#: global.c:400 global.c:574 global.c:608 global.c:641 global.c:655
+#: global.c:683 global.c:710 global.c:727 global.c:736 global.c:747
+#: global.c:767
 msgid "Get Help"
 msgstr "Súgó"
 
@@ -475,7 +471,7 @@ msgstr "Súgó"
 msgid "Close"
 msgstr "Bezárás"
 
-#: global.c:411 global.c:703 global.c:794
+#: global.c:411 global.c:677 global.c:750
 msgid "Exit"
 msgstr "Kilépés"
 
@@ -483,16 +479,15 @@ msgstr "Kilépés"
 msgid "WriteOut"
 msgstr "Mentés"
 
-#: global.c:420 global.c:537
+#: global.c:420 global.c:536
 msgid "Justify"
 msgstr "Sorkizár"
 
-#. this is so we can view multiple files
 #: global.c:427 global.c:431 global.c:440 global.c:444
 msgid "Read File"
 msgstr "Beolvasás"
 
-#: global.c:450 global.c:533 global.c:591
+#: global.c:450 global.c:532 global.c:587
 msgid "Replace"
 msgstr "Csere"
 
@@ -500,11 +495,11 @@ msgstr "Csere"
 msgid "Where Is"
 msgstr "Keresés"
 
-#: global.c:458 global.c:695 global.c:798
+#: global.c:458 global.c:669 global.c:753
 msgid "Prev Page"
 msgstr "Elõzõ old."
 
-#: global.c:462 global.c:699 global.c:802
+#: global.c:462 global.c:673 global.c:757
 msgid "Next Page"
 msgstr "Köv. old."
 
@@ -572,100 +567,100 @@ msgstr "Visszalép"
 msgid "Tab"
 msgstr "Tabulátor"
 
-#: global.c:541
+#: global.c:540
 msgid "Enter"
 msgstr "Enter"
 
-#: global.c:545 global.c:595 global.c:638
+#: global.c:544 global.c:590 global.c:623
 msgid "Goto Line"
 msgstr "Sorra ugrás"
 
-#: global.c:550
+#: global.c:549
 msgid "Find Other Bracket"
 msgstr "Másik zárójel megkeresése"
 
-#: global.c:556
+#: global.c:555
 msgid "Previous File"
 msgstr ""
 
-#: global.c:559
+#: global.c:558
 #, fuzzy
 msgid "Next File"
 msgstr "Új Állomány"
 
-#: global.c:565
+#: global.c:564
 msgid "Next Word"
 msgstr ""
 
-#: global.c:566
+#: global.c:565
 #, fuzzy
 msgid "Move forward one word"
 msgstr "Ugrás a következõ karakterre"
 
-#: global.c:568
+#: global.c:567
 msgid "Prev Word"
 msgstr ""
 
-#: global.c:569
+#: global.c:568
 #, fuzzy
 msgid "Move backward one word"
 msgstr "Ugrás az elõzõ karakterre"
 
-#: global.c:580 global.c:622 global.c:664 global.c:681 global.c:740
-#: global.c:749 global.c:770 global.c:781 global.c:816 winio.c:1463
+#: global.c:577 global.c:611 global.c:644 global.c:658 global.c:705
+#: global.c:713 global.c:730 global.c:739 global.c:770 winio.c:1463
 msgid "Cancel"
 msgstr "Mégsem"
 
-#: global.c:583 global.c:625 global.c:667 global.c:685
+#: global.c:580 global.c:614 global.c:647 global.c:661
 msgid "First Line"
 msgstr "Elsõ sor"
 
-#: global.c:587 global.c:629 global.c:671 global.c:689
+#: global.c:584 global.c:617 global.c:650 global.c:664
 msgid "Last Line"
 msgstr "Utolsó sor"
 
-#: global.c:600 global.c:642
+#: global.c:594 global.c:627
 msgid "Case Sens"
 msgstr "Kis/Nagy"
 
-#: global.c:604 global.c:646
+#: global.c:597 global.c:630
 msgid "Direction"
 msgstr "Irány"
 
-#: global.c:610 global.c:652
+#: global.c:601 global.c:634
 msgid "Regexp"
 msgstr "Regkif"
 
-#: global.c:633
+#: global.c:620
 msgid "No Replace"
 msgstr "Nem cserél"
 
-#: global.c:714 global.c:754
+#: global.c:687 global.c:717
 msgid "To Files"
 msgstr "Tallózás"
 
-#: global.c:721
+#: global.c:692
 msgid "DOS Format"
 msgstr ""
 
-#: global.c:725
+#: global.c:695
 msgid "Mac Format"
 msgstr ""
 
-#: global.c:730
+#: global.c:699
 msgid "Append"
 msgstr "Hozzáfûz"
 
-#: global.c:735
+#: global.c:702
 #, fuzzy
 msgid "Prepend"
 msgstr "Hozzáfûz"
 
-#: global.c:759
+#: global.c:721
 msgid "Execute Command"
 msgstr ""
 
-#: global.c:806
+#: global.c:761
 msgid "Goto"
 msgstr "Ugrás"
 
@@ -990,7 +985,6 @@ msgstr "current->data most = \"%s\"\n"
 msgid "After, data = \"%s\"\n"
 msgstr "Azután, data = \"%s\"\n"
 
-#. allow replace word to be corrected
 #: nano.c:1409
 msgid "Edit a replacement"
 msgstr "A helyettesítõ érték módosítása"
@@ -1423,20 +1417,14 @@ msgstr ""
 msgid "Search"
 msgstr "Keresés"
 
-#. This string is just a modifier for the search prompt,
-#. no grammar is implied
 #: search.c:135
 msgid " [Case Sensitive]"
 msgstr " [kis/Nagy]"
 
-#. This string is just a modifier for the search prompt,
-#. no grammar is implied
 #: search.c:139
 msgid " [Regexp]"
 msgstr " [Regexp]"
 
-#. This string is just a modifier for the search prompt,
-#. no grammar is implied
 #: search.c:143
 msgid " [Backwards]"
 msgstr " [Vissza]"
@@ -1508,7 +1496,6 @@ msgstr "Naaa, legyél egy kicsit belátóbb"
 msgid "Not a bracket"
 msgstr "Nem zárójel"
 
-#. didn't find either left or right bracket
 #: search.c:936
 msgid "No matching bracket"
 msgstr "Nincs illeszkedõ zárójel"
@@ -1526,7 +1513,7 @@ msgid "nano: realloc: out of memory!"
 msgstr "nano: realloc: elfogyott a memória!"
 
 #: winio.c:123
-#, c-format
+#, fuzzy, c-format
 msgid "actual_x_from_start for xplus=%d returned %d\n"
 msgstr "xplus=%d érték actual_x_from_start-hoz\n"
 
@@ -1587,9 +1574,6 @@ msgstr "current->Data = \"%s\"\n"
 msgid "I got \"%s\"\n"
 msgstr "\"%s\" észlelve.\n"
 
-#. Yes, no and all are strings of any length.  Each string consists of
-#. all characters accepted as a valid character for that value.
-#. The first value will be the one displayed in the shortcuts.
 #: winio.c:1434
 msgid "Yy"
 msgstr "Ii"
