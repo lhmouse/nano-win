@@ -8,6 +8,8 @@ Cvs code -
 - nano.c:
   ABCD(), main()
 	- Add Alt-whatever-[a-d] support as well as Alt-whatever-[A-D].
+- nano.1:
+	- Added the missing -r flag (Jordi).
 - search.c:
   do_replace()
         - If we manage to make it in somehow with VIEW_MODE on, abort 
