@@ -101,7 +101,9 @@ dnl Checks for libraries.
 if eval "test x$CURSES_LIB_NAME = x"
 then
     AC_CHECK_HEADERS(curses.h ncurses.h)
-    AC_CHECK_LIB(ncurses, tgetent, CURSES_LIB="-lncurses" CURSES_LIB_NAME=ncurses)
+    AC_CHECK_LIB(ncurses, tgetent,[CURSES_LIB="-lncurses" CURSES_LIB_NAME=ncurses
+dnl Only ncurses seems to have a working TABSIZE function.
+AC_DEFINE(HAVE_TABSIZE)])
 fi
 
 if eval "test x$CURSES_LIB_NAME = x"
@@ -126,7 +128,6 @@ fi
 
 
 AC_CHECK_LIB($CURSES_LIB_NAME, wresize, AC_DEFINE(HAVE_WRESIZE))
-AC_CHECK_LIB($CURSES_LIB_NAME, TABSIZE, AC_DEFINE(HAVE_TABSIZE))
 
 dnl Parse any configure options
 
