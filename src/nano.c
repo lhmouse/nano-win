@@ -72,6 +72,10 @@ static struct sigaction act;	/* For all our fun signal handlers */
 #ifndef NANO_SMALL
 static sigjmp_buf jmpbuf;	/* Used to return to mainloop after
 				   SIGWINCH */
+static int pid;			/* The PID of the newly forked process
+				 * in open_pipe().  It must be global
+				 * because the signal handler needs
+				 * it. */
 #endif
 
 /* What we do when we're all set to exit. */
@@ -604,8 +608,8 @@ void renumber(filestruct *fileptr)
     }
 }
 
-/* Print one usage string to the screen, removes lots of duplicate 
- * strings to translate and takes out the parts that shouldn't be 
+/* Print one usage string to the screen.  This cuts down on duplicate
+ * strings to translate and leaves out the parts that shouldn't be
  * translatable (the flag names). */
 void print1opt(const char *shortflag, const char *longflag, const char
 	*desc)
@@ -670,7 +674,7 @@ void usage(void)
 #ifdef ENABLE_COLOR
     print1opt(_("-Y [str]"), _("--syntax [str]"), _("Syntax definition to use"));
 #endif
-    print1opt(_("-Z"), _("--restricted"), _("Restricted mode"));
+    print1opt("-Z", "--restricted", _("Restricted mode"));
     print1opt("-c", "--const", _("Constantly show cursor position"));
 #ifndef NANO_SMALL
     print1opt("-d", "--rebinddelete", _("Fix Backspace/Delete confusion problem"));
@@ -699,7 +703,7 @@ void usage(void)
     print1opt("-x", "--nohelp", _("Don't show help window"));
     print1opt("-z", "--suspend", _("Enable suspend"));
 
-    /* this is a special case */
+    /* This is a special case. */
     printf(" %s\t\t\t%s\n","-a, -b, -e, -f, -g, -j", _("(ignored, for Pico compatibility)"));
 
     exit(0);
@@ -779,9 +783,6 @@ void nano_disabled_msg(void)
 }
 
 #ifndef NANO_SMALL
-static int pid;		/* This is the PID of the newly forked process
-			 * below.  It must be global since the signal
-			 * handler needs it. */
 RETSIGTYPE cancel_fork(int signal)
 {
     if (kill(pid, SIGKILL) == -1)
@@ -793,7 +794,8 @@ int open_pipe(const char *command)
     int fd[2];
     FILE *f;
     struct sigaction oldaction, newaction;
-			/* original and temporary handlers for SIGINT */
+			/* Original and temporary handlers for
+			 * SIGINT. */
     int cancel_sigs = 0;
     /* cancel_sigs == 1 means that sigaction() failed without changing
      * the signal handlers.  cancel_sigs == 2 means the signal handler
@@ -856,8 +858,8 @@ int open_pipe(const char *command)
       nperror("fdopen");
     
     read_file(f, "stdin", 0);
-    /* if multibuffer mode is on, we could be here in view mode; if so,
-       don't set the modification flag */
+    /* If multibuffer mode is on, we could be here in view mode.  If so,
+     * don't set the modification flag. */
     if (!ISSET(VIEW_MODE))
 	set_modified();
 
