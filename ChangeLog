@@ -34,6 +34,11 @@ CVS code -
 	- Change the message for the line wrapping toggle from "Auto
 	  wrap" to "Auto line wrap", to more clearly associate it with
 	  Meta-L. (DLR)
+- nano.c:
+  window_init()
+	- Set keypad() to TRUE regardless of whether PDCurses is being
+	  used, as Meta-X apparently turns it off even under ncurses.
+	  (DLR)
 - nano.h:
 	- Define KEY_SUSPEND as -1 when slang is used, as slang has no
 	  KEY_SUSPEND equivalent.  When nano is compiled with slang

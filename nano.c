@@ -229,19 +229,16 @@ void window_init(void)
     if (bottomwin != NULL)
 	delwin(bottomwin);
 
-    /* Set up the main text window */
+    /* Set up the main text window. */
     edit = newwin(editwinrows, COLS, 2, 0);
 
-    /* And the other windows */
+    /* And the other windows. */
     topwin = newwin(2, COLS, 0, 0);
     bottomwin = newwin(3 - no_help(), COLS, LINES - 3 + no_help(), 0);
 
-#ifdef PDCURSES
-    /* Oops, I guess we need this again.  Moved here so the keypad still
-       works after a Meta-X, for example */
+    /* This is so the keypad still works after a Meta-X, for example. */
     keypad(edit, TRUE);
     keypad(bottomwin, TRUE);
-#endif
 }
 
 #if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
