@@ -13,6 +13,8 @@ CVS code -
 	- Unsetting modified on temp files bug fixed (Rocco Corsi).
   do_insertfile()
 	- Added call to real_name_from tilde, oops.
+  read_file()
+	- Added check for fileptr == NULL.
 - es.po: 
 	- Traditional Spanish strings updates.
 
