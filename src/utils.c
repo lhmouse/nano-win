@@ -456,6 +456,35 @@ void remove_magicline(void)
     }
 }
 
+/* Set top_x and bot_x to the top and bottom x-coordinates of the mark,
+ * respectively, based on the locations of top and bot.  If
+ * right_side_up isn't NULL, set it to TRUE If the mark begins with
+ * (mark_beginbuf, mark_beginx) and ends with (current, current_x), or
+ * FALSE otherwise. */
+void mark_order(const filestruct **top, size_t *top_x, const filestruct
+	**bot, size_t *bot_x, bool *right_side_up)
+{
+    assert(top != NULL && top_x != NULL && bot != NULL && bot_x != NULL);
+
+    if ((current->lineno == mark_beginbuf->lineno && current_x >
+	 mark_beginx) || current->lineno > mark_beginbuf->lineno) {
+	*top = mark_beginbuf;
+	*top_x = mark_beginx;
+	*bot = current;
+	*bot_x = current_x;
+	if (right_side_up != NULL)
+	    *right_side_up = TRUE;
+    } else {
+	*bot = mark_beginbuf;
+	*bot_x = mark_beginx;
+	*top = current;
+	*top_x = current_x;
+	if (right_side_up != NULL)
+	    *right_side_up = FALSE;
+    }
+}
+#endif
+
 /* Calculate the number of lines and the number of characters between
  * begin and end, and return them in lines and size, respectively. */
 void get_totals(const filestruct *begin, const filestruct *end, int
@@ -500,35 +529,6 @@ void get_totals(const filestruct *begin, const filestruct *end, int
 	}
     }
 }
-
-/* Set top_x and bot_x to the top and bottom x-coordinates of the mark,
- * respectively, based on the locations of top and bot.  If
- * right_side_up isn't NULL, set it to TRUE If the mark begins with
- * (mark_beginbuf, mark_beginx) and ends with (current, current_x), or
- * FALSE otherwise. */
-void mark_order(const filestruct **top, size_t *top_x, const filestruct
-	**bot, size_t *bot_x, bool *right_side_up)
-{
-    assert(top != NULL && top_x != NULL && bot != NULL && bot_x != NULL);
-
-    if ((current->lineno == mark_beginbuf->lineno && current_x >
-	 mark_beginx) || current->lineno > mark_beginbuf->lineno) {
-	*top = mark_beginbuf;
-	*top_x = mark_beginx;
-	*bot = current;
-	*bot_x = current_x;
-	if (right_side_up != NULL)
-	    *right_side_up = TRUE;
-    } else {
-	*bot = mark_beginbuf;
-	*bot_x = mark_beginx;
-	*top = current;
-	*top_x = current_x;
-	if (right_side_up != NULL)
-	    *right_side_up = FALSE;
-    }
-}
-#endif
 
 #ifndef DISABLE_TABCOMP
 /*

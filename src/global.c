@@ -63,6 +63,9 @@ filestruct *edittop = NULL;	/* Pointer to the top of the edit
 				   file struct */
 filestruct *filebot = NULL;	/* Last node in the file struct */
 filestruct *cutbuffer = NULL;	/* A place to store cut text */
+#ifndef DISABLE_JUSTIFY
+filestruct *jusbuffer = NULL;	/* A place to store unjustified text */
+#endif
 partition *filepart = NULL;	/* A place to store a portion of the
 				   file struct */
 
@@ -1160,7 +1163,10 @@ void thanks_for_all_the_fish(void)
 	free(answer);
     if (cutbuffer != NULL)
 	free_filestruct(cutbuffer);
-
+#ifndef DISABLE_JUSTIFY
+    if (jusbuffer != NULL)
+	free_filestruct(jusbuffer);
+#endif
     free_shortcutage(&main_list);
     free_shortcutage(&whereis_list);
     free_shortcutage(&replace_list);

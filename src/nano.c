@@ -78,6 +78,11 @@ static int pid;			/* The PID of the newly forked process
 				 * it. */
 #endif
 
+#ifndef DISABLE_JUSTIFY
+static filestruct *jusbottom = NULL;
+	/* Pointer to end of justify buffer. */
+#endif
+
 /* What we do when we're all set to exit. */
 void finish(void)
 {
@@ -712,6 +717,169 @@ void unpartition_filestruct(partition **p)
     /* Uninitialize the partition. */
     free(*p);
     *p = NULL;
+}
+
+/* Move all the text between (top, top_x) and (bot, bot_x) in the
+ * current filestruct to a filestruct beginning with file_top and ending
+ * with file_bot.  If no text is between (top, top_x) and (bot, bot_x),
+ * don't do anything. */
+void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
+	filestruct *top, size_t top_x, filestruct *bot, size_t bot_x)
+{
+    filestruct *top_save;
+    long part_totsize;
+    bool at_edittop;
+#ifndef NANO_SMALL
+    bool mark_inside = FALSE;
+#endif
+
+    assert(file_top != NULL && file_bot != NULL && top != NULL && bot != NULL);
+
+    /* If (top, top_x)-(bot, bot_x) doesn't cover any text, get out. */
+    if (top == bot && top_x == bot_x)
+	return;
+
+    /* Partition the filestruct so that it contains only the text from
+     * (top, top_x) to (bot, bot_x), keep track of whether the top of
+     * the partition is the top of the edit window, and keep track of
+     * whether the mark begins inside the partition. */
+    filepart = partition_filestruct(top, top_x, bot, bot_x);
+    at_edittop = (fileage == edittop);
+#ifndef NANO_SMALL
+    if (ISSET(MARK_ISSET))
+	mark_inside = (mark_beginbuf->lineno >= fileage->lineno &&
+		mark_beginbuf->lineno <= filebot->lineno &&
+		(mark_beginbuf != fileage || mark_beginx >= top_x) &&
+		(mark_beginbuf != filebot || mark_beginx <= bot_x));
+#endif
+
+    /* Get the number of characters in the text, and subtract it from
+     * totsize. */
+    get_totals(top, bot, NULL, &part_totsize);
+    totsize -= part_totsize;
+
+    if (*file_top == NULL) {
+	/* If file_top is empty, just move all the text directly into
+	 * it.  This is equivalent to tacking the text in top onto the
+	 * (lack of) text at the end of file_top. */
+	*file_top = fileage;
+	*file_bot = filebot;
+    } else {
+	/* Otherwise, tack the text in top onto the text at the end of
+	 * file_bot. */
+	(*file_bot)->data = charealloc((*file_bot)->data,
+		strlen((*file_bot)->data) + strlen(fileage->data) + 1);
+	strcat((*file_bot)->data, fileage->data);
+
+	/* Attach the line after top to the line after file_bot.  Then,
+	 * if there's more than one line after top, move file_bot down
+	 * to bot. */
+	(*file_bot)->next = fileage->next;
+	if ((*file_bot)->next != NULL) {
+	    (*file_bot)->next->prev = *file_bot;
+	    *file_bot = filebot;
+	}
+    }
+
+    /* Since the text has now been saved, remove it from the filestruct.
+     * If the top of the partition was the top of the edit window, set
+     * edittop to where the text used to start.  If the mark began
+     * inside the partition, set the beginning of the mark to where the
+     * text used to start. */
+    fileage = (filestruct *)nmalloc(sizeof(filestruct));
+    fileage->data = mallocstrcpy(NULL, "");
+    filebot = fileage;
+    if (at_edittop)
+	edittop = fileage;
+#ifndef NANO_SMALL
+    if (mark_inside) {
+	mark_beginbuf = fileage;
+	mark_beginx = top_x;
+    }
+#endif
+
+    /* Restore the current line and cursor position. */
+    current = fileage;
+    current_x = top_x;
+
+    top_save = fileage;
+
+    /* Unpartition the filestruct so that it contains all the text
+     * again, minus the saved text. */
+    unpartition_filestruct(&filepart);
+
+    /* Renumber starting with the beginning line of the old
+     * partition. */
+    renumber(top_save);
+
+    if (filebot->data[0] != '\0')
+	new_magicline();
+
+    /* Set totlines to the new number of lines in the file. */
+    totlines = filebot->lineno;
+}
+
+/* Copy all the text from the filestruct beginning with file_top and
+ * ending with file_bot to the current filestruct at the current cursor
+ * position. */
+void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
+{
+    filestruct *top_save;
+    int part_totlines;
+    long part_totsize;
+    bool at_edittop;
+
+    assert(file_top != NULL && file_bot != NULL);
+
+    /* Partition the filestruct so that it contains no text, and keep
+     * track of whether the top of the partition is the top of the edit
+     * window. */
+    filepart = partition_filestruct(current, current_x, current,
+	current_x);
+    at_edittop = (fileage == edittop);
+
+    /* Put the top and bottom of the filestruct at copies of file_top
+     * and file_bot. */
+    fileage = copy_filestruct(file_top);
+    filebot = fileage;
+    while (filebot->next != NULL)
+	filebot = filebot->next;
+
+    /* Restore the current line and cursor position. */
+    current = filebot;
+    current_x = strlen(filebot->data);
+    if (fileage == filebot)
+	current_x += strlen(filepart->top_data);
+
+    /* Get the number of lines and the number of characters in the saved
+     * text, and add the latter to totsize. */
+    get_totals(fileage, filebot, &part_totlines, &part_totsize);
+    totsize += part_totsize;
+
+    /* If the top of the partition was the top of the edit window, set
+     * edittop to where the saved text now starts, and update the
+     * current y-coordinate to account for the number of lines it
+     * has, less one since the first line will be tacked onto the
+     * current line. */
+    if (at_edittop)
+	edittop = fileage;
+    current_y += part_totlines - 1;
+
+    top_save = fileage;
+
+    /* Unpartition the filestruct so that it contains all the text
+     * again, minus the saved text. */
+    unpartition_filestruct(&filepart);
+
+    /* Renumber starting with the beginning line of the old
+     * partition. */
+    renumber(top_save);
+
+    if (filebot->data[0] != '\0')
+	new_magicline();
+
+    /* Set totlines to the new number of lines in the file. */
+    totlines = filebot->lineno;
 }
 
 void renumber_all(void)
@@ -2342,39 +2510,69 @@ void do_para_end(void)
     edit_redraw(old_current, old_pww);
 }
 
-/* Put the next par_len lines, starting with first_line, in the
- * cutbuffer, not allowing them to be concatenated.  We assume there
- * are enough lines after first_line.  We leave copies of the lines in
- * place, too.  We return the new copy of first_line. */
+/* Put the next par_len lines, starting with first_line, into the
+ * justify buffer, leaving copies of those lines in place.  Assume there
+ * are enough lines after first_line.  Return the new copy of
+ * first_line. */
 filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 	quote_len)
 {
-    /* We put the original lines, not copies, into the cutbuffer, just
-     * out of a misguided sense of consistency, so if you uncut, you get
-     * the actual same paragraph back, not a copy. */
-    filestruct *alice = first_line;
-
-    set_modified();
-    cutbuffer = NULL;
-    for (; par_len > 0; par_len--) {
-	filestruct *bob = copy_node(alice);
-
-	if (alice == first_line)
-	    first_line = bob;
-	if (alice == current)
-	    current = bob;
-	if (alice == edittop)
-	    edittop = bob;
+    filestruct *top = first_line;
+	/* The top of the paragraph we're backing up. */
+    filestruct *bot = first_line;
+	/* The bottom of the paragraph we're backing up. */
+    size_t i;
+	/* Generic loop variable. */
+    size_t current_x_save = current_x;
+    int fl_lineno_save = first_line->lineno;
+    int edittop_lineno_save = edittop->lineno;
+    int current_lineno_save = current->lineno;
 #ifndef NANO_SMALL
-	if (alice == mark_beginbuf)
-	    mark_beginbuf = bob;
+    bool old_mark_set = ISSET(MARK_ISSET);
+    int mbb_lineno_save = 0;
+
+    if (old_mark_set)
+	mbb_lineno_save = mark_beginbuf->lineno;
 #endif
 
-	assert(alice != NULL && bob != NULL);
-	add_to_cutbuffer(alice, FALSE);
-	splice_node(bob->prev, bob, bob->next);
-	alice = bob->next;
+    /* Move bot down par_len lines to the newline after the last line of
+     * the paragraph. */
+    for (i = par_len; i > 0; i--)
+	bot = bot->next;
+
+    /* Move the paragraph from the main filestruct to the justify
+     * buffer. */
+    move_to_filestruct(&jusbuffer, &jusbottom, top, 0, bot, 0);
+
+    /* Copy the paragraph from the justify buffer to the main
+     * filestruct. */
+    copy_from_filestruct(jusbuffer, jusbottom);
+
+    /* Move upward from the last line of the paragraph to the first
+     * line, putting first_line, edittop, current, and mark_beginbuf at
+     * the same lines in the copied paragraph that they had in the
+     * original paragraph. */
+    top = current->prev;
+    for (i = par_len; i > 0; i--) {
+	if (top->lineno == fl_lineno_save)
+	    first_line = top;
+	if (top->lineno == edittop_lineno_save)
+	    edittop = top;
+	if (top->lineno == current_lineno_save)
+	    current = top;
+#ifndef NANO_SMALL
+	if (old_mark_set && top->lineno == mbb_lineno_save)
+	    mark_beginbuf = top;
+#endif
+	top = top->prev;
     }
+
+    /* Put current_x at the same place in the copied paragraph that it
+     * had in the original paragraph. */
+    current_x = current_x_save;
+
+    set_modified();
+
     return first_line;
 }
 
@@ -2561,13 +2759,10 @@ void do_justify(bool full_justify)
 {
     filestruct *first_par_line = NULL;
 	/* Will be the first line of the resulting justified paragraph.
-	 * For restoring after uncut. */
+	 * For restoring after unjustify. */
     filestruct *last_par_line;
-	/* Will be the last line of the result, also for uncut. */
-    filestruct *cutbuffer_save = cutbuffer;
-	/* When the paragraph gets modified, all lines from the changed
-	 * one down are stored in the cutbuffer.  We back up the
-	 * original to restore it later. */
+	/* Will be the line containing the newline after the last line
+	 * of the result.  Also for restoring after unjustify. */
     bool allow_respacing;
 	/* Whether we should change the spacing at the end of a line
 	 * after justifying it.  This should be TRUE whenever we move
@@ -2611,10 +2806,7 @@ void do_justify(bool full_justify)
 	 * get out. */
 	if (do_para_search(&quote_len, &par_len)) {
 	    if (full_justify) {
-		/* This should be safe in the event of filebot->prev's
-		 * being NULL, since only last_par_line->next is used if
-		 * we eventually unjustify. */
-		last_par_line = filebot->prev;
+		last_par_line = filebot;
 		break;
 	    } else {
 		edit_refresh();
@@ -2641,7 +2833,7 @@ void do_justify(bool full_justify)
 		quote_len);
 
 	    /* If we haven't already done it, copy the original
-	     * paragraph to the cutbuffer for unjustification. */
+	     * paragraph to the justify buffer. */
 	    if (first_par_line == NULL)
 		first_par_line = backup_lines(current, full_justify ?
 			filebot->lineno - current->lineno : par_len,
@@ -2829,7 +3021,7 @@ void do_justify(bool full_justify)
      * fileage, and renumber() since edit_refresh() needs the line
      * numbers to be right (but only do the last two if we actually
      * justified something). */
-    last_par_line = current->prev;
+    last_par_line = current;
     if (first_par_line != NULL) {
 	if (first_par_line->prev == NULL)
 	    fileage = first_par_line;
@@ -2846,53 +3038,65 @@ void do_justify(bool full_justify)
 
     /* Now get a keystroke and see if it's unjustify; if not, unget the
      * keystroke and return. */
-    kbinput = get_edit_input(&meta_key, &func_key, FALSE);
+    kbinput = get_edit_input(&meta_key, &func_key);
 
     if (!meta_key && !func_key && kbinput == NANO_UNJUSTIFY_KEY) {
 	/* Restore the justify we just did (ungrateful user!). */
-	filestruct *cutbottom = get_cutbottom();
-
 	current = current_save;
 	current_x = current_x_save;
 	current_y = current_y_save;
 	edittop = edittop_save;
 
-	/* Splice the cutbuffer back into the file, but only if we
+	/* Splice the justify buffer back into the file, but only if we
 	 * actually justified something. */
 	if (first_par_line != NULL) {
-	    cutbottom->next = last_par_line->next;
-	    cutbottom->next->prev = cutbottom;
-	    /* The line numbers after the end of the paragraph have been
-	     * changed, so we change them back. */
-	    renumber(cutbottom->next);
-	    if (first_par_line->prev != NULL) {
-		cutbuffer->prev = first_par_line->prev;
-		cutbuffer->prev->next = cutbuffer;
-	    } else
-		fileage = cutbuffer;
+	    filestruct *bot_save;
 
-	    last_par_line->next = NULL;
-	    free_filestruct(first_par_line);
-	}
+	    /* Partition the filestruct so that it contains only the
+	     * text of the justified paragraph. */
+	    filepart = partition_filestruct(first_par_line, 0,
+		last_par_line, 0);
 
-	/* Restore global variables from before the justify. */
-	totsize = totsize_save;
-	totlines = filebot->lineno;
+	    /* Remove the text of the justified paragraph, and
+	     * put the text in the justify buffer in its place. */
+	    free_filestruct(fileage);
+	    fileage = jusbuffer;
+	    filebot = jusbottom;
+
+	    bot_save = filebot;
+
+	    /* Unpartition the filestruct so that it contains all the
+	     * text again.  Note that the justified paragraph has been
+	     * replaced with the unjustified paragraph. */
+	    unpartition_filestruct(&filepart);
+
+	     /* Renumber starting with the ending line of the old
+	      * partition. */
+	    if (bot_save->next != NULL)
+		renumber(bot_save->next);
+
+	    /* Restore global variables from before the justify. */
+	    totsize = totsize_save;
+	    totlines = filebot->lineno;
 #ifndef NANO_SMALL
-	mark_beginbuf = mark_beginbuf_save;
-	mark_beginx = mark_beginx_save;
+	    mark_beginbuf = mark_beginbuf_save;
+	    mark_beginx = mark_beginx_save;
 #endif
-	flags = flags_save;
-	if (!ISSET(MODIFIED))
-	    titlebar(NULL);
-	edit_refresh();
+	    flags = flags_save;
+
+	    /* Clear the justify buffer. */
+	    jusbuffer = NULL;
+
+	    if (!ISSET(MODIFIED))
+		titlebar(NULL);
+	    edit_refresh();
+	}
     } else {
-	placewewant = 0;
-	unget_kbinput(kbinput, meta_key, func_key);
+	/* Blow away the justify buffer.*/
+	free_filestruct(jusbuffer);
+	jusbuffer = NULL;
     }
 
-    cutbuffer = cutbuffer_save;
-    /* Note that now cutbottom is invalid, but that's okay. */
     blank_statusbar();
 
     /* Display the shortcut list with UnCut. */
@@ -3059,6 +3263,16 @@ void handle_sigwinch(int s)
     /* If we've partitioned the filestruct, unpartition it now. */
     if (filepart != NULL)
 	unpartition_filestruct(&filepart);
+
+#ifndef DISABLE_JUSTIFY
+    /* If the justify buffer isn't empty, blow it away and display the
+     * shortcut list with UnCut. */
+    if (jusbuffer != NULL) {
+	free_filestruct(jusbuffer);
+	jusbuffer = NULL;
+	shortcut_init(FALSE);
+    }
+#endif
 
 #ifdef USE_SLANG
     /* Slang curses emulation brain damage, part 1: If we just do what
@@ -3741,7 +3955,7 @@ int main(int argc, char **argv)
 	currshortcut = main_list;
 #endif
 
-	kbinput = get_edit_input(&meta_key, &func_key, TRUE);
+	kbinput = get_edit_input(&meta_key, &func_key);
 
 	/* Last gasp, stuff that's not in the main lists. */
 	if (kbinput != ERR && !is_cntrl_char(kbinput)) {

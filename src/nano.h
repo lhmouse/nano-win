@@ -146,10 +146,6 @@
 
 /* Enumeration types. */
 typedef enum {
-    CUT_LINE, CUT_MARKED, CUT_TO_EOL
-} cut_type;
-
-typedef enum {
     NIX_FILE, DOS_FILE, MAC_FILE
 } file_format;
 

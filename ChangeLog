@@ -1,7 +1,40 @@
 CVS code -
+- General:
+	- Overhaul the cutting and uncutting routines to use the
+	  partitioning code, as it greatly simplifies how they work.
+	  New functions move_to_filestruct(), copy_from_filestruct(),
+	  cut_line(), cut_marked(), and cut_to_eol(); changes to
+	  add_to_cutbuffer(), do_cut_text(), do_uncut_text(), etc.;
+	  removal of functions get_cutbottom(), add_to_cutbuffer(), and
+	  cut_marked_segment(). (DLR)
+	- Overhaul the justify-related routines to back up and restore
+	  unjustified text to use the partitioning code, as it greatly
+	  simplifies how they work, and to store such text in its own
+	  buffer rather than the cutbuffer.  Changes to backup_lines(),
+	  do_justify(), etc. (DLR)
+- cut.c:
+  do_uncut_text()
+	- No longer duplicate Pico's adding an extra magicline to the
+	  file if uncutting leaves the cursor on the current one, as
+	  it's actually a bug. (DLR)
+- global.c:
+  thanks_for_all_the_fish()
+	- Free the justify buffer if it isn't empty. (DLR)
 - nano.c:
+  handle_sigwinch()
+	- If the justify buffer isn't empty, blow it away and don't
+	  display "UnJustify" in the shortcut list anymore. (DLR)
   do_wrap()
 	- Make wrap_loc and word_back ssize_t's, to match fill. (DLR)
+  do_justify()
+	- For consistency, preserve placewewant if we didn't unjustify
+	  instead of setting it to 0. (DLR)
+- winio.c:
+  get_edit_input()
+	- Remove parameter allow_funcs, as it was only needed as a
+	  workaround for when justified text was stored in the cutbuffer
+	  and the cut shortcut was hit at the "Can now UnJustify!"
+	  prompt. (DLR)
 
 GNU nano 1.3.5 - 2004.11.22
 - General:

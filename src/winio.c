@@ -1491,7 +1491,7 @@ const toggle *get_toggle(int kbinput, bool meta_key)
 }
 #endif /* !NANO_SMALL */
 
-int get_edit_input(bool *meta_key, bool *func_key, bool allow_funcs)
+int get_edit_input(bool *meta_key, bool *func_key)
 {
     bool keyhandled = FALSE;
     int kbinput, retval;
@@ -1536,12 +1536,10 @@ int get_edit_input(bool *meta_key, bool *func_key, bool allow_funcs)
 	if (s->func != do_cut_text)
 	    cutbuffer_reset();
 	if (s->func != NULL) {
-	    if (allow_funcs) {
-		if (ISSET(VIEW_MODE) && !s->viewok)
-		    print_view_warning();
-		else
-		    s->func();
-	    }
+	    if (ISSET(VIEW_MODE) && !s->viewok)
+		print_view_warning();
+	    else
+		s->func();
 	    keyhandled = TRUE;
 	}
     }
@@ -1555,8 +1553,7 @@ int get_edit_input(bool *meta_key, bool *func_key, bool allow_funcs)
 	 * corresponding flag. */
 	if (t != NULL) {
 	    cutbuffer_reset();
-	    if (allow_funcs)
-		do_toggle(t);
+	    do_toggle(t);
 	    keyhandled = TRUE;
 	}
     }
@@ -1565,7 +1562,7 @@ int get_edit_input(bool *meta_key, bool *func_key, bool allow_funcs)
     /* If we got a shortcut with a corresponding function or a toggle,
      * reset meta_key and retval.  If we didn't, keep the value of
      * meta_key and return the key we got in retval. */
-    if (allow_funcs && keyhandled) {
+    if (keyhandled) {
 	*meta_key = FALSE;
 	retval = ERR;
     } else {

@@ -86,6 +86,9 @@ extern char *alt_speller;
 extern struct stat fileinfo;
 extern filestruct *current, *fileage, *edittop, *filebot;
 extern filestruct *cutbuffer;
+#ifndef DISABLE_JUSTIFY
+extern filestruct *jusbuffer;
+#endif
 extern partition *filepart;
 #ifndef NANO_SMALL
 extern filestruct *mark_beginbuf;
@@ -158,11 +161,11 @@ void update_color(void);
 
 /* Public functions in cut.c. */
 void cutbuffer_reset(void);
-filestruct *get_cutbottom(void);
-void add_to_cutbuffer(filestruct *inptr, bool allow_concat);
+void cut_line(void);
 #ifndef NANO_SMALL
-void cut_marked_segment(void);
+void cut_marked(void);
 #endif
+void cut_to_eol(void);
 void do_cut_text(void);
 void do_uncut_text(void);
 
@@ -308,6 +311,9 @@ void free_filestruct(filestruct *src);
 partition *partition_filestruct(filestruct *top, size_t top_x,
 	filestruct *bot, size_t bot_x);
 void unpartition_filestruct(partition **p);
+void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
+	filestruct *top, size_t top_x, filestruct *bot, size_t bot_x);
+void copy_from_filestruct(filestruct *file_top, filestruct *file_bot);
 void renumber_all(void);
 void renumber(filestruct *fileptr);
 void print1opt(const char *shortflag, const char *longflag, const char
@@ -504,11 +510,11 @@ char *mallocstrassn(char *dest, char *src);
 void new_magicline(void);
 #ifndef NANO_SMALL
 void remove_magicline(void);
-void get_totals(const filestruct *begin, const filestruct *end, int
-	*lines, long *size);
 void mark_order(const filestruct **top, size_t *top_x, const filestruct
 	**bot, size_t *bot_x, bool *right_side_up);
 #endif
+void get_totals(const filestruct *begin, const filestruct *end, int
+	*lines, long *size);
 #ifndef DISABLE_TABCOMP
 int check_wildcard_match(const char *text, const char *pattern);
 #endif
@@ -549,7 +555,7 @@ const shortcut *get_shortcut(const shortcut *s_list, int kbinput, bool
 #ifndef NANO_SMALL
 const toggle *get_toggle(int kbinput, bool meta_key);
 #endif
-int get_edit_input(bool *meta_key, bool *func_key, bool allow_funcs);
+int get_edit_input(bool *meta_key, bool *func_key);
 #ifndef DISABLE_MOUSE
 bool get_edit_mouse(void);
 #endif
