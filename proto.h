@@ -107,10 +107,11 @@ void new_file(void);
 void new_magicline(void);
 void splice_node(filestruct *begin, filestruct *new, filestruct *end);
 void null_at(char *data, int index);
+void page_up_center(void);
 
 int do_writeout_void(void), do_exit(void), do_gotoline_void(void);
 int do_insertfile(void), do_search(void), page_up(void), page_down(void);
-int do_cursorpos(void), do_spell(void), page_up_center(void);
+int do_cursorpos(void), do_spell(void);
 int do_up(void), do_down (void), do_right(void), do_left (void);
 int do_home(void), do_end(void), total_refresh(void), do_mark(void);
 int do_delete(void), do_backspace(void), do_tab(void), do_justify(void);
