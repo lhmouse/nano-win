@@ -84,7 +84,7 @@ void null_at(char **data, size_t index)
 void unsunder(char *str, size_t true_len)
 {
     assert(str != NULL);
-    for(; true_len > 0; true_len--, str++)
+    for (; true_len > 0; true_len--, str++)
 	if (*str == '\0')
 	    *str = '\n';
 }
@@ -94,7 +94,7 @@ void unsunder(char *str, size_t true_len)
 void sunder(char *str)
 {
     assert(str != NULL);
-    for(; *str != '\0'; str++)
+    for (; *str != '\0'; str++)
 	if (*str == '\n')
 	    *str = '\0';
 }
@@ -135,7 +135,7 @@ int nstrnicmp(const char *s1, const char *s2, size_t n)
 const char *revstrstr(const char *haystack, const char *needle,
 			const char *rev_start)
 {
-    for(; rev_start >= haystack ; rev_start--) {
+    for (; rev_start >= haystack; rev_start--) {
 	const char *r, *q;
 
 	for (r = rev_start, q = needle ; *q == *r && *q != '\0'; r++, q++)

@@ -39,14 +39,14 @@ void set_colorpairs(void)
 {
     const syntaxtype *this_syntax = syntaxes;
 
-    for(; this_syntax != NULL; this_syntax = this_syntax->next) {
+    for (; this_syntax != NULL; this_syntax = this_syntax->next) {
 	colortype *this_color = this_syntax->color;
 	int color_pair = 1;
 
-	for(; this_color != NULL; this_color = this_color->next) {
+	for (; this_color != NULL; this_color = this_color->next) {
 	    const colortype *beforenow = this_syntax->color;
 
-	    for(; beforenow != NULL && beforenow != this_color && 
+	    for (; beforenow != NULL && beforenow != this_color && 
 			(beforenow->fg != this_color->fg ||
 			 beforenow->bg != this_color->bg ||
 			 beforenow->bright != this_color->bright);

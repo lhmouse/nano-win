@@ -912,9 +912,9 @@ void do_mouse(void)
 	sameline = mevent.y == current_y;
 
 	/* Move to where the click occurred. */
-	for(; current_y < mevent.y && current->next != NULL; current_y++)
+	for (; current_y < mevent.y && current->next != NULL; current_y++)
 	    current = current->next;
-	for(; current_y > mevent.y && current->prev != NULL; current_y--)
+	for (; current_y > mevent.y && current->prev != NULL; current_y--)
 	    current = current->prev;
 
 	xcur = actual_x(current->data, get_page_start(xplustabs()) + mevent.x);
@@ -1361,7 +1361,7 @@ int do_wrap(filestruct *inptr)
 	i = indent_length(inptr->data);
 #endif
     wrap_line = inptr->data + i;
-    for(; i < len; i++, wrap_line++) {
+    for (; i < len; i++, wrap_line++) {
 	/* record where the last word ended */
 	if (*wrap_line != ' ' && *wrap_line != '\t')
 	    word_back = i;
@@ -2094,7 +2094,7 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len,
 
     set_modified();
     cutbuffer = NULL;
-    for(; par_len > 0; par_len--) {
+    for (; par_len > 0; par_len--) {
 	filestruct *bob = copy_node(alice);
 
 	if (alice == first_line)
@@ -2121,7 +2121,7 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len,
 /* Is it possible to break line at or before goal? */
 int breakable(const char *line, int goal)
 {
-    for(; *line != '\0' && goal >= 0; line++) {
+    for (; *line != '\0' && goal >= 0; line++) {
 	if (*line == ' ' || *line == '\t')
 	    return TRUE;
 
@@ -2151,7 +2151,7 @@ int break_line(const char *line, int goal, int force)
 	/* Current index in line */
 
     assert(line != NULL);
-    for(; *line != '\0' && goal >= 0; line++, cur_loc++) {
+    for (; *line != '\0' && goal >= 0; line++, cur_loc++) {
 	if (*line == ' ')
 	    space_loc = cur_loc;
 	assert(*line != '\t');
@@ -2167,7 +2167,7 @@ int break_line(const char *line, int goal, int force)
     if (space_loc == -1) {
 	/* No space found short enough. */
 	if (force)
-	    for(; *line != '\0'; line++, cur_loc++)
+	    for (; *line != '\0'; line++, cur_loc++)
 		if (*line == ' ' && *(line + 1) != ' ' && *(line + 1) != '\0')
 		    return cur_loc;
 	return -1;
@@ -2198,38 +2198,41 @@ int do_para_operation(int operation)
  *   A line is "part of a paragraph" if it has a part not in the quote
  *   part or the indentation.
  *
- *   A line is "the beginning of a paragraph" if it is part of a paragraph
- *   and
+ *   A line is "the beginning of a paragraph" if it is part of a
+ *   paragraph and
  *	1) it is the top line of the file, or
  *	2) the line above it is not part of a paragraph, or
  *	3) the line above it does not have precisely the same quote
  *	   part, or
- *	4) the indentation of this line is not an initial substring of the
- *	   indentation of the previous line, or
+ *	4) the indentation of this line is not an initial substring of
+ *	   the indentation of the previous line, or
  *	5) this line has no quote part and some indentation, and
  *	   AUTOINDENT is not set.
  *   The reason for number 5) is that if AUTOINDENT is not set, then an
- *   indented line is expected to start a paragraph, like in books.  Thus,
- *   nano can justify an indented paragraph only if AUTOINDENT is turned
- *   on.
+ *   indented line is expected to start a paragraph, like in books.
+ *   Thus, nano can justify an indented paragraph only if AUTOINDENT is
+ *   turned on.
  *
  *   A contiguous set of lines is a "paragraph" if each line is part of
- *   a paragraph and only the first line is the beginning of a paragraph.
+ *   a paragraph and only the first line is the beginning of a
+ *   paragraph.
  */
 
     size_t quote_len;
-	/* Length of the initial quotation of the paragraph we justify. */
+	/* Length of the initial quotation of the paragraph we
+	 * justify. */
     size_t par_len;
 	/* Number of lines in that paragraph. */
     filestruct *first_mod_line = NULL;
 	/* Will be the first line of the resulting justified paragraph
-	 * that differs from the original.  For restoring after uncut. */
+	 * that differs from the original.  For restoring after
+	 * uncut. */
     filestruct *last_par_line = current;
 	/* Will be the last line of the result, also for uncut. */
     filestruct *cutbuffer_save = cutbuffer;
 	/* When the paragraph gets modified, all lines from the changed
-	 * one down are stored in the cut buffer.  We back up the original
-	 * to restore it later. */
+	 * one down are stored in the cut buffer.  We back up the
+	 * original to restore it later. */
 
     /* We save these global variables to be restored if the user
      * unjustifies.  Note we don't need to save totlines. */
@@ -2245,13 +2248,13 @@ int do_para_operation(int operation)
     int mark_beginx_save = mark_beginx;
 #endif
 
-    size_t indent_len;	/* generic indentation length */
-    filestruct *line;	/* generic line of text */
-    size_t i;		/* generic loop variable */
+    size_t indent_len;	/* Generic indentation length. */
+    filestruct *line;	/* Generic line of text. */
+    size_t i;		/* Generic loop variable. */
 
     static int no_restart = 0;
-    	/* whether we're blocking restarting when searching for the
-    	 * beginning line of the paragraph */
+    	/* Whether we're blocking restarting when searching for the
+    	 * beginning line of the paragraph. */
 
 #ifdef HAVE_REGEX_H
     regex_t qreg;	/* qreg is the compiled quotation regexp. 
@@ -2276,15 +2279,15 @@ int do_para_operation(int operation)
 
   restart_bps:
 /* Here we find the first line of the paragraph to justify.  If the
- * current line is in a paragraph, then we move back to the first line. 
+ * current line is in a paragraph, then we move back to the first line.
  * Otherwise we move down to the first line that is in a paragraph. */
     quote_len = quote_length(IFREG(current->data, &qreg));
     indent_len = indent_length(current->data + quote_len);
 
     if (current->data[quote_len + indent_len] != '\0') {
 	/* This line is part of a paragraph.  So we must search back to
-	 * the first line of this paragraph.  First we check items 1) and
-	 * 3) above. */
+	 * the first line of this paragraph.  First we check items 1)
+	 * and 3) above. */
 	while (current->prev != NULL && quotes_match(current->data,
 			quote_len, IFREG(current->prev->data, &qreg))) {
 	    size_t temp_id_len =
@@ -2396,7 +2399,7 @@ int do_para_operation(int operation)
 /* Next step, we loop through the lines of this paragraph, justifying
  * each one individually. */
     SET(JUSTIFY_MODE);
-    for(; par_len > 0; current_y++, par_len--) {
+    for (; par_len > 0; current_y++, par_len--) {
 	size_t line_len;
 	size_t display_len;
 	    /* The width of current in screen columns. */
@@ -2432,8 +2435,8 @@ int do_para_operation(int operation)
 	    if (first_mod_line == NULL)
 		first_mod_line = backup_lines(current, par_len, quote_len);
 	    if (par_len == 1) {
-		/* There is no next line in this paragraph.  We make a new
-		 * line and copy text after break_pos into it. */
+		/* There is no next line in this paragraph.  We make a
+		 * new line and copy text after break_pos into it. */
 		splice_node(current, make_new_node(current),
 				current->next);
 		/* In a non-quoted paragraph, we copy the indent only if
@@ -2490,8 +2493,8 @@ int do_para_operation(int operation)
 
 	    indent_len = quote_len +
 			indent_length(current->next->data + quote_len);
-	    /* If we can't pull a word from the next line up to this one,
-	     * just go on. */
+	    /* If we can't pull a word from the next line up to this
+	     * one, just go on. */
 	    if (!breakable(current->next->data + indent_len,
 		    fill - display_len - 1))
 		goto continue_loc;
@@ -2622,7 +2625,7 @@ int do_para_operation(int operation)
 	edit_refresh();
 
     statusbar(_("Can now UnJustify!"));
-    /* Change the shortcut list to display the unjustify code */
+    /* Change the shortcut list to display the unjustify code. */
     shortcut_init(1);
     display_main_list();
     reset_cursor();
@@ -2632,7 +2635,8 @@ int do_para_operation(int operation)
 
 #ifndef DISABLE_MOUSE
     /* If it was a mouse click, parse it with do_mouse() and it might
-     * become the unjustify key.  Else give it back to the input stream. */
+     * become the unjustify key.  Else give it back to the input
+     * stream. */
     if ((i = wgetch(edit)) == KEY_MOUSE)
 	do_mouse();
     else
