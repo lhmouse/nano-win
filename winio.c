@@ -113,7 +113,7 @@ int actual_x_from_start(filestruct * fileptr, int xplus, int start)
 	    tot += 2;
 
 #ifdef DEBUG
-    fprintf(stderr, _("actual_x for xplus=%d returned %d\n"), xplus, i);
+    fprintf(stderr, _("actual_x_from_start for xplus=%d returned %d\n"), xplus, i);
 #endif
     return i - start;
 }
@@ -550,25 +550,22 @@ inline int get_page_end_virtual(int page) {
 }
 
 #ifndef NANO_SMALL
+/* Called only from edit_add, and therefore expects a
+ * converted-to-only-spaces line */
 /* begin, end: beginning and end of mark in data
  * fileptr: the data
  * y: the line on screen */
-void add_marked_sameline(int begin, int end, filestruct *fileptr, int y)
+void add_marked_sameline(int begin, int end, filestruct *fileptr, int y, int virt_cur_x)
 {
-    /* where we are on the line */
-    int virtual_col = xplustabs();
-
-    /* actual_col is beginning of the line in the data */
-    int this_page = get_page_from_virtual(virtual_col),
+    int this_page = get_page_from_virtual(virt_cur_x),
 	this_page_start = get_page_start_virtual(this_page),
-	this_page_end = get_page_end_virtual(this_page),
-	actual_col = actual_x(fileptr, this_page_start);
+	this_page_end = get_page_end_virtual(this_page);
 
     /* 3 start points: 0 -> begin, begin->end, end->strlen(data) */
     /*    in data    :    pre          sel           post        */
-    int virtual_sel_start = xpt(fileptr, begin),
+    int virtual_sel_start = begin,
 	sel_start = 0,
-	virtual_post_start = xpt(fileptr, end),
+	virtual_post_start = end,
 	post_start = 0;
 
     /* likewise, 3 data lengths */
@@ -578,16 +575,14 @@ void add_marked_sameline(int begin, int end, filestruct *fileptr, int y)
 
     /* now fix the start locations & lengths according to the cursor's 
      * position (ie: our page) */
-    if(xpt(fileptr,pre_data_len) < this_page_start) pre_data_len = 0;
-    else pre_data_len -= actual_col;
+    if(pre_data_len < this_page_start) pre_data_len = 0;
+    else pre_data_len -= this_page_start;
 
     if(virtual_sel_start < this_page_start) {
-	begin = actual_col;
-	virtual_sel_start = this_page_start;
+	begin = virtual_sel_start = this_page_start;
     }
     if(virtual_post_start < this_page_start) {
-	end = actual_col;
-	virtual_post_start = this_page_start;
+	end = virtual_post_start = this_page_start;
     }
 
     /* we don't care about end, because it will just get cropped
@@ -597,16 +592,13 @@ void add_marked_sameline(int begin, int end, filestruct *fileptr, int y)
     if(virtual_post_start > this_page_end)
 	virtual_post_start = this_page_end;
 
-    sel_data_len = actual_x(fileptr, virtual_post_start) -
-			actual_x(fileptr, virtual_sel_start);
-
-    post_data_len = actual_x(fileptr, this_page_end) -
-			actual_x(fileptr, virtual_post_start);
+    sel_data_len = virtual_post_start - virtual_sel_start;
+    post_data_len = this_page_end - virtual_post_start;
 
     sel_start = virtual_sel_start - this_page_start;
     post_start = virtual_post_start - this_page_start;
 
-    mvwaddnstr(edit, y, 0, &fileptr->data[actual_col], pre_data_len);
+    mvwaddnstr(edit, y, 0, &fileptr->data[this_page_start], pre_data_len);
     wattron(edit, A_REVERSE);
     mvwaddnstr(edit, y, sel_start, &fileptr->data[begin], sel_data_len);
     wattroff(edit, A_REVERSE);
@@ -614,59 +606,59 @@ void add_marked_sameline(int begin, int end, filestruct *fileptr, int y)
 }
 #endif
 
-/* we used to have xval.  turns out it should always be zero */
-void edit_add(filestruct * fileptr, int yval, int start)
+/* Called only from update_line.  Expects a converted-to-not-have-tabs
+ * line */
+void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
+		int virt_mark_beginx)
 {
 #ifndef NANO_SMALL
-    int col;
-
     if (ISSET(MARK_ISSET)) {
-	/* Our horribly ugly marker code */
 	if ((fileptr->lineno > mark_beginbuf->lineno
 	     && fileptr->lineno > current->lineno)
 	    || (fileptr->lineno < mark_beginbuf->lineno
 		&& fileptr->lineno < current->lineno)) {
 
 	    /* We're on a normal, unselected line */
-	    mvwaddnstr(edit, yval, 0, fileptr->data,
-		actual_x(fileptr, COLS));
+	    mvwaddnstr(edit, yval, 0, fileptr->data, COLS);
 	} else {
 	    /* We're on selected text */
 	    if (fileptr != mark_beginbuf && fileptr != current) {
 		wattron(edit, A_REVERSE);
-		mvwaddnstr(edit, yval, 0, fileptr->data, actual_x(fileptr,COLS));
+		mvwaddnstr(edit, yval, 0, fileptr->data, COLS);
 		wattroff(edit, A_REVERSE);
 	    }
+
 	    /* Special case, we're still on the same line we started marking */
 	    else if (fileptr == mark_beginbuf && fileptr == current) {
-		if (current_x < mark_beginx)
-		    add_marked_sameline(current_x, mark_beginx, fileptr, yval);
+		if (virt_cur_x < virt_mark_beginx)
+		    add_marked_sameline(virt_cur_x, virt_mark_beginx,
+			 fileptr, yval, virt_cur_x);
 		else
-		    add_marked_sameline(mark_beginx, current_x, fileptr, yval);
+		    add_marked_sameline(virt_mark_beginx, virt_cur_x,
+			fileptr, yval, virt_cur_x);
 
 	    } else if (fileptr == mark_beginbuf) {
 		int target;
 
-		/* we're at the line that was first marked */
+		/* we're updating the line that was first marked */
 		if (mark_beginbuf->lineno > current->lineno)
 		    wattron(edit, A_REVERSE);
 
-		target = (xpt(fileptr,mark_beginx) < COLS - 1) ? mark_beginx : COLS - 1;
+		target = (virt_mark_beginx < COLS - 1) ? virt_mark_beginx : COLS - 1;
 
-		mvwaddnstr(edit, yval, 0, fileptr->data,
-			actual_x(fileptr, target));
+		mvwaddnstr(edit, yval, 0, fileptr->data, target);
 
 		if (mark_beginbuf->lineno < current->lineno)
 		    wattron(edit, A_REVERSE);
 		else
 		    wattroff(edit, A_REVERSE);
 
-		target = (COLS - 1) - xpt(fileptr,mark_beginx);
+		target = (COLS - 1) - virt_mark_beginx;
 		if(target < 0) target = 0;
 
-		mvwaddnstr(edit, yval, xpt(fileptr,mark_beginx),
-			&fileptr->data[mark_beginx],
-			actual_x_from_start(fileptr, target, mark_beginx));
+		mvwaddnstr(edit, yval, virt_mark_beginx,
+			&fileptr->data[virt_mark_beginx],
+			target);
 
 		if (mark_beginbuf->lineno < current->lineno)
 		    wattroff(edit, A_REVERSE);
@@ -674,46 +666,42 @@ void edit_add(filestruct * fileptr, int yval, int start)
 	    } else if (fileptr == current) {
 		/* we're on the cursors line, but it's not the first
 		 * one we marked... */
-		int this_page = get_page_from_virtual(xplustabs()),
+		int this_page = get_page_from_virtual(virt_cur_x),
 		    this_page_start = get_page_start_virtual(this_page),
 		    this_page_end = get_page_end_virtual(this_page);
 
 		if (mark_beginbuf->lineno < current->lineno)
 		    wattron(edit, A_REVERSE);
 
-		if (xplustabs() > COLS - 2) {
-		    col = actual_x(current, this_page_start);
-		    mvwaddnstr(edit, yval, 0, &fileptr->data[col],
-				current_x - col);
-		} else
-		    mvwaddnstr(edit, yval, 0, fileptr->data, current_x);
+		if (virt_cur_x > COLS - 2) {
+		    mvwaddnstr(edit, yval, 0, &fileptr->data[this_page_start],
+				virt_cur_x - this_page_start);
+		} else {
+		    mvwaddnstr(edit, yval, 0, fileptr->data, virt_cur_x);
+		}
 
 		if (mark_beginbuf->lineno > current->lineno)
 		    wattron(edit, A_REVERSE);
 		else
 		    wattroff(edit, A_REVERSE);
 
-		if (xplustabs() > COLS - 2) {
-		    mvwaddnstr(edit, yval, xplustabs() - this_page_start,
-			       &fileptr->data[current_x],
-			       actual_x(current,this_page_end) - current_x);
+		if (virt_cur_x > COLS - 2) {
+		    mvwaddnstr(edit, yval, virt_cur_x - this_page_start,
+			       &fileptr->data[virt_cur_x],
+				this_page_end - virt_cur_x);
 		} else
-		    mvwaddnstr(edit, yval, xplustabs(),
-			       &fileptr->data[current_x],
-			       actual_x_from_start(fileptr,
-				COLS - xpt(fileptr,current_x), current_x));
+		    mvwaddnstr(edit, yval, virt_cur_x,
+			       &fileptr->data[virt_cur_x],
+			       COLS - virt_cur_x);
 
 		if (mark_beginbuf->lineno > current->lineno)
 		    wattroff(edit, A_REVERSE);
-
 	    }
 	}
 
     } else
 #endif
-	mvwaddnstr(edit, yval, 0, &fileptr->data[start],
-	   actual_x_from_start(fileptr,COLS,start));
-
+	mvwaddnstr(edit, yval, 0, &fileptr->data[start], COLS - start);
 }
 
 /*
@@ -722,34 +710,68 @@ void edit_add(filestruct * fileptr, int yval, int start)
  * index gives is a place in the string to update starting from.
  * Likely args are current_x or 0.
  */
-
 void update_line(filestruct * fileptr, int index)
 {
     filestruct *filetmp;
-    int line = 0, col = 0, actual_col = 0, x;
+    int line = 0, col = 0;
+    int virt_cur_x = current_x, virt_mark_beginx = mark_beginx;
+    char *realdata, *tmp;
+    int i,pos,len;
 
+    /* First, blank out the line (at a minimum) */
     for (filetmp = edittop; filetmp != fileptr && filetmp != editbot;
 	 filetmp = filetmp->next)
 	line++;
 
     mvwaddstr(edit, line, 0, hblank);
+    if(!fileptr) return;
 
-    if (current == fileptr && (x = xpt(current, index)) > COLS - 2) {
-	int page = get_page_from_virtual(x);
+    /* Next, convert all the tabs to spaces so everything else is easy */
+    index = xpt(fileptr, index);
+
+    realdata = fileptr->data;
+    len = strlen(realdata);
+    fileptr->data = nmalloc(xpt(fileptr,len) + 1);
+
+    pos = 0;
+    for(i=0;i<len;i++) {
+	if(realdata[i] == '\t') {
+	    do {
+		fileptr->data[pos++] = ' ';
+		if(i < current_x) virt_cur_x++;
+		if(i < mark_beginx) virt_mark_beginx++;
+	    } while(pos % 8);
+	    /* must decrement once to account for tab-is-one-character */
+	    if(i < current_x) virt_cur_x--;
+	    if(i < mark_beginx) virt_mark_beginx--;
+	} else {
+	    fileptr->data[pos++] = realdata[i];
+	}
+    }
+
+    fileptr->data[pos] = '\0';
+
+    /* Now, Paint the line */
+    if (current == fileptr && index > COLS - 2) {
+	int page = get_page_from_virtual(index);
 	col = get_page_start_virtual(page);
-	actual_col = actual_x(filetmp, col);
 
-	edit_add(filetmp, line, actual_col);
+	edit_add(filetmp, line, col, virt_cur_x, virt_mark_beginx);
 	mvwaddch(edit, line, 0, '$');
 
 	if (strlenpt(fileptr->data) > get_page_end_virtual(page))
 	     mvwaddch(edit, line, COLS - 1, '$');
     } else {
-	edit_add(filetmp, line, 0);
+	edit_add(filetmp, line, 0, virt_cur_x, virt_mark_beginx);
 
-	if (strlenpt(&filetmp->data[actual_col]) > COLS)
+	if (strlenpt(&filetmp->data[col]) > COLS)
 	     mvwaddch(edit, line, COLS - 1, '$');
     }
+
+    /* Clean up our mess */
+    tmp = fileptr->data;
+    fileptr->data = realdata;
+    free(tmp);
 }
 
 void center_cursor(void)
