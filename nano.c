@@ -2972,8 +2972,12 @@ int main(int argc, char *argv[])
 	}
 
 
+#ifndef USE_SLANG
 	/* Hack, make insert key do something useful, like insert file */
 	if (kbinput == KEY_IC) {
+#else
+	if (0) {
+#endif
 	  do_insertkey:
 
 #ifdef ENABLE_MULTIBUFFER
@@ -2982,7 +2986,7 @@ int main(int argc, char *argv[])
 	    do_insertfile(0);
 #endif
 
-			keyhandled = 1;
+	    keyhandled = 1;
 	}
 
 	/* Last gasp, stuff that's not in the main lists */
