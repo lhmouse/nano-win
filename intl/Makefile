@@ -126,7 +126,7 @@ libintl.h: libgnuintl.h
 	cp $(srcdir)/libgnuintl.h libintl.h
 
 charset.alias: config.charset
-	$(SHELL) $(srcdir)/config.charset '' > t-$@
+	$(SHELL) $(srcdir)/config.charset 'i686-pc-linux-gnu' > t-$@
 	mv t-$@ $@
 
 check: all
