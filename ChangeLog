@@ -10,6 +10,8 @@ CVS code -
   update_line()
 	- back out check for (realdata[i] < 32) as it will screw high
 	  ascii characters.
+- m4/gettext.m4:
+	- Back down to 1.1.3 version.
 
 nano-1.1.4 - 12/11/2001
 - General
