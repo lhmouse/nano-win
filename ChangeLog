@@ -415,10 +415,24 @@ GNU nano 1.1.10 - 07/25/2002
   do_credits()
 	- Fix for the i18ned credits so it will compile with -pedantic
 	  (DLR & Chris).
+  do_help()
+	- Add support for the handled keyboard escape sequences in the
+	  help menu, as they are needed with some terminals (e.g. xterm
+	  with TERM=ansi). (DLR)
+  edit_refresh()
+	- Turn on leaveok() so the cursor doesn't bounce around the 
+	  screen while we're updating it (most noticeable when using
+	  color syntax over a very slow connection).
+  do_replace_highlight()
+	- When using regexps, make sure the highlight is the length of
+	  the search result and not the regexp string. (DLR)
   nanogetstr()
 	- After the user presses Enter at the prompt, refresh the edit
 	  window in case there's a list of possible filename matches
 	  (left over from attempted tab completion) on it. (DLR)
+  statusbar()
+	- Limit statusbar display to the number of columns less four, and
+	  don't allow it to go over its original row. (David Benbennick)
   titlebar()
 	- Tweak text spacing and printing so that the titlebar text looks
 	  better on smaller terminals. (Carl Drinkwater)
@@ -431,16 +445,6 @@ GNU nano 1.1.10 - 07/25/2002
 	  beforehand) as ^@'s. (DLR)
 	- Fix to properly treat ASCII 128-159 as control characters.
 	  (DLR)
-  statusbar()
-	- Limit statusbar display to the number of columns less four, and
-	  don't allow it to go over its original row. (David Benbennick)
-  do_help()
-	- Add support for the handled keyboard escape sequences in the
-	  help menu, as they are needed with some terminals (e.g. xterm
-	  with TERM=ansi). (DLR)
-  do_replace_highlight()
-	- When using regexps, make sure the highlight is the length of
-	  the search result and not the regexp string. (DLR)
 - configure.ac:
 	- Added ms to ALL_LINGUAS (Jordi).
 	- Merged acconfig.h in (Jordi).

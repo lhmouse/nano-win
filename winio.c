@@ -1151,6 +1151,9 @@ void edit_refresh(void)
     if (edittop == NULL)
 	edittop = current;
 
+    /* Don't make the cursor jump around the scrrn whilst updating */
+    leaveok(edit, TRUE);
+
     editbot = edittop;
     while (nlines < editwinrows) {
 	update_line(editbot, current_x);
@@ -1163,6 +1166,7 @@ void edit_refresh(void)
 	    break;
 	editbot = editbot->next;
     }
+
     /* If noloop == 1, then we already did an edit_update without finishing
        this function.  So we don't run edit_update again */
     if (!currentcheck && !noloop) {
@@ -1180,6 +1184,7 @@ void edit_refresh(void)
     /* What the hell are we expecting to update the screen if this isn't 
        here? Luck?? */
     wrefresh(edit);
+    leaveok(edit, FALSE);
 }
 
 /*
