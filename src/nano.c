@@ -2193,16 +2193,19 @@ int break_line(const char *line, int goal, int force)
     return space_loc;
 }
 
-/* This function performs operations on paragraphs: justify, go to
- * beginning, and go to end. */
-int do_para_operation(int operation)
-{
-/* operation == 0 means we're justifying the paragraph, operation == 1
- * means we're moving to the beginning line of the paragraph, and
- * operation == 2 means we're moving to the ending line of the
+/* Search a paragraph.  If search_type is 0, search for the beginning of
+ * the current paragraph or, if we're at the end of it, the beginning of
+ * the next paragraph.  If search_type is 1, search for the beginning of
+ * the current paragraph or, if we're already there, the beginning of
+ * the previous paragraph.  If search_type is 2, search for the end of
+ * the current paragraph or, if we're already there, the end of the next
+ * paragraph.  Afterwards, save the quote length, paragraph length, and
+ * indentation length in *quote, *par, and *indent if they aren't NULL,
+ * and refresh the screen if do_refresh is nonzero.  Return 0 if we
+ * found a paragraph, or 1 if there was an error or we didn't find a
  * paragraph.
  *
- * To explain the justifying algorithm, I first need to define some
+ * To explain the searching algorithm, I first need to define some
  * phrases about paragraphs and quotation:
  *   A line of text consists of a "quote part", followed by an
  *   "indentation part", followed by text.  The functions quote_length()
@@ -2229,7 +2232,239 @@ int do_para_operation(int operation)
  *   A contiguous set of lines is a "paragraph" if each line is part of
  *   a paragraph and only the first line is the beginning of a
  *   paragraph. */
+int do_para_search(int search_type, size_t *quote, size_t *par, size_t
+	*indent, int do_refresh)
+{
+    size_t quote_len;
+	/* Length of the initial quotation of the paragraph we
+	 * search. */
+    size_t par_len;
+	/* Number of lines in that paragraph. */
 
+    /* We save this global variable to see if we're where we started
+     * when searching for the beginning of the paragraph. */
+    filestruct *current_save = current;
+
+    size_t indent_len;	/* Generic indentation length. */
+    filestruct *line;	/* Generic line of text. */
+
+    static int do_restart = 1;
+    	/* Whether we're restarting when searching for the beginning
+    	 * line of the paragraph. */
+
+#ifdef HAVE_REGEX_H
+    regex_t qreg;	/* qreg is the compiled quotation regexp.  We no
+			 * longer care about quotestr. */
+    int rc = regcomp(&qreg, quotestr, REG_EXTENDED);
+
+    if (rc != 0) {
+	size_t size = regerror(rc, &qreg, NULL, 0);
+	char *strerror = charalloc(size);
+
+	regerror(rc, &qreg, strerror, size);
+	statusbar(_("Bad quote string %s: %s"), quotestr, strerror);
+	free(strerror);
+	return 1;
+    }
+#endif
+
+    /* Here is an assumption that is always true anyway. */
+    assert(current != NULL);
+
+    current_x = 0;
+
+  restart_para_search:
+/* Here we find the first line of the paragraph to search.  If the
+ * current line is in a paragraph, then we move back to the first line.
+ * Otherwise we move to the first line that is in a paragraph. */
+    quote_len = quote_length(IFREG(current->data, &qreg));
+    indent_len = indent_length(current->data + quote_len);
+
+    if (current->data[quote_len + indent_len] != '\0') {
+	/* This line is part of a paragraph.  So we must search back to
+	 * the first line of this paragraph.  First we check items 1)
+	 * and 3) above. */
+	while (current->prev != NULL && quotes_match(current->data,
+			quote_len, IFREG(current->prev->data, &qreg))) {
+	    size_t temp_id_len =
+			indent_length(current->prev->data + quote_len);
+		/* The indentation length of the previous line. */
+
+	    /* Is this line the beginning of a paragraph, according to
+	     * items 2), 5), or 4) above?  If so, stop. */
+	    if (current->prev->data[quote_len + temp_id_len] == '\0' ||
+		    (quote_len == 0 && indent_len > 0
+#ifndef NANO_SMALL
+			&& !ISSET(AUTOINDENT)
+#endif
+			) ||
+		    !indents_match(current->prev->data + quote_len,
+			temp_id_len, current->data + quote_len, indent_len))
+		break;
+	    indent_len = temp_id_len;
+	    current = current->prev;
+	    current_y--;
+	}
+    } else if (search_type == 1) {
+	/* This line is not part of a paragraph.  Move up until we get
+	 * to a non "blank" line, and then move down once. */
+	do {
+	    /* There is no previous paragraph, so nothing to move to. */
+	    if (current->prev == NULL) {
+		placewewant = 0;
+		if (do_refresh) {
+		    if (current_y < 0)
+			edit_update(current, CENTER);
+		    else
+			edit_refresh();
+		}
+#ifdef HAVE_REGEX_H
+		if (!do_restart)
+		    regfree(&qreg);
+#endif
+		return 1;
+	    }
+	    current = current->prev;
+	    current_y--;
+	    quote_len = quote_length(IFREG(current->data, &qreg));
+	    indent_len = indent_length(current->data + quote_len);
+	} while (current->data[quote_len + indent_len] == '\0');
+	current = current->next;
+    } else {
+	/* This line is not part of a paragraph.  Move down until we get
+	 * to a non "blank" line. */
+	do {
+	    /* There is no next paragraph, so nothing to move to. */
+	    if (current->next == NULL) {
+		placewewant = 0;
+		if (do_refresh)
+		    edit_refresh();
+#ifdef HAVE_REGEX_H
+		regfree(&qreg);
+#endif
+		return 1;
+	    }
+	    current = current->next;
+	    current_y++;
+	    quote_len = quote_length(IFREG(current->data, &qreg));
+	    indent_len = indent_length(current->data + quote_len);
+	} while (current->data[quote_len + indent_len] == '\0');
+    }
+
+/* Now current is the first line of the paragraph, and quote_len is the
+ * quotation length of that line. */
+
+/* Next step, compute par_len, the number of lines in this paragraph. */
+    line = current;
+    par_len = 1;
+    indent_len = indent_length(line->data + quote_len);
+
+    while (line->next != NULL && quotes_match(current->data, quote_len,
+				IFREG(line->next->data, &qreg))) {
+	size_t temp_id_len = indent_length(line->next->data + quote_len);
+
+	if (!indents_match(line->data + quote_len, indent_len,
+			line->next->data + quote_len, temp_id_len) ||
+		line->next->data[quote_len + temp_id_len] == '\0' ||
+		(quote_len == 0 && temp_id_len > 0
+#ifndef NANO_SMALL
+			&& !ISSET(AUTOINDENT)
+#endif
+		))
+	    break;
+	indent_len = temp_id_len;
+	line = line->next;
+	par_len++;
+    }
+
+    if (search_type == 1) {
+	/* We're on the same line we started on.  Move up until we get
+	 * to a non-"blank" line, restart the search from there until we
+	 * find a line that's part of a paragraph, and search once more
+	 * so that we end up at the beginning of that paragraph. */
+	if (current != fileage && current == current_save && do_restart) {
+	    while (current->prev != NULL) {
+		size_t i, j = 0;
+		current = current->prev;
+		current_y--;
+		/* Skip over lines consisting only of spacing
+		 * characters, as searching for the end of the paragraph
+		 * does. */
+		for (i = 0; current->data[i] != '\0'; i++) {
+		    if (isspace(current->data[i]))
+			j++;
+		    else {
+			i = 0;
+			j = 1;
+			break;
+		    }
+		}
+		if (i != j && strlen(current->data) >=
+			(quote_len + indent_len) &&
+			current->data[quote_len + indent_len] != '\0') {
+		    do_restart = 0;
+		    break;
+		}
+	    }
+	    goto restart_para_search;
+	} else
+	    do_restart = 1;
+    }
+
+#ifdef HAVE_REGEX_H
+    /* We no longer need to check quotation. */
+    regfree(&qreg);
+#endif
+
+/* Now par_len is the number of lines in this paragraph.  We should
+ * never call quotes_match() or quote_length() again. */
+
+    /* If we're searching for the end of the paragraph, move down the
+     * number of lines in the paragraph. */
+    if (search_type == 2) {
+	for (; par_len > 0; current_y++, par_len--)
+	    current = current->next;
+    }
+
+    /* Refresh the screen if needed. */
+    if (do_refresh) {
+	if (((search_type == 0 || search_type == 2) && current_y >
+		editwinrows - 1) || (search_type == 1 && current_y < 0))
+	    edit_update(current, CENTER);
+	else
+	    edit_refresh();
+    }
+
+    /* Save the values of quote_len, par_len, and indent_len if
+     * needed. */
+    if (quote != NULL)
+	*quote = quote_len;
+    if (par != NULL)
+	*par = par_len;
+    if (indent != NULL)
+	*indent = indent_len;
+
+    return 0;
+}
+
+int do_para_begin(void)
+{
+    return do_para_search(1, NULL, NULL, NULL, TRUE);
+}
+
+int do_para_end(void)
+{
+    return do_para_search(2, NULL, NULL, NULL, TRUE);
+}
+#endif
+
+/* Justify a paragraph. */
+int do_justify(void)
+{
+#ifdef DISABLE_JUSTIFY
+    nano_disabled_msg();
+    return 1;
+#else
     size_t quote_len;
 	/* Length of the initial quotation of the paragraph we
 	 * justify. */
@@ -2261,151 +2496,17 @@ int do_para_operation(int operation)
 #endif
 
     size_t indent_len;	/* Generic indentation length. */
-    filestruct *line;	/* Generic line of text. */
     size_t i;		/* Generic loop variable. */
 
-    static int no_restart = 0;
-    	/* Whether we're blocking restarting when searching for the
-    	 * beginning line of the paragraph. */
-
-#ifdef HAVE_REGEX_H
-    regex_t qreg;	/* qreg is the compiled quotation regexp. 
-			 * We no longer care about quotestr. */
-    int rc = regcomp(&qreg, quotestr, REG_EXTENDED);
-
-    if (rc) {
-	size_t size = regerror(rc, &qreg, NULL, 0);
-	char *strerror = charalloc(size);
-
-	regerror(rc, &qreg, strerror, size);
-	statusbar(_("Bad quote string %s: %s"), quotestr, strerror);
-	free(strerror);
-	return -1;
-    }
-#endif
-
-    /* Here is an assumption that is always true anyway. */
-    assert(current != NULL);
-
-    current_x = 0;
-
-  restart_bps:
-/* Here we find the first line of the paragraph to justify.  If the
- * current line is in a paragraph, then we move back to the first line.
- * Otherwise we move down to the first line that is in a paragraph. */
-    quote_len = quote_length(IFREG(current->data, &qreg));
-    indent_len = indent_length(current->data + quote_len);
-
-    if (current->data[quote_len + indent_len] != '\0') {
-	/* This line is part of a paragraph.  So we must search back to
-	 * the first line of this paragraph.  First we check items 1)
-	 * and 3) above. */
-	while (current->prev != NULL && quotes_match(current->data,
-			quote_len, IFREG(current->prev->data, &qreg))) {
-	    size_t temp_id_len =
-			indent_length(current->prev->data + quote_len);
-		/* The indentation length of the previous line. */
-
-	    /* Is this line the beginning of a paragraph, according to
-	       items 2), 5), or 4) above?  If so, stop. */
-	    if (current->prev->data[quote_len + temp_id_len] == '\0' ||
-		    (quote_len == 0 && indent_len > 0
-#ifndef NANO_SMALL
-			&& !ISSET(AUTOINDENT)
-#endif
-			) ||
-		    !indents_match(current->prev->data + quote_len,
-			temp_id_len, current->data + quote_len, indent_len))
-		break;
-	    indent_len = temp_id_len;
-	    current = current->prev;
-	    current_y--;
-	}
-    } else if (operation == 1) {
-	/* This line is not part of a paragraph.  Move up until we get
-	 * to a non "blank" line, and then move down once. */
-	do {
-	    /* There is no previous paragraph, so nothing to move to. */
-	    if (current->prev == NULL) {
-		placewewant = 0;
-		if (current_y < 0)
-		    edit_update(current, CENTER);
-		else
-		    edit_refresh();
-		return 0;
-	    }
-	    current = current->prev;
-	    current_y--;
-	    quote_len = quote_length(IFREG(current->data, &qreg));
-	    indent_len = indent_length(current->data + quote_len);
-	} while (current->data[quote_len + indent_len] == '\0');
-	current = current->next;
-    } else {
-	/* This line is not part of a paragraph.  Move down until we get
-	 * to a non "blank" line. */
-	do {
-	    /* There is no next paragraph, so nothing to justify. */
-	    if (current->next == NULL) {
-		placewewant = 0;
-		edit_refresh();
-#ifdef HAVE_REGEX_H
-		regfree(&qreg);
-#endif
-		return 0;
-	    }
-	    current = current->next;
-	    current_y++;
-	    quote_len = quote_length(IFREG(current->data, &qreg));
-	    indent_len = indent_length(current->data + quote_len);
-	} while (current->data[quote_len + indent_len] == '\0');
-    }
-/* Now current is the first line of the paragraph, and quote_len
- * is the quotation length of that line. */
-
-/* Next step, compute par_len, the number of lines in this paragraph. */
-    line = current;
-    par_len = 1;
-    indent_len = indent_length(line->data + quote_len);
-
-    while (line->next != NULL && quotes_match(current->data, quote_len,
-				IFREG(line->next->data, &qreg))) {
-	size_t temp_id_len = indent_length(line->next->data + quote_len);
-
-	if (!indents_match(line->data + quote_len, indent_len,
-			line->next->data + quote_len, temp_id_len) ||
-		line->next->data[quote_len + temp_id_len] == '\0' ||
-		(quote_len == 0 && temp_id_len > 0
-#ifndef NANO_SMALL
-			&& !ISSET(AUTOINDENT)
-#endif
-		))
-	    break;
-	indent_len = temp_id_len;
-	line = line->next;
-	par_len++;
-    }
-#ifdef HAVE_REGEX_H
-    /* We no longer need to check quotation, unless we're searching for
-     * the beginning of the paragraph. */
-    if (operation != 1)
-	regfree(&qreg);
-#endif
-/* Now par_len is the number of lines in this paragraph.  Should never
- * call quotes_match() or quote_length() again. */
-
-    /* If we're searching for the beginning of the paragraph, skip the
-     * justification.  If we're searching for the end of the paragraph,
-     * move down the number of lines in the paragraph and skip the
-     * justification. */
-    if (operation == 1)
-	goto skip_justify;
-    else if (operation == 2) {
-	while (par_len > 0) {
-	    current = current->next;
-	    current_y++;
-	    par_len--;
-	}
-	goto skip_justify;
+    /* First, search for the beginning of the current paragraph or, if
+     * we're at the end of it, the beginning of the next paragraph.
+     * Save the quote length, paragraph length, and indentation length
+     * and don't refresh the screen yet (since we'll do that after we
+     * justify).  If the search failed, refresh the screen and get
+     * out. */
+    if (do_para_search(0, &quote_len, &par_len, &indent_len, FALSE) != 0) {
+	edit_refresh();
+	return 0;
     }
 
 /* Next step, we loop through the lines of this paragraph, justifying
@@ -2539,7 +2640,7 @@ int do_para_operation(int operation)
 #endif
 	    next_line_len = strlen(current->next->data);
 	    if (indent_len + break_pos == next_line_len) {
-		line = current->next;
+		filestruct *line = current->next;
 
 		/* Don't destroy edittop! */
 		if (line == edittop)
@@ -2576,59 +2677,6 @@ int do_para_operation(int operation)
 	if (first_mod_line->prev == NULL)
 	    fileage = first_mod_line;
 	renumber(first_mod_line);
-    }
-
-  skip_justify:
-    if (operation == 1) {
-	/* We're on the same line we started on.  Search for the first
-	 * non-"blank" line before the line we're on (if there is one),
-	 * continually restart that search from the current position
-	 * until we find a line that's part of a paragraph, and then
-	 * search once more from there, so that we end up on the first
-	 * line of that paragraph.  In the process, skip over lines
-	 * consisting only of spacing characters, as searching for the
-	 * end of the paragraph does.  Then update the screen. */
-	if (current != fileage && current == current_save && !no_restart) {
-	    while (current->prev != NULL) {
-		int j, j_space = 0;
-		current = current->prev;
-		current_y--;
-		for (j = 0; j < strlen(current->data); j++) {
-		    if (isspace(current->data[j]))
-			j_space++;
-		    else {
-			j = -1;
-			break;
-		    }
-		}
-		if (j != j_space && strlen(current->data) >=
-			(quote_len + indent_len) &&
-			current->data[quote_len + indent_len] != '\0') {
-		    no_restart = 1;
-		    break;
-		}
-	    }
-	    goto restart_bps;
-	} else
-	    no_restart = 0;
-#ifdef HAVE_REGEX_H
-	/* We no longer need to check quotation, if we were
-	 * searching for the beginning of the paragraph. */
-	regfree(&qreg);
-#endif
-	if (current_y < 0)
-	    edit_update(current, CENTER);
-	else
-	    edit_refresh();
-	return 0;
-    } else if (operation == 2) {
-	/* We've already moved to the end of the paragraph.  Update the
-	 * screen. */
-	if (current_y > editwinrows - 1)
-	    edit_update(current, CENTER);
-	else
-	    edit_refresh();
-	return 0;
     }
 
     if (current_y > editwinrows - 1)
@@ -2714,30 +2762,8 @@ int do_para_operation(int operation)
     display_main_list();
 
     return 0;
-}
 #endif /* !DISABLE_JUSTIFY */
-
-int do_justify(void)
-{
-#ifdef DISABLE_JUSTIFY
-    nano_disabled_msg();
-    return 1;
-#else
-    return do_para_operation(0);
-#endif
 }
-
-#ifndef DISABLE_JUSTIFY
-int do_para_begin(void)
-{
-    return do_para_operation(1);
-}
-
-int do_para_end(void)
-{
-    return do_para_operation(2);
-}
-#endif
 
 int do_exit(void)
 {

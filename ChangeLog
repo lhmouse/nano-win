@@ -20,6 +20,9 @@ CVS code -
 	  waiting for input from the user.  New function
 	  allow_pending_sigwinch(); changes to signal_init(),
 	  get_kbinput(), and get_verbatim_kbinput(). (DLR)
+	- Decouple the paragraph searching code and the justifying code.
+	  Removed function do_para_operation(); new function
+	  do_para_search(); changes to do_justify(). (DLR)
 - files.c:
   add_open_files()
 	- Make the saving of marked status in open_files->file_flags
