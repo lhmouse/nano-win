@@ -1287,8 +1287,14 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	/* Get the shortcut lists' length. */
 	if (currshortcut == main_list)
 	    currslen = MAIN_VISIBLE;
-	else
+	else {
 	    currslen = length_of_list(currshortcut);
+
+	    /* We don't show any more shortcuts than the main list
+	     * does. */
+	    if (currslen > MAIN_VISIBLE)
+		currslen = MAIN_VISIBLE;
+	}
 
 	/* Calculate the width of each shortcut in the list (it's the
 	 * same for all of them). */
@@ -1319,7 +1325,7 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	 * has an equivalent control key, meta key sequence, or both. */
 	if (s->ctrlval != NANO_NO_KEY)
 	    unget_kbinput(s->ctrlval, FALSE);
-	else if (s->ctrlval != NANO_NO_KEY)
+	else if (s->metaval != NANO_NO_KEY)
 	    unget_kbinput(s->metaval, TRUE);
 
 	return TRUE;

@@ -23,6 +23,11 @@ CVS code -
 	- New function used as a wrapper for ungetch(). (DLR)
   get_mouseinput()
 	- Consolidate two if statements to increase efficiency. (DLR)
+	- Check kbinput against metaval instead of (erroneously) ctrlval
+	  when putting back a meta sequence. (DLR)
+	- If there are more than MAIN_VISIBLE shortcuts available, only
+	  register clicks on the first MAIN_VISIBLE shortcuts, since
+	  bottombars() only shows that many shortcuts. (DLR)
   do_yesno()
 	- Don't bother assigning the value of get_mouseinput() to
 	  anything.  Since allow_shortcuts is FALSE, its return value
