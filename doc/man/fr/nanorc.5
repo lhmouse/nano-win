@@ -1,7 +1,7 @@
 .\" Hey, EMACS: -*- nroff -*-
 .\" nanorc.5 is Copyright (C) 2003 Free Software Foundation, Inc.
 .\"
-.\" (c) 2003 Jean-Philippe Guérard <jean-philippe.guerard@corbeaunoir.org>
+.\" (c) 2003-2004 Jean-Philippe Guérard <jean-philippe.guerard@corbeaunoir.org>
 .\" pour l'adaptation française
 .\"
 .\" This is free documentation, see the latest version of the GNU General
@@ -11,7 +11,8 @@
 .\" licence publique générale GNU (GNU GPL) pour connaître ses
 .\" conditions d'utilisation. AUCUNE garantie n'est offerte.
 .\"
-.TH NANORC 5 "19 juin 2003 (v.f. du 25 août 2003)"
+.\" $Id$
+.TH NANORC 5 "version 1.3.4" "17 août 2004"
 .\" Please adjust this date whenever revising the manpage.
 .\" Merci de modifier ces dates à chaque mise à jour de cette page.
 
@@ -32,7 +33,7 @@ sauter directement à un numéro de ligne.
 .PP
 Le fichier \fInanorc\fP contient les paramètres par défaut de 
 \fBnano\fP. Lors de son démarrage, nano commence par lire le fichier de 
-configuration général \fI$SYSCONFDIR/nanorc\fP, puis lit le fichier de 
+configuration général \fISYSCONFDIR/nanorc\fP, puis lit le fichier de 
 configuration personnel de l'utilisateur \fI~/.nanorc\fP.
 
 .SH OPTIONS
@@ -44,9 +45,9 @@ De plus, les mots clefs «\ syntax\ » (syntaxe) et «\ color\ » (couleur)
 sont utilisés pour définir les règles de colorisation pour différents 
 motifs de texte. Nano lira une commande par ligne.
 
-Les options du fichier de configuration ont priorité sur les valeurs par 
-défaut utilisées par nano. Les options données sur la ligne de commande 
-permettent d'outrepasser les options du fichier de configuration.
+Les options du fichier de configuration ont priorité sur les valeurs par
+défaut utilisées par nano. Les options de la ligne de commande sont
+prioritaires par rapport aux options du fichier de configuration.
 
 Les options sont désactivées (unset) par défaut, sauf les options 
 prenant un argument.
@@ -58,16 +59,15 @@ Les commandes et arguments reconnus sont\ :
 Active l'indentation automatique.
 .TP
 \fBset/unset backup\fP
-Crée des copie de sécurité appelées
+Crée des copie de sécurité nommées
 .IR nom_du_fichier~ .
 .TP
 \fBset/unset const\fP
-Affiche en permanence la position du curseur dans la barre 
-d'information.
+Affiche en permanence la position du curseur dans la ligne d'état.
 .TP
 \fBset/unset cut\fP
-Par défaut, utilise ^K  pour couper le texte du curseur à la fin de la 
-ligne, au lieu de couper la ligne entière.
+Par défaut, ^K  coupe le texte du curseur jusqu'à la fin de la ligne, au 
+lieu de couper la ligne entière.
 .TP
 \fBset fill \fIn\fP\fP
 Passe automatiquement à la ligne à la colonne \fIn\fP. Si la valeur 
@@ -80,11 +80,9 @@ Active l'utilisation de
 pour enregistrer et relire les chaînes ayant fait l'objet d'une 
 recherche ou d'un remplacement.
 .TP
-\fBset/unset keypad\fP
-Utilise l'autre gestion du pavé numérique.
-.TP
 \fBset/unset multibuffer\fP
-Permet de charger simultanément plusieurs fichiers.
+Mode multifichiers\ : permet de charger les fichiers dans leur propre 
+espace.
 .TP
 \fBset/unset noconvert\fP
 Pas de conversion depuis les formats DOS et Mac.
@@ -93,7 +91,7 @@ Pas de conversion depuis les formats DOS et Mac.
 Ne suit pas les liens symboliques lors de l'écriture des fichiers.
 .TP
 \fBset/unset nohelp\fP
-Désactive la barre d'aide affichée en bas de l'écran.
+Désactive les lignes d'aide affichée en bas de l'écran.
 .TP
 \fBset/unset nowrap\fP
 Désactive le passage automatique à la ligne.
@@ -101,11 +99,23 @@ Désactive le passage automatique à la ligne.
 \fBset operatingdir "\fIrépertoire\fP"\fP
 \fBnano\fP ne lira et n'écrira des fichiers qu'à l'intérieur du 
 \fIrépertoire\fP et de ses sous-répertoires. De plus, celui-ci devient 
-le répertoire courant, afin que les fichiers soient écrits dans ce 
-dossier. Par défaut, cette fonction est désactivée.
+le répertoire courant, afin que les fichiers soient lus depuis ce 
+répertoire. Par défaut, cette fonction est désactivée.
 .TP
 \fBset/unset preserve\fP
 Préserve les séquences XON et XOFF (^Q et ^S).
+.TP
+\fBset punct "\fIchaîne\fP"\fP
+Définit les caractères interprétés comme des ponctuations terminales. 
+Ces caractères ne peuvent inclure d'espaces ou de tabulations. Seules les 
+ponctuations terminales, éventuellement suivies de crochets fermants, 
+peuvent terminer une phrase.
+
+(N.D.T.\ : ce réglage permet de conserver 2\ espaces au lieu d'une 
+derrière les ponctuations terminales lors de la justification, ce qui 
+correspond aux normes typographiques anglo-saxonnes, mais n'a pas lieu 
+d'être en français. Pour le français, le plus simple est d'indiquer dans 
+le fichier nanorc une chaîne vide pour ce paramètre.)
 .TP
 \fBset quotestr "\fIchaîne\fP"\fP
 Définit le préfixe par défaut utilisé pour les citations dans les 
@@ -120,8 +130,23 @@ expressions rationnelles, la valeur par défaut sera\ :
 Sinon, ce sera ">\ ". Notez que le «\ \\t\ » ci-dessus correspond à un 
 caractère de tabulation.
 .TP
+\fBset/unset rebinddelete\fP
+Interprète différemment la touche «\ Supprimer\ », afin que les touches
+«\ Effacement arrière\ » et «\ Supprimer\ » fonctionnent correctement.
+Vous devriez uniquement avoir besoin de cette option si la touche
+«\ Effacement arrière\ » produit l'effet de la touche «\ Supprimer\ »
+sur votre système.
+.TP
 \fBset/unset regexp\fP
 Utilise par défaut des expressions rationnelles pour les recherches.
+.TP
+\fBset/unset smarthome\fP
+Active le fonctionnement évolué de la touche «\ Début\ ». Lorsque cette
+touche est pressée à n'importe quel endroit excepté au tout début du
+texte d'une ligne (i.\ e. au premier caractère non-blanc), le curseur se
+positionnera à ce début de ligne (qu'il soit en avant ou en arrière). Si
+le curseur est déjà au tout début de la ligne, il se placera au vrai
+début de la ligne.
 .TP
 \fBset/unset smooth\fP
 Active le défilement ligne-par-ligne du texte.
@@ -138,18 +163,23 @@ Utilise une largeur de tabulation de \fIn\fP au lieu de la valeur par
 défaut (8). Cette valeur doit être supérieur à 0.
 .TP
 \fBset/unset tempfile\fP
-S'il a été modifié, le fichier sera sauvegardé automatiquement
-sans demande de confirmation.
+S'il a été modifié, le fichier sera sauvegardé automatiquement en 
+quittant, sans demande de confirmation.
 .TP
 \fBset/unset view\fP
 Interdit la modification du fichier.
+.TP
+\fBset whitespace "\fIchaîne\fP"\fP
+Définit les deux caractères utilisés pour afficher les premiers 
+caractères de tabulations et d'espaces. Cela ne doit pas être 
+des caractère de contrôle.
 .TP
 .B syntax "\fIchaîne\fP" ["\fImotif_de_fichier\fP" ... ]
 Définit une syntaxe nommée \fIchaîne\fP qui pourra être activé via 
 l'option \fB-Y\fP, ou qui sera automatiquement activé si le nom du 
 fichier en cours correspond au \fImotif_de_fichier\fP. Toutes les 
-instructions de colorisation \fBcolor\fP suivantes s'appliqueront à cette 
-syntaxe, jusqu'à la définition d'une nouvelle syntaxe.
+instructions suivantes de colorisation \fBcolor\fP s'appliqueront à 
+cette syntaxe, jusqu'à la définition d'une nouvelle syntaxe.
 .TP
 .B color \fIcouleur_texte\fP[,\fIcouleur_fond\fP] "\fImotif\fP" ...
 Pour la syntaxe en cours, affiche toutes les expressions correspondant à 
@@ -170,7 +200,7 @@ par \fImotif_fin\fP en utilisant la couleur de texte \fIcouleur_texte\fP
 et éventuellement la couleur de fond \fIcouleur_fond\fP. Cela permet à 
 la colorisation syntaxique de s'étendre sur plusieurs lignes. Notez que 
 toutes les occurrences successives de \fImotif_début\fP après le 
-\fImotif_début\fP initial seront colorées jusqu'à la prochaine instance 
+\fImotif_début\fP initial seront surlignées jusqu'à la prochaine instance 
 de \fImotif_fin\fP.
 
 .SH FICHIERS
@@ -195,4 +225,6 @@ Chris Allegretta <chrisa@asty.org> et d'autres (voir les fichiers
 manuel a été rédigée par Jordi Mallach <jordi@gnu.org>.
 
 .SH TRADUCTION
-Jean-Philippe Guérard <jean-philippe.guerard@corbeaunoir.org>, 2003.
+
+Adaptation française du 31\ août 2004\ par
+Jean-Philippe\ Guérard\ <jean-philippe.guerard@corbeaunoir.org>.
