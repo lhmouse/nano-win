@@ -244,6 +244,21 @@ int *buffer_to_keys(buffer *input, size_t input_len)
     return sequence;
 }
 
+/* Return the buffer equivalent of the key values in input, adding
+ * key_code values of FALSE to all of them. */
+buffer *keys_to_buffer(int *input, size_t input_len)
+{
+    buffer *sequence = (buffer *)nmalloc(input_len * sizeof(buffer));
+    size_t i;
+
+    for (i = 0; i < input_len; i++) {
+	sequence[i].key = input[i];
+	sequence[i].key_code = FALSE;
+    }
+
+    return sequence;
+}
+
 /* Add the contents of the keystroke buffer input to the default
  * keystroke buffer. */
 void unget_input(buffer *input, size_t input_len)
@@ -1376,6 +1391,21 @@ int get_control_kbinput(int kbinput)
     return retval;
 }
 
+/* Put the output-formatted key values in the input buffer kbinput back
+ * into the default keystroke buffer, starting at position pos, so that
+ * they can be parsed again. */
+void unparse_kbinput(size_t pos, int *kbinput, size_t kbinput_len)
+{
+    if (pos < kbinput_len - 1) {
+	size_t seq_len = kbinput_len - (kbinput_len - pos);
+	buffer *sequence = keys_to_buffer(&kbinput[pos + 1],
+		seq_len);
+
+	unget_input(sequence, seq_len);
+	free(sequence);
+    }
+}
+
 /* Read in a string of characters verbatim, and return the length of the
  * string in kbinput_len.  Assume nodelay(win) is FALSE. */
 int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
@@ -1676,9 +1706,12 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	 * characters in the input buffer if it isn't empty. */
 	 if (*s_or_t == TRUE || get_buffer_len() == 0) {
 	    if (kbinput != NULL) {
+		bool got_enter;
+			/* Whether we got the Enter key. */
+
 		/* Display all the characters in the input buffer at
 		 * once. */
-		do_statusbar_output(kbinput, kbinput_len);
+		do_statusbar_output(kbinput, kbinput_len, &got_enter);
 
 		/* Empty the input buffer. */
 		kbinput_len = 0;
@@ -1735,8 +1768,17 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 			 * isn't blank, and we're at the "Write File"
 			 * prompt, disable verbatim input. */
 			if (!ISSET(RESTRICTED) || filename[0] == '\0' ||
-				currshortcut != writefile_list)
-			    do_statusbar_verbatim_input();
+				currshortcut != writefile_list) {
+			    bool got_enter;
+				/* Whether we got the Enter key. */
+
+			    do_statusbar_verbatim_input(&got_enter);
+
+			    /* If we got the Enter key, set finished to
+			     * TRUE to indicate that we're done. */
+			    if (got_enter)
+				*finished = TRUE;
+			}
 			break;
 		    }
 		/* Handle the normal statusbar prompt shortcuts, setting
@@ -1832,21 +1874,24 @@ void do_statusbar_cut_text(void)
     statusbar_xend = 0;
 }
 
-void do_statusbar_verbatim_input(void)
+void do_statusbar_verbatim_input(bool *got_enter)
 {
     int *kbinput;	/* Used to hold verbatim input. */
     size_t kbinput_len;	/* Length of verbatim input. */
+
+    *got_enter = FALSE;
 
     /* Read in all the verbatim characters. */
     kbinput = get_verbatim_kbinput(bottomwin, &kbinput_len);
 
     /* Display all the verbatim characters at once. */
-    do_statusbar_output(kbinput, kbinput_len);
+    do_statusbar_output(kbinput, kbinput_len, got_enter);
 
     free(kbinput);
 }
 
-void do_statusbar_output(int *kbinput, size_t kbinput_len)
+void do_statusbar_output(int *kbinput, size_t kbinput_len, bool
+	*got_enter)
 {
     size_t i;
 
@@ -1858,6 +1903,8 @@ void do_statusbar_output(int *kbinput, size_t kbinput_len)
 
     assert(answer != NULL);
 
+    *got_enter = FALSE;
+
     for (i = 0; i < kbinput_len; i++) {
 	int key_len;
 
@@ -1865,10 +1912,14 @@ void do_statusbar_output(int *kbinput, size_t kbinput_len)
 	if (kbinput[i] == '\0')
 	    kbinput[i] = '\n';
 	/* Newline to Enter, if needed. */
-	else if (kbinput[i] == '\n')
-	    /* FIXME: We need to indicate when this happens, so that we
-	     * can break out of the statusbar prompt properly. */
+	else if (kbinput[i] == '\n') {
+	    /* Set got_enter to TRUE to indicate that we got the Enter
+	     * key, put back the rest of the keystrokes in kbinput so
+	     * that they can be parsed again, and get out. */
+	    *got_enter = TRUE;
+	    unparse_kbinput(i, kbinput, kbinput_len);
 	    return;
+	}
 
 #ifdef NANO_WIDE
 	/* Change the wide character to its multibyte value.  If it's

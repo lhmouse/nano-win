@@ -542,6 +542,7 @@ void reset_kbinput(void);
 void get_buffer(WINDOW *win);
 size_t get_buffer_len(void);
 int *buffer_to_keys(buffer *input, size_t input_len);
+buffer *keys_to_buffer(int *input, size_t input_len);
 void unget_input(buffer *input, size_t input_len);
 void unget_kbinput(int kbinput, bool meta_key, bool func_key);
 buffer *get_input(WINDOW *win, size_t input_len);
@@ -560,6 +561,7 @@ int get_word_kbinput(int kbinput
 #endif
 	);
 int get_control_kbinput(int kbinput);
+void unparse_kbinput(size_t pos, int *kbinput, size_t kbinput_len);
 int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len);
 int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len);
 #ifndef DISABLE_MOUSE
@@ -582,8 +584,9 @@ void do_statusbar_left(void);
 void do_statusbar_backspace(void);
 void do_statusbar_delete(void);
 void do_statusbar_cut_text(void);
-void do_statusbar_verbatim_input(void);
-void do_statusbar_output(int *kbinput, size_t kbinput_len);
+void do_statusbar_verbatim_input(bool *got_enter);
+void do_statusbar_output(int *kbinput, size_t kbinput_len, bool
+	*got_enter);
 size_t xplustabs(void);
 size_t actual_x(const char *str, size_t xplus);
 size_t strnlenpt(const char *buf, size_t size);

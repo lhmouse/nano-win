@@ -84,7 +84,8 @@ CVS code -
 	  from a patch for Pico by Eduardo Chappa, suggested by Ryan
 	  Dlugosz and Paul Adams)
 	- Implement verbatim input for the statusbar prompt.  Changes to
-	  do_statusbar_input(); new function
+	  do_statusbar_input() and do_statusbar_output(); new functions
+	  keys_to_buffer(), unparse_kbinput(), and
 	  do_statusbar_verbatim_input(). (DLR)
 - cut.c:
   do_cut_text()
