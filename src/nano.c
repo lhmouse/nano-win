@@ -672,7 +672,7 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
 void unpartition_filestruct(partition *p)
 {
     char *tmp;
-    assert(p != NULL);
+    assert(p != NULL && fileage != NULL && filebot != NULL);
 
     /* Reattach the line above the top of the partition, and restore the
      * text before top_x from top_data.  Free top_data when we're done
