@@ -167,8 +167,6 @@ void clear_filename(void)
 /* Initialize global variables - no better way for now */
 void global_init(void)
 {
-    int i;
-
     current_x = 0;
     current_y = 0;
 
@@ -190,11 +188,8 @@ void global_init(void)
 	die_too_small();
 
     hblank = nmalloc(COLS + 1);
-
-    /* Thanks BG for this bit... */
-    for (i = 0; i <= COLS - 1; i++)
-	hblank[i] = ' ';
-    hblank[i] = 0;
+    memset(hblank, ' ', COLS);
+    hblank[COLS] = 0;
 }
 
 #ifndef DISABLE_HELP
@@ -1543,7 +1538,6 @@ void handle_sigwinch(int s)
     char *tty = NULL;
     int fd = 0;
     int result = 0;
-    int i = 0;
     struct winsize win;
 
     tty = ttyname(0);
@@ -1566,12 +1560,9 @@ void handle_sigwinch(int s)
     if ((fill = COLS - CHARS_FROM_EOL) < MIN_FILL_LENGTH)
 	die_too_small();
 
-    free(hblank);
-    hblank = nmalloc(COLS + 1);
-
-    for (i = 0; i <= COLS - 1; i++)
-	hblank[i] = ' ';
-    hblank[i] = 0;
+    hblank = nrealloc(hblank, COLS + 1);
+    memset(hblank, ' ', COLS);
+    hblank[COLS] = 0;
 
 #ifdef HAVE_NCURSES_H
     resizeterm(LINES, COLS);

@@ -21,6 +21,8 @@ General
 	- Added restoration of totsize after unjustify command.
   usage()
 	- Add arg to -T help (Rocco).
+  global_init(), handle_sigwinch()
+	- Messy loops replaced with memset calls (Rocco).
 
 nano 0.9.99pre1 - 01/17/2001
 General
