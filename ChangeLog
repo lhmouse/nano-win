@@ -413,6 +413,10 @@ CVS code -
 	  programs. (DLR)
 	- Remove the checks for resizeterm() and wresize(), as they're
 	  no longer needed. (DLR)
+- config.rpath:
+	- Replace usage of egrep with grep -E, avoiding a XSI:ism (David
+	  Weinehall)
+
 - faq.html:
 	- Removed question about the NumLock glitch, as it's no longer
 	  needed. (DLR)
