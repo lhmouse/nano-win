@@ -503,7 +503,7 @@ void shortcut_init(int unjustify)
     sc_init_one(&main_list, NANO_JUSTIFY_KEY, _("Justify"),
 		IFHELP(nano_justify_msg, NANO_NO_KEY),
 		NANO_JUSTIFY_FKEY, NANO_NO_KEY, NOVIEW,
-#ifndef NANO_SMALL
+#ifndef DISABLE_JUSTIFY
 		do_justify_void
 #else
 		nano_disabled_msg
