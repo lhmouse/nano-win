@@ -21,7 +21,7 @@ CVS code -
 	  (DLR)
 - faq.html:
 	- Miscellaneous fixes and updates for typos and broken links.
-	  It is now fully compliant with HTML 4.10 Transitional. (DLR)
+	  It is now fully compliant with HTML 4.01 Transitional. (DLR)
 - nano.texi:
 	- Typo fixes and updates. (David Benbennick)
 
