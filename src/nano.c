@@ -3557,8 +3557,8 @@ bool do_mouse(void)
 }
 #endif /* !DISABLE_MOUSE */
 
-/* The user typed kbinput_len characters.  Add them to the edit
- * buffer. */
+/* The user typed kbinput_len wide characters.  Add them to the edit
+ * buffer as multibyte characters. */
 void do_output(int *kbinput, size_t kbinput_len)
 {
     size_t i, current_len = strlen(current->data);
