@@ -699,15 +699,13 @@ assert (strlenpt(inptr->data) >= fill);
 	    temp->data = nmalloc(strlen(&inptr->data[current_word_start]) + 1);
             strcpy(temp->data, &inptr->data[current_word_start]);
 
-	    if (!isspace(input_char)) {
-		i = current_word_start - 1;
-		while (isspace(inptr->data[i])) {
-		    i--;
-		    assert (i >= 0);
-		}
+	    /* Do this in either case, else words after current_x
+		get chopped... */
+	    i = current_word_start - 1;
+	    while (isspace(inptr->data[i])) {
+		i--;
+		assert (i >= 0);
 	    }
-	    else
-		i = current_x - 1;
 
             inptr->data = nrealloc(inptr->data, i + 2);
             inptr->data[i + 1] = 0;
