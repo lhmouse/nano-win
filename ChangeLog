@@ -3,6 +3,9 @@ CVS code -
   do_browser()
 	- More Picoish keystrokes for the browser, ^P, ^N, etc, for up,
 	  down, etc, and add the consistent ^C to exit (Jim Knoble).
+- nano.c:
+  main()
+	- Added Alt-[-[-7,8 support for home/end keys (Jeff Teunissen).
 - THANKS:
 	- Added some more people.
 - po/gl.po:
