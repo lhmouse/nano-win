@@ -3076,9 +3076,18 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		    goto step_two;
 
 		/* Now paint the start of fileptr. */
-		paintlen = (end_line != fileptr) ? -1 :
-			actual_x(converted, strnlenpt(fileptr->data,
-			endmatch.rm_eo) - start);
+		if (end_line != fileptr)
+		    /* If the start of fileptr is on a different line
+		     * from the end, paintlen is -1, meaning that
+		     * everything on the line gets painted. */
+		    paintlen = -1;
+		else
+		    /* Otherwise, paintlen is the expanded location of
+		     * the end of the match minus the expanded location
+		     * of the beginning of the page. */
+		    paintlen = actual_x(converted,
+			strnlenpt(fileptr->data, endmatch.rm_eo) -
+			start);
 
 		mvwaddnstr(edit, yval, 0, converted, paintlen);
 
