@@ -1,12 +1,13 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) 2001 Free Software Foundation, Inc.
-# Sergey A. Ribalchenko <fisher@obu.ck.ua>, 2001.
+# Russian messages for GNU nano.
+# Copyright (C) 2001, 2002 Free Software Foundation, Inc.
+# Sergey A. Ribalchenko <fisher@obu.ck.ua>, 2001, 2002.
+# $Id$
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.0.1\n"
+"Project-Id-Version: nano_1_0 1.0.7\n"
 "POT-Creation-Date: 2001-12-17 18:48-0500\n"
-"PO-Revision-Date: 2001-05-16 10:10+0200\n"
+"PO-Revision-Date: 2002-01-02 15:55+0300\n"
 "Last-Translator: Sergey A. Ribalchenko <fisher@obu.ck.ua>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -96,9 +97,8 @@ msgid "Wrote %d lines"
 msgstr "Записано %d строк"
 
 #: files.c:525
-#, fuzzy
 msgid "File Name to write"
-msgstr "Имя Файла на запись"
+msgstr "Имя файла на запись"
 
 #: files.c:542
 #, c-format
@@ -212,7 +212,6 @@ msgid "Uncut from the cutbuffer into the current line"
 msgstr "Вставить содержимое cutbuffer'а в текущую строку"
 
 #: global.c:199
-#, fuzzy
 msgid "Show the position of the cursor"
 msgstr "Показать положение курсора"
 
@@ -423,21 +422,13 @@ msgstr "К Файлам"
 
 #: nano.c:141
 #, c-format
-msgid ""
-"\n"
-"Buffer written to %s\n"
-msgstr ""
-"\n"
-"Буфер записан в %s\n"
+msgid "\nBuffer written to %s\n"
+msgstr "\nБуфер записан в %s\n"
 
 #: nano.c:143
 #, c-format
-msgid ""
-"\n"
-"No %s written (file exists?)\n"
-msgstr ""
-"\n"
-"%s не записан (файл существует?)\n"
+msgid "\nNo %s written (file exists?)\n"
+msgstr "\n%s не записан (файл существует?)\n"
 
 #: nano.c:152
 msgid "Window size is too small for Nano..."
@@ -451,39 +442,16 @@ msgstr "Неверная клавиша в режиме Просмотра"
 msgid ""
 " nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor: The "
-"top line shows the program version, the current filename being edited, and "
-"whether or not the file has been modified.  Next is the main editor window "
-"showing the file being edited.  The status line is the third line from the "
-"bottom and shows important messages. The bottom two lines show the most "
-"commonly used shortcuts in the editor.\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor: The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages. The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
-" The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  "
-"Escape-key sequences are notated with the Meta (M) symbol and can be entered "
-"using either the Esc, Alt or Meta key depending on your keyboard setup.  The "
-"following keystrokes are available in the main editor window. Optional keys "
-"are shown in parentheses:\n"
+" The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt or Meta key depending on your keyboard setup.  The following keystrokes are available in the main editor window. Optional keys are shown in parentheses:\n"
 "\n"
 msgstr ""
 " текст помощи nano\n"
 "\n"
-" Редактор nano разработан для эмуляции функциональности и простоты "
-"использования оригинального редактора UW Pico. Редактор разбит на 4 секции: "
-"верхняя строка содержит версию программы, текущее имя файла, который "
-"редактируется, и были ли внесены изменения в текущий файл. Вторая секция - "
-"это главное окно редактирования, в котором, при некотором желании, можно "
-"рассмотреть содержимое редактируемого файла. Строка состояния - 3 строка "
-"снизу - показывает разные важные сообщения. И, наконец, последние две строки "
-"содержат наиболее общие комбинации клавиш редактора.\n"
+" Редактор nano разработан для эмуляции функциональности и простоты использования оригинального редактора UW Pico. Редактор разбит на 4 секции: верхняя строка содержит версию программы, текущее имя файла, который редактируется, и были ли внесены изменения в текущий файл. Вторая секция - это главное окно редактирования, в котором, при некотором желании, можно рассмотреть содержимое редактируемого файла. Строка состояния - 3 строка снизу - показывает разные важные сообщения. И, наконец, последние две строки содержат наиболее общие комбинации клавиш редактора.\n"
 "\n"
-" Система обозначений комбинаций клавиш следующая: 1. Комбинации с Control'ом "
-"обозначены символом '^' и вводятся при помощи нажатой кнопки Ctrl; 2. "
-"комбинации с Esc (Esc-последовательности) обозначены буквой M и могут быть "
-"введены при помощи кнопки Esc, Alt или Meta, в зависимости от используемой "
-"клавиатуры. Нижеследущие комбинации доступны в главном окне редактирования. "
-"Дополнительные комбинации показаны в скобках:\n"
+" Система обозначений комбинаций клавиш следующая: 1. Комбинации с Control'ом обозначены символом '^' и вводятся при помощи нажатой кнопки Ctrl; 2. комбинации с Esc (Esc-последовательности) обозначены буквой M и могут быть введены при помощи кнопки Esc, Alt или Meta, в зависимости от используемой клавиатуры. Нижеследущие комбинации доступны в главном окне редактирования. Дополнительные комбинации показаны в скобках:\n"
 "\n"
 
 #: nano.c:298
@@ -495,12 +463,8 @@ msgid "delete_node(): free'd last node.\n"
 msgstr "delete_node(): освобожден последний узел.\n"
 
 #: nano.c:360
-msgid ""
-"Usage: nano [GNU long option] [option] +LINE <file>\n"
-"\n"
-msgstr ""
-"Использование: nano [длинные опции GNU] [опции] +СТРОКА <файл>\n"
-"\n"
+msgid "Usage: nano [GNU long option] [option] +LINE <file>\n\n"
+msgstr "Использование: nano [длинные опции GNU] [опции] +СТРОКА <файл>\n\n"
 
 #: nano.c:361
 msgid "Option\t\tLong option\t\tMeaning\n"
@@ -544,11 +508,10 @@ msgstr " -m \t\t--mouse\t\t\tРазрешить мышку\n"
 
 #: nano.c:389
 msgid " -p\t \t--pico\t\t\tEmulate Pico as closely as possible\n"
-msgstr " -p\t \t--pico\t\t\tЭмулировать Pico насколько это возможно\n"
+msgstr " -p\t \t--pico\t\t\tЭмулировать Pico насколько возможно\n"
 
 #: nano.c:392
-msgid ""
-" -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
+msgid " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
 msgstr " -r [#стол] \t--fill=[#стол]\t\tПереносить строки в позиции #стол\n"
 
 #: nano.c:395
@@ -580,12 +543,8 @@ msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
 msgstr " +СТРОКА\t\t\t\tНачать со строки номер СТРОКА\n"
 
 #: nano.c:412
-msgid ""
-"Usage: nano [option] +LINE <file>\n"
-"\n"
-msgstr ""
-"Использование: nano [опция] +СТРОКА <файл>\n"
-"\n"
+msgid "Usage: nano [option] +LINE <file>\n\n"
+msgstr "Использование: nano [опция] +СТРОКА <файл>\n\n"
 
 #: nano.c:413
 msgid "Option\t\tMeaning\n"
@@ -673,12 +632,8 @@ msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 msgstr " Емыло: nano@nano-editor.org\tПаутина: http://www.nano-editor.org"
 
 #: nano.c:453
-msgid ""
-"\n"
-" Compiled options:"
-msgstr ""
-"\n"
-" Собрано с опциями:"
+msgid "\n Compiled options:"
+msgstr "\n Собрано с опциями:"
 
 #: nano.c:521
 msgid "Mark Set"
@@ -817,20 +772,20 @@ msgstr "Поймал Alt-%c! (%d)\n"
 #: search.c:127
 #, c-format
 msgid "Case Sensitive Regexp Search%s%s"
-msgstr "Регистрозавимый поиск формального выражения%s%s"
+msgstr "Регистрозависимый поиск Регулярного выражения%s%s"
 
 #: search.c:129
 #, c-format
 msgid "Regexp Search%s%s"
-msgstr "Поиск формального выражения%s%s"
+msgstr "Поиск Регулярного выражения%s%s"
 
 #: search.c:131
-#, fuzzy, c-format
+#, c-format
 msgid "Case Sensitive Search%s%s"
-msgstr "Регистро-зависимый поиск%s%s"
+msgstr "Регистрозависимый поиск%s%s"
 
 #: search.c:133
-#, fuzzy, c-format
+#, c-format
 msgid "Search%s%s"
 msgstr "Поиск%s%s"
 
@@ -897,7 +852,7 @@ msgstr "Эта, а можно чуть более адекватно?"
 #: search.c:719
 #, c-format
 msgid "Only %d lines available, skipping to last line"
-msgstr "Только %d строк доступно, пропускаем до последней строки"
+msgstr "Только лишь %d строк доступно, пропускаем до последней строки"
 
 #: winio.c:124
 #, c-format
@@ -1010,8 +965,7 @@ msgstr "Особая благодарность:"
 
 #: winio.c:1420
 msgid "The Free Software Foundation"
-msgstr ""
-"The Free Software Foundation (фонд свободного программного обеспечения)"
+msgstr "The Free Software Foundation (фонд свободного программного обеспечения)"
 
 #: winio.c:1421
 msgid "Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses"
@@ -1024,47 +978,3 @@ msgstr "и всем остальным, кого мы забыли упомянуть..."
 #: winio.c:1423
 msgid "Thank you for using nano!\n"
 msgstr "Спасибо Вам за выбор nano!\n"
-
-#, fuzzy
-#~ msgid "Append"
-#~ msgstr "Приостановить"
-
-#, fuzzy
-#~ msgid "Write"
-#~ msgstr "Записать"
-
-#, fuzzy
-#~ msgid "Goto Directory"
-#~ msgstr "К строке"
-
-#, fuzzy
-#~ msgid "Goto Cancelled"
-#~ msgstr "Отменено"
-
-#, fuzzy
-#~ msgid "Append to the current file"
-#~ msgstr "Переместиться в конец текущей строки"
-
-#, fuzzy
-#~ msgid "Search Backwards"
-#~ msgstr "Поиск отменен"
-
-#, fuzzy
-#~ msgid "Use Regular Expressions"
-#~ msgstr "Формальные выражения (regexp)"
-
-#, fuzzy
-#~ msgid "Backward"
-#~ msgstr "Назад"
-
-#, fuzzy
-#~ msgid "Goto"
-#~ msgstr "К строке"
-
-#, fuzzy
-#~ msgid "Case Sensitive "
-#~ msgstr "РегЗависим"
-
-#, fuzzy
-#~ msgid "Aha! '%c' (%d)\n"
-#~ msgstr "ввод '%c' (%d)\n"

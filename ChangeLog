@@ -5,6 +5,8 @@ CVS Code -
 	- Italian translation update (Marco Colombo).
 - po/fr.po:
 	- French translation update
+- po/ru.po, po/uk.po:
+	- Russian and Ukrainian translations updates (Sergey A. Ribalchenko).
 
 nano-1.0.7 - 12/17/2001
 - General
