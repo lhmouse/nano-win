@@ -121,10 +121,10 @@ CVS code -
 	- Move the REVERSE_SEARCH flag toggling into the NANO_SMALL
 	  #ifdef, since the tiny version of nano doesn't support reverse
 	  searching.  Move the CASE_SENSITIVE flag toggling out in order
-	  to allow the internal spell checker to work when NANO_SMALL is
-	  defined and DISABLE_SPELLER isn't.  Also, turn the USE_REGEXP
-	  flag off during spell checking in order to avoid a potential
-	  segfault. (DLR)
+	  to allow the internal spell checker to work properly when
+	  NANO_SMALL is defined and DISABLE_SPELLER isn't.  Also, turn
+	  the USE_REGEXP flag off during spell checking in order to
+	  avoid a potential segfault. (DLR)
   justify_format()
 	- For more compatibility with Pico, remove extra space after a
 	  character in punct if that character is the same as the one
