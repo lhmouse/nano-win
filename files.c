@@ -807,11 +807,6 @@ char **cwd_tab_completion(char *buf, int *num_matches)
     }
     while ((next = readdir(dir)) != NULL) {
 
-	/* Some quick sanity checks */
-	if ((strcmp(next->d_name, "..") == 0)
-	    || (strcmp(next->d_name, ".") == 0)) {
-	    continue;
-	}
 #ifdef DEBUG
 	fprintf(stderr, "Comparing \'%s\'\n", next->d_name);
 #endif

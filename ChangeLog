@@ -1,6 +1,9 @@
 CVS code -
 - faq.html:
 	- Fix typos and small mistakes (Jordi).
+- files.c:
+  cwd_tab_completion()
+	- removed skipping . and .. when tabulating matches.
 - nano.c:
   main()
 	- Reorder the getopt options to be more or less alphabetical
