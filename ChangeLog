@@ -30,6 +30,9 @@ CVS Code -
 	  position (David Lawrence Ramsey).
   do_wrap()
 	- Many fixes (David Lawrence Ramsey).
+  do_spell() 
+	- Dont prompt for replace if we don't change the word in
+	  question (Rocco Corsi).
 - po/de.po:
 	- German translation updates (Karl Eichwalder).
 - po/ru.po:

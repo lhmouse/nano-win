@@ -1482,8 +1482,10 @@ int do_int_spell_fix(char *word)
 
 	search_last_line = FALSE;
 
-	j = i;
-	do_replace_loop(prevanswer, fileage, &beginx_top, TRUE, &j);
+	if (strcmp(prevanswer,answer) != 0) {
+	   j = i;
+	   do_replace_loop(prevanswer, fileage, &beginx_top, TRUE, &j);
+	}
     }
 
     /* restore the search/replace strings */
