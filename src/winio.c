@@ -1769,6 +1769,8 @@ size_t display_string_len(const char *buf, size_t start_col, size_t
 
 	    if (bad_wide_buf_len != -1)
 		retval += bad_wide_buf_len;
+	    else
+		retval++;
 
 	    free(bad_wide_buf);
 	} else {
@@ -1809,7 +1811,10 @@ size_t display_string_len(const char *buf, size_t start_col, size_t
 
 		free(bad_wide_buf);
 
-		retval += bad_wide_buf_len;
+		if (bad_wide_buf_len != -1)
+		    retval += bad_wide_buf_len;
+		else
+		    retval++;
 	    } else
 #endif
 		retval += wide_buf_len;
@@ -1887,10 +1892,15 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		wide_buf = control_rep((unsigned char)wide_buf);
 
 #ifdef NANO_WIDE
-		if (!ISSET(NO_UTF8))
+		if (!ISSET(NO_UTF8)) {
 		    ctrl_wide_buf_len = wctomb(ctrl_wide_buf,
 			(wchar_t)wide_buf);
-		else {
+
+		    if (ctrl_wide_buf_len == -1) {
+			ctrl_wide_buf_len = 1;
+			ctrl_wide_buf[0] = ' ';
+		    }
+		} else {
 #endif
 		    ctrl_wide_buf_len = 1;
 		    ctrl_wide_buf[0] = (unsigned char)wide_buf;
@@ -1961,10 +1971,15 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    wide_buf = control_rep((unsigned char)wide_buf);
 
 #ifdef NANO_WIDE
-	    if (!ISSET(NO_UTF8))
+	    if (!ISSET(NO_UTF8)) {
 		ctrl_wide_buf_len = wctomb(ctrl_wide_buf,
 			(wchar_t)wide_buf);
-	    else {
+
+		if (ctrl_wide_buf_len == -1) {
+		    ctrl_wide_buf_len = 1;
+		    ctrl_wide_buf[0] = ' ';
+		}
+	    } else {
 #endif
 		ctrl_wide_buf_len = 1;
 		ctrl_wide_buf[0] = (unsigned char)wide_buf;
@@ -2002,6 +2017,11 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
 		bad_wide_buf_len = wctomb(bad_wide_buf,
 			(wchar_t)wide_buf);
+
+		if (bad_wide_buf_len == -1) {
+		    bad_wide_buf_len = 1;
+		    bad_wide_buf[0] = ' ';
+		}
 
 		for (i = 0; i < bad_wide_buf_len; i++)
 		    converted[index++] = bad_wide_buf[i];
