@@ -1772,7 +1772,7 @@ int do_writeout(bool exiting)
     int i;
     int append = 0;
 #ifdef NANO_EXTRA
-    static int did_cred = FALSE;
+    static bool did_cred = FALSE;
 #endif
 
 #if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE)
