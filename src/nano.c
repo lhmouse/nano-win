@@ -2392,7 +2392,7 @@ int do_justify(int full_justify)
     filestruct *first_par_line = NULL;
 	/* Will be the first line of the resulting justified paragraph.
 	 * For restoring after uncut. */
-    filestruct *last_par_line = NULL;
+    filestruct *last_par_line;
 	/* Will be the last line of the result, also for uncut. */
     filestruct *cutbuffer_save = cutbuffer;
 	/* When the paragraph gets modified, all lines from the changed
