@@ -499,7 +499,7 @@ void shortcut_init(int unjustify)
     /* Translators: try to keep this string under 10 characters long */
 	sc_init_one(&main_list, NANO_UNJUSTIFY_KEY, _("UnJustify"),
 		IFHELP(nano_unjustify_msg, NANO_NO_KEY), NANO_UNJUSTIFY_FKEY,
-		NANO_NO_KEY, NOVIEW, do_uncut_text);
+		NANO_NO_KEY, NOVIEW, 0);
     else
     /* Translators: try to keep this string under 10 characters long */
 	sc_init_one(&main_list, NANO_UNCUT_KEY, _("UnCut Txt"),

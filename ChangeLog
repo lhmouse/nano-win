@@ -47,6 +47,8 @@ CVS code -
 - global.c:
   shortcut_init()
 	- Only allow verbatim input when we're not in view mode. (DLR)
+	- Set the associated function for unjustify to 0 instead of
+	  do_uncut_text(), since it's currently unused. (DLR)
 - nano.c:
   usage()
 	- Clarify the description for -T/--tabsize a bit. (DLR)
