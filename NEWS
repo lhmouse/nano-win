@@ -1,3 +1,15 @@
+01/31/2001 - Nano 0.9.99pre2 is released.  Not surprisingly, all that is
+		new is bugfixes, bugfixes, bugfixes.  There were a few
+		cleanups in unneeded global variables and duplicate
+		functions, but most is just fixing.  Specifically, there
+		is now a preliminary (read: needs testing) fix for
+		resizing the editor in any mode other than normal edit
+		mode.  Other fixes include some more tab completion
+		segfaults, and an silly segfault that occurred when 
+		successfully writing a file on the 2nd try (i.e. after an
+		initial write error). Slowly but surely, on toward 1.0 we
+		travel.
+
 01/17/2001 - Nano 0.9.99pre1 is released.  This is the first pre-1.0
 		release of nano, and is also the first release since the
 		code freeze for nano 1.0.  Don't expect (or request) any 
