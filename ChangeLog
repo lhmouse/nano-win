@@ -62,6 +62,10 @@ CVS code -
   do_justify()
 	- For consistency, preserve placewewant if we didn't unjustify
 	  instead of setting it to 0. (DLR)
+	- When justifying the entire file, properly break out of the
+	  loop if there are no more paragraphs after the current one and
+	  the paragraph search left us on the magicline, so as to avoid
+	  a segfault. (DLR)
 - winio.c:
   unget_kbinput()
 	- Remove the wide character handling, as it didn't work properly

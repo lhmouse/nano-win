@@ -2771,15 +2771,15 @@ void do_justify(bool full_justify)
 	/* Find the first line of the paragraph to be justified.  That
 	 * is the start of this paragraph if we're in one, or the start
 	 * of the next otherwise.  Save the quote length and paragraph
-	 * length (number of lines).  Don't refresh the screen yet
-	 * (since we'll do that after we justify).  If the search failed
-	 * and we're justifying the whole file, move the last line of
-	 * the text we're justifying to just before the magicline, which
-	 * is where it'll be anyway if we've searched the entire file,
-	 * and break out of the loop; otherwise, refresh the screen and
+	 * length (number of lines).  Don't refresh the screen yet,
+	 * since we'll do that after we justify.  If the search
+	 * failed, we're justifying the whole file, and the search
+	 * didn't leave us on the last line of the file, set the last
+	 * line of the text to be justified to the last line of the file
+	 * and break out of the loop.  Otherwise, refresh the screen and
 	 * get out. */
 	if (do_para_search(&quote_len, &par_len)) {
-	    if (full_justify) {
+	    if (full_justify && current != filebot) {
 		last_par_line = filebot;
 		break;
 	    } else {
