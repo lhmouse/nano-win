@@ -19,9 +19,12 @@ CVS code -
 	  Benbennick)
 	- Add new N_() macro to mark strings that aren't translated
 	  immediately, and convert nano to use it in cases where the
-	  same translated string is stored in a const char* and used
-	  more than once. (David Benbennick)  DLR: Do this for the
-	  toggles list for consistency with the shortcut list.
+	  translated string is stored in a const char*.  Changes
+	  to sc_init_one(), print1opt(), help_init(), rcfile_error(),
+	  do_credits(), etc. (David Benbennick)  DLR: Do this for
+	  toggle_init_one() too.
+	- Minor tweaks and clarifications to some option descriptions.
+	  (DLR)
 	- Overhaul the shortcut list and toggle list initialization
 	  code for efficiency.  Changes to shortcut_init() and
 	  toggle_init(). (David Benbennick)  DLR: Move "Cancel" to just

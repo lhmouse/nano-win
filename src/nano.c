@@ -274,17 +274,18 @@ void mouse_init(void)
  * help_text should be NULL initially. */
 void help_init(void)
 {
-    size_t allocsize = 1;	/* space needed for help_text */
-    char *ptr = NULL;
+    size_t allocsize = 1;	/* Space needed for help_text. */
+    const char *htx;		/* Untranslated help message. */
+    char *ptr;
     const shortcut *s;
 #ifndef NANO_SMALL
     const toggle *t;
 #endif
 
-    /* First set up the initial help text for the current function */
+    /* First, set up the initial help text for the current function. */
     if (currshortcut == whereis_list || currshortcut == replace_list
 	     || currshortcut == replace_list_2)
-	ptr = _("Search Command Help Text\n\n "
+	htx = N_("Search Command Help Text\n\n "
 		"Enter the words or characters you would like to search "
 		"for, then hit enter.  If there is a match for the text you "
 		"entered, the screen will be updated to the location of the "
@@ -294,14 +295,14 @@ void help_init(void)
 		"will perform the previous search.\n\n The following function "
 		"keys are available in Search mode:\n\n");
     else if (currshortcut == goto_list)
-	ptr = _("Go To Line Help Text\n\n "
+	htx = N_("Go To Line Help Text\n\n "
 		"Enter the line number that you wish to go to and hit "
 		"Enter.  If there are fewer lines of text than the "
 		"number you entered, you will be brought to the last line "
 		"of the file.\n\n The following function keys are "
 		"available in Go To Line mode:\n\n");
     else if (currshortcut == insertfile_list)
-	ptr = _("Insert File Help Text\n\n "
+	htx = N_("Insert File Help Text\n\n "
 		"Type in the name of a file to be inserted into the current "
 		"file buffer at the current cursor location.\n\n "
 		"If you have compiled nano with multiple file buffer "
@@ -315,7 +316,7 @@ void help_init(void)
 		"Enter.\n\n The following function keys are "
 		"available in Insert File mode:\n\n");
     else if (currshortcut == writefile_list)
-	ptr = _("Write File Help Text\n\n "
+	htx = N_("Write File Help Text\n\n "
 		"Type the name that you wish to save the current file "
 		"as and hit Enter to save the file.\n\n If you have "
 		"selected text with Ctrl-^, you will be prompted to "
@@ -326,7 +327,7 @@ void help_init(void)
 		"are available in Write File mode:\n\n");
 #ifndef DISABLE_BROWSER
     else if (currshortcut == browser_list)
-	ptr = _("File Browser Help Text\n\n "
+	htx = N_("File Browser Help Text\n\n "
 		"The file browser is used to visually browse the "
 		"directory structure to select a file for reading "
 		"or writing.  You may use the arrow keys or Page Up/"
@@ -337,7 +338,7 @@ void help_init(void)
 		"following function keys are available in the file "
 		"browser:\n\n");
     else if (currshortcut == gotodir_list)
-	ptr = _("Browser Go To Directory Help Text\n\n "
+	htx = N_("Browser Go To Directory Help Text\n\n "
 		"Enter the name of the directory you would like to "
 		"browse to.\n\n If tab completion has not been disabled, "
 		"you can use the TAB key to (attempt to) automatically "
@@ -346,7 +347,7 @@ void help_init(void)
 #endif
 #ifndef DISABLE_SPELLER
     else if (currshortcut == spell_list)
-	ptr = _("Spell Check Help Text\n\n "
+	htx = N_("Spell Check Help Text\n\n "
 		"The spell checker checks the spelling of all text "
 		"in the current file.  When an unknown word is "
 		"encountered, it is highlighted and a replacement can "
@@ -357,14 +358,15 @@ void help_init(void)
 #endif
 #ifndef NANO_SMALL
     else if (currshortcut == extcmd_list)
-	ptr = _("External Command Help Text\n\n "
+	htx = N_("External Command Help Text\n\n "
 		"This menu allows you to insert the output of a command "
 		"run by the shell into the current buffer (or a new "
 		"buffer in multibuffer mode).\n\n The following keys are "
 		"available in this mode:\n\n");
 #endif
-    else /* Default to the main help list */
-	ptr = _(" nano help text\n\n "
+    else
+	/* Default to the main help list. */
+	htx = N_(" nano help text\n\n "
 	  "The nano editor is designed to emulate the functionality and "
 	  "ease-of-use of the UW Pico text editor.  There are four main "
 	  "sections of the editor: The top line shows the program "
@@ -385,14 +387,16 @@ void help_init(void)
 	  "The following keystrokes are available in the main editor "
 	  "window.  Alternative keys are shown in parentheses:\n\n");
 
-    allocsize += strlen(ptr);
+    htx = _(htx);
+
+    allocsize += strlen(htx);
 
     /* The space needed for the shortcut lists, at most COLS characters,
      * plus '\n'. */
     allocsize += (COLS + 1) * length_of_list(currshortcut);
 
 #ifndef NANO_SMALL
-    /* If we're on the main list, we also count the toggle help text. 
+    /* If we're on the main list, we also count the toggle help text.
      * Each line has "M-%c\t\t\t", which fills 24 columns, plus at most
      * COLS - 24 characters, plus '\n'.*/
     if (currshortcut == main_list) {
@@ -407,17 +411,18 @@ void help_init(void)
      * while in the help screen. */
     free(help_text);
 
-    /* Allocate space for the help text */
+    /* Allocate space for the help text. */
     help_text = charalloc(allocsize);
 
-    /* Now add the text we want */
-    strcpy(help_text, ptr);
+    /* Now add the text we want. */
+    strcpy(help_text, htx);
     ptr = help_text + strlen(help_text);
 
-    /* Now add our shortcut info */
+    /* Now add our shortcut info. */
     for (s = currshortcut; s != NULL; s = s->next) {
-	/* true if the character in s->metaval is shown in first column */
 	int meta_shortcut = FALSE;
+		/* TRUE if the character in s->metaval is shown in the
+		 * first column. */
 
 	if (s->ctrlval != NANO_NO_KEY) {
 #ifndef NANO_SMALL
@@ -472,7 +477,7 @@ void help_init(void)
 #endif /* !NANO_SMALL */
 
     /* If all went well, we didn't overwrite the allocated space for
-       help_text. */
+     * help_text. */
     assert(strlen(help_text) < allocsize);
 }
 #endif
@@ -626,7 +631,7 @@ void print1opt(const char *shortflag, const char *longflag, const char
 	printf("\t");
 #endif
 
-    printf("%s\n", desc);
+    printf("%s\n", _(desc));
 }
 
 void usage(void)
@@ -639,69 +644,69 @@ void usage(void)
     printf(_("Option\t\tMeaning\n"));
 #endif /* HAVE_GETOPT_LONG */
 
-    print1opt("-h, -?", "--help", _("Show this message"));
-    print1opt(_("+LINE"), "", _("Start at line number LINE"));
+    print1opt("-h, -?", "--help", N_("Show this message"));
+    print1opt(_("+LINE"), "", N_("Start at line number LINE"));
 #ifndef NANO_SMALL
-    print1opt("-A", "--smarthome", _("Enable smart home key"));
-    print1opt("-B", "--backup", _("Backup existing files on save"));
-    print1opt("-D", "--dos", _("Write file in DOS format"));
-    print1opt(_("-E [dir]"), _("--backupdir=[dir]"), _("Directory for writing backup files"));
+    print1opt("-A", "--smarthome", N_("Enable smart home key"));
+    print1opt("-B", "--backup", N_("Backup existing files on save"));
+    print1opt("-D", "--dos", N_("Write file in DOS format"));
+    print1opt(_("-E [dir]"), _("--backupdir=[dir]"), N_("Directory for writing backup files"));
 #endif
 #ifdef ENABLE_MULTIBUFFER
-    print1opt("-F", "--multibuffer", _("Enable multiple file buffers"));
+    print1opt("-F", "--multibuffer", N_("Enable multiple file buffers"));
 #endif
 #ifdef ENABLE_NANORC
 #ifndef NANO_SMALL
-    print1opt("-H", "--historylog", _("Log & read search/replace string history"));
+    print1opt("-H", "--historylog", N_("Log & read search/replace string history"));
 #endif
-    print1opt("-I", "--ignorercfiles", _("Don't look at nanorc files"));
+    print1opt("-I", "--ignorercfiles", N_("Don't look at nanorc files"));
 #endif
 #ifndef NANO_SMALL
-    print1opt("-M", "--mac", _("Write file in Mac format"));
-    print1opt("-N", "--noconvert", _("Don't convert files from DOS/Mac format"));
+    print1opt("-M", "--mac", N_("Write file in Mac format"));
+    print1opt("-N", "--noconvert", N_("Don't convert files from DOS/Mac format"));
 #endif
 #ifndef DISABLE_JUSTIFY
-    print1opt(_("-Q [str]"), _("--quotestr=[str]"), _("Quoting string, default \"> \""));
+    print1opt(_("-Q [str]"), _("--quotestr=[str]"), N_("Quoting string, default \"> \""));
 #endif
 #ifdef HAVE_REGEX_H
-    print1opt("-R", "--regexp", _("Do regular expression searches"));
+    print1opt("-R", "--regexp", N_("Do regular expression searches"));
 #endif
 #ifndef NANO_SMALL
-    print1opt("-S", "--smooth", _("Smooth scrolling"));
+    print1opt("-S", "--smooth", N_("Smooth scrolling"));
 #endif
-    print1opt(_("-T [#cols]"), _("--tabsize=[#cols]"), _("Set width of a tab in cols to #cols"));
-    print1opt("-V", "--version", _("Print version information and exit"));
+    print1opt(_("-T [#cols]"), _("--tabsize=[#cols]"), N_("Set width of a tab in cols to #cols"));
+    print1opt("-V", "--version", N_("Print version information and exit"));
 #ifdef ENABLE_COLOR
-    print1opt(_("-Y [str]"), _("--syntax [str]"), _("Syntax definition to use"));
+    print1opt(_("-Y [str]"), _("--syntax [str]"), N_("Syntax definition to use"));
 #endif
-    print1opt("-Z", "--restricted", _("Restricted mode"));
-    print1opt("-c", "--const", _("Constantly show cursor position"));
+    print1opt("-Z", "--restricted", N_("Restricted mode"));
+    print1opt("-c", "--const", N_("Constantly show cursor position"));
 #ifndef NANO_SMALL
-    print1opt("-d", "--rebinddelete", _("Fix Backspace/Delete confusion problem"));
-    print1opt("-i", "--autoindent", _("Automatically indent new lines"));
-    print1opt("-k", "--cut", _("Let ^K cut from cursor to end of line"));
+    print1opt("-d", "--rebinddelete", N_("Fix Backspace/Delete confusion problem"));
+    print1opt("-i", "--autoindent", N_("Automatically indent new lines"));
+    print1opt("-k", "--cut", N_("Cut from cursor to end of line"));
 #endif
-    print1opt("-l", "--nofollow", _("Don't follow symbolic links, overwrite"));
+    print1opt("-l", "--nofollow", N_("Don't follow symbolic links, overwrite"));
 #ifndef DISABLE_MOUSE
-    print1opt("-m", "--mouse", _("Enable mouse"));
+    print1opt("-m", "--mouse", N_("Enable mouse"));
 #endif
 #ifndef DISABLE_OPERATINGDIR
-    print1opt(_("-o [dir]"), _("--operatingdir=[dir]"), _("Set operating directory"));
+    print1opt(_("-o [dir]"), _("--operatingdir=[dir]"), N_("Set operating directory"));
 #endif
-    print1opt("-p", "--preserve", _("Preserve XON (^Q) and XOFF (^S) keys"));
+    print1opt("-p", "--preserve", N_("Preserve XON (^Q) and XOFF (^S) keys"));
 #ifndef DISABLE_WRAPJUSTIFY
-    print1opt(_("-r [#cols]"), _("--fill=[#cols]"), _("Set fill cols to (wrap lines at) #cols"));
+    print1opt(_("-r [#cols]"), _("--fill=[#cols]"), N_("Set fill cols to (wrap lines at) #cols"));
 #endif
 #ifndef DISABLE_SPELLER
-    print1opt(_("-s [prog]"), _("--speller=[prog]"), _("Enable alternate speller"));
+    print1opt(_("-s [prog]"), _("--speller=[prog]"), N_("Enable alternate speller"));
 #endif
-    print1opt("-t", "--tempfile", _("Auto save on exit, don't prompt"));
-    print1opt("-v", "--view", _("View (read only) mode"));
+    print1opt("-t", "--tempfile", N_("Auto save on exit, don't prompt"));
+    print1opt("-v", "--view", N_("View (read only) mode"));
 #ifndef DISABLE_WRAPPING
-    print1opt("-w", "--nowrap", _("Don't wrap long lines"));
+    print1opt("-w", "--nowrap", N_("Don't wrap long lines"));
 #endif
-    print1opt("-x", "--nohelp", _("Don't show help window"));
-    print1opt("-z", "--suspend", _("Enable suspend"));
+    print1opt("-x", "--nohelp", N_("Don't show help window"));
+    print1opt("-z", "--suspend", N_("Enable suspend"));
 
     /* This is a special case. */
     printf(" %s\t\t\t%s\n","-a, -b, -e, -f, -g, -j", _("(ignored, for Pico compatibility)"));
