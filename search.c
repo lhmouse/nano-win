@@ -776,12 +776,16 @@ void goto_abort(void)
 int do_gotoline(int line, int save_pos)
 {
     if (line <= 0) {		/* Ask for it */
-	if (statusq(0, goto_list, (line ? answer : ""),
+	int st = statusq(FALSE, goto_list, line != 0 ? answer : "",
 #ifndef NANO_SMALL
-	    0,
+			NULL,
 #endif
-	    _("Enter line number"))) {
+			_("Enter line number"));
+
+	/* Cancel, or Enter with blank string. */
+	if (st == -1 || st == -2)
 	    statusbar(_("Aborted"));
+	if (st != 0) {
 	    goto_abort();
 	    return 0;
 	}

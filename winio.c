@@ -1197,9 +1197,8 @@ int statusq(int tabs, const shortcut *s, const char *def,
 	ret = -1;
 	resetpos = 1;
 	break;
-    default:
-	blank_statusbar();
     }
+    blank_statusbar();
 
 #ifdef DEBUG
     fprintf(stderr, _("I got \"%s\"\n"), answer);

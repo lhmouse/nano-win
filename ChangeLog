@@ -27,10 +27,16 @@ CVS code
 	  (David Benbennick).
   colortoint, parse_colors()
 	- Don't add strings with invalid fg colors at all.
+- search.c:
+  do_gotoline()
+	- Only goto_abort() if we *didnt* abort the command, making
+	  the function seem horribly misnamed ;-) (David Benbennick).
 - winio.c:
   nanogetstr()
 	- Remove unnecessary reset of x since it is now handled
 	  elsewhere (David Lawrence Ramsey).
+  statusq()
+	- Always blank the statusbar on exit (David Benbennick).
 - nano.1, nano.1.html:
 	- Add initialization file comments, change some options from 
 	  bracketed to underlined to emphasize that they are not 
