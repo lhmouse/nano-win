@@ -256,9 +256,9 @@ const char *strstrwrapper(const char *haystack, const char *needle,
     return stristr(start, needle);
 }
 
-/* This is a wrapper for the perror function.  The wrapper takes care of 
- * ncurses, calls perror (which writes to STDERR), then refreshes the 
- * screen.  Note that nperror causes the window to flicker once. */
+/* This is a wrapper for the perror() function.  The wrapper takes care
+ * of ncurses, calls perror (which writes to stderr), then refreshes the
+ * screen.  Note that nperror() causes the window to flicker once. */
 void nperror(const char *s)
 {
     /* leave ncurses mode, go to the terminal */
