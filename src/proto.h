@@ -360,6 +360,7 @@ void enable_signals(void);
 #endif
 void disable_flow_control(void);
 void enable_flow_control(void);
+void terminal_init(void);
 
 /* Public functions in rcfile.c */
 #ifdef ENABLE_NANORC

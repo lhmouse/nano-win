@@ -45,6 +45,9 @@ CVS code -
 	  Benbennick)
 	- Include <sys/types.h> in proto.h. (David Benbennick)  DLR:
 	  Remove some redundant inclusions of <sys/types.h> elsewhere.
+	- Move the main terminal initialization functions, aside from 
+	  initscr(), into a new terminal_init() function, and convert 
+	  nano to use it. (DLR)
 - files.c:
   close_open_file()
 	- Tweak to no longer rely on the return values of
@@ -69,6 +72,11 @@ CVS code -
   thanks_for_all_the_fish()
 	- Delete topwin, edit, and bottomwin. (David Benbennick)
 - nano.c:
+  do_alt_speller()
+	- When reloading the newly spell-checked temporary file, call
+	  terminal_init() to make sure that all the original terminal
+	  settings are restored, as a curses-based alternative spell
+	  checker (e.g. aspell) can change them. (DLR)
   do_justify()
 	- Add allow_respacing flag, used to indicate when we've moved to
 	  the next line after justifying the current line, and only run

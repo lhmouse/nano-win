@@ -1796,6 +1796,7 @@ const char *do_alt_speller(char *tempfile_name)
 	/* Only reload the temp file if it isn't a marked selection. */
 #endif
 	free_filestruct(fileage);
+	terminal_init();
 	global_init(TRUE);
 	open_file(tempfile_name, FALSE, TRUE);
 #ifndef NANO_SMALL
@@ -2893,6 +2894,9 @@ void handle_sigwinch(int s)
     refresh();
 #endif
 
+    /* Restore the terminal to its previous state. */
+    terminal_init();
+
     /* Do the equivalent of what both mutt and Minimum Profit do:
      * Reinitialize all the windows based on the new screen
      * dimensions. */
@@ -2905,9 +2909,6 @@ void handle_sigwinch(int s)
 
     /* Turn cursor back on for sure. */
     curs_set(1);
-
-    /* Restore the terminal to its previously saved state. */
-    resetty();
 
     /* Reset all the input routines that rely on character sequences. */
     reset_kbinput();
@@ -3017,6 +3018,24 @@ void enable_flow_control(void)
     tcgetattr(0, &term);
     term.c_iflag |= (IXON|IXOFF);
     tcsetattr(0, TCSANOW, &term);
+}
+
+/* Set up the terminal state.  Put the terminal in cbreak mode (read one
+ * character at a time and interpret the special control keys), disable
+ * translation of carriage return (^M) into newline (^J) so that we can
+ * tell the difference between the Enter key and Ctrl-J, and disable
+ * echoing of characters as they're typed.  Finally, disable
+ * interpretation of the special control keys, and if we're not in
+ * preserve mode, disable interpretation of the flow control characters
+ * too. */
+void terminal_init(void)
+{
+    cbreak();
+    nonl();
+    noecho();
+    disable_signals();
+    if (!ISSET(PRESERVE))
+	disable_flow_control();
 }
 
 int main(int argc, char *argv[])
@@ -3442,28 +3461,10 @@ int main(int argc, char *argv[])
     /* Back up the old terminal settings so that they can be restored. */
     tcgetattr(0, &oldterm);
 
-   /* Curses initialization stuff: Start curses, save the state of the
-    * terminal mode, put the terminal in cbreak mode (read one character
-    * at a time and interpret the special control keys), disable
-    * translation of carriage return (^M) into newline (^J) so that we
-    * can tell the difference between the Enter key and Ctrl-J, and
-    * disable echoing of characters as they're typed.  Finally, disable
-    * interpretation of the special control keys, and if we're not in
-    * preserve mode, disable interpretation of the flow control
-    * characters too. */
+   /* Curses initialization stuff: Start curses and set up the
+    * terminal state. */
     initscr();
-    cbreak();
-    nonl();
-    noecho();
-    disable_signals();
-    if (!ISSET(PRESERVE))
-	disable_flow_control();
-
-#ifndef NANO_SMALL
-    /* Save the terminal's current state, so that we can restore it
-     * after a resize. */
-    savetty();
-#endif
+    terminal_init();
 
     /* Set up the global variables and the shortcuts. */
     global_init(FALSE);
