@@ -1,6 +1,7 @@
 # Catalan messages for the GNU nano editor.
 # Copyright (C) 2000, 2001 Free Software Foundation, Inc.
 # Jordi Mallach <jordi@sindominio.net>, 2000, 2001.
+# Miquel Vidal <miquel@sindominio.net>, 2001.
 # $Id$
 #
 msgid ""
