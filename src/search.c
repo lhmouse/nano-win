@@ -318,7 +318,7 @@ int findnextstr(int can_display_wrap, int wholeword, const filestruct
 
 	/* Original start line reached. */
 	if (fileptr == begin)
-	    search_last_line = 1;
+	    search_last_line = TRUE;
 	rev_start = fileptr->data;
 #ifndef NANO_SMALL
 	if (ISSET(REVERSE_SEARCH))
@@ -389,7 +389,7 @@ int do_search(void)
 	update_history(&search_history, answer);
 #endif
 
-    search_last_line = 0;
+    search_last_line = FALSE;
     didfind = findnextstr(TRUE, FALSE, current, current_x, answer, FALSE);
     edit_refresh();
     placewewant = xplustabs();
@@ -440,7 +440,7 @@ int do_research(void)
 	    return -1;
 #endif
 
-	search_last_line = 0;
+	search_last_line = FALSE;
 	didfind = findnextstr(TRUE, FALSE, current, current_x, last_search, FALSE);
 	edit_refresh();
 	placewewant = xplustabs();
@@ -926,7 +926,7 @@ int do_find_bracket(void)
     /* We constructed regexp_pat to be a valid expression. */
     assert(regexp_compiled);
 
-    search_last_line = 0;
+    search_last_line = FALSE;
     while (TRUE) {
 	if (findnextstr(FALSE, FALSE, current, current_x, regexp_pat, FALSE) != 0) {
 	    /* Found identical bracket. */

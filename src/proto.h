@@ -114,10 +114,10 @@ extern const shortcut *currshortcut;
 
 #ifdef HAVE_REGEX_H
 extern regex_t search_regexp;
-extern regmatch_t regmatches[10];  
+extern regmatch_t regmatches[10];
 #ifdef ENABLE_COLOR
 extern regex_t syntaxfile_regexp;
-extern regmatch_t synfilematches[1];  
+extern regmatch_t synfilematches[1];
 #endif /* ENABLE_COLOR */
 #endif /* HAVE_REGEX_H */
 
@@ -412,7 +412,7 @@ char *get_history_newer(historyheadtype *h);
 char *get_history_completion(historyheadtype *h, char *s);
 void free_history(historyheadtype *h);
 #ifdef ENABLE_NANORC
-void load_history(void);  
+void load_history(void);
 void save_history(void);
 #endif
 #endif

@@ -2661,7 +2661,7 @@ char *do_browser(const char *inpath)
 	case NANO_PREVPAGE_FKEY:
 	case '-': /* Pico compatibility */
 	    if (selected >= (editwinrows + lineno % editwinrows) * width)
-		selected -= (editwinrows + lineno % editwinrows) * width; 
+		selected -= (editwinrows + lineno % editwinrows) * width;
 	    else
 		selected = 0;
 	    break;
