@@ -1782,7 +1782,10 @@ int do_justify(void)
 
     tmptop = current;
     tmpjust = copy_node(current);
+
+    /* This is annoying because it mucks with totsize */
     add_to_cutbuffer(tmpjust);
+
     /* Put the whole paragraph into one big line. */
     while (current->next && !isspace((int) current->next->data[0])
 	   && current->next->data[0]) {
@@ -1793,6 +1796,9 @@ int do_justify(void)
 	tmpjust = NULL;
 	tmpjust = copy_node(current->next);
 	add_to_cutbuffer(tmpjust);
+
+	/* Wiping out a newline */
+        totsize--;
 
 	/* length of both strings plus space between strings and ending \0. */
 	current->data = nrealloc(current->data, len + len2 + 2);
@@ -1824,12 +1830,14 @@ int do_justify(void)
 		i = fill;
 	    else
 		i = slen;
+
 	    for (; i > 0; i--) {
 		if (isspace((int) current->data[i]) &&
 		    ((strlenpt(current->data) - strlen(current->data + i))
 		     <= fill))
 		    break;
 	    }
+
 	    if (!i)
 		break;
 
