@@ -1454,7 +1454,8 @@ int write_file(const char *name, bool tmp, int append, bool
 	backup_file = fopen(backupname, "wb");
 	if (backup_file == NULL ||
 		chmod(backupname, originalfilestat.st_mode) == -1) {
-	    statusbar(_("Error writing %s: %s"), backupname, strerror(errno));
+	    statusbar(_("Error writing %s: %s"), backupname,
+		strerror(errno));
 	    free(backupname);
 	    if (backup_file != NULL)
 		fclose(backup_file);
@@ -1469,12 +1470,13 @@ int write_file(const char *name, bool tmp, int append, bool
 	/* Copy the file. */
 	copy_status = copy_file(f, backup_file);
 	/* And set metadata. */
-	if (copy_status != 0 || chown(backupname, originalfilestat.st_uid,
-		originalfilestat.st_gid) == -1 ||
-		utime(backupname, &filetime) == -1) {
+	if (copy_status != 0 || chown(backupname,
+		originalfilestat.st_uid, originalfilestat.st_gid) == -1
+		|| utime(backupname, &filetime) == -1) {
 	    free(backupname);
 	    if (copy_status == -1)
-		statusbar(_("Error reading %s: %s"), realname, strerror(errno));
+		statusbar(_("Error reading %s: %s"), realname,
+			strerror(errno));
 	    else
 		statusbar(_("Error writing %s: %s"), backupname,
 			strerror(errno));
@@ -1517,7 +1519,8 @@ int write_file(const char *name, bool tmp, int append, bool
 		close(fd);
 	}
 	if (f == NULL) {
-	    statusbar(_("Error writing %s: %s"), tempname, strerror(errno));
+	    statusbar(_("Error writing %s: %s"), tempname,
+		strerror(errno));
 	    unlink(tempname);
 	    goto cleanup_and_exit;
 	}
@@ -1529,14 +1532,16 @@ int write_file(const char *name, bool tmp, int append, bool
 		close(fd_source);
 	}
 	if (f_source == NULL) {
-	    statusbar(_("Error reading %s: %s"), realname, strerror(errno));
+	    statusbar(_("Error reading %s: %s"), realname,
+		strerror(errno));
 	    fclose(f);
 	    unlink(tempname);
 	    goto cleanup_and_exit;
 	}
 
 	if (copy_file(f_source, f) != 0) {
-	    statusbar(_("Error writing %s: %s"), tempname, strerror(errno));
+	    statusbar(_("Error writing %s: %s"), tempname,
+		strerror(errno));
 	    unlink(tempname);
 	    goto cleanup_and_exit;
 	}
@@ -1583,25 +1588,32 @@ int write_file(const char *name, bool tmp, int append, bool
 	unsunder(fileptr->data, data_len);
 
 	if (size < data_len) {
-	    statusbar(_("Error writing %s: %s"), realname, strerror(errno));
+	    statusbar(_("Error writing %s: %s"), realname,
+		strerror(errno));
 	    fclose(f);
 	    goto cleanup_and_exit;
 	}
 #ifndef NANO_SMALL
-	if (fmt == DOS_FILE || fmt == MAC_FILE)
+	if (fmt == DOS_FILE || fmt == MAC_FILE) {
 	    if (putc('\r', f) == EOF) {
-		statusbar(_("Error writing %s: %s"), realname, strerror(errno));
+		statusbar(_("Error writing %s: %s"), realname,
+			strerror(errno));
 		fclose(f);
 		goto cleanup_and_exit;
 	    }
+	}
 
-	if (fmt != MAC_FILE)
+	if (fmt != MAC_FILE) {
 #endif
 	    if (putc('\n', f) == EOF) {
-		statusbar(_("Error writing %s: %s"), realname, strerror(errno));
+		statusbar(_("Error writing %s: %s"), realname,
+			strerror(errno));
 		fclose(f);
 		goto cleanup_and_exit;
 	    }
+#ifndef NANO_SMALL
+	}
+#endif
 
 	fileptr = fileptr->next;
 	lineswritten++;
@@ -1619,13 +1631,15 @@ int write_file(const char *name, bool tmp, int append, bool
 		close(fd_source);
 	}
 	if (f_source == NULL) {
-	    statusbar(_("Error reading %s: %s"), tempname, strerror(errno));
+	    statusbar(_("Error reading %s: %s"), tempname,
+		strerror(errno));
 	    fclose(f);
 	    goto cleanup_and_exit;
 	}
 
 	if (copy_file(f_source, f) == -1 || unlink(tempname) == -1) {
-	    statusbar(_("Error writing %s: %s"), realname, strerror(errno));
+	    statusbar(_("Error writing %s: %s"), realname,
+		strerror(errno));
 	    goto cleanup_and_exit;
 	}
     } else if (fclose(f) == EOF) {
@@ -1857,7 +1871,8 @@ int do_writeout(bool exiting)
 			&& (exiting || !ISSET(MARK_ISSET))
 #endif
 			) {
-		    i = do_yesno(FALSE, _("Save file under DIFFERENT NAME ? "));
+		    i = do_yesno(FALSE,
+			_("Save file under DIFFERENT NAME ? "));
 		    if (i == 0 || i == -1)
 			continue;
 		}
@@ -1917,12 +1932,13 @@ char *real_dir_from_tilde(const char *buf)
 	    do {
 		userdata = getpwent();
 	    } while (userdata != NULL &&
-			strncmp(userdata->pw_name, buf + 1, i - 1) != 0);
+		strncmp(userdata->pw_name, buf + 1, i - 1) != 0);
 	}
 	endpwent();
 
 	if (userdata != NULL) {	/* User found */
-	    dirtmp = charalloc(strlen(userdata->pw_dir) + strlen(buf + i) + 1);
+	    dirtmp = charalloc(strlen(userdata->pw_dir) +
+		strlen(buf + i) + 1);
 	    sprintf(dirtmp, "%s%s", userdata->pw_dir, &buf[i]);
 	}
     }
@@ -1934,9 +1950,9 @@ char *real_dir_from_tilde(const char *buf)
 }
 
 #ifndef DISABLE_TABCOMP
-/* Tack a slash onto the string we're completing if it's a directory.  We
- * assume there is room for one more character on the end of buf.  The
- * return value says whether buf is a directory. */
+/* Tack a slash onto the string we're completing if it's a directory.
+ * We assume there is room for one more character on the end of buf.
+ * The return value says whether buf is a directory. */
 int append_slash_if_dir(char *buf, bool *lastwastab, int *place)
 {
     char *dirptr = real_dir_from_tilde(buf);
