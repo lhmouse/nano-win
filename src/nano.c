@@ -1225,7 +1225,7 @@ void do_verbatim_input(void)
 
     statusbar(_("Verbatim input"));
 
-    v_kbinput = get_verbatim_kbinput(edit, ERR, &v_len, TRUE);
+    v_kbinput = get_verbatim_kbinput(edit, &v_len, TRUE);
 
     /* Turn on DISABLE_CURPOS while inserting character(s) and turn it
      * off afterwards, so that if constant cursor position display is
@@ -3082,7 +3082,7 @@ void do_justify(bool full_justify)
 	    edit_refresh();
 	}
     } else {
-	unget_kbinput(kbinput, meta_key, func_key);
+	unget_kbinput(kbinput, meta_key);
 
 	/* Blow away the text in the justify buffer. */
 	free_filestruct(jusbuffer);

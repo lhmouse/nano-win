@@ -58,17 +58,38 @@ CVS code -
 	  instead of setting it to 0. (DLR)
 - winio.c:
   unget_kbinput()
-	- Free s after the wctomb() call, since we don't need it after
-	  that. (DLR)
+	- Remove the wide character handling, as it didn't work properly
+	  with respect to function keys. (DLR)
   get_kbinput(), get_translated_kbinput(), get_ascii_kbinput(),
   get_untranslated_kbinput()
 	- Make the ascii_digits variables ints instead of size_t's,
 	  since they will only hold very small values. (DLR)
+  get_kbinput()
+	- Remove the wide character handling, as it didn't work properly
+	  with respect to adding multiple wide characters at once, and
+	  ungetting them just caused other problems elsewhere. (DLR)
+  get_translated_kbinput()
+	- Remove the wide character handling, as it didn't work properly
+	  with respect to adding multiple wide characters at once, and
+	  ungetting them just caused other problems elsewhere. (DLR)
+	- Use if statements instead of switch/case statements to handle
+	  ASCII character sequence mode, as they take up less room.
+  get_ascii_kbinput()
+	- Use if statements instead of switch/case statements to handle
+	  ASCII character sequence mode, as they take up less room.
   get_verbatim_kbinput()
 	- Don't pass v_kbinput in as a parameter, since we're
 	  dynamically allocating it and then returning it. (DLR)
-  get_shortcut(), get_toggle()
-	- Add debug messages. (DLR)
+	- Remove v_first parameter, and go back to the old behavior of
+	  putting back the first character of the escape sequence, as it
+	  worked just as well and was less complicated. (DLR)
+  get_shortcut()
+	- Add debug message. (DLR)
+	- Take kbinput as a reference instead of a value, so that it's
+	  translated when the key is translated to its equivalent
+	  control key or meta key shortcut. (DLR)
+  get_toggle()
+	- Add debug message. (DLR)
 - configure.ac:
 	- Remove specific references to control key shortcuts. (DLR)
 

@@ -113,29 +113,9 @@ void reset_kbinput(void)
 
 /* Put back the input character stored in kbinput.  If meta_key is TRUE,
  * put back the Escape character after putting back kbinput. */
-void unget_kbinput(int kbinput, bool meta_key, bool func_key)
+void unget_kbinput(int kbinput, bool meta_key)
 {
-    /* If this character is outside the ASCII range and func_key is
-     * FALSE, treat it as a wide character and put back its equivalent
-     * UTF-8 sequence. */
-    if (kbinput > 255 && !func_key)
-    {
-	int i;
-	char *s = charalloc(MB_CUR_MAX + 1);
-	wchar_t wc = (wchar_t)kbinput;
-
-	i = wctomb(s, wc);
-	free(s);
-
-	if (i == -1)
-	    /* This wide character is unrecognized.  Send it back. */
-	    ungetch(kbinput);
-	else {
-	    for (; i > 0; i--)
-		ungetch(s[i - 1]);
-	}
-    } else
-	ungetch(kbinput);
+    ungetch(kbinput);
     if (meta_key)
 	ungetch(NANO_CONTROL_3);
 }
@@ -152,7 +132,7 @@ void unget_kbinput(int kbinput, bool meta_key, bool func_key)
 int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 {
     int kbinput, retval = ERR;
-    seq_type seq;
+    bool escape_seq;
 
 #ifndef NANO_SMALL
     allow_pending_sigwinch(TRUE);
@@ -167,83 +147,55 @@ int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 	 * to get_translated_kbinput().  Continue until we get a
 	 * complete sequence. */
 	kbinput = wgetch(win);
-	retval = get_translated_kbinput(kbinput, &seq
+	retval = get_translated_kbinput(kbinput, &escape_seq
 #ifndef NANO_SMALL
 		, FALSE
 #endif
 		);
 
-	/* If we have a complete sequence now, we should interpret its
+	/* If we got a complete non-escape sequence, interpret the
 	 * translated value instead of the value of the last character
-	 * we got. */
-	if (retval != ERR)
+	 * we got.  Set func_key to TRUE if the translated value is
+	 * outside byte range. */
+	if (retval != ERR) {
+	    *func_key = (retval > 255);
 	    kbinput = retval;
+	}
 
-	/* If we got a one-character sequence and it's outside the ASCII
-	 * range, set func_key to TRUE. */
-	if (seq == NO_SEQ) {
-	    if (kbinput > 255)
-		*func_key = TRUE;
-	/* If we got a multi-character sequence, read it in, including
-	 * the initial character, as verbatim input. */
-	} else {
-	    int *sequence = NULL;
+	/* If we got an incomplete escape sequence, put back the initial
+	 * non-escape and then read the entire sequence in as verbatim
+	 * input. */
+	if (escape_seq) {
+	    int *sequence;
 	    size_t seq_len;
 
-	    sequence = get_verbatim_kbinput(win, kbinput, &seq_len,
-		FALSE);
+	    unget_kbinput(kbinput, FALSE);
+	    sequence = get_verbatim_kbinput(win, &seq_len, FALSE);
 
-	    /* Handle escape sequences. */
-	    if (seq == ESCAPE_SEQ) {
-		/* If the escape sequence is one character long, set
-		 * meta_key to TRUE, make the sequence character
-		 * lowercase, and save that as the result. */
-		if (seq_len == 1) {
-		    *meta_key = TRUE;
-		    retval = tolower(kbinput);
-		/* If the escape sequence is more than one character
-		 * long, set func_key to TRUE, translate the escape
-		 * sequence into the corresponding key value, and save
-		 * that as the result. */
-		} else if (seq_len > 1) {
-		    bool ignore_seq;
+	    /* If the escape sequence is one character long, set
+	     * meta_key to TRUE, make the sequence character lowercase,
+	     * and save that as the result. */
+	    if (seq_len == 1) {
+		*meta_key = TRUE;
+		retval = tolower(kbinput);
+	    /* If the escape sequence is more than one character long,
+	     * set func_key to TRUE, translate the escape sequence into
+	     * the corresponding key value, and save that as the
+	     * result. */
+	    } else if (seq_len > 1) {
+		bool ignore_seq;
 
-		    *func_key = TRUE;
-		    retval = get_escape_seq_kbinput(sequence, seq_len,
+		*func_key = TRUE;
+		retval = get_escape_seq_kbinput(sequence, seq_len,
 			&ignore_seq);
 
-		    if (retval == ERR && !ignore_seq) {
-			/* This escape sequence is unrecognized.  Send
-			 * it back. */
-			for (; seq_len > 1; seq_len--)
-			    unget_kbinput(sequence[seq_len - 1], FALSE,
-				FALSE);
-			retval = sequence[0];
-		    }
-		}
-	    /* Handle UTF-8 sequences. */
-	    } else if (seq == UTF8_SEQ) {
-		/* If we have a UTF-8 sequence, translate the UTF-8
-		 * sequence into the corresponding wide character value,
-		 * and save that as the result. */
-		int i = 0;
-		char *s = charalloc(seq_len + 1);
-		wchar_t wc;
-
-		for (; i < seq_len; i++)
-		    s[i] = (char)sequence[i];
-		s[seq_len] = '\0';
-
-		if (mbtowc(&wc, s, MB_CUR_MAX) == -1) {
-		    /* This UTF-8 sequence is unrecognized.  Send it
+		if (retval == ERR && !ignore_seq) {
+		    /* This escape sequence is unrecognized.  Send it
 		     * back. */
 		    for (; seq_len > 1; seq_len--)
-			unget_kbinput(sequence[seq_len - 1], FALSE,
-				FALSE);
+			unget_kbinput(sequence[seq_len - 1], FALSE);
 		    retval = sequence[0];
-		} else
-		    retval = wc;
-		free(s);
+		}
 	    }
 	    free(sequence);
 	}
@@ -260,11 +212,11 @@ int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
     return retval;
 }
 
-/* Translate acceptable ASCII, extended keypad values, and escape and
- * UTF-8 sequences into their corresponding key values.  Set seq to
- * ESCAPE_SEQ when we get an escape sequence, or UTF8_SEQ when we get a
- * UTF-8 sequence.  Assume nodelay(win) is FALSE. */
-int get_translated_kbinput(int kbinput, seq_type *seq
+/* Translate acceptable ASCII, extended keypad values, and escape
+ * sequences into their corresponding key values.  Set escape_seq to
+ * TRUE when we get an incomplete escape sequence.  Assume nodelay(win)
+ * is FALSE. */
+int get_translated_kbinput(int kbinput, bool *escape_seq
 #ifndef NANO_SMALL
 	, bool reset
 #endif
@@ -282,7 +234,7 @@ int get_translated_kbinput(int kbinput, seq_type *seq
     }
 #endif
 
-    *seq = NO_SEQ;
+    *escape_seq = FALSE;
 
     switch (kbinput) {
 	case ERR:
@@ -420,86 +372,70 @@ int get_translated_kbinput(int kbinput, seq_type *seq
 		case 1:
 		    /* One escape followed by a non-escape: escape
 		     * sequence mode.  Reset the escape counter and set
-		     * seq to ESCAPE_SEQ. */
+		     * escape_seq to TRUE. */
 		    escapes = 0;
-		    *seq = ESCAPE_SEQ;
+		    *escape_seq = TRUE;
 		    break;
 		case 2:
-		    switch (kbinput) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			    /* Two escapes followed by one or more
-			     * digits: ASCII character sequence mode.
-			     * If the digit sequence's range is limited
-			     * to 2XX (the first digit is in the '0' to
-			     * '2' range and it's the first digit, or if
-			     * it's in the full digit range and it's not
-			     * the first digit), increment the ASCII
-			     * digit counter and interpret the digit.
-			     * If the digit sequence's range is not
-			     * limited to 2XX, fall through. */
-			    if (kbinput <= '2' || ascii_digits > 0) {
-				ascii_digits++;
-				kbinput = get_ascii_kbinput(kbinput,
-					ascii_digits
+		    if (kbinput >= '0' && kbinput <= '9') {
+			/* Two escapes followed by one or more decimal
+			 * digits: ASCII character sequence mode.  If
+			 * the digit sequence's range is limited to 2XX
+			 * (the first digit is in the '0' to '2' range
+			 * and it's the first digit, or if it's in the
+			 * full digit range and it's not the first
+			 * digit), increment the ASCII digit counter and
+			 * interpret the digit.  If the digit sequence's
+			 * range is not limited to 2XX, fall through. */
+			if (kbinput <= '2' || ascii_digits > 0) {
+			    ascii_digits++;
+			    kbinput = get_ascii_kbinput(kbinput,
+				ascii_digits
 #ifndef NANO_SMALL
-					, FALSE
+				, FALSE
 #endif
-					);
+				);
 
-				if (kbinput != ERR) {
-				    /* If we've read in a complete ASCII
-				     * digit sequence, reset the ASCII
-				     * digit counter and the escape
-				     * counter and save the corresponding
-				     * ASCII character as the result. */
-				    ascii_digits = 0;
-				    escapes = 0;
-				    retval = kbinput;
-				}
-			    }
-			    break;
-			default:
-			    /* Reset the escape counter. */
-			    escapes = 0;
-			    if (ascii_digits == 0)
-				/* Two escapes followed by a non-decimal
-				 * digit or a decimal digit that would
-				 * create an ASCII digit sequence
-				 * greater than 2XX, and we're not in
-				 * the middle of an ASCII character
-				 * sequence: control character sequence
-				 * mode.  Interpret the control sequence
-				 * and save the corresponding control
+			    if (kbinput != ERR) {
+				/* If we've read in a complete ASCII
+				 * digit sequence, reset the ASCII digit
+				 * counter and the escape counter and
+				 * save the corresponding ASCII
 				 * character as the result. */
-				retval = get_control_kbinput(kbinput);
-			    else {
-				/* If we were in the middle of an ASCII
-				 * character sequence, reset the ASCII
-				 * digit counter and save the character
-				 * we got as the result. */
 				ascii_digits = 0;
+				escapes = 0;
 				retval = kbinput;
 			    }
+			}
+		    } else {
+			/* Reset the escape counter. */
+			escapes = 0;
+			if (ascii_digits == 0)
+			    /* Two escapes followed by a non-decimal
+			     * digit or a decimal digit that would
+			     * create an ASCII digit sequence greater
+			     * than 2XX, and we're not in the middle of
+			     * an ASCII character sequence: control
+			     * character sequence mode.  Interpret the
+			     * control sequence and save the
+			     * corresponding control character as the
+			     * result. */
+			    retval = get_control_kbinput(kbinput);
+			else {
+			    /* If we were in the middle of an ASCII
+			     * character sequence, reset the ASCII digit
+			     * counter and save the character we got as
+			     * the result. */
+			    ascii_digits = 0;
+			    retval = kbinput;
+			}
 		    }
+		    break;
 	    }
     }
 
-    /* A character other than ERR with its high bit set: UTF-8 sequence
-     * mode.  Set seq to UTF8_SEQ. */
-    if (retval != ERR && 127 < retval && retval <= 255)
-	*seq = UTF8_SEQ;
-
 #ifdef DEBUG
-    fprintf(stderr, "get_translated_kbinput(): kbinput = %d, seq = %d, escapes = %d, ascii_digits = %d, retval = %d\n", kbinput, (int)*seq, escapes, ascii_digits, retval);
+    fprintf(stderr, "get_translated_kbinput(): kbinput = %d, escape_seq = %d, escapes = %d, ascii_digits = %d, retval = %d\n", kbinput, (int)*escape_seq, escapes, ascii_digits, retval);
 #endif
 
     /* Return the result. */
@@ -527,70 +463,42 @@ int get_ascii_kbinput(int kbinput, int ascii_digits
     switch (ascii_digits) {
 	case 1:
 	    /* Read in the first of the three ASCII digits. */
-	    switch (kbinput) {
-		/* Add the digit we got to the 100's position of the
-		 * ASCII character sequence holder. */
-		case '0':
-		case '1':
-		case '2':
-		    ascii_kbinput += (kbinput - '0') * 100;
-		    break;
-		default:
-		    retval = kbinput;
-    	    }
+
+	    /* Add the digit we got to the 100's position of the ASCII
+	     * character sequence holder. */
+	    if ('0' <= kbinput && kbinput <= '2')
+		ascii_kbinput += (kbinput - '0') * 100;
+	    else
+		retval = kbinput;
 	    break;
 	case 2:
 	    /* Read in the second of the three ASCII digits. */
-	    switch (kbinput) {
-		/* Add the digit we got to the 10's position of the
-		 * ASCII character sequence holder. */
-		case '0':
-		case '1':
-		case '2':
-		case '3':
-		case '4':
-		case '5':
-		    ascii_kbinput += (kbinput - '0') * 10;
-		    break;
-		case '6':
-		case '7':
-		case '8':
-		case '9':
-		    if (ascii_kbinput < 200) {
-			ascii_kbinput += (kbinput - '0') * 10;
-			break;
-		    }
-		default:
-		    retval = kbinput;
-	    }
+
+	    /* Add the digit we got to the 10's position of the ASCII
+	     * character sequence holder. */
+	    if (('0' <= kbinput && kbinput <= '5') ||
+		(ascii_kbinput < 200 && '6' <= kbinput &&
+		kbinput <= '9'))
+		ascii_kbinput += (kbinput - '0') * 10;
+	    else
+		retval = kbinput;
 	    break;
 	case 3:
 	    /* Read in the third of the three ASCII digits. */
-	    switch (kbinput) {
-		/* Add the digit we got to the 1's position of the ASCII
-		 * character sequence holder, and save the corresponding
-		 * ASCII character as the result. */
-		case '0':
-		case '1':
-		case '2':
-		case '3':
-		case '4':
-		case '5':
-		    ascii_kbinput += (kbinput - '0');
-		    retval = ascii_kbinput;
-		    break;
-		case '6':
-		case '7':
-		case '8':
-		case '9':
-		    if (ascii_kbinput < 250) {
-			ascii_kbinput += (kbinput - '0');
-			retval = ascii_kbinput;
-			break;
-		    }
-		default:
-		    retval = kbinput;
-	    }
+
+	    /* Add the digit we got to the 1's position of the ASCII
+	     * character sequence holder, and save the corresponding
+	     * ASCII character as the result. */
+	    if (('0' <= kbinput && kbinput <= '5') ||
+		(ascii_kbinput < 250 && '6' <= kbinput &&
+		kbinput <= '9')) {
+		ascii_kbinput += (kbinput - '0');
+		retval = ascii_kbinput;
+	    } else
+		retval = kbinput;
+	    break;
+	default:
+	    retval = kbinput;
 	    break;
     }
 
@@ -1169,11 +1077,9 @@ int get_escape_seq_abcd(int kbinput)
 }
 
 /* Read in a string of input characters (e.g. an escape sequence)
- * verbatim.  If v_first isn't ERR, make it the first character of the
- * string.  Return the length of the string in v_len.  Assume
+ * verbatim.  Return the length of the string in v_len.  Assume
  * nodelay(win) is FALSE. */
-int *get_verbatim_kbinput(WINDOW *win, int v_first, size_t *v_len, bool
-	allow_ascii)
+int *get_verbatim_kbinput(WINDOW *win, size_t *v_len, bool allow_ascii)
 {
     int kbinput, *v_kbinput;
     size_t i = 0, v_newlen = 0;
@@ -1193,15 +1099,12 @@ int *get_verbatim_kbinput(WINDOW *win, int v_first, size_t *v_len, bool
     keypad(win, FALSE);
 
     /* If first is ERR, read the first character using blocking input,
-     * since using non-blocking input will eat up all unused CPU.
-     * Otherwise, treat v_first as the first character.  Then increment
-     * v_len and save the character in v_kbinput. */
-    if (v_first == ERR)
-	kbinput = wgetch(win);
-    else
-	kbinput = v_first;
+     * since using non-blocking input will eat up all unused CPU.  Then
+     * increment v_len and save the character in v_kbinput. */
+    kbinput = wgetch(win);
     (*v_len)++;
     v_kbinput[0] = kbinput;
+
 #ifdef DEBUG
     fprintf(stderr, "get_verbatim_kbinput(): kbinput = %d, v_len = %lu\n", kbinput, (unsigned long)*v_len);
 #endif
@@ -1422,9 +1325,9 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	 * has, at the very least, an equivalent control key, an
 	 * equivalent primary meta key sequence, or both. */
 	if (s->ctrlval != NANO_NO_KEY)
-	    unget_kbinput(s->ctrlval, FALSE, FALSE);
+	    unget_kbinput(s->ctrlval, FALSE);
 	else if (s->metaval != NANO_NO_KEY)
-	    unget_kbinput(s->metaval, TRUE, FALSE);
+	    unget_kbinput(s->metaval, TRUE);
 
 	return TRUE;
     }
@@ -1432,14 +1335,14 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 }
 #endif /* !DISABLE_MOUSE */
 
-const shortcut *get_shortcut(const shortcut *s_list, int kbinput, bool
+const shortcut *get_shortcut(const shortcut *s_list, int *kbinput, bool
 	*meta_key, bool *func_key)
 {
     const shortcut *s = s_list;
     size_t slen = length_of_list(s_list);
 
 #ifdef DEBUG
-    fprintf(stderr, "get_shortcut(): kbinput = %d, meta_key = %d, func_key = %d\n", kbinput, (int)*meta_key, (int)*func_key);
+    fprintf(stderr, "get_shortcut(): kbinput = %d, meta_key = %d, func_key = %d\n", *kbinput, (int)*meta_key, (int)*func_key);
 #endif
 
     /* Check for shortcuts. */
@@ -1453,10 +1356,10 @@ const shortcut *get_shortcut(const shortcut *s_list, int kbinput, bool
 	 * 4. func_key is TRUE and the key is a function key in the
 	 *    shortcut list. */
 
-	if (kbinput != NANO_NO_KEY && (kbinput == s->ctrlval ||
-		(*meta_key == TRUE && (kbinput == s->metaval ||
-		kbinput == s->miscval)) || (*func_key == TRUE &&
-		kbinput == s->funcval))) {
+	if (*kbinput != NANO_NO_KEY && (*kbinput == s->ctrlval ||
+		(*meta_key == TRUE && (*kbinput == s->metaval ||
+		*kbinput == s->miscval)) || (*func_key == TRUE &&
+		*kbinput == s->funcval))) {
 	    break;
 	}
 
@@ -1469,10 +1372,10 @@ const shortcut *get_shortcut(const shortcut *s_list, int kbinput, bool
     if (slen > 0) {
 	if (s->ctrlval != NANO_NO_KEY) {
 	    *meta_key = FALSE;
-	    kbinput = s->ctrlval;
+	    *kbinput = s->ctrlval;
 	} else if (s->metaval != NANO_NO_KEY) {
 	    *meta_key = TRUE;
-	    kbinput = s->metaval;
+	    *kbinput = s->metaval;
 	}
 	return s;
     }
@@ -1538,7 +1441,7 @@ int get_edit_input(bool *meta_key, bool *func_key, bool allow_funcs)
     }
 
     /* Check for a shortcut in the main list. */
-    s = get_shortcut(main_list, kbinput, meta_key, func_key);
+    s = get_shortcut(main_list, &kbinput, meta_key, func_key);
 
     if (s != NULL) {
 	/* We got a shortcut.  Run the shortcut's corresponding function

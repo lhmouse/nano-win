@@ -157,10 +157,6 @@ typedef enum {
     TOP, CENTER, NONE
 } topmidnone;
 
-typedef enum {
-    NO_SEQ, ESCAPE_SEQ, UTF8_SEQ
-} seq_type;
-
 /* Structure types. */
 typedef struct filestruct {
     char *data;

@@ -524,9 +524,9 @@ int check_wildcard_match(const char *text, const char *pattern);
 #ifndef NANO_SMALL
 void reset_kbinput(void);
 #endif
-void unget_kbinput(int kbinput, bool meta_key, bool func_key);
+void unget_kbinput(int kbinput, bool meta_key);
 int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key);
-int get_translated_kbinput(int kbinput, seq_type *seq
+int get_translated_kbinput(int kbinput, bool *escape_seq
 #ifndef NANO_SMALL
 	, bool reset
 #endif
@@ -540,8 +540,7 @@ int get_control_kbinput(int kbinput);
 int get_escape_seq_kbinput(const int *escape_seq, size_t es_len, bool
 	*ignore_seq);
 int get_escape_seq_abcd(int kbinput);
-int *get_verbatim_kbinput(WINDOW *win, int v_first, size_t *v_len, bool
-	allow_ascii);
+int *get_verbatim_kbinput(WINDOW *win, size_t *v_len, bool allow_ascii);
 int get_untranslated_kbinput(int kbinput, size_t position, bool
 	allow_ascii
 #ifndef NANO_SMALL
@@ -551,7 +550,7 @@ int get_untranslated_kbinput(int kbinput, size_t position, bool
 #ifndef DISABLE_MOUSE
 bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts);
 #endif
-const shortcut *get_shortcut(const shortcut *s_list, int kbinput, bool
+const shortcut *get_shortcut(const shortcut *s_list, int *kbinput, bool
 	*meta_key, bool *func_key);
 #ifndef NANO_SMALL
 const toggle *get_toggle(int kbinput, bool meta_key);
