@@ -102,7 +102,7 @@ extern char *syntaxstr;
 
 extern shortcut *shortcut_list;
 extern shortcut *main_list, *whereis_list;
-extern shortcut *replace_list, *goto_list;
+extern shortcut *replace_list, *gotoline_list;
 extern shortcut *writefile_list, *insertfile_list;
 extern shortcut *replace_list_2;
 #ifndef NANO_SMALL
@@ -541,7 +541,7 @@ size_t strlenpt(const char *buf);
 void blank_titlebar(void);
 void blank_edit(void);
 void blank_statusbar(void);
-void check_statblank(void);
+void check_statusblank(void);
 void blank_bottombars(void);
 char *display_string(const char *buf, size_t start_col, size_t len);
 void nanoget_repaint(const char *buf, const char *inputbuf, size_t x);

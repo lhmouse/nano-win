@@ -11,11 +11,11 @@ For version 1.4:
 - Keystroke to implement "Add next sequence as raw" like vi's ^V.
   [DONE for edit window, needs to be done for statusbar prompt]
 - Spell check selected text only. [DONE]
-- Make "To line" (^W^T) and "Read from Command" (^R^X) re-enter their
+- Make "To Line" (^W^T) and "Read from Command" (^R^X) reenter their
   parent menu when their keystroke is entered a second time (^W^T^T and
-  (^R^X^X)(requires figuring out when to keep cursor pos and when not
-  to).
-- Fix resetstatuspos global which we shouldn't have.
+  (^R^X^X) (requires figuring out when to keep cursor position and when
+  not to). [DONE]
+- Fix resetstatuspos global which we shouldn't have. [DONE]
 - Rewrite the nano FAQ in SGML.
 
 Old requests:

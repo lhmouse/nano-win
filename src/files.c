@@ -481,21 +481,41 @@ void do_insertfile(void)
     char *ans = mallocstrcpy(NULL, "");
 	/* The last answer the user typed on the statusbar.  Saved for if
 	 * they do M-F or cancel the file browser. */
+#ifndef NANO_SMALL
+    bool extcmd = FALSE;
+#endif
 
     wrap_reset();
 
 #if !defined(DISABLE_BROWSER) || (!defined(NANO_SMALL) && defined(ENABLE_MULTIBUFFER))
-  start_again:	/* Go here when the user cancels the file browser. */
+  start_again:
 #endif
 
+#ifndef NANO_SMALL
+    if (extcmd) {
 #ifdef ENABLE_MULTIBUFFER
-    if (ISSET(MULTIBUFFER))
-	msg = N_("File to insert into new buffer [from %s] ");
-    else
+	if (ISSET(MULTIBUFFER))
+	    msg = N_("Command to execute in new buffer [from %s] ");
+	else
 #endif
-	msg = N_("File to insert [from %s] ");
+	    msg = N_("Command to execute [from %s] ");
+    } else {
+#endif
+#ifdef ENABLE_MULTIBUFFER
+	if (ISSET(MULTIBUFFER)) {
+	    msg = N_("File to insert into new buffer [from %s] ");
+	} else
+#endif
+	    msg = N_("File to insert [from %s] ");
+#ifndef NANO_SMALL
+	}
+#endif
 
-    i = statusq(TRUE, insertfile_list, ans,
+    i = statusq(TRUE,
+#ifndef NANO_SMALL
+		extcmd ? extcmd_list :
+#endif
+		insertfile_list, ans,
 #ifndef NANO_SMALL
 		NULL,
 #endif
@@ -511,58 +531,33 @@ void do_insertfile(void)
 
 	ans = mallocstrcpy(ans, answer);
 
-#ifndef NANO_SMALL
-#ifdef ENABLE_MULTIBUFFER
+#if !defined(NANO_SMALL) && defined(ENABLE_MULTIBUFFER)
 	if (i == TOGGLE_MULTIBUFFER_KEY) {
 	    /* Don't allow toggling if we're in view mode. */
 	    if (!ISSET(VIEW_MODE))
 		TOGGLE(MULTIBUFFER);
 	    goto start_again;
 	}
-#endif /* ENABLE_MULTIBUFFER */
-	if (i == NANO_EXTCMD_KEY) {
-	    int j;
-
-#ifdef ENABLE_MULTIBUFFER
-  exec_again:	/* Go here when the user toggles multibuffer mode. */
-
-	    if (ISSET(MULTIBUFFER))
-		msg = N_("Command to execute in new buffer");
-	    else
-#endif
-		msg = N_("Command to execute");
-
-	    j = statusq(TRUE, extcmd_list, ans, NULL, _(msg));
-
-#ifdef ENABLE_MULTIBUFFER
-	    if (j == TOGGLE_MULTIBUFFER_KEY) {
-		/* Don't allow toggling if we're in view mode. */
-		if (!ISSET(VIEW_MODE)) {
-		    TOGGLE(MULTIBUFFER);
-		    ans = mallocstrcpy(NULL, answer);
-		}
-		goto exec_again;
-	    }
 #endif
 
-	    if (j == -1 || answer == NULL || answer[0] == '\0')
-		goto start_again;
-	}
-#endif /* !NANO_SMALL */
 #ifndef DISABLE_BROWSER
 	if (i == NANO_TOFILES_KEY) {
 	    char *tmp = do_browse_from(answer);
 
 	    if (tmp == NULL)
 		goto start_again;
-	    resetstatuspos = TRUE;
 	    free(answer);
 	    answer = tmp;
 	}
 #endif
 
 #ifndef NANO_SMALL
-	if (i == NANO_EXTCMD_KEY)
+	if (i == NANO_TOOTHERINSERT_KEY) {
+	    extcmd = !extcmd;
+	    goto start_again;
+	}
+
+	if (extcmd)
 	    execute_command(answer);
 	else {
 #endif
@@ -590,7 +585,7 @@ void do_insertfile(void)
 	}
 #endif
 
-	/* If we've gone off the bottom, recenter; otherwise, just redraw */
+	/* Refresh the screen. */
 	edit_refresh();
     } else
 	statusbar(_("Cancelled"));
@@ -2543,7 +2538,7 @@ char *do_browser(const char *inpath)
 	char *new_path;
 	    /* Used by the Go To Directory prompt. */
 
-	check_statblank();
+	check_statusblank();
 
 #if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
 	currshortcut = browser_list;
@@ -2700,8 +2695,8 @@ char *do_browser(const char *inpath)
 	    return do_browser(path);
 
 	/* Go to a specific directory */
-	case NANO_GOTO_KEY:
-	case NANO_GOTO_FKEY:
+	case NANO_GOTOLINE_KEY:
+	case NANO_GOTOLINE_FKEY:
 	case 'G': /* Pico compatibility */
 	case 'g':
 	    curs_set(1);

@@ -30,9 +30,12 @@
 #include "proto.h"
 #include "nano.h"
 
-static int statblank = 0;	/* Number of keystrokes left after
-				   we call statusbar(), before we
-				   actually blank the statusbar */
+static int statusblank = 0;	/* Number of keystrokes left after
+				 * we call statusbar(), before we
+				 * actually blank the statusbar. */
+static bool resetstatuspos = FALSE;
+				/* Should we reset the statusbar cursor
+				 * position? */
 
 /* Control character compatibility:
  *
@@ -1628,12 +1631,12 @@ void blank_statusbar(void)
     mvwaddstr(bottomwin, 0, 0, hblank);
 }
 
-void check_statblank(void)
+void check_statusblank(void)
 {
-    if (statblank > 1)
-	statblank--;
-    else if (statblank == 1 && !ISSET(CONSTUPDATE)) {
-	statblank = 0;
+    if (statusblank > 1)
+	statusblank--;
+    else if (statusblank == 1 && !ISSET(CONSTUPDATE)) {
+	statusblank = 0;
 	blank_statusbar();
 	wnoutrefresh(bottomwin);
 	reset_cursor();
@@ -1824,7 +1827,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
      * disable all keys that would change the text if the filename isn't
      * blank and we're at the "Write File" prompt. */
     while ((kbinput = get_kbinput(bottomwin, &meta_key, &func_key)) !=
-	NANO_ENTER_KEY) {
+	NANO_CANCEL_KEY && kbinput != NANO_ENTER_KEY) {
 	for (t = s; t != NULL; t = t->next) {
 #ifdef DEBUG
 	    fprintf(stderr, "Aha! \'%c\' (%d)\n", kbinput, kbinput);
@@ -2086,11 +2089,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
     /* We finished putting in an answer; reset x */
     x = -1;
 
-    /* Just check for a blank answer here */
-    if (answer[0] == '\0')
-	return -2;
-    else
-	return 0;
+    return kbinput;
 }
 
 void titlebar(const char *path)
@@ -2295,7 +2294,7 @@ void statusbar(const char *msg, ...)
     }
 
     SET(DISABLE_CURPOS);
-    statblank = 26;
+    statusblank = 26;
 }
 
 void bottombars(const shortcut *s)
@@ -3026,14 +3025,19 @@ int statusq(int allowtabs, const shortcut *s, const char *def,
 	break;
 #ifndef DISABLE_JUSTIFY
     case NANO_PARABEGIN_KEY:
+    case NANO_PARABEGIN_ALTKEY1:
+    case NANO_PARABEGIN_ALTKEY2:
 	do_para_begin();
 	resetstatuspos = TRUE;
 	break;
     case NANO_PARAEND_KEY:
+    case NANO_PARAEND_ALTKEY1:
+    case NANO_PARAEND_ALTKEY2:
 	do_para_end();
 	resetstatuspos = TRUE;
 	break;
     case NANO_FULLJUSTIFY_KEY:
+    case NANO_FULLJUSTIFY_ALTKEY:
 	if (!ISSET(VIEW_MODE))
 	    do_full_justify();
 	resetstatuspos = TRUE;
@@ -3041,6 +3045,10 @@ int statusq(int allowtabs, const shortcut *s, const char *def,
 #endif
     case NANO_CANCEL_KEY:
 	ret = -1;
+	resetstatuspos = TRUE;
+	break;
+    case NANO_ENTER_KEY:
+	ret = (answer[0] == '\0') ? -2 : 0;
 	resetstatuspos = TRUE;
 	break;
     }

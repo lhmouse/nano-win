@@ -71,7 +71,7 @@ void do_home(void)
 #ifndef NANO_SMALL
     }
 #endif
-    check_statblank();
+    check_statusblank();
     if (need_horizontal_update(old_pww))
 	update_line(current, current_x);
 }
@@ -81,7 +81,7 @@ void do_end(void)
     size_t old_pww = placewewant;
     current_x = strlen(current->data);
     placewewant = xplustabs();
-    check_statblank();
+    check_statusblank();
     if (need_horizontal_update(old_pww))
 	update_line(current, current_x);
 }
@@ -129,7 +129,7 @@ void do_page_up(void)
     /* Update all the lines that need to be updated. */
     edit_redraw(old_current, old_pww);
 
-    check_statblank();
+    check_statusblank();
 }
 
 void do_page_down(void)
@@ -176,7 +176,7 @@ void do_page_down(void)
     /* Update all the lines that need to be updated. */
     edit_redraw(old_current, old_pww);
 
-    check_statblank();
+    check_statusblank();
 }
 
 void do_up(void)
@@ -184,7 +184,7 @@ void do_up(void)
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
-    check_statblank();
+    check_statusblank();
 
     if (current->prev == NULL)
 	return;
@@ -217,7 +217,7 @@ void do_down(void)
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
-    check_statblank();
+    check_statusblank();
 
     if (current->next == NULL)
 	return;
@@ -255,7 +255,7 @@ void do_left(int allow_update)
 	current_x = strlen(current->data);
     }
     placewewant = xplustabs();
-    check_statblank();
+    check_statusblank();
     if (allow_update && need_horizontal_update(old_pww))
 	update_line(current, current_x);
 }
@@ -277,7 +277,7 @@ void do_right(int allow_update)
 	current_x = 0;
     }
     placewewant = xplustabs();
-    check_statblank();
+    check_statusblank();
     if (allow_update && need_horizontal_update(old_pww))
 	update_line(current, current_x);
 }

@@ -287,7 +287,7 @@ void help_init(void)
 		"the Search: prompt.  Hitting Enter without entering any text "
 		"will perform the previous search.\n\n The following function "
 		"keys are available in Search mode:\n\n");
-    else if (currshortcut == goto_list)
+    else if (currshortcut == gotoline_list)
 	htx = N_("Go To Line Help Text\n\n "
 		"Enter the line number that you wish to go to and hit "
 		"Enter.  If there are fewer lines of text than the "

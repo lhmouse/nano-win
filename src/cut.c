@@ -34,7 +34,7 @@ static int marked_cut;
 	/* Is the cutbuffer from a mark?  0 means whole-line cut, 1
 	 * means mark, and 2 means cut-from-cursor. */
 #ifndef NANO_SMALL
-static bool concatenate_cut;
+static bool concatenate_cut = FALSE;
 	/* Should we add this cut string to the end of the last one? */
 #endif
 static filestruct *cutbottom = NULL;
@@ -205,7 +205,7 @@ void do_cut_text(void)
 
     assert(current != NULL && current->data != NULL);
 
-    check_statblank();
+    check_statusblank();
 
     if (!keep_cutbuffer) {
 	free_filestruct(cutbuffer);
@@ -315,7 +315,7 @@ void do_uncut_text(void)
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
-    check_statblank();
+    check_statusblank();
     if (cutbuffer == NULL || current == NULL)
 	return;			/* AIEEEEEEEEEEEE */
 

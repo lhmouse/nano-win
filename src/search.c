@@ -231,10 +231,10 @@ int search_init(bool replacing)
 	    return 1;
 #endif
 #endif /* !NANO_SMALL */
-	case NANO_OTHERSEARCH_KEY:
+	case NANO_TOOTHERSEARCH_KEY:
 	    backupstring = mallocstrcpy(backupstring, answer);
 	    return -2;	/* Call the opposite search function. */
-	case NANO_FROMSEARCHTOGOTO_KEY:
+	case NANO_TOGOTOLINE_KEY:
 #ifndef NANO_SMALL
 	    search_history.current = search_history.next;
 #endif
@@ -385,6 +385,7 @@ void do_search(void)
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
+
     i = search_init(FALSE);
     if (i == -1)	/* Cancel, Go to Line, blank search string, or
 			 * regcomp() failed. */
@@ -858,7 +859,7 @@ void do_gotoline(int line, bool save_pos)
 {
     if (line <= 0) {		/* Ask for it. */
 	char *ans = mallocstrcpy(NULL, answer);
-	int st = statusq(FALSE, goto_list, line < 0 ? ans : "",
+	int i = statusq(FALSE, gotoline_list, line < 0 ? ans : "",
 #ifndef NANO_SMALL
 		NULL,
 #endif
@@ -867,9 +868,15 @@ void do_gotoline(int line, bool save_pos)
 	free(ans);
 
 	/* Cancel, or Enter with blank string. */
-	if (st == -1 || st == -2)
+	if (i == -1 || i == -2)
 	    statusbar(_("Cancelled"));
-	if (st != 0) {
+
+	if (i == NANO_TOOTHERWHEREIS_KEY) {
+	    do_search();
+	    return;
+	}
+
+	if (i != 0) {
 	    display_main_list();
 	    return;
 	}

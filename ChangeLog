@@ -39,11 +39,12 @@ CVS code -
 	  edit_update(), rename open_the_file() to open_file() since the
 	  latter has been removed, and rename load_a_file() to
 	  load_buffer().
-	- Add alternative shortcuts to the main list for moving to the
-	  beginning and end of a paragraph and justifying the entire
-	  file: Meta-( (Meta-9), Meta-) (Meta-0), and Meta-J,
-	  respectively.  Do this because Pico's practice of putting these
-	  shortcuts in the search menu is rather odd. (DLR)
+	- Add alternative shortcuts to the main and search shortcut
+	  lists for moving to the beginning and end of a paragraph and
+	  justifying the entire file: Meta-( (Meta-9), Meta-) (Meta-0),
+	  and Meta-J, respectively.  Do this because Pico's practice of
+	  putting these shortcuts only in the search shortcut list is
+	  rather odd. (DLR)
 	- Turn off extended input processing (the IEXTEN termios flag)
 	  as nano 1.2.x does.  New function disable_extended_input();
 	  changes to terminal_init(). (DLR)
@@ -57,11 +58,17 @@ CVS code -
 	- Add a multibuffer mode toggle to the "Execute Command" prompt,
 	  for consistency with the "Read File" prompt.  Changes to
 	  do_insertfile() and shortcut_init(). (DLR)
+	- Add an ^X toggle to the "Execute Command" prompt to go back to
+	  the "Insert File" prompt, and add a ^T toggle to the "Go To
+	  Line" prompt to go back to the "Where Is" prompt.  Changes to
+	  do_insertfile(), shortcut_init(), do_gotoline(), etc.
+	- Make sure a few uninitialized static variables are initialized
+	  to sane values. (DLR)
 - files.c:
   do_insertfile()
 	- Readd the NANO_SMALL #ifdef around the start_again: label to
 	  avoid a warning. (DLR)
-	- Simplify by reusing variables where possible. (DLR)
+	- Simplify by reusing variables whereever possible. (DLR)
 - global.c:
   shortcut_init()
 	- Remove redundant NANO_SMALL #ifdef. (DLR)
@@ -127,9 +134,17 @@ CVS code -
 	- If there are more than MAIN_VISIBLE shortcuts available, only
 	  register clicks on the first MAIN_VISIBLE shortcuts, since
 	  bottombars() only shows that many shortcuts. (DLR)
+  check_statblank()
+	- Rename to check_statusblank(), and rename its associated
+	  global int statusblank too. (DLR)
   nanogetstr()
 	- Refresh the screen when Ctrl-L is pressed at the statusbar
 	  prompt, as Pico does. (DLR)
+	- Always return the key pressed by the user. (DLR)
+  statusq()
+	- Rework slightly to reset the cursor position when the user
+	  hits Enter as well as Cancel.  This means that resetstatuspos
+	  no longer needs to be global. (DLR)
   reset_cursor()
 	- If this is called before any files have been opened, as it can
 	  be by statusbar(), put the cursor at the top left corner of
