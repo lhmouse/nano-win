@@ -146,9 +146,16 @@ CVS code -
 - configure.ac:
 	- Remove specific references to control key shortcuts. (DLR)
 	- Check for the wide version of ncurses, without which multibyte
-	  strings don't seem to be displayed properly. (DLR)
-	- Check for stddef.h and wchar.h, for those systems that need
-	  one of the two for the wcwidth() prototype. (DLR)
+	  strings don't seem to be displayed properly, and associated
+	  wide character functions. (DLR)
+	- Check for wchar.h, for those systems that need it for the
+	  wcwidth() prototype. (DLR)
+	- Remove checks for all include files that we include
+	  unconditionally. (DLR)
+	- Remove references to termio.h here and elsewhere, since it's
+	  obsolete and it defines a struct termio that we don't use
+	  anywhere. (DLR)
+	- Typo fixes. (DLR)
 - doc/nanorc.sample:
 	- Add return to the "c-file" regexes. (DLR)
 

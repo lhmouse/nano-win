@@ -44,10 +44,6 @@
 #include <termios.h>
 #endif
 
-#ifdef HAVE_TERMIO_H
-#include <termio.h>
-#endif
-
 #ifdef HAVE_GETOPT_H
 #include <getopt.h>
 #endif
