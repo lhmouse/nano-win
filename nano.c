@@ -59,8 +59,6 @@
 #endif
 
 /* Former globals, now static */
-char *last_search = "\0";		/* Last string we searched for */
-char *last_replace = "\0";		/* Last replacement string */
 int fill = 0;			/* Fill - where to wrap lines, basically */
 static char *alt_speller;	/* Alternative spell command */
 struct termios oldterm;		/* The user's original term settings */
@@ -148,10 +146,6 @@ void global_init(void)
     for (i = 0; i <= COLS - 1; i++)
 	hblank[i] = ' ';
     hblank[i] = 0;
-    last_search = nmalloc(132);
-    last_replace = nmalloc(132);
-    answer = nmalloc(132);
-
 }
 
 void init_help_msg(void)
@@ -1305,6 +1299,44 @@ void handle_sigwinch(int s)
 #endif
 }
 
+void signal_init(void)
+{
+    struct sigaction act;	/* For our lovely signals */
+
+    /* Trap SIGINT and SIGQUIT  cuz we want them to do useful things. */
+    memset(&act, 0, sizeof(struct sigaction));
+    act.sa_handler = SIG_IGN;
+    sigaction(SIGINT, &act, NULL);
+    sigaction(SIGQUIT, &act, NULL);
+
+    if (!ISSET(SUSPEND))
+	sigaction(SIGTSTP, &act, NULL);
+
+    /* Trap SIGHUP  cuz we want to write the file out. */
+    act.sa_handler = handle_hup;
+    sigaction(SIGHUP, &act, NULL);
+
+    act.sa_handler = handle_sigwinch;
+    sigaction(SIGWINCH, &act, NULL);
+
+}
+
+void mouse_init(void)
+{
+#ifndef NANO_SMALL
+#ifdef NCURSES_MOUSE_VERSION
+    if (ISSET(USE_MOUSE)) {
+	mousemask(BUTTON1_RELEASED, NULL);
+	mouseinterval(50);
+    }
+    else {
+	mousemask(0, NULL);
+    }
+#endif
+#endif
+
+}
+
 int do_tab(void)
 {
     do_char('\t');
@@ -1517,6 +1549,11 @@ void help_init(void)
 	if (main_list[i].help != NULL)
 	    allocsize += strlen(main_list[i].help) + 15;
 
+    /* And for the toggle list, we also allocate space for extra text. */
+    for (i = 0; i < TOGGLE_LEN; i++)
+	if (toggles[i].desc != NULL)
+	    allocsize += strlen(toggles[i].desc) + 30;
+
     allocsize += strlen(help_text_init);
 
     if (help_text != NULL)
@@ -1529,7 +1566,7 @@ void help_init(void)
     strcpy(help_text, help_text_init);
 
     /* Now add our shortcut info */
-    for (i = 0; i < MAIN_LIST_LEN; i++) {
+    for (i = 0; i < MAIN_LIST_LEN - 1; i++) {
 	sofar = snprintf(buf, BUFSIZ, "^%c	", main_list[i].val + 64);
 
 	if (main_list[i].misc1 > KEY_F0 && main_list[i].misc1 <= KEY_F(64))
@@ -1544,8 +1581,23 @@ void help_init(void)
 	else
 	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "	");
 
+
 	if (main_list[i].help != NULL)
 	    snprintf(&buf[sofar], BUFSIZ - sofar, "%s", main_list[i].help);
+
+
+	strcat(help_text, buf);
+	strcat(help_text, "\n");
+    }
+
+    /* And the toggles... */
+    for (i = 0; i < TOGGLE_LEN - 1; i++) {
+	sofar = snprintf(buf, BUFSIZ, 
+	"                (@%c)	", toggles[i].val - 32 );
+
+	if (toggles[i].desc != NULL)
+	    snprintf(&buf[sofar], BUFSIZ - sofar, "%s enable/disable", 
+		toggles[i].desc);
 
 	strcat(help_text, buf);
 	strcat(help_text, "\n");
@@ -1553,12 +1605,41 @@ void help_init(void)
 
 }
 
+void do_toggle(int which)
+{
+#ifndef NANO_SMALL
+    if (ISSET(toggles[which].flag)) {
+	statusbar("%s %s", toggles[which].desc, "disabled");
+	UNSET(toggles[which].flag);
+    } else {
+	statusbar("%s %s", toggles[which].desc, "enabled");
+	SET(toggles[which].flag);
+    }
+    switch (toggles[which].val) {
+    case TOGGLE_PICOMODE_KEY:
+	shortcut_init();
+	display_main_list();
+	break;
+    case TOGGLE_SUSPEND_KEY:
+	signal_init();
+	break;
+    case TOGGLE_MOUSE_KEY:
+	mouse_init();
+	break;
+    case TOGGLE_NOHELP_KEY:
+	handle_sigwinch(1);
+	break;
+    }
+    SET(DISABLE_CURPOS);
+
+#endif
+}
+
 int main(int argc, char *argv[])
 {
     int optchr;
     int kbinput;		/* Input from keyboard */
     long startline = 0;		/* Line to try and start at */
-    struct sigaction act;	/* For our lovely signals */
     int keyhandled = 0;		/* Have we handled the keystroke yet? */
     int tmpkey = 0, i;
     char *argv0;
@@ -1689,9 +1770,6 @@ int main(int argc, char *argv[])
 	|| (!argv0 && strstr(argv[0], "pico")))
 	SET(PICO_MSGS);
 
-    filename = nmalloc(PATH_MAX);
-    strcpy(filename, "");
-
     /* See if there's a non-option in argv (first non-option is the
        filename, if +LINE is not given) */
     if (argc == 1 || argc <= optind)
@@ -1733,22 +1811,7 @@ int main(int argc, char *argv[])
     shortcut_init();
     init_help_msg();
     help_init();
-
-    /* Trap SIGINT and SIGQUIT  cuz we want them to do useful things. */
-    memset(&act, 0, sizeof(struct sigaction));
-    act.sa_handler = SIG_IGN;
-    sigaction(SIGINT, &act, NULL);
-    sigaction(SIGQUIT, &act, NULL);
-
-    if (!ISSET(SUSPEND))
-	sigaction(SIGTSTP, &act, NULL);
-
-    /* Trap SIGHUP  cuz we want to write the file out. */
-    act.sa_handler = handle_hup;
-    sigaction(SIGHUP, &act, NULL);
-
-    act.sa_handler = handle_sigwinch;
-    sigaction(SIGWINCH, &act, NULL);
+    signal_init();
 
 #ifdef DEBUG
     fprintf(stderr, _("Main: set up windows\n"));
@@ -1758,14 +1821,7 @@ int main(int argc, char *argv[])
     edit = newwin(editwinrows, COLS, 2, 0);
     keypad(edit, TRUE);
 
-#ifndef NANO_SMALL
-#ifdef NCURSES_MOUSE_VERSION
-    if (ISSET(USE_MOUSE)) {
-	mousemask(BUTTON1_RELEASED, NULL);
-	mouseinterval(50);
-    }
-#endif
-#endif
+    mouse_init();
 
     /* And the other windows */
     topwin = newwin(2, COLS, 0, 0);
@@ -1859,9 +1915,19 @@ int main(int argc, char *argv[])
 		for (i = 0; i <= MAIN_LIST_LEN - 1; i++)
 		    if (kbinput == main_list[i].altval ||
 			kbinput == main_list[i].altval - 32) {
-			kbinput = main_list[i].val;
-			break;
+			    kbinput = main_list[i].val;
+			    break;
 		    }
+#ifndef NANO_SMALL
+		/* And for toggle switches */
+		for (i = 0; i <= TOGGLE_LEN - 1 && !keyhandled; i++)
+		    if (kbinput == toggles[i].val ||
+			kbinput == toggles[i].val - 32) {
+			    do_toggle(i);
+			    keyhandled = 1;
+			    break;
+		    }
+#endif
 #ifdef DEBUG
 		fprintf(stderr, _("I got Alt-%c! (%d)\n"), kbinput,
 			kbinput);
@@ -1871,7 +1937,7 @@ int main(int argc, char *argv[])
 	}
 	/* Look through the main shortcut list to see if we've hit a
 	   shortcut key */
-	for (i = 0; i < MAIN_LIST_LEN; i++) {
+	for (i = 0; i < MAIN_LIST_LEN && !keyhandled; i++) {
 	    if (kbinput == main_list[i].val ||
 		(main_list[i].misc1 && kbinput == main_list[i].misc1) ||
 		(main_list[i].misc2 && kbinput == main_list[i].misc2)) {
@@ -1912,8 +1978,12 @@ int main(int argc, char *argv[])
 		}
 		do_char(kbinput);
 	    }
-	if (ISSET(CONSTUPDATE))
-	    do_cursorpos();
+	if (ISSET(CONSTUPDATE)) {
+	    if (ISSET(DISABLE_CURPOS))
+		UNSET(DISABLE_CURPOS);
+	    else
+		do_cursorpos();
+	}
 
 	reset_cursor();
 	wrefresh(edit);

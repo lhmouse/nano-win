@@ -1,4 +1,11 @@
 CVS Code
+- General
+	- New shortcuts to toggle certain options that are normally only
+	  flags via Alt/Meta.  See Alt-C,E,I,K,M,P,X,Z.  New struct called
+	  toggles in nano.h, toggle_init(), toggle_init_one() in global.c
+	  called from shortcut_init(), and do_toggle in nano.c.
+	- Changed last_search and last_replace vars to statically 
+	  allocated (hence nulled) and moved to search.c (Matt Kraai).
 - nano.c:
   do_mouse()
 	- Patch for handling lines w/tabs and mouse better (Ben Roberts).
@@ -20,6 +27,7 @@ CVS Code
 	- Added reset for placewewant (Ben Roberts).
 	- Fixed check for string that only occurs on the same line failing
 	  (discovered by Ken Tyler).
+
 
 nano-0.9.16 - 08/09/2000
 - cut.c:

@@ -82,6 +82,14 @@ typedef struct shortcut {
    char *help;		/* Help file entry text */
 } shortcut;
 
+typedef struct toggle {
+   int val;		/* Sequence to toggle the key.  Should only need 1 */
+   char *desc;		/* Description for when toggle is, uh, toggled,
+			   e.g. "Pico Messages", we'll append Enabled or
+			   Disabled */
+   int flag;		/* What flag actually gets toggled */
+} toggle;
+
 /* Bitwise flags so we can save space (or more correctly, not waste it) */
 
 #define MODIFIED		(1<<0)
@@ -102,6 +110,7 @@ typedef struct shortcut {
 #define REGEXP_COMPILED         (1<<15)
 #define TEMP_OPT         	(1<<16)
 #define CUT_TO_END         	(1<<17)
+#define DISABLE_CURPOS         	(1<<18)
 
 /* Control key sequences, chaning these would be very very bad */
 
@@ -217,6 +226,16 @@ know what you're doing */
 #define NANO_ENTER_KEY		NANO_CONTROL_M
 #define NANO_FROMSEARCHTOGOTO_KEY NANO_CONTROL_T
 
+#define TOGGLE_CONST_KEY	NANO_ALT_C
+#define TOGGLE_AUTOINDENT_KEY	NANO_ALT_I
+#define TOGGLE_SUSPEND_KEY	NANO_ALT_Z
+#define TOGGLE_NOHELP_KEY	NANO_ALT_X
+#define TOGGLE_PICOMODE_KEY	NANO_ALT_P
+#define TOGGLE_MOUSE_KEY	NANO_ALT_M
+#define TOGGLE_CUTTOEND_KEY	NANO_ALT_K
+#define TOGGLE_REGEXP_KEY	NANO_ALT_E
+#define TOGGLE_WRAP_KEY		NANO_ALT_W
+
 #define MAIN_LIST_LEN 26
 #define MAIN_VISIBLE 12
 #define WHEREIS_LIST_LEN 6
@@ -225,6 +244,12 @@ know what you're doing */
 #define WRITEFILE_LIST_LEN 1
 #define HELP_LIST_LEN 3
 #define SPELL_LIST_LEN 3
+
+#ifndef SMALL_NANO
+#define TOGGLE_LEN 9
+#else
+#define TOGGLE_LEN 6
+#endif
 
 #define VIEW 1
 #define NOVIEW 0

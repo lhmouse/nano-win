@@ -33,7 +33,8 @@ extern int totsize, temp_opt;
 extern int fill, flags,tabsize;
 
 extern WINDOW *edit, *topwin, *bottomwin;
-extern char *filename, *answer, *last_search, *last_replace;
+extern char filename[PATH_MAX];
+extern char answer[132];
 extern char *hblank, *help_text;
 extern struct stat fileinfo;
 extern filestruct *current, *fileage, *edittop, *editbot, *filebot; 
@@ -46,6 +47,7 @@ extern shortcut spell_list[SPELL_LIST_LEN];
 extern int use_regexp, regexp_compiled;
 extern regex_t search_regexp;
 extern regmatch_t regmatches[10];  
+extern toggle toggles[TOGGLE_LEN];
 
 /* Programs we want available */
 

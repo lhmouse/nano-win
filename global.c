@@ -39,7 +39,7 @@ int center_x = 0, center_y = 0;	/* Center of screen */
 WINDOW *edit;			/* The file portion of the editor  */
 WINDOW *topwin;			/* Top line of screen */
 WINDOW *bottomwin;		/* Bottom buffer */
-char *filename;			/* Name of the file */
+char filename[PATH_MAX];	/* Name of the file */
 int editwinrows = 0;		/* How many rows long is the edit
 				   window? */
 filestruct *current;		/* Current buffer pointer */
@@ -54,7 +54,7 @@ filestruct *editbot = NULL;	/* Same for the bottom */
 filestruct *filebot = NULL;	/* Last node in the file struct */
 filestruct *cutbuffer = NULL;	/* A place to store cut text */
 
-char *answer;			/* Answer str to many questions */
+char answer[132];		/* Answer str to many questions */
 int totlines = 0;		/* Total number of lines in the file */
 int totsize = 0;		/* Total number of bytes in the file */
 int placewewant = 0;		/* The collum we'd like the cursor
@@ -78,6 +78,7 @@ shortcut goto_list[GOTO_LIST_LEN];
 shortcut writefile_list[WRITEFILE_LIST_LEN];
 shortcut help_list[HELP_LIST_LEN];
 shortcut spell_list[SPELL_LIST_LEN];
+toggle toggles[TOGGLE_LEN];
 
 /* Regular expressions */
 
@@ -97,6 +98,52 @@ void sc_init_one(shortcut * s, int key, char *desc, char *help, int alt,
     s->misc2 = misc2;
     s->viewok = view;
     s->func = func;
+}
+
+/* Initialize the toggles in the same manner */
+void toggle_init_one(toggle * t, int val, char *desc, int flag)
+{
+    t->val = val;
+    t->desc = desc;
+    t->flag = flag;
+}
+
+void toggle_init(void)
+{
+#ifndef NANO_SMALL
+    char *toggle_const_msg, *toggle_autoindent_msg, *toggle_suspend_msg,
+	*toggle_nohelp_msg, *toggle_picomode_msg, *toggle_mouse_msg,
+	*toggle_cuttoend_msg, *toggle_regexp_msg, *toggle_wrap_msg;
+
+    toggle_const_msg = _("Constant cursor position");
+    toggle_autoindent_msg = _("Autoindent");
+    toggle_suspend_msg = _("Suspend");
+    toggle_nohelp_msg = _("No help mode");
+    toggle_picomode_msg = _("Pico messages");
+    toggle_mouse_msg = _("Mouse support");
+    toggle_cuttoend_msg = _("Cut to end");
+    toggle_regexp_msg = _("Regular expressions");  
+    toggle_wrap_msg = _("No auto wrap");
+
+    toggle_init_one(&toggles[0], TOGGLE_CONST_KEY, toggle_const_msg, 
+	CONSTUPDATE);
+    toggle_init_one(&toggles[1], TOGGLE_AUTOINDENT_KEY, toggle_autoindent_msg, 
+	AUTOINDENT);
+    toggle_init_one(&toggles[2], TOGGLE_SUSPEND_KEY, toggle_suspend_msg, 
+	SUSPEND);
+    toggle_init_one(&toggles[3], TOGGLE_NOHELP_KEY, toggle_nohelp_msg, 
+	NO_HELP);
+    toggle_init_one(&toggles[4], TOGGLE_PICOMODE_KEY, toggle_picomode_msg, 
+	PICO_MSGS);
+    toggle_init_one(&toggles[5], TOGGLE_WRAP_KEY, toggle_wrap_msg, 
+	NO_WRAP);
+    toggle_init_one(&toggles[6], TOGGLE_MOUSE_KEY, toggle_mouse_msg, 
+	USE_MOUSE);
+    toggle_init_one(&toggles[7], TOGGLE_CUTTOEND_KEY, toggle_cuttoend_msg, 
+	CUT_TO_END);
+    toggle_init_one(&toggles[8], TOGGLE_REGEXP_KEY, toggle_regexp_msg, 
+	USE_REGEXP);
+#endif
 }
 
 void shortcut_init(void)
@@ -149,7 +196,6 @@ void shortcut_init(void)
 	_("Make the current search or replace case (in)sensitive");
     nano_cancel_msg = _("Cancel the current function");
 #endif
-
 
     if (ISSET(PICO_MSGS))
 	sc_init_one(&main_list[0], NANO_HELP_KEY, _("Get Help"),
@@ -340,4 +386,5 @@ void shortcut_init(void)
     sc_init_one(&spell_list[1], NANO_CANCEL_KEY, _("Cancel"),
 		nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
+    toggle_init();
 }
