@@ -285,4 +285,25 @@ know what you're doing */
 /* Minimum fill length (space available for text before wrapping occurs) */
 #define MIN_FILL_LENGTH 10
 
+/* Color specific defines */
+#ifdef ENABLE_COLOR
+typedef struct colorstruct {
+    int fg;
+    int bg;
+    int bold;
+    int set;
+} colorstruct;
+
+#define FIRST_COLORNUM 16
+
+#define COLOR_TITLEBAR 16
+#define COLOR_BOTTOMBARS 17
+#define COLOR_STATUSBAR 18
+#define COLOR_TEXT 19
+#define COLOR_MARKER 20
+
+#define NUM_NCOLORS 5
+
+#endif /* ENABLE_COLOR */
+
 #endif /* ifndef NANO_H */ 

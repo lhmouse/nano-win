@@ -86,7 +86,7 @@ USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 
 bin_PROGRAMS = nano
-nano_SOURCES = cut.c 		files.c 		global.c 		move.c 		nano.c 		nano.h 		proto.h 		rcfile.c 		search.c 		utils.c 		winio.c 
+nano_SOURCES = color.c 		cut.c 		files.c 		global.c 		move.c 		nano.c 		nano.h 		proto.h 		rcfile.c 		search.c 		utils.c 		winio.c 
 
 
 man_MANS = nano.1
@@ -113,8 +113,8 @@ DEFS = @DEFS@ -I. -I$(srcdir) -I.
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-nano_OBJECTS =  cut.o files.o global.o move.o nano.o rcfile.o search.o \
-utils.o winio.o
+nano_OBJECTS =  color.o cut.o files.o global.o move.o nano.o rcfile.o \
+search.o utils.o winio.o
 nano_DEPENDENCIES = 
 nano_LDFLAGS = 
 CFLAGS = @CFLAGS@

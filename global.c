@@ -88,6 +88,10 @@ shortcut spell_list[SPELL_LIST_LEN];
 shortcut browser_list[BROWSER_LIST_LEN];
 #endif
 
+#ifdef ENABLE_COLOR
+    colorstruct colors[NUM_NCOLORS];
+#endif
+
 shortcut *currshortcut = main_list;	/* Current shortcut list we're using */
 int currslen = MAIN_VISIBLE;		/* Length of current shortcut list */
 

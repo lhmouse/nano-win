@@ -227,7 +227,11 @@ void nanoget_repaint(char *buf, char *inputbuf, int x)
     int len = strlen(buf);
     int wid = COLS - len;
 
+#ifdef ENABLE_COLOR
+    color_on(bottomwin, COLOR_STATUSBAR);
+#endif
     blank_statusbar();
+
     if (x <= COLS - 1) {
 	/* Black magic */
 	buf[len - 1] = ' ';
@@ -244,6 +248,10 @@ void nanoget_repaint(char *buf, char *inputbuf, int x)
 	waddnstr(bottomwin, &inputbuf[wid * ((x - len) / (wid))], wid);
 	wmove(bottomwin, 0, ((x - len) % wid) + len);
     }
+
+#ifdef ENABLE_COLOR
+    color_off(bottomwin, COLOR_STATUSBAR);
+#endif
 }
 
 /* Get the input from the kb, this should only be called from statusq */
@@ -492,8 +500,15 @@ void titlebar(char *path)
     if (path == NULL)
 	what = filename;
 
+#ifdef ENABLE_COLOR
+    color_on(topwin, COLOR_TITLEBAR);
+    mvwaddstr(topwin, 0, 0, hblank);
+#else
     horizbar(topwin, 0);
     wattron(topwin, A_REVERSE);
+#endif
+
+
     mvwaddstr(topwin, 0, 3, VERMSG);
 
     space = COLS - strlen(VERMSG) - strlen(VERSION) - 21;
@@ -519,7 +534,14 @@ void titlebar(char *path)
     }
     if (ISSET(MODIFIED))
 	mvwaddstr(topwin, 0, COLS - 10, _("Modified"));
+
+
+#ifdef ENABLE_COLOR
+    color_off(topwin, COLOR_TITLEBAR);
+#else
     wattroff(topwin, A_REVERSE);
+#endif
+
     wrefresh(topwin);
     reset_cursor();
 }
@@ -552,6 +574,10 @@ void bottombars(shortcut s[], int slen)
     if (ISSET(NO_HELP))
 	return;
 
+#ifdef ENABLE_COLOR    
+    color_on(bottomwin, COLOR_BOTTOMBARS);
+#endif
+
     /* Determine how many extra spaces are needed to fill the bottom of the screen */
     k = COLS / 6 - 13;
 
@@ -573,6 +599,10 @@ void bottombars(shortcut s[], int slen)
 	for (j = 0; j < k; j++)
 	    waddch(bottomwin, ' ');
     }
+
+#ifdef ENABLE_COLOR    
+    color_off(bottomwin, COLOR_BOTTOMBARS);
+#endif
 
     wrefresh(bottomwin);
 
@@ -671,10 +701,22 @@ void add_marked_sameline(int begin, int end, filestruct * fileptr, int y,
 
     /* Paint this line! */
     mvwaddnstr(edit, y, 0, &fileptr->data[this_page_start], pre_data_len);
+
+#ifdef ENABLE_COLOR
+    color_on(edit, COLOR_MARKER);
+#else
     wattron(edit, A_REVERSE);
+#endif /* ENABLE_COLOR */
+
     mvwaddnstr(edit, y, begin - this_page_start,
 	       &fileptr->data[begin], sel_data_len);
+
+#ifdef ENABLE_COLOR
+    color_off(edit, COLOR_MARKER);
+#else
     wattroff(edit, A_REVERSE);
+#endif /* ENABLE_COLOR */
+
     mvwaddnstr(edit, y, end - this_page_start,
 	       &fileptr->data[end], post_data_len);
 }
@@ -702,9 +744,20 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 	if (fileptr != mark_beginbuf && fileptr != current) {
 	    /* We are on a completely marked line, paint it all
 	     * inverse */
+#ifdef ENABLE_COLOR
+	    color_on(edit, COLOR_MARKER);
+#else
 	    wattron(edit, A_REVERSE);
+#endif /* ENABLE_COLOR */
+
 	    mvwaddnstr(edit, yval, 0, fileptr->data, COLS);
+
+#ifdef ENABLE_COLOR
+	    color_off(edit, COLOR_MARKER);
+#else
 	    wattroff(edit, A_REVERSE);
+#endif /* ENABLE_COLOR */
+
 	} else if (fileptr == mark_beginbuf && fileptr == current) {
 	    /* Special case, we're still on the same line we started
 	     * marking -- so we call our helper function */
@@ -730,8 +783,13 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 	     */
 	    int target;
 
-	    if (mark_beginbuf->lineno > current->lineno)
+	    if (mark_beginbuf->lineno > current->lineno) {
+#ifdef ENABLE_COLOR
+		color_on(edit, COLOR_MARKER);
+#else
 		wattron(edit, A_REVERSE);
+#endif /* ENABLE_COLOR */
+	    }
 
 	    target =
 		(virt_mark_beginx <
@@ -739,10 +797,23 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 
 	    mvwaddnstr(edit, yval, 0, fileptr->data, target);
 
-	    if (mark_beginbuf->lineno < current->lineno)
+	    if (mark_beginbuf->lineno < current->lineno) {
+
+#ifdef ENABLE_COLOR
+		color_on(edit, COLOR_MARKER);
+#else
 		wattron(edit, A_REVERSE);
-	    else
+#endif /* ENABLE_COLOR */
+
+	    } else {
+
+#ifdef ENABLE_COLOR
+		color_off(edit, COLOR_MARKER);
+#else
 		wattroff(edit, A_REVERSE);
+#endif /* ENABLE_COLOR */
+
+	    }
 
 	    target = (COLS - 1) - virt_mark_beginx;
 	    if (target < 0)
@@ -751,8 +822,15 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 	    mvwaddnstr(edit, yval, virt_mark_beginx,
 		       &fileptr->data[virt_mark_beginx], target);
 
-	    if (mark_beginbuf->lineno < current->lineno)
+	    if (mark_beginbuf->lineno < current->lineno) {
+
+#ifdef ENABLE_COLOR
+		color_off(edit, COLOR_MARKER);
+#else
 		wattroff(edit, A_REVERSE);
+#endif /* ENABLE_COLOR */
+
+	    }
 
 	} else if (fileptr == current) {
 	    /* we're on the cursor's line, but it's not the first
@@ -760,8 +838,15 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 	    int this_page_start = get_page_start_virtual(this_page),
 		this_page_end = get_page_end_virtual(this_page);
 
-	    if (mark_beginbuf->lineno < current->lineno)
+	    if (mark_beginbuf->lineno < current->lineno) {
+
+#ifdef ENABLE_COLOR
+		color_on(edit, COLOR_MARKER);
+#else
 		wattron(edit, A_REVERSE);
+#endif /* ENABLE_COLOR */
+
+	    }
 
 	    if (virt_cur_x > COLS - 2) {
 		mvwaddnstr(edit, yval, 0,
@@ -771,10 +856,23 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 		mvwaddnstr(edit, yval, 0, fileptr->data, virt_cur_x);
 	    }
 
-	    if (mark_beginbuf->lineno > current->lineno)
+	    if (mark_beginbuf->lineno > current->lineno) {
+
+#ifdef ENABLE_COLOR
+		color_on(edit, COLOR_MARKER);
+#else
 		wattron(edit, A_REVERSE);
-	    else
+#endif /* ENABLE_COLOR */
+
+	    } else {
+
+#ifdef ENABLE_COLOR
+		color_off(edit, COLOR_MARKER);
+#else
 		wattroff(edit, A_REVERSE);
+#endif /* ENABLE_COLOR */
+
+	    }
 
 	    if (virt_cur_x > COLS - 2)
 		mvwaddnstr(edit, yval, virt_cur_x - this_page_start,
@@ -784,8 +882,15 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 		mvwaddnstr(edit, yval, virt_cur_x,
 			   &fileptr->data[virt_cur_x], COLS - virt_cur_x);
 
-	    if (mark_beginbuf->lineno > current->lineno)
+	    if (mark_beginbuf->lineno > current->lineno) {
+
+#ifdef ENABLE_COLOR
+		color_off(edit, COLOR_MARKER);
+#else
 		wattroff(edit, A_REVERSE);
+#endif /* ENABLE_COLOR */
+
+	    }
 	}
 
     } else
@@ -1007,9 +1112,21 @@ int statusq(int tabs, shortcut s[], int slen, char *def, char *msg, ...)
     va_end(ap);
     strncat(foo, ": ", 132);
 
+#ifdef ENABLE_COLOR
+    color_on(bottomwin, COLOR_STATUSBAR);
+#else
     wattron(bottomwin, A_REVERSE);
+#endif
+
+
     ret = nanogetstr(tabs, foo, def, s, slen, (strlen(foo) + 3));
+
+#ifdef ENABLE_COLOR
+    color_off(bottomwin, COLOR_STATUSBAR);
+#else
     wattroff(bottomwin, A_REVERSE);
+#endif
+
 
     switch (ret) {
 
@@ -1061,9 +1178,10 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
 
     /* Write the bottom of the screen */
     clear_bottomwin();
-    wattron(bottomwin, A_REVERSE);
-    blank_statusbar_refresh();
-    wattroff(bottomwin, A_REVERSE);
+
+#ifdef ENABLE_COLOR
+    color_on(bottomwin, COLOR_BOTTOMBARS);
+#endif
 
     /* Remove gettext call for keybindings until we clear the thing up */
     if (!ISSET(NO_HELP)) {
@@ -1086,9 +1204,23 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
     va_start(ap, msg);
     vsnprintf(foo, 132, msg, ap);
     va_end(ap);
+
+#ifdef ENABLE_COLOR
+    color_off(bottomwin, COLOR_BOTTOMBARS);
+    color_on(bottomwin, COLOR_STATUSBAR);
+#else
     wattron(bottomwin, A_REVERSE);
+#endif /* ENABLE_COLOR */
+
+    blank_statusbar();
     mvwaddstr(bottomwin, 0, 0, foo);
+
+#ifdef ENABLE_COLOR
+    color_off(bottomwin, COLOR_STATUSBAR);
+#else
     wattroff(bottomwin, A_REVERSE);
+#endif
+
     wrefresh(bottomwin);
 
     if (leavecursor == 1)
@@ -1188,12 +1320,22 @@ void statusbar(char *msg, ...)
 
     wmove(bottomwin, 0, start_x);
 
+#ifdef ENABLE_COLOR
+    color_on(bottomwin, COLOR_STATUSBAR);
+#else
     wattron(bottomwin, A_REVERSE);
+#endif
 
     waddstr(bottomwin, "[ ");
     waddstr(bottomwin, foo);
     waddstr(bottomwin, " ]");
+
+#ifdef ENABLE_COLOR
+    color_off(bottomwin, COLOR_STATUSBAR);
+#else
     wattroff(bottomwin, A_REVERSE);
+#endif
+
     wrefresh(bottomwin);
 
     if (ISSET(CONSTUPDATE))

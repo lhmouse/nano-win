@@ -1,6 +1,7 @@
 ## $Id$
 bin_PROGRAMS = 	nano
-nano_SOURCES =	cut.c \
+nano_SOURCES =	color.c \
+		cut.c \
 		files.c \
 		global.c \
 		move.c \

@@ -174,6 +174,14 @@ struct stat filestat(const char *path);
 char *do_browse_from(char *inpath);
 #endif
 
+#ifdef ENABLE_COLOR
+int do_colorinit(void);
+void color_on(WINDOW *win, int whatever);
+void color_off(WINDOW *win, int whatever);
+
+extern colorstruct colors[NUM_NCOLORS];
+#endif /* ENABLE_COLOR */
+
 RETSIGTYPE main_loop (int junk);
 
 filestruct *copy_node(filestruct * src);

@@ -453,6 +453,9 @@ void version(void)
 #ifdef ENABLE_NANORC
     printf(" --enable-nanorc");
 #endif
+#ifdef ENABLE_COLOR
+    printf(" --enable-color");
+#endif
 
 #ifdef NANO_SMALL
     printf(" --enable-tiny");
@@ -2401,6 +2404,10 @@ int main(int argc, char *argv[])
 #ifdef DEBUG
     fprintf(stderr, _("Main: set up windows\n"));
 #endif
+
+#ifdef ENABLE_COLOR
+    do_colorinit();
+#endif /* ENABLE_COLOR */
 
     window_init();
     mouse_init();

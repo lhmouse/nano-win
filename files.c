@@ -1322,6 +1322,7 @@ char *do_browser(char *inpath)
 	    return do_browser(path);
 
 	/* Stuff we want to abort the browser */
+	case NANO_CONTROL_C:
 	case 'q':
 	case 'Q':
 	case 'e':	/* Pico compatibility, yeech */
@@ -1380,11 +1381,22 @@ char *do_browser(char *inpath)
 	    }
 
 	    /* Hilight the currently selected file/dir */
-	    if (j == selected)
+	    if (j == selected) {
+#ifdef ENABLE_COLOR
+		color_on(edit, COLOR_STATUSBAR);
+#else
 		wattron(edit, A_REVERSE);
+
+#endif
+	    }
 	    waddnstr(edit, foo, strlen(foo));
-	    if (j == selected)
+	    if (j == selected) {
+#ifdef ENABLE_COLOR
+		color_off(edit, COLOR_STATUSBAR);
+#else
 		wattroff(edit, A_REVERSE);
+#endif
+	    }
 
 	    /* And add some space between the cols */
 	    waddstr(edit, "  ");
