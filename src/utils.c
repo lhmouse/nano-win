@@ -243,7 +243,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 #endif /* !DISABLE_SPELLER || !NANO_SMALL */
 #ifndef NANO_SMALL
     else if (ISSET(REVERSE_SEARCH))
-	return revstrcasestr(haystack, needle, start);
+	return mbrevstrcasestr(haystack, needle, start);
 #endif
     return mbstrcasestr(start, needle);
 }

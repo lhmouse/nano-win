@@ -692,6 +692,68 @@ const char *revstrcasestr(const char *haystack, const char *needle,
 
     return NULL;
 }
+
+/* This function is equivalent to strcasestr() for multibyte strings,
+ * except in that it scans the string in reverse, starting at
+ * rev_start. */
+const char *mbrevstrcasestr(const char *haystack, const char *needle,
+	const char *rev_start)
+{
+#ifdef NANO_WIDE
+    if (!ISSET(NO_UTF8)) {
+	char *r_mb = charalloc(MB_CUR_MAX);
+	char *q_mb = charalloc(MB_CUR_MAX);
+	wchar_t wr, wq;
+	bool begin_line = FALSE, found_needle = FALSE;
+
+	assert(haystack != NULL && needle != NULL && rev_start != NULL);
+
+	while (!begin_line) {
+	    const char *r = rev_start, *q = needle;
+	    int r_mb_len, q_mb_len;
+
+	    while (*q != '\0') {
+		r_mb_len = parse_mbchar(r, r_mb, NULL, NULL);
+
+		if (mbtowc(&wr, r_mb, r_mb_len) <= 0) {
+		    mbtowc(NULL, NULL, 0);
+		    wr = (unsigned char)*r;
+		}
+
+		q_mb_len = parse_mbchar(q, q_mb, NULL, NULL);
+
+		if (mbtowc(&wq, q_mb, q_mb_len) <= 0) {
+		    mbtowc(NULL, NULL, 0);
+		    wq = (unsigned char)*q;
+		}
+
+		if (towlower(wr) != towlower(wq))
+		    break;
+
+		r += r_mb_len;
+		q += q_mb_len;
+	    }
+
+	    if (*q == '\0') {
+		found_needle = TRUE;
+		break;
+	    }
+
+	    if (rev_start == haystack)
+		begin_line = TRUE;
+	    else
+		rev_start = haystack + move_mbleft(haystack, rev_start -
+			haystack);
+	}
+
+	free(r_mb);
+	free(q_mb);
+
+	return found_needle ? rev_start : NULL;
+    } else
+#endif
+	return revstrcasestr(haystack, needle, rev_start);
+}
 #endif
 
 #ifndef HAVE_STRNLEN

@@ -199,6 +199,8 @@ const char *revstrstr(const char *haystack, const char *needle, const
 	char *rev_start);
 const char *revstrcasestr(const char *haystack, const char *needle,
 	const char *rev_start);
+const char *mbrevstrcasestr(const char *haystack, const char *needle,
+	const char *rev_start);
 #endif
 #ifndef HAVE_STRNLEN
 size_t nstrnlen(const char *s, size_t maxlen);
