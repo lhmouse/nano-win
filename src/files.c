@@ -2682,8 +2682,8 @@ char *do_browser(const char *inpath)
 	case NANO_HELP_KEY:
 	case NANO_HELP_FKEY:
 	case '?': /* Pico compatibility */
-	     do_help();
-	     break;
+	    do_help();
+	    break;
 	case NANO_ENTER_KEY:
 	case 'S': /* Pico compatibility */
 	case 's':

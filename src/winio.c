@@ -3021,7 +3021,7 @@ int do_help(void)
 	 * any more. */
     int kbinput = ERR, meta_key;
 
-    int no_help_flag = ISSET(NO_HELP);
+    int old_no_help = ISSET(NO_HELP);
     int old_cursor = curs_set(0);
 #ifndef DISABLE_MOUSE
     const shortcut *oldshortcut = currshortcut;
@@ -3119,7 +3119,7 @@ int do_help(void)
     currshortcut = oldshortcut;
 #endif
 
-    if (no_help_flag) {
+    if (old_no_help) {
 	blank_bottombars();
 	wrefresh(bottomwin);
 	SET(NO_HELP);
