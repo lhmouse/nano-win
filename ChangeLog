@@ -1,6 +1,8 @@
 CVS -
 - aclocal.m4:
 	- Minor patch for intl check (really this time) (Albert Chin)
+- faq.html:
+	- Fixed typo in section 6.1 (discovered by Bob Farmer).
 
 nano-1.0.0 - 03/22/2001
 - General
