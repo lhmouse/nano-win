@@ -9,6 +9,9 @@ CVS code -
   do_cut_text()
 	- Don't immediately abort if we're on filebot and the marker is
 	  set (fixes bug #42).
+- files.c:
+  open_file()
+	- Fix for bug #44 (Rocco Corsi).
 - global.c:
   shortcut_init()
 	- Added in FKEYs that for some reason were left out.  *boggle*

@@ -62,6 +62,9 @@
 - Unable to cut the entire file using the marker (discovered by Kev Tyler)
   (42). [FIXED]
 - The keypad does not work when nano runs in the Gnome terminal (43). [FIXED]
+- When reading in a file, if the file is a directory the contents of the
+  file being edited are blown away (discovered by  Chris Pimlot) (44). [FIXED]
+
 ** Open BUGS **
 
 - Marked cutting sometimes leaves a newline in the file unintelligently,
@@ -74,4 +77,3 @@
 - totsize problems still abound in do_justify (33)
 
 $Id$
-

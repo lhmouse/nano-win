@@ -228,7 +228,8 @@ int open_file(char *filename, int insert, int quiet)
     } else {			/* File is A-OK */
 	if (S_ISDIR(fileinfo.st_mode)) {
 	    statusbar(_("File \"%s\" is a directory"), filename);
-	    new_file();
+	    if (!insert)
+		new_file();
 	    return -1;
 	}
 	if (!quiet)
