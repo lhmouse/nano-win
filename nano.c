@@ -1949,20 +1949,28 @@ int main(int argc, char *argv[])
 		    break;
 		case '2': /* Alt-[-2-[0,1,3,4] = F9-F12 in many terms */
 		    kbinput = wgetch(edit);
-		    wgetch(edit);
 		    switch (kbinput) {
 			case '0':
 			    kbinput = KEY_F(9);
+			    wgetch(edit);
 			    break;
 			case '1':
 			    kbinput = KEY_F(10);
+			    wgetch(edit);
 			    break;
 			case '3':
 			    kbinput = KEY_F(11);
+			    wgetch(edit);
 			    break;
 			case '4':
 			    kbinput = KEY_F(12);
+			    wgetch(edit);
 			    break;			    
+			case 126:	/* Hack, make insert key do something 
+					   usefile, like insert file */
+			    do_insertfile();
+			    keyhandled = 1;
+			    break;
 #ifdef DEBUG
 			default:
 		    	    fprintf(stderr, _("I got Alt-[-2-%c! (%d)\n"),

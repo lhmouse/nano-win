@@ -18,6 +18,7 @@ CVS code -
 	  because we not longer use keypad() (see below).
 	- Removed keypad() call because nano was not working with the
 	  keypad in many terms, which is very bad.
+	- Made insert key call do_insertfile().
   do_toggle()
 	- Rewrote function to allow NOHELP toggle to wotk on systems
 	  without a working resizewin().  New function window_init().

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.14pre1\n"
-"POT-Creation-Date: 2000-09-12 19:05-0400\n"
+"POT-Creation-Date: 2000-09-13 10:08-0400\n"
 "PO-Revision-Date: 2000-07-27 11:44+0200\n"
 "Last-Translator: Florian König <floki@bigfoot.com>\n"
 "Language-Team: German <floki@bigfoot.com>\n"
@@ -710,52 +710,52 @@ msgstr "Kann Größe des unteren Fensters nicht verändern"
 msgid "Cannot move bottom win"
 msgstr "Kann unteres Fenster nicht verschieben"
 
-#: nano.c:1629
+#: nano.c:1631
 #, c-format
 msgid "%s enable/disable"
 msgstr ""
 
-#: nano.c:1641
+#: nano.c:1643
 msgid "enabled"
 msgstr ""
 
-#: nano.c:1642
+#: nano.c:1644
 msgid "disabled"
 msgstr ""
 
-#: nano.c:1870
+#: nano.c:1872
 msgid "Main: set up windows\n"
 msgstr "Hauptprogramm: Fenster konfigurieren\n"
 
-#: nano.c:1877
+#: nano.c:1879
 msgid "Main: bottom win\n"
 msgstr "Hauptprogramm: unteres Fenster\n"
 
-#: nano.c:1883
+#: nano.c:1885
 msgid "Main: open file\n"
 msgstr "Hauptprogramm: Datei öffnen\n"
 
-#: nano.c:1917
+#: nano.c:1919
 #, fuzzy, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Erhielt Alt-[-%c! (%d)\n"
 
-#: nano.c:1941
+#: nano.c:1943
 #, fuzzy, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Erhielt Alt-[-%c! (%d)\n"
 
-#: nano.c:1966
+#: nano.c:1968
 #, fuzzy, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Erhielt Alt-[-%c! (%d)\n"
 
-#: nano.c:2014
+#: nano.c:2016
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Erhielt Alt-[-%c! (%d)\n"
 
-#: nano.c:2040
+#: nano.c:2042
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Erhielt Alt-%c! (%d)\n"
