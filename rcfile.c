@@ -215,10 +215,10 @@ int colortoint(const char *colorname, int *bright)
 	rcfile_error(_("color %s not understood.\n"
 		       "Valid colors are \"green\", \"red\", \"blue\", \n"
 		       "\"white\", \"yellow\", \"cyan\", \"magenta\" and \n"
-		       "\"black\", with the optional prefix \"bright\".\n"));
-	exit(1);
+		       "\"black\", with the optional prefix \"bright\".\n"),
+			colorname);
+	mcolor = -1;
     }
-
     return mcolor;
 }
 

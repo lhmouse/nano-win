@@ -7,6 +7,11 @@ CVS code
   main()
 	- Fix nano not compiling with ENABLE_RCFILE and DISABLE_TABCOMP
 	  (David Benbennick).
+- rcfile.c:
+  colortoint()
+	- Don't bomb after invalid color and print bad color name
+	  (David Benbennick).
+	- And reset mcolor to -1.
 - nano.1, nano.1.html:
 	- Add initialization file comments, change some options from 
 	  bracketed to underlined to emphasize that they are not 
