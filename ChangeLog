@@ -4,6 +4,10 @@ CVS code -
 	- Added case for autoindenting text causing new line (Adam).
 	- Added SAMELINE case to above.  Added checks to cases 1b and
 	  2b for placement of cursor.
+- move.c:
+  page_down()
+	- Check for totlines < editwinrows in check for superflous 
+	  edit update (fixed BUG #57).
 - search.c:
   print_replaced()
 	- s/occurence/occurrence typos (Jordi).

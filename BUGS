@@ -101,6 +101,8 @@
   (55, discovered by Mark Senior) [FIXED].
 - When using -R (regex) and -p (pico mode), subsequent searches after
   the first fail if no string is entered (56) [FIXED].
+- Page down on a file of editwinrows fails (again). Reported by Ryan
+  Krebs (57) [FIXED].
 
 ** Open BUGS **
 

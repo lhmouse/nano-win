@@ -57,7 +57,7 @@ int page_down(void)
 
     /* AHEM, if we only have a screen or less of text, DONT do an
 	edit_update, just move the cursor to editbot! */
-    if (edittop == fileage && editbot == filebot) {
+    if (edittop == fileage && editbot == filebot && totlines < editwinrows) {
 	current = editbot;
 	reset_cursor();
     } else if (editbot != filebot || edittop == fileage) {
