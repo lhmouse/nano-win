@@ -28,10 +28,14 @@ CVS code -
 	- Add SYSCONFDIR to DEFS, so we can have an /etc/nanorc.
 	- Change localedir line to 1.0's version.
 	- Moved m4/ stuff to its own m4/Makefile.am.
+- m4/aclocal_inc.m4:
+	- New macro AM_ACLOCAL_INCLUDE, tells configure.ac where to look for
+	  macros (Gergely Nagy).
 - configure.in:
 	- Renamed to configure.ac.
 - configure.ac:
 	- Moved to autoconf 2.52 (Jeff Bailey).
+	- Added call to AM_ACLOCAL_INCLUDE.
 - files.c:
   read_byte()
 	- Added check for conrol characters (indicative of a binary 
