@@ -80,6 +80,13 @@ char *brackets = NULL;		/* Closing brackets that can follow
 				   sentences. */
 char *quotestr = NULL;		/* Quote string.  The default value is
 				   set in main(). */
+#ifdef HAVE_REGEX_H
+regex_t quotereg;		/* Compiled quotestr regular expression. */
+int quoterc;			/* Did it compile? */
+char *quoteerr = NULL;		/* The error message. */
+#else
+size_t quotelen;		/* strlen(quotestr) */
+#endif
 #endif
 
 #ifndef NANO_SMALL
@@ -1073,6 +1080,10 @@ void thanks_for_all_the_fish(void)
 #ifndef DISABLE_JUSTIFY
     if (quotestr != NULL)
 	free(quotestr);
+#ifdef HAVE_REGEX_H
+    regfree(&quotereg);
+    free(quoteerr);
+#endif
 #endif
 #ifndef NANO_SMALL
     if (backup_dir != NULL)

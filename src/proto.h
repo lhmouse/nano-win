@@ -51,6 +51,13 @@ extern char *whitespace;
 extern char *punct;
 extern char *brackets;
 extern char *quotestr;
+#ifdef HAVE_REGEX_H
+extern regex_t quotereg;
+extern int quoterc;
+extern char *quoteerr;
+#else
+extern size_t quotelen;
+#endif
 #endif
 
 #ifndef NANO_SMALL
@@ -191,6 +198,7 @@ int check_operating_dir(const char *currpath, int allow_tabcomp);
 #ifndef NANO_SMALL
 void init_backup_dir(void);
 #endif
+int copy_file(FILE *inn, FILE *out);
 int write_file(const char *name, int tmp, int append, int nonamechange);
 #ifndef NANO_SMALL
 int write_marked(const char *name, int tmp, int append);
@@ -314,28 +322,19 @@ size_t indent_length(const char *line);
 #endif
 #ifndef DISABLE_JUSTIFY
 void justify_format(filestruct *line, size_t skip);
-#ifdef HAVE_REGEX_H
-size_t quote_length(const char *line, const regex_t *qreg);
-#else
 size_t quote_length(const char *line);
-#endif
-#ifdef HAVE_REGEX_H
-#  define IFREG(a, b) a, b
-#else
-#  define IFREG(a, b) a
-#endif
-int quotes_match(const char *a_line, size_t a_quote, IFREG(const char
-	*b_line, const regex_t *qreg));
+int quotes_match(const char *a_line, size_t a_quote, const char *b_line);
 size_t indents_match(const char *a_line, size_t a_indent, const char
 	*b_line, size_t b_indent);
+bool begpar(const filestruct *const foo);
+void do_para_begin(void);
+bool inpar(const char *str);
+void do_para_end(void);
 filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 	quote_len);
 int breakable(const char *line, int goal);
 int break_line(const char *line, int goal, int force);
-int do_para_search(justbegend search_type, size_t *quote, size_t *par,
-	size_t *indent, int do_refresh);
-void do_para_begin(void);
-void do_para_end(void);
+bool do_para_search(size_t *const quote, size_t *const par);
 void do_justify(int full_justify);
 void do_justify_void(void);
 void do_full_justify(void);

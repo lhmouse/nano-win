@@ -52,6 +52,14 @@ CVS code -
 	- Convert placewewant to a size_t, and convert some functions
 	  that use it as a parameter to use size_t as well. (David
 	  Benbennick and DLR)
+	- Overhaul the paragraph searching code and some of the justify
+	  code to clarify it and fix a bug where searches from the
+	  previous paragraph would move up too far.  Also make
+	  quotestr-related variables global so that they only have to be
+	  compiled once, and remove the no-longer-needed IFREG() macro.
+	  New functions begpar() and inpar(); changes to quote_length(),
+	  quotes_match(), do_para_search(), do_para_begin(),
+	  do_para_end(), and do_justify(). (David Benbennick)
 - files.c:
   close_open_file()
 	- Tweak to no longer rely on the return values of
@@ -106,11 +114,13 @@ CVS code -
 - nano.h:
 	- Reassign the key for full justification to Ctrl-U, for
 	  compatibility with the current version of Pico. (DLR)
+	- Remove justbegend enum, as it's no longer needed. (DLR)
 - proto.h:
 	- Change the variables in the prototypes for do_justify(),
 	  get_verbatim_kbinput(), and get_mouseinput() to match the ones
 	  used in the actual functions. (DLR)
 	- Remove unused declaration of temp_opt. (David Benbennick)
+	- Add missing copy_file() prototype. (David Benbennick)
 - rcfile.c:
   rcfile_msg()
 	- Removed along with the related static int errors, and replaced

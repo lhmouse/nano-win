@@ -466,10 +466,6 @@ typedef struct historyheadtype {
 #define NOVIEW FALSE
 
 typedef enum {
-    JUSTIFY, BEGIN, END
-} justbegend;
-
-typedef enum {
     UP, DOWN
 } updown;
 
