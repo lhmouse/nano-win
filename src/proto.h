@@ -23,6 +23,7 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <dirent.h>
 #ifdef HAVE_REGEX_H
 #include <regex.h>
 #endif
@@ -298,10 +299,10 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list);
 const char *tail(const char *foo);
 #ifndef DISABLE_BROWSER
 void free_charptrarray(char **array, size_t len);
-void striponedir(char *foo);
-int readable_dir(const char *path);
-char **browser_init(const char *path, int *longest, int *numents);
-char *do_browser(const char *inpath);
+void striponedir(char *path);
+char **browser_init(const char *path, int *longest, size_t *numents, DIR
+	*dir);
+char *do_browser(char *path, DIR *dir);
 char *do_browse_from(const char *inpath);
 #endif
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)

@@ -149,13 +149,15 @@ CVS code -
 	  get the value of totsize in a few more places.  Changes to
 	  read_line(), read_file(), do_delete(), do_input(),
 	  get_totals(), and do_cursorpos(). (DLR)
-	- Overhaul the tab completion code and a few related functions
-	  to increase efficiency and support multibyte characters.  New
-	  functions strrchrn() and is_dir(); changes to get_full_path(),
-	  check_writable_directory(), safe_tempnam(), diralphasort(),
-	  username_tab_completion(), cwd_tab_completion(), input_tab(),
-	  tail(), and striponedir(); removal of append_slash_if_dir()
-	  and check_wildcard_match(). (David Benbennick)  DLR: Move the
+	- Overhaul the tab completion code, the file browser code, and
+	  related functions to increase efficiency and support multibyte
+	  characters.  New functions strrchrn() and is_dir(); changes to
+	  get_full_path(), check_writable_directory(), safe_tempnam(),
+	  diralphasort(), username_tab_completion(),
+	  cwd_tab_completion(), input_tab(), tail(), striponedir(),
+	  browser_init(), do_browser(), and do_browse_from(); removal of
+	  append_slash_if_dir(), readable_dir(), and
+	  check_wildcard_match(). (David Benbennick)  DLR: Move the
 	  routine to get the current user's home directory into the new
 	  function get_homedir(), and use it where necessary.  Also add
 	  a few miscellaneous tweaks.

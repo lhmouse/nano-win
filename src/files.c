@@ -2305,460 +2305,504 @@ void free_charptrarray(char **array, size_t len)
     free(array);
 }
 
-/* Strip one dir from the end of a string. */
-void striponedir(char *foo)
+/* Strip one directory from the end of path. */
+void striponedir(char *path)
 {
     char *tmp;
 
-    assert(foo != NULL);
+    assert(path != NULL);
 
-    tmp = strrchr(foo, '/');
+    tmp = strrchr(path, '/');
     if (tmp != NULL)
  	*tmp = '\0';
 }
 
-int readable_dir(const char *path)
+/* Return a list of files contained in the directory path.  *longest is
+ * the maximum display length of a file, up to COLS - 1 (but at least
+ * 7).  *numents is the number of files.  We assume path exists and is a
+ * directory.  If neither is true, we return NULL. */
+char **browser_init(const char *path, int *longest, size_t *numents, DIR
+	*dir)
 {
-    DIR *dir = opendir(path);
-
-    /* If dir is NULL, don't do closedir(), since that changes errno. */
-    if (dir != NULL)
-	closedir(dir);
-    return (dir != NULL);
-}
-
-/* Initialize the browser code, including the list of files in *path */
-char **browser_init(const char *path, int *longest, int *numents)
-{
-    DIR *dir;
-    struct dirent *next;
+    const struct dirent *next;
     char **filelist;
-    int i = 0;
-    size_t path_len;
+    size_t i, path_len;
 
-    dir = opendir(path);
-    if (dir == NULL)
-	return NULL;
+    assert(dir != NULL);
 
-    *numents = 0;
+    *longest = 0;
+
+    i = 0;
+
     while ((next = readdir(dir)) != NULL) {
+	size_t dlen;
+
+	/* Don't show the . entry. */
 	if (strcmp(next->d_name, ".") == 0)
 	   continue;
-	(*numents)++;
-	if (strlen(next->d_name) > *longest)
-	    *longest = strlen(next->d_name);
+	i++;
+
+	dlen = strlenpt(next->d_name);
+	if (dlen > *longest)
+	    *longest = dlen;
     }
+
+    *numents = i;
     rewinddir(dir);
     *longest += 10;
 
-    filelist = (char **)nmalloc(*numents * sizeof (char *));
+    filelist = (char **)nmalloc(*numents * sizeof(char *));
 
-    if (strcmp(path, "/") == 0)
-	path = "";
     path_len = strlen(path);
 
-    while ((next = readdir(dir)) != NULL) {
+    i = 0;
+
+    while ((next = readdir(dir)) != NULL && i < *numents) {
+	/* Don't show the "." entry. */
 	if (strcmp(next->d_name, ".") == 0)
 	   continue;
 
-	filelist[i] = charalloc(strlen(next->d_name) + path_len + 2);
-	sprintf(filelist[i], "%s/%s", path, next->d_name);
+	filelist[i] = charalloc(path_len + strlen(next->d_name) + 1);
+	sprintf(filelist[i], "%s%s", path, next->d_name);
 	i++;
     }
+
+    /* Maybe the number of files in the directory changed between the
+     * first time we scanned and the second.  i is the actual length of
+     * filelist, so record it. */
+    *numents = i;
     closedir(dir);
 
     if (*longest > COLS - 1)
 	*longest = COLS - 1;
+    if (*longest < 7)
+	*longest = 7;
 
     return filelist;
 }
 
-/* Our browser function.  inpath is the path to start browsing from */
-char *do_browser(const char *inpath)
+/* Our browser function.  path is the path to start browsing from.
+ * Assume path has already been tilde-expanded. */
+char *do_browser(char *path, DIR *dir)
 {
-    struct stat st;
-    char *foo, *retval = NULL;
-    static char *path = NULL;
-    int numents = 0, i = 0, j = 0, longest = 0, abort = 0, col = 0;
-    int selected = 0, editline = 0, width = 0, filecols = 0, lineno = 0;
-    int kbinput = ERR;
-    bool meta_key, func_key;
-    char **filelist = (char **)NULL;
-#ifndef DISABLE_MOUSE
-    MEVENT mevent;
+    int kbinput, longest, selected, width;
+    bool meta_key, func_key, old_constupdate = ISSET(CONSTUPDATE);
+    size_t numents;
+    char **filelist, *retval = NULL;
+
+    curs_set(0);
+    blank_statusbar();
+    bottombars(browser_list);
+    wrefresh(bottomwin);
+
+#if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
+    /* Set currshortcut so the user can click in the shortcut area, and
+     * so the browser help screen will come up. */
+    currshortcut = browser_list;
 #endif
 
-    assert(inpath != NULL);
+    UNSET(CONSTUPDATE);
 
-    /* If path isn't the same as inpath, we are being passed a new
-	dir as an arg.  We free it here so it will be copied from 
-	inpath below */
-    if (path != NULL && strcmp(path, inpath) != 0) {
-	free(path);
-	path = NULL;
-    }
+  change_browser_directory:
+	/* We go here after the user selects a new directory. */
 
-    /* if path doesn't exist, make it so */
-    if (path == NULL)
-	path = mallocstrcpy(NULL, inpath);
+    kbinput = ERR;
+    selected = 0;
+    width = 0;
 
-    filelist = browser_init(path, &longest, &numents);
-    foo = charalloc(longest + 8);
+    path = mallocstrassn(path, get_full_path(path));
+
+    /* Assume that path exists and ends with a slash. */
+    assert(path != NULL && path[strlen(path) - 1] == '/');
+
+    /* Get the list of files. */
+    filelist = browser_init(path, &longest, &numents, dir);
+
+    assert(filelist != NULL);
 
     /* Sort the list. */
     qsort(filelist, numents, sizeof(char *), diralphasort);
 
     titlebar(path);
-    bottombars(browser_list);
-    curs_set(0);
-    wmove(edit, 0, 0);
-    i = 0;
-    width = 0;
-    filecols = 0;
 
     /* Loop invariant: Microsoft sucks. */
     do {
+	bool abort = FALSE;
+	int j, col = 0, editline = 0, lineno;
+	int filecols = 0;
+	    /* Used only if width == 0, to calculate the number of files
+	     * per row below. */
+	struct stat st;
 	char *new_path;
 	    /* Used by the Go To Directory prompt. */
+#ifndef DISABLE_MOUSE
+	MEVENT mevent;
+#endif
 
 	check_statusblank();
 
-	currshortcut = browser_list;
-
- 	editline = 0;
-	col = 0;
-	    
-	/* Compute line number we're on now, so we don't divide by zero later */
+	/* Compute the line number we're on now, so that we don't divide
+	 * by zero later. */
 	lineno = selected;
 	if (width != 0)
 	    lineno /= width;
 
 	switch (kbinput) {
-
 #ifndef DISABLE_MOUSE
-	case KEY_MOUSE:
-	    if (getmouse(&mevent) == ERR)
-		return retval;
- 
-	    /* If they clicked in the edit window, they probably clicked
-		on a file */
-	    if (wenclose(edit, mevent.y, mevent.x)) { 
-		int selectedbackup = selected;
+	    case KEY_MOUSE:
+		if (getmouse(&mevent) == ERR)
+		    break;
 
-		mevent.y -= 2;
+		/* If we clicked in the edit window, we probably clicked
+		 * on a file. */
+		if (wenclose(edit, mevent.y, mevent.x)) {
+		    int selectedbackup = selected;
 
-		/* Longest is the width of each column.  There are two
-		 * spaces between each column. */
-		selected = (lineno / editwinrows) * editwinrows * width
-			+ mevent.y * width + mevent.x / (longest + 2);
+		    mevent.y -= 2;
 
-		/* If they clicked beyond the end of a row, select the
-		 * end of that row. */
-		if (mevent.x > width * (longest + 2))
-		    selected--;
+		    /* longest is the width of each column.  There are
+		     * two spaces between each column. */
+		    selected = (lineno / editwinrows) * editwinrows *
+			width + mevent.y * width + mevent.x /
+			(longest + 2);
 
-		/* If we're off the screen, reset to the last item.
-		   If we clicked where we did last time, select this name! */
-		if (selected > numents - 1)
-		    selected = numents - 1;
-		else if (selectedbackup == selected)
-		    /* Put back the 'select' key */
-		    unget_kbinput('s', FALSE, FALSE);
-	    } else {
-		/* Must be clicking a shortcut */
-		int mouse_x, mouse_y;
-		get_mouseinput(&mouse_x, &mouse_y, TRUE);
-	    }
+		    /* If they clicked beyond the end of a row, select
+		     * the end of that row. */
+		    if (mevent.x > width * (longest + 2))
+			selected--;
 
-            break;
-#endif
-	case NANO_PREVLINE_KEY:
-	    if (selected - width >= 0)
-		selected -= width;
-	    break;
-	case NANO_BACK_KEY:
-	    if (selected > 0)
-		selected--;
-	    break;
-	case NANO_NEXTLINE_KEY:
-	    if (selected + width <= numents - 1)
-		selected += width;
-	    break;
-	case NANO_FORWARD_KEY:
-	    if (selected < numents - 1)
-		selected++;
-	    break;
-	case NANO_PREVPAGE_KEY:
-	case NANO_PREVPAGE_FKEY:
-	case '-': /* Pico compatibility */
-	    if (selected >= (editwinrows + lineno % editwinrows) * width)
-		selected -= (editwinrows + lineno % editwinrows) * width;
-	    else
-		selected = 0;
-	    break;
-	case NANO_NEXTPAGE_KEY:
-	case NANO_NEXTPAGE_FKEY:
-	case ' ': /* Pico compatibility */
-	    selected += (editwinrows - lineno % editwinrows) * width;
-	    if (selected >= numents)
-		selected = numents - 1;
-	    break;
-	case NANO_HELP_KEY:
-	case NANO_HELP_FKEY:
-	case '?': /* Pico compatibility */
-#ifndef DISABLE_HELP
-	    do_help();
-	    curs_set(0);
-#else
-	    nano_disabled_msg();
-#endif
-	    break;
-	case NANO_ENTER_KEY:
-	case 'S': /* Pico compatibility */
-	case 's':
-	    /* You can't cd up from / */
-	    if (strcmp(filelist[selected], "/..") == 0 &&
-		strcmp(path, "/") == 0) {
-		statusbar(_("Can't move up a directory"));
-		beep();
-		break;
-	    }
-
-#ifndef DISABLE_OPERATINGDIR
-	    /* Note: the selected file can be outside the operating
-	     * directory if it is .. or if it is a symlink to 
-	     * directory outside the operating directory. */
-	    if (check_operating_dir(filelist[selected], FALSE)) {
-		statusbar(_("Can't go outside of %s in restricted mode"),
-			operating_dir);
-		beep();
-		break;
-	    }
-#endif
-
-	    if (stat(filelist[selected], &st) == -1) {
-		statusbar(_("Can't open \"%s\": %s"), filelist[selected],
-			strerror(errno));
-		beep();
-		break;
-	    }
-
-	    if (!S_ISDIR(st.st_mode)) {
-		retval = mallocstrcpy(retval, filelist[selected]);
-		abort = 1;
-		break;
-	    }
-
-	    new_path = mallocstrcpy(NULL, filelist[selected]);
-
-	    if (strcmp("..", tail(new_path)) == 0) {
-		/* They want to go up a level, so strip off .. and the
-		   current dir */
-		striponedir(new_path);
-		/* SPK for '.' path, get the current path via getcwd */
-		if (strcmp(new_path, ".") == 0) {
-		    free(new_path);
-		    new_path = getcwd(NULL, PATH_MAX + 1);
+		    /* If we're off the screen, reset to the last item.
+		     * If we clicked the same place as last time, select
+		     * this name! */
+		    if (selected > numents - 1)
+			selected = numents - 1;
+		    else if (selectedbackup == selected)
+			/* Put back the 'select' key. */
+			unget_kbinput('s', FALSE, FALSE);
+		} else {
+		    /* We must have clicked a shortcut.  Put back the
+		     * equivalent shortcut key. */
+		    int mouse_x, mouse_y;
+		    get_mouseinput(&mouse_x, &mouse_y, TRUE);
 		}
-		striponedir(new_path);
-	    }
 
-	    if (!readable_dir(new_path)) {
-		/* We can't open this dir for some reason.  Complain */
-		statusbar(_("Can't open \"%s\": %s"), new_path,
-			strerror(errno));
-		free(new_path);
 		break;
-	    }
-
-	    free_charptrarray(filelist, numents);
-	    free(foo);
-	    free(path);
-	    path = new_path;
-	    return do_browser(path);
-
-	/* Go to a specific directory */
-	case NANO_GOTOLINE_KEY:
-	case NANO_GOTOLINE_FKEY:
-	case 'G': /* Pico compatibility */
-	case 'g':
-	    curs_set(1);
-	    j = statusq(FALSE, gotodir_list, "",
-#ifndef NANO_SMALL
-		NULL,
 #endif
-		_("Go To Directory"));
-	    bottombars(browser_list);
-	    curs_set(0);
-
-	    if (j < 0) {
-		statusbar(_("Cancelled"));
+	    case NANO_PREVLINE_KEY:
+		if (selected >= width)
+		    selected -= width;
 		break;
-	    }
-
-	    new_path = real_dir_from_tilde(answer);
-
-	    if (new_path[0] != '/') {
-		new_path = charealloc(new_path, strlen(path) + strlen(answer) + 2);
-		sprintf(new_path, "%s/%s", path, answer);
-	    }
+	    case NANO_BACK_KEY:
+		if (selected > 0)
+		    selected--;
+		break;
+	    case NANO_NEXTLINE_KEY:
+		if (selected + width <= numents - 1)
+		    selected += width;
+		break;
+	    case NANO_FORWARD_KEY:
+		if (selected < numents - 1)
+		    selected++;
+		break;
+	    case NANO_PREVPAGE_KEY:
+	    case NANO_PREVPAGE_FKEY:
+	    case '-': /* Pico compatibility. */
+		if (selected >= (editwinrows + lineno % editwinrows) *
+			width)
+		    selected -= (editwinrows + lineno % editwinrows) *
+			width;
+		else
+		    selected = 0;
+		break;
+	    case NANO_NEXTPAGE_KEY:
+	    case NANO_NEXTPAGE_FKEY:
+	    case ' ': /* Pico compatibility. */
+		selected += (editwinrows - lineno % editwinrows) *
+			width;
+		if (selected >= numents)
+		    selected = numents - 1;
+		break;
+	    case NANO_HELP_KEY:
+	    case NANO_HELP_FKEY:
+	    case '?': /* Pico compatibility. */
+#ifndef DISABLE_HELP
+		do_help();
+		curs_set(0);
+#else
+		nano_disabled_msg();
+#endif
+		break;
+	    case NANO_ENTER_KEY:
+	    case 'S': /* Pico compatibility. */
+	    case 's':
+		/* You can't move up from "/". */
+		if (strcmp(filelist[selected], "/..") == 0) {
+		    statusbar(_("Can't move up a directory"));
+		    beep();
+		    break;
+		}
 
 #ifndef DISABLE_OPERATINGDIR
-	    if (check_operating_dir(new_path, FALSE)) {
-		statusbar(_("Can't go outside of %s in restricted mode"), operating_dir);
-		free(new_path);
-		break;
-	    }
+		/* Note: the selected file can be outside the operating
+		 * directory if it's ".." or if it's a symlink to a
+		 * directory outside the operating directory. */
+		if (check_operating_dir(filelist[selected], FALSE)) {
+		    statusbar(
+			_("Can't go outside of %s in restricted mode"),
+			operating_dir);
+		    beep();
+		    break;
+		}
 #endif
 
-	    if (!readable_dir(new_path)) {
-		/* We can't open this dir for some reason.  Complain */
-		statusbar(_("Can't open \"%s\": %s"), answer, strerror(errno));
-		free(new_path);
+		if (stat(filelist[selected], &st) == -1) {
+		    statusbar(_("Error reading %s: %s"),
+			filelist[selected], strerror(errno));
+		    beep();
+		    break;
+		}
+
+		if (!S_ISDIR(st.st_mode)) {
+		    retval = mallocstrcpy(retval, filelist[selected]);
+		    abort = TRUE;
+		    break;
+		}
+
+		dir = opendir(filelist[selected]);
+		if (dir == NULL) {
+		    /* We can't open this dir for some reason.
+		     * Complain. */
+		    statusbar(_("Error reading %s: %s"),
+			filelist[selected], strerror(errno));
+		    break;
+		}
+
+		path = mallocstrcpy(path, filelist[selected]);
+
+		/* Start over again with the new path value. */
+		free_charptrarray(filelist, numents);
+		goto change_browser_directory;
+
+	    /* Go to a specific directory. */
+	    case NANO_GOTOLINE_KEY:
+	    case NANO_GOTOLINE_FKEY:
+	    case 'G': /* Pico compatibility. */
+	    case 'g':
+		curs_set(1);
+
+		j = statusq(FALSE, gotodir_list, "",
+#ifndef NANO_SMALL
+			NULL,
+#endif
+			_("Go To Directory"));
+
+		curs_set(0);
+		bottombars(browser_list);
+
+		if (j < 0) {
+		    statusbar(_("Cancelled"));
+		    break;
+		}
+
+		new_path = real_dir_from_tilde(answer);
+
+		if (new_path[0] != '/') {
+		    new_path = charealloc(new_path, strlen(path) +
+			strlen(answer) + 1);
+		    sprintf(new_path, "%s%s", path, answer);
+		}
+
+#ifndef DISABLE_OPERATINGDIR
+		if (check_operating_dir(new_path, FALSE)) {
+		    statusbar(
+			_("Can't go outside of %s in restricted mode"),
+			operating_dir);
+		    free(new_path);
+		    break;
+		}
+#endif
+
+		dir = opendir(new_path);
+		if (dir == NULL) {
+		    /* We can't open this dir for some reason.
+		     * Complain. */
+		    statusbar(_("Error reading %s: %s"), answer,
+			strerror(errno));
+		    free(new_path);
+		    break;
+		}
+
+		/* Start over again with the new path value. */
+		free(path);
+		path = new_path;
+		free_charptrarray(filelist, numents);
+		goto change_browser_directory;
+
+	    /* Abort the browser. */
+	    case NANO_CANCEL_KEY:
+	    case NANO_EXIT_KEY:
+	    case NANO_EXIT_FKEY:
+	    case 'E': /* Pico compatibility. */
+	    case 'e':
+		abort = TRUE;
 		break;
-	    }
-
-	    /* Start over again with the new path value */
-	    free_charptrarray(filelist, numents);
-	    free(foo);
-	    free(path);
-	    path = new_path;
-	    return do_browser(path);
-
-	/* Stuff we want to abort the browser */
-	case NANO_CANCEL_KEY:
-	case NANO_EXIT_KEY:
-	case NANO_EXIT_FKEY:
-	case 'E': /* Pico compatibility */
-	case 'e':
-	    abort = 1;
-	    break;
 	}
+
 	if (abort)
 	    break;
 
 	blank_edit();
 
 	if (width != 0)
-	    i = width * editwinrows * ((selected / width) / editwinrows);
+	    j = width * editwinrows *
+		((selected / width) / editwinrows);
 	else
-	    i = 0;
+	    j = 0;
 
 	wmove(edit, 0, 0);
-	for (j = i; j < numents && editline <= editwinrows - 1; j++) {
-	    filecols++;
 
-	    strncpy(foo, tail(filelist[j]), strlen(tail(filelist[j])) + 1);
-	    while (strlen(foo) < longest)
-		strcat(foo, " ");
-	    col += strlen(foo);
+	{
+	    int foo_len = mb_cur_max() * 7;
+	    char *foo = charalloc(foo_len + 1);
 
-	    /* Put file info in the string also */
-	    /* We use lstat here to detect links; then, if we find a
-		symlink, we examine it via stat() to see if it is a
-		directory or just a file symlink */
-	    lstat(filelist[j], &st);
-	    if (S_ISDIR(st.st_mode))
-		strcpy(foo + longest - 5, "(dir)");
-	    else {
-		if (S_ISLNK(st.st_mode)) {
-		     /* Aha!  It's a symlink!  Now, is it a dir?  If so,
-			mark it as such */
-		    stat(filelist[j], &st);
-		    if (S_ISDIR(st.st_mode))
-			strcpy(foo + longest - 5, "(dir)");
-		    else
-			strcpy(foo + longest - 2, "--");
-		} else if (st.st_size < (1 << 10)) /* less than 1 K */
-		    sprintf(foo + longest - 7, "%4d  B", 
-			(int) st.st_size);
-		else if (st.st_size >= (1 << 30)) /* at least 1 gig */
-		    sprintf(foo + longest - 7, "%4d GB", 
-			(int) st.st_size >> 30);
-		else if (st.st_size >= (1 << 20)) /* at least 1 meg */
-		    sprintf(foo + longest - 7, "%4d MB", 
-			(int) st.st_size >>     20);
-		else /* It's more than 1 k and less than a meg */
-		    sprintf(foo + longest - 7, "%4d KB", 
-			(int) st.st_size >> 10);
+	    for (; j < numents && editline <= editwinrows - 1; j++) {
+		char *disp = display_string(tail(filelist[j]), 0,
+			longest, FALSE);
+
+		/* Highlight the currently selected file/dir. */
+		if (j == selected)
+		    wattron(edit, A_REVERSE);
+
+		mvwaddnstr(edit, editline, col, hblank, longest);
+		mvwaddstr(edit, editline, col, disp);
+		free(disp);
+
+		col += longest;
+		filecols++;
+
+		/* Show file info also.  We don't want to report file
+		 * sizes for links, so we use lstat().  Also, stat() and
+		 * lstat() return an error if, for example, the file is
+		 * deleted while the file browser is open.  In that
+		 * case, we report "--" as the file info. */
+		if (lstat(filelist[j], &st) == -1 ||
+			S_ISLNK(st.st_mode)) {
+		    /* Aha!  It's a symlink!  Now, is it a dir?  If so,
+		     * mark it as such. */
+		    if (stat(filelist[j], &st) == 0 &&
+			S_ISDIR(st.st_mode)) {
+			strncpy(foo, _("(dir)"), foo_len);
+			foo[foo_len] = '\0';
+		    } else
+			strcpy(foo, "--");
+		} else if (S_ISDIR(st.st_mode))
+		    strncpy(foo, _("(dir)"), foo_len);
+		else if (st.st_size < (1 << 10)) /* less than 1 k. */
+		    sprintf(foo, "%4u  B", (unsigned int)st.st_size);
+		else if (st.st_size < (1 << 20)) /* less than 1 meg. */
+		    sprintf(foo, "%4u KB",
+			(unsigned int)(st.st_size >> 10));
+		else if (st.st_size < (1 << 30)) /* less than 1 gig. */
+		    sprintf(foo, "%4u MB",
+			(unsigned int)(st.st_size >> 20));
+		else
+		    sprintf(foo, "%4u GB",
+			(unsigned int)(st.st_size >> 30));
+
+		mvwaddnstr(edit, editline, col - strlen(foo), foo,
+			foo_len);
+
+		if (j == selected)
+		    wattroff(edit, A_REVERSE);
+
+		/* Add some space between the columns. */
+		col += 2;
+
+		/* If the next entry isn't going to fit on the line,
+		 * move to the next line. */
+		if (col > COLS - longest) {
+		    editline++;
+		    col = 0;
+		    if (width == 0)
+			width = filecols;
+		}
+		wmove(edit, editline, col);
 	    }
 
-	    /* Highlight the currently selected file/dir */
-	    if (j == selected)
-		wattron(edit, A_REVERSE);
-	    waddstr(edit, foo);
-	    if (j == selected)
-		wattroff(edit, A_REVERSE);
-
-	    /* And add some space between the cols */
-	    waddstr(edit, "  ");
-	    col += 2;
-
-	    /* And if the next entry isn't going to fit on the
-		line, move to the next one */
-	    if (col > COLS - longest) {
-		editline++;
-		wmove(edit, editline, 0);
-		col = 0;
-		if (width == 0)
-		    width = filecols;
-	    }
+	    free(foo);
 	}
+
 	wrefresh(edit);
     } while ((kbinput = get_kbinput(edit, &meta_key, &func_key)) !=
 	NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
-    curs_set(1);
+
     blank_edit();
     titlebar(NULL);
     edit_refresh();
+    curs_set(1);
+    if (old_constupdate)
+	SET(CONSTUPDATE);
 
-    /* cleanup */
+    /* Clean up. */
     free_charptrarray(filelist, numents);
-    free(foo);
+    free(path);
+
     return retval;
 }
 
-/* Browser front end, checks to see if inpath has a dir in it and, if so,
- starts do_browser from there, else from the current dir */
+/* Browser front end, checks to see if inpath has a dir in it and, if
+   so, starts do_browser from there, else from the current dir */
 char *do_browse_from(const char *inpath)
 {
     struct stat st;
-    char *bob;
-	/* The result of do_browser; the selected file name. */
     char *path;
-	/* inpath, tilde expanded. */
+	/* This holds the tilde-expanded version of inpath. */
+    DIR *dir;
 
     assert(inpath != NULL);
 
     path = real_dir_from_tilde(inpath);
 
-    /*
-     * Perhaps path is a directory.  If so, we will pass that to
-     * do_browser.  Otherwise, perhaps path is a directory / a file.  So
-     * we try stripping off the last path element.  If it still isn't a
-     * directory, just use the current directory. */
-
+    /* Perhaps path is a directory.  If so, we'll pass it to
+     * do_browser().  Or perhaps path is a directory / a file.  If so,
+     * we'll try stripping off the last path element and passing it to
+     * do_browser().  Or perhaps path doesn't have a directory portion
+     * at all.  If so, we'll just pass the current directory to
+     * do_browser(). */
     if (stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
 	striponedir(path);
 	if (stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
 	    free(path);
-	    path = getcwd(NULL, PATH_MAX + 1);
+#if PATH_MAX != -1
+	    path = charalloc(PATH_MAX + 1);
+#else
+	    path = NULL;
+#endif
+	    path = getcwd(path, PATH_MAX + 1);
+#if PATH_MAX != -1
+	    align(&path);
+#endif
 	}
     }
 
 #ifndef DISABLE_OPERATINGDIR
-    /* If the resulting path isn't in the operating directory, use that. */
-    if (check_operating_dir(path, FALSE))
-	path = mallocstrcpy(path, operating_dir);
+    /* If the resulting path isn't in the operating directory, use
+     * the operating directory instead. */
+    if (check_operating_dir(path, FALSE)) {
+	if (path != NULL)
+	    free(path);
+	path = mallocstrcpy(NULL, operating_dir);
+    }
 #endif
 
-    if (!readable_dir(path)) {
+    dir = opendir(path);
+    if (dir == NULL) {
 	beep();
-	bob = NULL;
-    } else
-	bob = do_browser(path);
-    free(path);
-    return bob;
+	free(path);
+	return NULL;
+    }
+
+    return do_browser(path, dir);
 }
 #endif /* !DISABLE_BROWSER */
 
@@ -2791,8 +2835,10 @@ void load_history(void)
 	    if (errno != ENOENT) {
 		/* Don't save history when we quit. */
 		UNSET(HISTORYLOG);
-		rcfile_error(N_("Error reading %s: %s"), nanohist, strerror(errno));
-		fprintf(stderr, _("\nPress Return to continue starting nano\n"));
+		rcfile_error(N_("Error reading %s: %s"), nanohist,
+			strerror(errno));
+		fprintf(stderr,
+			_("\nPress Return to continue starting nano\n"));
 		while (getchar() != '\n')
 		    ;
 	    }
@@ -2853,7 +2899,8 @@ void save_history(void)
 	FILE *hist = fopen(nanohist, "wb");
 
 	if (hist == NULL)
-	    rcfile_error(N_("Error writing %s: %s"), nanohist, strerror(errno));
+	    rcfile_error(N_("Error writing %s: %s"), nanohist,
+		strerror(errno));
 	else {
 	    /* set rw only by owner for security ?? */
 	    chmod(nanohist, S_IRUSR | S_IWUSR);
@@ -2861,7 +2908,8 @@ void save_history(void)
 	    if (!writehist(hist, &search_history) ||
 		    putc('\n', hist) == EOF ||
 		    !writehist(hist, &replace_history))
-		rcfile_error(N_("Error writing %s: %s"), nanohist, strerror(errno));
+		rcfile_error(N_("Error writing %s: %s"), nanohist,
+			strerror(errno));
 	    fclose(hist);
 	}
 	free(nanohist);
