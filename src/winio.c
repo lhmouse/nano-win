@@ -193,6 +193,8 @@ void get_buffer(WINDOW *win)
 	    int wide_key_len;
 
 	    if (key_buffer[i].key_code) {
+		mbtowc(NULL, NULL, 0);
+
 		wide_key_len = 1;
 		wide_key = key_buffer[i].key;
 	    } else
