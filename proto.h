@@ -164,7 +164,7 @@ void new_file(void);
 void new_magicline(void);
 void splice_node(filestruct *begin, filestruct *newnode, filestruct *end);
 void null_at(char *data, int index);
-void page_up_center(void);
+void page_up(void);
 void blank_edit(void);
 void search_init_globals(void);
 void replace_abort(void);
@@ -194,7 +194,7 @@ int do_insertfile_void(void), do_search(void);
 int load_open_file(void), close_open_file(void);
 #endif
 
-int page_up(void), page_down(void);
+int do_page_up(void), do_page_down(void);
 int do_cursorpos(void), do_spell(void);
 int do_up(void), do_down (void), do_right(void), do_left (void);
 int do_home(void), do_end(void), total_refresh(void), do_mark(void);

@@ -34,20 +34,26 @@
 #define _(string) (string)
 #endif
 
-void page_down_center(void)
+void page_down(void)
 {
     if (editbot != filebot) {
-	edit_update(editbot->next, CENTER);
-	center_cursor();
+	if (!ISSET(SMOOTHSCROLL)) {
+	    edit_update(editbot->next, CENTER);
+	    center_cursor();
+	} else {
+	    edit_update(editbot, NONE);
+	}
     } else {
-	while (current != filebot)
-	    current = current->next;
-	edit_update(current, CENTER);
+	if (!ISSET(SMOOTHSCROLL)) {
+	    while (current != filebot)
+		current = current->next;
+	    edit_update(current, CENTER);
+	}
     }
     update_cursor();
 }
 
-int page_down(void)
+int do_page_down(void)
 {
     wrap_reset();
     current_x = 0;
@@ -124,7 +130,7 @@ int do_down(void)
     if (current_y < editwinrows - 1 && current != editbot)
 	current_y++;
     else
-	page_down_center();
+	page_down();
 
     update_cursor();
     update_line(current->prev, 0);
@@ -134,11 +140,15 @@ int do_down(void)
     return 1;
 }
 
-void page_up_center(void)
+void page_up(void)
 {
     if (edittop != fileage) {
-	edit_update(edittop, CENTER);
-	center_cursor();
+	if (!ISSET(SMOOTHSCROLL)) {
+	    edit_update(edittop, CENTER);
+	    center_cursor();
+	} else {
+	    edit_update(edittop->prev, NONE);
+	}
     } else
 	current_y = 0;
 
@@ -146,7 +156,7 @@ void page_up_center(void)
 
 }
 
-int page_up(void)
+int do_page_up(void)
 {
    int i;
 
@@ -184,7 +194,7 @@ int do_up(void)
     if (current_y > 0)
 	current_y--;
     else
-	page_up_center();
+	page_up();
 
     update_cursor();
     update_line(current->next, 0);

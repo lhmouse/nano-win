@@ -62,7 +62,8 @@ rcoption rcopts[NUM_RCOPTS] =
 {"nowrap", NO_WRAP}, 
 {"nohelp", NO_HELP}, 
 {"suspend", SUSPEND},
-{"multibuffer", MULTIBUFFER}};
+{"multibuffer", MULTIBUFFER},
+{"smooth", SMOOTHSCROLL}};
 
 /* We have an error in some part of the rcfile; put it on stderr and
   make the user hit return to continue starting up nano */

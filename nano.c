@@ -421,6 +421,10 @@ void usage(void)
     printf(_
 	   (" -R		--regexp		Use regular expressions for search\n"));
 #endif
+#ifndef NANO_SMALL
+    printf(_
+	   (" -S		--smooth		Smooth scrolling\n"));
+#endif
     printf(_
 	   (" -T [num]	--tabsize=[num]		Set width of a tab to num\n"));
     printf
@@ -487,6 +491,9 @@ void usage(void)
 #endif
     printf(_(" -T [num]	Set width of a tab to num\n"));
     printf(_(" -R		Use regular expressions for search\n"));
+#ifndef NANO_SMALL
+    printf(_(" -S		Smooth scrolling\n"));
+#endif
     printf(_(" -V 		Print version information and exit\n"));
     printf(_(" -c 		Constantly show cursor position\n"));
     printf(_(" -h 		Show this message\n"));
@@ -1216,7 +1223,7 @@ int do_backspace(void)
 		current = previous->next;
 	    else
 		current = previous;
-	    page_up_center();
+	    page_up();
 	} else {
 	    if (previous->next)
 		current = previous->next;
@@ -2446,7 +2453,9 @@ int main(int argc, char *argv[])
 #ifdef ENABLE_MULTIBUFFER
 	{"multibuffer", 0, 0, 'F'},
 #endif
-
+#ifndef NANO_SMALL
+	{"smooth", 0, 0, 'S'},
+#endif
 	{0, 0, 0, 0}
     };
 #endif
@@ -2467,11 +2476,11 @@ int main(int argc, char *argv[])
 #endif /* ENABLE_NANORC */
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "h?DFMRT:Vabcefgijklmo:pr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "h?DFMRST:Vabcefgijklmo:pr:s:tvwxz",
 				 long_options, &option_index)) != EOF) {
 #else
     while ((optchr =
-	    getopt(argc, argv, "h?DFMRT:Vabcefgijklmo:pr:s:tvwxz")) != EOF) {
+	    getopt(argc, argv, "h?DFMRST:Vabcefgijklmo:pr:s:tvwxz")) != EOF) {
 #endif
 
 	switch (optchr) {
@@ -2501,6 +2510,11 @@ int main(int argc, char *argv[])
 #ifdef HAVE_REGEX_H
 	case 'R':
 	    SET(USE_REGEXP);
+	    break;
+#endif
+#ifndef NANO_SMALL
+	case 'S':
+	    SET(SMOOTHSCROLL);
 	    break;
 #endif
 	case 'V':

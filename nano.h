@@ -142,6 +142,7 @@ typedef struct rcoption {
 #define CLEAR_BACKUPSTRING	(1<<20)
 #define DOS_FILE		(1<<21)
 #define MAC_FILE		(1<<22)
+#define SMOOTHSCROLL		(1<<23)
 
 /* Control key sequences, changing these would be very very bad */
 
@@ -277,6 +278,7 @@ know what you're doing */
 #define TOGGLE_LOAD_KEY		NANO_ALT_F
 #define TOGGLE_DOS_KEY		NANO_ALT_D
 #define TOGGLE_MAC_KEY		NANO_ALT_O
+#define TOGGLE_SMOOTH_KEY	NANO_ALT_S
 
 /* Toggle stuff, these static lengths need to go away RSN */
 
@@ -310,7 +312,7 @@ know what you're doing */
 
 #define WHEREIS_LIST_LEN (8 - NO_REGEX - NO_TOGGLES)
 #define REPLACE_LIST_LEN (8 - NO_REGEX - NO_TOGGLES)
-#define TOGGLE_LEN (13 - NO_REGEX + MULTI_TOGGLES)
+#define TOGGLE_LEN (14 - NO_REGEX + MULTI_TOGGLES)
 #define WRITEFILE_LIST_LEN (3 - NO_BROWSER)
 #define INSERTFILE_LIST_LEN (2 - NO_BROWSER)
 #define BROWSER_LIST_LEN 4

@@ -44,6 +44,9 @@
 # Allow nano to be suspended with ^Z
 # set suspend
 
+# Use smooth scrolling as the default
+# set smooth
+
 # Allow multiple file buffers (using ^R inserts into separate buffer)
 # You must have configured with --enable-multibuffer or --enable-extra for
 # this to work

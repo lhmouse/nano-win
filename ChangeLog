@@ -16,6 +16,8 @@ CVS code -
 	  regardless of the original format.
 	- Mac file writing supported too.  Flag -M, --mac.  Toggle 
 	  Meta-O (MacOS? OS-X? =-)
+	- New smooth scroll code by Ken Tyler.  New flag -S, --smooth,
+	  changes to page_up() and page_down().
 - nano.c:
   main()
 	- Added vars oldcurrent and oldcurrent_x to check whether cursor

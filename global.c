@@ -161,6 +161,8 @@ void toggle_init(void)
     char *toggle_regexp_msg;
 #endif
 
+    char *toggle_smooth_msg;
+
     toggle_const_msg = _("Constant cursor position");
     toggle_autoindent_msg = _("Auto indent");
     toggle_suspend_msg = _("Suspend");
@@ -172,6 +174,8 @@ void toggle_init(void)
     toggle_case_msg = _("Case Sensitive Search");
     toggle_dos_msg = _("Writing file in DOS format");
     toggle_mac_msg = _("Writing file in Mac format");
+    toggle_smooth_msg = _("Smooth scrolling");
+
 #ifdef HAVE_REGEX_H
     toggle_regexp_msg = _("Regular expressions");
 #endif
@@ -207,13 +211,15 @@ void toggle_init(void)
 		    DOS_FILE, 0);
     toggle_init_one(&toggles[11], TOGGLE_MAC_KEY, toggle_mac_msg,
 		    MAC_FILE, 0);
+    toggle_init_one(&toggles[12], TOGGLE_SMOOTH_KEY, toggle_smooth_msg,
+		    SMOOTHSCROLL, 0);
 
 #ifdef ENABLE_MULTIBUFFER
-    toggle_init_one(&toggles[12], TOGGLE_LOAD_KEY, toggle_load_msg,
+    toggle_init_one(&toggles[13], TOGGLE_LOAD_KEY, toggle_load_msg,
 		    MULTIBUFFER, 0);
-    toggle_init_one(&toggles[13], NANO_OPENPREV_KEY, nano_openprev_msg,
+    toggle_init_one(&toggles[14], NANO_OPENPREV_KEY, nano_openprev_msg,
 		    0, '<');
-    toggle_init_one(&toggles[14], NANO_OPENNEXT_KEY, nano_opennext_msg,
+    toggle_init_one(&toggles[15], NANO_OPENNEXT_KEY, nano_opennext_msg,
 		    0, '>');
 #endif
 
@@ -331,11 +337,11 @@ void shortcut_init(int unjustify)
 
     sc_init_one(&main_list[6], NANO_PREVPAGE_KEY, _("Prev Page"),
 		nano_prevpage_msg,
-		0, NANO_PREVPAGE_FKEY, KEY_PPAGE, VIEW, page_up);
+		0, NANO_PREVPAGE_FKEY, KEY_PPAGE, VIEW, do_page_up);
 
     sc_init_one(&main_list[7], NANO_NEXTPAGE_KEY, _("Next Page"),
 		nano_nextpage_msg,
-		0, NANO_NEXTPAGE_FKEY, KEY_NPAGE, VIEW, page_down);
+		0, NANO_NEXTPAGE_FKEY, KEY_NPAGE, VIEW, do_page_down);
 
     sc_init_one(&main_list[8], NANO_CUT_KEY, _("Cut Text"),
 		nano_cut_msg, 0, NANO_CUT_FKEY, 0, NOVIEW, do_cut_text);
@@ -492,11 +498,11 @@ void shortcut_init(int unjustify)
 
     sc_init_one(&help_list[0], NANO_PREVPAGE_KEY, _("Prev Page"),
 		nano_prevpage_msg,
-		0, NANO_PREVPAGE_FKEY, KEY_PPAGE, VIEW, page_up);
+		0, NANO_PREVPAGE_FKEY, KEY_PPAGE, VIEW, do_page_up);
 
     sc_init_one(&help_list[1], NANO_NEXTPAGE_KEY, _("Next Page"),
 		nano_nextpage_msg,
-		0, NANO_NEXTPAGE_FKEY, KEY_NPAGE, VIEW, page_down);
+		0, NANO_NEXTPAGE_FKEY, KEY_NPAGE, VIEW, do_page_down);
 
     sc_init_one(&help_list[2], NANO_EXIT_KEY, _("Exit"),
 		nano_exit_msg, 0, NANO_EXIT_FKEY, 0, VIEW, do_exit);
