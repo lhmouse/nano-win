@@ -1,17 +1,18 @@
 CVS Code -
-- Ran source through indent -kr again.  Make everything pretty.
-- Changed behavior of "search" and "replace" prompts to make all
-  previous values editable.  This change was made so that you can 
-  replace with the null string without needing a special key for it.  
-  changed code in search_init(), do_replace(), nanogetstr (see below).
-- Added some missing gettext calls here and there (Jordi).
-- Revamped nanogetsr() and calls to it to use variable length strings.
-  MANY changes in nanogetstr(), many chances in search.c, new function
-  mallocstrcpy which is sure to be a programmatic nightmare, changed
-  last_search, last_replace, answer to pointers.  New function
-  not_found_msg in search.c for displaying truncated strings in satusbar
-  when the string is not found.
-
+- General
+	- Ran source through indent -kr again.  Make everything pretty.
+	- Changed behavior of "search" and "replace" prompts to make all
+  	  previous values editable.  This change was made so that you can 
+	  replace with the null string without needing a special key for it.  
+	  changed code in search_init(), do_replace(), nanogetstr (see
+	  below).
+	- Added some missing gettext calls here and there (Jordi).
+	- Revamped nanogetsr() and calls to it to use variable length strings.
+	  MANY changes in nanogetstr(), many chances in search.c, new
+	  function mallocstrcpy which is sure to be a programmatic
+	  nightmare, changed last_search, last_replace, answer to
+	  pointers.  New function not_found_msg in search.c for displaying
+	  truncated strings in satusbar when the string is not found.
 - files.c:
   do_writeout()
 	- Change strcpy to answer to mallocstrcpy.
