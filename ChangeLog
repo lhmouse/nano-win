@@ -39,6 +39,9 @@ General -
 	- Spell Erik Andersen's name right.
   titlebar()
 	- Now takes an arg, needed for browser function.
+  do_help()
+	- Changed way of temporarily bringing up shortcuts at the
+	  bottom in the help screen (actually works).
 - utils.c:
   mallocstrcpy()
 	- Takes char pointers now instead of void (makes debugging a

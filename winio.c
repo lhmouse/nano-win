@@ -1191,13 +1191,13 @@ int do_help(void)
 
     if (ISSET(NO_HELP)) {
 
+	/* Well if we're going to do this, we should at least
+	   do it the right way */
 	no_help_flag = 1;
-	delwin(bottomwin);
-	bottomwin = newwin(3, COLS, LINES - 3, 0);
-
-	editwinrows -= no_help();
 	UNSET(NO_HELP);
+	window_init();
 	bottombars(help_list, HELP_LIST_LEN);
+
     } else
 	bottombars(help_list, HELP_LIST_LEN);
 
@@ -1273,14 +1273,12 @@ int do_help(void)
       kbinput != NANO_EXIT_FKEY);
 
     if (no_help_flag) {
-	werase(bottomwin);
+	blank_bottombars();
 	wrefresh(bottomwin);
-	delwin(bottomwin);
 	SET(NO_HELP);
-	bottomwin = newwin(3 - no_help(), COLS, LINES - 3 + no_help(), 0);
-	editwinrows += no_help();
-    } else
-	display_main_list();
+	window_init();
+    }
+    display_main_list();
 
     curs_set(1);
     edit_refresh();
