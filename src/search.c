@@ -42,8 +42,11 @@ static int regexp_compiled = FALSE;
  * bar.  Return value 1 means success. */
 int regexp_init(const char *regexp)
 {
-    int rc = regcomp(&search_regexp, regexp, REG_EXTENDED |
-	(ISSET(CASE_SENSITIVE) ? 0 : REG_ICASE));
+    int rc = regcomp(&search_regexp, regexp, REG_EXTENDED
+#ifndef NANO_SMALL
+	| (ISSET(CASE_SENSITIVE) ? 0 : REG_ICASE)
+#endif
+	);
 
     assert(!regexp_compiled);
     if (rc != 0) {

@@ -1425,8 +1425,8 @@ bool do_int_spell_fix(const char *word)
 	/* Save where we are. */
     bool accepted = TRUE;
 	/* The return value. */
-#ifndef NANO_SMALL
     bool case_sens_set = ISSET(CASE_SENSITIVE);
+#ifndef NANO_SMALL
     bool reverse_search_set = ISSET(REVERSE_SEARCH);
     bool old_mark_set = ISSET(MARK_ISSET);
 #endif
@@ -1434,10 +1434,10 @@ bool do_int_spell_fix(const char *word)
     bool regexp_set = ISSET(USE_REGEXP);
 #endif
 
-#ifndef NANO_SMALL
     /* Make sure spell-check is case sensitive. */
     SET(CASE_SENSITIVE);
 
+#ifndef NANO_SMALL
     /* Make sure spell-check goes forward only. */
     UNSET(REVERSE_SEARCH);
 
@@ -1500,11 +1500,11 @@ bool do_int_spell_fix(const char *word)
     current_x = current_x_save;
     edittop = edittop_save;
 
-#ifndef NANO_SMALL
     /* Restore case sensitivity setting. */
     if (!case_sens_set)
 	UNSET(CASE_SENSITIVE);
 
+#ifndef NANO_SMALL
     /* Restore search/replace direction. */
     if (reverse_search_set)
 	SET(REVERSE_SEARCH);
