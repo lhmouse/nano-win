@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.11\n"
-"POT-Creation-Date: 2000-09-15 11:48-0400\n"
+"POT-Creation-Date: 2000-10-01 13:58-0400\n"
 "PO-Revision-Date: 2000-06-21 23:08+03:00\n"
 "Last-Translator: Pauli Virtanen <pauli.virtanen@saunalahti.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -47,63 +47,63 @@ msgstr "Uusi tiedosto"
 msgid "File \"%s\" is a directory"
 msgstr "\"%s\" on hakemisto"
 
-#: files.c:235
+#: files.c:236
 msgid "Reading File"
 msgstr "Tiedostoa luetaan"
 
-#: files.c:248
+#: files.c:249
 msgid "File to insert [from ./] "
 msgstr "Lis‰tt‰v‰ tiedosto [hakemistossa ./]"
 
-#: files.c:273 files.c:297 files.c:487 nano.c:1132
+#: files.c:274 files.c:298 files.c:488 nano.c:1132
 msgid "Cancelled"
 msgstr "Peruttu"
 
-#: files.c:319 files.c:339 files.c:352 files.c:369 files.c:375
+#: files.c:320 files.c:340 files.c:353 files.c:370 files.c:376
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "Tiedostoa ei voitu avata luettavaksi: %s"
 
-#: files.c:327
+#: files.c:328
 msgid "Could not open file: Path length exceeded."
 msgstr "Tiedostoa ei voitu avata: liian pitk‰ tiedostonnimi."
 
-#: files.c:357
+#: files.c:358
 #, c-format
 msgid "Wrote >%s\n"
 msgstr "Kirjoitettu: >%s\n"
 
-#: files.c:384
+#: files.c:385
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "Tiedosto %s ei sulkeutunut: %s"
 
 #. Try a rename??
-#: files.c:405 files.c:416 files.c:421
+#: files.c:406 files.c:417 files.c:422
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr "Tiedostoa %s ei voitu avata kirjoitettavaksi: %s"
 
-#: files.c:427
+#: files.c:428
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr "Oikeuksia %o ei voitu asettaa tiedostolle %s: %s"
 
-#: files.c:434
+#: files.c:435
 #, c-format
 msgid "Wrote %d lines"
 msgstr "%d rivi‰ kirjoitettu"
 
-#: files.c:466
+#: files.c:467
 msgid "File Name to write"
 msgstr "Kirjoitettavan tiedoston nimi"
 
-#: files.c:471
+#: files.c:472
 #, c-format
 msgid "filename is %s"
 msgstr "tiedoston nimi on %s"
 
-#: files.c:476
+#: files.c:477
 msgid "File exists, OVERWRITE ?"
 msgstr "Tiedosto on jo olemassa, korvataanko?"
 
@@ -714,39 +714,39 @@ msgstr ""
 msgid "disabled"
 msgstr ""
 
-#: nano.c:1878
+#: nano.c:1880
 msgid "Main: set up windows\n"
 msgstr "P‰‰tila: ikkunoiden asettelu\n"
 
-#: nano.c:1885
+#: nano.c:1894
 msgid "Main: bottom win\n"
 msgstr "P‰‰tila: alaikkuna\n"
 
-#: nano.c:1891
+#: nano.c:1900
 msgid "Main: open file\n"
 msgstr "P‰‰tila: avaa tiedosto\n"
 
-#: nano.c:1925
+#: nano.c:1934
 #, fuzzy, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-[-%c! (%d)\n"
 
-#: nano.c:1949
+#: nano.c:1958
 #, fuzzy, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-[-%c! (%d)\n"
 
-#: nano.c:1982
+#: nano.c:1991
 #, fuzzy, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-[-%c! (%d)\n"
 
-#: nano.c:2030
+#: nano.c:2039
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-[-%c! (%d)\n"
 
-#: nano.c:2056
+#: nano.c:2065
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-%c! (%d)\n"

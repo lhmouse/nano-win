@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.7\n"
-"POT-Creation-Date: 2000-09-15 11:48-0400\n"
+"POT-Creation-Date: 2000-10-01 13:58-0400\n"
 "PO-Revision-Date: 2000-03-03 04:57+0100\n"
 "Last-Translator: Daniele Medri <madrid@linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -47,63 +47,63 @@ msgstr "Nuovo file"
 msgid "File \"%s\" is a directory"
 msgstr "Il file \"%s\" è una directory"
 
-#: files.c:235
+#: files.c:236
 msgid "Reading File"
 msgstr "Lettura file"
 
-#: files.c:248
+#: files.c:249
 msgid "File to insert [from ./] "
 msgstr "File da inserire [da ./] "
 
-#: files.c:273 files.c:297 files.c:487 nano.c:1132
+#: files.c:274 files.c:298 files.c:488 nano.c:1132
 msgid "Cancelled"
 msgstr "Cancellato"
 
-#: files.c:319 files.c:339 files.c:352 files.c:369 files.c:375
+#: files.c:320 files.c:340 files.c:353 files.c:370 files.c:376
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "Impossibile aprire il file in scrittura: %s"
 
-#: files.c:327
+#: files.c:328
 msgid "Could not open file: Path length exceeded."
 msgstr "Impossibile aprire il file: esagerata lunghezza del percorso."
 
-#: files.c:357
+#: files.c:358
 #, c-format
 msgid "Wrote >%s\n"
 msgstr "Scrivi >%s\n"
 
-#: files.c:384
+#: files.c:385
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "Impossibile chiudere %s: %s"
 
 #. Try a rename??
-#: files.c:405 files.c:416 files.c:421
+#: files.c:406 files.c:417 files.c:422
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr "Impossibile aprire %s in scrittura: %s"
 
-#: files.c:427
+#: files.c:428
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr "Impossibile configurare i permessi di %o su %s: %s"
 
-#: files.c:434
+#: files.c:435
 #, c-format
 msgid "Wrote %d lines"
 msgstr "Scritte %d linee"
 
-#: files.c:466
+#: files.c:467
 msgid "File Name to write"
 msgstr "Salva con nome"
 
-#: files.c:471
+#: files.c:472
 #, c-format
 msgid "filename is %s"
 msgstr "Il nome file è %s"
 
-#: files.c:476
+#: files.c:477
 msgid "File exists, OVERWRITE ?"
 msgstr "File esistente, SOVRASCRIVERE?"
 
@@ -700,39 +700,39 @@ msgstr ""
 msgid "disabled"
 msgstr ""
 
-#: nano.c:1878
+#: nano.c:1880
 msgid "Main: set up windows\n"
 msgstr "Main: configura finestre\n"
 
-#: nano.c:1885
+#: nano.c:1894
 msgid "Main: bottom win\n"
 msgstr "Main: finestra inferiore\n"
 
-#: nano.c:1891
+#: nano.c:1900
 msgid "Main: open file\n"
 msgstr "Main: apri file\n"
 
-#: nano.c:1925
+#: nano.c:1934
 #, fuzzy, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Premuto Alt-[-%c! (%d)\n"
 
-#: nano.c:1949
+#: nano.c:1958
 #, fuzzy, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Premuto Alt-[-%c! (%d)\n"
 
-#: nano.c:1982
+#: nano.c:1991
 #, fuzzy, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Premuto Alt-[-%c! (%d)\n"
 
-#: nano.c:2030
+#: nano.c:2039
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Premuto Alt-[-%c! (%d)\n"
 
-#: nano.c:2056
+#: nano.c:2065
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Premuto Alt-%c! (%d)\n"

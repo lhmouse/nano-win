@@ -617,13 +617,14 @@ void do_wrap(filestruct * inptr, char input_char)
     assert(strlenpt(inptr->data) > fill);
 
     for (i = 0, i_tabs = 0; i < len; i++, i_tabs++) {
-	if (!isspace(inptr->data[i])) {
+	if (!isspace((int) inptr->data[i])) {
 	    last_word_end = current_word_end;
 
 	    current_word_start = i;
 	    current_word_start_t = i_tabs;
 
-	    while (!isspace(inptr->data[i]) && inptr->data[i]) {
+	    while (!isspace((int) inptr->data[i])
+				&& inptr->data[i]) {
 		i++;
 		i_tabs++;
 		if (inptr->data[i] < 32)
@@ -677,11 +678,11 @@ void do_wrap(filestruct * inptr, char input_char)
     temp = nmalloc(sizeof(filestruct));
 
     /* Category 1a: one word taking up the whole line with no beginning spaces. */
-    if ((last_word_end == -1) && (!isspace(inptr->data[0]))) {
+    if ((last_word_end == -1) && (!isspace((int) inptr->data[0]))) {
 	for (i = current_word_end; i < len; i++) {
-	    if (!isspace(inptr->data[i]) && i < len) {
+	    if (!isspace((int) inptr->data[i]) && i < len) {
 		current_word_start = i;
-		while (!isspace(inptr->data[i]) && (i < len)) {
+		while (!isspace((int) inptr->data[i]) && (i < len)) {
 		    i++;
 		}
 		last_word_end = current_word_end;
@@ -735,9 +736,9 @@ void do_wrap(filestruct * inptr, char input_char)
 		nmalloc(strlen(&inptr->data[current_word_start]) + 1);
 	    strcpy(temp->data, &inptr->data[current_word_start]);
 
-	    if (!isspace(input_char)) {
+	    if (!isspace((int) input_char)) {
 		i = current_word_start - 1;
-		while (isspace(inptr->data[i])) {
+		while (isspace((int) inptr->data[i])) {
 		    i--;
 		    assert(i >= 0);
 		}
@@ -762,13 +763,13 @@ void do_wrap(filestruct * inptr, char input_char)
 
 	    right = current_x - current_word_start;
 	    i = current_word_start - 1;
-	    if (isspace(input_char) && (current_x == current_word_start)) {
+	    if (isspace((int)input_char) && (current_x == current_word_start)) {
 		current_x = current_word_start;
 
 		null_at(inptr->data, current_word_start);
 	    } else {
 
-		while (isspace(inptr->data[i])) {
+		while (isspace((int) inptr->data[i])) {
 		    i--;
 		    assert(i >= 0);
 		}
@@ -790,7 +791,7 @@ void do_wrap(filestruct * inptr, char input_char)
 	    current_x = current_word_start;
 	    i = current_word_start - 1;
 
-	    while (isspace(inptr->data[i])) {
+	    while (isspace((int) inptr->data[i])) {
 		i--;
 		assert(i >= 0);
 		inptr->data = nrealloc(inptr->data, i + 2);
@@ -876,7 +877,7 @@ void check_wrap(filestruct * inptr, char ch)
 	/* Do not wrap if there are no words on or after wrap point. */
 	int char_found = 0;
 
-	while (isspace(inptr->data[i]) && inptr->data[i])
+	while (isspace((int)inptr->data[i]) && inptr->data[i])
 	    i++;
 
 	if (!inptr->data[i])
@@ -884,7 +885,7 @@ void check_wrap(filestruct * inptr, char ch)
 
 	/* String must be at least 1 character long. */
 	for (i = strlen(inptr->data) - 1; i >= 0; i--) {
-	    if (isspace(inptr->data[i])) {
+	    if (isspace((int) inptr->data[i])) {
 		if (!char_found)
 		    continue;
 		char_found = 2;	/* 2 for yes do wrap. */
@@ -1385,7 +1386,7 @@ int do_tab(void)
 int empty_line(const char *data)
 {
     while (*data) {
-	if (!isspace(*data))
+	if (!isspace((int) *data))
 	    return 0;
 
 	data++;
@@ -1397,7 +1398,7 @@ int empty_line(const char *data)
 int no_spaces(const char *data)
 {
     while (*data) {
-	if (isspace(*data))
+	if (isspace((int) *data))
 	    return 0;
 
 	data++;
@@ -1413,7 +1414,7 @@ void justify_format(char *data)
 
     /* Skip first character regardless and leading whitespace. */
     for (i = 1; i < len; i++) {
-	if (!isspace(data[i]))
+	if (!isspace((int) data[i]))
 	    break;
     }
 
@@ -1421,7 +1422,7 @@ void justify_format(char *data)
 
     /* No double spaces allowed unless following a period.  Tabs -> space.  No double tabs. */
     for (; i < len; i++) {
-	if (isspace(data[i]) && isspace(data[i - 1])
+	if (isspace((int) data[i]) && isspace((int) data[i - 1])
 	    && (data[i - 2] != '.')) {
 	    memmove(data + i, data + i + 1, len - i);
 	    len--;
@@ -1454,7 +1455,7 @@ int do_justify(void)
 	 *             or  2)  A line following an empty line.
 	 */
 	while (current->prev != NULL) {
-	    if (isspace(current->data[0]) || !current->data[0])
+	    if (isspace((int) current->data[0]) || !current->data[0])
 		break;
 
 	    current = current->prev;
@@ -1475,7 +1476,7 @@ int do_justify(void)
 
     set_modified();
     /* Put the whole paragraph into one big line. */
-    while (current->next && !isspace(current->next->data[0])
+    while (current->next && !isspace((int) current->next->data[0])
 	   && current->next->data[0]) {
 	filestruct *tmpnode = current->next;
 	int len = strlen(current->data);
@@ -1514,7 +1515,7 @@ int do_justify(void)
 	    else
 		i = slen;
 	    for (; i > 0; i--) {
-		if (isspace(current->data[i]) &&
+		if (isspace((int) current->data[i]) &&
 		    ((strlenpt(current->data) - strlen(current->data +i)) <=
 		     fill)) break;
 	    }
