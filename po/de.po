@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.11\n"
 "POT-Creation-Date: 2002-10-04 13:39-0400\n"
-"PO-Revision-Date: 2002-10-07 10:46:49+0200\n"
+"PO-Revision-Date: 2002-10-17 07:51:33+0200\n"
 "Last-Translator: Michael Piefel <piefel@informatik.hu-berlin.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1190,7 +1190,7 @@ msgstr "Ungültiges Zitatzeichen %s: %s"
 
 #: nano.c:2488
 msgid "Can now UnJustify!"
-msgstr "Kann Absatzausrichtung nicht rückgängig machen"
+msgstr "Kann Absatzausrichtung jetzt rückgängig machen"
 
 #: nano.c:2586
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
