@@ -87,7 +87,7 @@ void not_found_msg(const char *str)
     numchars = strnlen(disp, COLS / 2);
 
     statusbar(_("\"%.*s%s\" not found"), numchars, disp,
-	disp[numchars] == '\0' ? "" : "...");
+	(disp[numchars] == '\0') ? "" : "...");
 
     free(disp);
 }
