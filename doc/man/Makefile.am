@@ -8,3 +8,5 @@ nano.1.html: nano.1
 	cat $< | groff -t -mandoc -Thtml > $@
 nanorc.5.html: nanorc.5
 	cat $< | groff -t -mandoc -Thtml > $@
+
+EXTRA_DIST = $(man_MANS) $(BUILT_SOURCES)
