@@ -6,7 +6,7 @@
 .\" Public License for copying conditions. There is NO warranty.
 .\"
 .\" $Id$
-.TH NANO 1 "January 3, 2002"
+.TH NANO 1 "June 27, 2002"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -31,11 +31,15 @@ also implements some missing (or disabled by default) features in Pico,
 such as "search and replace" and "goto line number".
 .SH OPTIONS
 .TP
+.B \-B (\-\-backup)
+When saving a file, back up the previous version of it to the current
+filename suffixed with a ~.
+.TP
 .B \-D (\-\-dos)
 Write file in DOS format.
 .TP
 .B \-F (\-\-multibuffer)
-Enable multiple file buffers (if available).
+Enable multiple file buffers, if available.
 .TP
 .B \-K (\-\-keypad)
 Do not use the ncurses keypad() call unless necessary.  Try this flag if 
@@ -66,7 +70,8 @@ Set the size (width) of a tab.
 Show the current version number and author.
 .TP
 .B \-Y (\-\-syntax=[str])
-Specify a specific syntax highlighting from the .nanorc to use (if available).
+Specify a specific syntax highlighting from the .nanorc to use, if
+available.
 .TP
 .B \-c (\-\-const)
 Constantly show the cursor position.
@@ -89,18 +94,19 @@ a new file, do not follow it.  Good for editing files in /tmp, perhaps?
 Enable mouse support (if available for your system).
 .TP
 .B \-o [dir] (\-\-operatingdir=[dir])
-Set operating directory. Makes nano set up something similar to a chroot.
+Set operating directory. Makes nano set up something similar to a
+chroot.
 .TP
 .B \-p (\-\-pico)
-Emulate Pico as closely as possible.  This affects both the "shortcut list"
-at the bottom of the screen, as well as the display and entry of previous
-search and replace strings.
+Emulate Pico as closely as possible.  This affects both the "shortcut
+list" at the bottom of the screen, as well as the display and entry of
+previous search and replace strings.
 .TP
 .B \-r [#cols] (\-\-fill=[#cols])
-Wrap lines at column #cols.  By default, this is the width of the screen,
-less eight.  If this value is negative, wrapping will occur at #cols from
-the right of the screen, allowing it to vary along with the screen width
-if the screen is resized.
+Wrap lines at column #cols.  By default, this is the width of the
+screen, less eight.  If this value is negative, wrapping will occur at
+#cols from the right of the screen, allowing it to vary along with the
+screen width if the screen is resized.
 .TP
 .B \-s [prog] (\-\-speller=[prog])
 Enable alternative spell checker command.
@@ -128,10 +134,10 @@ Places cursor at LINE on startup.
 .SH NOTES
 Nano will try to dump the buffer into an emergency file in some cases.
 Mainly, this will happen if Nano receives a SIGHUP or runs out of
-memory, when it will write the buffer into a file named "nano.save" if the
-buffer didn't have a name already, or will add a ".save" suffix to the
-current filename. If an emergency file with that name already exists in
-the current directory, ".save" and a number (e.g. ".save.1") will be
+memory, when it will write the buffer into a file named "nano.save" if
+the buffer didn't have a name already, or will add a ".save" suffix to
+the current filename. If an emergency file with that name already exists
+in the current directory, ".save" and a number (e.g. ".save.1") will be
 suffixed to the current filename in order to make it unique. In
 multibuffer mode, nano will write all the open buffers to the respective
 emergency files.

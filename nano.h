@@ -36,6 +36,10 @@
 #define ISSET(bit) (flags & bit)
 #define TOGGLE(bit) flags ^= bit
 
+#ifndef NANO_SMALL
+  /* For the backup file copy ... */
+# define COPYFILEBLOCKSIZE 1024
+#endif
 
 #ifdef USE_SLANG	/* Slang support enabled */
 #include <slcurses.h>
@@ -50,6 +54,8 @@
 #include <libintl.h>
 #endif
 
+#include <sys/types.h>
+#include <sys/stat.h>
 #include "config.h"
 
 #if !defined(HAVE_SNPRINTF) || !defined(HAVE_VSNPRINTF)
@@ -79,6 +85,9 @@ typedef struct filestruct {
 #ifdef ENABLE_MULTIBUFFER
 typedef struct openfilestruct {
     char *filename;
+#ifndef NANO_SMALL
+    struct stat originalfilestat;
+#endif
     struct openfilestruct *next;	/* Next node */
     struct openfilestruct *prev;	/* Previous node */
     struct filestruct *fileage;	/* Current file */
@@ -190,6 +199,7 @@ typedef struct syntaxtype {
 #define DISABLE_CURPOS		(1<<24)	/* Damn, we still need it */
 #define ALT_KEYPAD		(1<<25)
 #define NO_CONVERT		(1<<26)
+#define BACKUP_FILE		(1<<27)
 
 /* Control key sequences, changing these would be very very bad */
 
@@ -259,9 +269,7 @@ typedef struct syntaxtype {
 #define NANO_ALT_LCARAT '<'
 #define NANO_ALT_RCARAT '>'
 #define NANO_ALT_BRACKET ']'
-#ifndef NANO_SMALL
-#  define NANO_ALT_SPACE ' '
-#endif
+#define NANO_ALT_SPACE ' '
 
 /* Some semi-changeable keybindings; don't play with unless you're sure you
 know what you're doing */
@@ -325,10 +333,8 @@ know what you're doing */
 #define NANO_OPENNEXT_ALTKEY	NANO_ALT_PERIOD
 #define NANO_BRACKET_KEY	NANO_ALT_BRACKET
 #define NANO_EXTCMD_KEY		NANO_CONTROL_X
-#ifndef NANO_SMALL
-#  define NANO_NEXTWORD_KEY	NANO_CONTROL_SPACE
-#  define NANO_PREVWORD_KEY	NANO_ALT_SPACE
-#endif
+#define NANO_NEXTWORD_KEY	NANO_CONTROL_SPACE
+#define NANO_PREVWORD_KEY	NANO_ALT_SPACE
 
 #define TOGGLE_CONST_KEY	NANO_ALT_C
 #define TOGGLE_AUTOINDENT_KEY	NANO_ALT_I
@@ -346,6 +352,7 @@ know what you're doing */
 #define TOGGLE_MAC_KEY		NANO_ALT_O
 #define TOGGLE_SMOOTH_KEY	NANO_ALT_S
 #define TOGGLE_NOCONVERT_KEY	NANO_ALT_N
+#define TOGGLE_BACKUP_KEY	NANO_ALT_B
 
 #define MAIN_VISIBLE 12
 

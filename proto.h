@@ -45,6 +45,7 @@ extern char *quotestr;
 
 extern WINDOW *edit, *topwin, *bottomwin;
 extern char *filename;
+extern struct stat originalfilestat;
 extern char *answer;
 extern char *hblank, *help_text;
 extern char *last_search;

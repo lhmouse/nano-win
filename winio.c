@@ -1920,7 +1920,7 @@ void dump_buffer(filestruct * inptr)
 	fflush(stderr);
 	fileptr = fileptr->next;
     }
-#endif				/* DEBUG */
+#endif /* DEBUG */
 }
 
 void dump_buffer_reverse(filestruct * inptr)
@@ -1934,7 +1934,7 @@ void dump_buffer_reverse(filestruct * inptr)
 	fflush(stderr);
 	fileptr = fileptr->prev;
     }
-#endif				/* DEBUG */
+#endif /* DEBUG */
 }
 
 /* Fix editbot, based on the assumption that edittop is correct */

@@ -464,7 +464,9 @@ void usage(void)
     printf(_("Option		Meaning\n"));
 #endif /* HAVE_GETOPT_LONG */
 
+    print1opt("-h, -?", "--help", _("Show this message"));
 #ifndef NANO_SMALL
+    print1opt("-B", "--backup", _("Backup existing files on save"));
     print1opt("-D", "--dos", _("Write file in DOS format"));
 #endif
 #ifdef ENABLE_MULTIBUFFER
@@ -478,7 +480,9 @@ void usage(void)
 #ifndef DISABLE_JUSTIFY
     print1opt(_("-Q [str]"), _("--quotestr [str]"), _("Quoting string, default \"> \""));
 #endif
-
+#ifdef HAVE_REGEX_H
+    print1opt("-R", "--regexp", _("Do regular expression searches"));
+#endif
 #ifndef NANO_SMALL
     print1opt("-S", "--smooth", _("Smooth scrolling"));
 #endif
@@ -488,7 +492,6 @@ void usage(void)
     print1opt(_("-Y [str]"), _("--syntax [str]"), _("Syntax definition to use"));
 #endif
     print1opt("-c", "--const", _("Constantly show cursor position"));
-    print1opt("-h", "--help", _("Show this message"));
 #ifndef NANO_SMALL
     print1opt("-i", "--autoindent", _("Automatically indent new lines"));
     print1opt("-k", "--cut", _("Let ^K cut from cursor to end of line"));
@@ -503,7 +506,6 @@ void usage(void)
     print1opt(_("-o [dir]"), _("--operatingdir=[dir]"), _("Set operating directory"));
 #endif
     print1opt("-p", "--pico", _("Emulate Pico as closely as possible"));
-
 #ifndef DISABLE_WRAPJUSTIFY
     print1opt(_("-r [#cols]"), _("--fill=[#cols]"), _("Set fill cols to (wrap lines at) #cols"));
 #endif
@@ -2395,7 +2397,7 @@ int do_justify(void)
 	    strcpy(&tmpline->data[j], quotestr);
 
 	/* Skip the white space in current. */
-	memcpy(&tmpline->data[qdepth], current->data + i + 1, slen-qdepth);
+	memcpy(&tmpline->data[qdepth], current->data + i + 1, slen - qdepth);
 	tmpline->data[slen] = '\0';
 
 	current->data = nrealloc(current->data, i + 1);
@@ -2700,13 +2702,6 @@ void do_toggle(toggle *which)
     char *enabled = _("enabled");
     char *disabled = _("disabled");
 
-    switch (which->val) {
-    case TOGGLE_BACKWARDS_KEY:
-    case TOGGLE_CASE_KEY:
-    case TOGGLE_REGEXP_KEY:
-	return;
-    }
-
     /* Even easier! */
     TOGGLE(which->flag);
 
@@ -2809,49 +2804,49 @@ int main(int argc, char *argv[])
 #ifdef HAVE_GETOPT_LONG
     int option_index = 0;
     struct option long_options[] = {
+	{"help", 0, 0, 'h'},
+#ifdef ENABLE_MULTIBUFFER
+	{"multibuffer", 0, 0, 'F'},
+#endif
+	{"keypad", 0, 0, 'K'},
+#ifndef DISABLE_JUSTIFY
+	{"quotestr", 1, 0, 'Q'},
+#endif
 #ifdef HAVE_REGEX_H
 	{"regexp", 0, 0, 'R'},
 #endif
+	{"tabsize", 1, 0, 'T'},
 	{"version", 0, 0, 'V'},
+#ifdef ENABLE_COLOR
+	{"syntax", 1, 0, 'Y'},
+#endif
 	{"const", 0, 0, 'c'},
-	{"suspend", 0, 0, 'z'},
-	{"nowrap", 0, 0, 'w'},
-	{"nohelp", 0, 0, 'x'},
-	{"help", 0, 0, 'h'},
-	{"view", 0, 0, 'v'},
-#ifndef NANO_SMALL
-	{"cut", 0, 0, 'k'},
-	{"dos", 0, 0, 'D'},
-	{"mac", 0, 0, 'M'},
-	{"noconvert", 0, 0, 'N'},
-	{"autoindent", 0, 0, 'i'},
-#endif
-	{"tempfile", 0, 0, 't'},
-#ifndef DISABLE_SPELLER
-	{"speller", 1, 0, 's'},
-#endif
-
-#ifndef DISABLE_WRAPJUSTIFY
-	{"fill", 1, 0, 'r'},
-#endif
+	{"nofollow", 0, 0, 'l'},
 	{"mouse", 0, 0, 'm'},
 #ifndef DISABLE_OPERATINGDIR
 	{"operatingdir", 1, 0, 'o'},
 #endif
 	{"pico", 0, 0, 'p'},
-	{"nofollow", 0, 0, 'l'},
-	{"tabsize", 1, 0, 'T'},
-
-#ifdef ENABLE_MULTIBUFFER
-	{"multibuffer", 0, 0, 'F'},
+#ifndef DISABLE_WRAPJUSTIFY
+	{"fill", 1, 0, 'r'},
 #endif
+#ifndef DISABLE_SPELLER
+	{"speller", 1, 0, 's'},
+#endif
+	{"tempfile", 0, 0, 't'},
+	{"view", 0, 0, 'v'},
+	{"nowrap", 0, 0, 'w'},
+	{"nohelp", 0, 0, 'x'},
+	{"suspend", 0, 0, 'z'},
 #ifndef NANO_SMALL
+	{"backup", 0, 0, 'B'},
+	{"dos", 0, 0, 'D'},
+	{"mac", 0, 0, 'M'},
+	{"noconvert", 0, 0, 'N'},
 	{"smooth", 0, 0, 'S'},
+	{"autoindent", 0, 0, 'i'},
+	{"cut", 0, 0, 'k'},
 #endif
-#ifdef ENABLE_COLOR
-	{"syntax", 1, 0, 'Y'},
-#endif
-	{"keypad", 0, 0, 'K'},
 	{0, 0, 0, 0}
     };
 #endif
@@ -2872,16 +2867,31 @@ int main(int argc, char *argv[])
 #endif /* ENABLE_NANORC */
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "h?DFKMNQ:RST:VY:abcefgijklmo:pr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "h?BDFKMNQ:RST:VY:abcefgijklmo:pr:s:tvwxz",
 				 long_options, &option_index)) != EOF) {
 #else
     while ((optchr =
-	    getopt(argc, argv, "h?DFKMNQ:RST:VY:abcefgijklmo:pr:s:tvwxz")) != EOF) {
+	    getopt(argc, argv, "h?BDFKMNQ:RST:VY:abcefgijklmo:pr:s:tvwxz")) != EOF) {
 #endif
 
 	switch (optchr) {
 
+	case 'h':
+	case '?':
+	    usage();
+	    exit(0);
+	case 'a':
+	case 'b':
+	case 'e':
+	case 'f':
+	case 'g':
+	case 'j':
+	    /* Pico compatibility flags */
+	    break;
 #ifndef NANO_SMALL
+	case 'B':
+	    SET(BACKUP_FILE);
+	    break;
 	case 'D':
 	    SET(DOS_FILE);
 	    break;
@@ -2935,21 +2945,9 @@ int main(int argc, char *argv[])
 	    syntaxstr = mallocstrcpy(syntaxstr, optarg);
 	    break;
 #endif
-	case 'a':
-	case 'b':
-	case 'e':
-	case 'f':
-	case 'g':
-	case 'j':
-	    /* Pico compatibility flags */
-	    break;
 	case 'c':
 	    SET(CONSTUPDATE);
 	    break;
-	case 'h':
-	case '?':
-	    usage();
-	    exit(0);
 #ifndef NANO_SMALL
 	case 'i':
 	    SET(AUTOINDENT);
@@ -3026,7 +3024,6 @@ int main(int argc, char *argv[])
 	    usage();
 	    exit(0);
 	}
-
     }
 
     /* Clear the filename we'll be using */

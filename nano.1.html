@@ -3,7 +3,7 @@ Content-type: text/html
 <HTML><HEAD><TITLE>Manpage of NANO</TITLE>
 </HEAD><BODY>
 <H1>NANO</H1>
-Section: User Commands  (1)<BR>Updated: January 3, 2002<BR><A HREF="#index">Index</A>
+Section: User Commands  (1)<BR>Updated: June 27, 2002<BR><A HREF="#index">Index</A>
 <A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 
@@ -44,6 +44,11 @@ such as &quot;search and replace&quot; and &quot;goto line number&quot;.
 <H2>OPTIONS</H2>
 
 <DL COMPACT>
+<DT><B>-B (--backup)</B>
+
+<DD>
+When saving a file, back up the previous version of it to the current
+filename suffixed with a ~.
 <DT><B>-D (--dos)</B>
 
 <DD>
@@ -51,7 +56,7 @@ Write file in DOS format.
 <DT><B>-F (--multibuffer)</B>
 
 <DD>
-Enable multiple file buffers (if available).
+Enable multiple file buffers, if available.
 <DT><B>-K (--keypad)</B>
 
 <DD>
@@ -91,7 +96,8 @@ Show the current version number and author.
 <DT><B>-Y (--syntax=[str])</B>
 
 <DD>
-Specify a specific syntax highlighting from the .nanorc to use (if available).
+Specify a specific syntax highlighting from the .nanorc to use, if
+available.
 <DT><B>-c (--const)</B>
 
 <DD>
@@ -121,20 +127,21 @@ Enable mouse support (if available for your system).
 <DT><B>-o [dir] (--operatingdir=[dir])</B>
 
 <DD>
-Set operating directory. Makes nano set up something similar to a chroot.
+Set operating directory. Makes nano set up something similar to a
+chroot.
 <DT><B>-p (--pico)</B>
 
 <DD>
-Emulate Pico as closely as possible.  This affects both the &quot;shortcut list&quot;
-at the bottom of the screen, as well as the display and entry of previous
-search and replace strings.
+Emulate Pico as closely as possible.  This affects both the &quot;shortcut
+list&quot; at the bottom of the screen, as well as the display and entry of
+previous search and replace strings.
 <DT><B>-r [#cols] (--fill=[#cols])</B>
 
 <DD>
-Wrap lines at column #cols.  By default, this is the width of the screen,
-less eight.  If this value is negative, wrapping will occur at #cols from
-the right of the screen, allowing it to vary along with the screen width
-if the screen is resized.
+Wrap lines at column #cols.  By default, this is the width of the
+screen, less eight.  If this value is negative, wrapping will occur at
+#cols from the right of the screen, allowing it to vary along with the
+screen width if the screen is resized.
 <DT><B>-s [prog] (--speller=[prog])</B>
 
 <DD>
@@ -173,10 +180,10 @@ Places cursor at LINE on startup.
 
 Nano will try to dump the buffer into an emergency file in some cases.
 Mainly, this will happen if Nano receives a SIGHUP or runs out of
-memory, when it will write the buffer into a file named &quot;nano.save&quot; if the
-buffer didn't have a name already, or will add a &quot;.save&quot; suffix to the
-current filename. If an emergency file with that name already exists in
-the current directory, &quot;.save&quot; and a number (e.g. &quot;.save.1&quot;) will be
+memory, when it will write the buffer into a file named &quot;nano.save&quot; if
+the buffer didn't have a name already, or will add a &quot;.save&quot; suffix to
+the current filename. If an emergency file with that name already exists
+in the current directory, &quot;.save&quot; and a number (e.g. &quot;.save.1&quot;) will be
 suffixed to the current filename in order to make it unique. In
 multibuffer mode, nano will write all the open buffers to the respective
 emergency files.
@@ -227,6 +234,6 @@ used by others).
 This document was created by
 <A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 19:17:30 GMT, May 08, 2002
+Time: 21:45:15 GMT, June 27, 2002
 </BODY>
 </HTML>

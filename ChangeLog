@@ -16,6 +16,36 @@ CVS Code -
 	  and spacing improvements. (David Benbennick)
 	- Make more functions use const variables when possible. (David
 	  Benbennick)
+	- Add Carl Drinkwater's backup file option (-B or --backup on the
+	  command line, M-B in nano's global shortcuts). If the original
+	  file is unchanged from when it was loaded, it is backed up to
+	  filename~; if the original file has been changed or deleted
+	  since it was originally loaded, it isn't backed up.  The backup
+	  file retains the permissions, owner/group, and
+	  access/modification times of the original file.  This option is
+	  disabled when --enable-tiny is used.  It will not back up
+	  temporary files.  Minor fixes to it by David Benbennick and
+	  DLR.  Changes to open_file(), add_open_file(),
+	  load_open_file(), write_file(), and do_writeout().
+	- Add \n's to the ends of "filename is %s" debugging strings.
+	  (Carl Drinkwater)
+	- Add the long option --quotestr as an alternative for -Q, and
+	  --regexp as an alternative for -R; they were listed in nano's
+	  usage information, but weren't actually in nano.  Also, display
+	  "-?" as an alternative for "-h" in nano's usage information,
+	  put the command line options in a more consistent (i. e. mostly
+	  alphabetical) order in nano, put the long options in a more
+	  consistent order in rcfile.c and nanorc.sample, don't include
+	  rcfile options if their equivalent command line options are
+	  disabled, and remove obsolete relative option from
+	  nanorc.sample. (DLR)
+	- Change "File Name to Append/Prepend" to "File Name to
+	  Append/Prepend to".  The original prompt could confusingly
+	  imply that we are appending/prepending another file to the
+	  current file, when we are actually appending/prepending the
+	  current file to another file. (DLR)
+	- Put nano.1, nano.1.html, and nano.texi up to date. (DLR)
+	- Typo fixes for the ChangeLog. (David Benbennick)
 - files.c:
   read_file(), read_line():
 	- Rework to properly handle nulls in the input file, fix
@@ -31,10 +61,25 @@ CVS Code -
 	  writing a marked selection to a file, save and restore totsize
 	  so it isn't decreased by the size of the selection afterward.
 	  (DLR)
+  do_writeout():
+	- Fix problem with formatstr's being defined as NULL when
+	  --enable-tiny is used.  Since formatstr isn't ever used in tiny
+	  mode, don't bother even creating the variable. (David
+	  Benbennick and DLR)
   append_slash_if_dir(), input_tab():
 	- Changed a variable name: lastWasTab -> lastwastab. (DLR)
 - global.c:
-  shortcut_init()
+  free_toggles():
+	- Only include if we're not using tiny mode. (David Benbennick)
+  toggle_init():
+	- Remove global entries for search toggles, as they aren't really
+	  global. (DLR)
+	- Don't reinititialize the toggles if they've already been
+	  initialized; it's unnecessary and even causes a segfault in
+	  do_toggle() if Pico emulation mode is the toggle in question.
+	  Don't free the toggles here, either; it's unnecessary after the
+	  above change. (David Benbennick)
+  shortcut_init():
 	- Rework IFHELP macro (David Benbennick).
 - move.c:
   page_down(), page_up():
@@ -52,6 +97,11 @@ CVS Code -
   do_int_spell(), do_alt_spell():
 	- Rework to save the marked selection before doing spell checking
 	  and restore it afterward. (DLR)
+  do_toggle():
+	- Since the search mode toggles aren't global anymore, we don't
+	  need to explicitly block them here anymore (which will end up
+	  blocking the global backup mode toggle, which is the same as
+	  the backwards search toggle). (DLR)
   main():
 	- Rework to blank out filename manually before doing anything
 	  with it, instead of calling clear_filename() in two places.
@@ -59,7 +109,15 @@ CVS Code -
 	  hold a line number. (DLR)
 	- Properly handle multiple -r settings on the command line. (Carl
 	  Drinkwater)
+- rcfile.c:
+  colortoint():
+	- Only include if ENABLE_COLOR is defined. (DLR)
 - search.c:
+  search_init():
+	- Since the search mode toggles aren't global anymore, rework the
+	  part of this function referencing them so that they still work.
+	  (DLR)
+	- Remove unneeded toggles variable. (David Benbennick)
   findnextstr():
 	- Update the current line at current_x if we don't find a match.
 	  Also, pass current_x_find to strstrwrapper() so we know whether
@@ -95,7 +153,7 @@ CVS Code -
 	  better on smaller terminals. (Carl Drinkwater)
   update_line():
 	- When marking control characters, make sure the mark moves
-	  forward by two characters inctead of one.  Rework control
+	  forward by two characters instead of one.  Rework control
 	  character display routine to display newlines within the line
 	  (which should never occur under normal circumstances; they will
 	  only be there if the line had nulls in it and was unsunder()ed
@@ -106,6 +164,7 @@ CVS Code -
 	  with TERM=ansi). (DLR)
 - THANKS:
 	- Completed a bit (Jordi).
+	- Fixed David Benbennick's email address (David Benbennick).
 GNU nano 1.1.9 - 05/12/2002
 - General:
 	- Typos n misspellings all over the place (David Benbennick).
@@ -119,7 +178,7 @@ GNU nano 1.1.9 - 05/12/2002
 	- Preliminary prepend code.  This may be a bad idea, but I've
 	  been wanting it for awhile now and we'll see how bad it messes
 	  everything up.  Changes to files.c:do_writeout(), write_file().
-	  Fixes for O_CREAT & append compatibililty by David Benbennick.
+	  Fixes for O_CREAT & append compatibility by David Benbennick.
 	- Change from read() and write() to file streams by Jay Carlson.
 	  Allows OS to implement read and write ahead rather than making
 	  us do it.  Hopefully merged properly.
@@ -133,8 +192,8 @@ GNU nano 1.1.9 - 05/12/2002
 	  to specify the type on the command line, if there's no good 
 	  filename regex to use.  Global variable syntaxstr.
 	- Changed many strcmp()s and strcpy()s to their equivalent
-	  '\0' conterparts (David Lawrence Ramsey).
-	- Many chanes to allow marked cutting to work with multiple
+	  '\0' counterparts (David Lawrence Ramsey).
+	- Many changes to allow marked cutting to work with multiple
 	  file buffers: changes to openfilestruct type in nano.h and
 	  files.c (David Lawrence Ramsey).
 	- Changed NANO_SMALL to ENABLE_NLS for gettext disabling 
@@ -162,7 +221,7 @@ GNU nano 1.1.9 - 05/12/2002
   do_wrap()
 	- Complete rewrite (David Benbennick).
   help_init()
-	- A little les readable, a lot shorer :-) (David Benbennick).
+	- A little less readable, a lot shorter :-) (David Benbennick).
 	- Fix Meta-A not getting capitalized, and convert the ASCII
 	  #s to their character equivalent.
   main()
@@ -187,7 +246,7 @@ GNU nano 1.1.9 - 05/12/2002
 	- Changed some syntax highlight computations for the sake of COLS.
 	- Add in the necessary regfree() calls to stop nano from leaking
 	  memory like a sieve when using color syntax highlighting :-)
-  botombars(), onekey()
+  bottombars(), onekey()
 	- Cleanups (David Benbennick).
 - po/gl.po:
 	- Galician translation updates (Jacobo Tarrio).
@@ -311,7 +370,7 @@ GNU nano 1.1.7 - 03/05/2002
 	- malloc->calloc, etc cleanups (DLR).
 	- New option, noconvert (-N, --noconvert) to completely stop
 	  the translation of files from DOS or Mac format (DLR).
-	- New functions wheck_writable_directory() and safe_tempnam()
+	- New functions check_writable_directory() and safe_tempnam()
 	  to get around the tempnam warning. More improvements (DLR)  
 	  Still needs testing.
 	- Added DOS and Mac format options to write file routine.
@@ -346,7 +405,7 @@ GNU nano 1.1.7 - 03/05/2002
 	- Added call to AM_ACLOCAL_INCLUDE.
 - files.c:
   read_byte()
-	- Added check for conrol characters (indicative of a binary 
+	- Added check for control characters (indicative of a binary 
 	  file), set NO_CONVERT if found (fixes by DLR).
  do_insertfile()
 	- Added support for -o in prompt (Steven Kneizys).
@@ -380,7 +439,7 @@ GNU nano 1.1.7 - 03/05/2002
 	- Fixes for various search issues (Ken Tyler)
 - winio.c:
   do_cursorpos()
-	- Rewritten to show col place as well as charcter place, without
+	- Rewritten to show col place as well as character place, without
 	  needing an entirely separate flag.
   bottombars(), onekey()
 	- Make bottom list dynamic with screen size (Guus Sliepen & Chris).
@@ -428,7 +487,7 @@ GNU nano 1.1.7 - 03/05/2002
 
 nano-1.1.6 - 01/25/2002
 - General
-	- Add Meta-A as alternate keyystroke for ^^ for people with
+	- Add Meta-A as alternate keystroke for ^^ for people with
 	  non-US keyboards.
 	- Add Alt-G (NANO_ALT_GOTO_KEY) as alternate for goto dir in 
 	  browser.
@@ -473,7 +532,7 @@ nano-1.1.6 - 01/25/2002
 - nano.h:
 	- Changed color struct slightly, because of previous issue with
 	  applying color painting in order, the "str" portion was 
-	  uselss.  Renamed "val" in colortype to "start", added "end"
+	  useless.  Renamed "val" in colortype to "start", added "end"
 	  for multi-line color strings.
 - rcfile.c:
   General
@@ -482,7 +541,7 @@ nano-1.1.6 - 01/25/2002
 	- Re-indented.
 	- Added stdarg.h to includes.
   rcfile_error()
-	- Now automatically prpends the "error in line blah at foo"
+	- Now automatically prepends the "error in line blah at foo"
 	  message to error messages.
   parse_colors()
 	- Added section for computing "end" section.
@@ -548,7 +607,7 @@ nano-1.1.5 - 01/05/2002
 	  suspending nano on the Hurd.
   help_init()
 	- Typo fixes in help strings (Jordi).
-	- New variable helplen needes cause currslen is not always
+	- New variable helplen needed cause currslen is not always
 	  the length we want (bug found by David Lawrence Ramsey).
 	- Typo in file switch string (found by David Lawrence Ramsey).
   main()
@@ -870,8 +929,8 @@ nano-1.1.0 - 07/15/2001
 	  --enable-nanorc is used.  Tons of new funcs, most notably
 	  do_rcfile() called from nano.c:main().  Added much needed 
 	  function ncalloc(), will have to go through source code later 
-	  and change the aproproate calls which used nmalloc for lack of
-	  an apropriate calloc function *** FIXME ***
+	  and change the appropriate calls which used nmalloc for lack of
+	  an appropriate calloc function *** FIXME ***
 	- After "Alternate" spell checker is called, cursor is repositioned on
 	  the same line as before ^T was pressed. 
 	- Moved config.h up in all .c files #include list (Albert Chin).
@@ -885,10 +944,10 @@ nano-1.1.0 - 07/15/2001
 	  and justify being disabled.  This allows us to compile out the 
 	  -r flag if neither are set, and will also allow us to comment
 	  out -W when it is written.
-	- Allow fill to take a negative value ot signify a "from right side"
+	- Allow fill to take a negative value to signify a "from right side"
 	  value.  This allows the value to vary with the screen size yet
 	  still be correct.  New static value wrap_at to minimize code
-	  inpact.  Updated man page and info file.
+	  impact.  Updated man page and info file.
 	- Allow file appending.  New shortcut list nano_insertfile_list (since
 	  insert and write routines can't share shortcut lists anymore), 
 	  new args to do_writeout and write_file called append, and of source
@@ -963,7 +1022,7 @@ nano-1.1.0 - 07/15/2001
 	  down, etc, and add the consistent ^C to exit (Jim Knoble).
   do_writeout()
 	- New code to allow writing selected text to a separate file.
-	  When this is done, the current state is prserved.
+	  When this is done, the current state is preserved.
   write_file()
 	- New arg, nonamechange, means whether or not to update the
 	  current filename after writing the file out.

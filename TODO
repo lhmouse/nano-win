@@ -5,7 +5,7 @@ For version 1.2:
 - Single line scroll up/down? [DONE]
 - Color syntax highlighting? (certainly seems like there's a demand for it.)
 - .nanorc [DONE]
-- Backup making (filename~)?
+- Backup making (filename~)? [DONE]
 - Search (etc) string history [1.2]
 - Implement Pico's -j and -g flags, as they are pretty easy to do. [DONE]
 - Make mouse support work with clicking on the shortcuts (-m).  Must

@@ -44,27 +44,48 @@
 
 /* Static stuff for the nanorc file */
 rcoption rcopts[] = {
-    {"regexp", USE_REGEXP},
-    {"const", CONSTUPDATE},
+#ifndef NANO_SMALL
     {"autoindent", AUTOINDENT},
+    {"backup", BACKUP_FILE},
+#endif
+    {"const", CONSTUPDATE},
+#ifndef NANO_SMALL
     {"cut", CUT_TO_END},
-    {"nofollow", FOLLOW_SYMLINKS},
-    {"mouse", USE_MOUSE},
-    {"operatingdir", 0},
-    {"pico", PICO_MODE},
-    {"tabsize", 0},
+#endif
     {"fill", 0},
+    {"keypad", ALT_KEYPAD},
+#ifndef DISABLE_MOUSE
+    {"mouse", USE_MOUSE},
+#endif
+#ifdef ENABLE_MULTIBUFFER
+    {"multibuffer", MULTIBUFFER},
+#endif
+#ifndef NANO_SMALL
+    {"noconvert", NO_CONVERT},
+#endif
+    {"nofollow", FOLLOW_SYMLINKS},
+    {"nohelp", NO_HELP},
+    {"nowrap", NO_WRAP},
+#ifndef DISABLE_OPERATINGDIR
+    {"operatingdir", 0},
+#endif
+    {"pico", PICO_MODE},
+#ifndef NANO_SMALL
+    {"quotestr", 0},
+#endif
+#ifdef HAVE_REGEX_H
+    {"regexp", USE_REGEXP},
+#endif
+#ifndef NANO_SMALL
+    {"smooth", SMOOTHSCROLL},
+#endif
+#ifndef DISABLE_SPELLER
     {"speller", 0},
+#endif
+    {"suspend", SUSPEND},
+    {"tabsize", 0},
     {"tempfile", TEMP_OPT},
     {"view", VIEW_MODE},
-    {"nowrap", NO_WRAP},
-    {"nohelp", NO_HELP},
-    {"suspend", SUSPEND},
-    {"multibuffer", MULTIBUFFER},
-    {"smooth", SMOOTHSCROLL},
-    {"keypad", ALT_KEYPAD},
-    {"noconvert", NO_CONVERT},
-    {"quotestr", 0},
     {"", 0}
 };
 
@@ -144,6 +165,8 @@ char *parse_next_regex(char *ptr)
 
 }
 
+#ifdef ENABLE_COLOR
+
 int colortoint(char *colorname, int *bright)
 {
     int mcolor = 0;
@@ -183,8 +206,6 @@ int colortoint(char *colorname, int *bright)
     return mcolor;
 }
 
-
-#ifdef ENABLE_COLOR
 void parse_syntax(FILE * rcstream, char *buf, char *ptr)
 {
     syntaxtype *tmpsyntax = NULL;
@@ -268,8 +289,7 @@ void parse_syntax(FILE * rcstream, char *buf, char *ptr)
 	    exttmp->next->val = mallocstrcpy(exttmp->next->val, fileregptr);
 	    exttmp->next->next = NULL;
 	}
-   }
-
+    }
 }
 
 /* Parse the color stuff into the colorstrings array */
@@ -399,7 +419,8 @@ void parse_colors(FILE * rcstream, char *buf, char *ptr)
 
     }
 }
-#endif				/* ENABLE_COLOR */
+
+#endif /* ENABLE_COLOR */
 
 /* Parse the RC file, once it has been opened successfully */
 void parse_rcfile(FILE * rcstream)
@@ -597,5 +618,4 @@ void do_rcfile(void)
 
 }
 
-
-#endif				/* ENABLE_NANORC */
+#endif /* ENABLE_NANORC */

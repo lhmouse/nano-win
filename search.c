@@ -75,9 +75,6 @@ int search_init(int replacing)
     int i = 0;
     char *buf;
     static char *backupstring = NULL;
-#ifndef NANO_SMALL
-    toggle *t;
-#endif
 
     search_init_globals();
 
@@ -180,20 +177,19 @@ int search_init(int replacing)
 	last_replace[0] = '\0';
 	break;
     case TOGGLE_CASE_KEY:
+	TOGGLE(CASE_SENSITIVE);
+	goto string_reinit;
     case TOGGLE_BACKWARDS_KEY:
+	TOGGLE(REVERSE_SEARCH);
+	goto string_reinit;
 #ifdef HAVE_REGEX_H
     case TOGGLE_REGEXP_KEY:
+	TOGGLE(USE_REGEXP);
 #endif
+  string_reinit:
 	free(backupstring);
 	backupstring = NULL;
 	backupstring = mallocstrcpy(backupstring, answer);
-
-#ifndef NANO_SMALL
-	for (t = toggles; t != NULL; t = t->next)
-	    if (i == t->val)
-		TOGGLE(t->flag);
-#endif
-
 	return 1;
     case NANO_OTHERSEARCH_KEY:
 	backupstring = mallocstrcpy(backupstring, answer);
@@ -859,7 +855,7 @@ int do_gotoline_void(void)
     return do_gotoline(0, 0);
 }
 
-#if (defined ENABLE_MULTIBUFFER || !defined DISABLE_SPELLER)
+#if defined(ENABLE_MULTIBUFFER) || !defined(DISABLE_SPELLER)
 void do_gotopos(int line, int pos_x, int pos_y, int pos_placewewant)
 {
     /* since do_gotoline() resets the x-coordinate but not the

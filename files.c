@@ -28,6 +28,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#include <utime.h>
 #include <fcntl.h>
 #include <errno.h>
 #include <ctype.h>
@@ -356,6 +357,9 @@ int open_file(const char *filename, int insert, int quiet)
 	    return -1;
 	}
 	read_file(f, filename, quiet);
+#ifndef NANO_SMALL
+	stat(filename, &originalfilestat);
+#endif
     }
 
     return 1;
@@ -417,7 +421,7 @@ int do_insertfile(int loading_file)
     if (i != -1) {
 
 #ifdef DEBUG
-	fprintf(stderr, _("filename is %s"), answer);
+	fprintf(stderr, _("filename is %s\n"), answer);
 #endif
 
 #ifndef DISABLE_TABCOMP
@@ -596,7 +600,7 @@ int add_open_file(int update)
 	   open_files and splice it in after the current one */
 
 #ifdef DEBUG
-	fprintf(stderr, _("filename is %s"), open_files->filename);
+	fprintf(stderr, _("filename is %s\n"), open_files->filename);
 #endif
 
 	tmp = make_new_opennode(NULL);
@@ -606,6 +610,11 @@ int add_open_file(int update)
 
     /* save current filename */
     open_files->filename = mallocstrcpy(open_files->filename, filename);
+
+#ifndef NANO_SMALL
+    /* save the file's stat */
+    open_files->originalfilestat = originalfilestat;
+#endif
 
     /* save current total number of lines */
     open_files->file_totlines = totlines;
@@ -649,7 +658,7 @@ int add_open_file(int update)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, _("filename is %s"), open_files->filename);
+    fprintf(stderr, _("filename is %s\n"), open_files->filename);
 #endif
 
     return 0;
@@ -668,6 +677,9 @@ int load_open_file(void)
     /* set up the filename, the file buffer, the total number of lines in
        the file, and the total file size */
     filename = mallocstrcpy(filename, open_files->filename);
+#ifndef NANO_SMALL
+    originalfilestat = open_files->originalfilestat;
+#endif
     fileage = open_files->fileage;
     current = fileage;
     filebot = open_files->filebot;
@@ -740,7 +752,7 @@ int open_prevfile(int closing_file)
 	open_files = open_files->prev;
 
 #ifdef DEBUG
-	fprintf(stderr, _("filename is %s"), open_files->filename);
+	fprintf(stderr, _("filename is %s\n"), open_files->filename);
 #endif
 
     }
@@ -752,7 +764,7 @@ int open_prevfile(int closing_file)
 	    open_files = open_files->next;
 
 #ifdef DEBUG
-	    fprintf(stderr, _("filename is %s"), open_files->filename);
+	    fprintf(stderr, _("filename is %s\n"), open_files->filename);
 #endif
 
     }
@@ -804,7 +816,7 @@ int open_nextfile(int closing_file)
 	open_files = open_files->next;
 
 #ifdef DEBUG
-	fprintf(stderr, _("filename is %s"), open_files->filename);
+	fprintf(stderr, _("filename is %s\n"), open_files->filename);
 #endif
 
     }
@@ -815,7 +827,7 @@ int open_nextfile(int closing_file)
 	    open_files = open_files->prev;
 
 #ifdef DEBUG
-	    fprintf(stderr, _("filename is %s"), open_files->filename);
+	    fprintf(stderr, _("filename is %s\n"), open_files->filename);
 #endif
 
 	}
@@ -873,7 +885,7 @@ int close_open_file(void)
 }
 #endif /* MULTIBUFFER */
 
-#if !defined (DISABLE_SPELLER) || !defined (DISABLE_OPERATINGDIR)
+#if !defined(DISABLE_SPELLER) || !defined(DISABLE_OPERATINGDIR)
 /*
  * When passed "[relative path]" or "[relative path][filename]" in
  * origpath, return "[full path]" or "[full path][filename]" on success,
@@ -1283,6 +1295,75 @@ int write_file(char *name, int tmp, int append, int nonamechange)
     /* Save the state of file at the end of the symlink (if there is one) */
     realexists = stat(realname, &st);
 
+#ifndef NANO_SMALL
+    /* We backup only if the backup toggle is set, the file isn't
+       temporary, and the file already exists.  Furthermore, if we aren't
+       appending, prepending, or writing a selection, also backup only if
+       the file has not been modified by someone else since nano opened
+       it. */
+    if (ISSET(BACKUP_FILE) && !tmp && realexists == 0 &&
+	    (append || ISSET(MARK_ISSET) ||
+		originalfilestat.st_mtime == st.st_mtime)) {
+	FILE *backup_file;
+	char *backupname = NULL;
+	char backupbuf[COPYFILEBLOCKSIZE];
+	size_t bytesread;
+	struct utimbuf filetime;
+
+	/* save the original file's access and modification times */
+	filetime.actime = originalfilestat.st_atime;
+	filetime.modtime = originalfilestat.st_mtime;
+
+	/* open the original file to copy to the backup */
+	f = fopen(realname, "rb");
+	if (!f) {
+	    statusbar(_("Could not read %s for backup: %s"), realname,
+		strerror(errno));
+	    return -1;
+	}
+
+	backupname = charalloc(strlen(realname) + 2);
+	sprintf(backupname, "%s~", realname);
+
+	/* get a file descriptor for the destination backup file */
+	backup_file = fopen(backupname, "wb");
+	if (!backup_file) {
+	    statusbar(_("Couldn't write backup: %s"), strerror(errno));
+	    free(backupname);
+	    return -1;
+	}
+
+#ifdef DEBUG
+	fprintf(stderr, _("Backing up %s to %s\n"), realname, backupname);
+#endif
+
+	/* copy the file */
+	while ((bytesread = fread(backupbuf, sizeof(char),
+		COPYFILEBLOCKSIZE, f)) > 0)
+	    if (fwrite(backupbuf, sizeof(char), bytesread, backup_file) <= 0)
+		break;
+	fclose(backup_file);
+	fclose(f);
+
+	if (chmod(backupname, originalfilestat.st_mode) == -1)
+	    statusbar(_("Could not set permissions %o on backup %s: %s"),   
+			originalfilestat.st_mode, backupname,
+			strerror(errno));
+
+	if (chown(backupname, originalfilestat.st_uid,
+		originalfilestat.st_gid) == -1)
+	    statusbar(_("Could not set owner %d/group %d on backup %s: %s"),
+			originalfilestat.st_uid, originalfilestat.st_gid,
+			backupname, strerror(errno));
+
+	if (utime(backupname, &filetime) == -1)
+	    statusbar(_("Could not set access/modification time on backup %s: %s"),
+			backupname, strerror(errno));
+
+	free(backupname);
+    }
+#endif
+
     /* Stat the link itself for the check... */
     anyexists = lstat(realname, &lst);
 
@@ -1368,7 +1449,6 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	else
 	    fprintf(stderr, _("Wrote >%s\n"), fileptr->data);
 #endif
-
 #ifndef NANO_SMALL
 	if (ISSET(DOS_FILE) || ISSET(MAC_FILE))
 	    putc('\r', f);
@@ -1423,7 +1503,6 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	    }
 	}
     }
-
 
     if (fclose(f)) {
 	statusbar(_("Could not close %s: %s"), realname, strerror(errno));
@@ -1481,7 +1560,6 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	fclose(f_dest);
     }
 
-
     if (realexists == -1 || tmp ||
 	(!ISSET(FOLLOW_SYMLINKS) && S_ISLNK(lst.st_mode))) {
 
@@ -1489,7 +1567,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	mask = umask(0);
 	umask(mask);
 
-	if (tmp)		/* We don't want anyone reading our temporary file! */
+	if (tmp)	/* We don't want anyone reading our temporary file! */
 	    mask = 0600;
 	else
 	    mask = 0666 & ~mask;
@@ -1529,6 +1607,10 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	if (!nonamechange)
 	    filename = mallocstrcpy(filename, realname);
 
+#ifndef NANO_SMALL
+	/* Update originalfilestat to reference the file as it is now. */
+	stat(filename, &originalfilestat);
+#endif
 	statusbar(_("Wrote %d lines"), lineswritten);
 	UNSET(MODIFIED);
 	titlebar(NULL);
@@ -1539,8 +1621,9 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 int do_writeout(char *path, int exiting, int append)
 {
     int i = 0;
-    char *formatstr = NULL;
-
+#ifndef NANO_SMALL
+    const char *formatstr, *backupstr;
+#endif
 #ifdef NANO_EXTRA
     static int did_cred = 0;
 #endif
@@ -1568,7 +1651,6 @@ int do_writeout(char *path, int exiting, int append)
     while (1) {
 
 #ifndef NANO_SMALL
-
 	if (ISSET(MAC_FILE))
 	   formatstr = _(" [Mac Format]");
 	else if (ISSET(DOS_FILE))
@@ -1576,31 +1658,44 @@ int do_writeout(char *path, int exiting, int append)
 	else
 	   formatstr = "";
 
+	if (ISSET(BACKUP_FILE))
+	   backupstr = _(" [Backup]");
+	else
+	   backupstr = "";
+
 	/* Be nice to the translation folks */
 	if (ISSET(MARK_ISSET) && !exiting) {
 	    if (append == 2)
 		i = statusq(1, writefile_list, "",
-		    "%s%s", _("Prepend Selection to File"), formatstr);
+		    "%s%s%s", _("Prepend Selection to File"), formatstr, backupstr);
 	    else if (append)
 		i = statusq(1, writefile_list, "",
-		    "%s%s", _("Append Selection to File"), formatstr);
+		    "%s%s%s", _("Append Selection to File"), formatstr, backupstr);
 	    else
 		i = statusq(1, writefile_list, "",
-		    "%s%s", _("Write Selection to File"), formatstr);
-	} else
-#endif
-	{
+		    "%s%s%s", _("Write Selection to File"), formatstr, backupstr);
+	} else {
 	    if (append == 2)
 		i = statusq(1, writefile_list, answer,
-		    "%s%s", _("File Name to Prepend"), formatstr);
+		    "%s%s%s", _("File Name to Prepend to"), formatstr, backupstr);
 	    else if (append)
 		i = statusq(1, writefile_list, answer,
-		    "%s%s", _("File Name to Append"), formatstr);
+		    "%s%s%s", _("File Name to Append to"), formatstr, backupstr);
 	    else
 		i = statusq(1, writefile_list, answer,
-		    "%s%s", _("File Name to Write"), formatstr);
-
+		    "%s%s%s", _("File Name to Write"), formatstr, backupstr);
 	}
+#else
+	if (append == 2)
+	    i = statusq(1, writefile_list, answer,
+		"%s", _("File Name to Prepend to"));
+	else if (append)
+	    i = statusq(1, writefile_list, answer,
+		"%s", _("File Name to Append to"));
+	else
+	    i = statusq(1, writefile_list, answer,
+		"%s", _("File Name to Write"));
+#endif /* !NANO_SMALL */
 
 	if (i != -1) {
 
@@ -1627,13 +1722,18 @@ int do_writeout(char *path, int exiting, int append)
 	    UNSET(DOS_FILE);
 	    TOGGLE(MAC_FILE);
 	    return(do_writeout(answer, exiting, append));
+#ifndef NANO_SMALL
+	} else if (i == TOGGLE_BACKUP_KEY) {
+	    TOGGLE(BACKUP_FILE);
+	    return(do_writeout(answer, exiting, append));
+#endif
 	} else if (i == NANO_PREPEND_KEY)
 	    return(do_writeout(answer, exiting, append == 2 ? 0 : 2));
 	else if (i == NANO_APPEND_KEY)
 	    return(do_writeout(answer, exiting, append == 1 ? 0 : 1));
 
 #ifdef DEBUG
-	    fprintf(stderr, _("filename is %s"), answer);
+	    fprintf(stderr, _("filename is %s\n"), answer);
 #endif
 
 #ifdef NANO_EXTRA
@@ -1653,8 +1753,8 @@ int do_writeout(char *path, int exiting, int append)
 			continue;
 		}
 	    }
-#ifndef NANO_SMALL
 
+#ifndef NANO_SMALL
 	/* Here's where we allow the selected text to be written to 
 	   a separate file. */
 	if (ISSET(MARK_ISSET) && !exiting) {
@@ -1692,7 +1792,8 @@ int do_writeout(char *path, int exiting, int append)
 	    if (oldmod)
 		set_modified();
 	} else
-#endif
+#endif /* !NANO_SMALL */
+
 	    i = write_file(answer, 0, append, 0);
 
 #ifdef ENABLE_MULTIBUFFER
@@ -2357,7 +2458,7 @@ char *do_browser(char *inpath)
 
 	blank_statusbar_refresh();
 
-#if !defined DISABLE_HELP || !defined(DISABLE_MOUSE)
+#if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
 	currshortcut = browser_list;
 #endif
 

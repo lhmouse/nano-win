@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.1.9
-@set UPDATED 4 Jan 2002
+@set UPDATED 27 Jun 2002
 
 @dircategory Editors
 @direntry
@@ -106,13 +106,18 @@ Email bug reports to @email{nano@@nano-editor.org}.
 @section Command Line Options
 
 @code{nano} takes the following options from the command line:
+
 @table @code
+
+@item -B, --backup
+When saving a file, back up the previous version of it to the current
+filename suffixed with a ~.
 
 @item -D, --dos
 Write file in DOS format.
 
 @item -F, --multibuffer
-Enable multiple file buffers.
+Enable multiple file buffers, if available.
 
 @item -K, --keypad
 Do not use the ncurses keypad() call unless necessary.  Try this flag if
@@ -139,6 +144,10 @@ Set the displayed tab length to [num] columns.
 
 @item -V, --version 
 Print the version number and copyright and quit.
+
+@item -Y, --syntax=[str]
+Specify a specific syntax highlighting from the .nanorc to use, if
+available.
 
 @item -c, --const
 Constantly display the cursor position and line number on the statusbar.
@@ -270,22 +279,22 @@ will display the current directory instead of the filename.
 @node The Statusbar, Shortcut Lists, The Titlebar, Editor Basics
 @section The Statusbar
 
-The statusbar is located three lines from the bottom of the screen (or the
-bottom line in Expert Mode.  @xref{Expert Mode}, for more info.  
+The statusbar is located three lines from the bottom of the screen (or
+the bottom line in Expert Mode.  @xref{Expert Mode}, for more info.
 
 The Statusbar shows important and informational messages.  Any error
 messages that occur from using the editor will appear on the statusbar.
 Any questions that are asked of the user will be asked on the statusbar,
-and any user input (search strings, file names, etc) will be input on the
-statusbar.
+and any user input (search strings, file names, etc) will be input on
+the statusbar.
 
 @node Shortcut Lists, , The Statusbar, Editor Basics
 @section Shortcut Lists
 
-The Shortcut Lists are the two lines at the bottom of the screen which show
-some of the more commonly used functions in the editor. The exact
-functions which are displayed depend on whether Pico Compatibility Mode mode
-is enabled. @xref{Pico Compatibility}, for more info.
+The Shortcut Lists are the two lines at the bottom of the screen which
+show some of the more commonly used functions in the editor. The exact
+functions which are displayed depend on whether Pico Compatibility Mode
+mode is enabled. @xref{Pico Compatibility}, for more info.
 
 @node Online Help, Feature Toggles, Editor Basics, Top
 @chapter Online Help
@@ -302,24 +311,15 @@ and ^V (Page Down) keys.  ^X exits the help system.
 Toggles allow you to change certain aspects of the editor that
 would normally be done via command line flags. They are invoked via
 certain Meta key sequenced. @xref{Special Functions}, for more info.
-The following toggles are available:
+The following global toggles are available:
 
 @table @code
 
-@item Case Sensitive Search Toggle (Meta-A)
-toggles case sensistive searching functionality on/off.
-
-@item Backwards Search Toggle (Meta-B)
-toggles backwards searching fuctionality on/off.
-
-@item Constant Update Toggle (Meta-C)
-toggles the -c (--const) command line flag.
+@item Backup File Toggle (Meta-B)
+toggles the -B (--backup) command line flag.
 
 @item DOS Format Toggle (Meta-D)
 toggles the -D (--dos) command line flag.
-
-@item Regular Expressions Toggle (Meta-E)
-toggles the -R (--regexp) command line flag.
 
 @item Multiple Files Toggle (Meta-F)
 toggles the  -F (--multibuffer) command line flag.
@@ -365,21 +365,21 @@ changes buffer to next loaded file.
 @chapter The File Browser
 
 When reading or writing files, pressing ^T will invoke the file browser.
-Here, one can navigate directories in a graphical manner in order to find
-the desired file.
+Here, one can navigate directories in a graphical manner in order to
+find the desired file.
 
 Basic movement in the file browser is accomplished with he arrow keys
-and page up/down.  The behavior of the enter (or 's') key varies by what 
-is currently selected.  If the currently selected object is a directory, 
-the file browser will enter and display the contents of the directory.  If
-the object is a file, this filename and path are copied to the statusbar
-and the file browser is exited.
+and page up/down.  The behavior of the enter (or 's') key varies by what
+is currently selected.  If the currently selected object is a directory,
+the file browser will enter and display the contents of the directory. 
+If the object is a file, this filename and path are copied to the
+statusbar and the file browser is exited.
 
 @node Pico Compatibility, Building and Configure Options, The File Browser, Top
 @chapter Pico Compatibility
 
-Nano does not completely emulate Pico by default.  The following differences
-apply to the default mode and Pico Compatibility mode:
+Nano does not completely emulate Pico by default.  The following
+differences apply to the default mode and Pico Compatibility mode:
 
 @table @code
 @item Displayed Shortcuts
@@ -466,24 +466,22 @@ Disables all word wrapping in the editor.  This also eliminates the
 -w command line flag, as nonwrapping is then the default behavior.
 
 @item --disable-mouse
-Disables all mouse functionality.  This also disables the -m commands line 
+Disables all mouse functionality.  This also disables the -m command line
 flag which enables the mouse functions.
 
 @item --disable-operatingdir
-Disables setting of operating directory. This also disables the -o command
-line flag.
+Disables setting of operating directory. This also disables the -o
+command line flag.
 
 @item --disable-nls
 Disables Native Language support. This will make the available GNU nano
 translations unusable.
 
 @item --with-slang
-Compiling GNU nano with Slang is supported, and will make the binary notably
-smaller than if compiled with ncurses or other curses libraries.
+Compiling GNU nano with Slang is supported, and will make the binary
+notably smaller than if compiled with ncurses or other curses libraries.
 
 @end table
 
 @contents
 @bye
-
-
