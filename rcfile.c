@@ -171,7 +171,6 @@ void parse_colors(FILE *rcstream, char *filename, int *lineno, char *buf, char *
     char prev = '\\';
     char *tmp = NULL, *beginning, *fgstr, *bgstr;
     colortype *tmpcolor = NULL;
-    colorstr *tmpstr = NULL;
 
     fgstr = ptr;
     ptr = parse_next_word(ptr);
