@@ -83,9 +83,9 @@ int num_of_digits(int n)
     return i;
 }
 
-/* Read an int from str, and store it in *val (if val is not NULL).  On
- * error, we return FALSE and don't change *val.  Otherwise, we return 
- * TRUE. */
+/* Read a ssize_t from str, and store it in *val (if val is not NULL).
+ * On error, we return FALSE and don't change *val.  Otherwise, we
+ * return TRUE. */
 bool parse_num(const char *str, ssize_t *val)
 {
     char *first_error;
