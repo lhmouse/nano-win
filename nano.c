@@ -2242,7 +2242,7 @@ void help_init(void)
 		snprintf(&buf[sofar], BUFSIZ - sofar, _("%s enable/disable"),
 			 toggles[i].desc);
 	    else
-		snprintf(&buf[sofar], BUFSIZ - sofar, _("%s"),
+		snprintf(&buf[sofar], BUFSIZ - sofar, "%s",
 			 toggles[i].desc);
 	}
 
