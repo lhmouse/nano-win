@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.9.22\n"
-"POT-Creation-Date: 2000-12-02 17:42+0100\n"
+"POT-Creation-Date: 2000-12-03 04:07+0100\n"
 "PO-Revision-Date: 2000-12-02 17:55+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -56,59 +56,59 @@ msgstr "Leyendo Fichero"
 msgid "File to insert [from ./] "
 msgstr "Fichero a insertar [desde ./] "
 
-#: files.c:284 files.c:309 files.c:521 nano.c:1419
+#: files.c:284 files.c:309 files.c:525 nano.c:1419
 msgid "Cancelled"
 msgstr "Cancelado"
 
-#: files.c:343 files.c:364 files.c:378 files.c:395 files.c:401
+#: files.c:346 files.c:367 files.c:381 files.c:398 files.c:404
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "No pude abrir el fichero para escribir: %s"
 
-#: files.c:352
+#: files.c:355
 msgid "Could not open file: Path length exceeded."
 msgstr "El fichero no pudo ser abierto: longitud del path excedida."
 
-#: files.c:383
+#: files.c:386
 #, c-format
 msgid "Wrote >%s\n"
 msgstr "Escribí >%s\n"
 
-#: files.c:410
+#: files.c:413
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "No pude cerrar %s: %s"
 
 #. Try a rename??
-#: files.c:431 files.c:442 files.c:447
+#: files.c:434 files.c:446 files.c:451
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr "No pude abrir %s para escribir: %s"
 
-#: files.c:453
+#: files.c:458
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr "No pude establecer permisos %o en %s: %s"
 
-#: files.c:460
+#: files.c:464
 #, c-format
 msgid "Wrote %d lines"
 msgstr "%d líneas escritas"
 
-#: files.c:492
+#: files.c:496
 msgid "File Name to write"
 msgstr "Nombre de Fichero a escribir"
 
-#: files.c:497
+#: files.c:501
 #, c-format
 msgid "filename is %s"
 msgstr "filename es %s"
 
-#: files.c:510
+#: files.c:514
 msgid "File exists, OVERWRITE ?"
 msgstr "El fichero existe, SOBREESCRIBIR ?"
 
-#: files.c:999
+#: files.c:1003
 msgid "(more)"
 msgstr "(más)"
 
@@ -411,12 +411,13 @@ msgstr ""
 "Buffer escrito en %s\n"
 
 #: nano.c:139
+#, c-format
 msgid ""
 "\n"
-"No .save file written (symlink encountered?)\n"
+"No %s written (file exists?)\n"
 msgstr ""
 "\n"
-"No se ha escrito un .save (¿symlink encontrado?)\n"
+"No se ha escrito %s (¿existe el fichero?)\n"
 
 #: nano.c:146
 msgid "Key illegal in VIEW mode"
@@ -689,8 +690,8 @@ msgstr "No pude crear un fichero temporal: %s"
 
 #: nano.c:1372
 msgid "Spell checking failed: unable to write temp file!"
-msgstr "Comprobación de ortografía fallida: no se pudo escribir fichero"
-"temporal!"
+msgstr ""
+"Comprobación de ortografía fallida: no se pudo escribir ficherotemporal!"
 
 #: nano.c:1384
 msgid "Finished checking spelling"
