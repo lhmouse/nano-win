@@ -3,8 +3,12 @@ CVS code -
   main()
 	- Change the getop option to 'F' (David Lawrence Ramsey)
 - files.c:
-  do_writeout()
-	- Check for open_files == NULL before using it (Ryan Krebs)
+  new_file()
+	- Do add_open_files if there aren't any open yet (David Lawrence 
+	  Ramsey).
+  close_open_file()
+	- Try to open the next file first, then the previous one 
+	  (David Lawrence Ramsey).
 - global.c:
   shortcut_init()
 	- Rewrote the whereis and replace lists to put CANCEL at the end

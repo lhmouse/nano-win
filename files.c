@@ -74,6 +74,17 @@ void new_file(void)
     editbot = fileage;
     current = fileage;
     totlines = 1;
+
+#ifdef ENABLE_MULTIBUFFER
+    /* if there aren't any entries in open_files, create the entry for
+       this new file, and, of course, don't bother checking for
+       duplicates; without this, if nano is started without a filename on
+       the command line, a new file with no name will be created, but it
+       will be given no open_files entry, leading to problems later on */
+    if (!open_files)
+	add_open_file(0, 0);
+#endif
+
     UNSET(VIEW_MODE);
 }
 
@@ -730,7 +741,7 @@ int open_nextfile(int closing_file)
 
 /*
  * Delete an entry from the open_files filestruct.  After deletion of an
- * entry, the previous or next entry is opened, whichever is found first.
+ * entry, the next or previous entry is opened, whichever is found first.
  * Return 0 on success or 1 on error.
  */
 int close_open_file(void)
@@ -741,8 +752,8 @@ int close_open_file(void)
 	return 1;
 
     tmp = open_files;
-    if (open_prevfile(1)) {
-	if (open_nextfile(1))
+    if (open_nextfile(1)) {
+	if (open_prevfile(1))
 	    return 1;
     }
 
@@ -1168,7 +1179,7 @@ int do_writeout(char *path, int exiting, int append)
 		   update the filename and full path stored in the
 		   current entry, and then update the current entry,
 		   checking for duplicate entries */
-		if (open_files != NULL && strcmp(open_files->data, filename)) {
+		if (strcmp(open_files->data, filename)) {
 		    open_file_change_name();
 		    add_open_file(1, 1);
 		}
