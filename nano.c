@@ -1584,7 +1584,7 @@ int do_int_spell_fix(const char *word)
     char *save_search;
     char *save_replace;
     filestruct *begin;
-    int i = 0, j = 0, beginx, beginx_top, reverse_search_set;
+    int i = 0, j = 0, beginx, beginx_top, reverse_search_set, case_sens_set;
 #ifndef NANO_SMALL
     int mark_set;
 #endif
@@ -1596,6 +1596,9 @@ int do_int_spell_fix(const char *word)
     /* Make sure Spell Check goes forward only */
     reverse_search_set = ISSET(REVERSE_SEARCH);
     UNSET(REVERSE_SEARCH);
+
+    case_sens_set = ISSET(CASE_SENSITIVE);
+    SET(CASE_SENSITIVE);
 
 #ifndef NANO_SMALL
     /* Make sure the marking highlight is off during Spell Check */
@@ -1618,8 +1621,6 @@ int do_int_spell_fix(const char *word)
 
     search_last_line = FALSE;
 
-    edit_update(fileage, TOP);
-
     while (1) {
 	/* make sure word is still mis-spelt (i.e. when multi-errors) */
 	if (findnextstr(TRUE, FALSE, fileage, beginx_top, word) != NULL) {
@@ -1628,6 +1629,7 @@ int do_int_spell_fix(const char *word)
 	    if (!is_whole_word(current_x, current->data, word))
 		continue;
 
+	    edit_refresh();
 	    do_replace_highlight(TRUE, word);
 
 	    /* allow replace word to be corrected */
@@ -1661,13 +1663,14 @@ int do_int_spell_fix(const char *word)
     if (reverse_search_set)
 	SET(REVERSE_SEARCH);
 
+    if (!case_sens_set)
+	UNSET(CASE_SENSITIVE);
+
 #ifndef NANO_SMALL
     /* restore marking highlight */
     if (mark_set)
 	SET(MARK_ISSET);
 #endif
-
-    edit_update(current, CENTER);
 
     if (i == -1)
 	return FALSE;
