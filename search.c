@@ -339,7 +339,7 @@ int replace_regexp(char *string, int create_flag)
 }
 #endif
 
-char *replace_line()
+char *replace_line(void)
 {
     char *copy, *tmp;
     int new_line_size;
