@@ -31,6 +31,8 @@ CVS code -
 	  shortcut_init(), die_save_file(), and nanogetstr().
 	- Call nano_disabled_msg() directly from the shortcut list
 	  instead of inside the disabled functions. (David Benbennick)
+	- Clarifications to comments explaining exactly what control
+	  characters and escape sequences are supported. (DLR)
 - files.c:
   add_open_file()
 	- Rearrange the NANO_SMALL #ifdef so that the code to set the
