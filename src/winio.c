@@ -1936,11 +1936,11 @@ void do_statusbar_backspace(void)
 void do_statusbar_delete(void)
 {
     if (statusbar_x < statusbar_xend) {
-	int char_len = parse_char(answer + statusbar_x, NULL, NULL
+	int char_len = parse_char(answer + statusbar_x, NULL
 #ifdef NANO_WIDE
 		, NULL
 #endif
-		);
+		, NULL);
 
 	charmove(answer + statusbar_x, answer + statusbar_x + char_len,
 		statusbar_xend - statusbar_x - char_len + 1);
@@ -2056,11 +2056,11 @@ size_t actual_x(const char *str, size_t xplus)
     assert(str != NULL);
 
     while (*str != '\0') {
-	int str_len = parse_char(str, NULL, &length
+	int str_len = parse_char(str, NULL
 #ifdef NANO_WIDE
 		, NULL
 #endif
-		);
+		, &length);
 
 	if (length > xplus)
 	    break;
@@ -2085,11 +2085,11 @@ size_t strnlenpt(const char *str, size_t size)
     assert(str != NULL);
 
     while (*str != '\0') {
-	int str_len = parse_char(str, NULL, &length
+	int str_len = parse_char(str, NULL
 #ifdef NANO_WIDE
 		, NULL
 #endif
-		);
+		, &length);
 
 	str += str_len;
 
@@ -2160,25 +2160,25 @@ size_t display_string_len(const char *buf, size_t start_col, size_t
     /* Throughout the loop, we maintain the fact that *buf displays at
      * column start_col. */
     while (start_col <= end_col && *buf != '\0') {
-	int wide_buf, wide_buf_len;
-	size_t old_col = start_col;
+	int wide_buf, mb_buf_len;
 #ifdef NANO_WIDE
 	bool bad_char;
 #endif
+	size_t old_col = start_col;
 
-	wide_buf_len = parse_char(buf, &wide_buf, &start_col
+	mb_buf_len = parse_char(buf, &wide_buf
 #ifdef NANO_WIDE
 		, &bad_char
 #endif
-		);
+		, &start_col);
 
 #ifdef NANO_WIDE
 	/* If buf contains a null byte or an invalid multibyte
 	 * character, interpret that character as though it's a wide
 	 * character. */
 	if (!ISSET(NO_UTF8) && bad_char) {
-	    char *bad_wide_buf = charalloc(MB_CUR_MAX);
-	    int bad_wide_buf_len;
+	    char *bad_mb_buf = charalloc(MB_CUR_MAX);
+	    int bad_mb_buf_len;
 
 	    /* If we have a control character, add one byte to account
 	     * for the "^" that will be displayed in front of it, and
@@ -2191,12 +2191,12 @@ size_t display_string_len(const char *buf, size_t start_col, size_t
 
 	    /* Translate the wide character to its multibyte
 	     * equivalent. */
-	    bad_wide_buf_len = wctomb(bad_wide_buf, (wchar_t)wide_buf);
+	    bad_mb_buf_len = wctomb(bad_mb_buf, (wchar_t)wide_buf);
 
-	    if (bad_wide_buf_len != -1)
-		retval += bad_wide_buf_len;
+	    if (bad_mb_buf_len != -1)
+		retval += bad_mb_buf_len;
 
-	    free(bad_wide_buf);
+	    free(bad_mb_buf);
 	} else {
 #endif
 	    /* If we have a tab, get its width in bytes using the
@@ -2208,23 +2208,22 @@ size_t display_string_len(const char *buf, size_t start_col, size_t
 	     * then add the number of bytes for its visible equivalent
 	     * as returned by control_rep(). */
 	    else if (is_cntrl_char(wide_buf)) {
-		char ctrl_wide_buf =
-			control_rep((unsigned char)wide_buf);
+		char ctrl_mb_buf = control_rep((unsigned char)wide_buf);
 
 		retval++;
-		retval += parse_char(&ctrl_wide_buf, NULL, NULL
+		retval += parse_char(&ctrl_mb_buf, NULL
 #ifdef NANO_WIDE
 			, NULL
 #endif
-			);
+			, NULL);
 	    /* If we have a normal character, add its width in bytes
 	     * normally. */
 	    } else
-		retval += wide_buf_len;
+		retval += mb_buf_len;
 #ifdef NANO_WIDE
 	}
 
-	buf += wide_buf_len;
+	buf += mb_buf_len;
 #endif
     }
 
@@ -2279,43 +2278,43 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
     if (column < start_col || (dollars && column > 0 &&
 	buf[start_index] != '\t')) {
-	int wide_buf, wide_buf_len;
+	int wide_buf, mb_buf_len;
 
 	/* We don't display all of buf[start_index] since it starts to
 	 * the left of the screen. */
-	wide_buf_len = parse_char(buf + start_index, &wide_buf, NULL
+	mb_buf_len = parse_char(buf + start_index, &wide_buf
 #ifdef NANO_WIDE
 		, NULL
 #endif
-		);
+		, NULL);
 
 	if (is_cntrl_char(wide_buf)) {
 	    if (column < start_col) {
-		char *ctrl_wide_buf =
+		char *ctrl_mb_buf =
 #ifdef NANO_WIDE
 			!ISSET(NO_UTF8) ? charalloc(MB_CUR_MAX) :
 #endif
 			charalloc(1);
-		int ctrl_wide_buf_len, i;
+		int ctrl_mb_buf_len, i;
 
 		wide_buf = control_rep((unsigned char)wide_buf);
 
 #ifdef NANO_WIDE
 		if (!ISSET(NO_UTF8))
-		    ctrl_wide_buf_len = wctomb(ctrl_wide_buf,
+		    ctrl_mb_buf_len = wctomb(ctrl_mb_buf,
 			(wchar_t)wide_buf);
 		else {
 #endif
-		    ctrl_wide_buf_len = 1;
-		    ctrl_wide_buf[0] = (unsigned char)wide_buf;
+		    ctrl_mb_buf_len = 1;
+		    ctrl_mb_buf[0] = (unsigned char)wide_buf;
 #ifdef NANO_WIDE
 		}
 #endif
 
-		for (i = 0; i < ctrl_wide_buf_len; i++)
-		    converted[index++] = ctrl_wide_buf[i];
+		for (i = 0; i < ctrl_mb_buf_len; i++)
+		    converted[index++] = ctrl_mb_buf[i];
 
-		free(ctrl_wide_buf);
+		free(ctrl_mb_buf);
 
 #ifdef NANO_WIDE
 		if (!ISSET(NO_UTF8)) {
@@ -2327,7 +2326,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 #endif
 		    start_col++;
 
-		start_index += wide_buf_len;
+		start_index += mb_buf_len;
 	    }
 	}
 #ifdef NANO_WIDE
@@ -2335,22 +2334,22 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    converted[index++] = ' ';
 
 	    start_col++;
-	    start_index += wide_buf_len;
+	    start_index += mb_buf_len;
 	}
 #endif
     }
 
     while (index < alloc_len - 1 && buf[start_index] != '\0') {
-	int wide_buf, wide_buf_len;
+	int wide_buf, mb_buf_len;
 #ifdef NANO_WIDE
 	bool bad_char;
 #endif
 
-	wide_buf_len = parse_char(buf + start_index, &wide_buf, NULL
+	mb_buf_len = parse_char(buf + start_index, &wide_buf
 #ifdef NANO_WIDE
 		, &bad_char
 #endif
-		);
+		, NULL);
 
 	if (wide_buf == '\t') {
 	    converted[index++] =
@@ -2367,12 +2366,12 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	 * contains an invalid multibyte control character, interpret
 	 * that character as though it's a normal control character. */
 	} else if (is_cntrl_char(wide_buf)) {
-	    char *ctrl_wide_buf =
+	    char *ctrl_mb_buf =
 #ifdef NANO_WIDE
 		!ISSET(NO_UTF8) ? charalloc(MB_CUR_MAX) :
 #endif
 		charalloc(1);
-	    int ctrl_wide_buf_len, i;
+	    int ctrl_mb_buf_len, i;
 
 	    converted[index++] = '^';
 	    start_col++;
@@ -2380,20 +2379,20 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
 #ifdef NANO_WIDE
 	    if (!ISSET(NO_UTF8))
-		ctrl_wide_buf_len = wctomb(ctrl_wide_buf,
+		ctrl_mb_buf_len = wctomb(ctrl_mb_buf,
 			(wchar_t)wide_buf);
 	    else {
 #endif
-		ctrl_wide_buf_len = 1;
-		ctrl_wide_buf[0] = (unsigned char)wide_buf;
+		ctrl_mb_buf_len = 1;
+		ctrl_mb_buf[0] = (unsigned char)wide_buf;
 #ifdef NANO_WIDE
 	    }
 #endif
 
-	    for (i = 0; i < ctrl_wide_buf_len; i++)
-		converted[index++] = ctrl_wide_buf[i];
+	    for (i = 0; i < ctrl_mb_buf_len; i++)
+		converted[index++] = ctrl_mb_buf[i];
 
-	    free(ctrl_wide_buf);
+	    free(ctrl_mb_buf);
 
 #ifdef NANO_WIDE
 	    if (!ISSET(NO_UTF8)) {
@@ -2419,19 +2418,18 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	     * character, interpret that character as though it's a
 	     * normal non-control character. */
 	    if (!ISSET(NO_UTF8) && bad_char) {
-		char *bad_wide_buf = charalloc(MB_CUR_MAX);
-		int bad_wide_buf_len;
+		char *bad_mb_buf = charalloc(MB_CUR_MAX);
+		int bad_mb_buf_len;
 
-		bad_wide_buf_len = wctomb(bad_wide_buf,
-			(wchar_t)wide_buf);
+		bad_mb_buf_len = wctomb(bad_mb_buf, (wchar_t)wide_buf);
 
-		for (i = 0; i < bad_wide_buf_len; i++)
-		    converted[index++] = bad_wide_buf[i];
+		for (i = 0; i < bad_mb_buf_len; i++)
+		    converted[index++] = bad_mb_buf[i];
 
-		free(bad_wide_buf);
+		free(bad_mb_buf);
 	    } else {
 #endif
-		for (i = 0; i < wide_buf_len; i++)
+		for (i = 0; i < mb_buf_len; i++)
 		    converted[index++] = buf[start_index + i];
 #ifdef NANO_WIDE
 	    }
@@ -2446,7 +2444,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		start_col++;
 	}
 
-	start_index += wide_buf_len;
+	start_index += mb_buf_len;
     }
 
     if (index < alloc_len - 1)

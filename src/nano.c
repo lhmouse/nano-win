@@ -1178,12 +1178,11 @@ void do_delete(void)
     placewewant = xplustabs();
 
     if (current->data[current_x] != '\0') {
-	int char_len = parse_char(current->data + current_x, NULL,
-		NULL
+	int char_len = parse_char(current->data + current_x, NULL
 #ifdef NANO_WIDE
 		, NULL
 #endif
-		);
+		, NULL);
 	size_t line_len = strlen(current->data + current_x);
 
 	assert(current_x < strlen(current->data));
@@ -2501,11 +2500,11 @@ bool breakable(const char *line, ssize_t goal)
 	if (isblank(*line))
 	    return TRUE;
 
-	line += parse_char(line, NULL, &pos
+	line += parse_char(line, NULL
 #ifdef NANO_WIDE
 		, NULL
 #endif
-		);
+		, &pos);
 
 	goal -= pos;
     }
@@ -2539,11 +2538,11 @@ ssize_t break_line(const char *line, ssize_t goal, bool force)
 
 	assert(*line != '\t');
 
-	line_len = parse_char(line, NULL, &pos
+	line_len = parse_char(line, NULL
 #ifdef NANO_WIDE
 		, NULL
 #endif
-		);
+		, &pos);
 
 	goal -= pos;
 	line += line_len;

@@ -128,66 +128,66 @@ bool parse_num(const char *str, ssize_t *val)
     return TRUE;
 }
 
-/* Parse a multi-byte character from str.  Return the number of bytes
- * used.  If chr isn't NULL, store the wide character in it.  If col
- * isn't NULL, store the new display width in it.  If *str is '\t', we
- * expect col to have the current display width.  If bad_char isn't
- * NULL, set it to TRUE if we have a null byte or a bad multibyte
- * character. */
-int parse_char(const char *str, int *chr, size_t *col
+/* Parse a multibyte character from buf.  Return the number of bytes
+ * used.  If chr isn't NULL, store the wide character in it.  If
+ * bad_chr isn't NULL, set it to TRUE if we have a null byte or a bad
+ * multibyte character.  If col isn't NULL, store the new display width
+ * in it.  If *str is '\t', we expect col to have the current display
+ * width. */
+int parse_char(const char *buf, int *chr
 #ifdef NANO_WIDE
-	, bool *bad_char
+	, bool *bad_chr
 #endif
-	)
+	, size_t *col)
 {
-    int wide_str, wide_str_len;
+    int wide_buf, mb_buf_len;
 
-    assert(str != NULL);
+    assert(buf != NULL);
 
 #ifdef NANO_WIDE
-    if (bad_char != NULL)
-	*bad_char = FALSE;
+    if (bad_chr != NULL)
+	*bad_chr = FALSE;
 
     if (!ISSET(NO_UTF8)) {
 	wchar_t tmp;
 
 	/* Get the wide character equivalent of the multibyte
 	 * character. */
-	wide_str_len = mbtowc(&tmp, str, MB_CUR_MAX);
-	wide_str = (int)tmp;
+	mb_buf_len = mbtowc(&tmp, buf, MB_CUR_MAX);
+	wide_buf = (int)tmp;
 
-	/* If str contains a null byte or an invalid multibyte
-	 * character, interpret str's first byte as a single-byte
-	 * sequence and set bad_char to TRUE. */
-	if (wide_str_len <= 0) {
-	    wide_str_len = 1;
-	    wide_str = (unsigned char)*str;
-	    if (bad_char != NULL)
-		*bad_char = TRUE;
+	/* If buf contains a null byte or an invalid multibyte
+	 * character, interpret buf's first byte as a single-byte
+	 * sequence and set bad_chr to TRUE. */
+	if (mb_buf_len <= 0) {
+	    mb_buf_len = 1;
+	    wide_buf = (unsigned char)*buf;
+	    if (bad_chr != NULL)
+		*bad_chr = TRUE;
 	}
 
 	/* Save the wide character in chr. */
 	if (chr != NULL)
-	    *chr = wide_str;
+	    *chr = wide_buf;
 
 	/* Save the column width of the wide character in col. */
 	if (col != NULL) {
 	    /* If we have a tab, get its width in columns using the
 	     * current value of col. */
-	    if (wide_str == '\t')
+	    if (wide_buf == '\t')
 		*col += tabsize - *col % tabsize;
 	    /* If we have a control character, get its width using one
 	     * column for the "^" that will be displayed in front of it,
 	     * and the width in columns of its visible equivalent as
 	     * returned by control_rep(). */
-	    else if (is_cntrl_char(wide_str)) {
-		char *ctrl_wide_str = charalloc(MB_CUR_MAX);
+	    else if (is_cntrl_char(wide_buf)) {
+		char *ctrl_mb_buf = charalloc(MB_CUR_MAX);
 
 		(*col)++;
-		wide_str = control_rep((unsigned char)wide_str);
+		wide_buf = control_rep((unsigned char)wide_buf);
 
-		if (wctomb(ctrl_wide_str, (wchar_t)wide_str) != -1) {
-		    int width = wcwidth(wide_str);
+		if (wctomb(ctrl_mb_buf, (wchar_t)wide_buf) != -1) {
+		    int width = wcwidth((wchar_t)wide_buf);
 
 		    if (width != -1)
 			*col += width;
@@ -195,11 +195,11 @@ int parse_char(const char *str, int *chr, size_t *col
 		else
 		    (*col)++;
 
-		free(ctrl_wide_str);
+		free(ctrl_mb_buf);
 	    /* If we have a normal character, get its width in columns
 	     * normally. */
 	    } else {
-		int width = wcwidth(wide_str);
+		int width = wcwidth((wchar_t)wide_buf);
 
 		if (width != -1)
 		    *col += width;
@@ -207,25 +207,25 @@ int parse_char(const char *str, int *chr, size_t *col
 	}
     } else {
 #endif
-	/* Interpret str's first character as a single-byte sequence. */
-	wide_str_len = 1;
-	wide_str = (unsigned char)*str;
+	/* Interpret buf's first character as a single-byte sequence. */
+	mb_buf_len = 1;
+	wide_buf = (unsigned char)*buf;
 
 	/* Save the single-byte sequence in chr as though it's a wide
 	 * character. */
 	if (chr != NULL)
-	    *chr = wide_str;
+	    *chr = wide_buf;
 
 	if (col != NULL) {
 	    /* If we have a tab, get its width in columns using the
 	     * current value of col. */
-	    if (wide_str == '\t')
+	    if (wide_buf == '\t')
 		*col += tabsize - *col % tabsize;
 	    /* If we have a control character, it's two columns wide:
 	     * one column for the "^" that will be displayed in front of
 	     * it, and one column for its visible equivalent as returned
 	     * by control_rep(). */
-	    else if (is_cntrl_char(wide_str))
+	    else if (is_cntrl_char(wide_buf))
 		*col += 2;
 	    /* If we have a normal character, it's one column wide. */
 	    else
@@ -235,44 +235,44 @@ int parse_char(const char *str, int *chr, size_t *col
     }
 #endif
 
-    return wide_str_len;
+    return mb_buf_len;
 }
 
-/* Return the index in str of the beginning of the character before the
+/* Return the index in buf of the beginning of the character before the
  * one at pos. */
-size_t move_left(const char *str, size_t pos)
+size_t move_left(const char *buf, size_t pos)
 {
     size_t pos_prev = pos;
 
-    assert(str != NULL && pos <= strlen(str));
+    assert(str != NULL && pos <= strlen(buf));
 
     /* There is no library function to move backward one multibyte
      * character.  Here is the naive, O(pos) way to do it. */
     while (TRUE) {
-	int str_len = parse_char(str + pos - pos_prev, NULL, NULL
+	int mb_buf_len = parse_char(buf + pos - pos_prev, NULL
 #ifdef NANO_WIDE
 		, NULL
 #endif
-		);
+		, NULL);
 
-	if (pos_prev <= str_len)
+	if (pos_prev <= mb_buf_len)
 	    break;
 
-	pos_prev -= str_len;
+	pos_prev -= mb_buf_len;
     }
 
     return pos - pos_prev;
 }
 
-/* Return the index in str of the beginning of the character after the
+/* Return the index in buf of the beginning of the character after the
  * one at pos. */
-size_t move_right(const char *str, size_t pos)
+size_t move_right(const char *buf, size_t pos)
 {
-    return pos + parse_char(str + pos, NULL, NULL
+    return pos + parse_char(buf + pos, NULL
 #ifdef NANO_WIDE
 	, NULL
 #endif
-	);
+	, NULL);
 }
 
 /* Fix the memory allocation for a string. */

@@ -478,13 +478,13 @@ bool is_byte_char(int c);
 int num_of_digits(int n);
 unsigned char control_rep(unsigned char c);
 bool parse_num(const char *str, ssize_t *val);
-int parse_char(const char *str, int *chr, size_t *col
+int parse_char(const char *buf, int *chr
 #ifdef NANO_WIDE
-	, bool *bad_char
+	, bool *bad_chr
 #endif
-	);
-size_t move_left(const char *str, size_t pos);
-size_t move_right(const char *str, size_t pos);
+	, size_t *col);
+size_t move_left(const char *buf, size_t pos);
+size_t move_right(const char *buf, size_t pos);
 void align(char **strp);
 void null_at(char **data, size_t index);
 void unsunder(char *str, size_t true_len);
