@@ -7,7 +7,10 @@ CVS code -
 	- Unconditionally disable VDSUSP if it exists, stops ^Y
 	  suspending nano on the Hurd.
   help_init()
-	- Typo fixes in help strings.
+	- Typo fixes in help strings (Jordi).
+- files.c:
+  read_file()
+	- Make conversion message less confusing (suggested by Jordi).
 - winio.c:
   update_line()
 	- set realdata check to >= 1 && <= 31, lack of > 0 check screwed

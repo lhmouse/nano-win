@@ -259,9 +259,9 @@ int read_file(int fd, char *filename, int quiet)
 
 #ifndef NANO_SMALL
     if (fileformat == 2)
-	statusbar(_("Read %d lines (Converted Mac format)"), num_lines);
+	statusbar(_("Read %d lines (Converted from Mac format)"), num_lines);
     else if (fileformat == 1)
-	statusbar(_("Read %d lines (Converted DOS format)"), num_lines);
+	statusbar(_("Read %d lines (Converted from DOS format)"), num_lines);
     else
 #endif
 	statusbar(_("Read %d lines"), num_lines);
