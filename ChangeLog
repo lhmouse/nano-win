@@ -1,4 +1,6 @@
 CVS code -
+- AUTHORS
+	- Added Rocco Corsi.
 - search.c:
   findnextstr()
 	- Fix curent_x increment bug by using another variable (Rocco Corsi).
