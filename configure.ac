@@ -315,15 +315,9 @@ dnl Checks for libraries.
 if eval "test x$CURSES_LIB_NAME = x"
 then
     AC_CHECK_HEADERS(curses.h ncurses.h)
-    AC_CHECK_LIB(ncurses, tgetent, [CURSES_LIB="-lncurses" CURSES_LIB_NAME=ncurses])
+    AC_CHECK_LIB(ncurses, initscr, [CURSES_LIB="-lncurses" CURSES_LIB_NAME=ncurses])
 fi
 
-if eval "test x$CURSES_LIB_NAME = x"
-then
-    AC_CHECK_LIB(curses, tgetent, [CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses])
-fi
-
-# Fallback for PDCurses and less useful curses libs...
 if eval "test x$CURSES_LIB_NAME = x"
 then
     AC_CHECK_LIB(curses, initscr, [CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses])
@@ -343,7 +337,6 @@ then
 else
     AC_MSG_RESULT([Using $CURSES_LIB_NAME as the termcap library])
 fi
-
 
 AC_CHECK_LIB([$CURSES_LIB_NAME], use_default_colors, AC_DEFINE(HAVE_USE_DEFAULT_COLORS, 1, [Define this if your curses library has the use_default_colors command.]))
 

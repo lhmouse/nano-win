@@ -242,6 +242,10 @@ CVS code -
 	  function, set the fourth parameter to default to "no" (since
 	  it apparently only occurs on glibc 2.2.3-based systems) so
 	  that cross-compiling will work. (DLR, found by Mike Frysinger)
+	- Simplify the curses library tests by only checking for
+	  initscr(), which ncurses, curses, and pdcurses should all
+	  have, and not tgetent(), which is a termcap-specific function.
+	  (DLR)
 - nanorc.sample:
 	- Remove specific references to control key shortcuts other than
 	  XON and XOFF. (DLR)
