@@ -1443,6 +1443,7 @@ void do_credits(void)
 			"Erik Andersen",
 			"Big Gaute",
 			"Joshua Jensen",
+			"Ryan Krebs",
 			"",
 			specialthx,
 			"Plattsburgh State University",
