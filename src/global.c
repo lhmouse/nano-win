@@ -494,7 +494,7 @@ void shortcut_init(int unjustify)
     if (unjustify)
     /* Translators: try to keep this string under 10 characters long */
 	sc_init_one(&main_list, NANO_UNJUSTIFY_KEY, _("UnJustify"),
-		IFHELP(nano_unjustify_msg, NANO_NO_KEY), NANO_NO_KEY,
+		IFHELP(nano_unjustify_msg, NANO_NO_KEY), NANO_UNJUSTIFY_FKEY,
 		NANO_NO_KEY, NOVIEW, do_uncut_text);
     else
     /* Translators: try to keep this string under 10 characters long */

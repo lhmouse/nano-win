@@ -9,6 +9,9 @@ CVS code -
 	  NANO_NEXTLINE_KEY, and the help messages for them have been
 	  changed accordingly.  Also remove extraneous references to
 	  NANO_DOWN_KEY in the search history shortcut entries. (DLR)
+	- Add NANO_UNJUSTIFY_FKEY (the same as NANO_UNCUT_FKEY) to the
+	  shortcut list, and tweak the unjustify routine to use it.
+	  (DLR)
 - files.c:
   write_marked()
 	- New function used to write the current marked selection to a

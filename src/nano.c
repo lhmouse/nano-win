@@ -2663,7 +2663,7 @@ int do_para_operation(int operation)
 #endif
     }
 
-    if (i != NANO_UNJUSTIFY_KEY) {
+    if (i != NANO_UNJUSTIFY_KEY && i != NANO_UNJUSTIFY_FKEY) {
 	ungetch(i);
 	/* Did we back up anything at all? */
 	if (cutbuffer != cutbuffer_save)
