@@ -2470,7 +2470,13 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	start_index += wide_buf_len;
     }
 
+    if (index < alloc_len)
+	converted[index] = '\0';
+
+    /* Make sure converted takes up no more than len columns. */
+    index = actual_x(converted, len);
     null_at(&converted, index);
+
     return converted;
 }
 
