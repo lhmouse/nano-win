@@ -47,3 +47,7 @@
 
 /* Define this to disable the built-in (crappy) file browser */
 #undef DISABLE_BROWSER
+
+/* Define this to disable any and all text wrapping */
+#undef DISABLE_WRAPPING
+

@@ -370,9 +370,10 @@ AC_DEFUN(AM_WITH_NLS,
 
 	   if test "$gt_cv_func_gettext_libc" != "yes"; then
 	     AC_CHECK_LIB(intl, bindtextdomain,
-	       [AC_CACHE_VAL(gt_cv_func_gettext_libintl,
+	       [AC_CACHE_CHECK([for gettext in libintl],
+		 gt_cv_func_gettext_libintl,
 		 [AC_CHECK_LIB(intl, gettext,
-		  [gt_cv_func_gettext_libintl=yes; LIBS="$LIBS -lintl"],
+		  gt_cv_func_gettext_libintl=yes,
 		  gt_cv_func_gettext_libintl=no)],
 		 gt_cv_func_gettext_libintl=no)])
 	   fi

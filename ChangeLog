@@ -1,4 +1,10 @@
 CVS -
+- General:
+	- added configure option --disable-wrapping.  Does what it says,
+	  no wrapping or checks are done.  Separate from --enable-tiny,
+	  some may want a barebones Pico clone that does wrap text.
+	  Affects configure, nano.c:do_char() and check_wrap() obviously,
+	  version(), and do_char().
 - aclocal.m4:
 	- Minor patch for intl check (really this time) (Albert Chin)
 - faq.html:

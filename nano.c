@@ -395,8 +395,10 @@ void usage(void)
 	   (" -t 		--tempfile		Auto save on exit, don't prompt\n"));
     printf(_
 	   (" -v 		--view			View (read only) mode\n"));
+#ifndef DISABLE_WRAPPING
     printf(_
 	   (" -w 		--nowrap		Don't wrap long lines\n"));
+#endif
     printf(_
 	   (" -x 		--nohelp		Don't show help window\n"));
     printf(_
@@ -429,7 +431,9 @@ void usage(void)
 #endif
     printf(_(" -t 		Auto save on exit, don't prompt\n"));
     printf(_(" -v 		View (read only) mode\n"));
+#ifndef DISABLE_WRAPPING
     printf(_(" -w 		Don't wrap long lines\n"));
+#endif
     printf(_(" -x 		Don't show help window\n"));
     printf(_(" -z 		Enable suspend\n"));
     printf(_(" +LINE		Start at line number LINE\n"));
@@ -469,6 +473,9 @@ void version(void)
  #endif
 #endif
 
+#ifdef DISABLE_WRAPPING
+    printf(" --disable-wrapping");
+#endif
 #ifdef USE_SLANG
     printf(" --with-slang");
 #endif
@@ -558,8 +565,11 @@ void do_char(char ch)
     current->data[current_x] = ch;
     do_right();
 
+#ifndef DISABLE_WRAPPING
     if (!ISSET(NO_WRAP) && (ch != '\t'))
 	check_wrap(current, ch);
+#endif
+
     set_modified();
     check_statblank();
     UNSET(KEEP_CUTBUFFER);
@@ -688,6 +698,7 @@ void do_next_word(void)
 
 }
 
+#ifndef DISABLE_WRAPPING
 void do_wrap(filestruct * inptr, char input_char)
 {
     int i = 0;			/* Index into ->data for line. */
@@ -1043,6 +1054,7 @@ void check_wrap(filestruct * inptr, char ch)
 	    do_wrap(inptr, ch);
     }
 }
+#endif /* DISABLE_WRAPPING */
 
 /* Stuff we do when we abort from programs and want to clean up the
  * screen.  This doesnt do much right now.
@@ -2279,8 +2291,13 @@ int main(int argc, char *argv[])
 	    SET(VIEW_MODE);
 	    break;
 	case 'w':
+#ifdef DISABLE_WRAPPING
+	    usage();
+	    exit(0);
+#else
 	    SET(NO_WRAP);
 	    break;
+#endif /* DISABLE_WRAPPING */
 	case 'x':
 	    SET(NO_HELP);
 	    break;

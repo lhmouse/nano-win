@@ -404,6 +404,11 @@ This options disables all the above.  It also disables some of
 the larger internals of the editor, like the marker code (^^) and
 the cut to line (-k) option which it depends on to work properly.
 It also disables the function toggles and mouse support.
+
+@item --disable-wrapping
+Disables all word wrapping in the editor.  This also eliminates the 
+-w command line flag, as nonwrapping is then the default behavior.
+
 @end table
 
 @contents
