@@ -84,11 +84,11 @@ char *strstrwrapper(char *haystack, char *needle)
 {
 #ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP)) {
-      int result=regexec(&search_regexp, haystack, 10, regmatches, 0);
-      if (!result)
-          return haystack+regmatches[0].rm_so;
-      return 0;
-    }  
+	int result = regexec(&search_regexp, haystack, 10, regmatches, 0);
+	if (!result)
+	    return haystack + regmatches[0].rm_so;
+	return 0;
+    }
 #endif
     if (ISSET(CASE_SENSITIVE))
 	return strstr(haystack, needle);
@@ -120,7 +120,8 @@ void *nrealloc(void *ptr, size_t howmuch)
 }
 
 /* Append a new magic-line to filebot */
-void new_magicline(void) {
+void new_magicline(void)
+{
     filebot->next = nmalloc(sizeof(filestruct));
     filebot->next->data = nmalloc(1);
     filebot->next->data[0] = '\0';

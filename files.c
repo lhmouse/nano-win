@@ -336,7 +336,7 @@ int write_file(char *name, int tmp)
 	    if (ISSET(TEMP_OPT)) {
 		UNSET(TEMP_OPT);
 		return do_writeout(1);
-    	    }
+	    }
 	    statusbar(_("Could not open file for writing: %s"),
 		      strerror(errno));
 	    return -1;
@@ -346,7 +346,8 @@ int write_file(char *name, int tmp)
     dump_buffer(fileage);
     while (fileptr != NULL && fileptr->next != NULL) {
 	/* Next line is so we discount the "magic line" */
-	if(filebot == fileptr && fileptr->data[0] == '\0') break;
+	if (filebot == fileptr && fileptr->data[0] == '\0')
+	    break;
 
 	size = write(fd, fileptr->data, strlen(fileptr->data));
 	if (size == -1) {
@@ -446,14 +447,11 @@ int do_writeout(int exiting)
     strncpy(answer, filename, 132);
 
     if ((exiting) && (ISSET(TEMP_OPT))) {
-	if (filename[0])
-	{
+	if (filename[0]) {
 	    i = write_file(answer, 0);
 	    display_main_list();
 	    return i;
-	}
-	else
-	{
+	} else {
 	    UNSET(TEMP_OPT);
 	    do_exit();
 

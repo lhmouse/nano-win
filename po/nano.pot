@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-10-24 01:12-0400\n"
+"POT-Creation-Date: 2000-10-25 21:35-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,11 +55,11 @@ msgstr ""
 msgid "File to insert [from ./] "
 msgstr ""
 
-#: files.c:274 files.c:298 files.c:488 nano.c:1133
+#: files.c:274 files.c:298 files.c:486 nano.c:1134
 msgid "Cancelled"
 msgstr ""
 
-#: files.c:320 files.c:340 files.c:353 files.c:370 files.c:376
+#: files.c:320 files.c:340 files.c:354 files.c:371 files.c:377
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr ""
@@ -68,42 +68,42 @@ msgstr ""
 msgid "Could not open file: Path length exceeded."
 msgstr ""
 
-#: files.c:358
+#: files.c:359
 #, c-format
 msgid "Wrote >%s\n"
 msgstr ""
 
-#: files.c:385
+#: files.c:386
 #, c-format
 msgid "Could not close %s: %s"
 msgstr ""
 
 #. Try a rename??
-#: files.c:406 files.c:417 files.c:422
+#: files.c:407 files.c:418 files.c:423
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr ""
 
-#: files.c:428
+#: files.c:429
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr ""
 
-#: files.c:435
+#: files.c:436
 #, c-format
 msgid "Wrote %d lines"
 msgstr ""
 
-#: files.c:467
+#: files.c:465
 msgid "File Name to write"
 msgstr ""
 
-#: files.c:472
+#: files.c:470
 #, c-format
 msgid "filename is %s"
 msgstr ""
 
-#: files.c:477
+#: files.c:475
 msgid "File exists, OVERWRITE ?"
 msgstr ""
 
@@ -263,129 +263,137 @@ msgstr ""
 msgid "Cancel the current function"
 msgstr ""
 
-#: global.c:210 global.c:322 global.c:394
+#: global.c:207
+msgid "Use the null string, \"\""
+msgstr ""
+
+#: global.c:211 global.c:323 global.c:400
 msgid "Get Help"
 msgstr ""
 
-#: global.c:213 global.c:221
+#: global.c:214 global.c:222
 msgid "WriteOut"
 msgstr ""
 
-#: global.c:217 global.c:383
+#: global.c:218 global.c:389
 msgid "Exit"
 msgstr ""
 
-#: global.c:225 global.c:318 global.c:339 global.c:358
+#: global.c:226 global.c:319 global.c:341 global.c:361
 msgid "Goto Line"
 msgstr ""
 
-#: global.c:230 global.c:309
+#: global.c:231 global.c:310
 msgid "Justify"
 msgstr ""
 
-#: global.c:234 global.c:305 global.c:336
+#: global.c:235 global.c:306 global.c:337
 msgid "Replace"
 msgstr ""
 
-#: global.c:238
+#: global.c:239
 msgid "Read File"
 msgstr ""
 
-#: global.c:242
+#: global.c:243
 msgid "Where Is"
 msgstr ""
 
-#: global.c:246 global.c:375
+#: global.c:247 global.c:381
 msgid "Prev Page"
 msgstr ""
 
-#: global.c:250 global.c:379
+#: global.c:251 global.c:385
 msgid "Next Page"
 msgstr ""
 
-#: global.c:254
+#: global.c:255
 msgid "Cut Text"
 msgstr ""
 
-#: global.c:257
+#: global.c:258
 msgid "UnCut Txt"
 msgstr ""
 
-#: global.c:261
+#: global.c:262
 msgid "Cur Pos"
 msgstr ""
 
-#: global.c:265
+#: global.c:266
 msgid "To Spell"
 msgstr ""
 
-#: global.c:269
+#: global.c:270
 msgid "Up"
 msgstr ""
 
-#: global.c:272
+#: global.c:273
 msgid "Down"
 msgstr ""
 
-#: global.c:275
+#: global.c:276
 msgid "Forward"
 msgstr ""
 
-#: global.c:278
+#: global.c:279
 msgid "Back"
 msgstr ""
 
-#: global.c:281
+#: global.c:282
 msgid "Home"
 msgstr ""
 
-#: global.c:284
+#: global.c:285
 msgid "End"
 msgstr ""
 
-#: global.c:287
+#: global.c:288
 msgid "Refresh"
 msgstr ""
 
-#: global.c:290
+#: global.c:291
 msgid "Mark Text"
 msgstr ""
 
-#: global.c:293
+#: global.c:294
 msgid "Delete"
 msgstr ""
 
-#: global.c:297
+#: global.c:298
 msgid "Backspace"
 msgstr ""
 
-#: global.c:301
+#: global.c:302
 msgid "Tab"
 msgstr ""
 
-#: global.c:313
+#: global.c:314
 msgid "Enter"
 msgstr ""
 
-#: global.c:326 global.c:346 global.c:365
+#: global.c:327 global.c:348 global.c:371
 msgid "First Line"
 msgstr ""
 
-#: global.c:329 global.c:349 global.c:368
+#: global.c:330 global.c:351 global.c:374
 msgid "Last Line"
 msgstr ""
 
-#: global.c:332 global.c:352
+#: global.c:333 global.c:354
 msgid "Case Sens"
 msgstr ""
 
-#: global.c:342 global.c:361 global.c:371 global.c:387 global.c:391
-#: global.c:397 winio.c:979
+#: global.c:344 global.c:367 global.c:377 global.c:393 global.c:397
+#: global.c:403 winio.c:971
 msgid "Cancel"
 msgstr ""
 
-#: global.c:355
+#: global.c:357
 msgid "No Replace"
+msgstr ""
+
+#: global.c:364
+msgid "Null Str"
 msgstr ""
 
 #: nano.c:115
@@ -597,57 +605,57 @@ msgstr ""
 msgid " nano version %s by Chris Allegretta (compiled %s, %s)\n"
 msgstr ""
 
-#: nano.c:402
+#: nano.c:403
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org\n"
 msgstr ""
 
-#: nano.c:437
+#: nano.c:438
 msgid "Mark Set"
 msgstr ""
 
-#: nano.c:442
+#: nano.c:443
 msgid "Mark UNset"
 msgstr ""
 
-#: nano.c:868
+#: nano.c:870
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr ""
 
-#: nano.c:919
+#: nano.c:921
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr ""
 
-#: nano.c:972
+#: nano.c:974
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr ""
 
-#: nano.c:1042
+#: nano.c:1043
 msgid "Error deleting tempfile, ack!"
 msgstr ""
 
-#: nano.c:1060
+#: nano.c:1061
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr ""
 
-#: nano.c:1083
+#: nano.c:1084
 #, c-format
 msgid "Could not invoke spell program \"%s\""
 msgstr ""
 
 #. Why 32512? I dont know!
-#: nano.c:1089
+#: nano.c:1090
 msgid "Could not invoke \"ispell\""
 msgstr ""
 
-#: nano.c:1102
+#: nano.c:1103
 msgid "Finished checking spelling"
 msgstr ""
 
-#: nano.c:1120
+#: nano.c:1121
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 
@@ -675,52 +683,52 @@ msgstr ""
 msgid "Cannot move bottom win"
 msgstr ""
 
-#: nano.c:1638
+#: nano.c:1635
 #, c-format
 msgid "%s enable/disable"
 msgstr ""
 
-#: nano.c:1650
+#: nano.c:1647
 msgid "enabled"
 msgstr ""
 
-#: nano.c:1651
+#: nano.c:1648
 msgid "disabled"
 msgstr ""
 
-#: nano.c:1881
+#: nano.c:1878
 msgid "Main: set up windows\n"
 msgstr ""
 
-#: nano.c:1895
+#: nano.c:1892
 msgid "Main: bottom win\n"
 msgstr ""
 
-#: nano.c:1901
+#: nano.c:1898
 msgid "Main: open file\n"
 msgstr ""
 
-#: nano.c:1935
+#: nano.c:1932
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:1959
+#: nano.c:1954
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:1992
+#: nano.c:1987
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2040
+#: nano.c:2035
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2066
+#: nano.c:2061
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr ""
@@ -735,21 +743,21 @@ msgstr ""
 msgid "Regexp Search%s%s"
 msgstr ""
 
-#: search.c:82
+#: search.c:81
 #, c-format
 msgid "Case Sensitive Search%s%s"
 msgstr ""
 
-#: search.c:84
+#: search.c:83
 #, c-format
 msgid "Search%s%s"
 msgstr ""
 
-#: search.c:87
+#: search.c:86
 msgid " (to replace)"
 msgstr ""
 
-#: search.c:95
+#: search.c:94
 msgid "Search Cancelled"
 msgstr ""
 
@@ -766,38 +774,44 @@ msgstr ""
 msgid "Replaced 1 occurence"
 msgstr ""
 
-#: search.c:392 search.c:413 search.c:436
+#: search.c:390 search.c:419 search.c:444
 msgid "Replace Cancelled"
 msgstr ""
 
-#: search.c:409
+#. They used ^N in the search field, shame on them.
+#. Any Dungeon fans out there?
+#: search.c:407
+msgid "Nothing Happens"
+msgstr ""
+
+#: search.c:415
 #, c-format
 msgid "Replace with [%s]"
 msgstr ""
 
 #. last_search is empty
-#: search.c:434
+#: search.c:442
 msgid "Replace with"
 msgstr ""
 
-#: search.c:475
+#: search.c:485
 msgid "Replace this instance?"
 msgstr ""
 
 #. Ask for it
-#: search.c:536
+#: search.c:546
 msgid "Enter line number"
 msgstr ""
 
-#: search.c:538
+#: search.c:548
 msgid "Aborted"
 msgstr ""
 
-#: search.c:558
+#: search.c:568
 msgid "Come on, be reasonable"
 msgstr ""
 
-#: search.c:563
+#: search.c:573
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr ""
@@ -824,50 +838,50 @@ msgstr ""
 msgid "Modified"
 msgstr ""
 
-#: winio.c:895
+#: winio.c:887
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr ""
 
-#: winio.c:906
+#: winio.c:898
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr ""
 
-#: winio.c:949
+#: winio.c:941
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr ""
 
-#: winio.c:974
+#: winio.c:966
 msgid "Yes"
 msgstr ""
 
-#: winio.c:976
+#: winio.c:968
 msgid "All"
 msgstr ""
 
-#: winio.c:978
+#: winio.c:970
 msgid "No"
 msgstr ""
 
-#: winio.c:1115
+#: winio.c:1107
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr ""
 
-#: winio.c:1119
+#: winio.c:1111
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr ""
 
-#: winio.c:1247
+#: winio.c:1239
 msgid "Dumping file buffer to stderr...\n"
 msgstr ""
 
-#: winio.c:1249
+#: winio.c:1241
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr ""
 
-#: winio.c:1251
+#: winio.c:1243
 msgid "Dumping a buffer to stderr...\n"
 msgstr ""

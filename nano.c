@@ -95,12 +95,12 @@ void die(char *msg, ...)
 
     /* if we can't save we have REAL bad problems,
      * but we might as well TRY. */
-    if(filename[0] == '\0') {
+    if (filename[0] == '\0') {
 	write_file("nano.save", 0);
     } else {
 	char buf[BUFSIZ];
-	strncpy(buf,filename,BUFSIZ);
-	strncat(buf,".save",BUFSIZ - strlen(buf));
+	strncpy(buf, filename, BUFSIZ);
+	strncat(buf, ".save", BUFSIZ - strlen(buf));
 	write_file(buf, 0);
     }
     /* Restore the old term settings */
@@ -321,7 +321,7 @@ void usage(void)
 	   (" -T 		--tabsize=[num]		Set width of a tab to num\n"));
 #ifdef HAVE_REGEX_H
     printf(_
-         (" -R		--regexp		Use regular expressions for search\n"));
+	   (" -R		--regexp		Use regular expressions for search\n"));
 #endif
     printf
 	(_
@@ -399,7 +399,8 @@ void version(void)
 {
     printf(_(" nano version %s by Chris Allegretta (compiled %s, %s)\n"),
 	   VERSION, __TIME__, __DATE__);
-    printf(_(" Email: nano@nano-editor.org	Web: http://www.nano-editor.org\n"));
+    printf(_
+	   (" Email: nano@nano-editor.org	Web: http://www.nano-editor.org\n"));
 }
 
 filestruct *make_new_node(filestruct * prevnode)
@@ -419,7 +420,7 @@ filestruct *make_new_node(filestruct * prevnode)
 }
 
 /* Splice a node into an existing filestruct */
-void splice_node(filestruct *begin, filestruct *new, filestruct *end)
+void splice_node(filestruct * begin, filestruct * new, filestruct * end)
 {
     new->next = end;
     new->prev = begin;
@@ -469,7 +470,7 @@ void do_char(char ch)
 {
     /* magic-line: when a character is inserted on the current magic line,
      * it means we need a new one! */
-    if(filebot == current && current->data[0] == '\0') {
+    if (filebot == current && current->data[0] == '\0') {
 	new_magicline();
 	fix_editbot();
     }
@@ -540,7 +541,7 @@ int do_enter(filestruct * inptr)
      */
     if (current_y == editwinrows - 1) {
 	edit_update(current, CENTER);
-	reset_cursor(); 
+	reset_cursor();
     } else {
 	current_y++;
 	edit_refresh();
@@ -624,7 +625,7 @@ void do_wrap(filestruct * inptr, char input_char)
 	    current_word_start_t = i_tabs;
 
 	    while (!isspace((int) inptr->data[i])
-				&& inptr->data[i]) {
+		   && inptr->data[i]) {
 		i++;
 		i_tabs++;
 		if (inptr->data[i] < 32)
@@ -763,7 +764,8 @@ void do_wrap(filestruct * inptr, char input_char)
 
 	    right = current_x - current_word_start;
 	    i = current_word_start - 1;
-	    if (isspace((int)input_char) && (current_x == current_word_start)) {
+	    if (isspace((int) input_char)
+		&& (current_x == current_word_start)) {
 		current_x = current_word_start;
 
 		null_at(inptr->data, current_word_start);
@@ -877,7 +879,7 @@ void check_wrap(filestruct * inptr, char ch)
 	/* Do not wrap if there are no words on or after wrap point. */
 	int char_found = 0;
 
-	while (isspace((int)inptr->data[i]) && inptr->data[i])
+	while (isspace((int) inptr->data[i]) && inptr->data[i])
 	    i++;
 
 	if (!inptr->data[i])
@@ -954,9 +956,9 @@ int do_backspace(void)
 	    editbot = current;
 
 	    /* Recreate the magic line if we're deleting it AND if the
-		line we're on now is NOT blank.  if it is blank we
-		can just use IT for the magic line.   This is how Pico
-		appears to do it, in any case */
+	       line we're on now is NOT blank.  if it is blank we
+	       can just use IT for the magic line.   This is how Pico
+	       appears to do it, in any case */
 	    if (strcmp(current->data, "")) {
 		new_magicline();
 		fix_editbot();
@@ -1010,8 +1012,7 @@ int do_delete(void)
 
 	/* Please see the comment in do_basckspace if you don't understand
 	   this test */
-	if (current == filebot && strcmp(current->data, ""))
-	{
+	if (current == filebot && strcmp(current->data, "")) {
 	    new_magicline();
 	    fix_editbot();
 	    totsize++;
@@ -1185,20 +1186,19 @@ void do_mouse(void)
     }
     current_x = mevent.x;
     placewewant = current_x;
-    while(foo < current_x) {
-	if(current->data[foo] == NANO_CONTROL_I) {
+    while (foo < current_x) {
+	if (current->data[foo] == NANO_CONTROL_I) {
 	    current_x -= tabsize - (foo % tabsize);
 	    tab_found = 1;
-	} else if(current->data[foo] & 0x80)
-	    ;
-	else if(current->data[foo] < 32)
+	} else if (current->data[foo] & 0x80);
+	else if (current->data[foo] < 32)
 	    current_x--;
 	foo++;
     }
     /* This is where tab_found comes in.  I can't figure out why,
      * but without it any line with a tab will place the cursor
      * one character behind.  Whatever, this fixes it. */
-    if(tab_found == 1)
+    if (tab_found == 1)
 	current_x++;
 
     if (current_x > strlen(current->data))
@@ -1227,7 +1227,7 @@ RETSIGTYPE do_suspend(int signal)
     sigaction(SIGTSTP, &act, NULL);
 
     endwin();
-    fprintf(stderr,"\n\n\n\n\nUse \"fg\" to return to nano\n");
+    fprintf(stderr, "\n\n\n\n\nUse \"fg\" to return to nano\n");
     raise(SIGTSTP);
 }
 
@@ -1321,14 +1321,12 @@ void signal_init(void)
 
     if (!ISSET(SUSPEND)) {
 	sigaction(SIGTSTP, &act, NULL);
-    }
-    else
-    {
+    } else {
 	act.sa_handler = do_suspend;
 	sigaction(SIGTSTP, &act, NULL);
 
 	act.sa_handler = do_cont;
-	sigaction (SIGCONT, &act, NULL);
+	sigaction(SIGCONT, &act, NULL);
     }
 
 
@@ -1350,8 +1348,7 @@ void window_init(void)
 
     /* And the other windows */
     topwin = newwin(2, COLS, 0, 0);
-    bottomwin = newwin(3 - no_help(), COLS, LINES - 3 + no_help(), 0);\
-
+    bottomwin = newwin(3 - no_help(), COLS, LINES - 3 + no_help(), 0);
 }
 
 void mouse_init(void)
@@ -1365,8 +1362,7 @@ void mouse_init(void)
 	mousemask(BUTTON1_RELEASED, NULL);
 	mouseinterval(50);
 
-    }
-    else {
+    } else {
 	mousemask(0, NULL);
 	keypad(edit, FALSE);
 	keypad(bottomwin, FALSE);
@@ -1500,8 +1496,8 @@ int do_justify(void)
     slen = strlen(current->data);
     totsize += slen;
 
-    if((strlenpt(current->data) > (fill))
-           && !no_spaces(current->data)) {
+    if ((strlenpt(current->data) > (fill))
+	&& !no_spaces(current->data)) {
 	do {
 	    int i = 0;
 	    int len2 = 0;
@@ -1516,11 +1512,12 @@ int do_justify(void)
 		i = slen;
 	    for (; i > 0; i--) {
 		if (isspace((int) current->data[i]) &&
-		    ((strlenpt(current->data) - strlen(current->data +i)) <=
-		     fill)) break;
+		    ((strlenpt(current->data) - strlen(current->data + i))
+		     <= fill))
+		    break;
 	    }
 	    if (!i)
-	        break;
+		break;
 
 	    current->data[i] = '\0';
 
@@ -1542,8 +1539,8 @@ int do_justify(void)
 	    current = tmpline;
 	    slen -= i + 1;
 	    current_y++;
-        } while ((strlenpt(current->data) > (fill))
-		&& !no_spaces(current->data));
+	} while ((strlenpt(current->data) > (fill))
+		 && !no_spaces(current->data));
     }
 
     if (current->next)
@@ -1610,13 +1607,13 @@ void help_init(void)
 
 	if (main_list[i].misc1 > KEY_F0 && main_list[i].misc1 <= KEY_F(64))
 	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "(F%d)	",
-			     main_list[i].misc1 - KEY_F0);
+			      main_list[i].misc1 - KEY_F0);
 	else
 	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "	");
 
 	if (main_list[i].altval > 0)
 	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "(M-%c)	",
-			     main_list[i].altval - 32);
+			      main_list[i].altval - 32);
 	else
 	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar, "	");
 
@@ -1631,12 +1628,12 @@ void help_init(void)
 
     /* And the toggles... */
     for (i = 0; i <= TOGGLE_LEN - 1; i++) {
-	sofar = snprintf(buf, BUFSIZ, 
-	"M-%c			", toggles[i].val - 32 );
+	sofar = snprintf(buf, BUFSIZ,
+			 "M-%c			", toggles[i].val - 32);
 
 	if (toggles[i].desc != NULL)
-	    snprintf(&buf[sofar], BUFSIZ - sofar, _("%s enable/disable"), 
-		toggles[i].desc);
+	    snprintf(&buf[sofar], BUFSIZ - sofar, _("%s enable/disable"),
+		     toggles[i].desc);
 
 	strcat(help_text, buf);
 	strcat(help_text, "\n");
@@ -1677,13 +1674,13 @@ void do_toggle(int which)
 
     if (!ISSET(toggles[which].flag)) {
 	if (toggles[which].val == TOGGLE_NOHELP_KEY ||
-	   toggles[which].val == TOGGLE_WRAP_KEY)
+	    toggles[which].val == TOGGLE_WRAP_KEY)
 	    statusbar("%s %s", toggles[which].desc, enabled);
 	else
 	    statusbar("%s %s", toggles[which].desc, disabled);
     } else {
 	if (toggles[which].val == TOGGLE_NOHELP_KEY ||
-	   toggles[which].val == TOGGLE_WRAP_KEY)
+	    toggles[which].val == TOGGLE_WRAP_KEY)
 	    statusbar("%s %s", toggles[which].desc, disabled);
 	else
 	    statusbar("%s %s", toggles[which].desc, enabled);
@@ -1711,7 +1708,7 @@ int main(int argc, char *argv[])
     int option_index = 0;
     struct option long_options[] = {
 #ifdef HAVE_REGEX_H
-        {"regexp", 0, 0, 'R'},
+	{"regexp", 0, 0, 'R'},
 #endif
 	{"version", 0, 0, 'V'},
 	{"const", 0, 0, 'c'},
@@ -1925,97 +1922,95 @@ int main(int argc, char *argv[])
 	kbinput = wgetch(edit);
 	if (kbinput == 27) {	/* Grab Alt-key stuff first */
 	    switch (kbinput = wgetch(edit)) {
-	    /* Alt-O, suddenly very important ;) */
+		/* Alt-O, suddenly very important ;) */
 	    case 79:
 		kbinput = wgetch(edit);
 		if (kbinput <= 'S' && kbinput >= 'P')
-		     kbinput = KEY_F(kbinput  - 79);
+		    kbinput = KEY_F(kbinput - 79);
 #ifdef DEBUG
 		else {
-		    	fprintf(stderr, _("I got Alt-O-%c! (%d)\n"),
-			kbinput, kbinput);
-			break;
+		    fprintf(stderr, _("I got Alt-O-%c! (%d)\n"),
+			    kbinput, kbinput);
+		    break;
 		}
 #endif
 		break;
 	    case 91:
 
 		switch (kbinput = wgetch(edit)) {
-		case '1': /* Alt-[-1-[0-5,7-9] = F1-F8 in X at least */
+		case '1':	/* Alt-[-1-[0-5,7-9] = F1-F8 in X at least */
 		    kbinput = wgetch(edit);
 		    if (kbinput >= '1' && kbinput <= '5') {
-			    kbinput = KEY_F(kbinput - 48);
-			    wgetch(edit);
-		    }
-		    else if (kbinput >= '7' && kbinput <= '9') {
-			    kbinput = KEY_F(kbinput - 49);
-			    wgetch(edit);
-		    }
-		    else if (kbinput == 126)
-			    kbinput = KEY_HOME;
+			kbinput = KEY_F(kbinput - 48);
+			wgetch(edit);
+		    } else if (kbinput >= '7' && kbinput <= '9') {
+			kbinput = KEY_F(kbinput - 49);
+			wgetch(edit);
+		    } else if (kbinput == 126)
+			kbinput = KEY_HOME;
 
 #ifdef DEBUG
 		    else {
-		    	    fprintf(stderr, _("I got Alt-[-1-%c! (%d)\n"),
-			    kbinput, kbinput);
-			    break;
+			fprintf(stderr, _("I got Alt-[-1-%c! (%d)\n"),
+				kbinput, kbinput);
+			break;
 		    }
 #endif
 
 		    break;
-		case '2': /* Alt-[-2-[0,1,3,4] = F9-F12 in many terms */
+		case '2':	/* Alt-[-2-[0,1,3,4] = F9-F12 in many terms */
 		    kbinput = wgetch(edit);
 		    switch (kbinput) {
-			case '0':
-			    kbinput = KEY_F(9);
-			    wgetch(edit);
-			    break;
-			case '1':
-			    kbinput = KEY_F(10);
-			    wgetch(edit);
-			    break;
-			case '3':
-			    kbinput = KEY_F(11);
-			    wgetch(edit);
-			    break;
-			case '4':
-			    kbinput = KEY_F(12);
-			    wgetch(edit);
-			    break;			    
-			case 126:	/* Hack, make insert key do something 
-					   usefile, like insert file */
-			    do_insertfile();
-			    keyhandled = 1;
-			    break;
+		    case '0':
+			kbinput = KEY_F(9);
+			wgetch(edit);
+			break;
+		    case '1':
+			kbinput = KEY_F(10);
+			wgetch(edit);
+			break;
+		    case '3':
+			kbinput = KEY_F(11);
+			wgetch(edit);
+			break;
+		    case '4':
+			kbinput = KEY_F(12);
+			wgetch(edit);
+			break;
+		    case 126:	/* Hack, make insert key do something 
+				   usefile, like insert file */
+			do_insertfile();
+			keyhandled = 1;
+			break;
 #ifdef DEBUG
-			default:
-		    	    fprintf(stderr, _("I got Alt-[-2-%c! (%d)\n"),
-			    kbinput, kbinput);
-			    break;
+		    default:
+			fprintf(stderr, _("I got Alt-[-2-%c! (%d)\n"),
+				kbinput, kbinput);
+			break;
 #endif
 
 		    }
 		    break;
-		case '3': /* Alt-[-3 = Delete? */
+		case '3':	/* Alt-[-3 = Delete? */
 		    kbinput = NANO_DELETE_KEY;
 		    wgetch(edit);
 		    break;
-		case '4': /* Alt-[-4 = End? */
+		case '4':	/* Alt-[-4 = End? */
 		    kbinput = NANO_END_KEY;
 		    wgetch(edit);
 		    break;
-		case '5': /* Alt-[-5 = Page Up */
+		case '5':	/* Alt-[-5 = Page Up */
 		    kbinput = KEY_PPAGE;
 		    wgetch(edit);
 		    break;
-		case '6': /* Alt-[-6 = Page Down */
+		case '6':	/* Alt-[-6 = Page Down */
 		    kbinput = KEY_NPAGE;
 		    wgetch(edit);
 		    break;
-		case '[': /* Alt-[-[-[A-E], F1-F5 in linux console */
+		case '[':	/* Alt-[-[-[A-E], F1-F5 in linux console */
 		    kbinput = wgetch(edit);
-		     if (kbinput >= 'A' && kbinput <= 'E')
-		 	kbinput = KEY_F(kbinput - 64);
+		    if (kbinput >= 'A' && kbinput <= 'E')
+			kbinput = KEY_F(kbinput - 64);
 		    break;
 		case 'A':
 		    kbinput = KEY_UP;
@@ -2049,17 +2044,17 @@ int main(int argc, char *argv[])
 		for (i = 0; i <= MAIN_LIST_LEN - 1; i++)
 		    if (kbinput == main_list[i].altval ||
 			kbinput == main_list[i].altval - 32) {
-			    kbinput = main_list[i].val;
-			    break;
+			kbinput = main_list[i].val;
+			break;
 		    }
 #ifndef NANO_SMALL
 		/* And for toggle switches */
 		for (i = 0; i <= TOGGLE_LEN - 1 && !keyhandled; i++)
 		    if (kbinput == toggles[i].val ||
 			kbinput == toggles[i].val - 32) {
-			    do_toggle(i);
-			    keyhandled = 1;
-			    break;
+			do_toggle(i);
+			keyhandled = 1;
+			break;
 		    }
 #endif
 #ifdef DEBUG
@@ -2112,11 +2107,11 @@ int main(int argc, char *argv[])
 	    case -1:
 	    case 410:		/* Must ignore this, it gets sent when we resize */
 #ifdef PDCURSES
-	    case 541:	/* ???? */
-	    case 542:	/* Control and alt in Windows *shrug* */
+	    case 541:		/* ???? */
+	    case 542:		/* Control and alt in Windows *shrug* */
 	    case 544:
 #endif
-		
+
 		break;
 	    default:
 #ifdef DEBUG

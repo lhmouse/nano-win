@@ -83,9 +83,9 @@ toggle toggles[TOGGLE_LEN];
 /* Regular expressions */
 
 #ifdef HAVE_REGEX_H
-regex_t search_regexp;          /* Global to store compiled search regexp */
-regmatch_t regmatches[10];      /* Match positions for parenthetical
-                                   subexpressions, max of 10 */ 
+regex_t search_regexp;		/* Global to store compiled search regexp */
+regmatch_t regmatches[10];	/* Match positions for parenthetical
+				   subexpressions, max of 10 */
 #endif
 
 /* Initialize a struct *without* our lovely braces =( */
@@ -117,7 +117,7 @@ void toggle_init(void)
 	*toggle_nohelp_msg, *toggle_picomode_msg, *toggle_mouse_msg,
 	*toggle_cuttoend_msg, *toggle_wrap_msg;
 #ifdef HAVE_REGEX_H
-    char *toggle_regexp_msg;  
+    char *toggle_regexp_msg;
 #endif
 
     toggle_const_msg = _("Constant cursor position");
@@ -128,29 +128,29 @@ void toggle_init(void)
     toggle_mouse_msg = _("Mouse support");
     toggle_cuttoend_msg = _("Cut to end");
 #ifdef HAVE_REGEX_H
-    toggle_regexp_msg = _("Regular expressions");  
+    toggle_regexp_msg = _("Regular expressions");
 #endif
     toggle_wrap_msg = _("Auto wrap");
 
-    toggle_init_one(&toggles[0], TOGGLE_CONST_KEY, toggle_const_msg, 
-	CONSTUPDATE);
-    toggle_init_one(&toggles[1], TOGGLE_AUTOINDENT_KEY, toggle_autoindent_msg, 
-	AUTOINDENT);
-    toggle_init_one(&toggles[2], TOGGLE_SUSPEND_KEY, toggle_suspend_msg, 
-	SUSPEND);
-    toggle_init_one(&toggles[3], TOGGLE_NOHELP_KEY, toggle_nohelp_msg, 
-	NO_HELP);
-    toggle_init_one(&toggles[4], TOGGLE_PICOMODE_KEY, toggle_picomode_msg, 
-	PICO_MSGS);
-    toggle_init_one(&toggles[5], TOGGLE_WRAP_KEY, toggle_wrap_msg, 
-	NO_WRAP);
-    toggle_init_one(&toggles[6], TOGGLE_MOUSE_KEY, toggle_mouse_msg, 
-	USE_MOUSE);
-    toggle_init_one(&toggles[7], TOGGLE_CUTTOEND_KEY, toggle_cuttoend_msg, 
-	CUT_TO_END);
+    toggle_init_one(&toggles[0], TOGGLE_CONST_KEY, toggle_const_msg,
+		    CONSTUPDATE);
+    toggle_init_one(&toggles[1], TOGGLE_AUTOINDENT_KEY,
+		    toggle_autoindent_msg, AUTOINDENT);
+    toggle_init_one(&toggles[2], TOGGLE_SUSPEND_KEY, toggle_suspend_msg,
+		    SUSPEND);
+    toggle_init_one(&toggles[3], TOGGLE_NOHELP_KEY, toggle_nohelp_msg,
+		    NO_HELP);
+    toggle_init_one(&toggles[4], TOGGLE_PICOMODE_KEY, toggle_picomode_msg,
+		    PICO_MSGS);
+    toggle_init_one(&toggles[5], TOGGLE_WRAP_KEY, toggle_wrap_msg,
+		    NO_WRAP);
+    toggle_init_one(&toggles[6], TOGGLE_MOUSE_KEY, toggle_mouse_msg,
+		    USE_MOUSE);
+    toggle_init_one(&toggles[7], TOGGLE_CUTTOEND_KEY, toggle_cuttoend_msg,
+		    CUT_TO_END);
 #ifdef HAVE_REGEX_H
-    toggle_init_one(&toggles[8], TOGGLE_REGEXP_KEY, toggle_regexp_msg, 
-	USE_REGEXP);
+    toggle_init_one(&toggles[8], TOGGLE_REGEXP_KEY, toggle_regexp_msg,
+		    USE_REGEXP);
 #endif
 #endif
 }
@@ -169,7 +169,7 @@ void shortcut_init(void)
 	"", *nano_mark_msg = "", *nano_delete_msg =
 	"", *nano_backspace_msg = "", *nano_tab_msg =
 	"", *nano_enter_msg = "", *nano_case_msg =
-	"", *nano_cancel_msg = "";
+	"", *nano_cancel_msg = "", *nano_null_msg = "";
 
 #ifndef NANO_SMALL
     nano_help_msg = _("Invoke the help menu");
@@ -204,6 +204,7 @@ void shortcut_init(void)
     nano_case_msg =
 	_("Make the current search or replace case (in)sensitive");
     nano_cancel_msg = _("Cancel the current function");
+    nano_null_msg = _("Use the null string, \"\"");
 #endif
 
     if (ISSET(PICO_MSGS))
@@ -228,7 +229,7 @@ void shortcut_init(void)
 
     if (ISSET(PICO_MSGS))
 	sc_init_one(&main_list[3], NANO_JUSTIFY_KEY, _("Justify"),
-		    nano_justify_msg, 0, NANO_JUSTIFY_FKEY, 0, 
+		    nano_justify_msg, 0, NANO_JUSTIFY_FKEY, 0,
 		    NOVIEW, do_justify);
     else
 	sc_init_one(&main_list[3], NANO_REPLACE_KEY, _("Replace"),
@@ -307,7 +308,7 @@ void shortcut_init(void)
 		    NANO_ALT_R, NANO_REPLACE_FKEY, 0, NOVIEW, do_replace);
     else
 	sc_init_one(&main_list[23], NANO_JUSTIFY_KEY, _("Justify"),
-		    nano_justify_msg, 0, NANO_JUSTIFY_FKEY, 0, 
+		    nano_justify_msg, 0, NANO_JUSTIFY_FKEY, 0,
 		    NOVIEW, do_justify);
 
     sc_init_one(&main_list[24], NANO_ENTER_KEY, _("Enter"),
@@ -336,8 +337,9 @@ void shortcut_init(void)
     sc_init_one(&whereis_list[3], NANO_OTHERSEARCH_KEY, _("Replace"),
 		nano_replace_msg, 0, 0, 0, VIEW, do_replace);
 
-    sc_init_one(&whereis_list[4], NANO_FROMSEARCHTOGOTO_KEY, _("Goto Line"),
-		nano_goto_msg, 0, 0, 0, VIEW, do_gotoline_void);
+    sc_init_one(&whereis_list[4], NANO_FROMSEARCHTOGOTO_KEY,
+		_("Goto Line"), nano_goto_msg, 0, 0, 0, VIEW,
+		do_gotoline_void);
 
     sc_init_one(&whereis_list[5], NANO_CANCEL_KEY, _("Cancel"),
 		nano_cancel_msg, 0, 0, 0, VIEW, 0);
@@ -355,10 +357,14 @@ void shortcut_init(void)
     sc_init_one(&replace_list[3], NANO_OTHERSEARCH_KEY, _("No Replace"),
 		nano_whereis_msg, 0, 0, 0, VIEW, do_search);
 
-    sc_init_one(&replace_list[4], NANO_FROMSEARCHTOGOTO_KEY, _("Goto Line"),
-		nano_goto_msg, 0, 0, 0, VIEW, do_gotoline_void);
+    sc_init_one(&replace_list[4], NANO_FROMSEARCHTOGOTO_KEY,
+		_("Goto Line"), nano_goto_msg, 0, 0, 0, VIEW,
+		do_gotoline_void);
 
-    sc_init_one(&replace_list[5], NANO_CANCEL_KEY, _("Cancel"),
+    sc_init_one(&replace_list[5], NANO_NULL_KEY, _("Null Str"),
+		nano_null_msg, 0, 0, 0, VIEW, 0);
+
+    sc_init_one(&replace_list[6], NANO_CANCEL_KEY, _("Cancel"),
 		nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
 

@@ -259,8 +259,8 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 	xend = strlen(buf) + strlen(inputbuf);
 
 	switch (kbinput) {
-	/* Stuff we want to equate with <enter>, ASCII 13 */
-	case 343:	
+	    /* Stuff we want to equate with <enter>, ASCII 13 */
+	case 343:
 	    ungetch(13);	/* Enter on iris-ansi $TERM, sometimes */
 	    break;
 
@@ -605,110 +605,106 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 #ifndef NANO_SMALL
     /* There are quite a few cases that could take place, we'll deal
      * with them each in turn */
-    if (ISSET(MARK_ISSET)    
+    if (ISSET(MARK_ISSET)
 	&& !((fileptr->lineno > mark_beginbuf->lineno
-	     && fileptr->lineno > current->lineno)
-	    || (fileptr->lineno < mark_beginbuf->lineno
-		&& fileptr->lineno < current->lineno)))
-    {
-	    /* If we get here we are on a line that is atleast
-	     * partially selected.  The lineno checks above determined
-	     * that */
-	    if (fileptr != mark_beginbuf && fileptr != current) {
-		/* We are on a completely marked line, paint it all
-		 * inverse */
+	      && fileptr->lineno > current->lineno)
+	     || (fileptr->lineno < mark_beginbuf->lineno
+		 && fileptr->lineno < current->lineno))) {
+	/* If we get here we are on a line that is atleast
+	 * partially selected.  The lineno checks above determined
+	 * that */
+	if (fileptr != mark_beginbuf && fileptr != current) {
+	    /* We are on a completely marked line, paint it all
+	     * inverse */
+	    wattron(edit, A_REVERSE);
+	    mvwaddnstr(edit, yval, 0, fileptr->data, COLS);
+	    wattroff(edit, A_REVERSE);
+	} else if (fileptr == mark_beginbuf && fileptr == current) {
+	    /* Special case, we're still on the same line we started
+	     * marking -- so we call our helper function */
+	    if (virt_cur_x < virt_mark_beginx) {
+		/* To the right of us is marked */
+		add_marked_sameline(virt_cur_x, virt_mark_beginx,
+				    fileptr, yval, virt_cur_x, this_page);
+	    } else {
+		/* To the left of us is marked */
+		add_marked_sameline(virt_mark_beginx, virt_cur_x,
+				    fileptr, yval, virt_cur_x, this_page);
+	    }
+	} else if (fileptr == mark_beginbuf) {
+	    /*
+	     * we're updating the line that was first marked
+	     * but we're not currently on it.  So we want to
+	     * figur out which half to invert based on our
+	     * relative line numbers.
+	     *
+	     * i.e. If we're above the "beginbuf" line, we want to
+	     * mark the left side.  Otherwise we're below, so we
+	     * mark the right
+	     */
+	    int target;
+
+	    if (mark_beginbuf->lineno > current->lineno)
 		wattron(edit, A_REVERSE);
-		mvwaddnstr(edit, yval, 0, fileptr->data, COLS);
+
+	    target =
+		(virt_mark_beginx <
+		 COLS - 1) ? virt_mark_beginx : COLS - 1;
+
+	    mvwaddnstr(edit, yval, 0, fileptr->data, target);
+
+	    if (mark_beginbuf->lineno < current->lineno)
+		wattron(edit, A_REVERSE);
+	    else
 		wattroff(edit, A_REVERSE);
-	    } else if (fileptr == mark_beginbuf && fileptr == current) {
-		/* Special case, we're still on the same line we started
-		 * marking -- so we call our helper function */
-		if (virt_cur_x < virt_mark_beginx) {
-		    /* To the right of us is marked */
-		    add_marked_sameline(virt_cur_x, virt_mark_beginx,
-					fileptr, yval, virt_cur_x,
-					this_page);
-		} else {
-		    /* To the left of us is marked */
-		    add_marked_sameline(virt_mark_beginx, virt_cur_x,
-					fileptr, yval, virt_cur_x,
-					this_page);
-		}
-	    } else if (fileptr == mark_beginbuf) {
-		/*
-		 * we're updating the line that was first marked
-		 * but we're not currently on it.  So we want to
-		 * figur out which half to invert based on our
-		 * relative line numbers.
-		 *
-		 * i.e. If we're above the "beginbuf" line, we want to
-		 * mark the left side.  Otherwise we're below, so we
-		 * mark the right
-		 */
-		int target;
 
-		if (mark_beginbuf->lineno > current->lineno)
-		    wattron(edit, A_REVERSE);
+	    target = (COLS - 1) - virt_mark_beginx;
+	    if (target < 0)
+		target = 0;
 
-		target =
-		    (virt_mark_beginx <
-		     COLS - 1) ? virt_mark_beginx : COLS - 1;
+	    mvwaddnstr(edit, yval, virt_mark_beginx,
+		       &fileptr->data[virt_mark_beginx], target);
 
-		mvwaddnstr(edit, yval, 0, fileptr->data, target);
+	    if (mark_beginbuf->lineno < current->lineno)
+		wattroff(edit, A_REVERSE);
 
-		if (mark_beginbuf->lineno < current->lineno)
-		    wattron(edit, A_REVERSE);
-		else
-		    wattroff(edit, A_REVERSE);
+	} else if (fileptr == current) {
+	    /* we're on the cursors line, but it's not the first
+	     * one we marked.  Similar to the previous logic. */
+	    int this_page_start = get_page_start_virtual(this_page),
+		this_page_end = get_page_end_virtual(this_page);
 
-		target = (COLS - 1) - virt_mark_beginx;
-		if (target < 0)
-		    target = 0;
+	    if (mark_beginbuf->lineno < current->lineno)
+		wattron(edit, A_REVERSE);
 
-		mvwaddnstr(edit, yval, virt_mark_beginx,
-			   &fileptr->data[virt_mark_beginx], target);
+	    if (virt_cur_x > COLS - 2) {
+		mvwaddnstr(edit, yval, 0,
+			   &fileptr->data[this_page_start],
+			   virt_cur_x - this_page_start);
+	    } else {
+		mvwaddnstr(edit, yval, 0, fileptr->data, virt_cur_x);
+	    }
 
-		if (mark_beginbuf->lineno < current->lineno)
-		    wattroff(edit, A_REVERSE);
+	    if (mark_beginbuf->lineno > current->lineno)
+		wattron(edit, A_REVERSE);
+	    else
+		wattroff(edit, A_REVERSE);
 
-	    } else if (fileptr == current) {
-		/* we're on the cursors line, but it's not the first
-		 * one we marked.  Similar to the previous logic. */
-		int this_page_start = get_page_start_virtual(this_page),
-		    this_page_end = get_page_end_virtual(this_page);
+	    if (virt_cur_x > COLS - 2)
+		mvwaddnstr(edit, yval, virt_cur_x - this_page_start,
+			   &fileptr->data[virt_cur_x],
+			   this_page_end - virt_cur_x);
+	    else
+		mvwaddnstr(edit, yval, virt_cur_x,
+			   &fileptr->data[virt_cur_x], COLS - virt_cur_x);
 
-		if (mark_beginbuf->lineno < current->lineno)
-		    wattron(edit, A_REVERSE);
-
-		if (virt_cur_x > COLS - 2) {
-		    mvwaddnstr(edit, yval, 0,
-			       &fileptr->data[this_page_start],
-			       virt_cur_x - this_page_start);
-		} else {
-		    mvwaddnstr(edit, yval, 0, fileptr->data, virt_cur_x);
-		}
-
-		if (mark_beginbuf->lineno > current->lineno)
-		    wattron(edit, A_REVERSE);
-		else
-		    wattroff(edit, A_REVERSE);
-
-		if (virt_cur_x > COLS - 2)
-		    mvwaddnstr(edit, yval, virt_cur_x - this_page_start,
-			       &fileptr->data[virt_cur_x],
-			       this_page_end - virt_cur_x);
-		else
-		    mvwaddnstr(edit, yval, virt_cur_x,
-			       &fileptr->data[virt_cur_x],
-			       COLS - virt_cur_x);
-
-		if (mark_beginbuf->lineno > current->lineno)
-		    wattroff(edit, A_REVERSE);
+	    if (mark_beginbuf->lineno > current->lineno)
+		wattroff(edit, A_REVERSE);
 	}
 
     } else
 #endif
-    /* Just paint the string (no mark on this line) */
+	/* Just paint the string (no mark on this line) */
 	mvwaddnstr(edit, yval, 0, &fileptr->data[start],
 		   get_page_end_virtual(this_page) - start);
 }
@@ -760,9 +756,8 @@ void update_line(filestruct * fileptr, int index)
 		virt_cur_x--;
 	    if (i < mark_beginx)
 		virt_mark_beginx--;
-	} 
-	else if (realdata[i] >= 1 && realdata[i] <= 26) {
-	/* Treat control characters as ^letter */
+	} else if (realdata[i] >= 1 && realdata[i] <= 26) {
+	    /* Treat control characters as ^letter */
 	    fileptr->data[pos++] = '^';
 	    fileptr->data[pos++] = realdata[i] + 64;
 	} else {
@@ -828,12 +823,10 @@ void edit_refresh(void)
     }
     /* If noloop == 1, then we already did an edit_update without finishing
        this function.  So we don't run edit_update again */
-    if (!currentcheck && !noloop) /* Then current has run off the screen... */ 
-    {
+    if (!currentcheck && !noloop) {	/* Then current has run off the screen... */
 	edit_update(current, CENTER);
 	noloop = 1;
-    }
-    else if (noloop)
+    } else if (noloop)
 	noloop = 0;
 
     if (lines <= editwinrows - 1)
@@ -870,8 +863,7 @@ void edit_update(filestruct * fileptr, int topmidbot)
 	return;
 
     temp = fileptr;
-    if (topmidbot == 2)
-	;
+    if (topmidbot == 2);
     else if (topmidbot == 0)
 	for (i = 0; i <= editwinrows - 1 && temp->prev != NULL; i++)
 	    temp = temp->prev;
@@ -1186,7 +1178,7 @@ int do_help(void)
 	}
 
 	if (i > 1) {
-	    
+
 	}
 
 	i = 0;
@@ -1274,10 +1266,10 @@ void dump_buffer_reverse(filestruct * inptr)
 }
 
 /* Fix editbot based on the assumption that edittop is correct */
-void fix_editbot(void) {
+void fix_editbot(void)
+{
     int i;
     editbot = edittop;
-    for(i = 0; (i <= editwinrows - 1) && (editbot->next != NULL)
-	&& (editbot != filebot); i++, editbot = editbot->next);
+    for (i = 0; (i <= editwinrows - 1) && (editbot->next != NULL)
+	 && (editbot != filebot); i++, editbot = editbot->next);
 }
-

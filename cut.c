@@ -123,7 +123,7 @@ void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
 	    filebot = top;
 	}
     }
-     if (top->lineno < edittop->lineno)
+    if (top->lineno < edittop->lineno)
 	edit_update(top, CENTER);
 }
 #endif
@@ -152,20 +152,17 @@ int do_cut_text(void)
     }
 
     /* Must let cutbuffer get blown away first before we do this... */
-    if (fileptr == filebot && !ISSET(MARK_ISSET))	
+    if (fileptr == filebot && !ISSET(MARK_ISSET))
 	return 0;
 
 #ifndef NANO_SMALL
     if (ISSET(CUT_TO_END) && !ISSET(MARK_ISSET)) {
-	if (current_x == strlen(current->data))
-	{
+	if (current_x == strlen(current->data)) {
 	    do_delete();
 	    SET(KEEP_CUTBUFFER);
 	    marked_cut = 2;
 	    return 1;
-	}
-	else
-	{
+	} else {
 	    SET(MARK_ISSET);
 	    SET(KEEP_CUTBUFFER);
 
@@ -227,7 +224,7 @@ int do_cut_text(void)
 	    tmp = fileptr;
 	    fileage = fileptr;
 	    add_to_cutbuffer(fileptr->prev);
-	    totsize--; /* get the newline */
+	    totsize--;		/* get the newline */
 	    totlines--;
 	    fileptr->prev = NULL;
 	    current = fileptr;
@@ -247,10 +244,10 @@ int do_cut_text(void)
 	    (fileptr->next)->prev = fileptr->prev;
 	    current = fileptr->next;
 	    totlines--;
-	    totsize--; /* get the newline */
-	}	/* No longer an else here, because we never get here anymore...
-		   No need to cut the magic line, as it's empty */
-
+	    totsize--;		/* get the newline */
+	}
+	/* No longer an else here, because we never get here anymore...
+	   No need to cut the magic line, as it's empty */
 	add_to_cutbuffer(fileptr);
     }
 
@@ -404,7 +401,7 @@ int do_uncut_text(void)
 
     i = editbot->lineno;
     renumber(newbuf);
-     if (i < newend->lineno)
+    if (i < newend->lineno)
 	edit_update(fileptr, CENTER);
 
     dump_buffer_reverse(fileptr);

@@ -57,7 +57,7 @@ int page_down(void)
 
     if (editbot != filebot || edittop == fileage) {
 	current_y = 0;
-        current = editbot;
+	current = editbot;
 
 	if (current->prev != NULL)
 	    current = current->prev;

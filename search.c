@@ -36,7 +36,7 @@
 
 static char last_search[132] = "";	/* Last string we searched for */
 static char last_replace[132] = "";	/* Last replacement string */
-static int search_last_line;		
+static int search_last_line;
 
 
 /* Regular expression helper functions */
@@ -66,7 +66,7 @@ int search_init(int replacing)
     int i;
     char buf[BUFSIZ];
     char *prompt, *reprompt = "";
- 
+
     if (last_search[0]) {
 	snprintf(buf, BUFSIZ, " [%s]", last_search);
     } else {
@@ -74,18 +74,17 @@ int search_init(int replacing)
     }
 
     if (ISSET(USE_REGEXP) && ISSET(CASE_SENSITIVE))
-        prompt = _("Case Sensitive Regexp Search%s%s");
+	prompt = _("Case Sensitive Regexp Search%s%s");
     else if (ISSET(USE_REGEXP))
-        prompt = _("Regexp Search%s%s");
-    else 
-    if (ISSET(CASE_SENSITIVE))
-        prompt = _("Case Sensitive Search%s%s");
+	prompt = _("Regexp Search%s%s");
+    else if (ISSET(CASE_SENSITIVE))
+	prompt = _("Case Sensitive Search%s%s");
     else
-        prompt = _("Search%s%s");
+	prompt = _("Search%s%s");
 
     if (replacing)
 	reprompt = _(" (to replace)");
-	        
+
     i = statusq(replacing ? replace_list : whereis_list,
 		replacing ? REPLACE_LIST_LEN : WHEREIS_LIST_LEN, "",
 		prompt, reprompt, buf);
@@ -98,14 +97,14 @@ int search_init(int replacing)
     } else if (i == -2) {	/* Same string */
 	strncpy(answer, last_search, 132);
 #ifdef HAVE_REGEX_H
-        if (ISSET(USE_REGEXP))
-            regexp_init(answer);
+	if (ISSET(USE_REGEXP))
+	    regexp_init(answer);
 #endif
     } else if (i == 0) {	/* They entered something new */
 	strncpy(last_search, answer, 132);
 #ifdef HAVE_REGEX_H
-        if (ISSET(USE_REGEXP))
-            regexp_init(answer);
+	if (ISSET(USE_REGEXP))
+	    regexp_init(answer);
 #endif
 	/* Blow away last_replace because they entered a new search
 	   string....uh, right? =) */
@@ -130,7 +129,8 @@ int search_init(int replacing)
     return 0;
 }
 
-filestruct *findnextstr(int quiet, filestruct * begin, int beginx, char *needle)
+filestruct *findnextstr(int quiet, filestruct * begin, int beginx,
+			char *needle)
 {
     filestruct *fileptr;
     char *searchstr, *found = NULL, *tmp;
@@ -141,20 +141,20 @@ filestruct *findnextstr(int quiet, filestruct * begin, int beginx, char *needle)
     current_x++;
 
     /* Are we searching the last line? (i.e. the line where search started) */
-    if ( (fileptr == begin) && (current_x < beginx) )
+    if ((fileptr == begin) && (current_x < beginx))
 	search_last_line = 1;
 
     /* Make sure we haven't passed the end of the string */
-    if ( strlen(fileptr->data) < current_x )
+    if (strlen(fileptr->data) < current_x)
 	current_x--;
 
     searchstr = &fileptr->data[current_x];
 
     /* Look for needle in searchstr */
-    while (( found = strstrwrapper(searchstr, needle)) == NULL) {
+    while ((found = strstrwrapper(searchstr, needle)) == NULL) {
 
 	/* finished processing file, get out */
-        if (search_last_line) {
+	if (search_last_line) {
 	    if (!quiet)
 		statusbar(_("\"%s\" not found"), needle);
 	    return NULL;
@@ -211,12 +211,12 @@ void search_abort(void)
     UNSET(KEEP_CUTBUFFER);
     display_main_list();
     wrefresh(bottomwin);
-    if (ISSET(MARK_ISSET)) 
+    if (ISSET(MARK_ISSET))
 	edit_refresh_clearok();
 
 #ifdef HAVE_REGEX_H
     if (ISSET(REGEXP_COMPILED))
-        regexp_cleanup();
+	regexp_cleanup();
 #endif
 }
 
@@ -274,8 +274,7 @@ int replace_regexp(char *string, int create_flag)
 
     char *c;
     int new_size = strlen(current->data) + 1;
-    int search_match_count = regmatches[0].rm_eo -
-        regmatches[0].rm_so;
+    int search_match_count = regmatches[0].rm_eo - regmatches[0].rm_so;
 
     new_size -= search_match_count;
 
@@ -284,50 +283,50 @@ int replace_regexp(char *string, int create_flag)
 
     c = last_replace;
     while (*c) {
-        if (*c != '\\') {
-            if (create_flag)
-                *string++=*c;
-            c++;
-            new_size++;
-        } else {
-            int num = (int)*(c+1) - (int)'0';
-            if (num >= 1 && num <= 9) {
+	if (*c != '\\') {
+	    if (create_flag)
+		*string++ = *c;
+	    c++;
+	    new_size++;
+	} else {
+	    int num = (int) *(c + 1) - (int) '0';
+	    if (num >= 1 && num <= 9) {
 
-                int i = regmatches[num].rm_so;
+		int i = regmatches[num].rm_so;
 
-                if (num > search_regexp.re_nsub) {
-                    /* Ugh, they specified a subexpression that doesn't
-                       exist.  */
-                    return -1;
-                }
+		if (num > search_regexp.re_nsub) {
+		    /* Ugh, they specified a subexpression that doesn't
+		       exist.  */
+		    return -1;
+		}
 
-                /* Skip over the replacement expression */
-                c+=2;
+		/* Skip over the replacement expression */
+		c += 2;
 
-                /* But add the length of the subexpression to new_size */
-                new_size += regmatches[num].rm_eo - regmatches[num].rm_so;
+		/* But add the length of the subexpression to new_size */
+		new_size += regmatches[num].rm_eo - regmatches[num].rm_so;
 
-                /* And if create_flag is set, append the result of the
-                 * subexpression match to the new line */
-                while (create_flag && i < regmatches[num].rm_eo )
-                    *string++=*(current->data + i++);
-               
-            } else {
-                if (create_flag)
-                    *string++=*c;
-                c++;
-                new_size++;
-            }
-        }
+		/* And if create_flag is set, append the result of the
+		 * subexpression match to the new line */
+		while (create_flag && i < regmatches[num].rm_eo)
+		    *string++ = *(current->data + i++);
+
+	    } else {
+		if (create_flag)
+		    *string++ = *c;
+		c++;
+		new_size++;
+	    }
+	}
     }
 
     if (create_flag)
-        *string = 0;
+	*string = 0;
 
     return new_size;
 }
 #endif
-    
+
 char *replace_line()
 {
     char *copy, *tmp;
@@ -337,22 +336,21 @@ char *replace_line()
     /* Calculate size of new line */
 #ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP)) {
-        search_match_count = regmatches[0].rm_eo -
-            regmatches[0].rm_so;
-        new_line_size = replace_regexp(NULL, 0);
-        /* If they specified an invalid subexpression in the replace
-         * text, return NULL indicating an error */
-        if (new_line_size < 0)
-            return NULL;
+	search_match_count = regmatches[0].rm_eo - regmatches[0].rm_so;
+	new_line_size = replace_regexp(NULL, 0);
+	/* If they specified an invalid subexpression in the replace
+	 * text, return NULL indicating an error */
+	if (new_line_size < 0)
+	    return NULL;
     } else {
 #else
     {
 #endif
-        search_match_count = strlen(last_search);
-        new_line_size = strlen(current->data) - strlen(last_search) +
-            strlen(last_replace) + 1;
+	search_match_count = strlen(last_search);
+	new_line_size = strlen(current->data) - strlen(last_search) +
+	    strlen(last_replace) + 1;
     }
-    
+
     /* Create buffer */
     copy = nmalloc(new_line_size);
 
@@ -362,10 +360,10 @@ char *replace_line()
 
     /* Replacement Text */
     if (!ISSET(USE_REGEXP))
-        strcat(copy, last_replace);
+	strcat(copy, last_replace);
 #ifdef HAVE_REGEX_H
     else
-        (void)replace_regexp(copy + current_x, 1);
+	(void) replace_regexp(copy + current_x, 1);
 #endif
 
     /* The tail of the original line */
@@ -402,6 +400,14 @@ int do_replace(void)
 	replace_abort();
 	return 0;
     }
+
+    if (!strcmp(answer, "")) {
+	/* They used ^N in the search field, shame on them.
+	   Any Dungeon fans out there? */
+	statusbar(_("Nothing Happens"));
+	replace_abort();
+	return 0;
+    }
     strncpy(prevanswer, answer, 132);
 
     if (strcmp(last_replace, "")) {	/* There's a previous replace str */
@@ -415,6 +421,8 @@ int do_replace(void)
 	    return 0;
 	} else if (i == 0)	/* They actually entered something */
 	    strncpy(last_replace, answer, 132);
+	else if (i == NANO_NULL_KEY)	/* They actually entered something */
+	    strcpy(last_replace, "");
 	else if (i == NANO_CASE_KEY) {	/* They asked for case sensitivity */
 	    if (ISSET(CASE_SENSITIVE))
 		UNSET(CASE_SENSITIVE);
@@ -423,7 +431,7 @@ int do_replace(void)
 
 	    do_replace();
 	    return 0;
-	} else if (i != -2 ) {		/* First page, last page, for example could get here */
+	} else if (i != -2) {	/* First page, last page, for example could get here */
 
 	    do_early_abort();
 	    replace_abort();
@@ -445,8 +453,10 @@ int do_replace(void)
 		SET(CASE_SENSITIVE);
 
 	    do_replace();
-	    return 1;
-	} else {		/* First line key, etc. */
+	    return -1;
+	} else if (i == NANO_NULL_KEY)
+	    strcpy(last_replace, "");
+	else {			/* First line key, etc. */
 
 	    do_early_abort();
 	    replace_abort();
@@ -478,12 +488,12 @@ int do_replace(void)
 	    if (i == 2)
 		replaceall = 1;
 
-            copy = replace_line();
-            if (!copy) {
-                statusbar("Replace failed: unknown subexpression!");
-                replace_abort();
+	    copy = replace_line();
+	    if (!copy) {
+		statusbar("Replace failed: unknown subexpression!");
+		replace_abort();
 		return 0;
-            }
+	    }
 
 	    /* Cleanup */
 	    free(current->data);
