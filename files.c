@@ -27,6 +27,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <ctype.h>
+#include <dirent.h>
 
 #include "config.h"
 #include "proto.h"
@@ -493,4 +495,194 @@ int do_writeout(int exiting)
 int do_writeout_void(void)
 {
     return do_writeout(0);
+}
+
+
+/*
+ * These functions (username_tab_completion, cwd_tab_completion, and
+ * input_tab were taken from busybox 0.46 (cmdedit.c).  Here is the notice
+ * from that file:
+ *
+ * Termios command line History and Editting, originally
+ * intended for NetBSD sh (ash)
+ * Copyright (c) 1999
+ *      Main code:            Adam Rogoyski <rogoyski@cs.utexas.edu>
+ *      Etc:                  Dave Cinege <dcinege@psychosis.com>
+ *  Majorly adjusted/re-written for busybox:
+ *                            Erik Andersen <andersee@debian.org>
+ *
+ * You may use this code as you wish, so long as the original author(s)
+ * are attributed in any redistributions of the source code.
+ * This code is 'as is' with no warranty.
+ * This code may safely be consumed by a BSD or GPL license.
+ */
+
+char **username_tab_completion(char *buf, int *num_matches)
+{
+    char **matches = (char **) NULL;
+    *num_matches = 0;
+#ifdef DEBUG
+    fprintf(stderr, "\nin username_tab_completion\n");
+#endif
+    return (matches);
+}
+
+/* This was originally called exe_n_cwd_tab_completion, but we're not
+   worried about executables, only filenames :> */
+
+char **cwd_tab_completion(char *buf, int *num_matches)
+{
+    char *dirName, *tmp = NULL;
+    char **matches = (char **) NULL;
+    DIR *dir;
+    struct dirent *next;
+
+    matches = malloc(sizeof(char *) * 50);
+
+    /* Stick a wildcard onto the buf, for later use */
+    strcat(buf, "*");
+
+    /* Now wall the current directory */
+/*    if (!strcmp(filename, ""))
+	dirName = get_current_dir_name(); */
+
+    if (strcmp(buf, "") && strstr(buf, "/")) {
+	dirName = malloc(strlen(buf) + 1);
+	tmp = buf + strlen(buf);
+	while (*tmp != '/' && tmp != buf)
+	   tmp--;
+	strncpy(dirName, buf, tmp - buf);
+	dirName[tmp - buf] = 0;
+	tmp++;
+
+    } else {
+	if ((dirName = getcwd(NULL, 0)) == NULL)
+	    return matches;
+	else
+	    tmp = buf;
+    }
+
+#ifdef DEBUG
+    fprintf(stderr, "\nDir = %s\n", dirName);
+    fprintf(stderr, "\nbuf = %s\n", buf);
+    fprintf(stderr, "\ntmp = %s\n", tmp);
+#endif
+    
+    dir = opendir(dirName);
+    if (!dir) {
+	/* Don't print an error, just shut up and return */
+	*num_matches = 0;
+	beep();
+	return (matches);
+    }
+    while ((next = readdir(dir)) != NULL) {
+
+	/* Some quick sanity checks */
+	if ((strcmp(next->d_name, "..") == 0)
+	    || (strcmp(next->d_name, ".") == 0)) {
+	    continue;
+	}
+#ifdef DEBUG
+	fprintf(stderr, "\nComparing \'%s\'\n", next->d_name);
+#endif
+	/* See if this matches */
+	if (check_wildcard_match(next->d_name, tmp) == TRUE) {
+	    /* Cool, found a match.  Add it to the list */
+	    matches[*num_matches] = malloc(strlen(next->d_name) + 1);
+	    strcpy(matches[*num_matches], next->d_name);
+	    ++*num_matches;
+	    //matches = realloc( matches, sizeof(char*)*(*num_matches));
+	}
+    }
+
+    return (matches);
+}
+
+/* This function now return an int which refers to how much the 
+ * statusbar (place) should be advanced, i.e. the new cursor pos.
+ */
+int input_tab(char *buf, int place, int lastWasTab)
+{
+    /* Do TAB completion */
+    static int num_matches = 0;
+    static char **matches = (char **) NULL;
+    int pos = place, newplace = 0;
+
+    if (lastWasTab == FALSE) {
+	char *tmp, *matchBuf;
+
+	/* For now, we will not bother with trying to distinguish
+	 * whether the cursor is in/at a command extression -- we
+	 * will always try all possible matches.  If you don't like
+	 * that then feel free to fix it.
+	 */
+
+	/* Make a local copy of the string -- up to the position of the
+	   cursor */
+	matchBuf = (char *) calloc(strlen(buf), sizeof(char));
+	strncpy(matchBuf, buf, place);
+	tmp = matchBuf;
+
+	/* skip any leading white space */
+	while (*tmp && isspace(*tmp))
+	    ++tmp;
+
+	/* Free up any memory already allocated */
+	if (matches != NULL) {
+	    free(matches);
+	    matches = (char **) NULL;
+	}
+
+	/* If the word starts with `~' and there is no slash in the word, 
+	 * then try completing this word as a username. */
+
+	/* FIXME -- this check is broken!
+	if (*tmp == '~' && !strchr(tmp, '/'))
+	    matches = username_tab_completion(tmp, &num_matches); */
+
+	/* Try to match everything in the current working directory that
+	 * matches.  */
+	if (!matches)
+	    matches = cwd_tab_completion(tmp, &num_matches);
+
+	/* Don't leak memory */
+	free(matchBuf);
+
+	/* Did we find exactly one match? */
+	if (matches && num_matches == 1) {
+	    buf = nrealloc(buf, strlen(buf) + strlen(matches[0]) - pos + 1);
+	    /* write out the matched command */
+	    strncpy(buf + pos, matches[0] + pos,
+		    strlen(matches[0]) - pos);
+	    newplace += strlen(matches[0]) - pos;
+	}
+    } else {
+	/* Ok -- the last char was a TAB.  Since they
+	 * just hit TAB again, print a list of all the
+	 * available choices... */
+	if (matches && num_matches > 0) {
+	    int i, col;
+
+	    /* Blank the edit window, and print the matches out there */
+	    blank_edit();
+	    wmove(edit, 0, 0);
+
+	    /* Print the list of matches */
+	    for (i = 0, col = 0; i < num_matches; i++) {
+		char foo[17];
+		sprintf(foo, "%-14s  ", matches[i]);
+		col += waddnstr(edit, foo, strlen(foo));
+		if (col > 60 && matches[i + 1] != NULL) {
+		    waddstr(edit, "\n");
+		    col = 0;
+		}
+	    }
+	    wrefresh(edit);
+	    num_matches = 0;
+	}
+
+    }
+
+    edit_refresh();
+    return newplace;
 }

@@ -87,7 +87,8 @@ int do_up(void);
 int do_down(void);
 int do_left(void);
 int do_right(void);
-
+int check_wildcard_match(const char *text, const char *pattern);
+int input_tab(char *buf, int place, int lastWasTab);
 
 void shortcut_init(void);
 void lowercase(char *src);
@@ -125,6 +126,7 @@ void new_magicline(void);
 void splice_node(filestruct *begin, filestruct *new, filestruct *end);
 void null_at(char *data, int index);
 void page_up_center(void);
+void blank_edit(void);
 void search_init_globals(void);
 void replace_abort(void);
 

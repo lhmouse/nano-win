@@ -247,7 +247,7 @@ void nanoget_repaint(char *buf, char *inputbuf, int x)
 int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 {
     int kbinput = 0, j = 0, x = 0, xend;
-    int x_left = 0, inputlen;
+    int x_left = 0, inputlen, tabbed = 0;
     char *inputbuf;
     
     inputbuf = nmalloc(strlen(def) + 1);
@@ -271,6 +271,9 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 	    }
 	}
 	xend = strlen(buf) + strlen(inputbuf);
+
+	if (kbinput != '\t')
+	    tabbed = 0;
 
 	switch (kbinput) {
 	    /* Stuff we want to equate with <enter>, ASCII 13 */
@@ -321,9 +324,22 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 		    inputbuf[strlen(inputbuf) - 1] = 0;
 		}
 	    }
-	    x--;
+	    if (x > strlen(buf))
+		x--;
 	    nanoget_repaint(buf, inputbuf, x);
-	    x++;
+	    break;
+	case NANO_CONTROL_I:
+	    tabbed++;
+#ifdef DEBUG
+	    fprintf(stderr, "Before call, x = %d\n", x);
+#endif
+	    x += input_tab(inputbuf, (x - x_left), tabbed - 1);
+#ifdef DEBUG
+	    fprintf(stderr, "After call, x = %d\n", x);
+#endif
+	    nanoget_repaint(buf, inputbuf, x);
+	    tabbed = 1;
+	    break;
 	case KEY_LEFT:
 	    if (x > strlen(buf))
 		x--;

@@ -19,6 +19,9 @@ CVS Code -
 	  New functions search_init_globals and do_replace_loop, changes
 	  to search_init(), do_replace, findnextstr, moved last_search and
 	  last_replace back to nano.c (*shrug*).
+	- New tab completion code.  Used check_wildcard_match, input_tab, 
+	  cwd_tab_completion, username_tab_completion from busybox, 
+	  hacked them a lot, changes to nanogetstr().
 - files.c:
   do_writeout()
 	- Change strcpy to answer to mallocstrcpy.
@@ -59,8 +62,8 @@ CVS Code -
 	  into statusbar" bug in odd $TERMs like iris-ansi.
 	- Changed check to return -2 on "enter" from answer == ""
 	  to answer == def.
-	- Silly kludge in backspace code to temporarily decrement x
-	  before refreshing to keep the cursor visually aligned.
+	- Fixed fallthrough code because there was no break.  Make much
+	  more sense now.
   nanoget_repaint()
 	- New function, removes about 30 lines of duplicate code in 
 	  nanogetstr().
