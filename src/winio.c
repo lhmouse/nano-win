@@ -66,7 +66,7 @@ static bool resetstatuspos = FALSE;
  * Escape sequence compatibility:
  *
  * We support escape sequences for ANSI, VT100, VT220, VT320, the Linux
- * console, the FreeBSD console, the Hurd console (a.k.a. the Mach
+ * console, the FreeBSD console, the Mach console (a.k.a. the Hurd
  * console), xterm, rxvt, and Eterm.  Among these, there are several
  * conflicts and omissions, outlined as follows:
  *
@@ -80,13 +80,13 @@ static bool resetstatuspos = FALSE;
  *   latter is omitted.  (Mouse input will only work properly if the
  *   extended keypad value KEY_MOUSE is generated on mouse events
  *   instead of the escape sequence.)
- * - F9 on FreeBSD console == PageDown on Hurd console; the former is
+ * - F9 on FreeBSD console == PageDown on Mach console; the former is
  *   omitted.  (The editing keypad is more important to have working
  *   than the function keys, because the functions of the former are not
  *   arbitrary and the functions of the latter are.)
- * - F10 on FreeBSD console == PageUp on Hurd console; the former is
+ * - F10 on FreeBSD console == PageUp on Mach console; the former is
  *   omitted.  (Same as above.)
- * - F13 on FreeBSD console == End on Hurd console; the former is
+ * - F13 on FreeBSD console == End on Mach console; the former is
  *   omitted.  (Same as above.)
  *
  * Note that Center (5) on the numeric keypad with NumLock off can also
@@ -681,38 +681,38 @@ int get_escape_seq_kbinput(const int *escape_seq, size_t es_len, bool
 			       * Eterm. */
 			retval = NANO_ENTER_KEY;
 			break;
-		    case 'P': /* Esc O P == F1 on VT100/VT220/VT320/Hurd
+		    case 'P': /* Esc O P == F1 on VT100/VT220/VT320/Mach
 			       * console. */
 			retval = KEY_F(1);
 			break;
-		    case 'Q': /* Esc O Q == F2 on VT100/VT220/VT320/Hurd
+		    case 'Q': /* Esc O Q == F2 on VT100/VT220/VT320/Mach
 			       * console. */
 			retval = KEY_F(2);
 			break;
-		    case 'R': /* Esc O R == F3 on VT100/VT220/VT320/Hurd
+		    case 'R': /* Esc O R == F3 on VT100/VT220/VT320/Mach
 			       * console. */
 			retval = KEY_F(3);
 			break;
-		    case 'S': /* Esc O S == F4 on VT100/VT220/VT320/Hurd
+		    case 'S': /* Esc O S == F4 on VT100/VT220/VT320/Mach
 			       * console. */
 			retval = KEY_F(4);
 			break;
-		    case 'T': /* Esc O T == F5 on Hurd console. */
+		    case 'T': /* Esc O T == F5 on Mach console. */
 			retval = KEY_F(5);
 			break;
-		    case 'U': /* Esc O U == F6 on Hurd console. */
+		    case 'U': /* Esc O U == F6 on Mach console. */
 			retval = KEY_F(6);
 			break;
-		    case 'V': /* Esc O V == F7 on Hurd console. */
+		    case 'V': /* Esc O V == F7 on Mach console. */
 			retval = KEY_F(7);
 			break;
-		    case 'W': /* Esc O W == F8 on Hurd console. */
+		    case 'W': /* Esc O W == F8 on Mach console. */
 			retval = KEY_F(8);
 			break;
-		    case 'X': /* Esc O X == F9 on Hurd console. */
+		    case 'X': /* Esc O X == F9 on Mach console. */
 			retval = KEY_F(9);
 			break;
-		    case 'Y': /* Esc O Y == F10 on Hurd console. */
+		    case 'Y': /* Esc O Y == F10 on Mach console. */
 			retval = KEY_F(10);
 			break;
 		    case 'a': /* Esc O a == Ctrl-Up on rxvt. */
@@ -963,23 +963,23 @@ int get_escape_seq_kbinput(const int *escape_seq, size_t es_len, bool
 		    case '8': /* Esc [ 8 ~ == End on rxvt. */
 			retval = NANO_END_KEY;
 			break;
-		    case '9': /* Esc [ 9 == Delete on Hurd console. */
+		    case '9': /* Esc [ 9 == Delete on Mach console. */
 			retval = NANO_DELETE_KEY;
 			break;
-		    case '@': /* Esc [ @ == Insert on Hurd console. */
+		    case '@': /* Esc [ @ == Insert on Mach console. */
 			retval = NANO_INSERTFILE_KEY;
 			break;
 		    case 'A': /* Esc [ A == Up on ANSI/VT220/Linux
-			       * console/FreeBSD console/Hurd console/
+			       * console/FreeBSD console/Mach console/
 			       * rxvt/Eterm. */
 		    case 'B': /* Esc [ B == Down on ANSI/VT220/Linux
-			       * console/FreeBSD console/Hurd console/
+			       * console/FreeBSD console/Mach console/
 			       * rxvt/Eterm. */
 		    case 'C': /* Esc [ C == Right on ANSI/VT220/Linux
-			       * console/FreeBSD console/Hurd console/
+			       * console/FreeBSD console/Mach console/
 			       * rxvt/Eterm. */
 		    case 'D': /* Esc [ D == Left on ANSI/VT220/Linux
-			       * console/FreeBSD console/Hurd console/
+			       * console/FreeBSD console/Mach console/
 			       * rxvt/Eterm. */
 			retval = get_escape_seq_abcd(escape_seq[1]);
 			break;
@@ -996,7 +996,7 @@ int get_escape_seq_kbinput(const int *escape_seq, size_t es_len, bool
 			retval = NANO_NEXTPAGE_KEY;
 			break;
 		    case 'H': /* Esc [ H == Home on ANSI/VT220/FreeBSD
-			       * console/Hurd console/Eterm. */
+			       * console/Mach console/Eterm. */
 			retval = NANO_HOME_KEY;
 			break;
 		    case 'I': /* Esc [ I == PageUp on FreeBSD
@@ -1053,10 +1053,10 @@ int get_escape_seq_kbinput(const int *escape_seq, size_t es_len, bool
 		    case 'T': /* Esc [ T == F8 on FreeBSD console. */
 			retval = KEY_F(8);
 			break;
-		    case 'U': /* Esc [ U == PageDown on Hurd console. */
+		    case 'U': /* Esc [ U == PageDown on Mach console. */
 			retval = NANO_NEXTPAGE_KEY;
 			break;
-		    case 'V': /* Esc [ V == PageUp on Hurd console. */
+		    case 'V': /* Esc [ V == PageUp on Mach console. */
 			retval = NANO_PREVPAGE_KEY;
 			break;
 		    case 'W': /* Esc [ W == F11 on FreeBSD console. */
@@ -1065,7 +1065,7 @@ int get_escape_seq_kbinput(const int *escape_seq, size_t es_len, bool
 		    case 'X': /* Esc [ X == F12 on FreeBSD console. */
 			retval = KEY_F(12);
 			break;
-		    case 'Y': /* Esc [ Y == End on Hurd console. */
+		    case 'Y': /* Esc [ Y == End on Mach console. */
 			retval = NANO_END_KEY;
 			break;
 		    case 'Z': /* Esc [ Z == F14 on FreeBSD console. */
