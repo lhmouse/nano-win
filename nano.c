@@ -511,6 +511,7 @@ void usage(void)
     printf(_(" -K		Use alternate keypad routines\n"));
 #ifndef NANO_SMALL
     printf(_(" -M 		Write file in Mac format\n"));
+    printf(_(" -N 		Don't convert files from DOS/Mac format\n"));
 #endif
 #ifndef DISABLE_JUSTIFY
     printf(_(" -Q [str] 	Quoting string, default \"> \"\n"));
