@@ -261,7 +261,7 @@ void nanoget_repaint(char *buf, char *inputbuf, int x)
 int nanogetstr(int allowtabs, char *buf, char *def, shortcut *s,
 	       int start_x, int list)
 {
-    int kbinput = 0, j = 0, x = 0, xend, slen;
+    int kbinput = 0, x = 0, xend, slen;
     int x_left = 0, inputlen, tabbed = 0;
     char *inputbuf;
     shortcut *t;
@@ -598,7 +598,7 @@ void clear_bottomwin(void)
 
 void bottombars(shortcut *s)
 {
-    int i, j, k;
+    int i, k;
     char keystr[10];
     shortcut *t;
     int slen;
@@ -1310,7 +1310,7 @@ int statusq(int tabs, shortcut *s, char *def, char *msg, ...)
 {
     va_list ap;
     char foo[133];
-    int ret, slen;
+    int ret;
 
 #ifndef DISABLE_TABCOMP
     int list = 0;
@@ -1669,7 +1669,6 @@ int do_help(void)
     int i, j, row = 0, page = 1, kbinput = 0, no_more = 0, kp, kp2;
     int no_help_flag = 0;
     shortcut *oldshortcut;
-    int oldslen;
 
     blank_edit();
     curs_set(0);

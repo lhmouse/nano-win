@@ -2711,7 +2711,7 @@ int main(int argc, char *argv[])
     int kbinput;		/* Input from keyboard */
     long startline = 0;		/* Line to try and start at */
     int keyhandled;		/* Have we handled the keystroke yet? */
-    int i, modify_control_seq;
+    int modify_control_seq;
     char *argv0;
     shortcut *s;
     toggle *t;
@@ -3277,8 +3277,9 @@ int main(int argc, char *argv[])
 	if (kbinput == 17 || kbinput == 19)
 	    keyhandled = 1;
 
-	/* Catch ^Z by hand when triggered also */
-	if (kbinput == 26) {
+	/* Catch ^Z by hand when triggered also 
+	   407 == ^Z in Linux console when keypad() is used? */
+	if (kbinput == 26 || kbinput == 407) {
 	    if (ISSET(SUSPEND))
 		do_suspend(0);
 	    keyhandled = 1;

@@ -28,6 +28,9 @@ CVS code -
 - nano.c:
   help_init()
 	- Added message re: having multiple blank buffers (DLR).
+  main()
+	- Add 407 as equiv of 26, this seems to be sent when using
+	  ^Z in linux console with keypad() enabled.
 - winio.c:
   do_cursorpos()
 	- Rewritten to show col place as well as charcter place, without
