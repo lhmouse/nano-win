@@ -1,4 +1,4 @@
-CVS code -
+nano 0.9.18 - 09/18/2000
 - General
 	- Changed _POSIX_VERSION checks in regex code to HAVE_REGEX_H, 
 	  added check for regex.h in configure.in.

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.9\n"
-"POT-Creation-Date: 2000-09-13 10:08-0400\n"
+"POT-Creation-Date: 2000-09-15 11:48-0400\n"
 "PO-Revision-Date: 2000-07-09 01:32+0100\n"
 "Last-Translator: Clement Laforet <sheep.killer@free.fr>\n"
 "Language-Team: French <LL@li.org>\n"
@@ -721,52 +721,52 @@ msgstr "Impossible de redimensionner la fenêtre du bas"
 msgid "Cannot move bottom win"
 msgstr "Impossible de bouger la fenêtre du bas"
 
-#: nano.c:1631
+#: nano.c:1637
 #, c-format
 msgid "%s enable/disable"
 msgstr ""
 
-#: nano.c:1643
+#: nano.c:1649
 msgid "enabled"
 msgstr ""
 
-#: nano.c:1644
+#: nano.c:1650
 msgid "disabled"
 msgstr ""
 
-#: nano.c:1872
+#: nano.c:1878
 msgid "Main: set up windows\n"
 msgstr "Main: configuration des fenêtres\n"
 
-#: nano.c:1879
+#: nano.c:1885
 msgid "Main: bottom win\n"
 msgstr "Main: fenêtre du bas\n"
 
-#: nano.c:1885
+#: nano.c:1891
 msgid "Main: open file\n"
 msgstr "Main: ouvrir fichier\n"
 
-#: nano.c:1919
+#: nano.c:1925
 #, fuzzy, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "J'ai reçu Alt-[-%c! (%d)\n"
 
-#: nano.c:1943
+#: nano.c:1949
 #, fuzzy, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "J'ai reçu Alt-[-%c! (%d)\n"
 
-#: nano.c:1968
+#: nano.c:1982
 #, fuzzy, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "J'ai reçu Alt-[-%c! (%d)\n"
 
-#: nano.c:2016
+#: nano.c:2030
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "J'ai reçu Alt-[-%c! (%d)\n"
 
-#: nano.c:2042
+#: nano.c:2056
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "J'ai reçu Alt-%c! (%d)\n"

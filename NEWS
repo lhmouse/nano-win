@@ -1,3 +1,11 @@
+09/18/2000 - Nano 0.9.18 is unleashed.  It has some new keyboard
+		handling code, cygwin support out of the box, and 
+		a more portable handler for the NOHELP toggle.  There
+		is also a fix for a somewhat serious bug whereby trying
+		to insert a directory instead of a normal file would
+		destroy the contents of the editor.  A must-see.  Four
+		stars.
+
 09/04/2000 - Nano 0.9.17, the Labor Day release, is released after a
 		quiet spell (almost an entire month since last release!)
 		New features include better (not yet perfect) binary
