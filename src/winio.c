@@ -1144,7 +1144,6 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		/* Have to do this here, it would be too late to do it
 		   in statusq() */
 		if (kbinput == NANO_HELP_KEY) {
-		    kbinput = NANO_HELP_KEY;
 		    do_help();
 		    break;
 		}
