@@ -63,11 +63,11 @@ bucky/meta key doesn't seem to work!&nbsp; What can I do?</a></font>
 &lt;insert keystroke here>!</a></font>
 <br><font color="#330000"><a href="#4.3">4.3. Nano crashes when I resize
 my window.&nbsp;&nbsp; How can I fix that?</a></font>
-<br><font color="#330000"><a href="#4.4">4.4. Why does nano show ^\ and
-^_ in the shortcut list instead of ^G and ^J?</a></font>
+<br><font color="#330000"><a href="#4.4">4.4. Why does nano show ^\
+in the shortcut list instead of ^J?</a></font>
 <br><font color="#330000"><a href="#4.5">4.5. When I type in a
 search string, the string I last searched for is already in front of
-my cursor!  !What happened?!</a></font>
+my cursor!  What happened?!</a></font>
 <br><font color="#330000"><a href="#4.6">4.6. I get the message "NumLock
 glitch detected.  Keypad will malfunction with NumLock off." What
 gives?</a></font>
@@ -156,8 +156,8 @@ to Unix flocked to Pico and Pine because of their well organized, easy
 to use interfaces.&nbsp; With the proliferation of GNU/Linux in the mid to
 late 90's, many University students became intimately familiar with the
 strengths (and weaknesses) of Pine and Pico.</font>
-<p><b><font color="#330000">Then came debian...</font></b>
-<p><font color="#330000">The <a href="http://www.debian.org">debian GNU/Linux</a>
+<p><b><font color="#330000">Then came Debian...</font></b>
+<p><font color="#330000">The <a href="http://www.debian.org">Debian GNU/Linux</a>
 distribution, known for its strict standards in distributing truly "free"
 software (i.e. had no restrictions on redistribution), would not include
 a binary package for Pine or Pico.&nbsp; Many people had a serious dilemma:&nbsp;
@@ -169,7 +169,7 @@ sense of the word.</font>
 hero) was yet again complaining to himself about the less-than-perfect
 license Pico was distributed under, the 1.0.1 makefiles that came with
 it and how just a few small improvements could make it the Best Editor
-in the World (TM).&nbsp; Having been a convert from Slackware to debian,
+in the World (TM).&nbsp; Having been a convert from Slackware to Debian,
 he missed having a simple binary package that included Pine and Pico, and
 had grown tired of downloading them himself.</font>
 <p><font color="#330000">Finally something snapped inside and Chris coded
@@ -177,12 +177,11 @@ and hacked like a madman for many hours straight one weekend to make a
 (barely usable) Pico clone, at the time called TIP (Tip Isn't Pico).&nbsp;
 The program could not be invoked without a filename, could not save files,
 had no help menu, spell checker, and so forth.&nbsp; But over time it improved,
-and with the help of a few great coders it matured to the almost stable
+and with the help of a few great coders it matured to the (hopefully) stable
 state it is today.
 <p><font color="#330000">In February 2001, nano has been declared an
-official GNU program by Richard Stallman.  Nano is also nearing its 1.0
-release as of this writing (Valentine's Day 2001).
- </font></blockquote>
+official GNU program by Richard Stallman.  Nano also reached it's first
+production release on March 22, 2001.</font></blockquote>
 
 <h2>
 <a NAME="1.5"></a><font color="#330000">1.5. Why the name change from TIP?</font></h2>
@@ -267,7 +266,7 @@ at:</font>
 <h2>
 <a NAME="2.3"></a><font color="#330000">2.3. Debian (.deb) packages.</font></h2>
 
-<blockquote><font color="#330000">For debian users, you can check out the
+<blockquote><font color="#330000">For Debian users, you can check out the
 current nano packages for:</font>
 <ul>
 <li>
@@ -277,9 +276,9 @@ current nano packages for:</font>
 <font color="#330000"><a href="http://www.debian.org/Packages/unstable/editors/nano.html">unstable</a></font></li>
 </ul>
 <font color="#330000">Note that versions &lt; 0.9.10 are probably not for
-those wanting to get serious work done, so until the stable distribution
-has an updated version of nano, you are best off using the one in unstable
-for now.</font></blockquote>
+those wanting to get serious work done, so if you are using Debian 2.2, check
+that you have updated to 2.2r3, which comes with nano 0.9.23. If you're 
+tracking unstable, you probably have the newest version already.</font></blockquote>
 
 <h2>
 <a NAME="2.4"></a><font color="#330000">2.4. By CVS (for the brave).</font></h2>
@@ -367,6 +366,8 @@ list:
 <b>--disable-speller</b>       Disables spell checker function
 <b>--disable-help</b>          Disables help function (^G)
 <b>--disable-browser</b>       Disables mini file browser
+<b>--disable-wrapping</b>      Disables all wrapping of text (and -w flag)
+<b>--disable-mouse</b>         Disables mouse support (and -m flag)
 </pre><br>
 There's also the <b>--enable-tiny</b> option which disables everything
 above, as well as some larger chunks of the program (like the marker code
@@ -376,6 +377,12 @@ disable internationalization and save a few K to a few dozen K depending
 on if you have locale support on your system. And finally there's always
 good old <b>strip</b> to strip all debugging code and code that exists in
 libraries on your system.
+<p>If, in the other hand, you can't live with bells and whistles, you could
+try:
+<pre>
+<b>--enable-extra</b>          Enable extra functions, including easter eggs
+<b>--enable-nanorc</b>         Enable use of .nanorc file
+<b>--enable-color</b>          Enables color and syntax highlighting
 </font></blockquote> <hr WIDTH="100%"> <h1>
 <a NAME="4"></a><font color="#330000">4. Running</font></h1>
 
@@ -395,7 +402,8 @@ keystroke here>!</font></h2>
 
 <blockquote><font color="#330000">If you aren't trying some bizarre keystroke
 combination with some bizarre $TERM entry, chances are you have found a
-bug.&nbsp;&nbsp; You are welcome to submit it to the nano-devel list or
+bug.&nbsp;&nbsp; You are welcome to submit it to the
+<a href="mailto:nano-devel@lists.sourceforge.net">nano-devel</a> list or
 to <a href="mailto:nano@nano-editor.org">nano@nano-editor.org</a>.</font></blockquote>
 
 <h2>
@@ -407,19 +415,21 @@ please upgrade to a newer version (at least 0.9.9 would be great, 0.9.12
 is recommended).</font></blockquote>
 
 <h2>
-<a NAME="4.4"></a><font color="#330000">4.4. Why does nano show ^\ and
-^_ in the shortcut list instead of ^G and ^J?</font></h2>
+<a NAME="4.4"></a><font color="#330000">4.4. Why does nano show ^\ in the
+shortcut list instead of ^J?</font></h2>
 
-<blockquote><font color="#330000">The help (^G) and justify (^J) functions
+<blockquote><font color="#330000">The help (^G) and justify (^J) function
 were among the last to be written.&nbsp; To show the improvements that
 nano had over Pico (goto line # and replace), ^_ and ^\ were put on the
-shortcut list.&nbsp;&nbsp; If you use the <b>-p</b> option to nano you
-will get the same shortcuts at the bottom as Pico.</font></blockquote>
+shortcut list.&nbsp;&nbsp; Later, ^G came back in place of ^_ as it proved
+to be very valuable for new UNIX users. If you use the <b>-p</b> option to
+nano (or hit Meta-P) you will get the same shortcuts at the bottom as
+Pico.</font></blockquote>
 
 <h2>
 <a name="4.5"><font color="#330000">4.5. When I type in a search
 string, the string I last searched for is already in front of my
-cursor!  !What happened?!</font></h2>
+cursor!  What happened?!</font></h2>
 
 <blockquote><font color="#330000">In nano version 0.9.20, the default is
 to have a completely consistent user interface across all user input
@@ -488,7 +498,7 @@ my language!</font></h2>
 language to write one =-).&nbsp; Just grab the <b>nano.pot</b> file from
 the latest and greatest nano distribution (it's in the <b>po/</b> directory)
 and translate each line into your native language on the <b>msgstr</b>
-line.&nbsp; Then send it to the nano devel list or <a href="mailto:nano@nano-editor.org">nano@nano-editor.org</a>.</font></blockquote>
+line.&nbsp; Then send it to the <a href="mailto:nano-devel@lists.sourceforge.net">nano-devel</a> list or <a href="mailto:nano@nano-editor.org">nano@nano-editor.org</a>.</font></blockquote>
 
 <h2>
 <a NAME="5.2"></a><font color="#330000">5.2. I don't like the translation
@@ -521,7 +531,7 @@ of personal preference as to which editor you should use.&nbsp; If you're
 the type of person who likes using the original version of a program, then
 Pico is the editor for you.&nbsp;&nbsp; If you're looking for a few more
 features and a 'better' license as far as adding your own changes (sacrificing
-mailer integration and a little stability), nano is the way to go.
+mailer integration with Pine), nano is the way to go.
 </blockquote>
 
 <h2>
@@ -580,7 +590,7 @@ any changes in the past few years in a positive direction.</font></blockquote>
 hosted at <a href="http://www.sourceforge.net">SourceForge</a>, nano-announce
 and nano-devel.&nbsp; Nano-announce is a very low traffic list where new
 versions of nano are announced (surprise!)&nbsp; Nano-devel is a normally
-low, sometimes very high traffic list for dicussing the present and future
+low, sometimes high traffic list for discussing the present and future
 development of nano.&nbsp; Here are links to where you can sign up for
 a given list:</font><font color="#330000"></font>
 <p><font color="#330000">nano-announce - <a href="http://lists.sourceforge.net/mailman/listinfo/nano-announce">http://lists.sourceforge.net/mailman/listinfo/nano-announce</a></font>

@@ -8,6 +8,7 @@ global.c
 move.c
 nano.c
 search.c
+utils.c
 winio.c
 
 # Package header files

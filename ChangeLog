@@ -23,8 +23,10 @@ Cvs code -
 	- New option, --enable-nanorc which allows people to have a .nanorc
 	  initialization file and set options normally used on the command
 	  line, and color later on.
-	- Added --enable-color option to allow color and syntax hilighting
+	- Added --enable-color option to allow color and syntax highlighting
 	  (stub as of now).
+- faq.html:
+	- Brought the FAQ up to date, many little changes (Jordi).
 - files.c:
   do_browser()
 	- Minor fixes to the processing of SELECT function (Rocco)
@@ -57,6 +59,10 @@ Cvs code -
 - winio.c:
   actual_x()
 	- Remove inline from function decl (Albert Chin).
+- po/POTFILES.in:
+	- Added utils.c to the list.
+- po/es.po, po/ca.po:
+	- Updated (Jordi).
 - po/gl.po:
 	- New Galician translation by Jacobo Tarrío <jtarrio@trasno.net>,
 	  thanks! 
@@ -493,11 +499,11 @@ nano 0.9.22 - 12/02/2000
   handle_sighup()
 	- Now calls die instead of writing on its own and exiting normally.
 - search.c:
-  do_replace_hilight()
-	- New function, displays the currently selected word as hilighted
+  do_replace_highlight()
+	- New function, displays the currently selected word as highlighted
 	  in the spell check.  Called from do_replace_loop (Rocco Corsi).
-	- Added calls to curs_set(0) and (1) to diable the cursor when
-	  hilighting, looks much better.
+	- Added calls to curs_set(0) and (1) to disable the cursor when
+	  highlighting, looks much better.
 - es.po: 
 	- Traditional Spanish strings updates.
 

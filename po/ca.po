@@ -6,14 +6,13 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2001-04-30 09:44-0400\n"
-"PO-Revision-Date: 2001-03-21 23:45+0100\n"
-"Last-Translator: Jordi Mallach <jordi@sindominio.net>, Miquel Vidal "
-"<miquel@sindominio.net>\n"
+"Project-Id-Version: 1.1.0\n"
+"POT-Creation-Date: 2001-05-02 19:10+0200\n"
+"PO-Revision-Date: 2001-05-02 19:14+0200\n"
+"Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <jordi@sindominio.net>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso8859-1\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: cut.c:45
@@ -127,14 +126,12 @@ msgid "Can't open \"%s\": %s"
 msgstr "No es pot obrir \"%s\": %s"
 
 #: files.c:1295 global.c:232
-#, fuzzy
 msgid "Goto Directory"
-msgstr "Anar a Línia"
+msgstr "Anar a Directori"
 
 #: files.c:1300
-#, fuzzy
 msgid "Goto Cancelled"
-msgstr "Cancel·lat"
+msgstr "Anar a Cancel·lat"
 
 #: global.c:144
 msgid "Constant cursor position"
@@ -434,9 +431,8 @@ msgid "To Files"
 msgstr "A Fitxers"
 
 #: global.c:444
-#, fuzzy
 msgid "Goto"
-msgstr "Anar a Línia"
+msgstr "Anar a"
 
 #: nano.c:137
 #, c-format
@@ -477,9 +473,9 @@ msgid ""
 "commonly used shortcuts in the editor.\n"
 "\n"
 " The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  "
-"Escape-key sequences are notated with the Meta (M) symbol and can be entered "
-"using either the Esc, Alt or Meta key depending on your keyboard setup.  The "
+"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
+"key sequences are notated with the Meta (M) symbol and can be entered using "
+"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
 "following keystrokes are available in the main editor window. Optional keys "
 "are shown in parentheses:\n"
 "\n"
@@ -912,15 +908,27 @@ msgstr "Avortat"
 msgid "Come on, be reasonable"
 msgstr "Au vinga, sigues assenyat"
 
+#: utils.c:108
+msgid "nano: malloc: out of memory!"
+msgstr "nano: malloc: memòria insuficient!"
+
+#: utils.c:121
+msgid "nano: calloc: out of memory!"
+msgstr "nano: calloc: memòria insuficient!"
+
+#: utils.c:131
+msgid "nano: realloc: out of memory!"
+msgstr "nano: realloc: memòria insuficient!"
+
 #: winio.c:124
 #, c-format
 msgid "actual_x_from_start for xplus=%d returned %d\n"
 msgstr "actual_x_from_start per a xplus=%d ha retornat %d\n"
 
 #: winio.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "Aha! '%c' (%d)\n"
-msgstr "entrada '%c' (%d)\n"
+msgstr "Aha! '%c' (%d)\n"
 
 #: winio.c:470
 #, c-format

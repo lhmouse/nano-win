@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.7\n"
-"POT-Creation-Date: 2001-04-30 09:44-0400\n"
+"POT-Creation-Date: 2001-05-02 19:10+0200\n"
 "PO-Revision-Date: 2000-03-03 04:57+0100\n"
 "Last-Translator: Daniele Medri <madrid@linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -477,9 +477,9 @@ msgid ""
 "commonly used shortcuts in the editor.\n"
 "\n"
 " The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  "
-"Escape-key sequences are notated with the Meta (M) symbol and can be entered "
-"using either the Esc, Alt or Meta key depending on your keyboard setup.  The "
+"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
+"key sequences are notated with the Meta (M) symbol and can be entered using "
+"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
 "following keystrokes are available in the main editor window. Optional keys "
 "are shown in parentheses:\n"
 "\n"
@@ -898,6 +898,20 @@ msgstr "Operazione fallita"
 msgid "Come on, be reasonable"
 msgstr "Avanti, sii ragionevole"
 
+#: utils.c:108
+msgid "nano: malloc: out of memory!"
+msgstr "nano: malloc: fuori memoria!"
+
+#: utils.c:121
+#, fuzzy
+msgid "nano: calloc: out of memory!"
+msgstr "nano: malloc: fuori memoria!"
+
+#: utils.c:131
+#, fuzzy
+msgid "nano: realloc: out of memory!"
+msgstr "nano: malloc: fuori memoria!"
+
 #: winio.c:124
 #, fuzzy, c-format
 msgid "actual_x_from_start for xplus=%d returned %d\n"
@@ -1063,13 +1077,6 @@ msgstr ""
 
 #~ msgid "^C"
 #~ msgstr "^C"
-
-#~ msgid "nano: malloc: out of memory!"
-#~ msgstr "nano: malloc: fuori memoria!"
-
-#, fuzzy
-#~ msgid "nano: realloc: out of memory!"
-#~ msgstr "nano: malloc: fuori memoria!"
 
 #, fuzzy
 #~ msgid "I got %c (%d)!\n"
