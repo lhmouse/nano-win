@@ -17,7 +17,7 @@
 # Don't follow symlinks when writing files
 # set nofollow
 
-# Use Pico Compatibility mode for ths shortcut lists and search text
+# Use Pico Compatibility mode for the shortcut lists and search text
 # set pico
 
 # Use this value instead of the default
@@ -38,10 +38,10 @@
 # Don't display the help lists at the bottom of the screen
 # set nohelp
 
-# Allow nano to be suepended with ^Z
+# Allow nano to be suspended with ^Z
 # set suspend
 
-# Load files upon inserting them, and allow switching between them
+# Allow multiple file buffers (using ^R inserts into separate buffer)
 # You must have configured with --enable-multibuffer or --enable-extra for
 # this to work
 #

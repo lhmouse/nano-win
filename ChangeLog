@@ -6,6 +6,8 @@ CVS code -
 - nano.c:
   main()
 	- Change the getop option to 'F' (David Lawrence Ramsey)
+- nanorc.sample
+	- Typo fixes and updates (David Lawrence Ramsey)
 - files.c:
   new_file()
 	- Do add_open_files if there aren't any open yet (David Lawrence 
