@@ -221,19 +221,26 @@ void check_statblank(void)
 /* Repaint the statusbar when getting a character in nanogetstr */
 void nanoget_repaint(char *buf, char *inputbuf, int x)
 {
+    int len = strlen(buf);
+    int wid = COLS - len;
+
     blank_statusbar();
-    if (x <= COLS - 1) { 
-        mvwaddstr(bottomwin, 0, 0, buf);
-        waddnstr(bottomwin, inputbuf, (COLS - 1) - strlen(buf));
+    if (x <= COLS - 1) {
+	/* Black magic */
+	buf[len - 1] = ' ';
 
-    } else if (x > COLS - 1 && x <= (COLS - 1) * 2)
-	mvwaddnstr(bottomwin, 0, 0, &inputbuf[(COLS - 1) - strlen(buf)], COLS);
-    else
-	mvwaddnstr(bottomwin, 0, 0, &inputbuf[COLS * (x / (COLS - 1)) - 
-					strlen(buf)], COLS);
+	mvwaddstr(bottomwin, 0, 0, buf);
+	waddnstr(bottomwin, inputbuf, wid);
+	wmove(bottomwin, 0, (x % COLS));
+    }
+    else {
+	/* Black magic */
+	buf[len - 1] = '$';
 
-    wmove(bottomwin, 0, (x % (COLS - 1)));
-
+	mvwaddstr(bottomwin, 0, 0, buf);
+	waddnstr(bottomwin, &inputbuf[wid * ((x - len) / (wid))], wid);
+	wmove(bottomwin, 0, ((x - len) % wid) + len);
+    }
 }
 
 /* Get the input from the kb, this should only be called from statusq */
@@ -314,7 +321,9 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 		    inputbuf[strlen(inputbuf) - 1] = 0;
 		}
 	    }
+	    x--;
 	    nanoget_repaint(buf, inputbuf, x);
+	    x++;
 	case KEY_LEFT:
 	    if (x > strlen(buf))
 		x--;
