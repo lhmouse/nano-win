@@ -21,6 +21,7 @@
 /* Externs */
 
 #include <sys/stat.h>
+#include <regex.h>
 #include "nano.h"
 
 extern int center_x, center_y, editwinrows;
@@ -41,6 +42,9 @@ extern shortcut main_list[MAIN_LIST_LEN], whereis_list[WHEREIS_LIST_LEN];
 extern shortcut replace_list[REPLACE_LIST_LEN], goto_list[GOTO_LIST_LEN];
 extern shortcut writefile_list[WRITEFILE_LIST_LEN], help_list[HELP_LIST_LEN];
 extern shortcut spell_list[SPELL_LIST_LEN];
+extern int use_regexp, regexp_compiled;
+extern regex_t search_regexp;
+extern regmatch_t regmatches[10];  
 
 /* Programs we want available */
 

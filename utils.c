@@ -80,7 +80,12 @@ char *strcasestr(char *haystack, char *needle)
 
 char *strstrwrapper(char *haystack, char *needle)
 {
-
+    if (ISSET(USE_REGEXP)) {
+      int result=regexec(&search_regexp, haystack, 10, regmatches, 0);
+      if (!result)
+          return haystack+regmatches[0].rm_so;
+      return 0;
+    }  
     if (ISSET(CASE_SENSITIVE))
 	return strstr(haystack, needle);
     else

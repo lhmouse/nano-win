@@ -312,6 +312,8 @@ void usage(void)
     printf(_
 	   (" -T 		--tabsize=[num]		Set width of a tab to num\n"));
 #endif
+    printf(_
+         (" -R		--regexp		Use regular expressions for search\n"));
     printf
 	(_
 	 (" -V 		--version		Print version information and exit\n"));
@@ -353,6 +355,7 @@ void usage(void)
 #ifdef HAVE_TABSIZE
     printf(_(" -T [num]	Set width of a tab to num\n"));
 #endif
+    printf(_(" -R		Use regular expressions for search\n"));
     printf(_(" -V 		Print version information and exit\n"));
     printf(_(" -c 		Constantly show cursor position\n"));
     printf(_(" -h 		Show this message\n"));
@@ -1528,6 +1531,7 @@ int main(int argc, char *argv[])
 #ifdef HAVE_GETOPT_LONG
     int option_index = 0;
     struct option long_options[] = {
+        {"regexp", 0, 0, 'R'},
 	{"version", 0, 0, 'V'},
 	{"const", 0, 0, 'c'},
 	{"suspend", 0, 0, 'z'},
@@ -1558,10 +1562,10 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "?T:Vchilmpr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "?T:RVchilmpr:s:tvwxz",
 				 long_options, &option_index)) != EOF) {
 #else
-    while ((optchr = getopt(argc, argv, "h?T:Vcilmpr:s:tvwxz")) != EOF) {
+    while ((optchr = getopt(argc, argv, "h?T:RVcilmpr:s:tvwxz")) != EOF) {
 #endif
 
 	switch (optchr) {
@@ -1578,6 +1582,9 @@ int main(int argc, char *argv[])
 	    usage();		/* Oops!  You dont really have that option */
 	    finish(1);
 #endif
+	case 'R':
+	    SET(USE_REGEXP);
+	    break;
 	case 'V':
 	    version();
 	    exit(0);

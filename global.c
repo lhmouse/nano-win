@@ -76,6 +76,12 @@ shortcut writefile_list[WRITEFILE_LIST_LEN];
 shortcut help_list[HELP_LIST_LEN];
 shortcut spell_list[SPELL_LIST_LEN];
 
+/* Regular expressions */
+
+regex_t search_regexp;          /* Global to store compiled search regexp */
+regmatch_t regmatches[10];      /* Match positions for parenthetical
+                                   subexpressions, max of 10 */ 
+
 /* Initialize a struct *without* our lovely braces =( */
 void sc_init_one(shortcut * s, int key, char *desc, char *help, int alt,
 		 int misc1, int misc2, int view, int (*func) (void))

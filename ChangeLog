@@ -1,5 +1,9 @@
-CVS code changes since last release -
+CVS code changes since last release -	
 - all:
+	- New regexp search feature by Bill Soudan.  New flags USE_REGEXP
+	  and REGEXP_COMPILED, new functions regexp_init, regexp_cleanup
+	  replace_line, replace_regexp in search.c, changes to
+	  search_init() and do_replace() and strstrwrapper().
 	- Made search functions & keys more like Pico.  Added goto line from  
 	  search and replace function, changed wording to "No Replace" instead
 	  of "To Search", "To Replace" to simply "Replace", and changed to

@@ -32,6 +32,20 @@
 #define _(string) (string)
 #endif
 
+/* Regular expression helper functions */
+
+void regexp_init(const char *regexp)
+{
+    regcomp(&search_regexp, regexp, ISSET(CASE_SENSITIVE) ? 0 : REG_ICASE);
+    SET(REGEXP_COMPILED);
+}
+
+void regexp_cleanup()
+{
+    UNSET(REGEXP_COMPILED);
+    regfree(&search_regexp);
+}
+
 /* Set up the system variables for a search or replace.  Returns -1 on
    abort, 0 on success, and 1 on rerun calling program 
    Return -2 to run opposite program (searchg -> replace, replace -> search)
@@ -42,17 +56,26 @@ int search_init(int replacing)
 {
     int i;
     char buf[BUFSIZ];
-
+    char *prompt;
+ 
     if (last_search[0]) {
 	snprintf(buf, BUFSIZ, " [%s]", last_search);
     } else {
 	buf[0] = '\0';
     }
 
+    if (ISSET(USE_REGEXP) && ISSET(CASE_SENSITIVE))
+        prompt = _("Case Sensitive Regexp Search%s");
+    else if (ISSET(USE_REGEXP))
+        prompt = _("Regexp Search%s");
+    else if (ISSET(CASE_SENSITIVE))
+        prompt = _("Case Sensitive Search%s");
+    else
+        prompt = _("Search%s");            
+        
     i = statusq(replacing ? replace_list : whereis_list,
 		replacing ? REPLACE_LIST_LEN : WHEREIS_LIST_LEN, "",
-		ISSET(CASE_SENSITIVE) ? _("Case Sensitive Search%s") :
-		_("Search%s"), buf);
+		prompt, buf);
 
     /* Cancel any search, or just return with no previous search */
     if ((i == -1) || (i < 0 && !last_search[0])) {
@@ -61,8 +84,12 @@ int search_init(int replacing)
 	return -1;
     } else if (i == -2) {	/* Same string */
 	strncpy(answer, last_search, 132);
+        if (ISSET(USE_REGEXP))
+            regexp_init(answer);
     } else if (i == 0) {	/* They entered something new */
 	strncpy(last_search, answer, 132);
+        if (ISSET(USE_REGEXP))
+            regexp_init(answer);
 
 	/* Blow away last_replace because they entered a new search
 	   string....uh, right? =) */
@@ -157,6 +184,8 @@ void search_abort(void)
     UNSET(KEEP_CUTBUFFER);
     display_main_list();
     wrefresh(bottomwin);
+    if (ISSET(REGEXP_COMPILED))
+        regexp_cleanup();
 }
 
 /* Search for a string */
@@ -200,6 +229,117 @@ void replace_abort(void)
     UNSET(KEEP_CUTBUFFER);
     display_main_list();
     reset_cursor();
+    if (ISSET(REGEXP_COMPILED))
+        regexp_cleanup();
+}
+
+int replace_regexp(char *string, int create_flag)
+{
+    /* split personality here - if create_flag is null, just calculate
+     * the size of the replacement line (necessary because of
+     * subexpressions like \1 \2 \3 in the replaced text) */
+
+    char *c;
+    int new_size = strlen(current->data) + 1;
+    int search_match_count = regmatches[0].rm_eo -
+        regmatches[0].rm_so;
+
+    new_size -= search_match_count;
+
+    /* Iterate through the replacement text to handle
+     * subexpression replacement using \1, \2, \3, etc */
+
+    c = last_replace;
+    while (*c) {
+        if (*c != '\\') {
+            if (create_flag)
+                *string++=*c;
+            c++;
+            new_size++;
+        } else {
+            int num = (int)*(c+1) - (int)'0';
+            if (num >= 1 && num <= 9) {
+
+                int i = regmatches[num].rm_so;
+
+                if (num > search_regexp.re_nsub) {
+                    /* Ugh, they specified a subexpression that doesn't
+                       exist.  */
+                    return -1;
+                }
+
+                /* Skip over the replacement expression */
+                c+=2;
+
+                /* But add the length of the subexpression to new_size */
+                new_size += regmatches[num].rm_eo - regmatches[num].rm_so;
+
+                /* And if create_flag is set, append the result of the
+                 * subexpression match to the new line */
+                while (create_flag && i < regmatches[num].rm_eo )
+                    *string++=*(current->data + i++);
+               
+            } else {
+                if (create_flag)
+                    *string++=*c;
+                c++;
+                new_size++;
+            }
+        }
+    }
+
+    if (create_flag)
+        *string = 0;
+
+    return new_size;
+}
+    
+char *replace_line()
+{
+    char *copy, *tmp;
+    int new_line_size;
+    int search_match_count;
+
+    /* Calculate size of new line */
+    if (ISSET(USE_REGEXP)) {
+        search_match_count = regmatches[0].rm_eo -
+            regmatches[0].rm_so;
+        new_line_size = replace_regexp(NULL, 0);
+
+        /* If they specified an invalid subexpression in the replace
+         * text, return NULL indicating an error */
+        if (new_line_size < 0)
+            return NULL;
+    } else {
+        search_match_count = strlen(last_search);
+        new_line_size = strlen(current->data) - strlen(last_search) +
+            strlen(last_replace) + 1;
+    }
+    
+    /* Create buffer */
+    copy = nmalloc(new_line_size);
+
+    /* Head of Original Line */
+    strncpy(copy, current->data, current_x);
+    copy[current_x] = 0;
+
+    /* Replacement Text */
+    if (!ISSET(USE_REGEXP))
+        strcat(copy, last_replace);
+    else
+        (void)replace_regexp(copy + current_x, 1);
+
+    /* The tail of the original line */
+    /* This may expose other bugs, because it no longer
+       goes through each character on the string
+       and tests for string goodness.  But because
+       we can assume the invariant that current->data
+       is less than current_x + strlen(last_search) long,
+       this should be safe.  Or it will expose bugs ;-) */
+    tmp = current->data + current_x + search_match_count;
+    strcat(copy, tmp);
+
+    return copy;
 }
 
 /* Search for a string */
@@ -207,7 +347,7 @@ int do_replace(void)
 {
     int i, replaceall = 0, numreplaced = 0, beginx;
     filestruct *fileptr, *begin;
-    char *tmp, *copy, prevanswer[132] = "";
+    char *copy, prevanswer[132] = "";
 
     if ((i = search_init(1)) == -1) {
 	statusbar(_("Replace Cancelled"));
@@ -300,26 +440,11 @@ int do_replace(void)
 	    if (i == 2)
 		replaceall = 1;
 
-	    /* Create buffer */
-	    copy = nmalloc(strlen(current->data) - strlen(last_search) +
-			   strlen(last_replace) + 1);
-
-	    /* Head of Original Line */
-	    strncpy(copy, current->data, current_x);
-	    copy[current_x] = 0;
-
-	    /* Replacement Text */
-	    strcat(copy, last_replace);
-
-	    /* The tail of the original line */
-	    /*  This may expose other bugs, because it no longer
-	       goes through each character on the string
-	       and tests for string goodness.  But because
-	       we can assume the invariant that current->data
-	       is less than current_x + strlen(last_search) long,   
-	       this should be safe.  Or it will expose bugs ;-) */
-	    tmp = current->data + current_x + strlen(last_search);
-	    strcat(copy, tmp);
+            copy = replace_line();
+            if (!copy) {
+                statusbar("Replace failed: unknown subexpression!");
+                replace_abort();
+            }
 
 	    /* Cleanup */
 	    free(current->data);

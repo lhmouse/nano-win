@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.11\n"
-"POT-Creation-Date: 2000-06-28 21:18-0400\n"
+"POT-Creation-Date: 2000-07-06 18:42-0400\n"
 "PO-Revision-Date: 2000-06-21 12:19+0200\n"
 "Last-Translator: Florian König <floki@bigfoot.com>\n"
 "Language-Team: German <floki@bigfoot.com>\n"
@@ -27,83 +27,83 @@ msgstr "Inhalt der Zwischenablage verworfen\n"
 msgid "read_line: not on first line and prev is NULL"
 msgstr "read_line: nicht in der ersten Zeile und prev ist NULL"
 
-#: files.c:180 files.c:193
+#: files.c:180 files.c:197
 #, c-format
 msgid "Read %d lines"
 msgstr "%d Zeilen gelesen"
 
-#: files.c:211 search.c:129 search.c:147
+#: files.c:215 search.c:129 search.c:147
 #, c-format
 msgid "\"%s\" not found"
 msgstr "\"%s\" nicht gefunden"
 
 #. We have a new file
-#: files.c:215
+#: files.c:219
 msgid "New File"
 msgstr "Neue Datei"
 
-#: files.c:224
+#: files.c:228
 #, c-format
 msgid "File \"%s\" is a directory"
 msgstr "Datei \"%s\" ist ein Verzeichnis"
 
-#: files.c:229
+#: files.c:233
 msgid "Reading File"
 msgstr "Lese Datei"
 
-#: files.c:242
+#: files.c:246
 msgid "File to insert [from ./] "
 msgstr "Datei zum Einfügen [von ./] "
 
-#: files.c:270 files.c:294 files.c:458 nano.c:1165
+#: files.c:271 files.c:295 files.c:462 nano.c:1130
 msgid "Cancelled"
 msgstr "Abgebrochen"
 
-#: files.c:306 files.c:322 files.c:334 files.c:351 files.c:357
+#: files.c:307 files.c:323 files.c:338 files.c:355 files.c:361
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "Konnte nicht in Datei schreiben: %s"
 
-#: files.c:314
+#: files.c:315
 msgid "Could not open file: Path length exceeded."
 msgstr "Konnte Datei nicht öffnen: Pfad zu lang."
 
-#: files.c:339
+#: files.c:343
 #, c-format
 msgid "Wrote >%s\n"
 msgstr "Schrieb >%s\n"
 
-#: files.c:366
+#: files.c:370
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "Konnte %s nicht schließen: %s"
 
 #. Try a rename??
-#: files.c:387 files.c:398 files.c:403
+#: files.c:391 files.c:402 files.c:407
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr "Konnte nicht in %s schreiben: %s"
 
-#: files.c:409
+#: files.c:413
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr "Konnte Rechte %o für %s nicht setzen: %s"
 
-#: files.c:416
+#: files.c:420
 #, c-format
 msgid "Wrote %d lines"
 msgstr "%d Zeilen geschrieben"
 
-#: files.c:437
+#: files.c:441
 msgid "File Name to write"
 msgstr "Dateiname zum Speichern"
 
-#: files.c:442
+#: files.c:446
 #, c-format
 msgid "filename is %s"
 msgstr "Dateiname ist %s"
 
-#: files.c:447
+#: files.c:451
 msgid "File exists, OVERWRITE ?"
 msgstr "Datei exisitiert, ÜBERSCHREIBEN ?"
 
@@ -248,7 +248,7 @@ msgstr "Zu Zeile"
 msgid "Justify"
 msgstr "Ausrichten"
 
-#: global.c:169 global.c:240
+#: global.c:169 global.c:240 global.c:270
 msgid "Replace"
 msgstr "Ersetzen"
 
@@ -344,18 +344,12 @@ msgstr "Letzte Zeile"
 msgid "Case Sens"
 msgstr "GROSZ/klein"
 
-#: global.c:270
-#, fuzzy
-msgid "To Replace"
-msgstr "Ersetzen"
-
 #: global.c:276 global.c:295 global.c:305 global.c:321 global.c:325
-#: global.c:331 winio.c:969
+#: global.c:331 winio.c:963
 msgid "Cancel"
 msgstr "Abbrechen"
 
 #: global.c:289
-#, fuzzy
 msgid "No Replace"
 msgstr ""
 
@@ -590,90 +584,90 @@ msgstr "Markierung gesetzt"
 msgid "Mark UNset"
 msgstr "Markierung gelöscht"
 
-#: nano.c:847
+#: nano.c:857
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap aufgerufen mit inptr->data=\"%s\"\n"
 
-#: nano.c:925
+#: nano.c:917
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data jetzt = \"%s\"\n"
 
-#: nano.c:969
+#: nano.c:970
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Nachher, data = \"%s\"\n"
 
-#: nano.c:1032
+#: nano.c:1040
 msgid "Error deleting tempfile, ack!"
 msgstr "Konnte temporäre Datei nicht löschen"
 
-#: nano.c:1045 nano.c:1095
+#: nano.c:1057
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Konnte keine temporäre Datei erzeugen: %s"
 
-#: nano.c:1067 nano.c:1117
+#: nano.c:1081
 #, c-format
 msgid "Could not invoke spell program \"%s\""
 msgstr "Konnte Rechtschreibprogramm \"%s\" nicht aufrufen"
 
 #. Why 32512? I dont know!
-#: nano.c:1073 nano.c:1123
+#: nano.c:1087
 msgid "Could not invoke \"ispell\""
 msgstr "Konnte \"ispell\" nicht aufrufen"
 
-#: nano.c:1085 nano.c:1135
+#: nano.c:1099
 msgid "Finished checking spelling"
 msgstr "Rechtschreibprüfung abgeschlossen"
 
-#: nano.c:1152
+#: nano.c:1117
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Veränderten Puffer speichern (\"Nein\" verwirft die Änderungen) ? "
 
-#: nano.c:1275
+#: nano.c:1240
 msgid "Cannot resize top win"
 msgstr "Kann die Größe des oberen Fensters nicht verändern"
 
-#: nano.c:1277
+#: nano.c:1242
 msgid "Cannot move top win"
 msgstr "Kann oberes Fenster nicht verschieben"
 
-#: nano.c:1279
+#: nano.c:1244
 msgid "Cannot resize edit win"
 msgstr "Kann Größe des Bearbeitungsfensters nicht verändern"
 
-#: nano.c:1281
+#: nano.c:1246
 msgid "Cannot move edit win"
 msgstr "Kann Bearbeitungsfenster nicht verschieben"
 
-#: nano.c:1283
+#: nano.c:1248
 msgid "Cannot resize bottom win"
 msgstr "Kann Größe des unteren Fensters nicht verändern"
 
-#: nano.c:1285
+#: nano.c:1250
 msgid "Cannot move bottom win"
 msgstr "Kann unteres Fenster nicht verschieben"
 
-#: nano.c:1749
+#: nano.c:1705
 msgid "Main: set up windows\n"
 msgstr "Hauptprogramm: Fenster konfigurieren\n"
 
-#: nano.c:1771
+#: nano.c:1727
 msgid "Main: bottom win\n"
 msgstr "Hauptprogramm: unteres Fenster\n"
 
-#: nano.c:1777
+#: nano.c:1733
 msgid "Main: open file\n"
 msgstr "Hauptprogramm: Datei öffnen\n"
 
-#: nano.c:1850
+#: nano.c:1806
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Erhielt Alt-[-%c! (%d)\n"
 
-#: nano.c:1866
+#: nano.c:1822
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Erhielt Alt-%c! (%d)\n"
@@ -763,53 +757,57 @@ msgstr "  Datei: ..."
 msgid "Modified"
 msgstr "Verändert"
 
-#: winio.c:885
+#: winio.c:879
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr "Nach (%d, %d) im Bearbeitungspuffer verschoben\n"
 
-#: winio.c:896
+#: winio.c:890
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr "current->data = \"%s\"\n"
 
-#: winio.c:939
+#: winio.c:933
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "Erhielt \"%s\"\n"
 
-#: winio.c:964
+#: winio.c:958
 msgid "Yes"
 msgstr "Ja"
 
-#: winio.c:966
+#: winio.c:960
 msgid "All"
 msgstr "Alle"
 
-#: winio.c:968
+#: winio.c:962
 msgid "No"
 msgstr "Nein"
 
-#: winio.c:1104
+#: winio.c:1098
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
-#: winio.c:1108
+#: winio.c:1102
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "Zeile %d von %d (%.0f%%), Zeichen %d von %d (%.0f%%)"
 
-#: winio.c:1232
+#: winio.c:1226
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Gebe Datei Puffer nach stderr aus...\n"
 
-#: winio.c:1234
+#: winio.c:1228
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Gebe Inhalt der Zwischenablage nach stderr aus...\n"
 
-#: winio.c:1236
+#: winio.c:1230
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Gebe einen Puffer nach stderr aus...\n"
+
+#, fuzzy
+#~ msgid "To Replace"
+#~ msgstr "Ersetzen"
 
 #, fuzzy
 #~ msgid "To Search"

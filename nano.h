@@ -102,7 +102,8 @@ typedef struct shortcut {
 #define SAMELINEWRAP		(1<<11)
 #define VIEW_MODE		(1<<12)
 #define USE_MOUSE		(1<<13)
-
+#define USE_REGEXP              (1<<14)
+#define REGEXP_COMPILED         (1<<15)
 
 /* Control key sequences, chaning these would be very very bad */
 
