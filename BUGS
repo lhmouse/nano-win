@@ -81,6 +81,9 @@
 - In certain terminals, nano would not work properly with keypad().
   Turned out to be the silly timeout(0) call which is completely
   unneeded anyway.  (49) [FIXED]
+- With less than a page of text, doing a page down will move the
+  current line to the top of the screen, which it shouldn't do.  (50) 
+  [FIXED]
 
 ** Open BUGS **
 
