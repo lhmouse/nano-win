@@ -75,7 +75,6 @@ void new_file(void)
     fileage->data[0] = '\0';
     filebot = fileage;
     edittop = fileage;
-    editbot = fileage;
     current = fileage;
     current_x = 0;
     totlines = 1;
@@ -592,9 +591,6 @@ int do_insertfile(int loading_file)
 #endif
 	    set_modified();
 
-	/* Here we want to rebuild the edit window */
-	fix_editbot();
-
 #ifdef ENABLE_MULTIBUFFER
 	/* If we've loaded another file, update the titlebar's contents */
 	if (loading_file) {
@@ -618,10 +614,7 @@ int do_insertfile(int loading_file)
 #endif
 
 	/* If we've gone off the bottom, recenter; otherwise, just redraw */
-	if (current->lineno > editbot->lineno)
-	    edit_update(current, CENTER);
-	else
-	    edit_refresh();
+	edit_refresh();
 
     } else {
 	statusbar(_("Cancelled"));

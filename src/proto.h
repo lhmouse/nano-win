@@ -74,7 +74,7 @@ extern char *alt_speller;
 
 extern int resetstatuspos;
 extern struct stat fileinfo;
-extern filestruct *current, *fileage, *edittop, *editbot, *filebot; 
+extern filestruct *current, *fileage, *edittop, *filebot;
 extern filestruct *cutbuffer;
 #ifndef NANO_SMALL
 extern filestruct *mark_beginbuf;
@@ -517,7 +517,6 @@ int do_cursorpos_void(void);
 int line_len(const char *ptr);
 int do_help(void);
 void do_replace_highlight(int highlight_flag, const char *word);
-void fix_editbot(void);
 #ifdef DEBUG
 void dump_buffer(const filestruct *inptr);
 void dump_buffer_reverse(void);

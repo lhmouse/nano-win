@@ -59,7 +59,6 @@ filestruct *fileage = NULL;	/* Our file buffer */
 filestruct *edittop = NULL;	/* Pointer to the top of the edit
 				   buffer with respect to the
 				   file struct */
-filestruct *editbot = NULL;	/* Same for the bottom */
 filestruct *filebot = NULL;	/* Last node in the file struct */
 filestruct *cutbuffer = NULL;	/* A place to store cut text */
 

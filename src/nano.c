@@ -202,7 +202,6 @@ void global_init(int save_cutbuffer)
 	cutbuffer = NULL;
     current = NULL;
     edittop = NULL;
-    editbot = NULL;
     totlines = 0;
     totsize = 0;
     placewewant = 0;
@@ -961,10 +960,8 @@ void do_char(char ch)
 
     /* When a character is inserted on the current magicline, it means
      * we need a new one! */
-    if (filebot == current) {
+    if (filebot == current)
 	new_magicline();
-	fix_editbot();
-    }
 
     /* More dangerousness fun =) */
     current->data = charealloc(current->data, current_len + 2);
@@ -1064,10 +1061,8 @@ int do_delete(void)
 	strcat(current->data, current->next->data);
 
 	foo = current->next;
-	if (filebot == foo) {
+	if (filebot == foo)
 	    filebot = current;
-	    editbot = current;
-	}
 
 	unlink_node(foo);
 	delete_node(foo);
@@ -1132,10 +1127,8 @@ int do_enter(void)
     }
     *tmp = '\0';
 
-    if (current->next == NULL) {
+    if (current->next == NULL)
 	filebot = newnode;
-	editbot = newnode;
-    }
     splice_node(current, newnode, current->next);
 
     totsize++;
@@ -2444,7 +2437,6 @@ int do_justify(void)
     int flags_save = flags;
     long totsize_save = totsize;
     filestruct *edittop_save = edittop;
-    filestruct *editbot_save = editbot;
 #ifndef NANO_SMALL
     filestruct *mark_beginbuf_save = mark_beginbuf;
     int mark_beginx_save = mark_beginx;
@@ -2675,7 +2667,6 @@ int do_justify(void)
 	current_x = current_x_save;
 	current_y = current_y_save;
 	edittop = edittop_save;
-	editbot = editbot_save;
 	if (first_mod_line != NULL) {
 	    filestruct *cutbottom = get_cutbottom();
 
@@ -2940,16 +2931,6 @@ void handle_sigwinch(int s)
 #endif				/* HAVE_WRESIZE */
 #endif				/* HAVE_RESIZETERM */
 
-    fix_editbot();
-
-    if (current_y > editwinrows - 1)
-	edit_update(editbot, CENTER);
-    erase();
-
-    /* Do these because width may have changed. */
-    refresh();
-    titlebar(NULL);
-    edit_refresh();
     display_main_list();
     blank_statusbar();
     total_refresh();
@@ -3014,7 +2995,6 @@ void do_toggle(const toggle *which)
 	wclear(bottomwin);
 	wrefresh(bottomwin);
 	window_init();
-	fix_editbot();
 	edit_refresh();
 	display_main_list();
 	break;

@@ -2491,16 +2491,6 @@ void do_replace_highlight(int highlight_flag, const char *word)
 	wattroff(edit, A_REVERSE);
 }
 
-/* Fix editbot, based on the assumption that edittop is correct. */
-void fix_editbot(void)
-{
-    int i;
-
-    editbot = edittop;
-    for (i = 0; i < editwinrows && editbot->next != NULL; i++)
-	editbot = editbot->next;
-}
-
 #ifdef DEBUG
 /* Dump the passed-in file structure to stderr. */
 void dump_buffer(const filestruct *inptr)
