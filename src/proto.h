@@ -483,8 +483,7 @@ void not_found_msg(const char *str);
 void search_abort(void);
 void search_init_globals(void);
 int search_init(bool replacing, bool use_answer);
-bool is_whole_word(int curr_pos, const char *datastr, const char
-	*searchword);
+bool is_whole_word(size_t pos, const char *buf, const char *word);
 bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	no_sameline, const filestruct *begin, size_t beginx, const char
 	*needle, size_t *needle_len);

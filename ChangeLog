@@ -111,13 +111,13 @@ CVS code -
 	  chars.c), move_right() (renamed move_mbright() and moved to
 	  chars.c), do_home(), do_verbatim_input(), do_delete(),
 	  do_tab(), do_enter(), indent_length(), do_next_word(),
-	  do_prev_word(), do_input(), do_output(), strstrwrapper(),
-	  get_buffer(), unget_input(), unget_kbinput(), get_input(),
-	  parse_kbinput(), unparse_kbinput(), parse_verbatim_kbinput(),
-	  do_statusbar_input(), do_statusbar_home(),
-	  do_statusbar_verbatim_kbinput(), do_statusbar_output(), and
-	  display_string(); removal of buffer_to_keys() and
-	  keys_to_buffer(). (DLR)
+	  do_prev_word(), do_input(), do_output(), is_whole_word(),
+	  strstrwrapper(), get_buffer(), unget_input(), unget_kbinput(),
+	  get_input(), parse_kbinput(), unparse_kbinput(),
+	  parse_verbatim_kbinput(), do_statusbar_input(),
+	  do_statusbar_home(), do_statusbar_verbatim_kbinput(),
+	  do_statusbar_output(), and display_string(); removal of
+	  buffer_to_keys() and keys_to_buffer(). (DLR)
 	- Add -O/--morespace command line option, plus a corresponding
 	  Meta-O toggle and a "morespace" rcfile option.  When these are
 	  used, the normally-unused blank line below the titlebar will
