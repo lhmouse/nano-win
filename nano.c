@@ -449,6 +449,9 @@ void version(void)
 #ifdef NANO_EXTRA
     printf(" --enable-extra");
 #endif
+#ifdef ENABLE_NANORC
+    printf(" --enable-nanorc");
+#endif
 
 #ifdef NANO_SMALL
     printf(" --enable-tiny");
