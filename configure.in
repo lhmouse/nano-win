@@ -8,6 +8,7 @@ ALL_LINGUAS="es de fr it id fi hu ca cs gl uk ru sv no"
 dnl Checks for programs.
 AC_PROG_CC
 AC_ISC_POSIX
+NANO_AC_SYS_LARGEFILE
 
 dnl Checks for header files.
 AC_HEADER_STDC
@@ -289,6 +290,6 @@ then
 fi
 
 dnl i18n stuff - pretty incomplete for now
-AM_GNU_GETTEXT
+NANO_AM_GNU_GETTEXT
 
 AC_OUTPUT([Makefile intl/Makefile po/Makefile.in])

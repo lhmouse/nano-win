@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.0.2\n"
-"POT-Creation-Date: 2001-07-14 18:56-0400\n"
+"POT-Creation-Date: 2001-07-18 21:49-0400\n"
 "PO-Revision-Date: 2001-06-22 14:38GMT+0700\n"
 "Last-Translator: Tedi Heriyanto <tedi_h@gmx.net>\n"
 "Language-Team: Indonesian <id@li.org>\n"
@@ -23,133 +23,133 @@ msgstr "add_to_cutbuffer dipanggil dgn inptr->data = %s\n"
 msgid "Blew away cutbuffer =)\n"
 msgstr "Hapus cutbuffer =)\n"
 
-#: files.c:134
+#: files.c:145
 msgid "read_line: not on first line and prev is NULL"
 msgstr "read_line: tidak di baris pertama dan sebelumnya adalah NULL"
 
-#: files.c:196 files.c:214
+#: files.c:207 files.c:225
 #, c-format
 msgid "Read %d lines"
 msgstr "Membaca %d baris"
 
-#: files.c:232 search.c:210
+#: files.c:243 search.c:215
 #, c-format
 msgid "\"%s\" not found"
 msgstr "\"%s\" tidak ditemukan"
 
 #. We have a new file
-#: files.c:236
+#: files.c:247
 msgid "New File"
 msgstr "File Baru"
 
-#: files.c:249
+#: files.c:260
 #, c-format
 msgid "File \"%s\" is a directory"
 msgstr "File \"%s\" adalah sebuah direktori"
 
 #. Don't open character or block files.  Sorry, /dev/sndstat!
-#: files.c:252
+#: files.c:263
 #, c-format
 msgid "File \"%s\" is a device file"
 msgstr "File \"%s\" adalah sebuah file device"
 
-#: files.c:259
+#: files.c:270
 msgid "Reading File"
 msgstr "Membaca File"
 
-#: files.c:279
+#: files.c:290
 msgid "File to insert [from ./] "
 msgstr "File untuk disisipkan [dari ./] "
 
-#: files.c:283 files.c:426 files.c:475 files.c:650 files.c:662 files.c:705
-#: files.c:716 files.c:1102
+#: files.c:294 files.c:437 files.c:486 files.c:661 files.c:673 files.c:716
+#: files.c:727 files.c:1113
 #, c-format
 msgid "filename is %s"
 msgstr "Namafile adalah %s"
 
-#: files.c:368 files.c:872 files.c:1187 nano.c:1629
+#: files.c:379 files.c:883 files.c:1198 nano.c:1629
 msgid "Cancelled"
 msgstr "Dibatalkan"
 
-#: files.c:642 files.c:697
+#: files.c:653 files.c:708
 msgid "No more open files"
 msgstr ""
 
-#: files.c:920 files.c:936 files.c:950 files.c:967 files.c:974
+#: files.c:931 files.c:947 files.c:961 files.c:978 files.c:985
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "Tidak dapat membuka file untuk menulis: %s"
 
-#: files.c:955
+#: files.c:966
 #, c-format
 msgid "Wrote >%s\n"
 msgstr "Tulis >%s\n"
 
-#: files.c:983
+#: files.c:994
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "Tidak dapat menutup %s: %s"
 
 #. Try a rename??
-#: files.c:1006 files.c:1015 files.c:1020
+#: files.c:1017 files.c:1026 files.c:1031
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr "Tidak dapat membuka %s untuk menulis: %s"
 
-#: files.c:1027
+#: files.c:1038
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr "Tidak dapat menset permisi %o pada %s: %s"
 
-#: files.c:1034
+#: files.c:1045
 #, c-format
 msgid "Wrote %d lines"
 msgstr "Menulis %d baris"
 
-#: files.c:1074
+#: files.c:1085
 #, c-format
 msgid "%s Selection to File"
 msgstr ""
 
-#: files.c:1074 files.c:1078 global.c:496
+#: files.c:1085 files.c:1089 global.c:499
 #, fuzzy
 msgid "Append"
 msgstr "Tunda"
 
-#: files.c:1074 files.c:1078
+#: files.c:1085 files.c:1089
 #, fuzzy
 msgid "Write"
 msgstr "Tulis"
 
-#: files.c:1078
+#: files.c:1089
 #, fuzzy, c-format
 msgid "File Name to %s"
 msgstr "Nama file untuk ditulis"
 
-#: files.c:1116
+#: files.c:1127
 msgid "File exists, OVERWRITE ?"
 msgstr "File ada, DITIMPA ?"
 
-#: files.c:1598
+#: files.c:1609
 msgid "(more)"
 msgstr "(lagi)"
 
-#: files.c:1911
+#: files.c:1922
 msgid "Can't move up a directory"
 msgstr "Tidak dapat memindahkan direktori"
 
 #. We can't open this dir for some reason.  Complain
-#: files.c:1921 files.c:1969
+#: files.c:1932 files.c:1980
 #, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "Tidak dapat membuka \"%s\": %s"
 
-#: files.c:1949 global.c:277
+#: files.c:1960 global.c:275
 #, fuzzy
 msgid "Goto Directory"
 msgstr "Ke baris"
 
-#: files.c:1954
+#: files.c:1965
 #, fuzzy
 msgid "Goto Cancelled"
 msgstr "Dibatalkan"
@@ -211,300 +211,300 @@ msgstr ""
 msgid "Open next loaded file"
 msgstr ""
 
-#: global.c:238
+#: global.c:236
 msgid "Invoke the help menu"
 msgstr "Panggil menu bantuan"
 
-#: global.c:239
+#: global.c:237
 msgid "Write the current file to disk"
 msgstr "Tulis file sekarang ke disk"
 
-#: global.c:242
+#: global.c:240
 msgid "Close currently loaded file/Exit from nano"
 msgstr ""
 
-#: global.c:244
+#: global.c:242
 msgid "Exit from nano"
 msgstr "Keluar dari nano"
 
-#: global.c:247
+#: global.c:245
 msgid "Goto a specific line number"
 msgstr "Ke nomor baris tertentu"
 
-#: global.c:248
+#: global.c:246
 msgid "Justify the current paragraph"
 msgstr "Justifikasi paragraf saat ini"
 
-#: global.c:249
+#: global.c:247
 msgid "Unjustify after a justify"
 msgstr "Unjustifikasi setelah justifikasi"
 
-#: global.c:250
+#: global.c:248
 msgid "Replace text within the editor"
 msgstr "Ganti teks dalam editor"
 
-#: global.c:251
+#: global.c:249
 msgid "Insert another file into the current one"
 msgstr "Sertakan file lain ke file saat ini"
 
-#: global.c:252
+#: global.c:250
 msgid "Search for text within the editor"
 msgstr "Cari teks dalam editor"
 
-#: global.c:253
+#: global.c:251
 msgid "Move to the previous screen"
 msgstr "Pindah ke layar sebelumnya"
 
-#: global.c:254
+#: global.c:252
 msgid "Move to the next screen"
 msgstr "Pindah ke layar berikutnya"
 
-#: global.c:255
+#: global.c:253
 msgid "Cut the current line and store it in the cutbuffer"
 msgstr "Hapus baris saat ini dan taruh dalam cutbuffer"
 
-#: global.c:256
+#: global.c:254
 msgid "Uncut from the cutbuffer into the current line"
 msgstr "Kembalikan dari cutbuffer ke baris saat ini"
 
-#: global.c:257
+#: global.c:255
 msgid "Show the position of the cursor"
 msgstr "Tampilkan posisi kursor"
 
-#: global.c:258
+#: global.c:256
 msgid "Invoke the spell checker (if available)"
 msgstr "Panggil spell checker (jika ada)"
 
-#: global.c:259
+#: global.c:257
 msgid "Move up one line"
 msgstr "Naik satu baris"
 
-#: global.c:260
+#: global.c:258
 msgid "Move down one line"
 msgstr "Turun satu baris"
 
-#: global.c:261
+#: global.c:259
 msgid "Move forward one character"
 msgstr "Pindah satu karakter ke depan"
 
-#: global.c:262
+#: global.c:260
 msgid "Move back one character"
 msgstr "Pindah satu karakter ke belakang"
 
-#: global.c:263
+#: global.c:261
 msgid "Move to the beginning of the current line"
 msgstr "Pindah ke awal baris ini"
 
-#: global.c:264
+#: global.c:262
 msgid "Move to the end of the current line"
 msgstr "Pindah ke akhir baris ini"
 
-#: global.c:265
+#: global.c:263
 msgid "Go to the first line of the file"
 msgstr "Ke baris terawal file"
 
-#: global.c:266
+#: global.c:264
 msgid "Go to the last line of the file"
 msgstr "Ke baris terakhir file"
 
-#: global.c:267
+#: global.c:265
 msgid "Refresh (redraw) the current screen"
 msgstr "Refresh layar saat ini"
 
-#: global.c:268
+#: global.c:266
 msgid "Mark text at the current cursor location"
 msgstr "Tandai teks pada lokasi kursor saat ini"
 
-#: global.c:269
+#: global.c:267
 msgid "Delete the character under the cursor"
 msgstr "Hapus karakter pada kursor"
 
-#: global.c:271
+#: global.c:269
 msgid "Delete the character to the left of the cursor"
 msgstr "Hapus satu karakter di kiri kursor"
 
-#: global.c:272
+#: global.c:270
 msgid "Insert a tab character"
 msgstr "Masukkan karakter tab"
 
-#: global.c:273
+#: global.c:271
 msgid "Insert a carriage return at the cursor position"
 msgstr "Sertakan carriage return di posisi kursor"
 
-#: global.c:275
+#: global.c:273
 msgid "Make the current search or replace case (in)sensitive"
 msgstr "Jadikan pencarian/penggantian saat ini case (in)sensitive"
 
-#: global.c:276
+#: global.c:274
 msgid "Go to file browser"
 msgstr "Ke browser file"
 
-#: global.c:278
+#: global.c:276
 msgid "Cancel the current function"
 msgstr "Batalkan fungsi ini"
 
-#: global.c:279
+#: global.c:277
 #, fuzzy
 msgid "Append to the current file"
 msgstr "Pindah ke akhir baris ini"
 
-#: global.c:280
+#: global.c:278
 #, fuzzy
 msgid "Search Backwards"
 msgstr "Pencarian dibatalkan"
 
-#: global.c:281
+#: global.c:279
 #, fuzzy
 msgid "Use Regular Expressions"
 msgstr "Regular expressions"
 
-#: global.c:284
+#: global.c:282
 msgid "Get Help"
 msgstr "Bantuan"
 
-#: global.c:289
+#: global.c:287
 msgid "Close"
 msgstr ""
 
-#: global.c:293 global.c:487 global.c:525
+#: global.c:291 global.c:490 global.c:528
 msgid "Exit"
 msgstr "Keluar"
 
-#: global.c:296
+#: global.c:294
 msgid "WriteOut"
 msgstr "Tulis"
 
-#: global.c:301 global.c:390
+#: global.c:299 global.c:388
 msgid "Justify"
 msgstr "Justifikasi"
 
-#: global.c:305 global.c:311
+#: global.c:303 global.c:309
 msgid "Read File"
 msgstr "Baca File"
 
-#: global.c:315 global.c:386 global.c:410
+#: global.c:313 global.c:384 global.c:408
 msgid "Replace"
 msgstr "Ganti"
 
-#: global.c:319
+#: global.c:317
 msgid "Where Is"
 msgstr "Di mana"
 
-#: global.c:323 global.c:479 global.c:514
+#: global.c:321 global.c:482 global.c:517
 msgid "Prev Page"
 msgstr "Hlm sebelumnya"
 
-#: global.c:327 global.c:483 global.c:518
+#: global.c:325 global.c:486 global.c:521
 msgid "Next Page"
 msgstr "Hlm berikutnya"
 
-#: global.c:331
+#: global.c:329
 msgid "Cut Text"
 msgstr "Ptng Teks"
 
-#: global.c:335
+#: global.c:333
 msgid "UnJustify"
 msgstr "UnJustifikasi"
 
-#: global.c:338
+#: global.c:336
 msgid "UnCut Txt"
 msgstr "UnCut Teks"
 
-#: global.c:342
+#: global.c:340
 msgid "Cur Pos"
 msgstr "Pos Kursor"
 
-#: global.c:346
+#: global.c:344
 msgid "To Spell"
 msgstr "Mengeja"
 
-#: global.c:350
+#: global.c:348
 msgid "Up"
 msgstr "Naik"
 
-#: global.c:353
+#: global.c:351
 msgid "Down"
 msgstr "Turun"
 
-#: global.c:356
+#: global.c:354
 msgid "Forward"
 msgstr "Depan"
 
-#: global.c:359
+#: global.c:357
 msgid "Back"
 msgstr "Belakang"
 
-#: global.c:362
+#: global.c:360
 msgid "Home"
 msgstr "Awal"
 
-#: global.c:365
+#: global.c:363
 msgid "End"
 msgstr "Akhir"
 
-#: global.c:368
+#: global.c:366
 msgid "Refresh"
 msgstr "Refresh"
 
-#: global.c:371
+#: global.c:369
 msgid "Mark Text"
 msgstr "Tandai Teks"
 
-#: global.c:374
+#: global.c:372
 msgid "Delete"
 msgstr "Hapus"
 
-#: global.c:378
+#: global.c:376
 msgid "Backspace"
 msgstr "Backspace"
 
-#: global.c:382
+#: global.c:380
 msgid "Tab"
 msgstr "Tab"
 
-#: global.c:394
+#: global.c:392
 msgid "Enter"
 msgstr "Enter"
 
-#: global.c:398 global.c:414 global.c:441
+#: global.c:396 global.c:412 global.c:442
 msgid "Goto Line"
 msgstr "Ke baris"
 
-#: global.c:404 global.c:431 global.c:459 global.c:469
+#: global.c:402 global.c:432 global.c:462 global.c:472
 msgid "First Line"
 msgstr "Baris pertama"
 
-#: global.c:407 global.c:434 global.c:462 global.c:472
+#: global.c:405 global.c:435 global.c:465 global.c:475
 msgid "Last Line"
 msgstr "Baris terakhir"
 
-#: global.c:417 global.c:444 global.c:465 global.c:475 global.c:499
-#: global.c:507 global.c:510 global.c:528 winio.c:1239
-msgid "Cancel"
-msgstr "Batal"
-
-#: global.c:420 global.c:447
+#: global.c:416 global.c:446
 msgid "Case Sens"
 msgstr "Case Sens"
 
-#: global.c:423 global.c:450
+#: global.c:419 global.c:449
 #, fuzzy
 msgid "Backward"
 msgstr "Belakang"
 
-#: global.c:427 global.c:454
+#: global.c:424 global.c:454
 msgid "Regexp"
 msgstr ""
 
-#: global.c:437
+#: global.c:429 global.c:459 global.c:468 global.c:478 global.c:502
+#: global.c:510 global.c:513 global.c:531 winio.c:1239
+msgid "Cancel"
+msgstr "Batal"
+
+#: global.c:438
 msgid "No Replace"
 msgstr "No Replace"
 
-#: global.c:492 global.c:503
+#: global.c:495 global.c:506
 msgid "To Files"
 msgstr "Ke File"
 
-#: global.c:522
+#: global.c:525
 #, fuzzy
 msgid "Goto"
 msgstr "Ke baris"
@@ -963,92 +963,92 @@ msgstr ""
 msgid "Unable to open ~/.nanorc file, %s"
 msgstr ""
 
-#: search.c:126
+#: search.c:129
 #, fuzzy
 msgid "Case Sensitive "
 msgstr "Case Sens"
 
-#: search.c:127
+#: search.c:130
 msgid "Regexp "
 msgstr ""
 
-#: search.c:128
+#: search.c:131
 #, fuzzy
 msgid "Search"
 msgstr "Pencarian%s%s"
 
-#: search.c:129
+#: search.c:132
 msgid " Backwards"
 msgstr ""
 
-#: search.c:130
+#: search.c:133
 msgid " (to replace)"
 msgstr " (ganti)"
 
-#: search.c:135 search.c:399
+#: search.c:138 search.c:404
 msgid "Search Cancelled"
 msgstr "Pencarian dibatalkan"
 
-#: search.c:216
+#: search.c:221
 #, c-format
 msgid "\"%s...\" not found"
 msgstr "\"%s...\" tidak ditemukan"
 
-#: search.c:265 search.c:321
+#: search.c:270 search.c:326
 msgid "Search Wrapped"
 msgstr "Pancarian diulangi dari awal"
 
-#: search.c:421
+#: search.c:426
 #, c-format
 msgid "Replaced %d occurrences"
 msgstr "%d tempat terganti"
 
-#: search.c:423
+#: search.c:428
 msgid "Replaced 1 occurrence"
 msgstr "Terganti 1 tempat"
 
-#: search.c:561 search.c:671 search.c:687
+#: search.c:566 search.c:676 search.c:692
 msgid "Replace Cancelled"
 msgstr "Penggantian dibatalkan"
 
-#: search.c:611
+#: search.c:616
 msgid "Replace this instance?"
 msgstr "Ganti kata ini?"
 
-#: search.c:623
+#: search.c:628
 msgid "Replace failed: unknown subexpression!"
 msgstr "Replace gagal: subekspresi tidak dikenal!"
 
-#: search.c:712
+#: search.c:717
 #, c-format
 msgid "Replace with [%s]"
 msgstr "Ganti dengan [%s]"
 
-#: search.c:716 search.c:720
+#: search.c:721 search.c:725
 msgid "Replace with"
 msgstr "Ganti dengan"
 
-#: search.c:754
+#: search.c:759
 msgid "Enter line number"
 msgstr "Masukkan nomor baris"
 
-#: search.c:756
+#: search.c:761
 msgid "Aborted"
 msgstr "Dibatalkan"
 
-#: search.c:765
+#: search.c:770
 msgid "Come on, be reasonable"
 msgstr "Ayo, yang masuk akal"
 
-#: utils.c:146
+#: utils.c:159
 msgid "nano: malloc: out of memory!"
 msgstr ""
 
-#: utils.c:160
+#: utils.c:173
 msgid "nano: calloc: out of memory!"
 msgstr ""
 
-#: utils.c:170
+#: utils.c:183
 msgid "nano: realloc: out of memory!"
 msgstr ""
 

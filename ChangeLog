@@ -1,4 +1,8 @@
 CVS code - 
+- General
+	- Reverted included gettext from 0.10.38 to 0.10.35 in intl/ dir.
+	- Added m4/ directory to allow rebuilding using only the internal
+	  version of gettext.m4 (Albert Chin).
 - nano.c:
   main()
 	- Change the getop option to 'F' (David Lawrence Ramsey)
