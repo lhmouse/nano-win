@@ -80,12 +80,12 @@ CVS code -
 	- Add support for reading in UTF-8 sequences to the low-level
 	  input routines.  Changes to get_kbinput() and
 	  get_translated_kbinput(). (DLR)
-	- Reduce search_last_line to a local variable in findnextstr(),
-	  since it's always set to FALSE just before and after
-	  findnextstr() is called and isn't used anywhere except in
-	  findnextstr().  Changes to do_int_spell_fix(), findnextstr(),
-	  do_search(), do_research(), do_replace(), and
-	  do_find_bracket(). (DLR)
+	- Reduce search_last_line to a static variable in search.c, and
+	  allow it to be set to FALSE via a function.  New function
+	  findnextstr_wrap_reset(); changes to do_int_spell_fix(),
+	  findnextstr(), do_search(), do_research(), do_replace_loop(),
+	  do_replace(), and do_find_bracket(). (DLR, problem with making
+	  search_last_line local to findnextstr() found by Rocco)
 	- When saving or changing file positions, be sure not to ignore
 	  placewewant.  Changes to do_int_spell_fix(), findnextstr(),
 	  do_replace_loop(), and do_replace(). (DLR)

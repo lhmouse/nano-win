@@ -31,6 +31,8 @@
 #include "proto.h"
 #include "nano.h"
 
+static bool search_last_line = FALSE;
+	/* Have we gone past the last line while searching? */
 #ifdef HAVE_REGEX_H
 static bool regexp_compiled = FALSE;
 	/* Have we compiled any regular expressions? */
@@ -281,8 +283,6 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
     size_t current_x_find = 0;
 	/* The location of the match we found. */
     int current_y_find = current_y;
-    bool search_last_line = FALSE;
-	/* Have we gone past the last line while searching? */
 
     /* rev_start might end up 1 character before the start or after the
      * end of the line.  This won't be a problem because strstrwrapper()
@@ -415,6 +415,11 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
     return TRUE;
 }
 
+void findnextstr_wrap_reset(void)
+{
+    search_last_line = FALSE;
+}
+
 /* Search for a string. */
 void do_search(void)
 {
@@ -455,6 +460,7 @@ void do_search(void)
 	update_history(&search_history, answer);
 #endif
 
+    findnextstr_wrap_reset();
     didfind = findnextstr(TRUE, FALSE, FALSE, current, current_x,
 	answer, NULL);
 
@@ -508,6 +514,7 @@ void do_research(void)
 	    return;
 #endif
 
+	findnextstr_wrap_reset();
 	didfind = findnextstr(TRUE, FALSE, FALSE, current, current_x,
 		last_search, NULL);
 
@@ -672,6 +679,7 @@ ssize_t do_replace_loop(const char *needle, filestruct *real_current,
     if (canceled != NULL)
 	*canceled = FALSE;
 
+    findnextstr_wrap_reset();
     while (findnextstr(TRUE, wholewords,
 #ifdef HAVE_REGEX_H
 	/* We should find a bol and/or eol regex only once per line.  If
@@ -1030,6 +1038,7 @@ void do_find_bracket(void)
     /* We constructed regexp_pat to be a valid expression. */
     assert(regexp_compiled);
 
+    findnextstr_wrap_reset();
     while (TRUE) {
 	if (findnextstr(FALSE, FALSE, FALSE, current, current_x,
 		regexp_pat, NULL)) {
