@@ -516,8 +516,8 @@ GNU nano 1.3.0 - 2003.10.22
 	  function do_research(). (Wouter van Hemel)
 	- Added the ability to move to the beginning or end of the
 	  paragraph, which Pico has via ^W^W (previous paragraph)
-	  and ^W^O (next paragraph).  Modifications to do_justify(),
-	  new functions do_para_operation(), do_para_begin(), and
+	  and ^W^O (next paragraph).  Changes to do_justify(); new
+	  functions do_para_operation(), do_para_begin(), and
 	  do_para_end().  Note that the last three functions are
 	  disabled if justification is disabled. (DLR)
 	- Make sure the "historylog" option isn't included at all if
