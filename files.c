@@ -534,8 +534,9 @@ char *real_dir_from_tilde (char *buf)
     int fd, i, status, searchctr = 1;
 
     if (buf[0] == '~') {
-
-	if (buf[1] == '/') {
+	if (buf[1] == '~')
+	    goto abort;		/* Handle ~~ without segfaulting =) */
+	else if (buf[1] == '/') {
 	    if (getenv("HOME") != NULL) {
 		dirtmp = nmalloc(strlen(buf) + 2 + strlen(getenv("HOME")));
 
