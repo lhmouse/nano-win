@@ -67,6 +67,10 @@
 #
 # set multibuffer
 
+# Use this as the quoting string.  You shouldn't need to change this,
+# but...... default "> "
+# set quotestr "// "
+
 #
 # Color setup
 # Format: color foreground,background "regex" ["regex"...]

@@ -40,10 +40,8 @@
 #define _(string) (string)
 #endif
 
-#define NUM_RCOPTS 20
-
 /* Static stuff for the nanorc file */
-rcoption rcopts[NUM_RCOPTS] = {
+rcoption rcopts[] = {
     {"regexp", USE_REGEXP},
     {"const", CONSTUPDATE},
     {"autoindent", AUTOINDENT},
@@ -63,7 +61,9 @@ rcoption rcopts[NUM_RCOPTS] = {
     {"multibuffer", MULTIBUFFER},
     {"smooth", SMOOTHSCROLL},
     {"keypad", ALT_KEYPAD},
-    {"noconvert", NO_CONVERT}
+    {"noconvert", NO_CONVERT},
+    {"quotestr", 0},
+    {"", 0}
 };
 
 static int errors = 0;
@@ -147,7 +147,7 @@ int colortoint(char *colorname, int *bright)
     if (colorname == NULL)
 	return -1;
 
-    if (strcasestr(colorname, "bright")) {
+    if (stristr(colorname, "bright")) {
 	*bright = 1;
 	colorname += 6;
     }
@@ -349,7 +349,7 @@ void parse_rcfile(FILE * rcstream)
 	/* We don't care if ptr == NULL, as it should if using proper syntax */
 
 	if (set != 0) {
-	    for (i = 0; i <= NUM_RCOPTS - 1; i++) {
+	    for (i = 0; rcopts[i].name != ""; i++) {
 		if (!strcasecmp(option, rcopts[i].name)) {
 #ifdef DEBUG
 		    fprintf(stderr, _("parse_rcfile: Parsing option %s\n"),
@@ -360,6 +360,9 @@ void parse_rcfile(FILE * rcstream)
 			    !strcasecmp(rcopts[i].name, "tabsize") ||
 #ifndef DISABLE_WRAPJUSTIFY
 			    !strcasecmp(rcopts[i].name, "fill") ||
+#endif
+#ifndef DISABLE_JUSTIFY
+			    !strcasecmp(rcopts[i].name, "quotestr") ||
 #endif
 #ifndef DISABLE_SPELLER
 			    !strcasecmp(rcopts[i].name, "speller")
@@ -396,6 +399,15 @@ void parse_rcfile(FILE * rcstream)
 				} else {
 				    tabsize = i;
 				}
+#ifndef DISABLE_JUSTIFY
+			    } else
+				if (!strcasecmp(rcopts[i].name, "quotestr"))
+			    {
+				quotestr = NULL;
+				quotestr =
+				    charalloc(strlen(option) + 1);
+				strcpy(quotestr, option);
+#endif
 			    } else {
 #ifndef DISABLE_SPELLER
 				alt_speller =
