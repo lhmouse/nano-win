@@ -1,14 +1,13 @@
-# $Id$
 # Catalan messages for the GNU nano editor.
-# Jordi Mallach <jordi@sindominio.net> February 16, 2001
-# Copyright (C) 2000 Free Software Foundation, Inc.
-# Jordi Mallach <jordi@sindominio.net>, 2000.
+# Copyright (C) 2000, 2001 Free Software Foundation, Inc.
+# Jordi Mallach <jordi@sindominio.net>, 2000, 2001.
+# $Id$
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.0.3\n"
-"POT-Creation-Date: 2001-08-20 09:49-0400\n"
-"PO-Revision-Date: 2001-06-23 05:06+0200\n"
+"Project-Id-Version: nano 1.0.4\n"
+"POT-Creation-Date: 2001-09-05 14:11+0200\n"
+"PO-Revision-Date: 2001-09-10 14:04+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
 "MIME-Version: 1.0\n"
@@ -461,9 +460,9 @@ msgid ""
 "commonly used shortcuts in the editor.\n"
 "\n"
 " The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  "
-"Escape-key sequences are notated with the Meta (M) symbol and can be entered "
-"using either the Esc, Alt or Meta key depending on your keyboard setup.  The "
+"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
+"key sequences are notated with the Meta (M) symbol and can be entered using "
+"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
 "following keystrokes are available in the main editor window. Optional keys "
 "are shown in parentheses:\n"
 "\n"
@@ -698,7 +697,7 @@ msgstr "check_wrap cridat amb inptr->data=\"%s\"\n"
 #: nano.c:1077
 #, c-format
 msgid "current->data now = \"%s\"\n"
-msgstr "current->data ara = \"%d\"\n"
+msgstr "current->data ara = \"%s\"\n"
 
 #: nano.c:1129
 #, c-format
@@ -980,6 +979,7 @@ msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
 #: winio.c:1207
+#, c-format
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "línia %d de %d (%.0f%%), caràcter %d de %d (%.0f%%)"
 

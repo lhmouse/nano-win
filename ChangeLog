@@ -3,6 +3,8 @@ CVS code -
 	- Added David Lawrence Ramsey to credits.
 - po/nl.po:
 	- New Dutch translation, by Guus Sliepen <guus@nl.linux.org>.
+- po/ca.po:
+	- Updates to Catalan translation (Jordi).
 
 nano 1.0.4 - 08/24/2001
 - General
