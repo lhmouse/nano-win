@@ -772,7 +772,8 @@ ssize_t do_replace_loop(const char *needle, filestruct *real_current,
 
 	    /* Set the cursor at the last character of the replacement
 	     * text, so searching will resume after the replacement
-	     * text.  Note that current_x might be set to -1 here. */
+	     * text.  Note that current_x might be set to (size_t)-1
+	     * here. */
 #ifndef NANO_SMALL
 	    if (!ISSET(REVERSE_SEARCH))
 #endif
@@ -965,7 +966,7 @@ void do_gotoline_void(void)
 }
 
 #if defined(ENABLE_MULTIBUFFER) || !defined(DISABLE_SPELLER)
-void do_gotopos(int line, int pos_x, int pos_y, size_t pos_pww)
+void do_gotopos(int line, size_t pos_x, int pos_y, size_t pos_pww)
 {
     /* Since do_gotoline() resets the x-coordinate but not the
      * y-coordinate, set the coordinates up this way. */

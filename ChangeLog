@@ -89,6 +89,10 @@ CVS code -
 	- When saving or changing file positions, be sure not to ignore
 	  placewewant.  Changes to do_int_spell_fix(), findnextstr(),
 	  do_replace_loop(), and do_replace(). (DLR)
+	- Convert current_x to a size_t, and convert some functions that
+	  use it as a parameter to use size_t as well.  Also change some
+	  current_x-related assertions to handle it. (David Benbennick
+	  and DLR)
 - files.c:
   do_insertfile()
 	- Simplify by reusing variables whereever possible, and add a
@@ -143,6 +147,9 @@ CVS code -
 	- Update the help text to mention replacing and spell checking
 	  only selected text, and also add a few cosmetic fixes to it.
 	  (DLR)
+  do_prev_word()
+	- Tweak to avoid an infinite loop, since current_x is now a
+	  size_t and hence is unsigned. (DLR)
   do_int_spell_fix()
 	- Move the REVERSE_SEARCH flag toggling into the NANO_SMALL
 	  #ifdef, since the tiny version of nano doesn't support reverse

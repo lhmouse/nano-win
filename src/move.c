@@ -54,7 +54,7 @@ void do_home(void)
     size_t old_pww = placewewant;
 #ifndef NANO_SMALL
     if (ISSET(SMART_HOME)) {
-	int old_current_x = current_x;
+	size_t old_current_x = current_x;
 
 	for (current_x = 0; isblank(current->data[current_x]) &&
 		current->data[current_x] != '\0'; current_x++)

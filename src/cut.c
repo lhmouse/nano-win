@@ -232,7 +232,7 @@ void do_cut_text(void)
 
 #ifndef NANO_SMALL
     if (ISSET(CUT_TO_END) && !ISSET(MARK_ISSET)) {
-	assert(current_x >= 0 && current_x <= strlen(current->data));
+	assert(current_x <= strlen(current->data));
 
 	if (current->data[current_x] == '\0') {
 	    /* If the line is empty and we didn't just cut a non-blank

@@ -32,7 +32,9 @@
 extern ssize_t wrap_at;
 #endif
 extern int editwinrows;
-extern int current_x, current_y, totlines;
+extern size_t current_x;
+extern int current_y;
+extern int totlines;
 extern size_t placewewant;
 #ifndef NANO_SMALL
 extern int mark_beginx;
@@ -421,7 +423,7 @@ void do_replace(void);
 void do_gotoline(int line, bool save_pos);
 void do_gotoline_void(void);
 #if defined(ENABLE_MULTIBUFFER) || !defined(DISABLE_SPELLER)
-void do_gotopos(int line, int pos_x, int pos_y, size_t pos_pww);
+void do_gotopos(int line, size_t pos_x, int pos_y, size_t pos_pww);
 #endif
 void do_find_bracket(void);
 #ifndef NANO_SMALL

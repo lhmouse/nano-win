@@ -1819,9 +1819,9 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 {
     int kbinput;
     bool meta_key, func_key;
-    static int x = -1;
+    static size_t x = (size_t)-1;
 	/* the cursor position in 'answer' */
-    int xend;
+    size_t xend;
 	/* length of 'answer', the status bar text */
     bool tabbed = FALSE;
 	/* used by input_tab() */
@@ -1849,7 +1849,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
        resetstatuspos is TRUE.  Otherwise, leave it alone.  This is so
        the cursor position stays at the same place if a prompt-changing
        toggle is pressed. */
-    if (x == -1 || x > xend || resetstatuspos)
+    if (x == (size_t)-1 || x > xend || resetstatuspos)
 	x = xend;
 
     answer = charealloc(answer, xend + 1);
@@ -1906,7 +1906,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 		return t->ctrlval;
 	    }
 	}
-	assert(0 <= x && x <= xend && xend == strlen(answer));
+	assert(x <= xend && xend == strlen(answer));
 
 	if (kbinput != '\t')
 	    tabbed = FALSE;
@@ -1926,7 +1926,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 	case NANO_HOME_KEY:
 #ifndef NANO_SMALL
 	    if (ISSET(SMART_HOME)) {
-		int old_x = x;
+		size_t old_x = x;
 
 		for (x = 0; isblank(answer[x]) && x < xend; x++)
 		    ;
@@ -2137,7 +2137,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
     } /* while (kbinput ...) */
 
     /* We finished putting in an answer; reset x */
-    x = -1;
+    x = (size_t)-1;
 
     return kbinput;
 }
@@ -3265,8 +3265,8 @@ void display_main_list(void)
 void do_cursorpos(bool constant)
 {
     const filestruct *fileptr;
-    unsigned long i = 0;
-    static unsigned long old_i = 0;
+    size_t i = 0;
+    static size_t old_i = 0;
     static long old_totsize = -1;
 
     assert(current != NULL && fileage != NULL && totlines != 0);
@@ -3305,7 +3305,7 @@ void do_cursorpos(bool constant)
 	    _("line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%ld (%d%%)"),
 		    current->lineno, totlines, linepct,
 		    (unsigned long)xpt, (unsigned long)cur_len, colpct,
-		    i, totsize, bytepct);
+		    (unsigned long)i, totsize, bytepct);
 	UNSET(DISABLE_CURPOS);
     }
 

@@ -52,9 +52,10 @@ struct stat originalfilestat;	/* Stat for the file as we loaded it */
 int editwinrows = 0;		/* How many rows long is the edit
 				   window? */
 filestruct *current;		/* Current buffer pointer */
-int current_x = 0, current_y = 0;	/* Current position of X and Y in
-					   the editor - relative to edit
-					   window (0,0) */
+size_t current_x = 0;		/* Current x-coordinate in the edit
+				   window */
+int current_y = 0;		/* Current y-coordinate in the edit
+				   window */
 filestruct *fileage = NULL;	/* Our file buffer */
 filestruct *edittop = NULL;	/* Pointer to the top of the edit
 				   buffer with respect to the

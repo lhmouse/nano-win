@@ -1162,20 +1162,24 @@ void do_prev_word(void)
     const filestruct *old_current = current;
     assert(current != NULL && current->data != NULL);
 
+    current_x++;
+
     /* Skip letters in this word first. */
-    while (current_x >= 0 && isalnum(current->data[current_x]))
+    while (current_x > 0 && isalnum(current->data[current_x - 1]))
 	current_x--;
 
     for (; current != NULL; current = current->prev) {
-	while (current_x >= 0 && !isalnum(current->data[current_x]))
+	while (current_x > 0 && !isalnum(current->data[current_x - 1]))
 	    current_x--;
 
-	if (current_x >= 0)
+	if (current_x > 0)
 	    break;
 
 	if (current->prev != NULL)
-	    current_x = strlen(current->prev->data);
+	    current_x = strlen(current->prev->data) + 1;
     }
+
+    current_x--;
 
     if (current == NULL) {
 	current = fileage;
@@ -1463,7 +1467,7 @@ bool do_int_spell_fix(const char *word)
     /* Start from the top of the file. */
     edittop = fileage;
     current = fileage;
-    current_x = -1;
+    current_x = (size_t)-1;
     placewewant = 0;
 
     /* Find the first whole-word occurrence of word. */
@@ -1718,8 +1722,8 @@ const char *do_int_speller(const char *tempfile_name)
 const char *do_alt_speller(char *tempfile_name)
 {
     int alt_spell_status, lineno_cur = current->lineno;
-    int x_cur = current_x, y_cur = current_y;
-    size_t pww_cur = placewewant;
+    size_t x_cur = current_x, pww_cur = placewewant;
+    int y_cur = current_y;
     pid_t pid_spell;
     char *ptr;
     static int arglen = 3;
@@ -2355,7 +2359,8 @@ void do_justify(bool full_justify)
 
     /* We save these global variables to be restored if the user
      * unjustifies.  Note that we don't need to save totlines. */
-    int current_x_save = current_x, current_y_save = current_y;
+    size_t current_x_save = current_x;
+    int current_y_save = current_y;
     long flags_save = flags, totsize_save = totsize;
     filestruct *edittop_save = edittop, *current_save = current;
 #ifndef NANO_SMALL

@@ -168,7 +168,7 @@ typedef struct openfilestruct {
     int file_mark_beginx;	/* Current file's beginning marked
 				 * line's x-coordinate position. */
 #endif
-    int file_current_x;		/* Current file's x-coordinate
+    size_t file_current_x;	/* Current file's x-coordinate
 				 * position. */
     int file_current_y;		/* Current file's y-coordinate
 				 * position. */
