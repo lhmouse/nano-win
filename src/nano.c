@@ -2353,9 +2353,8 @@ size_t indent_length(const char *line)
 
 #ifndef DISABLE_JUSTIFY
 /* justify_format() replaces blanks with spaces and multiple spaces by 1
- * (except it maintains 2 after a non-repeated character in punct
- * followed by a character in brackets, and removes all at the end of
- * the line).
+ * (except it maintains up to 2 after a character in punct optionally
+ * followed by a character in brackets, and removes all from the end).
  *
  * justify_format() might make line->data shorter, and change the actual
  * pointer with null_at().
@@ -2393,82 +2392,54 @@ void justify_format(filestruct *paragraph, size_t skip)
 	    while (*end != '\0' && is_blank_char(*end)) {
 		end++;
 		shift++;
+
 #ifndef NANO_SMALL
+		/* Keep track of the change in the current line. */
 		if (mark_beginbuf == paragraph &&
 			mark_beginx >= end - paragraph->data)
 		    mark_shift++;
 #endif
 	    }
-	/* If this character is punctuation, there are two ways we can
-	 * handle it. */
+	/* If this character is punctuation optionally followed by a
+	 * bracket and then followed by blanks, make sure there are no
+	 * more than two blanks after it, and make sure that the blanks
+	 * are spaces. */
 	} else if (strchr(punct, *end) != NULL) {
 	    *new_end = *end;
 	    new_end++;
 	    end++;
 
-	    /* If this character is punctuation followed by itself and
-	     * optionally followed by a bracket, make sure there is no
-	     * more than one blank after it, and make sure that the
-	     * blank is a space. */
-	    if (*end != '\0' && *end == *(end - 1)) {
+	    if (*end != '\0' && strchr(brackets, *end) != NULL) {
 		*new_end = *end;
 		new_end++;
 		end++;
-
-		if (*end != '\0' && strchr(brackets, *end) != NULL) {
-		    *new_end = *end;
-		    new_end++;
-		    end++;
-		}
-
-		if (*end != '\0' && is_blank_char(*end)) {
-		    *new_end = ' ';
-		    new_end++;
-		    end++;
-		}
-
-		while (*end != '\0' && is_blank_char(*end)) {
-		    end++;
-		    shift++;
-#ifndef NANO_SMALL
-		if (mark_beginbuf == paragraph &&
-			mark_beginx >= end - paragraph->data)
-		    mark_shift++;
-#endif
-		}
-	    /* If this character is punctuation optionally followed by a
-	     * bracket and then followed by spaces, make sure there are
-	     * no more than two blanks after it, and make sure that the
-	     * blanks are spaces. */
-	    } else {
-		if (*end != '\0' && strchr(brackets, *end) != NULL) {
-		    *new_end = *end;
-		    new_end++;
-		    end++;
-		}
-
-		if (*end != '\0' && is_blank_char(*end)) {
-		    *new_end = ' ';
-		    new_end++;
-		    end++;
-		}
-
-		if (*end != '\0' && is_blank_char(*end)) {
-		    *new_end = ' ';
-		    new_end++;
-		    end++;
-		}
-
-		while (*end != '\0' && is_blank_char(*end)) {
-		    end++;
-		    shift++;
-#ifndef NANO_SMALL
-		if (mark_beginbuf == paragraph &&
-			mark_beginx >= end - paragraph->data)
-		    mark_shift++;
-#endif
-		}
 	    }
+
+	    if (*end != '\0' && is_blank_char(*end)) {
+		*new_end = ' ';
+		new_end++;
+		end++;
+	    }
+
+	    if (*end != '\0' && is_blank_char(*end)) {
+		*new_end = ' ';
+		new_end++;
+		end++;
+	    }
+
+	    while (*end != '\0' && is_blank_char(*end)) {
+		end++;
+		shift++;
+
+#ifndef NANO_SMALL
+	    /* Keep track of the change in the current line. */
+	    if (mark_beginbuf == paragraph &&
+		mark_beginx >= end - paragraph->data)
+		mark_shift++;
+#endif
+	    }
+	/* If this character is neither blank nor punctuation, leave it
+	 * alone. */
 	} else {
 	    *new_end = *end;
 	    new_end++;
@@ -2480,6 +2451,7 @@ void justify_format(filestruct *paragraph, size_t skip)
 
     *new_end = *end;
 
+    /* Make sure that there are no spaces at the end of the line. */
     while (new_end > new_paragraph_data + skip &&
 	*(new_end - 1) == ' ') {
 	new_end--;
