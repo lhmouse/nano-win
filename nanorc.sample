@@ -86,15 +86,21 @@
 # color will use a transparent color.  If you don't want this, be sure
 # to set the background color to black or white.
 #
-#syntax "c-file" ".*\.c" ".*\.h"
-#color brightred "float " "char " "int " "void "  "NULL" "[A-Z_]\{2,\}" 
-#color brightred "static" "const" "[\ ]struct" "^struct" "if " "while[\ \n\(]" 
-#color brightred "do[\ \n\(]" "else[\ \n]" "case " "switch " "break;"
-#color brightcyan "#define" "#include" "#ifn*def" "#endif" "#elif" "#else"
+# syntax "c-file" ".*\.c" ".*\.h"
+# color brightred "float " "char " "int " "void "  "NULL" "[A-Z_]\{2,\}" 
+# color brightred "static" "const" "[\ ]struct" "^struct" "if " "while[\ \n\(]" 
+# color brightred "do[\ \n\(]" "else[\ \n]" "case " "switch " "break;"
+# color brightcyan "#define" "#include" "#ifn*def" "#endif" "#elif" "#else"
 
-#You will in general want your comments and strings to come last, becase
-#syntax highlighting rules will be applied in the order they are read in
+# You will in general want your comments and strings to come last, becase
+# syntax highlighting rules will be applied in the order they are read in
 
-#color brightyellow "<.*[^=\ ]*>" "\".*\""
-#color brightblue "//.*"
-#color brightblue start="/\*.*" end="\*/"
+# color brightyellow "<.*[^=\ ]*>" "\".*\""
+# color brightblue "//.*"
+# color brightblue start="/\*.*" end="\*/"
+
+# For this you will probably want to set your editor to "nano -Y mutt"
+#
+# syntax "mutt"
+# color green "^>.*"
+
