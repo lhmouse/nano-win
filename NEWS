@@ -1,3 +1,13 @@
+01/17/2001 - Nano 0.9.99-pre1 is released.  This is the first pre-1.0
+		release of nano, and is also the first release since the
+		code freeze for nano 1.0.  Don't expect (or request) any 
+		new features between now and nano 1.0, only bugfixes,
+		optimizations and doc/translation updates.  For fixes, a
+		nasty segfault when trying to insert one's home directory
+		(~), some checks for the NumLock key making the keypad
+		go awry, window size sanity checks, many autoconf fixes,
+		and support for the KDE konsole keypad layout.  Have fun.
+
 01/07/2001 - Nano 0.9.25 is the "Just one more feature I swear!" release.
 		It includes one new feature that Pico has had forever, a
 		built-in file browser.  Since not everyone may want this 

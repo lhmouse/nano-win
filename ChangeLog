@@ -1,4 +1,4 @@
-CVS code -
+nano 0.9.99-pre1 - 01/17/2001
 General
 	- Changed #ifdefs to check for both DISABLE_TABCOMP and
 	  NANO_SMALL, makes tiny option leave out tab completion, which
