@@ -3,6 +3,9 @@ CVS code -
 	- Fixed null_at to ACTUALLY DO SOMETHING with its arg.  Again,
 	  this was causing nasty errors if the call to nrealloc moved
 	  where the data was located.
+- cut.c:
+  cut_marked_segment()
+	- Fix off-by one in mem allocation.
 - po/de.po:
 	- Updated German translation (Karl Eichwalder).
 
