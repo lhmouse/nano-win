@@ -252,6 +252,7 @@ typedef struct historyheadtype {
 #define PRESERVE		(1<<28)
 #define HISTORY_CHANGED		(1<<29)
 #define HISTORYLOG		(1<<30)
+#define JUSTIFY_MODE		(1<<31)
 
 /* Control key sequences, changing these would be very very bad */
 

@@ -2424,7 +2424,7 @@ int do_justify(void)
 
 /* Next step, we loop through the lines of this paragraph, justifying
  * each one individually. */
-    justify_mode = 1;
+    SET(JUSTIFY_MODE);
     for(; par_len > 0; current_y++, par_len--) {
 	size_t line_len;
 	size_t display_len;
@@ -2576,7 +2576,7 @@ int do_justify(void)
   continue_loc:
 	    current = current->next;
     }
-    justify_mode = 0;
+    UNSET(JUSTIFY_MODE);
 
 /* We are now done justifying the paragraph.  There are cleanup things to
  * do, and we check for unjustify. */

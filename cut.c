@@ -54,7 +54,7 @@ void add_to_cutbuffer(filestruct *inptr)
 	cutbuffer = inptr;
 	inptr->prev = NULL;
 #ifndef NANO_SMALL
-    } else if (concatenate_cut && !justify_mode) {
+    } else if (concatenate_cut && !ISSET(JUSTIFY_MODE)) {
 	/* Just tack the text in inptr onto the text in cutbottom,
 	   unless we're backing up lines while justifying text. */
 	cutbottom->data = charealloc(cutbottom->data,

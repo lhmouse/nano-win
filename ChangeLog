@@ -23,6 +23,7 @@ CVS code -
 	  instead of putting it on a new line, as Pico does. (DLR)
 	- Convert instances of "(char *)nrealloc()" to the macro
 	  charealloc(), which does the same thing. (DLR)
+	- Change justify_mode from a boolean int to a flag (DLR).
 - cut.c:
   do_cut_text()
 	- Tweak where KEEP_CUTBUFFER is set so that a marked cut

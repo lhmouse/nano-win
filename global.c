@@ -65,7 +65,6 @@ openfilestruct *open_files = NULL;	/* The list of open files */
 #endif
 
 #ifndef DISABLE_JUSTIFY
-int justify_mode = 0;		/* Whether we're justifying now. */
 char *quotestr = NULL;		/* Quote string.  The default value is
 				   set in main(). */
 #endif

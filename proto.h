@@ -44,7 +44,6 @@ extern int search_offscreen;
 extern int currslen;
 
 #ifndef DISABLE_JUSTIFY
-extern int justify_mode;
 extern char *quotestr;
 #endif
 
@@ -107,7 +106,6 @@ extern const shortcut *currshortcut;
 #endif
 
 #ifdef HAVE_REGEX_H
-extern int use_regexp, regexp_compiled;
 extern regex_t search_regexp;
 extern regmatch_t regmatches[10];  
 #ifdef ENABLE_COLOR
