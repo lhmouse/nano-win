@@ -159,10 +159,11 @@ Changes
 	- Move up check for --disable-nls as it's independent of 
 	  --enable-tiny now (DLR).
   do_int_speller()
-	- Make internal spell program use sort -f and uniq to create a less
-	  redundant word list.  [The only reason this is going in during 
-	  feature freeze is because the int speller is useless as is and should
-	  either be improved or removed.  I chose improved].
+	- Make internal spell program use sort -f and uniq to create a
+	  less redundant word list.  [The only reason this is going in
+	  during feature freeze is because the int speller is useless as
+	  is and should either be improved or removed.  I chose
+	  improved].
 	- Change all child error checks to use one goto (gasp!) called 
 	  close_pipes_and_exit, so we don't leak FDs.
 	- Fix FD leaks which occur outside of errors (David Benbennick).
@@ -226,6 +227,8 @@ Changes
   nanogetstr()
 	- Tweak to make the cursor stay in the same place if we hit a
 	  prompt-changing toggle while it's in the middle of the string.
+	  Reset it to -1 (so next time we come here, it'll be set to the
+	  end of the string) if we leave the prompt via Enter or Cancel.
 	  Also fix minor problem with search history where the current
 	  search item could be at the bottom of the history twice in a
 	  row under certain conditions. (DLR)

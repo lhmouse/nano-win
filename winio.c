@@ -255,6 +255,11 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		    break;
 		}
 #endif
+
+		/* We canceled putting in an answer; reset x */
+		if (kbinput == NANO_CANCEL_KEY)
+		    x = -1;
+
 		return t->val;
 	    }
 	}
@@ -458,12 +463,12 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		    fprintf(stderr, _("Aha! \'%c\' (%d)\n"), kbinput,
 			    kbinput);
 #endif
-		    if (kbinput == t->val || kbinput == t->val - 32) {
-			/* We hit an Alt key.   Do like above.  We don't
-			   just ungetch the letter and let it get caught
-			   above cause that screws the keypad... */
+		    if (kbinput == t->val || kbinput == t->val - 32)
+			/* We hit an Alt key.  Do like above.  We don't
+			   just ungetch() the letter and let it get
+			   caught above cause that screws the
+			   keypad... */
 			return t->val;
-		    }
 		}
 	    }
 	    break;
@@ -487,6 +492,9 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	nanoget_repaint(buf, answer, x);
 	wrefresh(bottomwin);
     } /* while (kbinput ...) */
+
+    /* We finished putting in an answer; reset x */
+    x = -1;
 
     /* Just check for a blank answer here */
     if (answer[0] == '\0')
