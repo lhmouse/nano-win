@@ -199,6 +199,9 @@ Changes
 	  found, display "[string] not found" instead of "Replaced 0
 	  occurrences". (DLR)
 - utils.c:
+  is_cntrl_char()
+	- Rework to fix a problem with displaying certain high-bit
+	  characters. (David Benbennick; reported by Andrzej Marecki)
   align()
 	- Don't just assert that the string passed in isn't NULL; check
 	  that it isn't and only do the alignment when it isn't. (David
@@ -211,10 +214,13 @@ Changes
   charalloc()
 	- Removed and redefined as a macro that calls nmalloc(). (David
 	  Benbennick)
-  is_cntrl_char()
-	- Rework to fix a problem with displaying certain high-bit
-	  characters. (David Benbennick; reported by Andrzej Marecki)
 - winio.c:
+  nanogetstr()
+	- Tweak to make the cursor stay in the same place if we hit a
+	  prompt-changing toggle while it's in the middle of the string.
+	  Also fix minor problem with search history where the current
+	  search item could be at the bottom of the history twice in a
+	  row under certain conditions. (DLR)
   edit_refresh()
 	- Miscellaneous cleanups that fix a bug where the screen
 	  isn't updated after uncutting chunks of upwardly marked cut

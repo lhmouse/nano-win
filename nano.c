@@ -2993,7 +2993,7 @@ int main(int argc, char *argv[])
     int optchr;
     int startline = 0;		/* Line to try and start at */
     int modify_control_seq;
-    int fill_flag_used = 0;		/* Was the fill option used? */
+    int fill_flag_used = 0;	/* Was the fill option used? */
     const shortcut *s;
 #ifdef HAVE_GETOPT_LONG
     int preserveopt = 0;	/* Did the cmdline include --preserve? */

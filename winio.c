@@ -197,7 +197,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		)
 {
     int kbinput;
-    int x;
+    static int x = -1;
 	/* the cursor position in 'answer' */
     int xend;
 	/* length of 'answer', the status bar text */
@@ -213,7 +213,14 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
     int last_kbinput = 0, ret2cb = 0;
 #endif
     xend = strlen(def);
-    x = xend;
+
+    /* Only put x at the end of the string if it's uninitialized or if
+       it would be past the end of the string as it is.  Otherwise,
+       leave it alone.  This is so the cursor position stays at the same
+       place if a prompt-changing toggle is pressed. */
+    if (x == -1 || x > xend)
+	x = xend;
+
     answer = (char *)nrealloc(answer, xend + 1);
     if (xend > 0)
 	strcpy(answer, def);
@@ -351,7 +358,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	case KEY_UP:
 	case NANO_UP_KEY:
 #ifndef NANO_SMALL
-	    if (history_list) {
+	    if (history_list != NULL) {
 
 		/* If there's no previous temp holder, or if we already
 		   arrowed back down to it and (possibly edited it),
@@ -376,17 +383,19 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	case KEY_DOWN:
 	case NANO_DOWN_KEY:
 #ifndef NANO_SMALL
-	    if (history_list) {
+	    if (history_list != NULL) {
 		/* get newer search from the history list */
 		if ((history = get_history_newer(history_list)) != NULL) {
 		    answer = mallocstrcpy(answer, history);
 		    xend = strlen(history);
 
-		/* Else if we ran out of history, regurgitate the temporary
-		   buffer */
+		/* else if we ran out of history, regurgitate the temporary
+		   buffer and blow away currentbuf */
 		} else if (currentbuf != NULL) {
 		    answer = mallocstrcpy(answer, currentbuf);
-		    xend = strlen(currentbuf);
+		    free(currentbuf);
+		    currentbuf = NULL;
+		    xend = strlen(answer);
 		    ret2cb = 1;
 		} else {
 		    answer = mallocstrcpy(answer, "");

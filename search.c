@@ -158,8 +158,7 @@ int search_init(int replacing)
 	case -2:	/* Same string */
 #ifdef HAVE_REGEX_H
 	    if (ISSET(USE_REGEXP))
-		/* If we're in Pico mode, and answer is "", use
-		   last_search! */
+		/* If answer is "", use last_search! */
 		regexp_init(last_search);
 #endif
 	    break;
@@ -405,7 +404,7 @@ int do_search(void)
     if (fileptr == current && fileptr_x == current_x && didfind != NULL)
 	statusbar(_("This is the only occurrence"));
     else if (current->lineno <= edittop->lineno
-        || current->lineno >= editbot->lineno)
+	|| current->lineno >= editbot->lineno)
         edit_update(current, current_x);
 
     search_abort();
@@ -687,7 +686,7 @@ int do_replace(void)
     }
 
 #ifndef NANO_SMALL
-    if (strcmp(answer, ""))
+    if (answer[0] != '\0')
 	update_history(&search_history, answer);
 #endif	/* !NANO_SMALL */
 
@@ -712,7 +711,7 @@ int do_replace(void)
 		_("Replace with"));
 
 #ifndef NANO_SMALL
-    if (i == 0 && strcmp(answer, ""))
+    if (i == 0 && answer[0] != '\0')
 	update_history(&replace_history, answer);
 #endif	/* !NANO_SMALL */
 
@@ -912,7 +911,7 @@ void history_init(void)
 /* find first node containing string *s in history list *h */
 historytype *find_node(historytype *h, char *s)
 {
-    for ( ; h->next ; h = h->next)
+    for (; h->next != NULL; h = h->next)
 	if (strcmp(s, h->data) == 0)
 	    return h;
     return NULL;
@@ -945,10 +944,11 @@ void update_history(historyheadtype *h, char *s)
 {
     historytype *p;
 
-    if ((p = find_node(h->next, s))) {
-	if (p == h->next)		/* catch delete and re-insert of same string in 1st node */
+    if ((p = find_node(h->next, s)) != NULL) {
+	if (p == h->next)		/* catch delete and re-insert of
+					   same string in 1st node */
 	    goto up_hs;
-	remove_node(p);				/* delete identical older string */
+	remove_node(p);			/* delete identical older string */
 	h->count--;
     }
     if (h->count == MAX_SEARCH_HISTORY) {	/* list 'full', delete oldest */
@@ -957,14 +957,14 @@ void update_history(historyheadtype *h, char *s)
     }
     insert_node((historytype *)h, s);
     h->count++;
-up_hs:
+  up_hs:
     h->current = h->next;
 }
 
 /* return a pointer to either the next older history or NULL if no more */
 char *get_history_older(historyheadtype *h)
 {
-    if (h->current->next) {		/* any older entries ? */
+    if (h->current->next != NULL) {	/* any older entries? */
 	h->current = h->current->next;	/* yes */
 	return h->current->data;	/* return it */
     }
@@ -973,9 +973,9 @@ char *get_history_older(historyheadtype *h)
 
 char *get_history_newer(historyheadtype *h)
 {
-    if (h->current->prev) {
+    if (h->current->prev != NULL) {
 	h->current = h->current->prev;
-	if (h->current->prev)
+	if (h->current->prev != NULL)
 	    return h->current->data;
     }
     return NULL;
@@ -986,8 +986,8 @@ char *get_history_completion(historyheadtype *h, char *s)
 {
     historytype *p;
 
-    for (p = h->current->next ; p->next ; p = p->next) {
-	if ((strncmp(s, p->data, h->len) == 0) && (strlen(p->data) != h->len)) {
+    for (p = h->current->next; p->next != NULL; p = p->next) {
+	if (strncmp(s, p->data, h->len) == 0 && strlen(p->data) != h->len) {
 	    h->current = p;
 	    return p->data;
 	}
@@ -1002,7 +1002,7 @@ void free_history(historyheadtype *h)
 {
     historytype *p, *n;
 
-    for (p = h->next ; (n = p->next) ; p = n)
+    for (p = h->next; (n = p->next); p = n)
 	remove_node(p);
 }
 
