@@ -1080,7 +1080,9 @@ int do_delete(void)
 
 	align(&current->data);
 
-    } else if (current->next != NULL) {
+    /* Now that we have a magic lnie again, we can check for both being
+       on the line before filebot as well as at filebot */
+    } else if (current->next != NULL && current->next != filebot) {
 	current->data = nrealloc(current->data,
 				 strlen(current->data) +
 				 strlen(current->next->data) + 1);
@@ -1096,7 +1098,7 @@ int do_delete(void)
 	delete_node(foo);
 	update_line(current, current_x);
 
-	/* Please see the comment in do_basckspace if you don't understand
+	/* Please see the comment in do_backspace if you don't understand
 	   this test */
 	if (current == filebot && strcmp(current->data, "")) {
 	    new_magicline();

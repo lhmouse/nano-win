@@ -5,6 +5,10 @@ CVS code -
   do_cut_text()
 	- marked text cut fixes (Rocco) (Fixes bug #54).
 - nano.c:
+  do_delete()
+	- Added check for current->next == fileptr, as we have a magic
+	  line code again, fixes sillyness at the end of the last line
+	  before the magic line (reported by J.A. Neitzel).
   do_justify()
 	- If the keystroke after the justify is not the unjustify key,
 	  blank the statsubar (bug reported by Neil Parks).
