@@ -3594,7 +3594,7 @@ void do_output(int *kbinput, size_t kbinput_len)
 	} else {
 #endif
 	    key_len = 1;
-	    key[0] = (char)kbinput[i];
+	    key[0] = (unsigned char)kbinput[i];
 #ifdef NANO_WIDE
 	}
 #endif
