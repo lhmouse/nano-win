@@ -2851,8 +2851,10 @@ void do_justify(bool full_justify)
 	    if (display_len > fill) {
 		/* The line is too long.  Try to wrap it to the next. */
 	        break_pos = break_line(current->data + indent_len,
-			fill - strnlenpt(current->data, indent_len), TRUE);
-		if (break_pos == -1 || break_pos + indent_len == line_len)
+			fill - strnlenpt(current->data, indent_len),
+			TRUE);
+		if (break_pos == -1 || break_pos + indent_len ==
+			line_len)
 		    /* We can't break the line, or don't need to, so
 		     * just go on to the next. */
 		    goto continue_loc;
@@ -2862,7 +2864,8 @@ void do_justify(bool full_justify)
 		    /* There is no next line in this paragraph.  We make
 		     * a new line and copy text after break_pos into
 		     * it. */
-		    splice_node(current, make_new_node(current), current->next);
+		    splice_node(current, make_new_node(current),
+			current->next);
 		    /* In a non-quoted paragraph, we copy the indent
 		     * only if AUTOINDENT is turned on. */
 		    if (quote_len == 0
@@ -2871,9 +2874,10 @@ void do_justify(bool full_justify)
 #endif
 			)
 			    indent_len = 0;
-		    current->next->data = charalloc(indent_len + line_len -
-			break_pos);
-		    strncpy(current->next->data, current->data, indent_len);
+		    current->next->data = charalloc(indent_len +
+			line_len - break_pos);
+		    strncpy(current->next->data, current->data,
+			indent_len);
 		    strcpy(current->next->data + indent_len,
 			current->data + break_pos + 1);
 		    assert(strlen(current->next->data) ==
@@ -2886,12 +2890,13 @@ void do_justify(bool full_justify)
 
 		    indent_len = quote_len +
 			indent_length(current->next->data + quote_len);
-		    current->next->data = charealloc(current->next->data,
-			next_line_len + line_len - break_pos + 1);
+		    current->next->data =
+			charealloc(current->next->data, next_line_len +
+			line_len - break_pos + 1);
 
-		    charmove(current->next->data + indent_len + line_len -
-			break_pos, current->next->data + indent_len,
-			next_line_len - indent_len + 1);
+		    charmove(current->next->data + indent_len +
+			line_len - break_pos, current->next->data +
+			indent_len, next_line_len - indent_len + 1);
 		    strcpy(current->next->data + indent_len,
 			current->data + break_pos + 1);
 		    current->next->data[indent_len + line_len -
@@ -2905,7 +2910,8 @@ void do_justify(bool full_justify)
 #endif
 		}
 #ifndef NANO_SMALL
-		if (mark_beginbuf == current && mark_beginx > break_pos) {
+		if (mark_beginbuf == current && mark_beginx >
+			break_pos) {
 		    mark_beginbuf = current->next;
 		    mark_beginx -= break_pos + 1 - indent_len;
 		}
@@ -2971,7 +2977,8 @@ void do_justify(bool full_justify)
 		    charmove(current->next->data + indent_len,
 			current->next->data + indent_len + break_pos + 1,
 			next_line_len - break_pos - indent_len);
-		    null_at(&current->next->data, next_line_len - break_pos);
+		    null_at(&current->next->data, next_line_len -
+			break_pos);
 
 		    /* Go to the next line. */
 		    current = current->next;
@@ -2999,8 +3006,8 @@ void do_justify(bool full_justify)
 		    totsize++;
 		} else if (par_len == 1 &&
 			current->prev->data[prev_line_len - 1] == ' ') {
-		    current->prev->data = charealloc(current->prev->data,
-			prev_line_len);
+		    current->prev->data =
+			charealloc(current->prev->data, prev_line_len);
 		    current->prev->data[prev_line_len - 1] = '\0';
 		    totsize--;
 		}
