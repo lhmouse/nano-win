@@ -241,8 +241,7 @@ void nanoget_repaint(char *buf, char *inputbuf, int x)
 	mvwaddstr(bottomwin, 0, 0, buf);
 	waddnstr(bottomwin, inputbuf, wid);
 	wmove(bottomwin, 0, (x % COLS));
-    }
-    else {
+    } else {
 	/* Black magic */
 	buf[len - 1] = '$';
 
@@ -259,7 +258,7 @@ void nanoget_repaint(char *buf, char *inputbuf, int x)
 }
 
 /* Get the input from the kb; this should only be called from statusq */
-int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen, 
+int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 	       int start_x, int list)
 {
     int kbinput = 0, j = 0, x = 0, xend;
@@ -268,7 +267,7 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 #ifndef DISABLE_TABCOMP
     int shift = 0;
 #endif
-    
+
     inputbuf = charalloc(strlen(def) + 1);
     inputbuf[0] = 0;
 
@@ -299,8 +298,7 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 
 #ifndef DISABLE_HELP
 		/* Have to do this here, it would be too late to do it in statusq */
-		if (kbinput == NANO_HELP_KEY 
-		    || kbinput == NANO_HELP_FKEY) {
+		if (kbinput == NANO_HELP_KEY || kbinput == NANO_HELP_FKEY) {
 		    do_help();
 		    break;
 		}
@@ -320,17 +318,17 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 
 	switch (kbinput) {
 
-	/* Stuff we want to equate with <enter>, ASCII 13 */
+	    /* Stuff we want to equate with <enter>, ASCII 13 */
 	case 343:
 	    ungetch(13);	/* Enter on iris-ansi $TERM, sometimes */
 	    break;
-	/* Stuff we want to ignore */
+	    /* Stuff we want to ignore */
 #ifdef PDCURSES
 	case 541:
 	case 542:
-	case 543:			/* Right ctrl again */
+	case 543:		/* Right ctrl again */
 	case 544:
-	case 545: 			/* Right alt again */
+	case 545:		/* Right alt again */
 	    break;
 #endif
 #ifndef DISABLE_MOUSE
@@ -388,8 +386,8 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 	case NANO_CONTROL_I:
 	    if (allowtabs) {
 		shift = 0;
-		inputbuf = input_tab(inputbuf, (x - x_left), 
-				&tabbed, &shift, &list);
+		inputbuf = input_tab(inputbuf, (x - x_left),
+				     &tabbed, &shift, &list);
 		x += shift;
 		if (x - x_left > strlen(inputbuf))
 		    x = strlen(inputbuf) + x_left;
@@ -463,7 +461,8 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 
 		for (j = 0; j <= slen - 1; j++) {
 #ifdef DEBUG
-	    fprintf(stderr, _("Aha! \'%c\' (%d)\n"), kbinput, kbinput);
+		    fprintf(stderr, _("Aha! \'%c\' (%d)\n"), kbinput,
+			    kbinput);
 #endif
 		    if (kbinput == s[j].val || kbinput == s[j].val - 32) {
 
@@ -487,9 +486,8 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 	    inputlen = strlen(inputbuf);
 	    inputbuf = nrealloc(inputbuf, inputlen + 2);
 
-	    memmove(&inputbuf[x - x_left + 1], 
-			&inputbuf[x - x_left],
-                        inputlen - (x - x_left) + 1);
+	    memmove(&inputbuf[x - x_left + 1],
+		    &inputbuf[x - x_left], inputlen - (x - x_left) + 1);
 	    inputbuf[x - x_left] = kbinput;
 
 	    x++;
@@ -506,7 +504,7 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
     free(inputbuf);
 
     /* In pico mode, just check for a blank answer here */
-    if  (((ISSET(PICO_MODE)) && !strcmp(answer, "")))
+    if (((ISSET(PICO_MODE)) && !strcmp(answer, "")))
 	return -2;
     else
 	return 0;
@@ -553,9 +551,11 @@ void titlebar(char *path)
 	    waddstr(topwin, &what[namelen - space]);
 	} else {
 	    if (path == NULL)
-		mvwaddstr(topwin, 0, COLS / 2 - (namelen / 2 + 1), _("File: "));
+		mvwaddstr(topwin, 0, COLS / 2 - (namelen / 2 + 1),
+			  _("File: "));
 	    else
-	 	mvwaddstr(topwin, 0, COLS / 2 - (namelen / 2 + 1), _(" DIR: "));
+		mvwaddstr(topwin, 0, COLS / 2 - (namelen / 2 + 1),
+			  _(" DIR: "));
 	    waddstr(topwin, what);
 	}
     }
@@ -601,18 +601,18 @@ void bottombars(shortcut s[], int slen)
     if (ISSET(NO_HELP))
 	return;
 
-#ifdef ENABLE_COLOR    
+#ifdef ENABLE_COLOR
     color_on(bottomwin, COLOR_BOTTOMBARS);
     if (!colors[COLOR_BOTTOMBARS - FIRST_COLORNUM].set ||
-	 colors[COLOR_BOTTOMBARS - FIRST_COLORNUM].fg != COLOR_BLACK)
-   	wattroff(bottomwin, A_REVERSE);
+	colors[COLOR_BOTTOMBARS - FIRST_COLORNUM].fg != COLOR_BLACK)
+	wattroff(bottomwin, A_REVERSE);
 #endif
 
     /* Determine how many extra spaces are needed to fill the bottom of the screen */
     if (slen < 2)
 	k = COLS / 6 - 13;
     else
-	k = COLS / ((slen + (slen %2)) / 2) - 13;
+	k = COLS / ((slen + (slen % 2)) / 2) - 13;
 
 
     clear_bottomwin();
@@ -645,7 +645,7 @@ void bottombars(shortcut s[], int slen)
 	    waddch(bottomwin, ' ');
     }
 
-#ifdef ENABLE_COLOR    
+#ifdef ENABLE_COLOR
     color_off(bottomwin, COLOR_BOTTOMBARS);
 #endif
 
@@ -748,7 +748,7 @@ void add_marked_sameline(int begin, int end, filestruct * fileptr, int y,
     color_on(edit, COLOR_MARKER);
 #else
     wattron(edit, A_REVERSE);
-#endif /* ENABLE_COLOR */
+#endif				/* ENABLE_COLOR */
 
     mvwaddnstr(edit, y, begin - this_page_start,
 	       &fileptr->data[begin], sel_data_len);
@@ -757,7 +757,7 @@ void add_marked_sameline(int begin, int end, filestruct * fileptr, int y,
     color_off(edit, COLOR_MARKER);
 #else
     wattroff(edit, A_REVERSE);
-#endif /* ENABLE_COLOR */
+#endif				/* ENABLE_COLOR */
 
 }
 #endif
@@ -779,62 +779,64 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 
 
     /* Just paint the string in any case (we'll add color or reverse on
-	just the text that needs it */
+       just the text that needs it */
     mvwaddnstr(edit, yval, 0, &fileptr->data[start],
-	    get_page_end_virtual(this_page) - start + 1);
+	       get_page_end_virtual(this_page) - start + 1);
 
 #ifdef ENABLE_COLOR
     if (colorstrings != NULL)
-	for (tmpcolor = colorstrings; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
+	for (tmpcolor = colorstrings; tmpcolor != NULL;
+	     tmpcolor = tmpcolor->next) {
 
-		k = start;
-		regcomp(&search_regexp, tmpcolor->start, 0);
-		while (!regexec(&search_regexp, &fileptr->data[k], 1, 
-		    regmatches, 0)) {
+	    k = start;
+	    regcomp(&search_regexp, tmpcolor->start, 0);
+	    while (!regexec(&search_regexp, &fileptr->data[k], 1,
+			    regmatches, 0)) {
 
-		    if (regmatches[0].rm_eo - regmatches[0].rm_so < 1) {
-			statusbar("Refusing 0 length regex match"); 
-			break;
-		    }
+		if (regmatches[0].rm_eo - regmatches[0].rm_so < 1) {
+		    statusbar("Refusing 0 length regex match");
+		    break;
+		}
 #ifdef DEBUG
-		    fprintf(stderr, "Match! (%d chars) \"%s\"\n",
+		fprintf(stderr, "Match! (%d chars) \"%s\"\n",
 			regmatches[0].rm_eo - regmatches[0].rm_so,
 			&fileptr->data[k + regmatches[0].rm_so]);
 #endif
-		    if (regmatches[0].rm_so < COLS - 1) {
-			if (tmpcolor->bright)
-			    wattron(edit, A_BOLD);
-			wattron(edit, COLOR_PAIR(tmpcolor->pairnum));
-
-			if (regmatches[0].rm_eo + k <= COLS)
-			    paintlen = regmatches[0].rm_eo - regmatches[0].rm_so;
-			else
-			    paintlen = COLS - k - regmatches[0].rm_so - 1;
-
-			mvwaddnstr(edit, yval, regmatches[0].rm_so + k,
-			    &fileptr->data[k + regmatches[0].rm_so], 
-			    paintlen);
-
-
-		    }
-
+		if (regmatches[0].rm_so < COLS - 1) {
 		    if (tmpcolor->bright)
-			wattroff(edit, A_BOLD);
-		    wattroff(edit, COLOR_PAIR(tmpcolor->pairnum));
+			wattron(edit, A_BOLD);
+		    wattron(edit, COLOR_PAIR(tmpcolor->pairnum));
 
-		    k += regmatches[0].rm_eo;
+		    if (regmatches[0].rm_eo + k <= COLS)
+			paintlen =
+			    regmatches[0].rm_eo - regmatches[0].rm_so;
+		    else
+			paintlen = COLS - k - regmatches[0].rm_so - 1;
+
+		    mvwaddnstr(edit, yval, regmatches[0].rm_so + k,
+			       &fileptr->data[k + regmatches[0].rm_so],
+			       paintlen);
+
+
+		}
+
+		if (tmpcolor->bright)
+		    wattroff(edit, A_BOLD);
+		wattroff(edit, COLOR_PAIR(tmpcolor->pairnum));
+
+		k += regmatches[0].rm_eo;
 	    }
 	}
-#endif /* ENABLE_COLOR */
+#endif				/* ENABLE_COLOR */
 #ifndef NANO_SMALL
 
     /* There are quite a few cases that could take place; we'll deal
      * with them each in turn */
-    if (ISSET(MARK_ISSET) &&  
+    if (ISSET(MARK_ISSET) &&
 	!((fileptr->lineno > mark_beginbuf->lineno
-	      && fileptr->lineno > current->lineno)
-	     || (fileptr->lineno < mark_beginbuf->lineno
-		 && fileptr->lineno < current->lineno))) {
+	   && fileptr->lineno > current->lineno)
+	  || (fileptr->lineno < mark_beginbuf->lineno
+	      && fileptr->lineno < current->lineno))) {
 	/* If we get here we are on a line that is at least
 	 * partially selected.  The lineno checks above determined
 	 * that */
@@ -845,7 +847,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 	    color_on(edit, COLOR_MARKER);
 #else
 	    wattron(edit, A_REVERSE);
-#endif /* ENABLE_COLOR */
+#endif				/* ENABLE_COLOR */
 
 	    mvwaddnstr(edit, yval, 0, fileptr->data, COLS);
 
@@ -853,7 +855,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 	    color_off(edit, COLOR_MARKER);
 #else
 	    wattroff(edit, A_REVERSE);
-#endif /* ENABLE_COLOR */
+#endif				/* ENABLE_COLOR */
 
 	} else if (fileptr == mark_beginbuf && fileptr == current) {
 	    /* Special case, we're still on the same line we started
@@ -885,10 +887,11 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 		color_on(edit, COLOR_MARKER);
 #else
 		wattron(edit, A_REVERSE);
-#endif /* ENABLE_COLOR */
+#endif				/* ENABLE_COLOR */
 
 		target =
-		    (virt_mark_beginx < COLS - 1) ? virt_mark_beginx : COLS - 1;
+		    (virt_mark_beginx <
+		     COLS - 1) ? virt_mark_beginx : COLS - 1;
 
 		mvwaddnstr(edit, yval, 0, fileptr->data, target);
 
@@ -896,7 +899,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 		color_off(edit, COLOR_MARKER);
 #else
 		wattroff(edit, A_REVERSE);
-#endif /* ENABLE_COLOR */
+#endif				/* ENABLE_COLOR */
 
 
 	    }
@@ -906,7 +909,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 		color_on(edit, COLOR_MARKER);
 #else
 		wattron(edit, A_REVERSE);
-#endif /* ENABLE_COLOR */
+#endif				/* ENABLE_COLOR */
 
 		target = (COLS - 1) - virt_mark_beginx;
 
@@ -914,13 +917,13 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 		    target = 0;
 
 		mvwaddnstr(edit, yval, virt_mark_beginx,
-		       &fileptr->data[virt_mark_beginx], target);
+			   &fileptr->data[virt_mark_beginx], target);
 
 #ifdef ENABLE_COLOR
 		color_off(edit, COLOR_MARKER);
 #else
 		wattroff(edit, A_REVERSE);
-#endif /* ENABLE_COLOR */
+#endif				/* ENABLE_COLOR */
 
 	    }
 
@@ -936,12 +939,12 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 		color_on(edit, COLOR_MARKER);
 #else
 		wattron(edit, A_REVERSE);
-#endif /* ENABLE_COLOR */
+#endif				/* ENABLE_COLOR */
 
 		if (virt_cur_x > COLS - 2) {
 		    mvwaddnstr(edit, yval, 0,
-			   &fileptr->data[this_page_start],
-			   virt_cur_x - this_page_start);
+			       &fileptr->data[this_page_start],
+			       virt_cur_x - this_page_start);
 		} else
 		    mvwaddnstr(edit, yval, 0, fileptr->data, virt_cur_x);
 
@@ -949,7 +952,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 		color_off(edit, COLOR_MARKER);
 #else
 		wattroff(edit, A_REVERSE);
-#endif /* ENABLE_COLOR */
+#endif				/* ENABLE_COLOR */
 
 	    }
 
@@ -959,21 +962,22 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 		color_on(edit, COLOR_MARKER);
 #else
 		wattron(edit, A_REVERSE);
-#endif /* ENABLE_COLOR */
+#endif				/* ENABLE_COLOR */
 
 		if (virt_cur_x > COLS - 2)
 		    mvwaddnstr(edit, yval, virt_cur_x - this_page_start,
-			   &fileptr->data[virt_cur_x],
-			   this_page_end - virt_cur_x);
+			       &fileptr->data[virt_cur_x],
+			       this_page_end - virt_cur_x);
 		else
 		    mvwaddnstr(edit, yval, virt_cur_x,
-			   &fileptr->data[virt_cur_x], COLS - virt_cur_x);
+			       &fileptr->data[virt_cur_x],
+			       COLS - virt_cur_x);
 
 #ifdef ENABLE_COLOR
 		color_off(edit, COLOR_MARKER);
 #else
 		wattroff(edit, A_REVERSE);
-#endif /* ENABLE_COLOR */
+#endif				/* ENABLE_COLOR */
 
 	    }
 	}
@@ -1113,7 +1117,7 @@ void edit_refresh(void)
 	editbot = temp;
 
     /* What the hell are we expecting to update the screen if this isn't 
-	here? luck?? */
+       here? luck?? */
     wrefresh(edit);
 }
 
@@ -1276,8 +1280,8 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
 
 
     /* Yes, no and all are strings of any length.  Each string consists of
-	all characters accepted as a valid character for that value.
-	The first value will be the one displayed in the shortcuts. */
+       all characters accepted as a valid character for that value.
+       The first value will be the one displayed in the shortcuts. */
     yesstr = _("Yy");
     nostr = _("Nn");
     allstr = _("Aa");
@@ -1316,7 +1320,7 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
     color_on(bottomwin, COLOR_STATUSBAR);
 #else
     wattron(bottomwin, A_REVERSE);
-#endif /* ENABLE_COLOR */
+#endif				/* ENABLE_COLOR */
 
     blank_statusbar();
     mvwaddstr(bottomwin, 0, 0, foo);
@@ -1354,16 +1358,18 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
 		   of possible return keystrokes based on the x and y values */
 		if (all) {
 		    char yesnosquare[2][2] = {
-			{yesstr[0], allstr[0]}, 
-			{nostr[0], NANO_CONTROL_C }};
+			{yesstr[0], allstr[0]},
+			{nostr[0], NANO_CONTROL_C}
+		    };
 
-		    ungetch(yesnosquare[mevent.y][mevent.x/(COLS/6)]);
+		    ungetch(yesnosquare[mevent.y][mevent.x / (COLS / 6)]);
 		} else {
 		    char yesnosquare[2][2] = {
 			{yesstr[0], '\0'},
-			{nostr[0], NANO_CONTROL_C }};
+			{nostr[0], NANO_CONTROL_C}
+		    };
 
-		    ungetch(yesnosquare[mevent.y][mevent.x/(COLS/6)]);
+		    ungetch(yesnosquare[mevent.y][mevent.x / (COLS / 6)]);
 		}
 	    }
 	    break;
@@ -1375,26 +1381,23 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
 	default:
 
 	    /* Look for the kbinput in the yes, no and (optimally) all str */
-	    for (i = 0; yesstr[i] != 0 && yesstr[i] != kbinput; i++)
-		;
+	    for (i = 0; yesstr[i] != 0 && yesstr[i] != kbinput; i++);
 	    if (yesstr[i] != 0) {
 		ok = 1;
-	 	break;
+		break;
 	    }
 
-	    for (i = 0; nostr[i] != 0 && nostr[i] != kbinput; i++)
-		;
+	    for (i = 0; nostr[i] != 0 && nostr[i] != kbinput; i++);
 	    if (nostr[i] != 0) {
 		ok = 0;
-	 	break;
+		break;
 	    }
 
 	    if (all) {
-	        for (i = 0; allstr[i] != 0 && allstr[i] != kbinput; i++)
-		    ;
+		for (i = 0; allstr[i] != 0 && allstr[i] != kbinput; i++);
 		if (allstr[i] != 0) {
 		    ok = 2;
-	 	    break;
+		    break;
 		}
 	    }
 	}
@@ -1518,8 +1521,9 @@ int do_cursorpos(int constant)
        unconditionally; otherwise, only display the position when the
        character values have changed */
     if (!constant || (old_i != i || old_totsize != totsize)) {
-	statusbar(_("line %d of %d (%.0f%%), character %ld of %ld (%.0f%%)"),
-		current->lineno, totlines, linepct, i, totsize, bytepct);
+	statusbar(_
+		  ("line %d of %d (%.0f%%), character %ld of %ld (%.0f%%)"),
+		  current->lineno, totlines, linepct, i, totsize, bytepct);
     }
 
     old_i = i;
@@ -1579,9 +1583,9 @@ int do_help(void)
 	switch (kbinput) {
 #ifndef DISABLE_MOUSE
 #ifdef NCURSES_MOUSE_VERSION
-        case KEY_MOUSE:
-            do_mouse();
-            break;
+	case KEY_MOUSE:
+	    do_mouse();
+	    break;
 #endif
 #endif
 	case NANO_NEXTPAGE_KEY:
@@ -1649,8 +1653,8 @@ int do_help(void)
 	    no_more = 1;
 	    continue;
 	}
-    } while ((kbinput = wgetch(edit)) != NANO_EXIT_KEY && 
-      kbinput != NANO_EXIT_FKEY);
+    } while ((kbinput = wgetch(edit)) != NANO_EXIT_KEY &&
+	     kbinput != NANO_EXIT_FKEY);
 
     currshortcut = oldshortcut;
     currslen = oldslen;
@@ -1660,8 +1664,7 @@ int do_help(void)
 	wrefresh(bottomwin);
 	SET(NO_HELP);
 	window_init();
-    }
-    else
+    } else
 	bottombars(currshortcut, currslen);
 
     curs_set(1);
@@ -1727,7 +1730,8 @@ void do_replace_highlight(int highlight_flag, char *word)
     char *highlight_word = NULL;
     int x, y;
 
-    highlight_word = mallocstrcpy(highlight_word, &current->data[current_x]);
+    highlight_word =
+	mallocstrcpy(highlight_word, &current->data[current_x]);
     highlight_word[strlen(word)] = '\0';
 
     /* adjust output when word extends beyond screen */
@@ -1743,7 +1747,7 @@ void do_replace_highlight(int highlight_flag, char *word)
     /* OK display the output */
 
     reset_cursor();
-    
+
     if (highlight_flag)
 	wattron(edit, A_REVERSE);
 
@@ -1767,52 +1771,53 @@ void do_credits(void)
     char *brought = _("Brought to you by:");
     char *specialthx = _("Special thanks to:");
     char *fsf = _("The Free Software Foundation");
-    char *ncurses = _("Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses");
+    char *ncurses =
+	_("Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses");
     char *anyonelse = _("and anyone else we forgot...");
     char *thankyou = _("Thank you for using nano!\n");
 
-    char *credits[CREDIT_LEN] = {nanotext, 
-			version, 
-			VERSION, 
-			"",
-			brought,
-			"Chris Allegretta",
-			"Jordi Mallach",
-			"Adam Rogoyski",
-			"Rob Siemborski",
-			"Rocco Corsi",
-			"Ken Tyler",
-			"Sven Guckes",
-			"Florian König",
-			"Pauli Virtanen",
-			"Daniele Medri",
-			"Clement Laforet",
-			"Tedi Heriyanto",
-			"Bill Soudan",
-			"Christian Weisgerber",
-			"Erik Andersen",
-			"Big Gaute",
-			"Joshua Jensen",
-			"Ryan Krebs",
-			"Albert Chin",
-			"David Lawrence Ramsey",
-			"",
-			specialthx,
-			"Plattsburgh State University",
-			"Benet Laboratories",
-			"Amy Allegretta",
-			"Linda Young",
-			"Jeremy Robichaud",
-			"Richard Kolb II",
-			fsf,
-			"Linus Torvalds",
-			ncurses,
-			anyonelse,
-			thankyou,
-			"", "", "", "",
-			"(c) 1999-2002 Chris Allegretta",
-			"", "", "", "",
-			"www.nano-editor.org"
+    char *credits[CREDIT_LEN] = { nanotext,
+	version,
+	VERSION,
+	"",
+	brought,
+	"Chris Allegretta",
+	"Jordi Mallach",
+	"Adam Rogoyski",
+	"Rob Siemborski",
+	"Rocco Corsi",
+	"Ken Tyler",
+	"Sven Guckes",
+	"Florian König",
+	"Pauli Virtanen",
+	"Daniele Medri",
+	"Clement Laforet",
+	"Tedi Heriyanto",
+	"Bill Soudan",
+	"Christian Weisgerber",
+	"Erik Andersen",
+	"Big Gaute",
+	"Joshua Jensen",
+	"Ryan Krebs",
+	"Albert Chin",
+	"David Lawrence Ramsey",
+	"",
+	specialthx,
+	"Plattsburgh State University",
+	"Benet Laboratories",
+	"Amy Allegretta",
+	"Linda Young",
+	"Jeremy Robichaud",
+	"Richard Kolb II",
+	fsf,
+	"Linus Torvalds",
+	ncurses,
+	anyonelse,
+	thankyou,
+	"", "", "", "",
+	"(c) 1999-2002 Chris Allegretta",
+	"", "", "", "",
+	"www.nano-editor.org"
     };
 
     curs_set(0);
@@ -1827,7 +1832,8 @@ void do_credits(void)
     while (wgetch(edit) == ERR) {
 	for (k = 0; k <= 1; k++) {
 	    blank_edit();
-	    for (i = editwinrows / 2 - 1; i >= (editwinrows / 2 - 1 - j); i--) {
+	    for (i = editwinrows / 2 - 1; i >= (editwinrows / 2 - 1 - j);
+		 i--) {
 		mvwaddstr(edit, i * 2 - k, 0, hblank);
 
 		if (place - (editwinrows / 2 - 1 - i) < CREDIT_LEN)
@@ -1854,15 +1860,15 @@ void do_credits(void)
     curs_set(1);
     display_main_list();
     total_refresh();
- }
+}
 #endif
 
-int             keypad_on(WINDOW * win, int newval)
+int keypad_on(WINDOW * win, int newval)
 {
 
 /* This is taken right from aumix.  Don't sue me. */
 #ifdef HAVE_USEKEYPAD
-    int             old;
+    int old;
 
     old = win->_use_keypad;
     keypad(win, newval);
@@ -1870,9 +1876,6 @@ int             keypad_on(WINDOW * win, int newval)
 #else
     keypad(win, newval);
     return 1;
-#endif                          /* HAVE_USEKEYPAD */
+#endif				/* HAVE_USEKEYPAD */
 
 }
-
-
-
