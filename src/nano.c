@@ -3103,9 +3103,11 @@ void do_justify(bool full_justify)
 	    /* Break the line, and add the space back to where we broke
 	     * it. */
 	    null_at(&current->data, break_pos);
+
 	    current->data = charealloc(current->data, break_pos + 2);
 	    current->data[break_pos] = ' ';
 	    current->data[break_pos + 1] = '\0';
+
 	    totsize++;
 
 	    /* Go to the next line. */
