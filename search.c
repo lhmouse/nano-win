@@ -131,7 +131,7 @@ filestruct *findnextstr(int quiet, filestruct * begin, char *needle)
     char *searchstr, *found = NULL, *tmp;
     int past_editbot = 0;
 
-    fileptr = current;
+    fileptr = begin;
 
     searchstr = &current->data[current_x + 1];
     /* Look for searchstr until EOF */
@@ -165,17 +165,17 @@ filestruct *findnextstr(int quiet, filestruct * begin, char *needle)
 
 	fileptr = fileage;
 
-	while (fileptr != current && fileptr != begin &&
+	while (fileptr != begin->next &&
 	       (found = strstrwrapper(fileptr->data, needle)) == NULL)
 	    fileptr = fileptr->next;
 
-	if (fileptr == begin) {
+	if (fileptr == begin->next) {
 	    if (!quiet)
 		statusbar(_("\"%s\" not found"), needle);
 
 	    return NULL;
 	}
-	if (fileptr != current) {	/* We found something */
+	else {	/* We found something */
 	    current = fileptr;
 	    current_x = 0;
 	    for (tmp = fileptr->data; tmp != found; tmp++)
@@ -186,12 +186,7 @@ filestruct *findnextstr(int quiet, filestruct * begin, char *needle)
 
 	    if (!quiet)
 		statusbar(_("Search Wrapped"));
-	} else {		/* Nada */
-
-	    if (!quiet)
-		statusbar(_("\"%s\" not found"), needle);
-	    return NULL;
-	}
+	} 
     }
 
     return fileptr;

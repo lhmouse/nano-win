@@ -18,6 +18,8 @@ CVS Code
 	  ugliness bug (reported by Ken Tyler).
   findnextstr():
 	- Added reset for placewewant (Ben Roberts).
+	- Fixed check for string that only occurs on the same line failing
+	  (discovered by Ken Tyler).
 
 nano-0.9.16 - 08/09/2000
 - cut.c:
