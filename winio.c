@@ -1408,7 +1408,7 @@ void do_replace_highlight(int highlight_flag, char *word)
 }
 
 #ifdef NANO_EXTRA
-#define CREDIT_LEN 45
+#define CREDIT_LEN 47
 void do_credits(void)
 {
     int i, j = 0, k, place = 0, start_x;

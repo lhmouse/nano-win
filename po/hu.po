@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.99pre2\n"
-"POT-Creation-Date: 2001-03-18 14:03-0500\n"
+"POT-Creation-Date: 2001-03-22 21:42-0500\n"
 "PO-Revision-Date: 2001-02-03 07:47-0000\n"
 "Last-Translator: Szabolcs Horvath <horvaths@penguinpowered.com>\n"
 "Language-Team: Hungarian <magyar@lists.linux.hu>\n"
@@ -408,7 +408,7 @@ msgid "Case Sens"
 msgstr "kis/Nagy"
 
 #: global.c:352 global.c:372 global.c:383 global.c:393 global.c:414
-#: global.c:417 winio.c:1061
+#: global.c:417 winio.c:1063
 msgid "Cancel"
 msgstr "Mégsem"
 
@@ -910,38 +910,38 @@ msgstr "Csak %d sorból áll a szöveg, ezért az utolsóra ugrottam"
 msgid "actual_x_from_start for xplus=%d returned %d\n"
 msgstr "actual_x_from_start az xplus=%d-hoz visszatért: %d\n"
 
-#: winio.c:445
+#: winio.c:447
 #, c-format
 msgid "input '%c' (%d)\n"
 msgstr "bevitel '%c' (%d)\n"
 
-#: winio.c:487
+#: winio.c:489
 msgid "New Buffer"
 msgstr "Új fájl"
 
-#: winio.c:491
+#: winio.c:493
 msgid "  File: ..."
 msgstr "  Fájl: ..."
 
-#: winio.c:493
+#: winio.c:495
 msgid "   DIR: ..."
 msgstr " Könyvtár: ..."
 
-#: winio.c:504
+#: winio.c:506
 msgid "Modified"
 msgstr "Módosítva"
 
-#: winio.c:956
+#: winio.c:958
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr "Átmozgattam (%d, %d) a szerkesztõ-bufferben\n"
 
-#: winio.c:967
+#: winio.c:969
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr ""
 
-#: winio.c:1012
+#: winio.c:1014
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "A \"%s\" lenyomva van.\n"
@@ -953,79 +953,79 @@ msgstr "A \"%s\" lenyomva van.\n"
 #. Yes, no and all are strings of any length.  Each string consists of
 #. all characters accepted as a valid character for that value.
 #. The first value will be the one displayed in the shortcuts.
-#: winio.c:1035
+#: winio.c:1037
 msgid "Yy"
 msgstr "Ii"
 
-#: winio.c:1036
+#: winio.c:1038
 msgid "Nn"
 msgstr "Nn"
 
-#: winio.c:1037
+#: winio.c:1039
 msgid "Aa"
 msgstr "Mm"
 
-#: winio.c:1050
+#: winio.c:1052
 msgid "Yes"
 msgstr "Igen"
 
-#: winio.c:1054
+#: winio.c:1056
 msgid "All"
 msgstr "Mindet"
 
-#: winio.c:1059
+#: winio.c:1061
 msgid "No"
 msgstr "Nem"
 
-#: winio.c:1202
+#: winio.c:1204
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr ""
 
-#: winio.c:1206
+#: winio.c:1208
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "%d(/%d). sor (%.0f%%) és a(z) %d(/%d). karakter (%.0f%%)"
 
-#: winio.c:1336
+#: winio.c:1338
 msgid "Dumping file buffer to stderr...\n"
 msgstr "A fájlbuffer kiírása a standard hibakimenetre...\n"
 
-#: winio.c:1338
+#: winio.c:1340
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "A cutbuffer kiírása a standard hibakimenetre...\n"
 
-#: winio.c:1340
+#: winio.c:1342
 msgid "Dumping a buffer to stderr...\n"
 msgstr "A buffer kiírása a standard hibakimenetre...\n"
 
-#: winio.c:1415
+#: winio.c:1417
 msgid "The nano text editor"
 msgstr "A nano szövegszerkesztõ"
 
-#: winio.c:1416
+#: winio.c:1418
 msgid "version "
 msgstr "verzió "
 
-#: winio.c:1417
+#: winio.c:1419
 msgid "Brought to you by:"
 msgstr "A nano-t õk készítették el Neked:"
 
-#: winio.c:1418
+#: winio.c:1420
 msgid "Special thanks to:"
 msgstr "Külön köszönet:"
 
-#: winio.c:1419
+#: winio.c:1421
 msgid "The Free Software Foundation"
 msgstr "A Szabad Szoftver Alapítvány"
 
-#: winio.c:1420
+#: winio.c:1422
 msgid "Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses"
 msgstr "Pavel Curtis, Zeyd Ben-Halim és Eric S. Raymond az ncurses-ért"
 
-#: winio.c:1421
+#: winio.c:1423
 msgid "and anyone else we forgot..."
 msgstr "és mindenkinek, akit kifelejtettünk volna..."
 
-#: winio.c:1422
+#: winio.c:1424
 msgid "Thank you for using nano!\n"
 msgstr "Köszönjük, hogy a nano-t választottad!\n"
