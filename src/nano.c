@@ -2606,7 +2606,7 @@ void do_justify(bool full_justify)
      * keystroke and return. */
     kbinput = get_edit_input(&meta_key, &func_key, FALSE);
 
-    if (!meta_key && kbinput == NANO_UNJUSTIFY_KEY) {
+    if (!meta_key && !func_key && kbinput == NANO_UNJUSTIFY_KEY) {
 	/* Restore the justify we just did (ungrateful user!). */
 	filestruct *cutbottom = get_cutbottom();
 
