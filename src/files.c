@@ -520,13 +520,10 @@ void do_insertfile(void)
 	}
 #endif /* ENABLE_MULTIBUFFER */
 	if (i == NANO_EXTCMD_KEY) {
-	    char *ans = mallocstrcpy(NULL, answer);
-	    int ts = statusq(TRUE, extcmd_list, ans, NULL, 
+	    int j = statusq(TRUE, extcmd_list, ans, NULL,
 		_("Command to execute"));
 
-	    free(ans);
-
-	    if (ts == -1 || answer == NULL || answer[0] == '\0')
+	    if (j == -1 || answer == NULL || answer[0] == '\0')
 		goto start_again;
 	}
 #endif /* !NANO_SMALL */

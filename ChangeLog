@@ -58,6 +58,7 @@ CVS code -
   do_insertfile()
 	- Readd the NANO_SMALL #ifdef around the start_again: label to
 	  avoid a warning. (DLR)
+	- Simplify by reusing variables where possible. (DLR)
 - global.c:
   shortcut_init()
 	- Remove redundant NANO_SMALL #ifdef. (DLR)
