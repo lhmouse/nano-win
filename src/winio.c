@@ -1523,23 +1523,17 @@ size_t get_page_start(size_t column)
  * cursor at (current_y, current_x). */
 void reset_cursor(void)
 {
-    const filestruct *ptr = edittop;
-    size_t x;
-
     /* Yuck.  This condition can be true after open_file() when opening
      * the first file. */
     if (edittop == NULL)
 	return;
 
-    current_y = 0;
+    current_y = current->lineno - edittop->lineno;
+    if (current_y < editwinrows) {
+	size_t x = xplustabs();
 
-    while (ptr != current && ptr != editbot && ptr->next != NULL) {
-	ptr = ptr->next;
-	current_y++;
-    }
-
-    x = xplustabs();
-    wmove(edit, current_y, x - get_page_start(x));
+	wmove(edit, current_y, x - get_page_start(x));
+     }
 }
 
 /* edit_add() takes care of the job of actually painting a line into the
@@ -1878,6 +1872,9 @@ void update_line(const filestruct *fileptr, size_t index)
     if (line < 0 || line >= editwinrows)
 	return;
 
+    /* Don't make the cursor jump around the screen while updating. */
+    leaveok(edit, TRUE);
+
     /* First, blank out the line (at a minimum) */
     mvwaddstr(edit, line, 0, hblank);
 
@@ -1898,6 +1895,9 @@ void update_line(const filestruct *fileptr, size_t index)
 	mvwaddch(edit, line, 0, '$');
     if (strlenpt(fileptr->data) > page_start + COLS)
 	mvwaddch(edit, line, COLS - 1, '$');
+
+    /* Let the cursor jump around the screen again. */
+    leaveok(edit, FALSE);
 }
 
 /* This function updates current, based on where current_y is;
@@ -1948,27 +1948,27 @@ void edit_refresh(void)
 	edit_update(current, CENTER);
     else {
 	int nlines = 0;
+	const filestruct *foo = edittop;
 
-	/* Don't make the cursor jump around the screen whilst
-	 * updating. */
-	leaveok(edit, TRUE);
+#ifdef DEBUG
+	fprintf(stderr, "edit_refresh(): edittop->lineno = %ld\n", edittop->lineno);
+#endif
 
-	editbot = edittop;
 	while (nlines < editwinrows) {
-	    update_line(editbot, current_x);
+	    update_line(foo, current_x);
 	    nlines++;
-	    if (editbot->next == NULL)
+	    if (foo->next == NULL)
 		break;
-	    editbot = editbot->next;
+	    foo = foo->next;
 	}
 	while (nlines < editwinrows) {
 	    mvwaddstr(edit, nlines, 0, hblank);
 	    nlines++;
 	}
+	reset_cursor();
 	/* What the hell are we expecting to update the screen if this
 	 * isn't here?  Luck? */
 	wrefresh(edit);
-	leaveok(edit, FALSE);
     }
 }
 

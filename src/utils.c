@@ -30,6 +30,7 @@
 #include "proto.h"
 #include "nano.h"
 
+#ifdef HAVE_REGEX_H
 #ifdef BROKEN_REGEXEC
 #undef regexec
 int regexec_safe(const regex_t *preg, const char *string, size_t nmatch,
@@ -40,7 +41,16 @@ int regexec_safe(const regex_t *preg, const char *string, size_t nmatch,
     return REG_NOMATCH;
 }
 #define regexec(preg, string, nmatch, pmatch, eflags) regexec_safe(preg, string, nmatch, pmatch, eflags)
-#endif
+#endif /* BROKEN_REGEXEC */
+
+/* Assume that string will be found by regexec() if the REG_NOTBOL and
+ * REG_NOTEOL glags are not set. */
+int regexp_bol_or_eol(const regex_t *preg, const char *string)
+{
+    return (regexec(preg, string, 0, NULL, REG_NOTBOL | REG_NOTEOL) ==
+	REG_NOMATCH);
+}
+#endif /* HAVE_REGEX_H */
 
 int is_cntrl_char(int c)
 {
@@ -182,29 +192,32 @@ const char *stristr(const char *haystack, const char *needle)
     return NULL;
 }
 
-/* If we are searching backwards, we will find the last match
- * that starts no later than rev_start.  If we are doing a regexp search,
- * then line_pos should be 0 if haystack starts at the beginning of a
- * line, and positive otherwise.  In the regexp case, we fill in the
- * global variable regmatches with at most 9 subexpression matches.  Also,
- * all .rm_so elements are relative to the start of the whole match, so
- * regmatches[0].rm_so == 0. */
+/* If we are searching backwards, we will find the last match that
+ * starts no later than start.  Otherwise we find the first match
+ * starting no earlier than start.  If we are doing a regexp search, we
+ * fill in the global variable regmatches with at most 9 subexpression
+ * matches.  Also, all .rm_so elements are relative to the start of the
+ * whole match, so regmatches[0].rm_so == 0. */
 const char *strstrwrapper(const char *haystack, const char *needle,
-			const char *rev_start, int line_pos)
+	const char *start)
 {
+    /* start can be 1 character before the start or after the end of the
+     * line.  In either case, we just say there is no match found. */
+    if ((start > haystack && *(start - 1) == '\0') || start < haystack)
+	return NULL;
+    assert(haystack != NULL && needle != NULL && start != NULL);
 #ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP)) {
 #ifndef NANO_SMALL
 	if (ISSET(REVERSE_SEARCH)) {
-		/* When doing a backwards search, haystack is a whole line. */
-	    if (regexec(&search_regexp, haystack, 1, regmatches, 0) == 0 &&
-		    haystack + regmatches[0].rm_so <= rev_start) {
+	    if (regexec(&search_regexp, haystack, 1, regmatches, 0) == 0
+		&& haystack + regmatches[0].rm_so <= start) {
 		const char *retval = haystack + regmatches[0].rm_so;
 
 		/* Search forward until there is no more match. */
 		while (regexec(&search_regexp, retval + 1, 1, regmatches,
-			    REG_NOTBOL) == 0 &&
-			retval + 1 + regmatches[0].rm_so <= rev_start)
+			REG_NOTBOL) == 0 && retval + 1 +
+			regmatches[0].rm_so <= start)
 		    retval += 1 + regmatches[0].rm_so;
 		/* Finally, put the subexpression matches in global
 		 * variable regmatches.  The REG_NOTBOL flag doesn't
@@ -214,9 +227,9 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 	    }
 	} else
 #endif /* !NANO_SMALL */
-	if (regexec(&search_regexp, haystack, 10, regmatches,
-			line_pos > 0 ? REG_NOTBOL : 0) == 0) {
-	    const char *retval = haystack + regmatches[0].rm_so;
+	if (regexec(&search_regexp, start, 10, regmatches,
+		start > haystack ? REG_NOTBOL : 0) == 0) {
+	    const char *retval = start + regmatches[0].rm_so;
 
 	    regexec(&search_regexp, retval, 10, regmatches, 0);
 	    return retval;
@@ -224,16 +237,21 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 	return NULL;
     }
 #endif /* HAVE_REGEX_H */
-#ifndef NANO_SMALL
+#if !defined(DISABLE_SPELLER) || !defined(NANO_SMALL)
     if (ISSET(CASE_SENSITIVE)) {
+#ifndef NANO_SMALL
 	if (ISSET(REVERSE_SEARCH))
-	    return revstrstr(haystack, needle, rev_start);
+	    return revstrstr(haystack, needle, start);
 	else
-	    return strstr(haystack, needle);
-    } else if (ISSET(REVERSE_SEARCH))
-	return revstristr(haystack, needle, rev_start);
 #endif
-    return stristr(haystack, needle);
+	    return strstr(haystack, needle);
+    }
+#endif /* !DISABLE_SPELLER || !NANO_SMALL */
+#ifndef NANO_SMALL
+    else if (ISSET(REVERSE_SEARCH))
+	return revstristr(haystack, needle, start);
+#endif
+    return stristr(start, needle);
 }
 
 /* This is a wrapper for the perror function.  The wrapper takes care of 

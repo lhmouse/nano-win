@@ -364,19 +364,19 @@ void not_found_msg(const char *str);
 void search_abort(void);
 void search_init_globals(void);
 int search_init(int replacing);
-int is_whole_word(int curr_pos, const char *datastr, const char *searchword);
-filestruct *findnextstr(int quiet, int bracket_mode,
-			const filestruct *begin, int beginx,
-			const char *needle, int no_sameline);
+int is_whole_word(int curr_pos, const char *datastr, const char
+	*searchword);
+int findnextstr(int can_display_wrap, int wholeword, const filestruct
+	*begin, size_t beginx, const char *needle, int no_sameline);
 int do_search(void);
 int do_research(void);
 void replace_abort(void);
 #ifdef HAVE_REGEX_H
 int replace_regexp(char *string, int create_flag);
 #endif
-char *replace_line(void);
-int do_replace_loop(const char *prevanswer, const filestruct *begin,
-			int *beginx, int wholewords, int *i);
+char *replace_line(const char *needle);
+int do_replace_loop(const char *needle, const filestruct *real_current,
+	size_t *real_current_x, int wholewords);
 int do_replace(void);
 int do_gotoline(int line, int save_pos);
 int do_gotoline_void(void);
@@ -401,9 +401,12 @@ void save_history(void);
 #endif
 
 /* Public functions in utils.c */
+#ifdef HAVE_REGEX_H
 #ifdef BROKEN_REGEXEC
 int regexec_safe(const regex_t *preg, const char *string, size_t nmatch,
 	regmatch_t pmatch[], int eflags);
+#endif
+int regexp_bol_or_eol(const regex_t *preg, const char *string);
 #endif
 int is_cntrl_char(int c);
 int num_of_digits(int n);
@@ -425,7 +428,7 @@ const char *revstristr(const char *haystack, const char *needle,
 #endif
 const char *stristr(const char *haystack, const char *needle);
 const char *strstrwrapper(const char *haystack, const char *needle,
-			const char *rev_start, int line_pos);
+	const char *start);
 void nperror(const char *s);
 void *nmalloc(size_t howmuch);
 void *nrealloc(void *ptr, size_t howmuch);

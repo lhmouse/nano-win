@@ -1510,13 +1510,13 @@ int do_wrap(filestruct *inptr)
 
 #ifndef DISABLE_SPELLER
 /* A word is misspelled in the file.  Let the user replace it.  We
- * return False if the user cancels. */
+ * return zero if the user cancels. */
 int do_int_spell_fix(const char *word)
 {
     char *save_search;
     char *save_replace;
     filestruct *current_save = current;
-    int current_x_save = current_x;
+    size_t current_x_save = current_x;
     filestruct *edittop_save = edittop;
 	/* Save where we are. */
     int i = 0;
@@ -1527,37 +1527,35 @@ int do_int_spell_fix(const char *word)
     int mark_set = ISSET(MARK_ISSET);
 
     SET(CASE_SENSITIVE);
-    /* Make sure the marking highlight is off during Spell Check */
+    /* Make sure the marking highlight is off during spell-check. */
     UNSET(MARK_ISSET);
 #endif
-    /* Make sure Spell Check goes forward only */
+    /* Make sure spell-check goes forward only. */
     UNSET(REVERSE_SEARCH);
 
-    /* save the current search/replace strings */
+    /* Save the current search/replace strings. */
     search_init_globals();
     save_search = last_search;
     save_replace = last_replace;
 
-    /* set search/replace strings to mis-spelt word */
+    /* Set search/replace strings to misspelled word. */
     last_search = mallocstrcpy(NULL, word);
     last_replace = mallocstrcpy(NULL, word);
 
-    /* start from the top of file */
+    /* Start from the top of the file. */
     current = fileage;
     current_x = -1;
 
     search_last_line = FALSE;
 
-    /* We find the first whole-word occurrence of word.  We call
-       findnextstr() with bracket_mode set to TRUE in order to disable
-       search wrapping. */
-    while (findnextstr(TRUE, TRUE, fileage, -1, word, 0))
+    /* Find the first whole-word occurrence of word. */
+    while (findnextstr(TRUE, TRUE, fileage, 0, word, FALSE) != 0)
 	if (is_whole_word(current_x, current->data, word)) {
 	    edit_refresh();
 
 	    do_replace_highlight(TRUE, word);
 
-	    /* allow replace word to be corrected */
+	    /* Allow the replace word to be corrected. */
 	    i = statusq(0, spell_list, word,
 #ifndef NANO_SMALL
 			NULL,
@@ -1567,26 +1565,26 @@ int do_int_spell_fix(const char *word)
 	    do_replace_highlight(FALSE, word);
 
 	    if (i != -1 && strcmp(word, answer)) {
-		int j = 0;
-
 		search_last_line = FALSE;
 		current_x--;
-		do_replace_loop(word, current_save, &current_x_save, TRUE, &j);
+		do_replace_loop(word, current_save, &current_x_save, TRUE);
 	    }
 
 	    break;
 	}
 
-    /* restore the search/replace strings */
-    free(last_search);    last_search=save_search;
-    free(last_replace);   last_replace=save_replace;
+    /* Restore the search/replace strings. */
+    free(last_search);
+    last_search = save_search;
+    free(last_replace);
+    last_replace = save_replace;
 
-    /* restore where we were */
+    /* Restore where we were. */
     current = current_save;
     current_x = current_x_save;
     edittop = edittop_save;
 
-    /* restore Search/Replace direction */
+    /* Restore search/replace direction. */
     if (reverse_search_set)
 	SET(REVERSE_SEARCH);
 
@@ -1594,7 +1592,7 @@ int do_int_spell_fix(const char *word)
     if (!case_sens_set)
 	UNSET(CASE_SENSITIVE);
 
-    /* restore marking highlight */
+    /* Restore marking highlight. */
     if (mark_set)
 	SET(MARK_ISSET);
 #endif

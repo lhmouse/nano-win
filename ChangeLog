@@ -36,10 +36,17 @@ CVS code -
 	- Remove the now-unneeded code to disable XON, XOFF, and
 	  suspend, since we now go into raw mode in
 	  get_verbatim_kbinput() and bypass them. (DLR)
-  do_spell(), do_int_speller(), do_alt_speller()
+  do_int_speller(), do_alt_speller(), do_spell()
 	- Modify to write only the current selection from a file to the
 	  temporary file used for spell checking when the mark is on,
 	  and add a few miscellaneous cosmetic cleanups. (DLR)
+  do_int_spell_fix()
+	- Store the value of current_x in a size_t instead of an int,
+	  and add a few minor efficiency tweaks. (David Benbennick)
+	- Remove comment explaining why findnextstr() is called with
+	  bracket_mode set to TRUE even though we aren't doing a bracket
+	  search, since after the above efficiency tweaks, it's now more
+	  accurately called can_display_wrap. (DLR)
   signal_init()
 	- Trap SIGQUIT in addition to turning it off via termios in
 	  main().  This is consistent with SIGINT, which we trap here
@@ -59,10 +66,76 @@ CVS code -
 	  curses setup routines, and turn the keypad on before setting
 	  the input mode. (DLR)
 - search.c:
+  regexp_cleanup()
+	- Only do anything if REGEXP_COMPILED is set. (David Benbennick)
+  search_abort()
+	- Only test if the mark is set when NANO_SMALL isn't defined.
+	  (David Benbennick)
+  search_init()
+	- Add some more comments and comment tweaks, don't indicate that
+	  the search has been canceled when we enter a blank string in
+	  replace mode, only call regexp_init() when USE_REGEXP is set,
+	  and return -1 instead of -3 since a canceled search and a
+	  canceled replace should be mostly equivalent. (David
+	  Benbennick)  DLR: Tweak to use the old behavior if we try to
+	  search for invalid regexes.
+  findnextstr()
+	- Refactor to use a loop invariant, and tweak for greater
+	  efficiency and simplicity.  Also modify so that all searches
+	  start one character after (or before, if we're doing a
+	  backwards search) the current one, as opposed to all searches
+	  except for regex searches for "^" and the like, for
+	  consistency with other searches. (David Benbennick)
+  do_search()
+	- Handle search_init()'s no longer returning -3 above. (David
+	  Benbennick)
+	- Port the code from do_replace_loop() to skip the current line
+	  if we're searching for a regex with "^" and/or "$" in it and
+	  end up on the same line to this function.  This fixes a
+	  problem where doing a forward search for "^" on a file with
+	  more than one line would erroneously stop at the magicline and
+	  indicate that that was the only occurrence. (DLR)
+  do_research()
+	- Port David Benbennick's efficiency tweaks and the
+	  aforementioned code ported from do_replace_loop() to this
+	  function. (DLR)
+  replace_regexp()
+	- Completely refactor for increased efficiency. (David
+	  Benbennick)
+  replace_line()
+	- Use a char* parameter for the replacement string instead of
+	  last_search, and add minor efficiency tweaks. (David
+	  Benbennick)
   do_replace_loop()
 	- Fix segfault when doing a regex replace of a string that
 	  matches inside a line (e.g. replace the "b" in "abc" with
 	  anything). (David Benbennick)
+	- If the mark is on at the beginning of the functio, turn it off
+	  and turn it back on just before returning.  Also overhaul to
+	  rely on the return value of findnextstr() instead of a loop
+	  invariant, to not need to take an int* parameter, and store
+	  the beginning x-coordinate in a size_t instead of an int.
+	  (David Benbennick)
+  do_replace()
+	- Handle search_init()'s no longer returning -3 above, and add
+	  efficiency tweaks. (David Benbennick)  DLR: Tweak to follow
+	  the old behavior of adding non-blank strings entered at the
+	  "Replace: " prompt to the search history. (DLR)
+  do_bracket()
+	- Add efficiency tweaks. (David Benbennick)  DLR: Remove
+	  reliance on the hardcoded bracket string length; instead, only
+	  require that the bracket string length be even.
+- utils.c:
+  regexec_safe()
+	- Wrap in HAVE_REGEX_H #ifdefs. (DLR)
+  regexp_bol_or_eol()
+	- New function used to check if a regex contains "^" and/or "$",
+	  assuming that the regex would be found if the REG_NOT(BOL|EOL)
+	  flags aren't used in the regexec() call; it replaces the
+	  direct regexec()s used before. (DLR)
+  strstrwrapper()
+	- Refactor for increased efficiency, and eliminate the need for
+	  the line_pos parameter. (David Benbennick)
 - winio.c:
   get_verbatim_kbinput()
 	- Set keypad() to FALSE and switch to raw mode while reading
@@ -96,6 +169,16 @@ CVS code -
 	  (a) when we move onto the "$" at the end of the line on the
 	  first page and (b) when we move onto the character just before
 	  the "$" on subsequent pages. (DLR)
+  reset_cursor()
+	- Tweak for efficiency. (David Benbennick)
+  update_line()
+	- Move leaveok() calls here from edit_refresh(), since the
+	  places where they were used in edit_refresh() mainly affected
+	  the update_line()s. (DLR)
+  edit_refresh()
+	- Tweak for efficiency. (David Benbennick)
+	- Remove the aforementioned leaveok() calls from this function.
+	  (DLR)
   do_credits()
 	- Use nanosleep() instead of usleep().  The latter is only
 	  standard under BSD, whereas the former is POSIX compliant.
