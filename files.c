@@ -1294,8 +1294,9 @@ int do_writeout(char *path, int exiting, int append)
 	    else
 		i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, "",
 		    _("Write Selection to File"));
-	} else {
+	} else
 #endif
+	{
 	    if (append)
 		i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, answer,
 		    _("File Name to Append"));
