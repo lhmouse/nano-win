@@ -50,6 +50,7 @@ CVS code -
 	- Took silly variables being passed everywhere like lineno and
 	  filename and made them static variables.
 	- Re-indented.
+	- Added stdarg.h to includes.
   rcfile_error()
 	- Now automatically prpends the "error in line blah at foo"
 	  message to error messages.
