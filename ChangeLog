@@ -222,6 +222,9 @@ CVS code -
 	  and fix spacing and capitalization in several spots. (DLR)
 - NEWS:
 	- Capitalization fix. (DLR)
+- TODO:
+	- Clarify the paragraph searching item, and add item for
+	  filename searches in the file browser. (DLR)
 
 GNU nano 1.3.1 - 2004.01.09
 - General:
