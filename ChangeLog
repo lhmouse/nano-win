@@ -74,6 +74,8 @@ CVS code -
 - winio.c:
   edit_add()
 	- Changed some syntax hilight computations for the sake of COLS.
+	- Add in the necessary regfree() calls to stop nano from leaking
+	  memory like a sieve when using color syntax highlighting :-)
   botombars(), onekey()
 	- Cleanups (David Benbennick).
 - po/gl.po:

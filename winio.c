@@ -856,6 +856,8 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 		    k += colormatches[0].rm_eo;
 
 		}
+		regfree(&color_regexp);
+
 	    }
 	    /* Now, if there's an 'end' somewhere below, and a 'start'
 	       somewhere above, things get really fun.  We have to look
@@ -868,9 +870,12 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 		while (s != NULL) {
 		    regcomp(&color_regexp, tmpcolor->start, 0);
 		    if (!regexec
-			(&color_regexp, s->data, 1, colormatches, 0))
+			(&color_regexp, s->data, 1, colormatches, 0)) {
+			regfree(&color_regexp);
 			break;
+		    }
 		    s = s->prev;
+		    regfree(&color_regexp);
 		}
 
 		if (s != NULL) {
@@ -881,9 +886,12 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 		    while (e != NULL && e != fileptr) {
 			regcomp(&color_regexp, tmpcolor->end, 0);
 			if (!regexec
-			    (&color_regexp, e->data, 1, colormatches, 0))
+			    (&color_regexp, e->data, 1, colormatches, 0)) {
+			    regfree(&color_regexp);
 			    break;
+			}
 			e = e->next;
+			regfree(&color_regexp);
 		    }
 
 		    if (e != fileptr)
@@ -893,9 +901,12 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 			    regcomp(&color_regexp, tmpcolor->end, 0);
 			    if (!regexec
 				(&color_regexp, e->data, 1, colormatches,
-				 0))
+				 0)) {
+				regfree(&color_regexp);
 				break;
+			    }
 			    e = e->next;
+			    regfree(&color_regexp);
 			}
 
 			if (e == NULL)
@@ -907,9 +918,11 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 				regcomp(&color_regexp, tmpcolor->end, 0);
 				if (!regexec
 				    (&color_regexp, e->data, 1,
-				     colormatches, 0))
+				     colormatches, 0)) {
+				    regfree(&color_regexp);
 				    break;
-				e = e->next;
+				} e = e->next;
+				regfree(&color_regexp);
 			    }
 
 			    if (e == NULL)
@@ -960,6 +973,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 	    }
 
 	}
+
 #endif				/* ENABLE_COLOR */
 #ifndef NANO_SMALL
 
