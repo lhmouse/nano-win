@@ -1,12 +1,16 @@
 # nano Finnish Translation.
-# Copyright (C) 2000 Free Software Foundation, Inc.
-# Pauli Virtanen <pauli.virtanen@saunalahti.fi>, 2000.
+# Copyright (C) 2000, 2001 Free Software Foundation, Inc.
+# Pauli Virtanen <pauli.virtanen@saunalahti.fi>, 2000, 2001.
+#
+# This file is under the public domain.
+# I disclaim all copyright interest in it.
+# $Id$
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 0.9.18\n"
-"POT-Creation-Date: 2001-08-20 09:49-0400\n"
-"PO-Revision-Date: 2001-01-12 17:21+02:00\n"
+"Project-Id-Version: nano 1.0.4\n"
+"POT-Creation-Date: 2001-10-03 21:46+0300\n"
+"PO-Revision-Date: 2001-10-03 21:45+0300\n"
 "Last-Translator: Pauli Virtanen <pauli.virtanen@saunalahti.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +22,7 @@ msgstr ""
 msgid "add_to_cutbuffer called with inptr->data = %s\n"
 msgstr "add_to_cutbuffer funktion parametri inptr->data = %s\n"
 
-#: cut.c:158
+#: cut.c:161
 msgid "Blew away cutbuffer =)\n"
 msgstr "Leiketila katosi =)\n"
 
@@ -97,7 +101,7 @@ msgstr "%d rivi‰ kirjoitettu"
 
 #: files.c:525
 msgid "File Name to write"
-msgstr "Kirjoitettavan tiedoston nimi"
+msgstr "Kirjoitettava tiedosto"
 
 #: files.c:542
 #, c-format
@@ -106,7 +110,7 @@ msgstr "tiedoston nimi on %s"
 
 #: files.c:556
 msgid "File exists, OVERWRITE ?"
-msgstr "Tiedosto on jo olemassa, korvataanko?"
+msgstr "Tiedosto olemassa, korvataanko?"
 
 #: files.c:978
 msgid "(more)"
@@ -211,7 +215,6 @@ msgid "Uncut from the cutbuffer into the current line"
 msgstr "Kopioi rivi leiketilasta nykyiselle riville"
 
 #: global.c:199
-#, fuzzy
 msgid "Show the position of the cursor"
 msgstr "N‰yt‰ kohdistimen sijainti"
 
@@ -459,25 +462,25 @@ msgid ""
 "commonly used shortcuts in the editor.\n"
 "\n"
 " The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  "
-"Escape-key sequences are notated with the Meta (M) symbol and can be entered "
-"using either the Esc, Alt or Meta key depending on your keyboard setup.  The "
+"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
+"key sequences are notated with the Meta (M) symbol and can be entered using "
+"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
 "following keystrokes are available in the main editor window. Optional keys "
 "are shown in parentheses:\n"
 "\n"
 msgstr ""
 " Nanon ohje\n"
 "\n"
-" Nano-editori on suunniteltu vastaamaan UW Pico-editorin toiminnallisuutta "
-"ja helppok‰yttˆisyytt‰. Editorin n‰yttˆ koostuu nelj‰st‰ osasta: ylin rivi "
-"n‰ytt‰‰ ohjelman versionumeron, nykyisen tiedoston nimen sek‰ sen, onko "
-"tiedostoa muutettu. Seuraavana on tiedoston muokkausn‰kym‰. Tilarivi on "
-"kolmas rivi alhaalta lukien ja n‰ytt‰‰ t‰rke‰t viestit. Alimmilla kahdella "
-"rivill‰ on lueteltu useimmin tarvitut pikan‰pp‰imet.\n"
+" Nano-editori on suunniteltu vastaamaan toiminnallisuudeltaan ja "
+"helppok‰yttˆisyydelt‰‰n UW Pico -editoria. Nanon n‰yttˆ koostuu nelj‰st‰ "
+"osasta: ylin rivi n‰ytt‰‰ ohjelman versionumeron, nykyisen tiedoston nimen "
+"sek‰ sen, onko tiedostoa muutettu. Seuraavana on tiedoston muokkausn‰kym‰. "
+"Tilarivi on kolmas rivi alhaalta lukien ja n‰ytt‰‰ t‰rke‰t viestit. "
+"Alimmilla kahdella rivill‰ on n‰kyviss‰ useimmin tarvitut pikan‰pp‰imet.\n"
 "\n"
 " N‰pp‰inohjeissa control-n‰pp‰imen komentoja merkit‰‰n \"hatulla\" (^) ja "
-"escape-n‰pp‰inkomentoja merkit‰‰n M-merkill‰ (M). Niit‰ voi k‰ytt‰‰ joko "
-"esc, alt tai meta -n‰pp‰imell‰ n‰pp‰imistˆst‰ riippuen. Seuraavia "
+"escape-n‰pp‰inkomentoja merkit‰‰n M-merkill‰ (M). Niit‰ voi k‰ytt‰‰ "
+"n‰pp‰imistˆst‰ riippuen joko esc-, alt- tai meta-n‰pp‰imell‰. Seuraavia "
 "n‰pp‰inkomentoja voi k‰ytt‰‰ editorin p‰‰ikkunassa. Lis‰n‰pp‰imet ovat "
 "sulkeissa:\n"
 "\n"
@@ -540,7 +543,7 @@ msgstr " -m \t\t--mouse\t\t\tK‰yt‰ hiirt‰\n"
 
 #: nano.c:387
 msgid " -p\t \t--pico\t\t\tEmulate Pico as closely as possible\n"
-msgstr " -p\t \t--pico\t\t\tJ‰ljittele Picoa tarkasti\n"
+msgstr " -p \t\t--pico\t\t       J‰ljittele Picoa mahdollisimman tarkasti\n"
 
 #: nano.c:390
 msgid ""
@@ -817,7 +820,7 @@ msgstr "Vastaanotettu Alt-%c! (%d)\n"
 #: search.c:127
 #, c-format
 msgid "Case Sensitive Regexp Search%s%s"
-msgstr "Etsi kirjainkokotarkka s‰‰nn. lauseke%s%s"
+msgstr "Etsi kirjainkokotarkka s‰‰n. lauseke%s%s"
 
 #: search.c:129
 #, c-format
@@ -832,7 +835,7 @@ msgstr "Kirjainkokotarkka etsint‰%s%s"
 #: search.c:133
 #, c-format
 msgid "Search%s%s"
-msgstr "Etsint‰%s%s"
+msgstr "Etsi%s%s"
 
 #: search.c:136
 msgid " (to replace)"
@@ -852,14 +855,13 @@ msgid "Search Wrapped"
 msgstr "Etsint‰ jatkuu"
 
 #: search.c:358
-#, fuzzy, c-format
+#, c-format
 msgid "Replaced %d occurrences"
-msgstr "%d kohtaa korvattu"
+msgstr "%d kohtaa korvautui"
 
 #: search.c:360
-#, fuzzy
 msgid "Replaced 1 occurrence"
-msgstr "1 kohta korvattu"
+msgstr "1 kohta korvautui"
 
 #: search.c:498 search.c:608 search.c:624
 msgid "Replace Cancelled"
@@ -978,6 +980,7 @@ msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
 #: winio.c:1207
+#, c-format
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "rivi %d/%d (%.0f%%), merkki %d/%d (%.0f%%)"
 

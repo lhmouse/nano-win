@@ -16,7 +16,9 @@ CVS code -
 - po/da.po:
 	- New Danish translation, by Keld Simonsen <keld@dkuug.dk>.
 - po/it.po:
-	- Italian updates (Marco Colombo). 
+	- Italian updates (Marco Colombo).
+- po/fi.po:
+	- Finnish update (Pauli Virtanen).
 
 nano 1.0.4 - 08/24/2001
 - General
