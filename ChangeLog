@@ -30,6 +30,8 @@ General -
 	- Spell Erik Andersen's name right.
   titlebar()
 	- Now takes an arg, needed for browser function.
+- es.po:
+	- Updates for file browser (Jordi).
 
 nano 0.9.24 - 12/18/2000
 General
