@@ -2217,9 +2217,10 @@ int do_para_search(int search_type, size_t *quote, size_t *par, size_t
     current_x = 0;
 
   restart_para_search:
-/* Here we find the first line of the paragraph to search.  If the
- * current line is in a paragraph, then we move back to the first line.
- * Otherwise we move to the first line that is in a paragraph. */
+    /* Here we find the first line of the paragraph to search.  If the
+     * current line is in a paragraph, then we move back to the first
+     * line.  Otherwise, we move to the first line that is in a
+     * paragraph. */
     quote_len = quote_length(IFREG(current->data, &qreg));
     indent_len = indent_length(current->data + quote_len);
 
@@ -2236,13 +2237,12 @@ int do_para_search(int search_type, size_t *quote, size_t *par, size_t
 	    /* Is this line the beginning of a paragraph, according to
 	     * items 2), 5), or 4) above?  If so, stop. */
 	    if (current->prev->data[quote_len + temp_id_len] == '\0' ||
-		    (quote_len == 0 && indent_len > 0
+		(quote_len == 0 && indent_len > 0
 #ifndef NANO_SMALL
-			&& !ISSET(AUTOINDENT)
+		&& !ISSET(AUTOINDENT)
 #endif
-			) ||
-		    !indents_match(current->prev->data + quote_len,
-			temp_id_len, current->data + quote_len, indent_len))
+		) || !indents_match(current->prev->data + quote_len,
+		temp_id_len, current->data + quote_len, indent_len))
 		break;
 	    indent_len = temp_id_len;
 	    current = current->prev;
@@ -2255,12 +2255,8 @@ int do_para_search(int search_type, size_t *quote, size_t *par, size_t
 	    /* There is no previous paragraph, so nothing to move to. */
 	    if (current->prev == NULL) {
 		placewewant = 0;
-		if (do_refresh) {
-		    if (current_y < 0)
-			edit_update(current, CENTER);
-		    else
-			edit_refresh();
-		}
+		if (do_refresh)
+		    edit_refresh();
 #ifdef HAVE_REGEX_H
 		if (!do_restart)
 		    regfree(&qreg);
@@ -2294,20 +2290,21 @@ int do_para_search(int search_type, size_t *quote, size_t *par, size_t
 	} while (current->data[quote_len + indent_len] == '\0');
     }
 
-/* Now current is the first line of the paragraph, and quote_len is the
- * quotation length of that line. */
+    /* Now current is the first line of the paragraph, and quote_len is
+     * the quotation length of that line. */
 
-/* Next step, compute par_len, the number of lines in this paragraph. */
+    /* Next step, compute par_len, the number of lines in this
+     * paragraph. */
     line = current;
     par_len = 1;
     indent_len = indent_length(line->data + quote_len);
 
     while (line->next != NULL && quotes_match(current->data, quote_len,
-				IFREG(line->next->data, &qreg))) {
+	IFREG(line->next->data, &qreg))) {
 	size_t temp_id_len = indent_length(line->next->data + quote_len);
 
 	if (!indents_match(line->data + quote_len, indent_len,
-			line->next->data + quote_len, temp_id_len) ||
+		line->next->data + quote_len, temp_id_len) ||
 		line->next->data[quote_len + temp_id_len] == '\0' ||
 		(quote_len == 0 && temp_id_len > 0
 #ifndef NANO_SMALL
@@ -2359,8 +2356,8 @@ int do_para_search(int search_type, size_t *quote, size_t *par, size_t
     regfree(&qreg);
 #endif
 
-/* Now par_len is the number of lines in this paragraph.  We should
- * never call quotes_match() or quote_length() again. */
+    /* Now par_len is the number of lines in this paragraph.  We should
+     * never call quotes_match() or quote_length() again. */
 
     /* If we're searching for the end of the paragraph, move down the
      * number of lines in the paragraph. */
@@ -2370,13 +2367,8 @@ int do_para_search(int search_type, size_t *quote, size_t *par, size_t
     }
 
     /* Refresh the screen if needed. */
-    if (do_refresh) {
-	if (((search_type == 0 || search_type == 2) && current_y >
-		editwinrows - 1) || (search_type == 1 && current_y < 0))
-	    edit_update(current, CENTER);
-	else
-	    edit_refresh();
-    }
+    if (do_refresh)
+	edit_refresh();
 
     /* Save the values of quote_len, par_len, and indent_len if
      * needed. */
@@ -2515,10 +2507,11 @@ int do_justify(int full_justify)
 		    splice_node(current, make_new_node(current), current->next);
 		    /* In a non-quoted paragraph, we copy the indent
 		     * only if AUTOINDENT is turned on. */
-		    if (quote_len == 0)
+		    if (quote_len == 0
 #ifndef NANO_SMALL
-			if (!ISSET(AUTOINDENT))
+			&& !ISSET(AUTOINDENT)
 #endif
+			)
 			    indent_len = 0;
 		    current->next->data = charalloc(indent_len + line_len -
 			break_pos);
@@ -2648,10 +2641,7 @@ int do_justify(int full_justify)
 
     } /* while (TRUE) */
 
-    if (current_y > editwinrows - 1)
-	edit_update(current, CENTER);
-    else
-	edit_refresh();
+    edit_refresh();
 
     statusbar(_("Can now UnJustify!"));
     /* Display the shortcut list with UnJustify. */

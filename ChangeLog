@@ -51,6 +51,9 @@ CVS code -
 	- Tweak for efficiency. (David Benbennick)
   justify_format()
 	- Remove redundant assignment. (DLR)
+  do_para_search(), do_justify()
+	- Remove unneeded edit_update() calls. (David Benbennick)
+	- Simplify an if statement. (DLR)
   do_exit()
 	- Refactor so that no recursion is needed if we try to exit with
 	  a modified file that has no name when TEMP_OPT is set. (DLR)
