@@ -1913,9 +1913,10 @@ int do_justify(void)
 
     /* Now get a keystroke and see if it's unjustify, if not unget the keytroke 
        and return */
-    if ((kbinput = wgetch(edit)) != NANO_UNJUSTIFY_KEY)
+    if ((kbinput = wgetch(edit)) != NANO_UNJUSTIFY_KEY) {
 	ungetch(kbinput); 
-    else {
+	blank_statusbar_refresh();
+    } else {
 	/* Else restore the justify we just did (ungrateful user!) */
 	if (tmptop->prev != NULL)
 	    tmptop->prev->next = tmpbot->next;

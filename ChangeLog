@@ -4,6 +4,11 @@ CVS code -
 - cut.c:
   do_cut_text()
 	- marked text cut fixes (Rocco) (Fixes bug #54).
+- nano.c:
+  do_justify()
+	- If the keystroke after the justify is not the unjustify key,
+	  blank the statsubar (bug reported by Neil Parks).
+
 - hu.po:
 	- Hungarian translation by Horvath Szabolcs.
 
