@@ -634,8 +634,8 @@ void blank_titlebar(void);
 void blank_topbar(void);
 void blank_edit(void);
 void blank_statusbar(void);
-void check_statusblank(void);
 void blank_bottombars(void);
+void check_statusblank(void);
 char *display_string(const char *buf, size_t start_col, size_t len, bool
 	dollars);
 void nanoget_repaint(const char *buf, const char *inputbuf, size_t x);
@@ -674,6 +674,7 @@ void edit_redraw(const filestruct *old_current, size_t old_pww);
 void edit_refresh(void);
 void edit_update(topmidnone location);
 int do_yesno(bool all, const char *msg);
+void total_blank(void);
 void total_refresh(void);
 void display_main_list(void);
 void do_cursorpos(bool constant);

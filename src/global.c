@@ -811,6 +811,10 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_nextline_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 
+    sc_init_one(&help_list, NANO_REFRESH_KEY, N_("Refresh"),
+	IFHELP(nano_refresh_msg, NANO_NO_KEY), NANO_NO_KEY,
+	NANO_NO_KEY, VIEW, NULL);
+
     sc_init_one(&help_list, NANO_EXIT_KEY, exit_msg,
 	IFHELP(nano_exit_msg, NANO_NO_KEY), NANO_EXIT_FKEY,
 	NANO_NO_KEY, VIEW, NULL);

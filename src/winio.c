@@ -2190,6 +2190,14 @@ void blank_statusbar(void)
     mvwaddstr(bottomwin, 0, 0, hblank);
 }
 
+void blank_bottombars(void)
+{
+    if (!ISSET(NO_HELP)) {
+	mvwaddstr(bottomwin, 1, 0, hblank);
+	mvwaddstr(bottomwin, 2, 0, hblank);
+    }
+}
+
 void check_statusblank(void)
 {
     if (statusblank > 1)
@@ -2200,14 +2208,6 @@ void check_statusblank(void)
 	wnoutrefresh(bottomwin);
 	reset_cursor();
 	wrefresh(edit);
-    }
-}
-
-void blank_bottombars(void)
-{
-    if (!ISSET(NO_HELP)) {
-	mvwaddstr(bottomwin, 1, 0, hblank);
-	mvwaddstr(bottomwin, 2, 0, hblank);
     }
 }
 
@@ -3732,7 +3732,7 @@ int do_yesno(bool all, const char *msg)
     return ok;
 }
 
-void total_refresh(void)
+void total_blank(void)
 {
     clearok(topwin, TRUE);
     clearok(edit, TRUE);
@@ -3744,6 +3744,11 @@ void total_refresh(void)
     clearok(topwin, FALSE);
     clearok(edit, FALSE);
     clearok(bottomwin, FALSE);
+}
+
+void total_refresh(void)
+{
+    total_blank();
     titlebar(NULL);
     edit_refresh();
     bottombars(currshortcut);
@@ -3929,10 +3934,14 @@ void do_help(void)
 		break;
 	}
 
-	if (line == old_line && kbinput != ERR)
-	    goto skip_redisplay;
+	if (kbinput == NANO_REFRESH_KEY)
+	    total_blank();
+	else {
+	    if (line == old_line && kbinput != ERR)
+		goto skip_redisplay;
 
-	blank_edit();
+	    blank_edit();
+	}
 
 	assert(COLS > 5);
 

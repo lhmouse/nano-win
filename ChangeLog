@@ -315,6 +315,11 @@ CVS code -
   total_refresh()
 	- Refresh bottomwin using the value of currshortcut, and change
 	  the code around do_refresh() calls to accommodate this. (DLR)
+	- Split out the code that blanks the screen before refreshing it
+	  into the new function total_blank().
+  do_help()
+	- Refresh the screen when Ctrl-L is pressed in the help browser,
+	  as Pico does. (DLR)
 - configure.ac:
 	- Remove specific references to control key shortcuts. (DLR)
 	- Check for the wide version of ncurses, without which multibyte
