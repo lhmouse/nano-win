@@ -3,7 +3,6 @@
 <head>
   <title>The GNU nano editor FAQ</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-  <meta name="GENERATOR" content="Mozilla/4.73 [en] (X11; U; Linux 2.2.16 i586) [Netscape]">
 </head>
 <body text="#330000" bgcolor="#ffffff" link="#0000ef" vlink="#51188e" alink="#ff0000">
 <h1>The nano FAQ</h1>
@@ -33,13 +32,15 @@
   <a href="#3.9">3.9. How do I make a .nanorc file that nano will read when I start it?</a></p></blockquote>
 <h2><a href="#4">4. Running</a></h2>
 <blockquote><p><a href="#4.1">4.1. Ack! My backspace/delete/enter/double bucky/meta key doesn't seem to work! What can I do?</a><br>
-  <a href="#4.2">4.2. Nano crashes when I type &lt;insert keystroke here&gt;!</a><br>
-  <a href="#4.3">4.3. Nano crashes when I resize my window. How can I fix that?</a><br>
-  <a href="#4.4">4.4. [version 1.1.12 and earlier] Why does nano show ^\ in the shortcut list instead of ^J?</a><br>
-  <a href="#4.5a">4.5a. [version 1.1.12 and earlier] When I type in a search string, the string I last searched for is already in front of my cursor! What happened?!</a><br>
-  <a href="#4.5b">4.5b. [version 1.1.99pre1 and later] Hey, the search string behavior has reverted, it's now like Pico, what happened to the consistency?</a><br>
-  <a href="#4.6">4.6. How do I make nano my default editor (in Pine, mutt, etc.)?</a><br>
-  <a href="#4.7">4.7. I've compiled nano with color support, but I don't see any color when I run it!</a></p></blockquote>
+  <a href="#4.2">4.2. How do I type the F13-F16 keys shown in the help browser? My keyboard only has F1-F12!</a><br>
+  <a href="#4.3">4.3. Nano crashes when I type &lt;insert keystroke here&gt;!</a><br>
+  <a href="#4.4">4.4. Nano crashes when I resize my window. How can I fix that?</a><br>
+  <a href="#4.5">4.5. [version 1.1.12 and earlier] Why does nano show ^\ in the shortcut list instead of ^J?</a><br>
+  <a href="#4.6a">4.6a. [version 1.1.12 and earlier] When I type in a search string, the string I last searched for is already in front of my cursor! What happened?!</a><br>
+  <a href="#4.6b">4.6b. [version 1.1.99pre1 and later] Hey, the search string behavior has reverted, it's now like Pico, what happened to the consistency?</a><br>
+  <a href="#4.7">4.7. How do I make nano my default editor (in Pine, mutt, etc.)?</a><br>
+  <a href="#4.8">4.8. I've compiled nano with color support, but I don't see any color when I run it!</a><br>
+  <a href="#4.9">4.9. How do I select text for the clipboard in an X terminal when I'm running nano in one and nano's mouse support is turned on?</a></p></blockquote>
 <h2><a href="#5">5. Internationalization</a></h2>
 <blockquote><p><a href="#5.1">5.1. There's no translation for my language!</a><br>
   <a href="#5.2">5.2. I don't like the translation for &lt;x&gt; in my language. How can I fix it?</a></p></blockquote>
@@ -80,7 +81,7 @@
 <h2><a name="1.6"></a>1.6. What is the current version of nano?</h2>
 <blockquote><p>The current version of nano *should* be 1.3.4. Of course you should always check the nano homepage to see what the latest and greatest version is.</p></blockquote>
 <h2><a name="1.7"></a>1.7. I want to read the man page without having to download the program!</h2>
-<blockquote><p>Jeez, demanding, aren't we? Okay, look <a href="http://www.nano-editor.org/dist/v1.2/nano.1.html">here</a>.</p></blockquote>
+<blockquote><p>Jeez, demanding, aren't we? Okay, look <a href="http://www.nano-editor.org/dist/v1.3/nano.1.html">here</a>.</p></blockquote>
 <hr width="100%">
 <h1><a name="2"></a>2. Where to get GNU nano.</h1>
 <h2><a name="2.1"></a>2.1. FTP and WWW sites that carry nano.</h2>
@@ -140,22 +141,26 @@
 <h2><a name="3.6"></a>3.6. How can I make the executable smaller? This is too bloated!</h2>
 <blockquote><p>Actually, there are several parts of the editor that can be disabled. You can pass arguments to the <b>configure</b> script that disable certain features. Here's a brief list:</p>
   <pre>
-  <b>--disable-tabcomp</b>       Disables tab completion code for a smaller binary
+  <b>--disable-tabcomp</b>       Disable tab completion code for a smaller
+                          binary
   <b>--disable-justify</b>       Disable justify/unjustify function
-  <b>--disable-speller</b>       Disables spell checker function
-  <b>--disable-help</b>          Disables help function (^G)
-  <b>--disable-browser</b>       Disables mini file browser
-  <b>--disable-wrapping</b>      Disables all wrapping of text (and -w flag)
-  <b>--disable-mouse</b>         Disables mouse support (and -m flag)
+  <b>--disable-speller</b>       Disable spell checker function
+  <b>--disable-help</b>          Disable help function
+  <b>--disable-browser</b>       Disable mini file browser
+  <b>--disable-wrapping</b>      Disable all wrapping of text (and -w flag)
+  <b>--disable-mouse</b>         Disable mouse support (and -m flag)
   <b>--disable-operatingdir</b>  Disable setting of operating directory</pre>
   <p>There's also the <b>--enable-tiny</b> option which disables everything above, as well as some larger chunks of the program (like the marker code that you use Control-^ to select with). Also, if you know you aren't going to be using other languages you can use <b>--disable-nls</b> to disable internationalization and save a few K to a few dozen K depending on if you have locale support on your system. And finally there's always good old <b>strip</b> to strip all debugging code and code that exists in libraries on your system.</p>
   <p>If, on the other hand, you can't live without bells and whistles, you could try:</p>
   <pre>
   <b>--enable-extra</b>          Enable extra functions, including easter eggs
   <b>--enable-nanorc</b>         Enable use of .nanorc file
-  <b>--enable-color</b>          Enables color and syntax highlighting
-  <b>--enable-multibuffer</b>    Enables having multiple file buffers open
-  <b>--enable-all</b>            Enables all of the above features</pre></blockquote>
+  <b>--enable-color</b>          Enable color and syntax highlighting
+  <b>--enable-multibuffer</b>    Enable having multiple file buffers open
+  <b>--enable-all</b>            Enable all of the above features
+  <b>--disable-wrapping-as-root</b>
+                          Turn off wrapping of text by default when the
+                          user is root</pre></blockquote>
 <h2><a name="3.7"></a>3.7. Tell me more about this multibuffer stuff!</h2>
 <blockquote><p>To use multiple file buffers, you must be using nano 1.1.0 or newer, and you must have configured nano with <b>--enable-multibuffer</b> or <b>--enable-extra</b> (use nano -V to check). Then when you want to enable inserting a file into its own buffer instead of into the current file, just hit <b>Meta-F</b>, then insert the file as normal with <b>^R</b>.  If you always want files to be loaded into their own buffers, use the <b>--multibuffer</b> or <b>-F</b> flag when you invoke nano.</p>
   <p>You can move between the buffers you have open with the <b>Meta-&lt;</b> and <b>Meta-&gt;</b> keys, or more easily with <b>Meta-,</b> and <b>Meta-.</b> (clear as mud, right? =-). When you have more than one file buffer open, the ^X shortcut will say &quot;Close&quot;, instead of the normal &quot;Exit&quot; when only one buffer is open.</p></blockquote>
@@ -171,18 +176,19 @@
 <blockquote><p>Try setting your $TERM variable to 'vt100'. Nano doesn't yet support every term entry under the sun.</p>
   <p>Bourne shell users (like bash): <b>export TERM=vt100</b><br>
   C Shell users (tcsh and csh): <b>setenv TERM vt100</b></p></blockquote>
-<h2><a name="4.2"></a>4.2. Nano crashes when I type &lt;insert keystroke here&gt;!</h2>
+<h2><a name="4.2"></a>4.2. How do I type the F13-F16 keys shown in the help browser? My keyboard only has F1-F12!</h2>
+<blockquote><p>It depends on the terminal type you're using. On some terminals, such as the FreeBSD console, xterm, konsole, and gnome-terminal, Shift-F1 to Shift-F4 will generate F13 to F16. On other terminals, such as the Linux console, rxvt, or Eterm, Shift-F3 to Shift-F6 will generate F13 to F16.</p></blockquote>
+<h2><a name="4.3"></a>4.3. Nano crashes when I type &lt;insert keystroke here&gt;!</h2>
 <blockquote><p>If you aren't trying some bizarre keystroke combination with some bizarre $TERM entry, chances are you have found a bug. You are welcome to submit it to the <a href="mailto:nano-devel@gnu.org">nano-devel</a> list or to <a href="mailto:nano@nano-editor.org">nano@nano-editor.org</a>.</p></blockquote>
-<h2><a name="4.3"></a>4.3. Nano crashes when I resize my window. How can I fix that?</h2>
+<h2><a name="4.4"></a>4.4. Nano crashes when I resize my window. How can I fix that?</h2>
 <blockquote><p>Older versions of nano had this problem, please upgrade to a newer version (at least 0.9.9 would be great, 0.9.12 is recommended).</p></blockquote>
-<h2><a name="4.4"></a>4.4. [version 1.1.12 and earlier] Why does nano show ^\ in the shortcut list instead of ^J?</h2>
+<h2><a name="4.5"></a>4.5. [version 1.1.12 and earlier] Why does nano show ^\ in the shortcut list instead of ^J?</h2>
 <blockquote><p>The help (^G) and justify (^J) function were among the last to be written. To show the improvements that nano had over Pico (go to line # and replace), ^_ and ^\ were put on the shortcut list. Later, ^G came back in place of ^_ as it proved to be very valuable for new Unix users. If you use the <b>-p</b> option to nano (or hit Meta-P) you will get the same shortcuts at the bottom as Pico.</p></blockquote>
-<a name="4.5"></a>
-<h2><a name="4.5a"></a>4.5a. [version 1.1.12 and earlier] When I type in a search string, the string I last searched for is already in front of my cursor! What happened?!</h2>
+<h2><a name="4.6a"></a>4.6a. [version 1.1.12 and earlier] When I type in a search string, the string I last searched for is already in front of my cursor! What happened?!</h2>
 <blockquote><p>In nano version 0.9.20, the default is to have a completely consistent user interface across all user input functions. This means that regardless of whether you're being asked for a filename to insert or write, or a string to search for, the previous value is already inserted before the cursor. If you prefer the old behavior, use the Pico emulation mode (-p or --pico) or just hit Meta-P while in nano (see the ^G help text for more details).</p></blockquote>
-<h2><a name="4.5b"></a>4.5b. [version 1.1.99pre1 and later] Hey, the search string behavior has reverted, it's now like Pico, what happened to the consistency?</h2>
+<h2><a name="4.6b"></a>4.6b. [version 1.1.99pre1 and later] Hey, the search string behavior has reverted, it's now like Pico, what happened to the consistency?</h2>
 <blockquote><p>It was decided that consistency was nice, but people are used to Pico's inconsistent behavior.  Also, in version 1.1.99pre1, search and replace history was introduced.  If you wish to edit your previous search/replace entry (or any previous entry), you can do so by hitting the up arrow to cycle through your history.  This method allows the best of both worlds: You don't need to erase the previous string if you want to enter a new one, but you can with one keystroke recall previous entries for editing. Therefore there is now no "Pico mode", nano is and has always been a Pico <b>clone</b>, and clones by default should be compatible.</p></blockquote>
-<h2><a name="4.6"></a>4.6. How do I make nano my default editor (in Pine, mutt, etc.)?</h2>
+<h2><a name="4.7"></a>4.7. How do I make nano my default editor (in Pine, mutt, etc.)?</h2>
 <blockquote><p>You need to make nano your $EDITOR. If you want this to be saved, you should put a line like this in your <b>.bashrc</b> if you use bash (or <b>.zshrc</b> if you believe in zsh):</p>
   <p><b>export EDITOR=/usr/local/bin/nano</b></p>
   <p>or if you use tcsh put this in your <b>.cshrc</b> file:</p>
@@ -195,8 +201,10 @@
   <p>Mutt users should see an effect immediately the next time you log in, no further configuration is needed. However, if you want to let people know you use nano to compose your email messages, you can put a line like this in your <b>.muttrc</b>:</p>
   <p><b>my_hdr X-Composer: nano x.y.z</b></p>
   <p>Again, replace x.y.z with the version of nano you use.</p></blockquote>
-<h2><a name="4.7"></a>4.7. I've compiled nano with color support, but I don't see any color when I run it!</h2>
+<h2><a name="4.8"></a>4.8. I've compiled nano with color support, but I don't see any color when I run it!</h2>
 <blockquote><p>If you want nano to actually use color, you have to specify the color configurations you want it to use in your .nanorc. Some example configurations are in the <b>nanorc.sample</b> that comes with the nano source or your nano package. See Section <a href="#3.9">3.9</a>.</p></blockquote>
+<h2><a name="4.9"></a>4.9. How do I select text for the clipboard in an X terminal when I'm running nano in one and nano's mouse support is turned on?</h2>
+<blockquote><p>Try holding down the Shift key and selecting the text as you normally would.</p></blockquote>
 <hr width="100%">
 <h1><a name="5"></a>5. Internationalization</h1>
 <h2><a name="5.1"></a>5.1. There's no translation for my language!</h2>
@@ -227,7 +235,7 @@
   help-nano - <a href="http://mail.gnu.org/mailman/listinfo/help-nano/">http://mail.gnu.org/mailman/listinfo/help-nano/</a><br>
   nano-devel - <a href="http://mail.gnu.org/mailman/listinfo/nano-devel/">http://mail.gnu.org/mailman/listinfo/nano-devel/</a></p></blockquote>
 <h2><a name="7.2"></a>7.2. I want to send the development team a big load of cash (or just a thank you).</h2>
-<blockquote><p>That's fine. Send it <a href="mailto:nano-devel@gnu.org">our way</a>! Better yet, fix a <a href="http://www.nano-editor.org/dist/v1.2/BUGS">bug</a> in the program or implement a <a href="http://www.nano-editor.org/dist/v1.2/TODO">cool feature</a> and send us that instead (though cash is fine too).</p></blockquote>
+<blockquote><p>That's fine. Send it <a href="mailto:nano-devel@gnu.org">our way</a>! Better yet, fix a <a href="http://www.nano-editor.org/dist/v1.3/BUGS">bug</a> in the program or implement a <a href="http://www.nano-editor.org/dist/v1.3/TODO">cool feature</a> and send us that instead (though cash is fine too).</p></blockquote>
 <h2><a name="7.3"></a>7.3. How do I submit a patch?</h2>
 <blockquote><p>See Section <a href="#7.2">7.2</a>.</p></blockquote>
 <h2><a name="7.4"></a>7.4. How do I join the development team?</h2>
@@ -237,7 +245,7 @@
 <h2><a name="8"></a>8. ChangeLog</h2>
 <blockquote>
 <p>
-2004/11/05 - Fixed inaccuracy: Pico compatibility mode was made the default in nano 1.1.99pre1, not 1.2.2. (DLR)
+2004/11/05 - Fixed inaccuracy: Pico compatibility mode was made the default in nano 1.1.99pre1, not 1.2.2. Also added question about how to type F13-F16 on terminals lacking keys past F12 (suggested by Chris), question about how to select text for the clipboard in X terminals with nano's mouse support turned on (answer found by Joseph Birthisel), and misc. fixes and link updates. (DLR)<br>
 2004/04/07 - Removed NumLock glitch question, as it's no longer needed. (DLR)<br>
 2004/01/30 - Fixed inaccuracy: multibuffer mode was first in nano 1.1.0, not 1.1.12. (DLR)<br>
 2003/12/31 - Added question about the new verbatim input function, and a few minor fixes.  Removed reference to &quot;set pico&quot; (DLR).<br>

@@ -366,6 +366,11 @@ CVS code -
 - faq.html:
 	- Fixed inaccuracy: Pico compatibility mode was made the default
 	  in nano 1.1.99pre1, not 1.2.2. (DLR)
+	- Added question about how to type F13-F16 on terminals lacking
+	  keys past F12 (suggested by Chris), question about how to
+	  select text for the clipboard in X terminals with nano's mouse
+	  support turned on (answer found by Joseph Birthisel), and
+	  miscellaneous fixes and link updates. (DLR)
 - nano.1:
 	- Eliminate references to the now removed -D/--dos and -M/--mac
 	  command line options. (DLR)
