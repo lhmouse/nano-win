@@ -2112,9 +2112,8 @@ int break_line(const char *line, int goal, int force)
  * the current paragraph or, if we're already there, the end of the next
  * paragraph.  Afterwards, save the quote length, paragraph length, and
  * indentation length in *quote, *par, and *indent if they aren't NULL,
- * and refresh the screen if do_refresh is nonzero.  Return 0 if we
- * found a paragraph, or 1 if there was an error or we didn't find a
- * paragraph.
+ * and refresh the screen if do_refresh is TRUE.  Return 0 if we found a
+ * paragraph, or 1 if there was an error or we didn't find a paragraph.
  *
  * To explain the searching algorithm, I first need to define some
  * phrases about paragraphs and quotation:
