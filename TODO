@@ -20,16 +20,16 @@ Current Version:
 
 For Next Version:
 - Undo/Redo key?
-- Single line scroll up/down?
+- Single line scroll up/down? [DONE]
 - Color syntax highlighting? (certainly seems like there's a demand for it.)
-- .nanorc ?????
+- .nanorc [DONE]
 - Backup making (filename~)?
 - Search (etc) string history [1.1]
 - Implement Pico's -j and -g flags, as they are pretty easy to do.
 - Make mouse support work with clicking on the shortcuts (-m).  Must
   make global variable pointing to current shortcut list to determine what
   keystroke to ungetch(). [DONE].
-- Implement -o (chroot of sorts)
+- Implement -o (chroot of sorts) [DONE]
 - Allow -r to take a negative argument, meaning right margin instead of
   left (allows resizing that way), formerly -W arg. [DONE]
 - UTF-8 support.
