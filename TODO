@@ -29,5 +29,6 @@ For Next Version:
 - Make mouse support work with clicking on the shortcuts (-m).  Must
   make global variable pointing to current shortcut list to determine what
   keystroke to ungetch().
+- Implement -o (chroot of sorts)
 
 $Id$
