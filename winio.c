@@ -709,13 +709,14 @@ void update_line(filestruct * fileptr, int index)
     char *realdata, *tmp;
     int i,pos,len,page;
 
+    if(!fileptr) return;
+
     /* First, blank out the line (at a minimum) */
     for (filetmp = edittop; filetmp != fileptr && filetmp != editbot;
 	 filetmp = filetmp->next)
 	line++;
 
     mvwaddstr(edit, line, 0, hblank);
-    if(!fileptr) return;
 
     /* Next, convert all the tabs to spaces so everything else is easy */
     index = xpt(fileptr, index);
