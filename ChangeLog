@@ -23,6 +23,9 @@ CVS code
   intput_tab()
 	- Fix assumption that matches is null terminated (David 
 	  Benbennick).
+  load_history()
+	- Fix segfault on loading huge strings from history file 
+	  (David Benbennick).
 - nano.c:
   breakable()
 	- Fix incorrect return value on short lines (David Benbennick).

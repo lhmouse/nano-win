@@ -2896,7 +2896,7 @@ void load_history(void)
 	    buf = charalloc(1024);
 	    while (fgets(buf, 1023, hist) != 0) {
 		ptr = buf;
-		while (*ptr != '\n')
+		while (*ptr != '\n' && *ptr != '\0' && ptr < buf + 1023)
 		    ptr++;
 		*ptr = '\0';
 		if (strlen(buf))
