@@ -30,5 +30,6 @@ For Next Version:
   make global variable pointing to current shortcut list to determine what
   keystroke to ungetch(). [DONE].
 - Implement -o (chroot of sorts)
+- Implement -W (wrap at # less than width of screen), mark -r as deprecated.
 
 $Id$
