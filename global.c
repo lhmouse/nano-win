@@ -596,7 +596,8 @@ void shortcut_init(int unjustify)
 		0, NANO_NEXTPAGE_FKEY, KEY_NPAGE, VIEW, 0);
 
     sc_init_one(&browser_list[4], NANO_GOTO_KEY, _("Goto"),
-		nano_gotodir_msg, 0, NANO_GOTO_FKEY, 0, VIEW, 0);
+		nano_gotodir_msg, NANO_ALT_GOTO_KEY, NANO_GOTO_FKEY, 0, 
+		VIEW, 0);
 
     sc_init_one(&gotodir_list[0], NANO_HELP_KEY,
 		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);

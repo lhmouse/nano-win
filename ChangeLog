@@ -2,6 +2,8 @@ CVS code -
 - General
 	- Add Meta-A as alternate keyystroke for ^^ for people with
 	  non-US keyboards.
+	- Add Alt-G (NANO_ALT_GOTO_KEY) as alternate for goto dir in 
+	  browser.
 	- Better partial word checking code. New function 
 	  search.c:is_whole_word(), changes to findnextstr(), 
 	  and nano.c:do_int_spell_fix() (Rocco Corsi).
