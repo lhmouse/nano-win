@@ -3,7 +3,7 @@ This is nano.info, produced by makeinfo version 4.0 from nano.texi.
 
 File: nano.info,  Node: Top,  Next: Introduction,  Prev: (dir),  Up: (dir)
 
-   This manual documents nano, a small and friendly text editor.
+   This manual documents GNU nano, a small and friendly text editor.
 
 * Menu:
 
@@ -21,7 +21,7 @@ File: nano.info,  Node: Introduction,  Next: Editor Basics,  Prev: Top,  Up: Top
 Introduction
 ************
 
-   `nano' is a small and friendly text editor.  Besides basic text
+   GNU `nano' is a small and friendly text editor.  Besides basic text
 editing, `nano' offers many extra features like an interactive search
 and replace, goto line number, auto-indentation, feature toggles,
 internationalization support, and filename tab completion.
@@ -377,20 +377,20 @@ consider the following command line options:
 
 Tag Table:
 Node: Top69
-Node: Introduction373
-Node: Overview795
-Node: Command Line Options1375
-Ref: Expert Mode3098
-Node: Editor Basics3940
-Node: Entering Text4165
-Node: Special Functions4505
-Node: The Titlebar5359
-Node: The Statusbar6056
-Node: Shortcut Lists6636
-Node: Online Help7028
-Node: Feature Toggles7404
-Node: The File Browser8550
-Node: Pico Compatibility9259
-Node: Building and Configure Options11301
+Node: Introduction377
+Node: Overview803
+Node: Command Line Options1383
+Ref: Expert Mode3106
+Node: Editor Basics3948
+Node: Entering Text4173
+Node: Special Functions4513
+Node: The Titlebar5367
+Node: The Statusbar6064
+Node: Shortcut Lists6644
+Node: Online Help7036
+Node: Feature Toggles7412
+Node: The File Browser8558
+Node: Pico Compatibility9267
+Node: Building and Configure Options11309
 
 End Tag Table

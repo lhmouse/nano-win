@@ -17,16 +17,17 @@
 @c end tex
 
 @titlepage
-@title @command{nano}
+@title GNU @code{nano}
 @subtitle a small and friendly text editor.
 @subtitle version 0.9.99pre2
 
 @author Chris Allegretta
 @page
 
-This manual documents @command{nano}, a small and friendly text editor.
+This manual documents GNU @code{nano}, a small and friendly text
+editor.
 
-This manual is part of the @command{nano} distribution.@*
+This manual is part of the GNU @code{nano} distribution.@*
 @sp4
 Copyright (C) 1999, 2000, 2001 Chris Allegretta.
 
@@ -57,7 +58,7 @@ e-mail: @email{chrisa@@asty.org}@*
 
 @node Top, Introduction, (dir), (dir)
 
-This manual documents nano, a small and friendly text editor.
+This manual documents GNU nano, a small and friendly text editor.
 
 @menu
 * Introduction::
@@ -72,8 +73,8 @@ This manual documents nano, a small and friendly text editor.
 @node Introduction, Editor Basics, Top, Top
 @chapter Introduction
 
-@command{nano} is a small and friendly text editor.  Besides basic
-text editing, @command{nano} offers many extra features like an
+GNU @code{nano} is a small and friendly text editor.  Besides basic
+text editing, @code{nano} offers many extra features like an
 interactive search and replace, goto line number, auto-indentation,
 feature toggles, internationalization support, and filename tab
 completion.
@@ -86,13 +87,13 @@ completion.
 @node Overview, Command Line Options, Introduction, Introduction
 @section Overview
 
-@command{nano} [GNU long option] [option] +LINE [ @var{ file ...} ]
+@code{nano} [GNU long option] [option] +LINE [ @var{ file ...} ]
 
-The original goal for @command{nano} was a complete bug-for-bug compatible
+The original goal for @code{nano} was a complete bug-for-bug compatible
 emulation of Pico, but consistency is now a slightly higher priority.
 There is a flag to implement (nearly) complete Pico emulation, (option -p
 or GNU long option --pico).  This can also be toggled from within
-@command{nano} by typing Meta-P.  @xref{Pico Compatibility}, for more
+@code{nano} by typing Meta-P.  @xref{Pico Compatibility}, for more
 info.
 
 Email bug reports to @email{nano@@nano-editor.org}. 
@@ -100,7 +101,7 @@ Email bug reports to @email{nano@@nano-editor.org}.
 @node Command Line Options, , Overview, Introduction
 @section Command Line Options
 
-@command{nano} takes the following options from the command line:
+@code{nano} takes the following options from the command line:
 @table @code
 
 @item -T [num, --tabsize=[num]
@@ -143,13 +144,13 @@ Wrap lines at column #cols.  By default this is the width of the screen,
 less eight.
 
 @item -s [prog], --speller=[prog]
-Invoke [prog] as the spell checker.  By default, @command{nano} uses its
-own interactive spell checker that requires the @command{spell} program be
+Invoke [prog] as the spell checker.  By default, @code{nano} uses its
+own interactive spell checker that requires the @code{spell} program be
 installed on your system.
 
 @item -t, --tempfile
 Do not ask whether or not to save the current contents of the file when
-exiting, assume yes.  This is most useful when using @command{nano} as the
+exiting, assume yes.  This is most useful when using @code{nano} as the
 composer of a mailer program.
 
 @anchor{Expert Mode}
@@ -171,7 +172,7 @@ Do not wrap long lines at any length. This option overrides any value for
 -r.
 
 @item -z, --suspend
-Enable suspend ability of @command{nano} using the system's suspend
+Enable suspend ability of @code{nano} using the system's suspend
 keystroke (usually ^Z).
 
 @item +LINE
@@ -191,8 +192,8 @@ Start at line number LINE instead of the default of line 1.
 @node Entering Text, Special Functions, Editor Basics, Editor Basics
 @section Entering Text
 
-All key sequences in @command{nano} are entered using the keyboard.
-@command{nano} is a "modeless" editor, all keys with the exception of
+All key sequences in @code{nano} are entered using the keyboard.
+@code{nano} is a "modeless" editor, all keys with the exception of
 Control and Meta key sequences will enter text into the file being
 edited.  
 
@@ -222,7 +223,7 @@ Escape key to generate Meta key sequences.
 
 The titlebar is the line displayed at the top of the editor.  There are
 three sections: left, center and right. The section on the left displays
-the version of @command{nano} being used.  The center section displays the
+the version of @code{nano} being used.  The center section displays the
 current file name, or "New Buffer" if the file has not yet been named.
 The section on the right will display "Modified" if the file has been
 modified since it ws last saved or opened.
@@ -254,7 +255,7 @@ is enabled. @xref{Pico Compatibility}, for more info.
 @node Online Help, Feature Toggles, Editor Basics, Top
 @chapter Online Help
 
-The online help system in @command{nano} is available by pressing ^G.
+The online help system in @code{nano} is available by pressing ^G.
 It is fairly self explanatory, documenting the various parts of the 
 editor and available keystrokes.  Navigation is via the ^Y (Page Up)
 and ^V (Page Down) keys.  ^X exits the help system.
@@ -351,9 +352,9 @@ string exists, for example.  When writing a file, the previous filename
 will be displayed in the editable text portion of the editor.
 
 @item Interactive Replace and Spell Checker
-It is worth noting that the @command{nano} replace function is interactive,
+It is worth noting that the @code{nano} replace function is interactive,
 i.e. it does not stop after one search string is found and automatically 
-replace it.  The @command{nano} implementation will stop at each search
+replace it.  The @code{nano} implementation will stop at each search
 string found and query whether to replace this instance or not.  The 
 internal spell checker operates similarly.  Note that these is no way 
 to force these functions to behave in the Pico fashion.
