@@ -310,7 +310,7 @@ then
 fi
 
 dnl i18n stuff - pretty incomplete for now
-AM_GNU_GETTEXT
+AM_GNU_GETTEXT([external])
 
 AC_CONFIG_FILES([Makefile m4/Makefile po/Makefile.in nano.spec])
 AC_OUTPUT
