@@ -240,7 +240,7 @@ int search_init(int replacing)
 #endif
 	   /* If answer parses as an integer, put it up on the
 	    * statusbar. */
-	    do_gotoline(parse_num(answer, NULL), FALSE);
+	    do_gotoline(parse_num(answer, NULL) ? -1 : 0, FALSE);
 	    /* Fall through. */
 	default:
 	    return -1;
@@ -835,7 +835,7 @@ void do_replace(void)
     replace_abort();
 }
 
-void do_gotoline(int line, int save_pos)
+void do_gotoline(int line, bool save_pos)
 {
     if (line <= 0) {		/* Ask for it. */
 	char *ans = mallocstrcpy(NULL, answer);
@@ -856,7 +856,7 @@ void do_gotoline(int line, int save_pos)
 	}
 
 	/* Bounds check. */
-	if (parse_num(answer, &line) == -1 || line < 0) {
+	if (!parse_num(answer, &line) || line < 0) {
 	    statusbar(_("Come on, be reasonable"));
 	    display_main_list();
 	    return;

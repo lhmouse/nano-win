@@ -561,7 +561,7 @@ void parse_rcfile(FILE *rcstream)
 #endif
 #ifndef DISABLE_WRAPJUSTIFY
 			    if (strcasecmp(rcopts[i].name, "fill") == 0) {
-				if (parse_num(option, &wrap_at) == -1) {
+				if (!parse_num(option, &wrap_at)) {
 				    rcfile_error(N_("Requested fill size %s invalid\n"), option);
 				    wrap_at = -CHARS_FROM_EOL;
 				}
@@ -609,7 +609,7 @@ void parse_rcfile(FILE *rcstream)
 			    else
 #endif
 			    if (strcasecmp(rcopts[i].name, "tabsize") == 0) {
-				if (parse_num(option, &tabsize) == -1 || tabsize <= 0)
+				if (!parse_num(option, &tabsize) || tabsize <= 0)
 				    rcfile_error(N_("Requested tab size %s invalid\n"), option);
 				    tabsize = -1;
 			    }

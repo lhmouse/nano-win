@@ -3154,7 +3154,7 @@ int main(int argc, char *argv[])
 	    break;
 #endif
 	case 'T':
-	    if (parse_num(optarg, &tabsize) == -1 || tabsize <= 0) {
+	    if (!parse_num(optarg, &tabsize) || tabsize <= 0) {
 		fprintf(stderr, _("Requested tab size %s invalid\n"), optarg);
 		exit(1);
 	    }
@@ -3202,7 +3202,7 @@ int main(int argc, char *argv[])
 	    break;
 #ifndef DISABLE_WRAPJUSTIFY
 	case 'r':
-	    if (parse_num(optarg, &wrap_at) == -1) {
+	    if (!parse_num(optarg, &wrap_at)) {
 		fprintf(stderr, _("Requested fill size %s invalid\n"), optarg);
 		exit(1);
 	    }

@@ -402,7 +402,7 @@ char *replace_line(const char *needle);
 int do_replace_loop(const char *needle, const filestruct *real_current,
 	size_t *real_current_x, int wholewords);
 void do_replace(void);
-void do_gotoline(int line, int save_pos);
+void do_gotoline(int line, bool save_pos);
 void do_gotoline_void(void);
 #if defined (ENABLE_MULTIBUFFER) || !defined (DISABLE_SPELLER)
 void do_gotopos(int line, int pos_x, int pos_y, size_t pos_pww);
@@ -437,7 +437,7 @@ int is_blank_char(int c);
 #endif
 int is_cntrl_char(int c);
 int num_of_digits(int n);
-int parse_num(const char *str, ssize_t *val);
+bool parse_num(const char *str, ssize_t *val);
 void align(char **strp);
 void null_at(char **data, size_t index);
 void unsunder(char *str, size_t true_len);

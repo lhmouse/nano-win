@@ -32,7 +32,9 @@ CVS code -
 	- Convert nano to use the new parse_num() function to read in
 	  numeric values at the command line and in the rcfile, and
 	  duplicate the messages used in the rcfile in the command line
-	  for consistency. (David Benbennick)  DLR: Convert tabsize,
+	  for consistency. (David Benbennick)  DLR: Tweak parse_num() to
+	  parse ssize_t values instead of ints and to return a bool
+	  indicating whether parsing succeeded.  Convert tabsize,
 	  wrap_at, and fill to ssize_t in order to work with
 	  parse_num() properly and also to increase their capacity
 	  while keeping the ability to hold negative numbers in case of

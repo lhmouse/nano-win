@@ -85,8 +85,9 @@ int num_of_digits(int n)
 }
 
 /* Read an int from str, and store it in *val (if val is not NULL).  On
- * error, we return -1 and don't change *val. */
-int parse_num(const char *str, ssize_t *val)
+ * error, we return FALSE and don't change *val.  Otherwise, we return 
+ * TRUE. */
+bool parse_num(const char *str, ssize_t *val)
 {
     char *first_error;
     ssize_t j;
@@ -94,10 +95,10 @@ int parse_num(const char *str, ssize_t *val)
     assert(str != NULL);
     j = (ssize_t)strtol(str, &first_error, 10);
     if (errno == ERANGE || *str == '\0' || *first_error != '\0')
-	return -1;
+	return FALSE;
     if (val != NULL)
 	*val = j;
-    return 0;
+    return TRUE;
 }
 
 /* Fix the memory allocation for a string. */
