@@ -371,7 +371,10 @@ CVS code -
   do_help()
 	- Overhaul for efficiency, and allow scrolling through the help
 	  via the arrow keys as well as the paging keys. (David
-	  Benbennick)
+	  Benbennick)  DLR: Revert the use of the return value of
+	  curs_set() to restore the previous state of the cursor, as
+	  some curses implementations (including slang) get it wrong,
+	  and explicitly turn the cursor off where needed instead.
   do_credits()
 	- Use napms() instead of nanosleep(), as it does the same thing
 	  (aside from taking an argument in milliseconds instead of

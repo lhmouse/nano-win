@@ -3022,13 +3022,13 @@ int do_help(void)
     int kbinput = ERR, meta_key;
 
     int old_no_help = ISSET(NO_HELP);
-    int old_cursor = curs_set(0);
 #ifndef DISABLE_MOUSE
     const shortcut *oldshortcut = currshortcut;
 	/* We will set currshortcut to allow clicking on the help
 	   screen shortcut list. */
 #endif
 
+    curs_set(0);
     blank_edit();
     wattroff(bottomwin, A_REVERSE);
     blank_statusbar();
@@ -3127,7 +3127,7 @@ int do_help(void)
     } else
 	bottombars(currshortcut);
 
-    curs_set(old_cursor);
+    curs_set(1);
     edit_refresh();
 
     /* The help_init() at the beginning allocated help_text, which has
