@@ -2849,8 +2849,8 @@ void statusbar(const char *msg, ...)
 
 	UNSET(WHITESPACE_DISPLAY);
 #endif
-	bar = charalloc(COLS - 3);
-	vsnprintf(bar, COLS - 3, msg, ap);
+	bar = charalloc(mb_cur_max() * (COLS - 3));
+	vsnprintf(bar, mb_cur_max() * (COLS - 3), msg, ap);
 	va_end(ap);
 	foo = display_string(bar, 0, COLS - 4, FALSE);
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
