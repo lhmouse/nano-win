@@ -445,9 +445,6 @@ int do_replace(void)
     case 0:		/* They actually entered something */
 	strncpy(last_replace, answer, 132);
 	break;
-    case NANO_NULL_KEY:		/* They want the null string */
-	strcpy(last_replace, "");
-	break;
     default:
         if (i != -2) {	/* First page, last page, for example 
 				   could get here */

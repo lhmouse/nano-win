@@ -170,7 +170,7 @@ void shortcut_init(void)
 	"", *nano_mark_msg = "", *nano_delete_msg =
 	"", *nano_backspace_msg = "", *nano_tab_msg =
 	"", *nano_enter_msg = "", *nano_case_msg =
-	"", *nano_cancel_msg = "", *nano_null_msg = "";
+	"", *nano_cancel_msg = "";
 
 #ifndef NANO_SMALL
     nano_help_msg = _("Invoke the help menu");
@@ -205,7 +205,6 @@ void shortcut_init(void)
     nano_case_msg =
 	_("Make the current search or replace case (in)sensitive");
     nano_cancel_msg = _("Cancel the current function");
-    nano_null_msg = _("Use the null string, \"\"");
 #endif
 
     if (ISSET(PICO_MSGS))
@@ -373,10 +372,7 @@ void shortcut_init(void)
     sc_init_one(&replace_list_2[1], NANO_LASTLINE_KEY, _("Last Line"),
 		nano_lastline_msg, 0, 0, 0, VIEW, do_last_line);
 
-    sc_init_one(&replace_list_2[2], NANO_NULL_KEY, _("Null Str"),
-		nano_null_msg, 0, 0, 0, VIEW, 0);
-
-    sc_init_one(&replace_list_2[3], NANO_CANCEL_KEY, _("Cancel"),
+    sc_init_one(&replace_list_2[2], NANO_CANCEL_KEY, _("Cancel"),
 		nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
 
