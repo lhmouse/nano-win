@@ -495,7 +495,7 @@ void usage(void)
 #ifdef ENABLE_MULTIBUFFER
     printf(_(" -F 		Enable multiple file buffers\n"));
 #endif
-    printf(_(" -K		Use alternate keypad routines\n\n"));
+    printf(_(" -K		Use alternate keypad routines\n"));
 #ifndef NANO_SMALL
     printf(_(" -M 		Write file in Mac format\n"));
 #endif

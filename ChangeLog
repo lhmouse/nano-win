@@ -1,4 +1,7 @@
 CVS code -
+- nano.c:
+  usage()
+  	- Remove extra \n in --keypad description (Jordi).
 
 nano-1.1.5 - 01/05/2002
 - General
