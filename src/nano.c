@@ -3571,8 +3571,8 @@ void do_output(int *kbinput, size_t kbinput_len)
 	/* Do we have to call edit_refresh(), or can we get away with
 	 * update_line()? */
 
-#ifdef NANO_WIDE
     char *key =
+#ifdef NANO_WIDE
 	charalloc(MB_CUR_MAX)
 #else
 	charalloc(1)
