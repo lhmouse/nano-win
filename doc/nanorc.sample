@@ -248,8 +248,7 @@
 # color brightgreen "\.(S|T)H" "\.TP"
 # color brightred "\.(BR?|I[PR]?).*$"
 # color brightblue "\.(BR?|I[PR]?|PP)"
-# color brightred start="\\f[BI]" end="\\f[PR]"
-# color brightblue "\\f[BIPR]"
+# color brightwhite "\\f[BIPR]"
 # color yellow "\.(br|DS|RS|RE|PD)"
 
 ## Here is an example for your .nanorc
