@@ -56,7 +56,6 @@ void add_to_cutbuffer(filestruct * inptr)
 
     inptr->next = NULL;
     cutbottom = inptr;
-    dump_buffer(cutbuffer);
 }
 
 #ifndef NANO_SMALL
@@ -159,6 +158,7 @@ int do_cut_text(void)
 	       cutbuffer, not delete it and forget about it. */
 	    do_delete();
 	    SET(KEEP_CUTBUFFER);
+	    marked_cut = 2;
 	    return 1;
 	}
 	else
@@ -212,6 +212,7 @@ int do_cut_text(void)
 	    edit_refresh();
 	else
 	    edit_update(current);
+
 	return 1;
 #else
     if (0) {
@@ -298,7 +299,7 @@ int do_uncut_text(void)
 
     /* Hook newbuf into fileptr */
 #ifndef NANO_SMALL
-    if (marked_cut == 1) {
+    if (marked_cut) {
 	/* If there's only one line in the cutbuffer */
 	if (cutbuffer->next == NULL) {
 	    tmpstr =

@@ -52,4 +52,5 @@
 - In search/replace code there is too much refreshing in bottomwin (26)
 - In replace, there is no way to accept the default replace string. (27)
 - Using nano -t, user can not exit until a filename is given via ^O. (30)
-- totsize problems still abound in do_justify (31)
+- totsize problems still abound in do_justify (33)
+- Using -k cut text is not pasted properly. (34)
