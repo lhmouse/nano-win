@@ -82,6 +82,14 @@ int search_init(int replacing)
     buf = nmalloc(strlen(last_search) + 5);
     buf[0] = 0;
 
+
+    /* Clear the backupstring if we've changed from Pico mode to regular
+	mode */
+    if (ISSET(CLEAR_BACKUPSTRING)) {
+	free(backupstring);
+	backupstring = NULL;
+    }
+	
      /* Okay, fun time.  backupstring is our holder for what is being 
 	returned from the statusq call.  Using answer for this would be tricky.
 	Here, if we're using PICO_MODE, we only want nano to put the

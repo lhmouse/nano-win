@@ -2116,6 +2116,7 @@ void do_toggle(int which)
     switch (toggles[which].val) {
     case TOGGLE_PICOMODE_KEY:
 	shortcut_init(0);
+	SET(CLEAR_BACKUPSTRING);
 	display_main_list();
 	break;
     case TOGGLE_SUSPEND_KEY:

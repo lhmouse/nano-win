@@ -454,10 +454,8 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
     answer = mallocstrcpy(answer, inputbuf);
     free(inputbuf);
 
-    /* Now that the text is editable instead of bracketed, we have to 
-       check for answer == def, instead of answer == "" */
-    if  (((ISSET(PICO_MODE)) && !strcmp(answer, "")) || 
-	((!ISSET(PICO_MODE)) && !strcmp(answer, def)))
+    /* In pico mode, just check for a blank answer here */
+    if  (((ISSET(PICO_MODE)) && !strcmp(answer, "")))
 	return -2;
     else
 	return 0;

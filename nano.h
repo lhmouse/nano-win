@@ -111,6 +111,9 @@ typedef struct toggle {
 #define TEMP_OPT         	(1<<16)
 #define CUT_TO_END         	(1<<17)
 #define DISABLE_CURPOS         	(1<<18)
+/* 19, 20 in nano-1.1 */
+#define CLEAR_BACKUPSTRING    (1<<21)
+
 
 /* Control key sequences, changing these would be very very bad */
 
