@@ -2575,7 +2575,7 @@ int do_justify(int full_justify)
 
 	    /* If the line we were on before still exists, and it was
 	     * not the last line of the paragraph, add a space to the
-	     * end of it to replace the one removed by
+	     * end of it to replace the one removed or left out by
 	     * justify_format(). */
 	    if (current->prev != NULL && par_len > 1) {
 		size_t prev_line_len = strlen(current->prev->data);
