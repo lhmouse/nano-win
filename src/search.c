@@ -238,11 +238,9 @@ int search_init(int replacing)
 #ifndef NANO_SMALL
 	    search_history.current = search_history.next;
 #endif
-	    i = (int)strtol(answer, &buf, 10);	/* Just testing answer here. */
-	    if (!(errno == ERANGE || *answer == '\0' || *buf != '\0'))
-		do_gotoline(-1, FALSE);
-	    else
-		do_gotoline_void();
+	   /* If answer parses as an integer, put it up on the
+	    * statusbar. */
+	    do_gotoline(parse_num(answer, NULL), FALSE);
 	    /* Fall through. */
 	default:
 	    return -1;
@@ -828,7 +826,7 @@ void do_replace(void)
     replace_abort();
 }
 
-void do_gotoline(int line, int save_pos)
+void do_gotoline(ssize_t line, int save_pos)
 {
     if (line <= 0) {		/* Ask for it */
 	char *ans = mallocstrcpy(NULL, answer);

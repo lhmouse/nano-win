@@ -22,15 +22,13 @@
 /* Externs. */
 
 #include <sys/stat.h>
-
 #ifdef HAVE_REGEX_H
 #include <regex.h>
 #endif
-
 #include "nano.h"
 
 #ifndef DISABLE_WRAPJUSTIFY
-extern int wrap_at;
+extern ssize_t wrap_at;
 #endif
 extern int editwinrows;
 extern int current_x, current_y, totlines;
@@ -40,7 +38,7 @@ extern int mark_beginx;
 #endif
 extern long totsize;
 extern long flags;
-extern int tabsize;
+extern ssize_t tabsize;
 extern int search_last_line;
 extern int currslen;
 
@@ -403,7 +401,7 @@ char *replace_line(const char *needle);
 int do_replace_loop(const char *needle, const filestruct *real_current,
 	size_t *real_current_x, int wholewords);
 void do_replace(void);
-void do_gotoline(int line, int save_pos);
+void do_gotoline(ssize_t line, int save_pos);
 void do_gotoline_void(void);
 #if defined (ENABLE_MULTIBUFFER) || !defined (DISABLE_SPELLER)
 void do_gotopos(int line, int pos_x, int pos_y, int pos_placewewant);
@@ -438,6 +436,7 @@ int is_blank_char(int c);
 #endif
 int is_cntrl_char(int c);
 int num_of_digits(int n);
+int parse_num(const char *str, ssize_t *val);
 void align(char **strp);
 void null_at(char **data, size_t index);
 void unsunder(char *str, size_t true_len);

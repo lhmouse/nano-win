@@ -21,11 +21,12 @@
 
 #include "config.h"
 
-#include <stdio.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
+#include <unistd.h>
 #include <ctype.h>
+#include <errno.h>
 #include <assert.h>
 #include "proto.h"
 #include "nano.h"
@@ -81,6 +82,22 @@ int num_of_digits(int n)
     }
 
     return i;
+}
+
+/* Read an int from str, and store it in *val (if val is not NULL).  On
+ * error, we return -1 and don't change *val. */
+int parse_num(const char *str, ssize_t *val)
+{
+    char *first_error;
+    ssize_t j;
+
+    assert(str != NULL);
+    j = (ssize_t)strtol(str, &first_error, 10);
+    if (errno == ERANGE || *str == '\0' || *first_error != '\0')
+	return -1;
+    if (val != NULL)
+	*val = j;
+    return 0;
 }
 
 /* Fix the memory allocation for a string. */

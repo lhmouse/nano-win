@@ -30,8 +30,9 @@
 /* Global variables */
 
 #ifndef DISABLE_WRAPJUSTIFY
-/* wrap_at might be set in rcfile.c or nano.c */
-int wrap_at = -CHARS_FROM_EOL;/* Right justified fill value, allows resize */
+/* wrap_at might be set in rcfile.c or nano.c. */
+ssize_t wrap_at = -CHARS_FROM_EOL;	/* Right justified fill value,
+					   allows resize */
 #endif
 
 char *last_search = NULL;	/* Last string we searched for */
@@ -94,8 +95,8 @@ int placewewant = 0;		/* The column we'd like the cursor
 				   to jump to when we go to the
 				   next or previous line */
 
-int tabsize = -1;		/* Our internal tabsize variable.  The
-				   default value 8 is set in main(). */
+ssize_t tabsize = -1;		/* Our internal tabsize variable.  The
+				   default value is set in main(). */
 
 char *hblank = NULL;		/* A horizontal blank line */
 #ifndef DISABLE_HELP

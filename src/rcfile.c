@@ -476,7 +476,7 @@ void parse_colors(char *ptr)
 void parse_rcfile(FILE *rcstream)
 {
     char *buf, *ptr, *keyword, *option;
-    int set = 0, i, j;
+    int set = 0, i;
 
     buf = charalloc(1024);
     while (fgets(buf, 1023, rcstream) != 0) {
@@ -571,18 +571,10 @@ void parse_rcfile(FILE *rcstream)
 #endif
 #ifndef DISABLE_WRAPJUSTIFY
 			    if (!strcasecmp(rcopts[i].name, "fill")) {
-				char *first_error;
-
-				/* Using strtol() instead of atoi() lets
-				 * us accept 0 while checking other
-				 * errors. */
-				j = (int)strtol(option, &first_error, 10);
-				if (errno == ERANGE || *option == '\0' || *first_error != '\0')
+				if (parse_num(option, &wrap_at) == -1)
 				    rcfile_error(
-					N_("Requested fill size %d invalid"),
-					j);
-				else
-				    wrap_at = j;
+					N_("Requested fill size %s invalid"),
+					option);
 			    } else
 #endif
 #ifndef NANO_SMALL
@@ -630,17 +622,10 @@ void parse_rcfile(FILE *rcstream)
 			    else
 #endif
 			    if (!strcasecmp(rcopts[i].name, "tabsize")) {
-				char *first_error;
-
-				/* Using strtol instead of atoi lets us
-				 * accept 0 while checking other
-				 * errors. */
-				j = (int)strtol(option, &first_error, 10);
-				if (errno == ERANGE || *option == '\0' || *first_error != '\0')
-				    rcfile_error(N_("Requested tab size %d invalid"),
-					j);
-				else
-				    tabsize = j;
+				if (parse_num(option, &tabsize) == -1)
+				    rcfile_error(
+					N_("Requested tab size %s invalid"),
+					option);
 			    }
 			} else
 			    SET(rcopts[i].flag);

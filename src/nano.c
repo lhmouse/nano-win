@@ -58,7 +58,8 @@
 #endif
 
 #ifndef DISABLE_WRAPJUSTIFY
-static int fill = 0;	/* Fill - where to wrap lines, basically */
+static ssize_t fill = 0;	/* Fill - where to wrap lines,
+				   basically */
 #endif
 #ifndef DISABLE_WRAPPING
 static int same_line_wrap = FALSE;	/* Whether wrapped text should
@@ -3173,21 +3174,10 @@ int main(int argc, char *argv[])
 	    break;
 #endif
 	case 'T':
-	    {
-		int i;
-		char *first_error;
-
-		/* Using strtol() instead of atoi() lets us accept 0
-		 * while checking other errors. */
-		i = (int)strtol(optarg, &first_error, 10);
-		if (errno == ERANGE || *optarg == '\0' || *first_error != '\0')
-		    usage();
-		else
-		    tabsize = i;
-		if (tabsize <= 0) {
-		    fprintf(stderr, _("Tab size is too small for nano...\n"));
-		    exit(1);
-		}
+	    if (parse_num(optarg, &tabsize) == -1 || tabsize <= 0) {
+		fprintf(stderr, _("Requested tab size %s invalid"), optarg);
+		fprintf(stderr, "\n");
+		exit(1);
 	    }
 	    break;
 	case 'V':
@@ -3233,17 +3223,10 @@ int main(int argc, char *argv[])
 	    break;
 #ifndef DISABLE_WRAPJUSTIFY
 	case 'r':
-	    {
-		int i;
-		char *first_error;
-
-		/* Using strtol() instead of atoi() lets us accept 0
-		 * while checking other errors. */
-		i = (int)strtol(optarg, &first_error, 10);
-		if (errno == ERANGE || *optarg == '\0' || *first_error != '\0')
-		    usage();
-		else
-		    wrap_at = i;
+	    if (parse_num(optarg, &wrap_at) == -1) {
+		fprintf(stderr, _("Requested fill size %s invalid"), optarg);
+		fprintf(stderr, "\n");
+		exit(1);
 	    }
 	    fill_flag_used = TRUE;
 	    break;
@@ -3298,7 +3281,7 @@ int main(int argc, char *argv[])
 	char *operating_dir_cpy = operating_dir;
 #endif
 #ifndef DISABLE_WRAPPING
-	int wrap_at_cpy = wrap_at;
+	ssize_t wrap_at_cpy = wrap_at;
 #endif
 #ifndef NANO_SMALL
 	char *backup_dir_cpy = backup_dir;
@@ -3309,7 +3292,7 @@ int main(int argc, char *argv[])
 #ifndef DISABLE_SPELLER
 	char *alt_speller_cpy = alt_speller;
 #endif
-	int tabsize_cpy = tabsize;
+	ssize_t tabsize_cpy = tabsize;
 	long flags_cpy = flags;
 
 #ifndef DISABLE_OPERATINGDIR
@@ -3528,7 +3511,7 @@ int main(int argc, char *argv[])
     titlebar(NULL);
 
     if (startline > 0)
-	do_gotoline(startline, 0);
+	do_gotoline(startline, FALSE);
 
 #ifndef NANO_SMALL
     /* Return here after a SIGWINCH. */
