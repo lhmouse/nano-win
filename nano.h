@@ -44,6 +44,11 @@
 #include <curses.h> 
 #endif /* CURSES_H */
 
+#ifndef HAVE_TABSIZE
+    static int TABSIZE = 8;
+#endif
+
+
 #ifdef HAVE_LIBINTL_H
 #include <libintl.h>
 #endif

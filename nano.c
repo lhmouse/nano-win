@@ -310,6 +310,10 @@ void usage(void)
 #ifdef HAVE_GETOPT_LONG
     printf(_("Usage: nano [GNU long option] [option] +LINE <file>\n\n"));
     printf(_("Option		Long option		Meaning\n"));
+#ifdef HAVE_TABSIZE
+    printf(_
+	   (" -T 		--tabsize=[num]		Set width of a tab to num\n"));
+#endif
     printf
 	(_
 	 (" -V 		--version		Print version information and exit\n"));
@@ -348,6 +352,10 @@ void usage(void)
 #else
     printf(_("Usage: nano [option] +LINE <file>\n\n"));
     printf(_("Option		Meaning\n"));
+#ifdef HAVE_TABSIZE
+    printf(_
+	   (" -T [num]	Set width of a tab to num\n"));
+#endif
     printf(_(" -V 		Print version information and exit\n"));
     printf(_(" -c 		Constantly show cursor position\n"));
     printf(_(" -h 		Show this message\n"));
@@ -601,8 +609,8 @@ assert (strlenpt(inptr->data) >= fill);
 	}
 
         if (inptr->data[i] == NANO_CONTROL_I) {
-            if (i_tabs % 8 != 0);
-                i_tabs += 8 - (i_tabs % 8);
+            if (i_tabs % TABSIZE != 0);
+                i_tabs += TABSIZE - (i_tabs % TABSIZE);
         } 
 
 	if (current_word_end_t >= fill)
@@ -1552,6 +1560,9 @@ int main(int argc, char *argv[])
     struct sigaction act;	/* For our lovely signals */
     int keyhandled = 0;		/* Have we handled the keystroke yet? */
     int tmpkey = 0, i;
+#ifdef HAVE_TABSIZE
+    int usrtabsize = 0;		/* User defined tab size */
+#endif
     char *argv0;
     struct termios term;
 
@@ -1571,6 +1582,9 @@ int main(int argc, char *argv[])
 	{"mouse", 0, 0, 'm'},
 	{"pico", 0, 0, 'p'},
 	{"nofollow", 0, 0, 'l'},
+#ifdef HAVE_TABSIZE
+	{"tabsize", 0, 0, 'T'},
+#endif
 	{0, 0, 0, 0}
     };
 #endif
@@ -1585,13 +1599,26 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "?Vchilmpr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "?T:Vchilmpr:s:tvwxz",
 				 long_options, &option_index)) != EOF) {
 #else
-    while ((optchr = getopt(argc, argv, "h?Vcilmpr:s:tvwxz")) != EOF) {
+    while ((optchr = getopt(argc, argv, "h?T:Vcilmpr:s:tvwxz")) != EOF) {
 #endif
 
 	switch (optchr) {
+#ifdef HAVE_TABSIZE
+	case 'T':
+	    usrtabsize = atoi(optarg);
+	    if (usrtabsize <= 0) {
+		usage();	/* To stop bogus data for tab width */
+		finish(1);
+	    }
+	    break;
+#else
+	case 'T':
+	    usage();	/* Oops!  You dont really have that option */
+	    finish(1);
+#endif
 	case 'V':
 	    version();
 	    exit(0);
@@ -1760,6 +1787,11 @@ int main(int argc, char *argv[])
 
     edit_refresh();
     reset_cursor();
+
+#ifdef HAVE_TABSIZE
+    if (usrtabsize > 0)
+	TABSIZE = usrtabsize;
+#endif
 
     while (1) {
 	kbinput = wgetch(edit);

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-06-19 01:59-0400\n"
+"POT-Creation-Date: 2000-06-19 19:19-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -404,150 +404,158 @@ msgid "Option\t\tLong option\t\tMeaning\n"
 msgstr ""
 
 #: nano.c:315
-msgid " -V \t\t--version\t\tPrint version information and exit\n"
-msgstr ""
-
-#: nano.c:317
-msgid " -c \t\t--const\t\t\tConstantly show cursor position\n"
+msgid " -T \t\t--tabsize=[num]\t\tSet width of a tab to num\n"
 msgstr ""
 
 #: nano.c:319
-msgid " -h \t\t--help\t\t\tShow this message\n"
+msgid " -V \t\t--version\t\tPrint version information and exit\n"
 msgstr ""
 
 #: nano.c:321
-msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
+msgid " -c \t\t--const\t\t\tConstantly show cursor position\n"
 msgstr ""
 
 #: nano.c:323
+msgid " -h \t\t--help\t\t\tShow this message\n"
+msgstr ""
+
+#: nano.c:325
+msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
+msgstr ""
+
+#: nano.c:327
 msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite.\n"
 msgstr ""
 
-#: nano.c:326
+#: nano.c:330
 msgid " -m \t\t--mouse\t\t\tEnable mouse\n"
 msgstr ""
 
-#: nano.c:331
+#: nano.c:335
 msgid ""
 " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
 msgstr ""
 
-#: nano.c:333
+#: nano.c:337
 msgid " -p\t \t--pico\t\t\tMake bottom 2 lines more Pico-like\n"
 msgstr ""
 
-#: nano.c:335
+#: nano.c:339
 msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
 msgstr ""
 
-#: nano.c:337
+#: nano.c:341
 msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
 msgstr ""
 
-#: nano.c:339
+#: nano.c:343
 msgid " -v \t\t--view\t\t\tView (read only) mode\n"
 msgstr ""
 
-#: nano.c:341
+#: nano.c:345
 msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
 msgstr ""
 
-#: nano.c:343
+#: nano.c:347
 msgid " -x \t\t--nohelp\t\tDon't show help window\n"
 msgstr ""
 
-#: nano.c:345
+#: nano.c:349
 msgid " -z \t\t--suspend\t\tEnable suspend\n"
 msgstr ""
 
-#: nano.c:347
+#: nano.c:351
 msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
 msgstr ""
 
-#: nano.c:349
+#: nano.c:353
 msgid ""
 "Usage: nano [option] +LINE <file>\n"
 "\n"
 msgstr ""
 
-#: nano.c:350
+#: nano.c:354
 msgid "Option\t\tMeaning\n"
 msgstr ""
 
-#: nano.c:351
-msgid " -V \t\tPrint version information and exit\n"
-msgstr ""
-
-#: nano.c:352
-msgid " -c \t\tConstantly show cursor position\n"
-msgstr ""
-
-#: nano.c:353
-msgid " -h \t\tShow this message\n"
-msgstr ""
-
-#: nano.c:354
-msgid " -i \t\tAutomatically indent new lines\n"
-msgstr ""
-
-#: nano.c:356
-msgid " -l \t\tDon't follow symbolic links, overwrite.\n"
+#: nano.c:357
+msgid " -T [num]\tSet width of a tab to num\n"
 msgstr ""
 
 #: nano.c:359
-msgid " -m \t\tEnable mouse\n"
+msgid " -V \t\tPrint version information and exit\n"
 msgstr ""
 
-#: nano.c:363
-msgid " -r [#cols] \tSet fill cols to (wrap lines at) #cols\n"
+#: nano.c:360
+msgid " -c \t\tConstantly show cursor position\n"
+msgstr ""
+
+#: nano.c:361
+msgid " -h \t\tShow this message\n"
+msgstr ""
+
+#: nano.c:362
+msgid " -i \t\tAutomatically indent new lines\n"
 msgstr ""
 
 #: nano.c:364
-msgid " -s [prog]  \tEnable alternate speller\n"
-msgstr ""
-
-#: nano.c:365
-msgid " -p \t\tMake bottom 2 lines more Pico-like\n"
-msgstr ""
-
-#: nano.c:366
-msgid " -t \t\tAuto save on exit, don't prompt\n"
+msgid " -l \t\tDon't follow symbolic links, overwrite.\n"
 msgstr ""
 
 #: nano.c:367
-msgid " -v \t\tView (read only) mode\n"
-msgstr ""
-
-#: nano.c:368
-msgid " -w \t\tDon't wrap long lines\n"
-msgstr ""
-
-#: nano.c:369
-msgid " -x \t\tDon't show help window\n"
-msgstr ""
-
-#: nano.c:370
-msgid " -z \t\tEnable suspend\n"
+msgid " -m \t\tEnable mouse\n"
 msgstr ""
 
 #: nano.c:371
-msgid " +LINE\t\tStart at line number LINE\n"
+msgid " -r [#cols] \tSet fill cols to (wrap lines at) #cols\n"
+msgstr ""
+
+#: nano.c:372
+msgid " -s [prog]  \tEnable alternate speller\n"
+msgstr ""
+
+#: nano.c:373
+msgid " -p \t\tMake bottom 2 lines more Pico-like\n"
+msgstr ""
+
+#: nano.c:374
+msgid " -t \t\tAuto save on exit, don't prompt\n"
+msgstr ""
+
+#: nano.c:375
+msgid " -v \t\tView (read only) mode\n"
+msgstr ""
+
+#: nano.c:376
+msgid " -w \t\tDon't wrap long lines\n"
+msgstr ""
+
+#: nano.c:377
+msgid " -x \t\tDon't show help window\n"
 msgstr ""
 
 #: nano.c:378
+msgid " -z \t\tEnable suspend\n"
+msgstr ""
+
+#: nano.c:379
+msgid " +LINE\t\tStart at line number LINE\n"
+msgstr ""
+
+#: nano.c:386
 #, c-format
 msgid " nano version %s by Chris Allegretta (compiled %s, %s)\n"
 msgstr ""
 
-#: nano.c:380
+#: nano.c:388
 msgid " Email: nano@asty.org\tWeb: http://www.asty.org/nano\n"
 msgstr ""
 
-#: nano.c:405
+#: nano.c:413
 msgid "Mark Set"
 msgstr ""
 
-#: nano.c:410
+#: nano.c:418
 msgid "Mark UNset"
 msgstr ""
 
@@ -617,24 +625,24 @@ msgstr ""
 msgid "Cannot move bottom win"
 msgstr ""
 
-#: nano.c:1727
+#: nano.c:1746
 msgid "Main: set up windows\n"
 msgstr ""
 
-#: nano.c:1749
+#: nano.c:1768
 msgid "Main: bottom win\n"
 msgstr ""
 
-#: nano.c:1755
+#: nano.c:1774
 msgid "Main: open file\n"
 msgstr ""
 
-#: nano.c:1823
+#: nano.c:1847
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:1839
+#: nano.c:1863
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr ""

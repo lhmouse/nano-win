@@ -126,10 +126,12 @@ fi
 
 
 AC_CHECK_LIB($CURSES_LIB_NAME, wresize, AC_DEFINE(HAVE_WRESIZE))
+AC_CHECK_LIB($CURSES_LIB_NAME, TABSIZE, AC_DEFINE(HAVE_TABSIZE))
 
 dnl Parse any configure options
 
 LIBS="$LIBS $CURSES_LIB"
+
 AC_ARG_ENABLE(debug, [  --enable-debug          Enable debugging (def disabled)],)
 
 AC_SUBST(CURSES_LIB)

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano-0.9.10\n"
-"POT-Creation-Date: 2000-06-19 01:59-0400\n"
+"POT-Creation-Date: 2000-06-19 18:16-0400\n"
 "PO-Revision-Date: 2000-06-08 20:56+07:00\n"
 "Last-Translator: Tedi Heriyanto <tedi-h@usa.net>\n"
 "Language-Team: Indonesian <id@li.org>\n"
@@ -54,7 +54,7 @@ msgstr "Membaca File"
 msgid "File to insert [from ./] "
 msgstr "File untuk disisipkan "
 
-#: files.c:271 files.c:295 files.c:459 nano.c:1171
+#: files.c:271 files.c:295 files.c:459 nano.c:1167
 msgid "Cancelled"
 msgstr "Dibatalkan"
 
@@ -421,69 +421,73 @@ msgstr "Pemakaian: nano [GNU long option] [option] +LINE <file>\n"
 msgid "Option\t\tLong option\t\tMeaning\n"
 msgstr "Option: Long option     Arti\n"
 
-#: nano.c:315
+#: nano.c:314
+msgid " -T \t\t--tabsize=[num]\t\tSet width of a tab to num\n"
+msgstr ""
+
+#: nano.c:317
 msgid " -V \t\t--version\t\tPrint version information and exit\n"
 msgstr "-V      --version       Tampilkan versi dan keluar\n"
 
-#: nano.c:317
+#: nano.c:319
 msgid " -c \t\t--const\t\t\tConstantly show cursor position\n"
 msgstr "-c      --const         Menampilkan posisi kursor secara konstan\n"
 
-#: nano.c:319
+#: nano.c:321
 msgid " -h \t\t--help\t\t\tShow this message\n"
 msgstr "-h      --help          Tampilkan pesan ini\n"
 
-#: nano.c:321
+#: nano.c:323
 msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
 msgstr "-i      --autoindent    Indent baris barus secara otomatis\n"
 
-#: nano.c:323
+#: nano.c:325
 msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite.\n"
 msgstr "-l      --nofollow      Jangan ikuti link simbolik, timpa.\n"
 
-#: nano.c:326
+#: nano.c:328
 msgid " -m \t\t--mouse\t\t\tEnable mouse\n"
 msgstr "-m      --mouse         Aktifkan mouse\n"
 
-#: nano.c:331
+#: nano.c:333
 msgid ""
 " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
 msgstr "-r [#cols]      --fill=[#cols]  Set fill col ke (wrap line di) #cols\n"
 
-#: nano.c:333
+#: nano.c:335
 msgid " -p\t \t--pico\t\t\tMake bottom 2 lines more Pico-like\n"
 msgstr "-p      --pico  Buat dua baris terbawah seperti Pico\n"
 
-#: nano.c:335
+#: nano.c:337
 msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
 msgstr "-s [prog]       --speller=[prog]        Aktifkan speller alternatif\n"
 
-#: nano.c:337
+#: nano.c:339
 msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
 msgstr ""
 "-t      --tempfile      Autosave saat keluar, jangan minta konfirmasi\n"
 
-#: nano.c:339
+#: nano.c:341
 msgid " -v \t\t--view\t\t\tView (read only) mode\n"
 msgstr "-v      --view  View mode (read only)\n"
 
-#: nano.c:341
+#: nano.c:343
 msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
 msgstr "-w      --nowrap        Jangan wrap baris panjang\n"
 
-#: nano.c:343
+#: nano.c:345
 msgid " -x \t\t--nohelp\t\tDon't show help window\n"
 msgstr "-x      --nohelp        Jangan tampilkan jendela bantuan\n"
 
-#: nano.c:345
+#: nano.c:347
 msgid " -z \t\t--suspend\t\tEnable suspend\n"
 msgstr "-z      --suspend       Aktifkan suspend\n"
 
-#: nano.c:347
+#: nano.c:349
 msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
 msgstr "+LINE                   Mulai pada nomor baris LINE\n"
 
-#: nano.c:349
+#: nano.c:351
 msgid ""
 "Usage: nano [option] +LINE <file>\n"
 "\n"
@@ -491,172 +495,176 @@ msgstr ""
 "Pemakaian: nano [option] +LINE <file>\n"
 "\n"
 
-#: nano.c:350
+#: nano.c:352
 msgid "Option\t\tMeaning\n"
 msgstr "Option          Arti\n"
 
-#: nano.c:351
+#: nano.c:354
+msgid " -T [num]\tSet width of a tab to num\n"
+msgstr ""
+
+#: nano.c:355
 msgid " -V \t\tPrint version information and exit\n"
 msgstr "-V     Tampilkan informasi versi dan keluar\n"
 
-#: nano.c:352
+#: nano.c:356
 msgid " -c \t\tConstantly show cursor position\n"
 msgstr "-c     Menampilkan posisi kursor secara konstan\n"
 
-#: nano.c:353
+#: nano.c:357
 msgid " -h \t\tShow this message\n"
 msgstr "-h     Tampilkan pesan ini\n"
 
-#: nano.c:354
+#: nano.c:358
 msgid " -i \t\tAutomatically indent new lines\n"
 msgstr "-i     Indent baris barus secara otomatis\n"
 
-#: nano.c:356
+#: nano.c:360
 msgid " -l \t\tDon't follow symbolic links, overwrite.\n"
 msgstr "-l     Jangan ikuti link simbolik, timpa.\n"
 
-#: nano.c:359
+#: nano.c:363
 msgid " -m \t\tEnable mouse\n"
 msgstr "-m     Aktifkan mouse\n"
 
-#: nano.c:363
+#: nano.c:367
 msgid " -r [#cols] \tSet fill cols to (wrap lines at) #cols\n"
 msgstr "-r [#cols]   Set fill col ke (wrap line di) #cols\n"
 
-#: nano.c:364
+#: nano.c:368
 msgid " -s [prog]  \tEnable alternate speller\n"
 msgstr "-s [prog]    Aktifkan speller alternatif\n"
 
-#: nano.c:365
+#: nano.c:369
 msgid " -p \t\tMake bottom 2 lines more Pico-like\n"
 msgstr "-p     Buat dua baris terbawah seperti Pico\n"
 
-#: nano.c:366
+#: nano.c:370
 msgid " -t \t\tAuto save on exit, don't prompt\n"
 msgstr "-t     Autosave saat keluar, jangan minta konfirmasi.\n"
 
-#: nano.c:367
+#: nano.c:371
 msgid " -v \t\tView (read only) mode\n"
 msgstr "-v     View mode (read only)\n"
 
-#: nano.c:368
+#: nano.c:372
 msgid " -w \t\tDon't wrap long lines\n"
 msgstr "-w     Jangan wrap baris panjang\n"
 
-#: nano.c:369
+#: nano.c:373
 msgid " -x \t\tDon't show help window\n"
 msgstr "-x     Jangan tampilkan jendela bantuan\n"
 
-#: nano.c:370
+#: nano.c:374
 msgid " -z \t\tEnable suspend\n"
 msgstr "-z     Aktifkan suspend\n"
 
-#: nano.c:371
+#: nano.c:375
 msgid " +LINE\t\tStart at line number LINE\n"
 msgstr "+LINE    Mulai pada nomor baris LINE\n"
 
-#: nano.c:378
+#: nano.c:382
 #, c-format
 msgid " nano version %s by Chris Allegretta (compiled %s, %s)\n"
 msgstr "nano versi %s oleh Chris Allegretta (compiled %s, %s)\n"
 
-#: nano.c:380
+#: nano.c:384
 msgid " Email: nano@asty.org\tWeb: http://www.asty.org/nano\n"
 msgstr "Email: nano@asty.org    Web: http://www.asty.org/nano\n"
 
-#: nano.c:405
+#: nano.c:409
 msgid "Mark Set"
 msgstr "Set Tanda"
 
-#: nano.c:410
+#: nano.c:414
 msgid "Mark UNset"
 msgstr "Unset Tanda"
 
-#: nano.c:845
+#: nano.c:841
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap dipanggil dengan inptr->data=\"%s\"\n"
 
-#: nano.c:929
+#: nano.c:925
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data sekarang =\"%s\"\n"
 
-#: nano.c:974
+#: nano.c:970
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Setelah, data= \"%s\"\n"
 
-#: nano.c:1038
+#: nano.c:1034
 msgid "Error deleting tempfile, ack!"
 msgstr "Kesalahan menghapus tempfile, ack!"
 
-#: nano.c:1051 nano.c:1101
+#: nano.c:1047 nano.c:1097
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Tidak dapat membuat nama file temporer: %s"
 
-#: nano.c:1073 nano.c:1123
+#: nano.c:1069 nano.c:1119
 #, c-format
 msgid "Could not invoke spell program \"%s\""
 msgstr "Tidak dapat memanggil program spell \"%s\""
 
 #. Why 32512? I dont know!
-#: nano.c:1079 nano.c:1129
+#: nano.c:1075 nano.c:1125
 msgid "Could not invoke \"ispell\""
 msgstr "Tidak dapat memanggil \"ispell\""
 
-#: nano.c:1091 nano.c:1141
+#: nano.c:1087 nano.c:1137
 msgid "Finished checking spelling"
 msgstr "Selesai memeriksa ejaan"
 
-#: nano.c:1158
+#: nano.c:1154
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 "Simpan buffer termodifikasi (JAWABAN \"No\" AKAN MENGHAPUS PERUBAHAN) ?"
 
-#: nano.c:1281
+#: nano.c:1277
 msgid "Cannot resize top win"
 msgstr "Tidak dapat resize jendela atas"
 
-#: nano.c:1283
+#: nano.c:1279
 msgid "Cannot move top win"
 msgstr "Tidak memindahkan jendela atas"
 
-#: nano.c:1285
+#: nano.c:1281
 msgid "Cannot resize edit win"
 msgstr "Tidak dapat resize jendela edit"
 
-#: nano.c:1287
+#: nano.c:1283
 msgid "Cannot move edit win"
 msgstr "Tidak dapat memindah jendela edit"
 
-#: nano.c:1289
+#: nano.c:1285
 msgid "Cannot resize bottom win"
 msgstr "Tidak dapat meresize jendela bawah"
 
-#: nano.c:1291
+#: nano.c:1287
 msgid "Cannot move bottom win"
 msgstr "Tidak dapat memindah jendela bawah"
 
-#: nano.c:1727
+#: nano.c:1732
 msgid "Main: set up windows\n"
 msgstr "Main: menset jendelan\n"
 
-#: nano.c:1749
+#: nano.c:1754
 msgid "Main: bottom win\n"
 msgstr "Main: jendela bawah\n"
 
-#: nano.c:1755
+#: nano.c:1760
 msgid "Main: open file\n"
 msgstr "Main: membuka file\n"
 
-#: nano.c:1823
+#: nano.c:1831
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"
 
-#: nano.c:1839
+#: nano.c:1847
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"

@@ -72,9 +72,9 @@ int xpt(filestruct * fileptr, int index)
 	tabs++;
 
 	if (fileptr->data[i] == NANO_CONTROL_I) {
-	    if (tabs % 8 == 0);
+	    if (tabs % TABSIZE == 0);
 	    else
-		tabs += 8 - (tabs % 8);
+		tabs += TABSIZE - (tabs % TABSIZE);
 	} else if (fileptr->data[i] & 0x80)	
 	    /* Make 8 bit chars only 1 collumn! */
 	    ;
@@ -105,8 +105,8 @@ int actual_x_from_start(filestruct * fileptr, int xplus, int start)
 
     for (i = start; tot <= xplus && fileptr->data[i] != 0; i++,tot++)
 	if (fileptr->data[i] == NANO_CONTROL_I) {
-	    if (tot % 8 == 0) tot++;
-	    else tot += 8 - (tot % 8);
+	    if (tot % TABSIZE == 0) tot++;
+	    else tot += TABSIZE - (tot % TABSIZE);
 	} else if (fileptr->data[i] & 0x80)
 	    tot++;		/* Make 8 bit chars only 1 column (again) */
 	else if (fileptr->data[i] < 32)
@@ -136,9 +136,9 @@ int strlenpt(char *buf)
 	tabs++;
 
 	if (buf[i] == NANO_CONTROL_I) {
-	    if (tabs % 8 == 0);
+	    if (tabs % TABSIZE == 0);
 	    else
-		tabs += 8 - (tabs % 8);
+		tabs += TABSIZE - (tabs % TABSIZE);
 	} else if (buf[i] & 0x80)	
 	    /* Make 8 bit chars only 1 collumn! */
 	    ;
@@ -732,7 +732,7 @@ void update_line(filestruct * fileptr, int index)
 		fileptr->data[pos++] = ' ';
 		if(i < current_x) virt_cur_x++;
 		if(i < mark_beginx) virt_mark_beginx++;
-	    } while(pos % 8);
+	    } while(pos % TABSIZE);
 	    /* must decrement once to account for tab-is-one-character */
 	    if(i < current_x) virt_cur_x--;
 	    if(i < mark_beginx) virt_mark_beginx--;
