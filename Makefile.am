@@ -27,7 +27,7 @@ EXTRA_DIST =	ABOUT-NLS AUTHORS BUGS COPYING ChangeLog INSTALL NEWS \
 		README THANKS TODO install-sh missing mkinstalldirs \
 		nano.1 nano.1.html faq.html nanorc.sample
 
-SUBDIRS = po intl
+SUBDIRS = po intl m4
 
 localedir = $(datadir)/locale
 INCLUDES = -Iintl -DLOCALEDIR=\"$(localedir)\" -I@includedir@
