@@ -236,7 +236,8 @@ CVS code -
   ngetdelim(), ngetline()
 	- New functions equivalent to getdelim() and getline(), which
 	  are both GNU extensions. (DLR, adapted from GNU mailutils
-	  0.5 with minor changes to better integrate with nano)
+	  0.5 with minor changes to better integrate with nano and
+	  increase efficiency)
 - winio.c:
   get_kbinput()
 	- Since the only valid values for escapes are 0, 1, and 2,
