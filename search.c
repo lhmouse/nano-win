@@ -464,6 +464,7 @@ int do_replace(void)
             if (!copy) {
                 statusbar("Replace failed: unknown subexpression!");
                 replace_abort();
+		return 0;
             }
 
 	    /* Cleanup */
