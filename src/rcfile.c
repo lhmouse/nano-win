@@ -650,7 +650,7 @@ void parse_rcfile(FILE *rcstream)
 			    assert(FALSE);
 		    }
 #ifdef DEBUG
-		    fprintf(stderr, "flag = %d\n", rcopts[i].flag);
+		    fprintf(stderr, "flag = %ld\n", rcopts[i].flag);
 #endif
 		} else if (rcopts[i].flag != 0)
 		    UNSET(rcopts[i].flag);

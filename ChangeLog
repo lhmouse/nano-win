@@ -59,6 +59,10 @@ CVS code -
 	  of 0 to get a string as long as we need is a nonportable GNU
 	  extension, and hence it won't work on non-GNU systems that
 	  don't define PATH_MAX. (DLR)
+- rcfile.c:
+  parse_rcfile()
+	- Fix debugging message to display the long value of a flag
+	  properly. (DLR)
 - utils.c:
   regexec_safe()
 	- Rename to safe_regexec() for consistency. (DLR)
