@@ -382,6 +382,10 @@ int do_uncut_text(void)
 	    totsize += strlen(cutbuffer->data);
 	    if (strlen(cutbuffer->data) == 0)
 		totlines++;
+	    /* If we've uncut a line, make sure there's a magicline after
+	       it */
+	    if (current->next == NULL)
+		new_magicline();
 
 	    placewewant = xplustabs();
 	    update_cursor();

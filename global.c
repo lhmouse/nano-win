@@ -753,7 +753,7 @@ void thanks_for_all_the_fish(void)
     filestruct * current_open_file;
 #endif
 
-#ifdef ENABLE_MULTIBUFFER
+#ifndef DISABLE_OPERATINGDIR
     if (operating_dir != NULL)
 	free(operating_dir);
     if (full_operating_dir != NULL)

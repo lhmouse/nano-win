@@ -155,7 +155,7 @@ msgstr "%d líneas escritas"
 
 #: files.c:1414
 msgid " [Mac Format]"
-msgstr " [Formatp Mac]"
+msgstr " [Formato Mac]"
 
 #: files.c:1416
 msgid " [DOS Format]"

@@ -902,7 +902,7 @@ msgstr "Controllo ortografico fallito"
 
 #: nano.c:1758
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
-msgstr ""Salva il buffer modificato? (RISPONDENDO \"No\" ANNULLERETE I CAMBIAMENTI AVVENUTI) "
+msgstr "Salva il buffer modificato? (RISPONDENDO \"No\" ANNULLERETE I CAMBIAMENTI AVVENUTI) "
 
 #: nano.c:1913
 msgid "Received SIGHUP"

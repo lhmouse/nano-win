@@ -11,11 +11,14 @@ CVS code -
 - files.c:
   check_writable_directory()
 	- Stat full_path, not path (Steven Kneizys).
+  open_pipe()
+	- I18nize the pipe error (DLR).
   read_file()
 	- Abort if we read a file of 0 lines (num_lines == 0), fixes BUG #70.
 	- Reverse tests to stop segfault on editing a new file of 0 
 	  lines (David Benbennick)
 	- Change input var to one char instead of array (David Benbennick).
+	- Move NO_CONVERT check up so chars get read in properly (DLR).
 - nano.c:
   do_justify()
 	- More fixes for indented justify (David Benbennick).
@@ -48,14 +51,19 @@ CVS code -
 - winio.c:
   do_credits()
 	- Add Thomas Dickey.
+  update_line(), xpt()
+	- Add check for 127 (DLR).
 - po/sv.po:
 	- Swedish translation updates (Christian Rose).
 - po/de.po:
 	- German translation updates (Michael Piefel).
 - po/id.po:
 	- Indonesian translation updates (Tedi Heriyanto).
+- po/it.po:
+	- Serious typo (DLR).
 - po/ca.po, po/es.po:
 	- Catalan and Spanish translation updates (Jordi).
+	- Typo (DLR).
 - po/fr.po:
 	- French translation updates (Jean-Philippe Guérard).
 - po/gl.po:

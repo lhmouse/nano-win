@@ -197,22 +197,24 @@ int read_file(int fd, char *filename, int quiet)
     /* Read the entire file into file struct */
     while ((size = read_byte(fd, filename, &input)) > 0) {
 
+#ifndef NANO_SMALL
+	if (!ISSET(NO_CONVERT) && input >= 0 && input <= 31
+		&& input != 127 && input != '\t' && input != '\r'
+		&& input != '\n')
+	/* If the file has binary chars in it, don't stupidly
+	   assume it's a DOS or Mac formatted file! */
+	SET(NO_CONVERT);
+#endif
+
 	if (input == '\n') {
 	    fileptr = read_line(buf, fileptr, &line1ins);
 	    num_lines++;
 	    buf[0] = 0;
 	    i = 0;
 #ifndef NANO_SMALL
-	 } else if (!ISSET(NO_CONVERT) && input >= 0 && input <= 31 
-			&& input != '\t' && input != '\r'
-			&& input != '\n') 
-	    /* If the file has binary chars in it, don't stupidly
-		assume it's a DOS or Mac formatted file! */
-	    SET(NO_CONVERT);
-
 	/* If it's a Mac file (no LF just a CR), and file conversion
 	   isn't disabled, handle it! */
-	else if (!ISSET(NO_CONVERT) && i > 0 && buf[i-1] == '\r') {
+	} else if (!ISSET(NO_CONVERT) && i > 0 && buf[i-1] == '\r') {
 	    fileformat = 2;
 	    fileptr = read_line(buf, fileptr, &line1ins);
 	    num_lines++;
@@ -299,7 +301,7 @@ int open_pipe(char *command)
   /* Make our pipes. */
 
     if (pipe(fd) == -1) {
-	statusbar("Could not pipe");
+	statusbar(_("Could not pipe"));
 	return 1;
     }
 

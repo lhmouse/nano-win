@@ -84,7 +84,7 @@ int xpt(filestruct * fileptr, int index)
 	} else if (fileptr->data[i] & 0x80)
 	    /* Make 8 bit chars only 1 column! */
 	    ;
-	else if (fileptr->data[i] < 32)
+	else if (fileptr->data[i] < 32 || fileptr->data[i] == 127)
 	    tabs++;
     }
 
@@ -1140,8 +1140,11 @@ void update_line(filestruct * fileptr, int index)
 		virt_cur_x--;
 	    if (i < mark_beginx)
 		virt_mark_beginx--;
+	} else if (realdata[i] == 127) {
+	    /* Treat control characters as ^symbol (ASCII 1 - 31, 127) */
+	    fileptr->data[pos++] = '^';
+	    fileptr->data[pos++] = '?';
 	} else if (realdata[i] >= 1 && realdata[i] <= 31) {
-	    /* Treat control characters as ^letter */
 	    fileptr->data[pos++] = '^';
 	    fileptr->data[pos++] = realdata[i] + 64;
 	} else {
