@@ -1340,6 +1340,17 @@ void signal_init(void)
 
 }
 
+void window_init(void)
+{
+    /* Setup up the main text window */
+    edit = newwin(editwinrows, COLS, 2, 0);
+
+    /* And the other windows */
+    topwin = newwin(2, COLS, 0, 0);
+    bottomwin = newwin(3 - no_help(), COLS, LINES - 3 + no_help(), 0);\
+
+}
+
 void mouse_init(void)
 {
 #ifndef NANO_SMALL
@@ -1630,22 +1641,11 @@ void do_toggle(int which)
     char *enabled = _("enabled");
     char *disabled = _("disabled");
 
-
-    if (ISSET(toggles[which].flag)) {
-	if (toggles[which].val == TOGGLE_NOHELP_KEY ||
-	   toggles[which].val == TOGGLE_WRAP_KEY)
-	    statusbar("%s %s", toggles[which].desc, enabled);
-	else
-	    statusbar("%s %s", toggles[which].desc, disabled);
+    if (ISSET(toggles[which].flag))
 	UNSET(toggles[which].flag);
-    } else {
-	if (toggles[which].val == TOGGLE_NOHELP_KEY ||
-	   toggles[which].val == TOGGLE_WRAP_KEY)
-	    statusbar("%s %s", toggles[which].desc, disabled);
-	else
-	    statusbar("%s %s", toggles[which].desc, enabled);
+    else
 	SET(toggles[which].flag);
-    }
+
     switch (toggles[which].val) {
     case TOGGLE_PICOMODE_KEY:
 	shortcut_init();
@@ -1658,8 +1658,26 @@ void do_toggle(int which)
 	mouse_init();
 	break;
     case TOGGLE_NOHELP_KEY:
-	handle_sigwinch(1);
+	wclear(bottomwin);
+	wrefresh(bottomwin);
+	window_init();
+	edit_refresh();
+	display_main_list();
 	break;
+    }
+
+    if (!ISSET(toggles[which].flag)) {
+	if (toggles[which].val == TOGGLE_NOHELP_KEY ||
+	   toggles[which].val == TOGGLE_WRAP_KEY)
+	    statusbar("%s %s", toggles[which].desc, enabled);
+	else
+	    statusbar("%s %s", toggles[which].desc, disabled);
+    } else {
+	if (toggles[which].val == TOGGLE_NOHELP_KEY ||
+	   toggles[which].val == TOGGLE_WRAP_KEY)
+	    statusbar("%s %s", toggles[which].desc, disabled);
+	else
+	    statusbar("%s %s", toggles[which].desc, enabled);
     }
     SET(DISABLE_CURPOS);
 
@@ -1852,14 +1870,8 @@ int main(int argc, char *argv[])
     fprintf(stderr, _("Main: set up windows\n"));
 #endif
 
-    /* Setup up the main text window */
-    edit = newwin(editwinrows, COLS, 2, 0);
-
+    window_init();
     mouse_init();
-
-    /* And the other windows */
-    topwin = newwin(2, COLS, 0, 0);
-    bottomwin = newwin(3 - no_help(), COLS, LINES - 3 + no_help(), 0);
 
 #ifdef DEBUG
     fprintf(stderr, _("Main: bottom win\n"));

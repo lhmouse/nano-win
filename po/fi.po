@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.11\n"
-"POT-Creation-Date: 2000-09-06 09:44-0400\n"
+"POT-Creation-Date: 2000-09-12 18:56-0400\n"
 "PO-Revision-Date: 2000-06-21 23:08+03:00\n"
 "Last-Translator: Pauli Virtanen <pauli.virtanen@saunalahti.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -265,7 +265,7 @@ msgstr "Muuta etsintä- tai korvaustoiminnon kirjainkoosta piittaamista."
 msgid "Cancel the current function"
 msgstr "Peru nykyinen toiminto."
 
-#: global.c:207 global.c:317 global.c:389
+#: global.c:207 global.c:319 global.c:391
 msgid "Get Help"
 msgstr "Ohjeita"
 
@@ -273,120 +273,120 @@ msgstr "Ohjeita"
 msgid "WriteOut"
 msgstr "Kirjoita"
 
-#: global.c:214 global.c:378
+#: global.c:214 global.c:380
 msgid "Exit"
 msgstr "Lopeta"
 
-#: global.c:222 global.c:313 global.c:334 global.c:353
+#: global.c:222 global.c:315 global.c:336 global.c:355
 msgid "Goto Line"
 msgstr "Siirry"
 
-#: global.c:227 global.c:305
+#: global.c:227 global.c:306
 msgid "Justify"
 msgstr "Tasaa"
 
-#: global.c:230 global.c:301 global.c:331
+#: global.c:231 global.c:302 global.c:333
 msgid "Replace"
 msgstr "Korvaa"
 
-#: global.c:234
+#: global.c:235
 msgid "Read File"
 msgstr "Lue tied."
 
-#: global.c:238
+#: global.c:239
 msgid "Where Is"
 msgstr "Etsi"
 
-#: global.c:242 global.c:370
+#: global.c:243 global.c:372
 msgid "Prev Page"
 msgstr "Ed. sivu"
 
-#: global.c:246 global.c:374
+#: global.c:247 global.c:376
 msgid "Next Page"
 msgstr "Seur. sivu"
 
-#: global.c:250
+#: global.c:251
 msgid "Cut Text"
 msgstr "Leikkaa"
 
-#: global.c:253
+#: global.c:254
 msgid "UnCut Txt"
 msgstr "Liitä"
 
-#: global.c:257
+#: global.c:258
 msgid "Cur Pos"
 msgstr "Sijainti"
 
-#: global.c:261
+#: global.c:262
 msgid "To Spell"
 msgstr "Oikolue"
 
-#: global.c:265
+#: global.c:266
 msgid "Up"
 msgstr "Ylös"
 
-#: global.c:268
+#: global.c:269
 msgid "Down"
 msgstr "Alas"
 
-#: global.c:271
+#: global.c:272
 msgid "Forward"
 msgstr "Eteenpäin"
 
-#: global.c:274
+#: global.c:275
 msgid "Back"
 msgstr "Takaisin"
 
-#: global.c:277
+#: global.c:278
 msgid "Home"
 msgstr "Home"
 
-#: global.c:280
+#: global.c:281
 msgid "End"
 msgstr "End"
 
-#: global.c:283
+#: global.c:284
 msgid "Refresh"
 msgstr "Piirrä uudelleen"
 
-#: global.c:286
+#: global.c:287
 msgid "Mark Text"
 msgstr "Merkitse tekstiä"
 
-#: global.c:289
+#: global.c:290
 msgid "Delete"
 msgstr "Poista"
 
-#: global.c:293
+#: global.c:294
 msgid "Backspace"
 msgstr "Askelpalautin"
 
-#: global.c:297
+#: global.c:298
 msgid "Tab"
 msgstr "Sarkain"
 
-#: global.c:308
+#: global.c:310
 msgid "Enter"
 msgstr "Enter"
 
-#: global.c:321 global.c:341 global.c:360
+#: global.c:323 global.c:343 global.c:362
 msgid "First Line"
 msgstr "1. rivi"
 
-#: global.c:324 global.c:344 global.c:363
+#: global.c:326 global.c:346 global.c:365
 msgid "Last Line"
 msgstr "Viim. rivi"
 
-#: global.c:327 global.c:347
+#: global.c:329 global.c:349
 msgid "Case Sens"
 msgstr "Kirj. koko"
 
-#: global.c:337 global.c:356 global.c:366 global.c:382 global.c:386
-#: global.c:392 winio.c:999
+#: global.c:339 global.c:358 global.c:368 global.c:384 global.c:388
+#: global.c:394 winio.c:999
 msgid "Cancel"
 msgstr "Peru"
 
-#: global.c:350
+#: global.c:352
 msgid "No Replace"
 msgstr ""
 
@@ -701,24 +701,52 @@ msgstr "Alaikkunan kokoa ei voi muuttaa"
 msgid "Cannot move bottom win"
 msgstr "Alaikkunaa ei voi siirtää"
 
-#: nano.c:1850
+#: nano.c:1629
+#, c-format
+msgid "%s enable/disable"
+msgstr ""
+
+#: nano.c:1641
+msgid "enabled"
+msgstr ""
+
+#: nano.c:1642
+msgid "disabled"
+msgstr ""
+
+#: nano.c:1869
 msgid "Main: set up windows\n"
 msgstr "Päätila: ikkunoiden asettelu\n"
 
-#: nano.c:1865
+#: nano.c:1876
 msgid "Main: bottom win\n"
 msgstr "Päätila: alaikkuna\n"
 
-#: nano.c:1871
+#: nano.c:1882
 msgid "Main: open file\n"
 msgstr "Päätila: avaa tiedosto\n"
 
-#: nano.c:1939
+#: nano.c:1916
+#, fuzzy, c-format
+msgid "I got Alt-O-%c! (%d)\n"
+msgstr "Vastaanotettu Alt-[-%c! (%d)\n"
+
+#: nano.c:1940
+#, fuzzy, c-format
+msgid "I got Alt-[-1-%c! (%d)\n"
+msgstr "Vastaanotettu Alt-[-%c! (%d)\n"
+
+#: nano.c:1965
+#, fuzzy, c-format
+msgid "I got Alt-[-2-%c! (%d)\n"
+msgstr "Vastaanotettu Alt-[-%c! (%d)\n"
+
+#: nano.c:2013
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-[-%c! (%d)\n"
 
-#: nano.c:1965
+#: nano.c:2039
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-%c! (%d)\n"
@@ -850,24 +878,24 @@ msgstr "Kaikki"
 msgid "No"
 msgstr "Ei"
 
-#: winio.c:1134
+#: winio.c:1135
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
-#: winio.c:1138
+#: winio.c:1139
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "rivi %d/%d (%.0f%%), merkki %d/%d (%.0f%%)"
 
-#: winio.c:1262
+#: winio.c:1267
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Syötetään tiedosto stderriin...\n"
 
-#: winio.c:1264
+#: winio.c:1269
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Syötetään leiketila stderriin...\n"
 
-#: winio.c:1266
+#: winio.c:1271
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Syötetään teksti stderriin...\n"
 

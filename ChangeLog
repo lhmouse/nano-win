@@ -10,7 +10,7 @@ CVS code -
   shortcut_init()
 	- Added in FKEYs that for some reason were left out.  *boggle*
 - nano.c:
-	- main()
+  main()
 	- Added check for _POSIX_VDISABLE and use raw mode if not
 	  available, allows nano to work with cygwin.
 	- Added gettext calls to enable/disable strings (Jordi).
@@ -18,6 +18,13 @@ CVS code -
 	  because we not longer use keypad() (see below).
 	- Removed keypad() call because nano was not working with the
 	  keypad in many terms, which is very bad.
+  do_toggle()
+	- Rewrote function to allow NOHELP toggle to wotk on systems
+	  without a working resizewin().  New function window_init().
+- winio.c:
+  total_refresh()
+	- Added titlebar() call.
+
 - search.c:
   findnextstr()
 	- Reset starting at current for search instead of begin.

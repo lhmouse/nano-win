@@ -1090,6 +1090,7 @@ int total_refresh(void)
     clearok(topwin, FALSE);
     clearok(bottomwin, FALSE);
     edit_refresh();
+    titlebar();
     return 1;
 }
 
