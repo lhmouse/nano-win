@@ -310,7 +310,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 	const char *start)
 {
     /* start can be 1 character before the start or after the end of the
-     * line.  In either case, we just say there is no match found. */
+     * line.  In either case, we just say no match was found. */
     if ((start > haystack && *(start - 1) == '\0') || start < haystack)
 	return NULL;
     assert(haystack != NULL && needle != NULL && start != NULL);
