@@ -291,7 +291,7 @@ AC_MSG_WARN([*** Can not use slang when cross-compiling])),
     esac], [AC_MSG_RESULT(no)])
 
 dnl Checks for functions
-AC_CHECK_FUNCS(snprintf vsnprintf isblank iswblank strcasecmp strncasecmp strcasestr strnlen getline getdelim mblen mbtowc wctomb wcwidth)
+AC_CHECK_FUNCS(snprintf vsnprintf isblank iswalnum iswblank iswspace strcasecmp strncasecmp strcasestr strnlen getline getdelim mblen mbtowc wctomb wcwidth)
 if test "x$ac_cv_func_snprintf" = "xno" -o "x$ac_cv_func_vsnprintf" = "xno"
 then
 	AM_PATH_GLIB_2_0(2.0.0,,
@@ -357,9 +357,9 @@ then
 	LDFLAGS="$LDFLAGS $GLIB_LIBS"
 fi
 
-if test "x$CURSES_LIB_WIDE" = "xyes" -a "x$ac_cv_func_mblen" = "xyes" -a "x$ac_cv_func_mbtowc" = "xyes" -a "x$ac_cv_func_wctomb" = "xyes" -a "x$ac_cv_func_wcwidth" = "xyes"
+if test "x$CURSES_LIB_WIDE" = "xyes" -a "x$ac_cv_func_iswalnum" = "xyes" -a "x$ac_cv_func_mblen" = "xyes" -a "x$ac_cv_func_mbtowc" = "xyes" -a "x$ac_cv_func_wctomb" = "xyes" -a "x$ac_cv_func_wcwidth" = "xyes" && test "x$ac_cv_func_iswspace" = "xyes" -o "x$ac_cv_func_iswblank" = "xyes"
 then
-	AC_DEFINE(NANO_WIDE, 1, [Define this if your system has wide character support (a wide curses library, mblen(), mbtowc(), wctomb(), and wcwidth()).])
+	AC_DEFINE(NANO_WIDE, 1, [Define this if your system has sufficient wide character support (a wide curses library, iswalnum(), iswspace() or iswblank(), mblen(), mbtowc(), wctomb(), and wcwidth()).])
 else
 	AC_MSG_WARN([Insufficient wide character support found.  nano will not be able to support UTF-8.])
 fi
