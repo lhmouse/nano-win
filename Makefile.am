@@ -1,3 +1,4 @@
+## $Id$
 bin_PROGRAMS = 	nano
 nano_SOURCES =	cut.c \
 		files.c \
