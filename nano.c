@@ -32,6 +32,7 @@
 #include <ctype.h>
 #include <locale.h>
 #include <limits.h>
+#include <assert.h>
 
 #include "config.h"
 #include "proto.h"
@@ -850,8 +851,8 @@ void do_char(char ch)
     current->data[current_x] = ch;
     do_right();
 
-    if (!ISSET(NO_WRAP))
-	check_wrap(current);
+    if (!ISSET(NO_WRAP) && (ch != '\t'))
+        check_wrap(current, ch);
     set_modified();
     check_statblank();
     UNSET(KEEP_CUTBUFFER);
@@ -965,98 +966,259 @@ void do_next_word(void)
 
 }
 
-/* Actually wrap a line, called by check_wrap() */
-void do_wrap(filestruct * inptr)
+void do_wrap(filestruct *inptr, char input_char)
 {
-    int i, j, chop;
-    char *tmp, *foo;
+    int i = 0;                        /* Index into ->data for line.*/
+    int i_tabs = 0;	  	      /* Screen position of ->data[i]. */
+    int last_word_end        = -1;    /* Location of end of last word found. */
+    int current_word_start   = -1;    /* Location of start of current word. */
+    int current_word_start_t = -1;    /* Location of start of current word screen position. */
+    int current_word_end     = -1;    /* Location of end   of current word */
+    int current_word_end_t   = -1;    /* Location of end   of current word screen position. */
+    int len = strlen(inptr->data);
 
-    i = actual_x(inptr, fill);
+    int down  = 0;
+    int right = 0;
+    struct filestruct *temp = NULL;
 
-    while (inptr->data[i] != ' ' && inptr->data[i] != '\t' && i != 0)
-	i--;
+assert (strlenpt(inptr->data) >= fill);
 
-    if (i == 0)
-	return;
+    for (i = 0, i_tabs; i < len; i++, i_tabs++) {
+	if (!isspace(inptr->data[i])) {
+	    last_word_end   = current_word_end;
 
-    while ((inptr->data[i] == ' ' || inptr->data[i] == '\t') && i != 0)
-	i--;
+	    current_word_start   = i;
+	    current_word_start_t = i_tabs;
 
-    if (i == 0)
-	return;
+	    while (!isspace(inptr->data[i]) && inptr->data[i]) {
+		i++;
+		i_tabs++;
+		if (inptr->data[i] < 32) 
+		    i_tabs++;   
+	    }
 
-    /* NB: This sucks */
-    if (inptr->data[i] != 0)
-	i++;
-    if (inptr->data[i] != 0)
-	i++;
-
-    chop = i;
-    while ((inptr->data[i] == ' ' || inptr->data[i] == '\t') &&
-	inptr->data[i] != 0)
-        i++;
-
-    if (inptr->data[i] == 0)
-	return;
-
-    if (ISSET(SAMELINEWRAP)) {
-	tmp = &current->data[i];
-	foo = nmalloc(strlen(tmp) + strlen(current->next->data) + 1);
-	strcpy(foo, tmp);
-	strcpy(&foo[strlen(tmp)], current->next->data);
-	free(current->next->data);
-	current->next->data = foo;
-	*tmp = 0;
-	current->data[chop] = 0;
-	align(&current->data);
-
-	if (current_x >= i) {
-	    current_x = current_x - i;
-	    current = current->next;
+	    if (inptr->data[i]) {
+		current_word_end   = i;
+		current_word_end_t = i_tabs;
+            }
+	    else {
+		current_word_end   = i - 1;
+		current_word_end_t = i_tabs - 1;
+	    }
 	}
-	if (current->next == NULL) {
-	    current->next = make_new_node(current);
-	    current->next->data = nmalloc(1);
-	    current->next->data[0] = 0;
-	    filebot = current->next;
-	}
-	align(&current->next->data);
 
-	edit_refresh();
-    } else {
+        if (inptr->data[i] == NANO_CONTROL_I) {
+            if (i_tabs % 8 != 0);
+                i_tabs += 8 - (i_tabs % 8);
+        } 
 
-	j = current_x;
-	current_x = i;
-	do_enter(current);
-
-	current->prev->data[chop] = 0;
-	align(&current->prev->data);
-
-	if (j > i) {
-	    current_x = j - i;
-	    UNSET(SAMELINEWRAP);
-	} else {
-	    current_x = j;
-	    current = current->prev;
-	    SET(SAMELINEWRAP);
-	}
+	if (current_word_end_t >= fill)
+	    break;
     }
 
+    assert (current_word_end_t >= fill);
+
+    /* There are 4 cases of what the line could look like.
+     * 1) only one word on the line before wrap point.
+     *    a) cursor is on word or before word at wrap point.  
+     *         - word starts new line.
+     *         - keep white space on original line up to the cursor.
+     *    *) cursor is after word at wrap point
+     *         - either it's all white space after word, and this routine isn't called.
+     *         - or we are actually in case 2 (2 words).
+     * 2) Two or more words on the line before wrap point.
+     *    a) cursor is at a word before wrap point
+     *         - word at wrap point starts a new line.
+     *         - white space at end of original line is cleared.
+     *    b) cursor is at the word at the wrap point.
+     *         - word at wrap point starts a new line.
+     *         1. pressed a space.
+     *            - white space on original line is kept to where cursor was.
+     *         2. pressed non space.
+     *            - white space at end of original line is cleared.
+     *    c) cursor is past the word at the wrap point.
+     *         - word at wrap point starts a new line.
+     *         1. pressed a space.
+     *            - white space on original line is kept to where wrap point was.
+     *         2. pressed a non space.
+     *            - white space at end of original line is cleared
+     */
+
+    temp = nmalloc (sizeof (filestruct));
+
+    /* Category 1a: one word on the line */
+    if (last_word_end == -1) {
+
+	temp->data = nmalloc(strlen(&inptr->data[current_word_start]) + 1);
+	strcpy(temp->data, &inptr->data[current_word_start]);
+
+	/* Inside word, remove it from original, and move cursor to right spot. */
+	if (current_x >= current_word_start) {
+	    right = current_x - current_word_start;
+	    current_x = 0;
+	    down = 1;	    
+	}
+
+	inptr->data = nrealloc(inptr->data, current_x + 1);
+	inptr->data[current_x] = 0;
+    }
+
+    /* Category 2: two or more words on the line. */
+    else {
+
+	/* Case 2a: cursor before word at wrap point. */
+	if (current_x < current_word_start) {
+	    temp->data = nmalloc(strlen(&inptr->data[current_word_start]) + 1);
+            strcpy(temp->data, &inptr->data[current_word_start]);
+
+	    i = current_word_start - 1;
+	    while (isspace(inptr->data[i])) {
+		i--;
+		assert (i >= 0);
+	    }
+
+            inptr->data = nrealloc(inptr->data, i + 2);
+            inptr->data[i + 1] = 0;
+        }
+
+
+	/* Case 2b: cursor at word at wrap point. */
+	else if ((current_x >=  current_word_start)
+              && (current_x <= (current_word_end + 1))) {
+	    temp->data = nmalloc(strlen(&inptr->data[current_word_start]) + 1);
+	    strcpy(temp->data, &inptr->data[current_word_start]);
+
+	    down = 1;
+
+	    right = current_x - current_word_start;
+	    i = current_word_start - 1;
+	    if (isspace(input_char)) {
+		current_x = current_word_start;
+
+		inptr->data = nrealloc(inptr->data, current_word_start + 1);
+		inptr->data[current_word_start] = 0;
+	    }
+	    else {
+
+		while (isspace(inptr->data[i])) {
+		    i--;
+		    assert (i >= 0);
+		}
+		inptr->data = nrealloc(inptr->data, i + 2);
+		inptr->data[i + 1] = 0;
+	    }
+
+        }
+
+
+	/* Case 2c: cursor past word at wrap point. */
+        else {
+	    temp->data = nmalloc(strlen(&inptr->data[current_word_start]) + 1);
+	    strcpy(temp->data, &inptr->data[current_word_start]);
+
+	    down = 1;
+	    right = current_x - current_word_start;
+
+	    current_x = current_word_start;
+	    i = current_word_start - 1;
+
+	    if (isspace(input_char)) {
+
+		inptr->data = nrealloc(inptr->data, current_word_start + 1);
+		inptr->data[current_word_start] = 0;
+	    }
+	    else {
+		while (isspace(inptr->data[i])) {
+		    i--;
+		    assert (i >= 0);
+		}
+		inptr->data = nrealloc(inptr->data, i + 2);
+		inptr->data[i + 1] = 0;
+	    }
+        }
+    }
+
+	/* We pre-pend wrapped part to next line. */
+    if (ISSET(SAMELINEWRAP)) {
+	    /* Plus one for the space which concatenates the two lines together plus 1 for \0. */
+	char *p = nmalloc(strlen(temp->data) + strlen(inptr->next->data) + 2);
+
+	strcpy (p, temp->data);
+	strcat (p, " ");
+	strcat (p, inptr->next->data);
+
+	free (inptr->next->data);
+	inptr->next->data = p;
+
+	free (temp->data);
+	free (temp);
+    }
+	/* Else we start a new line. */
+    else {
+	temp->prev = inptr;
+	temp->next = inptr->next;
+
+	if (inptr->next)
+	    inptr->next->prev = temp;
+	inptr->next = temp;
+
+	if (!temp->next)
+	    filebot = temp;
+
+	SET(SAMELINEWRAP);
+    }
+
+
+    totlines++;
+    totsize++;
+
+    renumber (inptr);
+    edit_update(current);
+
+    /* Move the cursor to the new line if appropriate. */
+    if (down) {
+	do_right();
+    }
+
+    /* Move the cursor to the correct spot in the line if appropriate. */
+    while (right--) {
+	do_right();
+    }
+
+    edit_update(current);
+    reset_cursor();
+    edit_refresh();
 }
 
 /* Check to see if we've just caused the line to wrap to a new line */
-void check_wrap(filestruct * inptr)
+void check_wrap(filestruct * inptr, char ch)
 {
-
+   int len = strlenpt(inptr->data);
 #ifdef DEBUG
     fprintf(stderr, _("check_wrap called with inptr->data=\"%s\"\n"),
 	    inptr->data);
 #endif
 
-    if ((int) strlenpt(inptr->data) <= fill)
+    if (len <= fill)
 	return;
-    else
-	do_wrap(inptr);
+    else {
+        int i = actual_x(inptr, fill);
+
+	/* Do not wrap if there are no words on or after wrap point. */
+	/* First check to see if we typed space and passed a word. */
+	if (isspace(ch) && !isspace(inptr->data[i - 1]))
+	    do_wrap(inptr, ch);
+	else {
+
+	    while (isspace(inptr->data[i]) && inptr->data[i])
+		i++;
+	
+	    if (!inptr->data[i])
+		return;
+
+	    do_wrap(inptr, ch);
+	}
+    }
 }
 
 /* Stuff we do when we abort from programs and want to clean up the
