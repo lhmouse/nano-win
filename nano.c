@@ -141,6 +141,16 @@ void die(char *msg, ...)
     exit(1);			/* We have a problem: exit w/ errorlevel(1) */
 }
 
+/* Die with an error message that the screen was too small if, well, the
+   screen is too small */
+void die_too_small(void)
+{
+    char *too_small_msg = _("Window size is too small for Nano...");
+
+    die(too_small_msg);
+
+}
+
 void print_view_warning(void)
 {
     statusbar(_("Key illegal in VIEW mode"));
@@ -163,7 +173,10 @@ void global_init(void)
     center_y = LINES / 2;
     current_x = 0;
     current_y = 0;
-    editwinrows = LINES - 5 + no_help();
+
+    if ((editwinrows = LINES - 5 + no_help()) < MIN_EDITOR_ROWS)
+	die_too_small();
+
     fileage = NULL;
     cutbuffer = NULL;
     current = NULL;
@@ -171,8 +184,13 @@ void global_init(void)
     editbot = NULL;
     totlines = 0;
     placewewant = 0;
+
     if (!fill)
-	fill = COLS - 8;
+	fill = COLS - CHARS_FROM_EOL;
+
+    if (fill < MIN_FILL_LENGTH)
+	die_too_small();
+
     hblank = nmalloc(COLS + 1);
 
     /* Thanks BG for this bit... */
@@ -1555,8 +1573,12 @@ void handle_sigwinch(int s)
 
     center_x = COLS / 2;
     center_y = LINES / 2;
-    editwinrows = LINES - 5 + no_help();
-    fill = COLS - 8;
+
+    if ((editwinrows = LINES - 5 + no_help()) < MIN_EDITOR_ROWS)
+	die_too_small();
+
+    if ((fill = COLS - CHARS_FROM_EOL) < MIN_FILL_LENGTH)
+	die_too_small();
 
     free(hblank);
     hblank = nmalloc(COLS + 1);
@@ -1629,7 +1651,8 @@ void signal_init(void)
 
 void window_init(void)
 {
-    editwinrows = LINES - 5 + no_help();
+    if ((editwinrows = LINES - 5 + no_help()) < MIN_EDITOR_ROWS)
+	die_too_small();
 
     /* Setup up the main text window */
     edit = newwin(editwinrows, COLS, 2, 0);

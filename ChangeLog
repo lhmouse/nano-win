@@ -9,6 +9,8 @@ General
 	- Added message for when keypad goes awry.  Added code in main and
 	  function print_numlock_warning() to notify user, and added an
 	  apropriate section in the faq to refer to this brokenness.
+	- Added macros in nano.h for magic values that might be unclear in
+	  nano.c:global_init().
 - configure.in:
 	- Fix for _use_keypad check breaking slang support (Christian
 	  Weisgerber).
@@ -43,6 +45,12 @@ General
   usage()
 	- Alternate speller option no longer valid if DISABLE_SPELLER is
 	  active. (Rocco)
+  window_init(), handle_sigwinch()
+	- Added check for not having enough LINES to do anything useful,
+	  if so die with an error. (Rocco)
+  die_too_small()
+	- Function to print the window too small error message, avoids
+	  repeated string defs and globals.
 - fi.po:
 	- Update by Pauli Virtanen.
 
