@@ -36,6 +36,15 @@ CVS code -
 - winio.c:
   unget_kbinput()
 	- New function used as a wrapper for ungetch(). (DLR)
+  get_kbinput()
+	- When reading an escape sequence, set get_verbatim_kbinput()'s
+	  new first parameter to the first character of the sequence
+	  instead of putting that character back and reading the entire
+	  sequence afterwards. (DLR)
+  get_verbatim_kbinput()
+	- Add new parameter first.  If first isn't ERR, make it the
+	  first character in the returned sequence instead of reading
+	  the first character in via blocking input. (DLR)
   get_mouseinput()
 	- Consolidate two if statements to increase efficiency. (DLR)
 	- Check kbinput against metaval instead of (erroneously) ctrlval

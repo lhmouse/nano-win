@@ -145,26 +145,22 @@ int get_kbinput(WINDOW *win, bool *meta_key)
 	    int *escape_seq = NULL;
 	    size_t es_len;
 
-	    /* First, assume that we got a meta sequence.  Set meta_key
-	     * to TRUE and save the character we got as the result.  We
-	     * do this so that if the keyboard buffer is full when we
-	     * send back the character we got below (in which case we'll
-	     * lose that character), it'll still be properly interpreted
-	     * as a meta sequence. */
-	    *meta_key = TRUE;
-	    retval = tolower(kbinput);
+	    /* Read in the complete escape sequence, putting the initial
+	     * non-escape at the beginning of it. */
+	    escape_seq = get_verbatim_kbinput(win, kbinput, escape_seq,
+		&es_len, FALSE);
 
-	    /* Next, send back the character we got and read in the
-	     * complete escape sequence. */
-	    unget_kbinput(kbinput, FALSE);
-	    escape_seq = get_verbatim_kbinput(win, escape_seq, &es_len,
-		FALSE);
-
+	    /* If the escape sequence is one character long, set
+	     * meta_key to TRUE, make the non-escape character
+	     * lowercase, and save that as the result. */
+	    if (es_len == 1) {
+		*meta_key = TRUE;
+		retval = tolower(kbinput);
 	    /* If the escape sequence is more than one character
 	     * long, set meta_key to FALSE, translate the escape
 	     * sequence into the corresponding key value, and save
 	     * that as the result. */
-	    if (es_len > 1) {
+	    } else if (es_len > 1) {
 		bool ignore_seq;
 
 		*meta_key = FALSE;
@@ -1078,10 +1074,11 @@ int get_escape_seq_abcd(int kbinput)
 }
 
 /* Read in a string of input characters (e.g. an escape sequence)
- * verbatim.  Store the string in v_kbinput and return the length
- * of the string in v_len.  Assume nodelay(win) is FALSE. */
-int *get_verbatim_kbinput(WINDOW *win, int *v_kbinput, size_t *v_len,
-	bool allow_ascii)
+ * verbatim.  If first isn't ERR, make it the first character of the
+ * string.  Store the string in v_kbinput and return the length of the
+ * string in v_len.  Assume nodelay(win) is FALSE. */
+int *get_verbatim_kbinput(WINDOW *win, int first, int *v_kbinput, size_t
+	*v_len, bool allow_ascii)
 {
     int kbinput;
     size_t i = 0, v_newlen = 0;
@@ -1100,10 +1097,14 @@ int *get_verbatim_kbinput(WINDOW *win, int *v_kbinput, size_t *v_len,
 	disable_flow_control();
     keypad(win, FALSE);
 
-    /* Read the first character using blocking input, since using
-     * non-blocking input will eat up all unused CPU.  Then increment
+    /* If first is ERR, read the first character using blocking input,
+     * since using non-blocking input will eat up all unused CPU.
+     * Otherwise, treat first as the first character.  Then increment
      * v_len and save the character in v_kbinput. */
-    kbinput = wgetch(win);
+    if (first == ERR)
+	kbinput = wgetch(win);
+    else
+	kbinput = first;
     (*v_len)++;
     v_kbinput[0] = kbinput;
 #ifdef DEBUG
