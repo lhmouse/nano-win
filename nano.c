@@ -665,7 +665,7 @@ void usage(void)
 #ifndef DISABLE_OPERATINGDIR
     print1opt(_("-o [dir]"), _("--operatingdir=[dir]"), _("Set operating directory"));
 #endif
-    print1opt(_("-p"), _("--preserve"), _("Preserve XON (^Q) and XOFF (^S) keys"));
+    print1opt("-p", "--preserve", _("Preserve XON (^Q) and XOFF (^S) keys"));
 #ifndef DISABLE_WRAPJUSTIFY
     print1opt(_("-r [#cols]"), _("--fill=[#cols]"), _("Set fill cols to (wrap lines at) #cols"));
 #endif
@@ -770,10 +770,11 @@ void nano_disabled_msg(void)
 
 void do_preserve_msg(void)
 {
-    fprintf(stderr, _("\nThe -p flag now invokes the Pico \"preserve\" flag.  The Pico\n"));
-    fprintf(stderr, _("compatibility flag has been removed as nano is now fully Pico\n"));
-    fprintf(stderr, _("compatible.  Please see the nano FAQ for more info on this change...\n\n"));
-    fprintf(stderr, _("Press return to continue\n"));
+    fprintf(stderr, _("\nThe -p flag now invokes the Pico \"preserve\" flag.\n"
+		      "The Pico compatibility flag has been removed as nano\n"
+		      "now fully Pico compatible.  Please see the nano FAQ\n"
+		      "for more info on this change...\n\n"
+		      "Press return to continue\n"));
     while (getchar() != '\n');
 }
 

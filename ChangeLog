@@ -1,4 +1,9 @@
 CVS Code -
+- nano.c:
+  usage():
+  	- Remove gettext markings from -p/--preserve (Jordi).
+  do_preserve_msg():
+	- Unsplit error message into a single fprintf call (Jordi).
 
 GNU nano 1.1.99pre1 - 2003.01.17
 - General:
