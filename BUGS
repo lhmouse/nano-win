@@ -11,6 +11,8 @@
   (14) [FIXED, mostly]
 - Doing a replacement of a substring of the replace string (e.g. replacing
   "ed" with "fred" causes an infinite loop. (15) [FIXED]
+- Cutting a file with marked text and both marker ends on the same line
+  causes a random segfault (16) [FIXED]
 - Cutting more than one line resets the KEEP_CUTBUFFER flag in 0.9.3
   Error is in bitwise assignment (nano.h). (17) [FIXED]
 - The wrapping code does not work right for lines like the following:
@@ -59,6 +61,7 @@
   signals very well =-) (41) [FIXED].
 - Unable to cut the entire file using the marker (discovered by Kev Tyler)
   (42). [FIXED]
+- The keypad does not work when nano runs in the Gnome terminal (43). [FIXED]
 ** Open BUGS **
 
 - Marked cutting sometimes leaves a newline in the file unintelligently,
@@ -67,11 +70,8 @@
 - no way to do a replace with the empty string. (11)
 - Spelling support is not elegant like pico's integration of the 'spell'
   program.  Nano only uses ispell (for now) (12)
-- Cutting a file with marked text and both marker ends on the same line
-  causes a random segfault (16) [FIXED?]
 - In replace, there is no way to accept the default replace string. (27)
 - totsize problems still abound in do_justify (33)
-- The keypad does not work when nano runs in the Gnome terminal (43).
 
 $Id$
 

@@ -2,7 +2,7 @@ TODO file (? means the feature may be implemented, but not definitely)
 -----------------------------------------------------------------------------
 
 Current Version:
-- Implement Spelling [DONE, mostly...]
+- Implement Spelling [DONE]
 - Implement Help [DONE]
 - Internationalization [In progress, translators welcome!]
 - Allow nano to be resized in X. [DONE]
@@ -12,6 +12,10 @@ Current Version:
 - Implement justify function [DONE]
 - Cut to end of line [DONE]
 - Unjustify command (^U after ^J)
+- Built-in speller command [needed for version 1.0]
+- Better statusbar interaction (scrolling, tab completion for filename)
+  [needed for version 1.0]
+
 
 For Next Version:
 - Undo/Redo key?
