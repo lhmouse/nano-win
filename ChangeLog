@@ -8,9 +8,12 @@ CVS code -
   shortcut_init()
 	- Allow WHEREIS_NEXT_KEY to be used in view mode. (DLR)
 - search.c:
-  do_replace_loop()
-	- Fix potential infinite loop when doing a forward regex replace
-	  of "$". (DLR; found by Mike Frysinger)
+  findnextstr(), do_replace_loop()
+	- Fix potential infinite loops when doing certain forward regex
+	  replacements, where we end up either perpetually adding to the
+	  end of one line (e. g. replace "$" with anything non-blank) or
+	  not moving at all (e. g. replace "^" or "^$" with anything
+	  blank). (DLR; found by Mike Frysinger and DLR)
 - winio.c:
   get_accepted_kbinput()
 	- Translate Ctrl-8 into NANO_DELETE_KEY, since it apparently is

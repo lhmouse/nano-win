@@ -362,7 +362,7 @@ int search_init(int replacing);
 int is_whole_word(int curr_pos, const char *datastr, const char *searchword);
 filestruct *findnextstr(int quiet, int bracket_mode,
 			const filestruct *begin, int beginx,
-			const char *needle);
+			const char *needle, int no_same_loc);
 int do_search(void);
 int do_research(void);
 void replace_abort(void);
