@@ -8,6 +8,9 @@ CVS code -
 	- Fix assert to reference the proper variable, so that nano
 	  builds with DEBUG defined again. (Mike Frysinger, found by
 	  Dmitri Vassilenko)
+- cut.c:
+  cut_to_eol()
+	- Fix inaccurate comment. (DLR)
 - files.c:
   do_browser()
 	- Rename variable lineno to fileline to avoid confusion. (DLR)

@@ -84,10 +84,10 @@ void cut_to_eol(void)
 	move_to_filestruct(&cutbuffer, &cutbottom, current, current_x,
 		current, data_len);
     else if (current->next != NULL) {
-	/* If we're at the end of the line, and the next line isn't the
-	 * magicline, move all the text from the current position up to
-	 * the beginning of the next line, i.e, the newline at the
-	 * end, to the cutbuffer. */
+	/* If we're at the end of the line, and it isn't the magicline,
+	 * move all the text from the current position up to the
+	 * beginning of the next line, i.e, the newline at the end, to
+	 * the cutbuffer. */
 	move_to_filestruct(&cutbuffer, &cutbottom, current, current_x,
 		current->next, 0);
 	placewewant = xplustabs();
