@@ -604,9 +604,10 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 int input_tab(char *buf, int place, int lastWasTab)
 {
     /* Do TAB completion */
-    static int num_matches = 0;
+    static int num_matches = 0, match_matches = 0;
     static char **matches = (char **) NULL;
-    int pos = place, newplace = 0;
+    int pos = place, newplace = 0, i = 0, col = 0, editline = 0;
+    int longestname = 0;
 
     if (lastWasTab == FALSE) {
 	char *tmp, *matchBuf;
@@ -656,24 +657,70 @@ int input_tab(char *buf, int place, int lastWasTab)
 		    strlen(matches[0]) - pos);
 	    newplace += strlen(matches[0]) - pos;
 	}
+	else {
+	    /* Check to see if all matches share a beginning, and if so
+		tack it onto buf and then beep */
+
+	    while (1) {
+		match_matches = 0;
+
+		for (i = 0; i < num_matches; i++) {
+		    if (matches[i][pos] == 0)
+			break;
+		    else if (matches[i][pos] == matches[0][pos])
+			match_matches++;
+		}
+		if (match_matches == num_matches && 
+			(i == num_matches || matches[i][pos] != 0)) {
+
+		    /* All the matches have the same character at pos+1,
+			so paste it into buf... */
+		    strncpy(buf + pos, matches[0] + pos, 1);
+	 	    newplace++;
+		    pos++;
+		}
+		else {
+		    beep();
+		    break;
+		}
+	    }
+	}
     } else {
 	/* Ok -- the last char was a TAB.  Since they
 	 * just hit TAB again, print a list of all the
 	 * available choices... */
 	if (matches && num_matches > 0) {
-	    int i, col;
 
 	    /* Blank the edit window, and print the matches out there */
 	    blank_edit();
 	    wmove(edit, 0, 0);
 
+	    editline = 0;
+	    /* Figure out the length of the longest filename */
+	    for (i = 0; i < num_matches; i++)
+		if (strlen(matches[i]) > longestname)
+		    longestname = strlen(matches[i]);
+
+	    if (longestname > COLS - 1)
+		longestname = COLS - 1;
+
 	    /* Print the list of matches */
 	    for (i = 0, col = 0; i < num_matches; i++) {
-		char foo[17];
-		sprintf(foo, "%-14s  ", matches[i]);
+		
+		/* make each filename shown be the same length as the longest
+			filename, with two spaces at the end */
+		char *foo;
+		foo = nmalloc(longestname + 5);
+		snprintf(foo, longestname + 1, matches[i]);
+		while (strlen(foo) < longestname)
+		    strcat(foo, " ");
+
+		strcat(foo, "  ");
+
 		col += waddnstr(edit, foo, strlen(foo));
-		if (col > 60 && matches[i + 1] != NULL) {
-		    waddstr(edit, "\n");
+		if (col > (COLS * .8)  && matches[i + 1] != NULL) {
+		    editline++;
+		    wmove(edit, editline, 0);
 		    col = 0;
 		}
 	    }
