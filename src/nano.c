@@ -372,9 +372,9 @@ void help_init(void)
 	  "(M) symbol and can be entered using either the Esc, Alt or "
 	  "Meta key depending on your keyboard setup.  Also, pressing Esc "
 	  "twice and then typing a three-digit number from 000 to 255 "
-	  "will enter the character with the corresponding ASCII code.  "
-	  "The following keystrokes are available in the main editor "
-	  "window.  Alternative keys are shown in parentheses:\n\n");
+	  "will enter the character with the corresponding value.  The "
+	  "following keystrokes are available in the main editor window.  "
+	  "Alternative keys are shown in parentheses:\n\n");
 
     htx = _(htx);
 

@@ -34,21 +34,20 @@ CVS code -
 	  properly again. (DLR, found by Arthur Ivanov)
 	- Massively overhaul the input and output routines to support
 	  buffered input and output, the first steps toward
-	  wide/multibyte character input and output, and
-	  double-Escape/verbatim input of double-byte Unicode characters
-	  instead of single-byte ASCII characters.  New functions
-	  is_byte_char(), get_buffer(), get_buffer_len(),
-	  buffer_to_keys(), unget_input(), get_input(), parse_kbinput(),
-	  and parse_verbatim_kbinput(); new macro charcpy(); changes to
-	  do_char() (renamed to do_output()), get_edit_input() (renamed
-	  to do_input() and moved to nano.c), get_edit_mouse() (renamed
-	  do_mouse() and moved to nano.c), do_verbatim_input(),
-	  do_tab(), main(), and get_ascii_kbinput() (renamed to
-	  get_word_kbinput()).  The wide version of ncurses is required
-	  in order for wide/multibyte input and output to work properly.
-	  (DLR; buffered input/output based on ideas from mutt 1.4.2.1;
-	  double-Escape input of Unicode characters suggested by Michael
-	  Piefel)
+	  wide/multibyte character input and output, and verbatim input
+	  of double-byte Unicode characters instead of single-byte ASCII
+	  characters.  New functions is_byte_char(), get_buffer(),
+	  get_buffer_len(), buffer_to_keys(), unget_input(),
+	  get_input(), parse_kbinput(), and parse_verbatim_kbinput();
+	  new macro charcpy(); changes to do_char() (renamed to
+	  do_output()), get_edit_input() (renamed to do_input() and
+	  moved to nano.c), get_edit_mouse() (renamed do_mouse() and
+	  moved to nano.c), do_verbatim_input(), do_tab(), main(), and
+	  get_ascii_kbinput() (renamed to get_word_kbinput()).  The wide
+	  version of ncurses is required in order for wide/multibyte
+	  input and output to work properly. (DLR; buffered input/output
+	  based on ideas from mutt 1.4.2.1; input of Unicode characters
+	  in hexadecimal suggested by Michael Piefel)
 	- More steps toward wide character/multibyte character support.
 	  Movement and cursor display in the edit window should now work
 	  properly with files containing multibyte characters, and text
@@ -190,7 +189,8 @@ CVS code -
 	- Typo fixes. (DLR)
 - doc/faq.html:
 	- Remove now-inaccurate note about verbatim input's not working
-	  at prompts. (DLR)
+	  at prompts, and update its description to mention that it
+	  handles hexadecimal values now. (DLR)
 - doc/nanorc.sample:
 	- Add return to the "c-file" regexes. (DLR)
 

@@ -121,6 +121,7 @@ static bool resetstatuspos = FALSE;
 void reset_kbinput(void)
 {
     parse_kbinput(NULL, NULL, NULL, TRUE);
+    get_byte_kbinput(0, TRUE);
     get_word_kbinput(0, TRUE);
 }
 #endif
@@ -439,14 +440,14 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 	)
 
 {
-    static int escapes = 0, word_digits = 0;
+    static int escapes = 0, byte_digits = 0;
     buffer *kbinput;
     int retval = ERR;
 
 #ifndef NANO_SMALL
     if (reset) {
 	escapes = 0;
-	word_digits = 0;
+	byte_digits = 0;
 	return ERR;
     }
 #endif
@@ -646,48 +647,47 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 			break;
 		    case 2:
 			/* Two escapes followed by one or more decimal
-			 * digits: word sequence mode.  If the word
-			 * sequence's range is limited to 6XXXX (the
-			 * first digit is in the '0' to '6' range and
-			 * it's the first digit, or it's in the '0' to
-			 * '9' range and it's not the first digit),
-			 * increment the word sequence counter and
-			 * interpret the digit.  If the word sequence's
-			 * range is not limited to 6XXXX, fall
-			 * through. */
+			 * digits: byte sequence mode.  If the word
+			 * sequence's range is limited to 2XX (the first
+			 * digit is in the '0' to '2' range and it's the
+			 * first digit, or it's in the '0' to '9' range
+			 * and it's not the first digit), increment the
+			 * byte sequence counter and interpret the
+			 * digit.  If the byte sequence's range is not
+			 * limited to 2XX, fall through. */
 			if (('0' <= kbinput->key && kbinput->key <= '6'
-				&& word_digits == 0) ||
+				&& byte_digits == 0) ||
 				('0' <= kbinput->key && kbinput->key <= '9'
-				&& word_digits > 0)) {
-			    int word_kbinput;
+				&& byte_digits > 0)) {
+			    int byte_kbinput;
 
-			    word_digits++;
-			    word_kbinput = get_word_kbinput(kbinput->key
+			    byte_digits++;
+			    byte_kbinput = get_byte_kbinput(kbinput->key
 #ifndef NANO_SMALL
 				, FALSE
 #endif
 				);
 
-			    if (word_kbinput != ERR) {
-				/* If we've read in a complete word
-				 * sequence, reset the word sequence
+			    if (byte_kbinput != ERR) {
+				/* If we've read in a complete byte
+				 * sequence, reset the byte sequence
 				 * counter and the escape counter,
-				 * and put back the corresponding word
+				 * and put back the corresponding byte
 				 * value. */
-				word_digits = 0;
+				byte_digits = 0;
 				escapes = 0;
-				unget_kbinput(word_kbinput, FALSE,
+				unget_kbinput(byte_kbinput, FALSE,
 					FALSE);
 			    }
 			} else {
 			    /* Reset the escape counter. */
 			    escapes = 0;
-			    if (word_digits == 0)
+			    if (byte_digits == 0)
 				/* Two escapes followed by a non-decimal
 				 * digit or a decimal digit that would
-				 * create a word sequence greater than
-				 * 6XXXX, and we're not in the middle of
-				 * a word sequence: control character
+				 * create a byte sequence greater than
+				 * 2XX, and we're not in the middle of a
+				 * byte sequence: control character
 				 * sequence mode.  Interpret the control
 				 * sequence and save the corresponding
 				 * control character as the result. */
@@ -697,7 +697,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 				 * sequence, reset the word sequence
 				 * counter and save the character we got
 				 * as the result. */
-				word_digits = 0;
+				byte_digits = 0;
 				retval = kbinput->key;
 			    }
 			}
@@ -715,7 +715,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 	retval = kbinput->key;
 
 #ifdef DEBUG
-    fprintf(stderr, "parse_kbinput(): kbinput->key = %d, meta_key = %d, func_key = %d, escapes = %d, word_digits = %d, retval = %d\n", kbinput->key, (int)*meta_key, (int)*func_key, escapes, word_digits, retval);
+    fprintf(stderr, "parse_kbinput(): kbinput->key = %d, meta_key = %d, func_key = %d, escapes = %d, byte_digits = %d, retval = %d\n", kbinput->key, (int)*meta_key, (int)*func_key, escapes, byte_digits, retval);
 #endif
 
     /* Return the result. */
@@ -1250,8 +1250,93 @@ int get_escape_seq_abcd(int kbinput)
     }
 }
 
-/* Translate a word sequence: turn a five-digit decimal number from
- * 00000 to 65535 into its corresponding word value. */
+/* Translate a byte sequence: turn a three-digit decimal number from
+ * 000 to 255 into its corresponding byte value. */
+int get_byte_kbinput(int kbinput
+#ifndef NANO_SMALL
+	, bool reset
+#endif
+	)
+{
+    static int byte_digits = 0, byte_kbinput = 0;
+    int retval = ERR;
+
+#ifndef NANO_SMALL
+    if (reset) {
+	byte_digits = 0;
+	byte_kbinput = 0;
+	return ERR;
+    }
+#endif
+
+    /* Increment the byte digit counter. */
+    byte_digits++;
+
+    switch (byte_digits) {
+	case 1:
+	    /* One digit: reset the byte sequence holder and add the
+	     * digit we got to the 100's position of the byte sequence
+	     * holder. */
+	    byte_kbinput = 0;
+	    if ('0' <= kbinput && kbinput <= '2')
+		byte_kbinput += (kbinput - '0') * 100;
+	    else
+		/* If the character we got isn't a decimal digit, or if
+		 * it is and it would put the byte sequence out of byte
+		 * range, save it as the result. */
+		retval = kbinput;
+	    break;
+	case 2:
+	    /* Two digits: add the digit we got to the 10's position of
+	     * the byte sequence holder. */
+	    if (('0' <= kbinput && kbinput <= '5') ||
+		(byte_kbinput < 200 && '6' <= kbinput &&
+		kbinput <= '9'))
+		byte_kbinput += (kbinput - '0') * 10;
+	    else
+		/* If the character we got isn't a decimal digit, or if
+		 * it is and it would put the byte sequence out of byte
+		 * range, save it as the result. */
+		retval = kbinput;
+	    break;
+	case 3:
+	    /* Three digits: add the digit we got to the 1's position of
+	     * the byte sequence holder, and save the corresponding word
+	     * value as the result. */
+	    if (('0' <= kbinput && kbinput <= '5') ||
+		(byte_kbinput < 250 && '6' <= kbinput &&
+		kbinput <= '9')) {
+		byte_kbinput += (kbinput - '0');
+		retval = byte_kbinput;
+	    } else
+		/* If the character we got isn't a decimal digit, or if
+		 * it is and it would put the word sequence out of word
+		 * range, save it as the result. */
+		retval = kbinput;
+	    break;
+	default:
+	    /* More than three digits: save the character we got as the
+	     * result. */
+	    retval = kbinput;
+	    break;
+    }
+
+    /* If we have a result, reset the byte digit counter and the byte
+     * sequence holder. */
+    if (retval != ERR) {
+	byte_digits = 0;
+	byte_kbinput = 0;
+    }
+
+#ifdef DEBUG
+    fprintf(stderr, "get_byte_kbinput(): kbinput = %d, byte_digits = %d, byte_kbinput = %d, retval = %d\n", kbinput, byte_digits, byte_kbinput, retval);
+#endif
+
+    return retval;
+}
+
+/* Translate a word sequence: turn a four-digit hexadecimal number from
+ * 0000 to ffff (case-insensitive) into its corresponding word value. */
 int get_word_kbinput(int kbinput
 #ifndef NANO_SMALL
 	, bool reset
@@ -1275,73 +1360,64 @@ int get_word_kbinput(int kbinput
     switch (word_digits) {
 	case 1:
 	    /* One digit: reset the word sequence holder and add the
-	     * digit we got to the 10000's position of the word sequence
+	     * digit we got to the 4096's position of the word sequence
 	     * holder. */
 	    word_kbinput = 0;
-	    if ('0' <= kbinput && kbinput <= '6')
-		word_kbinput += (kbinput - '0') * 10000;
+	    if ('0' <= kbinput && kbinput <= '9')
+		word_kbinput += (kbinput - '0') * 4096;
+	    else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
+		word_kbinput += (tolower(kbinput) + 10 - 'a') * 4096;
 	    else
-		/* If the character we got isn't a decimal digit, or if
-		 * it is and it would put the word sequence out of word
-		 * range, save it as the result. */
+		/* If the character we got isn't a hexadecimal digit, or
+		 * if it is and it would put the word sequence out of
+		 * word range, save it as the result. */
 		retval = kbinput;
 	    break;
 	case 2:
-	    /* Two digits: add the digit we got to the 1000's position
-	     * of the word sequence holder. */
-	    if (('0' <= kbinput && kbinput <= '5') ||
-		(word_kbinput < 60000 && '6' <= kbinput &&
-		kbinput <= '9'))
-		word_kbinput += (kbinput - '0') * 1000;
+	    /* Two digits: add the digit we got to the 256's position of
+	     * the word sequence holder. */
+	    if ('0' <= kbinput && kbinput <= '9')
+		word_kbinput += (kbinput - '0') * 256;
+	    else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
+		word_kbinput += (tolower(kbinput) + 10 - 'a') * 256;
 	    else
-		/* If the character we got isn't a decimal digit, or if
-		 * it is and it would put the word sequence out of word
-		 * range, save it as the result. */
+		/* If the character we got isn't a hexadecimal digit, or
+		 * if it is and it would put the word sequence out of
+		 * word range, save it as the result. */
 		retval = kbinput;
 	    break;
 	case 3:
-	    /* Three digits: add the digit we got to the 100's position
+	    /* Three digits: add the digit we got to the 16's position
 	     * of the word sequence holder. */
-	    if (('0' <= kbinput && kbinput <= '5') ||
-		(word_kbinput < 65000 && '6' <= kbinput &&
-		kbinput <= '9'))
-		word_kbinput += (kbinput - '0') * 100;
+	    if ('0' <= kbinput && kbinput <= '9')
+		word_kbinput += (kbinput - '0') * 16;
+	    else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
+		word_kbinput += (tolower(kbinput) + 10 - 'a') * 16;
 	    else
-		/* If the character we got isn't a decimal digit, or if
-		 * it is and it would put the word sequence out of word
-		 * range, save it as the result. */
+		/* If the character we got isn't a hexadecimal digit, or
+		 * if it is and it would put the word sequence out of
+		 * word range, save it as the result. */
 		retval = kbinput;
 	    break;
 	case 4:
-	    /* Four digits: add the digit we got to the 10's position of
-	     * the word sequence holder. */
-	    if (('0' <= kbinput && kbinput <= '3') ||
-		(word_kbinput < 65500 && '4' <= kbinput &&
-		kbinput <= '9'))
-		word_kbinput += (kbinput - '0') * 10;
-	    else
-		/* If the character we got isn't a decimal digit, or if
-		 * it is and it would put the word sequence out of word
-		 * range, save it as the result. */
-		retval = kbinput;
-	    break;
-	case 5:
-	    /* Five digits: add the digit we got to the 1's position of
+	    /* Four digits: add the digit we got to the 1's position of
 	     * the word sequence holder, and save the corresponding word
 	     * value as the result. */
-	    if (('0' <= kbinput && kbinput <= '5') ||
-		(word_kbinput < 65530 && '6' <= kbinput &&
-		kbinput <= '9')) {
+	    if ('0' <= kbinput && kbinput <= '9') {
 		word_kbinput += (kbinput - '0');
 		retval = word_kbinput;
+	    } else if ('a' <= tolower(kbinput) &&
+		tolower(kbinput) <= 'f') {
+		word_kbinput += (tolower(kbinput) + 10 - 'a');
+		retval = word_kbinput;
 	    } else
-		/* If the character we got isn't a decimal digit, or if
-		 * it is and it would put the word sequence out of word
-		 * range, save it as the result. */
+		/* If the character we got isn't a hexadecimal digit, or
+		 * if it is and it would put the word sequence out of
+		 * word range, save it as the result. */
 		retval = kbinput;
 	    break;
 	default:
-	    /* More than three digits: save the character we got as the
+	    /* More than four digits: save the character we got as the
 	     * result. */
 	    retval = kbinput;
 	    break;
@@ -1444,15 +1520,15 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     /* Read in the first keystroke. */
     while ((kbinput = get_input(win, 1)) == NULL);
 
-    /* Check whether the first keystroke is a decimal digit. */
+    /* Check whether the first keystroke is a hexadecimal digit. */
     word = get_word_kbinput(kbinput->key
 #ifndef NANO_SMALL
 	, FALSE
 #endif
 	);
 
-    /* If the first keystroke isn't a decimal digit, put back the first
-     * keystroke. */
+    /* If the first keystroke isn't a hexadecimal digit, put back the
+     * first keystroke. */
     if (word != ERR)
 	unget_input(kbinput, 1);
     /* Otherwise, read in keystrokes until we have a complete word

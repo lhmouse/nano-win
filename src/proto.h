@@ -555,6 +555,11 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 int get_escape_seq_kbinput(const int *sequence, size_t seq_len, bool
 	*ignore_seq);
 int get_escape_seq_abcd(int kbinput);
+int get_byte_kbinput(int kbinput
+#ifndef NANO_SMALL
+	, bool reset
+#endif
+	);
 int get_word_kbinput(int kbinput
 #ifndef NANO_SMALL
 	, bool reset
