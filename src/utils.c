@@ -231,7 +231,7 @@ const char *revstrstr(const char *haystack, const char *needle, const
     for (; rev_start >= haystack; rev_start--) {
 	const char *r, *q;
 
-	for (r = rev_start, q = needle ; *q == *r && *q != '\0'; r++, q++)
+	for (r = rev_start, q = needle; *q == *r && *q != '\0'; r++, q++)
 	    ;
 	if (*q == '\0')
 	    return rev_start;
@@ -245,7 +245,7 @@ const char *revstristr(const char *haystack, const char *needle, const
     for (; rev_start >= haystack; rev_start--) {
 	const char *r = rev_start, *q = needle;
 
-	for (; (tolower(*q) == tolower(*r)) && (*q != '\0') ; r++, q++)
+	for (; tolower(*q) == tolower(*r) && *q != '\0'; r++, q++)
 	    ;
 	if (*q == '\0')
 	    return rev_start;
