@@ -247,7 +247,9 @@ void shortcut_init(int unjustify)
     const char *regexp_msg = N_("Regexp");
 #endif
     const char *history_msg = N_("History");
+#ifdef ENABLE_MULTIBUFFER
     const char *new_buffer_msg = N_("New Buffer");
+#endif
 #endif /* !NANO_SMALL */
 #ifndef DISABLE_BROWSER
     const char *to_files_msg = N_("To Files");
@@ -940,9 +942,11 @@ void shortcut_init(int unjustify)
 	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, 0);
 
+#ifdef ENABLE_MULTIBUFFER
     sc_init_one(&extcmd_list, NANO_NO_KEY, new_buffer_msg,
 	IFHELP(nano_multibuffer_msg, TOGGLE_MULTIBUFFER_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, NOVIEW, 0);
+#endif
 #endif
 
 #ifndef DISABLE_BROWSER

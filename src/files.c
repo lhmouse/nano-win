@@ -523,9 +523,9 @@ void do_insertfile(void)
 	if (i == NANO_EXTCMD_KEY) {
 	    int j;
 
+#ifdef ENABLE_MULTIBUFFER
   exec_again:	/* Go here when the user toggles multibuffer mode. */
 
-#ifdef ENABLE_MULTIBUFFER
 	    if (ISSET(MULTIBUFFER))
 		msg = N_("Command to execute in new buffer");
 	    else
