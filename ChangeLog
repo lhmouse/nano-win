@@ -76,6 +76,8 @@ CVS code -
 	- New Danish translation, by Keld Simonsen <keld@dkuug.dk>.
 - po/sv.po:
 	- Updated Swedish translation (Christian Rose).
+- po/it.po:
+	- Updated Italian translation (Marco Colombo).
 
 nano-1.1.1 - 07/28/2001
 - General
