@@ -33,6 +33,9 @@ CVS code -
 	  (David Benbennick).
 	- Move next_key and pev_key definitions out of main() and into
 	  global.c where they belong (David Benbennick).
+- color.c:
+  update_color()
+	- Add regfree call here to avoid memory leaks.
 - configure.ac:
 	- Define NDEBUG to silence asserts (David Benbennick).
 - files.c:

@@ -191,6 +191,8 @@ void update_color(void)
 	    /* Set colorstrings if we matched the extension regex */
             if (!regexec(&syntaxfile_regexp, filename, 1, synfilematches, 0)) 
 		colorstrings = tmpsyntax->color; 
+
+	    regfree(&syntaxfile_regexp);
 	}
     }
 
