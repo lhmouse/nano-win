@@ -322,7 +322,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 		&& haystack + regmatches[0].rm_so <= start) {
 		const char *retval = haystack + regmatches[0].rm_so;
 
-		/* Search forward until there is no more match. */
+		/* Search forward until there are no more matches. */
 		while (regexec(&search_regexp, retval + 1, 1, regmatches,
 			REG_NOTBOL) == 0 && retval + 1 +
 			regmatches[0].rm_so <= start)
