@@ -3011,42 +3011,42 @@ int statusq(int allowtabs, const shortcut *s, const char *def,
 #endif
 		);
     free(foo);
-    resetstatuspos = 0;
+    resetstatuspos = FALSE;
 
     switch (ret) {
     case NANO_FIRSTLINE_KEY:
     case NANO_FIRSTLINE_FKEY:
 	do_first_line();
-	resetstatuspos = 1;
+	resetstatuspos = TRUE;
 	break;
     case NANO_LASTLINE_KEY:
     case NANO_LASTLINE_FKEY:
 	do_last_line();
-	resetstatuspos = 1;
+	resetstatuspos = TRUE;
 	break;
 #ifndef DISABLE_JUSTIFY
     case NANO_PARABEGIN_KEY:
     case NANO_PARABEGIN_ALTKEY1:
     case NANO_PARABEGIN_ALTKEY2:
 	do_para_begin();
-	resetstatuspos = 1;
+	resetstatuspos = TRUE;
 	break;
     case NANO_PARAEND_KEY:
     case NANO_PARAEND_ALTKEY1:
     case NANO_PARAEND_ALTKEY2:
 	do_para_end();
-	resetstatuspos = 1;
+	resetstatuspos = TRUE;
 	break;
     case NANO_FULLJUSTIFY_KEY:
     case NANO_FULLJUSTIFY_ALTKEY:
 	if (!ISSET(VIEW_MODE))
 	    do_full_justify();
-	resetstatuspos = 1;
+	resetstatuspos = TRUE;
 	break;
 #endif
     case NANO_CANCEL_KEY:
 	ret = -1;
-	resetstatuspos = 1;
+	resetstatuspos = TRUE;
 	break;
     }
     blank_statusbar();

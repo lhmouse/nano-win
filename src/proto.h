@@ -82,7 +82,7 @@ extern char *full_operating_dir;
 extern char *alt_speller;
 #endif
 
-extern int resetstatuspos;
+extern bool resetstatuspos;
 extern struct stat fileinfo;
 extern filestruct *current, *fileage, *edittop, *filebot;
 extern filestruct *cutbuffer;

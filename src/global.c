@@ -93,7 +93,7 @@ size_t quotelen;		/* strlen(quotestr) */
 char *backup_dir = NULL;	/* Backup directory. */
 #endif
 
-int resetstatuspos;		/* Hack for resetting the status bar 
+bool resetstatuspos;		/* Hack for resetting the status bar 
 				   cursor position */
 char *answer = NULL;		/* Answer str to many questions */
 int totlines = 0;		/* Total number of lines in the file */
