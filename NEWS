@@ -9,7 +9,8 @@
 		tweaked, you can now unjustify if you don't like how the
 		justify formatted your text, and there are more
 		options for configure, including --disable-spell and
-		--disable-justify.   All in all, a whole lot of changes in
+		--disable-justify and --enable-extra (for those who like
+		surprises).  All in all, a whole lot of changes in
 		a little over a week.
 
 11/23/2000 - Happy Thanksgiving!  Nano 0.9.21 is our "last version was 
