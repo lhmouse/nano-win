@@ -629,7 +629,7 @@ msgstr "Opción\t\tOpción larga\t\tSignificado\n"
 
 #: nano.c:411
 msgid " -D \t\t--dos\t\t\tWrite file in DOS format\n"
-msgstr "-D \t\t--doss\t\t\tEscribir fichero en formato DOS\n"
+msgstr " -D \t\t--dos\t\t\tEscribir fichero en formato DOS\n"
 
 #: nano.c:416
 msgid " -F \t\t--multibuffer\t\tEnable multiple file buffers\n"
