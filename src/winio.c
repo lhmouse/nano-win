@@ -2707,9 +2707,6 @@ void edit_refresh(void)
 	    nlines++;
 	}
 	reset_cursor();
-
-	/* What the hell are we expecting to update the screen if this
-	 * isn't here?  Luck? */
 	wrefresh(edit);
     }
 }
@@ -2997,8 +2994,6 @@ void do_cursorpos(int constant)
 
     old_i = i;
     old_totsize = totsize;
-
-    reset_cursor();
 }
 
 void do_cursorpos_void(void)

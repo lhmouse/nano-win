@@ -38,6 +38,8 @@ CVS code -
 	  errors.  Also exit instead of calling usage() in the event of
 	  an invalid fill value, for consistency with how an invalid
 	  tabsize value is handled.
+	- Remove several unnecessary reset_cursor() calls. (David
+	  Benbennick)
 - files.c:
   close_open_file()
 	- Tweak to no longer rely on the return values of
@@ -65,6 +67,10 @@ CVS code -
 	  the same line. (DLR)
   do_exit()
 	- Tweak for efficiency. (David Benbennick)
+  main()
+	- Move the reset_cursor() call to the beginning of the main
+	  input loop, and remove the apparently unnecessary wrefresh()
+	  call. (David Benbennick)
 - proto.h:
 	- Change the variables in the prototypes for do_justify(),
 	  get_verbatim_kbinput(), and get_mouseinput() to match the ones

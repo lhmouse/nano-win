@@ -2652,7 +2652,6 @@ void do_justify(int full_justify)
     /* Display the shortcut list with UnJustify. */
     shortcut_init(TRUE);
     display_main_list();
-    reset_cursor();
 
     /* Now get a keystroke and see if it's unjustify; if not, unget the
      * keystroke and return. */
@@ -3519,11 +3518,11 @@ int main(int argc, char *argv[])
 #endif
 
     edit_refresh();
-    reset_cursor();
 
     while (TRUE) {
 	keyhandled = FALSE;
 
+	reset_cursor();
 	if (ISSET(CONSTUPDATE))
 	    do_cursorpos(TRUE);
 
@@ -3642,8 +3641,6 @@ int main(int argc, char *argv[])
 			do_char((char)kbinput);
 	    }
 	}
-	reset_cursor();
-	wrefresh(edit);
     }
     assert(FALSE);
 }
