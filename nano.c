@@ -417,6 +417,16 @@ filestruct *make_new_node(filestruct * prevnode)
     return newnode;
 }
 
+/* Splice a node into an existing filestruct */
+void splice_node(filestruct *begin, filestruct *new, filestruct *end)
+{
+    new->next = end;
+    new->prev = begin;
+    begin->next = new;
+    if (end != NULL)
+	end->prev = new;
+}
+
 int do_mark()
 {
 #ifdef NANO_SMALL
@@ -510,15 +520,11 @@ int do_enter(filestruct * inptr)
     }
     *tmp = 0;
 
-    new->next = inptr->next;
-    new->prev = inptr;
-    inptr->next = new;
-    if (new->next != NULL)
-	new->next->prev = new;
-    else {
+    if (inptr->next != NULL) {
 	filebot = new;
 	editbot = new;
     }
+    splice_node(inptr, new, inptr->next);
 
     totsize++;
     renumber(current);

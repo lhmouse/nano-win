@@ -1,3 +1,8 @@
+CVS code
+- nano.c:
+  splice_node():
+	- New function, abstracts linking in nodes.   Fixes bug #36.
+
 nano-0.9.14 - 07/27/2000
 - nano.h:
 	- Set CUT_TO_END to a different bit than TEMP_OPT.  Fixes bug #32.

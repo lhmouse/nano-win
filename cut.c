@@ -368,9 +368,7 @@ int do_uncut_text(void)
 	    tmp = make_new_node(current);
 	    tmp->data = nmalloc(strlen(&current->data[current_x]) + 1);
 	    strcpy(tmp->data, &current->data[current_x]);
-	    tmp->next = current->next;
-	    current->next = tmp;
-	    tmp->prev = current;
+	    splice_node(current, tmp, current->next);
 	    current->data[current_x] = 0;
 	    current->data = nrealloc(current->data, strlen(current->data) + 1);	    
 	    current = current->next;

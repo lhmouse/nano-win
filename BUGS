@@ -40,6 +40,8 @@
   until a pageup/down occurs (22)[FIXED]
 - Using nano -t, user can not exit until a filename is given via ^O. (30)
  [FIXED]
+- Doing a cut with -k can screw up the filestruct, fault is in cutting
+ code. (36)  [FIXED]
 
 ** Open BUGS **
 
