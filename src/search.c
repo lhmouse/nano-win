@@ -716,7 +716,8 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 	    pww_save = placewewant;
 	}
 
-	/* Record for the return value that we found the search string. */
+	/* Record for the return value that we found the search
+	 * string. */
 	if (numreplaced == -1)
 	    numreplaced = 0;
 
