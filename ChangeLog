@@ -130,6 +130,10 @@ CVS code -
 	  NANO_SMALL is defined and DISABLE_SPELLER isn't.  Also, turn
 	  the USE_REGEXP flag off during spell checking in order to
 	  avoid a potential segfault. (DLR)
+  do_alt_speller()
+	- Call terminal_init() unconditionally after running the
+	  alternate spell checker, so that the terminal state is
+	  properly restored in all cases. (DLR)
   justify_format()
 	- For more compatibility with Pico, remove extra space after a
 	  character in punct if that character is the same as the one

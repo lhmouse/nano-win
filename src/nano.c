@@ -1782,6 +1782,9 @@ const char *do_alt_speller(char *tempfile_name)
 
     refresh();
 
+    /* Restore the terminal to its previous state. */
+    terminal_init();
+
 #ifndef NANO_SMALL
     if (old_mark_set) {
 	do_gotopos(mbb_lineno_cur, mark_beginx, y_cur, 0);
@@ -1793,7 +1796,6 @@ const char *do_alt_speller(char *tempfile_name)
 #endif
 	/* Only reload the temp file if it isn't a marked selection. */
 	free_filestruct(fileage);
-	terminal_init();
 	global_init(TRUE);
 
 	/* Do what load_buffer() would do, except for making a new
