@@ -328,9 +328,6 @@ fi
 
 AC_CHECK_LIB([$CURSES_LIB_NAME], use_default_colors, AC_DEFINE(HAVE_USE_DEFAULT_COLORS, 1, [Define this if your curses library has the use_default_colors command.]))
 if test x$slang_support != xyes; then
-    AC_CHECK_LIB([$CURSES_LIB_NAME], wresize, AC_DEFINE(HAVE_WRESIZE, 1, [Define this if you have the wresize function in your ncurses-type library.]))
-    AC_CHECK_LIB([$CURSES_LIB_NAME], resizeterm, AC_DEFINE(HAVE_RESIZETERM, 1, [Define this if you have the resizeterm function in your ncurses-type library.]))
-
     # Taken from aumix (can't tell from the variable name?)
     AC_CACHE_CHECK([for private member _use_keypad in WINDOW],
     aumix_cv_struct_window_usekeypad,

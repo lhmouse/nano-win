@@ -6,14 +6,27 @@ CVS code -
 	  when to not run the winch handles, static resizepending
 	  is set, handler in main to run handle_sigwinch() when set.
 	  Should fix segfaults when nano is initially suspended while 
-	  reading in a file.
-	*** FIXME: WHo t credit fo finding this bug?
+	  reading in a file (found by Mike Frysinger).
 - nano.c:
+  handle_sigwinch()
+	- Rework so that nano properly redraws the screen on systems
+	  that don't have resizeterm() and/or wresize().  In curses, we
+	  now leave and immediately reenter curses mode via endwin() and
+	  refresh(), and then reinitialize all windows via
+	  window_init().  In slang, the above routine will only work if
+	  the resize made the window smaller, so we now leave and
+	  immediately reenter screen management mode via
+	  SLsmg_reset_smg() and SLsmg_init_smg(), and then reinitialize
+	  all windows via window_init().  (DLR, adapted from code in
+	  Minimum Profit 3.3.0 and mutt 1.4.2.1, respectively)
   main()
 	- Don't call open_file with quiet flag set.  Fixes Debian bug 
 	  #246956 (no warning when trying to open non-readable file).
 	- Add an extra titlebar() call (useful when reading in a big 
 	  file).
+- configure.ac:
+	- Remove the checks for resizeterm() and wresize(), as they're
+	  no longer needed. (DLR)
 - config.rpath:
 	- Replace usage of egrep with grep -E, avoiding a XSI:ism (David
 	  Weinehall)

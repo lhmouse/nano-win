@@ -2890,23 +2890,24 @@ void handle_sigwinch(int s)
     memset(hblank, ' ', COLS);
     hblank[COLS] = '\0';
 
-#ifdef HAVE_RESIZETERM
-    resizeterm(LINES, COLS);
-#ifdef HAVE_WRESIZE
-    if (wresize(topwin, 2, COLS) == ERR)
-	die(_("Cannot resize top win"));
-    if (mvwin(topwin, 0, 0) == ERR)
-	die(_("Cannot move top win"));
-    if (wresize(edit, editwinrows, COLS) == ERR)
-	die(_("Cannot resize edit win"));
-    if (mvwin(edit, 2, 0) == ERR)
-	die(_("Cannot move edit win"));
-    if (wresize(bottomwin, 3 - no_help(), COLS) == ERR)
-	die(_("Cannot resize bottom win"));
-    if (mvwin(bottomwin, LINES - 3 + no_help(), 0) == ERR)
-	die(_("Cannot move bottom win"));
-#endif				/* HAVE_WRESIZE */
-#endif				/* HAVE_RESIZETERM */
+#ifdef USE_SLANG
+    /* Slang curses emulation brain damage: If we just do what curses
+     * does here, it'll only work properly if the resize made the
+     * window smaller.  Do what mutt does: Leave and immediately reenter
+     * Slang screen management mode. */
+    SLsmg_reset_smg();
+    SLsmg_init_smg();
+#else
+    /* Do the equivalent of what Minimum Profit does: Leave and
+     * immediately reenter curses mode. */
+    endwin();
+    refresh();
+#endif
+ 
+    /* Do the equivalent of what both mutt and Minimum Profit do:
+     * Reinitialize all the windows based on the new screen
+     * dimensions. */
+    window_init();
 
     fix_editbot();
 
