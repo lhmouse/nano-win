@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.1.4
-@set UPDATED 3 Jan 2002
+@set UPDATED 4 Jan 2002
 
 @dircategory Editors
 @direntry
@@ -113,6 +113,11 @@ Write file in DOS format.
 
 @item -F, --multibuffer
 Enable multiple file buffers.
+
+@item -K, --keypad
+Do not use the ncurses keypad() call unless necessary.  Try this flag if
+you find that the arrow keys on the numeric keypad do not work for you
+under nano.
 
 @item -M, --mac
 Write file in Mac format.
