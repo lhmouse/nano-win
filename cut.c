@@ -133,7 +133,8 @@ int do_cut_text(void)
     filestruct *tmp, *fileptr = current;
 #ifndef NANO_SMALL
     char *tmpstr;
-    int newsize;
+    int newsize, cuttingtoend = 0;
+
 #endif
 
     if (fileptr == NULL || fileptr->data == NULL)
@@ -150,9 +151,23 @@ int do_cut_text(void)
     }
 #ifndef NANO_SMALL
     if (ISSET(CUT_TO_END) && !ISSET(MARK_ISSET)) {
-	SET(MARK_ISSET);
-	mark_beginbuf = current;
-	mark_beginx = strlen(current->data);
+	if (current_x == strlen(current->data))
+	{
+
+	    /* FIXME - We really need to put this data into the
+	       cutbuffer, not delete it and forget about it. */
+	    do_delete();
+	    return 1;
+	}
+	else
+	{
+	    SET(MARK_ISSET);
+	    SET(KEEP_CUTBUFFER);
+
+	    mark_beginx = strlen(current->data);
+	    mark_beginbuf = current;
+	    cuttingtoend = 1;
+	}
     }
     if (ISSET(MARK_ISSET)) {
 	if (current->lineno == mark_beginbuf->lineno) {
@@ -190,7 +205,10 @@ int do_cut_text(void)
 	UNSET(MARK_ISSET);
 	marked_cut = 1;
 	set_modified();
-	edit_update(current);
+	if (cuttingtoend)
+	    edit_refresh();
+	else
+	    edit_update(current);
 	return 1;
 #else
     if (0) {
