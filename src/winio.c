@@ -2363,7 +2363,7 @@ void do_credits(void)
     xlcredits[6] = _("and anyone else we forgot...");
     xlcredits[7] = _("Thank you for using nano!\n");
 
-    scrolldelay.tv_sec = 0L;
+    scrolldelay.tv_sec = 0;
     scrolldelay.tv_nsec = 700000000L;
 
     curs_set(0);
