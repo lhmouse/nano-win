@@ -13,6 +13,10 @@ CVS code -
 	  shortcut list, and tweak the unjustify routine to use it.
 	  (DLR)
 - files.c:
+  add_open_files()
+	- Make the saving of marked status in open_files->file_flags
+	  work properly again; a tweak to the ISSET() macro in 1.3.0
+	  to make it only return 0 or 1 broke it. (DLR)
   write_marked()
 	- New function used to write the current marked selection to a
 	  file, split out from do_writeout(). (DLR)
@@ -361,8 +365,8 @@ GNU nano 1.3.0 - 2003.10.22
 	  interpreted as Ctrl-[character], and the support for Pico's
 	  Esc Esc [three-digit decimal ASCII code] input method. (DLR)
   do_mark()
-	- Toggle MARK_ISSET() at the beginning of the function instead
-	  of setting it in one place and unsetting it in another place.
+	- Toggle MARK_ISSET at the beginning of the function instead of
+	  setting it in one place and unsetting it in another place.
 	  (David Benbennick)
   do_suspend()
 	- Use handle_hupterm() to handle SIGHUP and SIGTERM so we can

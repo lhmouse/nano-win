@@ -777,17 +777,24 @@ int add_open_file(int update)
     /* save current line number */
     open_files->file_lineno = current->lineno;
 
+    /* start with default modification status: unmodified (and marking
+       status, if available: unmarked) */
+    open_files->file_flags = 0;
+
     /* if we're updating, save current modification status (and marking
        status, if available) */
     if (update) {
 #ifndef NANO_SMALL
-	open_files->file_flags = (MODIFIED & ISSET(MODIFIED)) | (MARK_ISSET & ISSET(MARK_ISSET));
+	if (ISSET(MODIFIED))
+	    open_files->file_flags |= MODIFIED;
 	if (ISSET(MARK_ISSET)) {
 	    open_files->file_mark_beginbuf = mark_beginbuf;
 	    open_files->file_mark_beginx = mark_beginx;
+	    open_files->file_flags |= MARK_ISSET;
 	}
 #else
-	open_files->file_flags = (MODIFIED & ISSET(MODIFIED));
+	if (ISSET(MODIFIED))
+	    open_files->file_flags |= MODIFIED;
 #endif
     }
 
