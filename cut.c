@@ -153,9 +153,6 @@ int do_cut_text(void)
     if (ISSET(CUT_TO_END) && !ISSET(MARK_ISSET)) {
 	if (current_x == strlen(current->data))
 	{
-
-	    /* FIXME - We really need to put this data into the
-	       cutbuffer, not delete it and forget about it. */
 	    do_delete();
 	    SET(KEEP_CUTBUFFER);
 	    marked_cut = 2;
@@ -315,7 +312,6 @@ int do_uncut_text(void)
 
 	    placewewant = xplustabs();
 	    update_cursor();
-	    renumber(current);
 	} else {		/* yuck -- no kidding! */
 	    tmp = current->next;
 	    /* New beginning */
@@ -358,13 +354,27 @@ int do_uncut_text(void)
 
 	    i = editbot->lineno;
 
-	    renumber(current);
-
 	    current = newend;
 	    if (i <= newend->lineno)
 		edit_update(current);
 	}
 
+	/* If marked cut == 2, that means that we're doing a cut to end
+	   and we don't want anything else on the line, so we have to
+	   screw up all the work we just did and separate the line.  There
+	   must be a better way to do this, but not at 1AM on a work night. */
+
+	if (marked_cut == 2 && current_x != strlen(current->data)) {
+	    tmp = make_new_node(current);
+	    tmp->data = nmalloc(strlen(&current->data[current_x]));
+	    strcpy(tmp->data, &current->data[current_x]);
+	    tmp->next = current->next;
+	    current->next = tmp;
+	    tmp->prev = current;
+	    current->data[current_x] = 0;
+	    current->data = nrealloc(current->data, strlen(current->data) + 1);	    
+	}
+	renumber(current);
 	dump_buffer(fileage);
 	dump_buffer(cutbuffer);
 	set_modified();
