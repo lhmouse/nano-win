@@ -145,7 +145,7 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta)
 		    kbinput = wgetch(win);
 		    /* Esc Esc [three-digit decimal ASCII code from
 		     * 000-255] == [corresponding ASCII character];
-		       Esc Esc 2 obviously can't be Ctrl-2 here */
+		     * Esc Esc 2 obviously can't be Ctrl-2 here */
 		    if (kbinput >= '0' && kbinput <= '2')
 			kbinput = get_ascii_kbinput(win, kbinput);
 		    /* Esc Esc [character] == Ctrl-[character];
