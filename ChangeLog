@@ -224,9 +224,12 @@ CVS code -
   get_escape_seq_abcd()
 	- A resurrected version of the old abcd() function, readded in
 	  order to simplify get_escape_seq_kbinput(). (DLR)
-  get_mouse_kbinput()
+  get_mouseinput()
 	- Interpret shortcut key values slightly more stringently when
 	  ungetch()ing them. (DLR)
+  strlenpt()
+	- Properly cast the second parameter of the strnlenpt() call to
+	  size_t. (DLR)
   get_page_start()
 	- For consistency, tweak so that scrolling always occurs when we
 	  try to move onto the "$" at the end of the line, as opposed to

@@ -926,7 +926,7 @@ size_t strnlenpt(const char *buf, size_t size)
 /* How many columns wide is buf? */
 size_t strlenpt(const char *buf)
 {
-    return strnlenpt(buf, -1);
+    return strnlenpt(buf, (size_t)-1);
 }
 
 void blank_bottombars(void)
