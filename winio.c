@@ -564,7 +564,7 @@ void titlebar(const char *path)
 void bottombars(const shortcut *s)
 {
     int i, j, numcols;
-    char keystr[4];
+    char keystr[9];
     int slen;
 
     if (ISSET(NO_HELP))
@@ -591,7 +591,7 @@ void bottombars(const shortcut *s)
 		strcpy(keystr, "^ ");
 #ifndef NANO_SMALL
 	    else if (s->val == KEY_UP)
-		strcpy(keystr, _("Up"));
+		strncpy(keystr, _("Up"), 8);
 #endif /* NANO_SMALL */
 	    else if (s->val > 0) {
 		if (s->val < 64)
