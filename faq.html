@@ -232,9 +232,6 @@ at the following fine web and ftp sites:</font>
 
 <li>
 <font color="#330000"><a href="ftp://ftp.nano-editor.org/pub/nano">ftp://ftp.nano-editor.org/pub/nano</a></font></li>
-
-<li>
-<font color="#330000"><a href="ftp://nano.sourceforge.net/pub/nano/">ftp://nano.sourceforge.net/pub/nano</a></font></li>
 </ul>
 </blockquote>
 
@@ -252,9 +249,6 @@ packages.</font></h2>
 
 <li>
 <font color="#330000"><a href="ftp://ftp.nano-editor.org/pub/nano/RPMS">ftp://ftp.nano-editor.org/pub/nano/RPMS</a></font></li>
-
-<li>
-<font color="#330000"><a href="ftp://nano.sourceforge.net/pub/nano/RPMS">ftp://nano.sourceforge.net/pub/nano/RPMS</a></font></li>
 </ul>
 <font color="#330000">Additionally, check out the Redhat contribs section
 at:</font>
@@ -277,8 +271,14 @@ current nano packages for:</font>
 <font color="#330000"><a href="http://www.debian.org/Packages/stable/editors/nano.html">stable</a></font></li>
 
 <li>
+<font color="#330000"><a href="http://www.debian.org/Packages/testing/editors/nano.html">testing</a></font></li>
+
+<li>
 <font color="#330000"><a href="http://www.debian.org/Packages/unstable/editors/nano.html">unstable</a></font></li>
 </ul>
+<p><font color="#330000">You can also have a look at the</font>
+<font color="#330000"><a href="ftp://ftp.debian.org/debian/pool/main/n/nano/">Package Pool</a> to see all the available binary and source packages.</font></p>
+
 <font color="#330000">Note that versions &lt; 0.9.10 are probably not for
 those wanting to get serious work done, so if you are using Debian 2.2, check
 that you have updated to 2.2r3, which comes with nano 0.9.23. If you're 
@@ -372,6 +372,7 @@ list:
 <b>--disable-browser</b>       Disables mini file browser
 <b>--disable-wrapping</b>      Disables all wrapping of text (and -w flag)
 <b>--disable-mouse</b>         Disables mouse support (and -m flag)
+<b>--disable-operatingdir</b>  Disable setting of operating directory
 </pre><br>
 There's also the <b>--enable-tiny</b> option which disables everything
 above, as well as some larger chunks of the program (like the marker code
@@ -381,7 +382,7 @@ disable internationalization and save a few K to a few dozen K depending
 on if you have locale support on your system. And finally there's always
 good old <b>strip</b> to strip all debugging code and code that exists in
 libraries on your system.
-<p>If, in the other hand, you can't live with bells and whistles, you could
+<p>If, in the other hand, you can't live without bells and whistles, you could
 try:
 <pre>
 <b>--enable-extra</b>          Enable extra functions, including easter eggs
@@ -394,29 +395,33 @@ try:
 <a NAME="3.7"></a><font color="#330000">
 3.7. Tell me more about this multibuffer stuff!</font></h2>
 
-<blockquote><font color="#330000"> To use multiple file buffers, you must be using nano 1.1.1
-or newer, and you must have configured nano with <b>--enable-multibuffer</b> or
-<b>--enable-extra</b> (use nano -V to check).  Then when you want to enable inserting a file
-into its own buffer instead of into the current file, just hit <b>Meta-F</b>, then insert the
-file as normal with <b>^R</b>.  If you always want files to be loaded into their own buffers,
+<blockquote><font color="#330000"> To use multiple file buffers, you must
+be using nano 1.1.1 or newer, and you must have configured nano with
+<b>--enable-multibuffer</b> or <b>--enable-extra</b> (use nano -V to check).
+Then when you want to enable inserting a file into its own buffer instead of
+into the current file, just hit <b>Meta-F</b>, then insert the file as normal
+with <b>^R</b>.  If you always want files to be loaded into their own buffers,
 use the <b>--multibuffer</b> or <b>-F</b> flag when you invoke nano. <P>
 
-You can move between the buffers you have open with the <b>Meta-&lt;</b> and <b>Meta-&gt;</b>
-keys, or more easily with <b>Meta-,</b> and <b>Meta-.</b> (clear as mud, right? =-).
-When you have more than one file buffer open, the ^X shortcut will say "Close", instead of the
-normal "Exit" when only one buffer is open. 
+You can move between the buffers you have open with the <b>Meta-&lt;</b> and
+<b>Meta-&gt;</b> keys, or more easily with <b>Meta-,</b> and <b>Meta-.</b>
+(clear as mud, right? =-). When you have more than one file buffer open,
+the ^X shortcut will say "Close", instead of the normal "Exit" when only one
+buffer is open. 
 </font></blockquote>
 
 <h2>
 <a NAME="3.8"></a><font color="#330000">
 3.8. How do I make a .nanorc file that nano will read when I start it?</font></h2>
 
-<blockquote><font color="#330000"> It's not hard at all!  But, your version of nano must have
-beem compiled with <b>--enable-nanorc</b>, and again must be version 1.1.1 or newer (use nano
--V to check your version and compiled features).  Then simply copy the <b>nanorc.sample</b>
-that came with the nano source or your nano package (most likely in /usr/doc/nano) to .nanorc
-in your home directory. If you didn't get one, the syntax is simple.  Flags are turned on and
-off by using the word <b>set</b> and the getopt_long flag for the feature, for example "set
+<blockquote><font color="#330000"> It's not hard at all!  But, your version
+of nano must have beem compiled with <b>--enable-nanorc</b>, and again must
+be version 1.1.1 or newer (use nano -V to check your version and compiled
+features).  Then simply copy the <b>nanorc.sample</b>
+that came with the nano source or your nano package (most likely in
+/usr/doc/nano) to .nanorc in your home directory. If you didn't get one,
+the syntax is simple.  Flags are turned on and off by using the word
+<b>set</b> and the getopt_long flag for the feature, for example "set
 pico" or "set nowrap". </font></blockquote> <hr WIDTH="100%">
 
 <h1><a NAME="4"></a><font color="#330000">4. Running</font></h1>
@@ -500,7 +505,7 @@ mutt, etc)?</h2>
 
 <blockquote>You need to make nano your $EDITOR.&nbsp; If you want this
 to be saved, you should put a line like this in your <b>.bashrc</b> if
-you use bash:
+you use bash (or <b>.zshrc</b> if you believe in zsh):
 <p><b>export EDITOR=/usr/local/bin/nano</b>
 <p>or if you use tcsh put this in your <b>.cshrc</b> file:
 <p><b>setenv EDITOR /usr/local/bin/nano</b>
