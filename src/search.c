@@ -32,7 +32,8 @@
 #include "nano.h"
 
 #ifdef HAVE_REGEX_H
-static int regexp_compiled = FALSE;
+static bool regexp_compiled = FALSE;
+	/* Have we compiled any regular expressions? */
 
 /* Regular expression helper functions. */
 
@@ -280,6 +281,8 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
     size_t current_x_find = 0;
 	/* The location of the match we found. */
     int current_y_find = current_y;
+    bool search_last_line = FALSE;
+	/* Have we gone past the last line while searching? */
 
     /* rev_start might end up 1 character before the start or after the
      * end of the line.  This won't be a problem because strstrwrapper()
@@ -448,7 +451,6 @@ void do_search(void)
 	update_history(&search_history, answer);
 #endif
 
-    search_last_line = FALSE;
     didfind = findnextstr(TRUE, FALSE, FALSE, current, current_x,
 	answer, NULL);
 
@@ -502,7 +504,6 @@ void do_research(void)
 	    return;
 #endif
 
-	search_last_line = FALSE;
 	didfind = findnextstr(TRUE, FALSE, FALSE, current, current_x,
 		last_search, NULL);
 
@@ -904,10 +905,9 @@ void do_replace(void)
     last_replace = mallocstrcpy(last_replace, answer);
 
     /* Save where we are. */
+    edittop_save = edittop;
     begin = current;
     beginx = current_x;
-    edittop_save = edittop;
-    search_last_line = FALSE;
 
     numreplaced = do_replace_loop(last_search, begin, &beginx, FALSE);
 
@@ -915,6 +915,7 @@ void do_replace(void)
     edittop = edittop_save;
     current = begin;
     current_x = beginx;
+
     renumber_all();
     edit_refresh();
 
@@ -1053,7 +1054,6 @@ void do_find_bracket(void)
     /* We constructed regexp_pat to be a valid expression. */
     assert(regexp_compiled);
 
-    search_last_line = FALSE;
     while (TRUE) {
 	if (findnextstr(FALSE, FALSE, FALSE, current, current_x,
 		regexp_pat, NULL)) {

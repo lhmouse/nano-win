@@ -40,7 +40,6 @@ extern int mark_beginx;
 extern long totsize;
 extern long flags;
 extern ssize_t tabsize;
-extern int search_last_line;
 extern int currslen;
 
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)

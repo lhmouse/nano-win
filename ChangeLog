@@ -74,6 +74,12 @@ CVS code -
 	- Add support for reading in UTF-8 sequences to the low-level
 	  input routines.  Changes to get_kbinput() and
 	  get_translated_kbinput(). (DLR)
+	- Reduce search_last_line to a local variable in findnextstr(),
+	  since it's always set to FALSE just before and after
+	  findnextstr() is called and isn't used anywhere except in
+	  findnextstr().  Changes to do_int_spell_fix(), findnextstr(),
+	  do_search(), do_research(), do_replace(), and
+	  do_find_bracket(). (DLR)
 - files.c:
   do_insertfile()
 	- Readd the NANO_SMALL #ifdef around the start_again: label to
@@ -133,8 +139,6 @@ CVS code -
 	  NANO_SMALL is defined and DISABLE_SPELLER isn't.  Also, turn
 	  the USE_REGEXP flag off during spell checking in order to
 	  avoid a potential segfault. (DLR)
-	- Fully save the position in the file, using edittop, current,
-	  current_x, and placewewant. (DLR)
   do_alt_speller()
 	- Call terminal_init() unconditionally after running the
 	  alternate spell checker, so that the terminal state is

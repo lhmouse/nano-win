@@ -1420,7 +1420,7 @@ bool do_int_spell_fix(const char *word)
 {
     char *save_search;
     char *save_replace;
-    size_t current_x_save = current_x, pww_save = placewewant;
+    size_t current_x_save = current_x;
     filestruct *edittop_save = edittop;
     filestruct *current_save = current;
 	/* Save where we are. */
@@ -1466,9 +1466,6 @@ bool do_int_spell_fix(const char *word)
     edittop = fileage;
     current = fileage;
     current_x = -1;
-    placewewant = 0;
-
-    search_last_line = FALSE;
 
     /* Find the first whole-word occurrence of word. */
     while (findnextstr(TRUE, TRUE, FALSE, fileage, 0, word, NULL)) {
@@ -1487,7 +1484,6 @@ bool do_int_spell_fix(const char *word)
 	    do_replace_highlight(FALSE, word);
 
 	    if (accepted && strcmp(word, answer) != 0) {
-		search_last_line = FALSE;
 		current_x--;
 		do_replace_loop(word, current_save, &current_x_save, TRUE);
 	    }
@@ -1506,7 +1502,6 @@ bool do_int_spell_fix(const char *word)
     edittop = edittop_save;
     current = current_save;
     current_x = current_x_save;
-    placewewant = pww_save;
 
     /* Restore case sensitivity setting. */
     if (!case_sens_set)
