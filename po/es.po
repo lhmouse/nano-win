@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.6\n"
+"Project-Id-Version: nano 1.1.7\n"
 "POT-Creation-Date: 2002-03-05 18:20-0500\n"
-"PO-Revision-Date: 2002-01-25 21:40+0100\n"
+"PO-Revision-Date: 2002-03-09 20:40+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1630,30 +1630,3 @@ msgstr "y cualquiera del que nos hayamos olvidado..."
 #: winio.c:1888
 msgid "Thank you for using nano!\n"
 msgstr "¡Gracias por usar nano!\n"
-
-#~ msgid "File already loaded"
-#~ msgstr "Fichero ya cargado"
-
-#~ msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
-#~ msgstr " -R\t\t--regexp\t\tUsar expresiones regulares para las búsquedas\n"
-
-#~ msgid "regex length must be > 0"
-#~ msgstr "la longitud del regex ha de ser > 0"
-
-#~ msgid "Write"
-#~ msgstr "Escribir"
-
-#~ msgid "Regexp "
-#~ msgstr "ExpReg "
-
-#~ msgid "Backward"
-#~ msgstr "Hacia Atrás"
-
-#~ msgid "Case Sensitive Regexp Search%s%s"
-#~ msgstr "Búsqueda con Regexp y Mayúsculas/Minúsculas%s%s"
-
-#~ msgid "Regexp Search%s%s"
-#~ msgstr "Búsqueda con Regexp%s%s"
-
-#~ msgid "Only %d lines available, skipping to last line"
-#~ msgstr "Sólo hay %d líneas, saltando hasta la última"

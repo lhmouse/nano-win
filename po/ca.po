@@ -1576,31 +1576,3 @@ msgstr "i per qualsevol dels qui ens hem oblidat esmentar..."
 #: winio.c:1888
 msgid "Thank you for using nano!\n"
 msgstr "Gràcies per fer servir nano!\n"
-
-#~ msgid "File already loaded"
-#~ msgstr "Fitxer ja carregat"
-
-#~ msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
-#~ msgstr ""
-#~ " -R\t\t--regexp\t\tUtilitzar expressions regulars per a ls recerques\n"
-
-#~ msgid "regex length must be > 0"
-#~ msgstr "la llargària del regex ha de ser > 0"
-
-#~ msgid "Write"
-#~ msgstr "desar"
-
-#~ msgid "Backward"
-#~ msgstr "Endarrere"
-
-#~ msgid "Regexp "
-#~ msgstr "ExpReg "
-
-#~ msgid "Case Sensitive Regexp Search%s%s"
-#~ msgstr "Recerca amb Regexp i Majúscules/Minúscules%s%s"
-
-#~ msgid "Regexp Search%s%s"
-#~ msgstr "Recerca amb Regexp%s%s"
-
-#~ msgid "Only %d lines available, skipping to last line"
-#~ msgstr "Només hi ha %d línies, ometent fins al final"
