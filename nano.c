@@ -1302,7 +1302,12 @@ void handle_sigwinch(int s)
 	edit_update(editbot);
     }
     erase();
+
+    /* Do these b/c width may have changed... */
     refresh();
+    titlebar();
+    edit_refresh();
+    display_main_list();
     total_refresh();
 #endif
 }

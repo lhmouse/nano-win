@@ -1043,7 +1043,6 @@ void display_main_list(void)
 
 int total_refresh(void)
 {
-    display_main_list();
     clearok(edit, TRUE);
     clearok(topwin, TRUE);
     clearok(bottomwin, TRUE);

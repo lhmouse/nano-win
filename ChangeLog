@@ -6,15 +6,37 @@ since last release (CVS Only) - 06/06/2000
 	  we had been seeing. Affects: add_marked_sameline, edit_add,
 	  and many others. (Rob Siemborski)
 	- totsize fixes (Rob Siemborski)
+  total_refresh():
+	- Cut dispaly_main_list call, as this function is only supposed to refresh
+	  what's already on the screen, not go through the process of adding the
+	  text again.
 - cut.c:
 	- totsize fixes (Rob Siemborski)
 - nano.c:
 	- experimental do_wrap and check_wrap (Adam Rogoyski)
+	- Removed editwineob, as it was redundant for (editwinrows - 1).
+	  Changed all calls to editwinrows - 1 in nano.c and move.c.
+	- Removed all functions that were split into other files.
+	  Affects LOTS of funcs.
   do_enter():
         - Added reset of placewewant to end.
   do_insertfile():
 	- Fix display problem when using ctrl-r to load a file
 	  into the buffer (Rob Siemborski)
+  handle_sigwinch():
+	- Added titlebar(), edit_refresh() and display_main_list() calls because
+	  a resize wasn't picking up on possible different width correctly.
+- utils.c:
+	- Moved nmalloc() and nrealloc() here.
+- move.c:
+	- New file, contains movement functions (like do_home(), do_up(),
+	  do_down(), page_up(), etc...).
+- files.c:
+	- Contains functions for files (read_file, insert_file,
+	  do_writeout(), etc).
+- search.c:
+	- Contains all our searching and related functions, (do_search(),
+	  findnextstr(), do_replace(), do_gotoline()).
 
 nano-0.9.10 - 06/04/2000
 - es.po:
