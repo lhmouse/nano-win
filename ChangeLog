@@ -20,11 +20,14 @@ CVS code -
 	- Now takes an argument as to whether to display the unjustify
 	  shortcut or the normal uncut text one.  Needed to accomodate
 	  the klugey unjustify code.
+- nano.1, nano.1.html:
+	- Updated date on pages because of -p changes.
 - nano.c:
   do_justify()
-	- Wrote unjustify code.  Borrows cutbuffer and stores the unjustified text there, 
-	  then grabs the next keystroke and, if the unjustify key, gets rid of the
-	  justified text and calls do_uncut_text.  Added macro NANO_UNJUSTIFY_KEY.
+	- Wrote unjustify code.  Borrows cutbuffer and stores the unjustified 
+	  text there, then grabs the next keystroke and, if the unjustify
+	  key, gets rid of the justified text and calls do_uncut_text.
+	  Added macro NANO_UNJUSTIFY_KEY.
 - es.po: 
 	- Traditional Spanish strings updates.
 
