@@ -2175,10 +2175,6 @@ int main(int argc, char *argv[])
 	case 'k':
 	    SET(CUT_TO_END);
 	    break;
-#else
-	case 'k':
-	    usage();		/* Oops!  You dont really have that option */
-	    finish(1);
 #endif
 	case 'l':
 	    UNSET(FOLLOW_SYMLINKS);
@@ -2201,10 +2197,6 @@ int main(int argc, char *argv[])
 	    alt_speller = nmalloc(strlen(optarg) + 1);
 	    strcpy(alt_speller, optarg);
 	    break;
-#else
-	case 's':
-	    usage();		/* Oops!  You dont really have that option */
-	    finish(1);
 #endif
 	case 't':
 	    SET(TEMP_OPT);

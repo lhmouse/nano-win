@@ -37,6 +37,8 @@ General
   main()
 	- Alternate speller option no longer valid if DISABLE_SPELLER is
 	  active. (Rocco)
+	- Removed direct calls to usage() (#else) for -k (cut) or -s (speller)
+	  options when these have been disabled. (Rocco)
 	- Initialized kbinput to get around stupid compiler warning.
   nano_small_msg()
 	- This function has been removed.  All references now call
