@@ -540,7 +540,14 @@ void do_insertfile(
 #endif
 		"./");
 
-	if (i < 0) {
+#ifdef ENABLE_MULTIBUFFER
+	/* If we're in multibuffer mode and the filename is blank, open
+	 * a new buffer instead of canceling. */
+	if (i == -1 || (i == -2 && !ISSET(MULTIBUFFER)))
+#else
+	if (i < 0)
+#endif
+	{
 	    statusbar(_("Cancelled"));
 	    break;
 	} else {
