@@ -2,6 +2,10 @@ CVS code -
 - nano.c:
   usage()
   	- Remove extra \n in --keypad description (Jordi).
+- winio.c:
+  edit_refresh()
+	- Rename lines to nlines to fix AIX breakage (reported by
+	  Dennis Cranston, re-reported by arh14@cornell.edu).
 - po/ca.po, po/es.po:
 	- Catalan and Spanish translation updates.
 

@@ -1076,7 +1076,7 @@ void center_cursor(void)
 void edit_refresh(void)
 {
     static int noloop = 0;
-    int lines = 0, i = 0, currentcheck = 0;
+    int nlines = 0, i = 0, currentcheck = 0;
     filestruct *temp, *hold = current;
 
     if (current == NULL)
@@ -1084,14 +1084,14 @@ void edit_refresh(void)
 
     temp = edittop;
 
-    while (lines <= editwinrows - 1 && lines <= totlines && temp != NULL) {
+    while (nlines <= editwinrows - 1 && nlines <= totlines && temp != NULL) {
 	hold = temp;
 	update_line(temp, current_x);
 	if (temp == current)
 	    currentcheck = 1;
 
 	temp = temp->next;
-	lines++;
+	nlines++;
     }
     /* If noloop == 1, then we already did an edit_update without finishing
        this function.  So we don't run edit_update again */
@@ -1101,10 +1101,10 @@ void edit_refresh(void)
     } else if (noloop)
 	noloop = 0;
 
-    if (lines <= editwinrows - 1)
-	while (lines <= editwinrows - 1) {
-	    mvwaddstr(edit, lines, i, hblank);
-	    lines++;
+    if (nlines <= editwinrows - 1)
+	while (nlines <= editwinrows - 1) {
+	    mvwaddstr(edit, nlines, i, hblank);
+	    nlines++;
 	}
     if (temp == NULL)
 	editbot = hold;
