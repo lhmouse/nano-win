@@ -2994,9 +2994,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 			index = actual_x(converted, x_start);
 
 			paintlen = actual_x(converted + index,
-				strnlenpt(fileptr->data +
-				startmatch.rm_so, startmatch.rm_eo -
-				startmatch.rm_so));
+				strnlenpt(fileptr->data,
+				startmatch.rm_eo) - start - x_start);
 
 			assert(0 <= x_start && 0 <= paintlen);
 
@@ -3125,9 +3124,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 			if (endmatch.rm_eo > startpos &&
 				endmatch.rm_eo > startmatch.rm_so) {
 			    paintlen = actual_x(converted + index,
-				strnlenpt(fileptr->data +
-				startmatch.rm_so, endmatch.rm_eo -
-				startmatch.rm_so));
+				strnlenpt(fileptr->data,
+				endmatch.rm_eo) - start - x_start);
 
 			    assert(0 <= x_start && x_start < COLS);
 
