@@ -352,7 +352,7 @@ size_t actual_x(const char *str, size_t xplus)
 
     for (; length < xplus && *str != '\0'; i++, str++) {
 	if (*str == '\t')
-	    length += tabsize - length % tabsize;
+	    length += tabsize - (length % tabsize);
 	else if (is_cntrl_char((int)*str))
 	    length += 2;
 	else
