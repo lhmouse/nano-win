@@ -2211,9 +2211,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
     char *buf_mb = charalloc(mb_cur_max());
     int buf_mb_len;
-#ifdef NANO_WIDE
     bool bad_char;
-#endif
 
     /* If dollars is TRUE, make room for the "$" at the end of the
      * line. */
@@ -2271,13 +2269,8 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
     }
 
     while (index < alloc_len - 1 && buf[start_index] != '\0') {
-	buf_mb_len = parse_mbchar(buf + start_index, buf_mb
-#ifdef NANO_WIDE
-		, &bad_char
-#else
-		, NULL
-#endif
-		, NULL);
+	buf_mb_len = parse_mbchar(buf + start_index, buf_mb, &bad_char,
+		NULL);
 
 	if (*buf_mb == '\t') {
 	    converted[index++] =
