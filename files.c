@@ -293,8 +293,8 @@ int do_insertfile(void)
  * we don't set the global variable filename to it's name, and don't
  * print out how many lines we wrote on the statusbar.
  * 
- * Note that tmp is only set to 1 for storing temporary files internal
- * to the editor, and is completely different from TEMP_OPT.
+ * tmp means we are writing a tmp file in a secute fashion.  We use
+ * it when spell checking or dumping the file on an error.
  */
 int write_file(char *name, int tmp)
 {
@@ -326,9 +326,13 @@ int write_file(char *name, int tmp)
        cause unexpected behavior */
     lstat(realname, &st);
 
-    /* Open the file and truncate it.  Trust the symlink. */
-    if (!tmp && (ISSET(FOLLOW_SYMLINKS) || !S_ISLNK(st.st_mode))) {
+    /* New case: if it's a symlink and tmp is set, abort.  It could be
+	a symlink attack */
+    if (tmp && S_ISLNK(st.st_mode))
+	 return -1;
+    else if (!tmp && (ISSET(FOLLOW_SYMLINKS) || !S_ISLNK(st.st_mode))) {
 
+	/* Open the file and truncate it.  Trust the symlink. */
 	if ((fd = open(realname, O_WRONLY | O_CREAT | O_TRUNC,
 		       S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH |
 		       S_IWOTH)) == -1) {

@@ -104,24 +104,25 @@ RETSIGTYPE finish(int sigage)
 void die(char *msg, ...)
 {
     va_list ap;
+    char *name;
+    int i;
 
     va_start(ap, msg);
     vfprintf(stderr, msg, ap);
     va_end(ap);
 
-    /* No following symlinks when we dump the file contents */
-    UNSET(FOLLOW_SYMLINKS);
-
     /* if we can't save we have REAL bad problems,
      * but we might as well TRY. */
     if (filename[0] == '\0') {
-	write_file("nano.save", 1);
+	name = "nano.save";
+	i = write_file(name, 1);
     } else {
 	
 	char *buf = nmalloc(strlen(filename) + 6);
 	strcpy(buf, filename);
 	strcat(buf, ".save");
-	write_file(buf, 1);
+	i = write_file(buf, 1);
+	name = buf;
     }
     /* Restore the old term settings */
     tcsetattr(0, TCSANOW, &oldterm);
@@ -132,7 +133,11 @@ void die(char *msg, ...)
     endwin();
 
     fprintf(stderr, msg);
-    fprintf(stderr, _("\nBuffer written to 'nano.save'\n"));
+    fprintf(stderr, "\n");
+    if (i != -1)
+	fprintf(stderr, _("\nBuffer written to %s\n"), name);
+    else
+	fprintf(stderr, _("No .save file written (symlink encountered?)\n"));
 
     exit(1);			/* We have a problem: exit w/ errorlevel(1) */
 }
@@ -1364,8 +1369,10 @@ int do_spell(void)
 	return 0;
     }
 
-    if (write_file(temp, 1) == -1)
+    if (write_file(temp, 1) == -1) {
+	statusbar(_("Spell checking failed: unable to write temp file!"));
 	return 0;
+    }
 
     if (alt_speller)
 	spell_res = do_alt_speller(temp);
