@@ -196,7 +196,7 @@ Do not wrap long lines at any length. This option overrides any value for
 Enable suspend ability of @code{nano} using the system's suspend
 keystroke (usually ^Z).
 
-@item -b, -e, -f
+@item -a, -b, -e, -f, -g, -j
 Ignored, for compatibility with Pico.
 
 @item +LINE

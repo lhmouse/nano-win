@@ -106,7 +106,7 @@ Disable help screen at bottom of editor.
 .B \-z (\-\-suspend)
 Enable suspend ability.
 .TP
-.B \-b, \-e, \-f
+.B \-a, \-b, \-e, \-f, \-g, \-j
 Ignored, for compatibility with Pico.
 .TP
 .B \+LINE
@@ -116,8 +116,9 @@ Nano will try to dump the buffer into an emergency file in some cases.
 Mainly, this will happen if Nano receives a SIGHUP or runs out of
 memory, when it will write the buffer into a file named "nano.save" if the
 buffer didn't have a name already, or will add a ".save" suffix to the
-current filename. Nano will \fBnot\fP write this file if a previous one
-exists in the current directory.
+current filename. In multibuffer mode, nano will write all the open buffers to
+the respective emergency files. Nano will \fBnot\fP write this file if a
+previous one exists in the current directory.
 .SH BUGS
 Please send any comments or bug reports to
 .br

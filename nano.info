@@ -149,7 +149,7 @@ Command Line Options
      Enable suspend ability of `nano' using the system's suspend
      keystroke (usually ^Z).
 
-`-b, -e, -f'
+`-a, -b, -e, -f, -g, -j'
      Ignored, for compatibility with Pico.
 
 `+LINE'
@@ -452,16 +452,16 @@ Node: Introduction508
 Node: Overview934
 Node: Command Line Options1514
 Ref: Expert Mode3716
-Node: Editor Basics4616
-Node: Entering Text4841
-Node: Special Functions5181
-Node: The Titlebar6036
-Node: The Statusbar6734
-Node: Shortcut Lists7315
-Node: Online Help7708
-Node: Feature Toggles8084
-Node: The File Browser9900
-Node: Pico Compatibility10609
-Node: Building and Configure Options12651
+Node: Editor Basics4628
+Node: Entering Text4853
+Node: Special Functions5193
+Node: The Titlebar6048
+Node: The Statusbar6746
+Node: Shortcut Lists7327
+Node: Online Help7720
+Node: Feature Toggles8096
+Node: The File Browser9912
+Node: Pico Compatibility10621
+Node: Building and Configure Options12663
 
 End Tag Table
