@@ -353,6 +353,8 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 		inputbuf = input_tab(inputbuf, (x - x_left), 
 				&tabbed, &shift);
 		x += shift;
+		if (x - x_left > strlen(inputbuf))
+		    x = strlen(inputbuf) + x_left;
 		nanoget_repaint(buf, inputbuf, x);
 	    }
 	    break;

@@ -1322,23 +1322,22 @@ int do_alt_speller(char *file_name)
 
     endwin();
 
-    /* Start a new process for the alternate speller */
+    /* Set up an argument list to pass the execvp function */
+    if (spellargs == NULL) {
+	spellargs = nmalloc(arglen * sizeof(char *));
 
-    if ( (pid_spell = fork()) == 0) {
-
-	/* Set up an argument list to pass the execvp function */
-	if (spellargs == NULL) {
-	    spellargs = nmalloc(arglen * sizeof(char *));
-
-	    spellargs[0] = strtok(alt_speller, " ");
-	    while ((ptr = strtok(NULL, " ")) != NULL) {
-		arglen++;
-		spellargs = nrealloc(spellargs, arglen * sizeof(char *));
-		spellargs[arglen - 3] = ptr;
-	    }
-	    spellargs[arglen - 1] = NULL;
+	spellargs[0] = strtok(alt_speller, " ");
+	while ((ptr = strtok(NULL, " ")) != NULL) {
+	    arglen++;
+	    spellargs = nrealloc(spellargs, arglen * sizeof(char *));
+	    spellargs[arglen - 3] = ptr;
 	}
-	spellargs[arglen - 2] = file_name;
+	spellargs[arglen - 1] = NULL;
+    }
+    spellargs[arglen - 2] = file_name;
+
+    /* Start a new process for the alternate speller */
+    if ( (pid_spell = fork()) == 0) {
 
 	/* Start alternate spell program, we are using the PATH here!?!? */
 	execvp(spellargs[0], spellargs);
