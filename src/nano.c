@@ -3336,7 +3336,7 @@ int main(int argc, char *argv[])
 	    alt_speller = alt_speller_cpy;
 	}
 #endif
-	if (tabsize_cpy > 0)
+	if (tabsize_cpy != -1)
 	    tabsize = tabsize_cpy;
 	flags |= flags_cpy;
     }

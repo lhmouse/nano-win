@@ -420,8 +420,7 @@ void parse_colors(char *ptr)
 	    if (tmpsyntax->color == NULL) {
 		tmpsyntax->color = newcolor;
 #ifdef DEBUG
-		fprintf(stderr, "Starting a new colorstring for fg %d bg %d\n",
-			fg, bg);
+		fprintf(stderr, "Starting a new colorstring for fg %d bg %d\n", fg, bg);
 #endif
 	    } else {
 		for (tmpcolor = tmpsyntax->color; tmpcolor->next != NULL;
@@ -563,8 +562,10 @@ void parse_rcfile(FILE *rcstream)
 #endif
 #ifndef DISABLE_WRAPJUSTIFY
 			    if (!strcasecmp(rcopts[i].name, "fill")) {
-				if (parse_num(option, &wrap_at) == -1)
+				if (parse_num(option, &wrap_at) == -1) {
 				    rcfile_error(N_("Requested fill size %s invalid"), option);
+				    wrap_at = -CHARS_FROM_EOL;
+				}
 			    } else
 #endif
 #ifndef NANO_SMALL
@@ -609,9 +610,9 @@ void parse_rcfile(FILE *rcstream)
 			    else
 #endif
 			    if (!strcasecmp(rcopts[i].name, "tabsize")) {
-				if (parse_num(option, &tabsize) == -1 ||
-					tabsize <= 0)
+				if (parse_num(option, &tabsize) == -1 || tabsize <= 0)
 				    rcfile_error(N_("Requested tab size %s invalid"), option);
+				    tabsize = -1;
 			    }
 			} else
 			    SET(rcopts[i].flag);
