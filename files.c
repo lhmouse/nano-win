@@ -472,7 +472,7 @@ int write_file(char *name, int tmp)
 		  mask, realname, strerror(errno));
 
     if (!tmp) {
-	strncpy(filename, realname, 132);
+	strncpy(filename, realname, PATH_MAX - 1);
 	statusbar(_("Wrote %d lines"), lineswritten);
 	UNSET(MODIFIED);
 	titlebar();

@@ -14,6 +14,8 @@ General
 	- Change open call flags, basically copy joe's way of doing it so
 	  a more recent version will actually be included in (un)stable.
 	- Remove useless fstat call.
+	- Use MAX_PATH instead of static 132 for strncpy, at least until
+	  we no longer use MAX_PATH.
   open_file()
 	- Added check for S_ISBLK and S_ISCHR, don't open device files!
 - nano.c:
