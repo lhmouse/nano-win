@@ -23,7 +23,7 @@ CVS code -
 - files.c:
   do_browser():
 	- Some of the Pico compatibility options in the file browser
-	  that don't work properly for Pico 4.6 have been removed. 
+	  that don't work properly for current Pico have been removed.
 	  Backspace, 'g', 'l', 'q', and 'u' are invalid, 'd' deletes the
 	  highlighted file, and 'r' renames the highlighted file. (DLR)
 - nano.h:
