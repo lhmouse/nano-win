@@ -403,6 +403,9 @@ CVS code -
 	- Overhaul for efficiency, and make sure the xlcredits
 	  translations are done after initialization in order to avoid
 	  an error when compiling with -pedantic. (David Benbennick)
+  do_yesno()
+	- Add a comment to encourage translators to use both native and
+	  English shortcuts, if possible. (Jordi)
 - configure.ac:
 	- Add tests for isblank(), strcasestr(), and strnlen(), and
 	  define _GNU_SOURCE so that the tests work properly.  Increase

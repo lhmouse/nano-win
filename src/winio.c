@@ -2828,7 +2828,9 @@ int do_yesno(int all, const char *msg)
 
     /* Yes, no and all are strings of any length.  Each string consists
      * of all characters accepted as a valid character for that value.
-     * The first value will be the one displayed in the shortcuts. */
+     * The first value will be the one displayed in the shortcuts.
+     * Translators: if possible, specify both the shortcuts for your
+     * language and English. For example, in French: "OoYy" for "Oui". */
     yesstr = _("Yy");
     nostr = _("Nn");
     allstr = _("Aa");
