@@ -113,6 +113,7 @@ CVS code -
 	  Change the openfilestruct structure accordingly in order to
 	  handle this. (DLR)
 	- Convert some ints with predefined boundaries to enums. (DLR)
+	- Include config.h only if HAVE_CONFIG_H. (Jordi)
 - cut.c:
   cut_marked_segment()
 	- Respect concatenate_cut, as we need to use it if we do a
