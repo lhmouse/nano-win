@@ -1837,7 +1837,7 @@ void do_spell(void)
 	i = write_file(temp, TRUE, FALSE, FALSE);
 
     if (i == -1) {
-	statusbar(_("Unable to write temp file: %s"), strerror(errno));
+	statusbar(_("Error writing temp file: %s"), strerror(errno));
 	free(temp);
 	return;
     }

@@ -3013,7 +3013,7 @@ void save_history(void)
 		h->data = charealloc(h->data, strlen(h->data) + 2);
 		strcat(h->data, "\n");
 		if (fputs(h->data, hist) == EOF) {
-		    rcfile_error(N_("Unable to write ~/.nano_history file: %s\n"), strerror(errno));
+		    rcfile_error(N_("Error writing %s: %s"), nanohist, strerror(errno));
 		    goto come_from;
 		}
 	    }
