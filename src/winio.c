@@ -2239,11 +2239,11 @@ void titlebar(const char *path)
 	/* strlen(state) + 1. */
     char *exppath = NULL;
 	/* The file name, expanded for display. */
-    size_t explen = 0;
+    size_t exppathlen = 0;
 	/* strlen(exppath) + 1. */
-    int newbuffer = FALSE;
+    bool newfie = FALSE;
 	/* Do we say "New Buffer"? */
-    int dots = FALSE;
+    bool dots = FALSE;
 	/* Do we put an ellipsis before the path? */
 
     assert(path != NULL || filename != NULL);
@@ -2295,20 +2295,23 @@ void titlebar(const char *path)
 #endif
     if (filename[0] == '\0') {
 	prefix = _("New Buffer");
-	newbuffer = TRUE;
+	newfie = TRUE;
     } else
 	prefix = _("File:");
     assert(statelen < space);
     prefixlen = strnlen(prefix, space - statelen);
-    /* If newbuffer is FALSE, we need a space after prefix. */
-    if (!newbuffer && prefixlen + statelen < space)
+    /* If newfie is FALSE, we need a space after prefix. */
+    if (!newfie && prefixlen + statelen < space)
 	prefixlen++;
 
     if (path == NULL)
 	path = filename;
-    space -= prefixlen + statelen;
+    if (space >= prefixlen + statelen)
+	space -= prefixlen + statelen;
+    else
+	space = 0;
 	/* space is now the room we have for the file name. */
-    if (!newbuffer) {
+    if (!newfie) {
 	size_t lenpt = strlenpt(path), start_col;
 
 	if (lenpt > space)
@@ -2317,14 +2320,14 @@ void titlebar(const char *path)
 	    start_col = 0;
 	exppath = display_string(path, start_col, space);
 	dots = (lenpt > space);
-	explen = strlen(exppath);
+	exppathlen = strlen(exppath);
     }
 
     if (!dots) {
 	/* There is room for the whole filename, so we center it. */
-	waddnstr(topwin, hblank, (space - explen) / 3);
+	waddnstr(topwin, hblank, (space - exppathlen) / 3);
 	waddnstr(topwin, prefix, prefixlen);
-	if (!newbuffer) {
+	if (!newfie) {
 	    assert(strlen(prefix) + 1 == prefixlen);
 	    waddch(topwin, ' ');
 	    waddstr(topwin, exppath);
@@ -2332,19 +2335,18 @@ void titlebar(const char *path)
     } else {
 	/* We will say something like "File: ...ename". */
 	waddnstr(topwin, prefix, prefixlen);
-	if (space <= 0 || newbuffer)
+	if (space == 0 || newfie)
 	    goto the_end;
 	waddch(topwin, ' ');
 	waddnstr(topwin, "...", space);
 	if (space <= 3)
 	    goto the_end;
 	space -= 3;
-	assert(explen = space + 3);
+	assert(exppathlen == space + 3);
 	waddnstr(topwin, exppath + 3, space);
     }
 
   the_end:
-
     free(exppath);
 
     if (COLS <= 1 || statelen >= COLS - 1)

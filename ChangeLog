@@ -92,6 +92,11 @@ CVS code -
 	  the paragraph search left us on the magicline, so as to avoid
 	  a segfault. (DLR)
 - winio.c:
+  titlebar()
+	- Rename some variables for consistency, properly handle the
+	  case where the prefix length plus the path length is greater
+	  than the amount of space available, and fix a typo in an
+	  assert(). (DLR)
   unget_kbinput()
 	- Remove the wide character handling, as it didn't work properly
 	  with respect to function keys. (DLR)
