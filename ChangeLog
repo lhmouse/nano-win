@@ -7,8 +7,11 @@ CVS code changes since last release -
 	  do_search() in search.c, globals in nano.h and
 	  shortcut_init() in global.c.
 	- changed 'sprintf' calls to safer 'snprintf' (Rob)
+- cut.c
+	- further totsize update corrections
 - files.c:
 	- changed do_insertfile to call fix_editbot (Rob)
+	- Magic Line code in read_file (Rob)
 - nano.c:
 	- Removed dual alt_speller variables, oops! (Rocco Corsi)
 	- Removed unnecessary do_oldspell function (Rocco Corsi).  Added
@@ -17,10 +20,13 @@ CVS code changes since last release -
 	- Corrected FIXME in do_enter with explanation. (Rob)
 	- Fixed FIXME in do_justify, resulted in creation of
 	  fix_editbot [also fixed in do_enter] (winio.c) (Rob)
+	- Magic Line related code in do_char (Rob)
 - de.po:
 	- Revised translations by floki@bigfoot.com.
 - fi.po:
 	- Finnish translation by pauli.virtanen@saunalahti.fi.
+- utils.c:
+	- Added new_magicline()
 - winio.c:
   do_yesno(), nanogetstr():
 	- Removed now unnecessary raw/cbreak combos.
