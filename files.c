@@ -526,7 +526,8 @@ static char **homedirs;
  */
 char *real_dir_from_tilde (char *buf)
 {
-    char *dirtmp = NULL, *tmp;
+    char *dirtmp = NULL, *line = NULL, byte[1], *lineptr;
+    int fd, i, status, searchctr = 1;
 
     if (buf[0] == '~') {
 
@@ -538,37 +539,87 @@ char *real_dir_from_tilde (char *buf)
 	    }
 	}
 	else if (buf[1] != 0) {
-	    dirtmp = nmalloc(strlen(buf) + 2 + strlen(homedirs[0]));
-	    for (tmp = &buf[2]; *tmp != '/' && *tmp != 0; tmp++);
 
-	    sprintf(dirtmp, "%s%s", homedirs[0], tmp);
+	    if((fd = open("/etc/passwd", O_RDONLY)) == -1)
+		goto abort;
+
+	    /* Figure how how much of of the str we need to compare */
+	    for (searchctr = 1; buf[searchctr] != '/' &&
+			buf[searchctr] != 0; searchctr++)
+		;
+
+	    do {
+		i = 0;
+		line = nmalloc(1);
+		while ((status = read(fd, byte, 1)) != 0 && byte[0] != '\n') {
+
+		    line[i] = byte[0];
+		    i++;
+		    line = nrealloc(line, i+1);
+		}
+		line[i] = 0;
+
+		if (i == 0)
+		     goto abort;
+
+		line[i] = 0;
+		lineptr = strtok(line, ":");
+
+		if (!strncmp(lineptr, &buf[1], searchctr - 1)) {
+
+		    /* Okay, skip to the password portion now */
+		    for (i = 0; i <= 4 && lineptr != NULL; i++)
+			lineptr = strtok(NULL, ":");
+
+		    if (lineptr == NULL)
+			goto abort;
+
+		     /* Else copy the new string into the new buf */
+		    dirtmp = nmalloc(strlen(buf) + 2 + strlen(lineptr));
+
+		    sprintf(dirtmp, "%s%s", lineptr, &buf[searchctr]);
+		    free(line);
+		    break;
+		}
+	
+		free(line);
+
+	    } while (status != 0);
 	}
     }
     else
 	dirtmp = mallocstrcpy(dirtmp, buf);
 
     return dirtmp;	
+
+abort:		
+    dirtmp = mallocstrcpy(dirtmp, buf);
+    return dirtmp;
 }
 
 /* Tack a slash onto the string we're completing if it's a directory */
-void append_slash_if_dir(char *buf, int *lastWasTab, int *place)
+int append_slash_if_dir(char *buf, int *lastWasTab, int *place)
 {
     char *dirptr;
     struct stat fileinfo;
+    int ret = 0;
 
     dirptr = real_dir_from_tilde(buf);
 
     if (stat(dirptr, &fileinfo) == -1)
-    	;
+    	ret = 0;
     else if (S_ISDIR(fileinfo.st_mode)) {
 	strncat(buf, "/", 1);
 	*place += 1;
 	/* now we start over again with # of tabs so far */
 	*lastWasTab = 0;
+	ret = 1;
     }
 
     if (dirptr != buf)
     	free(dirptr);
+
+    return ret;
 }
 
 /*
@@ -766,7 +817,7 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
     static int num_matches = 0, match_matches = 0;
     static char **matches = (char **) NULL;
     int pos = place, i = 0, col = 0, editline = 0;
-    int longestname = 0;
+    int longestname = 0, is_dir = 0;
     char *foo;
 
     if (*lastWasTab == FALSE) {
@@ -829,8 +880,11 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 	    } else
 		tmp = buf;
 
-	    if (!strcmp(tmp, matches[0])) 
-		append_slash_if_dir(buf, lastWasTab, newplace);
+	    if (!strcmp(tmp, matches[0]))
+		is_dir = append_slash_if_dir(buf, lastWasTab, newplace);
+
+	    if (is_dir)
+		break;
 
 	    copyto = tmp;
 	    for (pos = 0; *tmp == matches[0][pos] &&
