@@ -32,5 +32,6 @@ For Next Version:
 - Implement -o (chroot of sorts)
 - Allow -r to take a negative argument, meaning right margin instead of
   left (allows resizing that way), formerly -W arg. [DONE]
+- UTF-8 support.
 
 $Id$
