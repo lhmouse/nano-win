@@ -359,7 +359,7 @@ void usage(void)
     printf(_("Usage: nano [GNU long option] [option] +LINE <file>\n\n"));
     printf(_("Option		Long option		Meaning\n"));
     printf(_
-	   (" -T 		--tabsize=[num]		Set width of a tab to num\n"));
+	   (" -T [num]	--tabsize=[num]		Set width of a tab to num\n"));
 #ifdef HAVE_REGEX_H
     printf(_
 	   (" -R		--regexp		Use regular expressions for search\n"));
