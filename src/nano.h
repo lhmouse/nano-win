@@ -50,8 +50,6 @@
 #include <slcurses.h>
 #define KEY_DC SL_KEY_DELETE
 #define KEY_IC SL_KEY_IC
-#define KEY_RESIZE -1
-#define KEY_SUSPEND -1
 #elif defined(HAVE_NCURSES_H)
 #include <ncurses.h>
 #else /* Uh oh */
@@ -94,11 +92,21 @@
 /* HP-UX 10 & 11 do not seem to support KEY_HOME and KEY_END */
 #ifndef KEY_HOME
 #define KEY_HOME -1
-#endif /* KEY_HOME */
+#endif
 
 #ifndef KEY_END
 #define KEY_END -1
-#endif /* KEY_END */
+#endif
+
+/* Slang and SunOS 5.7 & 5.8 do not seem to support KEY_RESIZE */
+#ifndef KEY_RESIZE
+#define KEY_RESIZE -1
+#endif
+
+/* Slang does not seem to support KEY_SUSPEND */
+#ifndef KEY_SUSPEND
+#define KEY_SUSPEND -1
+#endif
 
 /* Snatch these out of the ncurses defs, so we can use them in search
    history regardless of whether we're using ncurses or not */
