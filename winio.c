@@ -1585,7 +1585,7 @@ void previous_line(void)
 int do_cursorpos(int constant)
 {
     filestruct *fileptr;
-    float linepct = 0.0, bytepct = 0.0;
+    float linepct = 0.0, bytepct = 0.0, colpct = 0.0;
     long i = 0, j = 0;
     static long old_i = -1, old_totsize = -1;
 
@@ -1598,32 +1598,24 @@ int do_cursorpos(int constant)
     if (old_totsize == -1)
 	old_totsize = totsize;
 
-    if (ISSET(RELATIVECHARS)) {
+    if (strlen(current->data) == 0)
+	colpct = 0;
+    else
+	colpct = 100 * current_x / strlen(current->data);
 
-	if (strlen(current->data) == 0)
-	    bytepct = 0;
-	else
-	    bytepct = 100 * current_x / strlen(current->data);
+    for (fileptr = fileage; fileptr != current && fileptr != NULL;
+	 fileptr = fileptr->next)
+	i += strlen(fileptr->data) + 1;
 
-	old_i = -1;
-	i = current_x;
-	j = strlen(current->data);
+    if (fileptr == NULL)
+	return -1;
 
-    } else {
-	for (fileptr = fileage; fileptr != current && fileptr != NULL;
-	     fileptr = fileptr->next)
-	    i += strlen(fileptr->data) + 1;
+    i += current_x;
 
-	if (fileptr == NULL)
-	    return -1;
+    j = totsize;
 
-	i += current_x;
-
-	j = totsize;
-
-	if (totsize > 0)
-	    bytepct = 100 * i / totsize;
-    }
+    if (totsize > 0)
+	bytepct = 100 * i / totsize;
 
     if (totlines > 0)
 	 linepct = 100 * current->lineno / totlines;
@@ -1638,8 +1630,9 @@ int do_cursorpos(int constant)
        character values have changed */
     if (!constant || (old_i != i || old_totsize != totsize)) {
 	statusbar(_
-		  ("line %d of %d (%.0f%%), character %ld of %ld (%.0f%%)"),
-		  current->lineno, totlines, linepct, i, j, bytepct);
+		  ("line %d/%d (%.0f%%), col %ld/%ld (%.0f%%), char %ld/%ld (%.0f%%)"),
+		  current->lineno, totlines, linepct, current_x, 
+		  strlen(current->data), colpct, i, j, bytepct);
     }
 
     old_i = i;

@@ -409,9 +409,6 @@ void usage(void)
     printf(_("Usage: nano [GNU long option] [option] +LINE <file>\n\n"));
     printf(_("Option		Long option		Meaning\n"));
 
-    printf
-	(_
-	 (" -C 		--relative		Show relative col position with ^C\n"));
 #ifndef NANO_SMALL
     printf
 	(_
@@ -492,7 +489,6 @@ void usage(void)
 #else
     printf(_("Usage: nano [option] +LINE <file>\n\n"));
     printf(_("Option		Meaning\n"));
-    printf(_(" -C 		Show relative col position with ^C\n"));
 #ifndef NANO_SMALL
     printf(_(" -D 		Write file in DOS format\n"));
 #endif
@@ -2740,7 +2736,6 @@ int main(int argc, char *argv[])
 	{"smooth", 0, 0, 'S'},
 #endif
 	{"keypad", 0, 0, 'K'},
-	{"relative", 0, 0, 'C'},
 	{0, 0, 0, 0}
     };
 #endif
@@ -2761,18 +2756,15 @@ int main(int argc, char *argv[])
 #endif /* ENABLE_NANORC */
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "h?CDFKMRST:Vabcefgijklmo:pr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "h?DFKMRST:Vabcefgijklmo:pr:s:tvwxz",
 				 long_options, &option_index)) != EOF) {
 #else
     while ((optchr =
-	    getopt(argc, argv, "h?CDFKMRST:Vabcefgijklmo:pr:s:tvwxz")) != EOF) {
+	    getopt(argc, argv, "h?DFKMRST:Vabcefgijklmo:pr:s:tvwxz")) != EOF) {
 #endif
 
 	switch (optchr) {
 
-	case 'C':
-	    SET(RELATIVECHARS);
-	    break;
 #ifndef NANO_SMALL
 	case 'D':
 	    SET(DOS_FILE);

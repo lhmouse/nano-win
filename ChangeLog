@@ -1,15 +1,15 @@
 CVS code -
-- General
-	- New flag RELATIVECHARS to show column positino relative to
-	  the current line instead of the current file.  New flag 
-	  -C, --relative, changes to do_cursorpos().
 - Makefile.am:
 	- Add SYSCONFDIR to DEFS, so we can have an /etc/nanorc.
 	- Change localedir line to 1.0's version.
-- rcfile.c
+- rcfile.c:
   parse_next_rege()
 	- Allow " symbol to be in regex without leading \ by checking
 	  for *ptr+1 is not the end of the regex.
+- winio.c:
+  do_cursorpos()
+	- Rewritten to show col place as well as charcter place, without
+	  needing an entirely separate flag.
 - utils.c:
   strstrwrapper()
 	- NANO_SMALL test was backwards (Ken Tyler).
