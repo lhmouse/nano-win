@@ -12,6 +12,8 @@ General
 	  discovered by David Sobon).
   username_tab_completion()
 	- Optimization and removal of useless vars (Rocco).
+- global.c:
+	- Don't define toggles global or toggle_init_one if using --tiny.
 - nano.c:
   do_justify()
 	- Added restoration of totsize after unjustify command.

@@ -82,7 +82,9 @@ shortcut spell_list[SPELL_LIST_LEN];
 shortcut browser_list[BROWSER_LIST_LEN];
 #endif
 
+#ifndef NANO_SMALL
 toggle toggles[TOGGLE_LEN];
+#endif
 
 /* Regular expressions */
 
@@ -106,6 +108,7 @@ void sc_init_one(shortcut * s, int key, char *desc, char *help, int alt,
     s->func = func;
 }
 
+#ifndef NANO_SMALL
 /* Initialize the toggles in the same manner */
 void toggle_init_one(toggle * t, int val, char *desc, int flag)
 {
@@ -113,6 +116,7 @@ void toggle_init_one(toggle * t, int val, char *desc, int flag)
     t->desc = desc;
     t->flag = flag;
 }
+#endif
 
 void toggle_init(void)
 {
