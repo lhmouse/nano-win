@@ -60,8 +60,10 @@ Cvs code -
 	  files less than 1K being displayed as 0B (Rocco).
   do_writeout()
 	- New code to allow writing selected text to a separate file.
-	  When this is done, the current filename is not changed, the
-	  modification state is preserved, etc.
+	  When this is done, the current state is prserved.
+  write_file()
+	- New arg, nonamechange, means whether or not to update the
+	  current filename after writing the file out.
 - global.c:
 	- Updated some of the lists for the "Goto Directory" code (Rocco)
 - move.c:

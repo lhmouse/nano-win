@@ -334,8 +334,11 @@ int do_insertfile(void)
  *
  * append means, not surprisingly, whether we are appending instead
  * of overwriting.
+ *
+ * nonamechange means don't change the current filename, it is ignored
+ * if tmp == 1.
  */
-int write_file(char *name, int tmp, int append)
+int write_file(char *name, int tmp, int append, int nonamechange)
 {
     long size, lineswritten = 0;
     static char *buf = NULL;
@@ -503,7 +506,9 @@ int write_file(char *name, int tmp, int append)
 		  mask, realname, strerror(errno));
 
     if (!tmp) {
-	filename = mallocstrcpy(filename, realname);
+	if (nonamechange)
+	    filename = mallocstrcpy(filename, realname);
+
 	statusbar(_("Wrote %d lines"), lineswritten);
 	UNSET(MODIFIED);
 	titlebar(NULL);
@@ -528,7 +533,7 @@ int do_writeout(char *path, int exiting, int append)
 
     if ((exiting) && (ISSET(TEMP_OPT))) {
 	if (filename[0]) {
-	    i = write_file(answer, 0, 0);
+	    i = write_file(answer, 0, 0, 0);
 	    display_main_list();
 	    return i;
 	} else {
@@ -595,14 +600,12 @@ int do_writeout(char *path, int exiting, int append)
 	/* Here's where we allow the selected text to be written to 
 	   a separate file. */
 	if (ISSET(MARK_ISSET) && !exiting) {
-	    char *backup = NULL;
 	    filestruct *fileagebak = fileage;	
 	    filestruct *filebotbak = filebot;
 	    filestruct *cutback = cutbuffer;
 	    int oldmod = 0;
 
 	    /* Okay, since write_file changes the filename, back it up */
-	    backup = mallocstrcpy(backup, filename);
 	    if (ISSET(MODIFIED))
 		oldmod = 1;
 
@@ -619,10 +622,9 @@ int do_writeout(char *path, int exiting, int append)
 	    for (filebot = cutbuffer; filebot->next != NULL; 
 			filebot = filebot->next)
 		;
-	    i = write_file(answer, 0, append);
+	    i = write_file(answer, 0, append, 1);
 
 	    /* Now restore everything */
-	    backup = mallocstrcpy(filename, backup);
 	    fileage = fileagebak;
 	    filebot = filebotbak;
 	    cutbuffer = cutback;
@@ -630,7 +632,7 @@ int do_writeout(char *path, int exiting, int append)
 		set_modified();
 	} else
 #endif
-	    i = write_file(answer, 0, append);
+	    i = write_file(answer, 0, append, 0);
 	
 	    display_main_list();
 	    return i;
