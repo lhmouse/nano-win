@@ -2583,8 +2583,8 @@ void do_justify(int full_justify)
 
 		    /* Don't go to the next line.  Accordingly, don't
 		     * allow changing the spacing at the end of the
-		     * previous justified line, since we've already done
-		     * it once. */
+		     * previous justified line, so that we don't end up
+		     * doing it more than once on the same line. */
 		    allow_respacing = FALSE;
 		} else {
 		    charmove(current->next->data + indent_len,
