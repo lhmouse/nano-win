@@ -1,3 +1,9 @@
+2003-11-06  Jordi Mallach  <jordi@gnu.org>
+
+	* sr.po: Added Serbian translation by Danilo Segan <dsegan@gmx.net>.
+	* LINGUAS: Added "sr" (Serbian), and alphabetize.
+	* ChangeLog: Recoded as UTF-8.
+
 2003-10-30  Jordi Mallach  <jordi@gnu.org>
 
 	* fi.po: Patch from Martin-Eric Racine <q-funk@pp.fishpool.fi>
@@ -14,7 +20,7 @@
 
 2003-09-01  Jordi Mallach  <jordi@gnu.org>
 
-	* fr.po: Updated French translation by Jean-Philippe Guérard.
+	* fr.po: Updated French translation by Jean-Philippe GuÃ©rard.
 
 2003-08-17  Jordi Mallach  <jordi@gnu.org>
 
@@ -26,11 +32,11 @@
 
 2003-06-11  Jordi Mallach  <jordi@gnu.org>
 
-	* nb.po: Updated Norwegian bokmål translation by Geir Helland.
+	* nb.po: Updated Norwegian bokmÃ¥l translation by Geir Helland.
 
 2003-06-10  Jordi Mallach  <jordi@gnu.org>
 
-	* fr.po: Updated French translation by Jean-Philippe Guérard.
+	* fr.po: Updated French translation by Jean-Philippe GuÃ©rard.
 
 2003-06-02  Jordi Mallach  <jordi@gnu.org>
 
@@ -52,7 +58,7 @@
 
 2003-04-04  Jordi Mallach  <jordi@gnu.org>
 
-	* fr.po: Updated French translation by Jean-Philippe Guérard.
+	* fr.po: Updated French translation by Jean-Philippe GuÃ©rard.
 
 2003-03-17  Jordi Mallach  <jordi@gnu.org>
 
@@ -74,7 +80,7 @@
 2003-02-19  Jordi Mallach  <jordi@gnu.org>
 
 	* fi.po: Updated Finnish translation by Kalle Olavi Niemitalo.
-	* es.po: Updated Spanish translation by Ricardo Javier Cárdenes
+	* es.po: Updated Spanish translation by Ricardo Javier CÃ¡rdenes
 	Medina.
 
 2003-02-17  Jordi Mallach  <jordi@gnu.org>
@@ -85,12 +91,12 @@
 
 2003-02-16  Jordi Mallach  <jordi@gnu.org>
 
-	* gl.po: Updated Galician translation by Jacobo Tarrío.
-	* fr.po: Updated French translation by Jean-Philippe Guérard.
+	* gl.po: Updated Galician translation by Jacobo TarrÃ­o.
+	* fr.po: Updated French translation by Jean-Philippe GuÃ©rard.
 
 2003-02-15  Jordi Mallach  <jordi@gnu.org>
 
-	* fr.po: Updated French translation by Jean-Philippe Guérard.
+	* fr.po: Updated French translation by Jean-Philippe GuÃ©rard.
 	* nl.po: Updated Dutch translation by Guus Sliepen.
 	* sv.po: Updated Swedish translation by Christian Rose.
 	* ca.po: Updated Catalan translation.
@@ -117,8 +123,8 @@
 2003-02-08  Jordi Mallach  <jordi@gnu.org>
 
 	* it.po: Updated Italian translation by Marco Colombo.
-	* gl.po: Updated Galician translation by Jacobo Tarrío.
-	* es.po: Updated Spanish translation by Ricardo Javier Cárdenes
+	* gl.po: Updated Galician translation by Jacobo TarrÃ­o.
+	* es.po: Updated Spanish translation by Ricardo Javier CÃ¡rdenes
 	Medina.
 
 2003-02-06  Jordi Mallach  <jordi@gnu.org>
@@ -129,13 +135,13 @@
 2003-02-04  Jordi Mallach  <jordi@gnu.org>
 
 	* ca.po: Updated Catalan translation.
-	* fr.po: Updated French translation by Jean-Philippe Guérard.
+	* fr.po: Updated French translation by Jean-Philippe GuÃ©rard.
 	* uk.po: Updated Ukrainian translation by Sergey A. Ribalchenko.
 	* de.po: Updated German translation by Michael Piefel.
 
 2003-01-27  Jordi Mallach  <jordi@gnu.org>
 
-	* es.po: Updated translation by Ricardo Javier Cárdenes Medina.
+	* es.po: Updated translation by Ricardo Javier CÃ¡rdenes Medina.
 
 2002-01-26  Jordi Mallach  <jordi@gnu.org>
 
@@ -143,7 +149,7 @@
 
 2002-01-25  Jordi Mallach  <jordi@gnu.org>
 
-	* gl.po: Updated translation by Jacobo Tarrío.
+	* gl.po: Updated translation by Jacobo TarrÃ­o.
 
 2002-01-22  Jordi Mallach  <jordi@gnu.org>
 
@@ -151,13 +157,13 @@
 
 2003-01-21  Jordi Mallach  <jordi@gnu.org>
 
-	* fr.po: Updated translation by Jean-Philippe Guérard.
+	* fr.po: Updated translation by Jean-Philippe GuÃ©rard.
 	* ms.po: Updated translation by Sharuzzaman Ahmat Raslan.
 	* uk.po: Updated translation by Sergey A. Ribalchenko. 
 
 2003-01-18  Jordi Mallach  <jordi@gnu.org>
 
-	* fr.po: Updated translation by Jean-Philippe Guérard.
+	* fr.po: Updated translation by Jean-Philippe GuÃ©rard.
 	* sv.po: Updated translation by Christian Rose.
 	* nl.po: Updated translation by Guus Sliepen.
 	* ca.po: Updated translation.
@@ -181,7 +187,7 @@
 
 2002-12-14  Jordi Mallach  <jordi@sindominio.net>
 
-	* fr.po: Updated translation by Jean-Philippe Guérard.
+	* fr.po: Updated translation by Jean-Philippe GuÃ©rard.
 	* tr.po: New Turkish translation by Doruk Fisek.
 
 2002-11-10  Jordi Mallach  <jordi@sindominio.net>
@@ -201,22 +207,22 @@
 2002-10-29  Jordi Mallach  <jordi@sindominio.net>
 
 	* id.po: Updated translation by Tedi Heriyanto.
-	* fr.po: Updated translation by Jean-Philippe Guérard.
+	* fr.po: Updated translation by Jean-Philippe GuÃ©rard.
 
 2002-10-27  Jordi Mallach  <jordi@sindominio.net>
 
-	* fr.po: Updated translation by Jean-Philippe Guérard.
+	* fr.po: Updated translation by Jean-Philippe GuÃ©rard.
 
 2002-10-26  Jordi Mallach  <jordi@sindominio.net>
 
-	* es.po: Updated translation by Ricardo Javier Cárdenes Medina.
+	* es.po: Updated translation by Ricardo Javier CÃ¡rdenes Medina.
 
 2002-10-26  Jordi Mallach  <jordi@sindominio.net>
 
-	* gl.po: Updated translation by Jacobo Tarrío.
+	* gl.po: Updated translation by Jacobo TarrÃ­o.
 	* sv.po: Updated translation by Christian Rose.
 	* de.po: Updated translation by Michael Piefel.
-	* fr.po: Updated translation by Jean-Philippe Guérard.
+	* fr.po: Updated translation by Jean-Philippe GuÃ©rard.
 	* ca.po: Updated translation.
 
 2002-10-17  Jordi Mallach  <jordi@sindominio.net>
@@ -225,11 +231,11 @@
 
 2002-10-14  Jordi Mallach  <jordi@sindominio.net>
 
-	* fr.po: Updated translation by Jean-Philippe Guérard.
+	* fr.po: Updated translation by Jean-Philippe GuÃ©rard.
 
 2002-10-13  Jordi Mallach  <jordi@sindominio.net>
 
-	* es.po: Updated translation by Ricardo Javier Cárdenes Medina.
+	* es.po: Updated translation by Ricardo Javier CÃ¡rdenes Medina.
 
 2002-10-08  Jordi Mallach  <jordi@sindominio.net>
 
@@ -247,7 +253,7 @@
 2002-10-07  Jordi Mallach  <jordi@sindominio.net>
 
 	* sv.po: Updated translation by Christian Rose.
-	* gl.po: Updated translation by Jacobo Tarrío.
+	* gl.po: Updated translation by Jacobo TarrÃ­o.
 	* pl.po: Updated translation by Wojciech Kotwica.
 
 2002-09-08  Jordi Mallach  <jordi@sindominio.net>
@@ -256,7 +262,7 @@
 
 2002-09-08  Jordi Mallach  <jordi@sindominio.net>
 
-	* fr.po: Updated translation by Jean-Philippe Guérard. 
+	* fr.po: Updated translation by Jean-Philippe GuÃ©rard. 
 	* da.po: Updated translation by Keld Simonsen.
 
 2002-08-19  Jordi Mallach  <jordi@sindominio.net>
@@ -266,15 +272,15 @@
 
 2002-07-31  Jordi Mallach  <jordi@sindominio.net>
 
-	* gl.po: Updated translation by Jacobo Tarrío.
+	* gl.po: Updated translation by Jacobo TarrÃ­o.
 
 2002-07-31  Jordi Mallach  <jordi@sindominio.net>
 
-	* es.po: Updated translation by Ricardo Javier Cárdenes Medina.
+	* es.po: Updated translation by Ricardo Javier CÃ¡rdenes Medina.
 
 2002-07-31  Jordi Mallach  <jordi@sindominio.net>
 
-	* fr.po: Updated translation by Jean-Philippe Guérard.
+	* fr.po: Updated translation by Jean-Philippe GuÃ©rard.
 
 2002-07-30  Jordi Mallach  <jordi@sindominio.net>
 
@@ -324,13 +330,13 @@
 
 2002-05-13  Jordi Mallach  <jordi@sindominio.net>
 
-	* fr.po: Updated translation by Jean-Philippe Guérard.
+	* fr.po: Updated translation by Jean-Philippe GuÃ©rard.
 	* de.po: Updated translation by Michael Piefel.
 
 2002-05-13  Jordi Mallach  <jordi@sindominio.net>
 
 	* it.po: Updated translation by Marco Colombo.
-	* gl.po: Updated translation by Jacobo Tarrío.
+	* gl.po: Updated translation by Jacobo TarrÃ­o.
 	* ca.po: Updated translation.
 	* es.po: Updated translation.
 
@@ -367,7 +373,7 @@
 
 	* gl.po: Updated translation by Jacobo Tarrio.
 	* de.po: Updated translation by Michael Piefel.
-	* fr.po: Updated translation by Jean-Philippe Guérard.
+	* fr.po: Updated translation by Jean-Philippe GuÃ©rard.
 	* ca.po: Updated.
 	* es.po: Updated.
 
@@ -385,7 +391,7 @@
 
 2002-03-17  Jordi Mallach  <jordi@sindominio.net>
 
-	* fr.po: Updated translation by Jean-Philippe Guérard.
+	* fr.po: Updated translation by Jean-Philippe GuÃ©rard.
 
 2002-03-15  Jordi Mallach  <jordi@sindominio.net>
 
@@ -408,7 +414,7 @@
 
 2002-03-11  Jordi Mallach  <jordi@sindominio.net>
 
-	* fr.po: Updated translation by Jean-Philippe Guérard.
+	* fr.po: Updated translation by Jean-Philippe GuÃ©rard.
 
 2002-03-09  Jordi Mallach  <jordi@sindominio.net>
 
@@ -456,7 +462,7 @@
 
 2002-02-06  Jordi Mallach  <jordi@sindominio.net>
 
-	* cs.po: Incomplete update by Václav Haisman.
+	* cs.po: Incomplete update by VÃ¡clav Haisman.
 
 2002-01-27  Jordi Mallach  <jordi@sindominio.net>
 
@@ -464,14 +470,14 @@
 
 2002-01-26  Jordi Mallach  <jordi@sindominio.net>
 
-	* fr.po: Updated translation by Jean-Philippe Guérard.
+	* fr.po: Updated translation by Jean-Philippe GuÃ©rard.
 	* nn.po: Updated translation by Kjetil Torgrim Homme.
 	* de.po: Updated translation by Michael Piefel.
 
 2002-01-25  Jordi Mallach  <jordi@sindominio.net>
 
 	* sv.po: Updated translation by Christian Rose.
-	* fr.po: Updated translation by Jean-Philippe Guérard.
+	* fr.po: Updated translation by Jean-Philippe GuÃ©rard.
 
 2002-01-25  Jordi Mallach  <jordi@sindominio.net>
 
@@ -502,21 +508,21 @@
 
 	* no.po: Removed, replaced by nn.po.
 	* nn.po: Updated translation by Kjetil Torgrim Homme.
-	* nb.po: New Norwegian bokmål translation by Stig E Sandoe.
+	* nb.po: New Norwegian bokmÃ¥l translation by Stig E Sandoe.
 
 2002-01-12  Jordi Mallach  <jordi@sindominio.net>
 
-	* fr.po: Updated translation by Jean-Philippe Guérard.
+	* fr.po: Updated translation by Jean-Philippe GuÃ©rard.
 
 2002-01-10  Jordi Mallach  <jordi@sindominio.net>
 
-	* fr.po: Updated translation by Jean-Philippe Guérard.
+	* fr.po: Updated translation by Jean-Philippe GuÃ©rard.
 
 2002-01-08  Jordi Mallach  <jordi@sindominio.net>
 
 	* ru.po, uk.po: Updated translations by Sergey A.
 	Ribalchenko.
-	* fr.po: Updated translation by Jean-Philippe Guérard.
+	* fr.po: Updated translation by Jean-Philippe GuÃ©rard.
 
 2002-01-07  Jordi Mallach  <jordi@sindominio.net>
 
