@@ -11,6 +11,10 @@ CVS code -
 	- Swedish translation updates (Christian Rose).
 - po/fr.po:
 	- French translation updates (Jean-Philippe Guérard).
+- po/nn.po:
+	- Norwegian nynorsk translation updates (Kjetil Torgrim Homme).
+- po/de.po:
+	- German translation updates (Michael Piefel).
 
 nano-1.1.6 - 01/25/2002
 - General

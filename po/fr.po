@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.6\n"
 "POT-Creation-Date: 2002-01-22 20:01-0500\n"
-"PO-Revision-Date: 2002-01-25 23:30+0100\n"
+"PO-Revision-Date: 2002-01-26 00:30+0100\n"
 "Last-Translator: Jean-Philippe Guérard <jean-philippe.guerard@laposte.net>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -177,7 +177,7 @@ msgstr "Impossible d'ouvrir « %s » : %s"
 
 #: files.c:2290 global.c:296
 msgid "Goto Directory"
-msgstr "Changement de répertoire"
+msgstr "Changer de répertoire"
 
 #: files.c:2297
 #, c-format
@@ -198,7 +198,7 @@ msgstr "Indentation automatique"
 
 #: global.c:169
 msgid "Suspend"
-msgstr "Autorisation de suspendre"
+msgstr "Autoriser à suspendre"
 
 #: global.c:170
 msgid "Help mode"
@@ -210,11 +210,11 @@ msgstr "Mode Pico"
 
 #: global.c:172
 msgid "Mouse support"
-msgstr "Utilisation de la souris"
+msgstr "Utiliser la souris"
 
 #: global.c:173
 msgid "Cut to end"
-msgstr "Couper jusqu'à la fin"
+msgstr "Couper jusqu'en fin de ligne"
 
 #: global.c:174
 msgid "Backwards search"
@@ -242,7 +242,7 @@ msgstr "Expressions rationnelles"
 
 #: global.c:183
 msgid "Auto wrap"
-msgstr "Passage à la ligne automatique"
+msgstr "Passer à la ligne automatiquement"
 
 #: global.c:186
 msgid "Multiple file buffers"
@@ -398,7 +398,7 @@ msgstr "Recherche vers l'arrière"
 
 #: global.c:301
 msgid "Use Regular expressions"
-msgstr "Utilisation d'expressions rationnelles"
+msgstr "Utiliser des expressions rationnelles"
 
 #: global.c:302
 msgid "Find other bracket"
@@ -664,7 +664,7 @@ msgstr " -i \t\t--autoindent\t\tIndentation automatique\n"
 
 #: nano.c:450
 msgid " -k \t\t--cut\t\t\tLet ^K cut from cursor to end of line\n"
-msgstr " -k \t\t--cut\t\t\t^K pour couper jusqu'en fin de ligne\n"
+msgstr " -k \t\t--cut\t\t\t^K coupe du curseur à la fin de ligne\n"
 
 #: nano.c:453
 msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
@@ -768,7 +768,7 @@ msgstr " -i \t\tIndentation automatique des nouvelles lignes\n"
 
 #: nano.c:512
 msgid " -k \t\tLet ^K cut from cursor to end of line\n"
-msgstr " -k \t\t^K pour couper jusqu'en fin de ligne\n"
+msgstr " -k \t\t^K coupe du curseur à la fin de ligne\n"
 
 #: nano.c:515
 msgid " -l \t\tDon't follow symbolic links, overwrite\n"
