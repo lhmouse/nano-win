@@ -72,6 +72,10 @@ rcoption rcopts[NUM_RCOPTS] =
 {"smooth", SMOOTHSCROLL},
 {"keypad", ALT_KEYPAD}};
 
+static int errors = 0;
+static int lineno = 0;
+static char *nanorc;
+
 /* We have an error in some part of the rcfile; put it on stderr and
   make the user hit return to continue starting up nano */
 void rcfile_error(char *msg, ...)
@@ -79,6 +83,7 @@ void rcfile_error(char *msg, ...)
     va_list ap;
 
     fprintf(stderr, "\n");
+    fprintf(stderr, _("Error in %s on line %d: "), nanorc, lineno);
     va_start(ap, msg);
     vfprintf(stderr, msg, ap);
     va_end(ap);
@@ -90,12 +95,12 @@ void rcfile_error(char *msg, ...)
 }
 
 /* Just print the error (one of many, perhaps) but don't abort, yet */
-void rcfile_msg(int *errors, char *msg, ...)
+void rcfile_msg(char *msg, ...)
 {
     va_list ap;
 
-    if (!*errors) {
-	*errors = 1;
+    if (!errors) {
+	errors = 1;
 	fprintf(stderr, "\n");
     }
     va_start(ap, msg);
@@ -108,12 +113,17 @@ void rcfile_msg(int *errors, char *msg, ...)
 /* Parse the next word from the string.  Returns NULL if we hit EOL */
 char *parse_next_word(char *ptr)
 {
-    while (*ptr != ' ' && *ptr != '\t' && *ptr != '\n' && *ptr != '\0')
+    char *prev = " ";
+
+    while ((*ptr != ' ' || *prev == '\\')
+	   && *ptr != '\t' && *ptr != '\n' && *ptr != '\0') {
 	ptr++;
+	prev = ptr;
+    }
 
     if (*ptr == '\0')
 	return NULL;
-	
+
     /* Null terminate and advance ptr */
     *ptr++ = 0;
 
@@ -123,7 +133,7 @@ char *parse_next_word(char *ptr)
     return ptr;
 }
 
-int colortoint(char *colorname, int *bright, char *filename, int *lineno) 
+int colortoint(char *colorname, int *bright) 
 {
     int mcolor = 0;
 
@@ -152,11 +162,10 @@ int colortoint(char *colorname, int *bright, char *filename, int *lineno)
     else if (!strcasecmp(colorname, "black"))
 	mcolor += COLOR_BLACK;
     else {
-	printf("Error in %s on line %d: color %s not understood.\n",
-		filename, *lineno, colorname);
-	printf("Valid colors are \"green\", \"red\", \"blue\", "
-	       "\"white\", \"yellow\", \"cyan\", \"magenta\" and "
-	       "\"black\", with the optional prefix \"bright\".\n");
+        rcfile_error(_("color %s not understood.\n"
+		"Valid colors are \"green\", \"red\", \"blue\", \n"
+		"\"white\", \"yellow\", \"cyan\", \"magenta\" and \n"
+		"\"black\", with the optional prefix \"bright\".\n"));
 	exit(1);
     }
 
@@ -166,9 +175,10 @@ int colortoint(char *colorname, int *bright, char *filename, int *lineno)
 
 #ifdef ENABLE_COLOR
 /* Parse the color stuff into the colorstrings array */
-void parse_colors(FILE *rcstream, char *filename, int *lineno, char *buf, char *ptr)
+void parse_colors(FILE *rcstream, char *buf, char *ptr)
 {
-    int i = 0, fg, bg, bright = 0;
+    int i = 0, fg, bg, bright = 0, loopdone = 0;
+    int expectend = 0;			/* Do we expect an end= line? */
     char prev = '\\';
     char *tmp = NULL, *beginning, *fgstr, *bgstr;
     colortype *tmpcolor = NULL;
@@ -177,8 +187,7 @@ void parse_colors(FILE *rcstream, char *filename, int *lineno, char *buf, char *
     ptr = parse_next_word(ptr);
 
     if (ptr == NULL) {
-	printf("Error in %s on line %d: Missing color name.\n",
-		filename, *lineno);
+	rcfile_error(_("Missing color name"));
 	exit(1);
     }
 
@@ -188,29 +197,39 @@ void parse_colors(FILE *rcstream, char *filename, int *lineno, char *buf, char *
     } else
 	bgstr = NULL;
 
-    fg = colortoint(fgstr, &bright, filename, lineno);
-    bg = colortoint(bgstr, &bright, filename, lineno);
+    fg = colortoint(fgstr, &bright);
+    bg = colortoint(bgstr, &bright);
 
     /* Now the fun part, start adding regexps to individual strings
 	in the colorstrings array, woo! */
 
+    if (!strncasecmp(ptr, "start=", 6)) {
+	ptr += 6;
+	expectend = 1;
+    }
+
     i = 0;
     beginning = ptr;
-    while (*ptr != '\0') {
+    while (*ptr != '\0' && !loopdone) {
 	switch (*ptr) {
 	case '\n':
 	    *ptr = ' ';
-/*	    i++; */
 	case ' ':
 	    if (prev != '\\') {
 		/* This is the end of the regex, uh I guess.
 		   Add it to the colorstrings array for this color */	
+
+		if (i == 0) {
+		    rcfile_error(_("regex length much be > 0"));
+		    continue;
+		}
 		
  		tmp = NULL;
 		tmp = charalloc(i + 1);
 		strncpy(tmp, beginning, i);
 		tmp[i] = '\0';
 
+		/* Get rid of the leading space */
 		ptr = parse_next_word(ptr);
 		if (ptr == NULL)
 		    return;
@@ -220,31 +239,39 @@ void parse_colors(FILE *rcstream, char *filename, int *lineno, char *buf, char *
 		    colorstrings->fg = fg;
 		    colorstrings->bg = bg;
 		    colorstrings->bright = bright;
-		    colorstrings->str = NULL;
-		    colorstrings->str = nmalloc(sizeof(colorstr));
-		    colorstrings->str->val = tmp;
-		    colorstrings->str->next = NULL;
+		    colorstrings->start = tmp;
 		    colorstrings->next = NULL;
+		    tmpcolor = colorstrings;
+
+#ifdef DEBUG
+		    fprintf(stderr, "Starting a new colorstring for fg %d bg %d\n", fg, bg);
+		    fprintf(stderr, "string val=%s\n", tmp);
+#endif
+
 		} else {
 		    for (tmpcolor = colorstrings; tmpcolor->next != NULL;
 			  tmpcolor = tmpcolor->next)
 			;
 #ifdef DEBUG
 		    fprintf(stderr, "Adding new entry for fg %d bg %d\n", fg, bg);
+		    fprintf(stderr, "string val=%s\n", tmp);
 #endif
 
 		    tmpcolor->next = nmalloc(sizeof(colortype));
 		    tmpcolor->next->fg = fg;
 		    tmpcolor->next->bg = bg;
 		    tmpcolor->next->bright = bright;
-		    tmpcolor->next->str = nmalloc(sizeof(colorstr));
-		    tmpcolor->next->str->val = tmp;
-		    tmpcolor->next->str->next = NULL;
+		    tmpcolor->next->start = tmp;
 		    tmpcolor->next->next = NULL;
+		    tmpcolor = tmpcolor->next;
 		}
 
 		i = 0;
 		beginning = ptr;
+
+		if (expectend)
+		    loopdone = 1;
+
 		break;
 	    }
 	    /* Else drop through to the default case */		
@@ -256,15 +283,34 @@ void parse_colors(FILE *rcstream, char *filename, int *lineno, char *buf, char *
 	}
     }
 
+    if (expectend) {
+	if (ptr == NULL || strncasecmp(ptr, "end=", 4)) {
+	    rcfile_error(
+		_("\n\t\"start=\" requires a corresponding \"end=\""));
+	    return;
+	}
+
+	ptr += 4;
+	beginning = ptr;
+	ptr = parse_next_word(ptr);
+#ifdef DEBUG
+	fprintf(stderr, "For end part, beginning = \"%s\"\n", beginning);
+#endif
+	tmp = NULL;
+	tmp = mallocstrcpy(tmp, beginning);
+	tmpcolor->end = tmp;
+
+    }
+
+
 }
 #endif /* ENABLE_COLOR */
 
 /* Parse the RC file, once it has been opened successfully */
-void parse_rcfile(FILE *rcstream, char *filename)
+void parse_rcfile(FILE *rcstream)
 {
     char *buf, *ptr, *keyword, *option;
-    int set = 0, lineno = 0, i;
-    int errors = 0;
+    int set = 0, i;
 
     buf = charalloc(1024);
     while (fgets(buf, 1023, rcstream) > 0) {
@@ -297,11 +343,10 @@ void parse_rcfile(FILE *rcstream, char *filename)
 	    set = -1;
 #ifdef ENABLE_COLOR
 	else if (!strcasecmp(keyword, "color"))
-	    parse_colors(rcstream, filename, &lineno, buf, ptr);
+	    parse_colors(rcstream, buf, ptr);
 #endif /* ENABLE_COLOR */
 	else {
-	    rcfile_msg(&errors, _("Error in %s on line %d: command %s not understood"),
-		filename, lineno, keyword);
+	    rcfile_msg(_("command %s not understood"), keyword);
 	    continue;
 	}
 
@@ -331,8 +376,8 @@ void parse_rcfile(FILE *rcstream, char *filename)
 			   ) {
 
 			    if (*ptr == '\n' || *ptr == '\0') {
-	    			rcfile_msg(&errors, _("Error in %s on line %d: option %s requires an argument"),
-						filename, lineno, rcopts[i].name);
+	    			rcfile_error(_("option %s requires an argument"),
+						rcopts[i].name);
 				continue;
 			    }
 			    option = ptr;
@@ -341,18 +386,16 @@ void parse_rcfile(FILE *rcstream, char *filename)
 #ifndef DISABLE_WRAPJUSTIFY
 
 				if ((i = atoi(option)) < MIN_FILL_LENGTH) {
-	    		 	    rcfile_msg(&errors, 
-		_("Error in %s on line %d: requested fill size %d too small"),
-						filename, lineno, i);
+	    		 	    rcfile_error(
+		_("requested fill size %d too small"), i);
 				}
 				else
 				     fill = i;
 #endif
 			    } else if (!strcasecmp(rcopts[i].name, "tabsize")) {
 			    	if ((i = atoi(option)) <= 0) {
-			    		rcfile_msg(&errors,
-			    			_("Error in %s on line %d: requested tab size %d too small"),
-			    				filename, lineno, i);
+			    		rcfile_error(
+			    		_("requested tab size %d too small"), i);
 			    	} else {
 			    		tabsize = i;
 			    	}
@@ -387,7 +430,6 @@ void parse_rcfile(FILE *rcstream, char *filename)
 /* The main rc file function, tries to open the rc file */
 void do_rcfile(void)
 {
-    char *nanorc;
     char *unable = _("Unable to open ~/.nanorc file, %s");
     struct stat fileinfo;
     FILE *rcstream;
@@ -413,7 +455,7 @@ void do_rcfile(void)
 	return;
     }
 
-    parse_rcfile(rcstream, nanorc);
+    parse_rcfile(rcstream);
     fclose(rcstream);
 
 }

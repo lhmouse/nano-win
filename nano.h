@@ -121,17 +121,13 @@ typedef struct rcoption {
 
 #define COLORSTRNUM 16
 
-typedef struct colorstr {
-    char *val;
-    struct colorstr *next;
-} colorstr;
-
 typedef struct colortype {
     int fg;
     int bg;
     int bright;
     int pairnum;
-    colorstr *str;
+    char *start;
+    char *end;
     struct colortype *next;
 } colortype;
 

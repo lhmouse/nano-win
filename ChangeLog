@@ -11,6 +11,10 @@ CVS code -
   do_colorinit()
 	- Moved some comments and braces around so color can work 
 	  w/slang (DLR).
+- global.c:
+  shorcut_init()
+	- Replace hard coded ALT_G and ALT_H values in the replace
+	  and goto shortcuts with their macro counterparts NANO_ALT_*_KEY.	
 - nano.c:
   usage()
   	- Remove extra \n in --keypad description (Jordi).
@@ -26,10 +30,22 @@ CVS code -
   version()
   	- Show --enable-multibuffer independently of --enable-extra being
 	  compiled in (Jordi).
-- global.c:
-  shorcut_init()
-	- Replace hard coded ALT_G and ALT_H values in the replace
-	  and goto shortcuts with their macro counterparts NANO_ALT_*_KEY.	
+- nano.h:
+	- Changed color struct slightly, because of previous issue with
+	  applying color painting in order, the "str" portion was 
+	  uselss.  Renamed "val" in colortype to "start", added "end"
+	  for multi-line color strings.
+- rcfile.c:
+  General
+	- Took silly variables being passed everywhere like lineno and
+	  filename and made them static variables.
+  rcfile_error()
+	- Now automatically prpends the "error in line blah at foo"
+	  message to error messages.
+  parse_colors()
+	- Added section for computing "end" section.
+  parse_next_word()
+	- Added support for "\ ", in word parsing.
 - search.c:
   findnextstr()
 	- Fix off by one in check for wrap around (Rocco Corsi).
@@ -37,6 +53,11 @@ CVS code -
   edit_refresh()
 	- Rename lines to nlines to fix AIX breakage (reported by
 	  Dennis Cranston, re-reported by arh14@cornell.edu).
+  edit_add()
+	- Refuse to honor regex matches of 0 characters when applying
+	  color highlighting, and say so on the statusbar.  Otherwise
+	  we go into an infinite loop, the error message should clue
+	  users into the fact that their regex is doing something bad.
 - THANKS:
 	- Oops, correct Eivind's entry. His translation was Norwegian nynorsk,
 	  not bokmål as we claimed (Jordi).

@@ -773,7 +773,6 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 
 #ifdef ENABLE_COLOR
     colortype *tmpcolor = NULL;
-    colorstr *tmpstr = NULL;
     int k, paintlen;
 #endif
 
@@ -787,13 +786,16 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 #ifdef ENABLE_COLOR
     if (colorstrings != NULL)
 	for (tmpcolor = colorstrings; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
-	    for (tmpstr = tmpcolor->str; tmpstr != NULL; tmpstr = tmpstr->next) {
 
 		k = start;
-		regcomp(&search_regexp, tmpstr->val, 0);
+		regcomp(&search_regexp, tmpcolor->start, 0);
 		while (!regexec(&search_regexp, &fileptr->data[k], 1, 
 		    regmatches, 0)) {
 
+		    if (regmatches[0].rm_eo - regmatches[0].rm_so < 1) {
+			statusbar("Refusing 0 length regex match"); 
+			break;
+		    }
 #ifdef DEBUG
 		    fprintf(stderr, "Match! (%d chars) \"%s\"\n",
 			regmatches[0].rm_eo - regmatches[0].rm_so,
@@ -821,7 +823,6 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 		    wattroff(edit, COLOR_PAIR(tmpcolor->pairnum));
 
 		    k += regmatches[0].rm_eo;
-		}
 	    }
 	}
 #endif /* ENABLE_COLOR */
