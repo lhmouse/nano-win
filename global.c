@@ -125,7 +125,7 @@ regmatch_t regmatches[10];	/* Match positions for parenthetical
 				   subexpressions, max of 10 */
 #ifdef ENABLE_COLOR
 regex_t color_regexp;		/* Global to store compiled search regexp */
-regmatch_t colormatches;	/* Match positions for parenthetical */
+regmatch_t colormatches[1];	/* Match positions for parenthetical */
 #endif /* ENABLE_COLOR */
 
 #endif
