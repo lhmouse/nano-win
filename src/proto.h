@@ -158,7 +158,7 @@ void load_file(int update);
 void new_file(void);
 filestruct *read_line(char *buf, filestruct *prev, int *line1ins, size_t
 	len);
-int read_file(FILE *f, const char *filename, int quiet);
+void read_file(FILE *f, const char *filename, int quiet);
 int open_file(const char *filename, int insert, int quiet);
 char *get_next_filename(const char *name);
 void do_insertfile(int loading_file);

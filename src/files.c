@@ -154,7 +154,7 @@ filestruct *read_line(char *buf, filestruct *prev, int *line1ins, size_t
     return fileptr;
 }
 
-int read_file(FILE *f, const char *filename, int quiet)
+void read_file(FILE *f, const char *filename, int quiet)
 {
     int num_lines = 0, len = 0;
     char input = '\0';		/* current input character */
@@ -336,7 +336,7 @@ int read_file(FILE *f, const char *filename, int quiet)
 
     totlines += num_lines;
 
-    return 1;
+    return;
 }
 
 /* Open the file (and decide if it exists). */
@@ -552,12 +552,13 @@ void do_insertfile(int loading_file)
 	if (i == NANO_EXTCMD_KEY) {
 	    realname = mallocstrcpy(realname, "");
 	    i = open_pipe(answer);
-	} else
-#endif /* NANO_SMALL */
-	{
+	} else {
+#endif
 	    realname = real_dir_from_tilde(answer);
 	    i = open_file(realname, 1, loading_file);
+#ifndef NANO_SMALL
 	}
+#endif
 
 #ifdef ENABLE_MULTIBUFFER
 	if (loading_file) {
