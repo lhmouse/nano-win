@@ -1,3 +1,5 @@
+CVS code -
+
 nano-1.1.2 - 10/03/2001
 - General
 	- Added BUGS #63 & 64.  Fixes in search_init() and nanogetstr(),
