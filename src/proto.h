@@ -467,12 +467,14 @@ const char *revstristr(const char *haystack, const char *needle, const
 #ifndef HAVE_STRNLEN
 size_t nstrnlen(const char *s, size_t maxlen);
 #endif
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 #ifndef HAVE_GETLINE
 ssize_t ngetline(char **lineptr, size_t *n, FILE *stream);
 #endif
 #ifndef HAVE_GETDELIM
 ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream);
 #endif
+#endif /* !NANO_SMALL && ENABLE_NANORC */
 const char *strstrwrapper(const char *haystack, const char *needle,
 	const char *start);
 void nperror(const char *s);
