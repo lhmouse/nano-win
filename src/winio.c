@@ -2288,7 +2288,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
     assert(column <= start_col);
 
     alloc_len = display_string_len(buf + start_index, start_col,
-	start_col + COLS);
+	start_col + len) + 2;
     converted = charalloc(alloc_len + 1);
     index = 0;
 
