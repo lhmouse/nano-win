@@ -220,7 +220,7 @@ void parse_colors(FILE *rcstream, char *buf, char *ptr)
 		   Add it to the colorstrings array for this color */	
 
 		if (i == 0) {
-		    rcfile_error(_("regex length much be > 0"));
+		    rcfile_error(_("regex length must be > 0"));
 		    continue;
 		}
 		
