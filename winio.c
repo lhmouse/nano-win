@@ -187,6 +187,9 @@ void nanoget_repaint(const char *buf, const char *inputbuf, int x)
 /* Get the input from the kb; this should only be called from
  * statusq(). */
 int nanogetstr(int allowtabs, const char *buf, const char *def,
+#ifndef NANO_SMALL
+		historyheadtype *history_list,
+#endif
 		const shortcut *s
 #ifndef DISABLE_TABCOMP
 		, int *list
@@ -202,6 +205,12 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	/* used by input_tab() */
     const shortcut *t;
 
+#ifndef NANO_SMALL
+   /* for history */
+    char *history = NULL;
+    char *complete = NULL;
+    int last_kbinput = 0;
+#endif
     xend = strlen(def);
     x = xend;
     answer = (char *)nrealloc(answer, xend + 1);
@@ -300,28 +309,74 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		xend--;
 	    }
 	    break;
-#ifndef DISABLE_TABCOMP
 	case NANO_CONTROL_I:
-	    if (allowtabs) {
-		int shift = 0;
+#ifndef NANO_SMALL
+	    /* tab history completion */
+	    if (history_list) {
+		if ((!complete) || (last_kbinput != NANO_CONTROL_I)) {
+		    history_list->current = (historytype *)history_list;
+		    history_list->len = strlen(answer);
+		}
 
-		answer = input_tab(answer, x, &tabbed, &shift, list);
-		xend = strlen(answer);
-		x += shift;
-		if (x > xend)
+		if (history_list->len) {
+		    complete = get_history_completion(history_list, answer);
+		    xend = strlen(complete);
 		    x = xend;
+		    answer = mallocstrcpy(answer, complete);
+		}
 	    }
-	    break;
+#ifndef DISABLE_TABCOMP
+	    else {
 #endif
+#endif
+#ifndef DISABLE_TABCOMP
+		if (allowtabs) {
+		    int shift = 0;
+
+		    answer = input_tab(answer, x, &tabbed, &shift, list);
+		    xend = strlen(answer);
+		    x += shift;
+		    if (x > xend)
+			x = xend;
+		}
+	    }
+#endif
+	    break;
 	case KEY_LEFT:
 	case NANO_BACK_KEY:
 	    if (x > 0)
 		x--;
 	    break;
 	case KEY_UP:
-	case KEY_DOWN:
+#ifndef NANO_SMALL
+	    if (history_list) {
+		/* get older search from the history list */
+		if ((history = get_history_older(history_list))) {
+		    answer = mallocstrcpy(answer, history);
+		    xend = strlen(history);
+		} else {
+		    answer = mallocstrcpy(answer, "");
+		    xend = 0;
+		}
+		x = xend;
+	    }
 	    break;
-
+#endif
+	case KEY_DOWN:
+#ifndef NANO_SMALL
+	    if (history_list) {
+		/* get newer search from the history list */
+		if ((history = get_history_newer(history_list))) {
+		    answer = mallocstrcpy(answer, history);
+		    xend = strlen(history);
+		} else {
+		    answer = mallocstrcpy(answer, "");
+		    xend = 0;
+		}
+		x = xend;
+	    }
+#endif
+	    break;
 	case KEY_DC:
 	    goto do_deletekey;
 
@@ -400,7 +455,8 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 #ifdef DEBUG
 	    fprintf(stderr, _("input \'%c\' (%d)\n"), kbinput, kbinput);
 #endif
-	}
+	} /* switch (kbinput) */
+	last_kbinput = kbinput;
 	nanoget_repaint(buf, answer, x);
 	wrefresh(bottomwin);
     } /* while (kbinput ...) */
@@ -496,11 +552,13 @@ void bottombars(const shortcut *s)
 	    wmove(bottomwin, 1 + j, i * (COLS / numcols));
 
 #ifndef NANO_SMALL
+	    /* Yucky sentinel values we can't handle a better way */
 	    if (s->val == NANO_CONTROL_SPACE)
 		strcpy(keystr, "^ ");
-	    else
-#endif /* !NANO_SMALL */
-	    if (s->val > 0) {
+	    else if (s->val == KEY_UP)
+		strcpy(keystr, _("Up"));
+#endif /* NANO_SMALL */
+	    else if (s->val > 0) {
 		if (s->val < 64)
 		    sprintf(keystr, "^%c", s->val + 64);
 		else
@@ -526,6 +584,7 @@ void bottombars(const shortcut *s)
  * very small and keystroke and desc are long. */
 void onekey(const char *keystroke, const char *desc, int len)
 {
+
     wattron(bottomwin, A_REVERSE);
     waddnstr(bottomwin, keystroke, len);
     wattroff(bottomwin, A_REVERSE);
@@ -911,8 +970,8 @@ void update_line(filestruct *fileptr, int index)
 
     original = fileptr->data;
     converted = charalloc(strlenpt(original) + 1);
-    
-    /* Next, convert all the tabs to spaces, so everything else is easy. 
+
+    /* Next, convert all the tabs to spaces, so everything else is easy.
      * Note the internal speller sends us index == -1. */
     index = fileptr == current && index > 0 ? strnlenpt(original, index) : 0;
 #ifndef NANO_SMALL
@@ -1070,6 +1129,9 @@ void edit_update(filestruct *fileptr, topmidbotnone location)
  * New arg tabs tells whether or not to allow tab completion.
  */
 int statusq(int tabs, const shortcut *s, const char *def,
+#ifndef NANO_SMALL
+		historyheadtype *which_history,
+#endif
 		const char *msg, ...)
 {
     va_list ap;
@@ -1086,11 +1148,15 @@ int statusq(int tabs, const shortcut *s, const char *def,
     va_end(ap);
     foo[COLS - 4] = '\0';
 
-#ifndef DISABLE_TABCOMP
-    ret = nanogetstr(tabs, foo, def, s, &list);
-#else
-    ret = nanogetstr(tabs, foo, def, s);
+    ret = nanogetstr(tabs, foo, def,
+#ifndef NANO_SMALL
+		which_history,
 #endif
+		s
+#ifndef DISABLE_TABCOMP
+		, &list
+#endif
+		);
     free(foo);
 
     switch (ret) {

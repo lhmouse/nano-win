@@ -90,6 +90,14 @@
 #define KEY_END -1
 #endif /* KEY_END */
 
+/* Snatch these out of the ncurse sdefs, so we can use them in search
+   history regardless of whethere we're using ncurses or not */
+#ifndef KEY_UP
+#define KEY_UP   0403
+#define KEY_DOWN 0402
+#endif /* KEY_UP */
+
+
 #define VERMSG "GNU nano " VERSION
 
 #if defined(DISABLE_WRAPPING) && defined(DISABLE_JUSTIFY)
@@ -190,6 +198,21 @@ typedef struct syntaxtype {
 
 #endif /* ENABLE_COLOR */
 
+#ifndef NANO_SMALL
+typedef struct historytype {
+    struct historytype *next;
+    struct historytype *prev;
+    char *data;
+} historytype;
+typedef struct historyheadtype {
+    struct historytype *next;	/* keep *next and *prev members together */
+    struct historytype *prev;	/* and in same order as in historytype */
+    struct historytype *tail;
+    struct historytype *current;
+    int count;
+    int len;
+} historyheadtype;
+#endif /* !NANO_SMALL */
 
 /* Bitwise flags so we can save space (or more correctly, not waste it) */
 
@@ -397,4 +420,6 @@ typedef enum {
 /* Minimum fill length (space available for text before wrapping occurs) */
 #define MIN_FILL_LENGTH 10
 
+/* Maximum number of search history strings saved, same value used for replace history */
+#define MAX_SEARCH_HISTORY 100
 #endif /* !NANO_H */

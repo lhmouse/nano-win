@@ -426,21 +426,21 @@ int do_insertfile(int loading_file)
     if (operating_dir != NULL && strcmp(operating_dir, ".") != 0)
 #ifdef ENABLE_MULTIBUFFER 
 	if (ISSET(MULTIBUFFER))
-	    i = statusq(1, insertfile_list, inspath, _("File to insert into new buffer [from %s] "),
+	    i = statusq(1, insertfile_list, inspath, 0, _("File to insert into new buffer [from %s] "),
 		operating_dir);
 	else
 #endif
-	    i = statusq(1, insertfile_list, inspath, _("File to insert [from %s] "),
+	    i = statusq(1, insertfile_list, inspath, 0, _("File to insert [from %s] "),
 		operating_dir);
 
     else
 #endif
 #ifdef ENABLE_MULTIBUFFER 
 	if (ISSET(MULTIBUFFER))
-	    i = statusq(1, insertfile_list, inspath, _("File to insert into new buffer [from ./] "));
+	    i = statusq(1, insertfile_list, inspath, 0, _("File to insert into new buffer [from ./] "));
 	else
 #endif
-	    i = statusq(1, insertfile_list, inspath, _("File to insert [from ./] "));
+	    i = statusq(1, insertfile_list, inspath, 0, _("File to insert [from ./] "));
 
     if (i != -1) {
 	inspath = mallocstrcpy(inspath, answer);
@@ -492,7 +492,7 @@ int do_insertfile(int loading_file)
 #endif /* ENABLE_MULTIBUFFER */
 	if (i == NANO_EXTCMD_KEY) {
 	    int ts;
-	    ts = statusq(1, extcmd_list, "", _("Command to execute "));
+	    ts = statusq(1, extcmd_list, "", 0, _("Command to execute "));
 	    if (ts == -1  || answer == NULL || answer[0] == '\0') {
 		statusbar(_("Cancelled"));
 		UNSET(KEEP_CUTBUFFER);
@@ -1711,34 +1711,34 @@ int do_writeout(const char *path, int exiting, int append)
 	/* Be nice to the translation folks */
 	if (ISSET(MARK_ISSET) && !exiting) {
 	    if (append == 2)
-		i = statusq(1, writefile_list, "",
+		i = statusq(1, writefile_list, "", 0,
 		    "%s%s%s", _("Prepend Selection to File"), formatstr, backupstr);
-	    else if (append == 1)
-		i = statusq(1, writefile_list, "",
+	    else if (append)
+		i = statusq(1, writefile_list, "", 0,
 		    "%s%s%s", _("Append Selection to File"), formatstr, backupstr);
 	    else
-		i = statusq(1, writefile_list, "",
+		i = statusq(1, writefile_list, "", 0,
 		    "%s%s%s", _("Write Selection to File"), formatstr, backupstr);
 	} else {
 	    if (append == 2)
-		i = statusq(1, writefile_list, answer,
+		i = statusq(1, writefile_list, answer, 0,
 		    "%s%s%s", _("File Name to Prepend to"), formatstr, backupstr);
-	    else if (append == 1)
-		i = statusq(1, writefile_list, answer,
+	    else if (append)
+		i = statusq(1, writefile_list, answer, 0,
 		    "%s%s%s", _("File Name to Append to"), formatstr, backupstr);
 	    else
-		i = statusq(1, writefile_list, answer,
+		i = statusq(1, writefile_list, answer, 0,
 		    "%s%s%s", _("File Name to Write"), formatstr, backupstr);
 	}
 #else
 	if (append == 2)
-	    i = statusq(1, writefile_list, answer,
+	    i = statusq(1, writefile_list, answer, 0,
 		"%s", _("File Name to Prepend to"));
-	else if (append == 1)
-	    i = statusq(1, writefile_list, answer,
+	else if (append)
+	    i = statusq(1, writefile_list, answer, 0,
 		"%s", _("File Name to Append to"));
 	else
-	    i = statusq(1, writefile_list, answer,
+	    i = statusq(1, writefile_list, answer, 0,
 		"%s", _("File Name to Write"));
 #endif /* !NANO_SMALL */
 
@@ -2650,7 +2650,7 @@ char *do_browser(const char *inpath)
 	case NANO_GOTO_KEY:
 
 	    curs_set(1);
-	    j = statusq(0, gotodir_list, "", _("Goto Directory"));
+	    j = statusq(0, gotodir_list, "", 0, _("Goto Directory"));
 	    bottombars(browser_list);
 	    curs_set(0);
 

@@ -607,9 +607,10 @@ void do_rcfile(void)
 
     lineno = 0;
 
-    if (userage == NULL)
+    if (userage == NULL) {
 	rcfile_error(_("I can't find my home directory!  Wah!"));
-    else {
+	SET(NO_RCFILE); /* if no .nanorc, don't try to read .nano_history */
+    } else {
 	nanorc = nrealloc(nanorc, strlen(userage->pw_dir) + 9);
 	sprintf(nanorc, "%s/.nanorc", userage->pw_dir);
 
@@ -621,9 +622,11 @@ void do_rcfile(void)
 #endif
 	if ((rcstream = fopen(nanorc, "r")) == NULL) {
 	    /* Don't complain about the file not existing */
-	    if (errno != ENOENT)
+	    if (errno != ENOENT) {
 		rcfile_error(_("Unable to open ~/.nanorc file, %s"),
 			strerror(errno));
+		SET(NO_RCFILE);
+	    }
 	} else {
 	    parse_rcfile(rcstream);
 	    fclose(rcstream);

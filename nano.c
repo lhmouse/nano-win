@@ -66,6 +66,12 @@ static sigjmp_buf jmpbuf;	/* Used to return to mainloop after SIGWINCH */
 /* What we do when we're all set to exit */
 RETSIGTYPE finish(int sigage)
 {
+
+#ifndef NANO_SMALL
+    free_history(&search_history);
+    free_history(&replace_history);
+#endif
+
     keypad(edit, TRUE);
     keypad(bottomwin, TRUE);
 
@@ -1633,7 +1639,7 @@ int do_int_spell_fix(const char *word)
 	    do_replace_highlight(TRUE, word);
 
 	    /* allow replace word to be corrected */
-	    i = statusq(0, spell_list, last_replace, _("Edit a replacement"));
+	    i = statusq(0, spell_list, last_replace, 0, _("Edit a replacement"));
 
 	    do_replace_highlight(FALSE, word);
 
@@ -3093,6 +3099,7 @@ int main(int argc, char *argv[])
 #endif
 	}
     }
+
 	if (!ISSET(NO_RCFILE))
 	    do_rcfile();
 #else
@@ -3333,6 +3340,10 @@ int main(int argc, char *argv[])
 	keypad(edit, TRUE);
 	keypad(bottomwin, TRUE);
     }
+
+#ifndef NANO_SMALL
+    history_init();
+#endif
 
 #ifdef ENABLE_COLOR
     do_colorinit();

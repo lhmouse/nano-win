@@ -40,6 +40,7 @@ extern long totsize;
 extern int temp_opt;
 extern int wrap_at, flags, tabsize;
 extern int search_last_line;
+extern int past_editbuff;
 extern int currslen;
 
 #ifndef DISABLE_JUSTIFY
@@ -107,6 +108,11 @@ extern regmatch_t synfilematches[1];
 
 #ifndef NANO_SMALL
 extern toggle *toggles;
+#endif
+
+#ifndef NANO_SMALL
+extern historyheadtype search_history;
+extern historyheadtype replace_history;
 #endif
 
 /* Functions we want available */
@@ -355,6 +361,17 @@ int do_gotoline_void(void);
 void do_gotopos(int line, int pos_x, int pos_y, int pos_placewewant);
 #endif
 int do_find_bracket(void);
+#ifndef NANO_SMALL
+void history_init(void);
+historytype *find_node(historytype *h, char *s);
+void remove_node(historytype *r);
+void insert_node(historytype *h, const char *s);
+void update_history(historyheadtype *h, char *s);
+char *get_history_older(historyheadtype *h);
+char *get_history_newer(historyheadtype *h);
+char *get_history_completion(historyheadtype *h, char *s);
+void free_history(historyheadtype *h);
+#endif
 
 /* Public functions in utils.c */
 int is_cntrl_char(int c);
@@ -398,6 +415,9 @@ void blank_statusbar_refresh(void);
 void check_statblank(void);
 void nanoget_repaint(const char *buf, const char *inputbuf, int x);
 int nanogetstr(int allowtabs, const char *buf, const char *def,
+#ifndef NANO_SMALL
+		historyheadtype *history_list,
+#endif
 		const shortcut *s
 #ifndef DISABLE_TABCOMP
 		, int *list
@@ -426,6 +446,9 @@ void edit_refresh(void);
 void edit_refresh_clearok(void);
 void edit_update(filestruct *fileptr, topmidbotnone location);
 int statusq(int tabs, const shortcut *s, const char *def,
+#ifndef NANO_SMALL
+		historyheadtype *history_list,
+#endif
 		const char *msg, ...);
 int do_yesno(int all, int leavecursor, const char *msg, ...);
 int total_refresh(void);

@@ -36,6 +36,7 @@ int wrap_at = -CHARS_FROM_EOL;/* Right justified fill value, allows resize */
 char *last_search = NULL;	/* Last string we searched for */
 char *last_replace = NULL;	/* Last replacement string */
 int search_last_line;		/* Is this the last search line? */
+int past_editbuff;		/* search lines not displayed */
 
 int flags = 0;			/* Our new flag containing many options */
 WINDOW *edit;			/* The file portion of the editor */
@@ -132,6 +133,11 @@ const shortcut *currshortcut;	/* Current shortcut list we're using */
 
 #ifndef NANO_SMALL
 toggle *toggles = NULL;
+#endif
+
+#ifndef NANO_SMALL
+historyheadtype search_history;
+historyheadtype replace_history;
 #endif
 
 /* Regular expressions */
@@ -327,7 +333,7 @@ void shortcut_init(int unjustify)
 	"", *nano_gotodir_msg = "", *nano_case_msg =
 	"", *nano_reverse_msg = "", *nano_execute_msg =
 	"", *nano_dos_msg = "", *nano_mac_msg =
-	"", *nano_backup_msg = "";
+	"", *nano_backup_msg = "", *nano_editstr_msg = "";
 
 #ifdef ENABLE_MULTIBUFFER
     const char *nano_openprev_msg = "", *nano_opennext_msg =
@@ -383,6 +389,7 @@ void shortcut_init(int unjustify)
     nano_dos_msg = _("Write file out in DOS format");
     nano_mac_msg = _("Write file out in Mac format");
     nano_backup_msg = _("Back up original file when saving");
+    nano_editstr_msg = _("Edit the previous search/replace strings");
 #ifdef HAVE_REGEX_H
     nano_regexp_msg = _("Use regular expressions");
     nano_bracket_msg = _("Find other bracket");
@@ -606,6 +613,14 @@ void shortcut_init(int unjustify)
     sc_init_one(&whereis_list, TOGGLE_REGEXP_KEY, _("Regexp"),
 		IFHELP(nano_regexp_msg, 0), 0, 0, VIEW, 0);
 #endif
+
+#ifndef NANO_SMALL
+    sc_init_one(&whereis_list, KEY_UP, _("History"),
+		IFHELP(nano_editstr_msg, 0), 0, 0, VIEW, 0);
+#endif
+
+
+
 #endif /* !NANO_SMALL */
 
     free_shortcutage(&replace_list);
@@ -639,6 +654,12 @@ void shortcut_init(int unjustify)
     sc_init_one(&replace_list, TOGGLE_REGEXP_KEY, _("Regexp"),
 		IFHELP(nano_regexp_msg, 0), 0, 0, VIEW, 0);
 #endif
+
+#ifndef NANO_SMALL
+    sc_init_one(&replace_list, KEY_UP, _("History"),
+		IFHELP(nano_editstr_msg, 0), 0, 0, VIEW, 0);
+#endif
+
 #endif /* !NANO_SMALL */
 
     free_shortcutage(&replace_list_2);
@@ -654,6 +675,11 @@ void shortcut_init(int unjustify)
 
     sc_init_one(&replace_list_2, NANO_LASTLINE_KEY, _("Last Line"),
 		IFHELP(nano_lastline_msg, 0), 0, 0, VIEW, do_last_line);
+
+#ifndef NANO_SMALL
+    sc_init_one(&replace_list_2, KEY_UP, _("History"),
+		IFHELP(nano_editstr_msg, 0), 0, 0, VIEW, 0);
+#endif
 
     free_shortcutage(&goto_list);
 
@@ -885,5 +911,10 @@ void thanks_for_all_the_fish(void)
 	free(bill);
     }
 #endif /* ENABLE_COLOR */
+#ifndef NANO_SMALL
+    /* free history lists */
+    free_history(&search_history);
+    free_history(&replace_history);
+#endif
 }
 #endif /* DEBUG */

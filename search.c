@@ -26,9 +26,16 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <errno.h>
 #include <assert.h>
 #include "proto.h"
 #include "nano.h"
+
+#ifndef NANO_SMALL
+#ifdef ENABLE_NANORC
+#include <pwd.h>
+#endif
+#endif
 
 static int past_editbuff;
 	/* findnextstr() is now searching lines not displayed */
@@ -89,7 +96,7 @@ void search_init_globals(void)
 }
 
 /* Set up the system variables for a search or replace.  Returns -1 on
-   abort, 0 on success, and 1 on rerun calling program 
+   abort, 0 on success, and 1 on rerun calling program
    Return -2 to run opposite program (search -> replace, replace ->
    search).
 
@@ -110,24 +117,37 @@ int search_init(int replacing)
 	backupstring = NULL;
 	UNSET(CLEAR_BACKUPSTRING);
     }
-	
-     /* Okay, fun time.  backupstring is our holder for what is being 
+
+     /* Okay, fun time.  backupstring is our holder for what is being
 	returned from the statusq call.  Using answer for this would be tricky.
 	Here, if we're using PICO_MODE, we only want nano to put the
 	old string back up as editable if it's not the same as last_search.
 
 	Otherwise, if we don't already have a backupstring, set it to
 	last_search. */
-
+#if 0
+/* might need again ;)*/
     if (ISSET(PICO_MODE)) {
 	if (backupstring == NULL || !strcmp(backupstring, last_search)) {
+	    /* backupstring = mallocstrcpy(backupstring, ""); */
 	    backupstring = charalloc(1);
 	    backupstring[0] = '\0';
 	}
-    }
-    else if (backupstring == NULL)
+    } else
+#endif
+    if (backupstring == NULL)
+#ifndef NANO_SMALL
+	backupstring = mallocstrcpy(backupstring, search_history.current->data);
+#else
 	backupstring = mallocstrcpy(backupstring, last_search);
+#endif
 
+/* NEW TEST */
+    if (ISSET(PICO_MODE)) {
+	backupstring = mallocstrcpy(backupstring, "");
+	search_history.current = (historytype *)&search_history.next;
+    }
+/* */
     /* If using Pico messages, we do things the old fashioned way... */
     if (ISSET(PICO_MODE) && last_search[0] != '\0') {
 	buf = charalloc(COLS / 3 + 7);
@@ -141,7 +161,10 @@ int search_init(int replacing)
 
     /* This is now one simple call.  It just does a lot */
     i = statusq(0, replacing ? replace_list : whereis_list, backupstring,
-	"%s%s%s%s%s%s", 
+#ifndef NANO_SMALL
+	&search_history,
+#endif
+	"%s%s%s%s%s%s",
 	_("Search"),
 
 	/* This string is just a modifier for the search prompt,
@@ -168,6 +191,9 @@ int search_init(int replacing)
 	reset_cursor();
 	free(backupstring);
 	backupstring = NULL;
+#ifndef NANO_SMALL
+	search_history.current = search_history.next;
+#endif
 	return -1;
     } else {
 	switch (i) {
@@ -210,7 +236,14 @@ int search_init(int replacing)
 	case NANO_FROMSEARCHTOGOTO_KEY:
 	    free(backupstring);
 	    backupstring = NULL;
-	    do_gotoline_void();
+#ifndef NANO_SMALL
+	    search_history.current = search_history.next;
+#endif
+	    i = (int)strtol(answer, &buf, 10);		/* just testing answer here */
+	    if (!(errno == ERANGE || *answer == '\0' || *buf != '\0'))
+		do_gotoline(-1, 0);
+	    else
+		do_gotoline_void();
 	    return -3;
 	default:
 	    do_early_abort();
@@ -301,7 +334,7 @@ filestruct *findnextstr(int quiet, int bracket_mode,
 		not_found_msg(needle);
 	    return NULL;
 	}
-    } 
+    }
 #ifndef NANO_SMALL
     else {	/* reverse search */
 	current_x_find = current_x - 1;
@@ -403,6 +436,9 @@ int do_search(void)
     /* The sneaky user deleted the previous search string */
     if (!ISSET(PICO_MODE) && answer[0] == '\0') {
 	statusbar(_("Search Cancelled"));
+#ifndef NANO_SMALL
+	search_history.current = search_history.next;
+#endif
 	search_abort();
 	return 0;
     }
@@ -414,6 +450,11 @@ int do_search(void)
 	answer = mallocstrcpy(answer, last_search);
     else
 	last_search = mallocstrcpy(last_search, answer);
+
+#ifndef NANO_SMALL
+    /* add this search string to the search history list */
+    update_history(&search_history, answer);
+#endif	/* !NANO_SMALL */
 
     search_last_line = 0;
     didfind = findnextstr(FALSE, FALSE, current, current_x, answer);
@@ -697,6 +738,10 @@ int do_replace(void)
 	return 0;
     }
 
+#ifndef NANO_SMALL
+    update_history(&search_history, answer);
+#endif	/* !NANO_SMALL */
+
     /* Again, there was a previous string, but they deleted it and hit enter */
     if (!ISSET(PICO_MODE) && answer[0] == '\0') {
 	statusbar(_("Replace Cancelled"));
@@ -710,6 +755,7 @@ int do_replace(void)
 	answer = mallocstrcpy(answer, last_search);
     else
 	last_search = mallocstrcpy(last_search, answer);
+
     prevanswer = mallocstrcpy(prevanswer, last_search);
 
     if (ISSET(PICO_MODE) && last_replace[0] != '\0') {
@@ -718,16 +764,34 @@ int do_replace(void)
 
 	    strncpy(buf, last_replace, COLS / 3 - 1);
 	    strcpy(buf + COLS / 3 - 1, "...");
-	    i = statusq(0, replace_list_2, "", _("Replace with [%s]"),
-			buf);
+	    i = statusq(0, replace_list_2, "",
+#ifndef NANO_SMALL
+		&replace_history,
+#endif
+		_("Replace with [%s]"), buf);
 	    free(buf);
 	} else
-	    i = statusq(0, replace_list_2, "", _("Replace with [%s]"),
-			last_replace);
-    } else
-	i = statusq(0, replace_list_2, last_replace, _("Replace with"));
+	    i = statusq(0, replace_list_2, "",
+#ifndef NANO_SMALL
+		 &replace_history,
+#endif
+		_("Replace with [%s]") ,last_replace);
+    } else {
+#ifndef NANO_SMALL
+	replace_history.current = (historytype *)&replace_history.next;
+	last_replace = mallocstrcpy(last_replace, "");
+#endif
+	i = statusq(0, replace_list_2, last_replace,
+#ifndef NANO_SMALL
+		&replace_history,
+#endif
+		_("Replace with"));
+   }
+#ifndef NANO_SMALL
+    if (i == 0)
+	update_history(&replace_history, answer);
+#endif	/* !NANO_SMALL */
 
-    /* save where we are */
     begin = current;
     beginx = current_x;
     search_last_line = 0;
@@ -753,7 +817,7 @@ void goto_abort(void)
 int do_gotoline(int line, int save_pos)
 {
     if (line <= 0) {		/* Ask for it */
-	if (statusq(0, goto_list, "", _("Enter line number"))) {
+	if (statusq(0, goto_list, (line ? answer : ""), 0, _("Enter line number"))) {
 	    statusbar(_("Aborted"));
 	    goto_abort();
 	    return 0;
@@ -780,9 +844,9 @@ int do_gotoline(int line, int save_pos)
     	edit_update(current, NONE);
     else
 	edit_update(current, CENTER);
-
     placewewant = 0;
     goto_abort();
+    blank_statusbar_refresh();
     return 1;
 }
 
@@ -820,7 +884,9 @@ int do_find_bracket(void)
     filestruct *current_save;
 
     ch_under_cursor = current->data[current_x];
- 
+
+/*    if ((!(pos = strchr(brackets, ch_under_cursor))) || (!((offset = pos - brackets) < 8))) { */
+
     if (((pos = strchr(brackets, ch_under_cursor)) == NULL) || (((offset = pos - brackets) < 8) == 0)) {
 	statusbar(_("Not a bracket"));
 	return 1;
@@ -880,3 +946,126 @@ int do_find_bracket(void)
     return 0;
 }
 #endif
+
+#ifndef NANO_SMALL
+/*
+ * search and replace history list support functions
+ */
+
+/* initialize search and replace history lists */
+void history_init(void)
+{
+    search_history.next = (historytype *)&search_history.prev;
+    search_history.prev = NULL;
+    search_history.tail = (historytype *)&search_history.next;
+    search_history.current = search_history.next;
+    search_history.count = 0;
+    search_history.len = 0;
+
+    replace_history.next = (historytype *)&replace_history.prev;
+    replace_history.prev = NULL;
+    replace_history.tail = (historytype *)&replace_history.next;
+    replace_history.current = replace_history.next;
+    replace_history.count = 0;
+    replace_history.len = 0;
+}
+
+/* find first node containing string *s in history list *h */
+historytype *find_node(historytype *h, char *s)
+{
+    for ( ; h->next ; h = h->next)
+	if (strcmp(s, h->data) == 0)
+	    return h;
+    return NULL;
+}
+
+/* remove node *r */
+void remove_node(historytype *r)
+{
+    r->prev->next = r->next;
+    r->next->prev = r->prev;
+    free(r->data);
+    free(r);
+}
+
+/* add a node after node *h */
+void insert_node(historytype *h, const char *s)
+{
+    historytype *a;
+
+    a = nmalloc(sizeof(historytype));
+    a->next = h->next;
+    a->prev = h->next->prev;
+    h->next->prev = a;
+    h->next = a;
+    a->data = mallocstrcpy(NULL, s);
+}
+
+/* update history list */
+void update_history(historyheadtype *h, char *s)
+{
+    historytype *p;
+
+    if ((p = find_node(h->next, s))) {
+	if (p == h->next)		/* catch delete and re-insert of same string in 1st node */
+	    goto up_hs;
+	remove_node(p);				/* delete identical older string */
+	h->count--;
+    }
+    if (h->count == MAX_SEARCH_HISTORY) {	/* list 'full', delete oldest */
+	remove_node(h->tail);
+	h->count--;
+    }
+    insert_node((historytype *)h, s);
+    h->count++;
+up_hs:
+    h->current = h->next;
+}
+
+/* return a pointer to either the next older history or NULL if no more */
+char *get_history_older(historyheadtype *h)
+{
+    if (h->current->next) {		/* any older entries ? */
+	h->current = h->current->next;	/* yes */
+	return h->current->data;	/* return it */
+    }
+    return NULL;			/* end of list */
+}
+
+char *get_history_newer(historyheadtype *h)
+{
+    if (h->current->prev) {
+	h->current = h->current->prev;
+	if (h->current->prev)
+	    return h->current->data;
+    }
+    return NULL;
+}
+
+/* get a completion */
+char *get_history_completion(historyheadtype *h, char *s)
+{
+    historytype *p;
+
+    for (p = h->current->next ; p->next ; p = p->next) {
+	if ((strncmp(s, p->data, h->len) == 0) && (strlen(p->data) != h->len)) {
+	    h->current = p;
+	    return p->data;
+	}
+    }
+    h->current = (historytype*)h;
+    null_at(&s, h->len);
+    return s;
+}
+
+/* free a history list */
+void free_history(historyheadtype *h)
+{
+    historytype *p, *n;
+
+    for (p = h->next ; (n = p->next) ; p = n)
+	remove_node(p);
+}
+
+/* end of history support functions */
+#endif /* !NANO_SMALL */

@@ -1,5 +1,11 @@
 CVS code -
+Changes
 - General:
+	- Search history and replace history up/down cursor arrows, w/history 
+	  tab completion, not available w/NANO_SMALL.  Changes to 
+	  statusq, others (Ken Tyler).  Added shortcut to search/replace 
+	  shortcuts so people will know it's there, forced KEY_UP and KEY_DOWN
+	  defs in nano.h (Chris, in case blame needs to be placed later).
 	- Translation updates (see po/ChangeLog for details).
 	- Forward-ported Chris' --disable-wrapping-as-root option from
 	  1.0.9.  Per Jordi's suggestions, have it override
@@ -62,6 +68,8 @@ CVS code -
 	- If there's a page or less of text, do an edit_update() if the
 	  mark is on; otherwise, the highlight won't be displayed. (DLR)
 - nano.c:
+	- Added free_history list calls clean up, added init of list headers
+	   modified statusq calls (Ken Tyler).
   do_prev_word()
 	- Make the assert match that in do_next_word(). (DLR)
   do_enter()
