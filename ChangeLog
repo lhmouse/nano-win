@@ -112,8 +112,11 @@ CVS code -
 	  in files.c, and replace them with a static file_format enum.
 	  Change the openfilestruct structure accordingly in order to
 	  handle this. (DLR)
+	- Convert some ints with predefined boundaries to enums. (DLR)
 - cut.c:
-	- Make marked_line a static enum instead of a static int. (DLR)
+  do_uncut_text()
+	- Maintain current_y's value when uncutting blocks so that
+	  smooth scrolling works correctly. (DLR)
 - files.c:
   read_file()
 	- Rename variable fileformat to format, to avoid confusion with

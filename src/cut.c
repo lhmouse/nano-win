@@ -240,8 +240,7 @@ void do_cut_text(void)
 	    if (marked_cut != CUT_MARKED && current->next != filebot) {
 		filestruct *junk = make_new_node(current);
 
-		junk->data = charalloc(1);
-		junk->data[0] = '\0';
+		junk->data = mallocstrcpy(NULL, "");
 		add_to_cutbuffer(junk, TRUE);
 #ifdef DEBUG
 		dump_buffer(cutbuffer);
@@ -403,9 +402,11 @@ void do_uncut_text(void)
 		new_magicline();
 	    }
 
-	    /* Now why don't we update the totsize also? */
-	    for (tmp = current->next; tmp != newend; tmp = tmp->next)
+	    /* Recalculate current_y and totsize. */
+	    for (tmp = current->next; tmp != newend; tmp = tmp->next) {
+		current_y++;
 		totsize += strlen(tmp->data) + 1;
+	    }
 
 	    current = newend;
 	}
@@ -426,6 +427,7 @@ void do_uncut_text(void)
 	    totlines++;
 	    totsize++;
 	}
+
 	/* Renumber from BEFORE where we pasted ;) */
 	renumber(hold);
 
@@ -444,6 +446,7 @@ void do_uncut_text(void)
 	newbuf->prev = tmp;
     } else
 	fileage = newbuf;
+
     totlines++;		/* Unmarked uncuts don't split lines. */
 
     /* This is so uncutting at the top of the buffer will work => */
@@ -454,9 +457,11 @@ void do_uncut_text(void)
     newend->next = current;
     current->prev = newend;
 
-    /* Recalculate size *sigh* */
-    for (tmp = newbuf; tmp != current; tmp = tmp->next)
+    /* Recalculate current_y and totsize. */
+    for (tmp = newbuf; tmp != current; tmp = tmp->next) {
+	current_y++;
 	totsize += strlen(tmp->data) + 1;
+    }
 
     renumber(newbuf);
     edit_refresh();
