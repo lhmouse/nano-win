@@ -4,6 +4,9 @@ CVS code -
 	- Added O_EXCL to open call if tmp is set, more security which hopefully
 	  fixes any remaining security issues.
 	- Added tmp check to TMP_OPT section (how apropriate).
+- winio.c:
+  edit_add()
+	- Off by one display error (fix by Rocco Corsi).
 
 nano 0.9.22 - 12/02/2000
 - General

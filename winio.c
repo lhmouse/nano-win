@@ -761,7 +761,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 #endif
 	/* Just paint the string (no mark on this line) */
 	mvwaddnstr(edit, yval, 0, &fileptr->data[start],
-		   get_page_end_virtual(this_page) - start);
+		   get_page_end_virtual(this_page) - start + 1);
 }
 
 /*
