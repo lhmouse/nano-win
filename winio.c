@@ -1602,7 +1602,7 @@ int do_cursorpos(int constant)
     if (strlen(current->data) == 0)
 	colpct = 0;
     else
-	colpct = 100 * current_x / strlen(current->data);
+	colpct = 100 * xplustabs() / xpt(current, strlen(current->data));
 
     for (fileptr = fileage; fileptr != current && fileptr != NULL;
 	 fileptr = fileptr->next)
@@ -1632,8 +1632,8 @@ int do_cursorpos(int constant)
     if (!constant || (old_i != i || old_totsize != totsize)) {
 	statusbar(_
 		  ("line %d/%d (%.0f%%), col %ld/%ld (%.0f%%), char %ld/%ld (%.0f%%)"),
-		  current->lineno, totlines, linepct, current_x, 
-		  strlen(current->data), colpct, i, j, bytepct);
+		  current->lineno, totlines, linepct, xplustabs(), 
+		  xpt(current, strlen(current->data)), colpct, i, j, bytepct);
     }
 
     old_i = i;
