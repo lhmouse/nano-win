@@ -10,7 +10,7 @@ Current Version:
   center line [DONE]
 - Rewrite edit_refresh, if at all possible [DONE]
 - Implement justify function [DONE]
-- Cut to end of line
+- Cut to end of line [DONE]
 
 For Next Version:
 - Undo/Redo key?
