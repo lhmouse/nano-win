@@ -428,11 +428,11 @@ void execute_command(const char *command)
  * open and read the file. */
 void load_buffer(const char *name)
 {
-    bool new_buffer = fileage == NULL
+    bool new_buffer = (fileage == NULL
 #ifdef ENABLE_MULTIBUFFER
 	 || ISSET(MULTIBUFFER)
 #endif
-	;
+	);
 	/* new_buffer says whether we load to this buffer or a new one.
 	 * If new_buffer is TRUE, we display "New File" if the file is
 	 * not found, and if it is found we set filename and add a new
