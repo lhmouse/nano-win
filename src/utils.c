@@ -209,8 +209,7 @@ const char *nstristr(const char *haystack, const char *needle)
     assert(haystack != NULL && needle != NULL);
 
     for (; *haystack != '\0'; haystack++) {
-	const char *p = haystack;
-	const char *q = needle;
+	const char *p = haystack, *q = needle;
 
 	for (; tolower(*p) == tolower(*q) && *q != '\0'; p++, q++)
 	    ;
@@ -228,28 +227,36 @@ const char *nstristr(const char *haystack, const char *needle)
 const char *revstrstr(const char *haystack, const char *needle, const
 	char *rev_start)
 {
+    assert(haystack != NULL && needle != NULL && rev_start != NULL);
+
     for (; rev_start >= haystack; rev_start--) {
 	const char *r, *q;
 
 	for (r = rev_start, q = needle; *q == *r && *q != '\0'; r++, q++)
 	    ;
+
 	if (*q == '\0')
 	    return rev_start;
     }
+
     return NULL;
 }
 
 const char *revstristr(const char *haystack, const char *needle, const
 	char *rev_start)
 {
+    assert(haystack != NULL && needle != NULL && rev_start != NULL);
+
     for (; rev_start >= haystack; rev_start--) {
 	const char *r = rev_start, *q = needle;
 
 	for (; tolower(*q) == tolower(*r) && *q != '\0'; r++, q++)
 	    ;
+
 	if (*q == '\0')
 	    return rev_start;
     }
+
     return NULL;
 }
 #endif /* !NANO_SMALL */
