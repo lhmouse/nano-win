@@ -151,7 +151,8 @@ void toggle_init(void)
     char *toggle_const_msg, *toggle_autoindent_msg, *toggle_suspend_msg,
 	*toggle_nohelp_msg, *toggle_picomode_msg, *toggle_mouse_msg,
 	*toggle_cuttoend_msg, *toggle_wrap_msg, *toggle_case_msg, 
-	*toggle_backwards_msg, *toggle_dos_msg, *toggle_mac_msg;
+	*toggle_backwards_msg, *toggle_dos_msg, *toggle_mac_msg,
+	*toggle_smooth_msg;
 
 #ifdef ENABLE_MULTIBUFFER
     char *toggle_load_msg, *nano_openprev_msg, *nano_opennext_msg;
@@ -161,7 +162,6 @@ void toggle_init(void)
     char *toggle_regexp_msg;
 #endif
 
-    char *toggle_smooth_msg;
 
     toggle_const_msg = _("Constant cursor position");
     toggle_autoindent_msg = _("Auto indent");
