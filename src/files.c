@@ -323,7 +323,7 @@ void read_file(FILE *f, const char *filename)
     } else
 #endif
 	statusbar(P_("Read %lu line", "Read %lu lines",
-		(unsigned long) num_lines),(unsigned long)num_lines);
+		(unsigned long)num_lines),(unsigned long)num_lines);
 
     totlines += num_lines;
 }
