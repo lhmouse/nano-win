@@ -125,6 +125,7 @@ filestruct *read_line(char *buf, filestruct * prev, int *line1ins)
     strcpy(fileptr->data, buf);
 
 #ifndef NANO_SMALL
+    /* If it's a DOS file (CRLF), strip out the CR part*/
     if (buf[strlen(buf) - 1] == '\r') {
 	fileptr->data[strlen(buf) - 1] = 0;
 	totsize--;
@@ -184,15 +185,21 @@ int read_file(int fd, char *filename, int quiet)
     /* Read the entire file into file struct */
     while ((size = read_byte(fd, filename, input)) > 0) {
 	linetemp = 0;
-	if (input[0] == '\n'
-#ifndef NANO_SMALL
-	    || (ISSET(MAC_FILE) && input[0] == '\r')
-#endif
-	) {
+
+	if (input[0] == '\n') {
 	    fileptr = read_line(buf, fileptr, &line1ins);
 	    num_lines++;
 	    buf[0] = 0;
 	    i = 0;
+#ifndef NANO_SMALL
+	/* If it's a Mac file (no LF just a CR), handle it! */
+	} else if (i > 0 && buf[i-1] == '\r') {
+	    fileptr = read_line(buf, fileptr, &line1ins);
+	    num_lines++;
+	    buf[0] = input[0];
+	    buf[1] = 0;
+	    i = 1;
+#endif
 	} else {
 	    /* Now we allocate a bigger buffer 128 characters at a time.
 	       If we allocate a lot of space for one line, we may indeed 
