@@ -3,18 +3,8 @@ Content-type: text/html
 <HTML><HEAD><TITLE>Manpage of NANO</TITLE>
 </HEAD><BODY>
 <H1>NANO</H1>
-Section: User Commands  (1)<BR>Updated: November 27, 2000<BR><A HREF="#index">Index</A>
+Section: User Commands  (1)<BR>Updated: December 2, 2000<BR><A HREF="#index">Index</A>
 <A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -43,15 +33,13 @@ command.
 
 
 
-<B>nano</B> was originally known as TIP (TIP Isn't Pico). It is a small,
-free and friendly editor which aims to replace Pico, the default editor
-included in the non-free Pine package. Rather than just copying Pico's
-look and feel, 
+<B>nano</B> is a small, free and friendly editor which aims to replace
+Pico, the default editor included in the non-free Pine package. Rather
+than just copying Pico's look and feel,
 <B>nano</B>
 
-also implements some missing (or disabled by
-default) features in Pico, such as &quot;search and replace&quot; and &quot;goto line
-number&quot;.
+also implements some missing (or disabled by default) features in Pico,
+such as &quot;search and replace&quot; and &quot;goto line number&quot;.
 <A NAME="lbAE">&nbsp;</A>
 <H2>OPTIONS</H2>
 
@@ -129,26 +117,42 @@ Enable suspend ability.
 Places cursor at LINE on startup.
 </DL>
 <A NAME="lbAF">&nbsp;</A>
+<H2>NOTES</H2>
+
+Nano will try to dump the buffer into an emergency file in some cases.
+Mainly, this will happen if Nano recieves a SIGHUP or runs out of
+memory, when it will write the buffer into a file named &quot;nano.save&quot; if the
+buffer didn't have a name already, or will add a &quot;.save&quot; suffix to the
+current finename. Nano will <B>not</B> write this file if a previous one
+exists in the current directory.
+<A NAME="lbAG">&nbsp;</A>
 <H2>BUGS</H2>
 
 Please send any comments or bug reports to
+<BR>
+
 <B><A HREF="mailto:nano@nano-editor.org">nano@nano-editor.org</A>.</B>
 
+<BR>
+
 The nano mailing list is available from
+<BR>
+
 <B><A HREF="mailto:nano-devel@lists.sourceforge.net">nano-devel@lists.sourceforge.net</A>.</B>
 
 To subscribe, email to <A HREF="mailto:nano-devel-request@lists.sourceforge.net">nano-devel-request@lists.sourceforge.net</A> with a
 subject of &quot;subscribe&quot;.
-<A NAME="lbAG">&nbsp;</A>
+<A NAME="lbAH">&nbsp;</A>
 <H2>HOMEPAGE</H2>
 
 <A HREF="http://www.nano-editor.org">http://www.nano-editor.org</A>
-<A NAME="lbAH">&nbsp;</A>
+<A NAME="lbAI">&nbsp;</A>
 <H2>AUTHOR</H2>
 
-Chris Allegretta &lt;<A HREF="mailto:chrisa@asty.org">chrisa@asty.org</A>&gt;, et al.  This manual page was
-originally written by Jordi Mallach &lt;<A HREF="mailto:jordi@sindominio.net">jordi@sindominio.net</A>&gt;, for the Debian
-GNU/Linux system (but may be used by others).
+Chris Allegretta &lt;<A HREF="mailto:chrisa@asty.org">chrisa@asty.org</A>&gt;, et al (see AUTHORS for details).
+This manual page was originally written by Jordi Mallach
+&lt;<A HREF="mailto:jordi@sindominio.net">jordi@sindominio.net</A>&gt;, for the Debian GNU/Linux system (but may be
+used by others).
 <P>
 
 <HR>
@@ -158,14 +162,15 @@ GNU/Linux system (but may be used by others).
 <DT><A HREF="#lbAC">SYNOPSIS</A><DD>
 <DT><A HREF="#lbAD">DESCRIPTION</A><DD>
 <DT><A HREF="#lbAE">OPTIONS</A><DD>
-<DT><A HREF="#lbAF">BUGS</A><DD>
-<DT><A HREF="#lbAG">HOMEPAGE</A><DD>
-<DT><A HREF="#lbAH">AUTHOR</A><DD>
+<DT><A HREF="#lbAF">NOTES</A><DD>
+<DT><A HREF="#lbAG">BUGS</A><DD>
+<DT><A HREF="#lbAH">HOMEPAGE</A><DD>
+<DT><A HREF="#lbAI">AUTHOR</A><DD>
 </DL>
 <HR>
 This document was created by
 <A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 21:33:46 GMT, November 19, 2000
+Time: 04:21:24 GMT, December 03, 2000
 </BODY>
 </HTML>
