@@ -3,6 +3,12 @@ CVS Code -
 	- Better partial word checking code. New function
 	  search.c:is_whole_word(), changes to findnextstr(),
 	  and nano.c:do_int_spell_fix() (Rocco Corsi).
+	- Add Meta-A as alternate keyystroke for ^^ for people with
+	  non-US keyboards.
+- global.c:
+  shorcut_init()
+	- Replace hard coded ALT_G and ALT_H values in the replace
+	  and goto shortcuts with their macro counterparts NANO_ALT_*_KEY.
 - nano.c:
   do_suspend()
 	- Call tcsetattr() to restore the old terminal settings, so

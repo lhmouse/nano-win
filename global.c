@@ -246,7 +246,7 @@ void shortcut_init(int unjustify)
     else
 	sc_init_one(&main_list[4], NANO_REPLACE_KEY, _("Replace"),
 		    nano_replace_msg,
-		    NANO_ALT_R, NANO_REPLACE_FKEY, 0, NOVIEW, do_replace);
+		    NANO_ALT_REPLACE_KEY, NANO_REPLACE_FKEY, 0, NOVIEW, do_replace);
 
     sc_init_one(&main_list[5], NANO_WHEREIS_KEY, _("Where Is"),
 		nano_whereis_msg,
@@ -301,7 +301,7 @@ void shortcut_init(int unjustify)
 		nano_refresh_msg, 0, 0, 0, VIEW, total_refresh);
 
     sc_init_one(&main_list[19], NANO_MARK_KEY, _("Mark Text"),
-		nano_mark_msg, 0, 0, 0, NOVIEW, do_mark);
+		nano_mark_msg, NANO_ALT_MARK_KEY, 0, 0, NOVIEW, do_mark);
 
     sc_init_one(&main_list[20], NANO_DELETE_KEY, _("Delete"),
 		nano_delete_msg, 0, KEY_DC,
@@ -317,7 +317,7 @@ void shortcut_init(int unjustify)
     if (ISSET(PICO_MODE))
 	sc_init_one(&main_list[23], NANO_REPLACE_KEY, _("Replace"),
 		    nano_replace_msg,
-		    NANO_ALT_R, NANO_REPLACE_FKEY, 0, NOVIEW, do_replace);
+		    NANO_ALT_REPLACE_KEY, NANO_REPLACE_FKEY, 0, NOVIEW, do_replace);
     else
 	sc_init_one(&main_list[23], NANO_JUSTIFY_KEY, _("Justify"),
 		    nano_justify_msg, 0, NANO_JUSTIFY_FKEY, 0,
@@ -329,7 +329,7 @@ void shortcut_init(int unjustify)
 
     sc_init_one(&main_list[25], NANO_GOTO_KEY, _("Goto Line"),
 		    nano_goto_msg,
-		    NANO_ALT_G, NANO_GOTO_FKEY, 0, VIEW, do_gotoline_void);
+		    NANO_ALT_GOTO_KEY, NANO_GOTO_FKEY, 0, VIEW, do_gotoline_void);
 
 
 
