@@ -2183,7 +2183,6 @@ void reset_cursor(void)
     current_y = current->lineno - edittop->lineno;
     if (current_y < editwinrows) {
 	size_t x = xplustabs();
-
 	wmove(edit, current_y, x - get_page_start(x));
      }
 }
@@ -3212,7 +3211,7 @@ void dump_buffer_reverse(void)
     const filestruct *fileptr = filebot;
 
     while (fileptr != NULL) {
-	fprintf(stderr, "(%d) %s\n", fileptr->lineno, fileptr->data);
+	fprintf(stderr, "(%lu) %s\n", (unsigned long)fileptr->lineno, fileptr->data);
 	fileptr = fileptr->prev;
     }
 }

@@ -31,7 +31,6 @@
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <sys/param.h>
-#include <sys/types.h>
 #include <sys/wait.h>
 #include <errno.h>
 #include <ctype.h>
@@ -1262,13 +1261,13 @@ int do_wrap(filestruct *inptr)
 #ifndef NANO_SMALL
     const char *indentation = NULL;
 	/* Indentation to prepend to the new line. */
-    size_t indent_len = 0;		/* strlen(indentation) */
+    size_t indent_len = 0;	/* strlen(indentation) */
 #endif
     const char *after_break;	/* Text after the wrap point. */
     size_t after_break_len;	/* strlen(after_break) */
     int wrapping = FALSE;	/* Do we prepend to the next line? */
     const char *wrap_line = NULL;
-	/* The next line, minus indentation */
+	/* The next line, minus indentation. */
     size_t wrap_line_len = 0;	/* strlen(wrap_line) */
     char *newline = NULL;	/* The line we create. */
     size_t new_line_len = 0;	/* Eventual length of newline. */
@@ -1276,7 +1275,7 @@ int do_wrap(filestruct *inptr)
 /* There are three steps.  First, we decide where to wrap.  Then, we
  * create the new wrap line.  Finally, we clean up. */
 
-/* Step 1, finding where to wrap.  We are going to add a new-line
+/* Step 1, finding where to wrap.  We are going to add a new line
  * after a whitespace character.  In this step, we set wrap_loc as the
  * location of this replacement.
  *
@@ -1412,7 +1411,7 @@ int do_wrap(filestruct *inptr)
     /* Step 3, clean up.  Here we reposition the cursor and mark, and do
      * some other sundry things. */
 
-    /* later wraps of this line will be prepended to the next line. */
+    /* Later wraps of this line will be prepended to the next line. */
     same_line_wrap = TRUE;
 
     /* Each line knows its line number.  We recalculate these if we
@@ -1433,8 +1432,8 @@ int do_wrap(filestruct *inptr)
     }
 
 #ifndef NANO_SMALL
-    /* If the mark was on this line after the wrap point, we move it down.
-     * If it was on the next line and we wrapped, we must move it
+    /* If the mark was on this line after the wrap point, we move it
+     * down.  If it was on the next line and we wrapped, we move it
      * right. */
     if (mark_beginbuf == inptr && mark_beginx > wrap_loc) {
 	mark_beginbuf = inptr->next;
@@ -1981,7 +1980,7 @@ size_t quote_length(const char *line)
     size_t qdepth = 0;
     size_t qlen = strlen(quotestr);
 
-    /* Compute quote depth level */
+    /* Compute quote depth level. */
     while (!strcmp(line + qdepth, quotestr))
 	qdepth += qlen;
     return qdepth;

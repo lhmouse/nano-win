@@ -40,6 +40,8 @@ CVS code -
 	  tabsize value is handled.
 	- Remove several unnecessary reset_cursor() calls. (David
 	  Benbennick)
+	- Include <sys/types.h> in proto.h. (David Benbennick)  DLR:
+	  Remove some redundant inclusions of <sys/types.h> elsewhere.
 - files.c:
   close_open_file()
 	- Tweak to no longer rely on the return values of

@@ -406,8 +406,10 @@ void do_search(void)
 	 * that we find one only once per line.  We should only end up
 	 * back at the same position if the string isn't found again, in
 	 * which case it's the only occurrence. */
-	if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp, last_search)) {
-	    didfind = findnextstr(TRUE, FALSE, current, current_x, answer, TRUE);
+	if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp,
+		last_search)) {
+	    didfind = findnextstr(TRUE, FALSE, current, current_x,
+		answer, TRUE);
 	    if (fileptr == current && fileptr_x == current_x && !didfind)
 		statusbar(_("This is the only occurrence"));
 	} else {
@@ -445,7 +447,8 @@ void do_research(void)
 #endif
 
 	search_last_line = FALSE;
-	didfind = findnextstr(TRUE, FALSE, current, current_x, last_search, FALSE);
+	didfind = findnextstr(TRUE, FALSE, current, current_x,
+		last_search, FALSE);
 
 	/* Check to see if there's only one occurrence of the string and
 	 * we're on it now. */
@@ -456,8 +459,10 @@ void do_research(void)
 	     * "^$"), so that we find one only once per line.  We should
 	     * only end up back at the same position if the string isn't
 	     * found again, in which case it's the only occurrence. */
-	    if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp, last_search)) {
-		didfind = findnextstr(TRUE, FALSE, current, current_x, answer, TRUE);
+	    if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp,
+		last_search)) {
+		didfind = findnextstr(TRUE, FALSE, current, current_x,
+			answer, TRUE);
 		if (fileptr == current && fileptr_x == current_x && !didfind)
 		    statusbar(_("This is the only occurrence"));
 	    } else {
@@ -922,11 +927,13 @@ void do_find_bracket(void)
     /* Apparent near redundancy with regexp_pat[] here is needed.
      * "[][]" works, "[[]]" doesn't. */
 
-    if (pos < brackets + (strlen(brackets) / 2)) {	/* On a left bracket. */
+    if (pos < brackets + (strlen(brackets) / 2)) {
+	/* On a left bracket. */
 	regexp_pat[1] = wanted_ch;
 	regexp_pat[2] = ch_under_cursor;
 	UNSET(REVERSE_SEARCH);
-    } else {			/* On a right bracket. */
+    } else {
+	/* On a right bracket. */
 	regexp_pat[1] = ch_under_cursor;
 	regexp_pat[2] = wanted_ch;
 	SET(REVERSE_SEARCH);
@@ -938,7 +945,8 @@ void do_find_bracket(void)
 
     search_last_line = FALSE;
     while (TRUE) {
-	if (findnextstr(FALSE, FALSE, current, current_x, regexp_pat, FALSE) != 0) {
+	if (findnextstr(FALSE, FALSE, current, current_x, regexp_pat,
+		FALSE) != 0) {
 	    /* Found identical bracket. */
 	    if (current->data[current_x] == ch_under_cursor)
 		count++;

@@ -25,7 +25,6 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <utime.h>
@@ -2080,7 +2079,7 @@ char **username_tab_completion(char *buf, int *num_matches)
 	    matchline = charalloc(strlen(userdata->pw_name) + 2);
 	    sprintf(matchline, "~%s", userdata->pw_name);
 	    matches[*num_matches] = matchline;
-	    ++*num_matches;
+	    ++(*num_matches);
 
 	    /* If there's no more room, bail out */
 	    if (*num_matches == BUFSIZ)
