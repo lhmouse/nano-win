@@ -1968,7 +1968,7 @@ int justify_format(int changes_allowed, filestruct *line, size_t skip)
     assert(*back == '\0' && *front == '\0');
 
     /* This assert merely documents a fact about the loop above. */
-    assert(changes_allowed != 0 || back == front);
+    assert(changes_allowed || back == front);
 
     /* Now back is the new end of line->data. */
     if (back != front) {
