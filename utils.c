@@ -138,50 +138,58 @@ const char *stristr(const char *haystack, const char *needle)
     return NULL;
 }
 
+/* If we are searching backwards, we will find the last match
+ * that starts no later than rev_start.  If we are doing a regexp search,
+ * then line_pos should be 0 if haystack starts at the beginning of a
+ * line, and positive otherwise.  In the regexp case, we fill in the
+ * global variable regmatches with at most 9 subexpression matches.  Also,
+ * all .rm_so elements are relative to the start of the whole match, so
+ * regmatches[0].rm_so == 0. */
 const char *strstrwrapper(const char *haystack, const char *needle,
 			const char *rev_start, int line_pos)
 {
 #ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP)) {
-	if (!ISSET(REVERSE_SEARCH)) {
-	    if (!regexec(&search_regexp, haystack, 10, regmatches, (line_pos > 0) ? REG_NOTBOL : 0))
-		return haystack + regmatches[0].rm_so;
-	}
 #ifndef NANO_SMALL
-	else {
-	    const char *i, *j;
+	if (ISSET(REVERSE_SEARCH)) {
+		/* When doing a backwards search, haystack is a whole line. */
+	    if (!regexec(&search_regexp, haystack, 1, regmatches, 0) &&
+		    haystack + regmatches[0].rm_so <= rev_start) {
+		const char *retval = haystack + regmatches[0].rm_so;
 
-	    /* do a quick search forward first */
-	    if (!regexec(&search_regexp, haystack, 10, regmatches, 0)) {
-		/* there's a match somewhere in the line - now search for it backwards, much slower */
-		for (i = rev_start; i >= haystack; --i) {
-		    if (!regexec(&search_regexp, i, 10, regmatches, (i > haystack) ? REG_NOTBOL : 0)) {
-			j = i + regmatches[0].rm_so;
-			if (j <= rev_start)
-			    return j;
-		    }
-		}
+		/* Search forward until there is no more match. */
+		while (!regexec(&search_regexp, retval + 1, 1, regmatches,
+			    REG_NOTBOL) &&
+			retval + 1 + regmatches[0].rm_so <= rev_start)
+		    retval += 1 + regmatches[0].rm_so;
+		/* Finally, put the subexpression matches in global
+		 * variable regmatches.  The REG_NOTBOL flag doesn't
+		 * matter now. */
+		regexec(&search_regexp, retval, 10, regmatches, 0);
+		return retval;
 	    }
+	} else
+#endif /* !NANO_SMALL */
+	if (!regexec(&search_regexp, haystack, 10, regmatches,
+			line_pos > 0 ? REG_NOTBOL : 0)) {
+	    const char *retval = haystack + regmatches[0].rm_so;
+
+	    regexec(&search_regexp, retval, 10, regmatches, 0);
+	    return retval;
 	}
-#endif
-	return 0;
+	return NULL;
     }
-#endif
+#endif /* HAVE_REGEX_H */
 #ifndef NANO_SMALL
     if (ISSET(CASE_SENSITIVE)) {
 	if (ISSET(REVERSE_SEARCH))
 	    return revstrstr(haystack, needle, rev_start);
-        else
-	    return strstr(haystack, needle);
-    } else {
-	if (ISSET(REVERSE_SEARCH))
-	    return revstristr(haystack, needle, rev_start);
 	else
+	    return strstr(haystack, needle);
+    } else if (ISSET(REVERSE_SEARCH))
+	return revstristr(haystack, needle, rev_start);
 #endif
-	    return stristr(haystack, needle);
-#ifndef NANO_SMALL
-    }
-#endif
+    return stristr(haystack, needle);
 }
 
 /* This is a wrapper for the perror function.  The wrapper takes care of 

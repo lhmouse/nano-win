@@ -5,6 +5,9 @@ CVS Code -
 	  two strings that had no actual words in them that
 	  should be translated.	 Suggested originally by
 	  Christian Rose.
+	- Fix subexpression replacement to work consistently.
+	  Affects search.c:replace_regexp() and 
+	  utils.c:strstrwrapper() (David Benbennick).
 - cut.c:
   do_cut_text()
 	- Fix incorrect cursor location when cutting long lines

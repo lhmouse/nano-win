@@ -445,10 +445,10 @@ int replace_regexp(char *string, int create_flag)
 	    c++;
 	    new_size++;
 	} else {
-	    int num = (int)(*(c + 1) - '0');
+	    int num = (int) *(c + 1) - (int) '0';
 	    if (num >= 1 && num <= 9) {
 
-		int i = regmatches[num].rm_so;
+		int i = regmatches[num].rm_eo - regmatches[num].rm_so;
 
 		if (num > search_regexp.re_nsub) {
 		    /* Ugh, they specified a subexpression that doesn't
@@ -460,12 +460,15 @@ int replace_regexp(char *string, int create_flag)
 		c += 2;
 
 		/* But add the length of the subexpression to new_size */
-		new_size += regmatches[num].rm_eo - regmatches[num].rm_so;
+		new_size += i;
 
 		/* And if create_flag is set, append the result of the
 		 * subexpression match to the new line */
-		while (create_flag && i < regmatches[num].rm_eo)
-		    *string++ = *(current->data + i++);
+		if (create_flag) {
+		    strncpy(string, current->data + current_x +
+			    regmatches[num].rm_so, i);
+		    string += i;
+		}
 
 	    } else {
 		if (create_flag)
