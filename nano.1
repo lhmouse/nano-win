@@ -10,7 +10,7 @@
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
-nano \- Nano's ANOther editor, an enhanced free Pico Clone
+nano \- Nano's ANOther editor, an enhanced free Pico clone
 .SH SYNOPSIS
 .B nano
 .I [\+LINE]\ [options]\ [file]
@@ -40,6 +40,10 @@ Write file in DOS format.
 .TP
 .B \-F (\-\-multibuffer)
 Enable multiple file buffers, if available.
+.TP
+.B \-H (\-\-historylog)
+Log search and replace strings to ~/.nano_history so they may be
+stored for later editing, if nanorc support is configured.
 .TP
 .B \-I (\-\-ignorercfiles)
 Don't look at $SYSCONFDIR/nanorc or ~/.nanorc, if nanorc support is
@@ -103,10 +107,9 @@ Enable mouse support (if available for your system).
 Set operating directory. Makes nano set up something similar to a
 chroot.
 .TP
-.B \-p (\-\-pico)
-Emulate Pico as closely as possible.  This affects both the "shortcut
-list" at the bottom of the screen, as well as the display and entry of
-previous search and replace strings.
+.B \-p (\-\-preserve)
+Preserve the XON and XOFF sequences (^Q and ^S) so they will be 
+caught by the terminal.
 .TP
 .B \-r \fI[#cols]\fP (\-\-fill=\fI[#cols]\fP)
 Wrap lines at column #cols.  By default, this is the width of the

@@ -250,6 +250,8 @@ Changes
 - nano.texi:
 	- Typo fixes and updates. (David Benbennick)
 	- Updates for the most recent and not so recent changes.
+- nano.1, nano.1.html
+	- Updated for the --preserve and --historylog options.
 - TODO
 	- Added some wishlist stuff.
 - THANKS:

@@ -11,7 +11,7 @@ Section: User Commands  (1)<BR>Updated: November 1, 2002<BR><A HREF="#index">Ind
 <A NAME="lbAB">&nbsp;</A>
 <H2>NAME</H2>
 
-nano - Nano's ANOther editor, an enhanced free Pico Clone
+nano - Nano's ANOther editor, an enhanced free Pico clone
 <A NAME="lbAC">&nbsp;</A>
 <H2>SYNOPSIS</H2>
 
@@ -56,6 +56,11 @@ Write file in DOS format.
 
 <DD>
 Enable multiple file buffers, if available.
+<DT><B>-H (--historylog)</B>
+
+<DD>
+Log search and replace strings to ~/.nano_history so they may be
+stored for later editing, if nanorc support is configured.
 <DT><B>-I (--ignorercfiles)</B>
 
 <DD>
@@ -135,12 +140,11 @@ Enable mouse support (if available for your system).
 <DD>
 Set operating directory. Makes nano set up something similar to a
 chroot.
-<DT><B>-p (--pico)</B>
+<DT><B>-p (--preserve)</B>
 
 <DD>
-Emulate Pico as closely as possible.  This affects both the &quot;shortcut
-list&quot; at the bottom of the screen, as well as the display and entry of
-previous search and replace strings.
+Preserve the XON and XOFF sequences (^Q and ^S) so they will be 
+caught by the terminal.
 <DT><B>-r </B><I>[#cols]</I> (--fill=<I>[#cols]</I>)
 
 <DD>
@@ -236,6 +240,6 @@ used by others).
 This document was created by
 <A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 17:00:52 GMT, November 01, 2002
+Time: 03:06:20 GMT, January 17, 2003
 </BODY>
 </HTML>
