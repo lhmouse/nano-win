@@ -1858,11 +1858,8 @@ void do_statusbar_backspace(void)
 void do_statusbar_delete(void)
 {
     if (statusbar_x < statusbar_xend) {
-	int char_buf_len = parse_mbchar(answer + statusbar_x, NULL
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+	int char_buf_len = parse_mbchar(answer + statusbar_x, NULL,
+		NULL, NULL);
 
 	charmove(answer + statusbar_x, answer + statusbar_x +
 		char_buf_len, statusbar_xend - statusbar_x -
@@ -1896,11 +1893,8 @@ void do_statusbar_next_word(void)
     /* Move forward until we find the character after the last letter of
      * the current word. */
     while (statusbar_x < statusbar_xend) {
-	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb, NULL,
+		NULL);
 
 	/* If we've found it, stop moving forward through the current
 	 * line. */
@@ -1915,11 +1909,8 @@ void do_statusbar_next_word(void)
 	current_x += char_mb_len;
 
     while (statusbar_x < statusbar_xend) {
-	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb, NULL,
+		NULL);
 
 	/* If we've found it, stop moving forward through the current
 	 * line. */
@@ -1945,11 +1936,8 @@ void do_statusbar_prev_word(void)
     /* Move backward until we find the character before the first letter
      * of the current word. */
     while (!begin_line) {
-	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb, NULL,
+		NULL);
 
 	/* If we've found it, stop moving backward through the current
 	 * line. */
@@ -1970,11 +1958,8 @@ void do_statusbar_prev_word(void)
 	statusbar_x = move_mbleft(answer, statusbar_x);
 
     while (!begin_line) {
-	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb, NULL,
+		NULL);
 
 	/* If we've found it, stop moving backward through the current
 	 * line. */
@@ -1996,11 +1981,8 @@ void do_statusbar_prev_word(void)
 	    statusbar_x = move_mbleft(answer, statusbar_x);
 
 	while (!begin_line) {
-	    char_mb_len = parse_mbchar(answer + statusbar_x, char_mb
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+	    char_mb_len = parse_mbchar(answer + statusbar_x, char_mb,
+		NULL, NULL);
 
 	    /* If we've found it, stop moving backward through the
 	     * current line. */
@@ -2075,11 +2057,7 @@ void do_statusbar_output(char *output, size_t output_len, bool
 	/* Interpret the next multibyte character.  If it's an invalid
 	 * multibyte character, interpret it as though it's a byte
 	 * character. */
-	char_buf_len = parse_mbchar(output + i, char_buf
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+	char_buf_len = parse_mbchar(output + i, char_buf, NULL, NULL);
 
 	i += char_buf_len;
 
@@ -2122,11 +2100,7 @@ size_t actual_x(const char *str, size_t xplus)
     assert(str != NULL);
 
     while (*str != '\0') {
-	int str_len = parse_mbchar(str, NULL
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, &length);
+	int str_len = parse_mbchar(str, NULL, NULL, &length);
 
 	if (length > xplus)
 	    break;
@@ -2151,11 +2125,7 @@ size_t strnlenpt(const char *str, size_t size)
     assert(str != NULL);
 
     while (*str != '\0') {
-	int str_len = parse_mbchar(str, NULL
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, &length);
+	int str_len = parse_mbchar(str, NULL, NULL, &length);
 
 	str += str_len;
 
@@ -2269,11 +2239,8 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	buf[start_index] != '\t')) {
 	/* We don't display all of buf[start_index] since it starts to
 	 * the left of the screen. */
-	buf_mb_len = parse_mbchar(buf + start_index, buf_mb
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+	buf_mb_len = parse_mbchar(buf + start_index, buf_mb, NULL,
+		NULL);
 
 	if (is_cntrl_mbchar(buf_mb)) {
 	    if (column < start_col) {
@@ -2307,6 +2274,8 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	buf_mb_len = parse_mbchar(buf + start_index, buf_mb
 #ifdef NANO_WIDE
 		, &bad_char
+#else
+		, NULL
 #endif
 		, NULL);
 

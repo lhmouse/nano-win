@@ -1195,11 +1195,8 @@ void do_delete(void)
     placewewant = xplustabs();
 
     if (current->data[current_x] != '\0') {
-	int char_buf_len = parse_mbchar(current->data + current_x, NULL
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+	int char_buf_len = parse_mbchar(current->data + current_x, NULL,
+		NULL, NULL);
 	size_t line_len = strlen(current->data + current_x);
 
 	assert(current_x < strlen(current->data));
@@ -1340,11 +1337,8 @@ void do_next_word(void)
     /* Move forward until we find the character after the last letter of
      * the current word. */
     while (current->data[current_x] != '\0') {
-	char_mb_len = parse_mbchar(current->data + current_x, char_mb
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+	char_mb_len = parse_mbchar(current->data + current_x, char_mb,
+		NULL, NULL);
 
 	/* If we've found it, stop moving forward through the current
 	 * line. */
@@ -1361,11 +1355,7 @@ void do_next_word(void)
     for (; current != NULL; current = current->next) {
 	while (current->data[current_x] != '\0') {
 	    char_mb_len = parse_mbchar(current->data + current_x,
-		char_mb
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+		char_mb, NULL, NULL);
 
 	    /* If we've found it, stop moving forward through the
 	     * current line. */
@@ -1412,11 +1402,8 @@ void do_prev_word(void)
     /* Move backward until we find the character before the first letter
      * of the current word. */
     while (!begin_line) {
-	char_mb_len = parse_mbchar(current->data + current_x, char_mb
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+	char_mb_len = parse_mbchar(current->data + current_x, char_mb,
+		NULL, NULL);
 
 	/* If we've found it, stop moving backward through the current
 	 * line. */
@@ -1439,11 +1426,7 @@ void do_prev_word(void)
     for (; current != NULL; current = current->prev) {
 	while (!begin_line) {
 	    char_mb_len = parse_mbchar(current->data + current_x,
-		char_mb
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+		char_mb, NULL, NULL);
 
 	    /* If we've found it, stop moving backward through the
 	     * current line. */
@@ -1482,11 +1465,7 @@ void do_prev_word(void)
 
 	while (!begin_line) {
 	    char_mb_len = parse_mbchar(current->data + current_x,
-		char_mb
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+		char_mb, NULL, NULL);
 
 	    /* If we've found it, stop moving backward through the
 	     * current line. */
@@ -2260,7 +2239,7 @@ const char *do_alt_speller(char *tempfile_name)
 void do_spell(void)
 {
     int i;
-    char *temp = safe_tempnam(0, "nano.");
+    char *temp = safe_tempnam();
     const char *spell_msg;
 
     if (temp == NULL) {
@@ -2314,11 +2293,7 @@ size_t indent_length(const char *line)
     blank_mb = charalloc(mb_cur_max());
 
     while (*line != '\0') {
-	blank_mb_len = parse_mbchar(line, blank_mb
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+	blank_mb_len = parse_mbchar(line, blank_mb, NULL, NULL);
 
 	if (!is_blank_mbchar(blank_mb))
 	    break;
@@ -2653,11 +2628,7 @@ bool breakable(const char *line, ssize_t goal)
 	if (is_blank_char(*line))
 	    return TRUE;
 
-	line += parse_mbchar(line, NULL
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, &pos);
+	line += parse_mbchar(line, NULL, NULL, &pos);
 
 	goal -= pos;
     }
@@ -2691,11 +2662,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool force)
 
 	assert(*line != '\t');
 
-	line_len = parse_mbchar(line, NULL
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, &pos);
+	line_len = parse_mbchar(line, NULL, NULL, &pos);
 
 	goal -= pos;
 	line += line_len;
@@ -3768,11 +3735,7 @@ void do_output(char *output, size_t output_len)
 	/* Interpret the next multibyte character.  If it's an invalid
 	 * multibyte character, interpret it as though it's a byte
 	 * character. */
-	char_buf_len = parse_mbchar(output + i, char_buf
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+	char_buf_len = parse_mbchar(output + i, char_buf, NULL, NULL);
 
 	i += char_buf_len;
 

@@ -299,36 +299,32 @@ char *make_mbchar(int chr, char *chr_mb, int *chr_mb_len)
 
 /* Parse a multibyte character from buf.  Return the number of bytes
  * used.  If chr isn't NULL, store the multibyte character in it.  If
- * bad_chr isn't NULL, set it to TRUE if we have a null byte or a bad
- * multibyte character.  If col isn't NULL, store the new display width
- * in it.  If *str is '\t', we expect col to have the current display
- * width. */
-int parse_mbchar(const char *buf, char *chr
-#ifdef NANO_WIDE
-	, bool *bad_chr
-#endif
-	, size_t *col)
+ * bad_chr isn't NULL, set it to TRUE if we have a bad multibyte
+ * character.  If col isn't NULL, store the new display width in it.  If
+ * *str is '\t', we expect col to have the current display width. */
+int parse_mbchar(const char *buf, char *chr, bool *bad_chr, size_t
+	*col)
 {
     int buf_mb_len;
 
     assert(buf != NULL);
 
-#ifdef NANO_WIDE
     if (bad_chr != NULL)
 	*bad_chr = FALSE;
 
+#ifdef NANO_WIDE
     if (!ISSET(NO_UTF8)) {
 	/* Get the number of bytes in the multibyte character. */
 	buf_mb_len = mblen(buf, MB_CUR_MAX);
 
 	/* If buf contains a null byte or an invalid multibyte
-	 * character, interpret buf's first byte and set bad_chr to
-	 * TRUE. */
+	 * character, set bad_chr to TRUE (if it contains the latter)
+	 * and interpret buf's first byte. */
 	if (buf_mb_len <= 0) {
 	    mblen(NULL, 0);
-	    buf_mb_len = 1;
-	    if (bad_chr != NULL)
+	    if (buf_mb_len < 0 && bad_chr != NULL)
 		*bad_chr = TRUE;
+	    buf_mb_len = 1;
 	}
 
 	/* Save the multibyte character in chr. */
@@ -407,11 +403,8 @@ size_t move_mbleft(const char *buf, size_t pos)
     /* There is no library function to move backward one multibyte
      * character.  Here is the naive, O(pos) way to do it. */
     while (TRUE) {
-	int buf_mb_len = parse_mbchar(buf + pos - pos_prev, NULL
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
+	int buf_mb_len = parse_mbchar(buf + pos - pos_prev, NULL, NULL,
+		NULL);
 
 	if (pos_prev <= (size_t)buf_mb_len)
 	    break;
@@ -426,11 +419,7 @@ size_t move_mbleft(const char *buf, size_t pos)
  * after the one at pos. */
 size_t move_mbright(const char *buf, size_t pos)
 {
-    return pos + parse_mbchar(buf + pos, NULL
-#ifdef NANO_WIDE
-	, NULL
-#endif
-	, NULL);
+    return pos + parse_mbchar(buf + pos, NULL, NULL, NULL);
 }
 
 #ifndef HAVE_STRCASECMP

@@ -1128,59 +1128,37 @@ char *check_writable_directory(const char *path)
     return full_path;
 }
 
-/*
- * This function accepts a directory name and filename prefix the same
- * way that tempnam() does, determines the location for its temporary
- * file the same way that tempnam() does, safely creates the temporary
- * file there via mkstemp(), and returns the name of the temporary file
- * the same way that tempnam() does.  It does not reference the value of
- * TMP_MAX because the total number of random filenames that it can
- * generate using one prefix is equal to 256**6, which is a sufficiently
- * large number to handle most cases.  Since the behavior after tempnam()
- * generates TMP_MAX random filenames is implementation-defined, my
- * implementation is to go on generating random filenames regardless of
- * it.
- */
-char *safe_tempnam(const char *dirname, const char *filename_prefix)
+/* This function acts like a call to tempnam(NULL, "nano.").  The
+ * difference is that the number of calls is not limited by TMP_MAX.
+ * Instead we use mkstemp(). */
+char *safe_tempnam(void)
 {
     char *full_tempdir = NULL;
     const char *TMPDIR_env;
     int filedesc;
 
-      /* if $TMPDIR is set and non-empty, set tempdir to it, run it through
-         get_full_path(), and save the result in full_tempdir; otherwise,
-         leave full_tempdir set to NULL */
+    /* If $TMPDIR is set and non-empty, set tempdir to it, run it
+     * through get_full_path(), and save the result in full_tempdir.
+     * Otherwise, leave full_tempdir set to NULL. */
     TMPDIR_env = getenv("TMPDIR");
     if (TMPDIR_env != NULL && TMPDIR_env[0] != '\0')
 	full_tempdir = check_writable_directory(TMPDIR_env);
 
-    /* if $TMPDIR is blank or isn't set, or isn't a writable
-       directory, and dirname isn't NULL, try it; otherwise, leave
-       full_tempdir set to NULL */
-    if (full_tempdir == NULL && dirname != NULL)
-	full_tempdir = check_writable_directory(dirname);
-
-    /* if $TMPDIR is blank or isn't set, or if it isn't a writable
-       directory, and dirname is NULL, try P_tmpdir instead */
+    /* If $TMPDIR is unset, empty, or not a writable directory, and
+     * full_tempdir is NULL, try P_tmpdir instead. */
     if (full_tempdir == NULL)
 	full_tempdir = check_writable_directory(P_tmpdir);
 
-    /* if P_tmpdir didn't work, use /tmp instead */
-    if (full_tempdir == NULL) {
-	full_tempdir = charalloc(6);
-	strcpy(full_tempdir, "/tmp/");
-    }
+    /* if P_tmpdir is NULL, use /tmp. */
+    if (full_tempdir == NULL)
+	full_tempdir = mallocstrcpy(NULL, "/tmp/");
 
     full_tempdir = charealloc(full_tempdir, strlen(full_tempdir) + 12);
-
-    /* like tempnam(), use only the first 5 characters of the prefix */
-    strncat(full_tempdir, filename_prefix, 5);
-    strcat(full_tempdir, "XXXXXX");
+    strcat(full_tempdir, "nano.XXXXXX");
     filedesc = mkstemp(full_tempdir);
 
-    /* if mkstemp succeeded, close the resulting file; afterwards, it'll be
-       0 bytes long, so delete it; finally, return the filename (all that's
-       left of it) */
+    /* If mkstemp() succeeded, close the resulting file, delete it
+     * (since it'll be 0 bytes long), and return the filename. */
     if (filedesc != -1) {
 	close(filedesc);
 	unlink(full_tempdir);
@@ -1188,6 +1166,7 @@ char *safe_tempnam(const char *dirname, const char *filename_prefix)
     }
 
     free(full_tempdir);
+
     return NULL;
 }
 #endif /* !DISABLE_SPELLER */
@@ -1213,11 +1192,11 @@ void init_operating_dir(void)
     }
 }
 
-/* Check to see if we're inside the operating directory.  Return 0 if we
- * are, or 1 otherwise.  If allow_tabcomp is nonzero, allow incomplete
- * names that would be matches for the operating directory, so that tab
- * completion will work. */
-int check_operating_dir(const char *currpath, bool allow_tabcomp)
+/* Check to see if we're inside the operating directory.  Return FALSE
+ * if we are, or TRUE otherwise.  If allow_tabcomp is TRUE, allow
+ * incomplete names that would be matches for the operating directory,
+ * so that tab completion will work. */
+bool check_operating_dir(const char *currpath, bool allow_tabcomp)
 {
     /* The char *full_operating_dir is global for mem cleanup.  It
      * should have already been initialized by init_operating_dir().
@@ -1225,22 +1204,22 @@ int check_operating_dir(const char *currpath, bool allow_tabcomp)
      * properly if this is done. */
 
     char *fullpath;
-    int retval = 0;
+    bool retval = FALSE;
     const char *whereami1, *whereami2 = NULL;
 
     /* If no operating directory is set, don't bother doing anything. */
     if (operating_dir == NULL)
-	return 0;
+	return FALSE;
 
     assert(full_operating_dir != NULL);
 
     fullpath = get_full_path(currpath);
 
     /* fullpath == NULL means some directory in the path doesn't exist
-     * or is unreadable.  If allow_tabcomp is zero, then currpath is
+     * or is unreadable.  If allow_tabcomp is FALSE, then currpath is
      * what the user typed somewhere.  We don't want to report a
      * non-existent directory as being outside the operating directory,
-     * so we return 0.  If allow_tabcomp is nonzero, then currpath
+     * so we return FALSE.  If allow_tabcomp is TRUE, then currpath
      * exists, but is not executable.  So we say it isn't in the
      * operating directory. */
     if (fullpath == NULL)
@@ -1256,8 +1235,8 @@ int check_operating_dir(const char *currpath, bool allow_tabcomp)
      * (for normal usage) and vice versa (for tab completion, if we're
      * allowing it), we're outside the operating directory. */
     if (whereami1 != fullpath && whereami2 != full_operating_dir)
-	retval = 1;
-    free(fullpath);	
+	retval = TRUE;
+    free(fullpath);
 
     /* Otherwise, we're still inside it. */
     return retval;
@@ -1372,7 +1351,7 @@ int write_file(const char *name, bool tmp, int append, bool
 #ifndef DISABLE_OPERATINGDIR
     /* If we're writing a temporary file, we're probably going outside
      * the operating directory, so skip the operating directory test. */
-    if (!tmp && check_operating_dir(realname, FALSE) != 0) {
+    if (!tmp && check_operating_dir(realname, FALSE)) {
 	statusbar(_("Can't write outside of %s"), operating_dir);
 	goto cleanup_and_exit;
     }
@@ -2549,7 +2528,7 @@ char *do_browser(const char *inpath)
 	    /* Note: the selected file can be outside the operating
 	     * directory if it is .. or if it is a symlink to 
 	     * directory outside the operating directory. */
-	    if (check_operating_dir(filelist[selected], FALSE) != 0) {
+	    if (check_operating_dir(filelist[selected], FALSE)) {
 		statusbar(_("Can't go outside of %s in restricted mode"),
 			operating_dir);
 		beep();
@@ -2625,7 +2604,7 @@ char *do_browser(const char *inpath)
 	    }
 
 #ifndef DISABLE_OPERATINGDIR
-	    if (check_operating_dir(new_path, FALSE) != 0) {
+	    if (check_operating_dir(new_path, FALSE)) {
 		statusbar(_("Can't go outside of %s in restricted mode"), operating_dir);
 		free(new_path);
 		break;
@@ -2769,7 +2748,7 @@ char *do_browse_from(const char *inpath)
 
 #ifndef DISABLE_OPERATINGDIR
     /* If the resulting path isn't in the operating directory, use that. */
-    if (check_operating_dir(path, FALSE) != 0)
+    if (check_operating_dir(path, FALSE))
 	path = mallocstrcpy(path, operating_dir);
 #endif
 

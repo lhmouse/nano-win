@@ -173,11 +173,8 @@ wchar_t control_wrep(wchar_t c);
 int mbwidth(const char *c);
 int mb_cur_max(void);
 char *make_mbchar(int chr, char *chr_mb, int *chr_mb_len);
-int parse_mbchar(const char *buf, char *chr
-#ifdef NANO_WIDE
-	, bool *bad_chr
-#endif
-	, size_t *col);
+int parse_mbchar(const char *buf, char *chr, bool *bad_chr, size_t
+	*col);
 size_t move_mbleft(const char *buf, size_t pos);
 size_t move_mbright(const char *buf, size_t pos);
 #ifndef HAVE_STRCASECMP
@@ -270,11 +267,11 @@ char *get_full_path(const char *origpath);
 #endif
 #ifndef DISABLE_SPELLER
 char *check_writable_directory(const char *path);
-char *safe_tempnam(const char *dirname, const char *filename_prefix);
+char *safe_tempnam(void);
 #endif
 #ifndef DISABLE_OPERATINGDIR
 void init_operating_dir(void);
-int check_operating_dir(const char *currpath, bool allow_tabcomp);
+bool check_operating_dir(const char *currpath, bool allow_tabcomp);
 #endif
 #ifndef NANO_SMALL
 void init_backup_dir(void);

@@ -1,6 +1,6 @@
 CVS code -
 - General:
-	- More int -> bool conversions. (DLR)
+	- More int -> bool conversions. (DLR and David Benbennick)
 	- Overhaul the cutting and uncutting routines to use the
 	  partitioning code, as it greatly simplifies how they work.
 	  New functions move_to_filestruct(), copy_from_filestruct(),
@@ -152,7 +152,7 @@ CVS code -
 	- Overhaul the tab completion code and a few related functions
 	  to increase efficiency and support multibyte characters.  New
 	  functions strrchrn() and is_dir(); changes to get_full_path(),
-	  check_writable_directory(), diralphasort(),
+	  check_writable_directory(), safe_tempnam(), diralphasort(),
 	  username_tab_completion(), cwd_tab_completion(), input_tab(),
 	  tail(), and striponedir(); removal of append_slash_if_dir()
 	  and check_wildcard_match(). (David Benbennick)  DLR: Move the
