@@ -26,7 +26,11 @@ CVS code -
   search_init()
 	- Fix a missing free (Rocco).
 - utils.c:
-  stristr() - Defined regardless of NANO_SMALL (noticed by Jordi).
+  stristr() 
+	- Defined regardless of NANO_SMALL (noticed by Jordi).
+- winio.c:
+  do_credits()
+	- Add Thomas Dickey.
 - po/sv.po:
 	- Swedish translation updates (Christian Rose).
 - po/de.po:
