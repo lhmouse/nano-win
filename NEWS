@@ -1,3 +1,15 @@
+02/19/2001 - Nano 0.9.99pre3 brings a lot of changes!  The most important
+		being that nano is now officially a GNU program.  Some
+		changes have been made for GNU compatibility (like the
+		default list of shortcuts, "^G Get Help" is now Listed and
+		"^_ Goto Line" is not).  The Yes/No/All keys have
+		finally been internationalized also.   All in all, quite
+		a few changes considering nano is supposed to be in a code
+		freeze. But there are the usual helping of bugfixes, a
+		nasty bug when cutting text in -k mode and some
+		compatibility with older ncurses libraries have also been
+		fixed.  All in all, a lot to see.
+
 01/31/2001 - Nano 0.9.99pre2 is released.  Not surprisingly, all that is
 		new is bugfixes, bugfixes, bugfixes.  There were a few
 		cleanups in unneeded global variables and duplicate
