@@ -121,9 +121,9 @@
 ## Disallow file modification; why would you want this in an rcfile? ;)
 # set view
 
-## The two characters used to display the first characters of tabs and
-## spaces.  187 decimal (00BB hexadecimal) and 183 decimal (00B7
-## hexadecimal) seem to be good values for these.
+## The two single-column characters used to display the first characters
+## of tabs and spaces.  187 decimal (00BB hexadecimal) and 183 decimal
+## (00B7 hexadecimal) seem to be good values for these.
 # set whitespace "  "
 
 ## Color setup

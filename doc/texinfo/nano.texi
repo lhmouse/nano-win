@@ -8,8 +8,8 @@
 @c Run `makeinfo' rather than `texinfo-format-buffer'.
 @smallbook
 @set EDITION 0.1
-@set VERSION 1.3.6
-@set UPDATED 11 Mar 2005
+@set VERSION 1.3.7
+@set UPDATED 26 Mar 2005
 
 @dircategory Editors
 @direntry
@@ -23,7 +23,7 @@
 @titlepage
 @title GNU @code{nano}
 @subtitle a small and friendly text editor.
-@subtitle version 1.3.6
+@subtitle version 1.3.7
 
 @author Chris Allegretta
 @page
@@ -106,6 +106,11 @@ Email bug reports to @email{nano@@nano-editor.org}.
 @code{nano} takes the following options from the command line:
 
 @table @code
+@item +LINE
+Start at line number LINE instead of the default of line 1.
+
+@item -?
+Same as @code{-h, --help}.
 
 @item -A, --smarthome
 Make the Home key smarter.  When Home is pressed anywhere but at the
@@ -240,9 +245,6 @@ keystroke (usually ^Z).
 
 @item -a, -b, -e, -f, -g, -j
 Ignored, for compatibility with Pico.
-
-@item +LINE
-Start at line number LINE instead of the default of line 1.
 @end table
 
 @node Editor Basics, Online Help, Introduction, Top

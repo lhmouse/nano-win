@@ -81,6 +81,15 @@ CVS code -
 	  well as curses, consolidate the warning and error messages
 	  dealing with UTF-8 support as much as possible, and add a few
 	  minor consistency fixes.
+- nanorc.sample:
+	- Fix the description for the whitespace option to mention that
+	  only single-column characters are allowed. (DLR)
+- nano.1, nano.texi:
+	- Mention the -? alias for -h/--help, and synchronize the
+	  description and placement of the +LINE option. (DLR)
+- nanorc.5:
+	- Fix the description for the whitespace option to mention that
+	  only single-column characters are allowed. (DLR)
 
 GNU nano 1.3.6 - 2005.03.20
 - General:
