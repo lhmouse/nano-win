@@ -125,6 +125,7 @@ void unget_kbinput(int kbinput, bool meta_key, bool func_key)
 	wchar_t wc = (wchar_t)kbinput;
 
 	i = wctomb(s, wc);
+	free(s);
 
 	if (i == -1)
 	    /* This wide character is unrecognized.  Send it back. */
@@ -133,7 +134,6 @@ void unget_kbinput(int kbinput, bool meta_key, bool func_key)
 	    for (; i > 0; i--)
 		ungetch(s[i - 1]);
 	}
-	free(s);
     } else
 	ungetch(kbinput);
     if (meta_key)

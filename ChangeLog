@@ -57,6 +57,9 @@ CVS code -
 	- For consistency, preserve placewewant if we didn't unjustify
 	  instead of setting it to 0. (DLR)
 - winio.c:
+  unget_kbinput()
+	- Free s after the wctomb() call, since we don't need it after
+	  that. (DLR)
   get_kbinput(), get_translated_kbinput(), get_ascii_kbinput(),
   get_untranslated_kbinput()
 	- Make the ascii_digits variables ints instead of size_t's,
