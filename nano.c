@@ -1750,6 +1750,11 @@ void do_mouse(void)
 
 	/* And ungetch that value */
 	ungetch(val);
+
+	/* And if it's an alt-key sequence, we should probably send alt
+	   too ;-) */
+	if (val >= 'a' && val <= 'z')
+	   ungetch(27);
     }
 }
 #endif

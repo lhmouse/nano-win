@@ -16,6 +16,11 @@ CVS code -
   main()
 	- Added vars oldcurrent and oldcurrent_x to check whether cursor
 	  pos has changed and if so update the pos with -c.
+  do_mouse()
+	- Send 27 when the menu item clicked is an alt key seq... The
+	  lines aren't lined up since the menu width changed though,
+	  this breakage depends on whether the new widths will be kept
+	  or not (FEEDBACK!!)
 - nano.texi:
 	- corrected the Mouse Toggle section, noticed by Daniel Bonniot.
 - winio.c:
