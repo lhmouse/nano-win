@@ -197,11 +197,16 @@
 
 ## Here is an example for your .nanorc
 ##
-# syntax "nanorc" "(\.)?nanorc$"
-# color brightwhite "^ *(set|unset|syntax|color).*$"
-# color cyan "^ *(set|unset) +(autoindent|backup|const|cut|fill|historylog|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|quotestr|rebinddelete|regexp|smooth|speller|suspend|tabsize|tempfile|view)"
-# color green "^ *(set|unset|syntax)\>"
-# color yellow "^ *color +(bright)?(white|black|red|blue|green|yellow|magenta|cyan)(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
-# color magenta "^ *color\>" "\<(start|end)="
-# color white "\"(\\.|[^\"])*\""
-# color blue "^ *#.*$"
+#syntax "nanorc" "(\.|/|)nanorc$"
+## highlight possible errors and parameters
+#color brightwhite "^ *(set|unset|syntax|color).*$"
+## set, unset and syntax
+#color cyan "^ *(set|unset) +(autoindent|backup|const|cut|fill|historylog|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|quotestr|rebinddelete|regexp|smooth|speller|suspend|tabsize|tempfile|view)"
+#color green "^ *(set|unset|syntax)\>"
+## colors
+#color yellow "^ *color +(bright)?(white|black|red|blue|green|yellow|magenta|cyan)(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
+#color magenta "^ *color\>" "\<(start|end)="
+## strings
+#color white "\"(\\.|[^\"])*\""
+## comments
+#color blue "^ *#.*$"

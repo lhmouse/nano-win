@@ -94,8 +94,8 @@ CVS code -
 - nanorc.sample:
 	- Remove duplicate "historylog" entry, remove "keypad" entry,
 	  and add "rebinddelete" entry. (DLR)
-	- Update the regexes for nanorc files. (Brand Huntsman, slightly
-	  modified by DLR)
+	- Update and add comments to the regexes for nanorc files.
+	  (Brand Huntsman)
 	- Fix an attempt at a bright background color in the sample Java
 	  source regexes. (DLR)
 	- Since tabs are shown as groups of spaces, they are interpreted
