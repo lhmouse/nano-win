@@ -182,6 +182,10 @@ CVS code -
 	- Remove unneeded edit_update() calls. (David Benbennick)
 	- Convert to use an enum to specify the search type: JUSTIFY,
 	  BEGIN, or END. (DLR)
+	- Refactor to properly do searches for beginnings of paragraphs
+	  in the same way as searches for endings of paragraphs, without
+	  needing the old (and somewhat inaccurate) recursive approach.
+	  (DLR)
   do_justify()
 	- Remove unneeded edit_update() calls, and add a few minor
 	  efficiency tweaks. (David Benbennick)

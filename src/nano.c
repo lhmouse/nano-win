@@ -2177,9 +2177,6 @@ int do_para_search(justbegend search_type, size_t *quote, size_t *par,
 	/* Generic indentation length. */
     filestruct *line;
 	/* Generic line of text. */
-    static int do_restart = 1;
-    	/* Whether we're restarting when searching for the beginning
-    	 * line of the paragraph. */
 
 #ifdef HAVE_REGEX_H
     regex_t qreg;	/* qreg is the compiled quotation regexp.  We no
@@ -2202,14 +2199,14 @@ int do_para_search(justbegend search_type, size_t *quote, size_t *par,
 
     current_x = 0;
 
-  restart_para_search:
-    /* Here we find the first line of the paragraph to search.  If the
-     * current line is in a paragraph, then we move back to the first
-     * line.  Otherwise, we move to the first line that is in a
-     * paragraph. */
     quote_len = quote_length(IFREG(current->data, &qreg));
     indent_len = indent_length(current->data + quote_len);
 
+    /* Here we find the last or first line of the paragraph to search.
+     * If the current line is in a paragraph, then we move back to the
+     * first line of the paragraph.  Otherwise, we move to the last or
+     * first line that is in a paragraph. */
+  start_para_search:
     if (current->data[quote_len + indent_len] != '\0') {
 	/* This line is part of a paragraph.  So we must search back to
 	 * the first line of this paragraph.  First we check items 1)
@@ -2234,9 +2231,21 @@ int do_para_search(justbegend search_type, size_t *quote, size_t *par,
 	    current = current->prev;
 	    current_y--;
 	}
+
+	/* If we're searching for the beginning of the paragraph, 
+	 * we're not on the first line of the file, and we're on the 
+	 * same line we started on, move up one line and search
+	 * again, so that we end up on the first line of the previous
+	 * paragraph. */
+	if (search_type == BEGIN && current->prev != NULL &&
+	    current == current_save) {
+	    current = current->prev;
+	    current_y--;
+	    goto start_para_search;
+	}
     } else if (search_type == BEGIN) {
 	/* This line is not part of a paragraph.  Move up until we get
-	 * to a non "blank" line, and then move down once. */
+	 * to a non "blank" line. */
 	do {
 	    /* There is no previous paragraph, so nothing to move to. */
 	    if (current->prev == NULL) {
@@ -2244,8 +2253,7 @@ int do_para_search(justbegend search_type, size_t *quote, size_t *par,
 		if (do_refresh)
 		    edit_redraw(current_save, old_pww);
 #ifdef HAVE_REGEX_H
-		if (!do_restart)
-		    regfree(&qreg);
+		regfree(&qreg);
 #endif
 		return 1;
 	    }
@@ -2254,7 +2262,6 @@ int do_para_search(justbegend search_type, size_t *quote, size_t *par,
 	    quote_len = quote_length(IFREG(current->data, &qreg));
 	    indent_len = indent_length(current->data + quote_len);
 	} while (current->data[quote_len + indent_len] == '\0');
-	current = current->next;
     } else {
 	/* This line is not part of a paragraph.  Move down until we get
 	 * to a non "blank" line. */
@@ -2276,8 +2283,9 @@ int do_para_search(justbegend search_type, size_t *quote, size_t *par,
 	} while (current->data[quote_len + indent_len] == '\0');
     }
 
-    /* Now current is the first line of the paragraph, and quote_len is
-     * the quotation length of that line. */
+    /* Now current is the last line in the paragraph if we're searching
+     * for the beginning of it or the first line of the paragraph
+     * otherwise, and quote_len is the quotation length of that line. */
 
     /* Next step, compute par_len, the number of lines in this
      * paragraph. */
@@ -2285,56 +2293,44 @@ int do_para_search(justbegend search_type, size_t *quote, size_t *par,
     par_len = 1;
     indent_len = indent_length(line->data + quote_len);
 
-    while (line->next != NULL && quotes_match(current->data, quote_len,
-	IFREG(line->next->data, &qreg))) {
-	size_t temp_id_len = indent_length(line->next->data + quote_len);
+    if (search_type == BEGIN) {
+	while (line->prev != NULL && quotes_match(current->data,
+		quote_len, IFREG(line->prev->data, &qreg))) {
+	    size_t temp_id_len = indent_length(line->prev->data +
+		quote_len);
 
-	if (!indents_match(line->data + quote_len, indent_len,
+	    if (!indents_match(line->data + quote_len, indent_len,
+		line->prev->data + quote_len, temp_id_len) ||
+		line->prev->data[quote_len + temp_id_len] == '\0' ||
+		(quote_len == 0 && temp_id_len > 0
+#ifndef NANO_SMALL
+		&& !ISSET(AUTOINDENT)
+#endif
+		))
+		break;
+	    indent_len = temp_id_len;
+	    line = line->prev;
+	    par_len++;
+	}
+    } else {
+	while (line->next != NULL && quotes_match(current->data,
+		quote_len, IFREG(line->next->data, &qreg))) {
+	    size_t temp_id_len = indent_length(line->next->data +
+		quote_len);
+
+	    if (!indents_match(line->data + quote_len, indent_len,
 		line->next->data + quote_len, temp_id_len) ||
 		line->next->data[quote_len + temp_id_len] == '\0' ||
 		(quote_len == 0 && temp_id_len > 0
 #ifndef NANO_SMALL
-			&& !ISSET(AUTOINDENT)
+		&& !ISSET(AUTOINDENT)
 #endif
 		))
-	    break;
-	indent_len = temp_id_len;
-	line = line->next;
-	par_len++;
-    }
-
-    if (search_type == BEGIN) {
-	/* We're on the same line we started on.  Move up until we get
-	 * to a non-"blank" line, restart the search from there until we
-	 * find a line that's part of a paragraph, and search once more
-	 * so that we end up at the beginning of that paragraph. */
-	if (current != fileage && current == current_save && do_restart) {
-	    while (current->prev != NULL) {
-		size_t i, j = 0;
-		current = current->prev;
-		current_y--;
-		/* Skip over lines consisting only of spacing
-		 * characters, as searching for the end of the paragraph
-		 * does. */
-		for (i = 0; current->data[i] != '\0'; i++) {
-		    if (isblank(current->data[i]))
-			j++;
-		    else {
-			i = 0;
-			j = 1;
-			break;
-		    }
-		}
-		if (i != j && strlen(current->data) >=
-			(quote_len + indent_len) &&
-			current->data[quote_len + indent_len] != '\0') {
-		    do_restart = 0;
-		    break;
-		}
-	    }
-	    goto restart_para_search;
-	} else
-	    do_restart = 1;
+		break;
+	    indent_len = temp_id_len;
+	    line = line->next;
+	    par_len++;
+	}
     }
 
 #ifdef HAVE_REGEX_H
@@ -2345,9 +2341,16 @@ int do_para_search(justbegend search_type, size_t *quote, size_t *par,
     /* Now par_len is the number of lines in this paragraph.  We should
      * never call quotes_match() or quote_length() again. */
 
-    /* If we're searching for the end of the paragraph, move down the
-     * number of lines in the paragraph. */
-    if (search_type == END) {
+    /* If we're searching for the beginning of the paragraph, move up
+     * the number of lines in the paragraph minus one, since we want to
+     * end up on the first line of the paragraph.  If we're searching
+     * for the end of the paragraph, move down the number of lines in
+     * the paragraph, since we want to end up on the line after the 
+     * last line of the paragraph. */
+    if (search_type == BEGIN) {
+	for (; par_len > 1; current_y--, par_len--)
+	    current = current->prev;
+    } else if (search_type == END) {
 	for (; par_len > 0; current_y++, par_len--)
 	    current = current->next;
     }
