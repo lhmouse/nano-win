@@ -667,6 +667,7 @@ int input_tab(char *buf, int place, int lastWasTab)
 	    strncpy(buf + pos, matches[0] + pos,
 		    strlen(matches[0]) - pos);
 	    newplace += strlen(matches[0]) - pos;
+	    beep();
 	    break;
 	default:
 	    /* Check to see if all matches share a beginning, and if so
@@ -746,8 +747,8 @@ int input_tab(char *buf, int place, int lastWasTab)
 	    }
 	    free(foo);
 	    wrefresh(edit);
-	}
-	beep();
+	} else
+	    beep();
 
     }
 
