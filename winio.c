@@ -330,12 +330,10 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 	case NANO_HOME_KEY:
 	case KEY_HOME:
 	    x = x_left;
-	    nanoget_repaint(buf, inputbuf, x);
 	    break;
 	case NANO_END_KEY:
 	case KEY_END:
 	    x = x_left + strlen(inputbuf);
-	    nanoget_repaint(buf, inputbuf, x);
 	    break;
 	case KEY_RIGHT:
 	case NANO_FORWARD_KEY:
@@ -351,13 +349,11 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 			strlen(inputbuf) - (x - x_left) - 1);
 		inputbuf[strlen(inputbuf) - 1] = 0;
 	    }
-	    nanoget_repaint(buf, inputbuf, x);
 	    break;
 	case NANO_CONTROL_K:
 	case NANO_CONTROL_U:
 	    *inputbuf = 0;
 	    x = x_left;
-	    nanoget_repaint(buf, inputbuf, x);
 	    break;
 	case KEY_BACKSPACE:
 	case 127:
@@ -374,7 +370,6 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 	    }
 	    if (x > strlen(buf))
 		x--;
-	    nanoget_repaint(buf, inputbuf, x);
 	    break;
 #ifndef DISABLE_TABCOMP
 	case NANO_CONTROL_I:
@@ -385,7 +380,6 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 		x += shift;
 		if (x - x_left > strlen(inputbuf))
 		    x = strlen(inputbuf) + x_left;
-		nanoget_repaint(buf, inputbuf, x);
 	    }
 	    break;
 #endif
@@ -408,11 +402,9 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 		switch (kbinput = wgetch(edit)) {
 		case 'F':
 		    x = x_left + strlen(inputbuf);
-		    nanoget_repaint(buf, inputbuf, x);
 		    break;
 		case 'H':
 		    x = x_left;
-		    nanoget_repaint(buf, inputbuf, x);
 		    break;
 		}
 		break;
@@ -431,7 +423,6 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 		case '1':
 		case '7':
 		    x = x_left;
-		    nanoget_repaint(buf, inputbuf, x);
 		    goto skip_tilde;
 		case '3':
 		  do_deletekey:
@@ -442,12 +433,10 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 				strlen(inputbuf) - (x - x_left) - 1);
 			inputbuf[strlen(inputbuf) - 1] = 0;
 		    }
-		    nanoget_repaint(buf, inputbuf, x);
 		    goto skip_tilde;
 		case '4':
 		case '8':
 		    x = x_left + strlen(inputbuf);
-		    nanoget_repaint(buf, inputbuf, x);
 		    goto skip_tilde;
 		  skip_tilde:
 		    nodelay(edit, TRUE);
@@ -475,7 +464,6 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 		}
 
 	    }
-	    nanoget_repaint(buf, inputbuf, x);
 	    break;
 
 	default:
@@ -493,11 +481,11 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 
 	    x++;
 
-	    nanoget_repaint(buf, inputbuf, x);
 #ifdef DEBUG
 	    fprintf(stderr, _("input \'%c\' (%d)\n"), kbinput, kbinput);
 #endif
 	}
+	nanoget_repaint(buf, inputbuf, x);
 	wrefresh(bottomwin);
     }
 
