@@ -66,13 +66,13 @@ void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
 
     /* Set up the beginning of the cutbuffer */
     tmp = copy_node(top);
-    tmpstr = nmalloc(strlen(&top->data[top_x]) + 1);
+    tmpstr = charalloc(strlen(&top->data[top_x]) + 1);
     strcpy(tmpstr, &top->data[top_x]);
     free(tmp->data);
     tmp->data = tmpstr;
 
     /* Chop off the end of the first line */
-    tmpstr = nmalloc(top_x + 1);
+    tmpstr = charalloc(top_x + 1);
     strncpy(tmpstr, top->data, top_x);
     free(top->data);
     top->data = tmpstr;
@@ -90,7 +90,7 @@ void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
     if (next == NULL)
 	return;
     /* Now, paste bot[bot_x] into top[top_x] */
-    tmpstr = nmalloc(strlen(top->data) + strlen(&bot->data[bot_x]));
+    tmpstr = charalloc(strlen(top->data) + strlen(&bot->data[bot_x]));
     strncpy(tmpstr, top->data, top_x);
     strcpy(&tmpstr[top_x], &bot->data[bot_x]);
     free(top->data);
@@ -182,7 +182,7 @@ int do_cut_text(void)
 	    tmp = copy_node(current);
 	    newsize = abs(mark_beginx - current_x) + 1;
 
-	    tmpstr = nmalloc(newsize + 1);
+	    tmpstr = charalloc(newsize + 1);
 	    if (current_x < mark_beginx) {
 		strncpy(tmpstr, &current->data[current_x], newsize);
 		memmove(&current->data[current_x],
@@ -237,7 +237,7 @@ int do_cut_text(void)
 	} else {
 	    add_to_cutbuffer(fileptr);
 	    fileage = make_new_node(NULL);
-	    fileage->data = nmalloc(1);
+	    fileage->data = charalloc(1);
 	    fileage->data[0] = '\0';
 	    current = fileage;
 	}
@@ -300,7 +300,7 @@ int do_uncut_text(void)
 	/* If there's only one line in the cutbuffer */
 	if (cutbuffer->next == NULL) {
 	    tmpstr =
-		nmalloc(strlen(current->data) + strlen(cutbuffer->data) +
+		charalloc(strlen(current->data) + strlen(cutbuffer->data) +
 			1);
 	    strncpy(tmpstr, current->data, current_x);
 	    strcpy(&tmpstr[current_x], cutbuffer->data);
@@ -315,13 +315,13 @@ int do_uncut_text(void)
 	} else {		/* yuck -- no kidding! */
 	    tmp = current->next;
 	    /* New beginning */
-	    tmpstr = nmalloc(current_x + strlen(newbuf->data) + 1);
+	    tmpstr = charalloc(current_x + strlen(newbuf->data) + 1);
 	    strncpy(tmpstr, current->data, current_x);
 	    strcpy(&tmpstr[current_x], newbuf->data);
 	    totsize += strlen(newbuf->data) + strlen(newend->data) + 1;
 
 	    /* New end */
-	    tmpstr2 = nmalloc(strlen(newend->data) +
+	    tmpstr2 = charalloc(strlen(newend->data) +
 			      strlen(&current->data[current_x]) + 1);
 	    strcpy(tmpstr2, newend->data);
 	    strcat(tmpstr2, &current->data[current_x]);
@@ -371,7 +371,7 @@ int do_uncut_text(void)
 
 	if (marked_cut == 2 && current_x != strlen(current->data)) {
 	    tmp = make_new_node(current);
-	    tmp->data = nmalloc(strlen(&current->data[current_x]) + 1);
+	    tmp->data = charalloc(strlen(&current->data[current_x]) + 1);
 	    strcpy(tmp->data, &current->data[current_x]);
 	    splice_node(current, tmp, current->next);
 	    null_at(current->data, current_x);

@@ -265,7 +265,7 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
     int shift = 0;
 #endif
     
-    inputbuf = nmalloc(strlen(def) + 1);
+    inputbuf = charalloc(strlen(def) + 1);
     inputbuf[0] = 0;
 
     x_left = strlen(buf);
@@ -930,7 +930,7 @@ void update_line(filestruct * fileptr, int index)
 
     realdata = fileptr->data;
     len = strlen(realdata);
-    fileptr->data = nmalloc(xpt(fileptr, len) + 1);
+    fileptr->data = charalloc(xpt(fileptr, len) + 1);
 
     pos = 0;
     for (i = 0; i < len; i++) {

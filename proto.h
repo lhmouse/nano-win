@@ -124,7 +124,6 @@ void center_cursor(void);
 void bottombars(shortcut s[], int slen);
 void blank_statusbar_refresh(void);
 void *nmalloc (size_t howmuch);
-void *ncalloc (size_t howmuch, size_t size);
 void *mallocstrcpy(char *dest, char *src);
 void wrap_reset(void);
 void display_main_list(void);
@@ -167,6 +166,8 @@ int do_delete(void), do_backspace(void), do_tab(void), do_justify(void);
 int do_first_line(void), do_last_line(void);
 int do_replace(void), do_help(void), do_enter_void(void);
 int keypad_on(WINDOW * win, int newval);
+
+char *charalloc (size_t howmuch);
 
 #ifndef DISABLE_BROWSER
 char *do_browser(char *path);

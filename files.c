@@ -54,7 +54,7 @@ void load_file(void)
 void new_file(void)
 {
     fileage = nmalloc(sizeof(filestruct));
-    fileage->data = nmalloc(1);
+    fileage->data = charalloc(1);
     strcpy(fileage->data, "");
     fileage->prev = NULL;
     fileage->next = NULL;
@@ -96,7 +96,7 @@ filestruct *read_line(char *buf, filestruct * prev, int *line1ins)
     filestruct *fileptr;
 
     fileptr = nmalloc(sizeof(filestruct));
-    fileptr->data = nmalloc(strlen(buf) + 2);
+    fileptr->data = charalloc(strlen(buf) + 2);
     strcpy(fileptr->data, buf);
 
     if (*line1ins) {
@@ -137,7 +137,7 @@ int read_file(int fd, char *filename)
     filestruct *fileptr = current, *tmp = NULL;
     int line1ins = 0;
 
-    buf = nmalloc(bufx);
+    buf = charalloc(bufx);
     buf[0] = '\0';
 
     if (fileptr != NULL && fileptr->prev != NULL) {
@@ -390,7 +390,7 @@ int write_file(char *name, int tmp)
     }
     /* Don't follow symlink.  Create new file. */
     else {
-	buf = nmalloc(strlen(realname) + 8);
+	buf = charalloc(strlen(realname) + 8);
 	strncpy(buf, realname, strlen(realname)+1);
 	strcat(buf, ".XXXXXX");
 	if ((fd = mkstemp(buf)) == -1) {
@@ -603,7 +603,7 @@ char *real_dir_from_tilde(char *buf)
 	    if (getenv("HOME") != NULL) {
 
 		free(dirtmp);
-		dirtmp = nmalloc(strlen(buf) + 2 + strlen(getenv("HOME")));
+		dirtmp = charalloc(strlen(buf) + 2 + strlen(getenv("HOME")));
 
 		sprintf(dirtmp, "%s%s", getenv("HOME"), &buf[1]);
 
@@ -627,7 +627,7 @@ char *real_dir_from_tilde(char *buf)
 	    if (userdata != NULL) {  /* User found */
 
 	        free(dirtmp);
-		dirtmp = nmalloc(strlen(buf) + 2 + strlen(userdata->pw_dir));
+		dirtmp = charalloc(strlen(buf) + 2 + strlen(userdata->pw_dir));
 		sprintf(dirtmp, "%s%s", userdata->pw_dir, &buf[i]);
 
 	    }
@@ -702,7 +702,7 @@ char **username_tab_completion(char *buf, int *num_matches)
 	     * This makes a lot more sense to me (Chris) this way...
 	     */
 
-	    matchline = nmalloc(strlen(userdata->pw_name) + 2);
+	    matchline = charalloc(strlen(userdata->pw_name) + 2);
 	    sprintf(matchline, "~%s", userdata->pw_name);
 	    matches[*num_matches] = matchline;
 	    ++*num_matches;
@@ -734,7 +734,7 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 
     /* Okie, if there's a / in the buffer, strip out the directory part */
     if (strcmp(buf, "") && strstr(buf, "/")) {
-	dirName = nmalloc(strlen(buf) + 1);
+	dirName = charalloc(strlen(buf) + 1);
 	tmp = buf + strlen(buf);
 	while (*tmp != '/' && tmp != buf)
 	    tmp--;
@@ -793,7 +793,7 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 	     * This makes a lot more sense to me (Chris) this way...
 	     */
 	    tmp2 = NULL;
-	    tmp2 = nmalloc(strlen(next->d_name) + 1);
+	    tmp2 = charalloc(strlen(next->d_name) + 1);
 	    strcpy(tmp2, next->d_name);
 	    matches[*num_matches] = tmp2;
 	    ++*num_matches;
@@ -958,7 +958,7 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 	    if (longestname > COLS - 1)
 		longestname = COLS - 1;
 
-	    foo = nmalloc(longestname + 5);
+	    foo = charalloc(longestname + 5);
 
 	    /* Print the list of matches */
 	    for (i = 0, col = 0; i < num_matches; i++) {
@@ -1063,7 +1063,7 @@ char **browser_init(char *path, int *longest, int *numents)
     while ((next = readdir(dir)) != NULL) {
 	if (!strcmp(next->d_name, "."))
 	   continue;
-	filelist[i] = nmalloc(strlen(next->d_name) + strlen(path) + 2);
+	filelist[i] = charalloc(strlen(next->d_name) + strlen(path) + 2);
 
 	if (!strcmp(path, "/"))
 	    snprintf(filelist[i], strlen(next->d_name) + strlen(path) + 1, 
@@ -1158,7 +1158,7 @@ char *do_browser(char *inpath)
 	path = mallocstrcpy(path, inpath);
 
     filelist = browser_init(path, &longest, &numents);
-    foo = nmalloc(longest + 8);
+    foo = charalloc(longest + 8);
 
     /* Sort the list by directory first, then alphabetically */
     qsort(filelist, numents, sizeof(char *), diralphasort);

@@ -55,11 +55,11 @@ void regexp_cleanup(void)
 void search_init_globals(void)
 {
     if (last_search == NULL) {
-	last_search = nmalloc(1);
+	last_search = charalloc(1);
 	last_search[0] = 0;
     }
     if (last_replace == NULL) {
-	last_replace = nmalloc(1);
+	last_replace = charalloc(1);
 	last_replace[0] = 0;
     }
 }
@@ -79,7 +79,7 @@ int search_init(int replacing)
 
     search_init_globals();
 
-    buf = nmalloc(strlen(last_search) + 5);
+    buf = charalloc(strlen(last_search) + 5);
     buf[0] = 0;
 
      /* Okay, fun time.  backupstring is our holder for what is being 
@@ -447,7 +447,7 @@ char *replace_line(void)
     }
 
     /* Create buffer */
-    copy = nmalloc(new_line_size);
+    copy = charalloc(new_line_size);
 
     /* Head of Original Line */
     strncpy(copy, current->data, current_x);
@@ -628,7 +628,7 @@ int do_replace(void)
     }
 
     if (ISSET(PICO_MODE)) {
-	buf = nmalloc(strlen(last_replace) + 5);
+	buf = charalloc(strlen(last_replace) + 5);
 	if (strcmp(last_replace, "")) {
 	    if (strlen(last_replace) > (COLS / 3)) {
 		strncpy(buf, last_replace, COLS / 3);

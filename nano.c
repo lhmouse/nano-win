@@ -118,7 +118,7 @@ void die(char *msg, ...)
 	i = write_file(name, 1);
     } else {
 
-	char *buf = nmalloc(strlen(filename) + 6);
+	char *buf = charalloc(strlen(filename) + 6);
 	strcpy(buf, filename);
 	strcat(buf, ".save");
 	i = write_file(buf, 1);
@@ -160,7 +160,7 @@ void clear_filename(void)
 {
     if (filename != NULL)
 	free(filename);
-    filename = nmalloc(1);
+    filename = charalloc(1);
     filename[0] = 0;
 }
 
@@ -187,7 +187,7 @@ void global_init(void)
     if (fill < MIN_FILL_LENGTH)
 	die_too_small();
 
-    hblank = nmalloc(COLS + 1);
+    hblank = charalloc(COLS + 1);
     memset(hblank, ' ', COLS);
     hblank[COLS] = 0;
 }
@@ -224,7 +224,7 @@ filestruct *copy_node(filestruct * src)
     filestruct *dst;
 
     dst = nmalloc(sizeof(filestruct));
-    dst->data = nmalloc(strlen(src->data) + 1);
+    dst->data = charalloc(strlen(src->data) + 1);
 
     dst->next = src->next;
     dst->prev = src->prev;
@@ -606,12 +606,12 @@ int do_enter(filestruct * inptr)
 		current_x++;
 		totsize++;
 	    }
-	    newnode->data = nmalloc(strlen(tmp) + extra + 1);
+	    newnode->data = charalloc(strlen(tmp) + extra + 1);
 	    strncpy(newnode->data, current->data, extra);
 	    strcpy(&newnode->data[extra], tmp);
 	}
     } else {
-	newnode->data = nmalloc(strlen(tmp) + 1);
+	newnode->data = charalloc(strlen(tmp) + 1);
 	strcpy(newnode->data, tmp);
     }
     *tmp = 0;
@@ -809,7 +809,7 @@ void do_wrap(filestruct * inptr, char input_char)
 	    down = 1;
 	}
 
-	temp->data = nmalloc(strlen(&inptr->data[current_word_start]) + 1);
+	temp->data = charalloc(strlen(&inptr->data[current_word_start]) + 1);
 	strcpy(temp->data, &inptr->data[current_word_start]);
 	inptr->data = nrealloc(inptr->data, last_word_end + 2);
 	inptr->data[last_word_end + 1] = 0;
@@ -817,7 +817,7 @@ void do_wrap(filestruct * inptr, char input_char)
 	/* Category 1b: one word on the line and word not taking up whole line
 	   (i.e. there are spaces at the beginning of the line) */
     if (last_word_end == -1) {
-	temp->data = nmalloc(strlen(&inptr->data[current_word_start]) + 1);
+	temp->data = charalloc(strlen(&inptr->data[current_word_start]) + 1);
 	strcpy(temp->data, &inptr->data[current_word_start]);
 
 	/* Inside word, remove it from original, and move cursor to right spot. */
@@ -848,7 +848,7 @@ void do_wrap(filestruct * inptr, char input_char)
 	/* Case 2a: cursor before word at wrap point. */
 	if (current_x < current_word_start) {
 	    temp->data =
-		nmalloc(strlen(&inptr->data[current_word_start]) + 1);
+		charalloc(strlen(&inptr->data[current_word_start]) + 1);
 	    strcpy(temp->data, &inptr->data[current_word_start]);
 
 	    if (!isspace((int) input_char)) {
@@ -871,7 +871,7 @@ void do_wrap(filestruct * inptr, char input_char)
 	else if ((current_x >= current_word_start)
 		 && (current_x <= (current_word_end + 1))) {
 	    temp->data =
-		nmalloc(strlen(&inptr->data[current_word_start]) + 1);
+		charalloc(strlen(&inptr->data[current_word_start]) + 1);
 	    strcpy(temp->data, &inptr->data[current_word_start]);
 
 	    down = 1;
@@ -907,7 +907,7 @@ void do_wrap(filestruct * inptr, char input_char)
 	/* Case 2c: cursor past word at wrap point. */
 	else {
 	    temp->data =
-		nmalloc(strlen(&inptr->data[current_word_start]) + 1);
+		charalloc(strlen(&inptr->data[current_word_start]) + 1);
 	    strcpy(temp->data, &inptr->data[current_word_start]);
 
 	    down = 1;
@@ -931,8 +931,7 @@ void do_wrap(filestruct * inptr, char input_char)
 
 	/* Plus one for the space which concatenates the two lines together plus 1 for \0. */
 	char *p =
-	    nmalloc((strlen(temp->data) + strlen(inptr->next->data) + 2)
-		    * sizeof(char));
+	    charalloc((strlen(temp->data) + strlen(inptr->next->data) + 2));
 
 	if (ISSET(AUTOINDENT)) {
 	    int non = 0;
@@ -991,7 +990,7 @@ void do_wrap(filestruct * inptr, char input_char)
 		    spc++;
 		    totsize++;
 		}
-		t = nmalloc(strlen(temp->data) + extra + 1);
+		t = charalloc(strlen(temp->data) + extra + 1);
 		strncpy(t, inptr->data, extra);
 		strcpy(t + extra, temp->data);
 		free(temp->data);
@@ -1342,7 +1341,7 @@ int do_int_speller(char *tempfile_name)
 	return FALSE;
     }
 
-    read_buff = nmalloc(pipe_buff_size + 1);
+    read_buff = charalloc(pipe_buff_size + 1);
 
     /* Process the returned spelling errors */
 
@@ -1960,7 +1959,7 @@ int do_justify(void)
 	    current->data[i] = '\0';
 
 	    len2 = strlen(current->data + i + 1);
-	    tmpline->data = nmalloc(len2 + 1);
+	    tmpline->data = charalloc(len2 + 1);
 
 	    /* Skip the white space in current. */
 	    memcpy(tmpline->data, current->data + i + 1, len2);
@@ -2078,7 +2077,7 @@ void help_init(void)
 	free(help_text);
 
     /* Allocate space for the help text */
-    help_text = nmalloc(allocsize);
+    help_text = charalloc(allocsize);
 
     /* Now add the text we want */
     strcpy(help_text, help_text_init);
@@ -2332,7 +2331,7 @@ int main(int argc, char *argv[])
 	    break;
 #ifndef DISABLE_SPELLER
 	case 's':
-	    alt_speller = nmalloc(strlen(optarg) + 1);
+	    alt_speller = charalloc(strlen(optarg) + 1);
 	    strcpy(alt_speller, optarg);
 	    break;
 #endif

@@ -20,6 +20,9 @@ Cvs code -
 	- Added config.guess and config.sub to distribution because,
 	  apparently, newer autoconf/automakes can't live without them.
 	- Various spelling updates by David Lawrence Ramsey.
+	- Changed all string allocations to charalloc(), new function
+	  designed to take nmalloc argument but call calloc based on 
+	  (char *) size.
 - configure.in:
 	- New option, --enable-nanorc, which allows people to have a .nanorc
 	  initialization file and set options normally used on the command

@@ -216,7 +216,7 @@ void do_rcfile(void)
     if (getenv("HOME") == NULL)
 	return;
 
-    nanorc = nmalloc(strlen(getenv("HOME")) + 10);
+    nanorc = charalloc(strlen(getenv("HOME")) + 10);
     sprintf(nanorc, "%s/.nanorc", getenv("HOME"));
 
     if (stat(nanorc, &fileinfo) == -1) {

@@ -99,17 +99,18 @@ void *nmalloc(size_t howmuch)
     return r;
 }
 
-/* We're going to need this too */
-void *ncalloc(size_t howmuch, size_t size)
+/* We're going to need this too - Hopefully this will minimize
+   the transition cost of moving to the apropriate function. */
+char *charalloc(size_t howmuch)
 {
     void *r;
 
     /* Panic save? */
 
-    if (!(r = calloc(howmuch, size)))
+    if (!(r = calloc(howmuch, sizeof (char *))))
 	die(_("nano: calloc: out of memory!"));
 
-    return r;
+    return (char *) r;
 }
 
 void *nrealloc(void *ptr, size_t howmuch)
@@ -141,7 +142,7 @@ void *mallocstrcpy(char *dest, char *src)
 	return(dest);
     }
 
-    dest = nmalloc(strlen(src) + 1);
+    dest = charalloc(strlen(src) + 1);
     strcpy(dest, src);
 
     return dest;
@@ -152,7 +153,7 @@ void *mallocstrcpy(char *dest, char *src)
 void new_magicline(void)
 {
     filebot->next = nmalloc(sizeof(filestruct));
-    filebot->next->data = nmalloc(1);
+    filebot->next->data = charalloc(1);
     filebot->next->data[0] = '\0';
     filebot->next->prev = filebot;
     filebot->next->next = NULL;
