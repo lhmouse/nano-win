@@ -101,9 +101,9 @@ void do_cut_text(void)
 
     check_statusblank();
 
-    /* If keep_cutbuffer is FALSE, blow away the text in the
-     * cutbuffer. */
-    if (!keep_cutbuffer) {
+    /* If keep_cutbuffer is FALSE and the cutbuffer isn't empty, blow
+     * away the text in the cutbuffer. */
+    if (!keep_cutbuffer && cutbuffer != NULL) {
 	free_filestruct(cutbuffer);
 	cutbuffer = NULL;
 #ifdef DEBUG

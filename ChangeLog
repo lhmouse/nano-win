@@ -13,6 +13,9 @@ CVS code -
 	  buffer rather than the cutbuffer.  Changes to backup_lines(),
 	  do_justify(), etc. (DLR)
 - cut.c:
+  do_cut_text()
+	- If keep_cutbuffer is FALSE, only blow away the text in the
+	  cutbuffer if the cutbuffer isn't empty. (DLR)
   do_uncut_text()
 	- No longer duplicate Pico's adding an extra magicline to the
 	  file if uncutting leaves the cursor on the current one, as
