@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-27 11:17-0500\n"
+"POT-Creation-Date: 2004-02-17 23:37-0500\n"
 "PO-Revision-Date: 2002-02-06 18:42+0200\n"
 "Last-Translator: Gergely Nagy <algernon@debian.org>\n"
 "Language-Team: Hungarian <magyar@lists.linux.hu>\n"
@@ -37,219 +37,219 @@ msgid_plural "Read %d lines"
 msgstr[0] "%d sort beolvastam"
 msgstr[1] "%d sort beolvastam"
 
-#: files.c:343 search.c:58
+#: files.c:349 search.c:58
 #, c-format
 msgid "\"%s\" not found"
 msgstr "\"%s\" nem található"
 
-#: files.c:347
+#: files.c:353
 msgid "New File"
 msgstr "Új Állomány"
 
-#: files.c:353
+#: files.c:359
 #, fuzzy, c-format
 msgid "\"%s\" is a directory"
 msgstr "A(z) \"%s\" állomány egy könyvtár"
 
-#: files.c:354
+#: files.c:360
 #, c-format
 msgid "File \"%s\" is a device file"
 msgstr "A(z) \"%s\" állomány egy eszközállomány"
 
-#: files.c:372
+#: files.c:378
 msgid "Reading File"
 msgstr "Állomány beolvasása"
 
-#: files.c:448
+#: files.c:454
 #, fuzzy, c-format
 msgid "File to insert into new buffer [from %s] "
 msgstr "Állomány beszúrása [./-ból] "
 
-#: files.c:456
+#: files.c:462
 #, fuzzy, c-format
 msgid "File to insert [from %s] "
 msgstr "Állomány beszúrása [./-ból] "
 
-#: files.c:467
+#: files.c:473
 #, fuzzy
 msgid "File to insert into new buffer [from ./] "
 msgstr "Állomány beszúrása [./-ból] "
 
-#: files.c:474
+#: files.c:480
 msgid "File to insert [from ./] "
 msgstr "Állomány beszúrása [./-ból] "
 
-#: files.c:495
+#: files.c:501
 msgid "Command to execute"
 msgstr ""
 
-#: files.c:497 files.c:609 files.c:1340 files.c:1776 nano.c:2726
+#: files.c:503 files.c:615 files.c:1346 files.c:1782 nano.c:2732
 msgid "Cancelled"
 msgstr "Megszakítva"
 
-#: files.c:518
+#: files.c:524
 #, c-format
 msgid "Can't insert file from outside of %s"
 msgstr "Nem lehet állományt beilleszteni %s -en kívülrõl"
 
-#: files.c:632
+#: files.c:638
 msgid "Key illegal in non-multibuffer mode"
 msgstr "A billentyû értelmezhetetlen nem-multibuffer módban"
 
-#: files.c:873 files.c:936
+#: files.c:879 files.c:942
 msgid "No more open files"
 msgstr "Nincs több nyitott állomány"
 
-#: files.c:900 files.c:963
+#: files.c:906 files.c:969
 #, c-format
 msgid "Switched to %s"
 msgstr ""
 
-#: files.c:1353
+#: files.c:1359
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Nem lehet %s -en kívülre írni"
 
-#: files.c:1384
+#: files.c:1390
 #, fuzzy, c-format
 msgid "Could not read %s for backup: %s"
 msgstr "Nem lehet %s-t megnyitni írásra: %s"
 
-#: files.c:1395
+#: files.c:1401
 #, fuzzy, c-format
 msgid "Couldn't write backup: %s"
 msgstr "Nem lehet lezárni %s: %s."
 
-#: files.c:1413
+#: files.c:1419
 #, fuzzy, c-format
 msgid "Could not set permissions %o on backup %s: %s"
 msgstr "Nem lehet a jogosultságokat %o -ra állítani %s -en: %s"
 
-#: files.c:1419
+#: files.c:1425
 #, fuzzy, c-format
 msgid "Could not set owner %d/group %d on backup %s: %s"
 msgstr "Nem lehet a jogosultságokat %o -ra állítani %s -en: %s"
 
-#: files.c:1424
+#: files.c:1430
 #, fuzzy, c-format
 msgid "Could not set access/modification time on backup %s: %s"
 msgstr "Nem lehet a jogosultságokat %o -ra állítani %s -en: %s"
 
-#: files.c:1459 files.c:1475 files.c:1487 files.c:1509 files.c:1542
-#: files.c:1549 files.c:1561
+#: files.c:1465 files.c:1481 files.c:1493 files.c:1515 files.c:1548
+#: files.c:1555 files.c:1567
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "Nem tudom az állományt írásra megnyitni: %s"
 
-#: files.c:1572
+#: files.c:1578
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "Nem lehet lezárni %s: %s."
 
-#: files.c:1584 files.c:1589 files.c:1617
+#: files.c:1590 files.c:1595 files.c:1623
 #, fuzzy, c-format
 msgid "Could not reopen %s: %s"
 msgstr "Nem lehet lezárni %s: %s."
 
-#: files.c:1594 files.c:1600 files.c:1609
+#: files.c:1600 files.c:1606 files.c:1615
 #, fuzzy, c-format
 msgid "Could not open %s for prepend: %s"
 msgstr "Nem lehet %s-t megnyitni írásra: %s"
 
-#: files.c:1647 files.c:1656 files.c:1661
+#: files.c:1653 files.c:1662 files.c:1667
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr "Nem lehet %s-t megnyitni írásra: %s"
 
-#: files.c:1668
+#: files.c:1674
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr "Nem lehet a jogosultságokat %o -ra állítani %s -en: %s"
 
-#: files.c:1684
+#: files.c:1690
 #, fuzzy, c-format
 msgid "Wrote %d line"
 msgid_plural "Wrote %d lines"
 msgstr[0] "%d sor elmentve"
 msgstr[1] "%d sor elmentve"
 
-#: files.c:1730
+#: files.c:1736
 msgid " [Mac Format]"
 msgstr ""
 
-#: files.c:1732
+#: files.c:1738
 msgid " [DOS Format]"
 msgstr ""
 
-#: files.c:1737
+#: files.c:1743
 #, fuzzy
 msgid " [Backup]"
 msgstr " [Vissza]"
 
-#: files.c:1745
+#: files.c:1751
 #, fuzzy
 msgid "Prepend Selection to File"
 msgstr "A kiválasztott rész hozzáfûzése az állományhoz"
 
-#: files.c:1748
+#: files.c:1754
 msgid "Append Selection to File"
 msgstr "A kiválasztott rész hozzáfûzése az állományhoz"
 
-#: files.c:1751
+#: files.c:1757
 msgid "Write Selection to File"
 msgstr "A kiválasztott rész lemezre mentése"
 
-#: files.c:1755 files.c:1766
+#: files.c:1761 files.c:1772
 #, fuzzy
 msgid "File Name to Prepend to"
 msgstr "Hozzáfûzendõ állomány neve"
 
-#: files.c:1758 files.c:1769
+#: files.c:1764 files.c:1775
 #, fuzzy
 msgid "File Name to Append to"
 msgstr "Hozzáfûzendõ állomány neve"
 
-#: files.c:1761 files.c:1772
+#: files.c:1767 files.c:1778
 #, fuzzy
 msgid "File Name to Write"
 msgstr "Elmentendõ állomány neve"
 
-#: files.c:1830
+#: files.c:1836
 msgid "File exists, OVERWRITE ?"
 msgstr "Az állomány már létezik, FELÜLÍRJAM?"
 
-#: files.c:2319
+#: files.c:2325
 msgid "(more)"
 msgstr "(tovább)"
 
-#: files.c:2624
+#: files.c:2625
 msgid "Can't move up a directory"
 msgstr "Nem lehet egy könyvtárral feljebb lépni"
 
-#: files.c:2635 files.c:2708
+#: files.c:2636 files.c:2709
 #, c-format
 msgid "Can't go outside of %s in restricted mode"
 msgstr "Nem lehet %s -bõl kilépni korlátozott módban"
 
-#: files.c:2642 files.c:2669 files.c:2716
+#: files.c:2643 files.c:2670 files.c:2717
 #, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "Nem tudom megnyitni \"%s\" -t: %s"
 
-#: files.c:2690
+#: files.c:2691
 msgid "Goto Directory"
 msgstr "Könyvtárváltás"
 
-#: files.c:2695
+#: files.c:2696
 msgid "Goto Cancelled"
 msgstr "Ugrás megszakítva"
 
-#: files.c:2896
+#: files.c:2897
 #, fuzzy, c-format
 msgid "Unable to open ~/.nano_history file, %s"
 msgstr "A ~/.nanorc állományt nem lehet megnyitni, %s"
 
-#: files.c:2946 files.c:2955 files.c:2960 files.c:2967
+#: files.c:2947 files.c:2956 files.c:2961 files.c:2968
 #, fuzzy, c-format
 msgid "Unable to write ~/.nano_history file, %s"
 msgstr "A ~/.nanorc állományt nem lehet megnyitni, %s"
@@ -296,7 +296,7 @@ msgstr "Állomány mentése Mac formátumban"
 msgid "Backing up file"
 msgstr "Fõprogram: állomány megnyitása\n"
 
-#: global.c:258 nano.c:654
+#: global.c:258 nano.c:660
 msgid "Smooth scrolling"
 msgstr "Egyenletes görgetés"
 
@@ -567,7 +567,7 @@ msgstr "Pozíció"
 msgid "To Spell"
 msgstr "Helyes-e?"
 
-#: global.c:498 nano.c:420 winio.c:655
+#: global.c:498 nano.c:424 winio.c:655
 msgid "Up"
 msgstr "Fel"
 
@@ -755,7 +755,7 @@ msgstr "Az ablak mérete túl kicsi a Nanonak..."
 msgid "Key illegal in VIEW mode"
 msgstr "Hibás billentyû a NÉZÕ módnál"
 
-#: nano.c:279
+#: nano.c:283
 #, fuzzy
 msgid ""
 "Search Command Help Text\n"
@@ -787,7 +787,7 @@ msgstr ""
 " A következõ funkcióbillentyûk használhatóak keresés-módban:\n"
 "\n"
 
-#: nano.c:289
+#: nano.c:293
 #, fuzzy
 msgid ""
 "Go To Line Help Text\n"
@@ -808,7 +808,7 @@ msgstr ""
 " Sorra-ugrás módban a következõ funkcióbillentyûk használhatóak:\n"
 "\n"
 
-#: nano.c:296
+#: nano.c:300
 #, fuzzy
 msgid ""
 "Insert File Help Text\n"
@@ -840,7 +840,7 @@ msgstr ""
 "  Állomány-beillesztés módban a következõ funkcióbillentyûk használhatóak:\n"
 "\n"
 
-#: nano.c:310
+#: nano.c:314
 #, fuzzy
 msgid ""
 "Write File Help Text\n"
@@ -871,7 +871,7 @@ msgstr ""
 "\n"
 
 # FIXME
-#: nano.c:321
+#: nano.c:325
 #, fuzzy
 msgid ""
 "File Browser Help Text\n"
@@ -897,7 +897,7 @@ msgstr ""
 " Tallózó módban a következõ funkcióbillentyûk használhatóak:\n"
 "\n"
 
-#: nano.c:332
+#: nano.c:336
 #, fuzzy
 msgid ""
 "Browser Go To Directory Help Text\n"
@@ -919,7 +919,7 @@ msgstr ""
 "következõ funkcióbillentyûk használhatóak ebben a módban:\n"
 "\n"
 
-#: nano.c:341
+#: nano.c:345
 msgid ""
 "Spell Check Help Text\n"
 "\n"
@@ -941,7 +941,7 @@ msgstr ""
 " A következõ funkcióbillentyûk használhatóak Helyesírás-ellenõrzõ módban:\n"
 "\n"
 
-#: nano.c:352
+#: nano.c:356
 msgid ""
 "External Command Help Text\n"
 "\n"
@@ -952,7 +952,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: nano.c:359
+#: nano.c:363
 #, fuzzy
 msgid ""
 " nano help text\n"
@@ -991,18 +991,18 @@ msgstr ""
 "fõ szerkesztõ-ablakban. Opcionális gombokat zárójelben ábrázoljuk:\n"
 "\n"
 
-#: nano.c:388 nano.c:458
+#: nano.c:392 nano.c:462
 #, fuzzy
 msgid "enable/disable"
 msgstr "%s be/kikapcsolás"
 
-#: nano.c:415 nano.c:418
+#: nano.c:419 nano.c:422
 #, fuzzy
 msgid "Space"
 msgstr "Csere"
 
-#: nano.c:622
-#, fuzzy
+#: nano.c:626
+#, fuzzy, c-format
 msgid ""
 "Usage: nano [+LINE] [GNU long option] [option] [file]\n"
 "\n"
@@ -1010,12 +1010,13 @@ msgstr ""
 "Használat: nano [GNU hosszú opciók] [opciók] +SOR <állomány>\n"
 "\n"
 
-#: nano.c:623
+#: nano.c:627
+#, c-format
 msgid "Option\t\tLong option\t\tMeaning\n"
 msgstr "Opció\t\tHosszú opció\t\tJelentés\n"
 
-#: nano.c:625
-#, fuzzy
+#: nano.c:629
+#, fuzzy, c-format
 msgid ""
 "Usage: nano [+LINE] [option] [file]\n"
 "\n"
@@ -1023,218 +1024,220 @@ msgstr ""
 "Használat: nano [opciók] +SOR <állomány>\n"
 "\n"
 
-#: nano.c:626
+#: nano.c:630
+#, c-format
 msgid "Option\t\tMeaning\n"
 msgstr "Opciók\t\tJelentés\n"
 
-#: nano.c:629
+#: nano.c:633
 #, fuzzy
 msgid "Show this message"
 msgstr " -h \t\tEzen üzenet kiírása\n"
 
-#: nano.c:630
+#: nano.c:634
 msgid "+LINE"
 msgstr ""
 
-#: nano.c:630
+#: nano.c:634
 #, fuzzy
 msgid "Start at line number LINE"
 msgstr " +SOR\t\tA SOR számú sorban kezd\n"
 
-#: nano.c:632
+#: nano.c:636
 msgid "Backup existing files on save"
 msgstr ""
 
-#: nano.c:633
+#: nano.c:637
 #, fuzzy
 msgid "Write file in DOS format"
 msgstr "Állomány mentése DOS formátumban"
 
-#: nano.c:636
+#: nano.c:640
 #, fuzzy
 msgid "Enable multiple file buffers"
 msgstr " -F \t\tTöbb állomány-buffer engedélyezése\n"
 
-#: nano.c:639
+#: nano.c:644
 #, fuzzy
 msgid "Log & read search/replace string history"
 msgstr "Ugrás az elõzõ oldalra"
 
-#: nano.c:640
+#: nano.c:646
 msgid "Don't look at nanorc files"
 msgstr ""
 
-#: nano.c:642
+#: nano.c:648
 #, fuzzy
 msgid "Use alternate keypad routines"
 msgstr " -K\t\tAlternatív keypad rutinok használata\n"
 
-#: nano.c:644
+#: nano.c:650
 #, fuzzy
 msgid "Write file in Mac format"
 msgstr "Állomány mentése Mac formátumban"
 
-#: nano.c:645
+#: nano.c:651
 #, fuzzy
 msgid "Don't convert files from DOS/Mac format"
 msgstr " -D \t\t--dos\t\t\tÁllomány mentése DOS formátumban\n"
 
-#: nano.c:648
+#: nano.c:654
 msgid "-Q [str]"
 msgstr ""
 
-#: nano.c:648
+#: nano.c:654
 msgid "--quotestr=[str]"
 msgstr ""
 
-#: nano.c:648
+#: nano.c:654
 msgid "Quoting string, default \"> \""
 msgstr ""
 
-#: nano.c:651
+#: nano.c:657
 #, fuzzy
 msgid "Do regular expression searches"
 msgstr "Reguláris kifejezések"
 
-#: nano.c:656
+#: nano.c:662
 msgid "-T [num]"
 msgstr ""
 
-#: nano.c:656
+#: nano.c:662
 msgid "--tabsize=[num]"
 msgstr ""
 
-#: nano.c:656
+#: nano.c:662
 #, fuzzy
 msgid "Set width of a tab to num"
 msgstr " -T [szám]\tTabulátor szélességének szám-ra állítása\n"
 
-#: nano.c:657
+#: nano.c:663
 #, fuzzy
 msgid "Print version information and exit"
 msgstr " -V \t\tVerziószám kiírása és kilépés\n"
 
-#: nano.c:659
+#: nano.c:665
 msgid "-Y [str]"
 msgstr ""
 
-#: nano.c:659
+#: nano.c:665
 msgid "--syntax [str]"
 msgstr ""
 
-#: nano.c:659
+#: nano.c:665
 msgid "Syntax definition to use"
 msgstr ""
 
-#: nano.c:661
+#: nano.c:667
 #, fuzzy
 msgid "Constantly show cursor position"
 msgstr " -c \t\tKurzor pozíciójának állandó mutatása\n"
 
-#: nano.c:663
+#: nano.c:669
 #, fuzzy
 msgid "Automatically indent new lines"
 msgstr " -i \t\tÚj sorok automatikus igazítása\n"
 
-#: nano.c:664
+#: nano.c:670
 #, fuzzy
 msgid "Let ^K cut from cursor to end of line"
 msgstr " -k \t\tA ^K a kurzor helyétõl a sor végéig vág\n"
 
-#: nano.c:666
+#: nano.c:672
 #, fuzzy
 msgid "Don't follow symbolic links, overwrite"
 msgstr " -l \t\tSzimbolikus kötések követése helyette felülírás\n"
 
-#: nano.c:668
+#: nano.c:674
 #, fuzzy
 msgid "Enable mouse"
 msgstr " -m \t\tEgér engedélyezése\n"
 
-#: nano.c:671
+#: nano.c:677
 msgid "-o [dir]"
 msgstr ""
 
-#: nano.c:671
+#: nano.c:677
 #, fuzzy
 msgid "--operatingdir=[dir]"
 msgstr " -o [útvonal] \tMunkakönyvtár beállítása\n"
 
-#: nano.c:671
+#: nano.c:677
 #, fuzzy
 msgid "Set operating directory"
 msgstr " -o [útvonal] \tMunkakönyvtár beállítása\n"
 
-#: nano.c:673
+#: nano.c:679
 msgid "Preserve XON (^Q) and XOFF (^S) keys"
 msgstr ""
 
-#: nano.c:675
+#: nano.c:681
 msgid "-r [#cols]"
 msgstr ""
 
-#: nano.c:675
+#: nano.c:681
 msgid "--fill=[#cols]"
 msgstr ""
 
-#: nano.c:675
+#: nano.c:681
 #, fuzzy
 msgid "Set fill cols to (wrap lines at) #cols"
 msgstr " -r [#oszlopok] \tOszlopok feltöltése az #oszlopok-ig\n"
 
-#: nano.c:678
+#: nano.c:684
 msgid "-s [prog]"
 msgstr ""
 
-#: nano.c:678
+#: nano.c:684
 msgid "--speller=[prog]"
 msgstr ""
 
-#: nano.c:678
+#: nano.c:684
 #, fuzzy
 msgid "Enable alternate speller"
 msgstr " -s [prog]  \tAlternatív helyesírás-ellenõrzõ használata\n"
 
-#: nano.c:680
+#: nano.c:686
 #, fuzzy
 msgid "Auto save on exit, don't prompt"
 msgstr " -t \t\tAutomatikus mentés kilépéskor\n"
 
-#: nano.c:681
+#: nano.c:687
 #, fuzzy
 msgid "View (read only) mode"
 msgstr " -v \t\tCsak olvasható mód\n"
 
-#: nano.c:683
+#: nano.c:689
 #, fuzzy
 msgid "Don't wrap long lines"
 msgstr " -w \t\tNem tördeli a hosszú sorokat\n"
 
-#: nano.c:685
+#: nano.c:691
 #, fuzzy
 msgid "Don't show help window"
 msgstr " -x \t\tSúgó elrejtése\n"
 
-#: nano.c:686
+#: nano.c:692
 #, fuzzy
 msgid "Enable suspend"
 msgstr " -z \t\tFelfüggesztés engedélyezése\n"
 
-#: nano.c:689
+#: nano.c:695
 msgid "(ignored, for Pico compatibility)"
 msgstr ""
 
-#: nano.c:696
+#: nano.c:702
 #, fuzzy, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
 msgstr " GNU nano %s verzió. (fordítva %s, %s)\n"
 
-#: nano.c:699
-#, fuzzy
+#: nano.c:705
+#, fuzzy, c-format
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
 msgstr " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 
-#: nano.c:700
+#: nano.c:706
+#, c-format
 msgid ""
 "\n"
 " Compiled options:"
@@ -1242,162 +1245,163 @@ msgstr ""
 "\n"
 " Fordítási opciók:"
 
-#: nano.c:772
+#: nano.c:778
 msgid "Sorry, support for this function has been disabled"
 msgstr ""
 
-#: nano.c:806
+#: nano.c:812
 #, fuzzy
 msgid "Could not pipe"
 msgstr "Nem lehet lezárni %s: %s."
 
-#: nano.c:828 nano.c:1778 nano.c:1911
+#: nano.c:834 nano.c:1784 nano.c:1917
 #, fuzzy
 msgid "Could not fork"
 msgstr "Nem lehet lezárni %s: %s."
 
-#: nano.c:1365
+#: nano.c:1371
 msgid "Mark Set"
 msgstr "Kijelölés kezdete"
 
-#: nano.c:1370
+#: nano.c:1376
 msgid "Mark UNset"
 msgstr "Kijelölés vége"
 
-#: nano.c:1633
+#: nano.c:1639
 msgid "Edit a replacement"
 msgstr "A helyettesítõ érték módosítása"
 
-#: nano.c:1686
+#: nano.c:1692
 #, fuzzy
 msgid "Could not create pipe"
 msgstr "Nem lehet lezárni %s: %s."
 
-#: nano.c:1688
+#: nano.c:1694
 msgid "Creating misspelled word list, please wait..."
 msgstr ""
 
-#: nano.c:1784
+#: nano.c:1790
 #, fuzzy
 msgid "Could not get size of pipe buffer"
 msgstr "Nem lehet %s-t megnyitni írásra: %s"
 
-#: nano.c:1836
+#: nano.c:1842
 msgid "Error invoking \"spell\""
 msgstr ""
 
-#: nano.c:1839
+#: nano.c:1845
 msgid "Error invoking \"sort -f\""
 msgstr ""
 
-#: nano.c:1842
+#: nano.c:1848
 msgid "Error invoking \"uniq\""
 msgstr ""
 
-#: nano.c:1918
+#: nano.c:1924
 #, fuzzy, c-format
 msgid "Could not invoke \"%s\""
 msgstr "Nem lehet lezárni %s: %s."
 
-#: nano.c:1961
+#: nano.c:1967
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Hiba az ideiglenes állomány-név készítése közben: %s"
 
-#: nano.c:1967
+#: nano.c:1973
 msgid "Spell checking failed: unable to write temp file!"
 msgstr ""
 "A helyesírás-ellenõrzés nem sikerült: az ideiglenes állomány nem írható!"
 
-#: nano.c:1986
+#: nano.c:1992
 #, fuzzy, c-format
 msgid "Spell checking failed: %s"
 msgstr "Helyesírás-ellenõrzés nem sikerült"
 
-#: nano.c:1990
+#: nano.c:1996
 msgid "Finished checking spelling"
 msgstr "A helyesírás-ellenõrzés befejezõdött"
 
-#: nano.c:2333
+#: nano.c:2339
 #, fuzzy, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Nem lehet lezárni %s: %s."
 
-#: nano.c:2600
+#: nano.c:2606
 msgid "Can now UnJustify!"
 msgstr "A sorokat most már tudom nem sorkizárttá tenni"
 
-#: nano.c:2696
+#: nano.c:2702
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 "A változásokat elmentsem (HA \"NEM\", AKKOR MINDEN MÓDOSÍTÁS ELVESZIK) ?"
 
-#: nano.c:2796
+#: nano.c:2802
 #, fuzzy
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "Kaptam egy SIGHUPot"
 
-#: nano.c:2803
+#: nano.c:2809
 msgid "Use \"fg\" to return to nano"
 msgstr ""
 
-#: nano.c:2882
+#: nano.c:2888
 msgid "Cannot resize top win"
 msgstr "A felsõ ablakot nem lehet átméretezni"
 
-#: nano.c:2884
+#: nano.c:2890
 msgid "Cannot move top win"
 msgstr "A felsõ ablakot nem lehet mozgatni"
 
-#: nano.c:2886
+#: nano.c:2892
 msgid "Cannot resize edit win"
 msgstr "A szerkesztõ ablakot nem lehet átméretezni"
 
-#: nano.c:2888
+#: nano.c:2894
 msgid "Cannot move edit win"
 msgstr "A szerkesztõ ablakot nem lehet mozgatni"
 
-#: nano.c:2890
+#: nano.c:2896
 msgid "Cannot resize bottom win"
 msgstr "Az alsó ablakot nem lehet átméretezni"
 
-#: nano.c:2892
+#: nano.c:2898
 msgid "Cannot move bottom win"
 msgstr "Az alsó ablakot nem lehet mozgatni"
 
-#: nano.c:2925
+#: nano.c:2931
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "NumLock hibát fedeztem fel.  A Keypad rosszul mûködhet, ha a NumLock be van "
 "kapcsolva"
 
-#: nano.c:2974
+#: nano.c:2980
 msgid "enabled"
 msgstr "engedélyezve"
 
-#: nano.c:2974
+#: nano.c:2980
 msgid "disabled"
 msgstr "kikapcsolva"
 
-#: nano.c:3166
-#, fuzzy
+#: nano.c:3176
+#, fuzzy, c-format
 msgid "Tab size is too small for nano...\n"
 msgstr "Az ablak mérete túl kicsi a Nanonak..."
 
-#: nano.c:3717
+#: nano.c:3727
 msgid "XOFF ignored, mumble mumble."
 msgstr ""
 
-#: nano.c:3719
+#: nano.c:3729
 msgid "XON ignored, mumble mumble."
 msgstr ""
 
-#: rcfile.c:103
+#: rcfile.c:105
 #, c-format
 msgid "Error in %s on line %d: "
 msgstr "Hiba %s -ben, a %d. sorban: "
 
-#: rcfile.c:108
+#: rcfile.c:110
+#, c-format
 msgid ""
 "\n"
 "Press return to continue starting nano\n"
@@ -1405,12 +1409,12 @@ msgstr ""
 "\n"
 "Nyomjon entert a nano indításának folytatásához\n"
 
-#: rcfile.c:173
+#: rcfile.c:175
 #, c-format
 msgid "argument %s has unterminated \""
 msgstr ""
 
-#: rcfile.c:215
+#: rcfile.c:217
 #, c-format
 msgid ""
 "color %s not understood.\n"
@@ -1423,64 +1427,64 @@ msgstr ""
 "\"white\", \"yellow\", \"cyan\", \"magenta\" and \n"
 "\"black\", opcionális \"bright\" elõtaggal.\n"
 
-#: rcfile.c:254
+#: rcfile.c:256
 #, fuzzy, c-format
 msgid "Bad regex \"%s\": %s"
 msgstr "Nem tudom megnyitni \"%s\" -t: %s"
 
-#: rcfile.c:274 rcfile.c:398 rcfile.c:445
+#: rcfile.c:276 rcfile.c:400 rcfile.c:447
 msgid "regex strings must begin and end with a \" character\n"
 msgstr "a reguláris kifejezéseknek \" karakterekkel kezdõdniük és végzõdniük\n"
 
-#: rcfile.c:283
+#: rcfile.c:285
 #, fuzzy
 msgid "Missing syntax name"
 msgstr "Hiányzik a szín neve"
 
-#: rcfile.c:352
+#: rcfile.c:354
 msgid "Missing color name"
 msgstr "Hiányzik a szín neve"
 
-#: rcfile.c:369
+#: rcfile.c:371
 msgid "Cannot add a color directive without a syntax line"
 msgstr ""
 
-#: rcfile.c:437
+#: rcfile.c:439
 #, fuzzy
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr ""
 "\n"
 "\t\"start=\" -hoz kell megfelelõ \"end=\""
 
-#: rcfile.c:509
+#: rcfile.c:511
 #, c-format
 msgid "command %s not understood"
 msgstr "A %s parancs nem értelmezhetõ"
 
-#: rcfile.c:541
+#: rcfile.c:543
 #, c-format
 msgid "option %s requires an argument"
 msgstr "A %s opcióhoz kellenek paraméterek"
 
-#: rcfile.c:566
+#: rcfile.c:568
 #, fuzzy, c-format
 msgid "requested fill size %d invalid"
 msgstr "a kért %d töltési méret túl kicsi"
 
-#: rcfile.c:590
+#: rcfile.c:592
 #, fuzzy, c-format
 msgid "requested tab size %d invalid"
 msgstr "a kért %d tabulátorhossz túl rövid"
 
-#: rcfile.c:614
+#: rcfile.c:616
 msgid "Errors found in .nanorc file"
 msgstr "Hibák találhatóak a .nanorc állományban"
 
-#: rcfile.c:650
+#: rcfile.c:652
 msgid "I can't find my home directory!  Wah!"
 msgstr ""
 
-#: rcfile.c:670
+#: rcfile.c:672
 #, c-format
 msgid "Unable to open ~/.nanorc file, %s"
 msgstr "A ~/.nanorc állományt nem lehet megnyitni, %s"
@@ -1520,54 +1524,54 @@ msgstr " (cserére)"
 msgid "Search Cancelled"
 msgstr "Keresés megszakítva"
 
-#: search.c:296 search.c:348
+#: search.c:300 search.c:357
 msgid "Search Wrapped"
 msgstr "A keresés körbeért"
 
-#: search.c:423
+#: search.c:432
 msgid "This is the only occurrence"
 msgstr "Ez az egyetlen elõfordulás"
 
-#: search.c:577 search.c:735
+#: search.c:585 search.c:751
 msgid "Replace Cancelled"
 msgstr "A csere megszakítva"
 
-#: search.c:617
+#: search.c:661
 msgid "Replace this instance?"
 msgstr "Lecseréljem ezt a találatot?"
 
-#: search.c:632
+#: search.c:686
 msgid "Replace failed: unknown subexpression!"
 msgstr "Hiba a cserénél: ismeretlen alkifejezés!"
 
-#: search.c:772
+#: search.c:788
 msgid "Replace with"
 msgstr "Csere szöveg"
 
-#: search.c:792
+#: search.c:808
 #, fuzzy, c-format
 msgid "Replaced %d occurrence"
 msgid_plural "Replaced %d occurrences"
 msgstr[0] "%d elõfordulás kicserélve"
 msgstr[1] "%d elõfordulás kicserélve"
 
-#: search.c:809
+#: search.c:825
 msgid "Enter line number"
 msgstr "Kérem a sor számát"
 
-#: search.c:813
+#: search.c:829
 msgid "Aborted"
 msgstr "Megszakítva"
 
-#: search.c:823
+#: search.c:839
 msgid "Come on, be reasonable"
 msgstr "Naaa, legyél egy kicsit belátóbb"
 
-#: search.c:883
+#: search.c:899
 msgid "Not a bracket"
 msgstr "Nem zárójel"
 
-#: search.c:934
+#: search.c:950
 msgid "No matching bracket"
 msgstr "Nincs illeszkedõ zárójel"
 

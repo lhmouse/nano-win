@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-27 11:17-0500\n"
+"POT-Creation-Date: 2004-02-17 23:37-0500\n"
 "PO-Revision-Date: 2003-08-17 18:08+0300\n"
 "Last-Translator: A. Murat EREN <meren@comu.edu.tr>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -38,213 +38,213 @@ msgid_plural "Read %d lines"
 msgstr[0] "%d satır okundu"
 msgstr[1] ""
 
-#: files.c:343 search.c:58
+#: files.c:349 search.c:58
 #, c-format
 msgid "\"%s\" not found"
 msgstr "\"%s\" bulunamadı"
 
-#: files.c:347
+#: files.c:353
 msgid "New File"
 msgstr "Yeni Dosya"
 
-#: files.c:353
+#: files.c:359
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "\"%s\" bir dizin"
 
-#: files.c:354
+#: files.c:360
 #, c-format
 msgid "File \"%s\" is a device file"
 msgstr "\"%s\" bir aygıt dosyası"
 
-#: files.c:372
+#: files.c:378
 msgid "Reading File"
 msgstr "Dosya Okunuyor"
 
-#: files.c:448
+#: files.c:454
 #, c-format
 msgid "File to insert into new buffer [from %s] "
 msgstr "Yeni arabelleğe eklenecek dosya [%s 'den]"
 
-#: files.c:456
+#: files.c:462
 #, c-format
 msgid "File to insert [from %s] "
 msgstr "Eklenecek dosya [%s tarafından] "
 
-#: files.c:467
+#: files.c:473
 msgid "File to insert into new buffer [from ./] "
 msgstr "Yeni arabelleğe eklenecek dosya [./ 'den]"
 
-#: files.c:474
+#: files.c:480
 msgid "File to insert [from ./] "
 msgstr "Eklenecek dosya [./ 'den] "
 
-#: files.c:495
+#: files.c:501
 msgid "Command to execute"
 msgstr "Çalıştırılacak komut"
 
-#: files.c:497 files.c:609 files.c:1340 files.c:1776 nano.c:2726
+#: files.c:503 files.c:615 files.c:1346 files.c:1782 nano.c:2732
 msgid "Cancelled"
 msgstr "İptal edildi"
 
-#: files.c:518
+#: files.c:524
 #, c-format
 msgid "Can't insert file from outside of %s"
 msgstr "Dosya %s dışından eklenemiyor"
 
-#: files.c:632
+#: files.c:638
 msgid "Key illegal in non-multibuffer mode"
 msgstr "Anahtar çoklu olmayan arabellek kipinde geçersiz"
 
-#: files.c:873 files.c:936
+#: files.c:879 files.c:942
 msgid "No more open files"
 msgstr "Başka açık dosya yok"
 
-#: files.c:900 files.c:963
+#: files.c:906 files.c:969
 #, c-format
 msgid "Switched to %s"
 msgstr "%s 'e geçildi"
 
-#: files.c:1353
+#: files.c:1359
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "%s dışına yazılamıyor"
 
-#: files.c:1384
+#: files.c:1390
 #, c-format
 msgid "Could not read %s for backup: %s"
 msgstr "%s yedekleme için okunamadı: %s"
 
-#: files.c:1395
+#: files.c:1401
 #, c-format
 msgid "Couldn't write backup: %s"
 msgstr "Yedek yazılamadı: %s"
 
-#: files.c:1413
+#: files.c:1419
 #, c-format
 msgid "Could not set permissions %o on backup %s: %s"
 msgstr "%o izinleri %s yedeğine uygulanamadı: %s"
 
-#: files.c:1419
+#: files.c:1425
 #, c-format
 msgid "Could not set owner %d/group %d on backup %s: %s"
 msgstr "Kullanıcısı %d/grubu %d olarak ayarlanamadı, %s yedek dosyasının: %s"
 
-#: files.c:1424
+#: files.c:1430
 #, c-format
 msgid "Could not set access/modification time on backup %s: %s"
 msgstr "%s yedeğinin erişim/değiştirme zamanı ayarlanamadı: %s"
 
-#: files.c:1459 files.c:1475 files.c:1487 files.c:1509 files.c:1542
-#: files.c:1549 files.c:1561
+#: files.c:1465 files.c:1481 files.c:1493 files.c:1515 files.c:1548
+#: files.c:1555 files.c:1567
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "Dosya yazmak için açılamadı: %s"
 
-#: files.c:1572
+#: files.c:1578
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "%s kapatılamadı: %s"
 
-#: files.c:1584 files.c:1589 files.c:1617
+#: files.c:1590 files.c:1595 files.c:1623
 #, c-format
 msgid "Could not reopen %s: %s"
 msgstr "%s tekrar açılamadı: %s"
 
-#: files.c:1594 files.c:1600 files.c:1609
+#: files.c:1600 files.c:1606 files.c:1615
 #, c-format
 msgid "Could not open %s for prepend: %s"
 msgstr "%s başına ekleme için açılamıyor: %s"
 
-#: files.c:1647 files.c:1656 files.c:1661
+#: files.c:1653 files.c:1662 files.c:1667
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr "%s yazmak için açılamadı: %s"
 
-#: files.c:1668
+#: files.c:1674
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr "%o izinleri %s dosyasına uygulanamadı: %s"
 
-#: files.c:1684
+#: files.c:1690
 #, c-format
 msgid "Wrote %d line"
 msgid_plural "Wrote %d lines"
 msgstr[0] "%d satır yazıldı"
 msgstr[1] ""
 
-#: files.c:1730
+#: files.c:1736
 msgid " [Mac Format]"
 msgstr " [Mac Biçimi]"
 
-#: files.c:1732
+#: files.c:1738
 msgid " [DOS Format]"
 msgstr " [DOS Biçimi]"
 
-#: files.c:1737
+#: files.c:1743
 msgid " [Backup]"
 msgstr " [Yedek]"
 
-#: files.c:1745
+#: files.c:1751
 msgid "Prepend Selection to File"
 msgstr "Seçimi Dosyanın Başına Ekle"
 
-#: files.c:1748
+#: files.c:1754
 msgid "Append Selection to File"
 msgstr "Seçimi Dosyanın Sonuna Ekle"
 
-#: files.c:1751
+#: files.c:1757
 msgid "Write Selection to File"
 msgstr "Seçimi Dosyaya Yaz"
 
-#: files.c:1755 files.c:1766
+#: files.c:1761 files.c:1772
 msgid "File Name to Prepend to"
 msgstr "Başına Eklenecek Dosya Adı"
 
-#: files.c:1758 files.c:1769
+#: files.c:1764 files.c:1775
 msgid "File Name to Append to"
 msgstr "Sonuna Eklenecek Dosya Adı"
 
-#: files.c:1761 files.c:1772
+#: files.c:1767 files.c:1778
 msgid "File Name to Write"
 msgstr "Yazılacak Dosya Adı"
 
-#: files.c:1830
+#: files.c:1836
 msgid "File exists, OVERWRITE ?"
 msgstr "Dosya var, ÜSTÜNE YAZILSIN MI?"
 
-#: files.c:2319
+#: files.c:2325
 msgid "(more)"
 msgstr "(daha)"
 
-#: files.c:2624
+#: files.c:2625
 msgid "Can't move up a directory"
 msgstr "Bir üst dizine geçilemiyor"
 
-#: files.c:2635 files.c:2708
+#: files.c:2636 files.c:2709
 #, c-format
 msgid "Can't go outside of %s in restricted mode"
 msgstr "Kısıtlı kipte %s dışına çıkılamıyor"
 
-#: files.c:2642 files.c:2669 files.c:2716
+#: files.c:2643 files.c:2670 files.c:2717
 #, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "\"%s\" açılamıyor: %s"
 
-#: files.c:2690
+#: files.c:2691
 msgid "Goto Directory"
 msgstr "Dizine Git"
 
-#: files.c:2695
+#: files.c:2696
 msgid "Goto Cancelled"
 msgstr "İptal Edildi"
 
-#: files.c:2896
+#: files.c:2897
 #, c-format
 msgid "Unable to open ~/.nano_history file, %s"
 msgstr "~/.nano_history dosyası açılamıyor, %s"
 
-#: files.c:2946 files.c:2955 files.c:2960 files.c:2967
+#: files.c:2947 files.c:2956 files.c:2961 files.c:2968
 #, c-format
 msgid "Unable to write ~/.nano_history file, %s"
 msgstr "~/.nano_history dosyasına yazılamıyır, %s"
@@ -289,7 +289,7 @@ msgstr "Dosya Mac biçiminde yazılıyor"
 msgid "Backing up file"
 msgstr "Dosya yedekleniyor"
 
-#: global.c:258 nano.c:654
+#: global.c:258 nano.c:660
 msgid "Smooth scrolling"
 msgstr "Yumuşak kaydırma"
 
@@ -553,7 +553,7 @@ msgstr "İmleç Pozisyonu"
 msgid "To Spell"
 msgstr "Denetime"
 
-#: global.c:498 nano.c:420 winio.c:655
+#: global.c:498 nano.c:424 winio.c:655
 msgid "Up"
 msgstr "Yukarı"
 
@@ -733,7 +733,7 @@ msgstr "Pencere boyutu nano için çok küçük...\n"
 msgid "Key illegal in VIEW mode"
 msgstr "GÖSTER kipi için geçersiz anahtar"
 
-#: nano.c:279
+#: nano.c:283
 msgid ""
 "Search Command Help Text\n"
 "\n"
@@ -762,7 +762,7 @@ msgstr ""
 " Arama kipinde aşağıdaki anahtarlardan yararlanabilirsiniz:\n"
 "\n"
 
-#: nano.c:289
+#: nano.c:293
 msgid ""
 "Go To Line Help Text\n"
 "\n"
@@ -782,7 +782,7 @@ msgstr ""
 " Satıra Git kipinde aşağıdaki anahtarlardan yararlanabilirsiniz:\n"
 "\n"
 
-#: nano.c:296
+#: nano.c:300
 msgid ""
 "Insert File Help Text\n"
 "\n"
@@ -818,7 +818,7 @@ msgstr ""
 " Dosya Ekle kipinde aşağıdaki anahtarlardan yararlanabilirsiniz:\n"
 "\n"
 
-#: nano.c:310
+#: nano.c:314
 msgid ""
 "Write File Help Text\n"
 "\n"
@@ -847,7 +847,7 @@ msgstr ""
 " Dosyayı Yaz kipinde aşağıdaki anahtarlardan yararlanabilirsiniz:\n"
 "\n"
 
-#: nano.c:321
+#: nano.c:325
 msgid ""
 "File Browser Help Text\n"
 "\n"
@@ -872,7 +872,7 @@ msgstr ""
 " Dosya Tarayıcısı kipinde aşağıdaki anahtarlardan yararlanabilirsiniz:\n"
 "\n"
 
-#: nano.c:332
+#: nano.c:336
 msgid ""
 "Browser Go To Directory Help Text\n"
 "\n"
@@ -894,7 +894,7 @@ msgstr ""
 " Tarayıcı Dizine Git kipinde aşağıdaki anahtarlardan yararlanabilirsiniz:\n"
 "\n"
 
-#: nano.c:341
+#: nano.c:345
 msgid ""
 "Spell Check Help Text\n"
 "\n"
@@ -916,7 +916,7 @@ msgstr ""
 " Yazım Denetimi kipinde aşağıdaki anahtarlardan yararlanabilirsiniz:\n"
 "\n"
 
-#: nano.c:352
+#: nano.c:356
 msgid ""
 "External Command Help Text\n"
 "\n"
@@ -935,7 +935,7 @@ msgstr ""
 " Harici Komut kipinde aşağıdaki anahtarlardan yararlanabilirsiniz:\n"
 "\n"
 
-#: nano.c:359
+#: nano.c:363
 msgid ""
 " nano help text\n"
 "\n"
@@ -974,15 +974,16 @@ msgstr ""
 "kullanılabilir.  Alternatif tuşlar parantez içinde gösterilmişlerdir:\n"
 "\n"
 
-#: nano.c:388 nano.c:458
+#: nano.c:392 nano.c:462
 msgid "enable/disable"
 msgstr "etkin/etkisiz"
 
-#: nano.c:415 nano.c:418
+#: nano.c:419 nano.c:422
 msgid "Space"
 msgstr "Boşluk"
 
-#: nano.c:622
+#: nano.c:626
+#, c-format
 msgid ""
 "Usage: nano [+LINE] [GNU long option] [option] [file]\n"
 "\n"
@@ -990,11 +991,13 @@ msgstr ""
 "Kullanımı: nano [+LINE] [GNU uzun seçenekler] [seçenekler] [dosya]\n"
 "\n"
 
-#: nano.c:623
+#: nano.c:627
+#, c-format
 msgid "Option\t\tLong option\t\tMeaning\n"
 msgstr "Seçenek\t\tUzun Seçenek\t\tAnlamı\n"
 
-#: nano.c:625
+#: nano.c:629
+#, c-format
 msgid ""
 "Usage: nano [+LINE] [option] [file]\n"
 "\n"
@@ -1002,193 +1005,196 @@ msgstr ""
 "Kullanımı: nano [+LINE] [seçenekler] [dosya]\n"
 "\n"
 
-#: nano.c:626
+#: nano.c:630
+#, c-format
 msgid "Option\t\tMeaning\n"
 msgstr "Seçenek\t\tAnlamı\n"
 
-#: nano.c:629
+#: nano.c:633
 msgid "Show this message"
 msgstr "Bu mesajı gösterir"
 
-#: nano.c:630
+#: nano.c:634
 msgid "+LINE"
 msgstr "+LINE"
 
-#: nano.c:630
+#: nano.c:634
 msgid "Start at line number LINE"
 msgstr "LINE satır numarasından başla"
 
-#: nano.c:632
+#: nano.c:636
 msgid "Backup existing files on save"
 msgstr "Kaydetme anında varolan dosyaların yedeğini al"
 
-#: nano.c:633
+#: nano.c:637
 msgid "Write file in DOS format"
 msgstr "Dosyayı DOS biçiminde yaz"
 
-#: nano.c:636
+#: nano.c:640
 msgid "Enable multiple file buffers"
 msgstr "Çoklu dosya arabelleği aktif"
 
-#: nano.c:639
+#: nano.c:644
 msgid "Log & read search/replace string history"
 msgstr "Metin arama/değiştirme geçmişini oku ve günlükle."
 
-#: nano.c:640
+#: nano.c:646
 msgid "Don't look at nanorc files"
 msgstr "nanorc dosyalarına bakma"
 
-#: nano.c:642
+#: nano.c:648
 msgid "Use alternate keypad routines"
 msgstr "Alternatif tuştakımı yordamlarını kullan"
 
-#: nano.c:644
+#: nano.c:650
 msgid "Write file in Mac format"
 msgstr "Dosyayı Mac biçiminde yaz"
 
-#: nano.c:645
+#: nano.c:651
 msgid "Don't convert files from DOS/Mac format"
 msgstr "Dosyalaro DOS/Mac biçiminden dönüştürme"
 
-#: nano.c:648
+#: nano.c:654
 msgid "-Q [str]"
 msgstr "-Q [metin]"
 
-#: nano.c:648
+#: nano.c:654
 msgid "--quotestr=[str]"
 msgstr "--quotestr=[metin]"
 
-#: nano.c:648
+#: nano.c:654
 msgid "Quoting string, default \"> \""
 msgstr "Alıntı dizgesi, öntanımlı \"> \""
 
-#: nano.c:651
+#: nano.c:657
 msgid "Do regular expression searches"
 msgstr "Düzenli ifade aramaları gerçekleştir"
 
-#: nano.c:656
+#: nano.c:662
 msgid "-T [num]"
 msgstr "-T [sayı]"
 
-#: nano.c:656
+#: nano.c:662
 msgid "--tabsize=[num]"
 msgstr "--tabsize=[sayı]"
 
-#: nano.c:656
+#: nano.c:662
 msgid "Set width of a tab to num"
 msgstr "Sekmenin genişliğini numaraya ayarla"
 
-#: nano.c:657
+#: nano.c:663
 msgid "Print version information and exit"
 msgstr "Sürüm bilgisini yaz ve çık"
 
-#: nano.c:659
+#: nano.c:665
 msgid "-Y [str]"
 msgstr "-Y [metin]"
 
-#: nano.c:659
+#: nano.c:665
 msgid "--syntax [str]"
 msgstr "--syntax [metin]"
 
-#: nano.c:659
+#: nano.c:665
 msgid "Syntax definition to use"
 msgstr "Kullanılacak sözdizim tanımlaması"
 
-#: nano.c:661
+#: nano.c:667
 msgid "Constantly show cursor position"
 msgstr "İmleç pozisyonunu daimi göster"
 
-#: nano.c:663
+#: nano.c:669
 msgid "Automatically indent new lines"
 msgstr "Yeni satırlarda otomatik paragraf başı yap"
 
-#: nano.c:664
+#: nano.c:670
 msgid "Let ^K cut from cursor to end of line"
 msgstr ""
 "^K komutunun, imleç pozisyonundan satırın sonuna dek kesmesine izin ver"
 
-#: nano.c:666
+#: nano.c:672
 msgid "Don't follow symbolic links, overwrite"
 msgstr "Simgesel bağları takip etme, üzerine yaz"
 
-#: nano.c:668
+#: nano.c:674
 msgid "Enable mouse"
 msgstr "Fare etkin"
 
-#: nano.c:671
+#: nano.c:677
 msgid "-o [dir]"
 msgstr "-o [dizin]"
 
-#: nano.c:671
+#: nano.c:677
 msgid "--operatingdir=[dir]"
 msgstr "--operatingdir=[dizin]"
 
-#: nano.c:671
+#: nano.c:677
 msgid "Set operating directory"
 msgstr "Çalışma dizinini belirle"
 
-#: nano.c:673
+#: nano.c:679
 msgid "Preserve XON (^Q) and XOFF (^S) keys"
 msgstr "XON (^Q) ve XOFF (^S) tuşlarını sakla"
 
-#: nano.c:675
+#: nano.c:681
 msgid "-r [#cols]"
 msgstr "-r [#cols]"
 
-#: nano.c:675
+#: nano.c:681
 msgid "--fill=[#cols]"
 msgstr "--fill=[#cols]"
 
-#: nano.c:675
+#: nano.c:681
 msgid "Set fill cols to (wrap lines at) #cols"
 msgstr "Satırları #cols hizasından kaydır"
 
-#: nano.c:678
+#: nano.c:684
 msgid "-s [prog]"
 msgstr "-s [prog]"
 
-#: nano.c:678
+#: nano.c:684
 msgid "--speller=[prog]"
 msgstr "--speller=[prog]"
 
-#: nano.c:678
+#: nano.c:684
 msgid "Enable alternate speller"
 msgstr "Alternatif yazım kontrolcüsü etkin"
 
-#: nano.c:680
+#: nano.c:686
 msgid "Auto save on exit, don't prompt"
 msgstr "Çıkışta sormaksızın otomatik kaydet"
 
-#: nano.c:681
+#: nano.c:687
 msgid "View (read only) mode"
 msgstr "Göster (sadece okunur) kipi"
 
-#: nano.c:683
+#: nano.c:689
 msgid "Don't wrap long lines"
 msgstr "Uzun satırları kaydırma"
 
-#: nano.c:685
+#: nano.c:691
 msgid "Don't show help window"
 msgstr "Yardım penceresini gösterme"
 
-#: nano.c:686
+#: nano.c:692
 msgid "Enable suspend"
 msgstr "Askıya almayı etkinleştir"
 
-#: nano.c:689
+#: nano.c:695
 msgid "(ignored, for Pico compatibility)"
 msgstr "(Pico uyumluluğu için yoksayıldı)"
 
-#: nano.c:696
+#: nano.c:702
 #, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
 msgstr " GNU nano sürüm numarası: %s (%s, %s tarihinde derlendi)\n"
 
-#: nano.c:699
+#: nano.c:705
+#, c-format
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
 msgstr "E-Posta: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
 
-#: nano.c:700
+#: nano.c:706
+#, c-format
 msgid ""
 "\n"
 " Compiled options:"
@@ -1196,155 +1202,157 @@ msgstr ""
 "\n"
 " Derleme seçenekleri:"
 
-#: nano.c:772
+#: nano.c:778
 msgid "Sorry, support for this function has been disabled"
 msgstr "Özür dileriz, bu işlev için destek etkisiz kılınmış"
 
-#: nano.c:806
+#: nano.c:812
 msgid "Could not pipe"
 msgstr "Boru işlemi gerçekleştirilemedi"
 
-#: nano.c:828 nano.c:1778 nano.c:1911
+#: nano.c:834 nano.c:1784 nano.c:1917
 msgid "Could not fork"
 msgstr "Fork işlemi gerçekleştirilemedi"
 
-#: nano.c:1365
+#: nano.c:1371
 msgid "Mark Set"
 msgstr "İşaretle"
 
-#: nano.c:1370
+#: nano.c:1376
 msgid "Mark UNset"
 msgstr "İşareti Kaldır"
 
-#: nano.c:1633
+#: nano.c:1639
 msgid "Edit a replacement"
 msgstr "Bir yerdeğiştirmeyi düzenle"
 
-#: nano.c:1686
+#: nano.c:1692
 msgid "Could not create pipe"
 msgstr "Boru yaratılamadı"
 
-#: nano.c:1688
+#: nano.c:1694
 msgid "Creating misspelled word list, please wait..."
 msgstr "Yazım hatası içeren kelimeler listeleniyor, lütfen bekleyiniz"
 
-#: nano.c:1784
+#: nano.c:1790
 msgid "Could not get size of pipe buffer"
 msgstr "Boru arabelleğinin boyutu alınamıyor"
 
-#: nano.c:1836
+#: nano.c:1842
 msgid "Error invoking \"spell\""
 msgstr "\"spell\" çağırılırken hata"
 
-#: nano.c:1839
+#: nano.c:1845
 msgid "Error invoking \"sort -f\""
 msgstr "\"sort -f\" çağırılırken hata"
 
-#: nano.c:1842
+#: nano.c:1848
 msgid "Error invoking \"uniq\""
 msgstr "\"uniq\" çağırılırken hata"
 
-#: nano.c:1918
+#: nano.c:1924
 #, c-format
 msgid "Could not invoke \"%s\""
 msgstr "\"%s\" çağırılamadı"
 
-#: nano.c:1961
+#: nano.c:1967
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Geçici bir dosya adı yaratılamadı: %s"
 
-#: nano.c:1967
+#: nano.c:1973
 msgid "Spell checking failed: unable to write temp file!"
 msgstr "Yazım kontrolü başarısız oldu: geçici dosyaya yazılamıyor!"
 
-#: nano.c:1986
+#: nano.c:1992
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Yazım kontrolü başarısız oldu: %s"
 
-#: nano.c:1990
+#: nano.c:1996
 msgid "Finished checking spelling"
 msgstr "Yazım kontrolü bitti"
 
-#: nano.c:2333
+#: nano.c:2339
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Hatalı alıntı dizgesi %s: %s"
 
-#: nano.c:2600
+#: nano.c:2606
 msgid "Can now UnJustify!"
 msgstr "Şmdi yaslamayı geri alabilirsiniz!"
 
-#: nano.c:2696
+#: nano.c:2702
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 "Değiştirilmiş arabellek kaydedilsin mi (\"Hayır\" CEVABI TÜM DEĞİŞİKLİKLERİ "
 "YOK EDECEK) ? "
 
-#: nano.c:2796
+#: nano.c:2802
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "SIGHUP ya da SIGTERM sinyali alındı\n"
 
-#: nano.c:2803
+#: nano.c:2809
 msgid "Use \"fg\" to return to nano"
 msgstr "nano'ya geri dönmek için \"fg\"'yi kullanın"
 
-#: nano.c:2882
+#: nano.c:2888
 msgid "Cannot resize top win"
 msgstr "Üst pencere yeniden boyutlandırılamaz"
 
-#: nano.c:2884
+#: nano.c:2890
 msgid "Cannot move top win"
 msgstr "Üst pencere hareket ettirilemez"
 
-#: nano.c:2886
+#: nano.c:2892
 msgid "Cannot resize edit win"
 msgstr "Düzenleme penceresi yeniden boyutlandırılamaz"
 
-#: nano.c:2888
+#: nano.c:2894
 msgid "Cannot move edit win"
 msgstr "Düzenleme penceresi hareket ettirilemez"
 
-#: nano.c:2890
+#: nano.c:2896
 msgid "Cannot resize bottom win"
 msgstr "Alt pencere yeniden boyutlandırılamaz"
 
-#: nano.c:2892
+#: nano.c:2898
 msgid "Cannot move bottom win"
 msgstr "Alt pencere hareket ettirilemez"
 
-#: nano.c:2925
+#: nano.c:2931
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "NumLock hatası bulundu. Sayısal klavye NumLock basılı değil ise hata verecek"
 
-#: nano.c:2974
+#: nano.c:2980
 msgid "enabled"
 msgstr "etkin"
 
-#: nano.c:2974
+#: nano.c:2980
 msgid "disabled"
 msgstr "etkisiz"
 
-#: nano.c:3166
+#: nano.c:3176
+#, c-format
 msgid "Tab size is too small for nano...\n"
 msgstr "Tab boyutu nano için çok küçük...\n"
 
-#: nano.c:3717
+#: nano.c:3727
 msgid "XOFF ignored, mumble mumble."
 msgstr "XOFF yoksayıldı."
 
-#: nano.c:3719
+#: nano.c:3729
 msgid "XON ignored, mumble mumble."
 msgstr "XON yoksayıldı."
 
-#: rcfile.c:103
+#: rcfile.c:105
 #, c-format
 msgid "Error in %s on line %d: "
 msgstr "%s'nin %d. satırında hata: "
 
-#: rcfile.c:108
+#: rcfile.c:110
+#, c-format
 msgid ""
 "\n"
 "Press return to continue starting nano\n"
@@ -1352,12 +1360,12 @@ msgstr ""
 "\n"
 "nano'yu başlatmaya devam etmek için Gir tuşuna basınız\n"
 
-#: rcfile.c:173
+#: rcfile.c:175
 #, c-format
 msgid "argument %s has unterminated \""
 msgstr "%s argümanında sonlanmamış \" var"
 
-#: rcfile.c:215
+#: rcfile.c:217
 #, c-format
 msgid ""
 "color %s not understood.\n"
@@ -1370,60 +1378,60 @@ msgstr ""
 "\"white\", \"yellow\", \"cyan\", \"magenta\" ve \n"
 "\"black\", seçimli \"bright\" ön eki ile.\n"
 
-#: rcfile.c:254
+#: rcfile.c:256
 #, c-format
 msgid "Bad regex \"%s\": %s"
 msgstr "\"%s\" yanlış bir düzenli ifade: %s"
 
-#: rcfile.c:274 rcfile.c:398 rcfile.c:445
+#: rcfile.c:276 rcfile.c:400 rcfile.c:447
 msgid "regex strings must begin and end with a \" character\n"
 msgstr "Düzenli ifade katarları, \" karakteri ile başlamalı ve bitmeli\n"
 
-#: rcfile.c:283
+#: rcfile.c:285
 msgid "Missing syntax name"
 msgstr "Sözdizim ismi eksik"
 
-#: rcfile.c:352
+#: rcfile.c:354
 msgid "Missing color name"
 msgstr "Renk ismi eksik"
 
-#: rcfile.c:369
+#: rcfile.c:371
 msgid "Cannot add a color directive without a syntax line"
 msgstr "Sözdizimi satırı olmaksızın renk direktifi eklenemez"
 
-#: rcfile.c:437
+#: rcfile.c:439
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr "\"start=\", \"end=\"e ihtiyaç duyar."
 
-#: rcfile.c:509
+#: rcfile.c:511
 #, c-format
 msgid "command %s not understood"
 msgstr "%s komutu anlaşılamadı"
 
-#: rcfile.c:541
+#: rcfile.c:543
 #, c-format
 msgid "option %s requires an argument"
 msgstr "%s seçeneği bir bağımsız değişken gerektiriyor"
 
-#: rcfile.c:566
+#: rcfile.c:568
 #, c-format
 msgid "requested fill size %d invalid"
 msgstr "istenen doldurma değeri %d geçerli değil"
 
-#: rcfile.c:590
+#: rcfile.c:592
 #, c-format
 msgid "requested tab size %d invalid"
 msgstr "istenen Tab değeri %d geçerli değil"
 
-#: rcfile.c:614
+#: rcfile.c:616
 msgid "Errors found in .nanorc file"
 msgstr ".nanorc dosyası içerisinde hatalar bulundu"
 
-#: rcfile.c:650
+#: rcfile.c:652
 msgid "I can't find my home directory!  Wah!"
 msgstr "Ev dizinimi bulamıyorum!"
 
-#: rcfile.c:670
+#: rcfile.c:672
 #, c-format
 msgid "Unable to open ~/.nanorc file, %s"
 msgstr "~/.nanorc dosyası açılamıyor, %s"
@@ -1462,54 +1470,54 @@ msgstr " (değiştirmek için)"
 msgid "Search Cancelled"
 msgstr "Arama İptal Edildi"
 
-#: search.c:296 search.c:348
+#: search.c:300 search.c:357
 msgid "Search Wrapped"
 msgstr "Arama Döngülendi"
 
-#: search.c:423
+#: search.c:432
 msgid "This is the only occurrence"
 msgstr "Bu tek bulgu"
 
-#: search.c:577 search.c:735
+#: search.c:585 search.c:751
 msgid "Replace Cancelled"
 msgstr "Değiştirme İptal Edildi"
 
-#: search.c:617
+#: search.c:661
 msgid "Replace this instance?"
 msgstr "Bu bulgu değiştirilsin mi?"
 
-#: search.c:632
+#: search.c:686
 msgid "Replace failed: unknown subexpression!"
 msgstr "Yerdeğiştirme başarısız oldu: bilinmeyen ifade parçası!"
 
-#: search.c:772
+#: search.c:788
 msgid "Replace with"
 msgstr "İle değiştir"
 
-#: search.c:792
+#: search.c:808
 #, c-format
 msgid "Replaced %d occurrence"
 msgid_plural "Replaced %d occurrences"
 msgstr[0] "%d değiştirme yapıldı"
 msgstr[1] ""
 
-#: search.c:809
+#: search.c:825
 msgid "Enter line number"
 msgstr "Satır numarasını girin"
 
-#: search.c:813
+#: search.c:829
 msgid "Aborted"
 msgstr "İptal edildi"
 
-#: search.c:823
+#: search.c:839
 msgid "Come on, be reasonable"
 msgstr "Hadi ama, mantıklı olun"
 
-#: search.c:883
+#: search.c:899
 msgid "Not a bracket"
 msgstr "Ayraç değil"
 
-#: search.c:934
+#: search.c:950
 msgid "No matching bracket"
 msgstr "Eşleşen ayraç yok"
 

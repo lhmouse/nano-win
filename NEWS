@@ -1,3 +1,10 @@
+2004.02.17 - GNU nano 1.2.3 "priority interrupt" is released.  This 
+		release includes many fixes, including converting file
+		formats, the suspend handler, and the ever popular
+		replace function.   New features include more Pico 
+		compatibility in the file browser.  Enjoy this release,
+		who knows when the next one will be ;-)
+
 2003.08.11 - GNU nano 1.2.2 is released, only four months since the 
 		last version :-).  This release includes fixes for
 		broken regex detection, search history recall, and 

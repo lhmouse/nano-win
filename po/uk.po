@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.99pre3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-27 11:17-0500\n"
+"POT-Creation-Date: 2004-02-17 23:37-0500\n"
 "PO-Revision-Date: 2003-02-17 10:51+0300\n"
 "Last-Translator: Sergey A. Ribalchenko <fisher@obu.ck.ua>\n"
 "Language-Team: Ukrainian <translation-team-uk@lists.sourceforge.net>\n"
@@ -40,136 +40,136 @@ msgstr[0] "Прочитано %d рядок"
 msgstr[1] "Прочитано %d рядка"
 msgstr[2] "Прочитано %d рядк╕в"
 
-#: files.c:343 search.c:58
+#: files.c:349 search.c:58
 #, c-format
 msgid "\"%s\" not found"
 msgstr "\"%s\" не знайдено"
 
-#: files.c:347
+#: files.c:353
 msgid "New File"
 msgstr "Новий файл"
 
-#: files.c:353
+#: files.c:359
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "Файл \"%s\" ╓ директор╕╓ю"
 
-#: files.c:354
+#: files.c:360
 #, c-format
 msgid "File \"%s\" is a device file"
 msgstr "Файл \"%s\" ╓ файлом пристрою"
 
-#: files.c:372
+#: files.c:378
 msgid "Reading File"
 msgstr "Чита╓мо файл.."
 
-#: files.c:448
+#: files.c:454
 #, c-format
 msgid "File to insert into new buffer [from %s] "
 msgstr "Файл до вставки (в новий буфер) [в╕д %s] "
 
-#: files.c:456
+#: files.c:462
 #, c-format
 msgid "File to insert [from %s] "
 msgstr "Файл до вставки [в╕д %s] "
 
-#: files.c:467
+#: files.c:473
 msgid "File to insert into new buffer [from ./] "
 msgstr "Файл до вставки (в новий буфер) [в╕д ./] "
 
-#: files.c:474
+#: files.c:480
 msgid "File to insert [from ./] "
 msgstr "Файл до вставки [в╕д ./] "
 
-#: files.c:495
+#: files.c:501
 msgid "Command to execute"
 msgstr "Команда до виконання "
 
-#: files.c:497 files.c:609 files.c:1340 files.c:1776 nano.c:2726
+#: files.c:503 files.c:615 files.c:1346 files.c:1782 nano.c:2732
 msgid "Cancelled"
 msgstr "Скасовано"
 
-#: files.c:518
+#: files.c:524
 #, c-format
 msgid "Can't insert file from outside of %s"
 msgstr "Не можу вставити файл поза %s"
 
-#: files.c:632
+#: files.c:638
 msgid "Key illegal in non-multibuffer mode"
 msgstr "Нев╕рна кнопка в не-мультибуферному режим╕"
 
-#: files.c:873 files.c:936
+#: files.c:879 files.c:942
 msgid "No more open files"
 msgstr "Б╕льш нема в╕дкритих файл╕в"
 
-#: files.c:900 files.c:963
+#: files.c:906 files.c:969
 #, c-format
 msgid "Switched to %s"
 msgstr "Перемкнуто до %s"
 
-#: files.c:1353
+#: files.c:1359
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Не можу записати поза %s"
 
-#: files.c:1384
+#: files.c:1390
 #, c-format
 msgid "Could not read %s for backup: %s"
 msgstr "Не можу прочитати %s для резервування: %s"
 
-#: files.c:1395
+#: files.c:1401
 #, c-format
 msgid "Couldn't write backup: %s"
 msgstr "Не можу записати резерв: %s"
 
-#: files.c:1413
+#: files.c:1419
 #, c-format
 msgid "Could not set permissions %o on backup %s: %s"
 msgstr "Не можу встановити права %o на резервний файл %s: %s"
 
-#: files.c:1419
+#: files.c:1425
 #, c-format
 msgid "Could not set owner %d/group %d on backup %s: %s"
 msgstr "Не можу встановити власника %d/групу %d на резервний файл %s: %s"
 
-#: files.c:1424
+#: files.c:1430
 #, c-format
 msgid "Could not set access/modification time on backup %s: %s"
 msgstr ""
 "Не можу встановити час останьо╖ зм╕ни/звертання на резервний файл %s: %s"
 
-#: files.c:1459 files.c:1475 files.c:1487 files.c:1509 files.c:1542
-#: files.c:1549 files.c:1561
+#: files.c:1465 files.c:1481 files.c:1493 files.c:1515 files.c:1548
+#: files.c:1555 files.c:1567
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "Не можу в╕дкрити файл для запису: %s"
 
-#: files.c:1572
+#: files.c:1578
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "Не можу зачинити %s: %s"
 
-#: files.c:1584 files.c:1589 files.c:1617
+#: files.c:1590 files.c:1595 files.c:1623
 #, c-format
 msgid "Could not reopen %s: %s"
 msgstr "Не вда╓ться перев╕дкрити %s: %s"
 
-#: files.c:1594 files.c:1600 files.c:1609
+#: files.c:1600 files.c:1606 files.c:1615
 #, c-format
 msgid "Could not open %s for prepend: %s"
 msgstr "Не можу в╕дкрити %s для запису: %s"
 
-#: files.c:1647 files.c:1656 files.c:1661
+#: files.c:1653 files.c:1662 files.c:1667
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr "Не можу в╕дкрити %s для запису: %s"
 
-#: files.c:1668
+#: files.c:1674
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr "Не можу встановити права %o на %s: %s"
 
-#: files.c:1684
+#: files.c:1690
 #, c-format
 msgid "Wrote %d line"
 msgid_plural "Wrote %d lines"
@@ -177,78 +177,78 @@ msgstr[0] "Записано %d рядок"
 msgstr[1] "Записано %d рядка"
 msgstr[2] "Записано %d рядк╕в"
 
-#: files.c:1730
+#: files.c:1736
 msgid " [Mac Format]"
 msgstr " [формат Mac]"
 
-#: files.c:1732
+#: files.c:1738
 msgid " [DOS Format]"
 msgstr " [формат DOS]"
 
-#: files.c:1737
+#: files.c:1743
 msgid " [Backup]"
 msgstr " [Резерв]"
 
-#: files.c:1745
+#: files.c:1751
 msgid "Prepend Selection to File"
 msgstr "Додати Вид╕лене до файлу (в початок файла)"
 
-#: files.c:1748
+#: files.c:1754
 msgid "Append Selection to File"
 msgstr "Додати Вид╕лене до файлу"
 
-#: files.c:1751
+#: files.c:1757
 msgid "Write Selection to File"
 msgstr "Записати Вид╕лене до файлу"
 
-#: files.c:1755 files.c:1766
+#: files.c:1761 files.c:1772
 msgid "File Name to Prepend to"
 msgstr "╤м'я файлу для додавання"
 
-#: files.c:1758 files.c:1769
+#: files.c:1764 files.c:1775
 msgid "File Name to Append to"
 msgstr "╤м'я файлу для додавання"
 
-#: files.c:1761 files.c:1772
+#: files.c:1767 files.c:1778
 msgid "File Name to Write"
 msgstr "╤м'я файлу до запису"
 
-#: files.c:1830
+#: files.c:1836
 msgid "File exists, OVERWRITE ?"
 msgstr "Файл ╕сну╓, ПЕРЕПИСАТИ ?"
 
-#: files.c:2319
+#: files.c:2325
 msgid "(more)"
 msgstr "(дал╕)"
 
-#: files.c:2624
+#: files.c:2625
 msgid "Can't move up a directory"
 msgstr "Не можу перем╕стити директор╕ю"
 
-#: files.c:2635 files.c:2708
+#: files.c:2636 files.c:2709
 #, c-format
 msgid "Can't go outside of %s in restricted mode"
 msgstr "Не можу п╕ти поза %s в обмеженому режим╕"
 
-#: files.c:2642 files.c:2669 files.c:2716
+#: files.c:2643 files.c:2670 files.c:2717
 #, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "Не можу в╕дкрити \"%s\": %s"
 
-#: files.c:2690
+#: files.c:2691
 msgid "Goto Directory"
 msgstr "До Директор╕╖"
 
-#: files.c:2695
+#: files.c:2696
 msgid "Goto Cancelled"
 msgstr "Скасовано"
 
-#: files.c:2896
+#: files.c:2897
 #, c-format
 msgid "Unable to open ~/.nano_history file, %s"
 msgstr "Не можу в╕дкрити файл ~/.nano_history, %s"
 
-#: files.c:2946 files.c:2955 files.c:2960 files.c:2967
+#: files.c:2947 files.c:2956 files.c:2961 files.c:2968
 #, c-format
 msgid "Unable to write ~/.nano_history file, %s"
 msgstr "Не вда╓ться записати файл ~/.nano_history, %s"
@@ -293,7 +293,7 @@ msgstr "Запис файлу у формат╕ Mac"
 msgid "Backing up file"
 msgstr "Робити резервну коп╕ю файла"
 
-#: global.c:258 nano.c:654
+#: global.c:258 nano.c:660
 msgid "Smooth scrolling"
 msgstr "Плавна прокрутка"
 
@@ -555,7 +555,7 @@ msgstr "Позиц╕я"
 msgid "To Spell"
 msgstr "Правопис"
 
-#: global.c:498 nano.c:420 winio.c:655
+#: global.c:498 nano.c:424 winio.c:655
 msgid "Up"
 msgstr "Вгору"
 
@@ -735,7 +735,7 @@ msgstr "Розм╕р в╕кна замалий для Nano...\n"
 msgid "Key illegal in VIEW mode"
 msgstr "Нев╕рна кнопка в режим╕ VIEW"
 
-#: nano.c:279
+#: nano.c:283
 msgid ""
 "Search Command Help Text\n"
 "\n"
@@ -763,7 +763,7 @@ msgstr ""
 " Наступн╕ функц╕ональн╕ клав╕ш╕ наявн╕ у режим╕ Пошуку:\n"
 "\n"
 
-#: nano.c:289
+#: nano.c:293
 msgid ""
 "Go To Line Help Text\n"
 "\n"
@@ -783,7 +783,7 @@ msgstr ""
 " Наступн╕ функц╕ональн╕ клав╕ш╕ наявн╕ у режим╕ До_рядка:\n"
 "\n"
 
-#: nano.c:296
+#: nano.c:300
 msgid ""
 "Insert File Help Text\n"
 "\n"
@@ -819,7 +819,7 @@ msgstr ""
 " Наступн╕ функц╕ональн╕ клав╕ш╕ наявн╕ в режим╕ Вставити Файл:\n"
 "\n"
 
-#: nano.c:310
+#: nano.c:314
 msgid ""
 "Write File Help Text\n"
 "\n"
@@ -847,7 +847,7 @@ msgstr ""
 " Наступн╕ функц╕ональн╕ клав╕ш╕ наявн╕ в режим╕ Зберегти Файл\n"
 "\n"
 
-#: nano.c:321
+#: nano.c:325
 msgid ""
 "File Browser Help Text\n"
 "\n"
@@ -872,7 +872,7 @@ msgstr ""
 " Наступн╕ функц╕ональн╕ клав╕ш╕ наявн╕ в режим╕ Переглядач Файл╕в:\n"
 "\n"
 
-#: nano.c:332
+#: nano.c:336
 msgid ""
 "Browser Go To Directory Help Text\n"
 "\n"
@@ -895,7 +895,7 @@ msgstr ""
 "До_Директор╕╖:\n"
 "\n"
 
-#: nano.c:341
+#: nano.c:345
 msgid ""
 "Spell Check Help Text\n"
 "\n"
@@ -917,7 +917,7 @@ msgstr ""
 " Наступн╕ ╕нш╕ функц╕╖ наявн╕ в режим╕ Правопис:\n"
 "\n"
 
-#: nano.c:352
+#: nano.c:356
 msgid ""
 "External Command Help Text\n"
 "\n"
@@ -935,7 +935,7 @@ msgstr ""
 " Наступн╕ клав╕ш╕ наявн╕ у цьому режим╕:\n"
 "\n"
 
-#: nano.c:359
+#: nano.c:363
 msgid ""
 " nano help text\n"
 "\n"
@@ -973,15 +973,16 @@ msgstr ""
 "в╕кн╕ редагування. Додатков╕ комб╕нац╕╖ показан╕ у дужках:\n"
 "\n"
 
-#: nano.c:388 nano.c:458
+#: nano.c:392 nano.c:462
 msgid "enable/disable"
 msgstr "дозволити/заборонити"
 
-#: nano.c:415 nano.c:418
+#: nano.c:419 nano.c:422
 msgid "Space"
 msgstr "Проб╕л"
 
-#: nano.c:622
+#: nano.c:626
+#, c-format
 msgid ""
 "Usage: nano [+LINE] [GNU long option] [option] [file]\n"
 "\n"
@@ -989,11 +990,13 @@ msgstr ""
 "Використання: nano [+РЯДОК] [довг╕ опц╕╖ GNU] [опц╕╖] [файл]\n"
 "\n"
 
-#: nano.c:623
+#: nano.c:627
+#, c-format
 msgid "Option\t\tLong option\t\tMeaning\n"
 msgstr "Опц╕╖\t\tДовг╕ опц╕╖\t\tЗначення\n"
 
-#: nano.c:625
+#: nano.c:629
+#, c-format
 msgid ""
 "Usage: nano [+LINE] [option] [file]\n"
 "\n"
@@ -1001,192 +1004,195 @@ msgstr ""
 "Використання: nano [+РЯДОК] [опц╕я] [файл]\n"
 "\n"
 
-#: nano.c:626
+#: nano.c:630
+#, c-format
 msgid "Option\t\tMeaning\n"
 msgstr "Опц╕я\t\tЗначення\n"
 
-#: nano.c:629
+#: nano.c:633
 msgid "Show this message"
 msgstr "Показати це пов╕домлення"
 
-#: nano.c:630
+#: nano.c:634
 msgid "+LINE"
 msgstr "+РЯДОК"
 
-#: nano.c:630
+#: nano.c:634
 msgid "Start at line number LINE"
 msgstr "Почати з рядка номер РЯДОК"
 
-#: nano.c:632
+#: nano.c:636
 msgid "Backup existing files on save"
 msgstr "Робити резервн╕ коп╕╖ ╕снуючих файл╕в при запису"
 
-#: nano.c:633
+#: nano.c:637
 msgid "Write file in DOS format"
 msgstr "Запис файлу у формат╕ DOS"
 
-#: nano.c:636
+#: nano.c:640
 msgid "Enable multiple file buffers"
 msgstr "Дозволити дек╕лька файлових буфер╕в"
 
-#: nano.c:639
+#: nano.c:644
 msgid "Log & read search/replace string history"
 msgstr "Вести журнал та читати ╕стор╕ю умов пошуку/зам╕ни"
 
-#: nano.c:640
+#: nano.c:646
 msgid "Don't look at nanorc files"
 msgstr "Не дивитися в nanorc файли"
 
-#: nano.c:642
+#: nano.c:648
 msgid "Use alternate keypad routines"
 msgstr "Вживати альтернативн╕ п╕дпрограми для keypad"
 
-#: nano.c:644
+#: nano.c:650
 msgid "Write file in Mac format"
 msgstr "Запис файлу у формат╕ Mac"
 
-#: nano.c:645
+#: nano.c:651
 msgid "Don't convert files from DOS/Mac format"
 msgstr "Нема перетворювання ╕з DOS/Mac формату"
 
-#: nano.c:648
+#: nano.c:654
 msgid "-Q [str]"
 msgstr "-Q [рядок]"
 
-#: nano.c:648
+#: nano.c:654
 msgid "--quotestr=[str]"
 msgstr "--quotestr=[рядок]"
 
-#: nano.c:648
+#: nano.c:654
 msgid "Quoting string, default \"> \""
 msgstr "Рядок посилання, по замовченню \"> \""
 
-#: nano.c:651
+#: nano.c:657
 msgid "Do regular expression searches"
 msgstr "Пошук по формальному виразу (regexp)"
 
-#: nano.c:656
+#: nano.c:662
 msgid "-T [num]"
 msgstr "-T [чис]"
 
-#: nano.c:656
+#: nano.c:662
 msgid "--tabsize=[num]"
 msgstr "--tabsize=[чис]"
 
-#: nano.c:656
+#: nano.c:662
 msgid "Set width of a tab to num"
 msgstr "Встановити розм╕р табуляц╕╖ =чис"
 
-#: nano.c:657
+#: nano.c:663
 msgid "Print version information and exit"
 msgstr "Показати верс╕ю та вийти"
 
-#: nano.c:659
+#: nano.c:665
 msgid "-Y [str]"
 msgstr "-Y [рядок]"
 
-#: nano.c:659
+#: nano.c:665
 msgid "--syntax [str]"
 msgstr "--syntax [рядок]"
 
-#: nano.c:659
+#: nano.c:665
 msgid "Syntax definition to use"
 msgstr "Визначення синтаксису до використання"
 
-#: nano.c:661
+#: nano.c:667
 msgid "Constantly show cursor position"
 msgstr "Пост╕йно показувати позиц╕ю курсора"
 
-#: nano.c:663
+#: nano.c:669
 msgid "Automatically indent new lines"
 msgstr "Автоматично вир╕внювати нов╕ рядки"
 
-#: nano.c:664
+#: nano.c:670
 msgid "Let ^K cut from cursor to end of line"
 msgstr "Дозволити ^K вир╕зати в╕д курсора до к╕нця рядка"
 
-#: nano.c:666
+#: nano.c:672
 msgid "Don't follow symbolic links, overwrite"
 msgstr "Не йти за с╕мл╕нками, але переписувати"
 
-#: nano.c:668
+#: nano.c:674
 msgid "Enable mouse"
 msgstr "Дозволити мишу"
 
-#: nano.c:671
+#: nano.c:677
 msgid "-o [dir]"
 msgstr "-o [дир]"
 
-#: nano.c:671
+#: nano.c:677
 msgid "--operatingdir=[dir]"
 msgstr "--operatingdir=[дир]"
 
-#: nano.c:671
+#: nano.c:677
 msgid "Set operating directory"
 msgstr "Встановити робочий каталог"
 
-#: nano.c:673
+#: nano.c:679
 msgid "Preserve XON (^Q) and XOFF (^S) keys"
 msgstr "Зберегти клав╕ши XON (^Q) та XOFF (^S)"
 
-#: nano.c:675
+#: nano.c:681
 msgid "-r [#cols]"
 msgstr "-r [#стовп]"
 
-#: nano.c:675
+#: nano.c:681
 msgid "--fill=[#cols]"
 msgstr "--fill=[#стовп]"
 
-#: nano.c:675
+#: nano.c:681
 msgid "Set fill cols to (wrap lines at) #cols"
 msgstr "Встановити загортання рядк╕в в позиц╕╖ #стовп"
 
-#: nano.c:678
+#: nano.c:684
 msgid "-s [prog]"
 msgstr "-s [прог]"
 
-#: nano.c:678
+#: nano.c:684
 msgid "--speller=[prog]"
 msgstr "--speller=[прог]"
 
-#: nano.c:678
+#: nano.c:684
 msgid "Enable alternate speller"
 msgstr "Альтернативна програма перев╕рки правопису"
 
-#: nano.c:680
+#: nano.c:686
 msgid "Auto save on exit, don't prompt"
 msgstr "АвтоЗапис при виход╕, без запитань"
 
-#: nano.c:681
+#: nano.c:687
 msgid "View (read only) mode"
 msgstr "Режим переглядання (т╕льки читання)"
 
-#: nano.c:683
+#: nano.c:689
 msgid "Don't wrap long lines"
 msgstr "Не загортати довг╕ рядки"
 
-#: nano.c:685
+#: nano.c:691
 msgid "Don't show help window"
 msgstr "Не показувати в╕кно допомоги"
 
-#: nano.c:686
+#: nano.c:692
 msgid "Enable suspend"
 msgstr "Дозволити призупинку"
 
-#: nano.c:689
+#: nano.c:695
 msgid "(ignored, for Pico compatibility)"
 msgstr "(╕гноровано, для сум╕сност╕ ╕з Pico)"
 
-#: nano.c:696
+#: nano.c:702
 #, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
 msgstr " GNU nano верс╕╖ %s (з╕бране %s, %s)\n"
 
-#: nano.c:699
+#: nano.c:705
+#, c-format
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
 msgstr " Е-пошта: nano@nano-editor.org\tТенета: http://www.nano-editor.org"
 
-#: nano.c:700
+#: nano.c:706
+#, c-format
 msgid ""
 "\n"
 " Compiled options:"
@@ -1194,152 +1200,154 @@ msgstr ""
 "\n"
 " З╕брано з опц╕ями:"
 
-#: nano.c:772
+#: nano.c:778
 msgid "Sorry, support for this function has been disabled"
 msgstr "Вибачте, п╕дтримка ц╕╓╖ функц╕╖ було заборонено"
 
-#: nano.c:806
+#: nano.c:812
 msgid "Could not pipe"
 msgstr "Не можу працювати ╕з каналом (pipe)"
 
-#: nano.c:828 nano.c:1778 nano.c:1911
+#: nano.c:834 nano.c:1784 nano.c:1917
 msgid "Could not fork"
 msgstr "Не можу зробити fork()"
 
-#: nano.c:1365
+#: nano.c:1371
 msgid "Mark Set"
 msgstr "М╕тку встановлено"
 
-#: nano.c:1370
+#: nano.c:1376
 msgid "Mark UNset"
 msgstr "М╕тку знято"
 
-#: nano.c:1633
+#: nano.c:1639
 msgid "Edit a replacement"
 msgstr "Редагувати зам╕ну"
 
-#: nano.c:1686
+#: nano.c:1692
 msgid "Could not create pipe"
 msgstr "Не можу створити канал (pipe)"
 
-#: nano.c:1688
+#: nano.c:1694
 msgid "Creating misspelled word list, please wait..."
 msgstr "Створюю перел╕к орфограф╕чних помилок, зажд╕ть б-ласка..."
 
-#: nano.c:1784
+#: nano.c:1790
 msgid "Could not get size of pipe buffer"
 msgstr "Не можу отримати розм╕р буферу каналу"
 
-#: nano.c:1836
+#: nano.c:1842
 msgid "Error invoking \"spell\""
 msgstr "Помилка виконання \"spell\""
 
-#: nano.c:1839
+#: nano.c:1845
 msgid "Error invoking \"sort -f\""
 msgstr "Помилка виконання \"sort -f\""
 
-#: nano.c:1842
+#: nano.c:1848
 msgid "Error invoking \"uniq\""
 msgstr "Помилка виконання \"uniq\""
 
-#: nano.c:1918
+#: nano.c:1924
 #, c-format
 msgid "Could not invoke \"%s\""
 msgstr "Не можу виконати \"%s\""
 
-#: nano.c:1961
+#: nano.c:1967
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Не можу створити тимчасову назву для файлу: %s"
 
-#: nano.c:1967
+#: nano.c:1973
 msgid "Spell checking failed: unable to write temp file!"
 msgstr "Перев╕рка орфограф╕╖ не вдалася: неможливо записати тимчасовий файл!"
 
-#: nano.c:1986
+#: nano.c:1992
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Перев╕рка орфограф╕╖ не вдалася: %s"
 
-#: nano.c:1990
+#: nano.c:1996
 msgid "Finished checking spelling"
 msgstr "Перев╕рку орфограф╕╖ завершено"
 
-#: nano.c:2333
+#: nano.c:2339
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Поганий рядок цитування %s: %s"
 
-#: nano.c:2600
+#: nano.c:2606
 msgid "Can now UnJustify!"
 msgstr "Можу зараз же СкасВир╕внювання!"
 
-#: nano.c:2696
+#: nano.c:2702
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Зберегти зм╕нений буфер (В╕дпов╕дь \"Н╕\" СКАСУ╢ ВС╤ ЗМ╤НИ) ? "
 
-#: nano.c:2796
+#: nano.c:2802
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "Прийнято SIGHUP або SIGTERM\n"
 
-#: nano.c:2803
+#: nano.c:2809
 msgid "Use \"fg\" to return to nano"
 msgstr "Користуйтеся командою \"fg\" для того, щоб повернутися до nano"
 
-#: nano.c:2882
+#: nano.c:2888
 msgid "Cannot resize top win"
 msgstr "Не можу зм╕нити розм╕р верхнього в╕кна"
 
-#: nano.c:2884
+#: nano.c:2890
 msgid "Cannot move top win"
 msgstr "Не можу перем╕стити верхнього в╕кно"
 
-#: nano.c:2886
+#: nano.c:2892
 msgid "Cannot resize edit win"
 msgstr "Не можу зм╕нити розм╕р в╕кна редагування"
 
-#: nano.c:2888
+#: nano.c:2894
 msgid "Cannot move edit win"
 msgstr "Не можу перем╕стити в╕кно редагування"
 
-#: nano.c:2890
+#: nano.c:2896
 msgid "Cannot resize bottom win"
 msgstr "Не можу зм╕нити розм╕р нижнього в╕кна"
 
-#: nano.c:2892
+#: nano.c:2898
 msgid "Cannot move bottom win"
 msgstr "Не можу перем╕стити нижн╓ в╕кно"
 
-#: nano.c:2925
+#: nano.c:2931
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr "пом╕чено глюк NumLock'а. Додаткова клав╕атура може не працювати"
 
-#: nano.c:2974
+#: nano.c:2980
 msgid "enabled"
 msgstr "дозволено"
 
-#: nano.c:2974
+#: nano.c:2980
 msgid "disabled"
 msgstr "заборонено"
 
-#: nano.c:3166
+#: nano.c:3176
+#, c-format
 msgid "Tab size is too small for nano...\n"
 msgstr "Розм╕р табуляц╕╖ замалий для nano...\n"
 
-#: nano.c:3717
+#: nano.c:3727
 msgid "XOFF ignored, mumble mumble."
 msgstr "XOFF игноровано, прим-п╕м-п╕м"
 
-#: nano.c:3719
+#: nano.c:3729
 msgid "XON ignored, mumble mumble."
 msgstr "XON игноровано, мур-мур-мур"
 
-#: rcfile.c:103
+#: rcfile.c:105
 #, c-format
 msgid "Error in %s on line %d: "
 msgstr "Помилка в %s у рядку %d: "
 
-#: rcfile.c:108
+#: rcfile.c:110
+#, c-format
 msgid ""
 "\n"
 "Press return to continue starting nano\n"
@@ -1347,12 +1355,12 @@ msgstr ""
 "\n"
 "Нажм╕ть Enter щоб продовжити завантаження nano\n"
 
-#: rcfile.c:173
+#: rcfile.c:175
 #, c-format
 msgid "argument %s has unterminated \""
 msgstr "аргумент %s ма╓ зак╕нчуватися на \""
 
-#: rcfile.c:215
+#: rcfile.c:217
 #, c-format
 msgid ""
 "color %s not understood.\n"
@@ -1365,61 +1373,61 @@ msgstr ""
 "\"white\", \"yellow\", \"cyan\", \"magenta\" та \n"
 "\"black\", з опц╕ональним преф╕ксом \"bright\".\n"
 
-#: rcfile.c:254
+#: rcfile.c:256
 #, c-format
 msgid "Bad regex \"%s\": %s"
 msgstr "Не в╕рний регулярний вираз \"%s\": %s"
 
-#: rcfile.c:274 rcfile.c:398 rcfile.c:445
+#: rcfile.c:276 rcfile.c:400 rcfile.c:447
 msgid "regex strings must begin and end with a \" character\n"
 msgstr ""
 "рядки формальних вираз╕в повинн╕ починатись та зак╕нчуватись символом '\"'\n"
 
-#: rcfile.c:283
+#: rcfile.c:285
 msgid "Missing syntax name"
 msgstr "В╕дсутня назва синтаксису"
 
-#: rcfile.c:352
+#: rcfile.c:354
 msgid "Missing color name"
 msgstr "В╕дсутня назва кольору"
 
-#: rcfile.c:369
+#: rcfile.c:371
 msgid "Cannot add a color directive without a syntax line"
 msgstr "Не можу додати команду кольору без рядка синтаксису"
 
-#: rcfile.c:437
+#: rcfile.c:439
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr "\"start=\" потребу╓ в╕дпов╕дного \"end=\""
 
-#: rcfile.c:509
+#: rcfile.c:511
 #, c-format
 msgid "command %s not understood"
 msgstr "команда %s не зрозум╕ла"
 
-#: rcfile.c:541
+#: rcfile.c:543
 #, c-format
 msgid "option %s requires an argument"
 msgstr "опц╕я %s потребу╓ аргумента"
 
-#: rcfile.c:566
+#: rcfile.c:568
 #, c-format
 msgid "requested fill size %d invalid"
 msgstr "запитаний розм╕р заповнення %d ╓ некоректним"
 
-#: rcfile.c:590
+#: rcfile.c:592
 #, c-format
 msgid "requested tab size %d invalid"
 msgstr "запрошений розм╕р табуляц╕╖ %d ╓ некоректним"
 
-#: rcfile.c:614
+#: rcfile.c:616
 msgid "Errors found in .nanorc file"
 msgstr "Знайдено помилки у файл╕ .nanorc"
 
-#: rcfile.c:650
+#: rcfile.c:652
 msgid "I can't find my home directory!  Wah!"
 msgstr "Я не можу знайти свою дом╕вку! Жах!"
 
-#: rcfile.c:670
+#: rcfile.c:672
 #, c-format
 msgid "Unable to open ~/.nanorc file, %s"
 msgstr "Не можу в╕дкрити файл ~/.nanorc, %s"
@@ -1459,31 +1467,31 @@ msgid "Search Cancelled"
 msgstr "Пошук скасовано"
 
 # message
-#: search.c:296 search.c:348
+#: search.c:300 search.c:357
 msgid "Search Wrapped"
 msgstr "Д╕сталися к╕нця файла, почали спочатку"
 
-#: search.c:423
+#: search.c:432
 msgid "This is the only occurrence"
 msgstr "Це ╓дине сп╕впад╕ння"
 
-#: search.c:577 search.c:735
+#: search.c:585 search.c:751
 msgid "Replace Cancelled"
 msgstr "Зам╕ну скасовано"
 
-#: search.c:617
+#: search.c:661
 msgid "Replace this instance?"
 msgstr "Зам╕нити цей прим╕рник?"
 
-#: search.c:632
+#: search.c:686
 msgid "Replace failed: unknown subexpression!"
 msgstr "Зам╕на невдала: незнайомий п╕двираз!"
 
-#: search.c:772
+#: search.c:788
 msgid "Replace with"
 msgstr "Зам╕нити на"
 
-#: search.c:792
+#: search.c:808
 #, c-format
 msgid "Replaced %d occurrence"
 msgid_plural "Replaced %d occurrences"
@@ -1491,23 +1499,23 @@ msgstr[0] "Зам╕нено %d входження"
 msgstr[1] "Зам╕нен╕ %d входження"
 msgstr[2] "Зам╕нено %d входжень"
 
-#: search.c:809
+#: search.c:825
 msgid "Enter line number"
 msgstr "Введ╕ть номер рядка"
 
-#: search.c:813
+#: search.c:829
 msgid "Aborted"
 msgstr "Прервано"
 
-#: search.c:823
+#: search.c:839
 msgid "Come on, be reasonable"
 msgstr "Гей, будьте автотентичн╕"
 
-#: search.c:883
+#: search.c:899
 msgid "Not a bracket"
 msgstr "Не дужка"
 
-#: search.c:934
+#: search.c:950
 msgid "No matching bracket"
 msgstr "Нема в╕дпов╕дно╖ дужки"
 

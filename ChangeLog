@@ -1,3 +1,4 @@
+GNU nano 1.2.3 - 2004.01.17
 - General:
 	- Translation updates (see po/ChangeLog for details).
 	- Make sure the "historylog" option isn't included at all if
