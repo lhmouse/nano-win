@@ -1339,6 +1339,7 @@ int write_file(const char *name, bool tmp, int append, bool
 	/* The temp file name we write to on prepend. */
 
     assert(name != NULL);
+
     if (name[0] == '\0')
 	return -1;
     if (!tmp)
