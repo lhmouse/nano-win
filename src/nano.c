@@ -642,7 +642,7 @@ void usage(void)
 #else
     printf(_("Usage: nano [+LINE] [option] [file]\n\n"));
     printf(_("Option\t\tMeaning\n"));
-#endif /* HAVE_GETOPT_LONG */
+#endif
 
     print1opt("-h, -?", "--help", N_("Show this message"));
     print1opt(_("+LINE"), "", N_("Start at line number LINE"));
@@ -3093,156 +3093,155 @@ int main(int argc, char *argv[])
 	SET(NO_WRAP);
 #endif
 
-#ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "h?ABDE:FHIMNQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz",
-				 long_options, NULL)) != -1) {
-#else
     while ((optchr =
-	    getopt(argc, argv, "h?ABDE:FHIMNQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz")) != -1) {
+#ifdef HAVE_GETOPT_LONG
+	getopt_long(argc, argv, "h?ABDE:FHIMNQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz", long_options, NULL)
+#else
+	getopt(argc, argv, "h?ABDE:FHIMNQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz")
 #endif
+		) != -1) {
 
 	switch (optchr) {
-
-	case 'a':
-	case 'b':
-	case 'e':
-	case 'f':
-	case 'g':
-	case 'j':
-	    /* Pico compatibility flags */
-	    break;
+	    case 'a':
+	    case 'b':
+	    case 'e':
+	    case 'f':
+	    case 'g':
+	    case 'j':
+		/* Pico compatibility flags. */
+		break;
 #ifndef NANO_SMALL
-	case 'A':
-	    SET(SMART_HOME);
-	    break;
-	case 'B':
-	    SET(BACKUP_FILE);
-	    break;
-	case 'D':
-	    SET(DOS_FILE);
-	    break;
-	case 'E':
-	    backup_dir = mallocstrcpy(backup_dir, optarg);
-	    break;
+	    case 'A':
+		SET(SMART_HOME);
+		break;
+	    case 'B':
+		SET(BACKUP_FILE);
+		break;
+	    case 'D':
+		SET(DOS_FILE);
+		break;
+	    case 'E':
+		backup_dir = mallocstrcpy(backup_dir, optarg);
+		break;
 #endif
 #ifdef ENABLE_MULTIBUFFER
-	case 'F':
-	    SET(MULTIBUFFER);
-	    break;
+	    case 'F':
+		SET(MULTIBUFFER);
+		break;
 #endif
 #ifdef ENABLE_NANORC
 #ifndef NANO_SMALL
-	case 'H':
-	    SET(HISTORYLOG);
-	    break;
+	    case 'H':
+		SET(HISTORYLOG);
+		break;
 #endif
-	case 'I':
-	    SET(NO_RCFILE);
-	    break;
+	    case 'I':
+		SET(NO_RCFILE);
+		break;
 #endif
 #ifndef NANO_SMALL
-	case 'M':
-	    SET(MAC_FILE);
-	    break;
-	case 'N':
-	    SET(NO_CONVERT);
-	    break;
+	    case 'M':
+		SET(MAC_FILE);
+		break;
+	    case 'N':
+		SET(NO_CONVERT);
+		break;
 #endif
 #ifndef DISABLE_JUSTIFY
-	case 'Q':
-	    quotestr = mallocstrcpy(quotestr, optarg);
-	    break;
+	    case 'Q':
+		quotestr = mallocstrcpy(quotestr, optarg);
+		break;
 #endif
 #ifdef HAVE_REGEX_H
-	case 'R':
-	    SET(USE_REGEXP);
-	    break;
+	    case 'R':
+		SET(USE_REGEXP);
+		break;
 #endif
 #ifndef NANO_SMALL
-	case 'S':
-	    SET(SMOOTHSCROLL);
-	    break;
+	    case 'S':
+		SET(SMOOTHSCROLL);
+		break;
 #endif
-	case 'T':
-	    if (!parse_num(optarg, &tabsize) || tabsize <= 0) {
-		fprintf(stderr, _("Requested tab size %s invalid\n"), optarg);
-		exit(1);
-	    }
-	    break;
-	case 'V':
-	    version();
-	    exit(0);
+	    case 'T':
+		if (!parse_num(optarg, &tabsize) || tabsize <= 0) {
+		    fprintf(stderr, _("Requested tab size %s invalid\n"), optarg);
+		    exit(1);
+		}
+		break;
+	    case 'V':
+		version();
+		exit(0);
 #ifdef ENABLE_COLOR
-	case 'Y':
-	    syntaxstr = mallocstrcpy(syntaxstr, optarg);
-	    break;
+	    case 'Y':
+		syntaxstr = mallocstrcpy(syntaxstr, optarg);
+		break;
 #endif
-	case 'Z':
-	    SET(RESTRICTED);
-	    break;
-	case 'c':
-	    SET(CONSTUPDATE);
-	    break;
-	case 'd':
-	    SET(REBIND_DELETE);
-	    break;
+	    case 'Z':
+		SET(RESTRICTED);
+		break;
+	    case 'c':
+		SET(CONSTUPDATE);
+		break;
+	    case 'd':
+		SET(REBIND_DELETE);
+		break;
 #ifndef NANO_SMALL
-	case 'i':
-	    SET(AUTOINDENT);
-	    break;
-	case 'k':
-	    SET(CUT_TO_END);
-	    break;
+	    case 'i':
+		SET(AUTOINDENT);
+		break;
+	    case 'k':
+		SET(CUT_TO_END);
+		break;
 #endif
-	case 'l':
-	    SET(NOFOLLOW_SYMLINKS);
-	    break;
+	    case 'l':
+		SET(NOFOLLOW_SYMLINKS);
+		break;
 #ifndef DISABLE_MOUSE
-	case 'm':
-	    SET(USE_MOUSE);
-	    break;
+	    case 'm':
+		SET(USE_MOUSE);
+		break;
 #endif
 #ifndef DISABLE_OPERATINGDIR
-	case 'o':
-	    operating_dir = mallocstrcpy(operating_dir, optarg);
-	    break;
+	    case 'o':
+		operating_dir = mallocstrcpy(operating_dir, optarg);
+		break;
 #endif
-	case 'p':
-	    SET(PRESERVE);
-	    break;
+	    case 'p':
+		SET(PRESERVE);
+		break;
 #ifndef DISABLE_WRAPJUSTIFY
-	case 'r':
-	    if (!parse_num(optarg, &wrap_at)) {
-		fprintf(stderr, _("Requested fill size %s invalid\n"), optarg);
-		exit(1);
-	    }
-	    fill_flag_used = TRUE;
-	    break;
+	    case 'r':
+		if (!parse_num(optarg, &wrap_at)) {
+		    fprintf(stderr, _("Requested fill size %s invalid\n"), optarg);
+		    exit(1);
+		}
+		fill_flag_used = TRUE;
+		break;
 #endif
 #ifndef DISABLE_SPELLER
-	case 's':
-	    alt_speller = mallocstrcpy(alt_speller, optarg);
-	    break;
+	    case 's':
+		alt_speller = mallocstrcpy(alt_speller, optarg);
+		break;
 #endif
-	case 't':
-	    SET(TEMP_FILE);
-	    break;
-	case 'v':
-	    SET(VIEW_MODE);
-	    break;
+	    case 't':
+		SET(TEMP_FILE);
+		break;
+	    case 'v':
+		SET(VIEW_MODE);
+		break;
 #ifndef DISABLE_WRAPPING
-	case 'w':
-	    SET(NO_WRAP);
-	    break;
+	    case 'w':
+		SET(NO_WRAP);
+		break;
 #endif
-	case 'x':
-	    SET(NO_HELP);
-	    break;
-	case 'z':
-	    SET(SUSPEND);
-	    break;
-	default:
-	    usage();
+	    case 'x':
+		SET(NO_HELP);
+		break;
+	    case 'z':
+		SET(SUSPEND);
+		break;
+	    default:
+		usage();
 	}
     }
 
