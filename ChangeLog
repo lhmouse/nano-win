@@ -6,6 +6,9 @@ CVS code -
 	- Changed header comments to say "version 2" instead of "version
 	  1" as the COPYING file is actually version 2 of the GPL (bug
 	  noticed by Jordi Mallach).
+	- Backported do_prev_word() from 1.1.  Command is Meta-Space.
+	  Added #ifndef NANO_SMALL around both functions, as they
+	  aren't needed for nano-tiny.
 - cut.c:
   do_cut_text()
 	- Backported 1.1 fixes for just doing edit_update when we cut
