@@ -174,10 +174,9 @@ regmatch_t regmatches[10];	/* Match positions for parenthetical
 				   subexpressions, max of 10 */
 #endif
 
-int curses_ended = FALSE;	/* Indicates to statusbar() to simply
+bool curses_ended = FALSE;	/* Indicates to statusbar() to simply
 				 * write to stderr, since endwin() has
 				 * ended curses mode. */
-
 
 size_t length_of_list(const shortcut *s)
 {
@@ -371,7 +370,6 @@ void shortcut_init(int unjustify)
 		NANO_NO_KEY, VIEW, do_exit);
     else
 #endif
-
     /* Translators: try to keep this string under 10 characters long */
 	sc_init_one(&main_list, NANO_EXIT_KEY, exit_msg,
 		IFHELP(nano_exit_msg, NANO_NO_KEY), NANO_EXIT_FKEY,

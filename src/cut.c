@@ -28,13 +28,13 @@
 #include "proto.h"
 #include "nano.h"
 
-static int keep_cutbuffer = FALSE;
+static bool keep_cutbuffer = FALSE;
 	/* Should we keep the contents of the cutbuffer? */
 static int marked_cut;
 	/* Is the cutbuffer from a mark?  0 means whole-line cut, 1
 	 * means mark, and 2 means cut-from-cursor. */
 #ifndef NANO_SMALL
-static int concatenate_cut;
+static bool concatenate_cut;
 	/* Should we add this cut string to the end of the last one? */
 #endif
 static filestruct *cutbottom = NULL;
@@ -50,7 +50,7 @@ filestruct *get_cutbottom(void)
     return cutbottom;
 }
 
-void add_to_cutbuffer(filestruct *inptr, int allow_concat)
+void add_to_cutbuffer(filestruct *inptr, bool allow_concat)
 {
 #ifdef DEBUG
     fprintf(stderr, "add_to_cutbuffer(): inptr->data = %s\n", inptr->data);
@@ -61,7 +61,7 @@ void add_to_cutbuffer(filestruct *inptr, int allow_concat)
 #ifndef NANO_SMALL
     else if (allow_concat && concatenate_cut) {
 	/* Just tack the text in inptr onto the text in cutbottom,
-	 * unless allow_concat is false. */
+	 * unless allow_concat is FALSE. */
 	cutbottom->data = charealloc(cutbottom->data,
 		strlen(cutbottom->data) + strlen(inptr->data) + 1);
 	strcat(cutbottom->data, inptr->data);
