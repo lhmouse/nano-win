@@ -246,6 +246,8 @@ CVS code -
 	  one from the command line and/or rcfile, as Pico does.  Don't
 	  do this if we're in restricted mode, since spell checking is
 	  disabled then. (DLR)
+	- Add some cleanups for greater readability, and remove a few
+	  bits of redundant code. (DLR and David Benbennick)
 - nano.h:
 	- Since REGEXP_COMPILED is only used in search.c, convert it
 	  from a flag to a static int there. (DLR)

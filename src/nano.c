@@ -3032,10 +3032,9 @@ int main(int argc, char *argv[])
 {
     int optchr;
     int startline = 0;		/* Line to try and start at */
-    int modify_control_seq = 0;
-    int fill_flag_used = 0;	/* Was the fill option used? */
+    int fill_flag_used = FALSE;	/* Was the fill option used? */
     const shortcut *s;
-    int keyhandled = 0;	/* Have we handled the keystroke yet? */
+    int keyhandled = FALSE;	/* Have we handled the keystroke yet? */
     int kbinput;		/* Input from keyboard */
     int meta_key;
 
@@ -3260,7 +3259,7 @@ int main(int argc, char *argv[])
 		else
 		    wrap_at = i;
 	    }
-	    fill_flag_used = 1;
+	    fill_flag_used = TRUE;
 	    break;
 #endif
 #ifndef DISABLE_SPELLER
@@ -3406,17 +3405,19 @@ int main(int argc, char *argv[])
 
 #ifndef DISABLE_JUSTIFY
     if (punct == NULL)
-	    punct = mallocstrcpy(punct, ".?!");
+	punct = mallocstrcpy(punct, ".?!");
 
     if (brackets == NULL)
-	    brackets = mallocstrcpy(brackets, "'\")}]>");
+	brackets = mallocstrcpy(brackets, "'\")}]>");
 
     if (quotestr == NULL)
+	quotestr = mallocstrcpy(NULL,
 #ifdef HAVE_REGEX_H
-	quotestr = mallocstrcpy(NULL, "^([ \t]*[|>:}#])+");
+		"^([ \t]*[|>:}#])+"
 #else
-	quotestr = mallocstrcpy(NULL, "> ");
+		"> "
 #endif
+		);
 #endif /* !DISABLE_JUSTIFY */
 
 #ifndef DISABLE_SPELLER
@@ -3548,20 +3549,11 @@ int main(int argc, char *argv[])
     sigsetjmp(jmpbuf, 1);
 #endif
 
-    /* SHUT UP GCC! */
-    startline = 0;
-    fill_flag_used = 0;
-    keyhandled = 0;
-
-    /* This variable should be initialized after the sigsetjmp(), so we
-       can't do Esc-Esc then quickly resize and muck things up. */
-    modify_control_seq = 0;
-
     edit_refresh();
     reset_cursor();
 
     while (TRUE) {
-	keyhandled = 0;
+	keyhandled = FALSE;
 
 	if (ISSET(CONSTUPDATE))
 	    do_cursorpos(1);
@@ -3576,7 +3568,13 @@ int main(int argc, char *argv[])
 #endif
 	if (meta_key == TRUE) {
 	    /* Check for the metaval and miscval defs... */
-	    for (s = main_list; s != NULL; s = s->next)
+	    for (s =
+#if !defined(DISABLE_BROWSER) || !defined (DISABLE_HELP) || !defined(DISABLE_MOUSE)
+		currshortcut
+#else
+		main_list
+#endif
+			; s != NULL && !keyhandled; s = s->next) {
 		if ((s->metaval != NANO_NO_KEY && kbinput == s->metaval) ||
 		    (s->miscval != NANO_NO_KEY && kbinput == s->miscval)) {
 		    if (ISSET(VIEW_MODE) && !s->viewok)
@@ -3586,18 +3584,21 @@ int main(int argc, char *argv[])
 			    cutbuffer_reset();
 			s->func();
 		    }
-		    keyhandled = 1;
+		    keyhandled = TRUE;
 		}
 #ifndef NANO_SMALL
-		if (!keyhandled)
+		if (!keyhandled) {
 		    /* And for toggle switches */
-		    for (t = toggles; t != NULL; t = t->next)
+		    for (t = toggles; t != NULL; t = t->next) {
 			if (kbinput == t->val) {
 			    cutbuffer_reset();
 			    do_toggle(t);
-			    keyhandled = 1;
+			    keyhandled = TRUE;
 		        }
+		    }
+		}
 #endif
+	    }
 #ifdef DEBUG
 	    fprintf(stderr, "I got Alt-%c! (%d)\n", kbinput,
 		kbinput);
@@ -3607,12 +3608,14 @@ int main(int argc, char *argv[])
 	/* Look through the main shortcut list to see if we've hit a
 	   shortcut key or function key */
 
-	if (!keyhandled)
+	if (!keyhandled) {
+	    for (s =
 #if !defined(DISABLE_BROWSER) || !defined (DISABLE_HELP) || !defined(DISABLE_MOUSE)
-	    for (s = currshortcut; s != NULL && !keyhandled; s = s->next) {
+		currshortcut
 #else
-	    for (s = main_list; s != NULL && !keyhandled; s = s->next) {
+		main_list
 #endif
+			; s != NULL && !keyhandled; s = s->next) {
 		if ((s->ctrlval != NANO_NO_KEY && kbinput == s->ctrlval) ||
 		    (s->funcval != NANO_NO_KEY && kbinput == s->funcval)) {
 		    if (ISSET(VIEW_MODE) && !s->viewok)
@@ -3622,12 +3625,10 @@ int main(int argc, char *argv[])
 			    cutbuffer_reset();
 			s->func();
 		    }
-		    keyhandled = 1;
-		    /* Break out explicitly once we successfully handle
-		       a shortcut */
-		    break;
+		    keyhandled = TRUE;
 		}
 	    }
+	}
 
 	if (!keyhandled)
 	    cutbuffer_reset();
@@ -3641,42 +3642,40 @@ int main(int argc, char *argv[])
 	/* If we're in raw mode or using Alt-Alt-x, we have to catch
 	   Control-S and Control-Q */
 	if (kbinput == NANO_CONTROL_Q || kbinput == NANO_CONTROL_S)
-	    keyhandled = 1;
+	    keyhandled = TRUE;
 
 	/* Catch ^Z by hand when triggered also */
 	if (kbinput == NANO_SUSPEND_KEY) {
 	    if (ISSET(SUSPEND))
 		do_suspend(0);
-	    keyhandled = 1;
+	    keyhandled = TRUE;
 	}
 
 	/* Last gasp, stuff that's not in the main lists */
-	if (!keyhandled)
+	if (!keyhandled) {
 	    switch (kbinput) {
 #ifndef DISABLE_MOUSE
-	    case KEY_MOUSE:
-		do_mouse();
-		break;
+		case KEY_MOUSE:
+		    do_mouse();
+		    break;
 #endif
-
-	    case NANO_CONTROL_3:	/* Ctrl-[ (Esc), which should
-	    				 * have been handled before we
-	    				 * got here */
-	    case NANO_CONTROL_5:	/* Ctrl-] */
-		break;
-	    default:
+		case NANO_CONTROL_3:	/* Ctrl-[ (Esc), which should
+					 * have been handled before we
+					 * got here */
+		case NANO_CONTROL_5:	/* Ctrl-] */
+		    break;
+		default:
 #ifdef DEBUG
-		fprintf(stderr, "I got %c (%d)!\n", kbinput, kbinput);
+		    fprintf(stderr, "I got %c (%d)!\n", kbinput, kbinput);
 #endif
-		/* We no longer stop unhandled sequences so that people with
-		   odd character sets can type... */
-
-		if (ISSET(VIEW_MODE))
-		    print_view_warning();
-		else
-		    do_char((char)kbinput);
+		    /* We no longer stop unhandled sequences so that
+		       people with odd character sets can type... */
+		    if (ISSET(VIEW_MODE))
+			print_view_warning();
+		    else
+			do_char((char)kbinput);
 	    }
-
+	}
 	reset_cursor();
 	wrefresh(edit);
     }
