@@ -264,11 +264,11 @@ void toggle_init(void)
     toggle_backup_msg = _("Backing up file");
     toggle_smooth_msg = _("Smooth scrolling");
     toggle_smarthome_msg = _("Smart home key");
-#ifdef ENABLE_COLOR
-    toggle_syntax_msg = _("Color syntax highlighting");
-#endif
 #ifndef DISABLE_WRAPPING
     toggle_wrap_msg = _("Auto line wrap");
+#endif
+#ifdef ENABLE_COLOR
+    toggle_syntax_msg = _("Color syntax highlighting");
 #endif
 #ifdef ENABLE_MULTIBUFFER
     toggle_multibuffer_msg = _("Multiple file buffers");
