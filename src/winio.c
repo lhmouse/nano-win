@@ -2471,9 +2471,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	start_index += wide_buf_len;
     }
 
-    /* Make sure that converted is at most len columns wide. */
     null_at(&converted, index);
-
     return converted;
 }
 
