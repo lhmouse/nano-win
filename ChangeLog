@@ -76,6 +76,9 @@ CVS code -
   do_browser()
 	- Call check_statblank() instead of blanking the statusbar
 	  unconditionally, for consistency. (David Benbennick)
+- move.c:
+  do_first_line(), do_last_line()
+	- Move these functions here from winio.c. (DLR)
 - nano.c:
   do_toggle(), finish()
 	- Call blank_statusbar() and blank_bottombars() to blank out

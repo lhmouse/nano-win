@@ -28,6 +28,24 @@
 #include "proto.h"
 #include "nano.h"
 
+int do_first_line(void)
+{
+    current = fileage;
+    placewewant = 0;
+    current_x = 0;
+    edit_update(current, TOP);
+    return 1;
+}
+
+int do_last_line(void)
+{
+    current = filebot;
+    placewewant = 0;
+    current_x = 0;
+    edit_update(current, CENTER);
+    return 1;
+}
+
 int do_home(void)
 {
 #ifndef NANO_SMALL

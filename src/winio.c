@@ -1013,24 +1013,6 @@ int get_mouseinput(int *mouse_x, int *mouse_y, int allow_shortcuts)
 }
 #endif
 
-int do_first_line(void)
-{
-    current = fileage;
-    placewewant = 0;
-    current_x = 0;
-    edit_update(current, TOP);
-    return 1;
-}
-
-int do_last_line(void)
-{
-    current = filebot;
-    placewewant = 0;
-    current_x = 0;
-    edit_update(current, CENTER);
-    return 1;
-}
-
 /* Return the placewewant associated with current_x.  That is, xplustabs
  * is the zero-based column position of the cursor.  Value is no smaller
  * than current_x. */

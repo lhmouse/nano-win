@@ -233,6 +233,8 @@ void thanks_for_all_the_fish(void);
 #endif
 
 /* Public functions in move.c */
+int do_first_line(void);
+int do_last_line(void);
 int do_home(void);
 int do_end(void);
 int do_page_up(void);
@@ -478,8 +480,6 @@ int get_escape_seq_abcd(int kbinput);
 #ifndef DISABLE_MOUSE
 int get_mouseinput(int *mouse_x, int *mouse_y, int shortcut);
 #endif
-int do_first_line(void);
-int do_last_line(void);
 size_t xplustabs(void);
 size_t actual_x(const char *str, size_t xplus);
 size_t strnlenpt(const char *buf, size_t size);
