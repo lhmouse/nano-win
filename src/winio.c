@@ -1736,7 +1736,8 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		   search history, and we need to save the current
 		   answer in currentbuf; do this and reset use_cb to
 		   0 */
-		if (currentbuf == NULL || (use_cb == 1 && strcmp(currentbuf, answer))) {
+		if (currentbuf == NULL || (use_cb == 1 &&
+			strcmp(currentbuf, answer) != 0)) {
 		    currentbuf = mallocstrcpy(currentbuf, answer);
 		    use_cb = 0;
 		}
@@ -1747,7 +1748,8 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		   we need to make the string in currentbuf the current
 		   answer; do this, blow away currentbuf since we don't
 		   need it anymore, and reset use_cb to 0 */
-		if (currentbuf != NULL && use_cb == 2 && strcmp(currentbuf, answer)) {
+		if (currentbuf != NULL && use_cb == 2 &&
+			strcmp(currentbuf, answer) != 0) {
 		    answer = mallocstrcpy(answer, currentbuf);
 		    free(currentbuf);
 		    currentbuf = NULL;

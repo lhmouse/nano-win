@@ -1494,7 +1494,7 @@ int do_int_spell_fix(const char *word)
 
 	    do_replace_highlight(FALSE, word);
 
-	    if (i != -1 && strcmp(word, answer)) {
+	    if (i != -1 && strcmp(word, answer) != 0) {
 		search_last_line = FALSE;
 		current_x--;
 		do_replace_loop(word, current_save, &current_x_save, TRUE);
@@ -1971,7 +1971,7 @@ size_t quote_length(const char *line)
     size_t qdepth = 0;
 
     /* Compute quote depth level. */
-    while (!strcmp(line + qdepth, quotestr))
+    while (strncmp(line + qdepth, quotestr, quotelen) == 0)
 	qdepth += quotelen;
     return qdepth;
 #endif	/* !HAVE_REGEX_H */
@@ -1985,7 +1985,7 @@ int quotes_match(const char *a_line, size_t a_quote, const char *b_line)
     /* Here is the assumption about a_quote: */
     assert(a_quote == quote_length(a_line));
     return a_quote == quote_length(b_line) &&
-	!strncmp(a_line, b_line, a_quote);
+	strncmp(a_line, b_line, a_quote) == 0;
 }
 
 /* We assume a_line and b_line have no quote part.  Then, we return
@@ -1996,7 +1996,8 @@ size_t indents_match(const char *a_line, size_t a_indent, const char
     assert(a_indent == indent_length(a_line));
     assert(b_indent == indent_length(b_line));
 
-    return b_indent <= a_indent && !strncmp(a_line, b_line, b_indent);
+    return b_indent <= a_indent &&
+	strncmp(a_line, b_line, b_indent) == 0;
 }
 
 /* Is foo the beginning of a paragraph?

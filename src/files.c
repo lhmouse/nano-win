@@ -444,7 +444,7 @@ void do_insertfile(int loading_file)
 #endif
 
 #ifndef DISABLE_OPERATINGDIR
-    if (operating_dir != NULL && strcmp(operating_dir, "."))
+    if (operating_dir != NULL && strcmp(operating_dir, ".") != 0)
 #ifdef ENABLE_MULTIBUFFER 
 	if (ISSET(MULTIBUFFER))
 	    i = statusq(TRUE, insertfile_list, inspath,
@@ -1039,7 +1039,7 @@ char *get_full_path(const char *origpath)
     if (d_here != NULL) {
 
 	align(&d_here);
-	if (strcmp(d_here, "/")) {
+	if (strcmp(d_here, "/") != 0) {
 	    d_here = charealloc(d_here, strlen(d_here) + 2);
 	    strcat(d_here, "/");
 	}
@@ -1111,7 +1111,7 @@ char *get_full_path(const char *origpath)
 
 		    /* add a slash to d_there, unless it's "/", in which
 		       case we don't need it */
-		    if (strcmp(d_there, "/")) {
+		    if (strcmp(d_there, "/") != 0) {
 			d_there = charealloc(d_there, strlen(d_there) + 2);
 			strcat(d_there, "/");
 		    }
@@ -1908,14 +1908,14 @@ int do_writeout(int exiting)
 #endif
 
 #ifdef NANO_EXTRA
-	if (exiting && !ISSET(TEMP_FILE) && !strcasecmp(answer, "zzy")
+	if (exiting && !ISSET(TEMP_FILE) && strcasecmp(answer, "zzy") == 0
 		&& !did_cred) {
 	    do_credits();
 	    did_cred = TRUE;
 	    return -1;
 	}
 #endif
-	if (append == 0 && strcmp(answer, filename)) {
+	if (append == 0 && strcmp(answer, filename) != 0) {
 	    struct stat st;
 
 	    if (!stat(answer, &st)) {
@@ -1987,7 +1987,7 @@ char *real_dir_from_tilde(const char *buf)
 	    do {
 		userdata = getpwent();
 	    } while (userdata != NULL &&
-			strncmp(userdata->pw_name, buf + 1, i - 1));
+			strncmp(userdata->pw_name, buf + 1, i - 1) != 0);
 	}
 	endpwent();
 
@@ -2290,7 +2290,7 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace,
 	    } else
 		tmp = buf;
 
-	    if (!strcmp(tmp, matches[0]))
+	    if (strcmp(tmp, matches[0]) == 0)
 		is_dir = append_slash_if_dir(buf, lastwastab, newplace);
 
 	    if (is_dir != 0)
@@ -2514,7 +2514,7 @@ char **browser_init(const char *path, int *longest, int *numents)
 
     *numents = 0;
     while ((next = readdir(dir)) != NULL) {
-	if (!strcmp(next->d_name, "."))
+	if (strcmp(next->d_name, ".") == 0)
 	   continue;
 	(*numents)++;
 	if (strlen(next->d_name) > *longest)
@@ -2525,12 +2525,12 @@ char **browser_init(const char *path, int *longest, int *numents)
 
     filelist = (char **)nmalloc(*numents * sizeof (char *));
 
-    if (!strcmp(path, "/"))
+    if (strcmp(path, "/") == 0)
 	path = "";
     path_len = strlen(path);
 
     while ((next = readdir(dir)) != NULL) {
-	if (!strcmp(next->d_name, "."))
+	if (strcmp(next->d_name, ".") == 0)
 	   continue;
 
 	filelist[i] = charalloc(strlen(next->d_name) + path_len + 2);
@@ -2564,7 +2564,7 @@ char *do_browser(const char *inpath)
     /* If path isn't the same as inpath, we are being passed a new
 	dir as an arg.  We free it here so it will be copied from 
 	inpath below */
-    if (path != NULL && strcmp(path, inpath)) {
+    if (path != NULL && strcmp(path, inpath) != 0) {
 	free(path);
 	path = NULL;
     }
@@ -2682,7 +2682,8 @@ char *do_browser(const char *inpath)
 	case 'S': /* Pico compatibility */
 	case 's':
 	    /* You can't cd up from / */
-	    if (!strcmp(filelist[selected], "/..") && !strcmp(path, "/")) {
+	    if (strcmp(filelist[selected], "/..") == 0 &&
+		strcmp(path, "/") == 0) {
 		statusbar(_("Can't move up a directory"));
 		beep();
 		break;

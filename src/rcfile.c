@@ -186,26 +186,26 @@ int colortoint(const char *colorname, int *bright)
     if (colorname == NULL)
 	return -1;
 
-    if (!strncasecmp(colorname, "bright", 6)) {
+    if (strncasecmp(colorname, "bright", 6) == 0) {
 	*bright = 1;
 	colorname += 6;
     }
 
-    if (!strcasecmp(colorname, "green"))
+    if (strcasecmp(colorname, "green") == 0)
 	mcolor = COLOR_GREEN;
-    else if (!strcasecmp(colorname, "red"))
+    else if (strcasecmp(colorname, "red") == 0)
 	mcolor = COLOR_RED;
-    else if (!strcasecmp(colorname, "blue"))
+    else if (strcasecmp(colorname, "blue") == 0)
 	mcolor = COLOR_BLUE;
-    else if (!strcasecmp(colorname, "white"))
+    else if (strcasecmp(colorname, "white") == 0)
 	mcolor = COLOR_WHITE;
-    else if (!strcasecmp(colorname, "yellow"))
+    else if (strcasecmp(colorname, "yellow") == 0)
 	mcolor = COLOR_YELLOW;
-    else if (!strcasecmp(colorname, "cyan"))
+    else if (strcasecmp(colorname, "cyan") == 0)
 	mcolor = COLOR_CYAN;
-    else if (!strcasecmp(colorname, "magenta"))
+    else if (strcasecmp(colorname, "magenta") == 0)
 	mcolor = COLOR_MAGENTA;
-    else if (!strcasecmp(colorname, "black"))
+    else if (strcasecmp(colorname, "black") == 0)
 	mcolor = COLOR_BLACK;
     else {
 	rcfile_error(N_("Color %s not understood.\n"
@@ -353,7 +353,7 @@ void parse_colors(char *ptr)
 	char *bgcolorname;
 	strtok(fgstr, ",");
 	bgcolorname = strtok(NULL, ",");
-	if (!strncasecmp(bgcolorname, "bright", 6)) {
+	if (strncasecmp(bgcolorname, "bright", 6) == 0) {
 	    rcfile_error(N_("Background color %s cannot be bright\n"), bgcolorname);
 	    return;
 	}
@@ -391,7 +391,7 @@ void parse_colors(char *ptr)
 	if (*ptr == '\n' || *ptr == '\0')
 	    break;
 
-	if (!strncasecmp(ptr, "start=", 6)) {
+	if (strncasecmp(ptr, "start=", 6) == 0) {
 	    ptr += 6;
 	    expectend = 1;
 	}
@@ -433,7 +433,7 @@ void parse_colors(char *ptr)
 	}
 
 	if (expectend) {
-	    if (ptr == NULL || strncasecmp(ptr, "end=", 4)) {
+	    if (ptr == NULL || strncasecmp(ptr, "end=", 4) != 0) {
 		rcfile_error(N_("\"start=\" requires a corresponding \"end=\"\n"));
 		return;
 	    }
@@ -494,14 +494,14 @@ void parse_rcfile(FILE *rcstream)
 	    continue;
 
 	/* Else try to parse the keyword */
-	if (!strcasecmp(keyword, "set"))
+	if (strcasecmp(keyword, "set") == 0)
 	    set = 1;
-	else if (!strcasecmp(keyword, "unset"))
+	else if (strcasecmp(keyword, "unset") == 0)
 	    set = -1;
 #ifdef ENABLE_COLOR
-	else if (!strcasecmp(keyword, "syntax"))
+	else if (strcasecmp(keyword, "syntax") == 0)
 	    parse_syntax(ptr);
-	else if (!strcasecmp(keyword, "color"))
+	else if (strcasecmp(keyword, "color") == 0)
 	    parse_colors(ptr);
 #endif				/* ENABLE_COLOR */
 	else {
@@ -515,32 +515,32 @@ void parse_rcfile(FILE *rcstream)
 
 	if (set != 0) {
 	    for (i = 0; rcopts[i].name != NULL; i++) {
-		if (!strcasecmp(option, rcopts[i].name)) {
+		if (strcasecmp(option, rcopts[i].name) == 0) {
 #ifdef DEBUG
 		    fprintf(stderr, "%s: Parsing option %s\n", 
 			    "parse_rcfile()", rcopts[i].name);
 #endif
 		    if (set == 1) {
-			if (!strcasecmp(rcopts[i].name, "tabsize")
+			if (strcasecmp(rcopts[i].name, "tabsize") == 0
 #ifndef DISABLE_OPERATINGDIR
-				|| !strcasecmp(rcopts[i].name, "operatingdir")
+				|| strcasecmp(rcopts[i].name, "operatingdir") == 0
 #endif
 #ifndef DISABLE_WRAPJUSTIFY
-				|| !strcasecmp(rcopts[i].name, "fill")
+				|| strcasecmp(rcopts[i].name, "fill") == 0
 #endif
 #ifndef NANO_SMALL
-				|| !strcasecmp(rcopts[i].name, "whitespace")
+				|| strcasecmp(rcopts[i].name, "whitespace") == 0
 #endif
 #ifndef DISABLE_JUSTIFY
-				|| !strcasecmp(rcopts[i].name, "punct")
-				|| !strcasecmp(rcopts[i].name, "brackets")
-				|| !strcasecmp(rcopts[i].name, "quotestr")
+				|| strcasecmp(rcopts[i].name, "punct") == 0
+				|| strcasecmp(rcopts[i].name, "brackets") == 0
+				|| strcasecmp(rcopts[i].name, "quotestr") == 0
 #endif
 #ifndef NANO_SMALL
-			        || !strcasecmp(rcopts[i].name, "backupdir")
+			        || strcasecmp(rcopts[i].name, "backupdir") == 0
 #endif
 #ifndef DISABLE_SPELLER
-				|| !strcasecmp(rcopts[i].name, "speller")
+				|| strcasecmp(rcopts[i].name, "speller") == 0
 #endif
 				) {
 			    if (*ptr == '\n' || *ptr == '\0') {
@@ -555,12 +555,12 @@ void parse_rcfile(FILE *rcstream)
 			    fprintf(stderr, "option = %s\n", option);
 #endif
 #ifndef DISABLE_OPERATINGDIR
-			    if (!strcasecmp(rcopts[i].name, "operatingdir"))
+			    if (strcasecmp(rcopts[i].name, "operatingdir") == 0)
 				operating_dir = mallocstrcpy(NULL, option);
 			    else
 #endif
 #ifndef DISABLE_WRAPJUSTIFY
-			    if (!strcasecmp(rcopts[i].name, "fill")) {
+			    if (strcasecmp(rcopts[i].name, "fill") == 0) {
 				if (parse_num(option, &wrap_at) == -1) {
 				    rcfile_error(N_("Requested fill size %s invalid\n"), option);
 				    wrap_at = -CHARS_FROM_EOL;
@@ -568,7 +568,7 @@ void parse_rcfile(FILE *rcstream)
 			    } else
 #endif
 #ifndef NANO_SMALL
-			    if (!strcasecmp(rcopts[i].name, "whitespace")) {
+			    if (strcasecmp(rcopts[i].name, "whitespace") == 0) {
 				size_t ws_len;
 				whitespace = mallocstrcpy(NULL, option);
 				ws_len = strlen(whitespace);
@@ -580,35 +580,35 @@ void parse_rcfile(FILE *rcstream)
 			    } else
 #endif
 #ifndef DISABLE_JUSTIFY
-			    if (!strcasecmp(rcopts[i].name, "punct")) {
+			    if (strcasecmp(rcopts[i].name, "punct") == 0) {
 				punct = mallocstrcpy(NULL, option);
 				if (strchr(punct, '\t') != NULL || strchr(punct, ' ') != NULL) {
 				    rcfile_error(N_("Non-tab and non-space characters required\n"));
 				    free(punct);
 				    punct = NULL;
 				}
-			    } else if (!strcasecmp(rcopts[i].name, "brackets")) {
+			    } else if (strcasecmp(rcopts[i].name, "brackets") == 0) {
 				brackets = mallocstrcpy(NULL, option);
 				if (strchr(brackets, '\t') != NULL || strchr(brackets, ' ') != NULL) {
 				    rcfile_error(N_("Non-tab and non-space characters required\n"));
 				    free(brackets);
 				    brackets = NULL;
 				}
-			    } else if (!strcasecmp(rcopts[i].name, "quotestr"))
+			    } else if (strcasecmp(rcopts[i].name, "quotestr") == 0)
 				quotestr = mallocstrcpy(NULL, option);
 			    else
 #endif
 #ifndef NANO_SMALL
-			    if (!strcasecmp(rcopts[i].name, "backupdir"))
+			    if (strcasecmp(rcopts[i].name, "backupdir") == 0)
 				backup_dir = mallocstrcpy(NULL, option);
 			    else
 #endif
 #ifndef DISABLE_SPELLER
-			    if (!strcasecmp(rcopts[i].name, "speller"))
+			    if (strcasecmp(rcopts[i].name, "speller") == 0)
 				alt_speller = mallocstrcpy(NULL, option);
 			    else
 #endif
-			    if (!strcasecmp(rcopts[i].name, "tabsize")) {
+			    if (strcasecmp(rcopts[i].name, "tabsize") == 0) {
 				if (parse_num(option, &tabsize) == -1 || tabsize <= 0)
 				    rcfile_error(N_("Requested tab size %s invalid\n"), option);
 				    tabsize = -1;

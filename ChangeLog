@@ -65,6 +65,8 @@ CVS code -
 	  once for all errors instead of separately for each error.
 	  Also make sure that each rcfile error message ends in a
 	  newline. (DLR)
+	- Don't treat the return value of strn?(case)?cmp() as boolean.
+	  (DLR and David Benbennick)
 - files.c:
   close_open_file()
 	- Tweak to no longer rely on the return values of
@@ -98,6 +100,9 @@ CVS code -
 	  terminal_init() to make sure that all the original terminal
 	  settings are restored, as a curses-based alternative spell
 	  checker (e.g. aspell) can change them. (DLR)
+  quote_length()
+	- Fix problem where quoted justify wouldn't work if HAVE_REGEX_H
+	  wasn't set. (David Benbennick)
   do_justify()
 	- Add allow_respacing flag, used to indicate when we've moved to
 	  the next line after justifying the current line, and only run

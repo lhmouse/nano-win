@@ -120,7 +120,7 @@ void update_color(void)
     if (colorstrings == NULL && syntaxstr != NULL) {
 	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 	     tmpsyntax = tmpsyntax->next) {
-	    if (!strcasecmp(tmpsyntax->desc, syntaxstr))
+	    if (strcasecmp(tmpsyntax->desc, syntaxstr) == 0)
 		colorstrings = tmpsyntax->color;
 	}
     }
