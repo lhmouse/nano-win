@@ -548,7 +548,7 @@ GNU nano 1.1.99pre3 - 2003.02.13
 - files.c:
   cwd_tab_completion()
 	- Memory leak fix (David Benbennick).
-  intput_tab()
+  input_tab()
 	- Fix assumption that matches is null terminated (David
 	  Benbennick).
   load_history()
