@@ -1,4 +1,6 @@
 Cvs code -
+- General:
+	- Moved config.h up in all .c files #include list (Albert Chin).
 - nano.c:
   ABCD(), main()
 	- Add Alt-whatever-[a-d] support as well as Alt-whatever-[A-D].
@@ -6,6 +8,9 @@ Cvs code -
   do_replace()
         - If we manage to make it in somehow with VIEW_MODE on, abort 
           nicely (fixes BUG #59).                          
+- winio.c:
+  actual_x()
+	- Remove inline from function decl (Albert Chin).
 
 nano 1.0.1 - 04/06/2001
 - General:

@@ -19,6 +19,8 @@
  *                                                                        *
  **************************************************************************/
 
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -38,7 +40,6 @@
 #include <limits.h>
 #include <assert.h>
 
-#include "config.h"
 #include "proto.h"
 #include "nano.h"
 

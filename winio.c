@@ -19,11 +19,12 @@
  *                                                                        *
  **************************************************************************/
 
+#include "config.h"
+
 #include <stdarg.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "config.h"
 #include "proto.h"
 #include "nano.h"
 
@@ -127,7 +128,7 @@ int actual_x_from_start(filestruct * fileptr, int xplus, int start)
 }
 
 /* Opposite of xplustabs */
-inline int actual_x(filestruct * fileptr, int xplus)
+int actual_x(filestruct * fileptr, int xplus)
 {
     return actual_x_from_start(fileptr, xplus, 0);
 }
