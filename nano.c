@@ -2359,7 +2359,12 @@ void do_toggle(int which)
 	edit_refresh();
 	display_main_list();
 	break;
-
+    case TOGGLE_DOS_KEY:
+	UNSET(MAC_FILE);
+	break;
+    case TOGGLE_MAC_KEY:
+	UNSET(DOS_FILE);
+	break;
     }
 
     if (!ISSET(toggles[which].flag)) {
