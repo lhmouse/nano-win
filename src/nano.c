@@ -672,7 +672,7 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
 
 /* Unpartition a filestruct so it begins at (fileage, 0) and ends at
  * (filebot, strlen(filebot)) again. */
-void unpartition_filestruct(partition *p)
+void unpartition_filestruct(partition **p)
 {
     char *tmp;
     assert(p != NULL && fileage != NULL && filebot != NULL);
@@ -681,37 +681,37 @@ void unpartition_filestruct(partition *p)
      * text before top_x from top_data.  Free top_data when we're done
      * with it. */
     tmp = mallocstrcpy(NULL, fileage->data);
-    fileage->prev = p->top_prev;
+    fileage->prev = (*p)->top_prev;
     if (fileage->prev != NULL)
 	fileage->prev->next = fileage;
-    fileage->data = charealloc(fileage->data, strlen(p->top_data) +
+    fileage->data = charealloc(fileage->data, strlen((*p)->top_data) +
 	strlen(fileage->data) + 1);
-    strcpy(fileage->data, p->top_data);
-    free(p->top_data);
+    strcpy(fileage->data, (*p)->top_data);
+    free((*p)->top_data);
     strcat(fileage->data, tmp);
     free(tmp);
 
     /* Reattach the line below the bottom of the partition, and restore
      * the text after bot_x from bot_data.  Free bot_data when we're
      * done with it. */
-    filebot->next = p->bot_next;
+    filebot->next = (*p)->bot_next;
     if (filebot->next != NULL)
 	filebot->next->prev = filebot;
     filebot->data = charealloc(filebot->data, strlen(filebot->data) +
-	strlen(p->bot_data) + 1);
-    strcat(filebot->data, p->bot_data);
-    free(p->bot_data);
+	strlen((*p)->bot_data) + 1);
+    strcat(filebot->data, (*p)->bot_data);
+    free((*p)->bot_data);
 
     /* Restore the top and bottom of the filestruct, if they were
      * different from the top and bottom of the partition. */
-    if (p->fileage != NULL)
-	fileage = p->fileage;
-    if (p->filebot != NULL)
-	filebot = p->filebot;
+    if ((*p)->fileage != NULL)
+	fileage = (*p)->fileage;
+    if ((*p)->filebot != NULL)
+	filebot = (*p)->filebot;
 
     /* Uninitialize the partition. */
-    free(p);
-    p = NULL;
+    free(*p);
+    *p = NULL;
 }
 
 void renumber_all(void)
@@ -1638,7 +1638,7 @@ bool do_int_spell_fix(const char *word)
 
 	/* Unpartition the filestruct so that it contains all the text
 	 * again, and turn the mark back on. */
-	unpartition_filestruct(filepart);
+	unpartition_filestruct(&filepart);
 	SET(MARK_ISSET);
     }
 #endif
@@ -2006,7 +2006,7 @@ const char *do_alt_speller(char *tempfile_name)
 	 * again.  Note that we've replaced the marked text originally
 	 * in the partition with the spell-checked marked text in the
 	 * temp file. */
-	unpartition_filestruct(filepart);
+	unpartition_filestruct(&filepart);
 
 	/* Renumber starting with the beginning line of the old
 	 * partition.  Also add the number of lines and characters in
@@ -3063,7 +3063,7 @@ void handle_sigwinch(int s)
 
     /* If we've partitioned the filestruct, unpartition it now. */
     if (filepart != NULL)
-	unpartition_filestruct(filepart);
+	unpartition_filestruct(&filepart);
 
 #ifdef USE_SLANG
     /* Slang curses emulation brain damage, part 1: If we just do what

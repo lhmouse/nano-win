@@ -848,7 +848,7 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 	/* If the mark was on, unpartition the filestruct so that it
 	 * contains all the text again, set edittop back to what it was
 	 * before, turn the mark back on, and refresh the screen. */
-	unpartition_filestruct(filepart);
+	unpartition_filestruct(&filepart);
 	edittop = edittop_save;
 	SET(MARK_ISSET);
 	edit_refresh();

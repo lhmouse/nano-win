@@ -307,7 +307,7 @@ filestruct *copy_filestruct(const filestruct *src);
 void free_filestruct(filestruct *src);
 partition *partition_filestruct(filestruct *top, size_t top_x,
 	filestruct *bot, size_t bot_x);
-void unpartition_filestruct(partition *p);
+void unpartition_filestruct(partition **p);
 void renumber_all(void);
 void renumber(filestruct *fileptr);
 void print1opt(const char *shortflag, const char *longflag, const char

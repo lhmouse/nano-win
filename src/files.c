@@ -637,7 +637,7 @@ void do_insertfile(
 		 * again.  Note that we've replaced the non-text
 		 * originally in the partition with the text in the
 		 * inserted file/executed command output. */
-		unpartition_filestruct(filepart);
+		unpartition_filestruct(&filepart);
 
 		/* Renumber starting with the beginning line of the old
 		 * partition. */
@@ -1802,7 +1802,7 @@ int write_marked(const char *name, bool tmp, int append)
 
     /* Unpartition the filestruct so that it contains all the text
      * again. */
-    unpartition_filestruct(filepart);
+    unpartition_filestruct(&filepart);
 
     if (old_modified)
 	set_modified();
