@@ -550,7 +550,7 @@ int get_control_kbinput(int kbinput)
 	retval = kbinput;
 
 #ifdef DEBUG
-    fprintf(stderr, "get_control_kbinput(): kbinput = %d, retval = %d\n", kbinput, ascii_digits, *complete, retval);
+    fprintf(stderr, "get_control_kbinput(): kbinput = %d, retval = %d\n", kbinput, retval);
 #endif
 
     return retval;
