@@ -31,7 +31,7 @@ make DESTDIR="$RPM_BUILD_ROOT" install
 %files
 %defattr(-,root,root)
 %doc AUTHORS BUGS COPYING ChangeLog INSTALL NEWS README THANKS TODO doc/faq.html doc/nanorc.sample
-%{_bindir}/nano
+%{_bindir}/*
 %{_mandir}/*/*
 %{_datadir}/locale/*/LC_MESSAGES/nano.mo
 %{_infodir}/nano.info*
