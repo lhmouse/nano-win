@@ -2190,7 +2190,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		char *bad_buf_mb = charalloc(mb_cur_max());
 		int bad_buf_mb_len;
 
-		bad_buf_mb = make_mbchar((unsigned int)*buf_mb,
+		bad_buf_mb = make_mbchar((unsigned char)*buf_mb,
 			bad_buf_mb, &bad_buf_mb_len);
 
 		for (i = 0; i < bad_buf_mb_len; i++)

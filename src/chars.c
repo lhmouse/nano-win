@@ -150,7 +150,7 @@ char *control_mbrep(const char *c, char *crep, int *crep_len)
 
 	if (c_mb_len <= 0) {
 	    mbtowc(NULL, NULL, 0);
-	    wc = *c;
+	    wc = (unsigned char)*c;
 	}
 
 	wcrep = control_wrep(wc);
@@ -237,14 +237,13 @@ char *make_mbchar(unsigned int chr, char *chr_mb, int *chr_mb_len)
 	*chr_mb_len = wctomb(chr_mb, chr);
 
 	if (*chr_mb_len <= 0) {
-	    mbtowc(NULL, NULL, 0);
-	    *chr_mb_len = 1;
-	    chr_mb[0] = (unsigned char)chr;
+	    wctomb(NULL, 0);
+	    *chr_mb_len = 0;
 	}
     } else {
 #endif
 	*chr_mb_len = 1;
-	chr_mb[0] = (unsigned char)chr;
+	chr_mb[0] = (char)chr;
 #ifdef NANO_WIDE
     }
 #endif
