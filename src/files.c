@@ -349,18 +349,20 @@ int open_file(const char *filename, bool newfie, FILE **f)
     } else if (S_ISDIR(fileinfo.st_mode) || S_ISCHR(fileinfo.st_mode) ||
 		S_ISBLK(fileinfo.st_mode)) {
 	/* Don't open character or block files.  Sorry, /dev/sndstat! */
-	statusbar(S_ISDIR(fileinfo.st_mode) ? _("\"%s\" is a directory") :
-			_("File \"%s\" is a device file"), filename);
+	statusbar(S_ISDIR(fileinfo.st_mode) ? _("\"%s\" is a directory")
+		: _("File \"%s\" is a device file"), filename);
 	return -1;
     } else if ((fd = open(filename, O_RDONLY)) == -1) {
 	statusbar(_("Error reading %s: %s"), filename, strerror(errno));
  	return -1;
      } else {
-	/* File is A-OK. */
-	*f = fdopen(fd, "rb"); /* Binary for our own line-end munging */
+	/* File is A-OK.  Open it in binary mode for our own end-of-line
+	 * character munging. */
+	*f = fdopen(fd, "rb");
 
 	if (*f == NULL) {
-	    statusbar(_("Error reading %s: %s"), filename, strerror(errno));
+	    statusbar(_("Error reading %s: %s"), filename,
+		strerror(errno));
 	    close(fd);
 	} else
 	    statusbar(_("Reading File"));
@@ -1373,9 +1375,11 @@ int write_file(const char *name, bool tmp, int append, bool
 #endif
 
     anyexists = (lstat(realname, &lst) != -1);
+
     /* New case: if the file exists, just give up. */
     if (tmp && anyexists)
 	goto cleanup_and_exit;
+
     /* If NOFOLLOW_SYMLINKS is set, it doesn't make sense to prepend or
      * append to a symlink.  Here we warn about the contradiction. */
     if (ISSET(NOFOLLOW_SYMLINKS) && anyexists && S_ISLNK(lst.st_mode)) {
@@ -1469,6 +1473,7 @@ int write_file(const char *name, bool tmp, int append, bool
 
 	/* Copy the file. */
 	copy_status = copy_file(f, backup_file);
+
 	/* And set metadata. */
 	if (copy_status != 0 || chown(backupname,
 		originalfilestat.st_uid, originalfilestat.st_gid) == -1
