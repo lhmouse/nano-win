@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.99pre3\n"
-"POT-Creation-Date: 2003-02-13 22:18-0500\n"
+"POT-Creation-Date: 2003-02-19 20:17-0500\n"
 "PO-Revision-Date: 2003-02-17 22:32+0200\n"
 "Last-Translator: Kalle Olavi Niemitalo <kon@iki.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -25,138 +25,138 @@ msgstr "add_to_cutbuffer() kutsuttu, inptr->data = %s\n"
 msgid "Blew away cutbuffer =)\n"
 msgstr "Leiketila katosi =)\n"
 
-#: files.c:315
+#: files.c:317
 #, c-format
 msgid "Read %d line (Converted from Mac format)"
 msgid_plural "Read %d lines (Converted from Mac format)"
 msgstr[0] "%d rivi luettu (Muunnettu Mac-muodosta)"
 msgstr[1] "%d rivi‰ luettu (Muunnettu Mac-muodosta)"
 
-#: files.c:319
+#: files.c:321
 #, c-format
 msgid "Read %d line (Converted from DOS format)"
 msgid_plural "Read %d lines (Converted from DOS format)"
 msgstr[0] "%d rivi luettu (Muunnettu DOS-muodosta)"
 msgstr[1] "%d rivi‰ luettu (Muunnettu DOS-muodosta)"
 
-#: files.c:324
+#: files.c:326
 #, c-format
 msgid "Read %d line"
 msgid_plural "Read %d lines"
 msgstr[0] "%d rivi luettu"
 msgstr[1] "%d rivi‰ luettu"
 
-#: files.c:341 search.c:58
+#: files.c:343 search.c:58
 #, c-format
 msgid "\"%s\" not found"
 msgstr "Ei lˆytynyt: \"%s\""
 
-#: files.c:345
+#: files.c:347
 msgid "New File"
 msgstr "Uusi tiedosto"
 
-#: files.c:351
+#: files.c:353
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "\"%s\" on hakemisto"
 
-#: files.c:352
+#: files.c:354
 #, c-format
 msgid "File \"%s\" is a device file"
 msgstr "\"%s\" on laitetiedosto"
 
-#: files.c:370
+#: files.c:372
 msgid "Reading File"
 msgstr "Lukee tiedostoa"
 
 # Toisaalla on "Ei voi lis‰t‰ tiedostoa hakemiston %s ulkopuolelta",
 # joten t‰‰ll‰kin on "hakemistosta" eik‰ "hakemistossa".
-#: files.c:446
+#: files.c:448
 #, c-format
 msgid "File to insert into new buffer [from %s] "
 msgstr "Uuteen puskuriin lis‰tt‰v‰ tiedosto [hakemistosta %s] "
 
-#: files.c:454
+#: files.c:456
 #, c-format
 msgid "File to insert [from %s] "
 msgstr "Lis‰tt‰v‰ tiedosto [hakemistosta %s] "
 
-#: files.c:465
+#: files.c:467
 msgid "File to insert into new buffer [from ./] "
 msgstr "Uuteen puskuriin lis‰tt‰v‰ tiedosto [hakemistosta ./] "
 
-#: files.c:472
+#: files.c:474
 msgid "File to insert [from ./] "
 msgstr "Lis‰tt‰v‰ tiedosto [hakemistosta ./] "
 
-#: files.c:477 files.c:736 files.c:793 files.c:881 files.c:893 files.c:944
-#: files.c:955 files.c:1815
+#: files.c:479 files.c:738 files.c:795 files.c:883 files.c:895 files.c:946
+#: files.c:957 files.c:1817
 #, c-format
 msgid "filename is %s\n"
 msgstr "tiedoston nimi on %s\n"
 
-#: files.c:493
+#: files.c:495
 msgid "Command to execute"
 msgstr "Suoritettava komento"
 
-#: files.c:495 files.c:608 files.c:1340 files.c:1776 nano.c:2739
+#: files.c:497 files.c:610 files.c:1342 files.c:1778 nano.c:2736
 msgid "Cancelled"
 msgstr "Peruttu"
 
-#: files.c:517
+#: files.c:519
 #, c-format
 msgid "Can't insert file from outside of %s"
 msgstr "Ei voi lis‰t‰ tiedostoa hakemiston %s ulkopuolelta"
 
 # "Virheellinen n‰pp‰in yksipuskuritilassa"?
 # "Komento toimii vain monen puskurin tilassa"?
-#: files.c:632
+#: files.c:634
 msgid "Key illegal in non-multibuffer mode"
 msgstr "Virheellinen n‰pp‰in yhden puskurin tilassa"
 
-#: files.c:704 nano.c:572
+#: files.c:706 nano.c:572
 #, c-format
 msgid "%s: free'd a node, YAY!\n"
 msgstr "%s: solmu vapautettu, YAY!\n"
 
-#: files.c:709 nano.c:577
+#: files.c:711 nano.c:577
 #, c-format
 msgid "%s: free'd last node.\n"
 msgstr "%s: viimeinen solmu vapautettu.\n"
 
-#: files.c:873 files.c:936
+#: files.c:875 files.c:938
 msgid "No more open files"
 msgstr "Ei muita avoimia tiedostoja"
 
-#: files.c:900 files.c:963
+#: files.c:902 files.c:965
 #, c-format
 msgid "Switched to %s"
 msgstr "Vaihdoin tiedostoon %s"
 
-#: files.c:1353
+#: files.c:1355
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Ei voi kirjoittaa hakemiston %s ulkopuolelle"
 
 # Oikeasti ohjelma tuossa kohtaa vasta avaa tiedoston, mutta eip‰
 # englanninkielinenk‰‰n versio k‰ytt‰j‰lle sit‰ kerro.  
-#: files.c:1384
+#: files.c:1386
 #, c-format
 msgid "Could not read %s for backup: %s"
 msgstr "Tiedostoa %s ei voitu lukea varmuuskopioitavaksi: %s"
 
-#: files.c:1395
+#: files.c:1397
 #, c-format
 msgid "Couldn't write backup: %s"
 msgstr "Varmuuskopiota ei voitu kirjoittaa: %s"
 
-#: files.c:1401
+#: files.c:1403
 #, c-format
 msgid "Backing up %s to %s\n"
 msgstr "Kopioin tiedoston %s tiedostoksi %s\n"
 
 # Allatiivi kuulostaa v‰‰r‰lt‰.
-#: files.c:1413
+#: files.c:1415
 #, c-format
 msgid "Could not set permissions %o on backup %s: %s"
 msgstr "Oikeuksia %o ei voitu asettaa varmuuskopiolle %s: %s"
@@ -166,7 +166,7 @@ msgstr "Oikeuksia %o ei voitu asettaa varmuuskopiolle %s: %s"
 # "Varmuuskopion %3$s omistajaa ei voitu asettaa %1$d:ksi ja ryhm‰‰ %2$d:ksi: %4$s"?
 # "Varmuuskopiota %3$s ei voitu siirt‰‰ k‰ytt‰j‰n %1$d ja ryhm‰n %2$d omistukseen: %4$s"?
 # "K‰ytt‰j‰‰ %d ja ryhm‰‰ %d ei voitu asettaa varmuuskopion %s omistajaksi: %s"?
-#: files.c:1419
+#: files.c:1421
 #, c-format
 msgid "Could not set owner %d/group %d on backup %s: %s"
 msgstr "Omistajaa %d ja ryhm‰‰ %d ei voitu asettaa varmuuskopiolle %s: %s"
@@ -183,28 +183,28 @@ msgstr "Omistajaa %d ja ryhm‰‰ %d ei voitu asettaa varmuuskopiolle %s: %s"
 # * ctime = change time
 #   - milloin metatietoja on muutettu (chown, chmod, link, unlink)
 #   - "luontiaika"?
-#: files.c:1424
+#: files.c:1426
 #, c-format
 msgid "Could not set access/modification time on backup %s: %s"
 msgstr "Varmuuskopion %s k‰yttˆ- ja muutosaikaa ei voitu asettaa: %s"
 
-#: files.c:1459 files.c:1475 files.c:1487 files.c:1509 files.c:1542
-#: files.c:1549 files.c:1561
+#: files.c:1461 files.c:1477 files.c:1489 files.c:1511 files.c:1544
+#: files.c:1551 files.c:1563
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "Tiedostoa ei voitu avata kirjoitettavaksi: %s"
 
-#: files.c:1516
+#: files.c:1518
 #, c-format
 msgid "Wrote >%s\n"
 msgstr "Kirjoitettu: >%s\n"
 
-#: files.c:1572
+#: files.c:1574
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "Tiedostoa %s ei voitu sulkea: %s"
 
-#: files.c:1584 files.c:1589 files.c:1617
+#: files.c:1586 files.c:1591 files.c:1619
 #, c-format
 msgid "Could not reopen %s: %s"
 msgstr "Tiedostoa %s ei voitu avata uudestaan: %s"
@@ -213,102 +213,102 @@ msgstr "Tiedostoa %s ei voitu avata uudestaan: %s"
 # alkuper‰isen tiedoston ja kopioi sen sis‰llˆn v‰liaikaistiedoston
 # per‰‰n. Jos t‰m‰ onnistuu, niin seuraavaksi se siirt‰‰
 # v‰liaikaistiedoston alkuper‰isen tilalle.
-#: files.c:1594 files.c:1600 files.c:1609
+#: files.c:1596 files.c:1602 files.c:1611
 #, c-format
 msgid "Could not open %s for prepend: %s"
 msgstr "Tiedostoa %s ei voitu avata alkuun kirjoittamista varten: %s"
 
-#: files.c:1647 files.c:1656 files.c:1661
+#: files.c:1649 files.c:1658 files.c:1663
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr "Tiedostoa %s ei voitu avata kirjoittamista varten: %s"
 
 # Allatiivi kuulostaa v‰‰r‰lt‰.
-#: files.c:1668
+#: files.c:1670
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr "Oikeuksia %o ei voitu asettaa tiedostolle %s: %s"
 
-#: files.c:1684
+#: files.c:1686
 #, c-format
 msgid "Wrote %d line"
 msgid_plural "Wrote %d lines"
 msgstr[0] "%d rivi kirjoitettu"
 msgstr[1] "%d rivi‰ kirjoitettu"
 
-#: files.c:1730
+#: files.c:1732
 msgid " [Mac Format]"
 msgstr " [Mac-muoto]"
 
-#: files.c:1732
+#: files.c:1734
 msgid " [DOS Format]"
 msgstr " [DOS-muoto]"
 
-#: files.c:1737
+#: files.c:1739
 msgid " [Backup]"
 msgstr " [Varmuuskopio]"
 
-#: files.c:1745
+#: files.c:1747
 msgid "Prepend Selection to File"
 msgstr "Lis‰‰ valinta tiedoston alkuun"
 
-#: files.c:1748
+#: files.c:1750
 msgid "Append Selection to File"
 msgstr "Lis‰‰ valinta tiedoston loppuun"
 
-#: files.c:1751
+#: files.c:1753
 msgid "Write Selection to File"
 msgstr "Kirjoita valinta tiedostoon"
 
 # "Alkuun lis‰tt‰v‰ tiedosto" olisi v‰‰rinp‰in.
-#: files.c:1755 files.c:1766
+#: files.c:1757 files.c:1768
 msgid "File Name to Prepend to"
 msgstr "Mink‰ tiedoston alkuun"
 
-#: files.c:1758 files.c:1769
+#: files.c:1760 files.c:1771
 msgid "File Name to Append to"
 msgstr "Mink‰ tiedoston loppuun"
 
-#: files.c:1761 files.c:1772
+#: files.c:1763 files.c:1774
 msgid "File Name to Write"
 msgstr "Kirjoitettava tiedosto"
 
-#: files.c:1830
+#: files.c:1832
 msgid "File exists, OVERWRITE ?"
 msgstr "Tiedosto olemassa, korvataanko?"
 
-#: files.c:2319
+#: files.c:2321
 msgid "(more)"
 msgstr "(jatkuu)"
 
-#: files.c:2624
+#: files.c:2626
 msgid "Can't move up a directory"
 msgstr "Ei voi siirty‰ yl‰hakemistoon"
 
-#: files.c:2635 files.c:2708
+#: files.c:2637 files.c:2710
 #, c-format
 msgid "Can't go outside of %s in restricted mode"
 msgstr "Ei voi siirty‰ pois hakemistosta %s rajoitetussa tilassa"
 
-#: files.c:2642 files.c:2669 files.c:2716
+#: files.c:2644 files.c:2671 files.c:2718
 #, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "Hakemistoa \"%s\" ei voi avata: %s"
 
-#: files.c:2690
+#: files.c:2692
 msgid "Goto Directory"
 msgstr "Siirry hakemistoon"
 
-#: files.c:2695
+#: files.c:2697
 msgid "Goto Cancelled"
 msgstr "Siirtyminen peruttu"
 
-#: files.c:2894
+#: files.c:2896
 #, c-format
 msgid "Unable to open ~/.nano_history file, %s"
 msgstr "Ei voi avata tiedostoa ~/.nano_history: %s"
 
-#: files.c:2943 files.c:2952 files.c:2957 files.c:2964
+#: files.c:2945 files.c:2954 files.c:2959 files.c:2966
 #, c-format
 msgid "Unable to write ~/.nano_history file, %s"
 msgstr "Ei voi kirjoittaa tiedostoa ~/.nano_history: %s"
@@ -1354,119 +1354,119 @@ msgstr "Oikoluku ep‰onnistui: %s"
 msgid "Finished checking spelling"
 msgstr "Oikoluku on valmis"
 
-#: nano.c:2347
+#: nano.c:2344
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Lainausmerkint‰ %s ei kelpaa: %s"
 
-#: nano.c:2612
+#: nano.c:2609
 msgid "Can now UnJustify!"
 msgstr "Tasaamisen voi perua nyt."
 
-#: nano.c:2709
+#: nano.c:2706
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Tallenna muutettu teksti (Muutokset h‰vi‰v‰t, jos vastaat \"ei\") ? "
 
-#: nano.c:2809
+#: nano.c:2806
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "Vastaanotettiin SIGHUP tai SIGTERM\n"
 
-#: nano.c:2816
+#: nano.c:2813
 msgid "Use \"fg\" to return to nano"
 msgstr "Palaa Nanoon komennolla \"fg\""
 
-#: nano.c:2889
+#: nano.c:2886
 msgid "Cannot resize top win"
 msgstr "Yl‰ikkunan kokoa ei voi muuttaa"
 
-#: nano.c:2891
+#: nano.c:2888
 msgid "Cannot move top win"
 msgstr "Yl‰ikkunaa ei voi siirt‰‰"
 
-#: nano.c:2893
+#: nano.c:2890
 msgid "Cannot resize edit win"
 msgstr "Muokkausikkunan kokoa ei voi muuttaa"
 
-#: nano.c:2895
+#: nano.c:2892
 msgid "Cannot move edit win"
 msgstr "Muokkausikkunaa ei voi siirt‰‰"
 
-#: nano.c:2897
+#: nano.c:2894
 msgid "Cannot resize bottom win"
 msgstr "Alaikkunan kokoa ei voi muuttaa"
 
-#: nano.c:2899
+#: nano.c:2896
 msgid "Cannot move bottom win"
 msgstr "Alaikkunaa ei voi siirt‰‰"
 
-#: nano.c:2932
+#: nano.c:2929
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "NumLock-ongelma: Numeron‰pp‰imistˆ toimii v‰‰rin, kun NumLock ei ole p‰‰ll‰."
 
-#: nano.c:2981
+#: nano.c:2978
 msgid "enabled"
 msgstr "k‰ytˆss‰"
 
-#: nano.c:2981
+#: nano.c:2978
 msgid "disabled"
 msgstr "ei k‰ytˆss‰"
 
-#: nano.c:3173
+#: nano.c:3170
 msgid "Tab size is too small for nano...\n"
 msgstr "Sarkaimen leveys on liian pieni Nanolle...\n"
 
-#: nano.c:3389
+#: nano.c:3386
 msgid "Main: set up windows\n"
 msgstr "P‰‰ohjelma: ikkunoiden asettelu\n"
 
-#: nano.c:3414
+#: nano.c:3411
 msgid "Main: bottom win\n"
 msgstr "P‰‰ohjelma: alaikkuna\n"
 
-#: nano.c:3420
+#: nano.c:3417
 msgid "Main: open file\n"
 msgstr "P‰‰ohjelma: avaa tiedosto\n"
 
-#: nano.c:3477
+#: nano.c:3474
 #, c-format
 msgid "AHA!  %c (%d)\n"
 msgstr "Ahaa! %c (%d)\n"
 
-#: nano.c:3497
+#: nano.c:3494
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-O-%c! (%d)\n"
 
-#: nano.c:3524
+#: nano.c:3521
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-[-1-%c! (%d)\n"
 
-#: nano.c:3554
+#: nano.c:3551
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-[-2-%c! (%d)\n"
 
-#: nano.c:3623
+#: nano.c:3620
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-[-%c! (%d)\n"
 
-#: nano.c:3664
+#: nano.c:3661
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-%c! (%d)\n"
 
-#: nano.c:3714
+#: nano.c:3711
 msgid "XOFF ignored, mumble mumble."
 msgstr "XOFF:ia ei k‰ytet‰, mutinaa"
 
-#: nano.c:3716
+#: nano.c:3713
 msgid "XON ignored, mumble mumble."
 msgstr "XON:ia ei k‰ytet‰, mutinaa"
 
-#: nano.c:3755
+#: nano.c:3752
 #, c-format
 msgid "I got %c (%d)!\n"
 msgstr "Vastaanotettu %c (%d)!\n"

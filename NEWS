@@ -1,3 +1,12 @@
+2003.02.19 - GNU nano 1.2.0 is released.  Few changes from pre3, just
+		some doc and translation updates, and bugfixes for
+		justify and file conversion.  For those of you who
+		haven't kept up with the 1.1 unstable series, v1.2
+		brings nanorc support, color syntax highlighting,
+		multiple file buffers, search/replace history and much
+		much more. Please reade the UPGRADE file for details,
+		and enjoy GNU nano 1.2.0. 
+
 2003.02.13 - GNU nano 1.1.99pre3 "The last testing version, no 
 		really!" is released.  This release includes fixes for
 		wrapping (again), resizing, color syntax highlighting,

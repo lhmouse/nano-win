@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.6\n"
-"POT-Creation-Date: 2003-02-13 22:18-0500\n"
+"POT-Creation-Date: 2003-02-19 20:17-0500\n"
 "PO-Revision-Date: 2002-01-30 16:03+0100\n"
 "Last-Translator: Václav Haisman <V.Haisman@sh.cvut.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -23,270 +23,270 @@ msgstr "add_to_cutbuffer voláno s inptr->data = %s\n"
 msgid "Blew away cutbuffer =)\n"
 msgstr "Blew away cutbuffer =)\n"
 
-#: files.c:315
+#: files.c:317
 #, fuzzy, c-format
 msgid "Read %d line (Converted from Mac format)"
 msgid_plural "Read %d lines (Converted from Mac format)"
 msgstr[0] "Pøeèteno %d øádek (Konvertováno z Mac formátu)"
 msgstr[1] "Pøeèteno %d øádek (Konvertováno z Mac formátu)"
 
-#: files.c:319
+#: files.c:321
 #, fuzzy, c-format
 msgid "Read %d line (Converted from DOS format)"
 msgid_plural "Read %d lines (Converted from DOS format)"
 msgstr[0] "Pøeèteno %d øádek (Konvertováno z DOS formátu)"
 msgstr[1] "Pøeèteno %d øádek (Konvertováno z DOS formátu)"
 
-#: files.c:324
+#: files.c:326
 #, fuzzy, c-format
 msgid "Read %d line"
 msgid_plural "Read %d lines"
 msgstr[0] "Pøeèteno %d øádek"
 msgstr[1] "Pøeèteno %d øádek"
 
-#: files.c:341 search.c:58
+#: files.c:343 search.c:58
 #, c-format
 msgid "\"%s\" not found"
 msgstr "\"%s\" nenalezen"
 
-#: files.c:345
+#: files.c:347
 msgid "New File"
 msgstr "Nový Soubor"
 
-#: files.c:351
+#: files.c:353
 #, fuzzy, c-format
 msgid "\"%s\" is a directory"
 msgstr "Soubor \"%s\" je adresáø"
 
-#: files.c:352
+#: files.c:354
 #, fuzzy, c-format
 msgid "File \"%s\" is a device file"
 msgstr "Soubor \"%s\" je soubor zaøízení"
 
-#: files.c:370
+#: files.c:372
 msgid "Reading File"
 msgstr "Ètu Soubor"
 
-#: files.c:446
+#: files.c:448
 #, fuzzy, c-format
 msgid "File to insert into new buffer [from %s] "
 msgstr "Soubor pro vlo¾ení [z ./] "
 
-#: files.c:454
+#: files.c:456
 #, fuzzy, c-format
 msgid "File to insert [from %s] "
 msgstr "Soubor pro vlo¾ení [z ./] "
 
-#: files.c:465
+#: files.c:467
 #, fuzzy
 msgid "File to insert into new buffer [from ./] "
 msgstr "Soubor pro vlo¾ení [z ./] "
 
-#: files.c:472
+#: files.c:474
 msgid "File to insert [from ./] "
 msgstr "Soubor pro vlo¾ení [z ./] "
 
-#: files.c:477 files.c:736 files.c:793 files.c:881 files.c:893 files.c:944
-#: files.c:955 files.c:1815
+#: files.c:479 files.c:738 files.c:795 files.c:883 files.c:895 files.c:946
+#: files.c:957 files.c:1817
 #, fuzzy, c-format
 msgid "filename is %s\n"
 msgstr "jméno souboru je %s"
 
-#: files.c:493
+#: files.c:495
 msgid "Command to execute"
 msgstr ""
 
-#: files.c:495 files.c:608 files.c:1340 files.c:1776 nano.c:2739
+#: files.c:497 files.c:610 files.c:1342 files.c:1778 nano.c:2736
 msgid "Cancelled"
 msgstr "Zru¹eno"
 
-#: files.c:517
+#: files.c:519
 #, c-format
 msgid "Can't insert file from outside of %s"
 msgstr "Nelze vlo¾it soubor z vnìj¹ku %s"
 
-#: files.c:632
+#: files.c:634
 #, fuzzy
 msgid "Key illegal in non-multibuffer mode"
 msgstr "Klávesa nepøípustná v ne-vicebufferovém módu"
 
-#: files.c:704 nano.c:572
+#: files.c:706 nano.c:572
 #, fuzzy, c-format
 msgid "%s: free'd a node, YAY!\n"
 msgstr "delete_node(): uzel uvolnìn, YAY!\n"
 
-#: files.c:709 nano.c:577
+#: files.c:711 nano.c:577
 #, fuzzy, c-format
 msgid "%s: free'd last node.\n"
 msgstr "delete_node(): poslední uzel uvolnìn.\n"
 
-#: files.c:873 files.c:936
+#: files.c:875 files.c:938
 msgid "No more open files"
 msgstr "®ádné dal¹í otevøené soubory"
 
-#: files.c:900 files.c:963
+#: files.c:902 files.c:965
 #, c-format
 msgid "Switched to %s"
 msgstr ""
 
-#: files.c:1353
+#: files.c:1355
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Nemohu zapisovat mimo %s"
 
-#: files.c:1384
+#: files.c:1386
 #, fuzzy, c-format
 msgid "Could not read %s for backup: %s"
 msgstr "Nemohu otevøít %s pro zápis: %s"
 
-#: files.c:1395
+#: files.c:1397
 #, fuzzy, c-format
 msgid "Couldn't write backup: %s"
 msgstr "Nemohu zavøít %s: %s"
 
-#: files.c:1401
+#: files.c:1403
 #, c-format
 msgid "Backing up %s to %s\n"
 msgstr ""
 
-#: files.c:1413
+#: files.c:1415
 #, fuzzy, c-format
 msgid "Could not set permissions %o on backup %s: %s"
 msgstr "Nemohu nastavit pøístupvá práva %o na %s: %s"
 
-#: files.c:1419
+#: files.c:1421
 #, fuzzy, c-format
 msgid "Could not set owner %d/group %d on backup %s: %s"
 msgstr "Nemohu nastavit pøístupvá práva %o na %s: %s"
 
-#: files.c:1424
+#: files.c:1426
 #, fuzzy, c-format
 msgid "Could not set access/modification time on backup %s: %s"
 msgstr "Nemohu nastavit pøístupvá práva %o na %s: %s"
 
-#: files.c:1459 files.c:1475 files.c:1487 files.c:1509 files.c:1542
-#: files.c:1549 files.c:1561
+#: files.c:1461 files.c:1477 files.c:1489 files.c:1511 files.c:1544
+#: files.c:1551 files.c:1563
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "Nemohu otevøít soubor pro zápis: %s"
 
-#: files.c:1516
+#: files.c:1518
 #, c-format
 msgid "Wrote >%s\n"
 msgstr "Zapsáno >%s\n"
 
-#: files.c:1572
+#: files.c:1574
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "Nemohu zavøít %s: %s"
 
-#: files.c:1584 files.c:1589 files.c:1617
+#: files.c:1586 files.c:1591 files.c:1619
 #, fuzzy, c-format
 msgid "Could not reopen %s: %s"
 msgstr "Nemohu zavøít %s: %s"
 
-#: files.c:1594 files.c:1600 files.c:1609
+#: files.c:1596 files.c:1602 files.c:1611
 #, fuzzy, c-format
 msgid "Could not open %s for prepend: %s"
 msgstr "Nemohu otevøít %s pro zápis: %s"
 
-#: files.c:1647 files.c:1656 files.c:1661
+#: files.c:1649 files.c:1658 files.c:1663
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr "Nemohu otevøít %s pro zápis: %s"
 
-#: files.c:1668
+#: files.c:1670
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr "Nemohu nastavit pøístupvá práva %o na %s: %s"
 
-#: files.c:1684
+#: files.c:1686
 #, fuzzy, c-format
 msgid "Wrote %d line"
 msgid_plural "Wrote %d lines"
 msgstr[0] "Zapsáno %d øádek"
 msgstr[1] "Zapsáno %d øádek"
 
-#: files.c:1730
+#: files.c:1732
 msgid " [Mac Format]"
 msgstr ""
 
-#: files.c:1732
+#: files.c:1734
 msgid " [DOS Format]"
 msgstr ""
 
-#: files.c:1737
+#: files.c:1739
 #, fuzzy
 msgid " [Backup]"
 msgstr " [Zpìt]"
 
-#: files.c:1745
+#: files.c:1747
 #, fuzzy
 msgid "Prepend Selection to File"
 msgstr "Pøidat výbìr do souboru"
 
-#: files.c:1748
+#: files.c:1750
 #, fuzzy
 msgid "Append Selection to File"
 msgstr "Pøidat výbìr do souboru"
 
-#: files.c:1751
+#: files.c:1753
 msgid "Write Selection to File"
 msgstr "Zapsat výbìr do souboru"
 
-#: files.c:1755 files.c:1766
+#: files.c:1757 files.c:1768
 #, fuzzy
 msgid "File Name to Prepend to"
 msgstr "Jméno souboru pro zapsání"
 
-#: files.c:1758 files.c:1769
+#: files.c:1760 files.c:1771
 #, fuzzy
 msgid "File Name to Append to"
 msgstr "Jméno souboru pro zapsání"
 
-#: files.c:1761 files.c:1772
+#: files.c:1763 files.c:1774
 #, fuzzy
 msgid "File Name to Write"
 msgstr "Jméno souboru pro zapsání"
 
-#: files.c:1830
+#: files.c:1832
 msgid "File exists, OVERWRITE ?"
 msgstr "Soubor existuje, PØEPSAT ?"
 
-#: files.c:2319
+#: files.c:2321
 msgid "(more)"
 msgstr "(více)"
 
-#: files.c:2624
+#: files.c:2626
 msgid "Can't move up a directory"
 msgstr "Nemohu se pøesunout o adresáø vý¹e"
 
-#: files.c:2635 files.c:2708
+#: files.c:2637 files.c:2710
 #, c-format
 msgid "Can't go outside of %s in restricted mode"
 msgstr "Nemohu jít mimo %s v omezeném módu"
 
-#: files.c:2642 files.c:2669 files.c:2716
+#: files.c:2644 files.c:2671 files.c:2718
 #, fuzzy, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "Nemohu zavøít %s: %s"
 
-#: files.c:2690
+#: files.c:2692
 #, fuzzy
 msgid "Goto Directory"
 msgstr "Jdi do adresáøe"
 
-#: files.c:2695
+#: files.c:2697
 #, fuzzy
 msgid "Goto Cancelled"
 msgstr "Pøechod zru¹en"
 
-#: files.c:2894
+#: files.c:2896
 #, fuzzy, c-format
 msgid "Unable to open ~/.nano_history file, %s"
 msgstr "Nemohu otevøít soubor ~/.nanorc, %s"
 
-#: files.c:2943 files.c:2952 files.c:2957 files.c:2964
+#: files.c:2945 files.c:2954 files.c:2959 files.c:2966
 #, fuzzy, c-format
 msgid "Unable to write ~/.nano_history file, %s"
 msgstr "Nemohu otevøít soubor ~/.nanorc, %s"
@@ -1333,122 +1333,122 @@ msgstr "Kontrola pravopisu selhala"
 msgid "Finished checking spelling"
 msgstr "Kontrola pravopisu dokonèena"
 
-#: nano.c:2347
+#: nano.c:2344
 #, fuzzy, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Nemohu zavøít %s: %s"
 
-#: nano.c:2612
+#: nano.c:2609
 msgid "Can now UnJustify!"
 msgstr "Mù¾e nyní OdZarovnat!"
 
-#: nano.c:2709
+#: nano.c:2706
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Ulo¾ zmìnìný buffer (ODPOVÌÏÍ \"Ne\" ZTRATÍTE ZMÌNY) ? "
 
-#: nano.c:2809
+#: nano.c:2806
 #, fuzzy
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "Pøijat signál SIGHUP"
 
-#: nano.c:2816
+#: nano.c:2813
 msgid "Use \"fg\" to return to nano"
 msgstr ""
 
-#: nano.c:2889
+#: nano.c:2886
 msgid "Cannot resize top win"
 msgstr "Nemohu zmìnit velikost vrchního okna"
 
-#: nano.c:2891
+#: nano.c:2888
 msgid "Cannot move top win"
 msgstr "Nemohu pøesunout vrchní okno"
 
-#: nano.c:2893
+#: nano.c:2890
 msgid "Cannot resize edit win"
 msgstr "Nemohu zmìnit velikost editovacího okna"
 
-#: nano.c:2895
+#: nano.c:2892
 msgid "Cannot move edit win"
 msgstr "Nemohu pøesunout editovací okno"
 
-#: nano.c:2897
+#: nano.c:2894
 msgid "Cannot resize bottom win"
 msgstr "Nemohu zmìnit velikost spodního okna"
 
-#: nano.c:2899
+#: nano.c:2896
 msgid "Cannot move bottom win"
 msgstr "Nemohu pøesunout spodní okno"
 
-#: nano.c:2932
+#: nano.c:2929
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "Zji¹tìna porucha NumLocku.  Numerická klávesnice nebude fungovat s vypnutým "
 "NumLockem"
 
-#: nano.c:2981
+#: nano.c:2978
 msgid "enabled"
 msgstr "povoleno"
 
-#: nano.c:2981
+#: nano.c:2978
 msgid "disabled"
 msgstr "zakázáno"
 
-#: nano.c:3173
+#: nano.c:3170
 #, fuzzy
 msgid "Tab size is too small for nano...\n"
 msgstr "Okno je moc malé pro Nano..."
 
-#: nano.c:3389
+#: nano.c:3386
 msgid "Main: set up windows\n"
 msgstr "Main: nastav okna\n"
 
-#: nano.c:3414
+#: nano.c:3411
 msgid "Main: bottom win\n"
 msgstr "Main: spodní okno\n"
 
-#: nano.c:3420
+#: nano.c:3417
 msgid "Main: open file\n"
 msgstr "Main: otevøi soubor\n"
 
-#: nano.c:3477
+#: nano.c:3474
 #, fuzzy, c-format
 msgid "AHA!  %c (%d)\n"
 msgstr "Aha! '%c' (%d)\n"
 
-#: nano.c:3497
+#: nano.c:3494
 #, fuzzy, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Mám Alt-O-%c! (%d)\n"
 
-#: nano.c:3524
+#: nano.c:3521
 #, fuzzy, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Mám Alt-[-1-%c! (%d)\n"
 
-#: nano.c:3554
+#: nano.c:3551
 #, fuzzy, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Mám Alt-[-2-%c! (%d)\n"
 
-#: nano.c:3623
+#: nano.c:3620
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Mám Alt-[-%c! (%d)\n"
 
-#: nano.c:3664
+#: nano.c:3661
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Mám Alt-%c! (%d)\n"
 
-#: nano.c:3714
+#: nano.c:3711
 msgid "XOFF ignored, mumble mumble."
 msgstr ""
 
-#: nano.c:3716
+#: nano.c:3713
 msgid "XON ignored, mumble mumble."
 msgstr ""
 
-#: nano.c:3755
+#: nano.c:3752
 #, fuzzy, c-format
 msgid "I got %c (%d)!\n"
 msgstr "Mám Alt-%c! (%d)\n"
