@@ -91,7 +91,7 @@
 # to set the background color to black or white.
 
 # syntax "c-file" ".*\.c$" ".*\.h$"
-# color red "\<[A-Z_]\{2,\}\>" 
+# color red "\<[A-Z_]{2,}\>" 
 # color green "\<float\>" "\<char\>" "\<int\>" "\<void\>"
 # color green "\<static\>" "\<const\>" "\<struct\>" 
 # color brightyellow "\<if\>" "\<while\>" "\<do\>" "\<else\>" "\<case\>" "\<switch\>"
