@@ -6,6 +6,11 @@ Changes
 	  being incompatible with pico.  Removed all code for different
 	  search/replace string editing and alternate shortcut list.  I'm sure
 	  I won't even have to ask for feedback on this one :-)
+	- Add in Pico's -p flag, (-p, --preserve).  To preserve the XON and XOFF
+	  keys (^Q and ^S).  Add warning if we invoke -p and add checks for 
+	  using --preserve (to skip warning) and --pico (to force showing it).  
+	  New flag PRESERVE, function do_preserve_msg(), changes to main(),
+	  signal_init().
 	- Search history and replace history up/down cursor arrows, w/history 
 	  tab completion, not available w/NANO_SMALL.  Changes to 
 	  statusq, others (Ken Tyler).  Added shortcut to search/replace 

@@ -244,6 +244,7 @@ typedef struct historyheadtype {
 #define BACKUP_FILE		(1<<25)
 #define NO_RCFILE		(1<<26)
 #define COLOR_SYNTAX		(1<<27)
+#define PRESERVE		(1<<28)
 
 /* Control key sequences, changing these would be very very bad */
 

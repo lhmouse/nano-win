@@ -657,6 +657,7 @@ void usage(void)
 #ifndef DISABLE_OPERATINGDIR
     print1opt(_("-o [dir]"), _("--operatingdir=[dir]"), _("Set operating directory"));
 #endif
+    print1opt(_("-p"), _("--preserve"), _("Preserve XON (^Q) and XOFF (^S) keys"));
 #ifndef DISABLE_WRAPJUSTIFY
     print1opt(_("-r [#cols]"), _("--fill=[#cols]"), _("Set fill cols to (wrap lines at) #cols"));
 #endif
@@ -759,11 +760,20 @@ void nano_disabled_msg(void)
 }
 #endif
 
+void do_preserve_msg(void)
+{
+    fprintf(stderr, _("\nThe -p flag now invokes the Pico \"preserve\" flag.  The Pico compatibility\n"));
+    fprintf(stderr, _("flag been removed as nano is now fully Pico compatible.  Please see the nano\n"));
+    fprintf(stderr, _("FAQ for more info on this change...\n\n"));
+    fprintf(stderr, _("Press return to continue\n"));
+    while (getchar() != '\n');
+}
+
+
 #ifndef NANO_SMALL
 static int pid;		/* This is the PID of the newly forked process 
 			 * below.  It must be global since the signal
 			 * handler needs it. */
-
 RETSIGTYPE cancel_fork(int signal)
 {
     if (kill(pid, SIGKILL) == -1)
@@ -2754,9 +2764,11 @@ void signal_init(void)
 #ifdef _POSIX_VDISABLE
     tcgetattr(0, &term);
 
-    /* Ignore ^S, much to Chris' chagrin */
-    term.c_cc[VSTOP] = _POSIX_VDISABLE;
-
+    if (!ISSET(PRESERVE)) {
+	/* Ignore ^S and ^Q, much to Chris' chagrin */
+	term.c_cc[VSTOP] = _POSIX_VDISABLE;
+	term.c_cc[VSTART] = _POSIX_VDISABLE;
+    }
 #ifdef VDSUSP
     term.c_cc[VDSUSP] = _POSIX_VDISABLE;
 #endif /* VDSUSP */
@@ -2998,6 +3010,9 @@ int main(int argc, char *argv[])
     int keyhandled;		/* Have we handled the keystroke yet? */
     int modify_control_seq;
     const shortcut *s;
+#ifdef HAVE_GETOPT_LONG
+    int preserveopt = 0;	/* Did the cmdline include --preserve? */
+#endif
 #ifndef NANO_SMALL
     const toggle *t;
 #endif
@@ -3036,6 +3051,7 @@ int main(int argc, char *argv[])
 #ifndef DISABLE_OPERATINGDIR
 	{"operatingdir", 1, 0, 'o'},
 #endif
+	{"preserve", 0, 0, 'p'},
 #ifndef DISABLE_WRAPJUSTIFY
 	{"fill", 1, 0, 'r'},
 #endif
@@ -3074,7 +3090,8 @@ int main(int argc, char *argv[])
 	   first, so that it's handled before we call do_rcfile() and
 	   read the other options; don't use getopt()/getopt_long()
 	   here, because there's no way to reset it properly
-	   afterward */
+	   afterward.  Also check for the --preserve flag, and report
+	   error if people are still using --pico. */
 	int i;
 	for (i = 1; i < argc; i++) {
 	    if (!strcmp(argv[i], "--"))
@@ -3084,6 +3101,10 @@ int main(int argc, char *argv[])
 #ifdef HAVE_GETOPT_LONG
 	    else if (!strcmp(argv[i], "--ignorercfiles"))
 		SET(NO_RCFILE);
+	    else if (!strcmp(argv[i], "--preserve"))
+		preserveopt = 1;
+	    else if (!strcmp(argv[i], "--pico"))
+		do_preserve_msg();
 #endif
 	}
     }
@@ -3216,6 +3237,11 @@ int main(int argc, char *argv[])
 	    break;
 #endif
 	case 'p':
+	    SET(PRESERVE);
+#ifdef HAVE_GETOPT_LONG
+	    if (!preserveopt)
+		do_preserve_msg();
+#endif
 	    break;
 #ifndef DISABLE_WRAPJUSTIFY
 	case 'r':
@@ -3608,6 +3634,8 @@ int main(int argc, char *argv[])
 	/* Don't even think about changing this string */
 	if (kbinput == 19)
 	    statusbar(_("XOFF ignored, mumble mumble."));
+	if (kbinput == 17)
+	    statusbar(_("XON ignored, mumble mumble."));
 #endif
 	/* If we're in raw mode or using Alt-Alt-x, we have to catch
 	   Control-S and Control-Q */
