@@ -93,10 +93,10 @@ CVS code -
 	  a segfault. (DLR)
 - winio.c:
   titlebar()
-	- Rename some variables for consistency, properly handle the
-	  case where the prefix length plus the path length is greater
-	  than the amount of space available, and fix a typo in an
-	  assert(). (DLR)
+	- Rename some variables for consistency, make space an int
+	  instead of a size_t, properly handle the case where the prefix
+	  length plus the path length is greater than the amount of
+	  space available, and fix a typo in an assert. (DLR)
   unget_kbinput()
 	- Remove the wide character handling, as it didn't work properly
 	  with respect to function keys. (DLR)
