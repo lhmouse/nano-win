@@ -209,17 +209,16 @@ typedef struct toggle {
    long flag;		/* What flag actually gets toggled. */
    struct toggle *next;
 } toggle;
-#endif /* !NANO_SMALL */
+#endif
 
 #ifdef ENABLE_NANORC
 typedef struct rcoption {
    const char *name;
    long flag;
 } rcoption;
-#endif /* ENABLE_NANORC */
+#endif
 
 #ifdef ENABLE_COLOR
-
 typedef struct colortype {
     int fg;			/* fg color */
     int bg;			/* bg color */
@@ -241,8 +240,7 @@ typedef struct syntaxtype {
     colortype *color;		/* color struct for this syntax */
     struct syntaxtype *next;
 } syntaxtype;
-
-#endif /* ENABLE_COLOR */
+#endif
 
 #ifndef NANO_SMALL
 typedef struct historytype {
@@ -250,6 +248,7 @@ typedef struct historytype {
     struct historytype *prev;
     char *data;
 } historytype;
+
 typedef struct historyheadtype {
     struct historytype *next;	/* Keep *next and *prev members
 				 * together. */
@@ -260,7 +259,7 @@ typedef struct historyheadtype {
     int count;
     int len;
 } historyheadtype;
-#endif /* !NANO_SMALL */
+#endif
 
 /* Bitwise flags so we can save space (or more correctly, not waste
  * it). */

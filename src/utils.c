@@ -431,8 +431,7 @@ char *mallocstrassn(char *dest, char *src)
 void new_magicline(void)
 {
     filebot->next = (filestruct *)nmalloc(sizeof(filestruct));
-    filebot->next->data = charalloc(1);
-    filebot->next->data[0] = '\0';
+    filebot->next->data = mallocstrcpy(NULL, "");
     filebot->next->prev = filebot;
     filebot->next->next = NULL;
     filebot->next->lineno = filebot->lineno + 1;
