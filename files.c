@@ -672,15 +672,14 @@ int input_tab(char *buf, int place, int lastWasTab)
 			match_matches++;
 		}
 		if (match_matches == num_matches && 
-			(i == num_matches || matches[i][pos] != 0)) {
-
+			(i == num_matches || matches[i] != 0)) {
 		    /* All the matches have the same character at pos+1,
 			so paste it into buf... */
+		    buf = nrealloc(buf, strlen(buf) + 2);
 		    strncpy(buf + pos, matches[0] + pos, 1);
 	 	    newplace++;
 		    pos++;
-		}
-		else {
+		} else {
 		    beep();
 		    break;
 		}
@@ -718,8 +717,13 @@ int input_tab(char *buf, int place, int lastWasTab)
 
 		strcat(foo, "  ");
 
-		col += waddnstr(edit, foo, strlen(foo));
-		if (col > (COLS * .8)  && matches[i + 1] != NULL) {
+		/* now, put the match on the screen */
+		waddnstr(edit, foo, strlen(foo));
+		col += strlen(foo);
+
+		/* And if the next match isn't going to fit on the
+		   line, move to the next one */
+		if (col > (COLS - longestname)  && matches[i + 1] != NULL) {
 		    editline++;
 		    wmove(edit, editline, 0);
 		    col = 0;
