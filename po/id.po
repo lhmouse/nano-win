@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano-1.0\n"
-"POT-Creation-Date: 2001-04-04 23:15-0400\n"
+"POT-Creation-Date: 2001-04-30 07:19-0400\n"
 "PO-Revision-Date: 2001-02-08 10:09+07:00\n"
 "Last-Translator: Tedi Heriyanto <tedi-h@usa.net>\n"
 "Language-Team: Indonesian <id@li.org>\n"
@@ -14,413 +14,413 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: cut.c:44
+#: cut.c:45
 #, c-format
 msgid "add_to_cutbuffer called with inptr->data = %s\n"
 msgstr "add_to_cutbuffer dipangil dgn inptr->data = %s\n"
 
-#: cut.c:150
+#: cut.c:151
 msgid "Blew away cutbuffer =)\n"
 msgstr "Hapus cutbuffer =>\n"
 
-#: files.c:123
+#: files.c:124
 msgid "read_line: not on first line and prev is NULL"
 msgstr "read_line: tidak di baris pertama dan sebelumnya adalah NULL"
 
-#: files.c:185 files.c:203
+#: files.c:186 files.c:204
 #, c-format
 msgid "Read %d lines"
 msgstr "Membaca %d baris"
 
-#: files.c:221 search.c:193
+#: files.c:222 search.c:194
 #, c-format
 msgid "\"%s\" not found"
 msgstr "\"%s\" tidak ditemukan"
 
 #. We have a new file
-#: files.c:225
+#: files.c:226
 msgid "New File"
 msgstr "File Baru"
 
-#: files.c:238
+#: files.c:239
 #, c-format
 msgid "File \"%s\" is a directory"
 msgstr "File \"%s\" adalah sebuah direktori"
 
 #. Don't open character or block files.  Sorry, /dev/sndstat!
-#: files.c:241
+#: files.c:242
 #, c-format
 msgid "File \"%s\" is a device file"
 msgstr "File \"%s\" adalah sebuah file device"
 
-#: files.c:248
+#: files.c:249
 msgid "Reading File"
 msgstr "Membaca File"
 
-#: files.c:262
+#: files.c:263
 msgid "File to insert [from ./] "
 msgstr "File untuk disisipkan [dari ./] "
 
-#: files.c:309 files.c:334 files.c:566 nano.c:1514
+#: files.c:310 files.c:335 files.c:567 nano.c:1515
 msgid "Cancelled"
 msgstr "Dibatalkan"
 
-#: files.c:380 files.c:396 files.c:410 files.c:427 files.c:433
+#: files.c:381 files.c:397 files.c:411 files.c:428 files.c:434
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "Tidak dapat membuka file untuk menulis: %s"
 
-#: files.c:415
+#: files.c:416
 #, c-format
 msgid "Wrote >%s\n"
 msgstr "Tulis >%s\n"
 
-#: files.c:442
+#: files.c:443
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "Tidak dapat menutup %s: %s"
 
 #. Try a rename??
-#: files.c:465 files.c:474 files.c:479
+#: files.c:466 files.c:475 files.c:480
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr "Tidak dapat membuka %s untuk menulis: %s"
 
-#: files.c:486
+#: files.c:487
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr "Tidak dapat menset permisi %o pada %s: %s"
 
-#: files.c:491
+#: files.c:492
 #, c-format
 msgid "Wrote %d lines"
 msgstr "Menulis %d baris"
 
-#: files.c:524
+#: files.c:525
 msgid "File Name to write"
 msgstr "Nama file untuk ditulis"
 
-#: files.c:541
+#: files.c:542
 #, c-format
 msgid "filename is %s"
 msgstr "Namafile adalah %s"
 
-#: files.c:555
+#: files.c:556
 msgid "File exists, OVERWRITE ?"
 msgstr "File ada, DITIMPA ?"
 
-#: files.c:977
+#: files.c:978
 msgid "(more)"
 msgstr "(lagi)"
 
-#: files.c:1236
+#: files.c:1237
 msgid "Can't move up a directory"
 msgstr "Tidak dapat memindahkan direktori"
 
 #. We can't open this dir for some reason.  Complain
-#: files.c:1244
+#: files.c:1245
 #, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "Tidak dapat membuka \"%s\": %s"
 
-#: global.c:131
+#: global.c:132
 msgid "Constant cursor position"
 msgstr "Posisi kursor konstan"
 
-#: global.c:132
+#: global.c:133
 msgid "Auto indent"
 msgstr "Indent otomatis"
 
-#: global.c:133
+#: global.c:134
 msgid "Suspend"
 msgstr "Tunda"
 
-#: global.c:134
+#: global.c:135
 msgid "Help mode"
 msgstr "Mode bantuan"
 
-#: global.c:135
+#: global.c:136
 msgid "Pico mode"
 msgstr "Mode Pico"
 
-#: global.c:136
+#: global.c:137
 msgid "Mouse support"
 msgstr "Dukungan mouse"
 
-#: global.c:137
+#: global.c:138
 msgid "Cut to end"
 msgstr "Cut hingga akhir"
 
-#: global.c:139
+#: global.c:140
 msgid "Regular expressions"
 msgstr "Regular expressions"
 
-#: global.c:141
+#: global.c:142
 msgid "Auto wrap"
 msgstr "Wrap otomatis"
 
-#: global.c:185
+#: global.c:186
 msgid "Invoke the help menu"
 msgstr "Panggil menu bantuan"
 
-#: global.c:186
+#: global.c:187
 msgid "Write the current file to disk"
 msgstr "Tulis file sekarang ke disk"
 
-#: global.c:187
+#: global.c:188
 msgid "Exit from nano"
 msgstr "Keluar dari nano"
 
-#: global.c:188
+#: global.c:189
 msgid "Goto a specific line number"
 msgstr "Ke nomor baris tertentu"
 
-#: global.c:189
+#: global.c:190
 msgid "Justify the current paragraph"
 msgstr "Justifikasi paragraf saat ini"
 
-#: global.c:190
+#: global.c:191
 msgid "Unjustify after a justify"
 msgstr "Unjustifikasi setelah justifikasi"
 
-#: global.c:191
+#: global.c:192
 msgid "Replace text within the editor"
 msgstr "Ganti teks dalam editor"
 
-#: global.c:192
+#: global.c:193
 msgid "Insert another file into the current one"
 msgstr "Sertakan file lain ke file saat ini"
 
-#: global.c:193
+#: global.c:194
 msgid "Search for text within the editor"
 msgstr "Cari teks dalam editor"
 
-#: global.c:194
+#: global.c:195
 msgid "Move to the previous screen"
 msgstr "Pindah ke layar sebelumnya"
 
-#: global.c:195
+#: global.c:196
 msgid "Move to the next screen"
 msgstr "Pindah ke layar berikutnya"
 
-#: global.c:196
+#: global.c:197
 msgid "Cut the current line and store it in the cutbuffer"
 msgstr "Hapus baris saat ini dan taruh dalam cutbuffer"
 
-#: global.c:197
+#: global.c:198
 msgid "Uncut from the cutbuffer into the current line"
 msgstr "Kembalikan dari cutbuffer ke baris saat ini"
 
-#: global.c:198
+#: global.c:199
 msgid "Show the posititon of the cursor"
 msgstr "Tampilkan posisi kursor"
 
-#: global.c:199
+#: global.c:200
 msgid "Invoke the spell checker (if available)"
 msgstr "Panggil spell checker (jika ada)"
 
-#: global.c:200
+#: global.c:201
 msgid "Move up one line"
 msgstr "Naik satu baris"
 
-#: global.c:201
+#: global.c:202
 msgid "Move down one line"
 msgstr "Turun satu baris"
 
-#: global.c:202
+#: global.c:203
 msgid "Move forward one character"
 msgstr "Pindah satu karakter ke depan"
 
-#: global.c:203
+#: global.c:204
 msgid "Move back one character"
 msgstr "Pindah satu karakter ke belakang"
 
-#: global.c:204
+#: global.c:205
 msgid "Move to the beginning of the current line"
 msgstr "Pindah ke awal baris ini"
 
-#: global.c:205
+#: global.c:206
 msgid "Move to the end of the current line"
 msgstr "Pindah ke akhir baris ini"
 
-#: global.c:206
+#: global.c:207
 msgid "Go to the first line of the file"
 msgstr "Ke baris terawal file"
 
-#: global.c:207
+#: global.c:208
 msgid "Go to the last line of the file"
 msgstr "Ke baris terakhir file"
 
-#: global.c:208
+#: global.c:209
 msgid "Refresh (redraw) the current screen"
 msgstr "Refresh layar saat ini"
 
-#: global.c:209
+#: global.c:210
 msgid "Mark text at the current cursor location"
 msgstr "Tandai teks pada lokasi kursor saat ini"
 
-#: global.c:210
+#: global.c:211
 msgid "Delete the character under the cursor"
 msgstr "Hapus karakter pada kursor"
 
-#: global.c:212
+#: global.c:213
 msgid "Delete the character to the left of the cursor"
 msgstr "Hapus satu karakter di kiri kursor"
 
-#: global.c:213
+#: global.c:214
 msgid "Insert a tab character"
 msgstr "Masukkan karakter tab"
 
-#: global.c:214
+#: global.c:215
 msgid "Insert a carriage return at the cursor position"
 msgstr "Sertakan carriage return di posisi kursor"
 
-#: global.c:216
+#: global.c:217
 msgid "Make the current search or replace case (in)sensitive"
 msgstr "Jadikan pencarian/penggantian saat ini case (in)sensitive"
 
-#: global.c:217
+#: global.c:218
 msgid "Go to file browser"
 msgstr "Ke browser file"
 
-#: global.c:218
+#: global.c:219
 msgid "Cancel the current function"
 msgstr "Batalkan fungsi ini"
 
-#: global.c:221
+#: global.c:222
 msgid "Get Help"
 msgstr "Cari Bantuan"
 
-#: global.c:224 global.c:405 global.c:429
+#: global.c:225 global.c:406 global.c:430
 msgid "Exit"
 msgstr "Keluar"
 
-#: global.c:227
+#: global.c:228
 msgid "WriteOut"
 msgstr "Tulis"
 
-#: global.c:232 global.c:321
+#: global.c:233 global.c:322
 msgid "Justify"
 msgstr "Justifikasi"
 
-#: global.c:236 global.c:242
+#: global.c:237 global.c:243
 msgid "Read File"
 msgstr "Baca File"
 
-#: global.c:246 global.c:317 global.c:345
+#: global.c:247 global.c:318 global.c:346
 msgid "Replace"
 msgstr "Ganti"
 
-#: global.c:250
+#: global.c:251
 msgid "Where Is"
 msgstr "Di mana"
 
-#: global.c:254 global.c:397 global.c:421
+#: global.c:255 global.c:398 global.c:422
 msgid "Prev Page"
 msgstr "Halaman sebelumnya"
 
-#: global.c:258 global.c:401 global.c:425
+#: global.c:259 global.c:402 global.c:426
 msgid "Next Page"
 msgstr "Halaman berikutnya"
 
-#: global.c:262
+#: global.c:263
 msgid "Cut Text"
 msgstr "Potong Teks"
 
-#: global.c:266
+#: global.c:267
 msgid "UnJustify"
 msgstr "UnJustifikasi"
 
-#: global.c:269
+#: global.c:270
 msgid "UnCut Txt"
 msgstr "UnCut Teks"
 
-#: global.c:273
+#: global.c:274
 msgid "Cur Pos"
 msgstr "Pos Kursor"
 
-#: global.c:277
+#: global.c:278
 msgid "To Spell"
 msgstr "Mengeja"
 
-#: global.c:281
+#: global.c:282
 msgid "Up"
 msgstr "Naik"
 
-#: global.c:284
+#: global.c:285
 msgid "Down"
 msgstr "Turun"
 
-#: global.c:287
+#: global.c:288
 msgid "Forward"
 msgstr "Depan"
 
-#: global.c:290
+#: global.c:291
 msgid "Back"
 msgstr "Belakang"
 
-#: global.c:293
+#: global.c:294
 msgid "Home"
 msgstr "Awal"
 
-#: global.c:296
+#: global.c:297
 msgid "End"
 msgstr "Akhir"
 
-#: global.c:299
+#: global.c:300
 msgid "Refresh"
 msgstr "Refresh"
 
-#: global.c:302
+#: global.c:303
 msgid "Mark Text"
 msgstr "Tandai Teks"
 
-#: global.c:305
+#: global.c:306
 msgid "Delete"
 msgstr "Hapus"
 
-#: global.c:309
+#: global.c:310
 msgid "Backspace"
 msgstr "Backspace"
 
-#: global.c:313
+#: global.c:314
 msgid "Tab"
 msgstr "Tab"
 
-#: global.c:325
+#: global.c:326
 msgid "Enter"
 msgstr "Enter"
 
-#: global.c:329 global.c:349 global.c:369
+#: global.c:330 global.c:350 global.c:370
 msgid "Goto Line"
 msgstr "Ke baris"
 
-#: global.c:335 global.c:356 global.c:377 global.c:387
+#: global.c:336 global.c:357 global.c:378 global.c:388
 msgid "First Line"
 msgstr "Baris pertama"
 
-#: global.c:338 global.c:359 global.c:380 global.c:390
+#: global.c:339 global.c:360 global.c:381 global.c:391
 msgid "Last Line"
 msgstr "Baris terakhir"
 
-#: global.c:341 global.c:362
+#: global.c:342 global.c:363
 msgid "Case Sens"
 msgstr "Case Sens"
 
-#: global.c:352 global.c:372 global.c:383 global.c:393 global.c:414
-#: global.c:417 winio.c:1063
+#: global.c:353 global.c:373 global.c:384 global.c:394 global.c:415
+#: global.c:418 winio.c:1064
 msgid "Cancel"
 msgstr "Batal"
 
-#: global.c:365
+#: global.c:366
 msgid "No Replace"
 msgstr "No Replace"
 
-#: global.c:410
+#: global.c:411
 msgid "To Files"
 msgstr "Ke File"
 
-#: nano.c:140
+#: nano.c:141
 #, c-format
 msgid ""
 "\n"
@@ -429,7 +429,7 @@ msgstr ""
 "\n"
 "Buffer ditulis ke %s\n"
 
-#: nano.c:142
+#: nano.c:143
 #, c-format
 msgid ""
 "\n"
@@ -438,15 +438,15 @@ msgstr ""
 "\n"
 "%s tidak ditulis (file ada?)\n"
 
-#: nano.c:151
+#: nano.c:152
 msgid "Window size is too small for Nano..."
 msgstr "Ukuran window terlalu kecil bagi Nano..."
 
-#: nano.c:159
+#: nano.c:160
 msgid "Key illegal in VIEW mode"
 msgstr "Kunci ilegal dalam mode VIEW"
 
-#: nano.c:203
+#: nano.c:204
 msgid ""
 " nano help text\n"
 "\n"
@@ -459,9 +459,9 @@ msgid ""
 "commonly used shortcuts in the editor.\n"
 "\n"
 " The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  "
-"Escape-key sequences are notated with the Meta (M) symbol and can be entered "
-"using either the Esc, Alt or Meta key depending on your keyboard setup.  The "
+"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
+"key sequences are notated with the Meta (M) symbol and can be entered using "
+"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
 "following keystrokes are available in the main editor window. Optional keys "
 "are shown in parentheses:\n"
 "\n"
@@ -479,8 +479,8 @@ msgstr ""
 "\n"
 "Notasi untuk shortcut adalah sebagai berikut : urutan kunci Control "
 "dilambangkan\n"
-"dengan simbol caret (^) dan dimasukkan dengan menekan tombol Control (Ctrl). "
-"\n"
+"dengan simbol caret (^) dan dimasukkan dengan menekan tombol Control "
+"(Ctrl). \n"
 "Urutan kunci Escape dilambangkan dengan simbol Meta (M) dan dapat dimasukkan "
 "dengan \n"
 "menggunakan tombol Esc, Alt atau Meta tergantung pada setup keyboard anda. \n"
@@ -488,99 +488,99 @@ msgstr ""
 "Kunci-kunci opsional ditunjukkan dalam kurung:\n"
 "\n"
 
-#: nano.c:297
+#: nano.c:298
 msgid "delete_node(): free'd a node, YAY!\n"
 msgstr "delete_node(): bebaskan sebuah node, YAY!\n"
 
-#: nano.c:302
+#: nano.c:303
 msgid "delete_node(): free'd last node.\n"
 msgstr "delete_node(): bebaskan node terakhir.\n"
 
-#: nano.c:357
+#: nano.c:358
 msgid ""
 "Usage: nano [GNU long option] [option] +LINE <file>\n"
 "\n"
 msgstr "Pemakaian: nano [GNU long option] [option] +LINE <file>\n"
 
-#: nano.c:358
+#: nano.c:359
 msgid "Option\t\tLong option\t\tMeaning\n"
 msgstr "Option: Long option     Arti\n"
 
-#: nano.c:360
+#: nano.c:361
 msgid " -T [num]\t--tabsize=[num]\t\tSet width of a tab to num\n"
 msgstr " -T [num]       --tabsize=[num]         Set lebar tabulasi ke num\n"
 
-#: nano.c:363
+#: nano.c:364
 msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
 msgstr "-R     --regexp        Gunakan regular expression untuk mencari\n"
 
-#: nano.c:367
+#: nano.c:368
 msgid " -V \t\t--version\t\tPrint version information and exit\n"
 msgstr "-V      --version       Tampilkan versi dan keluar\n"
 
-#: nano.c:369
+#: nano.c:370
 msgid " -c \t\t--const\t\t\tConstantly show cursor position\n"
 msgstr "-c      --const         Menampilkan posisi kursor secara konstan\n"
 
-#: nano.c:371
+#: nano.c:372
 msgid " -h \t\t--help\t\t\tShow this message\n"
 msgstr "-h      --help          Tampilkan pesan ini\n"
 
-#: nano.c:373
+#: nano.c:374
 msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
 msgstr "-i      --autoindent    Indentasi baris barus secara otomatis\n"
 
-#: nano.c:376
+#: nano.c:377
 msgid " -k \t\t--cut\t\t\tLet ^K cut from cursor to end of line\n"
 msgstr "-k      --cut   ^K melakukan cut dari kursor ke akhir baris\n"
 
-#: nano.c:379
+#: nano.c:380
 msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
 msgstr "-l      --nofollow      Jangan ikuti link simbolik, timpa\n"
 
-#: nano.c:382
+#: nano.c:383
 msgid " -m \t\t--mouse\t\t\tEnable mouse\n"
 msgstr "-m      --mouse         Aktifkan mouse\n"
 
-#: nano.c:386
+#: nano.c:387
 msgid " -p\t \t--pico\t\t\tEmulate Pico as closely as possible\n"
 msgstr "-p      --pico  Emulasikan Pico sebaik mungkin\n"
 
-#: nano.c:389
+#: nano.c:390
 msgid ""
 " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
 msgstr "-r [#cols]      --fill=[#cols]  Set fill col ke (wrap line di) #cols\n"
 
-#: nano.c:392
+#: nano.c:393
 msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
 msgstr "-s [prog]       --speller=[prog]        Aktifkan speller alternatif\n"
 
-#: nano.c:395
+#: nano.c:396
 msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
 msgstr ""
 "-t      --tempfile      Autosave saat keluar, jangan minta konfirmasi\n"
 
-#: nano.c:397
+#: nano.c:398
 msgid " -v \t\t--view\t\t\tView (read only) mode\n"
 msgstr "-v      --view  Mode Tampil (baca saja)\n"
 
-#: nano.c:400
+#: nano.c:401
 msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
 msgstr "-w      --nowrap        Jangan wrap baris panjang\n"
 
-#: nano.c:403
+#: nano.c:404
 msgid " -x \t\t--nohelp\t\tDon't show help window\n"
 msgstr "-x      --nohelp        Jangan tampilkan jendela bantuan\n"
 
-#: nano.c:405
+#: nano.c:406
 msgid " -z \t\t--suspend\t\tEnable suspend\n"
 msgstr "-z      --suspend       Aktifkan suspend\n"
 
-#: nano.c:407
+#: nano.c:408
 msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
 msgstr "+LINE                   Mulai pada nomor baris LINE\n"
 
-#: nano.c:409
+#: nano.c:410
 msgid ""
 "Usage: nano [option] +LINE <file>\n"
 "\n"
@@ -588,92 +588,92 @@ msgstr ""
 "Pemakaian: nano [option] +LINE <file>\n"
 "\n"
 
-#: nano.c:410
+#: nano.c:411
 msgid "Option\t\tMeaning\n"
 msgstr "Option          Arti\n"
 
-#: nano.c:411
+#: nano.c:412
 msgid " -T [num]\tSet width of a tab to num\n"
 msgstr " -T [num]\tGanti lebar tabulasi manjadi num\n"
 
-#: nano.c:412
+#: nano.c:413
 msgid " -R\t\tUse regular expressions for search\n"
 msgstr "-R      Gunakan regular expression untuk mencari\n"
 
-#: nano.c:413
+#: nano.c:414
 msgid " -V \t\tPrint version information and exit\n"
 msgstr "-V     Tampilkan informasi versi dan keluar\n"
 
-#: nano.c:414
+#: nano.c:415
 msgid " -c \t\tConstantly show cursor position\n"
 msgstr "-c     Menampilkan posisi kursor secara konstan\n"
 
-#: nano.c:415
+#: nano.c:416
 msgid " -h \t\tShow this message\n"
 msgstr "-h     Tampilkan pesan ini\n"
 
-#: nano.c:416
+#: nano.c:417
 msgid " -i \t\tAutomatically indent new lines\n"
 msgstr "-i     Indent baris barus secara otomatis\n"
 
-#: nano.c:418
+#: nano.c:419
 msgid " -k \t\tLet ^K cut from cursor to end of line\n"
 msgstr "-k      ^K melakukan cut dari kursor ke akhir baris\n"
 
-#: nano.c:421
+#: nano.c:422
 msgid " -l \t\tDon't follow symbolic links, overwrite\n"
 msgstr "-l     Jangan ikuti link simbolik, timpa\n"
 
-#: nano.c:424
+#: nano.c:425
 msgid " -m \t\tEnable mouse\n"
 msgstr "-m     Aktifkan mouse\n"
 
-#: nano.c:427
+#: nano.c:428
 msgid " -p \t\tEmulate Pico as closely as possible\n"
 msgstr "-p      Emulasikan Pico sebaik mungkin\n"
 
-#: nano.c:428
+#: nano.c:429
 msgid " -r [#cols] \tSet fill cols to (wrap lines at) #cols\n"
 msgstr "-r [#cols]   Set fill col ke (wrap line di) #cols\n"
 
-#: nano.c:430
+#: nano.c:431
 msgid " -s [prog]  \tEnable alternate speller\n"
 msgstr "-s [prog]    Aktifkan speller alternatif\n"
 
-#: nano.c:432
+#: nano.c:433
 msgid " -t \t\tAuto save on exit, don't prompt\n"
 msgstr "-t     Autosave saat keluar, jangan minta konfirmasi.\n"
 
-#: nano.c:433
+#: nano.c:434
 msgid " -v \t\tView (read only) mode\n"
 msgstr "-v     Mode Tampil (baca saja)\n"
 
-#: nano.c:435
+#: nano.c:436
 msgid " -w \t\tDon't wrap long lines\n"
 msgstr "-w     Jangan wrap baris panjang\n"
 
-#: nano.c:437
+#: nano.c:438
 msgid " -x \t\tDon't show help window\n"
 msgstr "-x     Jangan tampilkan jendela bantuan\n"
 
-#: nano.c:438
+#: nano.c:439
 msgid " -z \t\tEnable suspend\n"
 msgstr "-z     Aktifkan suspend\n"
 
-#: nano.c:439
+#: nano.c:440
 msgid " +LINE\t\tStart at line number LINE\n"
 msgstr "+LINE    Mulai pada nomor baris LINE\n"
 
-#: nano.c:446
+#: nano.c:447
 #, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
 msgstr "GNU nano versi %s (compiled %s, %s)\n"
 
-#: nano.c:449
+#: nano.c:450
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 msgstr " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 
-#: nano.c:450
+#: nano.c:451
 msgid ""
 "\n"
 " Compiled options:"
@@ -681,265 +681,265 @@ msgstr ""
 "\n"
 "Option kompilasi:"
 
-#: nano.c:518
+#: nano.c:519
 msgid "Mark Set"
 msgstr "Set Tanda"
 
-#: nano.c:523
+#: nano.c:524
 msgid "Mark UNset"
 msgstr "Unset Tanda"
 
-#: nano.c:1024
+#: nano.c:1025
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap dipanggil dengan inptr->data=\"%s\"\n"
 
-#: nano.c:1076
+#: nano.c:1077
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data sekarang =\"%s\"\n"
 
-#: nano.c:1128
+#: nano.c:1129
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Setelah, data= \"%s\"\n"
 
-#: nano.c:1230
+#: nano.c:1231
 msgid "Edit a replacement"
 msgstr "Edit pengganti"
 
-#: nano.c:1461
+#: nano.c:1462
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Tidak dapat membuat nama file sementara: %s"
 
-#: nano.c:1467
+#: nano.c:1468
 msgid "Spell checking failed: unable to write temp file!"
 msgstr "Spell checking gagal: tidak dapat menulis file temp!"
 
-#: nano.c:1479
+#: nano.c:1480
 msgid "Finished checking spelling"
 msgstr "Selesai memeriksa ejaan"
 
-#: nano.c:1481
+#: nano.c:1482
 msgid "Spell checking failed"
 msgstr "Spell checking gagal"
 
-#: nano.c:1501
+#: nano.c:1502
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Simpan buffer termodifikasi (JAWAB \"No\" AKAN MENGHAPUS PERUBAHAN) ?"
 
-#: nano.c:1597
+#: nano.c:1598
 msgid "Received SIGHUP"
 msgstr "Menerima SIGHUP"
 
-#: nano.c:1660
+#: nano.c:1661
 msgid "Cannot resize top win"
 msgstr "Tidak dapat menganti ukuran jendela atas"
 
-#: nano.c:1662
+#: nano.c:1663
 msgid "Cannot move top win"
 msgstr "Tidak dapat memindahkan jendela atas"
 
-#: nano.c:1664
+#: nano.c:1665
 msgid "Cannot resize edit win"
 msgstr "Tidak dapat mengganti ukuran jendela edit"
 
-#: nano.c:1666
+#: nano.c:1667
 msgid "Cannot move edit win"
 msgstr "Tidak dapat memindah jendela edit"
 
-#: nano.c:1668
+#: nano.c:1669
 msgid "Cannot resize bottom win"
 msgstr "Tidak dapat mengganti ukuran jendela bawah"
 
-#: nano.c:1670
+#: nano.c:1671
 msgid "Cannot move bottom win"
 msgstr "Tidak dapat memindah jendela bawah"
 
-#: nano.c:1978
+#: nano.c:1979
 msgid "Can now UnJustify!"
 msgstr "Sekarang dapat melakukan UnJustify"
 
-#: nano.c:2076
+#: nano.c:2077
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s enable/disable"
 
-#: nano.c:2091
+#: nano.c:2092
 msgid "enabled"
 msgstr "enabled"
 
-#: nano.c:2092
+#: nano.c:2093
 msgid "disabled"
 msgstr "disabled"
 
-#: nano.c:2144
+#: nano.c:2145
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "Glitch pada NumLock terdeteksi. Keypad akan tidak berfungsi dg tombol "
 "NumLock off"
 
-#: nano.c:2366
+#: nano.c:2371
 msgid "Main: set up windows\n"
 msgstr "Main: menset jendela\n"
 
-#: nano.c:2373
+#: nano.c:2378
 msgid "Main: bottom win\n"
 msgstr "Main: jendela bawah\n"
 
-#: nano.c:2379
+#: nano.c:2384
 msgid "Main: open file\n"
 msgstr "Main: membuka file\n"
 
-#: nano.c:2431
+#: nano.c:2437
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Saya mendapat Alt-O-%c! (%d)\n"
 
-#: nano.c:2458
+#: nano.c:2464
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Saya mendapat Alt-[-1-%c! (%d)\n"
 
-#: nano.c:2491
+#: nano.c:2497
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Saya mendapat Alt-[-2-%c! (%d)\n"
 
-#: nano.c:2533
+#: nano.c:2543
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"
 
-#: nano.c:2559
+#: nano.c:2569
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"
 
-#: search.c:117
+#: search.c:118
 #, c-format
 msgid "Case Sensitive Regexp Search%s%s"
 msgstr "Pencarian case sensitif Regexp %s%s"
 
-#: search.c:119
+#: search.c:120
 #, c-format
 msgid "Regexp Search%s%s"
 msgstr "Pencarian Regexp %s%s"
 
-#: search.c:121
+#: search.c:122
 #, c-format
 msgid "Case Sensitive Search%s%s"
 msgstr "Pencarian secara case sensitif%s%s"
 
-#: search.c:123
+#: search.c:124
 #, c-format
 msgid "Search%s%s"
 msgstr "Pencarian%s%s"
 
-#: search.c:126
+#: search.c:127
 msgid " (to replace)"
 msgstr " (ganti)"
 
-#: search.c:135 search.c:326
+#: search.c:136 search.c:327
 msgid "Search Cancelled"
 msgstr "Pencarian dibatalkan"
 
-#: search.c:199
+#: search.c:200
 #, c-format
 msgid "\"%s...\" not found"
 msgstr "\"%s...\" tidak ditemukan"
 
-#: search.c:248
+#: search.c:249
 msgid "Search Wrapped"
 msgstr "Pancarian diulangi dari awal"
 
-#: search.c:348
+#: search.c:349
 #, fuzzy, c-format
 msgid "Replaced %d occurrences"
 msgstr "%d tempat terganti"
 
-#: search.c:350
+#: search.c:351
 #, fuzzy
 msgid "Replaced 1 occurrence"
 msgstr "Terganti 1 tempat"
 
-#: search.c:488 search.c:592 search.c:608
+#: search.c:489 search.c:599 search.c:615
 msgid "Replace Cancelled"
 msgstr "Penggantian dibatalkan"
 
-#: search.c:538
+#: search.c:539
 msgid "Replace this instance?"
 msgstr "Ganti kata ini?"
 
-#: search.c:550
+#: search.c:551
 msgid "Replace failed: unknown subexpression!"
 msgstr "Replace gagal: subekspresi tidak dikenal!"
 
-#: search.c:633
+#: search.c:640
 #, c-format
 msgid "Replace with [%s]"
 msgstr "Ganti dengan [%s]"
 
-#: search.c:637 search.c:641
+#: search.c:644 search.c:648
 msgid "Replace with"
 msgstr "Ganti dengan"
 
 #. Ask for it
-#: search.c:676
+#: search.c:683
 msgid "Enter line number"
 msgstr "Masukkan nomor baris"
 
-#: search.c:678
+#: search.c:685
 msgid "Aborted"
 msgstr "Dibatalkan"
 
-#: search.c:698
+#: search.c:705
 msgid "Come on, be reasonable"
 msgstr "Ayo, yang masuk akal"
 
-#: search.c:703
+#: search.c:710
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr "Hanya %d baris tersedia, melompat ke baris akhir"
 
-#: winio.c:123
+#: winio.c:124
 #, c-format
 msgid "actual_x_from_start for xplus=%d returned %d\n"
 msgstr "actual_x_from_start untuk xplus=%d mengembalikan %d\n"
 
-#: winio.c:447
+#: winio.c:448
 #, c-format
 msgid "input '%c' (%d)\n"
 msgstr "input '%c' (%d)\n"
 
-#: winio.c:489
+#: winio.c:490
 msgid "New Buffer"
 msgstr "Buffer baru"
 
-#: winio.c:493
+#: winio.c:494
 msgid "  File: ..."
 msgstr " File: ..."
 
-#: winio.c:495
+#: winio.c:496
 msgid "   DIR: ..."
 msgstr " DIR: ..."
 
-#: winio.c:506
+#: winio.c:507
 msgid "Modified"
 msgstr "Dimodifikasi"
 
-#: winio.c:958
+#: winio.c:959
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr "Pindah ke (%d, %d) dalam buffer edit\n"
 
-#: winio.c:969
+#: winio.c:970
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr "current->data = \"%s\"\n"
 
-#: winio.c:1014
+#: winio.c:1015
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "Saya mendapat \"%s\"\n"
@@ -951,80 +951,81 @@ msgstr "Saya mendapat \"%s\"\n"
 #. Yes, no and all are strings of any length.  Each string consists of
 #. all characters accepted as a valid character for that value.
 #. The first value will be the one displayed in the shortcuts.
-#: winio.c:1037
+#: winio.c:1038
 msgid "Yy"
 msgstr "Yy"
 
-#: winio.c:1038
+#: winio.c:1039
 msgid "Nn"
 msgstr "Tt"
 
-#: winio.c:1039
+#: winio.c:1040
 msgid "Aa"
 msgstr "Ss"
 
-#: winio.c:1052
+#: winio.c:1053
 msgid "Yes"
 msgstr "Ya"
 
-#: winio.c:1056
+#: winio.c:1057
 msgid "All"
 msgstr "Semua"
 
-#: winio.c:1061
+#: winio.c:1062
 msgid "No"
 msgstr "Tidak"
 
-#: winio.c:1204
+#: winio.c:1205
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
-#: winio.c:1208
+#: winio.c:1209
+#, c-format
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "baris %d dari %d (%f.0f%%), karakter %d dari %d (%.0f%%)"
 
-#: winio.c:1338
+#: winio.c:1339
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Kirim buffer file ke stderr...\n"
 
-#: winio.c:1340
+#: winio.c:1341
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Kirim cutbuffer ke stderr...\n"
 
-#: winio.c:1342
+#: winio.c:1343
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Kirim buffer ke stderr...\n"
 
-#: winio.c:1417
+#: winio.c:1418
 msgid "The nano text editor"
 msgstr "Nano teks editor"
 
-#: winio.c:1418
+#: winio.c:1419
 msgid "version "
 msgstr "versi "
 
-#: winio.c:1419
+#: winio.c:1420
 msgid "Brought to you by:"
 msgstr "Dibuat untuk anda oleh:"
 
-#: winio.c:1420
+#: winio.c:1421
 msgid "Special thanks to:"
 msgstr "Ucapan terima kasih khusus kepada:"
 
-#: winio.c:1421
+#: winio.c:1422
 msgid "The Free Software Foundation"
 msgstr "The Free Software Foundation"
 
-#: winio.c:1422
+#: winio.c:1423
 msgid "Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses"
 msgstr "Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurse"
 
-#: winio.c:1423
+#: winio.c:1424
 msgid "and anyone else we forgot..."
 msgstr "dan orang lain yang kami lupa...."
 
-#: winio.c:1424
+#: winio.c:1425
 msgid "Thank you for using nano!\n"
 msgstr "Terima kasih telah menggunakan nano!\n"
 
