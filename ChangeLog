@@ -9,6 +9,10 @@ CVS code
 	  DOS/Mac format, at least one line has already been converted, 
 	  so setting NOCONVERT (which is supposed to signal that none 
 	  of the file should be converted) makes no sense. (DLR)
+- nano.c:
+  justify_format()
+	- Fix ugly behavior when wrapping spaces at the end of long
+	  words (David Benbennick).
 - nanorc.5:
 	- Fix formatting error and update copyright year (Jordi).
 	- Several enhancements (David Benbennick).

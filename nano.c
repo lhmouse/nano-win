@@ -2047,7 +2047,7 @@ int justify_format(int changes_allowed, filestruct *line, size_t skip)
 
     back = line->data + skip;
     front = back;
-    for (; *front; front++) {
+    for (front = back; ; front++) {
 	int remove_space = 0;
 	    /* Do we want to remove this space? */
 
@@ -2057,11 +2057,11 @@ int justify_format(int changes_allowed, filestruct *line, size_t skip)
 	    *front = ' ';
 	}
 	/* these tests are safe since line->data + skip is not a space */
-	if (*front == ' ' && *(front - 1) == ' ') {
+	if ((*front == '\0' || *front == ' ') && *(front - 1) == ' ') {
 	    const char *bob = front - 2;
 
 	    remove_space = 1;
-	    for (bob = front - 2; bob >= line->data + skip; bob--) {
+	    for (bob = back - 2; bob >= line->data + skip; bob--) {
 		if (strchr(punct, *bob) != NULL) {
 		    remove_space = 0;
 		    break;
@@ -2080,21 +2080,18 @@ int justify_format(int changes_allowed, filestruct *line, size_t skip)
 	    if (mark_beginbuf == line && back - line->data < mark_beginx)
 		mark_beginx--;
 #endif
+	    if (*front == '\0')
+		*(back - 1) = '\0';
 	} else {
 	    *back = *front;
 	    back++;
 	}
+	if (*front == '\0')
+	    break;
     }
 
-    /* Remove spaces from the end of the line, except maintain 1 after a
-     * sentence punctuation. */
-    while (line->data < back && *(back - 1) == ' ')
-	back--;
-    if (line->data < back && *back == ' ' &&
-	strchr(punct, *(back - 1)) != NULL)
-	back++;
-    if (!changes_allowed && back != front)
-	return 1;
+    back--;
+    assert(*back == '\0');
 
     /* This assert merely documents a fact about the loop above. */
     assert(changes_allowed != 0 || back == front);
@@ -2253,7 +2250,7 @@ int break_line(const char *line, int goal, int force)
 	/* No space found short enough. */
 	if (force)
 	    for(; *line != '\0'; line++, cur_loc++)
-		if (*line == ' ' && *(line + 1) != ' ')
+		if (*line == ' ' && *(line + 1) != ' ' && *(line + 1) != '\0')
 		    return cur_loc;
 	return -1;
     }
