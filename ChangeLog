@@ -66,6 +66,9 @@ CVS code -
 	- Don't bother assigning the value of get_mouseinput() to
 	  anything.  Since allow_shortcuts is FALSE, its return value
 	  will always be FALSE. (DLR)
+  nanorc.sample:
+	- Remove specific references to control key shortcuts other than
+	  XON and XOFF. (DLR)
 
 GNU nano 1.3.4 - 2004.08.17
 - General:

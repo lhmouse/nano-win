@@ -26,7 +26,7 @@
 ## Constantly display the cursor position in the status bar.
 # set const
 
-## Use cut to end of line with ^K by default.
+## Use cut to end of line by default.
 # set cut
 
 ## Set the line length for wrapping text and justifying paragraphs.
@@ -42,9 +42,9 @@
 ## and run shortcuts.
 # set mouse
 
-## Allow multiple file buffers (using ^R will insert into a separate
-## buffer).  You must have configured with --enable-multibuffer or
-## --enable-extra for this to work.
+## Allow multiple file buffers (inserting a file will put it into a
+## separate buffer).  You must have configured with --enable-multibuffer
+## or --enable-extra for this to work.
 ##
 # set multibuffer
 
@@ -106,7 +106,7 @@
 ##
 # set speller "aspell -c"
 
-## Allow nano to be suspended with ^Z.
+## Allow nano to be suspended.
 # set suspend
 
 ## Use this tab size instead of the default; it must be greater than 0.
