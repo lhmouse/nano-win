@@ -1,4 +1,11 @@
 CVS code -
+- nano.c:
+  do_cont()
+	- Run signal_init() after doupdate() so ^Y wont suddenly
+	  start suspending after returning from ^Z suspend in Hurd.
+  signal_init()
+	- Unconditionally disable VDSUSP if it exists, stops ^Y
+	  suspending nano on the Hurd.
 
 nano-1.1.4 - 12/11/2001
 - General
