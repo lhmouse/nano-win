@@ -1,4 +1,6 @@
 CVS Code -
+- po/pl.po:
+	- New Polish, partial translation, by Cezary Sliwa <sliwa@cft.edu.pl>.
 
 nano-1.0.7 - 12/17/2001
 - General
@@ -23,8 +25,6 @@ nano-1.0.7 - 12/17/2001
 	- French translation update, by Michel Robitaille.
 - po/de.po:
 	- Updated German translation (Karl Eichwalder).
-- po/pl.po:
-	- New Polish, partial translation, by Cezary Sliwa <sliwa@cft.edu.pl>.
 
 nano-1.0.6 - 10/29/2001
 - General
