@@ -67,7 +67,6 @@ const static rcoption rcopts[] = {
 #ifndef DISABLE_OPERATINGDIR
     {"operatingdir", 0},
 #endif
-    {"pico", PICO_MODE},
 #ifndef DISABLE_JUSTIFY
     {"quotestr", 0},
 #endif

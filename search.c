@@ -118,23 +118,6 @@ int search_init(int replacing)
 	UNSET(CLEAR_BACKUPSTRING);
     }
 
-     /* Okay, fun time.  backupstring is our holder for what is being
-	returned from the statusq call.  Using answer for this would be tricky.
-	Here, if we're using PICO_MODE, we only want nano to put the
-	old string back up as editable if it's not the same as last_search.
-
-	Otherwise, if we don't already have a backupstring, set it to
-	last_search. */
-#if 0
-/* might need again ;)*/
-    if (ISSET(PICO_MODE)) {
-	if (backupstring == NULL || !strcmp(backupstring, last_search)) {
-	    /* backupstring = mallocstrcpy(backupstring, ""); */
-	    backupstring = charalloc(1);
-	    backupstring[0] = '\0';
-	}
-    } else
-#endif
     if (backupstring == NULL)
 #ifndef NANO_SMALL
 	backupstring = mallocstrcpy(backupstring, search_history.current->data);
@@ -143,15 +126,13 @@ int search_init(int replacing)
 #endif
 
 /* NEW TEST */
-    if (ISSET(PICO_MODE)) {
-	backupstring = mallocstrcpy(backupstring, "");
+    backupstring = mallocstrcpy(backupstring, "");
 #ifndef NANO_SMALL
-	search_history.current = (historytype *)&search_history.next;
+    search_history.current = (historytype *)&search_history.next;
 #endif
-    }
-/* */
+
     /* If using Pico messages, we do things the old fashioned way... */
-    if (ISSET(PICO_MODE) && last_search[0] != '\0') {
+    if (last_search[0] != '\0') {
 	buf = charalloc(COLS / 3 + 7);
 	/* We use COLS / 3 here because we need to see more on the line */
 	sprintf(buf, " [%.*s%s]", COLS / 3, last_search,
@@ -204,7 +185,7 @@ int search_init(int replacing)
 	    if (ISSET(USE_REGEXP))
 		/* If we're in Pico mode, and answer is "", use
 		   last_search! */
-		regexp_init(ISSET(PICO_MODE) ? last_search : answer);
+		regexp_init(last_search);
 #endif
 	    break;
 	case 0:		/* They entered something new */
@@ -435,19 +416,7 @@ int do_search(void)
 	return 1;
     }
 
-    /* The sneaky user deleted the previous search string */
-    if (!ISSET(PICO_MODE) && answer[0] == '\0') {
-	statusbar(_("Search Cancelled"));
-#ifndef NANO_SMALL
-	search_history.current = search_history.next;
-#endif
-	search_abort();
-	return 0;
-    }
-
-     /* If answer is now == "", then PICO_MODE is set.  So, copy
-	last_search into answer... */
-
+     /* If answer is now == "", copy last_search into answer... */
     if (answer[0] == '\0')
 	answer = mallocstrcpy(answer, last_search);
     else
@@ -628,7 +597,7 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
         }
     }
 
-    if (ISSET(PICO_MODE) && answer[0] == '\0')
+    if (answer[0] == '\0')
 	answer = mallocstrcpy(answer, last_replace);
 
     last_replace = mallocstrcpy(last_replace, answer);
@@ -746,15 +715,8 @@ int do_replace(void)
 	update_history(&search_history, answer);
 #endif	/* !NANO_SMALL */
 
-    /* Again, there was a previous string, but they deleted it and hit enter */
-    if (!ISSET(PICO_MODE) && answer[0] == '\0') {
-	statusbar(_("Replace Cancelled"));
-	replace_abort();
-	return 0;
-    }
-
-     /* If answer is now == "", then PICO_MODE is set.  So, copy
-	last_search into answer (and prevanswer)... */
+    /* If answer is now == "", copy last_search into answer 
+	(and prevanswer)...  */
     if (answer[0] == '\0')
 	answer = mallocstrcpy(answer, last_search);
     else
@@ -762,35 +724,17 @@ int do_replace(void)
 
     prevanswer = mallocstrcpy(prevanswer, last_search);
 
-    if (ISSET(PICO_MODE) && last_replace[0] != '\0') {
-	if (strlen(last_replace) > COLS / 3) {
-	    char *buf = charalloc(COLS / 3 + 3);
+#ifndef NANO_SMALL
+    replace_history.current = (historytype *)&replace_history.next;
+    last_replace = mallocstrcpy(last_replace, "");
+#endif
 
-	    strncpy(buf, last_replace, COLS / 3 - 1);
-	    strcpy(buf + COLS / 3 - 1, "...");
-	    i = statusq(0, replace_list_2, "",
-#ifndef NANO_SMALL
-		&replace_history,
-#endif
-		_("Replace with [%s]"), buf);
-	    free(buf);
-	} else
-	    i = statusq(0, replace_list_2, "",
-#ifndef NANO_SMALL
-		 &replace_history,
-#endif
-		_("Replace with [%s]") ,last_replace);
-    } else {
-#ifndef NANO_SMALL
-	replace_history.current = (historytype *)&replace_history.next;
-	last_replace = mallocstrcpy(last_replace, "");
-#endif
-	i = statusq(0, replace_list_2, last_replace,
+    i = statusq(0, replace_list_2, last_replace,
 #ifndef NANO_SMALL
 		&replace_history,
 #endif
 		_("Replace with"));
-   }
+
 #ifndef NANO_SMALL
     if (i == 0 && strcmp(answer, ""))
 	update_history(&replace_history, answer);

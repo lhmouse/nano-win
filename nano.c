@@ -3007,7 +3007,6 @@ int main(int argc, char *argv[])
     int startline = 0;		/* Line to try and start at */
     int keyhandled;		/* Have we handled the keystroke yet? */
     int modify_control_seq;
-    const char *argv0;
     const shortcut *s;
 #ifndef NANO_SMALL
     const toggle *t;
@@ -3228,7 +3227,6 @@ int main(int argc, char *argv[])
 	    break;
 #endif
 	case 'p':
-	    SET(PICO_MODE);
 	    break;
 #ifndef DISABLE_WRAPJUSTIFY
 	case 'r':
@@ -3285,11 +3283,6 @@ int main(int argc, char *argv[])
     filename = charalloc(1);
     filename[0] = '\0';
 
-    /* See if we were invoked with the name "pico" */
-    argv0 = strrchr(argv[0], '/');
-    if ((argv0 != NULL && strstr(argv0, "pico") != NULL)
-	|| (argv0 == NULL && strstr(argv[0], "pico") != NULL))
-	SET(PICO_MODE);
 
     /* See if there's a non-option in argv (first non-option is the
        filename, if +LINE is not given) */

@@ -222,7 +222,6 @@ typedef struct historyheadtype {
 #define MARK_ISSET		(1<<3)
 #define CONSTUPDATE		(1<<4)
 #define NO_HELP			(1<<5)
-#define PICO_MODE		(1<<6)
 #define NOFOLLOW_SYMLINKS	(1<<7)
 #define SUSPEND			(1<<8)
 #define NO_WRAP			(1<<9)

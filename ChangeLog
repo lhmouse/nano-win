@@ -1,6 +1,11 @@
 CVS code -
 Changes
 - General:
+	- Completely removed PICO_MODE, as with the search/replace history
+	  patch we should have the extended functionality we can without
+	  being incompatible with pico.  Removed all code for different
+	  search/replace string editing and alternate shortcut list.  I'm sure
+	  I won't even have to ask for feedback on this one :-)
 	- Search history and replace history up/down cursor arrows, w/history 
 	  tab completion, not available w/NANO_SMALL.  Changes to 
 	  statusq, others (Ken Tyler).  Added shortcut to search/replace 

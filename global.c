@@ -215,7 +215,7 @@ void toggle_init_one(int val, const char *desc, int flag)
 void toggle_init(void)
 {
     char *toggle_const_msg, *toggle_autoindent_msg, *toggle_suspend_msg,
-	*toggle_nohelp_msg, *toggle_picomode_msg, *toggle_cuttoend_msg,
+	*toggle_nohelp_msg, *toggle_cuttoend_msg,
 	*toggle_noconvert_msg, *toggle_dos_msg, *toggle_mac_msg,
 	*toggle_backup_msg, *toggle_smooth_msg;
 #if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
@@ -242,7 +242,6 @@ void toggle_init(void)
     toggle_autoindent_msg = _("Auto indent");
     toggle_suspend_msg = _("Suspend");
     toggle_nohelp_msg = _("Help mode");
-    toggle_picomode_msg = _("Pico mode");
 #if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
     toggle_mouse_msg = _("Mouse support");
 #endif
@@ -266,7 +265,6 @@ void toggle_init(void)
     toggle_init_one(TOGGLE_AUTOINDENT_KEY, toggle_autoindent_msg, AUTOINDENT);
     toggle_init_one(TOGGLE_SUSPEND_KEY, toggle_suspend_msg, SUSPEND);
     toggle_init_one(TOGGLE_NOHELP_KEY, toggle_nohelp_msg, NO_HELP);
-    toggle_init_one(TOGGLE_PICOMODE_KEY, toggle_picomode_msg, PICO_MODE);
 #ifndef DISABLE_WRAPPING
     toggle_init_one(TOGGLE_WRAP_KEY, toggle_wrap_msg, NO_WRAP);
 #endif
@@ -432,38 +430,20 @@ void shortcut_init(int unjustify)
 		    IFHELP(nano_writeout_msg, 0),
 		    NANO_WRITEOUT_FKEY, 0, NOVIEW, do_writeout_void);
 
-    if (ISSET(PICO_MODE))
-	sc_init_one(&main_list, NANO_JUSTIFY_KEY, _("Justify"),
+    sc_init_one(&main_list, NANO_JUSTIFY_KEY, _("Justify"),
 		    IFHELP(nano_justify_msg, 0), NANO_JUSTIFY_FKEY, 0,
 		    NOVIEW, do_justify);
-    else
 
 #ifdef ENABLE_MULTIBUFFER
 	/* this is so we can view multiple files */
-	sc_init_one(&main_list, NANO_INSERTFILE_KEY, _("Read File"),
+     sc_init_one(&main_list, NANO_INSERTFILE_KEY, _("Read File"),
 		IFHELP(nano_insert_msg, 0),
 		NANO_INSERTFILE_FKEY, 0, VIEW, do_insertfile_void);
 #else
-	sc_init_one(&main_list, NANO_INSERTFILE_KEY, _("Read File"),
+     sc_init_one(&main_list, NANO_INSERTFILE_KEY, _("Read File"),
 		IFHELP(nano_insert_msg, 0),
 		NANO_INSERTFILE_FKEY, 0, NOVIEW, do_insertfile_void);
 #endif
-
-    if (ISSET(PICO_MODE))
-#ifdef ENABLE_MULTIBUFFER
-	/* this is so we can view multiple files */
-	sc_init_one(&main_list, NANO_INSERTFILE_KEY, _("Read File"),
-		IFHELP(nano_insert_msg, 0),
-		NANO_INSERTFILE_FKEY, 0, VIEW, do_insertfile_void);
-#else
-	sc_init_one(&main_list, NANO_INSERTFILE_KEY, _("Read File"),
-		IFHELP(nano_insert_msg, 0),
-		NANO_INSERTFILE_FKEY, 0, NOVIEW, do_insertfile_void);
-#endif
-    else
-	sc_init_one(&main_list, NANO_REPLACE_KEY, _("Replace"),
-		    IFHELP(nano_replace_msg, NANO_ALT_REPLACE_KEY),
-		    NANO_REPLACE_FKEY, 0, NOVIEW, do_replace);
 
     sc_init_one(&main_list, NANO_WHEREIS_KEY, _("Where Is"),
 		IFHELP(nano_whereis_msg, 0),
@@ -541,14 +521,9 @@ void shortcut_init(int unjustify)
     sc_init_one(&main_list, NANO_TAB_KEY, _("Tab"),
 		IFHELP(nano_tab_msg, 0), 0, 0, NOVIEW, do_tab);
 
-    if (ISSET(PICO_MODE))
-	sc_init_one(&main_list, NANO_REPLACE_KEY, _("Replace"),
+    sc_init_one(&main_list, NANO_REPLACE_KEY, _("Replace"),
 		    IFHELP(nano_replace_msg, NANO_ALT_REPLACE_KEY),
 		    NANO_REPLACE_FKEY, 0, NOVIEW, do_replace);
-    else
-	sc_init_one(&main_list, NANO_JUSTIFY_KEY, _("Justify"),
-		    IFHELP(nano_justify_msg, 0),
-		    NANO_JUSTIFY_FKEY, 0, NOVIEW, do_justify);
 
     sc_init_one(&main_list, NANO_ENTER_KEY, _("Enter"),
 		IFHELP(nano_enter_msg, 0),

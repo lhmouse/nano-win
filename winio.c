@@ -464,7 +464,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
     } /* while (kbinput ...) */
 
     /* In Pico mode, just check for a blank answer here */
-    if (ISSET(PICO_MODE) && answer[0] == '\0')
+    if (answer[0] == '\0')
 	return -2;
     else
 	return 0;
