@@ -6,9 +6,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.9.99pre2-CVS\n"
+"Project-Id-Version: 1.0\n"
 "POT-Creation-Date: 2001-03-18 14:03-0500\n"
-"PO-Revision-Date: 2001-02-20 00:45+0100\n"
+"PO-Revision-Date: 2001-03-21 23:45+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>, Miquel Vidal "
 "<miquel@sindominio.net>\n"
 "Language-Team: Catalan <jordi@sindominio.net>\n"
@@ -856,12 +856,11 @@ msgid "Search Wrapped"
 msgstr "Recerca Recomençada"
 
 #: search.c:348
-#, fuzzy, c-format
+#, c-format
 msgid "Replaced %d occurrences"
 msgstr "%d ocurrències reemplaçadas"
 
 #: search.c:350
-#, fuzzy
 msgid "Replaced 1 occurrence"
 msgstr "1 ocurrència reemplaçada"
 
