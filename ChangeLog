@@ -108,7 +108,15 @@ CVS code -
 	- Remove most redundant includes of sys/stat.h.  It's included
 	  in nano.h, so it doesn't need to be included in files that
 	  include nano.h. (DLR)
+	- Remove the DOS_FILE and MAC_FILE flags, as they're only used
+	  in files.c, and replace them with a static file_format enum.
+	  Change the openfilestruct structure accordingly in order to
+	  handle this.  Also move the PATH_MAX definition to nano.h.
+	  (DLR)
 - files.c:
+  read_file()
+	- Rename variable fileformat to format, to avoid confusion with
+	  the file_format enum type. (DLR)
   do_insertfile()
 	- Simplify by reusing variables whereever possible, and add a
 	  parameter execute to indicate whether or not to be in "Execute
@@ -209,6 +217,7 @@ CVS code -
 - nano.h:
 	- Add WIDTH_OF_TAB #define, containing the default width of a
 	  tab. (DLR)
+	- Remove unused COPYFILEBLOCKSIZE #define. (DLR)
 - rcfile.c:
   parse_rcfile()
 	- Add missing brackets around an if statement block so that

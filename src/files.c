@@ -36,11 +36,8 @@
 #include "proto.h"
 #include "nano.h"
 
-/* Set a default value for PATH_MAX, so we can use it below in lines
- * like "path = getcwd(NULL, PATH_MAX + 1);". */
-#ifndef PATH_MAX
-#define PATH_MAX -1
-#endif
+static file_format fmt = NIX_FILE;
+	/* The format of the current file. */
 
 /* What happens when there is no file to open? aiee! */
 void new_file(void)
@@ -151,7 +148,7 @@ void read_file(FILE *f, const char *filename)
 	/* The current value we read from the file, whether an input
 	 * character or EOF. */
 #ifndef NANO_SMALL
-    int fileformat = 0;
+    int format = 0;
 	/* 0 = *nix, 1 = DOS, 2 = Mac, 3 = both DOS and Mac. */
 #endif
 
@@ -170,10 +167,9 @@ void read_file(FILE *f, const char *filename)
     assert(current != NULL || fileage == NULL);
 
 #ifndef NANO_SMALL
-    /* Clear the DOS and Mac file format flags, since we don't know
-     * which file format we have yet. */
-    UNSET(DOS_FILE);
-    UNSET(MAC_FILE);
+    /* We don't know which file format we have yet, so assume it's a
+     * *nix file for now. */
+    fmt = NIX_FILE;
 #endif
 
     /* Read the entire file into the file struct. */
@@ -185,12 +181,12 @@ void read_file(FILE *f, const char *filename)
 	if (input == '\n') {
 
 #ifndef NANO_SMALL
-	    /* If there's a CR before the LF, set fileformat to DOS if
-	     * we currently think this is a *nix file, or to both if we
+	    /* If there's a CR before the LF, set format to DOS if we
+	     * currently think this is a *nix file, or to both if we
 	     * currently think it's a Mac file. */
 	    if (!ISSET(NO_CONVERT) && i > 0 && buf[i - 1] == '\r' &&
-		(fileformat == 0 || fileformat == 2))
-		fileformat++;
+		(format == 0 || format == 2))
+		format++;
 #endif
 
 	    /* Read in the line properly. */
@@ -208,11 +204,11 @@ void read_file(FILE *f, const char *filename)
 	 * isn't disabled, handle it! */
 	} else if (!ISSET(NO_CONVERT) && i > 0 && buf[i - 1] == '\r') {
 
-	    /* If we currently think the file is a *nix file, set
-	     * fileformat to Mac.  If we currently think the file is a
-	     * DOS file, set fileformat to both DOS and Mac. */
-	    if (fileformat == 0 || fileformat == 1)
-		fileformat += 2;
+	    /* If we currently think the file is a *nix file, set format
+	     * to Mac.  If we currently think the file is a DOS file,
+	     * set format to both DOS and Mac. */
+	    if (format == 0 || format == 1)
+		format += 2;
 
 	    /* Read in the line properly. */
 	    fileptr = read_line(buf, fileptr, &first_line_ins, len);
@@ -268,12 +264,12 @@ void read_file(FILE *f, const char *filename)
     if (len > 0) {
 #ifndef NANO_SMALL
 	/* If file conversion isn't disabled and the last character in
-	 * this file is a CR, set fileformat to Mac if we currently
-	 * think the file is a *nix file, or to both DOS and Mac if we
+	 * this file is a CR, set format to Mac if we currently think
+	 * the file is a *nix file, or to both DOS and Mac if we
 	 * currently think the file is a DOS file. */
 	if (!ISSET(NO_CONVERT) && buf[len - 1] == '\r' &&
-		(fileformat == 0 || fileformat == 1))
-	    fileformat += 2;
+		(format == 0 || format == 1))
+	    format += 2;
 #endif
 
 	/* Read in the last line properly. */
@@ -304,18 +300,18 @@ void read_file(FILE *f, const char *filename)
     }
 
 #ifndef NANO_SMALL
-    if (fileformat == 3)
+    if (format == 3)
 	statusbar(
 		P_("Read %lu line (Converted from DOS and Mac format)",
 		"Read %lu lines (Converted from DOS and Mac format)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
-    else if (fileformat == 2) {
-	SET(MAC_FILE);
+    else if (format == 2) {
+	fmt = MAC_FILE;
 	statusbar(P_("Read %lu line (Converted from Mac format)",
 		"Read %lu lines (Converted from Mac format)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
-    } else if (fileformat == 1) {
-	SET(DOS_FILE);
+    } else if (format == 1) {
+	fmt = DOS_FILE;
 	statusbar(P_("Read %lu line (Converted from DOS format)",
 		"Read %lu lines (Converted from DOS format)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
@@ -772,10 +768,7 @@ void add_open_file(bool update)
 	    open_files->file_mark_beginx = mark_beginx;
 	    open_files->file_flags |= MARK_ISSET;
 	}
-	if (ISSET(DOS_FILE))
-	    open_files->file_flags |= DOS_FILE;
-	else if (ISSET(MAC_FILE))
-	    open_files->file_flags |= MAC_FILE;
+	open_files->file_fmt = fmt;
 #endif
     }
 
@@ -829,12 +822,7 @@ void load_open_file(void)
 	UNSET(MARK_ISSET);
 
     /* restore file format status */
-    UNSET(DOS_FILE);
-    UNSET(MAC_FILE);
-    if (open_files->file_flags & DOS_FILE)
-	SET(DOS_FILE);
-    else if (open_files->file_flags & MAC_FILE)
-	SET(MAC_FILE);
+    fmt = open_files->file_fmt;
 #endif
 
 #ifdef ENABLE_COLOR
@@ -1635,14 +1623,14 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 	    goto cleanup_and_exit;
 	}
 #ifndef NANO_SMALL
-	if (ISSET(DOS_FILE) || ISSET(MAC_FILE))
+	if (fmt == DOS_FILE || fmt == MAC_FILE)
 	    if (putc('\r', f) == EOF) {
 		statusbar(_("Error writing %s: %s"), realname, strerror(errno));
 		fclose(f);
 		goto cleanup_and_exit;
 	    }
 
-	if (!ISSET(MAC_FILE))
+	if (fmt != MAC_FILE)
 #endif
 	    if (putc('\n', f) == EOF) {
 		statusbar(_("Error writing %s: %s"), realname, strerror(errno));
@@ -1790,9 +1778,9 @@ int do_writeout(bool exiting)
 #ifndef NANO_SMALL
 	const char *formatstr, *backupstr;
 
-	if (ISSET(DOS_FILE))
+	if (fmt == DOS_FILE)
 	   formatstr = N_(" [DOS Format]");
-	else if (ISSET(MAC_FILE))
+	else if (fmt == MAC_FILE)
 	   formatstr = N_(" [Mac Format]");
 	else
 	   formatstr = "";
@@ -1856,12 +1844,10 @@ int do_writeout(bool exiting)
 #endif /* !DISABLE_BROWSER */
 #ifndef NANO_SMALL
 	    if (i == TOGGLE_DOS_KEY) {
-		UNSET(MAC_FILE);
-		TOGGLE(DOS_FILE);
+		fmt = (fmt == DOS_FILE) ? NIX_FILE : DOS_FILE;
 		continue;
 	    } else if (i == TOGGLE_MAC_KEY) {
-		UNSET(DOS_FILE);
-		TOGGLE(MAC_FILE);
+		fmt = (fmt == MAC_FILE) ? NIX_FILE : MAC_FILE;
 		continue;
 	    } else if (i == TOGGLE_BACKUP_KEY) {
 		TOGGLE(BACKUP_FILE);

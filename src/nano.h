@@ -49,9 +49,10 @@
 #define regexec(preg, string, nmatch, pmatch, eflags) regexec_safe(preg, string, nmatch, pmatch, eflags)
 #endif
 
-#ifndef NANO_SMALL
-/* For the backup file copy. */
-#define COPYFILEBLOCKSIZE 1024
+/* Set a default value for PATH_MAX, so we can use it in lines like
+ * "path = getcwd(NULL, PATH_MAX + 1);". */
+#ifndef PATH_MAX
+#define PATH_MAX -1
 #endif
 
 #ifdef USE_SLANG
@@ -143,6 +144,23 @@
 #define DISABLE_WRAPJUSTIFY 1
 #endif
 
+/* Enumeration types. */
+typedef enum {
+    NIX_FILE, DOS_FILE, MAC_FILE
+} file_format;
+
+typedef enum {
+    UP, DOWN
+} updown;
+
+typedef enum {
+    TOP, CENTER, NONE
+} topmidnone;
+
+typedef enum {
+    NO_SEQ, ESCAPE_SEQ, UTF8_SEQ
+} seq_type;
+
 /* Structure types. */
 typedef struct filestruct {
     char *data;
@@ -172,14 +190,15 @@ typedef struct openfilestruct {
 				 * position. */
     int file_current_y;		/* Current file's y-coordinate
 				 * position. */
-    long file_flags;		/* Current file's flags: modification
-				 * status (and marking status, if
-				 * available). */
     size_t file_placewewant;	/* Current file's place we want. */
     int file_totlines;		/* Current file's total number of
 				 * lines. */
     long file_totsize;		/* Current file's total size. */
     int file_lineno;		/* Current file's line number. */
+    long file_flags;		/* Current file's flags: modification
+				 * status (and marking status, if
+				 * available). */
+    file_format file_fmt;	/* Current file's format. */
 } openfilestruct;
 #endif
 
@@ -290,21 +309,19 @@ typedef struct historyheadtype {
 #define CUT_TO_END		(1<<13)
 #define REVERSE_SEARCH		(1<<14)
 #define MULTIBUFFER		(1<<15)
-#define DOS_FILE		(1<<16)
-#define MAC_FILE		(1<<17)
-#define SMOOTHSCROLL		(1<<18)
-#define DISABLE_CURPOS		(1<<19)	/* Damn, we still need it. */
-#define REBIND_DELETE		(1<<20)
-#define NO_CONVERT		(1<<21)
-#define BACKUP_FILE		(1<<22)
-#define NO_RCFILE		(1<<23)
-#define COLOR_SYNTAX		(1<<24)
-#define PRESERVE		(1<<25)
-#define HISTORY_CHANGED		(1<<26)
-#define HISTORYLOG		(1<<27)
-#define RESTRICTED		(1<<28)
-#define SMART_HOME		(1<<29)
-#define WHITESPACE_DISPLAY	(1<<30)
+#define SMOOTHSCROLL		(1<<16)
+#define DISABLE_CURPOS		(1<<17)	/* Damn, we still need it. */
+#define REBIND_DELETE		(1<<18)
+#define NO_CONVERT		(1<<19)
+#define BACKUP_FILE		(1<<20)
+#define NO_RCFILE		(1<<21)
+#define COLOR_SYNTAX		(1<<22)
+#define PRESERVE		(1<<23)
+#define HISTORY_CHANGED		(1<<24)
+#define HISTORYLOG		(1<<25)
+#define RESTRICTED		(1<<26)
+#define SMART_HOME		(1<<27)
+#define WHITESPACE_DISPLAY	(1<<28)
 
 /* Control key sequences, changing these would be very very bad. */
 #define NANO_CONTROL_SPACE 0
@@ -495,18 +512,6 @@ typedef struct historyheadtype {
 
 #define VIEW TRUE
 #define NOVIEW FALSE
-
-typedef enum {
-    UP, DOWN
-} updown;
-
-typedef enum {
-    TOP, CENTER, NONE
-} topmidnone;
-
-typedef enum {
-    NO_SEQ, ESCAPE_SEQ, UTF8_SEQ
-} seq_type;
 
 /* Minimum editor window rows required for nano to work correctly. */
 #define MIN_EDITOR_ROWS 3
