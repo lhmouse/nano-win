@@ -1322,8 +1322,9 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	for (; j > 0; j--)
 	    s = s->next;
 
-	/* And put back the equivalent key.  Assume that the shortcut
-	 * has an equivalent control key, meta key sequence, or both. */
+	/* And put back the equivalent key.  Assume that each shortcut
+	 * has, at the very least, an equivalent control key, an
+	 * equivalent primary meta key sequence, or both. */
 	if (s->ctrlval != NANO_NO_KEY)
 	    unget_kbinput(s->ctrlval, FALSE);
 	else if (s->metaval != NANO_NO_KEY)
@@ -3010,14 +3011,19 @@ int statusq(int allowtabs, const shortcut *s, const char *def,
 	break;
 #ifndef DISABLE_JUSTIFY
     case NANO_PARABEGIN_KEY:
+    case NANO_PARABEGIN_ALTKEY1:
+    case NANO_PARABEGIN_ALTKEY2:
 	do_para_begin();
 	resetstatuspos = 1;
 	break;
     case NANO_PARAEND_KEY:
+    case NANO_PARAEND_ALTKEY1:
+    case NANO_PARAEND_ALTKEY2:
 	do_para_end();
 	resetstatuspos = 1;
 	break;
     case NANO_FULLJUSTIFY_KEY:
+    case NANO_FULLJUSTIFY_ALTKEY:
 	if (!ISSET(VIEW_MODE))
 	    do_full_justify();
 	resetstatuspos = 1;

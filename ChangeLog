@@ -39,6 +39,11 @@ CVS code -
 	  edit_update(), rename open_the_file() to open_file() since the
 	  latter has been removed, and rename load_a_file() to
 	  load_buffer().
+	- Add alternative shortcuts for moving to the beginning and end
+	  of a paragraph and justifying the entire file: Meta-(
+	  (Meta-9), Meta-) (Meta-0), and Meta-J, respectively.  Also add
+	  these functions to the main shortcut list, as Pico's practice
+	  of putting them in the search menu is rather odd. (DLR)
 - files.c:
   do_insertfile()
 	- Readd the NANO_SMALL #ifdef around the start_again: label to
@@ -50,6 +55,14 @@ CVS code -
   die_save_file()
 	- Clarify the error message when there are too many backup files
 	  and the current one can't be written. (DLR)
+  help_init()
+	- Rework to be a bit more flexible.  Only add tabs for shortcut
+	  key entries if those entries exist, and if there's only one
+	  entry left but there's room for more than one, add enough tabs
+	  to put that entry at the end.  These changes allow e.g. the
+	  miscellaneous meta key sequence to be displayed in a shortcut
+	  that has a control key, a primary meta key sequence, and a
+	  miscellaneous meta key sequence, but no function key. (DLR)
   justify_format()
 	- For more compatibility with Pico, remove extra space after a
 	  character in punct if that character is the same as the one

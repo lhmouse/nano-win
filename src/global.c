@@ -235,6 +235,11 @@ void shortcut_init(int unjustify)
     const char *cancel_msg = N_("Cancel");
     const char *first_line_msg = N_("First Line");
     const char *last_line_msg = N_("Last Line");
+#ifndef DISABLE_JUSTIFY
+    const char *beg_of_par_msg = N_("Beg of Par");
+    const char *end_of_par_msg = N_("End of Par");
+    const char *fulljstify_msg = N_("FullJstify");
+#endif
 #ifndef NANO_SMALL
     const char *case_sens_msg = N_("Case Sens");
     const char *direction_msg = N_("Direction");
@@ -289,10 +294,19 @@ void shortcut_init(int unjustify)
     const char *nano_nextword_msg = N_("Move forward one word");
     const char *nano_prevword_msg = N_("Move backward one word");
 #endif
-    const char *nano_verbatim_msg = N_("Insert character(s) verbatim");
+#ifndef DISABLE_JUSTIFY
+    const char *nano_parabegin_msg =
+	N_("Go to the beginning of the current paragraph");
+    const char *nano_paraend_msg =
+	N_("Go to the end of the current paragraph");
+#endif
 #ifdef ENABLE_MULTIBUFFER
-    const char *nano_openprev_msg = N_("Switch to previous file buffer");
-    const char *nano_opennext_msg = N_("Switch to next file buffer");
+    const char *nano_openprev_msg = N_("Switch to the previous file buffer");
+    const char *nano_opennext_msg = N_("Switch to the next file buffer");
+#endif
+    const char *nano_verbatim_msg = N_("Insert character(s) verbatim");
+#ifndef DISABLE_JUSTIFY
+    const char *nano_fulljustify_msg = N_("Justify the entire file");
 #endif
 #ifndef NANO_SMALL
 #ifdef HAVE_REGEX_H
@@ -303,13 +317,6 @@ void shortcut_init(int unjustify)
     const char *nano_cancel_msg = N_("Cancel the current function");
     const char *nano_firstline_msg = N_("Go to the first line of the file");
     const char *nano_lastline_msg = N_("Go to the last line of the file");
-#ifndef DISABLE_JUSTIFY
-    const char *nano_parabegin_msg =
-	N_("Go to the beginning of the current paragraph");
-    const char *nano_paraend_msg =
-	N_("Go to the end of the current paragraph");
-    const char *nano_fulljustify_msg = N_("Justify the entire file");
-#endif
 #ifndef NANO_SMALL
     const char *nano_case_msg =
 	N_("Make the current search/replace case (in)sensitive");
@@ -532,9 +539,17 @@ void shortcut_init(int unjustify)
 	NANO_NO_KEY, VIEW, do_prev_word);
 #endif
 
-    sc_init_one(&main_list, NANO_NO_KEY, N_("Verbatim Input"),
-	IFHELP(nano_verbatim_msg, NANO_VERBATIM_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, NOVIEW, do_verbatim_input);
+#ifndef DISABLE_JUSTIFY
+    /* Translators: try to keep this string under 10 characters long */
+    sc_init_one(&main_list, NANO_NO_KEY, beg_of_par_msg,
+	IFHELP(nano_parabegin_msg, NANO_PARABEGIN_ALTKEY1), NANO_NO_KEY,
+	NANO_PARABEGIN_ALTKEY2, VIEW, do_para_begin);
+
+    /* Translators: try to keep this string under 10 characters long */
+    sc_init_one(&main_list, NANO_NO_KEY, end_of_par_msg,
+	IFHELP(nano_paraend_msg, NANO_PARAEND_ALTKEY1), NANO_NO_KEY,
+	NANO_PARAEND_ALTKEY2, VIEW, do_para_end);
+#endif
 
 #ifdef ENABLE_MULTIBUFFER
     sc_init_one(&main_list, NANO_NO_KEY, N_("Previous File"),
@@ -544,6 +559,17 @@ void shortcut_init(int unjustify)
     sc_init_one(&main_list, NANO_NO_KEY, N_("Next File"),
 	IFHELP(nano_opennext_msg, NANO_OPENNEXT_KEY), NANO_NO_KEY,
 	NANO_OPENNEXT_ALTKEY, VIEW, open_nextfile_void);
+#endif
+
+    sc_init_one(&main_list, NANO_NO_KEY, N_("Verbatim Input"),
+	IFHELP(nano_verbatim_msg, NANO_VERBATIM_KEY), NANO_NO_KEY,
+	NANO_NO_KEY, NOVIEW, do_verbatim_input);
+
+#ifndef DISABLE_JUSTIFY
+    /* Translators: try to keep this string under 10 characters long */
+    sc_init_one(&main_list, NANO_NO_KEY, fulljstify_msg,
+	IFHELP(nano_fulljustify_msg, NANO_FULLJUSTIFY_ALTKEY), NANO_NO_KEY,
+	NANO_NO_KEY, NOVIEW, do_full_justify);
 #endif
 
 #ifndef NANO_SMALL
@@ -597,18 +623,18 @@ void shortcut_init(int unjustify)
 
 #ifndef DISABLE_JUSTIFY
     /* Translators: try to keep this string under 10 characters long */
-    sc_init_one(&whereis_list, NANO_PARABEGIN_KEY, N_("Beg of Par"),
-	IFHELP(nano_parabegin_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, do_para_begin);
+    sc_init_one(&whereis_list, NANO_PARABEGIN_KEY, beg_of_par_msg,
+	IFHELP(nano_parabegin_msg, NANO_PARABEGIN_ALTKEY1), NANO_NO_KEY,
+	NANO_PARABEGIN_ALTKEY2, VIEW, do_para_begin);
 
     /* Translators: try to keep this string under 10 characters long */
-    sc_init_one(&whereis_list, NANO_PARAEND_KEY, N_("End of Par"),
-	IFHELP(nano_paraend_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, do_para_end);
+    sc_init_one(&whereis_list, NANO_PARAEND_KEY, end_of_par_msg,
+	IFHELP(nano_paraend_msg, NANO_PARAEND_ALTKEY1), NANO_NO_KEY,
+	NANO_PARAEND_ALTKEY2, VIEW, do_para_end);
 
     /* Translators: try to keep this string under 10 characters long */
-    sc_init_one(&whereis_list, NANO_FULLJUSTIFY_KEY, N_("FullJstify"),
-	IFHELP(nano_fulljustify_msg, NANO_NO_KEY), NANO_NO_KEY,
+    sc_init_one(&whereis_list, NANO_FULLJUSTIFY_KEY, fulljstify_msg,
+	IFHELP(nano_fulljustify_msg, NANO_FULLJUSTIFY_ALTKEY), NANO_NO_KEY,
 	NANO_NO_KEY, NOVIEW, do_full_justify);
 #endif
 

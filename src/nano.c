@@ -412,13 +412,17 @@ void help_init(void)
     strcpy(help_text, htx);
     ptr = help_text + strlen(help_text);
 
-    /* Now add our shortcut info. */
+    /* Now add our shortcut info.  Assume that each shortcut has, at the
+     * very least, an equivalent control key, an equivalent primary meta
+     * key sequence, or both.  Also assume that the meta key values are
+     * not control characters.  We can display a maximum of 3 shortcut
+     * entries. */
     for (s = currshortcut; s != NULL; s = s->next) {
-	bool meta_shortcut = FALSE;
-		/* TRUE if the character in s->metaval is shown in the
-		 * first column. */
+	int entries = 0;
 
+	/* Control key. */
 	if (s->ctrlval != NANO_NO_KEY) {
+	    entries++;
 #ifndef NANO_SMALL
 	    if (s->ctrlval == NANO_HISTORY_KEY)
 		ptr += sprintf(ptr, "%.7s", _("Up"));
@@ -430,30 +434,51 @@ void help_init(void)
 		ptr += sprintf(ptr, "^?");
 	    else
 		ptr += sprintf(ptr, "^%c", s->ctrlval + 64);
+	    *(ptr++) = '\t';
 	}
-#ifndef NANO_SMALL
-	else if (s->metaval != NANO_NO_KEY) {
-	    meta_shortcut = TRUE;
-	    if (s->metaval == NANO_ALT_SPACE)
+
+	/* Function key. */
+	if (s->funcval != NANO_NO_KEY) {
+	    entries++;
+	    ptr += sprintf(ptr, "(F%d)", s->funcval - KEY_F0);
+	    *(ptr++) = '\t';
+	}
+
+	/* Primary meta key sequence. */
+	if (s->metaval != NANO_NO_KEY) {
+	    entries++;
+	    /* If this is the last entry, put it at the end. */
+	    if (entries == 2 && s->miscval == NANO_NO_KEY) {
+		entries++;
+		*(ptr++) = '\t';
+	    }
+	    /* If the primary meta key sequence is the first entry,
+	     * don't put parentheses around it. */
+	    if (entries == 1 && s->metaval == NANO_ALT_SPACE)
 		ptr += sprintf(ptr, "M-%.5s", _("Space"));
 	    else
-		ptr += sprintf(ptr, "M-%c", toupper(s->metaval));
+		ptr += sprintf(ptr, entries == 1 ? "M-%c" : "(M-%c)",
+			toupper(s->metaval));
+	    *(ptr++) = '\t';
 	}
-#endif
 
-	*(ptr++) = '\t';
-
-	if (s->funcval != NANO_NO_KEY)
-	    ptr += sprintf(ptr, "(F%d)", s->funcval - KEY_F0);
-
-	*(ptr++) = '\t';
-
-	if (!meta_shortcut && s->metaval != NANO_NO_KEY)
-	    ptr += sprintf(ptr, "(M-%c)", toupper(s->metaval));
-	else if (meta_shortcut && s->miscval != NANO_NO_KEY)
+	/* Miscellaneous meta key sequence. */
+	if (entries < 3 && s->miscval != NANO_NO_KEY) {
+	    entries++;
+	    /* If this is the last entry, put it at the end. */
+	    if (entries == 2) {
+		entries++;
+		*(ptr++) = '\t';
+	    }
 	    ptr += sprintf(ptr, "(M-%c)", toupper(s->miscval));
+	    *(ptr++) = '\t';
+	}
 
-	*(ptr++) = '\t';
+	/* Make sure all the help text starts at the same place. */
+	while (entries < 3) {
+	    entries++;
+	    *(ptr++) = '\t';
+	}
 
 	assert(s->help != NULL);
 	ptr += sprintf(ptr, "%.*s\n", COLS > 24 ? COLS - 24 : 0, s->help);

@@ -330,6 +330,8 @@ typedef struct historyheadtype {
 #define NANO_CONTROL_7 31
 #define NANO_CONTROL_8 127
 
+#define NANO_ALT_9 '9'
+#define NANO_ALT_0 '0'
 #define NANO_ALT_A 'a'
 #define NANO_ALT_B 'b'
 #define NANO_ALT_C 'c'
@@ -358,6 +360,8 @@ typedef struct historyheadtype {
 #define NANO_ALT_Z 'z'
 #define NANO_ALT_PERIOD '.'
 #define NANO_ALT_COMMA ','
+#define NANO_ALT_LPAREN '('
+#define NANO_ALT_RPAREN ')'
 #define NANO_ALT_LCARAT '<'
 #define NANO_ALT_RCARAT '>'
 #define NANO_ALT_RBRACKET ']'
@@ -441,8 +445,13 @@ typedef struct historyheadtype {
 #define NANO_NEXTWORD_KEY	NANO_CONTROL_SPACE
 #define NANO_PREVWORD_KEY	NANO_ALT_SPACE
 #define NANO_PARABEGIN_KEY	NANO_CONTROL_W
+#define NANO_PARABEGIN_ALTKEY1	NANO_ALT_LPAREN
+#define NANO_PARABEGIN_ALTKEY2	NANO_ALT_9
 #define NANO_PARAEND_KEY	NANO_CONTROL_O
+#define NANO_PARAEND_ALTKEY1	NANO_ALT_RPAREN
+#define NANO_PARAEND_ALTKEY2	NANO_ALT_0
 #define NANO_FULLJUSTIFY_KEY	NANO_CONTROL_U
+#define NANO_FULLJUSTIFY_ALTKEY	NANO_ALT_J
 #define NANO_VERBATIM_KEY	NANO_ALT_V
 
 #ifndef NANO_SMALL
