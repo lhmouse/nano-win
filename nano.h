@@ -30,6 +30,31 @@
 #ifndef NANO_H
 #define NANO_H 1
 
+/* Define this to make the nano executable as small as possible */
+#ifdef NANO_SMALL
+
+ #ifndef DISABLE_TABCOMP
+  #define DISABLE_TABCOMP 1
+ #endif
+
+ #ifndef DISABLE_JUSTIFY
+  #define DISABLE_JUSTIFY 1
+ #endif
+
+ #ifndef DISABLE_SPELLER
+  #define DISABLE_SPELLER 1
+ #endif
+
+ #ifndef DISABLE_HELP
+  #define DISABLE_HELP 1
+ #endif
+
+ #ifndef DISABLE_BROWSER
+  #define DISABLE_BROWSER 1
+ #endif
+
+#endif /* NANO_SMALL */
+
 /* Macros for the flags int... */
 #define SET(bit) flags |= bit
 #define UNSET(bit) flags &= ~bit

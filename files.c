@@ -265,7 +265,7 @@ int do_insertfile(void)
 	fprintf(stderr, "filename is %s", answer);
 #endif
 
-#if !defined(DISABLE_TABCOMP) && !defined(NANO_SMALL)
+#ifndef DISABLE_TABCOMP
 	realname = real_dir_from_tilde(answer);
 #else
 	realname = mallocstrcpy(realname, answer);
@@ -276,7 +276,7 @@ int do_insertfile(void)
 	    
 	    char *tmp = do_browse_from(realname);
 
-#if defined(DISABLE_TABCOMP)
+#ifdef DISABLE_TABCOMP
 	    realname = NULL;
 #endif
 	    if 	(tmp != NULL)
@@ -342,7 +342,7 @@ int write_file(char *name, int tmp)
     if (buf != NULL)
 	free(buf);
 
-#if !defined(DISABLE_TABCOMP) && !defined(NANO_SMALL)
+#ifndef DISABLE_TABCOMP
     realname = real_dir_from_tilde(name);
 #else
     realname = mallocstrcpy(realname, name);
@@ -575,7 +575,7 @@ int do_writeout_void(void)
     return do_writeout(filename, 0);
 }
 
-#if !defined(DISABLE_TABCOMP) && !defined(NANO_SMALL)
+#ifndef DISABLE_TABCOMP
 static char **homedirs;
 
 /* Return a malloc()ed string containing the actual directory, used

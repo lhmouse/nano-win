@@ -250,7 +250,7 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
     int kbinput = 0, j = 0, x = 0, xend;
     int x_left = 0, inputlen, tabbed = 0;
     char *inputbuf;
-#if !defined(DISABLE_TABCOMP) && !defined(NANO_SMALL)
+#ifndef DISABLE_TABCOMP
     int shift = 0;
 #endif
     
@@ -346,7 +346,7 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 		x--;
 	    nanoget_repaint(buf, inputbuf, x);
 	    break;
-#if !defined(DISABLE_TABCOMP) && !defined(NANO_SMALL)
+#ifndef DISABLE_TABCOMP
 	case NANO_CONTROL_I:
 	    if (allowtabs) {
 		shift = 0;
