@@ -114,6 +114,9 @@
   properly (discovered by David Lawrence Ramsey) (59) [FIXED].
 - On BSD systems, marked cutting sna paste often screws up the
   last line in the cutbuffer (discovered by Barry Pederson) (60) [FIXED]
+- Blank lines are not kept when cutting with -k (discovered by Rocco)
+  (61) [FIXED].
+
 
 ** Open BUGS **
 
