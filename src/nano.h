@@ -146,7 +146,7 @@
 
 /* Enumeration types. */
 typedef enum {
-    CUT_LINE, CUT_MARKED, CUT_TO_END
+    CUT_LINE, CUT_MARKED, CUT_TO_EOL
 } cut_type;
 
 typedef enum {

@@ -248,7 +248,7 @@ void do_cut_text(void)
 	    }
 
 	    do_delete();
-	    marked_cut = CUT_TO_END;
+	    marked_cut = CUT_TO_EOL;
 	    return;
 	} else {
 	    SET(MARK_ISSET);
@@ -324,7 +324,7 @@ void do_uncut_text(void)
      * these. */
     if (marked_cut == CUT_LINE) {
 	if (current_x > 0)
-	    marked_cut = CUT_TO_END;
+	    marked_cut = CUT_TO_EOL;
 	else
 	    placewewant = 0;
     }
@@ -414,7 +414,7 @@ void do_uncut_text(void)
 	/* If we're doing a cut to end, we don't want anything else on
 	 * the line, so we have to screw up all the work we just did and
 	 * separate the line. */
-	if (marked_cut == CUT_TO_END) {
+	if (marked_cut == CUT_TO_EOL) {
 	    tmp = make_new_node(current);
 	    tmp->data = mallocstrcpy(NULL, current->data + current_x);
 	    splice_node(current, tmp, current->next);
