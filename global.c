@@ -338,7 +338,7 @@ void shortcut_init(int unjustify)
     nano_exit_msg = _("Exit from nano");
 #endif
 
-    nano_goto_msg = _("Goto a specific line number");
+    nano_goto_msg = _("Go to a specific line number");
     nano_justify_msg = _("Justify the current paragraph");
     nano_unjustify_msg = _("Unjustify after a justify");
     nano_replace_msg = _("Replace text within the editor");
@@ -369,7 +369,7 @@ void shortcut_init(int unjustify)
 	_("Make the current search or replace case (in)sensitive");
     nano_tofiles_msg = _("Go to file browser");
     nano_execute_msg = _("Execute external command");
-    nano_gotodir_msg = _("Goto Directory");
+    nano_gotodir_msg = _("Go to directory");
     nano_cancel_msg = _("Cancel the current function");
     nano_append_msg = _("Append to the current file");
     nano_prepend_msg = _("Prepend to the current file");
@@ -541,9 +541,19 @@ void shortcut_init(int unjustify)
 		IFHELP(nano_enter_msg, 0),
 		KEY_ENTER, NANO_CONTROL_M, NOVIEW, do_enter_void);
 
-    sc_init_one(&main_list, NANO_GOTO_KEY, _("Goto Line"),
+    sc_init_one(&main_list, NANO_GOTO_KEY, _("Go To Line"),
 		    IFHELP(nano_goto_msg, NANO_ALT_GOTO_KEY),
 		    NANO_GOTO_FKEY, 0, VIEW, do_gotoline_void);
+
+#ifndef NANO_SMALL
+    sc_init_one(&main_list, NANO_NEXTWORD_KEY, _("Next Word"),
+		IFHELP(_("Move forward one word"), 0),
+		0, 0, VIEW, do_next_word_void);
+
+    sc_init_one(&main_list, -9, _("Prev Word"),
+		IFHELP(_("Move backward one word"), NANO_PREVWORD_KEY), 0, 0,
+		VIEW, do_prev_word_void);
+#endif
 
 #if (!defined NANO_SMALL) && (defined HAVE_REGEX_H)
     sc_init_one(&main_list, -9, _("Find Other Bracket"),
@@ -558,15 +568,6 @@ void shortcut_init(int unjustify)
     sc_init_one(&main_list, -9, _("Next File"),
 		    IFHELP(nano_opennext_msg, NANO_OPENNEXT_KEY),
 		    0, 0, VIEW, open_nextfile_void);
-#endif
-
-#ifndef NANO_SMALL
-    sc_init_one(&main_list, NANO_NEXTWORD_KEY, _("Next Word"),
-		IFHELP(_("Move forward one word"), 0),
-		0, 0, VIEW, do_next_word_void);
-    sc_init_one(&main_list, -9, _("Prev Word"),
-		IFHELP(_("Move backward one word"), NANO_PREVWORD_KEY), 0, 0,
-		VIEW, do_prev_word_void);
 #endif
 
     free_shortcutage(&whereis_list);
@@ -587,7 +588,7 @@ void shortcut_init(int unjustify)
     sc_init_one(&whereis_list, NANO_OTHERSEARCH_KEY, _("Replace"),
 		IFHELP(nano_replace_msg, 0), 0, 0, VIEW, do_replace);
 
-    sc_init_one(&whereis_list, NANO_FROMSEARCHTOGOTO_KEY, _("Goto Line"), 
+    sc_init_one(&whereis_list, NANO_FROMSEARCHTOGOTO_KEY, _("Go To Line"), 
 		IFHELP(nano_goto_msg, 0), 0, 0, VIEW, do_gotoline_void);
 
 #ifndef NANO_SMALL
@@ -620,7 +621,7 @@ void shortcut_init(int unjustify)
     sc_init_one(&replace_list, NANO_OTHERSEARCH_KEY, _("No Replace"),
 		IFHELP(nano_whereis_msg, 0), 0, 0, VIEW, do_search);
 
-    sc_init_one(&replace_list, NANO_FROMSEARCHTOGOTO_KEY, _("Goto Line"), 
+    sc_init_one(&replace_list, NANO_FROMSEARCHTOGOTO_KEY, _("Go To Line"), 
 		IFHELP(nano_goto_msg, 0), 0, 0, VIEW, do_gotoline_void);
 
 #ifndef NANO_SMALL
@@ -747,8 +748,8 @@ void shortcut_init(int unjustify)
     sc_init_one(&browser_list, NANO_HELP_KEY, _("Get Help"),
 		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
 
-    sc_init_one(&browser_list, NANO_EXIT_KEY, _("Exit"),
-		IFHELP(nano_exit_msg, 0), NANO_EXIT_FKEY, 0, VIEW, 0);
+    sc_init_one(&browser_list, NANO_CANCEL_KEY, _("Cancel"),
+		IFHELP(nano_cancel_msg, 0), NANO_EXIT_FKEY, 0, VIEW, 0);
 
     sc_init_one(&browser_list, NANO_PREVPAGE_KEY, _("Prev Page"),
 		IFHELP(nano_prevpage_msg, 0), NANO_PREVPAGE_FKEY,
@@ -758,7 +759,7 @@ void shortcut_init(int unjustify)
 		IFHELP(nano_nextpage_msg, 0), NANO_NEXTPAGE_FKEY,
 		KEY_NPAGE, VIEW, 0);
 
-    sc_init_one(&browser_list, NANO_GOTO_KEY, _("Goto"),
+    sc_init_one(&browser_list, NANO_GOTO_KEY, _("Go To Dir"),
 		IFHELP(nano_gotodir_msg, NANO_ALT_GOTO_KEY),
 		NANO_GOTO_FKEY, 0, VIEW, 0);
 

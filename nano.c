@@ -70,10 +70,6 @@ int wrap_at = 0;/* Right justified fill value, allows resize */
 struct termios oldterm;		/* The user's original term settings */
 static struct sigaction act;	/* For all our fun signal handlers */
 
-#ifndef DISABLE_HELP
-static char *help_text_init = "";	/* Initial message, not including shortcuts */
-#endif
-
 char *last_search = NULL;	/* Last string we searched for */
 char *last_replace = NULL;	/* Last replacement string */
 int search_last_line;		/* Is this the last search line? */
@@ -248,33 +244,7 @@ void global_init(int save_cutbuffer)
 
 }
 
-#ifndef DISABLE_HELP
-void init_help_msg(void)
-{
-
-    help_text_init =
-	_(" nano help text\n\n "
-	  "The nano editor is designed to emulate the functionality and "
-	  "ease-of-use of the UW Pico text editor.  There are four main "
-	  "sections of the editor: The top line shows the program "
-	  "version, the current filename being edited, and whether "
-	  "or not the file has been modified.  Next is the main editor "
-	  "window showing the file being edited.  The status line is "
-	  "the third line from the bottom and shows important messages. "
-	  "The bottom two lines show the most commonly used shortcuts "
-	  "in the editor.\n\n "
-	  "The notation for shortcuts is as follows: Control-key "
-	  "sequences are notated with a caret (^) symbol and are entered "
-	  "with the Control (Ctrl) key.  Escape-key sequences are notated "
-	  "with the Meta (M) symbol and can be entered using either the "
-	  "Esc, Alt or Meta key depending on your keyboard setup.  The "
-	  "following keystrokes are available in the main editor window. "
-	  "Optional keys are shown in parentheses:\n\n");
-}
-#endif
-
-/* Make a copy of a node to a pointer (space will be malloc()ed).  This
-   does NOT copy the data members used only by open_files. */
+/* Make a copy of a node to a pointer (space will be malloc()ed). */
 filestruct *copy_node(filestruct * src)
 {
     filestruct *dst;
@@ -2514,17 +2484,16 @@ int do_justify(void)
 }
 
 #ifndef DISABLE_HELP
+/* This function allocates help_text, and stores the help string in it. 
+ * help_text should be NULL initially. */
 void help_init(void)
 {
-    int i, sofar = 0, helplen;
-    long allocsize = 1;		/* How much space we're gonna need for the help text */
+    size_t allocsize = 1;	/* space needed for help_text */
     char *ptr = NULL;
 #ifndef NANO_SMALL
-    toggle *t;
+    const toggle *t;
 #endif
-    shortcut *s;
-
-    helplen = length_of_list(currshortcut);
+    const shortcut *s;
 
     /* First set up the initial help text for the current function */
     if (currshortcut == whereis_list || currshortcut == replace_list
@@ -2534,29 +2503,29 @@ void help_init(void)
 		"for, then hit enter.  If there is a match for the text you "
 		"entered, the screen will be updated to the location of the "
 		"nearest match for the search string.\n\n "
-		"If using Pico Mode via the -p or --pico flags, using the "
-		"Meta-P toggle or using a nanorc file, the previous search "
+		"If using Pico Mode via the -p or --pico flags, the "
+		"Meta-P toggle, or a nanorc file, the previous search "
 		"string will be shown in brackets after the Search: prompt.  "
-		"Hitting enter without entering any text will perform the "
-		"previous search. Otherwise, the previous string will be "
-		"placed in front of the cursor, and can be edited or deleted "
-		"before hitting enter.\n\n The following functions keys are "
+		"Hitting Enter without entering any text will perform the "
+		"previous search.  Otherwise, the previous string will be "
+		"placed before the cursor, and can be edited or deleted "
+		"before hitting enter.\n\n The following function keys are "
 		"available in Search mode:\n\n");
     else if (currshortcut == goto_list)
-	ptr = _("Goto Line Help Text\n\n "
+	ptr = _("Go To Line Help Text\n\n "
 		"Enter the line number that you wish to go to and hit "
 		"Enter.  If there are fewer lines of text than the "
 		"number you entered, you will be brought to the last line "
-		"of the file.\n\n The following functions keys are "
-		"available in Goto Line mode:\n\n");
+		"of the file.\n\n The following function keys are "
+		"available in Go To Line mode:\n\n");
     else if (currshortcut == insertfile_list)
 	ptr = _("Insert File Help Text\n\n "
 		"Type in the name of a file to be inserted into the current "
 		"file buffer at the current cursor location.\n\n "
 		"If you have compiled nano with multiple file buffer "
 		"support, and enable multiple buffers with the -F "
-		"or --multibuffer command line flags, the Meta-F toggle or "
-		"using a nanorc file, inserting a file will cause it to be "
+		"or --multibuffer command line flags, the Meta-F toggle, or "
+		"a nanorc file, inserting a file will cause it to be "
 		"loaded into a separate buffer (use Meta-< and > to switch "
 		"between file buffers).\n\n If you need another blank "
 		"buffer, do not enter any filename, or type in a "
@@ -2566,14 +2535,13 @@ void help_init(void)
     else if (currshortcut == writefile_list)
 	ptr = _("Write File Help Text\n\n "
 		"Type the name that you wish to save the current file "
-		"as and hit enter to save the file.\n\n "
-		"If you are using the marker code with Ctrl-^ and have "
-		"selected text, you will be prompted to save only the "
-		"selected portion to a separate file.  To reduce the "
-		"chance of overwriting the current file with just a portion "
-		"of it, the current filename is not the default in this "
-		"mode.\n\n The following function keys are available in "
-		"Write File mode:\n\n");
+		"as and hit Enter to save the file.\n\n If you have "
+		"selected text with Ctrl-^, you will be prompted to "
+		"save only the selected portion to a separate file.  To "
+		"reduce the chance of overwriting the current file with "
+		"just a portion of it, the current filename is not the "
+		"default in this mode.\n\n The following function keys "
+		"are available in Write File mode:\n\n");
 #ifndef DISABLE_BROWSER
     else if (currshortcut == browser_list)
 	ptr = _("File Browser Help Text\n\n "
@@ -2582,17 +2550,17 @@ void help_init(void)
 		"or writing.  You may use the arrow keys or Page Up/"
 		"Down to browse through the files, and S or Enter to "
 		"choose the selected file or enter the selected "
-		"directory. To move up one level, select the directory "
+		"directory.  To move up one level, select the directory "
 		"called \"..\" at the top of the file list.\n\n The "
-		"following functions keys are available in the file "
+		"following function keys are available in the file "
 		"browser:\n\n");
     else if (currshortcut == gotodir_list)
-	ptr = _("Browser Goto Directory Help Text\n\n "
+	ptr = _("Browser Go To Directory Help Text\n\n "
 		"Enter the name of the directory you would like to "
 		"browse to.\n\n If tab completion has not been disabled, "
 		"you can use the TAB key to (attempt to) automatically "
-		"complete the directory name.\n\n  The following function "
-		"keys are available in Browser GotoDir mode:\n\n");
+		"complete the directory name.\n\n The following function "
+		"keys are available in Browser Go To Directory mode:\n\n");
 #endif
     else if (currshortcut == spell_list)
 	ptr = _("Spell Check Help Text\n\n "
@@ -2612,107 +2580,117 @@ void help_init(void)
 		"available in this mode:\n\n");
 #endif
     else /* Default to the main help list */
-	ptr = help_text_init;
+	ptr = _(" nano help text\n\n "
+	  "The nano editor is designed to emulate the functionality and "
+	  "ease-of-use of the UW Pico text editor.  There are four main "
+	  "sections of the editor: The top line shows the program "
+	  "version, the current filename being edited, and whether "
+	  "or not the file has been modified.  Next is the main editor "
+	  "window showing the file being edited.  The status line is "
+	  "the third line from the bottom and shows important messages. "
+	  "The bottom two lines show the most commonly used shortcuts "
+	  "in the editor.\n\n "
+	  "The notation for shortcuts is as follows: Control-key "
+	  "sequences are notated with a caret (^) symbol and are entered "
+	  "with the Control (Ctrl) key.  Escape-key sequences are notated "
+	  "with the Meta (M) symbol and can be entered using either the "
+	  "Esc, Alt or Meta key depending on your keyboard setup.  The "
+	  "following keystrokes are available in the main editor window.  "
+	  "Alternative keys are shown in parentheses:\n\n");
 
-    /* Compute the space needed for the shortcut lists - we add 15 to
-       have room for the shortcut abbrev and its possible alternate keys */
-    s = currshortcut;
-    for (i = 0; i <= helplen - 1; i++) {
-	if (s->help != NULL)
-	    allocsize += strlen(s->help) + 15;
-	s = s->next;
+    assert(currshortcut != NULL);
+    /* Compute the space needed for the shortcut lists */
+    for (s = currshortcut; s != NULL; s = s->next) {
+	assert(s->help != NULL);
+	/* Each shortcut has at most 24 chars for the shortcut keys, plus
+	 * the help description, plus 1 for \n. */
+	allocsize += strlen(s->help) + 25;
     }
 
 #ifndef NANO_SMALL
-    /* If we're on the main list, we also allocate space for toggle help text. */
+    /* If we're on the main list, we also count the toggle help text. */
     if (currshortcut == main_list) {
-	for (t = toggles; t != NULL; t = t->next)
-	    if (t->desc != NULL)
-		allocsize += strlen(t->desc) + 30;
+	for (t = toggles; t != NULL; t = t->next) {
+	    size_t len;
+
+	    assert(t->desc != NULL);
+	    len = strlen(t->desc);
+
+	    /* 6 for "M-%c\t\t\t", which fills 24 columns. */
+	    allocsize += 6 + (len < COLS-24 ? len : COLS-24);
+	}
     }
 #endif /* !NANO_SMALL */
 
     allocsize += strlen(ptr);
 
-    if (help_text != NULL)
-	free(help_text);
+    /* Other routines should have set help_text to NULL before */
+    assert(help_text == NULL);
 
     /* Allocate space for the help text */
     help_text = charalloc(allocsize);
 
     /* Now add the text we want */
     strcpy(help_text, ptr);
-    sofar = strlen(help_text);
+    ptr = help_text + strlen(help_text);
 
     /* Now add our shortcut info */
-    s = currshortcut;
-    for (i = 0; i <= helplen - 1; i++) {
+    for (s = currshortcut; s != NULL; s = s->next) {
+	/* true if the character in s->altval is shown in first column */
 	int meta_shortcut = 0;
 
 	if (s->val > 0 && s->val < 32)
-	    sofar += sprintf(help_text + sofar, "^%c\t", s->val + 64);
+	    ptr += sprintf(ptr, "^%c", s->val + 64);
 #ifndef NANO_SMALL
 	else if (s->val == NANO_CONTROL_SPACE)
-	    sofar += sprintf(help_text + sofar, "^%s\t", _("Space"));
-#endif
-	else if (s->altval > 0)
+	    ptr += snprintf(ptr, 8, "^%s", _("Space"));
+	else if (s->altval == NANO_ALT_SPACE) {
 	    meta_shortcut = 1;
-	else
-	    help_text[sofar++] = '\t';
-
-	if (!meta_shortcut) {
-	    if (s->misc1 > KEY_F0 && s->misc1 <= KEY_F(64))
-		sofar += sprintf(help_text + sofar, "(F%d)",
-				s->misc1 - KEY_F0);
-	    help_text[sofar++] = '\t';
+	    ptr += snprintf(ptr, 8, "M-%s", _("Space"));
+	}
+#endif
+	else if (s->altval > 0) {
+	    meta_shortcut = 1;
+	    ptr += sprintf(ptr, "M-%c", s->altval -
+			(('A' <= s->altval && s->altval <= 'Z') ||
+			'a' <= s->altval ? 32 : 0));
+	}
+	/* Hack */
+	else if (s->val >= 'a') {
+	    meta_shortcut = 1;
+	    ptr += sprintf(ptr, "M-%c", s->val - 32);
 	}
 
-#ifndef NANO_SMALL
-	if (s->altval == NANO_ALT_SPACE)
-	    sofar += sprintf(help_text + sofar, "M-%s",	_("Space"));
-	else
-#endif
-	if (s->altval > 0)
-	    sofar += sprintf(help_text + sofar,
-		(meta_shortcut ? "M-%c" : "(M-%c)"), s->altval -
+	*(ptr++) = '\t';
+
+	if (s->misc1 > KEY_F0 && s->misc1 <= KEY_F(64))
+	    ptr += sprintf(ptr, "(F%d)", s->misc1 - KEY_F0);
+
+	*(ptr++) = '\t';
+
+	if (!meta_shortcut && s->altval > 0)
+	    ptr += sprintf(ptr, "(M-%c)", s->altval -
 		(('A' <= s->altval && s->altval <= 'Z') || 'a' <= s->altval
 			? 32 : 0));
-	/* Hack */
-	else if (s->val >= 'a')
-	    sofar += sprintf(help_text + sofar,
-		(meta_shortcut ? "(M-%c)\t" : "M-%c\t"), s->val - 32);
 
-	help_text[sofar++] = '\t';
+	*(ptr++) = '\t';
 
-	if (meta_shortcut) {
-	    if (s->misc1 > KEY_F0 && s->misc1 <= KEY_F(64))
-		sofar += sprintf(help_text + sofar,
-				"(F%d)", s->misc1 - KEY_F0);
-	    help_text[sofar++] = '\t';
-	    help_text[sofar++] = '\t';
-	}
-
-	if (s->help != NULL)
-	    sofar += sprintf(help_text + sofar, "%s", s->help);
-
-	help_text[sofar++] = '\n';
-
-	s = s->next;
+	ptr += sprintf(ptr, "%s\n", s->help);
     }
 
 #ifndef NANO_SMALL
     /* And the toggles... */
     if (currshortcut == main_list)
 	for (t = toggles; t != NULL; t = t->next) {
-	    sofar += sprintf(help_text + sofar, "M-%c\t\t\t",
-				t->val - 32);
-	    if (t->desc != NULL) {
-		sofar += sprintf(help_text + sofar,
-				_("%s enable/disable"), t->desc);
-	    }
-	    help_text[sofar++] = '\n';
+	    ptr += sprintf(ptr, "M-%c\t\t\t", t->val - 32);
+	    ptr += snprintf(ptr, COLS-24, _("%s enable/disable\n"),
+				t->desc);
 	}
 #endif /* !NANO_SMALL */
+
+    /* If all went well, we didn't overwrite the allocated space for
+       help_text. */
+    assert(strlen(help_text) < allocsize);
 }
 #endif
 
@@ -3007,6 +2985,8 @@ int main(int argc, char *argv[])
 	    fill = atoi(optarg);
 	    if (fill < 0)
 		wrap_at = fill;
+	    else if (fill > 0)
+		wrap_at = 0;
 	    else if (fill == 0) {
 		usage();	/* To stop bogus data (like a string) */
 		finish(1);
@@ -3093,10 +3073,6 @@ int main(int argc, char *argv[])
     /* Set up some global variables */
     global_init(0);
     shortcut_init(0);
-#ifndef DISABLE_HELP
-    init_help_msg();
-    help_init();
-#endif
     signal_init();
 
 #ifdef DEBUG

@@ -68,7 +68,7 @@ int do_last_line(void)
 }
 
 /* Like xplustabs, but for a specific index of a specific filestruct */
-int xpt(filestruct * fileptr, int index)
+int xpt(const filestruct *fileptr, int index)
 {
     int i, tabs = 0;
 
@@ -558,36 +558,37 @@ void titlebar(char *path)
     wattron(topwin, A_REVERSE);
 #endif
 
-
-    mvwaddstr(topwin, 0, 3, VERMSG);
+    mvwaddnstr(topwin, 0, 2, VERMSG, COLS - 3);
 
     space = COLS - strlen(VERMSG) - strlen(VERSION) - 21;
 
     namelen = strlen(what);
 
-    if (what[0] == '\0')
-	mvwaddstr(topwin, 0, COLS / 2 - 6, _("New Buffer"));
-    else {
-	if (namelen > space) {
-	    if (path == NULL)
-		waddstr(topwin, _("  File: ..."));
-	    else
-		waddstr(topwin, _("   DIR: ..."));
-	    waddstr(topwin, &what[namelen - space]);
-	} else {
-	    if (path == NULL)
-		mvwaddstr(topwin, 0, COLS / 2 - (namelen / 2 + 1),
-			  _("File: "));
-	    else
-		mvwaddstr(topwin, 0, COLS / 2 - (namelen / 2 + 1),
-			  _(" DIR: "));
-	    waddstr(topwin, what);
+    if (space > 0) {
+        if (what[0] == '\0')
+      	    mvwaddstr(topwin, 0, COLS / 2 - 6, _("New Buffer"));
+        else {
+    	    if (namelen > space) {
+	        if (path == NULL)
+		    waddstr(topwin, _("  File: ..."));
+    	    	else
+		    waddstr(topwin, _("   DIR: ..."));
+	        waddstr(topwin, &what[namelen - space]);
+    	    } else {
+	        if (path == NULL)
+		    mvwaddstr(topwin, 0, COLS / 2 - (namelen / 2 + 1),
+		    	      _("File: "));
+ 	        else
+		    mvwaddstr(topwin, 0, COLS / 2 - (namelen / 2 + 1),
+			      _(" DIR: "));
+	        waddstr(topwin, what);
+	    }
 	}
-    }
+    } /* If we don't have space, we shouldn't bother */
     if (ISSET(MODIFIED))
-	mvwaddstr(topwin, 0, COLS - 10, _("Modified"));
+	mvwaddstr(topwin, 0, COLS - 11, _(" Modified "));
     else if (ISSET(VIEW_MODE))
-	mvwaddstr(topwin, 0, COLS - 10, _("View"));
+	mvwaddstr(topwin, 0, COLS - 11, _(" View "));
 
 #ifdef ENABLE_COLOR
     color_off(topwin, COLOR_TITLEBAR);
@@ -1733,12 +1734,11 @@ int do_cursorpos_void(void)
     return do_cursorpos(0);
 }
 
-/* Our broken, non-shortcut list compliant help function.
-   But, hey, it's better than nothing, and it's dynamic! */
+/* Our shortcut-list-compliant help function, which is
+ * better than nothing, and dynamic! */
 int do_help(void)
 {
 #ifndef DISABLE_HELP
-    char *ptr, *end;
     int i, j, row = 0, page = 1, kbinput = 0, no_more = 0, kp, kp2;
     int no_help_flag = 0;
     shortcut *oldshortcut;
@@ -1748,8 +1748,9 @@ int do_help(void)
     wattroff(bottomwin, A_REVERSE);
     blank_statusbar();
 
+    /* set help_text as the string to display */
     help_init();
-    ptr = help_text;
+    assert(help_text != NULL);
 
     oldshortcut = currshortcut;
 
@@ -1771,7 +1772,8 @@ int do_help(void)
 	bottombars(help_list);
 
     do {
-	ptr = help_text;
+	const char *ptr = help_text;
+
 	switch (kbinput) {
 #ifndef DISABLE_MOUSE
 #ifdef NCURSES_MOUSE_VERSION
@@ -1842,14 +1844,10 @@ int do_help(void)
 	    }
 	}
 
-	if (i > 1) {
-
-	}
-
 	i = 0;
 	j = 0;
 	while (i < editwinrows && *ptr != '\0') {
-	    end = ptr;
+	    const char *end = ptr;
 	    while (*end != '\n' && *end != '\0' && j != COLS - 5) {
 		end++;
 		j++;
@@ -1894,6 +1892,11 @@ int do_help(void)
 #elif defined(DISABLE_HELP)
     nano_disabled_msg();
 #endif
+
+    /* The help_init() at the beginning allocated help_text, which has
+       now been written to screen. */
+    free(help_text);
+    help_text = NULL;
 
     return 1;
 }

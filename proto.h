@@ -114,7 +114,7 @@ void thanks_for_all_the_fish(void);
 char *revstrstr(char *haystack, char *needle, char *rev_start);
 char *stristr(char *haystack, char *needle);
 char *revstristr(char *haystack, char *needle, char *rev_start);
-char *strstrwrapper(char *haystack, char *needle, char *rev_start);
+char *strstrwrapper(char *haystack, char *needle, char *rev_start, int line_pos);
 int search_init(int replacing);
 int renumber(filestruct * fileptr);
 int free_filestruct(filestruct * src);

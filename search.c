@@ -268,7 +268,7 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 	searchstr = &fileptr->data[current_x_find];
 
 	/* Look for needle in searchstr */
-	while ((found = strstrwrapper(searchstr, needle, rev_start)) == NULL) {
+	while ((found = strstrwrapper(searchstr, needle, rev_start, current_x_find)) == NULL) {
 
 	    /* finished processing file, get out */
 	    if (search_last_line) {
@@ -279,6 +279,10 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 	    }
 
 	    update_line(fileptr, 0);
+
+	    /* reset current_x_find between lines */
+	    current_x_find = 0;
+
 	    fileptr = fileptr->next;
 
 	    if (fileptr == editbot)
@@ -286,7 +290,8 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 
 	    /* EOF reached ?, wrap around once */
 	    if (fileptr == NULL) {
-		if (bracket_mode)		/* don't wrap if looking for bracket match */
+		/* don't wrap if looking for bracket match */
+		if (bracket_mode)
 		    return NULL;
 		fileptr = fileage;
 		past_editbuff = 1;
@@ -332,7 +337,7 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 	searchstr = fileptr->data;
 
 	/* Look for needle in searchstr */
-	while ((found = strstrwrapper(searchstr, needle, rev_start)) == NULL) {
+	while ((found = strstrwrapper(searchstr, needle, rev_start, current_x_find)) == NULL) {
 
 	    /* finished processing file, get out */
 	    if (search_last_line) {
@@ -342,6 +347,10 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 	    }
 
 	    update_line(fileptr, 0);
+
+	    /* reset current_x_find between lines */
+	    current_x_find = 0;
+
 	    fileptr = fileptr->prev;
 
 	    if (fileptr == edittop->prev)
@@ -811,14 +820,8 @@ void goto_abort(void)
 
 int do_gotoline(int line, int save_pos)
 {
-    int i = 1;
-
     if (line <= 0) {		/* Ask for it */
-
-	int j = 0;
-
-	j = statusq(0, goto_list, "", _("Enter line number"));
-	if (j != 0) {
+	if (statusq(0, goto_list, "", _("Enter line number"))) {
 	    statusbar(_("Aborted"));
 	    goto_abort();
 	    return 0;
@@ -834,7 +837,7 @@ int do_gotoline(int line, int save_pos)
 	}
     }
 
-    for (current = fileage; ((current->next != NULL) && (i < line)); i++)
+    for (current = fileage; current->next != NULL && line > 1; line--)
 	current = current->next;
 
     current_x = 0;
@@ -846,7 +849,7 @@ int do_gotoline(int line, int save_pos)
     else
 	edit_update(current, CENTER);
 
-    placewewant = xplustabs();
+    placewewant = 0;
     goto_abort();
     return 1;
 }

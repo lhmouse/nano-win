@@ -137,15 +137,15 @@ char *stristr(char *haystack, char *needle)
     return NULL;
 }
 
-char *strstrwrapper(char *haystack, char *needle, char *rev_start)
+char *strstrwrapper(char *haystack, char *needle, char *rev_start, int line_pos)
 {
 
 #ifdef HAVE_REGEX_H
-    int  result;
+    int result;
 
     if (ISSET(USE_REGEXP)) {
 	if (!ISSET(REVERSE_SEARCH)) {
-	    result = regexec(&search_regexp, haystack, 10, regmatches, 0);
+	    result = regexec(&search_regexp, haystack, 10, regmatches, (line_pos > 0) ? REG_NOTBOL : 0);
 	    if (!result)
 		return haystack + regmatches[0].rm_so;
 #ifndef NANO_SMALL
@@ -155,12 +155,13 @@ char *strstrwrapper(char *haystack, char *needle, char *rev_start)
 	    /* do a quick search forward first */
 	    if (!(regexec(&search_regexp, haystack, 10, regmatches, 0))) {
 		/* there's a match somewhere in the line - now search for it backwards, much slower */
-		for(i = rev_start ; i >= haystack ; --i)
-		    if (!(result = regexec(&search_regexp, i, 10, regmatches, 0))) {
+		for (i = rev_start; i >= haystack; --i) {
+		    if (!(result = regexec(&search_regexp, i, 10, regmatches, (i > haystack) ? REG_NOTBOL : 0))) {
 			j = i + regmatches[0].rm_so;
 			if (j <= rev_start)
 			    return j;
 		    }
+		}
 	    }
 #endif
 	}
@@ -172,7 +173,7 @@ char *strstrwrapper(char *haystack, char *needle, char *rev_start)
 	if (ISSET(REVERSE_SEARCH))
 	    return revstrstr(haystack, needle, rev_start);
         else
-	    return strstr(haystack,needle);
+	    return strstr(haystack, needle);
 
     } else {
 	if (ISSET(REVERSE_SEARCH))

@@ -5,12 +5,17 @@ CVS Code -
 	  Removed intl/ entirely, and a few more tweaks by gettextize.
 	- i18nized a few strings used in DEBUG mode. (DLR)
 	- Some chars being assigned 0 are now assigned '\0'. (DLR)
-	- Put header files in a more consistent order. (DLR)
+	- Put header file #includes in a more consistent order. (DLR)
 	- Remove some unneeded blank lines and spaces, and make some
 	  spacing more consistent. (DLR)
 	- When possible, use iscntrl() to determine whether a character
 	  is a control character or not. (DLR)
 	- Miscellaneous typo fixes. (DLR)
+	- Many fixes to the help browser and shortcut lists: efficiency
+	  updates, consistency fixes, help text fixes and improvements,
+	  and spacing improvements. (David Benbennick)
+	- Make more functions use const variables when possible. (David
+	  Benbennick)
 - files.c:
   read_file(), read_line():
 	- Rework to properly handle nulls in the input file, fix
@@ -52,10 +57,17 @@ CVS Code -
 	  with it, instead of calling clear_filename() in two places.
 	  Make startline an int instead of a long, since it's supposed to
 	  hold a line number. (DLR)
+	- Properly handle multiple -r settings on the command line. (Carl
+	  Drinkwater)
 - search.c:
   findnextstr():
 	- Update the current line at current_x if we don't find a match.
-	  (DLR)
+	  Also, pass current_x_find to strstrwrapper() so we know whether
+	  we're at the beginning of a string or not (see changes to
+	  strstrwrapper() below), and reset it between lines. (DLR)
+  do_gotoline():
+	- Make sure placewewant is zero after we go to a line. (David
+	  Benbennick)
   do_gotopos():
 	- Simplify the sanity check to only put x within the range of the
 	  current line; don't call actual_x() anymore. (DLR)
@@ -64,6 +76,10 @@ CVS Code -
 	  other than the terminating null in strings to newlines and
 	  back; they're used to handle null characters in files properly.
 	  (DLR)
+  strstrwrapper(): Set REG_NOTBOL when we're not at the beginning of a
+	  string, to avoid false positives when searching for regular
+	  expressions prefixed with ^. Make it take a new parameter,
+	  line_pos, to determine where we are in the string. (DLR)
 - winio.c:
   actual_x_from_start():
 	- Overhaul to make cursor placement more like that of Pico: add
@@ -74,6 +90,9 @@ CVS Code -
 	- After the user presses Enter at the prompt, refresh the edit
 	  window in case there's a list of possible filename matches
 	  (left over from attempted tab completion) on it. (DLR)
+  titlebar():
+	- Tweak text spacing and printing so that the titlebar text looks
+	  better on smaller terminals. (Carl Drinkwater)
   update_line():
 	- When marking control characters, make sure the mark moves
 	  forward by two characters inctead of one.  Rework control
