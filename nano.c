@@ -1358,11 +1358,17 @@ void mouse_init(void)
 #ifndef NANO_SMALL
 #ifdef NCURSES_MOUSE_VERSION
     if (ISSET(USE_MOUSE)) {
+	keypad(edit, TRUE);
+	keypad(bottomwin, TRUE);
+
 	mousemask(BUTTON1_RELEASED, NULL);
 	mouseinterval(50);
+
     }
     else {
 	mousemask(0, NULL);
+	keypad(edit, FALSE);
+	keypad(bottomwin, FALSE);
     }
 #endif
 #endif

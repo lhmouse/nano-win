@@ -25,6 +25,10 @@ CVS code -
   do_toggle()
 	- Rewrote function to allow NOHELP toggle to wotk on systems
 	  without a working resizewin().  New function window_init().
+  mouse_init()
+	- Add keypad only if mouse support is on, otherwise mouse doesn't
+	  work.  I guess you have to choose between having the mouse and
+	  having a working keypad for the time being (thank god for Meta-m).
 - winio.c:
   total_refresh()
 	- Added titlebar() call.

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-09-14 23:37-0400\n"
+"POT-Creation-Date: 2000-09-15 11:48-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -675,52 +675,52 @@ msgstr ""
 msgid "Cannot move bottom win"
 msgstr ""
 
-#: nano.c:1631
+#: nano.c:1637
 #, c-format
 msgid "%s enable/disable"
 msgstr ""
 
-#: nano.c:1643
+#: nano.c:1649
 msgid "enabled"
 msgstr ""
 
-#: nano.c:1644
+#: nano.c:1650
 msgid "disabled"
 msgstr ""
 
-#: nano.c:1872
+#: nano.c:1878
 msgid "Main: set up windows\n"
 msgstr ""
 
-#: nano.c:1879
+#: nano.c:1885
 msgid "Main: bottom win\n"
 msgstr ""
 
-#: nano.c:1885
+#: nano.c:1891
 msgid "Main: open file\n"
 msgstr ""
 
-#: nano.c:1919
+#: nano.c:1925
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:1943
+#: nano.c:1949
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:1976
+#: nano.c:1982
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2024
+#: nano.c:2030
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2050
+#: nano.c:2056
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr ""
