@@ -1257,7 +1257,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
     /* Don't follow symlink.  Create new file. */
     else {
 	buf = charalloc(strlen(realname) + 8);
-	strncpy(buf, realname, strlen(realname)+1);
+	strcpy(buf, realname);
 	strcat(buf, ".XXXXXX");
 	if ((fd = mkstemp(buf)) == -1) {
 	    if (ISSET(TEMP_OPT)) {
@@ -1272,12 +1272,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 
     dump_buffer(fileage);
 
-    if (append == 1) {
-        f = fdopen(fd, "ab");
-    } else {
-        f = fdopen(fd, "wb");
-    }
-
+    f = fdopen(fd, append==1 ? "ab" : "wb");
     if (!f) {
         statusbar(_("Could not open file for writing: %s"),
                   strerror(errno));
@@ -1295,13 +1290,14 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	if (size < data_len) {
 	    statusbar(_("Could not open file for writing: %s"),
 		      strerror(errno));
-            fclose(f);
+	    fclose(f);
 	    return -1;
-	} else {
+	}
 #ifdef DEBUG
+	else
 	    fprintf(stderr, _("Wrote >%s\n"), fileptr->data);
 #endif
-	}
+
 #ifndef NANO_SMALL
 	if (ISSET(DOS_FILE) || ISSET(MAC_FILE))
 	    putc('\r', f);
@@ -1315,9 +1311,9 @@ int write_file(char *name, int tmp, int append, int nonamechange)
     }
 
     if (fileptr != NULL) {
-        int data_len;
+	int data_len;
 
-        data_len = strlen(fileptr->data);
+	data_len = strlen(fileptr->data);
 	size = fwrite(fileptr->data, 1, data_len, f);
 	if (size < data_len) {
 	    statusbar(_("Could not open file for writing: %s"),
@@ -1358,9 +1354,9 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 
     /* if we're prepending, open the real file, and append it here */
     if (append == 2) {
-      int fd_source, fd_dest;
-      FILE *f_source, *f_dest;
-      int prechar;
+	int fd_source, fd_dest;
+	FILE *f_source, *f_dest;
+	int prechar;
 
 	if ((fd_dest = open(buf, O_WRONLY | O_APPEND, (S_IRUSR|S_IWUSR))) == -1) {
 	    statusbar(_("Could not reopen %s: %s"), buf, strerror(errno));
@@ -1369,12 +1365,12 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	f_dest = fdopen(fd_dest, "wb");
 	if (!f_dest) {
 	    statusbar(_("Could not reopen %s: %s"), buf, strerror(errno));
-            close(fd_dest);
+	    close(fd_dest);
 	    return -1;
 	}
-	if ((fd_source = open(realname, O_RDONLY)) == -1) {
+	if ((fd_source = open(realname, O_RDONLY | O_CREAT)) == -1) {
 	    statusbar(_("Could not open %s for prepend: %s"), realname, strerror(errno));
-            fclose(f_dest);
+	    fclose(f_dest);
 	    return -1;
 	}
 	f_source = fdopen(fd_source, "rb");
