@@ -322,15 +322,14 @@ apply to the default mode and Pico Compatibility mode:
 
 @table @code
 @item Displayed Shortcuts
-By default, the following shortcuts are displayed by default in the 
-Shortcut Lists:
+By default, the following shortcuts are displayed in the Shortcut Lists:
 
 ^G ^O ^\ ^Y ^K ^C@*
 ^X ^R ^W ^V ^U ^T
 
 Related functions are listed above or below each other by default.  The
 Justify function is not listed, instead the "Replace" function is
-displayed. The "Read File" and "WriteOut" functions are also aligned for
+displayed. Also, he "Read File" and "WriteOut" functions are aligned for
 consistency.
 
 In Pico Compatibility mode, the default Pico shortcuts are displayed:
@@ -342,8 +341,8 @@ In Pico Compatibility mode, the default Pico shortcuts are displayed:
 By default, previously entered string for a function (search string,
 file name) will be placed on the statusbar, and is editable.  This is
 done so there is consistency across all functions.  For example: even if
-there is a previous replace string, it can always be deleted if the user
-wishes to perform an empty string replace at any point. 
+there is a previous replace string, it can always be deleted if one
+wishes to perform an empty string replace.
 
 In Pico Compatibility Mode, the previously entered text in a search or
 replace will appear in brackets, and is not editable.  It is not a
@@ -357,7 +356,7 @@ i.e. it does not stop after one search string is found and automatically
 replace it.  The @command{nano} implementation will stop at each search
 string found and query whether to replace this instance or not.  The 
 internal spell checker operates similarly.  Note that these is no way 
-to force these functions to behave like in the Pico fashion.
+to force these functions to behave in the Pico fashion.
 @end table
 
 @node Building and Configure Options, , Pico Compatibility, Top

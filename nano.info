@@ -294,16 +294,16 @@ Pico Compatibility
 differences apply to the default mode and Pico Compatibility mode:
 
 `Displayed Shortcuts'
-     By default, the following shortcuts are displayed by default in the
-     Shortcut Lists:
+     By default, the following shortcuts are displayed in the Shortcut
+     Lists:
 
      ^G ^O ^\ ^Y ^K ^C
      ^X ^R ^W ^V ^U ^T
 
      Related functions are listed above or below each other by default.
      The Justify function is not listed, instead the "Replace"
-     function is displayed. The "Read File" and "WriteOut" functions
-     are also aligned for consistency.
+     function is displayed. Also, he "Read File" and "WriteOut"
+     functions are aligned for consistency.
 
      In Pico Compatibility mode, the default Pico shortcuts are
      displayed:
@@ -316,8 +316,8 @@ differences apply to the default mode and Pico Compatibility mode:
      string, file name) will be placed on the statusbar, and is
      editable.  This is done so there is consistency across all
      functions.  For example: even if there is a previous replace
-     string, it can always be deleted if the user wishes to perform an
-     empty string replace at any point.
+     string, it can always be deleted if one wishes to perform an empty
+     string replace.
 
      In Pico Compatibility Mode, the previously entered text in a
      search or replace will appear in brackets, and is not editable.
@@ -332,8 +332,8 @@ differences apply to the default mode and Pico Compatibility mode:
      automatically replace it.  The `nano' implementation will stop at
      each search string found and query whether to replace this
      instance or not.  The internal spell checker operates similarly.
-     Note that these is no way to force these functions to behave like
-     in the Pico fashion.
+     Note that these is no way to force these functions to behave in
+     the Pico fashion.
 
 
 File: nano.info,  Node: Building and Configure Options,  Prev: Pico Compatibility,  Up: Top
@@ -391,6 +391,6 @@ Node: Online Help7028
 Node: Feature Toggles7404
 Node: The File Browser8550
 Node: Pico Compatibility9259
-Node: Building and Configure Options11335
+Node: Building and Configure Options11301
 
 End Tag Table
