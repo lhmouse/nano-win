@@ -421,7 +421,7 @@ void shortcut_init(int unjustify)
 		    NANO_ALT_G, NANO_GOTO_FKEY, 0, VIEW, do_gotoline_void);
 
 #if (!defined NANO_SMALL) && (defined HAVE_REGEX_H)
-    sc_init_one(&main_list[26], 0, _("Find Other Bracket"),
+    sc_init_one(&main_list[26], -9, _("Find Other Bracket"),
 		    nano_bracket_msg,
 		    NANO_BRACKET_KEY, 0, 0, VIEW, do_find_bracket);
 #endif
