@@ -385,12 +385,8 @@ int do_uncut_text(void)
 	    i = editbot->lineno;
 
 	    current = newend;
-	    if (i < newend->lineno) {
+	    if (i <= newend->lineno)
 		edit_update(current, CENTER);
-	    }
-	    else {
-		edit_refresh();
-	    }
 	}
 
 	/* If marked cut == 2, that means that we're doing a cut to end
@@ -448,12 +444,8 @@ int do_uncut_text(void)
 
     i = editbot->lineno;
     renumber(newbuf);
-    if (i < newend->lineno) {
+    if (i < newend->lineno)
 	edit_update(fileptr, CENTER);
-    }
-    else {
-	edit_refresh();
-    }
 
     dump_buffer_reverse(fileptr);
 
