@@ -1,4 +1,4 @@
-CVS Code -
+nano 0.9.20 - 11/18/2000
 - General
 	- Ran source through indent -kr again.  Make everything pretty.
 	- Changed behavior of "search" and "replace" prompts to make all
