@@ -996,7 +996,7 @@ int get_mouseinput(int *mouse_x, int *mouse_y, int allow_shortcuts)
 	for (; j > 0; j--)
 	    s = s->next;
 
-	/* And ungetch() the equivalent control key.  If it's a Meta key
+	/* And ungetch() the equivalent control key.  If it's a meta key
 	 * sequence, we need to ungetch() Escape too.  Assume that the
 	 * shortcut has an equivalent control key, meta key sequence, or
 	 * both. */
@@ -1485,7 +1485,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 			    kbinput);
 #endif
 		    if (meta_key == TRUE && (kbinput == t->metaval || kbinput == t->miscval))
-			/* We hit a Meta key.  Do like above.  We don't
+			/* We hit a meta key.  Do like above.  We don't
 			 * just ungetch() the letter and let it get
 			 * caught above cause that screws the
 			 * keypad... */
