@@ -1096,10 +1096,6 @@ void toggle_init(void)
     if (!ISSET(RESTRICTED))
 	toggle_init_one(TOGGLE_NOCONVERT_KEY,
 		N_("No conversion from DOS/Mac format"), NO_CONVERT);
-#ifdef NANO_WIDE
-    toggle_init_one(TOGGLE_NOUTF8_KEY,
-	N_("No conversion from UTF-8 format"), NO_UTF8);
-#endif
     /* If we're using restricted mode, the backup toggle is disabled.
      * It's useless since backups are disabled. */
     if (!ISSET(RESTRICTED))
