@@ -65,6 +65,8 @@
 - The keypad does not work when nano runs in the Gnome terminal (43). [FIXED]
 - When reading in a file, if the file is a directory the contents of the
   file being edited are blown away (discovered by  Chris Pimlot) (44). [FIXED]
+- In replace, hitting the Goto line shortcut key does nothing after a
+  search string is entered (discovered by Rocco Corsi) (46) [FIXED].
 
 ** Open BUGS **
 

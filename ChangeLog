@@ -17,6 +17,9 @@ CVS Code -
   replace_abort()
 	- Add reset of placewewant, stops cursor from jumping when moving
 	  cursor after a replace.
+  do_replace()
+	- Added code for Gotoline key after entering the search term.
+	  Fixes bug #46.
 - winio.c
   nanogetstr()
 	- Added check for 343 in while loop to get rid of getting "locked"

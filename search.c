@@ -433,6 +433,9 @@ int do_replace(void)
 
 	    do_replace();
 	    return 0;
+	} else if (i == NANO_FROMSEARCHTOGOTO_KEY) {	/* oops... */
+	    do_gotoline_void();
+	    return 0;
 	} else if (i != -2) {	/* First page, last page, for example could get here */
 
 	    do_early_abort();
@@ -456,6 +459,9 @@ int do_replace(void)
 
 	    do_replace();
 	    return -1;
+	} else if (i == NANO_FROMSEARCHTOGOTO_KEY) {	/* oops... */
+	    do_gotoline_void();
+	    return 0;
 	} else if (i == NANO_NULL_KEY)
 	    strcpy(last_replace, "");
 	else {			/* First line key, etc. */
