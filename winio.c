@@ -222,17 +222,17 @@ void check_statblank(void)
 void nanoget_repaint(char *buf, char *inputbuf, int x)
 {
     blank_statusbar();
-    if (x <= COLS) { 
+    if (x <= COLS - 1) { 
         mvwaddstr(bottomwin, 0, 0, buf);
-        waddnstr(bottomwin, inputbuf, COLS - strlen(buf));
+        waddnstr(bottomwin, inputbuf, (COLS - 1) - strlen(buf));
 
-    } else if (x > COLS && x <= COLS * 2)
-	mvwaddnstr(bottomwin, 0, 0, &inputbuf[COLS - strlen(buf)], COLS);
+    } else if (x > COLS - 1 && x <= (COLS - 1) * 2)
+	mvwaddnstr(bottomwin, 0, 0, &inputbuf[(COLS - 1) - strlen(buf)], COLS);
     else
-	mvwaddnstr(bottomwin, 0, 0, &inputbuf[COLS * (x / COLS) - 
+	mvwaddnstr(bottomwin, 0, 0, &inputbuf[COLS * (x / (COLS - 1)) - 
 					strlen(buf)], COLS);
 
-    wmove(bottomwin, 0, (x % COLS));
+    wmove(bottomwin, 0, (x % (COLS - 1)));
 
 }
 
@@ -259,6 +259,7 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 	for (j = 0; j <= slen - 1; j++) {
 	    if (kbinput == s[j].val) {
 		answer = mallocstrcpy(answer, "");
+		free(inputbuf);
 		return s[j].val;
 	    }
 	}
@@ -402,6 +403,7 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
     }
 
     answer = mallocstrcpy(answer, inputbuf);
+    free(inputbuf);
 
     /* Now that the text is editable instead of bracketed, we have to 
        check for answer == def, instead of answer == "" */

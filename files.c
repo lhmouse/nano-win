@@ -444,7 +444,7 @@ int do_writeout(int exiting)
 {
     int i = 0;
 
-    strncpy(answer, filename, 132);
+    answer = mallocstrcpy(answer, filename);
 
     if ((exiting) && (ISSET(TEMP_OPT))) {
 	if (filename[0]) {
@@ -469,7 +469,7 @@ int do_writeout(int exiting)
 #ifdef DEBUG
 	    fprintf(stderr, _("filename is %s"), answer);
 #endif
-	    if (strncmp(answer, filename, 132)) {
+	    if (strcmp(answer, filename)) {
 		struct stat st;
 		if (!stat(answer, &st)) {
 		    i = do_yesno(0, 0, _("File exists, OVERWRITE ?"));
