@@ -157,6 +157,7 @@ bool is_alnum_mbchar(const char *c);
 #ifdef NANO_WIDE
 bool is_alnum_wchar(wchar_t wc);
 #endif
+bool is_ascii_char(int c);
 bool is_blank_char(int c);
 bool is_blank_mbchar(const char *c);
 #ifdef NANO_WIDE

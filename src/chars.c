@@ -81,6 +81,18 @@ bool is_alnum_wchar(wchar_t wc)
 }
 #endif
 
+/* This function is equivalent to isascii(). */
+bool is_ascii_char(int c)
+{
+    return
+#ifdef HAVE_ISASCII
+	isascii(c)
+#else
+	((unsigned int)c == (signed char)c)
+#endif
+	;
+}
+
 /* This function is equivalent to isblank(). */
 bool is_blank_char(int c)
 {
