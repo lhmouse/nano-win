@@ -1410,16 +1410,16 @@ int do_wrap(filestruct *inptr)
 /* There are three steps.  First, we decide where to wrap.  Then, we
  * create the new wrap line.  Finally, we clean up. */
 
-/* Step 1, finding where to wrap.  We are going to replace a white-space
- * character with a new-line.  In this step, we set wrap_loc as the
+/* Step 1, finding where to wrap.  We are going to add a new-line
+ * after a white-space character.  In this step, we set wrap_loc as the
  * location of this replacement.
  *
  * Where should we break the line?  We need the last "legal wrap point"
  * such that the last word before it ended at or before fill.  If there
  * is no such point, we settle for the first legal wrap point.
  *
- * A "legal wrap point" is a white-space character that is not the last
- * typed character and is not followed by white-space.
+ * A "legal wrap point" is a white-space character that is not followed by
+ * white-space.
  *
  * If there is no legal wrap point or we found the last character of the
  * line, we should return without wrapping.
@@ -1444,8 +1444,7 @@ int do_wrap(filestruct *inptr)
 	if (wrap_loc != -1 && strnlenpt(inptr->data, word_back + 1) > fill)
 	    break;
 	/* we record the latest "legal wrap point" */
-	if (i != current_x - 1 && word_back != i &&
-		wrap_line[1] != ' ' && wrap_line[1] != '\t')
+	if (word_back != i && wrap_line[1] != ' ' && wrap_line[1] != '\t')
 	    wrap_loc = i;
     }
     if (wrap_loc < 0 || i == len)
@@ -1504,12 +1503,13 @@ int do_wrap(filestruct *inptr)
     }
 #endif
     strcat(newline, after_break);
-    /* We end the old line at wrap_loc.  Note this eats the space. */
-    null_at(&inptr->data, wrap_loc);
+    /* We end the old line after wrap_loc.  Note this does not eat the
+       space. */
+    null_at(&inptr->data, wrap_loc + 1);
+    totsize++;
     if (wrapping) {
-	/* In this case, totsize does not change.  We ate a space in the
-	 * null_at() above, but we add a space between after_break and
-	 * wrap_line below. */
+	/* In this case, totsize increases by 1 since we add a space
+	   between after_break and wrap_line. */
 	strcat(newline, " ");
 	strcat(newline, wrap_line);
 	free(inptr->next->data);
@@ -1517,9 +1517,8 @@ int do_wrap(filestruct *inptr)
     } else {
 	filestruct *temp = (filestruct *)nmalloc(sizeof(filestruct));
 
-	/* In this case, the file size changes by -1 for the eaten
-	 * space, +1 for the new line, and +indent_len for the new
-	 * indentation. */
+	/* In this case, the file size changes by +1 for the new line, and
+	   +indent_len for the new indentation. */
 #ifndef NANO_SMALL
 	totsize += indent_len;
 #endif

@@ -94,6 +94,8 @@ CVS code -
 	- Make sure wrapping is done properly when the number of
 	  characters on the line is exactly one over the limit. (David
 	  Benbennick)
+	- Restore the wrapping behavior to the previous wrapping
+	  point behavior (pre 1.1.10) (David Benbennick).
   do_alt_speller()
   	- Readd DLR's fix to preserve marking when using the alternate
   	  spell checker; it was accidentally dropped. (David
