@@ -300,8 +300,13 @@ int write_file(char *name, int tmp)
     fileptr = fileage;
 
 
+    /* Check to see if the file is a regular file and FOLLOW_SYMLINKS is
+       set.  If so then don't do the delete and recreate code which would
+       cause unexpected behavior */
+    lstat(name, &st);
+
     /* Open the file and truncate it.  Trust the symlink. */
-    if (ISSET(FOLLOW_SYMLINKS) && !tmp) {
+    if ((ISSET(FOLLOW_SYMLINKS) || !S_ISLNK(st.st_mode)) && !tmp) {
 	/*
 	 * If TEMP_OPT == 1, check to see if we can append to the file
 	 * first, i.e. to see if we can at least write to the file (stops

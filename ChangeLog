@@ -21,6 +21,12 @@ Current CVS:
   read_file():
 	- Added init of buf variable, hopefully this will stop the 
 	  "bleeding" of text seen with mutt and using i18n.
+  write_file():
+	- Added code to check to see if using -l and the file is not
+	  in fact a link.  This should fix the behavior where a file
+	  that does not have write permission but could be removed and
+	  rewritten is saved without error.  Please test this feature
+	  and give feedback.
 - search.c:
   search_init():
 	- Added " (to replace)" statement to end of search string if 
