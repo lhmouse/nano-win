@@ -1,3 +1,17 @@
+10/24/2002 - GNU nano 1.1.12 "Make Jordi happy" is released.  This 
+		release demonstrated that nano is starting to freeze for 
+		version 1.2.  New features include a Meta-Y toggle
+		for syntax highlighting, pluralized i18n, and a handler
+		for SIGTERM.  Nano now ignores XOFF (^S) to stop 
+		accidental lock-ups, and no longer references malloc.h.
+			Also included are fixes for zero-length regex
+		matches, segfaults with --disable-mouse, justification,
+		memory corruption with the browser, version and help 
+		cmdline output, and translation updates.  Aside from 
+		the (currently up in the air) search history behavior, 
+		the next version of nano should be 1.1.99pre1.  Have 
+		fun!
+
 10/01/2002 - GNU nano 1.1.11 "Oddball" is released.  This release 
 		features a new version of gettext, a new and improved syntax 
 		highlighting engine, and some updates for the nanorc.sample

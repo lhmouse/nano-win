@@ -1,4 +1,4 @@
-CVS code -
+GNU nano 1.1.12 - 10/24/2002
 - General:
 	- Translation updates (see po/ChangeLog for details).
 	- Remove malloc.h, as it's unneeded and just causes annoyances on
