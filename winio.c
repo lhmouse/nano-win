@@ -1066,11 +1066,6 @@ int do_cursorpos(void)
     for (fileptr = current->next; fileptr != NULL; fileptr = fileptr->next)
     	tot += strlen(fileptr->data) + 1;
 
-    /* FIXME - This is gardly elegant */
-/*    if (current == fileage && strlen(current->data) == 0)
-	i = 0;
-*/
-
     if (totlines > 0)
 	linepct = 100 * current->lineno / totlines;
     else

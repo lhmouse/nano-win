@@ -32,3 +32,8 @@
   until a pageup/down occurs (22).
 - edit_refresh() and update_line() (and related functions), have 
   trouble when a tab is the character that is the boundry at COLS (23)
+- there is an off-by-one error in keeping track of totsize.  It is caused
+  by the fact that we count the newline at the end when we read in a file
+  but we do not, in fact, display this newline.  This should go away
+  implicitly when the "Magic Line" returns, but it is noted here for
+  documentation's sake. (24)

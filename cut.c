@@ -44,7 +44,7 @@ void add_to_cutbuffer(filestruct * inptr)
 	    inptr->data);
 #endif
 
-    totsize -= strlen(inptr->data) + 1;
+    totsize -= strlen(inptr->data);
     tmp = cutbuffer;
     if (cutbuffer == NULL) {
 	cutbuffer = inptr;
@@ -82,6 +82,7 @@ void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
 	next = tmp->next;
 	add_to_cutbuffer(tmp);
 	totlines--;
+	totsize--; /* newline (add_to_cutbuffer doesn't count newlines) */
 	tmp = next;
     }
     while (next != bot && next != NULL);
@@ -101,7 +102,8 @@ void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
     next = bot->next;
 
     /* We explicitly don't decrement totlines here because we don't snarf
-     * up a newline when we're grabbing the last line of the mark */
+     * up a newline when we're grabbing the last line of the mark.  For
+     * the same reason we don't do an extra totsize decrement */
 
     add_to_cutbuffer(bot);
     top->next = next;
@@ -183,7 +185,7 @@ int do_cut_text(void)
 	UNSET(MARK_ISSET);
 	marked_cut = 1;
 	set_modified();
-	edit_update_top(edittop);
+	edit_update(current);
 	return 1;
 #else
     if (0) {
@@ -201,10 +203,9 @@ int do_cut_text(void)
 	    current = fileptr;
 	} else {
 	    add_to_cutbuffer(fileptr);
-	    totlines--;
 	    fileage = make_new_node(NULL);
 	    fileage->data = nmalloc(1);
-	    strcpy(fileage->data, "");
+	    fileage->data[0] = '\0';
 	    current = fileage;
 	}
     } else {
