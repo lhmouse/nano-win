@@ -2531,9 +2531,15 @@ int main(int argc, char *argv[])
 		    kbinput = KEY_PPAGE;
 		    wgetch(edit);
 		    break;
+		case 'I':	/* Alt-[-I = Page Up - FreeBSD Console */
+		    kbinput = KEY_PPAGE;
+		    break;
 		case '6':	/* Alt-[-6 = Page Down */
 		    kbinput = KEY_NPAGE;
 		    wgetch(edit);
+		    break;
+		case 'G':	/* Alt-[-G = Page Down - FreeBSD Console */
+		    kbinput = KEY_NPAGE;
 		    break;
 		case '7':
 		    kbinput = KEY_HOME;
@@ -2542,6 +2548,10 @@ int main(int argc, char *argv[])
 		case '8':
 		    kbinput = KEY_END;
 		    wgetch(edit);
+		    break;
+		case 'L':		/* Insert Key - FreeBSD Console */
+		    do_insertfile();
+		    keyhandled = 1;
 		    break;
 		case '[':	/* Alt-[-[-[A-E], F1-F5 in linux console */
 		    kbinput = wgetch(edit);
