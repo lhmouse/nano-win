@@ -1,5 +1,7 @@
 CVS code -
-
+- nano.spec.in:
+	- Don't put Chris' name as the Packager in the distribution
+	  by default (Im an idiot).
 GNU nano 1.1.8 - 03/30/2002
 - General
 	- Type misalignments and mem leaks in renumber_all, do_justify
