@@ -23,7 +23,6 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 #include <assert.h>
 #include "proto.h"
 #include "nano.h"
@@ -32,6 +31,7 @@ int do_home(void)
 {
     current_x = 0;
     placewewant = 0;
+    check_statblank();
     update_line(current, current_x);
     return 1;
 }
@@ -40,32 +40,9 @@ int do_end(void)
 {
     current_x = strlen(current->data);
     placewewant = xplustabs();
+    check_statblank();
     update_line(current, current_x);
     return 1;
-}
-
-void page_up(void)
-{
-    if (edittop != fileage) {
-#ifndef NANO_SMALL
-	if (ISSET(SMOOTHSCROLL))
-	    edit_update(edittop->prev, TOP);
-	else
-#endif
-	{
-	    edit_update(edittop, CENTER);
-	    /* Now that we've updated the edit window, edittop might be
-	       at the top of the file; if so, just move the cursor up one
-	       line and don't center it. */
-	    if (edittop != fileage)
-		center_cursor();
-	    else
-		reset_cursor();
-	}
-    } else
-	current_y = 0;
-
-    update_cursor();
 }
 
 int do_page_up(void)
@@ -73,19 +50,38 @@ int do_page_up(void)
     int i;
 
     wrap_reset();
-    current_x = 0;
-    placewewant = 0;
 
-    if (current == fileage)
-	return 0;
+    /* If edittop is the first line of the file, move current up there
+     * and put the cursor at the beginning of the line. */
+    if (edittop == fileage) {
+	current = fileage;
+	placewewant = 0;
+    } else {
+	/* Move the top line of the edit window up a page. */
+	for (i = 0; i < editwinrows - 2 && edittop->prev != NULL; i++)
+	    edittop = edittop->prev;
+#ifndef NANO_SMALL
+	/* If we're in smooth scrolling mode and there was at least one
+	 * page of text left, move the current line of the edit window
+	 * up a page. */
+	if (ISSET(SMOOTHSCROLL) && current->lineno > editwinrows - 2)
+	    for (i = 0; i < editwinrows - 2; i++)
+		current = current->prev;
+	/* If we're not in smooth scrolling mode and there was at least
+	 * one page of text left, put the cursor at the beginning of the
+	 * top line of the edit window, as Pico does. */
+	else {
+#endif
+	    current = edittop;
+	    placewewant = 0;
+#ifndef NANO_SMALL
+	}
+#endif
+    }
+    /* Get the equivalent x-coordinate of the new line. */
+    current_x = actual_x(current, placewewant);
 
-    current_y = 0;
-    current = edittop;
-    for (i = 0; i <= editwinrows - 3 && current->prev != NULL; i++)
-	current = current->prev;
-
-    edit_update(current, TOP);
-    update_cursor();
+    edit_refresh();
 
     check_statblank();
     return 1;
@@ -93,42 +89,42 @@ int do_page_up(void)
 
 int do_page_down(void)
 {
+    int i;
+
     wrap_reset();
-    current_x = 0;
-    placewewant = 0;
 
-    if (current == filebot)
-	return 0;
-
-    /* AHEM, if we only have a screen or less of text, DON'T do an
-       edit_update(), just move the cursor to editbot! */
-    if (edittop == fileage && editbot == filebot && totlines < editwinrows) {
-	current = editbot;
-	reset_cursor();
-#ifndef NANO_SMALL
-	/* ...unless marking is on, in which case we need it to update
-	   the highlight. */
-	if (ISSET(MARK_ISSET))
-	    edit_update(current, NONE);
-#endif
-    } else if (editbot != filebot || edittop == fileage) {
-	current_y = 0;
-	current = editbot;
-
-	if (current->prev != NULL)
-	    current = current->prev;
-	if (current->prev != NULL)
-	    current = current->prev;
-	edit_update(current, TOP);
+    /* If the last line of the file is onscreen, move current down
+     * there and put the cursor at the beginning of the line. */
+    if (edittop->lineno + editwinrows > filebot->lineno) {
+	current = filebot;
+	placewewant = 0;
     } else {
-	while (current != filebot) {
-	    current = current->next;
-	    current_y++;
+	/* Move the top line of the edit window down a page. */
+	for (i = 0; i < editwinrows - 2; i++)
+	    edittop = edittop->next;
+#ifndef NANO_SMALL
+	/* If we're in smooth scrolling mode and there was at least one
+	 * page of text left, move the current line of the edit window
+	 * down a page. */
+	if (ISSET(SMOOTHSCROLL) && current->lineno + editwinrows - 2 <= filebot->lineno)
+	    for (i = 0; i < editwinrows - 2; i++)
+		current = current->next;
+	/* If we're not in smooth scrolling mode and there was at least
+	 * one page of text left, put the cursor at the beginning of the
+	 * top line of the edit window, as Pico does. */
+	else {
+#endif
+	    current = edittop;
+	    placewewant = 0;
+#ifndef NANO_SMALL
 	}
-	edit_update(edittop, TOP);
+#endif
     }
+    /* Get the equivalent x-coordinate of the new line. */
+    current_x = actual_x(current, placewewant);
 
-    update_cursor();
+    edit_refresh();
+
     check_statblank();
     return 1;
 }
@@ -136,19 +132,26 @@ int do_page_down(void)
 int do_up(void)
 {
     wrap_reset();
-    if (current->prev != NULL) {
-	current_x = actual_x(current->prev, placewewant);
-	current = current->prev;
-	if (current_y > 0) {
-	    update_line(current->next, 0);
-		/* It is necessary to change current first, so the mark
-		   display will change! */
-	    current_y--;
-	    update_line(current, current_x);
-	} else
-	    page_up();
-	check_statblank();
-    }
+    check_statblank();
+
+    if (current->prev == NULL)
+	return 0;
+
+    assert(current_y == current->lineno - edittop->lineno);
+    current = current->prev;
+    current_x = actual_x(current, placewewant);
+    if (current_y > 0) {
+	update_line(current->next, 0);
+	    /* It was necessary to change current first, so the mark
+	     * display will change! */
+	update_line(current, current_x);
+    } else
+#ifndef NANO_SMALL
+    if (ISSET(SMOOTHSCROLL))
+	edit_update(current, TOP);
+    else
+#endif
+	edit_update(current, CENTER);
     return 1;
 }
 
@@ -162,32 +165,24 @@ int do_down(void)
     if (current->next == NULL)
 	return 0;
 
+    assert(current_y == current->lineno - edittop->lineno);
     current = current->next;
     current_x = actual_x(current, placewewant);
 
-    /* Note current_y is zero-based.  This test checks for the cursor's
-     * being on the last row of the edit window. */
-    if (current_y == editwinrows - 1) {
-#ifndef NANO_SMALL
-	if (ISSET(SMOOTHSCROLL)) {
-	    /* In this case current_y does not change.  The cursor
-	     * remains at the bottom of the edit window. */
-	    edittop = edittop->next;
-	    editbot = editbot->next;
-	    edit_refresh();
-	} else
-#endif
-	{
-	    /* Set edittop so editbot->next (or else editbot) is
-	     * centered, and set current_y = editwinrows / 2. */
-	    edit_update(editbot->next != NULL ? editbot->next : editbot, CENTER);
-	    center_cursor();
-	}
-    } else {
+    /* Note that current_y is zero-based.  This test checks for the
+     * cursor's being not on the last row of the edit window. */
+    if (current_y != editwinrows - 1) {
 	update_line(current->prev, 0);
 	update_line(current, current_x);
-	current_y++;
-    }
+    } else
+#ifndef NANO_SMALL
+    if (ISSET(SMOOTHSCROLL))
+	/* In this case current_y does not change.  The cursor remains
+	 * at the bottom of the edit window. */
+	edit_update(edittop->next, TOP);
+    else
+#endif
+	edit_update(current, CENTER);
     return 1;
 }
 
@@ -200,8 +195,8 @@ int do_left(void)
 	current_x = strlen(current->data);
     }
     placewewant = xplustabs();
-    update_line(current, current_x);
     check_statblank();
+    update_line(current, current_x);
     return 1;
 }
 
@@ -216,7 +211,7 @@ int do_right(void)
 	current_x = 0;
     }
     placewewant = xplustabs();
-    update_line(current, current_x);
     check_statblank();
+    update_line(current, current_x);
     return 1;
 }

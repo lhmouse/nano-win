@@ -29,7 +29,7 @@
 /* Macros for the flags int... */
 #define SET(bit) flags |= bit
 #define UNSET(bit) flags &= ~bit
-#define ISSET(bit) (flags & bit)
+#define ISSET(bit) ((flags & bit) != 0)
 #define TOGGLE(bit) flags ^= bit
 
 /* Define charalloc as a macro rather than duplicating code */

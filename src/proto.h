@@ -221,7 +221,6 @@ void thanks_for_all_the_fish(void);
 /* Public functions in move.c */
 int do_home(void);
 int do_end(void);
-void page_up(void);
 int do_page_up(void);
 int do_page_down(void);
 int do_up(void);

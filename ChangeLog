@@ -55,6 +55,9 @@ CVS code -
 	- Set keypad() to TRUE regardless of whether PDCurses is being
 	  used, as Meta-X apparently turns it off even under ncurses.
 	  (DLR)
+  do_backspace()
+	- Vastly simplify, and remove dependency on page_up(). (David
+	  Benbennick)
   help_init()
 	- Document the support for Esc Esc [character]'s being
 	  interpreted as Ctrl-[character], and the support for Pico's
@@ -66,6 +69,17 @@ CVS code -
 	  KEY_RESIZE, and pressing Ctrl-Z to suspend nano at the Linux
 	  console with keypad(TRUE) generates Ctrl-Z instead of
 	  KEY_SUSPEND, both unlike ncurses. (DLR)
+- move.c:
+	- Remove unneeded inclusion of stdio.h, make various cleanups,
+	  and preserve the cursor's coordinates when paging up and down.
+	  (David Benbennick)  DLR: Readd the ability to behave the old
+	  way while paging, make it so the new behavior is only used in
+	  smooth-scrolling mode, and modify page_down() to always go
+	  down a full page (even when there's less than one page of text
+	  left) for consistency.
+  page_up()
+	- Removed due to rewrite of movement functions. (David
+	  Benbennick)
 - rcfile.c:
   parse_colors()
 	- Generate an error if we try to use a bright background color
@@ -73,9 +87,15 @@ CVS code -
 	- Make sure all rcfile error messages are capitalized, for
 	  consistency. (DLR)
 - winio.c:
+  do_first_line()
+	- Call edit_update() with TOP instead of CENTER; both do the
+	  same thing, but it works faster with TOP. (DLR)
   titlebar()
 	- Fix problem with the available space for a filename on the
 	  titlebar's being short by one. (DLR)
+  edit_update()
+	- Tweak for efficiency and remove the fix_editbot() call. (David
+	  Benbennick)
   do_credits()
 	- Update the copyright years to "1999-2003", to match those
 	  given in the rest of the code. (DLR)

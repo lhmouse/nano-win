@@ -322,7 +322,7 @@ int do_first_line(void)
     current = fileage;
     placewewant = 0;
     current_x = 0;
-    edit_update(current, CENTER);
+    edit_update(current, TOP);
     return 1;
 }
 
@@ -1387,14 +1387,12 @@ void edit_update(filestruct *fileptr, topmidbotnone location)
 	return;
 
     if (location != TOP) {
-	int goal = location == NONE ? current_y - 1 : editwinrows / 2;
+	int goal = location == NONE ? current_y : editwinrows / 2;
 
-	for (; goal >= 0 && fileptr->prev != NULL; goal--)
+	for (; goal > 0 && fileptr->prev != NULL; goal--)
 	    fileptr = fileptr->prev;
     }
     edittop = fileptr;
-    fix_editbot();
-
     edit_refresh();
 }
 

@@ -1018,82 +1018,10 @@ void do_char(char ch)
 
 int do_backspace(void)
 {
-    int refresh = 0;
-    if (current_x > 0) {
-	assert(current_x <= strlen(current->data));
-	/* Let's get dangerous */
-	memmove(&current->data[current_x - 1], &current->data[current_x],
-		strlen(current->data) - current_x + 1);
-#ifdef DEBUG
-	fprintf(stderr, "current->data now = \"%s\"\n", current->data);
-#endif
-	align(&current->data);
-#ifndef NANO_SMALL
-	if (current_x <= mark_beginx && mark_beginbuf == current)
-	    mark_beginx--;
-#endif
+    if (current != fileage || current_x > 0) {
 	do_left();
-#ifdef ENABLE_COLOR
-	refresh = 1;
-#endif
-    } else {
-	filestruct *previous;
-	const filestruct *tmp;
-
-	if (current == fileage)
-	    return 0;		/* Can't delete past top of file */
-
-	previous = current->prev;
-	current_x = strlen(previous->data);
-	placewewant = strlenpt(previous->data);
-#ifndef NANO_SMALL
-	if (current == mark_beginbuf) {
-	    mark_beginx += current_x;
-	    mark_beginbuf = previous;
-	}
-#endif
-	previous->data = charealloc(previous->data,
-				  current_x + strlen(current->data) + 1);
-	strcpy(previous->data + current_x, current->data);
-
-	unlink_node(current);
-	delete_node(current);
-	tmp = current;
-	current = (previous->next ? previous->next : previous);
-	renumber(current);
-	    /* We had to renumber before doing update_line. */
-	if (tmp == edittop)
-	    page_up();
-
-	/* Ooops, sanity check */
-	if (tmp == filebot) {
-	    filebot = current;
-	    editbot = current;
-
-	    /* Recreate the magic line if we're deleting it AND if the
-	       line we're on now is NOT blank.  if it is blank we
-	       can just use IT for the magic line.   This is how Pico
-	       appears to do it, in any case. */
-	    if (current->data[0] != '\0') {
-		new_magicline();
-		fix_editbot();
-	    }
-	}
-
-	current = previous;
-	if (current_y > 0)
-	    current_y--;
-	totlines--;
-#ifdef DEBUG
-	fprintf(stderr, "After, data = \"%s\"\n", current->data);
-#endif
-	refresh = 1;
+	do_delete();
     }
-
-    totsize--;
-    set_modified();
-    if (refresh)
-	edit_refresh();
     return 1;
 }
 
