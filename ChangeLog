@@ -18,8 +18,6 @@ CVS code -
 	   replaces cuttingpartialline).
   do_uncut_text()
 	- Similar display fixes (David Lawrence Ramsey).
-  cut_marked_segment()
-	- Fix off-by one in mem allocation.
 - faq.html
 	- Removed nano-editor.org FTP site address [deprecated] and added
 	the GNU one.
@@ -39,7 +37,6 @@ CVS code -
 	  beginning of first line, prog should simply abort.  Added
 	  the #ifdefs around the code in main().
   main()
-	- Fixed off by one when checking for MAIN_LIST_LEN. Ugh.
 	- Moved #ifndef NANO_SMALL down past the case 0: line so
 	  control-space doesn't insert a \0 (ack!)
 - rcfile.c:
