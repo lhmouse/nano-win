@@ -83,6 +83,7 @@ int renumber_all(void);
 int open_file(char *filename, int insert, int quiet);
 int do_writeout(char *path, int exiting);
 int do_gotoline(long defline);
+int is_whole_word(int curr_pos, filestruct *fileptr, char *searchword);
 int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 			int wholewords, int *i);
 /* Now in move.c */

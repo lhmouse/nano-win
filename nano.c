@@ -1297,27 +1297,36 @@ int do_int_spell_fix(char *word)
 
     edit_update(fileage, TOP);
 
-    /* make sure word is still mis-spelt (i.e. when multi-errors) */
-    if (findnextstr(TRUE, fileage, beginx_top, prevanswer) != NULL)
-    {
-	do_replace_highlight(TRUE, prevanswer);
+    while (1) {
 
-	/* allow replace word to be corrected */
-	i = statusq(0, spell_list, SPELL_LIST_LEN, last_replace, 
+	/* make sure word is still mis-spelt (i.e. when multi-errors) */
+	if (findnextstr(TRUE, fileage, beginx_top, prevanswer) != NULL) {
+
+	    /* find wholewords only */
+	    if (!is_whole_word(current_x, current, prevanswer))
+		continue;
+
+	    do_replace_highlight(TRUE, prevanswer);
+
+	    /* allow replace word to be corrected */
+	    i = statusq(0, spell_list, SPELL_LIST_LEN, last_replace,
 		_("Edit a replacement"));
 
-	do_replace_highlight(FALSE, prevanswer);
+	    do_replace_highlight(FALSE, prevanswer);
 
-	/* start from the start of this line again */
-	current = fileage;
-	current_x = beginx_top;
+	    /* start from the start of this line again */
+	    current = fileage;
+	    current_x = beginx_top;
 
-	search_last_line = FALSE;
+	    search_last_line = FALSE;
 
-	if (strcmp(prevanswer,answer) != 0) {
-	   j = i;
-	   do_replace_loop(prevanswer, fileage, &beginx_top, TRUE, &j);
+	    if (strcmp(prevanswer,answer) != 0) {
+		j = i;
+		do_replace_loop(prevanswer, fileage, &beginx_top, TRUE, &j);
+	    }
 	}
+
+	break;
     }
 
     /* restore the search/replace strings */
