@@ -1,6 +1,8 @@
 Cvs code -
 - General:
 	- Moved config.h up in all .c files #include list (Albert Chin).
+	- Added config.guess and config.sub to distribution because
+	  apparently newer autoconf/automakes can't live without them.
 - move.c:
   page_up()
 	- Rewritten with a loop to make screen updates work when
