@@ -205,7 +205,7 @@ void get_buffer(WINDOW *win)
 			clean_key_buffer_len * sizeof(buffer));
 
 		clean_key_buffer[clean_key_buffer_len - 1].key =
-			wide_key;
+			(int)wide_key;
 		clean_key_buffer[clean_key_buffer_len - 1].key_code =
 			key_buffer[i].key_code;
 	    }
@@ -263,7 +263,7 @@ void unget_input(buffer *input, size_t input_len)
 	for (i = 0; i < input_len; i++) {
 	    char key[MB_LEN_MAX];
 	    int key_len = input[i].key_code ? 1 :
-		wctomb(key, input[i].key);
+		wctomb(key, (wchar_t)input[i].key);
 
 	    if (key_len != -1) {
 		clean_input_len++;

@@ -3600,7 +3600,7 @@ void do_output(int *kbinput, size_t kbinput_len)
 	/* Change the wide character to its multibyte value.  If it's
 	 * invalid, go on to the next character. */
 	if (!ISSET(NO_UTF8)) {
-	    key_len = wctomb(key, kbinput[i]);
+	    key_len = wctomb(key, (wchar_t)kbinput[i]);
 
 	    if (key_len == -1)
 		continue;
