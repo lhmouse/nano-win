@@ -31,6 +31,10 @@ CVS code -
   help_init()
 	- When calculating allocsize, take multibyte characters into
 	  account, and keep the column number limits consistent. (DLR)
+	- Break htx up into three chunks, in case the string is too long
+	  for the compiler to handle (e.g. an ISO C89 compiler that can
+	  only handle up to 509 characters). (DLR)
+	- Minor wording fixes. (DLR)
   print1opt()
 	- Don't include longflag if HAVE_GETOPT_LONG isn't defined.
 	  Rename this function to print1opt_full(), leave out the

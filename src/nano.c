@@ -265,7 +265,10 @@ void mouse_init(void)
 void help_init(void)
 {
     size_t allocsize = 0;	/* Space needed for help_text. */
-    const char *htx;		/* Untranslated help message. */
+    const char *htx[3];		/* Untranslated help message.  We break
+				 * it up into three chunks in case the
+				 * full string is too long for the
+				 * compiler to handle. */
     char *ptr;
     const shortcut *s;
 #ifndef NANO_SMALL
@@ -279,115 +282,151 @@ void help_init(void)
 
     /* First, set up the initial help text for the current function. */
     if (currshortcut == whereis_list || currshortcut == replace_list
-	     || currshortcut == replace_list_2)
-	htx = N_("Search Command Help Text\n\n "
-		"Enter the words or characters you would like to search "
-		"for, then hit Enter.  If there is a match for the text you "
-		"entered, the screen will be updated to the location of the "
-		"nearest match for the search string.\n\n The previous "
-		"search string will be shown in brackets after the search "
-		"prompt.  Hitting Enter without entering any text will "
-		"perform the previous search.  If you have selected text "
-		"with the mark and then search to replace, only matches in "
-		"the selected text will be replaced.\n\n The following "
-		"function keys are available in Search mode:\n\n");
-    else if (currshortcut == gotoline_list)
-	htx = N_("Go To Line Help Text\n\n "
+	     || currshortcut == replace_list_2) {
+	htx[0] = N_("Search Command Help Text\n\n "
+		"Enter the words or characters you would like to "
+		"search for, and then press Enter.  If there is a "
+		"match for the text you entered, the screen will be "
+		"updated to the location of the nearest match for the "
+		"search string.\n\n The previous search string will be "
+		"shown in brackets after the search prompt.  Hitting "
+		"Enter without entering any text will perform the "
+		"previous search.  ");
+	htx[1] = N_("If you have selected text with the mark and then "
+		"search to replace, only matches in the selected text "
+		"will be replaced.\n\n The following function keys are "
+		"available in Search mode:\n\n");
+	htx[2] = NULL;
+    } else if (currshortcut == gotoline_list) {
+	htx[0] = N_("Go To Line Help Text\n\n "
 		"Enter the line number that you wish to go to and hit "
 		"Enter.  If there are fewer lines of text than the "
-		"number you entered, you will be brought to the last line "
-		"of the file.\n\n The following function keys are "
+		"number you entered, you will be brought to the last "
+		"line of the file.\n\n The following function keys are "
 		"available in Go To Line mode:\n\n");
-    else if (currshortcut == insertfile_list)
-	htx = N_("Insert File Help Text\n\n "
-		"Type in the name of a file to be inserted into the current "
-		"file buffer at the current cursor location.\n\n "
-		"If you have compiled nano with multiple file buffer "
-		"support, and enable multiple buffers with the -F "
-		"or --multibuffer command line flags, the Meta-F toggle, or "
-		"a nanorc file, inserting a file will cause it to be "
-		"loaded into a separate buffer (use Meta-< and > to switch "
-		"between file buffers). If you need another blank buffer, "
-		"do not enter any filename, or type in a nonexistent "
-		"filename at the prompt and press Enter.\n\n The following "
+	htx[1] = NULL;
+	htx[2] = NULL;
+    } else if (currshortcut == insertfile_list) {
+	htx[0] = N_("Insert File Help Text\n\n "
+		"Type in the name of a file to be inserted into the "
+		"current file buffer at the current cursor "
+		"location.\n\n If you have compiled nano with multiple "
+		"file buffer support, and enable multiple file buffers "
+		"with the -F or --multibuffer command line flags, the "
+		"Meta-F toggle, or a nanorc file, inserting a file "
+		"will cause it to be loaded into a separate buffer "
+		"(use Meta-< and > to switch between file buffers).  ");
+	htx[1] = N_("If you need another blank buffer, do not enter "
+		"any filename, or type in a nonexistent filename at "
+		"the prompt and press Enter.\n\n The following "
 		"function keys are available in Insert File mode:\n\n");
-    else if (currshortcut == writefile_list)
-	htx = N_("Write File Help Text\n\n "
+	htx[2] = NULL;
+    } else if (currshortcut == writefile_list) {
+	htx[0] = N_("Write File Help Text\n\n "
 		"Type the name that you wish to save the current file "
-		"as and hit Enter to save the file.\n\n If you have "
+		"as and press Enter to save the file.\n\n If you have "
 		"selected text with the mark, you will be prompted to "
 		"save only the selected portion to a separate file.  To "
 		"reduce the chance of overwriting the current file with "
 		"just a portion of it, the current filename is not the "
 		"default in this mode.\n\n The following function keys "
 		"are available in Write File mode:\n\n");
+	htx[1] = NULL;
+	htx[2] = NULL;
+    }
 #ifndef DISABLE_BROWSER
-    else if (currshortcut == browser_list)
-	htx = N_("File Browser Help Text\n\n "
+    else if (currshortcut == browser_list) {
+	htx[0] = N_("File Browser Help Text\n\n "
 		"The file browser is used to visually browse the "
 		"directory structure to select a file for reading "
 		"or writing.  You may use the arrow keys or Page Up/"
 		"Down to browse through the files, and S or Enter to "
 		"choose the selected file or enter the selected "
-		"directory.  To move up one level, select the directory "
-		"called \"..\" at the top of the file list.\n\n The "
-		"following function keys are available in the file "
-		"browser:\n\n");
-    else if (currshortcut == gotodir_list)
-	htx = N_("Browser Go To Directory Help Text\n\n "
+		"directory.  To move up one level, select the "
+		"directory called \"..\" at the top of the file "
+		"list.\n\n The following function keys are available "
+		"in the file browser:\n\n");
+	htx[1] = NULL;
+	htx[2] = NULL;
+    } else if (currshortcut == gotodir_list) {
+	htx[0] = N_("Browser Go To Directory Help Text\n\n "
 		"Enter the name of the directory you would like to "
-		"browse to.\n\n If tab completion has not been disabled, "
-		"you can use the Tab key to (attempt to) automatically "
-		"complete the directory name.\n\n The following function "
-		"keys are available in Browser Go To Directory mode:\n\n");
+		"browse to.\n\n If tab completion has not been "
+		"disabled, you can use the Tab key to (attempt to) "
+		"automatically complete the directory name.\n\n The "
+		"following function keys are available in Browser Go "
+		"To Directory mode:\n\n");
+	htx[1] = NULL;
+	htx[2] = NULL;
+    }
 #endif
 #ifndef DISABLE_SPELLER
-    else if (currshortcut == spell_list)
-	htx = N_("Spell Check Help Text\n\n "
-		"The spell checker checks the spelling of all text "
-		"in the current file.  When an unknown word is "
+    else if (currshortcut == spell_list) {
+	htx[0] = N_("Spell Check Help Text\n\n "
+		"The spell checker checks the spelling of all text in "
+		"the current file.  When an unknown word is "
 		"encountered, it is highlighted and a replacement can "
 		"be edited.  It will then prompt to replace every "
-		"instance of the given misspelled word in the "
-		"current file, or, if you have selected text with the "
-		"mark, in the selected text.\n\n The following other "
-		"functions are available in Spell Check mode:\n\n");
+		"instance of the given misspelled word in the current "
+		"file, or, if you have selected text with the mark, in "
+		"the selected text.\n\n The following other functions "
+		"are available in Spell Check mode:\n\n");
+	htx[1] = NULL;
+	htx[2] = NULL;
+    }
 #endif
 #ifndef NANO_SMALL
-    else if (currshortcut == extcmd_list)
-	htx = N_("External Command Help Text\n\n "
-		"This menu allows you to insert the output of a command "
-		"run by the shell into the current buffer (or a new "
-		"buffer in multibuffer mode). If you need another blank "
-		"buffer, do not enter any command.\n\n The following keys "
-		"are available in this mode:\n\n");
+    else if (currshortcut == extcmd_list) {
+	htx[0] = N_("Execute Command Help Text\n\n "
+		"This menu allows you to insert the output of a "
+		"command run by the shell into the current buffer (or "
+		"a new buffer in multiple file buffer mode). If you "
+		"need another blank buffer, do not enter any "
+		"command.\n\n The following keys are available in "
+		"Execute Command mode:\n\n");
+	htx[1] = NULL;
+	htx[2] = NULL;
+    }
 #endif
-    else
+    else {
 	/* Default to the main help list. */
-	htx = N_(" nano help text\n\n "
-	  "The nano editor is designed to emulate the functionality and "
-	  "ease-of-use of the UW Pico text editor.  There are four main "
-	  "sections of the editor.  The top line shows the program "
-	  "version, the current filename being edited, and whether "
-	  "or not the file has been modified.  Next is the main editor "
-	  "window showing the file being edited.  The status line is "
-	  "the third line from the bottom and shows important messages.  "
-	  "The bottom two lines show the most commonly used shortcuts "
-	  "in the editor.\n\n "
-	  "The notation for shortcuts is as follows: Control-key "
-	  "sequences are notated with a caret (^) symbol and can be "
-	  "entered either by using the Control (Ctrl) key or pressing the "
-	  "Esc key twice.  Escape-key sequences are notated with the Meta "
-	  "(M) symbol and can be entered using either the Esc, Alt or "
-	  "Meta key depending on your keyboard setup.  Also, pressing Esc "
-	  "twice and then typing a three-digit decimal number from 000 to "
-	  "255 will enter the character with the corresponding value.  "
-	  "The following keystrokes are available in the main editor "
-	  "window.  Alternative keys are shown in parentheses:\n\n");
+	htx[0] = N_(" nano help text\n\n "
+		"The nano editor is designed to emulate the "
+		"functionality and ease-of-use of the UW Pico text "
+		"editor.  There are four main sections of the editor.  "
+		"The top line shows the program version, the current "
+		"filename being edited, and whether or not the file "
+		"has been modified.  Next is the main editor window "
+		"showing the file being edited.  The status line is "
+		"the third line from the bottom and shows important "
+		"messages.  The bottom two lines show the most "
+		"commonly used shortcuts in the editor.\n\n ");
+	htx[1] = N_("The notation for shortcuts is as follows: "
+		"Control-key sequences are notated with a caret (^) "
+		"symbol and can be entered either by using the Control "
+		"(Ctrl) key or pressing the Escape (Esc) key twice.  "
+		"Escape-key sequences are notated with the Meta (M) "
+		"symbol and can be entered using either the Esc, Alt, "
+		"or Meta key depending on your keyboard setup.  ");
+	htx[2] = N_("Also, pressing Esc twice and then typing a "
+		"three-digit decimal number from 000 to 255 will enter "
+		"the character with the corresponding value.  The "
+		"following keystrokes are available in the main editor "
+		"window.  Alternative keys are shown in "
+		"parentheses:\n\n");
+    }
 
-    htx = _(htx);
+    htx[0] = _(htx[0]);
+    if (htx[1] != NULL)
+	htx[1] = _(htx[1]);
+    if (htx[2] != NULL)
+	htx[2] = _(htx[2]);
 
-    allocsize += strlen(htx);
+    allocsize += strlen(htx[0]);
+    if (htx[1] != NULL)
+	allocsize += strlen(htx[1]);
+    if (htx[2] != NULL)
+	allocsize += strlen(htx[2]);
 
     /* The space needed for the shortcut lists, at most COLS characters,
      * plus '\n'. */
@@ -414,7 +453,12 @@ void help_init(void)
     help_text = charalloc(allocsize + 1);
 
     /* Now add the text we want. */
-    strcpy(help_text, htx);
+    strcpy(help_text, htx[0]);
+    if (htx[1] != NULL)
+	strcat(help_text, htx[1]);
+    if (htx[2] != NULL)
+	strcat(help_text, htx[2]);
+
     ptr = help_text + strlen(help_text);
 
     /* Now add our shortcut info.  Assume that each shortcut has, at the
