@@ -1476,6 +1476,7 @@ bool do_wrap(filestruct *inptr)
     /* after_break is the text that will be moved to the next line. */
     after_break = inptr->data + wrap_loc + 1;
     after_break_len = len - wrap_loc - 1;
+
     assert(after_break_len == strlen(after_break));
 
     /* new_line_len will later be increased by the lengths of indentation
@@ -1525,6 +1526,7 @@ bool do_wrap(filestruct *inptr)
 #endif
     strcat(newline, after_break);
     new_line_len += after_break_len;
+
     /* We end the old line after wrap_loc.  Note that this does not eat
      * the space. */
     null_at(&inptr->data, wrap_loc + 1);
@@ -1554,6 +1556,7 @@ bool do_wrap(filestruct *inptr)
 	temp->prev = inptr;
 	temp->next = inptr->next;
 	temp->prev->next = temp;
+
 	/* If temp->next is NULL, then temp is the last line of the
 	 * file, so we must set filebot. */
 	if (temp->next != NULL)
@@ -1927,7 +1930,6 @@ const char *do_int_speller(const char *tempfile_name)
     return NULL;
 
   close_pipes_and_exit:
-
     /* Don't leak any handles. */
     close(tempfile_fd);
     close(spell_fd[0]);
@@ -2009,10 +2011,11 @@ const char *do_alt_speller(char *tempfile_name)
     /* Wait for alternate speller to complete. */
     wait(&alt_spell_status);
 
-    if (!WIFEXITED(alt_spell_status) || WEXITSTATUS(alt_spell_status) != 0) {
+    if (!WIFEXITED(alt_spell_status) ||
+		WEXITSTATUS(alt_spell_status) != 0) {
 	char *altspell_error = NULL;
 	char *invoke_error = _("Could not invoke \"%s\"");
-	int msglen = strlen(invoke_error) + strlen(alt_speller) + 2;
+	int msglen = strlenpt(invoke_error) + strlenpt(alt_speller) + 2;
 
 	altspell_error = charalloc(msglen);
 	snprintf(altspell_error, msglen, invoke_error, alt_speller);
@@ -2291,8 +2294,9 @@ size_t quote_length(const char *line)
 bool quotes_match(const char *a_line, size_t a_quote, const char
 	*b_line)
 {
-    /* Here is the assumption about a_quote: */
+    /* Here is the assumption about a_quote. */
     assert(a_quote == quote_length(a_line));
+
     return a_quote == quote_length(b_line) &&
 	strncmp(a_line, b_line, a_quote) == 0;
 }
@@ -3471,11 +3475,11 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 
 		    /* Run the function associated with this shortcut,
 		     * if there is one. */
-		if (s->func != NULL) {
-		    if (ISSET(VIEW_MODE) && !s->viewok)
-			print_view_warning();
-		    else
-			s->func();
+		    if (s->func != NULL) {
+			if (ISSET(VIEW_MODE) && !s->viewok)
+			    print_view_warning();
+			else
+			    s->func();
 		    }
 		    break;
 	    }

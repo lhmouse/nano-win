@@ -416,8 +416,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 	)
 
 {
-    static int escapes = 0;
-    static int word_digits = 0;
+    static int escapes = 0, word_digits = 0;
     buffer *kbinput;
     int retval = ERR;
 
@@ -600,7 +599,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 
 			    /* Put back the non-escape character, get
 			     * the complete escape sequence, translate
-			     * its key values into the corresponding key
+			     * the sequence into its corresponding key
 			     * value, and save that as the result. */
 			    unget_input(kbinput, 1);
 			    seq_len = get_buffer_len();
@@ -1226,16 +1225,15 @@ int get_escape_seq_abcd(int kbinput)
     }
 }
 
-/* Translate a word sequence: turn a three-digit decimal number from
- * 000 to 255 into its corresponding word value. */
+/* Translate a word sequence: turn a five-digit decimal number from
+ * 00000 to 65535 into its corresponding word value. */
 int get_word_kbinput(int kbinput
 #ifndef NANO_SMALL
 	, bool reset
 #endif
 	)
 {
-    static int word_digits = 0;
-    static int word_kbinput = 0;
+    static int word_digits = 0, word_kbinput = 0;
     int retval = ERR;
 
 #ifndef NANO_SMALL
@@ -1424,6 +1422,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 
 	while (word == ERR) {
 	    while ((kbinput = get_input(win, 1)) == NULL);
+
 	    word = get_word_kbinput(kbinput->key
 #ifndef NANO_SMALL
 		, FALSE
