@@ -275,14 +275,10 @@ void help_init(void)
 		"for, then hit enter.  If there is a match for the text you "
 		"entered, the screen will be updated to the location of the "
 		"nearest match for the search string.\n\n "
-		"If using Pico Mode via the -p or --pico flags, the "
-		"Meta-P toggle, or a nanorc file, the previous search "
-		"string will be shown in brackets after the Search: prompt.  "
-		"Hitting Enter without entering any text will perform the "
-		"previous search.  Otherwise, the previous string will be "
-		"placed before the cursor, and can be edited or deleted "
-		"before hitting enter.\n\n The following function keys are "
-		"available in Search mode:\n\n");
+		"The previous search string will be shown in brackets after "
+		"the Search: prompt.  Hitting Enter without entering any text "
+		"will perform the previous search.\n\n The following function "
+		"keys are available in Search mode:\n\n");
     else if (currshortcut == goto_list)
 	ptr = _("Go To Line Help Text\n\n "
 		"Enter the line number that you wish to go to and hit "
@@ -661,7 +657,6 @@ void usage(void)
 #ifndef DISABLE_OPERATINGDIR
     print1opt(_("-o [dir]"), _("--operatingdir=[dir]"), _("Set operating directory"));
 #endif
-    print1opt("-p", "--pico", _("Emulate Pico as closely as possible"));
 #ifndef DISABLE_WRAPJUSTIFY
     print1opt(_("-r [#cols]"), _("--fill=[#cols]"), _("Set fill cols to (wrap lines at) #cols"));
 #endif
@@ -2933,11 +2928,6 @@ void do_toggle(const toggle *which)
     TOGGLE(which->flag);
 
     switch (which->val) {
-    case TOGGLE_PICOMODE_KEY:
-	shortcut_init(0);
-	SET(CLEAR_BACKUPSTRING);
-	display_main_list();
-	break;
     case TOGGLE_SUSPEND_KEY:
 	signal_init();
 	break;
@@ -3046,7 +3036,6 @@ int main(int argc, char *argv[])
 #ifndef DISABLE_OPERATINGDIR
 	{"operatingdir", 1, 0, 'o'},
 #endif
-	{"pico", 0, 0, 'p'},
 #ifndef DISABLE_WRAPJUSTIFY
 	{"fill", 1, 0, 'r'},
 #endif

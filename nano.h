@@ -222,29 +222,28 @@ typedef struct historyheadtype {
 #define MARK_ISSET		(1<<3)
 #define CONSTUPDATE		(1<<4)
 #define NO_HELP			(1<<5)
-#define NOFOLLOW_SYMLINKS	(1<<7)
-#define SUSPEND			(1<<8)
-#define NO_WRAP			(1<<9)
-#define AUTOINDENT		(1<<10)
-#define SAMELINEWRAP		(1<<11)
-#define VIEW_MODE		(1<<12)
-#define USE_MOUSE		(1<<13)
-#define USE_REGEXP		(1<<14)
-#define REGEXP_COMPILED		(1<<15)
-#define TEMP_OPT		(1<<16)
-#define CUT_TO_END		(1<<17)
-#define REVERSE_SEARCH		(1<<18)
-#define MULTIBUFFER		(1<<19)
-#define CLEAR_BACKUPSTRING	(1<<20)
-#define DOS_FILE		(1<<21)
-#define MAC_FILE		(1<<22)
-#define SMOOTHSCROLL		(1<<23)
-#define DISABLE_CURPOS		(1<<24)	/* Damn, we still need it */
-#define ALT_KEYPAD		(1<<25)
-#define NO_CONVERT		(1<<26)
-#define BACKUP_FILE		(1<<27)
-#define NO_RCFILE		(1<<28)
-#define COLOR_SYNTAX		(1<<29)
+#define NOFOLLOW_SYMLINKS	(1<<6)
+#define SUSPEND			(1<<7)
+#define NO_WRAP			(1<<8)
+#define AUTOINDENT		(1<<9)
+#define SAMELINEWRAP		(1<<10)
+#define VIEW_MODE		(1<<11)
+#define USE_MOUSE		(1<<12)
+#define USE_REGEXP		(1<<13)
+#define REGEXP_COMPILED		(1<<14)
+#define TEMP_OPT		(1<<15)
+#define CUT_TO_END		(1<<16)
+#define REVERSE_SEARCH		(1<<17)
+#define MULTIBUFFER		(1<<18)
+#define DOS_FILE		(1<<19)
+#define MAC_FILE		(1<<20)
+#define SMOOTHSCROLL		(1<<21)
+#define DISABLE_CURPOS		(1<<22)	/* Damn, we still need it */
+#define ALT_KEYPAD		(1<<23)
+#define NO_CONVERT		(1<<24)
+#define BACKUP_FILE		(1<<25)
+#define NO_RCFILE		(1<<26)
+#define COLOR_SYNTAX		(1<<27)
 
 /* Control key sequences, changing these would be very very bad */
 
@@ -385,7 +384,6 @@ know what you're doing */
 #define TOGGLE_AUTOINDENT_KEY	NANO_ALT_I
 #define TOGGLE_SUSPEND_KEY	NANO_ALT_Z
 #define TOGGLE_NOHELP_KEY	NANO_ALT_X
-#define TOGGLE_PICOMODE_KEY	NANO_ALT_P
 #define TOGGLE_MOUSE_KEY	NANO_ALT_M
 #define TOGGLE_CUTTOEND_KEY	NANO_ALT_K
 #define TOGGLE_REGEXP_KEY	NANO_ALT_R

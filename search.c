@@ -110,14 +110,6 @@ int search_init(int replacing)
 
     search_init_globals();
 
-    /* Clear the backupstring if we've changed from Pico mode to regular
-       mode */
-    if (ISSET(CLEAR_BACKUPSTRING)) {
-	free(backupstring);
-	backupstring = NULL;
-	UNSET(CLEAR_BACKUPSTRING);
-    }
-
     if (backupstring == NULL)
 #ifndef NANO_SMALL
 	backupstring = mallocstrcpy(backupstring, search_history.current->data);
@@ -131,7 +123,6 @@ int search_init(int replacing)
     search_history.current = (historytype *)&search_history.next;
 #endif
 
-    /* If using Pico messages, we do things the old fashioned way... */
     if (last_search[0] != '\0') {
 	buf = charalloc(COLS / 3 + 7);
 	/* We use COLS / 3 here because we need to see more on the line */
