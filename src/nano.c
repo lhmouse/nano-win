@@ -2909,7 +2909,8 @@ void do_justify(bool full_justify)
 	/* Next step, we loop through the lines of this paragraph,
 	 * justifying each one individually. */
 	for (; par_len > 0; current_y++, par_len--) {
-	    size_t indent_len;	/* Generic indentation length. */
+	    size_t indent_len;
+		/* Generic indentation length. */
 	    size_t line_len;
 	    size_t display_len;
 		/* The width of current in screen columns. */
