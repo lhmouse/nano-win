@@ -2893,11 +2893,14 @@ void edit_refresh(void)
 
     if (current->lineno < edittop->lineno ||
 	    current->lineno >= edittop->lineno + editwinrows)
-	/* Note that edit_update() changes edittop so that
-	 * current->lineno = edittop->lineno + editwinrows / 2.  Thus
-	 * when it then calls edit_refresh(), there is no danger of
-	 * getting an infinite loop. */
-	edit_update(CENTER);
+	/* Note that edit_update() changes edittop so that it's in range
+	 * of current.  Thus, when it then calls edit_refresh(), there
+	 * is no danger of getting an infinite loop. */
+	edit_update(
+#ifndef NANO_SMALL
+		ISSET(SMOOTHSCROLL) ? NONE :
+#endif
+		CENTER);
     else {
 	int nlines = 0;
 	const filestruct *foo = edittop;
@@ -2922,7 +2925,8 @@ void edit_refresh(void)
     }
 }
 
-/* A nice generic routine to update the edit buffer. */
+/* A nice generic routine to update the edit buffer.  We keep current in
+ * the same place and move edittop to put it in range of current. */
 void edit_update(topmidnone location)
 {
     filestruct *foo = current;
@@ -2932,11 +2936,36 @@ void edit_update(topmidnone location)
 	return;
 
     if (location != TOP) {
-	int goal = (location == NONE) ? current_y : editwinrows / 2;
+	/* If location is CENTER, we move edittop up (editwinrows / 2)
+	 * lines.  This puts current at the center of the screen.  If
+	 * location is NONE, we move edittop up current_y lines if
+	 * current_y is in range of the screen, 0 lines if current_y is
+	 * less than 0, or (editwinrows - 1) lines if current_y is
+	 * greater than (editwinrows - 1).  This puts current at the
+	 * same place on the screen as before, or at the top or bottom
+	 * of the screen if edittop is beyond either. */
+	int goal;
+
+	if (location == CENTER)
+	    goal = editwinrows / 2;
+	else {
+	    goal = current_y;
+
+	    /* Limit goal to (editwinrows - 1) lines maximum. */
+	    if (goal > editwinrows - 1)
+		goal = editwinrows - 1;
+
+	    /* If the last line of the file is onscreen but isn't at the
+	     * bottom of the screen, set goal so that it will be after
+	     * we update. */
+	    if (foo->lineno + editwinrows >= filebot->lineno)
+		goal = (editwinrows - 1) - (filebot->lineno - foo->lineno);
+	}
 
 	for (; goal > 0 && foo->prev != NULL; goal--)
 	    foo = foo->prev;
     }
+
     edittop = foo;
     edit_refresh();
 }

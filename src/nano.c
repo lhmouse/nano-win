@@ -2024,6 +2024,7 @@ void do_para_begin(void)
     if (current->prev != NULL) {
 	do {
 	    current = current->prev;
+	    current_y--;
 	} while (!begpar(current));
     }
 
@@ -2052,8 +2053,10 @@ void do_para_end(void)
 	current = current->next;
 
     while (current->next != NULL && inpar(current->next->data) &&
-	    !begpar(current->next))
+	    !begpar(current->next)) {
 	current = current->next;
+	current_y++;
+    }
 
     if (current->next != NULL)
 	current = current->next;

@@ -14,6 +14,10 @@ CVS code -
 - global.c:
   shortcut_init()
 	- Remove redundant NANO_SMALL #ifdef. (DLR)
+- nano.c:
+  do_para_begin(), do_para_end()
+	- Maintain current_y as do_justify() does, for consistency with
+	  it. (DLR)
 - rcfile.c:
   parse_rcfile()
 	- Add missing brackets around an if statement block so that
@@ -29,9 +33,18 @@ CVS code -
 	- If there are more than MAIN_VISIBLE shortcuts available, only
 	  register clicks on the first MAIN_VISIBLE shortcuts, since
 	  bottombars() only shows that many shortcuts. (DLR)
+  edit_refresh()
+	- Call edit_update() with NONE instead of CENTER when smooth
+	  scrolling is on, for consistency with the movement routines.
+	  (DLR)
   edit_update()
 	- Simplify so as not to require the fileptr parameter anymore,
 	  since it's set to current in all calls. (DLR)
+	- Add comments better explaining what the update actually does,
+	  avoid an infinite loop when location is NONE and current_y is
+	  greater than (editwinrows - 1), and make sure that the bottom
+	  line of the file is at the bottom line of the screen if it's
+	  onscreen and location is NONE. (DLR)
   do_yesno()
 	- Don't bother assigning the value of get_mouseinput() to
 	  anything.  Since allow_shortcuts is FALSE, its return value
