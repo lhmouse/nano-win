@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2001-03-22 21:42-0500\n"
+"POT-Creation-Date: 2001-03-28 08:25-0500\n"
 "PO-Revision-Date: 2001-03-21 23:46+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -114,13 +114,13 @@ msgstr "El fichero existe, ¿ SOBREESCRIBIR ?"
 msgid "(more)"
 msgstr "(más)"
 
-#: files.c:1236
+#: files.c:1232
 msgid "Can't move up a directory"
 msgstr "No puedo ascender de directorio"
 
 # y, c-format
 #. We can't open this dir for some reason.  Complain
-#: files.c:1244
+#: files.c:1240
 #, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "No se puede abrir \"%s\": %s"

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano-1.0\n"
-"POT-Creation-Date: 2001-03-22 21:42-0500\n"
+"POT-Creation-Date: 2001-03-28 08:25-0500\n"
 "PO-Revision-Date: 2001-02-08 10:09+07:00\n"
 "Last-Translator: Tedi Heriyanto <tedi-h@usa.net>\n"
 "Language-Team: Indonesian <id@li.org>\n"
@@ -113,12 +113,12 @@ msgstr "File ada, DITIMPA ?"
 msgid "(more)"
 msgstr "(lagi)"
 
-#: files.c:1236
+#: files.c:1232
 msgid "Can't move up a directory"
 msgstr "Tidak dapat memindahkan direktori"
 
 #. We can't open this dir for some reason.  Complain
-#: files.c:1244
+#: files.c:1240
 #, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "Tidak dapat membuka \"%s\": %s"

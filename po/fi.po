@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.18\n"
-"POT-Creation-Date: 2001-03-22 21:42-0500\n"
+"POT-Creation-Date: 2001-03-28 08:25-0500\n"
 "PO-Revision-Date: 2001-01-12 17:21+02:00\n"
 "Last-Translator: Pauli Virtanen <pauli.virtanen@saunalahti.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -112,12 +112,12 @@ msgstr "Tiedosto on jo olemassa, korvataanko?"
 msgid "(more)"
 msgstr "(lis‰‰)"
 
-#: files.c:1236
+#: files.c:1232
 msgid "Can't move up a directory"
 msgstr "Ei voi siirty‰ yl‰hakemistoon"
 
 #. We can't open this dir for some reason.  Complain
-#: files.c:1244
+#: files.c:1240
 #, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "Hakemistoa \"%s\" ei voi avata: %s"

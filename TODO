@@ -25,5 +25,9 @@ For Next Version:
 - .nanorc ?????
 - Backup making (filename~)?
 - Search (etc) string history [1.1]
+- Implent Pico's -j and -g flags, as they are pretty easy to do.
+- Make mouse support work with clicking on the shortcuts (-m).  Must
+  make global variable pointing to current shortcut list to determine what
+  keystroke to ungetch().
 
 $Id$

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.99pre2\n"
-"POT-Creation-Date: 2001-03-22 21:42-0500\n"
+"POT-Creation-Date: 2001-03-28 08:25-0500\n"
 "PO-Revision-Date: 2001-02-03 07:47-0000\n"
 "Last-Translator: Szabolcs Horvath <horvaths@penguinpowered.com>\n"
 "Language-Team: Hungarian <magyar@lists.linux.hu>\n"
@@ -113,12 +113,12 @@ msgstr "A fájl már létezik, felülírjam?"
 msgid "(more)"
 msgstr "(tovább)"
 
-#: files.c:1236
+#: files.c:1232
 msgid "Can't move up a directory"
 msgstr "Nem tudok a könyvtárfán feljebb lépni"
 
 #. We can't open this dir for some reason.  Complain
-#: files.c:1244
+#: files.c:1240
 #, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "Nem tudom megnyitni \"%s\": %s"

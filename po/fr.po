@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.9\n"
-"POT-Creation-Date: 2001-03-22 21:42-0500\n"
+"POT-Creation-Date: 2001-03-28 08:25-0500\n"
 "PO-Revision-Date: 2000-07-09 01:32+0100\n"
 "Last-Translator: Clement Laforet <sheep.killer@free.fr>\n"
 "Language-Team: French <LL@li.org>\n"
@@ -116,12 +116,12 @@ msgstr "Fichier existant, écrire par-dessus ?"
 msgid "(more)"
 msgstr ""
 
-#: files.c:1236
+#: files.c:1232
 msgid "Can't move up a directory"
 msgstr ""
 
 #. We can't open this dir for some reason.  Complain
-#: files.c:1244
+#: files.c:1240
 #, fuzzy, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "Impossible de fermer %s: %s"

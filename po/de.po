@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.0.0\n"
-"POT-Creation-Date: 2001-03-22 21:42-0500\n"
+"POT-Creation-Date: 2001-03-28 08:25-0500\n"
 "PO-Revision-Date: 2001-02-08 17:56+0200\n"
 "Last-Translator: Florian Kˆnig <floki@bigfoot.com>\n"
 "Language-Team: German <floki@bigfoot.com>\n"
@@ -114,12 +114,12 @@ msgstr "Datei exisitiert, ‹BERSCHREIBEN ?"
 msgid "(more)"
 msgstr "(mehr)"
 
-#: files.c:1236
+#: files.c:1232
 msgid "Can't move up a directory"
 msgstr "Konnte nicht in Åbergeordnetes Verzeichnis wechseln"
 
 #. We can't open this dir for some reason.  Complain
-#: files.c:1244
+#: files.c:1240
 #, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "Konnte \"%s\" nicht ˆffnen: %s"

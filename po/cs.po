@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
-"POT-Creation-Date: 2001-03-22 21:42-0500\n"
+"POT-Creation-Date: 2001-03-28 08:25-0500\n"
 "Last-Translator: Václav Haisman <V.Haisman@sh.cvut.cz>\n"
 "Language-Team: N/A\n"
 "MIME-Version: 1.0\n"
@@ -112,12 +112,12 @@ msgstr "Soubor existuje, PØEPSAT ?"
 msgid "(more)"
 msgstr "(více)"
 
-#: files.c:1236
+#: files.c:1232
 msgid "Can't move up a directory"
 msgstr "Nemohu se pøesunout o adresáø vý¹e"
 
 #. We can't open this dir for some reason.  Complain
-#: files.c:1244
+#: files.c:1240
 #, fuzzy, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "Nemohu zavøít %s: %s"
