@@ -641,7 +641,7 @@ int get_control_kbinput(int kbinput)
 }
 
 /* Translate escape sequences, most of which correspond to extended
- * keypad values, nto their corresponding key values.  These sequences
+ * keypad values, into their corresponding key values.  These sequences
  * are generated when the keypad doesn't support the needed keys.  If
  * the escape sequence is recognized but we want to ignore it, return
  * ERR and set ignore_seq to TRUE; if it's unrecognized, return ERR and
