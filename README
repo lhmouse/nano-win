@@ -26,8 +26,8 @@ How to compile and install nano
      make
      make install
      
-     It's that simple. Use --prefix to override the default installation
-     directory of /usr/local.
+     It's that simple. Use --prefix with configutr to override the 
+     default installation directory of /usr/local.
      
 Web Page
 
@@ -50,16 +50,11 @@ Mailing List and Bug Reports
 
 Current Status
 
-     nano is currently at version 0.9.x, and it will probably remain there
-     for awhile. This reflects the adage that the last 10% of a project
-     takes 90% of the time. Version 1.0 will be released when there are
-     no unresolved bugs, and not before. I am also currently looking for
-     patches for all things listed in the TODO file. If you have a
-     comment or suggestion, please let me know, all help is appreciated.
-
-     Warning:  This program can and possibly will corrupt your data in
-     its current form!  It is beta software, so treat it as such!  
-     Thank you.
+     nano is currently at the 1.0 prerelease level. This mean it has all
+     features that the 1.0 version will have and only bug fixes and updates 
+     will be added before the official 1.0 is released. There are still a
+     few lingering bugs, but for the most part your data should be safe.
+     Backups are still your friend though.
      
      Note that the primary aim of nano is to emulate Pico while adding a
      few key "missing" features. I do NOT want just a GPL'ed Pico clone,
@@ -68,8 +63,7 @@ Current Status
      fork my code at any time, but please call your editor something
      else, believe it or not I struggled awhile before coming up with
      the name nano (and before that TIP), and it would be much easier for
-     everyone if there weren't five versions of the same program. As you
-     can guess, I'm not much of an emacs fan ;)
+     everyone if there weren't five versions of the same program.
      
    Chris Allegretta (chrisa@asty.org)
 
