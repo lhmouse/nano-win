@@ -1,14 +1,15 @@
 CVS Code -
 - General:
 	- Translation updates (see po/ChangeLog for details).
-	- Upgraded to gettext 0.11.2.
+	- Upgraded to gettext 0.11.2 (Jordi).
 	  Removed intl/ entirely, and a few more tweaks by gettextize.
 - global.c:
   shortcut_init()
 	- Rework IFHELP macro (David Benbennick).
-- nanorc.sample
+- nanorc.sample:
 	- Put in much less crappy example regex rules for c-file.
-
+- THANKS:
+	- Completed a bit (Jordi).
 GNU nano 1.1.9 - 05/12/2002
 - General:
 	- Typos n misspellings all over the place (David Benbennick).
