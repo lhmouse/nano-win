@@ -1,3 +1,9 @@
+CVS code -
+- files.c:
+  write_file()
+	- Change open call flags, basically copy joe's way of doing it so
+	  a more recent version will actually be included in (un)stable.
+
 nano 0.9.23 - 12/08/2000
 General
 	- Changed --disable-spell to --disable speller.  The term is
