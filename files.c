@@ -589,11 +589,15 @@ char *real_dir_from_tilde(char *buf)
     if (buf[0] == '~') {
 	if (buf[1] == '~')
 	    goto abort;		/* Handle ~~ without segfaulting =) */
-	else if (buf[1] == '/') {
+	else if (buf[1] == 0 || buf[1] == '/') {
 	    if (getenv("HOME") != NULL) {
 		dirtmp = nmalloc(strlen(buf) + 2 + strlen(getenv("HOME")));
 
-		sprintf(dirtmp, "%s/%s", getenv("HOME"), &buf[2]);
+		if (strlen(buf) > 2)
+		    sprintf(dirtmp, "%s/%s", getenv("HOME"), &buf[2]);
+		else
+		    sprintf(dirtmp, "%s/", getenv("HOME"));
+
 	    }
 	} else if (buf[1] != 0) {
 
