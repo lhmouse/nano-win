@@ -63,8 +63,7 @@ int page_down(void)
 	    current = current->next;
 	    current_y++;
 
-	    if (edittop != fileage)
-		edit_update(current);
+	    edit_update(current);
 	}
 
     update_cursor();

@@ -16,8 +16,7 @@ CVS code
 	  Hopefully this will not cause any recursive lockups.
 - move.c:
   page_down()
-	- do an edit_update() at last case if we're not at the first
-	  screen...
+	- do an edit_update() at last case.
 
 nano-0.9.14 - 07/27/2000
 - nano.h:
