@@ -7,6 +7,8 @@ CVS code -
 	- New Norwegian bokmål translation (Stig E Sandoe <stig@ii.uib.no>).
 - po/it.po:
 	- Italian translation updates (Marco Colombo).
+- po/fr.po:
+	- French translation updates (Jean-Philippe Guérard).
 
 nano-1.0.8 - 01/16/2002
 - General
