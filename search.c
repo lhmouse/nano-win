@@ -121,7 +121,9 @@ int search_init(int replacing)
     } else if (i == NANO_FROMSEARCHTOGOTO_KEY) {
 	do_gotoline_void();
 	return -3;
-    } else {			/* First line key, etc. */
+    } else if (i == NANO_NULL_KEY)	/* They hit ^N! */
+	strncpy(last_search, "", 132);
+    else {			/* First line key, etc. */
 	do_early_abort();
 	return -3;
     }

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-10-25 21:35-0400\n"
+"POT-Creation-Date: 2000-10-26 08:48-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgstr ""
 msgid "Read %d lines"
 msgstr ""
 
-#: files.c:217 search.c:159 search.c:194
+#: files.c:217 search.c:161 search.c:196
 #, c-format
 msgid "\"%s\" not found"
 msgstr ""
@@ -761,57 +761,57 @@ msgstr ""
 msgid "Search Cancelled"
 msgstr ""
 
-#: search.c:175
+#: search.c:177
 msgid "Search Wrapped"
 msgstr ""
 
-#: search.c:254
+#: search.c:256
 #, c-format
 msgid "Replaced %d occurences"
 msgstr ""
 
-#: search.c:256
+#: search.c:258
 msgid "Replaced 1 occurence"
 msgstr ""
 
-#: search.c:390 search.c:419 search.c:444
+#: search.c:392 search.c:421 search.c:446
 msgid "Replace Cancelled"
 msgstr ""
 
 #. They used ^N in the search field, shame on them.
 #. Any Dungeon fans out there?
-#: search.c:407
+#: search.c:409
 msgid "Nothing Happens"
 msgstr ""
 
-#: search.c:415
+#: search.c:417
 #, c-format
 msgid "Replace with [%s]"
 msgstr ""
 
 #. last_search is empty
-#: search.c:442
+#: search.c:444
 msgid "Replace with"
 msgstr ""
 
-#: search.c:485
+#: search.c:487
 msgid "Replace this instance?"
 msgstr ""
 
 #. Ask for it
-#: search.c:546
+#: search.c:548
 msgid "Enter line number"
 msgstr ""
 
-#: search.c:548
+#: search.c:550
 msgid "Aborted"
 msgstr ""
 
-#: search.c:568
+#: search.c:570
 msgid "Come on, be reasonable"
 msgstr ""
 
-#: search.c:573
+#: search.c:575
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr ""

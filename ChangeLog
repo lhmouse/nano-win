@@ -1,7 +1,8 @@
 CVS Code -
 - Ran source through indent -kr again.  Make everything pretty.
 - Added "replace with null" option.  ^N in replace.  New alias
-  NANO_NULL_KEY, and code in do_replace to check for it.
+  NANO_NULL_KEY, and code in do_replace to check for it.  Readded
+  NANO_NULL_KEY case to search_init code.
 - global.c
   toggle_init()
 	- Added #ifdef around toggle_regex_msg to get rid of compiler 
