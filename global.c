@@ -267,7 +267,7 @@ void shortcut_init(void)
 		nano_case_msg, 0, 0, 0, VIEW, 0);
 
 
-    sc_init_one(&whereis_list[3], NANO_OTHERSEARCH_KEY, _("To Replace"),
+    sc_init_one(&whereis_list[3], NANO_OTHERSEARCH_KEY, _("Replace"),
 		nano_replace_msg, 0, 0, 0, VIEW, do_replace);
 
     sc_init_one(&whereis_list[4], NANO_FROMSEARCHTOGOTO_KEY, _("Goto Line"),

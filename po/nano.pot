@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-06-28 21:18-0400\n"
+"POT-Creation-Date: 2000-06-30 16:38-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -247,7 +247,7 @@ msgstr ""
 msgid "Justify"
 msgstr ""
 
-#: global.c:169 global.c:240
+#: global.c:169 global.c:240 global.c:270
 msgid "Replace"
 msgstr ""
 
@@ -341,10 +341,6 @@ msgstr ""
 
 #: global.c:266 global.c:286
 msgid "Case Sens"
-msgstr ""
-
-#: global.c:270
-msgid "To Replace"
 msgstr ""
 
 #: global.c:276 global.c:295 global.c:305 global.c:321 global.c:325
