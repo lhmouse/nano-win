@@ -8,9 +8,15 @@ CVS code -
 	  suspending nano on the Hurd.
   help_init()
 	- Typo fixes in help strings (Jordi).
+	- New variable helplen needes cause currslen is not always
+	  the length we want (bug found by David Lawrence Ramsey).
 - files.c:
   read_file()
 	- Make conversion message less confusing (suggested by Jordi).
+- rcfile.c:
+  parse_next_word()
+	- Get rid of ptr == \n check to abort, screws up option
+	  parsing (bug found by David Lawrence Ramsey)
 - winio.c:
   update_line()
 	- set realdata check to >= 1 && <= 31, lack of > 0 check screwed

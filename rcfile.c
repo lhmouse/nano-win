@@ -107,10 +107,10 @@ void rcfile_msg(int *errors, char *msg, ...)
 /* Parse the next word from the string.  Returns NULL if we hit EOL */
 char *parse_next_word(char *ptr)
 {
-    while (*ptr != ' ' && *ptr != '\t' && *ptr != '\n' && ptr != '\0')
+    while (*ptr != ' ' && *ptr != '\t' && *ptr != '\n' && *ptr != '\0')
 	ptr++;
 
-    if (*ptr == '\0' || *ptr == '\n')
+    if (*ptr == '\0')
 	return NULL;
 	
     /* Null terminate and advance ptr */

@@ -2383,9 +2383,14 @@ int do_justify(void)
 #ifndef DISABLE_HELP
 void help_init(void)
 {
-    int i, sofar = 0;
+    int i, sofar = 0, helplen;
     long allocsize = 1;		/* How much space we're gonna need for the help text */
     char buf[BUFSIZ] = "", *ptr = NULL;
+
+    if (currslen == MAIN_VISIBLE)
+	helplen = MAIN_LIST_LEN;
+    else 
+	helplen = currslen;
 
     /* First set up the initial help text for the current function */
     if (currshortcut == whereis_list || currshortcut == replace_list
@@ -2466,7 +2471,7 @@ void help_init(void)
 
     /* Compute the space needed for the shortcut lists - we add 15 to
        have room for the shortcut abbrev and its possible alternate keys */
-    for (i = 0; i <= currslen - 1; i++)
+    for (i = 0; i <= helplen - 1; i++)
 	if (currshortcut[i].help != NULL)
 	    allocsize += strlen(currshortcut[i].help) + 15;
 
@@ -2491,7 +2496,7 @@ void help_init(void)
     strcpy(help_text, ptr);
 
     /* Now add our shortcut info */
-    for (i = 0; i <= currslen - 1; i++) {
+    for (i = 0; i <= helplen - 1; i++) {
 	if (currshortcut[i].val > 0 && currshortcut[i].val < 'a')
 	   sofar = snprintf(buf, BUFSIZ, "^%c	", currshortcut[i].val + 64);
 	else
