@@ -1205,6 +1205,7 @@ char *do_browser(char *inpath)
 
     titlebar(path);
     bottombars(browser_list, BROWSER_LIST_LEN);
+    keypad_on(TRUE);
     curs_set(0);
     wmove(edit, 0, 0);
     i = 0;
@@ -1240,28 +1241,29 @@ char *do_browser(char *inpath)
 	case NANO_PREVPAGE_KEY:
 	case KEY_PPAGE:
 	    if ((selected / width) % editwinrows == 0) {
-		if (selected - editwinrows >= 0)
-		    selected -= editwinrows; 
+		if (selected - (editwinrows * width) >= 0)
+		    selected -= editwinrows * width; 
 		else
 		    selected = 0;
 	    }
 	    else if (selected - (editwinrows + 
-			(selected / width) %  editwinrows)  >= 0)
-		selected -= editwinrows + (selected / width) %  editwinrows; 
+			(selected / width) % editwinrows) * width  >= 0)
+		selected -= (editwinrows + (selected / width) % 
+				editwinrows) * width; 
 	    else
 		selected = 0;
 	    break;
 	case NANO_NEXTPAGE_KEY:
 	case KEY_NPAGE:	
 	    if ((selected / width) % editwinrows == 0) {
-		if (selected + editwinrows <= numents - 1)
-		    selected += editwinrows; 
+		if (selected + (editwinrows * width) <= numents - 1)
+		    selected += editwinrows * width; 
 		else
 		    selected = numents - 1;
 	    }
 	    else if (selected + (editwinrows - 
-			(selected / width) %  editwinrows) <= numents -  1)
- 		selected += editwinrows - (selected / width) %  editwinrows; 
+			(selected / width) %  editwinrows) * width <= numents - 1)
+ 		selected += (editwinrows - (selected / width) % editwinrows) * width; 
  	    else
 		selected = numents - 1;
 	    break;
