@@ -71,8 +71,7 @@
   causes a random segfault (16) [FIXED?]
 - In replace, there is no way to accept the default replace string. (27)
 - totsize problems still abound in do_justify (33)
-- The keypad does not work when nano runs in an xterm window, but works
-  for rxvts and aterms and the console, odd (43).
+- The keypad does not work when nano runs in the Gnome terminal (43).
 
 $Id$
 
