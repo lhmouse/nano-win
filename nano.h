@@ -137,10 +137,9 @@ typedef struct rcoption {
 #define REGEXP_COMPILED         (1<<15)
 #define TEMP_OPT         	(1<<16)
 #define CUT_TO_END         	(1<<17)
-#define DISABLE_CURPOS         	(1<<18)
-#define REVERSE_SEARCH		(1<<19)
-#define MULTIBUFFER		(1<<20)
-#define CLEAR_BACKUPSTRING	(1<<21)
+#define REVERSE_SEARCH		(1<<18)
+#define MULTIBUFFER		(1<<19)
+#define CLEAR_BACKUPSTRING	(1<<20)
 
 /* Control key sequences, changing these would be very very bad */
 
