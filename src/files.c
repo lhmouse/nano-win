@@ -823,7 +823,7 @@ void add_open_file(bool update)
 }
 
 /* Read the current entry in the open_files structure and set up the
- * currently open file using that entry's information. */
+ * currently open file buffer using that entry's information. */
 void load_open_file(void)
 {
     assert(open_files != NULL);
@@ -887,17 +887,17 @@ void load_open_file(void)
     titlebar(NULL);
 }
 
-/* Open either the next or previous file. */
+/* Open either the next or previous file buffer. */
 void open_prevnext_file(bool next)
 {
     add_open_file(TRUE);
 
     assert(open_files != NULL);
 
-    /* If only one file is open, indicate it on the statusbar and get
-     * out. */
+    /* If only one file buffer is open, indicate it on the statusbar and
+     * get out. */
     if (open_files == open_files->next) {
-	statusbar(_("No more open files"));
+	statusbar(_("No more open file buffers"));
 	return;
     }
 
@@ -938,7 +938,7 @@ void open_nextfile_void(void)
 
 /* Delete an entry from the open_files filestruct.  After deletion of an
  * entry, the next entry is opened.  Return TRUE on success or FALSE if
- * there are no more open files. */
+ * there are no more open file buffers. */
 bool close_open_file(void)
 {
     assert(open_files != NULL);

@@ -70,7 +70,8 @@ partition *filepart = NULL;	/* A place to store a portion of the
 				   file struct */
 
 #ifdef ENABLE_MULTIBUFFER
-openfilestruct *open_files = NULL;	/* The list of open files */
+openfilestruct *open_files = NULL;	/* The list of open file
+					   buffers */
 #endif
 
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)

@@ -26,6 +26,8 @@ CVS code -
 	  free_filestruct(); removal of open_prevfile() and
 	  open_nextfile(). (David Benbennick, minor tweaks and additions
 	  by DLR)
+	- Change references to "open files" to "open file buffers", for
+	  consistency. (DLR)
 - cut.c:
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the

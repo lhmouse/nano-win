@@ -124,41 +124,32 @@ void die(const char *msg, ...)
     vfprintf(stderr, msg, ap);
     va_end(ap);
 
-    /* save the currently loaded file if it's been modified */
+    /* Save the current file buffer if it's been modified. */
     if (ISSET(MODIFIED))
 	die_save_file(filename);
 
 #ifdef ENABLE_MULTIBUFFER
-    /* then save all of the other modified loaded files, if any */
+    /* Save all of the other modified file buffers, if any. */
     if (open_files != NULL) {
-	openfilestruct *tmp;
+	openfilestruct *tmp = open_files;
 
-	tmp = open_files;
+	while (tmp != open_files->next) {
+	    open_files = open_files->next;
 
-	while (open_files->prev != NULL)
-	    open_files = open_files->prev;
-
-	while (open_files->next != NULL) {
-
-	    /* if we already saved the file above (i.e, if it was the
-	       currently loaded file), don't save it again */
-	    if (tmp != open_files) {
-		/* make sure open_files->fileage and fileage, and
-		   open_files->filebot and filebot, are in sync; they
-		   might not be if lines have been cut from the top or
-		   bottom of the file */
+	    /* Save the current file buffer if it's been modified. */
+	    if (open_files->flags & MODIFIED) {
+		/* Set fileage and filebot to match the current file
+		 * buffer, and then write it to disk. */
 		fileage = open_files->fileage;
 		filebot = open_files->filebot;
-		/* save the file if it's been modified */
-		if (open_files->flags & MODIFIED)
-		    die_save_file(open_files->filename);
+		die_save_file(open_files->filename);
 	    }
-	    open_files = open_files->next;
 	}
     }
 #endif
 
-    exit(1); /* We have a problem: exit w/ errorlevel(1) */
+    /* Get out. */
+    exit(1);
 }
 
 void die_save_file(const char *die_filename)
@@ -3125,7 +3116,7 @@ void do_exit(void)
 
     if (i == 0 || (i == 1 && do_writeout(TRUE) > 0)) {
 #ifdef ENABLE_MULTIBUFFER
-	/* Exit only if there are no more open buffers. */
+	/* Exit only if there are no more open file buffers. */
 	if (!close_open_file())
 #endif
 	    finish();
