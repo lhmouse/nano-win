@@ -658,7 +658,7 @@ ssize_t do_replace_loop(const char *needle, filestruct *real_current,
 {
     ssize_t numreplaced = -1;
     size_t match_len;
-    size_t old_pww = placewewant, current_x_save = *real_current_x;
+    size_t pww_save = placewewant, current_x_save = *real_current_x;
     const filestruct *current_save = real_current;
     bool replaceall = FALSE;
 #ifdef HAVE_REGEX_H
@@ -748,8 +748,8 @@ ssize_t do_replace_loop(const char *needle, filestruct *real_current,
 #endif
 
 	if (!replaceall) {
-	    edit_redraw(current_save, old_pww);
-	    old_pww = placewewant;
+	    edit_redraw(current_save, pww_save);
+	    pww_save = placewewant;
 	}
 
 	/* Record for the return value that we found the search string. */
@@ -1042,7 +1042,7 @@ void do_find_bracket(void)
     char ch_under_cursor, wanted_ch;
     const char *pos, *brackets = "([{<>}])";
     char regexp_pat[] = "[  ]";
-    size_t current_x_save, old_pww;
+    size_t current_x_save, pww_save;
     int count = 1;
     long flags_save;
     filestruct *current_save;
@@ -1060,7 +1060,7 @@ void do_find_bracket(void)
 
     current_save = current;
     current_x_save = current_x;
-    old_pww = placewewant;
+    pww_save = placewewant;
     flags_save = flags;
     SET(USE_REGEXP);
 
@@ -1092,7 +1092,7 @@ void do_find_bracket(void)
 	    /* Found complementary bracket. */
 	    else if (--count == 0) {
 		placewewant = xplustabs();
-		edit_redraw(current_save, old_pww);
+		edit_redraw(current_save, pww_save);
 		break;
 	    }
 	} else {
