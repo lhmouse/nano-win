@@ -3003,7 +3003,9 @@ int main(int argc, char *argv[])
 {
     int optchr;
     int startline = 0;		/* Line to try and start at */
+#ifndef DISABLE_WRAPJUSTIFY
     bool fill_flag_used = FALSE;	/* Was the fill option used? */
+#endif
     const shortcut *s;
     bool keyhandled = FALSE;	/* Have we handled the keystroke yet? */
     int kbinput;		/* Input from keyboard */
@@ -3299,7 +3301,7 @@ int main(int argc, char *argv[])
 	    operating_dir = operating_dir_cpy;
 	}
 #endif
-#ifndef DISABLE_WRAPPING
+#ifndef DISABLE_WRAPJUSTIFY
 	if (fill_flag_used)
 	    wrap_at = wrap_at_cpy;
 #endif
