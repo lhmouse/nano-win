@@ -93,6 +93,8 @@ Cvs code -
   write_file()
 	- New arg, nonamechange, means whether or not to update the
 	  current filename after writing the file out.
+	- Increment lineswritten when the very last line isn't null.
+	  Fixes off by one count when writing selection to file.
 - global.c:
 	- Updated some of the lists for the "Goto Directory" code (Rocco)
 - move.c:

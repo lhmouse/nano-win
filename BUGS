@@ -121,7 +121,4 @@
 
 ** Open BUGS **
 
-Informal note - when using marked write to file, the number of lines
-written is off by one.  Delete this message when fixed.
-
 $Id$

@@ -448,6 +448,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	    return -1;
 	} else if (size > 0) {
 	    size = write(fd, "\n", 1);
+	    lineswritten++;
 	    if (size == -1) {
 		statusbar(_("Could not open file for writing: %s"),
 			  strerror(errno));
