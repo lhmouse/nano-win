@@ -65,7 +65,7 @@ int get_kbinput(WINDOW *win, int *meta_key)
 /* Read in a string of input characters (e.g. an escape sequence)
  * verbatim, and return the length of the string in kbinput_len.  Assume
  * nodelay(win) is FALSE. */
-int *get_verbatim_kbinput(WINDOW *win, int *kbinput_len, int
+int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len, int
 	allow_ascii)
 {
     int kbinput, *verbatim_kbinput;
@@ -101,7 +101,7 @@ int *get_verbatim_kbinput(WINDOW *win, int *kbinput_len, int
 #endif
 	while ((kbinput = wgetch(win)) != ERR) {
 	    (*kbinput_len)++;
-	    verbatim_kbinput = realloc(verbatim_kbinput, *kbinput_len * sizeof(int));
+	    verbatim_kbinput = (int *)nrealloc(verbatim_kbinput, *kbinput_len * sizeof(int));
 	    verbatim_kbinput[*kbinput_len - 1] = kbinput;
 #ifdef DEBUG
 	    fprintf(stderr, "get_verbatim_kbinput(): kbinput = %d\n", kbinput);
@@ -196,7 +196,8 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta_key)
 		 * Hemel. */
 		case '[':
 		{
-		    int old_kbinput = kbinput, *escape_seq, escape_seq_len;
+		    int old_kbinput = kbinput, *escape_seq;
+		    size_t escape_seq_len;
 		    nodelay(win, TRUE);
 		    kbinput = wgetch(win);
 		    switch (kbinput) {
@@ -371,7 +372,7 @@ int get_ascii_kbinput(WINDOW *win, int kbinput)
  *   omitted.  (Same as above.)
  * - The Hurd console has no escape sequences for F11, F12, F13, or
  *   F14. */
-int get_escape_seq_kbinput(WINDOW *win, int *escape_seq, int
+int get_escape_seq_kbinput(WINDOW *win, int *escape_seq, size_t
 	escape_seq_len)
 {
     int kbinput = ERR;

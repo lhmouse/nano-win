@@ -14,6 +14,10 @@ CVS code -
 - nano.c:
   do_delete()
 	- Tweak for efficiency. (David Benbennick)
+  do_verbatim_kbinput()
+	- Use size_t's instead of ints for the get_verbatim_kbinput()
+	  call and the loop that ungetch()es its returned int*,
+	  respectively. (DLR)
 - proto.h:
 	- Remove unused add_marked_sameline() prototype. (DLR)
 - rcfile.c:
@@ -39,6 +43,14 @@ CVS code -
 	- Refactor the output in the DEBUG #ifdef.  It didn't work
 	  properly ever since this function was changed to use an int*
 	  instead of a char*. (DLR)
+	- Change kbinput_len from an int* to a size_t*, since it should
+	  never be negative. (DLR)
+	- When reading characters from input, properly reallocate
+	  verbatim_kbinput via (int*)nrealloc() instead of an uncast
+	  realloc(). (DLR)
+  get_escape_seq_kbinput()
+	- Change escape_seq_len from an int to a size_t, since it should
+	  never be negative. (DLR)
   edit_refresh()
 	- Remove apparently unneeded leaveok() calls. (David Benbennick)
 - nano.texi:

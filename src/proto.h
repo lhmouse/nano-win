@@ -452,12 +452,12 @@ int check_wildcard_match(const char *text, const char *pattern);
 
 /* Public functions in winio.c */
 int get_kbinput(WINDOW *win, int *meta_key);
-int *get_verbatim_kbinput(WINDOW *win, int *kbinput_len, int
+int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len, int
 	allow_ascii);
 int get_ignored_kbinput(WINDOW *win);
 int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta_key);
 int get_ascii_kbinput(WINDOW *win, int kbinput);
-int get_escape_seq_kbinput(WINDOW *win, int *escape_seq, int
+int get_escape_seq_kbinput(WINDOW *win, int *escape_seq, size_t
 	escape_seq_len);
 int get_escape_seq_abcd(int kbinput);
 int get_mouseinput(int *mouse_x, int *mouse_y, int shortcut);
