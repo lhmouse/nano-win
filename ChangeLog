@@ -71,6 +71,11 @@ CVS code -
 - utils.c:
   strstrwrapper()
 	- NANO_SMALL test was backwards (Ken Tyler).
+- utils.c:
+  strcasestr(),revstrcasestr()
+	- Renamed to stristr and revstristr since strcasestr has not
+	  been confirmed to be detected properly on various Linux
+	  systems.
 - nanorc.sample
 	- Mention unset in the sample nanorc.
 - po/ca.po, po/es.po:

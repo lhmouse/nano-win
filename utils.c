@@ -77,7 +77,7 @@ char *revstrstr(char *haystack, char *needle, char *rev_start)
     return 0;
 }
 
-char *revstrcasestr(char *haystack, char *needle, char *rev_start)
+char *revstristr(char *haystack, char *needle, char *rev_start)
 {
     char *p, *q, *r;
 
@@ -92,7 +92,7 @@ char *revstrcasestr(char *haystack, char *needle, char *rev_start)
 
 /* This is now mutt's version (called mutt_stristr) because it doesn't
    use memory allocation to do a simple search (yuck). */
-char *strcasestr(char *haystack, char *needle)
+char *stristr(char *haystack, char *needle)
 {
     const char *p, *q;
 
@@ -151,10 +151,10 @@ char *strstrwrapper(char *haystack, char *needle, char *rev_start)
 
     } else {
 	if (ISSET(REVERSE_SEARCH))
-	    return revstrcasestr(haystack, needle, rev_start);
+	    return revstristr(haystack, needle, rev_start);
 	else
 #endif
-	    return strcasestr(haystack, needle);
+	    return stristr(haystack, needle);
 #ifndef NANO_SMALL
     }
 #endif

@@ -86,8 +86,8 @@ extern toggle *toggles;
 /* Programs we want available */
 
 char *revstrstr(char *haystack, char *needle, char *rev_start);
-char *strcasestr(char *haystack, char *needle);
-char *revstrcasestr(char *haystack, char *needle, char *rev_start);
+char *stristr(char *haystack, char *needle);
+char *revstristr(char *haystack, char *needle, char *rev_start);
 char *strstrwrapper(char *haystack, char *needle, char *rev_start);
 int search_init(int replacing);
 int renumber(filestruct * fileptr);
