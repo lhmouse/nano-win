@@ -9,6 +9,8 @@ CVS code
 	  nano.c:global_init(), window_init(), and handle_sigwinch().
 	  New macro MIN_EDITOR_COLS replaces MIN_FILL_LENGTH
 	  (David Benbennick).
+	- Change ngettext macro to P_(), to avoid a clash with the reserved C
+	  __ identifier (Jordi).
 - files.c:
   cwd_tab_completion()
 	- Memory leak fix (David Benbennick).

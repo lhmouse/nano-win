@@ -758,7 +758,7 @@ int do_replace(void)
     edit_update(current, CENTER);
 
     if (numreplaced >= 0)
-	statusbar(__("Replaced %d occurrence", "Replaced %d occurrences",
+	statusbar(P_("Replaced %d occurrence", "Replaced %d occurrences",
 		numreplaced), numreplaced);
     else
 	not_found_msg(prevanswer);

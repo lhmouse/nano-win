@@ -56,10 +56,10 @@
 #    include <libintl.h>
 #  endif
 #  define _(string) gettext(string)
-#  define __(singular, plural, number) ngettext(singular, plural, number)
+#  define P_(singular, plural, number) ngettext(singular, plural, number)
 #else
 #  define _(string) (string)
-#  define __(singular, plural, number) (number == 1 ? singular : plural)
+#  define P_(singular, plural, number) (number == 1 ? singular : plural)
 #endif
 
 #include <sys/types.h>
