@@ -29,9 +29,7 @@
 #include "nano.h"
 
 #ifndef NANO_SMALL
-#ifdef HAVE_LIBINTL_H
 #include <libintl.h>
-#endif
 #define _(string) gettext(string)
 #else
 #define _(string) (string)

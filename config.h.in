@@ -163,9 +163,6 @@
 /* Define if you have the <getopt.h> header file.  */
 #undef HAVE_GETOPT_H
 
-/* Define if you have the <libintl.h> header file.  */
-#undef HAVE_LIBINTL_H
-
 /* Define if you have the <limits.h> header file.  */
 #undef HAVE_LIMITS_H
 
