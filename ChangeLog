@@ -1,4 +1,4 @@
-CVS code -
+nano-1.0.7 - 12/17/2001
 - General
 	- Backported 1.1's m4/ dirs to nano so nano has its own 
 	  self-contained checks for gettext, etc.  This was basically
@@ -9,7 +9,7 @@ CVS code -
 	  start suspending after returning from ^Z suspend in Hurd.
   do_spell()
 	- Dont prompt for replace if we don't change the word in 
-	  question (Rocco Corsi).
+	  question (Rocco Corsi, fixes bug #67).
   main()
 	- Added better Hurd support for function keys (Alt-V,U,9,@,F).
   signal_init()

@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.0.4\n"
-"POT-Creation-Date: 2001-10-29 18:51-0500\n"
+"POT-Creation-Date: 2001-12-17 18:48-0500\n"
 "PO-Revision-Date: 2001-10-03 21:45+0300\n"
 "Last-Translator: Pauli Virtanen <pauli.virtanen@saunalahti.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -64,7 +64,7 @@ msgstr "Lukee tiedostoa"
 msgid "File to insert [from ./] "
 msgstr "Lisättävä tiedosto [hakemistossa ./]"
 
-#: files.c:310 files.c:335 files.c:567 nano.c:1592
+#: files.c:310 files.c:335 files.c:567 nano.c:1594
 msgid "Cancelled"
 msgstr "Peruttu"
 
@@ -709,110 +709,110 @@ msgstr "Jälkeenpäin, data = \"%s\"\n"
 msgid "Edit a replacement"
 msgstr "Muokkaa korvausta"
 
-#: nano.c:1539
+#: nano.c:1541
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Väliaikaista tiedostonnimeä ei voitu luoda: %s"
 
-#: nano.c:1545
+#: nano.c:1547
 msgid "Spell checking failed: unable to write temp file!"
 msgstr "Oikaisuluku epäonnistui: väliaikaistiedostoa ei voitu kirjoittaa"
 
-#: nano.c:1557
+#: nano.c:1559
 msgid "Finished checking spelling"
 msgstr "Oikoluku on valmis"
 
-#: nano.c:1559
+#: nano.c:1561
 msgid "Spell checking failed"
 msgstr "Oikaisuluku epäonnistui"
 
-#: nano.c:1579
+#: nano.c:1581
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Tallenna muutettu teksti (Muutokset häviävät, jos vastaat \"ei\") ? "
 
-#: nano.c:1675
+#: nano.c:1677
 msgid "Received SIGHUP"
 msgstr "Vastaanotettiin SIGHUP"
 
-#: nano.c:1737
+#: nano.c:1742
 msgid "Cannot resize top win"
 msgstr "Yläikkunan kokoa ei voi muuttaa"
 
-#: nano.c:1739
+#: nano.c:1744
 msgid "Cannot move top win"
 msgstr "Yläikkunaa ei voi siirtää"
 
-#: nano.c:1741
+#: nano.c:1746
 msgid "Cannot resize edit win"
 msgstr "Muokkausikkunan kokoa ei voi muuttaa"
 
-#: nano.c:1743
+#: nano.c:1748
 msgid "Cannot move edit win"
 msgstr "Muokkausikkunaa ei voi siirtää"
 
-#: nano.c:1745
+#: nano.c:1750
 msgid "Cannot resize bottom win"
 msgstr "Alaikkunan kokoa ei voi muuttaa"
 
-#: nano.c:1747
+#: nano.c:1752
 msgid "Cannot move bottom win"
 msgstr "Alaikkunaa ei voi siirtää"
 
-#: nano.c:2071
+#: nano.c:2090
 msgid "Can now UnJustify!"
 msgstr "Tasaamisen voi perua nyt."
 
-#: nano.c:2169
+#: nano.c:2188
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s käytössä/ei käytössä"
 
-#: nano.c:2184
+#: nano.c:2203
 msgid "enabled"
 msgstr "käytössä"
 
-#: nano.c:2185
+#: nano.c:2204
 msgid "disabled"
 msgstr "ei käytössä"
 
-#: nano.c:2238
+#: nano.c:2257
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "NumLock-ongelma: Numeronäppäimistö toimii väärin, kun NumLock ei ole päällä."
 
-#: nano.c:2464
+#: nano.c:2483
 msgid "Main: set up windows\n"
 msgstr "Päätila: ikkunoiden asettelu\n"
 
-#: nano.c:2471
+#: nano.c:2490
 msgid "Main: bottom win\n"
 msgstr "Päätila: alaikkuna\n"
 
-#: nano.c:2477
+#: nano.c:2496
 msgid "Main: open file\n"
 msgstr "Päätila: avaa tiedosto\n"
 
-#: nano.c:2530
+#: nano.c:2549
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-O-%c! (%d)\n"
 
-#: nano.c:2564
+#: nano.c:2583
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-[-1-%c! (%d)\n"
 
-#: nano.c:2597
+#: nano.c:2616
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-[-2-%c! (%d)\n"
 
-#: nano.c:2661
+#: nano.c:2687
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-[-%c! (%d)\n"
 
-#: nano.c:2687
+#: nano.c:2713
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-%c! (%d)\n"

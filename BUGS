@@ -127,6 +127,9 @@
 - When cutting marked text including the bottom of the file, a new
   "magic line" is not created" (reported by David Lawrence
   Ramsey, fixed by David Lawrence Ramsey & Chris) (66) [FIXED].
+- The spell checker prompts whether you want to replace occurences of a
+  word even if you didn't alter it on the status bar (fixed by Rocco
+  Corsi) (67) [FIXED].
 
 ** Open BUGS **
 
