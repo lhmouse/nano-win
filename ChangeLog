@@ -25,6 +25,8 @@ CVS code -
 - configure.ac:
 	- Enable autodetection of broken regexec(). (DLR) Re-added 
 	  regex.h check to ensure compile under Debian w/autoconf 1.6.
+- README:
+	- Update obsolete 1.1.x information.
 - TODO:
 	- Fix typo. (David Benbennick)
 - faq.html:

@@ -56,32 +56,9 @@ Mailing List and Bug Reports
 
 Current Status
 
-	This is the 1.1 or unstable branch of nano.  New features
-	will be added and things will be changed around and basically
-	stability is not guaranteed.  If this is not what you're
-	interested in, please use the latest 1.0.x release of nano.
-
-	New features in this branch include:
-	+ .nanorc file support (--enable-nanorc configure option, 
-	  see sample.nanorc file)
-	+ Negative -r value for "#cols from right", allows dynamic adjustment
-	  of wrap margin based on window size.
-	+ Write marked text to separate file (^O after selecting with ^^).
-	+ Append to file (Meta-A at write file menu).
-	+ Multiple file buffers! (--enable-multibuffer configure option,
-	  --multibuffer, -F cmdline flag, Meta-F toggle, then ^R to load).
-	+ Better compatibility with Pico.  Mouse mode now supports clicking
-	  shortcuts and files in browser, search toggles that are Pico 
-	  extensions moved to Meta keys so as to not interfere with Pico
-	  control sequences.
-	+ Smooth scrolling through files, instead of the jerky half-page
-	  down, half-page up method.  This is available by using the 
-	  -S or --smooth switch, or the Meta-S toggle.
-	+ Better non-*nix file support.  GNU nano now automatically
-	  converts files from DOS format or Mac format to standard file
-	  format.  It can also write files in either format by using the
-	  appropriate command line (-D, --dos or -M, --mac) or toggle
-	  (Meta-D, Meta-O).
+	GNU nano has reaching its second major milestone, 1.2.x. Development
+	of new features will continue in the 1.3.x branch, while 1.2.x
+	versions will be dedicated to bugfixing and polishing.
 
    Chris Allegretta (chrisa@asty.org)
 
