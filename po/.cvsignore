@@ -6,4 +6,5 @@ POTFILES
 cat-id*
 messages
 messages.mo
+remove-potcdate.sed
 stamp-cat*
