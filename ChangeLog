@@ -394,6 +394,8 @@ CVS code -
 - README.CVS:
 	- Mention the requirement for glib 2.x on systems lacking
 	  v?snprintf(), and add minor formatting changes.
+	- Mention the requirement for groff in order to create html
+	  versions of the manpages. (DLR)
 - faq.html:
 	- Fixed inaccuracy: Pico compatibility mode was made the default
 	  in nano 1.1.99pre1, not 1.2.2. (DLR)
