@@ -2824,8 +2824,8 @@ int statusq(int allowtabs, const shortcut *s, const char *def,
 int do_yesno(int all, const char *msg)
 {
     int ok = -2, width = 16;
-    const char *yesstr;		/* String of yes characters accepted */
-    const char *nostr;		/* Same for no */
+    const char *yesstr;		/* String of yes characters accepted. */
+    const char *nostr;		/* Same for no. */
     const char *allstr;		/* And all, surprise! */
 
     /* Yes, no and all are strings of any length.  Each string consists
@@ -2835,8 +2835,6 @@ int do_yesno(int all, const char *msg)
     nostr = _("Nn");
     allstr = _("Aa");
 
-    /* Remove gettext() call for keybindings until we clear the thing
-     * up. */
     if (!ISSET(NO_HELP)) {
 	char shortstr[3];		/* Temp string for Y, N, A. */
 
