@@ -2816,9 +2816,9 @@ int statusq(int allowtabs, const shortcut *s, const char *def,
     return ret;
 }
 
-/* Ask a simple yes/no question on the statusbar.  Returns 1 for Y, 0
- * for N, 2 for All (if all is nonzero when passed in) and -1 for abort
- * (^C). */
+/* Ask a simple yes/no question, specified in msg, on the statusbar.
+ * Return 1 for Y, 0 for N, 2 for All (if all is TRUE when passed in)
+ * and -1 for abort (^C). */
 int do_yesno(int all, const char *msg)
 {
     int ok = -2, width = 16;
@@ -2826,11 +2826,12 @@ int do_yesno(int all, const char *msg)
     const char *nostr;		/* Same for no. */
     const char *allstr;		/* And all, surprise! */
 
-    /* Yes, no and all are strings of any length.  Each string consists
-     * of all characters accepted as a valid character for that value.
-     * The first value will be the one displayed in the shortcuts.
-     * Translators: if possible, specify both the shortcuts for your
-     * language and English. For example, in French: "OoYy" for "Oui". */
+    /* yesstr, nostr, and allstr are strings of any length.  Each string
+     * consists of all characters accepted as a valid character for that
+     * value.  The first value will be the one displayed in the
+     * shortcuts.  Translators: if possible, specify both the shortcuts
+     * for your language and English.  For example, in French: "OoYy"
+     * for "Oui". */
     yesstr = _("Yy");
     nostr = _("Nn");
     allstr = _("Aa");
@@ -2910,7 +2911,7 @@ int do_yesno(int all, const char *msg)
 	}
 #endif
 	/* Look for the kbinput in the yes, no and (optionally) all
-	 * str. */
+	 * strings. */
 	else if (strchr(yesstr, kbinput) != NULL)
 	    ok = 1;
 	else if (strchr(nostr, kbinput) != NULL)
@@ -3033,23 +3034,22 @@ int line_len(const char *ptr)
 }
 
 #ifndef DISABLE_HELP
-/* Our shortcut-list-compliant help function, which is better than
- * nothing, and dynamic! */
+/* Our dynamic, shortcut-list-compliant help function. */
 int do_help(void)
 {
     int line = 0;
 	/* The line number in help_text of the first displayed help line.
 	 * This variable is zero-based. */
     int no_more = 0;
-	/* no_more means the end of the help text is shown, so don't go down
-	 * any more. */
+	/* no_more means the end of the help text is shown, so don't go
+	 * down any more. */
     int kbinput = ERR, meta_key;
 
     int old_no_help = ISSET(NO_HELP);
 #ifndef DISABLE_MOUSE
     const shortcut *oldshortcut = currshortcut;
 	/* We will set currshortcut to allow clicking on the help
-	   screen shortcut list. */
+	 * screen's shortcut list. */
 #endif
 
     curs_set(0);
@@ -3062,14 +3062,14 @@ int do_help(void)
     assert(help_text != NULL);
 
 #ifndef DISABLE_MOUSE
-    /* Set currshortcut to allow clicking on the help screen shortcut
+    /* Set currshortcut to allow clicking on the help screen's shortcut
      * list, AFTER help_init(). */
     currshortcut = help_list;
 #endif
 
     if (ISSET(NO_HELP)) {
-	/* Well, if we're going to do this, we should at least do it the
-	 * right way. */
+	/* Make sure that the help screen's shortcut list will actually
+	 * be displayed. */
 	UNSET(NO_HELP);
 	window_init();
     }
@@ -3154,8 +3154,9 @@ int do_help(void)
     curs_set(1);
     edit_refresh();
 
-    /* The help_init() at the beginning allocated help_text, which has
-     * now been written to the screen. */
+    /* The help_init() at the beginning allocated help_text.  Since 
+     * help_text has now been written to the screen, we don't need it
+     * anymore. */
     free(help_text);
     help_text = NULL;
 
