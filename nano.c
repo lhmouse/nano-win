@@ -2328,14 +2328,12 @@ void do_toggle(int which)
     char *enabled = _("enabled");
     char *disabled = _("disabled");
 
-/*
     switch (toggles[which].val) {
     case TOGGLE_BACKWARDS_KEY:
     case TOGGLE_CASE_KEY:
     case TOGGLE_REGEXP_KEY:
 	return;
     }
-*/
 
     /* Even easier! */
     TOGGLE(toggles[which].flag);
