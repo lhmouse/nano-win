@@ -37,7 +37,6 @@ int wrap_at = -CHARS_FROM_EOL;/* Right justified fill value, allows resize */
 char *last_search = NULL;	/* Last string we searched for */
 char *last_replace = NULL;	/* Last replacement string */
 int search_last_line;		/* Is this the last search line? */
-int search_offscreen;		/* Search lines not displayed */
 
 long flags = 0;			/* Our flag containing many options */
 WINDOW *edit;			/* The file portion of the editor */

@@ -14,6 +14,8 @@ CVS code -
 	  longs for consistency. (David Benbennick)
 	- Rename the TEMP_OPT flags to TEMP_FILE, as it's more 
 	  descriptive. (DLR)
+	- Remove unused global variable search_offscreen. (David
+	  Benbennick)
 - files.c:
   close_open_file()
 	- Tweak to no longer rely on the return values of

@@ -42,7 +42,6 @@ extern long totsize;
 extern long flags;
 extern int tabsize;
 extern int search_last_line;
-extern int search_offscreen;
 extern int currslen;
 
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
