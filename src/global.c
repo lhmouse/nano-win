@@ -288,7 +288,8 @@ void shortcut_init(int unjustify)
     const char *nano_delete_msg = N_("Delete the character under the cursor");
     const char *nano_backspace_msg =
 	N_("Delete the character to the left of the cursor");
-    const char *nano_tab_msg = N_("Insert a tab character");
+    const char *nano_tab_msg =
+	N_("Insert a tab character at the cursor position");
     const char *nano_enter_msg =
 	N_("Insert a carriage return at the cursor position");
 #ifndef NANO_SMALL
