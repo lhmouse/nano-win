@@ -2,8 +2,11 @@
 
 # Package source files
 cut.c
+files.c
 global.c
+move.c
 nano.c
+search.c
 winio.c
 
 # Package header files
