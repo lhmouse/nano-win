@@ -2253,6 +2253,12 @@ int main(int argc, char *argv[])
     edit_refresh();
     reset_cursor();
 
+#ifdef PDCURSES
+    /* Oops, I guess we need this again */
+    keypad(edit, TRUE);
+    keypad(bottomwin, TRUE);
+#endif
+
     while (1) {
 
 #ifndef _POSIX_VDISABLE
