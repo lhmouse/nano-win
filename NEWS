@@ -1,3 +1,10 @@
+2003.04.19 - Happy Easter! GNU nano 1.2.1 is released.  This release
+		features a new check for broken regexec() 
+		implementations and some variable, function and macro
+		cleanups.  Fixes are included for search history,
+		cutting marked text, alt keyboard mode, and the usual
+		translation and documentation updates.
+
 2003.02.19 - GNU nano 1.2.0 is released.  Few changes from pre3, just
 		some doc and translation updates, and bugfixes for
 		justify and file conversion.  For those of you who

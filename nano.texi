@@ -8,7 +8,7 @@
 @c Run `makeinfo' rather than `texinfo-format-buffer'.
 @smallbook
 @set EDITION 0.1
-@set VERSION 1.2.0
+@set VERSION 1.2.1
 @set UPDATED 17 Jan 2003
 
 @dircategory Editors
@@ -23,7 +23,7 @@
 @titlepage
 @title GNU @code{nano}
 @subtitle a small and friendly text editor.
-@subtitle version 1.2.0
+@subtitle version 1.2.1
 
 @author Chris Allegretta
 @page
@@ -387,7 +387,7 @@ are certain differences between the editors:
 
 @table @code
 @item Search and Replace History
-As of version 1.2.0 of @code{nano}, text entered as search or replace
+As of version 1.2.1 of @code{nano}, text entered as search or replace
 strings will be stored and can be accessed with the up/down
 arrow keys.  Previously, @code{nano} offered a more consistent, but incompatible
 with Pico, method for entering search and replace strings.  In the old
@@ -425,7 +425,7 @@ replace it.  The @code{nano} implementation will stop at each search
 string found and query whether to replace this instance or not.  The 
 internal spell checker operates similarly.  Note that these is no way 
 to force these functions to behave in the Pico fashion.  As of 
-version 1.2.0, misspelled words are sorted and trimmed for 
+version 1.2.1, misspelled words are sorted and trimmed for 
 uniqueness in the internal spell checker such that the words 'apple' 
 and 'Apple' will be prompted for correction separately.  
 @end table
