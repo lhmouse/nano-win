@@ -1198,6 +1198,7 @@ void do_delete(void)
 	if (current_x < mark_beginx && mark_beginbuf == current)
 	    mark_beginx -= char_len;
 #endif
+	totsize -= char_len;
     } else if (current != filebot && (current->next != filebot ||
 	current->data[0] == '\0')) {
 	/* We can delete the line before filebot only if it is blank: it
