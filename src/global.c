@@ -328,8 +328,8 @@ void shortcut_init(int unjustify)
 	"", *nano_whereis_next_msg = "", *nano_prevpage_msg =
 	"", *nano_nextpage_msg = "", *nano_cut_msg =
 	"", *nano_uncut_msg = "", *nano_cursorpos_msg =
-	"", *nano_spell_msg = "", *nano_up_msg =
-	"", *nano_down_msg = "", *nano_forward_msg =
+	"", *nano_spell_msg = "", *nano_prevline_msg =
+	"", *nano_nextline_msg = "", *nano_forward_msg =
 	"", *nano_back_msg = "", *nano_home_msg =
 	"", *nano_end_msg = "", *nano_firstline_msg =
 	"", *nano_lastline_msg = "", *nano_refresh_msg =
@@ -374,8 +374,8 @@ void shortcut_init(int unjustify)
     nano_uncut_msg = _("Uncut from the cutbuffer into the current line");
     nano_cursorpos_msg = _("Show the position of the cursor");
     nano_spell_msg = _("Invoke the spell checker, if available");
-    nano_up_msg = _("Move up one line");
-    nano_down_msg = _("Move down one line");
+    nano_prevline_msg = _("Move to the previous line");
+    nano_nextline_msg = _("Move to the next line");
     nano_forward_msg = _("Move forward one character");
     nano_back_msg = _("Move back one character");
     nano_home_msg = _("Move to the beginning of the current line");
@@ -520,12 +520,12 @@ void shortcut_init(int unjustify)
 		IFHELP(nano_replace_msg, NANO_ALT_REPLACE_KEY), NANO_REPLACE_FKEY,
 		NANO_NO_KEY, NOVIEW, do_replace);
 
-    sc_init_one(&main_list, NANO_UP_KEY, _("Up"),
-		IFHELP(nano_up_msg, NANO_NO_KEY), NANO_NO_KEY,
+    sc_init_one(&main_list, NANO_PREVLINE_KEY, _("Prev Line"),
+		IFHELP(nano_prevline_msg, NANO_NO_KEY), NANO_NO_KEY,
 		NANO_NO_KEY, VIEW, do_up);
 
-    sc_init_one(&main_list, NANO_DOWN_KEY, _("Down"),
-		IFHELP(nano_down_msg, NANO_NO_KEY), NANO_NO_KEY,
+    sc_init_one(&main_list, NANO_NEXTLINE_KEY, _("Next Line"),
+		IFHELP(nano_nextline_msg, NANO_NO_KEY), NANO_NO_KEY,
 		NANO_NO_KEY, VIEW, do_down);
 
     sc_init_one(&main_list, NANO_FORWARD_KEY, _("Forward"),
@@ -716,7 +716,7 @@ void shortcut_init(int unjustify)
 
     sc_init_one(&replace_list, NANO_HISTORY_KEY, _("History"),
 		IFHELP(nano_editstr_msg, NANO_NO_KEY), NANO_NO_KEY,
-		NANO_DOWN_KEY, VIEW, 0);
+		NANO_NO_KEY, VIEW, 0);
 #endif /* !NANO_SMALL */
 
     free_shortcutage(&replace_list_2);
@@ -738,9 +738,9 @@ void shortcut_init(int unjustify)
 		NANO_NO_KEY, VIEW, do_last_line);
 
 #ifndef NANO_SMALL
-    sc_init_one(&replace_list_2, NANO_UP_KEY, _("History"),
+    sc_init_one(&replace_list_2, NANO_PREVLINE_KEY, _("History"),
 		IFHELP(nano_editstr_msg, NANO_NO_KEY), NANO_NO_KEY,
-		NANO_DOWN_KEY, VIEW, 0);
+		NANO_NO_KEY, VIEW, 0);
 #endif
 
     free_shortcutage(&goto_list);

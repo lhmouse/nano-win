@@ -36,8 +36,11 @@ static int statblank = 0;	/* Number of keystrokes left after
 				   actually blank the statusbar */
 
 /* Read in a single input character.  If it's ignored, swallow it and go
- * on.  Otherwise, try to translate it from ASCII and extended (keypad)
- * input.  Assume nodelay(win) is FALSE. */
+ * on.  Otherwise, try to translate it from ASCII, extended keypad
+ * values, and/or escape sequences.  Supported extended keypad values
+ * consist of [arrow key], Ctrl-[arrow key], Shift-[arrow key], Enter,
+ * Backspace, Insert, Delete, Home, End, PageUp, PageDown, and F1-F14.
+ * Assume nodelay(win) is FALSE. */
 int get_kbinput(WINDOW *win, int *meta)
 {
     int kbinput, retval;
@@ -48,7 +51,7 @@ int get_kbinput(WINDOW *win, int *meta)
     return retval;
 }
 
-/* Read in a string of input characters (e. g. an escape sequence)
+/* Read in a string of input characters (e.g. an escape sequence)
  * verbatim, and return the length of the string in kbinput_len.  Assume
  * nodelay(win) is FALSE. */
 char *get_verbatim_kbinput(WINDOW *win, int *kbinput_len,
@@ -111,8 +114,9 @@ int get_ignored_kbinput(WINDOW *win)
     }
 }
 
-/* Translate acceptable ASCII and extended (keypad) input.  Set meta to
- * 1 if we get a Meta sequence.  Assume nodelay(win) is FALSE. */
+/* Translate acceptable ASCII, extended keypad values, and/or escape
+ * sequences.  Set meta to 1 if we get a Meta sequence.  Assume
+ * nodelay(win) is FALSE. */
 int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta)
 {
     *meta = 0;
@@ -184,10 +188,10 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta)
 	    kbinput = ISSET(REBIND_DELETE) ? NANO_DELETE_KEY : NANO_BACKSPACE_KEY;
 	    break;
 	case KEY_DOWN:
-	    kbinput = NANO_DOWN_KEY;
+	    kbinput = NANO_NEXTLINE_KEY;
 	    break;
 	case KEY_UP:
-	    kbinput = NANO_UP_KEY;
+	    kbinput = NANO_PREVLINE_KEY;
 	    break;
 	case KEY_LEFT:
 	    kbinput = NANO_BACK_KEY;
@@ -304,29 +308,58 @@ int get_ascii_kbinput(WINDOW *win, int kbinput)
     return retval;
 }
 
-/* Translate common escape sequences for some keys.  These are generated
- * when the terminal doesn't support those keys.  Assume that Escape has
- * already been read in, and that nodelay(win) is TRUE. */
+/* Translate escape sequences for extended keypad values.  These are
+ * generated when the terminal doesn't support the needed keys.  Assume
+ * that Escape has already been read in, and that nodelay(win) is TRUE.
+ *
+ * The supported terminals are the Linux console, the FreeBSD console,
+ * the Hurd console (a.k.a. the Mach console), xterm, rxvt, and Eterm.
+ * There are several escape sequence conflicts and omissions, outlined
+ * as follows:
+ *
+ * - F1 on FreeBSD console == kmous on xterm/rxvt/Eterm; the latter is
+ *   omitted.  (Mouse input will only work properly if the extended
+ *   keypad value KEY_MOUSE is generated on mouse events instead of the
+ *   kmous escape sequence.)
+ * - F9 on FreeBSD console == PageDown on Hurd console; the former is
+ *   omitted.  (The PC keypad, consisting of Insert, Delete, Home, End,
+ *   PageUp, and PageDown, is more important to have working than the
+ *   function keys, because the functions of the former are not
+ *   arbitrary and the functions of the latter are.)
+ * - F10 on FreeBSD console == PageUp on Hurd console; the former is
+ *   omitted.  (Same as above.)
+ * - F13 on FreeBSD console == End on Hurd console; the former is
+ *   omitted.  (Same as above.)
+ * - The Hurd console has no escape sequences for F11, F12, F13, or
+ *   F14. */
 int get_escape_seq_kbinput(WINDOW *win, char *escape_seq, int
 	escape_seq_len)
 {
-    int kbinput = -1;
+    int kbinput = ERR;
 
     if (escape_seq_len > 1) {
 	switch (escape_seq[0]) {
 	    case 'O':
 		switch (escape_seq[1]) {
+		    case '2':
+			if (escape_seq_len >= 3) {
+			    switch (escape_seq[2]) {
+				case 'P': /* Esc O 2 P == F13 on
+					   * xterm. */
+				    kbinput = KEY_F(13);
+				    break;
+				case 'Q': /* Esc O 2 Q == F14 on
+					   * xterm. */
+				    kbinput = KEY_F(14);
+				    break;
+			    }
+			}
+			break;
 		    case 'A': /* Esc O A == Up on xterm. */
-			kbinput = NANO_UP_KEY;
-			break;
 		    case 'B': /* Esc O B == Down on xterm. */
-			kbinput = NANO_DOWN_KEY;
-			break;
 		    case 'C': /* Esc O C == Right on xterm. */
-			kbinput = NANO_FORWARD_KEY;
-			break;
 		    case 'D': /* Esc O D == Left on xterm. */
-			kbinput = NANO_BACK_KEY;
+			kbinput = get_escape_seq_abcd(escape_seq[1]);
 			break;
 		    case 'F': /* Esc O F == End on xterm. */
 			kbinput = NANO_END_KEY;
@@ -334,33 +367,51 @@ int get_escape_seq_kbinput(WINDOW *win, char *escape_seq, int
 		    case 'H': /* Esc O H == Home on xterm. */
 			kbinput = NANO_HOME_KEY;
 			break;
+		    case 'P': /* Esc O P == F1 on Hurd console. */
+			kbinput = KEY_F(1);
+			break;
+		    case 'Q': /* Esc O Q == F2 on Hurd console. */
+			kbinput = KEY_F(2);
+			break;
+		    case 'R': /* Esc O R == F3 on Hurd console. */
+			kbinput = KEY_F(3);
+			break;
+		    case 'S': /* Esc O S == F4 on Hurd console. */
+			kbinput = KEY_F(4);
+			break;
+		    case 'T': /* Esc O T == F5 on Hurd console. */
+			kbinput = KEY_F(5);
+			break;
+		    case 'U': /* Esc O U == F6 on Hurd console. */
+			kbinput = KEY_F(6);
+			break;
+		    case 'V': /* Esc O V == F7 on Hurd console. */
+			kbinput = KEY_F(7);
+			break;
+		    case 'W': /* Esc O W == F8 on Hurd console. */
+			kbinput = KEY_F(8);
+			break;
+		    case 'X': /* Esc O X == F9 on Hurd console. */
+			kbinput = KEY_F(9);
+			break;
+		    case 'Y': /* Esc O Y == F10 on Hurd console. */
+			kbinput = KEY_F(10);
+			break;
 		    case 'a': /* Esc O a == Ctrl-Up on rxvt. */
-			kbinput = NANO_UP_KEY;
-			break;
 		    case 'b': /* Esc O b == Ctrl-Down on rxvt. */
-			kbinput = NANO_DOWN_KEY;
-			break;
 		    case 'c': /* Esc O c == Ctrl-Right on rxvt. */
-			kbinput = NANO_FORWARD_KEY;
-			break;
 		    case 'd': /* Esc O d == Ctrl-Left on rxvt. */
-			kbinput = NANO_BACK_KEY;
+			kbinput = get_escape_seq_abcd(escape_seq[1]);
 			break;
 		}
 		break;
 	    case 'o':
 		switch (escape_seq[1]) {
 		    case 'a': /* Esc o a == Ctrl-Up on Eterm. */
-			kbinput = NANO_UP_KEY;
-			break;
 		    case 'b': /* Esc o b == Ctrl-Down on Eterm. */
-			kbinput = NANO_DOWN_KEY;
-			break;
 		    case 'c': /* Esc o c == Ctrl-Right on Eterm. */
-			kbinput = NANO_FORWARD_KEY;
-			break;
 		    case 'd': /* Esc o d == Ctrl-Left on Eterm. */
-			kbinput = NANO_BACK_KEY;
+			kbinput = get_escape_seq_abcd(escape_seq[1]);
 			break;
 		}
 		break;
@@ -368,62 +419,108 @@ int get_escape_seq_kbinput(WINDOW *win, char *escape_seq, int
 		switch (escape_seq[1]) {
 		    case '1':
 			if (escape_seq_len >= 5) {
-			    if (!strncmp(escape_seq, "[1;2", 4)) {
+			    if (!strncmp(escape_seq + 2, ";2", 2)) {
 				switch (escape_seq[4]) {
-				    case 'A':
-					/* Esc [ 1 ; 2 A == Shift-Up on
-					 * xterm. */
-					kbinput = NANO_UP_KEY;
-					break;
-				    case 'B':
-					/* Esc [ 1 ; 2 B == Shift-Down
-					 * on xterm. */
-					kbinput = NANO_DOWN_KEY;
-					break;
-				    case 'C':
-					/* Esc [ 1 ; 2 C == Shift-Right
-					 * on xterm. */
-					kbinput = NANO_FORWARD_KEY;
-					break;
-				    case 'D':
-					/* Esc [ 1 ; 2 D == Shift-Left
-					 * on xterm. */
-					kbinput = NANO_BACK_KEY;
+				    case 'A': /* Esc [ 1 ; 2 A ==
+					       * Shift-Up on xterm. */
+				    case 'B': /* Esc [ 1 ; 2 B ==
+					       * Shift-Down on xterm. */
+				    case 'C': /* Esc [ 1 ; 2 C ==
+					       * Shift-Right on
+					       * xterm. */
+				    case 'D': /* Esc [ 1 ; 2 D ==
+					       * Shift-Left on xterm. */
+					kbinput = get_escape_seq_abcd(escape_seq[1]);
 					break;
 				}
-			    } else if (!strncmp(escape_seq, "[1;5", 4)) {
+			    } else if (!strncmp(escape_seq + 2, ";5", 2)) {
 				switch (escape_seq[4]) {
-				    case 'A':
-					/* Esc [ 1 ; 5 A == Ctrl-Up on
-					 * xterm. */
-					kbinput = NANO_UP_KEY;
-					break;
-				    case 'B':
-					/* Esc [ 1 ; 5 B == Ctrl-Down on
-					 * xterm. */
-					kbinput = NANO_DOWN_KEY;
-					break;
-				    case 'C':
-					/* Esc [ 1 ; 5 C == Ctrl-Right
-					 * on xterm. */
-					kbinput = NANO_FORWARD_KEY;
-					break;
-				    case 'D':
-					/* Esc [ 1 ; 5 D == Ctrl-Left on
-					 * xterm. */
-					kbinput = NANO_BACK_KEY;
+				    case 'A': /* Esc [ 1 ; 5 A ==
+					       * Ctrl-Up on xterm. */
+				    case 'B': /* Esc [ 1 ; 5 B ==
+					       * Ctrl-Down on xterm. */
+				    case 'C': /* Esc [ 1 ; 5 C ==
+					       * Ctrl-Right on xterm. */
+				    case 'D': /* Esc [ 1 ; 5 D ==
+					       * Ctrl-Left on xterm. */
+					kbinput = get_escape_seq_abcd(escape_seq[1]);
 					break;
 				}
 			    }
-			    break;
-			} else {
-			    /* Esc [ 1 ~ == Home on Linux console. */
-			    kbinput = NANO_HOME_KEY;
-			    break;
+			} else if (escape_seq_len >= 3) {
+			    switch (escape_seq[2]) {
+				case '1': /* Esc [ 1 1 ~ == F1 on
+					   * rxvt/Eterm. */
+				    kbinput = KEY_F(1);
+				    break;
+				case '2': /* Esc [ 1 2 ~ == F2 on
+					   * rxvt/Eterm. */
+				    kbinput = KEY_F(2);
+				    break;
+				case '3': /* Esc [ 1 3 ~ == F3 on
+					   * rxvt/Eterm. */
+				    kbinput = KEY_F(3);
+				    break;
+				case '4': /* Esc [ 1 4 ~ == F4 on
+					   * rxvt/Eterm. */
+				    kbinput = KEY_F(4);
+				    break;
+				case '5': /* Esc [ 1 5 ~ == F5 on
+					   * xterm/rxvt/Eterm. */
+				    kbinput = KEY_F(5);
+				    break;
+				case '7': /* Esc [ 1 7 ~ == F6 on Linux
+					   * console/xterm/rxvt/Eterm. */
+				    kbinput = KEY_F(6);
+				    break;
+				case '8': /* Esc [ 1 8 ~ == F7 on Linux
+					   * console/xterm/rxvt/Eterm. */
+				    kbinput = KEY_F(7);
+				    break;
+				case '9': /* Esc [ 1 9 ~ == F8 on Linux
+					   * console/xterm/rxvt/Eterm. */
+				    kbinput = KEY_F(8);
+				    break;
+				default: /* Esc [ 1 ~ == Home on Linux
+					  * console. */
+				    kbinput = NANO_HOME_KEY;
+				    break;
+			    }
 			}
-		    case '2': /* Esc [ 2 ~ == Insert on Linux
-			       * console/xterm. */
-			kbinput = NANO_INSERTFILE_KEY;
+			break;
+		    case '2':
+			if (escape_seq_len >= 3) {
+			    switch (escape_seq[2]) {
+				case '0': /* Esc [ 2 0 ~ == F9 on Linux
+					   * console/xterm/rxvt/Eterm. */
+				    kbinput = KEY_F(9);
+				    break;
+				case '1': /* Esc [ 2 1 ~ == F10 on Linux
+					   * console/xterm/rxvt/Eterm. */
+				    kbinput = KEY_F(10);
+				    break;
+				case '3': /* Esc [ 2 3 ~ == F11 on Linux
+					   * console/xterm/rxvt/Eterm. */
+				    kbinput = KEY_F(11);
+				    break;
+				case '4': /* Esc [ 2 4 ~ == F12 on Linux
+					   * console/xterm/rxvt/Eterm. */
+				    kbinput = KEY_F(12);
+				    break;
+				case '5': /* Esc [ 2 5 ~ == F13 on Linux
+					   * console/rxvt/Eterm. */
+				    kbinput = KEY_F(13);
+				    break;
+				case '6': /* Esc [ 2 6 ~ == F14 on Linux
+					   * console/rxvt/Eterm. */
+				    kbinput = KEY_F(14);
+				    break;
+				default: /* Esc [ 2 ~ == Insert on Linux
+					  * console/xterm. */
+				    kbinput = NANO_INSERTFILE_KEY;
+				    break;
+			    }
+			}
 			break;
 		    case '3': /* Esc [ 3 ~ == Delete on Linux
 			       * console/xterm. */
@@ -434,12 +531,12 @@ int get_escape_seq_kbinput(WINDOW *win, char *escape_seq, int
 			kbinput = NANO_END_KEY;
 			break;
 		    case '5': /* Esc [ 5 ~ == PageUp on Linux
-			       * console/xterm, Esc [ 5 ^ == PageUp on
+			       * console/xterm; Esc [ 5 ^ == PageUp on
 			       * Eterm. */
 			kbinput = NANO_PREVPAGE_KEY;
 			break;
 		    case '6': /* Esc [ 6 ~ == PageDown on Linux
-			       * console/xterm, Esc [ 6 ^ == PageDown on
+			       * console/xterm; Esc [ 6 ^ == PageDown on
 			       * Eterm. */
 			kbinput = NANO_NEXTPAGE_KEY;
 			break;
@@ -457,22 +554,16 @@ int get_escape_seq_kbinput(WINDOW *win, char *escape_seq, int
 			break;
 		    case 'A': /* Esc [ A == Up on Linux console/FreeBSD
 			       * console/Hurd console/rxvt/Eterm. */
-			kbinput = NANO_UP_KEY;
-			break;
 		    case 'B': /* Esc [ B == Down on Linux
 			       * console/FreeBSD console/Hurd
 			       * console/rxvt/Eterm. */
-			kbinput = NANO_DOWN_KEY;
-			break;
 		    case 'C': /* Esc [ C == Right on Linux
 			       * console/FreeBSD console/Hurd
 			       * console/rxvt/Eterm. */
-			kbinput = NANO_FORWARD_KEY;
-			break;
 		    case 'D': /* Esc [ D == Left on Linux
 			       * console/FreeBSD console/Hurd
 			       * console/rxvt/Eterm. */
-			kbinput = NANO_BACK_KEY;
+			kbinput = get_escape_seq_abcd(escape_seq[1]);
 			break;
 		    case 'F': /* Esc [ F == End on FreeBSD
 			       * console/Eterm. */
@@ -494,34 +585,110 @@ int get_escape_seq_kbinput(WINDOW *win, char *escape_seq, int
 			       * console. */
 			kbinput = NANO_INSERTFILE_KEY;
 			break;
+		    case 'M': /* Esc [ M == F1 on FreeBSD console. */
+			kbinput = KEY_F(1);
+			break;
+		    case 'N': /* Esc [ N == F2 on FreeBSD console. */
+			kbinput = KEY_F(2);
+			break;
+		    case 'O':
+			if (escape_seq_len >= 3) {
+			    switch (escape_seq[2]) {
+				case 'P': /* Esc [ O P == F1 on
+					   * xterm. */
+				    kbinput = KEY_F(1);
+				    break;
+				case 'Q': /* Esc [ O Q == F2 on
+					   * xterm. */
+				    kbinput = KEY_F(2);
+				    break;
+				case 'R': /* Esc [ O R == F3 on
+					   * xterm. */
+				    kbinput = KEY_F(3);
+				    break;
+				case 'S': /* Esc [ O S == F4 on
+					   * xterm. */
+				    kbinput = KEY_F(4);
+				    break;
+				default: /* Esc [ O == F3 on
+					  * FreeBSD console. */
+				    kbinput = KEY_F(3);
+				    break;
+			    }
+			}
+			break;
+		    case 'P': /* Esc [ P == F4 on FreeBSD console. */
+			kbinput = KEY_F(4);
+			break;
+		    case 'Q': /* Esc [ Q == F5 on FreeBSD console. */
+			kbinput = KEY_F(5);
+			break;
+		    case 'R': /* Esc [ R == F6 on FreeBSD console. */
+			kbinput = KEY_F(6);
+			break;
+		    case 'S': /* Esc [ S == F7 on FreeBSD console. */
+			kbinput = KEY_F(7);
+			break;
+		    case 'T': /* Esc [ T == F8 on FreeBSD console. */
+			kbinput = KEY_F(8);
+			break;
 		    case 'U': /* Esc [ U == PageDown on Hurd console. */
 			kbinput = NANO_NEXTPAGE_KEY;
 			break;
 		    case 'V': /* Esc [ V == PageUp on Hurd console. */
 			kbinput = NANO_PREVPAGE_KEY;
 			break;
+		    case 'W': /* Esc [ W == F11 on FreeBSD console. */
+			kbinput = KEY_F(11);
+			break;
+		    case 'X': /* Esc [ X == F12 on FreeBSD console. */
+			kbinput = KEY_F(12);
+			break;
 		    case 'Y': /* Esc [ Y == End on Hurd console. */
 			kbinput = NANO_END_KEY;
 			break;
+		    case 'Z': /* Esc [ Z == F14 on FreeBSD console. */
+			kbinput = KEY_F(14);
+			break;
 		    case 'a': /* Esc [ a == Shift-Up on rxvt/Eterm. */
-			kbinput = NANO_UP_KEY;
-			break;
 		    case 'b': /* Esc [ b == Shift-Down on rxvt/Eterm. */
-			kbinput = NANO_DOWN_KEY;
-			break;
 		    case 'c': /* Esc [ c == Shift-Right on
 			       * rxvt/Eterm. */
-			kbinput = NANO_FORWARD_KEY;
-			break;
 		    case 'd': /* Esc [ d == Shift-Left on rxvt/Eterm. */
-			kbinput = NANO_BACK_KEY;
+			kbinput = get_escape_seq_abcd(escape_seq[1]);
+			break;
+		    case '[':
+			if (escape_seq_len >= 3) {
+			    switch (escape_seq[2]) {
+				case 'A': /* Esc [ [ A == F1 on Linux
+					   * console. */
+				    kbinput = KEY_F(1);
+				    break;
+				case 'B': /* Esc [ [ B == F2 on Linux
+					   * console. */
+				    kbinput = KEY_F(2);
+				    break;
+				case 'C': /* Esc [ [ C == F3 on Linux
+					   * console. */
+				    kbinput = KEY_F(3);
+				    break;
+				case 'D': /* Esc [ [ D == F4 on Linux
+					   * console. */
+				    kbinput = KEY_F(4);
+				    break;
+				case 'E': /* Esc [ [ E == F5 on Linux
+					   * console. */
+				    kbinput = KEY_F(5);
+				    break;
+			    }
+			}
 			break;
 		}
 		break;
 	}
     }
 
-    if (kbinput == -1) {
+    if (kbinput == ERR) {
 	/* This escape sequence is unrecognized; send it back. */
 	for (; escape_seq_len > 1; escape_seq_len--)
 	    ungetch(escape_seq[escape_seq_len - 1]);
@@ -529,6 +696,25 @@ int get_escape_seq_kbinput(WINDOW *win, char *escape_seq, int
     }
 
     return kbinput;
+}
+
+/* Return the equivalent arrow key value for the case-insensitive
+ * letters A (up), B (down), C (left), and D (right).  These are common
+ * to many escape sequences. */
+int get_escape_seq_abcd(int kbinput)
+{
+    switch (tolower(kbinput)) {
+	case 'a':
+	    return NANO_PREVLINE_KEY;
+	case 'b':
+	    return NANO_NEXTLINE_KEY;
+	case 'c':
+	    return NANO_FORWARD_KEY;
+	case 'd':
+	    return NANO_BACK_KEY;
+	default:
+	    return ERR;
+    }
 }
 
 #ifndef DISABLE_MOUSE
@@ -916,7 +1102,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 #endif
 #ifndef NANO_SMALL
 		/* Have to handle these here too, for the time being */
-		if (kbinput == NANO_UP_KEY || kbinput == NANO_DOWN_KEY)
+		if (kbinput == NANO_PREVLINE_KEY || kbinput == NANO_NEXTLINE_KEY)
 		    break;
 #endif
 
@@ -999,7 +1185,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    if (x > 0)
 		x--;
 	    break;
-	case NANO_UP_KEY:
+	case NANO_PREVLINE_KEY:
 #ifndef NANO_SMALL
 	    if (history_list != NULL) {
 
@@ -1041,7 +1227,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    }
 #endif
 	    break;
-	case NANO_DOWN_KEY:
+	case NANO_NEXTLINE_KEY:
 #ifndef NANO_SMALL
 	    if (history_list != NULL) {
 

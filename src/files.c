@@ -2571,7 +2571,7 @@ char *do_browser(const char *inpath)
 
             break;
 #endif
-	case NANO_UP_KEY:
+	case NANO_PREVLINE_KEY:
 	    if (selected - width >= 0)
 		selected -= width;
 	    break;
@@ -2579,7 +2579,7 @@ char *do_browser(const char *inpath)
 	    if (selected > 0)
 		selected--;
 	    break;
-	case NANO_DOWN_KEY:
+	case NANO_NEXTLINE_KEY:
 	    if (selected + width <= numents - 1)
 		selected += width;
 	    break;

@@ -4,6 +4,11 @@ CVS code -
 	  window when color support is enabled (in order to properly
 	  handle multi-line color regexes) to only do so when
 	  it's necessary, i.e, when COLOR_SYNTAX is set. (DLR)
+	- Minor cosmetic tweaks to the code involving direction keys.
+	  NANO_UP_KEY and NANO_DOWN_KEY are now NANO_PREVLINE_KEY and
+	  NANO_NEXTLINE_KEY, and the help messages for them have been
+	  changed accordingly.  Also remove extraneous references to
+	  NANO_DOWN_KEY in the search history shortcut entries. (DLR)
 - nano.c:
   main()
 	- Move the call to raw() on systems that don't define
@@ -17,6 +22,13 @@ CVS code -
 - winio.c:
   get_accepted_kbinput()
 	- Don't use "kbinput = wgetch(win)" as a switch value. (DLR)
+  get_escape_seq_kbinput()
+	- Add support for the escape sequences for F1-F14 whenever
+	  possible (i.e, whenever a conflict doesn't occur), some
+	  additional comments, and a few cosmetic cleanups. (DLR)
+  get_escape_seq_abcd()
+	- A resurrected version of the old abcd() function, readded in
+	  order to simplify get_escape_seq_kbinput(). (DLR)
   get_page_start()
 	- For consistency, tweak so that scrolling always occurs when we
 	  try to move onto the "$" at the end of the line, as opposed to

@@ -443,6 +443,7 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta);
 int get_ascii_kbinput(WINDOW *win, int kbinput);
 int get_escape_seq_kbinput(WINDOW *win, char *escape_seq, int
 	escape_seq_len);
+int get_escape_seq_abcd(int kbinput);
 int get_mouseinput(int *mouse_x, int *mouse_y, int shortcut);
 int do_first_line(void);
 int do_last_line(void);
