@@ -200,7 +200,7 @@ void parse_colors(FILE *rcstream, char *filename, int *lineno, char *buf, char *
 	switch (*ptr) {
 	case '\n':
 	    *ptr = ' ';
-	    i++;
+/*	    i++; */
 	case ' ':
 	    if (prev != '\\') {
 		/* This is the end of the regex, uh I guess.
