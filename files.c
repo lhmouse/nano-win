@@ -275,14 +275,13 @@ int do_insertfile(void)
 	if (i == NANO_TOFILES_KEY) {
 	    char *tmp = do_browser(getcwd(NULL, 0));
 
-	    if 	(tmp != NULL) {
-		free(realname);
+#ifdef DISABLE_TABCOMP
+	    free(realname);
+#endif
+	    if 	(tmp != NULL)
 		realname = tmp;
-	    }
-	    else {
-		free(realname);
+	    else
 		return do_insertfile();
-	    }
 	}
 #endif
 
