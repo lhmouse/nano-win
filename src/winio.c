@@ -3019,12 +3019,23 @@ int line_len(const char *ptr)
  * nothing, and dynamic! */
 int do_help(void)
 {
-    int i, page = 0, kbinput = ERR, meta_key, no_more = 0;
-    int no_help_flag = FALSE;
-    const shortcut *oldshortcut;
+    int line = 0;
+	/* The line number in help_text of the first displayed help line.
+	 * This variable is zero-based. */
+    int no_more = 0;
+	/* no_more means the end of the help text is shown, so don't go down
+	 * any more. */
+    int kbinput = ERR, meta_key;
+
+    int no_help_flag = ISSET(NO_HELP);
+    int old_cursor = curs_set(0);
+#ifndef DISABLE_MOUSE
+    const shortcut *oldshortcut = currshortcut;
+	/* We will set currshortcut to allow clicking on the help
+	   screen shortcut list. */
+#endif
 
     blank_edit();
-    curs_set(0);
     wattroff(bottomwin, A_REVERSE);
     blank_statusbar();
 
@@ -3032,51 +3043,65 @@ int do_help(void)
     help_init();
     assert(help_text != NULL);
 
-    oldshortcut = currshortcut;
-
+#ifndef DISABLE_MOUSE
+    /* Set currshortcut to allow clicking on the help screen shortcut
+     * list, AFTER help_init(). */
     currshortcut = help_list;
+#endif
 
     if (ISSET(NO_HELP)) {
-
 	/* Well, if we're going to do this, we should at least do it the
 	 * right way. */
-	no_help_flag = TRUE;
 	UNSET(NO_HELP);
 	window_init();
-	bottombars(help_list);
-
-    } else
-	bottombars(help_list);
+    }
+    bottombars(help_list);
 
     do {
+	int i;
+	int old_line = line;
+	    /* We redisplay the help only if it moved. */
 	const char *ptr = help_text;
 
 	switch (kbinput) {
 #ifndef DISABLE_MOUSE
-	case KEY_MOUSE:
-	    do_mouse();
-	    break;
+	    case KEY_MOUSE:
+		do_mouse();
+		break;
 #endif
-	case NANO_NEXTPAGE_KEY:
-	case NANO_NEXTPAGE_FKEY:
-	    if (!no_more) {
-		blank_edit();
-		page++;
-	    }
-	    break;
-	case NANO_PREVPAGE_KEY:
-	case NANO_PREVPAGE_FKEY:
-	    if (page > 0) {
-		no_more = 0;
-		blank_edit();
-		page--;
-	    }
-	    break;
+	    case NANO_NEXTPAGE_KEY:
+	    case NANO_NEXTPAGE_FKEY:
+		if (!no_more)
+		    line += editwinrows - 2;
+		break;
+	    case NANO_PREVPAGE_KEY:
+	    case NANO_PREVPAGE_FKEY:
+		if (line > 0) {
+		    line -= editwinrows - 2;
+		    if (line < 0)
+			line = 0;
+		}
+		break;
+	    case NANO_PREVLINE_KEY:
+		if (line > 0)
+		    line--;
+		break;
+	    case NANO_NEXTLINE_KEY:
+		if (!no_more)
+		    line++;
+		break;
 	}
+
+	if (line == old_line && kbinput != ERR)
+	    goto skip_redisplay;
+
+	blank_edit();
+
+	assert(COLS > 5);
 
 	/* Calculate where in the text we should be, based on the
 	 * page. */
-	for (i = 1; i < page * (editwinrows - 1); i++) {
+	for (i = 0; i < line; i++) {
 	    ptr += line_len(ptr);
 	    if (*ptr == '\n')
 		ptr++;
@@ -3090,14 +3115,15 @@ int do_help(void)
 	    if (*ptr == '\n')
 		ptr++;
 	}
+	no_more = (*ptr == '\0');
 
-	if (*ptr == '\0') {
-	    no_more = 1;
-	    continue;
-	}
-    } while ((kbinput = get_kbinput(edit, &meta_key)) != NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
+  skip_redisplay:
+	kbinput = get_kbinput(edit, &meta_key);
+    } while (kbinput != NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
 
+#ifndef DISABLE_MOUSE
     currshortcut = oldshortcut;
+#endif
 
     if (no_help_flag) {
 	blank_bottombars();
@@ -3107,7 +3133,7 @@ int do_help(void)
     } else
 	bottombars(currshortcut);
 
-    curs_set(1);
+    curs_set(old_cursor);
     edit_refresh();
 
     /* The help_init() at the beginning allocated help_text, which has

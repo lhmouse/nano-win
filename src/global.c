@@ -865,15 +865,23 @@ void shortcut_init(int unjustify)
 
     sc_init_one(&help_list, NANO_PREVPAGE_KEY, _("Prev Page"),
 		IFHELP(nano_prevpage_msg, NANO_NO_KEY), NANO_PREVPAGE_FKEY,
-		NANO_NO_KEY, VIEW, do_page_up);
+		NANO_NO_KEY, VIEW, 0);
 
     sc_init_one(&help_list, NANO_NEXTPAGE_KEY, _("Next Page"),
 		IFHELP(nano_nextpage_msg, NANO_NO_KEY), NANO_NEXTPAGE_FKEY,
-		NANO_NO_KEY, VIEW, do_page_down);
+		NANO_NO_KEY, VIEW, 0);
+
+    sc_init_one(&help_list, NANO_PREVLINE_KEY, _("Prev Line"),
+		IFHELP(nano_prevline_msg, NANO_NO_KEY), NANO_NO_KEY,
+		NANO_NO_KEY, VIEW, 0);
+
+    sc_init_one(&help_list, NANO_NEXTLINE_KEY, _("Next Line"),
+		IFHELP(nano_nextline_msg, NANO_NO_KEY), NANO_NO_KEY,
+		NANO_NO_KEY, VIEW, 0);
 
     sc_init_one(&help_list, NANO_EXIT_KEY, _("Exit"),
 		IFHELP(nano_exit_msg, NANO_NO_KEY), NANO_EXIT_FKEY,
-		NANO_NO_KEY, VIEW, do_exit);
+		NANO_NO_KEY, VIEW, 0);
 #endif
 
     free_shortcutage(&writefile_list);
