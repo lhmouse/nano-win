@@ -726,6 +726,10 @@ int input_tab(char *buf, int place, int lastWasTab)
 		if (col > (COLS - longestname)  && matches[i + 1] != NULL) {
 		    editline++;
 		    wmove(edit, editline, 0);
+                    if (editline == editwinrows - 1) {
+                        waddstr(edit, _("(more)"));
+                        break;
+                    }
 		    col = 0;
 		}
 	    }
