@@ -77,6 +77,9 @@ CVS code -
 	  standard under BSD, whereas the former is POSIX compliant.
 	  (DLR)
 	- Add explanatory comment. (DLR)
+- faq.html:
+	- Fixed inaccuracy: multibuffer mode was first in nano 1.1.0,
+	  not 1.1.12. (DLR)
 - README:
 	- Reformat to 72 characters per line, fix wording in one spot,
 	  and fix spacing in several spots. (DLR)
