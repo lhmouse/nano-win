@@ -2148,90 +2148,6 @@ void blank_bottombars(void)
     }
 }
 
-/* buf is a multibyte string to be displayed.  We need to expand tabs
- * and control characters.  How many bytes do we need to display?
- * start_col is the column of *buf (usually 0).  We display to
- * (end_col - 1). */
-size_t display_string_len(const char *buf, size_t start_col, size_t
-	end_col)
-{
-    size_t retval = 0;
-
-    assert(buf != NULL);
-
-    /* Throughout the loop, we maintain the fact that *buf displays at
-     * column start_col. */
-    while (start_col <= end_col && *buf != '\0') {
-	int wide_buf, mb_buf_len;
-#ifdef NANO_WIDE
-	bool bad_char;
-#endif
-	size_t old_col = start_col;
-
-	mb_buf_len = parse_char(buf, &wide_buf
-#ifdef NANO_WIDE
-		, &bad_char
-#endif
-		, &start_col);
-
-#ifdef NANO_WIDE
-	/* If buf contains a null byte or an invalid multibyte
-	 * character, interpret that character as though it's a wide
-	 * character. */
-	if (!ISSET(NO_UTF8) && bad_char) {
-	    char *bad_mb_buf = charalloc(MB_CUR_MAX);
-	    int bad_mb_buf_len;
-
-	    /* If we have a control character, add one byte to account
-	     * for the "^" that will be displayed in front of it, and
-	     * translate the character to its visible equivalent as
-	     * returned by control_rep(). */
-	    if (is_cntrl_char(wide_buf)) {
-		retval++;
-		wide_buf = control_rep((unsigned char)wide_buf);
-	    }
-
-	    /* Translate the wide character to its multibyte
-	     * equivalent. */
-	    bad_mb_buf_len = wctomb(bad_mb_buf, (wchar_t)wide_buf);
-
-	    if (bad_mb_buf_len != -1)
-		retval += bad_mb_buf_len;
-
-	    free(bad_mb_buf);
-	} else {
-#endif
-	    /* If we have a tab, get its width in bytes using the
-	     * current value of col. */
-	    if (wide_buf == '\t')
-		retval += start_col - old_col;
-	    /* If we have a control character, add one byte to account
-	     * for the "^" that will be displayed in front of it, and
-	     * then add the number of bytes for its visible equivalent
-	     * as returned by control_rep(). */
-	    else if (is_cntrl_char(wide_buf)) {
-		char ctrl_mb_buf = control_rep((unsigned char)wide_buf);
-
-		retval++;
-		retval += parse_char(&ctrl_mb_buf, NULL
-#ifdef NANO_WIDE
-			, NULL
-#endif
-			, NULL);
-	    /* If we have a normal character, add its width in bytes
-	     * normally. */
-	    } else
-		retval += mb_buf_len;
-#ifdef NANO_WIDE
-	}
-
-	buf += mb_buf_len;
-#endif
-    }
-
-    return retval;
-}
-
 /* Convert buf into a string that can be displayed on screen.  The
  * caller wants to display buf starting with column start_col, and
  * extending for at most len columns.  start_col is zero-based.  len is
@@ -2266,14 +2182,12 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
     assert(column <= start_col);
 
-    alloc_len = display_string_len(buf + start_index, start_col,
-	start_col + len);
 #ifdef NANO_WIDE
     if (!ISSET(NO_UTF8))
-	alloc_len += MB_CUR_MAX * 2;
+	alloc_len = MB_CUR_MAX * (len + 2);
     else
 #endif
-	alloc_len += 2;
+	alloc_len = len + 2;
 
     converted = charalloc(alloc_len + 1);
     index = 0;

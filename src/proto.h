@@ -601,8 +601,6 @@ void blank_edit(void);
 void blank_statusbar(void);
 void check_statusblank(void);
 void blank_bottombars(void);
-size_t display_string_len(const char *buf, size_t start_col, size_t
-	end_col);
 char *display_string(const char *buf, size_t start_col, size_t len, bool
 	dollars);
 void nanoget_repaint(const char *buf, const char *inputbuf, size_t x);

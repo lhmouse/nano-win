@@ -53,13 +53,12 @@ CVS code -
 	  (mostly) work properly with files containing multibyte
 	  characters, and text display of such files should now (mostly)
 	  work properly as well.  New functions control_rep(),
-	  parse_char(), move_left(), move_right(), and
-	  display_string_len(); changes to do_left(), do_right(),
-	  do_delete(), breakable(), break_line(), do_output(),
-	  get_buffer(), unget_input(), actual_x(), strnlenpt(),
-	  display_string(), titlebar(), statusbar(), onekey(),
-	  edit_add(), do_replace_highlight(), and do_credits(). (David
-	  Benbennick and DLR)
+	  parse_char(), move_left(), and move_right(); changes to
+	  do_left(), do_right(), do_delete(), breakable(), break_line(),
+	  do_output(), get_buffer(), unget_input(), actual_x(),
+	  strnlenpt(), display_string(), titlebar(), statusbar(),
+	  onekey(), edit_add(), do_replace_highlight(), and
+	  do_credits(). (David Benbennick and DLR)
 	- Overhaul the high-level input routines for the statusbar to
 	  make them read the shortcut lists for functions instead of
 	  manually running them, to make nanogetstr() less complex, and
