@@ -2520,8 +2520,7 @@ void update_line(const filestruct *fileptr, size_t index)
 
 /* Return a nonzero value if we need an update after moving
  * horizontally.  We need one if the mark is on or if old_pww and
- * placewewant are on different pages.  Assume none of the text has
- * changed since the last update. */
+ * placewewant are on different pages. */
 int need_horizontal_update(int old_pww)
 {
     return
@@ -2533,8 +2532,7 @@ int need_horizontal_update(int old_pww)
 
 /* Return a nonzero value if we need an update after moving vertically.
  * We need one if the mark is on or if old_pww and placewewant
- * are on different pages.  Assume none of the text has changed since
- * the last update. */
+ * are on different pages. */
 int need_vertical_update(int old_pww)
 {
     return
@@ -2551,8 +2549,7 @@ int need_vertical_update(int old_pww)
  * topmost or bottommost line (where we assume current is) before
  * scrolling or draw the new topmost or bottommost line after scrolling
  * (where we assume current will be), since we don't know where we are
- * on the page or whether we'll stay there.  Assume none of the text has
- * changed since the last update. */
+ * on the page or whether we'll stay there. */
 void edit_scroll(updown direction, int nlines)
 {
     filestruct *foo;
@@ -2610,8 +2607,7 @@ void edit_scroll(updown direction, int nlines)
 }
 
 /* Update any lines between old_current and current that need to be
- * updated.  Assume none of the text has changed since the last
- * update. */
+ * updated. */
 void edit_redraw(const filestruct *old_current, int old_pww)
 {
     int do_refresh = need_vertical_update(old_pww);
