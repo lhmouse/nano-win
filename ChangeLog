@@ -217,7 +217,7 @@ CVS code -
 	  fixes by DLR)
 - README:
 	- Reformat to 72 characters per line, fix wording in one spot,
-	  and fix spacing in several spots. (DLR)
+	  and fix spacing and capitalization in several spots. (DLR)
 - NEWS:
 	- Capitalization fix. (DLR)
 
