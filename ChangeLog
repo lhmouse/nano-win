@@ -1,9 +1,12 @@
 CVS code changes since last release -
-- Made search functions & keys more like Pico.  Added goto line from  
-  search and replace function, changed wording to "No Replace" instead of 
-  "To Search", "To Replace" to simply "Replace", and changed to Pico's
-  keystroke by default, ^R. Affects search_init(), do_search() in
-  search.c, globals in nano.h and shortcut_init() in global.c.
+- all:
+	- Made search functions & keys more like Pico.  Added goto line from  
+	  search and replace function, changed wording to "No Replace" instead
+	  of "To Search", "To Replace" to simply "Replace", and changed to
+	  Pico's keystroke by default, ^R. Affects search_init(),
+	  do_search() in search.c, globals in nano.h and
+	  shortcut_init() in global.c.
+	- changed 'sprintf' calls to safer 'snprintf'
 - nano.c:
 	- Removed dual alt_speller variables, oops! (Rocco Corsi)
 - de.po:
