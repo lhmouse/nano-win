@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.99pre3\n"
 "POT-Creation-Date: 2003-02-13 22:18-0500\n"
-"PO-Revision-Date: 2003-02-15 09:30+0100\n"
+"PO-Revision-Date: 2003-02-16 01:40+0100\n"
 "Last-Translator: Jean-Philippe Guérard <jean-philippe.guerard@laposte.net>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -288,7 +288,7 @@ msgstr "Impossible d'écrire le fichier ~/.nano_history, %s"
 
 #: global.c:246
 msgid "Constant cursor position"
-msgstr "Toujours afficher la position du curseur"
+msgstr "Affichage de la position du curseur"
 
 #: global.c:247
 msgid "Auto indent"
@@ -296,7 +296,7 @@ msgstr "Indentation automatique"
 
 #: global.c:248
 msgid "Suspend"
-msgstr "Autoriser à suspendre"
+msgstr "Autorisation de suspendre"
 
 #: global.c:249
 msgid "Help mode"
@@ -304,7 +304,7 @@ msgstr "Mode aide"
 
 #: global.c:251
 msgid "Mouse support"
-msgstr "Utiliser la souris"
+msgstr "Utilisation de la souris"
 
 #: global.c:253
 msgid "Cut to end"
@@ -336,11 +336,11 @@ msgstr "Colorisation syntaxique"
 
 #: global.c:263
 msgid "Auto wrap"
-msgstr "Passer à la ligne automatiquement"
+msgstr "Passage à la ligne automatique"
 
 #: global.c:266
 msgid "Multiple file buffers"
-msgstr "Mode multifichiers"
+msgstr "Mode multifichier"
 
 #: global.c:349
 msgid "Invoke the help menu"
@@ -765,7 +765,7 @@ msgstr ""
 
 #: nano.c:187
 msgid "Window size is too small for nano...\n"
-msgstr "La taille de la fenêtre est trop petite pour nano...\n"
+msgstr "La taille de la fenêtre est trop petite pour nano ...\n"
 
 #: nano.c:192
 msgid "Key illegal in VIEW mode"
@@ -941,7 +941,7 @@ msgstr "(commutateur)"
 
 #: nano.c:422 nano.c:425
 msgid "Space"
-msgstr "Espace"
+msgstr "Blanc"
 
 # Les messages d'aide utilisés pour nano -h doivent tenir
 # sur un écran de 80 caractères.
@@ -991,7 +991,7 @@ msgstr "Écrire au format DOS"
 
 #: nano.c:643
 msgid "Enable multiple file buffers"
-msgstr "Mode multifichiers"
+msgstr "Mode multifichier"
 
 #: nano.c:646
 msgid "Log & read search/replace string history"
@@ -1091,7 +1091,7 @@ msgstr "Répertoire de travail"
 
 #: nano.c:680
 msgid "Preserve XON (^Q) and XOFF (^S) keys"
-msgstr "Préserve ^Q (XON) & ^S (XOFF)"
+msgstr "Préserver ^Q (XON) & ^S (XOFF)"
 
 #: nano.c:682
 msgid "-r [#cols]"
@@ -1290,15 +1290,15 @@ msgstr "Problème avec VerrNum. Le pavé num. fonctionnera mal si VerrNum est désa
 
 #: nano.c:2981
 msgid "enabled"
-msgstr "activé"
+msgstr "- marche"
 
 #: nano.c:2981
 msgid "disabled"
-msgstr "désactivé"
+msgstr "- arrêt"
 
 #: nano.c:3173
 msgid "Tab size is too small for nano...\n"
-msgstr "La taille des tabulation est trop petite pour nano...\n"
+msgstr "La taille des tabulation est trop petite pour nano ...\n"
 
 #: nano.c:3389
 msgid "Main: set up windows\n"
@@ -1485,7 +1485,7 @@ msgstr "Impossible d'ouvrir le fichier ~/.nanorc, %s"
 #: search.c:63
 #, c-format
 msgid "\"%s...\" not found"
-msgstr "« %s... » non trouvé"
+msgstr "« %s ... » non trouvé"
 
 #: search.c:106
 #, c-format
@@ -1658,15 +1658,15 @@ msgstr "ligne %ld/%ld (%d%%), col. %lu/%lu (%d%%), car. %lu/%ld (%d%%)"
 
 #: winio.c:1695
 msgid "Dumping file buffer to stderr...\n"
-msgstr "Envoi du tampon fichier sur stderr...\n"
+msgstr "Envoi du tampon fichier sur stderr ...\n"
 
 #: winio.c:1697
 msgid "Dumping cutbuffer to stderr...\n"
-msgstr "Envoi du presse-papiers sur stderr...\n"
+msgstr "Envoi du presse-papiers sur stderr ...\n"
 
 #: winio.c:1699
 msgid "Dumping a buffer to stderr...\n"
-msgstr "Envoi d'un tampon sur stderr...\n"
+msgstr "Envoi d'un tampon sur stderr ...\n"
 
 #: winio.c:1780
 msgid "The nano text editor"
@@ -1694,28 +1694,8 @@ msgstr "Pour ncurses :"
 
 #: winio.c:1786
 msgid "and anyone else we forgot..."
-msgstr "et toute autre personne que nous ayons oublié..."
+msgstr "et toute autre personne que nous ayons oublié ..."
 
 #: winio.c:1787
 msgid "Thank you for using nano!\n"
 msgstr "Merci d'utiliser nano !\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "The -p flag now invokes the Pico \"preserve\" flag.\n"
-#~ "The Pico compatibility flag has been removed as nano\n"
-#~ "now fully Pico compatible.  Please see the nano FAQ\n"
-#~ "for more info on this change...\n"
-#~ "\n"
-#~ "Press return to continue\n"
-#~ msgstr ""
-#~ "\n"
-#~ "L'option -p correspond désormais au mode « préserver »\n"
-#~ "de Pico. Nano étant désormais totalement compatible\n"
-#~ "avec Pico, l'option de compatibilité Pico a été supprimée.\n"
-#~ "N'hésitez pas à consulter la FAQ pour plus d'information.\n"
-#~ "\n"
-#~ "Appuyez sur « Entrée » pour continuer\n"
-
-#~ msgid "Generic error"
-#~ msgstr "Erreur générique"
