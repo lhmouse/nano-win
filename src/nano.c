@@ -2618,7 +2618,7 @@ bool begpar(const filestruct *const foo)
 
 /* We find the last beginning-of-paragraph line before the current
  * line. */
-void do_para_begin(void)
+void do_para_begin(bool allow_update)
 {
     const filestruct *current_save = current;
     const size_t pww_save = placewewant;
@@ -2633,20 +2633,33 @@ void do_para_begin(void)
 	} while (!begpar(current));
     }
 
-    edit_redraw(current_save, pww_save);
+    if (allow_update)
+	edit_redraw(current_save, pww_save);
 }
 
-bool inpar(const char *str)
+void do_para_begin_void(void)
 {
-    size_t quote_len = quote_length(str);
+    do_para_begin(TRUE);
+}
 
-    return str[quote_len + indent_length(str + quote_len)] != '\0';
+/* Is foo inside a paragraph? */
+bool inpar(const filestruct *const foo)
+{
+    size_t quote_len;
+
+    if (foo == NULL)
+	return FALSE;
+
+    quote_len = quote_length(foo->data);
+
+    return foo->data[quote_len + indent_length(foo->data +
+	quote_len)] != '\0';
 }
 
 /* A line is the last line of a paragraph if it is in a paragraph, and
  * the next line isn't, or is the beginning of a paragraph.  We move
  * down to the end of a paragraph, then one line farther. */
-void do_para_end(void)
+void do_para_end(bool allow_update)
 {
     const filestruct *const current_save = current;
     const size_t pww_save = placewewant;
@@ -2654,10 +2667,10 @@ void do_para_end(void)
     current_x = 0;
     placewewant = 0;
 
-    while (current->next != NULL && !inpar(current->data))
+    while (current->next != NULL && !inpar(current))
 	current = current->next;
 
-    while (current->next != NULL && inpar(current->next->data) &&
+    while (current->next != NULL && inpar(current->next) &&
 	    !begpar(current->next)) {
 	current = current->next;
 	current_y++;
@@ -2666,7 +2679,13 @@ void do_para_end(void)
     if (current->next != NULL)
 	current = current->next;
 
-    edit_redraw(current_save, pww_save);
+    if (allow_update)
+	edit_redraw(current_save, pww_save);
+}
+
+void do_para_end_void(void)
+{
+    do_para_end(TRUE);
 }
 
 /* Put the next par_len lines, starting with first_line, into the
@@ -2798,112 +2817,62 @@ ssize_t break_line(const char *line, ssize_t goal, bool force)
 
 /* Find the beginning of the current paragraph if we're in one, or the
  * beginning of the next paragraph if we're not.  Afterwards, save the
- * quote length and paragraph length in *quote and *par.  Return FALSE
- * if we found a paragraph, or TRUE if there was an error or we didn't
+ * quote length and paragraph length in *quote and *par.  Return TRUE if
+ * we found a paragraph, or FALSE if there was an error or we didn't
  * find a paragraph.
  *
  * See the comment at begpar() for more about when a line is the
  * beginning of a paragraph. */
-bool do_para_search(size_t *const quote, size_t *const par)
+bool find_paragraph(size_t *const quote, size_t *const par)
 {
     size_t quote_len;
-	/* Length of the initial quotation of the paragraph we
-	 * search. */
+	/* Length of the initial quotation of the paragraph we search
+	 * for. */
     size_t par_len;
-	/* Number of lines in that paragraph. */
-    size_t indent_len;
-	/* Generic indentation length. */
-    filestruct *line;
-	/* Generic line of text. */
+	/* Number of lines in the paragraph we search for. */
+    filestruct *current_save;
+	/* The line at the beginning of the paragraph we search for. */
+    size_t current_y_save;
+	/* The y-coordinate at the beginning of the paragraph we search
+	 * for. */
 
 #ifdef HAVE_REGEX_H
     if (quoterc != 0) {
 	statusbar(_("Bad quote string %s: %s"), quotestr, quoteerr);
-	return TRUE;
+	return FALSE;
     }
 #endif
 
-    /* Here is an assumption that is always true anyway. */
     assert(current != NULL);
 
+    /* Move back to the beginning of the current line. */
     current_x = 0;
 
+    /* Find the first line of the current or next paragraph.  First, if
+     * the current line isn't in a paragraph, move forward to the line
+     * after the end of the next paragraph.  If the line before that
+     * isn't in a paragraph, it means there aren't any paragraphs left,
+     * so get out.  Otherwise, if the current line is in a paragraph and
+     * it isn't the first line of that paragraph, move back to the first
+     * line. */
+    if (!inpar(current)) {
+	do_para_end(FALSE);
+	if (!inpar(current->prev))
+	    return FALSE;
+    }
+    if (!begpar(current))
+	do_para_begin(FALSE);
+
+    /* Now current is the first line of the paragraph.  Set quote_len to
+     * the quotation length of that line, and set par_len to the number
+     * of lines in this paragraph. */
     quote_len = quote_length(current->data);
-    indent_len = indent_length(current->data + quote_len);
-
-    /* Here we find the first line of the paragraph to search.  If the
-     * current line is in a paragraph, then we move back to the first
-     * line of the paragraph.  Otherwise, we move to the first line that
-     * is in a paragraph. */
-    if (current->data[quote_len + indent_len] != '\0') {
-	/* This line is part of a paragraph.  So we must search back to
-	 * the first line of this paragraph.  First we check items 1)
-	 * and 3) above. */
-	while (current->prev != NULL &&	quotes_match(current->data,
-		quote_len, current->prev->data)) {
-	    size_t temp_id_len =
-		indent_length(current->prev->data + quote_len);
-		/* The indentation length of the previous line. */
-
-	    /* Is this line the beginning of a paragraph, according to
-	     * items 2), 5), or 4) above?  If so, stop. */
-	    if (current->prev->data[quote_len + temp_id_len] == '\0' ||
-		(quote_len == 0 && indent_len > 0
-#ifndef NANO_SMALL
-		&& !ISSET(AUTOINDENT)
-#endif
-		) || !indents_match(current->prev->data + quote_len,
-		temp_id_len, current->data + quote_len, indent_len))
-		break;
-	    indent_len = temp_id_len;
-	    current = current->prev;
-	    current_y--;
-	}
-    } else {
-	/* This line is not part of a paragraph.  Move down until we get
-	 * to a non "blank" line. */
-	do {
-	    /* There is no next paragraph, so nothing to move to. */
-	    if (current->next == NULL) {
-		placewewant = 0;
-		return TRUE;
-	    }
-	    current = current->next;
-	    current_y++;
-	    quote_len = quote_length(current->data);
-	    indent_len = indent_length(current->data + quote_len);
-	} while (current->data[quote_len + indent_len] == '\0');
-    }
-
-    /* Now current is the first line of the paragraph, and quote_len is
-     * the quotation length of that line. */
-
-    /* Next step, compute par_len, the number of lines in this
-     * paragraph. */
-    line = current;
-    par_len = 1;
-    indent_len = indent_length(line->data + quote_len);
-
-    while (line->next != NULL &&
-	    quotes_match(current->data, quote_len, line->next->data)) {
-	size_t temp_id_len = indent_length(line->next->data + quote_len);
-
-	if (!indents_match(line->data + quote_len, indent_len,
-		line->next->data + quote_len, temp_id_len) ||
-		line->next->data[quote_len + temp_id_len] == '\0' ||
-		(quote_len == 0 && temp_id_len > 0
-#ifndef NANO_SMALL
-		&& !ISSET(AUTOINDENT)
-#endif
-		))
-	    break;
-	indent_len = temp_id_len;
-	line = line->next;
-	par_len++;
-    }
-
-    /* Now par_len is the number of lines in this paragraph.  We should
-     * never call quotes_match() or quote_length() again. */
+    current_save = current;
+    current_y_save = current_y;
+    do_para_end(FALSE);
+    par_len = current->lineno - current_save->lineno;
+    current = current_save;
+    current_y = current_y_save;
 
     /* Save the values of quote_len and par_len. */
     assert(quote != NULL && par != NULL);
@@ -2911,7 +2880,7 @@ bool do_para_search(size_t *const quote, size_t *const par)
     *quote = quote_len;
     *par = par_len;
 
-    return FALSE;
+    return TRUE;
 }
 
 /* If full_justify is TRUE, justify the entire file.  Otherwise, justify
@@ -2978,7 +2947,7 @@ void do_justify(bool full_justify)
 	 * line of the text to be justified to the last line of the file
 	 * and break out of the loop.  Otherwise, refresh the screen and
 	 * get out. */
-	if (do_para_search(&quote_len, &par_len)) {
+	if (!find_paragraph(&quote_len, &par_len)) {
 	    if (full_justify && first_par_line != filebot) {
 		last_par_line = filebot;
 		break;

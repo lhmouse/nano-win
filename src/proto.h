@@ -421,13 +421,15 @@ bool quotes_match(const char *a_line, size_t a_quote, const char
 bool indents_match(const char *a_line, size_t a_indent, const char
 	*b_line, size_t b_indent);
 bool begpar(const filestruct *const foo);
-void do_para_begin(void);
-bool inpar(const char *str);
-void do_para_end(void);
+void do_para_begin(bool allow_update);
+void do_para_begin_void(void);
+bool inpar(const filestruct *const foo);
+void do_para_end(bool allow_update);
+void do_para_end_void(void);
 filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 	quote_len);
 ssize_t break_line(const char *line, ssize_t goal, bool force);
-bool do_para_search(size_t *const quote, size_t *const par);
+bool find_paragraph(size_t *const quote, size_t *const par);
 void do_justify(bool full_justify);
 void do_justify_void(void);
 void do_full_justify(void);

@@ -554,12 +554,12 @@ void shortcut_init(bool unjustify)
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_NO_KEY, beg_of_par_msg,
 	IFHELP(nano_parabegin_msg, NANO_PARABEGIN_ALTKEY1), NANO_NO_KEY,
-	NANO_PARABEGIN_ALTKEY2, VIEW, do_para_begin);
+	NANO_PARABEGIN_ALTKEY2, VIEW, do_para_begin_void);
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_NO_KEY, end_of_par_msg,
 	IFHELP(nano_paraend_msg, NANO_PARAEND_ALTKEY1), NANO_NO_KEY,
-	NANO_PARAEND_ALTKEY2, VIEW, do_para_end);
+	NANO_PARAEND_ALTKEY2, VIEW, do_para_end_void);
 #endif
 
 #ifdef ENABLE_MULTIBUFFER
@@ -637,12 +637,12 @@ void shortcut_init(bool unjustify)
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_PARABEGIN_KEY, beg_of_par_msg,
 	IFHELP(nano_parabegin_msg, NANO_PARABEGIN_ALTKEY1), NANO_NO_KEY,
-	NANO_PARABEGIN_ALTKEY2, VIEW, do_para_begin);
+	NANO_PARABEGIN_ALTKEY2, VIEW, do_para_begin_void);
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_PARAEND_KEY, end_of_par_msg,
 	IFHELP(nano_paraend_msg, NANO_PARAEND_ALTKEY1), NANO_NO_KEY,
-	NANO_PARAEND_ALTKEY2, VIEW, do_para_end);
+	NANO_PARAEND_ALTKEY2, VIEW, do_para_end_void);
 #endif
 
 #ifndef NANO_SMALL

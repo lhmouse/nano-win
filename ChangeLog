@@ -171,10 +171,15 @@ CVS code -
 	  parse_syntax(), parse_colors(), parse_rcfile(), do_rcfile(),
 	  etc. (David Benbennick)  DLR: Rename colortoint() to
 	  color_to_int(), and add a few miscellaneous tweaks.
-	- Overhaul the justify code to make it leave the right number of
-	  spaces at the ends of the lines of a paragraph, and also to
-	  make it simpler.  Changes to justify_format() and
-	  do_justify(); removal of breakable(). (DLR)
+	- Overhaul the paragraph-searching code to make it use the
+	  paragraph-searching utility functions when possible instead of
+	  duplicating code.  Also overhaul the justify code to make it
+	  leave the right number of spaces at the ends of the lines of a
+	  paragraph, and also to make it simpler.  New functions
+	  do_para_begin_void() and do_para_end_void(); changes to
+	  justify_format(), do_para_begin(), inpar(), do_para_end(),
+	  do_para_search() (renamed find_paragraph()), and do_justify();
+	  removal of breakable(). (DLR)
 	- Still more steps toward full wide/multibyte character support.
 	  Make whitespace display mode work with multibyte characters,
 	  and add a few related documentation updates.  New function
