@@ -4,6 +4,8 @@ CVS code -
 	- Plug some memory leaks (Steven Kneizys).
   read_file()
 	- Abort if we read a file of 0 lines (num_lines == 0), fixes BUG #70.
+	- Reverse tests to stop segfault on editing a new file of 0 lines
+	  (David Benbennick).
 - nano.c:
   do_int_speller()
 	- Fix zombie processes and spelling buffer issues (Rocco Corsi)
