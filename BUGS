@@ -2,7 +2,9 @@
   certain col values. (9) [FIXED]
 - edit_refresh() and update_line() do not handle selecting text when the
   cursor is beyond COLS (10) [FIXED]
-- no way to do a replace with the empty string (11). [FIXED, yay!]
+- no way to do a replace with the empty string (11) [FIXED, yay!]
+- Spelling support is not elegant like pico's integration of the 'spell'
+  program.  Nano only uses ispell (for now) (12) [FIXED]
 - Moving to the end of a line when close to a multiple of COLS and at
   least COLS * 2 does not make the screen jump early like it would for
   if we were around COLS (bugs in edit_refresh, update_line) (13)
@@ -71,14 +73,15 @@
   when called from inside mutt (among other settings) (45). [FIXED]
 - In replace, hitting the Goto line shortcut key does nothing after a
   search string is entered (discovered by Rocco Corsi) (46) [FIXED].
+- When typing in a string in serahc or replace and hitting CASE_SENSITVE
+  or the other search string, the current string edit is blown away in
+  favor of the last stored search (47) [FIXED]
 
 ** Open BUGS **
 
 - Marked cutting sometimes leaves a newline in the file unintelligently,
   such as when all of a line is selected but the mark doesn't proceed to
   the new line. (8) { Is this an issue? compare to pico 3.5 }
-- Spelling support is not elegant like pico's integration of the 'spell'
-  program.  Nano only uses ispell (for now) (12).
 - totsize problems still abound in do_justify (33).
 
 $Id$

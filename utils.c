@@ -129,6 +129,11 @@ void *mallocstrcpy(void *dest, void *src)
     if (dest != NULL)
 	free(dest);
 
+    if (src == NULL) {
+	dest = NULL;
+	return(dest);
+    }
+
     dest = nmalloc(strlen(src) + 1);
     strcpy(dest, src);
 

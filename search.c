@@ -74,11 +74,28 @@ int search_init(int replacing)
     int i = 0;
     char *buf;
     char *prompt, *reprompt = "";
+    static char *backupstring = NULL;
 
     search_init_globals();
 
     buf = nmalloc(strlen(last_search) + 5);
     buf[0] = 0;
+
+
+     /* Okay, fun time.  backupstring is our holder for what is being 
+	returned from the statusq call.  Using answer for this would be tricky.
+	Here, if we're using PICO_MSGS, we only want nano to put the
+	old string back up as editable if it's not the same as last_search.
+
+	Otherwise, if we don't already have a backupstring, set it to
+	last_search.  */
+
+    if (ISSET(PICO_MSGS)) {
+	if (backupstring == NULL || !strcmp(backupstring, last_search))
+	    backupstring = mallocstrcpy(backupstring, "");
+    }
+    else if (backupstring == NULL)
+	backupstring = mallocstrcpy(backupstring, last_search);
 
     /* If using Pico messages, we do things the old fashioned way... */
     if (ISSET(PICO_MSGS)) {
@@ -94,6 +111,8 @@ int search_init(int replacing)
 	    buf[0] = '\0';
 	}
     }
+    else
+	strcpy(buf, "");
 
     if (ISSET(USE_REGEXP) && ISSET(CASE_SENSITIVE))
 	prompt = _("Case Sensitive Regexp Search%s%s");
@@ -107,36 +126,38 @@ int search_init(int replacing)
     if (replacing)
 	reprompt = _(" (to replace)");
 
-    if (ISSET(PICO_MSGS))
-	i = statusq(0, replacing ? replace_list : whereis_list,
-		replacing ? REPLACE_LIST_LEN : WHEREIS_LIST_LEN, "",
-		prompt, reprompt, buf);
-    else
-	i = statusq(0, replacing ? replace_list : whereis_list,
-		replacing ? REPLACE_LIST_LEN : WHEREIS_LIST_LEN, last_search,
-		prompt, reprompt, "");
+    /* This is now one simple call.  It just does a lot */
+    i = statusq(0, replacing ? replace_list : whereis_list,
+	replacing ? REPLACE_LIST_LEN : WHEREIS_LIST_LEN, backupstring,
+	prompt, reprompt, "");
 
     /* Cancel any search, or just return with no previous search */
     if ((i == -1) || (i < 0 && !last_search[0])) {
 	statusbar(_("Search Cancelled"));
 	reset_cursor();
+	free(backupstring);
+	backupstring = NULL;
 	return -1;
     } else if (i == -2) {	/* Same string */
-	answer = mallocstrcpy(answer, last_search);
 #ifdef HAVE_REGEX_H
 	if (ISSET(USE_REGEXP))
 	    regexp_init(answer);
+#else
+	;
 #endif
     } else if (i == 0) {	/* They entered something new */
-	last_search = mallocstrcpy(last_search, answer);
 #ifdef HAVE_REGEX_H
 	if (ISSET(USE_REGEXP))
 	    regexp_init(answer);
 #endif
-	/* Blow away last_replace because they entered a new search
-	   string....uh, right? =) */
+	free(backupstring);
+	backupstring = NULL;
 	last_replace[0] = '\0';
     } else if (i == NANO_CASE_KEY) {	/* They want it case sensitive */
+	free(backupstring);
+	backupstring = NULL;
+	backupstring = mallocstrcpy(backupstring, answer);
+
 	if (ISSET(CASE_SENSITIVE))
 	    UNSET(CASE_SENSITIVE);
 	else
@@ -144,12 +165,17 @@ int search_init(int replacing)
 
 	return 1;
     } else if (i == NANO_OTHERSEARCH_KEY) {
+	backupstring = mallocstrcpy(backupstring, answer);
 	return -2;		/* Call the opposite search function */
     } else if (i == NANO_FROMSEARCHTOGOTO_KEY) {
+	free(backupstring);
+	backupstring = NULL;
 	do_gotoline_void();
 	return -3;
     } else {			/* First line key, etc. */
 	do_early_abort();
+	free(backupstring);
+	backupstring = NULL;
 	return -3;
     }
 
@@ -288,11 +314,19 @@ int do_search(void)
     }
 
     /* The sneaky user deleted the previous search string */
-    if (!strcmp(answer, "")) {
+    if (!ISSET(PICO_MSGS) && !strcmp(answer, "")) {
 	statusbar(_("Search Cancelled"));
 	search_abort();
 	return 0;
     }
+
+     /* If answer is now == "", then PICO_MSGS is set.  So, copy
+	last_search into answer... */
+
+    if (!strcmp(answer, ""))
+	answer = mallocstrcpy(answer, last_search);
+    else
+	last_search = mallocstrcpy(last_search, answer);
 
     search_last_line = 0;
     findnextstr(0, current, current_x, answer);
@@ -446,7 +480,6 @@ int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 	replace_abort();
 	return 0;
     case 0:		/* They actually entered something */
-	last_replace = mallocstrcpy(last_replace, answer);
 	break;
     default:
         if (*i != -2) {	/* First page, last page, for example 
@@ -457,6 +490,7 @@ int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
         }
     }
 
+    last_replace = mallocstrcpy(last_replace, answer);
     while (1) {
 
 	/* Sweet optimization by Rocco here */
@@ -550,13 +584,21 @@ int do_replace(void)
     }
 
     /* Again, there was a previous string but they deleted it and hit enter */
-    if (!strcmp(answer, "")) {
+    if (!ISSET(PICO_MSGS) && !strcmp(answer, "")) {
 	statusbar(_("Replace Cancelled"));
 	replace_abort();
 	return 0;
     }
 
-    prevanswer = mallocstrcpy(prevanswer, answer);
+     /* If answer is now == "", then PICO_MSGS is set.  So, copy
+	last_search into answer (and prevanswer)... */
+    if (!strcmp(answer, "")) {
+	answer = mallocstrcpy(answer, last_search);
+	prevanswer = mallocstrcpy(prevanswer, last_search);
+    } else {
+	last_search = mallocstrcpy(last_search, answer);
+	prevanswer = mallocstrcpy(prevanswer, answer);
+    }
 
     if (ISSET(PICO_MSGS)) {
 	buf = nmalloc(strlen(last_replace) + 5);

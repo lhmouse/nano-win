@@ -268,7 +268,10 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
     while ((kbinput = wgetch(bottomwin)) != 13) {
 	for (j = 0; j <= slen - 1; j++) {
 	    if (kbinput == s[j].val) {
-		answer = mallocstrcpy(answer, "");
+
+		/* We shouldn't discard the answer it gave, just because
+		   we hit a keystroke, GEEZ! */
+		answer = mallocstrcpy(answer, inputbuf);
 		free(inputbuf);
 		return s[j].val;
 	    }

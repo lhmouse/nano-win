@@ -25,6 +25,9 @@ CVS Code -
 	  hacked them a lot, changes to nanogetstr().  nanogetstr() and
 	  statusq() now take an arg for whether or not to allow tab
 	  completion.
+	- Fixed value being input in statusbar during a search or replace
+	  and CASE_SENSITIVE or the other search is called and the
+	  string being typed in is blown away.  Reported by Ken Tyler.
 - files.c:
   do_writeout()
 	- Change strcpy to answer to mallocstrcpy.
