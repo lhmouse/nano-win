@@ -88,6 +88,13 @@ static bool resetstatuspos = FALSE;
  *   omitted.  (Same as above.)
  * - F13 on FreeBSD console == End on Mach console; the former is
  *   omitted.  (Same as above.)
+ * - F15 on FreeBSD console == Shift-Up on rxvt/Eterm; the former is
+ *   omitted.  (The arrow keys, with or without modifiers, are more
+ *   important to have working than the function keys, because the
+ *   functions of the former are not arbitrary and the functions of the
+ *   latter are.)
+ * - F16 on FreeBSD console == Shift-Down on rxvt/Eterm; the former is
+ *   omitted.  (Same as above.)
  *
  * Note that Center (5) on the numeric keypad with NumLock off can also
  * be the Begin key. */
@@ -138,7 +145,7 @@ void unget_kbinput(int kbinput, bool meta_key, bool func_key)
  * keypad sequence.  Supported extended keypad values consist of [arrow
  * key], Ctrl-[arrow key], Shift-[arrow key], Enter, Backspace, the
  * editing keypad (Insert, Delete, Home, End, PageUp, and PageDown), the
- * function keypad (F1-F14), and the numeric keypad with NumLock off.
+ * function keypad (F1-F16), and the numeric keypad with NumLock off.
  * Assume nodelay(win) is FALSE. */
 int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 {
@@ -654,6 +661,14 @@ int get_escape_seq_kbinput(const int *escape_seq, size_t es_len, bool
 					   * xterm. */
 				    retval = KEY_F(14);
 				    break;
+				case 'R': /* Esc O 2 R == F15 on
+					   * xterm. */
+				    retval = KEY_F(15);
+				    break;
+				case 'S': /* Esc O 2 S == F16 on
+					   * xterm. */
+				    retval = KEY_F(16);
+				    break;
 			    }
 			}
 			break;
@@ -930,6 +945,16 @@ int get_escape_seq_kbinput(const int *escape_seq, size_t es_len, bool
 					   * VT220/VT320/Linux console/
 					   * rxvt/Eterm. */
 				    retval = KEY_F(14);
+				    break;
+				case '8': /* Esc [ 2 8 ~ == F15 on
+					   * VT220/VT320/Linux console/
+					   * rxvt/Eterm. */
+				    retval = KEY_F(15);
+				    break;
+				case '9': /* Esc [ 2 9 ~ == F16 on
+					   * VT220/VT320/Linux console/
+					   * rxvt/Eterm. */
+				    retval = KEY_F(16);
 				    break;
 				default: /* Esc [ 2 ~ == Insert on
 					  * VT220/VT320/Linux console/

@@ -278,6 +278,8 @@ void shortcut_init(int unjustify)
     const char *nano_spell_msg = N_("Invoke the spell checker, if available");
     const char *nano_gotoline_msg = N_("Go to a specific line number");
     const char *nano_replace_msg = N_("Replace text within the editor");
+    const char *nano_mark_msg = N_("Mark text at the cursor position");
+    const char *nano_whereis_next_msg = N_("Repeat last search");
     const char *nano_prevline_msg = N_("Move to the previous line");
     const char *nano_nextline_msg = N_("Move to the next line");
     const char *nano_forward_msg = N_("Move forward one character");
@@ -285,7 +287,6 @@ void shortcut_init(int unjustify)
     const char *nano_home_msg = N_("Move to the beginning of the current line");
     const char *nano_end_msg = N_("Move to the end of the current line");
     const char *nano_refresh_msg = N_("Refresh (redraw) the current screen");
-    const char *nano_mark_msg = N_("Mark text at the cursor position");
     const char *nano_delete_msg = N_("Delete the character under the cursor");
     const char *nano_backspace_msg =
 	N_("Delete the character to the left of the cursor");
@@ -311,11 +312,8 @@ void shortcut_init(int unjustify)
 #ifndef DISABLE_JUSTIFY
     const char *nano_fulljustify_msg = N_("Justify the entire file");
 #endif
-#ifndef NANO_SMALL
-#ifdef HAVE_REGEX_H
+#if !defined(NANO_SMALL) && defined(HAVE_REGEX_H)
     const char *nano_bracket_msg = N_("Find other bracket");
-#endif
-    const char *nano_whereis_next_msg = N_("Repeat last search");
 #endif
     const char *nano_cancel_msg = N_("Cancel the current function");
     const char *nano_firstline_msg = N_("Go to the first line of the file");
@@ -478,6 +476,26 @@ void shortcut_init(int unjustify)
 	IFHELP(nano_replace_msg, NANO_ALT_REPLACE_KEY), NANO_REPLACE_FKEY,
 	NANO_NO_KEY, NOVIEW, do_replace);
 
+    sc_init_one(&main_list, NANO_MARK_KEY, N_("Mark Text"),
+	IFHELP(nano_mark_msg, NANO_MARK_ALTKEY), NANO_MARK_FKEY,
+	NANO_NO_KEY, NOVIEW,
+#ifndef NANO_SMALL
+		do_mark
+#else
+		nano_disabled_msg
+#endif
+		);
+
+    sc_init_one(&main_list, NANO_NO_KEY, N_("Where Is Next"),
+	IFHELP(nano_whereis_next_msg, NANO_WHEREIS_NEXT_KEY),
+	NANO_WHEREIS_NEXT_FKEY, NANO_NO_KEY, VIEW,
+#ifndef NANO_SMALL
+		do_research
+#else
+		nano_disabled_msg
+#endif
+	);
+
     sc_init_one(&main_list, NANO_PREVLINE_KEY, N_("Prev Line"),
 	IFHELP(nano_prevline_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, do_up);
@@ -505,16 +523,6 @@ void shortcut_init(int unjustify)
     sc_init_one(&main_list, NANO_REFRESH_KEY, N_("Refresh"),
 	IFHELP(nano_refresh_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, total_refresh);
-
-    sc_init_one(&main_list, NANO_MARK_KEY, N_("Mark Text"),
-	IFHELP(nano_mark_msg, NANO_MARK_ALTKEY),
-	NANO_NO_KEY, NANO_NO_KEY, NOVIEW,
-#ifndef NANO_SMALL
-		do_mark
-#else
-		nano_disabled_msg
-#endif
-		);
 
     sc_init_one(&main_list, NANO_DELETE_KEY, N_("Delete"),
 	IFHELP(nano_delete_msg, NANO_NO_KEY), NANO_NO_KEY,
@@ -575,16 +583,10 @@ void shortcut_init(int unjustify)
 	NANO_NO_KEY, NOVIEW, do_full_justify);
 #endif
 
-#ifndef NANO_SMALL
-#ifdef HAVE_REGEX_H
+#if !defined(NANO_SMALL) && defined(HAVE_REGEX_H)
     sc_init_one(&main_list, NANO_NO_KEY, N_("Find Other Bracket"),
 	IFHELP(nano_bracket_msg, NANO_BRACKET_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, do_find_bracket);
-#endif
-
-    sc_init_one(&main_list, NANO_NO_KEY, N_("Where Is Next"),
-	IFHELP(nano_whereis_next_msg, NANO_WHEREIS_NEXT_KEY),
-	NANO_NO_KEY, NANO_NO_KEY, VIEW, do_research);
 #endif
 
     free_shortcutage(&whereis_list);

@@ -132,6 +132,8 @@ CVS code -
 	- Remove redundant NANO_SMALL #ifdef. (DLR)
 	- Change an erroneous _() around the "New Buffer" string to
 	  N_(). (DLR)
+	- Add new key aliases: F15 for "Mark Text" (DLR) and F16 for
+	  "Where Is Next" (Chris).
 - nano.c:
   die_save_file()
 	- Clarify the error message when there are too many backup files
@@ -244,6 +246,7 @@ CVS code -
   get_escape_seq_kbinput()
 	- Make the escape_seq parameter a const int*, since it's never
 	  modified. (DLR)
+	- Support the escape sequences for F15 and F16. (DLR)
   get_verbatim_kbinput()
 	- Add new parameter first.  If first isn't ERR, make it the
 	  first character in the returned sequence instead of reading
