@@ -226,6 +226,20 @@ void not_found_msg(char *str)
     }
 }
 
+int is_whole_word(int curr_pos, filestruct *fileptr, char *searchword)
+{
+    /* start of line or previous character not a letter */
+    if ((curr_pos < 1) || (!isalpha((int) fileptr->data[curr_pos-1])))
+
+	/* end of line or next character not a letter */
+	if (((curr_pos + strlen(searchword)) == strlen(fileptr->data))
+	    || (!isalpha((int) fileptr->data[curr_pos + strlen(searchword)])))
+
+	    return TRUE;
+
+    return FALSE;
+}
+
 int past_editbuff;	/* search is now looking through lines not displayed */
 
 filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beginx,
@@ -611,21 +625,8 @@ int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 	    break;
 
 	/* Make sure only whole words are found */
-	if (wholewords)
-	{
-	    /* start of line or previous character not a letter */
-	    if ((current_x == 0) || (!isalpha((int) fileptr->data[current_x-1])))
-	    {
-		/* end of line or next character not a letter */
-		if (((current_x + strlen(prevanswer)) == strlen(fileptr->data))
-			|| (!isalpha((int) fileptr->data[current_x + strlen(prevanswer)])))
-		    ;
-		else
-		    continue;
-	    }
-	    else
-		continue;
-	}
+	if ((wholewords) && (!is_whole_word(current_x, fileptr, prevanswer)))
+	    continue;
 
 	/* If we're here, we've found the search string */
 	if (!replaceall) {

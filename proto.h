@@ -114,6 +114,7 @@ int check_operating_dir(char *currpath, int allow_tabcomp);
 
 int do_writeout(char *path, int exiting, int append);
 int do_gotoline(int line, int save_pos);
+int is_whole_word(int curr_pos, filestruct *fileptr, char *searchword);
 int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 			int wholewords, int *i);
 int do_find_bracket(void);

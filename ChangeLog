@@ -2,6 +2,9 @@ CVS code -
 - General
 	- Add Meta-A as alternate keyystroke for ^^ for people with
 	  non-US keyboards.
+	- Better partial word checking code. New function 
+	  search.c:is_whole_word(), changes to findnextstr(), 
+	  and nano.c:do_int_spell_fix() (Rocco Corsi).
 - nano.c:
   usage()
   	- Remove extra \n in --keypad description (Jordi).
