@@ -34,6 +34,11 @@
   user exit (29, discovered by Joshua Jensen) [FIXED]
 - Using nano -k, marked text is not cut properly. (31) [FIXED]
 - Invoking -t or -k has the effect of invoking both option. (32) [FIXED]
+- totsize becomes incorrect after word-wrapping (25) [FIXED]
+   - similar problem found and corrected in do_justify
+- Wrapping a line with autoindent mode sometimes causes a segfault (19)[FIXED]
+- When inserting files, the display sometimes fails to display properly
+  until a pageup/down occurs (22)[FIXED]
 
 ** Open BUGS **
 
@@ -45,10 +50,6 @@
   program.  Nano only uses ispell (for now) (12)
 - Cutting a file with marked text and both marker ends on the same line
   causes a random segfault (16)
-- Wrapping a line with autoindent mode sometimes causes a segfault (19).
-- When inserting files, the display sometimes fails to display properly
-  until a pageup/down occurs (22).
-- totsize becomes incorrect after word-wrapping (25)
 - In search/replace code there is too much refreshing in bottomwin (26)
 - In replace, there is no way to accept the default replace string. (27)
 - Using nano -t, user can not exit until a filename is given via ^O. (30)

@@ -844,7 +844,9 @@ void do_wrap(filestruct * inptr, char input_char)
 
 
     totlines++;
-    totsize++;
+    /* Everything about it makes me want this line here but it causes
+     * totsize to be high by one for some reason.  Sigh. (Rob) */
+    /* totsize++; */
 
     renumber(inptr);
     edit_update_top(edittop);
@@ -1399,55 +1401,60 @@ int do_justify(void)
 
 	unlink_node(tmpnode);
 	delete_node(tmpnode);
-
     }
+
+    totsize -= strlen(current->data);
 
     justify_format(current->data);
 
     slen = strlen(current->data);
-    while ((strlenpt(current->data) > (fill))
-	   && !no_spaces(current->data)) {
-	int i = 0;
-	int len2 = 0;
-	filestruct *tmpline = nmalloc(sizeof(filestruct));
+    totsize += slen;
 
-	/* Start at fill , unless line isn't that long (but it appears at least
-	 * fill long with tabs.
-	 */
-	if (slen > fill)
-	    i = fill;
-	else
-	    i = slen;
-	for (; i > 0; i--) {
-	    if (isspace(current->data[i]) &&
-		((strlenpt(current->data) - strlen(current->data + i)) <=
-		 fill)) break;
-	}
-	if (!i)
-	    break;
+    if((strlenpt(current->data) > (fill))
+           && !no_spaces(current->data)) {
+	do {
+	    int i = 0;
+	    int len2 = 0;
+	    filestruct *tmpline = nmalloc(sizeof(filestruct));
 
-	current->data[i] = '\0';
+	    /* Start at fill , unless line isn't that long (but it 
+	     * appears at least fill long with tabs.
+	     */
+	    if (slen > fill)
+		i = fill;
+	    else
+		i = slen;
+	    for (; i > 0; i--) {
+		if (isspace(current->data[i]) &&
+		    ((strlenpt(current->data) - strlen(current->data +i)) <=
+		     fill)) break;
+	    }
+	    if (!i)
+	        break;
 
-	len2 = strlen(current->data + i + 1);
-	tmpline->data = nmalloc(len2 + 1);
+	    current->data[i] = '\0';
 
-	/* Skip the white space in current. */
-	memcpy(tmpline->data, current->data + i + 1, len2);
-	tmpline->data[len2] = '\0';
+	    len2 = strlen(current->data + i + 1);
+	    tmpline->data = nmalloc(len2 + 1);
 
-	current->data = nrealloc(current->data, i + 1);
+	    /* Skip the white space in current. */
+	    memcpy(tmpline->data, current->data + i + 1, len2);
+	    tmpline->data[len2] = '\0';
 
-	tmpline->prev = current;
-	tmpline->next = current->next;
-	if (current->next != NULL)
-	    current->next->prev = tmpline;
+	    current->data = nrealloc(current->data, i + 1);
 
-	current->next = tmpline;
-	current = tmpline;
-	slen -= i + 1;
-	current_y++;
+	    tmpline->prev = current;
+	    tmpline->next = current->next;
+	    if (current->next != NULL)
+		current->next->prev = tmpline;
+
+	    current->next = tmpline;
+	    current = tmpline;
+	    slen -= i + 1;
+	    current_y++;
+        } while ((strlenpt(current->data) > (fill))
+		&& !no_spaces(current->data));
     }
-
 
     if (current->next)
 	current = current->next;
@@ -1468,7 +1475,6 @@ int do_justify(void)
     } else {
 	fix_editbot();
     }
-
 
     edit_refresh();
     statusbar("Justify Complete");

@@ -10,6 +10,9 @@ Changes in CVS -
   do_writeout()
 	- Changed check for filename to filename[0].  Added some code, 
 	  overall fixes bug #30 =-)
+- nano.c:
+  do_justify() & do_wrap():
+	- totsize-related fixes (Rob)
 
 nano-0.9.13 - 07/23/2000
 - Implemented Pico's -k mode.  New flag CUT_TO_END, option (-k, --cut), 
