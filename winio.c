@@ -603,7 +603,7 @@ void bottombars(shortcut s[], int slen)
     if (slen < 2)
 	k = COLS / 6 - 13;
     else
-	k = COLS / (slen / 2) - 13;
+	k = COLS / ((slen + (slen %2)) / 2) - 13;
 
 
     clear_bottomwin();
