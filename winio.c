@@ -480,7 +480,7 @@ void titlebar(char *path)
     namelen = strlen(what);
 
     if (!strcmp(what, ""))
-	mvwaddstr(topwin, 0, center_x - 6, _("New Buffer"));
+	mvwaddstr(topwin, 0, COLS / 2 - 6, _("New Buffer"));
     else {
 	if (namelen > space) {
 	    if (path == NULL)
@@ -490,9 +490,9 @@ void titlebar(char *path)
 	    waddstr(topwin, &what[namelen - space]);
 	} else {
 	    if (path == NULL)
-		mvwaddstr(topwin, 0, center_x - (namelen / 2 + 1), "File: ");
+		mvwaddstr(topwin, 0, COLS / 2 - (namelen / 2 + 1), "File: ");
 	    else
-	 	mvwaddstr(topwin, 0, center_x - (namelen / 2 + 1), " DIR: ");
+	 	mvwaddstr(topwin, 0, COLS / 2 - (namelen / 2 + 1), " DIR: ");
 	    waddstr(topwin, what);
 	}
     }
@@ -1090,7 +1090,7 @@ void statusbar(char *msg, ...)
     vsnprintf(foo, 132, msg, ap);
     va_end(ap);
 
-    start_x = center_x - strlen(foo) / 2 - 1;
+    start_x = COLS / 2 - strlen(foo) / 2 - 1;
 
     /* Blank out line */
     blank_statusbar();
@@ -1447,7 +1447,7 @@ void do_credits(void)
 		else
 		    what = "";
 
-		start_x = center_x - strlen(what) / 2 - 1;
+		start_x = COLS / 2 - strlen(what) / 2 - 1;
 		mvwaddstr(edit, i * 2 - k, start_x, what);
 	    }
 	    usleep(700000);

@@ -169,8 +169,6 @@ void global_init(void)
 {
     int i;
 
-    center_x = COLS / 2;
-    center_y = LINES / 2;
     current_x = 0;
     current_y = 0;
 
@@ -254,8 +252,11 @@ void unlink_node(filestruct * fileptr)
 
 void delete_node(filestruct * fileptr)
 {
+    if (fileptr == NULL)
+	return;
+
     if (fileptr->data != NULL)
-	free(fileptr->data);
+        free(fileptr->data);
     free(fileptr);
 }
 
@@ -283,18 +284,6 @@ filestruct *copy_filestruct(filestruct * src)
     return head;
 }
 
-/* Free() a single node */
-int free_node(filestruct * src)
-{
-    if (src == NULL)
-	return 0;
-
-    if (src->next != NULL)
-	free(src->data);
-    free(src);
-    return 1;
-}
-
 int free_filestruct(filestruct * src)
 {
     filestruct *fileptr = src;
@@ -304,15 +293,15 @@ int free_filestruct(filestruct * src)
 
     while (fileptr->next != NULL) {
 	fileptr = fileptr->next;
-	free_node(fileptr->prev);
+	delete_node(fileptr->prev);
 
 #ifdef DEBUG
-	fprintf(stderr, _("free_node(): free'd a node, YAY!\n"));
+	fprintf(stderr, _("delete_node(): free'd a node, YAY!\n"));
 #endif
     }
-    free_node(fileptr);
+    delete_node(fileptr);
 #ifdef DEBUG
-    fprintf(stderr, _("free_node(): free'd last node.\n"));
+    fprintf(stderr, _("delete_node(): free'd last node.\n"));
 #endif
 
     return 1;
@@ -1571,9 +1560,6 @@ void handle_sigwinch(int s)
     COLS = win.ws_col;
     LINES = win.ws_row;
 
-    center_x = COLS / 2;
-    center_y = LINES / 2;
-
     if ((editwinrows = LINES - 5 + no_help()) < MIN_EDITOR_ROWS)
 	die_too_small();
 
@@ -1751,7 +1737,7 @@ int do_justify(void)
     return 1;
 #else
     int slen = 0;		/* length of combined lines on one line. */
-    int initial_y, kbinput = 0;
+    int initial_y, kbinput = 0, totbak;
     filestruct *initial = NULL, *tmpjust = NULL, *cutbak, *tmptop, *tmpbot;
 
     if (empty_line(current->data)) {
@@ -1791,6 +1777,7 @@ int do_justify(void)
 
     set_modified();
     cutbak = cutbuffer; /* Got to like cutbak ;) */
+    totbak = totsize;
     cutbuffer = NULL;
 
     tmptop = current;
@@ -1915,6 +1902,8 @@ int do_justify(void)
 	if (tmptop->prev == NULL)
 	    edit_refresh();
 
+	/* Restore totsize from befure justify */
+	totsize = totbak;
 	free_filestruct(tmptop);
 	blank_statusbar_refresh();
     }

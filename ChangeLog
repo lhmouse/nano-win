@@ -1,4 +1,10 @@
 CVS code -
+General
+	- Removed current_x and current_y globals.  current_y was
+	  completely unused and current_x was only used a few places,
+	  easily replaced with COLS / 2.
+	- Deleted free_node, duplicate of delete_node, and changed all
+	  free_node calls to delete_node.
 - files.c:
   write_file()
 	- Don't free() realname on error, if it needs to be free()d later
@@ -6,6 +12,9 @@ CVS code -
 	  discovered by David Sobon).
   username_tab_completion()
 	- Optimization and removal of useless vars (Rocco).
+- nano.c:
+  do_justify()
+	- Added restoration of totsize after unjustify command.
 
 nano 0.9.99-pre1 - 01/17/2001
 General

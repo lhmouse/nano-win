@@ -35,7 +35,6 @@
  * Global variables
  */
 int flags = 0;			/* Our new flag containig many options */
-int center_x = 0, center_y = 0;	/* Center of screen */
 WINDOW *edit;			/* The file portion of the editor  */
 WINDOW *topwin;			/* Top line of screen */
 WINDOW *bottomwin;		/* Bottom buffer */

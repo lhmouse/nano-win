@@ -29,7 +29,7 @@
 
 #include "nano.h"
 
-extern int center_x, center_y, editwinrows;
+extern int editwinrows;
 extern int current_x, current_y, posible_max, totlines;
 extern int placewewant;
 extern int mark_beginx, samelinewrap;
