@@ -79,6 +79,10 @@ shortcut goto_list[GOTO_LIST_LEN];
 shortcut writefile_list[WRITEFILE_LIST_LEN];
 shortcut help_list[HELP_LIST_LEN];
 shortcut spell_list[SPELL_LIST_LEN];
+#ifdef ENABLE_BROWSER
+shortcut browser_list[BROWSER_LIST_LEN];
+#endif
+
 toggle toggles[TOGGLE_LEN];
 
 /* Regular expressions */
@@ -170,7 +174,7 @@ void shortcut_init(int unjustify)
 	"", *nano_mark_msg = "", *nano_delete_msg =
 	"", *nano_backspace_msg = "", *nano_tab_msg =
 	"", *nano_enter_msg = "", *nano_case_msg =
-	"", *nano_cancel_msg = "", *nano_unjustify_msg = "";
+	"", *nano_cancel_msg = "", *nano_unjustify_msg = "", *nano_tofiles_msg = "";
 
 #ifndef NANO_SMALL
     nano_help_msg = _("Invoke the help menu");
@@ -205,6 +209,7 @@ void shortcut_init(int unjustify)
     nano_enter_msg = _("Insert a carriage return at the cursor position");
     nano_case_msg =
 	_("Make the current search or replace case (in)sensitive");
+    nano_tofiles_msg = _("Go to file browser");
     nano_cancel_msg = _("Cancel the current function");
 #endif
 
@@ -403,15 +408,31 @@ void shortcut_init(int unjustify)
 		nano_exit_msg, 0, NANO_EXIT_FKEY, 0, VIEW, do_exit);
 
 
-    sc_init_one(&writefile_list[0], NANO_CANCEL_KEY, _("Cancel"),
-		nano_cancel_msg, 0, 0, 0, VIEW, 0);
+#ifdef ENABLE_BROWSER
+    sc_init_one(&writefile_list[0], NANO_TOFILES_KEY, _("To Files"),
+		nano_tofiles_msg, 0, 0, 0, NOVIEW, 0);
+#endif
 
-
-    sc_init_one(&writefile_list[0], NANO_CANCEL_KEY, _("Cancel"),
+    sc_init_one(&writefile_list[WRITEFILE_LIST_LEN - 1], NANO_CANCEL_KEY, _("Cancel"),
 		nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
     sc_init_one(&spell_list[0], NANO_CANCEL_KEY, _("Cancel"),
 		nano_cancel_msg, 0, 0, 0, VIEW, 0);
+
+#ifdef ENABLE_BROWSER
+    sc_init_one(&browser_list[0], NANO_PREVPAGE_KEY, _("Prev Page"),
+		nano_prevpage_msg,
+		0, NANO_PREVPAGE_FKEY, KEY_PPAGE, VIEW, 0);
+
+    sc_init_one(&browser_list[1], NANO_NEXTPAGE_KEY, _("Next Page"),
+		nano_nextpage_msg,
+		0, NANO_NEXTPAGE_FKEY, KEY_NPAGE, VIEW, 0);
+
+    sc_init_one(&browser_list[2], NANO_EXIT_KEY, _("Exit"),
+		nano_exit_msg, 0, NANO_EXIT_FKEY, 0, VIEW, 0);
+
+#endif
+
 
     toggle_init();
 }

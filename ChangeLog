@@ -1,4 +1,10 @@
 CVS code -
+General - 
+	- New file browser code.  New functions in files.c:do_browser(),
+	  helper functions browser_init(), tail(), striponedir(),
+	  filestat().  New shortcut list browser_list.  Some new
+	  strings to translate.  Chris needs to add comments to his
+	  code.
 - faq.html:
 	- Fix typos and small mistakes (Jordi).
 - files.c:
@@ -16,9 +22,10 @@ CVS code -
 - winio.c:
   do_cursorpos()
 	- Optimizations and cleanups by Rocco Corsi.
-
   do_credits()
 	- Spell Erik Andersen's name right.
+  titlebar()
+	- Now takes an arg, needed for browser function.
 
 nano 0.9.24 - 12/18/2000
 General

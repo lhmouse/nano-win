@@ -51,6 +51,9 @@ extern shortcut main_list[MAIN_LIST_LEN], whereis_list[WHEREIS_LIST_LEN];
 extern shortcut replace_list[REPLACE_LIST_LEN], goto_list[GOTO_LIST_LEN];
 extern shortcut writefile_list[WRITEFILE_LIST_LEN], help_list[HELP_LIST_LEN];
 extern shortcut spell_list[SPELL_LIST_LEN], replace_list_2[REPLACE_LIST_LEN];
+#ifdef ENABLE_BROWSER
+extern shortcut browser_list[BROWSER_LIST_LEN];
+#endif
 
 #ifdef HAVE_REGEX_H
 extern int use_regexp, regexp_compiled;
@@ -109,7 +112,8 @@ void check_statblank(void);
 void update_line(filestruct * fileptr, int index);
 void fix_editbot(void);
 void statusbar(char *msg, ...);
-void titlebar(void);
+void blank_statusbar(void);
+void titlebar(char *path);
 void previous_line(void);
 void center_cursor(void);
 void bottombars(shortcut s[], int slen);
@@ -148,6 +152,10 @@ int do_home(void), do_end(void), total_refresh(void), do_mark(void);
 int do_delete(void), do_backspace(void), do_tab(void), do_justify(void);
 int do_first_line(void), do_last_line(void);
 int do_replace(void), do_help(void), do_enter_void(void);
+
+#ifdef ENABLE_BROWSER
+char *do_browser(char *path);
+#endif
 
 filestruct *copy_node(filestruct * src);
 filestruct *copy_filestruct(filestruct * src);

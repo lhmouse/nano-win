@@ -39,3 +39,5 @@
 /* Define this to disable the ^G help menu */
 #undef DISABLE_HELP
 
+/* Define this to use the built-in (crappy) file browser */
+#undef ENABLE_BROWSER

@@ -463,9 +463,13 @@ void horizbar(WINDOW * win, int y)
     wattroff(win, A_REVERSE);
 }
 
-void titlebar(void)
+void titlebar(char *path)
 {
     int namelen, space;
+    char *what = path;
+
+    if (path == NULL)
+	what = filename;
 
     horizbar(topwin, 0);
     wattron(topwin, A_REVERSE);
@@ -473,17 +477,23 @@ void titlebar(void)
 
     space = COLS - strlen(VERMSG) - strlen(VERSION) - 21;
 
-    namelen = strlen(filename);
+    namelen = strlen(what);
 
-    if (!strcmp(filename, ""))
+    if (!strcmp(what, ""))
 	mvwaddstr(topwin, 0, center_x - 6, _("New Buffer"));
     else {
 	if (namelen > space) {
-	    waddstr(topwin, _("  File: ..."));
-	    waddstr(topwin, &filename[namelen - space]);
+	    if (path == NULL)
+		waddstr(topwin, _("  File: ..."));
+	    else
+		waddstr(topwin, _("   DIR: ..."));
+	    waddstr(topwin, &what[namelen - space]);
 	} else {
-	    mvwaddstr(topwin, 0, center_x - (namelen / 2 + 1), "File: ");
-	    waddstr(topwin, filename);
+	    if (path == NULL)
+		mvwaddstr(topwin, 0, center_x - (namelen / 2 + 1), "File: ");
+	    else
+	 	mvwaddstr(topwin, 0, center_x - (namelen / 2 + 1), " DIR: ");
+	    waddstr(topwin, what);
 	}
     }
     if (ISSET(MODIFIED))
@@ -552,7 +562,7 @@ void set_modified(void)
 {
     if (!ISSET(MODIFIED)) {
 	SET(MODIFIED);
-	titlebar();
+	titlebar(NULL);
 	wrefresh(topwin);
     }
 }
@@ -1119,7 +1129,7 @@ int total_refresh(void)
     clearok(topwin, FALSE);
     clearok(bottomwin, FALSE);
     edit_refresh();
-    titlebar();
+    titlebar(NULL);
     return 1;
 }
 

@@ -271,6 +271,17 @@ int do_insertfile(void)
 	realname = mallocstrcpy(realname, answer);
 #endif
 
+#ifdef ENABLE_BROWSER
+	if (i == NANO_TOFILES_KEY) {
+	    char *tmp = do_browser(getcwd(NULL, 0));
+
+	    if 	(tmp != NULL) {
+		free(realname);
+		realname = tmp;
+	    }
+	}
+#endif
+
 	i = open_file(realname, 1, 0);
 	free(realname);
 
@@ -318,7 +329,7 @@ int write_file(char *name, int tmp)
 	statusbar(_("Cancelled"));
 	return -1;
     }
-    titlebar();
+    titlebar(NULL);
     fileptr = fileage;
 
     if (realname != NULL)
@@ -475,7 +486,7 @@ int write_file(char *name, int tmp)
 	filename = mallocstrcpy(filename, realname);
 	statusbar(_("Wrote %d lines"), lineswritten);
 	UNSET(MODIFIED);
-	titlebar();
+	titlebar(NULL);
     }
     return 1;
 }
@@ -483,6 +494,7 @@ int write_file(char *name, int tmp)
 int do_writeout(int exiting)
 {
     int i = 0;
+
 #ifdef NANO_EXTRA
     static int did_cred = 0;
 #endif
@@ -508,6 +520,17 @@ int do_writeout(int exiting)
 		    _("File Name to write"));
 
 	if (i != -1) {
+
+#ifdef ENABLE_BROWSER
+	if (i == NANO_TOFILES_KEY) {
+	    char *tmp = do_browser(getcwd(NULL, 0));
+
+	    if (tmp != NULL) {
+		free(answer);
+		answer = tmp;
+	    }
+	}
+#endif
 
 #ifdef DEBUG
 	    fprintf(stderr, _("filename is %s"), answer);
@@ -1024,3 +1047,324 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
     return buf;
 }
 #endif
+
+#ifdef ENABLE_BROWSER
+
+/* Return the stat of the file pointed to by path */
+struct stat filestat(const char *path) {
+    struct stat st;
+
+    stat(path, &st);
+    return st;
+}
+
+/* Our sort routine for file listings - sort directories before
+ * files, and then alphabetically
+ */ 
+int diralphasort(const void *va, const void *vb) {
+    struct stat file1info, file2info;
+    char *a = *(char **)va, *b = *(char **)vb;
+    int answer = 0;
+
+    if (stat(a, &file1info) == -1)
+	answer = 1;
+    else if (stat(b, &file2info) == -1)
+	answer = 1;
+    else {
+	/* If is a is a dir and b isn't, return -1.
+	   Else if b is a dir and a isn't, return 0.
+	   Else return a < b */
+
+	if (S_ISDIR(file1info.st_mode) && !S_ISDIR(file2info.st_mode))
+	    return -1;
+	else if (!S_ISDIR(file1info.st_mode) && S_ISDIR(file2info.st_mode))
+	    return 1;
+	else
+	    answer = strcmp(a, b);
+    }
+
+    return(answer);
+}
+
+char **browser_init(char *path, int *longest, int *numents)
+{
+    DIR *dir;
+    struct dirent *next;
+    char **filelist = (char **) NULL;
+    int i = 0;
+
+    dir = opendir(path);
+    if (!dir) 
+	return NULL;
+
+    *numents = 0;
+    while ((next = readdir(dir)) != NULL) {
+	if (!strcmp(next->d_name, "."))
+	   continue;
+	(*numents)++;
+	if (strlen(next->d_name) > *longest)
+	    *longest = strlen(next->d_name);
+    }
+    rewinddir(dir);
+    *longest += 10;
+
+    filelist = nmalloc(*numents * sizeof (char *));
+
+    while ((next = readdir(dir)) != NULL) {
+	if (!strcmp(next->d_name, "."))
+	   continue;
+	filelist[i] = nmalloc(strlen(next->d_name) + strlen(path) + 2);
+
+	if (!strcmp(path, "/"))
+	    snprintf(filelist[i], strlen(next->d_name) + strlen(path) + 1, 
+			"%s%s", path, next->d_name);
+	else
+	    snprintf(filelist[i], strlen(next->d_name) + strlen(path) + 2, 
+			"%s/%s", path, next->d_name);
+
+/*
+	filelist[i] = mallocstrcpy(filelist[i], next->d_name);
+*/
+	i++;
+    }
+
+    longest -= strlen(path);
+
+    if (*longest > COLS - 1)
+	*longest = COLS - 1;
+
+    return filelist;
+}
+
+/* Free our malloced memory */
+void free_charptrarray(char **array, int len)
+{
+    int i;
+
+    for (i = 0; i < len - 1; i++)
+	free(array[i]);
+    free(array);
+}
+
+char *tail(char *foo)
+{
+    char *tmp = NULL;
+
+    tmp = foo + strlen(foo);
+    while (*tmp != '/' && tmp != foo)
+	tmp--;
+
+    tmp++;
+
+    return tmp;
+}
+
+void striponedir(char *foo)
+{
+    char *tmp = NULL;
+
+    /* Don't strip the root dir */
+    if (!strcmp(foo, "/"))
+	return;
+
+    tmp = foo + strlen(foo);
+    if (*tmp == '/')
+	tmp--;
+
+    while (*tmp != '/' && tmp != foo)
+	tmp--;
+
+    if (tmp != foo)
+	*tmp = 0;
+    else
+	*(tmp+1) = 0;
+
+    return;
+}
+
+char *do_browser(char *inpath)
+{
+    struct stat st;
+    char *foo, *retval = NULL;
+    static char *path = NULL;
+    int numents = 0, i = 0, j = 0, kbinput = 0, longest = 0, abort = 0;
+    int col = 0, selected = 0, editline = 0, width = 0, filecols = 0;
+    char **filelist = (char **) NULL;
+
+    if (path != NULL && strcmp(path, inpath)) {
+	free(path);
+	path = NULL;
+    }
+
+    if (path == NULL)
+	path = mallocstrcpy(path, inpath);
+
+    filelist = browser_init(path, &longest, &numents);
+    foo = nmalloc(longest + 8);
+    qsort(filelist, numents, sizeof(char *), diralphasort);
+
+    titlebar(path);
+    bottombars(browser_list, BROWSER_LIST_LEN);
+    curs_set(0);
+    wmove(edit, 0, 0);
+    i = 0;
+    width = 0;
+    filecols = 0;
+    do {
+	blank_edit();
+	blank_statusbar();
+ 	editline = 0;
+	col = 0;
+
+	switch (kbinput) {
+	case KEY_UP:
+	case 'u':
+	    if (selected - width >= 0)
+		selected -= width;
+	    break;
+	case KEY_LEFT:
+	case 'l':
+	    if (selected > 0)
+		selected--;
+	    break;
+	case KEY_DOWN:
+	case 'd':
+	    if (selected + width <= numents - 1)
+		selected += width;
+	    break;
+	case KEY_RIGHT:
+	case 'r':
+	    if (selected < numents - 1)
+		selected++;
+	    break;
+	case NANO_PREVPAGE_KEY:
+	case KEY_PPAGE:
+	    if ((selected / width) % editwinrows == 0) {
+		if (selected - editwinrows >= 0)
+		    selected -= editwinrows; 
+		else
+		    selected = 0;
+	    }
+	    else if (selected - (editwinrows + 
+			(selected / width) %  editwinrows)  >= 0)
+		selected -= editwinrows + (selected / width) %  editwinrows; 
+	    else
+		selected = 0;
+	    break;
+	case NANO_NEXTPAGE_KEY:
+	case KEY_NPAGE:	
+	    if ((selected / width) % editwinrows == 0) {
+		if (selected + editwinrows <= numents - 1)
+		    selected += editwinrows; 
+		else
+		    selected = numents - 1;
+	    }
+	    else if (selected + (editwinrows - 
+			(selected / width) %  editwinrows) <= numents -  1)
+ 		selected += editwinrows - (selected / width) %  editwinrows; 
+ 	    else
+		selected = numents - 1;
+	    break;
+	case KEY_ENTER:
+	case NANO_CONTROL_M:
+	    if (!strcmp(filelist[selected], "/..") && !strcmp(path, "/"))
+		statusbar(_("Can't move up a directory"));
+	    else
+		path = mallocstrcpy(path, filelist[selected]);
+
+	    st = filestat(path);
+	    if (S_ISDIR(st.st_mode)) {
+		if (opendir(path) == NULL) {
+		    statusbar(_("Can't open \"%s\": %s"), path, strerror(errno));
+		    striponedir(path);		    
+		    align(&path);
+		    break;
+		}
+	    }
+
+	    st = filestat(path);
+	    if (S_ISDIR(st.st_mode)) {
+		if (!strcmp("..", tail(path))) {
+		    striponedir(path);
+		    striponedir(path);
+		    align(&path);
+		}
+		return do_browser(path);
+	    } else {
+		ungetch(NANO_EXIT_KEY);
+		retval = path;
+		abort = 1;
+	    }
+	    break;
+	/* Stuff we want to abort the browser */
+	case 'q':
+	case 'Q':
+	case 'e':	/* Pico compatibility, yeech */
+	case 'E':
+		abort = 1;
+		break;
+	}
+	if (abort)
+	    break;
+
+	if (width)
+	    i = width * editwinrows * ((selected / width) / editwinrows);
+	else
+	    i = 0;
+
+	wmove(edit, 0, 0);
+	for (j = i; j < numents && editline <= editwinrows - 1; j++) {
+	    filecols++;
+
+	    strncpy(foo, tail(filelist[j]), strlen(tail(filelist[j])) + 1);
+	    while (strlen(foo) < longest)
+		strcat(foo, " ");
+	    col += strlen(foo);
+
+	    /* Put file info in the string also */
+	    st = filestat(filelist[j]);
+	    if (S_ISDIR(st.st_mode))
+		strcpy(foo + longest - 5, "(dir)");
+	    else {
+		if (st.st_size < 1024) /* less than 1 K */
+		    sprintf(foo + longest - 7, "%4d  B", (int) st.st_size);
+		else if (st.st_size > 1073741824) /* at least 1 gig */
+		    sprintf(foo + longest - 7, "%4d GB", (int) st.st_size / 1073741824);
+		else if (st.st_size > 1048576) /* at least 1 meg */
+		    sprintf(foo + longest - 7, "%4d MB", (int) st.st_size / 1048576);
+		else /* Its more than 1 k and less than a meg */
+		    sprintf(foo + longest - 7, "%4d KB", (int) st.st_size / 1024);
+	    }
+
+	    if (j == selected)
+		wattron(edit, A_REVERSE);
+	    waddnstr(edit, foo, strlen(foo));
+	    if (j == selected)
+		wattroff(edit, A_REVERSE);
+
+	    waddstr(edit, "  ");
+	    col += 2;
+
+	    /* And if the next entry isn't going to fit on the
+		line, move to the next one */
+	    if (col > (COLS - longest)) {
+		editline++;
+		wmove(edit, editline, 0);
+		col = 0;
+		if (width == 0)
+		    width = filecols;
+	    }
+	}
+ 	wrefresh(edit);
+    } while ((kbinput = wgetch(edit)) != NANO_EXIT_KEY);
+    curs_set(1);
+    blank_edit();
+    titlebar(NULL); 
+    edit_refresh();
+
+    free_charptrarray(filelist, numents);
+    free(foo);
+    return retval;
+}
+#endif
+

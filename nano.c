@@ -1601,7 +1601,7 @@ void handle_sigwinch(int s)
 
     /* Do these b/c width may have changed... */
     refresh();
-    titlebar();
+    titlebar(NULL);
     edit_refresh();
     display_main_list();
     total_refresh();
@@ -2246,7 +2246,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, _("Main: open file\n"));
 #endif
 
-    titlebar();
+    titlebar(NULL);
 
     /* Now we check to see if argv[optind] is non-null to determine if
        we're dealing with a new file or not, not argc == 1... */
