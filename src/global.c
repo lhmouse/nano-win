@@ -575,7 +575,7 @@ void shortcut_init(int unjustify)
 
     sc_init_one(&main_list, -9, _("Where Is Next"),
 		IFHELP(nano_whereis_next_msg, NANO_WHEREIS_NEXT_KEY), 0, 0,
-		NOVIEW, do_research);
+		VIEW, do_research);
 
 #ifdef ENABLE_MULTIBUFFER
     sc_init_one(&main_list, -9, _("Previous File"),

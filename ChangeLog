@@ -3,6 +3,9 @@ CVS code -
   do_writeout()
 	- Prompt the user if we're trying to save an existing file under
 	  a different name. (DLR; suggested by Jean-Philippe Guérard)
+- global.c:
+  shortcut_init()
+	- Allow WHEREIS_NEXT_KEY to be used in view mode. (DLR)
 - search.c:
   do_replace_loop()
 	- Fix potential infinite loop when doing a forward regex replace
