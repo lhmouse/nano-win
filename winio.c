@@ -822,7 +822,7 @@ void center_cursor(void)
 /* Refresh the screen without changing the position of lines */
 void edit_refresh(void)
 {
-    int lines = 0, i = 0;
+    int lines = 0, i = 0, currentcheck = 0;
     filestruct *temp, *hold = current;
 
     if (current == NULL)
@@ -833,9 +833,14 @@ void edit_refresh(void)
     while (lines <= editwinrows - 1 && lines <= totlines && temp != NULL) {
 	hold = temp;
 	update_line(temp, current_x);
+	if (temp == current)
+	    currentcheck = 1;
+
 	temp = temp->next;
 	lines++;
     }
+    if (!currentcheck) /* Then current has run off the screen... */
+	edit_update(current);
 
     if (lines <= editwinrows - 1)
 	while (lines <= editwinrows - 1) {

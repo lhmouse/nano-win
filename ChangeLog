@@ -10,6 +10,10 @@ CVS code
   replace_abort()
 	- redundant, now just calls search abort until it does something
 	  different.  
+- winio.c:
+  edit_refresh()
+	- Added check for current line "running" off the screen.
+	  Hopefully this will not cause any recursive lockups.
 
 nano-0.9.14 - 07/27/2000
 - nano.h:

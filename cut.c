@@ -122,7 +122,7 @@ void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
 	    filebot = top;
 	}
     }
-    if (top->lineno < edittop->lineno)
+     if (top->lineno < edittop->lineno)
 	edit_update(top);
 }
 #endif
@@ -406,7 +406,7 @@ int do_uncut_text(void)
 
     i = editbot->lineno;
     renumber(newbuf);
-    if (i < newend->lineno)
+     if (i < newend->lineno)
 	edit_update(fileptr);
 
     dump_buffer_reverse(fileptr);
