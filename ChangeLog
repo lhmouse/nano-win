@@ -1,4 +1,4 @@
-CVS Code
+nano-0.9.17 - 09/04/2000
 - General
 	- New shortcuts to toggle certain options that are normally only
 	  flags via Alt/Meta.  See Alt-C,E,I,K,M,P,X,Z.  New struct called
@@ -51,7 +51,6 @@ CVS Code
 	- Added reset for placewewant (Ben Roberts).
 	- Fixed check for string that only occurs on the same line failing
 	  (discovered by Ken Tyler).
-
 
 nano-0.9.16 - 08/09/2000
 - cut.c:

@@ -1,3 +1,10 @@
+09/04/2000 - Nano 0.9.17, the Labor Day release, is released after a
+		quiet spell (almost an entire month since last release!)
+		New features include better (not yet perfect) binary
+		display support and toggle support for most of the program
+		flags (M-c, M-i, M-z, M-x, M-p, M-w, M-m, M-k and M-e for
+		-c, -i, -x, -p, -w, -k, and -R).
+
 08/09/2000 - Nano 0.9.16, after some struggling, is release.  This release
 		should fix a few of the holes that 0.9.15 dug.  The 
 		"cutting text on the first line" bug is fixed, as is the

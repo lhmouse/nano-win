@@ -1569,7 +1569,7 @@ void help_init(void)
 	    allocsize += strlen(main_list[i].help) + 15;
 
     /* And for the toggle list, we also allocate space for extra text. */
-    for (i = 0; i < TOGGLE_LEN; i++)
+    for (i = 0; i <= TOGGLE_LEN - 1; i++)
 	if (toggles[i].desc != NULL)
 	    allocsize += strlen(toggles[i].desc) + 30;
 
@@ -1610,7 +1610,7 @@ void help_init(void)
     }
 
     /* And the toggles... */
-    for (i = 0; i < TOGGLE_LEN - 1; i++) {
+    for (i = 0; i <= TOGGLE_LEN - 1; i++) {
 	sofar = snprintf(buf, BUFSIZ, 
 	"M-%c			", toggles[i].val - 32 );
 
