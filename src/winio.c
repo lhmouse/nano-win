@@ -1556,14 +1556,16 @@ void titlebar(const char *path)
 	space = 0;
     else {
 	space = COLS - 5 - verlen;
-	/* Reserve 2/3 of the screen for after the version message. */
-	if (space < COLS - (COLS / 3))
-	    space = COLS - (COLS / 3);
+	/* Reserve 2/3 of the screen plus one column for after the
+	 * version message. */
+	if (space < COLS - (COLS / 3) + 1)
+	    space = COLS - (COLS / 3) + 1;
     }
 
     if (COLS > 4) {
-	/* The version message should only take up 1/3 of the screen. */
-	mvwaddnstr(topwin, 0, 2, VERMSG, COLS / 3);
+	/* The version message should only take up 1/3 of the screen
+	 * minus one column. */
+	mvwaddnstr(topwin, 0, 2, VERMSG, (COLS / 3) - 3);
 	waddstr(topwin, "  ");
     }
 

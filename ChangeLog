@@ -263,11 +263,11 @@ CVS code -
 	- Overhaul to use display_string() to display the filename, and
 	  to better handle shorter screen widths.  Also remove
 	  now-unneeded wrefresh(topwin) calls. (David Benbennick)
-	  DLR: Tweak to reserve enough space for "Modified" in all
-	  cases, to make sure that the version message takes up no more
-	  more than 1/3 of the available width, and to include a
-	  reset_cursor() call so that the cursor is always in the right
-	  place.
+	  DLR: Tweak to reserve enough space for "Modified", plus
+	  padding, in all cases, to make sure that the version message
+	  takes up no more more than 1/3 of the available width, minus
+	  padding, and to include a reset_cursor() call so that the
+	  cursor is always in the right place.
   bottombars()
 	- Call blank_bottombars() instead of blank_bottomwin(). (David
 	  Benbennick)
