@@ -163,6 +163,9 @@ CVS code -
 	- Make goal a ssize_t instead of an int, since fill is now a
 	  ssize_t, and the position at which a line is broken can be
 	  greater than COLS. (DLR)
+  main()
+	- Tweak the command line parsing routine so that multiple +LINE
+	  flags are properly interpreted in multibuffer mode. (DLR)
 - nano.h:
 	- Add WIDTH_OF_TAB #define, containing the default width of a
 	  tab. (DLR)

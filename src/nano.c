@@ -3415,12 +3415,6 @@ int main(int argc, char **argv)
     if (tabsize == -1)
 	tabsize = WIDTH_OF_TAB;
 
-    /* If there's a +LINE flag, it is the first non-option argument. */
-    if (0 < optind && optind < argc && argv[optind][0] == '+') {
-	startline = atoi(&argv[optind][1]);
-	optind++;
-    }
-
     /* Back up the old terminal settings so that they can be restored. */
     tcgetattr(0, &oldterm);
 
@@ -3449,6 +3443,14 @@ int main(int argc, char **argv)
     fprintf(stderr, "Main: open file\n");
 #endif
 
+    /* If there's a +LINE flag here, it is the first non-option
+     * argument, and it is followed by at least one other argument, the
+     * filename it applies to. */
+    if (0 < optind && optind < argc - 1 && argv[optind][0] == '+') {
+	startline = atoi(&argv[optind][1]);
+	optind++;
+    }
+
 #ifdef ENABLE_MULTIBUFFER
     old_multibuffer = ISSET(MULTIBUFFER);
     SET(MULTIBUFFER);
@@ -3456,9 +3458,20 @@ int main(int argc, char **argv)
     /* Read all the files after the first one on the command line into
      * new buffers. */
     {
-	int i;
-	for (i = optind + 1; i < argc; i++)
-	    load_buffer(argv[i]);
+	int i = optind + 1, iline = 0;
+	for (; i < argc; i++) {
+	    /* If there's a +LINE flag here, it is followed by at least
+	     * one other argument, the filename it applies to. */
+	    if (i < argc - 1 && argv[i][0] == '+' && iline == 0) {
+		iline = atoi(&argv[i][1]);
+	    } else {
+		load_buffer(argv[i]);
+		if (iline > 0) {
+		    do_gotoline(iline, FALSE);
+		    iline = 0;
+		}
+	    }
+	}
     }
 #endif
 
