@@ -2492,7 +2492,7 @@ void help_init(void)
 		"Enter the name of the directory you would like to "
 		"browse to.\n\n If tab completion has not been disabled, "
 		"you can use the TAB key to (attempt to) automatically "
-		"complete the directory name.  The following function "
+		"complete the directory name.\n\n  The following function "
 		"keys are available in Browser GotoDir mode:\n\n");
 #endif
     else if (currshortcut == spell_list)
