@@ -7,6 +7,7 @@ CVS code -
 	  the keypad() function by default.  New flag -K, --keypad
 	  allows the old behavior for those using the keypad arrow keys
 	  and rxvt-based terminals.
+	- Updated copyright notices to 2002 (Jordi).
 - nano.c:
   die()
 	- Only save files that were modified (David Lawrence Ramsey).

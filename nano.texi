@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.1.4
-@set UPDATED 3 Oct 2001
+@set UPDATED 3 Jan 2002
 
 @dircategory Editors
 @direntry
@@ -33,7 +33,7 @@ editor.
 
 This manual is part of the GNU @code{nano} distribution.@*
 @sp4
-Copyright (C) 1999, 2000, 2001 Chris Allegretta.
+Copyright (C) 1999, 2000, 2001, 2002 Chris Allegretta.
 
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
