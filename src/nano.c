@@ -1541,7 +1541,7 @@ bool do_int_spell_fix(const char *word)
 	/* TRUE if (mark_beginbuf, mark_beginx) is the top of the mark,
 	 * FALSE if (current, current_x) is. */
     filestruct *top, *bot;
-    size_t top_x, bot_x, bot_data_len;
+    size_t top_x, bot_x;
 #endif
 
     /* Make sure spell-check is case sensitive. */
@@ -1617,15 +1617,20 @@ bool do_int_spell_fix(const char *word)
 	}
     }
 
-    /* If the mark ended in the middle of a word and that word was
-     * spell-checked, put either current_x_save or mark_beginx,
-     * depending on the value of right_side_up, at the end of the
-     * spell-checked word. */
-    bot_data_len = strlen(filebot->data);
-    if (right_side_up)
-	current_x_save = bot_data_len;
-    else
-	mark_beginx = bot_data_len;
+#ifndef NANO_SMALL
+    if (old_mark_set) {
+	size_t bot_data_len = strlen(filebot->data);
+
+	/* If the mark ended in the middle of a word and that word was
+	 * spell-checked, put either current_x_save or mark_beginx,
+	 * depending on the value of right_side_up, at the end of the
+	 * spell-checked word. */
+	if (right_side_up)
+	    current_x_save = bot_data_len;
+	else
+	    mark_beginx = bot_data_len;
+    }
+#endif
 
     /* Restore the search/replace strings. */
     free(last_search);
