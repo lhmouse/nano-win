@@ -1,3 +1,10 @@
+08/09/2000 - Nano 0.9.16, after some struggling, is release.  This release
+		should fix a few of the holes that 0.9.15 dug.  The 
+		"cutting text on the first line" bug is fixed, as is the
+		"cutting text on the last line" bug.  Nice symmetry there
+		huh?  Also the --tabsize argument should now work as well
+		as by using -T.
+
 08/03/2000 - Nano 0.9.15 is the "I cant think of a release description"
 		release.  There are the usual gala of display bugfixes,
 		a for the the nasty bug in -k mode that could create a

@@ -1,4 +1,4 @@
-CVS code
+nano-0.9.16 - 08/09/2000
 - cut.c:
   do_cut_text()
 	- Fixed getting locked into cutbuffer on cutting first line of file.
