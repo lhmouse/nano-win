@@ -140,6 +140,7 @@ void add_to_cutbuffer(filestruct * inptr);
 void do_replace_highlight(int highlight_flag, char *word);
 void nano_disabled_msg(void);
 void window_init(void);
+void print_view_warning(void);
 #ifdef NANO_EXTRA
 void do_credits(void);
 #endif

@@ -105,6 +105,8 @@
   Krebs (57) [FIXED].
 - File browser aborts on Solaris in qsort() call.  (Reported by
   Matthias Andree) (58) [FIXED].
+- Can modify the current file in view mode with ^W^R (discovered by Rocco
+  Corsi) (58) [FIXED].
 
 ** Open BUGS **
 

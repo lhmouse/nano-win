@@ -1,4 +1,9 @@
 Cvs code -
+- search.c:
+  do_replace()
+        - If we manage to make it in somehow with VIEW_MODE on, abort 
+          nicely (fixes BUG #59).                          
+
 nano 1.0.1 - 04/06/2001
 - General:
 	- added configure option --disable-wrapping.  Does what it says,

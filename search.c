@@ -586,6 +586,12 @@ int do_replace(void)
     filestruct *begin;
     char *prevanswer = NULL, *buf = NULL;
 
+    if (ISSET(VIEW_MODE)) {
+	print_view_warning();
+	replace_abort();
+	return 0;
+    }
+
     i = search_init(1);
     switch (i) {
     case -1:
