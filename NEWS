@@ -1,3 +1,12 @@
+10/02/2000 - Nano 0.9.19 is the "Chris is getting married in less than
+		a week and needs a distraction" release.  There are only
+		a few actual code changes, mainly portability and compiler
+		warning fixes.  Nano now also supports PDCurses, which
+		enables easily-built nano executables for Windows NT
+		and 95/98 for the brave.  The official nano site has
+		changed (again) as well, check out www.nano-editor.org for
+		all the latest nano schtuff.
+
 09/18/2000 - Nano 0.9.18 is unleashed.  It has some new keyboard
 		handling code, cygwin support out of the box, and 
 		a more portable handler for the NOHELP toggle.  There

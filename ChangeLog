@@ -1,4 +1,4 @@
-CVS changes -
+nano 0.9.19 - 10/02/2000
 - General
 	- Added PDCurses support under cygwin, which allows building
 	  a nice stand-alone nano.exe for those poor Windows users.

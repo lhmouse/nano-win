@@ -70,10 +70,12 @@
 - Marked cutting sometimes leaves a newline in the file unintelligently,
   such as when all of a line is selected but the mark doesn't proceed to
   the new line. (8) { Is this an issue? compare to pico 3.5 }
-- no way to do a replace with the empty string. (11)
+- no way to do a replace with the empty string (11).
 - Spelling support is not elegant like pico's integration of the 'spell'
-  program.  Nano only uses ispell (for now) (12)
+  program.  Nano only uses ispell (for now) (12).
 - In replace, there is no way to accept the default replace string. (27)
-- totsize problems still abound in do_justify (33)
+- totsize problems still abound in do_justify (33).
+- in certain terms, nano will leave a "ghost" of screen upon exit
+  when called from inside mutt (among other settings) (45).
 
 $Id$
