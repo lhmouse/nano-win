@@ -762,6 +762,7 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 #endif
 }
 
+#ifndef DISABLE_TABCOMP
 /* Find the one-based position of the last occurrence of character c in
  * the first n characters of s.  Return 0 if c is not found. */
 size_t strrchrn(const char *s, int c, size_t n)
@@ -775,3 +776,4 @@ size_t strrchrn(const char *s, int c, size_t n)
 
     return 0;
 }
+#endif

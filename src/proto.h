@@ -205,7 +205,9 @@ size_t mbstrlen(const char *s);
 size_t nstrnlen(const char *s, size_t maxlen);
 #endif
 size_t mbstrnlen(const char *s, size_t maxlen);
+#ifndef DISABLE_TABCOMP
 size_t strrchrn(const char *s, int c, size_t n);
+#endif
 
 /* Public functions in color.c. */
 #ifdef ENABLE_COLOR
