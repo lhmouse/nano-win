@@ -177,5 +177,25 @@ int do_colorinit(void)
     return 0;
 }
 
+/* Update the color information based on the current filename */
+void update_color(void)
+{
+    syntaxtype *tmpsyntax;
+
+    colorstrings = NULL;
+    for (tmpsyntax = syntaxes; tmpsyntax != NULL; tmpsyntax = tmpsyntax->next) {
+	exttype *e;
+	for (e = tmpsyntax->extensions; e != NULL; e = e->next) {
+	    regcomp(&syntaxfile_regexp, e->val, 0);
+
+	    /* Set colorstrings if we matched the extension regex */
+            if (!regexec(&syntaxfile_regexp, filename, 1, synfilematches, 0)) 
+		colorstrings = tmpsyntax->color; 
+	}
+    }
+    do_colorinit();
+    edit_refresh();
+}
+
 #endif /* ENABLE_COLOR */
 

@@ -73,7 +73,9 @@
 
 #
 # Color setup
-# Format: color foreground,background "regex" ["regex"...]
+# Format: 
+# syntax "short description" ["filename regex" ...]
+# color foreground,background "regex" ["regex"...]
 #
 # Legal colors are: white, black, red, blue, green, yellow, purple, cyan
 # You may use the prefix "bright" to mean a stronger color highlight
@@ -84,6 +86,7 @@
 # color will use a transparent color.  If you don't want this, be sure
 # to set the background color to black or white.
 #
+#syntax "c-file" ".*\.c" ".*\.h"
 #color brightred "float " "char " "int " "void "  "NULL" "[A-Z_]\{2,\}" 
 #color brightred "static" "const" "[\ ]struct" "^struct" "if " "while[\ \n\(]" 
 #color brightred "do[\ \n\(]" "else[\ \n]" "case " "switch " "break;"

@@ -66,6 +66,7 @@ extern openfilestruct *open_files;
 
 #ifdef ENABLE_COLOR
 extern colortype *colorstrings;
+extern syntaxtype *syntaxes;
 #endif
 
 extern shortcut *shortcut_list;
@@ -90,6 +91,9 @@ extern regmatch_t regmatches[10];
 #ifdef ENABLE_COLOR
 extern regex_t color_regexp;
 extern regmatch_t colormatches[1];  
+
+extern regex_t syntaxfile_regexp;
+extern regmatch_t synfilematches[1];  
 #endif /* ENABLE_COLOR */
 #endif
 
@@ -279,6 +283,7 @@ char *do_browse_from(char *inpath);
 int do_colorinit(void);
 void color_on(WINDOW *win, int whatever);
 void color_off(WINDOW *win, int whatever);
+void update_color(void);
 
 extern colorstruct colors[NUM_NCOLORS];
 #endif /* ENABLE_COLOR */

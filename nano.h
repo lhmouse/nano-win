@@ -137,6 +137,18 @@ typedef struct colortype {
     struct colortype *next;
 } colortype;
 
+typedef struct exttype {
+    char *val;
+    struct exttype *next;
+} exttype;
+
+typedef struct syntaxtype {
+    char *desc;			/* Name of this syntax type */
+    struct exttype *extensions;	/* List of extensions that this applies to */
+    colortype *color;		/* color struct for this syntax */
+    struct syntaxtype *next;
+} syntaxtype;
+
 #endif /* ENABLE_COLOR */
 
 

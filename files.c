@@ -61,6 +61,10 @@ void load_file(int quiet)
     add_open_file(quiet);
 #endif
 
+#ifdef ENABLE_COLOR
+    update_color();
+#endif
+
     wmove(edit, current_y, current_x);
 }
 
@@ -487,6 +491,10 @@ int do_insertfile(int loading_file)
 	else
 	    edit_refresh();
 
+#ifdef ENABLE_COLOR
+	update_color();
+#endif    
+
 	UNSET(KEEP_CUTBUFFER);
 	display_main_list();
 	return i;
@@ -612,6 +620,7 @@ int open_file_change_name(void)
  */
 int load_open_file(void)
 {
+
     if (!open_files)
 	return 1;
 
@@ -649,6 +658,10 @@ int load_open_file(void)
        but the line count isn't) */
     if (ISSET(CONSTUPDATE))
 	do_cursorpos(0);
+
+#ifdef ENABLE_COLOR
+    update_color();
+#endif    
 
     /* now we're done */
     return 0;

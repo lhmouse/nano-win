@@ -183,6 +183,93 @@ int colortoint(char *colorname, int *bright)
 
 
 #ifdef ENABLE_COLOR
+void parse_syntax(FILE * rcstream, char *buf, char *ptr)
+{
+    syntaxtype *tmpsyntax = NULL;
+    char *fileregptr = NULL, *nameptr = NULL;
+    exttype *exttmp = NULL;
+
+    while (*ptr == ' ')
+	ptr++;
+
+    if (*ptr == '\n' || *ptr == '\0')
+	return;
+
+    if (*ptr != '"') {
+	rcfile_error(_("regex strings must begin and end with a \" character\n"));
+	exit(1);
+    }
+    ptr++;
+
+    nameptr = ptr;
+    ptr = parse_next_regex(ptr);
+
+    if (ptr == NULL) {
+	rcfile_error(_("Missing syntax name"));
+	exit(1);
+    }
+
+	if (syntaxes == NULL) {
+	    syntaxes = nmalloc(sizeof(syntaxtype));
+	    syntaxes->desc = NULL;
+	    syntaxes->desc = mallocstrcpy(syntaxes->desc, nameptr);
+	    syntaxes->color = NULL;
+	    syntaxes->extensions = NULL;
+	    syntaxes->next = NULL;
+	    tmpsyntax = syntaxes;
+#ifdef DEBUG
+	    fprintf(stderr,
+		    "Starting a new syntax type\n");
+	    fprintf(stderr, "string val=%s\n", tmp);
+#endif
+
+	} else {
+	    for (tmpsyntax = syntaxes;
+		 tmpsyntax->next != NULL; tmpsyntax = tmpsyntax->next);
+#ifdef DEBUG
+	    fprintf(stderr, "Adding new syntax after 1st\n");
+#endif
+
+	    tmpsyntax->next = nmalloc(sizeof(syntaxtype));
+	    tmpsyntax->next->desc = NULL;
+	    tmpsyntax->next->desc = mallocstrcpy(tmpsyntax->next->desc, nameptr);
+	    tmpsyntax->next->color = NULL;
+	    tmpsyntax->next->extensions = NULL;
+	    tmpsyntax->next->next = NULL;
+	    tmpsyntax = tmpsyntax->next;
+	}
+
+    /* Now load in the extensions to their part of the struct */
+    while (*ptr != '\n' && *ptr != '\0') {
+
+	while (*ptr != '"' && *ptr != '\n' && *ptr != '\0')
+	    ptr++;
+
+	if (*ptr == '\n' || *ptr == '\0')
+	    return;
+	ptr++;
+
+	fileregptr = ptr;
+	ptr = parse_next_regex(ptr);
+
+	if (tmpsyntax->extensions == NULL) {
+	    tmpsyntax->extensions = nmalloc(sizeof(exttype));
+	    tmpsyntax->extensions->val = NULL;
+	    tmpsyntax->extensions->val = mallocstrcpy(tmpsyntax->extensions->val, fileregptr);
+	    tmpsyntax->extensions->next = NULL;
+	}
+	else {
+	    for (exttmp = tmpsyntax->extensions; exttmp->next != NULL;
+		 exttmp = exttmp->next);
+	    exttmp->next = nmalloc(sizeof(exttype));
+	    exttmp->next->val = NULL;
+	    exttmp->next->val = mallocstrcpy(exttmp->next->val, fileregptr);
+	    exttmp->next->next = NULL;
+	}
+   }
+
+}
+
 /* Parse the color stuff into the colorstrings array */
 void parse_colors(FILE * rcstream, char *buf, char *ptr)
 {
@@ -190,6 +277,7 @@ void parse_colors(FILE * rcstream, char *buf, char *ptr)
     int expectend = 0;		/* Do we expect an end= line? */
     char *tmp = NULL, *beginning, *fgstr, *bgstr;
     colortype *tmpcolor = NULL;
+    syntaxtype *tmpsyntax = NULL;
 
     fgstr = ptr;
     ptr = parse_next_word(ptr);
@@ -207,6 +295,15 @@ void parse_colors(FILE * rcstream, char *buf, char *ptr)
 
     fg = colortoint(fgstr, &bright);
     bg = colortoint(bgstr, &bright);
+
+    if (syntaxes == NULL) {
+	rcfile_error(_("Cannot add a color directive without a syntax line"));
+	exit(1);
+    }
+
+    for (tmpsyntax = syntaxes; tmpsyntax->next != NULL;
+	 tmpsyntax = tmpsyntax->next)
+	;
 
     /* Now the fun part, start adding regexps to individual strings
        in the colorstrings array, woo! */
@@ -236,14 +333,14 @@ void parse_colors(FILE * rcstream, char *buf, char *ptr)
 	tmp = NULL;
 	tmp = mallocstrcpy(tmp, beginning);
 
-	if (colorstrings == NULL) {
-	    colorstrings = nmalloc(sizeof(colortype));
-	    colorstrings->fg = fg;
-	    colorstrings->bg = bg;
-	    colorstrings->bright = bright;
-	    colorstrings->start = tmp;
-	    colorstrings->next = NULL;
-	    tmpcolor = colorstrings;
+	if (tmpsyntax->color == NULL) {
+	    tmpsyntax->color = nmalloc(sizeof(colortype));
+	    tmpsyntax->color->fg = fg;
+	    tmpsyntax->color->bg = bg;
+	    tmpsyntax->color->bright = bright;
+	    tmpsyntax->color->start = tmp;
+	    tmpsyntax->color->next = NULL;
+	    tmpcolor = tmpsyntax->color;
 #ifdef DEBUG
 	    fprintf(stderr,
 		    "Starting a new colorstring for fg %d bg %d\n",
@@ -252,7 +349,7 @@ void parse_colors(FILE * rcstream, char *buf, char *ptr)
 #endif
 
 	} else {
-	    for (tmpcolor = colorstrings;
+	    for (tmpcolor = tmpsyntax->color;
 		 tmpcolor->next != NULL; tmpcolor = tmpcolor->next);
 #ifdef DEBUG
 	    fprintf(stderr, "Adding new entry for fg %d bg %d\n", fg, bg);
@@ -338,6 +435,8 @@ void parse_rcfile(FILE * rcstream)
 	else if (!strcasecmp(keyword, "unset"))
 	    set = -1;
 #ifdef ENABLE_COLOR
+	else if (!strcasecmp(keyword, "syntax"))
+	    parse_syntax(rcstream, buf, ptr);
 	else if (!strcasecmp(keyword, "color"))
 	    parse_colors(rcstream, buf, ptr);
 #endif				/* ENABLE_COLOR */
@@ -481,8 +580,24 @@ void do_rcfile(void)
 	return;
     }
 
+
     parse_rcfile(rcstream);
     fclose(rcstream);
+
+    {
+	syntaxtype *s;
+	exttype *e;
+	colortype *c;
+
+    for (s = syntaxes; s != NULL; s = s->next) {
+	fprintf(stderr, "Syntax \"%s\"\n", s->desc);
+	for (e = s->extensions; e != NULL; e = e->next)
+	    fprintf(stderr, "  extension \"%s\"\n", e->val);
+	for (c = s->color; c != NULL; c = c->next)
+	    fprintf(stderr, "Color string regex \"%s\"\n", c->start);
+	
+    }
+    }
 
 }
 

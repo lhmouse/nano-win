@@ -110,6 +110,7 @@ shortcut *browser_list = NULL;
 #ifdef ENABLE_COLOR
     colorstruct colors[NUM_NCOLORS];
     colortype *colorstrings = NULL;
+    syntaxtype *syntaxes = NULL;
 #endif
 
 #if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE) || !defined (DISABLE_HELP)
@@ -129,6 +130,9 @@ regmatch_t regmatches[10];	/* Match positions for parenthetical
 #ifdef ENABLE_COLOR
 regex_t color_regexp;		/* Global to store compiled search regexp */
 regmatch_t colormatches[1];	/* Match positions for parenthetical */
+
+regex_t syntaxfile_regexp;	/* Global to store compiled search regexp */
+regmatch_t synfilematches[1];	/* Match positions for parenthetical */
 #endif /* ENABLE_COLOR */
 
 #endif

@@ -18,6 +18,10 @@ CVS code -
 	- More cleanups with DISABLE flags, better free_shortcutage and
 	  free_toggle, and get rid of unnecessary variable decls with 
 	  NANO_SMALL in shortcut_init() by David Benbennick.
+	- Added "syntax" command to .nanorc file, to allow multiple 
+	  syntaxes.  New function color.c:update_color(), calls in various
+	  files.c places, syntaxtype struct, global variables syntaxes,
+	  syntaxfile_regexp and synfilematches.
 - configure.ac:
 	- Define NDEBUG to silence asserts (David Benbennick).
 - files.c:
