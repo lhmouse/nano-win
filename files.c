@@ -2613,20 +2613,20 @@ char *do_browser(const char *inpath)
 		break;
 	    }
 
-	    path = mallocstrcpy(path, filelist[selected]);
-
 #ifndef DISABLE_OPERATINGDIR
 	    /* Note: The case of the user's being completely outside the
 	       operating directory is handled elsewhere, before this
 	       point */
 	    if (operating_dir != NULL) {
-		if (check_operating_dir(path, 0)) {
+		if (check_operating_dir(filelist[selected], 0)) {
 		    statusbar(_("Can't visit parent in restricted mode"));
 		    beep();
 		    break;
 		}
 	    }
 #endif
+
+	    path = mallocstrcpy(path, filelist[selected]);
 
 	    /* SPK for '.' path, get the current path via getcwd */
 	    if (!strcmp(path, "./..")) {

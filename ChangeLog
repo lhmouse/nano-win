@@ -17,6 +17,9 @@ CVS Code -
 	- Fix incorrect cursor location when cutting long lines
 	  (David Benbennick).
 - files.c:
+  do_browser()
+	- Fix incorrect path check for check_operating_dir() 
+	  (David Benbennick).
   open_file()
 	- Fix FD leak with file load error (David Benbennick).
   save_history()
