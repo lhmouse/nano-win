@@ -552,12 +552,12 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 		ws2 = (unsigned char)*s2_mb;
 	    }
 
-	    if (s1_mb_len > n || towlower(ws1) != towlower(ws2))
+	    if (n == 0 || towlower(ws1) != towlower(ws2))
 		break;
 
 	    s1 += s1_mb_len;
 	    s2 += s2_mb_len;
-	    n -= s1_mb_len;
+	    n--;
 	}
 
 	free(s1_mb);
@@ -648,16 +648,16 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 #endif
 		, NULL);
 
-	    if (s_mb_len > maxlen)
+	    if (maxlen == 0)
 		break;
 
-	    maxlen -= s_mb_len;
+	    maxlen--;
 	    n += s_mb_len;
 	}
 
 	free(s_mb);
 
-	return n;
+	return strnlenpt(s, n);
     } else
 #endif
 	return
