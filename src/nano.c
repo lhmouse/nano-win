@@ -3624,7 +3624,7 @@ int main(int argc, char *argv[])
 		if (ISSET(VIEW_MODE))
 		    print_view_warning();
 		else
-		    do_char(kbinput);
+		    do_char((char)kbinput);
 	    }
 
 	reset_cursor();
