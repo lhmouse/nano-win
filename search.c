@@ -223,7 +223,6 @@ int do_search(void)
 	search_abort();
 	return 0;
     } else if (i == -2) {
-	search_abort();
 	do_replace();
 	return 0;
     } else if (i == 1) {
@@ -387,7 +386,6 @@ int do_replace(void)
 	do_replace();
 	return 1;
     } else if (i == -2) {
-	replace_abort();
 	do_search();
 	return 0;
     } else if (i == -3) {

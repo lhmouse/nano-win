@@ -9,6 +9,9 @@ Current CVS:
 	  from '%s' to '%s%s' to ensure they still work with the new code.
 	  Also put in the translation for " (replace)" in the .po's.  Hope
 	  I didn't step on your toes doing this Jordi. (Chris)
+  do_search(), do_replace():
+	- Removed call to search_abort()/replace_abort() before call to
+	  the opposite function.
 
 nano-0.9.12 - 07/07/2000
 - all:
