@@ -312,8 +312,10 @@ void usage(void)
     printf(_
 	   (" -T 		--tabsize=[num]		Set width of a tab to num\n"));
 #endif
+#ifdef _POSIX_VERSION
     printf(_
          (" -R		--regexp		Use regular expressions for search\n"));
+#endif
     printf
 	(_
 	 (" -V 		--version		Print version information and exit\n"));
@@ -1531,7 +1533,9 @@ int main(int argc, char *argv[])
 #ifdef HAVE_GETOPT_LONG
     int option_index = 0;
     struct option long_options[] = {
+#ifdef _POSIX_VERSION
         {"regexp", 0, 0, 'R'},
+#endif
 	{"version", 0, 0, 'V'},
 	{"const", 0, 0, 'c'},
 	{"suspend", 0, 0, 'z'},
@@ -1582,9 +1586,11 @@ int main(int argc, char *argv[])
 	    usage();		/* Oops!  You dont really have that option */
 	    finish(1);
 #endif
+#ifdef _POSIX_VERSION
 	case 'R':
 	    SET(USE_REGEXP);
 	    break;
+#endif
 	case 'V':
 	    version();
 	    exit(0);

@@ -20,6 +20,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <stdio.h>
 #include "config.h"
 #include "proto.h"
@@ -34,6 +35,7 @@
 
 /* Regular expression helper functions */
 
+#ifdef _POSIX_VERSION
 void regexp_init(const char *regexp)
 {
     regcomp(&search_regexp, regexp, ISSET(CASE_SENSITIVE) ? 0 : REG_ICASE);
@@ -45,6 +47,7 @@ void regexp_cleanup()
     UNSET(REGEXP_COMPILED);
     regfree(&search_regexp);
 }
+#endif
 
 /* Set up the system variables for a search or replace.  Returns -1 on
    abort, 0 on success, and 1 on rerun calling program 
@@ -68,7 +71,8 @@ int search_init(int replacing)
         prompt = _("Case Sensitive Regexp Search%s");
     else if (ISSET(USE_REGEXP))
         prompt = _("Regexp Search%s");
-    else if (ISSET(CASE_SENSITIVE))
+    else 
+    if (ISSET(CASE_SENSITIVE))
         prompt = _("Case Sensitive Search%s");
     else
         prompt = _("Search%s");            
@@ -84,13 +88,16 @@ int search_init(int replacing)
 	return -1;
     } else if (i == -2) {	/* Same string */
 	strncpy(answer, last_search, 132);
+#ifdef _POSIX_VERSION
         if (ISSET(USE_REGEXP))
             regexp_init(answer);
+#endif
     } else if (i == 0) {	/* They entered something new */
 	strncpy(last_search, answer, 132);
+#ifdef _POSIX_VERSION
         if (ISSET(USE_REGEXP))
             regexp_init(answer);
-
+#endif
 	/* Blow away last_replace because they entered a new search
 	   string....uh, right? =) */
 	last_replace[0] = '\0';
@@ -184,8 +191,11 @@ void search_abort(void)
     UNSET(KEEP_CUTBUFFER);
     display_main_list();
     wrefresh(bottomwin);
+
+#ifdef _POSIX_VERSION
     if (ISSET(REGEXP_COMPILED))
         regexp_cleanup();
+#endif
 }
 
 /* Search for a string */
@@ -229,10 +239,14 @@ void replace_abort(void)
     UNSET(KEEP_CUTBUFFER);
     display_main_list();
     reset_cursor();
+
+#ifdef _POSIX_VERSION
     if (ISSET(REGEXP_COMPILED))
         regexp_cleanup();
+#endif
 }
 
+#ifdef _POSIX_VERSION
 int replace_regexp(char *string, int create_flag)
 {
     /* split personality here - if create_flag is null, just calculate
@@ -293,6 +307,7 @@ int replace_regexp(char *string, int create_flag)
 
     return new_size;
 }
+#endif
     
 char *replace_line()
 {
@@ -301,16 +316,19 @@ char *replace_line()
     int search_match_count;
 
     /* Calculate size of new line */
+#ifdef _POSIX_VERSION
     if (ISSET(USE_REGEXP)) {
         search_match_count = regmatches[0].rm_eo -
             regmatches[0].rm_so;
         new_line_size = replace_regexp(NULL, 0);
-
         /* If they specified an invalid subexpression in the replace
          * text, return NULL indicating an error */
         if (new_line_size < 0)
             return NULL;
     } else {
+#else
+    {
+#endif
         search_match_count = strlen(last_search);
         new_line_size = strlen(current->data) - strlen(last_search) +
             strlen(last_replace) + 1;
@@ -326,8 +344,10 @@ char *replace_line()
     /* Replacement Text */
     if (!ISSET(USE_REGEXP))
         strcat(copy, last_replace);
+#ifdef _POSIX_VERSION
     else
         (void)replace_regexp(copy + current_x, 1);
+#endif
 
     /* The tail of the original line */
     /* This may expose other bugs, because it no longer
@@ -342,7 +362,7 @@ char *replace_line()
     return copy;
 }
 
-/* Search for a string */
+/* Replace a string */
 int do_replace(void)
 {
     int i, replaceall = 0, numreplaced = 0, beginx;
