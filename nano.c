@@ -399,7 +399,7 @@ void version(void)
 {
     printf(_(" nano version %s by Chris Allegretta (compiled %s, %s)\n"),
 	   VERSION, __TIME__, __DATE__);
-    printf(_(" Email: nano@asty.org	Web: http://www.asty.org/nano\n"));
+    printf(_(" Email: nano@nano-editor.org	Web: http://www.nano-editor.org\n"));
 }
 
 filestruct *make_new_node(filestruct * prevnode)

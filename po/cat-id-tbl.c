@@ -168,7 +168,7 @@ Usage: nano [option] +LINE <file>\n\
   {" -z \t\tEnable suspend\n", 135},
   {" +LINE\t\tStart at line number LINE\n", 136},
   {" nano version %s by Chris Allegretta (compiled %s, %s)\n", 137},
-  {" Email: nano@asty.org\tWeb: http://www.asty.org/nano\n", 138},
+  {" Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org\n", 138},
   {"Mark Set", 139},
   {"Mark UNset", 140},
   {"check_wrap called with inptr->data=\"%s\"\n", 141},

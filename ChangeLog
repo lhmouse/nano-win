@@ -5,6 +5,7 @@ CVS changes -
 	  Extra check in configure.in for initscr() in -lcurses (as
 	  PDcurses has no tgetent), some #ifdef PDCURSES statements
 	  in main().
+	- Changed web site and email to new nano-editor.org domain.
 - nano.c
   main()
 	- Added check for _POSIX_VDISABLE around term variable definition.

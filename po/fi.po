@@ -624,8 +624,8 @@ msgid " nano version %s by Chris Allegretta (compiled %s, %s)\n"
 msgstr " nano, versio %s. Chris Allegretta (k‰‰nnetty %s, %s)\n"
 
 #: nano.c:402
-msgid " Email: nano@asty.org\tWeb: http://www.asty.org/nano\n"
-msgstr " Maili: nano@asty.org\tNetti: http://www.asty.org/nano\n"
+msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org\n"
+msgstr " Maili: nano@nano-editor.org\tNetti: http://www.nano-editor.org\n"
 
 #: nano.c:437
 msgid "Mark Set"
