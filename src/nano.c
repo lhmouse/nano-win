@@ -2944,7 +2944,7 @@ void do_justify(bool full_justify)
 	    /* Number of lines in the paragraph we justify. */
 	ssize_t break_pos;
 	    /* Where we will break lines. */
-	char *indent_string = mallocstrcpy(NULL, "");
+	char *indent_string;
 	    /* The first indentation that doesn't match the initial
 	     * indentation of the paragraph we justify.  This is put at
 	     * the beginning of every line broken off the first
@@ -2984,6 +2984,9 @@ void do_justify(bool full_justify)
 	if (first_par_line == NULL)
 	    first_par_line = backup_lines(current, full_justify ?
 		filebot->lineno - current->lineno : par_len, quote_len);
+
+	/* Initialize indent_string to a blank string. */
+	indent_string = mallocstrcpy(NULL, "");
 
 	/* Find the first indentation in the paragraph that doesn't
 	 * match the indentation of the first line, and save it in
@@ -3141,7 +3144,6 @@ void do_justify(bool full_justify)
 	/* We're done breaking lines, so we don't need indent_string
 	 * anymore. */
 	free(indent_string);
-	indent_string = NULL;
 
 	/* Go to the next line, the line after the last line of the
 	 * paragraph. */
