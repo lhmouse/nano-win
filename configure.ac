@@ -87,7 +87,7 @@ AC_ARG_ENABLE(tiny,
 [if test x$enableval = xyes; then
     AC_DEFINE(NANO_SMALL, 1, [Define this to make the nano executable as small as possible.]) tiny_support=yes
     AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in (crappy) file browser.]) 
-    AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the ^G help menu.]) 
+    AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the help menu.]) 
     AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routine.]) 
     AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable the mouse functions.]) 
     AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable setting of the operating directory (chroot of sorts).]) 
@@ -102,9 +102,9 @@ AC_ARG_ENABLE(browser,
  fi])
 
 AC_ARG_ENABLE(help,
-[  --disable-help          Disable help function (^G)],
+[  --disable-help          Disable help function],
  [if test x$enableval != xyes; then
-    AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the ^G help menu.])
+    AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the help menu.])
  fi])
 
 AC_ARG_ENABLE(justify,
