@@ -6,6 +6,8 @@ CVS code -
   check_writable_directory()
 	- Stat full_path, not path (Steven Kneizys).
 - nano.c:
+  help_init()
+	- Capitalize Meta altkeys.
   main()
 	- Put NANO_SMALL defines around toggle pointer (noticed by Jordi);
 - rcfile.c:

@@ -2622,6 +2622,10 @@ void help_init(void)
 	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar,
 	    (meta_shortcut ? "M-%c	" : "(M-%c)	"),
 	    s->altval - 32);
+	else if (s->altval >= 'a')
+	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar,
+	    (meta_shortcut ? "M-%c	" : "(M-%c)	"),
+	    s->altval - 32);
 	else if (s->altval > 0)
 	    sofar += snprintf(&buf[sofar], BUFSIZ - sofar,
 	    (meta_shortcut ? "M-%c	" : "(M-%c)	"),
