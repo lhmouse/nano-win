@@ -77,6 +77,8 @@ Cvs code -
 - po/uk.po, po/ru.po:
 	- New Ukrainian and Russian translations by Sergey A. Ribalchenko
 	  <fisher@obu.ck.ua>, thanks!
+- po/it.po
+	- Updated Italian translation by Marco Colombo.
 
 nano 1.1 tree forked here 04/07/2001
 
