@@ -527,7 +527,7 @@ int do_enter(filestruct * inptr)
     }
     *tmp = 0;
 
-    if (inptr->next != NULL) {
+    if (inptr->next == NULL) {
 	filebot = new;
 	editbot = new;
     }
@@ -956,7 +956,7 @@ int do_backspace(void)
 		current = previous->next;
 	    else
 		current = previous;
-	    page_up();
+	    page_up_center();
 	} else {
 	    if (previous->next)
 		current = previous->next;

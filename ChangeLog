@@ -9,6 +9,11 @@ CVS code
 	- New function, nulls a string at a given index and realigns it.
   delete_buffer()
 	- Removed, same as free_filestruct().
+  do_backspace()
+	- Now calls page_up_center instead of page_up (as it should?)
+  do_enter()
+	- Fixed typo (?) in check for inptr->next.  Caused lots of
+	  grief for editing lines at filebot.
 - search.c:
   replace_abort()
 	- redundant, now just calls search abort until it does something

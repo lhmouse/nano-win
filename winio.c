@@ -840,7 +840,7 @@ void edit_refresh(void)
 	lines++;
     }
     if (!currentcheck) /* Then current has run off the screen... */ 
-	edit_update(current, CENTER);	
+	edit_update(current, CENTER);
 
     if (lines <= editwinrows - 1)
 	while (lines <= editwinrows - 1) {
