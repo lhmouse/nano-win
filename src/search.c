@@ -722,7 +722,7 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 #ifdef HAVE_REGEX_H
 	/* Set the bol_eol flag if we're doing a bol and/or eol regex
 	 * replace ("^", "$", or "^$"). */
-	if (ISSET(USE_REGEXP) && regexec(&search_regexp, prevanswer, 1, NULL, REG_NOTBOL | REG_NOTEOL) == REG_NOMATCH)
+	if (ISSET(USE_REGEXP) && regexec(&search_regexp, prevanswer, 0, NULL, REG_NOTBOL | REG_NOTEOL) == REG_NOMATCH)
 	    bol_eol = 1;
 #endif
 
