@@ -1674,7 +1674,7 @@ int main(int argc, char *argv[])
     int kbinput;		/* Input from keyboard */
     long startline = 0;		/* Line to try and start at */
     int keyhandled = 0;		/* Have we handled the keystroke yet? */
-    int tmpkey = 0, i;
+    int i;
     char *argv0;
     struct termios term;
 
@@ -1854,14 +1854,12 @@ int main(int argc, char *argv[])
 
     /* Setup up the main text window */
     edit = newwin(editwinrows, COLS, 2, 0);
-    keypad(edit, TRUE);
 
     mouse_init();
 
     /* And the other windows */
     topwin = newwin(2, COLS, 0, 0);
     bottomwin = newwin(3 - no_help(), COLS, LINES - 3 + no_help(), 0);
-    keypad(bottomwin, TRUE);
 
 #ifdef DEBUG
     fprintf(stderr, _("Main: bottom win\n"));
@@ -1897,9 +1895,90 @@ int main(int argc, char *argv[])
 	kbinput = wgetch(edit);
 	if (kbinput == 27) {	/* Grab Alt-key stuff first */
 	    switch (kbinput = wgetch(edit)) {
+	    /* Alt-O, suddenly very important ;) */
+	    case 79:
+		kbinput = wgetch(edit);
+		if (kbinput <= 'S' && kbinput >= 'P')
+		     kbinput = KEY_F(kbinput  - 79);
+#ifdef DEBUG
+		else {
+		    	fprintf(stderr, _("I got Alt-O-%c! (%d)\n"),
+			kbinput, kbinput);
+			break;
+		}
+#endif
+		break;
 	    case 91:
 
 		switch (kbinput = wgetch(edit)) {
+		case '1': /* Alt-[-1-[0-5,7-9] = F1-F8 in X at least */
+		    kbinput = wgetch(edit);
+		    if (kbinput >= '1' && kbinput <= '5') {
+			    kbinput = KEY_F(kbinput - 48);
+			    wgetch(edit);
+		    }
+		    else if (kbinput >= '7' && kbinput <= '9') {
+			    kbinput = KEY_F(kbinput - 49);
+			    wgetch(edit);
+		    }
+		    else if (kbinput == 126)
+			    kbinput = KEY_HOME;
+
+#ifdef DEBUG
+		    else {
+		    	    fprintf(stderr, _("I got Alt-[-1-%c! (%d)\n"),
+			    kbinput, kbinput);
+			    break;
+		    }
+#endif
+
+		    break;
+		case '2': /* Alt-[-2-[0,1,3,4] = F9-F12 in many terms */
+		    kbinput = wgetch(edit);
+		    wgetch(edit);
+		    switch (kbinput) {
+			case '0':
+			    kbinput = KEY_F(9);
+			    break;
+			case '1':
+			    kbinput = KEY_F(10);
+			    break;
+			case '3':
+			    kbinput = KEY_F(11);
+			    break;
+			case '4':
+			    kbinput = KEY_F(12);
+			    break;			    
+#ifdef DEBUG
+			default:
+		    	    fprintf(stderr, _("I got Alt-[-2-%c! (%d)\n"),
+			    kbinput, kbinput);
+			    break;
+#endif
+
+		    }
+		    break;
+		case '3': /* Alt-[-3 = Delete? */
+		    kbinput = NANO_DELETE_KEY;
+		    wgetch(edit);
+		    break;
+		case '4': /* Alt-[-4 = End? */
+		    kbinput = NANO_END_KEY;
+		    wgetch(edit);
+		    break;
+		case '5': /* Alt-[-5 = Page Up */
+		    kbinput = KEY_PPAGE;
+		    wgetch(edit);
+		    break;
+		case '6': /* Alt-[-6 = Page Down */
+		    kbinput = KEY_NPAGE;
+		    wgetch(edit);
+		    break;
+		case '[': /* Alt-[-[-[A-E], F1-F5 in linux console */
+		    kbinput = wgetch(edit);
+		     if (kbinput >= 'A' && kbinput <= 'E')
+		 	kbinput = KEY_F(kbinput - 64);
+		    break;
 		case 'A':
 		    kbinput = KEY_UP;
 		    break;
@@ -1918,30 +1997,6 @@ int main(int argc, char *argv[])
 		case 'F':
 		    kbinput = KEY_END;
 		    break;
-		case 49:	/* X window F-keys */
-		    tmpkey = wgetch(edit);
-		    kbinput = KEY_F(tmpkey) - 48;
-		    wgetch(edit);	/* Junk character */
-		    break;
-		case 53:	/* page up */
-		    kbinput = KEY_PPAGE;
-		    if ((kbinput = wgetch(edit)) == 126)
-			kbinput = KEY_PPAGE;	/* Ignore extra tilde */
-		    else {	/* I guess this could happen ;-) */
-			ungetch(kbinput);
-			continue;
-		    }
-		    break;
-		case 54:	/* page down */
-		    kbinput = KEY_NPAGE;
-		    if ((kbinput = wgetch(edit)) == 126)
-			kbinput = KEY_NPAGE;	/* Same thing here */
-		    else {
-			ungetch(kbinput);
-			continue;
-		    }
-		    break;
-
 		default:
 #ifdef DEBUG
 		    fprintf(stderr, _("I got Alt-[-%c! (%d)\n"),

@@ -205,7 +205,7 @@ void shortcut_init(void)
 
     if (ISSET(PICO_MSGS))
 	sc_init_one(&main_list[0], NANO_HELP_KEY, _("Get Help"),
-		    nano_help_msg, 0, 0, 0, VIEW, do_help);
+		    nano_help_msg, 0, NANO_HELP_FKEY, 0, VIEW, do_help);
     else
 	sc_init_one(&main_list[0], NANO_WRITEOUT_KEY, _("WriteOut"),
 		    nano_writeout_msg,
@@ -225,7 +225,8 @@ void shortcut_init(void)
 
     if (ISSET(PICO_MSGS))
 	sc_init_one(&main_list[3], NANO_JUSTIFY_KEY, _("Justify"),
-		    nano_justify_msg, 0, 0, 0, NOVIEW, do_justify);
+		    nano_justify_msg, 0, NANO_JUSTIFY_FKEY, 0, 
+		    NOVIEW, do_justify);
     else
 	sc_init_one(&main_list[3], NANO_REPLACE_KEY, _("Replace"),
 		    nano_replace_msg,
@@ -303,7 +304,8 @@ void shortcut_init(void)
 		    NANO_ALT_R, NANO_REPLACE_FKEY, 0, NOVIEW, do_replace);
     else
 	sc_init_one(&main_list[23], NANO_JUSTIFY_KEY, _("Justify"),
-		    nano_justify_msg, 0, 0, 0, NOVIEW, do_justify);
+		    nano_justify_msg, 0, NANO_JUSTIFY_FKEY, 0, 
+		    NOVIEW, do_justify);
 
     sc_init_one(&main_list[24], NANO_ENTER_KEY, _("Enter"),
 		nano_enter_msg,
@@ -315,7 +317,7 @@ void shortcut_init(void)
 		    NANO_ALT_G, NANO_GOTO_FKEY, 0, VIEW, do_gotoline_void);
     else
 	sc_init_one(&main_list[25], NANO_HELP_KEY, _("Get Help"),
-		    nano_help_msg, 0, 0, 0, VIEW, do_help);
+		    nano_help_msg, 0, NANO_HELP_FKEY, 0, VIEW, do_help);
 
 
     sc_init_one(&whereis_list[0], NANO_FIRSTLINE_KEY, _("First Line"),

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-09-06 23:44-0400\n"
+"POT-Creation-Date: 2000-09-11 18:42-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -263,7 +263,7 @@ msgstr ""
 msgid "Cancel the current function"
 msgstr ""
 
-#: global.c:207 global.c:317 global.c:389
+#: global.c:207 global.c:319 global.c:391
 msgid "Get Help"
 msgstr ""
 
@@ -271,120 +271,120 @@ msgstr ""
 msgid "WriteOut"
 msgstr ""
 
-#: global.c:214 global.c:378
+#: global.c:214 global.c:380
 msgid "Exit"
 msgstr ""
 
-#: global.c:222 global.c:313 global.c:334 global.c:353
+#: global.c:222 global.c:315 global.c:336 global.c:355
 msgid "Goto Line"
 msgstr ""
 
-#: global.c:227 global.c:305
+#: global.c:227 global.c:306
 msgid "Justify"
 msgstr ""
 
-#: global.c:230 global.c:301 global.c:331
+#: global.c:231 global.c:302 global.c:333
 msgid "Replace"
 msgstr ""
 
-#: global.c:234
+#: global.c:235
 msgid "Read File"
 msgstr ""
 
-#: global.c:238
+#: global.c:239
 msgid "Where Is"
 msgstr ""
 
-#: global.c:242 global.c:370
+#: global.c:243 global.c:372
 msgid "Prev Page"
 msgstr ""
 
-#: global.c:246 global.c:374
+#: global.c:247 global.c:376
 msgid "Next Page"
 msgstr ""
 
-#: global.c:250
+#: global.c:251
 msgid "Cut Text"
 msgstr ""
 
-#: global.c:253
+#: global.c:254
 msgid "UnCut Txt"
 msgstr ""
 
-#: global.c:257
+#: global.c:258
 msgid "Cur Pos"
 msgstr ""
 
-#: global.c:261
+#: global.c:262
 msgid "To Spell"
 msgstr ""
 
-#: global.c:265
+#: global.c:266
 msgid "Up"
 msgstr ""
 
-#: global.c:268
+#: global.c:269
 msgid "Down"
 msgstr ""
 
-#: global.c:271
+#: global.c:272
 msgid "Forward"
 msgstr ""
 
-#: global.c:274
+#: global.c:275
 msgid "Back"
 msgstr ""
 
-#: global.c:277
+#: global.c:278
 msgid "Home"
 msgstr ""
 
-#: global.c:280
+#: global.c:281
 msgid "End"
 msgstr ""
 
-#: global.c:283
+#: global.c:284
 msgid "Refresh"
 msgstr ""
 
-#: global.c:286
+#: global.c:287
 msgid "Mark Text"
 msgstr ""
 
-#: global.c:289
+#: global.c:290
 msgid "Delete"
 msgstr ""
 
-#: global.c:293
+#: global.c:294
 msgid "Backspace"
 msgstr ""
 
-#: global.c:297
+#: global.c:298
 msgid "Tab"
 msgstr ""
 
-#: global.c:308
+#: global.c:310
 msgid "Enter"
 msgstr ""
 
-#: global.c:321 global.c:341 global.c:360
+#: global.c:323 global.c:343 global.c:362
 msgid "First Line"
 msgstr ""
 
-#: global.c:324 global.c:344 global.c:363
+#: global.c:326 global.c:346 global.c:365
 msgid "Last Line"
 msgstr ""
 
-#: global.c:327 global.c:347
+#: global.c:329 global.c:349
 msgid "Case Sens"
 msgstr ""
 
-#: global.c:337 global.c:356 global.c:366 global.c:382 global.c:386
-#: global.c:392 winio.c:999
+#: global.c:339 global.c:358 global.c:368 global.c:384 global.c:388
+#: global.c:394 winio.c:999
 msgid "Cancel"
 msgstr ""
 
-#: global.c:350
+#: global.c:352
 msgid "No Replace"
 msgstr ""
 
@@ -675,24 +675,52 @@ msgstr ""
 msgid "Cannot move bottom win"
 msgstr ""
 
+#: nano.c:1618
+#, c-format
+msgid "%s enable/disable"
+msgstr ""
+
+#: nano.c:1630
+msgid "enabled"
+msgstr ""
+
+#: nano.c:1631
+msgid "disabled"
+msgstr ""
+
 #: nano.c:1852
 msgid "Main: set up windows\n"
 msgstr ""
 
-#: nano.c:1867
+#: nano.c:1865
 msgid "Main: bottom win\n"
 msgstr ""
 
-#: nano.c:1873
+#: nano.c:1871
 msgid "Main: open file\n"
 msgstr ""
 
-#: nano.c:1947
+#: nano.c:1905
+#, c-format
+msgid "I got Alt-O-%c! (%d)\n"
+msgstr ""
+
+#: nano.c:1929
+#, c-format
+msgid "I got Alt-[-1-%c! (%d)\n"
+msgstr ""
+
+#: nano.c:1954
+#, c-format
+msgid "I got Alt-[-2-%c! (%d)\n"
+msgstr ""
+
+#: nano.c:2002
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:1973
+#: nano.c:2028
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr ""

@@ -6,11 +6,18 @@ CVS code -
   do_cut_text()
 	- Don't immediately abort if we're on filebot and the marker is
 	  set (fixes bug #42).
+- global.c:
+  shortcut_init()
+	- Added in FKEYs that for some reason were left out.  *boggle*
 - nano.c:
 	- main()
 	- Added check for _POSIX_VDISABLE and use raw mode if not
 	  available, allows nano to work with cygwin.
 	- Added gettext calls to enable/disable strings (Jordi).
+	- Revamped a great deal of the F-key and keypad key handling,
+	  because we not longer use keypad() (see below).
+	- Removed keypad() call because nano was not working with the
+	  keypad in many terms, which is very bad.
 - search.c:
   findnextstr()
 	- Reset starting at current for search instead of begin.
