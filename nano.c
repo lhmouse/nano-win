@@ -582,7 +582,7 @@ void do_wrap(filestruct *inptr, char input_char)
     int right = 0;
     struct filestruct *temp = NULL;
 
-assert (strlenpt(inptr->data) >= fill);
+assert (strlenpt(inptr->data) > fill);
 
     for (i = 0, i_tabs = 0; i < len; i++, i_tabs++) {
 	if (!isspace(inptr->data[i])) {
@@ -613,11 +613,11 @@ assert (strlenpt(inptr->data) >= fill);
                 i_tabs += TABSIZE - (i_tabs % TABSIZE);
         } 
 
-	if (current_word_end_t >= fill)
+	if (current_word_end_t > fill)
 	    break;
     }
 
-    assert (current_word_end_t >= fill);
+    assert (current_word_end_t > fill);
 
     /* There are a few (ever changing) cases of what the line could look like.
      * 1) only one word on the line before wrap point.
@@ -856,33 +856,28 @@ void check_wrap(filestruct * inptr, char ch)
         int i = actual_x(inptr, fill);
 
 	/* Do not wrap if there are no words on or after wrap point. */
-	/* First check to see if we typed space and passed a word. */
-	if (isspace(ch) && !isspace(inptr->data[i - 1]))
-	    do_wrap(inptr, ch);
-	else {
-	    int char_found = 0;
+	int char_found = 0;
 
-	    while (isspace(inptr->data[i]) && inptr->data[i])
-		i++;
+	while (isspace(inptr->data[i]) && inptr->data[i])
+	    i++;
 	
-	    if (!inptr->data[i])
-		return;
+	if (!inptr->data[i])
+	    return;
 
-		/* String must be at least 1 character long. */
-	    for (i = strlen(inptr->data) - 1; i >= 0; i--) {
-		if (isspace(inptr->data[i])) {
-		    if (!char_found)
-			continue;
-		    char_found = 2;  /* 2 for yes do wrap. */
-		    break;
-		}
-		else
-		    char_found = 1;  /* 1 for yes found a word, but must check further. */
+	/* String must be at least 1 character long. */
+	for (i = strlen(inptr->data) - 1; i >= 0; i--) {
+	    if (isspace(inptr->data[i])) {
+		if (!char_found)
+		    continue;
+		char_found = 2;  /* 2 for yes do wrap. */
+		break;
 	    }
-
-	    if (char_found == 2)
-		do_wrap(inptr, ch);
+	    else
+		char_found = 1;  /* 1 for yes found a word, but must check further. */
 	}
+
+	if (char_found == 2)
+	    do_wrap(inptr, ch);
     }
 }
 
@@ -1437,17 +1432,17 @@ int do_justify(void)
     justify_format(current->data);
 
     slen = strlen(current->data);
-    while ((strlenpt(current->data) > (fill + 1))
+    while ((strlenpt(current->data) > (fill))
 	   && !no_spaces(current->data)) {
 	int i = 0;
 	int len2 = 0;
 	filestruct *tmpline = nmalloc(sizeof(filestruct));
 
-	/* Start at fill + 2, unless line isn't that long (but it appears at least
-	 * fill + 2 long with tabs.
+	/* Start at fill , unless line isn't that long (but it appears at least
+	 * fill long with tabs.
 	 */
-	if (slen > (fill + 2))
-	    i = fill + 2;
+	if (slen > fill)
+	    i = fill;
 	else
 	    i = slen;
 	for (; i > 0; i--) {
@@ -1480,12 +1475,18 @@ int do_justify(void)
 	current_y++;
     }
 
-    renumber(initial);
 
     if (current->next)
 	current = current->next;
+    else
+	filebot = current;
     current_x = 0;
     placewewant = 0;
+
+    renumber(initial);
+    totlines = filebot->lineno;
+
+    werase(edit);
 
     if ((current_y < 0) || (current_y >= editwinrows - 1) || (initial_y <= 0)) {
 	edit_update(current);
@@ -1497,9 +1498,11 @@ int do_justify(void)
 	for (i = 0; (i <= editwinrows - 1) && (editbot->next != NULL)
 	     && (editbot->next != filebot); i++)
 	    editbot = editbot->next;
-	edit_refresh();
     }
 
+
+    edit_refresh();
+    edit_refresh();  /* XXX FIXME XXX */
     statusbar("Justify Complete");
     return 1;
 #else
