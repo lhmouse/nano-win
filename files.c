@@ -1896,15 +1896,11 @@ char *real_dir_from_tilde(const char *buf)
 	for (i = 1; buf[i] != '/' && buf[i] != '\0'; i++)
 	    ;
 
-	if (i == 1) {
-	    /* Determine home directory using getpwent(), don't rely on
+	/* Determine home directory using getpwent(), don't rely on
 	       $HOME */
-	    uid_t euid = geteuid();
-
-	    do {
-		userdata = getpwent();
-	    } while (userdata != NULL && userdata->pw_uid != euid);
-	} else {
+	if (i == 1)
+	    userdata = getpwuid(geteuid());
+	else {
 	    do {
 		userdata = getpwent();
 	    } while (userdata != NULL &&
@@ -2872,22 +2868,26 @@ char *do_browse_from(const char *inpath)
 void load_history(void)
 {
     FILE *hist;
-    const struct passwd *userage;
-    uid_t euid = geteuid();
+    const struct passwd *userage = NULL;
     static char *nanohist;
     char *buf, *ptr;
+    char *homenv = getenv("HOME");
     historyheadtype *history = &search_history;
 
-    do {
-	userage = getpwent();
-    } while (userage != NULL && userage->pw_uid != euid);
-    endpwent();
+
+    if (homenv != NULL) {
+        nanohist = nrealloc(nanohist, strlen(homenv) + 15);
+        sprintf(nanohist, "%s/.nano_history", homenv);
+    } else {
+	userage = getpwuid(geteuid());
+	endpwent();
+        nanohist = nrealloc(nanohist, strlen(userage->pw_dir) + 15);
+        sprintf(nanohist, "%s/.nano_history", userage->pw_dir);
+    }
 
     /* assume do_rcfile has reported missing home dir */
 
-    if (userage != NULL) {
-        nanohist = nrealloc(nanohist, strlen(userage->pw_dir) + 15);
-        sprintf(nanohist, "%s/.nano_history", userage->pw_dir);
+    if (homenv != NULL || userage != NULL) {
 	hist = fopen(nanohist, "r");
 	if (!hist) {
             if (errno != ENOENT)
@@ -2917,9 +2917,9 @@ void load_history(void)
 void save_history(void)
 {
     FILE *hist;
-    const struct passwd *userage;
-    uid_t euid = geteuid();
+    const struct passwd *userage = NULL;
     char *nanohist = NULL;
+    char *homenv = getenv("HOME");
     historytype *h;
 
     /* don't save unchanged or empty histories */
@@ -2927,14 +2927,17 @@ void save_history(void)
 			ISSET(HISTORY_CHANGED) && !ISSET(VIEW_MODE)))
 	return;
 
-    do {
-	userage = getpwent();
-    } while (userage != NULL && userage->pw_uid != euid);
-    endpwent();
-
-    if (userage != NULL) {
+    if (homenv != NULL) {
+	nanohist = nrealloc(nanohist, strlen(homenv) + 15);
+	sprintf(nanohist, "%s/.nano_history", homenv);
+    } else {
+	userage = getpwuid(geteuid());
+	endpwent();
 	nanohist = nrealloc(nanohist, strlen(userage->pw_dir) + 15);
 	sprintf(nanohist, "%s/.nano_history", userage->pw_dir);
+    }
+
+    if (homenv != NULL || userage != NULL) {
 	hist = fopen(nanohist, "wb");
 	if (!hist) {
 	    rcfile_msg(_("Unable to write ~/.nano_history file, %s"), strerror(errno));

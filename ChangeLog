@@ -33,6 +33,13 @@ CVS code
   load_history()
 	- Fix segfault on loading huge strings from history file 
 	  (David Benbennick).
+  load_history(), save_history()
+	- Changed to look at $HOME before getpwuid(geteuid()), see
+	  details in comment for rcfile.c:do_rcfile().
+  real_dir_from_tidle()
+	- Change check for the running user's home dir to use
+	  getpwuid(geteuid()) rather than a getpwent() loop
+ 	  (suggested by Jordi).
 - nano.c:
   breakable()
 	- Fix incorrect return value on short lines (David Benbennick).
