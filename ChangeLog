@@ -5,20 +5,26 @@ CVS code -
 	  the translation of files from DOS or Mac format (DLR).
 	- New functions wheck_writable_directory() and safe_tempnam()
 	  to get around the tempnam warning. More improvements (DLR)  
-	  Still eeds testing.
+	  Still needs testing.
 	- Added DOS and Mac format options to write file routine.
 	  Changes to shortcut_init() and do_writeout().	
 	- Removed stupid static definitions of toggles and shortcut
 	  lists.  Many changes to shortcut_init(), toggle_init(),
 	  statusq(), nanogetstr(), main(), and many other places.
 	  FIXME: Mouse support broken by this change.
+	- Multibuffer mode now allows multiple empty filenames.  
+	  Changes to add_open_files(), removed open_file_dup_search(),
+	  open_file_dup_fix(), etc (DLR).
+	- New code to handle multiple .save files.  Changes to 
+	  die_save_file(), new function files.c:get_next_filename()
+	  and utils.c:num_of_digits(). (Dwayne Rightler, DLR & Chris)
 - Makefile.am:
 	- Add SYSCONFDIR to DEFS, so we can have an /etc/nanorc.
 	- Change localedir line to 1.0's version.
 - files.c:
   read_byte()
 	- Added check for conrol characters (indicative of a binary 
-	  file), set NO_CONVERT if found.
+	  file), set NO_CONVERT if found (fixes by DLR).
 - global.c:
 	- Move openprev and opennext functions to shortcuts, they really
 	  aren't toggles (DLR).
@@ -28,6 +34,8 @@ CVS code -
 	  for *ptr+1 is not the end of the regex.
   do_rcfile()
 	- Parse rcfile in $SYSCONFDIR as well (Dwayne Rightler).
+- nano.1:
+	- Added Noconvert option to man page (DLR).
 - nano.c:
   help_init()
 	- Added message re: having multiple blank buffers (DLR).

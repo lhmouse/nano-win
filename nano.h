@@ -79,7 +79,6 @@ typedef struct filestruct {
     int file_current_x;		/* Current file's x-coordinate position */
     int file_current_y;		/* Current file's y-coordinate position */
     int file_modified;		/* Current file's modification status */
-    char *file_path;		/* Current file's full path location */
     int file_placewewant;	/* Current file's place we want */
     int file_totlines;		/* Current file's total number of lines */
     long file_totsize;		/* Current file's total size */

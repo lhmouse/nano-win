@@ -35,6 +35,7 @@
 /*
  * Global variables
  */
+
 int flags = 0;			/* Our new flag containing many options */
 WINDOW *edit;			/* The file portion of the editor  */
 WINDOW *topwin;			/* Top line of screen */
@@ -87,7 +88,7 @@ char *alt_speller;		/* Alternative spell command */
 shortcut *main_list = NULL;
 shortcut *whereis_list = NULL;
 shortcut *replace_list = NULL;
-shortcut *replace_list_2; 	/* 2nd half of replace dialog */
+shortcut *replace_list_2 = NULL; 	/* 2nd half of replace dialog */
 shortcut *goto_list = NULL;
 shortcut *gotodir_list = NULL;
 shortcut *writefile_list = NULL;

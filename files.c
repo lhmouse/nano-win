@@ -54,18 +54,10 @@ void load_file(int quiet)
     current = fileage;
 
 #ifdef ENABLE_MULTIBUFFER
-    /* if quiet is zero, add a new entry to the open_files structure, and
-       do duplicate checking; otherwise, update the current entry and
-       don't do duplicate checking (the latter is needed in the case of
-       the alternate spell checker); if a duplicate entry was found,
-       reload the currently open file (it may have been changed during
-       duplicate handling) */
-    if (quiet != 0)
-	quiet = 1;
-    if (add_open_file(quiet, 1 - quiet) == 2) {
-	load_open_file();
-	statusbar(_("File already loaded"));
-    }
+    /* if quiet is zero, add a new entry to the open_files structure;
+       otherwise, update the current entry (the latter is needed in the
+       case of the alternate spell checker) */
+    add_open_file(quiet);
 #endif
 
     wmove(edit, current_y, current_x);
@@ -89,12 +81,11 @@ void new_file(void)
 
 #ifdef ENABLE_MULTIBUFFER
     /* if there aren't any entries in open_files, create the entry for
-       this new file, and, of course, don't bother checking for
-       duplicates; without this, if nano is started without a filename on
-       the command line, a new file will be created, but it will be given
-       no open_files entry, leading to problems later on */
+       this new file; without this, if nano is started without a filename
+       on the command line, a new file will be created, but it will be
+       given no open_files entry, leading to problems later on */
     if (!open_files) {
-	add_open_file(0, 0);
+	add_open_file(0);
 	/* turn off view mode in this case; this is for consistency
 	   whether multibuffers are compiled in or not */
 	UNSET(VIEW_MODE);
@@ -210,8 +201,9 @@ int read_file(int fd, char *filename, int quiet)
 	    buf[0] = 0;
 	    i = 0;
 #ifndef NANO_SMALL
-	 } else if (!ISSET(NO_CONVERT) && input[0] < 32 
-			&& input[0] != '\r' && input[0] != '\n') 
+	 } else if (!ISSET(NO_CONVERT) && input[0] >= 0 && input[0] <= 31 
+			&& input[0] != '\t' && input[0] != '\r'
+			&& input[0] != '\n') 
 	    /* If the file has binary chars in it, don't stupidly
 		assume it's a DOS or Mac formatted file! */
 	    SET(NO_CONVERT);
@@ -295,9 +287,8 @@ int open_file(char *filename, int insert, int quiet)
     struct stat fileinfo;
 
     if (!strcmp(filename, "") || stat(filename, &fileinfo) == -1) {
-	if (insert) {
-	    if (!quiet)
-		statusbar(_("\"%s\" not found"), filename);
+	if (insert && !quiet) {
+	    statusbar(_("\"%s\" not found"), filename);
 	    return -1;
 	} else {
 	    /* We have a new file */
@@ -330,6 +321,38 @@ int open_file(char *filename, int insert, int quiet)
     }
 
     return 1;
+}
+
+
+/* This function will return the name of the first available extension
+   of a filename (starting with the filename, then filename.1, etc).
+   Memory is allocated for the return value.  If no writable extension 
+   exists we return "" */
+char *get_next_filename(char *name)
+{
+    int i = 0;
+    char *buf = NULL;
+    struct stat fs;
+
+    buf = charalloc(strlen(name) + num_of_digits(INT_MAX) + 2);
+    strcpy(buf, name);
+
+    while(1) {
+
+	if (stat(buf, &fs) == -1)
+	    break;
+	if (i == INT_MAX)
+	    break;
+
+	i++;
+	strcpy(buf, name);
+	sprintf(&buf[strlen(name)], ".%d", i);
+    }
+
+    if (i == INT_MAX)
+	buf[0] = '\0';
+
+    return buf;
 }
 
 int do_insertfile(int loading_file)
@@ -386,10 +409,8 @@ int do_insertfile(int loading_file)
 #ifdef ENABLE_MULTIBUFFER
 	if (loading_file) {
 
-	    /* update the current entry in the open_files structure; we
-	       don't need to check for duplicate entries (the conditions
-	       that could create them are taken care of elsewhere) */
-	    add_open_file(1, 0);
+	    /* update the current entry in the open_files structure */
+	    add_open_file(1);
 
 	    free_filestruct(fileage);
 	    new_file();
@@ -397,7 +418,7 @@ int do_insertfile(int loading_file)
 	}
 #endif
 
-	i = open_file(realname, 1, 0);
+	i = open_file(realname, 1, loading_file);
 
 #ifdef ENABLE_MULTIBUFFER
 	if (loading_file)
@@ -471,24 +492,14 @@ int do_insertfile_void(void)
 /*
  * Add/update an entry to the open_files filestruct.  If update is
  * zero, a new entry is created; otherwise, the current entry is updated.
- * If dup_fix is zero, checking for and handling duplicate entries is not
- * done; otherwise, it is.  Return 0 on success, 1 on error, or 2 on
- * finding a duplicate entry.
+ * Return 0 on success or 1 on error.
  */
-int add_open_file(int update, int dup_fix)
+int add_open_file(int update)
 {
     filestruct *tmp;
 
     if (!fileage || !current || !filename)
 	return 1;
-
-    /* first, if duplicate checking is allowed, do it */
-    if (dup_fix) {
-
-	/* if duplicates were found and handled, we're done */
-	if (open_file_dup_fix(update))
-	    return 2;
-    }
 
     /* if no entries, make the first one */
     if (!open_files) {
@@ -519,9 +530,6 @@ int add_open_file(int update, int dup_fix)
 
     /* save current filename */
     open_files->data = mallocstrcpy(open_files->data, filename);
-
-    /* save the full path location */
-    open_files->file_path = get_full_path(open_files->data);
 
     /* save current total number of lines */
     open_files->file_totlines = totlines;
@@ -573,9 +581,6 @@ int open_file_change_name(void)
 
     /* save current filename */
     open_files->data = mallocstrcpy(open_files->data, filename);
-
-    /* save the full path location */
-    open_files->file_path = get_full_path(open_files->data);
 
     return 0;
 }
@@ -630,95 +635,6 @@ int load_open_file(void)
 }
 
 /*
- * Search the open_files structure for an entry with the same value for
- * the file_path member as the current entry (i. e. a duplicate entry).
- * If one is found, return a pointer to it; otherwise, return NULL.
- *
- * Note: This should only be called inside open_file_dup_fix().
- */
-filestruct *open_file_dup_search(int update)
-{
-    filestruct *tmp;
-    char *path;
-
-    if (!open_files || !filename)
-	return NULL;
-
-    tmp = open_files;
-    path = get_full_path(filename);
-
-    /* if there's only one entry, handle it */
-    if (!tmp->prev && !tmp->next) {
-	if (!strcmp(tmp->file_path, path))
-	    return tmp;
-    }
-
-    /* otherwise, go to the beginning */
-    while (tmp->prev)
-	tmp = tmp->prev;
-
-    /* and search the entries one by one */
-    while (tmp) {
-
-	if (!strcmp(tmp->file_path, path)) {
-
-	    if (!update)
-		/* if we're making a new entry and there's an entry with
-		   the same full path, we've found a duplicate */
-		return tmp;
-	    else {
-
-		/* if we're updating an existing entry and there's an
-		   entry with the same full path that isn't the current
-		   entry, we've	found a duplicate */
-		if (tmp != open_files) 
-		    return tmp;
-	    }
-	}
-
-	/* go to the next entry */
-	tmp = tmp->next;
-
-    }
-
-    return NULL;
-}
-
-/*
- * Search for duplicate entries in the open_files structure using
- * open_file_dup_search(), and, if one is found, handle it properly.
- * Return 0 if no duplicates were found, and 1 otherwise.
- */
-int open_file_dup_fix(int update)
-{
-    filestruct *tmp = open_file_dup_search(update);
-
-    if (!tmp)
-	return 0;
-
-    /* if there's only one entry, handle it */
-    if (!tmp->prev && !tmp->next)
-	return 1;
-
-    /* otherwise, if we're not updating, the user's trying to load a
-       duplicate; switch to the original instead */
-    if (!update) {
-	open_files = tmp;
-	return 1;
-    }
-
-    /* if we are updating, the filename's been changed via a save; it's
-       thus more recent than the original, so remove the original */
-    else {
-	unlink_node(tmp);
-	free_filestruct(tmp->file);
-	free(tmp->file_path);
-	delete_node(tmp);
-    }
-    return 0;
-}
-
-/*
  * Open the previous entry in the open_files structure.  If closing_file
  * is zero, update the current entry before switching from it.
  * Otherwise, we are about to close that entry, so don't bother doing so.
@@ -730,10 +646,9 @@ int open_prevfile(int closing_file)
 	return 1;
 
     /* if we're not about to close the current entry, update it before
-       doing anything; since we're only switching, we don't need to check
-       for duplicate entries */
+       doing anything */
     if (!closing_file)
-	add_open_file(1, 0);
+	add_open_file(1);
 
     if (!open_files->prev && !open_files->next) {
 
@@ -792,10 +707,9 @@ int open_nextfile(int closing_file)
 	return 1;
 
     /* if we're not about to close the current entry, update it before
-       doing anything; since we're only switching, we don't need to check
-       for duplicate entries */
+       doing anything */
     if (!closing_file)
-	add_open_file(1, 0);
+	add_open_file(1);
 
     if (!open_files->prev && !open_files->next) {
 
@@ -862,7 +776,6 @@ int close_open_file(void)
 
     unlink_node(tmp);
     free_filestruct(tmp->file);
-    free(tmp->file_path);
     delete_node(tmp);
 
     shortcut_init(0);
@@ -871,7 +784,7 @@ int close_open_file(void)
 }
 #endif /* MULTIBUFFER */
 
-#if defined (ENABLE_MULTIBUFFER) || !defined (DISABLE_SPELLER) || !defined (DISABLE_OPERATINGDIR)
+#if !defined (DISABLE_SPELLER) || !defined (DISABLE_OPERATINGDIR)
 /*
  * When passed "[relative path]" or "[relative path][filename]" in
  * origpath, return "[full path]" or "[full path][filename]" on success,
@@ -1020,7 +933,7 @@ char *get_full_path(const char *origpath)
 
     return newpath;
 }
-#endif /* ENABLE_MULTIBUFFER || !DISABLE_SPELLER || !DISABLE_OPERATINGDIR */
+#endif /* !DISABLE_SPELLER || !DISABLE_OPERATINGDIR */
 
 #ifndef DISABLE_SPELLER
 /*
@@ -1602,18 +1515,16 @@ int do_writeout(char *path, int exiting, int append)
 	    if (!exiting) {
 
 		/* first, if the filename was changed during the save,
-		   update the filename and full path stored in the
-		   current entry, and then update the current entry,
-		   checking for duplicate entries */
+		   update the filename stored in the current entry, and
+		   then update the current entry */
 		if (strcmp(open_files->data, filename)) {
 		    open_file_change_name();
-		    add_open_file(1, 1);
+		    add_open_file(1);
 		}
 		else {
 
-		    /* otherwise, just update the current entry without
-		       checking for duplicate entries */
-		    add_open_file(1, 0);
+		    /* otherwise, just update the current entry */
+		    add_open_file(1);
 		}
 	    }
 #endif
@@ -2127,7 +2038,6 @@ int diralphasort(const void *va, const void *vb) {
 
 }
 
-
 /* Initialize the browser code, including the list of files in *path */
 char **browser_init(char *path, int *longest, int *numents)
 {
@@ -2618,8 +2528,4 @@ char *do_browse_from(char *inpath)
     return do_browser(tmp);
 
 }
-
-
-
 #endif
-

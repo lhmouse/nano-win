@@ -36,6 +36,21 @@
 #define _(string) (string)
 #endif
 
+int num_of_digits(int n)
+{
+    int i = 1;
+
+    if (n < 0)
+	n = 0 - n;
+
+    while (n > 10) {
+	n /= 10;
+	i++;
+    }
+
+    return i;
+}
+
 /* Lower case a string - must be null terminated */
 void lowercase(char *src)
 {

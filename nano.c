@@ -158,27 +158,34 @@ void die(char *msg, ...)
 
 void die_save_file(char *die_filename)
 {
-    char *name;
-    int i;
+    char *name, *ret;
+    int i = -1;
 
     /* if we can't save we have REAL bad problems,
      * but we might as well TRY. */
     if (die_filename[0] == '\0') {
 	name = "nano.save";
-	i = write_file(name, 1, 0, 0);
-    } else {
-
+	ret = get_next_filename(name);
+	if (strcmp(ret, ""))
+	    i = write_file(ret, 1, 0, 0);
+	name = ret;
+    }
+    else {
 	char *buf = charalloc(strlen(die_filename) + 6);
 	strcpy(buf, die_filename);
 	strcat(buf, ".save");
-	i = write_file(buf, 1, 0, 0);
-	name = buf;
+	ret = get_next_filename(buf);
+	if (strcmp(ret, ""))
+	    i = write_file(ret, 1, 0, 0);
+	name = ret;
     }
 
     if (i != -1)
 	fprintf(stderr, _("\nBuffer written to %s\n"), name);
     else
-	fprintf(stderr, _("\nNo %s written (file exists?)\n"), name);
+	fprintf(stderr, _("\nNo %s written (too many backup files?)\n"), name);
+
+    free(ret);
 }
 
 /* Die with an error message that the screen was too small if, well, the
@@ -1744,9 +1751,8 @@ int do_spell(void)
 #ifdef ENABLE_MULTIBUFFER
     /* update the current open_files entry before spell-checking, in case
        any problems occur; the case of there being no open_files entries
-       is handled elsewhere (before we reach this point); no duplicate
-       checking is needed here */
-    add_open_file(1, 0);
+       is handled elsewhere (before we reach this point) */
+    add_open_file(1);
 #endif
 
     if (alt_speller)
@@ -2454,12 +2460,11 @@ void help_init(void)
 		"or --multibuffer command line flags, the Meta-F toggle or "
 		"using a nanorc file, inserting a file will cause it to be "
 		"loaded into a separate buffer (use Meta-< and > to switch "
-		"between file buffers).\n\n In multiple buffer mode, the "
-		"same file cannot be loaded twice, not even a \"New "
-		"Buffer.\" A workaround to load another blank buffer is to "
-		"load a nonexistent filename into a separate buffer.\n\n "
-		"The following function keys are available in Insert File "
-		"mode:\n\n");
+		"between file buffers).\n\n If you need another blank "
+		"buffer, just press Enter at the prompt without typing in a "
+		"filename, or type in a nonexistent filename at the prompt "
+		"and press Enter.\n\n The following function keys are "
+		"available in Insert File mode:\n\n");
     else if (currshortcut == writefile_list)
 	ptr = _("Write File Help Text\n\n "
 		"Type the name that you wish to save the current file "

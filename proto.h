@@ -104,9 +104,10 @@ int renumber_all(void);
 int open_file(char *filename, int insert, int quiet);
 int do_insertfile(int loading_file);
 int length_of_list(shortcut *s);
+int num_of_digits(int n);
 
 #ifdef ENABLE_MULTIBUFFER
-int add_open_file(int update, int dup_fix);
+int add_open_file(int update);
 #endif
 
 #ifndef DISABLE_OPERATINGDIR
@@ -212,12 +213,12 @@ int do_replace(void), do_help(void), do_enter_void(void);
 int keypad_on(WINDOW * win, int newval);
 
 #ifdef ENABLE_MULTIBUFFER
-int open_file_dup_fix(int update);
 int open_prevfile(int closing_file), open_nextfile(int closing_file);
 int open_prevfile_void(void), open_nextfile_void(void);
 #endif
 
 char *charalloc (size_t howmuch);
+char *get_next_filename(char *name);
 
 #if defined (ENABLE_MULTIBUFFER) || !defined (DISABLE_SPELLER) || !defined (DISABLE_OPERATINGDIR)
 char *get_full_path(const char *origpath);
@@ -250,12 +251,6 @@ filestruct *make_new_node(filestruct * prevnode);
 filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin,
 			int beginx, char *needle);
 
-#ifdef ENABLE_MULTIBUFFER
-filestruct *open_file_dup_search(int update);
-#endif
-
 #ifndef DISABLE_HELP
 void help_init(void);
 #endif
-
-
