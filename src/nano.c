@@ -1418,11 +1418,9 @@ bool do_wrap(filestruct *inptr)
  * return FALSE if the user cancels. */
 bool do_int_spell_fix(const char *word)
 {
-    char *save_search;
-    char *save_replace;
+    char *save_search, *save_replace;
     size_t current_x_save = current_x, pww_save = placewewant;
-    filestruct *edittop_save = edittop;
-    filestruct *current_save = current;
+    filestruct *edittop_save = edittop, *current_save = current;
 	/* Save where we are. */
     bool canceled = FALSE;
 	/* The return value. */
