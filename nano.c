@@ -2038,12 +2038,7 @@ void signal_init(void)
 
 
 #ifdef _POSIX_VDISABLE
-    tcgetattr(0, &oldterm);
-
-    term = oldterm;
-    term.c_cc[VINTR] = _POSIX_VDISABLE;
-    term.c_cc[VQUIT] = _POSIX_VDISABLE;
-    term.c_lflag &= ~IEXTEN;
+    tcgetattr(0, &term);
 
 #ifdef VDSUSP
     term.c_cc[VDSUSP] = _POSIX_VDISABLE;
@@ -2738,6 +2733,10 @@ int main(int argc, char *argv[])
     toggle *t;
 #endif
 
+#ifdef _POSIX_VDISABLE
+    struct termios term;
+#endif
+
 #ifdef HAVE_GETOPT_LONG
     int option_index = 0;
     struct option long_options[] = {
@@ -2976,7 +2975,17 @@ int main(int argc, char *argv[])
 	    filename = mallocstrcpy(filename, argv[optind]);
     }
 
-    signal_init();
+
+    /* First back up the old settings so they can be restored, duh */
+    tcgetattr(0, &oldterm);
+
+#ifdef _POSIX_VDISABLE
+    term = oldterm;
+    term.c_cc[VINTR] = _POSIX_VDISABLE;
+    term.c_cc[VQUIT] = _POSIX_VDISABLE;
+    term.c_lflag &= ~IEXTEN;
+    tcsetattr(0, TCSANOW, &term);
+#endif
 
     /* now ncurses init stuff... */
     initscr();
@@ -2992,6 +3001,7 @@ int main(int argc, char *argv[])
     init_help_msg();
     help_init();
 #endif
+    signal_init();
 
 #ifdef DEBUG
     fprintf(stderr, _("Main: set up windows\n"));
