@@ -411,7 +411,7 @@ void blank_bottomwin(void)
 void blank_edit(void)
 {
     int i;
-    for (i = 0; i <= editwinrows - 1; i++)
+    for (i = 0; i < editwinrows; i++)
 	mvwaddstr(edit, i, 0, hblank);
 }
 
@@ -963,13 +963,22 @@ int check_linenumbers(const filestruct *fileptr)
 }
 #endif
 
- /* nano scrolls horizontally within a line in chunks.  This function
-  * returns the column number of the first character displayed in the
-  * window when the cursor is at the given column. */
-int get_page_start(int column)
+/* nano scrolls horizontally within a line in chunks.  This function
+ * returns the column number of the first character displayed in the
+ * window when the cursor is at the given column.  Note that
+ * 0 <= column - get_page_start(column) < COLS. */
+size_t get_page_start(size_t column)
 {
-    assert(COLS > 9);
-    return column < COLS - 1 ? 0 : column - 7 - (column - 8) % (COLS - 9);
+    assert(COLS > 0);
+    if (column == 0 || column < COLS - 1)
+	return 0;
+    else if (COLS > 9)
+	return column - 7 - (column - 8) % (COLS - 9);
+    else if (COLS > 2)
+	return column - (COLS - 2);
+    else
+	return column - (COLS - 1);
+		/* The parentheses are necessary to avoid overflow. */
 }
 
 /* Resets current_y, based on the position of current, and puts the
@@ -1318,7 +1327,7 @@ void update_line(const filestruct *fileptr, size_t index)
 
     /* Next, convert variables that index the line to their equivalent
      * positions in the expanded line. */
-    index = fileptr == current ? strnlenpt(fileptr->data, index) : 0;
+    index = (fileptr == current) ? strnlenpt(fileptr->data, index) : 0;
     page_start = get_page_start(index);
 
     /* Expand the line, replacing Tab by spaces, and control characters

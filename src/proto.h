@@ -473,7 +473,7 @@ void onekey(const char *keystroke, const char *desc, int len);
 #ifndef NDEBUG
 int check_linenumbers(const filestruct *fileptr);
 #endif
-int get_page_start(int column);
+size_t get_page_start(size_t column);
 void reset_cursor(void);
 void add_marked_sameline(int begin, int end, filestruct *fileptr, int y,
 			 int virt_cur_x, int this_page);
