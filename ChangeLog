@@ -31,6 +31,8 @@ Cvs code -
 - nano.c:
   do_alt_speller()
 	- Reposition cursor on same line as before ^T was called (Rocco)
+  ABCD(), main() 
+	- Add Alt-whatever-[a-d] support as well as Alt-whatever-[A-D].
   main()
 	- Code to silently process "-g" and "-j" (Rocco)
 - nano.h:

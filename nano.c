@@ -2178,12 +2178,16 @@ int ABCD(int input)
 {
     switch (input) {
     case 'A':
+    case 'a':
 	return (KEY_UP);
     case 'B':
+    case 'b':
 	return (KEY_DOWN);
     case 'C':
+    case 'c':
 	return (KEY_RIGHT);
     case 'D':
+    case 'd':
 	return (KEY_LEFT);
     default:
 	return 0;
@@ -2454,7 +2458,8 @@ int main(int argc, char *argv[])
 		/* Alt-O, suddenly very important ;) */
 	    case 79:
 		kbinput = wgetch(edit);
-		if (kbinput <= 'D' && kbinput >= 'A')
+		if ((kbinput <= 'D' && kbinput >= 'A') ||
+			(kbinput <= 'd' && kbinput >= 'a'))
 		    kbinput = ABCD(kbinput);
 		else if (kbinput <= 'z' && kbinput >= 'j')
 		    print_numlock_warning();
@@ -2554,6 +2559,10 @@ int main(int argc, char *argv[])
 		case 'B':
 		case 'C':
 		case 'D':
+		case 'a':
+		case 'b':
+		case 'c':
+		case 'd':
 		    kbinput = ABCD(kbinput);
 		    break;
 		case 'H':
