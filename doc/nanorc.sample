@@ -139,7 +139,7 @@
 # syntax "c-file" "\.(c|h)$"
 # color red "\<[A-Z_]{2,}\>" 
 # color green "\<(float|double|char|int|short|long|enum|void|static|const|struct|union|typedef|extern|signed|unsigned|inline)\>"
-# color brightyellow "\<(for|if|while|do|else|case|switch|goto|continue|break)\>"
+# color brightyellow "\<(for|if|while|do|else|case|switch|goto|continue|break|return)\>"
 # color brightcyan "^ *# *(define|undef|include|ifn?def|endif|elif|else|if)"
 ##
 ## You will in general want your comments and strings to come last,

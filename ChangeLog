@@ -122,7 +122,8 @@ CVS code -
 	- Add debug message. (DLR)
 - configure.ac:
 	- Remove specific references to control key shortcuts. (DLR)
-
+- doc/nanorc.sample:
+	- Add return to the "c-file" regexes. (DLR)
 
 GNU nano 1.3.5 - 2004.11.22
 - General:
