@@ -34,6 +34,6 @@
 #undef DISABLE_JUSTIFY
 
 /* Define this to disable the use(full|less) spelling functions */
-#undef DISABLE_SPELL
+#undef DISABLE_SPELLER
 
 

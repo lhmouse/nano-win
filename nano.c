@@ -440,8 +440,8 @@ void version(void)
 #ifdef DISABLE_JUSTIFY
     printf(" --disable-justify");
 #endif
-#ifdef DISABLE_SPELL
-    printf(" --disable-spell");
+#ifdef DISABLE_SPELLER
+    printf(" --disable-speller");
 #endif
 #ifdef USE_SLANG
     printf(" --with-slang");
@@ -514,7 +514,7 @@ void nano_small_msg(void)
 }
 #endif
 
-#if defined(DISABLE_JUSTIFY) || defined(DISABLE_SPELL)
+#if defined(DISABLE_JUSTIFY) || defined(DISABLE_SPELLER)
 void nano_disabled_msg(void)
 {
     statusbar("Sorry, support for this function has been disabled");
@@ -1102,7 +1102,7 @@ void wrap_reset(void)
     UNSET(SAMELINEWRAP);
 }
 
-#if !defined(NANO_SMALL) && !defined(DISABLE_SPELL)
+#if !defined(NANO_SMALL) && !defined(DISABLE_SPELLER)
 
 int do_int_spell_fix(char *word)
 {
@@ -1170,7 +1170,7 @@ int do_int_spell_fix(char *word)
 }
 #endif
 
-#if !defined(NANO_SMALL) && !defined(DISABLE_SPELL)
+#if !defined(NANO_SMALL) && !defined(DISABLE_SPELLER)
 
 /* Integrated spell checking using 'spell' program */
 int do_int_speller(char *tempfile_name)
@@ -1300,7 +1300,7 @@ int do_int_speller(char *tempfile_name)
 }
 #endif
 
-#if !defined(NANO_SMALL) && !defined(DISABLE_SPELL)
+#if !defined(NANO_SMALL) && !defined(DISABLE_SPELLER)
 
 /* External spell checking */
 int do_alt_speller(char *file_name)
@@ -1355,7 +1355,7 @@ int do_spell(void)
 #if defined(NANO_SMALL)
     nano_small_msg();
     return (TRUE);
-#elif defined(DISABLE_SPELL)
+#elif defined(DISABLE_SPELLER)
     nano_disabled_msg();
     return (TRUE);
 #else

@@ -1322,12 +1322,12 @@ EOF
 fi
 
 
-# Check whether --enable-spell or --disable-spell was given.
-if test "${enable_spell+set}" = set; then
-  enableval="$enable_spell"
+# Check whether --enable-speller or --disable-speller was given.
+if test "${enable_speller+set}" = set; then
+  enableval="$enable_speller"
   if test x$enableval != xyes; then
     cat >> confdefs.h <<\EOF
-#define DISABLE_SPELL 1
+#define DISABLE_SPELLER 1
 EOF
  
  fi

@@ -1,4 +1,7 @@
 CVS code -
+General
+	- Changed --disable-spell to --disable speller.  The term is
+	  "speller" for -s, so it should be --disable-speller.
 - files.c:
   write_file()
 	- Added tmp check to TMP_OPT section (how apropriate).

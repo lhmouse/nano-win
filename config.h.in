@@ -86,7 +86,7 @@
 #undef DISABLE_JUSTIFY
 
 /* Define this to disable the use(full|less) spelling functions */
-#undef DISABLE_SPELL
+#undef DISABLE_SPELLER
 
 /* Define if you have the __argz_count function.  */
 #undef HAVE___ARGZ_COUNT
