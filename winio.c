@@ -462,7 +462,7 @@ void onekey(char *keystroke, char *desc)
 {
     char description[80];
 
-    snprintf(description, 12, " %-11s", desc);
+    snprintf(description, 13, " %-11s", desc);
     wattron(bottomwin, A_REVERSE);
     waddstr(bottomwin, keystroke);
     wattroff(bottomwin, A_REVERSE);

@@ -8,6 +8,8 @@ CVS Code
   edit_refresh_clearok()
 	- New function, does a total update for edit refresh, needed to fix
 	  lack of reversed text on searching with MARK_ISSET.
+  onekey()
+	- Off by one error fix (Rocco Corsi).
 - search.c:
   search_abort()
 	- Now calls edit_refresh_clearok when MARK_ISSET to handle screen
