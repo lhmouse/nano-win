@@ -293,7 +293,7 @@ sub GeneratePot{
     close INFILE;
 
     $GETTEXT ="xgettext --default-domain\=$PACKAGE --directory\=\.\."
-             ." --add-comments --keyword\=\_ --keyword\=N\_"
+             ." --add-comments --keyword\=\_ --keyword\=N\_ --keyword\=P_\:1,2"
              ." --files-from\=\.\/POTFILES\.in ";  
     $GTEST   ="test \! -f $PACKAGE\.po \|\| \( rm -f \.\/$PACKAGE\.pot "
              ."&& mv $PACKAGE\.po \.\/$PACKAGE\.pot \)";

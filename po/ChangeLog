@@ -1,5 +1,11 @@
 2003-02-10  Jordi Mallach  <jordi@gnu.org>
 
+	* Makevars (XGETTEXT_OPTIONS): Added --keyword=P_:1,2.
+	* update.pl: likewise.
+	* fi.po: Added Plural-Forms: header.
+
+2003-02-10  Jordi Mallach  <jordi@gnu.org>
+
 	* fi.po: Updated Finnish translation by Kalle Kivimaa and
 	Kalle Olavi Niemitalo.
 
