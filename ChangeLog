@@ -18,6 +18,11 @@ CVS code -
 	- Modify to write only the current selection from a file to the
 	  temporary file used for spell checking when the mark is on,
 	  and add a few miscellaneous cosmetic cleanups. (DLR)
+  signal_init()
+	- Trap SIGQUIT in addition to turning it off via termios in
+	  main().  This is consistent with SIGINT, which we trap here
+	  and turn off via termios in main(), as well as with the
+	  associated comment. (DLR)
   main()
 	- Move the call to raw() on systems that don't define
 	  _POSIX_VDISABLE outside the main input/output loop, as it

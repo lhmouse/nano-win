@@ -2825,6 +2825,7 @@ void signal_init(void)
     memset(&act, 0, sizeof(struct sigaction));
     act.sa_handler = SIG_IGN;
     sigaction(SIGINT, &act, NULL);
+    sigaction(SIGQUIT, &act, NULL);
 
     /* Trap SIGHUP and SIGTERM cuz we want to write the file out. */
     act.sa_handler = handle_hupterm;
