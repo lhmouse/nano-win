@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.2\n"
+"Project-Id-Version: nano 1.1.4\n"
 "POT-Creation-Date: 2001-12-11 21:21-0500\n"
-"PO-Revision-Date: 2001-10-03 12:37+0200\n"
+"PO-Revision-Date: 2001-12-27 21:20+0100\n"
 "Last-Translator: Jacobo Tarrio <jtarrio@iname.com>\n"
 "Language-Team: Galician <gpul-traduccion@ceu.fi.udc.es>\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "Borrouse o buffer de cortado =)\n"
 
 #: files.c:67
 msgid "File already loaded"
-msgstr ""
+msgstr "Ficheiro xa cargado"
 
 #: files.c:168
 msgid "read_line: not on first line and prev is NULL"
@@ -39,12 +39,12 @@ msgstr "Léronse %d liñas"
 #: files.c:262
 #, c-format
 msgid "Read %d lines (Converted Mac format)"
-msgstr ""
+msgstr "Léronse %d liñas (Convertidas do formato Mac)"
 
 #: files.c:264
 #, c-format
 msgid "Read %d lines (Converted DOS format)"
-msgstr ""
+msgstr "Léronse %d liñas (Convertidas do formato DOS)"
 
 #: files.c:286 search.c:217
 #, c-format
@@ -558,21 +558,13 @@ msgstr "Ir a"
 
 #: nano.c:177
 #, c-format
-msgid ""
-"\n"
-"Buffer written to %s\n"
-msgstr ""
-"\n"
-"Gravouse o buffer en %s\n"
+msgid "\nBuffer written to %s\n"
+msgstr "\nGravouse o buffer en %s\n"
 
 #: nano.c:179
 #, c-format
-msgid ""
-"\n"
-"No %s written (file exists?)\n"
-msgstr ""
-"\n"
-"Non se gravou %s (¿xa existe o ficheiro?)\n"
+msgid "\nNo %s written (file exists?)\n"
+msgstr "\nNon se gravou %s (¿xa existe o ficheiro?)\n"
 
 #: nano.c:186
 msgid "Window size is too small for Nano..."
@@ -586,38 +578,16 @@ msgstr "Tecla non válida no modo VER"
 msgid ""
 " nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor: The "
-"top line shows the program version, the current filename being edited, and "
-"whether or not the file has been modified.  Next is the main editor window "
-"showing the file being edited.  The status line is the third line from the "
-"bottom and shows important messages. The bottom two lines show the most "
-"commonly used shortcuts in the editor.\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor: The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages. The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
-" The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  "
-"Escape-key sequences are notated with the Meta (M) symbol and can be entered "
-"using either the Esc, Alt or Meta key depending on your keyboard setup.  The "
-"following keystrokes are available in the main editor window. Optional keys "
-"are shown in parentheses:\n"
+" The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt or Meta key depending on your keyboard setup.  The following keystrokes are available in the main editor window. Optional keys are shown in parentheses:\n"
 "\n"
 msgstr ""
 " axuda de nano\n"
 "\n"
-" O editor nano está deseñado para emula-la funcionalidade e facilidade de "
-"uso o editor de texto UW Pico. Hai catro seccións principais no editor; a "
-"liña superior amosa a versión do programa, o nome do ficheiro que se está a "
-"editar, e se o ficheiro está modificado ou non. A seguinte sección é a "
-"fiestra principal do editor, que amosa o ficheiro que se edita. A liña de "
-"estado é a terceira liña dende o fondo e amosa as mensaxes importantes. As "
-"dúas derradeiras liñas amosan os atallos de teclado que máis se usan no "
-"editor.\n"
+" O editor nano está deseñado para emula-la funcionalidade e facilidade de uso o editor de texto UW Pico. Hai catro seccións principais no editor; a liña superior amosa a versión do programa, o nome do ficheiro que se está a editar, e se o ficheiro está modificado ou non. A seguinte sección é a fiestra principal do editor, que amosa o ficheiro que se edita. A liña de estado é a terceira liña dende o fondo e amosa as mensaxes importantes. As dúas derradeiras liñas amosan os atallos de teclado que máis se usan no editor.\n"
 "\n"
-" A notación dos atallos é así: as secuencias Control-tecla denótanse cun "
-"circunflexo (^) e introdúcense coa tecla Control (Ctrl). As secuencias "
-"Escape-tecla denótanse co símbolo Meta (M) e introdúcense coa tecla Esc, Alt "
-"ou Meta, dependendo do teclado. As seguintes pulsacións están dispoñibles na "
-"fiestra principal do editor. As teclas opcionais aparecen entre parénteses:\n"
+" A notación dos atallos é así: as secuencias Control-tecla denótanse cun circunflexo (^) e introdúcense coa tecla Control (Ctrl). As secuencias Escape-tecla denótanse co símbolo Meta (M) e introdúcense coa tecla Esc, Alt ou Meta, dependendo do teclado. As seguintes pulsacións están dispoñibles na fiestra principal do editor. As teclas opcionais aparecen entre parénteses:\n"
 "\n"
 
 #: nano.c:345
@@ -629,12 +599,8 @@ msgid "delete_node(): free'd last node.\n"
 msgstr "delete_node(): liberouse o derradeiro nodo.\n"
 
 #: nano.c:407
-msgid ""
-"Usage: nano [GNU long option] [option] +LINE <file>\n"
-"\n"
-msgstr ""
-"Emprego: nano [opción longa GNU] [opción] +LIÑA <ficheiro>\n"
-"\n"
+msgid "Usage: nano [GNU long option] [option] +LINE <file>\n\n"
+msgstr "Emprego: nano [opción longa GNU] [opción] +LIÑA <ficheiro>\n\n"
 
 #: nano.c:408
 msgid "Option\t\tLong option\t\tMeaning\n"
@@ -694,16 +660,14 @@ msgstr " -m \t\t--mouse\t\t\tEmprega-lo rato\n"
 
 #: nano.c:457
 msgid " -o [dir] \t--operatingdir=[dir]\tSet operating directory\n"
-msgstr ""
-" -o [dir] \t--operatingdir=[dir]\tEstabrece-lo directorio de traballo\n"
+msgstr " -o [dir] \t--operatingdir=[dir]\tEstabrece-lo directorio de traballo\n"
 
 #: nano.c:460
 msgid " -p \t\t--pico\t\t\tEmulate Pico as closely as possible\n"
 msgstr " -p \t\t--pico\t\t\tEmular Pico o máis fielmente posible\n"
 
 #: nano.c:465
-msgid ""
-" -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
+msgid " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
 msgstr " -r [col] \t--fill=[col]\t\tCorta-las liñas na columna col\n"
 
 #: nano.c:469
@@ -735,12 +699,8 @@ msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
 msgstr " +LIÑA\t\t\t\t\tComezar na liña número LIÑA\n"
 
 #: nano.c:486
-msgid ""
-"Usage: nano [option] +LINE <file>\n"
-"\n"
-msgstr ""
-"Emprego: nano [opción] +LIÑA <ficheiro>\n"
-"\n"
+msgid "Usage: nano [option] +LINE <file>\n\n"
+msgstr "Emprego: nano [opción] +LIÑA <ficheiro>\n\n"
 
 #: nano.c:487
 msgid "Option\t\tMeaning\n"
@@ -848,12 +808,8 @@ msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 msgstr " E-mail: nano@nano-editor.org\tWeb: http://nano-editor.org"
 
 #: nano.c:546
-msgid ""
-"\n"
-" Compiled options:"
-msgstr ""
-"\n"
-"Opcións compiladas:"
+msgid "\n Compiled options:"
+msgstr "\nOpcións compiladas:"
 
 #: nano.c:635
 msgid "Mark Set"
@@ -889,8 +845,7 @@ msgstr "Non se puido crear un ficheiro temporal: %s"
 
 #: nano.c:1718
 msgid "Spell checking failed: unable to write temp file!"
-msgstr ""
-"Fallou a corrección ortográfica: non se puido grava-lo ficheiro temporal"
+msgstr "Fallou a corrección ortográfica: non se puido grava-lo ficheiro temporal"
 
 #: nano.c:1738
 msgid "Finished checking spelling"
@@ -902,8 +857,7 @@ msgstr "Fallou a corrección ortográfica"
 
 #: nano.c:1769
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
-msgstr ""
-"¿Grava-lo buffer modificado (SE RESPOSTA \"Non\" HANSE PERDE-LOS CAMBIOS)? "
+msgstr "¿Grava-lo buffer modificado (SE RESPOSTA \"Non\" HANSE PERDE-LOS CAMBIOS)? "
 
 #: nano.c:1916
 msgid "Received SIGHUP"
@@ -941,77 +895,93 @@ msgstr "¡Agora pode Des-Xustificar!"
 msgid ""
 "Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, then hit enter. "
-" If there is a match for the text you entered, the screen will be updated to "
-"the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, then hit enter.  If there is a match for the text you entered, the screen will be updated to the location of the nearest match for the search string.\n"
 "\n"
-" If using Pico Mode via the -p or --pico flags, using the Meta-P toggle or "
-"using a nanorc file, the previous search string will be shown in brackets "
-"after the Search: prompt.  Hitting enter without entering any text will "
-"preform the previous search. Otherwise, the previous string will be placed "
-"in front of the cursor, and can be edited or deleted before hitting enter.\n"
+" If using Pico Mode via the -p or --pico flags, using the Meta-P toggle or using a nanorc file, the previous search string will be shown in brackets after the Search: prompt.  Hitting enter without entering any text will preform the previous search. Otherwise, the previous string will be placed in front of the cursor, and can be edited or deleted before hitting enter.\n"
 "\n"
 " The following functions keys are available in Search mode:\n"
 "\n"
 msgstr ""
+"Texto de Axuda do Comando Busca\n"
+"\n"
+" Introduza as palabras ou caracteres que quere buscar, e prema Intro. Se o texto que introduciu aparece no texto, a pantalla hase actualizar na posición da máis cercana aparición da cadea de busca.\n"
+"\n"
+" Se emprega o Modo Pico cos modificadores -p ou --pico, empregando as teclas Meta-P ou cun ficheiro nanorc, hase amosa-la cadea de busca anterior en corchetes despois do indicativo Busca:. Ao premer Intro sen introducir ningún texto hase face-la busca anterior. Noutro caso, a cadea anterior hase situar diante do cursor e pódese editar ou borrar antes de premer Intro.\n"
+"\n"
+" As seguintes teclas de función están dispoñibles no modo Busca:\n"
+"\n"
 
 #: nano.c:2391
 msgid ""
 "Goto Line Help Text\n"
 "\n"
-" Enter the line number that you wish to go to and hit Enter.  If there are "
-"fewer lines of text than the number you entered, you will be brought to the "
-"last line of the file.\n"
+" Enter the line number that you wish to go to and hit Enter.  If there are fewer lines of text than the number you entered, you will be brought to the last line of the file.\n"
 "\n"
 " The following functions keys are available in Goto Line mode:\n"
 "\n"
 msgstr ""
+"Texto de Axuda de Ir á Liña\n"
+"\n"
+" Introduza o número da liña á que quere ir e prema Intro. Se hai menos liñas de texto que o número introducido, háselle levar á derradeira liña do ficheiro.\n"
+"\n"
+" As seguintes teclas de función están dispoñibles no modo Ir á Liña:\n"
+"\n"
 
 #: nano.c:2398
 msgid ""
 "Insert File Help Text\n"
 "\n"
-" Type in the name of a file to be inserted into the current file buffer at "
-"the current cursor location.\n"
+" Type in the name of a file to be inserted into the current file buffer at the current cursor location.\n"
 "\n"
-" If you have compiled nano with multiple file buffer support, and enable "
-"multiple buffers with the -F or --multibuffer command line flags, the Meta-F "
-"toggle or using a nanorc file, inserting a file will cause it to be loaded "
-"into a separate buffer (use Ctrl-< and > to switch between file buffers).\n"
+" If you have compiled nano with multiple file buffer support, and enable multiple buffers with the -F or --multibuffer command line flags, the Meta-F toggle or using a nanorc file, inserting a file will cause it to be loaded into a separate buffer (use Ctrl-< and > to switch between file buffers).\n"
 "\n"
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
+"Texto de Axuda de Inserción dun Ficheiro\n"
+"\n"
+" Introduza o nome dun ficheiro a inserir no buffer de ficheiro actual na posición actual do cursor.\n"
+"\n"
+" Se compilou nano con soporte de múltiples buffers de ficheiro e activa os buffers múltiples cos modificadores de liña de comando -F ou --multibuffer, coas teclas Meta-F ou cun ficheiro nanorc, a inserción dun ficheiro fará que se cargue nun buffer separado (empregue Control-< e > para cambiar entre buffers de ficheiro).\n"
+"\n"
+" As seguintes teclas de función están dispoñible no modo de Inserción dun Ficheiro:\n"
+"\n"
 
 #: nano.c:2409
 msgid ""
 "Write File Help Text\n"
 "\n"
-" Type the name that you wish to save the current file as and hit enter to "
-"save the file.\n"
+" Type the name that you wish to save the current file as and hit enter to save the file.\n"
 "\n"
-" If you are using the marker code with Ctrl-^ and have selected text, you "
-"will be prompted to save only the selected portion to a separate file.  To "
-"reduce the chance of overwriting the current file with just a portion of it, "
-"the current filename is not the default in this mode.\n"
+" If you are using the marker code with Ctrl-^ and have selected text, you will be prompted to save only the selected portion to a separate file.  To reduce the chance of overwriting the current file with just a portion of it, the current filename is not the default in this mode.\n"
 "\n"
 " The following function keys are available in Write File mode:\n"
 "\n"
 msgstr ""
+"Texto de Axuda da Escritura de Ficheiros\n"
+"\n"
+" Escriba o nome co que quere garda-lo ficheiro actual e prema Intro para grava-lo ficheiro.\n"
+"\n"
+" Se emprega o código marcador con Control-^ e ten texto seleccionado, háselle pedir que grave só a parte seleccionada a un ficheiro separado. Para reduci-la posibilidade de sobrescribi-lo ficheiro actual con só unha parte del, o nome do ficheiro actual non é o nome por defecto neste modo.\n"
+"\n"
+" As seguintes teclas de función están dispoñibles no modo de Escritura de Ficheiros:\n"
+"\n"
 
 #: nano.c:2421
 msgid ""
 "File Browser Help Text\n"
 "\n"
-" The file browser is used to visually browse the directory structure to "
-"select a file for reading or writing.  You may use the arrow keys or Page "
-"Up/Down to browse through the files, and S or Enter to choose the selected "
-"file or enter the selected directory. To move up one level, select the "
-"directory called \"..\" at the top of the file list.\n"
+" The file browser is used to visually browse the directory structure to select a file for reading or writing.  You may use the arrow keys or Page Up/Down to browse through the files, and S or Enter to choose the selected file or enter the selected directory. To move up one level, select the directory called \"..\" at the top of the file list.\n"
 "\n"
 " The following functions keys are available in the file browser:\n"
 "\n"
 msgstr ""
+"Texto de Axuda do Navegador de Ficheiros\n"
+"\n"
+" O navegador de ficheiros emprégase para amosar visualmente a estructura de directorios para escoller un ficheiro que ler ou escribir. Pode usa-las teclas das frechas ou AvPág/RePág para navegar polos ficheiros, e S ou Intro para escolle-lo ficheiro seleccionado ou entrar no directorio seleccionado. Para subir un nivel, escolla o directorio chamado \"..\" na parte de enriba da lista de ficheiros.\n"
+"\n"
+" As seguintes teclas de función están dispoñibles no navegador de ficheiros:\n"
+"\n"
 
 #: nano.c:2432
 msgid ""
@@ -1019,24 +989,31 @@ msgid ""
 "\n"
 " Enter the name of the directory you would like to browse to.\n"
 "\n"
-" If tab completion has not been disabled, you can use the TAB key to "
-"(attempt to) automatically complete the directory name.  The following "
-"function keys are available in Browser GotoDir mode:\n"
+" If tab completion has not been disabled, you can use the TAB key to (attempt to) automatically complete the directory name.  The following function keys are available in Browser GotoDir mode:\n"
 "\n"
 msgstr ""
+"Texto de Axuda de Ir ao Directorio do Navegador\n"
+"\n"
+" Introduza o nome do directorio ao que quere pasar.\n"
+"\n"
+" Se o completado co tabulador non está desactivado, pode emprega-la tecla TAB para (tratar de) completar automaticamente o nome do directorio. As seguintes teclas de función están dispoñibles no modo Ir a Directorio do Navegador:\n"
+"\n"
 
 #: nano.c:2440
 msgid ""
 "Spell Check Help Text\n"
 "\n"
-" The spell checker checks the spelling of all text in the current file.  "
-"When an unknown word is encountered, it is highlighted and a replacement can "
-"be edited.  It will then prompt to replace every instance of the given "
-"misspelled word in the current file.\n"
+" The spell checker checks the spelling of all text in the current file.  When an unknown word is encountered, it is highlighted and a replacement can be edited.  It will then prompt to replace every instance of the given misspelled word in the current file.\n"
 "\n"
 " The following other functions are available in Spell Check mode:\n"
 "\n"
 msgstr ""
+"Texto de Axuda do Corrector Ortográfico\n"
+"\n"
+" O corrector ortográfico comproba a ortografía de todo o texto do ficheiro actual. Cando se atopa unha palabra descoñecida, resáltase e pódese editar unha que a substitúa. Despois ha preguntar se se cambian todas as aparicións da palabra errada no ficheiro actual.\n"
+"\n"
+" Existen as seguintes funcións no modo Corrector Ortográfico:\n"
+"\n"
 
 #: nano.c:2524
 #, c-format
@@ -1093,12 +1070,8 @@ msgid "I got Alt-%c! (%d)\n"
 msgstr "¡Recibiuse Alt-%c! (%d)\n"
 
 #: rcfile.c:84
-msgid ""
-"\n"
-"Press return to continue starting nano\n"
-msgstr ""
-"\n"
-"Prema enter para seguir cargando nano\n"
+msgid "\nPress return to continue starting nano\n"
+msgstr "\nPrema enter para seguir cargando nano\n"
 
 #: rcfile.c:281
 msgid "parse_rcfile: Read a comment\n"
@@ -1122,14 +1095,12 @@ msgstr "Erro en %s na liña %d: a opción %s precisa dun argumento"
 #: rcfile.c:344
 #, c-format
 msgid "Error in %s on line %d: requested fill size %d too small"
-msgstr ""
-"Erro en %s na liña %d: o tamaño de recheo solicitado %d é pequeno de máis"
+msgstr "Erro en %s na liña %d: o tamaño de recheo solicitado %d é pequeno de máis"
 
 #: rcfile.c:353
 #, c-format
 msgid "Error in %s on line %d: requested tab size %d too small"
-msgstr ""
-"Erro en %s na liña %d: o tamaño de tabulación solicitado %d é pequeno de máis"
+msgstr "Erro en %s na liña %d: o tamaño de tabulación solicitado %d é pequeno de máis"
 
 #: rcfile.c:367
 #, c-format
