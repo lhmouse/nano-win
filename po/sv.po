@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.8\n"
 "POT-Creation-Date: 2002-03-30 11:42-0500\n"
-"PO-Revision-Date: 2002-04-09 02:14+0200\n"
+"PO-Revision-Date: 2002-05-05 08:27+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -755,7 +755,7 @@ msgstr "Följ inte symboliska länkar, skriv över"
 
 #: nano.c:476
 msgid "Enable mouse"
-msgstr "Använd mus"
+msgstr "Möjliggör musanvändning"
 
 #: nano.c:480
 msgid "-o [dir]"
