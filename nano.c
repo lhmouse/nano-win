@@ -1143,6 +1143,7 @@ assert (strlenpt(inptr->data) >= fill);
     if (ISSET(SAMELINEWRAP)) {
 	    /* Plus one for the space which concatenates the two lines together plus 1 for \0. */
 	char *p = nmalloc(strlen(temp->data) + strlen(inptr->next->data) + 2);
+	int old_x = current_x, old_y = current_y;
 
 	strcpy (p, temp->data);
 	strcat (p, " ");
@@ -1153,6 +1154,21 @@ assert (strlenpt(inptr->data) >= fill);
 
 	free (temp->data);
 	free (temp);
+
+
+	/* The next line line may need to be wrapped as well. */
+	current_y = old_y + 1;
+	current_x = strlen(inptr->next->data);
+	while (current_x >= 0) {
+	    if (isspace(inptr->next->data[current_x]) && (current_x < fill))
+		break;
+	    current_x--;
+	}
+	if (current_x >= 0)
+	    check_wrap(inptr->next, ' ');
+
+	current_x = old_x;
+	current_y = old_y;
     }
 	/* Else we start a new line. */
     else {
@@ -1217,6 +1233,9 @@ void check_wrap(filestruct * inptr, char ch)
 	    if (!inptr->data[i])
 		return;
 
+	    if (no_spaces(inptr->data))
+		return;
+	
 	    do_wrap(inptr, ch);
 	}
     }
