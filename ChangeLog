@@ -1,4 +1,4 @@
-Changes in CVS - 
+nano-0.9.14 - 07/27/2000
 - nano.h:
 	- Set CUT_TO_END to a different bit than TEMP_OPT.  Fixes bug #32.
 - cut.c:
@@ -9,7 +9,6 @@ Changes in CVS -
 	  processing by do_uncut_text().
   do_uncut_text()
 	- Added handler for uncutting with -k cuts.
-
 - files.c:
   write_file()
 	- Removed (redundant) check for writing out files with -t.

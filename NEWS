@@ -1,3 +1,14 @@
+07/27/2000 - Nano 0.9.14 is officially the "13 is so unlucky it should
+		be skipped as a version number" release.  One typo
+		caused unending problems (calling nano with either -t or
+		-k caused both flags to be used). The -k code is also now
+		closer in functionality to Pico's -k mode, please
+		note that this code is not finished yet.  Working on this
+		code has made me realize that there is not enough 
+		abstraction in the code, and I will be working on that
+		for the next release.  Until then, have fun with this
+		version.
+
 07/23/2000 - Nano 0.9.13 has a few new bits and bobs, most notably the
 		-k option from Pico (cut to end of line).  The majority
 		of changes in this release are bugfixes however, including
