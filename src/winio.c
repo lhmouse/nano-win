@@ -30,10 +30,6 @@
 #include "proto.h"
 #include "nano.h"
 
-#ifdef NANO_EXTRA
-#include <time.h>
-#endif
-
 static int statblank = 0;	/* Number of keystrokes left after
 				   we call statusbar(), before we
 				   actually blank the statusbar */
@@ -2658,7 +2654,6 @@ void dump_buffer_reverse(void)
 void do_credits(void)
 {
     int i, j = 0, k, place = 0, start_x;
-    struct timespec scrolldelay;
 
     const char *what;
     const char *xlcredits[XLCREDIT_LEN];
@@ -2722,9 +2717,6 @@ void do_credits(void)
     xlcredits[6] = _("and anyone else we forgot...");
     xlcredits[7] = _("Thank you for using nano!\n");
 
-    scrolldelay.tv_sec = 0;
-    scrolldelay.tv_nsec = 700000000;
-
     curs_set(0);
     nodelay(edit, TRUE);
     blank_bottombars();
@@ -2756,7 +2748,7 @@ void do_credits(void)
 		start_x = COLS / 2 - strlen(what) / 2 - 1;
 		mvwaddstr(edit, i * 2 - k, start_x, what);
 	    }
-	    nanosleep(&scrolldelay, NULL);
+	    napms(700);
 	    wrefresh(edit);
 	}
 	if (j < editwinrows / 2 - 1)
