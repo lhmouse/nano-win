@@ -501,18 +501,17 @@ int get_escape_seq_kbinput(WINDOW *win, char *escape_seq, int
 		    case 'Y': /* Esc [ Y == End on Hurd console. */
 			kbinput = NANO_END_KEY;
 			break;
-		    case 'a': /* Esc [ a == Shift-Up on rxvt and
-		    	       * Eterm. */
+		    case 'a': /* Esc [ a == Shift-Up on rxvt/Eterm. */
 			kbinput = NANO_UP_KEY;
 			break;
-		    case 'b': /* Esc [ b == Shift-Down on rxvt and
-		    	       * Eterm. */
+		    case 'b': /* Esc [ b == Shift-Down on rxvt/Eterm. */
 			kbinput = NANO_DOWN_KEY;
 			break;
-		    case 'c': /* Esc [ c == Shift-Right on rxvt. */
+		    case 'c': /* Esc [ c == Shift-Right on
+			       * rxvt/Eterm. */
 			kbinput = NANO_FORWARD_KEY;
 			break;
-		    case 'd': /* Esc [ d == Shift-Left on rxvt. */
+		    case 'd': /* Esc [ d == Shift-Left on rxvt/Eterm. */
 			kbinput = NANO_BACK_KEY;
 			break;
 		}
