@@ -1342,6 +1342,8 @@ void signal_init(void)
 
 void window_init(void)
 {
+    editwinrows = LINES - 5 + no_help();
+
     /* Setup up the main text window */
     edit = newwin(editwinrows, COLS, 2, 0);
 

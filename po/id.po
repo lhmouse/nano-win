@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano-0.9.10\n"
-"POT-Creation-Date: 2000-09-12 18:56-0400\n"
+"POT-Creation-Date: 2000-09-12 19:05-0400\n"
 "PO-Revision-Date: 2000-06-08 20:56+07:00\n"
 "Last-Translator: Tedi Heriyanto <tedi-h@usa.net>\n"
 "Language-Team: Indonesian <id@li.org>\n"
@@ -713,39 +713,39 @@ msgstr ""
 msgid "disabled"
 msgstr ""
 
-#: nano.c:1869
+#: nano.c:1870
 msgid "Main: set up windows\n"
 msgstr "Main: menset jendela\n"
 
-#: nano.c:1876
+#: nano.c:1877
 msgid "Main: bottom win\n"
 msgstr "Main: jendela bawah\n"
 
-#: nano.c:1882
+#: nano.c:1883
 msgid "Main: open file\n"
 msgstr "Main: membuka file\n"
 
-#: nano.c:1916
+#: nano.c:1917
 #, fuzzy, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"
 
-#: nano.c:1940
+#: nano.c:1941
 #, fuzzy, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"
 
-#: nano.c:1965
+#: nano.c:1966
 #, fuzzy, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"
 
-#: nano.c:2013
+#: nano.c:2014
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"
 
-#: nano.c:2039
+#: nano.c:2040
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"
