@@ -2215,12 +2215,6 @@ void update_cursor(void)
 #endif
 }
 
-void center_cursor(void)
-{
-    current_y = editwinrows / 2;
-    wmove(edit, current_y, current_x);
-}
-
 /* Refresh the screen without changing the position of lines. */
 void edit_refresh(void)
 {

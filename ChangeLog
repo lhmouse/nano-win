@@ -271,8 +271,8 @@ CVS code -
 	  right place.
   edit_refresh()
 	- Remove apparently unneeded leaveok() calls. (David Benbennick)
-  edit_refresh_clearok()
-	- Removed, as it's now unnecessary. (David Benbennick)
+  edit_refresh_clearok(), center_cursor()
+	- Removed, as they are now unnecessary. (David Benbennick)
   statusbar()
 	- Call reset_cursor() just before refreshing the edit window, so
 	  that slang and other non-ncurses versions of curses will
