@@ -622,6 +622,7 @@ void do_rcfile(void)
     FILE *rcstream;
     const struct passwd *userage;
     uid_t euid = geteuid();
+    char *homenv = getenv("HOME");
 
 #ifdef SYSCONFDIR
     assert(sizeof(SYSCONFDIR) == strlen(SYSCONFDIR) + 1);
@@ -638,9 +639,9 @@ void do_rcfile(void)
     lineno = 0;
 
     /* Rely on $HOME, fall back on getpwuid() */
-    if (getenv("HOME") != NULL) {
-	nanorc = nrealloc(nanorc, strlen(getenv("HOME")) + 10);
-	sprintf(nanorc, "%s/.nanorc", getenv("HOME"));
+    if (homenv != NULL) {
+	nanorc = nrealloc(nanorc, strlen(homenv) + 10);
+	sprintf(nanorc, "%s/.nanorc", homenv);
     } else {
 	userage = getpwuid(euid);
 	endpwent();
