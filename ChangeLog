@@ -1,4 +1,7 @@
 CVS code -
+- General
+	- Add Meta-A as alternate keyystroke for ^^ for people with
+	  non-US keyboards.
 - nano.c:
   usage()
   	- Remove extra \n in --keypad description (Jordi).
