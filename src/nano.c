@@ -2951,7 +2951,9 @@ void do_justify(bool full_justify)
 		     * just go on to the next. */
 		    goto continue_loc;
 		break_pos += indent_len;
+
 		assert(break_pos < line_len);
+
 		if (par_len == 1) {
 		    /* There is no next line in this paragraph.  We make
 		     * a new line and copy text after break_pos into
@@ -3070,8 +3072,8 @@ void do_justify(bool full_justify)
 		    charmove(current->next->data + indent_len,
 			current->next->data + indent_len + break_pos + 1,
 			next_line_len - break_pos - indent_len);
-		    null_at(&current->next->data, next_line_len -
-			break_pos);
+		    null_at(&current->next->data,
+			next_line_len - break_pos);
 
 		    /* Go to the next line. */
 		    current = current->next;
