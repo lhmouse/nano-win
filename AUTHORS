@@ -31,5 +31,5 @@ David Lawrence Ramsey <pooka_regent@sluggy.net>
 	  mode and various other fixes.
 
 David Benbennick <dbenbenn@math.cornell.edu>
-	* Wrap and justify bugfixes/enhancements, memleak fixes and other
-	  miscellaneous fixes.
+	* Wrap and justify bugfixes/enhancements, new color syntax
+	  code, memleak fixes and other miscellaneous fixes.
