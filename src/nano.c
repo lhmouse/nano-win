@@ -442,6 +442,11 @@ void help_init(void)
 	/* Function key. */
 	if (s->funcval != NANO_NO_KEY) {
 	    entries++;
+	    /* If this is the first entry, put it in the middle. */
+	    if (entries == 1) {
+		entries++;
+		*(ptr++) = '\t';
+	    }
 	    ptr += sprintf(ptr, "(F%d)", s->funcval - KEY_F0);
 	    *(ptr++) = '\t';
 	}
