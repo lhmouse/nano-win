@@ -72,7 +72,7 @@ AC_ARG_WITH(slang,
 
 	LDFLAGS=${_ldflags}
 	;;
-    esac])
+    esac], AC_MSG_RESULT(no))
 
 dnl Checks for functions
 AC_CHECK_FUNCS(snprintf vsnprintf)

@@ -2,6 +2,9 @@ CVS code
 - Changed edit_update call to take arguments TOP, CENTER or BOTTOM.
   Affects many many functions.  Removed functions edit_update_top and
   edit_update_bot.
+- configure.in:
+	- Finally fixed check for slang to report "no" if not called
+	  with --with-slang or --without-slang
 - nano.c:
   splice_node()
 	- New function, abstracts linking in nodes.   Fixes bug #36.
