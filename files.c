@@ -252,10 +252,7 @@ int do_insertfile(void)
 	set_modified();
 
 	/* Here we want to rebuild the edit window */
-	for (i = 0, editbot = edittop;
-	     i <= editwinrows - 1
-	     && i <= totlines
-	     && editbot->next != NULL; editbot = editbot->next, i++);
+	fix_editbot();
 
 	/* If we've gone off the bottom, recenter, otherwise just redraw */
 	if (current->lineno > editbot->lineno)

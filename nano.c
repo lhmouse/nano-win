@@ -502,19 +502,24 @@ int do_enter(filestruct * inptr)
     current = new;
     align(&current->data);
 
+    /* The logic here is as follows:
+     *    -> If we are at the bottom of the buffer, we want to recenter
+     *       (read: rebuild) the screen and forcably move the cursor.
+     *    -> otherwise, we want simply to redraw the screen and update
+     *       where we think the cursor is.
+     */
     if (current_y == editwinrows - 1) {
 	edit_update(current);
-
-	/* FIXME - figure out why the hell this is needed =) */
-	reset_cursor();
-    } else
+	reset_cursor(); 
+    } else {
 	current_y++;
+	edit_refresh();
+	update_cursor();
+    }
 
     totlines++;
     set_modified();
 
-    update_cursor();
-    edit_refresh();
     placewewant = xplustabs();
     return 1;
 }
@@ -1018,7 +1023,6 @@ void exit_spell(char *tmpfilename, char *foo)
  * This is Chris' very ugly spell function.  Someone please make this
  * better =-)
  */
-
 int do_spell(void)
 {
 #ifdef NANO_SMALL
@@ -1226,11 +1230,7 @@ void handle_sigwinch(int s)
 #endif				/* HAVE_WRESIZE */
 #endif				/* HAVE_NCURSES_H */
 
-    editbot = edittop;
-
-    for (i = 0; (i <= editwinrows - 1) && (editbot->next != NULL)
-	 && (editbot->next != filebot); i++)
-	editbot = editbot->next;
+    fix_editbot();
 
     if (current_y > editwinrows - 1) {
 	edit_update(editbot);
@@ -1428,17 +1428,11 @@ int do_justify(void)
 	edit_update(current);
 	center_cursor();
     } else {
-	int i = 0;
-
-	editbot = edittop;
-	for (i = 0; (i <= editwinrows - 1) && (editbot->next != NULL)
-	     && (editbot->next != filebot); i++)
-	    editbot = editbot->next;
+	fix_editbot();
     }
 
 
     edit_refresh();
-    edit_refresh();		/* XXX FIXME XXX */
     statusbar("Justify Complete");
     return 1;
 #else

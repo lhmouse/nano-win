@@ -86,6 +86,7 @@ void dump_buffer_reverse(filestruct * inptr);
 void reset_cursor(void);
 void check_statblank(void);
 void update_line(filestruct * fileptr, int index);
+void fix_editbot(void);
 void statusbar(char *msg, ...);
 void titlebar(void);
 void previous_line(void);

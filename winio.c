@@ -1257,3 +1257,12 @@ void dump_buffer_reverse(filestruct * inptr)
     }
 #endif				/* DEBUG */
 }
+
+/* Fix editbot based on the assumption that edittop is correct */
+void fix_editbot(void) {
+    int i;
+    editbot = edittop;
+    for(i = 0; (i <= editwinrows - 1) && (editbot->next != NULL)
+	&& (editbot != filebot); i++, editbot = editbot->next);
+}
+
