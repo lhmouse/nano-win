@@ -3,6 +3,10 @@ CVS code -
   cut_marked_segment()
 	- Add bizarre copy of bot node, else *BSD goes ballistic (fixes
 	  BUG #60)
+- files.c:
+  do_browser()
+	- Don't shift the size of the file is it's less than 1K. Fixed
+	  files less than 1K being displayed as 0B (Rocco).
 - nano.c:
   do_alt_speller()
 	- Try to go to the same line we were on before before spell check
