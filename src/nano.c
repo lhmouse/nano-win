@@ -2015,7 +2015,7 @@ const char *do_alt_speller(char *tempfile_name)
 		WEXITSTATUS(alt_spell_status) != 0) {
 	char *altspell_error = NULL;
 	char *invoke_error = _("Could not invoke \"%s\"");
-	int msglen = strlenpt(invoke_error) + strlenpt(alt_speller) + 2;
+	int msglen = strlen(invoke_error) + strlen(alt_speller) + 2;
 
 	altspell_error = charalloc(msglen);
 	snprintf(altspell_error, msglen, invoke_error, alt_speller);
