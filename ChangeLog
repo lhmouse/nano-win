@@ -48,7 +48,7 @@ CVS code -
 	  is being used, and cosmetic cleanups. (David Benbennick)
   copy_file()
 	- New function containing part of the functionality formerly in
-	  do_writeout. (David Benbennick)
+	  do_writeout(). (David Benbennick)
   do_writeout()
 	- Prompt the user if we're trying to save an existing file (and
 	  not just a selection of it) under a different name. (DLR;
