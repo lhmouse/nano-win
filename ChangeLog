@@ -3,6 +3,9 @@ CVS code -
 	- Fixed null_at to ACTUALLY DO SOMETHING with its arg.  Again,
 	  this was causing nasty errors if the call to nrealloc moved
 	  where the data was located.
+	- Changed header comments to say "version 2" instead of "version
+	  1" as the COPYING file is actually version 2 of the GPL (bug
+	  noticed by Jordi Mallach).
 - cut.c:
   cut_marked_segment()
 	- Fix off-by one in mem allocation.
