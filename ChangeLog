@@ -49,15 +49,16 @@ CVS code -
 	  based on ideas from mutt 1.4.2.1; input of Unicode characters
 	  in hexadecimal suggested by Michael Piefel)
 	- More steps toward wide character/multibyte character support.
-	  Movement and cursor display in the edit window should now work
-	  properly with files containing multibyte characters, and text
-	  display of such files should now work properly as well.  New
-	  functions control_rep(), parse_char(), move_left(),
-	  move_right(), and display_string_len(); changes to do_left(),
-	  do_right(), do_delete(), breakable(), break_line(),
-	  do_output(), get_buffer(), unget_input(), actual_x(),
-	  strnlenpt(), display_string(), titlebar(), statusbar(),
-	  onekey(), and do_credits(). (David Benbennick and DLR)
+	  Movement and cursor display in the edit window should now
+	  (mostly) work properly with files containing multibyte
+	  characters, and text display of such files should now (mostly)
+	  work properly as well.  New functions control_rep(),
+	  parse_char(), move_left(), move_right(), and
+	  display_string_len(); changes to do_left(), do_right(),
+	  do_delete(), breakable(), break_line(), do_output(),
+	  get_buffer(), unget_input(), actual_x(), strnlenpt(),
+	  display_string(), titlebar(), statusbar(), onekey(),
+	  edit_add(), and do_credits(). (David Benbennick and DLR)
 	- Overhaul the high-level input routines for the statusbar to
 	  make them read the shortcut lists for functions instead of
 	  manually running them, to make nanogetstr() less complex, and
@@ -70,9 +71,9 @@ CVS code -
 	  do_statusbar_cut_text(), and do_statusbar_output(). (DLR)
 	- Even more steps toward wide character/multibyte character
 	  support.  Movement and cursor display at the statusbar prompt
-	  should now work properly with a string containing multibyte
-	  characters, and text display of such strings should now work
-	  properly as well.  Changes to search_init(),
+	  should now (mostly) work properly with a string containing
+	  multibyte characters, and text display of such strings should
+	  now (mostly) work properly as well.  Changes to search_init(),
 	  nanoget_repaint(), do_statusbar_right(), do_statusbar_left(),
 	  do_statusbar_backspace(), and do_statusbar_delete(). (David
 	  Benbennick and DLR)

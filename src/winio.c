@@ -3169,7 +3169,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 #endif
 
     assert(fileptr != NULL && converted != NULL);
-    assert(strlen(converted) <= COLS);
+    assert(strlenpt(converted) <= COLS);
 
     /* Just paint the string in any case (we'll add color or reverse on
      * just the text that needs it). */
@@ -3185,6 +3185,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 	    int paintlen;
 		/* Number of chars to paint on this line.  There are COLS
 		 * characters on a whole line. */
+	    size_t index;
+		/* Index in converted where we paint. */
 	    regmatch_t startmatch;	/* match position for start_regexp */
 	    regmatch_t endmatch;	/* match position for end_regexp */
 
@@ -3224,15 +3226,18 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 			else
 			    x_start = strnlenpt(fileptr->data,
 				startmatch.rm_so) - start;
-			paintlen = strnlenpt(fileptr->data,
-				startmatch.rm_eo) - start - x_start;
-			if (paintlen > COLS - x_start)
-			    paintlen = COLS - x_start;
 
-			assert(0 <= x_start && 0 < paintlen &&
-				x_start + paintlen <= COLS);
+			index = actual_x(converted, x_start);
+
+			paintlen = actual_x(converted + index,
+				strnlenpt(fileptr->data +
+				startmatch.rm_so, startmatch.rm_eo -
+				startmatch.rm_so));
+
+			assert(0 <= x_start && 0 <= paintlen);
+
 			mvwaddnstr(edit, yval, x_start,
-				converted + x_start, paintlen);
+				converted + index, paintlen);
 		    }
 		    k = startmatch.rm_eo;
 		}
@@ -3307,17 +3312,11 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		    goto step_two;
 
 		/* Now paint the start of fileptr. */
-		paintlen = end_line != fileptr ? COLS :
-			strnlenpt(fileptr->data, endmatch.rm_eo) - start;
-		if (paintlen > COLS)
-		    paintlen = COLS;
+		paintlen = end_line != fileptr ? -1 :
+			actual_x(converted, strnlenpt(fileptr->data,
+			endmatch.rm_eo) - start);
 
-		assert(0 < paintlen && paintlen <= COLS);
 		mvwaddnstr(edit, yval, 0, converted, paintlen);
-
-		/* We have already painted the whole line. */
-		if (paintlen == COLS)
-		    goto skip_step_two;
 
   step_two:
 		/* Second step, we look for starts on this line. */
@@ -3351,15 +3350,15 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 			 * than zero characters long? */
 			if (endmatch.rm_eo > startpos &&
 				endmatch.rm_eo > startmatch.rm_so) {
-			    paintlen = strnlenpt(fileptr->data,
-				endmatch.rm_eo) - start - x_start;
-			    if (x_start + paintlen > COLS)
-				paintlen = COLS - x_start;
+			    paintlen = actual_x(converted + index,
+				strnlenpt(fileptr->data +
+				startmatch.rm_so, endmatch.rm_eo -
+				startmatch.rm_so));
 
-			    assert(0 <= x_start && 0 < paintlen &&
-				x_start + paintlen <= COLS);
+			    assert(0 <= x_start && x_start < COLS);
+
 			    mvwaddnstr(edit, yval, x_start,
-				converted + x_start, paintlen);
+				converted + index, paintlen);
 			}
 		    } else {
 			/* There is no end on this line.  But we haven't
@@ -3370,9 +3369,11 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 				NULL, 0) == REG_NOMATCH)
 			    end_line = end_line->next;
 			if (end_line != NULL) {
+
 			    assert(0 <= x_start && x_start < COLS);
+
 			    mvwaddnstr(edit, yval, x_start,
-				converted + x_start, COLS - x_start);
+				converted + index, -1);
 			    /* We painted to the end of the line, so
 			     * don't bother checking any more starts. */
 			    break;
@@ -3382,7 +3383,6 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		} /* while start_col < endpos */
 	    } /* if (tmp_color->end != NULL) */
 
-  skip_step_two:
 	    wattroff(edit, A_BOLD);
 	    wattroff(edit, COLOR_PAIR(tmpcolor->pairnum));
 	} /* for tmpcolor in colorstrings */
@@ -3408,6 +3408,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 	int paintlen;
 	    /* Number of chars to paint on this line.  There are COLS
 	     * characters on a whole line. */
+	size_t index;
+	    /* Index in converted where we paint. */
 
 	mark_order(&top, &top_x, &bot, &bot_x, NULL);
 
@@ -3433,8 +3435,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		/* Otherwise, paintlen is the expanded location of the
 		 * end of the mark minus the expanded location of the
 		 * beginning of the mark. */
-		paintlen = strnlenpt(fileptr->data, bot_x)
-			- (x_start + start);
+		paintlen = strnlenpt(fileptr->data, bot_x) -
+			(x_start + start);
 
 	    /* If x_start is before the beginning of the page, shift
 	     * paintlen x_start characters to compensate, and put
@@ -3445,6 +3447,10 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 	    }
 
 	    assert(x_start >= 0 && x_start <= strlen(converted));
+
+	    index = actual_x(converted, x_start);
+	    if (paintlen > 0)
+		paintlen = actual_x(converted + index, paintlen);
 
 	    wattron(edit, A_REVERSE);
 	    mvwaddnstr(edit, yval, x_start, converted + x_start, paintlen);
