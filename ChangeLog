@@ -76,10 +76,21 @@ CVS code -
 	- Simplify by reusing variables whereever possible, and add a
 	  parameter execute to indicate whether or not to be in "Execute
 	  Command" mode. (DLR)
-	- If file browsing succeeds, copy the filename we browsed to
-	  into ans, put back Enter, and show the prompt one last time so
-	  that it's exited properly and the cursor position at the
-	  statusbar is reset. (DLR)
+	- Rework so that goto is no longer needed, using do_writeout()
+	  as a model. (DLR)
+	- If file browsing succeeds, call statusq_abort() so that the
+	  cursor position at the statusbar is reset. (DLR)
+  do_writeout()
+	- Restructure if blocks for greater efficiency, using
+	  do_insertfile() as a model. (DLR)
+	- Simplify where possible, and use an int retval to hold the
+	  return value instead of i. (DLR)
+	- If file browsing succeeds, call statusq_abort() so that the
+	  cursor position at the statusbar is reset. (DLR)
+	- Remove unneeded calls to display_main_list(). (DLR)
+  do_writeout_void()
+	- Call display_main_list(), for consistency with
+	  do_insertfile_void(). (DLR)
   open_prevfile(), open_nextfile()
 	- Translate the "New Buffer" string when displaying "Switched
 	  to" messages on the statusbar. (DLR)
@@ -165,13 +176,14 @@ CVS code -
 	- Refresh the screen when Ctrl-L is pressed at the statusbar
 	  prompt, as Pico does. (DLR)
 	- Always return the key pressed by the user. (DLR)
-	- Take new parameter reset_x, containing the value of
-	  resetstatuspos, so that resetstatuspos can be a static
-	  variable for just statusq(). (DLR)
   statusq()
 	- Rework slightly to reset the cursor position when the user
 	  hits Enter as well as Cancel.  This means that resetstatuspos
 	  no longer needs to be global. (DLR)
+  statusq_abort()
+	- New function to set resetstatuspos to FALSE when we don't
+	  properly exit the statusbar prompt, e.g. when we get a file
+	  from the file browser). (DLR)
   reset_cursor()
 	- If this is called before any files have been opened, as it can
 	  be by statusbar(), put the cursor at the top left corner of

@@ -33,6 +33,9 @@
 static int statusblank = 0;	/* Number of keystrokes left after
 				 * we call statusbar(), before we
 				 * actually blank the statusbar. */
+static bool resetstatuspos = FALSE;
+				/* Should we reset the cursor position
+				 * at the statusbar prompt? */
 
 /* Control character compatibility:
  *
@@ -1755,11 +1758,11 @@ void nanoget_repaint(const char *buf, const char *inputbuf, size_t x)
 
 /* Get the input from the keyboard; this should only be called from
  * statusq(). */
-int nanogetstr(int allowtabs, const char *buf, const char *def,
+int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 #ifndef NANO_SMALL
 		historyheadtype *history_list,
 #endif
-		const shortcut *s, bool reset_x
+		const shortcut *s
 #ifndef DISABLE_TABCOMP
 		, bool *list
 #endif
@@ -1793,11 +1796,11 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
     xend = strlen(def);
 
     /* Only put x at the end of the string if it's uninitialized, if it
-       would be past the end of the string as it is, or if reset_x is
-       TRUE.  Otherwise, leave it alone.  This is so the cursor position
-       stays at the same place if a prompt-changing toggle is
-       pressed. */
-    if (x == -1 || x > xend || reset_x)
+       would be past the end of the string as it is, or if
+       resetstatuspos is TRUE.  Otherwise, leave it alone.  This is so
+       the cursor position stays at the same place if a prompt-changing
+       toggle is pressed. */
+    if (x == -1 || x > xend || resetstatuspos)
 	x = xend;
 
     answer = charealloc(answer, xend + 1);
@@ -1944,7 +1947,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 #endif
 #endif
 #ifndef DISABLE_TABCOMP
-	    if (allowtabs) {
+	    if (allow_tabs) {
 		int shift = 0;
 
 		answer = input_tab(answer, x, &tabbed, &shift, list);
@@ -2088,6 +2091,106 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
     x = -1;
 
     return kbinput;
+}
+
+/* Ask a question on the statusbar.  Answer will be stored in answer
+ * global.  Returns -1 on aborted enter, -2 on a blank string, and 0
+ * otherwise, the valid shortcut key caught.  def is any editable text
+ * we want to put up by default.
+ *
+ * New arg tabs tells whether or not to allow tab completion. */
+int statusq(bool allow_tabs, const shortcut *s, const char *def,
+#ifndef NANO_SMALL
+		historyheadtype *which_history,
+#endif
+		const char *msg, ...)
+{
+    va_list ap;
+    char *foo = charalloc(COLS - 3);
+    int ret;
+#ifndef DISABLE_TABCOMP
+    bool list = FALSE;
+#endif
+
+    bottombars(s);
+
+    va_start(ap, msg);
+    vsnprintf(foo, COLS - 4, msg, ap);
+    va_end(ap);
+    foo[COLS - 4] = '\0';
+
+    ret = nanogetstr(allow_tabs, foo, def,
+#ifndef NANO_SMALL
+		which_history,
+#endif
+		s
+#ifndef DISABLE_TABCOMP
+		, &list
+#endif
+		);
+    free(foo);
+    resetstatuspos = FALSE;
+
+    switch (ret) {
+    case NANO_FIRSTLINE_KEY:
+    case NANO_FIRSTLINE_FKEY:
+	do_first_line();
+	resetstatuspos = TRUE;
+	break;
+    case NANO_LASTLINE_KEY:
+    case NANO_LASTLINE_FKEY:
+	do_last_line();
+	resetstatuspos = TRUE;
+	break;
+#ifndef DISABLE_JUSTIFY
+    case NANO_PARABEGIN_KEY:
+    case NANO_PARABEGIN_ALTKEY1:
+    case NANO_PARABEGIN_ALTKEY2:
+	do_para_begin();
+	resetstatuspos = TRUE;
+	break;
+    case NANO_PARAEND_KEY:
+    case NANO_PARAEND_ALTKEY1:
+    case NANO_PARAEND_ALTKEY2:
+	do_para_end();
+	resetstatuspos = TRUE;
+	break;
+    case NANO_FULLJUSTIFY_KEY:
+    case NANO_FULLJUSTIFY_ALTKEY:
+	if (!ISSET(VIEW_MODE))
+	    do_full_justify();
+	resetstatuspos = TRUE;
+	break;
+#endif
+    case NANO_CANCEL_KEY:
+	ret = -1;
+	resetstatuspos = TRUE;
+	break;
+    case NANO_ENTER_KEY:
+	ret = (answer[0] == '\0') ? -2 : 0;
+	resetstatuspos = TRUE;
+	break;
+    }
+    blank_statusbar();
+
+#ifdef DEBUG
+    fprintf(stderr, "I got \"%s\"\n", answer);
+#endif
+
+#ifndef DISABLE_TABCOMP
+	/* if we've done tab completion, there might be a list of
+	   filename matches on the edit window at this point; make sure
+	   they're cleared off. */
+	if (list)
+	    edit_refresh();
+#endif
+
+    return ret;
+}
+
+void statusq_abort(void)
+{
+    resetstatuspos = TRUE;
 }
 
 void titlebar(const char *path)
@@ -2972,106 +3075,10 @@ void edit_update(topmidnone location)
     edit_refresh();
 }
 
-/* Ask a question on the statusbar.  Answer will be stored in answer
- * global.  Returns -1 on aborted enter, -2 on a blank string, and 0
- * otherwise, the valid shortcut key caught.  def is any editable text
- * we want to put up by default.
- *
- * New arg tabs tells whether or not to allow tab completion. */
-int statusq(int allowtabs, const shortcut *s, const char *def,
-#ifndef NANO_SMALL
-		historyheadtype *which_history,
-#endif
-		const char *msg, ...)
-{
-    va_list ap;
-    char *foo = charalloc(COLS - 3);
-    int ret;
-    static bool resetstatuspos = FALSE;
-#ifndef DISABLE_TABCOMP
-    bool list = FALSE;
-#endif
-
-    bottombars(s);
-
-    va_start(ap, msg);
-    vsnprintf(foo, COLS - 4, msg, ap);
-    va_end(ap);
-    foo[COLS - 4] = '\0';
-
-    ret = nanogetstr(allowtabs, foo, def,
-#ifndef NANO_SMALL
-		which_history,
-#endif
-		s, resetstatuspos
-#ifndef DISABLE_TABCOMP
-		, &list
-#endif
-		);
-    free(foo);
-    resetstatuspos = FALSE;
-
-    switch (ret) {
-    case NANO_FIRSTLINE_KEY:
-    case NANO_FIRSTLINE_FKEY:
-	do_first_line();
-	resetstatuspos = TRUE;
-	break;
-    case NANO_LASTLINE_KEY:
-    case NANO_LASTLINE_FKEY:
-	do_last_line();
-	resetstatuspos = TRUE;
-	break;
-#ifndef DISABLE_JUSTIFY
-    case NANO_PARABEGIN_KEY:
-    case NANO_PARABEGIN_ALTKEY1:
-    case NANO_PARABEGIN_ALTKEY2:
-	do_para_begin();
-	resetstatuspos = TRUE;
-	break;
-    case NANO_PARAEND_KEY:
-    case NANO_PARAEND_ALTKEY1:
-    case NANO_PARAEND_ALTKEY2:
-	do_para_end();
-	resetstatuspos = TRUE;
-	break;
-    case NANO_FULLJUSTIFY_KEY:
-    case NANO_FULLJUSTIFY_ALTKEY:
-	if (!ISSET(VIEW_MODE))
-	    do_full_justify();
-	resetstatuspos = TRUE;
-	break;
-#endif
-    case NANO_CANCEL_KEY:
-	ret = -1;
-	resetstatuspos = TRUE;
-	break;
-    case NANO_ENTER_KEY:
-	ret = (answer[0] == '\0') ? -2 : 0;
-	resetstatuspos = TRUE;
-	break;
-    }
-    blank_statusbar();
-
-#ifdef DEBUG
-    fprintf(stderr, "I got \"%s\"\n", answer);
-#endif
-
-#ifndef DISABLE_TABCOMP
-	/* if we've done tab completion, there might be a list of
-	   filename matches on the edit window at this point; make sure
-	   they're cleared off. */
-	if (list)
-	    edit_refresh();
-#endif
-
-    return ret;
-}
-
 /* Ask a simple yes/no question, specified in msg, on the statusbar.
  * Return 1 for Y, 0 for N, 2 for All (if all is TRUE when passed in)
  * and -1 for abort (^C). */
-int do_yesno(int all, const char *msg)
+int do_yesno(bool all, const char *msg)
 {
     int ok = -2, width = 16;
     const char *yesstr;		/* String of yes characters accepted. */

@@ -551,15 +551,21 @@ void check_statusblank(void);
 void blank_bottombars(void);
 char *display_string(const char *buf, size_t start_col, size_t len);
 void nanoget_repaint(const char *buf, const char *inputbuf, size_t x);
-int nanogetstr(int allowtabs, const char *buf, const char *def,
+int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 #ifndef NANO_SMALL
 		historyheadtype *history_list,
 #endif
-		const shortcut *s, bool reset_x
+		const shortcut *s
 #ifndef DISABLE_TABCOMP
 		, bool *list
 #endif
 		);
+int statusq(bool allow_tabs, const shortcut *s, const char *def,
+#ifndef NANO_SMALL
+		historyheadtype *history_list,
+#endif
+		const char *msg, ...);
+void statusq_abort(void);
 void titlebar(const char *path);
 void set_modified(void);
 void statusbar(const char *msg, ...);
@@ -579,12 +585,7 @@ void edit_scroll(updown direction, int nlines);
 void edit_redraw(const filestruct *old_current, size_t old_pww);
 void edit_refresh(void);
 void edit_update(topmidnone location);
-int statusq(int allowtabs, const shortcut *s, const char *def,
-#ifndef NANO_SMALL
-		historyheadtype *history_list,
-#endif
-		const char *msg, ...);
-int do_yesno(int all, const char *msg);
+int do_yesno(bool all, const char *msg);
 void total_refresh(void);
 void display_main_list(void);
 void do_cursorpos(bool constant);

@@ -494,36 +494,32 @@ void do_insertfile(
     int i;
     const char *msg;
     char *ans = mallocstrcpy(NULL, "");
-	/* The last answer the user typed on the statusbar.  Saved for if
-	 * they do M-F or cancel the file browser. */
+	/* The last answer the user typed on the statusbar. */
 
     wrap_reset();
 
-#if !defined(DISABLE_BROWSER) || (!defined(NANO_SMALL) && defined(ENABLE_MULTIBUFFER))
-  start_again:
-#endif
-
+    while (TRUE) {
 #ifndef NANO_SMALL
-    if (execute) {
+	if (execute) {
 #ifdef ENABLE_MULTIBUFFER
-	if (ISSET(MULTIBUFFER))
-	    msg = N_("Command to execute in new buffer [from %s] ");
-	else
+	    if (ISSET(MULTIBUFFER))
+		msg = N_("Command to execute in new buffer [from %s] ");
+	    else
 #endif
-	    msg = N_("Command to execute [from %s] ");
-    } else {
+		msg = N_("Command to execute [from %s] ");
+	} else {
 #endif
 #ifdef ENABLE_MULTIBUFFER
-	if (ISSET(MULTIBUFFER)) {
-	    msg = N_("File to insert into new buffer [from %s] ");
-	} else
+	    if (ISSET(MULTIBUFFER)) {
+		msg = N_("File to insert into new buffer [from %s] ");
+	    } else
 #endif
-	    msg = N_("File to insert [from %s] ");
+		msg = N_("File to insert [from %s] ");
 #ifndef NANO_SMALL
 	}
 #endif
 
-    i = statusq(TRUE,
+	i = statusq(TRUE,
 #ifndef NANO_SMALL
 		execute ? extcmd_list :
 #endif
@@ -538,73 +534,78 @@ void do_insertfile(
 #endif
 		"./");
 
-    if (i < 0) {
-	statusbar(_("Cancelled"));
-    } else {
-	int old_current_x = current_x;
+	if (i < 0) {
+	    statusbar(_("Cancelled"));
+	    break;
+	} else {
+	    int old_current_x = current_x;
 
-	ans = mallocstrcpy(ans, answer);
+	    ans = mallocstrcpy(ans, answer);
 
 #if !defined(NANO_SMALL) && defined(ENABLE_MULTIBUFFER)
-	if (i == TOGGLE_MULTIBUFFER_KEY) {
-	    /* Don't allow toggling if we're in view mode. */
-	    if (!ISSET(VIEW_MODE))
-		TOGGLE(MULTIBUFFER);
-	    goto start_again;
-	}
+	    if (i == TOGGLE_MULTIBUFFER_KEY) {
+		/* Don't allow toggling if we're in view mode. */
+		if (!ISSET(VIEW_MODE))
+		    TOGGLE(MULTIBUFFER);
+		continue;
+	    }
 #endif
 
 #ifndef DISABLE_BROWSER
-	if (i == NANO_TOFILES_KEY) {
-	    char *tmp = do_browse_from(answer);
+	    if (i == NANO_TOFILES_KEY) {
+		char *tmp = do_browse_from(answer);
 
-	    if (tmp != NULL) {
+		if (tmp == NULL)
+		    continue;
 		free(answer);
 		answer = tmp;
-		ans = mallocstrcpy(ans, answer);
-		unget_kbinput(NANO_ENTER_KEY, FALSE);
+
+		/* We have a file now.  Get out of the statusbar prompt
+		 * cleanly. */
+		statusq_abort();
 	    }
-	    goto start_again;
-	}
 #endif
 
 #ifndef NANO_SMALL
-	if (i == NANO_TOOTHERINSERT_KEY) {
-	    execute = !execute;
-	    goto start_again;
-	}
+	    if (i == NANO_TOOTHERINSERT_KEY) {
+		execute = !execute;
+		continue;
+	    }
 
-	if (execute)
-	    execute_command(answer);
-	else {
+	    if (execute)
+		execute_command(answer);
+	    else {
 #endif
-	    answer = mallocstrassn(answer, real_dir_from_tilde(answer));
-	    load_buffer(answer);
+		answer = mallocstrassn(answer, real_dir_from_tilde(answer));
+		load_buffer(answer);
 #ifndef NANO_SMALL
-	}
+	    }
 #endif
 
 #ifdef ENABLE_MULTIBUFFER
-	if (ISSET(MULTIBUFFER)) {
-	    /* Update the titlebar. */
-	    titlebar(NULL);
+	    if (ISSET(MULTIBUFFER)) {
+		/* Update the titlebar. */
+		titlebar(NULL);
 
-	    /* Reinitialize the shortcut list. */
-	    shortcut_init(FALSE);
-	} else {
+		/* Reinitialize the shortcut list. */
+		shortcut_init(FALSE);
+	    } else {
 #endif
-	    /* Mark the file as modified. */
-	    set_modified();
+		/* Mark the file as modified. */
+		set_modified();
 
-	    /* Restore the old x-coordinate position. */
-	    current_x = old_current_x;
+		/* Restore the old x-coordinate position. */
+		current_x = old_current_x;
 #ifdef ENABLE_MULTIBUFFER
-	}
+	    }
 #endif
 
-	/* Refresh the screen. */
-	edit_refresh();
-    }
+	    /* Refresh the screen. */
+	    edit_refresh();
+
+	    break;
+	}
+    } /* while (TRUE) */
 
     free(ans);
 }
@@ -1770,7 +1771,9 @@ int write_marked(const char *name, int tmp, int append)
 int do_writeout(bool exiting)
 {
     int i;
-    int append = 0;
+    int retval = 0, append = 0;
+    char *ans;
+	/* The last answer the user typed on the statusbar. */
 #ifdef NANO_EXTRA
     static bool did_cred = FALSE;
 #endif
@@ -1780,25 +1783,23 @@ int do_writeout(bool exiting)
 #endif
 
     if (exiting && filename[0] != '\0' && ISSET(TEMP_FILE)) {
-	i = write_file(filename, FALSE, 0, FALSE);
-	if (i == 1) {
-	    /* Write succeeded. */
-	    display_main_list();
-	    return 1;
-	}
+	retval = write_file(filename, FALSE, 0, FALSE);
+
+	/* Write succeeded. */
+	if (retval == 1)
+	    return retval;
     }
 
 #ifndef NANO_SMALL
     if (ISSET(MARK_ISSET) && !exiting)
-	answer = mallocstrcpy(answer, "");
+	ans = mallocstrcpy(NULL, "");
     else
 #endif
-	answer = mallocstrcpy(answer, filename);
+	ans = mallocstrcpy(NULL, filename);
 
     while (TRUE) {
 	const char *msg;
 #ifndef NANO_SMALL
-	char *ans = mallocstrcpy(NULL, answer);
 	const char *formatstr, *backupstr;
 
 	if (ISSET(DOS_FILE))
@@ -1834,117 +1835,125 @@ int do_writeout(bool exiting)
 	 * and we're at the "Write File" prompt, disable tab
 	 * completion. */
 	i = statusq(!ISSET(RESTRICTED) || filename[0] == '\0',
-		writefile_list,
+		writefile_list, ans,
 #ifndef NANO_SMALL
-		ans, NULL, "%s%s%s", _(msg), formatstr, backupstr
+		NULL, "%s%s%s", _(msg), formatstr, backupstr
 #else
-		filename, "%s", _(msg)
+		"%s", _(msg)
 #endif
 		);
 
-#ifndef NANO_SMALL
-	free(ans);
-#endif
-
 	if (i < 0) {
 	    statusbar(_("Cancelled"));
-	    display_main_list();
-	    return -1;
-	}
+	    retval = -1;
+	    break;
+	} else {
+	    ans = mallocstrcpy(ans, answer);
 
 #ifndef DISABLE_BROWSER
-	if (i == NANO_TOFILES_KEY) {
-	    char *tmp = do_browse_from(answer);
+	    if (i == NANO_TOFILES_KEY) {
+		char *tmp = do_browse_from(answer);
 
-	    currshortcut = writefile_list;
-	    if (tmp == NULL)
-		continue;
-	    free(answer);
-	    answer = tmp;
-	} else
+		currshortcut = writefile_list;
+
+		if (tmp == NULL)
+		    continue;
+		free(answer);
+		answer = tmp;
+
+		/* We have a file now.  Get out of the statusbar prompt
+		 * cleanly. */
+		statusq_abort();
+	    } else
 #endif /* !DISABLE_BROWSER */
 #ifndef NANO_SMALL
-	if (i == TOGGLE_DOS_KEY) {
-	    UNSET(MAC_FILE);
-	    TOGGLE(DOS_FILE);
-	    continue;
-	} else if (i == TOGGLE_MAC_KEY) {
-	    UNSET(DOS_FILE);
-	    TOGGLE(MAC_FILE);
-	    continue;
-	} else if (i == TOGGLE_BACKUP_KEY) {
-	    TOGGLE(BACKUP_FILE);
-	    continue;
-	} else
+	    if (i == TOGGLE_DOS_KEY) {
+		UNSET(MAC_FILE);
+		TOGGLE(DOS_FILE);
+		continue;
+	    } else if (i == TOGGLE_MAC_KEY) {
+		UNSET(DOS_FILE);
+		TOGGLE(MAC_FILE);
+		continue;
+	    } else if (i == TOGGLE_BACKUP_KEY) {
+		TOGGLE(BACKUP_FILE);
+		continue;
+	    } else
 #endif /* !NANO_SMALL */
-	if (i == NANO_PREPEND_KEY) {
-	    append = (append == 2) ? 0 : 2;
-	    continue;
-	} else if (i == NANO_APPEND_KEY) {
-	    append = (append == 1) ? 0 : 1;
-	    continue;
-	}
+	    if (i == NANO_PREPEND_KEY) {
+		append = (append == 2) ? 0 : 2;
+		continue;
+	    } else if (i == NANO_APPEND_KEY) {
+		append = (append == 1) ? 0 : 1;
+		continue;
+	    }
 
 #ifdef DEBUG
-	fprintf(stderr, "filename is %s\n", answer);
+	    fprintf(stderr, "filename is %s\n", answer);
 #endif
 
 #ifdef NANO_EXTRA
-	if (exiting && !ISSET(TEMP_FILE) && strcasecmp(answer, "zzy") == 0
-		&& !did_cred) {
-	    do_credits();
-	    did_cred = TRUE;
-	    return -1;
-	}
-#endif
-	if (append == 0 && strcmp(answer, filename) != 0) {
-	    struct stat st;
-
-	    if (!stat(answer, &st)) {
-		i = do_yesno(FALSE, _("File exists, OVERWRITE ? "));
-		if (i == 0 || i == -1)
-		    continue;
-	    /* If we're using restricted mode, we aren't allowed to
-	     * change the name of a file once it has one because that
-	     * would allow reading from or writing to files not
-	     * specified on the command line.  In this case, don't
-	     * bother showing the "Different Name" prompt. */
-	    } else if (!ISSET(RESTRICTED) && filename[0] != '\0'
-#ifndef NANO_SMALL
-		&& (exiting || !ISSET(MARK_ISSET))
-#endif
-		) {
-		i = do_yesno(FALSE, _("Save file under DIFFERENT NAME ? "));
-		if (i == 0 || i == -1)
-		    continue;
+	    if (exiting && !ISSET(TEMP_FILE) &&
+		strcasecmp(answer, "zzy") == 0 && !did_cred) {
+		do_credits();
+		did_cred = TRUE;
+		retval = -1;
+		break;
 	    }
-	}
+#endif
+	    if (append == 0 && strcmp(answer, filename) != 0) {
+		struct stat st;
+
+		if (!stat(answer, &st)) {
+		    i = do_yesno(FALSE, _("File exists, OVERWRITE ? "));
+		    if (i == 0 || i == -1)
+			continue;
+		/* If we're using restricted mode, we aren't allowed to
+		 * change the name of a file once it has one because
+		 * that would allow reading from or writing to files not
+		 * specified on the command line.  In this case, don't
+		 * bother showing the "Different Name" prompt. */
+		} else if (!ISSET(RESTRICTED) && filename[0] != '\0'
+#ifndef NANO_SMALL
+			&& (exiting || !ISSET(MARK_ISSET))
+#endif
+			) {
+		    i = do_yesno(FALSE, _("Save file under DIFFERENT NAME ? "));
+		    if (i == 0 || i == -1)
+			continue;
+		}
+	    }
 
 #ifndef NANO_SMALL
-	/* Here's where we allow the selected text to be written to a
-	 * separate file.  If we're using restricted mode, this is
-	 * disabled since it allows reading from or writing to files not
-	 * specified on the command line. */
-	if (!ISSET(RESTRICTED) && !exiting && ISSET(MARK_ISSET))
-	    i = write_marked(answer, FALSE, append);
-	else
+	    /* Here's where we allow the selected text to be written to
+	     * a separate file.  If we're using restricted mode, this is
+	     * disabled since it allows reading from or writing to files
+	     * not specified on the command line. */
+	    if (!ISSET(RESTRICTED) && !exiting && ISSET(MARK_ISSET))
+		retval = write_marked(answer, FALSE, append);
+	    else
 #endif /* !NANO_SMALL */
-	    i = write_file(answer, FALSE, append, FALSE);
+		retval = write_file(answer, FALSE, append, FALSE);
 
 #ifdef ENABLE_MULTIBUFFER
-	/* If we're not about to exit, update the current entry in
-	 * the open_files structure. */
-	if (!exiting)
-	    add_open_file(TRUE);
+	    /* If we're not about to exit, update the current entry in
+	     * the open_files structure. */
+	    if (!exiting)
+		add_open_file(TRUE);
 #endif
-	display_main_list();
-	return i;
+
+	    break;
+	}
     } /* while (TRUE) */
+
+    free(ans);
+    return retval;
 }
 
 void do_writeout_void(void)
 {
     do_writeout(FALSE);
+    display_main_list();
 }
 
 /* Return a malloc()ed string containing the actual directory, used
