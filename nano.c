@@ -611,7 +611,7 @@ assert (strlenpt(inptr->data) >= fill);
 
     assert (current_word_end_t >= fill);
 
-    /* There are a few cases of what the line could look like.
+    /* There are a few (ever changing) cases of what the line could look like.
      * 1) only one word on the line before wrap point.
      *    a) one word takes up the whole line with no starting spaces.
      *         - do nothing and return.
@@ -622,20 +622,18 @@ assert (strlenpt(inptr->data) >= fill);
      *         - either it's all white space after word, and this routine isn't called.
      *         - or we are actually in case 2 (2 words).
      * 2) Two or more words on the line before wrap point.
-     *    a) cursor is at a word before wrap point
+     *    a) cursor is at a word or space before wrap point
      *         - word at wrap point starts a new line.
-     *         - white space at end of original line is cleared.
+     *         - white space at end of original line is cleared, unless
+     *           it is all spaces between previous word and next word which appears after fill.
      *    b) cursor is at the word at the wrap point.
      *         - word at wrap point starts a new line.
-     *         1. pressed a space.
+     *         1. pressed a space and at first character of wrap point word.
      *            - white space on original line is kept to where cursor was.
-     *         2. pressed non space.
+     *         2. pressed non space (or space elsewhere).
      *            - white space at end of original line is cleared.
      *    c) cursor is past the word at the wrap point.
      *         - word at wrap point starts a new line.
-     *         1. pressed a space.
-     *            - white space on original line is kept to where wrap point was.
-     *         2. pressed a non space.
      *            - white space at end of original line is cleared
      */
 
@@ -701,11 +699,15 @@ assert (strlenpt(inptr->data) >= fill);
 	    temp->data = nmalloc(strlen(&inptr->data[current_word_start]) + 1);
             strcpy(temp->data, &inptr->data[current_word_start]);
 
-	    i = current_word_start - 1;
-	    while (isspace(inptr->data[i])) {
-		i--;
-		assert (i >= 0);
+	    if (!isspace(input_char)) {
+		i = current_word_start - 1;
+		while (isspace(inptr->data[i])) {
+		    i--;
+		    assert (i >= 0);
+		}
 	    }
+	    else
+		i = current_x - 1;
 
             inptr->data = nrealloc(inptr->data, i + 2);
             inptr->data[i + 1] = 0;
@@ -722,7 +724,7 @@ assert (strlenpt(inptr->data) >= fill);
 
 	    right = current_x - current_word_start;
 	    i = current_word_start - 1;
-	    if (isspace(input_char)) {
+	    if (isspace(input_char) && (current_x == current_word_start)) {
 		current_x = current_word_start;
 
 		inptr->data = nrealloc(inptr->data, current_word_start + 1);
@@ -737,7 +739,6 @@ assert (strlenpt(inptr->data) >= fill);
 		inptr->data = nrealloc(inptr->data, i + 2);
 		inptr->data[i + 1] = 0;
 	    }
-
         }
 
 
@@ -752,16 +753,9 @@ assert (strlenpt(inptr->data) >= fill);
 	    current_x = current_word_start;
 	    i = current_word_start - 1;
 
-	    if (isspace(input_char)) {
-
-		inptr->data = nrealloc(inptr->data, current_word_start + 1);
-		inptr->data[current_word_start] = 0;
-	    }
-	    else {
-		while (isspace(inptr->data[i])) {
-		    i--;
-		    assert (i >= 0);
-		}
+	    while (isspace(inptr->data[i])) {
+		i--;
+		assert (i >= 0);
 		inptr->data = nrealloc(inptr->data, i + 2);
 		inptr->data[i + 1] = 0;
 	    }
