@@ -1849,6 +1849,7 @@ void do_mouse(void)
     MEVENT mevent;
     int foo = 0, tab_found = 0;
     int currslen;
+    shortcut *s = currshortcut;
 
     if (getmouse(&mevent) == ERR)
 	return;
@@ -1918,7 +1919,7 @@ void do_mouse(void)
 	edit_refresh();
     } else if (wenclose(bottomwin, mevent.y, mevent.x) && !ISSET(NO_HELP)) {
 
-	int k, val = 0;
+	int i, k;
 
 	if (currshortcut == main_list)
 	    currslen = MAIN_VISIBLE;
@@ -1940,14 +1941,15 @@ void do_mouse(void)
 	if (mevent.x / k >= currslen)	
 	    return;
 
-	val = currshortcut[(mevent.x / k) * 2 + mevent.y].val;
+	for (i = 0; i < (mevent.x / k) * 2 + mevent.y; i++)
+	    s = s->next;
 
 	/* And ungetch that value */
-	ungetch(val);
+	ungetch(s->val);
 
 	/* And if it's an alt-key sequence, we should probably send alt
 	   too ;-) */
-	if (val >= 'a' && val <= 'z')
+	if (s->val >= 'a' && s->val <= 'z')
 	   ungetch(27);
     }
 }

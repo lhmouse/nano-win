@@ -11,7 +11,6 @@ CVS code -
 	- Removed stupid static definitions of toggles and shortcut
 	  lists.  Many changes to shortcut_init(), toggle_init(),
 	  statusq(), nanogetstr(), main(), and many other places.
-	  FIXME: Mouse support broken by this change.
 	- Multibuffer mode now allows multiple empty filenames.  
 	  Changes to add_open_files(), removed open_file_dup_search(),
 	  open_file_dup_fix(), etc (DLR).
