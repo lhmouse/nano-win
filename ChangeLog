@@ -106,6 +106,11 @@ CVS code -
 	- Don't bother assigning the value of get_mouseinput() to
 	  anything.  Since allow_shortcuts is FALSE, its return value
 	  will always be FALSE. (DLR)
+- configure.ac:
+	- When calling AC_TRY_RUN() to test for a broken regexec()
+	  function, set the fourth parameter to default to "no" (since
+	  it apparently only occurs on glibc 2.2.3-based systems) so
+	  that cross-compiling will work. (DLR, found by Mike Frysinger)
 - nanorc.sample:
 	- Remove specific references to control key shortcuts other than
 	  XON and XOFF. (DLR)
@@ -1574,8 +1579,8 @@ GNU nano 1.2.1 - 2003.04.19
 - General:
 	- Translation updates (see po/ChangeLog for details).
 	- Work around broken regexec() on some systems that segfaults
-	  when passed an empty string.  New function regexec_safe().
-	  (David Benbennick)
+	  when passed an empty string.  This is known to be in glibc
+	  2.2.3.  New function regexec_safe(). (David Benbennick)
 	- Fix various bugs with search string history logging: don't
 	  print a broken error message and freeze if ~/.nano_history is
 	  unreadable, actually show an error message in save_history()
