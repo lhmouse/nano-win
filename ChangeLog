@@ -71,6 +71,9 @@ CVS code -
 	  suggested by Bill Soudan)
 	- Remove the -D/--dos and -M/--mac command line options, as they
 	  aren't much use with the new file format autodetection. (DLR)
+	- Add support for reading in UTF-8 sequences to some of the
+	  low-level input routines.  Changes to get_kbinput() and
+	  get_translated_kbinput(). (DLR)
 - files.c:
   do_insertfile()
 	- Readd the NANO_SMALL #ifdef around the start_again: label to

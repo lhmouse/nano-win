@@ -492,6 +492,10 @@ typedef enum {
     TOP, CENTER, NONE
 } topmidnone;
 
+typedef enum {
+    NO_SEQ, ESCAPE_SEQ, UTF8_SEQ
+} seq_type;
+
 /* Minimum editor window rows required for nano to work correctly. */
 #define MIN_EDITOR_ROWS 3
 
