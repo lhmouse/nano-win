@@ -369,6 +369,7 @@ int renumber_all(void)
     filestruct *temp;
     int i = 1;
 
+    assert(fileage==NULL || fileage!=fileage->next);
     for (temp = fileage; temp != NULL; temp = temp->next) {
 	temp->lineno = i++;
     }
@@ -384,6 +385,7 @@ int renumber(filestruct * fileptr)
 	renumber_all();
 	return 0;
     }
+    assert(fileptr==NULL || fileptr!=fileptr->next);
     for (temp = fileptr; temp != NULL; temp = temp->next) {
 	if (temp->prev != NULL)
 	    temp->lineno = temp->prev->lineno + 1;

@@ -13,6 +13,9 @@ CVS code -
 	- Stat full_path, not path (Steven Kneizys).
   read_file()
 	- Abort if we read a file of 0 lines (num_lines == 0), fixes BUG #70.
+	- Reverse tests to stop segfault on editing a new file of 0 
+	  lines (David Benbennick)
+	- Change input var to one char instead of array (David Benbennick).
 - nano.c:
   do_justify()
 	- More fixes for indented justify (David Benbennick).

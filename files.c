@@ -115,6 +115,8 @@ int read_byte(int fd, char *filename, char *input)
 	    resetty();
 	    endwin();
 	    perror(filename);
+	    total_refresh();
+	    return -1;
 	}
 	if (!size)
 	    return 0;
@@ -175,7 +177,7 @@ int read_file(int fd, char *filename, int quiet)
 {
     long size;
     int num_lines = 0;
-    char input[2];		/* buffer */
+    char input;		/* current input character */
     char *buf;
     long i = 0, bufx = 128;
     filestruct *fileptr = current, *tmp = NULL;
@@ -192,19 +194,18 @@ int read_file(int fd, char *filename, int quiet)
 	current = fileage;
 	line1ins = 1;
     }
-    input[1] = 0;
     /* Read the entire file into file struct */
-    while ((size = read_byte(fd, filename, input)) > 0) {
+    while ((size = read_byte(fd, filename, &input)) > 0) {
 
-	if (input[0] == '\n') {
+	if (input == '\n') {
 	    fileptr = read_line(buf, fileptr, &line1ins);
 	    num_lines++;
 	    buf[0] = 0;
 	    i = 0;
 #ifndef NANO_SMALL
-	 } else if (!ISSET(NO_CONVERT) && input[0] >= 0 && input[0] <= 31 
-			&& input[0] != '\t' && input[0] != '\r'
-			&& input[0] != '\n') 
+	 } else if (!ISSET(NO_CONVERT) && input >= 0 && input <= 31 
+			&& input != '\t' && input != '\r'
+			&& input != '\n') 
 	    /* If the file has binary chars in it, don't stupidly
 		assume it's a DOS or Mac formatted file! */
 	    SET(NO_CONVERT);
@@ -215,7 +216,7 @@ int read_file(int fd, char *filename, int quiet)
 	    fileformat = 2;
 	    fileptr = read_line(buf, fileptr, &line1ins);
 	    num_lines++;
-	    buf[0] = input[0];
+	    buf[0] = input;
 	    buf[1] = 0;
 	    i = 1;
 #endif
@@ -229,7 +230,7 @@ int read_file(int fd, char *filename, int quiet)
 		buf = nrealloc(buf, bufx + 128);
 		bufx += 128;
 	    }
-	    buf[i] = input[0];
+	    buf[i] = input;
 	    buf[i + 1] = 0;
 	    i++;
 	}
@@ -243,17 +244,17 @@ int read_file(int fd, char *filename, int quiet)
 	buf[0] = 0;
     }
 
-    /* Did we try to insert a file of 0 bytes? */
-    if (num_lines == 0)
-    {
-	statusbar(_("Read %d lines"), 0);
-	return 1;
-    }
-
     /* Did we even GET a file if we don't already have one? */
     if (totsize == 0 || fileptr == NULL) {
 	new_file();
 	statusbar(_("Read %d lines"), num_lines);
+	return 1;
+    }
+
+    /* Did we try to insert a file of 0 bytes? */
+    if (num_lines == 0)
+    {
+	statusbar(_("Read %d lines"), 0);
 	return 1;
     }
 
@@ -310,7 +311,7 @@ int open_pipe(char *command)
 	dup2(fd[1], fileno(stderr));
 	/* If execl() returns at all, there was an error. */
       
-	execl("/bin/sh","/bin/sh","-c",command,0);
+	execl("/bin/sh","sh","-c",command,0);
 	exit(0);
     }
 
