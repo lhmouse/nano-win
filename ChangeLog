@@ -40,6 +40,8 @@ CVS code -
 - search.c:
   search_init()
 	- Fix a missing free (Rocco).
+  do_gotoline() 
+	- Set placewewant if we actually move to a different line.
 - utils.c:
   stristr() 
 	- Defined regardless of NANO_SMALL (noticed by Jordi).

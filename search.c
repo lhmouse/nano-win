@@ -844,6 +844,7 @@ int do_gotoline(int line, int save_pos)
     else
 	edit_update(current, CENTER);
 
+    placewewant = xplustabs();
     goto_abort();
     return 1;
 }
