@@ -132,6 +132,9 @@ CVS code -
 	  suggested by Mike Frysinger)
 - configure.ac:
 	- Check for glib 2.x and then 1.2.x if we need glib. (DLR)
+- faq.html:
+	- Add question explaining how verbatim input works, as well as a
+	  few minor fixes. (DLR)
 - nano.spec.in:
 	- Update for the 1.3 branch of nano. (DLR)
 - THANKS:
