@@ -2028,6 +2028,26 @@ void do_toggle(int which)
 #endif
 }
 
+/* This function returns the correct keystroke, given the A,B,C or D
+   input key.  This is a common sequence of many terms which send
+   Esc-O-[A-D] or Esc-[-[A-D]. */
+int ABCD(int input)
+{
+    switch(input)
+    {                
+	case 'A':
+	    return(KEY_UP);
+	case 'B':
+	    return(KEY_DOWN);
+	case 'C':
+	    return(KEY_RIGHT);
+	case 'D': 
+	    return(KEY_LEFT);
+	default:
+	    return 0;
+    }
+}
+
 int main(int argc, char *argv[])
 {
     int optchr;
@@ -2275,6 +2295,8 @@ int main(int argc, char *argv[])
 		/* Alt-O, suddenly very important ;) */
 	    case 79:
 		kbinput = wgetch(edit);
+		if (kbinput <= 'D' && kbinput >= 'A')
+		   kbinput = ABCD(kbinput);
 		if (kbinput <= 'S' && kbinput >= 'P')
 		    kbinput = KEY_F(kbinput - 79);
 #ifdef DEBUG
@@ -2292,7 +2314,6 @@ int main(int argc, char *argv[])
 		keyhandled = 1;
 		break;
 	    case 91:
-
 		switch (kbinput = wgetch(edit)) {
 		case '1':	/* Alt-[-1-[0-5,7-9] = F1-F8 in X at least */
 		    kbinput = wgetch(edit);
@@ -2369,16 +2390,10 @@ int main(int argc, char *argv[])
 			kbinput = KEY_F(kbinput - 64);
 		    break;
 		case 'A':
-		    kbinput = KEY_UP;
-		    break;
 		case 'B':
-		    kbinput = KEY_DOWN;
-		    break;
 		case 'C':
-		    kbinput = KEY_RIGHT;
-		    break;
 		case 'D':
-		    kbinput = KEY_LEFT;
+		    kbinput = ABCD(kbinput);
 		    break;
 		case 'H':
 		    kbinput = KEY_HOME;

@@ -21,6 +21,10 @@ General
   do_browser()
 	- Added space and - keys to do page up and down.
 - nano.c:
+  ABCD()
+	- New function, figures out what kbinput to return given
+	  input common to several switch statements, allows us to 
+	  support the default Konsole key settings.
   main()
 	- Alternate speller option no longer valid if DISABLE_SPELLER is
 	  active. (Rocco)
