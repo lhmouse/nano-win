@@ -502,7 +502,6 @@ int do_writeout(char *path, int exiting)
 #ifdef NANO_EXTRA
     static int did_cred = 0;
 #endif
-fprintf(stderr, "answer = %s, path = %s\n", answer, path);
 
     answer = mallocstrcpy(answer, path);
 
@@ -533,11 +532,8 @@ fprintf(stderr, "answer = %s, path = %s\n", answer, path);
 
 	    if (tmp != NULL)
 		answer = mallocstrcpy(answer, tmp);
-	    else {
-fprintf(stderr, "Answer = %s\n", answer);
-
+	    else
 		return do_writeout(answer, exiting);
-	    }
 	}
 #endif
 
