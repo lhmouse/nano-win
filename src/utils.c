@@ -471,27 +471,33 @@ void get_totals(const filestruct *begin, const filestruct *end, int
     /* Go through the lines from begin to end->prev, if we can. */
     for (f = begin; f != NULL && f != end; f = f->next) {
 	/* Count this line. */
-	(*lines)++;
+	if (lines != NULL)
+	    (*lines)++;
 
 	/* Count the number of characters on this line. */
-	*size += strlen(f->data);
+	if (size != NULL) {
+	    *size += strlen(f->data);
 
-	/* Count the newline if we have one. */
-	if (f->next != NULL)
-	   (*size)++;
+	    /* Count the newline if we have one. */
+	    if (f->next != NULL)
+		(*size)++;
+	}
     }
 
     /* Go through the line at end, if we can. */
     if (f != NULL) {
 	/* Count this line. */
-	(*lines)++;
+	if (lines != NULL)
+	    (*lines)++;
 
 	/* Count the number of characters on this line. */
-	*size += strlen(f->data);
+	if (size != NULL) {
+	    *size += strlen(f->data);
 
-	/* Count the newline if we have one. */
-	if (f->next != NULL)
-	   (*size)++;
+	    /* Count the newline if we have one. */
+	    if (f->next != NULL)
+		(*size)++;
+	}
     }
 }
 

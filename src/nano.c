@@ -1885,9 +1885,6 @@ const char *do_alt_speller(char *tempfile_name)
 	 * the alternate spell command.  The line that mark_beginbuf
 	 * points to will be freed, so we save the line number and
 	 * restore afterwards. */
-    int old_totlines = totlines;
-	/* Our saved value of totlines, used when we spell-check a
-	 * marked selection. */
     long old_totsize = totsize;
 	/* Our saved value of totsize, used when we spell-check a marked
 	 * selection. */
@@ -1949,7 +1946,6 @@ const char *do_alt_speller(char *tempfile_name)
 
 #ifndef NANO_SMALL
     if (old_mark_set) {
-	int part_totlines;
 	long part_totsize;
 
 	/* If the mark was on, partition the filestruct so that it
@@ -1961,11 +1957,10 @@ const char *do_alt_speller(char *tempfile_name)
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
 	added_magicline = (filebot->data[0] != '\0');
 
-	/* Get the number of lines and the number of characters in the
-	 * marked text, and subtract them from the saved values of
-	 * totlines and totsize. */
-	get_totals(top, bot, &part_totlines, &part_totsize);
-	old_totlines -= part_totlines;
+	/* Get the number of characters in the marked text, and subtract
+	 * it from the saved value of totsize.  Note that we don't need
+	 * to save totlines. */
+	get_totals(top, bot, NULL, &part_totsize);
 	old_totsize -= part_totsize;
     }
 #endif
@@ -2009,14 +2004,13 @@ const char *do_alt_speller(char *tempfile_name)
 	unpartition_filestruct(&filepart);
 
 	/* Renumber starting with the beginning line of the old
-	 * partition.  Also add the number of lines and characters in
-	 * the spell-checked marked text to the saved values of totlines
-	 * and totsize, and then make those saved values the actual
-	 * values. */
+	 * partition.  Also set totlines to the new number of lines in
+	 * the file, add the number of characters in the spell-checked
+	 * marked text to the saved value of totsize, and then make that
+	 * saved value the actual value. */
 	renumber(top_save);
-	old_totlines += totlines;
+	totlines = filebot->lineno;
 	old_totsize += totsize;
-	totlines = old_totlines;
 	totsize = old_totsize;
 
 	/* Assign mark_beginbuf to the line where the mark began
