@@ -52,6 +52,8 @@ CVS code -
 	  for a backwards search in the refactored code, and enclose
 	  dump_buffer() and dump_buffer_reverse() in one ENABLE_DEBUG
 	  #ifdef instead of two.
+	- Convert memmove() function calls to charmove() macro calls, as
+	  the former all work on char*'s. (DLR)
 - files.c:
   do_browser()
 	- Some of the Pico compatibility options in the file browser

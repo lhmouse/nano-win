@@ -117,7 +117,7 @@ void cut_marked_segment(filestruct *top, size_t top_x, filestruct *bot,
     /* Make the first cut line manually. */
     tmp = copy_node(top);
     newsize = (top == bot ? bot_x - top_x : strlen(top->data + top_x));
-    memmove(tmp->data, top->data + top_x, newsize);
+    charmove(tmp->data, top->data + top_x, newsize);
     null_at(&tmp->data, newsize);
     add_to_cutbuffer(tmp);
 
@@ -131,7 +131,7 @@ void cut_marked_segment(filestruct *top, size_t top_x, filestruct *bot,
 	if (top == bot) {
 	    /* In this case, the remainder line is shorter, so we must
 	       move text from the end forward first. */
-	    memmove(top->data + top_x, bot->data + bot_x,
+	    charmove(top->data + top_x, bot->data + bot_x,
 			newsize - top_x);
 	    top->data = charealloc(top->data, newsize);
 	} else {
@@ -140,7 +140,7 @@ void cut_marked_segment(filestruct *top, size_t top_x, filestruct *bot,
 	    /* Here, the remainder line might get longer, so we
 	       realloc() it first. */
 	    top->data = charealloc(top->data, newsize);
-	    memmove(top->data + top_x, bot->data + bot_x,
+	    charmove(top->data + top_x, bot->data + bot_x,
 			newsize - top_x);
 	}
     }
@@ -364,7 +364,7 @@ int do_uncut_text(void)
 	    size_t cur_len = strlen(current->data);
 
 	    current->data = charealloc(current->data, cur_len + buf_len + 1);
-	    memmove(current->data + current_x + buf_len,
+	    charmove(current->data + current_x + buf_len,
 			current->data + current_x, cur_len - current_x + 1);
 	    strncpy(current->data + current_x, cutbuffer->data, buf_len);
 		/* Use strncpy() to not copy the terminal '\0'. */

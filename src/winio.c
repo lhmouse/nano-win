@@ -635,7 +635,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    break;
 	case NANO_DELETE_KEY:
 	    if (x < xend) {
-		memmove(answer + x, answer + x + 1, xend - x);
+		charmove(answer + x, answer + x + 1, xend - x);
 		xend--;
 	    }
 	    break;
@@ -647,7 +647,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    break;
 	case NANO_BACKSPACE_KEY:
 	    if (x > 0) {
-		memmove(answer + x - 1, answer + x, xend - x + 1);
+		charmove(answer + x - 1, answer + x, xend - x + 1);
 		x--;
 		xend--;
 	    }
@@ -791,7 +791,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    if (kbinput < 32 || kbinput == 127)
 		break;
 	    answer = charealloc(answer, xend + 2);
-	    memmove(answer + x + 1, answer + x, xend - x + 1);
+	    charmove(answer + x + 1, answer + x, xend - x + 1);
 	    xend++;
 	    answer[x] = kbinput;
 	    x++;

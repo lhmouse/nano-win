@@ -990,7 +990,7 @@ void do_char(char ch)
     /* more dangerousness fun =) */
     current->data = charealloc(current->data, current_len + 2);
     assert(current_x <= current_len);
-    memmove(&current->data[current_x + 1],
+    charmove(&current->data[current_x + 1],
 	    &current->data[current_x],
 	    current_len - current_x + 1);
     current->data[current_x] = ch;
@@ -1043,7 +1043,7 @@ int do_delete(void)
 
     if (current_x != strlen(current->data)) {
 	/* Let's get dangerous */
-	memmove(&current->data[current_x], &current->data[current_x + 1],
+	charmove(&current->data[current_x], &current->data[current_x + 1],
 		strlen(current->data) - current_x);
 
 	align(&current->data);
@@ -2463,7 +2463,7 @@ int do_para_operation(int operation)
 		current->next->data = charealloc(current->next->data,
 			next_line_len + line_len - break_pos + 1);
 
-		memmove(current->next->data + indent_len + line_len - break_pos,
+		charmove(current->next->data + indent_len + line_len - break_pos,
 			current->next->data + indent_len,
 			next_line_len - indent_len + 1);
 		strcpy(current->next->data + indent_len,
@@ -2537,7 +2537,7 @@ int do_para_operation(int operation)
 		totsize -= indent_len;
 		current_y--;
 	    } else {
-		memmove(current->next->data + indent_len,
+		charmove(current->next->data + indent_len,
 			current->next->data + indent_len + break_pos + 1,
 			next_line_len - break_pos - indent_len);
 		null_at(&current->next->data,
