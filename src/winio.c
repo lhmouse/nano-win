@@ -2976,8 +2976,8 @@ void edit_update(topmidnone location)
 
 /* Ask a question on the statusbar.  Answer will be stored in answer
  * global.  Returns -1 on aborted enter, -2 on a blank string, and 0
- * otherwise, the valid shortcut key caught.  Def is any editable text we
- * want to put up by default.
+ * otherwise, the valid shortcut key caught.  def is any editable text
+ * we want to put up by default.
  *
  * New arg tabs tells whether or not to allow tab completion. */
 int statusq(int allowtabs, const shortcut *s, const char *def,
