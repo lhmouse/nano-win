@@ -1823,7 +1823,7 @@ int do_writeout(const char *path, int exiting, int append)
 	    return -1;
 	}
 #endif
-	if (append == 0 && strcmp(answer, filename) != 0) {
+	if (append == 0 && strcmp(answer, filename)) {
 	    struct stat st;
 
 	    if (!stat(answer, &st)) {

@@ -24,21 +24,31 @@ CVS code -
 	  via Meta-W, and move the line wrapping toggle to Meta-L.  New
 	  function do_research(). (Wouter van Hemel)
 - files.c:
-  do_browser():
+  do_browser()
 	- Some of the Pico compatibility options in the file browser
 	  that don't work properly for current Pico have been removed.
-	  Backspace, 'g', 'l', 'q', and 'u' are invalid, 'd' deletes the
-	  highlighted file, and 'r' renames the highlighted file. (DLR)
+	  Backspace, 'g', 'l', 'q', and 'u' are invalid.  'd' deletes
+	  the highlighted file, and 'r' renames the highlighted file;
+	  neither of these are implemented. (DLR)
 - global.c:
-  toggle_init():
+  toggle_init()
 	- Change the message for the line wrapping toggle from "Auto
 	  wrap" to "Auto line wrap", to more clearly associate it with
 	  Meta-L. (DLR)
+  shortcut_init()
+	- Change multibuffer-enabled references to opening/closing the
+	  previous/next loaded file to switching to/closing the
+	  previous/next file buffer, for consistency with other
+	  references. (DLR)
 - nano.c:
   window_init()
 	- Set keypad() to TRUE regardless of whether PDCurses is being
 	  used, as Meta-X apparently turns it off even under ncurses.
 	  (DLR)
+  help_init()
+	- Document the support for Esc Esc [character]'s being
+	  interpreted as Ctrl-[character], and the support for Pico's
+	  Esc Esc [three-digit decimal ASCII code] input method. (DLR)
 - nano.h:
 	- Define KEY_SUSPEND as -1 when slang is used, as slang has no
 	  KEY_SUSPEND equivalent.  When nano is compiled with slang
@@ -49,6 +59,23 @@ CVS code -
   titlebar()
 	- Fix problem with the available space for a filename on the
 	  titlebar's being short by one. (DLR)
+  do_credits()
+	- Update the copyright years to "1999-2003", to match those
+	  given in the rest of the code. (DLR)
+- nano.1, nanorc.5, nano.texi:
+	- Change all instances of $SYSCONFDIR to SYSCONFDIR, since
+	  SYSCONFDIR is set at compile time and can't be overridden by
+	  setting SYSCONFDIR in the environment. (David Benbennick)
+	- Remove -K/--keypad, and document -d/--rebinddelete. (DLR)
+	- Document the support for Esc Esc [character]'s being
+	  interpreted as Ctrl-[character], and the support for Pico's
+	  Esc Esc [three-digit decimal ASCII code] input method, if
+	  applicable. (DLR)
+- nano.1.html, nanorc.5.html:
+	- Regenerated. (DLR)
+- nanorc.sample:
+	- Remove duplicate "historylog" entry, remove "keypad" entry,
+	  and add "rebinddelete" entry. (DLR)
 - AUTHORS
 	- Updated to show 1.2/1.3 maintainers.
 

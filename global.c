@@ -350,7 +350,7 @@ void shortcut_init(int unjustify)
     nano_help_msg = _("Invoke the help menu");
     nano_writeout_msg = _("Write the current file to disk");
 #ifdef ENABLE_MULTIBUFFER
-    nano_exit_msg = _("Close currently loaded file/Exit from nano");
+    nano_exit_msg = _("Close current file buffer/Exit from nano");
 #else
     nano_exit_msg = _("Exit from nano");
 #endif
@@ -400,8 +400,8 @@ void shortcut_init(int unjustify)
     nano_bracket_msg = _("Find other bracket");
 #endif
 #ifdef ENABLE_MULTIBUFFER
-    nano_openprev_msg = _("Open previously loaded file");
-    nano_opennext_msg = _("Open next loaded file");
+    nano_openprev_msg = _("Switch to previous file buffer");
+    nano_opennext_msg = _("Switch to next file buffer");
     nano_multibuffer_msg = _("Toggle insert into new buffer");
 #endif
 #endif /* !DISABLE_HELP */

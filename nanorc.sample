@@ -29,9 +29,6 @@
 ## Enable ~/.nano_history for saving and reading search/replace strings.
 # set historylog
 
-## Use alternate keypad routines
-# set keypad
-
 ## Allow multiple file buffers (using ^R inserts into separate buffer).
 ## You must have configured with --enable-multibuffer or --enable-extra
 ## for this to work.
@@ -69,6 +66,9 @@
 ## You can get old nano quoted-justify behavior via:
 # set quotestr "(> )+"
 
+## Fix Backspace if it acts like Delete
+# set rebinddelete
+
 ## Do extended regular expression searches by default 
 # set regexp
 
@@ -88,9 +88,6 @@
 
 ## Save automatically on exit, don't prompt
 # set tempfile
-
-## Enable ~/.nano_history for saving and reading search/replace strings.
-# set historylog
 
 ## Disallow file modification, why would you want this in an rc file? ;)
 # set view

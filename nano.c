@@ -358,12 +358,15 @@ void help_init(void)
 	  "The bottom two lines show the most commonly used shortcuts "
 	  "in the editor.\n\n "
 	  "The notation for shortcuts is as follows: Control-key "
-	  "sequences are notated with a caret (^) symbol and are entered "
-	  "with the Control (Ctrl) key.  Escape-key sequences are notated "
-	  "with the Meta (M) symbol and can be entered using either the "
-	  "Esc, Alt or Meta key depending on your keyboard setup.  The "
-	  "following keystrokes are available in the main editor window.  "
-	  "Alternative keys are shown in parentheses:\n\n");
+	  "sequences are notated with a caret (^) symbol and can be "
+	  "entered either by using the Control (Ctrl) key or pressing the "
+	  "Esc key twice.  Escape-key sequences are notated with the Meta "
+	  "(M) symbol and can be entered using either the Esc, Alt or "
+	  "Meta key depending on your keyboard setup.  Also, pressing Esc "
+	  "twice and then typing a three-digit number from 000 to 255 "
+	  "will enter the character with the corresponding ASCII code.  "
+	  "The following keystrokes are available in the main editor "
+	  "window.  Alternative keys are shown in parentheses:\n\n");
 
     allocsize += strlen(ptr);
 
@@ -1570,8 +1573,8 @@ int do_wrap(filestruct *inptr)
 #endif /* !DISABLE_WRAPPING */
 
 #ifndef DISABLE_SPELLER
-/* word is misspelled in the file.  Let the user replace it.  We return
-   False if the user cancels. */
+/* A word is misspelled in the file.  Let the user replace it.  We
+ * return False if the user cancels. */
 int do_int_spell_fix(const char *word)
 {
     char *save_search;

@@ -1913,7 +1913,8 @@ void dump_buffer(const filestruct *inptr) {
 #endif /* DEBUG */
 
 #ifdef DEBUG
-void dump_buffer_reverse(void) {
+void dump_buffer_reverse(void)
+{
     const filestruct *fileptr = filebot;
 
     while (fileptr != NULL) {
@@ -1979,7 +1980,7 @@ void do_credits(void)
 	"6",				/* "and anyone else we forgot..." */
 	"7",				/* "Thank you for using nano!\n" */
 	"", "", "", "",
-	"(c) 1999-2002 Chris Allegretta",
+	"(c) 1999-2003 Chris Allegretta",
 	"", "", "", "",
 	"http://www.nano-editor.org/"
     };
