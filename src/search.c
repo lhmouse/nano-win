@@ -979,7 +979,7 @@ void do_find_bracket(void)
     char ch_under_cursor, wanted_ch;
     const char *pos, *brackets = "([{<>}])";
     char regexp_pat[] = "[  ]";
-    size_t old_pww, current_x_save;
+    size_t current_x_save, old_pww;
     int count = 1;
     long flags_save;
     filestruct *current_save;
@@ -995,9 +995,9 @@ void do_find_bracket(void)
     assert(strlen(brackets) % 2 == 0);
     wanted_ch = brackets[(strlen(brackets) - 1) - (pos - brackets)];
 
-    old_pww = placewewant;
-    current_x_save = current_x;
     current_save = current;
+    current_x_save = current_x;
+    old_pww = placewewant;
     flags_save = flags;
     SET(USE_REGEXP);
 
@@ -1036,8 +1036,8 @@ void do_find_bracket(void)
 	} else {
 	    /* Didn't find either a left or right bracket. */
 	    statusbar(_("No matching bracket"));
-	    current_x = current_x_save;
 	    current = current_save;
+	    current_x = current_x_save;
 	    update_line(current, current_x);
 	    break;
 	}
