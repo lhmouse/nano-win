@@ -829,6 +829,8 @@ int open_pipe(const char *command)
     /* Before we start reading the forked command's output, we set
      * things up so that ^C will cancel the new process. */
 
+    /* Enable interpretation of the special control keys so that we get
+     * SIGINT when Ctrl-C is pressed. */
     enable_signals();
 
     if (sigaction(SIGINT, NULL, &newaction) == -1) {
@@ -860,6 +862,8 @@ int open_pipe(const char *command)
     if (cancel_sigs != 1 && sigaction(SIGINT, &oldaction, NULL) == -1)
 	nperror("sigaction");
 
+    /* Disable interpretation of the special control keys so that we can
+     * use Ctrl-C for other things. */
     disable_signals();
 
     return 0;
@@ -2954,7 +2958,6 @@ void do_toggle(const toggle *which)
 }
 #endif /* !NANO_SMALL */
 
-#if !defined(NANO_SMALL) || defined(USE_SLANG)
 void disable_signals(void)
 {
     struct termios term;
@@ -2963,7 +2966,6 @@ void disable_signals(void)
     term.c_lflag &= ~ISIG;
     tcsetattr(0, TCSANOW, &term);
 }
-#endif
 
 #ifndef NANO_SMALL
 void enable_signals(void)
@@ -3401,25 +3403,21 @@ int main(int argc, char *argv[])
     tcgetattr(0, &oldterm);
 
    /* Curses initialization stuff: Start curses, save the state of the
-    * terminal mode, put the terminal in raw mode (read one character at
-    * a time and don't interpret the special control keys), disable
+    * terminal mode, put the terminal in cbreak mode (read one character
+    * at a time and interpret the special control keys), disable
     * translation of carriage return (^M) into newline (^J) so that we
     * can tell the difference between the Enter key and Ctrl-J, and
-    * disable echoing of characters as they're typed.  Finally, if we're
-    * in preserve mode, turn the flow control characters back on. */
+    * disable echoing of characters as they're typed.  Finally, disable
+    * interpretation of the special control keys, and if we're not in
+    * preserve mode, disable interpretation of the flow control
+    * characters too. */
     initscr();
-    raw();
-#ifdef USE_SLANG
-    /* Slang curses emulation brain damage, part 2: Raw mode acts just
-     * like cbreak mode here and doesn't disable interpretation of the
-     * special control keys.  Work around this by manually disabling
-     * interpretation of the special control keys. */
-    disable_signals();
-#endif
+    cbreak();
     nonl();
     noecho();
-    if (ISSET(PRESERVE))
-	enable_flow_control();
+    disable_signals();
+    if (!ISSET(PRESERVE))
+	disable_flow_control();
 
 #ifndef NANO_SMALL
     /* Save the terminal's current state, so that we can restore it

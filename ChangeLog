@@ -125,10 +125,8 @@ CVS code -
 	  mode should only affect how the "Read File" command behaves
 	  anyway. (DLR)
 	- Remove the disabling of implementation-defined input
-	  processing, as raw mode appears to turn it off anyway. (DLR)
-	- Use raw mode instead of cbreak mode, since it comes closest to
-	  what we need by automatically disabling the special control
-	  keys. (DLR)
+	  processing, as cbreak mode appears to turn it off anyway.
+	  (DLR)
 	- After noecho(), call disable_signals() and
 	  disable_flow_control(), the latter only if PRESERVE is not
 	  set. (DLR)
