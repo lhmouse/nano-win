@@ -1,4 +1,4 @@
-CVS code -
+nano-1.1.2 - 10/03/2001
 - General
 	- Added BUGS #63 & 64.  Fixes in search_init() and nanogetstr(),
 	  new flag CLEAR_BACKUPSTRING because there's no easy way to
@@ -27,7 +27,7 @@ CVS code -
 	- Call do_gotopos from do_alt_spell() to keep position
 	  consistent when invoking alt speller (DLR).
 	- Readded DISABLE_CURPOS because in certain instances (like
-	  all the "Search Wrapper" lines) the cursor position will
+	  all the "Search Wrapped" lines) the cursor position will
 	  be different yet we don't want the cursor position displayed.
 	- Take control-space out of -tiny build, unneeded.
 - cut.c:

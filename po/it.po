@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.2\n"
-"POT-Creation-Date: 2001-10-02 20:12-0400\n"
+"POT-Creation-Date: 2001-10-03 17:47-0400\n"
 "PO-Revision-Date: 2001-10-03 20:27+02:00\n"
 "Last-Translator: Marco Colombo <magicdice@inwind.it>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -1021,7 +1021,9 @@ msgstr "Errore in %s alla riga %d: riempimento richiesto %d troppo piccolo"
 #: rcfile.c:205
 #, c-format
 msgid "Error in %s on line %d: requested tab size %d too small"
-msgstr "Errore in %s alla riga %d: lunghezza della tabulazione richiesta %d troppo piccola"
+msgstr ""
+"Errore in %s alla riga %d: lunghezza della tabulazione richiesta %d troppo "
+"piccola"
 
 #: rcfile.c:219
 #, c-format
@@ -1271,14 +1273,14 @@ msgstr "e chiunque altro abbiamo dimenticato..."
 msgid "Thank you for using nano!\n"
 msgstr "Grazie per aver usato nano!\n"
 
-msgid "Write"
-msgstr "Salva"
+#~ msgid "Write"
+#~ msgstr "Salva"
 
-msgid "Case Sensitive Regexp Search%s%s"
-msgstr "Ricerca case sensitive epressioni regolari%s%s"
+#~ msgid "Case Sensitive Regexp Search%s%s"
+#~ msgstr "Ricerca case sensitive epressioni regolari%s%s"
 
-msgid "Regexp Search%s%s"
-msgstr "Ricerca espressioni regolari%s%s"
+#~ msgid "Regexp Search%s%s"
+#~ msgstr "Ricerca espressioni regolari%s%s"
 
-msgid "Only %d lines available, skipping to last line"
-msgstr "Solo %d righe disponibili, salto all'ultima"
+#~ msgid "Only %d lines available, skipping to last line"
+#~ msgstr "Solo %d righe disponibili, salto all'ultima"

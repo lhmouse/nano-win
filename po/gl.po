@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.2\n"
-"POT-Creation-Date: 2001-10-03 12:14+0200\n"
+"POT-Creation-Date: 2001-10-03 17:47-0400\n"
 "PO-Revision-Date: 2001-10-03 12:37+0200\n"
 "Last-Translator: Jacobo Tarrio <jtarrio@iname.com>\n"
 "Language-Team: Galician <gpul-traduccion@ceu.fi.udc.es>\n"
@@ -580,9 +580,9 @@ msgid ""
 "commonly used shortcuts in the editor.\n"
 "\n"
 " The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
-"key sequences are notated with the Meta (M) symbol and can be entered using "
-"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
+"with a caret (^) symbol and are entered with the Control (Ctrl) key.  "
+"Escape-key sequences are notated with the Meta (M) symbol and can be entered "
+"using either the Esc, Alt or Meta key depending on your keyboard setup.  The "
 "following keystrokes are available in the main editor window. Optional keys "
 "are shown in parentheses:\n"
 "\n"
@@ -679,7 +679,8 @@ msgstr " -m \t\t--mouse\t\t\tEmprega-lo rato\n"
 
 #: nano.c:455
 msgid " -o [dir] \t--operatingdir=[dir]\tSet operating directory\n"
-msgstr " -o [dir] \t--operatingdir=[dir]\tEstabrece-lo directorio de traballo\n"
+msgstr ""
+" -o [dir] \t--operatingdir=[dir]\tEstabrece-lo directorio de traballo\n"
 
 #: nano.c:458
 msgid " -p \t\t--pico\t\t\tEmulate Pico as closely as possible\n"
@@ -1011,7 +1012,8 @@ msgstr ""
 #: rcfile.c:205
 #, c-format
 msgid "Error in %s on line %d: requested tab size %d too small"
-msgstr "Erro en %s na liña %d: o tamaño de tabulación solicitado %d é pequeno de máis"
+msgstr ""
+"Erro en %s na liña %d: o tamaño de tabulación solicitado %d é pequeno de máis"
 
 #: rcfile.c:219
 #, c-format

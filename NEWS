@@ -1,3 +1,17 @@
+10/03/2001 - GNU nano 1.1.2 is out there.  Many new features in this
+		release, including support for auto-converting from
+		DOS and Mac formatted files, as well as toggles for
+		writing out files in these formats.  Pico's -o flag has
+		been implemented, as has some new smooth scrolling code
+		(which can be used in place of the default jerky scrolling
+		behavior). Also, there is now a "find matching
+		bracket/brace/etc" feature (Meta-]).  The  .nanorc file
+		now accepts setting the tabsize, and the help text at the
+		bottom of the editor is now better spaced out in the
+		search/replace prompts.  There are also the usual helping
+		of bugfixes, translation updates and, surely a bug or two.
+		You better get ready!
+
 07/28/2001 - GNU nano 1.1.1 is released.  Our second 1.1 unstable release
 		features many bugfixes from the initial release, in
 		particular fixs for the multibuffer code, and various

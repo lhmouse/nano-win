@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.2pre3\n"
-"POT-Creation-Date: 2001-10-03 23:43+0200\n"
+"POT-Creation-Date: 2001-10-03 17:47-0400\n"
 "PO-Revision-Date: 2001-10-03 20:38+0300\n"
 "Last-Translator: Pauli Virtanen <pauli.virtanen@saunalahti.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -583,9 +583,9 @@ msgid ""
 "commonly used shortcuts in the editor.\n"
 "\n"
 " The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
-"key sequences are notated with the Meta (M) symbol and can be entered using "
-"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
+"with a caret (^) symbol and are entered with the Control (Ctrl) key.  "
+"Escape-key sequences are notated with the Meta (M) symbol and can be entered "
+"using either the Esc, Alt or Meta key depending on your keyboard setup.  The "
 "following keystrokes are available in the main editor window. Optional keys "
 "are shown in parentheses:\n"
 "\n"
@@ -1013,8 +1013,8 @@ msgstr "Virhe tiedostossa %s rivillä %d: haluttu rivinpituus %d on liian pieni"
 #: rcfile.c:205
 #, fuzzy, c-format
 msgid "Error in %s on line %d: requested tab size %d too small"
-msgstr "Virhe tiedostossa %s rivillä %d: haluttu sarkaimen koko %d on liian "
-"pieni"
+msgstr ""
+"Virhe tiedostossa %s rivillä %d: haluttu sarkaimen koko %d on liian pieni"
 
 #: rcfile.c:219
 #, c-format

@@ -3,7 +3,7 @@ Content-type: text/html
 <HTML><HEAD><TITLE>Manpage of NANO</TITLE>
 </HEAD><BODY>
 <H1>NANO</H1>
-Section: User Commands  (1)<BR>Updated: April 30, 2001<BR><A HREF="#index">Index</A>
+Section: User Commands  (1)<BR>Updated: October 3, 2001<BR><A HREF="#index">Index</A>
 <A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 
@@ -44,31 +44,44 @@ such as &quot;search and replace&quot; and &quot;goto line number&quot;.
 <H2>OPTIONS</H2>
 
 <DL COMPACT>
+<DT><B>-D (--dos)</B>
+
+<DD>
+Write file in DOS format.
 <DT><B>-F (--multibuffer)</B>
 
 <DD>
 Enable multiple file buffers (if available).
-<DT><B>-T (--tabsize)</B>
+<DT><B>-M (--mac)</B>
 
 <DD>
-Set the size (width) of a tab.
+Write file in Mac format.
 <DT><B>-R (--regexp)</B>
 
 <DD>
 Enable regular expression matching for search strings, as well as
 \n subexpression replacement for replace strings, if available.
+<DT><B>-S (--smooth)</B>
+
+<DD>
+Enable smooth scrolling. Text will scroll line-by-line, instead of the
+usual chunk-by-chunk behaviour.
+<DT><B>-T [num] (--tabsize=[num])</B>
+
+<DD>
+Set the size (width) of a tab.
 <DT><B>-V (--version)</B>
 
 <DD>
 Show the current version number and author.
-<DT><B>-h (--help)</B>
-
-<DD>
-Display a summary of command line options.
 <DT><B>-c (--const)</B>
 
 <DD>
 Constantly show the cursor position.
+<DT><B>-h (--help)</B>
+
+<DD>
+Display a summary of command line options.
 <DT><B>-i (--autoindent)</B>
 
 <DD>
@@ -87,20 +100,24 @@ a new file, do not follow it.  Good for editing files in /tmp, perhaps?
 
 <DD>
 Enable mouse support (if available for your system).
+<DT><B>-o [dir] (--operatingdir=[dir])</B>
+
+<DD>
+Set operating directory. Makes nano set up something similar to a chroot.
 <DT><B>-p (--pico)</B>
 
 <DD>
 Emulate Pico as closely as possible.  This affects both the &quot;shortcut list&quot;
 at the bottom of the screen, as well as the display and entry of previous
 search and replace strings.
-<DT><B>-r (--fill)</B>
+<DT><B>-r [#cols] (--fill=[#cols])</B>
 
 <DD>
 Wrap lines at column #cols.  By default, this is the width of the screen,
 less eight.  If this value is negative, wrapping will occur at #cols from
 the right of the screen, allowing it to vary along with the screen width
 if the screen is resized.
-<DT><B>-s (--speller)</B>
+<DT><B>-s [prog] (--speller=[prog])</B>
 
 <DD>
 Enable alternative spell checker command.
@@ -124,7 +141,7 @@ Disable help screen at bottom of editor.
 
 <DD>
 Enable suspend ability.
-<DT><B>-b, -e, -f</B>
+<DT><B>-a, -b, -e, -f, -g, -j</B>
 
 <DD>
 Ignored, for compatibility with Pico.
@@ -140,8 +157,9 @@ Nano will try to dump the buffer into an emergency file in some cases.
 Mainly, this will happen if Nano receives a SIGHUP or runs out of
 memory, when it will write the buffer into a file named &quot;nano.save&quot; if the
 buffer didn't have a name already, or will add a &quot;.save&quot; suffix to the
-current filename. Nano will <B>not</B> write this file if a previous one
-exists in the current directory.
+current filename. In multibuffer mode, nano will write all the open buffers to
+the respective emergency files. Nano will <B>not</B> write this file if a
+previous one exists in the current directory.
 <A NAME="lbAG">&nbsp;</A>
 <H2>BUGS</H2>
 
@@ -166,7 +184,8 @@ subject of &quot;subscribe&quot;.
 <A NAME="lbAI">&nbsp;</A>
 <H2>AUTHOR</H2>
 
-Chris Allegretta &lt;<A HREF="mailto:chrisa@asty.org">chrisa@asty.org</A>&gt;, et al (see AUTHORS for details).
+Chris Allegretta &lt;<A HREF="mailto:chrisa@asty.org">chrisa@asty.org</A>&gt;, et al (see AUTHORS and THANKS for
+details).
 This manual page was originally written by Jordi Mallach
 &lt;<A HREF="mailto:jordi@sindominio.net">jordi@sindominio.net</A>&gt;, for the Debian GNU/Linux system (but may be
 used by others).
@@ -188,6 +207,6 @@ used by others).
 This document was created by
 <A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 03:54:23 GMT, July 15, 2001
+Time: 01:18:43 GMT, October 04, 2001
 </BODY>
 </HTML>
