@@ -608,6 +608,7 @@ int input_tab(char *buf, int place, int lastWasTab)
     static char **matches = (char **) NULL;
     int pos = place, newplace = 0, i = 0, col = 0, editline = 0;
     int longestname = 0;
+    char *foo;
 
     if (lastWasTab == FALSE) {
 	char *tmp, *matchBuf;
@@ -704,13 +705,13 @@ int input_tab(char *buf, int place, int lastWasTab)
 	    if (longestname > COLS - 1)
 		longestname = COLS - 1;
 
+	    foo = nmalloc(longestname + 5);
+
 	    /* Print the list of matches */
 	    for (i = 0, col = 0; i < num_matches; i++) {
 		
 		/* make each filename shown be the same length as the longest
 			filename, with two spaces at the end */
-		char *foo;
-		foo = nmalloc(longestname + 5);
 		snprintf(foo, longestname + 1, matches[i]);
 		while (strlen(foo) < longestname)
 		    strcat(foo, " ");
@@ -724,6 +725,7 @@ int input_tab(char *buf, int place, int lastWasTab)
 		    col = 0;
 		}
 	    }
+	    free(foo);
 	    wrefresh(edit);
 	    num_matches = 0;
 	}
