@@ -358,16 +358,6 @@ int write_file(char *name, int tmp)
 	    return -1; 
 	}
       
-	/* Here we make sure the inode and device numbers are the
-	 * same in the file we actually opened, compared to the file
-	 * we performed the initial lstat() call on.
-	 */
-        
-	if (st.st_ino != st2.st_ino || st.st_dev != st2.st_dev) {
-	    close(fd);
-	    return -1;
-	}   
-
     }
     /* Don't follow symlink.  Create new file. */
     else {
