@@ -1,4 +1,6 @@
 CVS -
+- aclocal.m4:
+	- Minor patch for intl check (really this time) (Albert Chin)
 
 nano-1.0.0 - 03/22/2001
 - General
@@ -8,8 +10,6 @@ nano-1.0.0 - 03/22/2001
 	  the "new" C++ reserved word, even though there is likely no way
 	  nano will EVER be compilable with a C++ compiler. (suggested by
 	  Rocco Corsi).
-- aclocal.m4:
-	- Minor patch for intl check (Christian Weisgerber)
 - ca.po, es.po:
 	- Final tweaks for Nano 1.0.
 - cs.po:
