@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.7\n"
-"POT-Creation-Date: 2000-10-01 13:58-0400\n"
+"POT-Creation-Date: 2000-10-02 00:28-0400\n"
 "PO-Revision-Date: 2000-03-03 04:57+0100\n"
 "Last-Translator: Daniele Medri <madrid@linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -55,7 +55,7 @@ msgstr "Lettura file"
 msgid "File to insert [from ./] "
 msgstr "File da inserire [da ./] "
 
-#: files.c:274 files.c:298 files.c:488 nano.c:1132
+#: files.c:274 files.c:298 files.c:488 nano.c:1133
 msgid "Cancelled"
 msgstr "Cancellato"
 
@@ -619,120 +619,120 @@ msgstr ""
 msgid "Mark UNset"
 msgstr ""
 
-#: nano.c:867
+#: nano.c:868
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr "check_wrap chiamata con inptr->data=\"%s\"\n"
 
-#: nano.c:918
+#: nano.c:919
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr "current->data ora = \"%d\"\n"
 
-#: nano.c:971
+#: nano.c:972
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr "Dopo, data = \"%s\"\n"
 
-#: nano.c:1041
+#: nano.c:1042
 msgid "Error deleting tempfile, ack!"
 msgstr ""
 
-#: nano.c:1059
+#: nano.c:1060
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Impossibile creare un nome file temporaneo: %s"
 
-#: nano.c:1082
+#: nano.c:1083
 #, c-format
 msgid "Could not invoke spell program \"%s\""
 msgstr "Impossibile invocare correttore ortografico \"%s\""
 
 #. Why 32512? I dont know!
-#: nano.c:1088
+#: nano.c:1089
 msgid "Could not invoke \"ispell\""
 msgstr "Impossibile invocare \"ispell\""
 
-#: nano.c:1101
+#: nano.c:1102
 msgid "Finished checking spelling"
 msgstr "Controllo ortografico terminato"
 
-#: nano.c:1119
+#: nano.c:1120
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 "Salva il buffer modificato (RISPONDENDO \"No\" ANNULLERETE I CAMBIAMENTI "
 "AVVENUTI) ?"
 
-#: nano.c:1283
+#: nano.c:1284
 msgid "Cannot resize top win"
 msgstr "Impossibile ridimensionare la finestra superiore"
 
-#: nano.c:1285
+#: nano.c:1286
 msgid "Cannot move top win"
 msgstr "Impossibile spostare la finestra superiore"
 
-#: nano.c:1287
+#: nano.c:1288
 msgid "Cannot resize edit win"
 msgstr "Impossibile ridimensionare la finestra di modifica"
 
-#: nano.c:1289
+#: nano.c:1290
 msgid "Cannot move edit win"
 msgstr "Impossibile spostare finestra di modifica"
 
-#: nano.c:1291
+#: nano.c:1292
 msgid "Cannot resize bottom win"
 msgstr "Impossibile ridimensionare la finestra inferiore"
 
-#: nano.c:1293
+#: nano.c:1294
 msgid "Cannot move bottom win"
 msgstr "Impossibile spostare la finestra inferiore"
 
-#: nano.c:1637
+#: nano.c:1638
 #, c-format
 msgid "%s enable/disable"
 msgstr ""
 
-#: nano.c:1649
+#: nano.c:1650
 msgid "enabled"
 msgstr ""
 
-#: nano.c:1650
+#: nano.c:1651
 msgid "disabled"
 msgstr ""
 
-#: nano.c:1880
+#: nano.c:1881
 msgid "Main: set up windows\n"
 msgstr "Main: configura finestre\n"
 
-#: nano.c:1894
+#: nano.c:1895
 msgid "Main: bottom win\n"
 msgstr "Main: finestra inferiore\n"
 
-#: nano.c:1900
+#: nano.c:1901
 msgid "Main: open file\n"
 msgstr "Main: apri file\n"
 
-#: nano.c:1934
+#: nano.c:1935
 #, fuzzy, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Premuto Alt-[-%c! (%d)\n"
 
-#: nano.c:1958
+#: nano.c:1959
 #, fuzzy, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Premuto Alt-[-%c! (%d)\n"
 
-#: nano.c:1991
+#: nano.c:1992
 #, fuzzy, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Premuto Alt-[-%c! (%d)\n"
 
-#: nano.c:2039
+#: nano.c:2040
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Premuto Alt-[-%c! (%d)\n"
 
-#: nano.c:2065
+#: nano.c:2066
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Premuto Alt-%c! (%d)\n"
