@@ -367,23 +367,25 @@ size_t actual_x(const char *str, size_t xplus)
     return i;
 }
 
-/* A strlen with tabs factored in, similar to xplustabs(). */
+/* A strlen with tabs factored in, similar to xplustabs().  How many
+ * columns wide are the first size characters of buf? */
 size_t strnlenpt(const char *buf, size_t size)
 {
     size_t length = 0;
 
-    if (buf != NULL)
-	for (; *buf != '\0' && size != 0; size--, buf++) {
-	    if (*buf == '\t')
-		length += tabsize - (length % tabsize);
-	    else if (is_cntrl_char((int)*buf))
-		length += 2;
-	    else
-		length++;
-	}
+    assert(buf != NULL);
+    for (; *buf != '\0' && size != 0; size--, buf++) {
+	if (*buf == '\t')
+	    length += tabsize - (length % tabsize);
+	else if (is_cntrl_char((int)*buf))
+	    length += 2;
+	else
+	    length++;
+    }
     return length;
 }
 
+/* How many columns wide is buf? */
 size_t strlenpt(const char *buf)
 {
     return strnlenpt(buf, -1);
@@ -391,7 +393,7 @@ size_t strlenpt(const char *buf)
 
 void blank_bottombars(void)
 {
-    if (!no_help()) {
+    if (!ISSET(NO_HELP)) {
 	mvwaddstr(bottomwin, 1, 0, hblank);
 	mvwaddstr(bottomwin, 2, 0, hblank);
     }

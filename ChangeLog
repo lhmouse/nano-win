@@ -46,12 +46,12 @@ CVS code -
 	  instead of several; and do some other minor refactoring of
 	  related display functions to simplify them.  New functions
 	  mark_order() and display_string(); changes to actual_x(),
-	  edit_add(), update_line(), statusbar(), and
-	  do_replace_highlight(). (David Benbennick)  DLR: Add minor
-	  cosmetic tweaks, add missing NANO_SMALL #ifdef around the text
-	  for a backwards search in the refactored code, and enclose
-	  dump_buffer() and dump_buffer_reverse() in one ENABLE_DEBUG
-	  #ifdef instead of two.
+	  strnlenpt(), blank_bottombars(), edit_add(), update_line(),
+	  statusbar(), and do_replace_highlight(). (David Benbennick)
+	  DLR: Add minor cosmetic tweaks, add missing NANO_SMALL #ifdef
+	  around the text for a backwards search in the refactored code,
+	  and enclose dump_buffer() and dump_buffer_reverse() in one
+	  ENABLE_DEBUG #ifdef instead of two.
 	- Convert memmove() function calls to charmove() macro calls, as
 	  the former all work on char*'s. (DLR)
 - files.c:
