@@ -102,7 +102,7 @@ shortcut browser_list[BROWSER_LIST_LEN];
     colorstruct colors[NUM_NCOLORS];
 #endif
 
-#if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE)
+#if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE) || !defined (DISABLE_HELP)
 shortcut *currshortcut = main_list;	/* Current shortcut list we're using */
 int currslen = MAIN_VISIBLE;		/* Length of current shortcut list */
 #endif

@@ -1,7 +1,8 @@
 CVS Code -
 - global.c:
 	- Define currshortcut and currslen when either DISABLE_MOUSE
-	  or DISABLE_BROWSER is not defined (Silvan Minghetti).
+	  or DISABLE_HELP or DISABLE_BROWSER is not defined (Silvan
+	  Minghetti).
 - nano.c:
   main()
 	- Add Esc-[-[IGL] keys for FreeBSD Console (PgUp,PgDn,Insert).
