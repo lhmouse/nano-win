@@ -17,6 +17,10 @@ CVS Code -
 	  Affects files.c:load_open_file(), nano.c:main(), 
 	  search.c:findnextstr(), winio.c:statusbar() and 
 	  do_cursorpos() (David Benbennick).
+	- Fix nano crashing when searching/replacing an invalid
+	  regex (try "^*").  Changed regexp_init() to return 
+	  1 or 0 based on regcomp()'s return value and search_init 
+	  to exit with an error message (sorry Jordi!)
 - cut.c:
   do_cut_text()
 	- Fix incorrect cursor location when cutting long lines

@@ -34,10 +34,15 @@
 /* Regular expression helper functions */
 
 #ifdef HAVE_REGEX_H
-void regexp_init(const char *regexp)
+int regexp_init(const char *regexp)
 {
-    regcomp(&search_regexp, regexp, (ISSET(CASE_SENSITIVE) ? 0 : REG_ICASE) | REG_EXTENDED);
+    /* Hmm, perhaps we should check for whether regcomp returns successfully */
+    if (regcomp(&search_regexp, regexp, (ISSET(CASE_SENSITIVE) ? 0 : REG_ICASE) 
+		| REG_EXTENDED) != 0)
+	return 0;
+
     SET(REGEXP_COMPILED);
+    return 1;
 }
 
 void regexp_cleanup(void)
@@ -165,7 +170,16 @@ int search_init(int replacing)
 	case 0:		/* They entered something new */
 #ifdef HAVE_REGEX_H
 	    if (ISSET(USE_REGEXP))
-		regexp_init(answer);
+		if (regexp_init(answer) == 0) {
+		    statusbar(_("Invalid regex!"));
+		    reset_cursor();
+		    free(backupstring);
+		    backupstring = NULL;
+#ifndef NANO_SMALL
+		    search_history.current = search_history.next;
+#endif
+		    return -3;
+		}
 #endif
 	    free(backupstring);
 	    backupstring = NULL;
