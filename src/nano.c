@@ -521,7 +521,9 @@ void help_init(void)
     /* And the toggles... */
     if (currshortcut == main_list) {
 	for (t = toggles; t != NULL; t = t->next) {
+
 	    assert(t->desc != NULL);
+
 	    ptr += sprintf(ptr, "M-%c\t\t\t%s %s\n", toupper(t->val),
 		t->desc, _("enable/disable"));
 	}
@@ -554,12 +556,17 @@ filestruct *make_new_node(filestruct *prevnode)
 /* Make a copy of a filestruct node. */
 filestruct *copy_node(const filestruct *src)
 {
-    filestruct *dst = (filestruct *)nmalloc(sizeof(filestruct));
+    filestruct *dst;
+
     assert(src != NULL);
+
+    dst = (filestruct *)nmalloc(sizeof(filestruct));
+
     dst->data = mallocstrcpy(NULL, src->data);
     dst->next = src->next;
     dst->prev = src->prev;
     dst->lineno = src->lineno;
+
     return dst;
 }
 
@@ -568,6 +575,7 @@ void splice_node(filestruct *begin, filestruct *newnode, filestruct
 	*end)
 {
     assert(newnode != NULL && begin != NULL);
+
     newnode->next = end;
     newnode->prev = begin;
     begin->next = newnode;
@@ -579,6 +587,7 @@ void splice_node(filestruct *begin, filestruct *newnode, filestruct
 void unlink_node(const filestruct *fileptr)
 {
     assert(fileptr != NULL);
+
     if (fileptr->prev != NULL)
 	fileptr->prev->next = fileptr->next;
     if (fileptr->next != NULL)
@@ -589,6 +598,7 @@ void unlink_node(const filestruct *fileptr)
 void delete_node(filestruct *fileptr)
 {
     assert(fileptr != NULL && fileptr->data != NULL);
+
     if (fileptr->data != NULL)
 	free(fileptr->data);
     free(fileptr);
@@ -636,6 +646,7 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
 	filestruct *bot, size_t bot_x)
 {
     partition *p;
+
     assert(top != NULL && bot != NULL && fileage != NULL && filebot != NULL);
 
     /* Initialize the partition. */
@@ -687,6 +698,7 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
 void unpartition_filestruct(partition **p)
 {
     char *tmp;
+
     assert(p != NULL && fileage != NULL && filebot != NULL);
 
     /* Reattach the line above the top of the partition, and restore the
@@ -895,6 +907,7 @@ void renumber_all(void)
     int i = 1;
 
     assert(fileage == NULL || fileage != fileage->next);
+
     for (temp = fileage; temp != NULL; temp = temp->next)
 	temp->lineno = i++;
 }
@@ -907,6 +920,7 @@ void renumber(filestruct *fileptr)
 	int lineno = fileptr->prev->lineno;
 
 	assert(fileptr != fileptr->next);
+
 	for (; fileptr != NULL; fileptr = fileptr->next)
 	    fileptr->lineno = ++lineno;
     }
@@ -1222,8 +1236,7 @@ void do_delete(void)
 	/* Do we have to call edit_refresh(), or can we get away with
 	 * update_line()? */
 
-    assert(current != NULL && current->data != NULL &&
-	current_x <= strlen(current->data));
+    assert(current != NULL && current->data != NULL && current_x <= strlen(current->data));
 
     placewewant = xplustabs();
 
@@ -1320,15 +1333,16 @@ void do_enter(void)
 	extra = indent_length(current->data);
 	if (extra > current_x)
 	    extra = current_x;
-	totsize += extra;
     }
 #endif
     newnode->data = charalloc(strlen(current->data + current_x) +
 	extra + 1);
     strcpy(&newnode->data[extra], current->data + current_x);
 #ifndef NANO_SMALL
-    if (ISSET(AUTOINDENT))
+    if (ISSET(AUTOINDENT)) {
 	strncpy(newnode->data, current->data, extra);
+	totsize += mbstrlen(newnode->data);
+    }
 #endif
     null_at(&current->data, current_x);
 #ifndef NANO_SMALL
@@ -1669,6 +1683,7 @@ bool do_wrap(filestruct *inptr)
     if (ISSET(AUTOINDENT)) {
 	strncpy(newline, indentation, indent_len);
 	newline[indent_len] = '\0';
+	totsize += mbstrlen(newline);
 	new_line_len = indent_len;
     }
 #endif
@@ -1694,11 +1709,6 @@ bool do_wrap(filestruct *inptr)
     } else {
 	filestruct *temp = (filestruct *)nmalloc(sizeof(filestruct));
 
-	/* In this case, the file size changes by +1 for the new line,
-	 * and +indent_len for the new indentation. */
-#ifndef NANO_SMALL
-	totsize += indent_len;
-#endif
 	totlines++;
 	temp->data = newline;
 	temp->prev = inptr;
@@ -2839,6 +2849,7 @@ bool do_para_search(size_t *const quote, size_t *const par)
 
     /* Save the values of quote_len and par_len. */
     assert(quote != NULL && par != NULL);
+
     *quote = quote_len;
     *par = par_len;
 
@@ -2976,8 +2987,10 @@ void do_justify(bool full_justify)
 			indent_len);
 		    strcpy(current->next->data + indent_len,
 			current->data + break_pos + 1);
+
 		    assert(strlen(current->next->data) ==
 			indent_len + line_len - break_pos - 1);
+
 		    totlines++;
 		    totsize += indent_len;
 		    par_len++;
@@ -4386,5 +4399,6 @@ int main(int argc, char **argv)
 	do_input(&meta_key, &func_key, &s_or_t, &ran_func, &finished,
 		TRUE);
     }
+
     assert(FALSE);
 }
