@@ -43,6 +43,11 @@
 #define _(string) (string)
 #endif
 
+/* statics for here */
+#ifndef NANO_SMALL
+static int fileformat = 0;	/* 0 = *nix, 1 = DOS, 2 = Mac */
+#endif
+
 /* Load file into edit buffer - takes data from file struct */
 void load_file(int quiet)
 {
@@ -130,6 +135,9 @@ filestruct *read_line(char *buf, filestruct * prev, int *line1ins)
     if (buf[strlen(buf) - 1] == '\r') {
 	fileptr->data[strlen(buf) - 1] = 0;
 	totsize--;
+
+	if (!fileformat)
+	    fileformat = 1;
     }
 #endif
 
@@ -195,6 +203,7 @@ int read_file(int fd, char *filename, int quiet)
 #ifndef NANO_SMALL
 	/* If it's a Mac file (no LF just a CR), handle it! */
 	} else if (i > 0 && buf[i-1] == '\r') {
+	    fileformat = 2;
 	    fileptr = read_line(buf, fileptr, &line1ins);
 	    num_lines++;
 	    buf[0] = input[0];
@@ -245,7 +254,16 @@ int read_file(int fd, char *filename, int quiet)
 	/* Update the edit buffer */
 	load_file(quiet);
     }
-    statusbar(_("Read %d lines"), num_lines);
+
+#ifndef NANO_SMALL
+    if (fileformat == 2)
+	statusbar(_("Read %d lines (Converted Mac format)"), num_lines);
+    else if (fileformat == 1)
+	statusbar(_("Read %d lines (Converted DOS format)"), num_lines);
+    else
+#endif
+	statusbar(_("Read %d lines"), num_lines);
+
     totlines += num_lines;
 
     free(buf);

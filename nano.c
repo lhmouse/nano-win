@@ -235,6 +235,7 @@ void global_init(int save_cutbuffer)
     hblank = charalloc(COLS + 1);
     memset(hblank, ' ', COLS);
     hblank[COLS] = 0;
+
 }
 
 #ifndef DISABLE_HELP
@@ -806,6 +807,74 @@ void do_next_word(void)
     placewewant = xplustabs();
 
     if (current->lineno >= editbot->lineno)
+	edit_update(current, CENTER);
+    else {
+	/* If we've jumped lines, refresh the old line.  We can't just use
+	 * current->prev here, because we may have skipped over some blank
+	 * lines, in which case the previous line is the wrong one.
+	 */
+	if (current != old)
+	    update_line(old, 0);
+
+	update_line(current, current_x);
+    }
+}
+
+/* the same thing for backwards */
+void do_prev_word(void)
+{
+    filestruct *fileptr, *old;
+    int i;
+
+    if (current == NULL)
+	return;
+
+    old = current;
+    i = current_x;
+    for (fileptr = current; fileptr != NULL; fileptr = fileptr->prev) {
+	if (fileptr == current) {
+	    while (isalnum((int) fileptr->data[i])
+		   && i != 0)
+		i--;
+
+	    if (i == 0) {
+		if (fileptr->prev != NULL)
+		    i = strlen(fileptr->prev->data) - 1;
+		else if (fileptr == fileage && filebot != NULL)
+		    i = strlen(filebot->data) - 1;
+
+		continue;
+	    }
+	}
+
+	while (!isalnum((int) fileptr->data[i]) && i != 0)
+	    i--;
+
+	if (i > 0) {
+	    i--;
+
+	    while (isalnum((int) fileptr->data[i]) && i != 0)
+		i--;
+
+	    i++;
+	    if (i != 0)
+		break;
+
+	}
+	if (fileptr->prev != NULL)
+	    i = strlen(fileptr->prev->data) - 1;
+	else if (fileptr == fileage && filebot != NULL)
+	    i = strlen(filebot->data) - 1;
+    }
+    if (fileptr == NULL)
+	current = fileage;
+    else
+	current = fileptr;
+
+    current_x = i;
+    placewewant = xplustabs();
+
+    if (current->lineno <= edittop->lineno)
 	edit_update(current, CENTER);
     else {
 	/* If we've jumped lines, refresh the old line.  We can't just use
@@ -2792,6 +2861,11 @@ int main(int argc, char *argv[])
 		/* If we get Alt-Alt, the next keystroke should be the same as a
 		   control sequence */
 		modify_control_seq = 1;
+		keyhandled = 1;
+		break;
+	    case ' ':
+		/* If control-space is next word, Alt-space should be previous word */
+		do_prev_word();
 		keyhandled = 1;
 		break;
 	    case '[':

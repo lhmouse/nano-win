@@ -1,4 +1,10 @@
 CVS code -
+- files.c:
+	- Added status messages for converted DOS and Mac files.
+	  People should know that their file wasnt normally formatted.
+- nano.c:
+	- New function do_prev_word, similar to do_next_word.  Hard coded as
+	  Alt-space, as next word is hard coded as control-space.
 - po/sv.po:
 	- Updated Swedish translation (Christian Rose).
 - po/sv.po:
