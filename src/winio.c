@@ -119,7 +119,8 @@ int get_accepted_kbinput(WINDOW *win, int kbinput, int *meta)
 
     switch (kbinput) {
 	case NANO_CONTROL_3: /* Escape */
-	    switch (kbinput = wgetch(win)) {
+	    kbinput = wgetch(win);
+	    switch (kbinput) {
 		case NANO_CONTROL_3: /* Escape */
 		    kbinput = wgetch(win);
 		    /* Esc Esc [three-digit decimal ASCII code from
