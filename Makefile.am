@@ -21,7 +21,7 @@ MAKEINFO = makeinfo --no-split
 
 EXTRA_DIST =	AUTHORS BUGS COPYING ChangeLog INSTALL NEWS README \
 		TODO install-sh missing mkinstalldirs nano.1 nano.1.html \
-		faq.html
+		faq.html nanorc.sample
 
 SUBDIRS = po intl
 
