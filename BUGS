@@ -128,7 +128,7 @@
   "magic line" is not created" (reported by David Lawrence
   Ramsey, fixed by David Lawrence Ramsey & Chris) (66) [FIXED].
 - ^C does not work after a suspend in tcsh (discovered by
-  Trevor Cordes) (67) [FIXED].
+  Trevor Cordes) (68) [FIXED].
 
 ** Open BUGS **
 
