@@ -1927,7 +1927,7 @@ int do_writeout(int exiting)
 	    struct stat st;
 
 	    if (!stat(answer, &st)) {
-		i = do_yesno(FALSE, _("File exists, OVERWRITE ?"));
+		i = do_yesno(FALSE, _("File exists, OVERWRITE ? "));
 		if (i == 0 || i == -1)
 		    continue;
 	    /* If we're using restricted mode, we aren't allowed to
@@ -1940,7 +1940,7 @@ int do_writeout(int exiting)
 		&& (exiting || !ISSET(MARK_ISSET))
 #endif
 		) {
-		i = do_yesno(FALSE, _("Save file under DIFFERENT NAME ?"));
+		i = do_yesno(FALSE, _("Save file under DIFFERENT NAME ?" ));
 		if (i == 0 || i == -1)
 		    continue;
 	    }

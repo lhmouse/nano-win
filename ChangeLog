@@ -119,6 +119,8 @@ CVS code -
   do_writeout()
 	- Refactor so that no recursion is needed if we try to exit with
 	  a modified file that has no name when TEMP_OPT is set. (DLR)
+	- Add spaces to the ends of the "Overwrite" and "Different Name"
+	  prompts, for consistency. (DLR)
   do_browser()
 	- Call check_statblank() instead of blanking the statusbar
 	  unconditionally, for consistency. (David Benbennick)
