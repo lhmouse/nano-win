@@ -109,6 +109,9 @@ void die(char *msg, ...)
     vfprintf(stderr, msg, ap);
     va_end(ap);
 
+    /* No following symlinks when we dump the file contents */
+    UNSET(FOLLOW_SYMLINKS);
+
     /* if we can't save we have REAL bad problems,
      * but we might as well TRY. */
     if (filename[0] == '\0') {
