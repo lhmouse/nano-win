@@ -1638,7 +1638,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 	goto cleanup_and_exit;
     }
 
-    /* There might not be a magic line.  There won't be when writing out
+    /* There might not be a magicline.  There won't be when writing out
      * a selection. */
     assert(fileage != NULL && filebot != NULL);
     while (fileptr != filebot) {

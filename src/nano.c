@@ -1035,7 +1035,7 @@ int do_delete(void)
     } else if (current != filebot && (current->next != filebot ||
 	current->data[0] == '\0')) {
 	/* We can delete the line before filebot only if it is blank: it
-	 * becomes the new magic line then. */
+	 * becomes the new magicline then. */
 	filestruct *foo = current->next;
 
 	assert(current_x == strlen(current->data));
