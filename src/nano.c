@@ -1200,12 +1200,12 @@ int do_prev_word(void)
 	    current_x = strlen(current->prev->data);
     }
 
-    if (current != NULL) {
-	while (current_x > 0 && isalnum((int)current->data[current_x - 1]))
-	    current_x--;
-    } else {
+    if (current == NULL) {
 	current = fileage;
 	current_x = 0;
+    } else {
+	while (current_x > 0 && isalnum((int)current->data[current_x - 1]))
+	    current_x--;
     }
 
     placewewant = xplustabs();
