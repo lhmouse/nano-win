@@ -60,10 +60,8 @@ CVS code -
 	- Simplify so as not to require the fileptr parameter anymore,
 	  since it's set to current in all calls. (DLR)
 	- Add comments better explaining what the update actually does,
-	  avoid an infinite loop when location is NONE and current_y is
-	  greater than (editwinrows - 1), and make sure that the bottom
-	  line of the file is at the bottom line of the screen if it's
-	  onscreen and location is NONE. (DLR)
+	  and avoid an infinite loop when location is NONE and current_y
+	  is greater than (editwinrows - 1). (DLR)
   do_yesno()
 	- Don't bother assigning the value of get_mouseinput() to
 	  anything.  Since allow_shortcuts is FALSE, its return value

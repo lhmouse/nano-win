@@ -2955,12 +2955,6 @@ void edit_update(topmidnone location)
 	    /* Limit goal to (editwinrows - 1) lines maximum. */
 	    if (goal > editwinrows - 1)
 		goal = editwinrows - 1;
-
-	    /* If the last line of the file is onscreen but isn't at the
-	     * bottom of the screen, set goal so that it will be after
-	     * we update. */
-	    if (foo->lineno + editwinrows >= filebot->lineno)
-		goal = (editwinrows - 1) - (filebot->lineno - foo->lineno);
 	}
 
 	for (; goal > 0 && foo->prev != NULL; goal--)
