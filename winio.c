@@ -820,8 +820,7 @@ void edit_refresh(void)
  */
 void edit_update(filestruct * fileptr)
 {
-
-    int lines = 0, i = 0;
+    int i = 0;
     filestruct *temp;
 
     if (fileptr == NULL)
@@ -832,14 +831,9 @@ void edit_update(filestruct * fileptr)
 	i++;
 	temp = temp->prev;
     }
-    edittop = temp;
 
-    while (lines <= editwinrows - 1 && lines <= totlines && temp != NULL
-	   && temp != filebot) {
-	temp = temp->next;
-	lines++;
-    }
-    editbot = temp;
+    edittop = temp;
+    fix_editbot();
 
     edit_refresh();
 }
