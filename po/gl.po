@@ -1,14 +1,15 @@
 # Galician translation of nano
-# Copyright (C) 2001 Jacobo Tarrío Barreiro
-# Jacobo Tarrio <jtarrio@trasno.net>, 2001.
+# Copyright (C) 2001 Free Software Foundation, Inc.
+# Jacobo Tarrio <jtarrio@iname.com>, 2001.
+# $Id$
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.0\n"
+"Project-Id-Version: nano 1.1.1\n"
 "POT-Creation-Date: 2001-07-28 19:55-0400\n"
-"PO-Revision-Date: 2001-04-30 00:16+02:00\n"
-"Last-Translator: Jacobo Tarrio <jtarrio@trasno.net>\n"
-"Language-Team: Galician <trasno@ceu.fi.udc.es>\n"
+"PO-Revision-Date: 2001-09-10 01:13+0200\n"
+"Last-Translator: Jacobo Tarrio <jtarrio@iname.com>\n"
+"Language-Team: Galician <gpul-traduccion@ceu.fi.udc.es>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -72,7 +73,7 @@ msgstr "Cancelado"
 
 #: files.c:653 files.c:708
 msgid "No more open files"
-msgstr ""
+msgstr "Non hai máis ficheiros abertos"
 
 #: files.c:931 files.c:947 files.c:961 files.c:978 files.c:985
 #, c-format
@@ -108,22 +109,20 @@ msgstr "Escribíronse %d liñas"
 #: files.c:1085
 #, c-format
 msgid "%s Selection to File"
-msgstr ""
+msgstr "%s a Selección ao Ficheiro"
 
 #: files.c:1085 files.c:1089 global.c:499
-#, fuzzy
 msgid "Append"
-msgstr "Suspender"
+msgstr "Engadir"
 
 #: files.c:1085 files.c:1089
-#, fuzzy
 msgid "Write"
 msgstr "Gravar"
 
 #: files.c:1089
-#, fuzzy, c-format
+#, c-format
 msgid "File Name to %s"
-msgstr "Nome do Ficheiro a escribir"
+msgstr "Nomear Ficheiro a %s"
 
 #: files.c:1127
 msgid "File exists, OVERWRITE ?"
@@ -145,11 +144,11 @@ msgstr "Non se puido abrir \"%s\": %s"
 
 #: files.c:1960 global.c:275
 msgid "Goto Directory"
-msgstr "Ir a un Directorio"
+msgstr "Ir ao Directorio"
 
 #: files.c:1965
 msgid "Goto Cancelled"
-msgstr "Ir-A Cancelado"
+msgstr "Ir-a Cancelado"
 
 #: global.c:159
 msgid "Constant cursor position"
@@ -181,12 +180,11 @@ msgstr "Cortar ata a fin"
 
 #: global.c:166
 msgid "Backwards Search"
-msgstr ""
+msgstr "Busca Cara a Atrás"
 
 #: global.c:167
-#, fuzzy
 msgid "Case Sensitive Search"
-msgstr "Busca Sensible ás Maiúsculas%s%s"
+msgstr "Busca Sensible ás Maiúsculas"
 
 #: global.c:169
 msgid "Regular expressions"
@@ -198,15 +196,15 @@ msgstr "Corta-las liñas"
 
 #: global.c:174
 msgid "Multiple file buffers"
-msgstr ""
+msgstr "Múltiples buffers de ficheiro"
 
 #: global.c:175
 msgid "Open previously loaded file"
-msgstr ""
+msgstr "Abrir un ficheiro cargado anteriormente"
 
 #: global.c:176
 msgid "Open next loaded file"
-msgstr ""
+msgstr "Abri-lo seguinte ficheiro cargado"
 
 #: global.c:236
 msgid "Invoke the help menu"
@@ -218,7 +216,7 @@ msgstr "Grava-lo ficheiro actual no disco"
 
 #: global.c:240
 msgid "Close currently loaded file/Exit from nano"
-msgstr ""
+msgstr "Pecha-lo ficheiro cargado actualmente/Saír de nano"
 
 #: global.c:242
 msgid "Exit from nano"
@@ -341,19 +339,16 @@ msgid "Cancel the current function"
 msgstr "Cancela-la función actual"
 
 #: global.c:277
-#, fuzzy
 msgid "Append to the current file"
-msgstr "Ir á fin da liña actual"
+msgstr "Engadir ao ficheiro actual"
 
 #: global.c:278
-#, fuzzy
 msgid "Search Backwards"
-msgstr "Busca Cancelada"
+msgstr "Buscar Cara a Atrás"
 
 #: global.c:279
-#, fuzzy
 msgid "Use Regular Expressions"
-msgstr "Expresións regulares"
+msgstr "Empregar Expresións Regulares"
 
 #: global.c:282
 msgid "Get Help"
@@ -361,7 +356,7 @@ msgstr "Axuda"
 
 #: global.c:287
 msgid "Close"
-msgstr ""
+msgstr "Pechar"
 
 #: global.c:291 global.c:490 global.c:528
 msgid "Exit"
@@ -389,11 +384,11 @@ msgstr "Buscar"
 
 #: global.c:321 global.c:482 global.c:517
 msgid "Prev Page"
-msgstr "Páx. Ant."
+msgstr "Páx. Seg."
 
 #: global.c:325 global.c:486 global.c:521
 msgid "Next Page"
-msgstr "Páx. Seg."
+msgstr "Páx. Ant."
 
 #: global.c:329
 msgid "Cut Text"
@@ -480,13 +475,12 @@ msgid "Case Sens"
 msgstr "Maiú./Min."
 
 #: global.c:419 global.c:449
-#, fuzzy
 msgid "Backward"
 msgstr "Atrás"
 
 #: global.c:424 global.c:454
 msgid "Regexp"
-msgstr ""
+msgstr "ExpReg"
 
 #: global.c:429 global.c:459 global.c:468 global.c:478 global.c:502
 #: global.c:510 global.c:513 global.c:531 winio.c:1239
@@ -503,25 +497,17 @@ msgstr "A Ficheiros"
 
 #: global.c:525
 msgid "Goto"
-msgstr "Ir-A"
+msgstr "Ir a"
 
 #: nano.c:177
 #, c-format
-msgid ""
-"\n"
-"Buffer written to %s\n"
-msgstr ""
-"\n"
-"Gravouse o buffer en %s\n"
+msgid "\nBuffer written to %s\n"
+msgstr "\nGravouse o buffer en %s\n"
 
 #: nano.c:179
 #, c-format
-msgid ""
-"\n"
-"No %s written (file exists?)\n"
-msgstr ""
-"\n"
-"Non se gravou %s (¿xa existe o ficheiro?)\n"
+msgid "\nNo %s written (file exists?)\n"
+msgstr "\nNon se gravou %s (¿xa existe o ficheiro?)\n"
 
 #: nano.c:186
 msgid "Window size is too small for Nano..."
@@ -535,38 +521,16 @@ msgstr "Tecla non válida no modo VER"
 msgid ""
 " nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor: The "
-"top line shows the program version, the current filename being edited, and "
-"whether or not the file has been modified.  Next is the main editor window "
-"showing the file being edited.  The status line is the third line from the "
-"bottom and shows important messages. The bottom two lines show the most "
-"commonly used shortcuts in the editor.\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor: The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages. The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
-" The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
-"key sequences are notated with the Meta (M) symbol and can be entered using "
-"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
-"following keystrokes are available in the main editor window. Optional keys "
-"are shown in parentheses:\n"
+" The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt or Meta key depending on your keyboard setup.  The following keystrokes are available in the main editor window. Optional keys are shown in parentheses:\n"
 "\n"
 msgstr ""
 " axuda de nano\n"
 "\n"
-" O editor nano está deseñado para emula-la funcionalidade e facilidade de "
-"uso o editor de texto UW Pico. Hai catro seccións principais no editor; a "
-"liña superior amosa a versión do programa, o nome do ficheiro que se está a "
-"editar, e se o ficheiro está modificado ou non. A seguinte sección é a "
-"fiestra principal do editor, que amosa o ficheiro que se edita. A liña de "
-"estado é a terceira liña dende o fondo e amosa as mensaxes importantes. As "
-"dúas derradeiras liñas amosan os atallos de teclado que máis se usan no "
-"editor.\n"
+" O editor nano está deseñado para emula-la funcionalidade e facilidade de uso o editor de texto UW Pico. Hai catro seccións principais no editor; a liña superior amosa a versión do programa, o nome do ficheiro que se está a editar, e se o ficheiro está modificado ou non. A seguinte sección é a fiestra principal do editor, que amosa o ficheiro que se edita. A liña de estado é a terceira liña dende o fondo e amosa as mensaxes importantes. As dúas derradeiras liñas amosan os atallos de teclado que máis se usan no editor.\n"
 "\n"
-" A notación dos atallos é así: as secuencias Control-tecla denótanse cun "
-"circunflexo (^) e introdúcense coa tecla Control (Ctrl). As secuencias "
-"Escape-tecla denótanse co símbolo Meta (M) e introdúcense coa tecla Esc, Alt "
-"ou Meta, dependendo do teclado. As seguintes pulsacións están dispoñibles na "
-"fiestra principal do editor. As teclas opcionais aparecen entre parénteses:\n"
+" A notación dos atallos é así: as secuencias Control-tecla denótanse cun circunflexo (^) e introdúcense coa tecla Control (Ctrl). As secuencias Escape-tecla denótanse co símbolo Meta (M) e introdúcense coa tecla Esc, Alt ou Meta, dependendo do teclado. As seguintes pulsacións están dispoñibles na fiestra principal do editor. As teclas opcionais aparecen entre parénteses:\n"
 "\n"
 
 #: nano.c:342
@@ -578,12 +542,8 @@ msgid "delete_node(): free'd last node.\n"
 msgstr "delete_node(): liberouse o derradeiro nodo.\n"
 
 #: nano.c:402
-msgid ""
-"Usage: nano [GNU long option] [option] +LINE <file>\n"
-"\n"
-msgstr ""
-"Emprego: nano [opción longa GNU] [opción] +LIÑA <ficheiro>\n"
-"\n"
+msgid "Usage: nano [GNU long option] [option] +LINE <file>\n\n"
+msgstr "Emprego: nano [opción longa GNU] [opción] +LIÑA <ficheiro>\n\n"
 
 #: nano.c:403
 msgid "Option\t\tLong option\t\tMeaning\n"
@@ -591,7 +551,7 @@ msgstr "Opción\t\tOpción longa\t\tSignificado\n"
 
 #: nano.c:408
 msgid " -F \t\t--multibuffer\t\tEnable multiple file buffers\n"
-msgstr ""
+msgstr " -f \t\t--multibuffer\t\tAdmitir varios buffers de ficheiros\n"
 
 #: nano.c:412
 msgid " -T [num]\t--tabsize=[num]\t\tSet width of a tab to num\n"
@@ -634,8 +594,7 @@ msgid " -p\t \t--pico\t\t\tEmulate Pico as closely as possible\n"
 msgstr " -p\t \t--pico\t\t\tEmular Pico o máis fielmente posible\n"
 
 #: nano.c:443
-msgid ""
-" -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
+msgid " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
 msgstr " -r [col] \t--fill=[col]\t\tCorta-las liñas na columna col\n"
 
 #: nano.c:447
@@ -667,12 +626,8 @@ msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
 msgstr " +LIÑA\t\t\t\t\tComezar na liña número LIÑA\n"
 
 #: nano.c:464
-msgid ""
-"Usage: nano [option] +LINE <file>\n"
-"\n"
-msgstr ""
-"Emprego: nano [opción] +LIÑA <ficheiro>\n"
-"\n"
+msgid "Usage: nano [option] +LINE <file>\n\n"
+msgstr "Emprego: nano [opción] +LIÑA <ficheiro>\n\n"
 
 #: nano.c:465
 msgid "Option\t\tMeaning\n"
@@ -680,7 +635,7 @@ msgstr "Opción\t\tSignificado\n"
 
 #: nano.c:467
 msgid " -F \t\tEnable multiple file buffers\n"
-msgstr ""
+msgstr " -F \t\tAdmitir varios buffers de ficheiros\n"
 
 #: nano.c:469
 msgid " -T [num]\tSet width of a tab to num\n"
@@ -764,12 +719,8 @@ msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 msgstr " E-mail: nano@nano-editor.org\tWeb: http://nano-editor.org"
 
 #: nano.c:512
-msgid ""
-"\n"
-" Compiled options:"
-msgstr ""
-"\n"
-"Opcións compiladas:"
+msgid "\n Compiled options:"
+msgstr "\nOpcións compiladas:"
 
 #: nano.c:598
 msgid "Mark Set"
@@ -805,8 +756,7 @@ msgstr "Non se puido crear un ficheiro temporal: %s"
 
 #: nano.c:1555
 msgid "Spell checking failed: unable to write temp file!"
-msgstr ""
-"Fallou a corrección ortográfica: non se puido grava-lo ficheiro temporal"
+msgstr "Fallou a corrección ortográfica: non se puido grava-lo ficheiro temporal"
 
 #: nano.c:1567
 msgid "Finished checking spelling"
@@ -818,8 +768,7 @@ msgstr "Fallou a corrección ortográfica"
 
 #: nano.c:1598
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
-msgstr ""
-"¿Grava-lo buffer modificado (SE RESPOSTA \"Non\" HANSE PERDE-LOS CAMBIOS)? "
+msgstr "¿Grava-lo buffer modificado (SE RESPOSTA \"Non\" HANSE PERDE-LOS CAMBIOS)? "
 
 #: nano.c:1734
 msgid "Received SIGHUP"
@@ -908,71 +857,67 @@ msgid "I got Alt-%c! (%d)\n"
 msgstr "¡Recibiuse Alt-%c! (%d)\n"
 
 #: rcfile.c:76
-msgid ""
-"\n"
-"Press return to continue starting nano\n"
-msgstr ""
+msgid "\nPress return to continue starting nano\n"
+msgstr "\nPrema enter para seguir cargando nano\n"
 
 #: rcfile.c:134
 msgid "parse_rcfile: Read a comment\n"
-msgstr ""
+msgstr "parse_rcfile: Ler un comentario\n"
 
 #: rcfile.c:151
 #, c-format
 msgid "Error in %s on line %d: command %s not understood"
-msgstr ""
+msgstr "Erro en %s na liña %d: o comando %s non se comprendeu"
 
 #: rcfile.c:164
 #, c-format
 msgid "parse_rcfile: Parsing option %s\n"
-msgstr ""
+msgstr "parse_rcfile: Analizando a opción %s\n"
 
 #: rcfile.c:180
 #, c-format
 msgid "Error in %s on line %d: option %s requires an argument"
-msgstr ""
+msgstr "Erro en %s na liña %d: a opción %s precisa dun argumento"
 
 #: rcfile.c:191
 #, c-format
 msgid "Error in %s on line %d: requested fill size %d too small"
-msgstr ""
+msgstr "Erro en %s na liña %d: o tamaño de recheo solicitado %d é pequeno de máis"
 
 #: rcfile.c:207
 #, c-format
 msgid "set flag %d!\n"
-msgstr ""
+msgstr "¡estabrece-lo indicador %d!\n"
 
 #: rcfile.c:212
 #, c-format
 msgid "unset flag %d!\n"
-msgstr ""
+msgstr "¡elimina-lo indicador %d!\n"
 
 #: rcfile.c:221
 msgid "Errors found in .nanorc file"
-msgstr ""
+msgstr "Atopáronse erros no ficheiro .nanorc"
 
 #: rcfile.c:230
 #, c-format
 msgid "Unable to open ~/.nanorc file, %s"
-msgstr ""
+msgstr "Non se puido abri-lo ficheiro ~/.nanorc, %s"
 
 #: search.c:129
-#, fuzzy
 msgid "Case Sensitive "
-msgstr "Maiú./Min."
+msgstr "(Sensible ás Maiúsculas/Minúsculas) "
 
 #: search.c:130
 msgid "Regexp "
-msgstr ""
+msgstr "(Por Expresións Regulares) "
 
 #: search.c:131
-#, fuzzy
 msgid "Search"
-msgstr "Busca%s%s"
+msgstr "Busca"
 
 #: search.c:132
 msgid " Backwards"
-msgstr ""
+msgstr " Cara a Atrás"
 
 #: search.c:133
 msgid " (to replace)"
@@ -1035,15 +980,15 @@ msgstr "Vamos, sexa razonable"
 
 #: utils.c:159
 msgid "nano: malloc: out of memory!"
-msgstr ""
+msgstr "nano: malloc: ¡memoria esgotada!"
 
 #: utils.c:173
 msgid "nano: calloc: out of memory!"
-msgstr ""
+msgstr "nano: calloc: ¡memoria esgotada!"
 
 #: utils.c:183
 msgid "nano: realloc: out of memory!"
-msgstr ""
+msgstr "nano: realloc: ¡memoria esgotada!"
 
 #: winio.c:124
 #, c-format
