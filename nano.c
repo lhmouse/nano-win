@@ -1487,11 +1487,10 @@ int do_int_spell_fix(char *word)
 int do_int_speller(char *tempfile_name)
 {
     char *read_buff, *read_buff_ptr, *read_buff_word;
-    long pipe_buff_size;
+    size_t pipe_buff_size, read_buff_size, read_buff_read, bytesread;
     int in_fd[2], tempfile_fd;
     int spell_status;
     pid_t pid_spell;
-    ssize_t bytesread;
 
     /* Create a pipe to spell program */
 
@@ -1560,40 +1559,48 @@ int do_int_speller(char *tempfile_name)
 	return FALSE;
     }
 
-    read_buff = charalloc(pipe_buff_size + 1);
+    /* Read-in the returned spelling errors */
 
-    /* Process the returned spelling errors */
+    read_buff_read = 0;
+    read_buff_size = pipe_buff_size + 1;
+    read_buff = read_buff_ptr = charalloc(read_buff_size);
 
-    while ((bytesread = read(in_fd[0], read_buff, pipe_buff_size)) > 0) {
+    while ((bytesread = read(in_fd[0], read_buff_ptr, pipe_buff_size)) > 0) {
 
-	read_buff[bytesread] = (char) NULL;
-	read_buff_word = read_buff_ptr = read_buff;
-
-	while (*read_buff_ptr != (char) NULL) {
-
-	    /* Windows version may need to process additional char '\r' */
-
-	    /* Possible problem here if last word not followed by '\n' */
-
-	    if (*read_buff_ptr == '\n') {
-		*read_buff_ptr = (char) NULL;
-		if (!do_int_spell_fix(read_buff_word)) {
-
-		    close(in_fd[0]);
-		    free(read_buff);
-		    replace_abort();
-
-		    return TRUE;
-		}
-		read_buff_word = read_buff_ptr;
-		read_buff_word++;
-	    }
-
-	    read_buff_ptr++;
-	}
+	read_buff_read += bytesread;
+	read_buff_size += pipe_buff_size;
+	read_buff = read_buff_ptr = nrealloc(read_buff, read_buff_size);
+	read_buff_ptr += read_buff_read;
     }
 
+    *read_buff_ptr = (char) NULL;
     close(in_fd[0]);
+
+    /* Process the spelling errors */
+
+    read_buff_word = read_buff_ptr = read_buff;
+
+    while (*read_buff_ptr) {
+
+	if ((*read_buff_ptr == '\n') || (*read_buff_ptr == '\r')) {
+	    *read_buff_ptr = (char) NULL;
+	    if (read_buff_word != read_buff_ptr) {
+		if (!do_int_spell_fix(read_buff_word)) {
+		    read_buff_word = read_buff_ptr;
+		    break;
+		}
+	    }
+
+	    read_buff_word = read_buff_ptr + 1;
+	}
+
+	read_buff_ptr++;
+    }
+
+    /* special case where last word doesn't end with \n or \r */
+    if (read_buff_word != read_buff_ptr)
+	do_int_spell_fix(read_buff_word);
+
     free(read_buff);
     replace_abort();
 
