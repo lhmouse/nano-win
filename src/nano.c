@@ -3983,8 +3983,14 @@ int main(int argc, char **argv)
 	char *locale = setlocale(LC_ALL, "");
 
 	if (locale == NULL || (locale != NULL &&
+#ifdef HAVE_STRCASESTR
 		strcasestr(locale, "UTF8") == NULL &&
-		strcasestr(locale, "UTF-8") == NULL))
+		strcasestr(locale, "UTF-8") == NULL
+#else
+		nstrcasestr(locale, "UTF8") == NULL &&
+		nstrcasestr(locale, "UTF-8") == NULL
+#endif
+		))
 	    SET(NO_UTF8);
 
 #ifdef USE_SLANG
