@@ -18,6 +18,10 @@ CVS code -
   close_open_file()
 	- Tweak to no longer rely on the return values of
 	  open_(prev|next)file(). (DLR)
+  write_file()
+	- For consistency with nano 1.2.x and with other editors, make
+	  the mode of newly created files 666 instead of 600 before
+	  it's modified by the umask. (DLR)
 - global.c:
   shortcut_init()
 	- Fix erroneous #ifdef so that nano compiles with

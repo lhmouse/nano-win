@@ -1369,7 +1369,7 @@ int copy_file(FILE *inn, FILE *out)
     return retval;
 }
 
-/* Write a file out.  If tmp is nonzero, we set the umask to disallow
+/* Write a file out.  If tmp is FALSE, we set the umask to disallow
  * anyone else from accessing the file, we don't set the global variable
  * filename to its name, and we don't print out how many lines we wrote
  * on the statusbar.
@@ -1392,12 +1392,12 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
     size_t lineswritten = 0;
     const filestruct *fileptr = fileage;
     int fd;
-    mode_t original_umask = 0;
+    mode_t original_umask;
 	/* Our umask, from when nano started. */
     int realexists;
-	/* The result of stat().  True if the file exists, false
+	/* The result of stat().  TRUE if the file exists, FALSE
 	 * otherwise.  If name is a link that points nowhere, realexists
-	 * is false. */
+	 * is FALSE. */
     struct stat st;
 	/* The status fields filled in by stat(). */
     int anyexists;
@@ -1438,7 +1438,8 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
     /* If NOFOLLOW_SYMLINKS is set, it doesn't make sense to prepend or
      * append to a symlink.  Here we warn about the contradiction. */
     if (ISSET(NOFOLLOW_SYMLINKS) && anyexists && S_ISLNK(lst.st_mode)) {
-	statusbar(_("Cannot prepend or append to a symlink with --nofollow set"));
+	statusbar(
+		_("Cannot prepend or append to a symlink with --nofollow set"));
 	goto cleanup_and_exit;
     }
 
@@ -1554,12 +1555,13 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 
     original_umask = umask(0);
     umask(original_umask);
+
     /* If we create a temp file, we don't let anyone else access it.  We
-     * create a temp file if tmp is nonzero or if we prepend. */
+     * create a temp file if tmp is TRUE or if we're prepending. */
     if (tmp || append == 2)
 	umask(S_IRWXG | S_IRWXO);
 
-    /* If we are prepending, copy the file to a temp file. */
+    /* If we're prepending, copy the file to a temp file. */
     if (append == 2) {
 	int fd_source;
 	FILE *f_source = NULL;
@@ -1600,13 +1602,13 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 	}
     }
 
-    /* Now open the file in place.  Use O_EXCL if tmp is nonzero.  This
-     * is now copied from joe, because wiggy says so *shrug*. */
+    /* Now open the file in place.  Use O_EXCL if tmp is TRUE.  This is
+     * now copied from joe, because wiggy says so *shrug*. */
     fd = open(realname, O_WRONLY | O_CREAT |
 	(append == 1 ? O_APPEND : (tmp ? O_EXCL : O_TRUNC)),
-	S_IRUSR | S_IWUSR);
+	S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 
-    /* Put the umask back to the user's original value. */
+    /* Set the umask back to the user's original value. */
     umask(original_umask);
 
     /* First, just give up if we couldn't even open the file. */
