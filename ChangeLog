@@ -16,6 +16,9 @@ CVS Code -
   do_suspend()
 	- Call tcsetattr() to restore the old terminal settings, so
 	  tcsh can use ^C after suspend for example (fixes BUG #68).
+  do_wrap()
+	- Move "right" increment to part where new line is created,
+	  should change (fix?) some wrapping problems with autoindent.
 - search.c:
   findnextstr()
 	- Fix off by one in check for wrap around (Rocco Corsi).
