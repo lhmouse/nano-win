@@ -222,7 +222,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 	} else
 #endif /* !NANO_SMALL */
 	if (regexec(&search_regexp, start, 10, regmatches,
-		start > haystack ? REG_NOTBOL : 0) == 0) {
+		(start > haystack) ? REG_NOTBOL : 0) == 0) {
 	    const char *retval = start + regmatches[0].rm_so;
 
 	    regexec(&search_regexp, retval, 10, regmatches, 0);

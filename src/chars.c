@@ -635,7 +635,7 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 		break;
 	    }
 
-	    haystack += parse_mbchar(haystack, NULL, NULL, NULL);
+	    haystack += move_mbright(haystack, 0);
 	}
 
 	free(r_mb);
@@ -654,7 +654,7 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 
 #ifndef NANO_SMALL
 /* This function is equivalent to strstr(), except in that it scans the
- * string in reverse. */
+ * string in reverse, starting at rev_start. */
 const char *revstrstr(const char *haystack, const char *needle, const
 	char *rev_start)
 {
@@ -663,7 +663,7 @@ const char *revstrstr(const char *haystack, const char *needle, const
     for (; rev_start >= haystack; rev_start--) {
 	const char *r, *q;
 
-	for (r = rev_start, q = needle; *q == *r && *q != '\0'; r++, q++)
+	for (r = rev_start, q = needle; *r == *q && *q != '\0'; r++, q++)
 	    ;
 
 	if (*q == '\0')
@@ -674,7 +674,7 @@ const char *revstrstr(const char *haystack, const char *needle, const
 }
 
 /* This function is equivalent to strcasestr(), except in that it scans
- * the string in reverse. */
+ * the string in reverse, starting at rev_start. */
 const char *revstrcasestr(const char *haystack, const char *needle,
 	const char *rev_start)
 {
@@ -683,7 +683,7 @@ const char *revstrcasestr(const char *haystack, const char *needle,
     for (; rev_start >= haystack; rev_start--) {
 	const char *r = rev_start, *q = needle;
 
-	for (; tolower(*q) == tolower(*r) && *q != '\0'; r++, q++)
+	for (; tolower(*r) == tolower(*q) && *q != '\0'; r++, q++)
 	    ;
 
 	if (*q == '\0')
