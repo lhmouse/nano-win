@@ -2189,8 +2189,6 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
     else {
 	size_t match, common_len = 0;
 	size_t lastslash = strrchrn(buf, '/', *place);
-	    /* Ignore the first match_strip characters of matches
-	     * entries.  The entries of matches are tilde expanded. */
 	char *mzero;
 
 	while (TRUE) {
