@@ -113,7 +113,7 @@ void parse_rcfile(FILE *rcstream, char *filename)
     int set = 0, lineno = 0, i;
     int errors = 0;
 
-    buf = ncalloc(1024, sizeof(char));
+    buf = charalloc(1024);
     while (fgets(buf, 1023, rcstream) > 0) {
 	lineno++;
 	ptr = buf;
@@ -180,7 +180,7 @@ void parse_rcfile(FILE *rcstream, char *filename)
 				     fill = i;
 			    } 
 			    else {
-				alt_speller = ncalloc(strlen(option) + 1, sizeof(char));
+				alt_speller = charalloc(strlen(option) + 1);
             			strcpy(alt_speller, option);
 			    }
 			} else 
