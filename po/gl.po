@@ -324,11 +324,11 @@ msgstr "Buscar"
 
 #: global.c:269 global.c:412 global.c:436
 msgid "Prev Page"
-msgstr "Páx. Seg."
+msgstr "Páx. Ant."
 
 #: global.c:273 global.c:416 global.c:440
 msgid "Next Page"
-msgstr "Páx. Ant."
+msgstr "Páx. Seg."
 
 #: global.c:277
 msgid "Cut Text"
