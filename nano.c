@@ -405,7 +405,8 @@ void help_init(void)
 	else if (s->altval == NANO_ALT_SPACE) {
 	    meta_shortcut = 1;
 	    ptr += sprintf(ptr, "M-%.5s", _("Space"));
-	}
+	} else if (s->val == KEY_UP)
+	    ptr += sprintf(ptr, "%.2s", _("Up"));
 #endif
 	else if (s->altval > 0) {
 	    meta_shortcut = 1;
@@ -762,13 +763,12 @@ void nano_disabled_msg(void)
 
 void do_preserve_msg(void)
 {
-    fprintf(stderr, _("\nThe -p flag now invokes the Pico \"preserve\" flag.  The Pico compatibility\n"));
-    fprintf(stderr, _("flag been removed as nano is now fully Pico compatible.  Please see the nano\n"));
-    fprintf(stderr, _("FAQ for more info on this change...\n\n"));
+    fprintf(stderr, _("\nThe -p flag now invokes the Pico \"preserve\" flag.  The Pico\n"));
+    fprintf(stderr, _("compatibility flag has been removed as nano is now fully Pico\n"));
+    fprintf(stderr, _("compatible.  Please see the nano FAQ for more info on this change...\n\n"));
     fprintf(stderr, _("Press return to continue\n"));
     while (getchar() != '\n');
 }
-
 
 #ifndef NANO_SMALL
 static int pid;		/* This is the PID of the newly forked process 
@@ -1644,7 +1644,11 @@ int do_int_spell_fix(const char *word)
 	    do_replace_highlight(TRUE, word);
 
 	    /* allow replace word to be corrected */
-	    i = statusq(0, spell_list, last_replace, 0, _("Edit a replacement"));
+	    i = statusq(0, spell_list, last_replace,
+#ifndef NANO_SMALL
+		0,
+#endif
+		_("Edit a replacement"));
 
 	    do_replace_highlight(FALSE, word);
 
@@ -2985,10 +2989,9 @@ int abcd(int input)
 int main(int argc, char *argv[])
 {
     int optchr;
-    int kbinput;		/* Input from keyboard */
     int startline = 0;		/* Line to try and start at */
-    int keyhandled;		/* Have we handled the keystroke yet? */
     int modify_control_seq;
+    int fill_flag_used = 0;		/* Was the fill option used? */
     const shortcut *s;
 #ifdef HAVE_GETOPT_LONG
     int preserveopt = 0;	/* Did the cmdline include --preserve? */
@@ -2996,11 +2999,9 @@ int main(int argc, char *argv[])
 #ifndef NANO_SMALL
     const toggle *t;
 #endif
-
 #ifdef _POSIX_VDISABLE
     struct termios term;
 #endif
-
 #ifdef HAVE_GETOPT_LONG
     int option_index = 0;
     const struct option long_options[] = {
@@ -3064,56 +3065,37 @@ int main(int argc, char *argv[])
     textdomain(PACKAGE);
 #endif
 
-#ifdef ENABLE_NANORC
+#ifdef HAVE_GETOPT_LONG
     {
-	/* scan through the options and handle -I/--ignorercfiles
-	   first, so that it's handled before we call do_rcfile() and
-	   read the other options; don't use getopt()/getopt_long()
-	   here, because there's no way to reset it properly
-	   afterward.  Also check for the --preserve flag, and report
-	   error if people are still using --pico. */
+	/* Check for the --preserve flag, and report error if people are
+	   still using --pico. */
 	int i;
 	for (i = 1; i < argc; i++) {
-	    if (!strcmp(argv[i], "--"))
-		break;
-	    else if (!strcmp(argv[i], "-I"))
-		SET(NO_RCFILE);
-#ifdef HAVE_GETOPT_LONG
-	    else if (!strcmp(argv[i], "--ignorercfiles"))
-		SET(NO_RCFILE);
-	    else if (!strcmp(argv[i], "--preserve"))
+	    if (!strcmp(argv[i], "--preserve"))
 		preserveopt = 1;
 	    else if (!strcmp(argv[i], "--pico"))
 		do_preserve_msg();
-#endif
 	}
     }
+#endif
 
-	if (!ISSET(NO_RCFILE))
-	    do_rcfile();
-#else
-#if defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
+#if !defined(ENABLE_NANORC) && defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
     /* if we don't have rcfile support, we're root, and
        --disable-wrapping-as-root is used, turn wrapping off */
     if (geteuid() == 0)
 	SET(NO_WRAP);
 #endif
-#endif /* ENABLE_NANORC */
 
 #ifdef HAVE_GETOPT_LONG
     while ((optchr = getopt_long(argc, argv, "h?BDFIKMNQ:RST:VY:abcefgijklmo:pr:s:tvwxz",
-				 long_options, &option_index)) != EOF) {
+				 long_options, &option_index)) != -1) {
 #else
     while ((optchr =
-	    getopt(argc, argv, "h?BDFIKMNQ:RST:VY:abcefgijklmo:pr:s:tvwxz")) != EOF) {
+	    getopt(argc, argv, "h?BDFIKMNQ:RST:VY:abcefgijklmo:pr:s:tvwxz")) != -1) {
 #endif
 
 	switch (optchr) {
 
-	case 'h':
-	case '?':
-	    usage();
-	    exit(0);
 	case 'a':
 	case 'b':
 	case 'e':
@@ -3137,7 +3119,8 @@ int main(int argc, char *argv[])
 #endif
 #ifdef ENABLE_NANORC
 	case 'I':
-            break;
+	    SET(NO_RCFILE);
+	    break;
 #endif
 	case 'K':
 	    SET(ALT_KEYPAD);
@@ -3152,7 +3135,7 @@ int main(int argc, char *argv[])
 #endif
 #ifndef DISABLE_JUSTIFY
 	case 'Q':
-	    quotestr = optarg;
+	    quotestr = mallocstrcpy(quotestr, optarg);
 	    break;
 #endif
 #ifdef HAVE_REGEX_H
@@ -3170,13 +3153,12 @@ int main(int argc, char *argv[])
 		int i;
 		char *first_error;
 
-		/* Using strtol instead of atoi lets us accept 0 while
-		 * checking other errors. */
+		/* Using strtol() instead of atoi() lets us accept 0
+		 * while checking other errors. */
 		i = (int)strtol(optarg, &first_error, 10);
-		if (errno == ERANGE || *optarg == '\0' || *first_error != '\0') {
+		if (errno == ERANGE || *optarg == '\0' || *first_error != '\0')
 		    usage();
-		    exit(1);
-		} else
+		else
 		    tabsize = i;
 		if (tabsize <= 0) {
 		    fprintf(stderr, _("Tab size is too small for nano...\n"));
@@ -3229,15 +3211,15 @@ int main(int argc, char *argv[])
 		int i;
 		char *first_error;
 
-		/* Using strtol instead of atoi lets us accept 0 while
-		 * checking other errors. */
+		/* Using strtol() instead of atoi() lets us accept 0
+		 * while checking other errors. */
 		i = (int)strtol(optarg, &first_error, 10);
-		if (errno == ERANGE || *optarg == '\0' || *first_error != '\0') {
+		if (errno == ERANGE || *optarg == '\0' || *first_error != '\0')
 		    usage();
-		    exit(1);
-		} else
+		else
 		    wrap_at = i;
 	    }
+	    fill_flag_used = 1;
 	    break;
 #endif
 #ifndef DISABLE_SPELLER
@@ -3264,20 +3246,95 @@ int main(int argc, char *argv[])
 	    break;
 	default:
 	    usage();
-	    exit(0);
 	}
     }
 
+/* We've read through the command line options.  Now back up the flags
+   and values that are set, and read the rcfile(s).  If the values
+   haven't changed afterward, restore the backed-up values. */
+#ifdef ENABLE_NANORC
+    if (!ISSET(NO_RCFILE)) {
 #ifndef DISABLE_OPERATINGDIR
-    /* Set up the operating directory.  This entails chdir()ing there, so
-       that file reads and writes will be based there. */
+	char *operating_dir_cpy = operating_dir;
+#endif
+#ifndef DISABLE_WRAPPING
+	int wrap_at_cpy = wrap_at;
+#endif
+#ifndef DISABLE_JUSTIFY
+	char *quotestr_cpy = quotestr;
+#endif
+#ifndef DISABLE_SPELLER
+	char *alt_speller_cpy = alt_speller;
+#endif
+	int tabsize_cpy = tabsize;
+	long flags_cpy = flags;
+
+	operating_dir = NULL;
+	quotestr = NULL;
+	alt_speller = NULL;
+
+	do_rcfile();
+
+#ifndef DISABLE_OPERATINGDIR
+	if (operating_dir_cpy != NULL) {
+	    free(operating_dir);
+	    operating_dir = operating_dir_cpy;
+	}
+#endif
+#ifndef DISABLE_WRAPPING
+	if (fill_flag_used)
+	    wrap_at = wrap_at_cpy;
+#endif
+#ifndef DISABLE_JUSTIFY
+	if (quotestr_cpy != NULL) {
+	    free(quotestr);
+	    quotestr = quotestr_cpy;
+	}
+#endif
+#ifndef DISABLE_SPELLER
+	if (alt_speller_cpy != NULL) {
+	    free(alt_speller);
+	    alt_speller = alt_speller_cpy;
+	}
+#endif
+	if (tabsize_cpy > 0)
+	    tabsize = tabsize_cpy;
+	flags |= flags_cpy;
+    }
+#if defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
+    else if (geteuid() == 0)
+	SET(NO_WRAP);
+#endif
+#endif /* ENABLE_NANORC */
+
+#ifndef DISABLE_OPERATINGDIR
+    /* Set up the operating directory.  This entails chdir()ing there,
+       so that file reads and writes will be based there. */
     init_operating_dir();
 #endif
+
+#ifndef DISABLE_JUSTIFY
+    if (quotestr == NULL)
+#ifdef HAVE_REGEX_H
+	quotestr = mallocstrcpy(NULL, "^([ \t]*[|>:}#])+");
+#else
+	quotestr = mallocstrcpy(NULL, "> ");
+#endif
+#endif /* !DISABLE_JUSTIFY */
+    if (tabsize == -1)
+	tabsize = 8;
 
     /* Clear the filename we'll be using */
     filename = charalloc(1);
     filename[0] = '\0';
 
+    /* If there's a +LINE flag, it is the first non-option argument. */
+    if (0 < optind && optind < argc && argv[optind][0] == '+') {
+	startline = atoi(&argv[optind][1]);
+	optind++;
+    }
+    if (0 < optind && optind < argc)
+	filename = mallocstrcpy(filename, argv[optind]);
 
     /* See if there's a non-option in argv (first non-option is the
        filename, if +LINE is not given) */
@@ -3333,10 +3390,6 @@ int main(int argc, char *argv[])
     history_init();
 #endif
 
-#ifdef ENABLE_COLOR
-    do_colorinit();
-#endif /* ENABLE_COLOR */
-
 #ifdef DEBUG
     fprintf(stderr, _("Main: bottom win\n"));
 #endif
@@ -3347,32 +3400,41 @@ int main(int argc, char *argv[])
     fprintf(stderr, _("Main: open file\n"));
 #endif
 
-    /* Now we check to see if argv[optind] is non-null to determine if
-       we're dealing with a new file or not, not argc == 1... */
-    if (argv[optind] == NULL)
-	new_file();
-    else
-	open_file(filename, 0, 0);
+    open_file(filename, 1, 1);
+#ifdef ENABLE_MULTIBUFFER
+    /* If we're using multibuffers and more than one file is specified
+       on the command line, load them all and switch to the first one
+       afterward */
+    if (ISSET(MULTIBUFFER) && optind + 1 < argc) {
+	for (optind++; optind < argc; optind++) {
+	    add_open_file(1);
+	    new_file();
+	    filename = mallocstrcpy(filename, argv[optind]);
+	    open_file(filename, 0, 0);
+	    load_file(0);
+	}
+	open_nextfile_void();
+    }
+#endif
 
     titlebar(NULL);
 
     if (startline > 0)
 	do_gotoline(startline, 0);
-    else
-	edit_update(fileage, CENTER);
 
-    /* return here after a sigwinch */
+    /* Return here after a sigwinch */
     sigsetjmp(jmpbuf, 1);
 
-    /* Fix clobber-age */
-    kbinput = 0;
-    keyhandled = 0;
+    /* This variable should be initialized after the sigsetjmp(), so we
+       can't do Esc-Esc then quickly resize and muck things up. */
     modify_control_seq = 0;
 
     edit_refresh();
     reset_cursor();
 
     while (1) {
+	int keyhandled = 0;	/* Have we handled the keystroke yet? */
+	int kbinput;		/* Input from keyboard */
 
 #if !defined(DISABLE_BROWSER) || !defined(DISABLE_HELP) || (!defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION))
 	currshortcut = main_list;
@@ -3388,10 +3450,14 @@ int main(int argc, char *argv[])
 	fprintf(stderr, _("AHA!  %c (%d)\n"), kbinput, kbinput);
 #endif
 	if (kbinput == 27) {	/* Grab Alt-key stuff first */
-	    switch (kbinput = wgetch(edit)) {
+	    kbinput = wgetch(edit);
+	    switch (kbinput) {
 		/* Alt-O, suddenly very important ;) */
 	    case 'O':
 		kbinput = wgetch(edit);
+		/* Shift or Ctrl + Arrows are Alt-O-[2,5,6]-[A,B,C,D] on some terms */
+		if (kbinput == '2' || kbinput == '5' || kbinput == '6')
+		    kbinput = wgetch(edit);
 		if ((kbinput <= 'D' && kbinput >= 'A') ||
 			(kbinput <= 'd' && kbinput >= 'a'))
 		    kbinput = abcd(kbinput);
@@ -3414,7 +3480,8 @@ int main(int argc, char *argv[])
 		keyhandled = 1;
 		break;
 	    case '[':
-		switch (kbinput = wgetch(edit)) {
+		kbinput = wgetch(edit);
+		switch (kbinput) {
 		case '1':	/* Alt-[-1-[0-5,7-9] = F1-F8 in X at least */
 		    kbinput = wgetch(edit);
 		    if (kbinput >= '1' && kbinput <= '5') {
@@ -3453,7 +3520,8 @@ int main(int argc, char *argv[])
 			wgetch(edit);
 			break;
 		    case '~':
-			goto do_insertkey;
+			kbinput = NANO_INSERTFILE_KEY;
+			break;
 #ifdef DEBUG
 		    default:
 			fprintf(stderr, _("I got Alt-[-2-%c! (%d)\n"),
@@ -3499,7 +3567,8 @@ int main(int argc, char *argv[])
 		    break;
 		case '@':	/* Alt-[-@ = Insert in Hurd Console */
 		case 'L':	/* Alt-[-L = Insert - FreeBSD Console */
-		    goto do_insertkey;
+		    kbinput = NANO_INSERTFILE_KEY;
+		    break;
 		case '[':	/* Alt-[-[-[A-E], F1-F5 in Linux console */
 		    kbinput = wgetch(edit);
 		    if (kbinput >= 'A' && kbinput <= 'E')
@@ -3530,7 +3599,6 @@ int main(int argc, char *argv[])
 		    break;
 		}
 		break;
-
 #ifdef ENABLE_MULTIBUFFER
 	    case NANO_OPENPREV_KEY:
 	    case NANO_OPENPREV_ALTKEY:
@@ -3546,8 +3614,8 @@ int main(int argc, char *argv[])
 	    default:
 		/* Check for the altkey defs.... */
 		for (s = main_list; s != NULL; s = s->next)
-		    if (kbinput == s->altval ||
-			    kbinput == s->altval - 32) {
+		    if (kbinput == s->altval || (kbinput >= 'A' &&
+			    kbinput <= 'Z' && kbinput == s->altval - 32)) {
 			if (ISSET(VIEW_MODE) && !s->viewok)
 			    print_view_warning();
 			else
@@ -3558,9 +3626,8 @@ int main(int argc, char *argv[])
 #ifndef NANO_SMALL
 		/* And for toggle switches */
 		for (t = toggles; t != NULL && !keyhandled; t = t->next)
-		    if (kbinput == t->val ||
-			(t->val > 'a' && 
-				kbinput == t->val - 32)) {
+		    if (kbinput == t->val || (t->val >= 'a' &&
+			    t->val <= 'z' && kbinput == t->val - 32)) {
 			do_toggle(t);
 			keyhandled = 1;
 			break;
@@ -3573,6 +3640,10 @@ int main(int argc, char *argv[])
 		break;
 	    }
 	}
+	/* Hack, make insert key do something useful, like insert file */
+	else if (kbinput == KEY_IC)
+	    kbinput = NANO_INSERTFILE_KEY;
+
 	/* If modify_control_seq is set, we received an Alt-Alt
 	   sequence before this, so we make this key a control sequence
 	   by subtracting 32, 64, or 96, depending on its value. */
@@ -3603,7 +3674,7 @@ int main(int argc, char *argv[])
 		else
 		    s->func();
 		keyhandled = 1;
-		/* rarely, the value of s can change after s->func(),
+		/* Rarely, the value of s can change after s->func(),
 		   leading to problems; get around this by breaking out
 		   explicitly once we successfully handle a shortcut */
 		break;
@@ -3622,30 +3693,11 @@ int main(int argc, char *argv[])
 	if (kbinput == 17 || kbinput == 19)
 	    keyhandled = 1;
 
-	/* Catch ^Z by hand when triggered also 
+	/* Catch ^Z by hand when triggered also
 	   407 == ^Z in Linux console when keypad() is used? */
 	if (kbinput == 26 || kbinput == 407) {
 	    if (ISSET(SUSPEND))
 		do_suspend(0);
-	    keyhandled = 1;
-	}
-
-	/* Hack, make insert key do something useful, like insert file */
-	if (kbinput == KEY_IC) {
-	  do_insertkey:
-
-#ifdef ENABLE_MULTIBUFFER
-	    /* do_insertfile_void() contains the logic needed to
-	       handle view mode with the view mode/multibuffer
-	       exception, so use it here */
-	    do_insertfile_void();
-#else
-	    if (!ISSET(VIEW_MODE))
-		do_insertfile_void();
-	    else
-		print_view_warning();
-#endif
-
 	    keyhandled = 1;
 	}
 
@@ -3659,9 +3711,9 @@ int main(int argc, char *argv[])
 #endif
 
 	    case 0:		/* Erg */
-	    case -1:		/* Stuff that we don't want to do squat */
-	    case 410:		/* Must ignore this, it gets sent when we resize */
 	    case 29:		/* Ctrl-] */
+	    case -1:		/* Stuff that we don't want to do squat */
+	    case 410:		/* Must ignore this, it's sent when we resize */
 #ifdef PDCURSES
 	    case 541:		/* ???? */
 	    case 542:		/* Control and alt in Windows *shrug* */
@@ -3678,22 +3730,19 @@ int main(int argc, char *argv[])
 		/* We no longer stop unhandled sequences so that people with
 		   odd character sets can type... */
 
-		if (ISSET(VIEW_MODE)) {
+		if (ISSET(VIEW_MODE))
 		    print_view_warning();
-		    break;
-		}
-		do_char(kbinput);
+		else
+		    do_char(kbinput);
 	    }
+
 	if (ISSET(DISABLE_CURPOS))
 	    UNSET(DISABLE_CURPOS);
 	else if (ISSET(CONSTUPDATE))
-		do_cursorpos(1);
+	    do_cursorpos(1);
 
 	reset_cursor();
 	wrefresh(edit);
-	keyhandled = 0;
     }
-
-    getchar();
-    finish(0);
+    assert(0);
 }

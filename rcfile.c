@@ -27,10 +27,10 @@
 #include <stdio.h>
 #include <errno.h>
 #include <unistd.h>
-#include <pwd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <pwd.h>
 #include <assert.h>
 #include "proto.h"
 #include "nano.h"
@@ -67,6 +67,7 @@ const static rcoption rcopts[] = {
 #ifndef DISABLE_OPERATINGDIR
     {"operatingdir", 0},
 #endif
+    {"preserve", PRESERVE},
 #ifndef DISABLE_JUSTIFY
     {"quotestr", 0},
 #endif
@@ -521,8 +522,8 @@ void parse_rcfile(FILE *rcstream)
 			    if (!strcasecmp(rcopts[i].name, "fill")) {
 				char *first_error;
 
-				/* Using strtol instead of atoi lets us
-				 * accept 0 while checking other
+				/* Using strtol() instead of atoi() lets
+				 * us accept 0 while checking other
 				 * errors. */
 				j = (int)strtol(option, &first_error, 10);
 				if (errno == ERANGE || *option == '\0' || *first_error != '\0')
@@ -608,7 +609,7 @@ void do_rcfile(void)
 
     if (userage == NULL) {
 	rcfile_error(_("I can't find my home directory!  Wah!"));
-	SET(NO_RCFILE); /* if no .nanorc, don't try to read .nano_history */
+	SET(NO_RCFILE);
     } else {
 	nanorc = nrealloc(nanorc, strlen(userage->pw_dir) + 9);
 	sprintf(nanorc, "%s/.nanorc", userage->pw_dir);

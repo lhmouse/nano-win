@@ -40,7 +40,7 @@ extern long totsize;
 extern int temp_opt;
 extern int wrap_at, flags, tabsize;
 extern int search_last_line;
-extern int past_editbuff;
+extern int search_offscreen;
 extern int currslen;
 
 #ifndef DISABLE_JUSTIFY
@@ -169,13 +169,13 @@ int check_operating_dir(const char *currpath, int allow_tabcomp);
 int write_file(const char *name, int tmp, int append, int nonamechange);
 int do_writeout(const char *path, int exiting, int append);
 int do_writeout_void(void);
-#ifndef DISABLE_TABCOMP
 char *real_dir_from_tilde(const char *buf);
-#endif
+#ifndef DISABLE_TABCOMP
 int append_slash_if_dir(char *buf, int *lastwastab, int *place);
 char **username_tab_completion(char *buf, int *num_matches);
 char **cwd_tab_completion(char *buf, int *num_matches);
 char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list);
+#endif
 #ifndef DISABLE_BROWSER
 struct stat filestat(const char *path);
 int diralphasort(const void *va, const void *vb);
@@ -350,7 +350,6 @@ void replace_abort(void);
 int replace_regexp(char *string, int create_flag);
 #endif
 char *replace_line(void);
-void print_replaced(int num);
 int do_replace_loop(const char *prevanswer, const filestruct *begin,
 			int *beginx, int wholewords, int *i);
 int do_replace(void);
@@ -391,7 +390,6 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 			const char *rev_start, int line_pos);
 void nperror(const char *s);
 void *nmalloc(size_t howmuch);
-char *charalloc(size_t howmuch);
 void *nrealloc(void *ptr, size_t howmuch);
 char *mallocstrcpy(char *dest, const char *src);
 void new_magicline(void);

@@ -54,8 +54,8 @@ int num_of_digits(int n)
 /* Fix the memory allocation for a string. */
 void align(char **strp)
 {
-    assert(strp != NULL);
-    *strp = nrealloc(*strp, strlen(*strp) + 1);
+    if (strp != NULL)
+	*strp = nrealloc(*strp, strlen(*strp) + 1);
 }
 
 /* Null a string at a certain index and align it. */
@@ -199,34 +199,20 @@ void nperror(const char *s)
 /* Thanks BG, many ppl have been asking for this... */
 void *nmalloc(size_t howmuch)
 {
-    void *r;
+    void *r = malloc(howmuch);
 
-    /* Panic save? */
-
-    if ((r = malloc(howmuch)) == NULL)
-	die(_("nano: malloc: out of memory!"));
-
-    return r;
-}
-
-/* We're going to need this too - Hopefully this will minimize the
- * transition cost of moving to the appropriate function. */
-char *charalloc(size_t howmuch)
-{
-    char *r = (char *)malloc(howmuch * sizeof(char));
-
-    if (r == NULL)
-	die(_("nano: malloc: out of memory!"));
+    if (r == NULL && howmuch != 0)
+	die(_("nano is out of memory!"));
 
     return r;
 }
 
 void *nrealloc(void *ptr, size_t howmuch)
 {
-    void *r;
+    void *r = realloc(ptr, howmuch);
 
-    if ((r = realloc(ptr, howmuch)) == NULL)
-	die(_("nano: realloc: out of memory!"));
+    if (r == NULL && howmuch != 0)
+	die(_("nano is out of memory!"));
 
     return r;
 }

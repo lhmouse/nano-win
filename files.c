@@ -33,8 +33,8 @@
 #include <errno.h>
 #include <ctype.h>
 #include <dirent.h>
-#include <assert.h>
 #include <pwd.h>
+#include <assert.h>
 #include "proto.h"
 #include "nano.h"
 
@@ -42,7 +42,7 @@
 static int fileformat = 0;	/* 0 = *nix, 1 = DOS, 2 = Mac */
 #endif
 
-/* Load file into edit buffer - takes data from file struct */
+/* Load file into edit buffer - takes data from file struct. */
 void load_file(int update)
 {
     current = fileage;
@@ -56,9 +56,8 @@ void load_file(int update)
 
 #ifdef ENABLE_COLOR
     update_color();
+    edit_refresh();
 #endif
-
-    wmove(edit, current_y, current_x);
 }
 
 /* What happens when there is no file to open? aiee! */
@@ -95,6 +94,7 @@ void new_file(void)
 
 #ifdef ENABLE_COLOR
     update_color();
+    edit_refresh();
 #endif
 }
 
@@ -149,7 +149,7 @@ filestruct *read_line(char *buf, filestruct *prev, int *line1ins, int len)
 int read_file(FILE *f, const char *filename, int quiet)
 {
     int num_lines = 0, len = 0;
-    char input = '\0'; 		/* current input character */
+    char input = '\0';		/* current input character */
     char *buf;
     long i = 0, bufx = 128;
     filestruct *fileptr = current, *tmp = NULL;
@@ -171,10 +171,10 @@ int read_file(FILE *f, const char *filename, int quiet)
     }
 
     /* For the assertion in read_line(), it must be true that if current is
-       NULL then so is fileage. */
+     * NULL then so is fileage. */
     assert(current != NULL || fileage == NULL);
 
-    /* Read the entire file into file struct */
+    /* Read the entire file into file struct. */
     while ((input_int = getc(f)) != EOF) {
         input = (char)input_int;
 #ifndef NANO_SMALL
@@ -323,7 +323,7 @@ int read_file(FILE *f, const char *filename, int quiet)
     return 1;
 }
 
-/* Open the file (and decide if it exists) */
+/* Open the file (and decide if it exists). */
 int open_file(const char *filename, int insert, int quiet)
 {
     int fd;
@@ -340,7 +340,13 @@ int open_file(const char *filename, int insert, int quiet)
 	    new_file();
 	}
     } else if ((fd = open(filename, O_RDONLY)) == -1) {
-	if (!quiet)
+	/* If we're in multibuffer mode, don't be quiet when an error
+	   occurs while opening a file */
+	if (!quiet
+#ifdef ENABLE_MULTIBUFFER
+		|| ISSET(MULTIBUFFER)
+#endif
+		)
 	    statusbar("%s: %s", strerror(errno), filename);
 	if (!insert)
 	    new_file();
@@ -375,9 +381,9 @@ int open_file(const char *filename, int insert, int quiet)
 }
 
 /* This function will return the name of the first available extension
-   of a filename (starting with the filename, then filename.1, etc).
-   Memory is allocated for the return value.  If no writable extension 
-   exists, we return "". */
+ * of a filename (starting with the filename, then filename.1, etc).
+ * Memory is allocated for the return value.  If no writable extension
+ * exists, we return "". */
 char *get_next_filename(const char *name)
 {
     int i = 0;
@@ -426,21 +432,37 @@ int do_insertfile(int loading_file)
     if (operating_dir != NULL && strcmp(operating_dir, ".") != 0)
 #ifdef ENABLE_MULTIBUFFER 
 	if (ISSET(MULTIBUFFER))
-	    i = statusq(1, insertfile_list, inspath, 0, _("File to insert into new buffer [from %s] "),
+	    i = statusq(1, insertfile_list, inspath,
+#ifndef NANO_SMALL
+		0,
+#endif
+		_("File to insert into new buffer [from %s] "),
 		operating_dir);
 	else
 #endif
-	    i = statusq(1, insertfile_list, inspath, 0, _("File to insert [from %s] "),
+	    i = statusq(1, insertfile_list, inspath,
+#ifndef NANO_SMALL
+		0,
+#endif
+		_("File to insert [from %s] "),
 		operating_dir);
 
     else
 #endif
 #ifdef ENABLE_MULTIBUFFER 
 	if (ISSET(MULTIBUFFER))
-	    i = statusq(1, insertfile_list, inspath, 0, _("File to insert into new buffer [from ./] "));
-	else
+	    i = statusq(1, insertfile_list, inspath,
+#ifndef NANO_SMALL
+		0,
 #endif
-	    i = statusq(1, insertfile_list, inspath, 0, _("File to insert [from ./] "));
+		_("File to insert into new buffer [from ./] "));
+	else
+#endif /* ENABLE_MULTIBUFFER */
+	    i = statusq(1, insertfile_list, inspath,
+#ifndef NANO_SMALL
+		0,
+#endif
+		_("File to insert [from ./] "));
 
     if (i != -1) {
 	inspath = mallocstrcpy(inspath, answer);
@@ -448,11 +470,7 @@ int do_insertfile(int loading_file)
 	fprintf(stderr, _("filename is %s\n"), answer);
 #endif
 
-#ifndef DISABLE_TABCOMP
 	realname = real_dir_from_tilde(answer);
-#else
-	realname = mallocstrcpy(realname, answer);
-#endif
 
 #ifndef DISABLE_BROWSER
 	if (i == NANO_TOFILES_KEY) {
@@ -522,8 +540,20 @@ int do_insertfile(int loading_file)
 	    i = open_file(realname, 1, loading_file);
 
 #ifdef ENABLE_MULTIBUFFER
-	if (loading_file)
-	    filename = mallocstrcpy(filename, realname);
+	if (loading_file) {
+	    /* if there was an error opening the file, free() realname,
+	       free() fileage (which now points to the new buffer we
+	       created to hold the file), reload the buffer we had open
+	       before, and skip the insertion; otherwise, save realname
+	       in filename and continue the insertion */
+	    if (i == -1) {
+		free(realname);
+		free(fileage);
+		load_open_file();
+		goto skip_insert;
+	    } else
+		filename = mallocstrcpy(filename, realname);
+	}
 #endif
 
 	free(realname);
@@ -570,14 +600,14 @@ int do_insertfile(int loading_file)
 	else
 	    edit_refresh();
 
-#ifdef ENABLE_COLOR
-	update_color();
-#endif    
-
     } else {
 	statusbar(_("Cancelled"));
 	i = 0;
     }
+
+#ifdef ENABLE_MULTIBUFFER
+  skip_insert:
+#endif
 
     free(inspath);
     inspath = NULL;
@@ -801,6 +831,10 @@ int load_open_file(void)
 	UNSET(MARK_ISSET);
 #endif
 
+#ifdef ENABLE_COLOR
+    update_color();
+#endif
+
     /* restore full file position: line number, x-coordinate, y-
        coordinate, place we want */
     do_gotopos(open_files->file_lineno, open_files->file_current_x, open_files->file_current_y, open_files->file_placewewant);
@@ -809,15 +843,12 @@ int load_open_file(void)
     clearok(topwin, FALSE);
     titlebar(NULL);
 
-    /* if we're constantly displaying the cursor position, update it (and do so
-       unconditionally, in the rare case that the character count is the same
-       but the line count isn't) */
-    if (ISSET(CONSTUPDATE))
+    /* if we're constantly displaying the cursor position and
+       DISABLE_CURPOS isn't set, update it (and do so unconditionally,
+       in the rare case that the character count is the same but the
+       line count isn't) */
+    if (ISSET(CONSTUPDATE) && !ISSET(DISABLE_CURPOS))
 	do_cursorpos(0);
-
-#ifdef ENABLE_COLOR
-    update_color();
-#endif    
 
     /* now we're done */
     return 0;
@@ -1284,7 +1315,7 @@ int check_operating_dir(const char *currpath, int allow_tabcomp)
  * Write a file out.  If tmp is nonzero, we set the umask to 0600,
  * we don't set the global variable filename to its name, and don't
  * print out how many lines we wrote on the statusbar.
- * 
+ *
  * tmp means we are writing a tmp file in a secure fashion.  We use
  * it when spell checking or dumping the file on an error.
  *
@@ -1316,11 +1347,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
     titlebar(NULL);
     fileptr = fileage;
 
-#ifndef DISABLE_TABCOMP
     realname = real_dir_from_tilde(name);
-#else
-    realname = mallocstrcpy(realname, name);
-#endif
 
 #ifndef DISABLE_OPERATINGDIR
     /* If we're writing a temporary file, we're probably going outside
@@ -1420,11 +1447,11 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 	/* Use O_EXCL if tmp is nonzero.  This is now copied from joe,
 	   because wiggy says so *shrug*. */
 	if (append != 0)
-	    fd = open(realname, O_WRONLY | O_CREAT | O_APPEND, (S_IRUSR|S_IWUSR));
+	    fd = open(realname, O_WRONLY | O_CREAT | O_APPEND, (S_IRUSR | S_IWUSR));
 	else if (tmp)
-	    fd = open(realname, O_WRONLY | O_CREAT | O_EXCL, (S_IRUSR|S_IWUSR));
+	    fd = open(realname, O_WRONLY | O_CREAT | O_EXCL, (S_IRUSR | S_IWUSR));
 	else
-	    fd = open(realname, O_WRONLY | O_CREAT | O_TRUNC, (S_IRUSR|S_IWUSR));
+	    fd = open(realname, O_WRONLY | O_CREAT | O_TRUNC, (S_IRUSR | S_IWUSR));
 
 	/* First, just give up if we couldn't even open the file */
 	if (fd == -1) {
@@ -1608,9 +1635,10 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 	umask(mask);
 
 	if (tmp)	/* We don't want anyone reading our temporary file! */
-	    mask = 0600;
+	    mask = S_IRUSR | S_IWUSR;
 	else
-	    mask = 0666 & ~mask;
+	    mask = (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH |
+		S_IWOTH) & ~mask;
     } else
 	/* Use permissions from file we are overwriting. */
 	mask = st.st_mode;
@@ -1644,8 +1672,13 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 		  mask, realname, strerror(errno));
 
     if (!tmp && append == 0) {
-	if (!nonamechange)
+	if (!nonamechange) {
 	    filename = mallocstrcpy(filename, realname);
+#ifdef ENABLE_COLOR
+	    update_color();
+	    edit_refresh();
+#endif
+	}
 
 #ifndef NANO_SMALL
 	/* Update originalfilestat to reference the file as it is now. */
@@ -1713,7 +1746,7 @@ int do_writeout(const char *path, int exiting, int append)
 	    if (append == 2)
 		i = statusq(1, writefile_list, "", 0,
 		    "%s%s%s", _("Prepend Selection to File"), formatstr, backupstr);
-	    else if (append)
+	    else if (append == 1)
 		i = statusq(1, writefile_list, "", 0,
 		    "%s%s%s", _("Append Selection to File"), formatstr, backupstr);
 	    else
@@ -1723,7 +1756,7 @@ int do_writeout(const char *path, int exiting, int append)
 	    if (append == 2)
 		i = statusq(1, writefile_list, answer, 0,
 		    "%s%s%s", _("File Name to Prepend to"), formatstr, backupstr);
-	    else if (append)
+	    else if (append == 1)
 		i = statusq(1, writefile_list, answer, 0,
 		    "%s%s%s", _("File Name to Append to"), formatstr, backupstr);
 	    else
@@ -1732,13 +1765,13 @@ int do_writeout(const char *path, int exiting, int append)
 	}
 #else
 	if (append == 2)
-	    i = statusq(1, writefile_list, answer, 0,
+	    i = statusq(1, writefile_list, answer,
 		"%s", _("File Name to Prepend to"));
-	else if (append)
-	    i = statusq(1, writefile_list, answer, 0,
+	else if (append == 1)
+	    i = statusq(1, writefile_list, answer,
 		"%s", _("File Name to Append to"));
 	else
-	    i = statusq(1, writefile_list, answer, 0,
+	    i = statusq(1, writefile_list, answer,
 		"%s", _("File Name to Write"));
 #endif /* !NANO_SMALL */
 
@@ -1852,8 +1885,6 @@ int do_writeout_void(void)
     return do_writeout(filename, 0, 0);
 }
 
-#ifndef DISABLE_TABCOMP
-
 /* Return a malloc()ed string containing the actual directory, used
  * to convert ~user and ~/ notation... */
 char *real_dir_from_tilde(const char *buf)
@@ -1896,6 +1927,7 @@ char *real_dir_from_tilde(const char *buf)
     return dirtmp;
 }
 
+#ifndef DISABLE_TABCOMP
 /* Tack a slash onto the string we're completing if it's a directory.  We
  * assume there is room for one more character on the end of buf.  The
  * return value says whether buf is a directory. */
@@ -1920,8 +1952,8 @@ int append_slash_if_dir(char *buf, int *lastwastab, int *place)
 }
 
 /*
- * These functions (username_tab_completion, cwd_tab_completion, and
- * input_tab) were taken from busybox 0.46 (cmdedit.c).  Here is the
+ * These functions (username_tab_completion(), cwd_tab_completion(), and
+ * input_tab()) were taken from busybox 0.46 (cmdedit.c).  Here is the
  * notice from that file:
  *
  * Termios command line History and Editting, originally
@@ -2093,9 +2125,8 @@ char **cwd_tab_completion(char *buf, int *num_matches)
     return matches;
 }
 
-/* This function now has an arg which refers to how much the 
- * statusbar (place) should be advanced, i.e. the new cursor pos.
- */
+/* This function now has an arg which refers to how much the statusbar
+ * (place) should be advanced, i.e. the new cursor pos. */
 char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
 {
     /* Do TAB completion */
@@ -2313,7 +2344,6 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
 #endif /* !DISABLE_TABCOMP */
 
 #ifndef DISABLE_BROWSER
-
 /* Return the stat of the file pointed to by path */
 struct stat filestat(const char *path)
 {
@@ -2629,7 +2659,7 @@ char *do_browser(const char *inpath)
 
 		if (!strcmp("..", tail(path))) {
 		    /* They want to go up a level, so strip off .. and the
-			current dir */
+		       current dir */
 		    striponedir(path);
 		    striponedir(path);
 		    align(&path);
@@ -2650,7 +2680,11 @@ char *do_browser(const char *inpath)
 	case NANO_GOTO_KEY:
 
 	    curs_set(1);
-	    j = statusq(0, gotodir_list, "", 0, _("Goto Directory"));
+	    j = statusq(0, gotodir_list, "",
+#ifndef NANO_SMALL
+		0,
+#endif
+		_("Goto Directory"));
 	    bottombars(browser_list);
 	    curs_set(0);
 

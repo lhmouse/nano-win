@@ -32,6 +32,9 @@
 #define ISSET(bit) (flags & bit)
 #define TOGGLE(bit) flags ^= bit
 
+/* Define charalloc as a macro rather than duplicating code */
+#define charalloc(howmuch) (char *)nmalloc((howmuch) * sizeof(char))
+
 #ifndef NANO_SMALL
   /* For the backup file copy ... */
 # define COPYFILEBLOCKSIZE 1024
@@ -90,13 +93,12 @@
 #define KEY_END -1
 #endif /* KEY_END */
 
-/* Snatch these out of the ncurse sdefs, so we can use them in search
-   history regardless of whethere we're using ncurses or not */
-#ifndef KEY_UP
+/* Snatch these out of the ncurses defs, so we can use them in search
+   history regardless of whether we're using ncurses or not */
+#if !defined(KEY_UP) || !defined(KEY_DOWN)
 #define KEY_UP   0403
 #define KEY_DOWN 0402
-#endif /* KEY_UP */
-
+#endif /* !KEY_UP || !KEY_DOWN */
 
 #define VERMSG "GNU nano " VERSION
 
@@ -412,12 +414,16 @@ typedef enum {
 /* Minimum editor window rows required for nano to work correctly */
 #define MIN_EDITOR_ROWS 3
 
-/* Default number of characters from end-of-line where text wrapping occurs */
+/* Default number of characters from end-of-line where text wrapping
+   occurs */
 #define CHARS_FROM_EOL 8
 
-/* Minimum fill length (space available for text before wrapping occurs) */
+/* Minimum fill length (space available for text before wrapping
+   occurs) */
 #define MIN_FILL_LENGTH 10
 
-/* Maximum number of search history strings saved, same value used for replace history */
+/* Maximum number of search history strings saved, same value used for
+   replace history */
 #define MAX_SEARCH_HISTORY 100
+
 #endif /* !NANO_H */

@@ -161,10 +161,10 @@ void check_statblank(void)
     }
 }
 
-/* Repaint the statusbar when getting a character in nanogetstr.  buf
+/* Repaint the statusbar when getting a character in nanogetstr().  buf
  * should be no longer than COLS - 4.
  *
- * Note that we must turn on A_REVERSE here, since do_help turns it
+ * Note that we must turn on A_REVERSE here, since do_help() turns it
  * off! */
 void nanoget_repaint(const char *buf, const char *inputbuf, int x)
 {
@@ -313,13 +313,13 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	case NANO_CONTROL_I:
 #ifndef NANO_SMALL
 	    /* tab history completion */
-	    if (history_list) {
-		if ((!complete) || (last_kbinput != NANO_CONTROL_I)) {
+	    if (history_list != NULL) {
+		if (!complete || last_kbinput != NANO_CONTROL_I) {
 		    history_list->current = (historytype *)history_list;
 		    history_list->len = strlen(answer);
 		}
 
-		if (history_list->len) {
+		if (history_list->len > 0) {
 		    complete = get_history_completion(history_list, answer);
 		    xend = strlen(complete);
 		    x = xend;
@@ -349,18 +349,20 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		x--;
 	    break;
 	case KEY_UP:
+	case NANO_UP_KEY:
 #ifndef NANO_SMALL
 	    if (history_list) {
 
-		/* If there's no previous temp holder, or if we already arrowed 
-		   back down to it and (possibly edited ir), update the holder  */
+		/* If there's no previous temp holder, or if we already
+		   arrowed back down to it and (possibly edited it),
+		   update the holder */
 		if (currentbuf == NULL || (ret2cb == 1 && strcmp(currentbuf, answer))) {
 		    currentbuf = mallocstrcpy(currentbuf, answer);
 		    ret2cb = 0;
 		}
 
 		/* get older search from the history list */
-		if ((history = get_history_older(history_list))) {
+		if ((history = get_history_older(history_list)) != NULL) {
 		    answer = mallocstrcpy(answer, history);
 		    xend = strlen(history);
 		} else {
@@ -372,10 +374,11 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 #endif
 	    break;
 	case KEY_DOWN:
+	case NANO_DOWN_KEY:
 #ifndef NANO_SMALL
 	    if (history_list) {
 		/* get newer search from the history list */
-		if ((history = get_history_newer(history_list))) {
+		if ((history = get_history_newer(history_list)) != NULL) {
 		    answer = mallocstrcpy(answer, history);
 		    xend = strlen(history);
 
@@ -395,7 +398,6 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    break;
 	case KEY_DC:
 	    goto do_deletekey;
-
 	case 27:
 	    switch (kbinput = wgetch(edit)) {
 	    case 'O':
@@ -432,7 +434,6 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 		case '4':
 		case '8':
 		    x = xend;
-		    goto skip_tilde;
 		  skip_tilde:
 		    nodelay(edit, TRUE);
 		    kbinput = wgetch(edit);
@@ -479,7 +480,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	wrefresh(bottomwin);
     } /* while (kbinput ...) */
 
-    /* In Pico mode, just check for a blank answer here */
+    /* Just check for a blank answer here */
     if (answer[0] == '\0')
 	return -2;
     else
@@ -1101,15 +1102,14 @@ void edit_refresh(void)
 	    nlines++;
 	}
 	/* What the hell are we expecting to update the screen if this
-	   isn't here?  Luck?? */
+	   isn't here?  Luck? */
 	wrefresh(edit);
 	leaveok(edit, FALSE);
     }
 }
 
-/*
- * Same as above, but touch the window first, so everything is redrawn.
- */
+/* Same as above, but touch the window first, so everything is
+ * redrawn. */
 void edit_refresh_clearok(void)
 {
     clearok(edit, TRUE);

@@ -84,20 +84,21 @@ void do_colorinit(void)
 
 	    if (background == -1)
 #ifdef HAVE_USE_DEFAULT_COLORS
-		if (defok == 0)
+		if (!defok)
 #endif
 		    background = COLOR_BLACK;
 
 	    init_pair(tmpcolor->pairnum, tmpcolor->fg, background);
 
 #ifdef DEBUG
-	    fprintf(stderr, _("Running init_pair with fg = %d and bg = %d\n"), tmpcolor->fg, tmpcolor->bg);
+	    fprintf(stderr, _("Running init_pair() with fg = %d and bg = %d\n"),
+		tmpcolor->fg, tmpcolor->bg);
 #endif
 	}
     }
 }
 
-/* Update the color information based on the current filename */
+/* Update the color information based on the current filename. */
 void update_color(void)
 {
     const syntaxtype *tmpsyntax;
@@ -130,7 +131,6 @@ void update_color(void)
 	}
     }
     do_colorinit();
-    edit_refresh();
 }
 
 #endif /* ENABLE_COLOR */

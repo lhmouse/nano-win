@@ -27,16 +27,14 @@
 #include "proto.h"
 #include "nano.h"
 
-/*
- * Global variables
- */
+/* Global variables */
 
 /* wrap_at might be set in rcfile.c or nano.c */
 int wrap_at = -CHARS_FROM_EOL;/* Right justified fill value, allows resize */
 char *last_search = NULL;	/* Last string we searched for */
 char *last_replace = NULL;	/* Last replacement string */
 int search_last_line;		/* Is this the last search line? */
-int past_editbuff;		/* search lines not displayed */
+int search_offscreen;		/* Search lines not displayed */
 
 int flags = 0;			/* Our new flag containing many options */
 WINDOW *edit;			/* The file portion of the editor */
@@ -67,11 +65,8 @@ openfilestruct *open_files = NULL;	/* The list of open files */
 #endif
 
 #ifndef DISABLE_JUSTIFY
-#ifdef HAVE_REGEX_H
-char *quotestr = "^([ \t]*[|>:}#])+";
-#else
-char *quotestr = "> ";		/* Quote string */
-#endif
+char *quotestr = NULL;		/* Quote string.  The default value is
+				   set in main(). */
 #endif
 
 char *answer = NULL;		/* Answer str to many questions */
@@ -81,17 +76,20 @@ int placewewant = 0;		/* The column we'd like the cursor
 				   to jump to when we go to the
 				   next or previous line */
 
-int tabsize = 8;		/* Our internal tabsize variable */
+int tabsize = -1;		/* Our internal tabsize variable.  The
+				   default value 8 is set in main(). */
 
-char *hblank;			/* A horizontal blank line */
+char *hblank = NULL;		/* A horizontal blank line */
 #ifndef DISABLE_HELP
 char *help_text;		/* The text in the help window */
 #endif
 
 /* More stuff for the marker select */
 
+#ifndef NANO_SMALL
 filestruct *mark_beginbuf;	/* the begin marker buffer */
 int mark_beginx;		/* X value in the string to start */
+#endif
 
 #ifndef DISABLE_OPERATINGDIR
 char *operating_dir = NULL;	/* Operating directory, which we can't */
@@ -110,17 +108,18 @@ shortcut *goto_list = NULL;
 shortcut *gotodir_list = NULL;
 shortcut *writefile_list = NULL;
 shortcut *insertfile_list = NULL;
+#ifndef DISABLE_HELP
 shortcut *help_list = NULL;
+#endif
+#ifndef DISABLE_SPELLER
 shortcut *spell_list = NULL;
-
+#endif
 #ifndef NANO_SMALL
 shortcut *extcmd_list = NULL;
 #endif
-
 #ifndef DISABLE_BROWSER
 shortcut *browser_list = NULL;
 #endif
-
 #ifdef ENABLE_COLOR
 const colortype *colorstrings = NULL;
 syntaxtype *syntaxes = NULL;
@@ -232,9 +231,7 @@ void toggle_init(void)
 #endif
 
     /* There is no need to reinitialize the toggles.  They can't
-       change.  In fact, reinitializing them causes a segfault in
-       nano.c:do_toggle() when it is called with the Pico-mode
-       toggle. */
+       change. */
     if (toggles != NULL)
 	return;
 
@@ -591,10 +588,8 @@ void shortcut_init(int unjustify)
 
 #ifndef NANO_SMALL
     sc_init_one(&whereis_list, KEY_UP, _("History"),
-		IFHELP(nano_editstr_msg, 0), 0, 0, VIEW, 0);
+		IFHELP(nano_editstr_msg, 0), NANO_UP_KEY, 0, VIEW, 0);
 #endif
-
-
 
 #endif /* !NANO_SMALL */
 
@@ -630,11 +625,8 @@ void shortcut_init(int unjustify)
 		IFHELP(nano_regexp_msg, 0), 0, 0, VIEW, 0);
 #endif
 
-#ifndef NANO_SMALL
     sc_init_one(&replace_list, KEY_UP, _("History"),
-		IFHELP(nano_editstr_msg, 0), 0, 0, VIEW, 0);
-#endif
-
+		IFHELP(nano_editstr_msg, 0), NANO_UP_KEY, 0, VIEW, 0);
 #endif /* !NANO_SMALL */
 
     free_shortcutage(&replace_list_2);
@@ -653,7 +645,7 @@ void shortcut_init(int unjustify)
 
 #ifndef NANO_SMALL
     sc_init_one(&replace_list_2, KEY_UP, _("History"),
-		IFHELP(nano_editstr_msg, 0), 0, 0, VIEW, 0);
+		IFHELP(nano_editstr_msg, 0), NANO_UP_KEY, 0, VIEW, 0);
 #endif
 
     free_shortcutage(&goto_list);
@@ -670,6 +662,7 @@ void shortcut_init(int unjustify)
     sc_init_one(&goto_list, NANO_LASTLINE_KEY, _("Last Line"),
 		IFHELP(nano_lastline_msg, 0), 0, 0, VIEW, do_last_line);
 
+#ifndef DISABLE_HELP
     free_shortcutage(&help_list);
 
     sc_init_one(&help_list, NANO_PREVPAGE_KEY, _("Prev Page"),
@@ -683,6 +676,7 @@ void shortcut_init(int unjustify)
     sc_init_one(&help_list, NANO_EXIT_KEY, _("Exit"),
 		IFHELP(nano_exit_msg, 0), NANO_EXIT_FKEY, 0, VIEW,
 		do_exit);
+#endif
 
     free_shortcutage(&writefile_list);
 
@@ -737,6 +731,7 @@ void shortcut_init(int unjustify)
 #endif
 #endif
 
+#ifndef DISABLE_SPELLER
     free_shortcutage(&spell_list);
 
     sc_init_one(&spell_list, NANO_HELP_KEY, _("Get Help"),
@@ -744,6 +739,7 @@ void shortcut_init(int unjustify)
 
     sc_init_one(&spell_list, NANO_CANCEL_KEY, _("Cancel"),
 		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
+#endif
 
 #ifndef NANO_SMALL
     free_shortcutage(&extcmd_list);
@@ -801,6 +797,10 @@ void shortcut_init(int unjustify)
 /* added by SPK for memory cleanup, gracefully return our malloc()s */
 void thanks_for_all_the_fish(void)
 {
+#ifndef DISABLE_JUSTIFY
+    if (quotestr != NULL)
+	free(quotestr);
+#endif
 #ifndef DISABLE_OPERATINGDIR
     if (operating_dir != NULL)
 	free(operating_dir);
@@ -826,23 +826,27 @@ void thanks_for_all_the_fish(void)
     if (answer != NULL)
 	free(answer);
     if (cutbuffer != NULL)
-        free_filestruct(cutbuffer);
+	free_filestruct(cutbuffer);
 
     free_shortcutage(&main_list);
     free_shortcutage(&whereis_list);
     free_shortcutage(&replace_list);
     free_shortcutage(&replace_list_2);
     free_shortcutage(&goto_list);
-    free_shortcutage(&gotodir_list);
     free_shortcutage(&writefile_list);
     free_shortcutage(&insertfile_list);
+#ifndef DISABLE_HELP
     free_shortcutage(&help_list);
+#endif
+#ifndef DISABLE_SPELLER
     free_shortcutage(&spell_list);
+#endif
 #ifndef NANO_SMALL
     free_shortcutage(&extcmd_list);
 #endif
 #ifndef DISABLE_BROWSER
     free_shortcutage(&browser_list);
+    free_shortcutage(&gotodir_list);
 #endif
 
 #ifndef NANO_SMALL
@@ -852,10 +856,7 @@ void thanks_for_all_the_fish(void)
 #ifdef ENABLE_MULTIBUFFER
     if (open_files != NULL) {
 	/* We free the memory associated with each open file. */
-	while (open_files->prev != NULL)
-	    open_files = open_files->prev;
 	free_openfilestruct(open_files);
-    }
 #else
     if (fileage != NULL)
 	free_filestruct(fileage);
@@ -871,15 +872,16 @@ void thanks_for_all_the_fish(void)
 	    exttype *bob = syntaxes->extensions;
 
 	    syntaxes->extensions = bob->next;
-	    free(bob->val);
+	    regfree(&bob->val);
 	    free(bob);
 	}
 	while (syntaxes->color != NULL) {
 	    colortype *bob = syntaxes->color;
 
 	    syntaxes->color = bob->next;
-	    free(bob->start);
-	    free(bob->end);
+	    regfree(&bob->start);
+	    if (bob->end != NULL)
+		regfree(&bob->end);
 	    free(bob);
 	}
 	syntaxes = syntaxes->next;

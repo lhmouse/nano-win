@@ -31,15 +31,6 @@
 #include "proto.h"
 #include "nano.h"
 
-#ifndef NANO_SMALL
-#ifdef ENABLE_NANORC
-#include <pwd.h>
-#endif
-#endif
-
-static int past_editbuff;
-	/* findnextstr() is now searching lines not displayed */
-
 /* Regular expression helper functions */
 
 #ifdef HAVE_REGEX_H
@@ -95,13 +86,12 @@ void search_init_globals(void)
     }
 }
 
-/* Set up the system variables for a search or replace.  Returns -1 on
-   abort, 0 on success, and 1 on rerun calling program
-   Return -2 to run opposite program (search -> replace, replace ->
-   search).
-
-   replacing = 1 if we call from do_replace, 0 if called from do_search
-   func. */
+/* Set up the system variables for a search or replace.  Return -1 on
+ * abort, 0 on success, and 1 on rerun calling program.  Return -2 to
+ * run opposite program (search -> replace, replace -> search).
+ *
+ * replacing = 1 if we call from do_replace, 0 if called from do_search
+ * func. */
 int search_init(int replacing)
 {
     int i = 0;
@@ -112,8 +102,6 @@ int search_init(int replacing)
 
     if (backupstring == NULL)
 	backupstring = mallocstrcpy(backupstring, "");
-
-/* NEW TEST */
 
 #ifndef NANO_SMALL
     search_history.current = (historytype *)&search_history.next;
@@ -209,7 +197,7 @@ int search_init(int replacing)
 #ifndef NANO_SMALL
 	    search_history.current = search_history.next;
 #endif
-	    i = (int)strtol(answer, &buf, 10);		/* just testing answer here */
+	    i = (int)strtol(answer, &buf, 10);	/* Just testing answer here */
 	    if (!(errno == ERANGE || *answer == '\0' || *buf != '\0'))
 		do_gotoline(-1, 0);
 	    else
@@ -230,9 +218,9 @@ int is_whole_word(int curr_pos, const char *datastr, const char *searchword)
     size_t sln = curr_pos + strlen(searchword);
 
     /* start of line or previous character not a letter and end of line
-     * or next character not a letter */
-    return (curr_pos < 1 || !isalpha((int) datastr[curr_pos - 1])) &&
-	(sln == strlen(datastr) || !isalpha((int) datastr[sln]));
+       or next character not a letter */
+    return (curr_pos < 1 || !isalpha((int)datastr[curr_pos - 1])) &&
+	(sln == strlen(datastr) || !isalpha((int)datastr[sln]));
 }
 
 filestruct *findnextstr(int quiet, int bracket_mode,
@@ -243,7 +231,7 @@ filestruct *findnextstr(int quiet, int bracket_mode,
     const char *searchstr, *rev_start = NULL, *found = NULL;
     int current_x_find = 0;
 
-    past_editbuff = 0;
+    search_offscreen = 0;
 
     if (!ISSET(REVERSE_SEARCH)) {		/* forward search */
 	/* Argh, current_x is set to -1 by nano.c:do_int_spell_fix(), and
@@ -274,15 +262,15 @@ filestruct *findnextstr(int quiet, int bracket_mode,
 	    fileptr = fileptr->next;
 
 	    if (fileptr == editbot)
-		past_editbuff = 1;
+		search_offscreen = 1;
 
-	    /* EOF reached ?, wrap around once */
+	    /* EOF reached?, wrap around once */
 	    if (fileptr == NULL) {
 		/* don't wrap if looking for bracket match */
 		if (bracket_mode)
 		    return NULL;
 		fileptr = fileage;
-		past_editbuff = 1;
+		search_offscreen = 1;
 		if (!quiet) {
 		    statusbar(_("Search Wrapped"));
 		    SET(DISABLE_CURPOS);
@@ -299,7 +287,7 @@ filestruct *findnextstr(int quiet, int bracket_mode,
 	/* We found an instance */
 	current_x_find = found - fileptr->data;
 	/* Ensure we haven't wrapped around again! */
-	if ((search_last_line) && (current_x_find > beginx)) {
+	if (search_last_line && current_x_find > beginx) {
 	    if (!quiet)
 		not_found_msg(needle);
 	    return NULL;
@@ -308,7 +296,7 @@ filestruct *findnextstr(int quiet, int bracket_mode,
 #ifndef NANO_SMALL
     else {	/* reverse search */
 	current_x_find = current_x - 1;
-	/* Make sure we haven't passed the begining of the string */
+	/* Make sure we haven't passed the beginning of the string */
 	rev_start = &fileptr->data[current_x_find];
 	searchstr = fileptr->data;
 
@@ -329,14 +317,14 @@ filestruct *findnextstr(int quiet, int bracket_mode,
 	    fileptr = fileptr->prev;
 
 	    if (fileptr == edittop->prev)
-		past_editbuff = 1;
+		search_offscreen = 1;
 
 	    /* SOF reached?, wrap around once */
 /* ? */	    if (fileptr == NULL) {
 		if (bracket_mode)
 		   return NULL;
 		fileptr = filebot;
-		past_editbuff = 1;
+		search_offscreen = 1;
 		if (!quiet) {
 		    statusbar(_("Search Wrapped"));
 		    SET(DISABLE_CURPOS);
@@ -366,7 +354,7 @@ filestruct *findnextstr(int quiet, int bracket_mode,
     current_x = current_x_find;
 
     if (!bracket_mode) {
-	if (past_editbuff)
+	if (search_offscreen)
 	   edit_update(fileptr, CENTER);
 	else
 	   update_line(current, current_x);
@@ -403,7 +391,7 @@ int do_search(void)
 	return 1;
     }
 
-     /* If answer is now == "", copy last_search into answer... */
+     /* If answer is now "", copy last_search into answer... */
     if (answer[0] == '\0')
 	answer = mallocstrcpy(answer, last_search);
     else
@@ -415,10 +403,15 @@ int do_search(void)
 	update_history(&search_history, answer);
 #endif	/* !NANO_SMALL */
 
+#ifndef NANO_SMALL
+    /* add this search string to the search history list */
+    update_history(&search_history, answer);
+#endif	/* !NANO_SMALL */
+
     search_last_line = 0;
     didfind = findnextstr(FALSE, FALSE, current, current_x, answer);
 
-    if ((fileptr == current) && (fileptr_x == current_x) && didfind != NULL)
+    if (fileptr == current && fileptr_x == current_x && didfind != NULL)
 	statusbar(_("This is the only occurrence"));
 
     search_abort();
@@ -438,9 +431,9 @@ void replace_abort(void)
 #ifdef HAVE_REGEX_H
 int replace_regexp(char *string, int create_flag)
 {
-    /* split personality here - if create_flag is null, just calculate
+    /* Split personality here - if create_flag is NULL, just calculate
      * the size of the replacement line (necessary because of
-     * subexpressions like \1 \2 \3 in the replaced text) */
+     * subexpressions like \1 \2 \3 in the replaced text). */
 
     char *c;
     int new_size = strlen(current->data) + 1;
@@ -459,14 +452,14 @@ int replace_regexp(char *string, int create_flag)
 	    c++;
 	    new_size++;
 	} else {
-	    int num = (int) *(c + 1) - (int) '0';
+	    int num = (int)(*(c + 1) - '0');
 	    if (num >= 1 && num <= 9) {
 
 		int i = regmatches[num].rm_so;
 
 		if (num > search_regexp.re_nsub) {
 		    /* Ugh, they specified a subexpression that doesn't
-		       exist. */
+		     * exist. */
 		    return -1;
 		}
 
@@ -491,7 +484,7 @@ int replace_regexp(char *string, int create_flag)
     }
 
     if (create_flag)
-	*string = 0;
+	*string = '\0';
 
     return new_size;
 }
@@ -549,19 +542,13 @@ char *replace_line(void)
     return copy;
 }
 
-void print_replaced(int num)
-{
-    if (num > 1)
-	statusbar(_("Replaced %d occurrences"), num);
-    else if (num == 1)
-	statusbar(_("Replaced 1 occurrence"));
-}
-
-/* step through each replace word and prompt user before replacing word */
+/* Step through each replace word and prompt user before replacing
+ * word.  Return -1 if the string to replace isn't found at all.
+ * Otherwise, return the number of replacements made. */
 int do_replace_loop(const char *prevanswer, const filestruct *begin,
 			int *beginx, int wholewords, int *i)
 {
-    int replaceall = 0, numreplaced = 0;
+    int replaceall = 0, numreplaced = -1;
 
     filestruct *fileptr = NULL;
     char *copy;
@@ -602,6 +589,9 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 	    continue;
 
 	/* If we're here, we've found the search string */
+	if (numreplaced == -1)
+	    numreplaced = 0;
+
 	if (!replaceall) {
 	    curs_set(0);
 	    do_replace_highlight(TRUE, prevanswer);
@@ -664,10 +654,14 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 	    break;
     }
 
+    /* If text has been added to the magicline, make a new magicline. */
+    if (filebot->data[0] != '\0')
+	new_magicline();
+
     return numreplaced;
 }
 
-/* Replace a string */
+/* Replace a string. */
 int do_replace(void)
 {
     int i, numreplaced, beginx;
@@ -738,7 +732,13 @@ int do_replace(void)
     current_x = beginx;
     renumber_all();
     edit_update(current, CENTER);
-    print_replaced(numreplaced);
+
+    if (numreplaced >= 0)
+	statusbar(__("Replaced %d occurrence", "Replaced %d occurrences",
+		numreplaced), numreplaced);
+    else
+	not_found_msg(prevanswer);
+
     replace_abort();
     return 1;
 }
@@ -752,7 +752,11 @@ void goto_abort(void)
 int do_gotoline(int line, int save_pos)
 {
     if (line <= 0) {		/* Ask for it */
-	if (statusq(0, goto_list, (line ? answer : ""), 0, _("Enter line number"))) {
+	if (statusq(0, goto_list, (line ? answer : ""),
+#ifndef NANO_SMALL
+	    0,
+#endif
+	    _("Enter line number"))) {
 	    statusbar(_("Aborted"));
 	    goto_abort();
 	    return 0;
@@ -815,7 +819,7 @@ int do_find_bracket(void)
     char ch_under_cursor, wanted_ch;
     const char *pos, *brackets = "([{<>}])";
     char regexp_pat[] = "[  ]";
-    int offset, have_past_editbuff = 0, flagsave, current_x_save, count = 1;
+    int offset, have_search_offscreen = 0, flagsave, current_x_save, count = 1;
     filestruct *current_save;
 
     ch_under_cursor = current->data[current_x];
@@ -853,12 +857,16 @@ int do_find_bracket(void)
     while (1) {
 	search_last_line = 0;
 	if (findnextstr(1, 1, current, current_x, regexp_pat) != NULL) {
-	    have_past_editbuff |= past_editbuff;
-	    if (current->data[current_x] == ch_under_cursor)	/* found identical bracket */
+	    have_search_offscreen |= search_offscreen;
+
+	    /* found identical bracket */
+	    if (current->data[current_x] == ch_under_cursor)
 		count++;
-	    else {						/* found complementary bracket */
+	    else {
+
+		/* found complementary bracket */
 		if (!(--count)) {
-		    if (have_past_editbuff)
+		    if (have_search_offscreen)
 			edit_update(current, CENTER);
 		    else
 			update_line(current, current_x);
@@ -867,7 +875,9 @@ int do_find_bracket(void)
 		    break;
 		}
 	    }
-	} else {						/* didn't find either left or right bracket */
+	} else {
+
+	    /* didn't find either left or right bracket */
 	    statusbar(_("No matching bracket"));
 	    current_x = current_x_save;
 	    current = current_save;

@@ -1,21 +1,27 @@
 CVS code -
 Changes
 - General:
-	- Completely removed PICO_MODE, as with the search/replace history
-	  patch we should have the extended functionality we can without
-	  being incompatible with pico.  Removed all code for different
-	  search/replace string editing and alternate shortcut list.  I'm sure
-	  I won't even have to ask for feedback on this one :-)
-	- Add in Pico's -p flag, (-p, --preserve).  To preserve the XON and XOFF
-	  keys (^Q and ^S).  Add warning if we invoke -p and add checks for 
-	  using --preserve (to skip warning) and --pico (to force showing it).  
-	  New flag PRESERVE, function do_preserve_msg(), changes to main(),
-	  signal_init().
-	- Search history and replace history up/down cursor arrows, w/history 
-	  tab completion, not available w/NANO_SMALL.  Changes to 
-	  statusq, others (Ken Tyler).  Added shortcut to search/replace 
-	  shortcuts so people will know it's there, forced KEY_UP and KEY_DOWN
-	  defs in nano.h (Chris, in case blame needs to be placed later).
+	- Completely removed PICO_MODE, as with the search/replace
+	  history patch we should have the extended functionality we can
+	  without being incompatible with Pico.  Removed all code for
+	  different search/replace string editing and alternate shortcut
+	  list.  I'm sure I won't even have to ask for feedback on this
+	  one :-)
+	- Add in Pico's -p flag, (-p, --preserve).  To preserve the XON
+	  and XOFF keys (^Q and ^S).  Add warning if we invoke -p and
+	  add checks for using --preserve (to skip warning) and --pico
+	  (to force showing it).   New flag PRESERVE, function
+	  do_preserve_msg(), changes to main(), signal_init().
+	- Search history and replace history up/down cursor arrows,
+	  w/history tab completion, not available w/NANO_SMALL.  Changes
+	  to statusq(), others (Ken Tyler).  Added shortcut to
+	  search/replace shortcuts so people will know it's there,
+	  forced KEY_UP and KEY_DOWN defs in nano.h (Chris, in case
+	  blame needs to be placed later).  Minor fixes by DLR: allow ^P
+	  and ^N as alternatives to the up and down arrows, make sure
+	  the "Up" shortcut is displayed properly in the help menu,
+	  remove a few bits of unneeded and/or warning-generating code,
+	  and fix some missing statusq() prompts with --enable-tiny.
 	- Translation updates (see po/ChangeLog for details).
 	- Forward-ported Chris' --disable-wrapping-as-root option from
 	  1.0.9.  Per Jordi's suggestions, have it override
@@ -38,6 +44,12 @@ Changes
 	- Define KEY_IC properly (and KEY_DC more portably) when slang
 	  support is enabled, and remove the hack to work around the
 	  former's not being defined. (David Benbennick and DLR)
+	- Miscellaneous tweaks to update_color() calls, to make sure
+	  they're called at the right times and that refreshes are done
+	  afterwards only when needed. (David Benbennick)
+	- Renamed [have_]past_editbuff [have_]search_offscreen. (DLR)
+	- Add the "preserve" option to the nanorc file, to match
+	  nanorc.sample. (DLR)
 - configure.ac:
 	- Added tr to ALL_LINGUAS (Jordi).
 	- Fix now inaccurate description of --enable-tiny's effects; it
@@ -45,6 +57,10 @@ Changes
 	- Fix typo. (David Benbennick)
 	- Check for strcasecmp() and strncasecmp(), since they are
 	  apparently only standard under BSD. (DLR)
+- color.c:
+  update_color():
+	- Remove an unneeded edit_refresh() call after do_colorinit().
+	  (David Benbennick)
 - cut.c:
   do_cut_text()
 	- Fix a memory corruption problem caused by accessing edittop
@@ -54,32 +70,56 @@ Changes
 	- If uncutting more than one line of unmarked text at editbot,
 	  don't center the screen, since Pico doesn't. (DLR)
 - files.c:
+  load_file()
+	- Remove unneeded wmove() call. (David Benbennick)
   read_line()
 	- Miscellaneous cleanups. (David Benbennick)
+  open_file()
+	- If we're in multibuffer mode and there's an error opening the
+	  file in read-only mode, display the error message on the
+	  statusbar regardless of the value of quiet. (DLR)
   read_file()
 	- Miscellaneous cleanups. (David Benbennick)
 	- Fix len's being off by one when reading in Mac-format files,
 	  exposed by one of David Benbennick's cleanups. (DLR)
 	- If NO_CONVERT isn't set when we first enter, and it gets set
 	  while reading in the file, unset it again afterwards. (DLR)
+  do_insertfile()
+	- If we're in multibuffer mode and there's an error opening the
+	  file that we're trying to insert, close the new buffer that we
+	  made to hold it and reload the buffer we had open before.
+	  (DLR)
   add_open_file()
 	- Fix minor logic error when determining when to resave fileage
 	  and filebot. (DLR)
+  load_open_file()
+	- If switching between files when CONSTUPDATE is set, only force
+	  a cursor position display update if DISABLE_CURPOS isn't set.
+	  This will ensure that the "Switching to [file]" messages are
+	  shown. (DLR)
   write_file()
 	- Change lineswritten from a long to an int, to match
 	  filestruct->lineno. (DLR; mismatch found by David Benbennick)
+  real_dir_from_tilde()
+	- Since this is needed for proper interpretation of paths
+	  containing tildes and not just for tab completion, include and
+	  use it regardless of whether tab completion is disabled.
+	  (David Benbennick and DLR)
   input_tab()
 	- Variable name change: matchBuf -> matchbuf. (DLR)
   diralphasort()
 	- Remove the HAVE_STRCASECMP #ifdef block; see the changes to
 	  configure.ac and nano.h for why. (DLR)
+- global.c:
+  thanks_for_all_the_fish()
+	- Miscellaneous cleanups. (David Benbennick)
 - move.c:
   do_page_down()
 	- If there's a page or less of text, do an edit_update() if the
 	  mark is on; otherwise, the highlight won't be displayed. (DLR)
 - nano.c:
-	- Added free_history list calls clean up, added init of list headers
-	   modified statusq calls (Ken Tyler).
+	- Added free_history() list calls clean up, added init of list
+	  headers, and modified statusq() calls (Ken Tyler).
   do_prev_word()
 	- Make the assert match that in do_next_word(). (DLR)
   do_enter()
@@ -108,12 +148,44 @@ Changes
 	  more useful feedback to the user when spell checking fails.
   ABCD()
 	- Renamed abcd(). (DLR)
+  main()
+	- Remove an unneeded do_colorinit() call, do major cleanups, and
+	  allow loading of multiple files on the command line when
+	  multibuffers are used. (David Benbennick)
 - nano.h:
 	- Make sure NO_RCFILE and COLOR_SYNTAX aren't set to the same
 	  value. (DLR; discovered by Ken Tyler)
 	- If strcasecmp() and/or strncasecmp() aren't available, use
-	  strcmp() and/or strncmp instead. (DLR)
+	  strcmp() and/or strncmp() instead. (DLR)
+- proto.h:
+	- Fix the #ifdef block for DISABLE_TABCOMP's being undefined
+	  so that functions only used with tab completion are properly
+	  #ifdef'ed out. (DLR)
+- search.c:
+  print_replaced()
+	- Remove and replace with an equivalent ngettext() call. (DLR)
+  do_replace_loop()
+	- Fix bug where if text on the magicline was replaced (which can
+	  be done via a regexp replace of "^$" with something other than
+	  ""), a new magicline wouldn't be created. (DLR)
+  do_replace()
+	- For greater Pico compatibility, when an attempt to replace a
+	  string results in 0 replacements due to the string's not being
+	  found, display "[string] not found" instead of "Replaced 0
+	  occurrences". (DLR)
 - utils.c:
+  align()
+	- Don't just assert that the string passed in isn't NULL; check
+	  that it isn't and only do the alignment when it isn't. (David
+	  Benbennick)
+  nmalloc(), nrealloc()
+	- If the size passed to nmalloc() or nrealloc() is zero, don't
+	  die with an erroneous out-of-memory error.  Also, change
+	  their dying messages to "nano is out of memory!". (David
+	  Benbennick)
+  charalloc()
+	- Removed and redefined as a macro that calls nmalloc(). (David
+	  Benbennick)
   is_cntrl_char()
 	- Rework to fix a problem with displaying certain high-bit
 	  characters. (David Benbennick; reported by Andrzej Marecki)
@@ -133,8 +205,9 @@ Changes
 	- Added double hash marks to comment lines, so people who 
 	  uncomment the beginning of every line won't get syntax errors.
 - faq.html:
-	- Miscellaneous fixes and updates for typos and broken links.
-	  It is now fully compliant with HTML 4.01 Transitional. (DLR)
+	- Miscellaneous fixes and updates for typos, broken links, and
+	  slashes at the end of directories.  It is now fully compliant
+	  with HTML 4.01 Transitional. (DLR and David Benbennick)
 - nano.texi:
 	- Typo fixes and updates. (David Benbennick)
 - TODO

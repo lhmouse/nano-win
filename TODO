@@ -6,7 +6,7 @@ For version 1.2:
 - Color syntax highlighting? (certainly seems like there's a demand for it.)
 - .nanorc [DONE]
 - Backup making (filename~)? [DONE]
-- Search (etc) string history [1.2]
+- Search (etc.) string history [DONE]
 - Implement Pico's -j and -g flags, as they are pretty easy to do. [DONE]
 - Make mouse support work with clicking on the shortcuts (-m).  Must
   make global variable pointing to current shortcut list to determine what
@@ -20,7 +20,7 @@ For version 1.4:
 - Support for Pico's paragraph searching ability.
 - Undo/Redo key?
 - Remindable keys?
-- Keystroke to implement "Add next sequence as raw" like vi's ^V
+- Keystroke to implement "Add next sequence as raw" like vi's ^V?
 
 Old requests:
 
