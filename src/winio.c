@@ -24,6 +24,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 #include <unistd.h>
 #include <ctype.h>
 #include <assert.h>
@@ -2298,6 +2299,7 @@ void dump_buffer_reverse(void)
 void do_credits(void)
 {
     int i, j = 0, k, place = 0, start_x;
+    struct timespec scrolldelay;
 
     const char *what;
     const char *xlcredits[XLCREDIT_LEN];
@@ -2361,6 +2363,9 @@ void do_credits(void)
     xlcredits[6] = _("and anyone else we forgot...");
     xlcredits[7] = _("Thank you for using nano!\n");
 
+    scrolldelay.tv_sec = 0L;
+    scrolldelay.tv_nsec = 700000000L;
+
     curs_set(0);
     nodelay(edit, TRUE);
     blank_bottombars();
@@ -2392,7 +2397,7 @@ void do_credits(void)
 		start_x = COLS / 2 - strlen(what) / 2 - 1;
 		mvwaddstr(edit, i * 2 - k, start_x, what);
 	    }
-	    usleep(700000);
+	    nanosleep(&scrolldelay, NULL);
 	    wrefresh(edit);
 	}
 	if (j < editwinrows / 2 - 1)
