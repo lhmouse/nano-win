@@ -4,6 +4,10 @@ CVS code -
 	- Change uncast nrealloc()s assigned to char pointers/arrays to
 	  charealloc()s, and cast all other nrealloc()s and all
 	  nmalloc()s. (David Benbennick and DLR)
+	- Remove gettext marks from all debug messages. Good for developers,
+	  better for translators. (Jordi)
+	- Add translator comments on strings that should be short, like in
+	  status bar strings, etc. (Jordi)
 - utils.c:
   align()
 	- Tweak to avoid a potential problem when strp is non-NULL but

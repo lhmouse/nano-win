@@ -46,7 +46,7 @@ filestruct *get_cutbottom(void)
 void add_to_cutbuffer(filestruct *inptr)
 {
 #ifdef DEBUG
-    fprintf(stderr, _("add_to_cutbuffer() called with inptr->data = %s\n"),
+    fprintf(stderr, "add_to_cutbuffer() called with inptr->data = %s\n",
 	    inptr->data);
 #endif
 
@@ -210,7 +210,7 @@ int do_cut_text(void)
 	concatenate_cut = 0;
 #endif
 #ifdef DEBUG
-	fprintf(stderr, _("Blew away cutbuffer =)\n"));
+	fprintf(stderr, "Blew away cutbuffer =)\n");
 #endif
     }
 

@@ -562,12 +562,12 @@ void free_filestruct(filestruct *src)
 	    src = src->next;
 	    delete_node(src->prev);
 #ifdef DEBUG
-	    fprintf(stderr, _("%s: free'd a node, YAY!\n"), "delete_node()");
+	    fprintf(stderr, "%s: free'd a node, YAY!\n", "delete_node()");
 #endif
 	}
 	delete_node(src);
 #ifdef DEBUG
-	fprintf(stderr, _("%s: free'd last node.\n"), "delete_node()");
+	fprintf(stderr, "%s: free'd last node.\n", "delete_node()");
 #endif
     }
 }
@@ -1029,7 +1029,7 @@ int do_backspace(void)
 	memmove(&current->data[current_x - 1], &current->data[current_x],
 		strlen(current->data) - current_x + 1);
 #ifdef DEBUG
-	fprintf(stderr, _("current->data now = \"%s\"\n"), current->data);
+	fprintf(stderr, "current->data now = \"%s\"\n", current->data);
 #endif
 	align(&current->data);
 #ifndef NANO_SMALL
@@ -1089,7 +1089,7 @@ int do_backspace(void)
 	    current_y--;
 	totlines--;
 #ifdef DEBUG
-	fprintf(stderr, _("After, data = \"%s\"\n"), current->data);
+	fprintf(stderr, "After, data = \"%s\"\n", current->data);
 #endif
 	refresh = 1;
     }
@@ -3381,7 +3381,7 @@ int main(int argc, char *argv[])
     signal_init();
 
 #ifdef DEBUG
-    fprintf(stderr, _("Main: set up windows\n"));
+    fprintf(stderr, "Main: set up windows\n");
 #endif
 
     window_init();
@@ -3395,13 +3395,13 @@ int main(int argc, char *argv[])
     }
 
 #ifdef DEBUG
-    fprintf(stderr, _("Main: bottom win\n"));
+    fprintf(stderr, "Main: bottom win\n");
 #endif
     /* Set up bottom of window */
     display_main_list();
 
 #ifdef DEBUG
-    fprintf(stderr, _("Main: open file\n"));
+    fprintf(stderr, "Main: open file\n");
 #endif
 
     open_file(filename, 0, 1);
@@ -3458,7 +3458,7 @@ int main(int argc, char *argv[])
 
 	kbinput = wgetch(edit);
 #ifdef DEBUG
-	fprintf(stderr, _("AHA!  %c (%d)\n"), kbinput, kbinput);
+	fprintf(stderr, "AHA!  %c (%d)\n", kbinput, kbinput);
 #endif
 	if (kbinput == 27) {	/* Grab Alt-key stuff first */
 	    kbinput = wgetch(edit);
@@ -3478,7 +3478,7 @@ int main(int argc, char *argv[])
 		    kbinput = KEY_F(kbinput - 79);
 #ifdef DEBUG
 		else {
-		    fprintf(stderr, _("I got Alt-O-%c! (%d)\n"),
+		    fprintf(stderr, "I got Alt-O-%c! (%d)\n",
 			    kbinput, kbinput);
 		    break;
 		}
@@ -3505,7 +3505,7 @@ int main(int argc, char *argv[])
 			kbinput = KEY_HOME;
 #ifdef DEBUG
 		    else {
-			fprintf(stderr, _("I got Alt-[-1-%c! (%d)\n"),
+			fprintf(stderr, "I got Alt-[-1-%c! (%d)\n",
 				kbinput, kbinput);
 			break;
 		    }
@@ -3535,7 +3535,7 @@ int main(int argc, char *argv[])
 			break;
 #ifdef DEBUG
 		    default:
-			fprintf(stderr, _("I got Alt-[-2-%c! (%d)\n"),
+			fprintf(stderr, "I got Alt-[-2-%c! (%d)\n",
 				kbinput, kbinput);
 			break;
 #endif
@@ -3604,7 +3604,7 @@ int main(int argc, char *argv[])
 		    break;
 		default:
 #ifdef DEBUG
-		    fprintf(stderr, _("I got Alt-[-%c! (%d)\n"),
+		    fprintf(stderr, "I got Alt-[-%c! (%d)\n",
 			    kbinput, kbinput);
 #endif
 		    break;
@@ -3650,7 +3650,7 @@ int main(int argc, char *argv[])
 		        }
 #endif
 #ifdef DEBUG
-		fprintf(stderr, _("I got Alt-%c! (%d)\n"), kbinput,
+		fprintf(stderr, "I got Alt-%c! (%d)\n", kbinput,
 			kbinput);
 #endif
 		break;
@@ -3749,7 +3749,7 @@ int main(int argc, char *argv[])
 		break;
 	    default:
 #ifdef DEBUG
-		fprintf(stderr, _("I got %c (%d)!\n"), kbinput, kbinput);
+		fprintf(stderr, "I got %c (%d)!\n", kbinput, kbinput);
 #endif
 		/* We no longer stop unhandled sequences so that people with
 		   odd character sets can type... */

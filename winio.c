@@ -87,7 +87,7 @@ size_t actual_x(const filestruct *fileptr, size_t xplus)
 	i--;
 
 #ifdef DEBUG
-    fprintf(stderr, _("actual_x for xplus=%d returns %d\n"), xplus, i);
+    fprintf(stderr, "actual_x for xplus=%d returns %d\n", xplus, i);
 #endif
 
     return i;
@@ -250,7 +250,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
     while ((kbinput = wgetch(bottomwin)) != 13) {
 	for (t = s; t != NULL; t = t->next) {
 #ifdef DEBUG
-	    fprintf(stderr, _("Aha! \'%c\' (%d)\n"), kbinput, kbinput);
+	    fprintf(stderr, "Aha! \'%c\' (%d)\n", kbinput, kbinput);
 #endif
 
 	    if (kbinput == t->val && kbinput < 32) {
@@ -518,7 +518,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 
 		for (t = s; t != NULL; t = t->next) {
 #ifdef DEBUG
-		    fprintf(stderr, _("Aha! \'%c\' (%d)\n"), kbinput,
+		    fprintf(stderr, "Aha! \'%c\' (%d)\n", kbinput,
 			    kbinput);
 #endif
 		    if (kbinput == t->val || kbinput == t->val - 32)
@@ -541,7 +541,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    x++;
 
 #ifdef DEBUG
-	    fprintf(stderr, _("input \'%c\' (%d)\n"), kbinput, kbinput);
+	    fprintf(stderr, "input \'%c\' (%d)\n", kbinput, kbinput);
 #endif
 	} /* switch (kbinput) */
 #ifndef NANO_SMALL
@@ -1109,7 +1109,7 @@ void update_cursor(void)
     int i = 0;
 
 #ifdef DEBUG
-    fprintf(stderr, _("Moved to (%d, %d) in edit buffer\n"), current_y,
+    fprintf(stderr, "Moved to (%d, %d) in edit buffer\n", current_y,
 	    current_x);
 #endif
 
@@ -1260,7 +1260,7 @@ int statusq(int tabs, const shortcut *s, const char *def,
     blank_statusbar();
 
 #ifdef DEBUG
-    fprintf(stderr, _("I got \"%s\"\n"), answer);
+    fprintf(stderr, "I got \"%s\"\n", answer);
 #endif
 
 #ifndef DISABLE_TABCOMP
@@ -1747,11 +1747,11 @@ void fix_editbot(void)
 /* Dump the current file structure to stderr */
 void dump_buffer(const filestruct *inptr) {
     if (inptr == fileage)
-	fprintf(stderr, _("Dumping file buffer to stderr...\n"));
+	fprintf(stderr, "Dumping file buffer to stderr...\n");
     else if (inptr == cutbuffer)
-	fprintf(stderr, _("Dumping cutbuffer to stderr...\n"));
+	fprintf(stderr, "Dumping cutbuffer to stderr...\n");
     else
-	fprintf(stderr, _("Dumping a buffer to stderr...\n"));
+	fprintf(stderr, "Dumping a buffer to stderr...\n");
 
     while (inptr != NULL) {
 	fprintf(stderr, "(%d) %s\n", inptr->lineno, inptr->data);

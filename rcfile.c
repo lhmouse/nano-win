@@ -295,7 +295,7 @@ void parse_syntax(char *ptr)
 	tmpsyntax->next = (syntaxtype *)nmalloc(sizeof(syntaxtype));
 	tmpsyntax = tmpsyntax->next;
 #ifdef DEBUG
-	fprintf(stderr, _("Adding new syntax after 1st\n"));
+	fprintf(stderr, "Adding new syntax after 1st\n");
 #endif
     }
     tmpsyntax->desc = mallocstrcpy(NULL, nameptr);
@@ -303,7 +303,7 @@ void parse_syntax(char *ptr)
     tmpsyntax->extensions = NULL;
     tmpsyntax->next = NULL;
 #ifdef DEBUG
-    fprintf(stderr, _("Starting a new syntax type\n"));
+    fprintf(stderr, "Starting a new syntax type\n");
     fprintf(stderr, "string val=%s\n", nameptr);
 #endif
 
@@ -417,7 +417,7 @@ void parse_colors(char *ptr)
 	    if (tmpsyntax->color == NULL) {
 		tmpsyntax->color = newcolor;
 #ifdef DEBUG
-		fprintf(stderr, _("Starting a new colorstring for fg %d bg %d\n"),
+		fprintf(stderr, "Starting a new colorstring for fg %d bg %d\n",
 			fg, bg);
 #endif
 	    } else {
@@ -425,7 +425,7 @@ void parse_colors(char *ptr)
 			tmpcolor = tmpcolor->next)
 		    ;
 #ifdef DEBUG
-		fprintf(stderr, _("Adding new entry for fg %d bg %d\n"), fg, bg);
+		fprintf(stderr, "Adding new entry for fg %d bg %d\n", fg, bg);
 #endif
 		tmpcolor->next = newcolor;
 	    }
@@ -483,7 +483,7 @@ void parse_rcfile(FILE *rcstream)
 
 	if (*ptr == '#') {
 #ifdef DEBUG
-	    fprintf(stderr, _("%s: Read a comment\n"), "parse_rcfile()");
+	    fprintf(stderr, "%s: Read a comment\n", "parse_rcfile()");
 #endif
 	    continue;		/* Skip past commented lines */
 	}
@@ -518,7 +518,7 @@ void parse_rcfile(FILE *rcstream)
 	    for (i = 0; rcopts[i].name != NULL; i++) {
 		if (!strcasecmp(option, rcopts[i].name)) {
 #ifdef DEBUG
-		    fprintf(stderr, _("%s: Parsing option %s\n"), 
+		    fprintf(stderr, "%s: Parsing option %s\n", 
 			    "parse_rcfile()", rcopts[i].name);
 #endif
 		    if (set == 1) {
@@ -595,13 +595,13 @@ void parse_rcfile(FILE *rcstream)
 			} else
 			    SET(rcopts[i].flag);
 #ifdef DEBUG
-			fprintf(stderr, _("set flag %d!\n"),
+			fprintf(stderr, "set flag %d!\n",
 				rcopts[i].flag);
 #endif
 		    } else {
 			UNSET(rcopts[i].flag);
 #ifdef DEBUG
-			fprintf(stderr, _("unset flag %d!\n"),
+			fprintf(stderr, "unset flag %d!\n",
 				rcopts[i].flag);
 #endif
 		    }

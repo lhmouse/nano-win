@@ -414,32 +414,37 @@ void shortcut_init(int unjustify)
 #else
 #  define IFHELP(help, nextvar) help, nextvar
 #endif
-
+    /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_HELP_KEY, _("Get Help"),
 		IFHELP(nano_help_msg, 0), NANO_HELP_FKEY, 0, VIEW,
 		do_help);
 
 #ifdef ENABLE_MULTIBUFFER
     if (open_files != NULL && (open_files->prev != NULL || open_files->next != NULL))
+    /* Translators: try to keep this string under 10 characters long */
 	sc_init_one(&main_list, NANO_EXIT_KEY, _("Close"),
 		IFHELP(nano_exit_msg, 0), NANO_EXIT_FKEY, 0, VIEW,
 		do_exit);
     else
 #endif
 
+    /* Translators: try to keep this string under 10 characters long */
 	sc_init_one(&main_list, NANO_EXIT_KEY, _("Exit"),
 		IFHELP(nano_exit_msg, 0), NANO_EXIT_FKEY, 0, VIEW,
 		do_exit);
 
+    /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_WRITEOUT_KEY, _("WriteOut"),
 		    IFHELP(nano_writeout_msg, 0),
 		    NANO_WRITEOUT_FKEY, 0, NOVIEW, do_writeout_void);
 
+    /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_JUSTIFY_KEY, _("Justify"),
 		    IFHELP(nano_justify_msg, 0), NANO_JUSTIFY_FKEY, 0,
 		    NOVIEW, do_justify);
 
     /* this is so we can view multiple files */
+    /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_INSERTFILE_KEY, _("Read File"),
 		IFHELP(nano_insert_msg, 0), NANO_INSERTFILE_FKEY, 0,
 #ifdef ENABLE_MULTIBUFFER
@@ -449,35 +454,43 @@ void shortcut_init(int unjustify)
 #endif
 		, do_insertfile_void);
 
+    /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_WHEREIS_KEY, _("Where Is"),
 		IFHELP(nano_whereis_msg, 0),
 		NANO_WHEREIS_FKEY, 0, VIEW, do_search);
 
+    /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_PREVPAGE_KEY, _("Prev Page"),
 		IFHELP(nano_prevpage_msg, 0),
 		NANO_PREVPAGE_FKEY, KEY_PPAGE, VIEW, do_page_up);
 
+    /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_NEXTPAGE_KEY, _("Next Page"),
 		IFHELP(nano_nextpage_msg, 0),
 		NANO_NEXTPAGE_FKEY, KEY_NPAGE, VIEW, do_page_down);
 
+    /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_CUT_KEY, _("Cut Text"),
 		IFHELP(nano_cut_msg, 0),
 		NANO_CUT_FKEY, 0, NOVIEW, do_cut_text);
 
     if (unjustify)
+    /* Translators: try to keep this string under 10 characters long */
 	sc_init_one(&main_list, NANO_UNJUSTIFY_KEY, _("UnJustify"),
 		IFHELP(nano_unjustify_msg, 0),
 		0, 0, NOVIEW, do_uncut_text);
     else
+    /* Translators: try to keep this string under 10 characters long */
 	sc_init_one(&main_list, NANO_UNCUT_KEY, _("UnCut Txt"),
 		IFHELP(nano_uncut_msg, 0),
 		NANO_UNCUT_FKEY, 0, NOVIEW, do_uncut_text);
 
+    /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_CURSORPOS_KEY, _("Cur Pos"),
 		IFHELP(nano_cursorpos_msg, 0),
 		NANO_CURSORPOS_FKEY, 0, VIEW, do_cursorpos_void);
 
+    /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_SPELL_KEY, _("To Spell"),
 		IFHELP(nano_spell_msg, 0),
 		NANO_SPELL_FKEY, 0, NOVIEW, do_spell);
@@ -565,35 +578,44 @@ void shortcut_init(int unjustify)
     sc_init_one(&whereis_list, NANO_HELP_KEY, _("Get Help"),
 		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
 
+    /* Translators: try to keep this string under 12 characters long */
     sc_init_one(&whereis_list, NANO_CANCEL_KEY, _("Cancel"),
 		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
 
+    /* Translators: try to keep this string under 12 characters long */
     sc_init_one(&whereis_list, NANO_FIRSTLINE_KEY, _("First Line"),
 		IFHELP(nano_firstline_msg, 0),
 		0, 0, VIEW, do_first_line);
 
+    /* Translators: try to keep this string under 12 characters long */
     sc_init_one(&whereis_list, NANO_LASTLINE_KEY, _("Last Line"),
 		IFHELP(nano_lastline_msg, 0), 0, 0, VIEW, do_last_line);
 
+    /* Translators: try to keep this string under 12 characters long */
     sc_init_one(&whereis_list, NANO_OTHERSEARCH_KEY, _("Replace"),
 		IFHELP(nano_replace_msg, 0), 0, 0, VIEW, do_replace);
 
+    /* Translators: try to keep this string under 12 characters long */
     sc_init_one(&whereis_list, NANO_FROMSEARCHTOGOTO_KEY, _("Go To Line"),
 		IFHELP(nano_goto_msg, 0), 0, 0, VIEW, do_gotoline_void);
 
 #ifndef NANO_SMALL
+    /* Translators: try to keep this string under 12 characters long */
     sc_init_one(&whereis_list, TOGGLE_CASE_KEY, _("Case Sens"),
 		IFHELP(nano_case_msg, 0), 0, 0, VIEW, 0);
 
+    /* Translators: try to keep this string under 12 characters long */
     sc_init_one(&whereis_list, TOGGLE_BACKWARDS_KEY, _("Direction"),
 		IFHELP(nano_reverse_msg, 0), 0, 0, VIEW, 0);
 
 #ifdef HAVE_REGEX_H
+    /* Translators: try to keep this string under 12 characters long */
     sc_init_one(&whereis_list, TOGGLE_REGEXP_KEY, _("Regexp"),
 		IFHELP(nano_regexp_msg, 0), 0, 0, VIEW, 0);
 #endif
 
 #ifndef NANO_SMALL
+    /* Translators: try to keep this string under 12 characters long */
     sc_init_one(&whereis_list, KEY_UP, _("History"),
 		IFHELP(nano_editstr_msg, 0), NANO_UP_KEY, 0, VIEW, 0);
 #endif
@@ -614,6 +636,7 @@ void shortcut_init(int unjustify)
     sc_init_one(&replace_list, NANO_LASTLINE_KEY, _("Last Line"),
 		IFHELP(nano_lastline_msg, 0), 0, 0, VIEW, do_last_line);
 
+    /* Translators: try to keep this string under 12 characters long */
     sc_init_one(&replace_list, NANO_OTHERSEARCH_KEY, _("No Replace"),
 		IFHELP(nano_whereis_msg, 0), 0, 0, VIEW, do_search);
 
@@ -691,25 +714,31 @@ void shortcut_init(int unjustify)
 		IFHELP(nano_help_msg, 0), 0, 0, VIEW, do_help);
 
 #ifndef DISABLE_BROWSER
+    /* Translators: try to keep this string under 16 characters long */
     sc_init_one(&writefile_list, NANO_TOFILES_KEY, _("To Files"),
 		IFHELP(nano_tofiles_msg, 0), 0, 0, NOVIEW, 0);
 #endif
 
 #ifndef NANO_SMALL
+    /* Translators: try to keep this string under 16 characters long */
     sc_init_one(&writefile_list, TOGGLE_DOS_KEY, _("DOS Format"),
 		IFHELP(nano_dos_msg, 0), 0, 0, NOVIEW, 0);
 
+    /* Translators: try to keep this string under 16 characters long */
     sc_init_one(&writefile_list, TOGGLE_MAC_KEY, _("Mac Format"),
 		IFHELP(nano_mac_msg, 0), 0, 0, NOVIEW, 0);
 #endif
 
+    /* Translators: try to keep this string under 16 characters long */
     sc_init_one(&writefile_list, NANO_APPEND_KEY, _("Append"),
 		IFHELP(nano_append_msg, 0), 0, 0, NOVIEW, 0);
 
+    /* Translators: try to keep this string under 16 characters long */
     sc_init_one(&writefile_list, NANO_PREPEND_KEY, _("Prepend"),
 		IFHELP(nano_prepend_msg, 0), 0, 0, NOVIEW, 0);
 
 #ifndef NANO_SMALL
+    /* Translators: try to keep this string under 16 characters long */
     sc_init_one(&writefile_list, TOGGLE_BACKUP_KEY, _("Backup File"),
 		IFHELP(nano_backup_msg, 0), 0, 0, NOVIEW, 0);
 #endif
@@ -730,9 +759,11 @@ void shortcut_init(int unjustify)
 		IFHELP(nano_tofiles_msg, 0), 0, 0, NOVIEW, 0);
 #endif
 #ifndef NANO_SMALL
+    /* Translators: try to keep this string under 22 characters long */
     sc_init_one(&insertfile_list, NANO_EXTCMD_KEY, _("Execute Command"),
 		IFHELP(nano_execute_msg, 0), 0, 0, NOVIEW, 0);
 #ifdef ENABLE_MULTIBUFFER
+    /* Translators: try to keep this string under 22 characters long */
     sc_init_one(&insertfile_list, TOGGLE_LOAD_KEY, _("New Buffer"),
 		IFHELP(nano_multibuffer_msg, 0), 0, 0, NOVIEW, 0);
 #endif
@@ -775,6 +806,7 @@ void shortcut_init(int unjustify)
 		IFHELP(nano_nextpage_msg, 0), NANO_NEXTPAGE_FKEY,
 		KEY_NPAGE, VIEW, 0);
 
+    /* Translators: try to keep this string under 22 characters long */
     sc_init_one(&browser_list, NANO_GOTO_KEY, _("Go To Dir"),
 		IFHELP(nano_gotodir_msg, NANO_ALT_GOTO_KEY),
 		NANO_GOTO_FKEY, 0, VIEW, 0);

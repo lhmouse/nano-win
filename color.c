@@ -91,7 +91,7 @@ void do_colorinit(void)
 	    init_pair(tmpcolor->pairnum, tmpcolor->fg, background);
 
 #ifdef DEBUG
-	    fprintf(stderr, _("Running %s with fg = %d and bg = %d\n"),
+	    fprintf(stderr, "Running %s with fg = %d and bg = %d\n",
 		"init_pair()", tmpcolor->fg, tmpcolor->bg);
 #endif
 	}

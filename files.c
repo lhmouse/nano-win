@@ -476,7 +476,7 @@ int do_insertfile(int loading_file)
     if (i != -1) {
 	inspath = mallocstrcpy(inspath, answer);
 #ifdef DEBUG
-	fprintf(stderr, _("filename is %s\n"), answer);
+	fprintf(stderr, "filename is %s\n", answer);
 #endif
 
 #ifndef NANO_SMALL
@@ -701,12 +701,12 @@ void free_openfilestruct(openfilestruct *src)
 	    src = src->next;
 	    delete_opennode(src->prev);
 #ifdef DEBUG
-	    fprintf(stderr, _("%s: free'd a node, YAY!\n"), "delete_opennode()");
+	    fprintf(stderr, "%s: free'd a node, YAY!\n", "delete_opennode()");
 #endif
 	}
 	delete_opennode(src);
 #ifdef DEBUG
-	fprintf(stderr, _("%s: free'd last node.\n"), "delete_opennode()");
+	fprintf(stderr, "%s: free'd last node.\n", "delete_opennode()");
 #endif
     }
 }
@@ -733,7 +733,7 @@ int add_open_file(int update)
 	   open_files and splice it in after the current one */
 
 #ifdef DEBUG
-	fprintf(stderr, _("filename is %s\n"), open_files->filename);
+	fprintf(stderr, "filename is %s\n", open_files->filename);
 #endif
 
 	tmp = make_new_opennode(NULL);
@@ -790,7 +790,7 @@ int add_open_file(int update)
     }
 
 #ifdef DEBUG
-    fprintf(stderr, _("filename is %s\n"), open_files->filename);
+    fprintf(stderr, "filename is %s\n", open_files->filename);
 #endif
 
     return 0;
@@ -878,7 +878,7 @@ int open_prevfile(int closing_file)
 	open_files = open_files->prev;
 
 #ifdef DEBUG
-	fprintf(stderr, _("filename is %s\n"), open_files->filename);
+	fprintf(stderr, "filename is %s\n", open_files->filename);
 #endif
 
     }
@@ -890,7 +890,7 @@ int open_prevfile(int closing_file)
 	    open_files = open_files->next;
 
 #ifdef DEBUG
-	    fprintf(stderr, _("filename is %s\n"), open_files->filename);
+	    fprintf(stderr, "filename is %s\n", open_files->filename);
 #endif
 
     }
@@ -941,7 +941,7 @@ int open_nextfile(int closing_file)
 	open_files = open_files->next;
 
 #ifdef DEBUG
-	fprintf(stderr, _("filename is %s\n"), open_files->filename);
+	fprintf(stderr, "filename is %s\n", open_files->filename);
 #endif
 
     }
@@ -952,7 +952,7 @@ int open_nextfile(int closing_file)
 	    open_files = open_files->prev;
 
 #ifdef DEBUG
-	    fprintf(stderr, _("filename is %s\n"), open_files->filename);
+	    fprintf(stderr, "filename is %s\n", open_files->filename);
 #endif
 
 	}
@@ -1398,7 +1398,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 	}
 
 #ifdef DEBUG
-	fprintf(stderr, _("Backing up %s to %s\n"), realname, backupname);
+	fprintf(stderr, "Backing up %s to %s\n", realname, backupname);
 #endif
 
 	/* copy the file */
@@ -1513,7 +1513,7 @@ int write_file(const char *name, int tmp, int append, int nonamechange)
 	}
 #ifdef DEBUG
 	else
-	    fprintf(stderr, _("Wrote >%s\n"), fileptr->data);
+	    fprintf(stderr, "Wrote >%s\n", fileptr->data);
 #endif
 #ifndef NANO_SMALL
 	if (ISSET(DOS_FILE) || ISSET(MAC_FILE))
@@ -1812,7 +1812,7 @@ int do_writeout(const char *path, int exiting, int append)
 	}
 
 #ifdef DEBUG
-	fprintf(stderr, _("filename is %s\n"), answer);
+	fprintf(stderr, "filename is %s\n", answer);
 #endif
 
 #ifdef NANO_EXTRA
