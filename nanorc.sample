@@ -1,6 +1,8 @@
 # Sample initialization file for GNU nano
 # Please note that you must have configured nano with 
 # --enable-nanorc for this file to be read!
+#
+# To make sure a value is not enabled, use "unset <option>"
 
 # Use regular expressions by default 
 # set regexp 
