@@ -94,7 +94,7 @@ internationalization support, and filename tab completion.
 @code{nano} +LINE [GNU long option] [option] [ @var{file ...} ]
 
 The original goal for @code{nano} was a complete bug-for-bug compatible
-emulation of Pico, but nano's main goal is to be as compatible as
+emulation of Pico, but @code{nano}'s main goal is to be as compatible as
 possible while offering a superset of Pico's functionality.  Also see
 @xref{Pico Compatibility}, for other differences.
 
@@ -448,7 +448,8 @@ Building @code{nano} from source is fairly straightforward if you are
 familiar with compiling programs with autoconf support:
 
 @itemize @bullet
-@item tar xvfz nano-x.y.z.tar.gz (where x.y.z is the version of nano)
+@item tar xvfz nano-x.y.z.tar.gz (where x.y.z is the version of
+@code{nano})
 @item cd nano-x.y.z/
 @item ./configure
 @item make
@@ -501,9 +502,8 @@ Disables Native Language support.  This will make the available GNU
 @code{nano} translations unusable.
 
 @item --with-slang
-Compiling GNU @code{nano} with Slang is supported, and will make the
-binary notably smaller than if compiled with ncurses or other curses
-libraries.
+Compiling @code{nano} with Slang is supported, and will make the binary
+notably smaller than if compiled with ncurses or other curses libraries.
 
 @end table
 

@@ -89,8 +89,8 @@ CVS code -
 	- Fix the description for the whitespace option to mention that
 	  only single-column characters are allowed. (DLR)
 - nano.1, nano.texi:
-	- Mention the -? alias for -h/--help, and synchronize the
-	  description and placement of the +LINE option. (DLR)
+	- Mention the -? alias for -h/--help, and add various
+	  consistency fixes. (DLR)
 - nanorc.5:
 	- Fix the description for the whitespace option to mention that
 	  only single-column characters are allowed. (DLR)
