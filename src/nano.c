@@ -3089,10 +3089,8 @@ void handle_sigwinch(int s)
      * dimensions. */
     window_init();
 
-    /* Redraw the contents of the windows that need it, and display the
-     * shortcut list with UnCut. */
+    /* Redraw the contents of the windows that need it. */
     blank_statusbar();
-    shortcut_init(FALSE);
     display_main_list();
     total_refresh();
 
