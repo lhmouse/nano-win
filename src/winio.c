@@ -2287,7 +2287,15 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
     assert(column <= start_col);
 
     alloc_len = display_string_len(buf + start_index, start_col,
-	start_col + len) + 2;
+	start_col + len);
+    alloc_len +=
+#ifdef NANO_WIDE
+	MB_CUR_MAX
+#else
+	1
+#endif
+	 * 2;
+
     converted = charalloc(alloc_len + 1);
     index = 0;
 
@@ -2464,8 +2472,6 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
     }
 
     /* Make sure that converted is at most len columns wide. */
-    converted[index] = '\0';
-    index = actual_x(converted, len);
     null_at(&converted, index);
 
     return converted;
