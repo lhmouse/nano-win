@@ -1173,22 +1173,29 @@ char *do_browser(char *inpath)
 	    lineno = selected / width;
 
 	switch (kbinput) {
+	case NANO_UP_KEY:
 	case KEY_UP:
 	case 'u':
 	    if (selected - width >= 0)
 		selected -= width;
 	    break;
+	case NANO_BACK_KEY:
 	case KEY_LEFT:
+	case NANO_BACKSPACE_KEY:
+	case 127:
 	case 'l':
 	    if (selected > 0)
 		selected--;
 	    break;
+	case NANO_DOWN_KEY:
 	case KEY_DOWN:
 	case 'd':
 	    if (selected + width <= numents - 1)
 		selected += width;
 	    break;
+	case NANO_FORWARD_KEY:
 	case KEY_RIGHT:
+	case NANO_TAB_KEY:
 	case 'r':
 	    if (selected < numents - 1)
 		selected++;
@@ -1228,7 +1235,7 @@ char *do_browser(char *inpath)
 		selected = numents - 1;
 	    break;
 	case KEY_ENTER:
-	case NANO_CONTROL_M:
+	case NANO_ENTER_KEY:
 	case 's': /* More Pico compatibility */
 	case 'S':
 
@@ -1268,6 +1275,7 @@ char *do_browser(char *inpath)
 	case 'Q':
 	case 'e':	/* Pico compatibility, yeech */
 	case 'E':
+	case NANO_CANCEL_KEY:
 	case NANO_EXIT_FKEY:
 		abort = 1;
 		break;
