@@ -402,18 +402,22 @@ void usage(void)
     printf(_("Usage: nano [GNU long option] [option] +LINE <file>\n\n"));
     printf(_("Option		Long option		Meaning\n"));
 
+#ifndef NANO_SMALL
+    printf
+	(_
+	 (" -D 		--dos			Write file in DOS format\n"));
+#endif
 #ifdef ENABLE_MULTIBUFFER
     printf
 	(_
 	 (" -F 		--multibuffer		Enable multiple file buffers\n"));
 #endif
-
-    printf(_
-	   (" -T [num]	--tabsize=[num]		Set width of a tab to num\n"));
 #ifdef HAVE_REGEX_H
     printf(_
 	   (" -R		--regexp		Use regular expressions for search\n"));
 #endif
+    printf(_
+	   (" -T [num]	--tabsize=[num]		Set width of a tab to num\n"));
     printf
 	(_
 	 (" -V 		--version		Print version information and exit\n"));
@@ -467,6 +471,9 @@ void usage(void)
 #else
     printf(_("Usage: nano [option] +LINE <file>\n\n"));
     printf(_("Option		Meaning\n"));
+#ifndef NANO_SMALL
+    printf(_(" -D 		Write file in DOS format\n"));
+#endif
 #ifdef ENABLE_MULTIBUFFER
     printf(_(" -F 		Enable multiple file buffers\n"));
 #endif
@@ -2408,6 +2415,7 @@ int main(int argc, char *argv[])
 	{"view", 0, 0, 'v'},
 #ifndef NANO_SMALL
 	{"cut", 0, 0, 'k'},
+	{"dos", 0, 0, 'D'},
 	{"autoindent", 0, 0, 'i'},
 #endif
 	{"tempfile", 0, 0, 't'},
@@ -2450,15 +2458,20 @@ int main(int argc, char *argv[])
 #endif /* ENABLE_NANORC */
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "h?FT:RVabcefgijklmo:pr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "h?DFRT:Vabcefgijklmo:pr:s:tvwxz",
 				 long_options, &option_index)) != EOF) {
 #else
     while ((optchr =
-	    getopt(argc, argv, "h?FT:RVabcefgijklmo:pr:s:tvwxz")) != EOF) {
+	    getopt(argc, argv, "h?DFRT:Vabcefgijklmo:pr:s:tvwxz")) != EOF) {
 #endif
 
 	switch (optchr) {
 
+#ifndef NANO_SMALL
+	case 'D':
+	    SET(DOS_FILE);
+	    break;
+#endif
 #ifdef ENABLE_MULTIBUFFER
 	case 'F':
 	    SET(MULTIBUFFER);

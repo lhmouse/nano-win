@@ -11,7 +11,9 @@ CVS code -
 	  open_file_dup_search (arg), new function do_gotopos for -F
 	  (Ravid Lawrence Ramsey).
 	- Code to read/write dos formatted files.  Massive amounts of
-	  new code in read_line and write_file.  New flag DOS_FILE.
+	  new code in read_line and write_file.  New cmdline flag
+	  (-D --dos) to automatically write the file in DOS format,
+	  regardless of the original format.
 - nano.c:
   main()
 	- Added vars oldcurrent and oldcurrent_x to check whether cursor

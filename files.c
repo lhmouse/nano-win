@@ -126,8 +126,8 @@ filestruct *read_line(char *buf, filestruct * prev, int *line1ins)
 
 #ifndef NANO_SMALL
     if (buf[strlen(buf) - 1] == '\r') {
-	SET(DOS_FILE);
 	fileptr->data[strlen(buf) - 1] = 0;
+	totsize--;
     }
 #endif
 
