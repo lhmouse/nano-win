@@ -4,6 +4,8 @@ CVS Code -
 - global.c:
   shortcut_init()
 	- Rework IFHELP macro (David Benbennick).
+- nanorc.sample
+	- Put in much less crappy example regex rules for c-file.
 
 GNU nano 1.1.9 - 05/12/2002
 - General:
