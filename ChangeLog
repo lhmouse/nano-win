@@ -7,6 +7,9 @@ CVS code -
   do_browser()
 	- Rename variable lineno to fileline to avoid confusion. (DLR)
 - nano.c:
+  help_init()
+	- When calculating allocsize, take multibyte characters into
+	  account, and keep the column number limits consistent. (DLR)
   print1opt()
 	- Don't include longflag if HAVE_GETOPT_LONG isn't defined.
 	  Rename this function to print1opt_full(), leave out the

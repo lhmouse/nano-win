@@ -264,7 +264,7 @@ void mouse_init(void)
  * help_text should be NULL initially. */
 void help_init(void)
 {
-    size_t allocsize = 1;	/* Space needed for help_text. */
+    size_t allocsize = 0;	/* Space needed for help_text. */
     const char *htx;		/* Untranslated help message. */
     char *ptr;
     const shortcut *s;
@@ -391,8 +391,8 @@ void help_init(void)
 
     /* The space needed for the shortcut lists, at most COLS characters,
      * plus '\n'. */
-    allocsize += (COLS < 21 ? 21 : COLS + 1) *
-	length_of_list(currshortcut);
+    allocsize += (COLS < 24 ? (24 * mb_cur_max()) :
+	((COLS + 1) * mb_cur_max())) * length_of_list(currshortcut);
 
 #ifndef NANO_SMALL
     /* If we're on the main list, we also count the toggle help text.
@@ -411,7 +411,7 @@ void help_init(void)
     free(help_text);
 
     /* Allocate space for the help text. */
-    help_text = charalloc(allocsize);
+    help_text = charalloc(allocsize + 1);
 
     /* Now add the text we want. */
     strcpy(help_text, htx);
