@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-08-07 11:03-0400\n"
+"POT-Creation-Date: 2000-08-18 23:52-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -344,7 +344,7 @@ msgid "Case Sens"
 msgstr ""
 
 #: global.c:285 global.c:304 global.c:314 global.c:330 global.c:334
-#: global.c:340 winio.c:984
+#: global.c:340 winio.c:994
 msgid "Cancel"
 msgstr ""
 
@@ -691,47 +691,47 @@ msgstr ""
 msgid "Search Wrapped"
 msgstr ""
 
-#: search.c:241
+#: search.c:243
 #, c-format
 msgid "Replaced %d occurences"
 msgstr ""
 
-#: search.c:243
+#: search.c:245
 msgid "Replaced 1 occurence"
 msgstr ""
 
-#: search.c:378 search.c:399 search.c:422
+#: search.c:380 search.c:401 search.c:424
 msgid "Replace Cancelled"
 msgstr ""
 
-#: search.c:395
+#: search.c:397
 #, c-format
 msgid "Replace with [%s]"
 msgstr ""
 
 #. last_search is empty
-#: search.c:420
+#: search.c:422
 msgid "Replace with"
 msgstr ""
 
-#: search.c:461
+#: search.c:463
 msgid "Replace this instance?"
 msgstr ""
 
 #. Ask for it
-#: search.c:512
+#: search.c:514
 msgid "Enter line number"
 msgstr ""
 
-#: search.c:514
+#: search.c:516
 msgid "Aborted"
 msgstr ""
 
-#: search.c:534
+#: search.c:536
 msgid "Come on, be reasonable"
 msgstr ""
 
-#: search.c:539
+#: search.c:541
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr ""
@@ -758,50 +758,50 @@ msgstr ""
 msgid "Modified"
 msgstr ""
 
-#: winio.c:900
+#: winio.c:910
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr ""
 
-#: winio.c:911
+#: winio.c:921
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr ""
 
-#: winio.c:954
+#: winio.c:964
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr ""
 
-#: winio.c:979
+#: winio.c:989
 msgid "Yes"
 msgstr ""
 
-#: winio.c:981
+#: winio.c:991
 msgid "All"
 msgstr ""
 
-#: winio.c:983
+#: winio.c:993
 msgid "No"
 msgstr ""
 
-#: winio.c:1119
+#: winio.c:1129
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr ""
 
-#: winio.c:1123
+#: winio.c:1133
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr ""
 
-#: winio.c:1247
+#: winio.c:1257
 msgid "Dumping file buffer to stderr...\n"
 msgstr ""
 
-#: winio.c:1249
+#: winio.c:1259
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr ""
 
-#: winio.c:1251
+#: winio.c:1261
 msgid "Dumping a buffer to stderr...\n"
 msgstr ""

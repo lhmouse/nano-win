@@ -1,4 +1,15 @@
 CVS Code
+- winio.c:
+  total_refresh()
+	- Added edit_refresh() call to actually update the screen if messy.
+  edit_refresh_clearok()
+	- New function, does a total update for edit refresh, needed to fix
+	  lack of reversed text on searching with MARK_ISSET.
+- search.c:
+  search_abort()
+	- Now calls edit_refresh_clearok when MARK_ISSET to handle screen
+	  ugliness bug (reported by Ken Tyler).
+
 nano-0.9.16 - 08/09/2000
 - cut.c:
   do_cut_text()

@@ -201,6 +201,8 @@ void search_abort(void)
     UNSET(KEEP_CUTBUFFER);
     display_main_list();
     wrefresh(bottomwin);
+    if (ISSET(MARK_ISSET)) 
+	edit_refresh_clearok();
 
 #ifdef _POSIX_VERSION
     if (ISSET(REGEXP_COMPILED))

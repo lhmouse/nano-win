@@ -80,7 +80,7 @@ void blank_bottombars(void);
 void check_wrap(filestruct * inptr, char ch);
 void dump_buffer(filestruct * inptr);
 void align(char **strp);
-void edit_refresh(void);
+void edit_refresh(void), edit_refresh_clearok(void);
 void edit_update(filestruct * fileptr, int topmidbot);
 void update_cursor(void);
 void delete_node(filestruct * fileptr);

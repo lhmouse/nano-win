@@ -51,6 +51,8 @@
   written out to disk when saved..... (37). [FIXED]
 - Page up and page down do not work the same way as Pico (# of lines). (38)
  [FIXED]
+- When doing a search and the marker is set, the screen does not always
+  properly update the inverted text (39). [FIXED]
 ** Open BUGS **
 
 - Marked cutting sometimes leaves a newline in the file unintelligently,
