@@ -604,9 +604,9 @@ char *replace_line(const char *needle)
 }
 
 /* Step through each replace word and prompt user before replacing.
- * Parameters real_current and real_current_x are needed by the internal
- * speller, to allow the cursor position to be updated when a word
- * before the cursor is replaced by a shorter word.
+ * Parameters real_current and real_current_x are needed in order to
+ * allow the cursor position to be updated when a word before the cursor
+ * is replaced by a shorter word.
  *
  * needle is the string to seek.  We replace it with answer.  Return -1
  * if needle isn't found, else the number of replacements performed. */
@@ -614,8 +614,8 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 	size_t *real_current_x, bool wholewords)
 {
     int numreplaced = -1;
-    size_t old_pww = placewewant, current_x_save = current_x;
-    const filestruct *current_save = current;
+    size_t old_pww = placewewant, current_x_save = *real_current_x;
+    const filestruct *current_save = real_current;
     bool replaceall = FALSE;
 #ifdef HAVE_REGEX_H
     /* The starting-line match and bol/eol regex flags. */
@@ -624,8 +624,10 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 #ifndef NANO_SMALL
     bool old_mark_set = ISSET(MARK_ISSET);
 
-    UNSET(MARK_ISSET);
-    edit_refresh();
+    if (old_mark_set) {
+	UNSET(MARK_ISSET);
+	edit_refresh();
+    }
 #endif
 
     while (findnextstr(TRUE, wholewords,
@@ -707,7 +709,7 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 
 	if (i > 0 || replaceall) {	/* Yes, replace it!!!! */
 	    char *copy;
-	    int length_change;
+	    ssize_t length_change;
 
 	    if (i == 2)
 		replaceall = TRUE;
