@@ -46,6 +46,10 @@ extern int search_last_line;
 extern int search_offscreen;
 extern int currslen;
 
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+extern char *whitespace;
+#endif
+
 #ifndef DISABLE_JUSTIFY
 extern char *punct;
 extern char *brackets;
@@ -54,9 +58,6 @@ extern char *quotestr;
 
 #ifndef NANO_SMALL
 extern char *backup_dir;
-#ifdef ENABLE_NANORC
-extern char *whitespace;
-#endif
 #endif
 
 extern WINDOW *topwin, *edit, *bottomwin;

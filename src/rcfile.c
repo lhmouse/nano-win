@@ -548,6 +548,9 @@ void parse_rcfile(FILE *rcstream)
 #ifndef DISABLE_WRAPJUSTIFY
 				|| !strcasecmp(rcopts[i].name, "fill")
 #endif
+#ifndef NANO_SMALL
+				|| !strcasecmp(rcopts[i].name, "whitespace")
+#endif
 #ifndef DISABLE_JUSTIFY
 				|| !strcasecmp(rcopts[i].name, "punct")
 				|| !strcasecmp(rcopts[i].name, "brackets")
@@ -555,7 +558,6 @@ void parse_rcfile(FILE *rcstream)
 #endif
 #ifndef NANO_SMALL
 			        || !strcasecmp(rcopts[i].name, "backupdir")
-				|| !strcasecmp(rcopts[i].name, "whitespace")
 #endif
 #ifndef DISABLE_SPELLER
 				|| !strcasecmp(rcopts[i].name, "speller")
@@ -594,6 +596,19 @@ void parse_rcfile(FILE *rcstream)
 				    wrap_at = j;
 			    } else
 #endif
+#ifndef NANO_SMALL
+			    if (!strcasecmp(rcopts[i].name, "whitespace")) {
+				size_t ws_len;
+				whitespace = mallocstrcpy(NULL, option);
+				ws_len = strlen(whitespace);
+				if (ws_len != 2 || (ws_len == 2 && (is_cntrl_char(whitespace[0]) || is_cntrl_char(whitespace[1])))) {
+				    rcfile_error(_("Two non-control characters required"));
+				    free(whitespace);
+				    whitespace = NULL;
+				} else
+				    SET(WHITESPACE_DISPLAY);
+			    } else
+#endif
 #ifndef DISABLE_JUSTIFY
 			    if (!strcasecmp(rcopts[i].name, "punct")) {
 				punct = mallocstrcpy(NULL, option);
@@ -616,18 +631,6 @@ void parse_rcfile(FILE *rcstream)
 			    if (!strcasecmp(rcopts[i].name, "backupdir"))
 				backup_dir = mallocstrcpy(NULL, option);
 			    else
-
-			    if (!strcasecmp(rcopts[i].name, "whitespace")) {
-				size_t ws_len;
-				whitespace = mallocstrcpy(NULL, option);
-				ws_len = strlen(whitespace);
-				if (ws_len != 2 || (ws_len == 2 && (is_cntrl_char(whitespace[0]) || is_cntrl_char(whitespace[1])))) {
-				    rcfile_error(_("Two non-control characters required"));
-				    free(whitespace);
-				    whitespace = NULL;
-				} else
-				    SET(WHITESPACE_DISPLAY);
-			    } else
 #endif
 #ifndef DISABLE_SPELLER
 			    if (!strcasecmp(rcopts[i].name, "speller"))

@@ -1283,7 +1283,7 @@ int do_wrap(filestruct *inptr)
  * create the new wrap line.  Finally, we clean up. */
 
 /* Step 1, finding where to wrap.  We are going to add a new-line
- * after a white-space character.  In this step, we set wrap_loc as the
+ * after a whitespace character.  In this step, we set wrap_loc as the
  * location of this replacement.
  *
  * Where should we break the line?  We need the last "legal wrap point"

@@ -66,6 +66,12 @@ filestruct *cutbuffer = NULL;	/* A place to store cut text */
 openfilestruct *open_files = NULL;	/* The list of open files */
 #endif
 
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+char *whitespace = NULL;	/* Characters used when displaying
+				   the first characters of tabs and
+				   spaces. */
+#endif
+
 #ifndef DISABLE_JUSTIFY
 char *punct = NULL;		/* Closing punctuation that can end
 				   sentences. */
@@ -78,11 +84,6 @@ char *quotestr = NULL;		/* Quote string.  The default value is
 
 #ifndef NANO_SMALL
 char *backup_dir = NULL;	/* Backup directory. */
-#ifdef ENABLE_NANORC
-char *whitespace = NULL;	/* Characters used when displaying
-				   the first characters of tabs and
-				   spaces. */
-#endif
 #endif
 
 int resetstatuspos;		/* Hack for resetting the status bar 
