@@ -280,6 +280,9 @@ CVS code -
 	- Remove specific references to control key shortcuts other than
 	  XON and XOFF. (DLR)
 	- Add continue and goto to the "c-file" regexes. (DLR)
+	- Change the included speller value to "aspell -x -c".  The -x
+	  option makes aspell not create backup files, and this is
+	  consistent with the internal spell checker's behavior. (DLR)
 - doc/man/fr/nano.1, doc/man/fr/nanorc.1:
 	- Updated manpage translations by Jean-Philippe Guérard.
 - README.CVS:

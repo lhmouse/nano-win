@@ -104,7 +104,7 @@
 ## Use this spelling checker instead of the internal one.  This option
 ## does not properly have a default value.
 ##
-# set speller "aspell -c"
+# set speller "aspell -x -c"
 
 ## Allow nano to be suspended.
 # set suspend
