@@ -33,7 +33,8 @@ CVS code -
 	- New function do_prev_word, similar to do_next_word.  Hard coded as
 	  Alt-space, as next word is hard coded as control-space. Fixed
 	  goofy logic setting x pos to value of last line when hitting the
-	  beginning of first line, prog should simply abort.
+	  beginning of first line, prog should simply abort.  Added
+	  the #ifdefs around the code in main().
 - rcfile.c:
 	- Fix incorrect number of rc options (David Lawrence Ramsey).
 - po/sv.po:

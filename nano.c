@@ -2954,11 +2954,13 @@ int main(int argc, char *argv[])
 		modify_control_seq = 1;
 		keyhandled = 1;
 		break;
+#ifndef NANO_SMALL
 	    case ' ':
 		/* If control-space is next word, Alt-space should be previous word */
 		do_prev_word();
 		keyhandled = 1;
 		break;
+#endif
 	    case '[':
 		switch (kbinput = wgetch(edit)) {
 		case '1':	/* Alt-[-1-[0-5,7-9] = F1-F8 in X at least */
