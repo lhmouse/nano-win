@@ -64,6 +64,11 @@ CVS code -
 	  do_insertfile(), shortcut_init(), do_gotoline(), etc.
 	- Make sure a few uninitialized static variables are initialized
 	  to sane values. (DLR)
+	- After reading in a file and detecting the format it's in, set
+	  the file format flags (DOS_FILE and MAC_FILE) to match, and
+	  preserve them across multiple file buffers.  Changes to
+	  read_file(), add_open_file(), and load_open_file().  (DLR,
+	  suggested by Bill Soudan)
 - files.c:
   do_insertfile()
 	- Readd the NANO_SMALL #ifdef around the start_again: label to

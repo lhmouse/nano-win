@@ -170,6 +170,13 @@ void read_file(FILE *f, const char *filename)
      * is NULL, then so is fileage. */
     assert(current != NULL || fileage == NULL);
 
+#ifndef NANO_SMALL
+    /* Clear the DOS and Mac file format flags, since we don't know
+     * which file format we have yet. */
+    UNSET(DOS_FILE);
+    UNSET(MAC_FILE);
+#endif
+
     /* Read the entire file into the file struct. */
     while ((input_int = getc(f)) != EOF) {
 	input = (char)input_int;
@@ -303,15 +310,17 @@ void read_file(FILE *f, const char *filename)
 		P_("Read %lu line (Converted from DOS and Mac format)",
 		"Read %lu lines (Converted from DOS and Mac format)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
-    else if (fileformat == 2)
+    else if (fileformat == 2) {
+	SET(MAC_FILE);
 	statusbar(P_("Read %lu line (Converted from Mac format)",
 		"Read %lu lines (Converted from Mac format)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
-    else if (fileformat == 1)
+    } else if (fileformat == 1) {
+	SET(DOS_FILE);
 	statusbar(P_("Read %lu line (Converted from DOS format)",
 		"Read %lu lines (Converted from DOS format)",
 		(unsigned long)num_lines), (unsigned long)num_lines);
-    else
+    } else
 #endif
 	statusbar(P_("Read %lu line", "Read %lu lines",
 		(unsigned long) num_lines),(unsigned long)num_lines);
@@ -738,12 +747,14 @@ void add_open_file(int update)
     /* save current line number */
     open_files->file_lineno = current->lineno;
 
-    /* start with default modification status: unmodified (and marking
-       status, if available: unmarked) */
+    /* start with default modification status: unmodified, unmarked (if
+       available), not in DOS format (if available), and not in Mac
+       format (if available) */
     open_files->file_flags = 0;
 
-    /* if we're updating, save current modification status (and marking
-       status, if available) */
+    /* if we're updating, save current modification status, current
+       marking status (if available), and current file format status (if
+       available) */
     if (update) {
 	if (ISSET(MODIFIED))
 	    open_files->file_flags |= MODIFIED;
@@ -753,6 +764,10 @@ void add_open_file(int update)
 	    open_files->file_mark_beginx = mark_beginx;
 	    open_files->file_flags |= MARK_ISSET;
 	}
+	if (ISSET(DOS_FILE))
+	    open_files->file_flags |= DOS_FILE;
+	else if (ISSET(MAC_FILE))
+	    open_files->file_flags |= MAC_FILE;
 #endif
     }
 
@@ -804,6 +819,14 @@ void load_open_file(void)
 	SET(MARK_ISSET);
     } else
 	UNSET(MARK_ISSET);
+
+    /* restore file format status */
+    UNSET(DOS_FILE);
+    UNSET(MAC_FILE);
+    if (open_files->file_flags & DOS_FILE)
+	SET(DOS_FILE);
+    else if (open_files->file_flags & MAC_FILE)
+	SET(MAC_FILE);
 #endif
 
 #ifdef ENABLE_COLOR
