@@ -118,13 +118,13 @@ void die(char *msg, ...)
      * but we might as well TRY. */
     if (filename[0] == '\0') {
 	name = "nano.save";
-	i = write_file(name, 1);
+	i = write_file(name, 1, 0);
     } else {
 
 	char *buf = charalloc(strlen(filename) + 6);
 	strcpy(buf, filename);
 	strcat(buf, ".save");
-	i = write_file(buf, 1);
+	i = write_file(buf, 1, 0);
 	name = buf;
     }
     /* Restore the old term settings */
@@ -1482,7 +1482,7 @@ int do_spell(void)
 	return 0;
     }
 
-    if (write_file(temp, 1) == -1) {
+    if (write_file(temp, 1, 0) == -1) {
 	statusbar(_("Spell checking failed: unable to write temp file!"));
 	return 0;
     }
