@@ -15,6 +15,8 @@ CVS Code -
 - files.c:
   open_file()
 	- Fix FD leak with file load error (David Benbennick).
+  save_history()
+	- Fix nrealloc return value being ignored (David Benbennick).
 - nano.c:
   do_preserve_msg():
 	- Unsplit error message into a single fprintf call (Jordi).

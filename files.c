@@ -2925,7 +2925,7 @@ void save_history(void)
 	    chmod(nanohist, S_IRUSR | S_IWUSR);
 	    /* write oldest first */
 	    for (h = search_history.tail ; h->prev ; h = h->prev) {
-		nrealloc(h->data, strlen(h->data) + 1);
+		h->data = nrealloc(h->data, strlen(h->data) + 1);
 		strcat(h->data, "\n");
 		if (fputs(h->data, hist) == EOF) {
 		    rcfile_msg(_("Unable to write ~/.nano_history file, %s"), strerror(errno));
@@ -2937,7 +2937,7 @@ void save_history(void)
 		    goto come_from;
 	    }
 	    for (h = replace_history.tail ; h->prev ; h = h->prev) {
-		nrealloc(h->data, strlen(h->data) + 1);
+		h->data = nrealloc(h->data, strlen(h->data) + 1);
 		strcat(h->data, "\n");
 		if (fputs(h->data, hist) == EOF) {
 		    rcfile_msg(_("Unable to write ~/.nano_history file, %s"), strerror(errno));
