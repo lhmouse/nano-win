@@ -2409,6 +2409,7 @@ void justify_format(filestruct *line, size_t skip)
     }
 
     back--;
+
     assert(*back == '\0' && *front == '\0');
 
     /* Now back is the new end of line->data. */
