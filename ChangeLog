@@ -35,6 +35,9 @@ CVS code -
 	- Port to the Tandem NonStop Kernel (nsr-tandem-nsk). (Tom
 	  Bates; minor tweaks by DLR)
 - files.c:
+  do_insertfile()
+	- Wrap one reference to NANO_EXTCMD_KEY in a NANO_SMALL #ifdef.
+	  (DLR)
   add_open_files()
 	- Make the saving of marked status in open_files->file_flags
 	  work properly again; a tweak to the ISSET() macro in 1.3.0

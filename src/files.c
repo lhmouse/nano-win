@@ -524,7 +524,11 @@ int do_insertfile(int loading_file)
 #endif
 
 #ifndef DISABLE_OPERATINGDIR
-	if (i != NANO_EXTCMD_KEY && check_operating_dir(answer, 0) != 0) {
+	if (
+#ifndef NANO_SMALL
+		i != NANO_EXTCMD_KEY &&
+#endif
+		check_operating_dir(answer, 0) != 0) {
 	    statusbar(_("Can't insert file from outside of %s"),
 			operating_dir);
 	    return 0;
