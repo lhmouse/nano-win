@@ -4063,11 +4063,16 @@ void do_help(void)
 void do_replace_highlight(bool highlight_flag, const char *word)
 {
     size_t y = xplustabs();
-    size_t word_len = strlen(word);
+    size_t word_len = strlenpt(word);
 
     y = get_page_start(y) + COLS - y;
-	/* Now y is the number of characters we can display on this
+	/* Now y is the number of columns that we can display on this
 	 * line. */
+
+    assert(y > 0);
+
+    if (word_len > y)
+	y--;
 
     reset_cursor();
 
@@ -4080,12 +4085,10 @@ void do_replace_highlight(bool highlight_flag, const char *word)
 	waddstr(edit, " ");
     else
 #endif
-	waddnstr(edit, word, y - 1);
+	waddnstr(edit, word, actual_x(word, y));
 
     if (word_len > y)
 	waddch(edit, '$');
-    else if (word_len == y)
-	waddch(edit, word[word_len - 1]);
 
     if (highlight_flag)
 	wattroff(edit, A_REVERSE);
