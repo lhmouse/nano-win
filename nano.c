@@ -625,8 +625,6 @@ void do_wrap(filestruct * inptr, char input_char)
 	    break;
     }
 
-    assert(current_word_end_t > fill);
-
     /* There are a few (ever changing) cases of what the line could look like.
      * 1) only one word on the line before wrap point.
      *    a) one word takes up the whole line with no starting spaces.
