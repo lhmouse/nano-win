@@ -178,6 +178,9 @@ CVS code -
 	- Try to automatically detect whether UTF-8 support is needed by
 	  setting the NO_UTF8 flag if setlocale() returns a string that
 	  doesn't contain "UTF-8". (DLR)
+- nano.h:
+	- Remove now-unneeded #defines for functions that now have
+	  multibyte equivalents. (DLR)
 - utils.c:
   regexec_safe()
 	- Remove redundant regexec #define, and move the regexec #undef

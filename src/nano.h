@@ -102,12 +102,8 @@
 
 /* If no strcasestr(), getdelim(), or getline(), use the versions we
  * have. */
-#ifndef HAVE_STRNCASECMP
-#define strncasecmp nstrnicmp
-#endif
-
 #ifndef HAVE_STRCASESTR
-#define strcasestr nstristr
+#define strcasestr nstrcasestr
 #endif
 
 #ifndef HAVE_GETDELIM
