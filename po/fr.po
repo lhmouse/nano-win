@@ -4,13 +4,12 @@
 # Clement Laforet <sheep.killer@free.fr>, 2000.
 # Michel Robitaille <robitail@IRO.UMontreal.CA>, 2001.
 # Jean-Philippe Guérard <jean-philippe.guerard@laposte.net>, 2001.
-# $Id$
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: nano_1_0 1.0.7\n"
 "POT-Creation-Date: 2001-12-17 18:48-0500\n"
-"PO-Revision-Date: 2001-12-29 01:30+0100\n"
+"PO-Revision-Date: 2002-01-11 00:30+0100\n"
 "Last-Translator: Jean-Philippe Guérard <jean-philippe.guerard@laposte.net>\n"
 "Language-Team: French <traduc@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +27,7 @@ msgstr "Presse-papiers annihilé =)\n"
 
 #: files.c:124
 msgid "read_line: not on first line and prev is NULL"
-msgstr "read_line: la position actuelle n'est pas la première ligne et la précédente est NULL"
+msgstr "read_line: pas sur la première ligne et la précédente est NULL"
 
 #: files.c:186 files.c:204
 #, c-format
@@ -101,7 +100,7 @@ msgstr "%d lignes écrites"
 
 #: files.c:525
 msgid "File Name to write"
-msgstr "Nom du fichier à écrire"
+msgstr "Nom du fichier où écrire"
 
 #: files.c:542
 #, c-format
@@ -208,11 +207,11 @@ msgstr "Aller à l'écran suivant"
 
 #: global.c:197
 msgid "Cut the current line and store it in the cutbuffer"
-msgstr "Copier dans le presse papier, puis supprimer la ligne courante"
+msgstr "Couper la ligne courante vers le presse-papiers"
 
 #: global.c:198
 msgid "Uncut from the cutbuffer into the current line"
-msgstr "Déplacer la chaîne du presse papier vers la ligne courante"
+msgstr "Coller le presse-papiers sur la ligne courante"
 
 #: global.c:199
 msgid "Show the position of the cursor"
@@ -256,7 +255,7 @@ msgstr "Aller à la dernière ligne du fichier"
 
 #: global.c:209
 msgid "Refresh (redraw) the current screen"
-msgstr "Rafraîchir (redessiner) l'ecran courant"
+msgstr "Rafraîchir (redessiner) l'écran courant"
 
 #: global.c:210
 msgid "Mark text at the current cursor location"
@@ -276,7 +275,7 @@ msgstr "Insérer une tabulation"
 
 #: global.c:215
 msgid "Insert a carriage return at the cursor position"
-msgstr "Insérer un retour-chariot à la position du curseur"
+msgstr "Insérer un retour de chariot à la position du curseur"
 
 #: global.c:217
 msgid "Make the current search or replace case (in)sensitive"
@@ -338,7 +337,7 @@ msgstr "Dé-justif."
 
 #: global.c:270
 msgid "UnCut Txt"
-msgstr "Ann. coup."
+msgstr "Coller"
 
 #: global.c:274
 msgid "Cur Pos"
@@ -462,7 +461,7 @@ msgstr ""
 
 #: nano.c:298
 msgid "delete_node(): free'd a node, YAY!\n"
-msgstr "delete_node(): noeud libéré, allez hop!\n"
+msgstr "delete_node(): noeud libéré, allez hop !\n"
 
 #: nano.c:303
 msgid "delete_node(): free'd last node.\n"
@@ -516,7 +515,7 @@ msgstr " -m \t\t--mouse\t\t\tUtiliser la souris\n"
 
 #: nano.c:389
 msgid " -p\t \t--pico\t\t\tEmulate Pico as closely as possible\n"
-msgstr " -p\t \t--pico\t\t\tImiter Pico le mieux possible\n"
+msgstr " -p\t \t--pico\t\t\tImiter Pico du mieux possible\n"
 
 #: nano.c:392
 msgid " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
@@ -528,7 +527,7 @@ msgstr " -s [prog] \t--speller=[prog]\tCorrecteur orthographique à utiliser\n"
 
 #: nano.c:398
 msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
-msgstr " -t \t\t--tempfile\t\tSauver automatiquement en quittant\n"
+msgstr " -t \t\t--tempfile\t\tSauver en quittant, sans question\n"
 
 #: nano.c:400
 msgid " -v \t\t--view\t\t\tView (read only) mode\n"
@@ -536,7 +535,7 @@ msgstr " -v \t\t--view\t\t\tMode visualisation (lecture seule)\n"
 
 #: nano.c:403
 msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
-msgstr " -w \t\t--nowrap\t\tNe pas couper les lignes trop longues\n"
+msgstr " -w \t\t--nowrap\t\tNe pas découper les lign. trop longues\n"
 
 #: nano.c:406
 msgid " -x \t\t--nohelp\t\tDon't show help window\n"
@@ -596,7 +595,7 @@ msgstr " -m \t\tUtiliser la souris\n"
 
 #: nano.c:430
 msgid " -p \t\tEmulate Pico as closely as possible\n"
-msgstr " -p \t\tImiter Pico le mieux possible\n"
+msgstr " -p \t\tImiter Pico du mieux possible\n"
 
 #: nano.c:431
 msgid " -r [#cols] \tSet fill cols to (wrap lines at) #cols\n"
@@ -608,7 +607,7 @@ msgstr " -s [prog]  \tCorrecteur orthographique à utiliser\n"
 
 #: nano.c:435
 msgid " -t \t\tAuto save on exit, don't prompt\n"
-msgstr " -t \t\tSauver automatiquement en quittant\n"
+msgstr " -t \t\tSauver en quittant, sans poser de question\n"
 
 #: nano.c:436
 msgid " -v \t\tView (read only) mode\n"
@@ -616,7 +615,7 @@ msgstr " -v \t\tMode visualisation (lecture seule)\n"
 
 #: nano.c:438
 msgid " -w \t\tDon't wrap long lines\n"
-msgstr " -w \t\tNe pas couper les lignes longues\n"
+msgstr " -w \t\tNe pas découper les lignes trop longues\n"
 
 #: nano.c:440
 msgid " -x \t\tDon't show help window\n"
@@ -664,7 +663,7 @@ msgstr "current->data vaut maintenant « %s »\n"
 #: nano.c:1205
 #, c-format
 msgid "After, data = \"%s\"\n"
-msgstr "Après, data = \"%s\"\n"
+msgstr "Après, data = « %s »\n"
 
 #: nano.c:1307
 msgid "Edit a replacement"
@@ -689,7 +688,7 @@ msgstr "Échec de la correction orthographique"
 
 #: nano.c:1581
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
-msgstr "Sauver le tampon modifié (RÉPONDRE \"Non\" EFFACERA LES CHANGEMENTS) ?"
+msgstr "Sauver le tampon modifié (RÉPONDRE « Non » EFFACERA LES CHANGEMENTS) ?"
 
 #: nano.c:1677
 msgid "Received SIGHUP"
@@ -726,7 +725,7 @@ msgstr "Il est maintenant possible de dé-justifier"
 #: nano.c:2188
 #, c-format
 msgid "%s enable/disable"
-msgstr "%s activer/désactiver"
+msgstr "%s (commutateur)"
 
 #: nano.c:2203
 msgid "enabled"
@@ -734,7 +733,7 @@ msgstr "activé"
 
 #: nano.c:2204
 msgid "disabled"
-msgstr "désactiver"
+msgstr "désactivé"
 
 #: nano.c:2257
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
@@ -870,7 +869,7 @@ msgstr "actual_x_from_star pour xplus=%d à renvoyé %d\n"
 #: winio.c:448
 #, c-format
 msgid "input '%c' (%d)\n"
-msgstr "taper '%c' (%d)\n"
+msgstr "entrée '%c' (%d)\n"
 
 #: winio.c:488
 msgid "New Buffer"
@@ -896,12 +895,12 @@ msgstr "Déplacement jusqu'à (%d, %d) dans le tampon d'édition\n"
 #: winio.c:968
 #, c-format
 msgid "current->data = \"%s\"\n"
-msgstr "current->data = \"%s\"\n"
+msgstr "current->data = « %s »\n"
 
 #: winio.c:1013
 #, c-format
 msgid "I got \"%s\"\n"
-msgstr "J'ai obtenu \"%s\"\n"
+msgstr "J'ai obtenu « %s »\n"
 
 #. String of yes characters accepted
 #. Same for no
