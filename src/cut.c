@@ -324,7 +324,7 @@ void do_uncut_text(void)
      * beginning of the line, set placewewant to 0.  Pico does both of
      * these. */
     if (marked_cut == 0) {
-	if (current_x != 0)
+	if (current_x > 0)
 	    marked_cut = 2;
 	else
 	    placewewant = 0;
