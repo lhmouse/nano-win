@@ -1501,7 +1501,7 @@ int do_int_spell_fix(char *word)
 	}
 
 	break;
-   }
+    }
 
     /* restore the search/replace strings */
     last_search = mallocstrcpy(last_search, save_search);
