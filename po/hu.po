@@ -1,0 +1,1005 @@
+# Hungarian messages for the nano editor
+# Copyright (C) 2001 Free Software Foundation, Inc.
+# Szabolcs Horvath <horvaths@penguinpowered.com>, 2001.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: nano 0.9.99pre2\n"
+"POT-Creation-Date: 2001-02-03 07:47-0000\n"
+"PO-Revision-Date: 2001-02-03 07:47-0000\n"
+"Last-Translator: Szabolcs Horvath <horvaths@penguinpowered.com>\n"
+"Language-Team: Hungarian <magyar@lists.linux.hu>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-2\n"
+"Content-Transfer-Encoding: 8-bit\n"
+
+#: cut.c:44
+#, c-format
+msgid "add_to_cutbuffer called with inptr->data = %s\n"
+msgstr "add_to_cutbuffer az inptr->data-val lett meghívva = %s\n"
+
+#: cut.c:150
+msgid "Blew away cutbuffer =)\n"
+msgstr "a cutbuffert elfújta a szél =)\n"
+
+#: files.c:123
+msgid "read_line: not on first line and prev is NULL"
+msgstr "read_line: ez nem az elsõ sor és a prew értéke NULL"
+
+#: files.c:185 files.c:203
+#, c-format
+msgid "Read %d lines"
+msgstr "%d sort beolvastam"
+
+#: files.c:221 search.c:188
+#, c-format
+msgid "\"%s\" not found"
+msgstr "\"%s\" nem található"
+
+#. We have a new file
+#: files.c:225
+msgid "New File"
+msgstr "Új fájl"
+
+#: files.c:238
+#, c-format
+msgid "File \"%s\" is a directory"
+msgstr "A megadott fájl \"%s\" egy könyvtár"
+
+#. Don't open character or block files.  Sorry, /dev/sndstat!
+#: files.c:241
+#, c-format
+msgid "File \"%s\" is a device file"
+msgstr "A fájl \"%s\" egy eszközfájl"
+
+#: files.c:248
+msgid "Reading File"
+msgstr "Fájl beolvasása"
+
+#: files.c:262
+msgid "File to insert [from ./] "
+msgstr "Fájl beszúrása [a ./-ból] "
+
+#: files.c:309 files.c:334 files.c:566 nano.c:1444
+msgid "Cancelled"
+msgstr "Megszakítva"
+
+#: files.c:380 files.c:396 files.c:410 files.c:427 files.c:433
+#, c-format
+msgid "Could not open file for writing: %s"
+msgstr "Nem tudom a fájlt írásra megnyitni: %s"
+
+#: files.c:415
+#, c-format
+msgid "Wrote >%s\n"
+msgstr "Írtam >%s\n"
+
+#: files.c:442
+#, c-format
+msgid "Could not close %s: %s"
+msgstr "Nem tudom lezárni %s: %s."
+
+#. Try a rename??
+#: files.c:465 files.c:474 files.c:479
+#, c-format
+msgid "Could not open %s for writing: %s"
+msgstr "Nem tudom %s-t megnyitni írásra: %s"
+
+#: files.c:486
+#, c-format
+msgid "Could not set permissions %o on %s: %s"
+msgstr "Nem tudom a jogosultságokat beállítani %o on %s: %s"
+
+#: files.c:491
+#, c-format
+msgid "Wrote %d lines"
+msgstr "%d sort elmentettem"
+
+#: files.c:524
+msgid "File Name to write"
+msgstr "Mentés mint"
+
+#: files.c:541
+#, c-format
+msgid "filename is %s"
+msgstr "a fájl neve %s"
+
+#: files.c:555
+msgid "File exists, OVERWRITE ?"
+msgstr "A fájl már létezik, felülírjam?"
+
+#: files.c:971
+msgid "(more)"
+msgstr "(tovább)"
+
+#: files.c:1236
+msgid "Can't move up a directory"
+msgstr "Nem tudok a könyvtárfán feljebb lépni"
+
+#. We can't open this dir for some reason.  Complain
+#: files.c:1244
+#, c-format
+msgid "Can't open \"%s\": %s"
+msgstr "Nem tudom megnyitni \"%s\": %s"
+
+#: global.c:131
+msgid "Constant cursor position"
+msgstr "Állandóan mutatja a kurzor helyét"
+
+#: global.c:132
+msgid "Auto indent"
+msgstr "Automatikus igazítás"
+
+#: global.c:133
+msgid "Suspend"
+msgstr "Felfüggesztett"
+
+#: global.c:134
+msgid "Help mode"
+msgstr "Súgó mód"
+
+#: global.c:135
+msgid "Pico mode"
+msgstr "Pico-mód"
+
+#: global.c:136
+msgid "Mouse support"
+msgstr "Egér támogatás"
+
+#: global.c:137
+msgid "Cut to end"
+msgstr "Kivágás a végéig"
+
+#: global.c:139
+msgid "Regular expressions"
+msgstr "Reguláris kifejezések"
+
+#: global.c:141
+msgid "Auto wrap"
+msgstr "Automatikus sortörés"
+
+#: global.c:185
+msgid "Invoke the help menu"
+msgstr "A súgó meghívása"
+
+#: global.c:186
+msgid "Write the current file to disk"
+msgstr "Az aktuális fájl lemezre mentése"
+
+#: global.c:187
+msgid "Exit from nano"
+msgstr "Kilépés a nanoból"
+
+#: global.c:188
+msgid "Goto a specific line number"
+msgstr "Ugrás a megadott számú sorra"
+
+#: global.c:189
+msgid "Justify the current paragraph"
+msgstr "Az adott bekezdés sorkizárt legyen"
+
+#: global.c:190
+msgid "Unjustify after a justify"
+msgstr "A sorkizártság megszüntetése"
+
+#: global.c:191
+msgid "Replace text within the editor"
+msgstr "Szöveg kicserélése"
+
+#: global.c:192
+msgid "Insert another file into the current one"
+msgstr "Egy másik fájl beszúrása"
+
+#: global.c:193
+msgid "Search for text within the editor"
+msgstr "Szöveg keresése"
+
+#: global.c:194
+msgid "Move to the previous screen"
+msgstr "Ugrás az elõzõ oldalra"
+
+#: global.c:195
+msgid "Move to the next screen"
+msgstr "Ugrás a következõ oldalra"
+
+#: global.c:196
+msgid "Cut the current line and store it in the cutbuffer"
+msgstr "Az aktuális sor kivágása a cutbufferbe"
+
+#: global.c:197
+msgid "Uncut from the cutbuffer into the current line"
+msgstr "A cutbufferben lévõ sor beillesztése az aktuális sorba"
+
+#: global.c:198
+msgid "Show the posititon of the cursor"
+msgstr "A kurzor helyének mutatása"
+
+#: global.c:199
+msgid "Invoke the spell checker (if available)"
+msgstr "A helyesírás-ellenõrzõ indítása (ha elérhetõ)"
+
+#: global.c:200
+msgid "Move up one line"
+msgstr "Ugrás az elõzõ sorra"
+
+#: global.c:201
+msgid "Move down one line"
+msgstr "Ugrás a következõ sorra"
+
+#: global.c:202
+msgid "Move forward one character"
+msgstr "Ugrás a következõ karakterre"
+
+#: global.c:203
+msgid "Move back one character"
+msgstr "Ugrás az elõzõ karakterre"
+
+#: global.c:204
+msgid "Move to the beginning of the current line"
+msgstr "Ugrás a sor elejére"
+
+#: global.c:205
+msgid "Move to the end of the current line"
+msgstr "Ugrás a sor végére"
+
+#: global.c:206
+msgid "Go to the first line of the file"
+msgstr "Ugrás az elsõ sorra"
+
+#: global.c:207
+msgid "Go to the last line of the file"
+msgstr "Ugrás a legutolsó sorra"
+
+#: global.c:208
+msgid "Refresh (redraw) the current screen"
+msgstr "A képernyõ frissítése"
+
+#: global.c:209
+msgid "Mark text at the current cursor location"
+msgstr "A szöveg megjelölése az aktuális kurzorpozícióban"
+
+#: global.c:210
+msgid "Delete the character under the cursor"
+msgstr "A kurzor helyén lévõ karakter törlése"
+
+#: global.c:212
+msgid "Delete the character to the left of the cursor"
+msgstr "A kurzor elõtt álló karakter törlése"
+
+#: global.c:213
+msgid "Insert a tab character"
+msgstr "Tabulátor karakter beszúrása"
+
+#: global.c:214
+msgid "Insert a carriage return at the cursor position"
+msgstr "\"Kocsivissza\" karakter beillesztése a kurzor helyére"
+
+#: global.c:216
+msgid "Make the current search or replace case (in)sensitive"
+msgstr "Ebben a keresésben/cserében a kis/nagy betûk (nem )számítanak" 
+
+#: global.c:217
+msgid "Go to file browser"
+msgstr "Tallózás"
+
+#: global.c:218
+msgid "Cancel the current function"
+msgstr "Az aktuális mûvelet megszakítása"
+
+#: global.c:222 global.c:338
+msgid "Get Help"
+msgstr "Súgó"
+
+#: global.c:225 global.c:233
+msgid "WriteOut"
+msgstr "Mentés"
+
+#: global.c:229 global.c:412 global.c:436
+msgid "Exit"
+msgstr "Kilépés"
+
+#: global.c:237 global.c:334 global.c:356 global.c:376
+msgid "Goto Line"
+msgstr "Ugrás"
+
+#: global.c:242 global.c:325
+msgid "Justify"
+msgstr "Sorkizár"
+
+#: global.c:246 global.c:321 global.c:352
+msgid "Replace"
+msgstr "Csere"
+
+#: global.c:250
+msgid "Read File"
+msgstr "FájlBeolv"
+
+#: global.c:254
+msgid "Where Is"
+msgstr "Keresés"
+
+#: global.c:258 global.c:404 global.c:428
+msgid "Prev Page"
+msgstr "ElõzõOldal"
+
+#: global.c:262 global.c:408 global.c:432
+msgid "Next Page"
+msgstr "Következõ"
+
+#: global.c:266
+msgid "Cut Text"
+msgstr "Kivágás"
+
+#: global.c:270
+msgid "UnJustify"
+msgstr "NSorkizár"
+
+#: global.c:273
+msgid "UnCut Txt"
+msgstr "Beilleszt"
+
+#: global.c:277
+msgid "Cur Pos"
+msgstr "Pozíció"
+
+#: global.c:281
+msgid "To Spell"
+msgstr "Helyes-e?"
+
+#: global.c:285
+msgid "Up"
+msgstr "Fel"
+
+#: global.c:288
+msgid "Down"
+msgstr "Le"
+
+#: global.c:291
+msgid "Forward"
+msgstr "Elõre"
+
+#: global.c:294
+msgid "Back"
+msgstr "Vissza"
+
+#: global.c:297
+msgid "Home"
+msgstr "Eleje"
+
+#: global.c:300
+msgid "End"
+msgstr "Vége"
+
+#: global.c:303
+msgid "Refresh"
+msgstr "Frissít"
+
+#: global.c:306
+msgid "Mark Text"
+msgstr "Megjelöl"
+
+#: global.c:309
+msgid "Delete"
+msgstr "Töröl"
+
+#: global.c:313
+msgid "Backspace"
+msgstr "Visszalép"
+
+#: global.c:317
+msgid "Tab"
+msgstr "Tabulátor"
+
+#: global.c:329
+msgid "Enter"
+msgstr "Enter"
+
+#: global.c:342 global.c:363 global.c:384 global.c:394
+msgid "First Line"
+msgstr "Elsõ sor"
+
+#: global.c:345 global.c:366 global.c:387 global.c:397
+msgid "Last Line"
+msgstr "Utolsó sor"
+
+#: global.c:348 global.c:369
+msgid "Case Sens"
+msgstr "kis/Nagy"
+
+#: global.c:359 global.c:379 global.c:390 global.c:400 global.c:421
+#: global.c:424 winio.c:1040
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: global.c:372
+msgid "No Replace"
+msgstr "Nem cserél"
+
+#: global.c:417
+msgid "To Files"
+msgstr "Tallózás"
+
+#: nano.c:140
+#, c-format
+msgid ""
+"\n"
+"Buffer written to %s\n"
+msgstr ""
+"\n"
+"A buffer a %s fájlba lett írva\n"
+
+#: nano.c:142
+#, c-format
+msgid ""
+"\n"
+"No %s written (file exists?)\n"
+msgstr ""
+"\n"
+"A %s nem lett írva (a fájl létezik?)\n"
+
+#: nano.c:151
+msgid "Window size is too small for Nano..."
+msgstr "Az ablak mérete túl kicsi a Nanonak..."
+
+#: nano.c:159
+msgid "Key illegal in VIEW mode"
+msgstr "Hibás billentyû a NÉZÕ módnál"
+
+#: nano.c:203
+msgid ""
+" nano help text\n"
+"\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of "
+"the UW Pico text editor.  There are four main sections of the editor: The "
+"top line shows the program version, the current filename being edited, and "
+"whether or not the file has been modified.  Next is the main editor window "
+"showing the file being edited.  The status line is the third line from the "
+"bottom and shows important messages. The bottom two lines show the most "
+"commonly used shortcuts in the editor.\n"
+"\n"
+" The notation for shortcuts is as follows: Control-key sequences are notated "
+"with a caret (^) symbol and are entered with the Control (Ctrl) key.  "
+"Escape-key sequences are notated with the Meta (M) symbol and can be entered "
+"using either the Esc, Alt or Meta key depending on your keyboard setup.  The "
+"following keystrokes are available in the main editor window. Optional keys "
+"are shown in parentheses:\n"
+"\n"
+msgstr ""
+" nano súgó\n"
+"\n"
+" A nano editort arra terveztük, hogy emulálja a Pico mûködését és könnyû "
+"használhatóságát.  Négy fõ részbõl áll a szerkesztõ: A felsõ sor mutatja "
+"a program verzióját, a jelenleg szerkesztett fájl nevét és azt, hogy a "
+"fájl már lett-e módosítva a megnyitás óta.  A következõ rész a szerkesztõ "
+"ablak, ami az éppen szerkesztett fájlt mutatja.  Az állapotsor (a harmadik "
+"sor alulról számolva) fontos információkat mutat. A legalsó két sor mutatja "
+"a leggyakrabban használt billentyûkombinációkat.\n"
+"\n"
+" Néhány megjegyzés a billentyûkombinációkhoz: A Control billentyût hiány"
+"jellel jelöljük (^), és az ilyen kombinációkhoz lenyomva kell tartanod "
+"a Controlt. Az Escape billentyû szekvenciáit a Meta (M) jellel jelöljük, "
+"és ezeket az Escape, Alt vagy a Meta billentyûvel együtt kell lenyomnod "
+"(ez a billentyûzet beállításaitól függ). Az alábbi billentyûkombinációk "
+"érhetõk el (a választható kombinációkat zárójelben jelezzük):\n"
+"\n"
+
+#: nano.c:297
+msgid "delete_node(): free'd a node, YAY!\n"
+msgstr ""
+
+#: nano.c:302
+msgid "delete_node(): free'd last node.\n"
+msgstr ""
+
+#: nano.c:357
+msgid ""
+"Usage: nano [GNU long option] [option] +LINE <file>\n"
+"\n"
+msgstr ""
+"Használat: nano [GNU hosszú opciók] [opciók] +SOR <fájl>\n"
+"\n"
+
+#: nano.c:358
+msgid "Option\t\tLong option\t\tMeaning\n"
+msgstr "Opció\t\tHosszú opció\t\tJelentés\n"
+
+#: nano.c:360
+msgid " -T [num]\t--tabsize=[num]\t\tSet width of a tab to num\n"
+msgstr " -T [szám]\t--tabsize=[szám]\tA tabulátor méretének beállítása\n"
+
+#: nano.c:363
+msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
+msgstr " -R\t\t--regexp\t\tReguláris kifejezés használata keresésekben\n"
+
+#: nano.c:367
+msgid " -V \t\t--version\t\tPrint version information and exit\n"
+msgstr " -V \t\t--version\t\tVerziószám megjelenítése és kilépés\n"
+
+#: nano.c:369
+msgid " -c \t\t--const\t\t\tConstantly show cursor position\n"
+msgstr " -c \t\t--const\t\t\tÁllandóan mutatja a kurzor pozícióját\n"
+
+#: nano.c:371
+msgid " -h \t\t--help\t\t\tShow this message\n"
+msgstr " -h \t\t--help\t\t\tKiírja ezt az üzenetet\n"
+
+#: nano.c:373
+msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
+msgstr " -i \t\t--autoindent\t\tAutomatikusan igazítja az új sorokat\n"
+
+#: nano.c:376
+msgid " -k \t\t--cut\t\t\tLet ^K cut from cursor to end of line\n"
+msgstr " -k \t\t--cut\t\t\tA ^K a kurzor pozíciójátõl a sor végéig vág\n"
+
+#: nano.c:379
+msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
+msgstr " -t \t\t--nofollow\t\tNem követi a szimbolikus kötéseket, hanem felülír\n"
+
+#: nano.c:382
+msgid " -m \t\t--mouse\t\t\tEnable mouse\n"
+msgstr " -m \t\t--mouse\t\t\tEgér engedélyezése\n"
+
+#: nano.c:386
+msgid " -p\t \t--pico\t\t\tEmulate Pico as closely as possible\n"
+msgstr " -p\t \t--pico\t\t\tA Pico lehetõ legjobb emulálása\n"
+
+#: nano.c:389
+msgid ""
+" -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
+msgstr ""
+" -r [#oszlopok] --fill=[#oszlopok]\tOszlopok feltöltése (sorok törése) az #oszlopok-ig\n"
+
+#: nano.c:392
+msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
+msgstr " -s [prog] \t--speller=[prog]\tAlternatív helyesírás-ellenõrzõ\n"
+
+#: nano.c:395
+msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
+msgstr " -t \t\t--tempfile\t\tAutomatikus mentés kilépéskor\n"
+
+#: nano.c:397
+msgid " -v \t\t--view\t\t\tView (read only) mode\n"
+msgstr " -v \t\t--view\t\t\tCsak olvasható mód\n"
+
+#: nano.c:399
+msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
+msgstr " -w \t\t--nowrap\t\tNem tördeli a sorokat\n"
+
+#: nano.c:401
+msgid " -x \t\t--nohelp\t\tDon't show help window\n"
+msgstr " -x \t\t--nohelp\t\tNem mutatja a súgót\n"
+
+#: nano.c:403
+msgid " -z \t\t--suspend\t\tEnable suspend\n"
+msgstr " -z \t\t--suspend\t\tFelfüggesztés engedélyezése\n"
+
+#: nano.c:405
+msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
+msgstr " +SOR\t\t\t\t\tA SOR. sornál kezd\n"
+
+#: nano.c:407
+msgid ""
+"Usage: nano [option] +LINE <file>\n"
+"\n"
+msgstr ""
+"Használat: nano [opciók] +SOR <fájl>\n"
+"\n"
+
+#: nano.c:408
+msgid "Option\t\tMeaning\n"
+msgstr "Opciók\t\tJelentés\n"
+
+#: nano.c:409
+msgid " -T [num]\tSet width of a tab to num\n"
+msgstr " -T [szám]\tBeállítja a tabulátor szélességét\n"
+
+#: nano.c:410
+msgid " -R\t\tUse regular expressions for search\n"
+msgstr " -R\t\tReguláris kifejezések használata kereséskor\n"
+
+#: nano.c:411
+msgid " -V \t\tPrint version information and exit\n"
+msgstr " -V \t\tKiírja a verziószámot és kilép\n"
+
+#: nano.c:412
+msgid " -c \t\tConstantly show cursor position\n"
+msgstr " -c \t\tÁllandóan mutatja a kurzor pozícióját\n"
+
+#: nano.c:413
+msgid " -h \t\tShow this message\n"
+msgstr " -h \t\tEzt a súgót mutatja\n"
+
+#: nano.c:414
+msgid " -i \t\tAutomatically indent new lines\n"
+msgstr " -i \t\tAutomatikusan igazítja az új sorokat\n"
+
+#: nano.c:416
+msgid " -k \t\tLet ^K cut from cursor to end of line\n"
+msgstr " -k \t\tA ^K a kurzor helyétõl a sor végéig vág\n"
+
+#: nano.c:419
+msgid " -l \t\tDon't follow symbolic links, overwrite\n"
+msgstr " -l \t\tNem követi a szimbolikus kötéseket, helyette felülír\n"
+
+#: nano.c:422
+msgid " -m \t\tEnable mouse\n"
+msgstr " -m \t\tEgér engedélyezése\n"
+
+#: nano.c:425
+msgid " -p \t\tEmulate Pico as closely as possible\n"
+msgstr " -p \t\tA Pico lehetõ legjobb emulálása\n"
+
+#: nano.c:426
+msgid " -r [#cols] \tSet fill cols to (wrap lines at) #cols\n"
+msgstr " -r [#oszlopok] \tOszlopok feltöltése az #oszlopok-ig\n"
+
+#: nano.c:428
+msgid " -s [prog]  \tEnable alternate speller\n"
+msgstr " -s [prog]  \tAlternatív helyesírás-ellenõrzõ\n"
+
+#: nano.c:430
+msgid " -t \t\tAuto save on exit, don't prompt\n"
+msgstr " -t \t\tAutomatikus mentés kilépéskor\n"
+
+#: nano.c:431
+msgid " -v \t\tView (read only) mode\n"
+msgstr " -v \t\tCsak olvasható mód\n"
+
+#: nano.c:432
+msgid " -w \t\tDon't wrap long lines\n"
+msgstr " -w \t\tNem tördeli a hosszú sorokat\n"
+
+#: nano.c:433
+msgid " -x \t\tDon't show help window\n"
+msgstr " -x \t\tNem mutatja a súgó ablakot\n"
+
+#: nano.c:434
+msgid " -z \t\tEnable suspend\n"
+msgstr " -z \t\tFelfüggesztés engedélyezése\n"
+
+#: nano.c:435
+msgid " +LINE\t\tStart at line number LINE\n"
+msgstr " +SOR\t\tA SOR. számú sorban kezd\n"
+
+#: nano.c:442
+#, c-format
+msgid " nano version %s by Chris Allegretta (compiled %s, %s)\n"
+msgstr " nano - %s verzió. Készítette: Chris Allegretta (fordítva %s, %s)\n"
+
+#: nano.c:445
+msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
+msgstr ""
+
+#: nano.c:446
+msgid ""
+"\n"
+" Compiled options:"
+msgstr ""
+"\n"
+" Fordítási paraméterek:"
+
+#: nano.c:511
+msgid "Mark Set"
+msgstr "Megjelölés kezdete"
+
+#: nano.c:516
+msgid "Mark UNset"
+msgstr "Megjelölés vége"
+
+#: nano.c:957
+#, c-format
+msgid "check_wrap called with inptr->data=\"%s\"\n"
+msgstr "check_wrap az inptr->data-ból lett meghívva (\"%s\")\n"
+
+#: nano.c:1008
+#, c-format
+msgid "current->data now = \"%s\"\n"
+msgstr "current->data most = \"%s\"\n"
+
+#: nano.c:1060
+#, c-format
+msgid "After, data = \"%s\"\n"
+msgstr "Ezután az adat ez lett = \"%s\"\n"
+
+#: nano.c:1160
+msgid "Edit a replacement"
+msgstr "A helyettesítõ érték módosítása"
+
+#: nano.c:1391
+#, c-format
+msgid "Could not create a temporary filename: %s"
+msgstr "Az ideiglenes fájlt nem tudtam létrehozni: %s"
+
+#: nano.c:1397
+msgid "Spell checking failed: unable to write temp file!"
+msgstr "A helyesírás-ellenõrzés nem sikerült: képtelen vagyok írni a temp fájlt!"
+
+#: nano.c:1409
+msgid "Finished checking spelling"
+msgstr "A helyesírás-ellenõrzés befejezése"
+
+#: nano.c:1411
+msgid "Spell checking failed"
+msgstr "Helyesírás-ellenõrzés nem sikerült"
+
+#: nano.c:1431
+msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
+msgstr "A változásokat elmentsem (HA \"NEM\", AKKOR MINDEN MÓDOSÍTÁS ELVESZIK) ?"
+
+#: nano.c:1527
+msgid "Received SIGHUP"
+msgstr "Kaptam egy SIGHUPot"
+
+#: nano.c:1590
+msgid "Cannot resize top win"
+msgstr "A felsõ ablakot nem tudom átméretezni"
+
+#: nano.c:1592
+msgid "Cannot move top win"
+msgstr "A felsõ ablakot nem tudom mozgatni"
+
+#: nano.c:1594
+msgid "Cannot resize edit win"
+msgstr "A szerkesztõ ablakot nem tudom átméretezni"
+
+#: nano.c:1596
+msgid "Cannot move edit win"
+msgstr "A szerkesztõ ablakot nem tudom mozgatni"
+
+#: nano.c:1598
+msgid "Cannot resize bottom win"
+msgstr "Az alsó ablakot nem tudom átméretezni"
+
+#: nano.c:1600
+msgid "Cannot move bottom win"
+msgstr "Az alsó ablakot nem tudom mozgatni"
+
+#: nano.c:1908
+msgid "Can now UnJustify!"
+msgstr "A sorokat most már tudom nem sorkizárttá tenni"
+
+#: nano.c:2005
+#, c-format
+msgid "%s enable/disable"
+msgstr "%s engedélyezés/kikapcsolás"
+
+#: nano.c:2020
+msgid "enabled"
+msgstr "engedélyezve"
+
+#: nano.c:2021
+msgid "disabled"
+msgstr "kikapcsolva"
+
+#: nano.c:2073
+msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
+msgstr "NumLock hibát fedeztem fel.  A Keypad rosszul mûködhet, ha a NumLock be van kapcsolva"
+
+#: nano.c:2288
+msgid "Main: set up windows\n"
+msgstr "Fõprogram: az ablakok beállítása\n"
+
+#: nano.c:2295
+msgid "Main: bottom win\n"
+msgstr "Fõprogram: alsó ablak\n"
+
+#: nano.c:2301
+msgid "Main: open file\n"
+msgstr "Fõprogram: fájl megnyitása\n"
+
+#: nano.c:2353
+#, c-format
+msgid "I got Alt-O-%c! (%d)\n"
+msgstr "Az Alt-O-%c billentyûket lenyomtad! (%d)\n"
+
+#: nano.c:2380
+#, c-format
+msgid "I got Alt-[-1-%c! (%d)\n"
+msgstr "Az Alt-[-1-%c billentyûket lenyomtad! (%d)\n"
+
+#: nano.c:2413
+#, c-format
+msgid "I got Alt-[-2-%c! (%d)\n"
+msgstr "Az Alt-[-2-%c billentyûket lenyomtad! (%d)\n"
+
+#: nano.c:2455
+#, c-format
+msgid "I got Alt-[-%c! (%d)\n"
+msgstr "Az Alt-[-%c billentyûket lenyomtad! (%d)\n"
+
+#: nano.c:2481
+#, c-format
+msgid "I got Alt-%c! (%d)\n"
+msgstr "Az Alt-%c billentyûket lenyomtad! (%d)\n"
+
+#: search.c:118
+#, c-format
+msgid "Case Sensitive Regexp Search%s%s"
+msgstr "Regexp keresés (kis/Nagy külön)%s%s"
+
+#: search.c:120
+#, c-format
+msgid "Regexp Search%s%s"
+msgstr "Regexp keresés%s%s"
+
+#: search.c:122
+#, c-format
+msgid "Case Sensitive Search%s%s"
+msgstr "Keresés (kis/Nagy külön)%s%s"
+
+#: search.c:124
+#, c-format
+msgid "Search%s%s"
+msgstr "Keresés%s%s"
+
+#: search.c:127
+msgid " (to replace)"
+msgstr " (cserére)"
+
+#: search.c:136 search.c:321
+msgid "Search Cancelled"
+msgstr "Keresés megszakítva"
+
+#: search.c:194
+#, c-format
+msgid "\"%s...\" not found"
+msgstr "\"%s...\" nem található"
+
+#: search.c:243
+msgid "Search Wrapped"
+msgstr ""
+
+#: search.c:343
+#, c-format
+msgid "Replaced %d occurences"
+msgstr "%d alkalommal fordult elõ, kicseréltem azokat"
+
+#: search.c:345
+msgid "Replaced 1 occurence"
+msgstr "Egyszer fordult elõ, kicseréltem"
+
+#: search.c:483 search.c:587 search.c:603
+msgid "Replace Cancelled"
+msgstr "A csere megszakítva"
+
+#: search.c:533
+msgid "Replace this instance?"
+msgstr ""
+
+#: search.c:545
+msgid "Replace failed: unknown subexpression!"
+msgstr "Hiba a cserénél: ismeretlen alkifejezés!"
+
+#: search.c:628
+#, c-format
+msgid "Replace with [%s]"
+msgstr "Cserélés erre [%s]"
+
+#: search.c:632 search.c:636
+msgid "Replace with"
+msgstr "Erre lesz cserélve"
+
+#. Ask for it
+#: search.c:671
+msgid "Enter line number"
+msgstr "Kérem a sor számát"
+
+#: search.c:673
+msgid "Aborted"
+msgstr "Megszakítva"
+
+#: search.c:693
+msgid "Come on, be reasonable"
+msgstr "Gyerünk, adj meg egy hihetõbb értéket :-)"
+
+#: search.c:698
+#, c-format
+msgid "Only %d lines available, skipping to last line"
+msgstr "Csak %d sorból áll a szöveg, ezért az utolsóra ugrottam"
+
+#: winio.c:121
+#, c-format
+msgid "actual_x_from_start for xplus=%d returned %d\n"
+msgstr "actual_x_from_start az xplus=%d-hoz visszatért: %d\n"
+
+#: winio.c:443
+#, c-format
+msgid "input '%c' (%d)\n"
+msgstr "bevitel '%c' (%d)\n"
+
+#: winio.c:485
+msgid "New Buffer"
+msgstr "Új fájl"
+
+#: winio.c:489
+msgid "  File: ..."
+msgstr "  Fájl: ..."
+
+#: winio.c:491
+msgid "   DIR: ..."
+msgstr " Könyvtár: ..."
+
+#: winio.c:502
+msgid "Modified"
+msgstr "Módosítva"
+
+#: winio.c:954
+#, c-format
+msgid "Moved to (%d, %d) in edit buffer\n"
+msgstr "Átmozgattam (%d, %d) a szerkesztõ-bufferben\n"
+
+#: winio.c:965
+#, c-format
+msgid "current->data = \"%s\"\n"
+msgstr ""
+
+#: winio.c:1010
+#, c-format
+msgid "I got \"%s\"\n"
+msgstr "A \"%s\" lenyomva van.\n"
+
+#: winio.c:1035
+msgid "Yes"
+msgstr "Igen"
+
+#: winio.c:1037
+msgid "All"
+msgstr "Mindet"
+
+#: winio.c:1039
+msgid "No"
+msgstr "Nem"
+
+#: winio.c:1169
+#, c-format
+msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
+msgstr ""
+
+#: winio.c:1173
+msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
+msgstr "%d(/%d). sor (%.0f%%) és a(z) %d(/%d). karakter (%.0f%%)"
+
+#: winio.c:1303
+msgid "Dumping file buffer to stderr...\n"
+msgstr "A fájlbuffer kiírása a standard hibakimenetre...\n"
+
+#: winio.c:1305
+msgid "Dumping cutbuffer to stderr...\n"
+msgstr "A cutbuffer kiírása a standard hibakimenetre...\n"
+
+#: winio.c:1307
+msgid "Dumping a buffer to stderr...\n"
+msgstr "A buffer kiírása a standard hibakimenetre...\n"
+
+#: winio.c:1382
+msgid "The nano text editor"
+msgstr "A nano szövegszerkesztõ"
+
+#: winio.c:1383
+msgid "version "
+msgstr "verzió "
+
+#: winio.c:1384
+msgid "Brought to you by:"
+msgstr "A nano-t õk készítették el Neked:"
+
+#: winio.c:1385
+msgid "Special thanks to:"
+msgstr "Külön köszönet:"
+
+#: winio.c:1386
+msgid "The Free Software Foundation"
+msgstr "A Szabad Szoftver Alapítvány"
+
+#: winio.c:1387
+msgid "Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses"
+msgstr "Pavel Curtis, Zeyd Ben-Halim és Eric S. Raymond az ncurses-ért"
+
+#: winio.c:1388
+msgid "and anyone else we forgot..."
+msgstr "és mindenkinek, akit kifelejtettünk volna..."
+
+#: winio.c:1389
+msgid "Thank you for using nano!\n"
+msgstr "Köszönjük, hogy a nano-t választottad!\n"
