@@ -92,7 +92,7 @@ int do_end(void)
 
 int do_page_up(void)
 {
-    int new_pww = placewewant;
+    int old_pww = placewewant;
     const filestruct *old_current = current;
 #ifndef DISABLE_WRAPPING
     wrap_reset();
@@ -102,7 +102,7 @@ int do_page_up(void)
      * and put the cursor at the beginning of the line. */
     if (edittop == fileage) {
 	current = fileage;
-	new_pww = 0;
+	placewewant = 0;
     } else {
 	edit_scroll(UP, editwinrows - 2);
 
@@ -121,19 +121,17 @@ int do_page_up(void)
 	else {
 #endif
 	    current = edittop;
-	    new_pww = 0;
+	    placewewant = 0;
 #ifndef NANO_SMALL
 	}
 #endif
     }
 
     /* Get the equivalent x-coordinate of the new line. */
-    current_x = actual_x(current->data, new_pww);
+    current_x = actual_x(current->data, placewewant);
 
-    /* Update all the lines that need to be updated, and then set
-     * placewewant, so that the update will work properly. */
-    edit_redraw(old_current);
-    placewewant = new_pww;
+    /* Update all the lines that need to be updated. */
+    edit_redraw(old_current, old_pww);
 
     check_statblank();
     return 1;
@@ -141,7 +139,7 @@ int do_page_up(void)
 
 int do_page_down(void)
 {
-    int new_pww = placewewant;
+    int old_pww = placewewant;
     const filestruct *old_current = current;
 #ifndef DISABLE_WRAPPING
     wrap_reset();
@@ -151,7 +149,7 @@ int do_page_down(void)
      * there and put the cursor at the beginning of the line. */
     if (edittop->lineno + editwinrows > filebot->lineno) {
 	current = filebot;
-	new_pww = 0;
+	placewewant = 0;
     } else {
 	edit_scroll(DOWN, editwinrows - 2);
 
@@ -171,19 +169,17 @@ int do_page_down(void)
 	else {
 #endif
 	    current = edittop;
-	    new_pww = 0;
+	    placewewant = 0;
 #ifndef NANO_SMALL
 	}
 #endif
     }
 
     /* Get the equivalent x-coordinate of the new line. */
-    current_x = actual_x(current->data, new_pww);
+    current_x = actual_x(current->data, placewewant);
 
-    /* Update all the lines that need to be updated, and then set
-     * placewewant, so that the update will work properly. */
-    edit_redraw(old_current);
-    placewewant = new_pww;
+    /* Update all the lines that need to be updated. */
+    edit_redraw(old_current, old_pww);
 
     check_statblank();
     return 1;

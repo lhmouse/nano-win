@@ -88,9 +88,11 @@ CVS code -
 	  do_research(), do_replace_loop(), do_find_bracket(), and
 	  edit_refresh().  New functions do_left_void(),
 	  do_right_void(), need_horizontal_update(),
-	  need_vertical_update(), edit_scroll(), and edit_redraw().
-	  Also rename the int refresh in do_delete() and do_backspace()
-	  to do_refresh so as not to conflict with refresh(). (DLR)
+	  need_vertical_update(), edit_scroll(), and edit_redraw().  All
+	  of these functions but the first two require the previous
+	  versions of current and/or placewewant as parameters.  Also
+	  rename the int refresh in do_delete() and do_backspace() to
+	  do_refresh so as not to conflict with refresh(). (DLR)
 	- Add some comments better explaining what is disabled in
 	  restricted mode and why. (DLR)
 	- Since KEEP_CUTBUFFER is only used in cut.c, make it a static

@@ -2610,14 +2610,11 @@ void edit_scroll(updown direction, int nlines)
 }
 
 /* Update any lines between old_current and current that need to be
- * updated.  Note that we use placewewant to determine whether we need
- * updates and current_x to update current, so if placewewant needs to
- * be changed, it should be changed after calling this, and if current_x
- * needs to be changed, it should be changed before calling this.
- * Assume none of the text has changed since the last update. */
-void edit_redraw(const filestruct *old_current)
+ * updated.  Assume none of the text has changed since the last
+ * update. */
+void edit_redraw(const filestruct *old_current, int old_pww)
 {
-    int do_refresh = need_vertical_update(0);
+    int do_refresh = need_vertical_update(old_pww);
     const filestruct *foo;
 
     /* If either old_current or current is offscreen, refresh the screen

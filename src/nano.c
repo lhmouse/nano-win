@@ -1165,6 +1165,7 @@ int do_enter(void)
 #ifndef NANO_SMALL
 int do_next_word(void)
 {
+    int old_pww = placewewant;
     const filestruct *current_save = current;
     assert(current != NULL && current->data != NULL);
 
@@ -1190,7 +1191,7 @@ int do_next_word(void)
 
     /* Refresh the screen.  If current has run off the bottom, this
      * call puts it at the center line. */
-    edit_redraw(current_save);
+    edit_redraw(current_save, old_pww);
 
     return 0;
 }
@@ -1198,6 +1199,7 @@ int do_next_word(void)
 /* The same thing for backwards. */
 int do_prev_word(void)
 {
+    int old_pww = placewewant;
     const filestruct *current_save = current;
     assert(current != NULL && current->data != NULL);
 
@@ -1228,7 +1230,7 @@ int do_prev_word(void)
 
     /* Refresh the screen.  If current has run off the top, this call
      * puts it at the center line. */
-    edit_redraw(current_save);
+    edit_redraw(current_save, old_pww);
 
     return 0;
 }
@@ -2160,6 +2162,7 @@ int break_line(const char *line, int goal, int force)
 int do_para_search(justbegend search_type, size_t *quote, size_t *par,
 	size_t *indent, int do_refresh)
 {
+    int old_pww = placewewant;
     const filestruct *current_save = current;
     size_t quote_len;
 	/* Length of the initial quotation of the paragraph we
@@ -2235,7 +2238,7 @@ int do_para_search(justbegend search_type, size_t *quote, size_t *par,
 	    if (current->prev == NULL) {
 		placewewant = 0;
 		if (do_refresh)
-		    edit_redraw(current_save);
+		    edit_redraw(current_save, old_pww);
 #ifdef HAVE_REGEX_H
 		if (!do_restart)
 		    regfree(&qreg);
@@ -2256,7 +2259,7 @@ int do_para_search(justbegend search_type, size_t *quote, size_t *par,
 	    if (current->next == NULL) {
 		placewewant = 0;
 		if (do_refresh)
-		    edit_redraw(current_save);
+		    edit_redraw(current_save, old_pww);
 #ifdef HAVE_REGEX_H
 		regfree(&qreg);
 #endif
@@ -2347,7 +2350,7 @@ int do_para_search(justbegend search_type, size_t *quote, size_t *par,
 
     /* Refresh the screen if needed. */
     if (do_refresh)
-	edit_redraw(current_save);
+	edit_redraw(current_save, old_pww);
 
     /* Save the values of quote_len, par_len, and indent_len if
      * needed. */

@@ -361,7 +361,7 @@ int findnextstr(int can_display_wrap, int wholeword, const filestruct
 /* Search for a string. */
 int do_search(void)
 {
-    int i, fileptr_x = current_x, didfind;
+    int old_pww = placewewant, i, fileptr_x = current_x, didfind;
     filestruct *fileptr = current;
 
 #ifndef DISABLE_WRAPPING
@@ -419,8 +419,8 @@ int do_search(void)
 #endif
     }
 
-    edit_redraw(fileptr);
     placewewant = xplustabs();
+    edit_redraw(fileptr, old_pww);
     search_abort();
 
     return 1;
@@ -430,7 +430,7 @@ int do_search(void)
 /* Search for the next string without prompting. */
 int do_research(void)
 {
-    int fileptr_x = current_x, didfind;
+    int old_pww = placewewant, fileptr_x = current_x, didfind;
     filestruct *fileptr = current;
 
 #ifndef DISABLE_WRAPPING
@@ -472,8 +472,8 @@ int do_research(void)
     } else
         statusbar(_("No current search pattern"));
 
-    edit_redraw(fileptr);
     placewewant = xplustabs();
+    edit_redraw(fileptr, old_pww);
     search_abort();
 
     return 1;
@@ -587,7 +587,7 @@ char *replace_line(const char *needle)
 int do_replace_loop(const char *needle, const filestruct *real_current,
 	size_t *real_current_x, int wholewords)
 {
-    int replaceall = 0, numreplaced = -1;
+    int old_pww = placewewant, replaceall = 0, numreplaced = -1;
     size_t current_x_save = current_x;
     const filestruct *current_save = current;
 #ifdef HAVE_REGEX_H
@@ -635,7 +635,7 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 #endif
 
 	if (!replaceall)
-	    edit_redraw(current_save);
+	    edit_redraw(current_save, old_pww);
 
 #ifdef HAVE_REGEX_H
 	if (ISSET(USE_REGEXP))
@@ -905,7 +905,7 @@ int do_find_bracket(void)
     char ch_under_cursor, wanted_ch;
     const char *pos, *brackets = "([{<>}])";
     char regexp_pat[] = "[  ]";
-    int current_x_save, flagsave, count = 1;
+    int old_pww = placewewant, current_x_save, flagsave, count = 1;
     filestruct *current_save;
 
     ch_under_cursor = current->data[current_x];
@@ -949,8 +949,8 @@ int do_find_bracket(void)
 		count++;
 	    /* Found complementary bracket. */
 	    else if (--count == 0) {
-		edit_redraw(current_save);
 		placewewant = xplustabs();
+		edit_redraw(current_save, old_pww);
 		break;
 	    }
 	} else {

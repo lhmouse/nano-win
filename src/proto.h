@@ -540,7 +540,7 @@ void update_line(const filestruct *fileptr, size_t index);
 int need_horizontal_update(int old_placewewant);
 int need_vertical_update(int old_placewewant);
 void edit_scroll(updown direction, int nlines);
-void edit_redraw(const filestruct *old_current);
+void edit_redraw(const filestruct *old_current, int old_pww);
 void edit_refresh(void);
 void edit_update(filestruct *fileptr, topmidnone location);
 int statusq(int allowtabs, const shortcut *s, const char *def,
