@@ -1,3 +1,24 @@
+2004.11.22 - GNU nano 1.3.5 hurls itself forward.  New features in this
+		release include the ability to replace only marked text
+		when the mark is on, improvements to smooth scrolling so
+		that it applies everywhere instead of just affecting the
+		movement keys, improvements to how files are opened so
+		that they are no longer displayed unnecessarily, support
+		for multiple +LINE arguments in addition to multiple
+		filenames on the command line, autodetection of the
+		format to save a file in based on the format it was in
+		when it was opened, the ability to toggle both ways
+		between the "Read File" and "Execute Command" prompts
+		and the "Search" and "Go to Line" prompts, and support
+		for cross-compiling nano.  As for bug fixes, the
+		"tabsize" nanorc option works again, mouse clicks on the
+		shortcut list trigger the right shortcuts again,
+		tab-completing a filename with %'s in it no longer
+		causes a segfault, the internal spell checker no longer
+		skips words after the cursor position when the cursor is
+		in the middle of the file, and spell checking of only
+		marked text now works properly.  Have fun with it.
+
 2004.08.17 - GNU nano 1.3.4 marches forth after a false start.  This
 		release mainly features fixes for the bugs that crept
 		into the last release.  Among other things, nano now
