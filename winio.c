@@ -1132,33 +1132,26 @@ void previous_line(void)
 int do_cursorpos(void)
 {
     filestruct *fileptr;
-    float linepct, bytepct;
-    int i, tot = 0;
+    float linepct = 0.0, bytepct = 0.0;
+    int i = 0;
 
     if (current == NULL || fileage == NULL)
 	return 0;
 
     for (fileptr = fileage; fileptr != current && fileptr != NULL;
 	 fileptr = fileptr->next)
-	tot += strlen(fileptr->data) + 1;
+	i += strlen(fileptr->data) + 1;
 
     if (fileptr == NULL)
 	return -1;
 
-    i = tot + current_x;;
-
-    for (fileptr = current->next; fileptr != NULL; fileptr = fileptr->next)
-	tot += strlen(fileptr->data) + 1;
+    i += current_x;
 
     if (totlines > 0)
 	linepct = 100 * current->lineno / totlines;
-    else
-	linepct = 0;
 
     if (totsize > 0)
 	bytepct = 100 * i / totsize;
-    else
-	bytepct = 0;
 
 #ifdef DEBUG
     fprintf(stderr, _("do_cursorpos: linepct = %f, bytepct = %f\n"),

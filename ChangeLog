@@ -5,6 +5,9 @@ CVS code -
   main()
 	- Reorder the getopt options to be more or less alphabetical
 	  (suggested by Sven Guckes).
+- winio.c:
+  do_cursorpos()
+	- Optimizations and cleanups by Rocco Corsi.
 
 nano 0.9.24 - 12/18/2000
 General
