@@ -388,7 +388,8 @@ void help_init(void)
 
     /* The space needed for the shortcut lists, at most COLS characters,
      * plus '\n'. */
-    allocsize += (COLS < 21 ? 21 : COLS + 1) * length_of_list(currshortcut);
+    allocsize += (COLS < 21 ? 21 : COLS + 1) *
+	length_of_list(currshortcut);
 
 #ifndef NANO_SMALL
     /* If we're on the main list, we also count the toggle help text.
@@ -400,7 +401,7 @@ void help_init(void)
 	for (t = toggles; t != NULL; t = t->next)
 	    allocsize += 8 + strlen(t->desc) + endislen;
     }
-#endif /* !NANO_SMALL */
+#endif
 
     /* help_text has been freed and set to NULL unless the user resized
      * while in the help screen. */
@@ -3088,8 +3089,10 @@ void handle_sigwinch(int s)
      * dimensions. */
     window_init();
 
-    /* Redraw the contents of the windows that need it. */
+    /* Redraw the contents of the windows that need it, and display the
+     * shortcut list with UnCut. */
     blank_statusbar();
+    shortcut_init(FALSE);
     display_main_list();
     total_refresh();
 

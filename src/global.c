@@ -224,7 +224,7 @@ void sc_init_one(shortcut **shortcutage, int ctrlval, const char *desc,
     s->next = NULL;
 }
 
-void shortcut_init(int unjustify)
+void shortcut_init(bool unjustify)
 {
     const char *get_help_msg = N_("Get Help");
     const char *exit_msg = N_("Exit");

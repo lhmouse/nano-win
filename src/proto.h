@@ -263,7 +263,7 @@ void sc_init_one(shortcut **shortcutage, int key, const char *desc,
 #endif
 	int metaval, int funcval, int miscval, int view, void
 	(*func)(void));
-void shortcut_init(int unjustify);
+void shortcut_init(bool unjustify);
 void free_shortcutage(shortcut **shortcutage);
 #ifdef DEBUG
 void thanks_for_all_the_fish(void);
