@@ -29,6 +29,8 @@ Cvs code -
 - cut.c:
   add_to_cutbuffer()
 	- Remove useless statements (Rocco).
+  cut_marked_segment()
+	- Add bizarre copy of bot node, else *BSD goes ballistic.
 - faq.html:
 	- Brought the FAQ up to date, many little changes (Jordi).
 - files.c:
