@@ -199,7 +199,7 @@
 		support is enabled, and nano is now built with (and
 		requires for rebuilding) autoconf 2.5.
 			This release also includes fixes for some memory
-		leaks, detecting DOS and mac file format, justification,
+		leaks, detecting DOS and Mac file format, justification,
 		suspending keys, search & replace under various
 		conditions, variable width for shortcuts, and the usual
 		ton of translation updates.
