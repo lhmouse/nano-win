@@ -2949,7 +2949,7 @@ void save_history(void)
 		    goto come_from;
 		}
 	    }
-come_from:
+  come_from:
 	    fclose(hist);
 	}
 	free(nanohist);
