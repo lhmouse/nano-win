@@ -3976,7 +3976,7 @@ void do_help(void)
 
 /* Highlight the current word being replaced or spell checked.  We
  * expect word to have tabs and control characters expanded. */
-void do_replace_highlight(int highlight_flag, const char *word)
+void do_replace_highlight(bool highlight_flag, const char *word)
 {
     size_t y = xplustabs();
     size_t word_len = strlen(word);

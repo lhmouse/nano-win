@@ -644,7 +644,7 @@ void do_cursorpos_void(void);
 int help_line_len(const char *ptr);
 void do_help(void);
 #endif
-void do_replace_highlight(int highlight_flag, const char *word);
+void do_replace_highlight(bool highlight_flag, const char *word);
 #ifdef DEBUG
 void dump_buffer(const filestruct *inptr);
 void dump_buffer_reverse(void);
