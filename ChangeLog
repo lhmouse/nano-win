@@ -2,13 +2,25 @@ CVS code -
 - nano.c:
   main()
 	- Change the getop option to 'F' (David Lawrence Ramsey)
+- global.c:
+  shortcut_init()
+	- Rewrote the whereis and replace lists to put CANCEL at the end
+	  of the list, and not include the toggle functions when using
+	  NANO_SMALL.
 - nano.h:
 	- Fix type in INSERTFILE_LIST_LEN.
+	- Rewrote all the macro definitions to be a little less messy,
+	  for the #ifdefs anyway.
 - rcfile.c:
 	- Update for the multibuffer option (oops) (David Lawrence Ramsey).
 - search.c:
+	- Added #ifdef NANO_SMALLs around the REVERSE_SEARCH code.
   search_init()
 	- add #ifdef NANO_SMALL around toggles code.
+- winio.c:
+  bottombars()
+	- Fixed an off by one that wasn't letting lines with odd #
+	  shortcuts work in certain cases.
 
 nano-1.1.0 - 07/15/2001
 - General

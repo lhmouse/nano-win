@@ -607,7 +607,7 @@ void bottombars(shortcut s[], int slen)
     clear_bottomwin();
     wmove(bottomwin, 1, 0);
 
-    for (i = 0; i <= slen - 2; i += 2) {
+    for (i = 0; i <= slen - 1; i += 2) {
 
 	if (s[i].val < 97)
 	    snprintf(keystr, 10, "^%c", s[i].val + 64);

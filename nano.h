@@ -276,28 +276,40 @@ know what you're doing */
 
 /* Toggle stuff, these static lengths need to go away RSN */
 
+#ifndef HAVE_REGEX_H
+#define NO_REGEX 1
+#else 
+#define NO_REGEX 0
+#endif
+
+#ifdef DISABLE_BROWSER
+#define NO_BROWSER 1
+#else
+#define NO_BROWSER 0
+#endif
+
+#ifdef NANO_SMALL
 #ifdef HAVE_REGEX_H
+#define NO_TOGGLES 3
+#else
+#define NO_TOGGLES 2
+#endif /* HAVE_REGEX_H */
+#else
+#define NO_TOGGLES 0
+#endif /* NANO_SMALL */
 
 #ifdef ENABLE_MULTIBUFFER
-#define TOGGLE_LEN 14
+#define MULTI_TOGGLES 3
 #else
-#define TOGGLE_LEN 11
+#define MULTI_TOGGLES 0
 #endif
 
-#define WHEREIS_LIST_LEN 8
-#define REPLACE_LIST_LEN 8
-#else
-
-#ifdef ENABLE_MULTIBUFFER
-#define TOGGLE_LEN 13
-#else
-#define TOGGLE_LEN 10
-#endif
-
-#define WHEREIS_LIST_LEN 7
-#define REPLACE_LIST_LEN 7
-#endif
-
+#define WHEREIS_LIST_LEN (8 - NO_REGEX - NO_TOGGLES)
+#define REPLACE_LIST_LEN (8 - NO_REGEX - NO_TOGGLES)
+#define TOGGLE_LEN (11 - NO_REGEX + MULTI_TOGGLES)
+#define WRITEFILE_LIST_LEN (3 - NO_BROWSER)
+#define INSERTFILE_LIST_LEN (2 - NO_BROWSER)
+#define BROWSER_LIST_LEN 4
 #define MAIN_LIST_LEN 26
 #define MAIN_VISIBLE 12
 #define REPLACE_LIST_2_LEN 3
@@ -306,14 +318,8 @@ know what you're doing */
 #define HELP_LIST_LEN 3
 #define SPELL_LIST_LEN 1
 
-#ifndef DISABLE_BROWSER
-#define WRITEFILE_LIST_LEN 3
-#define INSERTFILE_LIST_LEN 2
-#define BROWSER_LIST_LEN 4
-#else
-#define WRITEFILE_LIST_LEN 3
-#define INSERTFILE_LIST_LEN 1
-#endif
+
+
 
 #define VIEW 1
 #define NOVIEW 0

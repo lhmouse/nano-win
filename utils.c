@@ -47,6 +47,8 @@ void lowercase(char *src)
     }
 }
 
+/* None of this is needed if we're using NANO_SMALL! */
+#ifndef NANO_SMALL
 char *revstrstr(char *haystack, char *needle, char *rev_start)
 {
     char *p, *q, *r;
@@ -72,6 +74,7 @@ char *revstrcasestr(char *haystack, char *needle, char *rev_start)
     }
     return 0;
 }
+#endif /* NANO_SMALL */
 
 /* This is now mutt's version (called mutt_stristr) because it doesn't
    use memory allocation to do a simple search (yuck). */
@@ -103,11 +106,13 @@ char *strstrwrapper(char *haystack, char *needle, char *rev_start)
     char *i, *j;
 
     if (ISSET(USE_REGEXP)) {
+#ifndef NANO_SMALL
 	if (!ISSET(REVERSE_SEARCH)) {
 	    result = regexec(&search_regexp, haystack, 10, regmatches, 0);
 	    if (!result)
 		return haystack + regmatches[0].rm_so;
 	} else {
+#endif
 	    /* do quick check first */
 	    if (!(regexec(&search_regexp, haystack, 10, regmatches, 0))) {
 		/* there is a match */
@@ -117,21 +122,29 @@ char *strstrwrapper(char *haystack, char *needle, char *rev_start)
 			if (j <= rev_start)
 			    return j;
 		    }
+
 	    }
+#ifndef NANO_SMALL
 	}
+#endif
 	return 0;
     }
 #endif
     if (ISSET(CASE_SENSITIVE)) {
-	if (!ISSET(REVERSE_SEARCH))
-	    return strstr(haystack,needle);
-        else
+#ifndef NANO_SMALL
+	if (ISSET(REVERSE_SEARCH))
 	    return revstrstr(haystack, needle, rev_start);
+        else
+#endif
+	    return strstr(haystack,needle);
+
     } else {
-	if (!ISSET(REVERSE_SEARCH))
-	    return strcasestr(haystack, needle);
-	else
+#ifndef NANO_SMALL
+	if (ISSET(REVERSE_SEARCH))
 	    return revstrcasestr(haystack, needle, rev_start);
+	else
+#endif
+	    return strcasestr(haystack, needle);
     }
 }
 
