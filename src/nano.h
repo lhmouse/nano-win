@@ -89,23 +89,27 @@
 #define strncasecmp nstrnicmp
 #endif
 
+/* Note: ERR is defined as -1, so to avoid duplicate case values when
+   some key definitions are missing, we have to set these all to
+   different negative values other than -1. */
+
 /* HP-UX 10 & 11 do not seem to support KEY_HOME and KEY_END */
 #ifndef KEY_HOME
-#define KEY_HOME -1
+#define KEY_HOME -2
 #endif
 
 #ifndef KEY_END
-#define KEY_END -1
+#define KEY_END -3
 #endif
 
 /* Slang and SunOS 5.7-5.9 do not seem to support KEY_RESIZE */
 #ifndef KEY_RESIZE
-#define KEY_RESIZE -1
+#define KEY_RESIZE -4
 #endif
 
 /* Slang does not seem to support KEY_SUSPEND */
 #ifndef KEY_SUSPEND
-#define KEY_SUSPEND -1
+#define KEY_SUSPEND -5
 #endif
 
 /* Snatch these out of the ncurses defs, so we can use them in search
@@ -338,8 +342,8 @@ typedef struct historyheadtype {
 #define NANO_ALT_BRACKET ']'
 #define NANO_ALT_SPACE ' '
 
-/* Some semi-changeable keybindings; don't play with unless you're sure you
-know what you're doing */
+/* Some semi-changeable keybindings; don't play with unless you're sure
+   you know what you're doing */
 
 #define NANO_INSERTFILE_KEY	NANO_CONTROL_R
 #define NANO_INSERTFILE_FKEY	KEY_F(5)

@@ -121,6 +121,9 @@ CVS code -
 	  the curses library included with SunOS 5.7-5.9.  Also define
 	  KEY_SUSPEND as -1 if it isn't defined, in case it isn't in
 	  more than just Slang. (DLR)
+	- Define all potentially missing keys as different negative
+	  values (ERR is -1, so use -2, -3, etc.) so as to avoid having
+	  duplicate case values when keys are missing. (DLR)
 - move.c:
 	- Remove unneeded inclusion of stdio.h, make various cleanups,
 	  and preserve the cursor's coordinates when paging up and down.
