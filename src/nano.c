@@ -621,7 +621,7 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
 	filestruct *bot, size_t bot_x)
 {
     partition *p;
-    assert(top != NULL && bot != NULL);
+    assert(top != NULL && bot != NULL && fileage != NULL && filebot != NULL);
 
     /* Initialize the partition. */
     p = (partition *)nmalloc(sizeof(partition));
