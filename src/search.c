@@ -671,8 +671,7 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 {
     ssize_t numreplaced = -1;
     size_t match_len;
-    size_t pww_save = placewewant, current_x_save = *real_current_x;
-    const filestruct *current_save = real_current;
+    size_t pww_save = placewewant;
     bool replaceall = FALSE;
 #ifdef HAVE_REGEX_H
     /* The starting-line match and bol/eol regex flags. */
@@ -713,7 +712,7 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 #else
 	FALSE
 #endif
-	, current_save, current_x_save, needle, &match_len)) {
+	, real_current, *real_current_x, needle, &match_len)) {
 
 	int i = 0;
 
@@ -735,7 +734,7 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 #endif
 
 	if (!replaceall) {
-	    edit_redraw(current_save, pww_save);
+	    edit_redraw(real_current, pww_save);
 	    pww_save = placewewant;
 	}
 

@@ -290,8 +290,8 @@ CVS code -
 	  flag, and add new parameter needle_len (used to return the
 	  length of the match). (DLR)
   do_replace_loop()
-	- Miscellaneous cleanups: set current to real_current and
-	  current_x to current_x_save, only turn the mark off and call
+	- Miscellaneous cleanups: treat real_current as current and
+	  real_current_x as current_x, only turn the mark off and call
 	  edit_refresh() if the mark was originally on, and make
 	  length_change a ssize_t. (DLR)
 	- Return ssize_t instead of int. (DLR)
