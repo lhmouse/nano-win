@@ -43,6 +43,8 @@ CVS code -
 - faq.html:
 	- Various link updates and other fixes (Aaron S. Hawley).
 	- Typo fixes (David Lawrence Ramsey).
+- AUTHORS
+	- Add DLR.
 - po/sv.po:
 	- Swedish translation update (Christian Rose).
 - po/ru.po, uk.po:

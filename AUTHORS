@@ -24,3 +24,8 @@ Rocco Corsi <rocco.corsi@sympatico.ca>
 	* Internal spelling code, many optimizations and bug fixes for 
 	  findnextstr and search-related functions, various display and
 	  file handling fixes.
+
+David Lawrence Ramsey <pooka_regent@sluggy.net>
+	* Multiple buffer support, operating dir (-o) option, bug fixes
+	  for display routines, wrapping code, spelling fixes, const
+	  mode and various other fixes.
