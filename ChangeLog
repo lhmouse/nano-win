@@ -154,6 +154,9 @@ CVS code -
 	  wholewords, not after all other parameters. (DLR)
 	- Maintain current_y's value when moving up or down lines so
 	  that smooth scrolling works correctly. (DLR)
+- utils.c:
+  mark_order()
+	- Add check for MARK_ISSET's not being set. (DLR)
 - winio.c:
   unget_kbinput()
 	- New function used as a wrapper for ungetch(). (DLR)

@@ -1719,7 +1719,7 @@ int write_marked(const char *name, int tmp, int append)
     int retval = -1;
     filestruct *fileagebak = fileage;
     filestruct *filebotbak = filebot;
-    int oldmod = ISSET(MODIFIED);
+    bool old_modified = ISSET(MODIFIED);
 	/* write_file() unsets the MODIFIED flag. */
     size_t topx;
 	/* The column of the beginning of the mark. */
@@ -1730,7 +1730,7 @@ int write_marked(const char *name, int tmp, int append)
 	/* The location of the character we nulled. */
 
     if (!ISSET(MARK_ISSET))
-	return -1;
+	return retval;
 
     /* Set fileage as the top of the mark, and filebot as the bottom. */
     if (current->lineno > mark_beginbuf->lineno ||
@@ -1763,7 +1763,7 @@ int write_marked(const char *name, int tmp, int append)
     *origcharloc = origchar;
     fileage = fileagebak;
     filebot = filebotbak;
-    if (oldmod)
+    if (old_modified)
 	set_modified();
 
     return retval;
