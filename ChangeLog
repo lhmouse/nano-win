@@ -29,6 +29,8 @@ CVS code -
   do_char()
 	- Run edit_refresh() if ENABLE_COLOR is defined so adding
 	  multi-liners will update (e.g. /* in C).
+  do_int_spell_fix()
+	- Temporarily unset REVERSE_SEARCH if it's set (Rocco Corsi).
   do_suspend()
 	- Call tcsetattr() to restore the old terminal settings, so
 	  tcsh can use ^C after suspend for example (fixes BUG #68).

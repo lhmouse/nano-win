@@ -1448,11 +1448,15 @@ int do_int_spell_fix(char *word)
 {
     char *prevanswer = NULL, *save_search = NULL, *save_replace = NULL;
     filestruct *begin;
-    int i = 0, j = 0, beginx, beginx_top;
+    int i = 0, j = 0, beginx, beginx_top, reverse_search_set;
 
     /* save where we are */
     begin = current;
     beginx = current_x + 1;
+
+    /* Make sure Spell Check goes forward only */
+    reverse_search_set = ISSET(REVERSE_SEARCH);
+    UNSET(REVERSE_SEARCH);
 
     /* save the current search/replace strings */
     search_init_globals();
@@ -1511,6 +1515,10 @@ int do_int_spell_fix(char *word)
     /* restore where we were */
     current = begin;
     current_x = beginx - 1;
+
+    /* restore Search/Replace direction */
+    if (reverse_search_set)
+	SET(REVERSE_SEARCH);
 
     edit_update(current, CENTER);
 
