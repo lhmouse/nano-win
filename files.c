@@ -332,7 +332,9 @@ int write_file(char *name, int tmp)
     if (tmp && anyexists != -1)
 	return -1;
     /* NOTE: If you change this statement, you MUST CHANGE the if 
-       statement below (that starts "if ((!ISSET(FOLLOW_SYMLINKS)...")
+       statement below (that says:
+		if (realexists == -1 || tmp || (!ISSET(FOLLOW_SYMLINKS) &&
+		S_ISLNK(lst.st_mode))) {
        to reflect whether or not to link/unlink/rename the file */
     else if (ISSET(FOLLOW_SYMLINKS) || !S_ISLNK(lst.st_mode) || tmp) {
 	/* Use O_EXCL if tmp == 1.  This is now copied from joe, because
