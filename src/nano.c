@@ -3492,7 +3492,7 @@ int main(int argc, char **argv)
 	kbinput = get_edit_input(&meta_key, TRUE);
 
 	/* Last gasp, stuff that's not in the main lists. */
-	if (kbinput != ERR && !meta_key && !is_cntrl_char(kbinput)) {
+	if (kbinput != ERR && !is_cntrl_char(kbinput)) {
 	    /* Don't stop unhandled printable sequences, so that people
 	     * with odd character sets can type. */
 	    if (ISSET(VIEW_MODE))
