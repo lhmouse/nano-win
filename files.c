@@ -2954,4 +2954,4 @@ come_from:
     }
 }
 #endif /* ENABLE_NANORC */
-#endif NANO_SMALL
+#endif /* NANO_SMALL */
