@@ -130,12 +130,7 @@ void reset_kbinput(void)
 void get_buffer(WINDOW *win)
 {
     int input;
-    size_t i = 0;
-
-#ifdef NANO_WIDE
-    size_t wide_key_buffer_len = 0;
-    buffer *wide_key_buffer = NULL;
-#endif
+    size_t i;
 
     /* If the keystroke buffer isn't empty, get out. */
     if (key_buffer != NULL)
@@ -193,39 +188,43 @@ void get_buffer(WINDOW *win)
 
 #ifdef NANO_WIDE
     if (!ISSET(NO_UTF8)) {
+	buffer *clean_key_buffer = NULL;
+	size_t clean_key_buffer_len = 0;
+
 	/* Change all incomplete or invalid multibyte keystrokes to -1,
 	 * and change all complete and valid multibyte keystrokes to
-	 * their wide character value. */
+	 * their wide character values. */
 	for (i = 0; i < key_buffer_len; i++) {
 	    wchar_t wide_key;
 
 	    if (!key_buffer[i].key_code) {
-		key_buffer[i].key = mbtowc(&wide_key,
-			(const char *)&key_buffer[i].key, 1);
-		if (key_buffer[i].key != -1)
-			key_buffer[i].key = wide_key;
+		if (mbtowc(&wide_key,
+			(const char *)&key_buffer[i].key, 1) == -1)
+		    key_buffer[i].key = -1;
+		else
+		    key_buffer[i].key = wide_key;
 	    }
 	}
 
 	/* Save all of the non-(-1) keystrokes in another buffer. */
 	for (i = 0; i < key_buffer_len; i++) {
 	    if (key_buffer[i].key != -1) {
-		wide_key_buffer_len++;
-		wide_key_buffer = (buffer *)nrealloc(wide_key_buffer,
-			wide_key_buffer_len * sizeof(buffer));
+		clean_key_buffer_len++;
+		clean_key_buffer = (buffer *)nrealloc(clean_key_buffer,
+			clean_key_buffer_len * sizeof(buffer));
 
-		wide_key_buffer[wide_key_buffer_len - 1].key =
+		clean_key_buffer[clean_key_buffer_len - 1].key =
 			key_buffer[i].key;
-		wide_key_buffer[wide_key_buffer_len - 1].key_code =
+		clean_key_buffer[clean_key_buffer_len - 1].key_code =
 			key_buffer[i].key_code;
 	    }
 	}
 
 	/* Replace the default keystroke buffer with the non-(-1)
 	 * keystroke buffer. */
-	key_buffer_len = wide_key_buffer_len;
+	key_buffer_len = clean_key_buffer_len;
 	free(key_buffer);
-	key_buffer = wide_key_buffer;
+	key_buffer = clean_key_buffer;
     }
 #endif
 }
@@ -253,37 +252,74 @@ int *buffer_to_keys(buffer *input, size_t input_len)
  * keystroke buffer. */
 void unget_input(buffer *input, size_t input_len)
 {
+    size_t i;
+    buffer *clean_input = NULL;
+    size_t clean_input_len = 0;
+
 #ifndef NANO_SMALL
     allow_pending_sigwinch(TRUE);
     allow_pending_sigwinch(FALSE);
 #endif
 
+#ifdef NANO_WIDE
+    if (!ISSET(NO_UTF8)) {
+	/* Change all invalid wide character values to -1. */
+	for (i = 0; i < input_len; i++) {
+	    char key[MB_LEN_MAX];
+
+	    if (!input[i].key_code) {
+		if (wctomb(key, input[i].key) == -1)
+		    input[i].key = -1;
+	    }
+	}
+
+	/* Save all of the non-(-1) wide characters in another
+	 * buffer. */
+	for (i = 0; i < input_len; i++) {
+	    if (input[i].key != -1) {
+		clean_input_len++;
+		clean_input = (buffer *)nrealloc(clean_input,
+			clean_input_len * sizeof(buffer));
+
+		clean_input[clean_input_len - 1].key = input[i].key;
+		clean_input[clean_input_len - 1].key_code =
+			input[i].key_code;
+	    }
+	}
+    } else {
+#endif
+	clean_input = input;
+	clean_input_len = input_len;
+#ifdef NANO_WIDE
+    }
+#endif
+
     /* If input is empty, get out. */
-    if (input_len == 0)
+    if (clean_input_len == 0)
 	return;
 
     /* If adding input would put the default keystroke buffer beyond
      * maximum capacity, only add enough of input to put it at maximum
      * capacity. */
-    if (key_buffer_len + input_len < key_buffer_len)
-	input_len = (size_t)-1 - key_buffer_len;
+    if (key_buffer_len + clean_input_len < key_buffer_len)
+	clean_input_len = (size_t)-1 - key_buffer_len;
 
     /* Add the length of input to the length of the default keystroke
      * buffer, and reallocate the default keystroke buffer so that it
      * has enough room for input. */
-    key_buffer_len += input_len;
+    key_buffer_len += clean_input_len;
     key_buffer = (buffer *)nrealloc(key_buffer, key_buffer_len *
 	sizeof(buffer));
 
     /* If the default keystroke buffer wasn't empty before, move its
      * beginning forward far enough so that we can add input to its
      * beginning. */
-    if (key_buffer_len > input_len)
-	memmove(key_buffer + input_len, key_buffer,
-		(key_buffer_len - input_len) * sizeof(buffer));
+    if (key_buffer_len > clean_input_len)
+	memmove(key_buffer + clean_input_len, key_buffer,
+		(key_buffer_len - clean_input_len) * sizeof(buffer));
 
     /* Copy input to the beginning of the default keystroke buffer. */
-    memcpy(key_buffer, input, input_len * sizeof(buffer));
+    memcpy(key_buffer, clean_input, clean_input_len * sizeof(buffer));
 }
 
 /* Put back the character stored in kbinput.  If func_key is TRUE and
@@ -400,7 +436,6 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
     static int word_digits = 0;
     buffer *kbinput;
     int retval = ERR;
-    bool no_func_key = FALSE;
 
     if (reset) {
 	escapes = 0;
@@ -414,9 +449,9 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
     /* Read in a character. */
     while ((kbinput = get_input(win, 1)) == NULL);
 
-    /* If we got an extended keypad value or an ASCII character,
-     * translate it. */
     if (kbinput->key_code || is_byte_char(kbinput->key)) {
+	/* If we got an extended keypad value or an ASCII character,
+	 * translate it. */
 	switch (kbinput->key) {
 	    case ERR:
 		break;
@@ -608,31 +643,33 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 			 * first digit is in the '0' to '6' range and
 			 * it's the first digit, or it's in the '0' to
 			 * '9' range and it's not the first digit),
-			 * increment the word sequence counter,
-			 * interpret the digit, and save the
-			 * corresponding word value as the result.  If
-			 * the word sequence's range is not limited to
-			 * 6XXXX, fall through. */
+			 * increment the word sequence counter and
+			 * interpret the digit.  If the word sequence's
+			 * range is not limited to 6XXXX, fall
+			 * through. */
 			if (('0' <= kbinput->key && kbinput->key <= '6'
 				&& word_digits == 0) ||
 				('0' <= kbinput->key && kbinput->key <= '9'
 				&& word_digits > 0)) {
+			    int word_kbinput;
+
 			    word_digits++;
-			    retval = get_word_kbinput(kbinput->key
+			    word_kbinput = get_word_kbinput(kbinput->key
 #ifndef NANO_SMALL
 				, FALSE
 #endif
 				);
 
-			    if (retval != ERR) {
+			    if (word_kbinput != ERR) {
 				/* If we've read in a complete word
 				 * sequence, reset the word sequence
-				 * counter and the escape counter, and
-				 * mark it so that it isn't interpreted
-				 * as an extended keypad value. */
+				 * counter and the escape counter,
+				 * and put back the corresponding word
+				 * value. */
 				word_digits = 0;
 				escapes = 0;
-				no_func_key = TRUE;
+				unget_kbinput(word_kbinput, FALSE,
+					FALSE);
 			    }
 			} else {
 			    /* Reset the escape counter. */
@@ -659,12 +696,15 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 			break;
 		}
 	}
-    }
 
-    /* If we have a result and it's an extended keypad value, set
-     * func_key to TRUE. */
-    if (retval != ERR)
-	*func_key = !is_byte_char(retval);
+	/* If we have a result and it's an extended keypad value, set
+	 * func_key to TRUE. */
+	if (retval != ERR)
+	    *func_key = !is_byte_char(retval);
+    } else
+	/* If we didn't get an extended keypad value or an ASCII
+	 * character, leave it as-is. */
+	retval = kbinput->key;
 
 #ifdef DEBUG
     fprintf(stderr, "parse_kbinput(): kbinput->key = %d, meta_key = %d, func_key = %d, escapes = %d, word_digits = %d, retval = %d\n", kbinput->key, (int)*meta_key, (int)*func_key, escapes, word_digits, retval);

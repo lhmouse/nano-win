@@ -3590,9 +3590,9 @@ void do_output(int *kbinput, size_t kbinput_len)
 
 	    if (key_len == -1)
 		continue;
+	/* Interpret the character as a single-byte sequence. */
 	} else {
 #endif
-	    /* Interpret the character as a single-byte sequence. */
 	    key_len = 1;
 	    key[0] = (char)kbinput[i];
 #ifdef NANO_WIDE
