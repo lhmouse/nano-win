@@ -561,7 +561,7 @@ GNU nano 1.3.5 - 2004.11.22
 	- After reading in a file and detecting the format it's in, set
 	  the file format flags (DOS_FILE and MAC_FILE) to match, and
 	  preserve them across multiple file buffers.  Changes to
-	  read_file(), add_open_file(), and load_open_file().  (DLR,
+	  read_file(), add_open_file(), and load_open_file(). (DLR,
 	  suggested by Bill Soudan)
 	- Remove the -D/--dos and -M/--mac command line options, as they
 	  aren't much use with the new file format autodetection.  Also
