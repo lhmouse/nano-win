@@ -361,7 +361,7 @@ if test "x$CURSES_LIB_WIDE" = "xyes" -a "x$ac_cv_func_mbtowc" = "xyes" -a "x$ac_
 then
 	AC_DEFINE(NANO_WIDE, 1, [Define this if your system has wide character support (a wide curses library, mbtowc(), wctomb(), and wcwidth()).])
 else
-	AC_MSG_WARN([No wide character support found.  nano will not be able to support UTF-8.])
+	AC_MSG_WARN([Insufficient wide character support found.  nano will not be able to support UTF-8.])
 fi
 
 AC_CONFIG_FILES([

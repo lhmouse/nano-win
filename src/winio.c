@@ -1937,7 +1937,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 #endif
 		' '; 
 	    start_col++;
-	    while ((column + index) % tabsize) {
+	    while (start_col % tabsize != 0) {
 		converted[index++] = ' ';
 		start_col++;
 	    }
