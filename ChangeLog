@@ -196,6 +196,8 @@ CVS code -
   handle_sigwinch()
 	- If the justify buffer isn't empty, blow it away and don't
 	  display "UnJustify" in the shortcut list anymore. (DLR)
+  usage()
+	- Typo fix. (DLR)
   do_wrap()
 	- Make wrap_loc and word_back ssize_t's, to match fill. (DLR)
   break_line()
