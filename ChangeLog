@@ -36,6 +36,10 @@ CVS code -
 	  goofy logic setting x pos to value of last line when hitting the
 	  beginning of first line, prog should simply abort.  Added
 	  the #ifdefs around the code in main().
+- nano.h:
+	- Additional #define, SMALL_TOO to determine how long
+	  MAIN_LIST_LEN is.  We need this because of the find matching
+	  bracket code.
   main()
 	- Moved #ifndef NANO_SMALL down past the case 0: line so
 	  control-space doesn't insert a \0 (ack!)

@@ -287,9 +287,15 @@ know what you're doing */
 
 #ifndef HAVE_REGEX_H
 #define NO_REGEX 1
+#ifdef NANO_SMALL
+#define SMALL_TOO 1
+#else
+#define SMALL_TOO 0
+#endif /* NANO_SMALL */
 #else 
 #define NO_REGEX 0
-#endif
+#define SMALL_TOO 0
+#endif /* HAVE_REGEX_H */
 
 #ifdef DISABLE_BROWSER
 #define NO_BROWSER 1
@@ -319,7 +325,7 @@ know what you're doing */
 #define WRITEFILE_LIST_LEN (4 - NO_BROWSER)
 #define INSERTFILE_LIST_LEN (3 - NO_BROWSER)
 #define BROWSER_LIST_LEN 5
-#define MAIN_LIST_LEN (27 - NO_REGEX)
+#define MAIN_LIST_LEN (27 - NO_REGEX - SMALL_TOO)
 #define MAIN_VISIBLE 12
 #define REPLACE_LIST_2_LEN 4
 #define GOTO_LIST_LEN 4
