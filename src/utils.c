@@ -101,11 +101,15 @@ bool parse_num(const char *str, ssize_t *val)
     ssize_t j;
 
     assert(str != NULL);
+
     j = (ssize_t)strtol(str, &first_error, 10);
+
     if (errno == ERANGE || *str == '\0' || *first_error != '\0')
 	return FALSE;
+
     if (val != NULL)
 	*val = j;
+
     return TRUE;
 }
 
