@@ -34,7 +34,8 @@ CVS code -
   edit_refresh()
 	- Rename lines to nlines to fix AIX breakage (reported by
 	  Dennis Cranston, re-reported by arh14@cornell.edu).
-- THANKS: Oops, correct Eivind's entry. His translation was Norwegian nynorsk,
+- THANKS:
+	- Oops, correct Eivind's entry. His translation was Norwegian nynorsk,
 	  not bokmål as we claimed (Jordi).
 - po/ca.po, po/es.po:
 	- Catalan and Spanish translation updates (Jordi).
