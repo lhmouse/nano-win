@@ -428,13 +428,13 @@ int nstricmp(const char *s1, const char *s2);
 #ifndef HAVE_STRNCASECMP
 int nstrnicmp(const char *s1, const char *s2, size_t n);
 #endif
+const char *nstristr(const char *haystack, const char *needle);
 #ifndef NANO_SMALL
-const char *revstrstr(const char *haystack, const char *needle,
-			const char *rev_start);
-const char *revstristr(const char *haystack, const char *needle,
-			const char *rev_start);
+const char *revstrstr(const char *haystack, const char *needle, const
+	char *rev_start);
+const char *revstristr(const char *haystack, const char *needle, const
+	char *rev_start);
 #endif
-const char *stristr(const char *haystack, const char *needle);
 const char *strstrwrapper(const char *haystack, const char *needle,
 	const char *start);
 void nperror(const char *s);

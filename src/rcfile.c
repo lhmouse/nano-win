@@ -326,7 +326,7 @@ void parse_syntax(char *ptr)
 	ptr = parse_next_regex(ptr);
 
 	newext = (exttype *)nmalloc(sizeof(exttype));
-	if (nregcomp(&newext->val, fileregptr, REG_NOSUB))
+	if (nregcomp(&newext->val, fileregptr, REG_NOSUB) != 0)
 	    free(newext);
 	else {
 	    if (endext == NULL)
@@ -413,7 +413,7 @@ void parse_colors(char *ptr)
 	newcolor = (colortype *)nmalloc(sizeof(colortype));
 	fgstr = ptr;
 	ptr = parse_next_regex(ptr);
-	if (nregcomp(&newcolor->start, fgstr, 0)) {
+	if (nregcomp(&newcolor->start, fgstr, 0) != 0) {
 	    free(newcolor);
 	    cancelled = 1;
 	} else {
@@ -464,7 +464,7 @@ void parse_colors(char *ptr)
 	    if (cancelled)
 		continue;
 	    newcolor->end = (regex_t *)nmalloc(sizeof(regex_t));
-	    if (nregcomp(newcolor->end, fgstr, 0)) {
+	    if (nregcomp(newcolor->end, fgstr, 0) != 0) {
 		free(newcolor->end);
 		newcolor->end = NULL;
 	    }

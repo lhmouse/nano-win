@@ -116,10 +116,12 @@ void sunder(char *str)
 int nstricmp(const char *s1, const char *s2)
 {
     assert(s1 != NULL && s2 != NULL);
+
     for (; *s1 != '\0' && *s2 != '\0'; s1++, s2++) {
 	if (tolower(*s1) != tolower(*s2))
 	    break;
     }
+
     return (tolower(*s1) - tolower(*s2));
 }
 #endif
@@ -129,23 +131,45 @@ int nstricmp(const char *s1, const char *s2)
 int nstrnicmp(const char *s1, const char *s2, size_t n)
 {
     assert(s1 != NULL && s2 != NULL);
+
     for (; n > 0 && *s1 != '\0' && *s2 != '\0'; n--, s1++, s2++) {
 	if (tolower(*s1) != tolower(*s2))
 	    break;
     }
+
     if (n > 0)
 	return (tolower(*s1) - tolower(*s2));
     else if (n == 0)
 	return 0;
-    else if (n < 0)
+    else
 	return -1;
 }
 #endif
 
+/* This function is equivalent to strcasestr().  It was adapted from
+ * mutt's mutt_stristr() function. */
+const char *nstristr(const char *haystack, const char *needle)
+{
+    assert(haystack != NULL && needle != NULL);
+
+    for (; *haystack != '\0'; haystack++) {
+	const char *p = haystack;
+	const char *q = needle;
+
+	for (; tolower(*p) == tolower(*q) && *q != '\0'; p++, q++)
+	    ;
+
+	if (*q == '\0')
+	    return haystack;
+    }
+
+    return NULL;
+}
+
 /* None of this is needed if we're using NANO_SMALL! */
 #ifndef NANO_SMALL
-const char *revstrstr(const char *haystack, const char *needle,
-			const char *rev_start)
+const char *revstrstr(const char *haystack, const char *needle, const
+	char *rev_start)
 {
     for (; rev_start >= haystack; rev_start--) {
 	const char *r, *q;
@@ -158,8 +182,8 @@ const char *revstrstr(const char *haystack, const char *needle,
     return NULL;
 }
 
-const char *revstristr(const char *haystack, const char *needle,
-			const char *rev_start)
+const char *revstristr(const char *haystack, const char *needle, const
+	char *rev_start)
 {
     for (; rev_start >= haystack; rev_start--) {
 	const char *r = rev_start, *q = needle;
@@ -172,27 +196,6 @@ const char *revstristr(const char *haystack, const char *needle,
     return NULL;
 }
 #endif /* !NANO_SMALL */
-
-/* This is now mutt's version (called mutt_stristr) because it doesn't
- * use memory allocation to do a simple search (yuck). */
-const char *stristr(const char *haystack, const char *needle)
-{
-    const char *p, *q;
-
-    if (haystack == NULL)
-	return NULL;
-    if (needle == NULL)
-	return haystack;
-    
-    while (*(p = haystack) != '\0') {
-	for (q = needle; *p != 0 && *q != 0 && tolower(*p) == tolower(*q); p++, q++)
-	    ;
-	if (*q == 0)
-	    return haystack;
-	haystack++;
-    }
-    return NULL;
-}
 
 /* If we are searching backwards, we will find the last match that
  * starts no later than start.  Otherwise we find the first match
@@ -253,7 +256,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
     else if (ISSET(REVERSE_SEARCH))
 	return revstristr(haystack, needle, start);
 #endif
-    return stristr(start, needle);
+    return nstristr(start, needle);
 }
 
 /* This is a wrapper for the perror() function.  The wrapper takes care

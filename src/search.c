@@ -56,15 +56,11 @@ void regexp_cleanup(void)
 
 void not_found_msg(const char *str)
 {
-    if (strlen(str) <= COLS / 2)
-	statusbar(_("\"%s\" not found"), str);
-    else {
-	char *foo = mallocstrcpy(NULL, str);
+    int numchars = actual_x(str, COLS / 2);
 
-	foo[COLS / 2] = '\0';
-	statusbar(_("\"%s...\" not found"), foo);
-	free(foo);
-    }
+    assert(str != NULL);
+    statusbar(_("\"%.*s%s\" not found"), numchars, str, str[numchars] ==
+	'\0' ? "" : "...");
 }
 
 void search_abort(void)
@@ -580,7 +576,7 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
     size_t current_x_save = current_x;
 #ifdef HAVE_REGEX_H
     /* The starting-line match and bol/eol regex flags. */
-    int begin_line = 0, bol_or_eol = 0;
+    int begin_line = FALSE, bol_or_eol = FALSE;
 #endif
 #ifndef NANO_SMALL
     int mark_set = ISSET(MARK_ISSET);
@@ -617,8 +613,8 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 	 * continue. */
 	else {
 	    if (current == real_current)
-		begin_line = 1;
-	    bol_or_eol = 0;
+		begin_line = TRUE;
+	    bol_or_eol = FALSE;
 	}
 #endif
 
@@ -660,7 +656,7 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 	 * replace ("^", "$", or "^$"). */
 	if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp,
 		needle))
-	    bol_or_eol = 1;
+	    bol_or_eol = TRUE;
 #endif
 
 	if (i > 0 || replaceall) {	/* Yes, replace it!!!! */

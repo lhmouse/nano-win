@@ -905,7 +905,7 @@ size_t actual_x(const char *str, size_t xplus)
     return i;
 }
 
-/* A strlen with tabs factored in, similar to xplustabs().  How many
+/* A strlen() with tabs factored in, similar to xplustabs().  How many
  * columns wide are the first size characters of buf? */
 size_t strnlenpt(const char *buf, size_t size)
 {

@@ -91,7 +91,7 @@
 # endif
 #endif
 
-/* If no strcasecmp()/strncasecmp(), use the versions we have. */
+/* If no strcasecmp() or strncasecmp(), use the versions we have. */
 #ifndef HAVE_STRCASECMP
 #define strcasecmp nstricmp
 #endif

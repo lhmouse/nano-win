@@ -785,17 +785,14 @@ int add_open_file(int update)
     /* if we're updating, save current modification status (and marking
        status, if available) */
     if (update) {
-#ifndef NANO_SMALL
 	if (ISSET(MODIFIED))
 	    open_files->file_flags |= MODIFIED;
+#ifndef NANO_SMALL
 	if (ISSET(MARK_ISSET)) {
 	    open_files->file_mark_beginbuf = mark_beginbuf;
 	    open_files->file_mark_beginx = mark_beginx;
 	    open_files->file_flags |= MARK_ISSET;
 	}
-#else
-	if (ISSET(MODIFIED))
-	    open_files->file_flags |= MODIFIED;
 #endif
     }
 

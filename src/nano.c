@@ -125,7 +125,7 @@ void die(const char *msg, ...)
 
 	while (open_files->next != NULL) {
 
-	    /* if we already saved the file above (i. e. if it was the
+	    /* if we already saved the file above (i.e, if it was the
 	       currently loaded file), don't save it again */
 	    if (tmp != open_files) {
 		/* make sure open_files->fileage and fileage, and
