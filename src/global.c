@@ -356,7 +356,7 @@ void shortcut_init(bool unjustify)
     const char *nano_backup_msg = N_("Back up original file when saving");
     const char *nano_execute_msg = N_("Execute external command");
 #endif
-#if defined(ENABLE_MULTIBUFFER) && !defined(NANO_SMALL)
+#if !defined(NANO_SMALL) && defined(ENABLE_MULTIBUFFER)
     const char *nano_multibuffer_msg = N_("Insert into new buffer");
 #endif
 #ifndef DISABLE_BROWSER

@@ -249,7 +249,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 	return NULL;
     }
 #endif /* HAVE_REGEX_H */
-#if !defined(DISABLE_SPELLER) || !defined(NANO_SMALL)
+#if !defined(NANO_SMALL) || !defined(DISABLE_SPELLER)
     if (ISSET(CASE_SENSITIVE)) {
 #ifndef NANO_SMALL
 	if (ISSET(REVERSE_SEARCH))

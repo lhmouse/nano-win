@@ -151,7 +151,7 @@ CVS code -
 	  get_totals(), and do_cursorpos(). (DLR)
 	- Overhaul the tab completion code, the file browser code, and
 	  related functions to increase efficiency and support multibyte
-	  characters.  New functions strrchrn() and is_dir(); changes to
+	  characters.  New function is_dir(); changes to
 	  get_full_path(), check_writable_directory(), safe_tempnam(),
 	  diralphasort(), username_tab_completion(),
 	  cwd_tab_completion(), input_tab(), tail(), striponedir(),

@@ -2157,8 +2157,10 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 	beep();
     else {
 	size_t match, common_len = 0;
-	size_t lastslash = strrchrn(buf, '/', *place);
 	char *mzero;
+	const char *lastslash = revstrstr(buf, "/", buf + *place);
+	size_t lastslash_len = (lastslash == NULL) ? 0 :
+		lastslash - buf + 1;
 
 	while (TRUE) {
 	    for (match = 1; match < num_matches; match++) {
@@ -2173,11 +2175,11 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 	    common_len++;
 	}
 
-	mzero = charalloc(lastslash + common_len + 1);
-	sprintf(mzero, "%.*s%.*s", lastslash, buf, common_len,
+	mzero = charalloc(lastslash_len + common_len + 1);
+	sprintf(mzero, "%.*s%.*s", lastslash_len, buf, common_len,
 		matches[0]);
 
-	common_len += lastslash;
+	common_len += lastslash_len;
 
 	assert(common_len >= *place);
 

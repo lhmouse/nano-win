@@ -3026,7 +3026,7 @@ void reset_cursor(void)
 void edit_add(const filestruct *fileptr, const char *converted, int
 	yval, size_t start)
 {
-#if defined(ENABLE_COLOR) || !defined(NANO_SMALL)
+#if !defined(NANO_SMALL) || defined(ENABLE_COLOR)
     size_t startpos = actual_x(fileptr->data, start);
 	/* The position in fileptr->data of the leftmost character
 	 * that displays at least partially on the window. */

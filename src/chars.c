@@ -591,7 +591,7 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 #endif
 }
 
-#ifndef NANO_SMALL
+#if !defined(NANO_SMALL) || !defined(DISABLE_TABCOMP)
 /* This function is equivalent to strstr(), except in that it scans the
  * string in reverse, starting at rev_start. */
 const char *revstrstr(const char *haystack, const char *needle, const
@@ -611,7 +611,9 @@ const char *revstrstr(const char *haystack, const char *needle, const
 
     return NULL;
 }
+#endif
 
+#ifndef NANO_SMALL
 /* This function is equivalent to strcasestr(), except in that it scans
  * the string in reverse, starting at rev_start. */
 const char *revstrcasestr(const char *haystack, const char *needle,
@@ -750,19 +752,3 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 		nstrnlen(s, maxlen);
 #endif
 }
-
-#ifndef DISABLE_TABCOMP
-/* Find the one-based position of the last occurrence of character c in
- * the first n characters of s.  Return 0 if c is not found. */
-size_t strrchrn(const char *s, int c, size_t n)
-{
-    assert(n <= strlen(s));
-
-    for (s += n - 1; n >= 1; n--, s--) {
-	if (c == *s)
-	    return n;
-    }
-
-    return 0;
-}
-#endif
