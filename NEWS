@@ -1,3 +1,25 @@
+2004.06.28 - GNU nano 1.3.3 marches forth.  There are several new
+		features in this release, including a restricted mode
+		that provides better security than just setting an
+		operating directory, the ability to justify the entire
+		file at once, support for a "smart" home key that can
+		leap from the beginning of text on a line to the true
+		beginning of the line (or the reverse) in one stroke,
+		support for specifying an alternative spell checker in
+		$SPELL, the ability to specify the characters used to
+		display spaces and tabs so that they can easily be told
+		apart, and the ability to specify the characters marking
+		the ends of sentences as used in justification.  There
+		are also several bug fixes; among other things,
+		justification now keeps spaces at the ends of all but
+		the last line of a paragraph as Pico does, saving a
+		marked selection no longer changes the current filename
+		to the filename the selection was saved under, resizing
+		now works better and no longer corrupts the screen under
+		slang, and the movement functions now avoid doing
+		unnecessary redraws and hence work faster.  In short,
+		there are a lot of new things to play with.  Enjoy.
+
 2004.03.31 - GNU nano 1.3.2 is prepared for the void.  New features in
 		this release include the ability to spell-check only
 		marked text and the ability to save all backup files in
