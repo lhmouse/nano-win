@@ -43,13 +43,14 @@
 - Using nano -t, user can not exit until a filename is given via ^O. (30)
  [FIXED]
 - Using -k cut text is not pasted properly. (34) [FIXED].
+- Using -k pasted text is not updated properly if it goes beyond editbot. (35)
+ [FIXED]
 - Doing a cut with -k can screw up the filestruct, fault is in cutting
  code. (36)  [FIXED]
 - Hitting enter on the magic line makes new lines, but they are not
   written out to disk when saved..... (37). [FIXED]
 - Page up and page down do not work the same way as Pico (# of lines). (38)
  [FIXED]
-
 ** Open BUGS **
 
 - Marked cutting sometimes leaves a newline in the file unintelligently,
@@ -62,4 +63,3 @@
   causes a random segfault (16) [FIXED?]
 - In replace, there is no way to accept the default replace string. (27)
 - totsize problems still abound in do_justify (33)
-- Using -k pasted text is not updated properly if it goes beyond editbot. (35)
