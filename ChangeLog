@@ -36,10 +36,10 @@ CVS code -
 	  wrap" to "Auto line wrap", to more clearly associate it with
 	  Meta-L. (DLR)
   shortcut_init()
-	- Change multibuffer-enabled references to opening/closing the
-	  previous/next loaded file to switching to/closing the
-	  previous/next file buffer, for consistency with other
-	  references. (DLR)
+	- Change multibuffer-enabled references to
+	  opening/closing/toggling the previous/next loaded file to
+	  toggling/switching to/closing the previous/next file buffer,
+	  for consistency with other references. (DLR)
 - nano.c:
   window_init()
 	- Set keypad() to TRUE regardless of whether PDCurses is being

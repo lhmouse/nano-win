@@ -402,7 +402,7 @@ void shortcut_init(int unjustify)
 #ifdef ENABLE_MULTIBUFFER
     nano_openprev_msg = _("Switch to previous file buffer");
     nano_opennext_msg = _("Switch to next file buffer");
-    nano_multibuffer_msg = _("Toggle insert into new buffer");
+    nano_multibuffer_msg = _("Toggle insert into new file buffer");
 #endif
 #endif /* !DISABLE_HELP */
 
