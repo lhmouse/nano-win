@@ -217,9 +217,8 @@ CVS code -
 	  that smooth scrolling works correctly. (DLR)
 	- Fix handling of the wholewords flag so that it works with
 	  regular expressions and in conjunction with the no_sameline
-	  flag, and add new parameters wrapped (used to return the value
-	  of search_last_line) and needle_len (used to return the length
-	  of the match). (DLR)
+	  flag, and add new parameter needle_len (used to return the
+	  length of the match). (DLR)
   do_replace_loop()
 	- Miscellaneous cleanups: set current to real_current and
 	  current_x to current_x_save, only turn the mark off and call
