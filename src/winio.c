@@ -3622,7 +3622,8 @@ void do_credits(void)
 		xlpos++;
 	    }
 	    start_x = COLS / 2 - strlen(what) / 2 - 1;
-	    mvwaddstr(edit, editwinrows - 1 - editwinrows % 2, start_x, what);
+	    mvwaddstr(edit, editwinrows - 1 - editwinrows % 2, start_x,
+		what);
 	}
 	napms(700);
 	scroll(edit);
