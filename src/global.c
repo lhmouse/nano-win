@@ -2,7 +2,7 @@
 /**************************************************************************
  *   global.c                                                             *
  *                                                                        *
- *   Copyright (C) 1999-2003 Chris Allegretta                             *
+ *   Copyright (C) 1999-2004 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -92,7 +92,7 @@ char *help_text;		/* The text in the help window */
 /* More stuff for the marker select */
 
 #ifndef NANO_SMALL
-filestruct *mark_beginbuf;	/* the begin marker buffer */
+filestruct *mark_beginbuf;	/* The begin marker buffer */
 int mark_beginx;		/* X value in the string to start */
 #endif
 

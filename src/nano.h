@@ -2,7 +2,7 @@
 /**************************************************************************
  *   nano.h                                                               *
  *                                                                        *
- *   Copyright (C) 1999-2003 Chris Allegretta                             *
+ *   Copyright (C) 1999-2004 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -198,8 +198,8 @@ typedef struct toggle {
    int val;		/* Sequence to toggle the key.  Should only need
 			 * one. */
    const char *desc;	/* Description for when toggle is, uh, toggled,
-			   e.g. "Pico Messages"; we'll append Enabled or
-			   Disabled. */
+			 * e.g. "Cut to end"; we'll append Enabled or
+			 * Disabled. */
    int flag;		/* What flag actually gets toggled. */
    struct toggle *next;
 } toggle;

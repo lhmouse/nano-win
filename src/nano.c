@@ -2,7 +2,7 @@
 /**************************************************************************
  *   nano.c                                                               *
  *                                                                        *
- *   Copyright (C) 1999-2003 Chris Allegretta                             *
+ *   Copyright (C) 1999-2004 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -186,7 +186,7 @@ void print_view_warning(void)
     statusbar(_("Key illegal in VIEW mode"));
 }
 
-/* Initialize global variables - no better way for now.  If
+/* Initialize global variables -- no better way for now.  If
  * save_cutbuffer is nonzero, don't set cutbuffer to NULL. */
 void global_init(int save_cutbuffer)
 {

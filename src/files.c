@@ -2,7 +2,7 @@
 /**************************************************************************
  *   files.c                                                              *
  *                                                                        *
- *   Copyright (C) 1999-2003 Chris Allegretta                             *
+ *   Copyright (C) 1999-2004 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -48,7 +48,7 @@
 static int fileformat = 0;	/* 0 = *nix, 1 = DOS, 2 = Mac */
 #endif
 
-/* Load file into edit buffer - takes data from file struct. */
+/* Load file into edit buffer -- takes data from file struct. */
 void load_file(int update)
 {
     current = fileage;
@@ -2349,7 +2349,7 @@ struct stat filestat(const char *path)
     return st;
 }
 
-/* Our sort routine for file listings - sort directories before
+/* Our sort routine for file listings -- sort directories before
  * files, and then alphabetically. */ 
 int diralphasort(const void *va, const void *vb)
 {

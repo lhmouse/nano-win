@@ -2,7 +2,7 @@
 /**************************************************************************
  *   move.c                                                               *
  *                                                                        *
- *   Copyright (C) 1999-2003 Chris Allegretta                             *
+ *   Copyright (C) 1999-2004 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -148,8 +148,8 @@ int do_up(void)
     current_x = actual_x(current->data, placewewant);
     if (current_y > 0) {
 	update_line(current->next, 0);
-	    /* It was necessary to change current first, so the mark
-	     * display will change! */
+	    /* It was necessary to change current first, so that the
+	     * mark display will change! */
 	update_line(current, current_x);
     } else
 #ifndef NANO_SMALL

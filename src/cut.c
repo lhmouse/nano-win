@@ -2,7 +2,7 @@
 /**************************************************************************
  *   cut.c                                                                *
  *                                                                        *
- *   Copyright (C) 1999-2003 Chris Allegretta                             *
+ *   Copyright (C) 1999-2004 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -83,7 +83,7 @@ void add_to_cutbuffer(filestruct *inptr)
  * the first character after what was cut.  We do not do any screen
  * updates.
  *
- * Note cutbuffer might not be NULL if "cut to end" is used. */
+ * Note cutbuffer might not be NULL if cut to end is used. */
 void cut_marked_segment(void)
 {
     filestruct *top;

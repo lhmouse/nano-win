@@ -2,7 +2,7 @@
 /**************************************************************************
  *   proto.h                                                              *
  *                                                                        *
- *   Copyright (C) 1999-2003 Chris Allegretta                             *
+ *   Copyright (C) 1999-2004 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -19,7 +19,7 @@
  *                                                                        *
  **************************************************************************/
 
-/* Externs */
+/* Externs. */
 
 #include <sys/stat.h>
 
@@ -128,7 +128,7 @@ extern historyheadtype replace_history;
 
 extern int curses_ended;
 
-/* Functions we want available */
+/* Functions we want available. */
 
 /* Public functions in color.c */
 #ifdef ENABLE_COLOR
