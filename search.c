@@ -23,6 +23,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <ctype.h>
 #include "config.h"
 #include "proto.h"
 #include "nano.h"
@@ -33,11 +34,6 @@
 #else
 #define _(string) (string)
 #endif
-
-static char *last_search = NULL;	/* Last string we searched for */
-static char *last_replace = NULL;	/* Last replacement string */
-static int search_last_line;
-
 
 /* Regular expression helper functions */
 
@@ -55,6 +51,18 @@ void regexp_cleanup()
 }
 #endif
 
+void search_init_globals(void)
+{
+    if (last_search == NULL) {
+	last_search = nmalloc(1);
+	last_search[0] = 0;
+    }
+    if (last_replace == NULL) {
+	last_replace = nmalloc(1);
+	last_replace[0] = 0;
+    }
+}
+
 /* Set up the system variables for a search or replace.  Returns -1 on
    abort, 0 on success, and 1 on rerun calling program 
    Return -2 to run opposite program (searchg -> replace, replace -> search)
@@ -67,20 +75,13 @@ int search_init(int replacing)
     char *buf;
     char *prompt, *reprompt = "";
 
-   if (last_search == NULL) {
-	last_search = nmalloc(1);
-	last_search[0] = 0;
-   }
-   if (last_replace == NULL) {
-	last_replace = nmalloc(1);
-	last_replace[0] = 0;
-   }
+    search_init_globals();
 
-   buf = nmalloc(strlen(last_search) + 5);
-   buf[0] = 0;
+    buf = nmalloc(strlen(last_search) + 5);
+    buf[0] = 0;
 
-   /* If using Pico messages, we do things the old fashioned way... */
-   if (ISSET(PICO_MSGS)) {
+    /* If using Pico messages, we do things the old fashioned way... */
+    if (ISSET(PICO_MSGS)) {
 	if (last_search[0]) {
 
 	    /* We use COLS / 3 here because we need to see more on the line */
@@ -428,12 +429,106 @@ char *replace_line(void)
     return copy;
 }
 
+int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
+			int wholewords, int *i)
+{
+    int replaceall = 0, numreplaced = 0;
+    filestruct *fileptr;
+    char *copy;
+
+    switch (*i) {
+    case -1:				/* Aborted enter */
+	if (strcmp(last_replace, ""))
+	    answer = mallocstrcpy(answer, last_replace);
+	statusbar(_("Replace Cancelled"));
+	replace_abort();
+	return 0;
+    case 0:		/* They actually entered something */
+	last_replace = mallocstrcpy(last_replace, answer);
+	break;
+    default:
+        if (*i != -2) {	/* First page, last page, for example 
+				   could get here */
+	    do_early_abort();
+	    replace_abort();
+	    return 0;
+        }
+    }
+
+    while (1) {
+
+	/* Sweet optimization by Rocco here */
+	fileptr = findnextstr(replaceall, begin, *beginx, prevanswer);
+
+	/* No more matches.  Done! */
+	if (!fileptr)
+	    break;
+
+	/* Make sure only wholewords are found */
+	if (wholewords)
+	{
+	    /* start of line or previous character not a letter */
+	    if ((current_x == 0) || (!isalpha(fileptr->data[current_x-1])))
+	    {
+		/* end of line or next character not a letter */
+		if (((current_x + strlen(prevanswer)) == strlen(fileptr->data))
+			|| (!isalpha(fileptr->data[current_x + strlen(prevanswer)])))
+		    ;
+		else
+		    continue;
+	    }
+	    else
+		continue;
+	}
+
+	/* If we're here, we've found the search string */
+	if (!replaceall)
+	    *i = do_yesno(1, 1, _("Replace this instance?"));
+
+	if (*i > 0 || replaceall) {	/* Yes, replace it!!!! */
+	    if (*i == 2)
+		replaceall = 1;
+
+	    copy = replace_line();
+	    if (!copy) {
+		statusbar(_("Replace failed: unknown subexpression!"));
+		replace_abort();
+		return 0;
+	    }
+
+	    /* Cleanup */
+	    free(current->data);
+	    current->data = copy;
+
+	    /* Stop bug where we replace a substring of the replacement text */
+	    current_x += strlen(last_replace) - 1;
+
+	    /* Adjust the original cursor position - COULD BE IMPROVED */
+	    if (search_last_line) {
+		*beginx += strlen(last_replace) - strlen(last_search);
+
+		/* For strings that cross the search start/end boundary */
+		/* Don't go outside of allocated memory */
+		if (*beginx < 1)
+		    *beginx = 1;
+	    }
+
+	    edit_refresh();
+	    set_modified();
+	    numreplaced++;
+	} else if (*i == -1)	/* Abort, else do nothing and continue loop */
+	    break;
+    }
+
+    return numreplaced;
+}
+
 /* Replace a string */
 int do_replace(void)
 {
-    int i, replaceall = 0, numreplaced = 0, beginx;
-    filestruct *fileptr, *begin;
-    char *copy, *prevanswer = NULL, *buf = NULL;
+    int i, numreplaced, beginx;
+    filestruct *begin;
+    char *prevanswer = NULL, *buf = NULL;
 
     i = search_init(1);
     switch (i) {
@@ -481,78 +576,15 @@ int do_replace(void)
 	i = statusq(replace_list_2, REPLACE_LIST_2_LEN, last_replace, 
 			_("Replace with"));
 
-    switch (i) {
-    case -1:				/* Aborted enter */
-	if (strcmp(last_replace, ""))
-	    answer = mallocstrcpy(answer, last_replace);
-	statusbar(_("Replace Cancelled"));
-	replace_abort();
-	return 0;
-    case 0:		/* They actually entered something */
-	last_replace = mallocstrcpy(last_replace, answer);
-	break;
-    default:
-        if (i != -2) {	/* First page, last page, for example 
-				   could get here */
-	    do_early_abort();
-	    replace_abort();
-	    return 0;
-        }
-    }
-
     /* save where we are */
     begin = current;
     beginx = current_x + 1;
+
     search_last_line = 0;
 
-    while (1) {
+    numreplaced = do_replace_loop(prevanswer, begin, &beginx, FALSE, &i);
 
-	/* Sweet optimization by Rocco here */
-	fileptr = findnextstr(replaceall, begin, beginx, prevanswer);
-
-	/* No more matches.  Done! */
-	if (!fileptr)
-	    break;
-
-	/* If we're here, we've found the search string */
-	if (!replaceall)
-	    i = do_yesno(1, 1, _("Replace this instance?"));
-
-	if (i > 0 || replaceall) {	/* Yes, replace it!!!! */
-	    if (i == 2)
-		replaceall = 1;
-
-	    copy = replace_line();
-	    if (!copy) {
-		statusbar(_("Replace failed: unknown subexpression!"));
-		replace_abort();
-		return 0;
-	    }
-
-	    /* Cleanup */
-	    free(current->data);
-	    current->data = copy;
-
-	    /* Stop bug where we replace a substring of the replacement text */
-	    current_x += strlen(last_replace) - 1;
-
-	    /* Adjust the original cursor position - COULD BE IMPROVED */
-	    if (search_last_line) {
-		beginx += strlen(last_replace) - strlen(last_search);
-
-		/* For strings that cross the search start/end boundary */
-		/* Don't go outside of allocated memory */
-		if (beginx < 1)
-		    beginx = 1;
-	    }
-
-	    edit_refresh();
-	    set_modified();
-	    numreplaced++;
-	} else if (i == -1)	/* Abort, else do nothing and continue loop */
-	    break;
-    }
-
+    /* restore where we were */
     current = begin;
     current_x = beginx - 1;
     renumber_all();

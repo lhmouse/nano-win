@@ -35,11 +35,14 @@ extern int placewewant;
 extern int mark_beginx, samelinewrap;
 extern int totsize, temp_opt;
 extern int fill, flags,tabsize;
+extern int search_last_line;
 
 extern WINDOW *edit, *topwin, *bottomwin;
 extern char filename[PATH_MAX];
 extern char *answer;
 extern char *hblank, *help_text;
+extern char *last_search;
+extern char *last_replace;
 extern struct stat fileinfo;
 extern filestruct *current, *fileage, *edittop, *editbot, *filebot; 
 extern filestruct *cutbuffer, *mark_beginbuf;
@@ -77,6 +80,8 @@ int renumber_all(void);
 int open_file(char *filename, int insert, int quiet);
 int do_writeout(int exiting);
 int do_gotoline(long defline);
+int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
+			int wholewords, int *i);
 /* Now in move.c */
 int do_up(void);
 int do_down(void);
@@ -120,6 +125,8 @@ void new_magicline(void);
 void splice_node(filestruct *begin, filestruct *new, filestruct *end);
 void null_at(char *data, int index);
 void page_up_center(void);
+void search_init_globals(void);
+void replace_abort(void);
 
 int do_writeout_void(void), do_exit(void), do_gotoline_void(void);
 int do_insertfile(void), do_search(void), page_up(void), page_down(void);
@@ -133,3 +140,5 @@ int do_replace(void), do_help(void), do_enter_void(void);
 filestruct *copy_node(filestruct * src);
 filestruct *copy_filestruct(filestruct * src);
 filestruct *make_new_node(filestruct * prevnode);
+filestruct *findnextstr(int quiet, filestruct * begin,
+			int beginx, char *needle);

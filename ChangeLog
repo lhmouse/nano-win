@@ -14,6 +14,11 @@ CVS Code -
 	  pointers.  New function not_found_msg in search.c for displaying
 	  truncated strings in satusbar when the string is not found.
 	  We disable this feature when using PICO_MSGS (-p).
+	- New spelling code by Rocco Corsi.  New functions
+	  do_int_speller, do_alt_speller, changes to do_spell in nano.c,
+	  New functions search_init_globals and do_replace_loop, changes
+	  to search_init(), do_replace, findnextstr, moved last_search and
+	  last_replace back to nano.c (*shrug*).
 - files.c:
   do_writeout()
 	- Change strcpy to answer to mallocstrcpy.
