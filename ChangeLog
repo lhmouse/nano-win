@@ -1,3 +1,8 @@
+Current CVS:
+- nano.c:
+  main():
+	- TABSIZE now set before first call to edit_refresh (Bill Soudan)
+
 nano-0.9.12 - 07/07/2000
 - all:
 	- New regexp search feature by Bill Soudan.  New flags USE_REGEXP

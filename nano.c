@@ -1757,13 +1757,13 @@ int main(int argc, char *argv[])
     else
 	edit_update(fileage);
 
-    edit_refresh();
-    reset_cursor();
-
 #ifdef HAVE_TABSIZE
     if (usrtabsize > 0)
 	TABSIZE = usrtabsize;
 #endif
+
+    edit_refresh();
+    reset_cursor();
 
     while (1) {
 	kbinput = wgetch(edit);
