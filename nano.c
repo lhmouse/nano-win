@@ -1226,7 +1226,7 @@ RETSIGTYPE do_suspend(int signal)
     sigaction(SIGTSTP, &act, NULL);
 
     endwin();
-    fprintf(stderr,"\n\n\n\nUse \"fg\" to return to nano\n");
+    fprintf(stderr,"\n\n\n\n\nUse \"fg\" to return to nano\n");
     raise(SIGTSTP);
 }
 
