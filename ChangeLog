@@ -43,7 +43,7 @@ CVS code -
 	  do_output()), get_edit_input() (renamed to do_input() and
 	  moved to nano.c), get_edit_mouse() (renamed do_mouse() and
 	  moved to nano.c), do_verbatim_input(), do_tab(), main(), and
-	  get_ascii_kbinput() (renamed to get_word_kbinput()).  The wide
+	  get_ascii_kbinput() (renamed to get_byte_kbinput()).  The wide
 	  version of ncurses is required in order for wide/multibyte
 	  input and output to work properly. (DLR; buffered input/output
 	  based on ideas from mutt 1.4.2.1; input of Unicode characters
@@ -108,6 +108,10 @@ CVS code -
   thanks_for_all_the_fish()
 	- Free the justify buffer if it isn't empty. (DLR)
 - nano.c:
+  help_init()
+	- Clarify the text describing double-escape character input.
+	  Since ASCII is technically only seven bits wide, characters
+	  128-255 aren't ASCII. (DLR, suggested by Michael Piefel)
   do_toggle()
 	- When we get the whitespace display toggle, update the titlebar
 	  as well as the edit window, in case the filename displayed on
@@ -193,6 +197,10 @@ CVS code -
 	  handles hexadecimal values now. (DLR)
 - doc/nanorc.sample:
 	- Add return to the "c-file" regexes. (DLR)
+	- Clarify the text describing good values for whitespace
+	  display.  Since ASCII is technically only seven bits wide,
+	  characters 128-255 aren't ASCII. (DLR, suggested by Michael
+	  Piefel)
 
 GNU nano 1.3.5 - 2004.11.22
 - General:

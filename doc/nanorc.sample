@@ -119,7 +119,7 @@
 # set view
 
 ## The two characters used to display the first characters of tabs and
-## spaces.  ASCII 187 and ASCII 183 seem to be good values for these.
+## spaces.  187 and 183 seem to be good values for these.
 # set whitespace "  "
 
 ## Color setup
