@@ -192,7 +192,6 @@ void blank_edit(void)
     int i;
     for (i = 0; i <= editwinrows - 1; i++)
 	mvwaddstr(edit, i, 0, hblank);
-    wrefresh(edit);
 }
 
 

@@ -537,7 +537,7 @@ char **cwd_tab_completion(char *buf, int *num_matches)
     DIR *dir;
     struct dirent *next;
 
-    matches = nmalloc(1024);
+    matches = nmalloc(BUFSIZ);
 
     /* Stick a wildcard onto the buf, for later use */
     strcat(buf, "*");
@@ -546,6 +546,7 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 /*    if (!strcmp(filename, ""))
 	dirName = get_current_dir_name(); */
 
+    /* Okie, if there's a / in the buffer, strip out the directory part */
     if (strcmp(buf, "") && strstr(buf, "/")) {
 	dirName = malloc(strlen(buf) + 1);
 	tmp = buf + strlen(buf);
@@ -556,7 +557,6 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 
 	strncpy(dirName, buf, tmp - buf + 1);
 	dirName[tmp - buf] = 0;
-/*	tmp++; */
 
     } else {
 	if ((dirName = getcwd(NULL, 0)) == NULL)
@@ -586,7 +586,7 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 	    continue;
 	}
 #ifdef DEBUG
-	fprintf(stderr, "\nComparing \'%s\'\n", next->d_name);
+	fprintf(stderr, "Comparing \'%s\'\n", next->d_name);
 #endif
 	/* See if this matches */
 	if (check_wildcard_match(next->d_name, tmp) == TRUE) {
@@ -599,6 +599,10 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 	    strcpy(tmp2, next->d_name);
 	    matches[*num_matches] = tmp2;
 	    ++*num_matches;
+
+	    /* If there's no more room, bail out */
+	    if (*num_matches == BUFSIZ)
+		break;
 	}
     }
 
@@ -622,12 +626,6 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 	char *tmp, *copyto, *matchBuf;
 
 	*lastWasTab = 1;
-
-	/* For now, we will not bother with trying to distinguish
-	 * whether the cursor is in/at a command extression -- we
-	 * will always try all possible matches.  If you don't like
-	 * that then feel free to fix it.
-	 */
 
 	/* Make a local copy of the string -- up to the position of the
 	   cursor */
@@ -671,6 +669,7 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 	switch (num_matches) {
 	case 0:
 	    blank_edit();
+	    wrefresh(edit);
 	    break;
 	case 1:
 
@@ -689,9 +688,11 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 		if (stat(buf, &fileinfo) == -1)
 		    break;
 		else if (S_ISDIR(fileinfo.st_mode)) {
+
+		    /* Tack on a slash */
 		    strncat(buf, "/", 1);
 		    *newplace += 1;
-		    /* now we start over again with # of tabs so far */
+		    /* now we start over with 0 tabs so far */
 		    *lastWasTab = 0;
 		}
 		break;
@@ -702,18 +703,18 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 		 pos <= strlen(matches[0]); pos++)
 		tmp++;
 
-	    /* write out the matched command */
+	    /* write out the matched name */
 	    strncpy(copyto, matches[0], strlen(matches[0]) + 1);
 	    *newplace += strlen(matches[0]) - pos;
 
-	    if (stat(buf, &fileinfo) == -1);
+	    if (stat(buf, &fileinfo) == -1)
+		break;
 	    else if (S_ISDIR(fileinfo.st_mode)) {
 		strncat(buf, "/", 1);
 		*newplace += 1;
 		/* now we start over again with # of tabs so far */
 		*lastWasTab = 0;
 	    }
-
 	    break;
 	default:
 	    /* Check to see if all matches share a beginning, and if so
@@ -765,6 +766,7 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 	    wmove(edit, 0, 0);
 
 	    editline = 0;
+
 	    /* Figure out the length of the longest filename */
 	    for (i = 0; i < num_matches; i++)
 		if (strlen(matches[i]) > longestname)

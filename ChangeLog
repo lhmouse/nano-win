@@ -71,6 +71,9 @@ CVS Code -
 	  nanogetstr().
 	- Black magic code to make $ appear in prompt if we're past
 	  COLS.
+  blank_edit()
+	- Removed wrefresh() call, much less choppy now.  If there's a need
+	  for a wrefresh after a specific call, let me know.
 - es.po:
 	- Updated translation to 0.9.19-CVS (Jordi).
   

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.11\n"
-"POT-Creation-Date: 2000-11-06 08:19-0500\n"
+"POT-Creation-Date: 2000-11-14 15:17-0500\n"
 "PO-Revision-Date: 2000-06-21 23:08+03:00\n"
 "Last-Translator: Pauli Virtanen <pauli.virtanen@saunalahti.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -55,7 +55,7 @@ msgstr "Tiedostoa luetaan"
 msgid "File to insert [from ./] "
 msgstr "Lisättävä tiedosto [hakemistossa ./]"
 
-#: files.c:276 files.c:300 files.c:488 nano.c:1347
+#: files.c:276 files.c:300 files.c:488 nano.c:1355
 msgid "Cancelled"
 msgstr "Peruttu"
 
@@ -107,7 +107,7 @@ msgstr "tiedoston nimi on %s"
 msgid "File exists, OVERWRITE ?"
 msgstr "Tiedosto on jo olemassa, korvataanko?"
 
-#: files.c:741
+#: files.c:801
 msgid "(more)"
 msgstr ""
 
@@ -386,7 +386,7 @@ msgid "Case Sens"
 msgstr "Kirj. koko"
 
 #: global.c:344 global.c:364 global.c:375 global.c:385 global.c:401
-#: global.c:405 global.c:411 winio.c:1008
+#: global.c:405 global.c:411 winio.c:1012
 msgid "Cancel"
 msgstr "Peru"
 
@@ -654,106 +654,102 @@ msgstr "current->data nyt = \"%s\"\n"
 msgid "After, data = \"%s\"\n"
 msgstr "Jälkeenpäin, data = \"%s\"\n"
 
-#: nano.c:1062
-msgid "Error deleting tempfile, ack!"
-msgstr "Väliaikaistiedostoa poistettaessa tapahtui virhe."
-
-#: nano.c:1106
+#: nano.c:1093
 msgid "Edit a replacement"
 msgstr ""
 
-#: nano.c:1292
+#: nano.c:1304
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Väliaikaista tiedostonnimeä ei voitu luoda: %s"
 
-#: nano.c:1312
+#: nano.c:1320
 msgid "Finished checking spelling"
 msgstr "Oikoluku on valmis"
 
-#: nano.c:1314
+#: nano.c:1322
 msgid "Spell checking failed"
 msgstr ""
 
-#: nano.c:1334
+#: nano.c:1342
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Tallenna muutettu teksti (Muutokset häviävät, jos vastaat \"ei\") ? "
 
-#: nano.c:1497
+#: nano.c:1505
 msgid "Cannot resize top win"
 msgstr "Yläikkunan kokoa ei voi muuttaa"
 
-#: nano.c:1499
+#: nano.c:1507
 msgid "Cannot move top win"
 msgstr "Yläikkunaa ei voi siirtää"
 
-#: nano.c:1501
+#: nano.c:1509
 msgid "Cannot resize edit win"
 msgstr "Muokkausikkunan kokoa ei voi muuttaa"
 
-#: nano.c:1503
+#: nano.c:1511
 msgid "Cannot move edit win"
 msgstr "Muokkausikkunaa ei voi siirtää"
 
-#: nano.c:1505
+#: nano.c:1513
 msgid "Cannot resize bottom win"
 msgstr "Alaikkunan kokoa ei voi muuttaa"
 
-#: nano.c:1507
+#: nano.c:1515
 msgid "Cannot move bottom win"
 msgstr "Alaikkunaa ei voi siirtää"
 
-#: nano.c:1778
+#: nano.c:1786
 #, fuzzy
 msgid "Justify Complete"
 msgstr "Tasaa"
 
-#: nano.c:1846
+#: nano.c:1854
 #, c-format
 msgid "%s enable/disable"
 msgstr ""
 
-#: nano.c:1858
+#: nano.c:1866
 msgid "enabled"
 msgstr ""
 
-#: nano.c:1859
+#: nano.c:1867
 msgid "disabled"
 msgstr ""
 
-#: nano.c:2089
+#: nano.c:2097
 msgid "Main: set up windows\n"
 msgstr "Päätila: ikkunoiden asettelu\n"
 
-#: nano.c:2102
+#: nano.c:2110
 msgid "Main: bottom win\n"
 msgstr "Päätila: alaikkuna\n"
 
-#: nano.c:2108
+#: nano.c:2116
 msgid "Main: open file\n"
 msgstr "Päätila: avaa tiedosto\n"
 
-#: nano.c:2142
+#: nano.c:2150
 #, fuzzy, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-[-%c! (%d)\n"
 
-#: nano.c:2164
+#: nano.c:2172
 #, fuzzy, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-[-%c! (%d)\n"
 
-#: nano.c:2197
+#: nano.c:2205
 #, fuzzy, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-[-%c! (%d)\n"
 
-#: nano.c:2245
+#: nano.c:2253
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-[-%c! (%d)\n"
 
-#: nano.c:2271
+#: nano.c:2279
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-%c! (%d)\n"
@@ -849,70 +845,73 @@ msgstr "Vain %d riviä olemassa, siirrytään viimeiselle riville"
 msgid "actual_x_from_start for xplus=%d returned %d\n"
 msgstr "actual_x_from_start parametrilla xplus=%d palautti %d\n"
 
-#: winio.c:421
+#: winio.c:425
 #, c-format
 msgid "input '%c' (%d)\n"
 msgstr "syöte '%c' (%d)\n"
 
-#: winio.c:459
+#: winio.c:463
 msgid "New Buffer"
 msgstr "Uusi teksti"
 
-#: winio.c:462
+#: winio.c:466
 msgid "  File: ..."
 msgstr "  Tiedosto: ..."
 
-#: winio.c:470
+#: winio.c:474
 msgid "Modified"
 msgstr "Muokattu"
 
-#: winio.c:922
+#: winio.c:926
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr "Kohtaan (%d,%d) siirrytty muokkausruudussa\n"
 
-#: winio.c:933
+#: winio.c:937
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr "current->data = \"%s\"\n"
 
-#: winio.c:978
+#: winio.c:982
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "Saatiin \"%s\"\n"
 
-#: winio.c:1003
+#: winio.c:1007
 msgid "Yes"
 msgstr "Kyllä"
 
-#: winio.c:1005
+#: winio.c:1009
 msgid "All"
 msgstr "Kaikki"
 
-#: winio.c:1007
+#: winio.c:1011
 msgid "No"
 msgstr "Ei"
 
-#: winio.c:1144
+#: winio.c:1148
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
-#: winio.c:1148
+#: winio.c:1152
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "rivi %d/%d (%.0f%%), merkki %d/%d (%.0f%%)"
 
-#: winio.c:1276
+#: winio.c:1280
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Syötetään tiedosto stderriin...\n"
 
-#: winio.c:1278
+#: winio.c:1282
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Syötetään leiketila stderriin...\n"
 
-#: winio.c:1280
+#: winio.c:1284
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Syötetään teksti stderriin...\n"
+
+#~ msgid "Error deleting tempfile, ack!"
+#~ msgstr "Väliaikaistiedostoa poistettaessa tapahtui virhe."
 
 #~ msgid "Could not invoke spell program \"%s\""
 #~ msgstr "Oikoluinta \"%s\" ei voitu käynnistää"
