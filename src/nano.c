@@ -2575,11 +2575,11 @@ bool indents_match(const char *a_line, size_t a_indent, const char
  *	4) the indentation of this line is not an initial substring of
  *	   the indentation of the previous line, or
  *	5) this line has no quote part and some indentation, and
- *	   AUTOINDENT is not set.
- *   The reason for number 5) is that if AUTOINDENT is not set, then an
- *   indented line is expected to start a paragraph, like in books.
- *   Thus, nano can justify an indented paragraph only if AUTOINDENT is
- *   turned on. */
+ *	   autoindent isn't turned on.
+ *   The reason for number 5) is that if autoindent isn't turned on,
+ *   then an indented line is expected to start a paragraph, as in
+ *   books.  Thus, nano can justify an indented paragraph only if
+ *   autoindent is turned on. */
 bool begpar(const filestruct *const foo)
 {
     size_t quote_len;
