@@ -1,4 +1,7 @@
 CVS code -
+- winio.c:
+	- Added David Lawrence Ramsey to credits.
+
 nano 1.0.4 - 08/24/2001
 - General
 	- Added BUGS #63 & 64.  Fixes in search_init() and nanogetstr(),
