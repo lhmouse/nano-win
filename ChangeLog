@@ -83,7 +83,7 @@ CVS Code -
 	- Removed wrefresh() call, much less choppy now.  If there's a need
 	  for a wrefresh after a specific call, let me know.
 - es.po:
-	- Updated translation to 0.9.19-CVS (Jordi).
+	- Updated translation for 0.9.20 (Jordi).
   
 nano 0.9.19 - 10/02/2000
 - General

@@ -110,7 +110,7 @@ msgstr "El fichero existe, SOBREESCRIBIR ?"
 
 #: files.c:801
 msgid "(more)"
-msgstr ""
+msgstr "(más)"
 
 #: global.c:124
 msgid "Constant cursor position"
@@ -129,9 +129,8 @@ msgid "Help mode"
 msgstr "Modo ayuda"
 
 #: global.c:128
-#, fuzzy
 msgid "Pico mode"
-msgstr "Mensajes de Pico"
+msgstr "Modo Pico"
 
 #: global.c:129
 msgid "Mouse support"
@@ -508,7 +507,7 @@ msgstr " -r [#cols] \t--fill=[#cols]\t\tRellenar columnas (wrapear en) #cols\n"
 
 #: nano.c:367
 msgid " -p\t \t--pico\t\t\tEmulate Pico as closely as possible\n"
-msgstr ""
+msgstr " -p\t \t--pico\t\t\tEmular a Pico lo máximo posible\n"
 
 #: nano.c:369
 msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
@@ -596,7 +595,7 @@ msgstr " -s [prog] \tHabilitar corrector alternativo\n"
 
 #: nano.c:404
 msgid " -p \t\tEmulate Pico as closely as possible\n"
-msgstr ""
+msgstr " -p \t\tEmular a Pico lo máximo posible\n"
 
 #: nano.c:405
 msgid " -t \t\tAuto save on exit, don't prompt\n"
@@ -656,7 +655,7 @@ msgstr "Después, data = \"%s\"\n"
 
 #: nano.c:1093
 msgid "Edit a replacement"
-msgstr ""
+msgstr "Editar un reemplazo"
 
 #: nano.c:1304
 #, c-format
@@ -669,7 +668,7 @@ msgstr "Revisión de ortografía finalizada"
 
 #: nano.c:1322
 msgid "Spell checking failed"
-msgstr ""
+msgstr "Comprobación de ortografía fallida"
 
 #: nano.c:1342
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
@@ -700,7 +699,6 @@ msgid "Cannot move bottom win"
 msgstr "No se puede mover la ventana inferior"
 
 #: nano.c:1786
-#, fuzzy
 msgid "Justify Complete"
 msgstr "Justificar Completado"
 
@@ -730,17 +728,17 @@ msgid "Main: open file\n"
 msgstr "Main: abrir fichero\n"
 
 #: nano.c:2150
-#, fuzzy, c-format
+#, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Pillé Alt-O-%c! (%d)\n"
 
 #: nano.c:2172
-#, fuzzy, c-format
+#, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Pillé Alt-[-1-%c! (%d)\n"
 
 #: nano.c:2205
-#, fuzzy, c-format
+#, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Pillé Alt-[-2-%c! (%d)\n"
 
@@ -783,9 +781,9 @@ msgid "Search Cancelled"
 msgstr "Búsqueda Cancelada"
 
 #: search.c:194
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s...\" not found"
-msgstr "\"%s\" no encontrado"
+msgstr "\"%s...\" no encontrado"
 
 #: search.c:243
 msgid "Search Wrapped"
