@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.0.2\n"
-"POT-Creation-Date: 2001-05-11 20:55-0400\n"
+"POT-Creation-Date: 2001-06-23 05:02+0200\n"
 "PO-Revision-Date: 2001-06-22 14:38GMT+0700\n"
 "Last-Translator: Tedi Heriyanto <tedi_h@gmx.net>\n"
 "Language-Team: Indonesian <id@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 msgid "add_to_cutbuffer called with inptr->data = %s\n"
 msgstr "add_to_cutbuffer dipanggil dgn inptr->data = %s\n"
 
-#: cut.c:148
+#: cut.c:158
 msgid "Blew away cutbuffer =)\n"
 msgstr "Hapus cutbuffer =)\n"
 
@@ -61,7 +61,7 @@ msgstr "Membaca File"
 msgid "File to insert [from ./] "
 msgstr "File untuk disisipkan [dari ./] "
 
-#: files.c:310 files.c:335 files.c:567 nano.c:1515
+#: files.c:310 files.c:335 files.c:567 nano.c:1516
 msgid "Cancelled"
 msgstr "Dibatalkan"
 
@@ -422,13 +422,21 @@ msgstr "Ke File"
 
 #: nano.c:141
 #, c-format
-msgid "\nBuffer written to %s\n"
-msgstr "\nBuffer ditulis ke %s\n"
+msgid ""
+"\n"
+"Buffer written to %s\n"
+msgstr ""
+"\n"
+"Buffer ditulis ke %s\n"
 
 #: nano.c:143
 #, c-format
-msgid "\nNo %s written (file exists?)\n"
-msgstr "\n%s tidak ditulis (file ada?)\n"
+msgid ""
+"\n"
+"No %s written (file exists?)\n"
+msgstr ""
+"\n"
+"%s tidak ditulis (file ada?)\n"
 
 #: nano.c:152
 msgid "Window size is too small for Nano..."
@@ -442,9 +450,20 @@ msgstr "Kunci ilegal dalam mode VIEW"
 msgid ""
 " nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor: The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages. The bottom two lines show the most commonly used shortcuts in the editor.\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of "
+"the UW Pico text editor.  There are four main sections of the editor: The "
+"top line shows the program version, the current filename being edited, and "
+"whether or not the file has been modified.  Next is the main editor window "
+"showing the file being edited.  The status line is the third line from the "
+"bottom and shows important messages. The bottom two lines show the most "
+"commonly used shortcuts in the editor.\n"
 "\n"
-" The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt or Meta key depending on your keyboard setup.  The following keystrokes are available in the main editor window. Optional keys are shown in parentheses:\n"
+" The notation for shortcuts is as follows: Control-key sequences are notated "
+"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
+"key sequences are notated with the Meta (M) symbol and can be entered using "
+"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
+"following keystrokes are available in the main editor window. Optional keys "
+"are shown in parentheses:\n"
 "\n"
 msgstr ""
 "bantuan teks untuk nano\n"
@@ -458,9 +477,12 @@ msgstr ""
 "menampilkan pesan-pesan penting. Dua baris terbawah menunjukkan\n"
 "shortcut yang umum digunakan dalam editor.\n"
 "\n"
-"Notasi untuk shortcut adalah sebagai berikut : urutan kunci Control dilambangkan\n"
-"dengan simbol caret (^) dan dimasukkan dengan menekan tombol Control (Ctrl). \n"
-"Urutan kunci Escape dilambangkan dengan simbol Meta (M) dan dapat dimasukkan dengan \n"
+"Notasi untuk shortcut adalah sebagai berikut : urutan kunci Control "
+"dilambangkan\n"
+"dengan simbol caret (^) dan dimasukkan dengan menekan tombol Control "
+"(Ctrl). \n"
+"Urutan kunci Escape dilambangkan dengan simbol Meta (M) dan dapat dimasukkan "
+"dengan \n"
 "menggunakan tombol Esc, Alt atau Meta tergantung pada setup keyboard anda. \n"
 "Kunci-kunci berikut tersedia dalam jendela editor utama.\n"
 "Kunci-kunci opsional ditunjukkan dalam kurung:\n"
@@ -475,7 +497,9 @@ msgid "delete_node(): free'd last node.\n"
 msgstr "delete_node(): bebaskan node terakhir.\n"
 
 #: nano.c:358
-msgid "Usage: nano [GNU long option] [option] +LINE <file>\n\n"
+msgid ""
+"Usage: nano [GNU long option] [option] +LINE <file>\n"
+"\n"
 msgstr "Pemakaian: nano [GNU long option] [option] +LINE <file>\n"
 
 #: nano.c:359
@@ -523,7 +547,8 @@ msgid " -p\t \t--pico\t\t\tEmulate Pico as closely as possible\n"
 msgstr "-p      --pico  Emulasikan Pico sebaik mungkin\n"
 
 #: nano.c:390
-msgid " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
+msgid ""
+" -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
 msgstr "-r [#cols]      --fill=[#cols]  Set fill col ke (wrap line di) #cols\n"
 
 #: nano.c:393
@@ -532,7 +557,8 @@ msgstr "-s [prog]       --speller=[prog]        Aktifkan speller alternatif\n"
 
 #: nano.c:396
 msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
-msgstr "-t      --tempfile      Autosave saat keluar, jangan minta konfirmasi\n"
+msgstr ""
+"-t      --tempfile      Autosave saat keluar, jangan minta konfirmasi\n"
 
 #: nano.c:398
 msgid " -v \t\t--view\t\t\tView (read only) mode\n"
@@ -555,8 +581,12 @@ msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
 msgstr "+LINE                   Mulai pada nomor baris LINE\n"
 
 #: nano.c:410
-msgid "Usage: nano [option] +LINE <file>\n\n"
-msgstr "Pemakaian: nano [option] +LINE <file>\n\n"
+msgid ""
+"Usage: nano [option] +LINE <file>\n"
+"\n"
+msgstr ""
+"Pemakaian: nano [option] +LINE <file>\n"
+"\n"
 
 #: nano.c:411
 msgid "Option\t\tMeaning\n"
@@ -644,8 +674,12 @@ msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 msgstr " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 
 #: nano.c:451
-msgid "\n Compiled options:"
-msgstr "\nOption kompilasi:"
+msgid ""
+"\n"
+" Compiled options:"
+msgstr ""
+"\n"
+"Option kompilasi:"
 
 #: nano.c:519
 msgid "Mark Set"
@@ -674,109 +708,111 @@ msgstr "Setelah, data= \"%s\"\n"
 msgid "Edit a replacement"
 msgstr "Edit pengganti"
 
-#: nano.c:1462
+#: nano.c:1463
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Tidak dapat membuat nama file sementara: %s"
 
-#: nano.c:1468
+#: nano.c:1469
 msgid "Spell checking failed: unable to write temp file!"
 msgstr "Spell checking gagal: tidak dapat menulis file temp!"
 
-#: nano.c:1480
+#: nano.c:1481
 msgid "Finished checking spelling"
 msgstr "Selesai memeriksa ejaan"
 
-#: nano.c:1482
+#: nano.c:1483
 msgid "Spell checking failed"
 msgstr "Spell checking gagal"
 
-#: nano.c:1502
+#: nano.c:1503
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Simpan buffer termodifikasi (JAWAB \"No\" AKAN MENGHAPUS PERUBAHAN) ?"
 
-#: nano.c:1598
+#: nano.c:1599
 msgid "Received SIGHUP"
 msgstr "Menerima SIGHUP"
 
-#: nano.c:1661
+#: nano.c:1662
 msgid "Cannot resize top win"
 msgstr "Tidak dapat menganti ukuran jendela atas"
 
-#: nano.c:1663
+#: nano.c:1664
 msgid "Cannot move top win"
 msgstr "Tidak dapat memindahkan jendela atas"
 
-#: nano.c:1665
+#: nano.c:1666
 msgid "Cannot resize edit win"
 msgstr "Tidak dapat mengganti ukuran jendela edit"
 
-#: nano.c:1667
+#: nano.c:1668
 msgid "Cannot move edit win"
 msgstr "Tidak dapat memindah jendela edit"
 
-#: nano.c:1669
+#: nano.c:1670
 msgid "Cannot resize bottom win"
 msgstr "Tidak dapat mengganti ukuran jendela bawah"
 
-#: nano.c:1671
+#: nano.c:1672
 msgid "Cannot move bottom win"
 msgstr "Tidak dapat memindah jendela bawah"
 
-#: nano.c:1979
+#: nano.c:1980
 msgid "Can now UnJustify!"
 msgstr "Sekarang dapat melakukan UnJustify"
 
-#: nano.c:2077
+#: nano.c:2078
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s enable/disable"
 
-#: nano.c:2092
+#: nano.c:2093
 msgid "enabled"
 msgstr "enabled"
 
-#: nano.c:2093
+#: nano.c:2094
 msgid "disabled"
 msgstr "disabled"
 
-#: nano.c:2145
+#: nano.c:2146
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
-msgstr "Glitch pada NumLock terdeteksi. Keypad akan tidak berfungsi dg tombol NumLock off"
+msgstr ""
+"Glitch pada NumLock terdeteksi. Keypad akan tidak berfungsi dg tombol "
+"NumLock off"
 
-#: nano.c:2371
+#: nano.c:2372
 msgid "Main: set up windows\n"
 msgstr "Main: menset jendela\n"
 
-#: nano.c:2378
+#: nano.c:2379
 msgid "Main: bottom win\n"
 msgstr "Main: jendela bawah\n"
 
-#: nano.c:2384
+#: nano.c:2385
 msgid "Main: open file\n"
 msgstr "Main: membuka file\n"
 
-#: nano.c:2437
+#: nano.c:2438
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Saya mendapat Alt-O-%c! (%d)\n"
 
-#: nano.c:2464
+#: nano.c:2465
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Saya mendapat Alt-[-1-%c! (%d)\n"
 
-#: nano.c:2497
+#: nano.c:2498
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Saya mendapat Alt-[-2-%c! (%d)\n"
 
-#: nano.c:2543
+#: nano.c:2544
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"
 
-#: nano.c:2569
+#: nano.c:2570
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Saya mendapat Alt-%c! (%d)\n"

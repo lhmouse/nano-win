@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.9\n"
-"POT-Creation-Date: 2001-05-11 20:55-0400\n"
+"POT-Creation-Date: 2001-06-23 05:02+0200\n"
 "PO-Revision-Date: 2000-07-09 01:32+0100\n"
 "Last-Translator: Clement Laforet <sheep.killer@free.fr>\n"
 "Language-Team: French <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "add_to_cutbuffer called with inptr->data = %s\n"
 msgstr "add_to_cutbuffer appelé avec inptr->data = %s\n"
 
-#: cut.c:148
+#: cut.c:158
 msgid "Blew away cutbuffer =)\n"
 msgstr "cutbuffer annihilé -)\n"
 
@@ -64,7 +64,7 @@ msgstr "Lecture du fichier"
 msgid "File to insert [from ./] "
 msgstr "Fichier à insérer [depuis ./] "
 
-#: files.c:310 files.c:335 files.c:567 nano.c:1515
+#: files.c:310 files.c:335 files.c:567 nano.c:1516
 msgid "Cancelled"
 msgstr "Annulé"
 
@@ -472,17 +472,17 @@ msgid ""
 "commonly used shortcuts in the editor.\n"
 "\n"
 " The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  "
-"Escape-key sequences are notated with the Meta (M) symbol and can be entered "
-"using either the Esc, Alt or Meta key depending on your keyboard setup.  The "
+"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
+"key sequences are notated with the Meta (M) symbol and can be entered using "
+"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
 "following keystrokes are available in the main editor window. Optional keys "
 "are shown in parentheses:\n"
 "\n"
 msgstr ""
 "Message d'aide de Nano\n"
-"L'éditeur Nano est conçu pour émuler les fonctions et la facilité "
-"d'utili-sation de l'éditeur PICO. Il y a quatre sections principales dans "
-"cet éditeur : la ligne du haut affiche la version du programme, le "
+"L'éditeur Nano est conçu pour émuler les fonctions et la facilité d'utili-"
+"sation de l'éditeur PICO. Il y a quatre sections principales dans cet "
+"éditeur : la ligne du haut affiche la version du programme, le "
 "fichieractuellement édité, et s'il a été modifié ou non. Ensuite il y a "
 "lafenêtre principale d'édition qui affiche le fichier en cours de "
 "modification.La ligne d'état est la troisième en partant du bas, elle "
@@ -730,109 +730,109 @@ msgstr "Après, data = \"%s\"\n"
 msgid "Edit a replacement"
 msgstr ""
 
-#: nano.c:1462
+#: nano.c:1463
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Impossible de créer un nom de fichier temporaire: %s"
 
-#: nano.c:1468
+#: nano.c:1469
 msgid "Spell checking failed: unable to write temp file!"
 msgstr ""
 
-#: nano.c:1480
+#: nano.c:1481
 msgid "Finished checking spelling"
 msgstr "Vérification orthographique terminée"
 
-#: nano.c:1482
+#: nano.c:1483
 msgid "Spell checking failed"
 msgstr ""
 
-#: nano.c:1502
+#: nano.c:1503
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Sauver le buffer modifié (RÉPONDRE \"No\" EFFACERA LES CHANGEMENTS"
 
-#: nano.c:1598
+#: nano.c:1599
 msgid "Received SIGHUP"
 msgstr ""
 
-#: nano.c:1661
+#: nano.c:1662
 msgid "Cannot resize top win"
 msgstr "Impossible de redimensionner la fenêtre du haut"
 
-#: nano.c:1663
+#: nano.c:1664
 msgid "Cannot move top win"
 msgstr "Impossible de bouger la fenêtre du haut"
 
-#: nano.c:1665
+#: nano.c:1666
 msgid "Cannot resize edit win"
 msgstr "Impossible de redimensionner la fenêtre d'édition"
 
-#: nano.c:1667
+#: nano.c:1668
 msgid "Cannot move edit win"
 msgstr "Impossible de bouger la fenêtre d'édition"
 
-#: nano.c:1669
+#: nano.c:1670
 msgid "Cannot resize bottom win"
 msgstr "Impossible de redimensionner la fenêtre du bas"
 
-#: nano.c:1671
+#: nano.c:1672
 msgid "Cannot move bottom win"
 msgstr "Impossible de bouger la fenêtre du bas"
 
-#: nano.c:1979
+#: nano.c:1980
 msgid "Can now UnJustify!"
 msgstr ""
 
-#: nano.c:2077
+#: nano.c:2078
 #, c-format
 msgid "%s enable/disable"
 msgstr ""
 
-#: nano.c:2092
+#: nano.c:2093
 msgid "enabled"
 msgstr ""
 
-#: nano.c:2093
+#: nano.c:2094
 msgid "disabled"
 msgstr ""
 
-#: nano.c:2145
+#: nano.c:2146
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 
-#: nano.c:2371
+#: nano.c:2372
 msgid "Main: set up windows\n"
 msgstr "Main: configuration des fenêtres\n"
 
-#: nano.c:2378
+#: nano.c:2379
 msgid "Main: bottom win\n"
 msgstr "Main: fenêtre du bas\n"
 
-#: nano.c:2384
+#: nano.c:2385
 msgid "Main: open file\n"
 msgstr "Main: ouvrir fichier\n"
 
-#: nano.c:2437
+#: nano.c:2438
 #, fuzzy, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "J'ai reçu Alt-[-%c! (%d)\n"
 
-#: nano.c:2464
+#: nano.c:2465
 #, fuzzy, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "J'ai reçu Alt-[-%c! (%d)\n"
 
-#: nano.c:2497
+#: nano.c:2498
 #, fuzzy, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "J'ai reçu Alt-[-%c! (%d)\n"
 
-#: nano.c:2543
+#: nano.c:2544
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "J'ai reçu Alt-[-%c! (%d)\n"
 
-#: nano.c:2569
+#: nano.c:2570
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "J'ai reçu Alt-%c! (%d)\n"
