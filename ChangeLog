@@ -2,8 +2,13 @@ CVS code -
 - faq.html:
 	- Fix typos and small mistakes (Jordi).
 - files.c:
+  username_tab_completion()
+	- Added the (char *) sizeof when allocating memory for the filename
+	  array (Rocco).
   cwd_tab_completion()
 	- removed skipping . and .. when tabulating matches.
+	- Added the (char *) sizeof when allocating memory for the filename
+	  array (Rocco).
 - nano.c:
   main()
 	- Reorder the getopt options to be more or less alphabetical

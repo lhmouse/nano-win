@@ -688,8 +688,8 @@ char **username_tab_completion(char *buf, int *num_matches)
 	homedirs = (char **) NULL;
 	*num_matches = 0;
     }
-    matches = nmalloc(BUFSIZ);
-    homedirs = nmalloc(BUFSIZ);
+    matches = nmalloc(BUFSIZ * sizeof(char *));
+    homedirs = nmalloc(BUFSIZ * sizeof(char *));
     strcat(buf, "*");
     do {
 	i = 0;
@@ -757,7 +757,7 @@ char **cwd_tab_completion(char *buf, int *num_matches)
     DIR *dir;
     struct dirent *next;
 
-    matches = nmalloc(BUFSIZ);
+    matches = nmalloc(BUFSIZ * sizeof(char *));
 
     /* Stick a wildcard onto the buf, for later use */
     strcat(buf, "*");
