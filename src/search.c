@@ -654,8 +654,9 @@ char *replace_line(const char *needle)
  * needle is the string to seek.  We replace it with answer.  Return -1
  * if needle isn't found, else the number of replacements performed.  If
  * canceled isn't NULL, set it to TRUE if we canceled. */
-ssize_t do_replace_loop(const char *needle, filestruct *real_current,
-	size_t *real_current_x, bool wholewords, bool *canceled)
+ssize_t do_replace_loop(const char *needle, const filestruct
+	*real_current, size_t *real_current_x, bool wholewords, bool
+	*canceled)
 {
     ssize_t numreplaced = -1;
     size_t match_len;
