@@ -1621,10 +1621,7 @@ void titlebar(const char *path)
 
     if (path == NULL)
 	path = filename;
-    if (space > prefixlen + statelen)
-	space -= prefixlen + statelen;
-    else
-	space = 0;
+    space -= prefixlen + statelen;
 	/* space is now the room we have for the file name. */
     if (!newbuffer) {
 	size_t lenpt = strlenpt(path), start_col;
@@ -1650,7 +1647,7 @@ void titlebar(const char *path)
     } else {
 	/* We will say something like "File: ...ename". */
 	waddnstr(topwin, prefix, prefixlen);
-	if (space == 0 || newbuffer)
+	if (space <= 0 || newbuffer)
 	    goto the_end;
 	waddch(topwin, ' ');
 	waddnstr(topwin, "...", space);
