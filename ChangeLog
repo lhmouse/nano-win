@@ -5,7 +5,11 @@ CVS code -
 	- Added SAMELINE case to above.  Added checks to cases 1b and
 	  2b for placement of cursor.
 - search.c:
+  print_replaced()
 	- s/occurence/occurrence typos (Jordi).
+  search_init()
+	- If using Pico mode and regex and same answer is entered, use
+	  last_search string instead of answer (fixes BUG #56).
 - nano.texi:
 	- Meta-Z correction and grammar in --enable-tiny desc (Neil Parks).
 

@@ -81,7 +81,6 @@ int search_init(int replacing)
     buf = nmalloc(strlen(last_search) + 5);
     buf[0] = 0;
 
-
      /* Okay, fun time.  backupstring is our holder for what is being 
 	returned from the statusq call.  Using answer for this would be tricky.
 	Here, if we're using PICO_MODE, we only want nano to put the
@@ -140,8 +139,14 @@ int search_init(int replacing)
 	return -1;
     } else if (i == -2) {	/* Same string */
 #ifdef HAVE_REGEX_H
-	if (ISSET(USE_REGEXP))
-	    regexp_init(answer);
+	if (ISSET(USE_REGEXP)) {
+
+	    /* If we're in pico mode, answer is "", use last_search! */
+	    if (ISSET(PICO_MODE))
+		regexp_init(last_search);
+	    else
+		regexp_init(answer);
+	}
 #else
 	;
 #endif

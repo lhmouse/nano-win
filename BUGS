@@ -99,6 +99,8 @@
   higuita@cadernoverde.com) (54) [FIXED].
 - When using autoindent (-i), wrapped text does not get auto-indented
   (55, discovered by Mark Senior) [FIXED].
+- When using -R (regex) and -p (pico mode), subsequent searches after
+  the first fail if no string is entered (56) [FIXED].
 
 ** Open BUGS **
 
