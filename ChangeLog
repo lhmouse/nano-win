@@ -76,6 +76,21 @@ CVS code -
 	  to do_verbatim_input(), handle_sigwinch(), get_kbinput(),
 	  get_ascii_kbinput(), get_escape_seq_kbinput(), and
 	  get_verbatim_kbinput(). (DLR)
+	- Overhaul all the movement functions in order to avoid
+	  redundant screen redraws (and regexec()s when color support is
+	  available) whenever possible during ordinary cursor movement
+	  when the text doesn't change.  Do the same for moving in
+	  do_char(), do_delete(), do_next_word(), do_prev_word(),
+	  do_search(), do_research(), and do_replace_loop.  Changes to
+	  do_first_line(), do_last_line(), do_home(), do_end(),
+	  do_page_up(), do_page_down(), do_up(), do_down(), do_left(),
+	  do_right(), do_delete(), do_backspace(), do_search(),
+	  do_research(), do_replace_loop(), do_find_bracket(), and
+	  edit_refresh().  New functions do_left_void(),
+	  do_right_void(), need_horizontal_update(),
+	  need_vertical_update(), edit_scroll(), and edit_redraw().
+	  Also rename the int refresh in do_delete() and do_backspace()
+	  to do_refresh so as not to conflict with refresh(). (DLR)
 - files.c:
   add_open_file()
 	- Rearrange the NANO_SMALL #ifdef so that the code to set the
@@ -196,6 +211,7 @@ CVS code -
 	- Since REGEXP_COMPILED is only used in search.c, convert it
 	  from a flag to a static int there. (DLR)
 	- Add justbegend enum, used in do_para_search(). (DLR)
+	- Add updown enum, used in edit_scroll(). (DLR)
 - proto.h:
 	- Remove unused xpt() and add_marked_sameline() prototypes.
 	  (DLR)

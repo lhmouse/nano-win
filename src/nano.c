@@ -928,8 +928,8 @@ void do_char(char ch)
 {
     size_t current_len = strlen(current->data);
 #if !defined(DISABLE_WRAPPING) || defined(ENABLE_COLOR)
-    int refresh = FALSE;
-	/* Do we have to run edit_refresh(), or can we get away with
+    int do_refresh = FALSE;
+	/* Do we have to call edit_refresh(), or can we get away with
 	 * update_line()? */
 #endif
 
@@ -962,22 +962,27 @@ void do_char(char ch)
 	mark_beginx++;
 #endif
 
-    do_right();
+    do_right(FALSE);
 
 #ifndef DISABLE_WRAPPING
+    /* If we're wrapping text, we need to call edit_refresh(). */
     if (!ISSET(NO_WRAP) && ch != '\t')
-	refresh = do_wrap(current);
+	do_refresh = do_wrap(current);
 #endif
 
 #ifdef ENABLE_COLOR
+    /* If color syntaxes are turned on, we need to call
+     * edit_refresh(). */
     if (ISSET(COLOR_SYNTAX))
-	refresh = TRUE;
+	do_refresh = TRUE;
 #endif
 
 #if !defined(DISABLE_WRAPPING) || defined(ENABLE_COLOR)
-    if (refresh)
+    if (do_refresh)
 	edit_refresh();
+    else
 #endif
+	update_line(current, current_x);
 }
 
 int do_verbatim_input(void)
@@ -1006,7 +1011,7 @@ int do_verbatim_input(void)
 int do_backspace(void)
 {
     if (current != fileage || current_x > 0) {
-	do_left();
+	do_left(FALSE);
 	do_delete();
     }
     return 1;
@@ -1014,6 +1019,10 @@ int do_backspace(void)
 
 int do_delete(void)
 {
+    int do_refresh = FALSE;
+	/* Do we have to call edit_refresh(), or can we get away with
+	 * update_line()? */
+
     assert(current != NULL && current->data != NULL && current_x <=
 	strlen(current->data));
 
@@ -1040,6 +1049,12 @@ int do_delete(void)
 	filestruct *foo = current->next;
 
 	assert(current_x == strlen(current->data));
+
+	/* If we're deleting at the end of a line, we need to call
+	 * edit_refresh(). */
+	if (current->data[current_x] == '\0')
+	    do_refresh = TRUE;
+
 	current->data = charealloc(current->data, current_x +
 		strlen(foo->data) + 1);
 	strcpy(current->data + current_x, foo->data);
@@ -1062,7 +1077,19 @@ int do_delete(void)
 
     totsize--;
     set_modified();
-    edit_refresh();
+
+#ifdef ENABLE_COLOR
+    /* If color syntaxes are turned on, we need to call
+     * edit_refresh(). */
+    if (ISSET(COLOR_SYNTAX))
+	do_refresh = TRUE;
+#endif
+
+    if (do_refresh)
+	edit_refresh();
+    else
+	update_line(current, current_x);
+
     return 1;
 }
 
@@ -1136,6 +1163,7 @@ int do_enter(void)
 #ifndef NANO_SMALL
 int do_next_word(void)
 {
+    const filestruct *current_save = current;
     assert(current != NULL && current->data != NULL);
 
     /* Skip letters in this word first. */
@@ -1160,7 +1188,7 @@ int do_next_word(void)
 
     /* Refresh the screen.  If current has run off the bottom, this
      * call puts it at the center line. */
-    edit_refresh();
+    edit_redraw(current_save);
 
     return 0;
 }
@@ -1168,6 +1196,7 @@ int do_next_word(void)
 /* The same thing for backwards. */
 int do_prev_word(void)
 {
+    const filestruct *current_save = current;
     assert(current != NULL && current->data != NULL);
 
     /* Skip letters in this word first. */
@@ -1197,7 +1226,7 @@ int do_prev_word(void)
 
     /* Refresh the screen.  If current has run off the top, this call
      * puts it at the center line. */
-    edit_refresh();
+    edit_redraw(current_save);
 
     return 0;
 }
@@ -1429,8 +1458,8 @@ int do_int_spell_fix(const char *word)
 {
     char *save_search;
     char *save_replace;
-    filestruct *current_save = current;
     size_t current_x_save = current_x;
+    filestruct *current_save = current;
     filestruct *edittop_save = edittop;
 	/* Save where we are. */
     int i = 0;
@@ -2131,19 +2160,16 @@ int break_line(const char *line, int goal, int force)
 int do_para_search(justbegend search_type, size_t *quote, size_t *par,
 	size_t *indent, int do_refresh)
 {
+    const filestruct *current_save = current;
     size_t quote_len;
 	/* Length of the initial quotation of the paragraph we
 	 * search. */
     size_t par_len;
 	/* Number of lines in that paragraph. */
-
-    /* We save this global variable to see if we're where we started
-     * when searching for the beginning of the paragraph. */
-    filestruct *current_save = current;
-
-    size_t indent_len;	/* Generic indentation length. */
-    filestruct *line;	/* Generic line of text. */
-
+    size_t indent_len;
+	/* Generic indentation length. */
+    filestruct *line;
+	/* Generic line of text. */
     static int do_restart = 1;
     	/* Whether we're restarting when searching for the beginning
     	 * line of the paragraph. */
@@ -2209,7 +2235,7 @@ int do_para_search(justbegend search_type, size_t *quote, size_t *par,
 	    if (current->prev == NULL) {
 		placewewant = 0;
 		if (do_refresh)
-		    edit_refresh();
+		    edit_redraw(current_save);
 #ifdef HAVE_REGEX_H
 		if (!do_restart)
 		    regfree(&qreg);
@@ -2230,7 +2256,7 @@ int do_para_search(justbegend search_type, size_t *quote, size_t *par,
 	    if (current->next == NULL) {
 		placewewant = 0;
 		if (do_refresh)
-		    edit_refresh();
+		    edit_redraw(current_save);
 #ifdef HAVE_REGEX_H
 		regfree(&qreg);
 #endif
@@ -2321,7 +2347,7 @@ int do_para_search(justbegend search_type, size_t *quote, size_t *par,
 
     /* Refresh the screen if needed. */
     if (do_refresh)
-	edit_refresh();
+	edit_redraw(current_save);
 
     /* Save the values of quote_len, par_len, and indent_len if
      * needed. */
@@ -2368,9 +2394,9 @@ int do_justify(int full_justify)
      * unjustifies.  Note we don't need to save totlines. */
     int current_x_save = current_x;
     int current_y_save = current_y;
-    filestruct *current_save = current;
     int flags_save = flags;
     long totsize_save = totsize;
+    filestruct *current_save = current;
     filestruct *edittop_save = edittop;
 #ifndef NANO_SMALL
     filestruct *mark_beginbuf_save = mark_beginbuf;

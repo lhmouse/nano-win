@@ -2483,6 +2483,138 @@ void update_line(const filestruct *fileptr, size_t index)
 	mvwaddch(edit, line, COLS - 1, '$');
 }
 
+/* Return a nonzero value if we need an update after moving
+ * horizontally.  We need one if the mark is on or if old_pww and
+ * placewewant are on different pages.  Assume none of the text has
+ * changed since the last update. */
+int need_horizontal_update(int old_pww)
+{
+    return
+#ifndef NANO_SMALL
+	ISSET(MARK_ISSET) ||
+#endif
+	get_page_start(old_pww) != get_page_start(placewewant);
+}
+
+/* Return a nonzero value if we need an update after moving vertically.
+ * We need one if the mark is on or if old_pww and placewewant
+ * are on different pages.  Assume none of the text has changed since
+ * the last update. */
+int need_vertical_update(int old_pww)
+{
+    return
+#ifndef NANO_SMALL
+	ISSET(MARK_ISSET) ||
+#endif
+	get_page_start(old_pww) != get_page_start(placewewant);
+}
+
+/* Scroll the edit window in the given direction and the given number
+ * of lines, and draw new lines on the blank lines left after the
+ * scrolling.  direction is the direction to scroll, either UP or DOWN,
+ * and nlines is the number of lines to scroll.  Don't redraw the old
+ * topmost or bottommost line (where we assume current is) before
+ * scrolling or draw the new topmost or bottommost line after scrolling
+ * (where we assume current will be), since we don't know where we are
+ * on the page or whether we'll stay there.  Assume none of the text has
+ * changed since the last update. */
+void edit_scroll(updown direction, int nlines)
+{
+    filestruct *foo;
+    int i, scroll_rows = 0;
+
+    /* Scrolling less than one line or more than editwinrows lines is
+     * redundant, so don't allow it. */
+    if (nlines < 1 || nlines > editwinrows)
+	return;
+
+    /* Move the top line of the edit window up or down (depending on the
+     * value of direction) nlines lines.  If there are fewer lines of
+     * text than that left, move it to the top or bottom line of the
+     * file (depending on the value of direction).  Keep track of
+     * how many lines we moved in scroll_rows. */
+    for (i = nlines; i > 0; i--) {
+	if (direction == UP) {
+	    if (edittop->prev == NULL)
+		break;
+	    edittop = edittop->prev;
+	    scroll_rows--;
+	} else {
+	    if (edittop->next == NULL)
+		break;
+	    edittop = edittop->next;
+	    scroll_rows++;
+	}
+    }
+
+    /* Scroll the text on the screen up or down scroll_rows lines,
+     * depending on the value of direction. */
+    scrollok(edit, TRUE);
+    wscrl(edit, scroll_rows);
+    scrollok(edit, FALSE);
+
+    foo = edittop;
+    if (direction != UP) {
+	int slines = editwinrows - nlines;
+	for (; slines > 0 && foo != NULL; slines--)
+	    foo = foo->next;
+    }
+
+    /* And draw new lines on the blank top or bottom lines of the edit
+     * window, depending on the value of direction.  Don't draw the new
+     * topmost or new bottommost line. */
+    while (scroll_rows != 0 && foo != NULL) {
+	if (foo->next != NULL)
+	    update_line(foo, 0);
+	if (direction == UP)
+	    scroll_rows++;
+	else
+	    scroll_rows--;
+	foo = foo->next;
+    }
+}
+
+/* Update any lines between old_current and current that need to be
+ * updated.  Note that we use placewewant to determine whether we need
+ * updates and current_x to update current, so if placewewant needs to
+ * be changed, it should be changed after calling this, and if current_x
+ * needs to be changed, it should be changed before calling this.
+ * Assume none of the text has changed since the last update. */
+void edit_redraw(const filestruct *old_current)
+{
+    int do_refresh = need_vertical_update(0);
+    const filestruct *foo;
+
+    /* If either old_current or current is offscreen, refresh the screen
+     * and get out. */
+    if (old_current->lineno < edittop->lineno || old_current->lineno >=
+	edittop->lineno + editwinrows || current->lineno <
+	edittop->lineno || current->lineno >= edittop->lineno +
+	editwinrows) {
+	edit_refresh();
+	return;
+    }
+
+    /* Update old_current and current if we're not on the first page.
+     * If the mark is on, update all the lines between old_current and
+     * current too. */
+    foo = old_current;
+    while (foo != current) {
+	if (do_refresh)
+	    update_line(foo, 0);
+#ifndef NANO_SMALL
+	if (!ISSET(MARK_ISSET))
+#endif
+	    break;
+	if (foo->lineno > current->lineno)
+	    foo = foo->prev;
+	else
+	    foo = foo->next;
+    }
+    if (do_refresh)
+	update_line(current, current_x);
+}
+
 /* Refresh the screen without changing the position of lines. */
 void edit_refresh(void)
 {
@@ -2510,7 +2642,7 @@ void edit_refresh(void)
 #endif
 
 	while (nlines < editwinrows) {
-	    update_line(foo, current_x);
+	    update_line(foo, (foo == current) ? current_x : 0);
 	    nlines++;
 	    if (foo->next == NULL)
 		break;

@@ -354,9 +354,8 @@ int findnextstr(int can_display_wrap, int wholeword, const filestruct
 /* Search for a string. */
 int do_search(void)
 {
-    int i;
+    int i, fileptr_x = current_x, didfind;
     filestruct *fileptr = current;
-    int fileptr_x = current_x, didfind;
 
 #ifndef DISABLE_WRAPPING
     wrap_reset();
@@ -391,8 +390,6 @@ int do_search(void)
 
     search_last_line = FALSE;
     didfind = findnextstr(TRUE, FALSE, current, current_x, answer, FALSE);
-    edit_refresh();
-    placewewant = xplustabs();
 
     /* Check to see if there's only one occurrence of the string and
      * we're on it now. */
@@ -415,6 +412,8 @@ int do_search(void)
 #endif
     }
 
+    edit_redraw(fileptr);
+    placewewant = xplustabs();
     search_abort();
 
     return 1;
@@ -424,8 +423,8 @@ int do_search(void)
 /* Search for the next string without prompting. */
 int do_research(void)
 {
-    filestruct *fileptr = current;
     int fileptr_x = current_x, didfind;
+    filestruct *fileptr = current;
 
 #ifndef DISABLE_WRAPPING
     wrap_reset();
@@ -442,8 +441,6 @@ int do_research(void)
 
 	search_last_line = FALSE;
 	didfind = findnextstr(TRUE, FALSE, current, current_x, last_search, FALSE);
-	edit_refresh();
-	placewewant = xplustabs();
 
 	/* Check to see if there's only one occurrence of the string and
 	 * we're on it now. */
@@ -468,6 +465,8 @@ int do_research(void)
     } else
         statusbar(_("No current search pattern"));
 
+    edit_redraw(fileptr);
+    placewewant = xplustabs();
     search_abort();
 
     return 1;
@@ -582,8 +581,8 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 	size_t *real_current_x, int wholewords)
 {
     int replaceall = 0, numreplaced = -1;
-    const filestruct *current_save = current;
     size_t current_x_save = current_x;
+    const filestruct *current_save = current;
 #ifdef HAVE_REGEX_H
     /* The starting-line match and bol/eol regex flags. */
     int begin_line = FALSE, bol_or_eol = FALSE;
@@ -628,7 +627,8 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 	}
 #endif
 
-	edit_refresh();
+	if (!replaceall)
+	    edit_redraw(current_save);
 
 #ifdef HAVE_REGEX_H
 	if (ISSET(USE_REGEXP))
@@ -709,7 +709,15 @@ int do_replace_loop(const char *needle, const filestruct *real_current,
 	    free(current->data);
 	    current->data = copy;
 
-	    edit_refresh();
+	    if (!replaceall) {
+#ifdef ENABLE_COLOR
+		if (ISSET(COLOR_SYNTAX))
+		    edit_refresh();
+		else
+#endif
+		    update_line(current, current_x);
+	    }
+
 	    set_modified();
 	    numreplaced++;
 	}
@@ -890,7 +898,7 @@ int do_find_bracket(void)
     char ch_under_cursor, wanted_ch;
     const char *pos, *brackets = "([{<>}])";
     char regexp_pat[] = "[  ]";
-    int flagsave, current_x_save, count = 1;
+    int current_x_save, flagsave, count = 1;
     filestruct *current_save;
 
     ch_under_cursor = current->data[current_x];
@@ -934,7 +942,7 @@ int do_find_bracket(void)
 		count++;
 	    /* Found complementary bracket. */
 	    else if (--count == 0) {
-		edit_refresh();
+		edit_redraw(current_save);
 		placewewant = xplustabs();
 		break;
 	    }

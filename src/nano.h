@@ -464,6 +464,10 @@ typedef enum {
 } justbegend;
 
 typedef enum {
+    UP, DOWN
+} updown;
+
+typedef enum {
     TOP, CENTER, NONE
 } topmidnone;
 

@@ -557,11 +557,11 @@ void shortcut_init(int unjustify)
 
     sc_init_one(&main_list, NANO_FORWARD_KEY, _("Forward"),
 		IFHELP(nano_forward_msg, NANO_NO_KEY), NANO_NO_KEY,
-		NANO_NO_KEY, VIEW, do_right);
+		NANO_NO_KEY, VIEW, do_right_void);
 
     sc_init_one(&main_list, NANO_BACK_KEY, _("Back"),
 		IFHELP(nano_back_msg, NANO_NO_KEY), NANO_NO_KEY,
-		NANO_NO_KEY, VIEW, do_left);
+		NANO_NO_KEY, VIEW, do_left_void);
 
     sc_init_one(&main_list, NANO_HOME_KEY, _("Home"),
 		IFHELP(nano_home_msg, NANO_NO_KEY), NANO_NO_KEY,
