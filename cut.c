@@ -152,7 +152,7 @@ int do_cut_text(void)
     }
 
     /* Must let cutbuffer get blown away first before we do this... */
-    if (fileptr == filebot)	
+    if (fileptr == filebot && !ISSET(MARK_ISSET))	
 	return 0;
 
 #ifndef NANO_SMALL
