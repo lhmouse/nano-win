@@ -432,7 +432,6 @@ void do_rcfile(void)
 {
     char *unable = _("Unable to open ~/.nanorc file, %s");
     struct stat fileinfo;
-    int skip=0;
     FILE *rcstream;
 
     if (getenv("HOME") == NULL)
