@@ -4,6 +4,8 @@ CVS code
 	- Fix globals and externs such that nano will compile with
 	  DISABLE_SPELLER (David Benbennick).
 - files.c:
+  cwd_tab_completion()
+	- Memory leak fix (David Benbennick).
   intput_tab()
 	- Fix assumption that matches is null terminated (David 
 	  Benbennick).
