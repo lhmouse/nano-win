@@ -34,6 +34,8 @@ CVS code
 	- Add regfree() to quote regex (David Benbennick).
 	- Only copy previous indent if AUTOINDENT is set (David 
 	  Benbennick).
+  do_wrap()
+	- Fix isspace() call to operate on int.
   help_init()
 	- Fix crashing in do_help when COLS < 23 (David Benbennick).
   main()
