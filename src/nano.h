@@ -40,11 +40,12 @@
 #endif
 
 #ifndef NANO_SMALL
-  /* For the backup file copy ... */
-# define COPYFILEBLOCKSIZE 1024
+/* For the backup file copy ... */
+#define COPYFILEBLOCKSIZE 1024
 #endif
 
-#ifdef USE_SLANG	/* Slang support enabled */
+#ifdef USE_SLANG
+/* Slang support enabled */
 #include <slcurses.h>
 #define KEY_DC SL_KEY_DELETE
 #define KEY_IC SL_KEY_IC
@@ -53,7 +54,7 @@
 #elif defined(HAVE_NCURSES_H)
 #include <ncurses.h>
 #else /* Uh oh */
-#include <curses.h> 
+#include <curses.h>
 #endif /* CURSES_H */
 
 #ifdef ENABLE_NLS
@@ -233,28 +234,27 @@ typedef struct historyheadtype {
 #define SUSPEND			(1<<7)
 #define NO_WRAP			(1<<8)
 #define AUTOINDENT		(1<<9)
-#define SAMELINEWRAP		(1<<10)
-#define VIEW_MODE		(1<<11)
-#define USE_MOUSE		(1<<12)
-#define USE_REGEXP		(1<<13)
-#define REGEXP_COMPILED		(1<<14)
-#define TEMP_OPT		(1<<15)
-#define CUT_TO_END		(1<<16)
-#define REVERSE_SEARCH		(1<<17)
-#define MULTIBUFFER		(1<<18)
-#define DOS_FILE		(1<<19)
-#define MAC_FILE		(1<<20)
-#define SMOOTHSCROLL		(1<<21)
-#define DISABLE_CURPOS		(1<<22)	/* Damn, we still need it */
-#define REBIND_DELETE		(1<<23)
-#define NO_CONVERT		(1<<24)
-#define BACKUP_FILE		(1<<25)
-#define NO_RCFILE		(1<<26)
-#define COLOR_SYNTAX		(1<<27)
-#define PRESERVE		(1<<28)
-#define HISTORY_CHANGED		(1<<29)
-#define HISTORYLOG		(1<<30)
-#define JUSTIFY_MODE		(1<<31)
+#define VIEW_MODE		(1<<10)
+#define USE_MOUSE		(1<<11)
+#define USE_REGEXP		(1<<12)
+#define REGEXP_COMPILED		(1<<13)
+#define TEMP_OPT		(1<<14)
+#define CUT_TO_END		(1<<15)
+#define REVERSE_SEARCH		(1<<16)
+#define MULTIBUFFER		(1<<17)
+#define DOS_FILE		(1<<18)
+#define MAC_FILE		(1<<19)
+#define SMOOTHSCROLL		(1<<20)
+#define DISABLE_CURPOS		(1<<21)	/* Damn, we still need it */
+#define REBIND_DELETE		(1<<22)
+#define NO_CONVERT		(1<<23)
+#define BACKUP_FILE		(1<<24)
+#define NO_RCFILE		(1<<25)
+#define COLOR_SYNTAX		(1<<26)
+#define PRESERVE		(1<<27)
+#define HISTORY_CHANGED		(1<<28)
+#define HISTORYLOG		(1<<29)
+#define JUSTIFY_MODE		(1<<30)
 
 /* Control key sequences, changing these would be very very bad */
 

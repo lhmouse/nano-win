@@ -322,7 +322,9 @@ int do_uncut_text(void)
     filestruct *hold = current;
     int i;
 
+#ifndef DISABLE_WRAPPING
     wrap_reset();
+#endif
     check_statblank();
     if (cutbuffer == NULL || fileptr == NULL)
 	return 0;		/* AIEEEEEEEEEEEE */

@@ -49,7 +49,9 @@ int do_page_up(void)
 {
     int i;
 
+#ifndef DISABLE_WRAPPING
     wrap_reset();
+#endif
 
     /* If edittop is the first line of the file, move current up there
      * and put the cursor at the beginning of the line. */
@@ -91,7 +93,9 @@ int do_page_down(void)
 {
     int i;
 
+#ifndef DISABLE_WRAPPING
     wrap_reset();
+#endif
 
     /* If the last line of the file is onscreen, move current down
      * there and put the cursor at the beginning of the line. */
@@ -131,7 +135,9 @@ int do_page_down(void)
 
 int do_up(void)
 {
+#ifndef DISABLE_WRAPPING
     wrap_reset();
+#endif
     check_statblank();
 
     if (current->prev == NULL)
@@ -159,7 +165,9 @@ int do_up(void)
  * bottom. */
 int do_down(void)
 {
+#ifndef DISABLE_WRAPPING
     wrap_reset();
+#endif
     check_statblank();
 
     if (current->next == NULL)

@@ -274,11 +274,13 @@ int do_backspace(void);
 int do_delete(void);
 int do_tab(void);
 int do_enter(void);
+#ifndef NANO_SMALL
 int do_next_word(void);
 int do_prev_word(void);
+#endif
 int do_mark(void);
-void wrap_reset(void);
 #ifndef DISABLE_WRAPPING
+void wrap_reset(void);
 int do_wrap(filestruct *inptr);
 #endif
 #ifndef DISABLE_SPELLER

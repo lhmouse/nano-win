@@ -33,6 +33,9 @@ CVS code -
 	  NANO_SMALL is defined. (DLR)
 	- Source reorganization: move code to src/, docs to doc/. (Jordi)
 	- Translation updates (see po/ChangeLog for details).
+	- Since SAMELINEWRAP is only used in nano.c, make it a static
+	  variable in nano.c instead of a flag, and surround all
+	  wrap_reset() calls with DISABLE_WRAPPING  #ifdefs. (DLR)
 - files.c:
   do_browser()
 	- Some of the Pico compatibility options in the file browser
@@ -80,6 +83,10 @@ CVS code -
   page_up()
 	- Removed due to rewrite of movement functions. (David
 	  Benbennick)
+- proto.h:
+	- Surround the do_prev_word() and do_next_word() prototypes with
+	  NANO_SMALL #ifdefs, since the actual functions aren't included
+	  in tiny mode. (DLR)
 - rcfile.c:
   parse_colors()
 	- Generate an error if we try to use a bright background color

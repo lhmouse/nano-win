@@ -385,7 +385,9 @@ int do_search(void)
     filestruct *fileptr = current, *didfind;
     int fileptr_x = current_x;
 
+#ifndef DISABLE_WRAPPING
     wrap_reset();
+#endif
     i = search_init(0);
     switch (i) {
     case -1:
@@ -439,7 +441,9 @@ int do_research(void)
     const char *regex_error = _("Invalid regex \"%s\"");
 #endif /* HAVE_REGEX_H */
 
+#ifndef DISABLE_WRAPPING
     wrap_reset();
+#endif
     search_init_globals();
 
     if (last_search[0] != '\0') {

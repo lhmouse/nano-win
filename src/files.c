@@ -427,7 +427,9 @@ int do_insertfile(int loading_file)
 	inspath[0] = '\0';
     }
 
+#ifndef DISABLE_WRAPPING
     wrap_reset();
+#endif
 
 #if !defined(DISABLE_BROWSER) || !defined(NANO_SMALL) && defined(ENABLE_MULTIBUFFER)
   start_again:	/* Goto here when the user cancels the file browser. */

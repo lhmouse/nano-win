@@ -57,6 +57,10 @@
 #ifndef DISABLE_WRAPJUSTIFY
 static int fill = 0;	/* Fill - where to wrap lines, basically */
 #endif
+#ifndef DISABLE_WRAPPING
+static int same_line_wrap = 0;	/* Whether wrapped text should be
+				   prepended to the next line */
+#endif
 
 static struct termios oldterm;	/* The user's original term settings */
 static struct sigaction act;	/* For all our fun signal handlers */
@@ -1299,10 +1303,12 @@ int do_mark(void)
     return 1;
 }
 
+#ifndef DISABLE_WRAPPING
 void wrap_reset(void)
 {
-    UNSET(SAMELINEWRAP);
+    same_line_wrap = 0;
 }
+#endif
 
 #ifndef DISABLE_WRAPPING
 /* We wrap the given line.  Precondition: we assume the cursor has been 
@@ -1387,7 +1393,7 @@ int do_wrap(filestruct *inptr)
     /* We prepend the wrapped text to the next line, if the flag is set,
      * and there is a next line, and prepending would not make the line
      * too long. */
-    if (ISSET(SAMELINEWRAP) && inptr->next) {
+    if (same_line_wrap && inptr->next) {
 	wrap_line = inptr->next->data;
 	wrap_line_len = strlen(wrap_line);
 
@@ -1465,7 +1471,7 @@ int do_wrap(filestruct *inptr)
  * other sundry things. */
 
     /* later wraps of this line will be prepended to the next line. */
-    SET(SAMELINEWRAP);
+    same_line_wrap = 1;
 
     /* Each line knows its line number.  We recalculate these if we
      * inserted a new line. */
