@@ -1616,6 +1616,9 @@ void handle_sigwinch(int s)
     blank_statusbar();
     total_refresh();
 
+    /* Turn cursor back on for sure */
+    curs_set(1);
+
     /* Jump back to mainloop */
     siglongjmp(jmpbuf, 1);
 
