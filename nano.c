@@ -315,7 +315,10 @@ int renumber(filestruct * fileptr)
 	return 0;
     }
     for (temp = fileptr; temp != NULL; temp = temp->next) {
-	temp->lineno = temp->prev->lineno + 1;
+	if (temp->prev != NULL)
+	    temp->lineno = temp->prev->lineno + 1;
+	else
+	    temp->lineno = 1;
     }
 
     return 0;

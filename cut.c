@@ -271,7 +271,7 @@ int do_cut_text(void)
 
 int do_uncut_text(void)
 {
-    filestruct *tmp = current, *fileptr = current, *newbuf, *newend;
+    filestruct *tmp = current, *hold = current, *fileptr = current, *newbuf, *newend;
 #ifndef NANO_SMALL
     char *tmpstr, *tmpstr2;
 #endif
@@ -339,8 +339,12 @@ int do_uncut_text(void)
 
 	    if (tmp != NULL)
 		tmp->prev = newend;
-	    else
+	    else {
+		/* Fix the editbot pointer too */
+		if (editbot == filebot)
+		    editbot = newend;
 		filebot = newend;
+	    }
 
 	    /* Now why don't we update the totsize also */
 	    for (tmp = current->next; tmp != newend; tmp = tmp->next)
@@ -368,7 +372,9 @@ int do_uncut_text(void)
 	    current_x = 0;
 	    placewewant = 0;
 	}
-	renumber(current->prev);
+	/* Renumber from BEFORE where we pasted ;) */
+	renumber(hold);
+
 	dump_buffer(fileage);
 	dump_buffer(cutbuffer);
 	set_modified();
