@@ -36,6 +36,9 @@ CVS code -
 	  (discovered by DLR, fixed by DLR & Chris, fixes BUG #66).
   do_cut_text()
 	- Don't recenter the line when cutting one line (DLR) (Bug #65).
+- faq.html:
+	- Notes about the Free Translation Project.
+	- Debian additions.
 - files.c:
   do_writeout()
 	- Expanded strings to not use %s and ?: to determine
@@ -62,8 +65,12 @@ CVS code -
   global_init()
 	- New arg save_cutbuffer, allows cutbuffer to not be lost when
 	  using multibuffer.
+- nano.1:
+	- Added new features, fixed some typos (Jordi).
 - nano.texi:
-	- corrected the Mouse Toggle section, noticed by Daniel Bonniot.
+	- Corrected the Mouse Toggle section, noticed by Daniel Bonniot.
+	- Added many command line options, toggles and other additions
+	  (Jordi).
 - rcfile.c:
 	- NUM_RCOPTS fix (DLR).
 	- Add tabsize support to rc file (Nathan Heagy).
@@ -232,8 +239,6 @@ nano-1.1.0 - 07/15/2001
 - faq.html:
 	- Brought the FAQ up to date, many little changes (Jordi).
 	- Added sections 3.7 and 3.8 for the multibuffer and nanorc support.
-	- Notes about the Free Translation Project.
-	- Debian additions.
 - files.c:
   do_browser()
 	- Minor fixes to the processing of SELECT function (Rocco)

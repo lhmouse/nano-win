@@ -5,10 +5,8 @@
 .\" This is free documentation, see the latest version of the GNU General
 .\" Public License for copying conditions. There is NO warranty.
 .\"
-.\" First parameter, NAME, should be all caps
-.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
-.\" other parameters are allowed: see man(7), man(1)
-.TH NANO 1 "April 30, 2001"
+.\" $Id$
+.TH NANO 1 "October 3, 2001"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -33,24 +31,34 @@ also implements some missing (or disabled by default) features in Pico,
 such as "search and replace" and "goto line number".
 .SH OPTIONS
 .TP
+.B \-D (\-\-dos)
+Write file in DOS format.
+.TP
 .B \-F (\-\-multibuffer)
 Enable multiple file buffers (if available).
 .TP
-.B \-T (\-\-tabsize)
-Set the size (width) of a tab.
+.B \-M (\-\-mac)
+Write file in Mac format.
 .TP
 .B \-R (\-\-regexp)
 Enable regular expression matching for search strings, as well as
 \\n subexpression replacement for replace strings, if available.
 .TP
+.B \-S (\-\-smooth)
+Enable smooth scrolling. Text will scroll line-by-line, instead of the
+usual chunk-by-chunk behaviour.
+.TP
+.B \-T [num] (\-\-tabsize=[num])
+Set the size (width) of a tab.
+.TP
 .B \-V (\-\-version)
 Show the current version number and author.
 .TP
-.B \-h (\-\-help)
-Display a summary of command line options.
-.TP
 .B \-c (\-\-const)
 Constantly show the cursor position.
+.TP
+.B \-h (\-\-help)
+Display a summary of command line options.
 .TP
 .B \-i (\-\-autoindent)
 Indent new lines to the previous line's indentation. Useful when editing
@@ -66,18 +74,21 @@ a new file, do not follow it.  Good for editing files in /tmp, perhaps?
 .B \-m (\-\-mouse)
 Enable mouse support (if available for your system).
 .TP
+.B \-o [dir] (\-\-operatingdir=[dir])
+Set operating directory. Makes nano set up something similar to a chroot.
+.TP
 .B \-p (\-\-pico)
 Emulate Pico as closely as possible.  This affects both the "shortcut list"
 at the bottom of the screen, as well as the display and entry of previous
 search and replace strings.
 .TP
-.B \-r (\-\-fill)
+.B \-r [#cols] (\-\-fill=[#cols])
 Wrap lines at column #cols.  By default, this is the width of the screen,
 less eight.  If this value is negative, wrapping will occur at #cols from
 the right of the screen, allowing it to vary along with the screen width
 if the screen is resized.
 .TP
-.B \-s (\-\-speller)
+.B \-s [prog] (\-\-speller=[prog])
 Enable alternative spell checker command.
 .TP
 .B \-t (\-\-tempfile)
@@ -120,7 +131,8 @@ subject of "subscribe".
 .SH HOMEPAGE
 http://www.nano-editor.org
 .SH AUTHOR
-Chris Allegretta <chrisa@asty.org>, et al (see AUTHORS for details).
+Chris Allegretta <chrisa@asty.org>, et al (see AUTHORS and THANKS for
+details).
 This manual page was originally written by Jordi Mallach
 <jordi@sindominio.net>, for the Debian GNU/Linux system (but may be
 used by others).

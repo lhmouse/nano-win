@@ -8,8 +8,8 @@
 @c Run `makeinfo' rather than `texinfo-format-buffer'.
 @smallbook
 @set EDITION 0.1
-@set VERSION 1.1.1
-@set UPDATED 12 Feb 2001
+@set VERSION 1.1.2
+@set UPDATED 3 Oct 2001
 
 @dircategory Editors
 @direntry
@@ -23,7 +23,7 @@
 @titlepage
 @title GNU @code{nano}
 @subtitle a small and friendly text editor.
-@subtitle version 1.1.1
+@subtitle version 1.1.2
 
 @author Chris Allegretta
 @page
@@ -108,11 +108,23 @@ Email bug reports to @email{nano@@nano-editor.org}.
 @code{nano} takes the following options from the command line:
 @table @code
 
-@item -T [num, --tabsize=[num]
-Set the displayed tab length to [num] columns.
+@item -D, --dos
+Write file in DOS format.
+
+@item -F, --multibuffer
+Enable multiple file buffers.
+
+@item -M, --mac
+Write file in Mac format.
 
 @item -R, --regexp
 Turns on regular expression search and search/replace.
+
+@item -S, --smooth
+Enables smooth scrolling.
+
+@item -T [num], --tabsize=[num]
+Set the displayed tab length to [num] columns.
 
 @item -V, --version 
 Print the version number and copyright and quit.
@@ -138,6 +150,9 @@ and a new file is created.
 @item -m, --mouse
 Enables the use of the mouse to select text (currently only useful for
 running under the X window system).
+
+@item -o [dir], --operatingdir=[dir]
+Set operating directory. Makes nano set up something similar to a chroot. 
 
 @item -p, --pico
 Emulate Pico as closely as possible, sacrificing consistency for correct
@@ -180,6 +195,9 @@ Do not wrap long lines at any length. This option overrides any value for
 @item -z, --suspend
 Enable suspend ability of @code{nano} using the system's suspend
 keystroke (usually ^Z).
+
+@item -b, -e, -f
+Ignored, for compatibility with Pico.
 
 @item +LINE
 Start at line number LINE instead of the default of line 1.
@@ -277,11 +295,23 @@ The following toggles are available:
 
 @table @code
 
+@item Case Sensitive Search Toggle (Meta-A)
+toggles case sensistive searching functionality on/off.
+
+@item Backwards Search Toggle (Meta-B)
+toggles backwards searching fuctionality on/off.
+
 @item Constant Update Toggle (Meta-C)
 toggles the -c (--const) command line flag.
 
+@item DOS Format Toggle (Meta-D)
+toggles the -D (--dos) command line flag.
+
 @item Regular Expressions Toggle (Meta-E)
 toggles the -R (--regexp) command line flag.
+
+@item Multiple Files Toggle (Meta-F)
+toggles the  -F (--multibuffer) command line flag.
 
 @item AutoIndent Toggle (Meta-I)
 toggles the -i (--autoindent) command line flag.
@@ -292,9 +322,15 @@ toggles the -k (--cut) command line flag.
 @item Mouse Toggle (Meta-M)
 toggles the -m (--mouse) command line flag.
 
+@item Mac Format Toggle (Meta-O)
+toggles the -M (--mac) command line flag.
+
 @item Pico Mode Toggle (Meta-P)
 toggles the -p (--pico) command line flag.
 @xref{Pico Compatibility}, for more info.
+
+@item Smooth Scrolling Toggle (Meta-S)
+toggles the -s (--smooth) command line flag.
 
 @item AutoWrap Toggle (Meta-W)
 toggles the -w (--nowrap) command line flag.
@@ -304,6 +340,13 @@ toggles the -x (--nohelp) command line flag.
 
 @item Suspend Toggle (Meta-Z)
 toggles the -z (--suspend) command line flag.
+
+@item Open Previous File Toggle (Meta-<)
+changes buffer to previously loaded file.
+
+@item Open Next File Toggle (Meta->)
+changes buffer to next loaded file.
+
 
 @end table
 
@@ -414,6 +457,18 @@ Disables all word wrapping in the editor.  This also eliminates the
 @item --disable-mouse
 Disables all mouse functionality.  This also disables the -m commands line 
 flag which enables the mouse functions.
+
+@item --disable-operatingdir
+Disables setting of operating directory. This also disables the -o command
+line flag.
+
+@item --disable-nls
+Disables Native Language support. This will make the available GNU nano
+translations unusable.
+
+@item --with-slang
+Compiling GNU nano with Slang is supported, and will make the binary notably
+smaller than if compiled with ncurses or other curses libraries.
 
 @end table
 
