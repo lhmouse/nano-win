@@ -389,8 +389,8 @@ int get_translated_kbinput(int kbinput, int *es
 				    escapes = 0;
 				    retval = kbinput;
 				}
-				break;
 			    }
+			    break;
 			default:
 			    /* Reset the escape counter. */
 			    escapes = 0;
