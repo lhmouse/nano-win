@@ -144,7 +144,7 @@ size_t nstrnlen(const char *s, size_t maxlen)
 size_t mbstrnlen(const char *s, size_t maxlen)
 {
 #ifdef NANO_WIDE
-    if (ISSET(NO_UTF8)) {
+    if (!ISSET(NO_UTF8)) {
 	size_t n = 0;
 	char *s_mb = charalloc(mb_cur_max());
 	int s_mb_len;
@@ -157,6 +157,9 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 		, NULL
 #endif
 		, NULL);
+
+	    if (s_mb_len > maxlen)
+		s_mb_len = maxlen;
 
 	    maxlen -= s_mb_len;
 	    n += s_mb_len;
