@@ -3493,8 +3493,8 @@ int main(int argc, char **argv)
 
 	/* Last gasp, stuff that's not in the main lists. */
 	if (kbinput != ERR && !meta_key && !is_cntrl_char(kbinput)) {
-	    /* Don't stop unhandled sequences, so that people with odd
-	     * character sets can type. */
+	    /* Don't stop unhandled printable sequences, so that people
+	     * with odd character sets can type. */
 	    if (ISSET(VIEW_MODE))
 		print_view_warning();
 	    else

@@ -71,6 +71,8 @@ CVS code -
   do_para_begin(), do_para_end()
 	- Maintain current_y's value when moving up or down lines so
 	  that smooth scrolling works correctly. (DLR)
+  main()
+	- Don't let meta sequences get through to do_char(). (DLR)
 - nano.h:
 	- Add WIDTH_OF_TAB #define, containing the default width of a
 	  tab. (DLR)
