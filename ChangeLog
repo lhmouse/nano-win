@@ -245,7 +245,8 @@ CVS code -
   main()
 	- Try to automatically detect whether UTF-8 support is needed by
 	  setting the NO_UTF8 flag if setlocale() returns a string that
-	  doesn't contain "UTF-8". (DLR)
+	  doesn't contain "UTF-8".  When using slang 2.x, enable UTF-8
+	  support with SLutf8_enable(). (DLR)
 - nano.h:
 	- Remove now-unneeded #defines for functions that now have
 	  multibyte equivalents. (DLR)
