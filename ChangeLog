@@ -2,6 +2,9 @@ CVS code -
 - General
 	- Changed _POSIX_VERSION checks in regex code to HAVE_REGEX_H, 
 	  added check for regex.h in configure.in.
+- configure.in:
+	- Added default case for cross-compiling to get rid of annoying
+	  AC_TRY_RUN warning.
 - cut.c:
   do_cut_text()
 	- Don't immediately abort if we're on filebot and the marker is

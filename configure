@@ -1330,7 +1330,7 @@ echo "configure:1330: checking for SLtt_initialize in -lslang" >&5
 	    _libs=$LIBS
 	    LIBS="$LIBS -lslang"
 	    if test "$cross_compiling" = yes; then
-    { echo "configure: error: can not run test program while cross compiling" 1>&2; exit 1; }
+  echo "configure: warning: *** Can not use slang when cross-compiling" 1>&2
 else
   cat > conftest.$ac_ext <<EOF
 #line 1337 "configure"
@@ -1409,7 +1409,7 @@ fi
 echo "configure:1410: checking for SLtt_initialize in -lslang $tcap" >&5
 		LIBS="$LIBS $tcap"
 		if test "$cross_compiling" = yes; then
-    { echo "configure: error: can not run test program while cross compiling" 1>&2; exit 1; }
+  echo "configure: warning: *** Can not use slang when cross-compiling" 1>&2
 else
   cat > conftest.$ac_ext <<EOF
 #line 1416 "configure"
@@ -1444,7 +1444,7 @@ else
 echo "configure:1445: checking for SLtt_initialize in -lslang $tcap -lm" >&5
 		    LIBS="$LIBS -lm"
 		    if test "$cross_compiling" = yes; then
-    { echo "configure: error: can not run test program while cross compiling" 1>&2; exit 1; }
+  echo "configure: warning: *** Can not use slang when cross-compiling" 1>&2
 else
   cat > conftest.$ac_ext <<EOF
 #line 1451 "configure"
