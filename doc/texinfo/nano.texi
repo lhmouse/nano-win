@@ -345,6 +345,9 @@ toggles the -i (@code{--autoindent}) command line flag.
 @item Cut To End Toggle (Meta-K)
 toggles the -k (@code{--cut}) command line flag.
 
+@item Auto Line Wrap Toggle (Meta-L)
+toggles the -w (@code{--nowrap}) command line flag.
+
 @item Mouse Toggle (Meta-M)
 toggles the -m (@code{--mouse}) command line flag.
 
@@ -354,20 +357,11 @@ toggles the -M (@code{--mac}) command line flag.
 @item Smooth Scrolling Toggle (Meta-S)
 toggles the -S (@code{--smooth}) command line flag.
 
-@item AutoWrap Toggle (Meta-W)
-toggles the -w (@code{--nowrap}) command line flag.
-
 @item Expert/Nohelp Toggle (Meta-X)
 toggles the -x (@code{--nohelp}) command line flag.
 
 @item Suspend Toggle (Meta-Z)
 toggles the -z (@code{--suspend}) command line flag.
-
-@item Open Previous File Toggle (Meta-<)
-changes buffer to previously loaded file.
-
-@item Open Next File Toggle (Meta->)
-changes buffer to next loaded file.
 
 @end table
 

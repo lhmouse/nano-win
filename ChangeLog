@@ -36,6 +36,9 @@ CVS code -
 	  instead of a char*. (DLR)
   edit_refresh()
 	- Remove apparently unneeded leaveok() calls. (David Benbennick)
+- nano.texi:
+	- Fix inaccuracies: Meta-L now toggles line wrapping, and Meta-<
+	  and Meta-> aren't toggles. (DLR)
 
 GNU nano 1.3.2 - 2004.03.31
 - General:
