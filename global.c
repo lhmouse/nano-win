@@ -151,7 +151,7 @@ void toggle_init(void)
     char *toggle_const_msg, *toggle_autoindent_msg, *toggle_suspend_msg,
 	*toggle_nohelp_msg, *toggle_picomode_msg, *toggle_mouse_msg,
 	*toggle_cuttoend_msg, *toggle_wrap_msg, *toggle_case_msg, 
-	*toggle_backwards_msg, *toggle_dos_msg;
+	*toggle_backwards_msg, *toggle_dos_msg, *toggle_mac_msg;
 
 #ifdef ENABLE_MULTIBUFFER
     char *toggle_load_msg, *nano_openprev_msg, *nano_opennext_msg;
@@ -171,6 +171,7 @@ void toggle_init(void)
     toggle_backwards_msg = _("Backwards Search");
     toggle_case_msg = _("Case Sensitive Search");
     toggle_dos_msg = _("Writing file in DOS format");
+    toggle_mac_msg = _("Writing file in Mac format");
 #ifdef HAVE_REGEX_H
     toggle_regexp_msg = _("Regular expressions");
 #endif
@@ -204,13 +205,15 @@ void toggle_init(void)
 		    CASE_SENSITIVE, 0);
     toggle_init_one(&toggles[10], TOGGLE_DOS_KEY, toggle_dos_msg,
 		    DOS_FILE, 0);
+    toggle_init_one(&toggles[11], TOGGLE_MAC_KEY, toggle_mac_msg,
+		    MAC_FILE, 0);
 
 #ifdef ENABLE_MULTIBUFFER
-    toggle_init_one(&toggles[11], TOGGLE_LOAD_KEY, toggle_load_msg,
+    toggle_init_one(&toggles[12], TOGGLE_LOAD_KEY, toggle_load_msg,
 		    MULTIBUFFER, 0);
-    toggle_init_one(&toggles[12], NANO_OPENPREV_KEY, nano_openprev_msg,
+    toggle_init_one(&toggles[13], NANO_OPENPREV_KEY, nano_openprev_msg,
 		    0, '<');
-    toggle_init_one(&toggles[13], NANO_OPENNEXT_KEY, nano_opennext_msg,
+    toggle_init_one(&toggles[14], NANO_OPENNEXT_KEY, nano_opennext_msg,
 		    0, '>');
 #endif
 

@@ -276,6 +276,7 @@ know what you're doing */
 #define TOGGLE_CASE_KEY		NANO_ALT_A
 #define TOGGLE_LOAD_KEY		NANO_ALT_F
 #define TOGGLE_DOS_KEY		NANO_ALT_D
+#define TOGGLE_MAC_KEY		NANO_ALT_O
 
 /* Toggle stuff, these static lengths need to go away RSN */
 
@@ -309,7 +310,7 @@ know what you're doing */
 
 #define WHEREIS_LIST_LEN (8 - NO_REGEX - NO_TOGGLES)
 #define REPLACE_LIST_LEN (8 - NO_REGEX - NO_TOGGLES)
-#define TOGGLE_LEN (12 - NO_REGEX + MULTI_TOGGLES)
+#define TOGGLE_LEN (13 - NO_REGEX + MULTI_TOGGLES)
 #define WRITEFILE_LIST_LEN (3 - NO_BROWSER)
 #define INSERTFILE_LIST_LEN (2 - NO_BROWSER)
 #define BROWSER_LIST_LEN 4
