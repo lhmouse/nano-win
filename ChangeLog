@@ -2,6 +2,8 @@ CVS Code
 - nano.c:
   do_mouse()
 	- Patch for handling lines w/tabs and mouse better (Ben Roberts).
+  do_wrap()
+	- Made wrapping code less ambitious.
 - winio.c:
   total_refresh()
 	- Added edit_refresh() call to actually update the screen if messy.
