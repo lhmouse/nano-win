@@ -8,7 +8,7 @@ Chris Allegretta <chrisa@asty.org>
 
 Jordi Mallach <jordi@sindominio.net>
 	* Debian package maintainer, fellow bug squasher.
-	* Internationalization support head, es.po maintainer.
+	* Internationalization support head, ca.po maintainer.
 
 Adam Rogoyski <rogoyski@cs.utexas.edu>
 	* New write_file() function, read_file() optimization, mouse
