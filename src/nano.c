@@ -1564,7 +1564,7 @@ bool do_int_spell_fix(const char *word)
     save_search = last_search;
     save_replace = last_replace;
 
-    /* Set search/replace strings to misspelled word. */
+    /* Set the search/replace strings to the misspelled word. */
     last_search = mallocstrcpy(NULL, word);
     last_replace = mallocstrcpy(NULL, word);
 
@@ -1617,8 +1617,6 @@ bool do_int_spell_fix(const char *word)
 
 #ifndef NANO_SMALL
     if (old_mark_set) {
-	size_t top_data_len, bot_data_len;
-
 	/* If the mark was on and we added a magicline, remove it
 	 * now. */
 	if (added_magicline)
@@ -1626,16 +1624,14 @@ bool do_int_spell_fix(const char *word)
 
 	/* Put the beginning and the end of the mark at the beginning
 	 * and the end of the spell-checked text. */
-	top_data_len = strlen(filepart->top_data);
-	bot_data_len = strlen(filebot->data);
 	if (fileage == filebot)
-	    bot_data_len += top_data_len;
+	    bot_x += top_x;
 	if (right_side_up) {
-	    mark_beginx = top_data_len;
-	    current_x_save = bot_data_len;
+	    mark_beginx = top_x;
+	    current_x_save = bot_x;
 	} else {
-	    current_x_save = top_data_len;
-	    mark_beginx = bot_data_len;
+	    current_x_save = top_x;
+	    mark_beginx = bot_x;
 	}
 
 	/* Unpartition the filestruct so that it contains all the text
@@ -1880,6 +1876,8 @@ const char *do_alt_speller(char *tempfile_name)
     bool right_side_up = FALSE;
 	/* TRUE if (mark_beginbuf, mark_beginx) is the top of the mark,
 	 * FALSE if (current, current_x) is. */
+    filestruct *top, *bot;
+    size_t top_x, bot_x;
     int mbb_lineno_save = 0;
 	/* We're going to close the current file, and open the output of
 	 * the alternate spell command.  The line that mark_beginbuf
@@ -1949,8 +1947,6 @@ const char *do_alt_speller(char *tempfile_name)
 
 #ifndef NANO_SMALL
     if (old_mark_set) {
-	filestruct *top, *bot;
-	size_t top_x, bot_x;
 	int part_totlines;
 	long part_totsize;
 
@@ -1986,7 +1982,6 @@ const char *do_alt_speller(char *tempfile_name)
 #ifndef NANO_SMALL
     if (old_mark_set) {
 	filestruct *top_save = fileage;
-	size_t top_data_len, bot_data_len;
 
 	/* If the mark was on and we added a magicline, remove it
 	 * now. */
@@ -1995,16 +1990,14 @@ const char *do_alt_speller(char *tempfile_name)
 
 	/* Put the beginning and the end of the mark at the beginning
 	 * and the end of the spell-checked text. */
-	top_data_len = strlen(filepart->top_data);
-	bot_data_len = strlen(filebot->data);
 	if (fileage == filebot)
-	    bot_data_len += top_data_len;
+	    bot_x += top_x;
 	if (right_side_up) {
-	    mark_beginx = top_data_len;
-	    current_x_save = bot_data_len;
+	    mark_beginx = top_x;
+	    current_x_save = bot_x;
 	} else {
-	    current_x_save = top_data_len;
-	    mark_beginx = bot_data_len;
+	    current_x_save = top_x;
+	    mark_beginx = bot_x;
 	}
 
 	/* Unpartition the filestruct so that it contains all the text
