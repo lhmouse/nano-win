@@ -1,12 +1,12 @@
 # Swedish messages for nano.
-# Copyright (C) 2001, 2002 Free Software Foundation, Inc.
-# Christian Rose <menthos@menthos.com>, 2001, 2002.
+# Copyright (C) 2001, 2002, 2003 Free Software Foundation, Inc.
+# Christian Rose <menthos@menthos.com>, 2001, 2002, 2003.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.12\n"
+"Project-Id-Version: nano 1.1.99pre1\n"
 "POT-Creation-Date: 2003-01-17 17:17-0500\n"
-"PO-Revision-Date: 2002-11-02 03:15+0100\n"
+"PO-Revision-Date: 2003-01-18 11:15+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15,9 +15,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: cut.c:43
-#, fuzzy, c-format
+#, c-format
 msgid "add_to_cutbuffer() called with inptr->data = %s\n"
-msgstr "add_to_cutbuffer anropades med inptr->data = %s\n"
+msgstr "add_to_cutbuffer() anropades med inptr->data = %s\n"
 
 #: cut.c:194
 msgid "Blew away cutbuffer =)\n"
@@ -246,14 +246,14 @@ msgid "Goto Cancelled"
 msgstr "Gå till avbrutet"
 
 #: files.c:2879
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open ~/.nano_history file, %s"
-msgstr "Kan inte öppna filen ~/.nanorc, %s"
+msgstr "Kan inte öppna filen ~/.nano_history, %s"
 
 #: files.c:2925 files.c:2934 files.c:2939 files.c:2946
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to write ~/.nano_history file, %s"
-msgstr "Kan inte öppna filen ~/.nanorc, %s"
+msgstr "Kan inte skriva filen ~/.nano_history, %s"
 
 #: global.c:238
 msgid "Constant cursor position"
@@ -476,9 +476,8 @@ msgid "Back up original file when saving"
 msgstr "Säkerhetskopiera ursprunglig fil vid sparande"
 
 #: global.c:387
-#, fuzzy
 msgid "Edit the previous search/replace strings"
-msgstr "Gå till föregående skärm"
+msgstr "Redigera de tidigare sök/ersätt-strängarna"
 
 #: global.c:389
 msgid "Use regular expressions"
@@ -670,7 +669,7 @@ msgstr "Reguljärt uttr"
 
 #: global.c:590 global.c:628 global.c:647
 msgid "History"
-msgstr ""
+msgstr "Historik"
 
 #: global.c:610
 msgid "No Replace"
@@ -739,33 +738,21 @@ msgid "Key illegal in VIEW mode"
 msgstr "Tangenten ogiltig i VISNINGsläget"
 
 #: nano.c:279
-#, fuzzy
 msgid ""
 "Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, then hit "
-"enter.  If there is a match for the text you entered, the screen will be "
-"updated to the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, then hit enter.  If there is a match for the text you entered, the screen will be updated to the location of the nearest match for the search string.\n"
 "\n"
-" The previous search string will be shown in brackets after the Search: "
-"prompt.  Hitting Enter without entering any text will perform the previous "
-"search.\n"
+" The previous search string will be shown in brackets after the Search: prompt.  Hitting Enter without entering any text will perform the previous search.\n"
 "\n"
 " The following function keys are available in Search mode:\n"
 "\n"
 msgstr ""
 "Hjälptext för sökkommando\n"
 "\n"
-" Ange de ord eller tecken som du vill söka efter och tryck sedan retur. Om "
-"det finns en träff för det du angav kommer skärmen att uppdateras till att "
-"visa den närmaste träffen för söksträngen.\n"
+" Ange de ord eller tecken som du vill söka efter och tryck sedan retur. Om det finns en träff för det du angav kommer skärmen att uppdateras till att visa den närmaste träffen för söksträngen.\n"
 "\n"
-" Om picoläge är aktivt genom att flaggorna -p eller --pico, kombinationen "
-"Meta-P eller en nanorc-fil används, kommer den föregående söksträngen att "
-"visas inom klamrar efter Sök:-prompten. Att trycka Retur utan att ange någon "
-"text kommer att genomföra den tidigare sökningen. Annars kommer den "
-"föregående texten att placeras framför markören och kan redigeras eller tas "
-"bort innan retur trycks.\n"
+" Den föregående söksträngen kommer att visas inom klamrar efter Sök:-prompten. Att trycka retur utan att ange någon text kommer att genomföra den tidigare sökningen.\n"
 "\n"
 " Följande funktionstangenter är tillgängliga i sökläge:\n"
 "\n"
@@ -774,18 +761,14 @@ msgstr ""
 msgid ""
 "Go To Line Help Text\n"
 "\n"
-" Enter the line number that you wish to go to and hit Enter.  If there are "
-"fewer lines of text than the number you entered, you will be brought to the "
-"last line of the file.\n"
+" Enter the line number that you wish to go to and hit Enter.  If there are fewer lines of text than the number you entered, you will be brought to the last line of the file.\n"
 "\n"
 " The following function keys are available in Go To Line mode:\n"
 "\n"
 msgstr ""
 "Hjälptext för Gå till rad\n"
 "\n"
-" Ange det radnummer du vill gå till och tryck Retur. Om det finns färre "
-"textrader än det tal du angav kommer du att tas till den sista raden i "
-"filen.\n"
+" Ange det radnummer du vill gå till och tryck retur. Om det finns färre textrader än det tal du angav kommer du att tas till den sista raden i filen.\n"
 "\n"
 " Följande funktionstangenter är tillgängliga i Gå till rad-läge:\n"
 "\n"
@@ -794,34 +777,22 @@ msgstr ""
 msgid ""
 "Insert File Help Text\n"
 "\n"
-" Type in the name of a file to be inserted into the current file buffer at "
-"the current cursor location.\n"
+" Type in the name of a file to be inserted into the current file buffer at the current cursor location.\n"
 "\n"
-" If you have compiled nano with multiple file buffer support, and enable "
-"multiple buffers with the -F or --multibuffer command line flags, the Meta-F "
-"toggle, or a nanorc file, inserting a file will cause it to be loaded into a "
-"separate buffer (use Meta-< and > to switch between file buffers).\n"
+" If you have compiled nano with multiple file buffer support, and enable multiple buffers with the -F or --multibuffer command line flags, the Meta-F toggle, or a nanorc file, inserting a file will cause it to be loaded into a separate buffer (use Meta-< and > to switch between file buffers).\n"
 "\n"
-" If you need another blank buffer, do not enter any filename, or type in a "
-"nonexistent filename at the prompt and press Enter.\n"
+" If you need another blank buffer, do not enter any filename, or type in a nonexistent filename at the prompt and press Enter.\n"
 "\n"
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
 "Hjälptext för infoga fil\n"
 "\n"
-" Ange namnet på den fil som ska sättas in i den aktuella filbufferten på den "
-"aktuella platsen för markören.\n"
+" Ange namnet på den fil som ska sättas in i den aktuella filbufferten på den aktuella platsen för markören.\n"
 "\n"
-" Om du har kompilerat nano med stöd för flera samtidiga filbuffertar och "
-"aktiverar flera buffertar med kommandoradsflaggorna -F eller --multibuffer, "
-"kombinationen Meta-F eller en nanorc-fil, kommer att infoga en fil göra så "
-"att den läses in i en separat buffert (använd Meta-< och > för att växla "
-"mellan filbuffertar).\n"
+" Om du har kompilerat nano med stöd för flera samtidiga filbuffertar och aktiverar flera buffertar med kommandoradsflaggorna -F eller --multibuffer, kombinationen Meta-F eller en nanorc-fil, kommer att infoga en fil göra så att den läses in i en separat buffert (använd Meta-< och > för att växla mellan filbuffertar).\n"
 "\n"
-" Om du behöver ytterligare en tom buffert kan du trycka Retur vid prompten "
-"utan att ange ett filnamn, eller ange ett ickeexisterande filnamn vid "
-"prompten och trycka Retur.\n"
+" Om du behöver ytterligare en tom buffert kan du trycka retur vid prompten utan att ange ett filnamn, eller ange ett ickeexisterande filnamn vid prompten och trycka retur.\n"
 "\n"
 " Följande funktionstangenter är tillgängliga i infoga fil-läge:\n"
 "\n"
@@ -830,26 +801,18 @@ msgstr ""
 msgid ""
 "Write File Help Text\n"
 "\n"
-" Type the name that you wish to save the current file as and hit Enter to "
-"save the file.\n"
+" Type the name that you wish to save the current file as and hit Enter to save the file.\n"
 "\n"
-" If you have selected text with Ctrl-^, you will be prompted to save only "
-"the selected portion to a separate file.  To reduce the chance of "
-"overwriting the current file with just a portion of it, the current filename "
-"is not the default in this mode.\n"
+" If you have selected text with Ctrl-^, you will be prompted to save only the selected portion to a separate file.  To reduce the chance of overwriting the current file with just a portion of it, the current filename is not the default in this mode.\n"
 "\n"
 " The following function keys are available in Write File mode:\n"
 "\n"
 msgstr ""
 "Hjälptext för skriv fil\n"
 "\n"
-" Ange det namn som du vill spara aktuell fil som och tryck Retur för att "
-"spara filen.\n"
+" Ange det namn som du vill spara aktuell fil som och tryck retur för att spara filen.\n"
 "\n"
-" Om du har markerat text med Ctrl-^ kommer du få frågan om att endast spara "
-"markeringen till en separat fil. För att minska risken att den aktuella "
-"filen skrivs över med endast en del av den är inte det aktuella filnamnet "
-"standardalternativet i detta läge.\n"
+" Om du har markerat text med Ctrl-^ kommer du få frågan om att endast spara markeringen till en separat fil. För att minska risken att den aktuella filen skrivs över med endast en del av den är inte det aktuella filnamnet standardalternativet i detta läge.\n"
 "\n"
 " Följande funktionstangenter är tillgängliga i filskrivningsläge:\n"
 "\n"
@@ -858,22 +821,14 @@ msgstr ""
 msgid ""
 "File Browser Help Text\n"
 "\n"
-" The file browser is used to visually browse the directory structure to "
-"select a file for reading or writing.  You may use the arrow keys or Page Up/"
-"Down to browse through the files, and S or Enter to choose the selected file "
-"or enter the selected directory.  To move up one level, select the directory "
-"called \"..\" at the top of the file list.\n"
+" The file browser is used to visually browse the directory structure to select a file for reading or writing.  You may use the arrow keys or Page Up/Down to browse through the files, and S or Enter to choose the selected file or enter the selected directory.  To move up one level, select the directory called \"..\" at the top of the file list.\n"
 "\n"
 " The following function keys are available in the file browser:\n"
 "\n"
 msgstr ""
 "Hjälptext för filbläddrare\n"
 "\n"
-" Filbläddraren används för att visuellt bläddra i katalogstrukturen för att "
-"välja en fil för läsning eller skrivning. Du kan använda piltangenterna "
-"eller PageUp/PageDown för att bläddra bland filerna, och S eller Retur för "
-"att välja den markerade filen eller gå in i den markerade katalogen. För att "
-"gå upp en nivå väljer du katalogen kallad \"..\" överst i fillistan.\n"
+" Filbläddraren används för att visuellt bläddra i katalogstrukturen för att välja en fil för läsning eller skrivning. Du kan använda piltangenterna eller PageUp/PageDown för att bläddra bland filerna, och S eller retur för att välja den markerade filen eller gå in i den markerade katalogen. För att gå upp en nivå väljer du katalogen kallad \"..\" överst i fillistan.\n"
 "\n"
 " Följande funktionstangenter är tillgängliga i filbläddraren:\n"
 "\n"
@@ -884,8 +839,7 @@ msgid ""
 "\n"
 " Enter the name of the directory you would like to browse to.\n"
 "\n"
-" If tab completion has not been disabled, you can use the TAB key to "
-"(attempt to) automatically complete the directory name.\n"
+" If tab completion has not been disabled, you can use the TAB key to (attempt to) automatically complete the directory name.\n"
 "\n"
 " The following function keys are available in Browser Go To Directory mode:\n"
 "\n"
@@ -894,31 +848,23 @@ msgstr ""
 "\n"
 " Ange namnet på den katalog som du vill gå till.\n"
 "\n"
-" Om tabulatorkomplettering inte har inaktiverats kan du använda TABULATOR-"
-"tangenten för att (försöka att) automatiskt komplettera katalognamnet.\n"
+" Om tabulatorkomplettering inte har inaktiverats kan du använda TABULATOR-tangenten för att (försöka att) automatiskt komplettera katalognamnet.\n"
 "\n"
-" Följande funktionstangenter är tillgängliga i bläddrarens gå till katalog-"
-"läge:\n"
+" Följande funktionstangenter är tillgängliga i bläddrarens gå till katalog-läge:\n"
 "\n"
 
 #: nano.c:340
 msgid ""
 "Spell Check Help Text\n"
 "\n"
-" The spell checker checks the spelling of all text in the current file.  "
-"When an unknown word is encountered, it is highlighted and a replacement can "
-"be edited.  It will then prompt to replace every instance of the given "
-"misspelled word in the current file.\n"
+" The spell checker checks the spelling of all text in the current file.  When an unknown word is encountered, it is highlighted and a replacement can be edited.  It will then prompt to replace every instance of the given misspelled word in the current file.\n"
 "\n"
 " The following other functions are available in Spell Check mode:\n"
 "\n"
 msgstr ""
 "Hjälptext för stavningskontrollen\n"
 "\n"
-" Stavningskontrollen kontrollerar stavningen av all text i den aktuella "
-"filen. När ett okänt ord hittas markeras det och en ersättning kan "
-"redigeras. Den kommer sedan att för varenda förekomst av det angivna "
-"felstavade ordet i den aktuella filen fråga om det ska ersättas.\n"
+" Stavningskontrollen kontrollerar stavningen av all text i den aktuella filen. När ett okänt ord hittas markeras det och en ersättning kan redigeras. Den kommer sedan att för varenda förekomst av det angivna felstavade ordet i den aktuella filen fråga om det ska ersättas.\n"
 "\n"
 " Följande funktionstangenter är tillgängliga i stavningskontrollsläget:\n"
 "\n"
@@ -927,16 +873,14 @@ msgstr ""
 msgid ""
 "External Command Help Text\n"
 "\n"
-" This menu allows you to insert the output of a command run by the shell "
-"into the current buffer (or a new buffer in multibuffer mode).\n"
+" This menu allows you to insert the output of a command run by the shell into the current buffer (or a new buffer in multibuffer mode).\n"
 "\n"
 " The following keys are available in this mode:\n"
 "\n"
 msgstr ""
 "Hjälptext för externt kommando\n"
 "\n"
-" Denna meny låter dig infoga utdata från ett kommando som körs av ett skal i "
-"den aktuella bufferten (eller en ny buffert i flerbuffertläge).\n"
+" Denna meny låter dig infoga utdata från ett kommando som körs av ett skal i den aktuella bufferten (eller en ny buffert i flerbuffertläge).\n"
 "\n"
 " Följande tangenter är tillgängliga i detta läge:\n"
 "\n"
@@ -945,38 +889,16 @@ msgstr ""
 msgid ""
 " nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor: The "
-"top line shows the program version, the current filename being edited, and "
-"whether or not the file has been modified.  Next is the main editor window "
-"showing the file being edited.  The status line is the third line from the "
-"bottom and shows important messages. The bottom two lines show the most "
-"commonly used shortcuts in the editor.\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor: The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages. The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
-" The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
-"key sequences are notated with the Meta (M) symbol and can be entered using "
-"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
-"following keystrokes are available in the main editor window.  Alternative "
-"keys are shown in parentheses:\n"
+" The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt or Meta key depending on your keyboard setup.  The following keystrokes are available in the main editor window.  Alternative keys are shown in parentheses:\n"
 "\n"
 msgstr ""
 " hjälptext för nano\n"
 "\n"
-" Textredigeraren nano är skapad för att emulera funktionaliteten och "
-"lättanvändheten hos textredigeraren UW Pico. Det finns fyra huvuddelar i "
-"redigeraren: Översta raden visar programmets versionsnummer, namnet på filen "
-"som redigeras och om filen har ändrats. Efter detta finns huvudfönstret som "
-"visar filen som redigeras. Statusraden är tredje raden från nederkanten och "
-"visar viktiga meddelanden. De nedersta två raderna visar de vanligaste "
-"kortkommandona som används i textredigeraren.\n"
+" Textredigeraren nano är skapad för att emulera funktionaliteten och lättanvändheten hos textredigeraren UW Pico. Det finns fyra huvuddelar i redigeraren: Översta raden visar programmets versionsnummer, namnet på filen som redigeras och om filen har ändrats. Efter detta finns huvudfönstret som visar filen som redigeras. Statusraden är tredje raden från nederkanten och visar viktiga meddelanden. De nedersta två raderna visar de vanligaste kortkommandona som används i textredigeraren.\n"
 "\n"
-" Notationen för kortkommandon är som följer: Sekvenser med Control-tangent "
-"skrivs med ett taktecken (^) och trycks tillsammans med Control-tangenten "
-"(Ctrl). Escape-sekvenser skrivs med metatecknet (M) och och anges antingen "
-"med Esc-, Alt- eller Meta-tangenten beroende på dina "
-"tangentbordsinställningar. Följande tangentkombinationer är tillgängliga i "
-"redigerarens huvudfönster. Alternativa tangenter visas inom parentes:\n"
+" Notationen för kortkommandon är som följer: Sekvenser med Control-tangent skrivs med ett taktecken (^) och trycks tillsammans med Control-tangenten (Ctrl). Escape-sekvenser skrivs med metatecknet (M) och och anges antingen med Esc-, Alt- eller Meta-tangenten beroende på dina tangentbordsinställningar. Följande tangentkombinationer är tillgängliga i redigerarens huvudfönster. Alternativa tangenter visas inom parentes:\n"
 "\n"
 
 #: nano.c:410 nano.c:413
@@ -1046,7 +968,7 @@ msgstr "Använd flera filbuffertar"
 
 #: nano.c:634
 msgid "Log and read search/replace string history"
-msgstr ""
+msgstr "Logga och läs stränghistorik för sök/ersätt"
 
 #: nano.c:635
 msgid "Don't look at nanorc files"
@@ -1142,15 +1064,15 @@ msgstr "Ställ in arbetskatalog"
 
 #: nano.c:668
 msgid "-p"
-msgstr ""
+msgstr "-p"
 
 #: nano.c:668
 msgid "--preserve"
-msgstr ""
+msgstr "--preserve"
 
 #: nano.c:668
 msgid "Preserve XON (^Q) and XOFF (^S) keys"
-msgstr ""
+msgstr "Bevara XON (^Q)- och XOFF (^S)-tangenter"
 
 #: nano.c:670
 msgid "-r [#cols]"
@@ -1206,9 +1128,8 @@ msgid " GNU nano version %s (compiled %s, %s)\n"
 msgstr " GNU nano version %s (kompilerad %s, %s)\n"
 
 #: nano.c:694
-#, fuzzy
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
-msgstr " E-post: nano@nano-editor.org\tHemsida: http://www.nano-editor.org"
+msgstr " E-post: nano@nano-editor.org\tHemsida: http://www.nano-editor.org/"
 
 #: nano.c:695
 msgid ""
@@ -1222,28 +1143,30 @@ msgstr ""
 msgid "Sorry, support for this function has been disabled"
 msgstr "Tyvärr, stöd för denna funktion har inaktiverats"
 
+# URK! Felrapporterat
 #: nano.c:773
 msgid ""
 "\n"
 "The -p flag now invokes the Pico \"preserve\" flag.  The Pico\n"
 msgstr ""
+"\n"
+"Flaggan -p startar nu Picos \"preserve\"-flagga. Pico\n"
 
 #: nano.c:774
 msgid "compatibility flag has been removed as nano is now fully Pico\n"
-msgstr ""
+msgstr "kompatibilitetsflaggan har tagits bort eftersom nano nu är fullständigt Pico\n"
 
 #: nano.c:775
 msgid ""
 "compatible.  Please see the nano FAQ for more info on this change...\n"
 "\n"
 msgstr ""
+"kompatibel. Läs nanos frågor och svar för mer information om denna ändring...\n"
+"\n"
 
 #: nano.c:776
-#, fuzzy
 msgid "Press return to continue\n"
-msgstr ""
-"\n"
-"Tryck Retur för att fortsätta starta nano\n"
+msgstr "Tryck retur för att fortsätta\n"
 
 #: nano.c:810
 msgid "Could not pipe"
@@ -1276,39 +1199,37 @@ msgid "Edit a replacement"
 msgstr "Redigera en ersättning"
 
 #: nano.c:1716
-#, fuzzy
 msgid "Could not create pipe"
-msgstr "Kunde inte använda rör"
+msgstr "Kunde inte skapa rör"
 
 #: nano.c:1718
 msgid "Creating misspelled word list, please wait..."
-msgstr ""
+msgstr "Skapar lista över felstavade ord, var vänlig vänta..."
 
 #: nano.c:1814
-#, fuzzy
 msgid "Could not get size of pipe buffer"
-msgstr "Kunde inte öppna %s för infogande: %s"
+msgstr "Kunde inte få tag i rörbuffertens storlek"
 
 #: nano.c:1866
 msgid "Error invoking \"spell\""
-msgstr ""
+msgstr "Fel vid start av \"spell\""
 
 #: nano.c:1869
 msgid "Error invoking \"sort -f\""
-msgstr ""
+msgstr "Fel vid start av \"sort -f\""
 
 #: nano.c:1872
 msgid "Error invoking \"uniq\""
-msgstr ""
+msgstr "Fel vid start av \"uniq\""
 
 #: nano.c:1948
-#, fuzzy, c-format
+#, c-format
 msgid "Could not invoke \"%s\""
-msgstr "Kunde inte stänga %s: %s"
+msgstr "Kunde inte starta \"%s\""
 
 #: nano.c:1988
 msgid "Generic error"
-msgstr ""
+msgstr "Allmänt fel"
 
 #: nano.c:1991
 #, c-format
@@ -1324,9 +1245,9 @@ msgid "Finished checking spelling"
 msgstr "Stavningskontrollen slutfördes"
 
 #: nano.c:2018
-#, fuzzy, c-format
+#, c-format
 msgid "Spell checking failed: %s"
-msgstr "Stavningskontrollen misslyckades"
+msgstr "Stavningskontrollen misslyckades: %s"
 
 #: nano.c:2351
 #, c-format
@@ -1339,8 +1260,7 @@ msgstr "Kan ojustera nu!"
 
 #: nano.c:2700
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
-msgstr ""
-"Spara ändrad buffert (ATT SVARA \"Nej\" KOMMER ATT FÖRSTÖRA ÄNDRINGAR)? "
+msgstr "Spara ändrad buffert (ATT SVARA \"Nej\" KOMMER ATT FÖRSTÖRA ÄNDRINGAR)? "
 
 #: nano.c:2800
 msgid "Received SIGHUP or SIGTERM"
@@ -1372,8 +1292,7 @@ msgstr "Kan inte flytta nedre fönstret"
 
 #: nano.c:2922
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
-msgstr ""
-"NumLock-problem upptäcktes. Tangenterna kommer inte att fungera utan NumLock"
+msgstr "NumLock-problem upptäcktes. Tangenterna kommer inte att fungera utan NumLock"
 
 #: nano.c:2971
 msgid "enabled"
@@ -1434,9 +1353,8 @@ msgid "XOFF ignored, mumble mumble."
 msgstr "XOFF ignorerades, mummel mummel."
 
 #: nano.c:3709
-#, fuzzy
 msgid "XON ignored, mumble mumble."
-msgstr "XOFF ignorerades, mummel mummel."
+msgstr "XON ignorerades, mummel mummel."
 
 #: nano.c:3748
 #, c-format
@@ -1454,7 +1372,7 @@ msgid ""
 "Press return to continue starting nano\n"
 msgstr ""
 "\n"
-"Tryck Retur för att fortsätta starta nano\n"
+"Tryck retur för att fortsätta starta nano\n"
 
 #: rcfile.c:173
 #, c-format
@@ -1476,8 +1394,7 @@ msgstr ""
 
 #: rcfile.c:256 rcfile.c:368 rcfile.c:415
 msgid "regex strings must begin and end with a \" character\n"
-msgstr ""
-"strängar med reguljära uttryck måste börja och sluta med ett \"-tecken\n"
+msgstr "strängar med reguljära uttryck måste börja och sluta med ett \"-tecken\n"
 
 #: rcfile.c:265
 msgid "Missing syntax name"
@@ -1516,11 +1433,8 @@ msgid "string val=%s\n"
 msgstr "strängvärde=%s\n"
 
 #: rcfile.c:407
-#, fuzzy
 msgid "\"start=\" requires a corresponding \"end=\""
-msgstr ""
-"\n"
-"\t\"start=\" kräver ett motsvarande \"end=\""
+msgstr "\"start=\" kräver ett motsvarande \"end=\""
 
 #: rcfile.c:424
 #, c-format
@@ -1653,9 +1567,8 @@ msgid "No matching bracket"
 msgstr "Ingen matchande klammer"
 
 #: utils.c:205 utils.c:215
-#, fuzzy
 msgid "nano is out of memory!"
-msgstr "nano: malloc: slut på minne!"
+msgstr "nano har slut på minne!"
 
 #: winio.c:90
 #, c-format
@@ -1890,9 +1803,7 @@ msgstr "Tack för att du använder nano!\n"
 #~ msgstr " -S\t\t--smooth\t\tMjuk rullning\n"
 
 #~ msgid " -T [num]\t--tabsize=[num]\t\tSet width of a tab to num\n"
-#~ msgstr ""
-#~ " -T [antal]\t--tabsize=[antal]\t\tStäll in bredden på ett tabbsteg till "
-#~ "antal\n"
+#~ msgstr " -T [antal]\t--tabsize=[antal]\t\tStäll in bredden på ett tabbsteg till antal\n"
 
 #~ msgid " -V \t\t--version\t\tPrint version information and exit\n"
 #~ msgstr " -V \t\t--version\t\tSkriv ut versionsinformation och avsluta\n"
@@ -1907,8 +1818,7 @@ msgstr "Tack för att du använder nano!\n"
 #~ msgstr " -i \t\t--autoindent\t\tDra automatiskt in nya rader\n"
 
 #~ msgid " -k \t\t--cut\t\t\tLet ^K cut from cursor to end of line\n"
-#~ msgstr ""
-#~ " -k \t\t--cut\t\t\tLåt ^K klippa ut från markören till slutet på raden\n"
+#~ msgstr " -k \t\t--cut\t\t\tLåt ^K klippa ut från markören till slutet på raden\n"
 
 #~ msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
 #~ msgstr " -l \t\t--nofollow\t\tFölj inte symboliska länkar, skriv över\n"
@@ -1922,13 +1832,11 @@ msgstr "Tack för att du använder nano!\n"
 #~ msgid " -p \t\t--pico\t\t\tEmulate Pico as closely as possible\n"
 #~ msgstr " -p \t\t--pico\t\t\tEmulera Pico så troget som möjligt\n"
 
-#~ msgid ""
-#~ " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
+#~ msgid " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
 #~ msgstr " -r [tecken] \t--fill=[tecken]\t\tBryt rader efter antal tecken\n"
 
 #~ msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
-#~ msgstr ""
-#~ " -s [prog] \t--speller=[prog]\tAnvänd alternativ stavningskontroll\n"
+#~ msgstr " -s [prog] \t--speller=[prog]\tAnvänd alternativ stavningskontroll\n"
 
 #~ msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
 #~ msgstr " -t \t\t--tempfile\t\tSpara automatiskt vid avslut, fråga inte\n"
