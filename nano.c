@@ -1512,7 +1512,7 @@ int do_int_speller(char *tempfile_name)
 /* External spell checking */
 int do_alt_speller(char *file_name)
 {
-    int alt_spell_status;
+    int alt_spell_status, y_cur = current_y;
     pid_t pid_spell;
     char *ptr;
     long lineno_cur = current->lineno;
@@ -1567,6 +1567,7 @@ int do_alt_speller(char *file_name)
 
     /* go back to the old line while keeping the same position, mark the
        file as modified, and make sure that the titlebar is refreshed */
+    current_y = y_cur;
     do_gotoline(lineno_cur, 1);
     set_modified();
     clearok(topwin, FALSE);
@@ -2742,10 +2743,11 @@ int main(int argc, char *argv[])
 #ifdef DEBUG
 	fprintf(stderr, "AHA!  %c (%d)\n", kbinput, kbinput);
 #endif
+
 	if (kbinput == 27) {	/* Grab Alt-key stuff first */
 	    switch (kbinput = wgetch(edit)) {
 		/* Alt-O, suddenly very important ;) */
-	    case 79:
+	    case 'O':
 		kbinput = wgetch(edit);
 		if ((kbinput <= 'D' && kbinput >= 'A') ||
 			(kbinput <= 'd' && kbinput >= 'a'))
@@ -2768,7 +2770,7 @@ int main(int argc, char *argv[])
 		modify_control_seq = 1;
 		keyhandled = 1;
 		break;
-	    case 91:
+	    case '[':
 		switch (kbinput = wgetch(edit)) {
 		case '1':	/* Alt-[-1-[0-5,7-9] = F1-F8 in X at least */
 		    kbinput = wgetch(edit);
@@ -2778,7 +2780,7 @@ int main(int argc, char *argv[])
 		    } else if (kbinput >= '7' && kbinput <= '9') {
 			kbinput = KEY_F(kbinput - 49);
 			wgetch(edit);
-		    } else if (kbinput == 126)
+		    } else if (kbinput == '~')
 			kbinput = KEY_HOME;
 
 #ifdef DEBUG
@@ -2809,16 +2811,8 @@ int main(int argc, char *argv[])
 			kbinput = KEY_F(12);
 			wgetch(edit);
 			break;
-		    case 126:	/* Hack, make insert key do something 
-				   useful, like insert file */
-#ifdef ENABLE_MULTIBUFFER
-			do_insertfile(ISSET(MULTIBUFFER));
-#else
-			do_insertfile(0);
-#endif
-
-			keyhandled = 1;
-			break;
+		    case '~':
+			goto do_insertkey;
 #ifdef DEBUG
 		    default:
 			fprintf(stderr, _("I got Alt-[-2-%c! (%d)\n"),
@@ -2953,6 +2947,20 @@ int main(int argc, char *argv[])
 	    keyhandled = 1;
 	}
 
+
+	/* Hack, make insert key do something useful, like insert file */
+	if (kbinput == KEY_IC) {
+	  do_insertkey:
+
+#ifdef ENABLE_MULTIBUFFER
+	    do_insertfile(ISSET(MULTIBUFFER));
+#else
+	    do_insertfile(0);
+#endif
+
+			keyhandled = 1;
+	}
+
 	/* Last gasp, stuff that's not in the main lists */
 	if (!keyhandled)
 	    switch (kbinput) {
@@ -2967,8 +2975,7 @@ int main(int argc, char *argv[])
 		do_next_word();
 		break;
 
-	    case 331:		/* Stuff that we don't want to do squat */
-	    case -1:
+	    case -1:		/* Stuff that we don't want to do squat */
 	    case 410:		/* Must ignore this, it gets sent when we resize */
 #ifdef PDCURSES
 	    case 541:		/* ???? */

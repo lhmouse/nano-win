@@ -360,7 +360,6 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 	    nanoget_repaint(buf, inputbuf, x);
 	    break;
 	case KEY_BACKSPACE:
-	case KEY_DC:
 	case 127:
 	case NANO_CONTROL_H:
 	    if (strlen(inputbuf) > 0) {
@@ -400,21 +399,24 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 	case KEY_DOWN:
 	    break;
 
+	case KEY_DC:
+	    goto do_deletekey;
+
 	case 27:
 	    switch (kbinput = wgetch(edit)) {
-	    case 79:
+	    case 'O':
 		switch (kbinput = wgetch(edit)) {
-		case 70:
+		case 'F':
 		    x = x_left + strlen(inputbuf);
 		    nanoget_repaint(buf, inputbuf, x);
 		    break;
-		case 72:
+		case 'H':
 		    x = x_left;
 		    nanoget_repaint(buf, inputbuf, x);
 		    break;
 		}
 		break;
-	    case 91:
+	    case '[':
 		switch (kbinput = wgetch(edit)) {
 		case 'C':
 		    if (x < xend)
@@ -426,11 +428,13 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 			x--;
 		    wmove(bottomwin, 0, x);
 		    break;
-		case 49:
+		case '1':
+		case '7':
 		    x = x_left;
 		    nanoget_repaint(buf, inputbuf, x);
-		    goto skip_126;
-		case 51:
+		    goto skip_tilde;
+		case '3':
+		  do_deletekey:
 		    if (strlen(inputbuf) > 0
 			&& (x - x_left) != strlen(inputbuf)) {
 			memmove(inputbuf + (x - x_left),
@@ -439,15 +443,16 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 			inputbuf[strlen(inputbuf) - 1] = 0;
 		    }
 		    nanoget_repaint(buf, inputbuf, x);
-		    goto skip_126;
-		case 52:
+		    goto skip_tilde;
+		case '4':
+		case '8':
 		    x = x_left + strlen(inputbuf);
 		    nanoget_repaint(buf, inputbuf, x);
-		    goto skip_126;
-		  skip_126:
+		    goto skip_tilde;
+		  skip_tilde:
 		    nodelay(edit, TRUE);
 		    kbinput = wgetch(edit);
-		    if (kbinput == 126 || kbinput == ERR)
+		    if (kbinput == '~' || kbinput == ERR)
 			kbinput = -1;
 		    nodelay(edit, FALSE);
 		    break;

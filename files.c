@@ -819,7 +819,7 @@ char *get_full_path(char *origpath)
     struct stat fileinfo;
 
     /* first, get the current directory, and tack a slash onto the end of
-       it */
+       it, unless it turns out to be "/", in which case leave it alone */
 
 #ifdef PATH_MAX
     d_here = getcwd(NULL, PATH_MAX + 1);
@@ -830,8 +830,10 @@ char *get_full_path(char *origpath)
     if (d_here) {
 
 	align(&d_here);
-	d_here = nrealloc(d_here, strlen(d_here) + 2);
-	strcat(d_here, "/");
+	if (strcmp(d_here, "/")) {
+	    d_here = nrealloc(d_here, strlen(d_here) + 2);
+	    strcat(d_here, "/");
+	}
 
 	/* stat origpath; if stat() fails, assume that origpath refers to
 	   a new file that hasn't been saved to disk yet (i. e. set
@@ -910,8 +912,13 @@ char *get_full_path(char *origpath)
 
 		align(&d_there);
 		if (d_there) {
-		    d_there = nrealloc(d_there, strlen(d_there) + 2);
-		    strcat(d_there, "/");
+
+		    /* add a slash to d_there, unless it's "/", in which
+		       case we don't need it */
+		    if (strcmp(d_there, "/")) {
+			d_there = nrealloc(d_there, strlen(d_there) + 2);
+			strcat(d_there, "/");
+		    }
 		}
 		else
 		    return NULL;
@@ -984,6 +991,14 @@ int check_operating_dir(char *currpath, int allow_tabcomp)
 
 	/* if get_full_path() failed, discard the operating directory */
 	if (!full_operating_dir) {
+	    operating_dir = NULL;
+	    return 0;
+	}
+
+	/* if the full operating directory is "/", that's the same as
+	   having no operating directory, so discard it and get out */
+	if (!strcmp(full_operating_dir, "/")) {
+	    free(full_operating_dir);
 	    operating_dir = NULL;
 	    return 0;
 	}
