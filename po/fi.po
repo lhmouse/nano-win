@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.11\n"
-"POT-Creation-Date: 2000-11-14 15:17-0500\n"
+"POT-Creation-Date: 2000-11-16 01:02-0500\n"
 "PO-Revision-Date: 2000-06-21 23:08+03:00\n"
 "Last-Translator: Pauli Virtanen <pauli.virtanen@saunalahti.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -32,7 +32,7 @@ msgstr "read_line: ei ensimmäisellä rivillä ja prev on NULL"
 msgid "Read %d lines"
 msgstr "%d riviä luettu"
 
-#: files.c:219 search.c:164
+#: files.c:219 search.c:188
 #, c-format
 msgid "\"%s\" not found"
 msgstr "Tiedostoa \"%s\" ei ole"
@@ -107,7 +107,7 @@ msgstr "tiedoston nimi on %s"
 msgid "File exists, OVERWRITE ?"
 msgstr "Tiedosto on jo olemassa, korvataanko?"
 
-#: files.c:801
+#: files.c:803
 msgid "(more)"
 msgstr ""
 
@@ -386,7 +386,7 @@ msgid "Case Sens"
 msgstr "Kirj. koko"
 
 #: global.c:344 global.c:364 global.c:375 global.c:385 global.c:401
-#: global.c:405 global.c:411 winio.c:1012
+#: global.c:405 global.c:411 winio.c:1014
 msgid "Cancel"
 msgstr "Peru"
 
@@ -754,88 +754,88 @@ msgstr "Vastaanotettu Alt-[-%c! (%d)\n"
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Vastaanotettu Alt-%c! (%d)\n"
 
-#: search.c:99
+#: search.c:118
 #, fuzzy, c-format
 msgid "Case Sensitive Regexp Search%s%s"
 msgstr "Kirjainkoosta välittävä etsintä%s%s"
 
-#: search.c:101
+#: search.c:120
 #, fuzzy, c-format
 msgid "Regexp Search%s%s"
 msgstr "Etsintä%s%s"
 
-#: search.c:103
+#: search.c:122
 #, fuzzy, c-format
 msgid "Case Sensitive Search%s%s"
 msgstr "Kirjainkoosta välittävä etsintä%s%s"
 
-#: search.c:105
+#: search.c:124
 #, fuzzy, c-format
 msgid "Search%s%s"
 msgstr "Etsintä%s%s"
 
-#: search.c:108
+#: search.c:127
 #, fuzzy
 msgid " (to replace)"
 msgstr " (korvaa)"
 
-#: search.c:121 search.c:290
+#: search.c:136 search.c:318
 msgid "Search Cancelled"
 msgstr "Etsintä peruttu"
 
-#: search.c:168
+#: search.c:194
 #, fuzzy, c-format
 msgid "\"%s...\" not found"
 msgstr "Tiedostoa \"%s\" ei ole"
 
-#: search.c:215
+#: search.c:243
 msgid "Search Wrapped"
 msgstr "Etsintä jatkuu"
 
-#: search.c:304
+#: search.c:340
 #, c-format
 msgid "Replaced %d occurences"
 msgstr "%d kohtaa korvattu"
 
-#: search.c:306
+#: search.c:342
 msgid "Replaced 1 occurence"
 msgstr "1 kohta korvattu"
 
-#: search.c:443 search.c:536 search.c:552
+#: search.c:479 search.c:572 search.c:588
 msgid "Replace Cancelled"
 msgstr "Korvaus peruttu"
 
-#: search.c:486
+#: search.c:522
 msgid "Replace this instance?"
 msgstr "Korvataanko tämä kohta?"
 
-#: search.c:494
+#: search.c:530
 msgid "Replace failed: unknown subexpression!"
 msgstr ""
 
-#: search.c:569
+#: search.c:613
 #, c-format
 msgid "Replace with [%s]"
 msgstr "Korvaa merkkijonolla [%s]"
 
-#: search.c:573 search.c:577
+#: search.c:617 search.c:621
 msgid "Replace with"
 msgstr "Korvaa merkkijonolla"
 
 #. Ask for it
-#: search.c:612
+#: search.c:656
 msgid "Enter line number"
 msgstr "Kirjoita rivin numero"
 
-#: search.c:614
+#: search.c:658
 msgid "Aborted"
 msgstr "Keskeytetty"
 
-#: search.c:634
+#: search.c:678
 msgid "Come on, be reasonable"
 msgstr "Jotakin järkevää, kiitos?"
 
-#: search.c:639
+#: search.c:683
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr "Vain %d riviä olemassa, siirrytään viimeiselle riville"
@@ -845,68 +845,68 @@ msgstr "Vain %d riviä olemassa, siirrytään viimeiselle riville"
 msgid "actual_x_from_start for xplus=%d returned %d\n"
 msgstr "actual_x_from_start parametrilla xplus=%d palautti %d\n"
 
-#: winio.c:425
+#: winio.c:427
 #, c-format
 msgid "input '%c' (%d)\n"
 msgstr "syöte '%c' (%d)\n"
 
-#: winio.c:463
+#: winio.c:465
 msgid "New Buffer"
 msgstr "Uusi teksti"
 
-#: winio.c:466
+#: winio.c:468
 msgid "  File: ..."
 msgstr "  Tiedosto: ..."
 
-#: winio.c:474
+#: winio.c:476
 msgid "Modified"
 msgstr "Muokattu"
 
-#: winio.c:926
+#: winio.c:928
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr "Kohtaan (%d,%d) siirrytty muokkausruudussa\n"
 
-#: winio.c:937
+#: winio.c:939
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr "current->data = \"%s\"\n"
 
-#: winio.c:982
+#: winio.c:984
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "Saatiin \"%s\"\n"
 
-#: winio.c:1007
+#: winio.c:1009
 msgid "Yes"
 msgstr "Kyllä"
 
-#: winio.c:1009
+#: winio.c:1011
 msgid "All"
 msgstr "Kaikki"
 
-#: winio.c:1011
+#: winio.c:1013
 msgid "No"
 msgstr "Ei"
 
-#: winio.c:1148
+#: winio.c:1150
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
-#: winio.c:1152
+#: winio.c:1154
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "rivi %d/%d (%.0f%%), merkki %d/%d (%.0f%%)"
 
-#: winio.c:1280
+#: winio.c:1282
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Syötetään tiedosto stderriin...\n"
 
-#: winio.c:1282
+#: winio.c:1284
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Syötetään leiketila stderriin...\n"
 
-#: winio.c:1284
+#: winio.c:1286
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Syötetään teksti stderriin...\n"
 

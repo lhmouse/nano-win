@@ -286,7 +286,13 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen,
 	case 343:
 	    ungetch(13);	/* Enter on iris-ansi $TERM, sometimes */
 	    break;
-
+#ifdef PDCURSES
+	/* Stuff we want to ignore with PDCURSES */
+	case 541:
+	case 542:
+	case 544:
+		break;
+#endif
 	case KEY_HOME:
 	    x = x_left;
 	    nanoget_repaint(buf, inputbuf, x);
@@ -977,7 +983,7 @@ int statusq(int tabs, shortcut s[], int slen, char *def, char *msg, ...)
     case NANO_CANCEL_KEY:
 	return -1;
     default:
-	blank_statusbar_refresh();
+	blank_statusbar();
     }
 
 #ifdef DEBUG
