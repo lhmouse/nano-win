@@ -2943,6 +2943,9 @@ void load_history(void)
 		/* Don't save history when we quit. */
 		UNSET(HISTORYLOG);
 		rcfile_error(N_("Error reading %s: %s"), nanohist, strerror(errno));
+		fprintf(stderr, _("\nPress Return to continue starting nano\n"));
+		while (getchar() != '\n')
+		    ;
 	    }
 	    free(nanohist);
 	} else {

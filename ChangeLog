@@ -68,8 +68,9 @@ CVS code -
 	- Readded the errors flag and moved the ending prompt from
 	  rcfile_error() to parse_rcfile() so that we only get prompted
 	  once for all errors instead of separately for each error.
-	  (DLR)  David Benbennick: Make sure that no rcfile error 
-	  messages end in newlines.
+	  (DLR)  David Benbennick: Make sure that no rcfile error
+	  messages end in newlines, and show the ending prompt if we
+	  can't read the .nano_history file while starting nano.
 	- Don't treat the return value of strn?(case)?cmp() as boolean.
 	  (DLR and David Benbennick)
 	- Automatically install a symlink "rnano" pointing to nano.
