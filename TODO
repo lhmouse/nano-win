@@ -15,10 +15,8 @@ Current Version:
 - Better statusbar interaction (scrolling, tab completion for filename)
   [needed for version 1.0] [DONE]
 - Now do username completion [DONE].
-
-Needed for version 1.0:
-- Unjustify command (^U after ^J)
-- Username completion (~user).
+- Unjustify command (^U after ^J) [DONE =-].
+- Username completion (~user) [DONE =-].
 
 For Next Version:
 - Undo/Redo key?
