@@ -160,59 +160,6 @@ bool is_cntrl_wchar(wchar_t wc)
 }
 #endif
 
-#ifndef HAVE_STRNLEN
-/* This function is equivalent to strnlen(). */
-size_t nstrnlen(const char *s, size_t maxlen)
-{
-    size_t n = 0;
-
-    assert(s != NULL);
-
-    for (; maxlen > 0 && *s != '\0'; maxlen--, n++, s++)
-	;
-
-    return n;
-}
-#endif
-
-/* This function is equivalent to strnlen() for multibyte strings. */
-size_t mbstrnlen(const char *s, size_t maxlen)
-{
-#ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
-	size_t n = 0;
-	char *s_mb = charalloc(mb_cur_max());
-	int s_mb_len;
-
-	assert(s != NULL);
-
-	while (*s != '\0') {
-	    s_mb_len = parse_mbchar(s + n, s_mb
-#ifdef NANO_WIDE
-		, NULL
-#endif
-		, NULL);
-
-	    if (s_mb_len > maxlen)
-		break;
-
-	    maxlen -= s_mb_len;
-	    n += s_mb_len;
-	}
-
-	free(s_mb);
-
-	return n;
-    } else
-#endif
-	return
-#ifdef HAVE_STRNLEN
-		strnlen(s, maxlen);
-#else
-		nstrnlen(s, maxlen);
-#endif
-}
-
 /* c is a control character.  It displays as ^@, ^?, or ^[ch] where ch
  * is c + 64.  We return that character. */
 unsigned char control_rep(unsigned char c)
@@ -474,4 +421,266 @@ size_t move_mbright(const char *buf, size_t pos)
 	, NULL
 #endif
 	, NULL);
+}
+
+#ifndef HAVE_STRCASECMP
+/* This function is equivalent to strcasecmp(). */
+int nstrcasecmp(const char *s1, const char *s2)
+{
+    assert(s1 != NULL && s2 != NULL);
+
+    for (; *s1 != '\0' && *s2 != '\0'; s1++, s2++) {
+	if (tolower(*s1) != tolower(*s2))
+	    break;
+    }
+
+    return (tolower(*s1) - tolower(*s2));
+}
+#endif
+
+/* This function is equivalent to strcasecmp() for multibyte strings. */
+int mbstrcasecmp(const char *s1, const char *s2)
+{
+    assert(s1 != NULL && s2 != NULL);
+
+#ifdef NANO_WIDE
+    if (!ISSET(NO_UTF8)) {
+	char *s1_mb = charalloc(mb_cur_max());
+	char *s2_mb = charalloc(mb_cur_max());
+	int s1_mb_len, s2_mb_len;
+	wchar_t ws1, ws2;
+
+	while (*s1 != '\0' && *s2 != '\0') {
+	    s1_mb_len = parse_mbchar(s1, s1_mb
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		, NULL);
+
+	    if (mbtowc(&ws1, s1_mb, s1_mb_len) <= 0) {
+		mbtowc(NULL, NULL, 0);
+		ws1 = (unsigned char)*s1_mb;
+	    }
+
+
+	    s2_mb_len = parse_mbchar(s2, s2_mb
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		, NULL);
+
+	    if (mbtowc(&ws2, s2_mb, s2_mb_len) <= 0) {
+		mbtowc(NULL, NULL, 0);
+		ws2 = (unsigned char)*s2_mb;
+	    }
+
+
+	    if (towlower(ws1) != towlower(ws2))
+		break;
+
+	    s1 += s1_mb_len;
+	    s2 += s2_mb_len;
+	}
+
+	free(s1_mb);
+	free(s2_mb);
+
+	return (towlower(ws1) - towlower(ws2));
+    } else
+#endif
+	return
+#ifdef HAVE_STRCASECMP
+		strcasecmp(s1, s2);
+#else
+		nstrcasecmp(s1, s2);
+#endif
+}
+
+#ifndef HAVE_STRNCASECMP
+/* This function is equivalent to strncasecmp(). */
+int nstrncasecmp(const char *s1, const char *s2, size_t n)
+{
+    assert(s1 != NULL && s2 != NULL);
+
+    for (; n > 0 && *s1 != '\0' && *s2 != '\0'; n--, s1++, s2++) {
+	if (tolower(*s1) != tolower(*s2))
+	    break;
+    }
+
+    if (n > 0)
+	return (tolower(*s1) - tolower(*s2));
+    else
+	return 0;
+}
+#endif
+
+/* This function is equivalent to strncasecmp() for multibyte
+ * strings. */
+int mbstrncasecmp(const char *s1, const char *s2, size_t n)
+{
+    assert(s1 != NULL && s2 != NULL);
+
+#ifdef NANO_WIDE
+    if (!ISSET(NO_UTF8)) {
+	char *s1_mb = charalloc(mb_cur_max());
+	char *s2_mb = charalloc(mb_cur_max());
+	int s1_mb_len, s2_mb_len;
+	wchar_t ws1, ws2;
+
+	while (n > 0 && *s1 != '\0' && *s2 != '\0') {
+	    s1_mb_len = parse_mbchar(s1, s1_mb
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		, NULL);
+
+	    if (mbtowc(&ws1, s1_mb, s1_mb_len) <= 0) {
+		mbtowc(NULL, NULL, 0);
+		ws1 = (unsigned char)*s1_mb;
+	    }
+
+	    s2_mb_len = parse_mbchar(s2, s2_mb
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		, NULL);
+
+	    if (mbtowc(&ws2, s2_mb, s2_mb_len) <= 0) {
+		mbtowc(NULL, NULL, 0);
+		ws2 = (unsigned char)*s2_mb;
+	    }
+
+	    if (s1_mb_len > n || towlower(ws1) != towlower(ws2))
+		break;
+
+	    s1 += s1_mb_len;
+	    s2 += s2_mb_len;
+	    n -= s1_mb_len;
+	}
+
+	free(s1_mb);
+	free(s2_mb);
+
+	return (towlower(ws1) - towlower(ws2));
+    } else
+#endif
+	return
+#ifdef HAVE_STRNCASECMP
+		strncasecmp(s1, s2, n);
+#else
+		nstrncasecmp(s1, s2, n);
+#endif
+}
+
+#ifndef HAVE_STRCASESTR
+/* This function is equivalent to strcasestr().  It was adapted from
+ * mutt's mutt_stristr() function. */
+const char *nstrcasestr(const char *haystack, const char *needle)
+{
+    assert(haystack != NULL && needle != NULL);
+
+    for (; *haystack != '\0'; haystack++) {
+	const char *p = haystack, *q = needle;
+
+	for (; tolower(*p) == tolower(*q) && *q != '\0'; p++, q++)
+	    ;
+
+	if (*q == '\0')
+	    return haystack;
+    }
+
+    return NULL;
+}
+#endif
+
+/* None of this is needed if we're using NANO_SMALL! */
+#ifndef NANO_SMALL
+const char *revstrstr(const char *haystack, const char *needle, const
+	char *rev_start)
+{
+    assert(haystack != NULL && needle != NULL && rev_start != NULL);
+
+    for (; rev_start >= haystack; rev_start--) {
+	const char *r, *q;
+
+	for (r = rev_start, q = needle; *q == *r && *q != '\0'; r++, q++)
+	    ;
+
+	if (*q == '\0')
+	    return rev_start;
+    }
+
+    return NULL;
+}
+
+const char *revstrcasestr(const char *haystack, const char *needle,
+	const char *rev_start)
+{
+    assert(haystack != NULL && needle != NULL && rev_start != NULL);
+
+    for (; rev_start >= haystack; rev_start--) {
+	const char *r = rev_start, *q = needle;
+
+	for (; tolower(*q) == tolower(*r) && *q != '\0'; r++, q++)
+	    ;
+
+	if (*q == '\0')
+	    return rev_start;
+    }
+
+    return NULL;
+}
+#endif /* !NANO_SMALL */
+
+#ifndef HAVE_STRNLEN
+/* This function is equivalent to strnlen(). */
+size_t nstrnlen(const char *s, size_t maxlen)
+{
+    size_t n = 0;
+
+    assert(s != NULL);
+
+    for (; maxlen > 0 && *s != '\0'; maxlen--, n++, s++)
+	;
+
+    return n;
+}
+#endif
+
+/* This function is equivalent to strnlen() for multibyte strings. */
+size_t mbstrnlen(const char *s, size_t maxlen)
+{
+    assert(s != NULL);
+
+#ifdef NANO_WIDE
+    if (!ISSET(NO_UTF8)) {
+	size_t n = 0;
+	char *s_mb = charalloc(mb_cur_max());
+	int s_mb_len;
+
+	while (*s != '\0') {
+	    s_mb_len = parse_mbchar(s + n, s_mb
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		, NULL);
+
+	    if (s_mb_len > maxlen)
+		break;
+
+	    maxlen -= s_mb_len;
+	    n += s_mb_len;
+	}
+
+	free(s_mb);
+
+	return n;
+    } else
+#endif
+	return
+#ifdef HAVE_STRNLEN
+		strnlen(s, maxlen);
+#else
+		nstrnlen(s, maxlen);
+#endif
 }

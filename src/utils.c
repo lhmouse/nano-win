@@ -131,99 +131,6 @@ void sunder(char *str)
     }
 }
 
-#ifndef HAVE_STRCASECMP
-/* This function is equivalent to strcasecmp(). */
-int nstricmp(const char *s1, const char *s2)
-{
-    assert(s1 != NULL && s2 != NULL);
-
-    for (; *s1 != '\0' && *s2 != '\0'; s1++, s2++) {
-	if (tolower(*s1) != tolower(*s2))
-	    break;
-    }
-
-    return (tolower(*s1) - tolower(*s2));
-}
-#endif
-
-#ifndef HAVE_STRNCASECMP
-/* This function is equivalent to strncasecmp(). */
-int nstrnicmp(const char *s1, const char *s2, size_t n)
-{
-    assert(s1 != NULL && s2 != NULL);
-
-    for (; n > 0 && *s1 != '\0' && *s2 != '\0'; n--, s1++, s2++) {
-	if (tolower(*s1) != tolower(*s2))
-	    break;
-    }
-
-    if (n > 0)
-	return (tolower(*s1) - tolower(*s2));
-    else
-	return 0;
-}
-#endif
-
-#ifndef HAVE_STRCASESTR
-/* This function is equivalent to strcasestr().  It was adapted from
- * mutt's mutt_stristr() function. */
-const char *nstristr(const char *haystack, const char *needle)
-{
-    assert(haystack != NULL && needle != NULL);
-
-    for (; *haystack != '\0'; haystack++) {
-	const char *p = haystack, *q = needle;
-
-	for (; tolower(*p) == tolower(*q) && *q != '\0'; p++, q++)
-	    ;
-
-	if (*q == '\0')
-	    return haystack;
-    }
-
-    return NULL;
-}
-#endif
-
-/* None of this is needed if we're using NANO_SMALL! */
-#ifndef NANO_SMALL
-const char *revstrstr(const char *haystack, const char *needle, const
-	char *rev_start)
-{
-    assert(haystack != NULL && needle != NULL && rev_start != NULL);
-
-    for (; rev_start >= haystack; rev_start--) {
-	const char *r, *q;
-
-	for (r = rev_start, q = needle; *q == *r && *q != '\0'; r++, q++)
-	    ;
-
-	if (*q == '\0')
-	    return rev_start;
-    }
-
-    return NULL;
-}
-
-const char *revstristr(const char *haystack, const char *needle, const
-	char *rev_start)
-{
-    assert(haystack != NULL && needle != NULL && rev_start != NULL);
-
-    for (; rev_start >= haystack; rev_start--) {
-	const char *r = rev_start, *q = needle;
-
-	for (; tolower(*q) == tolower(*r) && *q != '\0'; r++, q++)
-	    ;
-
-	if (*q == '\0')
-	    return rev_start;
-    }
-
-    return NULL;
-}
-#endif /* !NANO_SMALL */
-
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 #ifndef HAVE_GETLINE
 /* This function is equivalent to getline().  It was adapted from
@@ -341,7 +248,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 #endif /* !DISABLE_SPELLER || !NANO_SMALL */
 #ifndef NANO_SMALL
     else if (ISSET(REVERSE_SEARCH))
-	return revstristr(haystack, needle, start);
+	return revstrcasestr(haystack, needle, start);
 #endif
     return strcasestr(start, needle);
 }

@@ -89,23 +89,19 @@
 #include <sys/stat.h>
 #include "config.h"
 
-/* If no snprintf()/vsnprintf(), use the versions from glib. */
+/* If no snprintf() or vsnprintf(), use the versions from glib. */
 #if !defined(HAVE_SNPRINTF) || !defined(HAVE_VSNPRINTF)
 #include <glib.h>
-# ifndef HAVE_SNPRINTF
-#  define snprintf g_snprintf
-# endif
-# ifndef HAVE_VSNPRINTF
-#  define vsnprintf g_vsnprintf
-# endif
+#ifndef HAVE_SNPRINTF
+#define snprintf g_snprintf
+#endif
+#ifndef HAVE_VSNPRINTF
+#define vsnprintf g_vsnprintf
+#endif
 #endif
 
-/* If no strcasecmp(), strncasecmp(), strcasestr(), getdelim(), or
- * getline(), use the versions we have. */
-#ifndef HAVE_STRCASECMP
-#define strcasecmp nstricmp
-#endif
-
+/* If no strcasestr(), getdelim(), or getline(), use the versions we
+ * have. */
 #ifndef HAVE_STRNCASECMP
 #define strncasecmp nstrnicmp
 #endif

@@ -166,10 +166,6 @@ bool is_cntrl_mbchar(const char *c);
 #ifdef NANO_WIDE
 bool is_cntrl_wchar(wchar_t wc);
 #endif
-#ifndef HAVE_STRNLEN
-size_t nstrnlen(const char *s, size_t maxlen);
-#endif
-size_t mbstrnlen(const char *s, size_t maxlen);
 unsigned char control_rep(unsigned char c);
 char *control_mbrep(const char *c, char *crep, int *crep_len);
 #ifdef NANO_WIDE
@@ -185,6 +181,27 @@ int parse_mbchar(const char *buf, char *chr
 	, size_t *col);
 size_t move_mbleft(const char *buf, size_t pos);
 size_t move_mbright(const char *buf, size_t pos);
+#ifndef HAVE_STRCASECMP
+int nstrcasecmp(const char *s1, const char *s2);
+#endif
+int mbstrcasecmp(const char *s1, const char *s2);
+#ifndef HAVE_STRNCASECMP
+int nstrncasecmp(const char *s1, const char *s2, size_t n);
+#endif
+int mbstrncasecmp(const char *s1, const char *s2, size_t n);
+#ifndef HAVE_STRCASESTR
+const char *nstrcasestr(const char *haystack, const char *needle);
+#endif
+#ifndef NANO_SMALL
+const char *revstrstr(const char *haystack, const char *needle, const
+	char *rev_start);
+const char *revstrcasestr(const char *haystack, const char *needle, const
+	char *rev_start);
+#endif
+#ifndef HAVE_STRNLEN
+size_t nstrnlen(const char *s, size_t maxlen);
+#endif
+size_t mbstrnlen(const char *s, size_t maxlen);
 
 /* Public functions in color.c. */
 #ifdef ENABLE_COLOR
@@ -513,21 +530,6 @@ void align(char **strp);
 void null_at(char **data, size_t index);
 void unsunder(char *str, size_t true_len);
 void sunder(char *str);
-#ifndef HAVE_STRCASECMP
-int nstricmp(const char *s1, const char *s2);
-#endif
-#ifndef HAVE_STRNCASECMP
-int nstrnicmp(const char *s1, const char *s2, size_t n);
-#endif
-#ifndef HAVE_STRCASESTR
-const char *nstristr(const char *haystack, const char *needle);
-#endif
-#ifndef NANO_SMALL
-const char *revstrstr(const char *haystack, const char *needle, const
-	char *rev_start);
-const char *revstristr(const char *haystack, const char *needle, const
-	char *rev_start);
-#endif
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 #ifndef HAVE_GETLINE
 ssize_t ngetline(char **lineptr, size_t *n, FILE *stream);
