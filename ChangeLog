@@ -11,6 +11,8 @@ Current CVS:
 - nano.c:
   main():
 	- TABSIZE now set before first call to edit_refresh (Bill Soudan)
+  die():
+	- More intelligent emergency-save filename selection (Rob)
 - search.c:
   search_init():
 	- Added " (to replace)" statement to end of search string if 

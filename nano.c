@@ -94,10 +94,15 @@ void die(char *msg, ...)
     va_end(ap);
 
     /* if we can't save we have REAL bad problems,
-     * but we might as well TRY.  FIXME: This should probabally base it
-     * off of the current filename */
-    write_file("nano.save", 0);
-
+     * but we might as well TRY. */
+    if(filename[0] == '\0') {
+	write_file("nano.save", 0);
+    } else {
+	char buf[BUFSIZ];
+	strncpy(buf,filename,BUFSIZ);
+	strncat(buf,".save",BUFSIZ - strlen(buf));
+	write_file(buf, 0);
+    }
     /* Restore the old term settings */
     tcsetattr(0, TCSANOW, &oldterm);
 
