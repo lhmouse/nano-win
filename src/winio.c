@@ -122,7 +122,7 @@ void reset_kbinput(void)
  * default keystroke buffer is empty. */
 void get_buffer(WINDOW *win)
 {
-    int input;
+    int input, input_key_code;
 
     /* If the keystroke buffer isn't empty, get out. */
     if (key_buffer != NULL)
@@ -134,19 +134,36 @@ void get_buffer(WINDOW *win)
 #ifndef NANO_SMALL
     allow_pending_sigwinch(TRUE);
 #endif
-    input = wgetch(win);
+
+#ifdef NANO_WIDE
+    if (!ISSET(NO_UTF8)) {
+	wint_t tmp;
+
+	input_key_code = wget_wch(win, &tmp);
+	input = (int)tmp;
+    } else {
+#endif
+	input = wgetch(win);
+	input_key_code = !is_byte_char(input);
+#ifdef NANO_WIDE
+    }
+#endif
+
 #ifndef NANO_SMALL
     allow_pending_sigwinch(FALSE);
 #endif
 
     /* Increment the length of the keystroke buffer, save the value of
      * the keystroke in key, and set key_code to TRUE if the keystroke
-     * is an extended keypad value and hence shouldn't be treated as a
-     * multibyte character. */
+     * is an extended keypad value or FALSE if it isn't. */
     key_buffer_len++;
     key_buffer = (buffer *)nmalloc(sizeof(buffer));
     key_buffer[0].key = input;
-    key_buffer[0].key_code = !is_byte_char(input);
+    key_buffer[0].key_code =
+#ifdef NANO_WIDE
+	!ISSET(NO_UTF8) ? (input_key_code == KEY_CODE_YES) :
+#endif
+	input_key_code;
 
     /* Read in the remaining characters using non-blocking input. */
     nodelay(win, TRUE);
@@ -155,73 +172,49 @@ void get_buffer(WINDOW *win)
 #ifndef NANO_SMALL
 	allow_pending_sigwinch(TRUE);
 #endif
-	input = wgetch(win);
-#ifndef NANO_SMALL
-	allow_pending_sigwinch(FALSE);
-#endif
 
+#ifdef NANO_WIDE
+	if (!ISSET(NO_UTF8)) {
+	    wint_t tmp;
+
+	    input_key_code = wget_wch(win, &tmp);
+	    input = (int)tmp;
+	} else {
+#endif
+	    input = wgetch(win);
+	    input_key_code = !is_byte_char(input);
+#ifdef NANO_WIDE
+	}
+#endif
 	/* If there aren't any more characters, stop reading. */
-	if (input == ERR)
+	if (
+#ifdef NANO_WIDE
+		(!ISSET(NO_UTF8) && input_key_code == ERR) ||
+#endif
+		input == ERR)
 	    break;
 
 	/* Otherwise, increment the length of the keystroke buffer, save
 	 * the value of the keystroke in key, and set key_code to TRUE
-	 * if the keystroke is an extended keypad value and hence
-	 * shouldn't be treated as a multibyte character. */
+	 * if the keystroke is an extended keypad value or FALSE if it
+	 * isn't. */
 	key_buffer_len++;
 	key_buffer = (buffer *)nrealloc(key_buffer, key_buffer_len *
 		sizeof(buffer));
 	key_buffer[key_buffer_len - 1].key = input;
-	key_buffer[key_buffer_len - 1].key_code = !is_byte_char(input);
+	key_buffer[key_buffer_len - 1].key_code =
+#ifdef NANO_WIDE
+		!ISSET(NO_UTF8) ? (input_key_code == KEY_CODE_YES) :
+#endif
+		input_key_code;
+
+#ifndef NANO_SMALL
+	allow_pending_sigwinch(FALSE);
+#endif
     }
 
     /* Switch back to non-blocking input. */
     nodelay(win, FALSE);
-
-#ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
-	size_t i;
-	buffer *clean_key_buffer = NULL;
-	size_t clean_key_buffer_len = 0;
-
-	mbtowc(NULL, NULL, 0);
-
-	/* Change all complete and valid multibyte keystrokes to
-	 * their wide character values, discarding the others. */
-	for (i = 0; i < key_buffer_len; i++) {
-	    wchar_t wide_key;
-	    int wide_key_len;
-
-	    if (key_buffer[i].key_code) {
-		mbtowc(NULL, NULL, 0);
-
-		wide_key_len = 1;
-		wide_key = key_buffer[i].key;
-	    } else
-		wide_key_len = mbtowc(&wide_key,
-			(const char *)&key_buffer[i].key, 1);
-
-	    if (wide_key_len != -1) {
-		clean_key_buffer_len++;
-		clean_key_buffer = (buffer *)nrealloc(clean_key_buffer,
-			clean_key_buffer_len * sizeof(buffer));
-
-		clean_key_buffer[clean_key_buffer_len - 1].key =
-			(int)wide_key;
-		clean_key_buffer[clean_key_buffer_len - 1].key_code =
-			key_buffer[i].key_code;
-	    }
-	}
-
-	mbtowc(NULL, NULL, 0);
-
-	/* Replace the default keystroke buffer with the non-(-1)
-	 * keystroke buffer. */
-	key_buffer_len = clean_key_buffer_len;
-	free(key_buffer);
-	key_buffer = clean_key_buffer;
-    }
-#endif
 }
 
 /* Return the length of the default keystroke buffer. */
@@ -258,12 +251,10 @@ void unget_input(buffer *input, size_t input_len)
 #ifdef NANO_WIDE
     if (!ISSET(NO_UTF8)) {
 	size_t i;
-
-	wctomb(NULL, 0);
+	char *key = charalloc(MB_CUR_MAX);
 
 	/* Keep all valid wide keystrokes, discarding the others. */
 	for (i = 0; i < input_len; i++) {
-	    char key[MB_LEN_MAX];
 	    int key_len = input[i].key_code ? 1 :
 		wctomb(key, (wchar_t)input[i].key);
 
@@ -278,8 +269,7 @@ void unget_input(buffer *input, size_t input_len)
 	    }
 	}
 
-	wctomb(NULL, 0);
-
+	free(key);
     } else {
 #endif
 	clean_input = input;

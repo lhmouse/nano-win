@@ -3567,26 +3567,22 @@ void do_output(int *kbinput, size_t kbinput_len)
 	/* Do we have to call edit_refresh(), or can we get away with
 	 * update_line()? */
 
-    char key[
 #ifdef NANO_WIDE
-	MB_LEN_MAX
+    char *key =
+	charalloc(MB_CUR_MAX)
 #else
-	1
+	charalloc(1)
 #endif
-	];		/* The current multibyte character we have. */
-    int key_len;	/* The length of the current multibyte
-			 * character. */
+	;
 
     assert(current != NULL && current->data != NULL);
 
     /* Turn off constant cursor position display. */
     UNSET(CONSTUPDATE);
 
-#ifdef NANO_WIDE
-    wctomb(NULL, 0);
-#endif
-
     for (i = 0; i < kbinput_len; i++) {
+	int key_len;
+
 	/* Null to newline, if needed. */
 	if (kbinput[i] == '\0')
 	    kbinput[i] = '\n';
@@ -3628,7 +3624,7 @@ void do_output(int *kbinput, size_t kbinput_len)
 	charcpy(&current->data[current_x], key, key_len);
 	current_len += key_len;
 	/* FIXME: Should totsize be the number of single-byte characters
-	 * or the number of multibyte characters?  Assume for former for
+	 * or the number of multibyte characters?  Assume the former for
 	 * now. */
 	totsize += key_len;
 	set_modified();
@@ -3669,14 +3665,12 @@ void do_output(int *kbinput, size_t kbinput_len)
 #endif
     }
 
-#ifdef NANO_WIDE
-    wctomb(NULL, 0);
-#endif
-
     /* Turn constant cursor position display back on if it was on
      * before. */
     if (old_constupdate)
 	SET(CONSTUPDATE);
+
+    free(key);
 
     if (do_refresh)
 	edit_refresh();

@@ -312,28 +312,32 @@ AC_CHECK_FUNCS(getopt_long)
 dnl Checks for libraries.
 if eval "test x$CURSES_LIB_NAME = x"
 then
-    AC_CHECK_HEADERS(curses.h ncurses.h)
-    AC_CHECK_LIB(ncurses, initscr, [CURSES_LIB="-lncurses" CURSES_LIB_NAME=ncurses])
+    AC_CHECK_HEADERS(ncurses.h)
+    AC_CHECK_LIB(ncursesw, addwstr, [CURSES_LIB="-lncursesw" CURSES_LIB_NAME=ncursesw CURSES_LIB_WIDE="yes"])
+    if eval "test x$CURSES_LIB_NAME = x"
+    then
+	 AC_CHECK_LIB(ncurses, initscr, [CURSES_LIB="-lncurses" CURSES_LIB_NAME=ncurses])
+    fi
 fi
 
 if eval "test x$CURSES_LIB_NAME = x"
 then
-    AC_CHECK_LIB(curses, initscr, [CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses])
-fi
-
-if eval "test x$CURSES_LIB_NAME = x"
-then
-    AC_CHECK_LIB(termcap, tgetent, [CURSES_LIB="-ltermcap" CURSES_LIB_NAME=termcap])
+    AC_CHECK_HEADERS(curses.h)
+    AC_CHECK_LIB(curses, addwstr, [CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses CURSES_LIB_WIDE="yes"])
+    if eval "test x$CURSES_LIB_NAME = x"
+    then
+	 AC_CHECK_LIB(curses, initscr, [CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses])
+    fi
 fi
 
 if eval "test x$CURSES_LIB_NAME = x"
 then
     AC_MSG_WARN([
-*** No termcap lib available, consider getting the official ncurses
+*** No curses lib available.  Consider getting the official ncurses
 *** distribution from ftp://ftp.gnu.org/pub/gnu/ncurses if you get
 *** errors compiling nano.])
 else
-    AC_MSG_RESULT([Using $CURSES_LIB_NAME as the termcap library])
+    AC_MSG_RESULT([Using $CURSES_LIB_NAME as the curses library])
 fi
 
 AC_CHECK_LIB([$CURSES_LIB_NAME], use_default_colors, AC_DEFINE(HAVE_USE_DEFAULT_COLORS, 1, [Define this if your curses library has the use_default_colors command.]))
@@ -351,6 +355,13 @@ fi
 if test "x$GLIB_LIBS" != "x"
 then
 	LDFLAGS="$LDFLAGS $GLIB_LIBS"
+fi
+
+if test "x$CURSES_LIB_WIDE" == "xyes"
+then
+	AC_DEFINE(NANO_WIDE, 1, [Define this if your system has wide character support.])
+else
+	AC_MSG_WARN([No wide character support found.  nano will not be able to support UTF-8.])
 fi
 
 AC_CONFIG_FILES([

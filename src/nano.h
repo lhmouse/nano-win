@@ -135,10 +135,6 @@
 
 #define VERMSG "GNU nano " VERSION
 
-/* FIXME: We should be checking for this instead of unconditionally
- * using it. */
-#define NANO_WIDE 1
-
 /* If we aren't using ncurses, turn the mouse support off, as it's
  * ncurses-specific. */
 #ifndef NCURSES_MOUSE_VERSION
