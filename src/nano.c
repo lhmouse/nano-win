@@ -1344,6 +1344,9 @@ void do_next_word(void)
     }
 
     /* Move forward until we find the first letter of the next word. */
+    if (current->data[current_x] != '\0')
+	current_x += char_mb_len;
+
     for (; current != NULL; current = current->next) {
 	while (current->data[current_x] != '\0') {
 	    char_mb_len = parse_mbchar(current->data + current_x,
@@ -1416,6 +1419,11 @@ void do_prev_word(void)
 
     /* Move backward until we find the last letter of the previous
      * word. */
+    if (current_x == 0)
+	begin_line = TRUE;
+    else
+	current_x = move_mbleft(current->data, current_x);
+
     for (; current != NULL; current = current->prev) {
 	while (!begin_line) {
 	    char_mb_len = parse_mbchar(current->data + current_x,
