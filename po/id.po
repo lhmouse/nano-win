@@ -16,7 +16,7 @@ msgstr ""
 #: cut.c:43
 #, c-format
 msgid "add_to_cutbuffer called with inptr->data = %s\n"
-msgstr "add_to_cutbuffer dipangill dg inptr->data = %s\n"
+msgstr "add_to_cutbuffer dipangil dgn inptr->data = %s\n"
 
 #: cut.c:148
 msgid "Blew away cutbuffer =)\n"
@@ -112,7 +112,7 @@ msgstr "Panggil menu bantuan"
 
 #: global.c:111
 msgid "Write the current file to disk"
-msgstr "Tulis file saat ini ke disk"
+msgstr "Tulis file ini ke disk"
 
 #: global.c:112
 msgid "Exit from nano"
@@ -124,7 +124,7 @@ msgstr "Ke nomor baris tertentu"
 
 #: global.c:114
 msgid "Justify the current paragraph"
-msgstr "Justifikasi paragraf saat ini"
+msgstr "Justifikasi paragraf ini"
 
 #: global.c:115
 msgid "Replace text within the editor"
@@ -132,7 +132,7 @@ msgstr "Ganti teks dalam editor"
 
 #: global.c:116
 msgid "Insert another file into the current one"
-msgstr "Sertakan file lain ke file saat ini"
+msgstr "Sertakan file lain ke file ini"
 
 #: global.c:117
 msgid "Search for text within the editor"
@@ -152,7 +152,7 @@ msgstr "Hapus baris saat ini dan taruh dalam cutbuffer"
 
 #: global.c:121
 msgid "Uncut from the cutbuffer into the current line"
-msgstr "Kembalikan dari cutbuffer ke baris saat ini"
+msgstr "Kembalikan dari cutbuffer ke baris ini"
 
 #: global.c:122
 msgid "Show the posititon of the cursor"
@@ -180,11 +180,11 @@ msgstr "Pindah satu karakter ke belakang"
 
 #: global.c:128
 msgid "Move to the beginning of the current line"
-msgstr "Pindah ke awal baris saat ini"
+msgstr "Pindah ke awal baris ini"
 
 #: global.c:129
 msgid "Move to the end of the current line"
-msgstr "Pindah ke akhir baris saat ini"
+msgstr "Pindah ke akhir baris ini"
 
 #: global.c:130
 msgid "Go to the first line of the file"
@@ -212,7 +212,7 @@ msgstr "Hapus satu karakter di kiri kursor"
 
 #: global.c:137
 msgid "Insert a tab character"
-msgstr "Sertakan karakter tab"
+msgstr "Masukkan karakter tab"
 
 #: global.c:138
 msgid "Insert a carriage return at the cursor position"
@@ -224,7 +224,7 @@ msgstr "Jadikan pencarian/penggantian saat ini case (in)sensitive"
 
 #: global.c:141
 msgid "Cancel the current function"
-msgstr "Batalkan fungsi saat ini"
+msgstr "Batalkan fungsi ini"
 
 #: global.c:146 global.c:256 global.c:322
 msgid "Get Help"
@@ -439,7 +439,7 @@ msgstr "-h      --help          Tampilkan pesan ini\n"
 
 #: nano.c:323
 msgid " -i \t\t--autoindent\t\tAutomatically indent new lines\n"
-msgstr "-i      --autoindent    Indent baris barus secara otomatis\n"
+msgstr "-i      --autoindent    Indentasi baris barus secara otomatis\n"
 
 #: nano.c:325
 msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite.\n"
@@ -469,7 +469,7 @@ msgstr ""
 
 #: nano.c:341
 msgid " -v \t\t--view\t\t\tView (read only) mode\n"
-msgstr "-v      --view  View mode (read only)\n"
+msgstr "-v      --view  Mode Tampil (baca saja)\n"
 
 #: nano.c:343
 msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
@@ -501,7 +501,7 @@ msgstr "Option          Arti\n"
 
 #: nano.c:354
 msgid " -T [num]\tSet width of a tab to num\n"
-msgstr ""
+msgstr " -T [num]\tGanti lebar tabulasi manjadi num\n"
 
 #: nano.c:355
 msgid " -V \t\tPrint version information and exit\n"
@@ -545,7 +545,7 @@ msgstr "-t     Autosave saat keluar, jangan minta konfirmasi.\n"
 
 #: nano.c:371
 msgid " -v \t\tView (read only) mode\n"
-msgstr "-v     View mode (read only)\n"
+msgstr "-v     Mode Tampil (baca saja)\n"
 
 #: nano.c:372
 msgid " -w \t\tDon't wrap long lines\n"
@@ -602,12 +602,12 @@ msgstr "Kesalahan menghapus tempfile, ack!"
 #: nano.c:1047 nano.c:1097
 #, c-format
 msgid "Could not create a temporary filename: %s"
-msgstr "Tidak dapat membuat nama file temporer: %s"
+msgstr "Tidak dapat membuat nama file sementara: %s"
 
 #: nano.c:1069 nano.c:1119
 #, c-format
 msgid "Could not invoke spell program \"%s\""
-msgstr "Tidak dapat memanggil program spell \"%s\""
+msgstr "Tidak dapat memanggil program ejaan \"%s\""
 
 #. Why 32512? I dont know!
 #: nano.c:1075 nano.c:1125
@@ -621,19 +621,19 @@ msgstr "Selesai memeriksa ejaan"
 #: nano.c:1154
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
-"Simpan buffer termodifikasi (JAWABAN \"No\" AKAN MENGHAPUS PERUBAHAN) ?"
+"Simpan buffer termodifikasi (JAWAB \"No\" AKAN MENGHAPUS PERUBAHAN) ?"
 
 #: nano.c:1277
 msgid "Cannot resize top win"
-msgstr "Tidak dapat resize jendela atas"
+msgstr "Tidak dapat menganti ukuran jendela atas"
 
 #: nano.c:1279
 msgid "Cannot move top win"
-msgstr "Tidak memindahkan jendela atas"
+msgstr "Tidak dapat memindahkan jendela atas"
 
 #: nano.c:1281
 msgid "Cannot resize edit win"
-msgstr "Tidak dapat resize jendela edit"
+msgstr "Tidak dapat mengganti ukuran jendela edit"
 
 #: nano.c:1283
 msgid "Cannot move edit win"
@@ -641,7 +641,7 @@ msgstr "Tidak dapat memindah jendela edit"
 
 #: nano.c:1285
 msgid "Cannot resize bottom win"
-msgstr "Tidak dapat meresize jendela bawah"
+msgstr "Tidak dapat mengganti ukuran jendela bawah"
 
 #: nano.c:1287
 msgid "Cannot move bottom win"
@@ -649,7 +649,7 @@ msgstr "Tidak dapat memindah jendela bawah"
 
 #: nano.c:1732
 msgid "Main: set up windows\n"
-msgstr "Main: menset jendelan\n"
+msgstr "Main: menset jendela\n"
 
 #: nano.c:1754
 msgid "Main: bottom win\n"
@@ -685,16 +685,16 @@ msgstr "Batalkan pencarian"
 
 #: search.c:140
 msgid "Search Wrapped"
-msgstr "Search wrapped"
+msgstr "Pancarian diulangi dari awal"
 
 #: search.c:190
 #, c-format
 msgid "Replaced %d occurences"
-msgstr "Mengganti %d pemunculan"
+msgstr "%d tempat terganti"
 
 #: search.c:192
 msgid "Replaced 1 occurence"
-msgstr "Mengganti 1 pemunculan"
+msgstr "Terganti 1 tempat"
 
 #: search.c:210 search.c:232 search.c:255
 msgid "Replace Cancelled"
