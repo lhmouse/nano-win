@@ -1616,21 +1616,25 @@ bool do_int_spell_fix(const char *word)
 
 #ifndef NANO_SMALL
     if (old_mark_set) {
-	size_t bot_data_len;
+	size_t top_data_len, bot_data_len;
 
 	/* If we added a magicline, remove it now. */
 	if (added_magicline)
 	    remove_magicline();
 
-	/* If the mark ended in the middle of a word and that word was
-	 * spell-checked, put either current_x_save or mark_beginx,
-	 * depending on the value of right_side_up, at the end of the
-	 * spell-checked word. */
+	/* Put the beginning and the end of the mark at the beginning
+	 * and the end of the spell-checked text. */
+	top_data_len = strlen(filepart->top_data);
 	bot_data_len = strlen(filebot->data);
-	if (right_side_up)
+	if (fileage == filebot)
+	    bot_data_len += top_data_len;
+	if (right_side_up) {
+	    mark_beginx = top_data_len;
 	    current_x_save = bot_data_len;
-	else
+	} else {
+	    current_x_save = top_data_len;
 	    mark_beginx = bot_data_len;
+	}
 
 	/* If the mark was on, unpartition the filestruct so that it
 	 * contains all the text again, and turn the mark back on. */
@@ -1980,21 +1984,25 @@ const char *do_alt_speller(char *tempfile_name)
 #ifndef NANO_SMALL
     if (old_mark_set) {
 	filestruct *top_save = fileage;
-	size_t bot_data_len;
+	size_t top_data_len, bot_data_len;
 
 	/* If we added a magicline, remove it now. */
 	if (added_magicline)
 	    remove_magicline();
 
-	/* If the mark ended in the middle of a word and that word was
-	 * spell-checked, put either current_x_save or mark_beginx,
-	 * depending on the value of right_side_up, at the end of the
-	 * spell-checked word. */
+	/* Put the beginning and the end of the mark at the beginning
+	 * and the end of the spell-checked text. */
+	top_data_len = strlen(filepart->top_data);
 	bot_data_len = strlen(filebot->data);
-	if (right_side_up)
+	if (fileage == filebot)
+	    bot_data_len += top_data_len;
+	if (right_side_up) {
+	    mark_beginx = top_data_len;
 	    current_x_save = bot_data_len;
-	else
+	} else {
+	    current_x_save = top_data_len;
 	    mark_beginx = bot_data_len;
+	}
 
 	/* If the mark was on, unpartition the filestruct so that it
 	 * contains all the text again.  Note that we've replaced the
