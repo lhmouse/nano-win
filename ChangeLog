@@ -8,6 +8,7 @@ CVS code -
 - nano.c:
   help_init()
 	- Capitalize Meta altkeys.
+	- Various fixes and string changes.
   main()
 	- Put NANO_SMALL defines around toggle pointer (noticed by Jordi);
   usage()

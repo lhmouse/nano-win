@@ -2460,9 +2460,9 @@ void help_init(void)
 		"using a nanorc file, inserting a file will cause it to be "
 		"loaded into a separate buffer (use Meta-< and > to switch "
 		"between file buffers).\n\n If you need another blank "
-		"buffer, just press Enter at the prompt without typing in a "
-		"filename, or type in a nonexistent filename at the prompt "
-		"and press Enter.\n\n The following function keys are "
+		"buffer, do not enter any filename, or type in a "
+		"nonexistent filename at the prompt and press "
+		"Enter.\n\n The following function keys are "
 		"available in Insert File mode:\n\n");
     else if (currshortcut == writefile_list)
 	ptr = _("Write File Help Text\n\n "
