@@ -603,7 +603,9 @@ void bottombars(shortcut s[], int slen)
 
 #ifdef ENABLE_COLOR    
     color_on(bottomwin, COLOR_BOTTOMBARS);
-    wattroff(bottomwin, A_REVERSE);
+    if (!colors[COLOR_BOTTOMBARS - FIRST_COLORNUM].set ||
+	 colors[COLOR_BOTTOMBARS - FIRST_COLORNUM].fg != COLOR_BLACK)
+   	wattroff(bottomwin, A_REVERSE);
 #endif
 
     /* Determine how many extra spaces are needed to fill the bottom of the screen */
