@@ -318,7 +318,7 @@ int do_insertfile(void)
  * we don't set the global variable filename to it's name, and don't
  * print out how many lines we wrote on the statusbar.
  * 
- * tmp means we are writing a tmp file in a secute fashion.  We use
+ * tmp means we are writing a tmp file in a secure fashion.  We use
  * it when spell checking or dumping the file on an error.
  */
 int write_file(char *name, int tmp)
@@ -1005,11 +1005,7 @@ int diralphasort(const void *va, const void *vb) {
     char *a = *(char **)va, *b = *(char **)vb;
     int answer = 0;
 
-    if (stat(a, &file1info) == -1)
-	answer = 1;
-    else if (stat(b, &file2info) == -1)
-	answer = 1;
-    else {
+    if ((lstat(a, &file1info) != -1) && (lstat(b, &file2info) != -1)) {
 	/* If is a is a dir and b isn't, return -1.
 	   Else if b is a dir and a isn't, return 0.
 	   Else return a < b */

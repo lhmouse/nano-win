@@ -3,6 +3,10 @@ CVS -
 	- Minor patch for intl check (really this time) (Albert Chin)
 - faq.html:
 	- Fixed typo in section 6.1 (discovered by Bob Farmer).
+- files.c:
+  diralphasort()
+	- Changed stat calls to lstat to stop abort on symlinks, otherwise
+	  return 0.  (Matthias Andree, fixes bug #58)
 
 nano-1.0.0 - 03/22/2001
 - General
