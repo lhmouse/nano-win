@@ -1902,6 +1902,8 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		    converted[index++] = ctrl_wide_buf[i];
 
 		free(ctrl_wide_buf);
+
+		start_col++;
 		start_index += wide_buf_len;
 	    }
 	} else if (wcwidth(wide_buf) > 1) {
@@ -1914,6 +1916,8 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		converted[1] = ' ';
 		index = 2;
 	    }
+
+	    start_col++;
 	    start_index += wide_buf_len;
 	}
     }
