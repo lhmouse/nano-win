@@ -374,7 +374,7 @@ int write_file(char *name, int tmp)
 	if (fd == -1) {
 	    if (!tmp && ISSET(TEMP_OPT)) {
 		UNSET(TEMP_OPT);
-		return do_writeout(1);
+		return do_writeout(filename, 1);
 	    }
 	    statusbar(_("Could not open file for writing: %s"),
 		      strerror(errno));
@@ -391,7 +391,7 @@ int write_file(char *name, int tmp)
 	if ((fd = mkstemp(buf)) == -1) {
 	    if (ISSET(TEMP_OPT)) {
 		UNSET(TEMP_OPT);
-		return do_writeout(1);
+		return do_writeout(filename, 1);
 	    }
 	    statusbar(_("Could not open file for writing: %s"),
 		      strerror(errno));
@@ -495,15 +495,16 @@ int write_file(char *name, int tmp)
     return 1;
 }
 
-int do_writeout(int exiting)
+int do_writeout(char *path, int exiting)
 {
     int i = 0;
 
 #ifdef NANO_EXTRA
     static int did_cred = 0;
 #endif
+fprintf(stderr, "answer = %s, path = %s\n", answer, path);
 
-    answer = mallocstrcpy(answer, filename);
+    answer = mallocstrcpy(answer, path);
 
     if ((exiting) && (ISSET(TEMP_OPT))) {
 	if (filename[0]) {
@@ -532,8 +533,11 @@ int do_writeout(int exiting)
 
 	    if (tmp != NULL)
 		answer = mallocstrcpy(answer, tmp);
-	    else
-		return do_writeout(exiting);
+	    else {
+fprintf(stderr, "Answer = %s\n", answer);
+
+		return do_writeout(answer, exiting);
+	    }
 	}
 #endif
 
@@ -572,7 +576,7 @@ int do_writeout(int exiting)
 
 int do_writeout_void(void)
 {
-    return do_writeout(0);
+    return do_writeout(filename, 0);
 }
 
 #ifndef DISABLE_TABCOMP

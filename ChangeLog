@@ -20,6 +20,9 @@ General -
 	- removed skipping . and .. when tabulating matches.
 	- Added the (char *) sizeof when allocating memory for the filename
 	  array (Rocco).
+  do_writeout()
+	- Now takes an argument so the string typed in can be retained
+	  when calling the browser.
   do_browser()
 	- Don't decrement longest by the length of path.  Fixes crashes
 	  on entering various dirs  (Rocco).
@@ -40,6 +43,7 @@ General -
   mallocstrcpy()
 	- Takes char pointers now instead of void (makes debugging a
 	  helluva lot easier)
+	- Duh, don't do anything if src == dest!
 - es.po:
 	- Updates for file browser (Jordi).
 

@@ -81,7 +81,7 @@ int do_uncut_text(void);
 int no_help(void);
 int renumber_all(void);
 int open_file(char *filename, int insert, int quiet);
-int do_writeout(int exiting);
+int do_writeout(char *path, int exiting);
 int do_gotoline(long defline);
 int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
 			int wholewords, int *i);

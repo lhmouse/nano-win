@@ -126,6 +126,10 @@ void *nrealloc(void *ptr, size_t howmuch)
 void *mallocstrcpy(char *dest, char *src)
 {
 
+
+    if (src == dest)
+	return src;
+
     if (dest != NULL)
 	free(dest);
 
