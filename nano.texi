@@ -344,9 +344,6 @@ toggles the -m (@code{--mouse}) command line flag.
 @item Mac Format Toggle (Meta-O)
 toggles the -M (@code{--mac}) command line flag.
 
-@item Pico Mode Toggle (Meta-P)
-toggles the -p (@code{--preserve}) command line flag.
-
 @item Smooth Scrolling Toggle (Meta-S)
 toggles the -S (@code{--smooth}) command line flag.
 
@@ -399,8 +396,8 @@ in front of the cursor, as opposed to being bracketed and uneditable as
 it is in Pico.  The old behavior could be made compatible with Pico via the
 @code{-p} flag, but recent versions of Pico use the @code{-p} flag 
 to preserve the XON and XOFF sequences within the editor.  Since with the new 
-method search and replace strings can still be edited by simply hitting the 
-up arrow key once, the old method was removed completely.
+method search and replace strings can still be edited by simply 
+hitting the up arrow key once, the old method was removed completely.
 
 
 @item Writing or Appending Selected Text to Files
@@ -413,7 +410,8 @@ Many options which alter the functionality of the program can be
 not have to be restarted to turn a particular feature of the editor 
 on or off.  Please see the internal help function (^G) for a list of 
 what functions can be toggled for a particular version of 
-@code{nano}.
+@code{nano}.  Also see @xref{Feature Toggles}, though this may be out
+of date.
 
 @item Cursor Position Display
 The output of the "Display Cursor Position" in @code{nano} displays
