@@ -1106,7 +1106,7 @@ void toggle_init(void)
 	SMART_HOME);
 #ifdef ENABLE_COLOR
     toggle_init_one(TOGGLE_SYNTAX_KEY, N_("Color syntax highlighting"),
-	COLOR_SYNTAX);
+	NO_COLOR_SYNTAX);
 #endif
 #ifdef ENABLE_NANORC
     toggle_init_one(TOGGLE_WHITESPACE_KEY, N_("Whitespace display"),

@@ -162,6 +162,15 @@ CVS code -
 	  routine to get the current user's home directory into the new
 	  function get_homedir(), and use it where necessary.  Also add
 	  a few miscellaneous tweaks.
+	- Overhaul the rcfile parsing code to make it simpler and more
+	  accurate, remove now-redundant checks from the color code,
+	  change the COLOR_SYNTAX toggle to the NO_COLOR_SYMTAX toggle,
+	  and improve various debugging messsages.  Changes to
+	  set_colorpairs(), do_colorinit(), parse_next_word(),
+	  parse_argument(), colortoint(), parse_next_regex(),
+	  parse_syntax(), parse_colors(), parse_rcfile(), do_rcfile(),
+	  etc. (David Benbennick)  DLR: Rename colortoint() to
+	  color_to_int(), and add a few miscellaneous tweaks.
 - cut.c:
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the

@@ -54,7 +54,7 @@ void new_file(void)
 
 #ifdef ENABLE_COLOR
     update_color();
-    if (ISSET(COLOR_SYNTAX))
+    if (!ISSET(NO_COLOR_SYNTAX))
 	edit_refresh();
 #endif
 }
@@ -675,7 +675,7 @@ void do_insertfile(
 
 	    break;
 	}
-    } /* while (TRUE) */
+    }
 
     free(ans);
 }
@@ -1640,7 +1640,7 @@ int write_file(const char *name, bool tmp, int append, bool
 	    filename = mallocstrcpy(filename, realname);
 #ifdef ENABLE_COLOR
 	    update_color();
-	    if (ISSET(COLOR_SYNTAX))
+	    if (!ISSET(NO_COLOR_SYNTAX))
 		edit_refresh();
 #endif
 	}

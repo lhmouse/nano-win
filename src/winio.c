@@ -2658,7 +2658,7 @@ int statusq(bool allow_tabs, const shortcut *s, const char *def,
     blank_statusbar();
 
 #ifdef DEBUG
-    fprintf(stderr, "I got \"%s\"\n", answer);
+    fprintf(stderr, "answer = \"%s\"\n", answer);
 #endif
 
 #ifndef DISABLE_TABCOMP
@@ -3052,7 +3052,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
     mvwaddstr(edit, yval, 0, converted);
 
 #ifdef ENABLE_COLOR
-    if (colorstrings != NULL && ISSET(COLOR_SYNTAX)) {
+    if (colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX)) {
 	const colortype *tmpcolor = colorstrings;
 
 	for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
@@ -3087,17 +3087,19 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		     * unless k is 0.  If regexec() returns REG_NOMATCH,
 		     * there are no more matches in the line. */
 		    if (regexec(&tmpcolor->start, &fileptr->data[k], 1,
-			&startmatch, k == 0 ? 0 :
+			&startmatch, (k == 0) ? 0 :
 			REG_NOTBOL) == REG_NOMATCH)
 			break;
-		    /* Translate the match to the beginning of the line. */
+		    /* Translate the match to the beginning of the
+		     * line. */
 		    startmatch.rm_so += k;
 		    startmatch.rm_eo += k;
 		    if (startmatch.rm_so == startmatch.rm_eo) {
 			startmatch.rm_eo++;
-			statusbar(_("Refusing 0 length regex match"));
+			statusbar(
+				_("Refusing zero-length regex match"));
 		    } else if (startmatch.rm_so < endpos &&
-				startmatch.rm_eo > startpos) {
+			startmatch.rm_eo > startpos) {
 			if (startmatch.rm_so <= startpos)
 			    x_start = 0;
 			else
@@ -3157,7 +3159,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		    startmatch.rm_eo -= startmatch.rm_so;
  		    if (regexec(tmpcolor->end, start_line->data +
 			start_col + startmatch.rm_eo, 0, NULL,
-			start_col + startmatch.rm_eo == 0 ? 0 :
+			(start_col + startmatch.rm_eo == 0) ? 0 :
 			REG_NOTBOL) == REG_NOMATCH)
 			/* No end found after this start. */
 			break;
@@ -3209,7 +3211,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		while (start_col < endpos) {
 		    if (regexec(&tmpcolor->start,
 			fileptr->data + start_col, 1, &startmatch,
-			start_col == 0 ? 0 : REG_NOTBOL) == REG_NOMATCH ||
+			(start_col == 0) ? 0 :
+			REG_NOTBOL) == REG_NOMATCH ||
 			start_col + startmatch.rm_so >= endpos)
 			/* No more starts on this line. */
 			break;
@@ -3228,7 +3231,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 
 		    if (regexec(tmpcolor->end,
 			fileptr->data + startmatch.rm_eo, 1, &endmatch,
-			startmatch.rm_eo == 0 ? 0 : REG_NOTBOL) == 0) {
+			(startmatch.rm_eo == 0) ? 0 :
+			REG_NOTBOL) == 0) {
 			/* Translate the end match to be relative to the
 			 * beginning of the line. */
 			endmatch.rm_so += startmatch.rm_eo;
@@ -3268,12 +3272,12 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 			}
 		    }
 		    start_col = startmatch.rm_so + 1;
-		} /* while start_col < endpos */
-	    } /* if (tmp_color->end != NULL) */
+		}
+	    }
 
 	    wattroff(edit, A_BOLD);
 	    wattroff(edit, COLOR_PAIR(tmpcolor->pairnum));
-	} /* for tmpcolor in colorstrings */
+	}
     }
 #endif /* ENABLE_COLOR */
 

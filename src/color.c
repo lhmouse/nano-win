@@ -2,7 +2,7 @@
 /**************************************************************************
  *   color.c                                                              *
  *                                                                        *
- *   Copyright (C) 1999-2004 Chris Allegretta                             *
+ *   Copyright (C) 1999-2005 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -46,14 +46,14 @@ void set_colorpairs(void)
 	for (; this_color != NULL; this_color = this_color->next) {
 	    const colortype *beforenow = this_syntax->color;
 
-	    for (; beforenow != NULL && beforenow != this_color && 
-			(beforenow->fg != this_color->fg ||
-			 beforenow->bg != this_color->bg ||
-			 beforenow->bright != this_color->bright);
-		    beforenow = beforenow->next)
+	    for (; beforenow != this_color &&
+		(beforenow->fg != this_color->fg ||
+		beforenow->bg != this_color->bg ||
+		beforenow->bright != this_color->bright);
+		beforenow = beforenow->next)
 		;
 
-	    if (beforenow != NULL && beforenow != this_color)
+	    if (beforenow != this_color)
 		this_color->pairnum = beforenow->pairnum;
 	    else {
 		this_color->pairnum = color_pair;
@@ -68,14 +68,14 @@ void do_colorinit(void)
     if (has_colors()) {
 	const colortype *tmpcolor = NULL;
 #ifdef HAVE_USE_DEFAULT_COLORS
-	int defok;
+	bool defok;
 #endif
 
 	start_color();
-	/* Add in colors, if available */
 
+	/* Add in colors, if available. */
 #ifdef HAVE_USE_DEFAULT_COLORS
-	defok = use_default_colors() != ERR;
+	defok = (use_default_colors() != ERR);
 #endif
 
 	for (tmpcolor = colorstrings; tmpcolor != NULL;
@@ -91,8 +91,8 @@ void do_colorinit(void)
 	    init_pair(tmpcolor->pairnum, tmpcolor->fg, background);
 
 #ifdef DEBUG
-	    fprintf(stderr, "Running %s with fg = %d and bg = %d\n",
-		"init_pair()", tmpcolor->fg, tmpcolor->bg);
+	    fprintf(stderr, "init_pair(): fg = %d, bg = %d\n",
+		tmpcolor->fg, tmpcolor->bg);
 #endif
 	}
     }
@@ -104,11 +104,12 @@ void update_color(void)
     const syntaxtype *tmpsyntax;
 
     colorstrings = NULL;
-    for (tmpsyntax = syntaxes; tmpsyntax != NULL; tmpsyntax = tmpsyntax->next) {
+    for (tmpsyntax = syntaxes; tmpsyntax != NULL;
+	tmpsyntax = tmpsyntax->next) {
 	const exttype *e;
 
 	for (e = tmpsyntax->extensions; e != NULL; e = e->next) {
-	    /* Set colorstrings if we matched the extension regex */
+	    /* Set colorstrings if we matched the extension regex. */
 	    if (regexec(&e->val, filename, 0, NULL, 0) == 0)
 		colorstrings = tmpsyntax->color;
 
@@ -117,10 +118,10 @@ void update_color(void)
 	}
     }
 
-    /* if we haven't found a match, use the override string */
+    /* If we haven't found a match, use the override string. */
     if (colorstrings == NULL && syntaxstr != NULL) {
 	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
-	     tmpsyntax = tmpsyntax->next) {
+		tmpsyntax = tmpsyntax->next) {
 	    if (strcasecmp(tmpsyntax->desc, syntaxstr) == 0)
 		colorstrings = tmpsyntax->color;
 	}

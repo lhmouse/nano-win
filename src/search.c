@@ -844,7 +844,7 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 
 	    if (!replaceall) {
 #ifdef ENABLE_COLOR
-		if (ISSET(COLOR_SYNTAX))
+		if (!ISSET(NO_COLOR_SYNTAX))
 		    edit_refresh();
 		else
 #endif

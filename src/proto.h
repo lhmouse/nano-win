@@ -462,9 +462,9 @@ void rcfile_error(const char *msg, ...);
 char *parse_next_word(char *ptr);
 char *parse_argument(char *ptr);
 #ifdef ENABLE_COLOR
-int colortoint(const char *colorname, int *bright);
+int color_to_int(const char *colorname, bool *bright);
 char *parse_next_regex(char *ptr);
-int nregcomp(regex_t *preg, const char *regex, int eflags);
+bool nregcomp(regex_t *preg, const char *regex, int eflags);
 void parse_syntax(char *ptr);
 void parse_colors(char *ptr);
 #endif /* ENABLE_COLOR */

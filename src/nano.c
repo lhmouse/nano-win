@@ -1299,7 +1299,7 @@ void do_delete(void)
 #ifdef ENABLE_COLOR
     /* If color syntaxes are turned on, we need to call
      * edit_refresh(). */
-    if (ISSET(COLOR_SYNTAX))
+    if (!ISSET(NO_COLOR_SYNTAX))
 	do_refresh = TRUE;
 #endif
 
@@ -3833,7 +3833,7 @@ void do_output(char *output, size_t output_len)
 #ifdef ENABLE_COLOR
 	/* If color syntaxes are turned on, we need to call
 	 * edit_refresh(). */
-	if (ISSET(COLOR_SYNTAX))
+	if (!ISSET(NO_COLOR_SYNTAX))
 	    do_refresh = TRUE;
 #endif
     }

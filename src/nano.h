@@ -291,7 +291,7 @@ typedef struct historyheadtype {
 #define NO_CONVERT		(1<<19)
 #define BACKUP_FILE		(1<<20)
 #define NO_RCFILE		(1<<21)
-#define COLOR_SYNTAX		(1<<22)
+#define NO_COLOR_SYNTAX		(1<<22)
 #define PRESERVE		(1<<23)
 #define HISTORY_CHANGED		(1<<24)
 #define HISTORYLOG		(1<<25)
