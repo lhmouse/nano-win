@@ -306,7 +306,7 @@ int do_insertfile(void)
 int write_file(char *name, int tmp)
 {
     long size, lineswritten = 0;
-    char buf[PATH_MAX + 1];
+    static char *buf = NULL;
     filestruct *fileptr;
     int fd, mask = 0, realexists, anyexists;
     struct stat st, lst;
@@ -321,6 +321,9 @@ int write_file(char *name, int tmp)
 
     if (realname != NULL)
 	free(realname);
+
+    if (buf != NULL)
+	free(buf);
 
 #ifndef DISABLE_TABCOMP
     realname = real_dir_from_tilde(name);
@@ -365,13 +368,8 @@ int write_file(char *name, int tmp)
     }
     /* Don't follow symlink.  Create new file. */
     else {
-	if (strlen(realname) > (PATH_MAX - 7)) {
-	    statusbar(_("Could not open file: Path length exceeded."));
-	    return -1;
-	}
-
-	memset(buf, 0x00, PATH_MAX + 1);
-	strcat(buf, realname);
+	buf = nmalloc(strlen(realname) + 8);
+	strncpy(buf, realname, strlen(realname)+1);
 	strcat(buf, ".XXXXXX");
 	if ((fd = mkstemp(buf)) == -1) {
 	    if (ISSET(TEMP_OPT)) {
@@ -472,7 +470,7 @@ int write_file(char *name, int tmp)
 		  mask, realname, strerror(errno));
 
     if (!tmp) {
-	strncpy(filename, realname, PATH_MAX - 1);
+	filename = mallocstrcpy(filename, realname);
 	statusbar(_("Wrote %d lines"), lineswritten);
 	UNSET(MODIFIED);
 	titlebar();

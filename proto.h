@@ -38,7 +38,7 @@ extern int fill, flags,tabsize;
 extern int search_last_line;
 
 extern WINDOW *edit, *topwin, *bottomwin;
-extern char filename[PATH_MAX];
+extern char *filename;
 extern char *answer;
 extern char *hblank, *help_text;
 extern char *last_search;

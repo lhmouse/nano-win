@@ -146,6 +146,13 @@ void print_view_warning(void)
     statusbar(_("Key illegal in VIEW mode"));
 }
 
+void clear_filename(void)
+{
+    if (filename != NULL)
+	free(filename);
+    filename = nmalloc(1);
+    filename[0] = 0;
+}
 
 /* Initialize global variables - no better way for now */
 void global_init(void)
@@ -2161,19 +2168,19 @@ int main(int argc, char *argv[])
     /* See if there's a non-option in argv (first non-option is the
        filename, if +LINE is not given) */
     if (argc == 1 || argc <= optind)
-	strcpy(filename, "");
+	clear_filename();
     else {
 	/* Look for the +line flag... */
 	if (argv[optind][0] == '+') {
 	    startline = atoi(&argv[optind][1]);
 	    optind++;
 	    if (argc == 1 || argc <= optind)
-		strcpy(filename, "");
+		clear_filename();
 	    else
-		strncpy(filename, argv[optind], 132);
-	} else
-	    strncpy(filename, argv[optind], 132);
+		filename = mallocstrcpy(filename, argv[optind]);
 
+	} else
+	    filename = mallocstrcpy(filename, argv[optind]);
     }
 
 

@@ -39,7 +39,7 @@ int center_x = 0, center_y = 0;	/* Center of screen */
 WINDOW *edit;			/* The file portion of the editor  */
 WINDOW *topwin;			/* Top line of screen */
 WINDOW *bottomwin;		/* Bottom buffer */
-char filename[PATH_MAX];	/* Name of the file */
+char *filename = NULL;		/* Name of the file */
 int editwinrows = 0;		/* How many rows long is the edit
 				   window? */
 filestruct *current;		/* Current buffer pointer */
