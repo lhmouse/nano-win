@@ -182,7 +182,6 @@ AC_ARG_ENABLE(all,
     AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.]) multibuffer_support=yes
     AC_DEFINE(NANO_EXTRA, 1, [Define this to enable the extra stuff.]) extra_support=yes
     AC_MSG_WARN([
-
 ***********************************************************************
 *** WARNING: Color support is far from perfect, but functional.     ***
 *** Be careful with syntax in your .nanorc or nano may malfunction. ***
