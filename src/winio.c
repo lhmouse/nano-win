@@ -96,10 +96,16 @@ int *get_verbatim_kbinput(WINDOW *win, int *kbinput_len, int
 	verbatim_kbinput[0] = get_ascii_kbinput(win, kbinput);
     else {
 	nodelay(win, TRUE);
+#ifdef DEBUG
+	fprintf(stderr, "get_verbatim_kbinput(): kbinput = %d\n", kbinput);
+#endif
 	while ((kbinput = wgetch(win)) != ERR) {
 	    (*kbinput_len)++;
 	    verbatim_kbinput = realloc(verbatim_kbinput, *kbinput_len * sizeof(int));
 	    verbatim_kbinput[*kbinput_len - 1] = kbinput;
+#ifdef DEBUG
+	    fprintf(stderr, "get_verbatim_kbinput(): kbinput = %d\n", kbinput);
+#endif
 	}
 	nodelay(win, FALSE);
     }
@@ -110,10 +116,6 @@ int *get_verbatim_kbinput(WINDOW *win, int *kbinput_len, int
     cbreak();
 #endif
     keypad(win, TRUE);
-
-#ifdef DEBUG
-    fprintf(stderr, "get_verbatim_kbinput(): verbatim_kbinput = %s\n", verbatim_kbinput);
-#endif
 
 #ifndef NANO_SMALL
     allow_pending_sigwinch(FALSE);
