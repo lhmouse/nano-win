@@ -29,8 +29,11 @@
 
 /* Global variables */
 
+#ifndef DISABLE_WRAPJUSTIFY
 /* wrap_at might be set in rcfile.c or nano.c */
 int wrap_at = -CHARS_FROM_EOL;/* Right justified fill value, allows resize */
+#endif
+
 char *last_search = NULL;	/* Last string we searched for */
 char *last_replace = NULL;	/* Last replacement string */
 int search_last_line;		/* Is this the last search line? */
@@ -129,7 +132,7 @@ syntaxtype *syntaxes = NULL;
 char *syntaxstr = NULL;
 #endif
 
-#if !defined(DISABLE_BROWSER) || !defined(DISABLE_HELP) || (!defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION))
+#if !defined(DISABLE_BROWSER) || !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
 const shortcut *currshortcut;	/* Current shortcut list we're using */
 #endif
 
@@ -225,7 +228,7 @@ void toggle_init(void)
 	*toggle_nohelp_msg, *toggle_cuttoend_msg,
 	*toggle_noconvert_msg, *toggle_dos_msg, *toggle_mac_msg,
 	*toggle_backup_msg, *toggle_smooth_msg;
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+#ifndef DISABLE_MOUSE
     char *toggle_mouse_msg;
 #endif
 #ifndef DISABLE_WRAPPING
@@ -247,7 +250,7 @@ void toggle_init(void)
     toggle_autoindent_msg = _("Auto indent");
     toggle_suspend_msg = _("Suspend");
     toggle_nohelp_msg = _("Help mode");
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+#ifndef DISABLE_MOUSE
     toggle_mouse_msg = _("Mouse support");
 #endif
     toggle_cuttoend_msg = _("Cut to end");
@@ -273,7 +276,7 @@ void toggle_init(void)
 #ifndef DISABLE_WRAPPING
     toggle_init_one(TOGGLE_WRAP_KEY, toggle_wrap_msg, NO_WRAP);
 #endif
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+#ifndef DISABLE_MOUSE
     toggle_init_one(TOGGLE_MOUSE_KEY, toggle_mouse_msg, USE_MOUSE);
 #endif
     toggle_init_one(TOGGLE_CUTTOEND_KEY, toggle_cuttoend_msg, CUT_TO_END);
@@ -840,7 +843,7 @@ void shortcut_init(int unjustify)
 		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
 #endif
 
-#if !defined(DISABLE_BROWSER) || !defined(DISABLE_HELP) || (!defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION))
+#if !defined(DISABLE_BROWSER) || !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
     currshortcut = main_list;
 #endif
 #ifndef NANO_SMALL

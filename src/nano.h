@@ -109,6 +109,10 @@
 
 #define VERMSG "GNU nano " VERSION
 
+#ifndef NCURSES_MOUSE_VERSION
+#define DISABLE_MOUSE 1
+#endif
+
 #if defined(DISABLE_WRAPPING) && defined(DISABLE_JUSTIFY)
 #define DISABLE_WRAPJUSTIFY 1
 #endif

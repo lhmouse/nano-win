@@ -582,7 +582,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
     else
 	answer[0] = '\0';
 
-#if !defined(DISABLE_HELP) || (!defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION))
+#if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
     currshortcut = s;
 #endif
 
@@ -620,7 +620,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    tabbed = 0;
 
 	switch (kbinput) {
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+#ifndef DISABLE_MOUSE
 	case KEY_MOUSE:
 	    do_mouse();
 	    break;
@@ -1602,13 +1602,13 @@ int do_yesno(int all, int leavecursor, const char *msg, ...)
 
     do {
 	int kbinput = wgetch(edit);
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+#ifndef DISABLE_MOUSE
 	MEVENT mevent;
 #endif
 
 	if (kbinput == NANO_CONTROL_C)
 	    ok = -1;
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+#ifndef DISABLE_MOUSE
 	/* Look ma!  We get to duplicate lots of code from do_mouse!! */
 	else if (kbinput == KEY_MOUSE && getmouse(&mevent) != ERR &&
 		wenclose(bottomwin, mevent.y, mevent.x) &&
@@ -1841,7 +1841,7 @@ int do_help(void)
 	const char *ptr = help_text;
 
 	switch (kbinput) {
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+#ifndef DISABLE_MOUSE
 	case KEY_MOUSE:
 	    do_mouse();
 	    break;

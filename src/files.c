@@ -441,7 +441,7 @@ int do_insertfile(int loading_file)
   start_again:	/* Goto here when the user cancels the file browser. */
 #endif
 
-#if !defined(DISABLE_BROWSER) || (!defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION))
+#if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE)
     currshortcut = insertfile_list;
 #endif
 
@@ -1710,7 +1710,7 @@ int do_writeout(const char *path, int exiting, int append)
     static int did_cred = 0;
 #endif
 
-#if !defined(DISABLE_BROWSER) || (!defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION))
+#if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE)
     currshortcut = writefile_list;
 #endif
 
@@ -2488,7 +2488,7 @@ char *do_browser(const char *inpath)
     int abort = 0, col = 0, selected = 0, editline = 0, width = 0;
     int filecols = 0, lineno = 0;
     char **filelist = (char **)NULL;
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+#ifndef DISABLE_MOUSE
     MEVENT mevent;
 #endif
 
@@ -2527,7 +2527,7 @@ char *do_browser(const char *inpath)
 
 	blank_statusbar_refresh();
 
-#if !defined(DISABLE_HELP) || (!defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION))
+#if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
 	currshortcut = browser_list;
 #endif
 
@@ -2541,7 +2541,7 @@ char *do_browser(const char *inpath)
 
 	switch (kbinput) {
 
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+#ifndef DISABLE_MOUSE
 	case KEY_MOUSE:
 	    if (getmouse(&mevent) == ERR)
 		return retval;

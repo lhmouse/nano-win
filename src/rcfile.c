@@ -52,7 +52,7 @@ const static rcoption rcopts[] = {
 #ifndef NANO_SMALL
     {"historylog", HISTORYLOG},
 #endif
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+#ifndef DISABLE_MOUSE
     {"mouse", USE_MOUSE},
 #endif
 #ifdef ENABLE_MULTIBUFFER

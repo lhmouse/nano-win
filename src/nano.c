@@ -245,7 +245,7 @@ void window_init(void)
     keypad(bottomwin, TRUE);
 }
 
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+#ifndef DISABLE_MOUSE
 void mouse_init(void)
 {
     if (ISSET(USE_MOUSE)) {
@@ -664,7 +664,7 @@ void usage(void)
     print1opt("-k", "--cut", _("Let ^K cut from cursor to end of line"));
 #endif
     print1opt("-l", "--nofollow", _("Don't follow symbolic links, overwrite"));
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+#ifndef DISABLE_MOUSE
     print1opt("-m", "--mouse", _("Enable mouse"));
 #endif
 #ifndef DISABLE_OPERATINGDIR
@@ -720,7 +720,7 @@ void version(void)
 #ifdef DISABLE_JUSTIFY
     printf(" --disable-justify");
 #endif
-#if defined(DISABLE_MOUSE) || !defined(NCURSES_MOUSE_VERSION)
+#ifdef DISABLE_MOUSE
     printf(" --disable-mouse");
 #endif
 #ifdef DISABLE_OPERATINGDIR
@@ -887,7 +887,7 @@ int open_pipe(const char *command)
 }
 #endif /* NANO_SMALL */
 
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+#ifndef DISABLE_MOUSE
 void do_mouse(void)
 {
     MEVENT mevent;
@@ -2630,7 +2630,7 @@ int do_para_operation(int operation)
     /* Now get a keystroke and see if it's unjustify; if not, unget the
      * keystroke and return. */
 
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+#ifndef DISABLE_MOUSE
     /* If it was a mouse click, parse it with do_mouse() and it might
      * become the unjustify key.  Else give it back to the input stream. */
     if ((i = wgetch(edit)) == KEY_MOUSE)
@@ -2985,7 +2985,7 @@ void do_toggle(const toggle *which)
     case TOGGLE_SUSPEND_KEY:
 	signal_init();
 	break;
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+#ifndef DISABLE_MOUSE
     case TOGGLE_MOUSE_KEY:
 	mouse_init();
 	break;
@@ -3065,7 +3065,7 @@ int main(int argc, char *argv[])
 	{"const", 0, 0, 'c'},
 	{"rebinddelete", 0, 0, 'd'},
 	{"nofollow", 0, 0, 'l'},
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+#ifndef DISABLE_MOUSE
 	{"mouse", 0, 0, 'm'},
 #endif
 #ifndef DISABLE_OPERATINGDIR
@@ -3218,7 +3218,7 @@ int main(int argc, char *argv[])
 	case 'l':
 	    SET(NOFOLLOW_SYMLINKS);
 	    break;
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+#ifndef DISABLE_MOUSE
 	case 'm':
 	    SET(USE_MOUSE);
 	    break;
@@ -3419,7 +3419,7 @@ int main(int argc, char *argv[])
 #endif
 
     window_init();
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+#ifndef DISABLE_MOUSE
     mouse_init();
 #endif
 
@@ -3479,7 +3479,7 @@ int main(int argc, char *argv[])
 	if (ISSET(CONSTUPDATE))
 	    do_cursorpos(1);
 
-#if !defined(DISABLE_BROWSER) || !defined(DISABLE_HELP) || (!defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION))
+#if !defined(DISABLE_BROWSER) || !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
 	currshortcut = main_list;
 #endif
 
@@ -3544,7 +3544,7 @@ int main(int argc, char *argv[])
 	   shortcut key */
 
 	if (!keyhandled)
-#if !defined(DISABLE_BROWSER) || !defined (DISABLE_HELP) || (!defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION))
+#if !defined(DISABLE_BROWSER) || !defined (DISABLE_HELP) || !defined(DISABLE_MOUSE)
 	    for (s = currshortcut; s != NULL && !keyhandled; s = s->next) {
 #else
 	    for (s = main_list; s != NULL && !keyhandled; s = s->next) {
@@ -3593,7 +3593,7 @@ int main(int argc, char *argv[])
 	/* Last gasp, stuff that's not in the main lists */
 	if (!keyhandled)
 	    switch (kbinput) {
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+#ifndef DISABLE_MOUSE
 	    case KEY_MOUSE:
 		do_mouse();
 		break;

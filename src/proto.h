@@ -29,7 +29,9 @@
 
 #include "nano.h"
 
+#ifndef DISABLE_WRAPJUSTIFY
 extern int wrap_at;
+#endif
 extern int editwinrows;
 extern int current_x, current_y, totlines;
 extern int placewewant;
@@ -38,7 +40,8 @@ extern int mark_beginx;
 #endif
 extern long totsize;
 extern int temp_opt;
-extern int wrap_at, flags, tabsize;
+extern int flags;
+extern int tabsize;
 extern int search_last_line;
 extern int search_offscreen;
 extern int currslen;
@@ -101,7 +104,7 @@ extern shortcut *spell_list;
 extern shortcut *browser_list, *gotodir_list;
 #endif
 
-#if !defined(DISABLE_BROWSER) || !defined(DISABLE_HELP) || (!defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION))
+#if !defined(DISABLE_BROWSER) || !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
 extern const shortcut *currshortcut;
 #endif
 
@@ -236,7 +239,7 @@ void die_too_small(void);
 void print_view_warning(void);
 void global_init(int save_cutbuffer);
 void window_init(void);
-#if !defined(DISABLE_MOUSE) && defined(NCURSES_MOUSE_VERSION)
+#ifndef DISABLE_MOUSE
 void mouse_init(void);
 #endif
 #ifndef DISABLE_HELP
@@ -265,9 +268,7 @@ RETSIGTYPE cancel_fork(int signal);
 int open_pipe(const char *command);
 #endif
 #ifndef DISABLE_MOUSE
-#ifdef NCURSES_MOUSE_VERSION
 void do_mouse(void);
-#endif
 #endif
 void do_char(char ch);
 int do_backspace(void);

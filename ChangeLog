@@ -55,6 +55,11 @@ CVS code -
 	  #ifdef instead of two.
 	- Convert memmove() function calls to charmove() macro calls, as
 	  the former all work on char*'s. (DLR)
+	- Miscellaneous #define cleanups: only include the prototype for
+	  and definition of wrap_at if wrapping and/or justification are
+	  enabled, remove duplicate wrap_at prototype, and define
+	  DISABLE_MOUSE if NCURSES_MOUSE_VERSION isn't defined in nano.h
+	  instead of all over the code. (DLR)
 - files.c:
   read_file()
 	- After we've read in a file and possibly converted it from
