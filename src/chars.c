@@ -24,6 +24,7 @@
 #endif
 
 #include <stdlib.h>
+#include <string.h>
 #include <ctype.h>
 #include <assert.h>
 #include "proto.h"
@@ -123,6 +124,59 @@ bool is_cntrl_wchar(wchar_t wc)
     return (0 <= wc && wc < 32) || (127 <= wc && wc < 160);
 }
 #endif
+
+#ifndef HAVE_STRNLEN
+/* This function is equivalent to strnlen(). */
+size_t nstrnlen(const char *s, size_t maxlen)
+{
+    size_t n = 0;
+
+    assert(s != NULL);
+
+    for (; maxlen > 0 && *s != '\0'; maxlen--, n++, s++)
+	;
+
+    return n;
+}
+#endif
+
+/* This function is equivalent to strnlen() for multibyte strings. */
+size_t mbstrnlen(const char *s, size_t maxlen)
+{
+#ifdef NANO_WIDE
+    if (ISSET(NO_UTF8)) {
+	size_t n = 0;
+	char *s_mb = charalloc(mb_cur_max());
+	int s_mb_len;
+
+	assert(s != NULL);
+
+	while (*s != '\0') {
+	    s_mb_len = parse_mbchar(s + n, s_mb
+#ifdef NANO_WIDE
+		, NULL
+#endif
+		, NULL);
+
+	    maxlen -= s_mb_len;
+	    n += s_mb_len;
+
+	    if (maxlen == 0)
+		break;
+	}
+
+	free(s_mb);
+
+	return n;
+    } else
+#endif
+	return
+#ifdef HAVE_STRNLEN
+		strnlen(s, maxlen);
+#else
+		nstrnlen(s, maxlen);
+#endif
+}
 
 /* c is a control character.  It displays as ^@, ^?, or ^[ch] where ch
  * is c + 64.  We return that character. */

@@ -100,8 +100,8 @@
 # endif
 #endif
 
-/* If no strcasecmp(), strncasecmp(), strcasestr(), strnlen(),
- * getdelim(), or getline(), use the versions we have. */
+/* If no strcasecmp(), strncasecmp(), strcasestr(), getdelim(), or
+ * getline(), use the versions we have. */
 #ifndef HAVE_STRCASECMP
 #define strcasecmp nstricmp
 #endif
@@ -112,10 +112,6 @@
 
 #ifndef HAVE_STRCASESTR
 #define strcasestr nstristr
-#endif
-
-#ifndef HAVE_STRNLEN
-#define strnlen nstrnlen
 #endif
 
 #ifndef HAVE_GETDELIM

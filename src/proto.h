@@ -161,6 +161,10 @@ bool is_cntrl_mbchar(const char *c);
 #ifdef NANO_WIDE
 bool is_cntrl_wchar(wchar_t wc);
 #endif
+#ifndef HAVE_STRNLEN
+size_t nstrnlen(const char *s, size_t maxlen);
+#endif
+size_t mbstrnlen(const char *s, size_t maxlen);
 unsigned char control_rep(unsigned char c);
 char *control_mbrep(const char *c, char *crep, int *crep_len);
 #ifdef NANO_WIDE

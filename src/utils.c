@@ -261,21 +261,6 @@ const char *revstristr(const char *haystack, const char *needle, const
 }
 #endif /* !NANO_SMALL */
 
-#ifndef HAVE_STRNLEN
-/* This function is equivalent to strnlen(). */
-size_t nstrnlen(const char *s, size_t maxlen)
-{
-    size_t n = 0;
-
-    assert(s != NULL);
-
-    for (; maxlen > 0 && *s != '\0'; maxlen--, n++, s++)
-	;
-
-    return n;
-}
-#endif
-
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 #ifndef HAVE_GETLINE
 /* This function is equivalent to getline().  It was adapted from
