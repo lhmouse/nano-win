@@ -74,15 +74,14 @@ RETSIGTYPE finish(int sigage)
     if (!ISSET(NO_HELP)) {
 	mvwaddstr(bottomwin, 1, 0, hblank);
 	mvwaddstr(bottomwin, 2, 0, hblank);
-    }
-    else
+    } else
 	mvwaddstr(bottomwin, 0, 0, hblank);
 
     wrefresh(bottomwin);
     endwin();
 
     /* Restore the old term settings */
-    tcsetattr (0, TCSANOW, &oldterm);
+    tcsetattr(0, TCSANOW, &oldterm);
 
     exit(sigage);
 }
@@ -102,7 +101,7 @@ void die(char *msg, ...)
     write_file("nano.save", 0);
 
     /* Restore the old term settings */
-    tcsetattr (0, TCSANOW, &oldterm);
+    tcsetattr(0, TCSANOW, &oldterm);
 
     clear();
     refresh();
@@ -157,21 +156,21 @@ void init_help_msg(void)
 #ifndef NANO_SMALL
 
     help_text_init =
-    _(" nano help text\n\n "
-    "The nano editor is designed to emulate the functionality and "
-    "ease-of-use of the UW Pico text editor.  There are four main "
-    "sections of the editor: The top line shows the program "
-    "version, the current filename being edited, and whether "
-    "or not the file has been modified.  Next is the main editor "
-    "window showing the file being edited.  The status line is "
-    "the third line from the bottom and shows important messages. "
-    "The bottom two lines show the most commonly used shortcuts "
-    "in the editor.\n\n "
-    "The notation for shortcuts is as follows: Control-key "
-    "sequences are notated with a caret (^) symbol.  Alt-key "
-    "sequences are notated with an at (@) symbol.  The following "
-    "keystrokes are available in the main editor window. "
-    "Optional keys are shown in parentheses:\n\n");
+	_(" nano help text\n\n "
+	  "The nano editor is designed to emulate the functionality and "
+	  "ease-of-use of the UW Pico text editor.  There are four main "
+	  "sections of the editor: The top line shows the program "
+	  "version, the current filename being edited, and whether "
+	  "or not the file has been modified.  Next is the main editor "
+	  "window showing the file being edited.  The status line is "
+	  "the third line from the bottom and shows important messages. "
+	  "The bottom two lines show the most commonly used shortcuts "
+	  "in the editor.\n\n "
+	  "The notation for shortcuts is as follows: Control-key "
+	  "sequences are notated with a caret (^) symbol.  Alt-key "
+	  "sequences are notated with an at (@) symbol.  The following "
+	  "keystrokes are available in the main editor window. "
+	  "Optional keys are shown in parentheses:\n\n");
 #endif
 
 }
@@ -353,8 +352,7 @@ void usage(void)
     printf(_("Usage: nano [option] +LINE <file>\n\n"));
     printf(_("Option		Meaning\n"));
 #ifdef HAVE_TABSIZE
-    printf(_
-	   (" -T [num]	Set width of a tab to num\n"));
+    printf(_(" -T [num]	Set width of a tab to num\n"));
 #endif
     printf(_(" -V 		Print version information and exit\n"));
     printf(_(" -c 		Constantly show cursor position\n"));
@@ -452,7 +450,7 @@ void do_char(char ch)
     do_right();
 
     if (!ISSET(NO_WRAP) && (ch != '\t'))
-        check_wrap(current, ch);
+	check_wrap(current, ch);
     set_modified();
     check_statblank();
     UNSET(KEEP_CUTBUFFER);
@@ -567,57 +565,56 @@ void do_next_word(void)
 
 }
 
-void do_wrap(filestruct *inptr, char input_char)
+void do_wrap(filestruct * inptr, char input_char)
 {
-    int i = 0;                        /* Index into ->data for line.*/
-    int i_tabs = 0;	  	      /* Screen position of ->data[i]. */
-    int last_word_end        = -1;    /* Location of end of last word found. */
-    int current_word_start   = -1;    /* Location of start of current word. */
-    int current_word_start_t = -1;    /* Location of start of current word screen position. */
-    int current_word_end     = -1;    /* Location of end   of current word */
-    int current_word_end_t   = -1;    /* Location of end   of current word screen position. */
+    int i = 0;			/* Index into ->data for line. */
+    int i_tabs = 0;		/* Screen position of ->data[i]. */
+    int last_word_end = -1;	/* Location of end of last word found. */
+    int current_word_start = -1;	/* Location of start of current word. */
+    int current_word_start_t = -1;	/* Location of start of current word screen position. */
+    int current_word_end = -1;	/* Location of end   of current word */
+    int current_word_end_t = -1;	/* Location of end   of current word screen position. */
     int len = strlen(inptr->data);
 
-    int down  = 0;
+    int down = 0;
     int right = 0;
     struct filestruct *temp = NULL;
 
-assert (strlenpt(inptr->data) > fill);
+    assert(strlenpt(inptr->data) > fill);
 
     for (i = 0, i_tabs = 0; i < len; i++, i_tabs++) {
 	if (!isspace(inptr->data[i])) {
-	    last_word_end   = current_word_end;
+	    last_word_end = current_word_end;
 
-	    current_word_start   = i;
+	    current_word_start = i;
 	    current_word_start_t = i_tabs;
 
 	    while (!isspace(inptr->data[i]) && inptr->data[i]) {
 		i++;
 		i_tabs++;
-		if (inptr->data[i] < 32) 
-		    i_tabs++;   
+		if (inptr->data[i] < 32)
+		    i_tabs++;
 	    }
 
 	    if (inptr->data[i]) {
-		current_word_end   = i;
+		current_word_end = i;
 		current_word_end_t = i_tabs;
-            }
-	    else {
-		current_word_end   = i - 1;
+	    } else {
+		current_word_end = i - 1;
 		current_word_end_t = i_tabs - 1;
 	    }
 	}
 
-        if (inptr->data[i] == NANO_CONTROL_I) {
-            if (i_tabs % TABSIZE != 0);
-                i_tabs += TABSIZE - (i_tabs % TABSIZE);
-        } 
+	if (inptr->data[i] == NANO_CONTROL_I) {
+	    if (i_tabs % TABSIZE != 0);
+	    i_tabs += TABSIZE - (i_tabs % TABSIZE);
+	}
 
 	if (current_word_end_t > fill)
 	    break;
     }
 
-    assert (current_word_end_t > fill);
+    assert(current_word_end_t > fill);
 
     /* There are a few (ever changing) cases of what the line could look like.
      * 1) only one word on the line before wrap point.
@@ -645,40 +642,39 @@ assert (strlenpt(inptr->data) > fill);
      *            - white space at end of original line is cleared
      */
 
-    temp = nmalloc (sizeof (filestruct));
+    temp = nmalloc(sizeof(filestruct));
 
     /* Category 1a: one word taking up the whole line with no beginning spaces. */
     if ((last_word_end == -1) && (!isspace(inptr->data[0]))) {
 	for (i = current_word_end; i < len; i++) {
 	    if (!isspace(inptr->data[i]) && i < len) {
-		current_word_start   = i;
+		current_word_start = i;
 		while (!isspace(inptr->data[i]) && (i < len)) {
 		    i++;
 		}
-		last_word_end   = current_word_end;
+		last_word_end = current_word_end;
 		current_word_end = i;
 		break;
 	    }
 	}
 
 	if (last_word_end == -1) {
-	    free (temp);
+	    free(temp);
 	    return;
 	}
 	if (current_x >= last_word_end) {
 	    right = (current_x - current_word_start) + 1;
 	    current_x = last_word_end;
-	    down = 1;	    
+	    down = 1;
 	}
 
 	temp->data = nmalloc(strlen(&inptr->data[current_word_start]) + 1);
 	strcpy(temp->data, &inptr->data[current_word_start]);
 	inptr->data = nrealloc(inptr->data, last_word_end + 2);
 	inptr->data[last_word_end + 1] = 0;
-    }
-    else
-    /* Category 1b: one word on the line and word not taking up whole line
-       (i.e. there are spaces at the beginning of the line) */
+    } else
+	/* Category 1b: one word on the line and word not taking up whole line
+	   (i.e. there are spaces at the beginning of the line) */
     if (last_word_end == -1) {
 	temp->data = nmalloc(strlen(&inptr->data[current_word_start]) + 1);
 	strcpy(temp->data, &inptr->data[current_word_start]);
@@ -687,7 +683,7 @@ assert (strlenpt(inptr->data) > fill);
 	if (current_x >= current_word_start) {
 	    right = current_x - current_word_start;
 	    current_x = 0;
-	    down = 1;	    
+	    down = 1;
 	}
 
 	inptr->data = nrealloc(inptr->data, current_x + 1);
@@ -703,31 +699,32 @@ assert (strlenpt(inptr->data) > fill);
     else {
 
 	/* Case 2a: cursor before word at wrap point. */
-        if (current_x < current_word_start) {
-            temp->data = nmalloc(strlen(&inptr->data[current_word_start]) + 1);
-            strcpy(temp->data, &inptr->data[current_word_start]);
-        
-            if (!isspace(input_char)) {
-                i = current_word_start - 1;
-                while (isspace(inptr->data[i])) {  
-                    i--;
-                    assert (i >= 0);
-                }
-            }
-            else if (current_x <= last_word_end)  
-                i = last_word_end - 1;     
-            else
-                i = current_x;
-                
-            inptr->data = nrealloc(inptr->data, i + 2);
-            inptr->data[i + 1] = 0;
-        }
+	if (current_x < current_word_start) {
+	    temp->data =
+		nmalloc(strlen(&inptr->data[current_word_start]) + 1);
+	    strcpy(temp->data, &inptr->data[current_word_start]);
+
+	    if (!isspace(input_char)) {
+		i = current_word_start - 1;
+		while (isspace(inptr->data[i])) {
+		    i--;
+		    assert(i >= 0);
+		}
+	    } else if (current_x <= last_word_end)
+		i = last_word_end - 1;
+	    else
+		i = current_x;
+
+	    inptr->data = nrealloc(inptr->data, i + 2);
+	    inptr->data[i + 1] = 0;
+	}
 
 
 	/* Case 2b: cursor at word at wrap point. */
-	else if ((current_x >=  current_word_start)
-              && (current_x <= (current_word_end + 1))) {
-	    temp->data = nmalloc(strlen(&inptr->data[current_word_start]) + 1);
+	else if ((current_x >= current_word_start)
+		 && (current_x <= (current_word_end + 1))) {
+	    temp->data =
+		nmalloc(strlen(&inptr->data[current_word_start]) + 1);
 	    strcpy(temp->data, &inptr->data[current_word_start]);
 
 	    down = 1;
@@ -737,24 +734,25 @@ assert (strlenpt(inptr->data) > fill);
 	    if (isspace(input_char) && (current_x == current_word_start)) {
 		current_x = current_word_start;
 
-		inptr->data = nrealloc(inptr->data, current_word_start + 1);
+		inptr->data =
+		    nrealloc(inptr->data, current_word_start + 1);
 		inptr->data[current_word_start] = 0;
-	    }
-	    else {
+	    } else {
 
 		while (isspace(inptr->data[i])) {
 		    i--;
-		    assert (i >= 0);
+		    assert(i >= 0);
 		}
 		inptr->data = nrealloc(inptr->data, i + 2);
 		inptr->data[i + 1] = 0;
 	    }
-        }
+	}
 
 
 	/* Case 2c: cursor past word at wrap point. */
-        else {
-	    temp->data = nmalloc(strlen(&inptr->data[current_word_start]) + 1);
+	else {
+	    temp->data =
+		nmalloc(strlen(&inptr->data[current_word_start]) + 1);
 	    strcpy(temp->data, &inptr->data[current_word_start]);
 
 	    down = 1;
@@ -765,36 +763,37 @@ assert (strlenpt(inptr->data) > fill);
 
 	    while (isspace(inptr->data[i])) {
 		i--;
-		assert (i >= 0);
+		assert(i >= 0);
 		inptr->data = nrealloc(inptr->data, i + 2);
 		inptr->data[i + 1] = 0;
 	    }
-        }
+	}
     }
 
-	/* We pre-pend wrapped part to next line. */
+    /* We pre-pend wrapped part to next line. */
     if (ISSET(SAMELINEWRAP) && inptr->next) {
-	    /* Plus one for the space which concatenates the two lines together plus 1 for \0. */
-	char *p = nmalloc(strlen(temp->data) + strlen(inptr->next->data) + 2);
+	/* Plus one for the space which concatenates the two lines together plus 1 for \0. */
+	char *p =
+	    nmalloc(strlen(temp->data) + strlen(inptr->next->data) + 2);
 	int old_x = current_x, old_y = current_y;
 
-	strcpy (p, temp->data);
-	strcat (p, " ");
-	strcat (p, inptr->next->data);
+	strcpy(p, temp->data);
+	strcat(p, " ");
+	strcat(p, inptr->next->data);
 
-	free (inptr->next->data);
+	free(inptr->next->data);
 	inptr->next->data = p;
 
-	free (temp->data);
-	free (temp);
+	free(temp->data);
+	free(temp);
 
 
 	/* The next line line may need to be wrapped as well. */
 	current_y = old_y + 1;
 	current_x = strlen(inptr->next->data);
 	while (current_x >= 0) {
-	    if (isspace(inptr->next->data[current_x]) && (current_x < fill))
-		break;
+	    if (isspace(inptr->next->data[current_x])
+		&& (current_x < fill)) break;
 	    current_x--;
 	}
 	if (current_x >= 0)
@@ -803,7 +802,7 @@ assert (strlenpt(inptr->data) > fill);
 	current_x = old_x;
 	current_y = old_y;
     }
-	/* Else we start a new line. */
+    /* Else we start a new line. */
     else {
 	temp->prev = inptr;
 	temp->next = inptr->next;
@@ -822,7 +821,7 @@ assert (strlenpt(inptr->data) > fill);
     totlines++;
     totsize++;
 
-    renumber (inptr);
+    renumber(inptr);
     edit_update_top(edittop);
 
 
@@ -844,7 +843,7 @@ assert (strlenpt(inptr->data) > fill);
 /* Check to see if we've just caused the line to wrap to a new line */
 void check_wrap(filestruct * inptr, char ch)
 {
-   int len = strlenpt(inptr->data);
+    int len = strlenpt(inptr->data);
 #ifdef DEBUG
     fprintf(stderr, _("check_wrap called with inptr->data=\"%s\"\n"),
 	    inptr->data);
@@ -853,14 +852,14 @@ void check_wrap(filestruct * inptr, char ch)
     if (len <= fill)
 	return;
     else {
-        int i = actual_x(inptr, fill);
+	int i = actual_x(inptr, fill);
 
 	/* Do not wrap if there are no words on or after wrap point. */
 	int char_found = 0;
 
 	while (isspace(inptr->data[i]) && inptr->data[i])
 	    i++;
-	
+
 	if (!inptr->data[i])
 	    return;
 
@@ -869,11 +868,10 @@ void check_wrap(filestruct * inptr, char ch)
 	    if (isspace(inptr->data[i])) {
 		if (!char_found)
 		    continue;
-		char_found = 2;  /* 2 for yes do wrap. */
+		char_found = 2;	/* 2 for yes do wrap. */
 		break;
-	    }
-	    else
-		char_found = 1;  /* 1 for yes found a word, but must check further. */
+	    } else
+		char_found = 1;	/* 1 for yes found a word, but must check further. */
 	}
 
 	if (char_found == 2)
@@ -958,8 +956,7 @@ int do_backspace(void)
 	}
 
 	/* Ooops, sanity check */
-	if (tmp == filebot)
-	{
+	if (tmp == filebot) {
 	    filebot = current;
 	    editbot = current;
 	}
@@ -1000,8 +997,7 @@ int do_delete(void)
 	strcat(current->data, current->next->data);
 
 	foo = current->next;
-	if (filebot == foo)
-	{
+	if (filebot == foo) {
 	    filebot = current;
 	    editbot = current;
 	}
@@ -1032,9 +1028,9 @@ void wrap_reset(void)
 void exit_spell(char *tmpfilename, char *foo)
 {
     free(foo);
- 
+
     if (remove(tmpfilename) == -1)
-        statusbar(_("Error deleting tempfile, ack!"));
+	statusbar(_("Error deleting tempfile, ack!"));
 }
 
 /*
@@ -1488,7 +1484,8 @@ int do_justify(void)
 
     werase(edit);
 
-    if ((current_y < 0) || (current_y >= editwinrows - 1) || (initial_y <= 0)) {
+    if ((current_y < 0) || (current_y >= editwinrows - 1)
+	|| (initial_y <= 0)) {
 	edit_update(current);
 	center_cursor();
     } else {
@@ -1502,7 +1499,7 @@ int do_justify(void)
 
 
     edit_refresh();
-    edit_refresh();  /* XXX FIXME XXX */
+    edit_refresh();		/* XXX FIXME XXX */
     statusbar("Justify Complete");
     return 1;
 #else
@@ -1623,7 +1620,7 @@ int main(int argc, char *argv[])
 	    break;
 #else
 	case 'T':
-	    usage();	/* Oops!  You dont really have that option */
+	    usage();		/* Oops!  You dont really have that option */
 	    finish(1);
 #endif
 	case 'V':
@@ -1676,7 +1673,7 @@ int main(int argc, char *argv[])
 	    break;
 	default:
 	    usage();
-	   exit(0);
+	    exit(0);
 	}
 
     }
@@ -1709,15 +1706,15 @@ int main(int argc, char *argv[])
 
 
     /* First back up the old settings so they can be restored, duh */
-    tcgetattr (0, &oldterm);
+    tcgetattr(0, &oldterm);
 
     /* Adam's code to blow away intr character so ^C can show cursor pos */
-    tcgetattr (0, &term);
+    tcgetattr(0, &term);
     for (i = 0; i < NCCS; i++) {
 	if (term.c_cc[i] == CINTR || term.c_cc[i] == CQUIT)
-	     term.c_cc[i] = 0;
+	    term.c_cc[i] = 0;
     }
-    tcsetattr (0, TCSANOW, &term);
+    tcsetattr(0, TCSANOW, &term);
 
     /* now ncurses init stuff... */
     initscr();
@@ -1734,7 +1731,7 @@ int main(int argc, char *argv[])
     help_init();
 
     /* Trap SIGINT and SIGQUIT  cuz we want them to do useful things. */
-    memset (&act, 0, sizeof (struct sigaction));
+    memset(&act, 0, sizeof(struct sigaction));
     act.sa_handler = SIG_IGN;
     sigaction(SIGINT, &act, NULL);
     sigaction(SIGQUIT, &act, NULL);

@@ -24,7 +24,7 @@
 #include "config.h"
 #include "proto.h"
 #include "nano.h"
- 
+
 #ifndef NANO_SMALL
 #include <libintl.h>
 #define _(string) gettext(string)
@@ -108,8 +108,8 @@ int do_down(void)
 	check_statblank();
 	return 0;
     }
- 
-   if (current_y < editwinrows - 1 && current != editbot)
+
+    if (current_y < editwinrows - 1 && current != editbot)
 	current_y++;
     else
 	page_down_center();

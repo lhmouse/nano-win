@@ -1,4 +1,4 @@
-06/xx/2000 - Nano 0.9.11 presents drastic rewrites of the most buggy
+06/20/2000 - Nano 0.9.11 presents drastic rewrites of the most buggy
 		routines in the program, specifically the wrapping code
 		and almost all of the display routines.  There are many
 		improvements and bugfixes to the display subsystem in 
@@ -8,7 +8,8 @@
 		this function just changes the way tabs LOOK in the
 		editor, the tabs you input are still real tabs of normal
 		width  (usually 8 characters); nano just makes them look
-		smaller or bigger whlie in the editor.
+		smaller or bigger whlie in the editor.  New in the
+		translation department is an indonesian translation (id).
 
 06/06/2000 - Nano 0.9.10 is primarily a bugfix for the loss of SIGINT when
 		using "run and terminate" flags (for example, --help).

@@ -82,7 +82,7 @@ void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
 	next = tmp->next;
 	add_to_cutbuffer(tmp);
 	totlines--;
-	totsize--; /* newline (add_to_cutbuffer doesn't count newlines) */
+	totsize--;		/* newline (add_to_cutbuffer doesn't count newlines) */
 	tmp = next;
     }
     while (next != bot && next != NULL);

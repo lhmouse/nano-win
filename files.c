@@ -30,7 +30,7 @@
 #include "config.h"
 #include "proto.h"
 #include "nano.h"
- 
+
 #ifndef NANO_SMALL
 #include <libintl.h>
 #define _(string) gettext(string)
@@ -252,14 +252,13 @@ int do_insertfile(void)
 	set_modified();
 
 	/* Here we want to rebuild the edit window */
-	for(i = 0, editbot = edittop;
-	       i <= editwinrows - 1
-	    && i <= totlines
-	    && editbot->next != NULL;
-	    editbot = editbot->next, i++);
+	for (i = 0, editbot = edittop;
+	     i <= editwinrows - 1
+	     && i <= totlines
+	     && editbot->next != NULL; editbot = editbot->next, i++);
 
 	/* If we've gone off the bottom, recenter, otherwise just redraw */
-	if(current->lineno > editbot->lineno)
+	if (current->lineno > editbot->lineno)
 	    edit_update(current);
 	else
 	    edit_refresh();
@@ -435,9 +434,9 @@ int do_writeout(int exiting)
 
     while (1) {
 	i = statusq(writefile_list, WRITEFILE_LIST_LEN, answer,
-	            _("File Name to write"));
+		    _("File Name to write"));
 
-        if (i != -1) {
+	if (i != -1) {
 
 #ifdef DEBUG
 	    fprintf(stderr, _("filename is %s"), answer);
@@ -449,17 +448,17 @@ int do_writeout(int exiting)
 
 		    if (!i || (i == -1))
 			continue;
-                }
-            }
+		}
+	    }
 	    i = write_file(answer, 0);
 
 	    display_main_list();
 	    return i;
-        } else {
+	} else {
 	    statusbar(_("Cancelled"));
 	    display_main_list();
 	    return 0;
-        }
+	}
     }
 }
 
@@ -467,4 +466,3 @@ int do_writeout_void(void)
 {
     return do_writeout(0);
 }
-

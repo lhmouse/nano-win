@@ -26,7 +26,7 @@
 #include "nano.h"
 #include "proto.h"
 
-#ifndef NANO_SMALL 
+#ifndef NANO_SMALL
 #include <libintl.h>
 #define _(string) gettext(string)
 #else
@@ -89,9 +89,9 @@ char *strstrwrapper(char *haystack, char *needle)
 
 /* Thanks BG, many ppl have been asking for this... */
 void *nmalloc(size_t howmuch)
-{   
+{
     void *r;
- 
+
     /* Panic save? */
 
     if (!(r = malloc(howmuch)))
@@ -99,14 +99,13 @@ void *nmalloc(size_t howmuch)
 
     return r;
 }
- 
+
 void *nrealloc(void *ptr, size_t howmuch)
-{   
+{
     void *r;
-    
+
     if (!(r = realloc(ptr, howmuch)))
-	die("nano: realloc: out of memory!");  
+	die("nano: realloc: out of memory!");
 
     return r;
 }
-

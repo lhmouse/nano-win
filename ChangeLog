@@ -1,10 +1,12 @@
-nano-0.9.11 - 06/xx/2000
+nano-0.9.11 - 06/20/2000
 - New flag "-T" or "--tabsize" to specify how to display tab widths.
   Affects main() in nano.c, strlenpt(), xpt() and actual_x() (et al) in 
   winio.c, and nano.h.  Many harcoded "8"s have been changed to the 
-  TABSIZE int.
+  TABSIZE int.  Added changes to nano.1 and nano.1.html.
 - id.po:
 	- Indonesian translation by Tedi Heriyanto.
+- es.po:
+	- Updated translation (Jordi Mallach).
 - winio.c
         - Rewrite of display functions to correct the display problems 
 	  we had been seeing. Affects: add_marked_sameline, edit_add,

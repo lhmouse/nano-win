@@ -24,7 +24,7 @@
 #include "config.h"
 #include "proto.h"
 #include "nano.h"
- 
+
 #ifndef NANO_SMALL
 #include <libintl.h>
 #define _(string) gettext(string)
@@ -405,4 +405,3 @@ int do_gotoline_void(void)
 {
     return do_gotoline(0);
 }
-
