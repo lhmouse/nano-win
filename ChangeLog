@@ -14,8 +14,9 @@ CVS Code -
 	- Many fixes to the help browser and shortcut lists: efficiency
 	  updates, consistency fixes, help text fixes and improvements,
 	  and spacing improvements. (David Benbennick)
-	- Make more functions use const variables when possible. (David
-	  Benbennick)
+	- Make some functions use const variables when possible, and
+	  also make them static when necessary. (David Benbennick, 
+	  necessary redefined by Chris ;-)
 	- Add Carl Drinkwater's backup file option (-B or --backup on the
 	  command line, M-B in nano's global shortcuts). If the original
 	  file is unchanged from when it was loaded, it is backed up to
@@ -33,20 +34,57 @@ CVS Code -
 	  --regexp as an alternative for -R; they were listed in nano's
 	  usage information, but weren't actually in nano.  Also, display
 	  "-?" as an alternative for "-h" in nano's usage information,
-	  put the command line options in a more consistent (i. e. mostly
+	  put the command line options in a more consistent (i.e. mostly
 	  alphabetical) order in nano, put the long options in a more
 	  consistent order in rcfile.c and nanorc.sample, don't include
 	  rcfile options if their equivalent command line options are
 	  disabled, and remove obsolete relative option from
 	  nanorc.sample. (DLR)
+	- Removed much unnecessary parts to the color code and reworks
+	  some of the color display (David Benbennick).
 	- Change "File Name to Append/Prepend" to "File Name to
 	  Append/Prepend to".  The original prompt could confusingly
 	  imply that we are appending/prepending another file to the
 	  current file, when we are actually appending/prepending the
 	  current file to another file. (DLR)
-	- Put nano.1, nano.1.html, and nano.texi up to date. (DLR)
-	- Typo fixes for the ChangeLog. (David Benbennick)
+	- Put nano.1, nano.1.html, and nano.texi up to date, and fix a
+	  few inconsistencies in them. (DLR)
+	- Typo fixes for the ChangeLog. (David Benbennick and DLR)
+	- Complete rewrite of justification code to fix some bugs and
+	  improve its functionality. (David Benbennick)
+	- If a variable isn't going to be used in tiny mode, #define it
+	  out when possible. (David Benbennick)
+	- Major reworking of the cutting/screen-updating code in cut.c,
+	  some functions in utils.c, the cursor placement code in
+	  winio.c, and many, many other areas to increase efficiency.
+	  (David Benbennick)
+	- Rework handling of prompts when there's a list of partial
+	  filename matches on the screen: remove kludgy case-by-case
+	  handling (which didn't even handle every case), and have
+	  statusq() handle it directly for all cases. (David Benbennick
+	  and DLR)
+	- Fix some warnings and errors that show up when using gcc's
+	  -pedantic option. (DLR)
+	- Add a comment to nanorc.sample warning that an out-of-range
+	  negative value for fill can make nano die complaining that
+	  the screen is too small (which may not be immediately
+	  obvious. (DLR)
+	- There were some opendir() calls in files.c without
+	  corresponding closedir() calls; add them. (DLR)
+	- Move align() and null_at() from nano.c to utils.c, and move
+	  the openfilestruct handling functions from nano.c to files.c.
+	  (DLR)
+	- In color.c, start the "#ifdef ENABLE_COLOR" block after
+	  including all the header files, as rcfile.c does; this fixes
+	  a warning about ANSI C'S inability to handle blank files.
+	  (DLR)
+	- Add command line option -I/--ignorercfiles to ignore
+	  /etc/nanorc and ~/.nanorc. (Carl Drinkwater)
 - files.c:
+  new_file():
+	- Make sure current_x is zero; this fixes a problem where the
+	  current cursor position wasn't reset when reading in a file in
+	  multibuffer mode. (David Benbennick)
   read_file(), read_line():
 	- Rework to properly handle nulls in the input file, fix
 	  detection of binary files to properly mark a file as binary if
@@ -66,8 +104,19 @@ CVS Code -
 	  --enable-tiny is used.  Since formatstr isn't ever used in tiny
 	  mode, don't bother even creating the variable. (David
 	  Benbennick and DLR)
+  do_insertfile():
+	- Memory leak fix. (David Benbennick)
+  get_full_path():
+	- Memory leak fix.  Also, make it properly interpret ~/ notation
+	  so, among other things, the option "--operatingdir ~" works.
+	  (David Benbennick)
+  check_operating_dir():
+	- Memory leak fix. (David Benbennick)
+  cwd_tab_completion():
+	- Changed a variable name: dirName -> dirname. (DLR)
   append_slash_if_dir(), input_tab():
-	- Changed a variable name: lastWasTab -> lastwastab. (DLR)
+	- Changed variable names: lastWasTab -> lastwastab, matchBuf ->
+	  matchbuf. (DLR)
 - global.c:
   free_toggles():
 	- Only include if we're not using tiny mode. (David Benbennick)
@@ -79,6 +128,8 @@ CVS Code -
 	  do_toggle() if Pico emulation mode is the toggle in question.
 	  Don't free the toggles here, either; it's unnecessary after the
 	  above change. (David Benbennick)
+	- If wrapping is disabled, don't include the toggle for it.
+	  (DLR)
   shortcut_init():
 	- Rework IFHELP macro (David Benbennick).
 - move.c:
@@ -90,6 +141,26 @@ CVS Code -
 - nanorc.sample:
 	- Put in much less crappy example regex rules for c-file.
 - nano.c:
+  do_char():
+	- Fix a problem where, if ENABLE_COLOR wasn't used, typing
+	  characters on a marked line before the beginning of the mark
+	  would make the highlight short by one. (David Benbennick)
+  die():
+	- Rework slightly to remove redundant printing of last message
+	  and print all messages after resetting the terminal. (DLR)
+  global_init():
+	- Call die_too_small() when fill is 0. (DLR)
+  usage():
+	- List the options that are ignored for the purpose of Pico
+	  compatibility, and make some minor consistency fixes. (DLR)
+  do_next_word(), do_prev_word():
+	- Fix a problem where highlighting isn't done properly after
+	  calling either of these, and another problem where the cursor
+	  would move back too far in certain cases with do_prev_word().
+	  (David Benbennick)
+  do_backspace():
+	- Make sure placewewant is set properly, and that the mark is
+	  moved backwards. (David Benbennick)
   clear_filename():
 	- Remove this function, as it has unneeded functionality, is
 	  short enough to be inlined, and is only called in two spots
@@ -97,6 +168,16 @@ CVS Code -
   do_int_spell(), do_alt_spell():
 	- Rework to save the marked selection before doing spell checking
 	  and restore it afterward. (DLR)
+  do_cont():
+	- Handle the case where the window was resized while we were
+	  stopped. (David Benbennick)
+  handle_sigwinch():
+	- Make sure we adjust fill when the window is resized. (David
+	  Benbennick)
+	- Call die_too_small() when fill is 0. (DLR)
+  help_init():
+	- Since the return value of snprintf() isn't well defined, use
+	  sprintf() instead. (David Benbennick)
   do_toggle():
 	- Since the search mode toggles aren't global anymore, we don't
 	  need to explicitly block them here anymore (which will end up
@@ -109,8 +190,23 @@ CVS Code -
 	  hold a line number. (DLR)
 	- Properly handle multiple -r settings on the command line. (Carl
 	  Drinkwater)
+	- Fix a bug that prevented file insertion via the Insert key
+	  from working at all when --enable-multibuffer wasn't used
+	  (oops). (DLR)
+	- Adapt David Benbennick's fix to get fill to accept negative
+	  numbers properly in parse_rcfile() (see below) to the
+	  handlers for the -r and -T options as well, so that -r/-T 0
+	  can be treated separately from -r/-T string. (DLR)
+- proto.h:
+	- Remove external declaration of the global int fill, since
+	  it's now static. (DLR)
 - rcfile.c:
-  colortoint():
+  parse_rcfile():
+	- Add David Benbennick's fix that allows fill to accept
+	  negative numbers properly.  Specifically, use strtol() there
+	  instead of atoi() so that errors can be detected.  Also
+	  adapted for tabsize by DLR.
+  parse_next_regex(), colortoint():
 	- Only include if ENABLE_COLOR is defined. (DLR)
 - search.c:
   search_init():
@@ -118,6 +214,9 @@ CVS Code -
 	  part of this function referencing them so that they still work.
 	  (DLR)
 	- Remove unneeded toggles variable. (David Benbennick)
+	- Fix a problem where the first character of buf was overwritten
+	  if the last search string was one third the number of columns
+	  plus one. (David Benbennick)
   findnextstr():
 	- Update the current line at current_x if we don't find a match.
 	  Also, pass current_x_find to strstrwrapper() so we know whether
@@ -134,10 +233,16 @@ CVS Code -
 	  other than the terminating null in strings to newlines and
 	  back; they're used to handle null characters in files properly.
 	  (DLR)
+  lowercase():
+	- Remove, since it isn't actually used anywhere. (David
+	  Benbennick)
   strstrwrapper(): Set REG_NOTBOL when we're not at the beginning of a
 	  string, to avoid false positives when searching for regular
 	  expressions prefixed with ^. Make it take a new parameter,
 	  line_pos, to determine where we are in the string. (DLR)
+  check_wildcard_match():
+	- Changed variable names: retryPat -> retrypat, retryText ->
+	  retrytext. (DLR)
 - winio.c:
   actual_x_from_start():
 	- Overhaul to make cursor placement more like that of Pico: add
@@ -158,16 +263,28 @@ CVS Code -
 	  (which should never occur under normal circumstances; they will
 	  only be there if the line had nulls in it and was unsunder()ed
 	  beforehand) as ^@'s. (DLR)
+	- Display ASCII 0x80-0x9f as backslashes followed by 3-digit
+	  octal values to keep xterm from screwing up the display when
+	  some of them are printed as-is. (David Benbennick)
+  statusbar():
+	- Limit statusbar display to the number of columns less four, and
+	  don't allow it to go over its original row. (David Benbennick)
   do_help():
 	- Add support for the handled keyboard escape sequences in the
 	  help menu, as they are needed with some terminals (e.g. xterm
 	  with TERM=ansi). (DLR)
+  do_replace_highlight():
+	- When using regexps, make sure the highlight is the length of
+	  the search result and not the regexp string. (DLR)
 - configure.ac:
 	- Added ms to ALL_LINGUAS (Jordi).
 	- Merged acconfig.h in (Jordi).
+	- Fixed so that --enable-debug defines DEBUG and undefines
+	  NDEBUG. (Carl Drinkwater)
 - THANKS:
 	- Completed a bit (Jordi).
-	- Fixed David Benbennick's email address (David Benbennick).
+	- Fixed David Benbennick's email address. (David Benbennick)
+	- Typo fix. (DLR)
 GNU nano 1.1.9 - 05/12/2002
 - General:
 	- Typos n misspellings all over the place (David Benbennick).
@@ -963,7 +1080,7 @@ nano-1.1.0 - 07/15/2001
 	- Moved extension functions (Case Sensitive, Regexp, and Backwards
 	  Search, Append key in write file function) to Meta keys, as
 	  people are complaining loudly about nano not being control-key
-	  compatible with Pico, which is a Bag Thing (TM).  Changes to
+	  compatible with Pico, which is a Bad Thing (TM).  Changes to
 	  shortcut_init, toggle_init, new toggles for backwards and regexp
 	  (and you can now toggle all search options including regexp at
 	  the Search: prompt!)  Changes to nanogetstr to enable Meta
@@ -1420,7 +1537,7 @@ General
 	  by Rocco Corsi.
   help_init()
 	- Fix off by one error that was making ^G help in normal mode and
-	  ^_ in pico mode not be displayed in the help (bug discovered by
+	  ^_ in Pico mode not be displayed in the help (bug discovered by
 	  Rocco Corsi).
   do_toggle()
 	- Added fix_editbot() call to fix improper redisplay of edit
@@ -2248,10 +2365,10 @@ nano-0.9.3 - 04/29/2000
 nano-0.9.2 - 04/15/2000
 - This release just fixes the serious segfault problem if nano is 
   invoked any way other than using the absolute path.  The bug was
-  in the new code for checking whether nano is invoked as pico.
+  in the new code for checking whether nano is invoked as 'pico'.
 
 nano-0.9.1 - 04/14/2000
-- Added pico compatibility for ^T when in search or switch to switch
+- Added Pico compatibility for ^T when in search or switch to switch
   to the opposite function.  Added one to REPLACE_LIST_LEN and 
   WHEREIS_LIST_LEN in nano.h, new args to sc_init_one in global.c and
   new strings that will have to be gettext()ed.  New argument 'replacing'
@@ -2373,7 +2490,7 @@ nano-0.8.4 - 02/11/2000
 - README:	Updated my email address and the nano web page.
 
 nano-0.8.3 - 02/08/2000
-- New pico mode (-p, --pico), toggles (more) compatibility with the
+- New Pico mode (-p, --pico), toggles (more) compatibility with the
   Pico messages displayed in the shortcut list.  Note that there are still
   small differences in this mode.
 - nano.h:	New shortcut struct format, for the benefit of i18n and

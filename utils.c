@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <assert.h>
 #include "config.h"
 #include "proto.h"
 #include "nano.h"
@@ -50,75 +51,75 @@ int num_of_digits(int n)
     return i;
 }
 
-/* For non-null-terminated lines.  A line, by definition, shouldn't
-   normally have newlines in it, so encode its nulls as newlines. */
-void unsunder(char *str, int true_len)
+/* Fix the memory allocation for a string. */
+void align(char **strp)
 {
-    int i;
-    if (strlen(str) < true_len) {
-	for (i = 0; i < true_len; i++) {
-	    if (str[i] == '\0')
-		str[i] = '\n';
-	}
-    }
+    assert(strp != NULL);
+    *strp = nrealloc(*strp, strlen(*strp) + 1);
+}
+
+/* Null a string at a certain index and align it. */
+void null_at(char **data, size_t index)
+{
+    assert(data != NULL);
+    *data = (char *)nrealloc(*data, sizeof(char) * (index + 1));
+    (*data)[index] = '\0';
 }
 
 /* For non-null-terminated lines.  A line, by definition, shouldn't
-   normally have newlines in it, so decode its newlines into nulls. */
+ * normally have newlines in it, so encode its nulls as newlines. */
+void unsunder(char *str, size_t true_len)
+{
+    assert(str != NULL);
+    for(; true_len > 0; true_len--, str++)
+	if (*str == '\0')
+	    *str = '\n';
+}
+
+/* For non-null-terminated lines.  A line, by definition, shouldn't
+ * normally have newlines in it, so decode its newlines into nulls. */
 void sunder(char *str)
 {
-    int i, true_len = strlen(str);
-    if (strchr(str, '\n')) {
-	for (i = 0; i < true_len; i++) {
-	    if (str[i] == '\n')
-		str[i] = '\0';
-	}
-    }
-}
-
-/* Lower case a string - must be null terminated */
-void lowercase(char *src)
-{
-    long i = 0;
-
-    while (src[i] != 0) {
-	src[i] = (char) tolower(src[i]);
-	i++;
-    }
+    assert(str != NULL);
+    for(; *str != '\0'; str++)
+	if (*str == '\n')
+	    *str = '\0';
 }
 
 /* None of this is needed if we're using NANO_SMALL! */
 #ifndef NANO_SMALL
-char *revstrstr(char *haystack, char *needle, char *rev_start)
+static const char *revstrstr(const char *haystack, const char *needle,
+	const char *rev_start)
 {
-    char *p, *q, *r;
+    for(; rev_start >= haystack ; rev_start--) {
+	const char *r, *q;
 
-    for(p = rev_start ; p >= haystack ; --p) {
-	for (r = p, q = needle ; (*q == *r) && (*q != '\0') ; r++, q++)
+	for (r = rev_start, q = needle ; *q == *r && *q != '\0'; r++, q++)
 	    ;
 	if (*q == '\0')
-	    return p;
+	    return rev_start;
     }
-    return 0;
+    return NULL;
 }
 
-char *revstristr(char *haystack, char *needle, char *rev_start)
+static const char *revstristr(const char *haystack, const char *needle,
+	const char *rev_start)
 {
-    char *p, *q, *r;
+    for (; rev_start >= haystack; rev_start--) {
+	const char *r = rev_start, *q = needle;
 
-    for(p = rev_start ; p >= haystack ; --p) {
-	for (r = p, q = needle ; (tolower(*q) == tolower(*r)) && (*q != '\0') ; r++, q++)
+	for (; (tolower(*q) == tolower(*r)) && (*q != '\0') ; r++, q++)
 	    ;
 	if (*q == '\0')
-	    return p;
+	    return rev_start;
     }
-    return 0;
+    return NULL;
 }
-#endif /* NANO_SMALL */
+#endif /* !NANO_SMALL */
 
 /* This is now mutt's version (called mutt_stristr) because it doesn't
    use memory allocation to do a simple search (yuck). */
-char *stristr(char *haystack, char *needle)
+const char *stristr(const char *haystack, const char *needle)
 {
     const char *p, *q;
 
@@ -128,43 +129,41 @@ char *stristr(char *haystack, char *needle)
 	return (haystack);
     
     while (*(p = haystack)) {
-	for (q = needle; *p && *q && tolower (*p) == tolower (*q); p++, q++)
+	for (q = needle; *p && *q && tolower(*p) == tolower(*q); p++, q++)
 	    ;
 	if (!*q)
-	    return (haystack);
+	    return haystack;
 	haystack++;
     }
     return NULL;
 }
 
-char *strstrwrapper(char *haystack, char *needle, char *rev_start, int line_pos)
+const char *strstrwrapper(const char *haystack, const char *needle,
+	const char *rev_start, int line_pos)
 {
-
 #ifdef HAVE_REGEX_H
-    int result;
-
     if (ISSET(USE_REGEXP)) {
 	if (!ISSET(REVERSE_SEARCH)) {
-	    result = regexec(&search_regexp, haystack, 10, regmatches, (line_pos > 0) ? REG_NOTBOL : 0);
-	    if (!result)
+	    if (!regexec(&search_regexp, haystack, 10, regmatches, (line_pos > 0) ? REG_NOTBOL : 0))
 		return haystack + regmatches[0].rm_so;
+	}
 #ifndef NANO_SMALL
-	} else {
-	    char *i, *j;
+	else {
+	    const char *i, *j;
 
 	    /* do a quick search forward first */
-	    if (!(regexec(&search_regexp, haystack, 10, regmatches, 0))) {
+	    if (!regexec(&search_regexp, haystack, 10, regmatches, 0)) {
 		/* there's a match somewhere in the line - now search for it backwards, much slower */
 		for (i = rev_start; i >= haystack; --i) {
-		    if (!(result = regexec(&search_regexp, i, 10, regmatches, (i > haystack) ? REG_NOTBOL : 0))) {
+		    if (!regexec(&search_regexp, i, 10, regmatches, (i > haystack) ? REG_NOTBOL : 0)) {
 			j = i + regmatches[0].rm_so;
 			if (j <= rev_start)
 			    return j;
 		    }
 		}
 	    }
-#endif
 	}
+#endif
 	return 0;
     }
 #endif
@@ -174,7 +173,6 @@ char *strstrwrapper(char *haystack, char *needle, char *rev_start, int line_pos)
 	    return revstrstr(haystack, needle, rev_start);
         else
 	    return strstr(haystack, needle);
-
     } else {
 	if (ISSET(REVERSE_SEARCH))
 	    return revstristr(haystack, needle, rev_start);
@@ -188,8 +186,7 @@ char *strstrwrapper(char *haystack, char *needle, char *rev_start, int line_pos)
 
 /* This is a wrapper for the perror function.  The wrapper takes care of 
  * ncurses, calls perror (which writes to STDERR), then refreshes the 
- * screen.  Note that nperror causes the window to flicker once.
- */
+ * screen.  Note that nperror causes the window to flicker once. */
 void nperror(const char *s) {
 	/* leave ncurses mode, go to the terminal */
     if (endwin() != ERR) {
@@ -212,17 +209,17 @@ void *nmalloc(size_t howmuch)
 }
 
 /* We're going to need this too - Hopefully this will minimize
-   the transition cost of moving to the apropriate function. */
+   the transition cost of moving to the appropriate function. */
 char *charalloc(size_t howmuch)
 {
-    void *r;
+    char *r;
 
     /* Panic save? */
 
-    if (!(r = calloc(howmuch, sizeof (char))))
+    if (!(r = (char *)calloc(howmuch, sizeof (char))))
 	die(_("nano: calloc: out of memory!"));
 
-    return (char *) r;
+    return r;
 }
 
 void *nrealloc(void *ptr, size_t howmuch)
@@ -235,24 +232,18 @@ void *nrealloc(void *ptr, size_t howmuch)
     return r;
 }
 
-/* Copy one malloc()ed string to another pointer.
-
-   Should be used as dest = mallocstrcpy(dest, src);
-*/
-void *mallocstrcpy(char *dest, char *src)
+/* Copy one malloc()ed string to another pointer.  Should be used as:
+ * dest = mallocstrcpy(dest, src); */
+char *mallocstrcpy(char *dest, const char *src)
 {
-
-
     if (src == dest)
-	return src;
+	return dest;
 
-    if (dest != NULL)
+    if (dest)
 	free(dest);
 
-    if (src == NULL) {
-	dest = NULL;
-	return(dest);
-    }
+    if (!src)
+	return NULL;
 
     dest = charalloc(strlen(src) + 1);
     strcpy(dest, src);
@@ -260,8 +251,7 @@ void *mallocstrcpy(char *dest, char *src)
     return dest;
 }
 
-
-/* Append a new magic-line to filebot */
+/* Append a new magic-line to filebot. */
 void new_magicline(void)
 {
     filebot->next = nmalloc(sizeof(filestruct));
@@ -292,22 +282,22 @@ void new_magicline(void)
  */
 int check_wildcard_match(const char *text, const char *pattern)
 {
-    const char *retryPat;
-    const char *retryText;
+    const char *retrypat;
+    const char *retrytext;
     int ch;
     int found;
     int len;
 
-    retryPat = NULL;
-    retryText = NULL;
+    retrypat = NULL;
+    retrytext = NULL;
 
     while (*text || *pattern) {
 	ch = *pattern++;
 
 	switch (ch) {
 	case '*':
-	    retryPat = pattern;
-	    retryText = text;
+	    retrypat = pattern;
+	    retrytext = text;
 	    break;
 
 	case '[':
@@ -361,15 +351,15 @@ int check_wildcard_match(const char *text, const char *pattern)
 	    }
 
 	    if (*text) {
-		pattern = retryPat;
-		text = ++retryText;
+		pattern = retrypat;
+		text = ++retrytext;
 		break;
 	    }
 
 	    return FALSE;
 	}
 
-	if (pattern == NULL)
+	if (!pattern)
 	    return FALSE;
     }
 

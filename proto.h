@@ -29,13 +29,14 @@
 
 #include "nano.h"
 
+extern int wrap_at;
 extern int editwinrows;
 extern int current_x, current_y, totlines;
 extern int placewewant;
-extern int mark_beginx, samelinewrap;
+extern int mark_beginx;
 extern long totsize;
 extern int temp_opt;
-extern int fill, wrap_at, flags,tabsize;
+extern int wrap_at, flags, tabsize;
 extern int search_last_line;
 extern int currslen;
 
@@ -47,7 +48,10 @@ extern WINDOW *edit, *topwin, *bottomwin;
 extern char *filename;
 extern struct stat originalfilestat;
 extern char *answer;
-extern char *hblank, *help_text;
+extern char *hblank;
+#ifndef DISABLE_HELP
+extern char *help_text;
+#endif
 extern char *last_search;
 extern char *last_replace;
 #ifndef DISABLE_OPERATINGDIR
@@ -57,6 +61,13 @@ extern char *full_operating_dir;
 #ifndef DISABLE_SPELLER
 extern  char *alt_speller;
 #endif
+#ifndef DISABLE_TABCOMP
+char *real_dir_from_tilde(char *buf);
+#endif
+#ifndef DISABLE_BROWSER
+char *do_browse_from(char *inpath);
+#endif
+
 extern struct stat fileinfo;
 extern filestruct *current, *fileage, *edittop, *editbot, *filebot; 
 extern filestruct *cutbuffer, *mark_beginbuf;
@@ -69,6 +80,8 @@ extern openfilestruct *open_files;
 extern colortype *colorstrings;
 extern syntaxtype *syntaxes;
 extern char *syntaxstr;
+extern regex_t color_regexp;
+extern regmatch_t colormatches[1];
 #endif
 
 extern shortcut *shortcut_list;
@@ -83,235 +96,200 @@ extern shortcut *help_list;
 #ifndef DISABLE_BROWSER
 extern shortcut *browser_list, *gotodir_list;
 #endif
-extern shortcut *currshortcut;
+extern const shortcut *currshortcut;
 
 #ifdef HAVE_REGEX_H
 extern int use_regexp, regexp_compiled;
 extern regex_t search_regexp;
 extern regmatch_t regmatches[10];  
-
 #ifdef ENABLE_COLOR
-extern regex_t color_regexp;
-extern regmatch_t colormatches[1];  
-
 extern regex_t syntaxfile_regexp;
 extern regmatch_t synfilematches[1];  
 #endif /* ENABLE_COLOR */
+#endif /* HAVE_REGEX_H */
+
+#ifndef NANO_SMALL
+extern toggle *toggles;
 #endif
 
-extern toggle *toggles;
+/* Functions we want available */
 
-/* Programs we want available */
+/* Public functions in color.c */
+#ifdef ENABLE_COLOR
+void set_colorpairs(void);
+void do_colorinit(void);
+void update_color(void);
+#endif /* ENABLE_COLOR */
 
-/* public functions in global.c */
+/* Public functions in cut.c */
+int do_cut_text(void);
+int do_uncut_text(void);
+filestruct *get_cutbottom(void);
+void add_to_cutbuffer(filestruct *inptr);
+void cut_marked_segment(filestruct *top, size_t top_x, filestruct *bot,
+                        size_t bot_x, int destructive);
+
+/* Public functions in files.c */
+int write_file(char *name, int tmpfile, int append, int nonamechange);
+int open_file(const char *filename, int insert, int quiet);
+int read_file(FILE *f, const char *filename, int quiet);
+#ifdef ENABLE_MULTIBUFFER
+openfilestruct *make_new_opennode(openfilestruct *prevnode);
+void splice_opennode(openfilestruct *begin, openfilestruct *newnode, openfilestruct *end);
+void unlink_opennode(const openfilestruct *fileptr);
+void delete_opennode(openfilestruct *fileptr);
+void free_openfilestruct(openfilestruct *src);
+int add_open_file(int update);
+int close_open_file(void);
+int open_prevfile_void(void);
+int open_nextfile_void(void);
+#endif
+#ifndef DISABLE_OPERATINGDIR
+int check_operating_dir(char *currpath, int allow_tabcomp);
+#endif
+int do_writeout(char *path, int exiting, int append);
+char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list);
+void new_file(void);
+int do_writeout_void(void);
+int do_insertfile_void(void);
+char *get_next_filename(const char *name);
+#ifndef DISABLE_SPELLER
+char *safe_tempnam(const char *dirname, const char *filename_prefix);
+#endif
+
+/* Public functions in global.c */
 int length_of_list(const shortcut *s);
 void shortcut_init(int unjustify);
 #ifdef DEBUG
 void thanks_for_all_the_fish(void);
 #endif
 
-
-
-char *revstrstr(char *haystack, char *needle, char *rev_start);
-char *stristr(char *haystack, char *needle);
-char *revstristr(char *haystack, char *needle, char *rev_start);
-char *strstrwrapper(char *haystack, char *needle, char *rev_start, int line_pos);
-int search_init(int replacing);
-int renumber(filestruct * fileptr);
-int free_filestruct(filestruct * src);
-
-#ifdef ENABLE_MULTIBUFFER
-int free_openfilestruct(openfilestruct * src);
-#endif
-
-int xplustabs(void);
-int do_yesno(int all, int leavecursor, char *msg, ...);
-int actual_x(filestruct * fileptr, int xplus);
-int strnlenpt(char *buf, int size);
-int strlenpt(char *buf);
-int statusq(int allowtabs, shortcut s[], char *def, char *msg, ...);
-int write_file(char *name, int tmpfile, int append, int nonamechange);
-int do_cut_text(void);
-int do_uncut_text(void);
-int no_help(void);
-int renumber_all(void);
-int open_file(const char *filename, int insert, int quiet);
-int do_insertfile(int loading_file);
-int num_of_digits(int n);
-int open_pipe(char *command);
-int read_file(FILE *f, const char *filename, int quiet);
-
-#ifdef ENABLE_MULTIBUFFER
-int add_open_file(int update);
-#endif
-
-#ifndef DISABLE_OPERATINGDIR
-int check_operating_dir(char *currpath, int allow_tabcomp);
-#endif
-
-#ifndef NANO_SMALL
-int do_next_word_void(void);
-int do_prev_word_void(void);
-#endif /* !NANO_SMALL */
-
-int do_writeout(char *path, int exiting, int append);
-int do_gotoline(int line, int save_pos);
-int is_whole_word(int curr_pos, filestruct *fileptr, char *searchword);
-int do_replace_loop(char *prevanswer, filestruct *begin, int *beginx,
-			int wholewords, int *i);
-int do_find_bracket(void);
-
-#if defined (ENABLE_MULTIBUFFER) || !defined (DISABLE_SPELLER)
-void do_gotopos(int line, int pos_x, int pos_y, int pos_placewewant);
-#endif
-
-/* Now in move.c */
+/* Public functions in move.c */
+int do_first_line(void);
+int do_last_line(void);
+size_t xplustabs(void);
+size_t actual_x(const filestruct *fileptr, size_t xplus);
+size_t strnlenpt(const char *buf, size_t size);
+size_t strlenpt(const char *buf);
+void reset_cursor(void);
+void blank_bottombars(void);
+void blank_edit(void);
+void blank_statusbar(void);
+void blank_statusbar_refresh(void);
+void check_statblank(void);
+void titlebar(const char *path);
+void bottombars(const shortcut *s);
+void set_modified(void);
 int do_up(void);
 int do_down(void);
 int do_left(void);
 int do_right(void);
-int check_wildcard_match(const char *text, const char *pattern);
-
-char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list);
-char *real_dir_from_tilde(char *buf);
-
-void signal_init(void);
-void unsunder(char *str, int true_len);
-void sunder(char *str);
-void lowercase(char *src);
-void blank_bottombars(void);
-void check_wrap(filestruct * inptr);
-void dump_buffer(filestruct * inptr);
-void align(char **strp);
-void edit_refresh(void), edit_refresh_clearok(void);
-void edit_update(filestruct * fileptr, int topmidbotnone);
-void update_cursor(void);
-void delete_node(filestruct * fileptr);
-
-#ifdef ENABLE_MULTIBUFFER
-void delete_opennode(openfilestruct * fileptr);
-#endif
-
-void set_modified(void);
-void dump_buffer_reverse(filestruct * inptr);
-void reset_cursor(void);
-void check_statblank(void);
-void update_line(filestruct * fileptr, int index);
-void fix_editbot(void);
-void statusbar(char *msg, ...);
-void blank_statusbar(void);
-void titlebar(char *path);
-void previous_line(void);
-void center_cursor(void);
-void bottombars(const shortcut *s);
-void blank_statusbar_refresh(void);
-void nperror(const char *s);
-void *mallocstrcpy(char *dest, char *src);
-void wrap_reset(void);
-void display_main_list(void);
-void nano_small_msg(void);
-void nano_disable_msg(void);
-void do_early_abort(void);
-void *nmalloc(size_t howmuch);
-void *nrealloc(void *ptr, size_t howmuch);
-void die(char *msg, ...);
-void die_save_file(char *die_filename);
-void new_file(void);
-void new_magicline(void);
-void splice_node(filestruct *begin, filestruct *newnode, filestruct *end);
-
-#ifdef ENABLE_MULTIBUFFER
-void splice_opennode(openfilestruct *begin, openfilestruct *newnode, openfilestruct *end);
-#endif
-
-void null_at(char **data, int index);
 void page_up(void);
-void blank_edit(void);
-void search_init_globals(void);
-void replace_abort(void);
-void add_to_cutbuffer(filestruct * inptr);
-void do_replace_highlight(int highlight_flag, char *word);
+int do_page_up(void);
+int do_page_down(void);
+int do_home(void);
+int do_end(void);
+
+/* Public functions in nano.c */
+void renumber(filestruct *fileptr);
+void free_filestruct(filestruct *src);
+int no_help(void);
+void renumber_all(void);
+int open_pipe(const char *command);
+int do_prev_word(void);
+int do_next_word(void);
+void delete_node(filestruct *fileptr);
+void wrap_reset(void);
+void do_early_abort(void);
+void die(const char *msg, ...);
+void splice_node(filestruct *begin, filestruct *newnode, filestruct *end);
 void nano_disabled_msg(void);
 void window_init(void);
 void do_mouse(void);
 void print_view_warning(void);
-void unlink_node(filestruct * fileptr);
+int do_exit(void);
+int do_spell(void);
+int do_mark(void);
+int do_delete(void);
+int do_backspace(void);
+int do_tab(void);
+int do_justify(void);
+int do_enter(void);
+int do_wrap(filestruct *inptr);
+void signal_init(void);
+void handle_sigwinch(int s);
+void die_save_file(const char *die_filename);
+size_t indent_length(const char *line);
 
-#ifdef ENABLE_MULTIBUFFER
-void unlink_opennode(openfilestruct * fileptr);
+filestruct *copy_node(const filestruct *src);
+filestruct *copy_filestruct(const filestruct *src);
+filestruct *make_new_node(filestruct *prevnode);
+#ifndef DISABLE_HELP
+void help_init(void);
 #endif
 
-void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
-                        int bot_x, int destructive);
-
+/* Public functions in rcfile.c */
 #ifdef ENABLE_NANORC
 void do_rcfile(void);
 #endif
 
+/* Public functions in search.c */
+int do_gotoline(int line, int save_pos);
+int is_whole_word(int curr_pos, const char *datastr, const char *searchword);
+int do_replace_loop(const char *prevanswer, const filestruct *begin,
+			int *beginx, int wholewords, int *i);
+int do_find_bracket(void);
+#if defined (ENABLE_MULTIBUFFER) || !defined (DISABLE_SPELLER)
+void do_gotopos(int line, int pos_x, int pos_y, int pos_placewewant);
+#endif
+void search_init_globals(void);
+void replace_abort(void);
+int do_gotoline_void(void);
+int do_search(void);
+int do_replace(void);
+filestruct *findnextstr(int quiet, int bracket_mode, const filestruct *begin,
+		int beginx, const char *needle);
+
+/* Public functions in utils.c */
+const char *stristr(const char *haystack, const char *needle);
+const char *strstrwrapper(const char *haystack, const char *needle,
+		const char *rev_start, int line_pos);
+int num_of_digits(int n);
+int check_wildcard_match(const char *text, const char *pattern);
+void align(char **strp);
+void null_at(char **data, size_t index);
+void unsunder(char *str, size_t true_len);
+void sunder(char *str);
+void nperror(const char *s);
+char *mallocstrcpy(char *dest, const char *src);
+void *nmalloc(size_t howmuch);
+void *nrealloc(void *ptr, size_t howmuch);
+void new_magicline(void);
+char *charalloc(size_t howmuch);
+
+/* Public functions in winio.c */
+int do_yesno(int all, int leavecursor, const char *msg, ...);
+int statusq(int allowtabs, const shortcut *s, const char *def,
+		const char *msg, ...);
+void do_replace_highlight(int highlight_flag, const char *word);
+void edit_refresh(void);
+void edit_refresh_clearok(void);
+void edit_update(filestruct *fileptr, topmidbotnone location);
+void update_cursor(void);
+#ifdef DEBUG
+void dump_buffer(const filestruct *inptr);
+void dump_buffer_reverse(void);
+#endif
+void update_line(filestruct *fileptr, int index);
+void fix_editbot(void);
+void statusbar(const char *msg, ...);
+void center_cursor(void);
+void display_main_list(void);
 #ifdef NANO_EXTRA
 void do_credits(void);
 #endif
-
-int do_writeout_void(void), do_exit(void), do_gotoline_void(void);
-int do_insertfile_void(void), do_search(void);
-
-#ifdef ENABLE_MULTIBUFFER
-int load_open_file(void), close_open_file(void);
-#endif
-
-int do_page_up(void), do_page_down(void);
-int do_cursorpos(int constant), do_cursorpos_void(void), do_spell(void);
-int do_home(void), do_end(void), total_refresh(void), do_mark(void);
-int do_delete(void), do_backspace(void), do_tab(void), do_justify(void);
-int do_first_line(void), do_last_line(void);
-int do_replace(void), do_help(void), do_enter_void(void);
-int keypad_on(WINDOW * win, int newval);
-
-#ifdef ENABLE_MULTIBUFFER
-int open_prevfile(int closing_file), open_nextfile(int closing_file);
-int open_prevfile_void(void), open_nextfile_void(void);
-#endif
-
-char *charalloc (size_t howmuch);
-char *get_next_filename(const char *name);
-
-#if !defined (DISABLE_SPELLER) || !defined (DISABLE_OPERATINGDIR)
-char *get_full_path(const char *origpath);
-#endif
-
-#ifndef DISABLE_SPELLER
-char *check_writable_directory(const char *path);
-char *safe_tempnam(const char *dirname, const char *filename_prefix);
-#endif
-
-#ifndef DISABLE_BROWSER
-char *do_browser(char *path);
-struct stat filestat(const char *path);
-char *do_browse_from(char *inpath);
-#endif
-
-#ifdef ENABLE_COLOR
-int do_colorinit(void);
-void color_on(WINDOW *win, int whatever);
-void color_off(WINDOW *win, int whatever);
-void update_color(void);
-
-extern colorstruct colors[NUM_NCOLORS];
-#endif /* ENABLE_COLOR */
-
-RETSIGTYPE main_loop (int junk);
-
-filestruct *copy_node(filestruct * src);
-filestruct *copy_filestruct(filestruct * src);
-filestruct *make_new_node(filestruct * prevnode);
-
-#ifdef ENABLE_MULTIBUFFER
-openfilestruct *make_new_opennode(openfilestruct * prevnode);
-#endif
-
-filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin,
-			int beginx, char *needle);
-
-#ifndef DISABLE_HELP
-void help_init(void);
-#endif
+int do_cursorpos(int constant);
+int do_cursorpos_void(void);
+int total_refresh(void);
+int do_help(void);
+int keypad_on(WINDOW *win, int newval);

@@ -36,16 +36,13 @@
 #define _(string) (string)
 #endif
 
-
 /* winio.c statics */
 static int statblank = 0;	/* Number of keystrokes left after
 				   we call statusbar(), before we
 				   actually blank the statusbar */
 
 /* Local Function Prototypes for only winio.c */
-inline int get_page_from_virtual(int virtual);
-inline int get_page_start_virtual(int page);
-inline int get_page_end_virtual(int page);
+static int get_page_start(int column);
 
 /* Window I/O */
 
@@ -67,6 +64,7 @@ int do_last_line(void)
     return 1;
 }
 
+
 /* Like xplustabs, but for a specific index of a specific filestruct */
 int xpt(const filestruct *fileptr, int index)
 {
@@ -87,102 +85,89 @@ int xpt(const filestruct *fileptr, int index)
 	    ;
 	else if (iscntrl((int) fileptr->data[i]))
 	    tabs++;
-    }
-
+     }
+ 
     return tabs;
 }
 
-/* Return the actual place on the screen of current->data[current_x], which 
-   should always be > current_x */
-int xplustabs(void)
+/* Return the placewewant associated with current_x.  That is, xplustabs
+ * is the zero-based column position of the cursor.  Value is no smaller
+ * than current_x. */
+size_t xplustabs(void)
 {
-    return xpt(current, current_x);
+    return strnlenpt(current->data, current_x);
 }
 
-/* Return what current_x should be, given xplustabs() for the line, 
- * given a start position in the filestruct's data */
-int actual_x_from_start(filestruct * fileptr, int xplus, int start)
+/* Return what current_x should be, given xplustabs() for the line. */
+size_t actual_x(const filestruct *fileptr, size_t xplus)
 {
-    int i, tot = 1;
+    size_t i = 0;
+	/* the position in fileptr->data, returned */
+    size_t length = 0;
+	/* the screen display width to data[i] */
+    char *c;
+	/* fileptr->data + i */
 
-    if (fileptr == NULL || fileptr->data == NULL)
-	return 0;
+    assert(fileptr != NULL && fileptr->data != NULL);
 
-    for (i = start; tot <= xplus && fileptr->data[i] != 0; i++, tot++)
-	if (fileptr->data[i] == NANO_CONTROL_I) {
-	    if (tot % tabsize != 0)
-		tot += tabsize - (tot % tabsize);
-	} else if (fileptr->data[i] & 0x80)
-	    tot++;		/* Make 8 bit chars only 1 column (again) */
-	else if (iscntrl((int) fileptr->data[i])) {
-	    i++;
-	    tot += 2;
-	}
+    for (c = fileptr->data; length < xplus && *c != '\0'; i++, c++) {
+	if (*c == '\t')
+	    length += tabsize - length % tabsize;
+	else if (iscntrl((int)*c))
+	    length += 2;
+	else if ((unsigned char) *c >= 0x80 && (unsigned char) *c <= 0x9f)
+	    length += 4;
+	else
+	    length++;
+    }
+    assert(length == strnlenpt(fileptr->data, i));
+    assert(i <= strlen(fileptr->data));
 
-	if (i > strlen(fileptr->data))
-	    i = strlen(fileptr->data);
-
-	/* see if we're in the x-plus-tabs column of xplus; if not, look
-	   for the closest column to it */
-	if (xpt(fileptr, i) < xplus) {
-	    while (xpt(fileptr, i) < xplus && i < strlen(fileptr->data))
-	        i++;
-	}
-	else if (xpt(fileptr, i) > xplus) {
-	    while (xpt(fileptr, i) > xplus && i > start)
-	        i--;
-	}
+    if (length > xplus)
+	i--;
 
 #ifdef DEBUG
-    fprintf(stderr, _("actual_x_from_start for xplus=%d returned %d\n"),
-	    xplus, i);
+    fprintf(stderr, _("actual_x for xplus=%d returns %d\n"), xplus, i);
 #endif
 
-    return i - start;
+    return i;
 }
 
-/* Opposite of xplustabs */
-int actual_x(filestruct * fileptr, int xplus)
+/* A strlen with tabs factored in, similar to xplustabs(). */
+size_t strnlenpt(const char *buf, size_t size)
 {
-    return actual_x_from_start(fileptr, xplus, 0);
-}
+    size_t length = 0;
 
-/* a strlen with tabs factored in, similar to xplustabs() */
-int strnlenpt(char *buf, int size)
-{
-    int i, tabs = 0;
-
-    if (buf == NULL)
-	return 0;
-
-    for (i = 0; i < size; i++) {
-	tabs++;
-
-	if (buf[i] == NANO_CONTROL_I) {
-	    if (tabs % tabsize == 0);
+    if (buf != NULL)
+	for (; *buf != '\0' && size != 0; size--, buf++) {
+	    if (*buf == '\t')
+		length += tabsize - (length % tabsize);
+	    else if (iscntrl((int)*buf))
+		length += 2;
+	    else if ((unsigned char) *buf >= 0x80 && (unsigned char) *buf <= 0x9f)
+		length += 4;
 	    else
-		tabs += tabsize - (tabs % tabsize);
-	} else if (buf[i] & 0x80)
-	    /* Make 8 bit chars only 1 column! */
-	    ;
-	else if (iscntrl((int) buf[i]))
-	    tabs++;
-    }
-
-    return tabs;
+		length++;
+	}
+    return length;
 }
 
-int strlenpt(char *buf)
+size_t strlenpt(const char *buf)
 {
-    return strnlenpt(buf, strlen(buf));
+    return strnlenpt(buf, -1);
 }
 
-/* resets current_y, based on the position of current, and puts the cursor at 
-   (current_y, current_x) */
+/* Resets current_y, based on the position of current, and puts the
+ * cursor at (current_y, current_x). */
 void reset_cursor(void)
 {
-    filestruct *ptr = edittop;
-    int x;
+    const filestruct *ptr = edittop;
+    size_t x;
+
+    /* Yuck.  This condition can be true after open_file when opening the
+     * first file. */
+    if (edittop == NULL)
+	return;
 
     current_y = 0;
 
@@ -192,20 +177,15 @@ void reset_cursor(void)
     }
 
     x = xplustabs();
-    if (x <= COLS - 2)
-	wmove(edit, current_y, x);
-    else
-	wmove(edit, current_y, x -
-	      get_page_start_virtual(get_page_from_virtual(x)));
-
+    wmove(edit, current_y, x - get_page_start(x));
 }
 
 void blank_bottombars(void)
 {
-    int i = no_help()? 3 : 1;
-
-    for (; i <= 2; i++)
-	mvwaddstr(bottomwin, i, 0, hblank);
+    if (!no_help()) {
+	mvwaddstr(bottomwin, 1, 0, hblank);
+	mvwaddstr(bottomwin, 2, 0, hblank);
+    }
 }
 
 void blank_edit(void)
@@ -229,7 +209,6 @@ void blank_statusbar_refresh(void)
 
 void check_statblank(void)
 {
-
     if (statblank > 1)
 	statblank--;
     else if (statblank == 1 && !ISSET(CONSTUPDATE)) {
@@ -238,70 +217,63 @@ void check_statblank(void)
     }
 }
 
-/* Repaint the statusbar when getting a character in nanogetstr */
-void nanoget_repaint(char *buf, char *inputbuf, int x)
+/* Repaint the statusbar when getting a character in nanogetstr.  buf
+ * should be no longer than COLS - 4.
+ *
+ * Note that we must turn on A_REVERSE here, since do_help turns it
+ * off! */
+static void nanoget_repaint(const char *buf, const char *inputbuf,
+	int x)
 {
-    int len = strlen(buf);
+    int len = strlen(buf) + 2;
     int wid = COLS - len;
 
-#ifdef ENABLE_COLOR
-    color_on(bottomwin, COLOR_STATUSBAR);
-#else
+    assert(wid >= 2);
+    assert(0 <= x && x <= strlen(inputbuf));
+
     wattron(bottomwin, A_REVERSE);
-#endif
     blank_statusbar();
-
-    if (x <= COLS - 1) {
-	/* Black magic */
-	buf[len - 1] = ' ';
-
-	mvwaddstr(bottomwin, 0, 0, buf);
-	waddnstr(bottomwin, inputbuf, wid);
-	wmove(bottomwin, 0, (x % COLS));
-    } else {
-	/* Black magic */
-	buf[len - 1] = '$';
-
-	mvwaddstr(bottomwin, 0, 0, buf);
-	waddnstr(bottomwin, &inputbuf[wid * ((x - len) / (wid))], wid);
-	wmove(bottomwin, 0, ((x - len) % wid) + len);
-    }
-
-#ifdef ENABLE_COLOR
-    color_off(bottomwin, COLOR_STATUSBAR);
-#else
+    mvwaddstr(bottomwin, 0, 0, buf);
+    waddch(bottomwin, ':');
+    waddch(bottomwin, x < wid ? ' ' : '$');
+    waddnstr(bottomwin, &inputbuf[wid * (x / wid)], wid);
+    wmove(bottomwin, 0, (x % wid) + len);
     wattroff(bottomwin, A_REVERSE);
-#endif
 }
 
-/* Get the input from the kb; this should only be called from statusq */
-int nanogetstr(int allowtabs, char *buf, char *def, shortcut *s,
-	       int start_x, int list)
-{
-    int kbinput = 0, x = 0, xend, slen;
-    int x_left = 0, inputlen, tabbed = 0;
-    char *inputbuf;
-    shortcut *t;
+/* Get the input from the kb; this should only be called from
+ * statusq(). */
+static int nanogetstr(int allowtabs, const char *buf, const char *def,
+			const shortcut *s
 #ifndef DISABLE_TABCOMP
-    int shift = 0;
+			, int *list
 #endif
+			)
+{
+    int kbinput;
+    int x;
+	/* the cursor position in 'answer' */
+    int xend;
+	/* length of 'answer', the status bar text */
+    int tabbed = 0;
+	/* used by input_tab() */
+    const shortcut *t;
 
-    slen = length_of_list(s);
-    inputbuf = charalloc(strlen(def) + 1);
-    inputbuf[0] = '\0';
-
-    x_left = strlen(buf);
-    x = strlen(def) + x_left;
+    xend = strlen(def);
+    x = xend;
+    answer = (char *)nrealloc(answer, xend + 1);
+    if (xend > 0)
+	strcpy(answer, def);
+    else
+	answer[0] = '\0';
 
 #if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
     currshortcut = s;
 #endif
 
     /* Get the input! */
-    if (strlen(def) > 0)
-	strcpy(inputbuf, def);
 
-    nanoget_repaint(buf, inputbuf, x);
+    nanoget_repaint(buf, answer, x);
 
     /* Make sure any editor screen updates are displayed before getting input */
     wrefresh(edit);
@@ -321,15 +293,10 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut *s,
 		    break;
 		}
 #endif
-
-		/* We shouldn't discard the answer it gave, just because
-		   we hit a keystroke, GEEZ! */
-		answer = mallocstrcpy(answer, inputbuf);
-		free(inputbuf);
 		return t->val;
 	    }
 	}
-	xend = strlen(buf) + strlen(inputbuf);
+	assert(0 <= x && x <= xend && xend == strlen(answer));
 
 	if (kbinput != '\t')
 	    tabbed = 0;
@@ -358,65 +325,55 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut *s,
 #endif
 	case NANO_HOME_KEY:
 	case KEY_HOME:
-	    x = x_left;
+	    x = 0;
 	    break;
 	case NANO_END_KEY:
 	case KEY_END:
-	    x = x_left + strlen(inputbuf);
+	    x = xend;
 	    break;
 	case KEY_RIGHT:
 	case NANO_FORWARD_KEY:
-
 	    if (x < xend)
 		x++;
-	    wmove(bottomwin, 0, x);
 	    break;
 	case NANO_CONTROL_D:
-	    if (strlen(inputbuf) > 0 && (x - x_left) != strlen(inputbuf)) {
-		memmove(inputbuf + (x - x_left),
-			inputbuf + (x - x_left) + 1,
-			strlen(inputbuf) - (x - x_left) - 1);
-		inputbuf[strlen(inputbuf) - 1] = '\0';
+	    if (x < xend) {
+		memmove(answer + x, answer + x + 1, xend - x);
+		xend--;
 	    }
 	    break;
 	case NANO_CONTROL_K:
 	case NANO_CONTROL_U:
-	    *inputbuf = 0;
-	    x = x_left;
+	    null_at(&answer, 0);
+	    xend = 0;
+	    x = 0;
 	    break;
 	case KEY_BACKSPACE:
 	case 127:
 	case NANO_CONTROL_H:
-	    if (strlen(inputbuf) > 0) {
-		if (x == (x_left + strlen(inputbuf)))
-		    inputbuf[strlen(inputbuf) - 1] = '\0';
-		else if (x - x_left) {
-		    memmove(inputbuf + (x - x_left) - 1,
-			    inputbuf + (x - x_left),
-			    strlen(inputbuf) - (x - x_left));
-		    inputbuf[strlen(inputbuf) - 1] = '\0';
-		}
-	    }
-	    if (x > strlen(buf))
+	    if (x > 0) {
+		memmove(answer + x - 1, answer + x, xend - x + 1);
 		x--;
+		xend--;
+	    }
 	    break;
 #ifndef DISABLE_TABCOMP
 	case NANO_CONTROL_I:
 	    if (allowtabs) {
-		shift = 0;
-		inputbuf = input_tab(inputbuf, (x - x_left),
-				     &tabbed, &shift, &list);
+		int shift = 0;
+
+		answer = input_tab(answer, x, &tabbed, &shift, list);
+		xend = strlen(answer);
 		x += shift;
-		if (x - x_left > strlen(inputbuf))
-		    x = strlen(inputbuf) + x_left;
+		if (x > xend)
+		    x = xend;
 	    }
 	    break;
 #endif
 	case KEY_LEFT:
 	case NANO_BACK_KEY:
-	    if (x > strlen(buf))
+	    if (x > 0)
 		x--;
-	    wmove(bottomwin, 0, x);
 	    break;
 	case KEY_UP:
 	case KEY_DOWN:
@@ -430,10 +387,10 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut *s,
 	    case 'O':
 		switch (kbinput = wgetch(edit)) {
 		case 'F':
-		    x = x_left + strlen(inputbuf);
+		    x = xend;
 		    break;
 		case 'H':
-		    x = x_left;
+		    x = 0;
 		    break;
 		}
 		break;
@@ -442,30 +399,25 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut *s,
 		case 'C':
 		    if (x < xend)
 			x++;
-		    wmove(bottomwin, 0, x);
 		    break;
 		case 'D':
-		    if (x > strlen(buf))
+		    if (x > 0)
 			x--;
-		    wmove(bottomwin, 0, x);
 		    break;
 		case '1':
 		case '7':
-		    x = x_left;
+		    x = 0;
 		    goto skip_tilde;
 		case '3':
 		  do_deletekey:
-		    if (strlen(inputbuf) > 0
-			&& (x - x_left) != strlen(inputbuf)) {
-			memmove(inputbuf + (x - x_left),
-				inputbuf + (x - x_left) + 1,
-				strlen(inputbuf) - (x - x_left) - 1);
-			inputbuf[strlen(inputbuf) - 1] = '\0';
+		    if (x < xend) {
+			memmove(answer + x, answer + x + 1, xend - x);
+			xend--;
 		    }
 		    goto skip_tilde;
 		case '4':
 		case '8':
-		    x = x_left + strlen(inputbuf);
+		    x = xend;
 		    goto skip_tilde;
 		  skip_tilde:
 		    nodelay(edit, TRUE);
@@ -475,6 +427,7 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut *s,
 		    nodelay(edit, FALSE);
 		    break;
 		}
+		break;
 	    default:
 
 		for (t = s; t != NULL; t = t->next) {
@@ -483,118 +436,82 @@ int nanogetstr(int allowtabs, char *buf, char *def, shortcut *s,
 			    kbinput);
 #endif
 		    if (kbinput == t->val || kbinput == t->val - 32) {
-
 			/* We hit an Alt key.   Do like above.  We don't
 			   just ungetch the letter and let it get caught
 			   above cause that screws the keypad... */
-			answer = mallocstrcpy(answer, inputbuf);
-			free(inputbuf);
 			return t->val;
 		    }
 		}
-
 	    }
 	    break;
 
 	default:
-
 	    if (kbinput < 32)
 		break;
-
-	    inputlen = strlen(inputbuf);
-	    inputbuf = nrealloc(inputbuf, inputlen + 2);
-
-	    memmove(&inputbuf[x - x_left + 1],
-		    &inputbuf[x - x_left], inputlen - (x - x_left) + 1);
-	    inputbuf[x - x_left] = kbinput;
-
+	    answer = nrealloc(answer, xend + 2);
+	    memmove(answer + x + 1, answer + x, xend - x + 1);
+	    xend++;
+	    answer[x] = kbinput;
 	    x++;
 
 #ifdef DEBUG
 	    fprintf(stderr, _("input \'%c\' (%d)\n"), kbinput, kbinput);
 #endif
 	}
-	nanoget_repaint(buf, inputbuf, x);
+	nanoget_repaint(buf, answer, x);
 	wrefresh(bottomwin);
-    }
-#ifndef DISABLE_TABCOMP
-    /* if we've done tab completion, there might be a list of filename
-       matches on the edit window at this point; make sure they're
-       cleared off */
-    if (list)
-	edit_refresh();
-#endif
+    } /* while (kbinput ...) */
 
-    answer = mallocstrcpy(answer, inputbuf);
-    free(inputbuf);
-
-    /* In pico mode, just check for a blank answer here */
+    /* In Pico mode, just check for a blank answer here */
     if (ISSET(PICO_MODE) && answer[0] == '\0')
 	return -2;
     else
 	return 0;
 }
 
-void horizbar(WINDOW * win, int y)
-{
-    wattron(win, A_REVERSE);
-    mvwaddstr(win, 0, 0, hblank);
-    wattroff(win, A_REVERSE);
-}
-
-void titlebar(char *path)
+void titlebar(const char *path)
 {
     int namelen, space;
-    char *what = path;
+    const char *what = path;
 
     if (path == NULL)
 	what = filename;
 
-#ifdef ENABLE_COLOR
-    color_on(topwin, COLOR_TITLEBAR);
-    mvwaddstr(topwin, 0, 0, hblank);
-#else
-    horizbar(topwin, 0);
     wattron(topwin, A_REVERSE);
-#endif
 
+    mvwaddstr(topwin, 0, 0, hblank);
     mvwaddnstr(topwin, 0, 2, VERMSG, COLS - 3);
 
-    space = COLS - strlen(VERMSG) - strlen(VERSION) - 21;
+    space = COLS - sizeof(VERMSG) - 22;
 
     namelen = strlen(what);
 
     if (space > 0) {
         if (what[0] == '\0')
-      	    mvwaddstr(topwin, 0, COLS / 2 - 6, _("New Buffer"));
-        else {
-    	    if (namelen > space) {
-	        if (path == NULL)
-		    waddstr(topwin, _("  File: ..."));
-    	    	else
-		    waddstr(topwin, _("   DIR: ..."));
-	        waddstr(topwin, &what[namelen - space]);
-    	    } else {
-	        if (path == NULL)
-		    mvwaddstr(topwin, 0, COLS / 2 - (namelen / 2 + 1),
-		    	      _("File: "));
- 	        else
-		    mvwaddstr(topwin, 0, COLS / 2 - (namelen / 2 + 1),
-			      _(" DIR: "));
-	        waddstr(topwin, what);
-	    }
+      	    mvwaddnstr(topwin, 0, COLS / 2 - 6, _("New Buffer"),
+			COLS / 2 + COLS % 2 - 6);
+        else if (namelen > space) {
+	    if (path == NULL)
+		waddstr(topwin, _("  File: ..."));
+	    else
+		waddstr(topwin, _("   DIR: ..."));
+	    waddstr(topwin, &what[namelen - space]);
+	} else {
+	    if (path == NULL)
+		mvwaddstr(topwin, 0, COLS / 2 - (namelen / 2 + 1),
+				_("File: "));
+	    else
+		mvwaddstr(topwin, 0, COLS / 2 - (namelen / 2 + 1),
+				_(" DIR: "));
+	    waddstr(topwin, what);
 	}
     } /* If we don't have space, we shouldn't bother */
     if (ISSET(MODIFIED))
-	mvwaddstr(topwin, 0, COLS - 11, _(" Modified "));
+	mvwaddnstr(topwin, 0, COLS - 11, _(" Modified "), 11);
     else if (ISSET(VIEW_MODE))
-	mvwaddstr(topwin, 0, COLS - 11, _(" View "));
+	mvwaddnstr(topwin, 0, COLS - 11, _(" View "), 11);
 
-#ifdef ENABLE_COLOR
-    color_off(topwin, COLOR_TITLEBAR);
-#else
     wattroff(topwin, A_REVERSE);
-#endif
 
     wrefresh(topwin);
     reset_cursor();
@@ -620,7 +537,7 @@ static void onekey(const char *keystroke, const char *desc, int len)
     }
 }
 
-void clear_bottomwin(void)
+static void clear_bottomwin(void)
 {
     if (ISSET(NO_HELP))
 	return;
@@ -643,13 +560,6 @@ void bottombars(const shortcut *s)
 	assert(MAIN_VISIBLE <= length_of_list(s));
     } else
 	slen = length_of_list(s);
-
-#ifdef ENABLE_COLOR
-    color_on(bottomwin, COLOR_BOTTOMBARS);
-    if (!colors[COLOR_BOTTOMBARS - FIRST_COLORNUM].set ||
-	colors[COLOR_BOTTOMBARS - FIRST_COLORNUM].fg != COLOR_BLACK)
-	wattroff(bottomwin, A_REVERSE);
-#endif
 
     /* There will be this many columns of shortcuts */
     numcols = (slen + (slen % 2)) / 2;
@@ -681,16 +591,12 @@ void bottombars(const shortcut *s)
 		goto break_completely_out;
 	}	
     }
-break_completely_out:
 
-#ifdef ENABLE_COLOR
-    color_off(bottomwin, COLOR_BOTTOMBARS);
-#endif
-
+  break_completely_out:
     wrefresh(bottomwin);
 }
 
-/* If modified is not already set, set it and update titlebar */
+/* If modified is not already set, set it and update titlebar. */
 void set_modified(void)
 {
     if (!ISSET(MODIFIED)) {
@@ -734,6 +640,13 @@ inline int get_page_end_virtual(int page)
 {
     return get_page_start_virtual(page) + COLS - 1;
 }
+
+static int get_page_start(int column)
+{
+    assert(COLS > 9);
+    return column < COLS - 1 ? 0 : column - 7 - (column - 8) % (COLS - 9);
+}
+
 
 #ifndef NANO_SMALL
 /* This takes care of the case where there is a mark that covers only */
@@ -781,20 +694,11 @@ void add_marked_sameline(int begin, int end, filestruct * fileptr, int y,
     sel_data_len = end - begin;
     post_data_len = this_page_end - end;
 
-#ifdef ENABLE_COLOR
-    color_on(edit, COLOR_MARKER);
-#else
     wattron(edit, A_REVERSE);
-#endif				/* ENABLE_COLOR */
-
     mvwaddnstr(edit, y, begin - this_page_start,
 	       &fileptr->data[begin], sel_data_len);
 
-#ifdef ENABLE_COLOR
-    color_off(edit, COLOR_MARKER);
-#else
     wattroff(edit, A_REVERSE);
-#endif				/* ENABLE_COLOR */
 
 }
 #endif
@@ -809,7 +713,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 {
 
 #ifdef ENABLE_COLOR
-    colortype *tmpcolor = NULL;
+    const colortype *tmpcolor = NULL;
     int k, paintlen;
     filestruct *e, *s;
     regoff_t ematch, smatch;
@@ -1011,19 +915,12 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 	if (fileptr != mark_beginbuf && fileptr != current) {
 	    /* We are on a completely marked line, paint it all
 	     * inverse */
-#ifdef ENABLE_COLOR
-	    color_on(edit, COLOR_MARKER);
-#else
+
 	    wattron(edit, A_REVERSE);
-#endif				/* ENABLE_COLOR */
 
 	    mvwaddnstr(edit, yval, 0, fileptr->data, COLS);
 
-#ifdef ENABLE_COLOR
-	    color_off(edit, COLOR_MARKER);
-#else
 	    wattroff(edit, A_REVERSE);
-#endif				/* ENABLE_COLOR */
 
 	} else if (fileptr == mark_beginbuf && fileptr == current) {
 	    /* Special case, we're still on the same line we started
@@ -1051,11 +948,8 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 	    int target;
 
 	    if (mark_beginbuf->lineno > current->lineno) {
-#ifdef ENABLE_COLOR
-		color_on(edit, COLOR_MARKER);
-#else
+
 		wattron(edit, A_REVERSE);
-#endif				/* ENABLE_COLOR */
 
 		target =
 		    (virt_mark_beginx <
@@ -1063,22 +957,13 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 
 		mvwaddnstr(edit, yval, 0, fileptr->data, target);
 
-#ifdef ENABLE_COLOR
-		color_off(edit, COLOR_MARKER);
-#else
 		wattroff(edit, A_REVERSE);
-#endif				/* ENABLE_COLOR */
-
 
 	    }
 
 	    if (mark_beginbuf->lineno < current->lineno) {
-#ifdef ENABLE_COLOR
-		color_on(edit, COLOR_MARKER);
-#else
-		wattron(edit, A_REVERSE);
-#endif				/* ENABLE_COLOR */
 
+		wattron(edit, A_REVERSE);
 		target = (COLS - 1) - virt_mark_beginx;
 
 		if (target < 0)
@@ -1087,12 +972,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 		mvwaddnstr(edit, yval, virt_mark_beginx,
 			   &fileptr->data[virt_mark_beginx], target);
 
-#ifdef ENABLE_COLOR
-		color_off(edit, COLOR_MARKER);
-#else
 		wattroff(edit, A_REVERSE);
-#endif				/* ENABLE_COLOR */
-
 	    }
 
 	} else if (fileptr == current) {
@@ -1103,11 +983,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 
 	    if (mark_beginbuf->lineno < current->lineno) {
 
-#ifdef ENABLE_COLOR
-		color_on(edit, COLOR_MARKER);
-#else
 		wattron(edit, A_REVERSE);
-#endif				/* ENABLE_COLOR */
 
 		if (virt_cur_x > COLS - 2) {
 		    mvwaddnstr(edit, yval, 0,
@@ -1116,22 +992,13 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 		} else
 		    mvwaddnstr(edit, yval, 0, fileptr->data, virt_cur_x);
 
-#ifdef ENABLE_COLOR
-		color_off(edit, COLOR_MARKER);
-#else
 		wattroff(edit, A_REVERSE);
-#endif				/* ENABLE_COLOR */
 
 	    }
 
 	    if (mark_beginbuf->lineno > current->lineno) {
 
-#ifdef ENABLE_COLOR
-		color_on(edit, COLOR_MARKER);
-#else
 		wattron(edit, A_REVERSE);
-#endif				/* ENABLE_COLOR */
-
 		if (virt_cur_x > COLS - 2)
 		    mvwaddnstr(edit, yval, virt_cur_x - this_page_start,
 			       &fileptr->data[virt_cur_x],
@@ -1141,11 +1008,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 			       &fileptr->data[virt_cur_x],
 			       COLS - virt_cur_x);
 
-#ifdef ENABLE_COLOR
-		color_off(edit, COLOR_MARKER);
-#else
 		wattroff(edit, A_REVERSE);
-#endif				/* ENABLE_COLOR */
 
 	    }
 	}
@@ -1267,47 +1130,48 @@ void center_cursor(void)
     wmove(edit, current_y, current_x);
 }
 
-/* Refresh the screen without changing the position of lines */
+/* Refresh the screen without changing the position of lines. */
 void edit_refresh(void)
 {
     static int noloop = 0;
-    int nlines = 0, i = 0, currentcheck = 0;
-    filestruct *temp, *hold = current;
+    int nlines = 0, currentcheck = 0;
 
+    /* Neither of these conditions should occur, but they do.  edittop is
+     * NULL when you open an existing file on the command line, and
+     * ENABLE_COLOR is defined.  Yuck. */
     if (current == NULL)
 	return;
+    if (edittop == NULL)
+	edittop = current;
 
-    temp = edittop;
-
-    while (nlines <= editwinrows - 1 && nlines <= totlines && temp != NULL) {
-	hold = temp;
-	update_line(temp, current_x);
-	if (temp == current)
+    editbot = edittop;
+    while (nlines < editwinrows) {
+	update_line(editbot, current_x);
+	if (editbot == current)
 	    currentcheck = 1;
 
-	temp = temp->next;
 	nlines++;
+
+	if (editbot->next == NULL)
+	    break;
+	editbot = editbot->next;
     }
     /* If noloop == 1, then we already did an edit_update without finishing
        this function.  So we don't run edit_update again */
-    if (!currentcheck && !noloop) {	/* Then current has run off the screen... */
+    if (!currentcheck && !noloop) {
+		/* Then current has run off the screen... */
 	edit_update(current, CENTER);
 	noloop = 1;
     } else if (noloop)
 	noloop = 0;
 
-    if (nlines <= editwinrows - 1)
-	while (nlines <= editwinrows - 1) {
-	    mvwaddstr(edit, nlines, i, hblank);
-	    nlines++;
-	}
-    if (temp == NULL)
-	editbot = hold;
-    else
-	editbot = temp;
+    while (nlines < editwinrows) {
+	mvwaddstr(edit, nlines, 0, hblank);
+	nlines++;
+    }
 
     /* What the hell are we expecting to update the screen if this isn't 
-       here? luck?? */
+       here? Luck?? */
     wrefresh(edit);
 }
 
@@ -1325,34 +1189,25 @@ void edit_refresh_clearok(void)
  * Nice generic routine to update the edit buffer, given a pointer to the
  * file struct =) 
  */
-void edit_update(filestruct * fileptr, int topmidbotnone)
+void edit_update(filestruct *fileptr, topmidbotnone location)
 {
-    int i = 0;
-    filestruct *temp;
-
     if (fileptr == NULL)
 	return;
 
-    temp = fileptr;
-    if (topmidbotnone == TOP);
-    else if (topmidbotnone == NONE)
-	for (i = 0; i <= current_y - 1 && temp->prev != NULL; i++)
-	    temp = temp->prev;
-    else if (topmidbotnone == BOTTOM)
-	for (i = 0; i <= editwinrows - 1 && temp->prev != NULL; i++)
-	    temp = temp->prev;
-    else
-	for (i = 0; i <= editwinrows / 2 && temp->prev != NULL; i++)
-	    temp = temp->prev;
+    if (location != TOP) {
+	int goal = location == NONE ? current_y - 1 : editwinrows / 2;
 
-    edittop = temp;
+	for (; goal >= 0 && fileptr->prev != NULL; goal--)
+	    fileptr = fileptr->prev;
+    }
+    edittop = fileptr;
     fix_editbot();
 
     edit_refresh();
 }
 
-/* This function updates current, based on where current_y is; reset_cursor 
-   does the opposite */
+/* This function updates current, based on where current_y is;
+ * reset_cursor() does the opposite. */
 void update_cursor(void)
 {
     int i = 0;
@@ -1363,7 +1218,7 @@ void update_cursor(void)
 #endif
 
     current = edittop;
-    while (i <= current_y - 1 && current->next != NULL) {
+    while (i < current_y && current->next != NULL) {
 	current = current->next;
 	i++;
     }
@@ -1371,7 +1226,6 @@ void update_cursor(void)
 #ifdef DEBUG
     fprintf(stderr, _("current->data = \"%s\"\n"), current->data);
 #endif
-
 }
 
 /*
@@ -1382,12 +1236,12 @@ void update_cursor(void)
  *
  * New arg tabs tells whether or not to allow tab completion.
  */
-int statusq(int tabs, shortcut *s, char *def, char *msg, ...)
+int statusq(int tabs, const shortcut *s, const char *def,
+		const char *msg, ...)
 {
     va_list ap;
-    char foo[133];
+    char *foo = charalloc(COLS - 3);
     int ret;
-
 #ifndef DISABLE_TABCOMP
     int list = 0;
 #endif
@@ -1395,34 +1249,18 @@ int statusq(int tabs, shortcut *s, char *def, char *msg, ...)
     bottombars(s);
 
     va_start(ap, msg);
-    vsnprintf(foo, 132, msg, ap);
+    vsnprintf(foo, COLS - 4, msg, ap);
     va_end(ap);
-    strncat(foo, ": ", 132);
-
-#ifdef ENABLE_COLOR
-    color_on(bottomwin, COLOR_STATUSBAR);
-#else
-    wattron(bottomwin, A_REVERSE);
-#endif
-
+    foo[COLS - 4] = '\0';
 
 #ifndef DISABLE_TABCOMP
-    ret = nanogetstr(tabs, foo, def, s, (strlen(foo) + 3), list);
+    ret = nanogetstr(tabs, foo, def, s, &list);
 #else
-    /* if we've disabled tab completion, the value of list won't be
-       used at all, so it's safe to use 0 (NULL) as a placeholder */
-    ret = nanogetstr(tabs, foo, def, s, (strlen(foo) + 3), 0);
+    ret = nanogetstr(tabs, foo, def, s);
 #endif
-
-#ifdef ENABLE_COLOR
-    color_off(bottomwin, COLOR_STATUSBAR);
-#else
-    wattroff(bottomwin, A_REVERSE);
-#endif
-
+    free(foo);
 
     switch (ret) {
-
     case NANO_FIRSTLINE_KEY:
 	do_first_line();
 	break;
@@ -1430,20 +1268,22 @@ int statusq(int tabs, shortcut *s, char *def, char *msg, ...)
 	do_last_line();
 	break;
     case NANO_CANCEL_KEY:
-#ifndef DISABLE_TABCOMP
-	/* if we've done tab completion, there might be a list of
-	   filename matches on the edit window at this point; make sure
-	   they're cleared off */
-	if (list)
-	    edit_refresh();
-#endif
-	return -1;
+	ret = -1;
+	break;
     default:
 	blank_statusbar();
     }
 
 #ifdef DEBUG
     fprintf(stderr, _("I got \"%s\"\n"), answer);
+#endif
+
+#ifndef DISABLE_TABCOMP
+	/* if we've done tab completion, there might be a list of
+	   filename matches on the edit window at this point; make sure
+	   they're cleared off */
+	if (list)
+	    edit_refresh();
 #endif
 
     return ret;
@@ -1453,20 +1293,19 @@ int statusq(int tabs, shortcut *s, char *def, char *msg, ...)
  * Ask a simple yes/no question on the statusbar.  Returns 1 for Y, 0 for
  * N, 2 for All (if all is non-zero when passed in) and -1 for abort (^C)
  */
-int do_yesno(int all, int leavecursor, char *msg, ...)
+int do_yesno(int all, int leavecursor, const char *msg, ...)
 {
     va_list ap;
     char foo[133];
     int kbinput, ok = -1, i;
-    char *yesstr;		/* String of yes characters accepted */
-    char *nostr;		/* Same for no */
-    char *allstr;		/* And all, surprise! */
+    const char *yesstr;		/* String of yes characters accepted */
+    const char *nostr;		/* Same for no */
+    const char *allstr;		/* And all, surprise! */
 #ifndef DISABLE_MOUSE
 #ifdef NCURSES_MOUSE_VERSION
     MEVENT mevent;
 #endif
 #endif
-
 
     /* Yes, no and all are strings of any length.  Each string consists of
        all characters accepted as a valid character for that value.
@@ -1477,10 +1316,6 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
 
     /* Write the bottom of the screen */
     clear_bottomwin();
-
-#ifdef ENABLE_COLOR
-    color_on(bottomwin, COLOR_BOTTOMBARS);
-#endif
 
     /* Remove gettext call for keybindings until we clear the thing up */
     if (!ISSET(NO_HELP)) {
@@ -1506,21 +1341,12 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
     vsnprintf(foo, 132, msg, ap);
     va_end(ap);
 
-#ifdef ENABLE_COLOR
-    color_off(bottomwin, COLOR_BOTTOMBARS);
-    color_on(bottomwin, COLOR_STATUSBAR);
-#else
     wattron(bottomwin, A_REVERSE);
-#endif				/* ENABLE_COLOR */
 
     blank_statusbar();
     mvwaddstr(bottomwin, 0, 0, foo);
 
-#ifdef ENABLE_COLOR
-    color_off(bottomwin, COLOR_STATUSBAR);
-#else
     wattroff(bottomwin, A_REVERSE);
-#endif
 
     wrefresh(bottomwin);
 
@@ -1546,22 +1372,17 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
 	    else {
 
 		/* Rather than a bunch of if statements, set up a matrix
-		   of possible return keystrokes based on the x and y values */
-		if (all) {
-		    char yesnosquare[2][2] = {
-			{yesstr[0], allstr[0]},
-			{nostr[0], NANO_CONTROL_C}
-		    };
-
-		    ungetch(yesnosquare[mevent.y][mevent.x / (COLS / 6)]);
-		} else {
-		    char yesnosquare[2][2] = {
-			{yesstr[0], '\0'},
-			{nostr[0], NANO_CONTROL_C}
-		    };
-
-		    ungetch(yesnosquare[mevent.y][mevent.x / (COLS / 6)]);
-		}
+		   of possible return keystrokes based on the x and y
+		   values */ 
+		char yesnosquare[2][2];
+		yesnosquare[0][0] = yesstr[0];
+		if (all)
+		    yesnosquare[0][1] = allstr[0];
+		else
+		    yesnosquare[0][1] = '\0';
+		yesnosquare[1][0] = nostr[0];
+		yesnosquare[1][1] = NANO_CONTROL_C;
+		ungetch(yesnosquare[mevent.y][mevent.x / (COLS / 6)]);
 	    }
 	    break;
 #endif
@@ -1603,38 +1424,37 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
 	return ok;
 }
 
-void statusbar(char *msg, ...)
+void statusbar(const char *msg, ...)
 {
     va_list ap;
-    char foo[133];
+    char *foo;
     int start_x = 0;
+    size_t foo_len;
+
+    assert(COLS >= 4);
+    foo = charalloc(COLS - 3);
 
     va_start(ap, msg);
-    vsnprintf(foo, 132, msg, ap);
+    vsnprintf(foo, COLS - 3, msg, ap);
     va_end(ap);
 
-    start_x = COLS / 2 - strlen(foo) / 2 - 1;
+    foo[COLS - 4] = '\0';
+    foo_len = strlen(foo);
+    start_x = (COLS - foo_len - 4) / 2;
 
     /* Blank out line */
     blank_statusbar();
 
     wmove(bottomwin, 0, start_x);
 
-#ifdef ENABLE_COLOR
-    color_on(bottomwin, COLOR_STATUSBAR);
-#else
     wattron(bottomwin, A_REVERSE);
-#endif
 
     waddstr(bottomwin, "[ ");
     waddstr(bottomwin, foo);
+    free(foo);
     waddstr(bottomwin, " ]");
 
-#ifdef ENABLE_COLOR
-    color_off(bottomwin, COLOR_STATUSBAR);
-#else
     wattroff(bottomwin, A_REVERSE);
-#endif
 
     wrefresh(bottomwin);
 
@@ -1666,12 +1486,6 @@ int total_refresh(void)
     return 1;
 }
 
-void previous_line(void)
-{
-    if (current_y > 0)
-	current_y--;
-}
-
 int do_cursorpos(int constant)
 {
     filestruct *fileptr;
@@ -1688,7 +1502,7 @@ int do_cursorpos(int constant)
     if (old_totsize == -1)
 	old_totsize = totsize;
 
-    colpct = 100 * (xplustabs() + 1) / (xpt(current, strlen(current->data)) + 1);
+    colpct = 100 * (xplustabs() + 1) / (strlenpt(current->data) + 1);
 
     for (fileptr = fileage; fileptr != current && fileptr != NULL;
 	 fileptr = fileptr->next)
@@ -1719,7 +1533,7 @@ int do_cursorpos(int constant)
 	statusbar(_
 		  ("line %d/%d (%.0f%%), col %ld/%ld (%.0f%%), char %ld/%ld (%.0f%%)"),
 		  current->lineno, totlines, linepct, xplustabs() + 1, 
-		  xpt(current, strlen(current->data)) + 1, colpct, i, j, bytepct);
+		  strlenpt(current->data) + 1, colpct, i, j, bytepct);
     }
 
     old_i = i;
@@ -1741,7 +1555,7 @@ int do_help(void)
 #ifndef DISABLE_HELP
     int i, j, row = 0, page = 1, kbinput = 0, no_more = 0, kp, kp2;
     int no_help_flag = 0;
-    shortcut *oldshortcut;
+    const shortcut *oldshortcut;
 
     blank_edit();
     curs_set(0);
@@ -1889,24 +1703,21 @@ int do_help(void)
     kp = keypad_on(edit, kp);
     kp2 = keypad_on(bottomwin, kp2);
 
-#elif defined(DISABLE_HELP)
-    nano_disabled_msg();
-#endif
-
     /* The help_init() at the beginning allocated help_text, which has
        now been written to screen. */
     free(help_text);
     help_text = NULL;
 
+#elif defined(DISABLE_HELP)
+    nano_disabled_msg();
+#endif
+
     return 1;
 }
 
-/* Dump the current file structure to stderr */
-void dump_buffer(filestruct * inptr)
-{
 #ifdef DEBUG
-    filestruct *fileptr;
-
+/* Dump the current file structure to stderr */
+void dump_buffer(const filestruct *inptr) {
     if (inptr == fileage)
 	fprintf(stderr, _("Dumping file buffer to stderr...\n"));
     else if (inptr == cutbuffer)
@@ -1914,54 +1725,60 @@ void dump_buffer(filestruct * inptr)
     else
 	fprintf(stderr, _("Dumping a buffer to stderr...\n"));
 
-    fileptr = inptr;
-    while (fileptr != NULL) {
-	fprintf(stderr, "(%d) %s\n", fileptr->lineno, fileptr->data);
-	fflush(stderr);
-	fileptr = fileptr->next;
+    while (inptr != NULL) {
+	fprintf(stderr, "(%d) %s\n", inptr->lineno, inptr->data);
+	inptr = inptr->next;
     }
-#endif /* DEBUG */
 }
+#endif /* DEBUG */
 
-void dump_buffer_reverse(filestruct * inptr)
-{
 #ifdef DEBUG
-    filestruct *fileptr;
+void dump_buffer_reverse(void) {
+    const filestruct *fileptr = filebot;
 
-    fileptr = filebot;
     while (fileptr != NULL) {
 	fprintf(stderr, "(%d) %s\n", fileptr->lineno, fileptr->data);
-	fflush(stderr);
 	fileptr = fileptr->prev;
     }
-#endif /* DEBUG */
 }
+#endif /* DEBUG */
 
 /* Fix editbot, based on the assumption that edittop is correct */
 void fix_editbot(void)
 {
     int i;
+
     editbot = edittop;
-    for (i = 0; (i <= editwinrows - 1) && (editbot->next != NULL)
-	 && (editbot != filebot); i++, editbot = editbot->next);
+    for (i = 0; i < editwinrows && editbot->next != NULL; i++)
+	editbot = editbot->next;
 }
 
 /* highlight the current word being replaced or spell checked */
-void do_replace_highlight(int highlight_flag, char *word)
+void do_replace_highlight(int highlight_flag, const char *word)
 {
     char *highlight_word = NULL;
-    int x, y;
+    int x, y, word_len;
 
     highlight_word =
 	mallocstrcpy(highlight_word, &current->data[current_x]);
-    highlight_word[strlen(word)] = '\0';
+
+#ifdef HAVE_REGEX_H
+    if (ISSET(USE_REGEXP))
+	/* if we're using regexps, the highlight is the length of the
+	   search result, not the length of the regexp string */
+	word_len = regmatches[0].rm_eo - regmatches[0].rm_so;
+    else
+#endif
+	word_len = strlen(word);
+
+    highlight_word[word_len] = '\0';
 
     /* adjust output when word extends beyond screen */
 
     x = xplustabs();
-    y = get_page_end_virtual(get_page_from_virtual(x)) + 1;
+    y = get_page_start(x) + COLS;
 
-    if ((COLS - (y - x) + strlen(word)) > COLS) {
+    if ((COLS - (y - x) + word_len) > COLS) {
 	highlight_word[y - x - 1] = '$';
 	highlight_word[y - x] = '\0';
     }
@@ -1986,18 +1803,17 @@ void do_replace_highlight(int highlight_flag, char *word)
 void do_credits(void)
 {
     int i, j = 0, k, place = 0, start_x;
-    char *what;
+    const char *what;
+    const char *nanotext = _("The nano text editor");
+    const char *version = _("version ");
+    const char *brought = _("Brought to you by:");
+    const char *specialthx = _("Special thanks to:");
+    const char *fsf = _("The Free Software Foundation");
+    const char *ncurses = _("For ncurses:");
+    const char *anyonelse = _("and anyone else we forgot...");
+    const char *thankyou = _("Thank you for using nano!\n");
 
-    char *nanotext = _("The nano text editor");
-    char *version = _("version ");
-    char *brought = _("Brought to you by:");
-    char *specialthx = _("Special thanks to:");
-    char *fsf = _("The Free Software Foundation");
-    char *ncurses = _("For ncurses:");
-    char *anyonelse = _("and anyone else we forgot...");
-    char *thankyou = _("Thank you for using nano!\n");
-
-    char *credits[CREDIT_LEN] = { nanotext,
+    const char *credits[CREDIT_LEN] = { nanotext,
 	version,
 	VERSION,
 	"",
@@ -2090,17 +1906,13 @@ void do_credits(void)
 
 int keypad_on(WINDOW * win, int newval)
 {
-
 /* This is taken right from aumix.  Don't sue me. */
 #ifdef HAVE_USEKEYPAD
-    int old;
-
-    old = win->_use_keypad;
+    int old = win->_use_keypad;
     keypad(win, newval);
     return old;
 #else
     keypad(win, newval);
     return 1;
-#endif				/* HAVE_USEKEYPAD */
-
+#endif /* HAVE_USEKEYPAD */
 }

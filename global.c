@@ -37,6 +37,12 @@
  * Global variables
  */
 
+/* wrap_at might be set in rcfile.c or nano.c */
+int wrap_at = -CHARS_FROM_EOL;/* Right justified fill value, allows resize */
+char *last_search = NULL;	/* Last string we searched for */
+char *last_replace = NULL;	/* Last replacement string */
+int search_last_line;		/* Is this the last search line? */
+
 int flags = 0;			/* Our new flag containing many options */
 WINDOW *edit;			/* The file portion of the editor */
 WINDOW *topwin;			/* Top line of screen */
@@ -66,10 +72,14 @@ openfilestruct *open_files = NULL;	/* The list of open files */
 #endif
 
 #ifndef DISABLE_JUSTIFY
+#ifdef HAVE_REGEX_H
+char *quotestr = "^([ \t]*[|>:}#])+";
+#else
 char *quotestr = "> ";		/* Quote string */
 #endif
+#endif
 
-char *answer = NULL;			/* Answer str to many questions */
+char *answer = NULL;		/* Answer str to many questions */
 int totlines = 0;		/* Total number of lines in the file */
 long totsize = 0;		/* Total number of bytes in the file */
 int placewewant = 0;		/* The column we'd like the cursor
@@ -79,7 +89,9 @@ int placewewant = 0;		/* The column we'd like the cursor
 int tabsize = 8;		/* Our internal tabsize variable */
 
 char *hblank;			/* A horizontal blank line */
+#ifndef DISABLE_HELP
 char *help_text;		/* The text in the help window */
+#endif
 
 /* More stuff for the marker select */
 
@@ -113,14 +125,13 @@ shortcut *browser_list = NULL;
 #endif
 
 #ifdef ENABLE_COLOR
-    colorstruct colors[NUM_NCOLORS];
     colortype *colorstrings = NULL;
     syntaxtype *syntaxes = NULL;
     char *syntaxstr = NULL;
 #endif
 
 #if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE) || !defined(DISABLE_HELP)
-shortcut *currshortcut;			/* Current shortcut list we're using */
+const shortcut *currshortcut;	/* Current shortcut list we're using */
 #endif
 
 #ifndef NANO_SMALL
@@ -133,23 +144,21 @@ toggle *toggles = NULL;
 regex_t search_regexp;		/* Global to store compiled search regexp */
 regmatch_t regmatches[10];	/* Match positions for parenthetical
 				   subexpressions, max of 10 */
+#endif
 #ifdef ENABLE_COLOR
-regex_t color_regexp;		/* Global to store compiled search regexp */
-regmatch_t colormatches[1];	/* Match positions for parenthetical */
+regex_t color_regexp;          /* Global to store compiled search regexp */
+regmatch_t colormatches[1];    /* Match positions for parenthetical */
 
-regex_t syntaxfile_regexp;	/* Global to store compiled search regexp */
-regmatch_t synfilematches[1];	/* Match positions for parenthetical */
+regex_t syntaxfile_regexp;     /* Global to store compiled search regexp */
+regmatch_t synfilematches[1];  /* Match positions for parenthetical */
 #endif /* ENABLE_COLOR */
 
-#endif
 
 int length_of_list(const shortcut *s) 
 {
     int i = 0;
-
     for (; s != NULL; s = s->next)
 	i++;
-
     return i;
 }
 
@@ -211,17 +220,15 @@ static void toggle_init_one(int val, const char *desc, int flag)
 }
 
 #ifdef DEBUG
-/* Deallocate all of the toggles */
+/* Deallocate all of the toggles. */
 static void free_toggles(void)
 {
-    toggle *pt;	/* Think "previous toggle" */
-
     while (toggles != NULL) {
-	pt = toggles;
+	toggle *pt = toggles;	/* Think "previous toggle" */
+
 	toggles = toggles->next;
 	free(pt);
     }
-    toggles = NULL;
 }
 #endif
 
@@ -229,10 +236,11 @@ static void toggle_init(void)
 {
     char *toggle_const_msg, *toggle_autoindent_msg, *toggle_suspend_msg,
 	*toggle_nohelp_msg, *toggle_picomode_msg, *toggle_mouse_msg,
-	*toggle_cuttoend_msg, *toggle_wrap_msg, *toggle_noconvert_msg,
-	*toggle_dos_msg, *toggle_mac_msg, *toggle_backup_msg,
-	*toggle_smooth_msg;
-
+	*toggle_cuttoend_msg, *toggle_noconvert_msg, *toggle_dos_msg,
+	*toggle_mac_msg, *toggle_backup_msg, *toggle_smooth_msg;
+#ifndef DISABLE_WRAPPING
+    char *toggle_wrap_msg;
+#endif
 #ifdef ENABLE_MULTIBUFFER
     char *toggle_load_msg;
 #endif
@@ -256,7 +264,9 @@ static void toggle_init(void)
     toggle_mac_msg = _("Writing file in Mac format");
     toggle_backup_msg = _("Backing up file");
     toggle_smooth_msg = _("Smooth scrolling");
+#ifndef DISABLE_WRAPPING
     toggle_wrap_msg = _("Auto wrap");
+#endif
 #ifdef ENABLE_MULTIBUFFER
     toggle_load_msg = _("Multiple file buffers");
 #endif
@@ -266,7 +276,9 @@ static void toggle_init(void)
     toggle_init_one(TOGGLE_SUSPEND_KEY, toggle_suspend_msg, SUSPEND);
     toggle_init_one(TOGGLE_NOHELP_KEY, toggle_nohelp_msg, NO_HELP);
     toggle_init_one(TOGGLE_PICOMODE_KEY, toggle_picomode_msg, PICO_MODE);
+#ifndef DISABLE_WRAPPING
     toggle_init_one(TOGGLE_WRAP_KEY, toggle_wrap_msg, NO_WRAP);
+#endif
     toggle_init_one(TOGGLE_MOUSE_KEY, toggle_mouse_msg, USE_MOUSE);
     toggle_init_one(TOGGLE_CUTTOEND_KEY, toggle_cuttoend_msg, CUT_TO_END);
 #ifdef ENABLE_MULTIBUFFER
@@ -283,16 +295,12 @@ static void toggle_init(void)
 /* Deallocate the given shortcut. */
 static void free_shortcutage(shortcut **shortcutage)
 {
-    shortcut *s, *ps;
-
     assert(shortcutage != NULL);
-    s = *shortcutage;
-    while (s != NULL) {
-	ps = s;
-	s = s->next;
+    while (*shortcutage != NULL) {
+	shortcut *ps = *shortcutage;
+	*shortcutage = (*shortcutage)->next;
 	free(ps);
     }
-    *shortcutage = NULL;
 }
 
 void shortcut_init(int unjustify)
@@ -432,7 +440,6 @@ void shortcut_init(int unjustify)
 #endif
 
     if (ISSET(PICO_MODE))
-
 #ifdef ENABLE_MULTIBUFFER
 	/* this is so we can view multiple files */
 	sc_init_one(&main_list, NANO_INSERTFILE_KEY, _("Read File"),
@@ -535,7 +542,7 @@ void shortcut_init(int unjustify)
 
     sc_init_one(&main_list, NANO_ENTER_KEY, _("Enter"),
 		IFHELP(nano_enter_msg, 0),
-		KEY_ENTER, NANO_CONTROL_M, NOVIEW, do_enter_void);
+		KEY_ENTER, NANO_CONTROL_M, NOVIEW, do_enter);
 
     sc_init_one(&main_list, NANO_GOTO_KEY, _("Go To Line"),
 		    IFHELP(nano_goto_msg, NANO_ALT_GOTO_KEY),
@@ -544,11 +551,11 @@ void shortcut_init(int unjustify)
 #ifndef NANO_SMALL
     sc_init_one(&main_list, NANO_NEXTWORD_KEY, _("Next Word"),
 		IFHELP(_("Move forward one word"), 0),
-		0, 0, VIEW, do_next_word_void);
+		0, 0, VIEW, do_next_word);
 
     sc_init_one(&main_list, -9, _("Prev Word"),
 		IFHELP(_("Move backward one word"), NANO_PREVWORD_KEY), 0, 0,
-		VIEW, do_prev_word_void);
+		VIEW, do_prev_word);
 #endif
 #if !defined(NANO_SMALL) && defined(HAVE_REGEX_H)
     sc_init_one(&main_list, -9, _("Find Other Bracket"),
@@ -654,10 +661,10 @@ void shortcut_init(int unjustify)
 		IFHELP(nano_cancel_msg, 0), 0, 0, VIEW, 0);
 
     sc_init_one(&goto_list, NANO_FIRSTLINE_KEY, _("First Line"),
-		IFHELP(nano_firstline_msg, 0), 0, 0, VIEW, &do_first_line);
+		IFHELP(nano_firstline_msg, 0), 0, 0, VIEW, do_first_line);
 
     sc_init_one(&goto_list, NANO_LASTLINE_KEY, _("Last Line"),
-		IFHELP(nano_lastline_msg, 0), 0, 0, VIEW, &do_last_line);
+		IFHELP(nano_lastline_msg, 0), 0, 0, VIEW, do_last_line);
 
     free_shortcutage(&help_list);
 
@@ -781,11 +788,10 @@ void shortcut_init(int unjustify)
 /* This function is called just before calling exit().  Practically, the
  * only effect is to cause a segmentation fault if the various data
  * structures got bolloxed earlier.  Thus, we don't bother having this
- * function unless debugging is turned on.
- */
+ * function unless debugging is turned on. */
 #ifdef DEBUG
 /* added by SPK for memory cleanup, gracefully return our malloc()s */
-void thanks_for_all_the_fish(void) 
+void thanks_for_all_the_fish(void)
 {
 #ifndef DISABLE_OPERATINGDIR
     if (operating_dir != NULL)
@@ -816,15 +822,18 @@ void thanks_for_all_the_fish(void)
     free_shortcutage(&whereis_list);
     free_shortcutage(&replace_list);
     free_shortcutage(&replace_list_2);
-    free_shortcutage(&help_list);
+    free_shortcutage(&goto_list);
+    free_shortcutage(&gotodir_list);
     free_shortcutage(&writefile_list);
     free_shortcutage(&insertfile_list);
+    free_shortcutage(&help_list);
     free_shortcutage(&spell_list);
+#ifndef NANO_SMALL
+    free_shortcutage(&extcmd_list);
+#endif
 #ifndef DISABLE_BROWSER
     free_shortcutage(&browser_list);
 #endif
-    free_shortcutage(&gotodir_list);
-    free_shortcutage(&goto_list);
 
 #ifndef NANO_SMALL
     free_toggles();
@@ -833,19 +842,39 @@ void thanks_for_all_the_fish(void)
 #ifdef ENABLE_MULTIBUFFER
     if (open_files != NULL) {
 	/* We free the memory associated with each open file. */
-	openfilestruct *next;
-
 	while (open_files->prev != NULL)
 	    open_files = open_files->prev;
-	do {
-	    next = open_files->next;
-	    free_openfilestruct(open_files);
-	    open_files = next;
-	} while (open_files != NULL);
+	free_openfilestruct(open_files);
     }
 #else
     if (fileage != NULL)
 	free_filestruct(fileage);
 #endif
+
+#ifdef ENABLE_COLOR
+    free(syntaxstr);
+    while (syntaxes != NULL) {
+	syntaxtype *bill = syntaxes;
+
+	free(syntaxes->desc);
+	while (syntaxes->extensions != NULL) {
+	    exttype *bob = syntaxes->extensions;
+
+	    syntaxes->extensions = bob->next;
+	    free(bob->val);
+	    free(bob);
+	}
+	while (syntaxes->color != NULL) {
+	    colortype *bob = syntaxes->color;
+
+	    syntaxes->color = bob->next;
+	    free(bob->start);
+	    free(bob->end);
+	    free(bob);
+	}
+	syntaxes = syntaxes->next;
+	free(bill);
+    }
+#endif /* ENABLE_COLOR */
 }
 #endif /* DEBUG */

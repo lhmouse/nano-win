@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <assert.h>
 #include "proto.h"
 #include "nano.h"
 
@@ -33,23 +34,6 @@
 #else
 #define _(string) (string)
 #endif
-
-void page_down(void)
-{
-    if (!ISSET(SMOOTHSCROLL)) {
-	if (editbot != filebot) {
-	    edit_update(editbot->next, CENTER);
-	    center_cursor();
-	} else {
-	    while (current != filebot)
-		current = current->next;
-	    edit_update(current, CENTER);
-	}
-    } else {
-	    edit_update(editbot, NONE);
-    }
-    update_cursor();
-}
 
 int do_page_down(void)
 {
@@ -61,7 +45,7 @@ int do_page_down(void)
 	return 0;
 
     /* AHEM, if we only have a screen or less of text, DON'T do an
-	edit_update, just move the cursor to editbot! */
+       edit_update, just move the cursor to editbot! */
     if (edittop == fileage && editbot == filebot && totlines < editwinrows) {
 	current = editbot;
 	reset_cursor();
@@ -103,42 +87,18 @@ int do_end(void)
     current_x = strlen(current->data);
     placewewant = xplustabs();
     update_line(current, current_x);
-
-    return 1;
-}
-
-/* What happens when we want to go past the bottom of the buffer */
-int do_down(void)
-{
-    wrap_reset();
-    if (current->next != NULL) {
-	if (placewewant > 0)
-	    current_x = actual_x(current->next, placewewant);
-	else if (current_x > strlen(current->next->data))
-	    current_x = strlen(current->next->data);
-    } else {
-	UNSET(KEEP_CUTBUFFER);
-	check_statblank();
-	return 0;
-    }
-
-    if (current_y < editwinrows - 1 && current != editbot)
-	current_y++;
-    else
-	page_down();
-
-    update_cursor();
-    update_line(current->prev, 0);
-    update_line(current, current_x);
-    UNSET(KEEP_CUTBUFFER);
-    check_statblank();
     return 1;
 }
 
 void page_up(void)
 {
     if (edittop != fileage) {
-	if (!ISSET(SMOOTHSCROLL)) {
+#ifndef NANO_SMALL
+	if (ISSET(SMOOTHSCROLL))
+	    edit_update(edittop->prev, TOP);
+	else
+#endif
+	{
 	    edit_update(edittop, CENTER);
 	    /* Now that we've updated the edit window, edittop might be
 	       at the top of the file; if so, just move the cursor up one
@@ -149,8 +109,6 @@ void page_up(void)
 		current = current->prev;
 		reset_cursor();
 	    }
-	} else {
-	    edit_update(edittop->prev, NONE);
 	}
     } else
 	current_y = 0;
@@ -186,35 +144,72 @@ int do_up(void)
 {
     wrap_reset();
     if (current->prev != NULL) {
-	if (placewewant > 0)
-	    current_x = actual_x(current->prev, placewewant);
-	else if (current_x > strlen(current->prev->data))
-	    current_x = strlen(current->prev->data);
+	current_x = actual_x(current->prev, placewewant);
+	current = current->prev;
+	if (current_y > 0) {
+	    update_line(current->next, 0);
+		/* It is necessary to change current first, so the mark
+		   display will change! */
+	    current_y--;
+	    update_line(current, current_x);
+	} else
+	    page_up();
+	UNSET(KEEP_CUTBUFFER);
+	check_statblank();
     }
-    if (current_y > 0)
-	current_y--;
-    else
-	page_up();
+    return 1;
+}
 
-    update_cursor();
-    update_line(current->next, 0);
-    update_line(current, current_x);
+/* Return value 1 means we moved down, 0 means we were already at the
+ * bottom. */
+int do_down(void) {
+    wrap_reset();
     UNSET(KEEP_CUTBUFFER);
     check_statblank();
+
+    if (current->next == NULL)
+	return 0;
+
+    current = current->next;
+    current_x = actual_x(current, placewewant);
+
+    /* Note current_y is zero-based.  This test checks for the cursor
+     * being on the last row of the edit window. */
+    if (current_y == editwinrows - 1) {
+#ifndef NANO_SMALL
+	if (ISSET(SMOOTHSCROLL)) {
+	    /* In this case current_y does not change.  The cursor
+	     * remains at the bottom of the edit window. */
+	    edittop = edittop->next;
+	    editbot = editbot->next;
+	    edit_refresh();
+	} else
+#endif
+	{
+	    edit_update(editbot->next, CENTER);
+		/* sets edittop so editbot->next is centered */
+	    center_cursor();
+		/* sets current_y = editwinrows / 2 */
+	}
+    } else {
+	update_line(current->prev, 0);
+	update_line(current, current_x);
+	current_y++;
+    }
     return 1;
 }
 
 int do_right(void)
 {
-    if (current_x < strlen(current->data)) {
-	current_x++;
-    } else {
-	if (do_down())
-	    current_x = 0;
-    }
+    assert(current_x <= strlen(current->data));
 
+    if (current->data[current_x] != '\0')
+	current_x++;
+    else if (current->next) {
+	do_down();
+	current_x = 0;
+    }
     placewewant = xplustabs();
-    update_cursor();
     update_line(current, current_x);
     UNSET(KEEP_CUTBUFFER);
     check_statblank();
@@ -226,13 +221,10 @@ int do_left(void)
     if (current_x > 0)
 	current_x--;
     else if (current != fileage) {
-	placewewant = 0;
-	current_x = strlen(current->prev->data);
 	do_up();
+	current_x = strlen(current->data);
     }
     placewewant = xplustabs();
-
-    update_cursor();
     update_line(current, current_x);
     UNSET(KEEP_CUTBUFFER);
     check_statblank();

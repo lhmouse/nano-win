@@ -3,7 +3,7 @@ Content-type: text/html
 <HTML><HEAD><TITLE>Manpage of NANO</TITLE>
 </HEAD><BODY>
 <H1>NANO</H1>
-Section: User Commands  (1)<BR>Updated: June 27, 2002<BR><A HREF="#index">Index</A>
+Section: User Commands  (1)<BR>Updated: July 5, 2002<BR><A HREF="#index">Index</A>
 <A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 
@@ -17,17 +17,14 @@ nano - Nano's ANOther editor, an enhanced free Pico Clone
 
 <B>nano</B>
 
-[options]&nbsp;[+LINE]<I> file</I>
+<I>[+LINE]&nbsp;[options]&nbsp;[file]</I>
 
 <BR>
 
 <A NAME="lbAD">&nbsp;</A>
 <H2>DESCRIPTION</H2>
 
-This manual page documents briefly the
-<B>nano</B>
-
-command.
+This manual page documents briefly the <B>nano</B> command.
 <P>
 
 
@@ -35,15 +32,17 @@ command.
 
 <B>nano</B> is a small, free and friendly editor which aims to replace
 Pico, the default editor included in the non-free Pine package. Rather
-than just copying Pico's look and feel,
-<B>nano</B>
-
-also implements some missing (or disabled by default) features in Pico,
-such as &quot;search and replace&quot; and &quot;goto line number&quot;.
+than just copying Pico's look and feel, <B>nano</B> also implements some
+missing (or disabled by default) features in Pico, such as &quot;search and
+replace&quot; and &quot;go to line number&quot;.
 <A NAME="lbAE">&nbsp;</A>
 <H2>OPTIONS</H2>
 
 <DL COMPACT>
+<DT><B>+</B><I>LINE</I>
+
+<DD>
+Places cursor at <I>LINE</I> on startup.
 <DT><B>-B (--backup)</B>
 
 <DD>
@@ -71,7 +70,7 @@ Write file in Mac format.
 
 <DD>
 Disable automatic conversion of files from DOS/Mac format.
-<DT><B>-Q [str] (--quotestr=[str])</B>
+<DT><B>-Q </B><I>[str]</I> (--quotestr=<I>[str]</I>)
 
 <DD>
 Set the quoting string for justifying.  The default is &quot;&gt; &quot;.
@@ -84,8 +83,8 @@ Enable regular expression matching for search strings, as well as
 
 <DD>
 Enable smooth scrolling. Text will scroll line-by-line, instead of the
-usual chunk-by-chunk behaviour.
-<DT><B>-T [num] (--tabsize=[num])</B>
+usual chunk-by-chunk behavior.
+<DT><B>-T </B><I>[num]</I> (--tabsize=<I>[num]</I>)
 
 <DD>
 Set the size (width) of a tab.
@@ -93,7 +92,7 @@ Set the size (width) of a tab.
 
 <DD>
 Show the current version number and author.
-<DT><B>-Y (--syntax=[str])</B>
+<DT><B>-Y </B><I>[str]</I> (--syntax=<I>[str]</I>)
 
 <DD>
 Specify a specific syntax highlighting from the .nanorc to use, if
@@ -124,7 +123,7 @@ a new file, do not follow it.  Good for editing files in /tmp, perhaps?
 
 <DD>
 Enable mouse support (if available for your system).
-<DT><B>-o [dir] (--operatingdir=[dir])</B>
+<DT><B>-o </B><I>[dir]</I> (--operatingdir=<I>[dir]</I>)
 
 <DD>
 Set operating directory. Makes nano set up something similar to a
@@ -135,14 +134,14 @@ chroot.
 Emulate Pico as closely as possible.  This affects both the &quot;shortcut
 list&quot; at the bottom of the screen, as well as the display and entry of
 previous search and replace strings.
-<DT><B>-r [#cols] (--fill=[#cols])</B>
+<DT><B>-r </B><I>[#cols]</I> (--fill=<I>[#cols]</I>)
 
 <DD>
 Wrap lines at column #cols.  By default, this is the width of the
 screen, less eight.  If this value is negative, wrapping will occur at
 #cols from the right of the screen, allowing it to vary along with the
 screen width if the screen is resized.
-<DT><B>-s [prog] (--speller=[prog])</B>
+<DT><B>-s </B><I>[prog]</I> (--speller=<I>[prog]</I>)
 
 <DD>
 Enable alternative spell checker command.
@@ -170,23 +169,19 @@ Enable suspend ability.
 
 <DD>
 Ignored, for compatibility with Pico.
-<DT><B>+LINE</B>
-
-<DD>
-Places cursor at LINE on startup.
 </DL>
 <A NAME="lbAF">&nbsp;</A>
 <H2>NOTES</H2>
 
-Nano will try to dump the buffer into an emergency file in some cases.
-Mainly, this will happen if Nano receives a SIGHUP or runs out of
-memory, when it will write the buffer into a file named &quot;nano.save&quot; if
-the buffer didn't have a name already, or will add a &quot;.save&quot; suffix to
-the current filename. If an emergency file with that name already exists
-in the current directory, &quot;.save&quot; and a number (e.g. &quot;.save.1&quot;) will be
-suffixed to the current filename in order to make it unique. In
-multibuffer mode, nano will write all the open buffers to the respective
-emergency files.
+<B>nano</B> will try to dump the buffer into an emergency file in some
+cases.  Mainly, this will happen if <B>nano</B> receives a SIGHUP or runs
+out of memory, when it will write the buffer into a file named
+&quot;nano.save&quot; if the buffer didn't have a name already, or will add a
+&quot;.save&quot; suffix to the current filename. If an emergency file with that
+name already exists in the current directory, &quot;.save&quot; and a number (e.g.
+&quot;.save.1&quot;) will be suffixed to the current filename in order to make it
+unique. In multibuffer mode, <B>nano</B> will write all the open buffers
+to the respective emergency files.
 <A NAME="lbAG">&nbsp;</A>
 <H2>BUGS</H2>
 
@@ -197,7 +192,7 @@ Please send any comments or bug reports to
 
 <BR>
 
-The nano mailing list is available from
+The <B>nano</B> mailing list is available from
 <BR>
 
 <B><A HREF="mailto:nano-devel@gnu.org">nano-devel@gnu.org</A>.</B>
@@ -234,6 +229,6 @@ used by others).
 This document was created by
 <A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 21:45:15 GMT, June 27, 2002
+Time: 03:38:25 GMT, July 06, 2002
 </BODY>
 </HTML>

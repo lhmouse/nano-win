@@ -124,6 +124,7 @@ typedef struct shortcut {
    struct shortcut *next;
 } shortcut;
 
+#ifndef NANO_SMALL
 typedef struct toggle {
    int val;		/* Sequence to toggle the key.  Should only need 1 */
    const char *desc;	/* Description for when toggle is, uh, toggled,
@@ -132,18 +133,16 @@ typedef struct toggle {
    int flag;		/* What flag actually gets toggled */
    struct toggle *next;
 } toggle;
+#endif /* !NANO_SMALL */
 
 #ifdef ENABLE_NANORC
 typedef struct rcoption {
    char *name;
    int flag;
 } rcoption;
- 
 #endif /* ENABLE_NANORC */
 
 #ifdef ENABLE_COLOR
-
-#define COLORSTRNUM 16
 
 typedef struct colortype {
     int fg;			/* fg color */
@@ -162,9 +161,10 @@ typedef struct exttype {
 
 typedef struct syntaxtype {
     char *desc;			/* Name of this syntax type */
-    struct exttype *extensions;	/* List of extensions that this applies to */
+    exttype *extensions;	/* List of extensions that this applies to */
     colortype *color;		/* color struct for this syntax */
     struct syntaxtype *next;
+
 } syntaxtype;
 
 #endif /* ENABLE_COLOR */
@@ -200,12 +200,11 @@ typedef struct syntaxtype {
 #define ALT_KEYPAD		(1<<25)
 #define NO_CONVERT		(1<<26)
 #define BACKUP_FILE		(1<<27)
+#define NO_RCFILE		(1<<28)
 
 /* Control key sequences, changing these would be very very bad */
 
-#ifndef NANO_SMALL
-#  define NANO_CONTROL_SPACE 0
-#endif
+#define NANO_CONTROL_SPACE 0
 #define NANO_CONTROL_A 1
 #define NANO_CONTROL_B 2
 #define NANO_CONTROL_C 3
@@ -336,6 +335,8 @@ know what you're doing */
 #define NANO_NEXTWORD_KEY	NANO_CONTROL_SPACE
 #define NANO_PREVWORD_KEY	NANO_ALT_SPACE
 
+#ifndef NANO_SMALL
+/* Toggles do not exist with NANO_SMALL. */
 #define TOGGLE_CONST_KEY	NANO_ALT_C
 #define TOGGLE_AUTOINDENT_KEY	NANO_ALT_I
 #define TOGGLE_SUSPEND_KEY	NANO_ALT_Z
@@ -353,18 +354,18 @@ know what you're doing */
 #define TOGGLE_SMOOTH_KEY	NANO_ALT_S
 #define TOGGLE_NOCONVERT_KEY	NANO_ALT_N
 #define TOGGLE_BACKUP_KEY	NANO_ALT_B
+#endif /* !NANO_SMALL */
 
 #define MAIN_VISIBLE 12
 
 #define VIEW 1
 #define NOVIEW 0
 
-#define NONE 3
-#define TOP 2
-#define CENTER 1
-#define BOTTOM 0
+typedef enum {
+    CENTER, TOP, NONE
+} topmidbotnone;
 
-/* Minimum editor window rows required for Nano to work correctly */
+/* Minimum editor window rows required for nano to work correctly */
 #define MIN_EDITOR_ROWS 3
 
 /* Default number of characters from end-of-line where text wrapping occurs */
@@ -373,25 +374,4 @@ know what you're doing */
 /* Minimum fill length (space available for text before wrapping occurs) */
 #define MIN_FILL_LENGTH 10
 
-/* Color specific defines */
-#ifdef ENABLE_COLOR
-typedef struct colorstruct {
-    int fg;
-    int bg;
-    int bold;
-    int set;
-} colorstruct;
-
-#define FIRST_COLORNUM 16
-
-#define COLOR_TITLEBAR 16
-#define COLOR_BOTTOMBARS 17
-#define COLOR_STATUSBAR 18
-#define COLOR_TEXT 19
-#define COLOR_MARKER 20
-
-#define NUM_NCOLORS 5
-
-#endif /* ENABLE_COLOR */
-
-#endif /* ifndef NANO_H */ 
+#endif /* !NANO_H */ 

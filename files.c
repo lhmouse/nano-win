@@ -33,6 +33,7 @@
 #include <errno.h>
 #include <ctype.h>
 #include <dirent.h>
+#include <assert.h>
 #include <pwd.h>
 #include "proto.h"
 #include "nano.h"
@@ -501,7 +502,9 @@ int do_insertfile(int loading_file)
 
 	free(realname);
 
+#ifdef DEBUG
 	dump_buffer(fileage);
+#endif
 
 #ifdef ENABLE_MULTIBUFFER
 	if (loading_file)
@@ -578,6 +581,75 @@ int do_insertfile_void(void)
 }
 
 #ifdef ENABLE_MULTIBUFFER
+/* Create a new openfilestruct node. */
+openfilestruct *make_new_opennode(openfilestruct *prevnode)
+{
+    openfilestruct *newnode = nmalloc(sizeof(openfilestruct));
+
+    newnode->filename = NULL;
+    newnode->fileage = NULL;
+    newnode->filebot = NULL;
+
+    newnode->prev = prevnode;
+    newnode->next = NULL;
+
+    return newnode;
+}
+
+/* Splice a node into an existing openfilestruct. */
+void splice_opennode(openfilestruct *begin, openfilestruct *newnode,
+		     openfilestruct *end)
+{
+    newnode->next = end;
+    newnode->prev = begin;
+    begin->next = newnode;
+    if (end != NULL)
+	end->prev = newnode;
+}
+
+/* Unlink a node from the rest of the openfilestruct. */
+void unlink_opennode(const openfilestruct *fileptr)
+{
+    assert(fileptr != NULL);
+
+    if (fileptr->prev != NULL)
+	fileptr->prev->next = fileptr->next;
+
+    if (fileptr->next != NULL)
+	fileptr->next->prev = fileptr->prev;
+}
+
+/* Delete a node from the openfilestruct. */
+void delete_opennode(openfilestruct *fileptr)
+{
+    if (fileptr != NULL) {
+	if (fileptr->filename != NULL)
+	    free(fileptr->filename);
+	if (fileptr->fileage != NULL)
+	    free_filestruct(fileptr->fileage);
+	free(fileptr);
+    }
+}
+
+/* Deallocate all memory associated with this and later files,
+ * including the lines of text. */
+void free_openfilestruct(openfilestruct *src)
+{
+    if (src != NULL) {
+	while (src->next != NULL) {
+	    src = src->next;
+	    delete_opennode(src->prev);
+#ifdef DEBUG
+	    fprintf(stderr, _("delete_opennode(): free'd a node, YAY!\n"));
+#endif
+	}
+	delete_opennode(src);
+#ifdef DEBUG
+	fprintf(stderr, _("delete_opennode(): free'd last node.\n"));
+#endif
+    }
+}
+
 /*
  * Add/update an entry to the open_files openfilestruct.  If update is
  * zero, a new entry is created; otherwise, the current entry is updated.
@@ -1414,7 +1486,9 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 	}
     }
 
+#ifdef DEBUG
     dump_buffer(fileage);
+#endif
 
     f = fdopen(fd, append == 1 ? "ab" : "wb");
     if (!f) {
@@ -2742,20 +2816,11 @@ char *do_browser(char *inpath)
 
 	    /* Hilight the currently selected file/dir */
 	    if (j == selected) {
-#ifdef ENABLE_COLOR
-		color_on(edit, COLOR_STATUSBAR);
-#else
 		wattron(edit, A_REVERSE);
-
-#endif
 	    }
 	    waddnstr(edit, foo, strlen(foo));
 	    if (j == selected) {
-#ifdef ENABLE_COLOR
-		color_off(edit, COLOR_STATUSBAR);
-#else
 		wattroff(edit, A_REVERSE);
-#endif
 	    }
 
 	    /* And add some space between the cols */

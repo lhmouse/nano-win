@@ -17,6 +17,8 @@
 # set cut
 
 # Use this value instead of the default
+# An out-of-range negative value can make nano die complaining that the
+# screen is too small
 # set fill -8
 
 # Use alternate keypad routines
@@ -46,9 +48,12 @@
 # Use Pico Compatibility mode for the shortcut lists and search text
 # set pico
 
-# Use this as the quoting string.  You shouldn't need to change this,
-# but...... default "> "
-# set quotestr "// "
+# The email-quote string.  This is a "regular expression" if your
+# system supports them, otherwise a literal string.  Default
+# set quotestr "^([ \t]*[|>:}#])+" if you have regexps, otherwise
+# set quotestr "> ".
+# You can get old nano quoted-justify behavior via:
+# set quotestr "(> )+"
 
 # Do regular expression searches by default 
 # set regexp
@@ -62,7 +67,7 @@
 # Allow nano to be suspended with ^Z
 # set suspend
 
-# Use this tab size instead of the default
+# Use this tab size instead of the default; it must be greater than 0
 # set tabsize 4
 
 # Save automatically on exit, don't prompt
@@ -85,7 +90,7 @@
 # color will use a transparent color.  If you don't want this, be sure
 # to set the background color to black or white.
 
-# syntax "c-file" ".*\.c" ".*\.h"
+# syntax "c-file" ".*\.c$" ".*\.h$"
 # color red "\<[A-Z_]\{2,\}\>" 
 # color green "\<float\>" "\<char\>" "\<int\>" "\<void\>"
 # color green "\<static\>" "\<const\>" "\<struct\>" 
@@ -99,7 +104,7 @@
 
 # color brightyellow "<[^= ]*>" "\"[^"]*\""
 # color brightblue "//.*"
-# color brightblue start="/\*.*" end="\*/"
+# color brightblue start="/\*" end="\*/"
 
 # For this you will probably want to set your editor to "nano -Y mutt"
 

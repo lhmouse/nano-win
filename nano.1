@@ -6,30 +6,30 @@
 .\" Public License for copying conditions. There is NO warranty.
 .\"
 .\" $Id$
-.TH NANO 1 "June 27, 2002"
+.TH NANO 1 "July 6, 2002"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
 nano \- Nano's ANOther editor, an enhanced free Pico Clone
 .SH SYNOPSIS
 .B nano
-.RI [options]\ [+LINE] " file"
+.I [\+LINE]\ [options]\ [file]
 .br
 .SH DESCRIPTION
-This manual page documents briefly the
-.B nano
-command.
+This manual page documents briefly the \fBnano\fP command.
 .PP
 .\" TeX users may be more comfortable with the \fB<whatever>\fP and
 .\" \fI<whatever>\fP escape sequences to invoke bold face and italics, 
 .\" respectively.
 \fBnano\fP is a small, free and friendly editor which aims to replace
 Pico, the default editor included in the non-free Pine package. Rather
-than just copying Pico's look and feel,
-.B nano
-also implements some missing (or disabled by default) features in Pico,
-such as "search and replace" and "goto line number".
+than just copying Pico's look and feel, \fBnano\fP also implements some
+missing (or disabled by default) features in Pico, such as "search and
+replace" and "go to line number".
 .SH OPTIONS
+.TP
+.B \+\fILINE\fP
+Places cursor at \fILINE\fP on startup.
 .TP
 .B \-B (\-\-backup)
 When saving a file, back up the previous version of it to the current
@@ -52,7 +52,7 @@ Write file in Mac format.
 .B \-N (\-\-noconvert)
 Disable automatic conversion of files from DOS/Mac format.
 .TP
-.B \-Q [str] (\-\-quotestr=[str])
+.B \-Q \fI[str]\fP (\-\-quotestr=\fI[str]\fP)
 Set the quoting string for justifying.  The default is "> ".
 .TP
 .B \-R (\-\-regexp)
@@ -61,15 +61,15 @@ Enable regular expression matching for search strings, as well as
 .TP
 .B \-S (\-\-smooth)
 Enable smooth scrolling. Text will scroll line-by-line, instead of the
-usual chunk-by-chunk behaviour.
+usual chunk-by-chunk behavior.
 .TP
-.B \-T [num] (\-\-tabsize=[num])
+.B \-T \fI[num]\fP (\-\-tabsize=\fI[num]\fP)
 Set the size (width) of a tab.
 .TP
 .B \-V (\-\-version)
 Show the current version number and author.
 .TP
-.B \-Y (\-\-syntax=[str])
+.B \-Y \fI[str]\fP (\-\-syntax=\fI[str]\fP)
 Specify a specific syntax highlighting from the .nanorc to use, if
 available.
 .TP
@@ -93,7 +93,7 @@ a new file, do not follow it.  Good for editing files in /tmp, perhaps?
 .B \-m (\-\-mouse)
 Enable mouse support (if available for your system).
 .TP
-.B \-o [dir] (\-\-operatingdir=[dir])
+.B \-o \fI[dir]\fP (\-\-operatingdir=\fI[dir]\fP)
 Set operating directory. Makes nano set up something similar to a
 chroot.
 .TP
@@ -102,13 +102,13 @@ Emulate Pico as closely as possible.  This affects both the "shortcut
 list" at the bottom of the screen, as well as the display and entry of
 previous search and replace strings.
 .TP
-.B \-r [#cols] (\-\-fill=[#cols])
+.B \-r \fI[#cols]\fP (\-\-fill=\fI[#cols]\fP)
 Wrap lines at column #cols.  By default, this is the width of the
 screen, less eight.  If this value is negative, wrapping will occur at
 #cols from the right of the screen, allowing it to vary along with the
 screen width if the screen is resized.
 .TP
-.B \-s [prog] (\-\-speller=[prog])
+.B \-s \fI[prog]\fP (\-\-speller=\fI[prog]\fP)
 Enable alternative spell checker command.
 .TP
 .B \-t (\-\-tempfile)
@@ -128,25 +128,22 @@ Enable suspend ability.
 .TP
 .B \-a, \-b, \-e, \-f, \-g, \-j
 Ignored, for compatibility with Pico.
-.TP
-.B \+LINE
-Places cursor at LINE on startup.
 .SH NOTES
-Nano will try to dump the buffer into an emergency file in some cases.
-Mainly, this will happen if Nano receives a SIGHUP or runs out of
-memory, when it will write the buffer into a file named "nano.save" if
-the buffer didn't have a name already, or will add a ".save" suffix to
-the current filename. If an emergency file with that name already exists
-in the current directory, ".save" and a number (e.g. ".save.1") will be
-suffixed to the current filename in order to make it unique. In
-multibuffer mode, nano will write all the open buffers to the respective
-emergency files.
+\fBnano\fP will try to dump the buffer into an emergency file in some
+cases.  Mainly, this will happen if \fBnano\fP receives a SIGHUP or runs
+out of memory, when it will write the buffer into a file named
+"nano.save" if the buffer didn't have a name already, or will add a
+".save" suffix to the current filename. If an emergency file with that
+name already exists in the current directory, ".save" and a number (e.g.
+".save.1") will be suffixed to the current filename in order to make it
+unique. In multibuffer mode, \fBnano\fP will write all the open buffers
+to the respective emergency files.
 .SH BUGS
 Please send any comments or bug reports to
 .br
 .B nano@nano-editor.org.
 .br
-The nano mailing list is available from
+The \fBnano\fP mailing list is available from
 .br
 .B nano-devel@gnu.org.
 To subscribe, email to nano-devel-request@gnu.org with a

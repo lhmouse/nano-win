@@ -17,10 +17,18 @@ dnl Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS(fcntl.h unistd.h malloc.h termios.h termio.h limits.h getopt.h regex.h)
 
-dnl Turn off assert statements.
-AC_DEFINE(NDEBUG, 1, [Shut up the assert warnings :-)])
-
 dnl options
+AC_ARG_ENABLE(debug, 
+[  --enable-debug          Enable debugging (disabled by default)],
+ [if test x$enableval = xyes; then
+    AC_DEFINE(DEBUG, 1, [Define this to enable nano debug messages and assert warnings.]) 
+    debug_support=yes
+ fi])
+
+if test "$debug_support" != "yes"; then
+    AC_DEFINE(NDEBUG, 1, [Shut up the assert warnings :-)]) 
+fi
+
 AC_ARG_ENABLE(tiny,
 [  --enable-tiny           Disable features for the sake of size
                           (currently disables detailed help and i18n)],
@@ -31,8 +39,8 @@ AC_ARG_ENABLE(tiny,
     AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the ^G help menu.]) 
     AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routine.]) 
     AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in (crappy) file browser.]) 
-    AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable the mouse functions.])
-    AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable setting of the operating directory (chroot of sorts).])
+    AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable the mouse functions.]) 
+    AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable setting of the operating directory (chroot of sorts).]) 
  fi])
 
 AC_ARG_ENABLE(extra,
@@ -118,7 +126,7 @@ AC_ARG_ENABLE(mouse,
  fi])
 
 AC_ARG_ENABLE(operatingdir,
-[  --disable-operatingdir         Disable setting of operating directory (chroot of sorts)],
+[  --disable-operatingdir  Disable setting of operating directory (chroot of sorts)],
  [if test x$enableval != xyes; then
     AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable setting of the operating directory (chroot of sorts).])
  fi])
@@ -295,8 +303,6 @@ fi
 dnl Parse any configure options
 
 LIBS="$LIBS $CURSES_LIB"
-
-AC_ARG_ENABLE(debug, [  --enable-debug          Enable debugging (def disabled)],)
 
 AC_SUBST(CURSES_LIB)
 
