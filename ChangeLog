@@ -51,8 +51,8 @@ Cvs code -
 	  added to the cutbuffer without changing the contents of the 
 	  file.  This allows writing selection to separate files.
   do_cut_text()
-	- If the next line is empty when using -k, create a dummy line
-	  and add it to the cutbuffer (fixes bug #61)
+	- If the line is empty when using -k and wasn't already added,
+	  create a dummy line and add it to the cutbuffer (fixes bug #61)
 - faq.html:
 	- Brought the FAQ up to date, many little changes (Jordi).
 - files.c:
