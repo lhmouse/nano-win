@@ -36,19 +36,17 @@
 
 void page_down(void)
 {
-    if (editbot != filebot) {
-	if (!ISSET(SMOOTHSCROLL)) {
+    if (!ISSET(SMOOTHSCROLL)) {
+	if (editbot != filebot) {
 	    edit_update(editbot->next, CENTER);
 	    center_cursor();
 	} else {
-	    edit_update(editbot, NONE);
-	}
-    } else {
-	if (!ISSET(SMOOTHSCROLL)) {
 	    while (current != filebot)
 		current = current->next;
 	    edit_update(current, CENTER);
 	}
+    } else {
+	    edit_update(editbot, NONE);
     }
     update_cursor();
 }
