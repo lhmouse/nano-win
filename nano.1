@@ -8,7 +8,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH NANO 1 "December 2, 2000"
+.TH NANO 1 "April 30, 2001"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -49,12 +49,12 @@ Display a summary of commandline options.
 .B \-c (\-\-const)
 Constantly show the cursor position.
 .TP
-.B \-k (\-\-cut)
-Enable cut from cursor to end of line with ^K.
-.TP
 .B \-i (\-\-autoindent)
 Indent new lines to the previous line's indentation. Useful when editing
 source code.
+.TP
+.B \-k (\-\-cut)
+Enable cut from cursor to end of line with ^K.
 .TP
 .B \-l (\-\-nofollow)
 If the file being edited is a symbolic link, replace the link with a 
@@ -67,6 +67,10 @@ Enable mouse support (if available for your system).
 Emulate Pico as closely as possible.  This affects both the "shortcut list"
 at the bottom of the screen, as well as the display and entry of previous
 search and replace strings.
+.TP
+.B \-r (\-\-fill)
+Wrap lines at column #cols.  By default this is the width of the screen,
+less eight.
 .TP
 .B \-s (\-\-speller)
 Enable alternative spell checker command.

@@ -33,6 +33,8 @@ Cvs code -
   page_up()
 	- Rewritten with a loop to make screen updates work when
 	  mark is set (fixes bug #59).
+- nano.1:
+	- Added the missing -r flag (Jordi).
 - nano.c:
   do_alt_speller()
 	- Reposition cursor on same line as before ^T was called (Rocco)
