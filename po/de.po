@@ -223,7 +223,7 @@ msgid "Uncut from the cutbuffer into the current line"
 msgstr "Aus der Zwischenablage einfügen"
 
 #: global.c:212
-msgid "Show the posititon of the cursor"
+msgid "Show the position of the cursor"
 msgstr "Cursoposition anzeigen"
 
 #: global.c:213

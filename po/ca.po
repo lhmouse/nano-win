@@ -222,7 +222,7 @@ msgid "Uncut from the cutbuffer into the current line"
 msgstr "Enganxar el cutbuffer a la línia actual"
 
 #: global.c:212
-msgid "Show the posititon of the cursor"
+msgid "Show the position of the cursor"
 msgstr "Mostrar la posició del cursor"
 
 #: global.c:213

@@ -66,7 +66,7 @@
 int fill = 0;			/* Fill - where to wrap lines, basically */
 
 struct termios oldterm;		/* The user's original term settings */
-static struct sigaction act;	/* For all out fun signal handlers */
+static struct sigaction act;	/* For all our fun signal handlers */
 
 #ifndef DISABLE_HELP
 static char *help_text_init = "";	/* Initial message, not including shortcuts */
@@ -629,7 +629,7 @@ int do_enter(filestruct * inptr)
 
     /* The logic here is as follows:
      *    -> If we are at the bottom of the buffer, we want to recenter
-     *       (read: rebuild) the screen and forcably move the cursor.
+     *       (read: rebuild) the screen and forcibly move the cursor.
      *    -> otherwise, we want simply to redraw the screen and update
      *       where we think the cursor is.
      */
@@ -1002,7 +1002,7 @@ void do_wrap(filestruct * inptr, char input_char)
 
 
     totlines++;
-    /* Everything about it makes me want this line here but it causes
+    /* Everything about it makes me want this line here, but it causes
      * totsize to be high by one for some reason.  Sigh. (Rob) */
     /* totsize++; */
 
@@ -1066,7 +1066,7 @@ void check_wrap(filestruct * inptr, char ch)
 #endif				/* DISABLE_WRAPPING */
 
 /* Stuff we do when we abort from programs and want to clean up the
- * screen.  This doesnt do much right now.
+ * screen.  This doesn't do much right now.
  */
 void do_early_abort(void)
 {
@@ -1420,7 +1420,7 @@ int do_alt_speller(char *file_name)
     /* Start a new process for the alternate speller */
     if ((pid_spell = fork()) == 0) {
 
-	/* Start alternate spell program, we are using the PATH here!?!? */
+	/* Start alternate spell program; we are using the PATH here!?!? */
 	execvp(spellargs[0], spellargs);
 
 	/* Should not be reached, if alternate speller is found!!! */
@@ -1725,7 +1725,7 @@ void handle_sigwinch(int s)
 void signal_init(void)
 {
 
-    /* Trap SIGINT and SIGQUIT  cuz we want them to do useful things. */
+    /* Trap SIGINT and SIGQUIT cuz we want them to do useful things. */
     memset(&act, 0, sizeof(struct sigaction));
     act.sa_handler = SIG_IGN;
     sigaction(SIGINT, &act, NULL);
@@ -1741,7 +1741,7 @@ void signal_init(void)
     }
 
 
-    /* Trap SIGHUP  cuz we want to write the file out. */
+    /* Trap SIGHUP cuz we want to write the file out. */
     act.sa_handler = handle_hup;
     sigaction(SIGHUP, &act, NULL);
 
@@ -1755,7 +1755,7 @@ void window_init(void)
     if ((editwinrows = LINES - 5 + no_help()) < MIN_EDITOR_ROWS)
 	die_too_small();
 
-    /* Setup up the main text window */
+    /* Set up the main text window */
     edit = newwin(editwinrows, COLS, 2, 0);
 
     /* And the other windows */
@@ -2009,7 +2009,7 @@ int do_justify(void)
     display_main_list();
     reset_cursor();
 
-    /* Now get a keystroke and see if it's unjustify, if not unget the keytroke 
+    /* Now get a keystroke and see if it's unjustify; if not, unget the keystroke 
        and return */
     if ((kbinput = wgetch(edit)) != NANO_UNJUSTIFY_KEY) {
 	ungetch(kbinput);
@@ -2027,7 +2027,7 @@ int do_justify(void)
 	if (tmptop->prev == NULL)
 	    edit_refresh();
 
-	/* Restore totsize from befure justify */
+	/* Restore totsize from before justify */
 	totsize = totbak;
 	free_filestruct(tmptop);
 	blank_statusbar_refresh();
@@ -2163,8 +2163,8 @@ void do_toggle(int which)
 #endif
 }
 
-/* If the NumLock key has made the keypad gone awry, print an error
-   message, hopefully we can address it later. */
+/* If the NumLock key has made the keypad go awry, print an error
+   message; hopefully we can address it later. */
 void print_numlock_warning(void)
 {
     static int didmsg = 0;
@@ -2415,7 +2415,7 @@ int main(int argc, char *argv[])
 #ifdef DEBUG
     fprintf(stderr, _("Main: bottom win\n"));
 #endif
-    /* Set up up bottom of window */
+    /* Set up bottom of window */
     display_main_list();
 
 #ifdef DEBUG
@@ -2529,7 +2529,7 @@ int main(int argc, char *argv[])
 			wgetch(edit);
 			break;
 		    case 126:	/* Hack, make insert key do something 
-				   usefile, like insert file */
+				   useful, like insert file */
 			do_insertfile();
 			keyhandled = 1;
 			break;

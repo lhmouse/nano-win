@@ -219,7 +219,7 @@ msgid "Uncut from the cutbuffer into the current line"
 msgstr "Pegar do buffer de cortado na liña actual"
 
 #: global.c:212
-msgid "Show the posititon of the cursor"
+msgid "Show the position of the cursor"
 msgstr "Amosa-la posición do cursor"
 
 #: global.c:213

@@ -221,7 +221,7 @@ msgid "Uncut from the cutbuffer into the current line"
 msgstr "Kopioi rivi leiketilasta nykyiselle riville"
 
 #: global.c:212
-msgid "Show the posititon of the cursor"
+msgid "Show the position of the cursor"
 msgstr "Näytä kohdistimen sijainti"
 
 #: global.c:213

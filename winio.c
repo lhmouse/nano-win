@@ -38,7 +38,7 @@
 
 /* winio.c statics */
 static int statblank = 0;	/* Number of keystrokes left after
-				   we call statubar() before we
+				   we call statusbar(), before we
 				   actually blank the statusbar */
 
 /* Local Function Prototypes for only winio.c */
@@ -66,7 +66,7 @@ int do_last_line(void)
     return 1;
 }
 
-/* Like xplustabs, but for a specifc index of a speficific filestruct */
+/* Like xplustabs, but for a specific index of a specific filestruct */
 int xpt(filestruct * fileptr, int index)
 {
     int i, tabs = 0;
@@ -82,7 +82,7 @@ int xpt(filestruct * fileptr, int index)
 	    else
 		tabs += tabsize - (tabs % tabsize);
 	} else if (fileptr->data[i] & 0x80)
-	    /* Make 8 bit chars only 1 collumn! */
+	    /* Make 8 bit chars only 1 column! */
 	    ;
 	else if (fileptr->data[i] < 32)
 	    tabs++;
@@ -149,7 +149,7 @@ int strlenpt(char *buf)
 	    else
 		tabs += tabsize - (tabs % tabsize);
 	} else if (buf[i] & 0x80)
-	    /* Make 8 bit chars only 1 collumn! */
+	    /* Make 8 bit chars only 1 column! */
 	    ;
 	else if (buf[i] < 32)
 	    tabs++;
@@ -159,7 +159,7 @@ int strlenpt(char *buf)
 }
 
 
-/* resets current_y based on the position of current and puts the cursor at 
+/* resets current_y, based on the position of current, and puts the cursor at 
    (current_y, current_x) */
 void reset_cursor(void)
 {
@@ -254,7 +254,7 @@ void nanoget_repaint(char *buf, char *inputbuf, int x)
 #endif
 }
 
-/* Get the input from the kb, this should only be called from statusq */
+/* Get the input from the kb; this should only be called from statusq */
 int nanogetstr(int allowtabs, char *buf, char *def, shortcut s[], int slen, 
 	       int start_x)
 {
@@ -621,7 +621,7 @@ void set_modified(void)
 /* And so start the display update routines */
 /* Given a column, this returns the "page" it is on  */
 /* "page" in the case of the display columns, means which set of 80 */
-/* characters is viewable (ie: page 1 shows from 1 to COLS) */
+/* characters is viewable (e.g.: page 1 shows from 1 to COLS) */
 inline int get_page_from_virtual(int virtual)
 {
     int page = 2;
@@ -657,7 +657,7 @@ inline int get_page_end_virtual(int page)
 /* This takes care of the case where there is a mark that covers only */
 /* the current line. */
 
-/* It expects a line with no tab characers (ie: the type that edit_add */
+/* It expects a line with no tab characters (i.e.: the type that edit_add */
 /* deals with */
 void add_marked_sameline(int begin, int end, filestruct * fileptr, int y,
 			 int virt_cur_x, int this_page)
@@ -665,7 +665,7 @@ void add_marked_sameline(int begin, int end, filestruct * fileptr, int y,
     /*
      * The general idea is to break the line up into 3 sections: before
      * the mark, the mark, and after the mark.  We then paint each in
-     * turn (for those that are currently visible, of course
+     * turn (for those that are currently visible, of course)
      *
      * 3 start points: 0 -> begin, begin->end, end->strlen(data)
      *    in data    :    pre          sel           post        
@@ -677,7 +677,7 @@ void add_marked_sameline(int begin, int end, filestruct * fileptr, int y,
     int pre_data_len = begin, sel_data_len = end - begin, post_data_len = 0;	/* Determined from the other two */
 
     /* now fix the start locations & lengths according to the cursor's 
-     * position (ie: our page) */
+     * position (i.e.: our page) */
     if (pre_data_len < this_page_start)
 	pre_data_len = 0;
     else
@@ -731,14 +731,14 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 	      int virt_mark_beginx, int this_page)
 {
 #ifndef NANO_SMALL
-    /* There are quite a few cases that could take place, we'll deal
+    /* There are quite a few cases that could take place; we'll deal
      * with them each in turn */
     if (ISSET(MARK_ISSET)
 	&& !((fileptr->lineno > mark_beginbuf->lineno
 	      && fileptr->lineno > current->lineno)
 	     || (fileptr->lineno < mark_beginbuf->lineno
 		 && fileptr->lineno < current->lineno))) {
-	/* If we get here we are on a line that is atleast
+	/* If we get here we are on a line that is at least
 	 * partially selected.  The lineno checks above determined
 	 * that */
 	if (fileptr != mark_beginbuf && fileptr != current) {
@@ -772,14 +772,14 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 	    }
 	} else if (fileptr == mark_beginbuf) {
 	    /*
-	     * we're updating the line that was first marked
+	     * We're updating the line that was first marked,
 	     * but we're not currently on it.  So we want to
 	     * figure out which half to invert based on our
 	     * relative line numbers.
 	     *
-	     * i.e. If we're above the "beginbuf" line, we want to
-	     * mark the left side.  Otherwise we're below, so we
-	     * mark the right
+	     * I.e. if we're above the "beginbuf" line, we want to
+	     * mark the left side.  Otherwise, we're below, so we
+	     * mark the right.
 	     */
 	    int target;
 
@@ -833,7 +833,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 	    }
 
 	} else if (fileptr == current) {
-	    /* we're on the cursor's line, but it's not the first
+	    /* We're on the cursor's line, but it's not the first
 	     * one we marked.  Similar to the previous logic. */
 	    int this_page_start = get_page_start_virtual(this_page),
 		this_page_end = get_page_end_virtual(this_page);
@@ -904,7 +904,7 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
  * Just update one line in the edit buffer.  Basically a wrapper for
  * edit_add
  *
- * index gives is a place in the string to update starting from.
+ * index gives us a place in the string to update starting from.
  * Likely args are current_x or 0.
  */
 void update_line(filestruct * fileptr, int index)
@@ -925,7 +925,7 @@ void update_line(filestruct * fileptr, int index)
 
     mvwaddstr(edit, line, 0, hblank);
 
-    /* Next, convert all the tabs to spaces so everything else is easy */
+    /* Next, convert all the tabs to spaces, so everything else is easy */
     index = xpt(fileptr, index);
 
     realdata = fileptr->data;
@@ -961,7 +961,7 @@ void update_line(filestruct * fileptr, int index)
     /* Now, Paint the line */
     if (current == fileptr && index > COLS - 2) {
 	/* This handles when the current line is beyond COLS */
-	/* It requires figureing out what page we're at      */
+	/* It requires figuring out what page we're on      */
 	page = get_page_from_virtual(index);
 	col = get_page_start_virtual(page);
 
@@ -1032,7 +1032,7 @@ void edit_refresh(void)
 }
 
 /*
- * Same as above, but touch the window first so everything is redrawn.
+ * Same as above, but touch the window first, so everything is redrawn.
  */
 void edit_refresh_clearok(void)
 {
@@ -1042,7 +1042,7 @@ void edit_refresh_clearok(void)
 }
 
 /*
- * Nice generic routine to update the edit buffer given a pointer to the
+ * Nice generic routine to update the edit buffer, given a pointer to the
  * file struct =) 
  */
 void edit_update(filestruct * fileptr, int topmidbot)
@@ -1068,7 +1068,7 @@ void edit_update(filestruct * fileptr, int topmidbot)
     edit_refresh();
 }
 
-/* This function updates current based on where current_y is, reset_cursor 
+/* This function updates current, based on where current_y is; reset_cursor 
    does the opposite */
 void update_cursor(void)
 {
@@ -1094,7 +1094,7 @@ void update_cursor(void)
 /*
  * Ask a question on the statusbar.  Answer will be stored in answer
  * global.  Returns -1 on aborted enter, -2 on a blank string, and 0
- * otherwise, the valid shortcut key caught, Def is any editable text we
+ * otherwise, the valid shortcut key caught.  Def is any editable text we
  * want to put up by default.
  *
  * New arg tabs tells whether or not to allow tab completion.
@@ -1268,7 +1268,7 @@ int do_yesno(int all, int leavecursor, char *msg, ...)
 	    break;
 	default:
 
-	    /* Look for the kbinput in the yes, no and (optinally) all str */
+	    /* Look for the kbinput in the yes, no and (optimally) all str */
 	    for (i = 0; yesstr[i] != 0 && yesstr[i] != kbinput; i++)
 		;
 	    if (yesstr[i] != 0) {
@@ -1408,7 +1408,7 @@ int do_cursorpos(void)
 }
 
 /* Our broken, non-shortcut list compliant help function.
-   But hey, it's better than nothing, and it's dynamic! */
+   But, hey, it's better than nothing, and it's dynamic! */
 int do_help(void)
 {
 #ifndef DISABLE_HELP
@@ -1427,7 +1427,7 @@ int do_help(void)
 
     if (ISSET(NO_HELP)) {
 
-	/* Well if we're going to do this, we should at least
+	/* Well, if we're going to do this, we should at least
 	   do it the right way */
 	no_help_flag = 1;
 	UNSET(NO_HELP);
@@ -1466,7 +1466,7 @@ int do_help(void)
 	    break;
 	}
 
-	/* Calculate where in the text we should be based on the page */
+	/* Calculate where in the text we should be, based on the page */
 	for (i = 1; i < page; i++) {
 	    row = 0;
 	    j = 0;
@@ -1495,7 +1495,7 @@ int do_help(void)
 	    }
 	    if (j == COLS - 5) {
 
-		/* Don't print half a word if we've run of of space */
+		/* Don't print half a word if we've run out of space */
 		while (*end != ' ' && *end != '\0') {
 		    end--;
 		    j--;
@@ -1571,7 +1571,7 @@ void dump_buffer_reverse(filestruct * inptr)
 #endif				/* DEBUG */
 }
 
-/* Fix editbot based on the assumption that edittop is correct */
+/* Fix editbot, based on the assumption that edittop is correct */
 void fix_editbot(void)
 {
     int i;
@@ -1589,7 +1589,7 @@ void do_replace_highlight(int highlight_flag, char *word)
     highlight_word = mallocstrcpy(highlight_word, &current->data[current_x]);
     highlight_word[strlen(word)] = '\0';
 
-    /* adjust output when word extends beyond screen*/
+    /* adjust output when word extends beyond screen */
 
     x = xplustabs();
     y = get_page_end_virtual(get_page_from_virtual(x)) + 1;
@@ -1718,7 +1718,7 @@ void do_credits(void)
 int             keypad_on(WINDOW * win, int newval)
 {
 
-/* This is taken right from aumix.  Don't sue me */
+/* This is taken right from aumix.  Don't sue me. */
 #ifdef HAVE_USEKEYPAD
     int             old;
 

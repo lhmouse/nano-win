@@ -35,7 +35,7 @@
 /*
  * Global variables
  */
-int flags = 0;			/* Our new flag containig many options */
+int flags = 0;			/* Our new flag containing many options */
 WINDOW *edit;			/* The file portion of the editor  */
 WINDOW *topwin;			/* Top line of screen */
 WINDOW *bottomwin;		/* Bottom buffer */
@@ -57,7 +57,7 @@ filestruct *cutbuffer = NULL;	/* A place to store cut text */
 char *answer = NULL;			/* Answer str to many questions */
 int totlines = 0;		/* Total number of lines in the file */
 int totsize = 0;		/* Total number of bytes in the file */
-int placewewant = 0;		/* The collum we'd like the cursor
+int placewewant = 0;		/* The column we'd like the cursor
 				   to jump to when we go to the
 				   next or previous line */
 
@@ -209,7 +209,7 @@ void shortcut_init(int unjustify)
     nano_nextpage_msg = _("Move to the next screen");
     nano_cut_msg = _("Cut the current line and store it in the cutbuffer");
     nano_uncut_msg = _("Uncut from the cutbuffer into the current line");
-    nano_cursorpos_msg = _("Show the posititon of the cursor");
+    nano_cursorpos_msg = _("Show the position of the cursor");
     nano_spell_msg = _("Invoke the spell checker (if available)");
     nano_up_msg = _("Move up one line");
     nano_down_msg = _("Move down one line");

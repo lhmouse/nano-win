@@ -161,7 +161,7 @@ int read_file(int fd, char *filename)
 	    /* Now we allocate a bigger buffer 128 characters at a time.
 	       If we allocate a lot of space for one line, we may indeed 
 	       have to use a buffer this big later on, so we don't
-	       decrease it at all.  We do free it at the end though. */
+	       decrease it at all.  We do free it at the end, though. */
 
 	    if (i >= bufx - 1) {
 		buf = nrealloc(buf, bufx + 128);
@@ -301,7 +301,7 @@ int do_insertfile(void)
 	/* Here we want to rebuild the edit window */
 	fix_editbot();
 
-	/* If we've gone off the bottom, recenter, otherwise just redraw */
+	/* If we've gone off the bottom, recenter; otherwise, just redraw */
 	if (current->lineno > editbot->lineno)
 	    edit_update(current, CENTER);
 	else
@@ -320,7 +320,7 @@ int do_insertfile(void)
 
 /*
  * Write a file out.  If tmp is nonzero, we set the umask to 0600,
- * we don't set the global variable filename to it's name, and don't
+ * we don't set the global variable filename to its name, and don't
  * print out how many lines we wrote on the statusbar.
  * 
  * tmp means we are writing a tmp file in a secure fashion.  We use
@@ -452,7 +452,7 @@ int write_file(char *name, int tmp)
     if (realexists == -1 || tmp ||
 	(!ISSET(FOLLOW_SYMLINKS) && S_ISLNK(lst.st_mode))) {
 
-	/* Use default umask as file permisions if file is a new file. */
+	/* Use default umask as file permissions if file is a new file. */
 	mask = umask(0);
 	umask(mask);
 
@@ -611,7 +611,7 @@ char *real_dir_from_tilde(char *buf)
 	}
 	else {
 
-	    /* Figure how how much of of the str we need to compare */
+	    /* Figure how how much of the str we need to compare */
 	    for (i = 1; buf[i] != '/' && buf[i] != 0; i++)
 		;
 
@@ -749,7 +749,7 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 #ifdef PATH_MAX
 	if ((dirName = getcwd(NULL, PATH_MAX+1)) == NULL)
 #else
-	/* The better, but aparently segfault-causing way */
+	/* The better, but apparently segfault-causing way */
 	if ((dirName = getcwd(NULL, 0)) == NULL)
 #endif /* PATH_MAX */
 	    return matches;
@@ -900,7 +900,7 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 
 	    break;
 	default:
-	    /* Check to see if all matches share a beginning, and if so
+	    /* Check to see if all matches share a beginning, and, if so,
 	       tack it onto buf and then beep */
 
 	    if (strcmp(buf, "") && strstr(buf, "/")) {
@@ -1080,7 +1080,7 @@ char **browser_init(char *path, int *longest, int *numents)
     return filelist;
 }
 
-/* Free our malloced memory */
+/* Free our malloc()ed memory */
 void free_charptrarray(char **array, int len)
 {
     int i;
@@ -1090,7 +1090,7 @@ void free_charptrarray(char **array, int len)
     free(array);
 }
 
-/* only print the last part of a path, isn't there a shell 
+/* only print the last part of a path; isn't there a shell 
    command for this? */
 char *tail(char *foo)
 {
@@ -1157,7 +1157,7 @@ char *do_browser(char *inpath)
     filelist = browser_init(path, &longest, &numents);
     foo = nmalloc(longest + 8);
 
-    /* Sort the list by directory first then alphabetically */
+    /* Sort the list by directory first, then alphabetically */
     qsort(filelist, numents, sizeof(char *), diralphasort);
 
     kb = keypad_on(edit, 1);
@@ -1178,7 +1178,7 @@ char *do_browser(char *inpath)
  	editline = 0;
 	col = 0;
 	    
-	/* Compute line number we're on now so we don't divide by zero later */
+	/* Compute line number we're on now, so we don't divide by zero later */
 	if (width == 0)
 	    lineno = selected;
 	else
@@ -1351,8 +1351,8 @@ char *do_browser(char *inpath)
 	    col += strlen(foo);
 
 	    /* Put file info in the string also */
-	    /* We use lstat here to detect links, then if we find a
-		symlink we examine it via stat() to see if it is a
+	    /* We use lstat here to detect links; then, if we find a
+		symlink, we examine it via stat() to see if it is a
 		directory or just a file symlink */
 	    lstat(filelist[j], &st);
 	    if (S_ISDIR(st.st_mode))
@@ -1426,7 +1426,7 @@ char *do_browser(char *inpath)
     return retval;
 }
 
-/* Browser front end, checks to see if inpath has a dir in it and if so
+/* Browser front end, checks to see if inpath has a dir in it and, if so,
  starts do_browser from there, else from the current dir */
 char *do_browse_from(char *inpath)
 {
@@ -1436,7 +1436,7 @@ char *do_browse_from(char *inpath)
     tmp = mallocstrcpy(tmp, inpath);
 
 
-    /* If there's no / in the string, we may was well start from . */
+    /* If there's no / in the string, we may as well start from . */
     if (tmp == NULL || *tmp == '\0' || !strstr(tmp, "/")) {
 #ifdef PATH_MAX
 	char *from = getcwd(NULL, PATH_MAX+1);

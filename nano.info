@@ -69,7 +69,7 @@ Command Line Options
      Print the version number and copyright and quit.
 
 `-c, --const'
-     Constantly display the cursor posititon and line number on the
+     Constantly display the cursor position and line number on the
      statusbar.
 
 `-h, --help'
@@ -115,7 +115,7 @@ Command Line Options
      well, as in Expert Mode it is located at the very bottom of the
      editor.
 
-     Note: When accesing the help system, Expert Mode is temporarily
+     Note: When accessing the help system, Expert Mode is temporarily
      disabled to display the help system navigation keys.
 
 `-v, --view'
@@ -165,7 +165,7 @@ Special Functions
 =================
 
    Special functions use the Control key (displayed in the help and
-shotcut lists as ^) or the Meta key (displayed as M).
+shortcut lists as ^) or the Meta key (displayed as M).
 
    * Control key sequences are entered by holding down the Control key
      and pressing the desired letter.
@@ -189,7 +189,7 @@ are three sections: left, center and right. The section on the left
 displays the version of `nano' being used.  The center section displays
 the current file name, or "New Buffer" if the file has not yet been
 named.  The section on the right will display "Modified" if the file
-has been modified since it ws last saved or opened.
+has been modified since it was last saved or opened.
 
    Special modes: When nano is in "File browser" mode, the center
 section will display the current directory instead of the filename.
@@ -207,8 +207,8 @@ The Statusbar
    The Statusbar shows important and informational messages.  Any error
 messages that occur from using the editor will appear on the statusbar.
 Any questions that are asked of the user will be asked on the statusbar,
-and any user input (serch strings, file names, etc) will be input on the
-statusbar.
+and any user input (search strings, file names, etc) will be input on
+the statusbar.
 
 
 File: nano.info,  Node: Shortcut Lists,  Prev: The Statusbar,  Up: Editor Basics
@@ -216,7 +216,7 @@ File: nano.info,  Node: Shortcut Lists,  Prev: The Statusbar,  Up: Editor Basics
 Shortcut Lists
 ==============
 
-   The Shorcut Lists are the two lines at the bottom of the screen
+   The Shortcut Lists are the two lines at the bottom of the screen
 which show some of the more commonly used functions in the editor. The
 exact functions which are displayed depend on whether Pico
 Compatibility Mode mode is enabled. *Note Pico Compatibility::, for
@@ -278,14 +278,14 @@ File: nano.info,  Node: The File Browser,  Next: Pico Compatibility,  Prev: Feat
 The File Browser
 ****************
 
-   When reading or writilg files, pressing ^T will invoke the file
+   When reading or writing files, pressing ^T will invoke the file
 browser.  Here, one can navigate directories in a graphical manner in
 order to find the desired file.
 
    Basic movement in the file browser is accomplished with he arrow keys
 and page up/down.  The behavior of the enter (or 's') key varies by what
 is currently selected.  If the currently selected object is a directory,
-the file browser will enter and display the contects of the directory.
+the file browser will enter and display the contents of the directory.
 If the object is a file, this filename and path are copied to the
 statusbar and the file browser is exited.
 
@@ -362,10 +362,10 @@ consider the following command line options:
      Disable the justify (^J)/unjustify (^U) functions in the editor.
 
 `--disable-speller'
-     Disables spell checker abillity.
+     Disables spell checker ability.
 
 `--disable-help'
-     Disables the help function (^G).  Disabling this option maks the
+     Disables the help function (^G).  Disabling this option makes the
      binary much smaller, but makes it difficult for new users to learn
      more than very basic things about using the editor.
 
@@ -393,17 +393,17 @@ Node: Top199
 Node: Introduction507
 Node: Overview933
 Node: Command Line Options1513
-Ref: Expert Mode3236
+Ref: Expert Mode3235
 Node: Editor Basics4078
 Node: Entering Text4303
 Node: Special Functions4643
-Node: The Titlebar5497
-Node: The Statusbar6194
-Node: Shortcut Lists6774
-Node: Online Help7166
-Node: Feature Toggles7542
-Node: The File Browser8685
-Node: Pico Compatibility9394
-Node: Building and Configure Options11436
+Node: The Titlebar5498
+Node: The Statusbar6196
+Node: Shortcut Lists6777
+Node: Online Help7170
+Node: Feature Toggles7546
+Node: The File Browser8689
+Node: Pico Compatibility9398
+Node: Building and Configure Options11440
 
 End Tag Table

@@ -23,7 +23,7 @@ This manual page documents briefly the
 command.
 .PP
 .\" TeX users may be more comfortable with the \fB<whatever>\fP and
-.\" \fI<whatever>\fP escape sequences to invode bold face and italics, 
+.\" \fI<whatever>\fP escape sequences to invoke bold face and italics, 
 .\" respectively.
 \fBnano\fP is a small, free and friendly editor which aims to replace
 Pico, the default editor included in the non-free Pine package. Rather
@@ -44,7 +44,7 @@ Enable regular expression matching for search strings, as well as
 Show the current version number and author.
 .TP
 .B \-h (\-\-help)
-Display a summary of commandline options.
+Display a summary of command line options.
 .TP
 .B \-c (\-\-const)
 Constantly show the cursor position.
@@ -58,7 +58,7 @@ Enable cut from cursor to end of line with ^K.
 .TP
 .B \-l (\-\-nofollow)
 If the file being edited is a symbolic link, replace the link with a 
-a new file, do not follow it.  Good for editing files in /tmp perhaps?
+a new file, do not follow it.  Good for editing files in /tmp, perhaps?
 .TP
 .B \-m (\-\-mouse)
 Enable mouse support (if available for your system).
@@ -69,14 +69,14 @@ at the bottom of the screen, as well as the display and entry of previous
 search and replace strings.
 .TP
 .B \-r (\-\-fill)
-Wrap lines at column #cols.  By default this is the width of the screen,
+Wrap lines at column #cols.  By default, this is the width of the screen,
 less eight.
 .TP
 .B \-s (\-\-speller)
 Enable alternative spell checker command.
 .TP
 .B \-t (\-\-tempfile)
-Always save changed buffer without prompting. Same as Pico -t option.
+Always save changed buffer without prompting.  Same as Pico -t option.
 .TP
 .B \-v (\-\-view)
 View file (read only) mode.
@@ -97,10 +97,10 @@ Ignored, for compatibility with Pico.
 Places cursor at LINE on startup.
 .SH NOTES
 Nano will try to dump the buffer into an emergency file in some cases.
-Mainly, this will happen if Nano recieves a SIGHUP or runs out of
+Mainly, this will happen if Nano receives a SIGHUP or runs out of
 memory, when it will write the buffer into a file named "nano.save" if the
 buffer didn't have a name already, or will add a ".save" suffix to the
-current finename. Nano will \fBnot\fP write this file if a previous one
+current filename. Nano will \fBnot\fP write this file if a previous one
 exists in the current directory.
 .SH BUGS
 Please send any comments or bug reports to

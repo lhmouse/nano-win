@@ -58,8 +58,8 @@ rcoption rcopts[NUM_RCOPTS] =
 {"nohelp", NO_HELP}, 
 {"suspend", SUSPEND}};
 
-/* We have an error in some part of the rcfile, put it on stderr and
-  make the usr hit return to continue starting up nano */
+/* We have an error in some part of the rcfile; put it on stderr and
+  make the user hit return to continue starting up nano */
 void rcfile_error(char *msg, ...)
 {
     va_list ap;
@@ -75,7 +75,7 @@ void rcfile_error(char *msg, ...)
 
 }
 
-/* Just print the error (one of many perhaps) but don't abort, yet */
+/* Just print the error (one of many, perhaps) but don't abort, yet */
 void rcfile_msg(int *errors, char *msg, ...)
 {
     va_list ap;
@@ -91,7 +91,7 @@ void rcfile_msg(int *errors, char *msg, ...)
 
 }
 
-/* Parse the next word from the string.  Returns NULL of we hit EOL */
+/* Parse the next word from the string.  Returns NULL if we hit EOL */
 char *parse_next_word(char *ptr)
 {
     while (*ptr != ' ' && *ptr != '\n' && ptr != '\0')

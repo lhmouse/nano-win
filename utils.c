@@ -53,7 +53,7 @@ char *strcasestr(char *haystack, char *needle)
 {
     char *localneedle, *localhaystack, *found, *tmp, *tmp2;
 
-    /* Make a copy of the search string and searcgh space */
+    /* Make a copy of the search string and search space */
     localneedle = nmalloc(strlen(needle) + 2);
     localhaystack = nmalloc(strlen(haystack) + 2);
 
@@ -133,7 +133,7 @@ void *nrealloc(void *ptr, size_t howmuch)
     return r;
 }
 
-/* Copy one malloced string to another pointer.
+/* Copy one malloc()ed string to another pointer.
 
    Should be used as dest = mallocstrcpy(dest, src);
 */

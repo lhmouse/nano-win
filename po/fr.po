@@ -229,7 +229,7 @@ msgid "Uncut from the cutbuffer into the current line"
 msgstr "Copie la chaîne en mémoire vers la ligne courante"
 
 #: global.c:212
-msgid "Show the posititon of the cursor"
+msgid "Show the position of the cursor"
 msgstr "Affiche la position du curseur"
 
 #: global.c:213
