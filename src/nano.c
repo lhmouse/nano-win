@@ -1158,13 +1158,13 @@ void do_enter(void)
 #ifndef NANO_SMALL
 void do_next_word(void)
 {
-    int old_pww = placewewant;
+    size_t old_pww = placewewant;
     const filestruct *current_save = current;
     assert(current != NULL && current->data != NULL);
 
     /* Skip letters in this word first. */
     while (current->data[current_x] != '\0' &&
-	    isalnum((int)current->data[current_x]))
+	isalnum((int)current->data[current_x]))
 	current_x++;
 
     for (; current != NULL; current = current->next) {
@@ -1190,7 +1190,7 @@ void do_next_word(void)
 /* The same thing for backwards. */
 void do_prev_word(void)
 {
-    int old_pww = placewewant;
+    size_t old_pww = placewewant;
     const filestruct *current_save = current;
     assert(current != NULL && current->data != NULL);
 

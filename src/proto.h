@@ -33,7 +33,7 @@ extern ssize_t wrap_at;
 #endif
 extern int editwinrows;
 extern int current_x, current_y, totlines;
-extern int placewewant;
+extern size_t placewewant;
 #ifndef NANO_SMALL
 extern int mark_beginx;
 #endif
@@ -406,7 +406,7 @@ void do_replace(void);
 void do_gotoline(ssize_t line, int save_pos);
 void do_gotoline_void(void);
 #if defined (ENABLE_MULTIBUFFER) || !defined (DISABLE_SPELLER)
-void do_gotopos(int line, int pos_x, int pos_y, int pos_placewewant);
+void do_gotopos(int line, int pos_x, int pos_y, size_t pos_pww);
 #endif
 void do_find_bracket(void);
 #ifndef NANO_SMALL
@@ -539,10 +539,10 @@ void reset_cursor(void);
 void edit_add(const filestruct *fileptr, const char *converted, int
 	yval, size_t start);
 void update_line(const filestruct *fileptr, size_t index);
-int need_horizontal_update(int old_placewewant);
-int need_vertical_update(int old_placewewant);
+int need_horizontal_update(size_t old_pww);
+int need_vertical_update(size_t old_pww);
 void edit_scroll(updown direction, int nlines);
-void edit_redraw(const filestruct *old_current, int old_pww);
+void edit_redraw(const filestruct *old_current, size_t old_pww);
 void edit_refresh(void);
 void edit_update(filestruct *fileptr, topmidnone location);
 int statusq(int allowtabs, const shortcut *s, const char *def,

@@ -193,7 +193,8 @@ int get_translated_kbinput(int kbinput, int *es
 #endif
 	)
 {
-    static size_t escapes = 0, ascii_digits = 0;
+    static int escapes = 0;
+    static size_t ascii_digits = 0;
     int retval = ERR;
 
 #ifndef NANO_SMALL
@@ -413,9 +414,9 @@ int get_translated_kbinput(int kbinput, int *es
 		    }
 	    }
     }
-
+ 
 #ifdef DEBUG
-    fprintf(stderr, "get_translated_kbinput(): kbinput = %d, es = %d, escapes = %d, ascii_digits = %d, retval = %d\n", kbinput, *es, escapes, ascii_digits, retval);
+    fprintf(stderr, "get_translated_kbinput(): kbinput = %d, es = %d, escapes = %d, ascii_digits = %lu, retval = %d\n", kbinput, *es, escapes, (unsigned long)ascii_digits, retval);
 #endif
 
     /* Return the result. */
@@ -511,7 +512,7 @@ int get_ascii_kbinput(int kbinput, size_t ascii_digits
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "get_ascii_kbinput(): kbinput = %d, ascii_digits = %d, ascii_kbinput = %d, retval = %d\n", kbinput, ascii_digits, ascii_kbinput, retval);
+    fprintf(stderr, "get_ascii_kbinput(): kbinput = %d, ascii_digits = %lu, ascii_kbinput = %d, retval = %d\n", kbinput, (unsigned long)ascii_digits, ascii_kbinput, retval);
 #endif
 
     /* If the result is an ASCII character, reset the ASCII character
@@ -1096,7 +1097,7 @@ int *get_verbatim_kbinput(WINDOW *win, int *v_kbinput, size_t *v_len,
     (*v_len)++;
     v_kbinput[0] = kbinput;
 #ifdef DEBUG
-    fprintf(stderr, "get_verbatim_kbinput(): kbinput = %d, v_len = %d\n", kbinput, *v_len);
+    fprintf(stderr, "get_verbatim_kbinput(): kbinput = %d, v_len = %lu\n", kbinput, (unsigned long)*v_len);
 #endif
 
     /* Read any following characters using non-blocking input, until
@@ -1111,7 +1112,7 @@ int *get_verbatim_kbinput(WINDOW *win, int *v_kbinput, size_t *v_len,
 	v_kbinput = (int *)nrealloc(v_kbinput, *v_len * sizeof(int));
 	v_kbinput[*v_len - 1] = kbinput;
 #ifdef DEBUG
-	fprintf(stderr, "get_verbatim_kbinput(): kbinput = %d, v_len = %d\n", kbinput, *v_len);
+	fprintf(stderr, "get_verbatim_kbinput(): kbinput = %d, v_len = %lu\n", kbinput, (unsigned long)*v_len);
 #endif
     }
     nodelay(win, FALSE);
@@ -1230,7 +1231,7 @@ int get_untranslated_kbinput(int kbinput, size_t position, int
      retval = kbinput;
 
 #ifdef DEBUG
-    fprintf(stderr, "get_untranslated_kbinput(): kbinput = %d, position = %d, ascii_digits = %d\n", kbinput, position, ascii_digits);
+    fprintf(stderr, "get_untranslated_kbinput(): kbinput = %d, position = %lu, ascii_digits = %lu\n", kbinput, (unsigned long)position, (unsigned long)ascii_digits);
 #endif
 
     return retval;
@@ -1392,7 +1393,7 @@ void blank_titlebar(void)
 
 void blank_edit(void)
 {
-    size_t i;
+    int i;
     for (i = 0; i < editwinrows; i++)
 	mvwaddstr(edit, i, 0, hblank);
 }
@@ -2543,7 +2544,7 @@ void update_line(const filestruct *fileptr, size_t index)
 /* Return a nonzero value if we need an update after moving
  * horizontally.  We need one if the mark is on or if old_pww and
  * placewewant are on different pages. */
-int need_horizontal_update(int old_pww)
+int need_horizontal_update(size_t old_pww)
 {
     return
 #ifndef NANO_SMALL
@@ -2555,7 +2556,7 @@ int need_horizontal_update(int old_pww)
 /* Return a nonzero value if we need an update after moving vertically.
  * We need one if the mark is on or if old_pww and placewewant
  * are on different pages. */
-int need_vertical_update(int old_pww)
+int need_vertical_update(size_t old_pww)
 {
     return
 #ifndef NANO_SMALL
@@ -2630,7 +2631,7 @@ void edit_scroll(updown direction, int nlines)
 
 /* Update any lines between old_current and current that need to be
  * updated. */
-void edit_redraw(const filestruct *old_current, int old_pww)
+void edit_redraw(const filestruct *old_current, size_t old_pww)
 {
     int do_refresh = need_vertical_update(0) ||
 	need_vertical_update(old_pww);
@@ -2689,7 +2690,7 @@ void edit_refresh(void)
 	const filestruct *foo = edittop;
 
 #ifdef DEBUG
-	fprintf(stderr, "edit_refresh(): edittop->lineno = %ld\n", edittop->lineno);
+	fprintf(stderr, "edit_refresh(): edittop->lineno = %d\n", edittop->lineno);
 #endif
 
 	while (nlines < editwinrows) {
@@ -2964,6 +2965,10 @@ void do_cursorpos(int constant)
     }
     i += current_x;
 
+    /* Check whether totsize is correct.  Else there is a bug
+     * somewhere. */
+    assert(current != filebot || i == totsize);
+
     if (constant && ISSET(DISABLE_CURPOS)) {
 	UNSET(DISABLE_CURPOS);
 	old_i = i;
@@ -2975,8 +2980,8 @@ void do_cursorpos(int constant)
      * unconditionally; otherwise, only display the position when the
      * character values have changed. */
     if (!constant || old_i != i || old_totsize != totsize) {
-	unsigned long xpt = xplustabs() + 1;
-	unsigned long cur_len = strlenpt(current->data) + 1;
+	size_t xpt = xplustabs() + 1;
+	size_t cur_len = strlenpt(current->data) + 1;
 	int linepct = 100 * current->lineno / totlines;
 	int colpct = 100 * xpt / cur_len;
 	int bytepct = totsize == 0 ? 0 : 100 * i / totsize;
@@ -2984,7 +2989,7 @@ void do_cursorpos(int constant)
 	statusbar(
 	    _("line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%ld (%d%%)"),
 		    current->lineno, totlines, linepct,
-		    xpt, cur_len, colpct,
+		    (unsigned long)xpt, (unsigned long)cur_len, colpct,
 		    i, totsize, bytepct);
 	UNSET(DISABLE_CURPOS);
     }
@@ -3158,7 +3163,7 @@ void do_help(void)
  * expect word to have tabs and control characters expanded. */
 void do_replace_highlight(int highlight_flag, const char *word)
 {
-    int y = xplustabs();
+    size_t y = xplustabs();
     size_t word_len = strlen(word);
 
     y = get_page_start(y) + COLS - y;

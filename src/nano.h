@@ -166,7 +166,7 @@ typedef struct openfilestruct {
     long file_flags;		/* Current file's flags: modification
 				 * status (and marking status, if
 				 * available). */
-    int file_placewewant;	/* Current file's place we want. */
+    size_t file_placewewant;	/* Current file's place we want. */
     int file_totlines;		/* Current file's total number of
 				 * lines. */
     long file_totsize;		/* Current file's total size. */

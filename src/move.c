@@ -30,7 +30,7 @@
 
 void do_first_line(void)
 {
-    int old_pww = placewewant;
+    size_t old_pww = placewewant;
     current = fileage;
     placewewant = 0;
     current_x = 0;
@@ -40,7 +40,7 @@ void do_first_line(void)
 
 void do_last_line(void)
 {
-    int old_pww = placewewant;
+    size_t old_pww = placewewant;
     current = filebot;
     placewewant = 0;
     current_x = 0;
@@ -51,7 +51,7 @@ void do_last_line(void)
 
 void do_home(void)
 {
-    int old_pww = placewewant;
+    size_t old_pww = placewewant;
 #ifndef NANO_SMALL
     if (ISSET(SMART_HOME)) {
 	int old_current_x = current_x;
@@ -78,7 +78,7 @@ void do_home(void)
 
 void do_end(void)
 {
-    int old_pww = placewewant;
+    size_t old_pww = placewewant;
     current_x = strlen(current->data);
     placewewant = xplustabs();
     check_statblank();
@@ -88,7 +88,7 @@ void do_end(void)
 
 void do_page_up(void)
 {
-    int old_pww = placewewant;
+    size_t old_pww = placewewant;
     const filestruct *old_current = current;
 #ifndef DISABLE_WRAPPING
     wrap_reset();
@@ -134,7 +134,7 @@ void do_page_up(void)
 
 void do_page_down(void)
 {
-    int old_pww = placewewant;
+    size_t old_pww = placewewant;
     const filestruct *old_current = current;
 #ifndef DISABLE_WRAPPING
     wrap_reset();
@@ -247,7 +247,7 @@ void do_down(void)
 
 void do_left(int allow_update)
 {
-    int old_pww = placewewant;
+    size_t old_pww = placewewant;
     if (current_x > 0)
 	current_x--;
     else if (current != fileage) {
@@ -267,7 +267,7 @@ void do_left_void(void)
 
 void do_right(int allow_update)
 {
-    int old_pww = placewewant;
+    size_t old_pww = placewewant;
     assert(current_x <= strlen(current->data));
 
     if (current->data[current_x] != '\0')

@@ -91,7 +91,7 @@ int resetstatuspos;		/* Hack for resetting the status bar
 char *answer = NULL;		/* Answer str to many questions */
 int totlines = 0;		/* Total number of lines in the file */
 long totsize = 0;		/* Total number of bytes in the file */
-int placewewant = 0;		/* The column we'd like the cursor
+size_t placewewant = 0;		/* The column we'd like the cursor
 				   to jump to when we go to the
 				   next or previous line */
 

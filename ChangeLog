@@ -3,8 +3,9 @@ CVS code -
 	- More minor comment cleanups. (DLR)
 	- Convert more ints used as boolean values to use TRUE and
 	  FALSE. (David Benbennick and DLR)
-	- Change more instances of ints that can never be negative to
-	  size_t's. (DLR)
+	- Change more instances of ints that have large enough upper
+	  bounds and which can never be negative to size_t's, and
+	  convert nano to handle them properly. (DLR)
 	- Convert the shortcut list functions and most related functions
 	  to return void instead of int, as the return values of all
 	  those functions are essentially unused.  Changes to
@@ -48,6 +49,9 @@ CVS code -
 	- Move the main terminal initialization functions, aside from 
 	  initscr(), into a new terminal_init() function, and convert 
 	  nano to use it. (DLR)
+	- Convert placewewant to a size_t, and convert some functions
+	  that use it as a parameter to use size_t as well. (David
+	  Benbennick and DLR)
 - files.c:
   close_open_file()
 	- Tweak to no longer rely on the return values of
@@ -127,6 +131,9 @@ CVS code -
 	  Benbennick)  DLR: Renamed from parse_int() to parse_num() and
 	  converted to use ssize_t instead of int.
 - winio.c:
+  get_kbinput()
+	- Since the only valid values for escapes are 0, 1, and 2, 
+	  convert it to an int. (DLR)
   get_control_kbinput()
 	- Fix erroneous debugging statement so that nano compiles with
 	  --enable-debug again. (Jon Oberheide)
@@ -136,6 +143,9 @@ CVS code -
 	  before then too. (David Benbennick)
 	- Don't delete the statusbar line on UnCut, since the current
 	  version of Pico doesn't. (DLR)
+  do_cursorpos()
+	- Add assert to check whether totsize is correct. (David
+	  Benbennick)
   line_len()
 	- Rename to help_line_len() so as not to conflict with the
 	  line_len variable used elsewhere, and move inside the

@@ -359,8 +359,8 @@ int findnextstr(int can_display_wrap, int wholeword, const filestruct
 /* Search for a string. */
 void do_search(void)
 {
-    size_t old_pww = placewewant, i, fileptr_x = current_x;
-    int didfind;
+    size_t old_pww = placewewant, fileptr_x = current_x;
+    int i, didfind;
     filestruct *fileptr = current;
 
 #ifndef DISABLE_WRAPPING
@@ -588,8 +588,8 @@ char *replace_line(const char *needle)
 int do_replace_loop(const char *needle, const filestruct *real_current,
 	size_t *real_current_x, int wholewords)
 {
-    int old_pww = placewewant, replaceall = FALSE, numreplaced = -1;
-    size_t current_x_save = current_x;
+    int replaceall = FALSE, numreplaced = -1;
+    size_t old_pww = placewewant, current_x_save = current_x;
     const filestruct *current_save = current;
 #ifdef HAVE_REGEX_H
     /* The starting-line match and bol/eol regex flags. */
@@ -880,7 +880,7 @@ void do_gotoline_void(void)
 }
 
 #if defined(ENABLE_MULTIBUFFER) || !defined(DISABLE_SPELLER)
-void do_gotopos(int line, int pos_x, int pos_y, int pos_placewewant)
+void do_gotopos(int line, int pos_x, int pos_y, size_t pos_pww)
 {
     /* since do_gotoline() resets the x-coordinate but not the
        y-coordinate, set the coordinates up this way */
@@ -893,7 +893,7 @@ void do_gotopos(int line, int pos_x, int pos_y, int pos_placewewant)
 
     /* set the rest of the coordinates up */
     current_x = pos_x;
-    placewewant = pos_placewewant;
+    placewewant = pos_pww;
     update_line(current, pos_x);
 }
 #endif
@@ -904,7 +904,8 @@ void do_find_bracket(void)
     char ch_under_cursor, wanted_ch;
     const char *pos, *brackets = "([{<>}])";
     char regexp_pat[] = "[  ]";
-    int old_pww = placewewant, current_x_save, count = 1;
+    size_t old_pww, current_x_save;
+    int count = 1;
     long flags_save;
     filestruct *current_save;
 
@@ -919,6 +920,7 @@ void do_find_bracket(void)
     assert(strlen(brackets) % 2 == 0);
     wanted_ch = brackets[(strlen(brackets) - 1) - (pos - brackets)];
 
+    old_pww = placewewant;
     current_x_save = current_x;
     current_save = current;
     flags_save = flags;
