@@ -1074,17 +1074,13 @@ void toggle_init(void)
 #ifndef DISABLE_MOUSE
     toggle_init_one(TOGGLE_MOUSE_KEY, N_("Mouse support"), USE_MOUSE);
 #endif
-    /* If we're using restricted mode, the no-conversion, DOS format,
-     * Mac format, and backup toggles are disabled.  The first, second,
-     * and third are useless since inserting files is disabled, and the
-     * fourth is useless since backups are disabled. */
+    /* If we're using restricted mode, the no-conversion and backup
+     * backup toggles are disabled.  The former is useless since
+     * inserting files is disabled, and the latter is useless since
+     * backups are disabled. */
     if (!ISSET(RESTRICTED)) {
 	toggle_init_one(TOGGLE_NOCONVERT_KEY,
 		N_("No conversion from DOS/Mac format"), NO_CONVERT);
-	toggle_init_one(TOGGLE_DOS_KEY, N_("Writing file in DOS format"),
-		DOS_FILE);
-	toggle_init_one(TOGGLE_MAC_KEY, N_("Writing file in Mac format"),
-		MAC_FILE);
 	toggle_init_one(TOGGLE_BACKUP_KEY, N_("Backup files"), BACKUP_FILE);
     }
     toggle_init_one(TOGGLE_SMOOTH_KEY, N_("Smooth scrolling"), SMOOTHSCROLL);

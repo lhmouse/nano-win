@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.3.4
-@set UPDATED 17 Aug 2004
+@set UPDATED 24 Oct 2004
 
 @dircategory Editors
 @direntry
@@ -342,9 +342,6 @@ The following global toggles are available:
 @item Backup File Toggle (Meta-B)
 toggles the -B (@code{--backup}) command line flag.
 
-@item DOS Format Toggle (Meta-D)
-toggles writing the file in DOS format.
-
 @item Multiple Files Toggle (Meta-F)
 toggles the -F (@code{--multibuffer}) command line flag.
 
@@ -362,9 +359,6 @@ toggles the -w (@code{--nowrap}) command line flag.
 
 @item Mouse Toggle (Meta-M)
 toggles the -m (@code{--mouse}) command line flag.
-
-@item Mac Format Toggle (Meta-O)
-toggles writing the file in Mac format.
 
 @item Smooth Scrolling Toggle (Meta-S)
 toggles the -S (@code{--smooth}) command line flag.

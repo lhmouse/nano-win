@@ -2913,12 +2913,6 @@ void do_toggle(const toggle *which)
 	edit_refresh();
 	display_main_list();
 	break;
-    case TOGGLE_DOS_KEY:
-	UNSET(MAC_FILE);
-	break;
-    case TOGGLE_MAC_KEY:
-	UNSET(DOS_FILE);
-	break;
 #ifdef ENABLE_COLOR
     case TOGGLE_SYNTAX_KEY:
 	edit_refresh();

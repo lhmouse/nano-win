@@ -71,7 +71,12 @@ CVS code -
 	  read_file(), add_open_file(), and load_open_file().  (DLR,
 	  suggested by Bill Soudan)
 	- Remove the -D/--dos and -M/--mac command line options, as they
-	  aren't much use with the new file format autodetection. (DLR)
+	  aren't much use with the new file format autodetection.  Also
+	  remove the global versions of the toggles, so that they can
+	  only be used at the "Write File" prompt as similar options
+	  can.  Finally, change the Mac format toggle to Meta-M, since
+	  that no longer conflicts with the global -m/--mouse toggle.
+	  (DLR)
 	- Add support for reading in UTF-8 sequences to the low-level
 	  input routines.  Changes to get_kbinput() and
 	  get_translated_kbinput(). (DLR)
@@ -295,9 +300,12 @@ CVS code -
 - README.CVS:
 	- Mention the requirement for glib 2.x on systems lacking
 	  v?snprintf(), and add minor formatting changes.
-- nano.1, nano.texi
+- nano.1:
 	- Eliminate references to the now removed -D/--dos and -M/--mac
 	  command line options. (DLR)
+- nano.texi:
+	- Eliminate references to the now removed -D/--dos and -M/--mac
+	  command line options, and their corresponding toggles. (DLR)
 - m4/glib-2.0.m4:
 	- New file imported from glib 2.4.7.  This is needed to detect
 	  glib 2.x on systems that may not have it installed. (DLR,
