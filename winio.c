@@ -804,12 +804,10 @@ void edit_add(filestruct * fileptr, int yval, int start, int virt_cur_x,
 			    wattron(edit, A_BOLD);
 			wattron(edit, COLOR_PAIR(tmpcolor->pairnum));
 
-			if (regmatches[0].rm_eo - regmatches[0].rm_so 
-			    + k <= COLS)
+			if (regmatches[0].rm_eo + k <= COLS)
 			    paintlen = regmatches[0].rm_eo - regmatches[0].rm_so;
 			else
-			    paintlen = COLS - (regmatches[0].rm_eo 
-					-  regmatches[0].rm_so);
+			    paintlen = COLS - k - regmatches[0].rm_so - 1;
 
 			mvwaddnstr(edit, yval, regmatches[0].rm_so + k,
 			    &fileptr->data[k + regmatches[0].rm_so], 
