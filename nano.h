@@ -162,6 +162,7 @@ typedef struct colortype {
 #define SMOOTHSCROLL		(1<<23)
 #define DISABLE_CURPOS		(1<<24)	/* Damn, we still need it */
 #define ALT_KEYPAD		(1<<25)	/* Damn, we still need it */
+#define RELATIVECHARS		(1<<26)
 
 /* Control key sequences, changing these would be very very bad */
 

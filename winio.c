@@ -1586,20 +1586,11 @@ int do_cursorpos(int constant)
 {
     filestruct *fileptr;
     float linepct = 0.0, bytepct = 0.0;
-    long i = 0;
+    long i = 0, j = 0;
     static long old_i = -1, old_totsize = -1;
 
     if (current == NULL || fileage == NULL)
 	return 0;
-
-    for (fileptr = fileage; fileptr != current && fileptr != NULL;
-	 fileptr = fileptr->next)
-	i += strlen(fileptr->data) + 1;
-
-    if (fileptr == NULL)
-	return -1;
-
-    i += current_x;
 
     if (old_i == -1)
 	old_i = i;
@@ -1607,11 +1598,35 @@ int do_cursorpos(int constant)
     if (old_totsize == -1)
 	old_totsize = totsize;
 
-    if (totlines > 0)
-	linepct = 100 * current->lineno / totlines;
+    if (ISSET(RELATIVECHARS)) {
 
-    if (totsize > 0)
-	bytepct = 100 * i / totsize;
+	if (strlen(current->data) == 0)
+	    bytepct = 0;
+	else
+	    bytepct = 100 * current_x / strlen(current->data);
+
+	old_i = -1;
+	i = current_x;
+	j = strlen(current->data);
+
+    } else {
+	for (fileptr = fileage; fileptr != current && fileptr != NULL;
+	     fileptr = fileptr->next)
+	    i += strlen(fileptr->data) + 1;
+
+	if (fileptr == NULL)
+	    return -1;
+
+	i += current_x;
+
+	j = totsize;
+
+	if (totsize > 0)
+	    bytepct = 100 * i / totsize;
+    }
+
+    if (totlines > 0)
+	 linepct = 100 * current->lineno / totlines;
 
 #ifdef DEBUG
     fprintf(stderr, _("do_cursorpos: linepct = %f, bytepct = %f\n"),
@@ -1624,7 +1639,7 @@ int do_cursorpos(int constant)
     if (!constant || (old_i != i || old_totsize != totsize)) {
 	statusbar(_
 		  ("line %d of %d (%.0f%%), character %ld of %ld (%.0f%%)"),
-		  current->lineno, totlines, linepct, i, totsize, bytepct);
+		  current->lineno, totlines, linepct, i, j, bytepct);
     }
 
     old_i = i;

@@ -8,6 +8,9 @@
 # Constantly update the cursor position
 # set const
 
+# Show column position relative to the current line, not the whole file
+# set relative
+
 # Use cut to end of line with ^K by default
 # set cut
 

@@ -1,5 +1,8 @@
 CVS code -
-
+- General
+	- New flag RELATIVECHARS to show column positino relative to
+	  the current line instead of the current file.  New flag 
+	  -C, --relative, changes to do_cursorpos().
 - po/ca.po, po/es.po:
 	- Catalan and Spanish translation updates (Jordi).
 

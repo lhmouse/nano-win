@@ -41,9 +41,9 @@
 #endif
 
 #ifndef DISABLE_WRAPJUSTIFY
-#define NUM_RCOPTS 19
+#define NUM_RCOPTS 20
 #else
-#define NUM_RCOPTS 18
+#define NUM_RCOPTS 19
 #endif
 
 /* Static stuff for the nanorc file */
@@ -70,7 +70,8 @@ rcoption rcopts[NUM_RCOPTS] = {
     {"suspend", SUSPEND},
     {"multibuffer", MULTIBUFFER},
     {"smooth", SMOOTHSCROLL},
-    {"keypad", ALT_KEYPAD}
+    {"keypad", ALT_KEYPAD},
+    {"relative", RELATIVECHARS}
 };
 
 static int errors = 0;
