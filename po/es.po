@@ -772,7 +772,7 @@ msgstr "Pillé \"%s\"\n"
 
 #: winio.c:970
 msgid " Y"
-msgstr " S"
+msgstr " Y"
 
 #: winio.c:970
 msgid "Yes"
@@ -818,6 +818,3 @@ msgstr "Volcando el cutbuffer a stderr...\n"
 #: winio.c:1246
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Volcando un buffer a stderr...\n"
-
-#~ msgid "nano: malloc: out of memory!"
-#~ msgstr "nano: malloc: memoria agotada!"
