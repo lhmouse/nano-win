@@ -7,6 +7,10 @@ CVS code -
 	- Better partial word checking code. New function 
 	  search.c:is_whole_word(), changes to findnextstr(), 
 	  and nano.c:do_int_spell_fix() (Rocco Corsi).
+- color.c:
+  do_colorinit()
+	- Moved some comments and braces around so color can work 
+	  w/slang (DLR).
 - nano.c:
   usage()
   	- Remove extra \n in --keypad description (Jordi).

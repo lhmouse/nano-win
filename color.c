@@ -107,7 +107,7 @@ int do_colorinit(void)
 	/* Add in colors, if available */
 
 #ifdef HAVE_USE_DEFAULT_COLORS
- 	if (use_default_colors() != ERR) {
+ 	if (use_default_colors() != ERR)
 	    defok = 1;
 #endif
 
@@ -172,9 +172,8 @@ int do_colorinit(void)
 	colorinit_one(COLOR_STATUSBAR, COLOR_BLACK, COLOR_CYAN, 0);
 	colorinit_one(COLOR_TEXT, COLOR_WHITE, COLOR_BLACK, 0);
 	colorinit_one(COLOR_MARKER, COLOR_BLACK, COLOR_CYAN, 0);
-	*/
     }
-
+*/
     return 0;
 }
 
