@@ -240,7 +240,7 @@ filestruct *findnextstr(int quiet, int bracket_mode, filestruct * begin, int beg
 	current_x_find = current_x + 1;
 
 	/* Are we now back to the line where the search started) */
-	if ((fileptr == begin) && (beginx >= current_x_find))
+	if ((fileptr == begin) && (beginx > current_x_find))
 	    search_last_line = 1;
 
 	/* Make sure we haven't passed the end of the string */
