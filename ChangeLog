@@ -13,9 +13,13 @@ CVS code -
 - rcfile.c:
   parse_rcfile()
 	- Don't use i for both for loop and atoi(), fixes lots of 
-	  potential crashes, 1st reported by Jean-Philippe Gue'rard.
+	  potential crashes, 1st reported by Jean-Philippe Guérard.
 - utils.c:
   stristr() - Defined regardless of NANO_SMALL (noticed by Jordi).
+- po/sv.po:
+	- Swedish translation updates (Christian Rose).
+- po/de.po:
+	- German translation updates (Michael Piefel).
 	  
 GNU nano 1.1.7 - 03/05/2002
 - General
