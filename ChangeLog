@@ -9,11 +9,13 @@ CVS Code -
 	- Revamp -H option message to fit in 80 column terminal.
   do_preserve_msg():
 	- Unsplit error message into a single fprintf call (Jordi).
-
 - winio.c:
   bottombars()
 	- Change strcpy of gettext() "Up" string to strncpy of max
 	  width 8, to stop stupid strcpy crash.
+- nanorc.sample:
+	- Change comment to say magenta instead of purple.
+
 GNU nano 1.1.99pre1 - 2003.01.17
 - General:
 	- New date format for NEWS and ChangeLog.

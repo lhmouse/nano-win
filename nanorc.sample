@@ -84,7 +84,7 @@
 ## syntax "short description" ["filename regex" ...]
 ## color foreground,background "regex" ["regex"...]
 ##
-## Legal colors are: white, black, red, blue, green, yellow, purple,
+## Legal colors are: white, black, red, blue, green, yellow, magenta,
 ## cyan.  You may use the prefix "bright" to mean a stronger color
 ## highlight.
 ##
