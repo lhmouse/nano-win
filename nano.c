@@ -2210,6 +2210,21 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len,
     return first_line;
 }
 
+/* Is it possible to break line at or before goal? */
+int breakable(const char *line, int goal)
+{
+    for(; *line != '\0' && goal >= 0; line++) {
+	if (*line == ' ' || *line == '\t')
+	    return TRUE;
+
+	if (is_cntrl_char(*line) != 0)
+	    goal -= 2;
+	else
+	    goal -= 1;
+    }
+    return FALSE;
+}
+
 /* We are trying to break a chunk off line.  We find the last space such
  * that the display length to there is at most goal + 1.  If there is
  * no such space, and force is not 0, then we find the first space.
@@ -2512,20 +2527,24 @@ int do_justify(void)
 	    null_at(&current->data, break_pos);
 	    current = current->next;
 	} else if (display_len < fill && par_len > 1) {
-	    size_t next_line_len = strlen(current->next->data);
+	    size_t next_line_len;
 
 	    indent_len = quote_len +
 			indent_length(current->next->data + quote_len);
-	    break_pos = break_line(current->next->data + indent_len,
-				fill - display_len - 1, 0);
-	    if (break_pos == -1)
-		/* We can't pull a word from the next line up to this one,
-		 * so just go on. */
+	    /* If we can't pull a word from the next line up to this one,
+	     * just go on. */
+	    if (!breakable(current->next->data + indent_len,
+		    fill - display_len - 1))
 		goto continue_loc;
 
 	    /* If we haven't backed up the paragraph, do it now. */
 	    if (first_mod_line == NULL)
 		first_mod_line = backup_lines(current, par_len, quote_len);
+
+	    break_pos = break_line(current->next->data + indent_len,
+				fill - display_len - 1, FALSE);
+	    assert(break_pos != -1);
+
 	    current->data = (char *)nrealloc(current->data,
 					line_len + break_pos + 2);
 	    current->data[line_len] = ' ';
@@ -2544,6 +2563,7 @@ int do_justify(void)
 		    mark_beginx -= break_pos + 1;
 	    }
 #endif
+	    next_line_len = strlen(current->next->data);
 	    if (indent_len + break_pos == next_line_len) {
 		line = current->next;
 

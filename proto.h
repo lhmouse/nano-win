@@ -300,6 +300,7 @@ size_t indents_match(const char *a_line, size_t a_indent,
 			const char *b_line, size_t b_indent);
 filestruct *backup_lines(filestruct *first_line, size_t par_len,
 			size_t quote_len);
+int breakable(const char *line, int goal);
 int break_line(const char *line, int goal, int force);
 #endif /* !DISABLE_JUSTIFY */
 int do_justify(void);

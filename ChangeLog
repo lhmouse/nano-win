@@ -25,6 +25,8 @@ CVS Code -
 	  of winio.c.  New function rcfile.c:nregcomp().
 	  This fixes much of nano's resource hogging behavior
 	  in syntax higlighting. (David Benbennick).
+	- Fix justify failing for certain lines, new function 
+	  nano.c:breakable() (David Benbennick).
 - cut.c:
   do_cut_text()
 	- Fix incorrect cursor location when cutting long lines
