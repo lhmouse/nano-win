@@ -215,9 +215,9 @@ void sc_init_one(shortcut **shortcutage, int ctrlval, const char *desc,
 }
 
 #ifndef NANO_SMALL
-/* Create one new toggle structure, at the end of the toggles
- * linked list. */
-void toggle_init_one(int val, const char *desc, int flag)
+/* Create one new toggle structure, at the end of the toggles linked
+ * list. */
+void toggle_init_one(int val, const char *desc, long flag)
 {
     toggle *u;
 

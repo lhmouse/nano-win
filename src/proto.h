@@ -225,7 +225,7 @@ void sc_init_one(shortcut **shortcutage, int key, const char *desc,
 	int metaval, int funcval, int miscval, int view, void
 	(*func)(void));
 #ifndef NANO_SMALL
-void toggle_init_one(int val, const char *desc, int flag);
+void toggle_init_one(int val, const char *desc, long flag);
 void toggle_init(void);
 #ifdef DEBUG
 void free_toggles(void);
