@@ -2506,7 +2506,7 @@ void nanoget_repaint(const char *buf, const char *inputbuf, size_t x)
 		FALSE);
 
 	assert(wid > 0);
-	assert(strlen(expanded) <= wid);
+	assert(strlenpt(expanded) <= wid);
 
 	waddstr(bottomwin, expanded);
 	free(expanded);
