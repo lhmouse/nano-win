@@ -425,7 +425,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 #ifndef DISABLE_TABCOMP
 		, int *list
 #endif
-		);
+		, int resetpos);
 void set_modified(void);
 void titlebar(const char *path);
 void bottombars(const shortcut *s);

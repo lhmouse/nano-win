@@ -8,6 +8,10 @@ CVS Code -
 	- Fix subexpression replacement to work consistently.
 	  Affects search.c:replace_regexp() and 
 	  utils.c:strstrwrapper() (David Benbennick).
+	- Fix cursor position being saved when escaping out 
+	  of nanogetstr with keys like ^Y and ^V.  New arg
+	  resetpos to nanogetstr(), added static int
+	  resetpos in statusq() (bug found by DLR).
 - cut.c:
   do_cut_text()
 	- Fix incorrect cursor location when cutting long lines

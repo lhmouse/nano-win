@@ -194,7 +194,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 #ifndef DISABLE_TABCOMP
 		, int *list
 #endif
-		)
+		, int resetpos)
 {
     int kbinput;
     static int x = -1;
@@ -218,7 +218,7 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
        it would be past the end of the string as it is.  Otherwise,
        leave it alone.  This is so the cursor position stays at the same
        place if a prompt-changing toggle is pressed. */
-    if (x == -1 || x > xend)
+    if (x == -1 || x > xend || resetpos)
 	x = xend;
 
     answer = (char *)nrealloc(answer, xend + 1);
@@ -1175,6 +1175,8 @@ int statusq(int tabs, const shortcut *s, const char *def,
 #ifndef DISABLE_TABCOMP
     int list = 0;
 #endif
+    static int resetpos = 0;	/* Do we need to scrap the cursor position 
+				   on the statusbar? */
 
     bottombars(s);
 
@@ -1191,18 +1193,22 @@ int statusq(int tabs, const shortcut *s, const char *def,
 #ifndef DISABLE_TABCOMP
 		, &list
 #endif
-		);
+		, resetpos);
     free(foo);
+    resetpos = 0;
 
     switch (ret) {
     case NANO_FIRSTLINE_KEY:
 	do_first_line();
+	resetpos = 1;
 	break;
     case NANO_LASTLINE_KEY:
 	do_last_line();
+	resetpos = 1;
 	break;
     case NANO_CANCEL_KEY:
 	ret = -1;
+	resetpos = 1;
 	break;
     default:
 	blank_statusbar();
