@@ -3,6 +3,9 @@ CVS code -
 	- After (re)initializing the terminal, make sure the cursor is
 	  always turned on.  Changes to do_alt_speller(),
 	  handle_sigwinch(), and main(). (DLR)
+- files.c:
+  do_browser()
+	- Rename variable lineno to fileline to avoid confusion. (DLR)
 
 GNU nano 1.3.6 - 2005.03.20
 - General:
