@@ -471,14 +471,15 @@ int get_translated_kbinput(int kbinput, seq_type *seq
 			    /* Reset the escape counter. */
 			    escapes = 0;
 			    if (ascii_digits == 0)
-				/* Two escapes followed by a non-digit
-				 * or a digit that would create an ASCII
-				 * digit sequence greater than 2XX, and
-				 * we're not in the middle of an ASCII
-				 * character sequence: control character
-				 * sequence mode.  Interpret the control
-				 * sequence and save the corresponding
-				 * control character as the result. */
+				/* Two escapes followed by a non-decimal
+				 * digit or a decimal digit that would
+				 * create an ASCII digit sequence
+				 * greater than 2XX, and we're not in
+				 * the middle of an ASCII character
+				 * sequence: control character sequence
+				 * mode.  Interpret the control sequence
+				 * and save the corresponding control
+				 * character as the result. */
 				retval = get_control_kbinput(kbinput);
 			    else {
 				/* If we were in the middle of an ASCII
