@@ -709,6 +709,23 @@ ssize_t do_replace_loop(const char *needle, filestruct *real_current,
 
 	int i = 0;
 
+#ifdef HAVE_REGEX_H
+	/* If the bol_or_eol flag is set, we've found a match on the
+	 * beginning line already, and we're still on the beginning line
+	 * after the search, it means that we've wrapped around, so
+	 * we're done. */
+	if (bol_or_eol && begin_line && current == real_current)
+	    break;
+	/* Otherwise, set the begin_line flag if we've found a match on
+	 * the beginning line, reset the bol_or_eol flag, and
+	 * continue. */
+	else {
+	    if (current == real_current)
+		begin_line = TRUE;
+	    bol_or_eol = FALSE;
+	}
+#endif
+
 #ifndef NANO_SMALL
 	/* If we've found a match outside the marked text, skip over it
 	 * and search for another one. */
@@ -728,23 +745,6 @@ ssize_t do_replace_loop(const char *needle, filestruct *real_current,
 		}
 		continue;
 	    }
-	}
-#endif
-
-#ifdef HAVE_REGEX_H
-	/* If the bol_or_eol flag is set, we've found a match on the
-	 * beginning line already, and we're still on the beginning line
-	 * after the search, it means that we've wrapped around, so
-	 * we're done. */
-	if (bol_or_eol && begin_line && current == real_current)
-	    break;
-	/* Otherwise, set the begin_line flag if we've found a match on
-	 * the beginning line, reset the bol_or_eol flag, and
-	 * continue. */
-	else {
-	    if (current == real_current)
-		begin_line = TRUE;
-	    bol_or_eol = FALSE;
 	}
 #endif
 
