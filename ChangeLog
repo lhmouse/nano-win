@@ -7,6 +7,12 @@ CVS code -
 	  1" as the COPYING file is actually version 2 of the GPL (bug
 	  noticed by Jordi Mallach).
 - cut.c:
+  do_cut_text()
+	- Backported 1.1 fixes for just doing edit_update when we cut
+	  text instead of edit_update.
+  do_uncut_text()
+	- Backported David Lawrence Ramsey's fixes for doing refresh
+	  instead of edit_update when uncutting text.
   cut_marked_segment()
 	- Fix off-by one in mem allocation.
 - nano.c:

@@ -142,7 +142,7 @@ int do_cut_text(void)
 #ifndef NANO_SMALL
     char *tmpstr;
     int newsize, cuttingtoend = 0;
-    int cuttingpartialline = 0;
+    int dontupdate = 0;
 #endif
 
 
@@ -201,7 +201,7 @@ int do_cut_text(void)
     }
     if (ISSET(MARK_ISSET)) {
 	if (current->lineno == mark_beginbuf->lineno) {
-	    cuttingpartialline = 1;
+	    dontupdate = 1;
 	    tmp = copy_node(current);
 	    newsize = abs(mark_beginx - current_x) + 1;
 
@@ -224,21 +224,38 @@ int do_cut_text(void)
 	    add_to_cutbuffer(tmp);
 	    dump_buffer(cutbuffer);
 	    align(&current->data);
-	} else if (current->lineno < mark_beginbuf->lineno)
+	} else if (current->lineno < mark_beginbuf->lineno) {
+
+	    /* Don't do_update and move the screen position if the marked
+		area lies entirely within the screen buffer */
+	    if (current->lineno >= edittop->lineno
+		&& mark_beginbuf->lineno <= editbot->lineno)
+		dontupdate = 1;
+
 	    cut_marked_segment(current, current_x, mark_beginbuf,
 			       mark_beginx);
-	else
+	}
+	else {
+
+	    /* Same as above, easier logic since we know it's a multi-line
+		cut and mark_beginbuf is before current */
+	    if (mark_beginbuf->lineno >= edittop->lineno
+		&& current->lineno <= editbot->lineno)
+		dontupdate = 1;
+
 	    cut_marked_segment(mark_beginbuf, mark_beginx, current,
 			       current_x);
+	}
 
 	placewewant = xplustabs();
 	UNSET(MARK_ISSET);
 
 	marked_cut = 1;
 	set_modified();
-	if (cuttingpartialline || cuttingtoend)
+	if (dontupdate || cuttingtoend) {
+	    fix_editbot();
 	    edit_refresh();
-	else
+	} else
 	    edit_update(current, CENTER);
 
 	return 1;
@@ -385,8 +402,12 @@ int do_uncut_text(void)
 	    i = editbot->lineno;
 
 	    current = newend;
-	    if (i <= newend->lineno)
+	    if (i < newend->lineno) {
 		edit_update(current, CENTER);
+	    }
+	    else {
+		edit_refresh();
+	    }
 	}
 
 	/* If marked cut == 2, that means that we're doing a cut to end
@@ -444,8 +465,12 @@ int do_uncut_text(void)
 
     i = editbot->lineno;
     renumber(newbuf);
-    if (i < newend->lineno)
+    if (i < newend->lineno) {
 	edit_update(fileptr, CENTER);
+    }
+    else {
+	edit_refresh();
+    }
 
     dump_buffer_reverse(fileptr);
 
