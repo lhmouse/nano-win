@@ -64,7 +64,6 @@ int temp_opt = 0;		/* Editing temp file (pico -t option) */
 int fill = 0;			/* Fill - where to wrap lines, basically */
 static char *alt_speller;	/* Alternative spell command */
 struct termios oldterm;		/* The user's original term settings */
-static char *alt_speller;	/* Alternative spell command */
 static char *help_text_init = "";
 				/* Initial message, not including shortcuts */
 
