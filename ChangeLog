@@ -69,12 +69,24 @@ GNU nano 1.3.1 - 2004.01.09
 	  as being outside the operating directory when tab completion
 	  is being used, and cosmetic cleanups. (David Benbennick)
   copy_file()
-	- New function containing part of the functionality formerly in
+	- New function used to create a copy of a file, split out from
 	  do_writeout(). (David Benbennick)
+  write_file()
+	- Completely overhauled to properly ignore appending/prepending
+	  to symlinks when NOFOLLOW_SYMLINKS is defined, to properly
+	  support writing a selection to a file under the changed
+	  cutting code, to have more concise error messages, to add
+	  various cleanups, and so on. (David Benbennick)
   do_writeout()
 	- Prompt the user if we're trying to save an existing file (and
 	  not just a selection of it) under a different name. (DLR;
 	  suggested by Jean-Philippe Guérard)
+	- Overhaul the code used to write a selection of a file to
+	  temporarily set fileage and filebot to the top and bottom of
+	  the selection and then call write_file(), instead of following
+	  the old hackish behavior with cut_marked_segment() (which
+	  won't work after the cutting code changes anyway). (David
+	  Benbennick)
   open_prevfile(), open_nextfile()
 	- For consistency with the rest of the multibuffer code, change
 	  "No more open files" to "No more open file buffers". (DLR)
