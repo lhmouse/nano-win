@@ -638,7 +638,7 @@ void usage(void)
     print1opt("-A", "--smarthome", _("Enable smart home key"));
     print1opt("-B", "--backup", _("Backup existing files on save"));
     print1opt("-D", "--dos", _("Write file in DOS format"));
-    print1opt("-E", "--backupdir=[dir]", _("Directory for writing backup files"));
+    print1opt(_("-E [dir]"), _("--backupdir=[dir]"), _("Directory for writing backup files"));
 #endif
 #ifdef ENABLE_MULTIBUFFER
     print1opt("-F", "--multibuffer", _("Enable multiple file buffers"));

@@ -150,6 +150,10 @@ CVS code -
 	  backup files. (DLR)
   do_early_abort()
 	- Removed, as it's no longer called anywhere. (David Benbennick)
+  usage()
+	- Add missing "[dir]" and two missing _()'s around the strings
+	  describing the -E [dir]/--backupdir=[dir]" option. (CHAO
+	  Wei-Lun)
   open_pipe()
 	- Call enable_signals() at the beginning and disable_signals()
 	  at the end, so that we get a SIGINT when Ctrl-C is pressed
