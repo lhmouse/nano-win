@@ -1033,7 +1033,6 @@ int do_backspace(void)
 	    if (strcmp(current->data, "")) {
 		new_magicline();
 		fix_editbot();
-		totsize++;
 	    }
 	}
 
