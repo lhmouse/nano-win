@@ -1,3 +1,33 @@
+2003.01.17 - GNU nano 1.1.99pre1 "enough already" has been released.
+		This release is, barring bug fixes and documentation
+		updates, what version 1.2.0 has looked like, feature
+		wise. There will very likely be bugs, just due the 
+		volume of changes made in this release.  Search 
+		and replace string history has been added, including an 
+		option to log history to ~/.nano_history (-H, 
+		--historylog). Because of this, the pico incompatible 
+		search/replace string behavior that used to be the 
+		default has been deleted.   The old "pico" flag (-p) 
+		is now compatible with Pico's "preserve" mode for 
+		allowing flow control characters; by default this 
+		version ignores both ^Q and ^S. The 
+		--disable-wrapping-as-root configure option has been 
+		forward ported from version 1.0.x, and a new flag to 
+		enable all extra options (--enable-all) has been added.  
+		The internal spell checker has been improved, meaning 
+		you will now be prompted only once for each unique 
+		capitalization of a given word.  
+			There have also been lots of bug fixes,
+		including the "trying to insert a directory name in 
+		multibuffer mode bug", the ugly spell checker scrolling,
+		the color code, cutting text crashes, justification,
+		deleting the "magic line" via replace, and cursor 
+		positioning on the statusbar.   There have also been
+		the usual helping of translation and documentation
+		updates.  
+			Please send all new feedback on this release
+		direct to the development list (nano-devel@gnu.org).
+
 10/24/2002 - GNU nano 1.1.12 "Make Jordi happy" is released.  This 
 		release demonstrated that nano is starting to freeze for 
 		version 1.2.  New features include a Meta-Y toggle
@@ -113,9 +143,9 @@
 		release.  Other changes include more Hurd fixes, fixes
 		parsing the .nanorc, display fixes for the color syntax
 		highlighting, gettext stabilization and many translation
-		updates.  This is amost like a stable release, much like
+		updates.  This is almost like a stable release, much like
 		in the 0.9.x series when every other release was the
-		mosts stable one :)  Have fun!
+		most stable one :)  Have fun!
 		
 12/11/2001 - GNU nano 1.1.4 is released.  This release contains 
 		rudimentary color syntax support (but it's still
@@ -144,7 +174,7 @@
 		that nano was distributed under version 1 of the GPL when
 		the accompanying license was the GPLv2.  
 			If you're using nano-1.1, it is highly
-		recommeneded you upgrade to this release.  If using 1.0,
+		recommended you upgrade to this release.  If using 1.0,
 		wait for version 1.0.6 which should be available early
 		next week.  Enjoy!
 
@@ -164,7 +194,7 @@
 
 07/28/2001 - GNU nano 1.1.1 is released.  Our second 1.1 unstable release
 		features many bugfixes from the initial release, in
-		particular fixs for the multibuffer code, and various
+		particular fixes for the multibuffer code, and various
 		compiler macro fixes.  The shortcut lists for
 		the search and replace prompts are a little more logical
 		(with cancel the last option again), and the included
@@ -360,7 +390,7 @@
 		-k option from Pico (cut to end of line).  The majority
 		of changes in this release are bugfixes, however, including
 		the usual display fixes and fixes for writing to symbolic
-		links and un-writeable files.  Barring any other major 
+		links and un-writable files.  Barring any other major 
 		changes, this should be the feature set for nano 1.0,
 		whenever it might be released =-)
 

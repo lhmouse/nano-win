@@ -1,6 +1,6 @@
-CVS code -
-Changes
+GNU nano 1.1.99pre1 - 2003.01.17
 - General:
+	- New date format for NEWS and ChangeLog.
 	- Completely removed PICO_MODE, as with the search/replace
 	  history patch we should have the extended functionality we can
 	  without being incompatible with Pico.  Removed all code for
