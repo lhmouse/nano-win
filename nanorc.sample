@@ -61,7 +61,7 @@
 # Format: color foreground,background regex [regex...]
 #
 # Legal colors are: white, black, red, blue, green, yellow, purple, cyan
-# You may use the preefix "bright" to mean a stronger color hilight
+# You may use the prefix "bright" to mean a stronger color highlight
 #
 # If your system supports transparency, not specifying a background
 # color will use a transparent color.  If you don't want this, be sure
@@ -71,7 +71,7 @@
 #color brightred [\ ]struct ^struct if\  while[\ \n\(] do[\ \n\(] else[\ \n] case\ switch\ break;
 #color brightcyan #define #include #ifn*def #endif #elif #else
 
-# You will in general want your comments and strings to come last, becase
+# You will in general want your comments and strings to come last, because
 # syntax highlighting rules will be applied in the order they are read in
 
 #color brightyellow <.*> ".*"
