@@ -120,6 +120,16 @@ CVS code -
 	  debugging messages indicating when a flag is set or unset.
 	  (DLR)
 - search.c:
+  search_init()
+	- Add parameter use_answer.  When it's TRUE, only set
+	  backupstring to answer.  This is needed to preserve the text
+	  of the statusbar when switching to the search prompt from
+	  the "Go To Line" prompt.  Also, set backupstring before doing
+	  anything else, add one minor efficiency tweak, and preserve
+	  the text of the statusbar no matter what when switching from
+	  the search prompt to the "Go To Line" prompt, since the
+	  toggling works both ways now and non-numeric text shouldn't be
+	  lost when going only one of those ways. (DLR)
   findnextstr()
 	- Take the no_sameline parameter after can_display_wrap and
 	  wholewords, not after all other parameters. (DLR)

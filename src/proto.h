@@ -402,7 +402,7 @@ void regexp_cleanup(void);
 void not_found_msg(const char *str);
 void search_abort(void);
 void search_init_globals(void);
-int search_init(bool replacing);
+int search_init(bool replacing, bool use_answer);
 bool is_whole_word(int curr_pos, const char *datastr, const char
 	*searchword);
 bool findnextstr(bool can_display_wrap, bool wholeword, bool

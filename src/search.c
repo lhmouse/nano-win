@@ -109,31 +109,38 @@ void search_init_globals(void)
     }
 }
 
-/* Set up the system variables for a search or replace.  Return -1 if
- * the search should be canceled (due to Cancel, Go to Line, or a failed
- * regcomp()).  Return 0 on success, and 1 on rerun calling program.
- * Return -2 to run opposite program (search -> replace, replace ->
- * search).
+/* Set up the system variables for a search or replace.  If use_answer
+ * is TRUE, only set backupstring to answer.  Return -2 to run opposite
+ * program (search -> replace, replace -> search), return -1 if the
+ * search should be canceled (due to Cancel, Go to Line, or a failed
+ * regcomp()), return 0 on success, and return 1 on rerun calling
+ * program.
  *
- * replacing is TRUE if we call from do_replace(), FALSE if called from
- * do_search(). */
-int search_init(bool replacing)
+ * replacing is TRUE if we call from do_replace(), and FALSE if called
+ * from do_search(). */
+int search_init(bool replacing, bool use_answer)
 {
     int i = 0;
     char *buf;
     static char *backupstring = NULL;
+	/* The search string we'll be using. */
+
+    /* If backupstring doesn't exist, initialize it to "". */
+    if (backupstring == NULL)
+	backupstring = mallocstrcpy(NULL, "");
+
+    /* If use_answer is TRUE, set backupstring to answer and get out. */
+    if (use_answer) {
+	backupstring = mallocstrcpy(backupstring, answer);
+	return 0;
+    }
 
     /* We display the search prompt below.  If the user types a partial
      * search string and then Replace or a toggle, we will return to
      * do_search() or do_replace() and be called again.  In that case,
-     * we should put the same search string back up.  backupstring holds
-     * this string. */
+     * we should put the same search string back up. */
 
     search_init_globals();
-
-    /* If we don't already have a backupstring, set it. */
-    if (backupstring == NULL)
-	backupstring = mallocstrcpy(NULL, "");
 
 #ifndef NANO_SMALL
     search_history.current = (historytype *)&search_history.next;
@@ -148,10 +155,8 @@ int search_init(bool replacing)
 	sprintf(buf, " [%s%s]", disp,
 		strlenpt(last_search) > COLS / 3 ? "..." : "");
 	free(disp);
-    } else {
-	buf = charalloc(1);
-	buf[0] = '\0';
-    }
+    } else
+	buf = mallocstrcpy(NULL, "");
 
     /* This is now one simple call.  It just does a lot. */
     i = statusq(FALSE, replacing ? replace_list : whereis_list,
@@ -238,9 +243,8 @@ int search_init(bool replacing)
 #ifndef NANO_SMALL
 	    search_history.current = search_history.next;
 #endif
-	   /* If answer parses as an integer, put it up on the
-	    * statusbar. */
-	    do_gotoline(parse_num(answer, NULL) ? -1 : 0, FALSE);
+	    /* Put answer up on the statusbar. */
+	    do_gotoline(-1, FALSE);
 	    /* Fall through. */
 	default:
 	    return -1;
@@ -386,7 +390,7 @@ void do_search(void)
     wrap_reset();
 #endif
 
-    i = search_init(FALSE);
+    i = search_init(FALSE, FALSE);
     if (i == -1)	/* Cancel, Go to Line, blank search string, or
 			 * regcomp() failed. */
 	search_abort();
@@ -780,7 +784,7 @@ void do_replace(void)
 	return;
     }
 
-    i = search_init(TRUE);
+    i = search_init(TRUE, FALSE);
     if (i == -1) {		/* Cancel, Go to Line, blank search
 				 * string, or regcomp() failed. */
 	replace_abort();
@@ -876,6 +880,9 @@ void do_gotoline(int line, bool save_pos)
 	}
 
 	if (i == NANO_TOOTHERWHEREIS_KEY) {
+	    /* Keep answer up on the statusbar. */
+	    search_init(TRUE, TRUE);
+
 	    do_search();
 	    return;
 	}
