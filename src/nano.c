@@ -2354,13 +2354,10 @@ void do_justify(bool full_justify)
 	 * to the next line after justifying the current line. */
 
     /* We save these global variables to be restored if the user
-     * unjustifies.  Note we don't need to save totlines. */
-    int current_x_save = current_x;
-    int current_y_save = current_y;
-    long flags_save = flags;
-    long totsize_save = totsize;
-    filestruct *current_save = current;
-    filestruct *edittop_save = edittop;
+     * unjustifies.  Note that we don't need to save totlines. */
+    int current_x_save = current_x, current_y_save = current_y;
+    long flags_save = flags, totsize_save = totsize;
+    filestruct *edittop_save = edittop, *current_save = current;
 #ifndef NANO_SMALL
     filestruct *mark_beginbuf_save = mark_beginbuf;
     int mark_beginx_save = mark_beginx;
