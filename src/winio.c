@@ -1776,10 +1776,13 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 
 			    do_statusbar_verbatim_input(&got_enter);
 
-			    /* If we got the Enter key, set finished to
+			    /* If we got the Enter key, set input to the
+			     * key value for Enter, and set finished to
 			     * TRUE to indicate that we're done. */
-			    if (got_enter)
+			    if (got_enter) {
+				input = NANO_ENTER_KEY;
 				*finished = TRUE;
+			    }
 			}
 			break;
 		    }
