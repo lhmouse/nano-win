@@ -8,6 +8,7 @@ CVS code -
 	- Minor cosmetic code cleanups. (DLR)
 - configure.ac:
 	- Added pt_BR to ALL_LINGUAS (Jordi).
+	- Changed --enable-color warning to be slightly less severe.
 - files.c:
   open_file()
 	- String change: "File "x" is a directory" -> ""x" is a

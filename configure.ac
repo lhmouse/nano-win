@@ -77,8 +77,8 @@ AC_ARG_ENABLE(color,
     AC_MSG_WARN([
 
 ***********************************************************************
-*** WARNING: Color support is currently BROKEN.  Don't expect it to ***
-*** work AT ALL until more is implemented.                          ***
+*** WARNING: Color support is far from perfect, but functional.     ***
+*** Be careful with syntax in your .nanorc or nano may malfunction. ***
 ***********************************************************************
 ])
 fi])
