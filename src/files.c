@@ -1760,7 +1760,7 @@ int write_marked(const char *name, int tmp, int append)
     /* Partition the filestruct so that it contains only the marked
      * text. */
     mark_order((const filestruct **)&top, &top_x,
-	(const filestruct **)&bot, &bot_x);
+	(const filestruct **)&bot, &bot_x, NULL);
     filepart = partition_filestruct(top, top_x, bot, bot_x);
 
     /* If the line at filebot is blank, treat it as the magicline and

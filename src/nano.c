@@ -1537,8 +1537,11 @@ bool do_int_spell_fix(const char *word)
 #endif
 #ifndef NANO_SMALL
     bool old_mark_set = ISSET(MARK_ISSET);
+    bool right_side_up = FALSE;
+	/* TRUE if (mark_beginbuf, mark_beginx) is the top of the mark,
+	 * FALSE if (current, current_x) is. */
     filestruct *top, *bot;
-    size_t top_x, bot_x;
+    size_t top_x, bot_x, bot_data_len;
 #endif
 
     /* Make sure spell-check is case sensitive. */
@@ -1567,7 +1570,7 @@ bool do_int_spell_fix(const char *word)
 	/* If the mark is on, partition the filestruct so that it
 	 * contains only the marked text, and turn the mark off. */
 	mark_order((const filestruct **)&top, &top_x,
-	    (const filestruct **)&bot, &bot_x);
+	    (const filestruct **)&bot, &bot_x, &right_side_up);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
 	UNSET(MARK_ISSET);
     }
@@ -1613,6 +1616,16 @@ bool do_int_spell_fix(const char *word)
 	    break;
 	}
     }
+
+    /* If the mark ended in the middle of a word and that word was
+     * spell-checked, put either current_x_save or mark_beginx,
+     * depending on the value of right_side_up, at the end of the
+     * spell-checked word. */
+    bot_data_len = strlen(filebot->data);
+    if (right_side_up)
+	current_x_save = bot_data_len;
+    else
+	mark_beginx = bot_data_len;
 
     /* Restore the search/replace strings. */
     free(last_search);
@@ -1843,9 +1856,9 @@ const char *do_int_speller(const char *tempfile_name)
  * otherwise the error string. */
 const char *do_alt_speller(char *tempfile_name)
 {
-    int alt_spell_status, lineno_cur = current->lineno;
-    size_t x_cur = current_x, pww_cur = placewewant;
-    int y_cur = current_y;
+    int alt_spell_status, lineno_save = current->lineno;
+    size_t current_x_save = current_x, pww_save = placewewant;
+    int current_y_save = current_y;
     pid_t pid_spell;
     char *ptr;
     static int arglen = 3;
@@ -1855,7 +1868,10 @@ const char *do_alt_speller(char *tempfile_name)
     bool old_mark_set = ISSET(MARK_ISSET);
     bool added_magicline = FALSE;
 	/* Whether we added a magicline after filebot. */
-    int mbb_lineno_cur = 0;
+    bool right_side_up = FALSE;
+	/* TRUE if (mark_beginbuf, mark_beginx) is the top of the mark,
+	 * FALSE if (current, current_x) is. */
+    int mbb_lineno_save = 0;
 	/* We're going to close the current file, and open the output of
 	 * the alternate spell command.  The line that mark_beginbuf
 	 * points to will be freed, so we save the line number and
@@ -1870,7 +1886,7 @@ const char *do_alt_speller(char *tempfile_name)
     if (old_mark_set) {
 	/* If the mark is on, save the number of the line it starts on,
 	 * and then turn the mark off. */
-	mbb_lineno_cur = mark_beginbuf->lineno;
+	mbb_lineno_save = mark_beginbuf->lineno;
 	UNSET(MARK_ISSET);
     }
 #endif
@@ -1934,7 +1950,7 @@ const char *do_alt_speller(char *tempfile_name)
 	 * temp file (which should contain the spell-checked marked
 	 * text) will have a magicline added when it's reloaded. */
 	mark_order((const filestruct **)&top, &top_x,
-		(const filestruct **)&bot, &bot_x);
+		(const filestruct **)&bot, &bot_x, &right_side_up);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
 	added_magicline = (filebot->data[0] != '\0');
 
@@ -1961,10 +1977,21 @@ const char *do_alt_speller(char *tempfile_name)
 #ifndef NANO_SMALL
     if (old_mark_set) {
 	filestruct *top_save = fileage;
+	size_t bot_data_len;
 
 	/* If we added a magicline, remove it now. */
 	if (added_magicline)
 	    remove_magicline();
+
+	/* If the mark ended in the middle of a word and that word was
+	 * spell-checked, put either current_x_save or mark_beginx,
+	 * depending on the value of right_side_up, at the end of the
+	 * spell-checked word. */
+	bot_data_len = strlen(filebot->data);
+	if (right_side_up)
+	    current_x_save = bot_data_len;
+	else
+	    mark_beginx = bot_data_len;
 
 	/* If the mark was on, unpartition the filestruct so that it
 	 * contains all the text again.  Note that we've replaced the
@@ -1985,7 +2012,7 @@ const char *do_alt_speller(char *tempfile_name)
 
 	/* Assign mark_beginbuf to the line where the mark began
 	 * before. */
-	do_gotopos(mbb_lineno_cur, mark_beginx, y_cur, 0);
+	do_gotopos(mbb_lineno_save, mark_beginx, current_y_save, 0);
 	mark_beginbuf = current;
 
 	/* Assign mark_beginx to the location in mark_beginbuf where the
@@ -2000,7 +2027,7 @@ const char *do_alt_speller(char *tempfile_name)
 
     /* Go back to the old position, mark the file as modified, and make
      * sure that the titlebar is refreshed. */
-    do_gotopos(lineno_cur, x_cur, y_cur, pww_cur);
+    do_gotopos(lineno_save, current_x_save, current_y_save, pww_save);
     set_modified();
     clearok(topwin, FALSE);
     titlebar(NULL);

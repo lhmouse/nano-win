@@ -105,7 +105,7 @@ void cut_marked_segment(void)
     /* Set up the top and bottom lines and coordinates of the marked
      * text. */
     mark_order((const filestruct **)&top, &top_x,
-		(const filestruct **)&bot, &bot_x);
+		(const filestruct **)&bot, &bot_x, NULL);
 
     /* Make the first cut line manually.  Move the cut part of the top
      * line into tmp, and set newsize to that partial line's length. */

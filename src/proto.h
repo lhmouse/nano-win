@@ -504,7 +504,7 @@ void remove_magicline(void);
 void get_totals(const filestruct *begin, const filestruct *end, int
 	*lines, long *size);
 void mark_order(const filestruct **top, size_t *top_x, const filestruct
-	**bot, size_t *bot_x);
+	**bot, size_t *bot_x, bool *right_side_up);
 #endif
 #ifndef DISABLE_TABCOMP
 int check_wildcard_match(const char *text, const char *pattern);

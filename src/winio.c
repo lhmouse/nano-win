@@ -2862,7 +2862,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 	    /* Number of chars to paint on this line.  There are COLS
 	     * characters on a whole line. */
 
-	mark_order(&top, &top_x, &bot, &bot_x);
+	mark_order(&top, &top_x, &bot, &bot_x, NULL);
 
 	if (top->lineno < fileptr->lineno || top_x < startpos)
 	    top_x = startpos;

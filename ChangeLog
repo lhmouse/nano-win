@@ -279,6 +279,10 @@ CVS code -
 	  (DLR)
   mallocstrcpy()
 	- Refactor to be a wrapper for mallocstrncpy(). (DLR)
+  mark_order()
+	- Add new parameter right_side_up.  Set it to TRUE If the mark
+	  begins with (mark_beginbuf, mark_beginx) and ends with
+	  (current, current_x), or FALSE otherwise. (DLR)
 - winio.c:
   unget_kbinput()
 	- New function used as a wrapper for ungetch(). (DLR)
