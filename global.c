@@ -156,7 +156,7 @@ void toggle_init(void)
 #endif
 }
 
-void shortcut_init(void)
+void shortcut_init(int unjustify)
 {
     char *nano_help_msg = "", *nano_writeout_msg = "", *nano_exit_msg = "",
 	*nano_goto_msg = "", *nano_justify_msg = "", *nano_replace_msg =
@@ -170,7 +170,7 @@ void shortcut_init(void)
 	"", *nano_mark_msg = "", *nano_delete_msg =
 	"", *nano_backspace_msg = "", *nano_tab_msg =
 	"", *nano_enter_msg = "", *nano_case_msg =
-	"", *nano_cancel_msg = "";
+	"", *nano_cancel_msg = "", *nano_unjustify_msg;
 
 #ifndef NANO_SMALL
     nano_help_msg = _("Invoke the help menu");
@@ -178,6 +178,7 @@ void shortcut_init(void)
     nano_exit_msg = _("Exit from nano");
     nano_goto_msg = _("Goto a specific line number");
     nano_justify_msg = _("Justify the current paragraph");
+    nano_unjustify_msg = _("Unjustify after a justify");
     nano_replace_msg = _("Replace text within the editor");
     nano_insert_msg = _("Insert another file into the current one");
     nano_whereis_msg = _("Search for text within the editor");
@@ -255,7 +256,11 @@ void shortcut_init(void)
     sc_init_one(&main_list[8], NANO_CUT_KEY, _("Cut Text"),
 		nano_cut_msg, 0, NANO_CUT_FKEY, 0, NOVIEW, do_cut_text);
 
-    sc_init_one(&main_list[9], NANO_UNCUT_KEY, _("UnCut Txt"),
+    if (unjustify)
+	sc_init_one(&main_list[9], NANO_UNJUSTIFY_KEY, _("UnJustify"),
+		nano_unjustify_msg, 0, 0, 0, NOVIEW, do_uncut_text);
+    else
+	sc_init_one(&main_list[9], NANO_UNCUT_KEY, _("UnCut Txt"),
 		nano_uncut_msg,
 		0, NANO_UNCUT_FKEY, 0, NOVIEW, do_uncut_text);
 

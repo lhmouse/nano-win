@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-11-26 21:50-0500\n"
+"POT-Creation-Date: 2000-11-27 17:57-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -168,227 +168,235 @@ msgid "Justify the current paragraph"
 msgstr ""
 
 #: global.c:181
-msgid "Replace text within the editor"
+msgid "Unjustify after a justify"
 msgstr ""
 
 #: global.c:182
-msgid "Insert another file into the current one"
+msgid "Replace text within the editor"
 msgstr ""
 
 #: global.c:183
-msgid "Search for text within the editor"
+msgid "Insert another file into the current one"
 msgstr ""
 
 #: global.c:184
-msgid "Move to the previous screen"
+msgid "Search for text within the editor"
 msgstr ""
 
 #: global.c:185
-msgid "Move to the next screen"
+msgid "Move to the previous screen"
 msgstr ""
 
 #: global.c:186
-msgid "Cut the current line and store it in the cutbuffer"
+msgid "Move to the next screen"
 msgstr ""
 
 #: global.c:187
-msgid "Uncut from the cutbuffer into the current line"
+msgid "Cut the current line and store it in the cutbuffer"
 msgstr ""
 
 #: global.c:188
-msgid "Show the posititon of the cursor"
+msgid "Uncut from the cutbuffer into the current line"
 msgstr ""
 
 #: global.c:189
-msgid "Invoke the spell checker (if available)"
+msgid "Show the posititon of the cursor"
 msgstr ""
 
 #: global.c:190
-msgid "Move up one line"
+msgid "Invoke the spell checker (if available)"
 msgstr ""
 
 #: global.c:191
-msgid "Move down one line"
+msgid "Move up one line"
 msgstr ""
 
 #: global.c:192
-msgid "Move forward one character"
+msgid "Move down one line"
 msgstr ""
 
 #: global.c:193
-msgid "Move back one character"
+msgid "Move forward one character"
 msgstr ""
 
 #: global.c:194
-msgid "Move to the beginning of the current line"
+msgid "Move back one character"
 msgstr ""
 
 #: global.c:195
-msgid "Move to the end of the current line"
+msgid "Move to the beginning of the current line"
 msgstr ""
 
 #: global.c:196
-msgid "Go to the first line of the file"
+msgid "Move to the end of the current line"
 msgstr ""
 
 #: global.c:197
-msgid "Go to the last line of the file"
+msgid "Go to the first line of the file"
 msgstr ""
 
 #: global.c:198
-msgid "Refresh (redraw) the current screen"
+msgid "Go to the last line of the file"
 msgstr ""
 
 #: global.c:199
-msgid "Mark text at the current cursor location"
+msgid "Refresh (redraw) the current screen"
 msgstr ""
 
 #: global.c:200
+msgid "Mark text at the current cursor location"
+msgstr ""
+
+#: global.c:201
 msgid "Delete the character under the cursor"
 msgstr ""
 
-#: global.c:202
+#: global.c:203
 msgid "Delete the character to the left of the cursor"
 msgstr ""
 
-#: global.c:203
+#: global.c:204
 msgid "Insert a tab character"
 msgstr ""
 
-#: global.c:204
+#: global.c:205
 msgid "Insert a carriage return at the cursor position"
 msgstr ""
 
-#: global.c:206
+#: global.c:207
 msgid "Make the current search or replace case (in)sensitive"
 msgstr ""
 
-#: global.c:207
+#: global.c:208
 msgid "Cancel the current function"
 msgstr ""
 
-#: global.c:211 global.c:323 global.c:408
+#: global.c:212 global.c:328 global.c:413
 msgid "Get Help"
 msgstr ""
 
-#: global.c:214 global.c:222
+#: global.c:215 global.c:223
 msgid "WriteOut"
 msgstr ""
 
-#: global.c:218 global.c:397
+#: global.c:219 global.c:402
 msgid "Exit"
 msgstr ""
 
-#: global.c:226 global.c:319 global.c:341 global.c:361
+#: global.c:227 global.c:324 global.c:346 global.c:366
 msgid "Goto Line"
 msgstr ""
 
-#: global.c:231 global.c:310
+#: global.c:232 global.c:315
 msgid "Justify"
 msgstr ""
 
-#: global.c:235 global.c:306 global.c:337
+#: global.c:236 global.c:311 global.c:342
 msgid "Replace"
 msgstr ""
 
-#: global.c:239
+#: global.c:240
 msgid "Read File"
 msgstr ""
 
-#: global.c:243
+#: global.c:244
 msgid "Where Is"
 msgstr ""
 
-#: global.c:247 global.c:389
+#: global.c:248 global.c:394
 msgid "Prev Page"
 msgstr ""
 
-#: global.c:251 global.c:393
+#: global.c:252 global.c:398
 msgid "Next Page"
 msgstr ""
 
-#: global.c:255
+#: global.c:256
 msgid "Cut Text"
 msgstr ""
 
-#: global.c:258
+#: global.c:260
+msgid "UnJustify"
+msgstr ""
+
+#: global.c:263
 msgid "UnCut Txt"
 msgstr ""
 
-#: global.c:262
+#: global.c:267
 msgid "Cur Pos"
 msgstr ""
 
-#: global.c:266
+#: global.c:271
 msgid "To Spell"
 msgstr ""
 
-#: global.c:270
+#: global.c:275
 msgid "Up"
 msgstr ""
 
-#: global.c:273
+#: global.c:278
 msgid "Down"
 msgstr ""
 
-#: global.c:276
+#: global.c:281
 msgid "Forward"
 msgstr ""
 
-#: global.c:279
+#: global.c:284
 msgid "Back"
 msgstr ""
 
-#: global.c:282
+#: global.c:287
 msgid "Home"
 msgstr ""
 
-#: global.c:285
+#: global.c:290
 msgid "End"
 msgstr ""
 
-#: global.c:288
+#: global.c:293
 msgid "Refresh"
 msgstr ""
 
-#: global.c:291
+#: global.c:296
 msgid "Mark Text"
 msgstr ""
 
-#: global.c:294
+#: global.c:299
 msgid "Delete"
 msgstr ""
 
-#: global.c:298
+#: global.c:303
 msgid "Backspace"
 msgstr ""
 
-#: global.c:302
+#: global.c:307
 msgid "Tab"
 msgstr ""
 
-#: global.c:314
+#: global.c:319
 msgid "Enter"
 msgstr ""
 
-#: global.c:327 global.c:348 global.c:369 global.c:379
+#: global.c:332 global.c:353 global.c:374 global.c:384
 msgid "First Line"
 msgstr ""
 
-#: global.c:330 global.c:351 global.c:372 global.c:382
+#: global.c:335 global.c:356 global.c:377 global.c:387
 msgid "Last Line"
 msgstr ""
 
-#: global.c:333 global.c:354
+#: global.c:338 global.c:359
 msgid "Case Sens"
 msgstr ""
 
-#: global.c:344 global.c:364 global.c:375 global.c:385 global.c:401
-#: global.c:405 global.c:411 winio.c:1026
+#: global.c:349 global.c:369 global.c:380 global.c:390 global.c:406
+#: global.c:410 global.c:416 winio.c:1026
 msgid "Cancel"
 msgstr ""
 
-#: global.c:357
+#: global.c:362
 msgid "No Replace"
 msgstr ""
 
@@ -683,52 +691,52 @@ msgstr ""
 msgid "Can now UnJustify!"
 msgstr ""
 
-#: nano.c:1908
+#: nano.c:1914
 #, c-format
 msgid "%s enable/disable"
 msgstr ""
 
-#: nano.c:1920
+#: nano.c:1926
 msgid "enabled"
 msgstr ""
 
-#: nano.c:1921
+#: nano.c:1927
 msgid "disabled"
 msgstr ""
 
-#: nano.c:2151
+#: nano.c:2157
 msgid "Main: set up windows\n"
 msgstr ""
 
-#: nano.c:2164
+#: nano.c:2170
 msgid "Main: bottom win\n"
 msgstr ""
 
-#: nano.c:2170
+#: nano.c:2176
 msgid "Main: open file\n"
 msgstr ""
 
-#: nano.c:2207
+#: nano.c:2213
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2229
+#: nano.c:2235
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2262
+#: nano.c:2268
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2310
+#: nano.c:2316
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:2336
+#: nano.c:2342
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr ""

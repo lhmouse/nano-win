@@ -92,7 +92,7 @@ int check_wildcard_match(const char *text, const char *pattern);
 char *input_tab(char *buf, int place, int *lastWasTab, int *newplace);
 char *real_dir_from_tilde(char *buf);
 
-void shortcut_init(void);
+void shortcut_init(int unjustify);
 void lowercase(char *src);
 void blank_bottombars(void);
 void check_wrap(filestruct * inptr, char ch);

@@ -15,6 +15,11 @@ CVS code -
 	- Added call to real_name_from tilde, oops.
   read_file()
 	- Added check for fileptr == NULL.
+- global.c:
+  shortcut_init()
+	- Now takes an argument as to whether to display the unjustify
+	  shortcut or the normal uncut text one.  Needed to accomodate
+	  the klugey unjustify code.
 - nano.c:
   do_justify()
 	- Wrote unjustify code.  Borrows cutbuffer and stores the unjustified text there, 

@@ -1813,12 +1813,18 @@ int do_justify(void)
 
     edit_refresh();
     statusbar(_("Can now UnJustify!"));
+    /* Change the shortcut list to display the unjustify code */
+    shortcut_init(1);
+    display_main_list();
     reset_cursor();
 
-    /* Now get a keystroke and see if it's unjustify, if not unget the keytreoke 
+    /* Now get a keystroke and see if it's unjustify, if not unget the keytroke 
        and return */
-    if ((kbinput = wgetch(edit)) != NANO_UNJUSTIFY_KEY)
-	ungetch(kbinput);
+    if ((kbinput = wgetch(edit)) != NANO_UNJUSTIFY_KEY) {
+	ungetch(kbinput); 
+	shortcut_init(0);
+	display_main_list();
+    }
     else {
 	/* Else restore the justify we just did (ungrateful user!) */
 	if (tmptop->prev != NULL)
@@ -1927,7 +1933,7 @@ void do_toggle(int which)
 
     switch (toggles[which].val) {
     case TOGGLE_PICOMODE_KEY:
-	shortcut_init();
+	shortcut_init(0);
 	display_main_list();
 	break;
     case TOGGLE_SUSPEND_KEY:
@@ -2142,7 +2148,7 @@ int main(int argc, char *argv[])
 
     /* Set up some global variables */
     global_init();
-    shortcut_init();
+    shortcut_init(0);
     init_help_msg();
     help_init();
     signal_init();
