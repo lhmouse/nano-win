@@ -3732,7 +3732,7 @@ int do_yesno(bool all, const char *msg)
     return ok;
 }
 
-void total_blank(void)
+void total_update(void)
 {
     clearok(topwin, TRUE);
     clearok(edit, TRUE);
@@ -3748,7 +3748,7 @@ void total_blank(void)
 
 void total_refresh(void)
 {
-    total_blank();
+    total_update();
     titlebar(NULL);
     edit_refresh();
     bottombars(currshortcut);
@@ -3879,6 +3879,7 @@ void do_help(void)
 
     /* Set help_text as the string to display. */
     help_init();
+
     assert(help_text != NULL);
 
 #ifndef DISABLE_MOUSE
@@ -3935,7 +3936,7 @@ void do_help(void)
 	}
 
 	if (kbinput == NANO_REFRESH_KEY)
-	    total_blank();
+	    total_update();
 	else {
 	    if (line == old_line && kbinput != ERR)
 		goto skip_redisplay;
