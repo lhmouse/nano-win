@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.3\n"
-"POT-Creation-Date: 2001-12-11 21:21-0500\n"
-"PO-Revision-Date: 2001-11-19 00:27+0100\n"
+"Project-Id-Version: nano 1.1.4-cvs\n"
+"POT-Creation-Date: 2001-12-25 20:14+0100\n"
+"PO-Revision-Date: 2001-12-25 20:15+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -633,9 +633,9 @@ msgid ""
 "commonly used shortcuts in the editor.\n"
 "\n"
 " The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  "
-"Escape-key sequences are notated with the Meta (M) symbol and can be entered "
-"using either the Esc, Alt or Meta key depending on your keyboard setup.  The "
+"with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-"
+"key sequences are notated with the Meta (M) symbol and can be entered using "
+"either the Esc, Alt or Meta key depending on your keyboard setup.  The "
 "following keystrokes are available in the main editor window. Optional keys "
 "are shown in parentheses:\n"
 "\n"
@@ -949,48 +949,47 @@ msgstr ""
 msgid "Received SIGHUP"
 msgstr "SIGHUP recibido"
 
-#: nano.c:1980
+#: nano.c:1983
 msgid "Cannot resize top win"
 msgstr "No se puede cambiar el tamaño de la ventana superior"
 
-#: nano.c:1982
+#: nano.c:1985
 msgid "Cannot move top win"
 msgstr "No se puede mover la ventana superior"
 
-#: nano.c:1984
+#: nano.c:1987
 msgid "Cannot resize edit win"
 msgstr "No se puede cambiar el tamaño de la ventana de edición"
 
-#: nano.c:1986
+#: nano.c:1989
 msgid "Cannot move edit win"
 msgstr "No se puede mover la ventana de edición"
 
-#: nano.c:1988
+#: nano.c:1991
 msgid "Cannot resize bottom win"
 msgstr "No se puede cambiar el tamaño de la ventana inferior"
 
-#: nano.c:1990
+#: nano.c:1993
 msgid "Cannot move bottom win"
 msgstr "No se puede mover la ventana inferior"
 
 # ahora se puede. sv
-#: nano.c:2316
+#: nano.c:2332
 msgid "Can now UnJustify!"
 msgstr "¡Ahora se puede desjustificar!"
 
-#: nano.c:2377
-#, fuzzy
+#: nano.c:2393
 msgid ""
 "Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, then hit enter. "
-" If there is a match for the text you entered, the screen will be updated to "
-"the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, then hit "
+"enter.  If there is a match for the text you entered, the screen will be "
+"updated to the location of the nearest match for the search string.\n"
 "\n"
 " If using Pico Mode via the -p or --pico flags, using the Meta-P toggle or "
 "using a nanorc file, the previous search string will be shown in brackets "
 "after the Search: prompt.  Hitting enter without entering any text will "
-"preform the previous search. Otherwise, the previous string will be placed "
+"perform the previous search. Otherwise, the previous string will be placed "
 "in front of the cursor, and can be edited or deleted before hitting enter.\n"
 "\n"
 " The following functions keys are available in Search mode:\n"
@@ -1003,17 +1002,17 @@ msgstr ""
 "actualizará al lugar donde está la coincidencia de la cadena buscada más "
 "cercana.\n"
 "\n"
-"Si estás usando el Modo Pico mediante las opciones -p o --pico o usando el "
-"interruptor Meta-P, la cadena de la búsqueda anterior se mostrará después "
-"del indicador Buscar:.  Pulsar intro sin introducir ningún texto llevará a "
-"cabo la anterior búsqueda. Si no, la anterior cadena se pondrá delante del "
-"cursor, y se podrá editar o borrar antes de pulsar intro.\n"
+"Si estás usando el Modo Pico mediante las opciones -p o --pico, usando el "
+"interruptor Meta-P o usando un fichero nanorc, la cadena de la búsqueda "
+"anterior se mostrará después del indicador Buscar:.  Pulsar intro sin "
+"introducir ningún texto llevará a cabo la anterior búsqueda. Si no, la "
+"anterior cadena se pondrá delante del cursor, y se podrá editar o borrar "
+"antes de pulsar intro.\n"
 "\n"
 " Las siguientes teclas de función están disponibles en el modo Búsqueda:\n"
 "\n"
 
-#: nano.c:2391
-#, fuzzy
+#: nano.c:2407
 msgid ""
 "Goto Line Help Text\n"
 "\n"
@@ -1033,8 +1032,7 @@ msgstr ""
 " Las siguientes teclas de función están disponibles en el modo Ir a Línea:\n"
 "\n"
 
-#: nano.c:2398
-#, fuzzy
+#: nano.c:2414
 msgid ""
 "Insert File Help Text\n"
 "\n"
@@ -1055,15 +1053,16 @@ msgstr ""
 "encuentra actualmente el cursor.\n"
 "\n"
 " Si has compilado nano con soporte para múltiples ficheros y habilitas los "
-"buffers múltiples con las opciones -F o --multibuffer o con el interruptor "
-"Meta-F, la inserción de un fichero hará que se cargue en un buffer diferente "
-"(usa Ctrl-< y > para cambiar de buffers de fichero).\n"
+"buffers múltiples con las opciones -F o --multibuffer, con el interruptor "
+"Meta-F o usando un fichero nanorc, la inserción de un fichero hará que se "
+"cargue en un buffer diferente (usa Ctrl-< y > para cambiar de buffers de "
+"fichero).\n"
 "\n"
 " Las siguientes teclas de función están disponibles en el modo Insertar "
 "Fichero:\n"
 "\n"
 
-#: nano.c:2409
+#: nano.c:2425
 msgid ""
 "Write File Help Text\n"
 "\n"
@@ -1093,15 +1092,15 @@ msgstr ""
 "Fichero:\n"
 "\n"
 
-#: nano.c:2421
+#: nano.c:2437
 msgid ""
 "File Browser Help Text\n"
 "\n"
 " The file browser is used to visually browse the directory structure to "
-"select a file for reading or writing.  You may use the arrow keys or Page "
-"Up/Down to browse through the files, and S or Enter to choose the selected "
-"file or enter the selected directory. To move up one level, select the "
-"directory called \"..\" at the top of the file list.\n"
+"select a file for reading or writing.  You may use the arrow keys or Page Up/"
+"Down to browse through the files, and S or Enter to choose the selected file "
+"or enter the selected directory. To move up one level, select the directory "
+"called \"..\" at the top of the file list.\n"
 "\n"
 " The following functions keys are available in the file browser:\n"
 "\n"
@@ -1119,7 +1118,7 @@ msgstr ""
 "ficheros:\n"
 "\n"
 
-#: nano.c:2432
+#: nano.c:2448
 msgid ""
 "Browser Goto Directory Help Text\n"
 "\n"
@@ -1141,7 +1140,7 @@ msgstr ""
 "Directorio del Navegador:\n"
 "\n"
 
-#: nano.c:2440
+#: nano.c:2456
 msgid ""
 "Spell Check Help Text\n"
 "\n"
@@ -1164,57 +1163,57 @@ msgstr ""
 "de ortografía\n"
 "\n"
 
-#: nano.c:2524
+#: nano.c:2540
 #, c-format
 msgid "%s enable/disable"
 msgstr "%s habilitar/deshabilitar"
 
-#: nano.c:2543
+#: nano.c:2559
 msgid "enabled"
 msgstr "habilitado"
 
-#: nano.c:2544
+#: nano.c:2560
 msgid "disabled"
 msgstr "deshabilitado"
 
-#: nano.c:2608
+#: nano.c:2624
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "Detectado NumLock roto.  El tecl. numérico funcionará con NumLock activado"
 
-#: nano.c:2900
+#: nano.c:2916
 msgid "Main: set up windows\n"
 msgstr "Main: configurar las ventanas\n"
 
-#: nano.c:2912
+#: nano.c:2928
 msgid "Main: bottom win\n"
 msgstr "Main: ventana inferior\n"
 
-#: nano.c:2918
+#: nano.c:2934
 msgid "Main: open file\n"
 msgstr "Main: abrir fichero\n"
 
-#: nano.c:2977
+#: nano.c:2993
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "¡Pillé Alt-O-%c! (%d)\n"
 
-#: nano.c:3011
+#: nano.c:3027
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "¡Pillé Alt-[-1-%c! (%d)\n"
 
-#: nano.c:3041
+#: nano.c:3057
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "¡Pillé Alt-[-2-%c! (%d)\n"
 
-#: nano.c:3116
+#: nano.c:3132
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "¡Pillé Alt-[-%c! (%d)\n"
 
-#: nano.c:3151
+#: nano.c:3167
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "¡Pillé Alt-%c! (%d)\n"
@@ -1413,6 +1412,14 @@ msgstr "Fichero: ..."
 msgid "   DIR: ..."
 msgstr "   DIR: ..."
 
+#: winio.c:556
+msgid "File: "
+msgstr "Fichero: "
+
+#: winio.c:558
+msgid " DIR: "
+msgstr " DIR: "
+
 #: winio.c:563
 msgid "Modified"
 msgstr "Modificado"
@@ -1465,6 +1472,7 @@ msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
 #: winio.c:1519
+#, c-format
 msgid "line %d of %d (%.0f%%), character %ld of %ld (%.0f%%)"
 msgstr "línea %d de %d (%.0f%%), carácter %ld de %ld (%.0f%%)"
 
