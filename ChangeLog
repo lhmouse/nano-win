@@ -116,6 +116,9 @@ CVS code -
 	- If there are more than MAIN_VISIBLE shortcuts available, only
 	  register clicks on the first MAIN_VISIBLE shortcuts, since
 	  bottombars() only shows that many shortcuts. (DLR)
+  nanogetstr()
+	- Refresh the screen when Ctrl-L is pressed at the statusbar
+	  prompt, as Pico does. (DLR)
   reset_cursor()
 	- If this is called before any files have been opened, as it can
 	  be by statusbar(), put the cursor at the top left corner of

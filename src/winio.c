@@ -1855,6 +1855,9 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 	    }
 	    break;
 #endif
+	case NANO_REFRESH_KEY:
+	    total_refresh();
+	    break;
 	case NANO_HOME_KEY:
 #ifndef NANO_SMALL
 	    if (ISSET(SMART_HOME)) {
