@@ -460,12 +460,12 @@ typedef struct historyheadtype {
 #define NOVIEW 0
 
 typedef enum {
-    TOP, CENTER, NONE
-} topmidnone;
-
-typedef enum {
     JUSTIFY, BEGIN, END
 } justbegend;
+
+typedef enum {
+    TOP, CENTER, NONE
+} topmidnone;
 
 /* Minimum editor window rows required for nano to work correctly. */
 #define MIN_EDITOR_ROWS 3
