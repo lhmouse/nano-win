@@ -148,6 +148,10 @@ CVS code -
 	  Ctrl-X, for consistency with the file browser. (DLR)
 - nanorc.sample:
 	- Add sample regexes for patch files. (Mike Frysinger)
+	- Various improvements to the "c-file" regexes.  Add double,
+	  typedef, extern, union, unsigned, inline, and long to the
+	  green list. (Mike Frysinger)  DLR: Also add signed, short, and
+	  enum to the green list.
 
 GNU nano 1.3.3 - 2004.06.28
 - General:
