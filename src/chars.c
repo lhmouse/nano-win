@@ -595,26 +595,7 @@ const char *nstrcasestr(const char *haystack, const char *needle)
 }
 #endif
 
-/* None of this is needed if we're using NANO_SMALL! */
 #ifndef NANO_SMALL
-const char *revstrstr(const char *haystack, const char *needle, const
-	char *rev_start)
-{
-    assert(haystack != NULL && needle != NULL && rev_start != NULL);
-
-    for (; rev_start >= haystack; rev_start--) {
-	const char *r, *q;
-
-	for (r = rev_start, q = needle; *q == *r && *q != '\0'; r++, q++)
-	    ;
-
-	if (*q == '\0')
-	    return rev_start;
-    }
-
-    return NULL;
-}
-
 const char *revstrcasestr(const char *haystack, const char *needle,
 	const char *rev_start)
 {
@@ -632,7 +613,7 @@ const char *revstrcasestr(const char *haystack, const char *needle,
 
     return NULL;
 }
-#endif /* !NANO_SMALL */
+#endif
 
 #ifndef HAVE_STRNLEN
 /* This function is equivalent to strnlen(). */

@@ -131,7 +131,26 @@ void sunder(char *str)
     }
 }
 
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#ifndef NANO_SMALL
+const char *revstrstr(const char *haystack, const char *needle, const
+	char *rev_start)
+{
+    assert(haystack != NULL && needle != NULL && rev_start != NULL);
+
+    for (; rev_start >= haystack; rev_start--) {
+	const char *r, *q;
+
+	for (r = rev_start, q = needle; *q == *r && *q != '\0'; r++, q++)
+	    ;
+
+	if (*q == '\0')
+	    return rev_start;
+    }
+
+    return NULL;
+}
+
+#ifdef ENABLE_NANORC
 #ifndef HAVE_GETLINE
 /* This function is equivalent to getline().  It was adapted from
  * GNU mailutils' getline() function. */
@@ -189,7 +208,8 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
     return (c == EOF && (indx - 1) == 0) ? -1 : indx - 1;
 }
 #endif
-#endif /* !NANO_SMALL && ENABLE_NANORC */
+#endif /* ENABLE_NANORC */
+#endif /* !NANO_SMALL */
 
 /* If we are searching backwards, we will find the last match that
  * starts no later than start.  Otherwise we find the first match
