@@ -1,4 +1,6 @@
 CVS code -
+- po/de.po:
+	- Updated German translation (Karl Eichwalder).
 
 nano 1.0.5 - 10/03/2001
 - cut.c:

@@ -1,19 +1,19 @@
-# $Id$
 # German Messages for the nano editor
-# Florian Kˆnig <floki@bigfoot.com> June 21, 2000
-# Copyright (C) 2000 Free Software Foundation, Inc.
-# Florian Kˆnig <floki@bigfoot.com>, 2001.
+# Copyright (C) 2000, 2001 Free Software Foundation, Inc.
+# Karl Eichwalder <keichwa@gmx.net>, 2001.
+# Florian Kˆnig <floki@bigfoot.com>, 2000, 2001.
+# $Id$
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.0.0\n"
+"Project-Id-Version: nano_1_0 1.0.5\n"
 "POT-Creation-Date: 2001-10-03 19:08-0400\n"
-"PO-Revision-Date: 2001-02-08 17:56+0200\n"
-"Last-Translator: Florian Kˆnig <floki@bigfoot.com>\n"
-"Language-Team: German <floki@bigfoot.com>\n"
+"PO-Revision-Date: 2001-10-10 20:41+0200\n"
+"Last-Translator: Karl Eichwalder <keichwa@gmx.net>\n"
+"Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
-"Content-Transfer-Encoding: 8-bit\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: cut.c:43
 #, c-format
@@ -97,6 +97,7 @@ msgstr "Konnte Rechte %o f¸r %s nicht setzen: %s"
 msgid "Wrote %d lines"
 msgstr "%d Zeilen geschrieben"
 
+# "speichern" ist wohl besser hier.
 #: files.c:525
 msgid "File Name to write"
 msgstr "Dateiname zum Speichern"
@@ -116,7 +117,7 @@ msgstr "(mehr)"
 
 #: files.c:1244
 msgid "Can't move up a directory"
-msgstr "Konnte nicht in Åbergeordnetes Verzeichnis wechseln"
+msgstr "Konnte nicht ins ¸bergeordnete Verzeichnis wechseln"
 
 #. We can't open this dir for some reason.  Complain
 #: files.c:1252
@@ -213,7 +214,6 @@ msgid "Uncut from the cutbuffer into the current line"
 msgstr "Aus der Zwischenablage einf¸gen"
 
 #: global.c:199
-#, fuzzy
 msgid "Show the position of the cursor"
 msgstr "Cursoposition anzeigen"
 
@@ -279,8 +279,7 @@ msgstr "Zeilenumbruch an der Cursorposition einf¸gen"
 
 #: global.c:217
 msgid "Make the current search or replace case (in)sensitive"
-msgstr ""
-"Groﬂ- und Kleinschreibung bei Suche oder Erstzen (nicht) ber¸cksichtigen"
+msgstr "Groﬂ- und Kleinschreibung bei Suche oder Erstzen (nicht) ber¸cksichtigen"
 
 #: global.c:218
 msgid "Go to file browser"
@@ -425,21 +424,13 @@ msgstr "In Dateien"
 
 #: nano.c:141
 #, c-format
-msgid ""
-"\n"
-"Buffer written to %s\n"
-msgstr ""
-"\n"
-"Puffer in %s geschrieben\n"
+msgid "\nBuffer written to %s\n"
+msgstr "\nPuffer in %s geschrieben\n"
 
 #: nano.c:143
 #, c-format
-msgid ""
-"\n"
-"No %s written (file exists?)\n"
-msgstr ""
-"\n"
-"%s nicht geschrieben (Datei existiert?)\n"
+msgid "\nNo %s written (file exists?)\n"
+msgstr "\n%s nicht geschrieben (Datei existiert?)\n"
 
 #: nano.c:152
 msgid "Window size is too small for Nano..."
@@ -454,37 +445,16 @@ msgstr "Unzul‰ssige Taste im View Modus"
 msgid ""
 " nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor: The "
-"top line shows the program version, the current filename being edited, and "
-"whether or not the file has been modified.  Next is the main editor window "
-"showing the file being edited.  The status line is the third line from the "
-"bottom and shows important messages. The bottom two lines show the most "
-"commonly used shortcuts in the editor.\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor: The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages. The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
-" The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  "
-"Escape-key sequences are notated with the Meta (M) symbol and can be entered "
-"using either the Esc, Alt or Meta key depending on your keyboard setup.  The "
-"following keystrokes are available in the main editor window. Optional keys "
-"are shown in parentheses:\n"
+" The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt or Meta key depending on your keyboard setup.  The following keystrokes are available in the main editor window. Optional keys are shown in parentheses:\n"
 "\n"
 msgstr ""
 " nano Hilfe\n"
 "\n"
-" Nano wurde konzipiert um die Funktionalit‰t und die Benutzerfreundlichkeit "
-"des UW Pico Texteditors zu imitieren. | Es gibt vier Hauptbereiche: Die "
-"Titelzeile zeigt die Version des Programms, den Namen der aktuell editierten "
-"Datei und ob die Datei ver‰ndert wurde oder nicht. | Das Hauptfenster "
-"enth‰lt die geˆffnete Datei. | Die Statuszeile (die dritte Zeile von unten) "
-"zeigt wichtige Meldungen. Die untersten zwei Zeilen listen die "
-"meistgebrauchten Tastenkombinationen von nano auf.\n"
+" Nano wurde konzipiert um die Funktionalit‰t und die Benutzerfreundlichkeit des UW Pico Texteditors zu imitieren. | Es gibt vier Hauptbereiche: Die Titelzeile zeigt die Version des Programms, den Namen der aktuell editierten Datei und ob die Datei ver‰ndert wurde oder nicht. | Das Hauptfenster enth‰lt die geˆffnete Datei. | Die Statuszeile (die dritte Zeile von unten) zeigt wichtige Meldungen. Die untersten zwei Zeilen listen die meistgebrauchten Tastenkombinationen von nano auf.\n"
 "\n"
-" Tastenkombinationen werden wie folgt abgek‰rzt: Kombinationen mit der "
-"Strg-Taste werden mit einem ^ ausgedr‰ckt. Escape-Sequenzen werden mit dem "
-"Meta (M)-Symbol angegeben und kˆnnen je nach Tastatureinstellung mit Esc, "
-"Alt oder Meta eingegeben werden. | Die folgenden Tasten(kombinationen) sind "
-"im Hauptfenster verf¸gbar. Optionale Tasten sind eingeklammert.\n"
+" Tastenkombinationen werden wie folgt abgek‰rzt: Kombinationen mit der Strg-Taste werden mit einem ^ ausgedr‰ckt. Escape-Sequenzen werden mit dem Meta (M)-Symbol angegeben und kˆnnen je nach Tastatureinstellung mit Esc, Alt oder Meta eingegeben werden. | Die folgenden Tasten(kombinationen) sind im Hauptfenster verf¸gbar. Optionale Tasten sind eingeklammert.\n"
 "\n"
 
 #: nano.c:298
@@ -496,12 +466,8 @@ msgid "delete_node(): free'd last node.\n"
 msgstr "delete_node(): letzter Knoten freigegeben.\n"
 
 #: nano.c:358
-msgid ""
-"Usage: nano [GNU long option] [option] +LINE <file>\n"
-"\n"
-msgstr ""
-"Aufruf: nano [lange GNU Option] [Option] +ZEILE <Datei>\n"
-"\n"
+msgid "Usage: nano [GNU long option] [option] +LINE <file>\n\n"
+msgstr "Aufruf: nano [lange GNU Option] [Option] +ZEILE <Datei>\n\n"
 
 #: nano.c:359
 msgid "Option\t\tLong option\t\tMeaning\n"
@@ -509,8 +475,7 @@ msgstr "Option\t\tlange Option\t\tBedeutung\n"
 
 #: nano.c:361
 msgid " -T [num]\t--tabsize=[num]\t\tSet width of a tab to num\n"
-msgstr ""
-" -T [Anzahl]\t--tabsize=[Anzahl]\t\tTabulator-Grˆﬂe auf Anzahl setzen\n"
+msgstr " -T [Anzahl]\t--tabsize=[Anzahl]\t\tTabulator-Grˆﬂe auf Anzahl setzen\n"
 
 #: nano.c:364
 msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
@@ -538,9 +503,7 @@ msgstr " -k \t\t--cut\t\t\t^K schneidet vom Cursor bis zum Zeilenende aus\n"
 
 #: nano.c:380
 msgid " -l \t\t--nofollow\t\tDon't follow symbolic links, overwrite\n"
-msgstr ""
-" -l \t\t--nofollow\t\tSymbolischen Links nicht folgen, sondern "
-"‹berschreiben.\n"
+msgstr " -l \t\t--nofollow\t\tSymbolischen Links nicht folgen, sondern ‹berschreiben.\n"
 
 #: nano.c:383
 msgid " -m \t\t--mouse\t\t\tEnable mouse\n"
@@ -551,16 +514,12 @@ msgid " -p\t \t--pico\t\t\tEmulate Pico as closely as possible\n"
 msgstr " -\t \t--pico\t\t\tPico so genau wie mˆglich imitieren\n"
 
 #: nano.c:390
-msgid ""
-" -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
-msgstr ""
-" -r [#Spalten] \t--fill=[#Spalten]\tSpalten auff¸llen (Zeilenumbruch bei) "
-"#Spalten\n"
+msgid " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
+msgstr " -r [#Spalten] \t--fill=[#Spalten]\tSpalten auff¸llen (Zeilenumbruch bei) #Spalten\n"
 
 #: nano.c:393
 msgid " -s [prog] \t--speller=[prog]\tEnable alternate speller\n"
-msgstr ""
-" -s [Programm] \t--speller=[Programm]\tAlternative Rechtschreibpr¸fung\n"
+msgstr " -s [Programm] \t--speller=[Programm]\tAlternative Rechtschreibpr¸fung\n"
 
 #: nano.c:396
 msgid " -t \t\t--tempfile\t\tAuto save on exit, don't prompt\n"
@@ -568,8 +527,7 @@ msgstr " -t \t\t--tempfile\t\tBeim Beenden ohne R¸ckfrage speichern\n"
 
 #: nano.c:398
 msgid " -v \t\t--view\t\t\tView (read only) mode\n"
-msgstr ""
-" -v \t\t--view\t\t\tNur zum Lesen ˆffnen (keine Ver‰nderungen m˜glich)\n"
+msgstr " -v \t\t--view\t\t\tNur zum Lesen ˆffnen (keine Ver‰nderungen m˜glich)\n"
 
 #: nano.c:401
 msgid " -w \t\t--nowrap\t\tDon't wrap long lines\n"
@@ -581,20 +539,15 @@ msgstr " -x \t\t--nohelp\t\tHilfe-Fenster nicht anzeigen\n"
 
 #: nano.c:406
 msgid " -z \t\t--suspend\t\tEnable suspend\n"
-msgstr ""
-" -z \t\t--suspend\t\tSuspend (anhalten und zur¸ck zur Shell) aktivieren\n"
+msgstr " -z \t\t--suspend\t\tSuspend (anhalten und zur¸ck zur Shell) aktivieren\n"
 
 #: nano.c:408
 msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
 msgstr " +ZEILE\t\t\t\t\tBei Zeile ZEILE beginnen\n"
 
 #: nano.c:410
-msgid ""
-"Usage: nano [option] +LINE <file>\n"
-"\n"
-msgstr ""
-"Aufruf: nano [Option] +ZEILE <Datei>\n"
-"\n"
+msgid "Usage: nano [option] +LINE <file>\n\n"
+msgstr "Aufruf: nano [Option] +ZEILE <Datei>\n\n"
 
 #: nano.c:411
 msgid "Option\t\tMeaning\n"
@@ -645,9 +598,8 @@ msgid " -r [#cols] \tSet fill cols to (wrap lines at) #cols\n"
 msgstr " -r [#Spalten] \tSpalten auff¸llen (Zeilenumbruch bei) #Spalten\n"
 
 #: nano.c:431
-#, fuzzy
 msgid " -s [prog]  \tEnable alternate speller\n"
-msgstr " -s [Programm] |\tAlternative Rechtschreibpr¸fung\n"
+msgstr " -s [Programm] \tAlternative Rechtschreibpr¸fung\n"
 
 #: nano.c:433
 msgid " -t \t\tAuto save on exit, don't prompt\n"
@@ -683,12 +635,8 @@ msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 msgstr " Email: nano@nano-editor.org\tWWW: http://www.nano-editor.org"
 
 #: nano.c:451
-msgid ""
-"\n"
-" Compiled options:"
-msgstr ""
-"\n"
-" Kompilierte Optionen:"
+msgid "\n Compiled options:"
+msgstr "\n Kompilierte Optionen:"
 
 #: nano.c:519
 msgid "Mark Set"
@@ -724,8 +672,7 @@ msgstr "Konnte keine tempor‰re Datei erzeugen: %s"
 
 #: nano.c:1469
 msgid "Spell checking failed: unable to write temp file!"
-msgstr ""
-"Rechtschreibpr¸fung fehlgeschlagen: konnte nicht in tempor‰re Datei schreiben"
+msgstr "Rechtschreibpr¸fung fehlgeschlagen: konnte nicht in tempor‰re Datei schreiben"
 
 #: nano.c:1481
 msgid "Finished checking spelling"
@@ -785,11 +732,8 @@ msgid "disabled"
 msgstr "deaktiviert"
 
 #: nano.c:2162
-#, fuzzy
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
-msgstr ""
-"NumLock Problem entdeckt. | Tastenblock funktioniert nicht, wenn NumLock "
-"ausgeschaltet ist"
+msgstr "NumLock-Problem entdeckt.  Tastenblock funktioniert bei ausgeschaltetem NumLock nicht"
 
 #: nano.c:2388
 msgid "Main: set up windows\n"
@@ -831,9 +775,7 @@ msgstr "Erhielt Alt-%c! (%d)\n"
 #: search.c:127
 #, c-format
 msgid "Case Sensitive Regexp Search%s%s"
-msgstr ""
-"Suche mit Unterscheidung von Groﬂ- und Kleinschreibung nach regul‰rem "
-"Ausdruck%s%s"
+msgstr "Suche mit Unterscheidung von Groﬂ- und Kleinschreibung nach regul‰rem Ausdruck%s%s"
 
 #: search.c:129
 #, c-format
@@ -868,12 +810,11 @@ msgid "Search Wrapped"
 msgstr "Suche in neue Zeile umgebrochen"
 
 #: search.c:358
-#, fuzzy, c-format
+#, c-format
 msgid "Replaced %d occurrences"
 msgstr "%d Ersetzungen vorgenommen"
 
 #: search.c:360
-#, fuzzy
 msgid "Replaced 1 occurrence"
 msgstr "1 Ersetzung vorgenommen"
 
@@ -919,7 +860,7 @@ msgstr "Nur %d Zeilen vorhanden, springe zur letzten Zeile"
 #: winio.c:124
 #, c-format
 msgid "actual_x_from_start for xplus=%d returned %d\n"
-msgstr "actual_x_from_start f¸r xplus=%d gab %d zurÅck\n"
+msgstr "actual_x_from_start f¸r xplus=%d gab %d zur¸ck\n"
 
 #: winio.c:448
 #, c-format
@@ -931,14 +872,12 @@ msgid "New Buffer"
 msgstr "Neuer Puffer"
 
 #: winio.c:492
-#, fuzzy
 msgid "  File: ..."
-msgstr " |Datei: ..."
+msgstr "  Datei: ..."
 
 #: winio.c:494
-#, fuzzy
 msgid "   DIR: ..."
-msgstr " || Verzeichnis: ..."
+msgstr "   VERZ: ..."
 
 #: winio.c:505
 msgid "Modified"
@@ -1044,6 +983,76 @@ msgstr "und alle Nichtgenannten..."
 msgid "Thank you for using nano!\n"
 msgstr "Danke f¸r die Benutzung von nano!\n"
 
+#~ #, fuzzy
+#~ msgid "Append"
+#~ msgstr "Suspend"
+
+#~ #, fuzzy
+#~ msgid "Write"
+#~ msgstr "Speichern"
+
+#~ #, fuzzy
+#~ msgid "Goto Directory"
+#~ msgstr "Zu Zeile"
+
+#~ #, fuzzy
+#~ msgid "Goto Cancelled"
+#~ msgstr "Abgebrochen"
+
+#~ #, fuzzy
+#~ msgid "Append to the current file"
+#~ msgstr "Zum Zeilenende springen"
+
+#~ #, fuzzy
+#~ msgid "Search Backwards"
+#~ msgstr "Suche abgebrochen"
+
+#~ #, fuzzy
+#~ msgid "Use Regular Expressions"
+#~ msgstr "Regul‰re Ausdr¸cke"
+
+#~ #, fuzzy
+#~ msgid "Close"
+#~ msgstr "mouse"
+
+#~ #, fuzzy
+#~ msgid "Backward"
+#~ msgstr "Zur¸ck"
+
+#~ #, fuzzy
+#~ msgid "Regexp"
+#~ msgstr "regul‰rer Ausdruck"
+
+#~ #, fuzzy
+#~ msgid "Goto"
+#~ msgstr "Zu Zeile"
+
+#~ #, fuzzy
+#~ msgid "Case Sensitive "
+#~ msgstr "GROSZ/klein"
+
+#~ #, fuzzy
+#~ msgid "Regexp "
+#~ msgstr "regul‰rer Ausdruck"
+
+#~ #, fuzzy
+#~ msgid "Search"
+#~ msgstr "Suche"
+
+#~ msgid "nano: malloc: out of memory!"
+#~ msgstr "nano: malloc: Kein Speicher verf¸gbar!"
+
+#~ #, fuzzy
+#~ msgid "nano: calloc: out of memory!"
+#~ msgstr "nano: malloc: Kein Speicher verf¸gbar!"
+
+#~ msgid "nano: realloc: out of memory!"
+#~ msgstr "nano: realloc: Kein Speicher verf¸gbar!"
+
+#~ #, fuzzy
+#~ msgid "Aha! '%c' (%d)\n"
+#~ msgstr "Eingabe '%c' (%d)\n"
+
 #~ msgid "Could not open file: Path length exceeded."
 #~ msgstr "Konnte Datei nicht ˆffnen: Pfad zu lang."
 
@@ -1065,14 +1074,8 @@ msgstr "Danke f¸r die Benutzung von nano!\n"
 #~ msgid "Could not invoke \"ispell\""
 #~ msgstr "Konnte \"ispell\" nicht aufrufen"
 
-#~ msgid "%s: %s"
-#~ msgstr "%s: %s"
-
 #~ msgid ".XXXXXX"
 #~ msgstr ".XXXXXX"
-
-#~ msgid "\n"
-#~ msgstr "\n"
 
 #~ msgid "nano.save"
 #~ msgstr "nano.save"
@@ -1081,56 +1084,22 @@ msgstr "Danke f¸r die Benutzung von nano!\n"
 #~ msgstr ".save"
 
 #~ msgid "Sorry, this function not available with nano-tiny option"
-#~ msgstr ""
-#~ "Tut mir leid, dies Funktion ist im Minimalmodus von nano nicht verf¸gbar"
-
-#~ msgid " "
-#~ msgstr " "
-
-#~ msgid "nano."
-#~ msgstr "nano."
-
-#~ msgid "%s %s"
-#~ msgstr "%s %s"
+#~ msgstr "Tut mir leid, dies Funktion ist im Minimalmodus von nano nicht verf¸gbar"
 
 #~ msgid "ispell %s"
 #~ msgstr "ispell %s"
 
-#~ msgid ""
-#~ "\n"
-#~ "\n"
-#~ "\n"
-#~ "\n"
-#~ "\n"
-#~ "Use \"fg\" to return to nano\n"
-#~ msgstr ""
-#~ "\n"
-#~ "\n"
-#~ "\n"
-#~ "\n"
-#~ "\n"
-#~ "Benutzen Sie \"fg\" um zu nano zur¸ckzukehren\n"
-
-#~ msgid "^%c\t"
-#~ msgstr "^%c\t"
+#~ msgid "\n\n\n\n\nUse \"fg\" to return to nano\n"
+#~ msgstr "\n\n\n\n\nBenutzen Sie \"fg\" um zu nano zur¸ckzukehren\n"
 
 #~ msgid "(F%d)\t"
 #~ msgstr "(F%d)\t"
 
-#~ msgid "\t"
-#~ msgstr "\t"
-
 #~ msgid "(M-%c)\t"
 #~ msgstr "(M-%c)\t"
 
-#~ msgid "%s"
-#~ msgstr "%s"
-
 #~ msgid "M-%c\t\t\t"
 #~ msgstr "M-%c\t\t\t"
-
-#~ msgid "regexp"
-#~ msgstr "regul‰rer Ausdruck"
 
 #~ msgid "const"
 #~ msgstr "const"
@@ -1162,9 +1131,6 @@ msgstr "Danke f¸r die Benutzung von nano!\n"
 #~ msgid "fill"
 #~ msgstr "fill"
 
-#~ msgid "mouse"
-#~ msgstr "mouse"
-
 #~ msgid "pico"
 #~ msgstr "pico"
 
@@ -1183,9 +1149,6 @@ msgstr "Danke f¸r die Benutzung von nano!\n"
 #~ msgid "I got %c (%d)!\n"
 #~ msgstr "Erhielt %c (%d)!\n"
 
-#~ msgid " [%s]"
-#~ msgstr " [%s]"
-
 #~ msgid "$"
 #~ msgstr "DM"
 
@@ -1194,12 +1157,6 @@ msgstr "Danke f¸r die Benutzung von nano!\n"
 
 #~ msgid " %-11s"
 #~ msgstr " %-11s"
-
-#~ msgid "^%c"
-#~ msgstr "^%c"
-
-#~ msgid ": "
-#~ msgstr ": "
 
 #~ msgid " Y"
 #~ msgstr " J"
@@ -1210,29 +1167,8 @@ msgstr "Danke f¸r die Benutzung von nano!\n"
 #~ msgid " N"
 #~ msgstr " N"
 
-#~ msgid "^C"
-#~ msgstr "^C"
-
-#~ msgid "[ "
-#~ msgstr "[ "
-
-#~ msgid " ]"
-#~ msgstr " ]"
-
-#~ msgid "(%ld) %s\n"
-#~ msgstr "(%ld) %s\n"
-
 #~ msgid "To Replace"
 #~ msgstr "Ersetzen"
-
-#~ msgid "To Search"
-#~ msgstr "Suche"
-
-#~ msgid "nano: malloc: out of memory!"
-#~ msgstr "nano: malloc: Kein Speicher verf¸gbar!"
-
-#~ msgid "nano: realloc: out of memory!"
-#~ msgstr "nano: realloc: Kein Speicher verf¸gbar!"
 
 #~ msgid "Suspend nano if suspend is enabled"
 #~ msgstr "nano anhalten und zur Shell zur¸ckkehren (nur wenn aktiviert)"
