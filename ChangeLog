@@ -1,4 +1,12 @@
 CVS Code -
+- General
+	- Better partial word checking code. New function
+	  search.c:is_whole_word(), changes to findnextstr(),
+	  and nano.c:do_int_spell_fix() (Rocco Corsi).
+- nano.c:
+  do_suspend()
+	- Call tcsetattr() to restore the old terminal settings, so
+	  tcsh can use ^C after suspend for example (fixes BUG #68).
 - winio.c:
   edit_refresh()
 	- Rename lines to nlines to fix AIX breakage (reported by

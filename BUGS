@@ -130,6 +130,9 @@
 - The spell checker prompts whether you want to replace occurences of a
   word even if you didn't alter it on the status bar (fixed by Rocco
   Corsi) (67) [FIXED].
+- ^C does not work after a suspend in tcsh (discovered by
+  Trevor Cordes) (68) [FIXED].
+
 
 ** Open BUGS **
 

@@ -1684,6 +1684,9 @@ RETSIGTYPE do_suspend(int signal)
     printf("\n\n\n\n\nUse \"fg\" to return to nano\n");
     fflush(stdout);
 
+    /* Restore the terminal settings for the disabled keys */
+    tcsetattr(0, TCSANOW, &oldterm);
+
     /* We used to re-enable the default SIG_DFL and raise SIGTSTP, but 
 	then we could be (and were) interrupted in the middle of the call.
 	So we do it the mutt way instead */
