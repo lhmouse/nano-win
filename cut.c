@@ -194,6 +194,7 @@ int do_cut_text(void)
 {
     filestruct *tmp, *fileptr = current;
 #ifndef NANO_SMALL
+    int cuttingpartialline = 0;
     int cuttingtoend = 0;
 #endif
 
@@ -252,9 +253,12 @@ int do_cut_text(void)
 	}
     }
     if (ISSET(MARK_ISSET)) {
-	if (current->lineno <= mark_beginbuf->lineno)
+	if (current->lineno <= mark_beginbuf->lineno) {
+	    if (current->lineno == mark_beginbuf->lineno)
+		cuttingpartialline = 1;
 	    cut_marked_segment(current, current_x, mark_beginbuf,
 			       mark_beginx, 1);
+	}
 	else
 	    cut_marked_segment(mark_beginbuf, mark_beginx, current,
 			       current_x, 1);
@@ -264,7 +268,7 @@ int do_cut_text(void)
 
 	marked_cut = 1;
 	set_modified();
-	if (cuttingtoend)
+	if (cuttingpartialline || cuttingtoend)
 	    edit_refresh();
 	else
 	    edit_update(current, CENTER);
