@@ -29,3 +29,7 @@ David Lawrence Ramsey <pooka_regent@sluggy.net>
 	* Multiple buffer support, operating dir (-o) option, bug fixes
 	  for display routines, wrapping code, spelling fixes, const
 	  mode and various other fixes.
+
+David Benbennick <dbenbenn@math.cornell.edu>
+	* Wrap and justify bugfixes/enhancements, memleak fixes and other
+	  miscellaneous fixes.
