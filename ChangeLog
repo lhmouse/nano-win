@@ -11,6 +11,8 @@ CVS code -
 - files.c:
   write_file()
 	- Unsetting modified on temp files bug fixed (Rocco Corsi).
+  do_insertfile()
+	- Added call to real_name_from tilde, oops.
 - es.po: 
 	- Traditional Spanish strings updates.
 

@@ -245,6 +245,7 @@ int open_file(char *filename, int insert, int quiet)
 int do_insertfile(void)
 {
     int i;
+    char *realname = NULL;
 
     wrap_reset();
     i = statusq(1, writefile_list, WRITEFILE_LIST_LEN, "",
@@ -255,7 +256,10 @@ int do_insertfile(void)
 	fprintf(stderr, "filename is %s", answer);
 #endif
 
-	i = open_file(answer, 1, 0);
+        realname = real_dir_from_tilde(answer);
+
+	i = open_file(realname, 1, 0);
+	free(realname);
 
 	dump_buffer(fileage);
 	set_modified();
