@@ -2806,6 +2806,12 @@ RETSIGTYPE do_suspend(int signal)
     /* Restore the terminal settings for the disabled keys */
     tcsetattr(0, TCSANOW, &oldterm);
 
+    /* Trap SIGHUP and SIGTERM so we can properly deal with them while
+       suspended */
+    act.sa_handler = handle_hupterm;
+    sigaction(SIGHUP, &act, NULL);
+    sigaction(SIGTERM, &act, NULL);
+
     /* We used to re-enable the default SIG_DFL and raise SIGTSTP, but 
        then we could be (and were) interrupted in the middle of the call.
        So we do it the mutt way instead */
@@ -2817,8 +2823,8 @@ RETSIGTYPE do_cont(int signal)
 {
     /* Now we just update the screen instead of having to reenable the
        SIGTSTP handler. */
-
     doupdate();
+
     /* The Hurd seems to need this, otherwise a ^Y after a ^Z will
 	start suspending again. */
     signal_init();

@@ -1,4 +1,15 @@
 CVS code -
+- General:
+	- Translation updates (see po/ChangeLog for details).
+- nano.c:
+  do_suspend()
+        - Use handle_hupterm() to handle SIGHUP and SIGTERM so we can
+          properly deal with them while nano is suspended. (DLR; problem
+          found by David Benbennick)
+- search.c:
+  do_replace_loop()
+	- Fix potential infinite loop when doing a forward regex replace
+	  of "$". (DLR; found by Mike Frysinger)
 
 - winio.c:
   titlebar()
