@@ -1796,24 +1796,21 @@ void do_replace_highlight(int highlight_flag, const char *word)
 
 #ifdef NANO_EXTRA
 #define CREDIT_LEN 52
+#define XLCREDIT_LEN 8
+
 void do_credits(void)
 {
     int i, j = 0, k, place = 0, start_x;
-    const char *what;
-    const char *nanotext = _("The nano text editor");
-    const char *version = _("version ");
-    const char *brought = _("Brought to you by:");
-    const char *specialthx = _("Special thanks to:");
-    const char *fsf = _("The Free Software Foundation");
-    const char *ncurses = _("For ncurses:");
-    const char *anyonelse = _("and anyone else we forgot...");
-    const char *thankyou = _("Thank you for using nano!\n");
 
-    const char *credits[CREDIT_LEN] = { nanotext,
-	version,
+    char *what;
+    char *xlcredits[XLCREDIT_LEN];
+
+    char *credits[CREDIT_LEN] = { 
+	"0",				/* "The nano text editor" */
+	"1",				/* "version" */
 	VERSION,
 	"",
-	brought,
+	"2",				/* "Brought to you by:" */
 	"Chris Allegretta",
 	"Jordi Mallach",
 	"Adam Rogoyski",
@@ -1835,27 +1832,36 @@ void do_credits(void)
 	"Ryan Krebs",
 	"Albert Chin",
 	"",
-	specialthx,
+	"3",				/* "Special thanks to:" */
 	"Plattsburgh State University",
 	"Benet Laboratories",
 	"Amy Allegretta",
 	"Linda Young",
 	"Jeremy Robichaud",
 	"Richard Kolb II",
-	fsf,
+	"4",				/* "The Free Software Foundation" */
 	"Linus Torvalds",
-	ncurses,
+	"5",				/* "For ncurses:" */
 	"Thomas Dickey",
 	"Pavel Curtis",
 	"Zeyd Ben-Halim",
 	"Eric S. Raymond",
-	anyonelse,
-	thankyou,
+	"6",				/* "and anyone else we forgot..." */
+	"7",				/* "Thank you for using nano!\n" */
 	"", "", "", "",
 	"(c) 1999-2002 Chris Allegretta",
 	"", "", "", "",
 	"www.nano-editor.org"
     };
+
+    xlcredits[0] = _("The nano text editor");
+    xlcredits[1] = _("version ");
+    xlcredits[2] = _("Brought to you by:");
+    xlcredits[3] = _("Special thanks to:");
+    xlcredits[4] = _("The Free Software Foundation");
+    xlcredits[5] = _("For ncurses:");
+    xlcredits[6] = _("and anyone else we forgot...");
+    xlcredits[7] = _("Thank you for using nano!\n");
 
     curs_set(0);
     nodelay(edit, TRUE);
@@ -1873,9 +1879,16 @@ void do_credits(void)
 		 i--) {
 		mvwaddstr(edit, i * 2 - k, 0, hblank);
 
-		if (place - (editwinrows / 2 - 1 - i) < CREDIT_LEN)
+		if (place - (editwinrows / 2 - 1 - i) < CREDIT_LEN) {
 		    what = credits[place - (editwinrows / 2 - 1 - i)];
-		else
+
+		    /* God I've missed hacking.  If what is exactly
+			1 char long, it's a sentinel for a translated
+			string, so use that instead.  This means no
+			thanking people with 1 character long names ;-) */
+		    if (strlen(what) == 1)
+			what = xlcredits[atoi(what)];
+		} else
 		    what = "";
 
 		start_x = COLS / 2 - strlen(what) / 2 - 1;

@@ -259,6 +259,14 @@ int read_file(FILE *f, const char *filename, int quiet)
     /* Did we not get a newline but still have stuff to do? */
     if (len > 0) {
 
+#ifndef NANO_SMALL
+	/* If file conversion isn't disabled, the last character in
+	   this file is a CR and fileformat isn't set yet, make sure
+	   it's set to Mac format */
+	if (!ISSET(NO_CONVERT) && buf[len - 1] == '\r' && !fileformat)
+	    fileformat = 2;
+#endif
+
 	/* read in the LAST line properly */
 	fileptr = read_line(buf, fileptr, &line1ins, len);
 
@@ -266,6 +274,22 @@ int read_file(FILE *f, const char *filename, int quiet)
 	totsize++;
 	buf[0] = '\0';
     }
+#ifndef NANO_SMALL
+    else {
+	/* If file conversion isn't disabled and the last character in
+	   this file is a CR, read it in properly as a (Mac format)
+	   line */
+	if (!ISSET(NO_CONVERT) && input == '\r') {
+	    buf[0] = input;
+	    buf[1] = '\0';
+	    len = 1;
+	    fileptr = read_line(buf, fileptr, &line1ins, len);
+	    num_lines++;
+	    totsize++;
+	    buf[0] = '\0';
+	}
+    }
+#endif
 
     /* Did we even GET a file if we don't already have one? */
     if (totsize == 0 || fileptr == NULL) {
