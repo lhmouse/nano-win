@@ -31,7 +31,8 @@ CVS code -
 	  disabled if justification is disabled. (DLR)
 	- Make sure the "historylog" option isn't included at all if
 	  NANO_SMALL is defined. (DLR)
-	- Source reorganization: move code to src/, docs to doc/. (Jordi)
+	- Source reorganization: move code to src/, docs to doc/.
+	  (Jordi)
 	- Translation updates (see po/ChangeLog for details).
 	- Since SAMELINEWRAP is only used in nano.c, make it a static
 	  variable in nano.c instead of a flag, and surround all
@@ -60,6 +61,10 @@ CVS code -
 	  enabled, remove duplicate wrap_at prototype, and define
 	  DISABLE_MOUSE if NCURSES_MOUSE_VERSION isn't defined in nano.h
 	  instead of all over the code. (DLR)
+	- Autogenerate the html versions of the manpages in the
+	  Makefile.am's in doc/man/, make sure that they're properly
+	  installed via "make dist", and make sure that "make distcheck"
+	  works too. (Jordi, DLR and Jeff Bailey)
 - files.c:
   read_file()
 	- After we've read in a file and possibly converted it from
