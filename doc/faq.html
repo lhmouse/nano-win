@@ -38,9 +38,8 @@
   <a href="#4.4">4.4. [version 1.1.12 and earlier] Why does nano show ^\ in the shortcut list instead of ^J?</a><br>
   <a href="#4.5a">4.5a. [version 1.1.12 and earlier] When I type in a search string, the string I last searched for is already in front of my cursor! What happened?!</a><br>
   <a href="#4.5b">4.5b. [version 1.2.2 and later] Hey, the search string behavior has reverted, it's now like Pico, what happened to the consistency?</a><br>
-  <a href="#4.6">4.6. I get the message &quot;NumLock glitch detected. Keypad will malfunction with NumLock off.&quot; What gives?</a><br>
-  <a href="#4.7">4.7. How do I make nano my default editor (in Pine, mutt, etc.)?</a><br>
-  <a href="#4.8">4.8. I've compiled nano with color support, but I don't see any color when I run it!</a></p></blockquote>
+  <a href="#4.6">4.6. How do I make nano my default editor (in Pine, mutt, etc.)?</a><br>
+  <a href="#4.7">4.7. I've compiled nano with color support, but I don't see any color when I run it!</a></p></blockquote>
 <h2><a href="#5">5. Internationalization</a></h2>
 <blockquote><p><a href="#5.1">5.1. There's no translation for my language!</a><br>
   <a href="#5.2">5.2. I don't like the translation for &lt;x&gt; in my language. How can I fix it?</a></p></blockquote>
@@ -183,10 +182,7 @@
 <blockquote><p>In nano version 0.9.20, the default is to have a completely consistent user interface across all user input functions. This means that regardless of whether you're being asked for a filename to insert or write, or a string to search for, the previous value is already inserted before the cursor. If you prefer the old behavior, use the Pico emulation mode (-p or --pico) or just hit Meta-P while in nano (see the ^G help text for more details).</p></blockquote>
 <h2><a name="4.5b"></a>4.5b. [version 1.2.2 and later] Hey, the search string behavior has reverted, it's now like Pico, what happened to the consistency?</h2>
 <blockquote><p>It was decided that consistency was nice, but people are used to Pico's inconsistent behavior.  Also, in version 1.1.99pre1, search and replace history was introduced.  If you wish to edit your previous search/replace entry (or any previous entry), you can do so by hitting the up arrow to cycle through your history.  This method allows the best of both worlds: You don't need to erase the previous string if you want to enter a new one, but you can with one keystroke recall previous entries for editing. Therefore there is now no "Pico mode", nano is and has always been a Pico <b>clone</b>, and clones by default should be compatible.</p></blockquote>
-<h2><a name="4.6"></a>4.6. I get the message &quot;NumLock glitch detected. Keypad will malfunction with NumLock off.&quot; What gives?</h2>
-<blockquote><p>Nano (and actually almost all console editors) has issues when cycling the NumLock key in certain X terminals (rxvt, aterm, wterm, etc...). When you switch NumLock from on to off, you put the terminal into an &quot;application mode&quot; that changes what sequences are sent by the keypad. These sequences vary sufficiently from terminal to terminal that it is nearly impossible to work around them from within nano.</p>
-  <p>In a nutshell, if you want to be able to use the keypad with the arrow and page up/down functionality, you have to exit nano and reset your terminal (presumably with &quot;reset&quot; or &quot;stty sane&quot; or similar) and then run nano again with NumLock off. If you know an easier way to restore &quot;normal mode&quot;, please mail <a href="mailto:nano@nano-editor.org">nano@nano-editor.org</a>.</p></blockquote>
-<h2><a name="4.7"></a>4.7. How do I make nano my default editor (in Pine, mutt, etc.)?</h2>
+<h2><a name="4.6"></a>4.6. How do I make nano my default editor (in Pine, mutt, etc.)?</h2>
 <blockquote><p>You need to make nano your $EDITOR. If you want this to be saved, you should put a line like this in your <b>.bashrc</b> if you use bash (or <b>.zshrc</b> if you believe in zsh):</p>
   <p><b>export EDITOR=/usr/local/bin/nano</b></p>
   <p>or if you use tcsh put this in your <b>.cshrc</b> file:</p>
@@ -199,7 +195,7 @@
   <p>Mutt users should see an effect immediately the next time you log in, no further configuration is needed. However, if you want to let people know you use nano to compose your email messages, you can put a line like this in your <b>.muttrc</b>:</p>
   <p><b>my_hdr X-Composer: nano x.y.z</b></p>
   <p>Again, replace x.y.z with the version of nano you use.</p></blockquote>
-<h2><a name="4.8"></a>4.8. I've compiled nano with color support, but I don't see any color when I run it!</h2>
+<h2><a name="4.7"></a>4.7. I've compiled nano with color support, but I don't see any color when I run it!</h2>
 <blockquote><p>If you want nano to actually use color, you have to specify the color configurations you want it to use in your .nanorc. Some example configurations are in the <b>nanorc.sample</b> that comes with the nano source or your nano package. See Section <a href="#3.9">3.9</a>.</p></blockquote>
 <hr width="100%">
 <h1><a name="5"></a>5. Internationalization</h1>
@@ -241,6 +237,7 @@
 <h2><a name="8"></a>8. ChangeLog</h2>
 <blockquote>
 <p>
+2004/04/07 - Removed NumLock glitch question, as it's no longer needed. (DLR)<br>
 2004/01/30 - Fixed inaccuracy: multibuffer mode was first in nano 1.1.0, not 1.1.12. (DLR)<br>
 2003/12/31 - Added question about the new verbatim input function, and a few minor fixes.  Removed reference to &quot;set pico&quot; (DLR).<br>
 2003/07/02 - Added question about nano's not showing color when it's compiled with color support (DLR; suggested by Jordi).<br>

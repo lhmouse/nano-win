@@ -105,34 +105,6 @@
  * all of the special sentinel values below, to different negative
  * values other than -1. */
 
-/* HP-UX 10 & 11 do not seem to support KEY_HOME and KEY_END. */
-#ifndef KEY_HOME
-#define KEY_HOME -2
-#endif
-
-#ifndef KEY_END
-#define KEY_END -3
-#endif
-
-/* Slang and SunOS 5.7-5.9 do not seem to support KEY_RESIZE. */
-#ifndef KEY_RESIZE
-#define KEY_RESIZE -4
-#endif
-
-/* Slang does not seem to support KEY_SUSPEND, KEY_SLEFT, or
- * KEY_SRIGHT. */
-#ifndef KEY_SUSPEND
-#define KEY_SUSPEND -5
-#endif
-
-#ifndef KEY_SLEFT
-#define KEY_SLEFT -6
-#endif
-
-#ifndef KEY_SRIGHT
-#define KEY_SRIGHT -7
-#endif
-
 #define VERMSG "GNU nano " VERSION
 
 /* If we aren't using ncurses, turn the mouse support off, as it's
@@ -366,13 +338,13 @@ typedef struct historyheadtype {
 #define NANO_ALT_SPACE ' '
 
 /* Some semi-changeable keybindings; don't play with these unless you're
- * sure you know what you're doing. */
+ * sure you know what you're doing.  Assume ERR is defined as -1. */
 
 /* No key at all. */
-#define NANO_NO_KEY		-8
+#define NANO_NO_KEY		-2
 
-/* Special sentinel key used for search string history. */
-#define NANO_HISTORY_KEY	-9
+/* Special sentinel key used for search/replace history. */
+#define NANO_HISTORY_KEY	-3
 
 /* Normal keys. */
 #define NANO_INSERTFILE_KEY	NANO_CONTROL_R

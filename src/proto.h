@@ -341,7 +341,6 @@ RETSIGTYPE do_cont(int signal);
 void handle_sigwinch(int s);
 void allow_pending_sigwinch(int allow);
 #endif
-void print_numlock_warning(void);
 #ifndef NANO_SMALL
 void do_toggle(const toggle *which);
 #endif

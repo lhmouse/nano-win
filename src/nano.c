@@ -2971,18 +2971,6 @@ void allow_pending_sigwinch(int allow)
 }
 #endif /* !NANO_SMALL */
 
-/* If the NumLock key has made the keypad go awry, print an error
- * message; hopefully we can address it later. */
-void print_numlock_warning(void)
-{
-    static int didmsg = 0;
-    if (!didmsg) {
-	statusbar(_
-		  ("NumLock glitch detected.  Keypad will malfunction with NumLock off"));
-	didmsg = 1;
-    }
-}
-
 #ifndef NANO_SMALL
 void do_toggle(const toggle *which)
 {
