@@ -405,7 +405,7 @@ int do_search(void)
 	statusbar(_("This is the only occurrence"));
     else if (current->lineno <= edittop->lineno
 	|| current->lineno >= editbot->lineno)
-        edit_update(current, current_x);
+        edit_update(current, CENTER);
 
     search_abort();
 
@@ -575,7 +575,7 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 
 	if (current->lineno <= edittop->lineno
 	    || current->lineno >= editbot->lineno)
-	    edit_update(current, current_x);
+	    edit_update(current, CENTER);
 
 	/* No more matches.  Done! */
 	if (fileptr == NULL)
