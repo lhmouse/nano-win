@@ -116,6 +116,9 @@ CVS code -
 - nanorc.sample:
 	- Fix the c-file regex for all caps words to be extended regex
 	  format ({} instead of \{\}) (found by DLR).
+	- Add a better string matching sequence that includes escaped
+	  quotes (thanks to Carl E. Lindberg, who doesn't even know he
+	  helped ;-)
 - utils.c:
   charalloc()
 	- Switch from using calloc() to using malloc(). (David
