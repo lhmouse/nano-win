@@ -3115,7 +3115,6 @@ void do_justify(bool full_justify)
 	 * loop so that we justify all the paragraphs in the file. */
 	if (!full_justify)
 	    break;
-
     } /* while (TRUE) */
 
     /* We are now done justifying the paragraph or the file, so clean
