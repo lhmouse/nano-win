@@ -124,6 +124,9 @@
   (Jordi Mallach) [FIXED].
 - Cutting one line of text causes the screen to recenter the line
   (reported and fixed by David Lawrence Ramsey) (65) [FIXED].
+- When cutting marked text including the bottom of the file, a new   
+  "magic line" is not created" (reported by David Lawrence
+  Ramsey, fixed by David Lawrence Ramsey & Chris) (66) [FIXED].
 
 ** Open BUGS **
 

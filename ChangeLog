@@ -33,7 +33,7 @@ CVS code -
 - cut.c:
   cut_marked_segment()
 	- Add magic line when cutting a selection including filebot
-	  (discovered by DLR, fixed by DLR & Chris)
+	  (discovered by DLR, fixed by DLR & Chris, fixes BUG #66).
   do_cut_text()
 	- Don't recenter the line when cutting one line (DLR) (Bug #65).
 - files.c:
