@@ -279,12 +279,11 @@ int do_cut_text(void)
 	edittop = current;
 
     renumber(current);
+    current_x = 0;
     edit_refresh();
     set_modified();
     marked_cut = 0;
-    current_x = 0;
     placewewant = 0;
-    reset_cursor();
     SET(KEEP_CUTBUFFER);
     return 1;
 }
