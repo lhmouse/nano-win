@@ -217,7 +217,11 @@ AC_MSG_WARN([*** Can not use slang when cross-compiling])),
     esac], [AC_MSG_RESULT(no)])
 
 dnl Checks for functions
-AC_CHECK_FUNCS(snprintf vsnprintf)
+AC_CHECK_FUNCS(ngettext snprintf vsnprintf)
+if test "x$ac_cv_func_ngettext" = "xno"
+then
+	AC_DEFINE(NO_NGETTEXT, 1, [Defined if ngettext() is unavailable])
+fi
 if test "x$ac_cv_func_snprintf" = "xno" -o "xac_cv_func_vsnprintf" = "xno"
 then
 	AM_PATH_GLIB(1.2.4,,

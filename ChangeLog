@@ -9,7 +9,8 @@ CVS code -
 	- Disable VSTOP keystroke.  Stops people accidentally locking up
 	  nano (suggested by David Benbennick).
 	- Pluralize messages with ngettext() where needed. (David
-	  Benbennick)
+	  Benbennick)  Tweaked to compile on systems lacking ngettext()
+	  by DLR (problem found by Ken Tyler).
 	- Update nano.1 and nano.1.html to show that nano now does an
 	  emergency save on receiving SIGHUP or SIGTERM. (DLR)
 	- Don't include "nowrap" in the long options if
