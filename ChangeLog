@@ -16,6 +16,11 @@ CVS code -
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the
 	  cutbuffer if the cutbuffer isn't empty. (DLR)
+  do_uncut_text()
+	- No longer duplicate Pico's adding an extra magicline to the
+	  file if uncutting leaves the cursor on the current one.  This
+	  behavior appears to be a bug, as inserting a file in the same
+	  manner doesn't add an extra magicline. (DLR)
 - global.c:
   shortcut_init()
 	- Fix misplaced #endif keeping the "Full Justify" shortcut in
