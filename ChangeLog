@@ -2,6 +2,8 @@ CVS code -
 - nano.c:
   usage()
   	- Remove extra \n in --keypad description (Jordi).
+- po/ca.po, po/es.po:
+	- Catalan and Spanish translation updates.
 
 nano-1.1.5 - 01/05/2002
 - General
@@ -59,9 +61,9 @@ nano-1.1.5 - 01/05/2002
 	- Add DLR.
 - po/sv.po:
 	- Swedish translation update (Christian Rose).
-- po/ru.po, uk.po:
+- po/ru.po, po/uk.po:
 	- Russian and Ukrainian translations updates (Sergey A. Ribalchenko).
-- po/ca.po, es.po:
+- po/ca.po, po/es.po:
 	- Catalan and Spanish translations updates (Jordi).
 - po/pl.po:
 	- New Polish, partial translation, by Cezary Sliwa <sliwa@cft.edu.pl>.
@@ -181,7 +183,7 @@ nano-1.1.3 - 10/26/2001
 	- Updated Danish translation (Keld Simonsen).
 - po/es.po:
 	- Style updates to Spanish translation (Santiago Vila).
-- po/ru.po, uk.po:
+- po/ru.po, po/uk.po:
 	- Updated Russian and Ukrainian translation (Sergey A. Ribalchenko).
 
 nano-1.1.2 - 10/03/2001

@@ -1,14 +1,14 @@
 # Catalan messages for the GNU nano editor.
-# Copyright (C) 2000, 2001 Free Software Foundation, Inc.
-# Jordi Mallach <jordi@sindominio.net>, 2000, 2001
+# Copyright (C) 2000, 2001, 2002 Free Software Foundation, Inc.
+# Jordi Mallach <jordi@sindominio.net>, 2000, 2001, 2002.
 # Miquel Vidal <miquel@sindominio.net>, 2001.
 # $Id$
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.4\n"
+"Project-Id-Version: nano 1.1.5\n"
 "POT-Creation-Date: 2002-01-05 14:33-0500\n"
-"PO-Revision-Date: 2001-12-26 00:34+0100\n"
+"PO-Revision-Date: 2002-01-07 12:12+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
 "MIME-Version: 1.0\n"
@@ -38,14 +38,14 @@ msgid "Read %d lines"
 msgstr "%d línies llegides"
 
 #: files.c:270
-#, fuzzy, c-format
+#, c-format
 msgid "Read %d lines (Converted from Mac format)"
-msgstr "%d línies llegides (format Mac convertit)"
+msgstr "%d línies llegides (convertides des de format Mac)"
 
 #: files.c:272
-#, fuzzy, c-format
+#, c-format
 msgid "Read %d lines (Converted from DOS format)"
-msgstr "%d línies llegides (format DOS convertit)"
+msgstr "%d línies llegides (convertides des de format DOS)"
 
 #: files.c:294 search.c:217
 #, c-format
@@ -92,9 +92,8 @@ msgid "Cancelled"
 msgstr "Cancel·lat"
 
 #: files.c:455
-#, fuzzy
 msgid "Key illegal in non-multibuffer mode"
-msgstr "Tecla il·legal en mode VISUALITZACIÓ"
+msgstr "Tecla il·legal en mode no-multibuffer"
 
 #: files.c:739 files.c:794
 msgid "No more open files"
@@ -658,7 +657,7 @@ msgstr " -F \t\t--multibuffer\t\tHabilitar múltiples buffers de fitxers\n"
 
 #: nano.c:423
 msgid " -K \t\t--keypad\t\tUse alternate keypad routines\n"
-msgstr ""
+msgstr " -K \t\t--keypad\t\tFer servir rutines de teclat numèric alternatives\n"
 
 #: nano.c:427
 msgid " -M \t\t--mac\t\t\tWrite file in Mac format\n"
@@ -771,6 +770,8 @@ msgid ""
 " -K\t\tUse alternate keypad routines\n"
 "\n"
 msgstr ""
+" -K\t\tFer servir rutines de teclat numèric alternatives\n"
+"\n"
 
 #: nano.c:500
 msgid " -M \t\tWrite file in Mac format\n"
@@ -1008,7 +1009,6 @@ msgstr ""
 "\n"
 
 #: nano.c:2424
-#, fuzzy
 msgid ""
 "Insert File Help Text\n"
 "\n"
@@ -1031,7 +1031,7 @@ msgstr ""
 "Si s'ha compilat nano amb suport per a múltiples fitxers i heu habilitat els "
 "buffers múltiples amb les opcions -F o --multibuffer, fent servir "
 "l'interruptor Meta-F o amb un fitxer nanorc, la inserció d'un fitxer farà "
-"que es carregue en un buffer different (feu servir Ctrl-< i > per a canviar "
+"que es carregue en un buffer different (feu servir Meta-< i > per a canviar "
 "de buffers de fitxer).\n"
 "\n"
 "Les següents tecles de funció estan disponibles en el modo Inserir Fitxer:\n"

@@ -1,13 +1,13 @@
 # Mensajes en español para GNU nano.
-# Copyright (C) 2000, 2001 Free Software Foundation, Inc.
-# Jordi Mallach <jordi@sindominio.net>, 2000, 2001.
+# Copyright (C) 2000, 2001, 2002 Free Software Foundation, Inc.
+# Jordi Mallach <jordi@sindominio.net>, 2000, 2001, 2002.
 # $Id$
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.1.4-cvs\n"
+"Project-Id-Version: nano 1.1.5\n"
 "POT-Creation-Date: 2002-01-05 14:33-0500\n"
-"PO-Revision-Date: 2001-12-26 00:30+0100\n"
+"PO-Revision-Date: 2002-01-07 12:30+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -37,14 +37,14 @@ msgid "Read %d lines"
 msgstr "%d líneas leídas"
 
 #: files.c:270
-#, fuzzy, c-format
+#, c-format
 msgid "Read %d lines (Converted from Mac format)"
-msgstr "%d líneas leídas (formato Mac convertido)"
+msgstr "%d líneas leídas (convertidas desde formato Mac)"
 
 #: files.c:272
-#, fuzzy, c-format
+#, c-format
 msgid "Read %d lines (Converted from DOS format)"
-msgstr "%d líneas leídas (formato DOS convertido)"
+msgstr "%d líneas leídas (comvertidas desde formato DOS)"
 
 #: files.c:294 search.c:217
 #, c-format
@@ -96,9 +96,8 @@ msgid "Cancelled"
 msgstr "Cancelado"
 
 #: files.c:455
-#, fuzzy
 msgid "Key illegal in non-multibuffer mode"
-msgstr "Tecla ilegal en modo VISUALIZACIÓN"
+msgstr "Tecla ilegal en modo no-multibuffer"
 
 #: files.c:739 files.c:794
 msgid "No more open files"
@@ -119,7 +118,7 @@ msgstr "No pude abrir el fichero para escribir: %s"
 # En vez de "he hecho esto" se suele poner "ha sucedido esto".
 # En este caso sería "Se escribió >%s\n". sv
 # Vale, esto viene de lejos, del primer día que traduje.
-# Lo cambio, estoy totalmente de acuerdo.
+# Lo cambio, estoy totalmente de acuerdo. jm
 #: files.c:1201
 #, c-format
 msgid "Wrote >%s\n"
@@ -156,7 +155,7 @@ msgstr "Añadir Selección a el Fichero"
 # a el -> al. jm
 #: files.c:1347
 msgid "Write Selection to File"
-msgstr "Escribir Selección a el Fichero"
+msgstr "Escribir Selección al Fichero"
 
 # de -> del. sv
 #: files.c:1353
@@ -185,7 +184,7 @@ msgstr "No se puede ascender de directorio"
 msgid "Can't visit parent in restricted mode"
 msgstr "No se puede visitar el directorio padre en modo restringido"
 
-# y, c-format
+# c-format
 #. We can't open this dir for some reason.  Complain
 #: files.c:2262 files.c:2319
 #, c-format
@@ -207,7 +206,7 @@ msgstr "No se puede ir fuera de %s en modo restringido"
 # sitio a donde va (como en el chiste ese de "bienvenido a disminuya" :-). sv
 #: files.c:2304
 msgid "Goto Cancelled"
-msgstr "`Ir a' Cancelado"
+msgstr "Ir a Cancelado"
 
 #: global.c:167
 msgid "Constant cursor position"
@@ -238,7 +237,7 @@ msgstr "Soporte para ratón"
 # de la línea. sv
 #: global.c:173
 msgid "Cut to end"
-msgstr "Cortar hasta el final de la línea"
+msgstr "Cortar hasta el final"
 
 #: global.c:174
 msgid "Backwards search"
@@ -695,7 +694,7 @@ msgstr " -F \t\t--multibuffer\t\tHabilitar múltiples buffers de ficheros\n"
 
 #: nano.c:423
 msgid " -K \t\t--keypad\t\tUse alternate keypad routines\n"
-msgstr ""
+msgstr " -K \t\t--keypad\t\tUsar rutinas de teclado numérico alternativas\n"
 
 #: nano.c:427
 msgid " -M \t\t--mac\t\t\tWrite file in Mac format\n"
@@ -808,6 +807,8 @@ msgid ""
 " -K\t\tUse alternate keypad routines\n"
 "\n"
 msgstr ""
+" -K\t\tUsar rutinas de teclado numérico alternativas\n"
+"\n"
 
 #: nano.c:500
 msgid " -M \t\tWrite file in Mac format\n"
@@ -1049,7 +1050,6 @@ msgstr ""
 "\n"
 
 #: nano.c:2424
-#, fuzzy
 msgid ""
 "Insert File Help Text\n"
 "\n"
@@ -1072,7 +1072,7 @@ msgstr ""
 " Si has compilado nano con soporte para múltiples ficheros y habilitas los "
 "buffers múltiples con las opciones -F o --multibuffer, con el interruptor "
 "Meta-F o usando un fichero nanorc, la inserción de un fichero hará que se "
-"cargue en un buffer diferente (usa Ctrl-< y > para cambiar de buffers de "
+"cargue en un buffer diferente (usa Meta-< y > para cambiar de buffers de "
 "fichero).\n"
 "\n"
 " Las siguientes teclas de función están disponibles en el modo Insertar "
