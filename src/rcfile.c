@@ -514,7 +514,7 @@ void parse_rcfile(FILE *rcstream)
 	    parse_colors(ptr);
 #endif				/* ENABLE_COLOR */
 	else {
-	    rcfile_msg(_("command %s not understood"), keyword);
+	    rcfile_msg(_("Command %s not understood"), keyword);
 	    continue;
 	}
 
