@@ -736,7 +736,13 @@ char **cwd_tab_completion(char *buf, int *num_matches)
 	dirName[tmp - buf] = 0;
 
     } else {
+
+#ifdef PATH_MAX
+	if ((dirName = getcwd(NULL, PATH_MAX+1)) == NULL)
+#else
+	/* The better, but aparently segfault-causing way */
 	if ((dirName = getcwd(NULL, 0)) == NULL)
+#endif /* PATH_MAX */
 	    return matches;
 	else
 	    tmp = buf;
@@ -1003,22 +1009,20 @@ struct stat filestat(const char *path) {
 int diralphasort(const void *va, const void *vb) {
     struct stat file1info, file2info;
     char *a = *(char **)va, *b = *(char **)vb;
-    int answer = 0;
+    int aisdir, bisdir;
 
-    if ((stat(a, &file1info) != -1) && (stat(b, &file2info) != -1)) {
-	/* If is a is a dir and b isn't, return -1.
-	   Else if b is a dir and a isn't, return 0.
-	   Else return a < b */
+    aisdir = (stat(a, &file1info) != -1) && S_ISDIR(file1info.st_mode);
+    bisdir = (stat(b, &file2info) != -1) && S_ISDIR(file2info.st_mode);
 
-	if (S_ISDIR(file1info.st_mode) && !S_ISDIR(file2info.st_mode))
-	    return -1;
-	else if (!S_ISDIR(file1info.st_mode) && S_ISDIR(file2info.st_mode))
-	    return 1;
-	else
-	    answer = strcmp(a, b);
-    }
+    if (aisdir && !bisdir) return -1;
+    if (!aisdir && bisdir) return 1;
 
-    return(answer);
+#ifdef HAVE_STRCASECMP
+    return(strcasecmp(a,b));
+#else
+    return(strcmp(a,b));
+#endif
+
 }
 
 
@@ -1300,14 +1304,18 @@ char *do_browser(char *inpath)
 			strcpy(foo + longest - 5, "(dir)");
 		    else
 			strcpy(foo + longest - 2, "--");
-		} else if (st.st_size < 1024) /* less than 1 K */
-		    sprintf(foo + longest - 7, "%4d  B", (int) st.st_size);
-		else if (st.st_size > 1073741824) /* at least 1 gig */
-		    sprintf(foo + longest - 7, "%4d GB", (int) st.st_size / 1073741824);
-		else if (st.st_size > 1048576) /* at least 1 meg */
-		    sprintf(foo + longest - 7, "%4d MB", (int) st.st_size / 1048576);
+		} else if (st.st_size < (1 << 10)) /* less than 1 K */
+		    sprintf(foo + longest - 7, "%4d  B", 
+			(int) st.st_size >> 10);
+		else if (st.st_size >= (1 << 30)) /* at least 1 gig */
+		    sprintf(foo + longest - 7, "%4d GB", 
+			(int) st.st_size >> 30);
+		else if (st.st_size >= (1 << 20)) /* at least 1 meg */
+		    sprintf(foo + longest - 7, "%4d MB", 
+			(int) st.st_size >>     20);
 		else /* Its more than 1 k and less than a meg */
-		    sprintf(foo + longest - 7, "%4d KB", (int) st.st_size / 1024);
+		    sprintf(foo + longest - 7, "%4d KB", 
+			(int) st.st_size >> 10);
 	    }
 
 	    /* Hilight the currently selected file/dir */
@@ -1345,7 +1353,7 @@ char *do_browser(char *inpath)
     return retval;
 }
 
-/* Browser fron't end, checks to see if inpath has a dir in it and if so
+/* Browser front end, checks to see if inpath has a dir in it and if so
  starts do_browser from there, else from the current dir */
 char *do_browse_from(char *inpath)
 {
@@ -1354,9 +1362,16 @@ char *do_browse_from(char *inpath)
 
     tmp = mallocstrcpy(tmp, inpath);
 
+
     /* If there's no / in the string, we may was well start from . */
-    if (tmp == NULL || !strstr(tmp, "/"))
-	return do_browser(getcwd(NULL, 0));
+    if (tmp == NULL || *tmp == '\0' || !strstr(tmp, "/")) {
+#ifdef PATH_MAX
+	char *from = getcwd(NULL, PATH_MAX+1);
+#else
+	char *from = getcwd(NULL, 0));
+#endif /* PATH_MAX */
+	return do_browser(from ? from : "./");
+    }
 
     /* If the string is a directory, pass do_browser that */
     st = filestat(tmp);

@@ -10,14 +10,23 @@ CVS -
 - faq.html:
 	- Fixed typo in section 6.1 (discovered by Bob Farmer).
 - files.c:
+	- fix two typos in comments, one in ChangeLog (Matthias Andree)
   diralphasort()
 	- Stop abort on symlinks (Matthias Andree)
-  fielstat(), do_browse()
+	- use strcasecmp to sort directory if available, pilot does that
+	  as well (Matthias Andree)
+  filestat(), do_browse()
 	- Changed lstat calls to stat, which fixes the browser not
 	  following links to directories.  We only use lstat() when
 	  printing the details of the file, and if it is a link, then
 	  check via lstat() for link to a directory.  If it is 
 	  a directory, display (dir), else use the normal "--".
+  do_browser()
+	- Fix broken size suffix off-by-one errors (Matthias Andree)
+  cwd_tab_completion(), do_browse_from()
+	- Use PATH_MAX instead of 0 arg to getcwd (Matthias Andree).
+	- Changed above to use PATH_MAX only when defined on the
+	  system, as the HURD e.g. does not support it.
 - intl/Makefile.in:
   distclean
   	- added intl/libintl.h to the rm -f rule, should fix the unresolved
