@@ -1740,6 +1740,9 @@ void handle_sigwinch(int s)
 
 void signal_init(void)
 {
+#ifdef _POSIX_VDISABLE
+    struct termios term;
+#endif
 
     /* Trap SIGINT and SIGQUIT cuz we want them to do useful things. */
     memset(&act, 0, sizeof(struct sigaction));
@@ -1754,7 +1757,17 @@ void signal_init(void)
     sigaction(SIGWINCH, &act, NULL);
 
     if (!ISSET(SUSPEND)) {
+
+/* Insane! */
+#ifdef _POSIX_VDISABLE
+	tcgetattr(0, &term);
+	term.c_cc[VSUSP] = _POSIX_VDISABLE;
+	tcsetattr(0, TCSANOW, &term);
+#else
+	act.sa_handler = SIG_IGN;
 	sigaction(SIGTSTP, &act, NULL);
+#endif
+
     } else {
 	/* if we don't do this, it seems other stuff interrupts the
 	   suspend handler!  Try using nano with mutt without this line */
