@@ -19,12 +19,13 @@
  *                                                                        *
  **************************************************************************/
 
+#include "config.h"
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 
-#include "config.h"
 #include "nano.h"
 #include "proto.h"
 

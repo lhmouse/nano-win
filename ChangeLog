@@ -15,7 +15,8 @@ Cvs code -
 	  and change the aproproate calls which used nmalloc for lack of
 	  an apropriate calloc function *** FIXME ***
 	- After "Alternate" spell checker is called, cursor is repositioned on
-	  the same line as before ^T was called.
+	  the same line as before ^T was called. 
+	- Moved config.h up in all .c files #include list (Albert Chin).
 - configure.in:
 	- New option, --enable-nanorc which allows people to have a .nanorc
 	  initialization file and set options normally used on the command
@@ -45,6 +46,9 @@ Cvs code -
   do_replace()
 	- If we manage to make it in somehow with VIEW_MODE on, abort
 	  nicely (fixes BUG #59).
+- winio.c:
+  actual_x()
+	- Remove inline from function decl (Albert Chin).
 
 nano 1.1 tree forked here 04/07/2001
 

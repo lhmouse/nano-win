@@ -19,8 +19,9 @@
  *                                                                        *
  **************************************************************************/
 
-#include <sys/stat.h>
 #include "config.h"
+
+#include <sys/stat.h>
 #include "nano.h"
 #include "proto.h"
 
