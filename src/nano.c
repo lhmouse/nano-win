@@ -2594,14 +2594,25 @@ int do_justify(int full_justify)
 	    /* If the line we were on before still exists, and it was
 	     * not the last line of the paragraph, add a space to the
 	     * end of it to replace the one removed or left out by
-	     * justify_format(). */
-	    if (current->prev != NULL && par_len > 1) {
+	     * justify_format().  If it was the last line of the
+	     * paragraph, and justify_format() left a space on the end
+	     * of it, remove the space. */
+	    if (current->prev != NULL) {
 		size_t prev_line_len = strlen(current->prev->data);
-		current->prev->data = charealloc(current->prev->data,
+
+		if (par_len > 1) {
+		    current->prev->data = charealloc(current->prev->data,
 			prev_line_len + 2);
-		current->prev->data[prev_line_len] = ' ';
-		current->prev->data[prev_line_len + 1] = '\0';
-		totsize++;
+		    current->prev->data[prev_line_len] = ' ';
+		    current->prev->data[prev_line_len + 1] = '\0';
+		    totsize++;
+		} else if (par_len == 1 &&
+			current->prev->data[prev_line_len - 1] == ' ') {
+		    current->prev->data = charealloc(current->prev->data,
+			prev_line_len);
+		    current->prev->data[prev_line_len - 1] = '\0';
+		    totsize--;
+		}
 	    }
 	}
 
