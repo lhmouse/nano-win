@@ -123,7 +123,7 @@ void *nrealloc(void *ptr, size_t howmuch)
 
    Should be used as dest = mallocstrcpy(dest, src);
 */
-void *mallocstrcpy(void *dest, void *src)
+void *mallocstrcpy(char *dest, char *src)
 {
 
     if (dest != NULL)

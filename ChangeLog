@@ -3,8 +3,7 @@ General -
 	- New file browser code.  New functions in files.c:do_browser(),
 	  helper functions browser_init(), tail(), striponedir(),
 	  filestat().  New shortcut list browser_list.  Some new
-	  strings to translate.  Chris needs to add comments to his
-	  code.
+	  strings to translate.  Added function do_browse_from().
 	- We only call keypad() once now for each window, at the beginning.
 	  FINALLY!  No more keypad_on(), no more individual calls in
 	  main(), do_help(), do_browser(), etc etc etc.  Removed call to
@@ -32,6 +31,10 @@ General -
 	- Spell Erik Andersen's name right.
   titlebar()
 	- Now takes an arg, needed for browser function.
+- utils.c:
+  mallocstrcpy()
+	- Takes char pointers now instead of void (makes debugging a
+	  helluva lot easier)
 - es.po:
 	- Updates for file browser (Jordi).
 

@@ -119,7 +119,7 @@ void center_cursor(void);
 void bottombars(shortcut s[], int slen);
 void blank_statusbar_refresh(void);
 void *nmalloc (size_t howmuch);
-void *mallocstrcpy(void *dest, void *src);
+void *mallocstrcpy(char *dest, char *src);
 void wrap_reset(void);
 void display_main_list(void);
 void nano_small_msg(void);
@@ -154,6 +154,8 @@ int do_replace(void), do_help(void), do_enter_void(void);
 
 #if !defined(DISABLE_BROWSER) && !defined(NANO_SMALL)
 char *do_browser(char *path);
+struct stat filestat(const char *path);
+char *do_browse_from(char *inpath);
 #endif
 
 filestruct *copy_node(filestruct * src);

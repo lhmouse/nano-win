@@ -273,7 +273,8 @@ int do_insertfile(void)
 
 #if !defined(DISABLE_BROWSER) && !defined(NANO_SMALL)
 	if (i == NANO_TOFILES_KEY) {
-	    char *tmp = do_browser(getcwd(NULL, 0));
+	    
+	    char *tmp = do_browse_from(realname);
 
 #ifdef DISABLE_TABCOMP
 	    realname = NULL;
@@ -526,7 +527,8 @@ int do_writeout(int exiting)
 
 #if !defined(DISABLE_BROWSER) && !defined(NANO_SMALL)
 	if (i == NANO_TOFILES_KEY) {
-	    char *tmp = do_browser(getcwd(NULL, 0));
+
+	    char *tmp = do_browse_from(answer);
 
 	    if (tmp != NULL)
 		answer = mallocstrcpy(answer, tmp);
@@ -1404,5 +1406,34 @@ char *do_browser(char *inpath)
     free(foo);
     return retval;
 }
+
+/* Browser fron't end, checks to see if inpath has a dir in it and if so
+ starts do_browser from there, else from the current dir */
+char *do_browse_from(char *inpath)
+{
+    struct stat st;
+    char *tmp = NULL;
+
+    tmp = mallocstrcpy(tmp, inpath);
+
+    /* If there's no / in the string, we may was well start from . */
+    if (tmp == NULL || !strstr(tmp, "/"))
+	return do_browser(getcwd(NULL, 0));
+
+    /* If the string is a directory, pass do_browser that */
+    st = filestat(tmp);
+    if (S_ISDIR(st.st_mode))
+	return do_browser(tmp);
+
+    /* Okay, there's a dir in there, but not at the end of the string... 
+       try stripping it off */
+    striponedir(tmp);
+    align(&tmp);
+    return do_browser(tmp);
+
+}
+
+
+
 #endif
 
