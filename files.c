@@ -2515,6 +2515,8 @@ char *do_browser(const char *inpath)
     /* Loop invariant: Microsoft sucks. */
     do {
 	DIR *test_dir;
+	char *new_path;
+	    /* Used by the Go To Directory prompt. */
 
 	blank_statusbar_refresh();
 
@@ -2694,37 +2696,36 @@ char *do_browser(const char *inpath)
 	    bottombars(browser_list);
 	    curs_set(0);
 
-#ifndef DISABLE_OPERATINGDIR
-	    if (operating_dir != NULL) {
-		if (check_operating_dir(answer, 0)) {
-		    statusbar(_("Can't go outside of %s in restricted mode"), operating_dir);
-		    break;
-		}
-	    }
-#endif
-
 	    if (j < 0) {
 		statusbar(_("Goto Cancelled"));
 		break;
 	    }
 
-	    if (answer[0] != '/') {
-		char *saveanswer = mallocstrcpy(NULL, answer);
+	    new_path = real_dir_from_tilde(answer);
 
-		answer = nrealloc(answer, strlen(path) + strlen(saveanswer) + 2);
-		sprintf(answer, "%s/%s", path, saveanswer);
-		free(saveanswer);
+	    if (new_path[0] != '/') {
+		new_path = charealloc(new_path, strlen(path) + strlen(answer) + 2);
+		sprintf(new_path, "%s/%s", path, answer);
 	    }
 
-	    if ((test_dir = opendir(answer)) == NULL) {
+#ifndef DISABLE_OPERATINGDIR
+	    if (check_operating_dir(new_path, FALSE)) {
+		statusbar(_("Can't go outside of %s in restricted mode"), operating_dir);
+		free(new_path);
+		break;
+	    }
+#endif
+
+	    if (!readable_dir(new_path)) {
 		/* We can't open this dir for some reason.  Complain */
 		statusbar(_("Can't open \"%s\": %s"), answer, strerror(errno));
+		free(new_path);
 		break;
-	    } 
-	    closedir(test_dir);
+	    }
 
 	    /* Start over again with the new path value */
-	    path = mallocstrcpy(path, answer);
+	    free(path);
+	    path = new_path;
 	    return do_browser(path);
 
 	/* Stuff we want to abort the browser */

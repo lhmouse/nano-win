@@ -34,6 +34,7 @@
 
 /* Define charalloc as a macro rather than duplicating code */
 #define charalloc(howmuch) (char *)nmalloc((howmuch) * sizeof(char))
+#define charealloc(ptr, howmuch) (char *)nrealloc(ptr, (howmuch) * sizeof(char))
 
 #ifndef NANO_SMALL
   /* For the backup file copy ... */
