@@ -137,7 +137,7 @@ int do_cut_text(void)
 #endif
 
     check_statblank();
-    if (fileptr == NULL || fileptr->data == NULL || fileptr == filebot)
+    if (fileptr == NULL || fileptr->data == NULL)
 	return 0;
 
     tmp = fileptr->next;
@@ -150,6 +150,11 @@ int do_cut_text(void)
 	fprintf(stderr, _("Blew away cutbuffer =)\n"));
 #endif
     }
+
+    /* Must let cutbuffer get blown away first before we do this... */
+    if (fileptr == filebot)	
+	return 0;
+
 #ifndef NANO_SMALL
     if (ISSET(CUT_TO_END) && !ISSET(MARK_ISSET)) {
 	if (current_x == strlen(current->data))
