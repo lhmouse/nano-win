@@ -335,17 +335,11 @@ int write_file(char *name, int tmp)
        to reflect whether or not to link/unlink/rename the file */
     else if (ISSET(FOLLOW_SYMLINKS) || !S_ISLNK(lst.st_mode) || tmp) {
 	/* Use O_EXCL if tmp == 1.  This is now copied from joe, because
-	   wiggy says so *shrug*.  We also put back the append check,
-	   which we used to have, forever ago */
-	if (tmp) {
-	    if ((fd = open(realname, (O_WRONLY|O_APPEND|O_NOFOLLOW))) != -1)
-		fd = open(realname, O_WRONLY | O_CREAT | O_EXCL, 
-			(S_IRUSR|S_IWUSR));
-	} else {
-	    if ((fd = open(realname, (O_WRONLY|O_APPEND))) != -1)
-	 	fd = open(realname, O_WRONLY | O_CREAT | O_TRUNC,
-			(S_IRUSR|S_IWUSR));
-	}
+	   wiggy says so *shrug*. */
+	if (tmp)
+	    fd = open(realname, O_WRONLY | O_CREAT | O_EXCL, (S_IRUSR|S_IWUSR));
+	else
+	    fd = open(realname, O_WRONLY | O_CREAT | O_TRUNC, (S_IRUSR|S_IWUSR));
 
 	/* First, just give up if we couldn't even open the file */
 	if (fd == -1) {
