@@ -18,8 +18,10 @@ CVS code -
   do_credits()
 	- Update the copyright years to "1999-2003", to match those
 	  given in the rest of the code. (DLR)
-- AUTHORS
+- AUTHORS:
 	- Updated to show 1.2/1.3 maintainers.
+- THANKS:
+	- Added Danilo Segan for the Serbian translation.
 
 - 1.3 tree forks here
 
