@@ -2,9 +2,10 @@ CVS code -
 - General
 	- Type misalignments and mem leaks in renumber_all, do_justify
 	  and do_spell (Rocco & Steven Kneizys).
-	- New "External Command" code, originally by Dwayne Rightler.
-	  New function files.c:open_pipe(), changes to do_insertfile(),
-	  new list extcmd_list, cmd is ^X after ^R by default.
+	- New "External Command" code, originally by Dwayne Rightler,
+	  Chris & Rocco. New function files.c:open_pipe(), changes to
+	  do_insertfile(), new list extcmd_list, cmd is ^X after ^R by
+	  default.
 	- Added separate regex variable (color_regex and colormatches)
 	  so that color syntax and regex search/replace can coexist.
 - files.c:

@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
@@ -292,6 +293,7 @@ int read_file(int fd, char *filename, int quiet)
 int open_pipe(char *command)
 {
     int fd[2], pid;
+    int fork_status;
   
   /* Make our pipes. */
 
@@ -311,15 +313,22 @@ int open_pipe(char *command)
 	execl("/bin/sh","/bin/sh","-c",command,0);
 	exit(0);
     }
-    else if (pid == -1) {
+
+    /* Else continue as parent */
+
+    close(fd[1]);
+
+    if (pid == -1) {
+	close(fd[0]);
 	statusbar(_("Could not fork"));
 	return 1;
     }
 
-    /* Else continue as parent */
-    close(fd[1]);
     read_file(fd[0],"stdin",0);
     set_modified();
+
+    wait(&fork_status);
+
     return 0;
 }
 #endif /* NANO_SMALL */
