@@ -1,3 +1,20 @@
+2004.01.09 - GNU nano 1.3.1 is outside the gates.  This release
+		features, among other things, fixes for the input
+		routines to deal with some problems they had, a
+		reorganized shortcut list for the help browser, minor
+		Pico compatibility improvements for the file browser,
+		fixes for misbehavior when replacing certain regular
+		expressions, and the ability to highlight those regular
+		expressions properly.  It also allows searching without
+		prompting to work in view mode, adds support for glib
+		2.x for those systems that need it, updates the .spec
+		file for the 1.3 branch, prompts you first when you try
+		to save a file under a different name, and adds a new
+		verbatim input mode that acts as ^V does under vi, but
+		with additional Pico compatibility (explained in the
+		FAQ).  Basically, a bunch of fixes and a few new
+		features for your editor of choice.  Enjoy.
+
 2003.10.22 - GNU nano 1.3.0 is loosed upon the world.  This is the first
 		release in the unstable 1.3.x series, and as such it
 		includes a lot of new features, including the addition
