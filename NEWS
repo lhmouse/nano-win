@@ -1,3 +1,10 @@
+08/03/2000 - Nano 0.9.15 is the "I cant think of a release description"
+		release.  There are the usual gala of display bugfixes,
+		a for the the nasty bug in -k mode that could create a
+		loop in the file being edited, and some other code
+		cleanup.  Also, the -T option should now work regardless
+		of the curses library used.  Yay.
+
 07/27/2000 - Nano 0.9.14 is officially the "13 is so unlucky it should
 		be skipped as a version number" release.  One typo
 		caused unending problems (calling nano with either -t or
