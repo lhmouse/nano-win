@@ -1,4 +1,4 @@
-CVS code changes since last release -	
+nano-0.9.12 - 07/07/2000
 - all:
 	- New regexp search feature by Bill Soudan.  New flags USE_REGEXP
 	  and REGEXP_COMPILED, new functions regexp_init, regexp_cleanup

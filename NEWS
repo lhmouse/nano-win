@@ -1,3 +1,15 @@
+07/07/2000 - Nano 0.9.12 (The "lucky day" release) is bursting with new
+		features, bug fixes, and yummy fruit flavor.  For
+		changes, the alternate replace keystroke ^W^T is now
+		^W^R to be compatible with later version of Pico.
+		^W^T is now goto line, again for Pico compatibility.
+		As for new features, the wonderful/hated magic line
+		code has returned with a vengeance!  Also, regular
+		expression searches and replaces have been incorporated
+		via the -R flag.  And of course there are the usual
+		helping of display and other bug fixes to top it all
+		off.
+
 06/20/2000 - Nano 0.9.11 presents drastic rewrites of the most buggy
 		routines in the program, specifically the wrapping code
 		and almost all of the display routines.  There are many

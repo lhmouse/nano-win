@@ -3,7 +3,7 @@ editor.  Please see the ChangeLog for specific changes by author.
 -------------------------------------------------------------------------
 
 Chris Allegretta <chrisa@asty.org>
-	* Main program author and maintainer
+	* Main program author and maintainer.
 
 Jordi Mallach <jordi@sindominio.net>
 	* Debian package maintainer, fellow bug squasher.
@@ -16,5 +16,5 @@ Adam Rogoyski <rogoyski@cs.utexas.edu>
 
 Robert Siemborski <rjs3@andrew.cmu.edu>
 	* Miscellaneous cut, display, replace, and other bug fixes,
-	  original "magic line" code, read_line() function, new
+	  original and new "magic line" code, read_line() function, new
 	  edit display routines.
