@@ -924,9 +924,11 @@ void do_gotoline(int line, bool save_pos)
 	    return;
 	}
 
-	/* Bounds check. */
+	/* Do a bounds check.  Display a warning on an out-of-bounds
+	 * line number only if we hit Enter at the statusbar prompt. */
 	if (!parse_num(answer, &line) || line < 0) {
-	    statusbar(_("Come on, be reasonable"));
+	    if (i == 0)
+		statusbar(_("Come on, be reasonable"));
 	    display_main_list();
 	    return;
 	}

@@ -2161,44 +2161,44 @@ int statusq(bool allow_tabs, const shortcut *s, const char *def,
     resetstatuspos = FALSE;
 
     switch (ret) {
-    case NANO_FIRSTLINE_KEY:
-    case NANO_FIRSTLINE_FKEY:
-	do_first_line();
-	resetstatuspos = TRUE;
-	break;
-    case NANO_LASTLINE_KEY:
-    case NANO_LASTLINE_FKEY:
-	do_last_line();
-	resetstatuspos = TRUE;
-	break;
+	case NANO_FIRSTLINE_KEY:
+	case NANO_FIRSTLINE_FKEY:
+	    do_first_line();
+	    resetstatuspos = TRUE;
+	    break;
+	case NANO_LASTLINE_KEY:
+	case NANO_LASTLINE_FKEY:
+	    do_last_line();
+	    resetstatuspos = TRUE;
+	    break;
 #ifndef DISABLE_JUSTIFY
-    case NANO_PARABEGIN_KEY:
-    case NANO_PARABEGIN_ALTKEY1:
-    case NANO_PARABEGIN_ALTKEY2:
-	do_para_begin();
-	resetstatuspos = TRUE;
-	break;
-    case NANO_PARAEND_KEY:
-    case NANO_PARAEND_ALTKEY1:
-    case NANO_PARAEND_ALTKEY2:
-	do_para_end();
-	resetstatuspos = TRUE;
-	break;
-    case NANO_FULLJUSTIFY_KEY:
-    case NANO_FULLJUSTIFY_ALTKEY:
-	if (!ISSET(VIEW_MODE))
-	    do_full_justify();
-	resetstatuspos = TRUE;
-	break;
+	case NANO_PARABEGIN_KEY:
+	case NANO_PARABEGIN_ALTKEY1:
+	case NANO_PARABEGIN_ALTKEY2:
+	    do_para_begin();
+	    resetstatuspos = TRUE;
+	    break;
+	case NANO_PARAEND_KEY:
+	case NANO_PARAEND_ALTKEY1:
+	case NANO_PARAEND_ALTKEY2:
+	    do_para_end();
+	    resetstatuspos = TRUE;
+	    break;
+	case NANO_FULLJUSTIFY_KEY:
+	case NANO_FULLJUSTIFY_ALTKEY:
+	    if (!ISSET(VIEW_MODE))
+		do_full_justify();
+	    resetstatuspos = TRUE;
+	    break;
 #endif
-    case NANO_CANCEL_KEY:
-	ret = -1;
-	resetstatuspos = TRUE;
-	break;
-    case NANO_ENTER_KEY:
-	ret = (answer[0] == '\0') ? -2 : 0;
-	resetstatuspos = TRUE;
-	break;
+	case NANO_CANCEL_KEY:
+	    ret = -1;
+	    resetstatuspos = TRUE;
+	    break;
+	case NANO_ENTER_KEY:
+	    ret = (answer[0] == '\0') ? -2 : 0;
+	    resetstatuspos = TRUE;
+	    break;
     }
     blank_statusbar();
 
