@@ -35,6 +35,9 @@ CVS code -
 - TODO:
 	- Move the items for nano 1.2 to the "Old Requests" section,
 	  and mark color syntax highlighting as done. (David Benbennick)
+- faq.html:
+	- Added question about nano's not showing color when it's
+	  compiled with color support. (DLR; suggested by Jordi)
 - nano.1, nanorc.5:
 	- Formatting improvements by Jean-Philippe Guérard.
 	- Minor fixes by DLR.

@@ -38,7 +38,8 @@
   <a href="#4.5a">4.5a. [version 1.1.12 and earlier] When I type in a search string, the string I last searched for is already in front of my cursor! What happened?!</a><br>
   <a href="#4.5b">4.5b. [version 1.2.1 and later] Hey, the search string behavior has reverted, it's now like Pico, what happened to the consistency?</a><br>
   <a href="#4.6">4.6. I get the message &quot;NumLock glitch detected. Keypad will malfunction with NumLock off.&quot; What gives?</a><br>
-  <a href="#4.7">4.7. How do I make nano my default editor (in Pine, mutt, etc.)?</a></p></blockquote>
+  <a href="#4.7">4.7. How do I make nano my default editor (in Pine, mutt, etc.)?</a><br>
+  <a href="#4.8">4.8. I've compiled nano with color support, but I don't see any color when I run it!</a></p></blockquote>
 <h2><a href="#5">5. Internationalization</a></h2>
 <blockquote><p><a href="#5.1">5.1. There's no translation for my language!</a><br>
   <a href="#5.2">5.2. I don't like the translation for &lt;x&gt; in my language. How can I fix it?</a></p></blockquote>
@@ -193,6 +194,8 @@
   <p>Mutt users should see an effect immediately the next time you log in, no further configuration is needed. However, if you want to let people know you use nano to compose your email messages, you can put a line like this in your <b>.muttrc</b>:</p>
   <p><b>my_hdr X-Composer: nano x.y.z</b></p>
   <p>Again, replace x.y.z with the version of nano you use.</p></blockquote>
+<h2><a name="4.8"></a>4.8. I've compiled nano with color support, but I don't see any color when I run it!</h2>
+<blockquote><p>If you want nano to actually use color, you have to specify the color configurations you want it to use in your .nanorc. Some example configurations are in the <b>nanorc.sample</b> that comes with the nano source or your nano package. See Section <a href="#3.8">3.8</a>.</p></blockquote>
 <hr width="100%">
 <h1><a name="5"></a>5. Internationalization</h1>
 <h2><a name="5.1"></a>5.1. There's no translation for my language!</h2>
@@ -233,8 +236,9 @@
 <h2><a name="8"></a>8. ChangeLog</h2>
 <blockquote>
 <p>
+2003/07/02 - Added question about nano's not showing color when it's compiled with color support (DLR; suggested by Jordi).<br>
 2003/02/23 - Updated RPM links for nano 1.2.x. (DLR).<br>
-2003/01/16 - Split section 4.5 into 4.5a and 4.5b for search string behavior.  Added --enable-all docs.<br>
+2003/01/16 - Split section 4.5 into 4.5a and 4.5b for search string behavior. Added --enable-all docs.<br>
 2002/12/28 - More misc. fixes (David Benbennick, DLR).<br>
 2002/10/25 - Misc. fixes and link updates (DLR).<br>
 2002/09/10 - Another typo fix (DLR).<br>
