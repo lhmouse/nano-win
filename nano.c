@@ -1393,6 +1393,7 @@ int do_alt_speller(char *file_name)
     int alt_spell_status;
     pid_t pid_spell;
     char *ptr;
+    long lineno_cur = current->lineno;
     static int arglen = 3;
     static char **spellargs = (char **) NULL;
 
@@ -1441,8 +1442,8 @@ int do_alt_speller(char *file_name)
     free_filestruct(fileage);
     global_init();
     open_file(file_name, 0, 1);
-    edit_update(fileage, CENTER);
-    display_main_list();
+
+    do_gotoline(lineno_cur);
     set_modified();
 
     return TRUE;

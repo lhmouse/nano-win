@@ -14,6 +14,8 @@ Cvs code -
 	  function ncalloc(), will have to go through source code later 
 	  and change the aproproate calls which used nmalloc for lack of
 	  an apropriate calloc function *** FIXME ***
+	- After "Alternate" spell checker is called, cursor is repositioned on
+	  the same line as before ^T was called.
 - configure.in:
 	- New option, --enable-nanorc which currently does nothing but
 	  sets a define.  Will do more later...
@@ -24,12 +26,17 @@ Cvs code -
 - global.c:
 	- Updated some of the lists for the "Goto Directory" code (Rocco)
 - nano.c:
+  do_alt_speller()
+	- Reposition cursor on same line as before ^T was called (Rocco)
   main()
 	- Code to silently process "-g" and "-j" (Rocco)
 - nano.h:
 	- Updated the BROWSER_LIST_LEN for the "Goto Directory" code (Rocco)
 - proto.h:
 	- New shortcut list added: gotodir_list (Rocco).
+- search.c:
+  do_gotoline()
+	- Optimizations, remove "$" goes-to-last-line, less messages (Rocco)
 
 nano 1.1 tree forked here 04/07/2001
 
