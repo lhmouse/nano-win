@@ -240,6 +240,8 @@ CVS code -
 - rcfile.c:
 	- Move "rebinddelete" up in the list of options so that the list
 	  is in alphabetical order. (DLR)
+	- Cosmetic reorganization of the order in which some options are
+	  interpreted. (DLR)
 	- Explicitly check for rcopts[i].name's being "tabsize" to avoid
 	  a spurious error under some circumstances about tabsize's
 	  being 0 when there's no tabsize entry in the rcfile. (DLR)

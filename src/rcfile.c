@@ -626,6 +626,7 @@ void parse_rcfile(FILE *rcstream)
 				}
 			    } else if (!strcasecmp(rcopts[i].name, "quotestr"))
 				quotestr = mallocstrcpy(NULL, option);
+			    else
 #endif
 #ifndef NANO_SMALL
 			    if (!strcasecmp(rcopts[i].name, "backupdir"))
