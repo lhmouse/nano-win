@@ -36,6 +36,8 @@
 
 static char last_search[132] = "";	/* Last string we searched for */
 static char last_replace[132] = "";	/* Last replacement string */
+static int search_last_line;		
+
 
 /* Regular expression helper functions */
 
@@ -128,7 +130,7 @@ int search_init(int replacing)
     return 0;
 }
 
-filestruct *findnextstr(int quiet, filestruct * begin, char *needle)
+filestruct *findnextstr(int quiet, filestruct * begin, int beginx, char *needle)
 {
     filestruct *fileptr;
     char *searchstr, *found = NULL, *tmp;
@@ -136,61 +138,70 @@ filestruct *findnextstr(int quiet, filestruct * begin, char *needle)
 
     fileptr = current;
 
-    searchstr = &current->data[current_x + 1];
-    /* Look for searchstr until EOF */
-    while (fileptr != NULL &&
-	   (found = strstrwrapper(searchstr, needle)) == NULL) {
+    current_x++;
+
+    /* Are we searching the last line? (i.e. the line where search started) */
+    if ( (fileptr == begin) && (current_x < beginx) )
+	search_last_line = 1;
+
+    /* Make sure we haven't passed the end of the string */
+    if ( strlen(fileptr->data) < current_x )
+	current_x--;
+
+    searchstr = &fileptr->data[current_x];
+
+    /* Look for needle in searchstr */
+    while (( found = strstrwrapper(searchstr, needle)) == NULL) {
+
+	/* finished processing file, get out */
+        if (search_last_line) {
+	    if (!quiet)
+		statusbar(_("\"%s\" not found"), needle);
+	    return NULL;
+	}
 
 	fileptr = fileptr->next;
 
 	if (!past_editbot && (fileptr == editbot))
 	    past_editbot = 1;
 
-	if (fileptr == begin)
-	    return NULL;
+	/* EOF reached, wrap around once */
+	if (fileptr == NULL) {
+	    fileptr = fileage;
 
-	if (fileptr != NULL)
-	    searchstr = fileptr->data;
-    }
-
-    /* If we're not at EOF, we found an instance */
-    if (fileptr != NULL) {
-	current = fileptr;
-	current_x = 0;
-	for (tmp = fileptr->data; tmp != found; tmp++)
-	    current_x++;
-
-	if (past_editbot)
-	    edit_update(current, CENTER);
-	placewewant = xplustabs();
-	reset_cursor();
-    } else {			/* We're at EOF, go back to the top, once */
-
-	fileptr = fileage;
-
-	while (fileptr != begin->next &&
-	       (found = strstrwrapper(fileptr->data, needle)) == NULL)
-	    fileptr = fileptr->next;
-
-	if (fileptr == begin->next) {
-	    if (!quiet)
-		statusbar(_("\"%s\" not found"), needle);
-
-	    return NULL;
-	}
-	else {	/* We found something */
-	    current = fileptr;
-	    current_x = 0;
-	    for (tmp = fileptr->data; tmp != found; tmp++)
-		current_x++;
-
-	    edit_update(current, CENTER);
-	    reset_cursor();
+	    past_editbot = 1;
 
 	    if (!quiet)
 		statusbar(_("Search Wrapped"));
-	} 
+	}
+
+	/* Original start line reached */
+	if (fileptr == begin)
+	    search_last_line = 1;
+
+	searchstr = fileptr->data;
     }
+
+    /* We found an instance */
+    current = fileptr;
+    current_x = 0;
+    for (tmp = fileptr->data; tmp != found; tmp++)
+	current_x++;
+
+    /* Ensure we haven't wrap around again! */
+    if ((search_last_line) && (current_x >= beginx)) {
+	if (!quiet)
+	    statusbar(_("\"%s\" not found"), needle);
+	return NULL;
+    }
+
+    if (past_editbot)
+	edit_update(fileptr, CENTER);
+    else
+	update_line(current, current_x);
+
+    placewewant = xplustabs();
+    reset_cursor();
 
     return fileptr;
 }
@@ -231,7 +242,8 @@ int do_search(void)
 	search_abort();
 	return 1;
     }
-    findnextstr(0, current, answer);
+    search_last_line = 0;
+    findnextstr(0, current, current_x, answer);
     search_abort();
     return 1;
 }
@@ -250,6 +262,7 @@ void replace_abort(void)
        does something different later, we can change it back.  For now
        it's just a waste to duplicat code */
     search_abort();
+    placewewant = xplustabs();
 }
 
 #ifdef HAVE_REGEX_H
@@ -421,7 +434,6 @@ int do_replace(void)
 	i = statusq(replace_list, REPLACE_LIST_LEN, "", _("Replace with"));
 	if (i == -1) {
 	    statusbar(_("Replace Cancelled"));
-	    reset_cursor();
 	    replace_abort();
 	    return 0;
 	} else if (i == 0)	/* They entered something new */
@@ -444,14 +456,15 @@ int do_replace(void)
 
     /* save where we are */
     begin = current;
-    beginx = current_x;
+    beginx = current_x + 1;
+    search_last_line = 0;
 
     while (1) {
 
 	if (replaceall)
-	    fileptr = findnextstr(1, begin, prevanswer);
+	    fileptr = findnextstr(1, begin, beginx, prevanswer);
 	else
-	    fileptr = findnextstr(0, begin, prevanswer);
+	    fileptr = findnextstr(0, begin, beginx, prevanswer);
 
 	/* No more matches.  Done! */
 	if (!fileptr)
@@ -479,6 +492,16 @@ int do_replace(void)
 	    /* Stop bug where we replace a substring of the replacement text */
 	    current_x += strlen(last_replace) - 1;
 
+	    /* Adjust the original cursor position - COULD BE IMPROVED */
+	    if (search_last_line) {
+		beginx += strlen(last_replace) - strlen(last_search);
+
+		/* For strings that cross the search start/end boundary */
+		/* Don't go outside of allocated memory */
+		if (beginx < 1)
+		    beginx = 1;
+	    }
+
 	    edit_refresh();
 	    set_modified();
 	    numreplaced++;
@@ -487,7 +510,7 @@ int do_replace(void)
     }
 
     current = begin;
-    current_x = beginx;
+    current_x = beginx - 1;
     renumber_all();
     edit_update(current, CENTER);
     print_replaced(numreplaced);

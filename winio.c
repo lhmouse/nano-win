@@ -218,6 +218,15 @@ void check_statblank(void)
     }
 }
 
+/* Repaint the statusbar when getting a character in nanogetstr */
+void nanoget_repaint(char *buf, char *inputbuf, int x)
+{
+    blank_statusbar();
+    mvwaddstr(bottomwin, 0, 0, buf);
+    waddstr(bottomwin, inputbuf);
+    wmove(bottomwin, 0, x);
+}
+
 /* Get the input from the kb, this should only be called from statusq */
 int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 {
@@ -257,17 +266,11 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 
 	case KEY_HOME:
 	    x = x_left;
-	    blank_statusbar();
-	    mvwaddstr(bottomwin, 0, 0, buf);
-	    waddstr(bottomwin, inputbuf);
-	    wmove(bottomwin, 0, x);
+	    nanoget_repaint(buf, inputbuf, x);
 	    break;
 	case KEY_END:
 	    x = x_left + strlen(inputbuf);
-	    blank_statusbar();
-	    mvwaddstr(bottomwin, 0, 0, buf);
-	    waddstr(bottomwin, inputbuf);
-	    wmove(bottomwin, 0, x);
+	    nanoget_repaint(buf, inputbuf, x);
 	    break;
 	case KEY_RIGHT:
 
@@ -282,19 +285,13 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 			strlen(inputbuf) - (x - x_left) - 1);
 		inputbuf[strlen(inputbuf) - 1] = 0;
 	    }
-	    blank_statusbar();
-	    mvwaddstr(bottomwin, 0, 0, buf);
-	    waddstr(bottomwin, inputbuf);
-	    wmove(bottomwin, 0, x);
+	    nanoget_repaint(buf, inputbuf, x);
 	    break;
 	case NANO_CONTROL_K:
 	case NANO_CONTROL_U:
 	    *inputbuf = 0;
 	    x = x_left;
-	    blank_statusbar();
-	    mvwaddstr(bottomwin, 0, 0, buf);
-	    waddstr(bottomwin, inputbuf);
-	    wmove(bottomwin, 0, x);
+	    nanoget_repaint(buf, inputbuf, x);
 	    break;
 	case KEY_BACKSPACE:
 	case KEY_DC:
@@ -328,17 +325,11 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 		switch (kbinput = wgetch(edit)) {
 		case 70:
 		    x = x_left + strlen(inputbuf);
-		    blank_statusbar();
-		    mvwaddstr(bottomwin, 0, 0, buf);
-		    waddstr(bottomwin, inputbuf);
-		    wmove(bottomwin, 0, x);
+		    nanoget_repaint(buf, inputbuf, x);
 		    break;
 		case 72:
 		    x = x_left;
-		    blank_statusbar();
-		    mvwaddstr(bottomwin, 0, 0, buf);
-		    waddstr(bottomwin, inputbuf);
-		    wmove(bottomwin, 0, x);
+		    nanoget_repaint(buf, inputbuf, x);
 		    break;
 		}
 		break;
@@ -356,10 +347,7 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 		    break;
 		case 49:
 		    x = x_left;
-		    blank_statusbar();
-		    mvwaddstr(bottomwin, 0, 0, buf);
-		    waddstr(bottomwin, inputbuf);
-		    wmove(bottomwin, 0, x);
+		    nanoget_repaint(buf, inputbuf, x);
 		    goto skip_126;
 		case 51:
 		    if (strlen(inputbuf) > 0
@@ -369,17 +357,11 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 				strlen(inputbuf) - (x - x_left) - 1);
 			inputbuf[strlen(inputbuf) - 1] = 0;
 		    }
-		    blank_statusbar();
-		    mvwaddstr(bottomwin, 0, 0, buf);
-		    waddstr(bottomwin, inputbuf);
-		    wmove(bottomwin, 0, x);
+		    nanoget_repaint(buf, inputbuf, x);
 		    goto skip_126;
 		case 52:
 		    x = x_left + strlen(inputbuf);
-		    blank_statusbar();
-		    mvwaddstr(bottomwin, 0, 0, buf);
-		    waddstr(bottomwin, inputbuf);
-		    wmove(bottomwin, 0, x);
+		    nanoget_repaint(buf, inputbuf, x);
 		    goto skip_126;
 		  skip_126:
 		    nodelay(edit, TRUE);
@@ -390,12 +372,8 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 		    break;
 		}
 	    }
-	    blank_statusbar();
-	    mvwaddstr(bottomwin, 0, 0, buf);
-	    waddstr(bottomwin, inputbuf);
-	    wmove(bottomwin, 0, x);
+	    nanoget_repaint(buf, inputbuf, x);
 	    break;
-
 
 	default:
 	    if (kbinput < 32)
@@ -407,10 +385,7 @@ int nanogetstr(char *buf, char *def, shortcut s[], int slen, int start_x)
 	    strcpy(inputbuf, inputstr);
 	    x++;
 
-	    mvwaddstr(bottomwin, 0, 0, buf);
-	    waddstr(bottomwin, inputbuf);
-	    wmove(bottomwin, 0, x);
-
+	    nanoget_repaint(buf, inputbuf, x);
 #ifdef DEBUG
 	    fprintf(stderr, _("input \'%c\' (%d)\n"), kbinput, kbinput);
 #endif

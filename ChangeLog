@@ -3,10 +3,23 @@ CVS Code -
   toggle_init()
 	- Added #ifdef around toggle_regex_msg to get rid of compiler 
 	  warning.
+- search.c
+  findnexstr()
+	- New arg for begin_x variable, basically a rewrite that
+	  makes a little more sense and isn't quite as messy (Rocco Corsi).
+	- Update the line we're checking if not the whole screen, because
+	  it's quite possible the search team could exist somewhere way
+	  to the right on the same line, for example.
+  replace_abort()
+	- Add reset of placewewant, stops cursor from jumping when moving
+	  cursor after a replace.
 - winio.c
   nanogetstr()
 	- Added check for 343 in while loop to get rid of getting "locked"
 	  into statusbar" bug in odd $TERMs like iris-ansi.
+  nanoget_repaint()
+	- New function, removes about 30 lines of duplicate code in 
+	  nanogetstr().
   
 nano 0.9.19 - 10/02/2000
 - General

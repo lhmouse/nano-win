@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-10-18 15:38-0400\n"
+"POT-Creation-Date: 2000-10-24 01:12-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgstr ""
 msgid "Read %d lines"
 msgstr ""
 
-#: files.c:217 search.c:177
+#: files.c:217 search.c:159 search.c:194
 #, c-format
 msgid "\"%s\" not found"
 msgstr ""
@@ -380,7 +380,7 @@ msgid "Case Sens"
 msgstr ""
 
 #: global.c:342 global.c:361 global.c:371 global.c:387 global.c:391
-#: global.c:397 winio.c:1004
+#: global.c:397 winio.c:979
 msgid "Cancel"
 msgstr ""
 
@@ -725,79 +725,79 @@ msgstr ""
 msgid "I got Alt-%c! (%d)\n"
 msgstr ""
 
-#: search.c:75
+#: search.c:77
 #, c-format
 msgid "Case Sensitive Regexp Search%s%s"
 msgstr ""
 
-#: search.c:77
+#: search.c:79
 #, c-format
 msgid "Regexp Search%s%s"
 msgstr ""
 
-#: search.c:80
+#: search.c:82
 #, c-format
 msgid "Case Sensitive Search%s%s"
 msgstr ""
 
-#: search.c:82
+#: search.c:84
 #, c-format
 msgid "Search%s%s"
 msgstr ""
 
-#: search.c:85
+#: search.c:87
 msgid " (to replace)"
 msgstr ""
 
-#: search.c:93
+#: search.c:95
 msgid "Search Cancelled"
 msgstr ""
 
-#: search.c:191
+#: search.c:175
 msgid "Search Wrapped"
 msgstr ""
 
-#: search.c:242
+#: search.c:254
 #, c-format
 msgid "Replaced %d occurences"
 msgstr ""
 
-#: search.c:244
+#: search.c:256
 msgid "Replaced 1 occurence"
 msgstr ""
 
-#: search.c:379 search.c:400 search.c:423
+#: search.c:392 search.c:413 search.c:436
 msgid "Replace Cancelled"
 msgstr ""
 
-#: search.c:396
+#: search.c:409
 #, c-format
 msgid "Replace with [%s]"
 msgstr ""
 
 #. last_search is empty
-#: search.c:421
+#: search.c:434
 msgid "Replace with"
 msgstr ""
 
-#: search.c:462
+#: search.c:475
 msgid "Replace this instance?"
 msgstr ""
 
 #. Ask for it
-#: search.c:513
+#: search.c:536
 msgid "Enter line number"
 msgstr ""
 
-#: search.c:515
+#: search.c:538
 msgid "Aborted"
 msgstr ""
 
-#: search.c:535
+#: search.c:558
 msgid "Come on, be reasonable"
 msgstr ""
 
-#: search.c:540
+#: search.c:563
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr ""
@@ -807,67 +807,67 @@ msgstr ""
 msgid "actual_x_from_start for xplus=%d returned %d\n"
 msgstr ""
 
-#: winio.c:415
+#: winio.c:390
 #, c-format
 msgid "input '%c' (%d)\n"
 msgstr ""
 
-#: winio.c:449
+#: winio.c:424
 msgid "New Buffer"
 msgstr ""
 
-#: winio.c:452
+#: winio.c:427
 msgid "  File: ..."
 msgstr ""
 
-#: winio.c:460
+#: winio.c:435
 msgid "Modified"
 msgstr ""
 
-#: winio.c:920
+#: winio.c:895
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr ""
 
-#: winio.c:931
+#: winio.c:906
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr ""
 
-#: winio.c:974
+#: winio.c:949
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr ""
 
-#: winio.c:999
+#: winio.c:974
 msgid "Yes"
 msgstr ""
 
-#: winio.c:1001
+#: winio.c:976
 msgid "All"
 msgstr ""
 
-#: winio.c:1003
+#: winio.c:978
 msgid "No"
 msgstr ""
 
-#: winio.c:1140
+#: winio.c:1115
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr ""
 
-#: winio.c:1144
+#: winio.c:1119
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr ""
 
-#: winio.c:1272
+#: winio.c:1247
 msgid "Dumping file buffer to stderr...\n"
 msgstr ""
 
-#: winio.c:1274
+#: winio.c:1249
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr ""
 
-#: winio.c:1276
+#: winio.c:1251
 msgid "Dumping a buffer to stderr...\n"
 msgstr ""
