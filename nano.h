@@ -245,7 +245,7 @@ know what you're doing */
 #define HELP_LIST_LEN 3
 #define SPELL_LIST_LEN 3
 
-#ifndef HAVE_REGEX_H
+#ifdef HAVE_REGEX_H
 #define TOGGLE_LEN 9
 #else
 #define TOGGLE_LEN 8
