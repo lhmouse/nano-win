@@ -17,7 +17,7 @@ nano_SOURCES =	color.c \
 		utils.c \
 		winio.c 
 
-man_MANS = nano.1
+man_MANS = nano.1 nanorc.5
 nano_LDADD = @GLIB_LIBS@ @LIBINTL@
 
 info_TEXINFOS = nano.texi
@@ -25,8 +25,8 @@ MAKEINFO = makeinfo --no-split
 
 EXTRA_DIST =	ABOUT-NLS AUTHORS BUGS COPYING ChangeLog INSTALL NEWS \
 		README THANKS TODO config.rpath install-sh missing \
-		mkinstalldirs nano.1 nano.1.html faq.html nanorc.sample \
-		nano.spec
+		mkinstalldirs nano.1.html faq.html nanorc.sample nano.spec \
+		$(man_MANS)
 
 SUBDIRS = po m4
 

@@ -27,6 +27,10 @@ CVS code
 	- Add initialization file comments, change some options from 
 	  bracketed to underlined to emphasize that they are not 
 	  optional.
+	- Add SEE ALSO section (Jordi).
+- nanorc.5:
+	- Add nanorc manpage, with descriptions of all available commands
+	  (Jordi).
 - nanorc.sample:
 	- Make nanorc entry less tolerant of invalid colors.
 - nano.spec.in:

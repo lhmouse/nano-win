@@ -1,0 +1,127 @@
+.\" Hey, EMACS: -*- nroff -*-
+.\" nanorc.5 is Copyright (C) 1999, 2000, 2001, 2002, 2003
+.\" Free Software Foundation, Inc.
+.\"
+.\" This is free documentation, see the latest version of the GNU General
+.\" Public License for copying conditions. There is NO warranty.
+.\"
+.\" $Id$
+.TH NANORC 5 "February 9, 2003"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.SH NAME
+nanorc \- GNU nano's rcfile
+.SH SYNOPSIS
+.B /etc/nanorc
+.B $HOME/.nanorc
+.br
+.SH DESCRIPTION
+This manual page documents GNU \fBnano\fP's rcfile.
+.PP
+\fBnano\fP is a small, free and friendly editor which aims to replace
+Pico, the default editor included in the non-free Pine package. Rather
+than just copying Pico's look and feel, \fBnano\fP also implements some
+missing (or disabled by default) features in Pico, such as "search and
+replace" and "go to line number".
+
+.SH OPTIONS
+The configuration file accepts a series of "set" and "unset" commands,
+which can be used to configure nano on startup without using the
+command-line options. Additionally, the "syntax" and "color" keywords
+are used to define syntax highlighting rules for different text patterns.
+GNU nano will read one command per line.
+
+Options in rcfiles take precedence over nano's defaults, and command line
+options override rcfile settings.
+
+The supported commands and arguments are:
+
+.TP 3
+\fBset/unset autoindent\fP
+Use auto-indentation.
+.TP
+\fBset/unset backup\fP
+Create backup files in filename~.
+.TP
+\fBset/unset const\fP
+Constantly update the cursor position.
+.TP
+\fBset/unset cut\fP
+Use cut to end of line with ^K by default.
+.TP
+\fBset fill n\fP
+Set fill cols to n.
+.TP
+\fBset/unset keypad\fP
+Use alternate keypad routines.
+.TP
+\fBset/unset multibuffer\fP
+Allow multiple file buffers.
+.TP
+\fBset/unset noconvert\fP
+Don't convert files from DOS/Mac format.
+.TP
+\fBset/unset nofollow\fP
+Don't follow symlinks when writing files.
+.TP
+\fBset/unset nohelp\fP
+Don't display the help lists at the bottom of the screen.
+.TP
+\fBset/unset nowrap\fP
+Don't wrap text at all.
+.TP
+\fBset operatingdir "directory"\fP
+Set operating directory (chroots the user to "directory" and below).
+.TP
+\fBset/unset preserve\fP
+Preserve the XON and XOFF keys (^Q and ^S).
+.TP
+\fBset quotestr "string"\fP
+The email-quote string.  This is a "regular expression" if your
+system supports them, otherwise a literal string.
+Default value is set quotestr "^([ \t]*[|>:}#])+" if you have regexps,
+otherwise set quotestr "> ".
+.TP
+\fBset/unset regexp\fP
+Do regular expression searches by default.
+.TP
+\fBset/unset smooth\fP
+Use smooth scrolling by default.
+.TP
+\fBset speller aspell\fP
+Use this spelling checker instead of the default (spell).
+.TP
+\fBset/unset suspend\fP
+Allow nano to be suspended with ^Z.
+.TP
+\fBset tabsize n\fP
+Use a tab size of n instead of the default (8); must be greater than 0.
+.TP
+\fBset/unset tempfile\fP
+Save automatically on exit, don't prompt.
+.TP
+\fBset/unset historylog\fP
+Enable ~/.nano_history for saving and reading search/replace strings.
+.TP
+\fBset/unset view\fP
+Disallow file modification.
+.TP
+\fBsyntax "short description" "regexp"\fP
+Define a color syntax name and a regexp to associate files to it.
+.TP
+\fBcolor "foreground" "[background]" "regexp" ["regexp"...]\fP
+Define color rules for different strings. Specifying background is optional,
+and you can define multiple regexps to a color rule.
+.TP
+Every "syntax" command must be followed by one or more "color" rules.
+
+.SH SEE ALSO
+.PD 0
+.TP
+\fBnano\fP(1)
+.PP
+\fI/usr/share/doc/nano/examples/nanorc.sample\fP (or equivalent on your system)
+.SH AUTHOR
+Chris Allegretta <chrisa@asty.org>, et al (see AUTHORS and THANKS for
+details).
+This manual page was written by Jordi Mallach <jordi@gnu.org>.
