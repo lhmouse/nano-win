@@ -44,6 +44,11 @@ CVS code -
 	- corrected the Mouse Toggle section, noticed by Daniel Bonniot.
 - rcfile.c:
 	- NUM_RCOPTS fix (DLR).
+- search.c:
+	- Changed search prompt to "Search" followed by a list of
+	  bracketed, free-standing modifiers that do not imply a grammar,
+	  and the (to replace) string separately.  Hopefully this resolves
+	  the i18n problems that this provoked.
 - winio.c:
 	- Add David Lawrence Ramsey to credits.
   bottombars()

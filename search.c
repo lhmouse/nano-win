@@ -74,7 +74,6 @@ int search_init(int replacing)
 {
     int i = 0;
     char *buf;
-    char *prompt;
     static char *backupstring = NULL;
 #ifndef NANO_SMALL
     int j;
@@ -126,19 +125,24 @@ int search_init(int replacing)
     else
 	strcpy(buf, "");
 
-     /* Instead of having a million if statements here to determine
-	the prompt, we instead just have a hundred "? :" calls in
-	the statusq call.  I hope no one ever has to modify this :-) */
-    prompt = "%s%s%s%s%s%s";
-
     /* This is now one simple call.  It just does a lot */
     i = statusq(0, replacing ? replace_list : whereis_list,
 	replacing ? REPLACE_LIST_LEN : WHEREIS_LIST_LEN, backupstring,
-	prompt, 
-	ISSET(CASE_SENSITIVE) ? _("Case Sensitive ") : "",
-	ISSET(USE_REGEXP) ? _("Regexp ") : "",
+	"%s%s%s%s%s%s", 
 	_("Search"),
-	ISSET(REVERSE_SEARCH) ? _(" Backwards") : "",
+
+	/* This string is just a modifier for the search prompt,
+	   no grammar is implied */
+	ISSET(CASE_SENSITIVE) ? _(" [Case Sensitive]") : "",
+
+	/* This string is just a modifier for the search prompt,
+	   no grammar is implied */
+	ISSET(USE_REGEXP) ? _(" [Regexp]") : "",
+
+	/* This string is just a modifier for the search prompt,
+	   no grammar is implied */
+	ISSET(REVERSE_SEARCH) ? _(" [Backwards]") : "",
+
 	replacing ? _(" (to replace)") : "",
 	buf);
 
