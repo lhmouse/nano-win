@@ -1894,19 +1894,19 @@ size_t indent_length(const char *line)
 #endif /* !NANO_SMALL || !DISABLE_JUSTIFY */
 
 #ifndef DISABLE_JUSTIFY
-/* justify_format() replaces Tab by Space and multiple spaces by 1 (except
- * it maintains 2 after a . ! or ?).  Note the terminating \0
+/* justify_format() replaces Tab by Space and multiple spaces by 1
+ * (except it maintains 2 after a . ! or ?).  Note the terminating \0
  * counts as a space.
  *
- * If !changes_allowed and justify_format() needs to make a change, it
- * returns 1, otherwise returns 0.
+ * If changes_allowed is FALSE and justify_format() needs to make a
+ * change, it returns 1, otherwise returns 0.
  *
- * If changes_allowed, justify_format() might make line->data
+ * If changes_allowed is TRUE, justify_format() might make line->data
  * shorter, and change the actual pointer with null_at().
  *
  * justify_format() will not look at the first skip characters of line.
- * skip should be at most strlen(line->data).  The skip+1st character must
- * not be whitespace. */
+ * skip should be at most strlen(line->data).  The character at
+ * line[skip + 1] must not be whitespace. */
 int justify_format(int changes_allowed, filestruct *line, size_t skip)
 {
     const char *punct = ".?!";
