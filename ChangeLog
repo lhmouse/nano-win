@@ -14,8 +14,7 @@ CVS code
 	- Patch to handle $DESTDIR (orig by Dan Harnett contributed by
 	  Christian Weisgerber)
 - configure.in:
-	- New slang test code (Albert Chin-A-Young)
-	- Test for libm if --with-slang called.
+	- New (and again revised =) slang test code (Albert Chin-A-Young)
 
 nano-0.9.15 - 08/03/2000
 - Changed edit_update call to take arguments TOP, CENTER or BOTTOM.
