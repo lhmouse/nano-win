@@ -2028,6 +2028,17 @@ void do_toggle(int which)
 #endif
 }
 
+/* If the NumLock key has made the keypad gone awry, print an error
+   message, hopefully we can address it later. */
+void print_numlock_warning(void)
+{
+    static int didmsg = 0;
+    if (!didmsg) {
+	statusbar(_("NumLock glitch detected.  Keypad will malfunction without NumLock on"));
+	didmsg = 1;
+    }
+}
+
 /* This function returns the correct keystroke, given the A,B,C or D
    input key.  This is a common sequence of many terms which send
    Esc-O-[A-D] or Esc-[-[A-D]. */
@@ -2297,7 +2308,9 @@ int main(int argc, char *argv[])
 		kbinput = wgetch(edit);
 		if (kbinput <= 'D' && kbinput >= 'A')
 		   kbinput = ABCD(kbinput);
-		if (kbinput <= 'S' && kbinput >= 'P')
+		else if (kbinput <= 'z' && kbinput >= 'j')
+		    print_numlock_warning();
+		else if (kbinput <= 'S' && kbinput >= 'P')
 		    kbinput = KEY_F(kbinput - 79);
 #ifdef DEBUG
 		else {

@@ -1,5 +1,6 @@
 <!doctype html public "-//w3c//dtd html 4.0 transitional//en">
 <html>
+<title>The nano editor FAQ</title>
 <head>
    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
    <meta name="GENERATOR" content="Mozilla/4.73 [en] (X11; U; Linux 2.2.16 i586) [Netscape]">
@@ -66,8 +67,11 @@ my window.&nbsp;&nbsp; How can I fix that?</a></font>
 <br><font color="#330000"><a href="#4.5">4.5. When I type in a
 search string, the string I last searched for is already in front of
 my cursor!  !What happened?!</a></font>
-<br><a href="#4.6">4.6 How do I make nano my default editor (in Pine,
-mutt, etc.)?</a></blockquote>
+<br><font color="#330000"><a href="#4.6">4.6. I get the message "NumLock
+glitch detected.  Keypad will malfunction without NumLock on." What
+gives?</a></font>
+<br><font color="#330000"><a href="#4.7">4.7. How do I make nano my
+default editor (in Pine, mutt, etc.)?</a></font></blockquote>
 
 <h2>
 <font color="#330000"><a href="#5">5. Internationalization</a></font></h2>
@@ -422,7 +426,26 @@ Meta-P while in nano (see the ^G help text for more
 details).</font></blockquote>
 
 <h2>
-<a NAME="4.6"></a>4.6. How do I make nano my default editor (in Pine,
+<a NAME="4.6"></a>I get the message "NumLock glitch detected.  Keypad
+will malfunction without NumLock on." What gives?</h2>
+
+<blockquote>
+Nano (actually almost all console editors do) has issues when cycling
+the NumLock key in certain X terminals (rxvt, aterm, wterm, etc...).  When
+you switch NumLock on to off, you put the terminal into an "application
+mode" that changes what sequences are sent by the keypad.  These sequences
+vary sufficiently from terminal to terminal that it is nearly impossible
+to work around them from within nano.  
+<br><br>
+In a nutshell, if you want to be able to use the keypad with the arrow and
+page up/down functionality, you have to exit nano and reset your terminal
+(presumably with "reset" or "stty sane" or similar) and then run nano
+again with NumLock off.  If you know an easier way to restore "normal
+mode", please mail <A href="nano@nano-editor.org">nano@nano-editor.org</A>.
+<br>&nbsp;</blockquote>
+
+<h2>
+<a NAME="4.7"></a>4.7. How do I make nano my default editor (in Pine,
 mutt, etc)?</h2>
 
 <blockquote>You need to make nano your $EDITOR.&nbsp; If you want this

@@ -6,6 +6,9 @@ General
 	- Previous change to #ifdefs DISABLE_TABCOMP and NANO_SMALL rolled
 	  back. (Rocco)
 	- Various #ifdef & #ifndef cleanups. (Rocco)
+	- Added message for when keypad goes awry.  Added code in main and
+	  function print_numlock_warning() to notify user, and added an
+	  apropriate section in the faq to refer to this brokenness.
 - configure.in:
 	- Fix for _use_keypad check breaking slang support (Christian
 	  Weisgerber).
@@ -14,6 +17,7 @@ General
 - faq.html:
 	- Added some info on making the binary smaller with the configure
 	  script.
+	- Added section on keypad bugginess.
 - files.c:
   real_dir_from_tilde()
 	- Oops, fix case where buf ="~", silly crash (bug discovered by
