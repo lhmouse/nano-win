@@ -47,6 +47,7 @@ extern char *last_search;
 extern char *last_replace;
 #ifndef DISABLE_OPERATINGDIR
 extern char *operating_dir;
+extern char *full_operating_dir;
 #endif
 #ifndef DISABLE_SPELLER
 extern  char *alt_speller;
@@ -187,6 +188,8 @@ void print_view_warning(void);
 void unlink_node(filestruct * fileptr);
 void cut_marked_segment(filestruct * top, int top_x, filestruct * bot,
                         int bot_x, int destructive);
+void free_shortcutage(shortcut **src);
+void thanks_for_all_the_fish(void);
 
 #ifdef ENABLE_NANORC
 void do_rcfile(void);

@@ -77,8 +77,8 @@ filestruct *mark_beginbuf;	/* the begin marker buffer */
 int mark_beginx;		/* X value in the string to start */
 
 #ifndef DISABLE_OPERATINGDIR
-char *operating_dir = NULL;	/* Operating directory, which we can't go
-				   higher than */
+char *operating_dir = NULL;	/* Operating directory, which we can't */
+char *full_operating_dir = NULL;/* go higher than */
 #endif
 
 #ifndef DISABLE_SPELLER
@@ -327,6 +327,9 @@ void shortcut_init(int unjustify)
 #endif
 #endif /* !NANO_SMALL */
 
+    if (main_list != NULL)
+	free_shortcutage(&main_list);
+
 	sc_init_one(&main_list, NANO_HELP_KEY, _("Get Help"),
 		    nano_help_msg, 0, NANO_HELP_FKEY, 0, VIEW, do_help);
 
@@ -476,6 +479,9 @@ void shortcut_init(int unjustify)
 		    NANO_OPENNEXT_KEY, 0, 0, VIEW, open_nextfile_void);
 #endif
 
+    if (whereis_list != NULL)
+	free_shortcutage(&whereis_list);
+
     sc_init_one(&whereis_list, NANO_HELP_KEY,
 		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
 
@@ -508,6 +514,8 @@ void shortcut_init(int unjustify)
 #endif
 #endif /* !NANO_SMALL */
 
+    if (replace_list != NULL)
+	free_shortcutage(&replace_list);
 
     sc_init_one(&replace_list, NANO_HELP_KEY,
 		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
@@ -541,6 +549,8 @@ void shortcut_init(int unjustify)
 #endif
 #endif /* !NANO_SMALL */
 
+    if (replace_list_2 != NULL)
+	free_shortcutage(&replace_list_2);
 
     sc_init_one(&replace_list_2, NANO_HELP_KEY,
 		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
@@ -554,6 +564,8 @@ void shortcut_init(int unjustify)
     sc_init_one(&replace_list_2, NANO_LASTLINE_KEY, _("Last Line"),
 		nano_lastline_msg, 0, 0, 0, VIEW, do_last_line);
 
+    if (goto_list != NULL)
+	free_shortcutage(&goto_list);
 
     sc_init_one(&goto_list, NANO_HELP_KEY,
 		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
@@ -567,6 +579,8 @@ void shortcut_init(int unjustify)
     sc_init_one(&goto_list, NANO_LASTLINE_KEY, _("Last Line"),
 		nano_lastline_msg, 0, 0, 0, VIEW, &do_last_line);
 
+    if (help_list != NULL)
+	free_shortcutage(&help_list);
 
     sc_init_one(&help_list, NANO_PREVPAGE_KEY, _("Prev Page"),
 		nano_prevpage_msg,
@@ -579,6 +593,8 @@ void shortcut_init(int unjustify)
     sc_init_one(&help_list, NANO_EXIT_KEY, _("Exit"),
 		nano_exit_msg, 0, NANO_EXIT_FKEY, 0, VIEW, do_exit);
 
+    if (writefile_list != NULL)
+	free_shortcutage(&writefile_list);
 
     sc_init_one(&writefile_list, NANO_HELP_KEY,
 		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
@@ -603,6 +619,8 @@ void shortcut_init(int unjustify)
     sc_init_one(&writefile_list, NANO_CANCEL_KEY, 
 		_("Cancel"), nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
+    if (insertfile_list != NULL)
+	free_shortcutage(&insertfile_list);
 
     sc_init_one(&insertfile_list, NANO_HELP_KEY,
 		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
@@ -623,6 +641,10 @@ void shortcut_init(int unjustify)
 
 
 #ifndef DISABLE_BROWSER
+
+    if (browser_list != NULL)
+	free_shortcutage(&browser_list);
+
     sc_init_one(&browser_list, NANO_HELP_KEY,
 		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
 
@@ -641,6 +663,9 @@ void shortcut_init(int unjustify)
 		nano_gotodir_msg, NANO_ALT_GOTO_KEY, NANO_GOTO_FKEY, 0, 
 		VIEW, 0);
 
+    if (gotodir_list != NULL)
+	free_shortcutage(&gotodir_list);
+
     sc_init_one(&gotodir_list, NANO_HELP_KEY,
 		_("Get Help"), nano_help_msg, 0, 0, 0, VIEW, do_help);
 
@@ -655,4 +680,124 @@ void shortcut_init(int unjustify)
 #endif
 
     toggle_init();
+}
+
+/* delete the structure */
+void free_shortcutage(shortcut **shortcutage)
+{
+    shortcut *s,*ps;
+
+    s = *shortcutage;
+    if (s == NULL) {
+	return;
+    } else {
+	s = *shortcutage;
+	do {
+		ps = s;
+		s = s->next; 
+		free(ps);
+	} while (s->next != NULL);
+	free(s);
+	*shortcutage = NULL;
+    }
+}
+
+#ifndef NANO_SMALL
+/* clear the toggles */
+void free_toggles(void)
+{
+    toggle *u,*lu;
+
+    if (toggles == NULL) {
+	return;
+    } else {
+	lu = NULL;
+	for (u = toggles; u->next != NULL; u = u->next) {
+		if (lu != NULL) free(lu);
+		lu = u;
+	}
+	if (lu != NULL) free(lu);
+	if (u != NULL) free(u);
+    }
+}
+#endif
+
+/* added by SPK for memory cleanup, gracefully return our malloc()s */
+void thanks_for_all_the_fish(void) 
+{
+#ifdef ENABLE_MULTIBUFFER
+    filestruct * current_open_file;
+#endif
+
+#ifdef ENABLE_MULTIBUFFER
+    if (operating_dir != NULL)
+	free(operating_dir);
+    if (full_operating_dir != NULL)
+	free(full_operating_dir);
+#endif
+    if (last_search != NULL)
+	free(last_search);
+    if (last_replace != NULL)
+	free(last_replace);
+    if (hblank != NULL)
+	free(hblank);
+#ifndef DISABLE_SPELLER
+    if (alt_speller != NULL)
+	free(alt_speller);
+#endif
+    if (help_text != NULL)
+	free(help_text);
+    if (filename != NULL)
+	free(filename);
+    if (answer != NULL)
+	free(answer);
+    if (cutbuffer != NULL)
+        free_filestruct(cutbuffer);
+
+    free_shortcutage(&main_list);
+    free_shortcutage(&whereis_list);
+    free_shortcutage(&replace_list);
+    free_shortcutage(&replace_list_2);
+    free_shortcutage(&help_list);
+    free_shortcutage(&writefile_list);
+    free_shortcutage(&insertfile_list);
+    free_shortcutage(&spell_list);
+#ifndef DISABLE_BROWSER
+    free_shortcutage(&browser_list);
+#endif
+    free_shortcutage(&gotodir_list);
+    free_shortcutage(&goto_list);
+
+#ifndef NANO_SMALL
+    free_toggles();
+#endif
+
+#ifdef ENABLE_MULTIBUFFER
+/* Cleanup of Multibuffers . . .
+   Do not cleanup the current one, that is fileage . . . do the
+   rest of them though! (should be none if all went well) */
+    current_open_file = open_files;
+    if (open_files != NULL){
+        while (open_files->prev != NULL) 
+           open_files = open_files->prev;
+        while (open_files->next != NULL) {
+  /* cleanup of a multi buf . . . */
+           if (open_files != current_open_file) 
+             free_filestruct(open_files->file);
+           open_files = open_files->next;
+           free_filestruct(open_files->prev);
+        }
+  /* cleanup of last multi buf . . . */
+        if (open_files != current_open_file) 
+	  free_filestruct(open_files->file);
+        free_filestruct(open_files);
+    }
+#endif
+  /* starting the cleanup of fileage now . . . */
+
+    if (fileage != NULL)
+        free_filestruct(fileage);
+
+    /* that is all for now */
+
 }

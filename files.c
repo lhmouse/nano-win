@@ -366,7 +366,17 @@ int do_insertfile(int loading_file)
     currshortcut = insertfile_list;
 #endif
 
+#ifndef DISABLE_OPERATINGDIR
+    if ((operating_dir) && (strcmp(operating_dir,"."))){
+	i = statusq(1, insertfile_list, "", _("File to insert [from %s] "),
+		operating_dir);
+    } else {
+#endif
     i = statusq(1, insertfile_list, "", _("File to insert [from ./] "));
+#ifndef DISABLE_OPERATINGDIR
+    }
+#endif
+
     if (i != -1) {
 
 #ifdef DEBUG
@@ -412,7 +422,6 @@ int do_insertfile(int loading_file)
 	    /* update the current entry in the open_files structure */
 	    add_open_file(1);
 
-	    free_filestruct(fileage);
 	    new_file();
 	    UNSET(MODIFIED);
 	}
@@ -508,6 +517,7 @@ int add_open_file(int update)
 	/* if open_files->file is NULL at the nrealloc() below, we get a
 	   segfault
 	open_files->file = open_files; */
+	open_files->file = NULL;
     }
 
     else if (!update) {
@@ -526,6 +536,7 @@ int add_open_file(int update)
 	/* if open_files->file is NULL at the nrealloc() below, we get a
 	   segfault
 	open_files->file = open_files; */
+	open_files->file = NULL;
     }
 
     /* save current filename */
@@ -555,8 +566,7 @@ int add_open_file(int update)
     if (!(ISSET(VIEW_MODE) && !update)) {
 	/* save current filestruct and restore full file position
 	   afterward */
-	open_files->file = nmalloc(sizeof(filestruct));
-	open_files->file = copy_filestruct(fileage);
+	open_files->file = fileage; 
 	do_gotopos(open_files->lineno, open_files->file_current_x, open_files->file_current_y, open_files->file_placewewant);
     }
 
@@ -598,7 +608,7 @@ int load_open_file(void)
     /* set up the filename, the file buffer, the total number of lines in
        the file, and the total file size */
     filename = mallocstrcpy(filename, open_files->data);
-    fileage = copy_filestruct(open_files->file);
+    fileage = open_files->file;
     current = fileage;
     totlines = open_files->file_totlines;
     totsize = open_files->file_totsize;
@@ -679,7 +689,11 @@ int open_prevfile(int closing_file)
 
     }
 
+/*    free_filestruct(fileage);  // delete this before reloading */
     load_open_file();
+
+    statusbar(_("Switched to %s"),
+      ((open_files->data[0] == '\0') ? "New Buffer" : open_files->data ));
 
 #ifdef DEBUG
     dump_buffer(current);
@@ -741,6 +755,9 @@ int open_nextfile(int closing_file)
     }
 
     load_open_file();
+
+    statusbar(_("Switched to %s"),
+      ((open_files->data[0] == '\0') ? "New Buffer" : open_files->data ));
 
 #ifdef DEBUG
     dump_buffer(current);
@@ -1069,10 +1086,10 @@ char *safe_tempnam(const char *dirname, const char *filename_prefix) {
  */
 int check_operating_dir(char *currpath, int allow_tabcomp)
 {
-    /* this is static so that we only need to get it the first time this
-       function is called; also, a relative operating directory path will
+    /* The char *full_operating_dir is global for mem cleanup, and
+       therefore we only need to get it the first time this function
+       is called; also, a relative operating directory path will
        only be handled properly if this is done */
-    static char *full_operating_dir = NULL;
 
     char *fullpath, *whereami1, *whereami2 = NULL;
 
@@ -1151,11 +1168,11 @@ int check_operating_dir(char *currpath, int allow_tabcomp)
 int write_file(char *name, int tmp, int append, int nonamechange)
 {
     long size, lineswritten = 0;
-    static char *buf = NULL;
+    char *buf = NULL;
     filestruct *fileptr;
     int fd, mask = 0, realexists, anyexists;
     struct stat st, lst;
-    static char *realname = NULL;
+    char *realname = NULL;
 
     if (!strcmp(name, "")) {
 	statusbar(_("Cancelled"));
@@ -2088,7 +2105,7 @@ void free_charptrarray(char **array, int len)
 {
     int i;
 
-    for (i = 0; i < len - 1; i++)
+    for (i = 0; i < len; i++)
 	free(array[i]);
     free(array);
 }
@@ -2127,7 +2144,10 @@ void striponedir(char *foo)
     if (tmp != foo)
 	*tmp = 0;
     else
+    { /* SPK may need to make a 'default' path here */
+        if (*tmp != '/') *(tmp) = '.';
 	*(tmp+1) = 0;
+    }
 
     return;
 }
@@ -2321,6 +2341,17 @@ char *do_browser(char *inpath)
 	    }
 #endif
 
+	    /* SPK for '.' path, get the current path via getcwd */
+	    if (!strcmp(path, "./..")) {
+		free(path);
+		path = getcwd(NULL, 0);
+		striponedir(path);		    
+		align(&path);
+		free_charptrarray(filelist, numents);
+		free(foo);
+		return do_browser(path);
+	    }
+
 	    st = filestat(path);
 	    if (S_ISDIR(st.st_mode)) {
 		if ((test_dir = opendir(path)) == NULL) {
@@ -2341,6 +2372,8 @@ char *do_browser(char *inpath)
 		}
 
 		/* Start over again with the new path value */
+		free_charptrarray(filelist, numents);
+		free(foo);
 		return do_browser(path);
 	    } else {
 		retval = path;
@@ -2375,7 +2408,7 @@ char *do_browser(char *inpath)
 		char *saveanswer = NULL;
 
 		saveanswer = mallocstrcpy(saveanswer, answer);
-		answer = realloc(answer, strlen(path) + strlen(saveanswer) + 2);
+		answer = nrealloc(answer, strlen(path) + strlen(saveanswer) + 2);
 		sprintf(answer, "%s/%s", path, saveanswer);
 		free(saveanswer);
 	    }

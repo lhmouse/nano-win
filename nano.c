@@ -100,6 +100,8 @@ RETSIGTYPE finish(int sigage)
     /* Restore the old term settings */
     tcsetattr(0, TCSANOW, &oldterm);
 
+    thanks_for_all_the_fish();
+
     exit(sigage);
 }
 
@@ -3262,7 +3264,11 @@ int main(int argc, char *argv[])
 	/* Look through the main shortcut list to see if we've hit a
 	   shortcut key */
         
+#if !defined(DISABLE_BROWSER) || !defined(DISABLE_MOUSE) || !defined (DISABLE_HELP)
 	for (s = currshortcut; s != NULL && !keyhandled; s = s->next) {
+#else
+	for (s = main_list; s != NULL && !keyhandled; s = s->next) {
+#endif
 	    if (kbinput == s->val ||
 		(s->misc1 && kbinput == s->misc1) ||
 		(s->misc2 && kbinput == s->misc2)) {

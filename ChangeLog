@@ -1,4 +1,4 @@
-CVS code -
+2CVS code -
 - General
 	- malloc->calloc, etc cleanups (DLR).
 	- New option, noconvert (-N, --noconvert) to completely stop
@@ -18,6 +18,11 @@ CVS code -
 	- New code to handle multiple .save files.  Changes to 
 	  die_save_file(), new function files.c:get_next_filename()
 	  and utils.c:num_of_digits(). (Dwayne Rightler, DLR & Chris)
+	- Many malloc() cleanups and files.c tweaks by Steven Kneizys,
+	  new functions utils.c:free_shortcutage() (got to love that
+	  name!) & free_toggles(), and big cleanup program 
+	  thanks_for_all_the_fish() (originally 
+	  thanks_for_the_memories()).  Mods to shortcut_init() by Chris.
 - Makefile.am:
 	- Add SYSCONFDIR to DEFS, so we can have an /etc/nanorc.
 	- Change localedir line to 1.0's version.
@@ -30,6 +35,8 @@ CVS code -
   read_byte()
 	- Added check for conrol characters (indicative of a binary 
 	  file), set NO_CONVERT if found (fixes by DLR).
+ do_insertfile()
+	- Added support for -o in prompt (Steven Kneizys).
 - global.c:
 	- Move openprev and opennext functions to shortcuts, they really
 	  aren't toggles (DLR).
