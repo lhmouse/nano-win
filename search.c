@@ -340,9 +340,9 @@ int do_search(void)
 void print_replaced(int num)
 {
     if (num > 1)
-	statusbar(_("Replaced %d occurences"), num);
+	statusbar(_("Replaced %d occurrences"), num);
     else if (num == 1)
-	statusbar(_("Replaced 1 occurence"));
+	statusbar(_("Replaced 1 occurrence"));
 }
 
 void replace_abort(void)
