@@ -24,6 +24,8 @@ CVS code changes since last release -
 	- Corrected FIXME in do_enter with explanation. (Rob)
 	- Fixed FIXME in do_justify, resulted in creation of
 	  fix_editbot [also fixed in do_enter] (winio.c) (Rob)
+  help_init():
+	- Moved newline out of if statement (Rocco Corsi)
   do_char():
 	- Magic Line related code in do_char (Rob)
   do_backspace(), do_delete():
