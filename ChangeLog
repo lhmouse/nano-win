@@ -1,4 +1,7 @@
 CVS code -
+- nano.h:
+	- NANO_ALT_COMMAND and NANO_ALT_PERIOD were reversed (lol)
+	  (David Benbennick).
 - nano.spec.in:
 	- Don't put Chris' name as the Packager in the distribution
 	  by default (Im an idiot).
