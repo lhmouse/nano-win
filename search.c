@@ -780,7 +780,6 @@ int do_gotoline(int line, int save_pos)
 	edit_update(current, CENTER);
     placewewant = 0;
     goto_abort();
-    blank_statusbar_refresh();
     return 1;
 }
 

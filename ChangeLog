@@ -178,6 +178,9 @@ Changes
 	  so that functions only used with tab completion are properly
 	  #ifdef'ed out. (DLR)
 - search.c:
+  do_gotoline()
+	- Don't call blank_statusbar_refresh() so if there's an error
+	  returned in multibuffer mode, we can actually see it.
   do_search()
 	- Remove erroneously introduced near-duplicate call to
 	  update_history(). (DLR)
