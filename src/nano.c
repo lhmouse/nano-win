@@ -2865,14 +2865,16 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 
     /* Find the first line of the current or next paragraph.  First, if
      * the current line isn't in a paragraph, move forward to the line
-     * after the end of the next paragraph.  If the line before that
-     * isn't in a paragraph, it means there aren't any paragraphs left,
-     * so get out.  Otherwise, if the current line is in a paragraph and
-     * it isn't the first line of that paragraph, move back to the first
-     * line. */
+     * after the end of the next paragraph.  If we end up on the same
+     * line, or the line before that isn't in a paragraph, it means that
+     * there aren't any paragraphs left, so get out.  Otherwise, if the
+     * current line is in a paragraph and it isn't the first line of
+     * that paragraph, move back to the first line. */
     if (!inpar(current)) {
+	filestruct *current_save = current;
+
 	do_para_end(FALSE);
-	if (!inpar(current->prev))
+	if (current == current_save || !inpar(current->prev))
 	    return FALSE;
     }
     if (!begpar(current))
