@@ -370,6 +370,10 @@ char *get_history_older(historyheadtype *h);
 char *get_history_newer(historyheadtype *h);
 char *get_history_completion(historyheadtype *h, char *s);
 void free_history(historyheadtype *h);
+#ifdef ENABLE_NANORC
+void load_history(void);  
+void save_history(void);
+#endif
 #endif
 
 /* Public functions in utils.c */

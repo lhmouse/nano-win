@@ -73,6 +73,9 @@
 ## Save automatically on exit, don't prompt
 # set tempfile
 
+## Enable ~/.nano_history for saving and reading search/replace strings.
+# set historylog
+
 ## Disallow file modification, why would you want this in an rc file? ;)
 # set view
 
@@ -165,7 +168,7 @@
 
 #syntax "nanorc" "[\.]*nanorc$"
 #color white "^ *(set|unset).*$"
-#color cyan "^ *(set|unset) (autoindent|backup|const|cut|fill|keypad|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|quotestr|regexp|smooth|speller|suspend|tabsize|tempfile|view)"
+#color cyan "^ *(set|unset) (autoindent|backup|const|cut|fill|keypad|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|quotestr|regexp|smooth|speller|suspend|tabsize|tempfile|historylog|view)"
 #color brightwhite "^ *syntax [^ ]*"
 #color brightblue "^ *set\>" "^ *unset\>" "^ *syntax\>"
 #color white "^ *color\>.*"

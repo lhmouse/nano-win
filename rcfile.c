@@ -84,6 +84,7 @@ const static rcoption rcopts[] = {
     {"tabsize", 0},
     {"tempfile", TEMP_OPT},
     {"view", VIEW_MODE},
+    {"historylog", HISTORYLOG},
     {NULL, 0}
 };
 

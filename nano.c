@@ -68,6 +68,12 @@ RETSIGTYPE finish(int sigage)
 {
 
 #ifndef NANO_SMALL
+#ifdef ENABLE_NANORC
+    /* do here so errors about ./nano_history
+	don't confuse user */  
+    if (!ISSET(NO_RCFILE) && ISSET(HISTORYLOG))
+	save_history();
+#endif
     free_history(&search_history);
     free_history(&replace_history);
 #endif
@@ -625,6 +631,7 @@ void usage(void)
     print1opt("-F", "--multibuffer", _("Enable multiple file buffers"));
 #endif
 #ifdef ENABLE_NANORC
+    print1opt("-H", "--historylog", _("Log and read search/replace string history"));
     print1opt("-I", "--ignorercfiles", _("Don't look at nanorc files"));
 #endif
     print1opt("-K", "--keypad", _("Use alternate keypad routines"));
@@ -3012,6 +3019,7 @@ int main(int argc, char *argv[])
 	{"multibuffer", 0, 0, 'F'},
 #endif
 #ifdef ENABLE_NANORC
+	{"historylog", 0, 0, 'H'},
 	{"ignorercfiles", 0, 0, 'I'},
 #endif
 	{"keypad", 0, 0, 'K'},
@@ -3089,11 +3097,11 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef HAVE_GETOPT_LONG
-    while ((optchr = getopt_long(argc, argv, "h?BDFIKMNQ:RST:VY:abcefgijklmo:pr:s:tvwxz",
+    while ((optchr = getopt_long(argc, argv, "h?BDFHIKMNQ:RST:VY:abcefgijklmo:pr:s:tvwxz",
 				 long_options, &option_index)) != -1) {
 #else
     while ((optchr =
-	    getopt(argc, argv, "h?BDFIKMNQ:RST:VY:abcefgijklmo:pr:s:tvwxz")) != -1) {
+	    getopt(argc, argv, "h?BDFHIKMNQ:RST:VY:abcefgijklmo:pr:s:tvwxz")) != -1) {
 #endif
 
 	switch (optchr) {
@@ -3120,6 +3128,9 @@ int main(int argc, char *argv[])
 	    break;
 #endif
 #ifdef ENABLE_NANORC
+	case 'H':
+	    SET(HISTORYLOG);
+	    break;
 	case 'I':
 	    SET(NO_RCFILE);
 	    break;
@@ -3390,7 +3401,14 @@ int main(int argc, char *argv[])
 
 #ifndef NANO_SMALL
     history_init();
+#ifdef ENABLE_NANORC
+    if (!ISSET(NO_RCFILE) && ISSET(HISTORYLOG))
+	load_history();
 #endif
+#endif
+
+
+
 
 #ifdef DEBUG
     fprintf(stderr, _("Main: bottom win\n"));

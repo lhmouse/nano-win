@@ -2851,3 +2851,107 @@ char *do_browse_from(const char *inpath)
     return bob;
 }
 #endif /* !DISABLE_BROWSER */
+
+#ifndef NANO_SMALL
+#ifdef ENABLE_NANORC
+void load_history(void)
+{
+    FILE *hist;
+    const struct passwd *userage;
+    uid_t euid = geteuid();
+    static char *nanohist;
+    char *buf, *ptr;
+    historyheadtype *history = &search_history;
+
+    do {
+	userage = getpwent();
+    } while (userage != NULL && userage->pw_uid != euid);
+    endpwent();
+
+    /* assume do_rcfile has reported missing home dir */
+
+    if (userage != NULL) {
+        nanohist = nrealloc(nanohist, strlen(userage->pw_dir) + 15);
+        sprintf(nanohist, "%s/.nano_history", userage->pw_dir);
+	hist = fopen(nanohist, "r");
+	if (!hist) {
+            if (errno != ENOENT)
+		rcfile_error(_("Unable to open ~/.nano_history file, %s"), strerror(errno));
+	    free(nanohist);
+	} else {
+	    buf = charalloc(1024);
+	    while (fgets(buf, 1023, hist) != 0) {
+		ptr = buf;
+		while (*ptr != '\n')
+		    ptr++;
+		*ptr = '\0';
+		if (strlen(buf))
+		    update_history(history, buf);
+		else
+		    history = &replace_history;
+	    }
+	    fclose(hist);
+	    free(buf);
+	    free(nanohist);
+	    UNSET(HISTORY_CHANGED);
+	}
+    }
+}
+
+/* save histories to ~/.nano_history */
+void save_history(void)
+{
+    FILE *hist;
+    const struct passwd *userage;
+    uid_t euid = geteuid();
+    char *nanohist = NULL;
+    historytype *h;
+
+    /* don't save unchanged or empty histories */
+    if (!((search_history.count || replace_history.count) &&
+			ISSET(HISTORY_CHANGED) && !ISSET(VIEW_MODE)))
+	return;
+
+    do {
+	userage = getpwent();
+    } while (userage != NULL && userage->pw_uid != euid);
+    endpwent();
+
+    if (userage != NULL) {
+	nanohist = nrealloc(nanohist, strlen(userage->pw_dir) + 15);
+	sprintf(nanohist, "%s/.nano_history", userage->pw_dir);
+	hist = fopen(nanohist, "wb");
+	if (!hist) {
+	    rcfile_msg(_("Unable to write ~/.nano_history file, %s"), strerror(errno));
+	} else {
+	    /* set rw only by owner for security ?? */
+	    chmod(nanohist, S_IRUSR | S_IWUSR);
+	    /* write oldest first */
+	    for (h = search_history.tail ; h->prev ; h = h->prev) {
+		nrealloc(h->data, strlen(h->data) + 1);
+		strcat(h->data, "\n");
+		if (fputs(h->data, hist) == EOF) {
+		    rcfile_msg(_("Unable to write ~/.nano_history file, %s"), strerror(errno));
+		    goto come_from;
+		}
+	    }
+	    if (fputs("\n", hist) == EOF) {
+		    rcfile_msg(_("Unable to write ~/.nano_history file, %s"), strerror(errno));
+		    goto come_from;
+	    }
+	    for (h = replace_history.tail ; h->prev ; h = h->prev) {
+		nrealloc(h->data, strlen(h->data) + 1);
+		strcat(h->data, "\n");
+		if (fputs(h->data, hist) == EOF) {
+		    rcfile_msg(_("Unable to write ~/.nano_history file, %s"), strerror(errno));
+		    goto come_from;
+		}
+	    }
+come_from:
+	    fclose(hist);
+	}
+	free(nanohist);
+    }
+}
+#endif /* ENABLE_NANORC */
+#endif NANO_SMALL

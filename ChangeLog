@@ -22,6 +22,10 @@ Changes
 	  the "Up" shortcut is displayed properly in the help menu,
 	  remove a few bits of unneeded and/or warning-generating code,
 	  and fix some missing statusq() prompts with --enable-tiny.
+	- Added search/replace history log.  Flag -H, --historylog.
+	  Flags HISTORY_CHANGED and HISTORYLOG (only room for one more 
+	  flag!), added entries in nanorc.sample, new functions 
+	  log_history and save_history (Ken Tyler).
 	- Translation updates (see po/ChangeLog for details).
 	- Forward-ported Chris' --disable-wrapping-as-root option from
 	  1.0.9.  Per Jordi's suggestions, have it override

@@ -957,6 +957,7 @@ void update_history(historyheadtype *h, char *s)
     }
     insert_node((historytype *)h, s);
     h->count++;
+    SET(HISTORY_CHANGED);
   up_hs:
     h->current = h->next;
 }

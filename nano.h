@@ -247,6 +247,8 @@ typedef struct historyheadtype {
 #define NO_RCFILE		(1<<26)
 #define COLOR_SYNTAX		(1<<27)
 #define PRESERVE		(1<<28)
+#define HISTORY_CHANGED		(1<<29)
+#define HISTORYLOG		(1<<30)
 
 /* Control key sequences, changing these would be very very bad */
 
