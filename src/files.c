@@ -1300,6 +1300,7 @@ int check_operating_dir(const char *currpath, int allow_tabcomp)
     /* If no operating directory is set, don't bother doing anything. */
     if (operating_dir == NULL)
 	return 0;
+
     assert(full_operating_dir != NULL);
 
     fullpath = get_full_path(currpath);
