@@ -61,6 +61,9 @@ CVS code -
   get_untranslated_kbinput()
 	- Make the ascii_digits variables ints instead of size_t's,
 	  since they will only hold very small values. (DLR)
+  get_verbatim_kbinput()
+	- Don't pass v_kbinput in as a parameter, since we're
+	  dynamically allocating it and then returning it. (DLR)
   get_shortcut(), get_toggle()
 	- Add debug messages. (DLR)
 

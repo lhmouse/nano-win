@@ -1225,8 +1225,7 @@ void do_verbatim_input(void)
 
     statusbar(_("Verbatim input"));
 
-    v_kbinput = get_verbatim_kbinput(edit, ERR, v_kbinput, &v_len,
-	TRUE);
+    v_kbinput = get_verbatim_kbinput(edit, ERR, &v_len, TRUE);
 
     /* Turn on DISABLE_CURPOS while inserting character(s) and turn it
      * off afterwards, so that if constant cursor position display is

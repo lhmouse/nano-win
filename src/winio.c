@@ -190,8 +190,8 @@ int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 	    int *sequence = NULL;
 	    size_t seq_len;
 
-	    sequence = get_verbatim_kbinput(win, kbinput, sequence,
-		&seq_len, FALSE);
+	    sequence = get_verbatim_kbinput(win, kbinput, &seq_len,
+		FALSE);
 
 	    /* Handle escape sequences. */
 	    if (seq == ESCAPE_SEQ) {
@@ -1168,13 +1168,13 @@ int get_escape_seq_abcd(int kbinput)
 }
 
 /* Read in a string of input characters (e.g. an escape sequence)
- * verbatim.  If first isn't ERR, make it the first character of the
- * string.  Store the string in v_kbinput and return the length of the
- * string in v_len.  Assume nodelay(win) is FALSE. */
-int *get_verbatim_kbinput(WINDOW *win, int first, int *v_kbinput, size_t
-	*v_len, bool allow_ascii)
+ * verbatim.  If v_first isn't ERR, make it the first character of the
+ * string.  Return the length of the string in v_len.  Assume
+ * nodelay(win) is FALSE. */
+int *get_verbatim_kbinput(WINDOW *win, int v_first, size_t *v_len, bool
+	allow_ascii)
 {
-    int kbinput;
+    int kbinput, *v_kbinput;
     size_t i = 0, v_newlen = 0;
 
 #ifndef NANO_SMALL
@@ -1193,12 +1193,12 @@ int *get_verbatim_kbinput(WINDOW *win, int first, int *v_kbinput, size_t
 
     /* If first is ERR, read the first character using blocking input,
      * since using non-blocking input will eat up all unused CPU.
-     * Otherwise, treat first as the first character.  Then increment
+     * Otherwise, treat v_first as the first character.  Then increment
      * v_len and save the character in v_kbinput. */
-    if (first == ERR)
+    if (v_first == ERR)
 	kbinput = wgetch(win);
     else
-	kbinput = first;
+	kbinput = v_first;
     (*v_len)++;
     v_kbinput[0] = kbinput;
 #ifdef DEBUG
