@@ -1,3 +1,10 @@
+08/24/2001 - GNU nano 1.0.4 is released.  This is the first release in
+		almost two months, and the biggest fixes are for search
+		strings when switching back and forth from Pico mode.
+		There are also new translations for Norwegian and Swedish,
+		and some new keystroke handlers in the main editor and
+		file browser.  Have fun with it!
+
 07/01/2001 - GNU nano 1.0.3 is the "mutt" release.  This release features
 		oodles of bug fixes with cutting text, especially with the
 		-k (cut to end) option.  There is also a new suspend

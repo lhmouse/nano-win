@@ -1,4 +1,4 @@
-This is nano.info, produced by makeinfo version 4.0 from nano.texi.
+This is nano.info, produced by makeinfo version 4.0b from nano.texi.
 
 INFO-DIR-SECTION Editors
 START-INFO-DIR-ENTRY
@@ -385,21 +385,21 @@ consider the following command line options:
 
 
 Tag Table:
-Node: Top199
-Node: Introduction507
-Node: Overview933
-Node: Command Line Options1513
-Ref: Expert Mode3235
-Node: Editor Basics4078
-Node: Entering Text4303
-Node: Special Functions4643
-Node: The Titlebar5498
-Node: The Statusbar6196
-Node: Shortcut Lists6777
-Node: Online Help7170
-Node: Feature Toggles7546
-Node: The File Browser8689
-Node: Pico Compatibility9398
-Node: Building and Configure Options11440
+Node: Top200
+Node: Introduction508
+Node: Overview934
+Node: Command Line Options1514
+Ref: Expert Mode3236
+Node: Editor Basics4079
+Node: Entering Text4304
+Node: Special Functions4644
+Node: The Titlebar5499
+Node: The Statusbar6197
+Node: Shortcut Lists6778
+Node: Online Help7171
+Node: Feature Toggles7547
+Node: The File Browser8690
+Node: Pico Compatibility9399
+Node: Building and Configure Options11441
 
 End Tag Table

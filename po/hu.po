@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 0.9.99pre2\n"
-"POT-Creation-Date: 2001-07-01 00:31-0400\n"
+"POT-Creation-Date: 2001-08-20 09:49-0400\n"
 "PO-Revision-Date: 2001-02-03 07:47-0000\n"
 "Last-Translator: Szabolcs Horvath <horvaths@penguinpowered.com>\n"
 "Language-Team: Hungarian <magyar@lists.linux.hu>\n"
@@ -32,7 +32,7 @@ msgstr "read_line: ez nem az elsõ sor és a prew értéke NULL"
 msgid "Read %d lines"
 msgstr "%d sort beolvastam"
 
-#: files.c:222 search.c:194
+#: files.c:222 search.c:203
 #, c-format
 msgid "\"%s\" not found"
 msgstr "\"%s\" nem található"
@@ -113,12 +113,12 @@ msgstr "A fájl már létezik, felülírjam?"
 msgid "(more)"
 msgstr "(tovább)"
 
-#: files.c:1237
+#: files.c:1244
 msgid "Can't move up a directory"
 msgstr "Nem tudok a könyvtárfán feljebb lépni"
 
 #. We can't open this dir for some reason.  Complain
-#: files.c:1245
+#: files.c:1252
 #, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "Nem tudom megnyitni \"%s\": %s"
@@ -409,7 +409,7 @@ msgid "Case Sens"
 msgstr "kis/Nagy"
 
 #: global.c:353 global.c:373 global.c:384 global.c:394 global.c:415
-#: global.c:418 winio.c:1064
+#: global.c:418 winio.c:1062
 msgid "Cancel"
 msgstr "Mégsem"
 
@@ -777,131 +777,131 @@ msgstr "engedélyezve"
 msgid "disabled"
 msgstr "kikapcsolva"
 
-#: nano.c:2161
+#: nano.c:2162
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "NumLock hibát fedeztem fel.  A Keypad rosszul mûködhet, ha a NumLock be van "
 "kapcsolva"
 
-#: nano.c:2387
+#: nano.c:2388
 msgid "Main: set up windows\n"
 msgstr "Fõprogram: az ablakok beállítása\n"
 
-#: nano.c:2394
+#: nano.c:2395
 msgid "Main: bottom win\n"
 msgstr "Fõprogram: alsó ablak\n"
 
-#: nano.c:2400
+#: nano.c:2401
 msgid "Main: open file\n"
 msgstr "Fõprogram: fájl megnyitása\n"
 
-#: nano.c:2453
+#: nano.c:2454
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "Az Alt-O-%c billentyûket lenyomtad! (%d)\n"
 
-#: nano.c:2480
+#: nano.c:2481
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "Az Alt-[-1-%c billentyûket lenyomtad! (%d)\n"
 
-#: nano.c:2513
+#: nano.c:2514
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "Az Alt-[-2-%c billentyûket lenyomtad! (%d)\n"
 
-#: nano.c:2559
+#: nano.c:2568
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "Az Alt-[-%c billentyûket lenyomtad! (%d)\n"
 
-#: nano.c:2585
+#: nano.c:2594
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "Az Alt-%c billentyûket lenyomtad! (%d)\n"
 
-#: search.c:118
+#: search.c:127
 #, c-format
 msgid "Case Sensitive Regexp Search%s%s"
 msgstr "Regexp keresés (kis/Nagy külön)%s%s"
 
-#: search.c:120
+#: search.c:129
 #, c-format
 msgid "Regexp Search%s%s"
 msgstr "Regexp keresés%s%s"
 
-#: search.c:122
+#: search.c:131
 #, c-format
 msgid "Case Sensitive Search%s%s"
 msgstr "Keresés (kis/Nagy külön)%s%s"
 
-#: search.c:124
+#: search.c:133
 #, c-format
 msgid "Search%s%s"
 msgstr "Keresés%s%s"
 
-#: search.c:127
+#: search.c:136
 msgid " (to replace)"
 msgstr " (cserére)"
 
-#: search.c:136 search.c:327
+#: search.c:145 search.c:336
 msgid "Search Cancelled"
 msgstr "Keresés megszakítva"
 
-#: search.c:200
+#: search.c:209
 #, c-format
 msgid "\"%s...\" not found"
 msgstr "\"%s...\" nem található"
 
-#: search.c:249
+#: search.c:258
 msgid "Search Wrapped"
 msgstr ""
 
-#: search.c:349
+#: search.c:358
 #, fuzzy, c-format
 msgid "Replaced %d occurrences"
 msgstr "%d alkalommal fordult elõ, kicseréltem azokat"
 
-#: search.c:351
+#: search.c:360
 #, fuzzy
 msgid "Replaced 1 occurrence"
 msgstr "Egyszer fordult elõ, kicseréltem"
 
-#: search.c:489 search.c:599 search.c:615
+#: search.c:498 search.c:608 search.c:624
 msgid "Replace Cancelled"
 msgstr "A csere megszakítva"
 
-#: search.c:539
+#: search.c:548
 msgid "Replace this instance?"
 msgstr ""
 
-#: search.c:551
+#: search.c:560
 msgid "Replace failed: unknown subexpression!"
 msgstr "Hiba a cserénél: ismeretlen alkifejezés!"
 
-#: search.c:640
+#: search.c:649
 #, c-format
 msgid "Replace with [%s]"
 msgstr "Cserélés erre [%s]"
 
-#: search.c:644 search.c:648
+#: search.c:653 search.c:657
 msgid "Replace with"
 msgstr "Erre lesz cserélve"
 
 #. Ask for it
-#: search.c:683
+#: search.c:692
 msgid "Enter line number"
 msgstr "Kérem a sor számát"
 
-#: search.c:685
+#: search.c:694
 msgid "Aborted"
 msgstr "Megszakítva"
 
-#: search.c:705
+#: search.c:714
 msgid "Come on, be reasonable"
 msgstr "Gyerünk, adj meg egy hihetõbb értéket :-)"
 
-#: search.c:710
+#: search.c:719
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr "Csak %d sorból áll a szöveg, ezért az utolsóra ugrottam"
@@ -916,33 +916,33 @@ msgstr "actual_x_from_start az xplus=%d-hoz visszatért: %d\n"
 msgid "input '%c' (%d)\n"
 msgstr "bevitel '%c' (%d)\n"
 
-#: winio.c:490
+#: winio.c:488
 msgid "New Buffer"
 msgstr "Új fájl"
 
-#: winio.c:494
+#: winio.c:492
 msgid "  File: ..."
 msgstr "  Fájl: ..."
 
-#: winio.c:496
+#: winio.c:494
 msgid "   DIR: ..."
 msgstr " Könyvtár: ..."
 
-#: winio.c:507
+#: winio.c:505
 msgid "Modified"
 msgstr "Módosítva"
 
-#: winio.c:959
+#: winio.c:957
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr "Átmozgattam (%d, %d) a szerkesztõ-bufferben\n"
 
-#: winio.c:970
+#: winio.c:968
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr ""
 
-#: winio.c:1015
+#: winio.c:1013
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "A \"%s\" lenyomva van.\n"
@@ -954,79 +954,79 @@ msgstr "A \"%s\" lenyomva van.\n"
 #. Yes, no and all are strings of any length.  Each string consists of
 #. all characters accepted as a valid character for that value.
 #. The first value will be the one displayed in the shortcuts.
-#: winio.c:1038
+#: winio.c:1036
 msgid "Yy"
 msgstr "Ii"
 
-#: winio.c:1039
+#: winio.c:1037
 msgid "Nn"
 msgstr "Nn"
 
-#: winio.c:1040
+#: winio.c:1038
 msgid "Aa"
 msgstr "Mm"
 
-#: winio.c:1053
+#: winio.c:1051
 msgid "Yes"
 msgstr "Igen"
 
-#: winio.c:1057
+#: winio.c:1055
 msgid "All"
 msgstr "Mindet"
 
-#: winio.c:1062
+#: winio.c:1060
 msgid "No"
 msgstr "Nem"
 
-#: winio.c:1205
+#: winio.c:1203
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr ""
 
-#: winio.c:1209
+#: winio.c:1207
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "%d(/%d). sor (%.0f%%) és a(z) %d(/%d). karakter (%.0f%%)"
 
-#: winio.c:1339
+#: winio.c:1337
 msgid "Dumping file buffer to stderr...\n"
 msgstr "A fájlbuffer kiírása a standard hibakimenetre...\n"
 
-#: winio.c:1341
+#: winio.c:1339
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "A cutbuffer kiírása a standard hibakimenetre...\n"
 
-#: winio.c:1343
+#: winio.c:1341
 msgid "Dumping a buffer to stderr...\n"
 msgstr "A buffer kiírása a standard hibakimenetre...\n"
 
-#: winio.c:1418
+#: winio.c:1416
 msgid "The nano text editor"
 msgstr "A nano szövegszerkesztõ"
 
-#: winio.c:1419
+#: winio.c:1417
 msgid "version "
 msgstr "verzió "
 
-#: winio.c:1420
+#: winio.c:1418
 msgid "Brought to you by:"
 msgstr "A nano-t õk készítették el Neked:"
 
-#: winio.c:1421
+#: winio.c:1419
 msgid "Special thanks to:"
 msgstr "Külön köszönet:"
 
-#: winio.c:1422
+#: winio.c:1420
 msgid "The Free Software Foundation"
 msgstr "A Szabad Szoftver Alapítvány"
 
-#: winio.c:1423
+#: winio.c:1421
 msgid "Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses"
 msgstr "Pavel Curtis, Zeyd Ben-Halim és Eric S. Raymond az ncurses-ért"
 
-#: winio.c:1424
+#: winio.c:1422
 msgid "and anyone else we forgot..."
 msgstr "és mindenkinek, akit kifelejtettünk volna..."
 
-#: winio.c:1425
+#: winio.c:1423
 msgid "Thank you for using nano!\n"
 msgstr "Köszönjük, hogy a nano-t választottad!\n"

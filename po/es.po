@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.3\n"
-"POT-Creation-Date: 2001-07-01 00:31-0400\n"
+"POT-Creation-Date: 2001-08-20 09:49-0400\n"
 "PO-Revision-Date: 2001-06-23 05:06+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -33,7 +33,7 @@ msgstr "read_line: no estamos en la primera línea y la anterior es NULL"
 msgid "Read %d lines"
 msgstr "%d líneas leídas"
 
-#: files.c:222 search.c:194
+#: files.c:222 search.c:203
 #, c-format
 msgid "\"%s\" not found"
 msgstr "\"%s\" no encontrado"
@@ -114,13 +114,13 @@ msgstr "El fichero existe, ¿ SOBREESCRIBIR ?"
 msgid "(more)"
 msgstr "(más)"
 
-#: files.c:1237
+#: files.c:1244
 msgid "Can't move up a directory"
 msgstr "No puedo ascender de directorio"
 
 # y, c-format
 #. We can't open this dir for some reason.  Complain
-#: files.c:1245
+#: files.c:1252
 #, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "No se puede abrir \"%s\": %s"
@@ -410,7 +410,7 @@ msgid "Case Sens"
 msgstr "May/Min"
 
 #: global.c:353 global.c:373 global.c:384 global.c:394 global.c:415
-#: global.c:418 winio.c:1064
+#: global.c:418 winio.c:1062
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -776,129 +776,129 @@ msgstr "habilitado"
 msgid "disabled"
 msgstr "deshabilitado"
 
-#: nano.c:2161
+#: nano.c:2162
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "Detectado NumLock roto.  El tecl. numérico funcionará con NumLock activado"
 
-#: nano.c:2387
+#: nano.c:2388
 msgid "Main: set up windows\n"
 msgstr "Main: configurar las ventanas\n"
 
-#: nano.c:2394
+#: nano.c:2395
 msgid "Main: bottom win\n"
 msgstr "Main: ventana inferior\n"
 
-#: nano.c:2400
+#: nano.c:2401
 msgid "Main: open file\n"
 msgstr "Main: abrir fichero\n"
 
-#: nano.c:2453
+#: nano.c:2454
 #, c-format
 msgid "I got Alt-O-%c! (%d)\n"
 msgstr "¡Pillé Alt-O-%c! (%d)\n"
 
-#: nano.c:2480
+#: nano.c:2481
 #, c-format
 msgid "I got Alt-[-1-%c! (%d)\n"
 msgstr "¡Pillé Alt-[-1-%c! (%d)\n"
 
-#: nano.c:2513
+#: nano.c:2514
 #, c-format
 msgid "I got Alt-[-2-%c! (%d)\n"
 msgstr "¡Pillé Alt-[-2-%c! (%d)\n"
 
-#: nano.c:2559
+#: nano.c:2568
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr "¡Pillé Alt-[-%c! (%d)\n"
 
-#: nano.c:2585
+#: nano.c:2594
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr "¡Pillé Alt-%c! (%d)\n"
 
-#: search.c:118
+#: search.c:127
 #, c-format
 msgid "Case Sensitive Regexp Search%s%s"
 msgstr "Búsqueda con Regexp y Mayúsculas/Minúsculas%s%s"
 
-#: search.c:120
+#: search.c:129
 #, c-format
 msgid "Regexp Search%s%s"
 msgstr "Busqueda con Regexp%s%s"
 
-#: search.c:122
+#: search.c:131
 #, c-format
 msgid "Case Sensitive Search%s%s"
 msgstr "Búsqueda con Mayúsculas/Minúsculas%s%s"
 
-#: search.c:124
+#: search.c:133
 #, c-format
 msgid "Search%s%s"
 msgstr "Buscar%s%s"
 
-#: search.c:127
+#: search.c:136
 msgid " (to replace)"
 msgstr " (a reemplazar)"
 
-#: search.c:136 search.c:327
+#: search.c:145 search.c:336
 msgid "Search Cancelled"
 msgstr "Búsqueda Cancelada"
 
-#: search.c:200
+#: search.c:209
 #, c-format
 msgid "\"%s...\" not found"
 msgstr "\"%s...\" no encontrado"
 
-#: search.c:249
+#: search.c:258
 msgid "Search Wrapped"
 msgstr "Búsqueda Recomenzada"
 
-#: search.c:349
+#: search.c:358
 #, c-format
 msgid "Replaced %d occurrences"
 msgstr "%d ocurrencias reemplazadas"
 
-#: search.c:351
+#: search.c:360
 msgid "Replaced 1 occurrence"
 msgstr "1 ocurrencia reemplazada"
 
-#: search.c:489 search.c:599 search.c:615
+#: search.c:498 search.c:608 search.c:624
 msgid "Replace Cancelled"
 msgstr "Reemplazar Cancelado"
 
-#: search.c:539
+#: search.c:548
 msgid "Replace this instance?"
 msgstr "¿Reemplazar esta instancia?"
 
-#: search.c:551
+#: search.c:560
 msgid "Replace failed: unknown subexpression!"
 msgstr "Fallo en reemplazar: ¡subexpresión desconocida!"
 
-#: search.c:640
+#: search.c:649
 #, c-format
 msgid "Replace with [%s]"
 msgstr "Reemplazar con [%s]"
 
-#: search.c:644 search.c:648
+#: search.c:653 search.c:657
 msgid "Replace with"
 msgstr "Reemplazar con"
 
 #. Ask for it
-#: search.c:683
+#: search.c:692
 msgid "Enter line number"
 msgstr "Introduce número de línea"
 
-#: search.c:685
+#: search.c:694
 msgid "Aborted"
 msgstr "Abortado"
 
-#: search.c:705
+#: search.c:714
 msgid "Come on, be reasonable"
 msgstr "Venga ya, se razonable"
 
-#: search.c:710
+#: search.c:719
 #, c-format
 msgid "Only %d lines available, skipping to last line"
 msgstr "Sólo hay %d líneas, saltando hasta la última"
@@ -913,33 +913,33 @@ msgstr "actual_x_from_start para xplus=%d devolvió %d\n"
 msgid "input '%c' (%d)\n"
 msgstr "entrada '%c' (%d)\n"
 
-#: winio.c:490
+#: winio.c:488
 msgid "New Buffer"
 msgstr "Nuevo Buffer"
 
-#: winio.c:494
+#: winio.c:492
 msgid "  File: ..."
 msgstr "Fichero: ..."
 
-#: winio.c:496
+#: winio.c:494
 msgid "   DIR: ..."
 msgstr "   DIR: ..."
 
-#: winio.c:507
+#: winio.c:505
 msgid "Modified"
 msgstr "Modificado"
 
-#: winio.c:959
+#: winio.c:957
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr "Moviendo a (%d, %d) en buffer de edición\n"
 
-#: winio.c:970
+#: winio.c:968
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr "current->data = \"%s\"\n"
 
-#: winio.c:1015
+#: winio.c:1013
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr "Pillé \"%s\"\n"
@@ -951,79 +951,79 @@ msgstr "Pillé \"%s\"\n"
 #. Yes, no and all are strings of any length.  Each string consists of
 #. all characters accepted as a valid character for that value.
 #. The first value will be the one displayed in the shortcuts.
-#: winio.c:1038
+#: winio.c:1036
 msgid "Yy"
 msgstr "Ss"
 
-#: winio.c:1039
+#: winio.c:1037
 msgid "Nn"
 msgstr "Nn"
 
-#: winio.c:1040
+#: winio.c:1038
 msgid "Aa"
 msgstr "Tt"
 
-#: winio.c:1053
+#: winio.c:1051
 msgid "Yes"
 msgstr "Sí"
 
-#: winio.c:1057
+#: winio.c:1055
 msgid "All"
 msgstr "Todas"
 
-#: winio.c:1062
+#: winio.c:1060
 msgid "No"
 msgstr "No"
 
-#: winio.c:1205
+#: winio.c:1203
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr "do_cursorpos: linepct = %f, bytepct = %f\n"
 
-#: winio.c:1209
+#: winio.c:1207
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr "línea %d de %d (%.0f%%), carácter %d de %d (%.0f%%)"
 
-#: winio.c:1339
+#: winio.c:1337
 msgid "Dumping file buffer to stderr...\n"
 msgstr "Volcando buffer de fichero a stderr...\n"
 
-#: winio.c:1341
+#: winio.c:1339
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr "Volcando el cutbuffer a stderr...\n"
 
-#: winio.c:1343
+#: winio.c:1341
 msgid "Dumping a buffer to stderr...\n"
 msgstr "Volcando un buffer a stderr...\n"
 
-#: winio.c:1418
+#: winio.c:1416
 msgid "The nano text editor"
 msgstr "El editor de textos GNU nano"
 
-#: winio.c:1419
+#: winio.c:1417
 msgid "version "
 msgstr "versión "
 
-#: winio.c:1420
+#: winio.c:1418
 msgid "Brought to you by:"
 msgstr "Por cortesía de:"
 
-#: winio.c:1421
+#: winio.c:1419
 msgid "Special thanks to:"
 msgstr "Agradecimientos especiales para:"
 
-#: winio.c:1422
+#: winio.c:1420
 msgid "The Free Software Foundation"
 msgstr "La Free Software Foundation"
 
-#: winio.c:1423
+#: winio.c:1421
 msgid "Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses"
 msgstr "Pavel Curtis, Zeyd Ben-Halim y Eric S. Raymond por ncurses"
 
-#: winio.c:1424
+#: winio.c:1422
 msgid "and anyone else we forgot..."
 msgstr "y cualquiera del que nos hayamos olvidado..."
 
-#: winio.c:1425
+#: winio.c:1423
 msgid "Thank you for using nano!\n"
 msgstr "¡Gracias por usar nano!\n"

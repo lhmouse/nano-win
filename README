@@ -54,10 +54,9 @@ Mailing List and Bug Reports
 Current Status
 
 	GNU nano has finally reached its first stable release (1.0).
-	The development tree will fork soon and it will be called 1.1.x,
-	in the Linux kernel naming style.  Many thanks to all of our
-	bug reporters and contributors of code to get nano where it is
-	today.
+	The 1.1 development tree has forked and is proceeding nicely.
+	There will be releases and updates for both the 1.1 and
+	1.0 trees until 1.1 stabilizes and becomes version 1.2.
 
    Chris Allegretta (chrisa@asty.org)
 
