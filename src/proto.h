@@ -175,7 +175,7 @@ wchar_t control_wrep(wchar_t c);
 int mbwidth(const char *c);
 int mb_cur_max(void);
 char *make_mbchar(int chr, int *chr_mb_len);
-#ifdef ENABLE_NANORC
+#if defined(ENABLE_NANORC) || defined(ENABLE_EXTRA)
 char *make_mbstring(const char *str);
 #endif
 int parse_mbchar(const char *buf, char *chr, bool *bad_chr, size_t

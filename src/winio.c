@@ -4123,6 +4123,9 @@ void do_credits(void)
 	    char *what;
 	    size_t start_x;
 
+	    /* Make sure every credit is a valid multibyte string, since
+	     * we can't dynamically set the credits to their multibyte
+	     * equivalents when we need to.  Sigh... */
 	    if (credits[crpos] == NULL) {
 		assert(0 <= xlpos && xlpos < XLCREDIT_LEN);
 
