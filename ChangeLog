@@ -6,6 +6,10 @@ CVS code -
   signal_init()
 	- Unconditionally disable VDSUSP if it exists, stops ^Y
 	  suspending nano on the Hurd.
+- winio.c:
+  update_line()
+	- back out check for (realdata[i] < 32) as it will screw high
+	  ascii characters.
 
 nano-1.1.4 - 12/11/2001
 - General
