@@ -30,7 +30,7 @@ CVS code -
 	  is pressed on the top line of the edit window; this causes a
 	  segfault is the top line in the edit window is the second
 	  line of the file, as the line current ends up on doesn't
-	  exist. (Jeff Defouw)
+	  exist. (Jeff DeFouw)
   do_down()
 	- Fix bug where, if the last line in the edit window is the
 	  line before the magicline, and smooth scrolling is turned
