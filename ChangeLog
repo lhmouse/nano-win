@@ -22,6 +22,8 @@ CVS Code -
   save_history()
 	- Fix nrealloc return value being ignored (David Benbennick).
 - nano.c:
+  do_char()
+	- Remove unneeded check_statblank() (David Benbennick).
   do_preserve_msg():
 	- Unsplit error message into a single fprintf call (Jordi).
   do_int_spell_fix(), do_int_speller()

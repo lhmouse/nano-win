@@ -1040,7 +1040,6 @@ void do_char(char ch)
 	edit_refresh();
 #endif
 
-    check_statblank();
     UNSET(KEEP_CUTBUFFER);
 }
 
