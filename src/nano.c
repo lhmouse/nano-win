@@ -3515,7 +3515,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, "Main: open file\n");
 #endif
 
-    open_file(filename, 0, 1);
+    open_file(filename, 0, 0);
 #ifdef ENABLE_MULTIBUFFER
     /* If we're using multibuffers and more than one file is specified
        on the command line, load them all and switch to the first one

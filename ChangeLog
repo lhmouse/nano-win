@@ -61,6 +61,10 @@ CVS code -
 	- Use size_t's instead of ints for the get_verbatim_kbinput()
 	  call and the loop that ungetch()es its returned int*,
 	  respectively. (DLR)
+  main()
+	- Don't open the first file in quiet mode, since if we do, an
+	  error message won't be shown if it's unreadable. (DLR; found
+	  by Jaap Eldering)
 - nano.h:
 	- Since REGEXP_COMPILED is only used in search.c, convert it
 	  from a flag to a static int there. (DLR)
