@@ -179,14 +179,8 @@ CVS code -
 	  the "$" on subsequent pages. (DLR)
   reset_cursor()
 	- Tweak for efficiency. (David Benbennick)
-  update_line()
-	- Move leaveok() calls here from edit_refresh(), since the
-	  places where they were used in edit_refresh() mainly affected
-	  the update_line()s. (DLR)
   edit_refresh()
 	- Tweak for efficiency. (David Benbennick)
-	- Remove the aforementioned leaveok() calls from this function.
-	  (DLR)
   do_credits()
 	- Use nanosleep() instead of usleep().  The latter is only
 	  standard under BSD, whereas the former is POSIX compliant.

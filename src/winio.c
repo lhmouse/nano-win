@@ -1875,9 +1875,6 @@ void update_line(const filestruct *fileptr, size_t index)
     if (line < 0 || line >= editwinrows)
 	return;
 
-    /* Don't make the cursor jump around the screen while updating. */
-    leaveok(edit, TRUE);
-
     /* First, blank out the line (at a minimum) */
     mvwaddstr(edit, line, 0, hblank);
 
@@ -1898,9 +1895,6 @@ void update_line(const filestruct *fileptr, size_t index)
 	mvwaddch(edit, line, 0, '$');
     if (strlenpt(fileptr->data) > page_start + COLS)
 	mvwaddch(edit, line, COLS - 1, '$');
-
-    /* Let the cursor jump around the screen again. */
-    leaveok(edit, FALSE);
 }
 
 /* This function updates current, based on where current_y is;
@@ -1957,6 +1951,10 @@ void edit_refresh(void)
 	fprintf(stderr, "edit_refresh(): edittop->lineno = %ld\n", edittop->lineno);
 #endif
 
+	/* Don't let the cursor jump around the screen while
+	 * updating. */
+	leaveok(edit, TRUE);
+
 	while (nlines < editwinrows) {
 	    update_line(foo, current_x);
 	    nlines++;
@@ -1972,6 +1970,9 @@ void edit_refresh(void)
 	/* What the hell are we expecting to update the screen if this
 	 * isn't here?  Luck? */
 	wrefresh(edit);
+
+	/* Let the cursor jump around the screen again. */
+	leaveok(edit, FALSE);
     }
 }
 
