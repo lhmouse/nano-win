@@ -87,6 +87,10 @@ CVS code -
 	- Document the support for Esc Esc [character]'s being
 	  interpreted as Ctrl-[character], and the support for Pico's
 	  Esc Esc [three-digit decimal ASCII code] input method. (DLR)
+  do_mark()
+	- Toggle MARK_ISSET() at the beginning of the function instead
+	  of setting it in one place and unsetting it in another place.
+	  (David Benbennick)
   abcd()
 	- Removed, as it's unneeded due to the low-level input overhaul.
 	  (DLR)

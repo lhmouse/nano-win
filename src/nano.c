@@ -1289,14 +1289,13 @@ int do_mark(void)
 #ifdef NANO_SMALL
     nano_disabled_msg();
 #else
-    if (!ISSET(MARK_ISSET)) {
+    TOGGLE(MARK_ISSET);
+    if (ISSET(MARK_ISSET)) {
 	statusbar(_("Mark Set"));
-	SET(MARK_ISSET);
 	mark_beginbuf = current;
 	mark_beginx = current_x;
     } else {
 	statusbar(_("Mark UNset"));
-	UNSET(MARK_ISSET);
 	edit_refresh();
     }
 #endif
