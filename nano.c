@@ -529,8 +529,7 @@ int no_help(void)
     return ISSET(NO_HELP) ? 2 : 0;
 }
 
-#if defined(DISABLE_JUSTIFY) || defined(DISABLE_SPELLER) || \
-	defined(DISABLE_HELP) || defined(NANO_SMALL)
+#if defined(DISABLE_JUSTIFY) || defined(DISABLE_SPELLER) || defined(DISABLE_HELP) || defined(NANO_SMALL)
 void nano_disabled_msg(void)
 {
     statusbar(_("Sorry, support for this function has been disabled"));
@@ -691,8 +690,13 @@ int do_next_word(void)
 
     placewewant = xplustabs();
 
-    if (current->lineno >= editbot->lineno)
-	edit_update(current, CENTER);
+    if (current->lineno >= editbot->lineno) {
+	/* If we're on the last line, don't center the screen. */
+	if (current->lineno == filebot->lineno)
+	    edit_refresh();
+	else
+	    edit_update(current, CENTER);
+    }
     else {
 	/* If we've jumped lines, refresh the old line.  We can't just
 	   use current->prev here, because we may have skipped over some
@@ -746,8 +750,13 @@ int do_prev_word(void)
 
     placewewant = xplustabs();
 
-    if (current->lineno <= edittop->lineno)
-	edit_update(current, CENTER);
+    if (current->lineno <= edittop->lineno) {
+	/* If we're on the first line, don't center the screen. */
+	if (current->lineno == fileage->lineno)
+	    edit_refresh();
+	else
+	    edit_update(current, CENTER);
+    }
     else {
 	/* If we've jumped lines, refresh the old line.  We can't just
 	   use current->prev here, because we may have skipped over some
@@ -980,6 +989,7 @@ void do_early_abort(void)
 
 int do_backspace(void)
 {
+    int refresh = 0;
     if (current_x > 0) {
 	assert(current_x <= strlen(current->data));
 	/* Let's get dangerous */
@@ -994,6 +1004,9 @@ int do_backspace(void)
 	    mark_beginx--;
 #endif
 	do_left();
+#ifdef ENABLE_COLOR
+	refresh = 1;
+#endif
     } else {
 	filestruct *previous;
 	const filestruct *tmp;
@@ -1046,16 +1059,20 @@ int do_backspace(void)
 	fprintf(stderr, _("After, data = \"%s\"\n"), current->data);
 #endif
 	UNSET(KEEP_CUTBUFFER);
-	edit_refresh();
+	refresh = 1;
     }
 
     totsize--;
     set_modified();
+    if (refresh)
+	edit_refresh();
     return 1;
 }
 
 int do_delete(void)
 {
+    int refresh = 0;
+
     /* blbf -> blank line before filebot (see below) */
     int blbf = 0;
 
@@ -1070,7 +1087,9 @@ int do_delete(void)
 		strlen(current->data) - current_x);
 
 	align(&current->data);
-
+#ifdef ENABLE_COLOR
+	refresh = 1;
+#endif
     } else if (current->next != NULL && (current->next != filebot || blbf)) {
 	/* We can delete the line before filebot only if it is blank: it
 	   becomes the new magic line then. */
@@ -1091,16 +1110,17 @@ int do_delete(void)
 	unlink_node(foo);
 	delete_node(foo);
 	renumber(current);
-	   /* Have to renumber before doing update_line(). */
-	update_line(current, current_x);
 	totlines--;
+	refresh = 1;
     } else
 	return 0;
 
     totsize--;
     set_modified();
     UNSET(KEEP_CUTBUFFER);
-    edit_refresh();
+    update_line(current, current_x);
+    if (refresh)
+	edit_refresh();
     return 1;
 }
 
@@ -1925,8 +1945,7 @@ int do_tab(void)
     return 1;
 }
 
-#if !defined(DISABLE_WRAPPING) && !defined(NANO_SMALL) || \
-	!defined(DISABLE_JUSTIFY)
+#if !defined(DISABLE_WRAPPING) && !defined(NANO_SMALL) || !defined(DISABLE_JUSTIFY)
 /* The "indentation" of a line is the white-space between the quote part
  * and the non-white-space of the line. */
 size_t indent_length(const char *line) {
@@ -1974,8 +1993,8 @@ static int justify_format(int changes_allowed, filestruct *line,
 	    *front = ' ';
 	}
 	/* these tests are safe since line->data + skip is not a space */
-	if (*front == ' ' && *(front-1) == ' ' && *(front-2) != '.' &&
-		*(front-2) != '!' && *(front-2) != '?') {
+	if (*front == ' ' && *(front - 1) == ' ' && *(front - 2) != '.' &&
+		*(front - 2) != '!' && *(front - 2) != '?') {
 	    /* Now *front is a space we want to remove.  We do that by
 	     * simply failing to assign it to *back */
 	    if (!changes_allowed)
@@ -2001,7 +2020,7 @@ static int justify_format(int changes_allowed, filestruct *line,
 	return 1;
 
     /* This assert merely documents a fact about the loop above. */
-    assert(changes_allowed || back==front);
+    assert(changes_allowed || back == front);
 
     /* Now back is the new end of line->data. */
     if (back != front) {
@@ -2057,7 +2076,7 @@ static int quotes_match(const char *a_line, size_t a_quote,
 		IFREG(const char *b_line, const regex_t *qreg)) {
     /* Here is the assumption about a_quote: */
     assert(a_quote == quote_length(IFREG(a_line, qreg)));
-    return a_quote==quote_length(IFREG(b_line, qreg)) &&
+    return a_quote == quote_length(IFREG(b_line, qreg)) &&
 	!strncmp(a_line, b_line, a_quote);
 }
 
@@ -2222,7 +2241,7 @@ int do_justify(void) {
 
 #ifdef HAVE_REGEX_H
     regex_t qreg;	/* qreg is the compiled quotation regexp. 
-			 * We no longer care about quotestr */
+			 * We no longer care about quotestr. */
     int rc = regcomp(&qreg, quotestr, REG_EXTENDED);
 
     if (rc) {
@@ -2270,8 +2289,8 @@ int do_justify(void) {
 	    }
 	}
     } else {
-	/* this line is not part of a paragraph.  Move down until we get
-	 * to a non "blank" line */
+	/* This line is not part of a paragraph.  Move down until we get
+	 * to a non "blank" line. */
 	do {
 	    /* There is no next paragraph, so nothing to justify. */
 	    if (current->next == NULL)

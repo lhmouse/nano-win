@@ -3,6 +3,27 @@ CVS code -
 	- Translation updates (see po/ChangeLog for details).
 - configure.ac:
 	- Added pt_BR to ALL_LINGUAS (Jordi).
+- files.c:
+  real_dir_from_tilde()
+	- Rework to use getpwent() exclusively and end reliance on
+	  $HOME.  Adapted from equivalent code in do_rcfile(). (DLR)
+  input_tab()
+	- Most likely fixed the check marked with FIXME, so that tab
+	  completion works properly when we're trying to tab-complete a
+	  username and the string already contains data. (DLR)
+- nano.c:
+  do_next_word(), do_prev_word()
+  	- If we're on the last/first line of the file, don't center the
+  	  screen; Pico doesn't in the former case. (DLR)
+  do_backspace()
+	- Rework to call edit_refresh() regardless of the value of
+	  current_x if ENABLE_COLOR is defined, so that multiple-line
+	  color regexes are properly updated onscreen as they are in
+	  do_delete(). (DLR)
+  do_delete()
+	- Rework to only call edit_refresh() unconditionally if
+	  ENABLE_COLOR is defined; if it isn't, and we're not deleting
+	  the end of the line, only call update_line(). (DLR)
 
 GNU nano 1.1.10 - 07/25/2002
 - General:
@@ -72,7 +93,7 @@ GNU nano 1.1.10 - 07/25/2002
 	- Add a comment to nanorc.sample warning that an out-of-range
 	  negative value for fill can make nano die complaining that
 	  the screen is too small (which may not be immediately
-	  obvious. (DLR)
+	  obvious). (DLR)
 	- There were some opendir() calls in files.c without
 	  corresponding closedir() calls; add them. (DLR)
 	- Move align() and null_at() from nano.c to utils.c, and move

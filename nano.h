@@ -374,4 +374,4 @@ typedef enum {
 /* Minimum fill length (space available for text before wrapping occurs) */
 #define MIN_FILL_LENGTH 10
 
-#endif /* !NANO_H */ 
+#endif /* !NANO_H */

@@ -1899,7 +1899,7 @@ int do_writeout_void(void)
  */
 char *real_dir_from_tilde(char *buf)
 {
-    char *dirtmp = NULL, *find_user = NULL;
+    char *dirtmp = NULL;
     int i = 1;
     struct passwd *userdata;
 
@@ -1908,16 +1908,15 @@ char *real_dir_from_tilde(char *buf)
 
     if (buf[0] == '~') {
 	if (buf[1] == 0 || buf[1] == '/') {
-	    if (getenv("HOME") != NULL) {
-
-		free(dirtmp);
-		dirtmp = charalloc(strlen(buf) + 2 + strlen(getenv("HOME")));
-
-		sprintf(dirtmp, "%s%s", getenv("HOME"), &buf[1]);
-
-	    }
+	    /* Determine home directory using getpwent(), don't rely on
+	       $HOME */
+	    uid_t euid = geteuid();
+	    do {
+		userdata = getpwent();
+	    } while (userdata != NULL && userdata->pw_uid != euid);
 	}
 	else {
+	    char *find_user = NULL;
 
 	    /* Figure how how much of the str we need to compare */
 	    for (i = 1; buf[i] != '/' && buf[i] != 0; i++)
@@ -1926,21 +1925,18 @@ char *real_dir_from_tilde(char *buf)
 	    find_user = mallocstrcpy(find_user, &buf[1]);
 	    find_user[i - 1] = '\0';
 
-	    for (userdata = getpwent(); userdata != NULL && 
-		  strcmp(userdata->pw_name, find_user); 
-		  userdata = getpwent());
+	    for (userdata = getpwent(); userdata != NULL &&
+		 strcmp(userdata->pw_name, find_user);
+		userdata = getpwent());
 
 	    free(find_user);
+	}
+	endpwent();
 
-	    if (userdata != NULL) {  /* User found */
-
-	        free(dirtmp);
-		dirtmp = charalloc(strlen(buf) + 2 + strlen(userdata->pw_dir));
-		sprintf(dirtmp, "%s%s", userdata->pw_dir, &buf[i]);
-
-	    }
-
-	    endpwent();
+	if (userdata != NULL) {  /* User found */
+	    free(dirtmp);
+	    dirtmp = charalloc(strlen(buf) + 2 + strlen(userdata->pw_dir));
+	    sprintf(dirtmp, "%s%s", userdata->pw_dir, &buf[i]);
 	}
     }
 
@@ -2189,9 +2185,15 @@ char *input_tab(char *buf, int place, int *lastwastab, int *newplace, int *list)
 	/* If the word starts with `~' and there is no slash in the word, 
 	 * then try completing this word as a username. */
 
-	/* FIXME -- this check is broken! */
-	if (*tmp == '~' && !strchr(tmp, '/'))
+	/* If the original string begins with a tilde, and the part
+	   we're trying to tab-complete doesn't contain a slash, copy
+	   the part we're tab-completing into buf, so tab completion
+	   will result in buf's containing only the tab-completed
+	   username. */
+	if (buf[0] == '~' && !strchr(tmp, '/')) {
+	    buf = mallocstrcpy(buf, tmp);
 	    matches = username_tab_completion(tmp, &num_matches);
+	}
 
 	/* Try to match everything in the current working directory that
 	 * matches.  */

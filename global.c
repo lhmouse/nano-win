@@ -378,9 +378,7 @@ void shortcut_init(int unjustify)
     nano_reverse_msg = _("Search backwards");
     nano_dos_msg = _("Write file out in DOS format");
     nano_mac_msg = _("Write file out in Mac format");
-#ifndef NANO_SMALL
     nano_backup_msg = _("Back up original file when saving");
-#endif
 #ifdef HAVE_REGEX_H
     nano_regexp_msg = _("Use regular expressions");
     nano_bracket_msg = _("Find other bracket");
@@ -589,7 +587,7 @@ void shortcut_init(int unjustify)
     sc_init_one(&whereis_list, NANO_OTHERSEARCH_KEY, _("Replace"),
 		IFHELP(nano_replace_msg, 0), 0, 0, VIEW, do_replace);
 
-    sc_init_one(&whereis_list, NANO_FROMSEARCHTOGOTO_KEY, _("Go To Line"), 
+    sc_init_one(&whereis_list, NANO_FROMSEARCHTOGOTO_KEY, _("Go To Line"),
 		IFHELP(nano_goto_msg, 0), 0, 0, VIEW, do_gotoline_void);
 
 #ifndef NANO_SMALL
