@@ -37,6 +37,9 @@ CVS code -
 	  and mark color syntax highlighting as done. (David Benbennick)
 - nano.1, nanorc.5:
 	- Formatting improvements by Jean-Philippe Guérard.
+	- Minor fixes by DLR.
+- nano.1.html, nanorc.5.html:
+	- Regenerated from nano.1 and nanorc.5. (DLR)
 
 GNU nano 1.2.1 - 2003.04.19
 - General:

@@ -1,7 +1,7 @@
 <HTML><HEAD><TITLE>Manpage of NANO</TITLE>
 </HEAD><BODY>
 <H1>NANO</H1>
-Section: User Commands  (1)<BR>Updated: February 9, 2003<BR><A HREF="#index">Index</A>
+Section: User Commands  (1)<BR>Updated: June 19, 2003<BR><A HREF="#index">Index</A>
 <A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 
@@ -61,13 +61,21 @@ Enable multiple file buffers, if available.
 <DT><B>-H (--historylog)</B>
 
 <DD>
-Log search and replace strings to ~/.nano_history so they may be
-stored for later editing, if nanorc support is configured.
+Log search and replace strings to
+<I>~/.nano_history</I>
+
+so they may be stored for later editing, if nanorc support is 
+configured.
 <DT><B>-I (--ignorercfiles)</B>
 
 <DD>
-Don't look at $SYSCONFDIR/nanorc or ~/.nanorc, if nanorc support is
-available.
+Don't look at
+<I>$SYSCONFDIR/nanorc</I>
+
+or
+<I>~/.nanorc</I>,
+
+if nanorc support is available.
 <DT><B>-K (--keypad)</B>
 
 <DD>
@@ -86,8 +94,8 @@ Disable automatic conversion of files from DOS/Mac format.
 
 <DD>
 Set the quoting string for justifying.  The default is
-&quot;^([ \t]*[|&gt;:}#])+&quot; if regular expression support is available, or
-&quot;&gt; &quot; otherwise.
+&quot;^([&nbsp;\t]*[|&gt;:}#])+&quot; if regular expression support is available, or
+&quot;&gt;&nbsp;&quot; otherwise.
 <DT><B>-R (--regexp)</B>
 
 <DD>
@@ -109,8 +117,10 @@ Show the current version number and author.
 <DT><B>-Y </B><I>str</I> (--syntax=<I>str</I>)
 
 <DD>
-Specify a specific syntax highlighting from the .nanorc to use, if
-available.
+Specify a specific syntax highlighting from the
+<I>.nanorc</I>
+
+to use, if available.
 <DT><B>-c (--const)</B>
 
 <DD>
@@ -132,7 +142,10 @@ Enable cut from cursor to end of line with ^K.
 
 <DD>
 If the file being edited is a symbolic link, replace the link with
-a new file, do not follow it.  Good for editing files in /tmp, perhaps?
+a new file, do not follow it.  Good for editing files in
+<I>/tmp</I>,
+
+perhaps?
 <DT><B>-m (--mouse)</B>
 
 <DD>
@@ -188,8 +201,16 @@ Ignored, for compatibility with Pico.
 <H2>INITIALIZATION FILE</H2>
 
 <B>nano</B> will read initialization files in the following 
-order: $SYSCONFDIR/nanorc, then ~/.nanorc.  Please see <A HREF="http://localhost/cgi-bin/man/man2html?5+nanorc">nanorc</A>(5) and 
-the example file <B>nanorc.sample</B> which should be provided with 
+order:
+<I>$SYSCONFDIR/nanorc</I>,
+
+then
+<I>~/.nanorc</I>.
+
+Please see
+<B><A HREF="http://localhost/cgi-bin/man/man2html?5+nanorc">nanorc</A></B>(5)
+
+and the example file <B>nanorc.sample</B> which should be provided with 
 <B>nano</B>. 
 <P>
 <A NAME="lbAG">&nbsp;</A>
@@ -198,30 +219,31 @@ the example file <B>nanorc.sample</B> which should be provided with
 <B>nano</B> will try to dump the buffer into an emergency file in some
 cases.  Mainly, this will happen if <B>nano</B> receives a SIGHUP or
 SIGTERM or runs out of memory, when it will write the buffer into a file
-named &quot;nano.save&quot; if the buffer didn't have a name already, or will add
-a &quot;.save&quot; suffix to the current filename. If an emergency file with that
-name already exists in the current directory, &quot;.save&quot; and a number (e.g.
-&quot;.save.1&quot;) will be suffixed to the current filename in order to make it
-unique. In multibuffer mode, <B>nano</B> will write all the open buffers
-to the respective emergency files.
+named
+<I>nano.save</I>
+
+if the buffer didn't have a name already, or will add a &quot;.save&quot; suffix 
+to the current filename. If an emergency file with that name already 
+exists in the current directory, &quot;.save&quot; and a number (e.g. &quot;.save.1&quot;) 
+will be suffixed to the current filename in order to make it unique. In 
+multibuffer mode, <B>nano</B> will write all the open buffers to the 
+respective emergency files.
 <P>
 <A NAME="lbAH">&nbsp;</A>
 <H2>BUGS</H2>
 
 Please send any comments or bug reports to
-<BR>
+<B><A HREF="mailto:nano@nano-editor.org">nano@nano-editor.org</A></B>.
 
-<B><A HREF="mailto:nano@nano-editor.org">nano@nano-editor.org</A>.</B>
-
-<BR>
-
+<P>
 The <B>nano</B> mailing list is available from
-<BR>
+<B><A HREF="mailto:nano-devel@gnu.org">nano-devel@gnu.org</A></B>.
 
-<B><A HREF="mailto:nano-devel@gnu.org">nano-devel@gnu.org</A>.</B>
+<P>
+To subscribe, email to
+<B><A HREF="mailto:nano-devel-request@gnu.org">nano-devel-request@gnu.org</A></B>
 
-To subscribe, email to <A HREF="mailto:nano-devel-request@gnu.org">nano-devel-request@gnu.org</A> with a
-subject of &quot;subscribe&quot;.
+with a subject of &quot;subscribe&quot;.
 <P>
 <A NAME="lbAI">&nbsp;</A>
 <H2>HOMEPAGE</H2>
@@ -242,9 +264,13 @@ subject of &quot;subscribe&quot;.
 <A NAME="lbAK">&nbsp;</A>
 <H2>AUTHOR</H2>
 
-Chris Allegretta &lt;<A HREF="mailto:chrisa@asty.org">chrisa@asty.org</A>&gt;, et al (see AUTHORS and THANKS for
-details).
-This manual page was originally written by Jordi Mallach
+Chris Allegretta &lt;<A HREF="mailto:chrisa@asty.org">chrisa@asty.org</A>&gt;, et al (see
+<I>AUTHORS</I>
+
+and
+<I>THANKS</I>
+
+for details). This manual page was originally written by Jordi Mallach
 &lt;<A HREF="mailto:jordi@sindominio.net">jordi@sindominio.net</A>&gt;, for the Debian GNU system (but may be
 used by others).
 <P>
@@ -267,6 +293,6 @@ used by others).
 This document was created by
 <A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 04:08:28 GMT, February 13, 2003
+Time: 22:27:55 GMT, June 19, 2003
 </BODY>
 </HTML>

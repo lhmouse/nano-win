@@ -1,7 +1,7 @@
 <HTML><HEAD><TITLE>Manpage of NANORC</TITLE>
 </HEAD><BODY>
 <H1>NANORC</H1>
-Section: File Formats (5)<BR>Updated: February 9, 2003<BR><A HREF="#index">Index</A>
+Section: File Formats (5)<BR>Updated: June 19, 2003<BR><A HREF="#index">Index</A>
 <A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 
@@ -11,15 +11,6 @@ Section: File Formats (5)<BR>Updated: February 9, 2003<BR><A HREF="#index">Index
 
 nanorc - GNU nano's rcfile
 <A NAME="lbAC">&nbsp;</A>
-<H2>SYNOPSIS</H2>
-
-<B>/etc/nanorc</B>
-
-<B>$HOME/.nanorc</B>
-
-<BR>
-
-<A NAME="lbAD">&nbsp;</A>
 <H2>DESCRIPTION</H2>
 
 This manual page documents GNU <B>nano</B>'s rcfile.
@@ -31,7 +22,16 @@ than just copying Pico's look and feel, <B>nano</B> also implements some
 missing (or disabled by default) features in Pico, such as &quot;search and
 replace&quot; and &quot;go to line number&quot;.
 <P>
-<A NAME="lbAE">&nbsp;</A>
+
+The <I>nanorc</I> file contains the default settings for <B>nano</B>. 
+During startup, <B>nano</B> will first read its system-wide settings from
+<I>$SYSCONFDIR/nanorc</I>,
+
+and then user-specific settings from
+<I>~/.nanorc</I>.
+
+<P>
+<A NAME="lbAD">&nbsp;</A>
 <H2>OPTIONS</H2>
 
 The configuration file accepts a series of &quot;set&quot; and &quot;unset&quot; commands,
@@ -43,19 +43,29 @@ GNU nano will read one command per line.
 Options in rcfiles take precedence over nano's defaults, and command line
 options override rcfile settings.
 <P>
+Options are unset by default, except for options that take an argument.
+<P>
 The supported commands and arguments are:
 <P>
 <DL COMPACT>
 <DT><B>set/unset autoindent</B><DD>
 Use auto-indentation.
 <DT><B>set/unset backup</B><DD>
-Create backup files in filename~.
+Create backup files in
+<I>filename~</I>.
+
 <DT><B>set/unset const</B><DD>
-Constantly update the cursor position.
+Constantly display the cursor position in the status bar.
 <DT><B>set/unset cut</B><DD>
 Use cut to end of line with ^K by default.
 <DT><B>set fill </B><I>n</I><DD>
-Set the column where lines will be wrapped at to <I>n</I>.
+Wrap lines at column number <I>n</I>.  If <I>n</I> is 0 or less, the line
+length will be the screen width less <I>n</I>.  The default value is -8.
+<DT><B>set/unset historylog</B><DD>
+Enable
+<I>~/.nano_history</I>
+
+for saving and reading search/replace strings.
 <DT><B>set/unset keypad</B><DD>
 Use alternate keypad routines.
 <DT><B>set/unset multibuffer</B><DD>
@@ -69,20 +79,28 @@ Don't display the help lists at the bottom of the screen.
 <DT><B>set/unset nowrap</B><DD>
 Don't wrap text at all.
 <DT><B>set operatingdir &quot;</B><I>directory</I>&quot;<DD>
-Set operating directory (chroots the user to <I>directory</I> and below).
+<B>nano</B> will only read and write files inside <I>directory</I> and its
+subdirectories.  Also, the current directory is changed to here, so files
+are inserted from this dir.  By default the operating directory feature is
+turned off.
 <DT><B>set/unset preserve</B><DD>
 Preserve the XON and XOFF keys (^Q and ^S).
 <DT><B>set quotestr &quot;</B><I>string</I>&quot;<DD>
-The email-quote string.  This is a &quot;regular expression&quot; if your
-system supports them, otherwise a literal string.
-Default value is set quotestr &quot;^([ 	]*[|&gt;:}#])+&quot; if you have regexps,
-otherwise set quotestr &quot;&gt; &quot;.
+The email-quote string, used to justify email-quoted paragraphs.  This is
+an &quot;extended regular expression&quot; if your system supports them, otherwise a
+literal string.  The default value is
+<P>
+<TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>set quotestr &quot;^([&nbsp;\t]*[|&gt;:}#])+&quot;<BR>
+<P>
+if you have regexps, otherwise set quotestr &quot;&gt;&nbsp;&quot;.  Note that '\t' 
+above stands for a literal Tab character.
 <DT><B>set/unset regexp</B><DD>
 Do regular expression searches by default.
 <DT><B>set/unset smooth</B><DD>
 Use smooth scrolling by default.
 <DT><B>set speller </B><I>spellprog</I><DD>
-Use spelling checker <I>spellprog</I> instead of the default (spell).
+Use spelling checker <I>spellprog</I> instead of the built-in one, which
+calls <I>spell</I>.
 <DT><B>set/unset suspend</B><DD>
 Allow nano to be suspended with ^Z.
 <DT><B>set tabsize </B><I>n</I><DD>
@@ -90,8 +108,6 @@ Use a tab size of <I>n</I> instead of the default (8); must be greater
 than 0.
 <DT><B>set/unset tempfile</B><DD>
 Save automatically on exit, don't prompt.
-<DT><B>set/unset historylog</B><DD>
-Enable ~/.nano_history for saving and reading search/replace strings.
 <DT><B>set/unset view</B><DD>
 Disallow file modification.
 <DT><B>syntax </B><I>str</I> [<I>fileregex</I> ... ]
@@ -123,7 +139,20 @@ instance of <I>er</I>.
 <I>
 <P>
 </DL>
-</I><A NAME="lbAF">&nbsp;</A>
+</I><A NAME="lbAE">&nbsp;</A>
+<H2>FILES</H2>
+
+<DL COMPACT>
+<DT><I>$SYSCONFDIR/nanorc</I>
+
+<DD>
+System-wide configuration file
+<DT><I>~/.nanorc</I>
+
+<DD>
+Per-user configuration file
+</DL>
+<A NAME="lbAF">&nbsp;</A>
 <H2>SEE ALSO</H2>
 
 
@@ -132,12 +161,18 @@ instance of <I>er</I>.
 </DL>
 <P>
 
-<I>/usr/share/doc/nano/examples/nanorc.sample</I> (or equivalent on your system)
+<I>/usr/share/doc/nano/examples/nanorc.sample</I> (or equivalent on your 
+system)
 <A NAME="lbAG">&nbsp;</A>
 <H2>AUTHOR</H2>
 
-Chris Allegretta &lt;<A HREF="mailto:chrisa@asty.org">chrisa@asty.org</A>&gt;, et al (see AUTHORS and THANKS for
-details).
+Chris Allegretta &lt;<A HREF="mailto:chrisa@asty.org">chrisa@asty.org</A>&gt;, et al (see
+<I>AUTHORS</I>
+
+and
+<I>THANKS</I>
+
+for details).
 This manual page was written by Jordi Mallach &lt;<A HREF="mailto:jordi@gnu.org">jordi@gnu.org</A>&gt;.
 <P>
 
@@ -145,9 +180,9 @@ This manual page was written by Jordi Mallach &lt;<A HREF="mailto:jordi@gnu.org"
 <A NAME="index">&nbsp;</A><H2>Index</H2>
 <DL>
 <DT><A HREF="#lbAB">NAME</A><DD>
-<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
-<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
-<DT><A HREF="#lbAE">OPTIONS</A><DD>
+<DT><A HREF="#lbAC">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAD">OPTIONS</A><DD>
+<DT><A HREF="#lbAE">FILES</A><DD>
 <DT><A HREF="#lbAF">SEE ALSO</A><DD>
 <DT><A HREF="#lbAG">AUTHOR</A><DD>
 </DL>
@@ -155,6 +190,6 @@ This manual page was written by Jordi Mallach &lt;<A HREF="mailto:jordi@gnu.org"
 This document was created by
 <A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 04:08:33 GMT, February 13, 2003
+Time: 22:28:00 GMT, June 19, 2003
 </BODY>
 </HTML>

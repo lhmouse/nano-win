@@ -5,7 +5,7 @@
 .\" Public License for copying conditions. There is NO warranty.
 .\"
 .\" $Id$
-.TH NANORC 5 "February 14, 2003"
+.TH NANORC 5 "June 19, 2003"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -23,7 +23,7 @@ The \fInanorc\fP file contains the default settings for \fBnano\fP.
 During startup, \fBnano\fP will first read its system-wide settings from
 .IR $SYSCONFDIR/nanorc ,
 and then user-specific settings from
-.IR $HOME/.nanorc .
+.IR ~/.nanorc .
 
 .SH OPTIONS
 The configuration file accepts a series of "set" and "unset" commands,
@@ -56,6 +56,11 @@ Use cut to end of line with ^K by default.
 \fBset fill \fIn\fP\fP
 Wrap lines at column number \fIn\fP.  If \fIn\fP is 0 or less, the line
 length will be the screen width less \fIn\fP.  The default value is -8.
+.TP
+\fBset/unset historylog\fP
+Enable
+.I ~/.nano_history
+for saving and reading search/replace strings.
 .TP
 \fBset/unset keypad\fP
 Use alternate keypad routines.
@@ -114,11 +119,6 @@ than 0.
 \fBset/unset tempfile\fP
 Save automatically on exit, don't prompt.
 .TP
-\fBset/unset historylog\fP
-Enable
-.I~/.nano_history
-for saving and reading search/replace strings.
-.TP
 \fBset/unset view\fP
 Disallow file modification.
 .TP
@@ -151,7 +151,7 @@ instance of \fIer\fP.
 .I $SYSCONFDIR/nanorc
 System-wide configuration file
 .TP
-.I $HOME/.nanorc
+.I ~/.nanorc
 Per-user configuration file
 .SH SEE ALSO
 .PD 0
