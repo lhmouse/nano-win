@@ -540,13 +540,16 @@ void do_insertfile(
 #endif
 		"./");
 
+	/* If we're in multibuffer mode and file insertion mode, and the
+	 * filename is blank, open a new buffer instead of canceling. */
+	if (i == -1 || (i == -2
 #ifdef ENABLE_MULTIBUFFER
-	/* If we're in multibuffer mode and the filename is blank, open
-	 * a new buffer instead of canceling. */
-	if (i == -1 || (i == -2 && !ISSET(MULTIBUFFER)))
-#else
-	if (i < 0)
+		&& !ISSET(MULTIBUFFER)
 #endif
+#ifndef NANO_SMALL
+		&& !execute
+#endif
+		))
 	{
 	    statusbar(_("Cancelled"));
 	    break;
