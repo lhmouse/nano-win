@@ -2356,13 +2356,12 @@ int do_justify(void)
 	    len2 = strlen(current->data + i + 1);
 	    tmpline->data = charalloc(len2 + 1 + qdepth);
 
-	    tmpline->data[0] = '\0';
 	    for (j = 0; j < qdepth; j += strlen(quotestr))
 		strcpy(&tmpline->data[j], quotestr);
 
 	    /* Skip the white space in current. */
 	    memcpy(&tmpline->data[j], current->data + i + 1, len2);
-	    tmpline->data[len2] = '\0';
+	    tmpline->data[len2 + qdepth] = '\0';
 
 	    current->data = nrealloc(current->data, i + 1);
 
