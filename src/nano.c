@@ -3931,62 +3931,62 @@ int main(int argc, char **argv)
 #endif
 #ifdef HAVE_GETOPT_LONG
     const struct option long_options[] = {
-	{"help", 0, 0, 'h'},
+	{"help", 0, NULL, 'h'},
 #ifdef ENABLE_MULTIBUFFER
-	{"multibuffer", 0, 0, 'F'},
+	{"multibuffer", 0, NULL, 'F'},
 #endif
 #ifdef ENABLE_NANORC
 #ifndef NANO_SMALL
-	{"historylog", 0, 0, 'H'},
+	{"historylog", 0, NULL, 'H'},
 #endif
-	{"ignorercfiles", 0, 0, 'I'},
+	{"ignorercfiles", 0, NULL, 'I'},
 #endif
-	{"morespace", 0, 0, 'O'},
+	{"morespace", 0, NULL, 'O'},
 #ifndef DISABLE_JUSTIFY
-	{"quotestr", 1, 0, 'Q'},
+	{"quotestr", 1, NULL, 'Q'},
 #endif
 #ifdef HAVE_REGEX_H
-	{"regexp", 0, 0, 'R'},
+	{"regexp", 0, NULL, 'R'},
 #endif
-	{"tabsize", 1, 0, 'T'},
-	{"version", 0, 0, 'V'},
+	{"tabsize", 1, NULL, 'T'},
+	{"version", 0, NULL, 'V'},
 #ifdef ENABLE_COLOR
-	{"syntax", 1, 0, 'Y'},
+	{"syntax", 1, NULL, 'Y'},
 #endif
-	{"const", 0, 0, 'c'},
-	{"rebinddelete", 0, 0, 'd'},
-	{"nofollow", 0, 0, 'l'},
+	{"const", 0, NULL, 'c'},
+	{"rebinddelete", 0, NULL, 'd'},
+	{"nofollow", 0, NULL, 'l'},
 #ifndef DISABLE_MOUSE
-	{"mouse", 0, 0, 'm'},
+	{"mouse", 0, NULL, 'm'},
 #endif
 #ifndef DISABLE_OPERATINGDIR
-	{"operatingdir", 1, 0, 'o'},
+	{"operatingdir", 1, NULL, 'o'},
 #endif
-	{"preserve", 0, 0, 'p'},
+	{"preserve", 0, NULL, 'p'},
 #ifndef DISABLE_WRAPJUSTIFY
-	{"fill", 1, 0, 'r'},
+	{"fill", 1, NULL, 'r'},
 #endif
 #ifndef DISABLE_SPELLER
-	{"speller", 1, 0, 's'},
+	{"speller", 1, NULL, 's'},
 #endif
-	{"tempfile", 0, 0, 't'},
-	{"view", 0, 0, 'v'},
+	{"tempfile", 0, NULL, 't'},
+	{"view", 0, NULL, 'v'},
 #ifndef DISABLE_WRAPPING
-	{"nowrap", 0, 0, 'w'},
+	{"nowrap", 0, NULL, 'w'},
 #endif
-	{"nohelp", 0, 0, 'x'},
-	{"suspend", 0, 0, 'z'},
+	{"nohelp", 0, NULL, 'x'},
+	{"suspend", 0, NULL, 'z'},
 #ifndef NANO_SMALL
-	{"smarthome", 0, 0, 'A'},
-	{"backup", 0, 0, 'B'},
-	{"backupdir", 1, 0, 'E'},
-	{"noconvert", 0, 0, 'N'},
-	{"smooth", 0, 0, 'S'},
-	{"restricted", 0, 0, 'Z'},
-	{"autoindent", 0, 0, 'i'},
-	{"cut", 0, 0, 'k'},
+	{"smarthome", 0, NULL, 'A'},
+	{"backup", 0, NULL, 'B'},
+	{"backupdir", 1, NULL, 'E'},
+	{"noconvert", 0, NULL, 'N'},
+	{"smooth", 0, NULL, 'S'},
+	{"restricted", 0, NULL, 'Z'},
+	{"autoindent", 0, NULL, 'i'},
+	{"cut", 0, NULL, 'k'},
 #endif
-	{0, 0, 0, 0}
+	{NULL, 0, NULL, 0}
     };
 #endif
 

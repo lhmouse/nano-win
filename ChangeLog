@@ -49,6 +49,9 @@ CVS code -
 	- Instead of breaking a line at a space and readding the space
 	  afterwards, just break the line after the space, as it's more
 	  efficient. (DLR)
+  main()
+	- Change 0 to NULL in the option struct where needed. (David
+	  Benbennick)
 - nano.h:
 	- Define PATH_MAX as 4096 if it isn't defined, as passing a size
 	  of 0 to get a string as long as we need is a nonportable GNU
