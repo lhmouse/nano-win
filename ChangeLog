@@ -175,11 +175,12 @@ CVS code -
 	  paragraph-searching utility functions when possible instead of
 	  duplicating code.  Also overhaul the justify code to make it
 	  leave the right number of spaces at the ends of the lines of a
-	  paragraph, and also to make it simpler.  New functions
+	  paragraph, to make it (partially) support multibyte
+	  characters, and to make it simpler.  New functions
 	  do_para_begin_void() and do_para_end_void(); changes to
 	  justify_format(), do_para_begin(), inpar(), do_para_end(),
-	  do_para_search() (renamed find_paragraph()), and do_justify();
-	  removal of breakable(). (DLR)
+	  break_line(), do_para_search() (renamed find_paragraph()), and
+	  do_justify(); removal of breakable(). (DLR)
 	- Still more steps toward full wide/multibyte character support.
 	  Make whitespace display mode work with multibyte characters,
 	  and add a few related documentation updates.  New function

@@ -2759,15 +2759,15 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
     return first_line;
 }
 
-/* We are trying to break a chunk off line.  We find the last space such
+/* We are trying to break a chunk off line.  We find the last blank such
  * that the display length to there is at most goal + 1.  If there is no
- * such space, and force is TRUE, then we find the first space.  Anyway,
- * we then take the last space in that group of spaces.  The terminating
- * '\0' counts as a space. */
+ * such blank, and force is TRUE, then we find the first blank.  Anyway,
+ * we then take the last blank in that group of blanks.  The terminating
+ * '\0' counts as a blank. */
 ssize_t break_line(const char *line, ssize_t goal, bool force)
 {
-    ssize_t space_loc = -1;
-	/* Current tentative return value.  Index of the last space we
+    ssize_t blank_loc = -1;
+	/* Current tentative return value.  Index of the last blank we
 	 * found with short enough display width.  */
     ssize_t cur_loc = 0;
 	/* Current index in line. */
@@ -2775,15 +2775,13 @@ ssize_t break_line(const char *line, ssize_t goal, bool force)
     assert(line != NULL);
 
     while (*line != '\0' && goal >= 0) {
-	size_t pos = 0;
 	int line_len;
-
-	if (*line == ' ')
-	    space_loc = cur_loc;
-
-	assert(*line != '\t');
+	size_t pos = 0;
 
 	line_len = parse_mbchar(line, NULL, NULL, &pos);
+
+	if (is_blank_mbchar(line))
+	    blank_loc = cur_loc;
 
 	goal -= pos;
 	line += line_len;
@@ -2794,25 +2792,35 @@ ssize_t break_line(const char *line, ssize_t goal, bool force)
 	/* In fact, the whole line displays shorter than goal. */
 	return cur_loc;
 
-    if (space_loc == -1) {
-	/* No space found short enough. */
+    if (blank_loc == -1) {
+	/* No blank was found that was short enough. */
 	if (force) {
-	    for (; *line != '\0'; line++, cur_loc++) {
-		if (*line == ' ' && *(line + 1) != ' ' &&
-			*(line + 1) != '\0')
-		    return cur_loc;
+	    bool found_blank = FALSE;
+
+	    while (*line != '\0') {
+		int line_len = parse_mbchar(line, NULL, NULL, NULL);
+
+		if (is_blank_mbchar(line)) {
+		    if (!found_blank)
+			found_blank = TRUE;
+		} else if (found_blank)
+		    return cur_loc - line_len;
+
+		line += line_len;
+		cur_loc += line_len;
 	    }
+
 	    return -1;
 	}
     }
 
-    /* Perhaps the character after space_loc is a space.  But because
+    /* Perhaps the character after blank_loc is a blank.  But because
      * of justify_format(), there can be only two adjacent. */
-    if (*(line - cur_loc + space_loc + 1) == ' ' ||
-	*(line - cur_loc + space_loc + 1) == '\0')
-	space_loc++;
+    if (*(line - cur_loc + blank_loc + 1) == ' ' ||
+	*(line - cur_loc + blank_loc + 1) == '\0')
+	blank_loc++;
 
-    return space_loc;
+    return blank_loc;
 }
 
 /* Find the beginning of the current paragraph if we're in one, or the
