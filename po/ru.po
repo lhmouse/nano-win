@@ -1,12 +1,12 @@
-# SOME DESCRIPTIVE TITLE.
+# Russian translation for GNU nano.
 # Copyright (C) 2001 Free Software Foundation, Inc.
 # Sergey A. Ribalchenko <fisher@obu.ck.ua>, 2001.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.0.1\n"
+"Project-Id-Version: nano 1.1.2\n"
 "POT-Creation-Date: 2001-10-03 17:47-0400\n"
-"PO-Revision-Date: 2001-05-16 10:10+0200\n"
+"PO-Revision-Date: 2001-10-08 10:10+0200\n"
 "Last-Translator: Sergey A. Ribalchenko <fisher@obu.ck.ua>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -69,7 +69,7 @@ msgstr "имя файла %s"
 #: files.c:349
 #, c-format
 msgid "Can't insert file from outside of %s"
-msgstr ""
+msgstr "Не могу вставить файл снаружи %s"
 
 #: files.c:412 files.c:1056 files.c:1417 nano.c:1695
 msgid "Cancelled"
@@ -77,12 +77,12 @@ msgstr "Отменено"
 
 #: files.c:689 files.c:744
 msgid "No more open files"
-msgstr ""
+msgstr "Нет больше открытых файлов"
 
 #: files.c:1079
 #, c-format
 msgid "Can't write outside of %s"
-msgstr ""
+msgstr "Не могу записать снаружи %s"
 
 #: files.c:1116 files.c:1132 files.c:1146 files.c:1169 files.c:1178
 #: files.c:1190
@@ -117,21 +117,18 @@ msgid "Wrote %d lines"
 msgstr "Записано %d строк"
 
 #: files.c:1294
-#, fuzzy
 msgid "Append Selection to File"
-msgstr "Переместиться в конец текущей строки"
+msgstr "Добавить Выбранное к файлу"
 
 #: files.c:1297
 msgid "Write Selection to File"
-msgstr ""
+msgstr "Записать Выбраное в файл"
 
 #: files.c:1303
-#, fuzzy
 msgid "File Name to Append"
-msgstr "Имя Файла на запись"
+msgstr "Имя Файла для добавления"
 
 #: files.c:1306
-#, fuzzy
 msgid "File Name to Write"
 msgstr "Имя Файла на запись"
 
@@ -149,7 +146,7 @@ msgstr "Не могу переместить директорию"
 
 #: files.c:2191
 msgid "Can't visit parent in restricted mode"
-msgstr ""
+msgstr "Не могу посетить предка в ограниченном режиме"
 
 #. We can't open this dir for some reason.  Complain
 #: files.c:2202 files.c:2259
@@ -158,19 +155,17 @@ msgid "Can't open \"%s\": %s"
 msgstr "Не могу открыть \"%s\": %s"
 
 #: files.c:2230 global.c:295
-#, fuzzy
 msgid "Goto Directory"
-msgstr "К строке"
+msgstr "К директории"
 
 #: files.c:2237
 #, c-format
 msgid "Can't go outside of %s in restricted mode"
-msgstr ""
+msgstr "Не могу выйти за границы %s в ограниченном режиме"
 
 #: files.c:2244
-#, fuzzy
 msgid "Goto Cancelled"
-msgstr "Отменено"
+msgstr "Переход Отменен"
 
 #: global.c:166
 msgid "Constant cursor position"
@@ -201,26 +196,24 @@ msgid "Cut to end"
 msgstr "Вырезать до конца"
 
 #: global.c:173
-#, fuzzy
 msgid "Backwards search"
-msgstr "Назад"
+msgstr "Поиск назад"
 
 #: global.c:174
-#, fuzzy
 msgid "Case sensitive search"
-msgstr "Регистро-зависимый поиск%s%s"
+msgstr "Регистро-зависимый поиск"
 
 #: global.c:175
 msgid "Writing file in DOS format"
-msgstr ""
+msgstr "Запись файла в формате DOS"
 
 #: global.c:176
 msgid "Writing file in Mac format"
-msgstr ""
+msgstr "Запись файла в формате Mac"
 
 #: global.c:177
 msgid "Smooth scrolling"
-msgstr ""
+msgstr "Плавная прокрутка"
 
 #: global.c:180
 msgid "Regular expressions"
@@ -232,15 +225,15 @@ msgstr "Авто перевод"
 
 #: global.c:185
 msgid "Multiple file buffers"
-msgstr ""
+msgstr "Несколько файловых буферов"
 
 #: global.c:186
 msgid "Open previously loaded file"
-msgstr ""
+msgstr "Открыть предыдущий файл"
 
 #: global.c:187
 msgid "Open next loaded file"
-msgstr ""
+msgstr "Открыть следующий файл"
 
 #: global.c:256
 msgid "Invoke the help menu"
@@ -252,7 +245,7 @@ msgstr "Записать текущий файл на диск"
 
 #: global.c:260
 msgid "Close currently loaded file/Exit from nano"
-msgstr ""
+msgstr "Закрыть текущий файл/Выйти из nano"
 
 #: global.c:262
 msgid "Exit from nano"
@@ -299,7 +292,6 @@ msgid "Uncut from the cutbuffer into the current line"
 msgstr "Вставить содержимое cutbuffer'а в текущую строку"
 
 #: global.c:275
-#, fuzzy
 msgid "Show the position of the cursor"
 msgstr "Показать положение курсора"
 
@@ -376,23 +368,20 @@ msgid "Cancel the current function"
 msgstr "Отменить текущую функцию"
 
 #: global.c:297
-#, fuzzy
 msgid "Append to the current file"
-msgstr "Переместиться в конец текущей строки"
+msgstr "Добавить к текущему файлу"
 
 #: global.c:298
-#, fuzzy
 msgid "Search backwards"
-msgstr "Поиск отменен"
+msgstr "Поиск назад"
 
 #: global.c:300
-#, fuzzy
 msgid "Use Regular expressions"
 msgstr "Формальные выражения (regexp)"
 
 #: global.c:301
 msgid "Find other bracket"
-msgstr ""
+msgstr "Найти соответствующую скобку"
 
 #: global.c:305
 msgid "Get Help"
@@ -400,7 +389,7 @@ msgstr "Помощь"
 
 #: global.c:310
 msgid "Close"
-msgstr ""
+msgstr "Закрыть"
 
 #: global.c:314 global.c:517 global.c:555
 msgid "Exit"
@@ -508,7 +497,7 @@ msgstr "К строке"
 
 #: global.c:424
 msgid "Find Other Bracket"
-msgstr ""
+msgstr "Найти Другую Скобку"
 
 #: global.c:429 global.c:459 global.c:489 global.c:499
 msgid "First Line"
@@ -523,13 +512,12 @@ msgid "Case Sens"
 msgstr "РегЗависим"
 
 #: global.c:446 global.c:476
-#, fuzzy
 msgid "Direction"
-msgstr "К строке"
+msgstr "Направление"
 
 #: global.c:451 global.c:481
 msgid "Regexp"
-msgstr ""
+msgstr "ФормВыр"
 
 #: global.c:456 global.c:486 global.c:495 global.c:505 global.c:529
 #: global.c:537 global.c:540 global.c:558 winio.c:1234
@@ -545,32 +533,22 @@ msgid "To Files"
 msgstr "К Файлам"
 
 #: global.c:526
-#, fuzzy
 msgid "Append"
-msgstr "Приостановить"
+msgstr "Добавить"
 
 #: global.c:552
-#, fuzzy
 msgid "Goto"
-msgstr "К строке"
+msgstr "Перейти К.."
 
 #: nano.c:177
 #, c-format
-msgid ""
-"\n"
-"Buffer written to %s\n"
-msgstr ""
-"\n"
-"Буфер записан в %s\n"
+msgid "\nBuffer written to %s\n"
+msgstr "\nБуфер записан в %s\n"
 
 #: nano.c:179
 #, c-format
-msgid ""
-"\n"
-"No %s written (file exists?)\n"
-msgstr ""
-"\n"
-"%s не записан (файл существует?)\n"
+msgid "\nNo %s written (file exists?)\n"
+msgstr "\n%s не записан (файл существует?)\n"
 
 #: nano.c:186
 msgid "Window size is too small for Nano..."
@@ -584,39 +562,16 @@ msgstr "Неверная клавиша в режиме Просмотра"
 msgid ""
 " nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor: The "
-"top line shows the program version, the current filename being edited, and "
-"whether or not the file has been modified.  Next is the main editor window "
-"showing the file being edited.  The status line is the third line from the "
-"bottom and shows important messages. The bottom two lines show the most "
-"commonly used shortcuts in the editor.\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor: The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages. The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
-" The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and are entered with the Control (Ctrl) key.  "
-"Escape-key sequences are notated with the Meta (M) symbol and can be entered "
-"using either the Esc, Alt or Meta key depending on your keyboard setup.  The "
-"following keystrokes are available in the main editor window. Optional keys "
-"are shown in parentheses:\n"
+" The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and are entered with the Control (Ctrl) key.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt or Meta key depending on your keyboard setup.  The following keystrokes are available in the main editor window. Optional keys are shown in parentheses:\n"
 "\n"
 msgstr ""
 " текст помощи nano\n"
 "\n"
-" Редактор nano разработан для эмуляции функциональности и простоты "
-"использования оригинального редактора UW Pico. Редактор разбит на 4 секции: "
-"верхняя строка содержит версию программы, текущее имя файла, который "
-"редактируется, и были ли внесены изменения в текущий файл. Вторая секция - "
-"это главное окно редактирования, в котором, при некотором желании, можно "
-"рассмотреть содержимое редактируемого файла. Строка состояния - 3 строка "
-"снизу - показывает разные важные сообщения. И, наконец, последние две строки "
-"содержат наиболее общие комбинации клавиш редактора.\n"
+" Редактор nano разработан для эмуляции функциональности и простоты использования оригинального редактора UW Pico. Редактор разбит на 4 секции: верхняя строка содержит версию программы, текущее имя файла, который редактируется, и были ли внесены изменения в текущий файл. Вторая секция - это главное окно редактирования, в котором, при некотором желании, можно рассмотреть содержимое редактируемого файла. Строка состояния - 3 строка снизу - показывает разные важные сообщения. И, наконец, последние две строки содержат наиболее общие комбинации клавиш редактора.\n"
 "\n"
-" Система обозначений комбинаций клавиш следующая: 1. Комбинации с Control'ом "
-"обозначены символом '^' и вводятся при помощи нажатой кнопки Ctrl; 2. "
-"комбинации с Esc (Esc-последовательности) обозначены буквой M и могут быть "
-"введены при помощи кнопки Esc, Alt или Meta, в зависимости от используемой "
-"клавиатуры. Нижеследущие комбинации доступны в главном окне редактирования. "
-"Дополнительные комбинации показаны в скобках:\n"
+" Система обозначений комбинаций клавиш следующая: 1. Комбинации с Control'ом обозначены символом '^' и вводятся при помощи нажатой кнопки Ctrl; 2. комбинации с Esc (Esc-последовательности) обозначены буквой M и могут быть введены при помощи кнопки Esc, Alt или Meta, в зависимости от используемой клавиатуры. Нижеследущие комбинации доступны в главном окне редактирования. Дополнительные комбинации показаны в скобках:\n"
 "\n"
 
 #: nano.c:345
@@ -628,12 +583,8 @@ msgid "delete_node(): free'd last node.\n"
 msgstr "delete_node(): освобожден последний узел.\n"
 
 #: nano.c:405
-msgid ""
-"Usage: nano [GNU long option] [option] +LINE <file>\n"
-"\n"
-msgstr ""
-"Использование: nano [длинные опции GNU] [опции] +СТРОКА <файл>\n"
-"\n"
+msgid "Usage: nano [GNU long option] [option] +LINE <file>\n\n"
+msgstr "Использование: nano [длинные опции GNU] [опции] +СТРОКА <файл>\n\n"
 
 #: nano.c:406
 msgid "Option\t\tLong option\t\tMeaning\n"
@@ -641,15 +592,15 @@ msgstr "Опция\t\tДлинная опция\t\tЗначение\n"
 
 #: nano.c:411
 msgid " -D \t\t--dos\t\t\tWrite file in DOS format\n"
-msgstr ""
+msgstr " -D \t\t--dos\t\t\tЗапись файла в формате DOS\n"
 
 #: nano.c:416
 msgid " -F \t\t--multibuffer\t\tEnable multiple file buffers\n"
-msgstr ""
+msgstr " -F \t\t--multibuffer\t\tРазрешить несколько файловых буфферов\n"
 
 #: nano.c:421
 msgid " -M \t\t--mac\t\t\tWrite file in Mac format\n"
-msgstr ""
+msgstr " -M \t\t--mac\t\t\tЗапись файла в формате Mac\n"
 
 #: nano.c:425
 msgid " -R\t\t--regexp\t\tUse regular expressions for search\n"
@@ -657,7 +608,7 @@ msgstr " -R\t\t--regexp\t\tИспользовать формальные выражения\n"
 
 #: nano.c:429
 msgid " -S\t\t--smooth\t\tSmooth scrolling\n"
-msgstr ""
+msgstr " -S\t\t--smooth\t\tПлавная прокрутка\n"
 
 #: nano.c:432
 msgid " -T [num]\t--tabsize=[num]\t\tSet width of a tab to num\n"
@@ -693,16 +644,14 @@ msgstr " -m \t\t--mouse\t\t\tРазрешить мышку\n"
 
 #: nano.c:455
 msgid " -o [dir] \t--operatingdir=[dir]\tSet operating directory\n"
-msgstr ""
+msgstr " -o [dir] \t--operatingdir=[dir]\tУстановить рабочую директорию\n"
 
 #: nano.c:458
-#, fuzzy
 msgid " -p \t\t--pico\t\t\tEmulate Pico as closely as possible\n"
 msgstr " -p\t \t--pico\t\t\tЭмулировать Pico насколько это возможно\n"
 
 #: nano.c:463
-msgid ""
-" -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
+msgid " -r [#cols] \t--fill=[#cols]\t\tSet fill cols to (wrap lines at) #cols\n"
 msgstr " -r [#стол] \t--fill=[#стол]\t\tПереносить строки в позиции #стол\n"
 
 #: nano.c:467
@@ -734,12 +683,8 @@ msgid " +LINE\t\t\t\t\tStart at line number LINE\n"
 msgstr " +СТРОКА\t\t\t\tНачать со строки номер СТРОКА\n"
 
 #: nano.c:484
-msgid ""
-"Usage: nano [option] +LINE <file>\n"
-"\n"
-msgstr ""
-"Использование: nano [опция] +СТРОКА <файл>\n"
-"\n"
+msgid "Usage: nano [option] +LINE <file>\n\n"
+msgstr "Использование: nano [опция] +СТРОКА <файл>\n\n"
 
 #: nano.c:485
 msgid "Option\t\tMeaning\n"
@@ -747,15 +692,15 @@ msgstr "Опция\t\tЗначение\n"
 
 #: nano.c:487
 msgid " -D \t\tWrite file in DOS format\n"
-msgstr ""
+msgstr " -D \t\tЗапись файла в формате DOS\n"
 
 #: nano.c:490
 msgid " -F \t\tEnable multiple file buffers\n"
-msgstr ""
+msgstr " -F \t\tРазрешить несколько файловых буфферов\n"
 
 #: nano.c:493
 msgid " -M \t\tWrite file in Mac format\n"
-msgstr ""
+msgstr " -M \t\tЗапись файла в формате Mac\n"
 
 #: nano.c:495
 msgid " -T [num]\tSet width of a tab to num\n"
@@ -767,7 +712,7 @@ msgstr " -R\t\tИспользовать формальные выражения для поиска\n"
 
 #: nano.c:498
 msgid " -S\t\tSmooth scrolling\n"
-msgstr ""
+msgstr " -S\t\tПлавная прокрутка\n"
 
 #: nano.c:500
 msgid " -V \t\tPrint version information and exit\n"
@@ -799,7 +744,7 @@ msgstr " -m \t\tРазрешить мышь\n"
 
 #: nano.c:515
 msgid " -o [dir] \tSet operating directory\n"
-msgstr ""
+msgstr " -o [dir] \tУстановить рабочую директорию\n"
 
 #: nano.c:517
 msgid " -p \t\tEmulate Pico as closely as possible\n"
@@ -847,12 +792,8 @@ msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org"
 msgstr " Емыло: nano@nano-editor.org\tПаутина: http://www.nano-editor.org"
 
 #: nano.c:544
-msgid ""
-"\n"
-" Compiled options:"
-msgstr ""
-"\n"
-" Собрано с опциями:"
+msgid "\n Compiled options:"
+msgstr "\n Собрано с опциями:"
 
 #: nano.c:633
 msgid "Mark Set"
@@ -989,83 +930,78 @@ msgid "I got Alt-%c! (%d)\n"
 msgstr "Поймал Alt-%c! (%d)\n"
 
 #: rcfile.c:79
-msgid ""
-"\n"
-"Press return to continue starting nano\n"
-msgstr ""
+msgid "\nPress return to continue starting nano\n"
+msgstr "\nНажмите Ввод дабы продолжить старт nano\n"
 
 #: rcfile.c:137
 msgid "parse_rcfile: Read a comment\n"
-msgstr ""
+msgstr "parse_rcfile: Читаем комментарий\n"
 
 #: rcfile.c:154
 #, c-format
 msgid "Error in %s on line %d: command %s not understood"
-msgstr ""
+msgstr "Ошибка в %s в строке %d: команда %s весьма не вразумительна"
 
 #: rcfile.c:167
 #, c-format
 msgid "parse_rcfile: Parsing option %s\n"
-msgstr ""
+msgstr "parse_rcfile: Разбираем опцию %s\n"
 
 #: rcfile.c:185
 #, c-format
 msgid "Error in %s on line %d: option %s requires an argument"
-msgstr ""
+msgstr "Ошибка в %s в строке %d: опция %s требует аргумент"
 
 #: rcfile.c:196
 #, c-format
 msgid "Error in %s on line %d: requested fill size %d too small"
-msgstr ""
+msgstr "Ошибка в %s в строке %d: запрошенный размер заполнения %d слишком мал"
 
 #: rcfile.c:205
 #, c-format
 msgid "Error in %s on line %d: requested tab size %d too small"
-msgstr ""
+msgstr "Ошибка в %s в строке %d: запрошенный размер табуляции %d слишком мал"
 
 #: rcfile.c:219
 #, c-format
 msgid "set flag %d!\n"
-msgstr ""
+msgstr "установите флаг %d!\n"
 
 #: rcfile.c:224
 #, c-format
 msgid "unset flag %d!\n"
-msgstr ""
+msgstr "cнимите флаг %d!\n"
 
 #: rcfile.c:233
 msgid "Errors found in .nanorc file"
-msgstr ""
+msgstr "В файле .nanorc найдены ошибки"
 
 #: rcfile.c:242
 #, c-format
 msgid "Unable to open ~/.nanorc file, %s"
-msgstr ""
+msgstr "Не могу открыть файл ~/.nanorc, %s"
 
 #: search.c:132
-#, fuzzy
 msgid "Search"
-msgstr "Поиск%s%s"
+msgstr "Поиск"
 
 #. This string is just a modifier for the search prompt,
 #. no grammar is implied
 #: search.c:136
-#, fuzzy
 msgid " [Case Sensitive]"
-msgstr "РегЗависим"
+msgstr " [РегЗависим]"
 
 #. This string is just a modifier for the search prompt,
 #. no grammar is implied
 #: search.c:140
 msgid " [Regexp]"
-msgstr ""
+msgstr " [ФормВыр]"
 
 #. This string is just a modifier for the search prompt,
 #. no grammar is implied
 #: search.c:144
-#, fuzzy
 msgid " [Backwards]"
-msgstr "Назад"
+msgstr " [Назад]"
 
 #: search.c:146
 msgid " (to replace)"
@@ -1128,24 +1064,24 @@ msgstr "Эта, а можно чуть более адекватно?"
 
 #: search.c:844
 msgid "Not a bracket"
-msgstr ""
+msgstr "Не скобка"
 
 #. didn't find either left or right bracket
 #: search.c:889
 msgid "No matching bracket"
-msgstr ""
+msgstr "Нет соответствующей скобки"
 
 #: utils.c:159
 msgid "nano: malloc: out of memory!"
-msgstr ""
+msgstr "nano: malloc: нет памяти!"
 
 #: utils.c:173
 msgid "nano: calloc: out of memory!"
-msgstr ""
+msgstr "nano: calloc: нет памяти!"
 
 #: utils.c:183
 msgid "nano: realloc: out of memory!"
-msgstr ""
+msgstr "nano: realloc: нет памяти!"
 
 #: winio.c:124
 #, c-format
@@ -1153,9 +1089,9 @@ msgid "actual_x_from_start for xplus=%d returned %d\n"
 msgstr "actual_x_from_start для xplus=%d вернуло %d\n"
 
 #: winio.c:291 winio.c:453
-#, fuzzy, c-format
+#, c-format
 msgid "Aha! '%c' (%d)\n"
-msgstr "ввод '%c' (%d)\n"
+msgstr "Ага! '%c' (%d)\n"
 
 #: winio.c:485
 #, c-format
@@ -1260,8 +1196,7 @@ msgstr "Особая благодарность:"
 
 #: winio.c:1663
 msgid "The Free Software Foundation"
-msgstr ""
-"The Free Software Foundation (фонд свободного программного обеспечения)"
+msgstr "The Free Software Foundation (фонд свободного программного обеспечения)"
 
 #: winio.c:1664
 msgid "Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses"
@@ -1274,16 +1209,3 @@ msgstr "и всем остальным, кого мы забыли упомянуть..."
 #: winio.c:1666
 msgid "Thank you for using nano!\n"
 msgstr "Спасибо Вам за выбор nano!\n"
-
-#, fuzzy
-#~ msgid "Write"
-#~ msgstr "Записать"
-
-#~ msgid "Case Sensitive Regexp Search%s%s"
-#~ msgstr "Регистрозавимый поиск формального выражения%s%s"
-
-#~ msgid "Regexp Search%s%s"
-#~ msgstr "Поиск формального выражения%s%s"
-
-#~ msgid "Only %d lines available, skipping to last line"
-#~ msgstr "Только %d строк доступно, пропускаем до последней строки"
