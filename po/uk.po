@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.99pre3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-17 23:37-0500\n"
+"POT-Creation-Date: 2004-06-25 20:25-0400\n"
 "PO-Revision-Date: 2003-02-17 10:51+0300\n"
 "Last-Translator: Sergey A. Ribalchenko <fisher@obu.ck.ua>\n"
 "Language-Team: Ukrainian <translation-team-uk@lists.sourceforge.net>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: files.c:317
+#: files.c:321
 #, c-format
 msgid "Read %d line (Converted from Mac format)"
 msgid_plural "Read %d lines (Converted from Mac format)"
@@ -24,7 +24,7 @@ msgstr[0] "Прочитано %d рядок (перетворено з формату Mac)"
 msgstr[1] "Прочитано %d рядка (перетворених з формату Mac)"
 msgstr[2] "Прочитано %d рядк╕в (перетворених з формату Mac)"
 
-#: files.c:321
+#: files.c:325
 #, c-format
 msgid "Read %d line (Converted from DOS format)"
 msgid_plural "Read %d lines (Converted from DOS format)"
@@ -32,7 +32,7 @@ msgstr[0] "Прочитано %d рядок (перетворено з формату DOS)"
 msgstr[1] "Прочитано %d рядка (перетворених з формату DOS)"
 msgstr[2] "Прочитано %d рядк╕в (перетворених з формату DOS)"
 
-#: files.c:326
+#: files.c:330
 #, c-format
 msgid "Read %d line"
 msgid_plural "Read %d lines"
@@ -40,136 +40,136 @@ msgstr[0] "Прочитано %d рядок"
 msgstr[1] "Прочитано %d рядка"
 msgstr[2] "Прочитано %d рядк╕в"
 
-#: files.c:349 search.c:58
+#: files.c:356 search.c:58
 #, c-format
 msgid "\"%s\" not found"
 msgstr "\"%s\" не знайдено"
 
-#: files.c:353
+#: files.c:360
 msgid "New File"
 msgstr "Новий файл"
 
-#: files.c:359
+#: files.c:366
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "Файл \"%s\" ╓ директор╕╓ю"
 
-#: files.c:360
+#: files.c:367
 #, c-format
 msgid "File \"%s\" is a device file"
 msgstr "Файл \"%s\" ╓ файлом пристрою"
 
-#: files.c:378
+#: files.c:385
 msgid "Reading File"
 msgstr "Чита╓мо файл.."
 
-#: files.c:454
+#: files.c:461
 #, c-format
 msgid "File to insert into new buffer [from %s] "
 msgstr "Файл до вставки (в новий буфер) [в╕д %s] "
 
-#: files.c:462
+#: files.c:469
 #, c-format
 msgid "File to insert [from %s] "
 msgstr "Файл до вставки [в╕д %s] "
 
-#: files.c:473
+#: files.c:480
 msgid "File to insert into new buffer [from ./] "
 msgstr "Файл до вставки (в новий буфер) [в╕д ./] "
 
-#: files.c:480
+#: files.c:487
 msgid "File to insert [from ./] "
 msgstr "Файл до вставки [в╕д ./] "
 
-#: files.c:501
+#: files.c:508
 msgid "Command to execute"
 msgstr "Команда до виконання "
 
-#: files.c:503 files.c:615 files.c:1346 files.c:1782 nano.c:2732
+#: files.c:510 files.c:622 files.c:1353 files.c:1797 nano.c:2736
 msgid "Cancelled"
 msgstr "Скасовано"
 
-#: files.c:524
+#: files.c:531
 #, c-format
 msgid "Can't insert file from outside of %s"
 msgstr "Не можу вставити файл поза %s"
 
-#: files.c:638
+#: files.c:645
 msgid "Key illegal in non-multibuffer mode"
 msgstr "Нев╕рна кнопка в не-мультибуферному режим╕"
 
-#: files.c:879 files.c:942
+#: files.c:886 files.c:949
 msgid "No more open files"
 msgstr "Б╕льш нема в╕дкритих файл╕в"
 
-#: files.c:906 files.c:969
+#: files.c:913 files.c:976
 #, c-format
 msgid "Switched to %s"
 msgstr "Перемкнуто до %s"
 
-#: files.c:1359
+#: files.c:1367
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Не можу записати поза %s"
 
-#: files.c:1390
+#: files.c:1398
 #, c-format
 msgid "Could not read %s for backup: %s"
 msgstr "Не можу прочитати %s для резервування: %s"
 
-#: files.c:1401
+#: files.c:1409
 #, c-format
 msgid "Couldn't write backup: %s"
 msgstr "Не можу записати резерв: %s"
 
-#: files.c:1419
+#: files.c:1427
 #, c-format
 msgid "Could not set permissions %o on backup %s: %s"
 msgstr "Не можу встановити права %o на резервний файл %s: %s"
 
-#: files.c:1425
+#: files.c:1433
 #, c-format
 msgid "Could not set owner %d/group %d on backup %s: %s"
 msgstr "Не можу встановити власника %d/групу %d на резервний файл %s: %s"
 
-#: files.c:1430
+#: files.c:1438
 #, c-format
 msgid "Could not set access/modification time on backup %s: %s"
 msgstr ""
 "Не можу встановити час останьо╖ зм╕ни/звертання на резервний файл %s: %s"
 
-#: files.c:1465 files.c:1481 files.c:1493 files.c:1515 files.c:1548
-#: files.c:1555 files.c:1567
+#: files.c:1473 files.c:1489 files.c:1504 files.c:1526 files.c:1559
+#: files.c:1566 files.c:1578
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr "Не можу в╕дкрити файл для запису: %s"
 
-#: files.c:1578
+#: files.c:1589
 #, c-format
 msgid "Could not close %s: %s"
 msgstr "Не можу зачинити %s: %s"
 
-#: files.c:1590 files.c:1595 files.c:1623
+#: files.c:1601 files.c:1606 files.c:1634
 #, c-format
 msgid "Could not reopen %s: %s"
 msgstr "Не вда╓ться перев╕дкрити %s: %s"
 
-#: files.c:1600 files.c:1606 files.c:1615
+#: files.c:1611 files.c:1617 files.c:1626
 #, c-format
 msgid "Could not open %s for prepend: %s"
 msgstr "Не можу в╕дкрити %s для запису: %s"
 
-#: files.c:1653 files.c:1662 files.c:1667
+#: files.c:1664 files.c:1673 files.c:1678
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr "Не можу в╕дкрити %s для запису: %s"
 
-#: files.c:1674
+#: files.c:1685
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr "Не можу встановити права %o на %s: %s"
 
-#: files.c:1690
+#: files.c:1701
 #, c-format
 msgid "Wrote %d line"
 msgid_plural "Wrote %d lines"
@@ -177,539 +177,539 @@ msgstr[0] "Записано %d рядок"
 msgstr[1] "Записано %d рядка"
 msgstr[2] "Записано %d рядк╕в"
 
-#: files.c:1736
+#: files.c:1751
 msgid " [Mac Format]"
 msgstr " [формат Mac]"
 
-#: files.c:1738
+#: files.c:1753
 msgid " [DOS Format]"
 msgstr " [формат DOS]"
 
-#: files.c:1743
+#: files.c:1758
 msgid " [Backup]"
 msgstr " [Резерв]"
 
-#: files.c:1751
+#: files.c:1766
 msgid "Prepend Selection to File"
 msgstr "Додати Вид╕лене до файлу (в початок файла)"
 
-#: files.c:1754
+#: files.c:1769
 msgid "Append Selection to File"
 msgstr "Додати Вид╕лене до файлу"
 
-#: files.c:1757
+#: files.c:1772
 msgid "Write Selection to File"
 msgstr "Записати Вид╕лене до файлу"
 
-#: files.c:1761 files.c:1772
+#: files.c:1776 files.c:1787
 msgid "File Name to Prepend to"
 msgstr "╤м'я файлу для додавання"
 
-#: files.c:1764 files.c:1775
+#: files.c:1779 files.c:1790
 msgid "File Name to Append to"
 msgstr "╤м'я файлу для додавання"
 
-#: files.c:1767 files.c:1778
+#: files.c:1782 files.c:1793
 msgid "File Name to Write"
 msgstr "╤м'я файлу до запису"
 
-#: files.c:1836
+#: files.c:1851
 msgid "File exists, OVERWRITE ?"
 msgstr "Файл ╕сну╓, ПЕРЕПИСАТИ ?"
 
-#: files.c:2325
+#: files.c:2340
 msgid "(more)"
 msgstr "(дал╕)"
 
-#: files.c:2625
+#: files.c:2640
 msgid "Can't move up a directory"
 msgstr "Не можу перем╕стити директор╕ю"
 
-#: files.c:2636 files.c:2709
+#: files.c:2651 files.c:2724
 #, c-format
 msgid "Can't go outside of %s in restricted mode"
 msgstr "Не можу п╕ти поза %s в обмеженому режим╕"
 
-#: files.c:2643 files.c:2670 files.c:2717
+#: files.c:2658 files.c:2685 files.c:2732
 #, c-format
 msgid "Can't open \"%s\": %s"
 msgstr "Не можу в╕дкрити \"%s\": %s"
 
-#: files.c:2691
+#: files.c:2706
 msgid "Goto Directory"
 msgstr "До Директор╕╖"
 
-#: files.c:2696
+#: files.c:2711
 msgid "Goto Cancelled"
 msgstr "Скасовано"
 
-#: files.c:2897
+#: files.c:2912
 #, c-format
 msgid "Unable to open ~/.nano_history file, %s"
 msgstr "Не можу в╕дкрити файл ~/.nano_history, %s"
 
-#: files.c:2947 files.c:2956 files.c:2961 files.c:2968
+#: files.c:2962 files.c:2971 files.c:2976 files.c:2983
 #, c-format
 msgid "Unable to write ~/.nano_history file, %s"
 msgstr "Не вда╓ться записати файл ~/.nano_history, %s"
 
-#: global.c:246
+#: global.c:247
 msgid "Constant cursor position"
 msgstr "Пост╕йна позиц╕я курсора"
 
-#: global.c:247
+#: global.c:248
 msgid "Auto indent"
 msgstr "Авто-вир╕внювання"
 
-#: global.c:248
+#: global.c:249
 msgid "Suspend"
 msgstr "Призупинка -"
 
-#: global.c:249
+#: global.c:250
 msgid "Help mode"
 msgstr "Режим допомоги"
 
-#: global.c:251
+#: global.c:252
 msgid "Mouse support"
 msgstr "П╕дтримка миш╕"
 
-#: global.c:253
+#: global.c:254
 msgid "Cut to end"
 msgstr "Вир╕зати до к╕нця"
 
-#: global.c:254
+#: global.c:255
 msgid "No conversion from DOS/Mac format"
 msgstr "Нема перетворювання ╕з DOS/Mac формату"
 
-#: global.c:255
+#: global.c:256
 msgid "Writing file in DOS format"
 msgstr "Запис файлу у формат╕ DOS"
 
-#: global.c:256
+#: global.c:257
 msgid "Writing file in Mac format"
 msgstr "Запис файлу у формат╕ Mac"
 
-#: global.c:257
+#: global.c:258
 msgid "Backing up file"
 msgstr "Робити резервну коп╕ю файла"
 
-#: global.c:258 nano.c:660
+#: global.c:259 nano.c:664
 msgid "Smooth scrolling"
 msgstr "Плавна прокрутка"
 
-#: global.c:260
+#: global.c:261
 msgid "Color syntax highlighting"
 msgstr "П╕дсв╕чування синтаксису кольором"
 
-#: global.c:263
+#: global.c:264
 msgid "Auto wrap"
 msgstr "Авто загортання"
 
-#: global.c:266
+#: global.c:267
 msgid "Multiple file buffers"
 msgstr "Дек╕лька файлових буфер╕в"
 
-#: global.c:349
+#: global.c:350
 msgid "Invoke the help menu"
 msgstr "Викликати меню допомоги"
 
-#: global.c:350
+#: global.c:351
 msgid "Write the current file to disk"
 msgstr "Записати поточний файл на диск"
 
-#: global.c:352
+#: global.c:353
 msgid "Close currently loaded file/Exit from nano"
 msgstr "Закрити завантажений зараз файл/Вийти ╕з nano"
 
-#: global.c:354
+#: global.c:355
 msgid "Exit from nano"
 msgstr "Вих╕д з nano"
 
-#: global.c:356
+#: global.c:357
 msgid "Go to a specific line number"
 msgstr "Перейти до вказаного рядка"
 
-#: global.c:357
+#: global.c:358
 msgid "Justify the current paragraph"
 msgstr "Вир╕вняти поточний абзац"
 
-#: global.c:358
+#: global.c:359
 msgid "Unjustify after a justify"
 msgstr "Скасувати останн╓ вир╕внювання"
 
-#: global.c:359
+#: global.c:360
 msgid "Replace text within the editor"
 msgstr "Зам╕нити текст у межах редактора"
 
-#: global.c:360
+#: global.c:361
 msgid "Insert another file into the current one"
 msgstr "Вставити ╕нший файл до поточного"
 
-#: global.c:361
+#: global.c:362
 msgid "Search for text within the editor"
 msgstr "Шукати текст в межах редактору"
 
-#: global.c:362
+#: global.c:363
 msgid "Move to the previous screen"
 msgstr "Перейти до попереднього екрану"
 
-#: global.c:363
+#: global.c:364
 msgid "Move to the next screen"
 msgstr "Перейти до наступного екрану"
 
-#: global.c:364
+#: global.c:365
 msgid "Cut the current line and store it in the cutbuffer"
 msgstr "Вир╕зати поточний рядок та пом╕стити його до \"кишен╕\""
 
-#: global.c:365
+#: global.c:366
 msgid "Uncut from the cutbuffer into the current line"
 msgstr "Скасувати вир╕зання та вставити зм╕ст \"кишен╕\" до поточного рядка"
 
-#: global.c:366
+#: global.c:367
 msgid "Show the position of the cursor"
 msgstr "Показати позиц╕ю курсора"
 
-#: global.c:367
+#: global.c:368
 msgid "Invoke the spell checker, if available"
 msgstr "Викликати програму пошуку друкарських помилок (якщо ╓)"
 
-#: global.c:368
+#: global.c:369
 msgid "Move up one line"
 msgstr "П╕днятися вгору на один рядок"
 
-#: global.c:369
+#: global.c:370
 msgid "Move down one line"
 msgstr "Перем╕ститися на рядок нижче"
 
-#: global.c:370
+#: global.c:371
 msgid "Move forward one character"
 msgstr "Вперед на одну л╕теру"
 
-#: global.c:371
+#: global.c:372
 msgid "Move back one character"
 msgstr "Назад на одну л╕теру"
 
-#: global.c:372
+#: global.c:373
 msgid "Move to the beginning of the current line"
 msgstr "Перем╕ститися до початку поточного рядка"
 
-#: global.c:373
+#: global.c:374
 msgid "Move to the end of the current line"
 msgstr "Перем╕ститися на к╕нець поточного рядка"
 
-#: global.c:374
+#: global.c:375
 msgid "Go to the first line of the file"
 msgstr "Перем╕ститися до першого рядка файлу"
 
-#: global.c:375
+#: global.c:376
 msgid "Go to the last line of the file"
 msgstr "Перем╕ститися до останнього рядка файлу"
 
-#: global.c:376
+#: global.c:377
 msgid "Refresh (redraw) the current screen"
 msgstr "Перемалювати поточний екран"
 
-#: global.c:377
+#: global.c:378
 msgid "Mark text at the current cursor location"
 msgstr "Пом╕тити текст п╕д поточною позиц╕╓ю курсора"
 
-#: global.c:378
+#: global.c:379
 msgid "Delete the character under the cursor"
 msgstr "Видалити л╕теру п╕д курсором"
 
-#: global.c:380
+#: global.c:381
 msgid "Delete the character to the left of the cursor"
 msgstr "Видалити л╕теру зл╕ва в╕д курсора"
 
-#: global.c:381
+#: global.c:382
 msgid "Insert a tab character"
 msgstr "Вставити символ табуляц╕╖"
 
-#: global.c:382
+#: global.c:383
 msgid "Insert a carriage return at the cursor position"
 msgstr "Вставити символ CR (повернення гол╕вки) в поз. курсора"
 
-#: global.c:384
+#: global.c:385
 msgid "Make the current search or replace case (in)sensitive"
 msgstr "Зробити поточний пошук або зам╕ну (не)залежним в╕д рег╕стру л╕тер"
 
-#: global.c:385
+#: global.c:386
 msgid "Go to file browser"
 msgstr "До переглядача файл╕в"
 
-#: global.c:386
+#: global.c:387
 msgid "Execute external command"
 msgstr "Виконати зовн╕шню команду"
 
-#: global.c:387
+#: global.c:388
 msgid "Go to directory"
 msgstr "До Директор╕╖"
 
-#: global.c:388
+#: global.c:389
 msgid "Cancel the current function"
 msgstr "Скасувати поточну функц╕ю"
 
-#: global.c:389
+#: global.c:390
 msgid "Append to the current file"
 msgstr "Додати до поточного файлу"
 
-#: global.c:390
+#: global.c:391
 msgid "Prepend to the current file"
 msgstr "Додати до поточного файлу (в початок файла)"
 
-#: global.c:391
+#: global.c:392
 msgid "Search backwards"
 msgstr "Шукати назад"
 
-#: global.c:392
+#: global.c:393
 msgid "Write file out in DOS format"
 msgstr "Запис файлу у формат╕ DOS"
 
-#: global.c:393
+#: global.c:394
 msgid "Write file out in Mac format"
 msgstr "Запис файлу у формат╕ Mac"
 
-#: global.c:394
+#: global.c:395
 msgid "Back up original file when saving"
 msgstr "Зробити резервну коп╕ю файлу при збер╕ганн╕"
 
-#: global.c:395
+#: global.c:396
 msgid "Edit the previous search/replace strings"
 msgstr "Редагувати попередн╕й рядок пошуку/зам╕ни"
 
-#: global.c:397
+#: global.c:398
 msgid "Use regular expressions"
 msgstr "Формальн╕ вирази (regexp)"
 
-#: global.c:398
+#: global.c:399
 msgid "Find other bracket"
 msgstr "Знайти другу дужку"
 
-#: global.c:401
+#: global.c:402
 msgid "Open previously loaded file"
 msgstr "В╕дкрити попередн╕й файл"
 
-#: global.c:402
+#: global.c:403
 msgid "Open next loaded file"
 msgstr "В╕дкрити наступний файл"
 
-#: global.c:403
+#: global.c:404
 msgid "Toggle insert into new buffer"
 msgstr "Перемикнути режим вставки в новий буфер"
 
-#: global.c:418 global.c:578 global.c:627 global.c:664 global.c:683
-#: global.c:713 global.c:751 global.c:775 global.c:785 global.c:795
-#: global.c:816
+#: global.c:419 global.c:579 global.c:628 global.c:665 global.c:684
+#: global.c:714 global.c:752 global.c:776 global.c:786 global.c:796
+#: global.c:817
 msgid "Get Help"
 msgstr "Допомога"
 
-#: global.c:425
+#: global.c:426
 msgid "Close"
 msgstr "Закрити"
 
-#: global.c:432 global.c:706
+#: global.c:433 global.c:707
 msgid "Exit"
 msgstr "Вих╕д"
 
-#: global.c:437
+#: global.c:438
 msgid "WriteOut"
 msgstr "Записати"
 
-#: global.c:442
+#: global.c:443
 msgid "Justify"
 msgstr "Вир╕внювання"
 
-#: global.c:448
+#: global.c:449
 msgid "Read File"
 msgstr "Чит. Файл"
 
-#: global.c:458
+#: global.c:459
 msgid "Where Is"
 msgstr "Пошук"
 
-#: global.c:463 global.c:698 global.c:801
+#: global.c:464 global.c:699 global.c:802
 msgid "Prev Page"
 msgstr "Поп.Стор."
 
-#: global.c:468 global.c:702 global.c:805
+#: global.c:469 global.c:703 global.c:806
 msgid "Next Page"
 msgstr "Наст.Стор."
 
-#: global.c:473
+#: global.c:474
 msgid "Cut Text"
 msgstr "Вир╕зати"
 
-#: global.c:479
+#: global.c:480
 msgid "UnJustify"
 msgstr "СкасВир╕вн"
 
-#: global.c:484
+#: global.c:485
 msgid "UnCut Txt"
 msgstr "СкасВир╕з"
 
-#: global.c:489
+#: global.c:490
 msgid "Cur Pos"
 msgstr "Позиц╕я"
 
-#: global.c:494
+#: global.c:495
 msgid "To Spell"
 msgstr "Правопис"
 
-#: global.c:498 nano.c:424 winio.c:655
+#: global.c:499 nano.c:428 winio.c:655
 msgid "Up"
 msgstr "Вгору"
 
-#: global.c:502
+#: global.c:503
 msgid "Down"
 msgstr "Вниз"
 
-#: global.c:506
+#: global.c:507
 msgid "Forward"
 msgstr "Вперед"
 
-#: global.c:510
+#: global.c:511
 msgid "Back"
 msgstr "Назад"
 
-#: global.c:514
+#: global.c:515
 msgid "Home"
 msgstr "Початок"
 
-#: global.c:518
+#: global.c:519
 msgid "End"
 msgstr "К╕нець"
 
-#: global.c:522
+#: global.c:523
 msgid "Refresh"
 msgstr "Перемалювати"
 
-#: global.c:526
+#: global.c:527
 msgid "Mark Text"
 msgstr "Пом╕тити"
 
-#: global.c:530
+#: global.c:531
 msgid "Delete"
 msgstr "Видалити"
 
-#: global.c:534
+#: global.c:535
 msgid "Backspace"
 msgstr "Заб╕й"
 
-#: global.c:538
+#: global.c:539
 msgid "Tab"
 msgstr "Табуляц╕я"
 
-#: global.c:541 global.c:595
+#: global.c:542 global.c:596
 msgid "Replace"
 msgstr "Зам╕на"
 
-#: global.c:545
+#: global.c:546
 msgid "Enter"
 msgstr "Ввод"
 
-#: global.c:549 global.c:599 global.c:643
+#: global.c:550 global.c:600 global.c:644
 msgid "Go To Line"
 msgstr "До Рядка"
 
-#: global.c:554
+#: global.c:555
 msgid "Next Word"
 msgstr "НастСлово"
 
-#: global.c:555
+#: global.c:556
 msgid "Move forward one word"
 msgstr "Вперед на одне слово"
 
-#: global.c:558
+#: global.c:559
 msgid "Prev Word"
 msgstr "ПопСлово"
 
-#: global.c:559
+#: global.c:560
 msgid "Move backward one word"
 msgstr "Назад на одне слово"
 
-#: global.c:563
+#: global.c:564
 msgid "Find Other Bracket"
 msgstr "Знайти Другу Дужку"
 
-#: global.c:568
+#: global.c:569
 msgid "Previous File"
 msgstr "Попередн╕й Файл"
 
-#: global.c:571
+#: global.c:572
 msgid "Next File"
 msgstr "Наступний файл"
 
-#: global.c:582 global.c:630 global.c:667 global.c:686 global.c:746
-#: global.c:754 global.c:778 global.c:788 global.c:798 global.c:819
+#: global.c:583 global.c:631 global.c:668 global.c:687 global.c:747
+#: global.c:755 global.c:779 global.c:789 global.c:799 global.c:820
 #: winio.c:1323
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: global.c:586 global.c:633 global.c:670 global.c:689
+#: global.c:587 global.c:634 global.c:671 global.c:690
 msgid "First Line"
 msgstr "Перший Рядок"
 
-#: global.c:591 global.c:636 global.c:673 global.c:692
+#: global.c:592 global.c:637 global.c:674 global.c:693
 msgid "Last Line"
 msgstr "Останн╕й Рядок"
 
-#: global.c:604 global.c:647
+#: global.c:605 global.c:648
 msgid "Case Sens"
 msgstr "РегЗалеж"
 
-#: global.c:608 global.c:650
+#: global.c:609 global.c:651
 msgid "Direction"
 msgstr "Напрямок"
 
-#: global.c:613 global.c:654
+#: global.c:614 global.c:655
 msgid "Regexp"
 msgstr "ФормВир"
 
-#: global.c:619 global.c:658 global.c:677
+#: global.c:620 global.c:659 global.c:678
 msgid "History"
 msgstr "╤стор╕я"
 
-#: global.c:640
+#: global.c:641
 msgid "No Replace"
 msgstr "Не Зам╕щати"
 
-#: global.c:718 global.c:758
+#: global.c:719 global.c:759
 msgid "To Files"
 msgstr "До Файл╕в"
 
-#: global.c:724
+#: global.c:725
 msgid "DOS Format"
 msgstr "формат DOS"
 
-#: global.c:728
+#: global.c:729
 msgid "Mac Format"
 msgstr "формат Mac"
 
-#: global.c:733
+#: global.c:734
 msgid "Append"
 msgstr "Додати"
 
-#: global.c:737
+#: global.c:738
 msgid "Prepend"
 msgstr "Додати(0)"
 
-#: global.c:742
+#: global.c:743
 msgid "Backup File"
 msgstr "Зробити резервну коп╕ю"
 
-#: global.c:763
+#: global.c:764
 msgid "Execute Command"
 msgstr "Виконати команду"
 
-#: global.c:767 winio.c:596
+#: global.c:768 winio.c:596
 msgid "New Buffer"
 msgstr "Новий Буфер"
 
-#: global.c:810
+#: global.c:811
 msgid "Go To Dir"
 msgstr "До Директор╕╖"
 
-#: nano.c:169
+#: nano.c:173
 #, c-format
 msgid ""
 "\n"
@@ -718,7 +718,7 @@ msgstr ""
 "\n"
 "Буфер записано до %s\n"
 
-#: nano.c:171
+#: nano.c:175
 #, c-format
 msgid ""
 "\n"
@@ -727,15 +727,15 @@ msgstr ""
 "\n"
 "%s не записано (надто багато резервних файл╕в?)\n"
 
-#: nano.c:180
+#: nano.c:184
 msgid "Window size is too small for nano...\n"
 msgstr "Розм╕р в╕кна замалий для Nano...\n"
 
-#: nano.c:185
+#: nano.c:189
 msgid "Key illegal in VIEW mode"
 msgstr "Нев╕рна кнопка в режим╕ VIEW"
 
-#: nano.c:283
+#: nano.c:287
 msgid ""
 "Search Command Help Text\n"
 "\n"
@@ -763,7 +763,7 @@ msgstr ""
 " Наступн╕ функц╕ональн╕ клав╕ш╕ наявн╕ у режим╕ Пошуку:\n"
 "\n"
 
-#: nano.c:293
+#: nano.c:297
 msgid ""
 "Go To Line Help Text\n"
 "\n"
@@ -783,7 +783,7 @@ msgstr ""
 " Наступн╕ функц╕ональн╕ клав╕ш╕ наявн╕ у режим╕ До_рядка:\n"
 "\n"
 
-#: nano.c:300
+#: nano.c:304
 msgid ""
 "Insert File Help Text\n"
 "\n"
@@ -819,7 +819,7 @@ msgstr ""
 " Наступн╕ функц╕ональн╕ клав╕ш╕ наявн╕ в режим╕ Вставити Файл:\n"
 "\n"
 
-#: nano.c:314
+#: nano.c:318
 msgid ""
 "Write File Help Text\n"
 "\n"
@@ -847,7 +847,7 @@ msgstr ""
 " Наступн╕ функц╕ональн╕ клав╕ш╕ наявн╕ в режим╕ Зберегти Файл\n"
 "\n"
 
-#: nano.c:325
+#: nano.c:329
 msgid ""
 "File Browser Help Text\n"
 "\n"
@@ -872,7 +872,7 @@ msgstr ""
 " Наступн╕ функц╕ональн╕ клав╕ш╕ наявн╕ в режим╕ Переглядач Файл╕в:\n"
 "\n"
 
-#: nano.c:336
+#: nano.c:340
 msgid ""
 "Browser Go To Directory Help Text\n"
 "\n"
@@ -895,7 +895,7 @@ msgstr ""
 "До_Директор╕╖:\n"
 "\n"
 
-#: nano.c:345
+#: nano.c:349
 msgid ""
 "Spell Check Help Text\n"
 "\n"
@@ -917,7 +917,7 @@ msgstr ""
 " Наступн╕ ╕нш╕ функц╕╖ наявн╕ в режим╕ Правопис:\n"
 "\n"
 
-#: nano.c:356
+#: nano.c:360
 msgid ""
 "External Command Help Text\n"
 "\n"
@@ -935,7 +935,7 @@ msgstr ""
 " Наступн╕ клав╕ш╕ наявн╕ у цьому режим╕:\n"
 "\n"
 
-#: nano.c:363
+#: nano.c:367
 msgid ""
 " nano help text\n"
 "\n"
@@ -973,15 +973,15 @@ msgstr ""
 "в╕кн╕ редагування. Додатков╕ комб╕нац╕╖ показан╕ у дужках:\n"
 "\n"
 
-#: nano.c:392 nano.c:462
+#: nano.c:396 nano.c:466
 msgid "enable/disable"
 msgstr "дозволити/заборонити"
 
-#: nano.c:419 nano.c:422
+#: nano.c:423 nano.c:426
 msgid "Space"
 msgstr "Проб╕л"
 
-#: nano.c:626
+#: nano.c:630
 #, c-format
 msgid ""
 "Usage: nano [+LINE] [GNU long option] [option] [file]\n"
@@ -990,12 +990,12 @@ msgstr ""
 "Використання: nano [+РЯДОК] [довг╕ опц╕╖ GNU] [опц╕╖] [файл]\n"
 "\n"
 
-#: nano.c:627
+#: nano.c:631
 #, c-format
 msgid "Option\t\tLong option\t\tMeaning\n"
 msgstr "Опц╕╖\t\tДовг╕ опц╕╖\t\tЗначення\n"
 
-#: nano.c:629
+#: nano.c:633
 #, c-format
 msgid ""
 "Usage: nano [+LINE] [option] [file]\n"
@@ -1004,194 +1004,194 @@ msgstr ""
 "Використання: nano [+РЯДОК] [опц╕я] [файл]\n"
 "\n"
 
-#: nano.c:630
+#: nano.c:634
 #, c-format
 msgid "Option\t\tMeaning\n"
 msgstr "Опц╕я\t\tЗначення\n"
 
-#: nano.c:633
+#: nano.c:637
 msgid "Show this message"
 msgstr "Показати це пов╕домлення"
 
-#: nano.c:634
+#: nano.c:638
 msgid "+LINE"
 msgstr "+РЯДОК"
 
-#: nano.c:634
+#: nano.c:638
 msgid "Start at line number LINE"
 msgstr "Почати з рядка номер РЯДОК"
 
-#: nano.c:636
+#: nano.c:640
 msgid "Backup existing files on save"
 msgstr "Робити резервн╕ коп╕╖ ╕снуючих файл╕в при запису"
 
-#: nano.c:637
+#: nano.c:641
 msgid "Write file in DOS format"
 msgstr "Запис файлу у формат╕ DOS"
 
-#: nano.c:640
+#: nano.c:644
 msgid "Enable multiple file buffers"
 msgstr "Дозволити дек╕лька файлових буфер╕в"
 
-#: nano.c:644
+#: nano.c:648
 msgid "Log & read search/replace string history"
 msgstr "Вести журнал та читати ╕стор╕ю умов пошуку/зам╕ни"
 
-#: nano.c:646
+#: nano.c:650
 msgid "Don't look at nanorc files"
 msgstr "Не дивитися в nanorc файли"
 
-#: nano.c:648
+#: nano.c:652
 msgid "Use alternate keypad routines"
 msgstr "Вживати альтернативн╕ п╕дпрограми для keypad"
 
-#: nano.c:650
+#: nano.c:654
 msgid "Write file in Mac format"
 msgstr "Запис файлу у формат╕ Mac"
 
-#: nano.c:651
+#: nano.c:655
 msgid "Don't convert files from DOS/Mac format"
 msgstr "Нема перетворювання ╕з DOS/Mac формату"
 
-#: nano.c:654
+#: nano.c:658
 msgid "-Q [str]"
 msgstr "-Q [рядок]"
 
-#: nano.c:654
+#: nano.c:658
 msgid "--quotestr=[str]"
 msgstr "--quotestr=[рядок]"
 
-#: nano.c:654
+#: nano.c:658
 msgid "Quoting string, default \"> \""
 msgstr "Рядок посилання, по замовченню \"> \""
 
-#: nano.c:657
+#: nano.c:661
 msgid "Do regular expression searches"
 msgstr "Пошук по формальному виразу (regexp)"
 
-#: nano.c:662
+#: nano.c:666
 msgid "-T [num]"
 msgstr "-T [чис]"
 
-#: nano.c:662
+#: nano.c:666
 msgid "--tabsize=[num]"
 msgstr "--tabsize=[чис]"
 
-#: nano.c:662
+#: nano.c:666
 msgid "Set width of a tab to num"
 msgstr "Встановити розм╕р табуляц╕╖ =чис"
 
-#: nano.c:663
+#: nano.c:667
 msgid "Print version information and exit"
 msgstr "Показати верс╕ю та вийти"
 
-#: nano.c:665
+#: nano.c:669
 msgid "-Y [str]"
 msgstr "-Y [рядок]"
 
-#: nano.c:665
+#: nano.c:669
 msgid "--syntax [str]"
 msgstr "--syntax [рядок]"
 
-#: nano.c:665
+#: nano.c:669
 msgid "Syntax definition to use"
 msgstr "Визначення синтаксису до використання"
 
-#: nano.c:667
+#: nano.c:671
 msgid "Constantly show cursor position"
 msgstr "Пост╕йно показувати позиц╕ю курсора"
 
-#: nano.c:669
+#: nano.c:673
 msgid "Automatically indent new lines"
 msgstr "Автоматично вир╕внювати нов╕ рядки"
 
-#: nano.c:670
+#: nano.c:674
 msgid "Let ^K cut from cursor to end of line"
 msgstr "Дозволити ^K вир╕зати в╕д курсора до к╕нця рядка"
 
-#: nano.c:672
+#: nano.c:676
 msgid "Don't follow symbolic links, overwrite"
 msgstr "Не йти за с╕мл╕нками, але переписувати"
 
-#: nano.c:674
+#: nano.c:678
 msgid "Enable mouse"
 msgstr "Дозволити мишу"
 
-#: nano.c:677
+#: nano.c:681
 msgid "-o [dir]"
 msgstr "-o [дир]"
 
-#: nano.c:677
+#: nano.c:681
 msgid "--operatingdir=[dir]"
 msgstr "--operatingdir=[дир]"
 
-#: nano.c:677
+#: nano.c:681
 msgid "Set operating directory"
 msgstr "Встановити робочий каталог"
 
-#: nano.c:679
+#: nano.c:683
 msgid "Preserve XON (^Q) and XOFF (^S) keys"
 msgstr "Зберегти клав╕ши XON (^Q) та XOFF (^S)"
 
-#: nano.c:681
+#: nano.c:685
 msgid "-r [#cols]"
 msgstr "-r [#стовп]"
 
-#: nano.c:681
+#: nano.c:685
 msgid "--fill=[#cols]"
 msgstr "--fill=[#стовп]"
 
-#: nano.c:681
+#: nano.c:685
 msgid "Set fill cols to (wrap lines at) #cols"
 msgstr "Встановити загортання рядк╕в в позиц╕╖ #стовп"
 
-#: nano.c:684
+#: nano.c:688
 msgid "-s [prog]"
 msgstr "-s [прог]"
 
-#: nano.c:684
+#: nano.c:688
 msgid "--speller=[prog]"
 msgstr "--speller=[прог]"
 
-#: nano.c:684
+#: nano.c:688
 msgid "Enable alternate speller"
 msgstr "Альтернативна програма перев╕рки правопису"
 
-#: nano.c:686
+#: nano.c:690
 msgid "Auto save on exit, don't prompt"
 msgstr "АвтоЗапис при виход╕, без запитань"
 
-#: nano.c:687
+#: nano.c:691
 msgid "View (read only) mode"
 msgstr "Режим переглядання (т╕льки читання)"
 
-#: nano.c:689
+#: nano.c:693
 msgid "Don't wrap long lines"
 msgstr "Не загортати довг╕ рядки"
 
-#: nano.c:691
+#: nano.c:695
 msgid "Don't show help window"
 msgstr "Не показувати в╕кно допомоги"
 
-#: nano.c:692
+#: nano.c:696
 msgid "Enable suspend"
 msgstr "Дозволити призупинку"
 
-#: nano.c:695
+#: nano.c:699
 msgid "(ignored, for Pico compatibility)"
 msgstr "(╕гноровано, для сум╕сност╕ ╕з Pico)"
 
-#: nano.c:702
+#: nano.c:706
 #, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
 msgstr " GNU nano верс╕╖ %s (з╕бране %s, %s)\n"
 
-#: nano.c:705
+#: nano.c:709
 #, c-format
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
 msgstr " Е-пошта: nano@nano-editor.org\tТенета: http://www.nano-editor.org"
 
-#: nano.c:706
+#: nano.c:710
 #, c-format
 msgid ""
 "\n"
@@ -1200,144 +1200,120 @@ msgstr ""
 "\n"
 " З╕брано з опц╕ями:"
 
-#: nano.c:778
+#: nano.c:782
 msgid "Sorry, support for this function has been disabled"
 msgstr "Вибачте, п╕дтримка ц╕╓╖ функц╕╖ було заборонено"
 
-#: nano.c:812
+#: nano.c:816
 msgid "Could not pipe"
 msgstr "Не можу працювати ╕з каналом (pipe)"
 
-#: nano.c:834 nano.c:1784 nano.c:1917
+#: nano.c:838 nano.c:1788 nano.c:1921
 msgid "Could not fork"
 msgstr "Не можу зробити fork()"
 
-#: nano.c:1371
+#: nano.c:1375
 msgid "Mark Set"
 msgstr "М╕тку встановлено"
 
-#: nano.c:1376
+#: nano.c:1380
 msgid "Mark UNset"
 msgstr "М╕тку знято"
 
-#: nano.c:1639
+#: nano.c:1643
 msgid "Edit a replacement"
 msgstr "Редагувати зам╕ну"
 
-#: nano.c:1692
+#: nano.c:1696
 msgid "Could not create pipe"
 msgstr "Не можу створити канал (pipe)"
 
-#: nano.c:1694
+#: nano.c:1698
 msgid "Creating misspelled word list, please wait..."
 msgstr "Створюю перел╕к орфограф╕чних помилок, зажд╕ть б-ласка..."
 
-#: nano.c:1790
+#: nano.c:1794
 msgid "Could not get size of pipe buffer"
 msgstr "Не можу отримати розм╕р буферу каналу"
 
-#: nano.c:1842
+#: nano.c:1846
 msgid "Error invoking \"spell\""
 msgstr "Помилка виконання \"spell\""
 
-#: nano.c:1845
+#: nano.c:1849
 msgid "Error invoking \"sort -f\""
 msgstr "Помилка виконання \"sort -f\""
 
-#: nano.c:1848
+#: nano.c:1852
 msgid "Error invoking \"uniq\""
 msgstr "Помилка виконання \"uniq\""
 
-#: nano.c:1924
+#: nano.c:1928
 #, c-format
 msgid "Could not invoke \"%s\""
 msgstr "Не можу виконати \"%s\""
 
-#: nano.c:1967
+#: nano.c:1971
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Не можу створити тимчасову назву для файлу: %s"
 
-#: nano.c:1973
+#: nano.c:1977
 msgid "Spell checking failed: unable to write temp file!"
 msgstr "Перев╕рка орфограф╕╖ не вдалася: неможливо записати тимчасовий файл!"
 
-#: nano.c:1992
+#: nano.c:1996
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Перев╕рка орфограф╕╖ не вдалася: %s"
 
-#: nano.c:1996
+#: nano.c:2000
 msgid "Finished checking spelling"
 msgstr "Перев╕рку орфограф╕╖ завершено"
 
-#: nano.c:2339
+#: nano.c:2343
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Поганий рядок цитування %s: %s"
 
-#: nano.c:2606
+#: nano.c:2610
 msgid "Can now UnJustify!"
 msgstr "Можу зараз же СкасВир╕внювання!"
 
-#: nano.c:2702
+#: nano.c:2706
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Зберегти зм╕нений буфер (В╕дпов╕дь \"Н╕\" СКАСУ╢ ВС╤ ЗМ╤НИ) ? "
 
-#: nano.c:2802
+#: nano.c:2806
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "Прийнято SIGHUP або SIGTERM\n"
 
-#: nano.c:2809
+#: nano.c:2813
 msgid "Use \"fg\" to return to nano"
 msgstr "Користуйтеся командою \"fg\" для того, щоб повернутися до nano"
 
-#: nano.c:2888
-msgid "Cannot resize top win"
-msgstr "Не можу зм╕нити розм╕р верхнього в╕кна"
-
-#: nano.c:2890
-msgid "Cannot move top win"
-msgstr "Не можу перем╕стити верхнього в╕кно"
-
-#: nano.c:2892
-msgid "Cannot resize edit win"
-msgstr "Не можу зм╕нити розм╕р в╕кна редагування"
-
-#: nano.c:2894
-msgid "Cannot move edit win"
-msgstr "Не можу перем╕стити в╕кно редагування"
-
-#: nano.c:2896
-msgid "Cannot resize bottom win"
-msgstr "Не можу зм╕нити розм╕р нижнього в╕кна"
-
-#: nano.c:2898
-msgid "Cannot move bottom win"
-msgstr "Не можу перем╕стити нижн╓ в╕кно"
-
-#: nano.c:2931
+#: nano.c:2941
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr "пом╕чено глюк NumLock'а. Додаткова клав╕атура може не працювати"
 
-#: nano.c:2980
+#: nano.c:2990
 msgid "enabled"
 msgstr "дозволено"
 
-#: nano.c:2980
+#: nano.c:2990
 msgid "disabled"
 msgstr "заборонено"
 
-#: nano.c:3176
+#: nano.c:3186
 #, c-format
 msgid "Tab size is too small for nano...\n"
 msgstr "Розм╕р табуляц╕╖ замалий для nano...\n"
 
-#: nano.c:3727
+#: nano.c:3745
 msgid "XOFF ignored, mumble mumble."
 msgstr "XOFF игноровано, прим-п╕м-п╕м"
 
-#: nano.c:3729
+#: nano.c:3747
 msgid "XON ignored, mumble mumble."
 msgstr "XON игноровано, мур-мур-мур"
 
@@ -1499,23 +1475,23 @@ msgstr[0] "Зам╕нено %d входження"
 msgstr[1] "Зам╕нен╕ %d входження"
 msgstr[2] "Зам╕нено %d входжень"
 
-#: search.c:825
+#: search.c:829
 msgid "Enter line number"
 msgstr "Введ╕ть номер рядка"
 
-#: search.c:829
+#: search.c:833
 msgid "Aborted"
 msgstr "Прервано"
 
-#: search.c:839
+#: search.c:843
 msgid "Come on, be reasonable"
 msgstr "Гей, будьте автотентичн╕"
 
-#: search.c:899
+#: search.c:903
 msgid "Not a bracket"
 msgstr "Не дужка"
 
-#: search.c:950
+#: search.c:954
 msgid "No matching bracket"
 msgstr "Нема в╕дпов╕дно╖ дужки"
 
@@ -1611,6 +1587,24 @@ msgstr "та ╕ншим кого ми забули..."
 #: winio.c:1845
 msgid "Thank you for using nano!\n"
 msgstr "Дяку╓мо Вам за те, що обрали nano!\n"
+
+#~ msgid "Cannot resize top win"
+#~ msgstr "Не можу зм╕нити розм╕р верхнього в╕кна"
+
+#~ msgid "Cannot move top win"
+#~ msgstr "Не можу перем╕стити верхнього в╕кно"
+
+#~ msgid "Cannot resize edit win"
+#~ msgstr "Не можу зм╕нити розм╕р в╕кна редагування"
+
+#~ msgid "Cannot move edit win"
+#~ msgstr "Не можу перем╕стити в╕кно редагування"
+
+#~ msgid "Cannot resize bottom win"
+#~ msgstr "Не можу зм╕нити розм╕р нижнього в╕кна"
+
+#~ msgid "Cannot move bottom win"
+#~ msgstr "Не можу перем╕стити нижн╓ в╕кно"
 
 #~ msgid "add_to_cutbuffer() called with inptr->data = %s\n"
 #~ msgstr "add_to_cutbuffer() викликано з inptr->data = %s\n"

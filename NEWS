@@ -1,3 +1,11 @@
+2004.06.27 - GNU nano 1.2.4 is finally here!  This release contains 
+		fixes for the lack of error reporting when opening 
+		a file, segfaults when backgrounding nano at start,
+		file truncation when resizing the editor window,
+		and memory corruption in the status bar routines.   Also 
+		included are translation updates and a port to the 
+		Tandem NonStop kernel.
+
 2004.02.17 - GNU nano 1.2.3 "priority interrupt" is released.  This 
 		release includes many fixes, including converting file
 		formats, the suspend handler, and the ever popular
