@@ -24,6 +24,10 @@ CVS Code -
 	- Revamp -H option message to fit in 80 column terminal.
   window_init()
 	- Fix leaking *WINDOWs (no pun intended) (David Benbennick).
+- search.c:
+  do_replace_loop()
+	- Fix various bugs having to do with replace string length
+	  and positioning (David Benbennick).
 - winio.c:
   bottombars()
 	- Change strcpy of gettext() "Up" string to strncpy of max

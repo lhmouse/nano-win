@@ -597,6 +597,9 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 	}
 
 	if (*i > 0 || replaceall) {	/* Yes, replace it!!!! */
+	    long length_change;
+	    size_t match_len;
+
 	    if (*i == 2)
 		replaceall = 1;
 
@@ -607,38 +610,43 @@ int do_replace_loop(const char *prevanswer, const filestruct *begin,
 		return 0;
 	    }
 
+	    length_change = strlen(copy) - strlen(current->data);
+
+#ifdef HAVE_REGEX_H
+	    if (ISSET(USE_REGEXP))
+		match_len = regmatches[0].rm_eo - regmatches[0].rm_so;
+	    else
+#endif
+		match_len = strlen(prevanswer);
+
+#ifndef NANO_SMALL
+	    if (current == mark_beginbuf && mark_beginx > current_x) {
+		if (mark_beginx < current_x + match_len)
+		    mark_beginx = current_x;
+		else
+		    mark_beginx += length_change;
+	    }
+#endif
+
+	    assert(0 <= match_len + length_change);
+	    if (current == begin && current_x <= *beginx) {
+		if (*beginx < current_x + match_len)
+		    *beginx = current_x + match_len;
+		*beginx += length_change;
+	    }
+
+	    /* Set the cursor at the last character of the replacement
+	     * text, so searching will resume after the replacement text.
+	     * Note that current_x might be set to -1 here. */
+#ifndef NANO_SMALL
+	    if (!ISSET(REVERSE_SEARCH))
+#endif
+		current_x += match_len + length_change - 1;
+
 	    /* Cleanup */
-	    totsize -= strlen(current->data);
+	    totsize += length_change;
 	    free(current->data);
 	    current->data = copy;
-	    totsize += strlen(current->data);
-
-	    if (!ISSET(REVERSE_SEARCH)) {
-		/* Stop bug where we replace a substring of the
-		   replacement text */
-		current_x += strlen(last_replace) - 1;
-
-		/* Adjust the original cursor position - COULD BE IMPROVED */
-		if (search_last_line) {
-		    *beginx += strlen(last_replace) - strlen(last_search);
-
-		    /* For strings that cross the search start/end boundary */
-
-		    /* Don't go outside of allocated memory */
-		    if (*beginx < 1)
-			*beginx = 1;
-		}
-	    } else {
-		if (current_x > 1)
-		    current_x--;
-
-		if (search_last_line) {
-		    *beginx += strlen(last_replace) - strlen(last_search);
-
-		    if (*beginx > strlen(current->data))
-			*beginx = strlen(current->data);
-		}
-	    }
 
 	    edit_refresh();
 	    set_modified();
