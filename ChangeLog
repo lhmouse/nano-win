@@ -150,6 +150,8 @@ CVS code -
 	  afterwards.  This is the same behavior we would get if we
 	  opened the file, added all of it to the cutbuffer, closed the
 	  file, and uncut at the current cursor position. (DLR)
+	- Maintain current_y's value when inserting so that smooth
+	  scrolling works correctly. (DLR)
   do_writeout()
 	- Restructure if blocks for greater efficiency, using
 	  do_insertfile() as a model. (DLR)
