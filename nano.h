@@ -318,7 +318,7 @@ know what you're doing */
 #define WRITEFILE_LIST_LEN (3 - NO_BROWSER)
 #define INSERTFILE_LIST_LEN (2 - NO_BROWSER)
 #define BROWSER_LIST_LEN 4
-#define MAIN_LIST_LEN 27
+#define MAIN_LIST_LEN (27 - NO_REGEX)
 #define MAIN_VISIBLE 12
 #define REPLACE_LIST_2_LEN 3
 #define GOTO_LIST_LEN 3

@@ -248,8 +248,10 @@ void shortcut_init(int unjustify)
 
 #ifndef NANO_SMALL
     char *nano_tofiles_msg = "", *nano_gotodir_msg = "", *nano_case_msg =
-	"", *nano_reverse_msg = "", *nano_regexp_msg = "",
-	*nano_bracket_msg = "";
+	"", *nano_reverse_msg = "";
+#ifdef HAVE_REGEX_H
+    char *nano_regexp_msg = "", *nano_bracket_msg = "";
+#endif
 
     nano_help_msg = _("Invoke the help menu");
     nano_writeout_msg = _("Write the current file to disk");
@@ -294,8 +296,10 @@ void shortcut_init(int unjustify)
     nano_cancel_msg = _("Cancel the current function");
     nano_append_msg = _("Append to the current file");
     nano_reverse_msg = _("Search backwards");
+#ifdef HAVE_REGEX_H
     nano_regexp_msg = _("Use Regular expressions");
     nano_bracket_msg = _("Find other bracket");
+#endif
 #endif
 
 	sc_init_one(&main_list[0], NANO_HELP_KEY, _("Get Help"),

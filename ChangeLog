@@ -22,7 +22,8 @@ CVS code -
 	- Bracket (brace, parens, etc) matching code by Ken Tyler.  
 	  New functions do_find_bracket(), changes to findnextstr(),
 	  command is Meta-] (hope you dont mind since I already sold off
-	  Meta-O to the MacOS file code Ken...)
+	  Meta-O to the MacOS file code Ken...) Fixes to bracket_msg
+	  by DLR.
 - files.c:
   do_writeout()
 	- Expanded strings to not use %s and ?: to determine
