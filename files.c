@@ -506,7 +506,7 @@ int write_file(char *name, int tmp, int append, int nonamechange)
 		  mask, realname, strerror(errno));
 
     if (!tmp) {
-	if (nonamechange)
+	if (!nonamechange)
 	    filename = mallocstrcpy(filename, realname);
 
 	statusbar(_("Wrote %d lines"), lineswritten);
