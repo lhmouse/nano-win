@@ -1,7 +1,7 @@
 CVS code -
 General
 	- Added --disable-help option, affects acconfig.h, configure(.in),
-	  winio.c:do_help, nano.c:help_init,help_text_init.
+	  winio.c:do_help, nano.c:help_init,help_text_init,version.
 	- Changed filename to no longer use PATH_MAX, so it can work on the
 	  HURD.  Changes in files.c:write_file(), new function
 	  nano.c:clear_filename(), many changed in main(), a few other

@@ -453,6 +453,9 @@ void version(void)
 #ifdef DISABLE_SPELLER
     printf(" --disable-speller");
 #endif
+#ifdef DISABLE_HELP
+    printf(" --disable-help");
+#endif
 #ifdef USE_SLANG
     printf(" --with-slang");
 #endif
