@@ -272,14 +272,17 @@ int mb_cur_max(void)
 }
 
 /* Convert the value in chr to a multibyte character with the same
- * wide character value as chr.  Return the multibyte character and its
- * length. */
-char *make_mbchar(int chr, char *chr_mb, int *chr_mb_len)
+ * wide character value as chr.  Return the (dynamically allocated)
+ * multibyte character and its length. */
+char *make_mbchar(int chr, int *chr_mb_len)
 {
     assert(chr_mb != NULL && chr_mb_len != NULL);
 
+    char *chr_mb;
+
 #ifdef NANO_WIDE
     if (!ISSET(NO_UTF8)) {
+	chr_mb = charalloc(MB_CUR_MAX);
 	*chr_mb_len = wctomb(chr_mb, chr);
 
 	if (*chr_mb_len <= 0) {
@@ -289,6 +292,7 @@ char *make_mbchar(int chr, char *chr_mb, int *chr_mb_len)
     } else {
 #endif
 	*chr_mb_len = 1;
+	chr_mb = charalloc(1);	
 	chr_mb[0] = (char)chr;
 #ifdef NANO_WIDE
     }
@@ -299,18 +303,20 @@ char *make_mbchar(int chr, char *chr_mb, int *chr_mb_len)
 
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 /* Convert the string str to a valid multibyte string with the same wide
- * character values as str.  Return the multibyte string. */
-char *make_mbstring(char *str, char *str_mb)
+ * character values as str.  Return the (dynamically allocated)
+ * multibyte string. */
+char *make_mbstring(char *str)
 {
-    assert(str != NULL && str_mb != NULL);
+    assert(str != NULL);
+
+    char *str_mb;
 
 #ifdef NANO_WIDE
     if (!ISSET(NO_UTF8)) {
 	char *chr_mb = charalloc(MB_CUR_MAX);
 	int chr_mb_len;
-	size_t str_mb_len = 0;
-
 	str_mb = charalloc((MB_CUR_MAX * strlen(str)) + 1);
+	size_t str_mb_len = 0;
 
 	while (*str != '\0') {
 	    bool bad_char;
@@ -319,11 +325,11 @@ char *make_mbstring(char *str, char *str_mb)
 	    chr_mb_len = parse_mbchar(str, chr_mb, &bad_char, NULL);
 
 	    if (bad_char) {
-		char *bad_chr_mb = charalloc(MB_CUR_MAX);
+		char *bad_chr_mb;
 		int bad_chr_mb_len;
 
 		bad_chr_mb = make_mbchar((unsigned char)chr_mb[0],
-		    bad_chr_mb, &bad_chr_mb_len);
+		    &bad_chr_mb_len);
 
 		for (i = 0; i < bad_chr_mb_len; i++)
 		    str_mb[str_mb_len + i] = bad_chr_mb[i];

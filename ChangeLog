@@ -182,10 +182,11 @@ CVS code -
 	  break_line(), do_para_search() (renamed find_paragraph()), and
 	  do_justify(); removal of breakable(). (DLR)
 	- Still more steps toward full wide/multibyte character support.
-	  Make whitespace display mode work with multibyte characters,
+	  Make sure all rcfile arguments are valid multibyte strings,
+	  make whitespace display mode work with multibyte characters,
 	  and add a few related documentation updates.  New function
-	  make_mbstring(); changes to do_help(), main(), parse_rcfile(),
-	  and display_string(). (DLR)
+	  make_mbstring(); changes to make_mbchar(), make_mbstring(),
+	  do_help(), main(), parse_rcfile(), and display_string(). (DLR)
 - cut.c:
   do_cut_text()
 	- If keep_cutbuffer is FALSE, only blow away the text in the

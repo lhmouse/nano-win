@@ -546,7 +546,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 				);
 
 			if (byte != ERR) {
-			    char *byte_mb = charalloc(mb_cur_max());
+			    char *byte_mb;
 			    int byte_mb_len, *seq, i;
 
 			    /* If we've read in a complete byte
@@ -558,8 +558,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 
 			    /* Put back the multibyte equivalent of the
 			     * byte value. */
-			    byte_mb = make_mbchar(byte, byte_mb,
-				&byte_mb_len);
+			    byte_mb = make_mbchar(byte, &byte_mb_len);
 
 			    seq = (int *)nmalloc(byte_mb_len *
 				sizeof(int));
@@ -1424,7 +1423,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     /* Otherwise, read in keystrokes until we have a complete word
      * sequence, and put back the corresponding word value. */
     else {
-	char *word_mb = charalloc(mb_cur_max());
+	char *word_mb;
 	int word_mb_len, *seq, i;
 
 	while (word == ERR) {
@@ -1438,7 +1437,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 	}
 
 	/* Put back the multibyte equivalent of the word value. */
-	word_mb = make_mbchar(word, word_mb, &word_mb_len);
+	word_mb = make_mbchar(word, &word_mb_len);
 
 	seq = (int *)nmalloc(word_mb_len * sizeof(int));
 
@@ -2331,11 +2330,11 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	     * character, interpret that character as though it's a
 	     * normal non-control character. */
 	    if (!ISSET(NO_UTF8) && bad_char) {
-		char *bad_buf_mb = charalloc(mb_cur_max());
+		char *bad_buf_mb;
 		int bad_buf_mb_len;
 
 		bad_buf_mb = make_mbchar((unsigned char)*buf_mb,
-			bad_buf_mb, &bad_buf_mb_len);
+			&bad_buf_mb_len);
 
 		for (i = 0; i < bad_buf_mb_len; i++)
 		    converted[index++] = bad_buf_mb[i];

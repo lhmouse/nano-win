@@ -561,12 +561,13 @@ void parse_rcfile(FILE *rcstream)
 			if (*option == '"')
 			    option++;
 			ptr = parse_argument(ptr);
+			option = make_mbstring(option);
 #ifdef DEBUG
 			fprintf(stderr, "option = \"%s\"\n", option);
 #endif
 #ifndef DISABLE_OPERATINGDIR
 			if (strcasecmp(rcopts[i].name, "operatingdir") == 0)
-			    operating_dir = mallocstrcpy(NULL, option);
+			    operating_dir = option;
 			else
 #endif
 #ifndef DISABLE_WRAPJUSTIFY
@@ -576,12 +577,13 @@ void parse_rcfile(FILE *rcstream)
 					N_("Requested fill size %s invalid"),
 					option);
 				wrap_at = -CHARS_FROM_EOL;
-			    }
+			    } else
+				free(option);
 			} else
 #endif
 #ifndef NANO_SMALL
 			if (strcasecmp(rcopts[i].name, "whitespace") == 0) {
-			    whitespace = make_mbstring(option, whitespace);
+			    whitespace = option;
 			    if (mbstrlen(whitespace) != 2 || strlenpt(whitespace) != 2) {
 				rcfile_error(
 					N_("Two single-column characters required"));
@@ -600,7 +602,7 @@ void parse_rcfile(FILE *rcstream)
 #endif
 #ifndef DISABLE_JUSTIFY
 			if (strcasecmp(rcopts[i].name, "punct") == 0) {
-			    punct = mallocstrcpy(NULL, option);
+			    punct = option;
 			    if (strchr(punct, '\t') != NULL ||
 				strchr(punct, ' ') != NULL) {
 				rcfile_error(
@@ -610,7 +612,7 @@ void parse_rcfile(FILE *rcstream)
 			    }
 			} else if (strcasecmp(rcopts[i].name,
 				"brackets") == 0) {
-			    brackets = mallocstrcpy(NULL, option);
+			    brackets = option;
 			    if (strchr(brackets, '\t') != NULL ||
 				strchr(brackets, ' ') != NULL) {
 				rcfile_error(
@@ -620,18 +622,18 @@ void parse_rcfile(FILE *rcstream)
 			    }
 			} else if (strcasecmp(rcopts[i].name,
 				"quotestr") == 0)
-			    quotestr = mallocstrcpy(NULL, option);
+			    quotestr = option;
 			else
 #endif
 #ifndef NANO_SMALL
 			if (strcasecmp(rcopts[i].name,
 				"backupdir") == 0)
-			    backup_dir = mallocstrcpy(NULL, option);
+			    backup_dir = option;
 			else
 #endif
 #ifndef DISABLE_SPELLER
 			if (strcasecmp(rcopts[i].name, "speller") == 0)
-			    alt_speller = mallocstrcpy(NULL, option);
+			    alt_speller = option;
 			else
 #endif
 			if (strcasecmp(rcopts[i].name,
@@ -642,7 +644,8 @@ void parse_rcfile(FILE *rcstream)
 					N_("Requested tab size %s invalid"),
 					option);
 				tabsize = -1;
-			    }
+			    } else
+				free(option);
 			} else
 			    assert(FALSE);
 		    }
