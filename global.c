@@ -194,7 +194,7 @@ void shortcut_init(int unjustify)
 	"", *nano_backspace_msg = "", *nano_tab_msg =
 	"", *nano_enter_msg = "", *nano_case_msg =
 	"", *nano_cancel_msg = "", *nano_unjustify_msg = 
-	"", *nano_append_msg = "";
+	"", *nano_append_msg = "", *nano_reverse_msg = "";
 
 #ifndef NANO_SMALL
     char *nano_tofiles_msg = "";
@@ -236,6 +236,7 @@ void shortcut_init(int unjustify)
     nano_gotodir_msg = _("Goto Directory");
     nano_cancel_msg = _("Cancel the current function");
     nano_append_msg = _("Append to the current file");
+    nano_reverse_msg = _("Search Backwards");
 #endif
 
 	sc_init_one(&main_list[0], NANO_HELP_KEY, _("Get Help"),
@@ -369,9 +370,11 @@ void shortcut_init(int unjustify)
 		_("Goto Line"), nano_goto_msg, 0, 0, 0, VIEW,
 		do_gotoline_void);
 
-    sc_init_one(&whereis_list[5], NANO_CANCEL_KEY, _("Cancel"),
-		nano_cancel_msg, 0, 0, 0, VIEW, 0);
+    sc_init_one(&whereis_list[5], NANO_REVERSESEARCH_KEY, _("Backward"),
+		nano_reverse_msg, 0, 0, 0, VIEW, 0);
 
+    sc_init_one(&whereis_list[6], NANO_CANCEL_KEY, _("Cancel"),
+		nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
     sc_init_one(&replace_list[0], NANO_FIRSTLINE_KEY, _("First Line"),
 		nano_firstline_msg, 0, 0, 0, VIEW, do_first_line);
@@ -389,9 +392,11 @@ void shortcut_init(int unjustify)
 		_("Goto Line"), nano_goto_msg, 0, 0, 0, VIEW,
 		do_gotoline_void);
 
-    sc_init_one(&replace_list[5], NANO_CANCEL_KEY, _("Cancel"),
-		nano_cancel_msg, 0, 0, 0, VIEW, 0);
+    sc_init_one(&replace_list[5], NANO_REVERSESEARCH_KEY, _("Backward"),
+		nano_reverse_msg, 0, 0, 0, VIEW, 0);
 
+    sc_init_one(&replace_list[6], NANO_CANCEL_KEY, _("Cancel"),
+		nano_cancel_msg, 0, 0, 0, VIEW, 0);
 
 
     sc_init_one(&replace_list_2[0], NANO_FIRSTLINE_KEY, _("First Line"),

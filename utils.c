@@ -47,6 +47,31 @@ void lowercase(char *src)
     }
 }
 
+char *revstrstr(char *haystack, char *needle, char *rev_start)
+{
+    char *p, *q, *r;
+
+    for(p = rev_start ; p >= haystack ; --p) {
+	for (r = p, q = needle ; (*q == *r) && (*q != '\0') ; r++, q++)
+	    ;
+	if (*q == '\0')
+	    return p;
+    }
+    return 0;
+}
+
+char *revstrcasestr(char *haystack, char *needle, char *rev_start)
+{
+    char *p, *q, *r;
+
+    for(p = rev_start ; p >= haystack ; --p) {
+	for (r = p, q = needle ; (tolower(*q) == tolower(*r)) && (*q != '\0') ; r++, q++)
+	    ;
+	if (*q == '\0')
+	    return p;
+    }
+    return 0;
+}
 
 /* This is now mutt's version (called mutt_stristr) because it doesn't
    use memory allocation to do a simple search (yuck). */
@@ -59,31 +84,55 @@ char *strcasestr(char *haystack, char *needle)
     if (!needle)  
 	return (haystack);
     
-    while (*(p = haystack))
-    {
+    while (*(p = haystack)) {
 	for (q = needle; *p && *q && tolower (*p) == tolower (*q); p++, q++)
 	    ;
 	if (!*q)
 	    return (haystack);
-        haystack++;
+	haystack++;
     }
     return NULL;
 }
 
-char *strstrwrapper(char *haystack, char *needle)
+char *strstrwrapper(char *haystack, char *needle, char *rev_start)
 {
+
 #ifdef HAVE_REGEX_H
+
+    int  result;
+    char *i, *j;
+
     if (ISSET(USE_REGEXP)) {
-	int result = regexec(&search_regexp, haystack, 10, regmatches, 0);
-	if (!result)
-	    return haystack + regmatches[0].rm_so;
+	if (!ISSET(REVERSE_SEARCH)) {
+	    result = regexec(&search_regexp, haystack, 10, regmatches, 0);
+	    if (!result)
+		return haystack + regmatches[0].rm_so;
+	} else {
+	    /* do quick check first */
+	    if (!(regexec(&search_regexp, haystack, 10, regmatches, 0))) {
+		/* there is a match */
+		for(i = rev_start ; i >= haystack ; --i)
+		    if (!(result = regexec(&search_regexp, i, 10, regmatches, 0))) {
+			j = i + regmatches[0].rm_so;
+			if (j <= rev_start)
+			    return j;
+		    }
+	    }
+	}
 	return 0;
     }
 #endif
-    if (ISSET(CASE_SENSITIVE))
-	return strstr(haystack, needle);
-    else
-	return strcasestr(haystack, needle);
+    if (ISSET(CASE_SENSITIVE)) {
+	if (!ISSET(REVERSE_SEARCH))
+	    return strstr(haystack,needle);
+        else
+	    return revstrstr(haystack, needle, rev_start);
+    } else {
+	if (!ISSET(REVERSE_SEARCH))
+	    return strcasestr(haystack, needle);
+	else
+	    return revstrcasestr(haystack, needle, rev_start);
+    }
 }
 
 /* Thanks BG, many ppl have been asking for this... */

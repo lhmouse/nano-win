@@ -35,6 +35,11 @@ Cvs code -
 	  insert and write routines can't share shortcut lists anymore), 
 	  new args to do_writeout and write_file called append, and of source
 	  code changes to those functions.
+	- Allow backwards searching.  Drastic rewrite of the search prompt
+	  string by Chris.  All other code by Ken Tyler.  New globals
+	  nano_reverse_msg, new functions revstrstr and revstrcasestr,
+	  many changes to search functions.  Not too big a code size
+	  increase!
 - configure.in:
 	- New option, --enable-nanorc, which allows people to have a .nanorc
 	  initialization file and set options normally used on the command

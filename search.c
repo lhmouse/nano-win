@@ -74,7 +74,7 @@ int search_init(int replacing)
 {
     int i = 0;
     char *buf;
-    char *prompt, *reprompt = "";
+    char *prompt;
     static char *backupstring = NULL;
 
     search_init_globals();
@@ -114,22 +114,21 @@ int search_init(int replacing)
     else
 	strcpy(buf, "");
 
-    if (ISSET(USE_REGEXP) && ISSET(CASE_SENSITIVE))
-	prompt = _("Case Sensitive Regexp Search%s%s");
-    else if (ISSET(USE_REGEXP))
-	prompt = _("Regexp Search%s%s");
-    else if (ISSET(CASE_SENSITIVE))
-	prompt = _("Case Sensitive Search%s%s");
-    else
-	prompt = _("Search%s%s");
-
-    if (replacing)
-	reprompt = _(" (to replace)");
+     /* Instead of having a million if statements here to determine
+	the prompt, we instead just have a hundred "? :" calls in
+	the statusq call.  I hope no one ever has to modify this :-) */
+    prompt = "%s%s%s%s%s%s";
 
     /* This is now one simple call.  It just does a lot */
     i = statusq(0, replacing ? replace_list : whereis_list,
 	replacing ? REPLACE_LIST_LEN : WHEREIS_LIST_LEN, backupstring,
-	prompt, reprompt, buf);
+	prompt, 
+	ISSET(CASE_SENSITIVE) ? _("Case Sensitive ") : "",
+	ISSET(USE_REGEXP) ? _("Regexp ") : "",
+	_("Search"),
+	ISSET(REVERSE_SEARCH) ? _(" Backwards") : "",
+	replacing ? _(" (to replace)") : "",
+	buf);
 
     /* Cancel any search, or just return with no previous search */
     if ((i == -1) || (i < 0 && !last_search[0])) {
@@ -173,6 +172,17 @@ int search_init(int replacing)
     } else if (i == NANO_OTHERSEARCH_KEY) {
 	backupstring = mallocstrcpy(backupstring, answer);
 	return -2;		/* Call the opposite search function */
+    } else if (i == NANO_REVERSESEARCH_KEY) {
+	free(backupstring);
+	backupstring = NULL;
+	backupstring = mallocstrcpy(backupstring, answer);
+
+	if (ISSET(REVERSE_SEARCH))
+	    UNSET(REVERSE_SEARCH);
+	else
+	    SET(REVERSE_SEARCH);
+
+	return 1;
     } else if (i == NANO_FROMSEARCHTOGOTO_KEY) {
 	free(backupstring);
 	backupstring = NULL;
@@ -207,68 +217,124 @@ filestruct *findnextstr(int quiet, filestruct * begin, int beginx,
 			char *needle)
 {
     filestruct *fileptr;
-    char *searchstr, *found = NULL, *tmp;
+    char *searchstr, *rev_start = NULL, *found = NULL;
     int past_editbot = 0, current_x_find;
 
     fileptr = current;
 
-    current_x_find = current_x + 1;
+    if (!ISSET(REVERSE_SEARCH)) {		/* forward search */
 
-    /* Are we searching the last line? (i.e. the line where search started) */
-    if ((fileptr == begin) && (current_x_find < beginx))
-	search_last_line = 1;
+	current_x_find = current_x + 1;
 
-    /* Make sure we haven't passed the end of the string */
-    if (strlen(fileptr->data) < current_x_find)
-	current_x_find--;
+	/* Are we now back to the line where the search started) */
+	if ((fileptr == begin) && (current_x_find < beginx))
+	    search_last_line = 1;
 
-    searchstr = &fileptr->data[current_x_find];
+	/* Make sure we haven't passed the end of the string */
+	if (strlen(fileptr->data) < current_x_find)
+	    current_x_find--;
 
-    /* Look for needle in searchstr */
-    while ((found = strstrwrapper(searchstr, needle)) == NULL) {
+	searchstr = &fileptr->data[current_x_find];
 
-	/* finished processing file, get out */
-	if (search_last_line) {
+	/* Look for needle in searchstr */
+	while ((found = strstrwrapper(searchstr, needle, rev_start)) == NULL) {
+
+	    /* finished processing file, get out */
+	    if (search_last_line) {
+		if (!quiet)
+		    not_found_msg(needle);
+	        return NULL;
+	    }
+
+	    fileptr = fileptr->next;
+
+	    if (!past_editbot && (fileptr == editbot))
+		past_editbot = 1;
+
+	    /* EOF reached ?, wrap around once */
+	    if (fileptr == NULL) {
+		fileptr = fileage;
+		past_editbot = 1;
+		if (!quiet)
+		    statusbar(_("Search Wrapped"));
+	    }
+
+	    /* Original start line reached */
+	    if (fileptr == begin)
+		search_last_line = 1;
+
+	    searchstr = fileptr->data;
+	}
+
+	/* We found an instance */
+	current_x_find = found - fileptr->data;
+
+	/* Ensure we haven't wrapped around again! */
+	if ((search_last_line) && (current_x_find >= beginx)) {
 	    if (!quiet)
 		not_found_msg(needle);
 	    return NULL;
 	}
 
-	fileptr = fileptr->next;
+    } else {	/* reverse search */
 
-	if (!past_editbot && (fileptr == editbot))
-	    past_editbot = 1;
+	current_x_find = current_x - 1;
 
-	/* EOF reached, wrap around once */
-	if (fileptr == NULL) {
-	    fileptr = fileage;
-
-	    past_editbot = 1;
-
-	    if (!quiet)
-		statusbar(_("Search Wrapped"));
-	}
-
-	/* Original start line reached */
-	if (fileptr == begin)
+	/* Are we now back to the line where the search started) */
+	if ((fileptr == begin) && (current_x_find > beginx))
 	    search_last_line = 1;
 
+	/* Make sure we haven't passed the begining of the string */
+#if 0	/* Is this required here ? */
+	if (!(&fileptr->data[current_x_find] - fileptr->data))      
+	    current_x_find++;
+#endif
+	rev_start = &fileptr->data[current_x_find];
 	searchstr = fileptr->data;
+
+	/* Look for needle in searchstr */
+	while ((found = strstrwrapper(searchstr, needle, rev_start)) == NULL) {
+
+	    /* finished processing file, get out */
+	    if (search_last_line) {
+		if (!quiet)
+		    not_found_msg(needle);
+		return NULL;
+	    }
+
+	    fileptr = fileptr->prev;
+
+/* ? */	    if (!past_editbot && (fileptr == edittop->prev))
+		past_editbot = 1;
+
+	    /* SOF reached ?, wrap around once */
+/* ? */	    if (fileptr == NULL) {
+		fileptr = filebot;
+		past_editbot = 1;
+		if (!quiet)
+		    statusbar(_("Search Wrapped"));
+	    }
+
+	    /* Original start line reached */
+	    if (fileptr == begin)
+		search_last_line = 1;
+
+	    searchstr = fileptr->data;
+	    rev_start = fileptr->data + strlen(fileptr->data);
+	}
+
+	/* We found an instance */
+	current_x_find = found - fileptr->data;
+
+	/* Ensure we haven't wrapped around again! */
+	if ((search_last_line) && (current_x_find < beginx)) {
+	    if (!quiet)
+		not_found_msg(needle);
+	    return NULL;
+	}
     }
 
-    /* We found an instance */
-    current_x_find = 0;
-    for (tmp = fileptr->data; tmp != found; tmp++)
-	current_x_find++;
-
-    /* Ensure we haven't wrapped around again! */
-    if ((search_last_line) && (current_x_find >= beginx)) {
-	if (!quiet)
-	    not_found_msg(needle);
-	return NULL;
-    }
-
-    /* Set globals, now that we are sure we found something */
+    /* Set globals now that we are sure we found something */
     current = fileptr;
     current_x = current_x_find;
 

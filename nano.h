@@ -123,6 +123,7 @@ typedef struct rcoption {
 #define TEMP_OPT         	(1<<16)
 #define CUT_TO_END         	(1<<17)
 #define DISABLE_CURPOS         	(1<<18)
+#define REVERSE_SEARCH		(1<<19)
 
 /* Control key sequences, changing these would be very very bad */
 
@@ -205,6 +206,7 @@ know what you're doing */
 #define NANO_REPLACE_FKEY	KEY_F(14)
 #define NANO_ALT_REPLACE_KEY	NANO_ALT_R
 #define NANO_OTHERSEARCH_KEY	NANO_CONTROL_R
+#define NANO_REVERSESEARCH_KEY NANO_CONTROL_B
 #define NANO_PREVPAGE_KEY	NANO_CONTROL_Y
 #define NANO_PREVPAGE_FKEY	KEY_F(7)
 #define NANO_NEXTPAGE_KEY	NANO_CONTROL_V
@@ -253,8 +255,8 @@ know what you're doing */
 
 #define MAIN_LIST_LEN 26
 #define MAIN_VISIBLE 12
-#define WHEREIS_LIST_LEN 6
-#define REPLACE_LIST_LEN 6
+#define WHEREIS_LIST_LEN 7
+#define REPLACE_LIST_LEN 7
 #define REPLACE_LIST_2_LEN 3
 #define GOTO_LIST_LEN 3
 #define GOTODIR_LIST_LEN 1
