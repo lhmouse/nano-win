@@ -1553,9 +1553,9 @@ size_t xplustabs(void)
 size_t actual_x(const char *str, size_t xplus)
 {
     size_t i = 0;
-	/* the position in str, returned */
+	/* The position in str, returned. */
     size_t length = 0;
-	/* the screen display width to str[i] */
+	/* The screen display width to str[i]. */
 
     assert(str != NULL);
 
