@@ -143,8 +143,8 @@ Turn on regular expression search and search/replace.
 @item -S, --smooth
 Enable smooth scrolling.
 
-@item -T [num], --tabsize=[num]
-Set the displayed tab length to [num] columns.
+@item -T [num], --tabsize=[#cols]
+Set the displayed tab length to [#cols] columns.
 
 @item -V, --version
 Print the version number and copyright and quit.
