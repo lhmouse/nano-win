@@ -1818,8 +1818,6 @@ int do_justify(void)
 	delete_node(tmpnode);
     }
 
-    totsize -= strlen(current->data);
-
     justify_format(current->data);
 
     slen = strlen(current->data);

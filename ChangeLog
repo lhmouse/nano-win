@@ -57,6 +57,9 @@ General
   die_too_small()
 	- Function to print the window too small error message, avoids
 	  repeated string defs and globals.
+  do_justify()
+	- Small fix for totsize calculation (Rob)
+
 - fi.po:
 	- Update by Pauli Virtanen.
 
