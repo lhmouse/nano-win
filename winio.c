@@ -1333,7 +1333,7 @@ void fix_editbot(void)
 #define CREDIT_LEN 43
 void do_credits(void)
 {
-    int i, j = 0, place = 0, start_x;
+    int i, j = 0, k, place = 0, start_x;
     char *what;
 
     char *nanotext = _("The nano text editor");
@@ -1388,29 +1388,32 @@ void do_credits(void)
     nodelay(edit, TRUE);
     blank_bottombars();
     mvwaddstr(topwin, 0, 0, hblank);
+    blank_edit();
+    wrefresh(edit);
     wrefresh(bottomwin);
     wrefresh(topwin);
 
     while (wgetch(edit) == ERR) {
-	blank_edit();
-	for (i = editwinrows / 2 - 1; i >= (editwinrows / 2 - 1 - j); i--) {
-	    mvwaddstr(edit, i * 2, 0, hblank);
+	for (k = 0; k <= 1; k++) {
+	    blank_edit();
+	    for (i = editwinrows / 2 - 1; i >= (editwinrows / 2 - 1 - j); i--) {
+		mvwaddstr(edit, i * 2 - k, 0, hblank);
 
-	    if (place - (editwinrows / 2 - 1 - i) < CREDIT_LEN)
-		what = credits[place - (editwinrows / 2 - 1 - i)];
-	    else
-		what = "";
+		if (place - (editwinrows / 2 - 1 - i) < CREDIT_LEN)
+		    what = credits[place - (editwinrows / 2 - 1 - i)];
+		else
+		    what = "";
 
-	    start_x = center_x - strlen(what) / 2 - 1;
-	    mvwaddstr(edit, i * 2, start_x, what);
+		start_x = center_x - strlen(what) / 2 - 1;
+		mvwaddstr(edit, i * 2 - k, start_x, what);
+	    }
+	    usleep(700000);
+	    wrefresh(edit);
 	}
-
 	if (j < editwinrows / 2 - 1)
 	    j++;
 
 	place++;
-	wrefresh(edit);
-	sleep(1);
 
 	if (place >= CREDIT_LEN + editwinrows / 2)
 	    break;
