@@ -436,12 +436,15 @@ int nanogetstr(int allowtabs, const char *buf, const char *def,
 
 		/* otherwise, if currentbuf is NULL and use_cb isn't 2, 
 		   it means that we're scrolling down at the bottom of
-		   the search history and the current answer needs to be
-		   saved in currentbuf; do this, blank out answer, and
-		   set use_cb to 2 */
+		   the search history and the current answer (if it's
+		   not blank) needs to be saved in currentbuf; do this,
+		   blank out answer (if necessary), and set use_cb to
+		   2 */
 		} else if (use_cb != 2) {
-		    currentbuf = mallocstrcpy(currentbuf, answer);
-		    answer = mallocstrcpy(answer, "");
+		    if (answer[0] != '\0') {
+			currentbuf = mallocstrcpy(currentbuf, answer);
+			answer = mallocstrcpy(answer, "");
+		    }
 		    xend = 0;
 		    use_cb = 2;
 		}

@@ -25,6 +25,8 @@ CVS code -
 	  added at the bottom of the history (but which was not in the
 	  history) would not be preserved after scrolling down to the
 	  blank bottom entry and then scrolling back up. (DLR)
+	- Fix problem where pressing down,up,down does not blank the
+	  search prompt but keeps the previous search (DLR).
 	- Handle Alt-[-F and H (DLR, fixed home and end not working with
 	  -K in statusbar).  
 - configure.ac:
