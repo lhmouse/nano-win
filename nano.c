@@ -2976,6 +2976,8 @@ int main(int argc, char *argv[])
 	    filename = mallocstrcpy(filename, argv[optind]);
     }
 
+    signal_init();
+
     /* now ncurses init stuff... */
     initscr();
     savetty();
@@ -2990,7 +2992,6 @@ int main(int argc, char *argv[])
     init_help_msg();
     help_init();
 #endif
-    signal_init();
 
 #ifdef DEBUG
     fprintf(stderr, _("Main: set up windows\n"));
