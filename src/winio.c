@@ -1887,12 +1887,16 @@ void do_statusbar_cut_text(void)
 {
     assert(answer != NULL);
 
+#ifndef NANO_SMALL
     if (ISSET(CUT_TO_END))
 	null_at(&answer, statusbar_x);
     else {
+#endif
 	null_at(&answer, 0);
 	statusbar_x = 0;
+#ifndef NANO_SMALL
     }
+#endif
 }
 
 #ifndef NANO_SMALL

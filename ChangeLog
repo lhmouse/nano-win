@@ -4,6 +4,9 @@ CVS code -
 	- After (re)initializing the terminal, make sure the cursor is
 	  always turned on.  Changes to do_alt_speller(),
 	  handle_sigwinch(), and main(). (DLR)
+	- Make sure that all references to cut-to-end are left out when
+	  NANO_SMALL is defined.  Changes to cut_to_eol(),
+	  do_cut_text(), and do_statusbar_cut_text(). (DLR)
 - chars.c:
   make_mbchar()
 	- Remove unneeded assert. (DLR)
@@ -40,8 +43,7 @@ CVS code -
 	  HAVE_GETOPT_LONG isn't defined. (DLR)
   usage()
 	- Fix erroneous #ifdef that resulted in the -d/--rebinddelete
-	  and -k/--cut options' not being printed when NANO_SMALL was
-	  defined. (DLR)
+	  option's not being printed when NANO_SMALL was defined. (DLR)
   find_paragraph()
 	- Fix problem where a search for the next paragraph would skip
 	  over certain cases of one-line paragraphs. (DLR)

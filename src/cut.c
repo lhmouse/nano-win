@@ -63,7 +63,6 @@ void cut_marked(void)
     move_to_filestruct(&cutbuffer, &cutbottom, top, top_x, bot, bot_x);
     placewewant = xplustabs();
 }
-#endif
 
 /* If we're not at the end of the current line, move all the text from
  * the current cursor position to the end of the current line,
@@ -93,6 +92,7 @@ void cut_to_eol(void)
 	placewewant = xplustabs();
     }
 }
+#endif /* !NANO_SMALL */
 
 /* Move text from the current filestruct into the cutbuffer. */
 void do_cut_text(void)
@@ -122,13 +122,12 @@ void do_cut_text(void)
 	 * turn the mark off. */
 	cut_marked();
 	UNSET(MARK_ISSET);
-    } else
-#endif
-    if (ISSET(CUT_TO_END))
+    } else if (ISSET(CUT_TO_END))
 	/* Otherwise, if the CUT_TO_END flag is set, move all text up to
 	 * the end of the line into the cutbuffer. */
 	cut_to_eol();
     else
+#endif
 	/* Otherwise, move the entire line into the cutbuffer. */
 	cut_line();
 
@@ -158,7 +157,7 @@ void do_cut_till_end(void)
     dump_buffer(cutbuffer);
 #endif
 }
-#endif
+#endif /* !NANO_SMALL */
 
 /* Copy text from the cutbuffer into the current filestruct. */
 void do_uncut_text(void)

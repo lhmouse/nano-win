@@ -1005,8 +1005,8 @@ void usage(void)
     print1opt("-d", "--rebinddelete", N_("Fix Backspace/Delete confusion problem"));
 #ifndef NANO_SMALL
     print1opt("-i", "--autoindent", N_("Automatically indent new lines"));
-#endif
     print1opt("-k", "--cut", N_("Cut from cursor to end of line"));
+#endif
     print1opt("-l", "--nofollow", N_("Don't follow symbolic links, overwrite"));
 #ifndef DISABLE_MOUSE
     print1opt("-m", "--mouse", N_("Enable mouse"));

@@ -223,8 +223,8 @@ void cutbuffer_reset(void);
 void cut_line(void);
 #ifndef NANO_SMALL
 void cut_marked(void);
-#endif
 void cut_to_eol(void);
+#endif
 void do_cut_text(void);
 #ifndef NANO_SMALL
 void do_cut_till_end(void);
