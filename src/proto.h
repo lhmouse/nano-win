@@ -245,7 +245,7 @@ int do_left(void);
 int do_right(void);
 
 /* Public functions in nano.c */
-RETSIGTYPE finish(int sigage);
+void finish(void);
 void die(const char *msg, ...);
 void die_save_file(const char *die_filename);
 void die_too_small(void);

@@ -72,8 +72,8 @@ static struct sigaction act;	/* For all our fun signal handlers */
 static sigjmp_buf jmpbuf;	/* Used to return to mainloop after SIGWINCH */
 #endif
 
-/* What we do when we're all set to exit */
-RETSIGTYPE finish(int sigage)
+/* What we do when we're all set to exit. */
+void finish(void)
 {
     if (!ISSET(NO_HELP))
 	blank_bottombars();
@@ -95,7 +95,7 @@ RETSIGTYPE finish(int sigage)
     thanks_for_all_the_fish();
 #endif
 
-    exit(sigage);
+    exit(0);
 }
 
 /* Die (gracefully?) */
@@ -2704,7 +2704,7 @@ int do_exit(void)
 	}
 	else
 #endif
-	    finish(0);
+	    finish();
     }
 
     if (ISSET(TEMP_OPT))
@@ -2726,7 +2726,7 @@ int do_exit(void)
 	    }
 	    else
 #endif
-		finish(0);
+		finish();
 	}
     } else if (i == 0) {
 
@@ -2737,7 +2737,7 @@ int do_exit(void)
 	}
 	else
 #endif
-	    finish(0);
+	    finish();
     } else
 	statusbar(_("Cancelled"));
 

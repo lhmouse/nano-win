@@ -80,9 +80,12 @@ CVS code -
   do_first_line(), do_last_line()
 	- Move these functions here from winio.c. (DLR)
 - nano.c:
-  do_toggle(), finish()
+  finish()
 	- Call blank_statusbar() and blank_bottombars() to blank out
 	  the statusbar and shortcut list in bottomwin. (DLR)
+	- Since all of the calls to finish() use 0 for the value of
+	  sigage, and the return value of finish() is never used, make
+	  it accept and return void. (David Benbennick)
   do_early_abort()
 	- Removed, as it's no longer called anywhere. (David Benbennick)
   open_pipe()
@@ -136,6 +139,9 @@ CVS code -
 	  SLsmg_reset_smg() and SLsmg_init_smg(), and then reinitialize
 	  all windows via window_init().  (DLR, adapted from code in
 	  Minimum Profit 3.3.0 and mutt 1.4.2.1, respectively)
+  do_toggle()
+	- Call blank_statusbar() and blank_bottombars() to blank out
+	  the statusbar and shortcut list in bottomwin. (DLR)
   do_verbatim_input()
 	- If PRESERVE is set, disable flow control characters before
 	  getting input and reenable them after getting input. (DLR)
