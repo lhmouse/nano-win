@@ -869,7 +869,7 @@ void do_gotoline(int line, bool save_pos)
 	free(ans);
 
 	/* Cancel, or Enter with blank string. */
-	if (i == -1 || i == -2)
+	if (i < 0)
 	    statusbar(_("Cancelled"));
 
 	if (i == NANO_TOOTHERWHEREIS_KEY) {
