@@ -47,6 +47,7 @@ CVS Code -
 	  (David Benbennick).
 	- Fix goto directory operating dir check and tilde expansion
 	  (David Benbennick).
+	- Even more checks and operating dir fixes (David Benbennick).
   open_file()
 	- Fix FD leak with file load error (David Benbennick).
   add_open_file()

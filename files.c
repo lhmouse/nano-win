@@ -2514,7 +2514,6 @@ char *do_browser(const char *inpath)
 
     /* Loop invariant: Microsoft sucks. */
     do {
-	DIR *test_dir;
 	char *new_path;
 	    /* Used by the Go To Directory prompt. */
 
@@ -2621,67 +2620,61 @@ char *do_browser(const char *inpath)
 	    /* You can't cd up from / */
 	    if (!strcmp(filelist[selected], "/..") && !strcmp(path, "/")) {
 		statusbar(_("Can't move up a directory"));
+		beep();
 		break;
 	    }
 
 #ifndef DISABLE_OPERATINGDIR
-	    /* Note: The case of the user's being completely outside the
-	       operating directory is handled elsewhere, before this
-	       point */
-	    if (operating_dir != NULL) {
-		if (check_operating_dir(filelist[selected], 0)) {
-		    statusbar(_("Can't visit parent in restricted mode"));
-		    beep();
-		    break;
-		}
+	    /*
+	     *  Note: the selected file can be outside the operating
+	     *  directory if it is .. or if it is a symlink to a directory
+	     *  outside the opdir. */
+	    if (check_operating_dir(filelist[selected], FALSE)) {
+		statusbar(_("Can't go outside of %s in restricted mode"), operating_dir);
+		beep();
+		break;
 	    }
 #endif
 
-	    path = mallocstrcpy(path, filelist[selected]);
-
-	    /* SPK for '.' path, get the current path via getcwd */
-	    if (!strcmp(path, "./..")) {
-		free(path);
-#ifdef PATH_MAX
-		path = getcwd(NULL, PATH_MAX + 1);
-#else
-		path = getcwd(NULL, 0);
-#endif
-		striponedir(path);		    
-		align(&path);
-		free_charptrarray(filelist, numents);
-		free(foo);
-		return do_browser(path);
+	    if (stat(filelist[selected], &st) == -1) {
+		statusbar(_("Can't open \"%s\": %s"), filelist[selected], strerror(errno));
+		beep();
+		break;
 	    }
 
-	    st = filestat(path);
-	    if (S_ISDIR(st.st_mode)) {
-		if ((test_dir = opendir(path)) == NULL) {
-		    /* We can't open this dir for some reason.  Complain */
-		    statusbar(_("Can't open \"%s\": %s"), path, strerror(errno));
-		    striponedir(path);
-		    align(&path);
-		    break;
-		} 
-		closedir(test_dir);
-
-		if (!strcmp("..", tail(path))) {
-		    /* They want to go up a level, so strip off .. and the
-		       current dir */
-		    striponedir(path);
-		    striponedir(path);
-		    align(&path);
-		}
-
-		/* Start over again with the new path value */
-		free_charptrarray(filelist, numents);
-		free(foo);
-		return do_browser(path);
-	    } else {
-		retval = mallocstrcpy(retval, path);
+	    if (!S_ISDIR(st.st_mode)) {
+		retval = mallocstrcpy(retval, filelist[selected]);
 		abort = 1;
+		break;
 	    }
-	    break;
+
+	    new_path = mallocstrcpy(NULL, filelist[selected]);
+
+	    if (strcmp("..", tail(new_path)) == 0) {
+		/* They want to go up a level, so strip off .. and the
+		   current dir */
+		striponedir(new_path);
+		/* SPK for '.' path, get the current path via getcwd */
+		if (strcmp(new_path, ".") == 0) {
+		    free(new_path);
+		    new_path = getcwd(NULL, PATH_MAX + 1);
+		}
+		striponedir(new_path);
+	    }
+
+	    if (!readable_dir(new_path)) {
+		/* We can't open this dir for some reason.  Complain */
+		statusbar(_("Can't open \"%s\": %s"), new_path, strerror(errno));
+		free(new_path);
+		break;
+	    }
+
+	    free_charptrarray(filelist, numents);
+	    free(foo);
+	    free(path);
+	    path = new_path;
+	    return do_browser(path);
+
 	/* Goto a specific directory */
 	case 'g':	/* Pico compatibility */
 	case 'G':
