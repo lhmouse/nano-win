@@ -9,6 +9,9 @@ CVS code -
   strcasestr()
 	- Renamed to stristr since strcasestr has not been confirmed to
 	  be detected properly on various Linux systems.
+- winio.c:
+  do_credits()
+	- Add Thomas Dickey.
 - THANKS:
 	- Added missing entry for Eivind Kjørstad.
 - po/no.po:

@@ -1401,7 +1401,7 @@ void do_replace_highlight(int highlight_flag, char *word)
 }
 
 #ifdef NANO_EXTRA
-#define CREDIT_LEN 48
+#define CREDIT_LEN 52
 void do_credits(void)
 {
     int i, j = 0, k, place = 0, start_x;
@@ -1412,7 +1412,7 @@ void do_credits(void)
     char *brought = _("Brought to you by:");
     char *specialthx = _("Special thanks to:");
     char *fsf = _("The Free Software Foundation");
-    char *ncurses = _("Pavel Curtis, Zeyd Ben-Halim and Eric S. Raymond for ncurses");
+    char *ncurses = _("For ncurses:");
     char *anyonelse = _("and anyone else we forgot...");
     char *thankyou = _("Thank you for using nano!\n");
 
@@ -1452,6 +1452,10 @@ void do_credits(void)
 			fsf,
 			"Linus Torvalds",
 			ncurses,
+			"Thomas Dickey",
+			"Pavel Curtis",
+			"Zeyd Ben-Halim",
+			"Eric S. Raymond",
 			anyonelse,
 			thankyou,
 			"", "", "", "",
