@@ -11,6 +11,7 @@ CVS code -
 	  get_toggle(), get_edit_input(), and get_edit_mouse(); changes
 	  to do_browser(), do_justify(), do_help(), and main(). (DLR)
 	- Simplify a few more translated messages. (DLR)
+	- Translation updates (see po/ChangeLog for details).
 - files.c:
   do_insertfile()
 	- Readd the NANO_SMALL #ifdef around the start_again: label to
