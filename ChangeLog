@@ -111,6 +111,8 @@ CVS code -
 	- Change search toggles for case sensitive searching and regexp
 	  searching to M-C and M-R, respectively. (DLR; suggested by
 	  Chris)
+	- Add support for HP-UX's curses, which doesn't seem to support
+	  KEY_HOME and KEY_END.
 - nanorc.sample:
 	- Fix the c-file regex for all caps words to be extended regex
 	  format ({} instead of \{\}) (found by DLR).

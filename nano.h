@@ -68,6 +68,16 @@
 # endif
 #endif
 
+/* HP-UX 10 & 11 do not seem to support KEY_HOME and KEY_END */
+#ifndef KEY_HOME
+#define KEY_HOME -1
+#endif /* KEY_HOME */
+
+#ifndef KEY_END
+#define KEY_END -1
+#endif /* KEY_END */
+
+
 #define VERMSG "GNU nano " VERSION
 
 #if defined(DISABLE_WRAPPING) && defined(DISABLE_JUSTIFY)
