@@ -40,8 +40,6 @@ CVS Code -
 	  rcfile options if their equivalent command line options are
 	  disabled, and remove obsolete relative option from
 	  nanorc.sample. (DLR)
-	- Removed much unnecessary parts to the color code and reworks
-	  some of the color display (David Benbennick).
 	- Change "File Name to Append/Prepend" to "File Name to
 	  Append/Prepend to".  The original prompt could confusingly
 	  imply that we are appending/prepending another file to the
