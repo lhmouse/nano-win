@@ -321,7 +321,7 @@ const char *do_int_speller(const char *tempfile_name);
 const char *do_alt_speller(char *tempfile_name);
 void do_spell(void);
 #endif
-#if !defined(DISABLE_WRAPPING) && !defined(NANO_SMALL) || !defined(DISABLE_JUSTIFY)
+#if !defined(NANO_SMALL) || !defined(DISABLE_JUSTIFY)
 size_t indent_length(const char *line);
 #endif
 #ifndef DISABLE_JUSTIFY

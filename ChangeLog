@@ -88,7 +88,8 @@ CVS code -
 	  make some of them more consistent. (David Benbennick and DLR)
 	- Change some functions to take const char*'s instead of char*'s
 	  where possible. (David Benbennick)
-	- Tweak some #ifdefs to avoid warnings when compiling with
+	- Tweak some #ifdefs around indent_length() and references to
+	  fill_flag_used to avoid warnings when compiling with
 	  --disable-wrapping, --disable-justify, or a combination of the
 	  two. (DLR)
 - files.c:

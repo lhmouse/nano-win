@@ -1879,8 +1879,9 @@ size_t indent_length(const char *line)
 
 #ifndef DISABLE_JUSTIFY
 /* justify_format() replaces Tab by Space and multiple spaces by 1
- * (except it maintains 2 after a . ! or ?).  Note the terminating \0
- * counts as a space.
+ * (except it maintains 2 after a character in punct followed by a
+ * character in brackets).  Note that the terminating \0 counts as a
+ * space.
  *
  * justify_format() might make line->data shorter, and change the actual
  * pointer with null_at().
@@ -2257,7 +2258,7 @@ bool do_para_search(size_t *const quote, size_t *const par)
 	while (current->prev != NULL &&	quotes_match(current->data,
 		quote_len, current->prev->data)) {
 	    size_t temp_id_len =
-			indent_length(current->prev->data + quote_len);
+		indent_length(current->prev->data + quote_len);
 		/* The indentation length of the previous line. */
 
 	    /* Is this line the beginning of a paragraph, according to
