@@ -28,7 +28,7 @@ General
 	- Added space and - keys to do page up and down.
   cwd_tab_completion(), input_tab()
 	- Changed bare malloc/calloc calls to nmalloc (found by Rocco).
-	- Added zero end of tmpBuf for sanity (Rocco).
+	- Added memset() to matchBuf to ensure sanity (Rocco, Adam).
 - nano.c:
   ABCD()
 	- New function, figures out what kbinput to return given

@@ -883,9 +883,9 @@ char *input_tab(char *buf, int place, int *lastWasTab, int *newplace)
 	/* Make a local copy of the string -- up to the position of the
 	   cursor */
 	matchBuf = (char *) nmalloc((strlen(buf) + 2) * sizeof(char));
+	memset(matchBuf, '\0', (strlen(buf) + 2));
 
 	strncpy(matchBuf, buf, place);
-	matchBuf[place] = 0;
 	tmp = matchBuf;
 
 	/* skip any leading white space */
