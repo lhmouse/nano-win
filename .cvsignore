@@ -17,4 +17,5 @@ mkinstalldirs
 nano
 nano.info
 stamp-h
+stamp.h.in
 stamp-h1
