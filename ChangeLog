@@ -20,7 +20,11 @@ CVS code changes since last release -
 	- Corrected FIXME in do_enter with explanation. (Rob)
 	- Fixed FIXME in do_justify, resulted in creation of
 	  fix_editbot [also fixed in do_enter] (winio.c) (Rob)
+  do_char():
 	- Magic Line related code in do_char (Rob)
+  do_backspace(), do_delete():
+	- Added magic line code here too.
+
 - de.po:
 	- Revised translations by floki@bigfoot.com.
 - fi.po:

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-07-03 00:27-0400\n"
+"POT-Creation-Date: 2000-07-05 18:51-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,83 +27,83 @@ msgstr ""
 msgid "read_line: not on first line and prev is NULL"
 msgstr ""
 
-#: files.c:180 files.c:193
+#: files.c:180 files.c:197
 #, c-format
 msgid "Read %d lines"
 msgstr ""
 
-#: files.c:211 search.c:129 search.c:147
+#: files.c:215 search.c:129 search.c:147
 #, c-format
 msgid "\"%s\" not found"
 msgstr ""
 
 #. We have a new file
-#: files.c:215
+#: files.c:219
 msgid "New File"
 msgstr ""
 
-#: files.c:224
+#: files.c:228
 #, c-format
 msgid "File \"%s\" is a directory"
 msgstr ""
 
-#: files.c:229
+#: files.c:233
 msgid "Reading File"
 msgstr ""
 
-#: files.c:242
+#: files.c:246
 msgid "File to insert [from ./] "
 msgstr ""
 
-#: files.c:270 files.c:294 files.c:458 nano.c:1105
+#: files.c:271 files.c:295 files.c:462 nano.c:1130
 msgid "Cancelled"
 msgstr ""
 
-#: files.c:306 files.c:322 files.c:334 files.c:351 files.c:357
+#: files.c:307 files.c:323 files.c:338 files.c:355 files.c:361
 #, c-format
 msgid "Could not open file for writing: %s"
 msgstr ""
 
-#: files.c:314
+#: files.c:315
 msgid "Could not open file: Path length exceeded."
 msgstr ""
 
-#: files.c:339
+#: files.c:343
 #, c-format
 msgid "Wrote >%s\n"
 msgstr ""
 
-#: files.c:366
+#: files.c:370
 #, c-format
 msgid "Could not close %s: %s"
 msgstr ""
 
 #. Try a rename??
-#: files.c:387 files.c:398 files.c:403
+#: files.c:391 files.c:402 files.c:407
 #, c-format
 msgid "Could not open %s for writing: %s"
 msgstr ""
 
-#: files.c:409
+#: files.c:413
 #, c-format
 msgid "Could not set permissions %o on %s: %s"
 msgstr ""
 
-#: files.c:416
+#: files.c:420
 #, c-format
 msgid "Wrote %d lines"
 msgstr ""
 
-#: files.c:437
+#: files.c:441
 msgid "File Name to write"
 msgstr ""
 
-#: files.c:442
+#: files.c:446
 #, c-format
 msgid "filename is %s"
 msgstr ""
 
-#: files.c:447
+#: files.c:451
 msgid "File exists, OVERWRITE ?"
 msgstr ""
 
@@ -344,7 +344,7 @@ msgid "Case Sens"
 msgstr ""
 
 #: global.c:276 global.c:295 global.c:305 global.c:321 global.c:325
-#: global.c:331 winio.c:969
+#: global.c:331 winio.c:963
 msgid "Cancel"
 msgstr ""
 
@@ -555,90 +555,90 @@ msgstr ""
 msgid "Mark UNset"
 msgstr ""
 
-#: nano.c:847
+#: nano.c:859
 #, c-format
 msgid "check_wrap called with inptr->data=\"%s\"\n"
 msgstr ""
 
-#: nano.c:907
+#: nano.c:919
 #, c-format
 msgid "current->data now = \"%s\"\n"
 msgstr ""
 
-#: nano.c:951
+#: nano.c:971
 #, c-format
 msgid "After, data = \"%s\"\n"
 msgstr ""
 
-#: nano.c:1014
+#: nano.c:1040
 msgid "Error deleting tempfile, ack!"
 msgstr ""
 
-#: nano.c:1032
+#: nano.c:1057
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr ""
 
-#: nano.c:1056
+#: nano.c:1081
 #, c-format
 msgid "Could not invoke spell program \"%s\""
 msgstr ""
 
 #. Why 32512? I dont know!
-#: nano.c:1062
+#: nano.c:1087
 msgid "Could not invoke \"ispell\""
 msgstr ""
 
-#: nano.c:1074
+#: nano.c:1099
 msgid "Finished checking spelling"
 msgstr ""
 
-#: nano.c:1092
+#: nano.c:1117
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr ""
 
-#: nano.c:1215
+#: nano.c:1240
 msgid "Cannot resize top win"
 msgstr ""
 
-#: nano.c:1217
+#: nano.c:1242
 msgid "Cannot move top win"
 msgstr ""
 
-#: nano.c:1219
+#: nano.c:1244
 msgid "Cannot resize edit win"
 msgstr ""
 
-#: nano.c:1221
+#: nano.c:1246
 msgid "Cannot move edit win"
 msgstr ""
 
-#: nano.c:1223
+#: nano.c:1248
 msgid "Cannot resize bottom win"
 msgstr ""
 
-#: nano.c:1225
+#: nano.c:1250
 msgid "Cannot move bottom win"
 msgstr ""
 
-#: nano.c:1689
+#: nano.c:1704
 msgid "Main: set up windows\n"
 msgstr ""
 
-#: nano.c:1711
+#: nano.c:1726
 msgid "Main: bottom win\n"
 msgstr ""
 
-#: nano.c:1717
+#: nano.c:1732
 msgid "Main: open file\n"
 msgstr ""
 
-#: nano.c:1790
+#: nano.c:1805
 #, c-format
 msgid "I got Alt-[-%c! (%d)\n"
 msgstr ""
 
-#: nano.c:1806
+#: nano.c:1821
 #, c-format
 msgid "I got Alt-%c! (%d)\n"
 msgstr ""
@@ -728,50 +728,50 @@ msgstr ""
 msgid "Modified"
 msgstr ""
 
-#: winio.c:885
+#: winio.c:879
 #, c-format
 msgid "Moved to (%d, %d) in edit buffer\n"
 msgstr ""
 
-#: winio.c:896
+#: winio.c:890
 #, c-format
 msgid "current->data = \"%s\"\n"
 msgstr ""
 
-#: winio.c:939
+#: winio.c:933
 #, c-format
 msgid "I got \"%s\"\n"
 msgstr ""
 
-#: winio.c:964
+#: winio.c:958
 msgid "Yes"
 msgstr ""
 
-#: winio.c:966
+#: winio.c:960
 msgid "All"
 msgstr ""
 
-#: winio.c:968
+#: winio.c:962
 msgid "No"
 msgstr ""
 
-#: winio.c:1104
+#: winio.c:1098
 #, c-format
 msgid "do_cursorpos: linepct = %f, bytepct = %f\n"
 msgstr ""
 
-#: winio.c:1108
+#: winio.c:1102
 msgid "line %d of %d (%.0f%%), character %d of %d (%.0f%%)"
 msgstr ""
 
-#: winio.c:1232
+#: winio.c:1226
 msgid "Dumping file buffer to stderr...\n"
 msgstr ""
 
-#: winio.c:1234
+#: winio.c:1228
 msgid "Dumping cutbuffer to stderr...\n"
 msgstr ""
 
-#: winio.c:1236
+#: winio.c:1230
 msgid "Dumping a buffer to stderr...\n"
 msgstr ""

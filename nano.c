@@ -444,8 +444,7 @@ void do_char(char ch)
      * it means we need a new one! */
     if(filebot == current && current->data[0] == '\0') {
 	new_magicline();
-	if(current == editbot)
-	    fix_editbot();
+	fix_editbot();
     }
 
     /* More dangerousness fun =) */
@@ -953,13 +952,21 @@ int do_backspace(void)
 	if (tmp == filebot) {
 	    filebot = current;
 	    editbot = current;
+
+	    /* Recreate the magic line if we're deleting it AND if the
+		line we're on now is NOT blank.  if it is blank we
+		can just use IT for the magic line.   This is how Pico
+		appears to do it, in any case */
+	    if (strcmp(current->data, "")) {
+		new_magicline();
+		fix_editbot();
+	    }
 	}
 
 	current = previous;
 	renumber(current);
 	previous_line();
 	totlines--;
-
 #ifdef DEBUG
 	fprintf(stderr, _("After, data = \"%s\"\n"), current->data);
 #endif
@@ -1000,9 +1007,15 @@ int do_delete(void)
 	delete_node(foo);
 	update_line(current, current_x);
 
+	/* Please see the comment in do_basckspace if you don't understand
+	   this test */
+	if (current == filebot && strcmp(current->data, ""))
+	{
+	    new_magicline();
+	    fix_editbot();
+	}
 	renumber(current);
 	totlines--;
-
     } else
 	return 0;
 
