@@ -23,8 +23,7 @@ CVS code -
 - files.c:
   write_file()
 	- Unsetting modified on temp files bug fixed (Rocco Corsi).
-	- Okay, if tmp == 1 and the file is a symlink the user doesn't
-	  own, we return -1.
+	- Okay, if tmp == 1 and the file exists, we abort.
   do_insertfile()
 	- Added call to real_name_from tilde, oops.  Added check for
 	  DISABLE_TABCOMP.
@@ -66,7 +65,7 @@ CVS code -
   die()
 	- Now creates .save file using variable-length strings.  Also
 	  calls write_file with tmp == 1, which happens to do exactly what
-	  we want (abort on save file is a symlink and use mode 0600).
+	  we want (abort on save file exists and use mode 0600).
   handle_sighup()
 	- Now calls die instead of writing on its own and exiting normally.
 - search.c:

@@ -136,7 +136,7 @@ void die(char *msg, ...)
     if (i != -1)
 	fprintf(stderr, _("\nBuffer written to %s\n"), name);
     else
-	fprintf(stderr, _("\nNo .save file written (symlink encountered?)\n"));
+	fprintf(stderr, _("\nNo .save file written (file exists?)\n"));
 
     exit(1);			/* We have a problem: exit w/ errorlevel(1) */
 }

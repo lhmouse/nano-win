@@ -321,7 +321,6 @@ int write_file(char *name, int tmp)
     realname = mallocstrcpy(realname, name);
 #endif
 
-
     /* Save the state of file at the end of the symlink */
     realexists = stat(realname, &st);
 
@@ -330,9 +329,9 @@ int write_file(char *name, int tmp)
        cause unexpected behavior */
     lstat(realname, &st);
 
-    /* New case: if it's a symlink and tmp is set AND the user does not
-	own the symlink, abort.  It could be a symlink attack */
-    if (tmp && S_ISLNK(st.st_mode) && getuid() != st.st_uid)
+    /* New case: if the file exists, just give up.  Easy way out of
+	all security issues */
+    if (tmp && realexists != -1)
 	 return -1;
     else if (ISSET(FOLLOW_SYMLINKS) || !S_ISLNK(st.st_mode)) {
 
@@ -430,7 +429,7 @@ int write_file(char *name, int tmp)
 	} else {
 	    /* Use permissions from file we are overwriting. */
 	    mask = st.st_mode;
-	    if (!tmp && unlink(realname) == -1) {
+	    if (unlink(realname) == -1) {
 		if (errno != ENOENT) {
 		    statusbar(_("Could not open %s for writing: %s"),
 			      realname, strerror(errno));
