@@ -580,7 +580,7 @@ void shortcut_init(int unjustify)
 
     sc_init_one(&main_list, NANO_NO_KEY, _("Verbatim Input"),
 		IFHELP(nano_verbatim_msg, NANO_VERBATIM_KEY), NANO_NO_KEY,
-		NANO_NO_KEY, VIEW, do_verbatim_input);
+		NANO_NO_KEY, NOVIEW, do_verbatim_input);
 
 #ifdef ENABLE_MULTIBUFFER
     sc_init_one(&main_list, NANO_NO_KEY, _("Previous File"),

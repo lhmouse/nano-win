@@ -16,6 +16,9 @@ CVS code -
   write_marked()
 	- New function used to write the current marked selection to a
 	  file, split out from do_writeout(). (DLR)
+- global.c:
+  shortcut_init()
+	- Only allow verbatim input when we're not in view mode. (DLR)
 - nano.c:
   do_verbatim_input()
 	- Remove the now-unneeded code to disable XON, XOFF, and
