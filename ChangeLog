@@ -39,6 +39,8 @@ CVS code -
 	  high ascii characters.
   titlebar()
 	- gettextized a pair of strings.
+  bottombars()
+	- Get rid of that annoying reversed line when color is on! :)
 - m4/gettext.m4:
 	- Back down to 1.1.3 version.
 - faq.html:
