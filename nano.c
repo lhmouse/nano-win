@@ -1859,14 +1859,14 @@ int do_int_speller(char *tempfile_name)
 
     /* Process end of spell process */
 
-    wait(&spell_status);
-    wait(&sort_status);
-    wait(&uniq_status);
+    waitpid(pid_spell, &spell_status, WNOHANG);
+    waitpid(pid_sort, &sort_status, WNOHANG);
+    waitpid(pid_uniq, &uniq_status, WNOHANG);
 
     if (WIFEXITED(spell_status) && WIFEXITED(sort_status) 
 	    && WIFEXITED(uniq_status)) {
-	if (WEXITSTATUS(spell_status) != 0 || WEXITSTATUS(sort_status) 
-		|| WEXITSTATUS(uniq_status))
+	if (WEXITSTATUS(spell_status) != 0 || WEXITSTATUS(sort_status) != 0 
+		|| WEXITSTATUS(uniq_status) != 0)
 	    return FALSE;
     } else
 	 return FALSE;
