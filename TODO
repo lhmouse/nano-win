@@ -2,8 +2,7 @@ TODO file (? means the feature may be implemented, but not definitely)
 -----------------------------------------------------------------------------
 
 For version 1.4:
-- UTF-8 support. [DONE except for the NO_CONVERT flag, which should
-  allow editing UTF-8 as raw bytes.]
+- UTF-8 support. [DONE]
 - Support for paragraph searches. [DONE]
 - Support for justifying the entire file at once. [DONE]
 - Support for filename searches in the file browser.
