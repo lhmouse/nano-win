@@ -3649,11 +3649,11 @@ int do_yesno(bool all, const char *msg)
     const char *allstr;		/* And all, surprise! */
 
     /* yesstr, nostr, and allstr are strings of any length.  Each string
-     * consists of all characters accepted as a valid character for that
-     * value.  The first value will be the one displayed in the
-     * shortcuts.  Translators: if possible, specify both the shortcuts
-     * for your language and English.  For example, in French: "OoYy"
-     * for "Oui". */
+     * consists of all single-byte characters accepted as valid
+     * characters for that value.  The first value will be the one
+     * displayed in the shortcuts.  Translators: if possible, specify
+     * both the shortcuts for your language and English.  For example,
+     * in French: "OoYy" for "Oui". */
     yesstr = _("Yy");
     nostr = _("Nn");
     allstr = _("Aa");
