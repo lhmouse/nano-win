@@ -1,3 +1,10 @@
+2005-04-08  Jordi Mallach  <jordi@gnu.org>
+
+	* ca.po: Updated Catalan translation.
+	* it.po: Updated Italian translation by Marco Colombo.
+	* zh_TW.po: Updated Traditional Chinese translation by
+	CHAO Wei-Lun.
+
 2005-04-06  Jordi Mallach  <jordi@gnu.org>
 
 	* rw.po: New Kinyarwanda translation by Steve Murphy.

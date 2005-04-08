@@ -1,750 +1,781 @@
 # Traditional Chinese Messages for the nano editor
-# Copyright (C) 2004 Free Software Foundation, Inc.
+# Copyright (C) 2004,2005 Free Software Foundation, Inc.
 # This file is distributed under the same license as the nano package.
-# »¯±©­Û <chaoweilun@pcmail.com.tw>, 2004
+# Wei-Lun Chao <chaoweilun@pcmail.com.tw>, 2004, 05
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.3.2\n"
+"Project-Id-Version: nano 1.3.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-01 20:20-0500\n"
-"PO-Revision-Date: 2004-05-18 13:22+0800\n"
-"Last-Translator: »¯±©­Û <chaoweilun@pcmail.com.tw>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2005-03-20 23:36-0500\n"
+"PO-Revision-Date: 2005-04-08 13:22+0800\n"
+"Last-Translator: Wei-Lun Chao <chaoweilun@pcmail.com.tw>\n"
+"Language-Team: zh_TW <zh-l10n@linux.org.tw>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=big5\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: src/files.c:308
+#, c-format
+msgid "Read %lu line (Converted from DOS and Mac format)"
+msgid_plural "Read %lu lines (Converted from DOS and Mac format)"
+msgstr[0] "å·²è®€å– %1u åˆ— (è½‰æª”è‡ª DOS èˆ‡ Mac æ ¼å¼)"
+
+#: src/files.c:313
+#, c-format
+msgid "Read %lu line (Converted from Mac format)"
+msgid_plural "Read %lu lines (Converted from Mac format)"
+msgstr[0] "å·²è®€å– %1u åˆ— (è½‰æª”è‡ª Mac æ ¼å¼)"
 
 #: src/files.c:318
 #, c-format
-msgid "Read %d line (Converted from Mac format)"
-msgstr "¤wÅª¨ú %d ¦C (ÂàÀÉ¦Û Mac ®æ¦¡)"
+msgid "Read %lu line (Converted from DOS format)"
+msgid_plural "Read %lu lines (Converted from DOS format)"
+msgstr[0] "å·²è®€å– %1u åˆ— (è½‰æª”è‡ª DOS æ ¼å¼)"
 
-#: src/files.c:322
+#: src/files.c:323
 #, c-format
-msgid "Read %d line (Converted from DOS format)"
-msgstr "¤wÅª¨ú %d ¦C (ÂàÀÉ¦Û DOS ®æ¦¡)"
+msgid "Read %lu line"
+msgid_plural "Read %lu lines"
+msgstr[0] "å·²è®€å– %1u åˆ—"
 
-#: src/files.c:327
-#, c-format
-msgid "Read %d line"
-msgstr "¤wÅª¨ú %d ¦C"
+#: src/files.c:346
+msgid "New File"
+msgstr "æ–°æª”æ¡ˆ"
 
-#: src/files.c:350 src/search.c:60
+#: src/files.c:349
 #, c-format
 msgid "\"%s\" not found"
-msgstr "§ä¤£¨ì \"%s\""
+msgstr "æ‰¾ä¸åˆ° \"%s\""
 
 #: src/files.c:354
-msgid "New File"
-msgstr "·sÀÉ®×"
-
-#: src/files.c:360
 #, c-format
 msgid "\"%s\" is a directory"
-msgstr "\"%s\" ¬O¤@­Ó¥Ø¿ı"
+msgstr "\"%s\" æ˜¯ä¸€å€‹ç›®éŒ„"
 
-#: src/files.c:361
+#: src/files.c:355
 #, c-format
 msgid "File \"%s\" is a device file"
-msgstr "\"%s\" ¬O¤@­Ó¸Ë¸mÀÉ®×"
+msgstr "\"%s\" æ˜¯ä¸€å€‹è£ç½®æª”æ¡ˆ"
 
-#: src/files.c:379
-msgid "Reading File"
-msgstr "¥¿¦bÅª¨úÀÉ®×"
-
-#: src/files.c:457
-#, c-format
-msgid "File to insert into new buffer [from %s] "
-msgstr "[±q %s] ©Ò­n´¡¤J·s½w½Ä°ÏªºÀÉ®×"
-
-#: src/files.c:465
-#, c-format
-msgid "File to insert [from %s] "
-msgstr "[±q %s] ©Ò­n´¡¤JªºÀÉ®×"
-
-#: src/files.c:476
-msgid "File to insert into new buffer [from ./] "
-msgstr "[±q ./] ©Ò­n´¡¤J·s½w½Ä°ÏªºÀÉ®×"
-
-#: src/files.c:483
-msgid "File to insert [from ./] "
-msgstr "[±q ./] ©Ò­n´¡¤JªºÀÉ®×"
-
-#: src/files.c:505
-msgid "Command to execute"
-msgstr "­n°õ¦æªº©R¥O"
-
-#: src/files.c:510 src/files.c:620 src/files.c:1434 src/files.c:1890
-#: src/nano.c:2759
-msgid "Cancelled"
-msgstr "¤w¨ú®ø"
-
-#: src/files.c:535
-#, c-format
-msgid "Can't insert file from outside of %s"
-msgstr "µLªk´¡¤J %s ¥~³¡ªºÀÉ®×"
-
-#: src/files.c:643
-msgid "Key illegal in non-multibuffer mode"
-msgstr "«D¦h­«½w½Ä°Ï¼Ò¦¡¤¤¦¹«öÁäµL®Ä"
-
-#: src/files.c:891 src/files.c:954
-msgid "No more open file buffers"
-msgstr "µL¦h¾lÀÉ®×½w½Ä°Ï¥i¶}±Ò"
-
-#: src/files.c:918 src/files.c:981
-#, c-format
-msgid "Switched to %s"
-msgstr "¤Á´«¦Ü %s"
-
-#: src/files.c:1446
-#, c-format
-msgid "Can't write outside of %s"
-msgstr "µLªk¼g¤J %s ¥~³¡"
-
-#: src/files.c:1458
-msgid "Cannot prepend or append to a symlink with --nofollow set."
-msgstr "--nofollow ³]©w¤U¡AµLªk«e¤Ş©Îªş¥[¦Ü²Å¸¹³sµ²ÀÉ"
-
-#: src/files.c:1488 src/files.c:1552 src/files.c:1607 src/files.c:1695
+#: src/files.c:358 src/files.c:366 src/files.c:1399 src/files.c:1465
+#: src/files.c:1522 src/files.c:1621 src/files.c:2560 src/files.c:2576
+#: src/files.c:2635 src/files.c:2844 src/rcfile.c:717
 #, c-format
 msgid "Error reading %s: %s"
-msgstr "Åª¨ú %s ®Éµo¥Í¿ù»~: %s"
+msgstr "è®€å– %s æ™‚ç™¼ç”ŸéŒ¯èª¤: %s"
 
-#: src/files.c:1532 src/files.c:1555 src/files.c:1568 src/files.c:1595
-#: src/files.c:1614 src/files.c:1631 src/files.c:1638 src/files.c:1659
-#: src/files.c:1666 src/files.c:1674 src/files.c:1702 src/files.c:1706
+#: src/files.c:370
+msgid "Reading File"
+msgstr "æ­£åœ¨è®€å–æª”æ¡ˆ"
+
+#: src/files.c:448
+#, c-format
+msgid "Can't insert file from outside of %s"
+msgstr "ç„¡æ³•æ’å…¥ %s å¤–éƒ¨çš„æª”æ¡ˆ"
+
+#: src/files.c:522
+#, c-format
+msgid "Command to execute in new buffer [from %s] "
+msgstr "åœ¨æ–°ç·©è¡å€ä¸­åŸ·è¡Œçš„å‘½ä»¤ [å¾ %s] "
+
+#: src/files.c:525
+#, c-format
+msgid "Command to execute [from %s] "
+msgstr "åŸ·è¡Œçš„å‘½ä»¤ [å¾ %s] "
+
+#: src/files.c:530
+#, c-format
+msgid "File to insert into new buffer [from %s] "
+msgstr "æ‰€è¦æ’å…¥æ–°ç·©è¡å€çš„æª”æ¡ˆ [å¾ %s] "
+
+#: src/files.c:533
+#, c-format
+msgid "File to insert [from %s] "
+msgstr "æ‰€è¦æ’å…¥çš„æª”æ¡ˆ [å¾ %s] "
+
+#: src/files.c:561 src/files.c:1787 src/files.c:2609 src/nano.c:3302
+#: src/search.c:214 src/search.c:938 src/search.c:985
+msgid "Cancelled"
+msgstr "å·²å–æ¶ˆ"
+
+#: src/files.c:687
+msgid "Key illegal in non-multibuffer mode"
+msgstr "éå¤šé‡ç·©è¡å€æ¨¡å¼ä¸­æ­¤æŒ‰éµç„¡æ•ˆ"
+
+#: src/files.c:906
+msgid "No more open file buffers"
+msgstr "ç„¡å¤šé¤˜æª”æ¡ˆç·©è¡å€å¯é–‹å•Ÿ"
+
+#: src/files.c:922
+#, c-format
+msgid "Switched to %s"
+msgstr "åˆ‡æ›è‡³ %s"
+
+#: src/files.c:923 src/global.c:258 src/winio.c:2777
+msgid "New Buffer"
+msgstr "æ–°ç·©è¡å€"
+
+#: src/files.c:1354
+#, c-format
+msgid "Can't write outside of %s"
+msgstr "ç„¡æ³•å¯«å…¥ %s å¤–éƒ¨"
+
+#: src/files.c:1369
+msgid "Cannot prepend or append to a symlink with --nofollow set"
+msgstr "--nofollow è¨­å®šä¸‹ï¼Œç„¡æ³•å‰å¼•æˆ–é™„åŠ è‡³ç¬¦è™Ÿé€£çµæª”"
+
+#: src/files.c:1443 src/files.c:1468 src/files.c:1481 src/files.c:1509
+#: src/files.c:1530 src/files.c:1548 src/files.c:1557 src/files.c:1578
+#: src/files.c:1586 src/files.c:1596 src/files.c:1628 src/files.c:1633
+#: src/files.c:2908 src/files.c:2917
 #, c-format
 msgid "Error writing %s: %s"
-msgstr "¼g¤J %s ®Éµo¥Í¿ù»~: %s"
+msgstr "å¯«å…¥ %s æ™‚ç™¼ç”ŸéŒ¯èª¤: %s"
 
-#: src/files.c:1725
+#: src/files.c:1652
 #, c-format
 msgid "Wrote %u line"
-msgstr "¤w¼g¤J %u ¦C"
+msgid_plural "Wrote %u lines"
+msgstr[0] "å·²å¯«å…¥ %u åˆ—"
 
-#: src/files.c:1849
-msgid " [Mac Format]"
-msgstr " [Mac ®æ¦¡]"
-
-#: src/files.c:1851
+#: src/files.c:1746
 msgid " [DOS Format]"
-msgstr " [DOS ®æ¦¡]"
+msgstr " [DOS æ ¼å¼]"
 
-#: src/files.c:1856
+#: src/files.c:1748
+msgid " [Mac Format]"
+msgstr " [Mac æ ¼å¼]"
+
+#: src/files.c:1753
 msgid " [Backup]"
-msgstr " [³Æ¥÷]"
+msgstr " [å‚™ä»½]"
 
-#: src/files.c:1863
+#: src/files.c:1760
 msgid "Prepend Selection to File"
-msgstr "«e¤Ş¿ï¾Ü³¡¥÷©óÀÉ®×"
+msgstr "å‰å¼•é¸æ“‡éƒ¨ä»½æ–¼æª”æ¡ˆ"
 
-#: src/files.c:1865
+#: src/files.c:1762
 msgid "Append Selection to File"
-msgstr "ªş¥[¿ï¾Ü³¡¥÷¦ÜÀÉ®×"
+msgstr "é™„åŠ é¸æ“‡éƒ¨ä»½è‡³æª”æ¡ˆ"
 
-#: src/files.c:1867
+#: src/files.c:1764
 msgid "Write Selection to File"
-msgstr "¼g¤J¿ï¾Ü³¡¥÷¦ÜÀÉ®×"
+msgstr "å¯«å…¥é¸æ“‡éƒ¨ä»½è‡³æª”æ¡ˆ"
 
-#: src/files.c:1871
+#: src/files.c:1768
 msgid "File Name to Prepend to"
-msgstr "­n«e¤Ş©óªºÀÉ®×¦WºÙ"
+msgstr "è¦å‰å¼•æ–¼çš„æª”æ¡ˆåç¨±"
 
-#: src/files.c:1873
+#: src/files.c:1770
 msgid "File Name to Append to"
-msgstr "­nªş¥[¦ÜªºÀÉ®×¦WºÙ"
+msgstr "è¦é™„åŠ è‡³çš„æª”æ¡ˆåç¨±"
 
-#: src/files.c:1875
+#: src/files.c:1772
 msgid "File Name to Write"
-msgstr "­n¼g¤JªºÀÉ®×¦WºÙ"
+msgstr "è¦å¯«å…¥çš„æª”æ¡ˆåç¨±"
 
-#: src/files.c:1944
-msgid "File exists, OVERWRITE ?"
-msgstr "ÀÉ®×¤w¦s¦b¡A­nÂĞ¼g¶Ü¡H"
+#: src/files.c:1846
+msgid "File exists, OVERWRITE ? "
+msgstr "æª”æ¡ˆå·²å­˜åœ¨ï¼Œè¦è¦†å¯«å—ï¼Ÿ"
 
-#: src/files.c:1952
-msgid "Save file under DIFFERENT NAME ?"
-msgstr "¥H¤£¦Pªº¦WºÙ¦sÀÉ¡H"
+#: src/files.c:1860
+msgid "Save file under DIFFERENT NAME ? "
+msgstr "ä»¥ä¸åŒçš„åç¨±å­˜æª”ï¼Ÿ"
 
-#: src/files.c:2416
+#: src/files.c:2253
 msgid "(more)"
-msgstr "(§ó¦h)"
+msgstr "(æ›´å¤š)"
 
-#: src/files.c:2701
+#: src/files.c:2541
 msgid "Can't move up a directory"
-msgstr "µLªk¤W²¾¤@­Ó¥Ø¿ı"
+msgstr "ç„¡æ³•ä¸Šç§»ä¸€å€‹ç›®éŒ„"
 
-#: src/files.c:2711 src/files.c:2784
+#: src/files.c:2552 src/files.c:2624
 #, c-format
 msgid "Can't go outside of %s in restricted mode"
-msgstr "¦b­­¨î¼Ò¦¡¤¤µLªk¦Ü %s ¥~³¡"
+msgstr "åœ¨é™åˆ¶æ¨¡å¼ä¸­ç„¡æ³•è‡³ %s å¤–éƒ¨"
 
-#: src/files.c:2718 src/files.c:2745 src/files.c:2792
+#: src/files.c:2603
+msgid "Go To Directory"
+msgstr "è·³è‡³ç›®éŒ„"
+
+#: src/files.c:2700 src/files.c:2705
+msgid "(dir)"
+msgstr "(ç›®éŒ„)"
+
+#: src/files.c:2847 src/rcfile.c:674
 #, c-format
-msgid "Can't open \"%s\": %s"
-msgstr "µLªk¶}±Ò \"%s\": %s"
+msgid ""
+"\n"
+"Press Return to continue starting nano\n"
+msgstr ""
+"\n"
+"æŒ‰ä¸‹è¼¸å…¥éµç¹¼çºŒå•Ÿå‹• nano\n"
 
-#: src/files.c:2766
-msgid "Goto Directory"
-msgstr "¸õ¦Ü¥Ø¿ı"
+#: src/global.c:233
+msgid "Get Help"
+msgstr "æ±‚åŠ©"
 
-#: src/files.c:2771
-msgid "Goto Cancelled"
-msgstr "¸õ¦Ü°Ê§@¨ú®ø"
+#: src/global.c:234
+msgid "Exit"
+msgstr "é›¢é–‹"
 
-#: src/files.c:2970
-#, c-format
-msgid "Unable to open ~/.nano_history file, %s"
-msgstr "µLªk¶}±Ò ~/.nano_history ÀÉ®×: %s"
+#: src/global.c:235
+msgid "Prev Page"
+msgstr "ä¸Šé "
 
-#: src/files.c:3020 src/files.c:3029 src/files.c:3034 src/files.c:3041
-#, c-format
-msgid "Unable to write ~/.nano_history file, %s"
-msgstr "µLªk¼g¤J ~/.nano_history ÀÉ®×: %s"
+#: src/global.c:236
+msgid "Next Page"
+msgstr "ä¸‹é "
 
-#: src/global.c:253
-msgid "Constant cursor position"
-msgstr "«ùÄò´å¼Ğ¦ì¸m"
+#: src/global.c:237
+msgid "Replace"
+msgstr "ç½®æ›"
+
+#: src/global.c:238
+msgid "Go To Line"
+msgstr "è·³åˆ—"
+
+#: src/global.c:239 src/winio.c:3673
+msgid "Cancel"
+msgstr "å–æ¶ˆ"
+
+#: src/global.c:240
+msgid "First Line"
+msgstr "é¦–åˆ—"
+
+#: src/global.c:241
+msgid "Last Line"
+msgstr "å°¾åˆ—"
+
+#: src/global.c:243
+msgid "CutTillEnd"
+msgstr "åˆªè‡³æœ«ç«¯"
+
+#: src/global.c:246
+msgid "Beg of Par"
+msgstr "æ®µè½é–‹é ­"
+
+#: src/global.c:247
+msgid "End of Par"
+msgstr "æ®µè½çµå°¾"
+
+#: src/global.c:248
+msgid "FullJstify"
+msgstr "å…¨éƒ¨å°é½Š"
+
+#: src/global.c:251
+msgid "Case Sens"
+msgstr "ä¾å¤§å°å¯«"
+
+#: src/global.c:252
+msgid "Direction"
+msgstr "æœå°‹æ–¹å‘"
 
 #: src/global.c:254
-msgid "Auto indent"
-msgstr "¦Û°ÊÁY±Æ"
-
-#: src/global.c:255
-msgid "Suspend"
-msgstr "¼È°±"
+msgid "Regexp"
+msgstr "æ­£è¦è¡¨ç¤º"
 
 #: src/global.c:256
-msgid "Help mode"
-msgstr "»²§U¼Ò¦¡"
-
-#: src/global.c:258
-msgid "Mouse support"
-msgstr "·Æ¹«¤ä´©"
-
-#: src/global.c:260
-msgid "Cut to end"
-msgstr "°Å¤U¦Ü¦C§À"
-
-#: src/global.c:261
-msgid "No conversion from DOS/Mac format"
-msgstr "¤£±q DOS/Mac ®æ¦¡ÂàÀÉ"
+msgid "History"
+msgstr "æ­·å²è¨˜éŒ„"
 
 #: src/global.c:262
-msgid "Writing file in DOS format"
-msgstr "¥H DOS ®æ¦¡¼g¤JÀÉ®×"
+msgid "To Files"
+msgstr "æª”æ¡ˆé¸å–®"
 
-#: src/global.c:263
-msgid "Writing file in Mac format"
-msgstr "¥H Mac ®æ¦¡¼g¤JÀÉ®×"
+#: src/global.c:266
+msgid "Invoke the help menu"
+msgstr "å‘¼å«è¼”åŠ©èªªæ˜"
 
-#: src/global.c:264
-msgid "Backing up file"
-msgstr "ÀH®É³Æ¥÷ÀÉ®×"
+#: src/global.c:269
+msgid "Close currently loaded file/Exit from nano"
+msgstr "é—œé–‰ç›®å‰å·²è¼‰å…¥æª”æ¡ˆä¸¦é›¢é–‹ nano"
 
-#: src/global.c:265 src/nano.c:652
-msgid "Smooth scrolling"
-msgstr "¥­·Æ¦¡±²°Êµe­±"
+#: src/global.c:271
+msgid "Exit from nano"
+msgstr "é›¢é–‹ nano"
 
-#: src/global.c:267
-msgid "Color syntax highlighting"
-msgstr "»yªk¦â±m¼Ğ¥Ü"
+#: src/global.c:274
+msgid "Write the current file to disk"
+msgstr "å¯«å…¥ç›®å‰æª”æ¡ˆè‡³ç£ç¢Ÿ"
 
-#: src/global.c:270
-msgid "Auto line wrap"
-msgstr "¦Û°Ê´«¦C"
+#: src/global.c:275
+msgid "Justify the current paragraph"
+msgstr "å°é½Šç›®å‰æ®µè½"
 
-#: src/global.c:273
-msgid "Multiple file buffers"
-msgstr "¦h­«ÀÉ®×½w½Ä°Ï"
+#: src/global.c:277
+msgid "Insert another file into the current one"
+msgstr "æ’å…¥å®ƒæª”è‡³ç›®å‰æª”æ¡ˆ"
+
+#: src/global.c:278
+msgid "Search for text within the editor"
+msgstr "æœå°‹ç·¨è¼¯å™¨ä¸­æ–‡å­—"
+
+#: src/global.c:279
+msgid "Move to the previous screen"
+msgstr "è·³è‡³å‰ä¸€ç•«é¢"
+
+#: src/global.c:280
+msgid "Move to the next screen"
+msgstr "è·³è‡³å¾Œä¸€ç•«é¢"
+
+#: src/global.c:282
+msgid "Cut the current line and store it in the cutbuffer"
+msgstr "å‰ªä¸‹ç›®å‰é€™åˆ—ä¸¦å­˜è‡³å‰ªè²¼ç°¿"
+
+#: src/global.c:284
+msgid "Uncut from the cutbuffer into the current line"
+msgstr "å¾å‰ªè²¼ç°¿é‚„åŸè‡³ç›®å‰é€™åˆ—"
+
+#: src/global.c:285
+msgid "Show the position of the cursor"
+msgstr "é¡¯ç¤ºæ¸¸æ¨™ä½ç½®"
+
+#: src/global.c:286
+msgid "Invoke the spell checker, if available"
+msgstr "å˜—è©¦å‘¼å«æ‹¼å­—æª¢æŸ¥"
+
+#: src/global.c:287
+msgid "Go to a specific line number"
+msgstr "è·³è‡³æŒ‡å®šåˆ—è™Ÿ"
+
+#: src/global.c:288
+msgid "Replace text within the editor"
+msgstr "ç½®æ›ç·¨è¼¯å™¨ä¸­æ–‡å­—"
+
+#: src/global.c:290
+msgid "Mark text at the cursor position"
+msgstr "æ¨™è¨˜æ¸¸æ¨™æ‰€åœ¨æ–‡å­—"
+
+#: src/global.c:291
+msgid "Repeat last search"
+msgstr "é‡è¦†ä¸Šæ¬¡æœå°‹"
+
+#: src/global.c:293
+msgid "Move to the previous line"
+msgstr "è·³è‡³å‰ä¸€åˆ—"
+
+#: src/global.c:294
+msgid "Move to the next line"
+msgstr "è·³è‡³å¾Œä¸€åˆ—"
+
+#: src/global.c:295
+msgid "Move forward one character"
+msgstr "å‘å‰è·³ä¸€å­—å…ƒ"
+
+#: src/global.c:296
+msgid "Move back one character"
+msgstr "å‘å¾Œè·³ä¸€å­—å…ƒ"
+
+#: src/global.c:297
+msgid "Move to the beginning of the current line"
+msgstr "è·³è‡³ç›®å‰åˆ—é¦–"
+
+#: src/global.c:298
+msgid "Move to the end of the current line"
+msgstr "è·³è‡³ç›®å‰åˆ—å°¾"
+
+#: src/global.c:299
+msgid "Refresh (redraw) the current screen"
+msgstr "é‡æ–°é¡¯ç¤ºç›®å‰ç•«é¢"
+
+#: src/global.c:300
+msgid "Delete the character under the cursor"
+msgstr "åˆªé™¤æ¸¸æ¨™ä¹‹ä¸‹çš„å­—å…ƒ"
+
+#: src/global.c:302
+msgid "Delete the character to the left of the cursor"
+msgstr "åˆªé™¤æ¸¸æ¨™å·¦å´çš„å­—å…ƒ"
+
+#: src/global.c:304
+msgid "Insert a tab character at the cursor position"
+msgstr "æ’å…¥è·³æ ¼å­—å…ƒæ–¼æ¸¸æ¨™ä½ç½®"
+
+#: src/global.c:306
+msgid "Insert a carriage return at the cursor position"
+msgstr "æ’å…¥æ›åˆ—å­—å…ƒæ–¼æ¸¸æ¨™ä½ç½®"
+
+#: src/global.c:308
+msgid "Move forward one word"
+msgstr "å‘å‰è·³ä¸€å€‹å­—"
+
+#: src/global.c:309
+msgid "Move backward one word"
+msgstr "å‘å¾Œè·³ä¸€å€‹å­—"
+
+#: src/global.c:313
+msgid "Go to the beginning of the current paragraph"
+msgstr "è·³è‡³ç›®å‰æ®µè½é–‹é ­"
+
+#: src/global.c:315
+msgid "Go to the end of the current paragraph"
+msgstr "è·³è‡³ç›®å‰æ®µè½çµå°¾"
+
+#: src/global.c:318
+msgid "Switch to the previous file buffer"
+msgstr "åˆ‡æ›è‡³ä¸Šå€‹æª”æ¡ˆç·©è¡å€"
+
+#: src/global.c:319
+msgid "Switch to the next file buffer"
+msgstr "åˆ‡æ›è‡³ä¸‹å€‹æª”æ¡ˆç·©è¡å€"
+
+#: src/global.c:321
+msgid "Insert character(s) verbatim"
+msgstr "æ’å…¥å­—å…ƒåŸå½¢"
+
+#: src/global.c:324
+msgid "Cut from the cursor position to the end of the file"
+msgstr "å¾æ¸¸æ¨™ä½ç½®å‰ªä¸‹è‡³æª”æ¡ˆçµå°¾"
+
+#: src/global.c:327
+msgid "Justify the entire file"
+msgstr "å°é½Šæ•´å€‹æª”æ¡ˆ"
+
+#: src/global.c:330
+msgid "Find other bracket"
+msgstr "å°‹æ‰¾å…¶ä»–æ‹¬è™Ÿ"
+
+#: src/global.c:332
+msgid "Cancel the current function"
+msgstr "å–æ¶ˆç›®å‰åŠŸèƒ½"
+
+#: src/global.c:333
+msgid "Go to the first line of the file"
+msgstr "è·³è‡³æª”æ¡ˆç¬¬ä¸€åˆ—"
+
+#: src/global.c:334
+msgid "Go to the last line of the file"
+msgstr "è·³è‡³æª”æ¡ˆæœ€å¾Œä¸€åˆ—"
+
+#: src/global.c:337
+msgid "Make the current search/replace case (in)sensitive"
+msgstr "ä½¿ç›®å‰æœå°‹èˆ‡ç½®æ›(ä¸)å€åˆ†å¤§å°å¯«"
+
+#: src/global.c:339
+msgid "Make the current search/replace go backwards"
+msgstr "ä½¿ç›®å‰æœå°‹èˆ‡ç½®æ›å‘å¾Œé€²è¡Œ"
+
+#: src/global.c:341
+msgid "Use regular expressions"
+msgstr "ä½¿ç”¨æ­£è¦è¡¨ç¤ºå¼"
+
+#: src/global.c:344
+msgid "Edit the previous search/replace strings"
+msgstr "ç·¨è¼¯å‰æ¬¡æœå°‹/ç½®æ›å­—ä¸²"
+
+#: src/global.c:348
+msgid "Go to file browser"
+msgstr "å‘¼å«æª”æ¡ˆé¸å–®"
+
+#: src/global.c:351
+msgid "Write file out in DOS format"
+msgstr "ä»¥ DOS æ ¼å¼å¯«å…¥æª”æ¡ˆ"
+
+#: src/global.c:352
+msgid "Write file out in Mac format"
+msgstr "ä»¥ Mac æ ¼å¼å¯«å…¥æª”æ¡ˆ"
+
+#: src/global.c:354
+msgid "Append to the current file"
+msgstr "é™„åŠ è‡³ç›®å‰æª”æ¡ˆ"
+
+#: src/global.c:355
+msgid "Prepend to the current file"
+msgstr "å‰å¼•æ–¼ç›®å‰æª”æ¡ˆ"
+
+#: src/global.c:357
+msgid "Back up original file when saving"
+msgstr "å­˜æª”æ™‚å‚™ä»½åŸå§‹æª”æ¡ˆ"
+
+#: src/global.c:358
+msgid "Execute external command"
+msgstr "åŸ·è¡Œå¤–éƒ¨å‘½ä»¤"
 
 #: src/global.c:361
-msgid "Invoke the help menu"
-msgstr "©I¥s»²§U»¡©ú"
-
-#: src/global.c:362
-msgid "Write the current file to disk"
-msgstr "¼g¤J¥Ø«eÀÉ®×¦ÜºÏºĞ"
+msgid "Insert into new buffer"
+msgstr "æ’å…¥æ–°çš„ç·©è¡å€"
 
 #: src/global.c:364
-msgid "Close current file buffer/Exit from nano"
-msgstr "Ãö³¬¥Ø«eÀÉ®×½w½Ä°Ï¨ÃÂ÷¶} nano"
+msgid "Exit from the file browser"
+msgstr "å¾æª”æ¡ˆé¸å–®é›¢é–‹"
 
-#: src/global.c:366
-msgid "Exit from nano"
-msgstr "Â÷¶} nano"
+#: src/global.c:365
+msgid "Go to directory"
+msgstr "è·³è‡³ç›®éŒ„"
 
-#: src/global.c:368
-msgid "Go to a specific line number"
-msgstr "¸õ¦Ü«ü©w¦C¸¹"
-
-#: src/global.c:369
-msgid "Justify the current paragraph"
-msgstr "¹ï»ô¥Ø«e¬q¸¨"
-
-#: src/global.c:370
-msgid "Unjustify after a justify"
-msgstr "ÁÙ­ì¹ï»ô°Ê§@"
-
-#: src/global.c:371
-msgid "Replace text within the editor"
-msgstr "¸m´«½s¿è¾¹¤¤¤å¦r"
-
-#: src/global.c:372
-msgid "Insert another file into the current one"
-msgstr "´¡¤J¥¦ÀÉ¦Ü¥Ø«eÀÉ®×"
-
-#: src/global.c:373
-msgid "Search for text within the editor"
-msgstr "·j´M½s¿è¾¹¤¤¤å¦r"
-
-#: src/global.c:374
-msgid "Repeat last search"
-msgstr "­«ÂĞ¤W¦¸·j´M"
-
-#: src/global.c:375
-msgid "Move to the previous screen"
-msgstr "¸õ¦Ü«e¤@µe­±"
-
-#: src/global.c:376
-msgid "Move to the next screen"
-msgstr "¸õ¦Ü«á¤@µe­±"
-
-#: src/global.c:377
-msgid "Cut the current line and store it in the cutbuffer"
-msgstr "°Å¤U¥Ø«e³o¦C¨Ã¦s¦Ü°Å¶KÃ¯"
-
-#: src/global.c:378
-msgid "Uncut from the cutbuffer into the current line"
-msgstr "±q°Å¶KÃ¯ÁÙ­ì¦Ü¥Ø«e³o¦C"
-
-#: src/global.c:379
-msgid "Show the position of the cursor"
-msgstr "Åã¥Ü´å¼Ğ¦ì¸m"
-
-#: src/global.c:380
-msgid "Invoke the spell checker, if available"
-msgstr "¹Á¸Õ©I¥s«÷¦rÀË¬d"
-
-#: src/global.c:381
-msgid "Move to the previous line"
-msgstr "¸õ¦Ü«e¤@¦C"
-
-#: src/global.c:382
-msgid "Move to the next line"
-msgstr "¸õ¦Ü«á¤@¦C"
-
-#: src/global.c:383
-msgid "Move forward one character"
-msgstr "¦V«e¸õ¤@¦r¤¸"
-
-#: src/global.c:384
-msgid "Move back one character"
-msgstr "¦V«á¸õ¤@¦r¤¸"
-
-#: src/global.c:385
-msgid "Move to the beginning of the current line"
-msgstr "¸õ¦Ü¥Ø«e¦C­º"
-
-#: src/global.c:386
-msgid "Move to the end of the current line"
-msgstr "¸õ¦Ü¥Ø«e¦C§À"
-
-#: src/global.c:387
-msgid "Go to the first line of the file"
-msgstr "¸õ¦ÜÀÉ®×²Ä¤@¦C"
-
-#: src/global.c:388
-msgid "Go to the last line of the file"
-msgstr "¸õ¦ÜÀÉ®×³Ì«á¤@¦C"
-
-#: src/global.c:389
-msgid "Refresh (redraw) the current screen"
-msgstr "­«·sÅã¥Ü¥Ø«eµe­±"
-
-#: src/global.c:390
-msgid "Mark text at the current cursor location"
-msgstr "¼Ğ°O¥Ø«e´å¼Ğ©Ò¦b¤å¦r"
-
-#: src/global.c:391
-msgid "Delete the character under the cursor"
-msgstr "§R°£´å¼Ğ¤§¤Uªº¦r¤¸"
-
-#: src/global.c:393
-msgid "Delete the character to the left of the cursor"
-msgstr "§R°£´å¼Ğ¥ª°¼ªº¦r¤¸"
-
-#: src/global.c:394
-msgid "Insert a tab character"
-msgstr "´¡¤J¸õ®æ¦r¤¸"
-
-#: src/global.c:395 src/global.c:399
-msgid "Insert a carriage return at the cursor position"
-msgstr "´¡¤J´«¦C¦r¤¸©ó´å¼Ğ¦ì¸m"
-
-#: src/global.c:396
-msgid "Move backward one word"
-msgstr "¦V«á¸õ¤@­Ó¦r"
-
-#: src/global.c:397
-msgid "Move forward one word"
-msgstr "¦V«e¸õ¤@­Ó¦r"
-
-#: src/global.c:398
-msgid "Insert character(s) verbatim"
-msgstr "´¡¤J¦r¤¸­ì§Î"
+#: src/global.c:395
+msgid "Close"
+msgstr "é—œé–‰"
 
 #: src/global.c:401
-msgid "Make the current search or replace case (in)sensitive"
-msgstr "Åı¥Ø«e·j´M»P¸m´«(¤£)°Ï¤À¤j¤p¼g"
-
-#: src/global.c:402
-msgid "Go to file browser"
-msgstr "©I¥sÀÉ®×¿ï³æ"
-
-#: src/global.c:403
-msgid "Execute external command"
-msgstr "°õ¦æ¥~³¡©R¥O"
-
-#: src/global.c:404
-msgid "Go to directory"
-msgstr "¸õ¦Ü¥Ø¿ı"
-
-#: src/global.c:405
-msgid "Cancel the current function"
-msgstr "¨ú®ø¥Ø«e¥\¯à"
+msgid "WriteOut"
+msgstr "å¯«å…¥"
 
 #: src/global.c:406
-msgid "Append to the current file"
-msgstr "ªş¥[¦Ü¥Ø«eÀÉ®×"
-
-#: src/global.c:407
-msgid "Prepend to the current file"
-msgstr "«e¤Ş©ó¥Ø«eÀÉ®×"
-
-#: src/global.c:408
-msgid "Search backwards"
-msgstr "¦V«á·j´M"
-
-#: src/global.c:409
-msgid "Write file out in DOS format"
-msgstr "¥H DOS ®æ¦¡¼g¤JÀÉ®×"
-
-#: src/global.c:410
-msgid "Write file out in Mac format"
-msgstr "¥H Mac ®æ¦¡¼g¤JÀÉ®×"
-
-#: src/global.c:411
-msgid "Back up original file when saving"
-msgstr "¦sÀÉ®É³Æ¥÷­ì©lÀÉ®×"
-
-#: src/global.c:412
-msgid "Edit the previous search/replace strings"
-msgstr "½s¿è«e¦¸·j´M/¸m´«¦r¦ê"
-
-#: src/global.c:413
-msgid "Go to the beginning of the current paragraph"
-msgstr "¸õ¦Ü¥Ø«e¬q¸¨¶}ÀY"
-
-#: src/global.c:414
-msgid "Go to the end of the current paragraph"
-msgstr "¸õ¦Ü¥Ø«e¬q¸¨µ²§À"
-
-#: src/global.c:416
-msgid "Use regular expressions"
-msgstr "¨Ï¥Î¥¿³Wªí¥Ü¦¡"
-
-#: src/global.c:417
-msgid "Find other bracket"
-msgstr "´M§ä¨ä¥L¬A¸¹"
-
-#: src/global.c:420
-msgid "Switch to previous file buffer"
-msgstr "¤Á´«¦Ü¤W­ÓÀÉ®×½w½Ä°Ï"
-
-#: src/global.c:421
-msgid "Switch to next file buffer"
-msgstr "¤Á´«¦Ü¤U­ÓÀÉ®×½w½Ä°Ï"
+msgid "Justify"
+msgstr "å°é½Š"
 
 #: src/global.c:422
-msgid "Toggle insert into new file buffer"
-msgstr "¶}Ãö·s½w½Ä°Ïªº´¡¤Jª¬ºA"
-
-#: src/global.c:438 src/global.c:611 src/global.c:681 src/global.c:728
-#: src/global.c:752 src/global.c:786 src/global.c:832 src/global.c:863
-#: src/global.c:875 src/global.c:887 src/global.c:910
-msgid "Get Help"
-msgstr "¨D§U"
-
-#: src/global.c:445
-msgid "Close"
-msgstr "Ãö³¬"
-
-#: src/global.c:452 src/global.c:779
-msgid "Exit"
-msgstr "Â÷¶}"
-
-#: src/global.c:457
-msgid "WriteOut"
-msgstr "¼g¤J"
-
-#: src/global.c:462
-msgid "Justify"
-msgstr "¹ï»ô"
-
-#: src/global.c:468
 msgid "Read File"
-msgstr "ÅªÀÉ"
+msgstr "è®€æª”"
 
-#: src/global.c:479
+#: src/global.c:434
 msgid "Where Is"
-msgstr "·j´M"
+msgstr "æœå°‹"
 
-#: src/global.c:484 src/global.c:771 src/global.c:895
-msgid "Prev Page"
-msgstr "¤W­¶"
+#: src/global.c:449
+msgid "Cut Text"
+msgstr "å‰ªä¸‹æ–‡å­—"
 
-#: src/global.c:489 src/global.c:775 src/global.c:899
-msgid "Next Page"
-msgstr "¤U­¶"
+#: src/global.c:455
+msgid "UnJustify"
+msgstr "é‚„åŸå°é½Š"
+
+#: src/global.c:460
+msgid "UnCut Txt"
+msgstr "é‚„åŸå‰ªä¸‹"
+
+#: src/global.c:465
+msgid "Cur Pos"
+msgstr "æ¸¸æ¨™ä½ç½®"
+
+#: src/global.c:473
+msgid "To Spell"
+msgstr "æ‹¼å­—æª¢æŸ¥"
+
+#: src/global.c:490
+msgid "Mark Text"
+msgstr "æ¨™è¨˜æ–‡å­—"
 
 #: src/global.c:494
-msgid "Cut Text"
-msgstr "°Å¤U¤å¦r"
+msgid "Where Is Next"
+msgstr "ä½•è™•æ˜¯ä¸‹ä¸€å€‹"
 
-#: src/global.c:500
-msgid "UnJustify"
-msgstr "ÁÙ­ì¹ï»ô"
+#: src/global.c:499 src/global.c:806
+msgid "Prev Line"
+msgstr "ä¸Šåˆ—"
 
-#: src/global.c:505
-msgid "UnCut Txt"
-msgstr "ÁÙ­ì°Å¤U"
+#: src/global.c:503 src/global.c:810
+msgid "Next Line"
+msgstr "ä¸‹åˆ—"
 
-#: src/global.c:510
-msgid "Cur Pos"
-msgstr "´å¼Ğ¦ì¸m"
+#: src/global.c:507
+msgid "Forward"
+msgstr "å‘å‰"
+
+#: src/global.c:511
+msgid "Back"
+msgstr "å‘å¾Œ"
 
 #: src/global.c:515
-msgid "To Spell"
-msgstr "«÷¦rÀË¬d"
+msgid "Home"
+msgstr "é ‚ç«¯"
 
-#: src/global.c:519 src/global.c:636 src/global.c:702
-msgid "Go To Line"
-msgstr "¸õ¦C"
+#: src/global.c:519
+msgid "End"
+msgstr "å°¾ç«¯"
 
-#: src/global.c:523 src/global.c:631
-msgid "Replace"
-msgstr "¸m´«"
+#: src/global.c:523 src/global.c:814 src/global.c:1005
+msgid "Refresh"
+msgstr "é‡æ–°é¡¯ç¤º"
 
 #: src/global.c:527
-msgid "Prev Line"
-msgstr "¤W¦C"
+msgid "Delete"
+msgstr "åˆªé™¤éµ"
 
 #: src/global.c:531
-msgid "Next Line"
-msgstr "¤U¦C"
+msgid "Backspace"
+msgstr "é€€æ ¼éµ"
 
 #: src/global.c:535
-msgid "Forward"
-msgstr "¦V«e"
+msgid "Tab"
+msgstr "è·³æ ¼éµ"
 
 #: src/global.c:539
-msgid "Back"
-msgstr "¦V«á"
-
-#: src/global.c:543
-msgid "Home"
-msgstr "³»ºİ"
-
-#: src/global.c:547
-msgid "End"
-msgstr "§Àºİ"
-
-#: src/global.c:551
-msgid "Refresh"
-msgstr "­«·sÅã¥Ü"
-
-#: src/global.c:555
-msgid "Mark Text"
-msgstr "¼Ğ°O¤å¦r"
-
-#: src/global.c:559
-msgid "Delete"
-msgstr "§R°£Áä"
-
-#: src/global.c:563
-msgid "Backspace"
-msgstr "°h®æÁä"
-
-#: src/global.c:567
-msgid "Tab"
-msgstr "¸õ®æÁä"
-
-#: src/global.c:571
 msgid "Enter"
-msgstr "¿é¤JÁä"
+msgstr "è¼¸å…¥éµ"
 
-#: src/global.c:576
+#: src/global.c:544
 msgid "Next Word"
-msgstr "«á¤@­Ó¦r"
+msgstr "å¾Œä¸€å€‹å­—"
 
-#: src/global.c:580
+#: src/global.c:548
 msgid "Prev Word"
-msgstr "«e¤@­Ó¦r"
+msgstr "å‰ä¸€å€‹å­—"
 
-#: src/global.c:585
-msgid "Verbatim Input"
-msgstr "­ì§Î¿é¤J"
-
-#: src/global.c:590
+#: src/global.c:566
 msgid "Previous File"
-msgstr "¤W­ÓÀÉ®×"
+msgstr "ä¸Šå€‹æª”æ¡ˆ"
+
+#: src/global.c:570
+msgid "Next File"
+msgstr "ä¸‹å€‹æª”æ¡ˆ"
+
+#: src/global.c:575
+msgid "Verbatim Input"
+msgstr "åŸå½¢è¼¸å…¥"
 
 #: src/global.c:594
-msgid "Next File"
-msgstr "¤U­ÓÀÉ®×"
-
-#: src/global.c:600
 msgid "Find Other Bracket"
-msgstr "´M§ä¨ä¥L¬A¸¹"
+msgstr "å°‹æ‰¾å…¶ä»–æ‹¬è™Ÿ"
 
-#: src/global.c:605
-msgid "Where Is Next"
-msgstr "¦ó³B¬O¤U¤@­Ó"
-
-#: src/global.c:616 src/global.c:685 src/global.c:732 src/global.c:756
-#: src/global.c:826 src/global.c:836 src/global.c:867 src/global.c:879
-#: src/global.c:891 src/global.c:914 src/winio.c:2136
-msgid "Cancel"
-msgstr "¨ú®ø"
-
-#: src/global.c:621 src/global.c:689 src/global.c:736 src/global.c:760
-msgid "First Line"
-msgstr "­º¦C"
-
-#: src/global.c:626 src/global.c:693 src/global.c:740 src/global.c:764
-msgid "Last Line"
-msgstr "§À¦C"
-
-#: src/global.c:642
-msgid "Beg of Par"
-msgstr "¬q¸¨¶}ÀY"
-
-#: src/global.c:647
-msgid "End of Par"
-msgstr "¬q¸¨µ²§À"
-
-#: src/global.c:654 src/global.c:707
-msgid "Case Sens"
-msgstr "¨Ì¤j¤p¼g"
-
-#: src/global.c:659 src/global.c:711
-msgid "Direction"
-msgstr "·j´M¤è¦V"
-
-#: src/global.c:665 src/global.c:716
-msgid "Regexp"
-msgstr "¥¿³Wªí¥Ü"
-
-#: src/global.c:672 src/global.c:721 src/global.c:745
-msgid "History"
-msgstr "¾ú¥v°O¿ı"
-
-#: src/global.c:698
+#: src/global.c:709
 msgid "No Replace"
-msgstr "¤£¸m´«"
+msgstr "ä¸ç½®æ›"
 
-#: src/global.c:792 src/global.c:841
-msgid "To Files"
-msgstr "ÀÉ®×¿ï³æ"
+#: src/global.c:792
+msgid "Go To Text"
+msgstr "è·³è‡³æ–‡å­—"
 
-#: src/global.c:799
+#: src/global.c:858
 msgid "DOS Format"
-msgstr "DOS ®æ¦¡"
+msgstr "DOS æ ¼å¼"
 
-#: src/global.c:804
+#: src/global.c:864
 msgid "Mac Format"
-msgstr "Mac ®æ¦¡"
+msgstr "Mac æ ¼å¼"
 
-#: src/global.c:810
+#: src/global.c:871
 msgid "Append"
-msgstr "ªş¥["
+msgstr "é™„åŠ "
 
-#: src/global.c:815
+#: src/global.c:877
 msgid "Prepend"
-msgstr "«e¤Ş"
+msgstr "å‰å¼•"
 
-#: src/global.c:821
+#: src/global.c:884
 msgid "Backup File"
-msgstr "³Æ¥÷ÀÉ®×"
+msgstr "å‚™ä»½æª”æ¡ˆ"
 
-#: src/global.c:848
+#: src/global.c:920
 msgid "Execute Command"
-msgstr "¥~³¡©R¥O"
+msgstr "å¤–éƒ¨å‘½ä»¤"
 
-#: src/global.c:854 src/winio.c:1398
-msgid "New Buffer"
-msgstr "·s½w½Ä°Ï"
+#: src/global.c:969
+msgid "Insert File"
+msgstr "æ’å…¥æª”æ¡ˆ"
 
-#: src/global.c:904
+#: src/global.c:1010
 msgid "Go To Dir"
-msgstr "¸õ¦Ü¥Ø¿ı"
+msgstr "è·³è‡³ç›®éŒ„"
 
-#: src/nano.c:170
+#: src/global.c:1079
+msgid "Help mode"
+msgstr "è¼”åŠ©æ¨¡å¼"
+
+#: src/global.c:1085
+msgid "Multiple file buffers"
+msgstr "å¤šé‡æª”æ¡ˆç·©è¡å€"
+
+#: src/global.c:1087
+msgid "Constant cursor position"
+msgstr "æŒçºŒæ¸¸æ¨™ä½ç½®"
+
+#: src/global.c:1089
+msgid "Auto indent"
+msgstr "è‡ªå‹•ç¸®æ’"
+
+#: src/global.c:1092
+msgid "Auto line wrap"
+msgstr "è‡ªå‹•æ›åˆ—"
+
+#: src/global.c:1094
+msgid "Cut to end"
+msgstr "å‰ªä¸‹è‡³åˆ—å°¾"
+
+#: src/global.c:1098
+msgid "Suspend"
+msgstr "æš«åœ"
+
+#: src/global.c:1100
+msgid "Mouse support"
+msgstr "æ»‘é¼ æ”¯æ´"
+
+#: src/global.c:1106
+msgid "No conversion from DOS/Mac format"
+msgstr "ä¸å¾ DOS/Mac æ ¼å¼è½‰æª”"
+
+#: src/global.c:1110
+msgid "Backup files"
+msgstr "å‚™ä»½æª”æ¡ˆ"
+
+#: src/global.c:1112 src/nano.c:987
+msgid "Smooth scrolling"
+msgstr "å¹³æ»‘å¼æ²å‹•ç•«é¢"
+
+#: src/global.c:1114
+msgid "Smart home key"
+msgstr "æ™ºæ…§å‹ HOME æŒ‰éµ"
+
+#: src/global.c:1117
+msgid "Color syntax highlighting"
+msgstr "èªæ³•è‰²å½©æ¨™ç¤º"
+
+#: src/global.c:1121
+msgid "Whitespace display"
+msgstr "é¡¯ç¤ºç©ºæ ¼"
+
+#: src/global.c:1124
+msgid "Use of more space for editing"
+msgstr "ç·¨è¼¯æ™‚ä½¿ç”¨æ›´å¤šç©ºé–“"
+
+#: src/nano.c:84
+msgid "Key illegal in VIEW mode"
+msgstr "è§€çœ‹æ¨¡å¼ä¸­æ­¤æŒ‰éµç„¡æ•ˆ"
+
+#: src/nano.c:177
 #, c-format
 msgid ""
 "\n"
 "Buffer written to %s\n"
 msgstr ""
 "\n"
-"½w½Ä°Ï¤w¼g¤J %s\n"
+"ç·©è¡å€å·²å¯«å…¥ %s\n"
 
-#: src/nano.c:172
+#: src/nano.c:179
 #, c-format
 msgid ""
 "\n"
-"No %s written (too many backup files?)\n"
+"Buffer not written to %s (too many backup files?)\n"
 msgstr ""
 "\n"
-"%s µLªk¼g¤J (¤Ó¦h³Æ¥÷ÀÉ¡H)\n"
+"ç·©è¡å€ç„¡æ³•å¯«å…¥ %s (å¤ªå¤šå‚™ä»½æª”ï¼Ÿ)\n"
 
-#: src/nano.c:181
+#: src/nano.c:190
 msgid "Window size is too small for nano...\n"
-msgstr "µøµ¡¤Ø¤o¹ï nano ¦Ó¨¥¤Ó¤p¤F...\n"
+msgstr "è¦–çª—å°ºå¯¸å° nano è€Œè¨€å¤ªå°äº†...\n"
 
-#: src/nano.c:186
-msgid "Key illegal in VIEW mode"
-msgstr "Æ[¬İ¼Ò¦¡¤¤¦¹«öÁäµL®Ä"
-
-#: src/nano.c:271
+#: src/nano.c:283
 msgid ""
 "Search Command Help Text\n"
 "\n"
 " Enter the words or characters you would like to search for, then hit "
-"enter.  If there is a match for the text you entered, the screen will be "
+"Enter.  If there is a match for the text you entered, the screen will be "
 "updated to the location of the nearest match for the search string.\n"
 "\n"
-" The previous search string will be shown in brackets after the Search: "
+" The previous search string will be shown in brackets after the search "
 "prompt.  Hitting Enter without entering any text will perform the previous "
-"search.\n"
+"search.  If you have selected text with the mark and then search to replace, "
+"only matches in the selected text will be replaced.\n"
 "\n"
 " The following function keys are available in Search mode:\n"
 "\n"
 msgstr ""
-"·j´M©R¥O»²§U»¡©ú\n"
+"æœå°‹å‘½ä»¤è¼”åŠ©èªªæ˜\n"
 "\n"
-" ­º¥ı¿é¤J§A·Q­n·j´Mªº¦r¦ê©Î¦r¤¸¡AµM«á«ö¤U¿é¤JÁä (Enter)¡C¦pªG¦s¦bµÛ¹ïÀ³ "
-"§A©Ò¿é¤Jªº¤å¦r¡Aµe­±´N·|§ó·s¨ì³Ì¦X¥G·j´M¦r¦êªº¦ì¸m¡C\n"
+" é¦–å…ˆè¼¸å…¥ä½ æƒ³è¦æœå°‹çš„å­—ä¸²æˆ–å­—å…ƒï¼Œç„¶å¾ŒæŒ‰ä¸‹è¼¸å…¥éµ (Enter)ã€‚å¦‚æœå­˜åœ¨è‘—ç¬¦åˆ "
+"ä½ æ‰€è¼¸å…¥çš„æ–‡å­—ï¼Œç•«é¢å°±æœƒæ›´æ–°åˆ°æœ€åˆä¹æœå°‹å­—ä¸²çš„ä½ç½®ã€‚\n"
 "\n"
-" «e¦¸·j´Mªº¦r¦ê±N·|Åã¥Ü¦b ·j´M: ´£¥Ü²Å¸¹«á­±ªº¬A¸¹¤¤¡C¤£¿é¤J¥ô¦ó¤å¦r¦Ó "
-"ª½±µ«ö¤U¿é¤JÁä«h·|¼i¦æ«e¦¸ªº·j´M¡C\n"
+" å‰æ¬¡æœå°‹çš„å­—ä¸²å°‡æœƒé¡¯ç¤ºåœ¨ æœå°‹: æç¤ºç¬¦è™Ÿå¾Œé¢çš„æ‹¬è™Ÿä¸­ã€‚ä¸è¼¸å…¥ä»»ä½•æ–‡å­—è€Œ "
+"ç›´æ¥æŒ‰ä¸‹è¼¸å…¥éµå‰‡æœƒå±¥è¡Œå‰æ¬¡çš„æœå°‹ã€‚å¦‚æœä½ å·²ç¶“ç”¨æ¨™è¨˜é¸æ“‡äº†ä¸€æ®µæ–‡å­—ä¸¦é€²è¡Œ "
+"æœå°‹æ›¿æ›ï¼Œå°±åªæœ‰åœ¨é¸æ“‡æ–‡å­—ä¸­ç¬¦åˆè€…å°‡æœƒè¢«æ›¿æ›ã€‚\n"
 "\n"
-" ¥H¤Uªº¥\¯àÁä¥i¥Î©ó·j´M¼Ò¦¡: \n"
+" ä»¥ä¸‹çš„åŠŸèƒ½éµå¯ç”¨æ–¼æœå°‹æ¨¡å¼: \n"
 "\n"
 
-#: src/nano.c:281
+#: src/nano.c:295
 msgid ""
 "Go To Line Help Text\n"
 "\n"
@@ -755,15 +786,15 @@ msgid ""
 " The following function keys are available in Go To Line mode:\n"
 "\n"
 msgstr ""
-"¸õ¦C»²§U»¡©ú\n"
+"è·³åˆ—è¼”åŠ©èªªæ˜\n"
 "\n"
-" ­º¥ı¿é¤J§A·Q¥hªº¦C¼Æ½s¸¹¨Ã«ö¤U¿é¤JÁä (Enter)¡C¦pªG¤å³¹¤¤ªº¦C¼Æ¤ñ§A©Ò¿é "
-"¤J­n¤Ö¡A§A±N·|³Q±a¦ÜÀÉ®×ªº³Ì«á¤@¦C¡C\n"
+" é¦–å…ˆè¼¸å…¥ä½ æƒ³å»çš„åˆ—æ•¸ç·¨è™Ÿä¸¦æŒ‰ä¸‹è¼¸å…¥éµ (Enter)ã€‚å¦‚æœæ–‡ç« ä¸­çš„åˆ—æ•¸æ¯”ä½ æ‰€è¼¸ "
+"å…¥è¦å°‘ï¼Œä½ å°‡æœƒè¢«å¸¶è‡³æª”æ¡ˆçš„æœ€å¾Œä¸€åˆ—ã€‚\n"
 "\n"
-" ¥H¤Uªº¥\¯àÁä¥i¥Î©ó¸õ¦C¼Ò¦¡: \n"
+" ä»¥ä¸‹çš„åŠŸèƒ½éµå¯ç”¨æ–¼è·³åˆ—æ¨¡å¼: \n"
 "\n"
 
-#: src/nano.c:288
+#: src/nano.c:302
 msgid ""
 "Insert File Help Text\n"
 "\n"
@@ -773,36 +804,34 @@ msgid ""
 " If you have compiled nano with multiple file buffer support, and enable "
 "multiple buffers with the -F or --multibuffer command line flags, the Meta-F "
 "toggle, or a nanorc file, inserting a file will cause it to be loaded into a "
-"separate buffer (use Meta-< and > to switch between file buffers).\n"
-"\n"
-" If you need another blank buffer, do not enter any filename, or type in a "
+"separate buffer (use Meta-< and > to switch between file buffers). If you "
+"need another blank buffer, do not enter any filename, or type in a "
 "nonexistent filename at the prompt and press Enter.\n"
 "\n"
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
-"´¡¤JÀÉ®×»²§U»¡©ú\n"
+"æ’å…¥æª”æ¡ˆè¼”åŠ©èªªæ˜\n"
 "\n"
-" ¥ı§âÀÉ®×ªº¦WºÙÁä¤J¡A¥¦±N·|´¡¤J¦b¥Ø«e½w½Ä°Ïªº´å¼Ğ©Ò¦b¤§³B¡C\n"
+" å…ˆæŠŠæª”æ¡ˆçš„åç¨±éµå…¥ï¼Œå®ƒå°‡æœƒæ’å…¥åœ¨ç›®å‰ç·©è¡å€çš„æ¸¸æ¨™æ‰€åœ¨ä¹‹è™•ã€‚\n"
 "\n"
-" ¦pªG§A©Ò½sÄ¶ªº nano ¤ä´©¦h­«ÀÉ®×½w½Ä°Ï¡A¨Ã¥B±N¦¹¥\¯à¥H©R¥O¦CºX¼Ğ -F ©Î "
-"--multibuffer¡BMeta-F ¶}Ãö¡A©ÎªÌ nanorc ÀÉ®×¨Ó±Ò°Êªº¸Ü¡A©Ò´¡¤JªºÀÉ®×±N "
-"·|³Q¸ü¤J¥t¥~ªº½w½Ä°Ï¤¤ (§Q¥Î Meta-< ©M > ¦bÀÉ®×½w½Ä°Ï¶¡¤Á´«)¡C\n"
+" å¦‚æœä½ æ‰€ç·¨è­¯çš„ nano æ”¯æ´å¤šé‡æª”æ¡ˆç·©è¡å€ï¼Œä¸¦ä¸”å°‡æ­¤åŠŸèƒ½ä»¥å‘½ä»¤åˆ—æ——æ¨™ -F æˆ– "
+"--multibufferã€Meta-F é–‹é—œï¼Œæˆ–è€… nanorc æª”æ¡ˆä¾†å•Ÿå‹•çš„è©±ï¼Œæ‰€æ’å…¥çš„æª”æ¡ˆ "
+"å°‡æœƒè¢«è¼‰å…¥å¦å¤–çš„ç·©è¡å€ä¸­ (åˆ©ç”¨ Meta-< å’Œ > åœ¨æª”æ¡ˆç·©è¡å€é–“åˆ‡æ›)ã€‚å¦‚æœ "
+"ä½ éœ€è¦å¦ä¸€å€‹ç©ºçš„ç·©è¡å€ï¼Œé‚£å°±ä¸è¦è¼¸å…¥ä»»ä½•æª”åï¼Œæˆ–æ˜¯åœ¨æç¤ºç¬¦è™Ÿå¾Œéµå…¥ä¸€å€‹ "
+"ä¸å­˜åœ¨çš„æª”åï¼Œç„¶å¾ŒæŒ‰ä¸‹è¼¸å…¥éµã€‚\n"
 "\n"
-" ¦pªG§A»İ­n¥t¤@­ÓªÅªº½w½Ä°Ï¡A¨º´N¤£­n¿é¤J¥ô¦óÀÉ¦W¡A©Î¬O¦b´£¥Ü²Å¸¹«áÁä¤J "
-"¤@­Ó¤£¦s¦bªºÀÉ¦W¡AµM«á«ö¤U¿é¤JÁä¡C\n"
-"\n"
-" ¥H¤Uªº¥\¯àÁä¥i¥Î©ó´¡¤JÀÉ®×¼Ò¦¡: \n"
+" ä»¥ä¸‹çš„åŠŸèƒ½éµå¯ç”¨æ–¼æ’å…¥æª”æ¡ˆæ¨¡å¼: \n"
 "\n"
 
-#: src/nano.c:302
+#: src/nano.c:315
 msgid ""
 "Write File Help Text\n"
 "\n"
 " Type the name that you wish to save the current file as and hit Enter to "
 "save the file.\n"
 "\n"
-" If you have selected text with Ctrl-^, you will be prompted to save only "
+" If you have selected text with the mark, you will be prompted to save only "
 "the selected portion to a separate file.  To reduce the chance of "
 "overwriting the current file with just a portion of it, the current filename "
 "is not the default in this mode.\n"
@@ -810,18 +839,18 @@ msgid ""
 " The following function keys are available in Write File mode:\n"
 "\n"
 msgstr ""
-"¼g¤JÀÉ®×»²§U»¡©ú\n"
+"å¯«å…¥æª”æ¡ˆè¼”åŠ©èªªæ˜\n"
 "\n"
-" ¥ıÁä¤J§A·Q­n¥H¦¹¨ÓÀx¦s¥Ø«eÀÉ®×ªº¦WºÙ¡C\n"
+" å…ˆéµå…¥ä½ æƒ³è¦ä»¥æ­¤ä¾†å„²å­˜ç›®å‰æª”æ¡ˆçš„åç¨±ï¼Œä¸¦æŒ‰ä¸‹è¼¸å…¥éµä¾†å„²å­˜æª”æ¡ˆã€‚\n"
 "\n"
-" ¦pªG¤w¸g¥Î Ctrl-^ ¼Ğ°O¤F¤å¦r¡A¨º»ò§A±N·|³Q´£¥Ü¡A¥uÀx¦s¼Ğ°O³¡¥÷¨ì¥t¥~ªº "
-"ÀÉ®×¡C¬°¤F­°§C¥Ø«eÀÉ®×¥u³Q¨ä¤¤³¡¥÷ÂĞ¼gªº¾÷·|¡A¦b¦¹¼Ò¦¡¤U¡A¥Ø«eªºÀÉ¦W¤£·| "
-"¦¨¬°¹w³]­È¡C\n"
+" å¦‚æœå·²ç¶“ç”¨æ¨™è¨˜é¸æ“‡äº†æ–‡å­—ï¼Œé‚£éº¼ä½ å°‡æœƒè¢«æç¤ºï¼Œåªå„²å­˜æ¨™è¨˜éƒ¨ä»½åˆ°å¦å¤–çš„æª” "
+"æ¡ˆã€‚ç‚ºäº†é™ä½ç›®å‰æª”æ¡ˆåªè¢«å…¶ä¸­éƒ¨ä»½è¦†å¯«çš„æ©Ÿæœƒï¼Œåœ¨æ­¤æ¨¡å¼ä¸‹ï¼Œç›®å‰çš„æª”åä¸æœƒ "
+"æˆç‚ºé è¨­å€¼ã€‚\n"
 "\n"
-" ¥H¤Uªº¥\¯àÁä¥i¥Î©ó¼g¤JÀÉ®×¼Ò¦¡: \n"
+" ä»¥ä¸‹çš„åŠŸèƒ½éµå¯ç”¨æ–¼å¯«å…¥æª”æ¡ˆæ¨¡å¼: \n"
 "\n"
 
-#: src/nano.c:313
+#: src/nano.c:326
 msgid ""
 "File Browser Help Text\n"
 "\n"
@@ -834,82 +863,85 @@ msgid ""
 " The following function keys are available in the file browser:\n"
 "\n"
 msgstr ""
-"ÀÉ®×¿ï³æ»²§U»¡©ú\n"
+"æª”æ¡ˆé¸å–®è¼”åŠ©èªªæ˜\n"
 "\n"
-" ÀÉ®×¿ï³æ¬O¥Î¨ÓµøÄ±¤ÆÂsÄı¥Ø¿ıµ²ºc¡A¥H¿ï¨ú­nÅª¥X©Î¼g¤JªºÀÉ®×¡C§A¥i¥H¨Ï¥Î "
-"¤W¤U¥ª¥kÁä©Î¤W­¶/¤U­¶¨ÓÂsÄı¡A¨Ã¥Î S ©Î¿é¤JÁä¨Ó¿ï¨ú©Ò­nªºÀÉ®×©ÎªÌ¶i¤J©Ò¿ï "
-"ªº¥Ø¿ı¡C­n¸õ¨ì¤W¼h®É¡A¿ï¾Ü¦bÀÉ®×¦Cªí³»ºİ¦W¬° \"..\" ªº¥Ø¿ı¡C\n"
+" æª”æ¡ˆé¸å–®æ˜¯ç”¨ä¾†è¦–è¦ºåŒ–ç€è¦½ç›®éŒ„çµæ§‹ï¼Œä»¥é¸å–è¦è®€å‡ºæˆ–å¯«å…¥çš„æª”æ¡ˆã€‚ä½ å¯ä»¥ "
+"ä½¿ç”¨ä¸Šä¸‹å·¦å³éµæˆ–ä¸Šé /ä¸‹é ä¾†ç€è¦½ï¼Œä¸¦ç”¨ S æˆ–è¼¸å…¥éµä¾†é¸å–æ‰€è¦çš„æª”æ¡ˆæˆ–è€… "
+"é€²å…¥æ‰€é¸çš„ç›®éŒ„ã€‚è¦è·³åˆ°ä¸Šå±¤æ™‚ï¼Œé¸æ“‡åœ¨æª”æ¡ˆåˆ—è¡¨é ‚ç«¯åç‚º \"..\" çš„ç›®éŒ„ã€‚\n"
 "\n"
-" ¥H¤Uªº¥\¯àÁä¥i¥Î©óÀÉ®×¿ï³æ: \n"
+" ä»¥ä¸‹çš„åŠŸèƒ½éµå¯ç”¨æ–¼æª”æ¡ˆé¸å–®: \n"
 "\n"
 
-#: src/nano.c:324
+#: src/nano.c:337
 msgid ""
 "Browser Go To Directory Help Text\n"
 "\n"
 " Enter the name of the directory you would like to browse to.\n"
 "\n"
-" If tab completion has not been disabled, you can use the TAB key to "
+" If tab completion has not been disabled, you can use the Tab key to "
 "(attempt to) automatically complete the directory name.\n"
 "\n"
 " The following function keys are available in Browser Go To Directory mode:\n"
 "\n"
 msgstr ""
-"¸õ¦Ü¥Ø¿ı»²§U»¡©ú\n"
+"è·³è‡³ç›®éŒ„è¼”åŠ©èªªæ˜\n"
 "\n"
-" ¥ı¿é¤J§A·Q­nÂsÄıªº¥Ø¿ı¦WºÙ¡C\n"
+" å…ˆè¼¸å…¥ä½ æƒ³è¦ç€è¦½çš„ç›®éŒ„åç¨±ã€‚\n"
 "\n"
-" ¦pªG¸õ®æ¸É¥¿ªº¥\¯à¨S¦³³QÃö³¬¡A§A¥i¥H§Q¥Î¸õ®æÁä (TAB) ¥h (¹Á¸Õ) ¦Û°Ê¸É¥¿ "
-"¥Ø¿ı¦WºÙ¡C\n"
+" å¦‚æœè·³æ ¼è£œæ­£çš„åŠŸèƒ½æ²’æœ‰è¢«é—œé–‰ï¼Œä½ å¯ä»¥åˆ©ç”¨è·³æ ¼éµ (TAB) å» (å˜—è©¦) "
+"è‡ªå‹•è£œæ­£ç›®éŒ„åç¨±ã€‚\n"
 "\n"
-" ¥H¤Uªº¥\¯àÁä¥i¥Î©ó¸õ¦Ü¥Ø¿ı¼Ò¦¡: \n"
+" ä»¥ä¸‹çš„åŠŸèƒ½éµå¯ç”¨æ–¼è·³è‡³ç›®éŒ„æ¨¡å¼: \n"
 "\n"
 
-#: src/nano.c:333
+#: src/nano.c:346
 msgid ""
 "Spell Check Help Text\n"
 "\n"
 " The spell checker checks the spelling of all text in the current file.  "
 "When an unknown word is encountered, it is highlighted and a replacement can "
 "be edited.  It will then prompt to replace every instance of the given "
-"misspelled word in the current file.\n"
+"misspelled word in the current file, or, if you have selected text with the "
+"mark, in the selected text.\n"
 "\n"
 " The following other functions are available in Spell Check mode:\n"
 "\n"
 msgstr ""
-"«÷¦rÀË¬d»²§U»¡©ú\n"
+"æ‹¼å­—æª¢æŸ¥è¼”åŠ©èªªæ˜\n"
 "\n"
-" «÷¦rÀË¬dµ{¦¡·|ÀË¬d¥Ø«eÀÉ®×¤¤©Ò¦³¤å¦rªº«÷ªk¡C·í¹J¨ì¤@­Ó¥¼ª¾ªº¦r¡A¥¦·|³Q "
-"¼Ğ°O°_¨Ó¡A¨ÃÅı§A½s¿è´À¥N¤å¦r¡C¹ï©ó¥Ø«eÀÉ®×¤¤¨C¤@­Ó«÷¿ùªº¦r¡A³£·|Åã¥Ü¸m´« "
-"ªº´£¥Ü¡C\n"
+" æ‹¼å­—æª¢æŸ¥ç¨‹å¼æœƒæª¢æŸ¥ç›®å‰æª”æ¡ˆä¸­æ‰€æœ‰æ–‡å­—çš„æ‹¼æ³•ã€‚ç•¶é‡åˆ°ä¸€å€‹æœªçŸ¥çš„å­—ï¼Œå®ƒæœƒ "
+"è¢«æ¨™è¨˜èµ·ä¾†ï¼Œä¸¦è®“ä½ ç·¨è¼¯æ›¿ä»£æ–‡å­—ã€‚å°æ–¼ç›®å‰æª”æ¡ˆä¸­æ¯ä¸€å€‹æ‹¼éŒ¯çš„å­—ï¼Œéƒ½æœƒé¡¯ç¤º "
+"ç½®æ›çš„æç¤ºï¼›æˆ–è€…ï¼Œå¦‚æœå·²ç¶“ç”¨æ¨™è¨˜é¸æ“‡äº†æ–‡å­—çš„è©±ï¼Œé‚£å°±åªä½œç”¨æ–¼é¸å–çš„æ–‡å­— "
+"ä¹‹ä¸­ã€‚\n"
 "\n"
-" ¥H¤Uªº¥\¯àÁä¥i¥Î©ó«÷¦rÀË¬d¼Ò¦¡: \n"
+" ä»¥ä¸‹çš„åŠŸèƒ½éµå¯ç”¨æ–¼æ‹¼å­—æª¢æŸ¥æ¨¡å¼: \n"
 "\n"
 
-#: src/nano.c:344
+#: src/nano.c:358
 msgid ""
 "External Command Help Text\n"
 "\n"
 " This menu allows you to insert the output of a command run by the shell "
-"into the current buffer (or a new buffer in multibuffer mode).\n"
+"into the current buffer (or a new buffer in multibuffer mode). If you need "
+"another blank buffer, do not enter any command.\n"
 "\n"
 " The following keys are available in this mode:\n"
 "\n"
 msgstr ""
-"¥~³¡©R¥O»²§U»¡©ú\n"
+"å¤–éƒ¨å‘½ä»¤è¼”åŠ©èªªæ˜\n"
 "\n"
-" ¥»¿ï³æ¤¹³\§A±N shell °õ¦æªº©R¥O¿é¥Xµ²ªG¡A´¡¤J¥Ø«eªº½w½Ä°Ï (©Î¬O¦h­«½w "
-"½Ä°Ï¼Ò¦¡¤Uªº·s½w½Ä°Ï)¡C\n"
+" æœ¬é¸å–®å…è¨±ä½ å°‡ shell åŸ·è¡Œçš„å‘½ä»¤è¼¸å‡ºçµæœï¼Œæ’å…¥ç›®å‰çš„ç·©è¡å€ (æˆ–æ˜¯å¤šé‡ç·©è¡ "
+"å€æ¨¡å¼ä¸‹çš„æ–°ç·©è¡å€)ã€‚å¦‚æœä½ éœ€è¦å¦ä¸€å€‹ç©ºç™½ç·©è¡å€ï¼Œå°±ä¸è¦è¼¸å…¥ä»»ä½•å‘½ä»¤ã€‚\n"
 "\n"
-" ¥H¤Uªº¥\¯àÁä¥i¥Î©ó¥~³¡©R¥O¼Ò¦¡: \n"
+" ä»¥ä¸‹çš„åŠŸèƒ½éµå¯ç”¨æ–¼å¤–éƒ¨å‘½ä»¤æ¨¡å¼: \n"
 "\n"
 
-#: src/nano.c:351
+#: src/nano.c:367
 msgid ""
 " nano help text\n"
 "\n"
 " The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor: The "
+"the UW Pico text editor.  There are four main sections of the editor.  The "
 "top line shows the program version, the current filename being edited, and "
 "whether or not the file has been modified.  Next is the main editor window "
 "showing the file being edited.  The status line is the third line from the "
@@ -921,683 +953,641 @@ msgid ""
 "(Ctrl) key or pressing the Esc key twice.  Escape-key sequences are notated "
 "with the Meta (M) symbol and can be entered using either the Esc, Alt or "
 "Meta key depending on your keyboard setup.  Also, pressing Esc twice and "
-"then typing a three-digit number from 000 to 255 will enter the character "
-"with the corresponding ASCII code.  The following keystrokes are available "
-"in the main editor window.  Alternative keys are shown in parentheses:\n"
+"then typing a three-digit decimal number from 000 to 255 will enter the "
+"character with the corresponding value.  The following keystrokes are "
+"available in the main editor window.  Alternative keys are shown in "
+"parentheses:\n"
 "\n"
 msgstr ""
-"nano »²§U»¡©ú\n"
+"nano è¼”åŠ©èªªæ˜\n"
 "\n"
-" nano ½s¿è¾¹¬O³]­p¨Ó¦b¥\¯à©Ê¤Î©ö¥Î©Ê¤è­±¡A¼Ò¥éµØ²±¹y¤j¾Çªº Pico ¤å¦r½s¿è "
-"¾¹¡C¥¦§t¦³¥|­Ó¥D­n³¡¥÷: ³»¦CÅã¥Üµ{¦¡ª©¥»¡B¥Ø«e³Q½s¿èªºÀÉ®×¦WºÙ¡A¥H¤Î¬O§_ "
-"³oÀÉ®×¤w¸g§ó°Ê¹L¡C±µµÛ¬O¥D­n½s¿è°Ï¡AÅã¥Ü¥¿¦b½s¿èªºÀÉ®×¡Cª¬ºA¦C¦ì©ó­Ë¼Æ²Ä "
-"¤T¦C¡A¥Î¨ÓÅã¥Ü­«­nªº°T®§¡C©³³¡¨â¦C«hÅã¥Ü½s¿è¾¹¤¤³Ì±`¥Îªº§Ö±¶Áä¡C\n"
+" nano ç·¨è¼¯å™¨æ˜¯è¨­è¨ˆä¾†åœ¨åŠŸèƒ½æ€§åŠæ˜“ç”¨æ€§æ–¹é¢ï¼Œæ¨¡ä»¿è¯ç››é “å¤§å­¸çš„ Pico æ–‡å­— "
+"ç·¨è¼¯å™¨ã€‚å®ƒå«æœ‰å››å€‹ä¸»è¦éƒ¨ä»½:é ‚åˆ—é¡¯ç¤ºç¨‹å¼ç‰ˆæœ¬ã€ç›®å‰è¢«ç·¨è¼¯çš„æª”æ¡ˆåç¨±ï¼Œ "
+"ä»¥åŠæ˜¯å¦é€™æª”æ¡ˆå·²ç¶“æ›´å‹•éã€‚æ¥è‘—æ˜¯ä¸»è¦ç·¨è¼¯å€ï¼Œé¡¯ç¤ºæ­£åœ¨ç·¨è¼¯çš„æª”æ¡ˆã€‚ç‹€æ…‹ "
+"åˆ—ä½æ–¼å€’æ•¸ç¬¬ä¸‰åˆ—ï¼Œç”¨ä¾†é¡¯ç¤ºé‡è¦çš„è¨Šæ¯ã€‚åº•éƒ¨çš„å…©åˆ—å‰‡é¡¯ç¤ºç·¨è¼¯å™¨ä¸­æœ€å¸¸ç”¨ "
+"åˆ°çš„å¿«æ·éµã€‚\n"
 "\n"
-" §Ö±¶Áäªº°O¸¹¦p¥H¤U©Ò©w¸q: ±±¨îÁä²Õ (Control-key) §Ç¦C¬O¥H¤@­Ó \"´U¤l\" "
-"(caret, ^) ²Å¸¹¨Óªí¥Ü¡A¥¦¥i¥HÂÇ¥Ñ±±¨îÁä (Ctrl) ©Î¬O«ö¨â¦¸²æÂ÷Áä (Esc) ¨Ó "
-"¿é¤J¡C²æÂ÷Áä²Õ (Escape-key) §Ç¦C¬O¥H \"¤¤¤¶\" (Meta, M) ²Å¸¹ªí¥Ü¡A¥¦¥i¥H "
-"¨Ì·Ó§AªºÁä½L³]©w¡A§Q¥Î Esc¡AAlt ©Î Meta ¨Ó¿é¤J¡C¥t¥~¡A«ö Esc ¨â¦¸¤§«á¦A "
-"Áä¤J±q 000 ¨ì 255 ¤§¶¡ªº¤T¦ì¼Æ¦r¡A«h·|¿é¤J¸Ó ASCII ½X¹ïÀ³ªº¦r¤¸¡C¤U¦C«ö "
-"Áä²Õ¦X¥i¥Î©ó¥D­n½s¿è°Ï¡A´À¥N«öÁä«hÅã¥Ü©ó¬A©·¤º: \n"
+" å¿«æ·éµçš„è¨˜è™Ÿå¦‚ä»¥ä¸‹æ‰€å®šç¾©ï¼šæ§åˆ¶éµçµ„ (Control-key) åºåˆ—æ˜¯ä»¥ä¸€å€‹ \"å¸½å­\" "
+"(caret, ^) ç¬¦è™Ÿä¾†è¡¨ç¤ºï¼Œå®ƒå¯ä»¥è—‰ç”±æ§åˆ¶éµ (Ctrl) æˆ–æ˜¯æŒ‰å…©æ¬¡è„«é›¢éµ (Esc) "
+"ä¾†è¼¸å…¥ã€‚è„«é›¢éµçµ„ (Escape-key) åºåˆ—æ˜¯ä»¥ \"ä¸­ä»‹\" (Meta, M) ç¬¦è™Ÿè¡¨ç¤ºï¼Œå®ƒ "
+"å¯ä»¥ä¾ç…§ä½ çš„éµç›¤è¨­å®šï¼Œåˆ©ç”¨ Escï¼ŒAlt æˆ– Meta ä¾†è¼¸å…¥ã€‚å¦å¤–ï¼ŒæŒ‰ Esc å…©æ¬¡ "
+"ä¹‹å¾Œå†éµå…¥å¾ 000 åˆ° 255 ä¹‹é–“çš„ä¸‰ä½æ•¸å­—ï¼Œå‰‡æœƒè¼¸å…¥è©² ASCII ç¢¼å°æ‡‰çš„å­— "
+"å…ƒã€‚ä¸‹åˆ—æŒ‰éµçµ„åˆå¯ç”¨æ–¼ä¸»è¦ç·¨è¼¯å€ï¼Œæ›¿ä»£æŒ‰éµå‰‡é¡¯ç¤ºæ–¼æ‹¬å¼§å…§: \n"
 "\n"
 
-#: src/nano.c:383 src/nano.c:453
+#: src/nano.c:402 src/nano.c:528
 msgid "enable/disable"
-msgstr "¶}±Ò/Ãö³¬"
+msgstr "é–‹å•Ÿ/é—œé–‰"
 
-#: src/nano.c:409 src/winio.c:1456
+#: src/nano.c:433 src/winio.c:2946
 msgid "Up"
 msgstr "Up"
 
-#: src/nano.c:413 src/nano.c:423
+#: src/nano.c:441 src/nano.c:477
 msgid "Space"
 msgstr "Space"
 
-#: src/nano.c:618
+#: src/nano.c:953
 #, c-format
 msgid ""
 "Usage: nano [+LINE] [GNU long option] [option] [file]\n"
 "\n"
 msgstr ""
-"¥Îªk: nano [+¦C¼Æ] [GNU ªø¿ï¶µ] [¿ï¶µ] [ÀÉ®×¦WºÙ]\n"
+"ç”¨æ³•: nano [+åˆ—æ•¸] [GNU é•·é¸é …] [é¸é …] [æª”æ¡ˆåç¨±]\n"
 "\n"
 
-#: src/nano.c:619
+#: src/nano.c:954
 #, c-format
 msgid "Option\t\tLong option\t\tMeaning\n"
-msgstr "¿ï¶µ\t\tGNU ªø¿ï¶µ\t\t·N¸q\n"
+msgstr "é¸é …\t\tGNU é•·é¸é …\t\tæ„ç¾©\n"
 
-#: src/nano.c:621
+#: src/nano.c:956
 #, c-format
 msgid ""
 "Usage: nano [+LINE] [option] [file]\n"
 "\n"
 msgstr ""
-"¥Îªk: nano [+¦C¼Æ] [¿ï¶µ] [ÀÉ®×¦WºÙ]\n"
+"ç”¨æ³•: nano [+åˆ—æ•¸] [é¸é …] [æª”æ¡ˆåç¨±]\n"
 "\n"
 
-#: src/nano.c:622
+#: src/nano.c:957
 #, c-format
 msgid "Option\t\tMeaning\n"
-msgstr "¿ï¶µ\t\t·N¸q\n"
+msgstr "é¸é …\t\tæ„ç¾©\n"
 
-#: src/nano.c:625
+#: src/nano.c:960
 msgid "Show this message"
-msgstr "Åã¥Ü¦¹°T®§"
+msgstr "é¡¯ç¤ºæ­¤è¨Šæ¯"
 
-#: src/nano.c:626
+#: src/nano.c:961
 msgid "+LINE"
-msgstr "+¦C¼Æ"
+msgstr "+åˆ—æ•¸"
 
-#: src/nano.c:626
+#: src/nano.c:961
 msgid "Start at line number LINE"
-msgstr "±q©Ò«ü¦C¼Æ¶}©l"
+msgstr "å¾æ‰€æŒ‡åˆ—æ•¸é–‹å§‹"
 
-#: src/nano.c:628
+#: src/nano.c:963
+msgid "Enable smart home key"
+msgstr "é–‹å•Ÿæ™ºæ…§å‹ HOME æŒ‰éµåŠŸèƒ½"
+
+#: src/nano.c:964
 msgid "Backup existing files on save"
-msgstr "Àx¦s®É³Æ¥÷­ì©lÀÉ®×"
+msgstr "å„²å­˜æ™‚å‚™ä»½åŸå§‹æª”æ¡ˆ"
 
-#: src/nano.c:629
-msgid "Write file in DOS format"
-msgstr "¥H DOS ®æ¦¡¼g¤JÀÉ®×"
-
-#: src/nano.c:630
+#: src/nano.c:965
 msgid "-E [dir]"
-msgstr "-E [¥Ø¿ı]"
+msgstr "-E [ç›®éŒ„]"
 
-#: src/nano.c:630
+#: src/nano.c:965
 msgid "--backupdir=[dir]"
-msgstr "--backupdir=[¥Ø¿ı]"
+msgstr "--backupdir=[ç›®éŒ„]"
 
-#: src/nano.c:630
+#: src/nano.c:965
 msgid "Directory for writing backup files"
-msgstr "¼g¤J³Æ¥÷ÀÉ®×ªº¥Ø¿ı"
+msgstr "å¯«å…¥å‚™ä»½æª”æ¡ˆçš„ç›®éŒ„"
 
-#: src/nano.c:633
+#: src/nano.c:968
 msgid "Enable multiple file buffers"
-msgstr "¶}±Ò¦h­«ÀÉ®×½w½Ä°Ï¥\¯à"
+msgstr "é–‹å•Ÿå¤šé‡æª”æ¡ˆç·©è¡å€åŠŸèƒ½"
 
-#: src/nano.c:637
+#: src/nano.c:972
 msgid "Log & read search/replace string history"
-msgstr "°O¿ı»PÅª¨ú ·j´M/¸m´« ªº¾ú¥v¦r¦ê"
+msgstr "è¨˜éŒ„èˆ‡è®€å– æœå°‹/ç½®æ› çš„æ­·å²å­—ä¸²"
 
-#: src/nano.c:639
+#: src/nano.c:974
 msgid "Don't look at nanorc files"
-msgstr "¤£­n°Ñ¦Ò nanorc ÀÉ®×"
+msgstr "ä¸è¦åƒè€ƒ nanorc æª”æ¡ˆ"
 
-#: src/nano.c:642
-msgid "Write file in Mac format"
-msgstr "¥H Mac ®æ¦¡¼g¤JÀÉ®×"
-
-#: src/nano.c:643
+#: src/nano.c:977
 msgid "Don't convert files from DOS/Mac format"
-msgstr "¤£­n±q DOS/Mac ®æ¦¡ÂàÀÉ"
+msgstr "ä¸è¦å¾ DOS/Mac æ ¼å¼è½‰æª”"
 
-#: src/nano.c:646
+#: src/nano.c:979
+msgid "Use more space for editing"
+msgstr "ç·¨è¼¯æ™‚ä½¿ç”¨æ›´å¤šç©ºé–“"
+
+#: src/nano.c:981
 msgid "-Q [str]"
-msgstr "-Q [¦r¦ê]"
+msgstr "-Q [å­—ä¸²]"
 
-#: src/nano.c:646
+#: src/nano.c:981
 msgid "--quotestr=[str]"
-msgstr "--quotestr=[¦r¦ê]"
+msgstr "--quotestr=[å­—ä¸²]"
 
-#: src/nano.c:646
+#: src/nano.c:981
 msgid "Quoting string, default \"> \""
-msgstr "¤Ş¥Î¦r¦ê¡A¹w³] \"> \""
+msgstr "å¼•ç”¨å­—ä¸²ï¼Œé è¨­ \"> \""
 
-#: src/nano.c:649
+#: src/nano.c:984
 msgid "Do regular expression searches"
-msgstr "¥H¥¿³Wªí¥Ü¦¡·j´M"
+msgstr "ä»¥æ­£è¦è¡¨ç¤ºå¼æœå°‹"
 
-#: src/nano.c:654
+#: src/nano.c:989
 msgid "-T [#cols]"
-msgstr "-T [#¦æ¼Æ]"
+msgstr "-T [#è¡Œæ•¸]"
 
-#: src/nano.c:654
+#: src/nano.c:989
 msgid "--tabsize=[#cols]"
-msgstr "--tabsize=[#¦æ¼Æ]"
+msgstr "--tabsize=[#è¡Œæ•¸]"
 
-#: src/nano.c:654
+#: src/nano.c:989
 msgid "Set width of a tab in cols to #cols"
-msgstr "³]©w¸õ®æ¼e«×¬° #¦æ¼Æ"
+msgstr "è¨­å®šè·³æ ¼å¯¬åº¦ç‚º #è¡Œæ•¸"
 
-#: src/nano.c:655
+#: src/nano.c:990
 msgid "Print version information and exit"
-msgstr "Åã¥Üª©¥»¸ê°T¨ÃÂ÷¶}"
+msgstr "é¡¯ç¤ºç‰ˆæœ¬è³‡è¨Šä¸¦é›¢é–‹"
 
-#: src/nano.c:657
+#: src/nano.c:992
 msgid "-Y [str]"
-msgstr "-Y [¦r¦ê]"
+msgstr "-Y [å­—ä¸²]"
 
-#: src/nano.c:657
-msgid "--syntax [str]"
-msgstr "--syntax [¦r¦ê]"
+#: src/nano.c:992
+msgid "--syntax=[str]"
+msgstr "--syntax=[å­—ä¸²]"
 
-#: src/nano.c:657
+#: src/nano.c:992
 msgid "Syntax definition to use"
-msgstr "¦r¦ê°µ¬°»yªk©w¸q"
+msgstr "å­—ä¸²åšç‚ºèªæ³•å®šç¾©"
 
-#: src/nano.c:659
+#: src/nano.c:994
+msgid "Restricted mode"
+msgstr "é™åˆ¶æ¨¡å¼"
+
+#: src/nano.c:995
 msgid "Constantly show cursor position"
-msgstr "«ùÄòÅã¥Ü´å¼Ğ¦ì¸m"
+msgstr "æŒçºŒé¡¯ç¤ºæ¸¸æ¨™ä½ç½®"
 
-#: src/nano.c:661
+#: src/nano.c:997
 msgid "Fix Backspace/Delete confusion problem"
-msgstr "­×¥¿ °h®æÁä/§R°£Áä ²V²c°İÃD"
+msgstr "ä¿®æ­£ é€€æ ¼éµ/åˆªé™¤éµ æ··æ·†å•é¡Œ"
 
-#: src/nano.c:662
+#: src/nano.c:998
 msgid "Automatically indent new lines"
-msgstr "¦Û°ÊÁY±Æ·s¦C"
+msgstr "è‡ªå‹•ç¸®æ’æ–°åˆ—"
 
-#: src/nano.c:663
-msgid "Let ^K cut from cursor to end of line"
-msgstr "Åı ^K °Å¤U¦Ü¦C§À"
+#: src/nano.c:999
+msgid "Cut from cursor to end of line"
+msgstr "å¾æ¸¸æ¨™å‰ªä¸‹è‡³åˆ—å°¾"
 
-#: src/nano.c:665
+#: src/nano.c:1001
 msgid "Don't follow symbolic links, overwrite"
-msgstr "¤£­n¨Ì·Ó²Å¸¹³sµ²¡A¦Ó¬OÂĞ¼g"
+msgstr "ä¸è¦ä¾ç…§ç¬¦è™Ÿé€£çµï¼Œè€Œæ˜¯è¦†å¯«"
 
-#: src/nano.c:667
+#: src/nano.c:1003
 msgid "Enable mouse"
-msgstr "¶}±Ò·Æ¹«¥\¯à"
+msgstr "é–‹å•Ÿæ»‘é¼ åŠŸèƒ½"
 
-#: src/nano.c:670
+#: src/nano.c:1006
 msgid "-o [dir]"
-msgstr "-o [¥Ø¿ı]"
+msgstr "-o [ç›®éŒ„]"
 
-#: src/nano.c:670
+#: src/nano.c:1006
 msgid "--operatingdir=[dir]"
-msgstr "--operatingdir=[¥Ø¿ı]"
+msgstr "--operatingdir=[ç›®éŒ„]"
 
-#: src/nano.c:670
+#: src/nano.c:1006
 msgid "Set operating directory"
-msgstr "³]©w¾Ş§@¥Ø¿ı"
+msgstr "è¨­å®šæ“ä½œç›®éŒ„"
 
-#: src/nano.c:672
+#: src/nano.c:1008
 msgid "Preserve XON (^Q) and XOFF (^S) keys"
-msgstr "«O¯d XON (^Q) ©M XOFF (^S) «öÁä"
+msgstr "ä¿ç•™ XON (^Q) å’Œ XOFF (^S) æŒ‰éµ"
 
-#: src/nano.c:674
+#: src/nano.c:1010
 msgid "-r [#cols]"
-msgstr "-r [#¦æ¼Æ]"
+msgstr "-r [#è¡Œæ•¸]"
 
-#: src/nano.c:674
+#: src/nano.c:1010
 msgid "--fill=[#cols]"
-msgstr "--fill=[#¦æ¼Æ]"
+msgstr "--fill=[#è¡Œæ•¸]    "
 
-#: src/nano.c:674
+#: src/nano.c:1010
 msgid "Set fill cols to (wrap lines at) #cols"
-msgstr "³]©w¦æ¼Æ¶ñº¡ (´«¦C) ©ó #¦æ¼Æ"
+msgstr "è¨­å®šè¡Œæ•¸å¡«æ»¿ (æ›åˆ—) æ–¼ #è¡Œæ•¸"
 
-#: src/nano.c:677
+#: src/nano.c:1013
 msgid "-s [prog]"
-msgstr "-s [µ{¦¡]"
+msgstr "-s [ç¨‹å¼]"
 
-#: src/nano.c:677
+#: src/nano.c:1013
 msgid "--speller=[prog]"
-msgstr "--speller=[µ{¦¡]"
+msgstr "--speller=[ç¨‹å¼]"
 
-#: src/nano.c:677
+#: src/nano.c:1013
 msgid "Enable alternate speller"
-msgstr "±Ò¥Î´À¥Nªº«÷¦rÀË¬dµ{¦¡"
+msgstr "å•Ÿç”¨æ›¿ä»£çš„æ‹¼å­—æª¢æŸ¥ç¨‹å¼"
 
-#: src/nano.c:679
+#: src/nano.c:1015
 msgid "Auto save on exit, don't prompt"
-msgstr "Â÷¶}®É¦Û°ÊÀx¦s¡A¤£­n´£¥Ü"
+msgstr "é›¢é–‹æ™‚è‡ªå‹•å„²å­˜ï¼Œä¸è¦æç¤º"
 
-#: src/nano.c:680
+#: src/nano.c:1016
 msgid "View (read only) mode"
-msgstr "Æ[¬İ (°ßÅª) ¼Ò¦¡"
+msgstr "è§€çœ‹ (å”¯è®€) æ¨¡å¼"
 
-#: src/nano.c:682
+#: src/nano.c:1018
 msgid "Don't wrap long lines"
-msgstr "¤£­n¦Û°Ê´«¦C"
+msgstr "ä¸è¦è‡ªå‹•æ›åˆ—"
 
-#: src/nano.c:684
+#: src/nano.c:1020
 msgid "Don't show help window"
-msgstr "¤£­nÅã¥Ü»²§U°Ï"
+msgstr "ä¸è¦é¡¯ç¤ºè¼”åŠ©å€"
 
-#: src/nano.c:685
+#: src/nano.c:1021
 msgid "Enable suspend"
-msgstr "¶}±Ò¼È°±¥\¯à"
+msgstr "é–‹å•Ÿæš«åœåŠŸèƒ½"
 
-#: src/nano.c:688
+#: src/nano.c:1024
 msgid "(ignored, for Pico compatibility)"
-msgstr "(©¿²¤¡A¬°¤F»P Pico ¬Û®e)"
+msgstr "(å¿½ç•¥ï¼Œç‚ºäº†èˆ‡ Pico ç›¸å®¹)"
 
-#: src/nano.c:695
+#: src/nano.c:1031
 #, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
-msgstr " GNU nano ª©¥» %s (½sÄ¶©ó %s, %s)\n"
+msgstr " GNU nano ç‰ˆæœ¬ %s (ç·¨è­¯æ–¼ %s, %s)\n"
 
-#: src/nano.c:698
+#: src/nano.c:1034
 #, c-format
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
-msgstr " ¹q¤l¶l¥ó: nano@nano-editor.org\t\tºô­¶: http://www.nano-editor.org/"
+msgstr " é›»å­éƒµä»¶: nano@nano-editor.org\t\tç¶²é : http://www.nano-editor.org/"
 
-#: src/nano.c:699
+#: src/nano.c:1035
 #, c-format
 msgid ""
 "\n"
 " Compiled options:"
 msgstr ""
 "\n"
-" ½sÄ¶¿ï¶µ:"
+" ç·¨è­¯é¸é …:"
 
-#: src/nano.c:771
+#: src/nano.c:1104
 msgid "Sorry, support for this function has been disabled"
-msgstr "©êºp¡A¤w¸gÃö³¬¦¹¥\¯àªº¤ä´©"
+msgstr "æŠ±æ­‰ï¼Œå·²ç¶“é—œé–‰æ­¤åŠŸèƒ½çš„æ”¯æ´"
 
-#: src/nano.c:805
+#: src/nano.c:1132
 msgid "Could not pipe"
-msgstr "ºŞ½u¥\¯àµL®Ä"
+msgstr "ç®¡ç·šåŠŸèƒ½ç„¡æ•ˆ"
 
-#: src/nano.c:827 src/nano.c:1655 src/nano.c:1787
+#: src/nano.c:1154 src/nano.c:2033 src/nano.c:2178
 msgid "Could not fork"
-msgstr "°õ¦æ¥\¯àµL®Ä"
+msgstr "åŸ·è¡ŒåŠŸèƒ½ç„¡æ•ˆ"
 
-#: src/nano.c:1004
+#: src/nano.c:1208
 msgid "Verbatim input"
-msgstr "­ì§Î¿é¤J"
+msgstr "åŸå½¢è¼¸å…¥"
 
-#: src/nano.c:1242
+#: src/nano.c:1547
 msgid "Mark Set"
-msgstr "¼Ğ°O³]©w"
+msgstr "æ¨™è¨˜è¨­å®š"
 
-#: src/nano.c:1246
+#: src/nano.c:1551
 msgid "Mark UNset"
-msgstr "¼Ğ°O¸Ñ°£"
+msgstr "æ¨™è¨˜è§£é™¤"
 
-#: src/nano.c:1510
+#: src/nano.c:1858
 msgid "Edit a replacement"
-msgstr "½s¿è´À¥N¤å¦r"
+msgstr "ç·¨è¼¯æ›¿ä»£æ–‡å­—"
 
-#: src/nano.c:1562
+#: src/nano.c:1940
 msgid "Could not create pipe"
-msgstr "µLªk«Ø¥ßºŞ½u¥\¯à"
+msgstr "ç„¡æ³•å»ºç«‹ç®¡ç·šåŠŸèƒ½"
 
-#: src/nano.c:1564
+#: src/nano.c:1942
 msgid "Creating misspelled word list, please wait..."
-msgstr "¥¿¦b«Ø¥ß¿ù¦r¦Cªí¡A½Ğµy«İ..."
+msgstr "æ­£åœ¨å»ºç«‹éŒ¯å­—åˆ—è¡¨ï¼Œè«‹ç¨å¾…..."
 
-#: src/nano.c:1661
+#: src/nano.c:2039
 msgid "Could not get size of pipe buffer"
-msgstr "µLªk±oª¾ºŞ½u½w½Ä°Ï¤j¤p"
+msgstr "ç„¡æ³•å¾—çŸ¥ç®¡ç·šç·©è¡å€å¤§å°"
 
-#: src/nano.c:1712
+#: src/nano.c:2090
 msgid "Error invoking \"spell\""
-msgstr "©I¥s \"spell\" ¿ù»~"
+msgstr "å‘¼å« \"spell\" éŒ¯èª¤"
 
-#: src/nano.c:1715
+#: src/nano.c:2093
 msgid "Error invoking \"sort -f\""
-msgstr "©I¥s \"sort -f\" ¿ù»~"
+msgstr "å‘¼å« \"sort -f\" éŒ¯èª¤"
 
-#: src/nano.c:1718
+#: src/nano.c:2096
 msgid "Error invoking \"uniq\""
-msgstr "©I¥s \"uniq\" ¿ù»~"
+msgstr "å‘¼å« \"uniq\" éŒ¯èª¤"
 
-#: src/nano.c:1794
+#: src/nano.c:2186
 #, c-format
 msgid "Could not invoke \"%s\""
-msgstr "µLªk©I¥s \"%s\""
+msgstr "ç„¡æ³•å‘¼å« \"%s\""
 
-#: src/nano.c:1843
+#: src/nano.c:2300
 #, c-format
-msgid "Could not create a temporary filename: %s"
-msgstr "µLªk«Ø¥ß¼È¦sÀÉ®×: %s"
+msgid "Could not create temp file: %s"
+msgstr "ç„¡æ³•å»ºç«‹æš«å­˜æª”æ¡ˆ: %s"
 
-#: src/nano.c:1856
-msgid "Spell checking failed: unable to write temp file!"
-msgstr "«÷¦rÀË¬d¥¢±Ñ: µLªk¼g¤J¼È¦sÀÉ¡I"
-
-#: src/nano.c:1875
+#: src/nano.c:2312
 #, c-format
-msgid "Spell checking failed: %s"
-msgstr "«÷¦rÀË¬d¥¢±Ñ: %s"
+msgid "Error writing temp file: %s"
+msgstr "å¯«å…¥æš«å­˜æª”æ¡ˆ %s æ™‚ç™¼ç”ŸéŒ¯èª¤"
 
-#: src/nano.c:1879
+#: src/nano.c:2329
+#, c-format
+msgid "Spell checking failed: %s: %s"
+msgstr "æ‹¼å­—æª¢æŸ¥å¤±æ•—: %s: %s"
+
+#: src/nano.c:2332
 msgid "Finished checking spelling"
-msgstr "«÷¦rÀË¬dµ²§ô"
+msgstr "æ‹¼å­—æª¢æŸ¥çµæŸ"
 
-#: src/nano.c:2212
+#: src/nano.c:2871
 #, c-format
 msgid "Bad quote string %s: %s"
-msgstr "¤£¨}¤Ş¥Î¦r¦ê %s: %s"
+msgstr "ä¸è‰¯å¼•ç”¨å­—ä¸² %s: %s"
 
-#: src/nano.c:2631
+#: src/nano.c:3190
 msgid "Can now UnJustify!"
-msgstr "²{¦b¥i¥HÁÙ­ì¹ï»ô¡I"
+msgstr "ç¾åœ¨å¯ä»¥é‚„åŸå°é½Šï¼"
 
-#: src/nano.c:2730
+#: src/nano.c:3289
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
-msgstr "Àx¦s§ó°Ê¹Lªº½w½Ä°Ï¶Ü (¦^µª \"No\" ·|ºM¾P­×§ï)¡H"
+msgstr "å„²å­˜æ›´å‹•éçš„ç·©è¡å€å— (å›ç­” \"No\" æœƒæ’¤éŠ·ä¿®æ”¹)ï¼Ÿ"
 
-#: src/nano.c:2831
+#: src/nano.c:3348
 msgid "Received SIGHUP or SIGTERM\n"
-msgstr "±µ¦¬¨ì SIGHUP ©Î SIGTERM\n"
+msgstr "æ¥æ”¶åˆ° SIGHUP æˆ– SIGTERM\n"
 
-#: src/nano.c:2838
+#: src/nano.c:3355
 msgid "Use \"fg\" to return to nano"
-msgstr "§Q¥Î \"fg\" ¨Ó¦^¨ì nano"
+msgstr "åˆ©ç”¨ \"fg\" ä¾†å›åˆ° nano"
 
-#: src/nano.c:2917
-msgid "Cannot resize top win"
-msgstr "µLªk§ïÅÜ³»ºİ°Ï¶ô¤j¤p"
-
-#: src/nano.c:2919
-msgid "Cannot move top win"
-msgstr "µLªk²¾°Ê³»ºİ°Ï¶ô"
-
-#: src/nano.c:2921
-msgid "Cannot resize edit win"
-msgstr "µLªk§ïÅÜ½s¿è°Ï¶ô¤j¤p"
-
-#: src/nano.c:2923
-msgid "Cannot move edit win"
-msgstr "µLªk²¾°Ê½s¿è°Ï¶ô"
-
-#: src/nano.c:2925
-msgid "Cannot resize bottom win"
-msgstr "µLªk§ïÅÜ©³³¡°Ï¶ô¤j¤p"
-
-#: src/nano.c:2927
-msgid "Cannot move bottom win"
-msgstr "µLªk²¾°Ê©³³¡°Ï¶ô"
-
-#: src/nano.c:2969
-msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
-msgstr "°»´ú¨ì½íÄ² NumLock¡C¼Æ¦rÁä°Ï¦b NumLock Ãö³¬®É·|¤£¥¿±`"
-
-#: src/nano.c:3017
+#: src/nano.c:3514
 msgid "enabled"
-msgstr "¶}±Ò"
+msgstr "é–‹å•Ÿ"
 
-#: src/nano.c:3017
+#: src/nano.c:3514
 msgid "disabled"
-msgstr "Ãö³¬"
+msgstr "é—œé–‰"
 
-#: src/nano.c:3191
-#, c-format
-msgid "Tab size is too small for nano...\n"
-msgstr "¸õ®æ¼e«×¹ï nano ¦Ó¨¥¤Ó¤p...\n"
-
-#: src/nano.c:3580
+#: src/nano.c:3689
 msgid "XON ignored, mumble mumble."
-msgstr "©¿²¤ XON¡A¶â¶â"
+msgstr "å¿½ç•¥ XONï¼Œå—¯å—¯"
 
-#: src/nano.c:3582
+#: src/nano.c:3692
 msgid "XOFF ignored, mumble mumble."
-msgstr "©¿²¤ XOFF¡A¶â¶â"
+msgstr "å¿½ç•¥ XOFFï¼Œå—¯å—¯"
 
-#: src/rcfile.c:106
+#: src/nano.c:4079 src/rcfile.c:644
+#, c-format
+msgid "Requested tab size %s invalid"
+msgstr "æ‰€è¦æ±‚çš„è·³æ ¼å¯¬åº¦ %s ç„¡æ•ˆ"
+
+#: src/nano.c:4128 src/rcfile.c:577
+#, c-format
+msgid "Requested fill size %s invalid"
+msgstr "æ‰€è¦æ±‚çš„å¡«æ»¿è¡Œæ•¸ %s ç„¡æ•ˆ"
+
+#: src/rcfile.c:121
 #, c-format
 msgid "Error in %s on line %d: "
-msgstr "¦b %s ²Ä %d ¦Cµo¥Í¿ù»~: "
+msgstr "åœ¨ %s ç¬¬ %d åˆ—ç™¼ç”ŸéŒ¯èª¤: "
 
-#: src/rcfile.c:111
-#, c-format
-msgid ""
-"\n"
-"Press return to continue starting nano\n"
-msgstr ""
-"\n"
-"«ö¤U¿é¤JÁäÄ~Äò±Ò°Ê nano\n"
-
-#: src/rcfile.c:176
+#: src/rcfile.c:178
 #, c-format
 msgid "Argument %s has unterminated \""
-msgstr "¤Ş¼Æ %s ¦³¥¼«Ê³¬ªº \""
+msgstr "å¼•æ•¸ %s æœ‰æœªå°é–‰çš„ \""
 
-#: src/rcfile.c:218
+#: src/rcfile.c:195 src/rcfile.c:365
+msgid "Missing color name"
+msgstr "æ¼å¤±é¡è‰²åç¨±"
+
+#: src/rcfile.c:223
 #, c-format
 msgid ""
 "Color %s not understood.\n"
-"Valid colors are \"green\", \"red\", \"blue\", \n"
-"\"white\", \"yellow\", \"cyan\", \"magenta\" and \n"
-"\"black\", with the optional prefix \"bright\" \n"
-"for foreground colors.\n"
+"Valid colors are \"green\", \"red\", \"blue\",\n"
+"\"white\", \"yellow\", \"cyan\", \"magenta\" and\n"
+"\"black\", with the optional prefix \"bright\"\n"
+"for foreground colors."
 msgstr ""
-"ÃC¦â %s µLªk¿ëÃÑ¡C\n"
-"¦³®ÄªºÃC¦â¬O \"green\"(ºñ), \"red\"(¬õ), \"blue\"(ÂÅ), \n"
-"\"white\"(¥Õ), \"yellow\"(¶À), \"cyan\"(«C), \"magenta\"(ºÀ) ©M \n"
-"\"black\"(¶Â), ¿ï¾Ü©Êªº«e¸m¦r \"bright\"(©ú«G) \n"
-"¥i¥Î©ó«e´º¦â¡C\n"
+"é¡è‰² %s ç„¡æ³•è¾¨è­˜ã€‚\n"
+"æœ‰æ•ˆçš„é¡è‰²æ˜¯ \"green\"(ç¶ )ã€\"red\"(ç´…)ã€\"blue\"(è—)ã€\n"
+"\"white\"(ç™½)ã€\"yellow\"(é»ƒ)ã€\"cyan\"(é’)ã€\"magenta\"(ç‘°) å’Œ \n"
+"\"black\"(é»‘)ï¼Œé¸æ“‡æ€§çš„å‰ç½®å­— \"bright\"(æ˜äº®) \n"
+"å¯ç”¨æ–¼å‰æ™¯è‰²ã€‚"
 
-#: src/rcfile.c:257
+#: src/rcfile.c:246 src/rcfile.c:292 src/rcfile.c:416 src/rcfile.c:462
+msgid "Regex strings must begin and end with a \" character"
+msgstr "æ­£è¦è¡¨ç¤ºå¼å­—ä¸²å¿…é ˆä»¥ \" å­—å…ƒé–‹å§‹åŠçµæŸ"
+
+#: src/rcfile.c:270 src/search.c:61
 #, c-format
 msgid "Bad regex \"%s\": %s"
-msgstr "¤£¨}ªº¥¿³Wªí¥Ü¦¡ \"%s\": %s"
-
-#: src/rcfile.c:277 src/rcfile.c:407 src/rcfile.c:454
-msgid "Regex strings must begin and end with a \" character\n"
-msgstr "¥¿³Wªí¥Ü¦¡¦r¦ê¥²¶·¥H \" ¦r¤¸¶}©l¤Îµ²§ô\n"
+msgstr "ä¸è‰¯çš„æ­£è¦è¡¨ç¤ºå¼ \"%s\": %s"
 
 #: src/rcfile.c:286
 msgid "Missing syntax name"
-msgstr "º|¥¢»yªk¦WºÙ"
-
-#: src/rcfile.c:355
-msgid "Missing color name"
-msgstr "º|¥¢ÃC¦â¦WºÙ"
-
-#: src/rcfile.c:364
-#, c-format
-msgid "Background color %s cannot be bright"
-msgstr "­I´º¦â %s ¤£¥i©ú«G"
+msgstr "æ¼å¤±èªæ³•åç¨±"
 
 #: src/rcfile.c:378
+#, c-format
+msgid "Background color %s cannot be bright"
+msgstr "èƒŒæ™¯è‰² %s ä¸å¯ç‚ºæ˜äº®"
+
+#: src/rcfile.c:394
 msgid "Cannot add a color directive without a syntax line"
-msgstr "µLªkª½±µ¼W¥[ÃC¦â¦Ó¨S¦³»yªk¦C"
+msgstr "ç„¡æ³•ç›´æ¥å¢åŠ é¡è‰²è€Œæ²’æœ‰èªæ³•åˆ—"
 
-#: src/rcfile.c:446
+#: src/rcfile.c:456
 msgid "\"start=\" requires a corresponding \"end=\""
-msgstr "\"start=\" ­n¨D¹ïÀ³ªº \"end=\""
+msgstr "\"start=\" è¦æ±‚å°æ‡‰çš„ \"end=\""
 
-#: src/rcfile.c:518
+#: src/rcfile.c:528
 #, c-format
 msgid "Command %s not understood"
-msgstr "µLªk¿ëÃÑ %s ©R¥O"
+msgstr "ç„¡æ³•è¾¨è­˜ %s å‘½ä»¤"
 
-#: src/rcfile.c:553
+#: src/rcfile.c:534
+msgid "Missing flag"
+msgstr "æ¼å¤±æ——æ¨™"
+
+#: src/rcfile.c:556
 #, c-format
 msgid "Option %s requires an argument"
-msgstr "¿ï¶µ %s ­n¨D¤Ş¼Æ"
+msgstr "é¸é … %s è¦æ±‚å¼•æ•¸"
 
-#: src/rcfile.c:578
+#: src/rcfile.c:589
+msgid "Two single-column characters required"
+msgstr "éœ€è¦å…©å€‹å–®è¡Œå­—å…ƒ"
+
+#: src/rcfile.c:609 src/rcfile.c:619
+msgid "Non-tab and non-space characters required"
+msgstr "éœ€è¦éè·³æ ¼åŠéç©ºæ ¼å­—å…ƒ"
+
+#: src/rcfile.c:658
 #, c-format
-msgid "Requested fill size %d invalid"
-msgstr "©Ò­n¨Dªº¶ñº¡¦æ¼Æ %d µL®Ä"
+msgid "Cannot unset flag %s"
+msgstr "ç„¡æ³•è§£é™¤æ——æ¨™ %s è¨­å®š"
 
-#: src/rcfile.c:607
+#: src/rcfile.c:664
 #, c-format
-msgid "Requested tab size %d invalid"
-msgstr "©Ò­n¨Dªº¸õ®æ¼e«× %d µL®Ä"
+msgid "Unknown flag %s"
+msgstr "æ——æ¨™ %s ç„¡æ³•è¾¨è­˜"
 
-#: src/rcfile.c:631
-msgid "Errors found in .nanorc file"
-msgstr "¦b .nanorc ÀÉ®×¤¤µo²{¿ù»~"
-
-#: src/rcfile.c:667
+#: src/rcfile.c:708
 msgid "I can't find my home directory!  Wah!"
-msgstr "§Ú§ä¤£¨ì§Úªº®a¥Ø¿ı¡I«z¡I"
+msgstr "æˆ‘æ‰¾ä¸åˆ°æˆ‘çš„å®¶ç›®éŒ„ï¼å“‡ï¼"
 
-#: src/rcfile.c:687
+#: src/search.c:89
 #, c-format
-msgid "Unable to open ~/.nanorc file, %s"
-msgstr "µLªk¶}±Ò ~/.nanorc ÀÉ®×¡A%s"
+msgid "\"%.*s%s\" not found"
+msgstr "æ‰¾ä¸åˆ° \"%.*s%s\""
 
-#: src/search.c:65
-#, c-format
-msgid "\"%s...\" not found"
-msgstr "§ä¤£¨ì \"%s...\""
-
-#: src/search.c:144
+#: src/search.c:170
 msgid "Search"
-msgstr "·j´M"
+msgstr "æœå°‹"
 
-#: src/search.c:149
+#: src/search.c:175
 msgid " [Case Sensitive]"
-msgstr " [²Å¦X¤j¤p¼g]"
+msgstr " [ç¬¦åˆå¤§å°å¯«]"
 
-#: src/search.c:155
+#: src/search.c:182
 msgid " [Regexp]"
-msgstr " [¥¿³Wªí¥Ü¦¡]"
+msgstr " [æ­£è¦è¡¨ç¤ºå¼]"
 
-#: src/search.c:160
+#: src/search.c:189
 msgid " [Backwards]"
-msgstr " [¦V«á·j´M]"
+msgstr " [å‘å¾Œæœå°‹]"
 
-#: src/search.c:164
+#: src/search.c:195
+msgid " (to replace) in selection"
+msgstr " åœ¨æ¨™è¨˜ä¸­(ç½®æ›)"
+
+#: src/search.c:197
 msgid " (to replace)"
-msgstr " (¥H¸m´«)"
+msgstr " (ç½®æ›)"
 
-#: src/search.c:176
-msgid "Search Cancelled"
-msgstr "·j´M¤w¨ú®ø"
-
-#: src/search.c:188 src/search.c:198 src/search.c:432
-#, c-format
-msgid "Invalid regex \"%s\""
-msgstr "µL®Äªº¥¿³Wªí¥Ü¦¡ \"%s\""
-
-#: src/search.c:309
+#: src/search.c:396
 msgid "Search Wrapped"
-msgstr "¤w­«ÀY·j´M"
+msgstr "å·²å¾é ­æœå°‹"
 
-#: src/search.c:402 src/search.c:405 src/search.c:455 src/search.c:458
+#: src/search.c:504 src/search.c:507 src/search.c:558 src/search.c:561
 msgid "This is the only occurrence"
-msgstr "³o¬O±©¤@¥X²{¤§³B"
+msgstr "é€™æ˜¯æƒŸä¸€å‡ºç¾ä¹‹è™•"
 
-#: src/search.c:464
+#: src/search.c:567
 msgid "No current search pattern"
-msgstr "¨S¦³²Å¦X¥Ø«e·j´M§Î¦¡ªÌ"
-
-#: src/search.c:648
-msgid "Replace this instance?"
-msgstr "¸m´«³o­Ó¡H"
+msgstr "æ²’æœ‰ç¬¦åˆç›®å‰æœå°‹å½¢å¼è€…"
 
 #: src/search.c:770
+msgid "Replace this instance?"
+msgstr "ç½®æ›é€™å€‹ï¼Ÿ"
+
+#: src/search.c:925
 msgid "Replace with"
-msgstr "¥H¦¹¸m´«"
+msgstr "ä»¥æ­¤ç½®æ›"
 
-#: src/search.c:783
-msgid "Replace Cancelled"
-msgstr "¸m´«¤w¨ú®ø"
-
-#: src/search.c:806
+#: src/search.c:965
 #, c-format
-msgid "Replaced %d occurrence"
-msgstr "¤w¸m´« %d ³B"
+msgid "Replaced %ld occurrence"
+msgid_plural "Replaced %ld occurrences"
+msgstr[0] "å·²ç½®æ› %1d è™•"
 
-#: src/search.c:821
+#: src/search.c:979
 msgid "Enter line number"
-msgstr "¿é¤J¦C¸¹"
+msgstr "è¼¸å…¥åˆ—è™Ÿ"
 
-#: src/search.c:827
-msgid "Aborted"
-msgstr "¤w¤¤¤î"
-
-#: src/search.c:837
+#: src/search.c:1002
 msgid "Come on, be reasonable"
-msgstr "§O³o¼Ë¡A²z©Ê¤@ÂI"
+msgstr "åˆ¥é€™æ¨£ï¼Œç†æ€§ä¸€é»"
 
-#: src/search.c:894
+#: src/search.c:1067
 msgid "Not a bracket"
-msgstr "¨Ã«D¤@­Ó¬A¸¹"
+msgstr "ä¸¦éä¸€å€‹æ‹¬è™Ÿ"
 
-#: src/search.c:937
+#: src/search.c:1115
 msgid "No matching bracket"
-msgstr "µL¹ïÀ³¬A¸¹"
+msgstr "ç„¡å°æ‡‰æ‹¬è™Ÿ"
 
-#: src/utils.c:277 src/utils.c:287
+#: src/utils.c:287 src/utils.c:297
 msgid "nano is out of memory!"
-msgstr "nano ¤w¯ÓºÉ°O¾ĞÅé¡I"
+msgstr "nano å·²è€—ç›¡è¨˜æ†¶é«”ï¼"
 
-#: src/winio.c:1402
-msgid "  File: ..."
-msgstr "  ÀÉ®×: ..."
+#: src/winio.c:2754 src/winio.c:2759
+msgid "Modified"
+msgstr "å·²æ›´å‹•"
 
-#: src/winio.c:1404
-msgid "   DIR: ..."
-msgstr "  ¥Ø¿ı: ..."
+#: src/winio.c:2756
+msgid "View"
+msgstr "è§€çœ‹"
 
-#: src/winio.c:1409
-msgid "File: "
-msgstr "ÀÉ®×: "
+#: src/winio.c:2773
+msgid "DIR:"
+msgstr "ç›®éŒ„:"
 
-#: src/winio.c:1412
-msgid " DIR: "
-msgstr "¥Ø¿ı: "
+#: src/winio.c:2780
+msgid "File:"
+msgstr "æª”æ¡ˆ:"
 
-#: src/winio.c:1417
-msgid " Modified "
-msgstr " ¤w§ó°Ê "
+#: src/winio.c:3127
+msgid "Refusing zero-length regex match"
+msgstr "æ‹’çµ•ç¬¦åˆé•·åº¦ç‚ºé›¶çš„æ­£è¦è¡¨ç¤ºå¼"
 
-#: src/winio.c:1419
-msgid " View "
-msgstr " Æ[¬İ "
-
-#: src/winio.c:1619
-msgid "Refusing 0 length regex match"
-msgstr "©Úµ´¤Ç°tªø«×¬°¹sªº¥¿³Wªí¥Ü¦¡"
-
-#: src/winio.c:2106
+#: src/winio.c:3645
 msgid "Yy"
 msgstr "Yy"
 
-#: src/winio.c:2107
+#: src/winio.c:3646
 msgid "Nn"
 msgstr "Nn"
 
-#: src/winio.c:2108
+#: src/winio.c:3647
 msgid "Aa"
 msgstr "Aa"
 
-#: src/winio.c:2123
+#: src/winio.c:3660
 msgid "Yes"
-msgstr "¬O"
+msgstr "æ˜¯"
 
-#: src/winio.c:2128
+#: src/winio.c:3665
 msgid "All"
-msgstr "¥ş³¡"
+msgstr "å…¨éƒ¨"
 
-#: src/winio.c:2133
+#: src/winio.c:3670
 msgid "No"
-msgstr "§_"
+msgstr "å¦"
 
-#: src/winio.c:2312
+#: src/winio.c:3811
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%ld (%d%%)"
-msgstr "¦C %ld/%ld (%d%%), ¦æ %lu/%lu (%d%%), ¦r¤¸ %lu/%ld (%d%%)"
+msgstr "åˆ— %ld/%ld (%d%%), è¡Œ %lu/%lu (%d%%), å­—å…ƒ %lu/%ld (%d%%)"
 
-#: src/winio.c:2590
+#: src/winio.c:4118
 msgid "The nano text editor"
-msgstr "nano ¤å¦r½s¿è¾¹"
+msgstr "nano æ–‡å­—ç·¨è¼¯å™¨"
 
-#: src/winio.c:2591
-msgid "version "
-msgstr "ª©¥» "
+#: src/winio.c:4119
+msgid "version"
+msgstr "ç‰ˆæœ¬"
 
-#: src/winio.c:2592
+#: src/winio.c:4120
 msgid "Brought to you by:"
-msgstr "¨Ó¦Û©ó:"
+msgstr "ä¾†è‡ªæ–¼:"
 
-#: src/winio.c:2593
+#: src/winio.c:4121
 msgid "Special thanks to:"
-msgstr "¯S§O·PÁÂ:"
+msgstr "ç‰¹åˆ¥æ„Ÿè¬:"
 
-#: src/winio.c:2594
+#: src/winio.c:4122
 msgid "The Free Software Foundation"
-msgstr "¦Û¥Ñ³nÅé°òª÷·|"
+msgstr "è‡ªç”±è»Ÿé«”åŸºé‡‘æœƒ"
 
-#: src/winio.c:2595
+#: src/winio.c:4123
 msgid "For ncurses:"
-msgstr "ncurses ³¡¥÷:"
+msgstr "ncurses éƒ¨ä»½:"
 
-#: src/winio.c:2596
+#: src/winio.c:4124
 msgid "and anyone else we forgot..."
-msgstr "¥H¤Î¨ä¥L§Ú­Ì¤£°O±oªº¤H..."
+msgstr "ä»¥åŠå…¶ä»–æˆ‘å€‘ä¸è¨˜å¾—çš„äºº..."
 
-#: src/winio.c:2597
-msgid "Thank you for using nano!\n"
-msgstr "ÁÂÁÂ§A¨Ï¥Î nano¡I\n"
+#: src/winio.c:4125
+msgid "Thank you for using nano!"
+msgstr "è¬è¬ä½ ä½¿ç”¨ nanoï¼"
