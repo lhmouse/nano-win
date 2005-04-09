@@ -20,25 +20,25 @@ msgstr ""
 #, c-format
 msgid "Read %lu line (Converted from DOS and Mac format)"
 msgid_plural "Read %lu lines (Converted from DOS and Mac format)"
-msgstr[0] "已讀取 %1u 列 (轉檔自 DOS 與 Mac 格式)"
+msgstr[0] "已讀取 %lu 列 (轉檔自 DOS 與 Mac 格式)"
 
 #: src/files.c:314
 #, c-format
 msgid "Read %lu line (Converted from Mac format)"
 msgid_plural "Read %lu lines (Converted from Mac format)"
-msgstr[0] "已讀取 %1u 列 (轉檔自 Mac 格式)"
+msgstr[0] "已讀取 %lu 列 (轉檔自 Mac 格式)"
 
 #: src/files.c:319
 #, c-format
 msgid "Read %lu line (Converted from DOS format)"
 msgid_plural "Read %lu lines (Converted from DOS format)"
-msgstr[0] "已讀取 %1u 列 (轉檔自 DOS 格式)"
+msgstr[0] "已讀取 %lu 列 (轉檔自 DOS 格式)"
 
 #: src/files.c:324
 #, c-format
 msgid "Read %lu line"
 msgid_plural "Read %lu lines"
-msgstr[0] "已讀取 %1u 列"
+msgstr[0] "已讀取 %lu 列"
 
 #: src/files.c:347
 msgid "New File"
@@ -1541,7 +1541,7 @@ msgstr "以此置換"
 #, c-format
 msgid "Replaced %ld occurrence"
 msgid_plural "Replaced %ld occurrences"
-msgstr[0] "已置換 %1d 處"
+msgstr[0] "已置換 %ld 處"
 
 #: src/search.c:979
 msgid "Enter line number"
