@@ -2504,122 +2504,121 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 	    tabbed = FALSE;
 
 	switch (kbinput) {
-	case NANO_TAB_KEY:
+	    case NANO_TAB_KEY:
 #ifndef NANO_SMALL
-	    /* tab history completion */
-	    if (history_list != NULL) {
-		if (!complete || last_kbinput != NANO_TAB_KEY) {
-		    history_list->current = (historytype *)history_list;
-		    history_list->len = strlen(answer);
-		}
+		/* Tab history completion. */
+		if (history_list != NULL) {
+		    if (!complete || last_kbinput != NANO_TAB_KEY) {
+			history_list->current =
+				(historytype *)history_list;
+			history_list->len = strlen(answer);
+		    }
 
-		if (history_list->len > 0) {
-		    complete = get_history_completion(history_list,
-			answer);
-		    answer = mallocstrcpy(answer, complete);
+		    if (history_list->len > 0) {
+			complete = get_history_completion(history_list,
+				answer);
+			answer = mallocstrcpy(answer, complete);
+			answer_len = strlen(answer);
+			statusbar_x = answer_len;
+		    }
+		}
+#ifndef DISABLE_TABCOMP
+		else
+#endif
+#endif
+#ifndef DISABLE_TABCOMP
+		if (allow_tabs) {
+		    answer = input_tab(answer, &statusbar_x, &tabbed,
+			list);
 		    answer_len = strlen(answer);
+		}
+#endif
+		break;
+	    case NANO_PREVLINE_KEY:
+#ifndef NANO_SMALL
+		if (history_list != NULL) {
+		    /* If currentbuf is NULL, or if use_cb is 1,
+		     * currentbuf isn't NULL, and currentbuf is
+		     * different from answer, it means that we're
+		     * scrolling up at the top of the search history,
+		     * and we need to save the current answer in
+		     * currentbuf.  Do this and reset use_cb to 0. */
+		    if (currentbuf == NULL || (use_cb == 1 &&
+			strcmp(currentbuf, answer) != 0)) {
+			currentbuf = mallocstrcpy(currentbuf, answer);
+			use_cb = 0;
+		    }
+
+		    /* If currentbuf isn't NULL, use_cb is 2, and
+		     * currentbuf is different from answer, it means
+		     * that we're scrolling up at the bottom of the
+		     * search history, and we need to make the string in
+		     * currentbuf the current answer.  Do this, blow
+		     * away currentbuf since we don't need it anymore,
+		     * and reset use_cb to 0. */
+		    if (currentbuf != NULL && use_cb == 2 &&
+			strcmp(currentbuf, answer) != 0) {
+			answer = mallocstrcpy(answer, currentbuf);
+			free(currentbuf);
+			currentbuf = NULL;
+			answer_len = strlen(answer);
+			use_cb = 0;
+
+		    /* Otherwise, get the older search from the history
+		     * list and save it in answer.  If there is no older
+		     * search, blank out answer. */
+		    } else if ((history =
+			get_history_older(history_list)) != NULL) {
+			answer = mallocstrcpy(answer, history);
+			answer_len = strlen(history);
+		    } else {
+			answer = mallocstrcpy(answer, "");
+			answer_len = 0;
+		    }
 		    statusbar_x = answer_len;
 		}
-	    }
-#ifndef DISABLE_TABCOMP
-	    else
 #endif
-#endif
-#ifndef DISABLE_TABCOMP
-	    if (allow_tabs) {
-		answer = input_tab(answer, &statusbar_x, &tabbed, list);
-		answer_len = strlen(answer);
-	    }
-	    break;
-#endif
-	case NANO_PREVLINE_KEY:
+		break;
+	    case NANO_NEXTLINE_KEY:
 #ifndef NANO_SMALL
-	    if (history_list != NULL) {
-
-		/* if currentbuf is NULL, or if use_cb is 1, currentbuf
-		   isn't NULL, and currentbuf is different from answer,
-		   it means that we're scrolling up at the top of the
-		   search history, and we need to save the current
-		   answer in currentbuf; do this and reset use_cb to
-		   0 */
-		if (currentbuf == NULL || (use_cb == 1 &&
-			strcmp(currentbuf, answer) != 0)) {
-		    currentbuf = mallocstrcpy(currentbuf, answer);
-		    use_cb = 0;
-		}
-
-		/* if currentbuf isn't NULL, use_cb is 2, and currentbuf 
-		   is different from answer, it means that we're
-		   scrolling up at the bottom of the search history, and
-		   we need to make the string in currentbuf the current
-		   answer; do this, blow away currentbuf since we don't
-		   need it anymore, and reset use_cb to 0 */
-		if (currentbuf != NULL && use_cb == 2 &&
-			strcmp(currentbuf, answer) != 0) {
-		    answer = mallocstrcpy(answer, currentbuf);
-		    free(currentbuf);
-		    currentbuf = NULL;
-		    answer_len = strlen(answer);
-		    use_cb = 0;
-
-		/* else get older search from the history list and save
-		   it in answer; if there is no older search, blank out 
-		   answer */
-		} else if ((history =
-			get_history_older(history_list)) != NULL) {
-		    answer = mallocstrcpy(answer, history);
-		    answer_len = strlen(history);
-		} else {
-		    answer = mallocstrcpy(answer, "");
-		    answer_len = 0;
-		}
-		statusbar_x = answer_len;
-	    }
-#endif
-	    break;
-	case NANO_NEXTLINE_KEY:
-#ifndef NANO_SMALL
-	    if (history_list != NULL) {
-
-		/* get newer search from the history list and save it 
-		   in answer */
-		if ((history = get_history_newer(history_list)) != NULL) {
-		    answer = mallocstrcpy(answer, history);
-		    answer_len = strlen(history);
-
-		/* if there is no newer search, we're here */
-		
-		/* if currentbuf isn't NULL and use_cb isn't 2, it means 
-		   that we're scrolling down at the bottom of the search
-		   history and we need to make the string in currentbuf
-		   the current answer; do this, blow away currentbuf
-		   since we don't need it anymore, and set use_cb to
-		   1 */
-		} else if (currentbuf != NULL && use_cb != 2) {
-		    answer = mallocstrcpy(answer, currentbuf);
-		    answer_len = strlen(answer);
-		    free(currentbuf);
-		    currentbuf = NULL;
-		    use_cb = 1;
-
-		/* otherwise, if currentbuf is NULL and use_cb isn't 2, 
-		   it means that we're scrolling down at the bottom of
-		   the search history and the current answer (if it's
-		   not blank) needs to be saved in currentbuf; do this,
-		   blank out answer (if necessary), and set use_cb to
-		   2 */
-		} else if (use_cb != 2) {
-		    if (answer[0] != '\0') {
-			currentbuf = mallocstrcpy(currentbuf, answer);
-			answer = mallocstrcpy(answer, "");
+		if (history_list != NULL) {
+		    /* Get the newer search from the history list and
+		     * save it in answer. */
+		    if ((history =
+			get_history_newer(history_list)) != NULL) {
+			answer = mallocstrcpy(answer, history);
+			answer_len = strlen(history);
+		    /* If currentbuf isn't NULL and use_cb isn't 2, it
+		     * means that we're scrolling down at the bottom of
+		     * the search history and we need to make the string
+		     * in currentbuf the current answer; do this, blow
+		     * away currentbuf since we don't need it anymore,
+		     * and set use_cb to 1. */
+		    } else if (currentbuf != NULL && use_cb != 2) {
+			answer = mallocstrcpy(answer, currentbuf);
+			answer_len = strlen(answer);
+			free(currentbuf);
+			currentbuf = NULL;
+			use_cb = 1;
+		    /* Itherwise, if currentbuf is NULL and use_cb isn't
+		     * 2, it means that we're scrolling down at the
+		     * bottom of the search history and the current
+		     * answer (if it's not blank) needs to be saved in
+		     * currentbuf.  Do this, blank out answer (if
+		     * necessary), and set use_cb to 2. */
+		    } else if (use_cb != 2) {
+			if (answer[0] != '\0') {
+			    currentbuf = mallocstrcpy(currentbuf,
+				answer);
+			    answer = mallocstrcpy(answer, "");
+			}
+			answer_len = 0;
+			use_cb = 2;
 		    }
-		    answer_len = 0;
-		    use_cb = 2;
+		    statusbar_x = answer_len;
 		}
-		statusbar_x = answer_len;
-	    }
 #endif
-	    break;
+		break;
 	}
 
 #ifndef NANO_SMALL

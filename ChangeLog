@@ -75,6 +75,8 @@ CVS code -
   regexec_safe()
 	- Rename to safe_regexec() for consistency. (DLR)
 - winio.c:
+  nanogetstr()
+	- Fix misplaced break. (DLR)
   statusq()
 	- Make sure that the vsnprintf(foo) call and foo's subsequent
 	  null termination both take the proper number of bytes when
