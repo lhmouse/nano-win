@@ -3706,8 +3706,6 @@ int do_yesno(bool all, const char *msg)
 	if (kbinput == NANO_CANCEL_KEY)
 	    ok = -1;
 #ifndef DISABLE_MOUSE
-	/* Look, ma!  We get to duplicate lots of code from
-	 * do_mouse()!! */
 	else if (kbinput == KEY_MOUSE) {
 	    get_mouseinput(&mouse_x, &mouse_y, FALSE);
 
