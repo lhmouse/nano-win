@@ -100,6 +100,8 @@ CVS code -
 	  well as curses, consolidate the warning and error messages
 	  dealing with UTF-8 support as much as possible, and add a few
 	  minor consistency fixes.
+	- Mention explicitly that the check for the broken regexec() is
+	  needed for glibc 2.2.3. (DLR)
 - nanorc.sample:
 	- Fix the description for the whitespace option to mention that
 	  only single-column characters are allowed. (DLR)
