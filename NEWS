@@ -1,3 +1,18 @@
+2005.04.10 - GNU nano 1.3.7 claws its way to the top.  This release
+		mostly contains bugfixes for the massive amount of new
+		code in 1.3.6.  Among other things, nano builds with
+		debug support again; going into the help browser at the
+		"Read File" prompt no longer kicks you out of the prompt
+		after you exit the help browser; paragraph searching no
+		longer skips over certain cases of single-line
+		paragraphs; the titlebar no longer cuts off some UTF-8
+		strings prematurely; and the text displayed in the help
+		browser is now wrapped as it was in nano 1.2.x, taking
+		UTF-8 support into account.  New features include an
+		--enable/disable-utf8 configure option to explicitly
+		turn detection of UTF-8 support on or off, and sample
+		regexes for C++ as well as C.  Have fun.
+
 2005.03.20 - GNU nano 1.3.6 "shout it from the rooftops" is released.
 		This release finally includes the long-awaited support
 		for UTF-8.  Other new features include the ability to
