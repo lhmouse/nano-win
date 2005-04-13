@@ -1,3 +1,8 @@
+2005-04-13  Jordi Mallach  <jordi@gnu.org>
+
+	* vi.po: New Vietnamese translation by Phan Vinh Thinh.
+	* LINGUAS: Added "vi".
+
 2005-04-09  Jordi Mallach  <jordi@gnu.org>
 
 	* zh_TW.po: Added Plural-Forms header and fix format specification
