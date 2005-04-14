@@ -997,7 +997,9 @@ void print1opt_full(const char *shortflag
 	printf("\t");
 #endif
 
-    printf("%s\n", _(desc));
+    if (desc != NULL)
+	printf("%s", _(desc));
+    printf("\n");
 }
 
 void usage(void)
@@ -1074,7 +1076,7 @@ void usage(void)
     print1opt("-z", "--suspend", N_("Enable suspend"));
 
     /* This is a special case. */
-    print1opt("-a, -b, -e,", "", "");
+    print1opt("-a, -b, -e,", "", NULL);
     print1opt("-f, -g, -j", "", _("(ignored, for Pico compatibility)"));
 
     exit(0);
