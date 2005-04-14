@@ -2381,7 +2381,7 @@ void do_spell(void)
     add_open_file(TRUE);
 #endif
 
-    spell_msg = alt_speller != NULL ? do_alt_speller(temp) :
+    spell_msg = (alt_speller != NULL) ? do_alt_speller(temp) :
 	do_int_speller(temp);
     unlink(temp);
     free(temp);
