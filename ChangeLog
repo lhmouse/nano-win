@@ -1,9 +1,18 @@
 CVS code -
+- General:
+	- Miscellaneous comment fixes. (DLR)
+- files.c:
+  get_next_filename()
+	- Use a long instead of an int for the number prepended to the
+	  filename. (DLR)
 - nano.c:
   print1opt_full()
 	- If desc should be empty, allow it to be NULL instead of
 	  "", since the latter is not necessarily translated as "".
 	  (DLR, found by Jordi)
+- utils.c:
+  num_of_digits()
+	- Use a ssize_t instead of an int. (DLR)
 
 GNU nano 1.3.7 - 2005.04.10
 - General:

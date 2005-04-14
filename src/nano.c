@@ -165,7 +165,7 @@ void die_save_file(const char *die_filename)
 	return;
 
     /* If we can't save, we have REAL bad problems, but we might as well
-       TRY. */
+     * TRY. */
     if (die_filename[0] == '\0')
 	die_filename = "nano";
 
@@ -176,7 +176,8 @@ void die_save_file(const char *die_filename)
     if (!failed)
 	fprintf(stderr, _("\nBuffer written to %s\n"), ret);
     else
-	fprintf(stderr, _("\nBuffer not written to %s (too many backup files?)\n"), ret);
+	fprintf(stderr,
+		_("\nBuffer not written to %s (too many backup files?)\n"), ret);
 
     free(ret);
 }

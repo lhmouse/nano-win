@@ -540,7 +540,7 @@ int safe_regexec(const regex_t *preg, const char *string, size_t nmatch,
 #endif
 int regexp_bol_or_eol(const regex_t *preg, const char *string);
 #endif
-int num_of_digits(int n);
+int num_of_digits(ssize_t n);
 void get_homedir(void);
 bool parse_num(const char *str, ssize_t *val);
 void align(char **strp);
