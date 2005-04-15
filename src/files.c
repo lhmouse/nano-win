@@ -1347,6 +1347,7 @@ int write_file(const char *name, bool tmp, int append, bool
 
     if (name[0] == '\0')
 	return -1;
+
     if (!tmp)
 	titlebar(NULL);
 
@@ -1463,8 +1464,9 @@ int write_file(const char *name, bool tmp, int append, bool
 
 	/* And set metadata. */
 	if (copy_status != 0 || chown(backupname,
-		originalfilestat.st_uid, originalfilestat.st_gid) == -1
-		|| utime(backupname, &filetime) == -1) {
+		originalfilestat.st_uid,
+		originalfilestat.st_gid) == -1 || utime(backupname,
+		&filetime) == -1) {
 	    free(backupname);
 	    if (copy_status == -1)
 		statusbar(_("Error reading %s: %s"), realname,
@@ -1478,8 +1480,8 @@ int write_file(const char *name, bool tmp, int append, bool
     }
 #endif /* !NANO_SMALL */
 
-    /* If NOFOLLOW_SYMLINKS and the file is a link, we aren't doing
-     * prepend or append.  So we delete the link first, and just
+    /* If NOFOLLOW_SYMLINKS is set and the file is a link, we aren't
+     * doing prepend or append.  So we delete the link first, and just
      * overwrite. */
     if (ISSET(NOFOLLOW_SYMLINKS) && anyexists && S_ISLNK(lst.st_mode) &&
 	unlink(realname) == -1) {
@@ -1542,7 +1544,7 @@ int write_file(const char *name, bool tmp, int append, bool
     /* Now open the file in place.  Use O_EXCL if tmp is TRUE.  This is
      * now copied from joe, because wiggy says so *shrug*. */
     fd = open(realname, O_WRONLY | O_CREAT |
-	(append == 1 ? O_APPEND : (tmp ? O_EXCL : O_TRUNC)),
+	((append == 1) ? O_APPEND : (tmp ? O_EXCL : O_TRUNC)),
 	S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 
     /* Set the umask back to the user's original value. */
@@ -1557,7 +1559,7 @@ int write_file(const char *name, bool tmp, int append, bool
 	goto cleanup_and_exit;
     }
 
-    f = fdopen(fd, append == 1 ? "ab" : "wb");
+    f = fdopen(fd, (append == 1) ? "ab" : "wb");
     if (f == NULL) {
 	statusbar(_("Error writing %s: %s"), realname, strerror(errno));
 	close(fd);
@@ -1567,6 +1569,7 @@ int write_file(const char *name, bool tmp, int append, bool
     /* There might not be a magicline.  There won't be when writing out
      * a selection. */
     assert(fileage != NULL && filebot != NULL);
+
     while (fileptr != filebot) {
 	size_t data_len = strlen(fileptr->data);
 	size_t size;
@@ -1585,6 +1588,7 @@ int write_file(const char *name, bool tmp, int append, bool
 	    fclose(f);
 	    goto cleanup_and_exit;
 	}
+
 #ifndef NANO_SMALL
 	if (fmt == DOS_FILE || fmt == MAC_FILE) {
 	    if (putc('\r', f) == EOF) {

@@ -1994,7 +1994,8 @@ const char *do_int_speller(const char *tempfile_name)
     int spell_status, sort_status, uniq_status;
 
     /* Create all three pipes up front. */
-    if (pipe(spell_fd) == -1 || pipe(sort_fd) == -1 || pipe(uniq_fd) == -1)
+    if (pipe(spell_fd) == -1 || pipe(sort_fd) == -1 ||
+	pipe(uniq_fd) == -1)
 	return _("Could not create pipe");
 
     statusbar(_("Creating misspelled word list, please wait..."));
