@@ -26,7 +26,6 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "proto.h"
-#include "nano.h"
 
 /* Global variables */
 

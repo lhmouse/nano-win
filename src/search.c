@@ -31,7 +31,6 @@
 #include <errno.h>
 #include <assert.h>
 #include "proto.h"
-#include "nano.h"
 
 static bool search_last_line = FALSE;
 	/* Have we gone past the last line while searching? */

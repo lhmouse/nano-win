@@ -28,7 +28,6 @@
 #include <stdio.h>
 #include <assert.h>
 #include "proto.h"
-#include "nano.h"
 
 static bool keep_cutbuffer = FALSE;
 	/* Should we keep the contents of the cutbuffer? */

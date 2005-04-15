@@ -19,6 +19,9 @@
  *                                                                        *
  **************************************************************************/
 
+#ifndef PROTO_H
+#define PROTO_H 1
+
 /* Externs. */
 
 #include <sys/types.h>
@@ -696,3 +699,5 @@ void dump_buffer_reverse(void);
 #ifdef NANO_EXTRA
 void do_credits(void);
 #endif
+
+#endif /* !PROTO_H */

@@ -29,7 +29,6 @@
 #include <errno.h>
 #include <fcntl.h>
 #include "proto.h"
-#include "nano.h"
 
 #ifdef ENABLE_COLOR
 

@@ -32,7 +32,6 @@
 #include <ctype.h>
 #include <assert.h>
 #include "proto.h"
-#include "nano.h"
 
 #ifdef ENABLE_NANORC
 

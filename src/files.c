@@ -35,7 +35,6 @@
 #include <pwd.h>
 #include <assert.h>
 #include "proto.h"
-#include "nano.h"
 
 static file_format fmt = NIX_FILE;
 	/* The format of the current file. */

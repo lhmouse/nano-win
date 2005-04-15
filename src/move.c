@@ -28,7 +28,6 @@
 #include <ctype.h>
 #include <assert.h>
 #include "proto.h"
-#include "nano.h"
 
 void do_first_line(void)
 {

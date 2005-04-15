@@ -28,7 +28,6 @@
 #include <ctype.h>
 #include <assert.h>
 #include "proto.h"
-#include "nano.h"
 
 #ifdef NANO_WIDE
 #ifdef HAVE_WCHAR_H

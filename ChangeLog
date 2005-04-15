@@ -1,6 +1,10 @@
 CVS code -
 - General:
 	- Miscellaneous comment fixes. (DLR)
+	- Various #include fixes.  Since proto.h includes nano.h, only
+	  include the former in source files.  Also add an #include
+	  guard to proto.h, and make the config.h #include in nano.h
+	  match the config.h #includes everywhere else. (DLR)
 - files.c:
   get_next_filename()
 	- Use a long instead of an int for the number prepended to the

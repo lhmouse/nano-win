@@ -38,7 +38,6 @@
 #include <locale.h>
 #include <assert.h>
 #include "proto.h"
-#include "nano.h"
 
 #ifdef HAVE_TERMIOS_H
 #include <termios.h>

@@ -30,7 +30,6 @@
 #include <ctype.h>
 #include <assert.h>
 #include "proto.h"
-#include "nano.h"
 
 static int *key_buffer = NULL;
 				/* The default keystroke buffer,

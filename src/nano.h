@@ -22,8 +22,12 @@
 #ifndef NANO_H
 #define NANO_H 1
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #ifdef __TANDEM
-/* Tandem NonStop Kernel */
+/* Tandem NonStop Kernel. */
 #include <floss.h>
 #define NANO_ROOT_UID 65535
 #else
@@ -88,7 +92,6 @@
 #include <stddef.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include "config.h"
 
 /* If no snprintf() or vsnprintf(), use the versions from glib. */
 #if !defined(HAVE_SNPRINTF) || !defined(HAVE_VSNPRINTF)

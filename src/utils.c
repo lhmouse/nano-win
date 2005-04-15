@@ -32,7 +32,6 @@
 #include <errno.h>
 #include <assert.h>
 #include "proto.h"
-#include "nano.h"
 
 #ifdef HAVE_REGEX_H
 #ifdef BROKEN_REGEXEC
