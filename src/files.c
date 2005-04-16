@@ -899,7 +899,6 @@ void load_open_file(void)
     edit_refresh();
 
     /* Update the titlebar. */
-    clearok(topwin, FALSE);
     titlebar(NULL);
 }
 

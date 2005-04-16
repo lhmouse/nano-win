@@ -6,6 +6,8 @@ CVS code -
 	  guard to proto.h, and make the config.h #include in nano.h
 	  match the config.h #includes everywhere else. (DLR)
 - files.c:
+  load_open_file()
+	- Remove an unneeded clearok(FALSE). (DLR)
   get_next_filename()
 	- Use a long instead of an int for the number prepended to the
 	  filename. (DLR)
@@ -14,6 +16,10 @@ CVS code -
 	- If desc should be empty, allow it to be NULL instead of
 	  "", since the latter is not necessarily translated as "".
 	  (DLR, found by Jordi)
+  do_alt_speller()
+	- Replace a set_modified() with SET(MODIFIED) to avoid an
+	  unnecessary update, and remove an unneeded clearok(FALSE).
+	  (DLR)
 - utils.c:
   num_of_digits()
 	- Use a ssize_t instead of an int. (DLR)

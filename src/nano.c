@@ -2341,11 +2341,10 @@ const char *do_alt_speller(char *tempfile_name)
     }
 #endif
 
-    /* Go back to the old position, mark the file as modified, and make
-     * sure that the titlebar is refreshed. */
+    /* Go back to the old position, mark the file as modified, and
+     * update the titlebar. */
     do_gotopos(lineno_save, current_x_save, current_y_save, pww_save);
-    set_modified();
-    clearok(topwin, FALSE);
+    SET(MODIFIED);
     titlebar(NULL);
 
     return NULL;
