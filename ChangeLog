@@ -17,6 +17,10 @@ CVS code -
 - utils.c:
   num_of_digits()
 	- Use a ssize_t instead of an int. (DLR)
+- winio.c:
+  total_update()
+	- Simplify to call clearok(TRUE) and wrefresh() on curscr, which
+	  updates the entire screen in fewer function calls. (DLR)
 
 GNU nano 1.3.7 - 2005.04.10
 - General:

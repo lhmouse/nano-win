@@ -3742,16 +3742,8 @@ int do_yesno(bool all, const char *msg)
 
 void total_update(void)
 {
-    clearok(topwin, TRUE);
-    clearok(edit, TRUE);
-    clearok(bottomwin, TRUE);
-    wnoutrefresh(topwin);
-    wnoutrefresh(edit);
-    wnoutrefresh(bottomwin);
-    doupdate();
-    clearok(topwin, FALSE);
-    clearok(edit, FALSE);
-    clearok(bottomwin, FALSE);
+    clearok(curscr, TRUE);
+    wrefresh(curscr);
 }
 
 void total_refresh(void)
