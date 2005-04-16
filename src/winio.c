@@ -2499,7 +2499,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 
 	assert(statusbar_x <= answer_len && answer_len == strlen(answer));
 
-	if (kbinput != '\t')
+	if (kbinput != NANO_TAB_KEY)
 	    tabbed = FALSE;
 
 	switch (kbinput) {
