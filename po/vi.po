@@ -1,14 +1,14 @@
-# translation of nano-1.3.6.po to Vietnamese
+# translation of nano-1.3.7.po to Vietnamese
 # Copyright (C) 2005 Free Software Foundation, Inc.
 # This file is distributed under the same license as the PACKAGE package.
 # Phan Vinh Thinh <teppi82@gmail.com>, 2005.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.3.6\n"
+"Project-Id-Version: nano 1.3.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-20 23:36-0500\n"
-"PO-Revision-Date: 2005-03-30 17:05+0400\n"
+"POT-Creation-Date: 2005-04-12 20:54-0400\n"
+"PO-Revision-Date: 2005-04-18 16:50+0400\n"
 "Last-Translator: Phan Vinh Thinh <teppi82@gmail.com>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -17,196 +17,196 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: KBabel 1.9.1\n"
 
-#: src/files.c:308
+#: src/files.c:309
 #, c-format
 msgid "Read %lu line (Converted from DOS and Mac format)"
 msgid_plural "Read %lu lines (Converted from DOS and Mac format)"
 msgstr[0] "Đọc %lu dòng (Đã chuyển đổi từ định dạng DOS và Mac)"
 
-#: src/files.c:313
+#: src/files.c:314
 #, c-format
 msgid "Read %lu line (Converted from Mac format)"
 msgid_plural "Read %lu lines (Converted from Mac format)"
 msgstr[0] "Đọc %lu dòng (Đã chuyển đổi từ định dạng Mac)"
 
-#: src/files.c:318
+#: src/files.c:319
 #, c-format
 msgid "Read %lu line (Converted from DOS format)"
 msgid_plural "Read %lu lines (Converted from DOS format)"
 msgstr[0] "Đọc %lu dòng (Đã chuyển đổi từ định dạng DOS)"
 
-#: src/files.c:323
+#: src/files.c:324
 #, c-format
 msgid "Read %lu line"
 msgid_plural "Read %lu lines"
 msgstr[0] "Đọc %lu dòng"
 
-#: src/files.c:346
+#: src/files.c:347
 msgid "New File"
 msgstr "Tập tin mới"
 
-#: src/files.c:349
+#: src/files.c:350
 #, c-format
 msgid "\"%s\" not found"
 msgstr "không tìm thấy \"%s\""
 
-#: src/files.c:354
+#: src/files.c:355
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "\"%s\" là một thư mục"
 
-#: src/files.c:355
+#: src/files.c:356
 #, c-format
 msgid "File \"%s\" is a device file"
 msgstr "Tập tin \"%s\" là một tập tin thiết bị"
 
-#: src/files.c:358 src/files.c:366 src/files.c:1399 src/files.c:1465
-#: src/files.c:1522 src/files.c:1621 src/files.c:2560 src/files.c:2576
-#: src/files.c:2635 src/files.c:2844 src/rcfile.c:717
+#: src/files.c:359 src/files.c:367 src/files.c:1403 src/files.c:1469
+#: src/files.c:1526 src/files.c:1625 src/files.c:2564 src/files.c:2580
+#: src/files.c:2639 src/files.c:2848 src/rcfile.c:717
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Lỗi đọc %s: %s"
 
-#: src/files.c:370
+#: src/files.c:371
 msgid "Reading File"
 msgstr "Đang đọc tập tin"
 
-#: src/files.c:448
+#: src/files.c:449
 #, c-format
 msgid "Can't insert file from outside of %s"
 msgstr "Không chèn được tập tin từ bên ngoài của %s"
 
-#: src/files.c:522
+#: src/files.c:523
 #, c-format
 msgid "Command to execute in new buffer [from %s] "
 msgstr "Câu lệnh để thực hiện trong bộ đệm mới [từ %s] "
 
-#: src/files.c:525
+#: src/files.c:526
 #, c-format
 msgid "Command to execute [from %s] "
 msgstr "Câu lệnh để thực hiện [từ %s] "
 
-#: src/files.c:530
+#: src/files.c:531
 #, c-format
 msgid "File to insert into new buffer [from %s] "
 msgstr "Tập tin để chèn vào bộ đệm mới [từ %s] "
 
-#: src/files.c:533
+#: src/files.c:534
 #, c-format
 msgid "File to insert [from %s] "
 msgstr "Tập tin để chèn [từ %s] "
 
-#: src/files.c:561 src/files.c:1787 src/files.c:2609 src/nano.c:3302
+#: src/files.c:561 src/files.c:1791 src/files.c:2613 src/nano.c:3361
 #: src/search.c:214 src/search.c:938 src/search.c:985
 msgid "Cancelled"
 msgstr "Đã hủy bỏ"
 
-#: src/files.c:687
+#: src/files.c:697
 msgid "Key illegal in non-multibuffer mode"
 msgstr "Phím không cho phép trong chế độ \"không phải nhiều bộ đệm\""
 
-#: src/files.c:906
+#: src/files.c:916
 msgid "No more open file buffers"
 msgstr "Không còn bộ đệm mở tập tin nào"
 
-#: src/files.c:922
+#: src/files.c:932
 #, c-format
 msgid "Switched to %s"
 msgstr "Đã chuyển tới %s"
 
-#: src/files.c:923 src/global.c:258 src/winio.c:2777
+#: src/files.c:933 src/global.c:258 src/winio.c:2782
 msgid "New Buffer"
 msgstr "Bộ đệm mới"
 
-#: src/files.c:1354
+#: src/files.c:1358
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Không ghi được ra bên ngoài của %s"
 
-#: src/files.c:1369
+#: src/files.c:1373
 msgid "Cannot prepend or append to a symlink with --nofollow set"
 msgstr "Không thể thêm vào trước hoặc thêm vào sau một liên kết mềm bằng tùy chọn --nofollow"
 
-#: src/files.c:1443 src/files.c:1468 src/files.c:1481 src/files.c:1509
-#: src/files.c:1530 src/files.c:1548 src/files.c:1557 src/files.c:1578
-#: src/files.c:1586 src/files.c:1596 src/files.c:1628 src/files.c:1633
-#: src/files.c:2908 src/files.c:2917
+#: src/files.c:1447 src/files.c:1472 src/files.c:1485 src/files.c:1513
+#: src/files.c:1534 src/files.c:1552 src/files.c:1561 src/files.c:1582
+#: src/files.c:1590 src/files.c:1600 src/files.c:1632 src/files.c:1637
+#: src/files.c:2912 src/files.c:2921
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Lỗi ghi nhớ %s: %s"
 
-#: src/files.c:1652
+#: src/files.c:1656
 #, c-format
 msgid "Wrote %u line"
 msgid_plural "Wrote %u lines"
 msgstr[0] "Đã ghi %u dòng"
 
-#: src/files.c:1746
+#: src/files.c:1750
 msgid " [DOS Format]"
 msgstr " [Định dạng DOS]"
 
-#: src/files.c:1748
+#: src/files.c:1752
 msgid " [Mac Format]"
 msgstr " [Định dạng Mac]"
 
-#: src/files.c:1753
+#: src/files.c:1757
 msgid " [Backup]"
 msgstr " [Lưu trữ]"
 
-#: src/files.c:1760
+#: src/files.c:1764
 msgid "Prepend Selection to File"
 msgstr "Thêm lựa chọn vào trước Tập tin"
 
-#: src/files.c:1762
+#: src/files.c:1766
 msgid "Append Selection to File"
 msgstr "Thêm lựa chọn vào sau Tập tin"
 
-#: src/files.c:1764
+#: src/files.c:1768
 msgid "Write Selection to File"
 msgstr "Ghi nhớ lựa chọn vào một tập tin"
 
-#: src/files.c:1768
+#: src/files.c:1772
 msgid "File Name to Prepend to"
 msgstr "Tên tập tin để thêm vào trước"
 
-#: src/files.c:1770
+#: src/files.c:1774
 msgid "File Name to Append to"
 msgstr "Tên tập tin để thêm vào sau"
 
-#: src/files.c:1772
+#: src/files.c:1776
 msgid "File Name to Write"
 msgstr "Tên tập tin để ghi nhớ"
 
-#: src/files.c:1846
+#: src/files.c:1850
 msgid "File exists, OVERWRITE ? "
 msgstr "Tập tin đã tồn tại, GHI ĐÈ LÊN ? "
 
-#: src/files.c:1860
+#: src/files.c:1864
 msgid "Save file under DIFFERENT NAME ? "
 msgstr "Ghi nhớ tập tin dưới TÊN KHÁC ? "
 
-#: src/files.c:2253
+#: src/files.c:2257
 msgid "(more)"
 msgstr "(còn nữa)"
 
-#: src/files.c:2541
+#: src/files.c:2545
 msgid "Can't move up a directory"
 msgstr "Không thể lên trên một thư mục"
 
-#: src/files.c:2552 src/files.c:2624
+#: src/files.c:2556 src/files.c:2628
 #, c-format
 msgid "Can't go outside of %s in restricted mode"
 msgstr "Không đi ra được bên ngoài của %s trong chế độ hạn chế"
 
-#: src/files.c:2603
+#: src/files.c:2607
 msgid "Go To Directory"
 msgstr "Đi tới thư mục"
 
-#: src/files.c:2700 src/files.c:2705
+#: src/files.c:2704 src/files.c:2709
 msgid "(dir)"
 msgstr "(thưmục)"
 
-#: src/files.c:2847 src/rcfile.c:674
+#: src/files.c:2851 src/rcfile.c:674
 #, c-format
 msgid ""
 "\n"
@@ -239,7 +239,7 @@ msgstr "Thay thế"
 msgid "Go To Line"
 msgstr "Chuyển tới dòng"
 
-#: src/global.c:239 src/winio.c:3673
+#: src/global.c:239 src/winio.c:3684
 msgid "Cancel"
 msgstr "Đóng hội thoại"
 
@@ -703,7 +703,7 @@ msgstr "Không chuyển đổi từ định dạng DOS/Mac"
 msgid "Backup files"
 msgstr "Lưu trữ tập tin"
 
-#: src/global.c:1112 src/nano.c:987
+#: src/global.c:1112 src/nano.c:1040
 msgid "Smooth scrolling"
 msgstr "Cuộn trơn mượt"
 
@@ -749,27 +749,33 @@ msgstr ""
 msgid "Window size is too small for nano...\n"
 msgstr "Kích thước cửa sổ quá nhỏ cho nano...\n"
 
-#: src/nano.c:283
+#: src/nano.c:286
 msgid ""
 "Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, then hit Enter.  If there is a match for the text you entered, the screen will be updated to the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, and then press Enter.  If there is a match for the text you entered, the screen will be updated to the location of the nearest match for the search string.\n"
 "\n"
-" The previous search string will be shown in brackets after the search prompt.  Hitting Enter without entering any text will perform the previous search.  If you have selected text with the mark and then search to replace, only matches in the selected text will be replaced.\n"
-"\n"
-" The following function keys are available in Search mode:\n"
-"\n"
+" The previous search string will be shown in brackets after the search prompt.  Hitting Enter without entering any text will perform the previous search.  "
 msgstr ""
 "Văn bản của Trợ giúp cho Câu lệnh Tìm kiếm\n"
 "\n"
 " Nhập từ hoặc ký tự bạn muốn tìm kiếm, sau đó gõ Enter.  Nếu có tương ứng với văn bản bạn đã nhập, thì trên màn hình sẽ là vị trí của tương ứng gần nhất cho chuỗi tìm kiếm này.\n"
 "\n"
-" Chuỗi tìm kiếm ngay trước sẽ hiển thị trong ngoặc đơn ở sau dấu nhắc tìm kiếm.  Không nhập văn bản nào và gõ Enter sẽ thực hiện tìm kiếm ngay trước này.  Nếu bạn đã lựa chọn một đoạn văn bản nào đó và sau đó tìm kiếm để thay thế, thì sẽ chỉ thay thế những tương ứng nằm trong đoạn văn bản đã lựa chọn.\n"
-"\n"
-" Có thể dùng các phím chức năng sau trong chế độ Tìm kiếm:\n"
-"\n"
+" Chuỗi tìm kiếm ngay trước sẽ hiển thị trong ngoặc đơn ở sau dấu nhắc tìm kiếm.  Không nhập văn bản nào và gõ Enter sẽ thực hiện tìm kiếm ngay trước này.  "
 
 #: src/nano.c:295
+msgid ""
+"If you have selected text with the mark and then search to replace, only matches in the selected text will be replaced.\n"
+"\n"
+" The following function keys are available in Search mode:\n"
+"\n"
+msgstr ""
+"Nếu đã có văn bản đánh dấu và sau đó tìm kiếm để thay thế, thì chỉ thay thế những tương ứng có trong vùng đánh dấu.\n"
+"\n"
+" Những phím chức năng sau có trong chế độ Tìm kiếm:\n"
+"\n"
+
+#: src/nano.c:301
 msgid ""
 "Go To Line Help Text\n"
 "\n"
@@ -785,31 +791,37 @@ msgstr ""
 " Có thể dùng các phím chức năng sau trong chế độ Đi tới dòng:\n"
 "\n"
 
-#: src/nano.c:302
+#: src/nano.c:310
 msgid ""
 "Insert File Help Text\n"
 "\n"
 " Type in the name of a file to be inserted into the current file buffer at the current cursor location.\n"
 "\n"
-" If you have compiled nano with multiple file buffer support, and enable multiple buffers with the -F or --multibuffer command line flags, the Meta-F toggle, or a nanorc file, inserting a file will cause it to be loaded into a separate buffer (use Meta-< and > to switch between file buffers). If you need another blank buffer, do not enter any filename, or type in a nonexistent filename at the prompt and press Enter.\n"
-"\n"
-" The following function keys are available in Insert File mode:\n"
-"\n"
+" If you have compiled nano with multiple file buffer support, and enable multiple file buffers with the -F or --multibuffer command line flags, the Meta-F toggle, or a nanorc file, inserting a file will cause it to be loaded into a separate buffer (use Meta-< and > to switch between file buffers).  "
 msgstr ""
 "Văn bản của Trợ giúp cho Chèn tập tin\n"
 "\n"
 " Hãy gõ tên của tập tin bạn muốn chèn vào bộ đệm hiện thời tại vị trí con trỏ.\n"
 "\n"
-" Nếu bạn đã biên dịch nano với sự hỗ trợ nhiều bộ đệm tập tin, và bật sự hỗ trợ này bằng các cờ (flag) dòng lệnh -F hay --multibuffer, bằng tổ hợp phím bật tắt Meta-F, hay bằng tập tin nanorc, thì việc chèn một tập tin đồng nghĩa với việc nạp tập tin đó vào một bộ đệm riêng (sử dụng Meta-< và > để chuyển giữa các bộ đệm này). Nếu bạn cần một bộ đệm trống khác, thì đừng nhập tên tập tin nào cả, hoặc gõ một tên tập tin không tồn tại ở dấu nhắc rồi nhấn Enter.\n"
+" Nếu bạn đã biên dịch nano với sự hỗ trợ nhiều bộ đệm, và bật sự hỗ trợ này bằng các cờ (flag) dòng lệnh -F hay --multibuffer, bằng tổ hợp phím bật tắt Meta-F, hay bằng tập tin nanorc, thì việc chèn một tập tin đồng nghĩa với việc nạp tập tin đó vào một bộ đệm riêng (sử dụng Meta-< và > để chuyển giữa các bộ đệm này).  "
+
+#: src/nano.c:319
+msgid ""
+"If you need another blank buffer, do not enter any filename, or type in a nonexistent filename at the prompt and press Enter.\n"
 "\n"
-" Có thể dùng các phím chức năng sau trong chế độ Chèn Tập tin:\n"
+" The following function keys are available in Insert File mode:\n"
+"\n"
+msgstr ""
+"Nếu cần một bộ đệm trống khác, thì đừng nhập tên tập tin, hoặc nhập vào tên một tập tin không có trên dấu nhắc rồi nhấn Enter.\n"
+"\n"
+" Có những phím chức năng sau trong chế độ Chèn Tập tin:\n"
 "\n"
 
-#: src/nano.c:315
+#: src/nano.c:325
 msgid ""
 "Write File Help Text\n"
 "\n"
-" Type the name that you wish to save the current file as and hit Enter to save the file.\n"
+" Type the name that you wish to save the current file as and press Enter to save the file.\n"
 "\n"
 " If you have selected text with the mark, you will be prompted to save only the selected portion to a separate file.  To reduce the chance of overwriting the current file with just a portion of it, the current filename is not the default in this mode.\n"
 "\n"
@@ -820,12 +832,12 @@ msgstr ""
 "\n"
 " Hãy gõ tên bạn muốn ghi nhớ cho tập tin hiện thời và gõ Enter để hoàn thành ghi nhớ.\n"
 "\n"
-" Nếu bạn đã lựa chọn một đoạn văn bản nào đó (bằng dấu hiệu), thì chương trình sẽ nhắc bạn ghi nhớ đoạn văn bản đã lựa chọn đó vào một tập tin riêng rẽ.  Để giảm khả năng ghi một phần đè lên cả tập tin hiện thời, thì tên tập tin hiện thời không phải là mặc định trong chế độ này.\n"
+" Nếu đã lựa chọn một đoạn văn bản nào đó (bằng dấu hiệu), thì chương trình sẽ nhắc ghi nhớ đoạn văn bản đã lựa chọn đó vào một tập tin riêng rẽ.  Để giảm khả năng ghi một phần đè lên cả tập tin hiện thời, thì tên tập tin hiện thời không phải là mặc định trong chế độ này.\n"
 "\n"
 " Có thể dùng các phím chức năng sau trong chế độ Ghi nhớ Tập tin:\n"
-" \n"
+"\n"
 
-#: src/nano.c:326
+#: src/nano.c:339
 msgid ""
 "File Browser Help Text\n"
 "\n"
@@ -841,7 +853,7 @@ msgstr ""
 " Có thể dùng các phím chức năng sau trong trình duyệt:\n"
 "\n"
 
-#: src/nano.c:337
+#: src/nano.c:352
 msgid ""
 "Browser Go To Directory Help Text\n"
 "\n"
@@ -861,7 +873,7 @@ msgstr ""
 " Có thể dùng các phím chức năng sau trong chế độ Trình duyệt Đi tới thư mục:\n"
 "\n"
 
-#: src/nano.c:346
+#: src/nano.c:365
 msgid ""
 "Spell Check Help Text\n"
 "\n"
@@ -877,51 +889,60 @@ msgstr ""
 " Có các chức năng sau trong chế độ Kiểm tra chính tả:\n"
 "\n"
 
-#: src/nano.c:358
+#: src/nano.c:380
 msgid ""
-"External Command Help Text\n"
+"Execute Command Help Text\n"
 "\n"
-" This menu allows you to insert the output of a command run by the shell into the current buffer (or a new buffer in multibuffer mode). If you need another blank buffer, do not enter any command.\n"
+" This menu allows you to insert the output of a command run by the shell into the current buffer (or a new buffer in multiple file buffer mode). If you need another blank buffer, do not enter any command.\n"
 "\n"
-" The following keys are available in this mode:\n"
+" The following keys are available in Execute Command mode:\n"
 "\n"
 msgstr ""
-"Văn bản của Trợ giúp cho Câu lệnh ngoại trú\n"
+"Văn bản của Trợ giúp cho Thực hiện Câu lệnh\n"
 "\n"
-" Trình đơn này cho phép bạn chèn kết quả của một câu lệnh chạy bằng shell vào bộ đệm hiện thời (hoặc vào một bộ đệm mới trong chế độ nhiều bộ đệm). Nếu bạn cần một bộ đệm trống khác, thì đừng nhập bất kỳ câu lệnh nào.\n"
+" Trình đơn này cho phép bạn chèn kết quả của một câu lệnh chạy bằng shell vào bộ đệm hiện thời (hoặc vào một bộ đệm mới trong chế độ nhiều bộ đệm). Nếu cần một bộ đệm trống khác, thì đừng nhập bất kỳ câu lệnh nào.\n"
 "\n"
 " Có thể dùng các phím sau trong chế độ này:\n"
 "\n"
 
-#: src/nano.c:367
+#: src/nano.c:393
 msgid ""
 " nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor.  The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages. The bottom two lines show the most commonly used shortcuts in the editor.\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor.  The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages.  The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
-" The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and can be entered either by using the Control (Ctrl) key or pressing the Esc key twice.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt or Meta key depending on your keyboard setup.  Also, pressing Esc twice and then typing a three-digit decimal number from 000 to 255 will enter the character with the corresponding value.  The following keystrokes are available in the main editor window.  Alternative keys are shown in parentheses:\n"
+" "
+msgstr ""
+" văn bản trợ giúp của nano\n"
+"\n"
+" Trình soạn thảo nano được thiết kế để nâng cao tính năng suất và sự dễ sử dụng của trình soạn thảo UW Pico.  Nano gồm bốn phần chính. Dòng trên cùng hiển thị phiên bản chương trình, tên của tập tin đang soạn thảo, và tập tin đã thay đổi hay chưa.  Tiếp theo là cửa sổ soạn thảo chính hiển thị tập tin đang soạn thảo.  Dòng trạng thái là dòng thứ ba từ dưới lên và hiển thị những thông báo quan trọng. Dưới cùng là hai dòng hiển thị những phím tắt thông dụng trong trình soạn thảo.\n"
+" "
+
+#: src/nano.c:404
+msgid "The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and can be entered either by using the Control (Ctrl) key or pressing the Escape (Esc) key twice.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt, or Meta key depending on your keyboard setup.  "
+msgstr "Ký hiệu cho phím tắt như sau: Phím Control ký hiệu bởi một dấu ^ và nhập vào bằng phím Control (Ctrl) hoặc nhấn phím Escape (Esc) hai lần.  Phím Escape ký hiệu bằng ký tự Meta (M) và nhập vào bằng (một trong) các phím Esc, Alt hay Meta tùy thuộc vào cấu hình bàn phím.  "
+
+#: src/nano.c:411
+msgid ""
+"Also, pressing Esc twice and then typing a three-digit decimal number from 000 to 255 will enter the character with the corresponding value.  The following keystrokes are available in the main editor window.  Alternative keys are shown in parentheses:\n"
 "\n"
 msgstr ""
-"Văn bản trợ giúp của nano\n"
-"\n"
-" Trình soạn thảo nano được thiết kế để nâng cao tính năng suất và sự dễ sử dụng của trình soạn thảo UW Pico.  nano gồm bốn phần chính: Dòng trên cùng hiển thị phiên bản chương trình, tên của tập tin đang soạn thảo, và tập tin đã thay đổi hay chưa.  Tiếp theo là cửa sổ soạn thảo chính hiển thị tập tin đang soạn thảo.  Dòng trạng thái là dòng thứ ba từ dưới lên và hiển thị những thông báo quan trọng. Dưới cùng là hai dòng hiển thị những phím tắt thông dụng trong trình soạn thảo.\n"
-"\n"
-" Ký hiệu cho phím tắt như sau: phím Control có ký hiệu ^, và có thể nhập bằng phím Control (Ctrl) hay hai lần nhấn phím Esc.  Phím Escape ký hiệu bởi Meta (M) và có thể nhập bằng phím Esc, Alt, hoặc phím Meta phụ thuộc vào cấu hình bàn phím của bạn.  Đồng thời, nhấn phím Esc hai lần và sau đó gõ một số  có ba chữ số từ 100 tới 255 sẽ nhập chữ cái với mã ASCII tương ứng.  Có thể dùng các phím sau trong cửa sổ soạn thảo chính.  Các phím tương đương đặt trong ngoặc đơn:\n"
+"Đồng thời, nhấn phím Esc hai lần và sau đó gõ một số ba chữ số từ 000 tới 255 sẽ nhập ký tự với giá trị tương ứng.  Có những tổ hợp phím sau trong cửa sổ soạn thảo chính.  Các phím tương đương đặt trong dấu ngoặc đơn:\n"
 "\n"
 
-#: src/nano.c:402 src/nano.c:528
+#: src/nano.c:441 src/nano.c:572
 msgid "enable/disable"
 msgstr "bật/tắt"
 
-#: src/nano.c:433 src/winio.c:2946
+#: src/nano.c:477 src/winio.c:2957
 msgid "Up"
 msgstr "Lên"
 
-#: src/nano.c:441 src/nano.c:477
+#: src/nano.c:485 src/nano.c:521
 msgid "Space"
 msgstr "Khoảng trắng"
 
-#: src/nano.c:953
+#: src/nano.c:1006
 #, c-format
 msgid ""
 "Usage: nano [+LINE] [GNU long option] [option] [file]\n"
@@ -930,12 +951,12 @@ msgstr ""
 "Sử dụng: nano [+DÒNG] [tùy chọn GNU dài] [tùy chọn] [tập tin]\n"
 "\n"
 
-#: src/nano.c:954
+#: src/nano.c:1007
 #, c-format
 msgid "Option\t\tLong option\t\tMeaning\n"
 msgstr "Tùy chọn\t\tTùy chọn dài\t\tÝ nghĩa\n"
 
-#: src/nano.c:956
+#: src/nano.c:1009
 #, c-format
 msgid ""
 "Usage: nano [+LINE] [option] [file]\n"
@@ -944,210 +965,210 @@ msgstr ""
 "Sử dụng: nano [+DÒNG] [tùy chọn] [tập tin]\n"
 "\n"
 
-#: src/nano.c:957
+#: src/nano.c:1010
 #, c-format
 msgid "Option\t\tMeaning\n"
 msgstr "Tùy chọn\t\tÝ nghĩa\n"
 
-#: src/nano.c:960
+#: src/nano.c:1013
 msgid "Show this message"
 msgstr "Hiển thị thông báo này"
 
-#: src/nano.c:961
+#: src/nano.c:1014
 msgid "+LINE"
 msgstr "+DÒNG"
 
-#: src/nano.c:961
+#: src/nano.c:1014
 msgid "Start at line number LINE"
 msgstr "Bắt đầu trên dòng có số thứ tự DÒNG"
 
-#: src/nano.c:963
+#: src/nano.c:1016
 msgid "Enable smart home key"
 msgstr "Bật dùng phím home thông minh"
 
-#: src/nano.c:964
+#: src/nano.c:1017
 msgid "Backup existing files on save"
 msgstr "Lưu trữ tập tin đã có khi ghi nhớ"
 
-#: src/nano.c:965
+#: src/nano.c:1018
 msgid "-E [dir]"
 msgstr "-E [thư mục]"
 
-#: src/nano.c:965
+#: src/nano.c:1018
 msgid "--backupdir=[dir]"
 msgstr "--backupdir=[thư mục]"
 
-#: src/nano.c:965
+#: src/nano.c:1018
 msgid "Directory for writing backup files"
 msgstr "Thư mục để ghi nhớ tập tin lưu trữ"
 
-#: src/nano.c:968
+#: src/nano.c:1021
 msgid "Enable multiple file buffers"
 msgstr "Bật dùng bộ đệm nhiều tập tin"
 
-#: src/nano.c:972
+#: src/nano.c:1025
 msgid "Log & read search/replace string history"
 msgstr "Ghi lại và đọc lịch sử các chuỗi tìm kiếm/thay thế"
 
-#: src/nano.c:974
+#: src/nano.c:1027
 msgid "Don't look at nanorc files"
 msgstr "Đừng nhìn vào các tập tin nanorc"
 
-#: src/nano.c:977
+#: src/nano.c:1030
 msgid "Don't convert files from DOS/Mac format"
 msgstr "Đừng chuyển đổi tập tin từ định dạng DOS/Mac"
 
-#: src/nano.c:979
+#: src/nano.c:1032
 msgid "Use more space for editing"
 msgstr "Sử dụng nhiều không gian hơn cho soạn thảo"
 
-#: src/nano.c:981
+#: src/nano.c:1034
 msgid "-Q [str]"
 msgstr "-Q [chuỗi]"
 
-#: src/nano.c:981
+#: src/nano.c:1034
 msgid "--quotestr=[str]"
 msgstr "--quotestr=[chuỗi]"
 
-#: src/nano.c:981
+#: src/nano.c:1034
 msgid "Quoting string, default \"> \""
 msgstr "Chuỗi dùng để trích dẫn, mặc định \"> \""
 
-#: src/nano.c:984
+#: src/nano.c:1037
 msgid "Do regular expression searches"
 msgstr "Thực hiện tìm kiếm biểu thức chính quy"
 
-#: src/nano.c:989
+#: src/nano.c:1042
 msgid "-T [#cols]"
 msgstr "-T [#cột]"
 
-#: src/nano.c:989
+#: src/nano.c:1042
 msgid "--tabsize=[#cols]"
 msgstr "--tabsize=[#cột]"
 
-#: src/nano.c:989
+#: src/nano.c:1042
 msgid "Set width of a tab in cols to #cols"
 msgstr "Đặt độ rộng của tab tính theo cột tới #cột"
 
-#: src/nano.c:990
+#: src/nano.c:1043
 msgid "Print version information and exit"
 msgstr "In ra thông tin phiên bản và thoát"
 
-#: src/nano.c:992
+#: src/nano.c:1045
 msgid "-Y [str]"
 msgstr "-Y [chuỗi]"
 
-#: src/nano.c:992
+#: src/nano.c:1045
 msgid "--syntax=[str]"
 msgstr "--syntax [chuỗi]"
 
-#: src/nano.c:992
+#: src/nano.c:1045
 msgid "Syntax definition to use"
 msgstr "Định nghĩa cú pháp để sử dụng"
 
-#: src/nano.c:994
+#: src/nano.c:1047
 msgid "Restricted mode"
 msgstr "Chế độ hạn chế"
 
-#: src/nano.c:995
+#: src/nano.c:1048
 msgid "Constantly show cursor position"
 msgstr "Luôn luôn hiển thị vị trí con trỏ"
 
-#: src/nano.c:997
+#: src/nano.c:1049
 msgid "Fix Backspace/Delete confusion problem"
 msgstr "Giải quyết vấn đề nhầm lẫn Backspace/Delete"
 
-#: src/nano.c:998
+#: src/nano.c:1051
 msgid "Automatically indent new lines"
 msgstr "Tự động thụt các dòng mới"
 
-#: src/nano.c:999
+#: src/nano.c:1052
 msgid "Cut from cursor to end of line"
 msgstr "Cắt từ vị trí con trỏ tới cuối dòng"
 
-#: src/nano.c:1001
+#: src/nano.c:1054
 msgid "Don't follow symbolic links, overwrite"
 msgstr "Đừng đi theo liên kết mềm, hãy ghi đè"
 
-#: src/nano.c:1003
+#: src/nano.c:1056
 msgid "Enable mouse"
 msgstr "Hỗ trợ chuột"
 
-#: src/nano.c:1006
+#: src/nano.c:1059
 msgid "-o [dir]"
 msgstr "-o [thư mục]"
 
-#: src/nano.c:1006
+#: src/nano.c:1059
 msgid "--operatingdir=[dir]"
 msgstr "--operatingdir=[thư mục]"
 
-#: src/nano.c:1006
+#: src/nano.c:1059
 msgid "Set operating directory"
 msgstr "Đặt thư mục thao tác"
 
-#: src/nano.c:1008
+#: src/nano.c:1061
 msgid "Preserve XON (^Q) and XOFF (^S) keys"
 msgstr "Giữ gìn các phím XON (^Q) và XOFF (^S)"
 
-#: src/nano.c:1010
+#: src/nano.c:1063
 msgid "-r [#cols]"
 msgstr "-r [#cột]"
 
-#: src/nano.c:1010
+#: src/nano.c:1063
 msgid "--fill=[#cols]"
 msgstr "--fill=[#cột]"
 
-#: src/nano.c:1010
+#: src/nano.c:1063
 msgid "Set fill cols to (wrap lines at) #cols"
 msgstr "Đặt cột lấp đầy thành (ngắt dòng tại) #cột"
 
-#: src/nano.c:1013
+#: src/nano.c:1066
 msgid "-s [prog]"
 msgstr "-s [chương trình]"
 
-#: src/nano.c:1013
+#: src/nano.c:1066
 msgid "--speller=[prog]"
 msgstr "--speller=[chương trình]"
 
-#: src/nano.c:1013
+#: src/nano.c:1066
 msgid "Enable alternate speller"
 msgstr "Dùng chương trình kiểm tra chính tả khác"
 
-#: src/nano.c:1015
+#: src/nano.c:1068
 msgid "Auto save on exit, don't prompt"
 msgstr "Sự động ghi nhớ khi thoát, đừng hỏi lại"
 
-#: src/nano.c:1016
+#: src/nano.c:1069
 msgid "View (read only) mode"
 msgstr "Chế độ Xem (chỉ đọc)"
 
-#: src/nano.c:1018
+#: src/nano.c:1071
 msgid "Don't wrap long lines"
 msgstr "Đừng ngắt những dòng dài"
 
-#: src/nano.c:1020
+#: src/nano.c:1073
 msgid "Don't show help window"
 msgstr "Đừng hiển thị cửa sổ trợ giúp"
 
-#: src/nano.c:1021
+#: src/nano.c:1074
 msgid "Enable suspend"
 msgstr "Bật dùng sự Tạm hoãn"
 
-#: src/nano.c:1024
+#: src/nano.c:1078
 msgid "(ignored, for Pico compatibility)"
 msgstr "(bị lờ đi, để tương thích với Pico)"
 
-#: src/nano.c:1031
+#: src/nano.c:1085
 #, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
 msgstr " GNU nano phiên bản %s (biên dịch %s, %s)\n"
 
-#: src/nano.c:1034
+#: src/nano.c:1088
 #, c-format
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
 msgstr " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
 
-#: src/nano.c:1035
+#: src/nano.c:1089
 #, c-format
 msgid ""
 "\n"
@@ -1156,125 +1177,125 @@ msgstr ""
 "\n"
 " Tùy chọn được biên dịch:"
 
-#: src/nano.c:1104
+#: src/nano.c:1158
 msgid "Sorry, support for this function has been disabled"
 msgstr "Rất tiếc, hỗ trợ cho chức năng này bị tắt"
 
-#: src/nano.c:1132
+#: src/nano.c:1186
 msgid "Could not pipe"
 msgstr "Không thể pipe (đặt đường ống)"
 
-#: src/nano.c:1154 src/nano.c:2033 src/nano.c:2178
+#: src/nano.c:1208 src/nano.c:2088 src/nano.c:2233
 msgid "Could not fork"
 msgstr "Không thể fork (phân nhánh)"
 
-#: src/nano.c:1208
+#: src/nano.c:1263
 msgid "Verbatim input"
 msgstr "Nhập dữ liệu nguyên bản"
 
-#: src/nano.c:1547
+#: src/nano.c:1602
 msgid "Mark Set"
 msgstr "Chọn văn bản"
 
-#: src/nano.c:1551
+#: src/nano.c:1606
 msgid "Mark UNset"
 msgstr "Bỏ chọn văn bản"
 
-#: src/nano.c:1858
+#: src/nano.c:1913
 msgid "Edit a replacement"
 msgstr "Soạn thảo một sự thay thế"
 
-#: src/nano.c:1940
+#: src/nano.c:1995
 msgid "Could not create pipe"
 msgstr "Không thể tạo đường ống (pipe)"
 
-#: src/nano.c:1942
+#: src/nano.c:1997
 msgid "Creating misspelled word list, please wait..."
 msgstr "Đang tạo danh sách từ sai chính tả, xin hãy chờ..."
 
-#: src/nano.c:2039
+#: src/nano.c:2094
 msgid "Could not get size of pipe buffer"
 msgstr "Không lấy được kích thước của bộ đệm đường ống (pipe)"
 
-#: src/nano.c:2090
+#: src/nano.c:2145
 msgid "Error invoking \"spell\""
 msgstr "Lỗi gọi \"spell\""
 
-#: src/nano.c:2093
+#: src/nano.c:2148
 msgid "Error invoking \"sort -f\""
 msgstr "Lỗi gọi \"sort -f\""
 
-#: src/nano.c:2096
+#: src/nano.c:2151
 msgid "Error invoking \"uniq\""
 msgstr "Lỗi gọi \"uniq\""
 
-#: src/nano.c:2186
+#: src/nano.c:2241
 #, c-format
 msgid "Could not invoke \"%s\""
 msgstr "Không gọi được \"%s\""
 
-#: src/nano.c:2300
+#: src/nano.c:2358
 #, c-format
 msgid "Could not create temp file: %s"
 msgstr "Không tạo được tập tin tạm thời: %s"
 
-#: src/nano.c:2312
+#: src/nano.c:2370
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Lỗi ghi nhớ tập tin tạm thời: %s"
 
-#: src/nano.c:2329
+#: src/nano.c:2387
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Kiểm tra chính tả không thành công: %s: %s"
 
-#: src/nano.c:2332
+#: src/nano.c:2390
 msgid "Finished checking spelling"
 msgstr "Hoàn thành việc kiểm tra chính tả"
 
-#: src/nano.c:2871
+#: src/nano.c:2929
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Chuỗi trích dẫn xấu %s: %s"
 
-#: src/nano.c:3190
+#: src/nano.c:3249
 msgid "Can now UnJustify!"
 msgstr "Bây giờ có thể Bỏ sắp chữ!"
 
-#: src/nano.c:3289
+#: src/nano.c:3348
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Ghi bộ đệm đã sửa đổi (TRẢ LỜI \"N\" SẼ BỎ MỌI THAY ĐỔI) ? "
 
-#: src/nano.c:3348
+#: src/nano.c:3407
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "Nhận được SIGHUP hoặc SIGTERM\n"
 
-#: src/nano.c:3355
+#: src/nano.c:3414
 msgid "Use \"fg\" to return to nano"
 msgstr "Sử dụng \"fg\" để quay lại nano"
 
-#: src/nano.c:3514
+#: src/nano.c:3573
 msgid "enabled"
 msgstr "bật"
 
-#: src/nano.c:3514
+#: src/nano.c:3573
 msgid "disabled"
 msgstr "tắt"
 
-#: src/nano.c:3689
+#: src/nano.c:3748
 msgid "XON ignored, mumble mumble."
 msgstr "XON bị lờ đi."
 
-#: src/nano.c:3692
+#: src/nano.c:3751
 msgid "XOFF ignored, mumble mumble."
 msgstr "XOFF bị lờ đi."
 
-#: src/nano.c:4079 src/rcfile.c:644
+#: src/nano.c:4138 src/rcfile.c:644
 #, c-format
 msgid "Requested tab size %s invalid"
 msgstr "Yêu cầu một kích thước tab %s không đúng"
 
-#: src/nano.c:4128 src/rcfile.c:577
+#: src/nano.c:4187 src/rcfile.c:577
 #, c-format
 msgid "Requested fill size %s invalid"
 msgstr "Yêu cầu một kích thước hàng đầy (fill) %s không đúng"
@@ -1441,87 +1462,87 @@ msgstr "Không phải ngoặc đơn"
 msgid "No matching bracket"
 msgstr "Không có ngoặc đơn tương ứng"
 
-#: src/utils.c:287 src/utils.c:297
+#: src/utils.c:296 src/utils.c:306
 msgid "nano is out of memory!"
 msgstr "nano làm tràn bộ nhớ!"
 
-#: src/winio.c:2754 src/winio.c:2759
+#: src/winio.c:2757 src/winio.c:2762
 msgid "Modified"
 msgstr "Đã sửa đổi"
 
-#: src/winio.c:2756
+#: src/winio.c:2759
 msgid "View"
 msgstr "Xem"
 
-#: src/winio.c:2773
+#: src/winio.c:2778
 msgid "DIR:"
 msgstr "THƯ MỤC:"
 
-#: src/winio.c:2780
+#: src/winio.c:2785
 msgid "File:"
 msgstr "Tập tin:"
 
-#: src/winio.c:3127
+#: src/winio.c:3138
 msgid "Refusing zero-length regex match"
 msgstr "Từ chối tương ứng biểu thức chính quy với độ dài bằng 0"
 
-#: src/winio.c:3645
+#: src/winio.c:3656
 msgid "Yy"
 msgstr "Yy (có)"
 
-#: src/winio.c:3646
+#: src/winio.c:3657
 msgid "Nn"
 msgstr "Nn (không)"
 
-#: src/winio.c:3647
+#: src/winio.c:3658
 msgid "Aa"
 msgstr "Aa (tất cả)"
 
-#: src/winio.c:3660
+#: src/winio.c:3671
 msgid "Yes"
 msgstr "Có"
 
-#: src/winio.c:3665
+#: src/winio.c:3676
 msgid "All"
 msgstr "Tất cả"
 
-#: src/winio.c:3670
+#: src/winio.c:3681
 msgid "No"
 msgstr "Không"
 
-#: src/winio.c:3811
+#: src/winio.c:3820
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%ld (%d%%)"
 msgstr "dòng %ld/%ld (%d%%), cột %lu/%lu (%d%%), ký tự %lu/%ld (%d%%)"
 
-#: src/winio.c:4118
+#: src/winio.c:4127
 msgid "The nano text editor"
 msgstr "Trình soạn thảo văn bản nano"
 
-#: src/winio.c:4119
+#: src/winio.c:4128
 msgid "version"
 msgstr "phiên bản"
 
-#: src/winio.c:4120
+#: src/winio.c:4129
 msgid "Brought to you by:"
 msgstr "Được đem tới bởi:"
 
-#: src/winio.c:4121
+#: src/winio.c:4130
 msgid "Special thanks to:"
 msgstr "Đặc biệt cảm ơn:"
 
-#: src/winio.c:4122
+#: src/winio.c:4131
 msgid "The Free Software Foundation"
 msgstr "Tổ chức phần mềm tự do FSF"
 
-#: src/winio.c:4123
+#: src/winio.c:4132
 msgid "For ncurses:"
 msgstr "Cho ncurses:"
 
-#: src/winio.c:4124
+#: src/winio.c:4133
 msgid "and anyone else we forgot..."
 msgstr "và những người khác mà chúng tôi quên..."
 
-#: src/winio.c:4125
+#: src/winio.c:4134
 msgid "Thank you for using nano!"
 msgstr "Cảm ơn bạn đã dùng nano!"
