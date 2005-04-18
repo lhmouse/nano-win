@@ -12,6 +12,8 @@ CVS code -
 	- Use a long instead of an int for the number prepended to the
 	  filename. (DLR)
 - nano.c:
+  help_init()
+	- Remove extra space from main help text (Jordi).
   print1opt_full()
 	- If desc should be empty, allow it to be NULL instead of
 	  "", since the latter is not necessarily translated as "".

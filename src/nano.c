@@ -400,7 +400,7 @@ void help_init(void)
 		"showing the file being edited.  The status line is "
 		"the third line from the bottom and shows important "
 		"messages.  The bottom two lines show the most "
-		"commonly used shortcuts in the editor.\n\n ");
+		"commonly used shortcuts in the editor.\n\n");
 	htx[1] = N_("The notation for shortcuts is as follows: "
 		"Control-key sequences are notated with a caret (^) "
 		"symbol and can be entered either by using the Control "
