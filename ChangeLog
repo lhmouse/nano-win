@@ -9,8 +9,8 @@ CVS code -
   load_open_file()
 	- Remove an unneeded clearok(FALSE). (DLR)
   get_next_filename()
-	- Use a long instead of an int for the number prepended to the
-	  filename. (DLR)
+	- Use an unsigned long instead of an int for the number
+	  prepended to the filename. (DLR)
   do_browser()
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
 	  consistency. (DLR)
@@ -27,7 +27,7 @@ CVS code -
 	  (DLR)
 - utils.c:
   num_of_digits()
-	- Use a ssize_t instead of an int. (DLR)
+	- Use a size_t instead of an int, and rename to digits(). (DLR)
 - winio.c:
   do_help()
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for

@@ -54,12 +54,9 @@ int regexp_bol_or_eol(const regex_t *preg, const char *string)
 }
 #endif /* HAVE_REGEX_H */
 
-int num_of_digits(ssize_t n)
+int digits(size_t n)
 {
     int i = 1;
-
-    if (n < 0)
-	n = -n;
 
     while (n > 10) {
 	n /= 10;

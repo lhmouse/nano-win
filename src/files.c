@@ -378,11 +378,11 @@ int open_file(const char *filename, bool newfie, FILE **f)
  * extension exists, we return "". */
 char *get_next_filename(const char *name)
 {
-    long i = 0;
+    unsigned long i = 0;
     char *buf;
     size_t namelen = strlen(name);
 
-    buf = charalloc(namelen + num_of_digits(LONG_MAX) + 7);
+    buf = charalloc(namelen + digits(ULONG_MAX) + 7);
     strcpy(buf, name);
     strcpy(buf + namelen, ".save");
     namelen += 5;
@@ -392,11 +392,11 @@ char *get_next_filename(const char *name)
 
 	if (stat(buf, &fs) == -1)
 	    return buf;
-	if (i == LONG_MAX)
+	if (i == ULONG_MAX)
 	    break;
 
 	i++;
-	sprintf(buf + namelen, ".%ld", i);
+	sprintf(buf + namelen, ".%lu", i);
     }
 
     /* We get here only if there is no possible save file. */
