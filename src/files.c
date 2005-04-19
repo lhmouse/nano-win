@@ -179,7 +179,6 @@ void read_file(FILE *f, const char *filename)
 	/* If it's a *nix file (LF) or a DOS file (CR LF), and file
 	 * conversion isn't disabled, handle it! */
 	if (input == '\n') {
-
 #ifndef NANO_SMALL
 	    /* If there's a CR before the LF, set format to DOS if we
 	     * currently think this is a *nix file, or to both if we
@@ -1278,6 +1277,7 @@ int copy_file(FILE *inn, FILE *out)
     int retval = 0;
 
     assert(inn != NULL && out != NULL);
+
     do {
 	charsread = fread(buf, sizeof(char), BUFSIZ, inn);
 	if (charsread == 0 && ferror(inn)) {
@@ -1289,10 +1289,12 @@ int copy_file(FILE *inn, FILE *out)
 	    break;
 	}
     } while (charsread > 0);
+
     if (fclose(inn) == EOF)
 	retval = -1;
     if (fclose(out) == EOF)
 	retval = -2;
+
     return retval;
 }
 
