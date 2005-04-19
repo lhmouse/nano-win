@@ -523,4 +523,7 @@ typedef struct historyheadtype {
 /* Maximum number of search/replace history strings saved. */
 #define MAX_SEARCH_HISTORY 100
 
+/* Maximum number of bytes we read from a file at one time. */
+#define MAX_BUF_SIZE 128
+
 #endif /* !NANO_H */

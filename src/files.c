@@ -134,7 +134,7 @@ void read_file(FILE *f, const char *filename)
 	/* The length of the current line of the file. */
     size_t i = 0;
 	/* The position in the current line of the file. */
-    size_t bufx = 128;
+    size_t bufx = MAX_BUF_SIZE;
 	/* The size of each chunk of the file that we read. */
     char input = '\0';
 	/* The current input character. */
@@ -227,12 +227,13 @@ void read_file(FILE *f, const char *filename)
 	     * nulls in it, so we can't just use strlen() here. */
 	    len++;
 
-	    /* Now we allocate a bigger buffer 128 characters at a time.
-	     * If we allocate a lot of space for one line, we may indeed
-	     * have to use a buffer this big later on, so we don't
-	     * decrease it at all.  We do free it at the end, though. */
+	    /* Now we allocate a bigger buffer MAX_BUF_SIZE characters
+	     * at a time.  If we allocate a lot of space for one line,
+	     * we may indeed have to use a buffer this big later on, so
+	     * we don't decrease it at all.  We do free it at the end,
+	     * though. */
 	    if (i >= bufx - 1) {
-		bufx += 128;
+		bufx += MAX_BUF_SIZE;
 		buf = charealloc(buf, bufx);
 	    }
 
@@ -242,8 +243,7 @@ void read_file(FILE *f, const char *filename)
 	}
     }
 
-    /* This conditional duplicates previous read_byte() behavior.
-     * Perhaps this could use some better handling. */
+    /* Perhaps this could use some better handling. */
     if (ferror(f))
 	nperror(filename);
     fclose(f);
@@ -1272,7 +1272,7 @@ void init_backup_dir(void)
  * write error. */
 int copy_file(FILE *inn, FILE *out)
 {
-    char buf[BUFSIZ];
+    char buf[MAX_BUF_SIZE];
     size_t charsread;
     int retval = 0;
 
@@ -1401,6 +1401,7 @@ int write_file(const char *name, bool tmp, int append, bool
 
 	/* Open the original file to copy to the backup. */
 	f = fopen(realname, "rb");
+
 	if (f == NULL) {
 	    statusbar(_("Error reading %s: %s"), realname,
 		strerror(errno));
@@ -1444,6 +1445,7 @@ int write_file(const char *name, bool tmp, int append, bool
 	 * set its permissions, so no unauthorized person can read it as
 	 * we write. */
 	backup_file = fopen(backupname, "wb");
+
 	if (backup_file == NULL ||
 		chmod(backupname, originalfilestat.st_mode) == -1) {
 	    statusbar(_("Error writing %s: %s"), backupname,
@@ -1463,10 +1465,10 @@ int write_file(const char *name, bool tmp, int append, bool
 	copy_status = copy_file(f, backup_file);
 
 	/* And set metadata. */
-	if (copy_status != 0 || chown(backupname,
-		originalfilestat.st_uid,
-		originalfilestat.st_gid) == -1 || utime(backupname,
-		&filetime) == -1) {
+	if (copy_status != 0 ||
+		chown(backupname, originalfilestat.st_uid,
+		originalfilestat.st_gid) == -1 ||
+		utime(backupname, &filetime) == -1) {
 	    free(backupname);
 	    if (copy_status == -1)
 		statusbar(_("Error reading %s: %s"), realname,
@@ -1507,11 +1509,13 @@ int write_file(const char *name, bool tmp, int append, bool
 	strcat(tempname, ".XXXXXX");
 	fd = mkstemp(tempname);
 	f = NULL;
+
 	if (fd != -1) {
 	    f = fdopen(fd, "wb");
 	    if (f == NULL)
 		close(fd);
 	}
+
 	if (f == NULL) {
 	    statusbar(_("Error writing %s: %s"), tempname,
 		strerror(errno));
@@ -1520,11 +1524,13 @@ int write_file(const char *name, bool tmp, int append, bool
 	}
 
 	fd_source = open(realname, O_RDONLY | O_CREAT);
+
 	if (fd_source != -1) {
 	    f_source = fdopen(fd_source, "rb");
 	    if (f_source == NULL)
 		close(fd_source);
 	}
+
 	if (f_source == NULL) {
 	    statusbar(_("Error reading %s: %s"), realname,
 		strerror(errno));
@@ -1553,6 +1559,7 @@ int write_file(const char *name, bool tmp, int append, bool
     /* First, just give up if we couldn't even open the file. */
     if (fd == -1) {
 	statusbar(_("Error writing %s: %s"), realname, strerror(errno));
+
 	/* tempname has been set only if we're prepending. */
 	if (tempname != NULL)
 	    unlink(tempname);
@@ -1658,8 +1665,8 @@ int write_file(const char *name, bool tmp, int append, bool
 	/* Update originalfilestat to reference the file as it is now. */
 	stat(filename, &originalfilestat);
 #endif
-	statusbar(P_("Wrote %u line", "Wrote %u lines", lineswritten),
-		lineswritten);
+	statusbar(P_("Wrote %lu line", "Wrote %lu lines", lineswritten),
+		(unsigned long)lineswritten);
 	UNSET(MODIFIED);
 	titlebar(NULL);
     }

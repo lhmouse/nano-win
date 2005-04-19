@@ -170,15 +170,15 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 
     /* Allocate the line the first time. */
     if (*lineptr == NULL) {
-	*lineptr = charalloc(128);
-	*n = 128;
+	*lineptr = charalloc(MAX_BUF_SIZE);
+	*n = MAX_BUF_SIZE;
     }
 
     while ((c = getc(stream)) != EOF) {
 	/* Check if more memory is needed. */
 	if (indx >= *n) {
-	    *lineptr = charealloc(*lineptr, *n + 128);
-	    *n += 128;
+	    *lineptr = charealloc(*lineptr, *n + MAX_BUF_SIZE);
+	    *n += MAX_BUF_SIZE;
 	}
 
 	/* Push the result in the line. */
@@ -191,8 +191,8 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 
     /* Make room for the null character. */
     if (indx >= *n) {
-	*lineptr = charealloc(*lineptr, *n + 128);
-	*n += 128;
+	*lineptr = charealloc(*lineptr, *n + MAX_BUF_SIZE);
+	*n += MAX_BUF_SIZE;
     }
 
     /* Null terminate the buffer. */

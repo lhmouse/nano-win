@@ -5,12 +5,20 @@ CVS code -
 	  include the former in source files.  Also add an #include
 	  guard to proto.h, and make the config.h #include in nano.h
 	  match the config.h #includes everywhere else. (DLR)
+	- Change all hardcoded instances of 128 bytes to MAX_BUF_SIZE,
+	  and #define MAX_BUF_SIZE as 128 in nano.h. (DLR)
 - files.c:
   load_open_file()
 	- Remove an unneeded clearok(FALSE). (DLR)
   get_next_filename()
 	- Use an unsigned long instead of an int for the number
 	  prepended to the filename. (DLR)
+  copy_file()
+	- Copy files in chunks of MAX_BUF_SIZE bytes instead of BUFSIZ
+	  bytes. (DLR)
+  write_file()
+	- Since lineswritten is a size_t, print its value as an unsigned
+	  long instead of an unsigned int. (DLR)
   do_browser()
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
 	  consistency. (DLR)
