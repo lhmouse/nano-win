@@ -13,9 +13,6 @@ CVS code -
   get_next_filename()
 	- Use an unsigned long instead of an int for the number
 	  prepended to the filename. (DLR)
-  copy_file()
-	- Copy files in chunks of MAX_BUF_SIZE bytes instead of BUFSIZ
-	  bytes. (DLR)
   write_file()
 	- Since lineswritten is a size_t, print its value as an unsigned
 	  long instead of an unsigned int. (DLR)
