@@ -3907,11 +3907,6 @@ void do_help(void)
 		}
 		break;
 #endif
-	    case NANO_NEXTPAGE_KEY:
-	    case NANO_NEXTPAGE_FKEY:
-		if (!no_more)
-		    line += editwinrows - 2;
-		break;
 	    case NANO_PREVPAGE_KEY:
 	    case NANO_PREVPAGE_FKEY:
 		if (line > 0) {
@@ -3919,6 +3914,11 @@ void do_help(void)
 		    if (line < 0)
 			line = 0;
 		}
+		break;
+	    case NANO_NEXTPAGE_KEY:
+	    case NANO_NEXTPAGE_FKEY:
+		if (!no_more)
+		    line += editwinrows - 2;
 		break;
 	    case NANO_PREVLINE_KEY:
 		if (line > 0)
@@ -3959,8 +3959,7 @@ void do_help(void)
 
   skip_redisplay:
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
-    } while (kbinput != NANO_CANCEL_KEY && kbinput != NANO_EXIT_KEY &&
-	kbinput != NANO_EXIT_FKEY);
+    } while (kbinput != NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
 
 #ifndef DISABLE_MOUSE
     currshortcut = oldshortcut;

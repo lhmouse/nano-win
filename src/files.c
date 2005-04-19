@@ -2652,7 +2652,6 @@ char *do_browser(char *path, DIR *dir)
 		goto change_browser_directory;
 
 	    /* Abort the browser. */
-	    case NANO_CANCEL_KEY:
 	    case NANO_EXIT_KEY:
 	    case NANO_EXIT_FKEY:
 	    case 'E': /* Pico compatibility. */

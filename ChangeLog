@@ -11,6 +11,9 @@ CVS code -
   get_next_filename()
 	- Use a long instead of an int for the number prepended to the
 	  filename. (DLR)
+  do_browser()
+	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
+	  consistency. (DLR)
 - nano.c:
   help_init()
 	- Remove extra space from main help text (Jordi).
@@ -26,6 +29,9 @@ CVS code -
   num_of_digits()
 	- Use a ssize_t instead of an int. (DLR)
 - winio.c:
+  do_help()
+	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
+	  consistency. (DLR)
   total_update()
 	- Simplify to call clearok(TRUE) and wrefresh() on curscr, which
 	  updates the entire screen in fewer function calls. (DLR)
