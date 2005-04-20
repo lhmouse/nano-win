@@ -2848,7 +2848,7 @@ void load_history(void)
 {
     char *nanohist = histfilename();
 
-    /* assume do_rcfile() has reported missing home dir */
+    /* Assume do_rcfile() has reported a missing home directory. */
     if (nanohist != NULL) {
 	FILE *hist = fopen(nanohist, "r");
 
@@ -2892,7 +2892,7 @@ bool writehist(FILE *hist, historyheadtype *histhead)
 {
     historytype *h;
 
-    /* write oldest first */
+    /* Write oldest history first. */
     for (h = histhead->tail; h->prev != NULL; h = h->prev) {
 	size_t len = strlen(h->data);
 
@@ -2904,12 +2904,12 @@ bool writehist(FILE *hist, historyheadtype *histhead)
     return TRUE;
 }
 
-/* save histories to ~/.nano_history */
+/* Save histories to ~/.nano_history. */
 void save_history(void)
 {
     char *nanohist;
 
-    /* don't save unchanged or empty histories */
+    /* Don't save unchanged or empty histories. */
     if ((search_history.count == 0 && replace_history.count == 0) ||
 	!ISSET(HISTORY_CHANGED) || ISSET(VIEW_MODE))
 	return;
@@ -2923,7 +2923,8 @@ void save_history(void)
 	    rcfile_error(N_("Error writing %s: %s"), nanohist,
 		strerror(errno));
 	else {
-	    /* set rw only by owner for security ?? */
+	    /* Make sure no one else can read from or write to the
+	     * history file. */
 	    chmod(nanohist, S_IRUSR | S_IWUSR);
 
 	    if (!writehist(hist, &search_history) ||
