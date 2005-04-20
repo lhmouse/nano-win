@@ -40,6 +40,8 @@ CVS code -
   total_update()
 	- Simplify to call clearok(TRUE) and wrefresh() on curscr, which
 	  updates the entire screen in fewer function calls. (DLR)
+- THANKS:
+	- Add new translators to the credits.
 
 GNU nano 1.3.7 - 2005.04.10
 - General:
