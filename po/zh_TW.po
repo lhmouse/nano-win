@@ -1,16 +1,16 @@
 # Traditional Chinese Messages for the nano editor
-# Copyright (C) 2004,2005 Free Software Foundation, Inc.
+# Copyright (C) 2004, 05 Free Software Foundation, Inc.
 # This file is distributed under the same license as the nano package.
 # Wei-Lun Chao <chaoweilun@pcmail.com.tw>, 2004, 05
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.3.6\n"
+"Project-Id-Version: nano 1.3.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-09 11:38+0200\n"
-"PO-Revision-Date: 2005-04-08 13:22+0800\n"
+"POT-Creation-Date: 2005-04-12 20:54-0400\n"
+"PO-Revision-Date: 2005-04-19 14:25+0800\n"
 "Last-Translator: Wei-Lun Chao <chaoweilun@pcmail.com.tw>\n"
-"Language-Team: zh_TW <zh-l10n@linux.org.tw>\n"
+"Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -49,7 +49,6 @@ msgstr "新檔案"
 msgid "\"%s\" not found"
 msgstr "找不到 \"%s\""
 
-#. Don't open character or block files.  Sorry, /dev/sndstat!
 #: src/files.c:355
 #, c-format
 msgid "\"%s\" is a directory"
@@ -60,8 +59,6 @@ msgstr "\"%s\" 是一個目錄"
 msgid "File \"%s\" is a device file"
 msgstr "\"%s\" 是一個裝置檔案"
 
-#. We can't open this dir for some reason.
-#. * Complain.
 #: src/files.c:359 src/files.c:367 src/files.c:1403 src/files.c:1469
 #: src/files.c:1526 src/files.c:1625 src/files.c:2564 src/files.c:2580
 #: src/files.c:2639 src/files.c:2848 src/rcfile.c:717
@@ -111,13 +108,12 @@ msgstr "非多重緩衝區模式中此按鍵無效"
 msgid "No more open file buffers"
 msgstr "無多餘檔案緩衝區可開啟"
 
-#. And indicate the switch on the statusbar.
 #: src/files.c:932
 #, c-format
 msgid "Switched to %s"
 msgstr "切換至 %s"
 
-#: src/files.c:933 src/global.c:258 src/winio.c:2783
+#: src/files.c:933 src/global.c:258 src/winio.c:2782
 msgid "New Buffer"
 msgstr "新緩衝區"
 
@@ -242,7 +238,7 @@ msgstr "置換"
 msgid "Go To Line"
 msgstr "跳列"
 
-#: src/global.c:239 src/winio.c:3685
+#: src/global.c:239 src/winio.c:3684
 msgid "Cancel"
 msgstr "取消"
 
@@ -514,55 +510,38 @@ msgstr "跳至目錄"
 msgid "Close"
 msgstr "關閉"
 
-#. Translators: try to keep this string under 10 characters long
 #: src/global.c:401
 msgid "WriteOut"
 msgstr "寫入"
 
-#. Translators: try to keep this string under 10 characters long
 #: src/global.c:406
 msgid "Justify"
 msgstr "對齊"
 
-#. We allow inserting files in view mode if multibuffers are
-#. * available, so that we can view multiple files.
-#. If we're using restricted mode, inserting files is disabled since
-#. * it allows reading from or writing to files not specified on the
-#. * command line.
-#. Translators: try to keep this string under 10 characters long
 #: src/global.c:422
 msgid "Read File"
 msgstr "讀檔"
 
-#. Translators: try to keep this string under 10 characters long
 #: src/global.c:434
 msgid "Where Is"
 msgstr "搜尋"
 
-#. Translators: try to keep this string under 10 characters long
 #: src/global.c:449
 msgid "Cut Text"
 msgstr "剪下文字"
 
-#. Translators: try to keep this string under 10 characters long
 #: src/global.c:455
 msgid "UnJustify"
 msgstr "還原對齊"
 
-#. Translators: try to keep this string under 10 characters long
 #: src/global.c:460
 msgid "UnCut Txt"
 msgstr "還原剪下"
 
-#. Translators: try to keep this string under 10 characters long
 #: src/global.c:465
 msgid "Cur Pos"
 msgstr "游標位置"
 
-#. If we're using restricted mode, spell checking is disabled
-#. * because it allows reading from or writing to files not specified
-#. * on the command line.
-#. Translators: try to keep this string under 10 characters long
 #: src/global.c:473
 msgid "To Spell"
 msgstr "拼字檢查"
@@ -643,7 +622,6 @@ msgstr "原形輸入"
 msgid "Find Other Bracket"
 msgstr "尋找其他括號"
 
-#. Translators: try to keep this string under 12 characters long
 #: src/global.c:709
 msgid "No Replace"
 msgstr "不置換"
@@ -674,13 +652,12 @@ msgstr "備份檔案"
 
 #: src/global.c:920
 msgid "Execute Command"
-msgstr "外部命令"
+msgstr "執行命令"
 
 #: src/global.c:969
 msgid "Insert File"
 msgstr "插入檔案"
 
-#. Translators: try to keep this string under 22 characters long
 #: src/global.c:1010
 msgid "Go To Dir"
 msgstr "跳至目錄"
@@ -772,105 +749,80 @@ msgid "Window size is too small for nano...\n"
 msgstr "視窗尺寸對 nano 而言太小了...\n"
 
 #: src/nano.c:286
-#, fuzzy
 msgid ""
 "Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, and then press "
-"Enter.  If there is a match for the text you entered, the screen will be "
-"updated to the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, and then press Enter.  If there is a match for the text you entered, the screen will be updated to the location of the nearest match for the search string.\n"
 "\n"
-" The previous search string will be shown in brackets after the search "
-"prompt.  Hitting Enter without entering any text will perform the previous "
-"search.  "
+" The previous search string will be shown in brackets after the search prompt.  Hitting Enter without entering any text will perform the previous search.  "
 msgstr ""
 "搜尋命令輔助說明\n"
 "\n"
-" 首先輸入你想要搜尋的字串或字元，然後按下輸入鍵 (Enter)。如果存在著符合 你所"
-"輸入的文字，畫面就會更新到最合乎搜尋字串的位置。\n"
+" 首先輸入你想要搜尋的字串或字元，然後按下輸入鍵 (Enter)。如果存在著 符合你所輸入的文字，畫面就會更新到最合乎搜尋字串的位置。\n"
 "\n"
-" 前次搜尋的字串將會顯示在 搜尋: 提示符號後面的括號中。不輸入任何文字而 直接按"
-"下輸入鍵則會履行前次的搜尋。如果你已經用標記選擇了一段文字並進行 搜尋替換，就"
-"只有在選擇文字中符合者將會被替換。\n"
-"\n"
-" 以下的功能鍵可用於搜尋模式: \n"
-"\n"
+" 前次搜尋的字串將會顯示在 搜尋: 提示符號後面的括號中。不輸入任何文字 而直接按下輸入鍵則會履行前次的搜尋。"
 
 #: src/nano.c:295
 msgid ""
-"If you have selected text with the mark and then search to replace, only "
-"matches in the selected text will be replaced.\n"
+"If you have selected text with the mark and then search to replace, only matches in the selected text will be replaced.\n"
 "\n"
 " The following function keys are available in Search mode:\n"
 "\n"
 msgstr ""
+"如果你已經用標記選擇了一段文字 並進行搜尋替換，就只有在選擇文字中符合者將會被替換。\n"
+"\n"
+" 以下的功能鍵可用於搜尋模式:\n"
+"\n"
 
 #: src/nano.c:301
 msgid ""
 "Go To Line Help Text\n"
 "\n"
-" Enter the line number that you wish to go to and hit Enter.  If there are "
-"fewer lines of text than the number you entered, you will be brought to the "
-"last line of the file.\n"
+" Enter the line number that you wish to go to and hit Enter.  If there are fewer lines of text than the number you entered, you will be brought to the last line of the file.\n"
 "\n"
 " The following function keys are available in Go To Line mode:\n"
 "\n"
 msgstr ""
 "跳列輔助說明\n"
 "\n"
-" 首先輸入你想去的列數編號並按下輸入鍵 (Enter)。如果文章中的列數比你所輸 入要"
-"少，你將會被帶至檔案的最後一列。\n"
+" 首先輸入你想去的列數編號並按下輸入鍵 (Enter)。如果文章中的列數比你所輸 入要少，你將會被帶至檔案的最後一列。\n"
 "\n"
 " 以下的功能鍵可用於跳列模式: \n"
 "\n"
 
 #: src/nano.c:310
-#, fuzzy
 msgid ""
 "Insert File Help Text\n"
 "\n"
-" Type in the name of a file to be inserted into the current file buffer at "
-"the current cursor location.\n"
+" Type in the name of a file to be inserted into the current file buffer at the current cursor location.\n"
 "\n"
-" If you have compiled nano with multiple file buffer support, and enable "
-"multiple file buffers with the -F or --multibuffer command line flags, the "
-"Meta-F toggle, or a nanorc file, inserting a file will cause it to be loaded "
-"into a separate buffer (use Meta-< and > to switch between file buffers).  "
+" If you have compiled nano with multiple file buffer support, and enable multiple file buffers with the -F or --multibuffer command line flags, the Meta-F toggle, or a nanorc file, inserting a file will cause it to be loaded into a separate buffer (use Meta-< and > to switch between file buffers).  "
 msgstr ""
 "插入檔案輔助說明\n"
 "\n"
 " 先把檔案的名稱鍵入，它將會插入在目前緩衝區的游標所在之處。\n"
 "\n"
-" 如果你所編譯的 nano 支援多重檔案緩衝區，並且將此功能以命令列旗標 -F 或 --"
-"multibuffer、Meta-F 開關，或者 nanorc 檔案來啟動的話，所插入的檔案 將會被載入"
-"另外的緩衝區中 (利用 Meta-< 和 > 在檔案緩衝區間切換)。如果 你需要另一個空的緩"
-"衝區，那就不要輸入任何檔名，或是在提示符號後鍵入一個 不存在的檔名，然後按下輸"
-"入鍵。\n"
-"\n"
-" 以下的功能鍵可用於插入檔案模式: \n"
-"\n"
+" 如果你所編譯的 nano 支援多重檔案緩衝區，並且將此功能以命令列旗標 -F 或 --multibuffer、Meta-F 開關，或者 nanorc 檔案來啟動的話，所插入的檔案 將會被載入另外的緩衝區中 (利用 Meta-< 和 > 在檔案緩衝區間切換)。 "
 
 #: src/nano.c:319
 msgid ""
-"If you need another blank buffer, do not enter any filename, or type in a "
-"nonexistent filename at the prompt and press Enter.\n"
+"If you need another blank buffer, do not enter any filename, or type in a nonexistent filename at the prompt and press Enter.\n"
 "\n"
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
+"如果你需要另一個空的緩衝區，那就不要輸入任何檔名，或是在提示符號後鍵 入一個不存在的檔名，然後按下輸入鍵。\n"
+"\n"
+" 以下的功能鍵可用於插入檔案模式:\n"
+"\n"
 
 #: src/nano.c:325
-#, fuzzy
 msgid ""
 "Write File Help Text\n"
 "\n"
-" Type the name that you wish to save the current file as and press Enter to "
-"save the file.\n"
+" Type the name that you wish to save the current file as and press Enter to save the file.\n"
 "\n"
-" If you have selected text with the mark, you will be prompted to save only "
-"the selected portion to a separate file.  To reduce the chance of "
-"overwriting the current file with just a portion of it, the current filename "
-"is not the default in this mode.\n"
+" If you have selected text with the mark, you will be prompted to save only the selected portion to a separate file.  To reduce the chance of overwriting the current file with just a portion of it, the current filename is not the default in this mode.\n"
 "\n"
 " The following function keys are available in Write File mode:\n"
 "\n"
@@ -879,9 +831,7 @@ msgstr ""
 "\n"
 " 先鍵入你想要以此來儲存目前檔案的名稱，並按下輸入鍵來儲存檔案。\n"
 "\n"
-" 如果已經用標記選擇了文字，那麼你將會被提示，只儲存標記部份到另外的檔 案。為"
-"了降低目前檔案只被其中部份覆寫的機會，在此模式下，目前的檔名不會 成為預設"
-"值。\n"
+" 如果已經用標記選擇了文字，那麼你將會被提示，只儲存標記部份到另外的檔 案。為了降低目前檔案只被其中部份覆寫的機會，在此模式下，目前的檔名不會 成為預設值。\n"
 "\n"
 " 以下的功能鍵可用於寫入檔案模式: \n"
 "\n"
@@ -890,20 +840,14 @@ msgstr ""
 msgid ""
 "File Browser Help Text\n"
 "\n"
-" The file browser is used to visually browse the directory structure to "
-"select a file for reading or writing.  You may use the arrow keys or Page Up/"
-"Down to browse through the files, and S or Enter to choose the selected file "
-"or enter the selected directory.  To move up one level, select the directory "
-"called \"..\" at the top of the file list.\n"
+" The file browser is used to visually browse the directory structure to select a file for reading or writing.  You may use the arrow keys or Page Up/Down to browse through the files, and S or Enter to choose the selected file or enter the selected directory.  To move up one level, select the directory called \"..\" at the top of the file list.\n"
 "\n"
 " The following function keys are available in the file browser:\n"
 "\n"
 msgstr ""
 "檔案選單輔助說明\n"
 "\n"
-" 檔案選單是用來視覺化瀏覽目錄結構，以選取要讀出或寫入的檔案。你可以 使用上下"
-"左右鍵或上頁/下頁來瀏覽，並用 S 或輸入鍵來選取所要的檔案或者 進入所選的目錄。"
-"要跳到上層時，選擇在檔案列表頂端名為 \"..\" 的目錄。\n"
+" 檔案選單是用來視覺化瀏覽目錄結構，以選取要讀出或寫入的檔案。你可以 使用上下左右鍵或上頁/下頁來瀏覽，並用 S 或輸入鍵來選取所要的檔案或者 進入所選的目錄。要跳到上層時，選擇在檔案列表頂端名為 \"..\" 的目錄。\n"
 "\n"
 " 以下的功能鍵可用於檔案選單: \n"
 "\n"
@@ -914,8 +858,7 @@ msgid ""
 "\n"
 " Enter the name of the directory you would like to browse to.\n"
 "\n"
-" If tab completion has not been disabled, you can use the Tab key to "
-"(attempt to) automatically complete the directory name.\n"
+" If tab completion has not been disabled, you can use the Tab key to (attempt to) automatically complete the directory name.\n"
 "\n"
 " The following function keys are available in Browser Go To Directory mode:\n"
 "\n"
@@ -924,8 +867,7 @@ msgstr ""
 "\n"
 " 先輸入你想要瀏覽的目錄名稱。\n"
 "\n"
-" 如果跳格補正的功能沒有被關閉，你可以利用跳格鍵 (TAB) 去 (嘗試) 自動補正目錄"
-"名稱。\n"
+" 如果跳格補正的功能沒有被關閉，你可以利用跳格鍵 (TAB) 去 (嘗試) 自動 補正目錄名稱。\n"
 "\n"
 " 以下的功能鍵可用於跳至目錄模式: \n"
 "\n"
@@ -934,98 +876,65 @@ msgstr ""
 msgid ""
 "Spell Check Help Text\n"
 "\n"
-" The spell checker checks the spelling of all text in the current file.  "
-"When an unknown word is encountered, it is highlighted and a replacement can "
-"be edited.  It will then prompt to replace every instance of the given "
-"misspelled word in the current file, or, if you have selected text with the "
-"mark, in the selected text.\n"
+" The spell checker checks the spelling of all text in the current file.  When an unknown word is encountered, it is highlighted and a replacement can be edited.  It will then prompt to replace every instance of the given misspelled word in the current file, or, if you have selected text with the mark, in the selected text.\n"
 "\n"
 " The following other functions are available in Spell Check mode:\n"
 "\n"
 msgstr ""
 "拼字檢查輔助說明\n"
 "\n"
-" 拼字檢查程式會檢查目前檔案中所有文字的拼法。當遇到一個未知的字，它會 被標記"
-"起來，並讓你編輯替代文字。對於目前檔案中每一個拼錯的字，都會顯示 置換的提示；"
-"或者，如果已經用標記選擇了文字的話，那就只作用於選取的文字 之中。\n"
+" 拼字檢查程式會檢查目前檔案中所有文字的拼法。當遇到一個未知的字，它會 被標記起來，並讓你編輯替代文字。對於目前檔案中每一個拼錯的字，都會顯示 置換的提示；或者，如果已經用標記選擇了文字的話，那就只作用於選取的文字 之中。\n"
 "\n"
 " 以下的功能鍵可用於拼字檢查模式: \n"
 "\n"
 
 #: src/nano.c:380
-#, fuzzy
 msgid ""
 "Execute Command Help Text\n"
 "\n"
-" This menu allows you to insert the output of a command run by the shell "
-"into the current buffer (or a new buffer in multiple file buffer mode). If "
-"you need another blank buffer, do not enter any command.\n"
+" This menu allows you to insert the output of a command run by the shell into the current buffer (or a new buffer in multiple file buffer mode). If you need another blank buffer, do not enter any command.\n"
 "\n"
 " The following keys are available in Execute Command mode:\n"
 "\n"
 msgstr ""
-"外部命令輔助說明\n"
+"執行命令輔助說明\n"
 "\n"
-" 本選單允許你將 shell 執行的命令輸出結果，插入目前的緩衝區 (或是多重緩衝 區模"
-"式下的新緩衝區)。如果你需要另一個空白緩衝區，就不要輸入任何命令。\n"
+" 本選單允許你將 shell 執行的命令輸出結果，插入目前的緩衝區 (或是多重緩衝 區模式下的新緩衝區)。如果你需要另一個空白緩衝區，就不要輸入任何命令。\n"
 "\n"
-" 以下的功能鍵可用於外部命令模式: \n"
+" 以下的功能鍵可用於執行命令模式: \n"
 "\n"
 
-#. Default to the main help list.
 #: src/nano.c:393
-#, fuzzy
 msgid ""
 " nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor.  The "
-"top line shows the program version, the current filename being edited, and "
-"whether or not the file has been modified.  Next is the main editor window "
-"showing the file being edited.  The status line is the third line from the "
-"bottom and shows important messages.  The bottom two lines show the most "
-"commonly used shortcuts in the editor.\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor.  The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages.  The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
 " "
 msgstr ""
 "nano 輔助說明\n"
 "\n"
-" nano 編輯器是設計來在功能性及易用性方面，模仿華盛頓大學的 Pico 文字 編輯器。"
-"它含有四個主要部份:頂列顯示程式版本、目前被編輯的檔案名稱， 以及是否這檔案已"
-"經更動過。接著是主要編輯區，顯示正在編輯的檔案。狀態 列位於倒數第三列，用來顯"
-"示重要的訊息。底部的兩列則顯示編輯器中最常用 到的快捷鍵。\n"
+" nano 編輯器是設計來在功能性及易用性方面，模仿華盛頓大學的 Pico 文字 編輯器。它含有四個主要部份:頂列顯示程式版本、目前被編輯的檔案名稱， 以及是否這檔案已經更動過。接著是主要編輯區，顯示正在編輯的檔案。狀態 列位於倒數第三列，用來顯示重要的訊息。底部的兩列則顯示編輯器中最常用 到的快捷鍵。\n"
 "\n"
-" 快捷鍵的記號如以下所定義：控制鍵組 (Control-key) 序列是以一個 \"帽子"
-"\" (caret, ^) 符號來表示，它可以藉由控制鍵 (Ctrl) 或是按兩次脫離鍵 (Esc) 來輸"
-"入。脫離鍵組 (Escape-key) 序列是以 \"中介\" (Meta, M) 符號表示，它 可以依照你"
-"的鍵盤設定，利用 Esc，Alt 或 Meta 來輸入。另外，按 Esc 兩次 之後再鍵入從 000 "
-"到 255 之間的三位數字，則會輸入該 ASCII 碼對應的字 元。下列按鍵組合可用於主要"
-"編輯區，替代按鍵則顯示於括弧內: \n"
-"\n"
+" "
 
 #: src/nano.c:404
-msgid ""
-"The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and can be entered either by using the Control "
-"(Ctrl) key or pressing the Escape (Esc) key twice.  Escape-key sequences are "
-"notated with the Meta (M) symbol and can be entered using either the Esc, "
-"Alt, or Meta key depending on your keyboard setup.  "
-msgstr ""
+msgid "The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and can be entered either by using the Control (Ctrl) key or pressing the Escape (Esc) key twice.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt, or Meta key depending on your keyboard setup.  "
+msgstr "快捷鍵的記號定義如下：控制鍵組 (Control-key) 序列是以一個 \"帽子\" (caret, ^) 符號來表示，它可以藉由控制鍵 (Ctrl) 或是按兩次脫離鍵 (Esc) 來輸入。脫離鍵組 (Escape-key) 序列是以 \"中介\" (Meta, M) 符號表示，它 可以依照你的鍵盤設定，利用 Esc，Alt 或 Meta 來輸入。"
 
 #: src/nano.c:411
 msgid ""
-"Also, pressing Esc twice and then typing a three-digit decimal number from "
-"000 to 255 will enter the character with the corresponding value.  The "
-"following keystrokes are available in the main editor window.  Alternative "
-"keys are shown in parentheses:\n"
+"Also, pressing Esc twice and then typing a three-digit decimal number from 000 to 255 will enter the character with the corresponding value.  The following keystrokes are available in the main editor window.  Alternative keys are shown in parentheses:\n"
 "\n"
 msgstr ""
+"另外，按 Esc 兩次 之後再鍵入從 000 到 255 之間的三位數字，則會輸入該 ASCII 碼對應的字 元。下列按鍵組合可用於主要編輯區，替代按鍵則顯示於括弧內:\n"
+"\n"
 
 #: src/nano.c:441 src/nano.c:572
 msgid "enable/disable"
 msgstr "開啟/關閉"
 
-#: src/nano.c:477 src/winio.c:2958
+#: src/nano.c:477 src/winio.c:2957
 msgid "Up"
 msgstr "Up"
 
@@ -1491,20 +1400,14 @@ msgstr "找不到 \"%.*s%s\""
 msgid "Search"
 msgstr "搜尋"
 
-#. This string is just a modifier for the search prompt; no
-#. * grammar is implied.
 #: src/search.c:175
 msgid " [Case Sensitive]"
 msgstr " [符合大小寫]"
 
-#. This string is just a modifier for the search prompt; no
-#. * grammar is implied.
 #: src/search.c:182
 msgid " [Regexp]"
 msgstr " [正規表示式]"
 
-#. This string is just a modifier for the search prompt; no
-#. * grammar is implied.
 #: src/search.c:189
 msgid " [Backwards]"
 msgstr " [向後搜尋]"
@@ -1555,101 +1458,91 @@ msgstr "別這樣，理性一點"
 msgid "Not a bracket"
 msgstr "並非一個括號"
 
-#. Didn't find either a left or right bracket.
 #: src/search.c:1115
 msgid "No matching bracket"
 msgstr "無對應括號"
 
-#: src/utils.c:294 src/utils.c:304
+#: src/utils.c:296 src/utils.c:306
 msgid "nano is out of memory!"
 msgstr "nano 已耗盡記憶體！"
 
-#: src/winio.c:2758 src/winio.c:2763
+#: src/winio.c:2757 src/winio.c:2762
 msgid "Modified"
 msgstr "已更動"
 
-#: src/winio.c:2760
+#: src/winio.c:2759
 msgid "View"
 msgstr "觀看"
 
-#: src/winio.c:2779
+#: src/winio.c:2778
 msgid "DIR:"
 msgstr "目錄:"
 
-#: src/winio.c:2786
+#: src/winio.c:2785
 msgid "File:"
 msgstr "檔案:"
 
-#: src/winio.c:3139
+#: src/winio.c:3138
 msgid "Refusing zero-length regex match"
 msgstr "拒絕符合長度為零的正規表示式"
 
-#. String of yes characters accepted.
-#. Same for no.
-#. And all, surprise!
-#. yesstr, nostr, and allstr are strings of any length.  Each string
-#. * consists of all characters accepted as a valid character for that
-#. * value.  The first value will be the one displayed in the
-#. * shortcuts.  Translators: if possible, specify both the shortcuts
-#. * for your language and English.  For example, in French: "OoYy"
-#. * for "Oui".
-#: src/winio.c:3657
+#: src/winio.c:3656
 msgid "Yy"
 msgstr "Yy"
 
-#: src/winio.c:3658
+#: src/winio.c:3657
 msgid "Nn"
 msgstr "Nn"
 
-#: src/winio.c:3659
+#: src/winio.c:3658
 msgid "Aa"
 msgstr "Aa"
 
-#: src/winio.c:3672
+#: src/winio.c:3671
 msgid "Yes"
 msgstr "是"
 
-#: src/winio.c:3677
+#: src/winio.c:3676
 msgid "All"
 msgstr "全部"
 
-#: src/winio.c:3682
+#: src/winio.c:3681
 msgid "No"
 msgstr "否"
 
-#: src/winio.c:3823
+#: src/winio.c:3820
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%ld (%d%%)"
 msgstr "列 %ld/%ld (%d%%), 行 %lu/%lu (%d%%), 字元 %lu/%ld (%d%%)"
 
-#: src/winio.c:4130
+#: src/winio.c:4127
 msgid "The nano text editor"
 msgstr "nano 文字編輯器"
 
-#: src/winio.c:4131
+#: src/winio.c:4128
 msgid "version"
 msgstr "版本"
 
-#: src/winio.c:4132
+#: src/winio.c:4129
 msgid "Brought to you by:"
 msgstr "來自於:"
 
-#: src/winio.c:4133
+#: src/winio.c:4130
 msgid "Special thanks to:"
 msgstr "特別感謝:"
 
-#: src/winio.c:4134
+#: src/winio.c:4131
 msgid "The Free Software Foundation"
 msgstr "自由軟體基金會"
 
-#: src/winio.c:4135
+#: src/winio.c:4132
 msgid "For ncurses:"
 msgstr "ncurses 部份:"
 
-#: src/winio.c:4136
+#: src/winio.c:4133
 msgid "and anyone else we forgot..."
 msgstr "以及其他我們不記得的人..."
 
-#: src/winio.c:4137
+#: src/winio.c:4134
 msgid "Thank you for using nano!"
 msgstr "謝謝你使用 nano！"

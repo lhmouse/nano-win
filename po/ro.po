@@ -795,7 +795,6 @@ msgstr ""
 " Urmãtoarele taste de funcþii sunt disponibile în modul \"Du-te la linia\":\n"
 
 #: src/nano.c:310
-#, fuzzy
 msgid ""
 "Insert File Help Text\n"
 "\n"
