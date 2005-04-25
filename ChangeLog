@@ -32,6 +32,9 @@ CVS code -
 	- Replace a set_modified() with SET(MODIFIED) to avoid an
 	  unnecessary update, and remove an unneeded clearok(FALSE).
 	  (DLR)
+  do_output()
+	- Fix off-by-one error that allowed wrapping when we inserted a
+	  tab, for Pico compatibility. (DLR)
 - utils.c:
   num_of_digits()
 	- Use a size_t instead of an int, and rename to digits(). (DLR)
