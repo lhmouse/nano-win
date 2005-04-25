@@ -20,8 +20,6 @@ CVS code -
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
 	  consistency. (DLR)
 - nano.c:
-  help_init()
-	- Remove extra space from main help text (Jordi).
   print1opt_full()
 	- If desc should be empty, allow it to be NULL instead of
 	  "", since the latter is not necessarily translated as "".
@@ -38,7 +36,7 @@ CVS code -
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
 	  consistency. (DLR)
   total_update()
-	- Simplify to call clearok(TRUE) and wrefresh() on curscr, which
+	- Simplify to call clearok(TRUE) and wrefresh() on edit, which
 	  updates the entire screen in fewer function calls. (DLR)
 - THANKS:
 	- Add new translators to the credits.

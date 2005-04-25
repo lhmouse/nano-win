@@ -3742,8 +3742,8 @@ int do_yesno(bool all, const char *msg)
 
 void total_update(void)
 {
-    clearok(curscr, TRUE);
-    wrefresh(curscr);
+    clearok(edit, TRUE);
+    wrefresh(edit);
 }
 
 void total_refresh(void)
