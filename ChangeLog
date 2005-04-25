@@ -19,6 +19,10 @@ CVS code -
   do_browser()
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
 	  consistency. (DLR)
+- global.c:
+  shortcut_init()
+	- Move the "Refresh" and "Exit" shortcuts to the beginning of
+	  the help browser shortcut list, for consistency. (DLR)
 - nano.c:
   print1opt_full()
 	- If desc should be empty, allow it to be NULL instead of

@@ -794,6 +794,14 @@ void shortcut_init(bool unjustify)
 #ifndef DISABLE_HELP
     free_shortcutage(&help_list);
 
+    sc_init_one(&help_list, NANO_REFRESH_KEY, N_("Refresh"),
+	IFHELP(nano_refresh_msg, NANO_NO_KEY), NANO_NO_KEY,
+	NANO_NO_KEY, VIEW, NULL);
+
+    sc_init_one(&help_list, NANO_EXIT_KEY, exit_msg,
+	IFHELP(nano_exit_msg, NANO_NO_KEY), NANO_EXIT_FKEY,
+	NANO_NO_KEY, VIEW, NULL);
+
     sc_init_one(&help_list, NANO_PREVPAGE_KEY, prev_page_msg,
 	IFHELP(nano_prevpage_msg, NANO_NO_KEY), NANO_PREVPAGE_FKEY,
 	NANO_NO_KEY, VIEW, NULL);
@@ -808,14 +816,6 @@ void shortcut_init(bool unjustify)
 
     sc_init_one(&help_list, NANO_NEXTLINE_KEY, N_("Next Line"),
 	IFHELP(nano_nextline_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, NULL);
-
-    sc_init_one(&help_list, NANO_REFRESH_KEY, N_("Refresh"),
-	IFHELP(nano_refresh_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, NULL);
-
-    sc_init_one(&help_list, NANO_EXIT_KEY, exit_msg,
-	IFHELP(nano_exit_msg, NANO_NO_KEY), NANO_EXIT_FKEY,
 	NANO_NO_KEY, VIEW, NULL);
 #endif
 
