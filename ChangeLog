@@ -33,8 +33,8 @@ CVS code -
 	  unnecessary update, and remove an unneeded clearok(FALSE).
 	  (DLR)
   do_output()
-	- Fix off-by-one error that allowed wrapping when we inserted a
-	  tab, for Pico compatibility. (DLR)
+	- Properly allow wrapping when we insert a tab, for consistency.
+	  (DLR)
 - utils.c:
   num_of_digits()
 	- Use a size_t instead of an int, and rename to digits(). (DLR)

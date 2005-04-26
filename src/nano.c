@@ -3927,9 +3927,8 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	do_right(FALSE);
 
 #ifndef DISABLE_WRAPPING
-	/* If we're wrapping text and we didn't insert a tab, we need to
-	 * call edit_refresh(). */
-	if (!ISSET(NO_WRAP) && output[i - 1] != '\t') {
+	/* If we're wrapping text, we need to call edit_refresh(). */
+	if (!ISSET(NO_WRAP)) {
 	    bool do_refresh_save = do_refresh;
 
 	    do_refresh = do_wrap(current);
