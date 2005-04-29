@@ -42,6 +42,8 @@ CVS code -
   num_of_digits()
 	- Use a size_t instead of an int, and rename to digits(). (DLR)
 - winio.c:
+  nanogetstr()
+	- Simplify one of the history checks. (DLR)
   do_help()
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
 	  consistency. (DLR)
