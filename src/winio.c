@@ -2450,12 +2450,12 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
     char *complete = NULL;
     int last_kbinput = 0;
 
-    /* This variable is used in the search history code.  use_cb == 0 
-       means that we're using the existing history and ignoring
-       currentbuf.  use_cb == 1 means that the entry in answer should be
-       moved to currentbuf or restored from currentbuf to answer. 
-       use_cb == 2 means that the entry in currentbuf should be moved to
-       answer or restored from answer to currentbuf. */
+    /* This variable is used in the search history code.  use_cb == 0
+     * means that we're using the existing history and ignoring
+     * currentbuf.  use_cb == 1 means that the entry in answer should be
+     * moved to currentbuf or restored from currentbuf to answer.
+     * use_cb == 2 means that the entry in currentbuf should be moved to
+     * answer or restored from answer to currentbuf. */
     int use_cb = 0;
 #endif
 
@@ -2478,7 +2478,8 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 
     nanoget_repaint(buf, answer, statusbar_x);
 
-    /* Refresh the edit window before getting input. */
+    /* Refresh the edit window and the statusbar before getting
+     * input. */
     wnoutrefresh(edit);
     wrefresh(bottomwin);
 
@@ -2599,7 +2600,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 			free(currentbuf);
 			currentbuf = NULL;
 			use_cb = 1;
-		    /* Itherwise, if currentbuf is NULL and use_cb isn't
+		    /* Otherwise, if currentbuf is NULL and use_cb isn't
 		     * 2, it means that we're scrolling down at the
 		     * bottom of the search history and the current
 		     * answer (if it's not blank) needs to be saved in

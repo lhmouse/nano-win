@@ -1215,8 +1215,7 @@ char *get_history_newer(historyheadtype *h)
 {
     if (h->current->prev != NULL) {
 	h->current = h->current->prev;
-	if (h->current->prev != NULL)
-	    return h->current->data;
+	return h->current->data;
     }
     return NULL;
 }

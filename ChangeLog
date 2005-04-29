@@ -35,6 +35,9 @@ CVS code -
   do_output()
 	- Properly allow wrapping when we insert a tab, for consistency.
 	  (DLR)
+- search.c:
+  get_history_newer()
+	- Remove redundant check. (DLR)
 - utils.c:
   num_of_digits()
 	- Use a size_t instead of an int, and rename to digits(). (DLR)
