@@ -2440,11 +2440,11 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
     int kbinput;
     bool meta_key, func_key, s_or_t, ran_func, finished;
     bool tabbed = FALSE;
-	/* used by input_tab() */
+	/* Used by input_tab(). */
     size_t answer_len = strlen(def);
 
 #ifndef NANO_SMALL
-   /* for history */
+    /* For history. */
     char *history = NULL;
     char *currentbuf = NULL;
     char *complete = NULL;
