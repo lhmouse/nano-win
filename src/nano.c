@@ -472,15 +472,8 @@ void help_init(void)
 	/* Control key. */
 	if (s->ctrlval != NANO_NO_KEY) {
 	    entries++;
-#ifndef NANO_SMALL
-	    if (s->ctrlval == NANO_HISTORY_KEY) {
-		char *up_ptr = display_string(_("Up"), 0, 7, FALSE);
-
-		ptr += sprintf(ptr, "%s", up_ptr);
-
-		free(up_ptr);
-	    } else
-#endif
+	    /* Yucky sentinel values that we can't handle a better
+	     * way. */
 	    if (s->ctrlval == NANO_CONTROL_SPACE) {
 		char *space_ptr = display_string(_("Space"), 0, 6,
 			FALSE);
@@ -490,6 +483,7 @@ void help_init(void)
 		free(space_ptr);
 	    } else if (s->ctrlval == NANO_CONTROL_8)
 		ptr += sprintf(ptr, "^?");
+	    /* Normal values. */
 	    else
 		ptr += sprintf(ptr, "^%c", s->ctrlval + 64);
 	    *(ptr++) = '\t';

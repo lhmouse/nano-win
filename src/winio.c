@@ -2495,7 +2495,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 	/* If we have a shortcut with an associated function, break out
 	 * if we're finished after running or trying to run the
 	 * function. */
-	if (finished)
+	if (ran_func && finished)
 	    break;
 
 	assert(statusbar_x <= answer_len && answer_len == strlen(answer));
@@ -2537,13 +2537,13 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 	    case NANO_PREVLINE_KEY:
 #ifndef NANO_SMALL
 		if (history_list != NULL) {
-		    /* If currentbuf is NULL, use_cb is 1, and
+		    /* If currentbuf is NULL, or if use_cb is 1 and
 		     * currentbuf is different from answer, it means
 		     * that we're scrolling up at the top of the search
 		     * history, and we need to save the current answer
 		     * in currentbuf.  Do this and reset use_cb to 0. */
-		    if (currentbuf != NULL && use_cb == 1 &&
-			strcmp(currentbuf, answer) != 0) {
+		    if (currentbuf == NULL || (use_cb == 1 &&
+			strcmp(currentbuf, answer) != 0)) {
 			currentbuf = mallocstrcpy(currentbuf, answer);
 			use_cb = 0;
 		    }
@@ -2949,30 +2949,21 @@ void bottombars(const shortcut *s)
 
     for (i = 0; i < slen; i++, s = s->next) {
 	const char *keystr;
+	char foo[4] = "";
 
-	/* Yucky sentinel values we can't handle a better way. */
-#ifndef NANO_SMALL
-	if (s->ctrlval == NANO_HISTORY_KEY)
-	    keystr = _("Up");
-	else {
-#endif
-	    char foo[4] = "";
+	/* Yucky sentinel values that we can't handle a better way. */
+	if (s->ctrlval == NANO_CONTROL_SPACE)
+	    strcpy(foo, "^ ");
+	else if (s->ctrlval == NANO_CONTROL_8)
+	    strcpy(foo, "^?");
+	/* Normal values.  Assume that the shortcut has an equivalent
+	 * control key, meta key sequence, or both. */
+	else if (s->ctrlval != NANO_NO_KEY)
+	    sprintf(foo, "^%c", s->ctrlval + 64);
+	else if (s->metaval != NANO_NO_KEY)
+	    sprintf(foo, "M-%c", toupper(s->metaval));
 
-	    if (s->ctrlval == NANO_CONTROL_SPACE)
-		strcpy(foo, "^ ");
-	    else if (s->ctrlval == NANO_CONTROL_8)
-		strcpy(foo, "^?");
-	    /* Normal values.  Assume that the shortcut has an
-	     * equivalent control key, meta key sequence, or both. */
-	    else if (s->ctrlval != NANO_NO_KEY)
-		sprintf(foo, "^%c", s->ctrlval + 64);
-	    else if (s->metaval != NANO_NO_KEY)
-		sprintf(foo, "M-%c", toupper(s->metaval));
-
-	    keystr = foo;
-#ifndef NANO_SMALL
-	}
-#endif
+	keystr = foo;
 
 	wmove(bottomwin, 1 + i % 2, (i / 2) * colwidth);
 	onekey(keystr, s->desc, colwidth);

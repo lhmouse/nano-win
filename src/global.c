@@ -252,7 +252,8 @@ void shortcut_init(bool unjustify)
 #ifdef HAVE_REGEX_H
     const char *regexp_msg = N_("Regexp");
 #endif
-    const char *history_msg = N_("History");
+    const char *prevhistory_msg = N_("PrevString");
+    const char *nexthistory_msg = N_("NextString");
 #ifdef ENABLE_MULTIBUFFER
     const char *new_buffer_msg = N_("New Buffer");
 #endif
@@ -339,8 +340,10 @@ void shortcut_init(bool unjustify)
 #ifdef HAVE_REGEX_H
     const char *nano_regexp_msg = N_("Use regular expressions");
 #endif
-    const char *nano_editstr_msg =
-	N_("Edit the previous search/replace strings");
+    const char *nano_prevhistory_msg =
+	N_("Edit the previous search/replace string");
+    const char *nano_nexthistory_msg =
+	N_("Edit the next search/replace string");
 #endif /* !NANO_SMALL */
 
 #ifndef DISABLE_BROWSER
@@ -663,8 +666,13 @@ void shortcut_init(bool unjustify)
 #endif
 
     /* Translators: try to keep this string under 10 characters long */
-    sc_init_one(&whereis_list, NANO_HISTORY_KEY, history_msg,
-	IFHELP(nano_editstr_msg, NANO_NO_KEY), NANO_NO_KEY,
+    sc_init_one(&whereis_list, NANO_PREVLINE_KEY, prevhistory_msg,
+	IFHELP(nano_prevhistory_msg, NANO_NO_KEY), NANO_NO_KEY,
+	NANO_NO_KEY, VIEW, NULL);
+
+    /* Translators: try to keep this string under 10 characters long */
+    sc_init_one(&whereis_list, NANO_NEXTLINE_KEY, nexthistory_msg,
+	IFHELP(nano_nexthistory_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 
     /* Translators: try to keep this string under 10 characters long */
@@ -728,8 +736,12 @@ void shortcut_init(bool unjustify)
 	NANO_NO_KEY, VIEW, NULL);
 #endif
 
-    sc_init_one(&replace_list, NANO_HISTORY_KEY, history_msg,
-	IFHELP(nano_editstr_msg, NANO_NO_KEY), NANO_NO_KEY,
+    sc_init_one(&replace_list, NANO_PREVLINE_KEY, prevhistory_msg,
+	IFHELP(nano_prevhistory_msg, NANO_NO_KEY), NANO_NO_KEY,
+	NANO_NO_KEY, VIEW, NULL);
+
+    sc_init_one(&replace_list, NANO_NEXTLINE_KEY, nexthistory_msg,
+	IFHELP(nano_nexthistory_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 #endif /* !NANO_SMALL */
 
@@ -758,8 +770,12 @@ void shortcut_init(bool unjustify)
 	NANO_NO_KEY, VIEW, do_last_line);
 
 #ifndef NANO_SMALL
-    sc_init_one(&replace_list_2, NANO_HISTORY_KEY, history_msg,
-	IFHELP(nano_editstr_msg, NANO_NO_KEY), NANO_NO_KEY,
+    sc_init_one(&replace_list_2, NANO_PREVLINE_KEY, prevhistory_msg,
+	IFHELP(nano_prevhistory_msg, NANO_NO_KEY), NANO_NO_KEY,
+	NANO_NO_KEY, VIEW, NULL);
+
+    sc_init_one(&replace_list_2, NANO_NEXTLINE_KEY, nexthistory_msg,
+	IFHELP(nano_nexthistory_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 #endif
 

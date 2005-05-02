@@ -7,6 +7,10 @@ CVS code -
 	  match the config.h #includes everywhere else. (DLR)
 	- Change all hardcoded instances of 128 bytes to MAX_BUF_SIZE,
 	  and #define MAX_BUF_SIZE as 128 in nano.h. (DLR)
+	- Use separate keys to go to the previous and next strings in
+	  the search/replace history, and display them as "^P" and "^N".
+	  This makes mouse clicks work properly on them.  Changes to
+	  shortcut_init(), help_init(), and do_statusbar_input(). (DLR)
 - files.c:
   load_open_file()
 	- Remove an unneeded clearok(FALSE). (DLR)
@@ -35,15 +39,10 @@ CVS code -
   do_output()
 	- Properly allow wrapping when we insert a tab, for consistency.
 	  (DLR)
-- search.c:
-  get_history_newer()
-	- Remove redundant check. (DLR)
 - utils.c:
   num_of_digits()
 	- Use a size_t instead of an int, and rename to digits(). (DLR)
 - winio.c:
-  nanogetstr()
-	- Simplify one of the history checks. (DLR)
   do_help()
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
 	  consistency. (DLR)

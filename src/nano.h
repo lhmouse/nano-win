@@ -395,9 +395,6 @@ typedef struct historyheadtype {
 /* No key at all. */
 #define NANO_NO_KEY		-2
 
-/* Special sentinel key used for search/replace history. */
-#define NANO_HISTORY_KEY	-3
-
 /* Normal keys. */
 #define NANO_XON_KEY		NANO_CONTROL_Q
 #define NANO_XOFF_KEY		NANO_CONTROL_S
