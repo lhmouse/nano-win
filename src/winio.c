@@ -2557,11 +2557,15 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 			currentbuf = NULL;
 			use_cb = 0;
 		    /* Otherwise, get the older search from the history
-		     * list and save it in answer. */
+		     * list and save it in answer.  If there is no older
+		     * search, blank out answer. */
 		    } else if ((history =
 			get_history_older(history_list)) != NULL) {
 			answer = mallocstrcpy(answer, history);
 			answer_len = strlen(history);
+		    } else {
+			answer = mallocstrcpy(answer, "");
+			answer_len = 0;
 		    }
 		    statusbar_x = answer_len;
 
