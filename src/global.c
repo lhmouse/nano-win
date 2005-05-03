@@ -712,7 +712,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_lastline_msg, NANO_NO_KEY), NANO_LASTLINE_FKEY,
 	NANO_NO_KEY, VIEW, do_last_line);
 
-    /* Translators: try to keep this string under 12 characters long */
+    /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&replace_list, NANO_TOOTHERSEARCH_KEY, N_("No Replace"),
 	IFHELP(nano_whereis_msg, NANO_NO_KEY), NANO_REPLACE_FKEY,
 	NANO_NO_KEY, VIEW, NULL);

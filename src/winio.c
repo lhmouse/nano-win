@@ -2492,12 +2492,6 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 	&s_or_t, &ran_func, &finished, TRUE)) != NANO_CANCEL_KEY &&
 	kbinput != NANO_ENTER_KEY) {
 
-	/* If we have a shortcut with an associated function, break out
-	 * if we're finished after running or trying to run the
-	 * function. */
-	if (ran_func && finished)
-	    break;
-
 	assert(statusbar_x <= answer_len && answer_len == strlen(answer));
 
 	if (kbinput != NANO_TAB_KEY)
@@ -2521,6 +2515,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 			answer_len = strlen(answer);
 			statusbar_x = answer_len;
 		    }
+		    finished = FALSE;
 		}
 #ifndef DISABLE_TABCOMP
 		else
@@ -2531,6 +2526,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 		    answer = input_tab(answer, &statusbar_x, &tabbed,
 			list);
 		    answer_len = strlen(answer);
+		    finished = FALSE;
 		}
 #endif
 		break;
@@ -2562,7 +2558,6 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 			free(currentbuf);
 			currentbuf = NULL;
 			use_cb = 0;
-
 		    /* Otherwise, get the older search from the history
 		     * list and save it in answer. */
 		    } else if ((history =
@@ -2570,8 +2565,8 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 			answer = mallocstrcpy(answer, history);
 			answer_len = strlen(history);
 		    }
-
 		    statusbar_x = answer_len;
+		    finished = FALSE;
 		}
 #endif
 		break;
@@ -2584,7 +2579,6 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 			get_history_newer(history_list)) != NULL) {
 			answer = mallocstrcpy(answer, history);
 			answer_len = strlen(history);
-
 		    /* If currentbuf isn't NULL and use_cb isn't 2, it
 		     * means that we're scrolling down at the bottom of
 		     * the search history and we need to restore the
@@ -2597,7 +2591,6 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 			free(currentbuf);
 			currentbuf = NULL;
 			use_cb = 1;
-
 		    /* Otherwise, if currentbuf is NULL and use_cb isn't
 		     * 2, it means that we're scrolling down at the
 		     * bottom of the search history and we need to save
@@ -2613,12 +2606,18 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 			answer_len = 0;
 			use_cb = 2;
 		    }
-
 		    statusbar_x = answer_len;
+		    finished = FALSE;
 		}
 #endif
 		break;
 	}
+
+	/* If we have a shortcut with an associated function, break out
+	 * if we're finished after running or trying to run the
+	 * function. */
+	if (finished)
+	    break;
 
 #ifndef NANO_SMALL
 	last_kbinput = kbinput;

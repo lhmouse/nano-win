@@ -10,7 +10,8 @@ CVS code -
 	- Use separate keys to go to the previous and next strings in
 	  the search/replace history, and display them as "^P" and "^N".
 	  This makes mouse clicks work properly on them.  Changes to
-	  shortcut_init(), help_init(), and do_statusbar_input(). (DLR)
+	  shortcut_init(), help_init(), nanogetstr(), and
+	  do_statusbar_input(). (DLR)
 - files.c:
   load_open_file()
 	- Remove an unneeded clearok(FALSE). (DLR)
