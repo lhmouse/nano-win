@@ -2515,7 +2515,6 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 			answer_len = strlen(answer);
 			statusbar_x = answer_len;
 		    }
-		    finished = FALSE;
 		}
 #ifndef DISABLE_TABCOMP
 		else
@@ -2526,7 +2525,6 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 		    answer = input_tab(answer, &statusbar_x, &tabbed,
 			list);
 		    answer_len = strlen(answer);
-		    finished = FALSE;
 		}
 #endif
 		break;
@@ -2566,6 +2564,12 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 			answer_len = strlen(history);
 		    }
 		    statusbar_x = answer_len;
+
+		    /* This key has a shortcut list entry when it's used
+		     * to move to an older search, which means that
+		     * finished has been set to TRUE.  Set it back to
+		     * FALSE here, so that we aren't kicked out of the
+		     * statusbar prompt. */
 		    finished = FALSE;
 		}
 #endif
@@ -2607,7 +2611,6 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 			use_cb = 2;
 		    }
 		    statusbar_x = answer_len;
-		    finished = FALSE;
 		}
 #endif
 		break;
