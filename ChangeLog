@@ -7,11 +7,10 @@ CVS code -
 	  match the config.h #includes everywhere else. (DLR)
 	- Change all hardcoded instances of 128 bytes to MAX_BUF_SIZE,
 	  and #define MAX_BUF_SIZE as 128 in nano.h. (DLR)
-	- Use separate keys to go to the previous and next strings in
-	  the search/replace history, and display them as "^P" and "^N".
-	  This makes mouse clicks work properly on them.  Changes to
-	  shortcut_init(), help_init(), nanogetstr(), and
-	  do_statusbar_input(). (DLR)
+	- Display the key to go to the previous strings in the
+	  search/replace history as "^P".  This makes mouse clicks work
+	  properly on it.  Changes to shortcut_init(), help_init(),
+	  nanogetstr(), and do_statusbar_input(). (DLR)
 - files.c:
   load_open_file()
 	- Remove an unneeded clearok(FALSE). (DLR)

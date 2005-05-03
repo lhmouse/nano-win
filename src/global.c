@@ -252,8 +252,7 @@ void shortcut_init(bool unjustify)
 #ifdef HAVE_REGEX_H
     const char *regexp_msg = N_("Regexp");
 #endif
-    const char *prevhistory_msg = N_("PrevString");
-    const char *nexthistory_msg = N_("NextString");
+    const char *history_msg = N_("History");
 #ifdef ENABLE_MULTIBUFFER
     const char *new_buffer_msg = N_("New Buffer");
 #endif
@@ -340,11 +339,9 @@ void shortcut_init(bool unjustify)
 #ifdef HAVE_REGEX_H
     const char *nano_regexp_msg = N_("Use regular expressions");
 #endif
-    const char *nano_prevhistory_msg =
-	N_("Edit the previous search/replace string");
-    const char *nano_nexthistory_msg =
-	N_("Edit the next search/replace string");
-#endif /* !NANO_SMALL */
+    const char *nano_history_msg =
+	N_("Edit the previous search/replace strings");
+#endif
 
 #ifndef DISABLE_BROWSER
     const char *nano_tofiles_msg = N_("Go to file browser");
@@ -666,13 +663,8 @@ void shortcut_init(bool unjustify)
 #endif
 
     /* Translators: try to keep this string under 10 characters long */
-    sc_init_one(&whereis_list, NANO_PREVLINE_KEY, prevhistory_msg,
-	IFHELP(nano_prevhistory_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, NULL);
-
-    /* Translators: try to keep this string under 10 characters long */
-    sc_init_one(&whereis_list, NANO_NEXTLINE_KEY, nexthistory_msg,
-	IFHELP(nano_nexthistory_msg, NANO_NO_KEY), NANO_NO_KEY,
+    sc_init_one(&whereis_list, NANO_PREVLINE_KEY, history_msg,
+	IFHELP(nano_history_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 
     /* Translators: try to keep this string under 10 characters long */
@@ -712,7 +704,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_lastline_msg, NANO_NO_KEY), NANO_LASTLINE_FKEY,
 	NANO_NO_KEY, VIEW, do_last_line);
 
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 12 characters long */
     sc_init_one(&replace_list, NANO_TOOTHERSEARCH_KEY, N_("No Replace"),
 	IFHELP(nano_whereis_msg, NANO_NO_KEY), NANO_REPLACE_FKEY,
 	NANO_NO_KEY, VIEW, NULL);
@@ -736,12 +728,8 @@ void shortcut_init(bool unjustify)
 	NANO_NO_KEY, VIEW, NULL);
 #endif
 
-    sc_init_one(&replace_list, NANO_PREVLINE_KEY, prevhistory_msg,
-	IFHELP(nano_prevhistory_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, NULL);
-
-    sc_init_one(&replace_list, NANO_NEXTLINE_KEY, nexthistory_msg,
-	IFHELP(nano_nexthistory_msg, NANO_NO_KEY), NANO_NO_KEY,
+    sc_init_one(&replace_list, NANO_PREVLINE_KEY, history_msg,
+	IFHELP(nano_history_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 #endif /* !NANO_SMALL */
 
@@ -770,12 +758,8 @@ void shortcut_init(bool unjustify)
 	NANO_NO_KEY, VIEW, do_last_line);
 
 #ifndef NANO_SMALL
-    sc_init_one(&replace_list_2, NANO_PREVLINE_KEY, prevhistory_msg,
-	IFHELP(nano_prevhistory_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, NULL);
-
-    sc_init_one(&replace_list_2, NANO_NEXTLINE_KEY, nexthistory_msg,
-	IFHELP(nano_nexthistory_msg, NANO_NO_KEY), NANO_NO_KEY,
+    sc_init_one(&replace_list_2, NANO_PREVLINE_KEY, history_msg,
+	IFHELP(nano_history_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 #endif
 
@@ -1272,7 +1256,7 @@ void thanks_for_all_the_fish(void)
     }
 #endif /* ENABLE_COLOR */
 #ifndef NANO_SMALL
-    /* free history lists */
+    /* Free the history lists. */
     free_history(&search_history);
     free_history(&replace_history);
 #endif
