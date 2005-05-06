@@ -1232,7 +1232,7 @@ char *get_history_completion(historyheadtype *h, char *s)
 	    return p->data;
 	}
     }
-    h->current = (historytype*)h;
+    h->current = (historytype *)h;
     null_at(&s, h->len);
     return s;
 }
