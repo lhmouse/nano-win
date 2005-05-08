@@ -1150,9 +1150,10 @@ void history_init(void)
 /* find first node containing string *s in history list *h */
 historytype *find_node(historytype *h, const char *s)
 {
-    for (; h->next != NULL; h = h->next)
+    for (; h->next != NULL; h = h->next) {
 	if (strcmp(s, h->data) == 0)
 	    return h;
+    }
     return NULL;
 }
 
