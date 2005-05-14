@@ -2429,13 +2429,13 @@ void nanoget_repaint(const char *buf, const char *inputbuf, size_t x)
  * statusq(). */
 int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 #ifndef NANO_SMALL
-		historyheadtype *history_list,
+	historyheadtype *history_list,
 #endif
-		const shortcut *s
+	const shortcut *s
 #ifndef DISABLE_TABCOMP
-		, bool *list
+	, bool *list
 #endif
-		)
+	)
 {
     int kbinput;
     bool meta_key, func_key, s_or_t, ran_func, finished;

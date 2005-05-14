@@ -2891,14 +2891,14 @@ void load_history(void)
 
 bool writehist(FILE *hist, historyheadtype *histhead)
 {
-    historytype *h;
+    historytype *p;
 
     /* Write oldest history first. */
-    for (h = histhead->tail; h->prev != NULL; h = h->prev) {
-	size_t len = strlen(h->data);
+    for (p = histhead->tail; p->prev != NULL; p = p->prev) {
+	size_t p_len = strlen(p->data);
 
-	sunder(h->data);
-	if (fwrite(h->data, sizeof(char), len, hist) < len ||
+	sunder(p->data);
+	if (fwrite(p->data, sizeof(char), p_len, hist) < p_len ||
 		putc('\n', hist) == EOF)
 	    return FALSE;
     }
