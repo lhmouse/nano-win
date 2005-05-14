@@ -584,10 +584,12 @@ void help_init(void)
 filestruct *make_new_node(filestruct *prevnode)
 {
     filestruct *newnode = (filestruct *)nmalloc(sizeof(filestruct));
+
     newnode->data = NULL;
     newnode->prev = prevnode;
     newnode->next = NULL;
     newnode->lineno = (prevnode != NULL) ? prevnode->lineno + 1 : 1;
+
     return newnode;
 }
 
@@ -642,27 +644,27 @@ void delete_node(filestruct *fileptr)
     free(fileptr);
 }
 
-/* Okay, now let's duplicate a whole struct! */
+/* Duplicate a whole filestruct. */
 filestruct *copy_filestruct(const filestruct *src)
 {
-    filestruct *head;	/* copy of src, top of the copied list */
-    filestruct *prev;	/* temp that traverses the list */
+    filestruct *head, *copy;
 
     assert(src != NULL);
 
-    prev = copy_node(src);
-    prev->prev = NULL;
-    head = prev;
+    copy = copy_node(src);
+    copy->prev = NULL;
+    head = copy;
     src = src->next;
+
     while (src != NULL) {
-	prev->next = copy_node(src);
-	prev->next->prev = prev;
-	prev = prev->next;
+	copy->next = copy_node(src);
+	copy->next->prev = copy;
+	copy = copy->next;
 
 	src = src->next;
     }
+    copy->next = NULL;
 
-    prev->next = NULL;
     return head;
 }
 
