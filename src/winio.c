@@ -2652,9 +2652,9 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
  * completion. */
 int statusq(bool allow_tabs, const shortcut *s, const char *def,
 #ifndef NANO_SMALL
-		historyheadtype *which_history,
+	historyheadtype *history_list,
 #endif
-		const char *msg, ...)
+	const char *msg, ...)
 {
     va_list ap;
     char *foo = charalloc(((COLS - 4) * mb_cur_max()) + 1);
@@ -2672,7 +2672,7 @@ int statusq(bool allow_tabs, const shortcut *s, const char *def,
 
     ret = nanogetstr(allow_tabs, foo, def,
 #ifndef NANO_SMALL
-		which_history,
+		history_list,
 #endif
 		s
 #ifndef DISABLE_TABCOMP

@@ -649,18 +649,18 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 void nanoget_repaint(const char *buf, const char *inputbuf, size_t x);
 int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 #ifndef NANO_SMALL
-		historyheadtype *history_list,
+	historyheadtype *history_list,
 #endif
-		const shortcut *s
+	const shortcut *s
 #ifndef DISABLE_TABCOMP
-		, bool *list
+	, bool *list
 #endif
-		);
+	);
 int statusq(bool allow_tabs, const shortcut *s, const char *def,
 #ifndef NANO_SMALL
-		historyheadtype *history_list,
+	historyheadtype *history_list,
 #endif
-		const char *msg, ...);
+	const char *msg, ...);
 void statusq_abort(void);
 void titlebar(const char *path);
 void set_modified(void);

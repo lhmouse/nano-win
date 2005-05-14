@@ -27,6 +27,8 @@ CVS code -
   write_file()
 	- Since lineswritten is a size_t, print its value as an unsigned
 	  long instead of an unsigned int. (DLR)
+  cwd_tab_completion(), browser_init()
+	- Rename variable next to nextdir to avoid confusion. (DLR)
   do_browser()
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
 	  consistency. (DLR)
@@ -52,6 +54,9 @@ CVS code -
   num_of_digits()
 	- Use a size_t instead of an int, and rename to digits(). (DLR)
 - winio.c:
+  statusq()
+	- Rename variable which_history to history_list, for
+	  consistency. (DLR)
   do_help()
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
 	  consistency. (DLR)

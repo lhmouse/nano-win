@@ -2062,7 +2062,7 @@ char **cwd_tab_completion(const char *buf, size_t *num_matches, size_t
     size_t filenamelen;
     char **matches = NULL;
     DIR *dir;
-    const struct dirent *next;
+    const struct dirent *nextdir;
 
     assert(dirname != NULL && num_matches != NULL && buflen >= 0);
 
@@ -2102,15 +2102,16 @@ char **cwd_tab_completion(const char *buf, size_t *num_matches, size_t
 #endif
     filenamelen = strlen(filename);
 
-    while ((next = readdir(dir)) != NULL) {
+    while ((nextdir = readdir(dir)) != NULL) {
 
 #ifdef DEBUG
-	fprintf(stderr, "Comparing \'%s\'\n", next->d_name);
+	fprintf(stderr, "Comparing \'%s\'\n", nextdir->d_name);
 #endif
 	/* See if this matches. */
-	if (strncmp(next->d_name, filename, filenamelen) == 0 &&
-		(*filename == '.' || (strcmp(next->d_name, ".") != 0 &&
-		strcmp(next->d_name, "..") != 0))) {
+	if (strncmp(nextdir->d_name, filename, filenamelen) == 0 &&
+		(*filename == '.' ||
+		(strcmp(nextdir->d_name, ".") != 0 &&
+		strcmp(nextdir->d_name, "..") != 0))) {
 	    /* Cool, found a match.  Add it to the list.  This makes a
 	     * lot more sense to me (Chris) this way... */
 
@@ -2121,9 +2122,9 @@ char **cwd_tab_completion(const char *buf, size_t *num_matches, size_t
 	     * the directory name to the beginning of the proposed match
 	     * before we check it. */
 	    char *tmp2 = charalloc(strlen(dirname) +
-		strlen(next->d_name) + 1);
+		strlen(nextdir->d_name) + 1);
 
-	    sprintf(tmp2, "%s%s", dirname, next->d_name);
+	    sprintf(tmp2, "%s%s", dirname, nextdir->d_name);
 	    if (check_operating_dir(tmp2, TRUE)) {
 		free(tmp2);
 		continue;
@@ -2133,7 +2134,7 @@ char **cwd_tab_completion(const char *buf, size_t *num_matches, size_t
 
 	    matches = (char **)nrealloc(matches, (*num_matches + 1) *
 		sizeof(char *));
-	    matches[*num_matches] = mallocstrcpy(NULL, next->d_name);
+	    matches[*num_matches] = mallocstrcpy(NULL, nextdir->d_name);
 	    ++(*num_matches);
 	}
     }
@@ -2341,7 +2342,7 @@ void striponedir(char *path)
 char **browser_init(const char *path, int *longest, size_t *numents, DIR
 	*dir)
 {
-    const struct dirent *next;
+    const struct dirent *nextdir;
     char **filelist;
     size_t i, path_len;
 
@@ -2351,15 +2352,15 @@ char **browser_init(const char *path, int *longest, size_t *numents, DIR
 
     i = 0;
 
-    while ((next = readdir(dir)) != NULL) {
+    while ((nextdir = readdir(dir)) != NULL) {
 	size_t dlen;
 
 	/* Don't show the . entry. */
-	if (strcmp(next->d_name, ".") == 0)
+	if (strcmp(nextdir->d_name, ".") == 0)
 	   continue;
 	i++;
 
-	dlen = strlenpt(next->d_name);
+	dlen = strlenpt(nextdir->d_name);
 	if (dlen > *longest)
 	    *longest = dlen;
     }
@@ -2374,13 +2375,13 @@ char **browser_init(const char *path, int *longest, size_t *numents, DIR
 
     i = 0;
 
-    while ((next = readdir(dir)) != NULL && i < *numents) {
+    while ((nextdir = readdir(dir)) != NULL && i < *numents) {
 	/* Don't show the "." entry. */
-	if (strcmp(next->d_name, ".") == 0)
+	if (strcmp(nextdir->d_name, ".") == 0)
 	   continue;
 
-	filelist[i] = charalloc(path_len + strlen(next->d_name) + 1);
-	sprintf(filelist[i], "%s%s", path, next->d_name);
+	filelist[i] = charalloc(path_len + strlen(nextdir->d_name) + 1);
+	sprintf(filelist[i], "%s%s", path, nextdir->d_name);
 	i++;
     }
 
