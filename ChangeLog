@@ -11,6 +11,13 @@ CVS code -
 	  search/replace history as "^P".  This makes mouse clicks work
 	  properly on it.  Changes to shortcut_init(), help_init(),
 	  nanogetstr(), and do_statusbar_input(). (DLR)
+- cut.c:
+  cut_line()
+	- Set placewewant properly after cutting a line, to avoid a
+	  problem where the screen won't be updated if (a) we're not on
+	  the first page when we cut the line, and (b) immediately after
+	  we cut the line, we hit End to move to the end of the line
+	  after it. (DLR)
 - files.c:
   load_open_file()
 	- Remove an unneeded clearok(FALSE). (DLR)

@@ -40,12 +40,15 @@ void cutbuffer_reset(void)
 }
 
 /* If we're not on the magicline, move all the text of the current line,
- * plus the newline at the end, to the cutbuffer. */
+ * plus the newline at the end, to the cutbuffer, and set the current
+ * place we want to where the line used to start. */
 void cut_line(void)
 {
-    if (current->next != NULL)
+    if (current->next != NULL) {
 	move_to_filestruct(&cutbuffer, &cutbottom, current, 0,
 		current->next, 0);
+	placewewant = xplustabs();
+    }
 }
 
 #ifndef NANO_SMALL
