@@ -2049,7 +2049,7 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
     return matches;
 }
 
-/* This was originally called exe_n_cwd_tab_completion, but we're not
+/* This was originally called exe_n_cwd_tab_completion(), but we're not
  * worried about executables, only filenames :> */
 char **cwd_tab_completion(const char *buf, size_t *num_matches, size_t
 	buflen)

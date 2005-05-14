@@ -2502,7 +2502,8 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 #ifndef NANO_SMALL
 		/* Tab history completion. */
 		if (history_list != NULL) {
-		    if (!complete || last_kbinput != NANO_TAB_KEY) {
+		    if (complete == NULL ||
+			last_kbinput != NANO_TAB_KEY) {
 			history_list->current =
 				(historytype *)history_list;
 			history_list->len = strlen(answer);
