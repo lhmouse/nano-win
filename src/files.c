@@ -61,10 +61,10 @@ void new_file(void)
 
 /* We make a new line of text from buf.  buf is length len.  If
  * first_line_ins is TRUE, then we put the new line at the top of the
- * file.  Otherwise, we assume prev is the last line of the file, and
- * put our line after prev. */
-filestruct *read_line(char *buf, filestruct *prev, bool *first_line_ins,
-	size_t len)
+ * file.  Otherwise, we assume prevnode is the last line of the file,
+ * and put our line after prevnode. */
+filestruct *read_line(char *buf, filestruct *prevnode, bool
+	*first_line_ins, size_t len)
 {
     filestruct *fileptr = (filestruct *)nmalloc(sizeof(filestruct));
 
@@ -99,12 +99,12 @@ filestruct *read_line(char *buf, filestruct *prev, bool *first_line_ins,
 	    filebot = fileptr;
 	fileage = fileptr;
     } else {
-	assert(prev != NULL);
+	assert(prevnode != NULL);
 
-	fileptr->prev = prev;
+	fileptr->prev = prevnode;
 	fileptr->next = NULL;
-	fileptr->lineno = prev->lineno + 1;
-	prev->next = fileptr;
+	fileptr->lineno = prevnode->lineno + 1;
+	prevnode->next = fileptr;
     }
 
     return fileptr;

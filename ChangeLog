@@ -25,6 +25,8 @@ CVS code -
 	  we cut the line, we hit End to move to the end of the line
 	  after it. (DLR)
 - files.c:
+  read_line()
+	- Rename variable prev to prevnode to avoid confusion. (DLR)
   load_open_file()
 	- Remove an unneeded clearok(FALSE). (DLR)
   get_next_filename()
