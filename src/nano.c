@@ -4492,7 +4492,8 @@ int main(int argc, char **argv)
 	UNSET(VIEW_MODE);
 
 	/* Add this new entry to the open_files structure if we have
-        * multibuffer support, or to the main filestruct if we don't. */
+	 * multibuffer support, or to the main filestruct if we
+	 * don't. */
 	load_file();
     }
 
