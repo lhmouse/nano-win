@@ -105,6 +105,8 @@ bool parse_num(const char *str, ssize_t *val)
     return TRUE;
 }
 
+/* Read an int and a ssize_t, separated by a comma, from str, and store
+ * them in *line and *column (if they're not both NULL). */
 void parse_line_column(const char *str, int *line, ssize_t *column)
 {
     char *comma;
