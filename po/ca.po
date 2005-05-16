@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-25 20:25-0400\n"
+"POT-Creation-Date: 2005-04-14 22:47-0400\n"
 "PO-Revision-Date: 2003-10-18 12:48+0200\n"
 "Last-Translator: Jordi Mallach <jordi@gnu.org>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -82,7 +82,7 @@ msgstr "Fitxer a inserir [des de ./] "
 msgid "Command to execute"
 msgstr "Ordre a executar"
 
-#: files.c:510 files.c:622 files.c:1353 files.c:1797 nano.c:2736
+#: files.c:510 files.c:622 files.c:1353 files.c:1797 nano.c:2752
 msgid "Cancelled"
 msgstr "Cancel·lat"
 
@@ -103,6 +103,10 @@ msgstr "No hi ha més fitxers oberts"
 #, c-format
 msgid "Switched to %s"
 msgstr "S'ha canviat a %s"
+
+#: files.c:914 files.c:977 global.c:768 winio.c:608
+msgid "New Buffer"
+msgstr "Nou búfer"
 
 #: files.c:1367
 #, c-format
@@ -554,7 +558,7 @@ msgstr "Pos Act"
 msgid "To Spell"
 msgstr "Ortografia"
 
-#: global.c:499 nano.c:428 winio.c:655
+#: global.c:499 nano.c:428 winio.c:667
 msgid "Up"
 msgstr "Amunt"
 
@@ -638,9 +642,9 @@ msgstr "Anterior fitxer"
 msgid "Next File"
 msgstr "Següent fitxer"
 
-#: global.c:583 global.c:631 global.c:668 global.c:687 global.c:747
+#: global.c:583 global.c:631 global.c:668 global.c:687 global.c:717
 #: global.c:755 global.c:779 global.c:789 global.c:799 global.c:820
-#: winio.c:1323
+#: winio.c:1335
 msgid "Cancel"
 msgstr "Cancel·la"
 
@@ -672,37 +676,33 @@ msgstr "Història"
 msgid "No Replace"
 msgstr "No Reemplaces"
 
-#: global.c:719 global.c:759
+#: global.c:722 global.c:759
 msgid "To Files"
 msgstr "A fitxers"
 
-#: global.c:725
+#: global.c:728
 msgid "DOS Format"
 msgstr "Format DOS"
 
-#: global.c:729
+#: global.c:732
 msgid "Mac Format"
 msgstr "Format Mac"
 
-#: global.c:734
+#: global.c:737
 msgid "Append"
 msgstr "Afegeix"
 
-#: global.c:738
+#: global.c:741
 msgid "Prepend"
 msgstr "Avantposa"
 
-#: global.c:743
+#: global.c:746
 msgid "Backup File"
 msgstr "Fes còpia de seguretat"
 
 #: global.c:764
 msgid "Execute Command"
 msgstr "Executa una ordre"
-
-#: global.c:768 winio.c:596
-msgid "New Buffer"
-msgstr "Nou búfer"
 
 #: global.c:811
 msgid "Go To Dir"
@@ -1209,7 +1209,7 @@ msgstr "El suport per a aquesta funció està inhabilitat"
 msgid "Could not pipe"
 msgstr "No s'ha pogut canalitzar"
 
-#: nano.c:838 nano.c:1788 nano.c:1921
+#: nano.c:838 nano.c:1804 nano.c:1937
 msgid "Could not fork"
 msgstr "No s'ha pogut iniciar un altre procés"
 
@@ -1221,101 +1221,101 @@ msgstr "Marca establida"
 msgid "Mark UNset"
 msgstr "Marca esborrada"
 
-#: nano.c:1643
+#: nano.c:1653
 msgid "Edit a replacement"
 msgstr "Edita un reemplaçament"
 
-#: nano.c:1696
+#: nano.c:1712
 msgid "Could not create pipe"
 msgstr "No s'ha pogut crear un conducte"
 
-#: nano.c:1698
+#: nano.c:1714
 msgid "Creating misspelled word list, please wait..."
 msgstr "S'està creant una llista de paraules incorrectes, espereu..."
 
-#: nano.c:1794
+#: nano.c:1810
 msgid "Could not get size of pipe buffer"
 msgstr "No s'ha pogut obtindre la mida de la memòria intermèdia del conducte"
 
-#: nano.c:1846
+#: nano.c:1862
 msgid "Error invoking \"spell\""
 msgstr "S'ha produït un error en iniciar «spell»"
 
-#: nano.c:1849
+#: nano.c:1865
 msgid "Error invoking \"sort -f\""
 msgstr "S'ha produït un error en iniciar «sort -f»"
 
-#: nano.c:1852
+#: nano.c:1868
 msgid "Error invoking \"uniq\""
 msgstr "S'ha produït un error en iniciar «uniq»"
 
-#: nano.c:1928
+#: nano.c:1944
 #, c-format
 msgid "Could not invoke \"%s\""
 msgstr "No s'ha pogut iniciar «%s»"
 
-#: nano.c:1971
+#: nano.c:1987
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "No s'ha pogut crear un fitxer temporal: %s"
 
-#: nano.c:1977
+#: nano.c:1993
 msgid "Spell checking failed: unable to write temp file!"
 msgstr "Revisió d'ortografia fallida: no s'ha pogut escriure fitxer temporal!"
 
-#: nano.c:1996
+#: nano.c:2012
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "La revisió d'ortografia ha fallat: %s"
 
-#: nano.c:2000
+#: nano.c:2016
 msgid "Finished checking spelling"
 msgstr "Revisió d'ortografia finalitzada"
 
-#: nano.c:2343
+#: nano.c:2359
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "El marcador de cita %s és erroni: %s"
 
-#: nano.c:2610
+#: nano.c:2626
 msgid "Can now UnJustify!"
 msgstr "Ara podeu desjustificar!"
 
-#: nano.c:2706
+#: nano.c:2722
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Voleu desar el búfer modificat (RESPONDRE «No» DESTRUIRÀ ELS CANVIS) ?"
 
-#: nano.c:2806
+#: nano.c:2822
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "S'ha rebut SIGHUP o SIGTERM\n"
 
-#: nano.c:2813
+#: nano.c:2829
 msgid "Use \"fg\" to return to nano"
 msgstr "Utilitzeu «fg» per a tornar a nano"
 
-#: nano.c:2941
+#: nano.c:2957
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "Detectat NumLock trencat.  El tecl. numèric funcionarà amb NumLock activat"
 
-#: nano.c:2990
+#: nano.c:3006
 msgid "enabled"
 msgstr "habilitat"
 
-#: nano.c:2990
+#: nano.c:3006
 msgid "disabled"
 msgstr "inhabilitat"
 
-#: nano.c:3186
+#: nano.c:3202
 #, c-format
 msgid "Tab size is too small for nano...\n"
 msgstr "La mida de la tabulació és massa petita per a nano...\n"
 
-#: nano.c:3745
+#: nano.c:3768
 msgid "XOFF ignored, mumble mumble."
 msgstr "XOFF ignorat, blah, blah."
 
-#: nano.c:3747
+#: nano.c:3770
 msgid "XON ignored, mumble mumble."
 msgstr "XON ignorat, blah, blah."
 
@@ -1498,92 +1498,92 @@ msgstr "No hi ha clau corresponent"
 msgid "nano is out of memory!"
 msgstr "nano s'ha quedat sense memòria!"
 
-#: winio.c:600
+#: winio.c:612
 msgid "  File: ..."
 msgstr "  Fitxer: ..."
 
-#: winio.c:602
+#: winio.c:614
 msgid "   DIR: ..."
 msgstr "   DIR: ..."
 
-#: winio.c:607
+#: winio.c:619
 msgid "File: "
 msgstr "Fitxer: "
 
-#: winio.c:610
+#: winio.c:622
 msgid " DIR: "
 msgstr " DIR: "
 
-#: winio.c:615
+#: winio.c:627
 msgid " Modified "
 msgstr " Modificat "
 
-#: winio.c:617
+#: winio.c:629
 msgid " View "
 msgstr " Visualitza "
 
-#: winio.c:803
+#: winio.c:815
 msgid "Refusing 0 length regex match"
 msgstr "S'ha rebutjat una coincidència d'expreg de mida 0"
 
-#: winio.c:1297
+#: winio.c:1309
 msgid "Yy"
 msgstr "Ss"
 
-#: winio.c:1298
+#: winio.c:1310
 msgid "Nn"
 msgstr "Nn"
 
-#: winio.c:1299
+#: winio.c:1311
 msgid "Aa"
 msgstr "Tt"
 
-#: winio.c:1310
+#: winio.c:1322
 msgid "Yes"
 msgstr "Sí"
 
-#: winio.c:1315
+#: winio.c:1327
 msgid "All"
 msgstr "Totes"
 
-#: winio.c:1320
+#: winio.c:1332
 msgid "No"
 msgstr "No"
 
-#: winio.c:1499
+#: winio.c:1511
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%ld (%d%%)"
 msgstr "línia %ld/%ld (%d%%), col %lu/%lu (%d%%), car %lu/%ld(%d%%)"
 
-#: winio.c:1838
+#: winio.c:1850
 msgid "The nano text editor"
 msgstr "L'editor de text GNU nano"
 
-#: winio.c:1839
+#: winio.c:1851
 msgid "version "
 msgstr "versió "
 
-#: winio.c:1840
+#: winio.c:1852
 msgid "Brought to you by:"
 msgstr "Per cortesia de:"
 
-#: winio.c:1841
+#: winio.c:1853
 msgid "Special thanks to:"
 msgstr "Agraïments especials per a:"
 
-#: winio.c:1842
+#: winio.c:1854
 msgid "The Free Software Foundation"
 msgstr "La Fundació per al Software Lliure (FSF)"
 
-#: winio.c:1843
+#: winio.c:1855
 msgid "For ncurses:"
 msgstr "Per ncurses:"
 
-#: winio.c:1844
+#: winio.c:1856
 msgid "and anyone else we forgot..."
 msgstr "i per qualsevol dels qui ens hem oblidat esmentar..."
 
-#: winio.c:1845
+#: winio.c:1857
 msgid "Thank you for using nano!\n"
 msgstr "Gràcies per fer servir nano!\n"
 

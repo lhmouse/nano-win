@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-25 20:25-0400\n"
+"POT-Creation-Date: 2005-04-14 22:47-0400\n"
 "PO-Revision-Date: 2003-06-02 10:03:56+0200\n"
 "Last-Translator: Michael Piefel <piefel@informatik.hu-berlin.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -83,7 +83,7 @@ msgstr "einzufügende Datei [von ./] "
 msgid "Command to execute"
 msgstr "Auszuführender Befehl"
 
-#: files.c:510 files.c:622 files.c:1353 files.c:1797 nano.c:2736
+#: files.c:510 files.c:622 files.c:1353 files.c:1797 nano.c:2752
 msgid "Cancelled"
 msgstr "Abgebrochen"
 
@@ -104,6 +104,10 @@ msgstr "Keine weiteren offenen Dateien"
 #, c-format
 msgid "Switched to %s"
 msgstr "Umgeschaltet zu %s"
+
+#: files.c:914 files.c:977 global.c:768 winio.c:608
+msgid "New Buffer"
+msgstr "Neuer Puffer"
 
 #: files.c:1367
 #, c-format
@@ -552,7 +556,7 @@ msgstr "Cursor"
 msgid "To Spell"
 msgstr "Rechtschr."
 
-#: global.c:499 nano.c:428 winio.c:655
+#: global.c:499 nano.c:428 winio.c:667
 msgid "Up"
 msgstr "Hoch"
 
@@ -636,9 +640,9 @@ msgstr "Vorherige Datei"
 msgid "Next File"
 msgstr "Nächste Datei"
 
-#: global.c:583 global.c:631 global.c:668 global.c:687 global.c:747
+#: global.c:583 global.c:631 global.c:668 global.c:687 global.c:717
 #: global.c:755 global.c:779 global.c:789 global.c:799 global.c:820
-#: winio.c:1323
+#: winio.c:1335
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -670,37 +674,33 @@ msgstr "Geschichte"
 msgid "No Replace"
 msgstr "Keine Ersetzung"
 
-#: global.c:719 global.c:759
+#: global.c:722 global.c:759
 msgid "To Files"
 msgstr "In Dateien"
 
-#: global.c:725
+#: global.c:728
 msgid "DOS Format"
 msgstr "DOS-Format"
 
-#: global.c:729
+#: global.c:732
 msgid "Mac Format"
 msgstr "Mac-Format"
 
-#: global.c:734
+#: global.c:737
 msgid "Append"
 msgstr "Anhängen"
 
-#: global.c:738
+#: global.c:741
 msgid "Prepend"
 msgstr "vorn Anfügen"
 
-#: global.c:743
+#: global.c:746
 msgid "Backup File"
 msgstr "Sicherungskopie"
 
 #: global.c:764
 msgid "Execute Command"
 msgstr "Befehl ausführen"
-
-#: global.c:768 winio.c:596
-msgid "New Buffer"
-msgstr "Neuer Puffer"
 
 #: global.c:811
 msgid "Go To Dir"
@@ -1210,7 +1210,7 @@ msgstr "Tut mir leid, diese Funktion wird nicht unterstützt"
 msgid "Could not pipe"
 msgstr "Konnte kein Pipe durchführen"
 
-#: nano.c:838 nano.c:1788 nano.c:1921
+#: nano.c:838 nano.c:1804 nano.c:1937
 msgid "Could not fork"
 msgstr "Konnte kein Fork durchführen "
 
@@ -1222,103 +1222,103 @@ msgstr "Markierung gesetzt"
 msgid "Mark UNset"
 msgstr "Markierung gelöscht"
 
-#: nano.c:1643
+#: nano.c:1653
 msgid "Edit a replacement"
 msgstr "Ersetzung editieren"
 
-#: nano.c:1696
+#: nano.c:1712
 msgid "Could not create pipe"
 msgstr "Konnte keine Pipe erstellen"
 
-#: nano.c:1698
+#: nano.c:1714
 msgid "Creating misspelled word list, please wait..."
 msgstr "Erstelle Liste falsch geschriebener Wörter, bitte warten..."
 
-#: nano.c:1794
+#: nano.c:1810
 msgid "Could not get size of pipe buffer"
 msgstr "Konnte Größe des Pipe-Puffers nicht bestimmen"
 
-#: nano.c:1846
+#: nano.c:1862
 msgid "Error invoking \"spell\""
 msgstr "Fehler beim Aufruf von »spell«"
 
-#: nano.c:1849
+#: nano.c:1865
 msgid "Error invoking \"sort -f\""
 msgstr "Fehler beim Aufruf von »sort -f«"
 
-#: nano.c:1852
+#: nano.c:1868
 msgid "Error invoking \"uniq\""
 msgstr "Fehler beim Aufruf von »uniq«"
 
-#: nano.c:1928
+#: nano.c:1944
 #, c-format
 msgid "Could not invoke \"%s\""
 msgstr "Konnte »%s« nicht aufrufen"
 
-#: nano.c:1971
+#: nano.c:1987
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Konnte keine temporäre Datei erzeugen: %s"
 
-#: nano.c:1977
+#: nano.c:1993
 msgid "Spell checking failed: unable to write temp file!"
 msgstr ""
 "Rechtschreibprüfung fehlgeschlagen: konnte nicht in temporäre Datei schreiben"
 
-#: nano.c:1996
+#: nano.c:2012
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Rechtschreibprüfung fehlgeschlagen: %s"
 
-#: nano.c:2000
+#: nano.c:2016
 msgid "Finished checking spelling"
 msgstr "Rechtschreibprüfung abgeschlossen"
 
-#: nano.c:2343
+#: nano.c:2359
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Ungültiges Zitatzeichen %s: %s"
 
-#: nano.c:2610
+#: nano.c:2626
 msgid "Can now UnJustify!"
 msgstr "Kann Absatzausrichtung jetzt rückgängig machen"
 
-#: nano.c:2706
+#: nano.c:2722
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Veränderten Puffer speichern (»Nein« VERWIRFT DIE ÄNDERUNGEN) ? "
 
-#: nano.c:2806
+#: nano.c:2822
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "SIGHUP oder SIGTERM empfangen\n"
 
-#: nano.c:2813
+#: nano.c:2829
 msgid "Use \"fg\" to return to nano"
 msgstr "Benutzen Sie »fg«, um zu nano zurückzukehren."
 
-#: nano.c:2941
+#: nano.c:2957
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr ""
 "NumLock-Problem entdeckt. Tastenblock funktioniert bei ausgeschaltetem "
 "NumLock nicht"
 
-#: nano.c:2990
+#: nano.c:3006
 msgid "enabled"
 msgstr "aktiviert"
 
-#: nano.c:2990
+#: nano.c:3006
 msgid "disabled"
 msgstr "deaktiviert"
 
-#: nano.c:3186
+#: nano.c:3202
 #, c-format
 msgid "Tab size is too small for nano...\n"
 msgstr "Tabulatorweite ist zu klein für Nano...\n"
 
-#: nano.c:3745
+#: nano.c:3768
 msgid "XOFF ignored, mumble mumble."
 msgstr "XOFF ignoriert, murmel murmel."
 
-#: nano.c:3747
+#: nano.c:3770
 msgid "XON ignored, mumble mumble."
 msgstr "XON ignoriert, murmel murmel."
 
@@ -1502,92 +1502,92 @@ msgstr "Keine passende Klammer"
 msgid "nano is out of memory!"
 msgstr "nano hat keinen Speicher mehr!"
 
-#: winio.c:600
+#: winio.c:612
 msgid "  File: ..."
 msgstr "  Datei: ..."
 
-#: winio.c:602
+#: winio.c:614
 msgid "   DIR: ..."
 msgstr "   Verz.: ..."
 
-#: winio.c:607
+#: winio.c:619
 msgid "File: "
 msgstr "Datei: "
 
-#: winio.c:610
+#: winio.c:622
 msgid " DIR: "
 msgstr "Verz.: "
 
-#: winio.c:615
+#: winio.c:627
 msgid " Modified "
 msgstr "Verändert "
 
-#: winio.c:617
+#: winio.c:629
 msgid " View "
 msgstr "Ansehen "
 
-#: winio.c:803
+#: winio.c:815
 msgid "Refusing 0 length regex match"
 msgstr "Treffer mit Länge 0 bei regulärem Ausdruck nicht akzeptiert"
 
-#: winio.c:1297
+#: winio.c:1309
 msgid "Yy"
 msgstr "JjYy"
 
-#: winio.c:1298
+#: winio.c:1310
 msgid "Nn"
 msgstr "Nn"
 
-#: winio.c:1299
+#: winio.c:1311
 msgid "Aa"
 msgstr "Aa"
 
-#: winio.c:1310
+#: winio.c:1322
 msgid "Yes"
 msgstr "Ja"
 
-#: winio.c:1315
+#: winio.c:1327
 msgid "All"
 msgstr "Alle"
 
-#: winio.c:1320
+#: winio.c:1332
 msgid "No"
 msgstr "Nein"
 
-#: winio.c:1499
+#: winio.c:1511
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%ld (%d%%)"
 msgstr "Zeile %ld/%ld (%d%%), Spalte %lu/%lu (%d%%), Zeichen %lu/%ld (%d%%)"
 
-#: winio.c:1838
+#: winio.c:1850
 msgid "The nano text editor"
 msgstr "Der nano-Text-Editor"
 
-#: winio.c:1839
+#: winio.c:1851
 msgid "version "
 msgstr "Version "
 
-#: winio.c:1840
+#: winio.c:1852
 msgid "Brought to you by:"
 msgstr "Entwickelt von:"
 
-#: winio.c:1841
+#: winio.c:1853
 msgid "Special thanks to:"
 msgstr "Speziellen Dank an:"
 
-#: winio.c:1842
+#: winio.c:1854
 msgid "The Free Software Foundation"
 msgstr "The Free Software Foundation"
 
-#: winio.c:1843
+#: winio.c:1855
 msgid "For ncurses:"
 msgstr "Für ncurses:"
 
-#: winio.c:1844
+#: winio.c:1856
 msgid "and anyone else we forgot..."
 msgstr "und alle Nichtgenannten..."
 
-#: winio.c:1845
+#: winio.c:1857
 msgid "Thank you for using nano!\n"
 msgstr "Danke für die Benutzung von nano!\n"
 

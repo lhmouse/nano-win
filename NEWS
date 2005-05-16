@@ -1,3 +1,10 @@
+2005.05.15 - GNU nano 1.2.5 is released, after a long quiet period. 
+		This release includes fixes for segfault during filename
+		completion, justify on systems without regex.h, 
+		hangs when the input stream goes away, and scrolling 
+		beyond COLS.  Included are some new keyboard sequences.
+		Enjoy what may be the final 1.2 release of nano!
+
 2004.06.27 - GNU nano 1.2.4 is finally here!  This release contains 
 		fixes for the lack of error reporting when opening 
 		a file, segfaults when backgrounding nano at start,

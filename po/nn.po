@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.1.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-25 20:25-0400\n"
+"POT-Creation-Date: 2005-04-14 22:47-0400\n"
 "PO-Revision-Date: 2002-01-26 02:49+0100\n"
 "Last-Translator: Kjetil Torgrim Homme <kjetilho@linpro.no>\n"
 "Language-Team: Norwegian nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -84,7 +84,7 @@ msgstr "Fil som skal setjast inn [frå ./] "
 msgid "Command to execute"
 msgstr ""
 
-#: files.c:510 files.c:622 files.c:1353 files.c:1797 nano.c:2736
+#: files.c:510 files.c:622 files.c:1353 files.c:1797 nano.c:2752
 msgid "Cancelled"
 msgstr "Avbrote"
 
@@ -105,6 +105,10 @@ msgstr "Ingen fleire opne filer"
 #, c-format
 msgid "Switched to %s"
 msgstr ""
+
+#: files.c:914 files.c:977 global.c:768 winio.c:608
+msgid "New Buffer"
+msgstr "Ny buffer"
 
 #: files.c:1367
 #, c-format
@@ -568,7 +572,7 @@ msgstr "Posisjon"
 msgid "To Spell"
 msgstr "Staving"
 
-#: global.c:499 nano.c:428 winio.c:655
+#: global.c:499 nano.c:428 winio.c:667
 msgid "Up"
 msgstr "Opp"
 
@@ -656,9 +660,9 @@ msgstr ""
 msgid "Next File"
 msgstr "Ny fil"
 
-#: global.c:583 global.c:631 global.c:668 global.c:687 global.c:747
+#: global.c:583 global.c:631 global.c:668 global.c:687 global.c:717
 #: global.c:755 global.c:779 global.c:789 global.c:799 global.c:820
-#: winio.c:1323
+#: winio.c:1335
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -690,28 +694,28 @@ msgstr ""
 msgid "No Replace"
 msgstr "Inga erstatting"
 
-#: global.c:719 global.c:759
+#: global.c:722 global.c:759
 msgid "To Files"
 msgstr "Til filer"
 
-#: global.c:725
+#: global.c:728
 msgid "DOS Format"
 msgstr ""
 
-#: global.c:729
+#: global.c:732
 msgid "Mac Format"
 msgstr ""
 
-#: global.c:734
+#: global.c:737
 msgid "Append"
 msgstr "Legg til"
 
-#: global.c:738
+#: global.c:741
 #, fuzzy
 msgid "Prepend"
 msgstr "Legg til"
 
-#: global.c:743
+#: global.c:746
 #, fuzzy
 msgid "Backup File"
 msgstr "Backspace"
@@ -719,10 +723,6 @@ msgstr "Backspace"
 #: global.c:764
 msgid "Execute Command"
 msgstr ""
-
-#: global.c:768 winio.c:596
-msgid "New Buffer"
-msgstr "Ny buffer"
 
 #: global.c:811
 #, fuzzy
@@ -1244,7 +1244,7 @@ msgstr ""
 msgid "Could not pipe"
 msgstr "Kunne ikkje lukka %s: %s"
 
-#: nano.c:838 nano.c:1788 nano.c:1921
+#: nano.c:838 nano.c:1804 nano.c:1937
 #, fuzzy
 msgid "Could not fork"
 msgstr "Kunne ikkje lukka %s: %s"
@@ -1257,103 +1257,103 @@ msgstr "Merke sett"
 msgid "Mark UNset"
 msgstr "Merke fjerna"
 
-#: nano.c:1643
+#: nano.c:1653
 msgid "Edit a replacement"
 msgstr "Rediger erstatning"
 
-#: nano.c:1696
+#: nano.c:1712
 #, fuzzy
 msgid "Could not create pipe"
 msgstr "Kunne ikkje lukka %s: %s"
 
-#: nano.c:1698
+#: nano.c:1714
 msgid "Creating misspelled word list, please wait..."
 msgstr ""
 
-#: nano.c:1794
+#: nano.c:1810
 #, fuzzy
 msgid "Could not get size of pipe buffer"
 msgstr "Kunne ikkje opna %s for skriving: %s"
 
-#: nano.c:1846
+#: nano.c:1862
 msgid "Error invoking \"spell\""
 msgstr ""
 
-#: nano.c:1849
+#: nano.c:1865
 msgid "Error invoking \"sort -f\""
 msgstr ""
 
-#: nano.c:1852
+#: nano.c:1868
 msgid "Error invoking \"uniq\""
 msgstr ""
 
-#: nano.c:1928
+#: nano.c:1944
 #, fuzzy, c-format
 msgid "Could not invoke \"%s\""
 msgstr "Kunne ikkje lukka %s: %s"
 
-#: nano.c:1971
+#: nano.c:1987
 #, c-format
 msgid "Could not create a temporary filename: %s"
 msgstr "Kunne ikkje oppretta mellombels fil: %s"
 
-#: nano.c:1977
+#: nano.c:1993
 msgid "Spell checking failed: unable to write temp file!"
 msgstr "Stavekontroll feila: kunne ikkje laga mellombels fil!"
 
-#: nano.c:1996
+#: nano.c:2012
 #, fuzzy, c-format
 msgid "Spell checking failed: %s"
 msgstr "Stavekontroll feila"
 
-#: nano.c:2000
+#: nano.c:2016
 msgid "Finished checking spelling"
 msgstr "Stavekontroll fullført"
 
-#: nano.c:2343
+#: nano.c:2359
 #, fuzzy, c-format
 msgid "Bad quote string %s: %s"
 msgstr "Kunne ikkje lukka %s: %s"
 
-#: nano.c:2610
+#: nano.c:2626
 msgid "Can now UnJustify!"
 msgstr "Du kan no gjera om ombrekkinga!"
 
-#: nano.c:2706
+#: nano.c:2722
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Lagra endra buffer (\"No\" VIL MISSA ENDRINGANE)? "
 
-#: nano.c:2806
+#: nano.c:2822
 #, fuzzy
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "Mottok SIGHUP"
 
-#: nano.c:2813
+#: nano.c:2829
 msgid "Use \"fg\" to return to nano"
 msgstr ""
 
-#: nano.c:2941
+#: nano.c:2957
 msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
 msgstr "NumLock-feil oppdaga. Nummer-tastane vil fungere feil med NumLock av"
 
-#: nano.c:2990
+#: nano.c:3006
 msgid "enabled"
 msgstr "på"
 
-#: nano.c:2990
+#: nano.c:3006
 msgid "disabled"
 msgstr "av"
 
-#: nano.c:3186
+#: nano.c:3202
 #, fuzzy, c-format
 msgid "Tab size is too small for nano...\n"
 msgstr "Vindauget er for lite for Nano..."
 
-#: nano.c:3745
+#: nano.c:3768
 msgid "XOFF ignored, mumble mumble."
 msgstr ""
 
-#: nano.c:3747
+#: nano.c:3770
 msgid "XON ignored, mumble mumble."
 msgstr ""
 
@@ -1542,94 +1542,94 @@ msgstr "Inga motsvarande klamme"
 msgid "nano is out of memory!"
 msgstr "nano: malloc: tom for minne!"
 
-#: winio.c:600
+#: winio.c:612
 msgid "  File: ..."
 msgstr "  Fil: ..."
 
-#: winio.c:602
+#: winio.c:614
 msgid "   DIR: ..."
 msgstr "   KAT: ..."
 
-#: winio.c:607
+#: winio.c:619
 msgid "File: "
 msgstr "Fil: "
 
-#: winio.c:610
+#: winio.c:622
 msgid " DIR: "
 msgstr " KAT: "
 
-#: winio.c:615
+#: winio.c:627
 #, fuzzy
 msgid " Modified "
 msgstr "Endra"
 
-#: winio.c:617
+#: winio.c:629
 msgid " View "
 msgstr ""
 
-#: winio.c:803
+#: winio.c:815
 msgid "Refusing 0 length regex match"
 msgstr ""
 
-#: winio.c:1297
+#: winio.c:1309
 msgid "Yy"
 msgstr "JjYy"
 
-#: winio.c:1298
+#: winio.c:1310
 msgid "Nn"
 msgstr "Nn"
 
-#: winio.c:1299
+#: winio.c:1311
 msgid "Aa"
 msgstr "Aa"
 
-#: winio.c:1310
+#: winio.c:1322
 msgid "Yes"
 msgstr "Ja"
 
-#: winio.c:1315
+#: winio.c:1327
 msgid "All"
 msgstr "Alle"
 
-#: winio.c:1320
+#: winio.c:1332
 msgid "No"
 msgstr "Nei"
 
-#: winio.c:1499
+#: winio.c:1511
 #, fuzzy, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%ld (%d%%)"
 msgstr "linje %d av %d (%.0f%%), teikn %ld av %ld (%.0f%%)"
 
-#: winio.c:1838
+#: winio.c:1850
 msgid "The nano text editor"
 msgstr "Teksteditoren nano"
 
-#: winio.c:1839
+#: winio.c:1851
 msgid "version "
 msgstr "versjon "
 
-#: winio.c:1840
+#: winio.c:1852
 msgid "Brought to you by:"
 msgstr "Gjeve til deg av:"
 
-#: winio.c:1841
+#: winio.c:1853
 msgid "Special thanks to:"
 msgstr "Spesiell takk til:"
 
 # Oversette dette ?
-#: winio.c:1842
+#: winio.c:1854
 msgid "The Free Software Foundation"
 msgstr "Free Sofware Foundation"
 
-#: winio.c:1843
+#: winio.c:1855
 msgid "For ncurses:"
 msgstr ""
 
-#: winio.c:1844
+#: winio.c:1856
 msgid "and anyone else we forgot..."
 msgstr "og alle dei andre vi gløymde..."
 
-#: winio.c:1845
+#: winio.c:1857
 msgid "Thank you for using nano!\n"
 msgstr "Takk for at du brukar nano!\n"
 
