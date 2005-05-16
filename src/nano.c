@@ -1002,7 +1002,7 @@ void print1opt_full(const char *shortflag
 void usage(void)
 {
 #ifdef HAVE_GETOPT_LONG
-    printf(_("Usage: nano [+LINE] [GNU long option] [option] [file]\n\n"));
+    printf(_("Usage: nano [+LINE,COLUMN] [GNU long option] [option] [file]\n\n"));
     printf(_("Option\t\tLong option\t\tMeaning\n"));
 #else
     printf(_("Usage: nano [+LINE] [option] [file]\n\n"));
@@ -1010,7 +1010,7 @@ void usage(void)
 #endif
 
     print1opt("-h, -?", "--help", N_("Show this message"));
-    print1opt(_("+LINE"), "", N_("Start at line number LINE"));
+    print1opt(_("+LINE,COLUMN"), "", N_("Start at line LINE, column COLUMN"));
 #ifndef NANO_SMALL
     print1opt("-A", "--smarthome", N_("Enable smart home key"));
     print1opt("-B", "--backup", N_("Backup existing files on save"));
@@ -3961,8 +3961,10 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 int main(int argc, char **argv)
 {
     int optchr;
-    int startline = 0;
+    int startline = 1;
 	/* Line to try and start at. */
+    ssize_t startcol = 1;
+	/* Column to try and start at. */
 #ifndef DISABLE_WRAPJUSTIFY
     bool fill_flag_used = FALSE;
 	/* Was the fill option used? */
@@ -4421,10 +4423,16 @@ int main(int argc, char **argv)
     fprintf(stderr, "Main: open file\n");
 #endif
 
-    /* If there's a +LINE flag here, it is the first non-option
-     * argument, and it is followed by at least one other argument, the
-     * filename it applies to. */
+    /* If there's a +LINE or +LINE,COLUMN flag here, it is the first
+     * non-option argument, and it is followed by at least one other
+     * argument, the filename it applies to. */
     if (0 < optind && optind < argc - 1 && argv[optind][0] == '+') {
+	char *comma = strchr(&argv[optind][1], ',');
+
+	if (comma != NULL)
+	    parse_num(&argv[optind][comma - argv[optind] + 1],
+		&startcol);
+
 	startline = atoi(&argv[optind][1]);
 	optind++;
     }
@@ -4436,17 +4444,32 @@ int main(int argc, char **argv)
     /* Read all the files after the first one on the command line into
      * new buffers. */
     {
-	int i = optind + 1, iline = 0;
+	int i = optind + 1, iline = 1;
+	ssize_t icol = 1;
+
 	for (; i < argc; i++) {
-	    /* If there's a +LINE flag here, it is followed by at least
-	     * one other argument, the filename it applies to. */
-	    if (i < argc - 1 && argv[i][0] == '+' && iline == 0) {
+	    /* If there's a +LINE or +LINE,COLUMN flag here, it is
+	     * followed by at least one other argument, the filename it
+	     * applies to. */
+	    if (i < argc - 1 && argv[i][0] == '+' && iline == 1 &&
+		icol == 1) {
+		char *comma = strchr(&argv[i][1], ',');
+
+		if (comma != NULL)
+		    parse_num(&argv[i][comma - argv[i] + 1], &icol);
+
 		iline = atoi(&argv[i][1]);
 	    } else {
 		load_buffer(argv[i]);
-		if (iline > 0) {
+
+		if (iline > 1) {
 		    do_gotoline(iline, FALSE);
-		    iline = 0;
+		    iline = 1;
+		}
+
+		if (icol > 1) {
+		    current_x = actual_x(current->data, icol - 1);
+		    icol = 1;
 		}
 	    }
 	}
@@ -4485,8 +4508,11 @@ int main(int argc, char **argv)
     titlebar(NULL);
     display_main_list();
 
-    if (startline > 0)
+    if (startline > 1)
 	do_gotoline(startline, FALSE);
+
+    if (startcol > 1)
+	current_x = actual_x(current->data, startcol - 1);
 
 #ifndef NANO_SMALL
     /* Return here after a SIGWINCH. */

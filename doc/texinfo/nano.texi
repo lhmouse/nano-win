@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.3.7
-@set UPDATED 26 Mar 2005
+@set UPDATED 16 May 2005
 
 @dircategory Editors
 @direntry
@@ -91,7 +91,7 @@ internationalization support, and filename tab completion.
 @node Overview, Command Line Options, Introduction, Introduction
 @section Overview
 
-@code{nano} +LINE [GNU long option] [option] [ @var{file ...} ]
+@code{nano} +LINE,COLUMN [GNU long option] [option] [ @var{file ...} ]
 
 The original goal for @code{nano} was a complete bug-for-bug compatible
 emulation of Pico, but @code{nano}'s main goal is to be as compatible as
@@ -106,8 +106,9 @@ Email bug reports to @email{nano@@nano-editor.org}.
 @code{nano} takes the following options from the command line:
 
 @table @code
-@item +LINE
-Start at line number LINE instead of the default of line 1.
+@item +LINE,COLUMN
+Start at line number LINE and column number COLUMN instead of the
+default of line 1, column 1.
 
 @item -?
 Same as @code{-h, --help}.
