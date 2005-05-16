@@ -4427,13 +4427,7 @@ int main(int argc, char **argv)
      * non-option argument, and it is followed by at least one other
      * argument, the filename it applies to. */
     if (0 < optind && optind < argc - 1 && argv[optind][0] == '+') {
-	char *comma = strchr(&argv[optind][1], ',');
-
-	if (comma != NULL)
-	    parse_num(&argv[optind][comma - argv[optind] + 1],
-		&startcol);
-
-	startline = atoi(&argv[optind][1]);
+	parse_line_column(&argv[optind][1], &startline, &startcol);
 	optind++;
     }
 
@@ -4453,12 +4447,7 @@ int main(int argc, char **argv)
 	     * applies to. */
 	    if (i < argc - 1 && argv[i][0] == '+' && iline == 1 &&
 		icol == 1) {
-		char *comma = strchr(&argv[i][1], ',');
-
-		if (comma != NULL)
-		    parse_num(&argv[i][comma - argv[i] + 1], &icol);
-
-		iline = atoi(&argv[i][1]);
+		parse_line_column(&argv[i][1], &iline, &icol);
 	    } else {
 		load_buffer(argv[i]);
 

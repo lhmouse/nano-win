@@ -105,6 +105,21 @@ bool parse_num(const char *str, ssize_t *val)
     return TRUE;
 }
 
+void parse_line_column(const char *str, int *line, ssize_t *column)
+{
+    char *comma;
+
+    assert(str != NULL);
+
+    comma = strchr(str, ',');
+
+    if (comma != NULL && column != NULL)
+	parse_num(&str[comma - str + 1], column);
+
+    if (line != NULL)
+	*line = atoi(str);
+}
+
 /* Fix the memory allocation for a string. */
 void align(char **strp)
 {

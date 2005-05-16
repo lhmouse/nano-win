@@ -547,6 +547,7 @@ int regexp_bol_or_eol(const regex_t *preg, const char *string);
 int digits(size_t n);
 void get_homedir(void);
 bool parse_num(const char *str, ssize_t *val);
+void parse_line_column(const char *str, int *line, ssize_t *column);
 void align(char **strp);
 void null_at(char **data, size_t index);
 void unsunder(char *str, size_t true_len);
