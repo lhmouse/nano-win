@@ -65,6 +65,8 @@ CVS code -
   do_gotoline()
 	- Properly show an error message if we try to go to line 0,
 	  since the first line in the file is 1. (DLR)
+	- Start the search for a line from fileage instead of current
+	  (again). (DLR)
 - utils.c:
   num_of_digits()
 	- Use a size_t instead of an int, and rename to digits(). (DLR)

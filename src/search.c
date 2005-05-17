@@ -1016,15 +1016,8 @@ void do_gotolinecolumn(int line, ssize_t column, bool use_answer, bool
 	    column = 0;
     }
 
-    if (current->lineno > line) {
-	for (; current->prev != NULL && current->lineno > line;
-		current = current->prev)
-	    ;
-    } else {
-	for (; current->next != NULL && current->lineno < line;
-		current = current->next)
-	    ;
-    }
+    for (current = fileage; current->next != NULL && line > 1; line--)
+	current = current->next;
 
     current_x = actual_x(current->data, column);
     placewewant = column;
