@@ -284,7 +284,8 @@ void shortcut_init(bool unjustify)
 	N_("Uncut from the cutbuffer into the current line");
     const char *nano_cursorpos_msg = N_("Show the position of the cursor");
     const char *nano_spell_msg = N_("Invoke the spell checker, if available");
-    const char *nano_gotoline_msg = N_("Go to a specific line number");
+    const char *nano_gotoline_msg =
+	N_("Go to a specific line number and column number");
     const char *nano_replace_msg = N_("Replace text within the editor");
 #ifndef NANO_SMALL
     const char *nano_mark_msg = N_("Mark text at the cursor position");

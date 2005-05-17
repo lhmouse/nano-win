@@ -978,7 +978,7 @@ void do_gotolinecolumn(int line, ssize_t column, bool use_answer, bool
 #ifndef NANO_SMALL
 		NULL,
 #endif
-		_("Enter line number"));
+		_("Enter line number, column number"));
 
 	free(ans);
 
