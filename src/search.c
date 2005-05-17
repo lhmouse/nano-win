@@ -997,7 +997,7 @@ void do_gotoline(int line, bool save_pos)
 
 	/* Do a bounds check.  Display a warning on an out-of-bounds
 	 * line number only if we hit Enter at the statusbar prompt. */
-	if (!parse_num(answer, &line) || line < 0) {
+	if (!parse_num(answer, &line) || line < 1) {
 	    if (i == 0)
 		statusbar(_("Come on, be reasonable"));
 	    display_main_list();
