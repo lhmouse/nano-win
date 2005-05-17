@@ -554,7 +554,8 @@ void do_research(void)
 		last_search)) {
 		didfind = findnextstr(TRUE, FALSE, TRUE, current,
 			current_x, answer, NULL);
-		if (fileptr == current && fileptr_x == current_x && !didfind)
+		if (fileptr == current && fileptr_x == current_x &&
+			!didfind)
 		    statusbar(_("This is the only occurrence"));
 	    } else {
 #endif
