@@ -1025,12 +1025,12 @@ void do_gotolinecolumn(int line, ssize_t column, bool use_answer, bool
     }
 
     current_x = actual_x(current->data, column - 1);
+    placewewant = column - 1;
 
     /* If save_pos is TRUE, don't change the cursor position when
      * updating the edit window. */
     edit_update(save_pos ? NONE : CENTER);
 
-    placewewant = xplustabs();
     display_main_list();
 }
 
