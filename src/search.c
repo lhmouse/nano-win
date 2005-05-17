@@ -255,9 +255,9 @@ int search_init(bool replacing, bool use_answer)
 #ifndef NANO_SMALL
 		search_history.current = search_history.next;
 #endif
-		do_gotoline(-1, FALSE);	/* Put answer up on the
-					 * statusbar and fall
-					 * through. */
+		do_gotolinecolumn(1, 1, TRUE, TRUE, FALSE);
+				/* Put answer up on the statusbar and
+				 * fall through. */
 	    default:
 		return -1;
 	}
@@ -969,11 +969,12 @@ void do_replace(void)
     replace_abort();
 }
 
-void do_gotoline(int line, bool save_pos)
+void do_gotolinecolumn(int line, ssize_t column, bool use_answer, bool
+	interactive, bool save_pos)
 {
-    if (line <= 0) {		/* Ask for it. */
+    if (interactive) {		/* Ask for it. */
 	char *ans = mallocstrcpy(NULL, answer);
-	int i = statusq(FALSE, gotoline_list, line < 0 ? ans : "",
+	int i = statusq(FALSE, gotoline_list, use_answer ? ans : "",
 #ifndef NANO_SMALL
 		NULL,
 #endif
@@ -998,12 +999,19 @@ void do_gotoline(int line, bool save_pos)
 
 	/* Do a bounds check.  Display a warning on an out-of-bounds
 	 * line number only if we hit Enter at the statusbar prompt. */
-	if (!parse_num(answer, &line) || line < 1) {
+	if (!parse_line_column(answer, &line, &column) || line < 1 ||
+		column < 1) {
 	    if (i == 0)
 		statusbar(_("Come on, be reasonable"));
 	    display_main_list();
 	    return;
 	}
+    } else {
+	if (line < 1)
+	    line = 1;
+
+	if (column < 1)
+	    column = 1;
     }
 
     if (current->lineno > line) {
@@ -1016,33 +1024,28 @@ void do_gotoline(int line, bool save_pos)
 	    ;
     }
 
-    current_x = 0;
+    current_x = actual_x(current->data, column - 1);
 
     /* If save_pos is TRUE, don't change the cursor position when
      * updating the edit window. */
     edit_update(save_pos ? NONE : CENTER);
 
-    placewewant = 0;
+    placewewant = xplustabs();
     display_main_list();
 }
 
-void do_gotoline_void(void)
+void do_gotolinecolumn_void(void)
 {
-    do_gotoline(0, FALSE);
+    do_gotolinecolumn(1, 1, FALSE, TRUE, FALSE);
 }
 
 #if defined(ENABLE_MULTIBUFFER) || !defined(DISABLE_SPELLER)
 void do_gotopos(int line, size_t pos_x, int pos_y, size_t pos_pww)
 {
-    /* Since do_gotoline() resets the x-coordinate but not the
+    /* Since do_gotolinecolumn() resets the x-coordinate but not the
      * y-coordinate, set the coordinates up this way. */
     current_y = pos_y;
-    do_gotoline(line, TRUE);
-
-    /* Make sure that the x-coordinate is sane here. */
-    current_x = strlen(current->data);
-    if (pos_x < current_x)
-	current_x = pos_x;
+    do_gotolinecolumn(line, pos_x, FALSE, FALSE, TRUE);
 
     /* Set the rest of the coordinates up. */
     placewewant = pos_pww;

@@ -4446,18 +4446,15 @@ int main(int argc, char **argv)
 	     * followed by at least one other argument, the filename it
 	     * applies to. */
 	    if (i < argc - 1 && argv[i][0] == '+' && iline == 1 &&
-		icol == 1) {
+		icol == 1)
 		parse_line_column(&argv[i][1], &iline, &icol);
-	    } else {
+	    else {
 		load_buffer(argv[i]);
 
-		if (iline > 1) {
-		    do_gotoline(iline, FALSE);
+		if (iline > 1 || icol > 1) {
+		    do_gotolinecolumn(iline, icol - 1, FALSE, FALSE,
+			FALSE);
 		    iline = 1;
-		}
-
-		if (icol > 1) {
-		    current_x = actual_x(current->data, icol - 1);
 		    icol = 1;
 		}
 	    }
@@ -4498,11 +4495,8 @@ int main(int argc, char **argv)
     titlebar(NULL);
     display_main_list();
 
-    if (startline > 1)
-	do_gotoline(startline, FALSE);
-
-    if (startcol > 1)
-	current_x = actual_x(current->data, startcol - 1);
+    if (startline > 1 || startcol > 1)
+	do_gotolinecolumn(startline, startcol, FALSE, FALSE, FALSE);
 
 #ifndef NANO_SMALL
     /* Return here after a SIGWINCH. */

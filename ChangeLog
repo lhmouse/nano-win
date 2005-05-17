@@ -16,7 +16,9 @@ CVS code -
 	- Add the ability to open a file on a specified column as well
 	  as a specified line, by allowing an argument of the form
 	  +LINE,COLUMN.  New function parse_line_column(); changes to
-	  main(), nano.1, and nano.texi. (DLR, suggested by PFTank)
+	  main(), do_gotoline() (renamed do_gotolinecolumn()),
+	  do_gotoline_void() (renamed do_gotolinecolumn_void()), nano.1,
+	  and nano.texi. (DLR, suggested by PFTank)
 - cut.c:
   cut_line()
 	- Set placewewant properly after cutting a line, to avoid a

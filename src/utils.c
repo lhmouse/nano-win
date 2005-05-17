@@ -124,9 +124,10 @@ bool parse_line_column(const char *str, int *line, ssize_t *column)
 
     if (line != NULL) {
 	if (comma != NULL) {
-	    char *str_line = mallocstrncpy(NULL, str, comma - str);
+	    char *str_line = mallocstrncpy(NULL, str, comma - str + 1);
+	    str_line[comma - str] = '\0';
 
-	    if (!parse_num(str_line, line))
+	    if (str_line[0] != '\0' && !parse_num(str_line, line))
 		retval = FALSE;
 
 	    free(str_line);
@@ -358,7 +359,8 @@ char *mallocstrncpy(char *dest, const char *src, size_t n)
  * "dest = mallocstrcpy(dest, src);". */
 char *mallocstrcpy(char *dest, const char *src)
 {
-    return mallocstrncpy(dest, src, src == NULL ? 1 : strlen(src) + 1);
+    return mallocstrncpy(dest, src, (src == NULL) ? 1 :
+	strlen(src) + 1);
 }
 
 /* Free the malloc()ed string at dest and return the malloc()ed string

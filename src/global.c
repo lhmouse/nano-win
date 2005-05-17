@@ -480,7 +480,8 @@ void shortcut_init(bool unjustify)
 
     sc_init_one(&main_list, NANO_GOTOLINE_KEY, go_to_line_msg,
 	IFHELP(nano_gotoline_msg, NANO_GOTOLINE_ALTKEY),
-	NANO_GOTOLINE_FKEY, NANO_NO_KEY, VIEW, do_gotoline_void);
+	NANO_GOTOLINE_FKEY, NANO_NO_KEY, VIEW,
+	do_gotolinecolumn_void);
 
     sc_init_one(&main_list, NANO_REPLACE_KEY, replace_msg,
 	IFHELP(nano_replace_msg, NANO_ALT_REPLACE_KEY),
