@@ -255,7 +255,8 @@ int search_init(bool replacing, bool use_answer)
 #ifndef NANO_SMALL
 		search_history.current = search_history.next;
 #endif
-		do_gotolinecolumn(1, 0, TRUE, TRUE, FALSE);
+		do_gotolinecolumn(current->lineno, placewewant, TRUE,
+			TRUE, FALSE);
 				/* Put answer up on the statusbar and
 				 * fall through. */
 	    default:
@@ -1010,10 +1011,10 @@ void do_gotolinecolumn(int line, ssize_t column, bool use_answer, bool
 	}
     } else {
 	if (line < 1)
-	    line = 1;
+	    line = current->lineno;
 
 	if (column < 0)
-	    column = 0;
+	    column = placewewant;
     }
 
     for (current = fileage; current->next != NULL && line > 1; line--)
@@ -1031,7 +1032,7 @@ void do_gotolinecolumn(int line, ssize_t column, bool use_answer, bool
 
 void do_gotolinecolumn_void(void)
 {
-    do_gotolinecolumn(1, 1, FALSE, TRUE, FALSE);
+    do_gotolinecolumn(current->lineno, placewewant, FALSE, TRUE, FALSE);
 }
 
 #if defined(ENABLE_MULTIBUFFER) || !defined(DISABLE_SPELLER)
