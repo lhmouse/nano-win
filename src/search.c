@@ -255,7 +255,7 @@ int search_init(bool replacing, bool use_answer)
 #ifndef NANO_SMALL
 		search_history.current = search_history.next;
 #endif
-		do_gotolinecolumn(1, 1, TRUE, TRUE, FALSE);
+		do_gotolinecolumn(1, 0, TRUE, TRUE, FALSE);
 				/* Put answer up on the statusbar and
 				 * fall through. */
 	    default:
@@ -998,9 +998,11 @@ void do_gotolinecolumn(int line, ssize_t column, bool use_answer, bool
 	}
 
 	/* Do a bounds check.  Display a warning on an out-of-bounds
-	 * line number only if we hit Enter at the statusbar prompt. */
+	 * line number (which is one-based) or an out-of-bounds column
+	 * number (which is zero-based) only if we hit Enter at the
+	 * statusbar prompt. */
 	if (!parse_line_column(answer, &line, &column) || line < 1 ||
-		column < 1) {
+		column < 0) {
 	    if (i == 0)
 		statusbar(_("Come on, be reasonable"));
 	    display_main_list();
@@ -1010,8 +1012,8 @@ void do_gotolinecolumn(int line, ssize_t column, bool use_answer, bool
 	if (line < 1)
 	    line = 1;
 
-	if (column < 1)
-	    column = 1;
+	if (column < 0)
+	    column = 0;
     }
 
     if (current->lineno > line) {
@@ -1024,8 +1026,8 @@ void do_gotolinecolumn(int line, ssize_t column, bool use_answer, bool
 	    ;
     }
 
-    current_x = actual_x(current->data, column - 1);
-    placewewant = column - 1;
+    current_x = actual_x(current->data, column);
+    placewewant = column;
 
     /* If save_pos is TRUE, don't change the cursor position when
      * updating the edit window. */

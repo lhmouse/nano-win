@@ -4496,7 +4496,7 @@ int main(int argc, char **argv)
     display_main_list();
 
     if (startline > 1 || startcol > 1)
-	do_gotolinecolumn(startline, startcol, FALSE, FALSE, FALSE);
+	do_gotolinecolumn(startline, startcol - 1, FALSE, FALSE, FALSE);
 
 #ifndef NANO_SMALL
     /* Return here after a SIGWINCH. */
