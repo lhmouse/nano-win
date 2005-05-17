@@ -106,20 +106,35 @@ bool parse_num(const char *str, ssize_t *val)
 }
 
 /* Read an int and a ssize_t, separated by a comma, from str, and store
- * them in *line and *column (if they're not both NULL). */
-void parse_line_column(const char *str, int *line, ssize_t *column)
+ * them in *line and *column (if they're not both NULL).  On error, we
+ * return FALSE.  Otherwise, we return TRUE. */
+bool parse_line_column(const char *str, int *line, ssize_t *column)
 {
+    bool retval = TRUE;
     char *comma;
 
     assert(str != NULL);
 
     comma = strchr(str, ',');
 
-    if (comma != NULL && column != NULL)
-	parse_num(&str[comma - str + 1], column);
+    if (comma != NULL && column != NULL) {
+	if (!parse_num(&str[comma - str + 1], column))
+	    retval = FALSE;
+    }
 
-    if (line != NULL)
-	*line = atoi(str);
+    if (line != NULL) {
+	if (comma != NULL) {
+	    char *str_line = mallocstrncpy(NULL, str, comma - str);
+
+	    if (!parse_num(str_line, line))
+		retval = FALSE;
+
+	    free(str_line);
+	} else if (!parse_num(str, line))
+	    retval = FALSE;
+    }
+
+    return retval;
 }
 
 /* Fix the memory allocation for a string. */
