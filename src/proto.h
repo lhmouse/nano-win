@@ -650,7 +650,7 @@ void check_statusblank(void);
 char *display_string(const char *buf, size_t start_col, size_t len, bool
 	dollars);
 void nanoget_repaint(const char *buf, const char *inputbuf, size_t x);
-int nanogetstr(bool allow_tabs, const char *buf, const char *def,
+int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 #ifndef NANO_SMALL
 	historyheadtype *history_list,
 #endif
@@ -659,7 +659,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 	, bool *list
 #endif
 	);
-int statusq(bool allow_tabs, const shortcut *s, const char *def,
+int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
 #ifndef NANO_SMALL
 	historyheadtype *history_list,
 #endif

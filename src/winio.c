@@ -2428,7 +2428,7 @@ void nanoget_repaint(const char *buf, const char *inputbuf, size_t x)
 
 /* Get the input from the keyboard; this should only be called from
  * statusq(). */
-int nanogetstr(bool allow_tabs, const char *buf, const char *def,
+int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 #ifndef NANO_SMALL
 	historyheadtype *history_list,
 #endif
@@ -2440,9 +2440,11 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 {
     int kbinput;
     bool meta_key, func_key, s_or_t, ran_func, finished;
+    size_t answer_len = strlen(curranswer);
+#ifndef DISABLE_TABCOMP
     bool tabbed = FALSE;
 	/* Used by input_tab(). */
-    size_t answer_len = strlen(def);
+#endif
 
 #ifndef NANO_SMALL
     /* For history. */
@@ -2469,11 +2471,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 		resetstatuspos)
 	statusbar_x = answer_len;
 
-    answer = charealloc(answer, answer_len + 1);
-    if (answer_len > 0)
-	strcpy(answer, def);
-    else
-	answer[0] = '\0';
+    answer = mallocstrcpy(answer, curranswer);
 
     currshortcut = s;
 
@@ -2495,8 +2493,10 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 
 	assert(statusbar_x <= answer_len && answer_len == strlen(answer));
 
+#ifndef DISABLE_TABCOMP
 	if (kbinput != NANO_TAB_KEY)
 	    tabbed = FALSE;
+#endif
 
 	switch (kbinput) {
 	    case NANO_TAB_KEY:
@@ -2646,12 +2646,12 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *def,
 
 /* Ask a question on the statusbar.  Answer will be stored in answer
  * global.  Returns -1 on aborted enter, -2 on a blank string, and 0
- * otherwise, the valid shortcut key caught.  def is any editable text
- * we want to put up by default.
+ * otherwise, the valid shortcut key caught.  curranswer is any editable
+ * text that we want to put up by default.
  *
  * The allow_tabs parameter tells whether or not to allow tab
  * completion. */
-int statusq(bool allow_tabs, const shortcut *s, const char *def,
+int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
 #ifndef NANO_SMALL
 	historyheadtype *history_list,
 #endif
@@ -2659,7 +2659,7 @@ int statusq(bool allow_tabs, const shortcut *s, const char *def,
 {
     va_list ap;
     char *foo = charalloc(((COLS - 4) * mb_cur_max()) + 1);
-    int ret;
+    int retval;
 #ifndef DISABLE_TABCOMP
     bool list = FALSE;
 #endif
@@ -2671,7 +2671,7 @@ int statusq(bool allow_tabs, const shortcut *s, const char *def,
     va_end(ap);
     null_at(&foo, actual_x(foo, COLS - 4));
 
-    ret = nanogetstr(allow_tabs, foo, def,
+    retval = nanogetstr(allow_tabs, foo, curranswer,
 #ifndef NANO_SMALL
 		history_list,
 #endif
@@ -2683,16 +2683,17 @@ int statusq(bool allow_tabs, const shortcut *s, const char *def,
     free(foo);
     resetstatuspos = FALSE;
 
-    switch (ret) {
+    switch (retval) {
 	case NANO_CANCEL_KEY:
-	    ret = -1;
+	    retval = -1;
 	    resetstatuspos = TRUE;
 	    break;
 	case NANO_ENTER_KEY:
-	    ret = (answer[0] == '\0') ? -2 : 0;
+	    retval = (answer[0] == '\0') ? -2 : 0;
 	    resetstatuspos = TRUE;
 	    break;
     }
+
     blank_statusbar();
 
 #ifdef DEBUG
@@ -2707,7 +2708,7 @@ int statusq(bool allow_tabs, const shortcut *s, const char *def,
 	    edit_refresh();
 #endif
 
-    return ret;
+    return retval;
 }
 
 void statusq_abort(void)

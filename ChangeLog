@@ -71,9 +71,15 @@ CVS code -
   num_of_digits()
 	- Use a size_t instead of an int, and rename to digits(). (DLR)
 - winio.c:
+  nanogetstr()
+	- Rename variable def to curranswer to avoid confusion. (DLR)
+	- Only declare and use the tabbed variable if DISABLE_TABCOMP
+	  isn't defined. (DLR)
   statusq()
 	- Rename variable which_history to history_list, for
 	  consistency. (DLR)
+	- Rename variables def and ret to curranswer and retval to avoid
+	  confusion. (DLR)
   do_help()
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
 	  consistency. (DLR)
