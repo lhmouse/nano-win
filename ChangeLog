@@ -54,6 +54,9 @@ CVS code -
 	- If desc should be empty, allow it to be NULL instead of
 	  "", since the latter is not necessarily translated as "".
 	  (DLR, found by Jordi)
+  usage()
+	- Add missing N_() around one message, so that it isn't
+	  erroneously translated twice. (DLR)
   do_alt_speller()
 	- Replace a set_modified() with SET(MODIFIED) to avoid an
 	  unnecessary update, and remove an unneeded clearok(FALSE).
