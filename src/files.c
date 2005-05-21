@@ -2912,8 +2912,8 @@ void save_history(void)
     char *nanohist;
 
     /* Don't save unchanged or empty histories. */
-    if ((search_history.count == 0 && replace_history.count == 0) ||
-	!ISSET(HISTORY_CHANGED) || ISSET(VIEW_MODE))
+    if (!ISSET(HISTORY_CHANGED) || (search_history.count == 0 &&
+	replace_history.count == 0))
 	return;
 
     nanohist = histfilename();
