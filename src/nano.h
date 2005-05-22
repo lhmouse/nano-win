@@ -284,8 +284,8 @@ typedef struct historyheadtype {
 } historyheadtype;
 #endif
 
-/* Bitwise flags so we can save space (or more correctly, not waste
- * it). */
+/* Bitwise flags so that we can save space (or, more correctly, not
+ * waste it). */
 #define MODIFIED		(1<<0)
 #define CASE_SENSITIVE		(1<<1)
 #define MARK_ISSET		(1<<2)
@@ -318,7 +318,7 @@ typedef struct historyheadtype {
 #define MORE_SPACE		(1<<29)
 #define NO_UTF8			(1<<30)
 
-/* Control key sequences, changing these would be very very bad. */
+/* Control key sequences.  Changing these would be very, very bad. */
 #define NANO_CONTROL_SPACE 0
 #define NANO_CONTROL_A 1
 #define NANO_CONTROL_B 2
