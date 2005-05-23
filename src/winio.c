@@ -2569,10 +2569,14 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
     }
 
     /* We finished putting in an answer or ran a normal shortcut's
-     * associated function, so reset statusbar_x. */
+     * associated function, so free msgichistory if we need to and reset
+     * statusbar_x. */
     if (kbinput == NANO_CANCEL_KEY || kbinput == NANO_ENTER_KEY ||
-	ran_func)
+	ran_func) {
+	if (magichistory != NULL)
+	    free(magichistory);
 	statusbar_x = (size_t)-1;
+    }
 
     return kbinput;
 }
