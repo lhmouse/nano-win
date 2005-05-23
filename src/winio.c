@@ -2588,8 +2588,8 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
  * otherwise, the valid shortcut key caught.  curranswer is any editable
  * text that we want to put up by default.
  *
- * The allow_tabs parameter tells whether or not to allow tab
- * completion. */
+ * The allow_tabs parameter indicates whether we should allow tabs to be
+ * interpreted. */
 int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
 #ifndef NANO_SMALL
 	filestruct *history_list,
