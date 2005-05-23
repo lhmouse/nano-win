@@ -2568,15 +2568,17 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 	wrefresh(bottomwin);
     }
 
+#ifndef NANO_SMALL
+    /* Free msgichistory if we need to. */
+    if (magichistory != NULL)
+	free(magichistory);
+#endif
+
     /* We finished putting in an answer or ran a normal shortcut's
-     * associated function, so free msgichistory if we need to and reset
-     * statusbar_x. */
+     * associated function, so reset statusbar_x. */
     if (kbinput == NANO_CANCEL_KEY || kbinput == NANO_ENTER_KEY ||
-	ran_func) {
-	if (magichistory != NULL)
-	    free(magichistory);
+	ran_func)
 	statusbar_x = (size_t)-1;
-    }
 
     return kbinput;
 }
