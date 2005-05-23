@@ -35,6 +35,10 @@
 
 static bool search_last_line = FALSE;
 	/* Have we gone past the last line while searching? */
+#ifndef NANO_SMALL
+static bool history_changed = FALSE;
+	/* Have any of the history lists changed? */
+#endif
 #ifdef HAVE_REGEX_H
 static bool regexp_compiled = FALSE;
 	/* Have we compiled any regular expressions? */
@@ -145,10 +149,6 @@ int search_init(bool replacing, bool use_answer)
 
     search_init_globals();
 
-#ifndef NANO_SMALL
-    search_history.current = (historytype *)&search_history.next;
-#endif
-
     if (last_search[0] != '\0') {
 	char *disp = display_string(last_search, 0, COLS / 3, FALSE);
 
@@ -165,7 +165,7 @@ int search_init(bool replacing, bool use_answer)
     i = statusq(FALSE, replacing ? replace_list : whereis_list,
 	backupstring,
 #ifndef NANO_SMALL
-	&search_history,
+	search_history,
 #endif
 	"%s%s%s%s%s%s", _("Search"),
 
@@ -212,9 +212,6 @@ int search_init(bool replacing, bool use_answer)
     if (i == -1 || (i < 0 && last_search[0] == '\0') ||
 	    (!replacing && i == 0 && answer[0] == '\0')) {
 	statusbar(_("Cancelled"));
-#ifndef NANO_SMALL
-	search_history.current = search_history.next;
-#endif
 	return -1;
     } else {
 	switch (i) {
@@ -252,9 +249,6 @@ int search_init(bool replacing, bool use_answer)
 		backupstring = mallocstrcpy(backupstring, answer);
 		return -2;	/* Call the opposite search function. */
 	    case NANO_TOGOTOLINE_KEY:
-#ifndef NANO_SMALL
-		search_history.current = search_history.next;
-#endif
 		do_gotolinecolumn(current->lineno, placewewant, TRUE,
 			TRUE, FALSE);
 				/* Put answer up on the statusbar and
@@ -481,7 +475,7 @@ void do_search(void)
     /* If answer is not "", add this search string to the search history
      * list. */
     if (answer[0] != '\0')
-	update_history(&search_history, answer);
+	update_history(&search_history, &searchage, &searchbot, answer);
 #endif
 
     findnextstr_wrap_reset();
@@ -910,19 +904,14 @@ void do_replace(void)
      * copy answer into last_search. */
     if (answer[0] != '\0') {
 #ifndef NANO_SMALL
-	update_history(&search_history, answer);
+	update_history(&search_history, &searchage, &searchbot, answer);
 #endif
 	last_search = mallocstrcpy(last_search, answer);
     }
 
-#ifndef NANO_SMALL
-    replace_history.current = (historytype *)&replace_history.next;
-    last_replace = mallocstrcpy(last_replace, "");
-#endif
-
     i = statusq(FALSE, replace_list_2, last_replace,
 #ifndef NANO_SMALL
-	&replace_history,
+	replace_history,
 #endif
 	_("Replace with"));
 
@@ -930,7 +919,8 @@ void do_replace(void)
     /* Add this replace string to the replace history list.  i == 0
      * means that the string is not "". */
     if (i == 0)
-	update_history(&replace_history, answer);
+	update_history(&replace_history, &replaceage, &replacebot,
+		answer);
 #endif
 
     if (i != 0 && i != -2) {
@@ -1126,129 +1116,123 @@ void do_find_bracket(void)
 #endif
 
 #ifndef NANO_SMALL
-/*
- * search and replace history list support functions
- */
-
-/* initialize search and replace history lists */
-void history_init(void)
+/* Indicate whether any of the history lists have changed. */
+bool history_has_changed(void)
 {
-    search_history.next = (historytype *)&search_history.prev;
-    search_history.prev = NULL;
-    search_history.tail = (historytype *)&search_history.next;
-    search_history.current = search_history.next;
-    search_history.count = 0;
-    search_history.len = 0;
-
-    replace_history.next = (historytype *)&replace_history.prev;
-    replace_history.prev = NULL;
-    replace_history.tail = (historytype *)&replace_history.next;
-    replace_history.current = replace_history.next;
-    replace_history.count = 0;
-    replace_history.len = 0;
+    return history_changed;
 }
 
-/* find first node containing string *s in history list *h */
-historytype *find_node(historytype *h, const char *s)
+/* Initialize the search and replace history lists. */
+void history_init(void)
 {
+    search_history = make_new_node(NULL);
+    search_history->data = mallocstrcpy(NULL, "");
+    searchage = search_history;
+    searchbot = search_history;
+
+    replace_history = make_new_node(NULL);
+    replace_history->data = mallocstrcpy(NULL, "");
+    replaceage = replace_history;
+    replacebot = replace_history;
+}
+
+/* Return the first node containing the string s in the history list,
+ * starting at h, or NULL if there isn't one. */
+filestruct *find_history(filestruct *h, const char *s)
+{
+    assert(h != NULL);
+
     for (; h->next != NULL; h = h->next) {
 	if (strcmp(s, h->data) == 0)
 	    return h;
     }
+
     return NULL;
 }
 
-/* remove node *r */
-void remove_node(historytype *r)
+/* Update a history list.  h should be the current position in the list,
+ * hage should be the top of the list, and hbot should be the bottom of
+ * the list. */
+void update_history(filestruct **h, filestruct **hage, filestruct
+	**hbot, const char *s)
 {
-    r->prev->next = r->next;
-    r->next->prev = r->prev;
-    free(r->data);
-    free(r);
-}
+    filestruct *p;
 
-/* add a node after node *h */
-void insert_node(historytype *h, const char *s)
-{
-    historytype *a;
+    assert(h != NULL && hage != NULL && hbot != NULL && s != NULL);
 
-    a = (historytype *)nmalloc(sizeof(historytype));
-    a->next = h->next;
-    a->prev = h;
-    h->next->prev = a;
-    h->next = a;
-    a->data = mallocstrcpy(NULL, s);
-}
+    /* If this string is already in the history, delete it. */
+    p = find_history(*hage, s);
 
-/* update history list */
-void update_history(historyheadtype *h, const char *s)
-{
-    historytype *p;
+    if (p != NULL) {
+	filestruct *foo, *bar;
 
-    if ((p = find_node(h->next, s)) != NULL) {
-	if (p == h->next)		/* catch delete and re-insert of
-					   same string in 1st node */
-	    goto up_hs;
-	remove_node(p);			/* delete identical older string */
-	h->count--;
+	/* If the string is at the current position, don't do
+	 * anything. */
+	if (p == *h)
+	    return;
+
+	/* If the string is at the beginning, move the beginning down to
+	 * the next string. */
+	if (p == *hage)
+	    *hage = (*hage)->next;
+
+	/* Delete the string. */
+	foo = p;
+	bar = p->next;
+	unlink_node(foo);
+	delete_node(foo);
+	renumber(bar);
     }
-    if (h->count == MAX_SEARCH_HISTORY) {	/* list 'full', delete oldest */
-	remove_node(h->tail);
-	h->count--;
+
+    /* If the history is full, delete the beginning entry to make room
+     * for the new entry at the end. */
+    if ((*hbot)->lineno == MAX_SEARCH_HISTORY + 1) {
+	filestruct *foo = *hage;
+
+	*hage = (*hage)->next;
+	unlink_node(foo);
+	delete_node(foo);
+	renumber(*hage);
     }
-    insert_node((historytype *)h, s);
-    h->count++;
-    SET(HISTORY_CHANGED);
-  up_hs:
-    h->current = h->next;
+
+    /* Add the new entry to the end. */
+    (*hbot)->data = mallocstrcpy(NULL, s);
+    splice_node(*hbot, make_new_node(*hbot), (*hbot)->next);
+    *hbot = (*hbot)->next;
+    (*hbot)->data = mallocstrcpy(NULL, "");
+
+    /* Indicate that the history's been changed. */
+    history_changed = TRUE;
+
+    /* Set the current position in the list to the bottom. */
+    *h = *hbot;
 }
 
-/* return a pointer to either the next older history or NULL if no more */
-char *get_history_older(historyheadtype *h)
+/* Return the string in the history list just before h, or NULL if there
+ * isn't one. */
+char *get_history_older(filestruct **h)
 {
-    if (h->current->next != NULL) {	/* any older entries? */
-	h->current = h->current->next;	/* yes */
-	return h->current->data;	/* return it */
-    }
-    return NULL;			/* end of list */
+    assert(h != NULL);
+
+    if ((*h)->prev == NULL)
+	return NULL;
+
+    *h = (*h)->prev;
+
+    return (*h)->data;
 }
 
-char *get_history_newer(historyheadtype *h)
+/* Return the string in the history list just after h, or NULL if there
+ * isn't one. */
+char *get_history_newer(filestruct **h)
 {
-    if (h->current->prev != NULL) {
-	h->current = h->current->prev;
-	if (h->current->prev != NULL)
-	    return h->current->data;
-    }
-    return NULL;
+    assert(h != NULL);
+
+    if ((*h)->next == NULL)
+	return NULL;
+
+    *h = (*h)->next;
+
+    return (*h)->data;
 }
-
-/* get a completion */
-char *get_history_completion(historyheadtype *h, char *s)
-{
-    historytype *p;
-
-    for (p = h->current->next; p->next != NULL; p = p->next) {
-	if (strncmp(s, p->data, h->len) == 0 && strlen(p->data) != h->len) {
-	    h->current = p;
-	    return p->data;
-	}
-    }
-    h->current = (historytype *)h;
-    null_at(&s, h->len);
-    return s;
-}
-
-#ifdef DEBUG
-/* free a history list */
-void free_history(historyheadtype *h)
-{
-    historytype *p;
-
-    for (p = h->next; p->next != NULL; p = p->next)
-	remove_node(p);
-}
-#endif
-
-/* end of history support functions */
 #endif /* !NANO_SMALL */

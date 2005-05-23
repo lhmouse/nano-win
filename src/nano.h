@@ -265,25 +265,6 @@ typedef struct syntaxtype {
 } syntaxtype;
 #endif
 
-#ifndef NANO_SMALL
-typedef struct historytype {
-    struct historytype *next;
-    struct historytype *prev;
-    char *data;
-} historytype;
-
-typedef struct historyheadtype {
-    struct historytype *next;	/* Keep *next and *prev members
-				 * together. */
-    struct historytype *prev;	/* And in the same order as in
-				 * historytype. */
-    struct historytype *tail;
-    struct historytype *current;
-    int count;
-    int len;
-} historyheadtype;
-#endif
-
 /* Bitwise flags so that we can save space (or, more correctly, not
  * waste it). */
 #define MODIFIED		(1<<0)
@@ -310,13 +291,12 @@ typedef struct historyheadtype {
 #define NO_RCFILE		(1<<21)
 #define NO_COLOR_SYNTAX		(1<<22)
 #define PRESERVE		(1<<23)
-#define HISTORY_CHANGED		(1<<24)
-#define HISTORYLOG		(1<<25)
-#define RESTRICTED		(1<<26)
-#define SMART_HOME		(1<<27)
-#define WHITESPACE_DISPLAY	(1<<28)
-#define MORE_SPACE		(1<<29)
-#define NO_UTF8			(1<<30)
+#define HISTORYLOG		(1<<24)
+#define RESTRICTED		(1<<25)
+#define SMART_HOME		(1<<26)
+#define WHITESPACE_DISPLAY	(1<<27)
+#define MORE_SPACE		(1<<28)
+#define NO_UTF8			(1<<29)
 
 /* Control key sequences.  Changing these would be very, very bad. */
 #define NANO_CONTROL_SPACE 0
@@ -518,7 +498,8 @@ typedef struct historyheadtype {
 /* Default width of a tab. */
 #define WIDTH_OF_TAB 8
 
-/* Maximum number of search/replace history strings saved. */
+/* Maximum number of search/replace history strings saved, not counting
+ * the blank lines at their ends. */
 #define MAX_SEARCH_HISTORY 100
 
 /* Maximum number of bytes we read from a file at one time. */

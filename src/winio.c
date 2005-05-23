@@ -2430,7 +2430,7 @@ void nanoget_repaint(const char *buf, const char *inputbuf, size_t x)
  * statusq(). */
 int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 #ifndef NANO_SMALL
-	historyheadtype *history_list,
+	filestruct *history_list,
 #endif
 	const shortcut *s
 #ifndef DISABLE_TABCOMP
@@ -2443,23 +2443,15 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
     size_t answer_len = strlen(curranswer);
 #ifndef DISABLE_TABCOMP
     bool tabbed = FALSE;
-	/* Used by input_tab(). */
+	/* Whether we've pressed Tab more than once consecutively. */
 #endif
 
 #ifndef NANO_SMALL
-    /* For history. */
     char *history = NULL;
-    char *currentbuf = NULL;
-    char *complete = NULL;
-    int last_kbinput = 0;
-
-    /* This variable is used in the search history code.  use_cb == 0
-     * means that we're using the existing history and ignoring
-     * currentbuf.  use_cb == 1 means that the entry in answer should be
-     * moved to currentbuf or restored from currentbuf to answer.
-     * use_cb == 2 means that the entry in currentbuf should be moved to
-     * answer or restored from answer to currentbuf. */
-    int use_cb = 0;
+	/* The current history string. */
+    char *magichistory = NULL;
+	/* The temporary string typed at the bottom of the history, if
+	 * any. */
 #endif
 
     /* Only put statusbar_x at the end of the string if it's
@@ -2500,28 +2492,6 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 
 	switch (kbinput) {
 	    case NANO_TAB_KEY:
-#ifndef NANO_SMALL
-		/* Tab history completion. */
-		if (history_list != NULL) {
-		    if (complete == NULL ||
-			last_kbinput != NANO_TAB_KEY) {
-			history_list->current =
-				(historytype *)history_list;
-			history_list->len = strlen(answer);
-		    }
-
-		    if (history_list->len > 0) {
-			complete = get_history_completion(history_list,
-				answer);
-			answer = mallocstrcpy(answer, complete);
-			answer_len = strlen(answer);
-			statusbar_x = answer_len;
-		    }
-		}
-#ifndef DISABLE_TABCOMP
-		else
-#endif
-#endif
 #ifndef DISABLE_TABCOMP
 		if (allow_tabs) {
 		    answer = input_tab(answer, &statusbar_x, &tabbed,
@@ -2533,43 +2503,23 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 	    case NANO_PREVLINE_KEY:
 #ifndef NANO_SMALL
 		if (history_list != NULL) {
-		    /* If currentbuf is NULL, or if use_cb is 1 and
-		     * currentbuf is different from answer, it means
-		     * that we're scrolling up at the top of the search
-		     * history, and we need to save the current answer
-		     * in currentbuf.  Do this and reset use_cb to 0. */
-		    if (currentbuf == NULL || (use_cb == 1 &&
-			strcmp(currentbuf, answer) != 0)) {
-			currentbuf = mallocstrcpy(currentbuf, answer);
-			use_cb = 0;
-		    }
+		    /* If we're scrolling up at the bottom of the
+		     * history list, answer isn't blank, and
+		     * magichistory isn't set, save answer in
+		     * magichistory. */
+		    if (history_list->next == NULL &&
+			answer[0] != '\0' && magichistory == NULL)
+			magichistory = mallocstrcpy(NULL, answer);
 
-		    /* If currentbuf isn't NULL, use_cb is 2, and
-		     * currentbuf is different from answer, it means
-		     * that we're scrolling up at the bottom of the
-		     * search history, and we need to restore the
-		     * current answer from currentbuf.  Do this, blow
-		     * away currentbuf since we don't need it anymore,
-		     * and reset use_cb to 0. */
-		    if (currentbuf != NULL && use_cb == 2 &&
-			strcmp(currentbuf, answer) != 0) {
-			answer = mallocstrcpy(answer, currentbuf);
-			answer_len = strlen(answer);
-			free(currentbuf);
-			currentbuf = NULL;
-			use_cb = 0;
-		    /* Otherwise, get the older search from the history
-		     * list and save it in answer.  If there is no older
-		     * search, blank out answer. */
-		    } else if ((history =
-			get_history_older(history_list)) != NULL) {
+		    /* Get the older search from the history list and
+		     * save it in answer.  If there is no older search,
+		     * don't do anything. */
+		    if ((history =
+			get_history_older(&history_list)) != NULL) {
 			answer = mallocstrcpy(answer, history);
-			answer_len = strlen(history);
-		    } else {
-			answer = mallocstrcpy(answer, "");
-			answer_len = 0;
+			answer_len = strlen(answer);
+			statusbar_x = answer_len;
 		    }
-		    statusbar_x = answer_len;
 
 		    /* This key has a shortcut list entry when it's used
 		     * to move to an older search, which means that
@@ -2584,39 +2534,25 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 #ifndef NANO_SMALL
 		if (history_list != NULL) {
 		    /* Get the newer search from the history list and
-		     * save it in answer. */
+		     * save it in answer.  If there is no newer search,
+		     * don't do anything. */
 		    if ((history =
-			get_history_newer(history_list)) != NULL) {
+			get_history_newer(&history_list)) != NULL) {
 			answer = mallocstrcpy(answer, history);
-			answer_len = strlen(history);
-		    /* If currentbuf isn't NULL and use_cb isn't 2, it
-		     * means that we're scrolling down at the bottom of
-		     * the search history and we need to restore the
-		     * current answer from currentbuf.  Do this, blow
-		     * away currentbuf since we don't need it anymore,
-		     * and set use_cb to 1. */
-		    } else if (currentbuf != NULL && use_cb != 2) {
-			answer = mallocstrcpy(answer, currentbuf);
 			answer_len = strlen(answer);
-			free(currentbuf);
-			currentbuf = NULL;
-			use_cb = 1;
-		    /* Otherwise, if currentbuf is NULL and use_cb isn't
-		     * 2, it means that we're scrolling down at the
-		     * bottom of the search history and we need to save
-		     * the current answer (if it's not blank) in
-		     * currentbuf.  Do this, blank out answer, and set
-		     * use_cb to 2. */
-		    } else if (use_cb != 2) {
-			if (answer[0] != '\0') {
-			    currentbuf = mallocstrcpy(currentbuf,
-				answer);
-			    answer = mallocstrcpy(answer, "");
-			}
-			answer_len = 0;
-			use_cb = 2;
+			statusbar_x = answer_len;
 		    }
-		    statusbar_x = answer_len;
+
+		    /* If, after scrolling down, we're at the bottom of
+		     * the history list, answer is blank, and
+		     * magichistory is set, save magichistory in
+		     * answer. */
+		    if (history_list->next == NULL &&
+			answer[0] == '\0' && magichistory != NULL) {
+			answer = mallocstrcpy(answer, magichistory);
+			answer_len = strlen(answer);
+			statusbar_x = answer_len;
+		    }
 		}
 #endif
 		break;
@@ -2628,9 +2564,6 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 	if (finished)
 	    break;
 
-#ifndef NANO_SMALL
-	last_kbinput = kbinput;
-#endif
 	nanoget_repaint(buf, answer, statusbar_x);
 	wrefresh(bottomwin);
     }
@@ -2653,7 +2586,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
  * completion. */
 int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
 #ifndef NANO_SMALL
-	historyheadtype *history_list,
+	filestruct *history_list,
 #endif
 	const char *msg, ...)
 {

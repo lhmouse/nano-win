@@ -144,8 +144,12 @@ extern toggle *toggles;
 #endif
 
 #ifndef NANO_SMALL
-extern historyheadtype search_history;
-extern historyheadtype replace_history;
+extern filestruct *search_history;
+extern filestruct *searchage;
+extern filestruct *searchbot;
+extern filestruct *replace_history;
+extern filestruct *replaceage;
+extern filestruct *replacebot;
 #endif
 
 extern bool curses_ended;
@@ -316,7 +320,7 @@ char *do_browse_from(const char *inpath);
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 char *histfilename(void);
 void load_history(void);
-bool writehist(FILE *hist, historyheadtype *histhead);
+bool writehist(FILE *hist, filestruct *histhead);
 void save_history(void);
 #endif
 
@@ -524,17 +528,13 @@ void do_gotopos(int line, size_t pos_x, int pos_y, size_t pos_pww);
 #endif
 void do_find_bracket(void);
 #ifndef NANO_SMALL
+bool history_has_changed(void);
 void history_init(void);
-historytype *find_node(historytype *h, const char *s);
-void remove_node(historytype *r);
-void insert_node(historytype *h, const char *s);
-void update_history(historyheadtype *h, const char *s);
-char *get_history_older(historyheadtype *h);
-char *get_history_newer(historyheadtype *h);
-char *get_history_completion(historyheadtype *h, char *s);
-#ifdef DEBUG
-void free_history(historyheadtype *h);
-#endif
+filestruct *find_history(filestruct *h, const char *s);
+void update_history(filestruct **h, filestruct **hage, filestruct
+	**hbot, const char *s);
+char *get_history_older(filestruct **h);
+char *get_history_newer(filestruct **h);
 #endif
 
 /* Public functions in utils.c. */
@@ -652,7 +652,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 void nanoget_repaint(const char *buf, const char *inputbuf, size_t x);
 int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 #ifndef NANO_SMALL
-	historyheadtype *history_list,
+	filestruct *history_list,
 #endif
 	const shortcut *s
 #ifndef DISABLE_TABCOMP
@@ -661,7 +661,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 	);
 int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
 #ifndef NANO_SMALL
-	historyheadtype *history_list,
+	filestruct *history_list,
 #endif
 	const char *msg, ...);
 void statusq_abort(void);

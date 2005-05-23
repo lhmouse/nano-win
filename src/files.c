@@ -2866,7 +2866,12 @@ void load_history(void)
 		    ;
 	    }
 	} else {
-	    historyheadtype *history = &search_history;
+	    /* Load a history (first the search history, then the
+	     * replace history) from oldest to newest.  Assume the last
+	     * history entry is a blank line. */
+	    filestruct **history = &search_history;
+	    filestruct **historyage = &searchage;
+	    filestruct **historybot = &searchbot;
 	    char *line = NULL;
 	    size_t buflen = 0;
 	    ssize_t read;
@@ -2878,31 +2883,38 @@ void load_history(void)
 		}
 		if (read > 0) {
 		    unsunder(line, read);
-		    update_history(history, line);
-		} else
+		    update_history(history, historyage, historybot,
+			line);
+		} else {
 		    history = &replace_history;
+		    historyage = &replaceage;
+		    historybot = &replacebot;
+		}
 	    }
+
 	    fclose(hist);
 	    free(line);
-	    UNSET(HISTORY_CHANGED);
 	}
 	free(nanohist);
     }
 }
 
-bool writehist(FILE *hist, historyheadtype *histhead)
+bool writehist(FILE *hist, filestruct *h)
 {
-    historytype *p;
+    filestruct *p;
 
-    /* Write oldest history first. */
-    for (p = histhead->tail; p->prev != NULL; p = p->prev) {
+    /* Write history from oldest to newest.  Assume the last history
+     * entry is a blank line. */
+    for (p = h; p != NULL; p = p->next) {
 	size_t p_len = strlen(p->data);
 
 	sunder(p->data);
+
 	if (fwrite(p->data, sizeof(char), p_len, hist) < p_len ||
 		putc('\n', hist) == EOF)
 	    return FALSE;
     }
+
     return TRUE;
 }
 
@@ -2912,8 +2924,8 @@ void save_history(void)
     char *nanohist;
 
     /* Don't save unchanged or empty histories. */
-    if (!ISSET(HISTORY_CHANGED) || (search_history.count == 0 &&
-	replace_history.count == 0))
+    if (!history_has_changed() || (searchbot->lineno == 1 &&
+	replacebot->lineno == 1))
 	return;
 
     nanohist = histfilename();
@@ -2929,13 +2941,14 @@ void save_history(void)
 	     * history file. */
 	    chmod(nanohist, S_IRUSR | S_IWUSR);
 
-	    if (!writehist(hist, &search_history) ||
-		    putc('\n', hist) == EOF ||
-		    !writehist(hist, &replace_history))
+	    if (!writehist(hist, searchage) || !writehist(hist,
+		replaceage))
 		rcfile_error(N_("Error writing %s: %s"), nanohist,
 			strerror(errno));
+
 	    fclose(hist);
 	}
+
 	free(nanohist);
     }
 }

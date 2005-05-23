@@ -168,8 +168,12 @@ toggle *toggles = NULL;
 #endif
 
 #ifndef NANO_SMALL
-historyheadtype search_history;
-historyheadtype replace_history;
+filestruct *search_history = NULL;
+filestruct *searchage = NULL;
+filestruct *searchbot = NULL;
+filestruct *replace_history = NULL;
+filestruct *replaceage = NULL;
+filestruct *replacebot = NULL;
 #endif
 
 /* Regular expressions */
@@ -1260,8 +1264,8 @@ void thanks_for_all_the_fish(void)
 #endif /* ENABLE_COLOR */
 #ifndef NANO_SMALL
     /* Free the history lists. */
-    free_history(&search_history);
-    free_history(&replace_history);
+    free_filestruct(searchage);
+    free_filestruct(replaceage);
 #endif
 #ifdef ENABLE_NANORC
     free(homedir);
