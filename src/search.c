@@ -993,7 +993,7 @@ void do_gotolinecolumn(int line, ssize_t column, bool use_answer, bool
 	 * number (which is zero-based) only if we hit Enter at the
 	 * statusbar prompt. */
 	if (!parse_line_column(answer, &line, &column) || line < 1 ||
-		column < 0) {
+		--column < 0) {
 	    if (i == 0)
 		statusbar(_("Come on, be reasonable"));
 	    display_main_list();
