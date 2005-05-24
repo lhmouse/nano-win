@@ -402,7 +402,7 @@ if test x$enable_utf8 != xno; then
     AC_CHECK_FUNCS(iswalnum mblen mbtowc wctomb wcwidth iswspace iswblank)
 fi
 
-if test x$ac_cv_func_snprintf = xno -o x$ac_cv_func_vsnprintf = xno; then
+if test x$ac_cv_func_snprintf = xno || test x$ac_cv_func_vsnprintf = xno; then
     AM_PATH_GLIB_2_0(2.0.0,,
 	AC_MSG_ERROR([
 *** snprintf() and/or vsnprintf() not found.  GLIB 2.x not found either.
@@ -470,13 +470,13 @@ if test "x$GLIB_LIBS" != "x"; then
 fi
 
 if test x$enable_utf8 != xno && \
-   test x$CURSES_LIB_WIDE = xyes -a \
-        x$ac_cv_func_iswalnum = xyes -a \
-        x$ac_cv_func_mblen = xyes -a \
-        x$ac_cv_func_mbtowc = xyes -a \
-        x$ac_cv_func_wctomb = xyes -a \
-        x$ac_cv_func_wcwidth = xyes && \
-   test x$ac_cv_func_iswspace = xyes -o x$ac_cv_func_iswblank = xyes; then
+   test x$CURSES_LIB_WIDE = xyes && \
+   test x$ac_cv_func_iswalnum = xyes && \
+   test x$ac_cv_func_mblen = xyes && \
+   test x$ac_cv_func_mbtowc = xyes && \
+   test x$ac_cv_func_wctomb = xyes && \
+   test x$ac_cv_func_wcwidth = xyes && \
+   (test x$ac_cv_func_iswspace = xyes || test x$ac_cv_func_iswblank = xyes); then
 	AC_DEFINE(NANO_WIDE, 1, [Define this if your system has sufficient wide character support (a wide curses library, iswalnum(), iswspace() or iswblank(), mblen(), mbtowc(), wctomb(), and wcwidth()).])
 else
     if test x$enable_utf8 = xyes; then
