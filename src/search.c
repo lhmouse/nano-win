@@ -249,8 +249,8 @@ int search_init(bool replacing, bool use_answer)
 		backupstring = mallocstrcpy(backupstring, answer);
 		return -2;	/* Call the opposite search function. */
 	    case NANO_TOGOTOLINE_KEY:
-		do_gotolinecolumn(current->lineno, placewewant, TRUE,
-			TRUE, FALSE);
+		do_gotolinecolumn(current->lineno, placewewant + 1,
+			TRUE, TRUE, FALSE);
 				/* Put answer up on the statusbar and
 				 * fall through. */
 	    default:
@@ -960,6 +960,9 @@ void do_replace(void)
     replace_abort();
 }
 
+/* Go to the specified line and column, or ask for them if interactive
+ * is TRUE.  Save the x-coordinate and y-coordinate if save_pos is TRUE.
+ * Note that both the line and column numbers should be one-based. */
 void do_gotolinecolumn(int line, ssize_t column, bool use_answer, bool
 	interactive, bool save_pos)
 {
@@ -989,11 +992,10 @@ void do_gotolinecolumn(int line, ssize_t column, bool use_answer, bool
 	}
 
 	/* Do a bounds check.  Display a warning on an out-of-bounds
-	 * line number (which is one-based) or an out-of-bounds column
-	 * number (which is zero-based) only if we hit Enter at the
-	 * statusbar prompt. */
+	 * line or column number only if we hit Enter at the statusbar
+	 * prompt. */
 	if (!parse_line_column(answer, &line, &column) || line < 1 ||
-		--column < 0) {
+		column < 1) {
 	    if (i == 0)
 		statusbar(_("Come on, be reasonable"));
 	    display_main_list();
@@ -1003,15 +1005,15 @@ void do_gotolinecolumn(int line, ssize_t column, bool use_answer, bool
 	if (line < 1)
 	    line = current->lineno;
 
-	if (column < 0)
-	    column = placewewant;
+	if (column < 1)
+	    column = placewewant + 1;
     }
 
     for (current = fileage; current->next != NULL && line > 1; line--)
 	current = current->next;
 
-    current_x = actual_x(current->data, column);
-    placewewant = column;
+    current_x = actual_x(current->data, column - 1);
+    placewewant = column - 1;
 
     /* If save_pos is TRUE, don't change the cursor position when
      * updating the edit window. */
@@ -1022,7 +1024,8 @@ void do_gotolinecolumn(int line, ssize_t column, bool use_answer, bool
 
 void do_gotolinecolumn_void(void)
 {
-    do_gotolinecolumn(current->lineno, placewewant, FALSE, TRUE, FALSE);
+    do_gotolinecolumn(current->lineno, placewewant + 1, FALSE, TRUE,
+	FALSE);
 }
 
 #if defined(ENABLE_MULTIBUFFER) || !defined(DISABLE_SPELLER)
@@ -1031,7 +1034,7 @@ void do_gotopos(int line, size_t pos_x, int pos_y, size_t pos_pww)
     /* Since do_gotolinecolumn() resets the x-coordinate but not the
      * y-coordinate, set the coordinates up this way. */
     current_y = pos_y;
-    do_gotolinecolumn(line, pos_x, FALSE, FALSE, TRUE);
+    do_gotolinecolumn(line, pos_x + 1, FALSE, FALSE, TRUE);
 
     /* Set the rest of the coordinates up. */
     placewewant = pos_pww;
