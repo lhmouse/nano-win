@@ -628,8 +628,7 @@ int replace_regexp(char *string, bool create_flag)
 char *replace_line(const char *needle)
 {
     char *copy;
-    int new_line_size;
-    int search_match_count;
+    size_t new_line_size, search_match_count;
 
     /* Calculate the size of the new line. */
 #ifdef HAVE_REGEX_H
@@ -661,6 +660,7 @@ char *replace_line(const char *needle)
 
     /* The tail of the original line. */
     assert(current_x + search_match_count <= strlen(current->data));
+
     strcat(copy, current->data + current_x + search_match_count);
 
     return copy;

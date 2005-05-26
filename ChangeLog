@@ -52,6 +52,9 @@ CVS code -
   do_browser()
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
 	  consistency. (DLR)
+	- When displaying "(dir)" in the available screen space, make
+	  sure that the string it's stored in is always null-terminated.
+	  (DLR)
   save_history()
 	- Properly save history when in view mode. (DLR)
 - global.c:
@@ -81,6 +84,9 @@ CVS code -
 	  since the first line in the file is 1. (DLR)
 	- Start the search for a line from fileage instead of current
 	  (again). (DLR)
+  replace_line()
+	- Make new_line_size and search_match_count size_t's, for
+	  consistency. (DLR)
 - utils.c:
   num_of_digits()
 	- Use a size_t instead of an int, and rename to digits(). (DLR)

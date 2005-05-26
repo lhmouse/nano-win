@@ -2204,6 +2204,7 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 	if (num_matches == 1 && is_dir(mzero)) {
 	    mzero[common_len] = '/';
 	    common_len++;
+
 	    assert(common_len > *place);
 	}
 
@@ -2266,8 +2267,9 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 		wmove(edit, editline, (longest_name + 2) *
 			(match % columns));
 
-		if (match % columns == 0 && editline == editwinrows - 1
-			&& num_matches - match > columns) {
+		if (match % columns == 0 &&
+			editline == editwinrows - 1 &&
+			num_matches - match > columns) {
 		    waddstr(edit, _("(more)"));
 		    break;
 		}
@@ -2321,6 +2323,7 @@ void free_charptrarray(char **array, size_t len)
 {
     for (; len > 0; len--)
 	free(array[len - 1]);
+
     free(array);
 }
 
@@ -2332,6 +2335,7 @@ void striponedir(char *path)
     assert(path != NULL);
 
     tmp = strrchr(path, '/');
+
     if (tmp != NULL)
  	*tmp = '\0';
 }
@@ -2718,9 +2722,10 @@ char *do_browser(char *path, DIR *dir)
 			foo[foo_len] = '\0';
 		    } else
 			strcpy(foo, "--");
-		} else if (S_ISDIR(st.st_mode))
+		} else if (S_ISDIR(st.st_mode)) {
 		    strncpy(foo, _("(dir)"), foo_len);
-		else if (st.st_size < (1 << 10)) /* less than 1 k. */
+		    foo[foo_len] = '\0';
+		} else if (st.st_size < (1 << 10)) /* less than 1 k. */
 		    sprintf(foo, "%4u  B", (unsigned int)st.st_size);
 		else if (st.st_size < (1 << 20)) /* less than 1 meg. */
 		    sprintf(foo, "%4u KB",
