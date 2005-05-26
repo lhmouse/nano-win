@@ -55,9 +55,6 @@ CVS code -
 	  long instead of an unsigned int. (DLR)
   cwd_tab_completion(), browser_init()
 	- Rename variable next to nextdir to avoid confusion. (DLR)
-  input_tab()
-	- Make sure that we don't set *place to the middle of a
-	  multibyte character. (DLR)
   do_browser()
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
 	  consistency. (DLR)

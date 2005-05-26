@@ -2225,10 +2225,7 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 	    charmove(buf + common_len, buf + *place,
 		buflen - *place + 1);
 	    charcpy(buf, mzero, common_len);
-
-	    /* Make sure that we don't advance the cursor to the middle
-	     * of a multibyte character. */
-	    *place = mbstrnlen(buf, common_len);
+	    *place = common_len;
 	} else if (*lastwastab == FALSE || num_matches < 2)
 	    *lastwastab = TRUE;
 	else {
