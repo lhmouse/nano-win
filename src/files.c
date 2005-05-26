@@ -2222,7 +2222,7 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 	    *lastwastab = FALSE;
 	    buf = charealloc(buf, common_len + buflen - *place + 1);
 	    charmove(buf + common_len, buf + *place, buflen - *place + 1);
-	    strncpy(buf, mzero, common_len);
+	    charcpy(buf, mzero, common_len);
 	    *place = common_len;
 	} else if (*lastwastab == FALSE || num_matches < 2)
 	    *lastwastab = TRUE;
@@ -2718,12 +2718,12 @@ char *do_browser(char *path, DIR *dir)
 		     * mark it as such. */
 		    if (stat(filelist[j], &st) == 0 &&
 			S_ISDIR(st.st_mode)) {
-			strncpy(foo, _("(dir)"), foo_len);
+			charcpy(foo, _("(dir)"), foo_len);
 			foo[foo_len] = '\0';
 		    } else
 			strcpy(foo, "--");
 		} else if (S_ISDIR(st.st_mode)) {
-		    strncpy(foo, _("(dir)"), foo_len);
+		    charcpy(foo, _("(dir)"), foo_len);
 		    foo[foo_len] = '\0';
 		} else if (st.st_size < (1 << 10)) /* less than 1 k. */
 		    sprintf(foo, "%4u  B", (unsigned int)st.st_size);

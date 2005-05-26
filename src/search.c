@@ -578,10 +578,10 @@ void replace_abort(void)
 }
 
 #ifdef HAVE_REGEX_H
-int replace_regexp(char *string, bool create_flag)
+int replace_regexp(char *string, bool create)
 {
-    /* Split personality here - if create_flag is FALSE, just calculate
-     * the size of the replacement line (necessary because of
+    /* We have a split personality here.  If create is FALSE, just
+     * calculate the size of the replacement line (necessary because of
      * subexpressions \1 to \9 in the replaced text). */
 
     const char *c = last_replace;
@@ -595,7 +595,7 @@ int replace_regexp(char *string, bool create_flag)
 
 	if (*c != '\\' || num < 1 || num > 9 ||
 		num > search_regexp.re_nsub) {
-	    if (create_flag)
+	    if (create)
 		*string++ = *c;
 	    c++;
 	    new_size++;
@@ -608,17 +608,17 @@ int replace_regexp(char *string, bool create_flag)
 	    /* But add the length of the subexpression to new_size. */
 	    new_size += i;
 
-	    /* And if create_flag is TRUE, append the result of the
+	    /* And if create is TRUE, append the result of the
 	     * subexpression match to the new line. */
-	    if (create_flag) {
-		strncpy(string, current->data + current_x +
+	    if (create) {
+		charcpy(string, current->data + current_x +
 			regmatches[num].rm_so, i);
 		string += i;
 	    }
 	}
     }
 
-    if (create_flag)
+    if (create)
 	*string = '\0';
 
     return new_size;
@@ -634,7 +634,7 @@ char *replace_line(const char *needle)
 #ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP)) {
 	search_match_count = regmatches[0].rm_eo - regmatches[0].rm_so;
-	new_line_size = replace_regexp(NULL, 0);
+	new_line_size = replace_regexp(NULL, FALSE);
     } else {
 #endif
 	search_match_count = strlen(needle);
@@ -648,7 +648,7 @@ char *replace_line(const char *needle)
     copy = charalloc(new_line_size);
 
     /* The head of the original line. */
-    strncpy(copy, current->data, current_x);
+    charcpy(copy, current->data, current_x);
 
     /* The replacement text. */
 #ifdef HAVE_REGEX_H

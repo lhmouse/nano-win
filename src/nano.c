@@ -1413,7 +1413,7 @@ void do_enter(void)
     strcpy(&newnode->data[extra], current->data + current_x);
 #ifndef NANO_SMALL
     if (ISSET(AUTOINDENT)) {
-	strncpy(newnode->data, current->data, extra);
+	charcpy(newnode->data, current->data, extra);
 	totsize += mbstrlen(newnode->data);
     }
 #endif

@@ -513,7 +513,7 @@ void do_research(void);
 #endif
 void replace_abort(void);
 #ifdef HAVE_REGEX_H
-int replace_regexp(char *string, bool create_flag);
+int replace_regexp(char *string, bool create);
 #endif
 char *replace_line(const char *needle);
 ssize_t do_replace_loop(const char *needle, const filestruct
