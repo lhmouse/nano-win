@@ -2147,8 +2147,8 @@ char **cwd_tab_completion(const char *buf, size_t *num_matches, size_t
     return matches;
 }
 
-/* Do tab completion.  This function now has an arg which refers to how
- * much the statusbar cursor position (place) should be advanced. */
+/* Do tab completion.  place refers to how much the statusbar cursor
+ * position should be advanced. */
 char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 {
     size_t num_matches = 0;
