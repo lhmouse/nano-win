@@ -1211,8 +1211,8 @@ void update_history(filestruct **h, filestruct **hage, filestruct
     *h = *hbot;
 }
 
-/* Return the string in the history list just before h, or NULL if there
- * isn't one. */
+/* Move h to the string in the history list just before it, and return
+ * that string.  If there isn't one, don't move h and return NULL. */
 char *get_history_older(filestruct **h)
 {
     assert(h != NULL);
@@ -1225,8 +1225,8 @@ char *get_history_older(filestruct **h)
     return (*h)->data;
 }
 
-/* Return the string in the history list just after h, or NULL if there
- * isn't one. */
+/* Move h to the string in the history list just after it, and return
+ * that string.  If there isn't one, don't move h and return NULL. */
 char *get_history_newer(filestruct **h)
 {
     assert(h != NULL);
