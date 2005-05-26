@@ -116,8 +116,9 @@ CVS code -
 	- Rename variable def to curranswer to avoid confusion. (DLR)
 	- Only declare and use the tabbed variable if DISABLE_TABCOMP
 	  isn't defined. (DLR)
-	- Refactor to remove unneccessary variable answer_len and hence
-	  avoid an assertion failure involving it. (DLR)
+	- Refactor to replace unnecessary variable answer_len with
+	  curranswer_len, and hence avoid an assertion failure involving
+	  the former. (DLR)
   statusq()
 	- Rename variable which_history to history_list, for
 	  consistency. (DLR)
