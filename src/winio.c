@@ -2455,7 +2455,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 #endif
 
     answer = mallocstrcpy(answer, curranswer);
-    curranswer = strlen(answer);
+    curranswer_len = strlen(answer);
 
     /* Only put statusbar_x at the end of the string if it's
      * uninitialized, if it would be past the end of curranswer, or if
