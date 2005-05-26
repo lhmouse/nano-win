@@ -1208,6 +1208,7 @@ void thanks_for_all_the_fish(void)
     free_shortcutage(&gotodir_list);
 #endif
 #ifndef NANO_SMALL
+    /* Free the memory associated with each toggle. */
     while (toggles != NULL) {
 	toggle *t = toggles;
 
@@ -1217,8 +1218,13 @@ void thanks_for_all_the_fish(void)
 #endif
 #ifdef ENABLE_MULTIBUFFER
     /* Free the memory associated with each open file buffer. */
-    if (open_files != NULL)
+    if (open_files != NULL) {
+	/* Make sure open_files->fileage is up to date, in case we've
+	 * cut the top line of the file. */
+	open_files->fileage = fileage;
+
 	free_openfilestruct(open_files);
+    }
 #else
     if (fileage != NULL)
 	free_filestruct(fileage);
@@ -1252,7 +1258,7 @@ void thanks_for_all_the_fish(void)
     }
 #endif /* ENABLE_COLOR */
 #ifndef NANO_SMALL
-    /* Free the history lists. */
+    /* Free the search and replace history lists. */
     if (searchage != NULL)
 	free_filestruct(searchage);
     if (replaceage != NULL)

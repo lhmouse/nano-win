@@ -72,7 +72,7 @@ CVS code -
 	  only called here anyway. (David Benbennick)
 	- Fix the code to free all open file buffers to work properly
 	  with the previous overhaul of the multibuffer code instead of
-	  going into an infinite loop. (DLR)
+	  going into an infinite loop. (David Benbennick)
 	- Add additional checks for variables' not being NULL before we
 	  try to free them, to avoid assertion failures. (DLR)
 - nano.c:
