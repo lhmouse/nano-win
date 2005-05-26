@@ -1130,19 +1130,6 @@ void toggle_init(void)
     toggle_init_one(TOGGLE_MORESPACE_KEY, N_("Use of more space for editing"),
 	MORE_SPACE);
 }
-
-#ifdef DEBUG
-/* Deallocate all of the toggles. */
-void free_toggles(void)
-{
-    while (toggles != NULL) {
-	toggle *pt = toggles;	/* Think "previous toggle". */
-
-	toggles = toggles->next;
-	free(pt);
-    }
-}
-#endif
 #endif /* !NANO_SMALL */
 
 /* This function is called just before calling exit().  Practically, the
@@ -1162,7 +1149,8 @@ void thanks_for_all_the_fish(void)
 	free(quotestr);
 #ifdef HAVE_REGEX_H
     regfree(&quotereg);
-    free(quoteerr);
+    if (quoteerr != NULL)
+	free(quoteerr);
 #endif
 #endif
 #ifndef NANO_SMALL
@@ -1219,24 +1207,28 @@ void thanks_for_all_the_fish(void)
     free_shortcutage(&browser_list);
     free_shortcutage(&gotodir_list);
 #endif
-
 #ifndef NANO_SMALL
-    free_toggles();
-#endif
+    while (toggles != NULL) {
+	toggle *t = toggles;
 
+	toggles = toggles->next;
+	free(t);
+    }
+#endif
 #ifdef ENABLE_MULTIBUFFER
     if (open_files != NULL) {
-	/* We free the memory associated with each open file. */
-	while (open_files->prev != NULL)
+	/* Free the memory associated with each open file buffer. */
+	while (open_files != open_files->prev)
 	    open_files = open_files->prev;
 	free_openfilestruct(open_files);
     }
 #else
-    free_filestruct(fileage);
+    if (fileage != NULL)
+	free_filestruct(fileage);
 #endif
-
 #ifdef ENABLE_COLOR
-    free(syntaxstr);
+    if (syntaxstr != NULL)
+	free(syntaxstr);
     while (syntaxes != NULL) {
 	syntaxtype *bill = syntaxes;
 
@@ -1264,11 +1256,14 @@ void thanks_for_all_the_fish(void)
 #endif /* ENABLE_COLOR */
 #ifndef NANO_SMALL
     /* Free the history lists. */
-    free_filestruct(searchage);
-    free_filestruct(replaceage);
+    if (searchage != NULL)
+	free_filestruct(searchage);
+    if (replaceage != NULL)
+	free_filestruct(replaceage);
 #endif
 #ifdef ENABLE_NANORC
-    free(homedir);
+    if (homedir != NULL)
+	free(homedir);
 #endif
 }
 #endif /* DEBUG */

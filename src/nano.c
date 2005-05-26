@@ -3874,7 +3874,7 @@ bool do_mouse(void)
  * TRUE. */
 void do_output(char *output, size_t output_len, bool allow_cntrls)
 {
-    size_t current_len = strlen(current->data), i = 0;
+    size_t current_len, i = 0;
     bool old_constupdate = ISSET(CONSTUPDATE);
     bool do_refresh = FALSE;
 	/* Do we have to call edit_refresh(), or can we get away with
@@ -3884,6 +3884,8 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
     int char_buf_len;
 
     assert(current != NULL && current->data != NULL);
+
+    current_len = strlen(current->data);
 
     /* Turn off constant cursor position display. */
     UNSET(CONSTUPDATE);

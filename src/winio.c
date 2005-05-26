@@ -2051,12 +2051,13 @@ void do_statusbar_verbatim_input(bool *got_enter)
 void do_statusbar_output(char *output, size_t output_len, bool
 	*got_enter, bool allow_cntrls)
 {
-    size_t answer_len = strlen(answer), i = 0;
+    size_t answer_len, i = 0;
     char *char_buf = charalloc(mb_cur_max());
     int char_buf_len;
 
     assert(answer != NULL);
 
+    answer_len = strlen(answer);
     *got_enter = FALSE;
 
     while (i < output_len) {
@@ -2483,7 +2484,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 	&s_or_t, &ran_func, &finished, TRUE)) != NANO_CANCEL_KEY &&
 	kbinput != NANO_ENTER_KEY) {
 
-	assert(statusbar_x <= answer_len && answer_len == strlen(answer));
+	assert(statusbar_x <= strlen(answer));
 
 #ifndef DISABLE_TABCOMP
 	if (kbinput != NANO_TAB_KEY)
@@ -2496,7 +2497,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 		if (allow_tabs) {
 		    answer = input_tab(answer, &statusbar_x, &tabbed,
 			list);
-		    answer_len = strlen(answer);
+		    statusbar_x = strlen(answer);
 		}
 #endif
 		break;
@@ -2517,8 +2518,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 		    if ((history =
 			get_history_older(&history_list)) != NULL) {
 			answer = mallocstrcpy(answer, history);
-			answer_len = strlen(answer);
-			statusbar_x = answer_len;
+			statusbar_x = strlen(answer);
 		    }
 
 		    /* This key has a shortcut list entry when it's used
@@ -2539,8 +2539,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 		    if ((history =
 			get_history_newer(&history_list)) != NULL) {
 			answer = mallocstrcpy(answer, history);
-			answer_len = strlen(answer);
-			statusbar_x = answer_len;
+			statusbar_x = strlen(answer);
 		    }
 
 		    /* If, after scrolling down, we're at the bottom of
@@ -2550,8 +2549,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 		    if (history_list->next == NULL &&
 			answer[0] == '\0' && magichistory != NULL) {
 			answer = mallocstrcpy(answer, magichistory);
-			answer_len = strlen(answer);
-			statusbar_x = answer_len;
+			statusbar_x = strlen(answer);
 		    }
 		}
 #endif
@@ -2880,6 +2878,7 @@ void bottombars(const shortcut *s)
 
     if (s == main_list) {
 	slen = MAIN_VISIBLE;
+
 	assert(slen <= length_of_list(s));
     } else {
 	slen = length_of_list(s);

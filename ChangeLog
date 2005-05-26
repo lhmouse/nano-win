@@ -67,6 +67,14 @@ CVS code -
   shortcut_init()
 	- Move the "Refresh" and "Exit" shortcuts to the beginning of
 	  the help browser shortcut list, for consistency. (DLR)
+  thanks_for_all_the_fish()
+	- Remove free_toggles() and move its code here verbatim, as it's
+	  only called here anyway. (David Benbennick)
+	- Fix the code to free all open file buffers to work properly
+	  with the previous overhaul of the multibuffer code instead of
+	  going into an infinite loop. (DLR)
+	- Add additional checks for variables' not being NULL before we
+	  try to free them, to avoid assertion failures. (DLR)
 - nano.c:
   copy_filestruct()
 	- Rename variable prev to copy to avoid confusion. (DLR)
@@ -84,6 +92,8 @@ CVS code -
   do_output()
 	- Properly allow wrapping when we insert a tab, for consistency.
 	  (DLR)
+	- Don't set current_len until after it's been asserted that both
+	  current and current->data aren't NULL. (DLR)
 - search.c:
   do_gotoline()
 	- Properly show an error message if we try to go to line 0,
@@ -99,10 +109,15 @@ CVS code -
   num_of_digits()
 	- Use a size_t instead of an int, and rename to digits(). (DLR)
 - winio.c:
+  do_statusbar_output()
+	- Don't set answer_len until after it's been asserted that
+	  answer isn't NULL. (DLR)
   nanogetstr()
 	- Rename variable def to curranswer to avoid confusion. (DLR)
 	- Only declare and use the tabbed variable if DISABLE_TABCOMP
 	  isn't defined. (DLR)
+	- Refactor to remove unneccessary variable answer_len and hence
+	  avoid an assertion failure involving it. (DLR)
   statusq()
 	- Rename variable which_history to history_list, for
 	  consistency. (DLR)

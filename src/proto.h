@@ -329,9 +329,6 @@ size_t length_of_list(const shortcut *s);
 #ifndef NANO_SMALL
 void toggle_init_one(int val, const char *desc, long flag);
 void toggle_init(void);
-#ifdef DEBUG
-void free_toggles(void);
-#endif
 #endif
 void sc_init_one(shortcut **shortcutage, int key, const char *desc,
 #ifndef DISABLE_HELP

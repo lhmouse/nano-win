@@ -713,6 +713,7 @@ openfilestruct *make_new_opennode(void)
     openfilestruct *newnode =
 	(openfilestruct *)nmalloc(sizeof(openfilestruct));
     newnode->filename = NULL;
+
     return newnode;
 }
 
@@ -769,7 +770,7 @@ void free_openfilestruct(openfilestruct *src)
  * updated. */
 void add_open_file(bool update)
 {
-    if (open_files == NULL && update)
+    if (update && open_files == NULL)
 	return;
 
     /* If there are no entries in open_files, make the first one. */
