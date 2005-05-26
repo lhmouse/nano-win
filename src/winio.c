@@ -2441,7 +2441,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 {
     int kbinput;
     bool meta_key, func_key, s_or_t, ran_func, finished;
-    size_t answer_len = strlen(curranswer);
+    size_t curranswer_len = strlen(curranswer);
 #ifndef DISABLE_TABCOMP
     bool tabbed = FALSE;
 	/* Whether we've pressed Tab more than once consecutively. */
@@ -2455,16 +2455,16 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 	 * any. */
 #endif
 
-    /* Only put statusbar_x at the end of the string if it's
-     * uninitialized, if it would be past the end of the string as it
-     * is, or if resetstatuspos is TRUE.  Otherwise, leave it alone.
-     * This is so the cursor position stays at the same place if a
-     * prompt-changing toggle is pressed. */
-    if (statusbar_x == (size_t)-1 || statusbar_x > answer_len ||
-		resetstatuspos)
-	statusbar_x = answer_len;
-
     answer = mallocstrcpy(answer, curranswer);
+
+    /* Only put statusbar_x at the end of the string if it's
+     * uninitialized, if it would be past the end of curranswer, or if
+     * resetstatuspos is TRUE.  Otherwise, leave it alone.  This is so
+     * the cursor position stays at the same place if a prompt-changing
+     * toggle is pressed. */
+    if (statusbar_x == (size_t)-1 || statusbar_x > curranswer_len ||
+		resetstatuspos)
+	statusbar_x = curranswer_len;
 
     currshortcut = s;
 
