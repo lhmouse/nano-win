@@ -2213,9 +2213,9 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 		*lastwastab == FALSE))
 	    beep();
 
-	/* If there is more match to display on the statusbar, show it.
-	 * We reset lastwastab to FALSE: it requires hitting Tab twice
-	 * in succession with no statusbar changes to see a match
+	/* If there is more of a match to display on the statusbar, show
+	 * it.  We reset lastwastab to FALSE: it requires hitting Tab
+	 * twice in succession with no statusbar changes to see a match
 	 * list. */
 	if (common_len != *place) {
 	    size_t buflen = strlen(buf);
@@ -2239,10 +2239,12 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 
 	    for (match = 0; match < num_matches; match++) {
 		common_len = strnlenpt(matches[match], COLS - 1);
+
 		if (common_len > COLS - 1) {
 		    longest_name = COLS - 1;
 		    break;
 		}
+
 		if (common_len > longest_name)
 		    longest_name = common_len;
 	    }
