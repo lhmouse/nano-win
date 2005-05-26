@@ -1216,12 +1216,9 @@ void thanks_for_all_the_fish(void)
     }
 #endif
 #ifdef ENABLE_MULTIBUFFER
-    if (open_files != NULL) {
-	/* Free the memory associated with each open file buffer. */
-	while (open_files != open_files->prev)
-	    open_files = open_files->prev;
+    /* Free the memory associated with each open file buffer. */
+    if (open_files != NULL)
 	free_openfilestruct(open_files);
-    }
 #else
     if (fileage != NULL)
 	free_filestruct(fileage);
