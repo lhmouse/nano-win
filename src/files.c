@@ -2078,7 +2078,7 @@ char **cwd_tab_completion(const char *buf, size_t *num_matches, size_t
 	char *tmpdirname = filename + 1;
 
 	filename = mallocstrcpy(NULL, tmpdirname);
-	*tmpdirname = '\0';
+	tmpdirname[0] = '\0';
 	tmpdirname = dirname;
 	dirname = real_dir_from_tilde(dirname);
 	free(tmpdirname);
@@ -2222,7 +2222,8 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 
 	    *lastwastab = FALSE;
 	    buf = charealloc(buf, common_len + buflen - *place + 1);
-	    charmove(buf + common_len, buf + *place, buflen - *place + 1);
+	    charmove(buf + common_len, buf + *place,
+		buflen - *place + 1);
 	    charcpy(buf, mzero, common_len);
 	    *place = common_len;
 	} else if (*lastwastab == FALSE || num_matches < 2)
