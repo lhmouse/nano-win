@@ -2446,7 +2446,6 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
     bool tabbed = FALSE;
 	/* Whether we've pressed Tab more than once consecutively. */
 #endif
-
 #ifndef NANO_SMALL
     char *history = NULL;
 	/* The current history string. */
