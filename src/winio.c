@@ -2441,10 +2441,10 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 {
     int kbinput;
     bool meta_key, func_key, s_or_t, ran_func, finished;
-    size_t curranswer_len = strlen(curranswer);
+    size_t curranswer_len;
 #ifndef DISABLE_TABCOMP
     bool tabbed = FALSE;
-	/* Whether we've pressed Tab more than once consecutively. */
+	/* Whether we've pressed Tab. */
 #endif
 #ifndef NANO_SMALL
     char *history = NULL;
@@ -2455,6 +2455,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 #endif
 
     answer = mallocstrcpy(answer, curranswer);
+    curranswer = strlen(answer);
 
     /* Only put statusbar_x at the end of the string if it's
      * uninitialized, if it would be past the end of curranswer, or if
