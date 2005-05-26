@@ -2494,11 +2494,9 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 	switch (kbinput) {
 	    case NANO_TAB_KEY:
 #ifndef DISABLE_TABCOMP
-		if (allow_tabs) {
+		if (allow_tabs)
 		    answer = input_tab(answer, &statusbar_x, &tabbed,
 			list);
-		    statusbar_x = strlen(answer);
-		}
 #endif
 		break;
 	    case NANO_PREVLINE_KEY:
