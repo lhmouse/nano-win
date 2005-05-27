@@ -57,6 +57,9 @@ CVS code -
 	- Rename variable next to nextdir to avoid confusion. (DLR)
   input_tab()
 	- Since list is a bool, assign it FALSE instead of 0. (DLR)
+	- Add multibyte/wide character support, so that we don't end up
+	  with a string that contains only part of a multibyte
+	  character during tab completion. (DLR)
   do_browser()
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
 	  consistency. (DLR)
