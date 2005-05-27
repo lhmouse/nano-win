@@ -1988,7 +1988,7 @@ int is_dir(const char *buf)
     struct stat fileinfo;
 
     int ret = (stat(dirptr, &fileinfo) != -1 &&
-		S_ISDIR(fileinfo.st_mode));
+	S_ISDIR(fileinfo.st_mode));
 
     assert(buf != NULL && dirptr != buf);
 
@@ -2078,7 +2078,7 @@ char **cwd_tab_completion(const char *buf, size_t *num_matches, size_t
 	char *tmpdirname = filename + 1;
 
 	filename = mallocstrcpy(NULL, tmpdirname);
-	tmpdirname[0] = '\0';
+	*tmpdirname = '\0';
 	tmpdirname = dirname;
 	dirname = real_dir_from_tilde(dirname);
 	free(tmpdirname);
