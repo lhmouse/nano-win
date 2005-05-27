@@ -2156,7 +2156,7 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 
     assert(buf != NULL && place != NULL && *place <= strlen(buf) && lastwastab != NULL && list != NULL);
 
-    *list = 0;
+    *list = FALSE;
 
     /* If the word starts with `~' and there is no slash in the word,
      * then try completing this word as a username. */
