@@ -1571,6 +1571,7 @@ int write_file(const char *name, bool tmp, int append, bool
     }
 
     f = fdopen(fd, (append == 1) ? "ab" : "wb");
+
     if (f == NULL) {
 	statusbar(_("Error writing %s: %s"), realname, strerror(errno));
 	close(fd);
@@ -1582,8 +1583,7 @@ int write_file(const char *name, bool tmp, int append, bool
     assert(fileage != NULL && filebot != NULL);
 
     while (fileptr != filebot) {
-	size_t data_len = strlen(fileptr->data);
-	size_t size;
+	size_t data_len = strlen(fileptr->data), size;
 
 	/* Newlines to nulls, just before we write to disk. */
 	sunder(fileptr->data);
