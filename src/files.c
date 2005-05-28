@@ -1275,7 +1275,7 @@ void init_backup_dir(void)
  * write error. */
 int copy_file(FILE *inn, FILE *out)
 {
-    char buf[MAX_BUF_SIZE];
+    char buf[BUFSIZ];
     size_t charsread;
     int retval = 0;
 
