@@ -155,7 +155,7 @@ void die(const char *msg, ...)
 
 void die_save_file(const char *die_filename)
 {
-    char *ret;
+    char *retval;
     bool failed = TRUE;
 
     /* If we're using restricted mode, don't write any emergency backup
@@ -169,17 +169,18 @@ void die_save_file(const char *die_filename)
     if (die_filename[0] == '\0')
 	die_filename = "nano";
 
-    ret = get_next_filename(die_filename);
-    if (ret[0] != '\0')
-	failed = (write_file(ret, TRUE, FALSE, TRUE) == -1);
+    retval = get_next_filename(die_filename);
+    if (retval[0] != '\0')
+	failed = (write_file(retval, TRUE, FALSE, TRUE) == -1);
 
     if (!failed)
-	fprintf(stderr, _("\nBuffer written to %s\n"), ret);
+	fprintf(stderr, _("\nBuffer written to %s\n"), retval);
     else
 	fprintf(stderr,
-		_("\nBuffer not written to %s (too many backup files?)\n"), ret);
+		_("\nBuffer not written to %s (too many backup files?)\n"),
+		retval);
 
-    free(ret);
+    free(retval);
 }
 
 /* Die with an error message that the screen was too small if, well, the

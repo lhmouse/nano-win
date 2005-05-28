@@ -626,7 +626,8 @@ void do_insertfile(
 		execute_command(answer);
 	    else {
 #endif
-		answer = mallocstrassn(answer, real_dir_from_tilde(answer));
+		answer = mallocstrassn(answer,
+			real_dir_from_tilde(answer));
 		load_buffer(answer);
 #ifndef NANO_SMALL
 	    }
@@ -1411,13 +1412,12 @@ int write_file(const char *name, bool tmp, int append, bool
 	}
 
 	/* If backup_dir is set, we set backupname to
-	 * backup_dir/backupname~, where backupnae is the canonicalized
+	 * backup_dir/backupname~, where backupname is the canonicalized
 	 * absolute pathname of realname with every '/' replaced with a
 	 * '!'.  This means that /home/foo/file is backed up in
 	 * backup_dir/!home!foo!file~. */
 	if (backup_dir != NULL) {
 	    char *canon_realname = get_full_path(realname);
-	    size_t i;
 
 	    if (canon_realname == NULL)
 		/* If get_full_path() failed, we don't have a
@@ -1428,7 +1428,9 @@ int write_file(const char *name, bool tmp, int append, bool
 		 * backupdir/../backupname~. */
 		canon_realname = mallocstrcpy(NULL, tail(realname));
 	    else {
-		for (i = 0; canon_realname[i] != '\0'; i++) {
+		size_t i = 0;
+
+		for (; canon_realname[i] != '\0'; i++) {
 		    if (canon_realname[i] == '/')
 			canon_realname[i] = '!';
 		}

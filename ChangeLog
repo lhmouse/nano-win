@@ -53,6 +53,7 @@ CVS code -
   write_file()
 	- Since lineswritten is a size_t, print its value as an unsigned
 	  long instead of an unsigned int. (DLR)
+	- Declare the size_t i only in the loop where it's used. (DLR)
   cwd_tab_completion(), browser_init()
 	- Rename variable next to nextdir to avoid confusion. (DLR)
   input_tab()
@@ -81,6 +82,8 @@ CVS code -
 	- Add additional checks for variables' not being NULL before we
 	  try to free them, to avoid assertion failures. (DLR)
 - nano.c:
+  die()
+	- Rename variable ret to retval for consistency. (DLR)
   copy_filestruct()
 	- Rename variable prev to copy to avoid confusion. (DLR)
   print1opt_full()
