@@ -176,9 +176,8 @@ void die_save_file(const char *die_filename)
     if (!failed)
 	fprintf(stderr, _("\nBuffer written to %s\n"), retval);
     else
-	fprintf(stderr,
-		_("\nBuffer not written to %s (too many backup files?)\n"),
-		retval);
+	fprintf(stderr, _("\nBuffer not written to %s: %s\n"), retval,
+		_("Too many backup files?"));
 
     free(retval);
 }
