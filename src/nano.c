@@ -169,7 +169,7 @@ void die_save_file(const char *die_filename)
     if (die_filename[0] == '\0')
 	die_filename = "nano";
 
-    retval = get_next_filename(die_filename);
+    retval = get_next_filename(die_filename, ".save");
     if (retval[0] != '\0')
 	failed = (write_file(retval, TRUE, FALSE, TRUE) == -1);
 

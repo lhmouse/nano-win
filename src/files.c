@@ -373,19 +373,22 @@ int open_file(const char *filename, bool newfie, FILE **f)
 }
 
 /* This function will return the name of the first available extension
- * of a filename (starting with filename.save, then filename.save.1,
+ * of a filename (starting with [name][suffix], then [name][suffix].1,
  * etc.).  Memory is allocated for the return value.  If no writable
  * extension exists, we return "". */
-char *get_next_filename(const char *name)
+char *get_next_filename(const char *name, const char *suffix)
 {
     unsigned long i = 0;
     char *buf;
-    size_t namelen = strlen(name);
+    size_t namelen, suffixlen;
 
-    buf = charalloc(namelen + digits(ULONG_MAX) + 7);
-    strcpy(buf, name);
-    strcpy(buf + namelen, ".save");
-    namelen += 5;
+    assert(name != NULL && suffix != NULL);
+
+    namelen = strlen(name);
+    suffixlen = strlen(suffix);
+
+    buf = charalloc(namelen + suffixlen + digits(ULONG_MAX) + 2);
+    sprintf(buf, "%s%s", name, suffix);
 
     while (TRUE) {
 	struct stat fs;
@@ -396,7 +399,7 @@ char *get_next_filename(const char *name)
 	    break;
 
 	i++;
-	sprintf(buf + namelen, ".%lu", i);
+	sprintf(buf + namelen + suffixlen, ".%lu", i);
     }
 
     /* We get here only if there is no possible save file. */
@@ -1412,34 +1415,46 @@ int write_file(const char *name, bool tmp, int append, bool
 	}
 
 	/* If backup_dir is set, we set backupname to
-	 * backup_dir/backupname~, where backupname is the canonicalized
-	 * absolute pathname of realname with every '/' replaced with a
-	 * '!'.  This means that /home/foo/file is backed up in
-	 * backup_dir/!home!foo!file~. */
+	 * backup_dir/backupname~[.number], where backupname is the
+	 * canonicalized absolute pathname of realname with every '/'
+	 * replaced with a '!'.  This means that /home/foo/file is
+	 * backed up in backup_dir/!home!foo!file~[.number]. */
 	if (backup_dir != NULL) {
-	    char *canon_realname = get_full_path(realname);
+	    char *backuptemp = get_full_path(realname);
 
-	    if (canon_realname == NULL)
+	    if (backuptemp == NULL)
 		/* If get_full_path() failed, we don't have a
 		 * canonicalized absolute pathname, so just use the
 		 * filename portion of the pathname.  We use tail() so
 		 * that e.g. ../backupname will be backed up in
 		 * backupdir/backupname~ instead of
 		 * backupdir/../backupname~. */
-		canon_realname = mallocstrcpy(NULL, tail(realname));
+		backuptemp = mallocstrcpy(NULL, tail(realname));
 	    else {
 		size_t i = 0;
 
-		for (; canon_realname[i] != '\0'; i++) {
-		    if (canon_realname[i] == '/')
-			canon_realname[i] = '!';
+		for (; backuptemp[i] != '\0'; i++) {
+		    if (backuptemp[i] == '/')
+			backuptemp[i] = '!';
 		}
 	    }
 
 	    backupname = charalloc(strlen(backup_dir) +
-		strlen(canon_realname) + 2);
-	    sprintf(backupname, "%s%s~", backup_dir, canon_realname);
-	    free(canon_realname);
+		strlen(backuptemp) + 1);
+	    sprintf(backupname, "%s%s", backup_dir, backuptemp);
+	    free(backuptemp);
+	    backuptemp = get_next_filename(backupname, "~");
+	    if (backuptemp[0] == '\0') {
+		statusbar(_("Error writing %s: %s"), backupname,
+		    _("Too many backup files?"));
+		free(backuptemp);
+		free(backupname);
+		fclose(f);
+		goto cleanup_and_exit;
+	    } else {
+		free(backupname);
+		backupname = backuptemp;
+	    }
 	} else {
 	    backupname = charalloc(strlen(realname) + 2);
 	    sprintf(backupname, "%s~", realname);
@@ -1482,6 +1497,7 @@ int write_file(const char *name, bool tmp, int append, bool
 			strerror(errno));
 	    goto cleanup_and_exit;
 	}
+
 	free(backupname);
     }
 #endif /* !NANO_SMALL */
@@ -1632,11 +1648,13 @@ int write_file(const char *name, bool tmp, int append, bool
 	FILE *f_source = NULL;
 
 	fd_source = open(tempname, O_RDONLY | O_CREAT);
+
 	if (fd_source != -1) {
 	    f_source = fdopen(fd_source, "rb");
 	    if (f_source == NULL)
 		close(fd_source);
 	}
+
 	if (f_source == NULL) {
 	    statusbar(_("Error reading %s: %s"), tempname,
 		strerror(errno));
@@ -1680,6 +1698,7 @@ int write_file(const char *name, bool tmp, int append, bool
   cleanup_and_exit:
     free(realname);
     free(tempname);
+
     return retval;
 }
 

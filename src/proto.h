@@ -246,7 +246,7 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
 void load_file(void);
 void read_file(FILE *f, const char *filename);
 int open_file(const char *filename, bool newfie, FILE **f);
-char *get_next_filename(const char *name);
+char *get_next_filename(const char *name, const char *suffix);
 #ifndef NANO_SMALL
 void execute_command(const char *command);
 #endif

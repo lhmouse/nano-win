@@ -35,6 +35,10 @@ CVS code -
 	  specified, which doesn't appear to be used anywhere.  Changes
 	  to input_tab(), do_browser(), do_enter(), replace_regexp(),
 	  replace_line(), and mallocstrncpy(). (DLR)
+	- When using a backup directory, make sure all the filenames
+	  written are unique by using get_next_filename() when
+	  necessary.  Changes to get_next_filename(), write_file(), and
+	  die(). (DLR, suggested by James Collings)
 - cut.c:
   cut_line()
 	- Set placewewant properly after cutting a line, to avoid a
