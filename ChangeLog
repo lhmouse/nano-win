@@ -37,8 +37,9 @@ CVS code -
 	  replace_line(), and mallocstrncpy(). (DLR)
 	- When using a backup directory, make sure all the filenames
 	  written are unique by using get_next_filename() when
-	  necessary.  Changes to get_next_filename(), write_file(), and
-	  die(). (DLR, suggested by James Collings)
+	  necessary.  Changes to get_next_filename(), write_file(),
+	  die(), usage(), nano.1, nanorc.5, nanorc.sample, and
+	  nano.texi. (DLR, suggested by James Collings)
 - cut.c:
   cut_line()
 	- Set placewewant properly after cutting a line, to avoid a

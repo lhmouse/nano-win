@@ -1015,9 +1015,9 @@ void usage(void)
 	N_("Start at line LINE, column COLUMN"));
 #ifndef NANO_SMALL
     print1opt("-A", "--smarthome", N_("Enable smart home key"));
-    print1opt("-B", "--backup", N_("Backup existing files on save"));
+    print1opt("-B", "--backup", N_("Save backups of existing files"));
     print1opt(_("-E [dir]"), _("--backupdir=[dir]"),
-	N_("Directory for writing backup files"));
+	N_("Directory for saving unique backup files"));
 #endif
 #ifdef ENABLE_MULTIBUFFER
     print1opt("-F", "--multibuffer", N_("Enable multiple file buffers"));
