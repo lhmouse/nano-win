@@ -2125,7 +2125,7 @@ const char *do_int_speller(const char *tempfile_name)
 
     }
 
-    *read_buff_ptr = (char)NULL;
+    *read_buff_ptr = '\0';
     close(uniq_fd[0]);
 
     /* Process the spelling errors. */
@@ -2134,7 +2134,7 @@ const char *do_int_speller(const char *tempfile_name)
     while (*read_buff_ptr != '\0') {
 
 	if ((*read_buff_ptr == '\n') || (*read_buff_ptr == '\r')) {
-	    *read_buff_ptr = (char)NULL;
+	    *read_buff_ptr = '\0';
 	    if (read_buff_word != read_buff_ptr) {
 		if (!do_int_spell_fix(read_buff_word)) {
 		    read_buff_word = read_buff_ptr;

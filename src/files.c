@@ -1370,7 +1370,7 @@ int write_file(const char *name, bool tmp, int append, bool
 
     anyexists = (lstat(realname, &lst) != -1);
 
-    /* New case: if the file exists, just give up. */
+    /* If the temp file exists, give up. */
     if (tmp && anyexists)
 	goto cleanup_and_exit;
 
@@ -1395,7 +1395,6 @@ int write_file(const char *name, bool tmp, int append, bool
     if (ISSET(BACKUP_FILE) && !tmp && realexists &&
 	(append != 0 || ISSET(MARK_ISSET) ||
 	originalfilestat.st_mtime == st.st_mtime)) {
-
 	FILE *backup_file;
 	char *backupname;
 	struct utimbuf filetime;
@@ -1568,7 +1567,7 @@ int write_file(const char *name, bool tmp, int append, bool
     }
 
     /* Now open the file in place.  Use O_EXCL if tmp is TRUE.  This is
-     * now copied from joe, because wiggy says so *shrug*. */
+     * copied from joe, because wiggy says so *shrug*. */
     fd = open(realname, O_WRONLY | O_CREAT |
 	((append == 1) ? O_APPEND : (tmp ? O_EXCL : O_TRUNC)),
 	S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
