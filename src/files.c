@@ -1134,14 +1134,17 @@ char *check_writable_directory(const char *path)
     return full_path;
 }
 
-/* This function acts like a call to tempnam(NULL, "nano.").  The
- * difference is that the number of calls is not limited by TMP_MAX.
- * Instead we use mkstemp(). */
-char *safe_tempnam(void)
+/* This function calls mkstemp(($TMPDIR|P_tmpdir|/tmp/)"nano.XXXXXX").
+ * On success, it returns the malloc()ed filename and corresponding FILE
+ * stream, opened in "w+b" mode.  On error, it returns NULL for the
+ * filename and leaves the FILE stream unchanged. */
+char *safe_tempfile(FILE **f)
 {
     char *full_tempdir = NULL;
     const char *TMPDIR_env;
     int filedesc;
+
+    assert(f != NULL);
 
     /* If $TMPDIR is set and non-empty, set tempdir to it, run it
      * through get_full_path(), and save the result in full_tempdir.
@@ -1163,17 +1166,14 @@ char *safe_tempnam(void)
     strcat(full_tempdir, "nano.XXXXXX");
     filedesc = mkstemp(full_tempdir);
 
-    /* If mkstemp() succeeded, close the resulting file, delete it
-     * (since it'll be 0 bytes long), and return the filename. */
-    if (filedesc != -1) {
-	close(filedesc);
-	unlink(full_tempdir);
-	return full_tempdir;
+    if (filedesc != -1)
+	*f = fdopen(filedesc, "w+b");
+    else {
+	free(full_tempdir);
+	full_tempdir = NULL;
     }
 
-    free(full_tempdir);
-
-    return NULL;
+    return full_tempdir;
 }
 #endif /* !DISABLE_SPELLER */
 
@@ -1304,10 +1304,11 @@ int copy_file(FILE *inn, FILE *out)
     return retval;
 }
 
-/* Write a file out.  If tmp is FALSE, we set the umask to disallow
- * anyone else from accessing the file, we don't set the global variable
- * filename to its name, and we don't print out how many lines we wrote
- * on the statusbar.
+/* Write a file out.  If f_open isn't NULL, we assume that it is a
+ * stream associated with the file, and we don't try to open it
+ * ourselves.  If tmp is TRUE, we set the umask to disallow anyone else
+ * from accessing the file, we don't set the global variable filename to
+ * its name, and we don't print out how many lines we wrote on the statusbar.
  *
  * tmp means we are writing a temporary file in a secure fashion.  We
  * use it when spell checking or dumping the file on an error.
@@ -1318,9 +1319,9 @@ int copy_file(FILE *inn, FILE *out)
  * nonamechange means don't change the current filename.  It is ignored
  * if tmp is FALSE or if we're appending/prepending.
  *
- * Return -1 on error, 1 on success. */
-int write_file(const char *name, bool tmp, int append, bool
-	nonamechange)
+ * Return 0 on success or -1 on error. */
+int write_file(const char *name, FILE *f_open, bool tmp, int append,
+	bool nonamechange)
 {
     int retval = -1;
 	/* Instead of returning in this function, you should always
@@ -1344,7 +1345,7 @@ int write_file(const char *name, bool tmp, int append, bool
 	/* The status fields filled in by lstat(). */
     char *realname;
 	/* name after tilde expansion. */
-    FILE *f;
+    FILE *f = NULL;
 	/* The actual file, realname, we are writing to. */
     char *tempname = NULL;
 	/* The temp file name we write to on prepend. */
@@ -1353,6 +1354,9 @@ int write_file(const char *name, bool tmp, int append, bool
 
     if (name[0] == '\0')
 	return -1;
+
+    if (f_open != NULL)
+	f = f_open;
 
     if (!tmp)
 	titlebar(NULL);
@@ -1370,8 +1374,8 @@ int write_file(const char *name, bool tmp, int append, bool
 
     anyexists = (lstat(realname, &lst) != -1);
 
-    /* If the temp file exists, give up. */
-    if (tmp && anyexists)
+    /* If the temp file exists and isn't already open, give up. */
+    if (tmp && anyexists && f_open == NULL)
 	goto cleanup_and_exit;
 
     /* If NOFOLLOW_SYMLINKS is set, it doesn't make sense to prepend or
@@ -1404,13 +1408,15 @@ int write_file(const char *name, bool tmp, int append, bool
 	filetime.actime = originalfilestat.st_atime;
 	filetime.modtime = originalfilestat.st_mtime;
 
-	/* Open the original file to copy to the backup. */
-	f = fopen(realname, "rb");
+	if (f_open == NULL) {
+	    /* Open the original file to copy to the backup. */
+	    f = fopen(realname, "rb");
 
-	if (f == NULL) {
-	    statusbar(_("Error reading %s: %s"), realname,
-		strerror(errno));
-	    goto cleanup_and_exit;
+	    if (f == NULL) {
+		statusbar(_("Error reading %s: %s"), realname,
+			strerror(errno));
+		goto cleanup_and_exit;
+	    }
 	}
 
 	/* If backup_dir is set, we set backupname to
@@ -1510,52 +1516,44 @@ int write_file(const char *name, bool tmp, int append, bool
 	goto cleanup_and_exit;
     }
 
-    original_umask = umask(0);
-    umask(original_umask);
+    if (f_open == NULL) {
+	original_umask = umask(0);
+	umask(original_umask);
 
-    /* If we create a temp file, we don't let anyone else access it.  We
-     * create a temp file if tmp is TRUE or if we're prepending. */
-    if (tmp || append == 2)
-	umask(S_IRWXG | S_IRWXO);
+	/* If we create a temp file, we don't let anyone else access it.
+	 * We create a temp file if tmp is TRUE or if we're
+	 * prepending. */
+	if (tmp || append == 2)
+	    umask(S_IRWXG | S_IRWXO);
+    }
 
     /* If we're prepending, copy the file to a temp file. */
     if (append == 2) {
 	int fd_source;
 	FILE *f_source = NULL;
 
-	tempname = charalloc(strlen(realname) + 8);
-	strcpy(tempname, realname);
-	strcat(tempname, ".XXXXXX");
-	fd = mkstemp(tempname);
-	f = NULL;
+	tempname = safe_tempfile(&f);
 
-	if (fd != -1) {
-	    f = fdopen(fd, "wb");
-	    if (f == NULL)
-		close(fd);
-	}
-
-	if (f == NULL) {
-	    statusbar(_("Error writing %s: %s"), tempname,
+	if (tempname == NULL) {
+	    statusbar(_("Prepending to %s failed: %s"), realname,
 		strerror(errno));
-	    unlink(tempname);
 	    goto cleanup_and_exit;
 	}
 
-	fd_source = open(realname, O_RDONLY | O_CREAT);
+	if (f_open == NULL) {
+	    fd_source = open(realname, O_RDONLY | O_CREAT);
 
-	if (fd_source != -1) {
-	    f_source = fdopen(fd_source, "rb");
-	    if (f_source == NULL)
-		close(fd_source);
-	}
-
-	if (f_source == NULL) {
-	    statusbar(_("Error reading %s: %s"), realname,
-		strerror(errno));
-	    fclose(f);
-	    unlink(tempname);
-	    goto cleanup_and_exit;
+	    if (fd_source != -1) {
+		f_source = fdopen(fd_source, "rb");
+		if (f_source == NULL) {
+		    statusbar(_("Error reading %s: %s"), realname,
+			strerror(errno));
+		    close(fd_source);
+		    fclose(f);
+		    unlink(tempname);
+		    goto cleanup_and_exit;
+		}
+	    }
 	}
 
 	if (copy_file(f_source, f) != 0) {
@@ -1566,31 +1564,36 @@ int write_file(const char *name, bool tmp, int append, bool
 	}
     }
 
-    /* Now open the file in place.  Use O_EXCL if tmp is TRUE.  This is
-     * copied from joe, because wiggy says so *shrug*. */
-    fd = open(realname, O_WRONLY | O_CREAT |
-	((append == 1) ? O_APPEND : (tmp ? O_EXCL : O_TRUNC)),
-	S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+    if (f_open == NULL) {
+	/* Now open the file in place.  Use O_EXCL if tmp is TRUE.  This
+	 * is copied from joe, because wiggy says so *shrug*. */
+	fd = open(realname, O_WRONLY | O_CREAT |
+		((append == 1) ? O_APPEND : (tmp ? O_EXCL : O_TRUNC)),
+		S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH |
+		S_IWOTH);
 
-    /* Set the umask back to the user's original value. */
-    umask(original_umask);
+	/* Set the umask back to the user's original value. */
+	umask(original_umask);
 
-    /* If we couldn't open the file, give up. */
-    if (fd == -1) {
-	statusbar(_("Error writing %s: %s"), realname, strerror(errno));
+	/* If we couldn't open the file, give up. */
+	if (fd == -1) {
+	    statusbar(_("Error writing %s: %s"), realname,
+		strerror(errno));
 
-	/* tempname has been set only if we're prepending. */
-	if (tempname != NULL)
-	    unlink(tempname);
-	goto cleanup_and_exit;
-    }
+	    /* tempname has been set only if we're prepending. */
+	    if (tempname != NULL)
+		unlink(tempname);
+	    goto cleanup_and_exit;
+	}
 
-    f = fdopen(fd, (append == 1) ? "ab" : "wb");
+	f = fdopen(fd, (append == 1) ? "ab" : "wb");
 
-    if (f == NULL) {
-	statusbar(_("Error writing %s: %s"), realname, strerror(errno));
-	close(fd);
-	goto cleanup_and_exit;
+	if (f == NULL) {
+	    statusbar(_("Error writing %s: %s"), realname,
+		strerror(errno));
+	    close(fd);
+	    goto cleanup_and_exit;
+	}
     }
 
     /* There might not be a magicline.  There won't be when writing out
@@ -1692,7 +1695,7 @@ int write_file(const char *name, bool tmp, int append, bool
 	titlebar(NULL);
     }
 
-    retval = 1;
+    retval = 0;
 
   cleanup_and_exit:
     free(realname);
@@ -1704,11 +1707,11 @@ int write_file(const char *name, bool tmp, int append, bool
 #ifndef NANO_SMALL
 /* Write a marked selection from a file out.  First, set fileage and
  * filebot as the top and bottom of the mark, respectively.  Then call
- * write_file() with the values of name, temp, and append, and with
- * nonamechange set to TRUE so that we don't change the current
+ * write_file() with the values of name, f_open, temp, and append, and
+ * with nonamechange set to TRUE so that we don't change the current
  * filename.  Finally, set fileage and filebot back to their old values
  * and return. */
-int write_marked(const char *name, bool tmp, int append)
+int write_marked(const char *name, FILE *f_open, bool tmp, int append)
 {
     int retval = -1;
     bool old_modified = ISSET(MODIFIED);
@@ -1731,7 +1734,7 @@ int write_marked(const char *name, bool tmp, int append)
     if (added_magicline)
 	new_magicline();
 
-    retval = write_file(name, tmp, append, TRUE);
+    retval = write_file(name, f_open, tmp, append, TRUE);
 
     /* If we added a magicline, remove it now. */
     if (added_magicline)
@@ -1761,10 +1764,10 @@ int do_writeout(bool exiting)
     currshortcut = writefile_list;
 
     if (exiting && filename[0] != '\0' && ISSET(TEMP_FILE)) {
-	retval = write_file(filename, FALSE, 0, FALSE);
+	retval = write_file(filename, NULL, FALSE, 0, FALSE);
 
 	/* Write succeeded. */
-	if (retval == 1)
+	if (retval == 0)
 	    return retval;
     }
 
@@ -1907,10 +1910,10 @@ int do_writeout(bool exiting)
 	     * disabled since it allows reading from or writing to files
 	     * not specified on the command line. */
 	    if (!ISSET(RESTRICTED) && !exiting && ISSET(MARK_ISSET))
-		retval = write_marked(answer, FALSE, append);
+		retval = write_marked(answer, NULL, FALSE, append);
 	    else
 #endif /* !NANO_SMALL */
-		retval = write_file(answer, FALSE, append, FALSE);
+		retval = write_file(answer, NULL, FALSE, append, FALSE);
 
 #ifdef ENABLE_MULTIBUFFER
 	    /* If we're not about to exit, update the current entry in

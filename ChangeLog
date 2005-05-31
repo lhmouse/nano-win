@@ -40,6 +40,12 @@ CVS code -
 	  necessary.  Changes to get_next_filename(), write_file(),
 	  die(), usage(), nano.1, nanorc.5, nanorc.sample, and
 	  nano.texi. (DLR, suggested by James Collings)
+	- Rework the file-writing routines so that they can work
+	  properly with already-opened files, such as the
+	  mkstemp()-created files used by the spell-checking code.
+	  Changes to safe_tempnam() (renamed safe_tempfile()),
+	  write_file(), write_marked(), die(), do_spell(), and
+	  do_exit(). (DLR)
 - cut.c:
   cut_line()
 	- Set placewewant properly after cutting a line, to avoid a

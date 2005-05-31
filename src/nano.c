@@ -171,7 +171,7 @@ void die_save_file(const char *die_filename)
 
     retval = get_next_filename(die_filename, ".save");
     if (retval[0] != '\0')
-	failed = (write_file(retval, TRUE, FALSE, TRUE) == -1);
+	failed = (write_file(retval, NULL, TRUE, FALSE, TRUE) == -1);
 
     if (!failed)
 	fprintf(stderr, _("\nBuffer written to %s\n"), retval);
@@ -2368,7 +2368,8 @@ const char *do_alt_speller(char *tempfile_name)
 void do_spell(void)
 {
     int i;
-    char *temp = safe_tempnam();
+    FILE *temp_file;
+    char *temp = safe_tempfile(&temp_file);
     const char *spell_msg;
 
     if (temp == NULL) {
@@ -2378,10 +2379,10 @@ void do_spell(void)
 
 #ifndef NANO_SMALL
     if (ISSET(MARK_ISSET))
-	i = write_marked(temp, TRUE, FALSE);
+	i = write_marked(temp, temp_file, TRUE, FALSE);
     else
 #endif
-	i = write_file(temp, TRUE, FALSE, FALSE);
+	i = write_file(temp, temp_file, TRUE, FALSE, FALSE);
 
     if (i == -1) {
 	statusbar(_("Error writing temp file: %s"), strerror(errno));
@@ -3368,7 +3369,7 @@ void do_exit(void)
     dump_buffer(fileage);
 #endif
 
-    if (i == 0 || (i == 1 && do_writeout(TRUE) > 0)) {
+    if (i == 0 || (i == 1 && do_writeout(TRUE) == 0)) {
 #ifdef ENABLE_MULTIBUFFER
 	/* Exit only if there are no more open file buffers. */
 	if (!close_open_file())

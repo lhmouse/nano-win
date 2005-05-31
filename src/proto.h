@@ -280,7 +280,7 @@ char *get_full_path(const char *origpath);
 #endif
 #ifndef DISABLE_SPELLER
 char *check_writable_directory(const char *path);
-char *safe_tempnam(void);
+char *safe_tempfile(FILE **f);
 #endif
 #ifndef DISABLE_OPERATINGDIR
 void init_operating_dir(void);
@@ -290,10 +290,10 @@ bool check_operating_dir(const char *currpath, bool allow_tabcomp);
 void init_backup_dir(void);
 #endif
 int copy_file(FILE *inn, FILE *out);
-int write_file(const char *name, bool tmp, int append, bool
-	nonamechange);
+int write_file(const char *name, FILE *f_open, bool tmp, int append,
+	bool nonamechange);
 #ifndef NANO_SMALL
-int write_marked(const char *name, bool tmp, int append);
+int write_marked(const char *name, FILE *f_open, bool tmp, int append);
 #endif
 int do_writeout(bool exiting);
 void do_writeout_void(void);
