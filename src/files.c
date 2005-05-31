@@ -1575,7 +1575,7 @@ int write_file(const char *name, bool tmp, int append, bool
     /* Set the umask back to the user's original value. */
     umask(original_umask);
 
-    /* First, just give up if we couldn't even open the file. */
+    /* If we couldn't open the file, give up. */
     if (fd == -1) {
 	statusbar(_("Error writing %s: %s"), realname, strerror(errno));
 
