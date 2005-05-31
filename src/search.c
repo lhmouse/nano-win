@@ -257,6 +257,7 @@ int search_init(bool replacing, bool use_answer)
 		return -1;
 	}
     }
+
     return 0;
 }
 
