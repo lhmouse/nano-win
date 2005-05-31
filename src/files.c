@@ -1125,7 +1125,7 @@ char *check_writable_directory(const char *path)
     /* If we can't write to path or path isn't a directory, return
      * NULL. */
     if (access(full_path, W_OK) != 0 ||
-		full_path[strlen(full_path) - 1] != '/') {
+	full_path[strlen(full_path) - 1] != '/') {
 	free(full_path);
 	return NULL;
     }
