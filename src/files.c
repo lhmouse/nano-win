@@ -402,7 +402,8 @@ char *get_next_filename(const char *name, const char *suffix)
 	sprintf(buf + namelen + suffixlen, ".%lu", i);
     }
 
-    /* We get here only if there is no possible save file. */
+    /* We get here only if there is no possible save file.  Blank out
+     * the filename to indicate this. */
     null_at(&buf, 0);
 
     return buf;
