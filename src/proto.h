@@ -524,7 +524,7 @@ void do_gotolinecolumn_void(void);
 void do_gotopos(int line, size_t pos_x, int pos_y, size_t pos_pww);
 #endif
 void do_find_bracket(void);
-#ifndef NANO_SMALL
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 bool history_has_changed(void);
 void history_init(void);
 filestruct *find_history(filestruct *h, const char *s);

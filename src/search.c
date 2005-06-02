@@ -1119,7 +1119,7 @@ void do_find_bracket(void)
 }
 #endif
 
-#ifndef NANO_SMALL
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 /* Indicate whether any of the history lists have changed. */
 bool history_has_changed(void)
 {
@@ -1239,4 +1239,4 @@ char *get_history_newer(filestruct **h)
 
     return (*h)->data;
 }
-#endif /* !NANO_SMALL */
+#endif /* !NANO_SMALL && ENABLE_NANORC */
