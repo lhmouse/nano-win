@@ -322,6 +322,9 @@ char *histfilename(void);
 void load_history(void);
 bool writehist(FILE *hist, filestruct *histhead);
 void save_history(void);
+#ifndef DISABLE_TABCOMP
+char *get_history_completion(filestruct **h, char *s, size_t len);
+#endif
 #endif
 
 /* Public functions in global.c. */
@@ -527,9 +530,9 @@ void do_find_bracket(void);
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 bool history_has_changed(void);
 void history_init(void);
-filestruct *find_history(filestruct *h, const char *s);
-void update_history(filestruct **h, filestruct **hage, filestruct
-	**hbot, const char *s);
+filestruct *find_history(filestruct *h_start, filestruct *h_end, const
+	char *s, size_t len);
+void update_history(filestruct **h, const char *s);
 char *get_history_older(filestruct **h);
 char *get_history_newer(filestruct **h);
 #endif
@@ -649,7 +652,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 void nanoget_repaint(const char *buf, const char *inputbuf, size_t x);
 int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
-	filestruct *history_list,
+	filestruct **history_list,
 #endif
 	const shortcut *s
 #ifndef DISABLE_TABCOMP
@@ -658,7 +661,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 	);
 int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
-	filestruct *history_list,
+	filestruct **history_list,
 #endif
 	const char *msg, ...);
 void statusq_abort(void);

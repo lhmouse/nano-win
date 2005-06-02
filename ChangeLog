@@ -21,14 +21,14 @@ CVS code -
 	  do_gotolinecolumn_void()), nano.1, and nano.texi. (DLR,
 	  suggested by PFTank)
 	- Overhaul the history code to work more consistently, and clean
-	  up various parts of it.  Note that history tab completion has
-	  been removed.  New function history_has_changed(); changes to
-	  load_history(), writehist(), thanks_for_all_the_fish(),
-	  history_init(), find_node() (renamed find_history()),
-	  update_history(), get_history_older(), get_history_newer(),
-	  do_search(), do_replace(), nanogetstr(), and statusq();
-	  removal of remove_node(), insert_node(), and
-	  get_history_completion(). (DLR)
+	  up various parts of it.  New function history_has_changed();
+	  changes to load_history(), writehist(),
+	  thanks_for_all_the_fish(), history_init(), find_node()
+	  (renamed find_history()), update_history(),
+	  get_history_older(), get_history_newer(),
+	  get_history_completion(), do_search(), do_replace(),
+	  nanogetstr(), and statusq(); removal of remove_node() and
+	  insert_node(). (DLR)
 	- Replace all instances of strncpy() with charcpy(), since the
 	  only difference between them is that the former pads strings
 	  with nulls when they're longer than the number of characters

@@ -165,7 +165,7 @@ int search_init(bool replacing, bool use_answer)
     i = statusq(FALSE, replacing ? replace_list : whereis_list,
 	backupstring,
 #ifndef NANO_SMALL
-	search_history,
+	&search_history,
 #endif
 	"%s%s%s%s%s%s", _("Search"),
 
@@ -476,7 +476,7 @@ void do_search(void)
     /* If answer is not "", add this search string to the search history
      * list. */
     if (answer[0] != '\0')
-	update_history(&search_history, &searchage, &searchbot, answer);
+	update_history(&search_history, answer);
 #endif
 
     findnextstr_wrap_reset();
@@ -905,14 +905,14 @@ void do_replace(void)
      * copy answer into last_search. */
     if (answer[0] != '\0') {
 #ifndef NANO_SMALL
-	update_history(&search_history, &searchage, &searchbot, answer);
+	update_history(&search_history, answer);
 #endif
 	last_search = mallocstrcpy(last_search, answer);
     }
 
     i = statusq(FALSE, replace_list_2, last_replace,
 #ifndef NANO_SMALL
-	replace_history,
+	&replace_history,
 #endif
 	_("Replace with"));
 
@@ -920,8 +920,7 @@ void do_replace(void)
     /* Add this replace string to the replace history list.  i == 0
      * means that the string is not "". */
     if (i == 0)
-	update_history(&replace_history, &replaceage, &replacebot,
-		answer);
+	update_history(&replace_history, answer);
 #endif
 
     if (i != 0 && i != -2) {
@@ -1140,32 +1139,42 @@ void history_init(void)
     replacebot = replace_history;
 }
 
-/* Return the first node containing the string s in the history list,
- * starting at h, or NULL if there isn't one. */
-filestruct *find_history(filestruct *h, const char *s)
+/* Return the first node containing the first len characters of the
+ * string s in the history list, starting at h_start and ending at
+ * h_end, or NULL if there isn't one. */
+filestruct *find_history(filestruct *h_start, filestruct *h_end, const
+	char *s, size_t len)
 {
-    assert(h != NULL);
+    filestruct *p;
 
-    for (; h->next != NULL; h = h->next) {
-	if (strcmp(s, h->data) == 0)
-	    return h;
+    for (p = h_start; p != h_end->next && p != NULL; p = p->next) {
+	if (strncmp(s, p->data, len) == 0)
+	    return p;
     }
 
     return NULL;
 }
 
-/* Update a history list.  h should be the current position in the list,
- * hage should be the top of the list, and hbot should be the bottom of
- * the list. */
-void update_history(filestruct **h, filestruct **hage, filestruct
-	**hbot, const char *s)
+/* Update a history list.  h should be the current position in the
+ * list. */
+void update_history(filestruct **h, const char *s)
 {
-    filestruct *p;
+    filestruct **hage = NULL, **hbot = NULL, *p;
 
-    assert(h != NULL && hage != NULL && hbot != NULL && s != NULL);
+    assert(h != NULL && s != NULL);
+
+    if (*h == search_history) {
+	hage = &searchage;
+	hbot = &searchbot;
+    } else if (*h == replace_history) {
+	hage = &replaceage;
+	hbot = &replacebot;
+    }
+
+    assert(hage != NULL && hbot != NULL);
 
     /* If this string is already in the history, delete it. */
-    p = find_history(*hage, s);
+    p = find_history(*hage, *hbot, s, (size_t)-1);
 
     if (p != NULL) {
 	filestruct *foo, *bar;
@@ -1239,4 +1248,55 @@ char *get_history_newer(filestruct **h)
 
     return (*h)->data;
 }
+
+#ifndef DISABLE_TABCOMP
+/* Move h to the next string that's a tab completion of the string s,
+ * looking at only the first len characters of s, and return that
+ * string.  If there isn't one, or if len is 0, don't move h, truncate s
+ * to len characters, and return s. */
+char *get_history_completion(filestruct **h, char *s, size_t len)
+{
+    assert(s != NULL);
+
+    if (len > 0) {
+	filestruct *hage = NULL, *hbot = NULL, *p;
+
+	assert(h != NULL);
+
+	if (*h == search_history) {
+	    hage = searchage;
+	    hbot = searchbot;
+	} else if (*h == replace_history) {
+	    hage = replaceage;
+	    hbot = replacebot;
+	}
+
+	assert(hage != NULL && hbot != NULL);
+
+	/* Search the history list from the entry after the current
+	 * position to the bottom for a match of len characters. */
+	p = find_history((*h)->next, hbot, s, len);
+
+	if (p != NULL) {
+	    *h = p;
+	    return (*h)->data;
+	}
+
+	/* Search the history list from the top to the current position
+	 * for a match of len characters. */
+	p = find_history(hage, *h, s, len);
+
+	if (p != NULL) {
+	    *h = p;
+	    return (*h)->data;
+	}
+    }
+
+    /* If we're here, we didn't find a match, or len is 0.  Truncate s
+     * to len characters, and return it. */
+    null_at(&s, len);
+
+    return s;
+}
+#endif
 #endif /* !NANO_SMALL && ENABLE_NANORC */

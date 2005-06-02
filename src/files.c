@@ -2915,8 +2915,6 @@ void load_history(void)
 	     * replace history) from oldest to newest.  Assume the last
 	     * history entry is a blank line. */
 	    filestruct **history = &search_history;
-	    filestruct **historyage = &searchage;
-	    filestruct **historybot = &searchbot;
 	    char *line = NULL;
 	    size_t buflen = 0;
 	    ssize_t read;
@@ -2928,13 +2926,9 @@ void load_history(void)
 		}
 		if (read > 0) {
 		    unsunder(line, read);
-		    update_history(history, historyage, historybot,
-			line);
-		} else {
+		    update_history(history, line);
+		} else
 		    history = &replace_history;
-		    historyage = &replaceage;
-		    historybot = &replacebot;
-		}
 	    }
 
 	    fclose(hist);
