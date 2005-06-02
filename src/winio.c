@@ -2565,7 +2565,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
     }
 
 #ifndef NANO_SMALL
-    /* Free msgichistory if we need to. */
+    /* Free magichistory if we need to. */
     if (magichistory != NULL)
 	free(magichistory);
 #endif
