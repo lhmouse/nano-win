@@ -648,7 +648,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	dollars);
 void nanoget_repaint(const char *buf, const char *inputbuf, size_t x);
 int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
-#ifndef NANO_SMALL
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 	filestruct *history_list,
 #endif
 	const shortcut *s
@@ -657,7 +657,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 #endif
 	);
 int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
-#ifndef NANO_SMALL
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 	filestruct *history_list,
 #endif
 	const char *msg, ...);

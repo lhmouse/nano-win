@@ -2430,7 +2430,7 @@ void nanoget_repaint(const char *buf, const char *inputbuf, size_t x)
 /* Get the input from the keyboard; this should only be called from
  * statusq(). */
 int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
-#ifndef NANO_SMALL
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 	filestruct *history_list,
 #endif
 	const shortcut *s
@@ -2446,7 +2446,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
     bool tabbed = FALSE;
 	/* Whether we've pressed Tab. */
 #endif
-#ifndef NANO_SMALL
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
     char *history = NULL;
 	/* The current history string. */
     char *magichistory = NULL;
@@ -2500,7 +2500,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 #endif
 		break;
 	    case NANO_PREVLINE_KEY:
-#ifndef NANO_SMALL
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 		if (history_list != NULL) {
 		    /* If we're scrolling up at the bottom of the
 		     * history list, answer isn't blank, and
@@ -2526,10 +2526,10 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 		     * statusbar prompt. */
 		    finished = FALSE;
 		}
-#endif
+#endif /* !NANO_SMALL && ENABLE_NANORC */
 		break;
 	    case NANO_NEXTLINE_KEY:
-#ifndef NANO_SMALL
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 		if (history_list != NULL) {
 		    /* Get the newer search from the history list and
 		     * save it in answer.  If there is no newer search,
@@ -2550,7 +2550,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 			statusbar_x = strlen(answer);
 		    }
 		}
-#endif
+#endif /* !NANO_SMALL && ENABLE_NANORC */
 		break;
 	}
 
@@ -2564,7 +2564,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 	wrefresh(bottomwin);
     }
 
-#ifndef NANO_SMALL
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
     /* Free magichistory if we need to. */
     if (magichistory != NULL)
 	free(magichistory);
@@ -2587,7 +2587,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
  * The allow_tabs parameter indicates whether we should allow tabs to be
  * interpreted. */
 int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
-#ifndef NANO_SMALL
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 	filestruct *history_list,
 #endif
 	const char *msg, ...)
