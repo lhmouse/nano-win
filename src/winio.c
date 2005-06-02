@@ -2448,12 +2448,12 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 #endif
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 #ifndef DISABLE_TABCOMP
+    int last_kbinput = ERR;
+	/* The key we pressed before the current key. */
     size_t complete_len = 0;
 	/* The length of the original string that we're trying to
 	 * tab complete, if any. */
 #endif
-    int last_kbinput = ERR;
-	/* The key we pressed before the current key. */
     char *history = NULL;
 	/* The current history string. */
     char *magichistory = NULL;
