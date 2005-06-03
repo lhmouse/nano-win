@@ -155,6 +155,8 @@ CVS code -
 	- Minor tweaks to some of the test blocks to avoid XSI:isms.
 	  (DLR, adapted from a Debian patch for GNU ed by David
 	  Weinehall)
+	- Don't refer to the built-in file browser as crappy anymore.
+	  (DLR)
 - THANKS:
 	- Add new translators to the credits.
 
