@@ -167,7 +167,7 @@ const shortcut *currshortcut;	/* Current shortcut list we're using */
 toggle *toggles = NULL;
 #endif
 
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#ifndef NANO_SMALL
 filestruct *search_history = NULL;
 filestruct *searchage = NULL;
 filestruct *searchbot = NULL;
@@ -256,9 +256,7 @@ void shortcut_init(bool unjustify)
 #ifdef HAVE_REGEX_H
     const char *regexp_msg = N_("Regexp");
 #endif
-#ifdef ENABLE_NANORC
     const char *history_msg = N_("History");
-#endif
 #ifdef ENABLE_MULTIBUFFER
     const char *new_buffer_msg = N_("New Buffer");
 #endif
@@ -346,10 +344,8 @@ void shortcut_init(bool unjustify)
 #ifdef HAVE_REGEX_H
     const char *nano_regexp_msg = N_("Use regular expressions");
 #endif
-#ifdef ENABLE_NANORC
     const char *nano_history_msg =
 	N_("Edit the previous search/replace strings");
-#endif
 #endif /* !NANO_SMALL */
 
 #ifndef DISABLE_BROWSER
@@ -672,12 +668,10 @@ void shortcut_init(bool unjustify)
 	NANO_NO_KEY, VIEW, NULL);
 #endif
 
-#ifdef ENABLE_NANORC
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_PREVLINE_KEY, history_msg,
 	IFHELP(nano_history_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
-#endif
 
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_CUTTILLEND_KEY, cut_till_end_msg,
@@ -740,11 +734,9 @@ void shortcut_init(bool unjustify)
 	NANO_NO_KEY, VIEW, NULL);
 #endif
 
-#ifndef ENABLE_NANORC
     sc_init_one(&replace_list, NANO_PREVLINE_KEY, history_msg,
 	IFHELP(nano_history_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
-#endif
 #endif /* !NANO_SMALL */
 
     free_shortcutage(&replace_list_2);
@@ -771,7 +763,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_lastline_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, do_last_line);
 
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#ifndef NANO_SMALL
     sc_init_one(&replace_list_2, NANO_PREVLINE_KEY, history_msg,
 	IFHELP(nano_history_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);

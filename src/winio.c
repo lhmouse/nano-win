@@ -2430,7 +2430,7 @@ void nanoget_repaint(const char *buf, const char *inputbuf, size_t x)
 /* Get the input from the keyboard; this should only be called from
  * statusq(). */
 int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#ifndef NANO_SMALL
 	filestruct **history_list,
 #endif
 	const shortcut *s
@@ -2446,7 +2446,12 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
     bool tabbed = FALSE;
 	/* Whether we've pressed Tab. */
 #endif
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#ifndef NANO_SMALL
+    char *history = NULL;
+	/* The current history string. */
+    char *magichistory = NULL;
+	/* The temporary string typed at the bottom of the history, if
+	 * any. */
 #ifndef DISABLE_TABCOMP
     int last_kbinput = ERR;
 	/* The key we pressed before the current key. */
@@ -2454,12 +2459,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 	/* The length of the original string that we're trying to
 	 * tab complete, if any. */
 #endif
-    char *history = NULL;
-	/* The current history string. */
-    char *magichistory = NULL;
-	/* The temporary string typed at the bottom of the history, if
-	 * any. */
-#endif
+#endif /* !NANO_SMALL */
 
     answer = mallocstrcpy(answer, curranswer);
     curranswer_len = strlen(answer);
@@ -2501,7 +2501,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 	switch (kbinput) {
 	    case NANO_TAB_KEY:
 #ifndef DISABLE_TABCOMP
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#ifndef NANO_SMALL
 		if (history_list != NULL) {
 		    if (last_kbinput != NANO_TAB_KEY)
 			complete_len = strlen(answer);
@@ -2513,14 +2513,14 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 			statusbar_x = strlen(answer);
 		    }
 		} else
-#endif
+#endif /* !NANO_SMALL */
 		if (allow_tabs)
 		    answer = input_tab(answer, &statusbar_x, &tabbed,
 			list);
-#endif
+#endif /* !DISABLE_TABCOMP */
 		break;
 	    case NANO_PREVLINE_KEY:
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#ifndef NANO_SMALL
 		if (history_list != NULL) {
 		    /* If we're scrolling up at the bottom of the
 		     * history list, answer isn't blank, and
@@ -2546,10 +2546,10 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 		     * statusbar prompt. */
 		    finished = FALSE;
 		}
-#endif /* !NANO_SMALL && ENABLE_NANORC */
+#endif /* !NANO_SMALL */
 		break;
 	    case NANO_NEXTLINE_KEY:
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#ifndef NANO_SMALL
 		if (history_list != NULL) {
 		    /* Get the newer search from the history list and
 		     * save it in answer.  If there is no newer search,
@@ -2570,7 +2570,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 			statusbar_x = strlen(answer);
 		    }
 		}
-#endif /* !NANO_SMALL && ENABLE_NANORC */
+#endif /* !NANO_SMALL */
 		break;
 	}
 
@@ -2580,7 +2580,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 	if (finished)
 	    break;
 
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC) && !defined(DISABLE_TABCOMP)
+#if !defined(NANO_SMALL) && !defined(DISABLE_TABCOMP)
 	last_kbinput = kbinput;
 #endif
 
@@ -2588,7 +2588,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 	wrefresh(bottomwin);
     }
 
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#ifndef NANO_SMALL
     /* Free magichistory if we need to. */
     if (magichistory != NULL)
 	free(magichistory);
@@ -2611,7 +2611,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
  * The allow_tabs parameter indicates whether we should allow tabs to be
  * interpreted. */
 int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#ifndef NANO_SMALL
 	filestruct **history_list,
 #endif
 	const char *msg, ...)

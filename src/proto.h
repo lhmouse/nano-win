@@ -523,14 +523,19 @@ void do_gotolinecolumn_void(void);
 void do_gotopos(int line, size_t pos_x, int pos_y, size_t pos_pww);
 #endif
 void do_find_bracket(void);
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#ifndef NANO_SMALL
+#ifdef ENABLE_NANORC
 bool history_has_changed(void);
+#endif
 void history_init(void);
 filestruct *find_history(filestruct *h_start, filestruct *h_end, const
 	char *s, size_t len);
 void update_history(filestruct **h, const char *s);
 char *get_history_older(filestruct **h);
 char *get_history_newer(filestruct **h);
+#ifndef DISABLE_TABCOMP
+char *get_history_completion(filestruct **h, char *s, size_t len);
+#endif
 #endif
 
 /* Public functions in utils.c. */
@@ -647,7 +652,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	dollars);
 void nanoget_repaint(const char *buf, const char *inputbuf, size_t x);
 int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#ifndef NANO_SMALL
 	filestruct **history_list,
 #endif
 	const shortcut *s
@@ -656,7 +661,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 #endif
 	);
 int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#ifndef NANO_SMALL
 	filestruct **history_list,
 #endif
 	const char *msg, ...);
