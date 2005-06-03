@@ -1131,7 +1131,7 @@ char *check_writable_directory(const char *path)
 	return NULL;
     }
 
-    /* otherwise, return the full path */
+    /* Otherwise, return the full path. */
     return full_path;
 }
 
