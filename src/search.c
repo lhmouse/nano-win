@@ -1252,8 +1252,8 @@ char *get_history_newer(filestruct **h)
 #ifndef DISABLE_TABCOMP
 /* Move h to the next string that's a tab completion of the string s,
  * looking at only the first len characters of s, and return that
- * string.  If there isn't one, or if len is 0, don't move h, truncate s
- * to len characters, and return s. */
+ * string.  If there isn't one, or if len is 0, don't move h and return
+ * s. */
 char *get_history_completion(filestruct **h, char *s, size_t len)
 {
     assert(s != NULL);
@@ -1292,10 +1292,7 @@ char *get_history_completion(filestruct **h, char *s, size_t len)
 	}
     }
 
-    /* If we're here, we didn't find a match, or len is 0.  Truncate s
-     * to len characters, and return it. */
-    null_at(&s, len);
-
+    /* If we're here, we didn't find a match, or len is 0.  Return s. */
     return s;
 }
 #endif
