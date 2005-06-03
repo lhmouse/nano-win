@@ -275,13 +275,9 @@ void open_prevfile_void(void);
 void open_nextfile_void(void);
 bool close_open_file(void);
 #endif
-#if !defined(DISABLE_SPELLER) || !defined(DISABLE_OPERATINGDIR)
 char *get_full_path(const char *origpath);
-#endif
-#ifndef DISABLE_SPELLER
 char *check_writable_directory(const char *path);
 char *safe_tempfile(FILE **f);
-#endif
 #ifndef DISABLE_OPERATINGDIR
 void init_operating_dir(void);
 bool check_operating_dir(const char *currpath, bool allow_tabcomp);

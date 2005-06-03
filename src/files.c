@@ -982,7 +982,6 @@ bool close_open_file(void)
 }
 #endif /* ENABLE_MULTIBUFFER */
 
-#if !defined(DISABLE_SPELLER) || !defined(DISABLE_OPERATINGDIR)
 /* When passed "[relative path]" or "[relative path][filename]" in
  * origpath, return "[full path]" or "[full path][filename]" on success,
  * or NULL on error.  Do this if the file doesn't exist but the relative
@@ -1109,9 +1108,7 @@ char *get_full_path(const char *origpath)
 
     return d_there;
 }
-#endif /* !DISABLE_SPELLER || !DISABLE_OPERATINGDIR */
 
-#ifndef DISABLE_SPELLER
 /* Return the full version of path, as returned by get_full_path().  On
  * error, if path doesn't reference a directory, or if the directory
  * isn't writable, return NULL. */
@@ -1176,7 +1173,6 @@ char *safe_tempfile(FILE **f)
 
     return full_tempdir;
 }
-#endif /* !DISABLE_SPELLER */
 
 #ifndef DISABLE_OPERATINGDIR
 /* Initialize full_operating_dir based on operating_dir. */
