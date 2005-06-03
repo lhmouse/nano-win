@@ -79,9 +79,6 @@ const static rcoption rcopts[] = {
     {"quotestr", 0},
 #endif
     {"rebinddelete", REBIND_DELETE},
-#ifdef HAVE_REGEX_H
-    {"regexp", USE_REGEXP},
-#endif
 #ifndef NANO_SMALL
     {"smarthome", SMART_HOME},
     {"smooth", SMOOTHSCROLL},

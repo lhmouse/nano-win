@@ -46,6 +46,14 @@ CVS code -
 	  Changes to safe_tempnam() (renamed safe_tempfile()),
 	  write_file(), write_marked(), die(), do_spell(), and
 	  do_exit(). (DLR)
+	- Remove the -R/--regexp command line option and enable the
+	  toggle at the search promptin tiny mode, as it already
+	  allows the prepend and append toggles at the search prompt.
+	  For consistency, rename TOGGLE_REGEXP_KEY to NANO_REGEXP_KEY,
+	  and move it out of the toggles block to where NANO_PREPEND_KEY
+	  and NANO_APPEND_KEY are.  Changes to shortcut_init(), usage(),
+	  main(), search_init(), nanorc.sample, nano.1, nanorc.5,
+	  nano.texi, etc. (DLR)
 - cut.c:
   cut_line()
 	- Set placewewant properly after cutting a line, to avoid a

@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.3.8
-@set UPDATED 29 May 2005
+@set UPDATED 03 Jun 2005
 
 @dircategory Editors
 @direntry
@@ -147,9 +147,6 @@ Set the quoting string for justifying.  The default is
 
 if regular expression support is available, or ``> '' otherwise.  Note
 that @code{\t} above stands for a literal Tab character.
-
-@item -R, --regexp
-Turn on regular expression search and search/replace.
 
 @item -S, --smooth
 Enable smooth scrolling.

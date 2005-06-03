@@ -253,18 +253,19 @@ void shortcut_init(bool unjustify)
 #ifndef NANO_SMALL
     const char *case_sens_msg = N_("Case Sens");
     const char *direction_msg = N_("Direction");
+#endif
 #ifdef HAVE_REGEX_H
     const char *regexp_msg = N_("Regexp");
 #endif
+#ifndef NANO_SMALL
     const char *history_msg = N_("History");
 #ifdef ENABLE_MULTIBUFFER
     const char *new_buffer_msg = N_("New Buffer");
 #endif
-#endif /* !NANO_SMALL */
+#endif
 #ifndef DISABLE_BROWSER
     const char *to_files_msg = N_("To Files");
 #endif
-
 #ifndef DISABLE_HELP
     const char *nano_help_msg = N_("Invoke the help menu");
     const char *nano_exit_msg =
@@ -341,13 +342,14 @@ void shortcut_init(bool unjustify)
 	N_("Make the current search/replace case (in)sensitive");
     const char *nano_reverse_msg =
 	N_("Make the current search/replace go backwards");
+#endif
 #ifdef HAVE_REGEX_H
     const char *nano_regexp_msg = N_("Use regular expressions");
 #endif
+#ifndef NANO_SMALL
     const char *nano_history_msg =
 	N_("Edit the previous search/replace strings");
-#endif /* !NANO_SMALL */
-
+#endif
 #ifndef DISABLE_BROWSER
     const char *nano_tofiles_msg = N_("Go to file browser");
 #endif
@@ -660,14 +662,16 @@ void shortcut_init(bool unjustify)
     sc_init_one(&whereis_list, NANO_NO_KEY, direction_msg,
 	IFHELP(nano_reverse_msg, TOGGLE_BACKWARDS_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
+#endif
 
 #ifdef HAVE_REGEX_H
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_NO_KEY, regexp_msg,
-	IFHELP(nano_regexp_msg, TOGGLE_REGEXP_KEY), NANO_NO_KEY,
+	IFHELP(nano_regexp_msg, NANO_REGEXP_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 #endif
 
+#ifndef NANO_SMALL
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_PREVLINE_KEY, history_msg,
 	IFHELP(nano_history_msg, NANO_NO_KEY), NANO_NO_KEY,
@@ -677,7 +681,7 @@ void shortcut_init(bool unjustify)
     sc_init_one(&whereis_list, NANO_CUTTILLEND_KEY, cut_till_end_msg,
 	IFHELP(nano_cut_till_end_msg, NANO_CUTTILLEND_ALTKEY),
 	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_cut_till_end);
-#endif /* !NANO_SMALL */
+#endif
 
 #ifndef DISABLE_JUSTIFY
     /* Translators: try to keep this string under 10 characters long */
@@ -727,17 +731,19 @@ void shortcut_init(bool unjustify)
     sc_init_one(&replace_list, NANO_NO_KEY, direction_msg,
 	IFHELP(nano_reverse_msg, TOGGLE_BACKWARDS_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
+#endif
 
 #ifdef HAVE_REGEX_H
     sc_init_one(&replace_list, NANO_NO_KEY, regexp_msg,
-	IFHELP(nano_regexp_msg, TOGGLE_REGEXP_KEY), NANO_NO_KEY,
+	IFHELP(nano_regexp_msg, NANO_REGEXP_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 #endif
 
+#ifndef NANO_SMALL
     sc_init_one(&replace_list, NANO_PREVLINE_KEY, history_msg,
 	IFHELP(nano_history_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
-#endif /* !NANO_SMALL */
+#endif
 
     free_shortcutage(&replace_list_2);
 

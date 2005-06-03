@@ -238,13 +238,13 @@ int search_init(bool replacing, bool use_answer)
 		TOGGLE(REVERSE_SEARCH);
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
+#endif
 #ifdef HAVE_REGEX_H
-	    case TOGGLE_REGEXP_KEY:
+	    case NANO_REGEXP_KEY:
 		TOGGLE(USE_REGEXP);
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
 #endif
-#endif /* !NANO_SMALL */
 	    case NANO_TOOTHERSEARCH_KEY:
 		backupstring = mallocstrcpy(backupstring, answer);
 		return -2;	/* Call the opposite search function. */
@@ -457,11 +457,9 @@ void do_search(void)
 	search_abort();
     else if (i == -2)	/* Replace. */
 	do_replace();
-#ifndef NANO_SMALL
     else if (i == 1)	/* Case Sensitive, Backwards, or Regexp search
 			 * toggle. */
 	do_search();
-#endif
 
     if (i != 0)
 	return;

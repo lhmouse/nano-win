@@ -1042,9 +1042,6 @@ void usage(void)
     print1opt(_("-Q [str]"), _("--quotestr=[str]"),
 	N_("Quoting string, default \"> \""));
 #endif
-#ifdef HAVE_REGEX_H
-    print1opt("-R", "--regexp", N_("Do regular expression searches"));
-#endif
 #ifndef NANO_SMALL
     print1opt("-S", "--smooth", N_("Smooth scrolling"));
 #endif
@@ -4014,9 +4011,6 @@ int main(int argc, char **argv)
 #ifndef DISABLE_JUSTIFY
 	{"quotestr", 1, NULL, 'Q'},
 #endif
-#ifdef HAVE_REGEX_H
-	{"regexp", 0, NULL, 'R'},
-#endif
 	{"tabsize", 1, NULL, 'T'},
 	{"version", 0, NULL, 'V'},
 #ifdef ENABLE_COLOR
@@ -4094,9 +4088,9 @@ int main(int argc, char **argv)
 
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
-	getopt_long(argc, argv, "h?ABE:FHINOQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz", long_options, NULL)
+	getopt_long(argc, argv, "h?ABE:FHINOQ:ST:VY:Zabcdefgijklmo:pr:s:tvwxz", long_options, NULL)
 #else
-	getopt(argc, argv, "h?ABE:FHINOQ:RST:VY:Zabcdefgijklmo:pr:s:tvwxz")
+	getopt(argc, argv, "h?ABE:FHINOQ:ST:VY:Zabcdefgijklmo:pr:s:tvwxz")
 #endif
 		) != -1) {
 
@@ -4146,11 +4140,6 @@ int main(int argc, char **argv)
 #ifndef DISABLE_JUSTIFY
 	    case 'Q':
 		quotestr = mallocstrcpy(quotestr, optarg);
-		break;
-#endif
-#ifdef HAVE_REGEX_H
-	    case 'R':
-		SET(USE_REGEXP);
 		break;
 #endif
 #ifndef NANO_SMALL
