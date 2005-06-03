@@ -457,9 +457,11 @@ void do_search(void)
 	search_abort();
     else if (i == -2)	/* Replace. */
 	do_replace();
+#if !defined(NANO_SMALL) || defined(HAVE_REGEX_H)
     else if (i == 1)	/* Case Sensitive, Backwards, or Regexp search
 			 * toggle. */
 	do_search();
+#endif
 
     if (i != 0)
 	return;
