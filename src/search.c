@@ -1181,11 +1181,6 @@ void update_history(filestruct **h, const char *s)
     if (p != NULL) {
 	filestruct *foo, *bar;
 
-	/* If the string is at the current position, don't do
-	 * anything. */
-	if (p == *h)
-	    return;
-
 	/* If the string is at the beginning, move the beginning down to
 	 * the next string. */
 	if (p == *hage)
