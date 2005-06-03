@@ -395,9 +395,8 @@ void parse_colors(char *ptr)
 	return;
     }
 
-    /* Now for the fun part.  Start adding regexps to individual strings
+    /* Now for the fun part.  Start adding regexes to individual strings
      * in the colorstrings array, woo! */
-
     while (ptr != NULL && *ptr != '\0') {
 	colortype *newcolor;
 	    /* The new color structure. */
