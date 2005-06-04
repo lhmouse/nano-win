@@ -2970,7 +2970,6 @@ void onekey(const char *keystroke, const char *desc, size_t len)
 }
 
 /* And so start the display update routines. */
-
 #ifndef NDEBUG
 int check_linenumbers(const filestruct *fileptr)
 {
