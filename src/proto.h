@@ -318,9 +318,6 @@ char *histfilename(void);
 void load_history(void);
 bool writehist(FILE *hist, filestruct *histhead);
 void save_history(void);
-#ifndef DISABLE_TABCOMP
-char *get_history_completion(filestruct **h, char *s, size_t len);
-#endif
 #endif
 
 /* Public functions in global.c. */
