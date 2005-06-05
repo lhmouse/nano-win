@@ -2969,19 +2969,6 @@ void onekey(const char *keystroke, const char *desc, size_t len)
     }
 }
 
-/* And so start the display update routines. */
-#ifndef NDEBUG
-int check_linenumbers(const filestruct *fileptr)
-{
-    int check_line = 0;
-    const filestruct *filetmp;
-
-    for (filetmp = edittop; filetmp != fileptr; filetmp = filetmp->next)
-	check_line++;
-    return check_line;
-}
-#endif
-
 /* nano scrolls horizontally within a line in chunks.  This function
  * returns the column number of the first character displayed in the
  * window when the cursor is at the given column.  Note that
@@ -3978,6 +3965,21 @@ void do_replace_highlight(bool highlight_flag, const char *word)
     if (highlight_flag)
 	wattroff(edit, A_REVERSE);
 }
+
+#ifndef NDEBUG
+/* Return what the current line number should be, starting at edittop
+ * and ending at fileptr. */
+int check_linenumbers(const filestruct *fileptr)
+{
+    int check_line = 0;
+    const filestruct *filetmp;
+
+    for (filetmp = edittop; filetmp != fileptr; filetmp = filetmp->next)
+	check_line++;
+
+    return check_line;
+}
+#endif
 
 #ifdef DEBUG
 /* Dump the passed-in file structure to stderr. */

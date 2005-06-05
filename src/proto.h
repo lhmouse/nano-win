@@ -668,9 +668,6 @@ void set_modified(void);
 void statusbar(const char *msg, ...);
 void bottombars(const shortcut *s);
 void onekey(const char *keystroke, const char *desc, size_t len);
-#ifndef NDEBUG
-int check_linenumbers(const filestruct *fileptr);
-#endif
 size_t get_page_start(size_t column);
 void reset_cursor(void);
 void edit_add(const filestruct *fileptr, const char *converted, int
@@ -693,6 +690,9 @@ size_t help_line_len(const char *ptr);
 void do_help(void);
 #endif
 void do_replace_highlight(bool highlight_flag, const char *word);
+#ifndef NDEBUG
+int check_linenumbers(const filestruct *fileptr);
+#endif
 #ifdef DEBUG
 void dump_buffer(const filestruct *inptr);
 void dump_buffer_reverse(void);
