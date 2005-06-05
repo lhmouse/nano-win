@@ -1305,7 +1305,8 @@ int copy_file(FILE *inn, FILE *out)
  * stream associated with the file, and we don't try to open it
  * ourselves.  If tmp is TRUE, we set the umask to disallow anyone else
  * from accessing the file, we don't set the global variable filename to
- * its name, and we don't print out how many lines we wrote on the statusbar.
+ * its name, and we don't print out how many lines we wrote on the
+ * statusbar.
  *
  * tmp means we are writing a temporary file in a secure fashion.  We
  * use it when spell checking or dumping the file on an error.
