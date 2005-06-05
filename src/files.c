@@ -1134,7 +1134,7 @@ char *check_writable_directory(const char *path)
 
 /* This function calls mkstemp(($TMPDIR|P_tmpdir|/tmp/)"nano.XXXXXX").
  * On success, it returns the malloc()ed filename and corresponding FILE
- * stream, opened in "w+b" mode.  On error, it returns NULL for the
+ * stream, opened in "r+b" mode.  On error, it returns NULL for the
  * filename and leaves the FILE stream unchanged. */
 char *safe_tempfile(FILE **f)
 {
@@ -1165,7 +1165,7 @@ char *safe_tempfile(FILE **f)
     filedesc = mkstemp(full_tempdir);
 
     if (filedesc != -1)
-	*f = fdopen(filedesc, "w+b");
+	*f = fdopen(filedesc, "r+b");
     else {
 	free(full_tempdir);
 	full_tempdir = NULL;
