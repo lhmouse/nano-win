@@ -1139,17 +1139,18 @@ char *check_writable_directory(const char *path)
 char *safe_tempfile(FILE **f)
 {
     char *full_tempdir = NULL;
-    const char *TMPDIR_env;
-    int filedesc;
+    const char *tmpdir_env;
+    int fd;
+    mode_t original_umask = 0;
 
     assert(f != NULL);
 
     /* If $TMPDIR is set and non-empty, set tempdir to it, run it
      * through get_full_path(), and save the result in full_tempdir.
      * Otherwise, leave full_tempdir set to NULL. */
-    TMPDIR_env = getenv("TMPDIR");
-    if (TMPDIR_env != NULL && TMPDIR_env[0] != '\0')
-	full_tempdir = check_writable_directory(TMPDIR_env);
+    tmpdir_env = getenv("TMPDIR");
+    if (tmpdir_env != NULL && tmpdir_env[0] != '\0')
+	full_tempdir = check_writable_directory(tmpdir_env);
 
     /* If $TMPDIR is unset, empty, or not a writable directory, and
      * full_tempdir is NULL, try P_tmpdir instead. */
@@ -1162,14 +1163,20 @@ char *safe_tempfile(FILE **f)
 
     full_tempdir = charealloc(full_tempdir, strlen(full_tempdir) + 12);
     strcat(full_tempdir, "nano.XXXXXX");
-    filedesc = mkstemp(full_tempdir);
 
-    if (filedesc != -1)
-	*f = fdopen(filedesc, "r+b");
+    original_umask = umask(0);
+    umask(S_IRWXG | S_IRWXO);
+
+    fd = mkstemp(full_tempdir);
+
+    if (fd != -1)
+	*f = fdopen(fd, "r+b");
     else {
 	free(full_tempdir);
 	full_tempdir = NULL;
     }
+
+    umask(original_umask);
 
     return full_tempdir;
 }
@@ -1516,13 +1523,13 @@ int write_file(const char *name, FILE *f_open, bool tmp, int append,
 
     if (f_open == NULL) {
 	original_umask = umask(0);
-	umask(original_umask);
 
 	/* If we create a temp file, we don't let anyone else access it.
-	 * We create a temp file if tmp is TRUE or if we're
-	 * prepending. */
-	if (tmp || append == 2)
+	 * We create a temp file if tmp is TRUE. */
+	if (tmp)
 	    umask(S_IRWXG | S_IRWXO);
+	else
+	    umask(original_umask);
     }
 
     /* If we're prepending, copy the file to a temp file. */
