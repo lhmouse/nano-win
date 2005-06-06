@@ -1060,6 +1060,7 @@ void shortcut_init(bool unjustify)
 void free_shortcutage(shortcut **shortcutage)
 {
     assert(shortcutage != NULL);
+
     while (*shortcutage != NULL) {
 	shortcut *ps = *shortcutage;
 	*shortcutage = (*shortcutage)->next;
