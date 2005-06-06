@@ -126,8 +126,13 @@ void die(const char *msg, ...)
     va_end(ap);
 
     /* Save the current file buffer if it's been modified. */
-    if (ISSET(MODIFIED))
+    if (ISSET(MODIFIED)) {
+	/* If we've partitioned the filestruct, unpartition it now. */
+	if (filepart != NULL)
+	    unpartition_filestruct(&filepart);
+
 	die_save_file(filename);
+    }
 
 #ifdef ENABLE_MULTIBUFFER
     /* Save all of the other modified file buffers, if any. */
