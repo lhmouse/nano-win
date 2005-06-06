@@ -576,13 +576,15 @@ void do_insertfile(
 		if (!ISSET(VIEW_MODE))
 		    TOGGLE(MULTIBUFFER);
 		continue;
-	    }
+	    } else
 #endif
-
 	    if (i == NANO_TOOTHERINSERT_KEY) {
 		execute = !execute;
 		continue;
 	    }
+#ifndef DISABLE_BROWSER
+	    else
+#endif
 #endif /* !NANO_SMALL */
 
 #ifndef DISABLE_BROWSER
