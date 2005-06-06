@@ -2254,9 +2254,9 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
     assert(column <= start_col);
 
-    /* Allocate enough space for the entire line.  It should contain
-     * (len + 2) multibyte characters at most. */
-    alloc_len = mb_cur_max() * (len + 2);
+    /* Allocate enough space for the entire line, accounting for a
+     * trailing multibyte character and/or tab. */
+    alloc_len = (mb_cur_max() * (len + 1)) + tabsize;
 
     converted = charalloc(alloc_len + 1);
     index = 0;

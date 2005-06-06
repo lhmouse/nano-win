@@ -141,6 +141,9 @@ CVS code -
   do_statusbar_output()
 	- Don't set answer_len until after it's been asserted that
 	  answer isn't NULL. (DLR)
+  display_string()
+	- Avoid a memory corruption problem by allocating enough space
+	  for len plus a trailing multibyte character and/or tab. (DLR)
   nanogetstr()
 	- Rename variable def to curranswer to avoid confusion. (DLR)
 	- Only declare and use the tabbed variable if DISABLE_TABCOMP
