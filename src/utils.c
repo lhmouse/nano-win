@@ -111,7 +111,7 @@ bool parse_num(const char *str, ssize_t *val)
 bool parse_line_column(const char *str, int *line, ssize_t *column)
 {
     bool retval = TRUE;
-    char *comma;
+    const char *comma;
 
     assert(str != NULL);
 
