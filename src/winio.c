@@ -3647,7 +3647,10 @@ int do_yesno(bool all, const char *msg)
 
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
 
-	if (kbinput == NANO_CANCEL_KEY)
+	if (kbinput == NANO_REFRESH_KEY) {
+	    total_update();
+	    continue;
+	} else if (kbinput == NANO_CANCEL_KEY)
 	    ok = -1;
 #ifndef DISABLE_MOUSE
 	else if (kbinput == KEY_MOUSE) {

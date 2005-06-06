@@ -167,6 +167,8 @@ CVS code -
   do_help()
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
 	  consistency. (DLR)
+  do_yesno()
+	- Allow refreshing the screen via Ctrl-L, as Pico does. (DLR)
   total_update()
 	- Simplify to call clearok(TRUE) and wrefresh() on edit, which
 	  updates the entire screen in fewer function calls. (DLR)
