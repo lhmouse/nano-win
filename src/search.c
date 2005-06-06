@@ -681,7 +681,6 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 {
     ssize_t numreplaced = -1;
     size_t match_len;
-    size_t pww_save = placewewant;
     bool replaceall = FALSE;
 #ifdef HAVE_REGEX_H
     /* The starting-line match and bol/eol regex flags. */
@@ -743,10 +742,8 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 	}
 #endif
 
-	if (!replaceall) {
-	    edit_redraw(real_current, pww_save);
-	    pww_save = placewewant;
-	}
+	if (!replaceall)
+	    edit_refresh();
 
 	/* Record for the return value that we found the search
 	 * string. */

@@ -134,6 +134,12 @@ CVS code -
   replace_line()
 	- Make new_line_size and search_match_count size_t's, for
 	  consistency. (DLR)
+  do_replace_loop()
+	- When moving to the next match, update the screen using
+	  edit_refresh() instead of edit_redraw(), as the latter won't
+	  work properly when we've replaced one or more instances of a
+	  string in copy and haven't yet updated current->data to match
+	  copy. (DLR)
 - utils.c:
   num_of_digits()
 	- Use a size_t instead of an int, and rename to digits(). (DLR)
