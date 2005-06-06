@@ -569,7 +569,8 @@ void do_insertfile(
 
 	    ans = mallocstrcpy(ans, answer);
 
-#if !defined(NANO_SMALL) && defined(ENABLE_MULTIBUFFER)
+#ifndef NANO_SMALL
+#ifdef ENABLE_MULTIBUFFER
 	    if (i == TOGGLE_MULTIBUFFER_KEY) {
 		/* Don't allow toggling if we're in view mode. */
 		if (!ISSET(VIEW_MODE))
@@ -577,6 +578,12 @@ void do_insertfile(
 		continue;
 	    }
 #endif
+
+	    if (i == NANO_TOOTHERINSERT_KEY) {
+		execute = !execute;
+		continue;
+	    }
+#endif /* !NANO_SMALL */
 
 #ifndef DISABLE_BROWSER
 	    if (i == NANO_TOFILES_KEY) {
@@ -588,16 +595,10 @@ void do_insertfile(
 		free(answer);
 		answer = tmp;
 
-		/* We have a file now.  Get out of the statusbar prompt
-		 * cleanly. */
+		/* We have a file now.  Indicate this and get out of the
+		 * statusbar prompt cleanly. */
+		i = 0;
 		statusq_abort();
-	    }
-#endif
-
-#ifndef NANO_SMALL
-	    if (i == NANO_TOOTHERINSERT_KEY) {
-		execute = !execute;
-		continue;
 	    }
 #endif
 

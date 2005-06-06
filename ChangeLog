@@ -69,6 +69,10 @@ CVS code -
   get_next_filename()
 	- Use an unsigned long instead of an int for the number
 	  prepended to the filename. (DLR)
+  do_insertfile()
+	- Set i to 0 when we get a filename via the file browser, so
+	  that it's read in properly when we exit the file browser.
+	  (DLR)
   write_file()
 	- Since lineswritten is a size_t, print its value as an unsigned
 	  long instead of an unsigned int. (DLR)
