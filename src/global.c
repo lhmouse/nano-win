@@ -242,6 +242,7 @@ void shortcut_init(bool unjustify)
     const char *cancel_msg = N_("Cancel");
     const char *first_line_msg = N_("First Line");
     const char *last_line_msg = N_("Last Line");
+    const char *refresh_msg = N_("Refresh");
 #ifndef NANO_SMALL
     const char *cut_till_end_msg = N_("CutTillEnd");
 #endif
@@ -275,19 +276,23 @@ void shortcut_init(bool unjustify)
    	N_("Exit from nano")
 #endif
 	;
-    const char *nano_writeout_msg = N_("Write the current file to disk");
+    const char *nano_writeout_msg =
+	N_("Write the current file to disk");
     const char *nano_justify_msg = N_("Justify the current paragraph");
     const char *nano_insert_msg =
 	N_("Insert another file into the current one");
-    const char *nano_whereis_msg = N_("Search for text within the editor");
+    const char *nano_whereis_msg =
+	N_("Search for text within the editor");
     const char *nano_prevpage_msg = N_("Move to the previous screen");
     const char *nano_nextpage_msg = N_("Move to the next screen");
     const char *nano_cut_msg =
 	N_("Cut the current line and store it in the cutbuffer");
     const char *nano_uncut_msg =
 	N_("Uncut from the cutbuffer into the current line");
-    const char *nano_cursorpos_msg = N_("Show the position of the cursor");
-    const char *nano_spell_msg = N_("Invoke the spell checker, if available");
+    const char *nano_cursorpos_msg =
+	N_("Show the position of the cursor");
+    const char *nano_spell_msg =
+	N_("Invoke the spell checker, if available");
     const char *nano_gotoline_msg =
 	N_("Go to a specific line number and column number");
     const char *nano_replace_msg = N_("Replace text within the editor");
@@ -299,10 +304,14 @@ void shortcut_init(bool unjustify)
     const char *nano_nextline_msg = N_("Move to the next line");
     const char *nano_forward_msg = N_("Move forward one character");
     const char *nano_back_msg = N_("Move back one character");
-    const char *nano_home_msg = N_("Move to the beginning of the current line");
-    const char *nano_end_msg = N_("Move to the end of the current line");
-    const char *nano_refresh_msg = N_("Refresh (redraw) the current screen");
-    const char *nano_delete_msg = N_("Delete the character under the cursor");
+    const char *nano_home_msg =
+	N_("Move to the beginning of the current line");
+    const char *nano_end_msg =
+	N_("Move to the end of the current line");
+    const char *nano_refresh_msg =
+	N_("Refresh (redraw) the current screen");
+    const char *nano_delete_msg =
+	N_("Delete the character under the cursor");
     const char *nano_backspace_msg =
 	N_("Delete the character to the left of the cursor");
     const char *nano_tab_msg =
@@ -320,8 +329,10 @@ void shortcut_init(bool unjustify)
 	N_("Go to the end of the current paragraph");
 #endif
 #ifdef ENABLE_MULTIBUFFER
-    const char *nano_openprev_msg = N_("Switch to the previous file buffer");
-    const char *nano_opennext_msg = N_("Switch to the next file buffer");
+    const char *nano_openprev_msg =
+	N_("Switch to the previous file buffer");
+    const char *nano_opennext_msg =
+	N_("Switch to the next file buffer");
 #endif
     const char *nano_verbatim_msg = N_("Insert character(s) verbatim");
 #ifndef NANO_SMALL
@@ -335,8 +346,10 @@ void shortcut_init(bool unjustify)
     const char *nano_bracket_msg = N_("Find other bracket");
 #endif
     const char *nano_cancel_msg = N_("Cancel the current function");
-    const char *nano_firstline_msg = N_("Go to the first line of the file");
-    const char *nano_lastline_msg = N_("Go to the last line of the file");
+    const char *nano_firstline_msg =
+	N_("Go to the first line of the file");
+    const char *nano_lastline_msg =
+	N_("Go to the last line of the file");
 #ifndef NANO_SMALL
     const char *nano_case_msg =
 	N_("Make the current search/replace case (in)sensitive");
@@ -360,7 +373,8 @@ void shortcut_init(bool unjustify)
     const char *nano_append_msg = N_("Append to the current file");
     const char *nano_prepend_msg = N_("Prepend to the current file");
 #ifndef NANO_SMALL
-    const char *nano_backup_msg = N_("Back up original file when saving");
+    const char *nano_backup_msg =
+	N_("Back up original file when saving");
     const char *nano_execute_msg = N_("Execute external command");
 #endif
 #if !defined(NANO_SMALL) && defined(ENABLE_MULTIBUFFER)
@@ -527,7 +541,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_end_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, do_end);
 
-    sc_init_one(&main_list, NANO_REFRESH_KEY, N_("Refresh"),
+    sc_init_one(&main_list, NANO_REFRESH_KEY, refresh_msg,
 	IFHELP(nano_refresh_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, total_refresh);
 
@@ -806,7 +820,7 @@ void shortcut_init(bool unjustify)
 #ifndef DISABLE_HELP
     free_shortcutage(&help_list);
 
-    sc_init_one(&help_list, NANO_REFRESH_KEY, N_("Refresh"),
+    sc_init_one(&help_list, NANO_REFRESH_KEY, refresh_msg,
 	IFHELP(nano_refresh_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 
@@ -1011,10 +1025,6 @@ void shortcut_init(bool unjustify)
 
     sc_init_one(&browser_list, NANO_NEXTPAGE_KEY, next_page_msg,
 	IFHELP(nano_nextpage_msg, NANO_NO_KEY), NANO_NEXTPAGE_FKEY,
-	NANO_NO_KEY, VIEW, NULL);
-
-    sc_init_one(&browser_list, NANO_REFRESH_KEY, N_("Refresh"),
-	IFHELP(nano_refresh_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 
     /* Translators: try to keep this string under 22 characters long */
