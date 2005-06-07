@@ -194,6 +194,9 @@ CVS code -
 	  Weinehall)
 	- Don't refer to the built-in file browser as crappy anymore.
 	  (DLR)
+- doc/man/fr/Makefile.am:
+	- Set mandir to @mandir@/fr, so French manpages get installed where
+	  they belong (Jordi).
 - THANKS:
 	- Add new translators to the credits.
 
