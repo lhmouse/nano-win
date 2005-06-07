@@ -4020,7 +4020,7 @@ void dump_buffer_reverse(void)
 /* Easter egg: Display credits.  Assume nodelay(edit) is FALSE. */
 void do_credits(void)
 {
-    int crpos = 0, xlpos = 0;
+    int kbinput = ERR, crpos = 0, xlpos = 0;
     const char *credits[CREDIT_LEN] = {
 	NULL,				/* "The nano text editor" */
 	NULL,				/* "version" */
@@ -4101,7 +4101,7 @@ void do_credits(void)
     wrefresh(bottomwin);
 
     for (crpos = 0; crpos < CREDIT_LEN + editwinrows / 2; crpos++) {
-	if (wgetch(edit) != ERR)
+	if ((kbinput = wgetch(edit)) != ERR)
 	    break;
 
 	if (crpos < CREDIT_LEN) {
@@ -4129,16 +4129,19 @@ void do_credits(void)
 	napms(700);
 	scroll(edit);
 	wrefresh(edit);
-	if (wgetch(edit) != ERR)
+	if ((kbinput = wgetch(edit)) != ERR)
 	    break;
 	napms(700);
 	scroll(edit);
 	wrefresh(edit);
     }
 
+    if (kbinput != ERR)
+	ungetch(kbinput);
+
+    curs_set(1);
     scrollok(edit, FALSE);
     nodelay(edit, FALSE);
-    curs_set(1);
     total_refresh();
 }
 #endif
