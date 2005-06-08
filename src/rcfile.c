@@ -557,6 +557,9 @@ void parse_rcfile(FILE *rcstream)
 			if (*option == '"')
 			    option++;
 			ptr = parse_argument(ptr);
+
+			/* Make sure option is a valid multibyte
+			 * string. */
 			option = make_mbstring(option);
 #ifdef DEBUG
 			fprintf(stderr, "option = \"%s\"\n", option);

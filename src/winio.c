@@ -4036,7 +4036,7 @@ void do_credits(void)
 	"David Benbennick",
 	"Ken Tyler",
 	"Sven Guckes",
-	"Florian König",
+	"Florian K\xF6nig",
 	"Pauli Virtanen",
 	"Daniele Medri",
 	"Clement Laforet",

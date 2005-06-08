@@ -54,6 +54,9 @@ CVS code -
 	  and NANO_APPEND_KEY are.  Changes to shortcut_init(), usage(),
 	  main(), search_init(), nanorc.sample, nano.1, nanorc.5,
 	  nano.texi, etc. (DLR)
+	- When reading a file in, make sure each line is a valid
+	  multibyte string.  Changes to make_mbstring(), read_line(),
+	  and do_credits(). (DLR)
 - chars.c:
   make_mbstring()
 	- Change erroneous ENABLE_EXTRA #ifdef to NANO_EXTRA to fix a
