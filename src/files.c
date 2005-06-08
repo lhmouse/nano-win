@@ -83,7 +83,7 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
 	fileptr->data[len - 1] = '\0';
 #endif
 
-    if (*first_line_ins || fileage == NULL) {
+    if (*first_line_ins == TRUE || fileage == NULL) {
 	/* Special case: we're inserting with the cursor on the first
 	 * line. */
 	fileptr->prev = NULL;
