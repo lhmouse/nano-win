@@ -55,8 +55,9 @@ CVS code -
 	  main(), search_init(), nanorc.sample, nano.1, nanorc.5,
 	  nano.texi, etc. (DLR)
 	- When reading a file in, make sure each line is a valid
-	  multibyte string.  Changes to make_mbstring(), read_line(),
-	  and do_credits(). (DLR)
+	  multibyte string, unless the NO_CONVERT flag is set.  Note
+	  that this is disabled when NANO_SMALL is defined.  Changes to
+	  make_mbstring(), read_line(), and do_credits(). (DLR)
 - chars.c:
   make_mbstring()
 	- Change erroneous ENABLE_EXTRA #ifdef to NANO_EXTRA to fix a
