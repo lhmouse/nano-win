@@ -57,8 +57,7 @@
 #define regexec(preg, string, nmatch, pmatch, eflags) safe_regexec(preg, string, nmatch, pmatch, eflags)
 #endif
 
-/* Set a default value for PATH_MAX, so we can use it in lines like
- * "path = getcwd(NULL, PATH_MAX + 1);". */
+/* Set a default value for PATH_MAX if there isn't one. */
 #ifndef PATH_MAX
 #define PATH_MAX 4096
 #endif
