@@ -77,16 +77,10 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
     fileptr->data = mallocstrcpy(NULL, buf);
 
 #ifndef NANO_SMALL
-    if (!ISSET(NO_CONVERT)) {
-	/* If it's a DOS file (CR LF), and file conversion isn't
-	 * disabled, strip the CR part from fileptr->data. */
-	if (len > 0 && buf[len - 1] == '\r')
-	    fileptr->data[len - 1] = '\0';
-
-	/* Make sure fileptr->data is a valid multibyte string. */
-	fileptr->data = mallocstrassn(fileptr->data,
-		make_mbstring(fileptr->data));
-    }
+    /* If it's a DOS file (CR LF), and file conversion isn't disabled,
+     * strip the CR part from fileptr->data. */
+    if (!ISSET(NO_CONVERT) && len > 0 && buf[len - 1] == '\r')
+	fileptr->data[len - 1] = '\0';
 #endif
 
     if (*first_line_ins || fileage == NULL) {

@@ -301,7 +301,7 @@ char *make_mbchar(int chr, int *chr_mb_len)
     return chr_mb;
 }
 
-#if !defined(NANO_SMALL) || defined(ENABLE_NANORC) || defined(NANO_EXTRA)
+#if defined(ENABLE_NANORC) || defined(NANO_EXTRA)
 /* Convert the string str to a valid multibyte string with the same wide
  * character values as str.  Return the (dynamically allocated)
  * multibyte string. */
