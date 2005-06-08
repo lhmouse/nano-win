@@ -353,7 +353,7 @@ void parse_syntax(char *ptr)
 void parse_colors(char *ptr)
 {
     int fg, bg;
-    bool bright = FALSE;
+    bool bright = FALSE, no_fgcolor = FALSE;
     char *fgstr;
 
     assert(ptr != NULL);
@@ -368,8 +368,15 @@ void parse_colors(char *ptr)
 
     if (strchr(fgstr, ',') != NULL) {
 	char *bgcolorname;
+
 	strtok(fgstr, ",");
 	bgcolorname = strtok(NULL, ",");
+	if (bgcolorname == NULL) {
+	    /* If we have a background color without a foreground color,
+	     * parse it properly. */
+	    bgcolorname = fgstr + 1;
+	    no_fgcolor = TRUE;
+	}
 	if (strncasecmp(bgcolorname, "bright", 6) == 0) {
 	    rcfile_error(
 		N_("Background color %s cannot be bright"),
@@ -380,11 +387,14 @@ void parse_colors(char *ptr)
     } else
 	bg = -1;
 
-    fg = color_to_int(fgstr, &bright);
+    if (!no_fgcolor) {
+	fg = color_to_int(fgstr, &bright);
 
-    /* Don't try to parse screwed-up foreground colors. */
-    if (fg == -1)
-	return;
+	/* Don't try to parse screwed-up foreground colors. */
+	if (fg == -1)
+	    return;
+    } else
+	fg = -1;
 
     if (syntaxes == NULL) {
 	rcfile_error(

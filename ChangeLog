@@ -136,6 +136,10 @@ CVS code -
 	  (DLR)
 	- Don't set current_len until after it's been asserted that both
 	  current and current->data aren't NULL. (DLR)
+- rcfile.c:
+  parse_colors()
+	- Properly parse a background color without a foreground color.
+	  (DLR)
 - search.c:
   do_gotoline()
 	- Properly show an error message if we try to go to line 0,
@@ -197,6 +201,10 @@ CVS code -
 - doc/faq.html:
 	- Update the question about the FAQ to mention the current
 	  maintainer. (DLR)
+- doc/nanorc.sample:
+	- In the "nanorc" regexes, tweak the "color" regex to properly
+	  color a line that specifies a background color without a
+	  foreground color, and update the associated comments. (DLR)
 - doc/man/fr/Makefile.am:
 	- Set mandir to @mandir@/fr, so French manpages get installed
 	  where they belong (Jordi).

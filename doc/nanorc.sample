@@ -133,9 +133,10 @@
 ##
 ## To use multi-line regexes use the start="regex" end="regex" format.
 ##
-## If your system supports transparency, not specifying a background
-## color will use a transparent color.  If you don't want this, be sure
-## to set the background color to black or white.
+## Not specifying a foreground color will use the default foreground
+## color.  If your system supports transparency, not specifying a
+## background color will use a transparent color.  If you don't want the
+## latter, be sure to set the background color to black or white.
 ##
 # syntax "c-file" "\.(c|C|cc|cpp|h|H|hh|hpp)$"
 # color red "\<[A-Z_]{2,}\>" 
@@ -264,7 +265,7 @@
 # color cyan "^ *(set|unset) +(view|whitespace)"
 # color green "^ *(set|unset|syntax)\>"
 ## colors
-# color yellow "^ *color +(bright)?(white|black|red|blue|green|yellow|magenta|cyan)(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
+# color yellow "^ *color *(bright)?(white|black|red|blue|green|yellow|magenta|cyan)(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
 # color magenta "^ *color\>" "\<(start|end)="
 ## strings
 # color white "\"(\\.|[^\"])*\""
