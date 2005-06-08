@@ -129,14 +129,14 @@
 ## color foreground,background "regex" ["regex"...]
 ##
 ## Legal colors: white, black, red, blue, green, yellow, magenta, cyan.
-## You may use the prefix "bright" to mean a stronger color highlight.
+## You may use the prefix "bright" to mean a stronger color highlight
+## for the foreground.
 ##
 ## To use multi-line regexes use the start="regex" end="regex" format.
 ##
-## Not specifying a foreground color will use the default foreground
-## color.  If your system supports transparency, not specifying a
-## background color will use a transparent color.  If you don't want the
-## latter, be sure to set the background color to black or white.
+## If your system supports transparency, not specifying a background
+## color will use a transparent color.  If you don't want this, be sure
+## to set the background color to black or white.
 ##
 # syntax "c-file" "\.(c|C|cc|cpp|h|H|hh|hpp)$"
 # color red "\<[A-Z_]{2,}\>" 

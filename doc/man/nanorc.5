@@ -6,7 +6,7 @@
 .\" Public License for copying conditions.  There is NO warranty.
 .\"
 .\" $Id$
-.TH NANORC 5 "version 1.3.8" "June 3, 2005"
+.TH NANORC 5 "version 1.3.8" "June 8, 2005"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -159,21 +159,23 @@ flag, or will be automatically activated if the current filename matches
 \fIfileregex\fP.  All following \fBcolor\fP statements will apply to
 \fIsyntax\fP until a new syntax is defined.
 .TP
-.B color \fIfgcolor\fP[,\fIbgcolor\fP] "\fIregex\fP" ...
+.B color \fIfgcolor\fP,\fIbgcolor\fP "\fIregex\fP" ...
 For the currently defined syntax, display all expressions matching
-\fIregex\fP with foreground color \fIfgcolor\fP and optional background
-color \fIbgcolor\fP.  Legal colors for foreground and background color
-are: white, black, red, blue, green, yellow, magenta, and cyan.  You may
-use the prefix "bright" to force a stronger color highlight.  If your
-terminal supports transparency, not specifying a \fIbgcolor\fP tells
-\fBnano\fP to attempt to use a transparent background.
+\fIregex\fP with foreground color \fIfgcolor\fP and background color
+\fIbgcolor\fP, at least one of which must be specified.  Legal colors
+for foreground and background color are: white, black, red, blue, green,
+yellow, magenta, and cyan.  You may use the prefix "bright" to force a
+stronger color highlight for the foreground.  If your terminal supports
+transparency, not specifying a \fIbgcolor\fP tells \fBnano\fP to attempt
+to use a transparent background.
 .TP
-.B color \fIfgcolor\fP[,\fIbgcolor\fP] start="\fIsr\fP" end="\fIer\fP"
+.B color \fIfgcolor\fP,\fIbgcolor\fP start="\fIsr\fP" end="\fIer\fP"
 Display expressions which start with \fIsr\fP and end with \fIer\fP
-with foreground color \fIfgcolor\fP and optional background color
-\fIbgcolor\fP.  This allows syntax highlighting to span multiple lines.
-Note that all subsequent instances of \fIsr\fP after an initial \fIsr\fP
-is found will be highlighted until the first instance of \fIer\fP.
+with foreground color \fIfgcolor\fP and background color \fIbgcolor\fP,
+at least one of which must be specified.  This allows syntax
+highlighting to span multiple lines.  Note that all subsequent instances
+of \fIsr\fP after an initial \fIsr\fP is found will be highlighted until
+the first instance of \fIer\fP.
 \fI
 
 .SH FILES
