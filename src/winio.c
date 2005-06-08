@@ -1511,8 +1511,8 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 		currslen = MAIN_VISIBLE;
 	}
 
-	/* Calculate the width of each shortcut in the list (it's the
-	 * same for all of them). */
+	/* Calculate the width of each shortcut in the list.  It's the
+	 * same for all of them. */
 	if (currslen < 2)
 	    i = COLS / 6;
 	else

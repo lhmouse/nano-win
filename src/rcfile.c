@@ -107,7 +107,7 @@ static colortype *endcolor = NULL;
 #endif
 
 /* We have an error in some part of the rcfile.  Put it on stderr and
- * make the user hit return to continue starting up nano. */
+ * make the user hit Return to continue starting up nano. */
 void rcfile_error(const char *msg, ...)
 {
     va_list ap;
