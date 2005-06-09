@@ -136,6 +136,9 @@ CVS code -
 	  (DLR)
 	- Don't set current_len until after it's been asserted that both
 	  current and current->data aren't NULL. (DLR)
+  disable_extended_input()
+	- Disable extended output processing as well as extended input
+	  processing, and rename to disable_extended_io(). (DLR)
 - rcfile.c:
   parse_colors()
 	- Properly parse a background color without a foreground color.

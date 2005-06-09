@@ -3598,12 +3598,13 @@ void do_toggle(const toggle *which)
 }
 #endif /* !NANO_SMALL */
 
-void disable_extended_input(void)
+void disable_extended_io(void)
 {
     struct termios term;
 
     tcgetattr(0, &term);
     term.c_lflag &= ~IEXTEN;
+    term.c_oflag &= ~OPOST;
     tcsetattr(0, TCSANOW, &term);
 }
 
@@ -3650,15 +3651,15 @@ void enable_flow_control(void)
  * translation of carriage return (^M) into newline (^J) so that we can
  * tell the difference between the Enter key and Ctrl-J, and disable
  * echoing of characters as they're typed.  Finally, disable extended
- * input processing, disable interpretation of the special control keys,
- * and if we're not in preserve mode, disable interpretation of the flow
- * control characters too. */
+ * input and output processing, disable interpretation of the special
+ * control keys, and if we're not in preserve mode, disable
+ * interpretation of the flow control characters too. */
 void terminal_init(void)
 {
     cbreak();
     nonl();
     noecho();
-    disable_extended_input();
+    disable_extended_io();
     disable_signals();
     if (!ISSET(PRESERVE))
 	disable_flow_control();
