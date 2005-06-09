@@ -3587,13 +3587,14 @@ void do_toggle(const toggle *which)
 #endif
     }
 
-    /* We are assuming here that shortcut_init() above didn't free and
-     * reallocate the toggles. */
     enabled = ISSET(which->flag);
-    if (which->val == TOGGLE_NOHELP_KEY || which->val == TOGGLE_WRAP_KEY)
+
+    if (which->val == TOGGLE_NOHELP_KEY ||
+	which->val == TOGGLE_WRAP_KEY)
 	enabled = !enabled;
-    statusbar("%s %s", which->desc,
-		enabled ? _("enabled") : _("disabled"));
+
+    statusbar("%s %s", which->desc, enabled ? _("enabled") :
+	_("disabled"));
 }
 #endif /* !NANO_SMALL */
 
