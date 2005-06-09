@@ -402,6 +402,12 @@ void parse_colors(char *ptr)
 	return;
     }
 
+    if (*ptr == '\0') {
+	rcfile_error(
+		N_("Cannot add a color directive without a regex string"));
+	return;
+    }
+
     /* Now for the fun part.  Start adding regexes to individual strings
      * in the colorstrings array, woo! */
     while (ptr != NULL && *ptr != '\0') {

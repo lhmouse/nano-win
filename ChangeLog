@@ -140,6 +140,8 @@ CVS code -
   parse_colors()
 	- Properly parse a background color without a foreground color.
 	  (DLR)
+	- Properly generate an error if we get a color directive without
+	  a regex string. (DLR)
 - search.c:
   do_gotoline()
 	- Properly show an error message if we try to go to line 0,
