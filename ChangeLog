@@ -140,6 +140,9 @@ CVS code -
 	- Disable extended output processing as well as extended input
 	  processing, and rename to disable_extended_io(). (DLR)
 - rcfile.c:
+  color_to_int()
+	- Since colorname's being NULL is handled elsewhere now, assert
+	  that it isn't NULL at the beginning of the function. (DLR)
   parse_colors()
 	- Properly parse a background color without a foreground color.
 	  (DLR)

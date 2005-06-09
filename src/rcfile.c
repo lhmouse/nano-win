@@ -188,12 +188,7 @@ int color_to_int(const char *colorname, bool *bright)
 {
     int mcolor = -1;
 
-    if (colorname == NULL) {
-	rcfile_error(N_("Missing color name"));
-	return -1;
-    }
-
-    assert(bright != NULL);
+    assert(colorname != NULL && bright != NULL);
 
     if (strncasecmp(colorname, "bright", 6) == 0) {
 	*bright = TRUE;
@@ -403,8 +398,7 @@ void parse_colors(char *ptr)
     }
 
     if (*ptr == '\0') {
-	rcfile_error(
-		N_("Cannot add a color directive without a regex string"));
+	rcfile_error(N_("Missing regex string"));
 	return;
     }
 
