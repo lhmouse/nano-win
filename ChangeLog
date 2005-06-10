@@ -175,6 +175,8 @@ CVS code -
   display_string()
 	- Avoid a memory corruption problem by allocating enough space
 	  for len plus a trailing multibyte character and/or tab. (DLR)
+	- Don't check for multicolumn characters if the NO_UTF8 flag
+	  isn't set. (DLR)
   nanogetstr()
 	- Rename variable def to curranswer to avoid confusion. (DLR)
 	- Only declare and use the tabbed variable if DISABLE_TABCOMP

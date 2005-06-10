@@ -2287,7 +2287,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    }
 	}
 #ifdef NANO_WIDE
-	else if (mbwidth(buf_mb) > 1) {
+	else if (!ISSET(NO_UTF8) && mbwidth(buf_mb) > 1) {
 	    converted[index++] = ' ';
 	    start_col++;
 
