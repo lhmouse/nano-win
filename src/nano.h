@@ -45,11 +45,12 @@
 #define ISSET(bit) ((flags & bit) != 0)
 #define TOGGLE(bit) flags ^= bit
 
-/* Macros for character allocation. */
+/* Macros for character allocation, etc. */
 #define charalloc(howmuch) (char *)nmalloc((howmuch) * sizeof(char))
 #define charealloc(ptr, howmuch) (char *)nrealloc(ptr, (howmuch) * sizeof(char))
 #define charmove(dest, src, n) memmove(dest, src, (n) * sizeof(char))
 #define charcpy(dest, src, n) memcpy(dest, src, (n) * sizeof(char))
+#define charset(dest, src, n) memset(dest, src, (n) * sizeof(char))
 
 /* Other macros. */
 #ifdef BROKEN_REGEXEC

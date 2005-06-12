@@ -119,8 +119,7 @@ CVS code -
 	- If the current filestruct's been partitioned, unpartition it
 	  before saving the associated file. (DLR)
   resize_variables()
-	- Use sizeof(char) in the memset() that initializes hblank
-	  instead of assuming that the size of a char is 1. (DLR)
+	- Use charset() instead of memset() to initialize hblank. (DLR)
   copy_filestruct()
 	- Rename variable prev to copy to avoid confusion. (DLR)
   print1opt_full()
@@ -142,6 +141,8 @@ CVS code -
   disable_extended_input()
 	- Disable extended output processing as well as extended input
 	  processing, and rename to disable_extended_io(). (DLR)
+- nano.h:
+	- Add macro charset(), a wrapper that calls memset(). (DLR)
 - rcfile.c:
   color_to_int()
 	- Since colorname's being NULL is handled elsewhere now, assert
