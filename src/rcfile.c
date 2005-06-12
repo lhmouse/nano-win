@@ -129,7 +129,7 @@ void rcfile_error(const char *msg, ...)
  * the end of the line. */
 char *parse_next_word(char *ptr)
 {
-    while (!is_blank_char(*ptr) && *ptr != '\0')
+    while (!isblank(*ptr) && *ptr != '\0')
 	ptr++;
 
     if (*ptr == '\0')
@@ -138,7 +138,7 @@ char *parse_next_word(char *ptr)
     /* Null-terminate and advance ptr. */
     *ptr++ = '\0';
 
-    while (is_blank_char(*ptr))
+    while (isblank(*ptr))
 	ptr++;
 
     return ptr;
@@ -178,7 +178,7 @@ char *parse_argument(char *ptr)
 	ptr = last_quote + 1;
     }
     if (ptr != NULL)
-	while (is_blank_char(*ptr))
+	while (isblank(*ptr))
 	    ptr++;
     return ptr;
 }
@@ -227,7 +227,7 @@ char *parse_next_regex(char *ptr)
 
     /* Continue until the end of the line, or a " followed by a space, a
      * blank character, or \0. */
-    while ((*ptr != '"' || (!is_blank_char(*(ptr + 1)) &&
+    while ((*ptr != '"' || (!isblank(*(ptr + 1)) &&
 	*(ptr + 1) != '\0')) && *ptr != '\0')
 	ptr++;
 
@@ -242,7 +242,7 @@ char *parse_next_regex(char *ptr)
     /* Null terminate and advance ptr. */
     *ptr++ = '\0';
 
-    while (is_blank_char(*ptr))
+    while (isblank(*ptr))
 	ptr++;
 
     return ptr;
@@ -507,7 +507,7 @@ void parse_rcfile(FILE *rcstream)
 
 	lineno++;
 	ptr = buf;
-	while (is_blank_char(*ptr))
+	while (isblank(*ptr))
 	    ptr++;
 
 	/* If we have a blank line or a comment, skip to the next

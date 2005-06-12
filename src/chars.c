@@ -46,12 +46,6 @@ bool is_byte(int c)
     return ((unsigned int)c == (unsigned char)c);
 }
 
-/* This function is equivalent to isalnum(). */
-bool is_alnum_char(int c)
-{
-    return isalnum(c);
-}
-
 /* This function is equivalent to isalnum() for multibyte characters. */
 bool is_alnum_mbchar(const char *c)
 {
@@ -67,31 +61,27 @@ bool is_alnum_mbchar(const char *c)
 	    wc = (unsigned char)*c;
 	}
 
-	return is_alnum_wchar(wc);
+	return iswalnum(wc);
     } else
 #endif
-	return is_alnum_char((unsigned char)*c);
+	return isalnum((unsigned char)*c);
 }
 
-#ifdef NANO_WIDE
-/* This function is equivalent to isalnum() for wide characters. */
-bool is_alnum_wchar(wchar_t wc)
-{
-    return iswalnum(wc);
-}
-#endif
-
+#ifndef HAVE_ISBLANK
 /* This function is equivalent to isblank(). */
-bool is_blank_char(int c)
+bool nisblank(int c)
 {
-    return
-#ifdef HAVE_ISBLANK
-	isblank(c)
-#else
-	isspace(c) && (c == '\t' || !is_cntrl_char(c))
-#endif
-	;
+    return isspace(c) && (c == '\t' || !is_cntrl_char(c));
 }
+#endif
+
+#if defined(NANO_WIDE) && !defined(HAVE_ISWBLANK)
+/* This function is equivalent to iswblank(). */
+bool niswblank(wint_t wc)
+{
+    return iswspace(wc) && (wc == '\t' || !is_cntrl_wchar(wc));
+}
+#endif
 
 /* This function is equivalent to isblank() for multibyte characters. */
 bool is_blank_mbchar(const char *c)
@@ -108,25 +98,11 @@ bool is_blank_mbchar(const char *c)
 	    wc = (unsigned char)*c;
 	}
 
-	return is_blank_wchar(wc);
+	return iswblank(wc);
     } else
 #endif
-	return is_blank_char((unsigned char)*c);
+	return isblank((unsigned char)*c);
 }
-
-#ifdef NANO_WIDE
-/* This function is equivalent to isblank() for wide characters. */
-bool is_blank_wchar(wchar_t wc)
-{
-    return
-#ifdef HAVE_ISWBLANK
-	iswblank(wc)
-#else
-	iswspace(wc) && (wc == '\t' || !is_cntrl_wchar(wc))
-#endif
-	;
-}
-#endif
 
 /* This function is equivalent to iscntrl(), except in that it also
  * handles control characters with their high bits set. */
@@ -135,6 +111,17 @@ bool is_cntrl_char(int c)
     return (-128 <= c && c < -96) || (0 <= c && c < 32) ||
 	(127 <= c && c < 160);
 }
+
+#ifdef NANO_WIDE
+/* This function is equivalent to iscntrl() for wide characters, except
+ * in that it also handles wide control characters with their high bits
+ * set. */
+bool is_cntrl_wchar(wint_t wc)
+{
+    return (-128 <= wc && wc < -96) || (0 <= wc && wc < 32) ||
+	(127 <= wc && wc < 160);
+}
+#endif
 
 /* This function is equivalent to iscntrl() for multibyte characters,
  * except in that it also handles multibyte control characters with
@@ -159,16 +146,6 @@ bool is_cntrl_mbchar(const char *c)
 	return is_cntrl_char((unsigned char)*c);
 }
 
-#ifdef NANO_WIDE
-/* This function is equivalent to iscntrl() for wide characters, except
- * in that it also handles wide control characters with their high bits
- * set. */
-bool is_cntrl_wchar(wchar_t wc)
-{
-    return (0 <= wc && wc < 32) || (127 <= wc && wc < 160);
-}
-#endif
-
 /* c is a control character.  It displays as ^@, ^?, or ^[ch], where ch
  * is c + 64.  We return that character. */
 unsigned char control_rep(unsigned char c)
@@ -182,7 +159,22 @@ unsigned char control_rep(unsigned char c)
 	return c + 64;
 }
 
-/* c is a multibyte control character.  It displays as ^@, ^?, or ^[ch]
+#ifdef NANO_WIDE
+/* c is a wide control character.  It displays as ^@, ^?, or ^[ch],
+ * where ch is c + 64.  We return that wide character. */
+wchar_t control_wrep(wchar_t wc)
+{
+    /* Treat newlines embedded in a line as encoded nulls. */
+    if (wc == '\n')
+	return '@';
+    else if (wc == NANO_CONTROL_8)
+	return '?';
+    else
+	return wc + 64;
+}
+#endif
+
+/* c is a multibyte control character.  It displays as ^@, ^?, or ^[ch],
  * where ch is c + 64.  We return that multibyte character. */
 char *control_mbrep(const char *c, char *crep, int *crep_len)
 {
@@ -220,21 +212,6 @@ char *control_mbrep(const char *c, char *crep, int *crep_len)
     }
 #endif
 }
-
-#ifdef NANO_WIDE
-/* c is a wide control character.  It displays as ^@, ^?, or ^[ch] where
- * ch is c + 64.  We return that wide character. */
-wchar_t control_wrep(wchar_t wc)
-{
-    /* Treat newlines embedded in a line as encoded nulls. */
-    if (wc == '\n')
-	return '@';
-    else if (wc == NANO_CONTROL_8)
-	return '?';
-    else
-	return wc + 64;
-}
-#endif
 
 /* This function is equivalent to wcwidth() for multibyte characters. */
 int mbwidth(const char *c)

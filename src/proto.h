@@ -160,26 +160,24 @@ extern char *homedir;
 
 /* Public functions in chars.c. */
 bool is_byte(int c);
-bool is_alnum_char(int c);
 bool is_alnum_mbchar(const char *c);
-#ifdef NANO_WIDE
-bool is_alnum_wchar(wchar_t wc);
+#ifndef HAVE_ISBLANK
+bool nisblank(int c);
 #endif
-bool is_blank_char(int c);
+#if defined(NANO_WIDE) && !defined(HAVE_ISWBLANK)
+bool niswblank(wint_t wc);
+#endif
 bool is_blank_mbchar(const char *c);
-#ifdef NANO_WIDE
-bool is_blank_wchar(wchar_t wc);
-#endif
 bool is_cntrl_char(int c);
-bool is_cntrl_mbchar(const char *c);
 #ifdef NANO_WIDE
-bool is_cntrl_wchar(wchar_t wc);
+bool is_cntrl_wchar(wint_t wc);
 #endif
+bool is_cntrl_mbchar(const char *c);
 unsigned char control_rep(unsigned char c);
-char *control_mbrep(const char *c, char *crep, int *crep_len);
 #ifdef NANO_WIDE
 wchar_t control_wrep(wchar_t c);
 #endif
+char *control_mbrep(const char *c, char *crep, int *crep_len);
 int mbwidth(const char *c);
 int mb_cur_max(void);
 char *make_mbchar(int chr, int *chr_mb_len);
