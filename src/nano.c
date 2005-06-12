@@ -1642,9 +1642,9 @@ void do_word_count(void)
     current_x = 0;
     placewewant = 0;
 
-    /* Keep moving to the next word until we reach the end of the file,
-     * incrementing the total word count whenever we're on a word just
-     * before moving. */
+    /* Keep moving to the next word, without updating the screen, until
+     * we reach the end of the file, incrementing the total word count
+     * whenever we're on a word just before moving. */
     while (current != filebot || current_x != 0) {
 	if (do_next_word(FALSE))
 	    words++;
@@ -1654,9 +1654,6 @@ void do_word_count(void)
     current = current_save;
     current_x = current_x_save;
     placewewant = pww_save;
-
-    /* Update the screen. */
-    edit_refresh();
 
     /* Display the total word count on the statusbar. */
     statusbar(_("Word count: %lu"), (unsigned long)words);
