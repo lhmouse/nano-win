@@ -4095,9 +4095,12 @@ int main(int argc, char **argv)
 
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
-	getopt_long(argc, argv, "h?ABE:FHINOQ:ST:VY:Zabcdefgijklmo:pr:s:tvwxz", long_options, NULL)
+	getopt_long(argc, argv,
+		"h?ABDE:FHINOQ:ST:VY:Zabcdefgijklmo:pr:s:tvwxz",
+		long_options, NULL)
 #else
-	getopt(argc, argv, "h?ABE:FHINOQ:ST:VY:Zabcdefgijklmo:pr:s:tvwxz")
+	getopt(argc, argv,
+		"h?ABDE:FHINOQ:ST:VY:Zabcdefgijklmo:pr:s:tvwxz")
 #endif
 		) != -1) {
 
