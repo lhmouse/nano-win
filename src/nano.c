@@ -1389,9 +1389,7 @@ void do_delete(void)
 
 void do_tab(void)
 {
-    char *kbinput = "\t";
-
-    do_output(kbinput, 1, TRUE);
+    do_output("\t", 1, TRUE);
 }
 
 /* Someone hits Return *gasp!* */
