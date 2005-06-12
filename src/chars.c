@@ -169,7 +169,7 @@ bool is_cntrl_wchar(wchar_t wc)
 }
 #endif
 
-/* c is a control character.  It displays as ^@, ^?, or ^[ch] where ch
+/* c is a control character.  It displays as ^@, ^?, or ^[ch], where ch
  * is c + 64.  We return that character. */
 unsigned char control_rep(unsigned char c)
 {
