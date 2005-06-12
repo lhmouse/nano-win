@@ -512,7 +512,7 @@ void shortcut_init(bool unjustify)
 #ifndef NANO_SMALL
     sc_init_one(&main_list, NANO_MARK_KEY, N_("Mark Text"),
 	IFHELP(nano_mark_msg, NANO_MARK_ALTKEY), NANO_MARK_FKEY,
-	NANO_NO_KEY, NOVIEW, do_mark);
+	NANO_NO_KEY, VIEW, do_mark);
 
     sc_init_one(&main_list, NANO_NO_KEY, N_("Where Is Next"),
 	IFHELP(nano_whereis_next_msg, NANO_WHEREIS_NEXT_KEY),
