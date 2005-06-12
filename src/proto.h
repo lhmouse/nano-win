@@ -173,7 +173,7 @@ bool is_cntrl_char(int c);
 bool is_cntrl_wchar(wint_t wc);
 #endif
 bool is_cntrl_mbchar(const char *c);
-unsigned char control_rep(unsigned char c);
+char control_rep(char c);
 #ifdef NANO_WIDE
 wchar_t control_wrep(wchar_t c);
 #endif

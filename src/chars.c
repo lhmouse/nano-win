@@ -148,7 +148,7 @@ bool is_cntrl_mbchar(const char *c)
 
 /* c is a control character.  It displays as ^@, ^?, or ^[ch], where ch
  * is c + 64.  We return that character. */
-unsigned char control_rep(unsigned char c)
+char control_rep(char c)
 {
     /* Treat newlines embedded in a line as encoded nulls. */
     if (c == '\n')
@@ -205,7 +205,7 @@ char *control_mbrep(const char *c, char *crep, int *crep_len)
     } else {
 #endif
 	*crep_len = 1;
-	*crep = control_rep((unsigned char)*c);
+	*crep = control_rep(*c);
 
 	return crep;
 #ifdef NANO_WIDE

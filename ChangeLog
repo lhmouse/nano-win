@@ -58,9 +58,9 @@ CVS code -
 	  wrappers, change other ctype wrappers to take wint_t instead
 	  of wchar_t, and rename some functions for consistency.  Changes
 	  to is_alnum_mbchar(), is_blank_char() (renamed nisblank()),
-	  is_blank_mbchar(), is_blank_wchar() (renamed niswblank()), and
-	  is_cntrl_wchar(), etc.; removal of is_alnum_char() and
-	  is_alnum_wchar(). (DLR)
+	  is_blank_mbchar(), is_blank_wchar() (renamed niswblank()),
+	  is_cntrl_wchar(), control_rep(), control_mbrep(), etc.;
+	  removal of is_alnum_char() and is_alnum_wchar(). (DLR)
 - chars.c:
   make_mbstring()
 	- Change erroneous ENABLE_EXTRA #ifdef to NANO_EXTRA to fix a
