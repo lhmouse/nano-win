@@ -1636,8 +1636,26 @@ void do_word_count(void)
     size_t words = 0;
     size_t current_x_save = current_x, pww_save = placewewant;
     filestruct *current_save = current;
+    bool old_mark_set = ISSET(MARK_ISSET);
+    bool added_magicline = FALSE;
+	/* Whether we added a magicline after filebot. */
+    filestruct *top, *bot;
+    size_t top_x, bot_x;
 
-    /* Start at the beginning of the file. */
+    if (old_mark_set) {
+	/* If the mark is on, partition the filestruct so that it
+	 * contains only the marked text, keep track of whether the text
+	 * will need a magicline added while we're counting words, add
+	 * the magicline if necessary, and turn the mark off. */
+	mark_order((const filestruct **)&top, &top_x,
+	    (const filestruct **)&bot, &bot_x, NULL);
+	filepart = partition_filestruct(top, top_x, bot, bot_x);
+	if ((added_magicline = (filebot->data[0] != '\0')))
+	    new_magicline();
+	UNSET(MARK_ISSET);
+    }
+
+    /* Start at the top of the file. */
     current = fileage;
     current_x = 0;
     placewewant = 0;
@@ -1650,13 +1668,26 @@ void do_word_count(void)
 	    words++;
     }
 
-    /* Go back to where we were before. */
+    if (old_mark_set) {
+	/* If the mark was on and we added a magicline, remove it
+	 * now. */
+	if (added_magicline)
+	    remove_magicline();
+
+	/* Unpartition the filestruct so that it contains all the text
+	 * again, and turn the mark back on. */
+	unpartition_filestruct(&filepart);
+	SET(MARK_ISSET);
+    }
+
+    /* Restore where we were. */
     current = current_save;
     current_x = current_x_save;
     placewewant = pww_save;
 
     /* Display the total word count on the statusbar. */
-    statusbar(_("Word count: %lu"), (unsigned long)words);
+    statusbar("%s: %lu", old_mark_set ? _("Word Count in Selection") :
+	_("Word Count"), (unsigned long)words);
 }
 
 void do_mark(void)
