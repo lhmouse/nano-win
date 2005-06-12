@@ -1143,8 +1143,8 @@ void toggle_init(void)
     toggle_init_one(TOGGLE_WHITESPACE_KEY, N_("Whitespace display"),
 	WHITESPACE_DISPLAY);
 #endif
-    toggle_init_one(TOGGLE_MORESPACE_KEY, N_("Use of more space for editing"),
-	MORE_SPACE);
+    toggle_init_one(TOGGLE_MORESPACE_KEY,
+	N_("Use of more space for editing"), MORE_SPACE);
 }
 #endif /* !NANO_SMALL */
 

@@ -1394,7 +1394,7 @@ void do_tab(void)
     do_output(kbinput, 1, TRUE);
 }
 
-/* Someone hits Enter *gasp!* */
+/* Someone hits Return *gasp!* */
 void do_enter(void)
 {
     filestruct *newnode = make_new_node(current);
