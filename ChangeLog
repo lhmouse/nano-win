@@ -118,6 +118,9 @@ CVS code -
 	  written, so as to not duplicate a translated string. (DLR)
 	- If the current filestruct's been partitioned, unpartition it
 	  before saving the associated file. (DLR)
+  resize_variables()
+	- Use sizeof(char) in the memset() that initializes hblank
+	  instead of assuming that the size of a char is 1. (DLR)
   copy_filestruct()
 	- Rename variable prev to copy to avoid confusion. (DLR)
   print1opt_full()

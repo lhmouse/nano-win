@@ -212,7 +212,7 @@ void resize_variables(void)
 #endif
 
     hblank = charealloc(hblank, COLS + 1);
-    memset(hblank, ' ', COLS);
+    memset(hblank, ' ', COLS * sizeof(char));
     hblank[COLS] = '\0';
 }
 
