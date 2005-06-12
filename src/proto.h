@@ -401,8 +401,10 @@ void do_delete(void);
 void do_tab(void);
 void do_enter(void);
 #ifndef NANO_SMALL
-void do_next_word(void);
+bool do_next_word(bool allow_update);
+void do_next_word_void(void);
 void do_prev_word(void);
+void do_word_count(void);
 void do_mark(void);
 #endif
 #ifndef DISABLE_WRAPPING

@@ -61,6 +61,10 @@ CVS code -
 	  is_blank_mbchar(), is_blank_wchar() (renamed niswblank()),
 	  is_cntrl_wchar(), control_rep(), control_mbrep(), etc.;
 	  removal of is_alnum_char() and is_alnum_wchar(). (DLR)
+	- Implement word count via Meta-D at the main window.  Note that
+	  this is disabled when NANO_SMALL is defined.  New functions
+	  do_word_count() and do_next_word_void(); changes to
+	  shortcut_init() and do_next_word(). (DLR)
 - chars.c:
   make_mbstring()
 	- Change erroneous ENABLE_EXTRA #ifdef to NANO_EXTRA to fix a

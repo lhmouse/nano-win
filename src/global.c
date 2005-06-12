@@ -321,6 +321,8 @@ void shortcut_init(bool unjustify)
 #ifndef NANO_SMALL
     const char *nano_nextword_msg = N_("Move forward one word");
     const char *nano_prevword_msg = N_("Move backward one word");
+    const char *nano_wordcount_msg =
+	N_("Count the number of words in the file");
 #endif
 #ifndef DISABLE_JUSTIFY
     const char *nano_parabegin_msg =
@@ -564,11 +566,15 @@ void shortcut_init(bool unjustify)
 #ifndef NANO_SMALL
     sc_init_one(&main_list, NANO_NEXTWORD_KEY, N_("Next Word"),
 	IFHELP(nano_nextword_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, do_next_word);
+	NANO_NO_KEY, VIEW, do_next_word_void);
 
     sc_init_one(&main_list, NANO_NO_KEY, N_("Prev Word"),
 	IFHELP(nano_prevword_msg, NANO_PREVWORD_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, do_prev_word);
+
+    sc_init_one(&main_list, NANO_NO_KEY, N_("Word Count"),
+	IFHELP(nano_wordcount_msg, NANO_WORDCOUNT_KEY), NANO_NO_KEY,
+	NANO_NO_KEY, VIEW, do_word_count);
 #endif
 
 #ifndef DISABLE_JUSTIFY

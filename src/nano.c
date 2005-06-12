@@ -1445,13 +1445,16 @@ void do_enter(void)
 }
 
 #ifndef NANO_SMALL
-/* Move to the next word. */
-void do_next_word(void)
+/* Move to the next word.  If allow_update is FALSE, don't update the
+ * screen afterward.  Return TRUE if we started on a word, and FALSE
+ * otherwise. */
+bool do_next_word(bool allow_update)
 {
     size_t pww_save = placewewant;
     const filestruct *current_save = current;
     char *char_mb;
     int char_mb_len;
+    bool started_on_word = FALSE;
 
     assert(current != NULL && current->data != NULL);
 
@@ -1467,6 +1470,10 @@ void do_next_word(void)
 	 * line. */
 	if (!is_alnum_mbchar(char_mb))
 	    break;
+	/* If we haven't found it, then we've started on a word, so set
+	 * started_on_word to TRUE. */
+	else
+	    started_on_word = TRUE;
 
 	current_x += char_mb_len;
     }
@@ -1505,8 +1512,17 @@ void do_next_word(void)
 
     placewewant = xplustabs();
 
-    /* Update the screen. */
-    edit_redraw(current_save, pww_save);
+    /* If allow_update is TRUE, update the screen. */
+    if (allow_update)
+	edit_redraw(current_save, pww_save);
+
+    /* Return whether we started on a word. */
+    return started_on_word;
+}
+
+void do_next_word_void(void)
+{
+    do_next_word(TRUE);
 }
 
 /* Move to the previous word. */
@@ -1613,6 +1629,37 @@ void do_prev_word(void)
 
     /* Update the screen. */
     edit_redraw(current_save, pww_save);
+}
+
+void do_word_count(void)
+{
+    size_t words = 0;
+    size_t current_x_save = current_x, pww_save = placewewant;
+    filestruct *current_save = current;
+
+    /* Start at the beginning of the file. */
+    current = fileage;
+    current_x = 0;
+    placewewant = 0;
+
+    /* Keep moving to the next word until we reach the end of the file,
+     * incrementing the total word count whenever we're on a word just
+     * before moving. */
+    while (current != filebot || current_x != 0) {
+	if (do_next_word(FALSE))
+	    words++;
+    }
+
+    /* Go back to where we were before. */
+    current = current_save;
+    current_x = current_x_save;
+    placewewant = pww_save;
+
+    /* Update the screen. */
+    edit_refresh();
+
+    /* Display the total word count on the statusbar. */
+    statusbar(_("Word count: %lu"), (unsigned long)words);
 }
 
 void do_mark(void)
