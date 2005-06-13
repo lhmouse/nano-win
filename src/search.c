@@ -751,10 +751,9 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 	    numreplaced = 0;
 
 	if (!replaceall) {
-	    char *exp_word;
 	    size_t xpt = xplustabs();
-
-	    exp_word = display_string(current->data, xpt, match_len,
+	    char *exp_word = display_string(current->data, xpt,
+		strnlenpt(current->data, current_x + match_len) - xpt,
 		FALSE);
 
 	    curs_set(0);

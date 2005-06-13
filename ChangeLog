@@ -191,8 +191,6 @@ CVS code -
 	  work properly when we've replaced one or more instances of a
 	  string in copy and haven't yet updated current->data to match
 	  copy. (DLR)
-	- Simplify the display_string() call that we use to get the word
-	  that we're going to highlight. (DLR)
 - utils.c:
   num_of_digits()
 	- Use a size_t instead of an int, and rename to digits(). (DLR)
