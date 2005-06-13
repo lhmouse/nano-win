@@ -805,7 +805,7 @@ char *mbstrchr(const char *s, char *c)
 	char *s_mb = charalloc(MB_CUR_MAX);
 	const char *q = s;
 	wchar_t ws, wc;
-	int s_mb_len, c_mb_len = mbtowc(&wc, c, MB_CUR_MAX);
+	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX);
 
 	if (c_mb_len <= 0) {
 	    mbtowc(NULL, NULL, 0);
@@ -813,7 +813,7 @@ char *mbstrchr(const char *s, char *c)
 	}
 
 	while (*s != '\0') {
-	    s_mb_len = parse_mbchar(s, s_mb, NULL, NULL);
+	    int s_mb_len = parse_mbchar(s, s_mb, NULL, NULL);
 
 	    if (mbtowc(&ws, s_mb, s_mb_len) <= 0) {
 		mbtowc(NULL, NULL, 0);
