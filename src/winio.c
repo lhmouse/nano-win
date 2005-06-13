@@ -2380,6 +2380,8 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	start_index += buf_mb_len;
     }
 
+    free(buf_mb);
+
     if (index < alloc_len - 1)
 	converted[index] = '\0';
 

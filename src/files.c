@@ -2801,6 +2801,7 @@ char *do_browser(char *path, DIR *dir)
 		    if (width == 0)
 			width = filecols;
 		}
+
 		wmove(edit, editline, col);
 	    }
 

@@ -197,6 +197,8 @@ CVS code -
 - utils.c:
   num_of_digits()
 	- Use a size_t instead of an int, and rename to digits(). (DLR)
+  align()
+	- Rename variable strp to str for consistency. (DLR)
 - winio.c:
   do_statusbar_output()
 	- Don't set answer_len until after it's been asserted that
@@ -206,6 +208,7 @@ CVS code -
 	  for len plus a trailing multibyte character and/or tab. (DLR)
 	- Don't check for multicolumn characters if the NO_UTF8 flag
 	  isn't set. (DLR)
+	- Free buf_mb when we're done using it. (DLR)
   nanogetstr()
 	- Rename variable def to curranswer to avoid confusion. (DLR)
 	- Only declare and use the tabbed variable if DISABLE_TABCOMP

@@ -181,7 +181,7 @@ char *control_mbrep(const char *c, char *crep, int *crep_len);
 int mbwidth(const char *c);
 int mb_cur_max(void);
 char *make_mbchar(int chr, int *chr_mb_len);
-#if defined(ENABLE_NANORC) || defined(ENABLE_EXTRA)
+#if defined(ENABLE_NANORC) || defined(NANO_EXTRA)
 char *make_mbstring(const char *str);
 #endif
 int parse_mbchar(const char *buf, char *chr, bool *bad_chr, size_t
@@ -549,7 +549,7 @@ int digits(size_t n);
 void get_homedir(void);
 bool parse_num(const char *str, ssize_t *val);
 bool parse_line_column(const char *str, int *line, ssize_t *column);
-void align(char **strp);
+void align(char **str);
 void null_at(char **data, size_t index);
 void unsunder(char *str, size_t true_len);
 void sunder(char *str);

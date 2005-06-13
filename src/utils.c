@@ -139,12 +139,12 @@ bool parse_line_column(const char *str, int *line, ssize_t *column)
 }
 
 /* Fix the memory allocation for a string. */
-void align(char **strp)
+void align(char **str)
 {
-    assert(strp != NULL);
+    assert(str != NULL);
 
-    if (*strp != NULL)
-	*strp = charealloc(*strp, strlen(*strp) + 1);
+    if (*str != NULL)
+	*str = charealloc(*str, strlen(*str) + 1);
 }
 
 /* Null a string at a certain index and align it. */

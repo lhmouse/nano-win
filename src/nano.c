@@ -561,6 +561,7 @@ void help_init(void)
 
 	    free(help_ptr);
 	}
+
 	ptr += sprintf(ptr, "\n");
     }
 
@@ -1470,10 +1471,10 @@ bool do_next_word(bool allow_update)
 	 * line. */
 	if (!is_word_mbchar(char_mb))
 	    break;
+
 	/* If we haven't found it, then we've started on a word, so set
 	 * started_on_word to TRUE. */
-	else
-	    started_on_word = TRUE;
+	started_on_word = TRUE;
 
 	current_x += char_mb_len;
     }

@@ -265,11 +265,12 @@ char *make_mbchar(int chr, int *chr_mb_len)
 	    wctomb(NULL, 0);
 	    *chr_mb_len = 0;
 	}
+
+	align(&chr_mb);
     } else {
 #endif
 	*chr_mb_len = 1;
-	chr_mb = charalloc(1);	
-	*chr_mb = (char)chr;
+	chr_mb = mallocstrncpy(NULL, (char *)&chr, 1);
 #ifdef NANO_WIDE
     }
 #endif
