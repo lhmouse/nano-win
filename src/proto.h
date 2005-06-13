@@ -181,8 +181,11 @@ char *control_mbrep(const char *c, char *crep, int *crep_len);
 int mbwidth(const char *c);
 int mb_cur_max(void);
 char *make_mbchar(int chr, int *chr_mb_len);
-#if defined(ENABLE_NANORC) || defined(NANO_EXTRA)
-char *make_mbstring(const char *str);
+#ifdef ENABLE_NANORC
+bool is_valid_mbstring(const char *str);
+#endif
+#ifdef NANO_EXTRA
+char *make_valid_mbstring(const char *str);
 #endif
 int parse_mbchar(const char *buf, char *chr, bool *bad_chr, size_t
 	*col);

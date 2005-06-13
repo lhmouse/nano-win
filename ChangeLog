@@ -58,12 +58,14 @@ CVS code -
 	  wrappers; change other ctype wrappers to take wint_t instead
 	  of wchar_t; rename some functions for consistency; and don't
 	  count matches between valid and invalid multibyte sequences
-	  anymore, as it causes problems when doing a replace.  Changes
-	  to is_alnum_mbchar(), is_blank_char() (renamed nisblank()),
-	  is_blank_mbchar(), is_blank_wchar() (renamed niswblank()),
-	  is_cntrl_wchar(), control_rep(), control_mbrep(),
-	  mbstrncasecmp(), mbstrcasestr(), mbrevstrcasestr(), etc.;
-	  removal of is_alnum_char() and is_alnum_wchar(). (DLR)
+	  anymore, as it causes problems when doing a replace.  New
+	  function is_valid_mbstring(); changes to is_alnum_mbchar(),
+	  is_blank_char() (renamed nisblank()), is_blank_mbchar(),
+	  is_blank_wchar() (renamed niswblank()), is_cntrl_wchar(),
+	  control_rep(), control_mbrep(), make_mbstring() (renamed
+	  make_valid_mbstring()), mbstrncasecmp(), mbstrcasestr(),
+	  mbrevstrcasestr(), etc.; removal of is_alnum_char() and
+	  is_alnum_wchar(). (DLR)
 	- Implement word count via Meta-D at the main window.  Note that
 	  this is disabled when NANO_SMALL is defined.  New functions
 	  do_word_count() and do_next_word_void(); changes to
@@ -177,6 +179,9 @@ CVS code -
 	  (DLR)
 	- Properly generate an error if we get a color directive without
 	  a regex string. (DLR)
+  parse_rcfile()
+	- Properly generate an error if we get an invalid multibyte
+	  string for an option, instead of working around it. (DLR)
 - search.c:
   do_gotoline()
 	- Properly show an error message if we try to go to line 0,

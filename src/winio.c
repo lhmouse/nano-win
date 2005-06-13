@@ -4119,7 +4119,7 @@ void do_credits(void)
 		what = mallocstrcpy(NULL, _(xlcredits[xlpos]));
 		xlpos++;
 	    } else
-		what = make_mbstring(credits[crpos]);
+		what = make_valid_mbstring(credits[crpos]);
 
 	    start_x = COLS / 2 - strlenpt(what) / 2 - 1;
 	    mvwaddstr(edit, editwinrows - 1 - (editwinrows % 2),

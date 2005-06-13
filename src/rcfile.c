@@ -568,12 +568,19 @@ void parse_rcfile(FILE *rcstream)
 			    option++;
 			ptr = parse_argument(ptr);
 
-			/* Make sure option is a valid multibyte
-			 * string. */
-			option = make_mbstring(option);
+			option = mallocstrcpy(NULL, option);
 #ifdef DEBUG
 			fprintf(stderr, "option = \"%s\"\n", option);
 #endif
+
+			/* Make sure option is a valid multibyte
+			 * string. */
+			if (!is_valid_mbstring(option)) {
+			    rcfile_error(
+				N_("Option is not a valid multibyte string"));
+			    break;
+			}
+
 #ifndef DISABLE_OPERATINGDIR
 			if (strcasecmp(rcopts[i].name, "operatingdir") == 0)
 			    operating_dir = option;
@@ -593,7 +600,8 @@ void parse_rcfile(FILE *rcstream)
 #ifndef NANO_SMALL
 			if (strcasecmp(rcopts[i].name, "whitespace") == 0) {
 			    whitespace = option;
-			    if (mbstrlen(whitespace) != 2 || strlenpt(whitespace) != 2) {
+			    if (mbstrlen(whitespace) != 2 ||
+				strlenpt(whitespace) != 2) {
 				rcfile_error(
 					N_("Two single-column characters required"));
 				free(whitespace);
