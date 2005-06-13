@@ -419,10 +419,9 @@ void help_init(void)
 		"or Meta key depending on your keyboard setup.  ");
 	htx[2] = N_("Also, pressing Esc twice and then typing a "
 		"three-digit decimal number from 000 to 255 will enter "
-		"the character with the corresponding value.  The "
-		"following keystrokes are available in the main editor "
-		"window.  Alternative keys are shown in "
-		"parentheses:\n\n");
+		"the byte with the corresponding value.  The following "
+		"keystrokes are available in the main editor window.  "
+		"Alternative keys are shown in parentheses:\n\n");
     }
 
     htx[0] = _(htx[0]);

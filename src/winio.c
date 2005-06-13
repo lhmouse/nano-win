@@ -550,9 +550,6 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 				);
 
 			if (byte != ERR) {
-			    char *byte_mb;
-			    int byte_mb_len, *seq, i;
-
 			    /* If we've read in a complete byte
 			     * sequence, reset the byte sequence counter
 			     * and the escape counter, and put back the
@@ -560,20 +557,8 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 			    byte_digits = 0;
 			    escapes = 0;
 
-			    /* Put back the multibyte equivalent of the
-			     * byte value. */
-			    byte_mb = make_mbchar(byte, &byte_mb_len);
-
-			    seq = (int *)nmalloc(byte_mb_len *
-				sizeof(int));
-
-			    for (i = 0; i < byte_mb_len; i++)
-				seq[i] = (unsigned char)byte_mb[i];
-
-			    unget_input(seq, byte_mb_len);
-
-			    free(seq);
-			    free(byte_mb);
+			    /* Put back the byte value. */
+			    unget_input(&byte, 1);
 			}
 		    } else {
 			/* Reset the escape counter. */

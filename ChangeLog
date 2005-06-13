@@ -66,6 +66,13 @@ CVS code -
 	  make_valid_mbstring()), mbstrncasecmp(), mbstrcasestr(),
 	  mbrevstrcasestr(), etc.; removal of is_alnum_char() and
 	  is_alnum_wchar(). (DLR)
+	- Change the behavior of Esc Esc [3-digit number from 000 to
+	  255] so that it enters the byte with that value regardless of
+	  whether we're in UTF-8 mode or not, and update the help text
+	  to mention this.  This will allow searching for and replacing
+	  raw bytes with their equivalent multibyte sequences as entered
+	  using verbatim input.  Changes to help_init() and
+	  parse_kbinput(). (DLR)
 	- Implement word count via Meta-D at the main window.  Note that
 	  this is disabled when NANO_SMALL is defined.  New functions
 	  do_word_count() and do_next_word_void(); changes to
