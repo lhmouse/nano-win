@@ -217,6 +217,9 @@ CVS code -
   total_update()
 	- Simplify to call clearok(TRUE) and wrefresh() on edit, which
 	  updates the entire screen in fewer function calls. (DLR)
+  do_replace_highlight()
+	- Use waddch() instead of waddstr() to display a space when we
+	  have a zero-length regex. (DLR)
   do_credits()
 	- Save the keystroke that breaks us out of the credits (if any)
 	  and put it back so that it isn't lost.  This is especially
