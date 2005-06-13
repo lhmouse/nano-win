@@ -3957,7 +3957,7 @@ void do_replace_highlight(bool highlight_flag, const char *word)
 #ifdef HAVE_REGEX_H
     /* This is so we can show zero-length regexes. */
     if (word_len == 0)
-	waddstr(edit, " ");
+	waddch(edit, ' ');
     else
 #endif
 	waddnstr(edit, word, actual_x(word, y));
