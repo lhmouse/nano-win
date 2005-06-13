@@ -250,7 +250,7 @@ CVS code -
 	  Weinehall)
 	- Don't refer to the built-in file browser as crappy anymore.
 	  (DLR)
-	- Check for iswpunct(). (DLR)
+	- Check for iswpunct() and mbstowcs(). (DLR)
 - doc/faq.html:
 	- Update the question about the FAQ to mention the current
 	  maintainer. (DLR)

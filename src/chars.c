@@ -285,23 +285,13 @@ bool is_valid_mbstring(const char *str)
 {
     assert(str != NULL);
 
+    return 
 #ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
-	while (*str != '\0') {
-	    int chr_mb_len;
-	    bool bad_chr;
-
-	    chr_mb_len = parse_mbchar(str, NULL, &bad_chr, NULL);
-
-	    if (bad_chr)
-		return FALSE;
-
-	    str += chr_mb_len;
-	}
-     }
+	(!ISSET(NO_UTF8)) ?
+	(mbstowcs(NULL, str, (size_t)-1) != (size_t)-1) :
 #endif
 
-     return TRUE;
+	TRUE;
 }
 #endif /* ENABLE_NANORC */
 
