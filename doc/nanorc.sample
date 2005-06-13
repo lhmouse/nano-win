@@ -270,4 +270,4 @@
 ## strings
 # color white "\"(\\.|[^\"])*\""
 ## comments
-# color blue "^ *#.*$"
+# color blue " *#.*$"

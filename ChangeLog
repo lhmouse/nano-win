@@ -257,7 +257,9 @@ CVS code -
 - doc/nanorc.sample:
 	- In the "nanorc" regexes, tweak the "color" regex to properly
 	  color a line that specifies a background color without a
-	  foreground color, and update the associated comments. (DLR)
+	  foreground color, and update the associated comments.  Also,
+	  tweak the "comment" regex to color comments that don't start
+	  at the beginning of a line. (DLR)
 - doc/man/fr/Makefile.am:
 	- Set mandir to @mandir@/fr, so French manpages get installed
 	  where they belong (Jordi).
