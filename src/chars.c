@@ -39,16 +39,9 @@
 #endif
 #endif
 
-/* Return TRUE if the value of c is in byte range, and FALSE
- * otherwise. */
-bool is_byte(int c)
-{
-    return ((unsigned int)c == (unsigned char)c);
-}
-
 #ifndef HAVE_ISBLANK
 /* This function is equivalent to isblank(). */
-bool nisblank(int c)
+int nisblank(int c)
 {
     return isspace(c) && (c == '\t' || !is_cntrl_char(c));
 }
@@ -56,11 +49,18 @@ bool nisblank(int c)
 
 #if defined(NANO_WIDE) && !defined(HAVE_ISWBLANK)
 /* This function is equivalent to iswblank(). */
-bool niswblank(wint_t wc)
+int niswblank(wint_t wc)
 {
     return iswspace(wc) && (wc == '\t' || !is_cntrl_wchar(wc));
 }
 #endif
+
+/* Return TRUE if the value of c is in byte range, and FALSE
+ * otherwise. */
+bool is_byte(int c)
+{
+    return ((unsigned int)c == (unsigned char)c);
+}
 
 /* This function is equivalent to isblank() for multibyte characters. */
 bool is_blank_mbchar(const char *c)

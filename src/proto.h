@@ -159,13 +159,13 @@ extern char *homedir;
 /* Functions we want available. */
 
 /* Public functions in chars.c. */
-bool is_byte(int c);
 #ifndef HAVE_ISBLANK
-bool nisblank(int c);
+int nisblank(int c);
 #endif
 #if defined(NANO_WIDE) && !defined(HAVE_ISWBLANK)
-bool niswblank(wint_t wc);
+int niswblank(wint_t wc);
 #endif
+bool is_byte(int c);
 bool is_blank_mbchar(const char *c);
 bool is_cntrl_char(int c);
 #ifdef NANO_WIDE
