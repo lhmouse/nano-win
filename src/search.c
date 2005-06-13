@@ -721,7 +721,6 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 	FALSE
 #endif
 	, real_current, *real_current_x, needle, &match_len)) {
-
 	int i = 0;
 
 #ifdef HAVE_REGEX_H
@@ -744,8 +743,7 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 	if (!replaceall)
 	    edit_refresh();
 
-	/* Record for the return value that we found the search
-	 * string. */
+	/* Indicate that we found the search string. */
 	if (numreplaced == -1)
 	    numreplaced = 0;
 
