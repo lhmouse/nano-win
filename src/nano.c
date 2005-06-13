@@ -1468,7 +1468,7 @@ bool do_next_word(bool allow_update)
 
 	/* If we've found it, stop moving forward through the current
 	 * line. */
-	if (!is_alnum_mbchar(char_mb))
+	if (!is_word_mbchar(char_mb))
 	    break;
 	/* If we haven't found it, then we've started on a word, so set
 	 * started_on_word to TRUE. */
@@ -1489,7 +1489,7 @@ bool do_next_word(bool allow_update)
 
 	    /* If we've found it, stop moving forward through the
 	     * current line. */
-	    if (is_alnum_mbchar(char_mb))
+	    if (is_word_mbchar(char_mb))
 		break;
 
 	    current_x += char_mb_len;
@@ -1546,7 +1546,7 @@ void do_prev_word(void)
 
 	/* If we've found it, stop moving backward through the current
 	 * line. */
-	if (!is_alnum_mbchar(char_mb))
+	if (!is_word_mbchar(char_mb))
 	    break;
 
 	if (current_x == 0)
@@ -1569,7 +1569,7 @@ void do_prev_word(void)
 
 	    /* If we've found it, stop moving backward through the
 	     * current line. */
-	    if (is_alnum_mbchar(char_mb))
+	    if (is_word_mbchar(char_mb))
 		break;
 
 	    if (current_x == 0)
@@ -1608,7 +1608,7 @@ void do_prev_word(void)
 
 	    /* If we've found it, stop moving backward through the
 	     * current line. */
-	    if (!is_alnum_mbchar(char_mb))
+	    if (!is_word_mbchar(char_mb))
 		break;
 
 	    if (current_x == 0)

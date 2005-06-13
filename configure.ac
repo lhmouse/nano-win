@@ -399,7 +399,7 @@ dnl Checks for functions.
 AC_CHECK_FUNCS(snprintf vsnprintf isblank strcasecmp strncasecmp strcasestr strnlen getline getdelim)
 
 if test x$enable_utf8 != xno; then
-    AC_CHECK_FUNCS(iswalnum mblen mbtowc wctomb wcwidth iswspace iswblank)
+    AC_CHECK_FUNCS(iswalnum iswblank iswpunct iswspace mblen mbtowc wctomb wcwidth)
 fi
 
 if test x$ac_cv_func_snprintf = xno || test x$ac_cv_func_vsnprintf = xno; then
@@ -472,12 +472,13 @@ fi
 if test x$enable_utf8 != xno && \
    test x$CURSES_LIB_WIDE = xyes && \
    test x$ac_cv_func_iswalnum = xyes && \
+   test x$ac_cv_func_iswpunct = xyes && \
+   (test x$ac_cv_func_iswblank = xyes || test x$ac_cv_func_iswspace = xyes) && \
    test x$ac_cv_func_mblen = xyes && \
    test x$ac_cv_func_mbtowc = xyes && \
    test x$ac_cv_func_wctomb = xyes && \
-   test x$ac_cv_func_wcwidth = xyes && \
-   (test x$ac_cv_func_iswspace = xyes || test x$ac_cv_func_iswblank = xyes); then
-	AC_DEFINE(NANO_WIDE, 1, [Define this if your system has sufficient wide character support (a wide curses library, iswalnum(), iswspace() or iswblank(), mblen(), mbtowc(), wctomb(), and wcwidth()).])
+   test x$ac_cv_func_wcwidth = xyes; then
+	AC_DEFINE(NANO_WIDE, 1, [Define this if your system has sufficient wide character support (a wide curses library, iswalnum(), iswpunct(), iswblank() or iswspace(), mblen(), mbtowc(), wctomb(), and wcwidth()).])
 else
     if test x$enable_utf8 = xyes; then
 	AC_MSG_ERROR([

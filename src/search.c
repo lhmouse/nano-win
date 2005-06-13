@@ -273,11 +273,11 @@ bool is_whole_word(size_t pos, const char *buf, const char *word)
     parse_mbchar(buf + word_end, r, NULL, NULL);
 
     /* If we're at the beginning of the line or the character before the
-     * word isn't an alphanumeric character, and if we're at the end of
-     * the line or the character after the word isn't an alphanumeric
-     * character, we have a whole word. */
-    retval = (pos == 0 || !is_alnum_mbchar(p)) &&
-	(word_end == strlen(buf) || !is_alnum_mbchar(r));
+     * word isn't a  "word" character, and if we're at the end of the
+     * line or the character after the word isn't a "word" character, we
+     * have a whole word. */
+    retval = (pos == 0 || !is_word_mbchar(p)) &&
+	(word_end == strlen(buf) || !is_word_mbchar(r));
 
     free(p);
     free(r);

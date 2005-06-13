@@ -146,6 +146,35 @@ bool is_cntrl_mbchar(const char *c)
 	return is_cntrl_char((unsigned char)*c);
 }
 
+/* This function is equivalent to ispunct() for multibyte characters. */
+bool is_punct_mbchar(const char *c)
+{
+    assert(c != NULL);
+
+#ifdef NANO_WIDE
+    if (!ISSET(NO_UTF8)) {
+	wchar_t wc;
+	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX);
+
+	if (c_mb_len <= 0) {
+	    mbtowc(NULL, NULL, 0);
+	    wc = (unsigned char)*c;
+	}
+
+	return iswpunct(wc);
+    } else
+#endif
+	return ispunct((unsigned char)*c);
+}
+
+/* This function returns TRUE for a multibyte character found in a word
+ * (currently only an alphanumeric or punctuation character) and FALSE
+ * otherwise. */
+bool is_word_mbchar(const char *c)
+{
+    return is_alnum_mbchar(c) || is_punct_mbchar(c);
+}
+
 /* c is a control character.  It displays as ^@, ^?, or ^[ch], where ch
  * is c + 64.  We return that character. */
 char control_rep(char c)
