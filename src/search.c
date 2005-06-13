@@ -1268,9 +1268,13 @@ char *get_history_completion(filestruct **h, char *s, size_t len)
 
 	assert(hage != NULL && hbot != NULL);
 
-	/* Search the history list from the entry after the current
-	 * position to the bottom for a match of len characters. */
+	/* Search the history list from the current position to the
+	 * bottom for a match of len characters.  Skip over an exact
+	 * match. */
 	p = find_history((*h)->next, hbot, s, len);
+
+	while (p != NULL && strcmp(p->data, s) == 0)
+	    p = find_history(p->next, hbot, s, len);
 
 	if (p != NULL) {
 	    *h = p;
@@ -1278,8 +1282,11 @@ char *get_history_completion(filestruct **h, char *s, size_t len)
 	}
 
 	/* Search the history list from the top to the current position
-	 * for a match of len characters. */
+	 * for a match of len characters.  Skip over an exact match. */
 	p = find_history(hage, *h, s, len);
+
+	while (p != NULL && strcmp(p->data, s) == 0)
+	    p = find_history(p->next, *h, s, len);
 
 	if (p != NULL) {
 	    *h = p;
@@ -1287,7 +1294,8 @@ char *get_history_completion(filestruct **h, char *s, size_t len)
 	}
     }
 
-    /* If we're here, we didn't find a match, or len is 0.  Return s. */
+    /* If we're here, we didn't find a match, we didn't find an inexact
+     * match, or len is 0.  Return s. */
     return s;
 }
 #endif
