@@ -201,17 +201,15 @@ char *control_mbrep(const char *c, char *crep, int *crep_len)
 	}
 
 	*crep_len = crep_mb_len;
-
-	return crep;
     } else {
 #endif
 	*crep_len = 1;
 	*crep = control_rep(*c);
-
-	return crep;
 #ifdef NANO_WIDE
     }
 #endif
+
+    return crep;
 }
 
 /* This function is equivalent to wcwidth() for multibyte characters. */
@@ -244,7 +242,7 @@ int mb_cur_max(void)
 {
     return
 #ifdef NANO_WIDE
-	!ISSET(NO_UTF8) ? MB_CUR_MAX :
+	(!ISSET(NO_UTF8)) ? MB_CUR_MAX :
 #endif
 	1;
 }
@@ -295,12 +293,12 @@ char *make_mbstring(const char *str)
 	size_t str_mb_len = 0;
 
 	while (*str != '\0') {
-	    bool bad_char;
+	    bool bad_chr;
 	    int i;
 
-	    chr_mb_len = parse_mbchar(str, chr_mb, &bad_char, NULL);
+	    chr_mb_len = parse_mbchar(str, chr_mb, &bad_chr, NULL);
 
-	    if (bad_char) {
+	    if (bad_chr) {
 		char *bad_chr_mb;
 		int bad_chr_mb_len;
 
@@ -329,7 +327,7 @@ char *make_mbstring(const char *str)
 #endif
 	return mallocstrcpy(NULL, str);
 }
-#endif
+#endif /* ENABLE_NANORC || NANO_EXTRA */
 
 /* Parse a multibyte character from buf.  Return the number of bytes
  * used.  If chr isn't NULL, store the multibyte character in it.  If
@@ -483,7 +481,7 @@ int nstrncasecmp(const char *s1, const char *s2, size_t n)
     }
 
     if (n > 0)
-	return (tolower(*s1) - tolower(*s2));
+	return tolower(*s1) - tolower(*s2);
     else
 	return 0;
 }
@@ -502,6 +500,7 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 	assert(s1 != NULL && s2 != NULL);
 
 	while (n > 0 && *s1 != '\0' && *s2 != '\0') {
+	    bool bad_s1_mb = FALSE, bad_s2_mb = FALSE;
 	    int s1_mb_len, s2_mb_len;
 
 	    s1_mb_len = parse_mbchar(s1, s1_mb, NULL, NULL);
@@ -509,6 +508,7 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 	    if (mbtowc(&ws1, s1_mb, s1_mb_len) <= 0) {
 		mbtowc(NULL, NULL, 0);
 		ws1 = (unsigned char)*s1_mb;
+		bad_s1_mb = TRUE;
 	    }
 
 	    s2_mb_len = parse_mbchar(s2, s2_mb, NULL, NULL);
@@ -516,9 +516,11 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 	    if (mbtowc(&ws2, s2_mb, s2_mb_len) <= 0) {
 		mbtowc(NULL, NULL, 0);
 		ws2 = (unsigned char)*s2_mb;
+		bad_s2_mb = TRUE;
 	    }
 
-	    if (n == 0 || towlower(ws1) != towlower(ws2))
+	    if (n == 0 || bad_s1_mb != bad_s2_mb ||
+		towlower(ws1) != towlower(ws2))
 		break;
 
 	    s1 += s1_mb_len;
@@ -529,7 +531,7 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 	free(s1_mb);
 	free(s2_mb);
 
-	return (towlower(ws1) - towlower(ws2));
+	return towlower(ws1) - towlower(ws2);
     } else
 #endif
 	return strncasecmp(s1, s2, n);
@@ -573,11 +575,14 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 	    int r_mb_len, q_mb_len;
 
 	    while (*q != '\0') {
+		bool bad_r_mb = FALSE, bad_q_mb = FALSE;
+
 		r_mb_len = parse_mbchar(r, r_mb, NULL, NULL);
 
 		if (mbtowc(&wr, r_mb, r_mb_len) <= 0) {
 		    mbtowc(NULL, NULL, 0);
 		    wr = (unsigned char)*r;
+		    bad_r_mb = TRUE;
 		}
 
 		q_mb_len = parse_mbchar(q, q_mb, NULL, NULL);
@@ -585,9 +590,11 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 		if (mbtowc(&wq, q_mb, q_mb_len) <= 0) {
 		    mbtowc(NULL, NULL, 0);
 		    wq = (unsigned char)*q;
+		    bad_q_mb = TRUE;
 		}
 
-		if (towlower(wr) != towlower(wq))
+		if (bad_r_mb != bad_q_mb ||
+			towlower(wr) != towlower(wq))
 		    break;
 
 		r += r_mb_len;
@@ -605,13 +612,14 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 	free(r_mb);
 	free(q_mb);
 
-	return found_needle ? haystack : NULL;
+	return (found_needle) ? haystack : NULL;
     } else
 #endif
 	return strcasestr(haystack, needle);
 }
 
-#if !defined(NANO_SMALL) || !defined(DISABLE_TABCOMP)
+#ifndef NANO_SMALL
+#ifndef DISABLE_TABCOMP
 /* This function is equivalent to strstr(), except in that it scans the
  * string in reverse, starting at rev_start. */
 const char *revstrstr(const char *haystack, const char *needle, const
@@ -631,9 +639,8 @@ const char *revstrstr(const char *haystack, const char *needle, const
 
     return NULL;
 }
-#endif
+#endif /* !DISABLE_TABCOMP */
 
-#ifndef NANO_SMALL
 /* This function is equivalent to strcasestr(), except in that it scans
  * the string in reverse, starting at rev_start. */
 const char *revstrcasestr(const char *haystack, const char *needle,
@@ -674,11 +681,14 @@ const char *mbrevstrcasestr(const char *haystack, const char *needle,
 	    int r_mb_len, q_mb_len;
 
 	    while (*q != '\0') {
+		bool bad_r_mb = FALSE, bad_q_mb = FALSE;
+
 		r_mb_len = parse_mbchar(r, r_mb, NULL, NULL);
 
 		if (mbtowc(&wr, r_mb, r_mb_len) <= 0) {
 		    mbtowc(NULL, NULL, 0);
 		    wr = (unsigned char)*r;
+		    bad_r_mb = TRUE;
 		}
 
 		q_mb_len = parse_mbchar(q, q_mb, NULL, NULL);
@@ -686,9 +696,11 @@ const char *mbrevstrcasestr(const char *haystack, const char *needle,
 		if (mbtowc(&wq, q_mb, q_mb_len) <= 0) {
 		    mbtowc(NULL, NULL, 0);
 		    wq = (unsigned char)*q;
+		    bad_q_mb = TRUE;
 		}
 
-		if (towlower(wr) != towlower(wq))
+		if (bad_r_mb != bad_q_mb ||
+			towlower(wr) != towlower(wq))
 		    break;
 
 		r += r_mb_len;
@@ -710,12 +722,12 @@ const char *mbrevstrcasestr(const char *haystack, const char *needle,
 	free(r_mb);
 	free(q_mb);
 
-	return found_needle ? rev_start : NULL;
+	return (found_needle) ? rev_start : NULL;
     } else
 #endif
 	return revstrcasestr(haystack, needle, rev_start);
 }
-#endif
+#endif /* !NANO_SMALL */
 
 /* This function is equivalent to strlen() for multibyte strings. */
 size_t mbstrlen(const char *s)
@@ -746,11 +758,10 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 #ifdef NANO_WIDE
     if (!ISSET(NO_UTF8)) {
 	size_t n = 0;
-	char *s_mb = charalloc(MB_CUR_MAX);
 	int s_mb_len;
 
 	while (*s != '\0') {
-	    s_mb_len = parse_mbchar(s, s_mb, NULL, NULL);
+	    s_mb_len = parse_mbchar(s, NULL, NULL, NULL);
 
 	    if (maxlen == 0)
 		break;
@@ -759,8 +770,6 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 	    s += s_mb_len;
 	    n++;
 	}
-
-	free(s_mb);
 
 	return n;
     } else
@@ -811,4 +820,4 @@ char *mbstrchr(const char *s, char *c)
 #endif
 	return strchr(s, *c);
 }
-#endif
+#endif /* !DISABLE_JUSTIFY */

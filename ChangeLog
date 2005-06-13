@@ -55,11 +55,14 @@ CVS code -
 	  main(), search_init(), nanorc.sample, nano.1, nanorc.5,
 	  nano.texi, etc. (DLR)
 	- Various cleanups in chars.c.  Remove some unnecessary (w)ctype
-	  wrappers, change other ctype wrappers to take wint_t instead
-	  of wchar_t, and rename some functions for consistency.  Changes
+	  wrappers; change other ctype wrappers to take wint_t instead
+	  of wchar_t; rename some functions for consistency; and don't
+	  count matches between valid and invalid multibyte sequences
+	  anymore, as it causes problems when doing a replace.  Changes
 	  to is_alnum_mbchar(), is_blank_char() (renamed nisblank()),
 	  is_blank_mbchar(), is_blank_wchar() (renamed niswblank()),
-	  is_cntrl_wchar(), control_rep(), control_mbrep(), etc.;
+	  is_cntrl_wchar(), control_rep(), control_mbrep(),
+	  mbstrncasecmp(), mbstrcasestr(), mbrevstrcasestr(), etc.;
 	  removal of is_alnum_char() and is_alnum_wchar(). (DLR)
 	- Implement word count via Meta-D at the main window.  Note that
 	  this is disabled when NANO_SMALL is defined.  New functions

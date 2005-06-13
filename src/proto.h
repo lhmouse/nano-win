@@ -201,8 +201,10 @@ const char *nstrcasestr(const char *haystack, const char *needle);
 #endif
 const char *mbstrcasestr(const char *haystack, const char *needle);
 #ifndef NANO_SMALL
+#ifndef DISABLE_TABCOMP
 const char *revstrstr(const char *haystack, const char *needle, const
 	char *rev_start);
+#endif
 const char *revstrcasestr(const char *haystack, const char *needle,
 	const char *rev_start);
 const char *mbrevstrcasestr(const char *haystack, const char *needle,
