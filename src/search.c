@@ -415,9 +415,9 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	current_x_find > beginx
 #endif
 	) {
-
 	if (can_display_wrap)
 	    not_found_msg(needle);
+
 	return FALSE;
     }
 
