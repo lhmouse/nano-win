@@ -67,8 +67,8 @@ CVS code -
 	  shortcut_init() and do_next_word(). (DLR)
 	- Detect words more accurately by taking punctuation into
 	  account, and convert all word-detecting functions to use the
-	  same wrapper function for ease of maintenance.  New functions
-	  is_punct_mbchar() and is_word_mbchar(); changes to
+	  same wrapper function for ease of maintenance.  Changes to
+	  is_alnum_mbchar() (renamed is_word_mbchar()); changes to
 	  do_next_word(), do_prev_word(), is_whole_word(),
 	  do_statusbar_next_word(), and do_statusbar_prev_word(). (DLR)
 - chars.c:

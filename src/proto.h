@@ -160,7 +160,6 @@ extern char *homedir;
 
 /* Public functions in chars.c. */
 bool is_byte(int c);
-bool is_alnum_mbchar(const char *c);
 #ifndef HAVE_ISBLANK
 bool nisblank(int c);
 #endif
@@ -173,7 +172,6 @@ bool is_cntrl_char(int c);
 bool is_cntrl_wchar(wint_t wc);
 #endif
 bool is_cntrl_mbchar(const char *c);
-bool is_punct_mbchar(const char *c);
 bool is_word_mbchar(const char *c);
 char control_rep(char c);
 #ifdef NANO_WIDE
