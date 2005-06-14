@@ -840,7 +840,7 @@ bool has_blank_mbchars(const char *s)
 #endif
 	return has_blank_chars(s);
 }
-#endif
+#endif /* ENABLE_NANORC */
 
 /* This function is equivalent to strchr() for multibyte strings. */
 char *mbstrchr(const char *s, char *c)
