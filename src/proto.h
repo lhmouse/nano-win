@@ -181,12 +181,6 @@ char *control_mbrep(const char *c, char *crep, int *crep_len);
 int mbwidth(const char *c);
 int mb_cur_max(void);
 char *make_mbchar(int chr, int *chr_mb_len);
-#ifdef ENABLE_NANORC
-bool is_valid_mbstring(const char *str);
-#endif
-#ifdef NANO_EXTRA
-char *make_valid_mbstring(const char *str);
-#endif
 int parse_mbchar(const char *buf, char *chr, bool *bad_chr, size_t
 	*col);
 size_t move_mbleft(const char *buf, size_t pos);
@@ -224,6 +218,12 @@ bool has_blank_chars(const char *s);
 bool has_blank_mbchars(const char *s);
 #endif
 char *mbstrchr(const char *s, char *c);
+#endif
+#ifdef ENABLE_NANORC
+bool is_valid_mbstring(const char *s);
+#endif
+#ifdef NANO_EXTRA
+char *make_valid_mbstring(const char *s);
 #endif
 
 /* Public functions in color.c. */

@@ -946,8 +946,9 @@ void do_replace(void)
     edit_refresh();
 
     if (numreplaced >= 0)
-	statusbar(P_("Replaced %ld occurrence", "Replaced %ld occurrences",
-		(long)numreplaced), (long)numreplaced);
+	statusbar(P_("Replaced %lu occurrence",
+		"Replaced %lu occurrences", (unsigned long)numreplaced),
+		(unsigned long)numreplaced);
 
     replace_abort();
 }

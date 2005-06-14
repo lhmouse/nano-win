@@ -247,8 +247,10 @@ int mb_cur_max(void)
 }
 
 /* Convert the value in chr to a multibyte character with the same
- * wide character value as chr, if possible.  Return the (dynamically
- * allocated) multibyte character and its length. */
+ * wide character value as chr, if possible.  If the conversion
+ * succeeds, return the (dynamically allocated) multibyte character and
+ * its length.  Otherwise, return an undefined (dynamically allocated)
+ * multibyte character and a length of zero. */
 char *make_mbchar(int chr, int *chr_mb_len)
 {
     char *chr_mb;
@@ -264,8 +266,6 @@ char *make_mbchar(int chr, int *chr_mb_len)
 	    wctomb(NULL, 0);
 	    *chr_mb_len = 0;
 	}
-
-	align(&chr_mb);
     } else {
 #endif
 	*chr_mb_len = 1;
@@ -276,74 +276,6 @@ char *make_mbchar(int chr, int *chr_mb_len)
 
     return chr_mb;
 }
-
-#ifdef ENABLE_NANORC
-/* Check if the string str is a valid multibyte string.  Return TRUE if
- * it is, and FALSE otherwise. */
-bool is_valid_mbstring(const char *str)
-{
-    assert(str != NULL);
-
-    return 
-#ifdef NANO_WIDE
-	(!ISSET(NO_UTF8)) ?
-	(mbstowcs(NULL, str, (size_t)-1) != (size_t)-1) :
-#endif
-
-	TRUE;
-}
-#endif /* ENABLE_NANORC */
-
-#ifdef NANO_EXTRA
-/* Convert the string str to a valid multibyte string with the same wide
- * character values as str.  Return the (dynamically allocated)
- * multibyte string. */
-char *make_valid_mbstring(const char *str)
-{
-    assert(str != NULL);
-
-#ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
-	char *chr_mb = charalloc(MB_CUR_MAX);
-	char *str_mb = charalloc((MB_CUR_MAX * strlen(str)) + 1);
-	size_t str_mb_len = 0;
-
-	while (*str != '\0') {
-	    int chr_mb_len, i;
-	    bool bad_chr;
-
-	    chr_mb_len = parse_mbchar(str, chr_mb, &bad_chr, NULL);
-
-	    if (bad_chr) {
-		char *bad_chr_mb;
-		int bad_chr_mb_len;
-
-		bad_chr_mb = make_mbchar((unsigned char)*chr_mb,
-		    &bad_chr_mb_len);
-
-		for (i = 0; i < bad_chr_mb_len; i++)
-		    str_mb[str_mb_len + i] = bad_chr_mb[i];
-		str_mb_len += bad_chr_mb_len;
-
-		free(bad_chr_mb);
-	    } else {
-		for (i = 0; i < chr_mb_len; i++)
-		    str_mb[str_mb_len + i] = chr_mb[i];
-		str_mb_len += chr_mb_len;
-	    }
-
-	    str += chr_mb_len;
-	}
-
-	free(chr_mb);
-	null_at(&str_mb, str_mb_len);
-
-	return str_mb;
-     } else
-#endif
-	return mallocstrcpy(NULL, str);
-}
-#endif /* NANO_EXTRA */
 
 /* Parse a multibyte character from buf.  Return the number of bytes
  * used.  If chr isn't NULL, store the multibyte character in it.  If
@@ -885,3 +817,71 @@ char *mbstrchr(const char *s, char *c)
 	return strchr(s, *c);
 }
 #endif /* !DISABLE_JUSTIFY */
+
+#ifdef ENABLE_NANORC
+/* Check if the string s is a valid multibyte string.  Return TRUE if it
+ * is, and FALSE otherwise. */
+bool is_valid_mbstring(const char *s)
+{
+    assert(s != NULL);
+
+    return 
+#ifdef NANO_WIDE
+	(!ISSET(NO_UTF8)) ?
+	(mbstowcs(NULL, s, (size_t)-1) != (size_t)-1) :
+#endif
+
+	TRUE;
+}
+#endif /* ENABLE_NANORC */
+
+#ifdef NANO_EXTRA
+/* Convert the string s to a valid multibyte string with the same wide
+ * character values as s.  Return the (dynamically allocated)
+ * multibyte string. */
+char *make_valid_mbstring(const char *s)
+{
+    assert(s != NULL);
+
+#ifdef NANO_WIDE
+    if (!ISSET(NO_UTF8)) {
+	char *chr_mb = charalloc(MB_CUR_MAX);
+	char *s_mb = charalloc((MB_CUR_MAX * strlen(s)) + 1);
+	size_t s_mb_len = 0;
+
+	while (*s != '\0') {
+	    int chr_mb_len, i;
+	    bool bad_chr;
+
+	    chr_mb_len = parse_mbchar(s, chr_mb, &bad_chr, NULL);
+
+	    if (bad_chr) {
+		char *bad_chr_mb;
+		int bad_chr_mb_len;
+
+		bad_chr_mb = make_mbchar((unsigned char)*chr_mb,
+		    &bad_chr_mb_len);
+
+		for (i = 0; i < bad_chr_mb_len; i++)
+		    s_mb[s_mb_len + i] = bad_chr_mb[i];
+		s_mb_len += bad_chr_mb_len;
+
+		free(bad_chr_mb);
+	    } else {
+		for (i = 0; i < chr_mb_len; i++)
+		    s_mb[s_mb_len + i] = chr_mb[i];
+		s_mb_len += chr_mb_len;
+	    }
+
+	    s += chr_mb_len;
+	}
+
+	free(chr_mb);
+	null_at(&s_mb, s_mb_len);
+
+	return s_mb;
+     } else
+#endif
+	return mallocstrcpy(NULL, s);
+}
+#endif /* NANO_EXTRA */

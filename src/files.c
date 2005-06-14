@@ -1697,7 +1697,8 @@ int write_file(const char *name, FILE *f_open, bool tmp, int append,
 	/* Update originalfilestat to reference the file as it is now. */
 	stat(filename, &originalfilestat);
 #endif
-	statusbar(P_("Wrote %lu line", "Wrote %lu lines", lineswritten),
+	statusbar(P_("Wrote %lu line", "Wrote %lu lines",
+		(unsigned long)lineswritten),
 		(unsigned long)lineswritten);
 	UNSET(MODIFIED);
 	titlebar(NULL);
