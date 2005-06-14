@@ -248,8 +248,8 @@ int mb_cur_max(void)
 }
 
 /* Convert the value in chr to a multibyte character with the same
- * wide character value as chr.  Return the (dynamically allocated)
- * multibyte character and its length. */
+ * wide character value as chr, if possible.  Return the (dynamically
+ * allocated) multibyte character and its length. */
 char *make_mbchar(int chr, int *chr_mb_len)
 {
     char *chr_mb;
