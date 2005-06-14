@@ -265,8 +265,8 @@ CVS code -
 	  (DLR)
 	- Check for iswpunct() and mbstowcs(). (DLR)
 - doc/faq.html:
-	- Update the question about the FAQ to mention the current
-	  maintainer. (DLR)
+	- Update section 1.1 to mention the current maintainer. (DLR)
+	- Minor capitalization and wording tweaks. (DLR)
 - doc/nanorc.sample:
 	- In the "nanorc" regexes, tweak the "color" regex to properly
 	  color a line that specifies a background color without a
