@@ -183,7 +183,7 @@ char *control_mbrep(const char *c, char *crep, int *crep_len)
 
 #ifdef NANO_WIDE
     if (!ISSET(NO_UTF8)) {
-	wchar_t wc, wcrep;
+	wchar_t wc;
 	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX), crep_mb_len;
 
 	if (c_mb_len <= 0) {
@@ -191,9 +191,7 @@ char *control_mbrep(const char *c, char *crep, int *crep_len)
 	    wc = (unsigned char)*c;
 	}
 
-	wcrep = control_wrep(wc);
-
-	crep_mb_len = wctomb(crep, wcrep);
+	crep_mb_len = wctomb(crep, control_wrep(wc));
 
 	if (crep_mb_len <= 0) {
 	    wctomb(NULL, 0);
@@ -228,6 +226,7 @@ int mbwidth(const char *c)
 	}
 
 	width = wcwidth(wc);
+
 	if (width == -1)
 	    width++;
 
