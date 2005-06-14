@@ -1193,36 +1193,28 @@ bool open_pipe(const char *command)
     int fd[2];
     FILE *f;
     struct sigaction oldaction, newaction;
-			/* Original and temporary handlers for
-			 * SIGINT. */
+	/* Original and temporary handlers for SIGINT. */
     bool sig_failed = FALSE;
-    /* sig_failed means that sigaction() failed without changing the
-     * signal handlers.
-     *
-     * We use this variable since it is important to put things back
-     * when we finish, even if we get errors. */
+	/* Did sigaction() fail without changing the signal handlers? */
 
     /* Make our pipes. */
-
     if (pipe(fd) == -1) {
 	statusbar(_("Could not pipe"));
 	return FALSE;
     }
 
     /* Fork a child. */
-
     if ((pid = fork()) == 0) {
 	close(fd[0]);
 	dup2(fd[1], fileno(stdout));
 	dup2(fd[1], fileno(stderr));
-	/* If execl() returns at all, there was an error. */
 
+	/* If execl() returns at all, there was an error. */
 	execl("/bin/sh", "sh", "-c", command, NULL);
 	exit(0);
     }
 
     /* Else continue as parent. */
-
     close(fd[1]);
 
     if (pid == -1) {
@@ -1232,7 +1224,7 @@ bool open_pipe(const char *command)
     }
 
     /* Before we start reading the forked command's output, we set
-     * things up so that ^C will cancel the new process. */
+     * things up so that Ctrl-C will cancel the new process. */
 
     /* Enable interpretation of the special control keys so that we get
      * SIGINT when Ctrl-C is pressed. */
@@ -1282,7 +1274,7 @@ void do_verbatim_input(void)
     size_t kbinput_len, i;
     char *output;
 
-    statusbar(_("Verbatim input"));
+    statusbar(_("Verbatim Input"));
 
     /* Read in all the verbatim characters. */
     kbinput = get_verbatim_kbinput(edit, &kbinput_len);
