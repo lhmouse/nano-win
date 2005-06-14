@@ -620,20 +620,18 @@ void parse_rcfile(FILE *rcstream)
 #ifndef DISABLE_JUSTIFY
 			if (strcasecmp(rcopts[i].name, "punct") == 0) {
 			    punct = option;
-			    if (strchr(punct, '\t') != NULL ||
-				strchr(punct, ' ') != NULL) {
+			    if (has_blank_mbchars(punct)) {
 				rcfile_error(
-					N_("Non-tab and non-space characters required"));
+					N_("Non-blank characters required"));
 				free(punct);
 				punct = NULL;
 			    }
 			} else if (strcasecmp(rcopts[i].name,
 				"brackets") == 0) {
 			    brackets = option;
-			    if (strchr(brackets, '\t') != NULL ||
-				strchr(brackets, ' ') != NULL) {
+			    if (has_blank_mbchars(brackets)) {
 				rcfile_error(
-					N_("Non-tab and non-space characters required"));
+					N_("Non-blank characters required"));
 				free(brackets);
 				brackets = NULL;
 			    }

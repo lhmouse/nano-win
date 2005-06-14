@@ -795,6 +795,54 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 }
 
 #ifndef DISABLE_JUSTIFY
+#ifdef ENABLE_NANORC
+/* Return TRUE if the string s contains one or more blank characters,
+ * and FALSE otherwise. */
+bool has_blank_chars(const char *s)
+{
+    assert(s != NULL);
+
+    for (; *s != '\0'; s++) {
+	if (isblank(*s))
+	    return TRUE;
+    }
+
+    return FALSE;
+}
+
+/* Return TRUE if the multibyte string s contains one or more blank
+ * multibyte characters, and FALSE otherwise. */
+bool has_blank_mbchars(const char *s)
+{
+    assert(str != NULL);
+
+#ifdef NANO_WIDE
+    if (!ISSET(NO_UTF8)) {
+	char *chr_mb = charalloc(MB_CUR_MAX);
+	bool retval = FALSE;
+
+	while (*s != '\0') {
+	    int chr_mb_len;
+
+	    chr_mb_len = parse_mbchar(s, chr_mb, NULL, NULL);
+
+	    if (is_blank_mbchar(chr_mb)) {
+		retval = TRUE;
+		break;
+	    }
+
+	    s += chr_mb_len;
+	}
+
+	free(chr_mb);
+
+	return retval;
+    } else
+#endif
+	return has_blank_chars(s);
+}
+#endif
+
 /* This function is equivalent to strchr() for multibyte strings. */
 char *mbstrchr(const char *s, char *c)
 {

@@ -54,12 +54,15 @@ CVS code -
 	  and NANO_APPEND_KEY are.  Changes to shortcut_init(), usage(),
 	  main(), search_init(), nanorc.sample, nano.1, nanorc.5,
 	  nano.texi, etc. (DLR)
-	- Various cleanups in chars.c.  Remove some unnecessary (w)ctype
-	  wrappers; change other ctype wrappers to take wint_t instead
-	  of wchar_t; rename some functions for consistency; and don't
-	  count matches between valid and invalid multibyte sequences
-	  anymore, as it causes problems when doing a replace.  New
-	  function is_valid_mbstring(); changes to is_alnum_mbchar(),
+	- Various cleanups and improvements in chars.c.  Remove some
+	  unnecessary w?ctype wrappers; change other ctype wrappers to
+	  take wint_t instead of wchar_t; rename some functions for
+	  consistency; add functions to detect blank characters in a
+	  string, for use in rcfile option parsing; and don't count
+	  matches between valid and invalid multibyte sequences anymore,
+	  as it causes problems when doing a replace.  New functions
+	  is_valid_mbstring(), has_blank_chars(), and
+	  has_blank_mbchars(); changes to is_alnum_mbchar(),
 	  is_blank_char() (renamed nisblank()), is_blank_mbchar(),
 	  is_blank_wchar() (renamed niswblank()), is_cntrl_wchar(),
 	  control_rep(), control_mbrep(), make_mbstring() (renamed
@@ -189,6 +192,9 @@ CVS code -
   parse_rcfile()
 	- Properly generate an error if we get an invalid multibyte
 	  string for an option, instead of working around it. (DLR)
+	- Use has_blank_mbchars() to check for blank characters in the
+	  "punct" and "brackets" options, and clarify the error message
+	  displayed when we find blank characters. (DLR)
 - search.c:
   do_gotoline()
 	- Properly show an error message if we try to go to line 0,
