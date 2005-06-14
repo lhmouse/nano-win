@@ -3987,7 +3987,7 @@ int check_linenumbers(const filestruct *fileptr)
 #endif
 
 #ifdef DEBUG
-/* Dump the passed-in file structure to stderr. */
+/* Dump the filestruct inptr to stderr. */
 void dump_buffer(const filestruct *inptr)
 {
     if (inptr == fileage)
@@ -4003,7 +4003,7 @@ void dump_buffer(const filestruct *inptr)
     }
 }
 
-/* Dump the file structure to stderr in reverse. */
+/* Dump the main filestruct to stderr in reverse. */
 void dump_buffer_reverse(void)
 {
     const filestruct *fileptr = filebot;

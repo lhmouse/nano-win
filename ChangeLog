@@ -8,9 +8,9 @@ CVS code -
 	- Change all hardcoded instances of 128 bytes to MAX_BUF_SIZE,
 	  and #define MAX_BUF_SIZE as 128 in nano.h. (DLR)
 	- Display the key to go to the previous strings in the
-	  search/replace history as "^P".  This makes mouse clicks work
-	  properly on it.  Changes to shortcut_init(), help_init(),
-	  nanogetstr(), and do_statusbar_input(). (DLR)
+	  search/replace history as "^P" instead of "Up".  This makes
+	  mouse clicks work properly on it.  Changes to shortcut_init(),
+	  help_init(), nanogetstr(), and do_statusbar_input(). (DLR)
 	- Update the Free Software Foundation's mailing address in
 	  various comments. (DLR)
 	- Add the ability to open a file on a specified column as well

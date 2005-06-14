@@ -53,8 +53,7 @@
 #endif
 
 #ifndef DISABLE_WRAPJUSTIFY
-static ssize_t fill = 0;	/* Fill - where to wrap lines,
-				   basically */
+static ssize_t fill = 0;	/* Fill - where to wrap lines */
 #endif
 #ifndef DISABLE_WRAPPING
 static bool same_line_wrap = FALSE;	/* Whether wrapped text should
