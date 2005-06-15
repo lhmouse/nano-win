@@ -2010,6 +2010,15 @@ int diralphasort(const void *va, const void *vb)
 
     return strcasecmp(a, b);
 }
+
+/* Free the memory allocated for array, which should contain len
+ * elements. */
+void free_chararray(char **array, size_t len)
+{
+    for (; len > 0; len--)
+	free(array[len - 1]);
+    free(array);
+}
 #endif
 
 #ifndef DISABLE_TABCOMP
@@ -2337,7 +2346,7 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 	free(mzero);
     }
 
-    free_charptrarray(matches, num_matches);
+    free_chararray(matches, num_matches);
 
     /* Only refresh the edit window if we don't have a list of filename
      * matches on it. */
@@ -2366,15 +2375,6 @@ const char *tail(const char *foo)
 }
 
 #ifndef DISABLE_BROWSER
-/* Free our malloc()ed memory. */
-void free_charptrarray(char **array, size_t len)
-{
-    for (; len > 0; len--)
-	free(array[len - 1]);
-
-    free(array);
-}
-
 /* Strip one directory from the end of path. */
 void striponedir(char *path)
 {
@@ -2651,7 +2651,7 @@ char *do_browser(char *path, DIR *dir)
 		path = mallocstrcpy(path, filelist[selected]);
 
 		/* Start over again with the new path value. */
-		free_charptrarray(filelist, numents);
+		free_chararray(filelist, numents);
 		goto change_browser_directory;
 
 	    /* Refresh the screen. */
@@ -2711,7 +2711,7 @@ char *do_browser(char *path, DIR *dir)
 		/* Start over again with the new path value. */
 		free(path);
 		path = new_path;
-		free_charptrarray(filelist, numents);
+		free_chararray(filelist, numents);
 		goto change_browser_directory;
 
 	    /* Abort the browser. */
@@ -2821,7 +2821,7 @@ char *do_browser(char *path, DIR *dir)
 	SET(CONSTUPDATE);
 
     /* Clean up. */
-    free_charptrarray(filelist, numents);
+    free_chararray(filelist, numents);
     free(path);
 
     return retval;

@@ -597,8 +597,7 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 	return strcasestr(haystack, needle);
 }
 
-#ifndef NANO_SMALL
-#ifndef DISABLE_TABCOMP
+#if !defined(NANO_SMALL) || !defined(DISABLE_TABCOMP)
 /* This function is equivalent to strstr(), except in that it scans the
  * string in reverse, starting at rev_start. */
 const char *revstrstr(const char *haystack, const char *needle, const
@@ -618,8 +617,9 @@ const char *revstrstr(const char *haystack, const char *needle, const
 
     return NULL;
 }
-#endif /* !DISABLE_TABCOMP */
+#endif /* !NANO_SMALL || !DISABLE_TABCOMP */
 
+#ifndef NANO_SMALL
 /* This function is equivalent to strcasestr(), except in that it scans
  * the string in reverse, starting at rev_start. */
 const char *revstrcasestr(const char *haystack, const char *needle,

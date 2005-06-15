@@ -199,11 +199,11 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n);
 const char *nstrcasestr(const char *haystack, const char *needle);
 #endif
 const char *mbstrcasestr(const char *haystack, const char *needle);
-#ifndef NANO_SMALL
-#ifndef DISABLE_TABCOMP
+#if !defined(NANO_SMALL) || !defined(DISABLE_TABCOMP)
 const char *revstrstr(const char *haystack, const char *needle, const
 	char *rev_start);
 #endif
+#ifndef NANO_SMALL
 const char *revstrcasestr(const char *haystack, const char *needle,
 	const char *rev_start);
 const char *mbrevstrcasestr(const char *haystack, const char *needle,
@@ -305,6 +305,7 @@ void do_writeout_void(void);
 char *real_dir_from_tilde(const char *buf);
 #if !defined(DISABLE_TABCOMP) || !defined(DISABLE_BROWSER)
 int diralphasort(const void *va, const void *vb);
+void free_chararray(char **array, size_t len);
 #endif
 #ifndef DISABLE_TABCOMP
 char **username_tab_completion(const char *buf, size_t *num_matches,
@@ -315,7 +316,6 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list);
 #endif
 const char *tail(const char *foo);
 #ifndef DISABLE_BROWSER
-void free_charptrarray(char **array, size_t len);
 void striponedir(char *path);
 char **browser_init(const char *path, int *longest, size_t *numents, DIR
 	*dir);

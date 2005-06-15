@@ -79,6 +79,9 @@ CVS code -
 	  is_punct_mbchar() and is_word_mbchar(); changes to
 	  do_next_word(), do_prev_word(), is_whole_word(),
 	  do_statusbar_next_word(), and do_statusbar_prev_word(). (DLR)
+	- Fix #ifdefs so that nano compiles with NANO_SMALL defined and
+	  DISABLE_TABCOMP undefined.  Changes to revstrstr() and
+	  free_charptrarray() (renamed free_chararray()). (DLR)
 - chars.c:
   make_mbstring()
 	- Change erroneous ENABLE_EXTRA #ifdef to NANO_EXTRA to fix a
