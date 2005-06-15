@@ -171,6 +171,9 @@ CVS code -
 	  erroneously translated twice. (DLR)
   do_tab()
 	- Remove unneeded variable kbinput. (DLR)
+  do_int_spell_fix()
+	- Display highlighted misspelled words using display_string(),
+	  as do_replace_loop() does. (DLR)
   do_alt_speller()
 	- Replace a set_modified() with SET(MODIFIED) to avoid an
 	  unnecessary update, and remove an unneeded clearok(FALSE).

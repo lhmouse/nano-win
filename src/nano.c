@@ -1920,6 +1920,7 @@ bool do_wrap(filestruct *line)
 bool do_int_spell_fix(const char *word)
 {
     char *save_search, *save_replace;
+    size_t match_len;
     size_t current_x_save = current_x, pww_save = placewewant;
     filestruct *edittop_save = edittop, *current_save = current;
 	/* Save where we are. */
@@ -1986,11 +1987,17 @@ bool do_int_spell_fix(const char *word)
 
     /* Find the first whole-word occurrence of word. */
     findnextstr_wrap_reset();
-    while (findnextstr(TRUE, TRUE, FALSE, fileage, 0, word, NULL)) {
+    while (findnextstr(TRUE, TRUE, FALSE, fileage, 0, word,
+	&match_len)) {
 	if (is_whole_word(current_x, current->data, word)) {
+	    size_t xpt = xplustabs();
+	    char *exp_word = display_string(current->data, xpt,
+		strnlenpt(current->data, current_x + match_len) - xpt,
+		FALSE);
+
 	    edit_refresh();
 
-	    do_replace_highlight(TRUE, word);
+	    do_replace_highlight(TRUE, exp_word);
 
 	    /* Allow all instances of the word to be corrected. */
 	    canceled = (statusq(FALSE, spell_list, word,
@@ -1999,7 +2006,9 @@ bool do_int_spell_fix(const char *word)
 #endif
 			 _("Edit a replacement")) == -1);
 
-	    do_replace_highlight(FALSE, word);
+	    do_replace_highlight(FALSE, exp_word);
+
+	    free(exp_word);
 
 	    if (!canceled && strcmp(word, answer) != 0) {
 		current_x--;
