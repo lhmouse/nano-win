@@ -178,6 +178,9 @@ CVS code -
 	- Replace a set_modified() with SET(MODIFIED) to avoid an
 	  unnecessary update, and remove an unneeded clearok(FALSE).
 	  (DLR)
+  do_spell()
+	- If the spell-checker printed any error messages onscreen, make
+	  sure they're cleared off. (DLR, found by CHAO Wei-Lun)
   do_output()
 	- Properly allow wrapping when we insert a tab, for consistency.
 	  (DLR)

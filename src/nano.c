@@ -2476,6 +2476,10 @@ void do_spell(void)
     unlink(temp);
     free(temp);
 
+    /* If the spell-checker printed any error messages onscreen, make
+     * sure they're cleared off. */
+    total_update();
+
     if (spell_msg != NULL)
 	statusbar(_("Spell checking failed: %s: %s"), spell_msg,
 		strerror(errno));
