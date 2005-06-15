@@ -2187,12 +2187,13 @@ const char *do_int_speller(const char *tempfile_name)
     read_buff_size = pipe_buff_size + 1;
     read_buff = read_buff_ptr = charalloc(read_buff_size);
 
-    while ((bytesread = read(uniq_fd[0], read_buff_ptr, pipe_buff_size)) > 0) {
+    while ((bytesread = read(uniq_fd[0], read_buff_ptr,
+	pipe_buff_size)) > 0) {
 	read_buff_read += bytesread;
 	read_buff_size += pipe_buff_size;
-	read_buff = read_buff_ptr = charealloc(read_buff, read_buff_size);
+	read_buff = read_buff_ptr = charealloc(read_buff,
+		read_buff_size);
 	read_buff_ptr += read_buff_read;
-
     }
 
     *read_buff_ptr = '\0';
