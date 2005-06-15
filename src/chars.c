@@ -62,6 +62,27 @@ bool is_byte(int c)
     return ((unsigned int)c == (unsigned char)c);
 }
 
+/* This function is equivalent to isalnum() for multibyte characters. */
+bool is_alnum_mbchar(const char *c)
+{
+    assert(c != NULL);
+
+#ifdef NANO_WIDE
+    if (!ISSET(NO_UTF8)) {
+	wchar_t wc;
+	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX);
+
+	if (c_mb_len <= 0) {
+	    mbtowc(NULL, NULL, 0);
+	    wc = (unsigned char)*c;
+	}
+
+	return iswalnum(wc);
+    } else
+#endif
+	return isalnum((unsigned char)*c);
+}
+
 /* This function is equivalent to isblank() for multibyte characters. */
 bool is_blank_mbchar(const char *c)
 {
@@ -125,10 +146,8 @@ bool is_cntrl_mbchar(const char *c)
 	return is_cntrl_char((unsigned char)*c);
 }
 
-/* Return TRUE for a multibyte character found in a word (currently only
- * an alphanumeric or punctuation character, and the latter only if
- * allow_punct is TRUE) and FALSE otherwise. */
-bool is_word_mbchar(const char *c, bool allow_punct)
+/* This function is equivalent to ispunct() for multibyte characters. */
+bool is_punct_mbchar(const char *c)
 {
     assert(c != NULL);
 
@@ -142,11 +161,21 @@ bool is_word_mbchar(const char *c, bool allow_punct)
 	    wc = (unsigned char)*c;
 	}
 
-	return iswalnum(wc) || (allow_punct ? iswpunct(wc) : FALSE);
+	return iswpunct(wc);
     } else
 #endif
-	return isalnum((unsigned char)*c) || (allow_punct ?
-		ispunct((unsigned char)*c) : FALSE);
+	return ispunct((unsigned char)*c);
+}
+
+/* Return TRUE for a multibyte character found in a word (currently only
+ * an alphanumeric or punctuation character, and the latter only if
+ * allow_punct is TRUE) and FALSE otherwise. */
+bool is_word_mbchar(const char *c, bool allow_punct)
+{
+    assert(c != NULL);
+
+    return is_alnum_mbchar(c) || (allow_punct ? is_punct_mbchar(c) :
+	FALSE);
 }
 
 /* c is a control character.  It displays as ^@, ^?, or ^[ch], where ch

@@ -166,12 +166,14 @@ int nisblank(int c);
 int niswblank(wint_t wc);
 #endif
 bool is_byte(int c);
+bool is_alnum_mbchar(const char *c);
 bool is_blank_mbchar(const char *c);
 bool is_cntrl_char(int c);
 #ifdef NANO_WIDE
 bool is_cntrl_wchar(wint_t wc);
 #endif
 bool is_cntrl_mbchar(const char *c);
+bool is_punct_mbchar(const char *c);
 bool is_word_mbchar(const char *c, bool allow_punct);
 char control_rep(char c);
 #ifdef NANO_WIDE
