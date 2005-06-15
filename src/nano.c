@@ -65,8 +65,8 @@ static struct termios oldterm;	/* The user's original term settings */
 static struct sigaction act;	/* For all our fun signal handlers */
 
 #ifndef NANO_SMALL
-static sigjmp_buf jmpbuf;	/* Used to return to mainloop after
-				   SIGWINCH */
+static sigjmp_buf jmpbuf;	/* Used to return to main() after a
+				   SIGWINCH. */
 static int pid;			/* The PID of the newly forked process
 				 * in open_pipe().  It must be global
 				 * because the signal handler needs
