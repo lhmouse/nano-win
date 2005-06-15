@@ -3902,7 +3902,7 @@ bool do_mouse(void)
 
 	    /* Subtract out the size of topwin.  Perhaps we need a
 	     * constant somewhere? */
-	    mouse_y -= (2 - no_more_space());
+	    mouse_y -= 2 - no_more_space();
 
 	    sameline = (mouse_y == current_y);
 
