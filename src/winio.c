@@ -1917,7 +1917,7 @@ void do_statusbar_next_word(void)
 
 	/* If we've found it, stop moving forward through the current
 	 * line. */
-	if (!is_word_mbchar(char_mb))
+	if (!is_word_mbchar(char_mb, TRUE))
 	    break;
 
 	statusbar_x += char_mb_len;
@@ -1933,7 +1933,7 @@ void do_statusbar_next_word(void)
 
 	/* If we've found it, stop moving forward through the current
 	 * line. */
-	if (is_word_mbchar(char_mb))
+	if (is_word_mbchar(char_mb, TRUE))
 	    break;
 
 	statusbar_x += char_mb_len;
@@ -1960,7 +1960,7 @@ void do_statusbar_prev_word(void)
 
 	/* If we've found it, stop moving backward through the current
 	 * line. */
-	if (!is_word_mbchar(char_mb))
+	if (!is_word_mbchar(char_mb, TRUE))
 	    break;
 
 	if (statusbar_x == 0)
@@ -1982,7 +1982,7 @@ void do_statusbar_prev_word(void)
 
 	/* If we've found it, stop moving backward through the current
 	 * line. */
-	if (is_word_mbchar(char_mb))
+	if (is_word_mbchar(char_mb, TRUE))
 	    break;
 
 	if (statusbar_x == 0)
@@ -2005,7 +2005,7 @@ void do_statusbar_prev_word(void)
 
 	    /* If we've found it, stop moving backward through the
 	     * current line. */
-	    if (!is_word_mbchar(char_mb))
+	    if (!is_word_mbchar(char_mb, TRUE))
 		break;
 
 	    if (statusbar_x == 0)

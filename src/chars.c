@@ -126,8 +126,9 @@ bool is_cntrl_mbchar(const char *c)
 }
 
 /* Return TRUE for a multibyte character found in a word (currently only
- * an alphanumeric or punctuation character) and FALSE otherwise. */
-bool is_word_mbchar(const char *c)
+ * an alphanumeric or punctuation character, and the latter only if
+ * allow_punct is TRUE) and FALSE otherwise. */
+bool is_word_mbchar(const char *c, bool allow_punct)
 {
     assert(c != NULL);
 
@@ -141,10 +142,11 @@ bool is_word_mbchar(const char *c)
 	    wc = (unsigned char)*c;
 	}
 
-	return iswalnum(wc) || iswpunct(wc);
+	return iswalnum(wc) || (allow_punct ? iswpunct(wc) : FALSE);
     } else
 #endif
-	return isalnum((unsigned char)*c) || ispunct((unsigned char)*c);
+	return isalnum((unsigned char)*c) || (allow_punct ?
+		ispunct((unsigned char)*c) : FALSE);
 }
 
 /* c is a control character.  It displays as ^@, ^?, or ^[ch], where ch
@@ -241,7 +243,7 @@ int mb_cur_max(void)
 {
     return
 #ifdef NANO_WIDE
-	(!ISSET(NO_UTF8)) ? MB_CUR_MAX :
+	!ISSET(NO_UTF8) ? MB_CUR_MAX :
 #endif
 	1;
 }
@@ -560,7 +562,7 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 	free(r_mb);
 	free(q_mb);
 
-	return (found_needle) ? haystack : NULL;
+	return found_needle ? haystack : NULL;
     } else
 #endif
 	return strcasestr(haystack, needle);
@@ -670,7 +672,7 @@ const char *mbrevstrcasestr(const char *haystack, const char *needle,
 	free(r_mb);
 	free(q_mb);
 
-	return (found_needle) ? rev_start : NULL;
+	return found_needle ? rev_start : NULL;
     } else
 #endif
 	return revstrcasestr(haystack, needle, rev_start);
