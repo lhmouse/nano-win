@@ -2527,7 +2527,7 @@ char *do_browser(char *path, DIR *dir)
 		if (wenclose(edit, mevent.y, mevent.x)) {
 		    int old_selected = selected;
 
-		    mevent.y -= 2;
+		    mevent.y -= 2 - no_more_space();
 
 		    /* longest is the width of each column.  There are
 		     * two spaces between each column. */
