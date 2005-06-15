@@ -47,7 +47,7 @@
 
 ## Allow multiple file buffers (inserting a file will put it into a
 ## separate buffer).  You must have configured with --enable-multibuffer
-## or --enable-extra for this to work.
+## for this to work.
 ##
 # set multibuffer
 

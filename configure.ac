@@ -75,10 +75,9 @@ if test x$debug_support != xyes; then
 fi
 
 AC_ARG_ENABLE(extra,
-[  --enable-extra          Enable extra (optional) functions, including easter eggs],
+[  --enable-extra          Enable extra features, currently only easter eggs],
 [if test x$enableval = xyes; then
     AC_DEFINE(NANO_EXTRA, 1, [Define this to enable the extra stuff.]) extra_support=yes
-    AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.]) multibuffer_support=yes
 fi])
 
 AC_ARG_ENABLE(tiny,

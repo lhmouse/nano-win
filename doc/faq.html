@@ -154,7 +154,7 @@
   <p>There's also the <b>--enable-tiny</b> option which disables everything above, as well as some larger chunks of the program (like the marker code that you use Control-^ to select with). Also, if you know you aren't going to be using other languages you can use <b>--disable-nls</b> to disable internationalization and save a few K to a few dozen K depending on if you have locale support on your system. And finally there's always good old <b>strip</b> to strip all debugging code and code that exists in libraries on your system.</p>
   <p>If, on the other hand, you can't live without bells and whistles, you could try:</p>
   <pre>
-  <b>--enable-extra</b>          Enable extra functions, including easter eggs
+  <b>--enable-extra</b>          Enable extra features, currently only easter eggs
   <b>--enable-nanorc</b>         Enable use of .nanorc file
   <b>--enable-color</b>          Enable color and syntax highlighting
   <b>--enable-multibuffer</b>    Enable having multiple file buffers open
@@ -163,7 +163,7 @@
                           Turn off wrapping of text by default when the
                           user is root</pre></blockquote>
 <h2><a name="3.7"></a>3.7. Tell me more about this multibuffer stuff!</h2>
-<blockquote><p>To use multiple file buffers, you must be using nano 1.1.0 or newer, and you must have configured nano with <b>--enable-multibuffer</b> or <b>--enable-extra</b> (use nano -V to check). Then when you want to enable inserting a file into its own buffer instead of into the current file, just hit <b>Meta-F</b>, then insert the file as normal with <b>^R</b>.  If you always want files to be loaded into their own buffers, use the <b>--multibuffer</b> or <b>-F</b> flag when you invoke nano.</p>
+<blockquote><p>To use multiple file buffers, you must be using nano 1.1.0 or newer, and you must have configured nano with <b>--enable-multibuffer</b> (use nano -V to check). Then when you want to enable inserting a file into its own buffer instead of into the current file, just hit <b>Meta-F</b>, then insert the file as normal with <b>^R</b>.  If you always want files to be loaded into their own buffers, use the <b>--multibuffer</b> or <b>-F</b> flag when you invoke nano.</p>
   <p>You can move between the buffers you have open with the <b>Meta-&lt;</b> and <b>Meta-&gt;</b> keys, or more easily with <b>Meta-,</b> and <b>Meta-.</b> (clear as mud, right? =-). When you have more than one file buffer open, the ^X shortcut will say &quot;Close&quot;, instead of the normal &quot;Exit&quot; when only one buffer is open.</p></blockquote>
 <h2><a name="3.8"></a>3.8. Tell me more about this verbatim input stuff!</h2>
 <blockquote><p>To use verbatim input, you must be using nano 1.3.1 or newer. When you want to insert a literal character into the file you're editing, such as a control character that nano usually treats as a command, first press <b>Meta-V</b>. (If you're not at a prompt, you'll get the message &quot;Verbatim Input&quot;.) Then press the key(s) that generate the character you want.</p>
@@ -250,8 +250,9 @@
 <h2><a name="8"></a>8. ChangeLog</h2>
 <blockquote>
 <p>
-2005/06/13 - Minor capitalization and wording fixes. (DLR)
-2005/06/08 - Updated section 1.1 to mention the current maintainer. (DLR)
+2005/06/15 - Update description of --enable-extra, and add missing line breaks. (DLR)<br>
+2005/06/13 - Minor capitalization and wording fixes. (DLR)<br>
+2005/06/08 - Updated section 1.1 to mention the current maintainer. (DLR)<br>
 2005/03/09 - Added question about opening files with names beginning with '+'s, and added a few more miscellaneous cosmetic fixes. (DLR)<br>
 2005/01/03 - Removed now-inaccurate note about verbatim input's not working at prompts, and update its description to mention that it handles hexadecimal values now. (DLR)<br>
 2004/11/21 - Listed sh as an example of a Bourne shell. (DLR)<br>

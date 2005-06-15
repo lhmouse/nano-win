@@ -271,15 +271,21 @@ CVS code -
 	- Don't refer to the built-in file browser as crappy anymore.
 	  (DLR)
 	- Check for iswpunct() and mbstowcs(). (DLR)
+	- Change the behavior of --enable-extra to only define
+	  NANO_EXTRA, instead of defining both it and
+	  ENABLE_MULTIBUFFER. (DLR)
 - doc/faq.html:
 	- Update section 1.1 to mention the current maintainer. (DLR)
-	- Minor capitalization and wording tweaks. (DLR)
+	- Minor capitalization and wording fixes. (DLR)
+	- Update description of --enable-extra, and add missing line
+	  breaks. (DLR)
 - doc/nanorc.sample:
 	- In the "nanorc" regexes, tweak the "color" regex to properly
 	  color a line that specifies a background color without a
 	  foreground color, and update the associated comments.  Also,
 	  tweak the "comment" regex to color comments that don't start
 	  at the beginning of a line. (DLR)
+	- Update comment referring to --enable-extra. (DLR)
 - doc/man/fr/Makefile.am:
 	- Set mandir to @mandir@/fr, so French manpages get installed
 	  where they belong (Jordi).
