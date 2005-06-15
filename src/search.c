@@ -754,12 +754,15 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 		FALSE);
 
 	    curs_set(0);
+
 	    do_replace_highlight(TRUE, exp_word);
 
 	    i = do_yesno(TRUE, _("Replace this instance?"));
 
 	    do_replace_highlight(FALSE, exp_word);
+
 	    free(exp_word);
+
 	    curs_set(1);
 
 	    if (i == -1) {	/* We canceled the replace. */
