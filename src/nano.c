@@ -3900,8 +3900,7 @@ bool do_mouse(void)
 	    size_t xcur;
 		/* The character they clicked on. */
 
-	    /* Subtract out the size of topwin.  Perhaps we need a
-	     * constant somewhere? */
+	    /* Subtract out the size of topwin. */
 	    mouse_y -= 2 - no_more_space();
 
 	    sameline = (mouse_y == current_y);

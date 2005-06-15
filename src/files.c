@@ -2527,6 +2527,7 @@ char *do_browser(char *path, DIR *dir)
 		if (wenclose(edit, mevent.y, mevent.x)) {
 		    int old_selected = selected;
 
+		    /* Subtract out the size of topwin. */
 		    mevent.y -= 2 - no_more_space();
 
 		    /* longest is the width of each column.  There are
