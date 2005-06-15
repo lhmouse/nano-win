@@ -2067,8 +2067,9 @@ bool do_int_spell_fix(const char *word)
     return !canceled;
 }
 
-/* Integrated spell checking using 'spell' program.  Return value: NULL
- * for normal termination, otherwise the error string. */
+/* Integrated spell checking using the spell program, filtered through
+ * the sort and uniq programs.  Return NULL for normal termination,
+ * and the error string otherwise. */
 const char *do_int_speller(const char *tempfile_name)
 {
     char *read_buff, *read_buff_ptr, *read_buff_word;
@@ -2086,9 +2087,7 @@ const char *do_int_speller(const char *tempfile_name)
 
     /* A new process to run spell in. */
     if ((pid_spell = fork()) == 0) {
-
 	/* Child continues (i.e, future spell process). */
-
 	close(spell_fd[0]);
 
 	/* Replace the standard input with the temp file. */
@@ -2106,10 +2105,10 @@ const char *do_int_speller(const char *tempfile_name)
 
 	close(spell_fd[1]);
 
-	/* Start spell program; we are using PATH. */
+	/* Start the spell program; we are using PATH. */
 	execlp("spell", "spell", NULL);
 
-	/* Should not be reached, if spell is found. */
+	/* This should not be reached if spell is found. */
 	exit(1);
     }
 
@@ -2118,7 +2117,6 @@ const char *do_int_speller(const char *tempfile_name)
 
     /* A new process to run sort in. */
     if ((pid_sort = fork()) == 0) {
-
 	/* Child continues (i.e, future spell process).  Replace the
 	 * standard input with the standard output of the old pipe. */
 	if (dup2(spell_fd[0], STDIN_FILENO) != STDIN_FILENO)
@@ -2132,12 +2130,11 @@ const char *do_int_speller(const char *tempfile_name)
 
 	close(sort_fd[1]);
 
-	/* Start sort program.  Use -f to remove mixed case without
-	 * having to have ANOTHER pipe for tr.  If this isn't portable,
-	 * let me know. */
+	/* Start the sort program.  Use -f to remove mixed case.  If
+	 * this isn't portable, let me know. */
 	execlp("sort", "sort", "-f", NULL);
 
-	/* Should not be reached, if sort is found. */
+	/* This should not be reached if sort is found. */
 	exit(1);
     }
 
@@ -2146,7 +2143,6 @@ const char *do_int_speller(const char *tempfile_name)
 
     /* A new process to run uniq in. */
     if ((pid_uniq = fork()) == 0) {
-
 	/* Child continues (i.e, future uniq process).  Replace the
 	 * standard input with the standard output of the old pipe. */
 	if (dup2(sort_fd[0], STDIN_FILENO) != STDIN_FILENO)
@@ -2160,23 +2156,23 @@ const char *do_int_speller(const char *tempfile_name)
 
 	close(uniq_fd[1]);
 
-	/* Start uniq program; we are using PATH. */
+	/* Start the uniq program; we are using PATH. */
 	execlp("uniq", "uniq", NULL);
 
-	/* Should not be reached, if uniq is found. */
+	/* This should not be reached if uniq is found. */
 	exit(1);
     }
 
     close(sort_fd[0]);
     close(uniq_fd[1]);
 
-    /* Child process was not forked successfully. */
+    /* The child process was not forked successfully. */
     if (pid_spell < 0 || pid_sort < 0 || pid_uniq < 0) {
 	close(uniq_fd[0]);
 	return _("Could not fork");
     }
 
-    /* Get system pipe buffer size. */
+    /* Get the system pipe buffer size. */
     if ((pipe_buff_size = fpathconf(uniq_fd[0], _PC_PIPE_BUF)) < 1) {
 	close(uniq_fd[0]);
 	return _("Could not get size of pipe buffer");
@@ -2203,8 +2199,7 @@ const char *do_int_speller(const char *tempfile_name)
     read_buff_word = read_buff_ptr = read_buff;
 
     while (*read_buff_ptr != '\0') {
-
-	if ((*read_buff_ptr == '\n') || (*read_buff_ptr == '\r')) {
+	if ((*read_buff_ptr == '\r') || (*read_buff_ptr == '\n')) {
 	    *read_buff_ptr = '\0';
 	    if (read_buff_word != read_buff_ptr) {
 		if (!do_int_spell_fix(read_buff_word)) {
@@ -2217,7 +2212,7 @@ const char *do_int_speller(const char *tempfile_name)
 	read_buff_ptr++;
     }
 
-    /* Special case where last word doesn't end with \n or \r. */
+    /* Special case: the last word doesn't end with '\r' or '\n'. */
     if (read_buff_word != read_buff_ptr)
 	do_int_spell_fix(read_buff_word);
 
@@ -2225,7 +2220,7 @@ const char *do_int_speller(const char *tempfile_name)
     replace_abort();
     edit_refresh();
 
-    /* Process end of spell process. */
+    /* Process the end of the spell process. */
     waitpid(pid_spell, &spell_status, 0);
     waitpid(pid_sort, &sort_status, 0);
     waitpid(pid_uniq, &uniq_status, 0);

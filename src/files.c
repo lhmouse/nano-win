@@ -77,14 +77,14 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
     fileptr->data = mallocstrcpy(NULL, buf);
 
 #ifndef NANO_SMALL
-    /* If it's a DOS file (CR LF), and file conversion isn't disabled,
-     * strip the CR part from fileptr->data. */
+    /* If it's a DOS file ("\r\n"), and file conversion isn't disabled,
+     * strip the '\r' part from fileptr->data. */
     if (!ISSET(NO_CONVERT) && len > 0 && buf[len - 1] == '\r')
 	fileptr->data[len - 1] = '\0';
 #endif
 
     if (*first_line_ins == TRUE || fileage == NULL) {
-	/* Special case: we're inserting with the cursor on the first
+	/* Special case: We're inserting with the cursor on the first
 	 * line. */
 	fileptr->prev = NULL;
 	fileptr->next = fileage;
@@ -177,12 +177,12 @@ void read_file(FILE *f, const char *filename)
     while ((input_int = getc(f)) != EOF) {
 	input = (char)input_int;
 
-	/* If it's a *nix file (LF) or a DOS file (CR LF), and file
+	/* If it's a *nix file ("\n") or a DOS file ("\r\n"), and file
 	 * conversion isn't disabled, handle it! */
 	if (input == '\n') {
 #ifndef NANO_SMALL
-	    /* If there's a CR before the LF, set format to DOS if we
-	     * currently think this is a *nix file, or to both if we
+	    /* If there's a '\r' before the '\n', set format to DOS if
+	     * we currently think this is a *nix file, or to both if we
 	     * currently think it's a Mac file. */
 	    if (!ISSET(NO_CONVERT) && i > 0 && buf[i - 1] == '\r' &&
 		(format == 0 || format == 2))
@@ -200,7 +200,7 @@ void read_file(FILE *f, const char *filename)
 	    buf[0] = '\0';
 	    i = 0;
 #ifndef NANO_SMALL
-	/* If it's a Mac file (CR without an LF), and file conversion
+	/* If it's a Mac file ('\r' without '\n'), and file conversion
 	 * isn't disabled, handle it! */
 	} else if (!ISSET(NO_CONVERT) && i > 0 && buf[i - 1] == '\r') {
 
@@ -251,7 +251,7 @@ void read_file(FILE *f, const char *filename)
 
 #ifndef NANO_SMALL
     /* If file conversion isn't disabled and the last character in this
-     * file is a CR, read it in properly as a Mac format line. */
+     * file is '\r', read it in properly as a Mac format line. */
     if (len == 0 && !ISSET(NO_CONVERT) && input == '\r') {
 	len = 1;
 
@@ -264,7 +264,7 @@ void read_file(FILE *f, const char *filename)
     if (len > 0) {
 #ifndef NANO_SMALL
 	/* If file conversion isn't disabled and the last character in
-	 * this file is a CR, set format to Mac if we currently think
+	 * this file is '\r', set format to Mac if we currently think
 	 * the file is a *nix file, or to both DOS and Mac if we
 	 * currently think the file is a DOS file. */
 	if (!ISSET(NO_CONVERT) && buf[len - 1] == '\r' &&
