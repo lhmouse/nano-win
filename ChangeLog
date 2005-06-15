@@ -55,20 +55,20 @@ CVS code -
 	  main(), search_init(), nanorc.sample, nano.1, nanorc.5,
 	  nano.texi, etc. (DLR)
 	- Various cleanups and improvements in chars.c.  Remove some
-	  unnecessary w?ctype wrappers; change other ctype wrappers to
-	  take wint_t instead of wchar_t; rename some functions for
-	  consistency; add functions to detect blank characters in a
-	  string, for use in rcfile option parsing; and don't count
-	  matches between valid and invalid multibyte sequences anymore,
-	  as it causes problems when doing a replace.  New functions
-	  is_valid_mbstring(), has_blank_chars(), and
-	  has_blank_mbchars(); changes to is_alnum_mbchar(),
-	  is_blank_char() (renamed nisblank()), is_blank_mbchar(),
-	  is_blank_wchar() (renamed niswblank()), is_cntrl_wchar(),
-	  control_rep(), control_mbrep(), make_mbstring() (renamed
-	  make_valid_mbstring()), mbstrncasecmp(), mbstrcasestr(),
-	  mbrevstrcasestr(), etc.; removal of is_alnum_char() and
-	  is_alnum_wchar(). (DLR)
+	  unnecessary w?ctype wrappers; change the wctype wrappers to
+	  take wint_t instead of wchar_t to match the functions they
+	  wrap; rename some functions for consistency; add functions to
+	  detect blank characters in a string, for use in rcfile option
+	  parsing; and don't count matches between valid and invalid
+	  multibyte sequences anymore, as it causes problems when doing
+	  a replace.  New functions is_valid_mbstring(),
+	  has_blank_chars(), and has_blank_mbchars(); changes to
+	  is_alnum_mbchar(), is_blank_char() (renamed nisblank()),
+	  is_blank_mbchar(), is_blank_wchar() (renamed niswblank()),
+	  is_cntrl_wchar(), control_rep(), control_mbrep(),
+	  make_mbstring() (renamed make_valid_mbstring()),
+	  mbstrncasecmp(), mbstrcasestr(), mbrevstrcasestr(), etc.;
+	  removal of is_alnum_char() and is_alnum_wchar(). (DLR)
 	- Implement word count via Meta-D at the main window.  Note that
 	  this is disabled when NANO_SMALL is defined.  New functions
 	  do_word_count() and do_next_word_void(); changes to
@@ -82,6 +82,10 @@ CVS code -
 	- Fix #ifdefs so that nano compiles with NANO_SMALL defined and
 	  DISABLE_TABCOMP undefined.  Changes to revstrstr() and
 	  free_charptrarray() (renamed free_chararray()). (DLR)
+	- Change the wctype wrappers to take wchar_t's again, as they
+	  still work the same way with them.  This also fixes
+	  compilation on Mac OS X 10.4.1, which doesn't seem to define a
+	  wint_t type. (DLR, problem found by Emily Jackson)
 - chars.c:
   make_mbstring()
 	- Change erroneous ENABLE_EXTRA #ifdef to NANO_EXTRA to fix a

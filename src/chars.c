@@ -49,7 +49,7 @@ int nisblank(int c)
 
 #if defined(NANO_WIDE) && !defined(HAVE_ISWBLANK)
 /* This function is equivalent to iswblank(). */
-int niswblank(wint_t wc)
+int niswblank(wchar_t wc)
 {
     return iswspace(wc) && (wc == '\t' || !is_cntrl_wchar(wc));
 }
@@ -116,7 +116,7 @@ bool is_cntrl_char(int c)
 /* This function is equivalent to iscntrl() for wide characters, except
  * in that it also handles wide control characters with their high bits
  * set. */
-bool is_cntrl_wchar(wint_t wc)
+bool is_cntrl_wchar(wchar_t wc)
 {
     return (0 <= wc && wc < 32) || (127 <= wc && wc < 160);
 }
