@@ -144,7 +144,7 @@ CVS code -
 	- Make mouse clicks in the browser window work properly when the
 	  MORE_SPACE flag is set. (DLR)
   save_history()
-	- Properly save history when in view mode. (DLR)
+	- Properly save history when we're in view mode. (DLR)
 - global.c:
   shortcut_init()
 	- Move the "Refresh" and "Exit" shortcuts to the beginning of
