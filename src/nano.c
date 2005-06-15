@@ -509,7 +509,8 @@ void help_init(void)
 	    *(ptr++) = '\t';
 	}
 
-	/* Primary meta key sequence. */
+	/* Primary meta key sequence.  If it's the first entry, don't
+	 * put parentheses around it. */
 	if (s->metaval != NANO_NO_KEY) {
 	    entries++;
 	    /* If this is the last entry, put it at the end. */
@@ -517,19 +518,15 @@ void help_init(void)
 		entries++;
 		*(ptr++) = '\t';
 	    }
-	    /* If the primary meta key sequence is the first entry,
-	     * don't put parentheses around it. */
-	    if (entries == 1) {
-		/* Yucky sentinel values we can't handle a better
-		 * way. */
-		if (s->metaval == NANO_ALT_SPACE) {
-		    char *space_ptr = display_string(_("Space"), 0, 5,
+	    /* Yucky sentinel values that we can't handle a better
+	     * way. */
+	    if (s->metaval == NANO_ALT_SPACE && entries == 1) {
+		char *space_ptr = display_string(_("Space"), 0, 5,
 			FALSE);
 
-		    ptr += sprintf(ptr, "M-%s", space_ptr);
+		ptr += sprintf(ptr, "M-%s", space_ptr);
 
-		    free(space_ptr);
-		}
+		free(space_ptr);
 	    } else
 		/* Normal values. */
 		ptr += sprintf(ptr, (entries == 1) ? "M-%c" : "(M-%c)",

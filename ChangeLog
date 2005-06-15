@@ -92,9 +92,9 @@ CVS code -
 	  affect tabs entered using verbatim input, and that it's
 	  disabled when NANO_SMALL is defined.  Also, change the short
 	  command line option for --backupdir from -E to -C.  Changes to
-	  toggle_init(), help_init(), usage(), do_tab(), main(),
-	  nanorc.sample, nano.1, nanorc.5, and nano.texi. (DLR,
-	  suggested by many people)
+	  toggle_init(), usage(), do_tab(), main(), nanorc.sample,
+	  nano.1, nanorc.5, and nano.texi. (DLR, suggested by many
+	  people)
 - chars.c:
   make_mbstring()
 	- Change erroneous ENABLE_EXTRA #ifdef to NANO_EXTRA to fix a
