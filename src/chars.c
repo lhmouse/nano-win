@@ -118,8 +118,7 @@ bool is_cntrl_char(int c)
  * set. */
 bool is_cntrl_wchar(wint_t wc)
 {
-    return (-128 <= wc && wc < -96) || (0 <= wc && wc < 32) ||
-	(127 <= wc && wc < 160);
+    return (0 <= wc && wc < 32) || (127 <= wc && wc < 160);
 }
 #endif
 

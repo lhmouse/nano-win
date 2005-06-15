@@ -2397,25 +2397,23 @@ char **browser_init(const char *path, int *longest, size_t *numents, DIR
 {
     const struct dirent *nextdir;
     char **filelist;
-    size_t i, path_len;
+    size_t i = 0, path_len;
 
     assert(dir != NULL);
 
     *longest = 0;
 
-    i = 0;
-
     while ((nextdir = readdir(dir)) != NULL) {
 	size_t dlen;
 
-	/* Don't show the . entry. */
+	/* Don't show the "." entry. */
 	if (strcmp(nextdir->d_name, ".") == 0)
 	   continue;
 	i++;
 
 	dlen = strlenpt(nextdir->d_name);
 	if (dlen > *longest)
-	    *longest = dlen;
+	    *longest = (dlen > COLS - 1) ? COLS - 1 : dlen;
     }
 
     *numents = i;
@@ -2527,7 +2525,7 @@ char *do_browser(char *path, DIR *dir)
 		/* If we clicked in the edit window, we probably clicked
 		 * on a file. */
 		if (wenclose(edit, mevent.y, mevent.x)) {
-		    int selectedbackup = selected;
+		    int old_selected = selected;
 
 		    mevent.y -= 2;
 
@@ -2547,7 +2545,7 @@ char *do_browser(char *path, DIR *dir)
 		     * this name! */
 		    if (selected > numents - 1)
 			selected = numents - 1;
-		    else if (selectedbackup == selected)
+		    else if (old_selected == selected)
 			/* Put back the 'select' key. */
 			unget_kbinput('s', FALSE, FALSE);
 		} else {

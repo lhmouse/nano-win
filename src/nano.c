@@ -1809,7 +1809,7 @@ bool do_wrap(filestruct *line)
 	next_line = line->next->data;
 	next_line_len = strlen(next_line);
 
-	if ((after_break_len + next_line_len) <= fill) {
+	if (after_break_len + next_line_len <= fill) {
 	    wrapping = TRUE;
 	    new_line_len += next_line_len;
 	}

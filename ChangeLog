@@ -126,6 +126,8 @@ CVS code -
 	- When displaying "(dir)" in the available screen space, make
 	  sure that the string it's stored in is always null-terminated.
 	  (DLR)
+	- Rename variable selectedbackup to old_selected, for
+	  consistency. (DLR)
   save_history()
 	- Properly save history when in view mode. (DLR)
 - global.c:
