@@ -86,6 +86,15 @@ CVS code -
 	  still work the same way with them.  This also fixes
 	  compilation on Mac OS X 10.4.1, which doesn't seem to define a
 	  wint_t type. (DLR, problem found by Emily Jackson)
+	- Add the ability to convert typed tabs to spaces using
+	  the -E/--tabstospaces command line options, the "tabstospaces"
+	  rcfile option, and the toggle Meta-E.  Note that this doesn't
+	  affect tabs entered using verbatim input, and that it's
+	  disabled when NANO_SMALL is defined.  Also, change the short
+	  command line option for --backupdir from -E to -C.  Changes to
+	  toggle_init(), help_init(), usage(), do_tab(), main(),
+	  nanorc.sample, nano.1, nanorc.5, and nano.texi. (DLR,
+	  suggested by many people)
 - chars.c:
   make_mbstring()
 	- Change erroneous ENABLE_EXTRA #ifdef to NANO_EXTRA to fix a

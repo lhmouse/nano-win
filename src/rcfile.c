@@ -88,6 +88,9 @@ const static rcoption rcopts[] = {
 #endif
     {"suspend", SUSPEND},
     {"tabsize", 0},
+#ifndef NANO_SMALL
+    {"tabstospaces", TABS_TO_SPACES},
+#endif
     {"tempfile", TEMP_FILE},
     {"view", VIEW_MODE},
 #ifndef NANO_SMALL

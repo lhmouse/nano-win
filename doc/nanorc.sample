@@ -29,6 +29,9 @@
 ## Use cut to end of line by default.
 # set cut
 
+## Convert typed tabs to spaces.
+# set tabstospaces
+
 ## Set the line length for wrapping text and justifying paragraphs.
 ## If fill is negative, the line length will be the screen width less
 ## this number.

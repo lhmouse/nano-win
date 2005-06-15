@@ -6,7 +6,7 @@
 .\" Public License for copying conditions.  There is NO warranty.
 .\"
 .\" $Id$
-.TH NANO 1 "version 1.3.8" "June 3, 2005"
+.TH NANO 1 "version 1.3.8" "June 15, 2005"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 
@@ -50,9 +50,12 @@ line.
 When saving a file, back up the previous version of it to the current
 filename suffixed with a ~.
 .TP
-.B \-E \fIdir\fP (\-\-backupdir=\fIdir\fP)
+.B \-C \fIdir\fP (\-\-backupdir=\fIdir\fP)
 Set the directory where \fBnano\fP puts unique backup files if file
 backups are enabled.
+.TP
+.B \-E (\-\-tabstospaces)
+Convert typed tabs to spaces.
 .TP
 .B \-F (\-\-multibuffer)
 Enable multiple file buffers, if available.

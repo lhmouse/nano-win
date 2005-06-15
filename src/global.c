@@ -1151,6 +1151,8 @@ void toggle_init(void)
 #endif
     toggle_init_one(TOGGLE_MORESPACE_KEY,
 	N_("Use of more space for editing"), MORE_SPACE);
+    toggle_init_one(TOGGLE_TABSTOSPACES_KEY,
+	N_("Conversion of typed tabs to spaces"), TABS_TO_SPACES);
 }
 #endif /* !NANO_SMALL */
 

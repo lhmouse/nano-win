@@ -519,15 +519,20 @@ void help_init(void)
 	    }
 	    /* If the primary meta key sequence is the first entry,
 	     * don't put parentheses around it. */
-	    if (entries == 1 && s->metaval == NANO_ALT_SPACE) {
-		char *space_ptr = display_string(_("Space"), 0, 5,
+	    if (entries == 1) {
+		/* Yucky sentinel values we can't handle a better
+		 * way. */
+		if (s->metaval == NANO_ALT_SPACE) {
+		    char *space_ptr = display_string(_("Space"), 0, 5,
 			FALSE);
 
-		ptr += sprintf(ptr, "M-%s", space_ptr);
+		    ptr += sprintf(ptr, "M-%s", space_ptr);
 
-		free(space_ptr);
+		    free(space_ptr);
+		}
 	    } else
-		ptr += sprintf(ptr, entries == 1 ? "M-%c" : "(M-%c)",
+		/* Normal values. */
+		ptr += sprintf(ptr, (entries == 1) ? "M-%c" : "(M-%c)",
 			toupper(s->metaval));
 	    *(ptr++) = '\t';
 	}
@@ -1024,8 +1029,10 @@ void usage(void)
 #ifndef NANO_SMALL
     print1opt("-A", "--smarthome", N_("Enable smart home key"));
     print1opt("-B", "--backup", N_("Save backups of existing files"));
-    print1opt(_("-E [dir]"), _("--backupdir=[dir]"),
+    print1opt(_("-C [dir]"), _("--backupdir=[dir]"),
 	N_("Directory for saving unique backup files"));
+    print1opt("-E", "--tabstospaces",
+	N_("Convert typed tabs to spaces"));
 #endif
 #ifdef ENABLE_MULTIBUFFER
     print1opt("-F", "--multibuffer", N_("Enable multiple file buffers"));
@@ -1381,7 +1388,28 @@ void do_delete(void)
 
 void do_tab(void)
 {
-    do_output("\t", 1, TRUE);
+#ifndef NANO_SMALL
+    if (ISSET(TABS_TO_SPACES)) {
+	char *output;
+	size_t output_len = 0, new_pww = placewewant;
+
+	do {
+	    new_pww++;
+	    output_len++;
+	} while (new_pww % tabsize != 0);
+
+	output = charalloc(output_len + 1);
+
+	charset(output, ' ', output_len);
+	output[output_len] = '\0';
+
+	do_output(output, output_len, TRUE);
+    } else {
+#endif
+	do_output("\t", 1, TRUE);
+#ifndef NANO_SMALL
+    }
+#endif
 }
 
 /* Someone hits Return *gasp!* */
@@ -4122,7 +4150,8 @@ int main(int argc, char **argv)
 #ifndef NANO_SMALL
 	{"smarthome", 0, NULL, 'A'},
 	{"backup", 0, NULL, 'B'},
-	{"backupdir", 1, NULL, 'E'},
+	{"backupdir", 1, NULL, 'C'},
+	{"tabstospaces", 0, NULL, 'E'},
 	{"noconvert", 0, NULL, 'N'},
 	{"smooth", 0, NULL, 'S'},
 	{"restricted", 0, NULL, 'Z'},
@@ -4169,11 +4198,11 @@ int main(int argc, char **argv)
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
 	getopt_long(argc, argv,
-		"h?ABDE:FHINOQ:ST:VY:Zabcdefgijklmo:pr:s:tvwxz",
+		"h?ABC:EFHINOQ:ST:VY:Zabcdefgijklmo:pr:s:tvwxz",
 		long_options, NULL)
 #else
 	getopt(argc, argv,
-		"h?ABDE:FHINOQ:ST:VY:Zabcdefgijklmo:pr:s:tvwxz")
+		"h?ABC:EFHINOQ:ST:VY:Zabcdefgijklmo:pr:s:tvwxz")
 #endif
 		) != -1) {
 
@@ -4193,8 +4222,11 @@ int main(int argc, char **argv)
 	    case 'B':
 		SET(BACKUP_FILE);
 		break;
-	    case 'E':
+	    case 'C':
 		backup_dir = mallocstrcpy(backup_dir, optarg);
+		break;
+	    case 'E':
+		SET(TABS_TO_SPACES);
 		break;
 #endif
 #ifdef ENABLE_MULTIBUFFER

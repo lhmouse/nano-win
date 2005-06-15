@@ -303,7 +303,8 @@ typedef struct syntaxtype {
 #define SMART_HOME		(1<<26)
 #define WHITESPACE_DISPLAY	(1<<27)
 #define MORE_SPACE		(1<<28)
-#define NO_UTF8			(1<<29)
+#define TABS_TO_SPACES		(1<<29)
+#define NO_UTF8			(1<<30)
 
 /* Control key sequences.  Changing these would be very, very bad. */
 #define NANO_CONTROL_SPACE 0
@@ -489,6 +490,7 @@ typedef struct syntaxtype {
 #define TOGGLE_SMARTHOME_KEY	NANO_ALT_H
 #define TOGGLE_WHITESPACE_KEY	NANO_ALT_P
 #define TOGGLE_MORESPACE_KEY	NANO_ALT_O
+#define TOGGLE_TABSTOSPACES_KEY	NANO_ALT_E
 #endif /* !NANO_SMALL */
 
 #define MAIN_VISIBLE 12
