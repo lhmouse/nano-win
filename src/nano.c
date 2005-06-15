@@ -1891,11 +1891,11 @@ bool do_wrap(filestruct *line)
     if (current_x > wrap_loc) {
 	same_line_wrap = FALSE;
 	current = current->next;
-	current_x -=
+	current_x -= wrap_loc
 #ifndef NANO_SMALL
-		-indent_len +
+		- indent_len
 #endif
-		wrap_loc;
+		;
 	placewewant = xplustabs();
     }
 
