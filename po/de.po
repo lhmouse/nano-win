@@ -174,7 +174,7 @@ msgstr "Dateiname zum Speichern"
 
 #: src/files.c:1910
 msgid "File exists, OVERWRITE ? "
-msgstr "Datei exisitiert, ÜBERSCHREIBEN? "
+msgstr "Datei existiert, ÜBERSCHREIBEN? "
 
 #: src/files.c:1923
 msgid "Save file under DIFFERENT NAME ? "
