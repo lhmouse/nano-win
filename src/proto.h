@@ -277,7 +277,7 @@ void free_openfilestruct(openfilestruct *src);
 #endif
 void add_open_file(bool update);
 void load_open_file(void);
-void open_prevnext_file(bool next);
+void open_prevnext_file(bool next_file);
 void open_prevfile_void(void);
 void open_nextfile_void(void);
 bool close_open_file(void);

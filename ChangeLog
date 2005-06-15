@@ -103,6 +103,9 @@ CVS code -
 	- Set i to 0 when we get a filename via the file browser, so
 	  that it's read in properly when we exit the file browser.
 	  (DLR)
+  open_prevnext_file()
+	- Move up a misplaced assert. (DLR)
+	- Rename variable next to next_file, to avoid confusion. (DLR)
   write_file()
 	- Since lineswritten is a size_t, print its value as an unsigned
 	  long instead of an unsigned int. (DLR)

@@ -912,11 +912,11 @@ void load_open_file(void)
 }
 
 /* Open either the next or previous file buffer. */
-void open_prevnext_file(bool next)
+void open_prevnext_file(bool next_file)
 {
-    add_open_file(TRUE);
-
     assert(open_files != NULL);
+
+    add_open_file(TRUE);
 
     /* If only one file buffer is open, indicate it on the statusbar and
      * get out. */
@@ -927,7 +927,7 @@ void open_prevnext_file(bool next)
 
     /* Switch to the next or previous file, depending on the value of
      * next. */
-    open_files = next ? open_files->next : open_files->prev;
+    open_files = next_file ? open_files->next : open_files->prev;
 
 #ifdef DEBUG
     fprintf(stderr, "filename is %s\n", open_files->filename);
