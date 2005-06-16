@@ -1041,49 +1041,49 @@ void do_gotopos(int line, size_t pos_x, int pos_y, size_t pos_pww)
 #if !defined(NANO_SMALL) && defined(HAVE_REGEX_H)
 void do_find_bracket(void)
 {
-    char ch_under_cursor, wanted_ch;
-    const char *pos, *brackets = "([{<>}])";
-    char regexp_pat[] = "[  ]";
+    const char *pos, *bracket_pat = "([{<>}])";
+    char cursor_ch, wanted_ch, regexp_pat[] = "[  ]";
     size_t current_x_save, pww_save;
     int count = 1;
-    unsigned long flags_save;
+    bool regexp_set = ISSET(USE_REGEXP);
+    bool backwards_search_set = ISSET(BACKWARDS_SEARCH);
     filestruct *current_save;
 
-    ch_under_cursor = current->data[current_x];
+    cursor_ch = current->data[current_x];
+    pos = strchr(bracket_pat, cursor_ch);
 
-    pos = strchr(brackets, ch_under_cursor);
-    if (ch_under_cursor == '\0' || pos == NULL) {
+    if (cursor_ch == '\0' || pos == NULL) {
 	statusbar(_("Not a bracket"));
 	return;
     }
 
-    assert(strlen(brackets) % 2 == 0);
+    assert(strlen(bracket_pat) % 2 == 0);
 
-    wanted_ch = brackets[(strlen(brackets) - 1) - (pos - brackets)];
+    wanted_ch =
+	bracket_pat[(strlen(bracket_pat) - 1) - (pos - bracket_pat)];
 
     current_save = current;
     current_x_save = current_x;
     pww_save = placewewant;
-    flags_save = flags;
     SET(USE_REGEXP);
 
     /* Apparent near redundancy with regexp_pat[] here is needed.
      * "[][]" works, "[[]]" doesn't. */
-    if (pos < brackets + (strlen(brackets) / 2)) {
+    if (pos < bracket_pat + (strlen(bracket_pat) / 2)) {
 	/* On a left bracket. */
 	regexp_pat[1] = wanted_ch;
-	regexp_pat[2] = ch_under_cursor;
+	regexp_pat[2] = cursor_ch;
 	UNSET(BACKWARDS_SEARCH);
     } else {
 	/* On a right bracket. */
-	regexp_pat[1] = ch_under_cursor;
+	regexp_pat[1] = cursor_ch;
 	regexp_pat[2] = wanted_ch;
 	SET(BACKWARDS_SEARCH);
     }
 
     regexp_init(regexp_pat);
 
-    /* We constructed regexp_pat to be a valid expression. */
+    /* We constructed regexp_pat to be a valid regular expression. */
     assert(regexp_compiled);
 
     findnextstr_wrap_reset();
@@ -1091,7 +1091,7 @@ void do_find_bracket(void)
 	if (findnextstr(FALSE, FALSE, FALSE, current, current_x,
 		regexp_pat, NULL)) {
 	    /* Found identical bracket. */
-	    if (current->data[current_x] == ch_under_cursor)
+	    if (current->data[current_x] == cursor_ch)
 		count++;
 	    /* Found complementary bracket. */
 	    else if (--count == 0) {
@@ -1110,7 +1110,16 @@ void do_find_bracket(void)
     }
 
     regexp_cleanup();
-    flags = flags_save;
+
+    /* Restore search direction. */
+    if (backwards_search_set)
+	SET(BACKWARDS_SEARCH);
+    else
+	UNSET(BACKWARDS_SEARCH);
+
+    /* Restore regular expression usage setting. */
+    if (!regexp_set)
+	UNSET(USE_REGEXP);
 }
 #endif
 
