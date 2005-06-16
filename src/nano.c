@@ -2643,7 +2643,7 @@ void justify_format(filestruct *paragraph, size_t skip)
     assert(paragraph != NULL);
     assert(paragraph->data != NULL);
     assert(skip < strlen(paragraph->data));
-    assert(!isblank(paragraph->data[skip]));
+    assert(!is_blank_mbchar(paragraph->data + skip));
 
     end = paragraph->data + skip;
     new_paragraph_data = charalloc(strlen(paragraph->data) + 1);
