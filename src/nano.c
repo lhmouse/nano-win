@@ -198,8 +198,8 @@ void check_die_too_small(void)
 	die(_("Window size is too small for nano...\n"));
 }
 
-/* Reassign variables that depend on the window size.  That is, fill and
- * hblank. */
+/* Reinitialize the variables that depend on the window size.  That is,
+ * fill and hblank. */
 void resize_variables(void)
 {
 #ifndef DISABLE_WRAPJUSTIFY
