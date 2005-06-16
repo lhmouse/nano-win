@@ -1401,6 +1401,8 @@ void do_tab(void)
 	output[output_len] = '\0';
 
 	do_output(output, output_len, TRUE);
+
+	free(output);
     } else {
 #endif
 	do_output("\t", 1, TRUE);
