@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.3.8
-@set UPDATED 15 Jun 2005
+@set UPDATED 16 Jun 2005
 
 @dircategory Editors
 @direntry
@@ -343,6 +343,9 @@ The following global toggles are available:
 
 @item Backup File Toggle (Meta-B)
 toggles the -B (@code{--backup}) command line flag.
+
+@item Tabs to Spaces Toggle (Meta-E)
+toggles the -E (@code{--tabstospaces}) command line flag.
 
 @item Multiple File Buffers Toggle (Meta-F)
 toggles the -F (@code{--multibuffer}) command line flag.
