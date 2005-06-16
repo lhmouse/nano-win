@@ -259,7 +259,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 #ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP)) {
 #ifndef NANO_SMALL
-	if (ISSET(REVERSE_SEARCH)) {
+	if (ISSET(BACKWARDS_SEARCH)) {
 	    if (regexec(&search_regexp, haystack, 1, regmatches, 0) == 0
 		&& haystack + regmatches[0].rm_so <= start) {
 		const char *retval = haystack + regmatches[0].rm_so;
@@ -290,7 +290,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 #if !defined(NANO_SMALL) || !defined(DISABLE_SPELLER)
     if (ISSET(CASE_SENSITIVE)) {
 #ifndef NANO_SMALL
-	if (ISSET(REVERSE_SEARCH))
+	if (ISSET(BACKWARDS_SEARCH))
 	    return revstrstr(haystack, needle, start);
 	else
 #endif
@@ -298,7 +298,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
     }
 #endif /* !DISABLE_SPELLER || !NANO_SMALL */
 #ifndef NANO_SMALL
-    else if (ISSET(REVERSE_SEARCH))
+    else if (ISSET(BACKWARDS_SEARCH))
 	return mbrevstrcasestr(haystack, needle, start);
 #endif
     return mbstrcasestr(start, needle);

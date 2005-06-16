@@ -47,13 +47,12 @@ CVS code -
 	  write_file(), write_marked(), die(), do_spell(), and
 	  do_exit(). (DLR)
 	- Remove the -R/--regexp command line option and enable the
-	  toggle at the search promptin tiny mode, as it already
+	  toggle at the search prompt in tiny mode, as it already
 	  allows the prepend and append toggles at the search prompt.
 	  For consistency, rename TOGGLE_REGEXP_KEY to NANO_REGEXP_KEY,
 	  and move it out of the toggles block to where NANO_PREPEND_KEY
 	  and NANO_APPEND_KEY are.  Changes to shortcut_init(), usage(),
-	  main(), search_init(), nanorc.sample, nano.1, nanorc.5,
-	  nano.texi, etc. (DLR)
+	  main(), search_init(), nano.1, nano.texi, etc. (DLR)
 	- Various cleanups and improvements in chars.c.  Remove some
 	  unnecessary w?ctype wrappers; change the wctype wrappers to
 	  take wint_t instead of wchar_t to match the functions they
@@ -95,9 +94,14 @@ CVS code -
 	  toggle_init(), usage(), do_tab(), main(), nanorc.sample,
 	  nano.1, nanorc.5, and nano.texi. (DLR, suggested by many
 	  people)
+	- Change the REVERSE_SEARCH flag to the BACKWARDS_SEARCH flag.
+	  (DLR)
 	- Change the SMOOTHSCROLL flag to the SMOOTH_SCROLL flag. (DLR)
 	- Change the NO_UTF8 flag to the USE_UTF8 flag, and reverse its
 	  meaning. (DLR)
+	- Add rcfile options "casesensitive" and "backwards", to do
+	  case sensitive and backwards searches by default.  Changes to
+	  nanorc.sample and nanorc.5. (DLR)
 - chars.c:
   make_mbstring()
 	- Change erroneous ENABLE_EXTRA #ifdef to NANO_EXTRA to fix a
@@ -157,6 +161,8 @@ CVS code -
 	- Allow the mark to be used in view mode, as Pico does. (DLR)
 	- Clarify the description of ^X when --enable-multibuffer is
 	  used. (DLR)
+	- Change the description of the Meta-B toggle at the search
+	  prompt from "Direction" to "Backwards", for consistency. (DLR)
   thanks_for_all_the_fish()
 	- Remove free_toggles() and move its code here verbatim, as it's
 	  only called here anyway. (David Benbennick)

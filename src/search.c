@@ -186,7 +186,7 @@ int search_init(bool replacing, bool use_answer)
 #ifndef NANO_SMALL
 	/* This string is just a modifier for the search prompt; no
 	 * grammar is implied. */
-	ISSET(REVERSE_SEARCH) ? _(" [Backwards]") :
+	ISSET(BACKWARDS_SEARCH) ? _(" [Backwards]") :
 #endif
 		"",
 
@@ -235,7 +235,7 @@ int search_init(bool replacing, bool use_answer)
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
 	    case TOGGLE_BACKWARDS_KEY:
-		TOGGLE(REVERSE_SEARCH);
+		TOGGLE(BACKWARDS_SEARCH);
 		backupstring = mallocstrcpy(backupstring, answer);
 		return 1;
 #endif
@@ -311,7 +311,7 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
      * previous or next line. */
     rev_start =
 #ifndef NANO_SMALL
-	ISSET(REVERSE_SEARCH) ? fileptr->data + (current_x - 1) :
+	ISSET(BACKWARDS_SEARCH) ? fileptr->data + (current_x - 1) :
 #endif
 	fileptr->data + (current_x + 1);
 
@@ -360,7 +360,7 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	}
 
 #ifndef NANO_SMALL
-	if (ISSET(REVERSE_SEARCH)) {
+	if (ISSET(BACKWARDS_SEARCH)) {
 	    fileptr = fileptr->prev;
 	    current_y_find--;
 	} else {
@@ -377,7 +377,7 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 		return FALSE;
 
 #ifndef NANO_SMALL
-	    if (ISSET(REVERSE_SEARCH)) {
+	    if (ISSET(BACKWARDS_SEARCH)) {
 		fileptr = filebot;
 		current_y_find = editwinrows - 1;
 	    } else {
@@ -398,7 +398,7 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 
 	rev_start = fileptr->data;
 #ifndef NANO_SMALL
-	if (ISSET(REVERSE_SEARCH))
+	if (ISSET(BACKWARDS_SEARCH))
 	    rev_start += strlen(fileptr->data);
 #endif
     }
@@ -409,8 +409,8 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
     /* Ensure we haven't wrapped around again! */
     if (search_last_line &&
 #ifndef NANO_SMALL
-	((!ISSET(REVERSE_SEARCH) && current_x_find > beginx) ||
-	(ISSET(REVERSE_SEARCH) && current_x_find < beginx))
+	((!ISSET(BACKWARDS_SEARCH) && current_x_find > beginx) ||
+	(ISSET(BACKWARDS_SEARCH) && current_x_find < beginx))
 #else
 	current_x_find > beginx
 #endif
@@ -825,7 +825,7 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 	     * text.  Note that current_x might be set to (size_t)-1
 	     * here. */
 #ifndef NANO_SMALL
-	    if (!ISSET(REVERSE_SEARCH))
+	    if (!ISSET(BACKWARDS_SEARCH))
 #endif
 		current_x += match_len + length_change - 1;
 
@@ -1073,12 +1073,12 @@ void do_find_bracket(void)
 	/* On a left bracket. */
 	regexp_pat[1] = wanted_ch;
 	regexp_pat[2] = ch_under_cursor;
-	UNSET(REVERSE_SEARCH);
+	UNSET(BACKWARDS_SEARCH);
     } else {
 	/* On a right bracket. */
 	regexp_pat[1] = ch_under_cursor;
 	regexp_pat[2] = wanted_ch;
-	SET(REVERSE_SEARCH);
+	SET(BACKWARDS_SEARCH);
     }
 
     regexp_init(regexp_pat);

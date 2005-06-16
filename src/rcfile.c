@@ -41,9 +41,13 @@ const static rcoption rcopts[] = {
     {"autoindent", AUTOINDENT},
     {"backup", BACKUP_FILE},
     {"backupdir", 0},
+    {"backwards", BACKWARDS_SEARCH},
 #endif
 #ifndef DISABLE_JUSTIFY
     {"brackets", 0},
+#endif
+#ifndef NANO_SMALL
+    {"casesensitive", CASE_SENSITIVE},
 #endif
     {"const", CONSTUPDATE},
 #ifndef NANO_SMALL
@@ -79,6 +83,9 @@ const static rcoption rcopts[] = {
     {"quotestr", 0},
 #endif
     {"rebinddelete", REBIND_DELETE},
+#ifdef HAVE_REGEX_H
+    {"regexp", USE_REGEXP},
+#endif
 #ifndef NANO_SMALL
     {"smarthome", SMART_HOME},
     {"smooth", SMOOTH_SCROLL},

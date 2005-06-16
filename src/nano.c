@@ -1955,7 +1955,7 @@ bool do_int_spell_fix(const char *word)
 	/* The return value. */
     bool case_sens_set = ISSET(CASE_SENSITIVE);
 #ifndef NANO_SMALL
-    bool reverse_search_set = ISSET(REVERSE_SEARCH);
+    bool backwards_search_set = ISSET(BACKWARDS_SEARCH);
 #endif
 #ifdef HAVE_REGEX_H
     bool regexp_set = ISSET(USE_REGEXP);
@@ -1976,7 +1976,7 @@ bool do_int_spell_fix(const char *word)
 
 #ifndef NANO_SMALL
     /* Make sure spell-check goes forward only. */
-    UNSET(REVERSE_SEARCH);
+    UNSET(BACKWARDS_SEARCH);
 #endif
 #ifdef HAVE_REGEX_H
     /* Make sure spell-check doesn't use regular expressions. */
@@ -2091,8 +2091,8 @@ bool do_int_spell_fix(const char *word)
 
 #ifndef NANO_SMALL
     /* Restore search/replace direction. */
-    if (reverse_search_set)
-	SET(REVERSE_SEARCH);
+    if (backwards_search_set)
+	SET(BACKWARDS_SEARCH);
 #endif
 #ifdef HAVE_REGEX_H
     /* Restore regular expression usage setting. */

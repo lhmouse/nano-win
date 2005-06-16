@@ -6,7 +6,7 @@
 .\" Public License for copying conditions.  There is NO warranty.
 .\"
 .\" $Id$
-.TH NANORC 5 "version 1.3.8" "June 15, 2005"
+.TH NANORC 5 "version 1.3.8" "June 16, 2005"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -51,10 +51,17 @@ Create backup files in
 \fBset backupdir "\fIdirectory\fP"\fP
 Set the directory where \fBnano\fP puts unique backup files if file
 backups are enabled.
+.TP
+\fBset/unset backwards\fP 	 
+Do backwards searches by default.
+.TP
 \fBset brackets "\fIstring\fP"\fP
 Set the characters treated as closing brackets.  They cannot contain
 tabs or spaces.  Only closing punctuation, optionally followed by
 closing brackets, can end sentences.
+.TP
+\fBset/unset casesensitive\fP 	 
+Do case sensitive searches by default.
 .TP
 \fBset/unset const\fP
 Constantly display the cursor position in the status bar.
@@ -121,6 +128,9 @@ above stands for a literal Tab character.
 Interpret the Delete key differently so that both Backspace and Delete
 work properly.  You should only need to use this option if Backspace
 acts like Delete on your system.
+.TP
+\fBset/unset regexp\fP 	 
+Do regular expression searches by default.
 .TP
 \fBset/unset smarthome\fP
 Make the Home key smarter.  When Home is pressed anywhere but at the

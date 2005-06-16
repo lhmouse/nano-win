@@ -253,7 +253,7 @@ void shortcut_init(bool unjustify)
 #endif
 #ifndef NANO_SMALL
     const char *case_sens_msg = N_("Case Sens");
-    const char *direction_msg = N_("Direction");
+    const char *backwards_msg = N_("Backwards");
 #endif
 #ifdef HAVE_REGEX_H
     const char *regexp_msg = N_("Regexp");
@@ -679,7 +679,7 @@ void shortcut_init(bool unjustify)
 	NANO_NO_KEY, VIEW, NULL);
 
     /* Translators: try to keep this string under 10 characters long */
-    sc_init_one(&whereis_list, NANO_NO_KEY, direction_msg,
+    sc_init_one(&whereis_list, NANO_NO_KEY, backwards_msg,
 	IFHELP(nano_reverse_msg, TOGGLE_BACKWARDS_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 #endif
@@ -748,7 +748,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_case_msg, TOGGLE_CASE_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 
-    sc_init_one(&replace_list, NANO_NO_KEY, direction_msg,
+    sc_init_one(&replace_list, NANO_NO_KEY, backwards_msg,
 	IFHELP(nano_reverse_msg, TOGGLE_BACKWARDS_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 #endif
