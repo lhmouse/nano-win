@@ -155,6 +155,8 @@ CVS code -
 	- Remove unnecessary "Refresh" placeholder in the file browser
 	  shortcut list. (DLR)
 	- Allow the mark to be used in view mode, as Pico does. (DLR)
+	- Clarify the description of ^X when --enable-multibuffer is
+	  used. (DLR)
   thanks_for_all_the_fish()
 	- Remove free_toggles() and move its code here verbatim, as it's
 	  only called here anyway. (David Benbennick)
