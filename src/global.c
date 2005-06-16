@@ -271,7 +271,7 @@ void shortcut_init(bool unjustify)
     const char *nano_help_msg = N_("Invoke the help menu");
     const char *nano_exit_msg =
 #ifdef ENABLE_MULTIBUFFER
-	N_("Close current file buffer/Exit from nano")
+	N_("Close the current file buffer/Exit from nano")
 #else
    	N_("Exit from nano")
 #endif
