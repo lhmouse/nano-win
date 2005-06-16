@@ -530,8 +530,10 @@ void do_gotolinecolumn_void(void);
 #if defined(ENABLE_MULTIBUFFER) || !defined(DISABLE_SPELLER)
 void do_gotopos(int line, size_t pos_x, int pos_y, size_t pos_pww);
 #endif
-void do_find_bracket(void);
 #ifndef NANO_SMALL
+#ifdef HAVE_REGEX_H
+void do_find_bracket(void);
+#endif
 #ifdef ENABLE_NANORC
 bool history_has_changed(void);
 #endif
@@ -544,7 +546,7 @@ char *get_history_newer(filestruct **h);
 #ifndef DISABLE_TABCOMP
 char *get_history_completion(filestruct **h, char *s, size_t len);
 #endif
-#endif
+#endif /* !NANO_SMALL */
 
 /* Public functions in utils.c. */
 #ifdef HAVE_REGEX_H

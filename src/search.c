@@ -1038,7 +1038,8 @@ void do_gotopos(int line, size_t pos_x, int pos_y, size_t pos_pww)
 }
 #endif
 
-#if !defined(NANO_SMALL) && defined(HAVE_REGEX_H)
+#ifndef NANO_SMALL
+#ifdef HAVE_REGEX_H
 void do_find_bracket(void)
 {
     const char *pos, *bracket_pat = "([{<>}])";
@@ -1121,9 +1122,8 @@ void do_find_bracket(void)
     if (!regexp_set)
 	UNSET(USE_REGEXP);
 }
-#endif
+#endif /* HAVE_REGEX_H */
 
-#ifndef NANO_SMALL
 #ifdef ENABLE_NANORC
 /* Indicate whether any of the history lists have changed. */
 bool history_has_changed(void)
@@ -1308,4 +1308,4 @@ char *get_history_completion(filestruct **h, char *s, size_t len)
     return s;
 }
 #endif
-#endif /* !NANO_SMALL && ENABLE_NANORC */
+#endif /* !NANO_SMALL */

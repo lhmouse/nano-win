@@ -214,6 +214,9 @@ CVS code -
 	- Add macro charset(), a wrapper that calls memset(). (DLR)
 	- Readd #defines for the isblank() and iswblank() equivalents.
 	  (DLR)
+- proto.h:
+	- Add missing NANO_SMALL and HAVE_REGEX_H #ifdefs around the
+	  do_find_bracket() prototype. (DLR)
 - rcfile.c:
   color_to_int()
 	- Since colorname's being NULL is handled elsewhere now, assert
