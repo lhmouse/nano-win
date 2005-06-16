@@ -264,8 +264,8 @@
 ## highlight possible errors and parameters
 # color brightwhite "^ *(set|unset|syntax|color).*$"
 ## set, unset and syntax
-# color cyan "^ *(set|unset) +(autoindent|backup|backupdir|brackets|const|cut|fill|historylog|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|punct|quotestr|rebinddelete|regexp|smarthome|smooth|speller|suspend|tabsize|tempfile)\>"
-# color cyan "^ *(set|unset) +(view|whitespace)"
+# color cyan "^ *(set|unset) +(autoindent|backup|backupdir|brackets|const|cut|fill|historylog|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|punct|quotestr|rebinddelete|regexp|smarthome|smooth|speller|suspend|tabsize|tabstospaces)\>"
+# color cyan "^ *(set|unset) +(tempfile|view|whitespace)"
 # color green "^ *(set|unset|syntax)\>"
 ## colors
 # color yellow "^ *color *(bright)?(white|black|red|blue|green|yellow|magenta|cyan)(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
