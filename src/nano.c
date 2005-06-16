@@ -1049,7 +1049,7 @@ void usage(void)
     print1opt("-O", "--morespace", N_("Use more space for editing"));
 #ifndef DISABLE_JUSTIFY
     print1opt(_("-Q [str]"), _("--quotestr=[str]"),
-	N_("Quoting string, default \"> \""));
+	N_("Quoting string"));
 #endif
 #ifndef NANO_SMALL
     print1opt("-S", "--smooth", N_("Smooth scrolling"));

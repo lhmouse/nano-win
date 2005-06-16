@@ -183,6 +183,7 @@ CVS code -
   usage()
 	- Add missing N_() around one message, so that it isn't
 	  erroneously translated twice. (DLR)
+	- Remove inaccurate default listed for -Q/--quotestr. (DLR)
   do_tab()
 	- Remove unneeded variable kbinput. (DLR)
   do_int_spell_fix()
