@@ -107,7 +107,7 @@ void do_page_up(void)
 	/* If we're in smooth scrolling mode and there's at least one
 	 * page of text left, move the current line of the edit window
 	 * up a page. */
-	if (ISSET(SMOOTHSCROLL) && current->lineno > editwinrows - 2) {
+	if (ISSET(SMOOTH_SCROLL) && current->lineno > editwinrows - 2) {
 	    int i;
 	    for (i = 0; i < editwinrows - 2; i++)
 		current = current->prev;
@@ -153,7 +153,7 @@ void do_page_down(void)
 	/* If we're in smooth scrolling mode and there's at least one
 	 * page of text left, move the current line of the edit window
 	 * down a page. */
-	if (ISSET(SMOOTHSCROLL) && current->lineno + editwinrows - 2 <=
+	if (ISSET(SMOOTH_SCROLL) && current->lineno + editwinrows - 2 <=
 		filebot->lineno) {
 	    int i;
 	    for (i = 0; i < editwinrows - 2; i++)
@@ -201,7 +201,7 @@ void do_up(void)
     if (current_y == 0)
 	edit_scroll(UP,
 #ifndef NANO_SMALL
-		ISSET(SMOOTHSCROLL) ? 1 :
+		ISSET(SMOOTH_SCROLL) ? 1 :
 #endif
 		editwinrows / 2);
 
@@ -234,7 +234,7 @@ void do_down(void)
     if (current_y == editwinrows - 1)
 	edit_scroll(DOWN,
 #ifndef NANO_SMALL
-		ISSET(SMOOTHSCROLL) ? 1 :
+		ISSET(SMOOTH_SCROLL) ? 1 :
 #endif
 		editwinrows / 2);
 

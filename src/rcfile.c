@@ -81,7 +81,7 @@ const static rcoption rcopts[] = {
     {"rebinddelete", REBIND_DELETE},
 #ifndef NANO_SMALL
     {"smarthome", SMART_HOME},
-    {"smooth", SMOOTHSCROLL},
+    {"smooth", SMOOTH_SCROLL},
 #endif
 #ifndef DISABLE_SPELLER
     {"speller", 0},

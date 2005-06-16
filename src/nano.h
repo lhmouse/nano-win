@@ -290,7 +290,7 @@ typedef struct syntaxtype {
 #define CUT_TO_END		(1<<13)
 #define REVERSE_SEARCH		(1<<14)
 #define MULTIBUFFER		(1<<15)
-#define SMOOTHSCROLL		(1<<16)
+#define SMOOTH_SCROLL		(1<<16)
 #define DISABLE_CURPOS		(1<<17)	/* Damn, we still need it. */
 #define REBIND_DELETE		(1<<18)
 #define NO_CONVERT		(1<<19)

@@ -3522,7 +3522,7 @@ void edit_refresh(void)
 	 * is no danger of getting an infinite loop. */
 	edit_update(
 #ifndef NANO_SMALL
-		ISSET(SMOOTHSCROLL) ? NONE :
+		ISSET(SMOOTH_SCROLL) ? NONE :
 #endif
 		CENTER);
     else {

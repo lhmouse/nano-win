@@ -1138,7 +1138,7 @@ void toggle_init(void)
 	toggle_init_one(TOGGLE_BACKUP_KEY, N_("Backup files"),
 		BACKUP_FILE);
     toggle_init_one(TOGGLE_SMOOTH_KEY, N_("Smooth scrolling"),
-	SMOOTHSCROLL);
+	SMOOTH_SCROLL);
     toggle_init_one(TOGGLE_SMARTHOME_KEY, N_("Smart home key"),
 	SMART_HOME);
 #ifdef ENABLE_COLOR

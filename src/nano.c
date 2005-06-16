@@ -4255,7 +4255,7 @@ int main(int argc, char **argv)
 #endif
 #ifndef NANO_SMALL
 	    case 'S':
-		SET(SMOOTHSCROLL);
+		SET(SMOOTH_SCROLL);
 		break;
 #endif
 	    case 'T':
