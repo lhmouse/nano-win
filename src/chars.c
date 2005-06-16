@@ -68,7 +68,7 @@ bool is_alnum_mbchar(const char *c)
     assert(c != NULL);
 
 #ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
+    if (ISSET(USE_UTF8)) {
 	wchar_t wc;
 	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX);
 
@@ -89,7 +89,7 @@ bool is_blank_mbchar(const char *c)
     assert(c != NULL);
 
 #ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
+    if (ISSET(USE_UTF8)) {
 	wchar_t wc;
 	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX);
 
@@ -130,7 +130,7 @@ bool is_cntrl_mbchar(const char *c)
     assert(c != NULL);
 
 #ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
+    if (ISSET(USE_UTF8)) {
 	wchar_t wc;
 	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX);
 
@@ -151,7 +151,7 @@ bool is_punct_mbchar(const char *c)
     assert(c != NULL);
 
 #ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
+    if (ISSET(USE_UTF8)) {
 	wchar_t wc;
 	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX);
 
@@ -212,7 +212,7 @@ char *control_mbrep(const char *c, char *crep, int *crep_len)
     assert(c != NULL);
 
 #ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
+    if (ISSET(USE_UTF8)) {
 	wchar_t wc;
 	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX), crep_mb_len;
 
@@ -246,7 +246,7 @@ int mbwidth(const char *c)
     assert(c != NULL);
 
 #ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
+    if (ISSET(USE_UTF8)) {
 	wchar_t wc;
 	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX), width;
 
@@ -271,7 +271,7 @@ int mb_cur_max(void)
 {
     return
 #ifdef NANO_WIDE
-	!ISSET(NO_UTF8) ? MB_CUR_MAX :
+	ISSET(USE_UTF8) ? MB_CUR_MAX :
 #endif
 	1;
 }
@@ -288,7 +288,7 @@ char *make_mbchar(int chr, int *chr_mb_len)
     assert(chr_mb_len != NULL);
 
 #ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
+    if (ISSET(USE_UTF8)) {
 	chr_mb = charalloc(MB_CUR_MAX);
 	*chr_mb_len = wctomb(chr_mb, chr);
 
@@ -323,7 +323,7 @@ int parse_mbchar(const char *buf, char *chr, bool *bad_chr, size_t
 	*bad_chr = FALSE;
 
 #ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
+    if (ISSET(USE_UTF8)) {
 	/* Get the number of bytes in the multibyte character. */
 	buf_mb_len = mblen(buf, MB_CUR_MAX);
 
@@ -470,7 +470,7 @@ int nstrncasecmp(const char *s1, const char *s2, size_t n)
 int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 {
 #ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
+    if (ISSET(USE_UTF8)) {
 	char *s1_mb = charalloc(MB_CUR_MAX);
 	char *s2_mb = charalloc(MB_CUR_MAX);
 	wchar_t ws1, ws2;
@@ -540,7 +540,7 @@ const char *nstrcasestr(const char *haystack, const char *needle)
 const char *mbstrcasestr(const char *haystack, const char *needle)
 {
 #ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
+    if (ISSET(USE_UTF8)) {
 	char *r_mb = charalloc(MB_CUR_MAX);
 	char *q_mb = charalloc(MB_CUR_MAX);
 	wchar_t wr, wq;
@@ -646,7 +646,7 @@ const char *mbrevstrcasestr(const char *haystack, const char *needle,
 	const char *rev_start)
 {
 #ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
+    if (ISSET(USE_UTF8)) {
 	char *r_mb = charalloc(MB_CUR_MAX);
 	char *q_mb = charalloc(MB_CUR_MAX);
 	wchar_t wr, wq;
@@ -734,7 +734,7 @@ size_t mbstrnlen(const char *s, size_t maxlen)
     assert(s != NULL);
 
 #ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
+    if (ISSET(USE_UTF8)) {
 	size_t n = 0;
 	int s_mb_len;
 
@@ -778,7 +778,7 @@ bool has_blank_mbchars(const char *s)
     assert(str != NULL);
 
 #ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
+    if (ISSET(USE_UTF8)) {
 	char *chr_mb = charalloc(MB_CUR_MAX);
 	bool retval = FALSE;
 
@@ -810,7 +810,7 @@ char *mbstrchr(const char *s, char *c)
     assert(s != NULL && c != NULL);
 
 #ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
+    if (ISSET(USE_UTF8)) {
 	char *s_mb = charalloc(MB_CUR_MAX);
 	const char *q = s;
 	wchar_t ws, wc;
@@ -857,7 +857,7 @@ bool is_valid_mbstring(const char *s)
 
     return 
 #ifdef NANO_WIDE
-	!ISSET(NO_UTF8) ?
+	ISSET(USE_UTF8) ?
 	(mbstowcs(NULL, s, (size_t)-1) != (size_t)-1) :
 #endif
 
@@ -874,7 +874,7 @@ char *make_valid_mbstring(const char *s)
     assert(s != NULL);
 
 #ifdef NANO_WIDE
-    if (!ISSET(NO_UTF8)) {
+    if (ISSET(USE_UTF8)) {
 	char *chr_mb = charalloc(MB_CUR_MAX);
 	char *s_mb = charalloc((MB_CUR_MAX * strlen(s)) + 1);
 	size_t s_mb_len = 0;

@@ -95,6 +95,8 @@ CVS code -
 	  toggle_init(), usage(), do_tab(), main(), nanorc.sample,
 	  nano.1, nanorc.5, and nano.texi. (DLR, suggested by many
 	  people)
+	- Change the NO_UTF8 flag to the USE_UTF8 flag, and reverse its
+	  meaning. (DLR)
 - chars.c:
   make_mbstring()
 	- Change erroneous ENABLE_EXTRA #ifdef to NANO_EXTRA to fix a

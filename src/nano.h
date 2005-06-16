@@ -304,7 +304,7 @@ typedef struct syntaxtype {
 #define WHITESPACE_DISPLAY	(1<<27)
 #define MORE_SPACE		(1<<28)
 #define TABS_TO_SPACES		(1<<29)
-#define NO_UTF8			(1<<30)
+#define USE_UTF8		(1<<30)
 
 /* Control key sequences.  Changing these would be very, very bad. */
 #define NANO_CONTROL_SPACE 0

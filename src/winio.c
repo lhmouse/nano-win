@@ -2287,7 +2287,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    }
 	}
 #ifdef NANO_WIDE
-	else if (!ISSET(NO_UTF8) && mbwidth(buf_mb) > 1) {
+	else if (ISSET(USE_UTF8) && mbwidth(buf_mb) > 1) {
 	    converted[index++] = ' ';
 	    start_col++;
 
@@ -2353,7 +2353,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    /* If buf contains an invalid multibyte non-control
 	     * character, interpret that character as though it's a
 	     * normal non-control character. */
-	    if (!ISSET(NO_UTF8) && bad_char) {
+	    if (ISSET(USE_UTF8) && bad_char) {
 		char *bad_buf_mb;
 		int bad_buf_mb_len;
 
