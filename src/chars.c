@@ -775,7 +775,7 @@ bool has_blank_chars(const char *s)
  * multibyte characters, and FALSE otherwise. */
 bool has_blank_mbchars(const char *s)
 {
-    assert(str != NULL);
+    assert(s != NULL);
 
 #ifdef NANO_WIDE
     if (ISSET(USE_UTF8)) {
