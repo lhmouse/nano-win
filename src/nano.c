@@ -4109,9 +4109,6 @@ int main(int argc, char **argv)
 	{"multibuffer", 0, NULL, 'F'},
 #endif
 #ifdef ENABLE_NANORC
-#ifndef NANO_SMALL
-	{"historylog", 0, NULL, 'H'},
-#endif
 	{"ignorercfiles", 0, NULL, 'I'},
 #endif
 	{"morespace", 0, NULL, 'O'},
@@ -4151,6 +4148,7 @@ int main(int argc, char **argv)
 	{"backup", 0, NULL, 'B'},
 	{"backupdir", 1, NULL, 'C'},
 	{"tabstospaces", 0, NULL, 'E'},
+	{"historylog", 0, NULL, 'H'},
 	{"noconvert", 0, NULL, 'N'},
 	{"smooth", 0, NULL, 'S'},
 	{"restricted", 0, NULL, 'Z'},
