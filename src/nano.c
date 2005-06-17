@@ -4124,6 +4124,7 @@ int main(int argc, char **argv)
 #ifdef ENABLE_COLOR
 	{"syntax", 1, NULL, 'Y'},
 #endif
+	{"restricted", 0, NULL, 'Z'},
 	{"const", 0, NULL, 'c'},
 	{"rebinddelete", 0, NULL, 'd'},
 	{"nofollow", 0, NULL, 'l'},
@@ -4156,7 +4157,6 @@ int main(int argc, char **argv)
 	{"noconvert", 0, NULL, 'N'},
 	{"smooth", 0, NULL, 'S'},
 	{"quickblank", 0, NULL, 'U'},
-	{"restricted", 0, NULL, 'Z'},
 	{"autoindent", 0, NULL, 'i'},
 	{"cut", 0, NULL, 'k'},
 #endif
