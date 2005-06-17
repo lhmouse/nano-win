@@ -61,17 +61,12 @@ Convert typed tabs to spaces.
 Enable multiple file buffers, if available.
 .TP
 .B \-H (\-\-historylog)
-Log search and replace strings to
-.I ~/.nano_history
-so they may be stored for later editing, if nanorc support is
-configured.
+Log search and replace strings to \fI~/.nano_history\fP so they can be
+stored for later editing, if nanorc support is configured.
 .TP
 .B \-I (\-\-ignorercfiles)
-Don't look at
-.I SYSCONFDIR/nanorc
-or
-.IR ~/.nanorc ,
-if nanorc support is available.
+Don't look at \fISYSCONFDIR/nanorc\fP or \fI~/.nanorc\fP, if nanorc
+support is available.
 .TP
 .B \-N (\-\-noconvert)
 Disable automatic conversion of files from DOS/Mac format.
@@ -93,15 +88,14 @@ Set the size (width) of a tab to \fIcols\fP columns.
 .TP
 .B \-U (\-\-quickblank)
 Do quick statusbar blanking.  Statusbar messages will disappear after 1
-keystroke instead of 25.
+keystroke instead of 25.  Note that \fB-c\fP cancels this out.
 .TP
 .B \-V (\-\-version)
 Show the current version number and author.
 .TP
 .B \-Y \fIstr\fP (\-\-syntax=\fIstr\fP)
-Specify a specific syntax highlighting from the
-.I nanorc
-to use, if available.
+Specify a specific syntax highlighting from the \fInanorc\fP to use, if
+available.
 .TP
 .B \-Z (\-\-restricted)
 Restricted mode: Don't read or write to any file not specified on the
@@ -111,7 +105,8 @@ already has one.  Also accessible by invoking \fBnano\fP with any name
 beginning with 'r' (e.g. "rnano").
 .TP
 .B \-c (\-\-const)
-Constantly show the cursor position.
+Constantly show the cursor position.  Note that this cancels out
+\fB-U\fP.
 .TP
 .B \-d (\-\-rebinddelete)
 Interpret the Delete key differently so that both Backspace and Delete
@@ -131,8 +126,7 @@ Enable cut from cursor to end of line.
 .B \-l (\-\-nofollow)
 If the file being edited is a symbolic link, replace the link with
 a new file instead of following it.  Good for editing files in
-.IR /tmp ,
-perhaps?
+\fI/tmp\fP, perhaps?
 .TP
 .B \-m (\-\-mouse)
 Enable mouse support (if available for your system).
@@ -155,7 +149,8 @@ to vary along with the screen width if resized.
 Enable alternative spell checker command.
 .TP
 .B \-t (\-\-tempfile)
-Always save changed buffer without prompting.  Same as Pico's -t option.
+Always save changed buffer without prompting.  Same as Pico's \fB-t\fP
+option.
 .TP
 .B \-v (\-\-view)
 View file (read only) mode.
@@ -174,13 +169,9 @@ Ignored, for compatibility with Pico.
 
 .SH INITIALIZATION FILE
 \fBnano\fP will read initialization files in the following order:
-.IR SYSCONFDIR/nanorc ,
-then
-.IR ~/.nanorc .
-Please see
-.BR nanorc (5)
-and the example file \fBnanorc.sample\fP which should be provided with
-\fBnano\fP.
+\fISYSCONFDIR/nanorc\fP, then \fI~/.nanorc\fP.  Please see
+\fBnanorc(5)\fP and the example file \fBnanorc.sample\fP, both of which
+should be provided with \fBnano\fP.
 
 .SH NOTES
 If no alternative spell checker command is specified on the command
@@ -190,25 +181,20 @@ line or in one of the nanorc files, \fBnano\fP will check the
 \fBnano\fP will try to dump the buffer into an emergency file in some
 cases.  Mainly, this will happen if \fBnano\fP receives a SIGHUP or
 SIGTERM or runs out of memory, when it will write the buffer into a file
-named
-.I nano.save
-if the buffer didn't have a name already, or will add a ".save" suffix
-to the current filename.  If an emergency file with that name already
-exists in the current directory, ".save" and a number (e.g. ".save.1")
-will be suffixed to the current filename in order to make it unique.  In
-multibuffer mode, \fBnano\fP will write all the open buffers to the
-respective emergency files.
+named \fInano.save\fP if the buffer didn't have a name already, or will
+add a ".save" suffix to the current filename.  If an emergency file with
+that name already exists in the current directory, ".save" and a number
+(e.g. ".save.1") will be suffixed to the current filename in order to
+make it unique.  In multibuffer mode, \fBnano\fP will write all the open
+buffers to their respective emergency files.
 
 .SH BUGS
-Please send any comments or bug reports to
-.BR nano@nano-editor.org .
+Please send any comments or bug reports to \fBnano@nano-editor.org\fP.
 
-The \fBnano\fP mailing list is available from
-.BR nano-devel@gnu.org .
+The \fBnano\fP mailing list is available from \fBnano-devel@gnu.org\fP.
 
-To subscribe, email to
-.B nano-devel-request@gnu.org
-with a subject of "subscribe".
+To subscribe, email to \fBnano-devel-request@gnu.org\fP with a subject
+of "subscribe".
 
 .SH HOMEPAGE
 http://www.nano-editor.org/
@@ -221,10 +207,7 @@ http://www.nano-editor.org/
 \fI/usr/share/doc/nano/\fP (or equivalent on your system)
 
 .SH AUTHOR
-Chris Allegretta <chrisa@asty.org>, et al (see
-.I AUTHORS
-and
-.I THANKS
-for details). This manual page was originally written by Jordi Mallach
-<jordi@sindominio.net>, for the Debian GNU system (but may be used by
-others).
+Chris Allegretta <chrisa@asty.org>, et al (see \fIAUTHORS\fP and
+\fITHANKS\fP for details).  This manual page was originally written by
+Jordi Mallach <jordi@sindominio.net>, for the Debian GNU system (but may
+be used by others).

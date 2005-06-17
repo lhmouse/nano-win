@@ -157,6 +157,10 @@ Enable smooth scrolling.
 @item -T [num], --tabsize=[#cols]
 Set the displayed tab length to [#cols] columns.
 
+@item -U, --quickblank
+Do quick statusbar blanking.  Statusbar messages will disappear after 1
+keystroke instead of 25.  Note that -c cancels this out.
+
 @item -V, --version
 Print the version number and copyright and quit.
 
@@ -173,6 +177,7 @@ beginning with 'r' (e.g. "rnano").
 
 @item -c, --const
 Constantly display the cursor position and line number on the statusbar.
+Note that this cancels out -U.
 
 @item -d, --rebinddelete
 Interpret the Delete key differently so that both Backspace and Delete

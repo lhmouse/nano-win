@@ -6,7 +6,7 @@
 .\" Public License for copying conditions.  There is NO warranty.
 .\"
 .\" $Id$
-.TH NANORC 5 "version 1.3.8" "June 16, 2005"
+.TH NANORC 5 "version 1.3.8" "June 17, 2005"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -22,9 +22,8 @@ replace" and "go to line number".
 .PP
 The \fInanorc\fP file contains the default settings for \fBnano\fP.
 During startup, \fBnano\fP will first read its system-wide settings from
-.IR SYSCONFDIR/nanorc ,
-and then user-specific settings from
-.IR ~/.nanorc .
+\fISYSCONFDIR/nanorc\fP, and then user-specific settings from
+\fI~/.nanorc\fP.
 
 .SH OPTIONS
 The configuration file accepts a series of "set" and "unset" commands,
@@ -45,8 +44,7 @@ The supported commands and arguments are:
 Use auto-indentation.
 .TP
 .B set/unset backup
-Create backup files in
-.IR filename~ .
+Create backup files in \fIfilename~\fP.
 .TP
 .B set backupdir "\fIdirectory\fP"
 Set the directory where \fBnano\fP puts unique backup files if file
@@ -74,9 +72,8 @@ Wrap lines at column number \fIn\fP.  If \fIn\fP is 0 or less, the line
 length will be the screen width less \fIn\fP.  The default value is -8.
 .TP
 .B set/unset historylog
-Enable
-.I ~/.nano_history
-for saving and reading search/replace strings.
+Enable \fI~/.nano_history\fP for saving and reading search/replace
+strings.
 .TP
 .B set/unset morespace
 Allow use of the blank line below the titlebar as extra editing space.
@@ -193,7 +190,6 @@ at least one of which must be specified.  This allows syntax
 highlighting to span multiple lines.  Note that all subsequent instances
 of \fIsr\fP after an initial \fIsr\fP is found will be highlighted until
 the first instance of \fIer\fP.
-\fI
 
 .SH FILES
 .TP
@@ -210,9 +206,6 @@ Per-user configuration file
 \fI/usr/share/doc/nano/examples/nanorc.sample\fP (or equivalent on your
 system)
 .SH AUTHOR
-Chris Allegretta <chrisa@asty.org>, et al (see
-.I AUTHORS
-and
-.I THANKS
-for details).
-This manual page was written by Jordi Mallach <jordi@gnu.org>.
+Chris Allegretta <chrisa@asty.org>, et al (see \fIAUTHORS\fP and
+\fITHANKS\fP for details).  This manual page was written by Jordi
+Mallach <jordi@gnu.org>.

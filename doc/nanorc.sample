@@ -29,7 +29,8 @@
 ## Do case sensitive searches by default.
 # set casesensitive
 
-## Constantly display the cursor position in the status bar.
+## Constantly display the cursor position in the statusbar.  Note that
+## this cancels out "quickblank".
 # set const
 
 ## Use cut to end of line by default.
@@ -86,7 +87,7 @@
 # set punct ".?!"
 
 ## Do quick statusbar blanking.  Statusbar messages will disappear after
-## 1 keystroke instead of 25.
+## 1 keystroke instead of 25.  Note that "const" cancels this out.
 ##
 # set quickblank
 

@@ -112,7 +112,8 @@ CVS code -
 	  effect when constant cursor position display is turned on, and
 	  that this is disabled when NANO_SMALL is defined.  Changes to
 	  toggle_init(), usage(), main(), statusbar(), nanorc.sample,
-	  nano.1, and nanorc.5. (DLR, suggested by CHAO Wei-Lun)
+	  nano.1, nanorc.5, and nano.texi. (DLR, suggested by CHAO
+	  Wei-Lun)
 - chars.c:
   make_mbstring()
 	- Change erroneous ENABLE_EXTRA #ifdef to NANO_EXTRA to fix a
