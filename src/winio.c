@@ -2893,6 +2893,11 @@ void statusbar(const char *msg, ...)
     }
 
     disable_cursorpos = TRUE;
+
+    /* If we're doing quick statusbar blanking, and constant cursor
+     * position display is off, blank the statusbar after only one
+     * keystroke.  Otherwise, blank it after twenty-five keystrokes,
+     * as Pico does. */
     statusblank =
 #ifndef NANO_SMALL
 	ISSET(QUICK_BLANK) && !ISSET(CONST_UPDATE) ? 1 :
