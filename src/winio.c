@@ -3767,10 +3767,10 @@ void do_cursorpos(bool constant)
 	int bytepct = (totsize == 0) ? 0 : 100 * i / totsize;
 
 	statusbar(
-	    _("line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%ld (%d%%)"),
-		    current->lineno, totlines, linepct,
-		    (unsigned long)xpt, (unsigned long)cur_len, colpct,
-		    (unsigned long)i, (unsigned long)totsize, bytepct);
+		_("line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%ld (%d%%)"),
+		current->lineno, totlines, linepct, (unsigned long)xpt,
+		(unsigned long)cur_len, colpct, (unsigned long)i,
+		(unsigned long)totsize, bytepct);
 	disable_cursorpos = FALSE;
     }
 
