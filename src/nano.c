@@ -1056,6 +1056,8 @@ void usage(void)
 #endif
     print1opt(_("-T [#cols]"), _("--tabsize=[#cols]"),
 	N_("Set width of a tab in cols to #cols"));
+    print1opt("-U", _("--quickblank"),
+	N_("Do quick statusbar blanking"));
     print1opt("-V", "--version",
 	N_("Print version information and exit"));
 #ifdef ENABLE_COLOR
@@ -4151,6 +4153,7 @@ int main(int argc, char **argv)
 	{"historylog", 0, NULL, 'H'},
 	{"noconvert", 0, NULL, 'N'},
 	{"smooth", 0, NULL, 'S'},
+	{"quickblank", 0, NULL, 'U'},
 	{"restricted", 0, NULL, 'Z'},
 	{"autoindent", 0, NULL, 'i'},
 	{"cut", 0, NULL, 'k'},
@@ -4192,11 +4195,11 @@ int main(int argc, char **argv)
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
 	getopt_long(argc, argv,
-		"h?ABC:EFHINOQ:ST:VY:Zabcdefgijklmo:pr:s:tvwxz",
+		"h?ABC:EFHINOQ:ST:UVY:Zabcdefgijklmo:pr:s:tvwxz",
 		long_options, NULL)
 #else
 	getopt(argc, argv,
-		"h?ABC:EFHINOQ:ST:VY:Zabcdefgijklmo:pr:s:tvwxz")
+		"h?ABC:EFHINOQ:ST:UVY:Zabcdefgijklmo:pr:s:tvwxz")
 #endif
 		) != -1) {
 
@@ -4263,6 +4266,11 @@ int main(int argc, char **argv)
 		    exit(1);
 		}
 		break;
+#ifndef NANO_SMALL
+	    case 'U':
+		SET(QUICK_BLANK);
+		break;
+#endif
 	    case 'V':
 		version();
 		exit(0);

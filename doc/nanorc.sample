@@ -85,6 +85,11 @@
 ##
 # set punct ".?!"
 
+## Do quick statusbar blanking.  Statusbar messages will disappear after
+## 1 keystroke instead of 25.
+##
+# set quickblank
+
 ## The email-quote string, used to justify email-quoted paragraphs.
 ## This is an extended regular expression if your system supports them,
 ## otherwise a literal string.  Default:
@@ -273,8 +278,8 @@
 ## highlight possible errors and parameters
 # color brightwhite "^ *(set|unset|syntax|color).*$"
 ## set, unset and syntax
-# color cyan "^ *(set|unset) +(autoindent|backup|backupdir|backwards|brackets|casesensitive|const|cut|fill|historylog|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|punct|quotestr|rebinddelete|regexp|smarthome|smooth|speller)\>"
-# color cyan "^ *(set|unset) +(suspend|tabsize|tabstospaces|tempfile|view|whitespace)"
+# color cyan "^ *(set|unset) +(autoindent|backup|backupdir|backwards|brackets|casesensitive|const|cut|fill|historylog|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|punct|quickblank|quotestr|rebinddelete|regexp|smarthome|smooth)\>"
+# color cyan "^ *(set|unset) +(speller|suspend|tabsize|tabstospaces|tempfile|view|whitespace)"
 # color green "^ *(set|unset|syntax)\>"
 ## colors
 # color yellow "^ *color *(bright)?(white|black|red|blue|green|yellow|magenta|cyan)(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"

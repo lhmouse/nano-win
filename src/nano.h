@@ -303,7 +303,8 @@ typedef struct syntaxtype {
 #define WHITESPACE_DISPLAY	(1<<26)
 #define MORE_SPACE		(1<<27)
 #define TABS_TO_SPACES		(1<<28)
-#define USE_UTF8		(1<<29)
+#define QUICK_BLANK		(1<<29)
+#define USE_UTF8		(1<<30)
 
 /* Control key sequences.  Changing these would be very, very bad. */
 #define NANO_CONTROL_SPACE 0
@@ -490,6 +491,7 @@ typedef struct syntaxtype {
 #define TOGGLE_WHITESPACE_KEY	NANO_ALT_P
 #define TOGGLE_MORESPACE_KEY	NANO_ALT_O
 #define TOGGLE_TABSTOSPACES_KEY	NANO_ALT_E
+#define TOGGLE_QUICKBLANK_KEY	NANO_ALT_U
 #endif /* !NANO_SMALL */
 
 #define MAIN_VISIBLE 12

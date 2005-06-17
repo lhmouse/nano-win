@@ -2893,7 +2893,11 @@ void statusbar(const char *msg, ...)
     }
 
     disable_cursorpos = TRUE;
-    statusblank = 25;
+    statusblank =
+#ifndef NANO_SMALL
+	ISSET(QUICK_BLANK) ? 1 :
+#endif
+	25;
 }
 
 void bottombars(const shortcut *s)

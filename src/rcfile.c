@@ -84,6 +84,7 @@ const static rcoption rcopts[] = {
     {"cut", CUT_TO_END},
     {"historylog", HISTORYLOG},
     {"noconvert", NO_CONVERT},
+    {"quickblank", QUICK_BLANK},
     {"smarthome", SMART_HOME},
     {"smooth", SMOOTH_SCROLL},
     {"tabstospaces", TABS_TO_SPACES},

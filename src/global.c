@@ -1153,6 +1153,8 @@ void toggle_init(void)
 	N_("Use of more space for editing"), MORE_SPACE);
     toggle_init_one(TOGGLE_TABSTOSPACES_KEY,
 	N_("Conversion of typed tabs to spaces"), TABS_TO_SPACES);
+    toggle_init_one(TOGGLE_QUICKBLANK_KEY,
+	N_("Quick statusbar blanking"), QUICK_BLANK);
 }
 #endif /* !NANO_SMALL */
 
