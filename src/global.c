@@ -1112,8 +1112,8 @@ void toggle_init(void)
 	toggle_init_one(TOGGLE_MULTIBUFFER_KEY,
 		N_("Multiple file buffers"), MULTIBUFFER);
 #endif
-    toggle_init_one(TOGGLE_CONST_KEY, N_("Constant cursor position"),
-	CONSTUPDATE);
+    toggle_init_one(TOGGLE_CONST_KEY,
+	N_("Constant cursor position display"), CONST_UPDATE);
     toggle_init_one(TOGGLE_AUTOINDENT_KEY, N_("Auto indent"),
 	AUTOINDENT);
 #ifndef DISABLE_WRAPPING

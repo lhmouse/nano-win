@@ -277,7 +277,7 @@ typedef struct syntaxtype {
 #define MODIFIED		(1<<0)
 #define CASE_SENSITIVE		(1<<1)
 #define MARK_ISSET		(1<<2)
-#define CONSTUPDATE		(1<<3)
+#define CONST_UPDATE		(1<<3)
 #define NO_HELP			(1<<4)
 #define NOFOLLOW_SYMLINKS	(1<<5)
 #define SUSPEND			(1<<6)

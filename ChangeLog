@@ -94,8 +94,9 @@ CVS code -
 	  toggle_init(), usage(), do_tab(), main(), nanorc.sample,
 	  nano.1, nanorc.5, and nano.texi. (DLR, suggested by many
 	  people)
-	- Change the REVERSE_SEARCH flag to the BACKWARDS_SEARCH flag.
-	  (DLR)
+	- Change the CONSTUPDATE, REVERSE_SEARCH, and SMOOTHSCROLL flags
+	  to the CONST_UPDATE, BACKWARDS_SEARCH, and SMOOTH_SCROLL
+	  flags, respectively. (DLR)
 	- Change the SMOOTHSCROLL flag to the SMOOTH_SCROLL flag. (DLR)
 	- Change the NO_UTF8 flag to the USE_UTF8 flag, and reverse its
 	  meaning. (DLR)
@@ -172,6 +173,8 @@ CVS code -
 	  used. (DLR)
 	- Change the description of the Meta-B toggle at the search
 	  prompt from "Direction" to "Backwards", for consistency. (DLR)
+  toggle_init()
+	- Clarify the description of M-C. (DLR)
   thanks_for_all_the_fish()
 	- Remove free_toggles() and move its code here verbatim, as it's
 	  only called here anyway. (David Benbennick)

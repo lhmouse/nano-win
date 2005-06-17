@@ -2455,7 +2455,7 @@ char **browser_init(const char *path, int *longest, size_t *numents, DIR
 char *do_browser(char *path, DIR *dir)
 {
     int kbinput, longest, selected, width;
-    bool meta_key, func_key, old_constupdate = ISSET(CONSTUPDATE);
+    bool meta_key, func_key, old_const_update = ISSET(CONST_UPDATE);
     size_t numents;
     char **filelist, *retval = NULL;
 
@@ -2470,7 +2470,7 @@ char *do_browser(char *path, DIR *dir)
     currshortcut = browser_list;
 #endif
 
-    UNSET(CONSTUPDATE);
+    UNSET(CONST_UPDATE);
 
   change_browser_directory:
 	/* We go here after the user selects a new directory. */
@@ -2816,8 +2816,8 @@ char *do_browser(char *path, DIR *dir)
     titlebar(NULL);
     edit_refresh();
     curs_set(1);
-    if (old_constupdate)
-	SET(CONSTUPDATE);
+    if (old_const_update)
+	SET(CONST_UPDATE);
 
     /* Clean up. */
     free_chararray(filelist, numents);

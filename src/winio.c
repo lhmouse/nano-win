@@ -2210,7 +2210,7 @@ void check_statusblank(void)
 {
     if (statusblank > 1)
 	statusblank--;
-    else if (statusblank == 1 && !ISSET(CONSTUPDATE)) {
+    else if (statusblank == 1 && !ISSET(CONST_UPDATE)) {
 	statusblank = 0;
 	blank_statusbar();
 	wnoutrefresh(bottomwin);

@@ -3987,7 +3987,7 @@ bool do_mouse(void)
 void do_output(char *output, size_t output_len, bool allow_cntrls)
 {
     size_t current_len, i = 0;
-    bool old_constupdate = ISSET(CONSTUPDATE);
+    bool old_const_update = ISSET(CONST_UPDATE);
     bool do_refresh = FALSE;
 	/* Do we have to call edit_refresh(), or can we get away with
 	 * update_line()? */
@@ -4000,7 +4000,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
     current_len = strlen(current->data);
 
     /* Turn off constant cursor position display. */
-    UNSET(CONSTUPDATE);
+    UNSET(CONST_UPDATE);
 
     while (i < output_len) {
 	/* If allow_cntrls is FALSE, filter out nulls and newlines,
@@ -4079,8 +4079,8 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
     /* Turn constant cursor position display back on if it was on
      * before. */
-    if (old_constupdate)
-	SET(CONSTUPDATE);
+    if (old_const_update)
+	SET(CONST_UPDATE);
 
     free(char_buf);
 
@@ -4285,7 +4285,7 @@ int main(int argc, char **argv)
 		SET(RESTRICTED);
 		break;
 	    case 'c':
-		SET(CONSTUPDATE);
+		SET(CONST_UPDATE);
 		break;
 	    case 'd':
 		SET(REBIND_DELETE);
@@ -4644,7 +4644,7 @@ int main(int argc, char **argv)
 
 	/* If constant cursor position display is on, display the cursor
 	 * position. */
-	if (ISSET(CONSTUPDATE))
+	if (ISSET(CONST_UPDATE))
 	    do_cursorpos(TRUE);
 
 	currshortcut = main_list;
