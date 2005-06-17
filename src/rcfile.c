@@ -37,27 +37,12 @@
 #ifdef ENABLE_NANORC
 
 const static rcoption rcopts[] = {
-#ifndef NANO_SMALL
-    {"autoindent", AUTOINDENT},
-    {"backup", BACKUP_FILE},
-    {"backupdir", 0},
-    {"backwards", BACKWARDS_SEARCH},
-#endif
 #ifndef DISABLE_JUSTIFY
     {"brackets", 0},
 #endif
-#ifndef NANO_SMALL
-    {"casesensitive", CASE_SENSITIVE},
-#endif
     {"const", CONSTUPDATE},
-#ifndef NANO_SMALL
-    {"cut", CUT_TO_END},
-#endif
 #ifndef DISABLE_WRAPJUSTIFY
     {"fill", 0},
-#endif
-#ifndef NANO_SMALL
-    {"historylog", HISTORYLOG},
 #endif
 #ifndef DISABLE_MOUSE
     {"mouse", USE_MOUSE},
@@ -66,9 +51,6 @@ const static rcoption rcopts[] = {
     {"multibuffer", MULTIBUFFER},
 #endif
     {"morespace", MORE_SPACE},
-#ifndef NANO_SMALL
-    {"noconvert", NO_CONVERT},
-#endif
     {"nofollow", NOFOLLOW_SYMLINKS},
     {"nohelp", NO_HELP},
 #ifndef DISABLE_WRAPPING
@@ -86,21 +68,25 @@ const static rcoption rcopts[] = {
 #ifdef HAVE_REGEX_H
     {"regexp", USE_REGEXP},
 #endif
-#ifndef NANO_SMALL
-    {"smarthome", SMART_HOME},
-    {"smooth", SMOOTH_SCROLL},
-#endif
 #ifndef DISABLE_SPELLER
     {"speller", 0},
 #endif
     {"suspend", SUSPEND},
     {"tabsize", 0},
-#ifndef NANO_SMALL
-    {"tabstospaces", TABS_TO_SPACES},
-#endif
     {"tempfile", TEMP_FILE},
     {"view", VIEW_MODE},
 #ifndef NANO_SMALL
+    {"autoindent", AUTOINDENT},
+    {"backup", BACKUP_FILE},
+    {"backupdir", 0},
+    {"backwards", BACKWARDS_SEARCH},
+    {"casesensitive", CASE_SENSITIVE},
+    {"cut", CUT_TO_END},
+    {"historylog", HISTORYLOG},
+    {"noconvert", NO_CONVERT},
+    {"smarthome", SMART_HOME},
+    {"smooth", SMOOTH_SCROLL},
+    {"tabstospaces", TABS_TO_SPACES},
     {"whitespace", 0},
 #endif
     {NULL, 0}
