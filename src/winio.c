@@ -2890,7 +2890,7 @@ void statusbar(const char *msg, ...)
     }
 
     SET(DISABLE_CURPOS);
-    statusblank = 26;
+    statusblank = 25;
 }
 
 void bottombars(const shortcut *s)

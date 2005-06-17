@@ -283,6 +283,9 @@ CVS code -
   do_help()
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
 	  consistency. (DLR)
+  statusbar()
+	- Set statusblank to 25 instead of 26, to match current Pico.
+	  (DLR)
   do_yesno()
 	- Allow refreshing the screen via Ctrl-L, as Pico does. (DLR)
   total_update()
