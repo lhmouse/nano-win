@@ -1051,6 +1051,7 @@ void usage(void)
     print1opt(_("-Q [str]"), _("--quotestr=[str]"),
 	N_("Quoting string"));
 #endif
+    print1opt("-R", "--restricted", N_("Restricted mode"));
 #ifndef NANO_SMALL
     print1opt("-S", "--smooth", N_("Smooth scrolling"));
 #endif
@@ -1066,7 +1067,6 @@ void usage(void)
     print1opt(_("-Y [str]"), _("--syntax=[str]"),
 	N_("Syntax definition to use"));
 #endif
-    print1opt("-Z", "--restricted", N_("Restricted mode"));
     print1opt("-c", "--const", N_("Constantly show cursor position"));
     print1opt("-d", "--rebinddelete",
 	N_("Fix Backspace/Delete confusion problem"));
@@ -4119,12 +4119,12 @@ int main(int argc, char **argv)
 #ifndef DISABLE_JUSTIFY
 	{"quotestr", 1, NULL, 'Q'},
 #endif
+	{"restricted", 0, NULL, 'R'},
 	{"tabsize", 1, NULL, 'T'},
 	{"version", 0, NULL, 'V'},
 #ifdef ENABLE_COLOR
 	{"syntax", 1, NULL, 'Y'},
 #endif
-	{"restricted", 0, NULL, 'Z'},
 	{"const", 0, NULL, 'c'},
 	{"rebinddelete", 0, NULL, 'd'},
 	{"nofollow", 0, NULL, 'l'},
@@ -4197,11 +4197,11 @@ int main(int argc, char **argv)
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
 	getopt_long(argc, argv,
-		"h?ABC:EFHINOQ:ST:UVY:Zabcdefgijklmo:pr:s:tvwxz",
+		"h?ABC:EFHINOQ:RST:UVY:abcdefgijklmo:pr:s:tvwxz",
 		long_options, NULL)
 #else
 	getopt(argc, argv,
-		"h?ABC:EFHINOQ:ST:UVY:Zabcdefgijklmo:pr:s:tvwxz")
+		"h?ABC:EFHINOQ:RST:UVY:abcdefgijklmo:pr:s:tvwxz")
 #endif
 		) != -1) {
 
@@ -4256,6 +4256,9 @@ int main(int argc, char **argv)
 		quotestr = mallocstrcpy(quotestr, optarg);
 		break;
 #endif
+	    case 'R':
+		SET(RESTRICTED);
+		break;
 #ifndef NANO_SMALL
 	    case 'S':
 		SET(SMOOTH_SCROLL);
@@ -4281,9 +4284,6 @@ int main(int argc, char **argv)
 		syntaxstr = mallocstrcpy(syntaxstr, optarg);
 		break;
 #endif
-	    case 'Z':
-		SET(RESTRICTED);
-		break;
 	    case 'c':
 		SET(CONST_UPDATE);
 		break;

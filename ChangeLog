@@ -51,8 +51,10 @@ CVS code -
 	  allows the prepend and append toggles at the search prompt.
 	  For consistency, rename TOGGLE_REGEXP_KEY to NANO_REGEXP_KEY,
 	  and move it out of the toggles block to where NANO_PREPEND_KEY
-	  and NANO_APPEND_KEY are.  Changes to shortcut_init(), usage(),
-	  main(), search_init(), nano.1, nano.texi, etc. (DLR)
+	  and NANO_APPEND_KEY are.  Also, change the short command line
+	  option for --restricted from -Z to -R.  Changes to
+	  shortcut_init(), usage(), main(), search_init(), nano.1,
+	  nano.texi, etc. (DLR)
 	- Various cleanups and improvements in chars.c.  Remove some
 	  unnecessary w?ctype wrappers; change the wctype wrappers to
 	  take wint_t instead of wchar_t to match the functions they

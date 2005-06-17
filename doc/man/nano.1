@@ -79,6 +79,13 @@ Set the quoting string for justifying.  The default is
 "^([\ \\t]*[|>:}#])+" if regular expression support is available, or
 ">\ " otherwise.
 .TP
+.B \-R (\-\-restricted)
+Restricted mode: Don't read or write to any file not specified on the
+command line, read any nanorc files, allow suspending, or allow a file
+to be appended to, prepended to, or saved under a different name if it
+already has one.  Also accessible by invoking \fBnano\fP with any name
+beginning with 'r' (e.g. "rnano").
+.TP
 .B \-S (\-\-smooth)
 Enable smooth scrolling.  Text will scroll line-by-line, instead of the
 usual chunk-by-chunk behavior.
@@ -96,13 +103,6 @@ Show the current version number and author.
 .B \-Y \fIstr\fP (\-\-syntax=\fIstr\fP)
 Specify a specific syntax highlighting from the \fInanorc\fP to use, if
 available.
-.TP
-.B \-Z (\-\-restricted)
-Restricted mode: Don't read or write to any file not specified on the
-command line, read any nanorc files, allow suspending, or allow a file
-to be appended to, prepended to, or saved under a different name if it
-already has one.  Also accessible by invoking \fBnano\fP with any name
-beginning with 'r' (e.g. "rnano").
 .TP
 .B \-c (\-\-const)
 Constantly show the cursor position.  Note that this cancels out
