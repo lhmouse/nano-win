@@ -102,6 +102,9 @@ CVS code -
 	- Add rcfile options "casesensitive" and "backwards", to do
 	  case sensitive and backwards searches by default.  Changes to
 	  nanorc.sample and nanorc.5. (DLR)
+	- Since the DISABLE_CURPOS flag is only used in winio.c, reduce
+	  it to a static bool there.  Changes to statusbar() and
+	  disable_cursorpos(). (DLR)
 - chars.c:
   make_mbstring()
 	- Change erroneous ENABLE_EXTRA #ifdef to NANO_EXTRA to fix a

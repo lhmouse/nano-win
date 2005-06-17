@@ -44,6 +44,9 @@ static int statusblank = 0;	/* The number of keystrokes left after
 				 * actually blank the statusbar. */
 static size_t statusbar_x = (size_t)-1;
 				/* The cursor position in answer. */
+static bool disable_cursorpos = FALSE;
+				/* Should we temporarily disable
+				 * constant cursor position display? */
 static bool resetstatuspos = FALSE;
 				/* Should we reset the cursor position
 				 * at the statusbar prompt? */
@@ -2889,7 +2892,7 @@ void statusbar(const char *msg, ...)
 	     * in the statusbar. */
     }
 
-    SET(DISABLE_CURPOS);
+    disable_cursorpos = TRUE;
     statusblank = 25;
 }
 
@@ -3712,11 +3715,11 @@ void display_main_list(void)
 
 /* If constant is FALSE, the user typed Ctrl-C, so we unconditionally
  * display the cursor position.  Otherwise, we display it only if the
- * character position changed and DISABLE_CURPOS is not set.
+ * character position changed and disable_cursorpos is FALSE.
  *
- * If constant is TRUE and DISABLE_CURPOS is set, we unset it and update
- * old_i and old_totsize.  That way, we leave the current statusbar
- * alone, but next time we will display. */
+ * If constant is TRUE and disable_cursorpos is TRUE, we set the latter
+ * to FALSE and update old_i and old_totsize.  That way, we leave the
+ * current statusbar alone, but next time we will display. */
 void do_cursorpos(bool constant)
 {
     char c;
@@ -3737,20 +3740,21 @@ void do_cursorpos(bool constant)
     current->data[current_x] = c;
     current->next = f;
 
-    /* Check whether totsize is correct.  Else there is a bug
+    /* Check whether totsize is correct.  If it isn't, there is a bug
      * somewhere. */
     assert(current != filebot || i == totsize);
 
-    if (constant && ISSET(DISABLE_CURPOS)) {
-	UNSET(DISABLE_CURPOS);
+    if (constant && disable_cursorpos) {
+	disable_cursorpos = FALSE;
 	old_i = i;
 	old_totsize = totsize;
 	return;
     }
 
     /* If constant is FALSE, display the position on the statusbar
-     * unconditionally; otherwise, only display the position when the
-     * character values have changed. */
+     * unconditionally.  Otherwise, only display the position when the
+     * character values have changed.  Finally, if disable_cursorpos is
+     * TRUE, set it to FALSE. */
     if (!constant || old_i != i || old_totsize != totsize) {
 	size_t xpt = xplustabs() + 1;
 	size_t cur_len = strlenpt(current->data) + 1;
@@ -3763,7 +3767,7 @@ void do_cursorpos(bool constant)
 		    current->lineno, totlines, linepct,
 		    (unsigned long)xpt, (unsigned long)cur_len, colpct,
 		    (unsigned long)i, (unsigned long)totsize, bytepct);
-	UNSET(DISABLE_CURPOS);
+	disable_cursorpos = FALSE;
     }
 
     old_i = i;
