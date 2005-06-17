@@ -20,9 +20,9 @@
 ## Do backwards searches by default.
 # set backwards
 
-## The characters treated as closing brackets.  They cannot contain tabs
-## or spaces.  Only closing punctuation, optionally followed by closing
-## brackets, can end sentences.
+## The characters treated as closing brackets.  They cannot contain
+## blank characters.  Only closing punctuation, optionally followed by
+## closing brackets, can end sentences.
 ##
 # set brackets "'")}]>"
 
@@ -80,7 +80,7 @@
 # set preserve
 
 ## The characters treated as closing punctuation.  They cannot contain
-## tabs or spaces.  Only closing punctuation, optionally followed by
+## blank characters.  Only closing punctuation, optionally followed by
 ## closing brackets, can end sentences.
 ##
 # set punct ".?!"

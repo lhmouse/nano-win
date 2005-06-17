@@ -298,6 +298,10 @@ CVS code -
 	  (DLR)
 - nanorc.5:
 	- Update the description of how the "color" regex works. (DLR)
+	- Clarify descriptions of the characters that aren't allowed
+	  in the "punct" or "brackets" options. (DLR)
+	- Use .B instead of \fB ... \fP where possible, as nano.1 does.
+	  (DLR)
 - configure.ac:
 	- Minor tweaks to some of the test blocks to avoid XSI:isms.
 	  (DLR, adapted from a Debian patch for GNU ed by David
@@ -319,6 +323,8 @@ CVS code -
 	  foreground color, and update the associated comments.  Also,
 	  tweak the "comment" regex to color comments that don't start
 	  at the beginning of a line. (DLR)
+	- Clarify descriptions of the characters that aren't allowed
+	  in the "punct" or "brackets" options. (DLR)
 	- Update comment referring to --enable-extra. (DLR)
 - doc/man/fr/Makefile.am:
 	- Set mandir to @mandir@/fr, so French manpages get installed
