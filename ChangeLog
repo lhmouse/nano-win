@@ -108,10 +108,11 @@ CVS code -
 	  disable_cursorpos(). (DLR)
 	- Add -U/--quickblank option, a Meta-U toggle, and a
 	  "quickblank" rcfile option to blank the statusbar after 1
-	  keystroke instead of 25.  Note that this is disabled when
-	  NANO_SMALL is defined.  Changes to toggle_init(), usage(),
-	  main(), statusbar(), nanorc.sample, nano.1, and nanorc.5.
-	  (DLR, suggested by CHAO Wei-Lun)
+	  keystroke instead of 25.  Note that this obviously has no
+	  effect when constant cursor position display is turned on, and
+	  that this is disabled when NANO_SMALL is defined.  Changes to
+	  toggle_init(), usage(), main(), statusbar(), nanorc.sample,
+	  nano.1, and nanorc.5. (DLR, suggested by CHAO Wei-Lun)
 - chars.c:
   make_mbstring()
 	- Change erroneous ENABLE_EXTRA #ifdef to NANO_EXTRA to fix a

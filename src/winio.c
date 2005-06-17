@@ -2208,10 +2208,10 @@ void blank_bottombars(void)
 
 void check_statusblank(void)
 {
-    if (statusblank > 1)
+    if (statusblank > 0)
 	statusblank--;
-    else if (statusblank == 1 && !ISSET(CONST_UPDATE)) {
-	statusblank = 0;
+
+    if (statusblank == 0 && !ISSET(CONST_UPDATE)) {
 	blank_statusbar();
 	wnoutrefresh(bottomwin);
 	reset_cursor();
@@ -2895,7 +2895,7 @@ void statusbar(const char *msg, ...)
     disable_cursorpos = TRUE;
     statusblank =
 #ifndef NANO_SMALL
-	ISSET(QUICK_BLANK) ? 1 :
+	ISSET(QUICK_BLANK) && !ISSET(CONST_UPDATE) ? 1 :
 #endif
 	25;
 }
