@@ -260,15 +260,15 @@ const char *strstrwrapper(const char *haystack, const char *needle,
     if (ISSET(USE_REGEXP)) {
 #ifndef NANO_SMALL
 	if (ISSET(BACKWARDS_SEARCH)) {
-	    if (regexec(&search_regexp, haystack, 1, regmatches, 0) == 0
-		&& haystack + regmatches[0].rm_so <= start) {
+	    if (regexec(&search_regexp, haystack, 1, regmatches,
+		0) == 0 && haystack + regmatches[0].rm_so <= start) {
 		const char *retval = haystack + regmatches[0].rm_so;
 
 		/* Search forward until there are no more matches. */
-		while (regexec(&search_regexp, retval + 1, 1, regmatches,
-			REG_NOTBOL) == 0 && retval + 1 +
-			regmatches[0].rm_so <= start)
-		    retval += 1 + regmatches[0].rm_so;
+		while (regexec(&search_regexp, retval + 1, 1,
+			regmatches, REG_NOTBOL) == 0 &&
+			retval + regmatches[0].rm_so + 1 <= start)
+		    retval += regmatches[0].rm_so + 1;
 		/* Finally, put the subexpression matches in global
 		 * variable regmatches.  The REG_NOTBOL flag doesn't
 		 * matter now. */
