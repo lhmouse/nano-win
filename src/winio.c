@@ -2666,11 +2666,11 @@ int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
 #endif
 
 #ifndef DISABLE_TABCOMP
-	/* If we've done tab completion, there might be a list of
-	 * filename matches on the edit window at this point.  Make sure
-	 * that they're cleared off. */
-	if (list)
-	    edit_refresh();
+    /* If we've done tab completion, there might be a list of filename
+     * matches on the edit window at this point.  Make sure that they're
+     * cleared off. */
+    if (list)
+	edit_refresh();
 #endif
 
     return retval;

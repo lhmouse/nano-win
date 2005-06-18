@@ -2508,7 +2508,7 @@ void do_spell(void)
     free(temp);
 
     /* If the spell-checker printed any error messages onscreen, make
-     * sure they're cleared off. */
+     * sure that they're cleared off. */
     total_redraw();
 
     if (spell_msg != NULL)
