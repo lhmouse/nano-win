@@ -94,7 +94,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-/* If no snprintf() or vsnprintf(), use the versions from glib. */
+/* If no snprintf() or vsnprintf(), use the versions from glib 2.x. */
 #if !defined(HAVE_SNPRINTF) || !defined(HAVE_VSNPRINTF)
 #include <glib.h>
 #ifndef HAVE_SNPRINTF
