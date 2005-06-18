@@ -1105,6 +1105,8 @@ void toggle_init(void)
 	return;
 
     toggle_init_one(TOGGLE_NOHELP_KEY, N_("Help mode"), NO_HELP);
+    toggle_init_one(TOGGLE_MORESPACE_KEY,
+	N_("Use of more space for editing"), MORE_SPACE);
 #ifdef ENABLE_MULTIBUFFER
     /* If we're using restricted mode, the multibuffer toggle is
      * disabled.  It's useless since inserting files is disabled. */
@@ -1112,22 +1114,26 @@ void toggle_init(void)
 	toggle_init_one(TOGGLE_MULTIBUFFER_KEY,
 		N_("Multiple file buffers"), MULTIBUFFER);
 #endif
-    toggle_init_one(TOGGLE_CONST_KEY,
-	N_("Constant cursor position display"), CONST_UPDATE);
-    toggle_init_one(TOGGLE_AUTOINDENT_KEY, N_("Auto indent"),
-	AUTOINDENT);
+    toggle_init_one(TOGGLE_CUTTOEND_KEY, N_("Cut to end"), CUT_TO_END);
 #ifndef DISABLE_WRAPPING
     toggle_init_one(TOGGLE_WRAP_KEY, N_("Long line wrapping"),
 	NO_WRAP);
 #endif
-    toggle_init_one(TOGGLE_CUTTOEND_KEY, N_("Cut to end"), CUT_TO_END);
+#ifndef DISABLE_MOUSE
+    toggle_init_one(TOGGLE_MOUSE_KEY, N_("Mouse support"), USE_MOUSE);
+#endif
     /* If we're using restricted mode, the suspend toggle is disabled.
      * It's useless since suspending is disabled. */
     if (!ISSET(RESTRICTED))
 	toggle_init_one(TOGGLE_SUSPEND_KEY, N_("Suspend"), SUSPEND);
-#ifndef DISABLE_MOUSE
-    toggle_init_one(TOGGLE_MOUSE_KEY, N_("Mouse support"), USE_MOUSE);
-#endif
+    toggle_init_one(TOGGLE_CONST_KEY,
+	N_("Constant cursor position display"), CONST_UPDATE);
+    toggle_init_one(TOGGLE_QUICKBLANK_KEY,
+	N_("Quick statusbar blanking"), QUICK_BLANK);
+    toggle_init_one(TOGGLE_AUTOINDENT_KEY, N_("Auto indent"),
+	AUTOINDENT);
+    toggle_init_one(TOGGLE_TABSTOSPACES_KEY,
+	N_("Conversion of typed tabs to spaces"), TABS_TO_SPACES);
     /* If we're using restricted mode, the DOS/Mac conversion toggle is
      * disabled.  It's useless since inserting files is disabled. */
     if (!ISSET(RESTRICTED))
@@ -1150,12 +1156,6 @@ void toggle_init(void)
     toggle_init_one(TOGGLE_WHITESPACE_KEY, N_("Whitespace display"),
 	WHITESPACE_DISPLAY);
 #endif
-    toggle_init_one(TOGGLE_MORESPACE_KEY,
-	N_("Use of more space for editing"), MORE_SPACE);
-    toggle_init_one(TOGGLE_TABSTOSPACES_KEY,
-	N_("Conversion of typed tabs to spaces"), TABS_TO_SPACES);
-    toggle_init_one(TOGGLE_QUICKBLANK_KEY,
-	N_("Quick statusbar blanking"), QUICK_BLANK);
 }
 #endif /* !NANO_SMALL */
 

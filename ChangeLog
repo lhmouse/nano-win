@@ -179,6 +179,8 @@ CVS code -
 	  prompt from "Direction" to "Backwards", for consistency. (DLR)
   toggle_init()
 	- Clarify the descriptions of M-C and M-L. (DLR)
+	- Reorder the toggles to put more toggles with similar functions
+	  together. (DLR)
   thanks_for_all_the_fish()
 	- Remove free_toggles() and move its code here verbatim, as it's
 	  only called here anyway. (David Benbennick)
