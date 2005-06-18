@@ -359,6 +359,9 @@ CVS code -
 	- Clarify descriptions of the characters that aren't allowed
 	  in the "punct" or "brackets" options. (DLR)
 	- Update comment referring to --enable-extra. (DLR)
+- Makefile.am, m4/Makefile.am:
+	- Make sure that the files in EXTRA_DIST are in alphabetical
+	  order, and that the lines are wrapped at 72 characters. (DLR)
 - doc/man/fr/Makefile.am:
 	- Set mandir to @mandir@/fr, so French manpages get installed
 	  where they belong (Jordi).
