@@ -219,7 +219,7 @@ CVS code -
 	  (DLR)
   do_spell()
 	- If the spell-checker printed any error messages onscreen, call
-	  total_update() to make sure they're cleared off. (DLR, found
+	  total_redraw() to make sure they're cleared off. (DLR, found
 	  by CHAO Wei-Lun)
   do_output()
 	- Properly allow wrapping when we insert a tab, for consistency.
@@ -312,7 +312,7 @@ CVS code -
 	  (DLR)
   do_yesno()
 	- Allow refreshing the screen via Ctrl-L, as Pico does. (DLR)
-  total_update()
+  total_redraw()
 	- Simplify to call clearok(TRUE) and wrefresh() on edit, which
 	  updates the entire screen in fewer function calls. (DLR)
 	- When using slang, use SLsmg_touch_screen() and SLsmg_refresh()
@@ -805,7 +805,7 @@ GNU nano 1.3.6 - 2005.03.20
 	- Refresh bottomwin using the value of currshortcut, and change
 	  the code around do_refresh() calls to accommodate this. (DLR)
 	- Split out the code that updates the screen before refreshing
-	  it into the new function total_update().
+	  it into the new function total_redraw().
   do_help()
 	- Refresh the screen when Ctrl-L is pressed in the help browser,
 	  as Pico does. (DLR)

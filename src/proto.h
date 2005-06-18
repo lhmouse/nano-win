@@ -693,7 +693,7 @@ void edit_redraw(const filestruct *old_current, size_t old_pww);
 void edit_refresh(void);
 void edit_update(topmidnone location);
 int do_yesno(bool all, const char *msg);
-void total_update(void);
+void total_redraw(void);
 void total_refresh(void);
 void display_main_list(void);
 void do_cursorpos(bool constant);

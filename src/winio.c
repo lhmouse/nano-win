@@ -3664,7 +3664,7 @@ int do_yesno(bool all, const char *msg)
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
 
 	if (kbinput == NANO_REFRESH_KEY) {
-	    total_update();
+	    total_redraw();
 	    continue;
 	} else if (kbinput == NANO_CANCEL_KEY)
 	    ok = -1;
@@ -3705,7 +3705,7 @@ int do_yesno(bool all, const char *msg)
     return ok;
 }
 
-void total_update(void)
+void total_redraw(void)
 {
 #ifdef USE_SLANG
     /* Slang curses emulation brain damage, part 3: If we just do what
@@ -3721,7 +3721,7 @@ void total_update(void)
 
 void total_refresh(void)
 {
-    total_update();
+    total_redraw();
     titlebar(NULL);
     edit_refresh();
     bottombars(currshortcut);
@@ -3905,7 +3905,7 @@ void do_help(void)
 	}
 
 	if (kbinput == NANO_REFRESH_KEY)
-	    total_update();
+	    total_redraw();
 	else {
 	    if (line == old_line && kbinput != ERR)
 		goto skip_redisplay;

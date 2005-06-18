@@ -2655,7 +2655,7 @@ char *do_browser(char *path, DIR *dir)
 
 	    /* Refresh the screen. */
 	    case NANO_REFRESH_KEY:
-		total_update();
+		total_redraw();
 		break;
 
 	    /* Go to a specific directory. */
