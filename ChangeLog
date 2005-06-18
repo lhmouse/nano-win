@@ -219,7 +219,7 @@ CVS code -
 	  (DLR)
   do_spell()
 	- If the spell-checker printed any error messages onscreen, call
-	  total_refresh() to make sure they're cleared off. (DLR, found
+	  total_update() to make sure they're cleared off. (DLR, found
 	  by CHAO Wei-Lun)
   do_output()
 	- Properly allow wrapping when we insert a tab, for consistency.
