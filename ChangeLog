@@ -345,6 +345,8 @@ CVS code -
 	- Check for get_wch() instead of wget_wch() to determine if
 	  there's a wide curses library, as it's a more generic
 	  function. (DLR)
+	- Check for possibly unavailable functions in alphabetical
+	  order. (DLR)
 - doc/faq.html:
 	- Update section 1.1 to mention the current maintainer. (DLR)
 	- Minor capitalization and wording fixes. (DLR)
