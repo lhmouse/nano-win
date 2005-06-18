@@ -1117,7 +1117,8 @@ void toggle_init(void)
     toggle_init_one(TOGGLE_AUTOINDENT_KEY, N_("Auto indent"),
 	AUTOINDENT);
 #ifndef DISABLE_WRAPPING
-    toggle_init_one(TOGGLE_WRAP_KEY, N_("Auto line wrap"), NO_WRAP);
+    toggle_init_one(TOGGLE_WRAP_KEY, N_("Long line wrapping"),
+	NO_WRAP);
 #endif
     toggle_init_one(TOGGLE_CUTTOEND_KEY, N_("Cut to end"), CUT_TO_END);
     /* If we're using restricted mode, the suspend toggle is disabled.

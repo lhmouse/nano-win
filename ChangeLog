@@ -178,7 +178,7 @@ CVS code -
 	- Change the description of the Meta-B toggle at the search
 	  prompt from "Direction" to "Backwards", for consistency. (DLR)
   toggle_init()
-	- Clarify the description of M-C. (DLR)
+	- Clarify the descriptions of M-C and M-L. (DLR)
   thanks_for_all_the_fish()
 	- Remove free_toggles() and move its code here verbatim, as it's
 	  only called here anyway. (David Benbennick)
