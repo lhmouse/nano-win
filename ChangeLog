@@ -315,6 +315,9 @@ CVS code -
   total_update()
 	- Simplify to call clearok(TRUE) and wrefresh() on edit, which
 	  updates the entire screen in fewer function calls. (DLR)
+	- When using slang, use SLsmg_touch_screen() and SLsmg_refresh()
+	  to update the screen, as the curses method will leave some
+	  windows cleared without properly updating them. (DLR)
   do_replace_highlight()
 	- Use waddch() instead of waddstr() to display a space when we
 	  have a zero-length regex. (DLR)
