@@ -342,6 +342,9 @@ CVS code -
 	- Change the behavior of --enable-extra to only define
 	  NANO_EXTRA, instead of defining both it and
 	  ENABLE_MULTIBUFFER. (DLR)
+	- Check for get_wch() instead of wget_wch() to determine if
+	  there's a wide curses library, as it's a more generic
+	  function. (DLR)
 - doc/faq.html:
 	- Update section 1.1 to mention the current maintainer. (DLR)
 	- Minor capitalization and wording fixes. (DLR)

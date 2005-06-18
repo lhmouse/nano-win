@@ -424,7 +424,7 @@ if eval "test x$CURSES_LIB_NAME = x"; then
     AC_CHECK_HEADERS(ncurses.h)
 
     if test x$enable_utf8 != xno; then
-	AC_CHECK_LIB(ncursesw, wget_wch, [CURSES_LIB="-lncursesw" CURSES_LIB_NAME=ncursesw CURSES_LIB_WIDE=yes])
+	AC_CHECK_LIB(ncursesw, get_wch, [CURSES_LIB="-lncursesw" CURSES_LIB_NAME=ncursesw CURSES_LIB_WIDE=yes])
     fi
 
     if eval "test x$CURSES_LIB_NAME = x"; then
@@ -436,7 +436,7 @@ if eval "test x$CURSES_LIB_NAME = x"; then
     AC_CHECK_HEADERS(curses.h)
 
     if test x$enable_utf8 != xno; then
-	AC_CHECK_LIB(curses, wget_wch, [CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses CURSES_LIB_WIDE=yes])
+	AC_CHECK_LIB(curses, get_wch, [CURSES_LIB="-lcurses" CURSES_LIB_NAME=curses CURSES_LIB_WIDE=yes])
     fi
 
     if eval "test x$CURSES_LIB_NAME = x"; then
