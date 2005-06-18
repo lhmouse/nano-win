@@ -2659,7 +2659,8 @@ int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
     }
 
     blank_statusbar();
-    wrefresh(bottomwin);
+    wnoutrefresh(bottomwin);
+    reset_cursor();
 
 #ifdef DEBUG
     fprintf(stderr, "answer = \"%s\"\n", answer);

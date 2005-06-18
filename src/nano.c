@@ -2509,7 +2509,7 @@ void do_spell(void)
 
     /* If the spell-checker printed any error messages onscreen, make
      * sure they're cleared off. */
-    total_update();
+    total_refresh();
 
     if (spell_msg != NULL)
 	statusbar(_("Spell checking failed: %s: %s"), spell_msg,

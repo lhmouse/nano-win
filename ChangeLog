@@ -218,8 +218,9 @@ CVS code -
 	  unnecessary update, and remove an unneeded clearok(FALSE).
 	  (DLR)
   do_spell()
-	- If the spell-checker printed any error messages onscreen, make
-	  sure they're cleared off. (DLR, found by CHAO Wei-Lun)
+	- If the spell-checker printed any error messages onscreen, call
+	  total_refresh() to make sure they're cleared off. (DLR, found
+	  by CHAO Wei-Lun)
   do_output()
 	- Properly allow wrapping when we insert a tab, for consistency.
 	  (DLR)
@@ -298,11 +299,11 @@ CVS code -
 	  consistency. (DLR)
 	- Rename variables def and ret to curranswer and retval to avoid
 	  confusion. (DLR)
-	- Call wrefresh(bottomwin) after getting an answer and blanking
-	  out the statusbar, to make sure that the blanking is done.
-	  This fixes a problem where the statusbar is not properly
-	  blanked after using the "Go To Line" prompt with the NO_HELP
-	  flag set. (DLR)
+	- Call wnoutrefresh(bottomwin) and reset_cursor() after getting
+	  an answer and blanking out the statusbar, to make sure that
+	  the blanking is done.  This fixes a problem where the
+	  statusbar is not properly blanked after using the "Go To Line"
+	  prompt with the NO_HELP flag set. (DLR)
   do_help()
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
 	  consistency. (DLR)
