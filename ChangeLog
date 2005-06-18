@@ -299,11 +299,11 @@ CVS code -
 	  consistency. (DLR)
 	- Rename variables def and ret to curranswer and retval to avoid
 	  confusion. (DLR)
-	- Call wnoutrefresh(bottomwin) and reset_cursor() after getting
-	  an answer and blanking out the statusbar, to make sure that
-	  the blanking is done.  This fixes a problem where the
-	  statusbar is not properly blanked after using the "Go To Line"
-	  prompt with the NO_HELP flag set. (DLR)
+	- Call wnoutrefresh(bottomwin) after getting an answer and
+	  blanking out the statusbar, to make sure that the blanking is
+	  done.  This fixes a problem where the statusbar is not
+	  properly blanked after using the "Go To Line" prompt with the
+	  NO_HELP flag set. (DLR)
   do_help()
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
 	  consistency. (DLR)
