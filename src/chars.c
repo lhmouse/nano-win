@@ -858,7 +858,7 @@ bool is_valid_mbstring(const char *s)
     return 
 #ifdef NANO_WIDE
 	ISSET(USE_UTF8) ?
-	(mbstowcs(NULL, s, (size_t)-1) != (size_t)-1) :
+	(mbstowcs(NULL, s, 0) != (size_t)-1) :
 #endif
 
 	TRUE;
