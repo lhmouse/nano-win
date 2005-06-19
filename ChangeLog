@@ -340,6 +340,9 @@ CVS code -
 	  in the "punct" or "brackets" options. (DLR)
 	- Use .B instead of \fB ... \fP where possible, as nano.1 does.
 	  (DLR)
+- nano.texi:
+	- Update the "Feature Toggles" section to match current nano.
+	  (DLR)
 - configure.ac:
 	- Minor tweaks to some of the test blocks to avoid XSI:isms.
 	  (DLR, adapted from a Debian patch for GNU ed by David

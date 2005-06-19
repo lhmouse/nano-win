@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.3.8
-@set UPDATED 16 Jun 2005
+@set UPDATED 19 Jun 2005
 
 @dircategory Editors
 @direntry
@@ -346,8 +346,11 @@ The following global toggles are available:
 
 @table @code
 
-@item Backup File Toggle (Meta-B)
+@item Backup Files Toggle (Meta-B)
 toggles the -B (@code{--backup}) command line flag.
+
+@item Constant Cursor Position Display Toggle (Meta-C)
+toggles the -c (@code{--const}) command line flag.
 
 @item Tabs to Spaces Toggle (Meta-E)
 toggles the -E (@code{--tabstospaces}) command line flag.
@@ -355,7 +358,7 @@ toggles the -E (@code{--tabstospaces}) command line flag.
 @item Multiple File Buffers Toggle (Meta-F)
 toggles the -F (@code{--multibuffer}) command line flag.
 
-@item Backup File Toggle (Meta-H)
+@item Smart Home Key Toggle (Meta-H)
 toggles the -A (@code{--smarthome}) command line flag.
 
 @item Auto Indent Toggle (Meta-I)
@@ -364,20 +367,34 @@ toggles the -i (@code{--autoindent}) command line flag.
 @item Cut To End Toggle (Meta-K)
 toggles the -k (@code{--cut}) command line flag.
 
-@item Auto Line Wrap Toggle (Meta-L)
+@item Long Line Wrapping Toggle (Meta-L)
 toggles the -w (@code{--nowrap}) command line flag.
 
-@item Mouse Toggle (Meta-M)
+@item Mouse Support Toggle (Meta-M)
 toggles the -m (@code{--mouse}) command line flag.
 
-@item More Space Toggle (Meta-O)
+@item No Conversion From DOS/Mac Format Toggle (Meta-N)
+toggles the -N (@code{--noconvert}) command line flag.
+
+@item More Space For Editing Toggle (Meta-O)
 toggles the -O (@code{--morespace}) command line flag.
+
+@item Whitespace Display Toggle (Meta-P)
+toggles whitespace display mode if you have a "whitespace" option in
+your .nanorc.
 
 @item Smooth Scrolling Toggle (Meta-S)
 toggles the -S (@code{--smooth}) command line flag.
 
-@item Expert/Nohelp Toggle (Meta-X)
+@item Quick Statusbar Blanking Toggle (Meta-U)
+toggles the -U (@code{--quickblank}) command line flag.
+
+@item Expert/No Help Toggle (Meta-X)
 toggles the -x (@code{--nohelp}) command line flag.
+
+@item Color Syntax Highlighting Toggle (Meta-Y)
+toggles color syntax highlighting if you have color syntaxes in your
+.nanorc.
 
 @item Suspend Toggle (Meta-Z)
 toggles the -z (@code{--suspend}) command line flag.
