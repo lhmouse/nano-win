@@ -121,6 +121,10 @@ CVS code -
 	- Change erroneous ENABLE_EXTRA #ifdef to NANO_EXTRA to fix a
 	  compilation problem when --enable-nanorc isn't used and
 	  --enable-extra is. (DLR)
+- color.c:
+  update_color()
+	- Use mbstrcasecmp() instead of strcasecmp(), so that UTF-8
+	  color syntax names are properly detected. (DLR)
 - cut.c:
   cut_line()
 	- Set placewewant properly after cutting a line, to avoid a
@@ -148,6 +152,9 @@ CVS code -
 	- Since lineswritten is a size_t, print its value as an unsigned
 	  long instead of an unsigned int. (DLR)
 	- Declare the size_t i only in the loop where it's used. (DLR)
+  diralphasort()
+	- Use mbstrcasecmp() instead of strcasecmp(), so that UTF-8
+	  filenames are sorted properly. (DLR)
   cwd_tab_completion(), browser_init()
 	- Rename variable next to nextdir to avoid confusion. (DLR)
   input_tab()

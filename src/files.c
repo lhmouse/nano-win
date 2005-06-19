@@ -2008,7 +2008,7 @@ int diralphasort(const void *va, const void *vb)
     if (!aisdir && bisdir)
 	return 1;
 
-    return strcasecmp(a, b);
+    return mbstrcasecmp(a, b);
 }
 
 /* Free the memory allocated for array, which should contain len
