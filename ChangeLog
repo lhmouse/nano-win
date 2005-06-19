@@ -131,6 +131,7 @@ CVS code -
 - files.c:
   read_line()
 	- Rename variable prev to prevnode to avoid confusion. (DLR)
+	- Rename variable len to buf_len, for consistency. (DLR)
   load_open_file()
 	- Remove an unneeded clearok(FALSE). (DLR)
   get_next_filename()

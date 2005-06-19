@@ -251,7 +251,7 @@ void do_uncut_text(void);
 /* Public functions in files.c. */
 void new_file(void);
 filestruct *read_line(char *buf, filestruct *prevnode, bool
-	*first_line_ins, size_t len);
+	*first_line_ins, size_t buf_len);
 void load_file(void);
 void read_file(FILE *f, const char *filename);
 int open_file(const char *filename, bool newfie, FILE **f);

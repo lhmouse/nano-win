@@ -59,28 +59,28 @@ void new_file(void)
 #endif
 }
 
-/* We make a new line of text from buf.  buf is length len.  If
+/* We make a new line of text from buf.  buf is length buf_len.  If
  * first_line_ins is TRUE, then we put the new line at the top of the
  * file.  Otherwise, we assume prevnode is the last line of the file,
  * and put our line after prevnode. */
 filestruct *read_line(char *buf, filestruct *prevnode, bool
-	*first_line_ins, size_t len)
+	*first_line_ins, size_t buf_len)
 {
     filestruct *fileptr = (filestruct *)nmalloc(sizeof(filestruct));
 
     /* Convert nulls to newlines.  len is the string's real length
      * here. */
-    unsunder(buf, len);
+    unsunder(buf, buf_len);
 
-    assert(strlen(buf) == len);
+    assert(strlen(buf) == buf_len);
 
     fileptr->data = mallocstrcpy(NULL, buf);
 
 #ifndef NANO_SMALL
     /* If it's a DOS file ("\r\n"), and file conversion isn't disabled,
      * strip the '\r' part from fileptr->data. */
-    if (!ISSET(NO_CONVERT) && len > 0 && buf[len - 1] == '\r')
-	fileptr->data[len - 1] = '\0';
+    if (!ISSET(NO_CONVERT) && buf_len > 0 && buf[buf_len - 1] == '\r')
+	fileptr->data[buf_len - 1] = '\0';
 #endif
 
     if (*first_line_ins == TRUE || fileage == NULL) {
