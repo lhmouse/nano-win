@@ -864,8 +864,8 @@ bool is_valid_mbstring(const char *s)
 
 #ifdef NANO_EXTRA
 /* Convert the string s to a valid multibyte string with the same wide
- * character values as s.  Return the (dynamically allocated)
- * multibyte string. */
+ * character values as s.  Return the (dynamically allocated) multibyte
+ * string. */
 char *make_valid_mbstring(const char *s)
 {
     assert(s != NULL);
