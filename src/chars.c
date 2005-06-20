@@ -222,9 +222,9 @@ char *control_mbrep(const char *c, char *crep, int *crep_len)
 
 	*crep_len = wctomb(crep, control_wrep(wc));
 
-	if (*crep_mb_len <= 0) {
+	if (*crep_len <= 0) {
 	    wctomb(NULL, 0);
-	    *crep_mb_len = 0;
+	    *crep_len = 0;
 	}
     } else {
 #endif
