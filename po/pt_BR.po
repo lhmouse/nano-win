@@ -1333,7 +1333,7 @@ msgstr ""
 "Cor %s não foi entendida.\n"
 "Cores válidas são \"green\" (verde), \"red\" (vermelho), \n"
 "\"blue\" (azul), \"yellow\" (amarelo), \"cyan\" (ciano), \n"
-"\"magente\" (maguenta) e \"black\" (preto), com o prefixo \n"
+"\"magenta\" (maguenta) e \"black\" (preto), com o prefixo \n"
 "opcional \"bright\" (claro) para cores de fundo."
 
 #: src/rcfile.c:253 src/search.c:61
