@@ -56,20 +56,21 @@ CVS code -
 	  shortcut_init(), usage(), main(), search_init(), nano.1,
 	  nano.texi, etc. (DLR)
 	- Various cleanups and improvements in chars.c.  Remove some
-	  unnecessary w?ctype wrappers; change the wctype wrappers to
-	  take wint_t instead of wchar_t to match the functions they
-	  wrap; rename some functions for consistency; add functions to
-	  detect blank characters in a string, for use in rcfile option
-	  parsing; and don't count matches between valid and invalid
-	  multibyte sequences anymore, as it causes problems when doing
-	  a replace.  New functions is_valid_mbstring(),
-	  has_blank_chars(), and has_blank_mbchars(); changes to
-	  is_alnum_mbchar(), is_blank_char() (renamed nisblank()),
-	  is_blank_mbchar(), is_blank_wchar() (renamed niswblank()),
-	  is_cntrl_wchar(), control_rep(), control_mbrep(),
-	  make_mbstring() (renamed make_valid_mbstring()),
-	  mbstrncasecmp(), mbstrcasestr(), mbrevstrcasestr(), etc.;
-	  removal of is_alnum_char() and is_alnum_wchar(). (DLR)
+	  unnecessary w?ctype wrappers and variables; change the wctype
+	  wrappers to take wint_t instead of wchar_t to match the
+	  functions they wrap; rename some functions for consistency;
+	  add functions to detect blank characters in a string, for use
+	  in rcfile option parsing; and don't count matches between
+	  valid and invalid multibyte sequences anymore, as it causes
+	  problems when doing a replace.  New functions
+	  is_valid_mbstring(), has_blank_chars(), and
+	  has_blank_mbchars(); changes to is_alnum_mbchar(),
+	  is_blank_char() (renamed nisblank()), is_blank_mbchar(),
+	  is_blank_wchar() (renamed niswblank()), is_cntrl_wchar(),
+	  control_rep(), control_mbrep(), make_mbstring() (renamed
+	  make_valid_mbstring()), mbstrncasecmp(), mbstrcasestr(),
+	  mbrevstrcasestr(), etc.; removal of is_alnum_char() and
+	  is_alnum_wchar(). (DLR)
 	- Implement word count via Meta-D at the main window.  Note that
 	  this is disabled when NANO_SMALL is defined.  New functions
 	  do_word_count() and do_next_word_void(); changes to

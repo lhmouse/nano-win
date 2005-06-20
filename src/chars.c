@@ -209,26 +209,23 @@ wchar_t control_wrep(wchar_t wc)
  * where ch is c + 64.  We return that multibyte character. */
 char *control_mbrep(const char *c, char *crep, int *crep_len)
 {
-    assert(c != NULL);
+    assert(c != NULL && crep != NULL && crep_len != NULL);
 
 #ifdef NANO_WIDE
     if (ISSET(USE_UTF8)) {
 	wchar_t wc;
-	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX), crep_mb_len;
 
-	if (c_mb_len <= 0) {
+	if (mbtowc(&wc, c, MB_CUR_MAX) <= 0) {
 	    mbtowc(NULL, NULL, 0);
 	    wc = (unsigned char)*c;
 	}
 
-	crep_mb_len = wctomb(crep, control_wrep(wc));
+	*crep_len = wctomb(crep, control_wrep(wc));
 
-	if (crep_mb_len <= 0) {
+	if (*crep_mb_len <= 0) {
 	    wctomb(NULL, 0);
-	    crep_mb_len = 0;
+	    *crep_mb_len = 0;
 	}
-
-	*crep_len = crep_mb_len;
     } else {
 #endif
 	*crep_len = 1;
