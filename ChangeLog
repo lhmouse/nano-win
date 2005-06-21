@@ -87,7 +87,7 @@ CVS code -
 	- Change the wctype wrappers to take wchar_t's again, as they
 	  still work the same way with them.  This also fixes
 	  compilation on Mac OS X 10.4.1, which doesn't seem to define a
-	  wint_t type. (DLR, problem found by Emily Jackson)
+	  wint_t type. (DLR, found by Emily Jackson)
 	- Add the ability to convert typed tabs to spaces using
 	  the -E/--tabstospaces command line options, the "tabstospaces"
 	  rcfile option, and the toggle Meta-E.  Note that this doesn't
