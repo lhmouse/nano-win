@@ -2359,6 +2359,14 @@ const char *do_alt_speller(char *tempfile_name)
     /* Wait for alternate speller to complete. */
     wait(&alt_spell_status);
 
+    refresh();
+
+    /* Restore the terminal to its previous state. */
+    terminal_init();
+
+    /* Turn the cursor back on for sure. */
+    curs_set(1);
+
     if (!WIFEXITED(alt_spell_status) ||
 		WEXITSTATUS(alt_spell_status) != 0) {
 	char *altspell_error = NULL;
@@ -2367,16 +2375,15 @@ const char *do_alt_speller(char *tempfile_name)
 
 	altspell_error = charalloc(msglen);
 	snprintf(altspell_error, msglen, invoke_error, alt_speller);
+
+#ifndef NANO_SMALL
+	/* Turn the mark back on if it was on before. */
+	if (old_mark_set)
+	    SET(MARK_ISSET);
+#endif
+
 	return altspell_error;
     }
-
-    refresh();
-
-    /* Restore the terminal to its previous state. */
-    terminal_init();
-
-    /* Turn the cursor back on for sure. */
-    curs_set(1);
 
 #ifndef NANO_SMALL
     if (old_mark_set) {
@@ -2509,7 +2516,7 @@ void do_spell(void)
 
     /* If the spell-checker printed any error messages onscreen, make
      * sure that they're cleared off. */
-    total_redraw();
+    total_refresh();
 
     if (spell_msg != NULL)
 	statusbar(_("Spell checking failed: %s: %s"), spell_msg,

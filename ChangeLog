@@ -226,9 +226,13 @@ CVS code -
 	- Replace a set_modified() with SET(MODIFIED) to avoid an
 	  unnecessary update, and remove an unneeded clearok(FALSE).
 	  (DLR)
+	- Move the spell checking error handling block down and refactor
+	  it so that we go back into curses mode, reinitialize the
+	  terminal, turn the cursor back on, and turn the mark back on
+	  if necessary before returning the error message. (DLR)
   do_spell()
 	- If the spell-checker printed any error messages onscreen, call
-	  total_redraw() to make sure they're cleared off. (DLR, found
+	  total_refresh() to make sure they're cleared off. (DLR, found
 	  by CHAO Wei-Lun)
   do_output()
 	- Properly allow wrapping when we insert a tab, for consistency.
