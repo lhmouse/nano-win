@@ -1994,7 +1994,8 @@ char *real_dir_from_tilde(const char *buf)
 
 #if !defined(DISABLE_TABCOMP) || !defined(DISABLE_BROWSER)
 /* Our sort routine for file listings.  Sort alphabetically and
- * case-insensitively, and sort directories before filenames. */
+ * case-insensitively (taking the locale into account), and sort
+ * directories before filenames. */
 int diralphasort(const void *va, const void *vb)
 {
     struct stat fileinfo;
@@ -2008,7 +2009,7 @@ int diralphasort(const void *va, const void *vb)
     if (!aisdir && bisdir)
 	return 1;
 
-    return mbstrcasecmp(a, b);
+    return mbstrcasecoll(a, b);
 }
 
 /* Free the memory allocated for array, which should contain len

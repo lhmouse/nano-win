@@ -512,6 +512,119 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 	return strncasecmp(s1, s2, n);
 }
 
+#if !defined(DISABLE_TABCOMP) || !defined(DISABLE_BROWSER)
+#ifndef HAVE_STRCASECOLL
+/* This function is equivalent to a case-insensitive strcoll(). */
+int nstrcasecoll(const char *s1, const char *s2)
+{
+    return strncasecoll(s1, s2, (size_t)-1);
+}
+#endif
+
+#ifndef HAVE_STRNCASECOLL
+/* This function is equivalent to a case-insensitive strcoll() for the
+ * first n characters of s1 and s2. */
+int nstrncasecoll(const char *s1, const char *s2, size_t n)
+{
+    int retval = 0;
+    char t1[2] = {'\0', '\0'}, t2[2] = {'\0', '\0'};
+
+    assert(s1 != NULL && s2 != NULL);
+
+    for (; n > 0 && *s1 != '\0' && *s2 != '\0'; n--, s1++, s2++) {
+	t1[0] = tolower(*s1);
+	t2[0] = tolower(*s2);
+
+	if ((retval = strcoll(t1, t2)) != 0)
+	    break;
+    }
+
+    if (n > 0)
+	return retval;
+    else
+	return 0;
+}
+#endif
+
+/* This function is equivalent to a case-insensitive strcoll() for
+ * multibyte strings. */
+int mbstrcasecoll(const char *s1, const char *s2)
+{
+    return mbstrncasecoll(s1, s2, (size_t)-1);
+}
+
+/* This function is equivalent to a case-insensitive strcoll() for the
+ * first n characters of multibyte strings. */
+int mbstrncasecoll(const char *s1, const char *s2, size_t n)
+{
+#ifdef NANO_WIDE
+    if (ISSET(USE_UTF8)) {
+	int retval = 0;
+	char *s1_mb = charalloc(MB_CUR_MAX + 1);
+	char *s2_mb = charalloc(MB_CUR_MAX + 1);
+	wchar_t ws1, ws2;
+
+	assert(s1 != NULL && s2 != NULL);
+
+	while (n > 0 && *s1 != '\0' && *s2 != '\0') {
+	    bool bad_s1_mb = FALSE, bad_s2_mb = FALSE;
+	    int s1_mb_len, s2_mb_len;
+
+	    s1_mb_len = parse_mbchar(s1, s1_mb, NULL, NULL);
+
+	    if (mbtowc(&ws1, s1_mb, s1_mb_len) <= 0) {
+		mbtowc(NULL, NULL, 0);
+		s1_mb[0] = *s1;
+		s1_mb[1] = '\0';
+		bad_s1_mb = TRUE;
+	    } else {
+		s1_mb_len = wctomb(s1_mb, towlower(ws1));
+
+		if (s1_mb_len <= 0) {
+		    wctomb(NULL, 0);
+		    s1_mb_len = 0;
+		}
+
+		s1_mb[s1_mb_len] = '\0';
+	    }
+
+	    s2_mb_len = parse_mbchar(s2, s2_mb, NULL, NULL);
+
+	    if (mbtowc(&ws2, s2_mb, s2_mb_len) <= 0) {
+		mbtowc(NULL, NULL, 0);
+		s2_mb[0] = *s2;
+		s2_mb[1] = '\0';
+		bad_s2_mb = TRUE;
+	    } else {
+		s2_mb_len = wctomb(s2_mb, towlower(ws2));
+
+		if (s2_mb_len <= 0) {
+		    wctomb(NULL, 0);
+		    s2_mb_len = 0;
+		}
+
+		s2_mb[s2_mb_len] = '\0';
+	    }
+
+	    if (n == 0 || bad_s1_mb != bad_s2_mb ||
+		(retval = strcoll(s1_mb, s2_mb)) != 0)
+		break;
+
+	    s1 += s1_mb_len;
+	    s2 += s2_mb_len;
+	    n--;
+	}
+
+	free(s1_mb);
+	free(s2_mb);
+
+	return retval;
+    } else
+#endif
+	return strncasecoll(s1, s2, n);
+}
+#endif /* !DISABLE_TABCOMP || !DISABLE_BROWSER */
+
 #ifndef HAVE_STRCASESTR
 /* This function is equivalent to strcasestr().  It was adapted from
  * mutt's mutt_stristr() function. */
