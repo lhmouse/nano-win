@@ -600,7 +600,7 @@ int replace_regexp(char *string, bool create)
 	    if (create)
 		*string++ = *c;
 	    c++;
-	    new_size++;
+	    new_line_size++;
 	} else {
 	    size_t i = regmatches[num].rm_eo - regmatches[num].rm_so;
 
@@ -608,7 +608,7 @@ int replace_regexp(char *string, bool create)
 	    c += 2;
 
 	    /* But add the length of the subexpression to new_size. */
-	    new_size += i;
+	    new_line_size += i;
 
 	    /* And if create is TRUE, append the result of the
 	     * subexpression match to the new line. */
