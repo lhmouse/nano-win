@@ -28,6 +28,7 @@ AC_CONFIG_HEADERS([config.h])
 AC_PREREQ(2.54)
 
 dnl Checks for programs.
+
 AC_GNU_SOURCE
 AC_PROG_CC
 AC_PROG_LN_S
@@ -35,10 +36,12 @@ AC_ISC_POSIX
 AC_SYS_LARGEFILE
 
 dnl Internationalization macros.
+
 AM_GNU_GETTEXT_VERSION(0.11.5)
 AM_GNU_GETTEXT([external], [need-ngettext])
 
 dnl Checks for header files.
+
 AC_HEADER_STDC
 AC_CHECK_HEADERS(fcntl.h getopt.h libintl.h limits.h regex.h termios.h wchar.h wctype.h)
 AC_CHECK_HEADER(regex.h,
@@ -413,7 +416,6 @@ fi
 dnl Checks for typedefs, structures, and compiler characteristics.
 
 dnl Checks for library functions.
-
 AC_TYPE_SIGNAL
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS(getopt_long)

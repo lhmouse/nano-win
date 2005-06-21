@@ -39,7 +39,7 @@
 #include <limits.h>
 #endif
 
-/* Macros for the flags long. */
+/* Macros for flags. */
 #define SET(bit) flags |= bit
 #define UNSET(bit) flags &= ~bit
 #define ISSET(bit) ((flags & bit) != 0)

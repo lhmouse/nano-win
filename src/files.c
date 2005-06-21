@@ -68,7 +68,7 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
 {
     filestruct *fileptr = (filestruct *)nmalloc(sizeof(filestruct));
 
-    /* Convert nulls to newlines.  len is the string's real length
+    /* Convert nulls to newlines.  buf_len is the string's real length
      * here. */
     unsunder(buf, buf_len);
 

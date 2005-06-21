@@ -159,7 +159,7 @@ CVS code -
   cwd_tab_completion(), browser_init()
 	- Rename variable next to nextdir to avoid confusion. (DLR)
   input_tab()
-	- Since list is a bool, assign it FALSE instead of 0. (DLR)
+	- Since list is a bool, set it to FALSE instead of 0. (DLR)
 	- Add multibyte/wide character support, so that we don't end up
 	  with a string that contains only part of a multibyte
 	  character during tab completion. (DLR)

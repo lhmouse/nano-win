@@ -167,7 +167,7 @@ bool is_punct_mbchar(const char *c)
 }
 
 /* Return TRUE for a multibyte character found in a word (currently only
- * an alphanumeric or punctuation character, and the latter only if
+ * an alphanumeric or punctuation character, and only the latter if
  * allow_punct is TRUE) and FALSE otherwise. */
 bool is_word_mbchar(const char *c, bool allow_punct)
 {

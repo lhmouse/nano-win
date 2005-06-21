@@ -156,7 +156,7 @@ extern bool curses_ended;
 
 extern char *homedir;
 
-/* Functions we want available. */
+/* The functions we want available. */
 
 /* Public functions in chars.c. */
 #ifndef HAVE_ISBLANK
