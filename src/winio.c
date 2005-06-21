@@ -3713,14 +3713,15 @@ int do_yesno(bool all, const char *msg)
 void total_redraw(void)
 {
 #ifdef USE_SLANG
-    /* Slang curses emulation brain damage, part 3: If we just do what
-     * curses does here, it'll leave some windows cleared without
-     * updating them properly. */
+    /* Slang curses emulation brain damage, part 3: Slang doesn't define
+     * curscr, and even if it did, if we just do what curses does here,
+     * it'll leave some windows cleared without updating them
+     * properly. */
     SLsmg_touch_screen();
     SLsmg_refresh();
 #else
-    clearok(edit, TRUE);
-    wrefresh(edit);
+    clearok(curscr, TRUE);
+    wrefresh(curscr);
 #endif
 }
 
