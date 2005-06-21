@@ -2764,13 +2764,15 @@ char *do_browser(char *path, DIR *dir)
 		    /* Aha!  It's a symlink!  Now, is it a dir?  If so,
 		     * mark it as such. */
 		    if (stat(filelist[j], &st) == 0 &&
-			S_ISDIR(st.st_mode))
+			S_ISDIR(st.st_mode)) {
 			strncpy(foo, _("(dir)"), foo_len);
-		    else
+			foo[foo_len] = '\0';
+		    } else
 			strcpy(foo, "--");
-		} else if (S_ISDIR(st.st_mode))
+		} else if (S_ISDIR(st.st_mode)) {
 		    strncpy(foo, _("(dir)"), foo_len);
-		else if (st.st_size < (1 << 10)) /* less than 1 k. */
+		    foo[foo_len] = '\0';
+		} else if (st.st_size < (1 << 10)) /* less than 1 k. */
 		    sprintf(foo, "%4u  B", (unsigned int)st.st_size);
 		else if (st.st_size < (1 << 20)) /* less than 1 meg. */
 		    sprintf(foo, "%4u KB",
