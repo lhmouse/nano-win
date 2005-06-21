@@ -120,12 +120,6 @@
 #ifndef HAVE_STRNCASECMP
 #define strncasecmp nstrncasecmp
 #endif
-#ifndef HAVE_STRCASECOLL
-#define strcasecoll nstrcasecoll
-#endif
-#ifndef HAVE_STRNCASECOLL
-#define strncasecoll nstrncasecoll
-#endif
 #ifndef HAVE_STRCASESTR
 #define strcasestr nstrcasestr
 #endif

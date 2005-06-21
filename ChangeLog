@@ -60,13 +60,10 @@ CVS code -
 	  wrappers to take wint_t instead of wchar_t to match the
 	  functions they wrap; rename some functions for consistency;
 	  add functions to detect blank characters in a string, for use
-	  in rcfile option parsing; add functions to case-insensitively
-	  compare strings while taking the current locale into account,
-	  for use in sorting filename lists; and don't count matches
-	  between valid and invalid multibyte sequences anymore, as it
-	  causes problems when doing a replace.  New functions
-	  nstrcasecoll(), nstrcasecoll(), mbstrcasecoll(),
-	  mbstrncasecoll(), is_valid_mbstring(), has_blank_chars(), and
+	  in rcfile option parsing; and don't count matches between
+	  valid and invalid multibyte sequences anymore, as it causes
+	  problems when doing a replace.  New functions
+	  is_valid_mbstring(), has_blank_chars(), and
 	  has_blank_mbchars(); changes to is_alnum_mbchar(),
 	  is_blank_char() (renamed nisblank()), is_blank_mbchar(),
 	  is_blank_wchar() (renamed niswblank()), is_cntrl_wchar(),
@@ -157,9 +154,8 @@ CVS code -
 	  long instead of an unsigned int. (DLR)
 	- Declare the size_t i only in the loop where it's used. (DLR)
   diralphasort()
-	- Use mbstrcasecoll() instead of strcasecmp(), so that UTF-8
-	  filenames are sorted properly according to the current
-	  locale. (DLR)
+	- Use mbstrcasecmp() instead of strcasecmp(), so that UTF-8
+	  filenames are sorted properly. (DLR)
   cwd_tab_completion(), browser_init()
 	- Rename variable next to nextdir to avoid confusion. (DLR)
   input_tab()
@@ -358,8 +354,7 @@ CVS code -
 	  Weinehall)
 	- Don't refer to the built-in file browser as crappy anymore.
 	  (DLR)
-	- Check for iswpunct(), mbstowcs(), strcasecoll(), and
-	  strncasecoll(). (DLR)
+	- Check for iswpunct() and mbstowcs(). (DLR)
 	- Change the behavior of --enable-extra to only define
 	  NANO_EXTRA, instead of defining both it and
 	  ENABLE_MULTIBUFFER. (DLR)

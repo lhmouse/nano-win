@@ -195,16 +195,6 @@ int mbstrcasecmp(const char *s1, const char *s2);
 int nstrncasecmp(const char *s1, const char *s2, size_t n);
 #endif
 int mbstrncasecmp(const char *s1, const char *s2, size_t n);
-#if !defined(DISABLE_TABCOMP) || !defined(DISABLE_BROWSER)
-#ifndef HAVE_STRCASECOLL
-int nstrcasecoll(const char *s1, const char *s2);
-#endif
-#ifndef HAVE_STRNCASECOLL
-int nstrncasecoll(const char *s1, const char *s2, size_t n);
-#endif
-int mbstrcasecoll(const char *s1, const char *s2);
-int mbstrncasecoll(const char *s1, const char *s2, size_t n);
-#endif
 #ifndef HAVE_STRCASESTR
 const char *nstrcasestr(const char *haystack, const char *needle);
 #endif
