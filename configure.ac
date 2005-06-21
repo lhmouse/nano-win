@@ -463,10 +463,10 @@ LIBS="$LIBS $CURSES_LIB"
 
 AC_SUBST(CURSES_LIB)
 
-if test x$GLIB_CFLAGS != x; then
+if test "x$GLIB_CFLAGS" != "x"; then
     CFLAGS="$CFLAGS $GLIB_CFLAGS"
 fi
-if test x$GLIB_LIBS != x; then
+if test "x$GLIB_LIBS" != "x"; then
     LDFLAGS="$LDFLAGS $GLIB_LIBS"
 fi
 
