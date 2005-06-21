@@ -2410,7 +2410,7 @@ void nanoget_repaint(const char *buf, const char *inputbuf, size_t x)
     wattron(bottomwin, A_REVERSE);
     blank_statusbar();
 
-    mvwaddstr(bottomwin, 0, 0, buf);
+    mvwaddnstr(bottomwin, 0, 0, buf, actual_x(buf, COLS - 2));
     waddch(bottomwin, ':');
 
     if (COLS > 1)
@@ -3607,7 +3607,6 @@ int do_yesno(bool all, const char *msg)
     const char *yesstr;		/* String of yes characters accepted. */
     const char *nostr;		/* Same for no. */
     const char *allstr;		/* And all, surprise! */
-    char *expmsg;		/* Expanded version of msg. */
 
     assert(msg != NULL);
 
@@ -3651,10 +3650,7 @@ int do_yesno(bool all, const char *msg)
     wattron(bottomwin, A_REVERSE);
 
     blank_statusbar();
-
-    expmsg = display_string(msg, 0, COLS - 1, FALSE);
-    mvwaddstr(bottomwin, 0, 0, msg);
-    free(expmsg);
+    mvwaddnstr(bottomwin, 0, 0, msg, actual_x(msg, COLS - 1));
 
     wattroff(bottomwin, A_REVERSE);
 

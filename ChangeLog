@@ -327,9 +327,8 @@ CVS code -
 	  (DLR)
   do_yesno()
 	- Allow refreshing the screen via Ctrl-L, as Pico does. (DLR)
-	- Add a missing assert, and use display_string() to display the
-	  prompt, so that we don't end it in the middle of a multibyte
-	  character if it's more than (COLS - 1) bytes long. (DLR)
+	- Add a missing assert, and use actual_x() to calculate the
+	  number of characters buf takes up, in case it's UTF-8. (DLR)
   total_redraw()
 	- Simplify to call clearok(TRUE) and wrefresh() on curscr, which
 	  updates the entire screen in fewer function calls without
