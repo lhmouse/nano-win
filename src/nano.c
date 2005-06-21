@@ -2373,15 +2373,14 @@ const char *do_alt_speller(char *tempfile_name)
 	char *invoke_error = _("Could not invoke \"%s\"");
 	int msglen = strlen(invoke_error) + strlen(alt_speller) + 2;
 
-	altspell_error = charalloc(msglen);
-	snprintf(altspell_error, msglen, invoke_error, alt_speller);
-
 #ifndef NANO_SMALL
 	/* Turn the mark back on if it was on before. */
 	if (old_mark_set)
 	    SET(MARK_ISSET);
 #endif
 
+	altspell_error = charalloc(msglen);
+	snprintf(altspell_error, msglen, invoke_error, alt_speller);
 	return altspell_error;
     }
 
