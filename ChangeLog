@@ -363,6 +363,7 @@ CVS code -
 	  function. (DLR)
 	- Check for possibly unavailable functions in alphabetical
 	  order. (DLR)
+	- Add a few more minor consistency fixes. (DLR)
 - doc/faq.html:
 	- Update section 1.1 to mention the current maintainer. (DLR)
 	- Minor capitalization and wording fixes. (DLR)
