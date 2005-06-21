@@ -3606,6 +3606,9 @@ int do_yesno(bool all, const char *msg)
     const char *yesstr;		/* String of yes characters accepted. */
     const char *nostr;		/* Same for no. */
     const char *allstr;		/* And all, surprise! */
+    char *expmsg;		/* Expanded version of msg. */
+
+    assert(msg != NULL);
 
     /* yesstr, nostr, and allstr are strings of any length.  Each string
      * consists of all single-byte characters accepted as valid
@@ -3647,7 +3650,10 @@ int do_yesno(bool all, const char *msg)
     wattron(bottomwin, A_REVERSE);
 
     blank_statusbar();
-    mvwaddnstr(bottomwin, 0, 0, msg, COLS - 1);
+
+    expmsg = display_string(msg, 0, COLS - 1, FALSE);
+    mvwaddstr(bottomwin, 0, 0, msg);
+    free(expmsg);
 
     wattroff(bottomwin, A_REVERSE);
 
