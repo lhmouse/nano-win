@@ -2722,7 +2722,8 @@ void titlebar(const char *path)
     if (COLS > 4) {
 	/* The version message should only take up 1/3 of the screen
 	 * minus one column. */
-	mvwaddnstr(topwin, 0, 2, VERMSG, (COLS / 3) - 3);
+	mvwaddnstr(topwin, 0, 2, VERMSG, actual_x(VERMSG,
+		(COLS / 3) - 3));
 	waddstr(topwin, "  ");
     }
 
