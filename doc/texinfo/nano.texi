@@ -352,9 +352,6 @@ toggles the -B (@code{--backup}) command line flag.
 @item Constant Cursor Position Display Toggle (Meta-C)
 toggles the -c (@code{--const}) command line flag.
 
-@item Tabs to Spaces Toggle (Meta-E)
-toggles the -E (@code{--tabstospaces}) command line flag.
-
 @item Multiple File Buffers Toggle (Meta-F)
 toggles the -F (@code{--multibuffer}) command line flag.
 
@@ -382,6 +379,9 @@ toggles the -O (@code{--morespace}) command line flag.
 @item Whitespace Display Toggle (Meta-P)
 toggles whitespace display mode if you have a "whitespace" option in
 your .nanorc.
+
+@item Tabs to Spaces Toggle (Meta-Q)
+toggles the -E (@code{--tabstospaces}) command line flag.
 
 @item Smooth Scrolling Toggle (Meta-S)
 toggles the -S (@code{--smooth}) command line flag.

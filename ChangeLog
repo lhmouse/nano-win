@@ -90,13 +90,13 @@ CVS code -
 	  wint_t type. (DLR, found by Emily Jackson)
 	- Add the ability to convert typed tabs to spaces using
 	  the -E/--tabstospaces command line options, the "tabstospaces"
-	  rcfile option, and the toggle Meta-E.  Note that this doesn't
-	  affect tabs entered using verbatim input, and that it's
-	  disabled when NANO_SMALL is defined.  Also, change the short
-	  command line option for --backupdir from -E to -C.  Changes to
-	  toggle_init(), usage(), do_tab(), main(), nanorc.sample,
-	  nano.1, nanorc.5, and nano.texi. (DLR, suggested by many
-	  people)
+	  rcfile option, and the toggle Meta-Q (since QBasic did this by
+	  default :)).  Note that this doesn't affect tabs entered using
+	  verbatim input, and that it's disabled when NANO_SMALL is
+	  defined.  Also, change the short command line option for
+	  --backupdir from -E to -C.  Changes to toggle_init(), usage(),
+	  do_tab(), main(), nanorc.sample, nano.1, nanorc.5, and
+	  nano.texi. (DLR, suggested by many people)
 	- Change the CONSTUPDATE, REVERSE_SEARCH, and SMOOTHSCROLL flags
 	  to the CONST_UPDATE, BACKWARDS_SEARCH, and SMOOTH_SCROLL
 	  flags, respectively. (DLR)
