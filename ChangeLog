@@ -29,12 +29,11 @@ CVS code -
 	  get_history_completion(), do_search(), do_replace(),
 	  nanogetstr(), and statusq(); removal of remove_node() and
 	  insert_node(). (DLR)
-	- Replace all instances of strncpy() with charcpy(), since the
+	- Replace more instances of strncpy() with charcpy(), since the
 	  only difference between them is that the former pads strings
 	  with nulls when they're longer than the number of characters
-	  specified, which doesn't appear to be used anywhere.  Changes
-	  to input_tab(), do_browser(), do_enter(), replace_regexp(),
-	  replace_line(), and mallocstrncpy(). (DLR)
+	  specified, which isn't always used.  Changes to input_tab(),
+	  do_enter(), replace_regexp(), and replace_line(). (DLR)
 	- When using a backup directory, make sure all the filenames
 	  written are unique by using get_next_filename() when
 	  necessary.  Changes to get_next_filename(), write_file(),
@@ -162,6 +161,7 @@ CVS code -
 	- Add multibyte/wide character support, so that we don't end up
 	  with a string that contains only part of a multibyte
 	  character during tab completion. (DLR)
+	- Rename variable buflen to buf_len, for consistency. (DLR)
   do_browser()
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
 	  consistency. (DLR)
@@ -172,6 +172,7 @@ CVS code -
 	  consistency. (DLR)
 	- Make mouse clicks in the browser window work properly when the
 	  MORE_SPACE flag is set. (DLR)
+	- Make foo_len a size_t instead of an int. (DLR)
   save_history()
 	- Properly save history when we're in view mode. (DLR)
 - global.c:
@@ -270,7 +271,10 @@ CVS code -
 	- Start the search for a line from fileage instead of current
 	  (again). (DLR)
   replace_regexp()
-	- Rename variable create_flag to create for consistency. (DLR)
+	- Rename variables create_flag and new_size to create and
+	  new_line_size, for consistency. (DLR)
+	- Make new_line_size, search_match_count, and i size_t's, for
+	  consistency. (DLR)
   replace_line()
 	- Make new_line_size and search_match_count size_t's, for
 	  consistency. (DLR)

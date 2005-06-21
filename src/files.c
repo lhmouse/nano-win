@@ -2271,12 +2271,12 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 	 * twice in succession with no statusbar changes to see a match
 	 * list. */
 	if (common_len != *place) {
-	    size_t buflen = strlen(buf);
+	    size_t buf_len = strlen(buf);
 
 	    *lastwastab = FALSE;
-	    buf = charealloc(buf, common_len + buflen - *place + 1);
+	    buf = charealloc(buf, common_len + buf_len - *place + 1);
 	    charmove(buf + common_len, buf + *place,
-		buflen - *place + 1);
+		buf_len - *place + 1);
 	    charcpy(buf, mzero, common_len);
 	    *place = common_len;
 	} else if (*lastwastab == FALSE || num_matches < 2)
@@ -2736,7 +2736,7 @@ char *do_browser(char *path, DIR *dir)
 	wmove(edit, 0, 0);
 
 	{
-	    int foo_len = mb_cur_max() * 7;
+	    size_t foo_len = mb_cur_max() * 7;
 	    char *foo = charalloc(foo_len + 1);
 
 	    for (; j < numents && editline <= editwinrows - 1; j++) {
@@ -2764,15 +2764,13 @@ char *do_browser(char *path, DIR *dir)
 		    /* Aha!  It's a symlink!  Now, is it a dir?  If so,
 		     * mark it as such. */
 		    if (stat(filelist[j], &st) == 0 &&
-			S_ISDIR(st.st_mode)) {
-			charcpy(foo, _("(dir)"), foo_len);
-			foo[foo_len] = '\0';
-		    } else
+			S_ISDIR(st.st_mode))
+			strncpy(foo, _("(dir)"), foo_len);
+		    else
 			strcpy(foo, "--");
-		} else if (S_ISDIR(st.st_mode)) {
-		    charcpy(foo, _("(dir)"), foo_len);
-		    foo[foo_len] = '\0';
-		} else if (st.st_size < (1 << 10)) /* less than 1 k. */
+		} else if (S_ISDIR(st.st_mode))
+		    strncpy(foo, _("(dir)"), foo_len);
+		else if (st.st_size < (1 << 10)) /* less than 1 k. */
 		    sprintf(foo, "%4u  B", (unsigned int)st.st_size);
 		else if (st.st_size < (1 << 20)) /* less than 1 meg. */
 		    sprintf(foo, "%4u KB",

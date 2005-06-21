@@ -350,7 +350,7 @@ char *mallocstrncpy(char *dest, const char *src, size_t n)
 	free(dest);
 
     dest = charalloc(n);
-    charcpy(dest, src, n);
+    strncpy(dest, src, n);
 
     return dest;
 }

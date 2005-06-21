@@ -585,8 +585,10 @@ int replace_regexp(char *string, bool create)
      * subexpressions \1 to \9 in the replaced text). */
 
     const char *c = last_replace;
-    int search_match_count = regmatches[0].rm_eo - regmatches[0].rm_so;
-    int new_size = strlen(current->data) + 1 - search_match_count;
+    size_t search_match_count =
+	regmatches[0].rm_eo - regmatches[0].rm_so;
+    size_t new_line_size =
+	strlen(current->data) + 1 - search_match_count;
 
     /* Iterate through the replacement text to handle subexpression
      * replacement using \1, \2, \3, etc. */
@@ -600,7 +602,7 @@ int replace_regexp(char *string, bool create)
 	    c++;
 	    new_size++;
 	} else {
-	    int i = regmatches[num].rm_eo - regmatches[num].rm_so;
+	    size_t i = regmatches[num].rm_eo - regmatches[num].rm_so;
 
 	    /* Skip over the replacement expression. */
 	    c += 2;
@@ -621,7 +623,7 @@ int replace_regexp(char *string, bool create)
     if (create)
 	*string = '\0';
 
-    return new_size;
+    return new_line_size;
 }
 #endif
 
