@@ -47,7 +47,7 @@ int nisblank(int c)
 }
 #endif
 
-#if defined(NANO_WIDE) && !defined(HAVE_ISWBLANK)
+#if !defined(HAVE_ISWBLANK) && defined(NANO_WIDE)
 /* This function is equivalent to iswblank(). */
 int niswblank(wchar_t wc)
 {

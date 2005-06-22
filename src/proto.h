@@ -162,7 +162,7 @@ extern char *homedir;
 #ifndef HAVE_ISBLANK
 int nisblank(int c);
 #endif
-#if defined(NANO_WIDE) && !defined(HAVE_ISWBLANK)
+#if !defined(HAVE_ISWBLANK) && defined(NANO_WIDE)
 int niswblank(wchar_t wc);
 #endif
 bool is_byte(int c);
