@@ -2277,7 +2277,7 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 	    buf = charealloc(buf, common_len + buf_len - *place + 1);
 	    charmove(buf + common_len, buf + *place,
 		buf_len - *place + 1);
-	    charcpy(buf, mzero, common_len);
+	    strncpy(buf, mzero, common_len);
 	    *place = common_len;
 	} else if (*lastwastab == FALSE || num_matches < 2)
 	    *lastwastab = TRUE;

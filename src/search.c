@@ -613,7 +613,7 @@ int replace_regexp(char *string, bool create)
 	    /* And if create is TRUE, append the result of the
 	     * subexpression match to the new line. */
 	    if (create) {
-		charcpy(string, current->data + current_x +
+		strncpy(string, current->data + current_x +
 			regmatches[num].rm_so, i);
 		string += i;
 	    }
@@ -650,7 +650,7 @@ char *replace_line(const char *needle)
     copy = charalloc(new_line_size);
 
     /* The head of the original line. */
-    charcpy(copy, current->data, current_x);
+    strncpy(copy, current->data, current_x);
 
     /* The replacement text. */
 #ifdef HAVE_REGEX_H

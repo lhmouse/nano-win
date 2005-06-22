@@ -1439,7 +1439,7 @@ void do_enter(void)
     strcpy(&newnode->data[extra], current->data + current_x);
 #ifndef NANO_SMALL
     if (ISSET(AUTOINDENT)) {
-	charcpy(newnode->data, current->data, extra);
+	strncpy(newnode->data, current->data, extra);
 	totsize += mbstrlen(newnode->data);
     }
 #endif
@@ -1875,7 +1875,7 @@ bool do_wrap(filestruct *line)
 #ifndef NANO_SMALL
     if (ISSET(AUTOINDENT)) {
 	/* Copy the indentation. */
-	charcpy(new_line, indent_string, indent_len);
+	strncpy(new_line, indent_string, indent_len);
 	new_line[indent_len] = '\0';
 	new_line_len += indent_len;
     }
@@ -2657,7 +2657,7 @@ void justify_format(filestruct *paragraph, size_t skip)
 
     end = paragraph->data + skip;
     new_paragraph_data = charalloc(strlen(paragraph->data) + 1);
-    charcpy(new_paragraph_data, paragraph->data, skip);
+    strncpy(new_paragraph_data, paragraph->data, skip);
     new_end = new_paragraph_data + skip;
 
     while (*end != '\0') {
@@ -3323,7 +3323,7 @@ void do_justify(bool full_justify)
 	     * current line to the next line. */
 	    current->next->data = charalloc(indent_len + 1 + line_len -
 		break_pos);
-	    charcpy(current->next->data, indent_string, indent_len);
+	    strncpy(current->next->data, indent_string, indent_len);
 	    strcpy(current->next->data + indent_len, current->data +
 		break_pos);
 
@@ -4048,7 +4048,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	charmove(&current->data[current_x + char_buf_len],
 		&current->data[current_x],
 		current_len - current_x + char_buf_len);
-	charcpy(&current->data[current_x], char_buf, char_buf_len);
+	strncpy(&current->data[current_x], char_buf, char_buf_len);
 	current_len += char_buf_len;
 	totsize++;
 	set_modified();

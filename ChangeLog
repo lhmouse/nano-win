@@ -29,11 +29,11 @@ CVS code -
 	  get_history_completion(), do_search(), do_replace(),
 	  nanogetstr(), and statusq(); removal of remove_node() and
 	  insert_node(). (DLR)
-	- Replace more instances of strncpy() with charcpy(), since the
-	  only difference between them is that the former pads strings
-	  with nulls when they're longer than the number of characters
-	  specified, which isn't always used.  Changes to input_tab(),
-	  do_enter(), replace_regexp(), and replace_line(). (DLR)
+	- Remove all instances of charcpy() and replace them with
+	  strncpy(), since there's no way to be sure that a charcpy()ed
+	  string will always be properly null-terminated, and strcpy()'s
+	  null termination is the only difference between it and
+	  charcpy(). (DLR)
 	- When using a backup directory, make sure all the filenames
 	  written are unique by using get_next_filename() when
 	  necessary.  Changes to get_next_filename(), write_file(),

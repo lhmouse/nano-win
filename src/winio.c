@@ -2101,7 +2101,7 @@ void do_statusbar_output(char *output, size_t output_len, bool
 	charmove(&answer[statusbar_x + char_buf_len],
 		&answer[statusbar_x], answer_len - statusbar_x +
 		char_buf_len);
-	charcpy(&answer[statusbar_x], char_buf, char_buf_len);
+	strncpy(&answer[statusbar_x], char_buf, char_buf_len);
 	answer_len += char_buf_len;
 
 	do_statusbar_right();
