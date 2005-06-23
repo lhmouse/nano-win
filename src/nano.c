@@ -3744,7 +3744,7 @@ void disable_flow_control(void)
     struct termios term;
 
     tcgetattr(0, &term);
-    term.c_iflag &= ~(IXON|IXOFF);
+    term.c_iflag &= ~IXON;
     tcsetattr(0, TCSANOW, &term);
 }
 
@@ -3753,7 +3753,7 @@ void enable_flow_control(void)
     struct termios term;
 
     tcgetattr(0, &term);
-    term.c_iflag |= (IXON|IXOFF);
+    term.c_iflag |= IXON;
     tcsetattr(0, TCSANOW, &term);
 }
 

@@ -242,6 +242,9 @@ CVS code -
   disable_extended_input()
 	- Disable extended output processing as well as extended input
 	  processing, and rename to disable_extended_io(). (DLR)
+  disable_flow_control(), enable_flow_control()
+	- Only turn off flow control on output, as it might be needed
+	  for input on slow terminals. (DLR)
 - nano.h:
 	- Add macro charset(), a wrapper that calls memset(). (DLR)
 	- Readd #defines for the isblank() and iswblank() equivalents.
