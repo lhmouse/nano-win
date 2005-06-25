@@ -1468,9 +1468,9 @@ void do_enter(void)
 }
 
 #ifndef NANO_SMALL
-/* Move to the next word.  If allow_update is FALSE, don't update the
- * screen afterward.  Return TRUE if we started on a word, and FALSE
- * otherwise. */
+/* Move to the next word in the current filestruct.  If allow_update is
+ * FALSE, don't update the screen afterward.  Return TRUE if we started
+ * on a word, and FALSE otherwise. */
 bool do_next_word(bool allow_update)
 {
     size_t pww_save = placewewant;
@@ -1548,7 +1548,7 @@ void do_next_word_void(void)
     do_next_word(TRUE);
 }
 
-/* Move to the previous word. */
+/* Move to the previous word in the current filestruct. */
 void do_prev_word(void)
 {
     size_t pww_save = placewewant;
@@ -3987,8 +3987,8 @@ bool do_mouse(void)
 }
 #endif /* !DISABLE_MOUSE */
 
-/* The user typed kbinput_len multibyte characters.  Add them to the
- * edit buffer, filtering out all control characters if allow_cntrls is
+/* The user typed ouuput_len multibyte characters.  Add them to the edit
+ * buffer, filtering out all control characters if allow_cntrls is
  * TRUE. */
 void do_output(char *output, size_t output_len, bool allow_cntrls)
 {

@@ -39,7 +39,8 @@ static int *key_buffer = NULL;
 static size_t key_buffer_len = 0;
 				/* The length of the default keystroke
 				 * buffer. */
-static int statusblank = 0;	/* The number of keystrokes left after
+static int statusblank = 0;
+				/* The number of keystrokes left after
 				 * we call statusbar(), before we
 				 * actually blank the statusbar. */
 static size_t statusbar_x = (size_t)-1;
@@ -1886,6 +1887,7 @@ void do_statusbar_delete(void)
     }
 }
 
+/* Move text from the statusbar prompt into oblivion. */
 void do_statusbar_cut_text(void)
 {
     assert(answer != NULL);
@@ -1903,6 +1905,7 @@ void do_statusbar_cut_text(void)
 }
 
 #ifndef NANO_SMALL
+/* Move to the next word at the statusbar prompt. */
 void do_statusbar_next_word(void)
 {
     char *char_mb;
@@ -1945,6 +1948,7 @@ void do_statusbar_next_word(void)
     free(char_mb);
 }
 
+/* Move to the previous word at the statusbar prompt. */
 void do_statusbar_prev_word(void)
 {
     char *char_mb;
@@ -2051,6 +2055,9 @@ void do_statusbar_verbatim_input(bool *got_enter)
     free(output);
 }
 
+/* The user typed ouuput_len multibyte characters.  Add them to the
+ * statusbar prompt, setting got_enter to TRUE if we get a newline, and
+ * filtering out all control characters if allow_cntrls is TRUE. */
 void do_statusbar_output(char *output, size_t output_len, bool
 	*got_enter, bool allow_cntrls)
 {
