@@ -269,6 +269,22 @@
 # color brightwhite "\\f[BIPR]"
 # color yellow "\.(br|DS|RS|RE|PD)"
 
+## Here is an example for assembler
+##
+# syntax "asm-file" "\.(S|s|asm)$"
+# color red "\<[A-Z_]{2,}\>"
+# color brightgreen "\.(data|subsection|text)"
+# color green "\.(align|file|globl|global|hidden|section|size|type|weak)"
+# color brightyellow "\.(ascii|asciz|byte|double|float|hword|int|long|short|single|struct|word)"
+# color brightred "^[[:space:]]*[._A-Za-z0-9]*:"
+# color brightcyan "^[[:space:]]*#[[:space:]]*(define|undef|include|ifn?def|endif|elif|else|if|warning|error)"
+## Highlight strings (note: VERY resource intensive)
+# color brightyellow "<[^=[[:space:]]]*>" ""(\\.|[^\"])*""
+# color brightyellow start=""(\\.|[^\"])*\\[[:space:]]*$" end="^(\\.|[^\"])*""
+## Highlight comments
+# color brightblue "//.*"
+# color brightblue start="/\*" end="\*/"
+
 ## Here is an example for your .nanorc
 ##
 # syntax "nanorc" "(\.|/|)nanorc$"

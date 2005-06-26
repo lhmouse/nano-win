@@ -356,6 +356,7 @@ CVS code -
 	- Add "cxx" and "hxx" to the list of extensions that the
 	  "c-file" regexes apply to, and add "warning" and "error" to
 	  them as well. (Mike Frysinger)
+	- Add regexes for assembler files. (Mike Frysinger)
 	- In the preprocessor directives regex string in the "c-file"
 	  regexes, cover more whitespace characters than just " " by
 	  using "[[:space:]]" instead. (Mike Frysinger)  DLR: Extend
