@@ -3088,8 +3088,10 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		 * characters on a whole line. */
 	    size_t index;
 		/* Index in converted where we paint. */
-	    regmatch_t startmatch;	/* match position for start_regexp */
-	    regmatch_t endmatch;	/* match position for end_regexp */
+	    regmatch_t startmatch;
+		/* Match position for start_regex. */
+	    regmatch_t endmatch;
+		/* Match position for end_regex. */
 
 	    if (tmpcolor->bright)
 		wattron(edit, A_BOLD);
@@ -3145,7 +3147,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		    k = startmatch.rm_eo;
 		}
 	    } else {
-		/* This is a multi-line regexp.  There are two steps.
+		/* This is a multi-line regex.  There are two steps.
 		 * First, we have to see if the beginning of the line is
 		 * colored by a start on an earlier line, and an end on
 		 * this line or later.
