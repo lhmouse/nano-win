@@ -352,6 +352,10 @@ CVS code -
 	  and put it back so that it isn't lost.  This is especially
 	  needed if the keystroke is part of a multibyte character.
 	  (DLR)
+- nanorc.sample:
+	- Add "cxx" and "hxx" to the list of extensions that the
+	  "c-file" regexes apply to, and add "warning" and "error" to
+	  them as well. (Mike Frysinger)
 - nanorc.5:
 	- Update the description of how the "color" regex works. (DLR)
 	- Clarify descriptions of the characters that aren't allowed
