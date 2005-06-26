@@ -162,17 +162,17 @@
 # color green "\<(class|namespace|template|public|protected|private|typename|this|friend|virtual|using|mutable|volatile|register|explicit)\>"
 # color brightyellow "\<(for|if|while|do|else|case|default|switch|goto|continue|break|return)\>"
 # color brightyellow "\<(try|throw|catch|operator|new|delete)\>"
-# color brightcyan "^ *# *(define|undef|include|ifn?def|endif|elif|else|if|warning|error)"
+# color brightcyan "^[[:space:]]*#[[:space:]]*(define|undef|include|ifn?def|endif|elif|else|if|warning|error)"
 # color brightmagenta "'([^\]|(\\['abfnrtv\\]))'" "'\\(([0-7][0-7]?)|([0-3][0-7][0-7]))'" "'\\x[0-9A-Fa-f][0-9A-Fa-f]?'"
 ##
 ## You will in general want your comments and strings to come last,
 ## because syntax highlighting rules will be applied in the order they
 ## are read in.
 ##
-# color brightyellow "<[^= ]*>" ""(\\.|[^\"])*""
+# color brightyellow "<[^=[[:space:]]]*>" ""(\\.|[^\"])*""
 ##
 ## This string is VERY resource intensive!!!
-# color brightyellow start=""(\\.|[^\"])*\\ *$" end="^(\\.|[^\"])*""
+# color brightyellow start=""(\\.|[^\"])*\\[[:space:]]*$" end="^(\\.|[^\"])*""
 ##
 ## And we want to have some nice comment highlighting too
 # color brightblue "//.*"
@@ -181,7 +181,7 @@
 ## Here is a short example for HTML
 # syntax "HTML" "\.html$"
 # color blue start="<" end=">"
-# color red "&[^; ]*;"
+# color red "&[^;[[:space:]]]*;"
 
 ## Here is a short example for TeX files
 # syntax "TeX" "\.tex$"
@@ -197,8 +197,8 @@
 ##
 # syntax "groff" "\.ms$" "\.mm$" "\.me$" "\.tmac$" "^tmac." ".rof"
 ## The argument of .nr or .ds
-# color cyan "^\.ds [^ ]*"
-# color cyan "^\.nr [^ ]*"
+# color cyan "^\.ds [^[[:space:]]]*"
+# color cyan "^\.nr [^[[:space:]]]*"
 ## Single character escapes
 # color brightmagenta "\\."
 ## Highlight the argument of \f or \s in the same color
@@ -210,7 +210,7 @@
 # color cyan "(\\|\\\\)n\(.."
 # color cyan start="(\\|\\\\)n\[" end="]"
 ## Requests
-# color brightgreen "^\. *[^ ]*"
+# color brightgreen "^\.[[:space:]]*[^[[:space:]]]*"
 ## Comments
 # color yellow "^\.\\\".*$"
 ## Strings
@@ -226,11 +226,7 @@
 ## Here is an example for perl
 ##
 # syntax "perl" "\.p[lm]$"
-# color red "\<(accept|alarm|atan2|bin(d|mode)|c(aller|h(dir|mod|op|own|root)|lose(dir)?|onnect|os|rypt)|d(bm(close|open)|efined|elete|ie|o|ump)|e(ach|of|val|x(ec|ists|it|p))|f(cntl|ileno|lock|ork))\>"
-# color red "\<(get(c|login|peername|pgrp|ppid|priority|pwnam|(host|net|proto|serv)byname|pwuid|grgid|(host|net)byaddr|protobynumber|servbyport)|([gs]et|end)(pw|gr|host|net|proto|serv)ent|getsock(name|opt)|gmtime|goto|grep|hex|index|int|ioctl|join)\>"
-# color red "\<(keys|kill|last|length|link|listen|local(time)?|log|lstat|m|mkdir|msg(ctl|get|snd|rcv)|next|oct|open(dir)?|ord|pack|pipe|pop|printf?|push|q|qq|qx|rand|re(ad(dir|link)?|cv|do|name|quire|set|turn|verse|winddir)|rindex|rmdir|s|scalar|seek(dir)?)\>"
-# color red "\<(se(lect|mctl|mget|mop|nd|tpgrp|tpriority|tsockopt)|shift|shm(ctl|get|read|write)|shutdown|sin|sleep|socket(pair)?|sort|spli(ce|t)|sprintf|sqrt|srand|stat|study|substr|symlink|sys(call|read|tem|write)|tell(dir)?|time|tr(y)?|truncate|umask)\>"
-# color red "\<(un(def|link|pack|shift)|utime|values|vec|wait(pid)?|wantarray|warn|write)\>"
+# color red "\<(accept|alarm|atan2|bin(d|mode)|c(aller|h(dir|mod|op|own|root)|lose(dir)?|onnect|os|rypt)|d(bm(close|open)|efined|elete|ie|o|ump)|e(ach|of|val|x(ec|ists|it|p))|f(cntl|ileno|lock|ork))\>" "\<(get(c|login|peername|pgrp|ppid|priority|pwnam|(host|net|proto|serv)byname|pwuid|grgid|(host|net)byaddr|protobynumber|servbyport)|([gs]et|end)(pw|gr|host|net|proto|serv)ent|getsock(name|opt)|gmtime|goto|grep|hex|index|int|ioctl|join)\>" "\<(keys|kill|last|length|link|listen|local(time)?|log|lstat|m|mkdir|msg(ctl|get|snd|rcv)|next|oct|open(dir)?|ord|pack|pipe|pop|printf?|push|q|qq|qx|rand|re(ad(dir|link)?|cv|do|name|quire|set|turn|verse|winddir)|rindex|rmdir|s|scalar|seek(dir)?)\>" "\<(se(lect|mctl|mget|mop|nd|tpgrp|tpriority|tsockopt)|shift|shm(ctl|get|read|write)|shutdown|sin|sleep|socket(pair)?|sort|spli(ce|t)|sprintf|sqrt|srand|stat|study|substr|symlink|sys(call|read|tem|write)|tell(dir)?|time|tr(y)?|truncate|umask)\>" "\<(un(def|link|pack|shift)|utime|values|vec|wait(pid)?|wantarray|warn|write)\>"
 # color magenta "\<(continue|else|elsif|do|for|foreach|if|unless|until|while|eq|ne|lt|gt|le|ge|cmp|x|my|sub|use|package|can|isa)\>"
 # color cyan start="[$@%]" end="( |\\W|-)"
 # color yellow "".*"|qq\|.*\|"
@@ -250,7 +246,7 @@
 # color blue "//.*"
 # color blue start="/\*" end="\*/"
 # color brightblue start="/\*\*" end="\*/"
-# color brightgreen,green " +$"
+# color brightgreen,green "[[:space:]]+$"
 
 ## Here is an example for patch files
 ##
@@ -277,15 +273,14 @@
 ##
 # syntax "nanorc" "(\.|/|)nanorc$"
 ## highlight possible errors and parameters
-# color brightwhite "^ *(set|unset|syntax|color).*$"
+# color brightwhite "^[[:space:]]*(set|unset|syntax|color).*$"
 ## set, unset and syntax
-# color cyan "^ *(set|unset) +(autoindent|backup|backupdir|backwards|brackets|casesensitive|const|cut|fill|historylog|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|punct|quickblank|quotestr|rebinddelete|regexp|smarthome|smooth)\>"
-# color cyan "^ *(set|unset) +(speller|suspend|tabsize|tabstospaces|tempfile|view|whitespace)"
-# color green "^ *(set|unset|syntax)\>"
+# color cyan "^[[:space:]]*(set|unset)[[:space:]]+(autoindent|backup|backupdir|backwards|brackets|casesensitive|const|cut|fill|historylog|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|punct|quickblank|quotestr|rebinddelete)\>" "^[[:space:]]*(set|unset)[[:space:]]+(regexp|smarthome|smooth|speller|suspend|tabsize|tabstospaces|tempfile|view|whitespace)\>"
+# color green "^[[:space:]]*(set|unset|syntax)\>"
 ## colors
-# color yellow "^ *color *(bright)?(white|black|red|blue|green|yellow|magenta|cyan)(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
-# color magenta "^ *color\>" "\<(start|end)="
+# color yellow "^[[:space:]]*color[[:space:]]*(bright)?(white|black|red|blue|green|yellow|magenta|cyan)(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
+# color magenta "^[[:space:]]*color\>" "\<(start|end)="
 ## strings
 # color white "\"(\\.|[^\"])*\""
 ## comments
-# color blue " *#.*$"
+# color blue "[[:space:]]*#.*$"

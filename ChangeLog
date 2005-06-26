@@ -356,6 +356,12 @@ CVS code -
 	- Add "cxx" and "hxx" to the list of extensions that the
 	  "c-file" regexes apply to, and add "warning" and "error" to
 	  them as well. (Mike Frysinger)
+	- In the preprocessor directives regex string in the "c-file"
+	  regexes, cover more whitespace characters than just " " by
+	  using "[[:space:]]" instead. (Mike Frysinger)  DLR: Extend
+	  this to other regex strings whenever possible.
+	- Move some overly long split-up regex strings that cover
+	  similar areas onto the same line. (DLR)
 - nanorc.5:
 	- Update the description of how the "color" regex works. (DLR)
 	- Clarify descriptions of the characters that aren't allowed
