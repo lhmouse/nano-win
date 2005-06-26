@@ -169,7 +169,7 @@
 ## because syntax highlighting rules will be applied in the order they
 ## are read in.
 ##
-# color brightyellow "<[^=[[:space:]]]*>" ""(\\.|[^\"])*""
+# color brightyellow "<[^= 	]*>" ""(\\.|[^\"])*""
 ##
 ## This string is VERY resource intensive!!!
 # color brightyellow start=""(\\.|[^\"])*\\[[:space:]]*$" end="^(\\.|[^\"])*""
