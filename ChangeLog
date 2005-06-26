@@ -71,13 +71,12 @@ CVS code -
 	  mbrevstrcasestr(), etc.; removal of is_alnum_char() and
 	  is_alnum_wchar(). (DLR)
 	- Implement word count via Meta-D at the main window.  Note that
-	  this is disabled when NANO_SMALL is defined.  New functions
-	  do_word_count() and do_next_word_void(); changes to
-	  shortcut_init() and do_next_word(). (DLR)
-	- Detect words more accurately by taking punctuation into
-	  account, and convert all word-detecting functions to use the
-	  same wrapper function for ease of maintenance.  New functions
-	  is_punct_mbchar() and is_word_mbchar(); changes to
+	  this is disabled when NANO_SMALL is defined.  Also, convert
+	  all word detection functions to use the same wrapper function
+	  for ease of maintenance, and make them return more
+	  information.  New functions is_punct_mbchar(),
+	  is_word_mbchar(), do_next_word_void(), do_prev_word_void(),
+	  and do_word_count(); changes to shortcut_init(),
 	  do_next_word(), do_prev_word(), is_whole_word(),
 	  do_statusbar_next_word(), and do_statusbar_prev_word(). (DLR)
 	- Fix #ifdefs so that nano compiles with NANO_SMALL defined and

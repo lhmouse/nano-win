@@ -1468,10 +1468,11 @@ void do_enter(void)
 }
 
 #ifndef NANO_SMALL
-/* Move to the next word in the current filestruct.  If allow_update is
- * FALSE, don't update the screen afterward.  Return TRUE if we started
- * on a word, and FALSE otherwise. */
-bool do_next_word(bool allow_update)
+/* Move to the next word in the current filestruct.  If allow_punct is
+ * TRUE, treat punctuation as part of a word.  If allow_update is TRUE,
+ * update the screen afterward.  Return TRUE if we started on a word,
+ * and FALSE otherwise. */
+bool do_next_word(bool allow_punct, bool allow_update)
 {
     size_t pww_save = placewewant;
     const filestruct *current_save = current;
@@ -1491,7 +1492,7 @@ bool do_next_word(bool allow_update)
 
 	/* If we've found it, stop moving forward through the current
 	 * line. */
-	if (!is_word_mbchar(char_mb, TRUE))
+	if (!is_word_mbchar(char_mb, allow_punct))
 	    break;
 
 	/* If we haven't found it, then we've started on a word, so set
@@ -1512,7 +1513,7 @@ bool do_next_word(bool allow_update)
 
 	    /* If we've found it, stop moving forward through the
 	     * current line. */
-	    if (is_word_mbchar(char_mb, TRUE))
+	    if (is_word_mbchar(char_mb, allow_punct))
 		break;
 
 	    current_x += char_mb_len;
@@ -1543,19 +1544,24 @@ bool do_next_word(bool allow_update)
     return started_on_word;
 }
 
+/* Move to the next word in the current filestruct, not counting
+ * punctuation as part of a word, and updating the screen afterward. */
 void do_next_word_void(void)
 {
-    do_next_word(TRUE);
+    do_next_word(FALSE, TRUE);
 }
 
-/* Move to the previous word in the current filestruct. */
-void do_prev_word(void)
+/* Move to the previous word in the current filestruct.  If allow_punct
+ * is TRUE, treat punctuation as part of a word.  If allow_update is
+ * TRUE, update the screen afterward.  Return TRUE if we started on a
+ * word, and FALSE otherwise. */
+bool do_prev_word(bool allow_punct, bool allow_update)
 {
     size_t pww_save = placewewant;
     const filestruct *current_save = current;
     char *char_mb;
     int char_mb_len;
-    bool begin_line = FALSE;
+    bool begin_line = FALSE, started_on_word = FALSE;
 
     assert(current != NULL && current->data != NULL);
 
@@ -1569,8 +1575,12 @@ void do_prev_word(void)
 
 	/* If we've found it, stop moving backward through the current
 	 * line. */
-	if (!is_word_mbchar(char_mb, TRUE))
+	if (!is_word_mbchar(char_mb, allow_punct))
 	    break;
+
+	/* If we haven't found it, then we've started on a word, so set
+	 * started_on_word to TRUE. */
+	started_on_word = TRUE;
 
 	if (current_x == 0)
 	    begin_line = TRUE;
@@ -1592,7 +1602,7 @@ void do_prev_word(void)
 
 	    /* If we've found it, stop moving backward through the
 	     * current line. */
-	    if (is_word_mbchar(char_mb, TRUE))
+	    if (is_word_mbchar(char_mb, allow_punct))
 		break;
 
 	    if (current_x == 0)
@@ -1631,7 +1641,7 @@ void do_prev_word(void)
 
 	    /* If we've found it, stop moving backward through the
 	     * current line. */
-	    if (!is_word_mbchar(char_mb, TRUE))
+	    if (!is_word_mbchar(char_mb, allow_punct))
 		break;
 
 	    if (current_x == 0)
@@ -1650,8 +1660,19 @@ void do_prev_word(void)
 
     placewewant = xplustabs();
 
-    /* Update the screen. */
-    edit_redraw(current_save, pww_save);
+    /* If allow_update is TRUE, update the screen. */
+    if (allow_update)
+	edit_redraw(current_save, pww_save);
+
+    /* Return whether we started on a word. */
+    return started_on_word;
+}
+
+/* Move to the previous word in the current filestruct, not counting
+ * punctuation as part of a word, and updating the screen afterward. */
+void do_prev_word_void(void)
+{
+    do_prev_word(FALSE, TRUE);
 }
 
 void do_word_count(void)
@@ -1683,11 +1704,13 @@ void do_word_count(void)
     current_x = 0;
     placewewant = 0;
 
-    /* Keep moving to the next word, without updating the screen, until
-     * we reach the end of the file, incrementing the total word count
-     * whenever we're on a word just before moving. */
+    /* Keep moving to the next word (counting punctuation characters as
+     * part of a word so that we match the output of "wc -w"), without
+     * updating the screen, until we reach the end of the file,
+     * incrementing the total word count whenever we're on a word just
+     * before moving. */
     while (current != filebot || current_x != 0) {
-	if (do_next_word(FALSE))
+	if (do_next_word(TRUE, FALSE))
 	    words++;
     }
 

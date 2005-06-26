@@ -412,9 +412,10 @@ void do_delete(void);
 void do_tab(void);
 void do_enter(void);
 #ifndef NANO_SMALL
-bool do_next_word(bool allow_update);
+bool do_next_word(bool allow_punct, bool allow_update);
 void do_next_word_void(void);
-void do_prev_word(void);
+bool do_prev_word(bool allow_punct, bool allow_update);
+void do_prev_word_void(void);
 void do_word_count(void);
 void do_mark(void);
 #endif
@@ -642,8 +643,8 @@ void do_statusbar_backspace(void);
 void do_statusbar_delete(void);
 void do_statusbar_cut_text(void);
 #ifndef NANO_SMALL
-void do_statusbar_next_word(void);
-void do_statusbar_prev_word(void);
+bool do_statusbar_next_word(bool allow_punct);
+bool do_statusbar_prev_word(bool allow_punct);
 #endif
 void do_statusbar_verbatim_input(bool *got_enter);
 void do_statusbar_output(char *output, size_t output_len, bool

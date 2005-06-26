@@ -570,7 +570,7 @@ void shortcut_init(bool unjustify)
 
     sc_init_one(&main_list, NANO_NO_KEY, N_("Prev Word"),
 	IFHELP(nano_prevword_msg, NANO_PREVWORD_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, do_prev_word);
+	NANO_NO_KEY, VIEW, do_prev_word_void);
 
     sc_init_one(&main_list, NANO_NO_KEY, N_("Word Count"),
 	IFHELP(nano_wordcount_msg, NANO_WORDCOUNT_KEY), NANO_NO_KEY,

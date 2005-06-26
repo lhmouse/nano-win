@@ -1770,11 +1770,11 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 		    break;
 #ifndef NANO_SMALL
 		case NANO_NEXTWORD_KEY:
-		    do_statusbar_next_word();
+		    do_statusbar_next_word(FALSE);
 		    break;
 		case NANO_PREVWORD_KEY:
 		    if (*meta_key == TRUE)
-			do_statusbar_prev_word();
+			do_statusbar_prev_word(FALSE);
 		    break;
 #endif
 		case NANO_VERBATIM_KEY:
@@ -1905,11 +1905,14 @@ void do_statusbar_cut_text(void)
 }
 
 #ifndef NANO_SMALL
-/* Move to the next word at the statusbar prompt. */
-void do_statusbar_next_word(void)
+/* Move to the next word at the statusbar prompt.  If allow_punct is
+ * TRUE, treat punctuation as part of a word.  Return TRUE if we started
+ * on a word, and FALSE otherwise. */
+bool do_statusbar_next_word(bool allow_punct)
 {
     char *char_mb;
     int char_mb_len;
+    bool started_on_word = FALSE;
 
     assert(answer != NULL);
 
@@ -1923,8 +1926,12 @@ void do_statusbar_next_word(void)
 
 	/* If we've found it, stop moving forward through the current
 	 * line. */
-	if (!is_word_mbchar(char_mb, TRUE))
+	if (!is_word_mbchar(char_mb, allow_punct))
 	    break;
+
+	/* If we haven't found it, then we've started on a word, so set
+	 * started_on_word to TRUE. */
+	started_on_word = TRUE;
 
 	statusbar_x += char_mb_len;
     }
@@ -1939,21 +1946,26 @@ void do_statusbar_next_word(void)
 
 	/* If we've found it, stop moving forward through the current
 	 * line. */
-	if (is_word_mbchar(char_mb, TRUE))
+	if (is_word_mbchar(char_mb, allow_punct))
 	    break;
 
 	statusbar_x += char_mb_len;
     }
 
     free(char_mb);
+
+    /* Return whether we started on a word. */
+    return started_on_word;
 }
 
-/* Move to the previous word at the statusbar prompt. */
-void do_statusbar_prev_word(void)
+/* Move to the previous word at the statusbar prompt.  If allow_punct is
+ * TRUE, treat punctuation as part of a word.  Return TRUE if we started
+ * on a word, and FALSE otherwise. */
+bool do_statusbar_prev_word(bool allow_punct)
 {
     char *char_mb;
     int char_mb_len;
-    bool begin_line = FALSE;
+    bool begin_line = FALSE, started_on_word = FALSE;
 
     assert(answer != NULL);
 
@@ -1967,8 +1979,12 @@ void do_statusbar_prev_word(void)
 
 	/* If we've found it, stop moving backward through the current
 	 * line. */
-	if (!is_word_mbchar(char_mb, TRUE))
+	if (!is_word_mbchar(char_mb, allow_punct))
 	    break;
+
+	/* If we haven't found it, then we've started on a word, so set
+	 * started_on_word to TRUE. */
+	started_on_word = TRUE;
 
 	if (statusbar_x == 0)
 	    begin_line = TRUE;
@@ -1989,7 +2005,7 @@ void do_statusbar_prev_word(void)
 
 	/* If we've found it, stop moving backward through the current
 	 * line. */
-	if (is_word_mbchar(char_mb, TRUE))
+	if (is_word_mbchar(char_mb, allow_punct))
 	    break;
 
 	if (statusbar_x == 0)
@@ -2012,7 +2028,7 @@ void do_statusbar_prev_word(void)
 
 	    /* If we've found it, stop moving backward through the
 	     * current line. */
-	    if (!is_word_mbchar(char_mb, TRUE))
+	    if (!is_word_mbchar(char_mb, allow_punct))
 		break;
 
 	    if (statusbar_x == 0)
@@ -2028,8 +2044,11 @@ void do_statusbar_prev_word(void)
     }
 
     free(char_mb);
+
+    /* Return whether we started on a word. */
+    return started_on_word;
 }
-#endif
+#endif /* !NANO_SMALL */
 
 void do_statusbar_verbatim_input(bool *got_enter)
 {
