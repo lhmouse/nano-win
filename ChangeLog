@@ -252,6 +252,8 @@ CVS code -
 	- Add macro charset(), a wrapper that calls memset(). (DLR)
 	- Readd #defines for the isblank() and iswblank() equivalents.
 	  (DLR)
+	- In the colortype struct, make bright a bool instead of an int,
+	  for consistency. (DLR)
 - proto.h:
 	- Add missing NANO_SMALL and HAVE_REGEX_H #ifdefs around the
 	  do_find_bracket() prototype. (DLR)

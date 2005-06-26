@@ -247,7 +247,7 @@ typedef struct rcoption {
 typedef struct colortype {
     int fg;			/* Foreground color. */
     int bg;			/* Background color. */
-    int bright;			/* Is this color A_BOLD? */
+    bool bright;		/* Is this color A_BOLD? */
     int pairnum;		/* Color pair number used for this
 				 * foreground/background. */
     regex_t start;		/* Start (or all) of the regex
