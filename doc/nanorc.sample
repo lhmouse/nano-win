@@ -279,7 +279,7 @@
 # color brightred "^[[:space:]]*[._A-Za-z0-9]*:"
 # color brightcyan "^[[:space:]]*#[[:space:]]*(define|undef|include|ifn?def|endif|elif|else|if|warning|error)"
 ## Highlight strings (note: VERY resource intensive)
-# color brightyellow "<[^=[[:space:]]]*>" ""(\\.|[^\"])*""
+# color brightyellow "<[^= 	]*>" ""(\\.|[^\"])*""
 # color brightyellow start=""(\\.|[^\"])*\\[[:space:]]*$" end="^(\\.|[^\"])*""
 ## Highlight comments
 # color brightblue "//.*"
