@@ -238,6 +238,10 @@ CVS code -
 	  (DLR)
 	- Don't set current_len until after it's been asserted that both
 	  current and current->data aren't NULL. (DLR)
+  do_toggle()
+	- Properly treat color syntax highlighting as enabled by
+	  default, and only treat wrapping as enabled by default when
+	  DISABLE_WRAPPING isn't defined. (DLR)
   disable_extended_input()
 	- Disable extended output processing as well as extended input
 	  processing, and rename to disable_extended_io(). (DLR)

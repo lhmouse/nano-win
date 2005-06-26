@@ -3723,8 +3723,14 @@ void do_toggle(const toggle *which)
 
     enabled = ISSET(which->flag);
 
-    if (which->val == TOGGLE_NOHELP_KEY ||
-	which->val == TOGGLE_WRAP_KEY)
+    if (which->val == TOGGLE_NOHELP_KEY
+#ifndef DISABLE_WRAPPING
+	|| which->val == TOGGLE_WRAP_KEY
+#endif
+#ifdef ENABLE_COLOR
+	|| which->val == TOGGLE_SYNTAX_KEY
+#endif
+	)
 	enabled = !enabled;
 
     statusbar("%s %s", which->desc, enabled ? _("enabled") :
