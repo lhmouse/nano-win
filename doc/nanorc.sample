@@ -142,9 +142,17 @@
 # set whitespace "  "
 
 ## Color setup
+##
 ## Format:
+##
 ## syntax "short description" ["filename regex" ...]
+##
 ## color foreground,background "regex" ["regex"...]
+## or
+## icolor foreground,background "regex" ["regex"...]
+##
+## "color" will do case sensitive matches, while "icolor" will do case
+## insensitive matches.
 ##
 ## Legal colors: white, black, red, blue, green, yellow, magenta, cyan.
 ## You may use the prefix "bright" to mean a stronger color highlight
@@ -280,7 +288,7 @@
 # color brightgreen "\.(data|subsection|text)"
 # color green "\.(align|file|globl|global|hidden|section|size|type|weak)"
 # color brightyellow "\.(ascii|asciz|byte|double|float|hword|int|long|short|single|struct|word)"
-# color brightred "^[[:space:]]*[._A-Za-z0-9]*:"
+# icolor brightred "^[[:space:]]*[._A-Z0-9]*:"
 # color brightcyan "^[[:space:]]*#[[:space:]]*(define|undef|include|ifn?def|endif|elif|else|if|warning|error)"
 ## Highlight strings (note: VERY resource intensive)
 # color brightyellow "<[^= 	]*>" ""(\\.|[^\"])*""
@@ -293,14 +301,14 @@
 ##
 # syntax "nanorc" "(\.|/|)nanorc$"
 ## highlight possible errors and parameters
-# color brightwhite "^[[:space:]]*(set|unset|syntax|color).*$"
+# icolor brightwhite "^[[:space:]]*(set|unset|syntax|i?color).*$"
 ## set, unset and syntax
-# color cyan "^[[:space:]]*(set|unset)[[:space:]]+(autoindent|backup|backupdir|backwards|brackets|casesensitive|const|cut|fill|historylog|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|punct|quickblank|quotestr|rebinddelete)\>" "^[[:space:]]*(set|unset)[[:space:]]+(regexp|smarthome|smooth|speller|suspend|tabsize|tabstospaces|tempfile|view|whitespace)\>"
-# color green "^[[:space:]]*(set|unset|syntax)\>"
+# icolor cyan "^[[:space:]]*(set|unset)[[:space:]]+(autoindent|backup|backupdir|backwards|brackets|casesensitive|const|cut|fill|historylog|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|punct|quickblank|quotestr|rebinddelete)\>" "^[[:space:]]*(set|unset)[[:space:]]+(regexp|smarthome|smooth|speller|suspend|tabsize|tabstospaces|tempfile|view|whitespace)\>"
+# icolor green "^[[:space:]]*(set|unset|syntax)\>"
 ## colors
-# color yellow "^[[:space:]]*color[[:space:]]*(bright)?(white|black|red|blue|green|yellow|magenta|cyan)(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
-# color magenta "^[[:space:]]*color\>" "\<(start|end)="
+# icolor yellow "^[[:space:]]*i?color[[:space:]]*(bright)?(white|black|red|blue|green|yellow|magenta|cyan)(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
+# icolor magenta "^[[:space:]]*i?color\>" "\<(start|end)="
 ## strings
-# color white "\"(\\.|[^\"])*\""
+# icolor white "\"(\\.|[^\"])*\""
 ## comments
-# color blue "[[:space:]]*#.*$"
+# icolor blue "[[:space:]]*#.*$"

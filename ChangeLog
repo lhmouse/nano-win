@@ -114,6 +114,11 @@ CVS code -
 	  NANO_SMALL is defined.  Changes to usage(), main(),
 	  statusbar(), nanorc.sample, nano.1, and nanorc.5. (DLR,
 	  suggested by CHAO Wei-Lun)
+	- Add support for case insensitive expression matching when
+	  using color syntax highlighting, via the "icolor" directive,
+	  and add it to those regexes that can use it.  Changes to
+	  parse_colors(), parse_rcfile(), nanorc.sample, and nanorc.5.
+	  (Brand Huntsman, minor tweaks by DLR)
 - chars.c:
   make_mbstring()
 	- Change erroneous ENABLE_EXTRA #ifdef to NANO_EXTRA to fix a

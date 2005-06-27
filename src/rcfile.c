@@ -341,8 +341,9 @@ void parse_syntax(char *ptr)
     }
 }
 
-/* Parse the color stuff into the colorstrings array. */
-void parse_colors(char *ptr)
+/* Parse the color stuff into the colorstrings array.  If icase is TRUE,
+ * treat the color stuff as case insensitive. */
+void parse_colors(char *ptr, bool icase)
 {
     int fg, bg;
     bool bright = FALSE, no_fgcolor = FALSE;
@@ -429,7 +430,7 @@ void parse_colors(char *ptr)
 	if (ptr == NULL)
 	    break;
 
-	if (nregcomp(&newcolor->start, fgstr, 0)) {
+	if (nregcomp(&newcolor->start, fgstr, icase ? REG_ICASE : 0)) {
 	    free(newcolor);
 	    cancelled = TRUE;
 	} else {
@@ -479,7 +480,7 @@ void parse_colors(char *ptr)
 		continue;
 
 	    newcolor->end = (regex_t *)nmalloc(sizeof(regex_t));
-	    if (nregcomp(newcolor->end, fgstr, 0)) {
+	    if (nregcomp(newcolor->end, fgstr, icase ? REG_ICASE : 0)) {
 		free(newcolor->end);
 		newcolor->end = NULL;
 	    }
@@ -525,7 +526,9 @@ void parse_rcfile(FILE *rcstream)
 	else if (strcasecmp(keyword, "syntax") == 0)
 	    parse_syntax(ptr);
 	else if (strcasecmp(keyword, "color") == 0)
-	    parse_colors(ptr);
+	    parse_colors(ptr, FALSE);
+	else if (strcasecmp(keyword, "icolor") == 0)
+	    parse_colors(ptr, TRUE);
 #endif /* ENABLE_COLOR */
 	else
 	    rcfile_error(N_("Command %s not understood"), keyword);

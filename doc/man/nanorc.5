@@ -6,7 +6,7 @@
 .\" Public License for copying conditions.  There is NO warranty.
 .\"
 .\" $Id$
-.TH NANORC 5 "version 1.3.8" "June 17, 2005"
+.TH NANORC 5 "version 1.3.8" "June 26, 2005"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -28,8 +28,8 @@ During startup, \fBnano\fP will first read its system-wide settings from
 .SH OPTIONS
 The configuration file accepts a series of "set" and "unset" commands,
 which can be used to configure nano on startup without using the
-command-line options.  Additionally, the "syntax" and "color" keywords
-are used to define syntax highlighting rules for different text
+command-line options.  Additionally, the "syntax", "color", and "icolor"
+keywords are used to define syntax highlighting rules for different text
 patterns.  GNU nano will read one command per line.
 
 Options in rcfiles take precedence over nano's defaults, and command
@@ -170,8 +170,8 @@ spaces.  They must be single-column characters.
 .B syntax "\fIstr\fP" ["\fIfileregex\fP" ... ]
 Defines a syntax named \fIstr\fP which can be activated via the \fB-Y\fP
 flag, or will be automatically activated if the current filename matches
-\fIfileregex\fP.  All following \fBcolor\fP statements will apply to
-\fIsyntax\fP until a new syntax is defined.
+\fIfileregex\fP.  All following \fBcolor\fP and \fBicolor\fP statements
+will apply to \fIsyntax\fP until a new syntax is defined.
 .TP
 .B color \fIfgcolor\fP,\fIbgcolor\fP "\fIregex\fP" ...
 For the currently defined syntax, display all expressions matching
@@ -183,6 +183,9 @@ stronger color highlight for the foreground.  If your terminal supports
 transparency, not specifying a \fIbgcolor\fP tells \fBnano\fP to attempt
 to use a transparent background.
 .TP
+.B icolor \fIfgcolor\fP,\fIbgcolor\fP "\fIregex\fP" ...
+Same as above, except that the expression matching is case insensitive.
+.TP
 .B color \fIfgcolor\fP,\fIbgcolor\fP start="\fIsr\fP" end="\fIer\fP"
 Display expressions which start with \fIsr\fP and end with \fIer\fP
 with foreground color \fIfgcolor\fP and background color \fIbgcolor\fP,
@@ -190,6 +193,9 @@ at least one of which must be specified.  This allows syntax
 highlighting to span multiple lines.  Note that all subsequent instances
 of \fIsr\fP after an initial \fIsr\fP is found will be highlighted until
 the first instance of \fIer\fP.
+.TP
+.B icolor \fIfgcolor\fP,\fIbgcolor\fP start="\fIsr\fP" end="\fIer\fP"
+Same as above, except that the expression matching is case insensitive.
 
 .SH FILES
 .TP
