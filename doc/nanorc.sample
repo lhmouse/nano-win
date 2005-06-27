@@ -306,7 +306,7 @@
 # icolor cyan "^[[:space:]]*(set|unset)[[:space:]]+(autoindent|backup|backupdir|backwards|brackets|casesensitive|const|cut|fill|historylog|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|punct|quickblank|quotestr|rebinddelete)\>" "^[[:space:]]*(set|unset)[[:space:]]+(regexp|smarthome|smooth|speller|suspend|tabsize|tabstospaces|tempfile|view|whitespace)\>"
 # icolor green "^[[:space:]]*(set|unset|syntax)\>"
 ## colors
-# icolor yellow "^[[:space:]]*i?color[[:space:]]*(bright)?(white|black|red|blue|green|yellow|magenta|cyan)(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
+# icolor yellow "^[[:space:]]*i?color[[:space:]]*(bright)?(white|black|red|blue|green|yellow|magenta|cyan)?(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
 # icolor magenta "^[[:space:]]*i?color\>" "\<(start|end)="
 ## strings
 # icolor white "\"(\\.|[^\"])*\""
