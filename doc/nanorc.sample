@@ -199,7 +199,7 @@
 
 ## Here is an example for groff
 ##
-# syntax "groff" "\.ms$" "\.mm$" "\.me$" "\.tmac$" "^tmac." ".rof"
+# syntax "groff" "\.m[ems]$" "\.tmac$" "^tmac." ".rof"
 ## The argument of .nr or .ds
 # color cyan "^\.ds [^[[:space:]]]*"
 # color cyan "^\.nr [^[[:space:]]]*"

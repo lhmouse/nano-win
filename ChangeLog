@@ -369,6 +369,7 @@ CVS code -
 	- Move some overly long split-up regex strings that cover
 	  similar areas onto the same line. (DLR)
 	- Add GCC builtins to the "c-file" regexes. (Mike Frysinger)
+	- Simplify the file extension regex for groff. (DLR)
 - nanorc.5:
 	- Update the description of how the "color" regex works. (DLR)
 	- Clarify descriptions of the characters that aren't allowed
