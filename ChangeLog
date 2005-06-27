@@ -375,15 +375,24 @@ CVS code -
 	  similar areas onto the same line. (DLR)
 	- Add GCC builtins to the "c-file" regexes. (Mike Frysinger)
 	- Simplify the file extension regex for groff. (DLR)
+	- Clarify and consolidate the descriptions of "fill" and
+	  "tabsize". (DLR)
+- nano.1:
+	- Clarify and consolidate the descriptions of --fill and
+	  --tabsize. (DLR)
 - nanorc.5:
 	- Update the description of how the "color" regex works. (DLR)
 	- Clarify descriptions of the characters that aren't allowed
 	  in the "punct" or "brackets" options. (DLR)
 	- Use .B instead of \fB ... \fP where possible, as nano.1 does.
 	  (DLR)
+	- Clarify and consolidate the descriptions of "fill" and
+	  "tabsize". (DLR)
 - nano.texi:
 	- Update the "Feature Toggles" section to match current nano.
 	  (DLR)
+	- Clarify and consolidate the descriptions of --fill and
+	  --tabsize. (DLR)
 - configure.ac:
 	- Minor tweaks to some of the test blocks to avoid XSI:isms.
 	  (DLR, adapted from a Debian patch for GNU ed by David

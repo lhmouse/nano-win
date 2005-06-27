@@ -6,7 +6,7 @@
 .\" Public License for copying conditions.  There is NO warranty.
 .\"
 .\" $Id$
-.TH NANO 1 "version 1.3.8" "June 17, 2005"
+.TH NANO 1 "version 1.3.8" "June 27, 2005"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 
@@ -91,7 +91,8 @@ Enable smooth scrolling.  Text will scroll line-by-line, instead of the
 usual chunk-by-chunk behavior.
 .TP
 .B \-T \fIcols\fP (\-\-tabsize=\fIcols\fP)
-Set the size (width) of a tab to \fIcols\fP columns.
+Set the size (width) of a tab to \fIcols\fP columns.  The value of
+\fIcols\fP must be greater than 0.  The default value is 8.
 .TP
 .B \-U (\-\-quickblank)
 Do quick statusbar blanking.  Statusbar messages will disappear after 1
@@ -140,10 +141,10 @@ Preserve the XON and XOFF sequences (^Q and ^S) so they will be caught
 by the terminal.
 .TP
 .B \-r \fIcols\fP (\-\-fill=\fIcols\fP)
-Wrap lines at column \fIcols\fP.  By default, this is the width of the
-screen, less eight.  If this value is negative, wrapping will occur at
-\fIcols\fP columns from the right of the screen, allowing the wrap point
-to vary along with the screen width if resized.
+Wrap lines at column \fIcols\fP.  If this value is 0 or less, wrapping
+will occur at the width of the screen less \fIcols\fP columns, allowing
+the wrap point to vary along with the width of the screen if the screen
+is resized.  The default value is -8.
 .TP
 .B \-s \fIprog\fP (\-\-speller=\fIprog\fP)
 Enable alternative spell checker command.

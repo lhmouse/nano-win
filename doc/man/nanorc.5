@@ -6,7 +6,7 @@
 .\" Public License for copying conditions.  There is NO warranty.
 .\"
 .\" $Id$
-.TH NANORC 5 "version 1.3.8" "June 26, 2005"
+.TH NANORC 5 "version 1.3.8" "June 27, 2005"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -68,8 +68,9 @@ Constantly display the cursor position in the status bar.
 Use cut to end of line by default.
 .TP
 .B set fill \fIn\fP
-Wrap lines at column number \fIn\fP.  If \fIn\fP is 0 or less, the line
-length will be the screen width less \fIn\fP.  The default value is -8.
+Wrap lines at column number \fIn\fP.  If \fIn\fP is 0 or less, the
+maximum line length will be the screen width less \fIn\fP columns.  The
+default value is -8.
 .TP
 .B set/unset historylog
 Enable \fI~/.nano_history\fP for saving and reading search/replace
@@ -151,8 +152,8 @@ calls \fIspell\fP.
 Allow nano to be suspended.
 .TP
 .B set tabsize \fIn\fP
-Use a tab size of \fIn\fP columns instead of the default (8); must be
-greater than 0.
+Use a tab size of \fIn\fP columns.  The value of \fIn\fP must be greater
+than 0.  The default value is 8.  
 .TP
 .B set/unset tabstospaces
 Convert typed tabs to spaces.

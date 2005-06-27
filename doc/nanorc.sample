@@ -37,7 +37,7 @@
 # set cut
 
 ## Set the line length for wrapping text and justifying paragraphs.
-## If fill is negative, the line length will be the screen width less
+## If fill is 0 or less, the line length will be the screen width less
 ## this number.
 ##
 # set fill -8
