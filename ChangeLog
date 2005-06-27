@@ -362,21 +362,6 @@ CVS code -
 	  and put it back so that it isn't lost.  This is especially
 	  needed if the keystroke is part of a multibyte character.
 	  (DLR)
-- nanorc.sample:
-	- Add "cxx" and "hxx" to the list of extensions that the
-	  "c-file" regexes apply to, and add "warning" and "error" to
-	  them as well. (Mike Frysinger)
-	- Add regexes for assembler files. (Mike Frysinger)
-	- In the preprocessor directives regex string in the "c-file"
-	  regexes, cover more whitespace characters than just " " by
-	  using "[[:space:]]" instead. (Mike Frysinger)  DLR: Extend
-	  this to other regex strings whenever possible.
-	- Move some overly long split-up regex strings that cover
-	  similar areas onto the same line. (DLR)
-	- Add GCC builtins to the "c-file" regexes. (Mike Frysinger)
-	- Simplify the file extension regex for groff. (DLR)
-	- Clarify and consolidate the descriptions of "fill" and
-	  "tabsize". (DLR)
 - nano.1:
 	- Clarify and consolidate the descriptions of --fill and
 	  --tabsize. (DLR)
@@ -416,12 +401,24 @@ CVS code -
 - doc/nanorc.sample:
 	- In the "nanorc" regexes, tweak the "color" regex to properly
 	  color a line that specifies a background color without a
-	  foreground color, and update the associated comments.  Also,
-	  tweak the "comment" regex to color comments that don't start
-	  at the beginning of a line. (DLR)
+	  foreground color, and update the associated comments. (DLR)
 	- Clarify descriptions of the characters that aren't allowed
 	  in the "punct" or "brackets" options. (DLR)
 	- Update comment referring to --enable-extra. (DLR)
+	- Add "cxx" and "hxx" to the list of extensions that the
+	  "c-file" regexes apply to, and add "warning" and "error" to
+	  them as well. (Mike Frysinger)
+	- Add regexes for assembler files. (Mike Frysinger)
+	- In the preprocessor directives regex string in the "c-file"
+	  regexes, cover more whitespace characters than just " " by
+	  using "[[:space:]]" instead. (Mike Frysinger)  DLR: Extend
+	  this to other regex strings whenever possible.
+	- Move some overly long split-up regex strings that cover
+	  similar areas onto the same line. (DLR)
+	- Add GCC builtins to the "c-file" regexes. (Mike Frysinger)
+	- Simplify the file extension regex for groff. (DLR)
+	- Clarify and consolidate the descriptions of "fill" and
+	  "tabsize". (DLR)
 - Makefile.am, m4/Makefile.am:
 	- Make sure that the files in EXTRA_DIST are in alphabetical
 	  order, and that the lines are wrapped at 72 characters. (DLR)

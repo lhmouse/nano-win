@@ -311,4 +311,4 @@
 ## strings
 # icolor white "\"(\\.|[^\"])*\""
 ## comments
-# icolor blue "[[:space:]]*#.*$"
+# icolor blue "^[[:space:]]*#.*$"
