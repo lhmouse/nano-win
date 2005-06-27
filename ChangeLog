@@ -368,6 +368,7 @@ CVS code -
 	  this to other regex strings whenever possible.
 	- Move some overly long split-up regex strings that cover
 	  similar areas onto the same line. (DLR)
+	- Add GCC builtins to the "c-file" regexes. (Mike Frysinger)
 - nanorc.5:
 	- Update the description of how the "color" regex works. (DLR)
 	- Clarify descriptions of the characters that aren't allowed

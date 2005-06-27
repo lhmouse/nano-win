@@ -165,6 +165,10 @@
 # color brightcyan "^[[:space:]]*#[[:space:]]*(define|undef|include|ifn?def|endif|elif|else|if|warning|error)"
 # color brightmagenta "'([^\]|(\\['abfnrtv\\]))'" "'\\(([0-7][0-7]?)|([0-3][0-7][0-7]))'" "'\\x[0-9A-Fa-f][0-9A-Fa-f]?'"
 ##
+## GCC builtins
+##
+# color cyan "__attribute__[[:space:]]*\(\([^)]*\)\)" "__(asm|builtin|inline|restrict|typeof)__"
+##
 ## You will in general want your comments and strings to come last,
 ## because syntax highlighting rules will be applied in the order they
 ## are read in.
