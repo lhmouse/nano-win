@@ -3986,13 +3986,15 @@ bool do_mouse(void)
 	    sameline = (mouse_y == current_y);
 
 	    /* Move to where the click occurred. */
-	    for (; current_y < mouse_y && current->next != NULL; current_y++)
+	    for (; current_y < mouse_y && current->next != NULL;
+		current_y++)
 		current = current->next;
-	    for (; current_y > mouse_y && current->prev != NULL; current_y--)
+	    for (; current_y > mouse_y && current->prev != NULL;
+		current_y--)
 		current = current->prev;
 
-	    xcur = actual_x(current->data, get_page_start(xplustabs()) +
-		mouse_x);
+	    xcur = actual_x(current->data,
+		get_page_start(xplustabs()) + mouse_x);
 
 #ifndef NANO_SMALL
 	    /* Clicking where the cursor is toggles the mark, as does

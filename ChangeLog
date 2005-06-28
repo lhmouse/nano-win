@@ -339,6 +339,8 @@ CVS code -
   titlebar()
 	- Use actual_x() to calculate the number of characters VERMSG
 	  takes up, in case it's UTF-8. (DLR)
+  do_cursorpos()
+	- Properly display the value of totsize as unsigned. (DLR)
   do_help()
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
 	  consistency. (DLR)
