@@ -4071,8 +4071,8 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	    new_magicline();
 
 	/* More dangerousness fun =) */
-	current->data = charealloc(current->data, current_len +
-		(char_buf_len * 2));
+	current->data = charealloc(current->data,
+		current_len + (char_buf_len * 2));
 
 	assert(current_x <= current_len);
 
