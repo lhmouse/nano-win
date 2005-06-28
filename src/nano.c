@@ -4679,8 +4679,8 @@ int main(int argc, char **argv)
 	/* Make sure the cursor is in the edit window. */
 	reset_cursor();
 
-	/* If constant cursor position display is on, display the cursor
-	 * position. */
+	/* If constant cursor position display is on, display the
+	 * current cursor position on the statusbar. */
 	if (ISSET(CONST_UPDATE))
 	    do_cursorpos(TRUE);
 
