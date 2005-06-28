@@ -353,6 +353,10 @@ CVS code -
 	  takes up, in case it's UTF-8. (DLR)
   do_cursorpos()
 	- Properly display the value of totsize as unsigned. (DLR)
+	- If constant is TRUE, only display the cursor position when
+	  disable_cursorpos is FALSE.  Don't refuse to display it when
+	  the cursor position hasn't changed, as that doesn't always
+	  keep it properly updated. (DLR, found by Mike Frysinger)
   do_help()
 	- Don't treat NANO_CANCEL_KEY as NANO_EXIT_KEY anymore, for
 	  consistency. (DLR)

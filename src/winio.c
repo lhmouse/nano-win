@@ -3767,24 +3767,21 @@ void display_main_list(void)
     bottombars(main_list);
 }
 
-/* If constant is FALSE, the user typed Ctrl-C, so we unconditionally
- * display the cursor position.  Otherwise, we display it only if the
- * character position changed and disable_cursorpos is FALSE.
- *
- * If constant is TRUE and disable_cursorpos is TRUE, we set the latter
- * to FALSE and update old_i and old_totsize.  That way, we leave the
- * current statusbar alone, but next time we will display. */
+/* If constant is TRUE, we display the current cursor position only if
+ * disable_cursorpos is FALSE.  Otherwise, we display it
+ * unconditionally and set disable_cursorpos to FALSE.  If constant is
+ * TRUE and disable_cursorpos is TRUE, we also set disable_cursorpos to
+ * FALSE, so that we leave the current statusbar alone this time, and
+ * display the current cursor position next time. */
 void do_cursorpos(bool constant)
 {
     char c;
     filestruct *f;
-    size_t i = 0;
-    static size_t old_i = 0, old_totsize = (size_t)-1;
+    size_t i, cur_xpt = xplustabs() + 1;
+    size_t cur_lenpt = strlenpt(current->data) + 1;
+    int linepct, colpct, charpct;
 
     assert(current != NULL && fileage != NULL && totlines != 0);
-
-    if (old_totsize == (size_t)-1)
-	old_totsize = totsize;
 
     c = current->data[current_x];
     f = current->next;
@@ -3800,32 +3797,22 @@ void do_cursorpos(bool constant)
 
     if (constant && disable_cursorpos) {
 	disable_cursorpos = FALSE;
-	old_i = i;
-	old_totsize = totsize;
 	return;
     }
 
-    /* If constant is FALSE, display the position on the statusbar
-     * unconditionally.  Otherwise, only display the position when the
-     * character values have changed.  Finally, if disable_cursorpos is
-     * TRUE, set it to FALSE. */
-    if (!constant || old_i != i || old_totsize != totsize) {
-	size_t xpt = xplustabs() + 1;
-	size_t cur_len = strlenpt(current->data) + 1;
-	int linepct = 100 * current->lineno / totlines;
-	int colpct = 100 * xpt / cur_len;
-	int bytepct = (totsize == 0) ? 0 : 100 * i / totsize;
+    /* Display the current cursor position on the statusbar, and set 
+     * disable_cursorpos to FALSE. */
+    linepct = 100 * current->lineno / totlines;
+    colpct = 100 * cur_xpt / cur_lenpt;
+    charpct = (totsize == 0) ? 0 : 100 * i / totsize;
 
-	statusbar(
-		_("line %ld/%lu (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"),
-		(long)current->lineno, (unsigned long)totlines, linepct,
-		(unsigned long)xpt, (unsigned long)cur_len, colpct,
-		(unsigned long)i, (unsigned long)totsize, bytepct);
-	disable_cursorpos = FALSE;
-    }
+    statusbar(
+	_("line %ld/%lu (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"),
+	(long)current->lineno, (unsigned long)totlines, linepct,
+	(unsigned long)cur_xpt, (unsigned long)cur_lenpt, colpct,
+	(unsigned long)i, (unsigned long)totsize, charpct);
 
-    old_i = i;
-    old_totsize = totsize;
+    disable_cursorpos = FALSE;
 }
 
 void do_cursorpos_void(void)
