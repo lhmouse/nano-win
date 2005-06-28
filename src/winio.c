@@ -3018,6 +3018,7 @@ void onekey(const char *keystroke, const char *desc, size_t len)
 size_t get_page_start(size_t column)
 {
     assert(COLS > 0);
+
     if (column == 0 || column < COLS - 1)
 	return 0;
     else if (COLS > 9)
