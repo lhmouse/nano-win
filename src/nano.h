@@ -162,7 +162,7 @@ typedef struct filestruct {
     char *data;
     struct filestruct *next;	/* Next node. */
     struct filestruct *prev;	/* Previous node. */
-    int lineno;			/* The line number. */
+    ssize_t lineno;		/* The line number. */
 } filestruct;
 
 #ifdef ENABLE_MULTIBUFFER
@@ -189,7 +189,7 @@ typedef struct openfilestruct {
     size_t current_x;		/* Current file's x-coordinate
 				 * position. */
     size_t placewewant;		/* Current file's place we want. */
-    int totlines;		/* Current file's total number of
+    size_t totlines;		/* Current file's total number of
 				 * lines. */
     size_t totsize;		/* Current file's total size. */
     unsigned long flags;	/* Current file's flags: modification

@@ -38,8 +38,8 @@ extern ssize_t wrap_at;
 #endif
 extern int editwinrows;
 extern size_t current_x;
-extern int current_y;
-extern int totlines;
+extern ssize_t current_y;
+extern size_t totlines;
 extern size_t placewewant;
 #ifndef NANO_SMALL
 extern size_t mark_beginx;
@@ -529,7 +529,8 @@ void do_gotolinecolumn(int line, ssize_t column, bool use_answer, bool
 	interactive, bool save_pos);
 void do_gotolinecolumn_void(void);
 #if defined(ENABLE_MULTIBUFFER) || !defined(DISABLE_SPELLER)
-void do_gotopos(int line, size_t pos_x, int pos_y, size_t pos_pww);
+void do_gotopos(ssize_t line, size_t pos_x, ssize_t pos_y, size_t
+	pos_pww);
 #endif
 #ifndef NANO_SMALL
 #ifdef HAVE_REGEX_H
@@ -560,7 +561,7 @@ int regexp_bol_or_eol(const regex_t *preg, const char *string);
 int digits(size_t n);
 void get_homedir(void);
 bool parse_num(const char *str, ssize_t *val);
-bool parse_line_column(const char *str, int *line, ssize_t *column);
+bool parse_line_column(const char *str, ssize_t *line, ssize_t *column);
 void align(char **str);
 void null_at(char **data, size_t index);
 void unsunder(char *str, size_t true_len);
@@ -587,7 +588,7 @@ void remove_magicline(void);
 void mark_order(const filestruct **top, size_t *top_x, const filestruct
 	**bot, size_t *bot_x, bool *right_side_up);
 #endif
-void get_totals(const filestruct *begin, const filestruct *end, int
+void get_totals(const filestruct *begin, const filestruct *end, size_t
 	*lines, size_t *size);
 
 /* Public functions in winio.c. */

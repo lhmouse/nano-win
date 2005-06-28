@@ -54,7 +54,7 @@ int editwinrows = 0;		/* How many rows long is the edit
 filestruct *current;		/* Current buffer pointer */
 size_t current_x = 0;		/* Current x-coordinate in the edit
 				   window */
-int current_y = 0;		/* Current y-coordinate in the edit
+ssize_t current_y = 0;		/* Current y-coordinate in the edit
 				   window */
 filestruct *fileage = NULL;	/* Our file buffer */
 filestruct *edittop = NULL;	/* Pointer to the top of the edit
@@ -102,7 +102,7 @@ char *backup_dir = NULL;	/* Backup directory. */
 #endif
 
 char *answer = NULL;		/* Answer str to many questions */
-int totlines = 0;		/* Total number of lines in the file */
+size_t totlines = 0;		/* Total number of lines in the file */
 size_t totsize = 0;		/* Total number of characters in the
 				   file */
 size_t placewewant = 0;		/* The column we'd like the cursor

@@ -119,6 +119,14 @@ CVS code -
 	  and add it to those regexes that can use it.  Changes to
 	  parse_colors(), parse_rcfile(), nanorc.sample, and nanorc.5.
 	  (Brand Huntsman, minor tweaks by DLR)
+	- Add various type changes to avoid problems on systems where
+	  int and ssize_t are different sizes.  Make filestruct->lineno
+	  a ssize_t (so that we can avoid negative line numbers at the
+	  "Go To Line" prompt), current_y a ssize_t (in order to hold
+	  the maximum difference between two filestruct->lineno's),
+	  totlines a size_t, and change related variables to match.
+	  (DLR, initial problem with parse_line_column() found by Mike
+	  Frysinger)
 - chars.c:
   make_mbstring()
 	- Change erroneous ENABLE_EXTRA #ifdef to NANO_EXTRA to fix a

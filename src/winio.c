@@ -3572,7 +3572,7 @@ void edit_refresh(void)
 	const filestruct *foo = edittop;
 
 #ifdef DEBUG
-	fprintf(stderr, "edit_refresh(): edittop->lineno = %d\n", edittop->lineno);
+	fprintf(stderr, "edit_refresh(): edittop->lineno = %ld\n", (long)edittop->lineno);
 #endif
 
 	while (nlines < editwinrows) {
@@ -3813,10 +3813,10 @@ void do_cursorpos(bool constant)
 	int bytepct = (totsize == 0) ? 0 : 100 * i / totsize;
 
 	statusbar(
-		_("line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"),
-		current->lineno, totlines, linepct, (unsigned long)xpt,
-		(unsigned long)cur_len, colpct, (unsigned long)i,
-		(unsigned long)totsize, bytepct);
+		_("line %ld/%lu (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"),
+		(long)current->lineno, (unsigned long)totlines, linepct,
+		(unsigned long)xpt, (unsigned long)cur_len, colpct,
+		(unsigned long)i, (unsigned long)totsize, bytepct);
 	disable_cursorpos = FALSE;
     }
 
@@ -4052,7 +4052,7 @@ void dump_buffer(const filestruct *inptr)
 	fprintf(stderr, "Dumping a buffer to stderr...\n");
 
     while (inptr != NULL) {
-	fprintf(stderr, "(%d) %s\n", inptr->lineno, inptr->data);
+	fprintf(stderr, "(%ld) %s\n", (long)inptr->lineno, inptr->data);
 	inptr = inptr->next;
     }
 }
@@ -4063,7 +4063,8 @@ void dump_buffer_reverse(void)
     const filestruct *fileptr = filebot;
 
     while (fileptr != NULL) {
-	fprintf(stderr, "(%d) %s\n", fileptr->lineno, fileptr->data);
+	fprintf(stderr, "(%ld) %s\n", (long)fileptr->lineno,
+		fileptr->data);
 	fileptr = fileptr->prev;
     }
 }

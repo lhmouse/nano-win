@@ -302,7 +302,7 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	/* The length of the match we found. */
     size_t current_x_find = 0;
 	/* The location of the match we found. */
-    int current_y_find = current_y;
+    ssize_t current_y_find = current_y;
 
     /* rev_start might end up 1 character before the start or after the
      * end of the line.  This won't be a problem because strstrwrapper()
@@ -1027,7 +1027,8 @@ void do_gotolinecolumn_void(void)
 }
 
 #if defined(ENABLE_MULTIBUFFER) || !defined(DISABLE_SPELLER)
-void do_gotopos(int line, size_t pos_x, int pos_y, size_t pos_pww)
+void do_gotopos(ssize_t line, size_t pos_x, ssize_t pos_y, size_t
+	pos_pww)
 {
     /* Since do_gotolinecolumn() resets the x-coordinate but not the
      * y-coordinate, set the coordinates up this way. */

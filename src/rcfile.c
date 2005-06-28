@@ -94,7 +94,7 @@ const static rcoption rcopts[] = {
 };
 
 static bool errors = FALSE;
-static int lineno = 0;
+static size_t lineno = 0;
 static char *nanorc = NULL;
 #ifdef ENABLE_COLOR
 static syntaxtype *endsyntax = NULL;
@@ -112,7 +112,8 @@ void rcfile_error(const char *msg, ...)
     fprintf(stderr, "\n");
     if (lineno > 0) {
 	errors = TRUE;
-	fprintf(stderr, _("Error in %s on line %d: "), nanorc, lineno);
+	fprintf(stderr, _("Error in %s on line %lu: "), nanorc,
+		(unsigned long)lineno);
     }
 
     va_start(ap, msg);

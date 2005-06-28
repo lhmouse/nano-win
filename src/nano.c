@@ -895,8 +895,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
 {
     filestruct *top_save;
-    int part_totlines;
-    size_t part_totsize;
+    size_t part_totlines, part_totsize;
     bool at_edittop;
 
     assert(file_top != NULL && file_bot != NULL);
@@ -2318,7 +2317,7 @@ const char *do_alt_speller(char *tempfile_name)
 {
     int alt_spell_status, lineno_save = current->lineno;
     size_t current_x_save = current_x, pww_save = placewewant;
-    int current_y_save = current_y;
+    ssize_t current_y_save = current_y;
     pid_t pid_spell;
     char *ptr;
     static int arglen = 3;
@@ -2333,7 +2332,7 @@ const char *do_alt_speller(char *tempfile_name)
 	 * FALSE if (current, current_x) is. */
     filestruct *top, *bot;
     size_t top_x, bot_x;
-    int mbb_lineno_save = 0;
+    ssize_t mbb_lineno_save = 0;
 	/* We're going to close the current file, and open the output of
 	 * the alternate spell command.  The line that mark_beginbuf
 	 * points to will be freed, so we save the line number and
@@ -3077,7 +3076,7 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 	/* Number of lines in the paragraph we search for. */
     filestruct *current_save;
 	/* The line at the beginning of the paragraph we search for. */
-    size_t current_y_save;
+    ssize_t current_y_save;
 	/* The y-coordinate at the beginning of the paragraph we search
 	 * for. */
 
@@ -3147,7 +3146,7 @@ void do_justify(bool full_justify)
     /* We save these global variables to be restored if the user
      * unjustifies.  Note that we don't need to save totlines. */
     size_t current_x_save = current_x, pww_save = placewewant;
-    int current_y_save = current_y;
+    ssize_t current_y_save = current_y;
     unsigned long flags_save = flags;
     size_t totsize_save = totsize;
     filestruct *edittop_save = edittop, *current_save = current;
@@ -4131,7 +4130,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 int main(int argc, char **argv)
 {
     int optchr;
-    int startline = 1;
+    ssize_t startline = 1;
 	/* Line to try and start at. */
     ssize_t startcol = 1;
 	/* Column to try and start at. */
@@ -4608,8 +4607,8 @@ int main(int argc, char **argv)
     /* Read all the files after the first one on the command line into
      * new buffers. */
     {
-	int i = optind + 1, iline = 1;
-	ssize_t icol = 1;
+	int i = optind + 1;
+	ssize_t iline = 1, icol = 1;
 
 	for (; i < argc; i++) {
 	    /* If there's a +LINE or +LINE,COLUMN flag here, it is

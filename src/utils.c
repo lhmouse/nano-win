@@ -108,7 +108,7 @@ bool parse_num(const char *str, ssize_t *val)
 /* Read an int and a ssize_t, separated by a comma, from str, and store
  * them in *line and *column (if they're not both NULL).  On error, we
  * return FALSE.  Otherwise, we return TRUE. */
-bool parse_line_column(const char *str, int *line, ssize_t *column)
+bool parse_line_column(const char *str, ssize_t *line, ssize_t *column)
 {
     bool retval = TRUE;
     const char *comma;
@@ -430,7 +430,7 @@ void mark_order(const filestruct **top, size_t *top_x, const filestruct
 
 /* Calculate the number of lines and the number of characters between
  * begin and end, and return them in lines and size, respectively. */
-void get_totals(const filestruct *begin, const filestruct *end, int
+void get_totals(const filestruct *begin, const filestruct *end, size_t
 	*lines, size_t *size)
 {
     const filestruct *f;
