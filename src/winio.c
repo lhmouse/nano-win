@@ -2859,7 +2859,7 @@ void titlebar(const char *path)
     wrefresh(edit);
 }
 
-/* If modified is not already set, set it and update titlebar. */
+/* If MODIFIED is not already set, set it and update the titlebar. */
 void set_modified(void)
 {
     if (!ISSET(MODIFIED)) {
@@ -2868,6 +2868,9 @@ void set_modified(void)
     }
 }
 
+/* Display a message on the statusbar, and set disable_cursorpos to
+ * TRUE, so that the message won't be immediately overwritten if
+ * constant cursor position display is on. */
 void statusbar(const char *msg, ...)
 {
     va_list ap;
