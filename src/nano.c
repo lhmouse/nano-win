@@ -3146,7 +3146,7 @@ void do_justify(bool full_justify)
 
     /* We save these global variables to be restored if the user
      * unjustifies.  Note that we don't need to save totlines. */
-    size_t current_x_save = current_x;
+    size_t current_x_save = current_x, pww_save = placewewant;
     int current_y_save = current_y;
     unsigned long flags_save = flags;
     size_t totsize_save = totsize;
@@ -3419,6 +3419,7 @@ void do_justify(bool full_justify)
 	/* Restore the justify we just did (ungrateful user!). */
 	current = current_save;
 	current_x = current_x_save;
+	placewewant = pww_save;
 	current_y = current_y_save;
 	edittop = edittop_save;
 

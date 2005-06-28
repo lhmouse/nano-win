@@ -238,6 +238,9 @@ CVS code -
 	- If the spell-checker printed any error messages onscreen, call
 	  total_refresh() to make sure they're cleared off. (DLR, found
 	  by CHAO Wei-Lun)
+  do_justify()
+	- Save placewewant, and restore it if we unjustify, in order to
+	  avoid a potential screen update problem. (DLR)
   do_output()
 	- Properly allow wrapping when we insert a tab, for consistency.
 	  (DLR)
