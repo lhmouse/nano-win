@@ -3520,7 +3520,7 @@ void edit_scroll(updown direction, int nlines)
  * updated. */
 void edit_redraw(const filestruct *old_current, size_t old_pww)
 {
-    int do_refresh = need_vertical_update(0) ||
+    bool do_refresh = need_vertical_update(0) ||
 	need_vertical_update(old_pww);
     const filestruct *foo;
 

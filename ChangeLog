@@ -342,6 +342,8 @@ CVS code -
   statusbar()
 	- Set statusblank to 25 instead of 26, to match current Pico.
 	  (DLR)
+  edit_redraw()
+	- Make do_refresh a bool instead of an int. (DLR)
   do_yesno()
 	- Allow refreshing the screen via Ctrl-L, as Pico does. (DLR)
 	- Add a missing assert, and use actual_x() to calculate the
@@ -956,7 +958,7 @@ GNU nano 1.3.5 - 2004.11.22
 	  functions open_file(), execute_command(), and mallocstrassn();
 	  changes to read_line(), load_file(), read_file(), open_file(),
 	  get_next_filename(), do_insertfile(), do_insertfile_void(),
-	  do_alt_speller(), and edit_refresh(). (David Benbennick) DLR:
+	  do_alt_speller(), and edit_refresh(). (David Benbennick)  DLR:
 	  Add a few minor fixes to make sure that current is set
 	  properly in all cases, indicate on the statusbar when the file
 	  has a mix of DOS and Mac format lines, move the test for DOS
