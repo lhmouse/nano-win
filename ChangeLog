@@ -127,6 +127,11 @@ CVS code -
 	  totlines a size_t, and change related variables to match.
 	  (DLR, initial problem with parse_line_column() found by Mike
 	  Frysinger)
+	- Rework the credits handling to display Florian König's name
+	  properly whether we're in a UTF-8 locale or not.  This
+	  requires a minor hack, but it's better than requiring a
+	  massive function that we only use once.  Changes to
+	  do_credits(); removal of make_valid_mbstring(). (DLR)
 - chars.c:
   make_mbstring()
 	- Change erroneous ENABLE_EXTRA #ifdef to NANO_EXTRA to fix a

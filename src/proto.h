@@ -224,9 +224,6 @@ char *mbstrchr(const char *s, char *c);
 #ifdef ENABLE_NANORC
 bool is_valid_mbstring(const char *s);
 #endif
-#ifdef NANO_EXTRA
-char *make_valid_mbstring(const char *s);
-#endif
 
 /* Public functions in color.c. */
 #ifdef ENABLE_COLOR

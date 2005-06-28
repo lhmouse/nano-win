@@ -4094,7 +4094,7 @@ void do_credits(void)
 	"David Benbennick",
 	"Ken Tyler",
 	"Sven Guckes",
-	"Florian K\xF6nig",
+	NULL,				/* credits[14], handled below. */
 	"Pauli Virtanen",
 	"Daniele Medri",
 	"Clement Laforet",
@@ -4146,6 +4146,14 @@ void do_credits(void)
 	N_("Thank you for using nano!")
     };
 
+    /* credits[14]: Use a minor hack to make sure this name is displayed
+     * properly, since we can't dynamically assign it above. */
+    credits[14] =
+#ifdef NANO_WIDE
+	 ISSET(USE_UTF8) ? "Florian K\xC3\xB6nig" :
+#endif
+	"Florian K\xF6nig";
+
     curs_set(0);
     nodelay(edit, TRUE);
     scrollok(edit, TRUE);
@@ -4163,25 +4171,20 @@ void do_credits(void)
 	    break;
 
 	if (crpos < CREDIT_LEN) {
-	    char *what;
+	    const char *what;
 	    size_t start_x;
 
-	    /* Make sure every credit is a valid multibyte string, since
-	     * we can't dynamically set the credits to their multibyte
-	     * equivalents when we need to.  Sigh... */
 	    if (credits[crpos] == NULL) {
 		assert(0 <= xlpos && xlpos < XLCREDIT_LEN);
 
-		what = mallocstrcpy(NULL, _(xlcredits[xlpos]));
+		what = _(xlcredits[xlpos]);
 		xlpos++;
 	    } else
-		what = make_valid_mbstring(credits[crpos]);
+		what = credits[crpos];
 
 	    start_x = COLS / 2 - strlenpt(what) / 2 - 1;
 	    mvwaddstr(edit, editwinrows - 1 - (editwinrows % 2),
 		start_x, what);
-
-	    free(what);
 	}
 
 	napms(700);
