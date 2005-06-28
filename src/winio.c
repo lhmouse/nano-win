@@ -4146,8 +4146,8 @@ void do_credits(void)
 	N_("Thank you for using nano!")
     };
 
-    /* credits[14]: Use a minor hack to make sure this name is displayed
-     * properly, since we can't dynamically assign it above. */
+    /* credits[14]: Make sure this name is displayed properly, since we
+     * can't dynamically assign it above. */
     credits[14] =
 #ifdef NANO_WIDE
 	 ISSET(USE_UTF8) ? "Florian K\xC3\xB6nig" :
