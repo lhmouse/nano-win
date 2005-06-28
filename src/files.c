@@ -2503,7 +2503,7 @@ char *do_browser(char *path, DIR *dir)
 	     * per row below. */
 	struct stat st;
 	char *new_path;
-	    /* Used by the Go To Directory prompt. */
+	    /* Used by the "Go To Directory" prompt. */
 #ifndef DISABLE_MOUSE
 	MEVENT mevent;
 #endif
