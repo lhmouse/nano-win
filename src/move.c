@@ -225,6 +225,7 @@ void do_down(void)
 	return;
 
     assert(current_y == current->lineno - edittop->lineno);
+
     current = current->next;
     current_x = actual_x(current->data, placewewant);
 
