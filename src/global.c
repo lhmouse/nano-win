@@ -38,7 +38,6 @@ ssize_t wrap_at = -CHARS_FROM_EOL;	/* Right justified fill value,
 
 char *last_search = NULL;	/* Last string we searched for */
 char *last_replace = NULL;	/* Last replacement string */
-int search_last_line;		/* Is this the last search line? */
 
 unsigned long flags = 0;	/* Our flag containing many options */
 WINDOW *topwin;			/* Top buffer */
