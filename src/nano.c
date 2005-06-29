@@ -1117,18 +1117,6 @@ void version(void)
 	_(" Email: nano@nano-editor.org	Web: http://www.nano-editor.org/"));
     printf(_("\n Compiled options:"));
 
-#ifndef ENABLE_NLS
-    printf(" --disable-nls");
-#endif
-#ifdef DEBUG
-    printf(" --enable-debug");
-#endif
-#ifdef NANO_EXTRA
-    printf(" --enable-extra");
-#endif
-#ifdef NANO_SMALL
-    printf(" --enable-tiny");
-#else
 #ifdef DISABLE_BROWSER
     printf(" --disable-browser");
 #endif
@@ -1141,6 +1129,9 @@ void version(void)
 #ifdef DISABLE_MOUSE
     printf(" --disable-mouse");
 #endif
+#ifndef ENABLE_NLS
+    printf(" --disable-nls");
+#endif
 #ifdef DISABLE_OPERATINGDIR
     printf(" --disable-operatingdir");
 #endif
@@ -1150,7 +1141,6 @@ void version(void)
 #ifdef DISABLE_TABCOMP
     printf(" --disable-tabcomp");
 #endif
-#endif /* NANO_SMALL */
 #ifdef DISABLE_WRAPPING
     printf(" --disable-wrapping");
 #endif
@@ -1160,11 +1150,23 @@ void version(void)
 #ifdef ENABLE_COLOR
     printf(" --enable-color");
 #endif
+#ifdef DEBUG
+    printf(" --enable-debug");
+#endif
+#ifdef NANO_EXTRA
+    printf(" --enable-extra");
+#endif
 #ifdef ENABLE_MULTIBUFFER
     printf(" --enable-multibuffer");
 #endif
 #ifdef ENABLE_NANORC
     printf(" --enable-nanorc");
+#endif
+#ifdef NANO_SMALL
+    printf(" --enable-tiny");
+#endif
+#ifdef NANO_WIDE
+    printf(" --enable-utf8");
 #endif
 #ifdef USE_SLANG
     printf(" --with-slang");

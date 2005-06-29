@@ -233,6 +233,10 @@ CVS code -
 	- Add missing N_() around one message, so that it isn't
 	  erroneously translated twice. (DLR)
 	- Remove inaccurate default listed for -Q/--quotestr. (DLR)
+  version()
+	- Add --enable-utf8 to the displayed compilation options, put
+	  the options in alphabetical order, and handle --enable-tiny
+	  the same way as all the other options. (DLR)
   do_tab()
 	- Remove unneeded variable kbinput. (DLR)
   do_int_spell_fix()
