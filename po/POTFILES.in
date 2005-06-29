@@ -1,17 +1,10 @@
 # $Id$
 # List of source files containing translatable strings.
 
-# Package source files
-src/cut.c
 src/files.c
 src/global.c
-src/move.c
 src/nano.c
 src/rcfile.c
 src/search.c
 src/utils.c
 src/winio.c
-
-# Package header files
-src/nano.h
-src/proto.h

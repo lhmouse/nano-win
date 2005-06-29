@@ -1,3 +1,8 @@
+2005-06-28  David Lawrence Ramsey  <pooka_regent@sluggy.net>
+
+	* POTFILES.in: Remove source files that contain no translatable
+	strings.
+
 2005-06-19  David Lawrence Ramsey  <pooka_regent@sluggy.net>
 
 	* pt_BR.po: Typo fix.
