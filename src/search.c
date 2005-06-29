@@ -961,8 +961,8 @@ void do_replace(void)
 /* Go to the specified line and column, or ask for them if interactive
  * is TRUE.  Save the x-coordinate and y-coordinate if save_pos is TRUE.
  * Note that both the line and column numbers should be one-based. */
-void do_gotolinecolumn(int line, ssize_t column, bool use_answer, bool
-	interactive, bool save_pos)
+void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
+	bool interactive, bool save_pos)
 {
     if (interactive) {		/* Ask for it. */
 	char *ans = mallocstrcpy(NULL, answer);

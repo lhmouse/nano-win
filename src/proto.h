@@ -522,8 +522,8 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 	*real_current, size_t *real_current_x, bool wholewords, bool
 	*canceled);
 void do_replace(void);
-void do_gotolinecolumn(int line, ssize_t column, bool use_answer, bool
-	interactive, bool save_pos);
+void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
+	bool interactive, bool save_pos);
 void do_gotolinecolumn_void(void);
 #if defined(ENABLE_MULTIBUFFER) || !defined(DISABLE_SPELLER)
 void do_gotopos(ssize_t line, size_t pos_x, ssize_t pos_y, size_t
