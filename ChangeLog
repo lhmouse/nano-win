@@ -376,6 +376,9 @@ CVS code -
 	- Allow refreshing the screen via Ctrl-L, as Pico does. (DLR)
 	- Add a missing assert, and use actual_x() to calculate the
 	  number of characters buf takes up, in case it's UTF-8. (DLR)
+	- Get input from bottomwin instead of edit, so that the cursor
+	  isn't erroneously put in the edit window while we wait for an
+	  answer. (DLR)
   total_redraw()
 	- Simplify to call clearok(TRUE) and wrefresh() on curscr, which
 	  updates the entire screen in fewer function calls without

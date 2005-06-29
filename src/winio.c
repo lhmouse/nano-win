@@ -3695,7 +3695,7 @@ int do_yesno(bool all, const char *msg)
 	int mouse_x, mouse_y;
 #endif
 
-	kbinput = get_kbinput(edit, &meta_key, &func_key);
+	kbinput = get_kbinput(bottomwin, &meta_key, &func_key);
 
 	if (kbinput == NANO_REFRESH_KEY) {
 	    total_redraw();
