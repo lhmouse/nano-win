@@ -3091,6 +3091,7 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 
     /* Move back to the beginning of the current line. */
     current_x = 0;
+    placewewant = 0;
 
     /* Find the first line of the current or next paragraph.  First, if
      * the current line isn't in a paragraph, move forward to the line
