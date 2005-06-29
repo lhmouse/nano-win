@@ -41,7 +41,7 @@
 
 #ifndef HAVE_ISBLANK
 /* This function is equivalent to isblank(). */
-int nisblank(int c)
+bool nisblank(int c)
 {
     return isspace(c) && (c == '\t' || !is_cntrl_char(c));
 }
@@ -49,7 +49,7 @@ int nisblank(int c)
 
 #if !defined(HAVE_ISWBLANK) && defined(NANO_WIDE)
 /* This function is equivalent to iswblank(). */
-int niswblank(wchar_t wc)
+bool niswblank(wchar_t wc)
 {
     return iswspace(wc) && (wc == '\t' || !is_cntrl_wchar(wc));
 }

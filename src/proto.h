@@ -160,10 +160,10 @@ extern char *homedir;
 
 /* Public functions in chars.c. */
 #ifndef HAVE_ISBLANK
-int nisblank(int c);
+bool nisblank(int c);
 #endif
 #if !defined(HAVE_ISWBLANK) && defined(NANO_WIDE)
-int niswblank(wchar_t wc);
+bool niswblank(wchar_t wc);
 #endif
 bool is_byte(int c);
 bool is_alnum_mbchar(const char *c);
