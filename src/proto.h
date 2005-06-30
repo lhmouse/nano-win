@@ -701,7 +701,7 @@ void do_cursorpos_void(void);
 size_t help_line_len(const char *ptr);
 void do_help(void);
 #endif
-void do_replace_highlight(bool highlight_flag, const char *word);
+void do_replace_highlight(bool highlight, const char *word);
 #ifndef NDEBUG
 int check_linenumbers(const filestruct *fileptr);
 #endif

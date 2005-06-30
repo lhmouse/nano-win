@@ -3982,7 +3982,7 @@ void do_help(void)
 
 /* Highlight the current word being replaced or spell checked.  We
  * expect word to have tabs and control characters expanded. */
-void do_replace_highlight(bool highlight_flag, const char *word)
+void do_replace_highlight(bool highlight, const char *word)
 {
     size_t y = xplustabs(), word_len = strlenpt(word);
 
@@ -3997,7 +3997,7 @@ void do_replace_highlight(bool highlight_flag, const char *word)
 
     reset_cursor();
 
-    if (highlight_flag)
+    if (highlight)
 	wattron(edit, A_REVERSE);
 
 #ifdef HAVE_REGEX_H
@@ -4011,7 +4011,7 @@ void do_replace_highlight(bool highlight_flag, const char *word)
     if (word_len > y)
 	waddch(edit, '$');
 
-    if (highlight_flag)
+    if (highlight)
 	wattroff(edit, A_REVERSE);
 }
 
