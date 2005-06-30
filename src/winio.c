@@ -4013,6 +4013,9 @@ void do_replace_highlight(bool highlight, const char *word)
 
     if (highlight)
 	wattroff(edit, A_REVERSE);
+
+    /* Refresh the edit window. */
+    wnoutrefresh(edit);
 }
 
 #ifndef NDEBUG

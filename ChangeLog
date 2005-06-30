@@ -392,6 +392,8 @@ CVS code -
 	  have a zero-length regex. (DLR)
 	- Rename variable highlight_flag to highlight, for consistency.
 	  (DLR)
+	- Call wnoutrefresh(edit) to make sure that the highlight is
+	  drawn properly. (DLR)
   do_credits()
 	- Save the keystroke that breaks us out of the credits (if any)
 	  and put it back so that it isn't lost.  This is especially
