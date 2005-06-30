@@ -3746,13 +3746,10 @@ void total_redraw(void)
 {
 #ifdef USE_SLANG
     /* Slang curses emulation brain damage, part 3: Slang doesn't define
-     * curscr, and even if it did, if we just do what curses does here,
-     * it'll leave some windows cleared without updating them
-     * properly. */
+     * curscr. */
     SLsmg_touch_screen();
     SLsmg_refresh();
 #else
-    clearok(curscr, TRUE);
     wrefresh(curscr);
 #endif
 }

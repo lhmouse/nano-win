@@ -382,13 +382,11 @@ CVS code -
 	- Call wnoutrefresh(edit) to make sure that the edit window is
 	  refreshed before we get input, as statusq() does. (DLR)
   total_redraw()
-	- Simplify to call clearok(TRUE) and wrefresh() on curscr, which
-	  updates the entire screen in fewer function calls without
-	  moving the cursor from the window it's currently in. (DLR)
+	- Simplify to just call wrefresh() on curscr, which updates the
+	  entire screen in one function call without moving the cursor
+	  from the window it's currently in. (DLR)
 	- When using slang, use SLsmg_touch_screen() and SLsmg_refresh()
-	  to update the screen, as slang doesn't define curscr, and even
-	  if it did, the curses method will leave some windows cleared
-	  without properly updating them. (DLR)
+	  to update the screen, as slang doesn't define curscr. (DLR)
   do_replace_highlight()
 	- Use waddch() instead of waddstr() to display a space when we
 	  have a zero-length regex. (DLR)
