@@ -1,3 +1,22 @@
+2005.06.30 - GNU nano 1.3.8 floats at its own level.  This release
+		contains several new features.  Among other things, you
+		can now move to a specified column number as well as
+		line number within a file, file backups saved in a
+		backup directory will have unique names, the search and
+		replace history routines should work more consistently,
+		you can get a word count by pressing Meta-D at the edit
+		window, and there's a new -E/--tabstospaces option to
+		convert all typed tabs to spaces (--backupdir's short
+		option has been changed to -C).  In terms of bugfixes,
+		this release contains fixes for minor problems with
+		screen updates, UTF-8 display, and flow control; a fix
+		for a segfault when displaying some lines ending with
+		tabs; better handling of constant cursor position
+		display; improved color parsing in the rcfile; and
+		support for the "Regexp" toggle in tiny mode
+		(-R/--regexp is gone, and --restricted's short option
+		has been changed to -R), among other things.  Enjoy.
+
 2005.04.10 - GNU nano 1.3.7 claws its way to the top.  This release
 		mostly contains bugfixes for the massive amount of new
 		code in 1.3.6.  Among other things, nano builds with

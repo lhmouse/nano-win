@@ -1,4 +1,4 @@
-CVS code -
+GNU nano 1.3.8 - 2005.06.30
 - General:
 	- Miscellaneous comment fixes. (DLR)
 	- Various #include fixes.  Since proto.h includes nano.h, only
