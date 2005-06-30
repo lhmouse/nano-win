@@ -3984,8 +3984,7 @@ void do_help(void)
  * expect word to have tabs and control characters expanded. */
 void do_replace_highlight(bool highlight_flag, const char *word)
 {
-    size_t y = xplustabs();
-    size_t word_len = strlenpt(word);
+    size_t y = xplustabs(), word_len = strlenpt(word);
 
     y = get_page_start(y) + COLS - y;
 	/* Now y is the number of columns that we can display on this
