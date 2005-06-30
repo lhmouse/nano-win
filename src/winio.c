@@ -3686,6 +3686,9 @@ int do_yesno(bool all, const char *msg)
 
     wattroff(bottomwin, A_REVERSE);
 
+    /* Refresh the edit window and the statusbar before getting
+     * input. */
+    wnoutrefresh(edit);
     wrefresh(bottomwin);
 
     do {
@@ -4013,9 +4016,6 @@ void do_replace_highlight(bool highlight, const char *word)
 
     if (highlight)
 	wattroff(edit, A_REVERSE);
-
-    /* Refresh the edit window. */
-    wnoutrefresh(edit);
 }
 
 #ifndef NDEBUG
