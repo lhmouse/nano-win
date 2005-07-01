@@ -1299,6 +1299,11 @@ void do_verbatim_input(void)
     do_output(output, kbinput_len, TRUE);
 
     free(output);
+
+    /* If constant cursor position display is on, make sure the current
+     * cursor position is properly displayed on the statusbar. */
+    if (ISSET(CONST_UPDATE))
+	do_cursorpos(TRUE);
 }
 
 void do_backspace(void)
@@ -3683,10 +3688,7 @@ void allow_pending_sigwinch(bool allow)
     sigset_t winch;
     sigemptyset(&winch);
     sigaddset(&winch, SIGWINCH);
-    if (allow)
-	sigprocmask(SIG_UNBLOCK, &winch, NULL);
-    else
-	sigprocmask(SIG_BLOCK, &winch, NULL);
+    sigprocmask(allow ? SIG_UNBLOCK : SIG_BLOCK, &winch, NULL);
 }
 #endif /* !NANO_SMALL */
 
@@ -3911,7 +3913,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 
 	if (have_shortcut) {
 	    switch (input) {
-		/* Handle the "universal" statusbar prompt shortcuts. */
+		/* Handle the "universal" edit window shortcuts. */
 		case NANO_XON_KEY:
 		    statusbar(_("XON ignored, mumble mumble."));
 		    break;
@@ -4682,9 +4684,10 @@ int main(int argc, char **argv)
 	/* Make sure the cursor is in the edit window. */
 	reset_cursor();
 
-	/* If constant cursor position display is on, display the
-	 * current cursor position on the statusbar. */
-	if (ISSET(CONST_UPDATE))
+	/* If constant cursor position display is on, and there are no
+	 * keys waiting in the buffer, display the current cursor
+	 * position on the statusbar. */
+	if (ISSET(CONST_UPDATE) && get_buffer_len() == 0)
 	    do_cursorpos(TRUE);
 
 	currshortcut = main_list;

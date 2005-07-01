@@ -2339,6 +2339,7 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 		if ((match + 1) % columns == 0)
 		    editline++;
 	    }
+
 	    wrefresh(edit);
 	    *list = TRUE;
 	}
@@ -2899,6 +2900,7 @@ char *histfilename(void)
     return nanohist;
 }
 
+/* Load histories from ~/.nano_history. */
 void load_history(void)
 {
     char *nanohist = histfilename();

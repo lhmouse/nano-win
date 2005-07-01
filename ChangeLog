@@ -1,4 +1,17 @@
 CVS code -
+- General:
+	- Miscellaneous comment fixes. (DLR)
+- nano.c:
+  allow_pending_sigwinch()
+	- Simplify by using the "?" operator instead of an if clause.
+	  (DLR)
+  do_verbatim_input()
+	- If constant cursor position display is on when we finish, make
+	  sure the cursor position is displayed properly. (DLR)
+  main()
+	- When constant cursor position display is on, only display the
+	  cursor position if there are no keys waiting in the buffer.
+	  (DLR)
 
 GNU nano 1.3.8 - 2005.06.30
 - General:
