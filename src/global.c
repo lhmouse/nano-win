@@ -197,7 +197,8 @@ size_t length_of_list(const shortcut *s)
     return i;
 }
 
-/* Initialize a struct *without* our lovely braces =( */
+/* Create a new shortcut structure, at the end of the shortcuts linked
+ * list. */
 void sc_init_one(shortcut **shortcutage, int ctrlval, const char *desc,
 #ifndef DISABLE_HELP
 	const char *help,
@@ -1074,7 +1075,7 @@ void free_shortcutage(shortcut **shortcutage)
 }
 
 #ifndef NANO_SMALL
-/* Create one new toggle structure, at the end of the toggles linked
+/* Create a new toggle structure, at the end of the toggles linked
  * list. */
 void toggle_init_one(int val, const char *desc, long flag)
 {
