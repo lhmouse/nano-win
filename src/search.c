@@ -907,6 +907,8 @@ void do_replace(void)
 	last_search = mallocstrcpy(last_search, answer);
     }
 
+    last_replace = mallocstrcpy(last_replace, "");
+
     i = statusq(FALSE, replace_list_2, last_replace,
 #ifndef NANO_SMALL
 	&replace_history,

@@ -12,6 +12,10 @@ CVS code -
 	- When constant cursor position display is on, only display the
 	  cursor position if there are no keys waiting in the buffer.
 	  (DLR)
+- search.c:
+  do_replace()
+	- Blank out last_replace properly again just before displaying
+	  the "Replace" prompt. (DLR, found by Mike Frysinger)
 
 GNU nano 1.3.8 - 2005.06.30
 - General:
