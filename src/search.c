@@ -215,17 +215,14 @@ int search_init(bool replacing, bool use_answer)
 	return -1;
     } else {
 	switch (i) {
-	    case -2:		/* It's the same string. */
+	    case -2:		/* It's an empty string. */
+	    case 0:		/* It's a new string. */
 #ifdef HAVE_REGEX_H
-		/* Since answer is "", use last_search! */
-		if (ISSET(USE_REGEXP) && regexp_init(last_search) == 0)
-		    return -1;
-#endif
-		break;
-	    case 0:		/* They entered something new. */
-		last_replace[0] = '\0';
-#ifdef HAVE_REGEX_H
-		if (ISSET(USE_REGEXP) && regexp_init(answer) == 0)
+		/* Use last_search if answer is an empty string, or
+		 * answer if it isn't. */
+		if (ISSET(USE_REGEXP) &&
+			regexp_init((i == -2) ? last_search :
+			answer) == 0)
 		    return -1;
 #endif
 		break;
@@ -570,11 +567,8 @@ void do_research(void)
 
 void replace_abort(void)
 {
-    /* Identical to search_abort(), so we'll call it here.  If it does
-     * something different later, we can change it back.  For now, it's
-     * just a waste to duplicate code. */
+    /* For now, we do the same thing as search_abort(). */
     search_abort();
-    placewewant = xplustabs();
 }
 
 #ifdef HAVE_REGEX_H

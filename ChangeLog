@@ -13,6 +13,13 @@ CVS code -
 	  cursor position if there are no keys waiting in the buffer.
 	  (DLR)
 - search.c:
+  search_init()
+	- Don't blank out last_replace anymore when we get a new string,
+	  as it'll be blanked out in do_replace().  Also, consolidate
+	  the cases for blank and new search strings, as they now differ
+	  only in which string they pass to regexp_init(). (DLR)
+  replace_abort()
+	- Remove unnecessary update of placewewant. (DLR)
   do_replace()
 	- Blank out last_replace properly again just before displaying
 	  the "Replace" prompt. (DLR, found by Mike Frysinger)
