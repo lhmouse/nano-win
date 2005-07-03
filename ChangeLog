@@ -23,6 +23,9 @@ CVS code -
   do_replace()
 	- Blank out last_replace properly again just before displaying
 	  the "Replace" prompt. (DLR, found by Mike Frysinger)
+  doc/nanorc.sample:
+	- Add regexes for Bourne shell scripts. (Mike Frysinger, minor
+	  tweaks by DLR)
 
 GNU nano 1.3.8 - 2005.06.30
 - General:
