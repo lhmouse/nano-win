@@ -2398,9 +2398,9 @@ const char *do_alt_speller(char *tempfile_name)
 
     if (!WIFEXITED(alt_spell_status) ||
 		WEXITSTATUS(alt_spell_status) != 0) {
-	char *altspell_error = NULL;
+	char *altspell_error;
 	char *invoke_error = _("Could not invoke \"%s\"");
-	int msglen = strlen(invoke_error) + strlen(alt_speller) + 2;
+	size_t msg_len = strlen(invoke_error) + strlen(alt_speller) + 2;
 
 #ifndef NANO_SMALL
 	/* Turn the mark back on if it was on before. */
@@ -2408,8 +2408,8 @@ const char *do_alt_speller(char *tempfile_name)
 	    SET(MARK_ISSET);
 #endif
 
-	altspell_error = charalloc(msglen);
-	snprintf(altspell_error, msglen, invoke_error, alt_speller);
+	altspell_error = charalloc(msg_len);
+	snprintf(altspell_error, msg_len, invoke_error, alt_speller);
 	return altspell_error;
     }
 

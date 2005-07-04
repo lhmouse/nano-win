@@ -5,6 +5,10 @@ CVS code -
   do_verbatim_input()
 	- If constant cursor position display is on when we finish, make
 	  sure the cursor position is displayed properly. (DLR)
+  do_alt_speller()
+	- Rename variable msglen to msg_len, for consistency, and make
+	  it a size_t instead of an int.  Also remove unnecessary
+	  initialization of altspell_error. (DLR)
   allow_pending_sigwinch()
 	- Simplify by using the "?" operator instead of an if clause.
 	  (DLR)
