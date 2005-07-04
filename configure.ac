@@ -398,18 +398,18 @@ int main(void)
 
 dnl Checks for functions.
 
-AC_CHECK_FUNCS(getdelim getline isblank snprintf strcasecmp strcasestr strncasecmp strnlen vsnprintf)
+AC_CHECK_FUNCS(getdelim getline isblank strcasecmp strcasestr strncasecmp strnlen vsnprintf)
 
 if test x$enable_utf8 != xno; then
     AC_CHECK_FUNCS(iswalnum iswblank iswpunct iswspace mblen mbstowcs mbtowc wctomb wcwidth)
 fi
 
-if test x$ac_cv_func_snprintf = xno || test x$ac_cv_func_vsnprintf = xno; then
+if test x$ac_cv_func_vsnprintf = xno; then
     AM_PATH_GLIB_2_0(2.0.0,,
 	AC_MSG_ERROR([
-*** snprintf() and/or vsnprintf() not found.  GLIB 2.x not found either.
-*** You need both snprintf() and vsnprintf().  Alternatively you can
-*** install the GLIB library which can be found at ftp://ftp.gtk.org/.]),
+*** vsnprintf() not found.  GLIB 2.x not found either.  You should
+*** install the GLIB 2.x library which can be found at
+*** ftp://ftp.gtk.org/.]),
 	glib)
 fi
 

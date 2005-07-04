@@ -7,10 +7,11 @@ CVS code -
 	  sure the cursor position is displayed properly. (DLR)
   do_alt_speller()
 	- If we can't invoke the spell checker, use sprintf() instead of
-	  snprintf() to write the error string we return, as
-	  altspell_error will always be long enough to hold it.  Also
-	  remove unnecessary initialization of altspell_error, and
-	  refactor so that msglen is no longer needed. (DLR)
+	  snprintf() to write the error string we return, as the one
+	  formatted value is a simple string, and so altspell_error will
+	  always be long enough to hold it.  Also remove unnecessary
+	  initialization of altspell_error, and refactor so that msglen
+	  is no longer needed. (DLR)
   allow_pending_sigwinch()
 	- Simplify by using the "?" operator instead of an if clause.
 	  (DLR)
@@ -18,6 +19,9 @@ CVS code -
 	- When constant cursor position display is on, only display the
 	  cursor position if there are no keys waiting in the buffer.
 	  (DLR)
+- nano.h:
+	- Since we only use vsnprintf() now, remove the #ifdef block for
+	  HAVE_SNPRINTF. (DLR)
 - search.c:
   search_init()
 	- Don't blank out last_replace anymore when we get a new string,
@@ -29,6 +33,9 @@ CVS code -
   do_replace()
 	- Blank out last_replace properly again just before displaying
 	  the "Replace" prompt. (DLR, found by Mike Frysinger)
+  configure.ac:
+	- Since we only use vsnprintf() now, remove the tests for
+	  snprintf(). (DLR)
   doc/nanorc.sample:
 	- Add regexes for Bourne shell scripts. (Mike Frysinger, minor
 	  tweaks by DLR)

@@ -93,15 +93,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-/* If no snprintf() or vsnprintf(), use the versions from glib 2.x. */
-#if !defined(HAVE_SNPRINTF) || !defined(HAVE_VSNPRINTF)
-#include <glib.h>
-#ifndef HAVE_SNPRINTF
-#define snprintf g_snprintf
-#endif
+/* If no vsnprintf(), use the version from glib 2.x. */
 #ifndef HAVE_VSNPRINTF
+#include <glib.h>
 #define vsnprintf g_vsnprintf
-#endif
 #endif
 
 /* If no isblank(), iswblank(), strcasecmp(), strncasecmp(),
