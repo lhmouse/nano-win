@@ -6,12 +6,11 @@ CVS code -
 	- If constant cursor position display is on when we finish, make
 	  sure the cursor position is displayed properly. (DLR)
   do_alt_speller()
-	- Rename variable msglen to msg_len, for consistency, and make
-	  it a size_t instead of an int.  Also remove unnecessary
-	  initialization of altspell_error. (DLR)
 	- If we can't invoke the spell checker, use sprintf() instead of
 	  snprintf() to write the error string we return, as
-	  altspell_error will always be long enough to hold it. (DLR)
+	  altspell_error will always be long enough to hold it.  Also
+	  remove unnecessary initialization of altspell_error, and
+	  refactor so that msglen is no longer needed. (DLR)
   allow_pending_sigwinch()
 	- Simplify by using the "?" operator instead of an if clause.
 	  (DLR)
