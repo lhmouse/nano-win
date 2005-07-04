@@ -9,6 +9,9 @@ CVS code -
 	- Rename variable msglen to msg_len, for consistency, and make
 	  it a size_t instead of an int.  Also remove unnecessary
 	  initialization of altspell_error. (DLR)
+	- If we can't invoke the spell checker, use sprintf() instead of
+	  snprintf() to write the error string we return, as
+	  altspell_error will always be long enough to hold it. (DLR)
   allow_pending_sigwinch()
 	- Simplify by using the "?" operator instead of an if clause.
 	  (DLR)
