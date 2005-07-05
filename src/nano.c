@@ -2409,7 +2409,7 @@ const char *do_alt_speller(char *tempfile_name)
 
 	altspell_error =
 		charalloc(strlen(invoke_error) +
-		strlen(alt_speller) + 2);
+		strlen(alt_speller) + 1);
 	sprintf(altspell_error, invoke_error, alt_speller);
 	return altspell_error;
     }
