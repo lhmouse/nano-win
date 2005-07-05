@@ -36,6 +36,10 @@ CVS code -
   configure.ac:
 	- Since we only use vsnprintf() now, remove the tests for
 	  snprintf(). (DLR)
+  doc/faq.html:
+	- Update section 4.10 to mention that pasting from the X
+	  clipboard via the middle mouse button also works when the
+	  Shift key is used. (DLR)
   doc/nanorc.sample:
 	- Add regexes for Bourne shell scripts. (Mike Frysinger, minor
 	  tweaks by DLR)
