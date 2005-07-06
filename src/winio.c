@@ -4150,7 +4150,8 @@ void do_credits(void)
     };
 
     /* credits[14]: Make sure this name is displayed properly, since we
-     * can't dynamically assign it above. */
+     * can't dynamically assign it above, using Unicode 00F6 (Latin
+     * Small Letter O with Diaresis) if applicable. */
     credits[14] =
 #ifdef NANO_WIDE
 	 ISSET(USE_UTF8) ? "Florian K\xC3\xB6nig" :
