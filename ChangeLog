@@ -33,6 +33,10 @@ CVS code -
   do_replace()
 	- Blank out last_replace properly again just before displaying
 	  the "Replace" prompt. (DLR, found by Mike Frysinger)
+- winio.c:
+  display_string()
+	- Display invalid multibyte sequences as Unicode 0xFFFD
+	  (Replacement Character). (DLR)
 - configure.ac:
 	- Since we only use vsnprintf() now, remove the tests for
 	  snprintf(). (DLR)
