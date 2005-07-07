@@ -1,3 +1,8 @@
+2005-07-07  Jordi Mallach  <jordi@gnu.org>
+
+	* it.po: Updated Italian translation by Marco Colombo.
+	* ca.po: Updated Catalan translation.
+
 2005-06-28  David Lawrence Ramsey  <pooka_regent@sluggy.net>
 
 	* POTFILES.in: Remove source files that contain no translatable
