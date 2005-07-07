@@ -1,6 +1,9 @@
 CVS code -
 - General:
 	- Miscellaneous comment fixes. (DLR)
+- global.c:
+  shortcut_init()
+	- Simplify wording of nano_gotoline_msg. (Jordi)
 - nano.c:
   do_verbatim_input()
 	- If constant cursor position display is on when we finish, make
