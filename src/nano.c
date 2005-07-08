@@ -78,6 +78,392 @@ static filestruct *jusbottom = NULL;
 	/* Pointer to end of justify buffer. */
 #endif
 
+/* Create a new filestruct node.  Note that we specifically do not set
+ * prevnode->next equal to the new line. */
+filestruct *make_new_node(filestruct *prevnode)
+{
+    filestruct *newnode = (filestruct *)nmalloc(sizeof(filestruct));
+
+    newnode->data = NULL;
+    newnode->prev = prevnode;
+    newnode->next = NULL;
+    newnode->lineno = (prevnode != NULL) ? prevnode->lineno + 1 : 1;
+
+    return newnode;
+}
+
+/* Make a copy of a filestruct node. */
+filestruct *copy_node(const filestruct *src)
+{
+    filestruct *dst;
+
+    assert(src != NULL);
+
+    dst = (filestruct *)nmalloc(sizeof(filestruct));
+
+    dst->data = mallocstrcpy(NULL, src->data);
+    dst->next = src->next;
+    dst->prev = src->prev;
+    dst->lineno = src->lineno;
+
+    return dst;
+}
+
+/* Splice a node into an existing filestruct. */
+void splice_node(filestruct *begin, filestruct *newnode, filestruct
+	*end)
+{
+    assert(newnode != NULL && begin != NULL);
+
+    newnode->next = end;
+    newnode->prev = begin;
+    begin->next = newnode;
+    if (end != NULL)
+	end->prev = newnode;
+}
+
+/* Unlink a node from the rest of the filestruct. */
+void unlink_node(const filestruct *fileptr)
+{
+    assert(fileptr != NULL);
+
+    if (fileptr->prev != NULL)
+	fileptr->prev->next = fileptr->next;
+    if (fileptr->next != NULL)
+	fileptr->next->prev = fileptr->prev;
+}
+
+/* Delete a node from the filestruct. */
+void delete_node(filestruct *fileptr)
+{
+    assert(fileptr != NULL && fileptr->data != NULL);
+
+    if (fileptr->data != NULL)
+	free(fileptr->data);
+    free(fileptr);
+}
+
+/* Duplicate a whole filestruct. */
+filestruct *copy_filestruct(const filestruct *src)
+{
+    filestruct *head, *copy;
+
+    assert(src != NULL);
+
+    copy = copy_node(src);
+    copy->prev = NULL;
+    head = copy;
+    src = src->next;
+
+    while (src != NULL) {
+	copy->next = copy_node(src);
+	copy->next->prev = copy;
+	copy = copy->next;
+
+	src = src->next;
+    }
+    copy->next = NULL;
+
+    return head;
+}
+
+/* Frees a filestruct. */
+void free_filestruct(filestruct *src)
+{
+    assert(src != NULL);
+
+    while (src->next != NULL) {
+	src = src->next;
+	delete_node(src->prev);
+    }
+    delete_node(src);
+}
+
+void renumber_all(void)
+{
+    filestruct *temp;
+    ssize_t line = 1;
+
+    assert(fileage == NULL || fileage != fileage->next);
+
+    for (temp = fileage; temp != NULL; temp = temp->next)
+	temp->lineno = line++;
+}
+
+void renumber(filestruct *fileptr)
+{
+    if (fileptr == NULL || fileptr->prev == NULL || fileptr == fileage)
+	renumber_all();
+    else {
+	ssize_t line = fileptr->prev->lineno;
+
+	assert(fileptr != fileptr->next);
+
+	for (; fileptr != NULL; fileptr = fileptr->next)
+	    fileptr->lineno = ++line;
+    }
+}
+
+/* Partition a filestruct so it begins at (top, top_x) and ends at (bot,
+ * bot_x). */
+partition *partition_filestruct(filestruct *top, size_t top_x,
+	filestruct *bot, size_t bot_x)
+{
+    partition *p;
+
+    assert(top != NULL && bot != NULL && fileage != NULL && filebot != NULL);
+
+    /* Initialize the partition. */
+    p = (partition *)nmalloc(sizeof(partition));
+
+    /* If the top and bottom of the partition are different from the top
+     * and bottom of the filestruct, save the latter and then set them
+     * to top and bot. */
+    if (top != fileage) {
+	p->fileage = fileage;
+	fileage = top;
+    } else
+	p->fileage = NULL;
+    if (bot != filebot) {
+	p->filebot = filebot;
+	filebot = bot;
+    } else
+	p->filebot = NULL;
+
+    /* Save the line above the top of the partition, detach the top of
+     * the partition from it, and save the text before top_x in
+     * top_data. */
+    p->top_prev = top->prev;
+    top->prev = NULL;
+    p->top_data = mallocstrncpy(NULL, top->data, top_x + 1);
+    p->top_data[top_x] = '\0';
+
+    /* Save the line below the bottom of the partition, detach the
+     * bottom of the partition from it, and save the text after bot_x in
+     * bot_data. */
+    p->bot_next = bot->next;
+    bot->next = NULL;
+    p->bot_data = mallocstrcpy(NULL, bot->data + bot_x);
+
+    /* Remove all text after bot_x at the bottom of the partition. */
+    null_at(&bot->data, bot_x);
+
+    /* Remove all text before top_x at the top of the partition. */
+    charmove(top->data, top->data + top_x, strlen(top->data) -
+	top_x + 1);
+    align(&top->data);
+
+    /* Return the partition. */
+    return p;
+}
+
+/* Unpartition a filestruct so it begins at (fileage, 0) and ends at
+ * (filebot, strlen(filebot)) again. */
+void unpartition_filestruct(partition **p)
+{
+    char *tmp;
+
+    assert(p != NULL && fileage != NULL && filebot != NULL);
+
+    /* Reattach the line above the top of the partition, and restore the
+     * text before top_x from top_data.  Free top_data when we're done
+     * with it. */
+    tmp = mallocstrcpy(NULL, fileage->data);
+    fileage->prev = (*p)->top_prev;
+    if (fileage->prev != NULL)
+	fileage->prev->next = fileage;
+    fileage->data = charealloc(fileage->data, strlen((*p)->top_data) +
+	strlen(fileage->data) + 1);
+    strcpy(fileage->data, (*p)->top_data);
+    free((*p)->top_data);
+    strcat(fileage->data, tmp);
+    free(tmp);
+
+    /* Reattach the line below the bottom of the partition, and restore
+     * the text after bot_x from bot_data.  Free bot_data when we're
+     * done with it. */
+    filebot->next = (*p)->bot_next;
+    if (filebot->next != NULL)
+	filebot->next->prev = filebot;
+    filebot->data = charealloc(filebot->data, strlen(filebot->data) +
+	strlen((*p)->bot_data) + 1);
+    strcat(filebot->data, (*p)->bot_data);
+    free((*p)->bot_data);
+
+    /* Restore the top and bottom of the filestruct, if they were
+     * different from the top and bottom of the partition. */
+    if ((*p)->fileage != NULL)
+	fileage = (*p)->fileage;
+    if ((*p)->filebot != NULL)
+	filebot = (*p)->filebot;
+
+    /* Uninitialize the partition. */
+    free(*p);
+    *p = NULL;
+}
+
+/* Move all the text between (top, top_x) and (bot, bot_x) in the
+ * current filestruct to a filestruct beginning with file_top and ending
+ * with file_bot.  If no text is between (top, top_x) and (bot, bot_x),
+ * don't do anything. */
+void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
+	filestruct *top, size_t top_x, filestruct *bot, size_t bot_x)
+{
+    filestruct *top_save;
+    size_t part_totsize;
+    bool at_edittop;
+#ifndef NANO_SMALL
+    bool mark_inside = FALSE;
+#endif
+
+    assert(file_top != NULL && file_bot != NULL && top != NULL && bot != NULL);
+
+    /* If (top, top_x)-(bot, bot_x) doesn't cover any text, get out. */
+    if (top == bot && top_x == bot_x)
+	return;
+
+    /* Partition the filestruct so that it contains only the text from
+     * (top, top_x) to (bot, bot_x), keep track of whether the top of
+     * the partition is the top of the edit window, and keep track of
+     * whether the mark begins inside the partition. */
+    filepart = partition_filestruct(top, top_x, bot, bot_x);
+    at_edittop = (fileage == edittop);
+#ifndef NANO_SMALL
+    if (ISSET(MARK_ISSET))
+	mark_inside = (mark_beginbuf->lineno >= fileage->lineno &&
+		mark_beginbuf->lineno <= filebot->lineno &&
+		(mark_beginbuf != fileage || mark_beginx >= top_x) &&
+		(mark_beginbuf != filebot || mark_beginx <= bot_x));
+#endif
+
+    /* Get the number of characters in the text, and subtract it from
+     * totsize. */
+    get_totals(top, bot, NULL, &part_totsize);
+    totsize -= part_totsize;
+
+    if (*file_top == NULL) {
+	/* If file_top is empty, just move all the text directly into
+	 * it.  This is equivalent to tacking the text in top onto the
+	 * (lack of) text at the end of file_top. */
+	*file_top = fileage;
+	*file_bot = filebot;
+    } else {
+	/* Otherwise, tack the text in top onto the text at the end of
+	 * file_bot. */
+	(*file_bot)->data = charealloc((*file_bot)->data,
+		strlen((*file_bot)->data) + strlen(fileage->data) + 1);
+	strcat((*file_bot)->data, fileage->data);
+
+	/* Attach the line after top to the line after file_bot.  Then,
+	 * if there's more than one line after top, move file_bot down
+	 * to bot. */
+	(*file_bot)->next = fileage->next;
+	if ((*file_bot)->next != NULL) {
+	    (*file_bot)->next->prev = *file_bot;
+	    *file_bot = filebot;
+	}
+    }
+
+    /* Since the text has now been saved, remove it from the filestruct.
+     * If the top of the partition was the top of the edit window, set
+     * edittop to where the text used to start.  If the mark began
+     * inside the partition, set the beginning of the mark to where the
+     * text used to start. */
+    fileage = (filestruct *)nmalloc(sizeof(filestruct));
+    fileage->data = mallocstrcpy(NULL, "");
+    filebot = fileage;
+    if (at_edittop)
+	edittop = fileage;
+#ifndef NANO_SMALL
+    if (mark_inside) {
+	mark_beginbuf = fileage;
+	mark_beginx = top_x;
+    }
+#endif
+
+    /* Restore the current line and cursor position. */
+    current = fileage;
+    current_x = top_x;
+
+    top_save = fileage;
+
+    /* Unpartition the filestruct so that it contains all the text
+     * again, minus the saved text. */
+    unpartition_filestruct(&filepart);
+
+    /* Renumber starting with the beginning line of the old
+     * partition. */
+    renumber(top_save);
+
+    if (filebot->data[0] != '\0')
+	new_magicline();
+
+    /* Set totlines to the new number of lines in the file. */
+    totlines = filebot->lineno;
+}
+
+/* Copy all the text from the filestruct beginning with file_top and
+ * ending with file_bot to the current filestruct at the current cursor
+ * position. */
+void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
+{
+    filestruct *top_save;
+    size_t part_totlines, part_totsize;
+    bool at_edittop;
+
+    assert(file_top != NULL && file_bot != NULL);
+
+    /* Partition the filestruct so that it contains no text, and keep
+     * track of whether the top of the partition is the top of the edit
+     * window. */
+    filepart = partition_filestruct(current, current_x, current,
+	current_x);
+    at_edittop = (fileage == edittop);
+
+    /* Put the top and bottom of the filestruct at copies of file_top
+     * and file_bot. */
+    fileage = copy_filestruct(file_top);
+    filebot = fileage;
+    while (filebot->next != NULL)
+	filebot = filebot->next;
+
+    /* Restore the current line and cursor position. */
+    current = filebot;
+    current_x = strlen(filebot->data);
+    if (fileage == filebot)
+	current_x += strlen(filepart->top_data);
+
+    /* Get the number of lines and the number of characters in the saved
+     * text, and add the latter to totsize. */
+    get_totals(fileage, filebot, &part_totlines, &part_totsize);
+    totsize += part_totsize;
+
+    /* If the top of the partition was the top of the edit window, set
+     * edittop to where the saved text now starts, and update the
+     * current y-coordinate to account for the number of lines it
+     * has, less one since the first line will be tacked onto the
+     * current line. */
+    if (at_edittop)
+	edittop = fileage;
+    current_y += part_totlines - 1;
+
+    top_save = fileage;
+
+    /* Unpartition the filestruct so that it contains all the text
+     * again, minus the saved text. */
+    unpartition_filestruct(&filepart);
+
+    /* Renumber starting with the beginning line of the old
+     * partition. */
+    renumber(top_save);
+
+    if (filebot->data[0] != '\0')
+	new_magicline();
+
+    /* Set totlines to the new number of lines in the file. */
+    totlines = filebot->lineno;
+}
+
 void print_view_warning(void)
 {
     statusbar(_("Key illegal in VIEW mode"));
@@ -589,392 +975,6 @@ void help_init(void)
     assert(strlen(help_text) <= allocsize + 1);
 }
 #endif
-
-/* Create a new filestruct node.  Note that we specifically do not set
- * prevnode->next equal to the new line. */
-filestruct *make_new_node(filestruct *prevnode)
-{
-    filestruct *newnode = (filestruct *)nmalloc(sizeof(filestruct));
-
-    newnode->data = NULL;
-    newnode->prev = prevnode;
-    newnode->next = NULL;
-    newnode->lineno = (prevnode != NULL) ? prevnode->lineno + 1 : 1;
-
-    return newnode;
-}
-
-/* Make a copy of a filestruct node. */
-filestruct *copy_node(const filestruct *src)
-{
-    filestruct *dst;
-
-    assert(src != NULL);
-
-    dst = (filestruct *)nmalloc(sizeof(filestruct));
-
-    dst->data = mallocstrcpy(NULL, src->data);
-    dst->next = src->next;
-    dst->prev = src->prev;
-    dst->lineno = src->lineno;
-
-    return dst;
-}
-
-/* Splice a node into an existing filestruct. */
-void splice_node(filestruct *begin, filestruct *newnode, filestruct
-	*end)
-{
-    assert(newnode != NULL && begin != NULL);
-
-    newnode->next = end;
-    newnode->prev = begin;
-    begin->next = newnode;
-    if (end != NULL)
-	end->prev = newnode;
-}
-
-/* Unlink a node from the rest of the filestruct. */
-void unlink_node(const filestruct *fileptr)
-{
-    assert(fileptr != NULL);
-
-    if (fileptr->prev != NULL)
-	fileptr->prev->next = fileptr->next;
-    if (fileptr->next != NULL)
-	fileptr->next->prev = fileptr->prev;
-}
-
-/* Delete a node from the filestruct. */
-void delete_node(filestruct *fileptr)
-{
-    assert(fileptr != NULL && fileptr->data != NULL);
-
-    if (fileptr->data != NULL)
-	free(fileptr->data);
-    free(fileptr);
-}
-
-/* Duplicate a whole filestruct. */
-filestruct *copy_filestruct(const filestruct *src)
-{
-    filestruct *head, *copy;
-
-    assert(src != NULL);
-
-    copy = copy_node(src);
-    copy->prev = NULL;
-    head = copy;
-    src = src->next;
-
-    while (src != NULL) {
-	copy->next = copy_node(src);
-	copy->next->prev = copy;
-	copy = copy->next;
-
-	src = src->next;
-    }
-    copy->next = NULL;
-
-    return head;
-}
-
-/* Frees a filestruct. */
-void free_filestruct(filestruct *src)
-{
-    assert(src != NULL);
-
-    while (src->next != NULL) {
-	src = src->next;
-	delete_node(src->prev);
-    }
-    delete_node(src);
-}
-
-/* Partition a filestruct so it begins at (top, top_x) and ends at (bot,
- * bot_x). */
-partition *partition_filestruct(filestruct *top, size_t top_x,
-	filestruct *bot, size_t bot_x)
-{
-    partition *p;
-
-    assert(top != NULL && bot != NULL && fileage != NULL && filebot != NULL);
-
-    /* Initialize the partition. */
-    p = (partition *)nmalloc(sizeof(partition));
-
-    /* If the top and bottom of the partition are different from the top
-     * and bottom of the filestruct, save the latter and then set them
-     * to top and bot. */
-    if (top != fileage) {
-	p->fileage = fileage;
-	fileage = top;
-    } else
-	p->fileage = NULL;
-    if (bot != filebot) {
-	p->filebot = filebot;
-	filebot = bot;
-    } else
-	p->filebot = NULL;
-
-    /* Save the line above the top of the partition, detach the top of
-     * the partition from it, and save the text before top_x in
-     * top_data. */
-    p->top_prev = top->prev;
-    top->prev = NULL;
-    p->top_data = mallocstrncpy(NULL, top->data, top_x + 1);
-    p->top_data[top_x] = '\0';
-
-    /* Save the line below the bottom of the partition, detach the
-     * bottom of the partition from it, and save the text after bot_x in
-     * bot_data. */
-    p->bot_next = bot->next;
-    bot->next = NULL;
-    p->bot_data = mallocstrcpy(NULL, bot->data + bot_x);
-
-    /* Remove all text after bot_x at the bottom of the partition. */
-    null_at(&bot->data, bot_x);
-
-    /* Remove all text before top_x at the top of the partition. */
-    charmove(top->data, top->data + top_x, strlen(top->data) -
-	top_x + 1);
-    align(&top->data);
-
-    /* Return the partition. */
-    return p;
-}
-
-/* Unpartition a filestruct so it begins at (fileage, 0) and ends at
- * (filebot, strlen(filebot)) again. */
-void unpartition_filestruct(partition **p)
-{
-    char *tmp;
-
-    assert(p != NULL && fileage != NULL && filebot != NULL);
-
-    /* Reattach the line above the top of the partition, and restore the
-     * text before top_x from top_data.  Free top_data when we're done
-     * with it. */
-    tmp = mallocstrcpy(NULL, fileage->data);
-    fileage->prev = (*p)->top_prev;
-    if (fileage->prev != NULL)
-	fileage->prev->next = fileage;
-    fileage->data = charealloc(fileage->data, strlen((*p)->top_data) +
-	strlen(fileage->data) + 1);
-    strcpy(fileage->data, (*p)->top_data);
-    free((*p)->top_data);
-    strcat(fileage->data, tmp);
-    free(tmp);
-
-    /* Reattach the line below the bottom of the partition, and restore
-     * the text after bot_x from bot_data.  Free bot_data when we're
-     * done with it. */
-    filebot->next = (*p)->bot_next;
-    if (filebot->next != NULL)
-	filebot->next->prev = filebot;
-    filebot->data = charealloc(filebot->data, strlen(filebot->data) +
-	strlen((*p)->bot_data) + 1);
-    strcat(filebot->data, (*p)->bot_data);
-    free((*p)->bot_data);
-
-    /* Restore the top and bottom of the filestruct, if they were
-     * different from the top and bottom of the partition. */
-    if ((*p)->fileage != NULL)
-	fileage = (*p)->fileage;
-    if ((*p)->filebot != NULL)
-	filebot = (*p)->filebot;
-
-    /* Uninitialize the partition. */
-    free(*p);
-    *p = NULL;
-}
-
-/* Move all the text between (top, top_x) and (bot, bot_x) in the
- * current filestruct to a filestruct beginning with file_top and ending
- * with file_bot.  If no text is between (top, top_x) and (bot, bot_x),
- * don't do anything. */
-void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
-	filestruct *top, size_t top_x, filestruct *bot, size_t bot_x)
-{
-    filestruct *top_save;
-    size_t part_totsize;
-    bool at_edittop;
-#ifndef NANO_SMALL
-    bool mark_inside = FALSE;
-#endif
-
-    assert(file_top != NULL && file_bot != NULL && top != NULL && bot != NULL);
-
-    /* If (top, top_x)-(bot, bot_x) doesn't cover any text, get out. */
-    if (top == bot && top_x == bot_x)
-	return;
-
-    /* Partition the filestruct so that it contains only the text from
-     * (top, top_x) to (bot, bot_x), keep track of whether the top of
-     * the partition is the top of the edit window, and keep track of
-     * whether the mark begins inside the partition. */
-    filepart = partition_filestruct(top, top_x, bot, bot_x);
-    at_edittop = (fileage == edittop);
-#ifndef NANO_SMALL
-    if (ISSET(MARK_ISSET))
-	mark_inside = (mark_beginbuf->lineno >= fileage->lineno &&
-		mark_beginbuf->lineno <= filebot->lineno &&
-		(mark_beginbuf != fileage || mark_beginx >= top_x) &&
-		(mark_beginbuf != filebot || mark_beginx <= bot_x));
-#endif
-
-    /* Get the number of characters in the text, and subtract it from
-     * totsize. */
-    get_totals(top, bot, NULL, &part_totsize);
-    totsize -= part_totsize;
-
-    if (*file_top == NULL) {
-	/* If file_top is empty, just move all the text directly into
-	 * it.  This is equivalent to tacking the text in top onto the
-	 * (lack of) text at the end of file_top. */
-	*file_top = fileage;
-	*file_bot = filebot;
-    } else {
-	/* Otherwise, tack the text in top onto the text at the end of
-	 * file_bot. */
-	(*file_bot)->data = charealloc((*file_bot)->data,
-		strlen((*file_bot)->data) + strlen(fileage->data) + 1);
-	strcat((*file_bot)->data, fileage->data);
-
-	/* Attach the line after top to the line after file_bot.  Then,
-	 * if there's more than one line after top, move file_bot down
-	 * to bot. */
-	(*file_bot)->next = fileage->next;
-	if ((*file_bot)->next != NULL) {
-	    (*file_bot)->next->prev = *file_bot;
-	    *file_bot = filebot;
-	}
-    }
-
-    /* Since the text has now been saved, remove it from the filestruct.
-     * If the top of the partition was the top of the edit window, set
-     * edittop to where the text used to start.  If the mark began
-     * inside the partition, set the beginning of the mark to where the
-     * text used to start. */
-    fileage = (filestruct *)nmalloc(sizeof(filestruct));
-    fileage->data = mallocstrcpy(NULL, "");
-    filebot = fileage;
-    if (at_edittop)
-	edittop = fileage;
-#ifndef NANO_SMALL
-    if (mark_inside) {
-	mark_beginbuf = fileage;
-	mark_beginx = top_x;
-    }
-#endif
-
-    /* Restore the current line and cursor position. */
-    current = fileage;
-    current_x = top_x;
-
-    top_save = fileage;
-
-    /* Unpartition the filestruct so that it contains all the text
-     * again, minus the saved text. */
-    unpartition_filestruct(&filepart);
-
-    /* Renumber starting with the beginning line of the old
-     * partition. */
-    renumber(top_save);
-
-    if (filebot->data[0] != '\0')
-	new_magicline();
-
-    /* Set totlines to the new number of lines in the file. */
-    totlines = filebot->lineno;
-}
-
-/* Copy all the text from the filestruct beginning with file_top and
- * ending with file_bot to the current filestruct at the current cursor
- * position. */
-void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
-{
-    filestruct *top_save;
-    size_t part_totlines, part_totsize;
-    bool at_edittop;
-
-    assert(file_top != NULL && file_bot != NULL);
-
-    /* Partition the filestruct so that it contains no text, and keep
-     * track of whether the top of the partition is the top of the edit
-     * window. */
-    filepart = partition_filestruct(current, current_x, current,
-	current_x);
-    at_edittop = (fileage == edittop);
-
-    /* Put the top and bottom of the filestruct at copies of file_top
-     * and file_bot. */
-    fileage = copy_filestruct(file_top);
-    filebot = fileage;
-    while (filebot->next != NULL)
-	filebot = filebot->next;
-
-    /* Restore the current line and cursor position. */
-    current = filebot;
-    current_x = strlen(filebot->data);
-    if (fileage == filebot)
-	current_x += strlen(filepart->top_data);
-
-    /* Get the number of lines and the number of characters in the saved
-     * text, and add the latter to totsize. */
-    get_totals(fileage, filebot, &part_totlines, &part_totsize);
-    totsize += part_totsize;
-
-    /* If the top of the partition was the top of the edit window, set
-     * edittop to where the saved text now starts, and update the
-     * current y-coordinate to account for the number of lines it
-     * has, less one since the first line will be tacked onto the
-     * current line. */
-    if (at_edittop)
-	edittop = fileage;
-    current_y += part_totlines - 1;
-
-    top_save = fileage;
-
-    /* Unpartition the filestruct so that it contains all the text
-     * again, minus the saved text. */
-    unpartition_filestruct(&filepart);
-
-    /* Renumber starting with the beginning line of the old
-     * partition. */
-    renumber(top_save);
-
-    if (filebot->data[0] != '\0')
-	new_magicline();
-
-    /* Set totlines to the new number of lines in the file. */
-    totlines = filebot->lineno;
-}
-
-void renumber_all(void)
-{
-    filestruct *temp;
-    ssize_t line = 1;
-
-    assert(fileage == NULL || fileage != fileage->next);
-
-    for (temp = fileage; temp != NULL; temp = temp->next)
-	temp->lineno = line++;
-}
-
-void renumber(filestruct *fileptr)
-{
-    if (fileptr == NULL || fileptr->prev == NULL || fileptr == fileage)
-	renumber_all();
-    else {
-	ssize_t line = fileptr->prev->lineno;
-
-	assert(fileptr != fileptr->next);
-
-	for (; fileptr != NULL; fileptr = fileptr->next)
-	    fileptr->lineno = ++line;
-    }
-}
 
 #ifdef HAVE_GETOPT_LONG
 #define print1opt(shortflag, longflag, desc) print1opt_full(shortflag, longflag, desc)

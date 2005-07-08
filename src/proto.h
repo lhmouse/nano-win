@@ -246,6 +246,22 @@ void do_cut_till_end(void);
 void do_uncut_text(void);
 
 /* Public functions in files.c. */
+#ifdef ENABLE_MULTIBUFFER
+openfilestruct *make_new_opennode(void);
+void splice_opennode(openfilestruct *begin, openfilestruct *newnode,
+	openfilestruct *end);
+void unlink_opennode(openfilestruct *fileptr);
+void delete_opennode(openfilestruct *fileptr);
+#ifdef DEBUG
+void free_openfilestruct(openfilestruct *src);
+#endif
+void add_open_file(bool update);
+void load_open_file(void);
+void open_prevnext_file(bool next_file);
+void open_prevfile_void(void);
+void open_nextfile_void(void);
+bool close_open_file(void);
+#endif
 void new_file(void);
 filestruct *read_line(char *buf, filestruct *prevnode, bool
 	*first_line_ins, size_t buf_len);
@@ -265,22 +281,6 @@ void do_insertfile(
 #endif
 	);
 void do_insertfile_void(void);
-#ifdef ENABLE_MULTIBUFFER
-openfilestruct *make_new_opennode(void);
-void splice_opennode(openfilestruct *begin, openfilestruct *newnode,
-	openfilestruct *end);
-void unlink_opennode(openfilestruct *fileptr);
-void delete_opennode(openfilestruct *fileptr);
-#ifdef DEBUG
-void free_openfilestruct(openfilestruct *src);
-#endif
-void add_open_file(bool update);
-void load_open_file(void);
-void open_prevnext_file(bool next_file);
-void open_prevfile_void(void);
-void open_nextfile_void(void);
-bool close_open_file(void);
-#endif
 char *get_full_path(const char *origpath);
 char *check_writable_directory(const char *path);
 char *safe_tempfile(FILE **f);
@@ -359,6 +359,22 @@ void do_right(bool allow_update);
 void do_right_void(void);
 
 /* Public functions in nano.c. */
+filestruct *make_new_node(filestruct *prevnode);
+filestruct *copy_node(const filestruct *src);
+void splice_node(filestruct *begin, filestruct *newnode, filestruct
+	*end);
+void unlink_node(const filestruct *fileptr);
+void delete_node(filestruct *fileptr);
+filestruct *copy_filestruct(const filestruct *src);
+void free_filestruct(filestruct *src);
+void renumber_all(void);
+void renumber(filestruct *fileptr);
+partition *partition_filestruct(filestruct *top, size_t top_x,
+	filestruct *bot, size_t bot_x);
+void unpartition_filestruct(partition **p);
+void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
+	filestruct *top, size_t top_x, filestruct *bot, size_t bot_x);
+void copy_from_filestruct(filestruct *file_top, filestruct *file_bot);
 void print_view_warning(void);
 void finish(void);
 void die(const char *msg, ...);
@@ -373,22 +389,6 @@ void mouse_init(void);
 #ifndef DISABLE_HELP
 void help_init(void);
 #endif
-filestruct *make_new_node(filestruct *prevnode);
-filestruct *copy_node(const filestruct *src);
-void splice_node(filestruct *begin, filestruct *newnode, filestruct
-	*end);
-void unlink_node(const filestruct *fileptr);
-void delete_node(filestruct *fileptr);
-filestruct *copy_filestruct(const filestruct *src);
-void free_filestruct(filestruct *src);
-partition *partition_filestruct(filestruct *top, size_t top_x,
-	filestruct *bot, size_t bot_x);
-void unpartition_filestruct(partition **p);
-void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
-	filestruct *top, size_t top_x, filestruct *bot, size_t bot_x);
-void copy_from_filestruct(filestruct *file_top, filestruct *file_bot);
-void renumber_all(void);
-void renumber(filestruct *fileptr);
 void print1opt_full(const char *shortflag
 #ifdef HAVE_GETOPT_LONG
 	, const char *longflag

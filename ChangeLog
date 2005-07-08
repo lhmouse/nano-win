@@ -5,6 +5,7 @@ CVS code -
 	  saved as an int instead of a ssize_t.  Changes to
 	  renumber_all(), renumber(), do_alt_speller(), and
 	  backup_lines(). (DLR)
+	- Reorder some functions for consistency. (DLR)
 - global.c:
   shortcut_init()
 	- Simplify wording of nano_gotoline_msg. (Jordi)
