@@ -967,12 +967,12 @@ void renumber(filestruct *fileptr)
     if (fileptr == NULL || fileptr->prev == NULL || fileptr == fileage)
 	renumber_all();
     else {
-	int lineno = fileptr->prev->lineno;
+	ssize_t line = fileptr->prev->lineno;
 
 	assert(fileptr != fileptr->next);
 
 	for (; fileptr != NULL; fileptr = fileptr->next)
-	    fileptr->lineno = ++lineno;
+	    fileptr->lineno = ++line;
     }
 }
 
