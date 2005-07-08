@@ -16,8 +16,10 @@ CVS code -
 	  snprintf() to write the error string we return, as the one
 	  formatted value is a simple string, and so altspell_error will
 	  always be long enough to hold it.  Also remove unnecessary
-	  initialization of altspell_error, and refactor so that msglen
-	  is no longer needed. (DLR)
+	  initialization of altspell_error, refactor so that msglen is
+	  no longer needed, and make the error message more similar to
+	  what the internal spell checker returns under the same
+	  circumstances. (DLR)
   allow_pending_sigwinch()
 	- Simplify by using the "?" operator instead of an if clause.
 	  (DLR)

@@ -2399,7 +2399,7 @@ const char *do_alt_speller(char *tempfile_name)
     if (!WIFEXITED(alt_spell_status) ||
 		WEXITSTATUS(alt_spell_status) != 0) {
 	char *altspell_error;
-	char *invoke_error = _("Could not invoke \"%s\"");
+	char *invoke_error = _("Error invoking \"%s\"");
 
 #ifndef NANO_SMALL
 	/* Turn the mark back on if it was on before. */
