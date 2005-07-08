@@ -954,12 +954,12 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
 void renumber_all(void)
 {
     filestruct *temp;
-    int i = 1;
+    ssize_t line = 1;
 
     assert(fileage == NULL || fileage != fileage->next);
 
     for (temp = fileage; temp != NULL; temp = temp->next)
-	temp->lineno = i++;
+	temp->lineno = line++;
 }
 
 void renumber(filestruct *fileptr)

@@ -5,7 +5,7 @@ CVS code -
   shortcut_init()
 	- Simplify wording of nano_gotoline_msg. (Jordi)
 - nano.c:
-  renumber()
+  renumber_all(), renumber()
 	- When renumbering, properly use a ssize_t instead of an int.
 	  (DLR)
   do_verbatim_input()
