@@ -2324,7 +2324,7 @@ const char *do_alt_speller(char *tempfile_name)
 {
     int alt_spell_status;
     size_t current_x_save = current_x, pww_save = placewewant;
-    ssize_t lineno_save = current->lineno, current_y_save = current_y;
+    ssize_t current_y_save = current_y, lineno_save = current->lineno;
     pid_t pid_spell;
     char *ptr;
     static int arglen = 3;
