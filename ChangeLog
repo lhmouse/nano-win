@@ -6,6 +6,7 @@ CVS code -
 	  renumber_all(), renumber(), do_alt_speller(), and
 	  backup_lines(). (DLR)
 	- Reorder some functions for consistency. (DLR)
+	- Rename variable open_files filebuffer, for consistency. (DLR)
 - global.c:
   shortcut_init()
 	- Simplify wording of nano_gotoline_msg. (Jordi)
