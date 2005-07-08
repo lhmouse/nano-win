@@ -2980,7 +2980,7 @@ void do_para_end(bool allow_update)
 	current = current->next;
 
     while (current->next != NULL && inpar(current->next) &&
-	    !begpar(current->next)) {
+	!begpar(current->next)) {
 	current = current->next;
 	current_y++;
     }
@@ -3111,7 +3111,7 @@ bool find_paragraph(size_t *const quote, size_t *const par)
      * is in a paragraph and it isn't the first line of that paragraph,
      * move back to the first line. */
     if (!inpar(current)) {
-	filestruct *current_save = current;
+	current_save = current;
 
 	do_para_end(FALSE);
 	if (current == current_save || !inpar(current->prev))
