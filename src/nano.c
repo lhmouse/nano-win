@@ -521,19 +521,19 @@ void die(const char *msg, ...)
 
 #ifdef ENABLE_MULTIBUFFER
     /* Save all of the other modified file buffers, if any. */
-    if (filebuffer != NULL) {
-	openfilestruct *tmp = filebuffer;
+    if (openfile != NULL) {
+	openfilestruct *tmp = openfile;
 
-	while (tmp != filebuffer->next) {
-	    filebuffer = filebuffer->next;
+	while (tmp != openfile->next) {
+	    openfile = openfile->next;
 
 	    /* Save the current file buffer if it's been modified. */
-	    if (filebuffer->flags & MODIFIED) {
+	    if (openfile->flags & MODIFIED) {
 		/* Set fileage and filebot to match the current file
 		 * buffer, and then write it to disk. */
-		fileage = filebuffer->fileage;
-		filebot = filebuffer->filebot;
-		die_save_file(filebuffer->filename);
+		fileage = openfile->fileage;
+		filebot = openfile->filebot;
+		die_save_file(openfile->filename);
 	    }
 	}
     }
@@ -2544,7 +2544,7 @@ void do_spell(void)
     }
 
 #ifdef ENABLE_MULTIBUFFER
-    /* Update the current filebuffer entry before spell-checking, in
+    /* Update the current openfile entry before spell-checking, in
      * case any problems occur. */
     add_open_file(TRUE);
 #endif
@@ -4667,7 +4667,7 @@ int main(int argc, char **argv)
 	new_file();
 	UNSET(VIEW_MODE);
 
-	/* Add this new entry to the filebuffer structure if we have
+	/* Add this new entry to the openfile structure if we have
 	 * multibuffer support, or to the main filestruct if we
 	 * don't. */
 	load_file();

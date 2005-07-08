@@ -69,8 +69,8 @@ partition *filepart = NULL;	/* A place to store a portion of the
 				   file struct */
 
 #ifdef ENABLE_MULTIBUFFER
-openfilestruct *filebuffer = NULL;	/* The list of open file
-					   buffers */
+openfilestruct *openfile = NULL;
+				/* The list of open file buffers */
 #endif
 
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
@@ -413,8 +413,7 @@ void shortcut_init(bool unjustify)
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_EXIT_KEY,
 #ifdef ENABLE_MULTIBUFFER
-	filebuffer != NULL && filebuffer != filebuffer->next ?
-	N_("Close") :
+	openfile != NULL && openfile != openfile->next ? N_("Close") :
 #endif
 	exit_msg, IFHELP(nano_exit_msg, NANO_NO_KEY), NANO_EXIT_FKEY,
 	NANO_NO_KEY, VIEW, do_exit);
@@ -1243,12 +1242,12 @@ void thanks_for_all_the_fish(void)
 #endif
 #ifdef ENABLE_MULTIBUFFER
     /* Free the memory associated with each open file buffer. */
-    if (filebuffer != NULL) {
-	/* Make sure filebuffer->fileage is up to date, in case we've
+    if (openfile != NULL) {
+	/* Make sure openfile->fileage is up to date, in case we've
 	 * cut the top line of the file. */
-	filebuffer->fileage = fileage;
+	openfile->fileage = fileage;
 
-	free_openfilestruct(filebuffer);
+	free_openfilestruct(openfile);
     }
 #else
     if (fileage != NULL)

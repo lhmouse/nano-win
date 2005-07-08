@@ -101,7 +101,7 @@ extern filestruct *mark_beginbuf;
 #endif
 
 #ifdef ENABLE_MULTIBUFFER
-extern openfilestruct *filebuffer;
+extern openfilestruct *openfile;
 #endif
 
 #ifdef ENABLE_COLOR

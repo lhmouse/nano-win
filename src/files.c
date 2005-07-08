@@ -99,133 +99,132 @@ void free_openfilestruct(openfilestruct *src)
 }
 #endif
 
-/* Add/update an entry to the filebuffer openfilestruct.  If update is
+/* Add/update an entry to the openfile openfilestruct.  If update is
  * FALSE, a new entry is created; otherwise, the current entry is
  * updated. */
 void add_open_file(bool update)
 {
-    if (update && filebuffer == NULL)
+    if (update && openfile == NULL)
 	return;
 
-    /* If there are no entries in filebuffer, make the first one. */
-    if (filebuffer == NULL) {
-	filebuffer = make_new_opennode();
-	splice_opennode(filebuffer, filebuffer, filebuffer);
+    /* If there are no entries in openfile, make the first one. */
+    if (openfile == NULL) {
+	openfile = make_new_opennode();
+	splice_opennode(openfile, openfile, openfile);
     /* Otherwise, if we're not updating, make a new entry for
-     * filebuffer and splice it in after the current entry. */
+     * openfile and splice it in after the current entry. */
     } else if (!update) {
-	splice_opennode(filebuffer, make_new_opennode(),
-		filebuffer->next);
-	filebuffer = filebuffer->next;
+	splice_opennode(openfile, make_new_opennode(), openfile->next);
+	openfile = openfile->next;
     }
 
     /* Save the current filename. */
-    filebuffer->filename = mallocstrcpy(filebuffer->filename, filename);
+    openfile->filename = mallocstrcpy(openfile->filename, filename);
 
 #ifndef NANO_SMALL
     /* Save the current file's stat. */
-    filebuffer->originalfilestat = originalfilestat;
+    openfile->originalfilestat = originalfilestat;
 #endif
 
     /* Save the current file buffer. */
-    filebuffer->fileage = fileage;
-    filebuffer->filebot = filebot;
+    openfile->fileage = fileage;
+    openfile->filebot = filebot;
 
     /* Save the current top of the edit window. */
-    filebuffer->edittop = edittop;
+    openfile->edittop = edittop;
 
     /* Save the current line. */
-    filebuffer->current = current;
+    openfile->current = current;
 
     /* Save the current cursor position. */
-    filebuffer->current_x = current_x;
+    openfile->current_x = current_x;
 
     /* Save the current place we want. */
-    filebuffer->placewewant = placewewant;
+    openfile->placewewant = placewewant;
 
     /* Save the current total number of lines. */
-    filebuffer->totlines = totlines;
+    openfile->totlines = totlines;
 
     /* Save the current total size. */
-    filebuffer->totsize = totsize;
+    openfile->totsize = totsize;
 
     /* Start with no flags saved. */
-    filebuffer->flags = 0;
+    openfile->flags = 0;
 
     /* Save the current modification status. */
     if (ISSET(MODIFIED))
-	filebuffer->flags |= MODIFIED;
+	openfile->flags |= MODIFIED;
 
 #ifndef NANO_SMALL
     /* Save the current marking status and mark, if applicable. */
     if (ISSET(MARK_ISSET)) {
-	filebuffer->flags |= MARK_ISSET;
-	filebuffer->mark_beginbuf = mark_beginbuf;
-	filebuffer->mark_beginx = mark_beginx;
+	openfile->flags |= MARK_ISSET;
+	openfile->mark_beginbuf = mark_beginbuf;
+	openfile->mark_beginx = mark_beginx;
     }
 
     /* Save the current file format. */
-    filebuffer->fmt = fmt;
+    openfile->fmt = fmt;
 #endif
 
 #ifdef DEBUG
-    fprintf(stderr, "filename is %s\n", filebuffer->filename);
+    fprintf(stderr, "filename is %s\n", openfile->filename);
 #endif
 }
 
-/* Read the current entry in the filebuffer structure and set up the
+/* Read the current entry in the openfile structure and set up the
  * currently open file buffer using that entry's information. */
 void load_open_file(void)
 {
-    assert(filebuffer != NULL);
+    assert(openfile != NULL);
 
     /* Restore the current filename. */
-    filename = mallocstrcpy(filename, filebuffer->filename);
+    filename = mallocstrcpy(filename, openfile->filename);
 
 #ifndef NANO_SMALL
     /* Restore the current file's stat. */
-    originalfilestat = filebuffer->originalfilestat;
+    originalfilestat = openfile->originalfilestat;
 #endif
 
     /* Restore the current file buffer. */
-    fileage = filebuffer->fileage;
-    filebot = filebuffer->filebot;
+    fileage = openfile->fileage;
+    filebot = openfile->filebot;
 
     /* Restore the current top of the edit window. */
-    edittop = filebuffer->edittop;
+    edittop = openfile->edittop;
 
     /* Restore the current line. */
-    current = filebuffer->current;
+    current = openfile->current;
 
     /* Restore the current cursor position. */
-    current_x = filebuffer->current_x;
+    current_x = openfile->current_x;
 
     /* Restore the current place we want. */
-    placewewant = filebuffer->placewewant;
+    placewewant = openfile->placewewant;
 
     /* Restore the current total number of lines. */
-    totlines = filebuffer->totlines;
+    totlines = openfile->totlines;
 
     /* Restore the current total size. */
-    totsize = filebuffer->totsize;
+    totsize = openfile->totsize;
 
     /* Restore the current modification status. */
-    if (filebuffer->flags & MODIFIED)
+    if (openfile->flags & MODIFIED)
 	SET(MODIFIED);
     else
 	UNSET(MODIFIED);
 
 #ifndef NANO_SMALL
     /* Restore the current marking status and mark, if applicable. */
-    if (filebuffer->flags & MARK_ISSET) {
-	mark_beginbuf = filebuffer->mark_beginbuf;
-	mark_beginx = filebuffer->mark_beginx;
+    if (openfile->flags & MARK_ISSET) {
+	mark_beginbuf = openfile->mark_beginbuf;
+	mark_beginx = openfile->mark_beginx;
 	SET(MARK_ISSET);
     } else
 	UNSET(MARK_ISSET);
 
     /* Restore the current file format. */
-    fmt = filebuffer->fmt;
+    fmt = openfile->fmt;
 #endif
 
 #ifdef ENABLE_COLOR
@@ -240,23 +239,23 @@ void load_open_file(void)
 /* Open either the next or previous file buffer. */
 void open_prevnext_file(bool next_file)
 {
-    assert(filebuffer != NULL);
+    assert(openfile != NULL);
 
     add_open_file(TRUE);
 
     /* If only one file buffer is open, indicate it on the statusbar and
      * get out. */
-    if (filebuffer == filebuffer->next) {
+    if (openfile == openfile->next) {
 	statusbar(_("No more open file buffers"));
 	return;
     }
 
     /* Switch to the next or previous file, depending on the value of
      * next. */
-    filebuffer = next_file ? filebuffer->next : filebuffer->prev;
+    openfile = next_file ? openfile->next : openfile->prev;
 
 #ifdef DEBUG
-    fprintf(stderr, "filename is %s\n", filebuffer->filename);
+    fprintf(stderr, "filename is %s\n", openfile->filename);
 #endif
 
     /* Load the file we switched to. */
@@ -264,44 +263,44 @@ void open_prevnext_file(bool next_file)
 
     /* And indicate the switch on the statusbar. */
     statusbar(_("Switched to %s"),
-      ((filebuffer->filename[0] == '\0') ? _("New Buffer") :
-	filebuffer->filename));
+	((openfile->filename[0] == '\0') ? _("New Buffer") :
+	openfile->filename));
 
 #ifdef DEBUG
     dump_buffer(current);
 #endif
 }
 
-/* Open the previous entry in the filebuffer structure.  This function
+/* Open the previous entry in the openfile structure.  This function
  * is used by the shortcut list. */
 void open_prevfile_void(void)
 {
     open_prevnext_file(FALSE);
 }
 
-/* Open the next entry in the filebuffer structure.  This function is
+/* Open the next entry in the openfile structure.  This function is
  * used by the shortcut list. */
 void open_nextfile_void(void)
 {
     open_prevnext_file(TRUE);
 }
 
-/* Delete an entry from the filebuffer filestruct.  After deletion of an
+/* Delete an entry from the openfile filestruct.  After deletion of an
  * entry, the next entry is opened.  Return TRUE on success or FALSE if
  * there are no more open file buffers. */
 bool close_open_file(void)
 {
-    assert(filebuffer != NULL);
+    assert(openfile != NULL);
 
     /* If only one file is open, get out. */
-    if (filebuffer == filebuffer->next)
+    if (openfile == openfile->next)
 	return FALSE;
 
     /* Open the next file. */
     open_nextfile_void();
 
     /* Close the file we had open before. */
-    unlink_opennode(filebuffer->prev);
+    unlink_opennode(openfile->prev);
 
     /* Reinitialize the shortcut list. */
     shortcut_init(FALSE);
@@ -388,7 +387,7 @@ void load_file(void)
     current = fileage;
 
 #ifdef ENABLE_MULTIBUFFER
-    /* Add a new entry to the filebuffer structure. */
+    /* Add a new entry to the openfile structure. */
     add_open_file(FALSE);
 
     /* Reinitialize the shortcut list. */
@@ -685,7 +684,7 @@ void execute_command(const char *command)
 {
 #ifdef ENABLE_MULTIBUFFER
     if (ISSET(MULTIBUFFER)) {
-	/* Update the current entry in the filebuffer structure. */
+	/* Update the current entry in the openfile structure. */
 	add_open_file(TRUE);
 	new_file();
 	UNSET(MODIFIED);
@@ -694,7 +693,7 @@ void execute_command(const char *command)
 #endif /* ENABLE_MULTIBUFFER */
     open_pipe(command);
 #ifdef ENABLE_MULTIBUFFER
-    /* Add this new entry to the filebuffer structure. */
+    /* Add this new entry to the openfile structure. */
     if (ISSET(MULTIBUFFER))
 	load_file();
 #endif /* ENABLE_MULTIBUFFER */
@@ -713,7 +712,7 @@ void load_buffer(const char *name)
 	/* new_buffer says whether we load into this buffer or a new
 	 * one.  If new_buffer is TRUE, we display "New File" if the
 	 * file is not found, and if it is found we set filename and add
-	 * a new filebuffer entry. */
+	 * a new openfile entry. */
     FILE *f;
     int rc;
 	/* rc == -2 means that the statusbar displayed "New File".  -1
@@ -728,7 +727,7 @@ void load_buffer(const char *name)
 #endif
 
 #ifdef ENABLE_MULTIBUFFER
-    /* Update the current entry in the filebuffer structure. */
+    /* Update the current entry in the openfile structure. */
     add_open_file(TRUE);
 #endif
 
@@ -763,7 +762,7 @@ void load_buffer(const char *name)
 #endif
     }
 
-    /* Add this new entry to the filebuffer structure if we have
+    /* Add this new entry to the openfile structure if we have
      * multibuffer support, or to the main filestruct if we don't. */
     if (rc != -1 && new_buffer)
 	load_file();
@@ -1926,7 +1925,7 @@ int do_writeout(bool exiting)
 
 #ifdef ENABLE_MULTIBUFFER
 	    /* If we're not about to exit, update the current entry in
-	     * the filebuffer structure. */
+	     * the openfile structure. */
 	    if (!exiting)
 		add_open_file(TRUE);
 #endif
