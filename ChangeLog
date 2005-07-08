@@ -20,6 +20,11 @@ CVS code -
 	  switch_to_prev_buffer(), rename open_nextfile_void()
 	  switch_to_next_buffer(), remove load_file(), and remove
 	  load_open_file(). (DLR)
+- files.c:
+  open_file()
+	- Assert that filename isn't NULL, and don't do anything special
+	  if it's blank, as the the former case shouldn't occur, and the
+	  latter case is now handled elsewhere. (DLR)
 - global.c:
   shortcut_init()
 	- Simplify wording of nano_gotoline_msg. (Jordi)

@@ -157,6 +157,8 @@ void open_buffer(const char *filename)
 	/* rc == -2 means that we have a new file.  -1 means that the
 	 * open() failed.  0 means that the open() succeeded. */
 
+    assert(filename != NULL);
+
 #ifndef DISABLE_OPERATINGDIR
     if (check_operating_dir(filename, FALSE)) {
 	statusbar(_("Can't insert file from outside of %s"),
@@ -165,8 +167,9 @@ void open_buffer(const char *filename)
     }
 #endif
 
-    /* Open the file. */
-    rc = open_file(filename, new_buffer, &f);
+    /* If the filename isn't blank, open the file. */
+    if (filename[0] != '\0')
+	rc = open_file(filename, new_buffer, &f);
 
     /* If we're loading into a new buffer, add a new openfile entry. */
     if (new_buffer)
@@ -534,10 +537,9 @@ int open_file(const char *filename, bool newfie, FILE **f)
     int fd;
     struct stat fileinfo;
 
-    assert(f != NULL);
+    assert(filename != NULL && f != NULL);
 
-    if (filename == NULL || filename[0] == '\0' ||
-	    stat(filename, &fileinfo) == -1) {
+    if (stat(filename, &fileinfo) == -1) {
 	if (newfie) {
 	    statusbar(_("New File"));
 	    return -2;
