@@ -3063,7 +3063,7 @@ void reset_cursor(void)
 {
     /* If we haven't opened any files yet, put the cursor in the top
      * left corner of the edit window and get out. */
-    if (openfile->edittop == NULL || openfile->current == NULL) {
+    if (openfile == NULL) {
 	wmove(edit, 0, 0);
 	return;
     }

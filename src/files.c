@@ -165,12 +165,12 @@ void open_buffer(const char *filename)
     }
 #endif
 
+    /* Open the file. */
+    rc = open_file(filename, new_buffer, &f);
+
     /* If we're loading into a new buffer, add a new openfile entry. */
     if (new_buffer)
 	make_new_buffer();
-
-    /* Open the file. */
-    rc = open_file(filename, new_buffer, &f);
 
     /* If we have a file and we're loading into a new buffer, update the
      * filename. */
@@ -545,7 +545,7 @@ int open_file(const char *filename, bool newfie, FILE **f)
 	statusbar(_("\"%s\" not found"), filename);
 	return -1;
     } else if (S_ISDIR(fileinfo.st_mode) || S_ISCHR(fileinfo.st_mode) ||
-		S_ISBLK(fileinfo.st_mode)) {
+	S_ISBLK(fileinfo.st_mode)) {
 	/* Don't open character or block files.  Sorry, /dev/sndstat! */
 	statusbar(S_ISDIR(fileinfo.st_mode) ?
 		_("\"%s\" is a directory") :

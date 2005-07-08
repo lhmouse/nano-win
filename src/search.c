@@ -953,7 +953,7 @@ void do_replace(void)
     openfile->current_x = beginx;
     openfile->placewewant = pww_save;
 
-    renumber_all();
+    renumber(openfile->fileage);
     edit_refresh();
 
     if (numreplaced >= 0)

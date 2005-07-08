@@ -348,7 +348,6 @@ void unlink_node(const filestruct *fileptr);
 void delete_node(filestruct *fileptr);
 filestruct *copy_filestruct(const filestruct *src);
 void free_filestruct(filestruct *src);
-void renumber_all(void);
 void renumber(filestruct *fileptr);
 partition *partition_filestruct(filestruct *top, size_t top_x,
 	filestruct *bot, size_t bot_x);

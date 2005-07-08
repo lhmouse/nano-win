@@ -7,6 +7,8 @@ CVS code -
 	  backup_lines(). (DLR)
 	- Reorder some functions for consistency. (DLR)
 	- Rename variable open_files openfile, for consistency. (DLR)
+	- Remove renumber()'s dependency on the main filestruct.
+	  Changes to renumber(); removal of renumber_all(). (DLR)
 	- Restructure things so that every file has its own
 	  openfilestruct, and so that the values in it are used directly
 	  instead of being periodically synced up with the globals.

@@ -179,32 +179,19 @@ void free_filestruct(filestruct *src)
     delete_node(src);
 }
 
-/* Renumber all entries in the main filestruct. */
-void renumber_all(void)
-{
-    filestruct *temp;
-    ssize_t line = 1;
-
-    assert(openfile->fileage == NULL || openfile->fileage != openfile->fileage->next);
-
-    for (temp = openfile->fileage; temp != NULL; temp = temp->next)
-	temp->lineno = line++;
-}
-
-/* Renumbers all entries in the main filestruct, starting with
- * fileptr. */
+/* Renumbers all entries in a filestruct, starting with fileptr. */
 void renumber(filestruct *fileptr)
 {
-    if (fileptr == NULL || fileptr->prev == NULL || fileptr == openfile->fileage)
-	renumber_all();
-    else {
-	ssize_t line = fileptr->prev->lineno;
+    ssize_t line;
 
-	assert(fileptr != fileptr->next);
+    assert(fileptr != NULL && fileptr->prev != NULL);
 
-	for (; fileptr != NULL; fileptr = fileptr->next)
-	    fileptr->lineno = ++line;
-    }
+    line = (fileptr->prev == NULL) ? 1 : fileptr->prev->lineno;
+
+    assert(fileptr != fileptr->next);
+
+    for (; fileptr != NULL; fileptr = fileptr->next)
+	fileptr->lineno = ++line;
 }
 
 /* Partition a filestruct so it begins at (top, top_x) and ends at (bot,
