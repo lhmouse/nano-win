@@ -12,8 +12,11 @@ CVS code -
 	- Simplify wording of nano_gotoline_msg. (Jordi)
 - nano.c:
   do_verbatim_input()
-	- If constant cursor position display is on when we finish, make
-	  sure the cursor position is displayed properly. (DLR)
+	- If constant cursor position display is on, make sure the
+	  cursor position is displayed properly when we finish. (DLR)
+  do_next_word()
+	- Rework to be more like do_prev_word(), to avoid a potential
+	  problem if we start at the end of a line. (DLR)
   do_alt_speller()
 	- If we can't invoke the spell checker, use sprintf() instead of
 	  snprintf() to write the error string we return, as the one
@@ -23,6 +26,9 @@ CVS code -
 	  no longer needed, and make the error message more similar to
 	  what the internal spell checker returns under the same
 	  circumstances. (DLR)
+  do_justify()
+	- If constant cursor position display is on, make sure the
+	  cursor position is displayed properly when we finish. (DLR)
   allow_pending_sigwinch()
 	- Simplify by using the "?" operator instead of an if clause.
 	  (DLR)
@@ -45,6 +51,9 @@ CVS code -
 	- Blank out last_replace properly again just before displaying
 	  the "Replace" prompt. (DLR, found by Mike Frysinger)
 - winio.c:
+  do_statusbar_next_word()
+	- Rework to be more like do_statusbar_prev_word(), to avoid a
+	  potential problem if we start at the end of a line. (DLR)
   display_string()
 	- Display invalid multibyte sequences as Unicode 0xFFFD
 	  (Replacement Character). (DLR)

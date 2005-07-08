@@ -1912,7 +1912,7 @@ bool do_statusbar_next_word(bool allow_punct)
 {
     char *char_mb;
     int char_mb_len;
-    bool started_on_word = FALSE;
+    bool end_line = FALSE, started_on_word = FALSE;
 
     assert(answer != NULL);
 
@@ -1920,7 +1920,7 @@ bool do_statusbar_next_word(bool allow_punct)
 
     /* Move forward until we find the character after the last letter of
      * the current word. */
-    while (answer[statusbar_x] != '\0') {
+    while (!end_line) {
 	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb, NULL,
 		NULL);
 
@@ -1933,14 +1933,19 @@ bool do_statusbar_next_word(bool allow_punct)
 	 * started_on_word to TRUE. */
 	started_on_word = TRUE;
 
-	statusbar_x += char_mb_len;
+	if (answer[statusbar_x] == '\0')
+	    end_line = TRUE;
+	else
+	    statusbar_x += char_mb_len;
     }
 
     /* Move forward until we find the first letter of the next word. */
-    if (answer[statusbar_x] != '\0')
+    if (answer[statusbar_x] == '\0')
+	end_line = TRUE;
+    else
 	statusbar_x += char_mb_len;
 
-    while (answer[statusbar_x] != '\0') {
+    while (!end_line) {
 	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb, NULL,
 		NULL);
 
@@ -1949,7 +1954,10 @@ bool do_statusbar_next_word(bool allow_punct)
 	if (is_word_mbchar(char_mb, allow_punct))
 	    break;
 
-	statusbar_x += char_mb_len;
+	if (answer[statusbar_x] == '\0')
+	    end_line = TRUE;
+	else
+	    statusbar_x += char_mb_len;
     }
 
     free(char_mb);

@@ -1285,6 +1285,11 @@ void do_verbatim_input(void)
 
     statusbar(_("Verbatim Input"));
 
+    /* If constant cursor position display is on, make sure the current
+     * cursor position will be properly displayed on the statusbar. */
+    if (ISSET(CONST_UPDATE))
+	do_cursorpos(TRUE);
+
     /* Read in all the verbatim characters. */
     kbinput = get_verbatim_kbinput(edit, &kbinput_len);
 
@@ -1299,11 +1304,6 @@ void do_verbatim_input(void)
     do_output(output, kbinput_len, TRUE);
 
     free(output);
-
-    /* If constant cursor position display is on, make sure the current
-     * cursor position is properly displayed on the statusbar. */
-    if (ISSET(CONST_UPDATE))
-	do_cursorpos(TRUE);
 }
 
 void do_backspace(void)
@@ -1484,7 +1484,7 @@ bool do_next_word(bool allow_punct, bool allow_update)
     const filestruct *current_save = current;
     char *char_mb;
     int char_mb_len;
-    bool started_on_word = FALSE;
+    bool end_line = FALSE, started_on_word = FALSE;
 
     assert(current != NULL && current->data != NULL);
 
@@ -1492,7 +1492,7 @@ bool do_next_word(bool allow_punct, bool allow_update)
 
     /* Move forward until we find the character after the last letter of
      * the current word. */
-    while (current->data[current_x] != '\0') {
+    while (!end_line) {
 	char_mb_len = parse_mbchar(current->data + current_x, char_mb,
 		NULL, NULL);
 
@@ -1505,15 +1505,20 @@ bool do_next_word(bool allow_punct, bool allow_update)
 	 * started_on_word to TRUE. */
 	started_on_word = TRUE;
 
-	current_x += char_mb_len;
+	if (current->data[current_x] == '\0')
+	    end_line = TRUE;
+	else
+	    current_x += char_mb_len;
     }
 
     /* Move forward until we find the first letter of the next word. */
-    if (current->data[current_x] != '\0')
+    if (current->data[current_x] == '\0')
+	end_line = TRUE;
+    else
 	current_x += char_mb_len;
 
     for (; current != NULL; current = current->next) {
-	while (current->data[current_x] != '\0') {
+	while (!end_line) {
 	    char_mb_len = parse_mbchar(current->data + current_x,
 		char_mb, NULL, NULL);
 
@@ -1522,15 +1527,21 @@ bool do_next_word(bool allow_punct, bool allow_update)
 	    if (is_word_mbchar(char_mb, allow_punct))
 		break;
 
-	    current_x += char_mb_len;
+	    if (current->data[current_x] == '\0')
+		end_line = TRUE;
+	    else
+		current_x += char_mb_len;
 	}
 
 	/* If we've found it, stop moving forward to the beginnings of
 	 * subsequent lines. */
-	if (current->data[current_x] != '\0')
+	if (!end_line)
 	    break;
 
-	current_x = 0;
+	if (current->next != NULL) {
+	    end_line = FALSE;
+	    current_x = 0;
+	}
     }
 
     free(char_mb);
@@ -1630,12 +1641,11 @@ bool do_prev_word(bool allow_punct, bool allow_update)
 
     /* If we haven't found it, leave the cursor at the beginning of the
      * file. */
-    if (current == NULL) {
+    if (current == NULL)
 	current = fileage;
-	current_x = 0;
     /* If we've found it, move backward until we find the character
      * before the first letter of the previous word. */
-    } else if (!begin_line) {
+    else if (!begin_line) {
 	if (current_x == 0)
 	    begin_line = TRUE;
 	else
@@ -3413,6 +3423,11 @@ void do_justify(bool full_justify)
     edit_refresh();
 
     statusbar(_("Can now UnJustify!"));
+
+    /* If constant cursor position display is on, make sure the current
+     * cursor position will be properly displayed on the statusbar. */
+    if (ISSET(CONST_UPDATE))
+	do_cursorpos(TRUE);
 
     /* Display the shortcut list with UnJustify. */
     shortcut_init(TRUE);
