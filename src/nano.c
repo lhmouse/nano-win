@@ -2322,9 +2322,9 @@ const char *do_int_speller(const char *tempfile_name)
  * otherwise the error string. */
 const char *do_alt_speller(char *tempfile_name)
 {
-    int alt_spell_status, lineno_save = current->lineno;
+    int alt_spell_status;
     size_t current_x_save = current_x, pww_save = placewewant;
-    ssize_t current_y_save = current_y;
+    ssize_t lineno_save = current->lineno, current_y_save = current_y;
     pid_t pid_spell;
     char *ptr;
     static int arglen = 3;
@@ -2365,7 +2365,8 @@ const char *do_alt_speller(char *tempfile_name)
 	spellargs[0] = strtok(alt_speller, " ");
 	while ((ptr = strtok(NULL, " ")) != NULL) {
 	    arglen++;
-	    spellargs = (char **)nrealloc(spellargs, arglen * sizeof(char *));
+	    spellargs = (char **)nrealloc(spellargs, arglen *
+		sizeof(char *));
 	    spellargs[arglen - 3] = ptr;
 	}
 	spellargs[arglen - 1] = NULL;
@@ -3010,12 +3011,12 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
     size_t i;
 	/* Generic loop variable. */
     size_t current_x_save = current_x;
-    int fl_lineno_save = first_line->lineno;
-    int edittop_lineno_save = edittop->lineno;
-    int current_lineno_save = current->lineno;
+    ssize_t fl_lineno_save = first_line->lineno;
+    ssize_t edittop_lineno_save = edittop->lineno;
+    ssize_t current_lineno_save = current->lineno;
 #ifndef NANO_SMALL
     bool old_mark_set = ISSET(MARK_ISSET);
-    int mbb_lineno_save = 0;
+    ssize_t mbb_lineno_save = 0;
     size_t mark_beginx_save = 0;
 
     if (old_mark_set) {
