@@ -37,14 +37,6 @@
 extern ssize_t wrap_at;
 #endif
 extern int editwinrows;
-extern size_t current_x;
-extern ssize_t current_y;
-extern size_t totlines;
-extern size_t placewewant;
-#ifndef NANO_SMALL
-extern size_t mark_beginx;
-#endif
-extern size_t totsize;
 extern unsigned long flags;
 extern ssize_t tabsize;
 extern int currslen;
@@ -72,8 +64,6 @@ extern char *backup_dir;
 #endif
 
 extern WINDOW *topwin, *edit, *bottomwin;
-extern char *filename;
-extern struct stat originalfilestat;
 extern char *answer;
 extern char *hblank;
 #ifndef DISABLE_HELP
@@ -90,19 +80,13 @@ extern char *alt_speller;
 #endif
 
 extern struct stat fileinfo;
-extern filestruct *current, *fileage, *edittop, *filebot;
 extern filestruct *cutbuffer;
 #ifndef DISABLE_JUSTIFY
 extern filestruct *jusbuffer;
 #endif
 extern partition *filepart;
-#ifndef NANO_SMALL
-extern filestruct *mark_beginbuf;
-#endif
 
-#ifdef ENABLE_MULTIBUFFER
 extern openfilestruct *openfile;
-#endif
 
 #ifdef ENABLE_COLOR
 extern const colortype *colorstrings;
@@ -246,7 +230,6 @@ void do_cut_till_end(void);
 void do_uncut_text(void);
 
 /* Public functions in files.c. */
-#ifdef ENABLE_MULTIBUFFER
 openfilestruct *make_new_opennode(void);
 void splice_opennode(openfilestruct *begin, openfilestruct *newnode,
 	openfilestruct *end);
@@ -255,24 +238,22 @@ void delete_opennode(openfilestruct *fileptr);
 #ifdef DEBUG
 void free_openfilestruct(openfilestruct *src);
 #endif
-void add_open_file(bool update);
-void load_open_file(void);
-void open_prevnext_file(bool next_file);
-void open_prevfile_void(void);
-void open_nextfile_void(void);
-bool close_open_file(void);
+void make_new_buffer(void);
+void open_buffer(const char *filename);
+#ifdef ENABLE_MULTIBUFFER
+void switch_to_prevnext_buffer(bool next);
+void switch_to_prev_buffer_void(void);
+void switch_to_next_buffer_void(void);
+bool close_buffer(void);
 #endif
-void new_file(void);
 filestruct *read_line(char *buf, filestruct *prevnode, bool
 	*first_line_ins, size_t buf_len);
-void load_file(void);
 void read_file(FILE *f, const char *filename);
 int open_file(const char *filename, bool newfie, FILE **f);
 char *get_next_filename(const char *name, const char *suffix);
 #ifndef NANO_SMALL
 void execute_command(const char *command);
 #endif
-void load_buffer(const char *name);
 void do_insertfile(
 #ifndef NANO_SMALL
 	bool execute
@@ -381,7 +362,7 @@ void die(const char *msg, ...);
 void die_save_file(const char *die_filename);
 void check_die_too_small(void);
 void resize_variables(void);
-void global_init(bool save_cutbuffer);
+void resize_init(void);
 void window_init(void);
 #ifndef DISABLE_MOUSE
 void mouse_init(void);
@@ -706,8 +687,8 @@ void do_replace_highlight(bool highlight, const char *word);
 int check_linenumbers(const filestruct *fileptr);
 #endif
 #ifdef DEBUG
-void dump_buffer(const filestruct *inptr);
-void dump_buffer_reverse(void);
+void dump_filestruct(const filestruct *inptr);
+void dump_filestruct_reverse(void);
 #endif
 #ifdef NANO_EXTRA
 void do_credits(void);

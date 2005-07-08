@@ -32,74 +32,75 @@
 
 void do_first_line(void)
 {
-    size_t pww_save = placewewant;
-    current = fileage;
-    placewewant = 0;
-    current_x = 0;
-    if (edittop != fileage || need_vertical_update(pww_save))
+    size_t pww_save = openfile->placewewant;
+    openfile->current = openfile->fileage;
+    openfile->placewewant = 0;
+    openfile->current_x = 0;
+    if (openfile->edittop != openfile->fileage ||
+	need_vertical_update(pww_save))
 	edit_update(TOP);
 }
 
 void do_last_line(void)
 {
-    size_t pww_save = placewewant;
-    current = filebot;
-    placewewant = 0;
-    current_x = 0;
-    if (edittop->lineno + (editwinrows / 2) != filebot->lineno ||
-	need_vertical_update(pww_save))
+    size_t pww_save = openfile->placewewant;
+    openfile->current = openfile->filebot;
+    openfile->placewewant = 0;
+    openfile->current_x = 0;
+    if (openfile->edittop->lineno + (editwinrows / 2) !=
+	openfile->filebot->lineno || need_vertical_update(pww_save))
 	edit_update(CENTER);
 }
 
 void do_home(void)
 {
-    size_t pww_save = placewewant;
+    size_t pww_save = openfile->placewewant;
 #ifndef NANO_SMALL
     if (ISSET(SMART_HOME)) {
-	size_t current_x_save = current_x;
+	size_t current_x_save = openfile->current_x;
 
-	current_x = indent_length(current->data);
+	openfile->current_x = indent_length(openfile->current->data);
 
-	if (current_x == current_x_save ||
-		current->data[current_x] == '\0')
-	    current_x = 0;
+	if (openfile->current_x == current_x_save ||
+		openfile->current->data[openfile->current_x] == '\0')
+	    openfile->current_x = 0;
 
-	placewewant = xplustabs();
+	openfile->placewewant = xplustabs();
     } else {
 #endif
-	current_x = 0;
-	placewewant = 0;
+	openfile->current_x = 0;
+	openfile->placewewant = 0;
 #ifndef NANO_SMALL
     }
 #endif
     check_statusblank();
     if (need_horizontal_update(pww_save))
-	update_line(current, current_x);
+	update_line(openfile->current, openfile->current_x);
 }
 
 void do_end(void)
 {
-    size_t pww_save = placewewant;
-    current_x = strlen(current->data);
-    placewewant = xplustabs();
+    size_t pww_save = openfile->placewewant;
+    openfile->current_x = strlen(openfile->current->data);
+    openfile->placewewant = xplustabs();
     check_statusblank();
     if (need_horizontal_update(pww_save))
-	update_line(current, current_x);
+	update_line(openfile->current, openfile->current_x);
 }
 
 void do_page_up(void)
 {
-    size_t pww_save = placewewant;
-    const filestruct *current_save = current;
+    size_t pww_save = openfile->placewewant;
+    const filestruct *current_save = openfile->current;
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
 
     /* If the first line of the file is onscreen, move current up there
      * and put the cursor at the beginning of the line. */
-    if (edittop == fileage) {
-	current = fileage;
-	placewewant = 0;
+    if (openfile->edittop == openfile->fileage) {
+	openfile->current = openfile->fileage;
+	openfile->placewewant = 0;
     } else {
 	edit_scroll(UP, editwinrows - 2);
 
@@ -107,25 +108,27 @@ void do_page_up(void)
 	/* If we're in smooth scrolling mode and there's at least one
 	 * page of text left, move the current line of the edit window
 	 * up a page. */
-	if (ISSET(SMOOTH_SCROLL) && current->lineno > editwinrows - 2) {
+	if (ISSET(SMOOTH_SCROLL) && openfile->current->lineno >
+		editwinrows - 2) {
 	    int i;
 	    for (i = 0; i < editwinrows - 2; i++)
-		current = current->prev;
+		openfile->current = openfile->current->prev;
 	}
 	/* If we're not in smooth scrolling mode or there isn't at least
 	 * one page of text left, put the cursor at the beginning of the
 	 * top line of the edit window, as Pico does. */
 	else {
 #endif
-	    current = edittop;
-	    placewewant = 0;
+	    openfile->current = openfile->edittop;
+	    openfile->placewewant = 0;
 #ifndef NANO_SMALL
 	}
 #endif
     }
 
     /* Get the equivalent x-coordinate of the new line. */
-    current_x = actual_x(current->data, placewewant);
+    openfile->current_x = actual_x(openfile->current->data,
+	openfile->placewewant);
 
     /* Update all the lines that need to be updated. */
     edit_redraw(current_save, pww_save);
@@ -135,17 +138,18 @@ void do_page_up(void)
 
 void do_page_down(void)
 {
-    size_t pww_save = placewewant;
-    const filestruct *current_save = current;
+    size_t pww_save = openfile->placewewant;
+    const filestruct *current_save = openfile->current;
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
 
     /* If the last line of the file is onscreen, move current down
      * there and put the cursor at the beginning of the line. */
-    if (edittop->lineno + editwinrows > filebot->lineno) {
-	current = filebot;
-	placewewant = 0;
+    if (openfile->edittop->lineno + editwinrows >
+	openfile->filebot->lineno) {
+	openfile->current = openfile->filebot;
+	openfile->placewewant = 0;
     } else {
 	edit_scroll(DOWN, editwinrows - 2);
 
@@ -153,26 +157,27 @@ void do_page_down(void)
 	/* If we're in smooth scrolling mode and there's at least one
 	 * page of text left, move the current line of the edit window
 	 * down a page. */
-	if (ISSET(SMOOTH_SCROLL) && current->lineno + editwinrows - 2 <=
-		filebot->lineno) {
+	if (ISSET(SMOOTH_SCROLL) && openfile->current->lineno +
+		editwinrows - 2 <= openfile->filebot->lineno) {
 	    int i;
 	    for (i = 0; i < editwinrows - 2; i++)
-		current = current->next;
+		openfile->current = openfile->current->next;
 	}
 	/* If we're not in smooth scrolling mode or there isn't at least
 	 * one page of text left, put the cursor at the beginning of the
 	 * top line of the edit window, as Pico does. */
 	else {
 #endif
-	    current = edittop;
-	    placewewant = 0;
+	    openfile->current = openfile->edittop;
+	    openfile->placewewant = 0;
 #ifndef NANO_SMALL
 	}
 #endif
     }
 
     /* Get the equivalent x-coordinate of the new line. */
-    current_x = actual_x(current->data, placewewant);
+    openfile->current_x = actual_x(openfile->current->data,
+	openfile->placewewant);
 
     /* Update all the lines that need to be updated. */
     edit_redraw(current_save, pww_save);
@@ -187,18 +192,19 @@ void do_up(void)
 #endif
     check_statusblank();
 
-    if (current->prev == NULL)
+    if (openfile->current->prev == NULL)
 	return;
 
-    assert(current_y == current->lineno - edittop->lineno);
+    assert(openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);
 
-    current = current->prev;
-    current_x = actual_x(current->data, placewewant);
+    openfile->current = openfile->current->prev;
+    openfile->current_x = actual_x(openfile->current->data,
+	openfile->placewewant);
 
     /* If we're on the first row of the edit window, scroll up one line
      * if we're in smooth scrolling mode, or up half a page if we're
      * not. */
-    if (current_y == 0)
+    if (openfile->current_y == 0)
 	edit_scroll(UP,
 #ifndef NANO_SMALL
 		ISSET(SMOOTH_SCROLL) ? 1 :
@@ -210,8 +216,8 @@ void do_up(void)
      * if we're not on the first page, and the latter needs to be
      * drawn. */
     if (need_vertical_update(0))
-	update_line(current->next, 0);
-    update_line(current, current_x);
+	update_line(openfile->current->next, 0);
+    update_line(openfile->current, openfile->current_x);
 }
 
 void do_down(void)
@@ -221,18 +227,19 @@ void do_down(void)
 #endif
     check_statusblank();
 
-    if (current->next == NULL)
+    if (openfile->current->next == NULL)
 	return;
 
-    assert(current_y == current->lineno - edittop->lineno);
+    assert(openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);
 
-    current = current->next;
-    current_x = actual_x(current->data, placewewant);
+    openfile->current = openfile->current->next;
+    openfile->current_x = actual_x(openfile->current->data,
+	openfile->placewewant);
 
     /* If we're on the last row of the edit window, scroll down one line
      * if we're in smooth scrolling mode, or down half a page if we're
      * not. */
-    if (current_y == editwinrows - 1)
+    if (openfile->current_y == editwinrows - 1)
 	edit_scroll(DOWN,
 #ifndef NANO_SMALL
 		ISSET(SMOOTH_SCROLL) ? 1 :
@@ -244,23 +251,25 @@ void do_down(void)
      * if we're not on the first page, and the latter needs to be
      * drawn. */
     if (need_vertical_update(0))
-	update_line(current->prev, 0);
-    update_line(current, current_x);
+	update_line(openfile->current->prev, 0);
+    update_line(openfile->current, openfile->current_x);
 }
 
 void do_left(bool allow_update)
 {
-    size_t pww_save = placewewant;
-    if (current_x > 0)
-	current_x = move_mbleft(current->data, current_x);
-    else if (current != fileage) {
+    size_t pww_save = openfile->placewewant;
+
+    if (openfile->current_x > 0)
+	openfile->current_x = move_mbleft(openfile->current->data,
+		openfile->current_x);
+    else if (openfile->current != openfile->fileage) {
 	do_up();
-	current_x = strlen(current->data);
+	openfile->current_x = strlen(openfile->current->data);
     }
-    placewewant = xplustabs();
+    openfile->placewewant = xplustabs();
     check_statusblank();
     if (allow_update && need_horizontal_update(pww_save))
-	update_line(current, current_x);
+	update_line(openfile->current, openfile->current_x);
 }
 
 void do_left_void(void)
@@ -270,19 +279,20 @@ void do_left_void(void)
 
 void do_right(bool allow_update)
 {
-    size_t pww_save = placewewant;
-    assert(current_x <= strlen(current->data));
+    size_t pww_save = openfile->placewewant;
+    assert(openfile->current_x <= strlen(openfile->current->data));
 
-    if (current->data[current_x] != '\0')
-	current_x = move_mbright(current->data, current_x);
-    else if (current->next != NULL) {
+    if (openfile->current->data[openfile->current_x] != '\0')
+	openfile->current_x = move_mbright(openfile->current->data,
+		openfile->current_x);
+    else if (openfile->current->next != NULL) {
 	do_down();
-	current_x = 0;
+	openfile->current_x = 0;
     }
-    placewewant = xplustabs();
+    openfile->placewewant = xplustabs();
     check_statusblank();
     if (allow_update && need_horizontal_update(pww_save))
-	update_line(current, current_x);
+	update_line(openfile->current, openfile->current_x);
 }
 
 void do_right_void(void)

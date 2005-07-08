@@ -57,6 +57,7 @@ int regexp_init(const char *regexp)
 	);
 
     assert(!regexp_compiled);
+
     if (rc != 0) {
 	size_t len = regerror(rc, &search_regexp, NULL, 0);
 	char *str = charalloc(len);
@@ -100,7 +101,7 @@ void search_abort(void)
 {
     display_main_list();
 #ifndef NANO_SMALL
-    if (ISSET(MARK_ISSET))
+    if (openfile->mark_set)
 	edit_refresh();
 #endif
 #ifdef HAVE_REGEX_H
@@ -192,13 +193,9 @@ int search_init(bool replacing, bool use_answer)
 
 	replacing ?
 #ifndef NANO_SMALL
-		(ISSET(MARK_ISSET) ? _(" (to replace) in selection") :
+		openfile->mark_set ? _(" (to replace) in selection") :
 #endif
-		_(" (to replace)")
-#ifndef NANO_SMALL
-		)
-#endif
-		: "",
+		_(" (to replace)") : "",
 
 	buf);
 
@@ -246,8 +243,8 @@ int search_init(bool replacing, bool use_answer)
 		backupstring = mallocstrcpy(backupstring, answer);
 		return -2;	/* Call the opposite search function. */
 	    case NANO_TOGOTOLINE_KEY:
-		do_gotolinecolumn(current->lineno, placewewant + 1,
-			TRUE, TRUE, FALSE);
+		do_gotolinecolumn(openfile->current->lineno,
+			openfile->placewewant + 1, TRUE, TRUE, FALSE);
 				/* Put answer up on the statusbar and
 				 * fall through. */
 	    default:
@@ -293,13 +290,13 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	no_sameline, const filestruct *begin, size_t beginx, const char
 	*needle, size_t *needle_len)
 {
-    filestruct *fileptr = current;
+    filestruct *fileptr = openfile->current;
     const char *rev_start = NULL, *found = NULL;
     size_t found_len;
 	/* The length of the match we found. */
     size_t current_x_find = 0;
 	/* The location of the match we found. */
-    ssize_t current_y_find = current_y;
+    ssize_t current_y_find = openfile->current_y;
 
     /* rev_start might end up 1 character before the start or after the
      * end of the line.  This won't be a problem because strstrwrapper()
@@ -308,9 +305,10 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
      * previous or next line. */
     rev_start =
 #ifndef NANO_SMALL
-	ISSET(BACKWARDS_SEARCH) ? fileptr->data + (current_x - 1) :
+	ISSET(BACKWARDS_SEARCH) ?
+	fileptr->data + (openfile->current_x - 1) :
 #endif
-	fileptr->data + (current_x + 1);
+	fileptr->data + (openfile->current_x + 1);
 
     /* Look for needle in searchstr. */
     while (TRUE) {
@@ -345,7 +343,7 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	     * a match on the same line we started on and this potential
 	     * match is on that line, continue searching. */
 	    if ((!wholeword || found_whole) && (!no_sameline ||
-		fileptr != current))
+		fileptr != openfile->current))
 		break;
 	}
 
@@ -375,11 +373,11 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 
 #ifndef NANO_SMALL
 	    if (ISSET(BACKWARDS_SEARCH)) {
-		fileptr = filebot;
+		fileptr = openfile->filebot;
 		current_y_find = editwinrows - 1;
 	    } else {
 #endif
-		fileptr = fileage;
+		fileptr = openfile->fileage;
 		current_y_find = 0;
 #ifndef NANO_SMALL
 	    }
@@ -417,11 +415,11 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	return FALSE;
     }
 
-    /* Set globals now that we are sure we found something. */
-    current = fileptr;
-    current_x = current_x_find;
-    current_y = current_y_find;
-    placewewant = xplustabs();
+    /* We've definitely found something. */
+    openfile->current = fileptr;
+    openfile->current_x = current_x_find;
+    openfile->current_y = current_y_find;
+    openfile->placewewant = xplustabs();
 
     /* needle_len holds the length of needle. */
     if (needle_len != NULL)
@@ -438,10 +436,11 @@ void findnextstr_wrap_reset(void)
 /* Search for a string. */
 void do_search(void)
 {
-    size_t old_pww = placewewant, fileptr_x = current_x;
+    size_t old_pww = openfile->placewewant;
+    size_t fileptr_x = openfile->current_x;
     int i;
     bool didfind;
-    filestruct *fileptr = current;
+    filestruct *fileptr = openfile->current;
 
 #ifndef DISABLE_WRAPPING
     wrap_reset();
@@ -476,12 +475,13 @@ void do_search(void)
 #endif
 
     findnextstr_wrap_reset();
-    didfind = findnextstr(TRUE, FALSE, FALSE, current, current_x,
-	answer, NULL);
+    didfind = findnextstr(TRUE, FALSE, FALSE, openfile->current,
+	openfile->current_x, answer, NULL);
 
     /* Check to see if there's only one occurrence of the string and
      * we're on it now. */
-    if (fileptr == current && fileptr_x == current_x && didfind) {
+    if (fileptr == openfile->current && fileptr_x ==
+	openfile->current_x && didfind) {
 #ifdef HAVE_REGEX_H
 	/* Do the search again, skipping over the current line, if we're
 	 * doing a bol and/or eol regex search ("^", "$", or "^$"), so
@@ -490,9 +490,10 @@ void do_search(void)
 	 * which case it's the only occurrence. */
 	if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp,
 		last_search)) {
-	    didfind = findnextstr(TRUE, FALSE, TRUE, current, current_x,
-		answer, NULL);
-	    if (fileptr == current && fileptr_x == current_x && !didfind)
+	    didfind = findnextstr(TRUE, FALSE, TRUE, openfile->current,
+		openfile->current_x, answer, NULL);
+	    if (fileptr == openfile->current && fileptr_x ==
+		openfile->current_x && !didfind)
 		statusbar(_("This is the only occurrence"));
 	} else {
 #endif
@@ -502,7 +503,7 @@ void do_search(void)
 #endif
     }
 
-    placewewant = xplustabs();
+    openfile->placewewant = xplustabs();
     edit_redraw(fileptr, old_pww);
     search_abort();
 }
@@ -511,9 +512,10 @@ void do_search(void)
 /* Search for the next string without prompting. */
 void do_research(void)
 {
-    size_t old_pww = placewewant, fileptr_x = current_x;
+    size_t old_pww = openfile->placewewant;
+    size_t fileptr_x = openfile->current_x;
     bool didfind;
-    filestruct *fileptr = current;
+    filestruct *fileptr = openfile->current;
 
 #ifndef DISABLE_WRAPPING
     wrap_reset();
@@ -530,12 +532,13 @@ void do_research(void)
 #endif
 
 	findnextstr_wrap_reset();
-	didfind = findnextstr(TRUE, FALSE, FALSE, current, current_x,
-		last_search, NULL);
+	didfind = findnextstr(TRUE, FALSE, FALSE, openfile->current,
+		openfile->current_x, last_search, NULL);
 
 	/* Check to see if there's only one occurrence of the string and
 	 * we're on it now. */
-	if (fileptr == current && fileptr_x == current_x && didfind) {
+	if (fileptr == openfile->current && fileptr_x ==
+		openfile->current_x && didfind) {
 #ifdef HAVE_REGEX_H
 	    /* Do the search again, skipping over the current line, if
 	     * we're doing a bol and/or eol regex search ("^", "$", or
@@ -544,10 +547,11 @@ void do_research(void)
 	     * found again, in which case it's the only occurrence. */
 	    if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp,
 		last_search)) {
-		didfind = findnextstr(TRUE, FALSE, TRUE, current,
-			current_x, answer, NULL);
-		if (fileptr == current && fileptr_x == current_x &&
-			!didfind)
+		didfind = findnextstr(TRUE, FALSE, TRUE,
+			openfile->current, openfile->current_x, answer,
+			NULL);
+		if (fileptr == openfile->current && fileptr_x ==
+			openfile->current_x && !didfind)
 		    statusbar(_("This is the only occurrence"));
 	    } else {
 #endif
@@ -559,7 +563,7 @@ void do_research(void)
     } else
         statusbar(_("No current search pattern"));
 
-    placewewant = xplustabs();
+    openfile->placewewant = xplustabs();
     edit_redraw(fileptr, old_pww);
     search_abort();
 }
@@ -579,18 +583,18 @@ int replace_regexp(char *string, bool create)
      * subexpressions \1 to \9 in the replaced text). */
 
     const char *c = last_replace;
-    size_t search_match_count =
-	regmatches[0].rm_eo - regmatches[0].rm_so;
-    size_t new_line_size =
-	strlen(current->data) + 1 - search_match_count;
+    size_t search_match_count = regmatches[0].rm_eo -
+	regmatches[0].rm_so;
+    size_t new_line_size = strlen(openfile->current->data) + 1 -
+	search_match_count;
 
     /* Iterate through the replacement text to handle subexpression
      * replacement using \1, \2, \3, etc. */
     while (*c != '\0') {
 	int num = (int)(*(c + 1) - '0');
 
-	if (*c != '\\' || num < 1 || num > 9 ||
-		num > search_regexp.re_nsub) {
+	if (*c != '\\' || num < 1 || num > 9 || num >
+		search_regexp.re_nsub) {
 	    if (create)
 		*string++ = *c;
 	    c++;
@@ -607,8 +611,8 @@ int replace_regexp(char *string, bool create)
 	    /* And if create is TRUE, append the result of the
 	     * subexpression match to the new line. */
 	    if (create) {
-		strncpy(string, current->data + current_x +
-			regmatches[num].rm_so, i);
+		strncpy(string, openfile->current->data +
+			openfile->current_x + regmatches[num].rm_so, i);
 		string += i;
 	    }
 	}
@@ -634,8 +638,8 @@ char *replace_line(const char *needle)
     } else {
 #endif
 	search_match_count = strlen(needle);
-	new_line_size = strlen(current->data) - search_match_count +
-	    strlen(answer) + 1;
+	new_line_size = strlen(openfile->current->data) -
+		search_match_count + strlen(answer) + 1;
 #ifdef HAVE_REGEX_H
     }
 #endif
@@ -644,20 +648,21 @@ char *replace_line(const char *needle)
     copy = charalloc(new_line_size);
 
     /* The head of the original line. */
-    strncpy(copy, current->data, current_x);
+    strncpy(copy, openfile->current->data, openfile->current_x);
 
     /* The replacement text. */
 #ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP))
-	replace_regexp(copy + current_x, TRUE);
+	replace_regexp(copy + openfile->current_x, TRUE);
     else
 #endif
-	strcpy(copy + current_x, answer);
+	strcpy(copy + openfile->current_x, answer);
 
     /* The tail of the original line. */
-    assert(current_x + search_match_count <= strlen(current->data));
+    assert(openfile->current_x + search_match_count <= strlen(openfile->current->data));
 
-    strcat(copy, current->data + current_x + search_match_count);
+    strcat(copy, openfile->current->data + openfile->current_x +
+	search_match_count);
 
     return copy;
 }
@@ -682,8 +687,8 @@ ssize_t do_replace_loop(const char *needle, const filestruct
     bool begin_line = FALSE, bol_or_eol = FALSE;
 #endif
 #ifndef NANO_SMALL
-    bool old_mark_set = ISSET(MARK_ISSET);
-    filestruct *edittop_save = edittop, *top, *bot;
+    bool old_mark_set = openfile->mark_set;
+    filestruct *edittop_save = openfile->edittop, *top, *bot;
     size_t top_x, bot_x;
     bool right_side_up = FALSE;
 	/* TRUE if (mark_beginbuf, mark_beginx) is the top of the mark,
@@ -696,8 +701,8 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 	mark_order((const filestruct **)&top, &top_x,
 	    (const filestruct **)&bot, &bot_x, &right_side_up);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
-	edittop = fileage;
-	UNSET(MARK_ISSET);
+	openfile->edittop = openfile->fileage;
+	openfile->mark_set = FALSE;
 	edit_refresh();
     }
 #endif
@@ -724,13 +729,14 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 	 * beginning line already, and we're still on the beginning line
 	 * after the search, it means that we've wrapped around, so
 	 * we're done. */
-	if (bol_or_eol && begin_line && current == real_current)
+	if (bol_or_eol && begin_line && openfile->current ==
+		real_current)
 	    break;
 	/* Otherwise, set the begin_line flag if we've found a match on
 	 * the beginning line, reset the bol_or_eol flag, and
 	 * continue. */
 	else {
-	    if (current == real_current)
+	    if (openfile->current == real_current)
 		begin_line = TRUE;
 	    bol_or_eol = FALSE;
 	}
@@ -745,9 +751,9 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 
 	if (!replaceall) {
 	    size_t xpt = xplustabs();
-	    char *exp_word = display_string(current->data, xpt,
-		strnlenpt(current->data, current_x + match_len) - xpt,
-		FALSE);
+	    char *exp_word = display_string(openfile->current->data,
+		xpt, strnlenpt(openfile->current->data,
+		openfile->current_x + match_len) - xpt, FALSE);
 
 	    curs_set(0);
 
@@ -785,19 +791,21 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 
 	    copy = replace_line(needle);
 
-	    length_change = strlen(copy) - strlen(current->data);
+	    length_change = strlen(copy) -
+		strlen(openfile->current->data);
 
 #ifndef NANO_SMALL
 	    /* If the mark was on and (mark_beginbuf, mark_begin_x) was
 	     * the top of it, don't change mark_beginx. */
 	    if (!old_mark_set || !right_side_up) {
 		/* Keep mark_beginx in sync with the text changes. */
-		if (current == mark_beginbuf &&
-			mark_beginx > current_x) {
-		    if (mark_beginx < current_x + match_len)
-			mark_beginx = current_x;
+		if (openfile->current == openfile->mark_beginbuf &&
+			openfile->mark_beginx > openfile->current_x) {
+		    if (openfile->mark_beginx < openfile->current_x +
+			match_len)
+			openfile->mark_beginx = openfile->current_x;
 		    else
-			mark_beginx += length_change;
+			openfile->mark_beginx += length_change;
 		}
 	    }
 
@@ -806,10 +814,12 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 	    if (!old_mark_set || right_side_up) {
 #endif
 		/* Keep real_current_x in sync with the text changes. */
-		if (current == real_current &&
-			current_x <= *real_current_x) {
-		    if (*real_current_x < current_x + match_len)
-			*real_current_x = current_x + match_len;
+		if (openfile->current == real_current &&
+			openfile->current_x <= *real_current_x) {
+		    if (*real_current_x <
+			openfile->current_x + match_len)
+			*real_current_x = openfile->current_x +
+				match_len;
 		    *real_current_x += length_change;
 		}
 #ifndef NANO_SMALL
@@ -823,12 +833,12 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 #ifndef NANO_SMALL
 	    if (!ISSET(BACKWARDS_SEARCH))
 #endif
-		current_x += match_len + length_change - 1;
+		openfile->current_x += match_len + length_change - 1;
 
 	    /* Cleanup. */
-	    totsize += length_change;
-	    free(current->data);
-	    current->data = copy;
+	    openfile->totsize += length_change;
+	    free(openfile->current->data);
+	    openfile->current->data = copy;
 
 	    if (!replaceall) {
 #ifdef ENABLE_COLOR
@@ -836,7 +846,7 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 		    edit_refresh();
 		else
 #endif
-		    update_line(current, current_x);
+		    update_line(openfile->current, openfile->current_x);
 	    }
 
 	    set_modified();
@@ -850,14 +860,14 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 	 * contains all the text again, set edittop back to what it was
 	 * before, turn the mark back on, and refresh the screen. */
 	unpartition_filestruct(&filepart);
-	edittop = edittop_save;
-	SET(MARK_ISSET);
+	openfile->edittop = edittop_save;
+	openfile->mark_set = TRUE;
 	edit_refresh();
     }
 #endif
 
     /* If text has been added to the magicline, make a new magicline. */
-    if (filebot->data[0] != '\0')
+    if (openfile->filebot->data[0] != '\0')
 	new_magicline();
 
     return numreplaced;
@@ -929,19 +939,19 @@ void do_replace(void)
     last_replace = mallocstrcpy(last_replace, answer);
 
     /* Save where we are. */
-    edittop_save = edittop;
-    begin = current;
-    beginx = current_x;
-    pww_save = placewewant;
+    edittop_save = openfile->edittop;
+    begin = openfile->current;
+    beginx = openfile->current_x;
+    pww_save = openfile->placewewant;
 
     numreplaced = do_replace_loop(last_search, begin, &beginx, FALSE,
 	NULL);
 
     /* Restore where we were. */
-    edittop = edittop_save;
-    current = begin;
-    current_x = beginx;
-    placewewant = pww_save;
+    openfile->edittop = edittop_save;
+    openfile->current = begin;
+    openfile->current_x = beginx;
+    openfile->placewewant = pww_save;
 
     renumber_all();
     edit_refresh();
@@ -997,17 +1007,18 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	}
     } else {
 	if (line < 1)
-	    line = current->lineno;
+	    line = openfile->current->lineno;
 
 	if (column < 1)
-	    column = placewewant + 1;
+	    column = openfile->placewewant + 1;
     }
 
-    for (current = fileage; current->next != NULL && line > 1; line--)
-	current = current->next;
+    for (openfile->current = openfile->fileage;
+	openfile->current->next != NULL && line > 1; line--)
+	openfile->current = openfile->current->next;
 
-    current_x = actual_x(current->data, column - 1);
-    placewewant = column - 1;
+    openfile->current_x = actual_x(openfile->current->data, column - 1);
+    openfile->placewewant = column - 1;
 
     /* If save_pos is TRUE, don't change the cursor position when
      * updating the edit window. */
@@ -1018,8 +1029,8 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 
 void do_gotolinecolumn_void(void)
 {
-    do_gotolinecolumn(current->lineno, placewewant + 1, FALSE, TRUE,
-	FALSE);
+    do_gotolinecolumn(openfile->current->lineno,
+	openfile->placewewant + 1, FALSE, TRUE, FALSE);
 }
 
 #if defined(ENABLE_MULTIBUFFER) || !defined(DISABLE_SPELLER)
@@ -1028,12 +1039,12 @@ void do_gotopos(ssize_t line, size_t pos_x, ssize_t pos_y, size_t
 {
     /* Since do_gotolinecolumn() resets the x-coordinate but not the
      * y-coordinate, set the coordinates up this way. */
-    current_y = pos_y;
+    openfile->current_y = pos_y;
     do_gotolinecolumn(line, pos_x + 1, FALSE, FALSE, TRUE);
 
     /* Set the rest of the coordinates up. */
-    placewewant = pos_pww;
-    update_line(current, pos_x);
+    openfile->placewewant = pos_pww;
+    update_line(openfile->current, pos_x);
 }
 #endif
 
@@ -1049,7 +1060,7 @@ void do_find_bracket(void)
     bool backwards_search_set = ISSET(BACKWARDS_SEARCH);
     filestruct *current_save;
 
-    cursor_ch = current->data[current_x];
+    cursor_ch = openfile->current->data[openfile->current_x];
     pos = strchr(bracket_pat, cursor_ch);
 
     if (cursor_ch == '\0' || pos == NULL) {
@@ -1062,9 +1073,9 @@ void do_find_bracket(void)
     wanted_ch =
 	bracket_pat[(strlen(bracket_pat) - 1) - (pos - bracket_pat)];
 
-    current_save = current;
-    current_x_save = current_x;
-    pww_save = placewewant;
+    current_save = openfile->current;
+    current_x_save = openfile->current_x;
+    pww_save = openfile->placewewant;
     SET(USE_REGEXP);
 
     /* Apparent near redundancy with regexp_pat[] here is needed.
@@ -1088,23 +1099,24 @@ void do_find_bracket(void)
 
     findnextstr_wrap_reset();
     while (TRUE) {
-	if (findnextstr(FALSE, FALSE, FALSE, current, current_x,
-		regexp_pat, NULL)) {
+	if (findnextstr(FALSE, FALSE, FALSE, openfile->current,
+		openfile->current_x, regexp_pat, NULL)) {
 	    /* Found identical bracket. */
-	    if (current->data[current_x] == cursor_ch)
+	    if (openfile->current->data[openfile->current_x] ==
+		cursor_ch)
 		count++;
 	    /* Found complementary bracket. */
 	    else if (--count == 0) {
-		placewewant = xplustabs();
+		openfile->placewewant = xplustabs();
 		edit_redraw(current_save, pww_save);
 		break;
 	    }
 	} else {
 	    /* Didn't find either a left or right bracket. */
 	    statusbar(_("No matching bracket"));
-	    current = current_save;
-	    current_x = current_x_save;
-	    update_line(current, current_x);
+	    openfile->current = current_save;
+	    openfile->current_x = current_x_save;
+	    update_line(openfile->current, openfile->current_x);
 	    break;
 	}
     }

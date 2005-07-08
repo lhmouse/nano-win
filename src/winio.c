@@ -1688,7 +1688,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	    /* If we're using restricted mode, the filename isn't blank,
 	     * and we're at the "Write File" prompt, disable text
 	     * input. */
-	    if (!ISSET(RESTRICTED) || filename[0] == '\0' ||
+	    if (!ISSET(RESTRICTED) || openfile->filename[0] == '\0' ||
 		currshortcut != writefile_list) {
 		kbinput_len++;
 		kbinput = (int *)nrealloc(kbinput, kbinput_len *
@@ -1748,24 +1748,24 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 		    /* If we're using restricted mode, the filename
 		     * isn't blank, and we're at the "Write File"
 		     * prompt, disable Backspace. */
-		    if (!ISSET(RESTRICTED) || filename[0] == '\0' ||
-			currshortcut != writefile_list)
+		    if (!ISSET(RESTRICTED) || openfile->filename[0] ==
+			'\0' || currshortcut != writefile_list)
 			do_statusbar_backspace();
 		    break;
 		case NANO_DELETE_KEY:
 		    /* If we're using restricted mode, the filename
 		     * isn't blank, and we're at the "Write File"
 		     * prompt, disable Delete. */
-		    if (!ISSET(RESTRICTED) || filename[0] == '\0' ||
-			currshortcut != writefile_list)
+		    if (!ISSET(RESTRICTED) || openfile->filename[0] ==
+			'\0' || currshortcut != writefile_list)
 			do_statusbar_delete();
 		    break;
 		case NANO_CUT_KEY:
 		    /* If we're using restricted mode, the filename
 		     * isn't blank, and we're at the "Write File"
 		     * prompt, disable Cut. */
-		    if (!ISSET(RESTRICTED) || filename[0] == '\0' ||
-			currshortcut != writefile_list)
+		    if (!ISSET(RESTRICTED) || openfile->filename[0] ==
+			'\0' || currshortcut != writefile_list)
 			do_statusbar_cut_text();
 		    break;
 #ifndef NANO_SMALL
@@ -1782,7 +1782,8 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 			/* If we're using restricted mode, the filename
 			 * isn't blank, and we're at the "Write File"
 			 * prompt, disable verbatim input. */
-			if (!ISSET(RESTRICTED) || filename[0] == '\0' ||
+			if (!ISSET(RESTRICTED) ||
+				openfile->filename[0] == '\0' ||
 				currshortcut != writefile_list) {
 			    bool got_enter;
 				/* Whether we got the Enter key. */
@@ -2149,7 +2150,7 @@ void do_statusbar_output(char *output, size_t output_len, bool
  * current_x. */
 size_t xplustabs(void)
 {
-    return strnlenpt(current->data, current_x);
+    return strnlenpt(openfile->current->data, openfile->current_x);
 }
 
 /* actual_x() gives the index in str of the character displayed at
@@ -2751,7 +2752,7 @@ void titlebar(const char *path)
     bool dots = FALSE;
 	/* Do we put an ellipsis before the path? */
 
-    assert(path != NULL || filename != NULL);
+    assert(path != NULL || openfile->filename != NULL);
     assert(COLS >= 0);
 
     wattron(topwin, A_REVERSE);
@@ -2775,7 +2776,7 @@ void titlebar(const char *path)
 	waddstr(topwin, "  ");
     }
 
-    if (ISSET(MODIFIED))
+    if (openfile->modified)
 	state = _("Modified");
     else if (ISSET(VIEW_MODE))
 	state = _("View");
@@ -2787,7 +2788,7 @@ void titlebar(const char *path)
     statelen = strnlenpt(state, COLS);
 
     /* We need a space before state. */
-    if ((ISSET(MODIFIED) || ISSET(VIEW_MODE)) && statelen < COLS)
+    if ((openfile->modified || ISSET(VIEW_MODE)) && statelen < COLS)
 	statelen++;
 
     assert(space >= 0);
@@ -2800,7 +2801,7 @@ void titlebar(const char *path)
 	prefix = _("DIR:");
     else
 #endif
-    if (filename[0] == '\0') {
+    if (openfile->filename[0] == '\0') {
 	prefix = _("New Buffer");
 	newfie = TRUE;
     } else
@@ -2815,7 +2816,7 @@ void titlebar(const char *path)
 	prefixlen++;
 
     if (path == NULL)
-	path = filename;
+	path = openfile->filename;
     if (space >= prefixlen + statelen)
 	space -= prefixlen + statelen;
     else
@@ -2881,11 +2882,12 @@ void titlebar(const char *path)
     wrefresh(edit);
 }
 
-/* If MODIFIED is not already set, set it and update the titlebar. */
+/* Set the modified flag if it isn't already set, and then update the
+ * titlebar. */
 void set_modified(void)
 {
-    if (!ISSET(MODIFIED)) {
-	SET(MODIFIED);
+    if (!openfile->modified) {
+	openfile->modified = TRUE;
 	titlebar(NULL);
     }
 }
@@ -3061,15 +3063,16 @@ void reset_cursor(void)
 {
     /* If we haven't opened any files yet, put the cursor in the top
      * left corner of the edit window and get out. */
-    if (edittop == NULL || current == NULL) {
+    if (openfile->edittop == NULL || openfile->current == NULL) {
 	wmove(edit, 0, 0);
 	return;
     }
 
-    current_y = current->lineno - edittop->lineno;
-    if (current_y < editwinrows) {
+    openfile->current_y = openfile->current->lineno -
+	openfile->edittop->lineno;
+    if (openfile->current_y < editwinrows) {
 	size_t x = xplustabs();
-	wmove(edit, current_y, x - get_page_start(x));
+	wmove(edit, openfile->current_y, x - get_page_start(x));
      }
 }
 
@@ -3335,13 +3338,12 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 #endif /* ENABLE_COLOR */
 
 #ifndef NANO_SMALL
-    if (ISSET(MARK_ISSET)
-	    && (fileptr->lineno <= mark_beginbuf->lineno
-		|| fileptr->lineno <= current->lineno)
-	    && (fileptr->lineno >= mark_beginbuf->lineno
-		|| fileptr->lineno >= current->lineno)) {
+    if (openfile->mark_set && (fileptr->lineno <=
+	openfile->mark_beginbuf->lineno || fileptr->lineno <=
+	openfile->current->lineno) && (fileptr->lineno >=
+	openfile->mark_beginbuf->lineno || fileptr->lineno >=
+	openfile->current->lineno)) {
 	/* fileptr is at least partially selected. */
-
 	const filestruct *top;
 	    /* Either current or mark_beginbuf, whichever is first. */
 	size_t top_x;
@@ -3424,7 +3426,7 @@ void update_line(const filestruct *fileptr, size_t index)
 
     assert(fileptr != NULL);
 
-    line = fileptr->lineno - edittop->lineno;
+    line = fileptr->lineno - openfile->edittop->lineno;
 
     /* We assume the line numbers are valid.  Is that really true? */
     assert(line < 0 || line == check_linenumbers(fileptr));
@@ -3437,7 +3439,8 @@ void update_line(const filestruct *fileptr, size_t index)
 
     /* Next, convert variables that index the line to their equivalent
      * positions in the expanded line. */
-    index = (fileptr == current) ? strnlenpt(fileptr->data, index) : 0;
+    index = (fileptr == openfile->current) ? strnlenpt(fileptr->data,
+	index) : 0;
     page_start = get_page_start(index);
 
     /* Expand the line, replacing tabs with spaces, and control
@@ -3461,9 +3464,10 @@ int need_horizontal_update(size_t old_pww)
 {
     return
 #ifndef NANO_SMALL
-	ISSET(MARK_ISSET) ||
+	openfile->mark_set ||
 #endif
-	get_page_start(old_pww) != get_page_start(placewewant);
+	get_page_start(old_pww) !=
+	get_page_start(openfile->placewewant);
 }
 
 /* Return a nonzero value if we need an update after moving vertically.
@@ -3473,9 +3477,10 @@ int need_vertical_update(size_t old_pww)
 {
     return
 #ifndef NANO_SMALL
-	ISSET(MARK_ISSET) ||
+	openfile->mark_set ||
 #endif
-	get_page_start(old_pww) != get_page_start(placewewant);
+	get_page_start(old_pww) !=
+	get_page_start(openfile->placewewant);
 }
 
 /* Scroll the edit window in the given direction and the given number
@@ -3503,14 +3508,14 @@ void edit_scroll(updown direction, int nlines)
      * how many lines we moved in scroll_rows. */
     for (i = nlines; i > 0; i--) {
 	if (direction == UP) {
-	    if (edittop->prev == NULL)
+	    if (openfile->edittop->prev == NULL)
 		break;
-	    edittop = edittop->prev;
+	    openfile->edittop = openfile->edittop->prev;
 	    scroll_rows--;
 	} else {
-	    if (edittop->next == NULL)
+	    if (openfile->edittop->next == NULL)
 		break;
-	    edittop = edittop->next;
+	    openfile->edittop = openfile->edittop->next;
 	    scroll_rows++;
 	}
     }
@@ -3521,7 +3526,7 @@ void edit_scroll(updown direction, int nlines)
     wscrl(edit, scroll_rows);
     scrollok(edit, FALSE);
 
-    foo = edittop;
+    foo = openfile->edittop;
     if (direction != UP) {
 	int slines = editwinrows - nlines;
 	for (; slines > 0 && foo != NULL; slines--)
@@ -3552,10 +3557,11 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 
     /* If either old_current or current is offscreen, refresh the screen
      * and get out. */
-    if (old_current->lineno < edittop->lineno || old_current->lineno >=
-	edittop->lineno + editwinrows || current->lineno <
-	edittop->lineno || current->lineno >= edittop->lineno +
-	editwinrows) {
+    if (old_current->lineno < openfile->edittop->lineno ||
+	old_current->lineno >= openfile->edittop->lineno +
+	editwinrows || openfile->current->lineno <
+	openfile->edittop->lineno || openfile->current->lineno >=
+	openfile->edittop->lineno + editwinrows) {
 	edit_refresh();
 	return;
     }
@@ -3564,27 +3570,30 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
      * and/or we're not on the same page as before.  If the mark is on,
      * update all the lines between old_current and current too. */
     foo = old_current;
-    while (foo != current) {
+    while (foo != openfile->current) {
 	if (do_refresh)
 	    update_line(foo, 0);
 #ifndef NANO_SMALL
-	if (!ISSET(MARK_ISSET))
+	if (!openfile->mark_set)
 #endif
 	    break;
-	if (foo->lineno > current->lineno)
+#ifndef NANO_SMALL
+	if (foo->lineno > openfile->current->lineno)
 	    foo = foo->prev;
 	else
 	    foo = foo->next;
+#endif
     }
     if (do_refresh)
-	update_line(current, current_x);
+	update_line(openfile->current, openfile->current_x);
 }
 
 /* Refresh the screen without changing the position of lines. */
 void edit_refresh(void)
 {
-    if (current->lineno < edittop->lineno ||
-	    current->lineno >= edittop->lineno + editwinrows)
+    if (openfile->current->lineno < openfile->edittop->lineno ||
+	openfile->current->lineno >= openfile->edittop->lineno +
+	editwinrows)
 	/* Note that edit_update() changes edittop so that it's in range
 	 * of current.  Thus, when it then calls edit_refresh(), there
 	 * is no danger of getting an infinite loop. */
@@ -3595,14 +3604,15 @@ void edit_refresh(void)
 		CENTER);
     else {
 	int nlines = 0;
-	const filestruct *foo = edittop;
+	const filestruct *foo = openfile->edittop;
 
 #ifdef DEBUG
-	fprintf(stderr, "edit_refresh(): edittop->lineno = %ld\n", (long)edittop->lineno);
+	fprintf(stderr, "edit_refresh(): edittop->lineno = %ld\n", (long)openfile->edittop->lineno);
 #endif
 
 	while (nlines < editwinrows) {
-	    update_line(foo, foo == current ? current_x : 0);
+	    update_line(foo, foo == openfile->current ?
+		openfile->current_x : 0);
 	    nlines++;
 	    if (foo->next == NULL)
 		break;
@@ -3621,7 +3631,7 @@ void edit_refresh(void)
  * the same place and move edittop to put it in range of current. */
 void edit_update(topmidnone location)
 {
-    filestruct *foo = current;
+    filestruct *foo = openfile->current;
 
     if (location != TOP) {
 	/* If location is CENTER, we move edittop up (editwinrows / 2)
@@ -3637,7 +3647,7 @@ void edit_update(topmidnone location)
 	if (location == CENTER)
 	    goal = editwinrows / 2;
 	else {
-	    goal = current_y;
+	    goal = openfile->current_y;
 
 	    /* Limit goal to (editwinrows - 1) lines maximum. */
 	    if (goal > editwinrows - 1)
@@ -3648,7 +3658,7 @@ void edit_update(topmidnone location)
 	    foo = foo->prev;
     }
 
-    edittop = foo;
+    openfile->edittop = foo;
     edit_refresh();
 }
 
@@ -3800,22 +3810,22 @@ void do_cursorpos(bool constant)
     char c;
     filestruct *f;
     size_t i, cur_xpt = xplustabs() + 1;
-    size_t cur_lenpt = strlenpt(current->data) + 1;
+    size_t cur_lenpt = strlenpt(openfile->current->data) + 1;
     int linepct, colpct, charpct;
 
-    assert(current != NULL && fileage != NULL && totlines != 0);
+    assert(openfile->current != NULL && openfile->fileage != NULL && openfile->totlines != 0);
 
-    c = current->data[current_x];
-    f = current->next;
-    current->data[current_x] = '\0';
-    current->next = NULL;
-    get_totals(fileage, current, NULL, &i);
-    current->data[current_x] = c;
-    current->next = f;
+    c = openfile->current->data[openfile->current_x];
+    f = openfile->current->next;
+    openfile->current->data[openfile->current_x] = '\0';
+    openfile->current->next = NULL;
+    get_totals(openfile->fileage, openfile->current, NULL, &i);
+    openfile->current->data[openfile->current_x] = c;
+    openfile->current->next = f;
 
     /* Check whether totsize is correct.  If it isn't, there is a bug
      * somewhere. */
-    assert(current != filebot || i == totsize);
+    assert(openfile->current != openfile->filebot || i == openfile->totsize);
 
     if (constant && disable_cursorpos) {
 	disable_cursorpos = FALSE;
@@ -3824,15 +3834,17 @@ void do_cursorpos(bool constant)
 
     /* Display the current cursor position on the statusbar, and set 
      * disable_cursorpos to FALSE. */
-    linepct = 100 * current->lineno / totlines;
+    linepct = 100 * openfile->current->lineno / openfile->totlines;
     colpct = 100 * cur_xpt / cur_lenpt;
-    charpct = (totsize == 0) ? 0 : 100 * i / totsize;
+    charpct = (openfile->totsize == 0) ? 0 : 100 * i /
+	openfile->totsize;
 
     statusbar(
 	_("line %ld/%lu (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"),
-	(long)current->lineno, (unsigned long)totlines, linepct,
+	(long)openfile->current->lineno,
+	(unsigned long)openfile->totlines, linepct,
 	(unsigned long)cur_xpt, (unsigned long)cur_lenpt, colpct,
-	(unsigned long)i, (unsigned long)totsize, charpct);
+	(unsigned long)i, (unsigned long)openfile->totsize, charpct);
 
     disable_cursorpos = FALSE;
 }
@@ -4045,7 +4057,8 @@ int check_linenumbers(const filestruct *fileptr)
     int check_line = 0;
     const filestruct *filetmp;
 
-    for (filetmp = edittop; filetmp != fileptr; filetmp = filetmp->next)
+    for (filetmp = openfile->edittop; filetmp != fileptr;
+	filetmp = filetmp->next)
 	check_line++;
 
     return check_line;
@@ -4054,9 +4067,9 @@ int check_linenumbers(const filestruct *fileptr)
 
 #ifdef DEBUG
 /* Dump the filestruct inptr to stderr. */
-void dump_buffer(const filestruct *inptr)
+void dump_filestruct(const filestruct *inptr)
 {
-    if (inptr == fileage)
+    if (inptr == openfile->fileage)
 	fprintf(stderr, "Dumping file buffer to stderr...\n");
     else if (inptr == cutbuffer)
 	fprintf(stderr, "Dumping cutbuffer to stderr...\n");
@@ -4070,9 +4083,9 @@ void dump_buffer(const filestruct *inptr)
 }
 
 /* Dump the main filestruct to stderr in reverse. */
-void dump_buffer_reverse(void)
+void dump_filestruct_reverse(void)
 {
-    const filestruct *fileptr = filebot;
+    const filestruct *fileptr = openfile->filebot;
 
     while (fileptr != NULL) {
 	fprintf(stderr, "(%ld) %s\n", (long)fileptr->lineno,

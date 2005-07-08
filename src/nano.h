@@ -160,20 +160,17 @@ typedef struct filestruct {
     ssize_t lineno;		/* The line number. */
 } filestruct;
 
-#ifdef ENABLE_MULTIBUFFER
 typedef struct openfilestruct {
-    char *filename;
-#ifndef NANO_SMALL
-    struct stat originalfilestat;
-#endif
-    struct openfilestruct *next;
-				/* Next node. */
-    struct openfilestruct *prev;
-				/* Previous node. */
-    filestruct *fileage;	/* Current file. */
+    char *filename;		/* Current file's name. */
+    filestruct *fileage;	/* Current file's first line. */
     filestruct *filebot;	/* Current file's last line. */
     filestruct *edittop;	/* Current top of edit window. */
     filestruct *current;	/* Current file's line. */
+    size_t current_x;		/* Current file's x-coordinate
+				 * position. */
+    ssize_t current_y;		/* Current file's y-coordinate
+				 * position. */
+    size_t placewewant;		/* Current file's place we want. */
 #ifndef NANO_SMALL
     filestruct *mark_beginbuf;
 				/* Current file's beginning marked
@@ -181,18 +178,22 @@ typedef struct openfilestruct {
     size_t mark_beginx;		/* Current file's beginning marked
 				 * line's x-coordinate position. */
 #endif
-    size_t current_x;		/* Current file's x-coordinate
-				 * position. */
-    size_t placewewant;		/* Current file's place we want. */
     size_t totlines;		/* Current file's total number of
 				 * lines. */
     size_t totsize;		/* Current file's total size. */
-    unsigned long flags;	/* Current file's flags: modification
-				 * status (and marking status, if
-				 * available). */
+    bool modified;		/* Current file's modification
+				 * status. */
+#ifndef NANO_SMALL
+    bool mark_set;		/* Current file's marking status. */
     file_format fmt;		/* Current file's format. */
-} openfilestruct;
+    struct stat originalfilestat;
+				/* Current file's stat. */
 #endif
+    struct openfilestruct *next;
+				/* Next node. */
+    struct openfilestruct *prev;
+				/* Previous node. */
+} openfilestruct;
 
 typedef struct partition {
     filestruct *fileage;
@@ -268,37 +269,35 @@ typedef struct syntaxtype {
 
 /* Bitwise flags so that we can save space (or, more correctly, not
  * waste it). */
-#define MODIFIED		(1<<0)
-#define CASE_SENSITIVE		(1<<1)
-#define MARK_ISSET		(1<<2)
-#define CONST_UPDATE		(1<<3)
-#define NO_HELP			(1<<4)
-#define NOFOLLOW_SYMLINKS	(1<<5)
-#define SUSPEND			(1<<6)
-#define NO_WRAP			(1<<7)
-#define AUTOINDENT		(1<<8)
-#define VIEW_MODE		(1<<9)
-#define USE_MOUSE		(1<<10)
-#define USE_REGEXP		(1<<11)
-#define TEMP_FILE		(1<<12)
-#define CUT_TO_END		(1<<13)
-#define BACKWARDS_SEARCH	(1<<14)
-#define MULTIBUFFER		(1<<15)
-#define SMOOTH_SCROLL		(1<<16)
-#define REBIND_DELETE		(1<<17)
-#define NO_CONVERT		(1<<18)
-#define BACKUP_FILE		(1<<19)
-#define NO_RCFILE		(1<<20)
-#define NO_COLOR_SYNTAX		(1<<21)
-#define PRESERVE		(1<<22)
-#define HISTORYLOG		(1<<23)
-#define RESTRICTED		(1<<24)
-#define SMART_HOME		(1<<25)
-#define WHITESPACE_DISPLAY	(1<<26)
-#define MORE_SPACE		(1<<27)
-#define TABS_TO_SPACES		(1<<28)
-#define QUICK_BLANK		(1<<29)
-#define USE_UTF8		(1<<30)
+#define CASE_SENSITIVE		(1<<0)
+#define CONST_UPDATE		(1<<1)
+#define NO_HELP			(1<<2)
+#define NOFOLLOW_SYMLINKS	(1<<3)
+#define SUSPEND			(1<<4)
+#define NO_WRAP			(1<<5)
+#define AUTOINDENT		(1<<6)
+#define VIEW_MODE		(1<<7)
+#define USE_MOUSE		(1<<8)
+#define USE_REGEXP		(1<<9)
+#define TEMP_FILE		(1<<10)
+#define CUT_TO_END		(1<<11)
+#define BACKWARDS_SEARCH	(1<<12)
+#define MULTIBUFFER		(1<<13)
+#define SMOOTH_SCROLL		(1<<14)
+#define REBIND_DELETE		(1<<15)
+#define NO_CONVERT		(1<<16)
+#define BACKUP_FILE		(1<<17)
+#define NO_RCFILE		(1<<18)
+#define NO_COLOR_SYNTAX		(1<<19)
+#define PRESERVE		(1<<20)
+#define HISTORYLOG		(1<<21)
+#define RESTRICTED		(1<<22)
+#define SMART_HOME		(1<<23)
+#define WHITESPACE_DISPLAY	(1<<24)
+#define MORE_SPACE		(1<<25)
+#define TABS_TO_SPACES		(1<<26)
+#define QUICK_BLANK		(1<<27)
+#define USE_UTF8		(1<<28)
 
 /* Control key sequences.  Changing these would be very, very bad. */
 #define NANO_CONTROL_SPACE 0
@@ -443,10 +442,10 @@ typedef struct syntaxtype {
 #define NANO_TOFILES_KEY	NANO_CONTROL_T
 #define NANO_APPEND_KEY		NANO_ALT_A
 #define NANO_PREPEND_KEY	NANO_ALT_P
-#define NANO_OPENPREV_KEY	NANO_ALT_LCARAT
-#define NANO_OPENNEXT_KEY	NANO_ALT_RCARAT
-#define NANO_OPENPREV_ALTKEY	NANO_ALT_COMMA
-#define NANO_OPENNEXT_ALTKEY	NANO_ALT_PERIOD
+#define NANO_PREVFILE_KEY	NANO_ALT_LCARAT
+#define NANO_NEXTFILE_KEY	NANO_ALT_RCARAT
+#define NANO_PREVFILE_ALTKEY	NANO_ALT_COMMA
+#define NANO_NEXTFILE_ALTKEY	NANO_ALT_PERIOD
 #define NANO_BRACKET_KEY	NANO_ALT_RBRACKET
 #define NANO_NEXTWORD_KEY	NANO_CONTROL_SPACE
 #define NANO_PREVWORD_KEY	NANO_ALT_SPACE

@@ -43,24 +43,9 @@ unsigned long flags = 0;	/* Our flag containing many options */
 WINDOW *topwin;			/* Top buffer */
 WINDOW *edit;			/* The file portion of the editor */
 WINDOW *bottomwin;		/* Bottom buffer */
-char *filename = NULL;		/* Name of the file */
-
-#ifndef NANO_SMALL
-struct stat originalfilestat;	/* Stat for the file as we loaded it */
-#endif
 
 int editwinrows = 0;		/* How many rows long is the edit
 				   window? */
-filestruct *current;		/* Current buffer pointer */
-size_t current_x = 0;		/* Current x-coordinate in the edit
-				   window */
-ssize_t current_y = 0;		/* Current y-coordinate in the edit
-				   window */
-filestruct *fileage = NULL;	/* Our file buffer */
-filestruct *edittop = NULL;	/* Pointer to the top of the edit
-				   buffer with respect to the
-				   file struct */
-filestruct *filebot = NULL;	/* Last node in the file struct */
 filestruct *cutbuffer = NULL;	/* A place to store cut text */
 #ifndef DISABLE_JUSTIFY
 filestruct *jusbuffer = NULL;	/* A place to store unjustified text */
@@ -68,10 +53,8 @@ filestruct *jusbuffer = NULL;	/* A place to store unjustified text */
 partition *filepart = NULL;	/* A place to store a portion of the
 				   file struct */
 
-#ifdef ENABLE_MULTIBUFFER
 openfilestruct *openfile = NULL;
 				/* The list of open file buffers */
-#endif
 
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 char *whitespace = NULL;	/* Characters used when displaying
@@ -102,12 +85,6 @@ char *backup_dir = NULL;	/* Backup directory. */
 #endif
 
 char *answer = NULL;		/* Answer str to many questions */
-size_t totlines = 0;		/* Total number of lines in the file */
-size_t totsize = 0;		/* Total number of characters in the
-				   file */
-size_t placewewant = 0;		/* The column we'd like the cursor
-				   to jump to when we go to the
-				   next or previous line */
 
 ssize_t tabsize = -1;		/* Our internal tabsize variable.  The
 				   default value is set in main(). */
@@ -115,13 +92,6 @@ ssize_t tabsize = -1;		/* Our internal tabsize variable.  The
 char *hblank = NULL;		/* A horizontal blank line */
 #ifndef DISABLE_HELP
 char *help_text;		/* The text in the help window */
-#endif
-
-/* More stuff for the marker select */
-
-#ifndef NANO_SMALL
-filestruct *mark_beginbuf;	/* The begin marker buffer */
-size_t mark_beginx;		/* X value in the string to start */
 #endif
 
 #ifndef DISABLE_OPERATINGDIR
@@ -331,9 +301,9 @@ void shortcut_init(bool unjustify)
 	N_("Go to the end of the current paragraph");
 #endif
 #ifdef ENABLE_MULTIBUFFER
-    const char *nano_openprev_msg =
+    const char *nano_prevfile_msg =
 	N_("Switch to the previous file buffer");
-    const char *nano_opennext_msg =
+    const char *nano_nextfile_msg =
 	N_("Switch to the next file buffer");
 #endif
     const char *nano_verbatim_msg = N_("Insert character(s) verbatim");
@@ -413,7 +383,8 @@ void shortcut_init(bool unjustify)
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_EXIT_KEY,
 #ifdef ENABLE_MULTIBUFFER
-	openfile != NULL && openfile != openfile->next ? N_("Close") :
+	openfile != NULL && openfile != openfile->next ?
+	N_("Close") :
 #endif
 	exit_msg, IFHELP(nano_exit_msg, NANO_NO_KEY), NANO_EXIT_FKEY,
 	NANO_NO_KEY, VIEW, do_exit);
@@ -590,12 +561,12 @@ void shortcut_init(bool unjustify)
 
 #ifdef ENABLE_MULTIBUFFER
     sc_init_one(&main_list, NANO_NO_KEY, N_("Previous File"),
-	IFHELP(nano_openprev_msg, NANO_OPENPREV_KEY), NANO_NO_KEY,
-	NANO_OPENPREV_ALTKEY, VIEW, open_prevfile_void);
+	IFHELP(nano_prevfile_msg, NANO_PREVFILE_KEY), NANO_NO_KEY,
+	NANO_PREVFILE_ALTKEY, VIEW, switch_to_prev_buffer_void);
 
     sc_init_one(&main_list, NANO_NO_KEY, N_("Next File"),
-	IFHELP(nano_opennext_msg, NANO_OPENNEXT_KEY), NANO_NO_KEY,
-	NANO_OPENNEXT_ALTKEY, VIEW, open_nextfile_void);
+	IFHELP(nano_nextfile_msg, NANO_NEXTFILE_KEY), NANO_NO_KEY,
+	NANO_NEXTFILE_ALTKEY, VIEW, switch_to_next_buffer_void);
 #endif
 
     sc_init_one(&main_list, NANO_NO_KEY, N_("Verbatim Input"),
@@ -1201,8 +1172,6 @@ void thanks_for_all_the_fish(void)
     if (help_text != NULL)
 	free(help_text);
 #endif
-    if (filename != NULL)
-	free(filename);
     if (answer != NULL)
 	free(answer);
     if (cutbuffer != NULL)
@@ -1240,19 +1209,9 @@ void thanks_for_all_the_fish(void)
 	free(t);
     }
 #endif
-#ifdef ENABLE_MULTIBUFFER
     /* Free the memory associated with each open file buffer. */
-    if (openfile != NULL) {
-	/* Make sure openfile->fileage is up to date, in case we've
-	 * cut the top line of the file. */
-	openfile->fileage = fileage;
-
+    if (openfile != NULL)
 	free_openfilestruct(openfile);
-    }
-#else
-    if (fileage != NULL)
-	free_filestruct(fileage);
-#endif
 #ifdef ENABLE_COLOR
     if (syntaxstr != NULL)
 	free(syntaxstr);

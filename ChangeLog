@@ -7,6 +7,17 @@ CVS code -
 	  backup_lines(). (DLR)
 	- Reorder some functions for consistency. (DLR)
 	- Rename variable open_files openfile, for consistency. (DLR)
+	- Restructure things so that every file has its own
+	  openfilestruct, and so that the values in it are used directly
+	  instead of being periodically synced up with the globals.
+	  Accordingly, remove the globals.  Changes to pretty much
+	  every function.  Rename global_init() resize_init(), rename
+	  add_open_file() make_new_buffer(), rename load_buffer()
+	  open_buffer(), rename open_prevnext_file()
+	  switch_to_prevnext_buffer(), rename open_prevfile_void()
+	  switch_to_prev_buffer(), rename open_nextfile_void()
+	  switch_to_next_buffer(), remove load_file(), and remove
+	  load_open_file(). (DLR)
 - global.c:
   shortcut_init()
 	- Simplify wording of nano_gotoline_msg. (Jordi)

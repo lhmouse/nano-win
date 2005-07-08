@@ -167,7 +167,7 @@ filestruct *copy_filestruct(const filestruct *src)
     return head;
 }
 
-/* Frees a filestruct. */
+/* Free a filestruct. */
 void free_filestruct(filestruct *src)
 {
     assert(src != NULL);
@@ -179,20 +179,23 @@ void free_filestruct(filestruct *src)
     delete_node(src);
 }
 
+/* Renumber all entries in the main filestruct. */
 void renumber_all(void)
 {
     filestruct *temp;
     ssize_t line = 1;
 
-    assert(fileage == NULL || fileage != fileage->next);
+    assert(openfile->fileage == NULL || openfile->fileage != openfile->fileage->next);
 
-    for (temp = fileage; temp != NULL; temp = temp->next)
+    for (temp = openfile->fileage; temp != NULL; temp = temp->next)
 	temp->lineno = line++;
 }
 
+/* Renumbers all entries in the main filestruct, starting with
+ * fileptr. */
 void renumber(filestruct *fileptr)
 {
-    if (fileptr == NULL || fileptr->prev == NULL || fileptr == fileage)
+    if (fileptr == NULL || fileptr->prev == NULL || fileptr == openfile->fileage)
 	renumber_all();
     else {
 	ssize_t line = fileptr->prev->lineno;
@@ -211,7 +214,7 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
 {
     partition *p;
 
-    assert(top != NULL && bot != NULL && fileage != NULL && filebot != NULL);
+    assert(top != NULL && bot != NULL && openfile->fileage != NULL && openfile->filebot != NULL);
 
     /* Initialize the partition. */
     p = (partition *)nmalloc(sizeof(partition));
@@ -219,14 +222,14 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
     /* If the top and bottom of the partition are different from the top
      * and bottom of the filestruct, save the latter and then set them
      * to top and bot. */
-    if (top != fileage) {
-	p->fileage = fileage;
-	fileage = top;
+    if (top != openfile->fileage) {
+	p->fileage = openfile->fileage;
+	openfile->fileage = top;
     } else
 	p->fileage = NULL;
-    if (bot != filebot) {
-	p->filebot = filebot;
-	filebot = bot;
+    if (bot != openfile->filebot) {
+	p->filebot = openfile->filebot;
+	openfile->filebot = bot;
     } else
 	p->filebot = NULL;
 
@@ -263,39 +266,39 @@ void unpartition_filestruct(partition **p)
 {
     char *tmp;
 
-    assert(p != NULL && fileage != NULL && filebot != NULL);
+    assert(p != NULL && openfile->fileage != NULL && openfile->filebot != NULL);
 
     /* Reattach the line above the top of the partition, and restore the
      * text before top_x from top_data.  Free top_data when we're done
      * with it. */
-    tmp = mallocstrcpy(NULL, fileage->data);
-    fileage->prev = (*p)->top_prev;
-    if (fileage->prev != NULL)
-	fileage->prev->next = fileage;
-    fileage->data = charealloc(fileage->data, strlen((*p)->top_data) +
-	strlen(fileage->data) + 1);
-    strcpy(fileage->data, (*p)->top_data);
+    tmp = mallocstrcpy(NULL, openfile->fileage->data);
+    openfile->fileage->prev = (*p)->top_prev;
+    if (openfile->fileage->prev != NULL)
+	openfile->fileage->prev->next = openfile->fileage;
+    openfile->fileage->data = charealloc(openfile->fileage->data,
+	strlen((*p)->top_data) + strlen(openfile->fileage->data) + 1);
+    strcpy(openfile->fileage->data, (*p)->top_data);
     free((*p)->top_data);
-    strcat(fileage->data, tmp);
+    strcat(openfile->fileage->data, tmp);
     free(tmp);
 
     /* Reattach the line below the bottom of the partition, and restore
      * the text after bot_x from bot_data.  Free bot_data when we're
      * done with it. */
-    filebot->next = (*p)->bot_next;
-    if (filebot->next != NULL)
-	filebot->next->prev = filebot;
-    filebot->data = charealloc(filebot->data, strlen(filebot->data) +
-	strlen((*p)->bot_data) + 1);
-    strcat(filebot->data, (*p)->bot_data);
+    openfile->filebot->next = (*p)->bot_next;
+    if (openfile->filebot->next != NULL)
+	openfile->filebot->next->prev = openfile->filebot;
+    openfile->filebot->data = charealloc(openfile->filebot->data,
+	strlen(openfile->filebot->data) + strlen((*p)->bot_data) + 1);
+    strcat(openfile->filebot->data, (*p)->bot_data);
     free((*p)->bot_data);
 
     /* Restore the top and bottom of the filestruct, if they were
      * different from the top and bottom of the partition. */
     if ((*p)->fileage != NULL)
-	fileage = (*p)->fileage;
+	openfile->fileage = (*p)->fileage;
     if ((*p)->filebot != NULL)
-	filebot = (*p)->filebot;
+	openfile->filebot = (*p)->filebot;
 
     /* Uninitialize the partition. */
     free(*p);
@@ -327,40 +330,45 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
      * the partition is the top of the edit window, and keep track of
      * whether the mark begins inside the partition. */
     filepart = partition_filestruct(top, top_x, bot, bot_x);
-    at_edittop = (fileage == edittop);
+    at_edittop = (openfile->fileage == openfile->edittop);
 #ifndef NANO_SMALL
-    if (ISSET(MARK_ISSET))
-	mark_inside = (mark_beginbuf->lineno >= fileage->lineno &&
-		mark_beginbuf->lineno <= filebot->lineno &&
-		(mark_beginbuf != fileage || mark_beginx >= top_x) &&
-		(mark_beginbuf != filebot || mark_beginx <= bot_x));
+    if (openfile->mark_set)
+	mark_inside = (openfile->mark_beginbuf->lineno >=
+		openfile->fileage->lineno &&
+		openfile->mark_beginbuf->lineno <=
+		openfile->filebot->lineno &&
+		(openfile->mark_beginbuf != openfile->fileage ||
+		openfile->mark_beginx >= top_x) &&
+		(openfile->mark_beginbuf != openfile->filebot ||
+		openfile->mark_beginx <= bot_x));
 #endif
 
     /* Get the number of characters in the text, and subtract it from
      * totsize. */
     get_totals(top, bot, NULL, &part_totsize);
-    totsize -= part_totsize;
+    openfile->totsize -= part_totsize;
 
     if (*file_top == NULL) {
 	/* If file_top is empty, just move all the text directly into
 	 * it.  This is equivalent to tacking the text in top onto the
 	 * (lack of) text at the end of file_top. */
-	*file_top = fileage;
-	*file_bot = filebot;
+	*file_top = openfile->fileage;
+	*file_bot = openfile->filebot;
     } else {
 	/* Otherwise, tack the text in top onto the text at the end of
 	 * file_bot. */
 	(*file_bot)->data = charealloc((*file_bot)->data,
-		strlen((*file_bot)->data) + strlen(fileage->data) + 1);
-	strcat((*file_bot)->data, fileage->data);
+		strlen((*file_bot)->data) +
+		strlen(openfile->fileage->data) + 1);
+	strcat((*file_bot)->data, openfile->fileage->data);
 
 	/* Attach the line after top to the line after file_bot.  Then,
 	 * if there's more than one line after top, move file_bot down
 	 * to bot. */
-	(*file_bot)->next = fileage->next;
+	(*file_bot)->next = openfile->fileage->next;
 	if ((*file_bot)->next != NULL) {
 	    (*file_bot)->next->prev = *file_bot;
-	    *file_bot = filebot;
+	    *file_bot = openfile->filebot;
 	}
     }
 
@@ -369,23 +377,23 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
      * edittop to where the text used to start.  If the mark began
      * inside the partition, set the beginning of the mark to where the
      * text used to start. */
-    fileage = (filestruct *)nmalloc(sizeof(filestruct));
-    fileage->data = mallocstrcpy(NULL, "");
-    filebot = fileage;
+    openfile->fileage = (filestruct *)nmalloc(sizeof(filestruct));
+    openfile->fileage->data = mallocstrcpy(NULL, "");
+    openfile->filebot = openfile->fileage;
     if (at_edittop)
-	edittop = fileage;
+	openfile->edittop = openfile->fileage;
 #ifndef NANO_SMALL
     if (mark_inside) {
-	mark_beginbuf = fileage;
-	mark_beginx = top_x;
+	openfile->mark_beginbuf = openfile->fileage;
+	openfile->mark_beginx = top_x;
     }
 #endif
 
     /* Restore the current line and cursor position. */
-    current = fileage;
-    current_x = top_x;
+    openfile->current = openfile->fileage;
+    openfile->current_x = top_x;
 
-    top_save = fileage;
+    top_save = openfile->fileage;
 
     /* Unpartition the filestruct so that it contains all the text
      * again, minus the saved text. */
@@ -395,11 +403,11 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
      * partition. */
     renumber(top_save);
 
-    if (filebot->data[0] != '\0')
+    if (openfile->filebot->data[0] != '\0')
 	new_magicline();
 
     /* Set totlines to the new number of lines in the file. */
-    totlines = filebot->lineno;
+    openfile->totlines = openfile->filebot->lineno;
 }
 
 /* Copy all the text from the filestruct beginning with file_top and
@@ -416,27 +424,28 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
     /* Partition the filestruct so that it contains no text, and keep
      * track of whether the top of the partition is the top of the edit
      * window. */
-    filepart = partition_filestruct(current, current_x, current,
-	current_x);
-    at_edittop = (fileage == edittop);
+    filepart = partition_filestruct(openfile->current,
+	openfile->current_x, openfile->current, openfile->current_x);
+    at_edittop = (openfile->fileage == openfile->edittop);
 
     /* Put the top and bottom of the filestruct at copies of file_top
      * and file_bot. */
-    fileage = copy_filestruct(file_top);
-    filebot = fileage;
-    while (filebot->next != NULL)
-	filebot = filebot->next;
+    openfile->fileage = copy_filestruct(file_top);
+    openfile->filebot = openfile->fileage;
+    while (openfile->filebot->next != NULL)
+	openfile->filebot = openfile->filebot->next;
 
     /* Restore the current line and cursor position. */
-    current = filebot;
-    current_x = strlen(filebot->data);
-    if (fileage == filebot)
-	current_x += strlen(filepart->top_data);
+    openfile->current = openfile->filebot;
+    openfile->current_x = strlen(openfile->filebot->data);
+    if (openfile->fileage == openfile->filebot)
+	openfile->current_x += strlen(filepart->top_data);
 
     /* Get the number of lines and the number of characters in the saved
      * text, and add the latter to totsize. */
-    get_totals(fileage, filebot, &part_totlines, &part_totsize);
-    totsize += part_totsize;
+    get_totals(openfile->fileage, openfile->filebot, &part_totlines,
+	&part_totsize);
+    openfile->totsize += part_totsize;
 
     /* If the top of the partition was the top of the edit window, set
      * edittop to where the saved text now starts, and update the
@@ -444,10 +453,10 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
      * has, less one since the first line will be tacked onto the
      * current line. */
     if (at_edittop)
-	edittop = fileage;
-    current_y += part_totlines - 1;
+	openfile->edittop = openfile->fileage;
+    openfile->current_y += part_totlines - 1;
 
-    top_save = fileage;
+    top_save = openfile->fileage;
 
     /* Unpartition the filestruct so that it contains all the text
      * again, minus the saved text. */
@@ -457,11 +466,11 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
      * partition. */
     renumber(top_save);
 
-    if (filebot->data[0] != '\0')
+    if (openfile->filebot->data[0] != '\0')
 	new_magicline();
 
     /* Set totlines to the new number of lines in the file. */
-    totlines = filebot->lineno;
+    openfile->totlines = openfile->filebot->lineno;
 }
 
 void print_view_warning(void)
@@ -511,12 +520,12 @@ void die(const char *msg, ...)
     va_end(ap);
 
     /* Save the current file buffer if it's been modified. */
-    if (ISSET(MODIFIED)) {
+    if (openfile->modified) {
 	/* If we've partitioned the filestruct, unpartition it now. */
 	if (filepart != NULL)
 	    unpartition_filestruct(&filepart);
 
-	die_save_file(filename);
+	die_save_file(openfile->filename);
     }
 
 #ifdef ENABLE_MULTIBUFFER
@@ -528,13 +537,8 @@ void die(const char *msg, ...)
 	    openfile = openfile->next;
 
 	    /* Save the current file buffer if it's been modified. */
-	    if (openfile->flags & MODIFIED) {
-		/* Set fileage and filebot to match the current file
-		 * buffer, and then write it to disk. */
-		fileage = openfile->fileage;
-		filebot = openfile->filebot;
+	    if (openfile->modified)
 		die_save_file(openfile->filename);
-	    }
 	}
     }
 #endif
@@ -601,23 +605,11 @@ void resize_variables(void)
     hblank[COLS] = '\0';
 }
 
-/* Initialize global variables -- no better way for now.  If
- * save_cutbuffer is TRUE, don't set cutbuffer to NULL. */
-void global_init(bool save_cutbuffer)
+/* Initialize the resize variables. */
+void resize_init(void)
 {
     check_die_too_small();
     resize_variables();
-
-    fileage = NULL;
-    edittop = NULL;
-    current = NULL;
-    if (!save_cutbuffer)
-	cutbuffer = NULL;
-    current_x = 0;
-    placewewant = 0;
-    current_y = 0;
-    totlines = 0;
-    totsize = 0;
 }
 
 void window_init(void)
@@ -1308,7 +1300,8 @@ void do_verbatim_input(void)
 
 void do_backspace(void)
 {
-    if (current != fileage || current_x > 0) {
+    if (openfile->current != openfile->fileage ||
+	openfile->current_x > 0) {
 	do_left(FALSE);
 	do_delete();
     }
@@ -1320,58 +1313,65 @@ void do_delete(void)
 	/* Do we have to call edit_refresh(), or can we get away with
 	 * update_line()? */
 
-    assert(current != NULL && current->data != NULL && current_x <= strlen(current->data));
+    assert(openfile->current != NULL && openfile->current->data != NULL && openfile->current_x <= strlen(openfile->current->data));
 
-    placewewant = xplustabs();
+    openfile->placewewant = xplustabs();
 
-    if (current->data[current_x] != '\0') {
-	int char_buf_len = parse_mbchar(current->data + current_x, NULL,
-		NULL, NULL);
-	size_t line_len = strlen(current->data + current_x);
+    if (openfile->current->data[openfile->current_x] != '\0') {
+	int char_buf_len = parse_mbchar(openfile->current->data +
+		openfile->current_x, NULL, NULL, NULL);
+	size_t line_len = strlen(openfile->current->data +
+		openfile->current_x);
 
-	assert(current_x < strlen(current->data));
+	assert(openfile->current_x < strlen(openfile->current->data));
 
 	/* Let's get dangerous. */
-	charmove(&current->data[current_x],
-		&current->data[current_x + char_buf_len],
-		line_len - char_buf_len + 1);
+	charmove(&openfile->current->data[openfile->current_x],
+		&openfile->current->data[openfile->current_x +
+		char_buf_len], line_len - char_buf_len + 1);
 
-	null_at(&current->data, current_x + line_len - char_buf_len);
+	null_at(&openfile->current->data, openfile->current_x +
+		line_len - char_buf_len);
 #ifndef NANO_SMALL
-	if (current_x < mark_beginx && mark_beginbuf == current)
-	    mark_beginx -= char_buf_len;
+	if (openfile->mark_set && openfile->current_x <
+		openfile->mark_beginx && openfile->mark_beginbuf ==
+		openfile->current)
+	    openfile->mark_beginx -= char_buf_len;
 #endif
-	totsize--;
-    } else if (current != filebot && (current->next != filebot ||
-	current->data[0] == '\0')) {
+	openfile->totsize--;
+    } else if (openfile->current != openfile->filebot &&
+	(openfile->current->next != openfile->filebot ||
+	openfile->current->data[0] == '\0')) {
 	/* We can delete the line before filebot only if it is blank: it
 	 * becomes the new magicline then. */
-	filestruct *foo = current->next;
+	filestruct *foo = openfile->current->next;
 
-	assert(current_x == strlen(current->data));
+	assert(openfile->current_x == strlen(openfile->current->data));
 
 	/* If we're deleting at the end of a line, we need to call
 	 * edit_refresh(). */
-	if (current->data[current_x] == '\0')
+	if (openfile->current->data[openfile->current_x] == '\0')
 	    do_refresh = TRUE;
 
-	current->data = charealloc(current->data,
-		current_x + strlen(foo->data) + 1);
-	strcpy(current->data + current_x, foo->data);
+	openfile->current->data = charealloc(openfile->current->data,
+		openfile->current_x + strlen(foo->data) + 1);
+	strcpy(openfile->current->data + openfile->current_x,
+		foo->data);
 #ifndef NANO_SMALL
-	if (mark_beginbuf == current->next) {
-	    mark_beginx += current_x;
-	    mark_beginbuf = current;
+	if (openfile->mark_set && openfile->mark_beginbuf ==
+		openfile->current->next) {
+	    openfile->mark_beginx += openfile->current_x;
+	    openfile->mark_beginbuf = openfile->current;
 	}
 #endif
-	if (filebot == foo)
-	    filebot = current;
+	if (openfile->filebot == foo)
+	    openfile->filebot = openfile->current;
 
 	unlink_node(foo);
 	delete_node(foo);
-	renumber(current);
-	totlines--;
-	totsize--;
+	renumber(openfile->current);
+	openfile->totlines--;
+	openfile->totsize--;
 #ifndef DISABLE_WRAPPING
 	wrap_reset();
 #endif
@@ -1390,7 +1390,7 @@ void do_delete(void)
     if (do_refresh)
 	edit_refresh();
     else
-	update_line(current, current_x);
+	update_line(openfile->current, openfile->current_x);
 }
 
 void do_tab(void)
@@ -1398,7 +1398,7 @@ void do_tab(void)
 #ifndef NANO_SMALL
     if (ISSET(TABS_TO_SPACES)) {
 	char *output;
-	size_t output_len = 0, new_pww = placewewant;
+	size_t output_len = 0, new_pww = openfile->placewewant;
 
 	do {
 	    new_pww++;
@@ -1424,10 +1424,10 @@ void do_tab(void)
 /* Someone hits Return *gasp!* */
 void do_enter(void)
 {
-    filestruct *newnode = make_new_node(current);
+    filestruct *newnode = make_new_node(openfile->current);
     size_t extra = 0;
 
-    assert(current != NULL && current->data != NULL);
+    assert(openfile->current != NULL && openfile->current->data != NULL);
 
 #ifndef NANO_SMALL
     /* Do auto-indenting, like the neolithic Turbo Pascal editor. */
@@ -1435,42 +1435,46 @@ void do_enter(void)
 	/* If we are breaking the line in the indentation, the new
 	 * indentation should have only current_x characters, and
 	 * current_x should not change. */
-	extra = indent_length(current->data);
-	if (extra > current_x)
-	    extra = current_x;
+	extra = indent_length(openfile->current->data);
+	if (extra > openfile->current_x)
+	    extra = openfile->current_x;
     }
 #endif
-    newnode->data = charalloc(strlen(current->data + current_x) +
-	extra + 1);
-    strcpy(&newnode->data[extra], current->data + current_x);
+    newnode->data = charalloc(strlen(openfile->current->data +
+	openfile->current_x) + extra + 1);
+    strcpy(&newnode->data[extra], openfile->current->data +
+	openfile->current_x);
 #ifndef NANO_SMALL
     if (ISSET(AUTOINDENT)) {
-	strncpy(newnode->data, current->data, extra);
-	totsize += mbstrlen(newnode->data);
+	strncpy(newnode->data, openfile->current->data, extra);
+	openfile->totsize += mbstrlen(newnode->data);
     }
 #endif
-    null_at(&current->data, current_x);
+    null_at(&openfile->current->data, openfile->current_x);
 #ifndef NANO_SMALL
-    if (current == mark_beginbuf && current_x < mark_beginx) {
-	mark_beginbuf = newnode;
-	mark_beginx += extra - current_x;
+    if (openfile->mark_set && openfile->current ==
+	openfile->mark_beginbuf && openfile->current_x <
+	openfile->mark_beginx) {
+	openfile->mark_beginbuf = newnode;
+	openfile->mark_beginx += extra - openfile->current_x;
     }
 #endif
-    current_x = extra;
+    openfile->current_x = extra;
 
-    if (current == filebot)
-	filebot = newnode;
-    splice_node(current, newnode, current->next);
+    if (openfile->current == openfile->filebot)
+	openfile->filebot = newnode;
+    splice_node(openfile->current, newnode,
+	openfile->current->next);
 
-    renumber(current);
-    current = newnode;
+    renumber(openfile->current);
+    openfile->current = newnode;
 
     edit_refresh();
 
-    totlines++;
-    totsize++;
+    openfile->totlines++;
+    openfile->totsize++;
     set_modified();
-    placewewant = xplustabs();
+    openfile->placewewant = xplustabs();
 }
 
 #ifndef NANO_SMALL
@@ -1480,21 +1484,21 @@ void do_enter(void)
  * and FALSE otherwise. */
 bool do_next_word(bool allow_punct, bool allow_update)
 {
-    size_t pww_save = placewewant;
-    const filestruct *current_save = current;
+    size_t pww_save = openfile->placewewant;
+    const filestruct *current_save = openfile->current;
     char *char_mb;
     int char_mb_len;
     bool end_line = FALSE, started_on_word = FALSE;
 
-    assert(current != NULL && current->data != NULL);
+    assert(openfile->current != NULL && openfile->current->data != NULL);
 
     char_mb = charalloc(mb_cur_max());
 
     /* Move forward until we find the character after the last letter of
      * the current word. */
     while (!end_line) {
-	char_mb_len = parse_mbchar(current->data + current_x, char_mb,
-		NULL, NULL);
+	char_mb_len = parse_mbchar(openfile->current->data +
+		openfile->current_x, char_mb, NULL, NULL);
 
 	/* If we've found it, stop moving forward through the current
 	 * line. */
@@ -1505,32 +1509,33 @@ bool do_next_word(bool allow_punct, bool allow_update)
 	 * started_on_word to TRUE. */
 	started_on_word = TRUE;
 
-	if (current->data[current_x] == '\0')
+	if (openfile->current->data[openfile->current_x] == '\0')
 	    end_line = TRUE;
 	else
-	    current_x += char_mb_len;
+	    openfile->current_x += char_mb_len;
     }
 
     /* Move forward until we find the first letter of the next word. */
-    if (current->data[current_x] == '\0')
+    if (openfile->current->data[openfile->current_x] == '\0')
 	end_line = TRUE;
     else
-	current_x += char_mb_len;
+	openfile->current_x += char_mb_len;
 
-    for (; current != NULL; current = current->next) {
+    for (; openfile->current != NULL;
+	openfile->current = openfile->current->next) {
 	while (!end_line) {
-	    char_mb_len = parse_mbchar(current->data + current_x,
-		char_mb, NULL, NULL);
+	    char_mb_len = parse_mbchar(openfile->current->data +
+		openfile->current_x, char_mb, NULL, NULL);
 
 	    /* If we've found it, stop moving forward through the
 	     * current line. */
 	    if (is_word_mbchar(char_mb, allow_punct))
 		break;
 
-	    if (current->data[current_x] == '\0')
+	    if (openfile->current->data[openfile->current_x] == '\0')
 		end_line = TRUE;
 	    else
-		current_x += char_mb_len;
+		openfile->current_x += char_mb_len;
 	}
 
 	/* If we've found it, stop moving forward to the beginnings of
@@ -1538,9 +1543,9 @@ bool do_next_word(bool allow_punct, bool allow_update)
 	if (!end_line)
 	    break;
 
-	if (current->next != NULL) {
+	if (openfile->current->next != NULL) {
 	    end_line = FALSE;
-	    current_x = 0;
+	    openfile->current_x = 0;
 	}
     }
 
@@ -1548,10 +1553,10 @@ bool do_next_word(bool allow_punct, bool allow_update)
 
     /* If we haven't found it, leave the cursor at the end of the
      * file. */
-    if (current == NULL)
-	current = filebot;
+    if (openfile->current == NULL)
+	openfile->current = openfile->filebot;
 
-    placewewant = xplustabs();
+    openfile->placewewant = xplustabs();
 
     /* If allow_update is TRUE, update the screen. */
     if (allow_update)
@@ -1574,21 +1579,21 @@ void do_next_word_void(void)
  * word, and FALSE otherwise. */
 bool do_prev_word(bool allow_punct, bool allow_update)
 {
-    size_t pww_save = placewewant;
-    const filestruct *current_save = current;
+    size_t pww_save = openfile->placewewant;
+    const filestruct *current_save = openfile->current;
     char *char_mb;
     int char_mb_len;
     bool begin_line = FALSE, started_on_word = FALSE;
 
-    assert(current != NULL && current->data != NULL);
+    assert(openfile->current != NULL && openfile->current->data != NULL);
 
     char_mb = charalloc(mb_cur_max());
 
     /* Move backward until we find the character before the first letter
      * of the current word. */
     while (!begin_line) {
-	char_mb_len = parse_mbchar(current->data + current_x, char_mb,
-		NULL, NULL);
+	char_mb_len = parse_mbchar(openfile->current->data +
+		openfile->current_x, char_mb, NULL, NULL);
 
 	/* If we've found it, stop moving backward through the current
 	 * line. */
@@ -1599,33 +1604,38 @@ bool do_prev_word(bool allow_punct, bool allow_update)
 	 * started_on_word to TRUE. */
 	started_on_word = TRUE;
 
-	if (current_x == 0)
+	if (openfile->current_x == 0)
 	    begin_line = TRUE;
 	else
-	    current_x = move_mbleft(current->data, current_x);
+	    openfile->current_x = move_mbleft(openfile->current->data,
+		openfile->current_x);
     }
 
     /* Move backward until we find the last letter of the previous
      * word. */
-    if (current_x == 0)
+    if (openfile->current_x == 0)
 	begin_line = TRUE;
     else
-	current_x = move_mbleft(current->data, current_x);
+	openfile->current_x = move_mbleft(openfile->current->data,
+		openfile->current_x);
 
-    for (; current != NULL; current = current->prev) {
+    for (; openfile->current != NULL;
+	openfile->current = openfile->current->prev) {
 	while (!begin_line) {
-	    char_mb_len = parse_mbchar(current->data + current_x,
-		char_mb, NULL, NULL);
+	    char_mb_len = parse_mbchar(openfile->current->data +
+		openfile->current_x, char_mb, NULL, NULL);
 
 	    /* If we've found it, stop moving backward through the
 	     * current line. */
 	    if (is_word_mbchar(char_mb, allow_punct))
 		break;
 
-	    if (current_x == 0)
+	    if (openfile->current_x == 0)
 		begin_line = TRUE;
 	    else
-		current_x = move_mbleft(current->data, current_x);
+		openfile->current_x =
+			move_mbleft(openfile->current->data,
+			openfile->current_x);
 	}
 
 	/* If we've found it, stop moving backward to the ends of
@@ -1633,48 +1643,52 @@ bool do_prev_word(bool allow_punct, bool allow_update)
 	if (!begin_line)
 	    break;
 
-	if (current->prev != NULL) {
+	if (openfile->current->prev != NULL) {
 	    begin_line = FALSE;
-	    current_x = strlen(current->prev->data);
+	    openfile->current_x = strlen(openfile->current->prev->data);
 	}
     }
 
     /* If we haven't found it, leave the cursor at the beginning of the
      * file. */
-    if (current == NULL)
-	current = fileage;
+    if (openfile->current == NULL)
+	openfile->current = openfile->fileage;
     /* If we've found it, move backward until we find the character
      * before the first letter of the previous word. */
     else if (!begin_line) {
-	if (current_x == 0)
+	if (openfile->current_x == 0)
 	    begin_line = TRUE;
 	else
-	    current_x = move_mbleft(current->data, current_x);
+	    openfile->current_x = move_mbleft(openfile->current->data,
+		openfile->current_x);
 
 	while (!begin_line) {
-	    char_mb_len = parse_mbchar(current->data + current_x,
-		char_mb, NULL, NULL);
+	    char_mb_len =
+		parse_mbchar(openfile->current->data +
+		openfile->current_x, char_mb, NULL, NULL);
 
 	    /* If we've found it, stop moving backward through the
 	     * current line. */
 	    if (!is_word_mbchar(char_mb, allow_punct))
 		break;
 
-	    if (current_x == 0)
+	    if (openfile->current_x == 0)
 		begin_line = TRUE;
 	    else
-		current_x = move_mbleft(current->data, current_x);
+		openfile->current_x =
+			move_mbleft(openfile->current->data,
+			openfile->current_x);
 	}
 
 	/* If we've found it, move forward to the first letter of the
 	 * previous word. */
 	if (!begin_line)
-	    current_x += char_mb_len;
+	    openfile->current_x += char_mb_len;
     }
 
     free(char_mb);
 
-    placewewant = xplustabs();
+    openfile->placewewant = xplustabs();
 
     /* If allow_update is TRUE, update the screen. */
     if (allow_update)
@@ -1693,10 +1707,10 @@ void do_prev_word_void(void)
 
 void do_word_count(void)
 {
-    size_t words = 0;
-    size_t current_x_save = current_x, pww_save = placewewant;
-    filestruct *current_save = current;
-    bool old_mark_set = ISSET(MARK_ISSET);
+    size_t words = 0, current_x_save = openfile->current_x;
+    size_t pww_save = openfile->placewewant;
+    filestruct *current_save = openfile->current;
+    bool old_mark_set = openfile->mark_set;
     bool added_magicline = FALSE;
 	/* Whether we added a magicline after filebot. */
     filestruct *top, *bot;
@@ -1710,22 +1724,23 @@ void do_word_count(void)
 	mark_order((const filestruct **)&top, &top_x,
 	    (const filestruct **)&bot, &bot_x, NULL);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
-	if ((added_magicline = (filebot->data[0] != '\0')))
+	if ((added_magicline = (openfile->filebot->data[0] != '\0')))
 	    new_magicline();
-	UNSET(MARK_ISSET);
+	openfile->mark_set = FALSE;
     }
 
     /* Start at the top of the file. */
-    current = fileage;
-    current_x = 0;
-    placewewant = 0;
+    openfile->current = openfile->fileage;
+    openfile->current_x = 0;
+    openfile->placewewant = 0;
 
     /* Keep moving to the next word (counting punctuation characters as
      * part of a word so that we match the output of "wc -w"), without
      * updating the screen, until we reach the end of the file,
      * incrementing the total word count whenever we're on a word just
      * before moving. */
-    while (current != filebot || current_x != 0) {
+    while (openfile->current != openfile->filebot ||
+	openfile->current_x != 0) {
 	if (do_next_word(TRUE, FALSE))
 	    words++;
     }
@@ -1739,13 +1754,13 @@ void do_word_count(void)
 	/* Unpartition the filestruct so that it contains all the text
 	 * again, and turn the mark back on. */
 	unpartition_filestruct(&filepart);
-	SET(MARK_ISSET);
+	openfile->mark_set = TRUE;
     }
 
     /* Restore where we were. */
-    current = current_save;
-    current_x = current_x_save;
-    placewewant = pww_save;
+    openfile->current = current_save;
+    openfile->current_x = current_x_save;
+    openfile->placewewant = pww_save;
 
     /* Display the total word count on the statusbar. */
     statusbar("%s: %lu", old_mark_set ? _("Word Count in Selection") :
@@ -1754,13 +1769,15 @@ void do_word_count(void)
 
 void do_mark(void)
 {
-    TOGGLE(MARK_ISSET);
-    if (ISSET(MARK_ISSET)) {
+    openfile->mark_set = openfile->mark_set ? FALSE : TRUE;
+    if (openfile->mark_set) {
 	statusbar(_("Mark Set"));
-	mark_beginbuf = current;
-	mark_beginx = current_x;
+	openfile->mark_beginbuf = openfile->current;
+	openfile->mark_beginx = openfile->current_x;
     } else {
 	statusbar(_("Mark UNset"));
+	openfile->mark_beginbuf = NULL;
+	openfile->mark_beginx = 0;
 	edit_refresh();
     }
 }
@@ -1873,7 +1890,7 @@ bool do_wrap(filestruct *line)
 	    line->data[line_len] = '\0';
 	    after_break = line->data + wrap_loc;
 	    after_break_len++;
-	    totsize++;
+	    openfile->totsize++;
 	}
 
 	next_line = line->next->data;
@@ -1902,7 +1919,7 @@ bool do_wrap(filestruct *line)
 	    /* Otherwise, it will come from this line, in which case
 	     * we should increase new_line_len to make room for it. */
 	    new_line_len += indent_len;
-	    totsize += mbstrnlen(indent_string, indent_len);
+	    openfile->totsize += mbstrnlen(indent_string, indent_len);
 	}
     }
 #endif
@@ -1936,12 +1953,13 @@ bool do_wrap(filestruct *line)
     } else {
 	/* Otherwise, make a new line and copy the text after where we
 	 * broke this line to the beginning of the new line. */
-	splice_node(current, make_new_node(current), current->next);
+	splice_node(openfile->current, make_new_node(openfile->current),
+		openfile->current->next);
 
-	current->next->data = new_line;
+	openfile->current->next->data = new_line;
 
-	totlines++;
-	totsize++;
+	openfile->totlines++;
+	openfile->totsize++;
     }
 
     /* Step 3, clean up.  Reposition the cursor and mark, and do some
@@ -1958,26 +1976,27 @@ bool do_wrap(filestruct *line)
 
     /* If the cursor was after the break point, we must move it.  We
      * also clear the same_line_wrap flag in this case. */
-    if (current_x > wrap_loc) {
+    if (openfile->current_x > wrap_loc) {
 	same_line_wrap = FALSE;
-	current = current->next;
-	current_x -= wrap_loc
+	openfile->current = openfile->current->next;
+	openfile->current_x -= wrap_loc
 #ifndef NANO_SMALL
 		- indent_len
 #endif
 		;
-	placewewant = xplustabs();
+	openfile->placewewant = xplustabs();
     }
 
 #ifndef NANO_SMALL
     /* If the mark was on this line after the wrap point, we move it
      * down.  If it was on the next line and we wrapped onto that line,
      * we move it right. */
-    if (mark_beginbuf == line && mark_beginx > wrap_loc) {
-	mark_beginbuf = line->next;
-	mark_beginx -= wrap_loc - indent_len + 1;
-    } else if (wrapping && mark_beginbuf == line->next)
-	mark_beginx += after_break_len;
+    if (openfile->mark_set && openfile->mark_beginbuf == line &&
+	openfile->mark_beginx > wrap_loc) {
+	openfile->mark_beginbuf = line->next;
+	openfile->mark_beginx -= wrap_loc - indent_len + 1;
+    } else if (wrapping && openfile->mark_beginbuf == line->next)
+	openfile->mark_beginx += after_break_len;
 #endif
 
     return TRUE;
@@ -1990,9 +2009,10 @@ bool do_wrap(filestruct *line)
 bool do_int_spell_fix(const char *word)
 {
     char *save_search, *save_replace;
-    size_t match_len;
-    size_t current_x_save = current_x, pww_save = placewewant;
-    filestruct *edittop_save = edittop, *current_save = current;
+    size_t match_len, current_x_save = openfile->current_x;
+    size_t pww_save = openfile->placewewant;
+    filestruct *edittop_save = openfile->edittop;
+    filestruct *current_save = openfile->current;
 	/* Save where we are. */
     bool canceled = FALSE;
 	/* The return value. */
@@ -2004,7 +2024,7 @@ bool do_int_spell_fix(const char *word)
     bool regexp_set = ISSET(USE_REGEXP);
 #endif
 #ifndef NANO_SMALL
-    bool old_mark_set = ISSET(MARK_ISSET);
+    bool old_mark_set = openfile->mark_set;
     bool added_magicline = FALSE;
 	/* Whether we added a magicline after filebot. */
     bool right_side_up = FALSE;
@@ -2044,26 +2064,27 @@ bool do_int_spell_fix(const char *word)
 	mark_order((const filestruct **)&top, &top_x,
 	    (const filestruct **)&bot, &bot_x, &right_side_up);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
-	added_magicline = (filebot->data[0] != '\0');
-	UNSET(MARK_ISSET);
+	added_magicline = (openfile->filebot->data[0] != '\0');
+	openfile->mark_set = FALSE;
     }
 #endif
 
     /* Start from the top of the file. */
-    edittop = fileage;
-    current = fileage;
-    current_x = (size_t)-1;
-    placewewant = 0;
+    openfile->edittop = openfile->fileage;
+    openfile->current = openfile->fileage;
+    openfile->current_x = (size_t)-1;
+    openfile->placewewant = 0;
 
     /* Find the first whole-word occurrence of word. */
     findnextstr_wrap_reset();
-    while (findnextstr(TRUE, TRUE, FALSE, fileage, 0, word,
+    while (findnextstr(TRUE, TRUE, FALSE, openfile->fileage, 0, word,
 	&match_len)) {
-	if (is_whole_word(current_x, current->data, word)) {
+	if (is_whole_word(openfile->current_x, openfile->current->data,
+		word)) {
 	    size_t xpt = xplustabs();
-	    char *exp_word = display_string(current->data, xpt,
-		strnlenpt(current->data, current_x + match_len) - xpt,
-		FALSE);
+	    char *exp_word = display_string(openfile->current->data,
+		xpt, strnlenpt(openfile->current->data,
+		openfile->current_x + match_len) - xpt, FALSE);
 
 	    edit_refresh();
 
@@ -2081,9 +2102,9 @@ bool do_int_spell_fix(const char *word)
 	    free(exp_word);
 
 	    if (!canceled && strcmp(word, answer) != 0) {
-		current_x--;
-		do_replace_loop(word, current, &current_x, TRUE,
-			&canceled);
+		openfile->current_x--;
+		do_replace_loop(word, openfile->current,
+			&openfile->current_x, TRUE, &canceled);
 	    }
 
 	    break;
@@ -2099,20 +2120,20 @@ bool do_int_spell_fix(const char *word)
 
 	/* Put the beginning and the end of the mark at the beginning
 	 * and the end of the spell-checked text. */
-	if (fileage == filebot)
+	if (openfile->fileage == openfile->filebot)
 	    bot_x += top_x;
 	if (right_side_up) {
-	    mark_beginx = top_x;
+	    openfile->mark_beginx = top_x;
 	    current_x_save = bot_x;
 	} else {
 	    current_x_save = top_x;
-	    mark_beginx = bot_x;
+	    openfile->mark_beginx = bot_x;
 	}
 
 	/* Unpartition the filestruct so that it contains all the text
 	 * again, and turn the mark back on. */
 	unpartition_filestruct(&filepart);
-	SET(MARK_ISSET);
+	openfile->mark_set = TRUE;
     }
 #endif
 
@@ -2123,10 +2144,10 @@ bool do_int_spell_fix(const char *word)
     last_replace = save_replace;
 
     /* Restore where we were. */
-    edittop = edittop_save;
-    current = current_save;
-    current_x = current_x_save;
-    placewewant = pww_save;
+    openfile->edittop = edittop_save;
+    openfile->current = current_save;
+    openfile->current_x = current_x_save;
+    openfile->placewewant = pww_save;
 
     /* Restore case sensitivity setting. */
     if (!case_sens_set)
@@ -2333,15 +2354,17 @@ const char *do_int_speller(const char *tempfile_name)
 const char *do_alt_speller(char *tempfile_name)
 {
     int alt_spell_status;
-    size_t current_x_save = current_x, pww_save = placewewant;
-    ssize_t current_y_save = current_y, lineno_save = current->lineno;
+    size_t current_x_save = openfile->current_x;
+    size_t pww_save = openfile->placewewant;
+    ssize_t current_y_save = openfile->current_y;
+    ssize_t lineno_save = openfile->current->lineno;
     pid_t pid_spell;
     char *ptr;
     static int arglen = 3;
     static char **spellargs = NULL;
     FILE *f;
 #ifndef NANO_SMALL
-    bool old_mark_set = ISSET(MARK_ISSET);
+    bool old_mark_set = openfile->mark_set;
     bool added_magicline = FALSE;
 	/* Whether we added a magicline after filebot. */
     bool right_side_up = FALSE;
@@ -2354,15 +2377,15 @@ const char *do_alt_speller(char *tempfile_name)
 	 * the alternate spell command.  The line that mark_beginbuf
 	 * points to will be freed, so we save the line number and
 	 * restore afterwards. */
-    size_t totsize_save = totsize;
+    size_t totsize_save = openfile->totsize;
 	/* Our saved value of totsize, used when we spell-check a marked
 	 * selection. */
 
     if (old_mark_set) {
 	/* If the mark is on, save the number of the line it starts on,
 	 * and then turn the mark off. */
-	mbb_lineno_save = mark_beginbuf->lineno;
-	UNSET(MARK_ISSET);
+	mbb_lineno_save = openfile->mark_beginbuf->lineno;
+	openfile->mark_set = FALSE;
     }
 #endif
 
@@ -2414,8 +2437,7 @@ const char *do_alt_speller(char *tempfile_name)
 
 #ifndef NANO_SMALL
 	/* Turn the mark back on if it was on before. */
-	if (old_mark_set)
-	    SET(MARK_ISSET);
+	openfile->mark_set = old_mark_set;
 #endif
 
 	altspell_error =
@@ -2436,7 +2458,7 @@ const char *do_alt_speller(char *tempfile_name)
 	mark_order((const filestruct **)&top, &top_x,
 		(const filestruct **)&bot, &bot_x, &right_side_up);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
-	added_magicline = (filebot->data[0] != '\0');
+	added_magicline = (openfile->filebot->data[0] != '\0');
 
 	/* Get the number of characters in the marked text, and subtract
 	 * it from the saved value of totsize.  Note that we don't need
@@ -2447,19 +2469,21 @@ const char *do_alt_speller(char *tempfile_name)
 #endif
 
     /* Reinitialize the filestruct. */
-    free_filestruct(fileage);
-    global_init(TRUE);
+    free_filestruct(openfile->fileage);
 
-    /* Reload the temp file.  Do what load_buffer() would do, except for
+    /* Reinitialize the resize variables. */
+    resize_init();
+
+    /* Reload the temp file.  Do what open_buffer() would do, except for
      * making a new buffer for the temp file if multibuffer support is
      * available. */
     open_file(tempfile_name, FALSE, &f);
     read_file(f, tempfile_name);
-    current = fileage;
+    openfile->current = openfile->fileage;
 
 #ifndef NANO_SMALL
     if (old_mark_set) {
-	filestruct *top_save = fileage;
+	filestruct *top_save = openfile->fileage;
 
 	/* If the mark was on and we added a magicline, remove it
 	 * now. */
@@ -2468,14 +2492,14 @@ const char *do_alt_speller(char *tempfile_name)
 
 	/* Put the beginning and the end of the mark at the beginning
 	 * and the end of the spell-checked text. */
-	if (fileage == filebot)
+	if (openfile->fileage == openfile->filebot)
 	    bot_x += top_x;
 	if (right_side_up) {
-	    mark_beginx = top_x;
+	    openfile->mark_beginx = top_x;
 	    current_x_save = bot_x;
 	} else {
 	    current_x_save = top_x;
-	    mark_beginx = bot_x;
+	    openfile->mark_beginx = bot_x;
 	}
 
 	/* Unpartition the filestruct so that it contains all the text
@@ -2490,30 +2514,29 @@ const char *do_alt_speller(char *tempfile_name)
 	 * marked text to the saved value of totsize, and then make that
 	 * saved value the actual value. */
 	renumber(top_save);
-	totlines = filebot->lineno;
-	totsize_save += totsize;
-	totsize = totsize_save;
+	openfile->totlines = openfile->filebot->lineno;
+	totsize_save += openfile->totsize;
+	openfile->totsize = totsize_save;
 
 	/* Assign mark_beginbuf to the line where the mark began
 	 * before. */
-	do_gotopos(mbb_lineno_save, mark_beginx, current_y_save, 0);
-	mark_beginbuf = current;
+	do_gotopos(mbb_lineno_save, openfile->mark_beginx,
+		current_y_save, 0);
+	openfile->mark_beginbuf = openfile->current;
 
 	/* Assign mark_beginx to the location in mark_beginbuf where the
 	 * mark began before, adjusted for any shortening of the
 	 * line. */
-	mark_beginx = current_x;
+	openfile->mark_beginx = openfile->current_x;
 
 	/* Turn the mark back on. */
-	SET(MARK_ISSET);
+	openfile->mark_set = TRUE;
     }
 #endif
 
-    /* Go back to the old position, mark the file as modified, and
-     * update the titlebar. */
+    /* Go back to the old position, and mark the file as modified. */
     do_gotopos(lineno_save, current_x_save, current_y_save, pww_save);
-    SET(MODIFIED);
-    titlebar(NULL);
+    set_modified();
 
     return NULL;
 }
@@ -2531,7 +2554,7 @@ void do_spell(void)
     }
 
 #ifndef NANO_SMALL
-    if (ISSET(MARK_ISSET))
+    if (openfile->mark_set)
 	i = write_marked(temp, temp_file, TRUE, FALSE);
     else
 #endif
@@ -2542,12 +2565,6 @@ void do_spell(void)
 	free(temp);
 	return;
     }
-
-#ifdef ENABLE_MULTIBUFFER
-    /* Update the current openfile entry before spell-checking, in
-     * case any problems occur. */
-    add_open_file(TRUE);
-#endif
 
     spell_msg = (alt_speller != NULL) ? do_alt_speller(temp) :
 	do_int_speller(temp);
@@ -2721,8 +2738,9 @@ void justify_format(filestruct *paragraph, size_t skip)
 
 #ifndef NANO_SMALL
 		/* Keep track of the change in the current line. */
-		if (mark_beginbuf == paragraph &&
-			mark_beginx >= end - paragraph->data)
+		if (openfile->mark_set && openfile->mark_beginbuf ==
+			paragraph && openfile->mark_beginx >= end -
+			paragraph->data)
 		    mark_shift += end_len;
 #endif
 	    }
@@ -2775,8 +2793,9 @@ void justify_format(filestruct *paragraph, size_t skip)
 
 #ifndef NANO_SMALL
 		/* Keep track of the change in the current line. */
-		if (mark_beginbuf == paragraph &&
-			mark_beginx >= end - paragraph->data)
+		if (openfile->mark_set && openfile->mark_beginbuf ==
+			paragraph && openfile->mark_beginx >= end -
+			paragraph->data)
 		    mark_shift += end_len;
 #endif
 	    }
@@ -2806,7 +2825,7 @@ void justify_format(filestruct *paragraph, size_t skip)
     }
 
     if (shift > 0) {
-	totsize -= shift;
+	openfile->totsize -= shift;
 	null_at(&new_paragraph_data, new_end - new_paragraph_data);
 	free(paragraph->data);
 	paragraph->data = new_paragraph_data;
@@ -2814,10 +2833,11 @@ void justify_format(filestruct *paragraph, size_t skip)
 #ifndef NANO_SMALL
 	/* Adjust the mark coordinates to compensate for the change in
 	 * the current line. */
-	if (mark_beginbuf == paragraph) {
-	    mark_beginx -= mark_shift;
-	    if (mark_beginx > new_end - new_paragraph_data)
-		mark_beginx = new_end - new_paragraph_data;
+	if (openfile->mark_set && openfile->mark_beginbuf ==
+		paragraph) {
+	    openfile->mark_beginx -= mark_shift;
+	    if (openfile->mark_beginx > new_end - new_paragraph_data)
+		openfile->mark_beginx = new_end - new_paragraph_data;
 	}
 #endif
     } else
@@ -2939,17 +2959,17 @@ bool begpar(const filestruct *const foo)
  * line. */
 void do_para_begin(bool allow_update)
 {
-    const filestruct *current_save = current;
-    const size_t pww_save = placewewant;
+    const filestruct *current_save = openfile->current;
+    const size_t pww_save = openfile->placewewant;
 
-    current_x = 0;
-    placewewant = 0;
+    openfile->current_x = 0;
+    openfile->placewewant = 0;
 
-    if (current->prev != NULL) {
+    if (openfile->current->prev != NULL) {
 	do {
-	    current = current->prev;
-	    current_y--;
-	} while (!begpar(current));
+	    openfile->current = openfile->current->prev;
+	    openfile->current_y--;
+	} while (!begpar(openfile->current));
     }
 
     if (allow_update)
@@ -2980,23 +3000,24 @@ bool inpar(const filestruct *const foo)
  * down to the end of a paragraph, then one line farther. */
 void do_para_end(bool allow_update)
 {
-    const filestruct *const current_save = current;
-    const size_t pww_save = placewewant;
+    const filestruct *const current_save = openfile->current;
+    const size_t pww_save = openfile->placewewant;
 
-    current_x = 0;
-    placewewant = 0;
+    openfile->current_x = 0;
+    openfile->placewewant = 0;
 
-    while (current->next != NULL && !inpar(current))
-	current = current->next;
+    while (openfile->current->next != NULL && !inpar(openfile->current))
+	openfile->current = openfile->current->next;
 
-    while (current->next != NULL && inpar(current->next) &&
-	!begpar(current->next)) {
-	current = current->next;
-	current_y++;
+    while (openfile->current->next != NULL &&
+	inpar(openfile->current->next) &&
+	!begpar(openfile->current->next)) {
+	openfile->current = openfile->current->next;
+	openfile->current_y++;
     }
 
-    if (current->next != NULL)
-	current = current->next;
+    if (openfile->current->next != NULL)
+	openfile->current = openfile->current->next;
 
     if (allow_update)
 	edit_redraw(current_save, pww_save);
@@ -3020,18 +3041,18 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 	/* The bottom of the paragraph we're backing up. */
     size_t i;
 	/* Generic loop variable. */
-    size_t current_x_save = current_x;
+    size_t current_x_save = openfile->current_x;
     ssize_t fl_lineno_save = first_line->lineno;
-    ssize_t edittop_lineno_save = edittop->lineno;
-    ssize_t current_lineno_save = current->lineno;
+    ssize_t edittop_lineno_save = openfile->edittop->lineno;
+    ssize_t current_lineno_save = openfile->current->lineno;
 #ifndef NANO_SMALL
-    bool old_mark_set = ISSET(MARK_ISSET);
+    bool old_mark_set = openfile->mark_set;
     ssize_t mbb_lineno_save = 0;
     size_t mark_beginx_save = 0;
 
     if (old_mark_set) {
-	mbb_lineno_save = mark_beginbuf->lineno;
-	mark_beginx_save = mark_beginx;
+	mbb_lineno_save = openfile->mark_beginbuf->lineno;
+	mark_beginx_save = openfile->mark_beginx;
     }
 #endif
 
@@ -3052,18 +3073,18 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
      * line, putting first_line, edittop, current, and mark_beginbuf at
      * the same lines in the copied paragraph that they had in the
      * original paragraph. */
-    top = current->prev;
+    top = openfile->current->prev;
     for (i = par_len; i > 0; i--) {
 	if (top->lineno == fl_lineno_save)
 	    first_line = top;
 	if (top->lineno == edittop_lineno_save)
-	    edittop = top;
+	    openfile->edittop = top;
 	if (top->lineno == current_lineno_save)
-	    current = top;
+	    openfile->current = top;
 #ifndef NANO_SMALL
 	if (old_mark_set && top->lineno == mbb_lineno_save) {
-	    mark_beginbuf = top;
-	    mark_beginx = mark_beginx_save;
+	    openfile->mark_beginbuf = top;
+	    openfile->mark_beginx = mark_beginx_save;
 	}
 #endif
 	top = top->prev;
@@ -3071,7 +3092,7 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 
     /* Put current_x at the same place in the copied paragraph that it
      * had in the original paragraph. */
-    current_x = current_x_save;
+    openfile->current_x = current_x_save;
 
     set_modified();
 
@@ -3106,11 +3127,11 @@ bool find_paragraph(size_t *const quote, size_t *const par)
     }
 #endif
 
-    assert(current != NULL);
+    assert(openfile->current != NULL);
 
     /* Move back to the beginning of the current line. */
-    current_x = 0;
-    placewewant = 0;
+    openfile->current_x = 0;
+    openfile->placewewant = 0;
 
     /* Find the first line of the current or next paragraph.  First, if
      * the current line isn't in a paragraph, move forward to the line
@@ -3120,28 +3141,29 @@ bool find_paragraph(size_t *const quote, size_t *const par)
      * move back to the last line of the paragraph.  If the current line
      * is in a paragraph and it isn't the first line of that paragraph,
      * move back to the first line. */
-    if (!inpar(current)) {
-	current_save = current;
+    if (!inpar(openfile->current)) {
+	current_save = openfile->current;
 
 	do_para_end(FALSE);
-	if (current == current_save || !inpar(current->prev))
+	if (openfile->current == current_save ||
+		!inpar(openfile->current->prev))
 	    return FALSE;
-	if (current->prev != NULL)
-	    current = current->prev;
+	if (openfile->current->prev != NULL)
+	    openfile->current = openfile->current->prev;
     }
-    if (!begpar(current))
+    if (!begpar(openfile->current))
 	do_para_begin(FALSE);
 
     /* Now current is the first line of the paragraph.  Set quote_len to
      * the quotation length of that line, and set par_len to the number
      * of lines in this paragraph. */
-    quote_len = quote_length(current->data);
-    current_save = current;
-    current_y_save = current_y;
+    quote_len = quote_length(openfile->current->data);
+    current_save = openfile->current;
+    current_y_save = openfile->current_y;
     do_para_end(FALSE);
-    par_len = current->lineno - current_save->lineno;
-    current = current_save;
-    current_y = current_y_save;
+    par_len = openfile->current->lineno - current_save->lineno;
+    openfile->current = current_save;
+    openfile->current_y = current_y_save;
 
     /* Save the values of quote_len and par_len. */
     assert(quote != NULL && par != NULL);
@@ -3163,25 +3185,27 @@ void do_justify(bool full_justify)
 	/* Will be the line containing the newline after the last line
 	 * of the result.  Also for restoring after unjustify. */
 
-    /* We save these global variables to be restored if the user
-     * unjustifies.  Note that we don't need to save totlines. */
-    size_t current_x_save = current_x, pww_save = placewewant;
-    ssize_t current_y_save = current_y;
-    unsigned long flags_save = flags;
-    size_t totsize_save = totsize;
-    filestruct *edittop_save = edittop, *current_save = current;
+    /* We save these variables to be restored if the user unjustifies.
+     * Note that we don't need to save totlines. */
+    size_t current_x_save = openfile->current_x;
+    size_t pww_save = openfile->placewewant;
+    ssize_t current_y_save = openfile->current_y;
+    bool modified_save = openfile->modified;
+    size_t totsize_save = openfile->totsize;
+    filestruct *edittop_save = openfile->edittop;
+    filestruct *current_save = openfile->current;
 #ifndef NANO_SMALL
-    filestruct *mark_beginbuf_save = mark_beginbuf;
-    size_t mark_beginx_save = mark_beginx;
+    filestruct *mark_beginbuf_save = openfile->mark_beginbuf;
+    size_t mark_beginx_save = openfile->mark_beginx;
 #endif
     int kbinput;
     bool meta_key, func_key, s_or_t, ran_func, finished;
 
     /* If we're justifying the entire file, start at the beginning. */
     if (full_justify)
-	current = fileage;
+	openfile->current = openfile->fileage;
 
-    last_par_line = current;
+    last_par_line = openfile->current;
 
     while (TRUE) {
 	size_t i;
@@ -3222,8 +3246,8 @@ void do_justify(bool full_justify)
 	 * justify, so refresh the screen and get out. */
 	if (!find_paragraph(&quote_len, &par_len)) {
 	    if (full_justify && first_par_line != NULL &&
-		first_par_line != filebot) {
-		last_par_line = filebot;
+		first_par_line != openfile->filebot) {
+		last_par_line = openfile->filebot;
 		break;
 	    } else {
 		edit_refresh();
@@ -3234,8 +3258,9 @@ void do_justify(bool full_justify)
 	/* If we haven't already done it, copy the original paragraph(s)
 	 * to the justify buffer. */
 	if (first_par_line == NULL)
-	    first_par_line = backup_lines(current, full_justify ?
-		filebot->lineno - current->lineno : par_len, quote_len);
+	    first_par_line = backup_lines(openfile->current,
+		full_justify ? openfile->filebot->lineno -
+		openfile->current->lineno : par_len, quote_len);
 
 	/* Initialize indent_string to a blank string. */
 	indent_string = mallocstrcpy(NULL, "");
@@ -3245,7 +3270,7 @@ void do_justify(bool full_justify)
 	 * indent_string.  If all the indentations are the same, save
 	 * the indentation of the first line in indent_string. */
 	{
-	    const filestruct *indent_line = current;
+	    const filestruct *indent_line = openfile->current;
 	    bool past_first_line = FALSE;
 
 	    for (i = 0; i < par_len; i++) {
@@ -3261,7 +3286,7 @@ void do_justify(bool full_justify)
 			break;
 		}
 
-		if (indent_line == current)
+		if (indent_line == openfile->current)
 		    past_first_line = TRUE;
 
 		indent_line = indent_line->next;
@@ -3271,40 +3296,48 @@ void do_justify(bool full_justify)
 	/* Now tack all the lines of the paragraph together, skipping
 	 * the quoting and indentation on all lines after the first. */
 	for (i = 0; i < par_len - 1; i++) {
-	    filestruct *next_line = current->next;
-	    size_t line_len = strlen(current->data);
-	    size_t next_line_len = strlen(current->next->data);
+	    filestruct *next_line = openfile->current->next;
+	    size_t line_len = strlen(openfile->current->data);
+	    size_t next_line_len =
+		strlen(openfile->current->next->data);
 
-	    indent_len = quote_len + indent_length(current->next->data +
+	    indent_len = quote_len +
+		indent_length(openfile->current->next->data +
 		quote_len);
 
 	    next_line_len -= indent_len;
-	    totsize -= indent_len;
+	    openfile->totsize -= indent_len;
 
 	    /* We're just about to tack the next line onto this one.  If
 	     * this line isn't empty, make sure it ends in a space. */
-	    if (line_len > 0 && current->data[line_len - 1] != ' ') {
+	    if (line_len > 0 &&
+		openfile->current->data[line_len - 1] != ' ') {
 		line_len++;
-		current->data = charealloc(current->data, line_len + 1);
-		current->data[line_len - 1] = ' ';
-		current->data[line_len] = '\0';
-		totsize++;
+		openfile->current->data =
+			charealloc(openfile->current->data,
+			line_len + 1);
+		openfile->current->data[line_len - 1] = ' ';
+		openfile->current->data[line_len] = '\0';
+		openfile->totsize++;
 	    }
 
-	    current->data = charealloc(current->data, line_len +
+	    openfile->current->data =
+		charealloc(openfile->current->data, line_len +
 		next_line_len + 1);
-	    strcat(current->data, next_line->data + indent_len);
+	    strcat(openfile->current->data, next_line->data +
+		indent_len);
 
 	    /* Don't destroy edittop! */
-	    if (edittop == next_line)
-		edittop = current;
+	    if (openfile->edittop == next_line)
+		openfile->edittop = openfile->current;
 
 #ifndef NANO_SMALL
 	    /* Adjust the mark coordinates to compensate for the change
 	     * in the next line. */
-	    if (mark_beginbuf == next_line) {
-		mark_beginbuf = current;
-		mark_beginx += line_len - indent_len;
+	    if (openfile->mark_set && openfile->mark_beginbuf ==
+		next_line) {
+		openfile->mark_beginbuf = openfile->current;
+		openfile->mark_beginx += line_len - indent_len;
 	    }
 #endif
 
@@ -3316,25 +3349,27 @@ void do_justify(bool full_justify)
 	    i--;
 
 	    par_len--;
-	    totlines--;
-	    totsize--;
+	    openfile->totlines--;
+	    openfile->totsize--;
 	}
 
 	/* Call justify_format() on the paragraph, which will remove
 	 * excess spaces from it and change all blank characters to
 	 * spaces. */
-	justify_format(current, quote_len +
-		indent_length(current->data + quote_len));
+	justify_format(openfile->current, quote_len +
+		indent_length(openfile->current->data + quote_len));
 
-	while (par_len > 0 && strlenpt(current->data) > fill) {
-	    size_t line_len = strlen(current->data);
+	while (par_len > 0 &&
+		strlenpt(openfile->current->data) > fill) {
+	    size_t line_len = strlen(openfile->current->data);
 
 	    indent_len = strlen(indent_string);
 
 	    /* If this line is too long, try to wrap it to the next line
 	     * to make it short enough. */
-	    break_pos = break_line(current->data + indent_len,
-		fill - strnlenpt(current->data, indent_len), FALSE);
+	    break_pos =
+		break_line(openfile->current->data + indent_len, fill -
+		strnlenpt(openfile->current->data, indent_len), FALSE);
 
 	    /* We can't break the line, or don't need to, so get out. */
 	    if (break_pos == -1 || break_pos + indent_len == line_len)
@@ -3349,7 +3384,9 @@ void do_justify(bool full_justify)
 	    /* Make a new line, and copy the text after where we're
 	     * going to break this line to the beginning of the new
 	     * line. */
-	    splice_node(current, make_new_node(current), current->next);
+	    splice_node(openfile->current,
+		make_new_node(openfile->current),
+		openfile->current->next);
 
 	    /* If this paragraph is non-quoted, and autoindent isn't
 	     * turned on, set the indentation length to zero so that the
@@ -3363,32 +3400,35 @@ void do_justify(bool full_justify)
 
 	    /* Copy the text after where we're going to break the
 	     * current line to the next line. */
-	    current->next->data = charalloc(indent_len + 1 + line_len -
-		break_pos);
-	    strncpy(current->next->data, indent_string, indent_len);
-	    strcpy(current->next->data + indent_len, current->data +
-		break_pos);
+	    openfile->current->next->data = charalloc(indent_len + 1 +
+		line_len - break_pos);
+	    strncpy(openfile->current->next->data, indent_string,
+		indent_len);
+	    strcpy(openfile->current->next->data + indent_len,
+		openfile->current->data + break_pos);
 
 	    par_len++;
-	    totlines++;
-	    totsize += indent_len + 1;
+	    openfile->totlines++;
+	    openfile->totsize += indent_len + 1;
 
 #ifndef NANO_SMALL
 	    /* Adjust the mark coordinates to compensate for the change
 	     * in the current line. */
-	    if (mark_beginbuf == current && mark_beginx > break_pos) {
-		mark_beginbuf = current->next;
-		mark_beginx -= break_pos - indent_len;
+	    if (openfile->mark_set && openfile->mark_beginbuf ==
+		openfile->current && openfile->mark_beginx >
+		break_pos) {
+		openfile->mark_beginbuf = openfile->current->next;
+		openfile->mark_beginx -= break_pos - indent_len;
 	    }
 #endif
 
 	    /* Break the current line. */
-	    null_at(&current->data, break_pos);
+	    null_at(&openfile->current->data, break_pos);
 
 	    /* Go to the next line. */
 	    par_len--;
-	    current_y++;
-	    current = current->next;
+	    openfile->current_y++;
+	    openfile->current = openfile->current->next;
 	}
 
 	/* We're done breaking lines, so we don't need indent_string
@@ -3397,8 +3437,8 @@ void do_justify(bool full_justify)
 
 	/* Go to the next line, the line after the last line of the
 	 * paragraph. */
-	current_y++;
-	current = current->next;
+	openfile->current_y++;
+	openfile->current = openfile->current->next;
 
 	/* We've just justified a paragraph. If we're not justifying the
 	 * entire file, break out of the loop.  Otherwise, continue the
@@ -3413,10 +3453,10 @@ void do_justify(bool full_justify)
      * fileage, and renumber() since edit_refresh() needs the line
      * numbers to be right (but only do the last two if we actually
      * justified something). */
-    last_par_line = current;
+    last_par_line = openfile->current;
     if (first_par_line != NULL) {
 	if (first_par_line->prev == NULL)
-	    fileage = first_par_line;
+	    openfile->fileage = first_par_line;
 	renumber(first_par_line);
     }
 
@@ -3441,11 +3481,11 @@ void do_justify(bool full_justify)
     if (!meta_key && !func_key && s_or_t &&
 	kbinput == NANO_UNJUSTIFY_KEY) {
 	/* Restore the justify we just did (ungrateful user!). */
-	current = current_save;
-	current_x = current_x_save;
-	placewewant = pww_save;
-	current_y = current_y_save;
-	edittop = edittop_save;
+	openfile->current = current_save;
+	openfile->current_x = current_x_save;
+	openfile->placewewant = pww_save;
+	openfile->current_y = current_y_save;
+	openfile->edittop = edittop_save;
 
 	/* Splice the justify buffer back into the file, but only if we
 	 * actually justified something. */
@@ -3459,11 +3499,11 @@ void do_justify(bool full_justify)
 
 	    /* Remove the text of the justified paragraph, and
 	     * put the text in the justify buffer in its place. */
-	    free_filestruct(fileage);
-	    fileage = jusbuffer;
-	    filebot = jusbottom;
+	    free_filestruct(openfile->fileage);
+	    openfile->fileage = jusbuffer;
+	    openfile->filebot = jusbottom;
 
-	    bot_save = filebot;
+	    bot_save = openfile->filebot;
 
 	    /* Unpartition the filestruct so that it contains all the
 	     * text again.  Note that the justified paragraph has been
@@ -3475,19 +3515,21 @@ void do_justify(bool full_justify)
 	    if (bot_save->next != NULL)
 		renumber(bot_save->next);
 
-	    /* Restore global variables from before the justify. */
-	    totsize = totsize_save;
-	    totlines = filebot->lineno;
+	    /* Restore variables from before the justify. */
+	    openfile->totsize = totsize_save;
+	    openfile->totlines = openfile->filebot->lineno;
 #ifndef NANO_SMALL
-	    mark_beginbuf = mark_beginbuf_save;
-	    mark_beginx = mark_beginx_save;
+	    if (openfile->mark_set) {
+		openfile->mark_beginbuf = mark_beginbuf_save;
+		openfile->mark_beginx = mark_beginx_save;
+	    }
 #endif
-	    flags = flags_save;
+	    openfile->modified = modified_save;
 
 	    /* Clear the justify buffer. */
 	    jusbuffer = NULL;
 
-	    if (!ISSET(MODIFIED))
+	    if (!openfile->modified)
 		titlebar(NULL);
 	    edit_refresh();
 	}
@@ -3521,7 +3563,7 @@ void do_exit(void)
 {
     int i;
 
-    if (!ISSET(MODIFIED))
+    if (!openfile->modified)
 	i = 0;		/* Pretend the user chose not to save. */
     else if (ISSET(TEMP_FILE))
 	i = 1;
@@ -3530,13 +3572,13 @@ void do_exit(void)
 		_("Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "));
 
 #ifdef DEBUG
-    dump_buffer(fileage);
+    dump_filestruct(openfile->fileage);
 #endif
 
     if (i == 0 || (i == 1 && do_writeout(TRUE) == 0)) {
 #ifdef ENABLE_MULTIBUFFER
 	/* Exit only if there are no more open file buffers. */
-	if (!close_open_file())
+	if (!close_buffer())
 #endif
 	    finish();
     } else if (i != 1)
@@ -3646,8 +3688,7 @@ void handle_sigwinch(int s)
     COLS = win.ws_col;
     LINES = win.ws_row;
 
-    check_die_too_small();
-    resize_variables();
+    resize_init();
 
     /* If we've partitioned the filestruct, unpartition it now. */
     if (filepart != NULL)
@@ -4004,24 +4045,24 @@ bool do_mouse(void)
 	    /* Subtract out the size of topwin. */
 	    mouse_y -= 2 - no_more_space();
 
-	    sameline = (mouse_y == current_y);
+	    sameline = (mouse_y == openfile->current_y);
 
 	    /* Move to where the click occurred. */
-	    for (; current_y < mouse_y && current->next != NULL;
-		current_y++)
-		current = current->next;
-	    for (; current_y > mouse_y && current->prev != NULL;
-		current_y--)
-		current = current->prev;
+	    for (; openfile->current_y < mouse_y &&
+		openfile->current->next != NULL; openfile->current_y++)
+		openfile->current = openfile->current->next;
+	    for (; openfile->current_y > mouse_y &&
+		openfile->current->prev != NULL; openfile->current_y--)
+		openfile->current = openfile->current->prev;
 
-	    xcur = actual_x(current->data,
+	    xcur = actual_x(openfile->current->data,
 		get_page_start(xplustabs()) + mouse_x);
 
 #ifndef NANO_SMALL
 	    /* Clicking where the cursor is toggles the mark, as does
 	     * clicking beyond the line length with the cursor at the
 	     * end of the line. */
-	    if (sameline && xcur == current_x) {
+	    if (sameline && xcur == openfile->current_x) {
 		if (ISSET(VIEW_MODE)) {
 		    print_view_warning();
 		    return retval;
@@ -4030,8 +4071,8 @@ bool do_mouse(void)
 	    }
 #endif
 
-	    current_x = xcur;
-	    placewewant = xplustabs();
+	    openfile->current_x = xcur;
+	    openfile->placewewant = xplustabs();
 	    edit_refresh();
 	}
     }
@@ -4054,9 +4095,9 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
     char *char_buf = charalloc(mb_cur_max());
     int char_buf_len;
 
-    assert(current != NULL && current->data != NULL);
+    assert(openfile->current != NULL && openfile->current->data != NULL);
 
-    current_len = strlen(current->data);
+    current_len = strlen(openfile->current->data);
 
     /* Turn off constant cursor position display. */
     UNSET(CONST_UPDATE);
@@ -4089,27 +4130,31 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
 	/* When a character is inserted on the current magicline, it
 	 * means we need a new one! */
-	if (filebot == current)
+	if (openfile->filebot == openfile->current)
 	    new_magicline();
 
 	/* More dangerousness fun =) */
-	current->data = charealloc(current->data,
+	openfile->current->data = charealloc(openfile->current->data,
 		current_len + (char_buf_len * 2));
 
-	assert(current_x <= current_len);
+	assert(openfile->current_x <= current_len);
 
-	charmove(&current->data[current_x + char_buf_len],
-		&current->data[current_x],
-		current_len - current_x + char_buf_len);
-	strncpy(&current->data[current_x], char_buf, char_buf_len);
+	charmove(&openfile->current->data[openfile->current_x +
+		char_buf_len],
+		&openfile->current->data[openfile->current_x],
+		current_len - openfile->current_x + char_buf_len);
+	strncpy(&openfile->current->data[openfile->current_x], char_buf,
+		char_buf_len);
 	current_len += char_buf_len;
-	totsize++;
+	openfile->totsize++;
 	set_modified();
 
 #ifndef NANO_SMALL
 	/* Note that current_x has not yet been incremented. */
-	if (current == mark_beginbuf && current_x < mark_beginx)
-	    mark_beginx += char_buf_len;
+	if (openfile->mark_set && openfile->current ==
+		openfile->mark_beginbuf && openfile->current_x <
+		openfile->mark_beginx)
+	    openfile->mark_beginx += char_buf_len;
 #endif
 
 	do_right(FALSE);
@@ -4119,7 +4164,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	if (!ISSET(NO_WRAP)) {
 	    bool do_refresh_save = do_refresh;
 
-	    do_refresh = do_wrap(current);
+	    do_refresh = do_wrap(openfile->current);
 
 	    /* If we needed to call edit_refresh() before this, we'll
 	     * still need to after this. */
@@ -4146,7 +4191,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
     if (do_refresh)
 	edit_refresh();
     else
-	update_line(current, current_x);
+	update_line(openfile->current, openfile->current_x);
 }
 
 int main(int argc, char **argv)
@@ -4594,8 +4639,8 @@ int main(int argc, char **argv)
     /* Turn the cursor on for sure. */
     curs_set(1);
 
-    /* Set up the global variables and the shortcuts. */
-    global_init(FALSE);
+    /* Set up the resize variables and the shortcuts. */
+    resize_init();
     shortcut_init(FALSE);
 
     /* Set up the signal handlers. */
@@ -4640,7 +4685,7 @@ int main(int argc, char **argv)
 		icol == 1)
 		parse_line_column(&argv[i][1], &iline, &icol);
 	    else {
-		load_buffer(argv[i]);
+		open_buffer(argv[i]);
 
 		if (iline > 1 || icol > 1) {
 		    do_gotolinecolumn(iline, icol, FALSE, FALSE, FALSE);
@@ -4656,21 +4701,15 @@ int main(int argc, char **argv)
      * buffer or a new buffer, depending on whether multibuffer mode is
      * enabled. */
     if (optind < argc)
-	load_buffer(argv[optind]);
+	open_buffer(argv[optind]);
 
     /* We didn't open any files if all the command line arguments were
      * invalid files like directories or if there were no command line
      * arguments given.  In this case, we have to load a blank buffer.
      * Also, we unset view mode to allow editing. */
-    if (filename == NULL) {
-	filename = mallocstrcpy(NULL, "");
-	new_file();
+    if (openfile == NULL) {
+	open_buffer("");
 	UNSET(VIEW_MODE);
-
-	/* Add this new entry to the openfile structure if we have
-	 * multibuffer support, or to the main filestruct if we
-	 * don't. */
-	load_file();
     }
 
 #ifdef ENABLE_MULTIBUFFER

@@ -45,10 +45,10 @@ void cutbuffer_reset(void)
  * place we want to where the line used to start. */
 void cut_line(void)
 {
-    if (current->next != NULL) {
-	move_to_filestruct(&cutbuffer, &cutbottom, current, 0,
-		current->next, 0);
-	placewewant = xplustabs();
+    if (openfile->current->next != NULL) {
+	move_to_filestruct(&cutbuffer, &cutbottom, openfile->current, 0,
+		openfile->current->next, 0);
+	openfile->placewewant = xplustabs();
     }
 }
 
@@ -64,7 +64,7 @@ void cut_marked(void)
 	(const filestruct **)&bot, &bot_x, NULL);
 
     move_to_filestruct(&cutbuffer, &cutbottom, top, top_x, bot, bot_x);
-    placewewant = xplustabs();
+    openfile->placewewant = xplustabs();
 }
 
 /* If we're not at the end of the current line, move all the text from
@@ -75,24 +75,24 @@ void cut_marked(void)
  * used to be. */
 void cut_to_eol(void)
 {
-    size_t data_len = strlen(current->data);
+    size_t data_len = strlen(openfile->current->data);
 
-    assert(current_x <= data_len);
+    assert(openfile->current_x <= data_len);
 
-    if (current_x < data_len)
+    if (openfile->current_x < data_len)
 	/* If we're not at the end of the line, move all the text from
 	 * the current position up to it, not counting the newline at
 	 * the end, to the cutbuffer. */
-	move_to_filestruct(&cutbuffer, &cutbottom, current, current_x,
-		current, data_len);
-    else if (current->next != NULL) {
+	move_to_filestruct(&cutbuffer, &cutbottom, openfile->current,
+		openfile->current_x, openfile->current, data_len);
+    else if (openfile->current->next != NULL) {
 	/* If we're at the end of the line, and it isn't the magicline,
 	 * move all the text from the current position up to the
 	 * beginning of the next line, i.e, the newline at the end, to
 	 * the cutbuffer. */
-	move_to_filestruct(&cutbuffer, &cutbottom, current, current_x,
-		current->next, 0);
-	placewewant = xplustabs();
+	move_to_filestruct(&cutbuffer, &cutbottom, openfile->current,
+		openfile->current_x, openfile->current->next, 0);
+	openfile->placewewant = xplustabs();
     }
 }
 #endif /* !NANO_SMALL */
@@ -100,7 +100,7 @@ void cut_to_eol(void)
 /* Move text from the current filestruct into the cutbuffer. */
 void do_cut_text(void)
 {
-    assert(current != NULL && current->data != NULL);
+    assert(openfile->current != NULL && openfile->current->data != NULL);
 
     check_statusblank();
 
@@ -120,11 +120,11 @@ void do_cut_text(void)
     keep_cutbuffer = TRUE;
 
 #ifndef NANO_SMALL
-    if (ISSET(MARK_ISSET)) {
+    if (openfile->mark_set) {
 	/* If the mark is on, move the marked text to the cutbuffer and
 	 * turn the mark off. */
 	cut_marked();
-	UNSET(MARK_ISSET);
+	openfile->mark_set = FALSE;
     } else if (ISSET(CUT_TO_END))
 	/* Otherwise, if the CUT_TO_END flag is set, move all text up to
 	 * the end of the line into the cutbuffer. */
@@ -138,7 +138,7 @@ void do_cut_text(void)
     set_modified();
 
 #ifdef DEBUG
-    dump_buffer(cutbuffer);
+    dump_filestruct(cutbuffer);
 #endif
 }
 
@@ -146,18 +146,18 @@ void do_cut_text(void)
 /* Cut from the current cursor position to the end of the file. */
 void do_cut_till_end(void)
 {
-    assert(current != NULL && current->data != NULL);
+    assert(openfile->current != NULL && openfile->current->data != NULL);
 
     check_statusblank();
 
-    move_to_filestruct(&cutbuffer, &cutbottom, current, current_x,
-	filebot, 0);
+    move_to_filestruct(&cutbuffer, &cutbottom, openfile->current,
+	openfile->current_x, openfile->filebot, 0);
 
     edit_refresh();
     set_modified();
 
 #ifdef DEBUG
-    dump_buffer(cutbuffer);
+    dump_filestruct(cutbuffer);
 #endif
 }
 #endif /* !NANO_SMALL */
@@ -165,7 +165,7 @@ void do_cut_till_end(void)
 /* Copy text from the cutbuffer into the current filestruct. */
 void do_uncut_text(void)
 {
-    assert(current != NULL && current->data != NULL);
+    assert(openfile->current != NULL && openfile->current->data != NULL);
 
 #ifndef DISABLE_WRAPPING
     wrap_reset();
@@ -183,12 +183,12 @@ void do_uncut_text(void)
 
     /* Set the current place we want to where the text from the
      * cutbuffer ends. */
-    placewewant = xplustabs();
+    openfile->placewewant = xplustabs();
 
     edit_refresh();
     set_modified();
 
 #ifdef DEBUG
-    dump_buffer_reverse();
+    dump_filestruct_reverse();
 #endif
 }

@@ -110,7 +110,7 @@ void update_color(void)
 
 	for (e = tmpsyntax->extensions; e != NULL; e = e->next) {
 	    /* Set colorstrings if we matched the extension regex. */
-	    if (regexec(&e->val, filename, 0, NULL, 0) == 0)
+	    if (regexec(&e->val, openfile->filename, 0, NULL, 0) == 0)
 		colorstrings = tmpsyntax->color;
 
 	    if (colorstrings != NULL)

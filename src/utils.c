@@ -375,14 +375,14 @@ char *mallocstrassn(char *dest, char *src)
 /* Append a new magicline to filebot. */
 void new_magicline(void)
 {
-    filebot->next = (filestruct *)nmalloc(sizeof(filestruct));
-    filebot->next->data = mallocstrcpy(NULL, "");
-    filebot->next->prev = filebot;
-    filebot->next->next = NULL;
-    filebot->next->lineno = filebot->lineno + 1;
-    filebot = filebot->next;
-    totlines++;
-    totsize++;
+    openfile->filebot->next = (filestruct *)nmalloc(sizeof(filestruct));
+    openfile->filebot->next->data = mallocstrcpy(NULL, "");
+    openfile->filebot->next->prev = openfile->filebot;
+    openfile->filebot->next->next = NULL;
+    openfile->filebot->next->lineno = openfile->filebot->lineno + 1;
+    openfile->filebot = openfile->filebot->next;
+    openfile->totlines++;
+    openfile->totsize++;
 }
 
 #ifndef NANO_SMALL
@@ -390,12 +390,13 @@ void new_magicline(void)
  * only line in the file. */
 void remove_magicline(void)
 {
-    if (filebot->data[0] == '\0' && filebot->prev != NULL) {
-	filebot = filebot->prev;
-	free_filestruct(filebot->next);
-	filebot->next = NULL;
-	totlines--;
-	totsize--;
+    if (openfile->filebot->data[0] == '\0' &&
+	openfile->filebot->prev != NULL) {
+	openfile->filebot = openfile->filebot->prev;
+	free_filestruct(openfile->filebot->next);
+	openfile->filebot->next = NULL;
+	openfile->totlines--;
+	openfile->totsize--;
     }
 }
 
@@ -409,19 +410,20 @@ void mark_order(const filestruct **top, size_t *top_x, const filestruct
 {
     assert(top != NULL && top_x != NULL && bot != NULL && bot_x != NULL);
 
-    if ((current->lineno == mark_beginbuf->lineno && current_x >
-	mark_beginx) || current->lineno > mark_beginbuf->lineno) {
-	*top = mark_beginbuf;
-	*top_x = mark_beginx;
-	*bot = current;
-	*bot_x = current_x;
+    if ((openfile->current->lineno == openfile->mark_beginbuf->lineno &&
+	openfile->current_x > openfile->mark_beginx) ||
+	openfile->current->lineno > openfile->mark_beginbuf->lineno) {
+	*top = openfile->mark_beginbuf;
+	*top_x = openfile->mark_beginx;
+	*bot = openfile->current;
+	*bot_x = openfile->current_x;
 	if (right_side_up != NULL)
 	    *right_side_up = TRUE;
     } else {
-	*bot = mark_beginbuf;
-	*bot_x = mark_beginx;
-	*top = current;
-	*top_x = current_x;
+	*bot = openfile->mark_beginbuf;
+	*bot_x = openfile->mark_beginx;
+	*top = openfile->current;
+	*top_x = openfile->current_x;
 	if (right_side_up != NULL)
 	    *right_side_up = FALSE;
     }
