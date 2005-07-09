@@ -52,6 +52,19 @@ static bool resetstatuspos = FALSE;
 				/* Should we reset the cursor position
 				 * at the statusbar prompt? */
 
+#ifdef USE_SLANG
+/* Slang curses emulation brain damage, part 4: Slang doesn't define
+ * mvwhline(). */
+int nmvwhline(WINDOW *win, int y, int x, char ch, int n)
+{
+    wmove(win, y, x);
+    for (; n > 0; n--)
+	waddch(win, ch);
+
+    return 0;
+}
+#endif
+
 /* Control character compatibility:
  *
  * - NANO_BACKSPACE_KEY is Ctrl-H, which is Backspace under ASCII, ANSI,
@@ -3776,14 +3789,8 @@ int do_yesno(bool all, const char *msg)
 
 void total_redraw(void)
 {
-#ifdef USE_SLANG
-    /* Slang curses emulation brain damage, part 3: Slang doesn't define
-     * curscr. */
-    SLsmg_touch_screen();
-    SLsmg_refresh();
-#else
-    wrefresh(curscr);
-#endif
+    touchwin(stdscr);
+    wrefresh(stdscr);
 }
 
 void total_refresh(void)

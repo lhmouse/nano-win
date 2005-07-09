@@ -23,10 +23,11 @@ CVS code -
 	  rename open_pipe() execute_command(), and remove
 	  execute_command(). (DLR)
 	- Replace almost all mvwaddstr(hblank) calls with mvwhline(' ',
-	  COLS) calls, which do the same thing.  Changes to
-	  do_browser(), blank_titlebar(), blank_topbar(), blank_edit(),
-	  blank_statusbar(), blank_bottombars(), update_line(), and
-	  edit_refresh(). (DLR)
+	  COLS) calls, which do the same thing.  New function
+	  nmvwhline() (since slang doesn't define mvwhline()); changes
+	  to do_browser(), blank_titlebar(), blank_topbar(),
+	  blank_edit(), blank_statusbar(), blank_bottombars(),
+	  update_line(), and edit_refresh(). (DLR)
 - files.c:
   open_file()
 	- Assert that filename isn't NULL, and don't do anything special
@@ -82,6 +83,8 @@ CVS code -
   display_string()
 	- Display invalid multibyte sequences as Unicode 0xFFFD
 	  (Replacement Character). (DLR)
+  total_redraw()
+	- Rework to use functions that slang actually defines. (DLR)
 - configure.ac:
 	- Since we only use vsnprintf() now, remove the tests for
 	  snprintf(). (DLR)

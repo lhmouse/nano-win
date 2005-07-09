@@ -567,6 +567,9 @@ void get_totals(const filestruct *begin, const filestruct *end, size_t
 	*lines, size_t *size);
 
 /* Public functions in winio.c. */
+#ifdef USE_SLANG
+int nmvwhline(WINDOW *win, int y, int x, char ch, int n);
+#endif
 #ifndef NANO_SMALL
 void reset_kbinput(void);
 #endif
