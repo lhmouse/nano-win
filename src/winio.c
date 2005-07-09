@@ -2212,32 +2212,32 @@ size_t strlenpt(const char *buf)
 
 void blank_titlebar(void)
 {
-    mvwaddstr(topwin, 0, 0, hblank);
+    mvwhline(topwin, 0, 0, ' ', COLS);
 }
 
 void blank_topbar(void)
 {
     if (!ISSET(MORE_SPACE))
-	mvwaddstr(topwin, 1, 0, hblank);
+	mvwhline(topwin, 1, 0, ' ', COLS);
 }
 
 void blank_edit(void)
 {
     int i;
     for (i = 0; i < editwinrows; i++)
-	mvwaddstr(edit, i, 0, hblank);
+	mvwhline(edit, i, 0, ' ', COLS);
 }
 
 void blank_statusbar(void)
 {
-    mvwaddstr(bottomwin, 0, 0, hblank);
+    mvwhline(bottomwin, 0, 0, ' ', COLS);
 }
 
 void blank_bottombars(void)
 {
     if (!ISSET(NO_HELP)) {
-	mvwaddstr(bottomwin, 1, 0, hblank);
-	mvwaddstr(bottomwin, 2, 0, hblank);
+	mvwhline(bottomwin, 1, 0, ' ', COLS);
+	mvwhline(bottomwin, 2, 0, ' ', COLS);
     }
 }
 
@@ -3435,7 +3435,7 @@ void update_line(const filestruct *fileptr, size_t index)
 	return;
 
     /* First, blank out the line. */
-    mvwaddstr(edit, line, 0, hblank);
+    mvwhline(edit, line, 0, ' ', COLS);
 
     /* Next, convert variables that index the line to their equivalent
      * positions in the expanded line. */
@@ -3619,7 +3619,7 @@ void edit_refresh(void)
 	    foo = foo->next;
 	}
 	while (nlines < editwinrows) {
-	    mvwaddstr(edit, nlines, 0, hblank);
+	    mvwhline(edit, nlines, 0, ' ', COLS);
 	    nlines++;
 	}
 	reset_cursor();

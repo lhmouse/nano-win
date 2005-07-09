@@ -2581,7 +2581,7 @@ char *do_browser(char *path, DIR *dir)
 		if (j == selected)
 		    wattron(edit, A_REVERSE);
 
-		mvwaddnstr(edit, editline, col, hblank, longest);
+		mvwhline(edit, editline, col, ' ', longest);
 		mvwaddstr(edit, editline, col, disp);
 		free(disp);
 
