@@ -4699,9 +4699,6 @@ int main(int argc, char **argv)
 	UNSET(VIEW_MODE);
     }
 
-    /* Update the screen to account for the current buffer. */
-    load_buffer();
-
 #ifdef ENABLE_MULTIBUFFER
     if (!old_multibuffer)
 	UNSET(MULTIBUFFER);
@@ -4721,7 +4718,8 @@ int main(int argc, char **argv)
     sigsetjmp(jmpbuf, 1);
 #endif
 
-    edit_refresh();
+    /* Update the screen to account for the current buffer. */
+    load_buffer();
 
     while (TRUE) {
 	bool meta_key, func_key, s_or_t, ran_func, finished;
