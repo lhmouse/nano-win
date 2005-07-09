@@ -68,9 +68,9 @@ static struct sigaction act;	/* For all our fun signal handlers */
 static sigjmp_buf jmpbuf;	/* Used to return to main() after a
 				   SIGWINCH. */
 static int pid;			/* The PID of the newly forked process
-				 * in open_pipe().  It must be global
-				 * because the signal handler needs
-				 * it. */
+				 * in execute_command().  It must be
+				 * global because the signal handler
+				 * needs it. */
 #endif
 
 #ifndef DISABLE_JUSTIFY
@@ -1169,14 +1169,14 @@ void nano_disabled_msg(void)
 }
 
 #ifndef NANO_SMALL
-void cancel_fork(int signal)
+void cancel_command(int signal)
 {
     if (kill(pid, SIGKILL) == -1)
 	nperror("kill");
 }
 
 /* Return TRUE on success. */
-bool open_pipe(const char *command)
+bool execute_command(const char *command)
 {
     int fd[2];
     FILE *f;
@@ -1222,7 +1222,7 @@ bool open_pipe(const char *command)
 	sig_failed = TRUE;
 	nperror("sigaction");
     } else {
-	newaction.sa_handler = cancel_fork;
+	newaction.sa_handler = cancel_command;
 	if (sigaction(SIGINT, &newaction, &oldaction) == -1) {
 	    sig_failed = TRUE;
 	    nperror("sigaction");
@@ -4699,6 +4699,9 @@ int main(int argc, char **argv)
 	UNSET(VIEW_MODE);
     }
 
+    /* Update the screen to account for the current buffer. */
+    load_buffer();
+
 #ifdef ENABLE_MULTIBUFFER
     if (!old_multibuffer)
 	UNSET(MULTIBUFFER);
@@ -4708,7 +4711,6 @@ int main(int argc, char **argv)
     fprintf(stderr, "Main: top and bottom win\n");
 #endif
 
-    titlebar(NULL);
     display_main_list();
 
     if (startline > 1 || startcol > 1)

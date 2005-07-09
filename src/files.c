@@ -190,19 +190,20 @@ void open_buffer(const char *filename)
 #endif
     }
 
-    /* If we have a file, move back to the first line of it if we're
-     * loading into a new buffer.  Then update the titlebar, the colors
-     * (if applicable), and the edit window. */
-    if (rc != -1) {
-	if (new_buffer)
-	    openfile->current = openfile->fileage;
+    /* If we have a file and we're loading into a new buffer, move back
+     * to the first line of the buffer. */
+    if (rc != -1 && new_buffer)
+	openfile->current = openfile->fileage;
+}
 
+/* Update the screen to account for the current buffer. */
+void load_buffer(void)
+{
 	titlebar(NULL);
 #ifdef ENABLE_COLOR
 	update_color();
 #endif
 	edit_refresh();
-    }
 }
 
 #ifdef ENABLE_MULTIBUFFER
@@ -226,6 +227,9 @@ void switch_to_prevnext_buffer(bool next_buf)
 #ifdef DEBUG
     fprintf(stderr, "filename is %s\n", openfile->filename);
 #endif
+
+    /* Update the screen to account for the current buffer. */
+    load_buffer();
 
     /* Indicate the switch on the statusbar. */
     statusbar(_("Switched to %s"),
@@ -609,19 +613,6 @@ char *get_next_filename(const char *name, const char *suffix)
     return buf;
 }
 
-#ifndef NANO_SMALL
-void execute_command(const char *command)
-{
-#ifdef ENABLE_MULTIBUFFER
-    if (ISSET(MULTIBUFFER))
-	/* Add a new entry to the openfile structure. */
-	open_buffer("");
-#endif
-
-    open_pipe(command);
-}
-#endif /* !NANO_SMALL */
-
 void do_insertfile(
 #ifndef NANO_SMALL
 	bool execute
@@ -755,19 +746,35 @@ void do_insertfile(
 #endif
 
 #ifndef NANO_SMALL
-	    if (execute)
-		execute_command(answer);
-	    else {
+	    if (execute) {
+#ifdef ENABLE_MULTIBUFFER
+		if (ISSET(MULTIBUFFER))
+		    /* Open a new blank buffer. */
+		    open_buffer("");
 #endif
+
+		/* Save the command's output in the current buffer. */
+		execute_command(answer);
+	    } else {
+#endif
+		/* Make sure the path to the file specified in answer is
+		 * tilde-expanded. */
 		answer = mallocstrassn(answer,
 			real_dir_from_tilde(answer));
+
+		/* Save the file specified in answer in the current
+		 * buffer. */
 		open_buffer(answer);
 #ifndef NANO_SMALL
 	    }
 #endif
 
 #ifdef ENABLE_MULTIBUFFER
-	    if (!ISSET(MULTIBUFFER))
+	    if (ISSET(MULTIBUFFER))
+		/* Update the screen to account for the current
+		 * buffer. */
+		load_buffer();
+	    else
 #endif
 	    {
 		filestruct *top_save = openfile->fileage;
@@ -792,27 +799,18 @@ void do_insertfile(
 		 * partition. */
 		renumber(top_save);
 
-		/* Set edittop back to what it was before. */
+		/* Restore the old edittop. */
 		openfile->edittop = edittop_save;
-	    }
-
-#ifdef ENABLE_MULTIBUFFER
-	    if (ISSET(MULTIBUFFER))
-		/* Update the titlebar. */
-		titlebar(NULL);
-	    else {
-#endif
-		/* Mark the file as modified. */
-		set_modified();
 
 		/* Restore the old place we want. */
 		openfile->placewewant = pww_save;
-#ifdef ENABLE_MULTIBUFFER
-	    }
-#endif
 
-	    /* Refresh the screen. */
-	    edit_refresh();
+		/* Mark the file as modified. */
+		set_modified();
+
+		/* Update the screen. */
+		edit_refresh();
+	    }
 
 	    break;
 	}

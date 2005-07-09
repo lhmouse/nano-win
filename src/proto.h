@@ -240,6 +240,7 @@ void free_openfilestruct(openfilestruct *src);
 #endif
 void make_new_buffer(void);
 void open_buffer(const char *filename);
+void load_buffer(void);
 #ifdef ENABLE_MULTIBUFFER
 void switch_to_prevnext_buffer(bool next);
 void switch_to_prev_buffer_void(void);
@@ -251,9 +252,6 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
 void read_file(FILE *f, const char *filename);
 int open_file(const char *filename, bool newfie, FILE **f);
 char *get_next_filename(const char *name, const char *suffix);
-#ifndef NANO_SMALL
-void execute_command(const char *command);
-#endif
 void do_insertfile(
 #ifndef NANO_SMALL
 	bool execute
@@ -380,8 +378,8 @@ int no_more_space(void);
 int no_help(void);
 void nano_disabled_msg(void);
 #ifndef NANO_SMALL
-void cancel_fork(int signal);
-bool open_pipe(const char *command);
+void cancel_command(int signal);
+bool execute_command(const char *command);
 #endif
 void do_verbatim_input(void);
 void do_backspace(void);
