@@ -4708,18 +4708,22 @@ int main(int argc, char **argv)
     fprintf(stderr, "Main: top and bottom win\n");
 #endif
 
-    display_main_list();
-
     if (startline > 1 || startcol > 1)
 	do_gotolinecolumn(startline, startcol, FALSE, FALSE, FALSE);
+
+    display_main_list();
+
+    titlebar(NULL);
+#ifdef ENABLE_COLOR
+    update_color();
+#endif
 
 #ifndef NANO_SMALL
     /* Return here after a SIGWINCH. */
     sigsetjmp(jmpbuf, 1);
 #endif
 
-    /* Update the screen to account for the current buffer. */
-    load_buffer();
+    edit_refresh();
 
     while (TRUE) {
 	bool meta_key, func_key, s_or_t, ran_func, finished;
