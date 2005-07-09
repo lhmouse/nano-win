@@ -167,9 +167,10 @@ void open_buffer(const char *filename)
     }
 #endif
 
-    /* If the filename isn't blank, open the file. */
-    if (filename[0] != '\0')
-	rc = open_file(filename, new_buffer, &f);
+    /* If the filename isn't blank, open the file.  Otherwise, treat it
+     * as a new file. */
+    rc = (filename[0] != '\0') ? open_file(filename, new_buffer, &f) :
+	-2;
 
     /* If we're loading into a new buffer, add a new openfile entry. */
     if (new_buffer)
