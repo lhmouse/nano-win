@@ -13,21 +13,20 @@ CVS code -
 	  openfilestruct, and so that the values in it are used directly
 	  instead of being periodically synced up with the globals.
 	  Accordingly, remove the globals.  Changes to pretty much
-	  every function.  Rename global_init() resize_init(), rename
-	  add_open_file() make_new_buffer(), rename load_buffer()
+	  every function.  Rename global_init() window_size_init(),
+	  rename add_open_file() make_new_buffer(), rename load_buffer()
 	  open_buffer(), rename load_open_file() load_buffer(), rename
 	  open_prevnext_file() switch_to_prevnext_buffer(), rename
 	  open_prevfile_void() switch_to_prev_buffer(), rename
 	  open_nextfile_void() switch_to_next_buffer(), remove
 	  load_file(), rename cancel_fork() cancel_command(),
-	  rename open_pipe() execute_command(), and remove
-	  execute_command(). (DLR)
-	- Replace almost all mvwaddstr(hblank) calls with mvwhline(' ',
-	  COLS) calls, which do the same thing.  New function
-	  nmvwhline() (since slang doesn't define mvwhline()); changes
-	  to do_browser(), blank_titlebar(), blank_topbar(),
-	  blank_edit(), blank_statusbar(), blank_bottombars(),
-	  update_line(), and edit_refresh(). (DLR)
+	  rename open_pipe() execute_command(), remove
+	  execute_command(), and remove resize_variables(). (DLR)
+	- Replace all mvwaddstr(hblank) calls with a new function that
+	  does the same thing without the need for hblank.  New function
+	  blank_line(); changes to do_browser(), blank_titlebar(),
+	  blank_topbar(), blank_edit(), blank_statusbar(),
+	  blank_bottombars(), update_line(), and edit_refresh(). (DLR)
 - files.c:
   open_file()
 	- Assert that filename isn't NULL, and don't do anything special
@@ -83,8 +82,11 @@ CVS code -
   display_string()
 	- Display invalid multibyte sequences as Unicode 0xFFFD
 	  (Replacement Character). (DLR)
-  total_redraw()
-	- Rework to use functions that slang actually defines. (DLR)
+  titlebar()
+	- Rework to display only one space after the version number, so
+	  that there's more room for other things, and to not display
+	  the status when we're in the file browser, since Pico doesn't.
+	  (DLR)
 - configure.ac:
 	- Since we only use vsnprintf() now, remove the tests for
 	  snprintf(). (DLR)

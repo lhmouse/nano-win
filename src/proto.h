@@ -65,7 +65,6 @@ extern char *backup_dir;
 
 extern WINDOW *topwin, *edit, *bottomwin;
 extern char *answer;
-extern char *hblank;
 #ifndef DISABLE_HELP
 extern char *help_text;
 #endif
@@ -239,6 +238,10 @@ void delete_opennode(openfilestruct *fileptr);
 void free_openfilestruct(openfilestruct *src);
 #endif
 void make_new_buffer(void);
+void initialize_buffer(void);
+#ifndef DISABLE_SPELLER
+void reinitialize_buffer(void);
+#endif
 void open_buffer(const char *filename);
 void load_buffer(void);
 #ifdef ENABLE_MULTIBUFFER
@@ -358,8 +361,7 @@ void finish(void);
 void die(const char *msg, ...);
 void die_save_file(const char *die_filename);
 void check_die_too_small(void);
-void resize_variables(void);
-void resize_init(void);
+void window_size_init(void);
 void window_init(void);
 #ifndef DISABLE_MOUSE
 void mouse_init(void);
@@ -567,9 +569,6 @@ void get_totals(const filestruct *begin, const filestruct *end, size_t
 	*lines, size_t *size);
 
 /* Public functions in winio.c. */
-#ifdef USE_SLANG
-int nmvwhline(WINDOW *win, int y, int x, char ch, int n);
-#endif
 #ifndef NANO_SMALL
 void reset_kbinput(void);
 #endif
@@ -632,6 +631,7 @@ size_t xplustabs(void);
 size_t actual_x(const char *str, size_t xplus);
 size_t strnlenpt(const char *buf, size_t size);
 size_t strlenpt(const char *buf);
+void blank_line(WINDOW *win, int y, int x, int n);
 void blank_titlebar(void);
 void blank_topbar(void);
 void blank_edit(void);

@@ -89,7 +89,6 @@ char *answer = NULL;		/* Answer str to many questions */
 ssize_t tabsize = -1;		/* Our internal tabsize variable.  The
 				   default value is set in main(). */
 
-char *hblank = NULL;		/* A horizontal blank line */
 #ifndef DISABLE_HELP
 char *help_text;		/* The text in the help window */
 #endif
@@ -1162,8 +1161,6 @@ void thanks_for_all_the_fish(void)
 	free(last_search);
     if (last_replace != NULL)
 	free(last_replace);
-    if (hblank != NULL)
-	free(hblank);
 #ifndef DISABLE_SPELLER
     if (alt_speller != NULL)
 	free(alt_speller);

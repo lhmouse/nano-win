@@ -127,12 +127,6 @@
 #define getline ngetline
 #endif
 
-/* Slang curses emulation brain damage, part 3: Slang doesn't define
- * mvwhline(), so use the version we have. */
-#ifdef USE_SLANG
-#define mvwhline nmvwhline
-#endif
-
 #define VERMSG "GNU nano " VERSION
 
 /* If we aren't using ncurses, turn the mouse support off, as it's

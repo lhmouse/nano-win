@@ -111,6 +111,15 @@ void make_new_buffer(void)
 	openfile = openfile->next;
     }
 
+    /* Initialize the new buffer. */
+    initialize_buffer();
+}
+
+/* Initialize the current entry of the openfile openfilestruct. */
+void initialize_buffer(void)
+{
+    assert(openfile != NULL);
+
     openfile->filename = mallocstrcpy(NULL, "");
 
     openfile->fileage = make_new_node(NULL);
@@ -141,6 +150,20 @@ void make_new_buffer(void)
     memset(&openfile->originalfilestat, 0, sizeof(struct stat));
 #endif
 }
+
+#ifndef DISABLE_SPELLER
+/* Reinitialize the current entry of the openfile openfilestruct. */
+void reinitialize_buffer(void)
+{
+    assert(openfile != NULL);
+
+    free(openfile->filename);
+
+    free_filestruct(openfile->fileage);
+
+    initialize_buffer();
+}
+#endif
 
 /* filename is a file to open.  We make a new buffer, if necessary, and
  * then open and read the file. */
@@ -255,7 +278,7 @@ void switch_to_next_buffer_void(void)
     switch_to_prevnext_buffer(TRUE);
 }
 
-/* Delete an entry from the openfile filestruct, and open the one
+/* Delete an entry from the openfile filestruct, and switch to the one
  * after it.  Return TRUE on success, or FALSE if there are no more open
  * file buffers. */
 bool close_buffer(void)
@@ -2581,7 +2604,7 @@ char *do_browser(char *path, DIR *dir)
 		if (j == selected)
 		    wattron(edit, A_REVERSE);
 
-		mvwhline(edit, editline, col, ' ', longest);
+		blank_line(edit, editline, col, longest);
 		mvwaddstr(edit, editline, col, disp);
 		free(disp);
 

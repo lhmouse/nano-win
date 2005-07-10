@@ -52,19 +52,6 @@ static bool resetstatuspos = FALSE;
 				/* Should we reset the cursor position
 				 * at the statusbar prompt? */
 
-#ifdef USE_SLANG
-/* Slang curses emulation brain damage, part 4: Slang doesn't define
- * mvwhline(). */
-int nmvwhline(WINDOW *win, int y, int x, char ch, int n)
-{
-    wmove(win, y, x);
-    for (; n > 0; n--)
-	waddch(win, ch);
-
-    return 0;
-}
-#endif
-
 /* Control character compatibility:
  *
  * - NANO_BACKSPACE_KEY is Ctrl-H, which is Backspace under ASCII, ANSI,
@@ -2223,34 +2210,43 @@ size_t strlenpt(const char *buf)
     return strnlenpt(buf, (size_t)-1);
 }
 
+/* Move to (x, y) in win, and display a line of n spaces with the
+ * current attributes. */
+void blank_line(WINDOW *win, int y, int x, int n)
+{
+    wmove(win, y, x);
+    for (; n > 0; n--)
+	waddch(win, ' ');
+}
+
 void blank_titlebar(void)
 {
-    mvwhline(topwin, 0, 0, ' ', COLS);
+    blank_line(topwin, 0, 0, COLS);
 }
 
 void blank_topbar(void)
 {
     if (!ISSET(MORE_SPACE))
-	mvwhline(topwin, 1, 0, ' ', COLS);
+	blank_line(topwin, 1, 0, COLS);
 }
 
 void blank_edit(void)
 {
     int i;
     for (i = 0; i < editwinrows; i++)
-	mvwhline(edit, i, 0, ' ', COLS);
+	blank_line(edit, i, 0, COLS);
 }
 
 void blank_statusbar(void)
 {
-    mvwhline(bottomwin, 0, 0, ' ', COLS);
+    blank_line(bottomwin, 0, 0, COLS);
 }
 
 void blank_bottombars(void)
 {
     if (!ISSET(NO_HELP)) {
-	mvwhline(bottomwin, 1, 0, ' ', COLS);
-	mvwhline(bottomwin, 2, 0, ' ', COLS);
+	blank_line(bottomwin, 1, 0, COLS);
+	blank_line(bottomwin, 2, 0, COLS);
     }
 }
 
@@ -2747,17 +2743,18 @@ void titlebar(const char *path)
 {
     int space;
 	/* The space we have available for display. */
-    size_t verlen = strlenpt(VERMSG) + 1;
+    size_t verlen = strlenpt(VERMSG);
 	/* The length of the version message in columns. */
     const char *prefix;
-	/* "File:", "Dir:", or "New Buffer".  Goes before filename. */
+	/* "DIR:", "File:", or "New Buffer".  Goes before filename. */
     size_t prefixlen;
-	/* The length of the prefix in columns, plus one. */
+	/* The length of the prefix in columns. */
     const char *state;
-	/* "Modified", "View", or spaces the length of "Modified".
-	 * Tells the state of this buffer. */
+	/* "Modified", "View", or "".  Shows the state of this
+	 * buffer. */
     size_t statelen = 0;
-	/* The length of the state in columns, plus one. */
+	/* The length of the state in columns, or the length of
+	 * "Modified" if the state is blank. */
     char *exppath = NULL;
 	/* The file name, expanded for display. */
     bool newfie = FALSE;
@@ -2771,34 +2768,34 @@ void titlebar(const char *path)
     wattron(topwin, A_REVERSE);
     blank_titlebar();
 
-    if (COLS <= 5 || COLS - 5 < verlen)
+    if (COLS <= 4 || COLS - 4 < verlen)
 	space = 0;
     else {
-	space = COLS - 5 - verlen;
-	/* Reserve 2/3 of the screen plus one column for after the
+	space = COLS - 4 - verlen;
+	/* Reserve 2/3 of the screen plus two columns for after the
 	 * version message. */
-	if (space < COLS - (COLS / 3) + 1)
-	    space = COLS - (COLS / 3) + 1;
+	if (space < COLS - (COLS / 3) + 2)
+	    space = COLS - (COLS / 3) + 2;
     }
 
-    if (COLS > 4) {
-	/* The version message should only take up 1/3 of the screen
-	 * minus one column. */
+    if (COLS > 3) {
+	/* The version message, counting the two spaces before it,
+	 * should only take up 1/3 of the screen minus two columns. */
 	mvwaddnstr(topwin, 0, 2, VERMSG, actual_x(VERMSG,
-		(COLS / 3) - 3));
-	waddstr(topwin, "  ");
+		(COLS / 3) - 4));
+	waddch(topwin, ' ');
     }
 
-    if (openfile->modified)
-	state = _("Modified");
-    else if (ISSET(VIEW_MODE))
-	state = _("View");
-    else {
-	if (space > 0)
-	    statelen = strnlenpt(_("Modified"), space - 1) + 1;
-	state = &hblank[COLS - statelen];
-    }
-    statelen = strnlenpt(state, COLS);
+#ifndef DISABLE_BROWSER
+    /* Don't display the state if we're in the file browser. */
+    if (path != NULL)
+	state = "";
+    else
+#endif
+	state = openfile->modified ? _("Modified") : ISSET(VIEW_MODE) ?
+		_("View") : "";
+
+    statelen = strlenpt((state[0] != '\0') ? state : _("Modified"));
 
     /* We need a space before state. */
     if ((openfile->modified || ISSET(VIEW_MODE)) && statelen < COLS)
@@ -2810,6 +2807,7 @@ void titlebar(const char *path)
 	goto the_end;
 
 #ifndef DISABLE_BROWSER
+    /* path should be a directory if we're in the file browser. */
     if (path != NULL)
 	prefix = _("DIR:");
     else
@@ -2828,8 +2826,11 @@ void titlebar(const char *path)
     if (!newfie && prefixlen + statelen < space)
 	prefixlen++;
 
+    /* If we're not in the file browser, path should be the current
+     * filename. */
     if (path == NULL)
 	path = openfile->filename;
+
     if (space >= prefixlen + statelen)
 	space -= prefixlen + statelen;
     else
@@ -2837,9 +2838,9 @@ void titlebar(const char *path)
 	/* space is now the room we have for the file name. */
 
     if (!newfie) {
-	size_t lenpt = strlenpt(path), start_col;
+	size_t lenpt = strlenpt(path) + 1, start_col;
 
-	dots = (lenpt > space);
+	dots = (lenpt >= space);
 
 	if (dots) {
 	    start_col = lenpt - space + 3;
@@ -2855,8 +2856,8 @@ void titlebar(const char *path)
 	    /* The length of the expanded filename. */
 
 	/* There is room for the whole filename, so we center it. */
-	waddnstr(topwin, hblank, (space - exppathlen) / 3);
-	waddnstr(topwin, prefix, actual_x(prefix, prefixlen));
+	mvwaddnstr(topwin, 0, ((COLS / 3) - 4) + ((space - exppathlen) /
+		3), prefix, actual_x(prefix, prefixlen));
 	if (!newfie) {
 	    assert(strlenpt(prefix) + 1 == prefixlen);
 
@@ -2878,14 +2879,16 @@ void titlebar(const char *path)
   the_end:
     free(exppath);
 
-    if (COLS <= 1 || statelen >= COLS - 1)
-	mvwaddnstr(topwin, 0, 0, state, actual_x(state, COLS));
-    else {
-	assert(COLS - statelen - 2 >= 0);
+    if (state[0] != '\0') {
+	if (COLS <= 1 || statelen >= COLS - 1)
+	    mvwaddnstr(topwin, 0, 0, state, actual_x(state, COLS));
+	else {
+	    assert(COLS - statelen - 2 >= 0);
 
-	mvwaddch(topwin, 0, COLS - statelen - 2, ' ');
-	mvwaddnstr(topwin, 0, COLS - statelen - 1, state,
+	    mvwaddch(topwin, 0, COLS - statelen - 2, ' ');
+	    mvwaddnstr(topwin, 0, COLS - statelen - 1, state,
 		actual_x(state, statelen));
+	}
     }
 
     wattroff(topwin, A_REVERSE);
@@ -3448,7 +3451,7 @@ void update_line(const filestruct *fileptr, size_t index)
 	return;
 
     /* First, blank out the line. */
-    mvwhline(edit, line, 0, ' ', COLS);
+    blank_line(edit, line, 0, COLS);
 
     /* Next, convert variables that index the line to their equivalent
      * positions in the expanded line. */
@@ -3632,7 +3635,7 @@ void edit_refresh(void)
 	    foo = foo->next;
 	}
 	while (nlines < editwinrows) {
-	    mvwhline(edit, nlines, 0, ' ', COLS);
+	    blank_line(edit, nlines, 0, COLS);
 	    nlines++;
 	}
 	reset_cursor();
@@ -3789,8 +3792,14 @@ int do_yesno(bool all, const char *msg)
 
 void total_redraw(void)
 {
-    touchwin(stdscr);
-    wrefresh(stdscr);
+#ifdef USE_SLANG
+    /* Slang curses emulation brain damage, part 3: Slang doesn't define
+     * curscr. */
+    SLsmg_touch_screen();
+    SLsmg_refresh();
+#else
+    wrefresh(curscr);
+#endif
 }
 
 void total_refresh(void)

@@ -575,10 +575,12 @@ void check_die_too_small(void)
 	die(_("Window size is too small for nano...\n"));
 }
 
-/* Reinitialize the variables that depend on the window size.  That is,
- * fill and hblank. */
-void resize_variables(void)
+/* Make sure the window size isn't too small, and reinitialize the fill
+ * variable, since it depends on the window size. */
+void window_size_init(void)
 {
+    check_die_too_small();
+
 #ifndef DISABLE_WRAPJUSTIFY
     fill = wrap_at;
     if (fill <= 0)
@@ -586,17 +588,6 @@ void resize_variables(void)
     if (fill < 0)
 	fill = 0;
 #endif
-
-    hblank = charealloc(hblank, COLS + 1);
-    charset(hblank, ' ', COLS);
-    hblank[COLS] = '\0';
-}
-
-/* Initialize the resize variables. */
-void resize_init(void)
-{
-    check_die_too_small();
-    resize_variables();
 }
 
 void window_init(void)
@@ -2341,6 +2332,7 @@ const char *do_int_speller(const char *tempfile_name)
 const char *do_alt_speller(char *tempfile_name)
 {
     int alt_spell_status;
+    char *filename_save;
     size_t current_x_save = openfile->current_x;
     size_t pww_save = openfile->placewewant;
     ssize_t current_y_save = openfile->current_y;
@@ -2455,15 +2447,20 @@ const char *do_alt_speller(char *tempfile_name)
     }
 #endif
 
-    /* Reinitialize the filestruct. */
-    free_filestruct(openfile->fileage);
+    /* Set up the window size. */
+    window_size_init();
 
-    /* Reinitialize the resize variables. */
-    resize_init();
+    /* Save the current filename. */
+    filename_save = mallocstrcpy(NULL, openfile->filename);
 
-    /* Reload the temp file.  Do what open_buffer() would do, except for
-     * making a new buffer for the temp file if multibuffer support is
-     * available. */
+    /* Reinitialize the current buffer. */
+    reinitialize_buffer();
+
+    /* Restore the current filename. */
+    openfile->filename = filename_save;
+
+    /* Reload the temp file.  Open it, read it into the current buffer,
+     * and move back to the first line of the buffer. */
     open_file(tempfile_name, FALSE, &f);
     read_file(f, tempfile_name);
     openfile->current = openfile->fileage;
@@ -3675,7 +3672,8 @@ void handle_sigwinch(int s)
     COLS = win.ws_col;
     LINES = win.ws_row;
 
-    resize_init();
+    /* Reinitialize the window size variables. */
+    window_size_init();
 
     /* If we've partitioned the filestruct, unpartition it now. */
     if (filepart != NULL)
@@ -4618,16 +4616,19 @@ int main(int argc, char **argv)
     /* Back up the old terminal settings so that they can be restored. */
     tcgetattr(0, &oldterm);
 
-    /* Curses initialization stuff: Start curses and set up the
-     * terminal state. */
+    /* Initialize curses mode. */
     initscr();
+
+    /* Set up the terminal state. */
     terminal_init();
 
     /* Turn the cursor on for sure. */
     curs_set(1);
 
-    /* Set up the resize variables and the shortcuts. */
-    resize_init();
+    /* Initialize the window size variables. */
+    window_size_init();
+
+    /* Set up the shortcuts. */
     shortcut_init(FALSE);
 
     /* Set up the signal handlers. */
