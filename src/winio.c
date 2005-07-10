@@ -2755,7 +2755,7 @@ void titlebar(const char *path)
 	 * buffer. */
     size_t statelen = 0;
 	/* The length of the state in columns, or the length of
-	 * "Modified" if the state is blank. */
+	 * "Modified" if the state is blank, plus one for padding. */
     char *exppath = NULL;
 	/* The file name, expanded for display. */
     bool newfie = FALSE;
@@ -2785,7 +2785,6 @@ void titlebar(const char *path)
 	/* Add one space after the version message, and account for both it
 	 * and the two spaces before it. */
 	mvwaddnstr(topwin, 0, 2, VERMSG, actual_x(VERMSG, verlen));
-	waddch(topwin, ' ');
 	verlen += 3;
 
 	/* Account for the full length of the version message. */
@@ -2801,7 +2800,7 @@ void titlebar(const char *path)
 	state = openfile->modified ? _("Modified") : ISSET(VIEW_MODE) ?
 		_("View") : "";
 
-    statelen = strlenpt((state[0] != '\0') ? state : _("Modified"));
+    statelen = strlenpt((state[0] != '\0') ? state : _("Modified")) + 1;
 
     /* If possible, add a space before state. */
     if (space > 0 && statelen < space)
@@ -2885,9 +2884,8 @@ void titlebar(const char *path)
 	if (COLS <= 1 || statelen >= COLS - 1)
 	    mvwaddnstr(topwin, 0, 0, state, actual_x(state, COLS));
 	else {
-	    assert(COLS - statelen - 2 >= 0);
+	    assert(COLS - statelen - 1 >= 0);
 
-	    mvwaddch(topwin, 0, COLS - statelen - 2, ' ');
 	    mvwaddnstr(topwin, 0, COLS - statelen - 1, state,
 		actual_x(state, statelen));
 	}
