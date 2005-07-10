@@ -2741,14 +2741,15 @@ void statusq_abort(void)
 
 void titlebar(const char *path)
 {
-    int space;
+    int space = COLS;
 	/* The space we have available for display. */
-    size_t verlen = strlenpt(VERMSG);
-	/* The length of the version message in columns. */
+    size_t verlen = strlenpt(VERMSG) + 1;
+	/* The length of the version message in columns, plus one for
+	 * padding. */
     const char *prefix;
 	/* "DIR:", "File:", or "New Buffer".  Goes before filename. */
     size_t prefixlen;
-	/* The length of the prefix in columns. */
+	/* The length of the prefix in columns, plus one for padding. */
     const char *state;
 	/* "Modified", "View", or "".  Shows the state of this
 	 * buffer. */
@@ -2768,22 +2769,27 @@ void titlebar(const char *path)
     wattron(topwin, A_REVERSE);
     blank_titlebar();
 
-    if (COLS <= 4 || COLS - 4 < verlen)
+    /* space has to be at least 4: two spaces before the version message,
+     * at least one character of the version message, and one space
+     * after the version message. */
+    if (space < 4)
 	space = 0;
     else {
-	space = COLS - 4 - verlen;
-	/* Reserve 2/3 of the screen plus two columns for after the
-	 * version message. */
-	if (space < COLS - (COLS / 3) + 2)
-	    space = COLS - (COLS / 3) + 2;
+	/* Limit verlen to 1/3 the length of the screen in columns,
+	 * minus three columns for spaces. */
+	if (verlen > (COLS / 3) - 3)
+	    verlen = (COLS / 3) - 3;
     }
 
-    if (COLS > 3) {
-	/* The version message, counting the two spaces before it,
-	 * should only take up 1/3 of the screen minus two columns. */
-	mvwaddnstr(topwin, 0, 2, VERMSG, actual_x(VERMSG,
-		(COLS / 3) - 4));
+    if (space >= 4) {
+	/* Add one space after the version message, and account for both it
+	 * and the two spaces before it. */
+	mvwaddnstr(topwin, 0, 2, VERMSG, actual_x(VERMSG, verlen));
 	waddch(topwin, ' ');
+	verlen += 3;
+
+	/* Account for the full length of the version message. */
+	space -= verlen;
     }
 
 #ifndef DISABLE_BROWSER
@@ -2797,13 +2803,10 @@ void titlebar(const char *path)
 
     statelen = strlenpt((state[0] != '\0') ? state : _("Modified"));
 
-    /* We need a space before state. */
-    if ((openfile->modified || ISSET(VIEW_MODE)) && statelen < COLS)
+    /* If possible, add a space before state. */
+    if (space > 0 && statelen < space)
 	statelen++;
-
-    assert(space >= 0);
-
-    if (space == 0 || statelen >= space)
+    else
 	goto the_end;
 
 #ifndef DISABLE_BROWSER
@@ -2818,11 +2821,9 @@ void titlebar(const char *path)
     } else
 	prefix = _("File:");
 
-    assert(statelen < space);
+    prefixlen = strnlenpt(prefix, space - statelen) + 1;
 
-    prefixlen = strnlenpt(prefix, space - statelen);
-
-    /* If newfie is FALSE, we need a space after prefix. */
+    /* If newfie is FALSE, add a space after prefix. */
     if (!newfie && prefixlen + statelen < space)
 	prefixlen++;
 
@@ -2831,16 +2832,17 @@ void titlebar(const char *path)
     if (path == NULL)
 	path = openfile->filename;
 
+    /* Account for the full lengths of the prefix and the state. */
     if (space >= prefixlen + statelen)
 	space -= prefixlen + statelen;
     else
 	space = 0;
-	/* space is now the room we have for the file name. */
+	/* space is now the room we have for the filename. */
 
     if (!newfie) {
-	size_t lenpt = strlenpt(path) + 1, start_col;
+	size_t lenpt = strlenpt(path), start_col;
 
-	dots = (lenpt >= space);
+	dots = (lenpt > space);
 
 	if (dots) {
 	    start_col = lenpt - space + 3;
@@ -2856,8 +2858,8 @@ void titlebar(const char *path)
 	    /* The length of the expanded filename. */
 
 	/* There is room for the whole filename, so we center it. */
-	mvwaddnstr(topwin, 0, ((COLS / 3) - 4) + ((space - exppathlen) /
-		3), prefix, actual_x(prefix, prefixlen));
+	mvwaddnstr(topwin, 0, verlen + ((space - exppathlen) / 3),
+		prefix, actual_x(prefix, prefixlen));
 	if (!newfie) {
 	    assert(strlenpt(prefix) + 1 == prefixlen);
 
