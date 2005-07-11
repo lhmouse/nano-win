@@ -34,8 +34,11 @@ CVS code -
 	  latter case is now handled elsewhere. (DLR)
 - global.c:
   shortcut_init()
-	- Simplify wording of nano_gotoline_msg. (Jordi)
+	- Simplify wording of nano_gotoline_msg. (Jordi and Ken Tyler)
 - nano.c:
+  usage()
+	- Properly mention the support for "[+LINE,COLUMN]" on the
+	  command line when HAVE_GETOPT_LONG isn't defined. (DLR)
   do_verbatim_input()
 	- If constant cursor position display is on, make sure the
 	  cursor position is displayed properly when we finish. (DLR)

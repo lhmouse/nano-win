@@ -985,7 +985,7 @@ void usage(void)
 	_("Usage: nano [+LINE,COLUMN] [GNU long option] [option] [file]\n\n"));
     printf(_("Option\t\tLong option\t\tMeaning\n"));
 #else
-    printf(_("Usage: nano [+LINE] [option] [file]\n\n"));
+    printf(_("Usage: nano [+LINE,COLUMN] [option] [file]\n\n"));
     printf(_("Option\t\tMeaning\n"));
 #endif
 
