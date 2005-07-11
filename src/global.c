@@ -262,8 +262,7 @@ void shortcut_init(bool unjustify)
 	N_("Show the position of the cursor");
     const char *nano_spell_msg =
 	N_("Invoke the spell checker, if available");
-    const char *nano_gotoline_msg =
-	N_("Go to a line and column number");
+    const char *nano_gotoline_msg = N_("Go to line and column number");
     const char *nano_replace_msg = N_("Replace text within the editor");
 #ifndef NANO_SMALL
     const char *nano_mark_msg = N_("Mark text at the cursor position");
