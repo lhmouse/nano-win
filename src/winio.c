@@ -2755,7 +2755,7 @@ void titlebar(const char *path)
 	 * buffer. */
     size_t statelen = 0;
 	/* The length of the state in columns, or the length of
-	 * "Modified" if the state is blank, plus one for padding. */
+	 * "Modified" if the state is blank. */
     char *exppath = NULL;
 	/* The file name, expanded for display. */
     bool newfie = FALSE;
@@ -2782,8 +2782,8 @@ void titlebar(const char *path)
     }
 
     if (space >= 4) {
-	/* Add one space after the version message, and account for both it
-	 * and the two spaces before it. */
+	/* Add a space after the version message, and account for both
+	 * it and the two spaces before it. */
 	mvwaddnstr(topwin, 0, 2, VERMSG, actual_x(VERMSG, verlen));
 	verlen += 3;
 
@@ -2800,7 +2800,7 @@ void titlebar(const char *path)
 	state = openfile->modified ? _("Modified") : ISSET(VIEW_MODE) ?
 		_("View") : "";
 
-    statelen = strlenpt((state[0] != '\0') ? state : _("Modified")) + 1;
+    statelen = strlenpt((state[0] != '\0') ? state : _("Modified"));
 
     /* If possible, add a space before state. */
     if (space > 0 && statelen < space)
@@ -2860,14 +2860,13 @@ void titlebar(const char *path)
 	mvwaddnstr(topwin, 0, verlen + ((space - exppathlen) / 3),
 		prefix, actual_x(prefix, prefixlen));
 	if (!newfie) {
-	    assert(strlenpt(prefix) + 1 == prefixlen);
-
 	    waddch(topwin, ' ');
 	    waddstr(topwin, exppath);
 	}
     } else {
 	/* We will say something like "File: ...ename". */
-	waddnstr(topwin, prefix, actual_x(prefix, prefixlen));
+	mvwaddnstr(topwin, 0, verlen - 1, prefix, actual_x(prefix,
+		prefixlen));
 	if (space <= -3 || newfie)
 	    goto the_end;
 	waddch(topwin, ' ');
