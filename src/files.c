@@ -215,15 +215,20 @@ void open_buffer(const char *filename)
      * to the first line of the buffer. */
     if (rc != -1 && new_buffer)
 	openfile->current = openfile->fileage;
+
+#ifdef ENABLE_COLOR
+    /* If we're loading into a new buffer, update the buffer's
+     * associated colors, if applicable. */
+    if (new_buffer)
+	update_color();
+#endif
+
 }
 
 /* Update the screen to account for the current buffer. */
-void load_buffer(void)
+void display_buffer(void)
 {
 	titlebar(NULL);
-#ifdef ENABLE_COLOR
-	update_color();
-#endif
 	edit_refresh();
 }
 
@@ -250,7 +255,7 @@ void switch_to_prevnext_buffer(bool next_buf)
 #endif
 
     /* Update the screen to account for the current buffer. */
-    load_buffer();
+    display_buffer();
 
     /* Indicate the switch on the statusbar. */
     statusbar(_("Switched to %s"),
@@ -794,7 +799,7 @@ void do_insertfile(
 	    if (ISSET(MULTIBUFFER))
 		/* Update the screen to account for the current
 		 * buffer. */
-		load_buffer();
+		display_buffer();
 	    else
 #endif
 	    {

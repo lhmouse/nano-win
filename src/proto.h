@@ -243,7 +243,7 @@ void initialize_buffer(void);
 void reinitialize_buffer(void);
 #endif
 void open_buffer(const char *filename);
-void load_buffer(void);
+void display_buffer(void);
 #ifdef ENABLE_MULTIBUFFER
 void switch_to_prevnext_buffer(bool next);
 void switch_to_prev_buffer_void(void);

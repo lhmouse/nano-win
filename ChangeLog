@@ -15,9 +15,9 @@ CVS code -
 	  Accordingly, remove the globals.  Changes to pretty much
 	  every function.  Rename global_init() window_size_init(),
 	  rename add_open_file() make_new_buffer(), rename load_buffer()
-	  open_buffer(), rename load_open_file() load_buffer(), rename
-	  open_prevnext_file() switch_to_prevnext_buffer(), rename
-	  open_prevfile_void() switch_to_prev_buffer(), rename
+	  open_buffer(), rename load_open_file() display_buffer(),
+	  rename open_prevnext_file() switch_to_prevnext_buffer(),
+	  rename open_prevfile_void() switch_to_prev_buffer(), rename
 	  open_nextfile_void() switch_to_next_buffer(), rename
 	  write_marked() write_marked_file(), remove load_file(), rename
 	  cancel_fork() cancel_command(), rename open_pipe()

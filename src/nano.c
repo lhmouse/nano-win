@@ -4714,17 +4714,12 @@ int main(int argc, char **argv)
 
     display_main_list();
 
-    titlebar(NULL);
-#ifdef ENABLE_COLOR
-    update_color();
-#endif
-
 #ifndef NANO_SMALL
     /* Return here after a SIGWINCH. */
     sigsetjmp(jmpbuf, 1);
 #endif
 
-    edit_refresh();
+    display_buffer();    
 
     while (TRUE) {
 	bool meta_key, func_key, s_or_t, ran_func, finished;
