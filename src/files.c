@@ -215,21 +215,17 @@ void open_buffer(const char *filename)
      * to the first line of the buffer. */
     if (rc != -1 && new_buffer)
 	openfile->current = openfile->fileage;
-
-#ifdef ENABLE_COLOR
-    /* If we're loading into a new buffer, update the buffer's
-     * associated colors, if applicable. */
-    if (new_buffer)
-	update_color();
-#endif
-
 }
 
 /* Update the screen to account for the current buffer. */
 void display_buffer(void)
 {
-	titlebar(NULL);
-	edit_refresh();
+    titlebar(NULL);
+#ifdef ENABLE_COLOR
+    /* Update the buffer's associated colors, if applicable. */
+    update_color();
+#endif
+    edit_refresh();
 }
 
 #ifdef ENABLE_MULTIBUFFER
