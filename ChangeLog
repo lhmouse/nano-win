@@ -18,15 +18,19 @@ CVS code -
 	  open_buffer(), rename load_open_file() load_buffer(), rename
 	  open_prevnext_file() switch_to_prevnext_buffer(), rename
 	  open_prevfile_void() switch_to_prev_buffer(), rename
-	  open_nextfile_void() switch_to_next_buffer(), remove
-	  load_file(), rename cancel_fork() cancel_command(),
-	  rename open_pipe() execute_command(), remove
-	  execute_command(), and remove resize_variables(). (DLR)
+	  open_nextfile_void() switch_to_next_buffer(), rename
+	  write_marked() write_marked_file(), remove load_file(), rename
+	  cancel_fork() cancel_command(), rename open_pipe()
+	  execute_command(), remove execute_command(), and remove
+	  resize_variables(). (DLR)
 	- Replace all mvwaddstr(hblank) calls with a new function that
 	  does the same thing without the need for hblank.  New function
 	  blank_line(); changes to do_browser(), blank_titlebar(),
 	  blank_topbar(), blank_edit(), blank_statusbar(),
 	  blank_bottombars(), update_line(), and edit_refresh(). (DLR)
+	- Make the static pid variable used by execute_command() and
+	  cancel_command() a pid_t instead of an int, for consistency.
+	  (DLR)
 - files.c:
   open_file()
 	- Assert that filename isn't NULL, and don't do anything special

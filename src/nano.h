@@ -168,15 +168,9 @@ typedef struct openfilestruct {
     filestruct *current;	/* Current file's line. */
     size_t current_x;		/* Current file's x-coordinate
 				 * position. */
+    size_t placewewant;		/* Current file's place we want. */
     ssize_t current_y;		/* Current file's y-coordinate
 				 * position. */
-    size_t placewewant;		/* Current file's place we want. */
-#ifndef NANO_SMALL
-    filestruct *mark_begin;	/* Current file's beginning marked
-				 * line. */
-    size_t mark_begin_x;	/* Current file's beginning marked
-				 * line's x-coordinate position. */
-#endif
     size_t totlines;		/* Current file's total number of
 				 * lines. */
     size_t totsize;		/* Current file's total size. */
@@ -184,6 +178,10 @@ typedef struct openfilestruct {
 				 * status. */
 #ifndef NANO_SMALL
     bool mark_set;		/* Current file's marking status. */
+    filestruct *mark_begin;	/* Current file's beginning marked
+				 * line. */
+    size_t mark_begin_x;	/* Current file's beginning marked
+				 * line's x-coordinate position. */
     file_format fmt;		/* Current file's format. */
     struct stat originalfilestat;
 				/* Current file's stat. */

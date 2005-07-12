@@ -277,7 +277,8 @@ int copy_file(FILE *inn, FILE *out);
 int write_file(const char *name, FILE *f_open, bool tmp, int append,
 	bool nonamechange);
 #ifndef NANO_SMALL
-int write_marked(const char *name, FILE *f_open, bool tmp, int append);
+int write_marked_file(const char *name, FILE *f_open, bool tmp, int
+	append);
 #endif
 int do_writeout(bool exiting);
 void do_writeout_void(void);

@@ -130,13 +130,8 @@ void initialize_buffer(void)
     openfile->current = openfile->fileage;
 
     openfile->current_x = 0;
-    openfile->current_y = 0;
     openfile->placewewant = 0;
-
-#ifndef NANO_SMALL
-    openfile->mark_begin = NULL;
-    openfile->mark_begin_x = 0;
-#endif
+    openfile->current_y = 0;
 
     openfile->totlines = 1;
     openfile->totsize = 0;
@@ -144,6 +139,9 @@ void initialize_buffer(void)
     openfile->modified = FALSE;
 #ifndef NANO_SMALL
     openfile->mark_set = FALSE;
+
+    openfile->mark_begin = NULL;
+    openfile->mark_begin_x = 0;
 
     openfile->fmt = NIX_FILE;
 
@@ -1593,7 +1591,8 @@ int write_file(const char *name, FILE *f_open, bool tmp, int append,
  * with nonamechange set to TRUE so that we don't change the current
  * filename.  Finally, set fileage and filebot back to their old values
  * and return. */
-int write_marked(const char *name, FILE *f_open, bool tmp, int append)
+int write_marked_file(const char *name, FILE *f_open, bool tmp, int
+	append)
 {
     int retval = -1;
     bool old_modified = openfile->modified;
@@ -1784,7 +1783,7 @@ int do_writeout(bool exiting)
 	     * disabled since it allows reading from or writing to files
 	     * not specified on the command line. */
 	    if (!ISSET(RESTRICTED) && !exiting && openfile->mark_set)
-		retval = write_marked(answer, NULL, FALSE, append);
+		retval = write_marked_file(answer, NULL, FALSE, append);
 	    else
 #endif /* !NANO_SMALL */
 		retval = write_file(answer, NULL, FALSE, append, FALSE);

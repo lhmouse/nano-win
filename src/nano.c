@@ -67,7 +67,7 @@ static struct sigaction act;	/* For all our fun signal handlers */
 #ifndef NANO_SMALL
 static sigjmp_buf jmpbuf;	/* Used to return to main() after a
 				   SIGWINCH. */
-static int pid;			/* The PID of the newly forked process
+static pid_t pid;		/* The PID of the newly forked process
 				 * in execute_command().  It must be
 				 * global because the signal handler
 				 * needs it. */
@@ -2540,7 +2540,7 @@ void do_spell(void)
 
 #ifndef NANO_SMALL
     if (openfile->mark_set)
-	i = write_marked(temp, temp_file, TRUE, FALSE);
+	i = write_marked_file(temp, temp_file, TRUE, FALSE);
     else
 #endif
 	i = write_file(temp, temp_file, TRUE, FALSE, FALSE);
