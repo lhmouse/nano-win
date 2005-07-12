@@ -320,14 +320,14 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
     at_edittop = (openfile->fileage == openfile->edittop);
 #ifndef NANO_SMALL
     if (openfile->mark_set)
-	mark_inside = (openfile->mark_beginbuf->lineno >=
+	mark_inside = (openfile->mark_begin->lineno >=
 		openfile->fileage->lineno &&
-		openfile->mark_beginbuf->lineno <=
+		openfile->mark_begin->lineno <=
 		openfile->filebot->lineno &&
-		(openfile->mark_beginbuf != openfile->fileage ||
-		openfile->mark_beginx >= top_x) &&
-		(openfile->mark_beginbuf != openfile->filebot ||
-		openfile->mark_beginx <= bot_x));
+		(openfile->mark_begin != openfile->fileage ||
+		openfile->mark_begin_x >= top_x) &&
+		(openfile->mark_begin != openfile->filebot ||
+		openfile->mark_begin_x <= bot_x));
 #endif
 
     /* Get the number of characters in the text, and subtract it from
@@ -371,8 +371,8 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 	openfile->edittop = openfile->fileage;
 #ifndef NANO_SMALL
     if (mark_inside) {
-	openfile->mark_beginbuf = openfile->fileage;
-	openfile->mark_beginx = top_x;
+	openfile->mark_begin = openfile->fileage;
+	openfile->mark_begin_x = top_x;
     }
 #endif
 
@@ -1311,10 +1311,10 @@ void do_delete(void)
 	null_at(&openfile->current->data, openfile->current_x +
 		line_len - char_buf_len);
 #ifndef NANO_SMALL
-	if (openfile->mark_set && openfile->current_x <
-		openfile->mark_beginx && openfile->mark_beginbuf ==
-		openfile->current)
-	    openfile->mark_beginx -= char_buf_len;
+	if (openfile->mark_set && openfile->mark_begin ==
+		openfile->current && openfile->current_x <
+		openfile->mark_begin_x)
+	    openfile->mark_begin_x -= char_buf_len;
 #endif
 	openfile->totsize--;
     } else if (openfile->current != openfile->filebot &&
@@ -1336,10 +1336,10 @@ void do_delete(void)
 	strcpy(openfile->current->data + openfile->current_x,
 		foo->data);
 #ifndef NANO_SMALL
-	if (openfile->mark_set && openfile->mark_beginbuf ==
+	if (openfile->mark_set && openfile->mark_begin ==
 		openfile->current->next) {
-	    openfile->mark_beginx += openfile->current_x;
-	    openfile->mark_beginbuf = openfile->current;
+	    openfile->mark_begin = openfile->current;
+	    openfile->mark_begin_x += openfile->current_x;
 	}
 #endif
 	if (openfile->filebot == foo)
@@ -1431,10 +1431,10 @@ void do_enter(void)
     null_at(&openfile->current->data, openfile->current_x);
 #ifndef NANO_SMALL
     if (openfile->mark_set && openfile->current ==
-	openfile->mark_beginbuf && openfile->current_x <
-	openfile->mark_beginx) {
-	openfile->mark_beginbuf = newnode;
-	openfile->mark_beginx += extra - openfile->current_x;
+	openfile->mark_begin && openfile->current_x <
+	openfile->mark_begin_x) {
+	openfile->mark_begin = newnode;
+	openfile->mark_begin_x += extra - openfile->current_x;
     }
 #endif
     openfile->current_x = extra;
@@ -1747,15 +1747,15 @@ void do_word_count(void)
 
 void do_mark(void)
 {
-    openfile->mark_set = openfile->mark_set ? FALSE : TRUE;
+    openfile->mark_set = !openfile->mark_set;
     if (openfile->mark_set) {
 	statusbar(_("Mark Set"));
-	openfile->mark_beginbuf = openfile->current;
-	openfile->mark_beginx = openfile->current_x;
+	openfile->mark_begin = openfile->current;
+	openfile->mark_begin_x = openfile->current_x;
     } else {
 	statusbar(_("Mark UNset"));
-	openfile->mark_beginbuf = NULL;
-	openfile->mark_beginx = 0;
+	openfile->mark_begin = NULL;
+	openfile->mark_begin_x = 0;
 	edit_refresh();
     }
 }
@@ -1969,12 +1969,14 @@ bool do_wrap(filestruct *line)
     /* If the mark was on this line after the wrap point, we move it
      * down.  If it was on the next line and we wrapped onto that line,
      * we move it right. */
-    if (openfile->mark_set && openfile->mark_beginbuf == line &&
-	openfile->mark_beginx > wrap_loc) {
-	openfile->mark_beginbuf = line->next;
-	openfile->mark_beginx -= wrap_loc - indent_len + 1;
-    } else if (wrapping && openfile->mark_beginbuf == line->next)
-	openfile->mark_beginx += after_break_len;
+    if (openfile->mark_set) {
+	if (openfile->mark_begin == line && openfile->mark_begin_x >
+		wrap_loc) {
+	    openfile->mark_begin = line->next;
+	    openfile->mark_begin_x -= wrap_loc - indent_len + 1;
+	} else if (wrapping && openfile->mark_begin == line->next)
+	    openfile->mark_begin_x += after_break_len;
+    }
 #endif
 
     return TRUE;
@@ -2006,7 +2008,7 @@ bool do_int_spell_fix(const char *word)
     bool added_magicline = FALSE;
 	/* Whether we added a magicline after filebot. */
     bool right_side_up = FALSE;
-	/* TRUE if (mark_beginbuf, mark_beginx) is the top of the mark,
+	/* TRUE if (mark_begin, mark_begin_x) is the top of the mark,
 	 * FALSE if (current, current_x) is. */
     filestruct *top, *bot;
     size_t top_x, bot_x;
@@ -2101,11 +2103,11 @@ bool do_int_spell_fix(const char *word)
 	if (openfile->fileage == openfile->filebot)
 	    bot_x += top_x;
 	if (right_side_up) {
-	    openfile->mark_beginx = top_x;
+	    openfile->mark_begin_x = top_x;
 	    current_x_save = bot_x;
 	} else {
 	    current_x_save = top_x;
-	    openfile->mark_beginx = bot_x;
+	    openfile->mark_begin_x = bot_x;
 	}
 
 	/* Unpartition the filestruct so that it contains all the text
@@ -2347,15 +2349,15 @@ const char *do_alt_speller(char *tempfile_name)
     bool added_magicline = FALSE;
 	/* Whether we added a magicline after filebot. */
     bool right_side_up = FALSE;
-	/* TRUE if (mark_beginbuf, mark_beginx) is the top of the mark,
+	/* TRUE if (mark_begin, mark_begin_x) is the top of the mark,
 	 * FALSE if (current, current_x) is. */
     filestruct *top, *bot;
     size_t top_x, bot_x;
-    ssize_t mbb_lineno_save = 0;
+    ssize_t mb_lineno_save = 0;
 	/* We're going to close the current file, and open the output of
-	 * the alternate spell command.  The line that mark_beginbuf
-	 * points to will be freed, so we save the line number and
-	 * restore afterwards. */
+	 * the alternate spell command.  The line that mark_begin points
+	 * to will be freed, so we save the line number and restore it
+	 * afterwards. */
     size_t totsize_save = openfile->totsize;
 	/* Our saved value of totsize, used when we spell-check a marked
 	 * selection. */
@@ -2363,7 +2365,7 @@ const char *do_alt_speller(char *tempfile_name)
     if (old_mark_set) {
 	/* If the mark is on, save the number of the line it starts on,
 	 * and then turn the mark off. */
-	mbb_lineno_save = openfile->mark_beginbuf->lineno;
+	mb_lineno_save = openfile->mark_begin->lineno;
 	openfile->mark_set = FALSE;
     }
 #endif
@@ -2479,11 +2481,11 @@ const char *do_alt_speller(char *tempfile_name)
 	if (openfile->fileage == openfile->filebot)
 	    bot_x += top_x;
 	if (right_side_up) {
-	    openfile->mark_beginx = top_x;
+	    openfile->mark_begin_x = top_x;
 	    current_x_save = bot_x;
 	} else {
 	    current_x_save = top_x;
-	    openfile->mark_beginx = bot_x;
+	    openfile->mark_begin_x = bot_x;
 	}
 
 	/* Unpartition the filestruct so that it contains all the text
@@ -2502,16 +2504,15 @@ const char *do_alt_speller(char *tempfile_name)
 	totsize_save += openfile->totsize;
 	openfile->totsize = totsize_save;
 
-	/* Assign mark_beginbuf to the line where the mark began
-	 * before. */
-	do_gotopos(mbb_lineno_save, openfile->mark_beginx,
+	/* Assign mark_begin to the line where the mark began before. */
+	do_gotopos(mb_lineno_save, openfile->mark_begin_x,
 		current_y_save, 0);
-	openfile->mark_beginbuf = openfile->current;
+	openfile->mark_begin = openfile->current;
 
-	/* Assign mark_beginx to the location in mark_beginbuf where the
+	/* Assign mark_begin_x to the location in mark_begin where the
 	 * mark began before, adjusted for any shortening of the
 	 * line. */
-	openfile->mark_beginx = openfile->current_x;
+	openfile->mark_begin_x = openfile->current_x;
 
 	/* Turn the mark back on. */
 	openfile->mark_set = TRUE;
@@ -2722,8 +2723,8 @@ void justify_format(filestruct *paragraph, size_t skip)
 
 #ifndef NANO_SMALL
 		/* Keep track of the change in the current line. */
-		if (openfile->mark_set && openfile->mark_beginbuf ==
-			paragraph && openfile->mark_beginx >= end -
+		if (openfile->mark_set && openfile->mark_begin ==
+			paragraph && openfile->mark_begin_x >= end -
 			paragraph->data)
 		    mark_shift += end_len;
 #endif
@@ -2777,8 +2778,8 @@ void justify_format(filestruct *paragraph, size_t skip)
 
 #ifndef NANO_SMALL
 		/* Keep track of the change in the current line. */
-		if (openfile->mark_set && openfile->mark_beginbuf ==
-			paragraph && openfile->mark_beginx >= end -
+		if (openfile->mark_set && openfile->mark_begin ==
+			paragraph && openfile->mark_begin_x >= end -
 			paragraph->data)
 		    mark_shift += end_len;
 #endif
@@ -2817,11 +2818,10 @@ void justify_format(filestruct *paragraph, size_t skip)
 #ifndef NANO_SMALL
 	/* Adjust the mark coordinates to compensate for the change in
 	 * the current line. */
-	if (openfile->mark_set && openfile->mark_beginbuf ==
-		paragraph) {
-	    openfile->mark_beginx -= mark_shift;
-	    if (openfile->mark_beginx > new_end - new_paragraph_data)
-		openfile->mark_beginx = new_end - new_paragraph_data;
+	if (openfile->mark_set && openfile->mark_begin == paragraph) {
+	    openfile->mark_begin_x -= mark_shift;
+	    if (openfile->mark_begin_x > new_end - new_paragraph_data)
+		openfile->mark_begin_x = new_end - new_paragraph_data;
 	}
 #endif
     } else
@@ -3031,12 +3031,12 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
     ssize_t current_lineno_save = openfile->current->lineno;
 #ifndef NANO_SMALL
     bool old_mark_set = openfile->mark_set;
-    ssize_t mbb_lineno_save = 0;
-    size_t mark_beginx_save = 0;
+    ssize_t mb_lineno_save = 0;
+    size_t mark_begin_x_save = 0;
 
     if (old_mark_set) {
-	mbb_lineno_save = openfile->mark_beginbuf->lineno;
-	mark_beginx_save = openfile->mark_beginx;
+	mb_lineno_save = openfile->mark_begin->lineno;
+	mark_begin_x_save = openfile->mark_begin_x;
     }
 #endif
 
@@ -3054,9 +3054,9 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
     copy_from_filestruct(jusbuffer, jusbottom);
 
     /* Move upward from the last line of the paragraph to the first
-     * line, putting first_line, edittop, current, and mark_beginbuf at
-     * the same lines in the copied paragraph that they had in the
-     * original paragraph. */
+     * line, putting first_line, edittop, current, and mark_begin at the
+     * same lines in the copied paragraph that they had in the original
+     * paragraph. */
     top = openfile->current->prev;
     for (i = par_len; i > 0; i--) {
 	if (top->lineno == fl_lineno_save)
@@ -3066,9 +3066,9 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 	if (top->lineno == current_lineno_save)
 	    openfile->current = top;
 #ifndef NANO_SMALL
-	if (old_mark_set && top->lineno == mbb_lineno_save) {
-	    openfile->mark_beginbuf = top;
-	    openfile->mark_beginx = mark_beginx_save;
+	if (old_mark_set && top->lineno == mb_lineno_save) {
+	    openfile->mark_begin = top;
+	    openfile->mark_begin_x = mark_begin_x_save;
 	}
 #endif
 	top = top->prev;
@@ -3179,8 +3179,8 @@ void do_justify(bool full_justify)
     filestruct *edittop_save = openfile->edittop;
     filestruct *current_save = openfile->current;
 #ifndef NANO_SMALL
-    filestruct *mark_beginbuf_save = openfile->mark_beginbuf;
-    size_t mark_beginx_save = openfile->mark_beginx;
+    filestruct *mark_begin_save = openfile->mark_begin;
+    size_t mark_begin_x_save = openfile->mark_begin_x;
 #endif
     int kbinput;
     bool meta_key, func_key, s_or_t, ran_func, finished;
@@ -3318,10 +3318,10 @@ void do_justify(bool full_justify)
 #ifndef NANO_SMALL
 	    /* Adjust the mark coordinates to compensate for the change
 	     * in the next line. */
-	    if (openfile->mark_set && openfile->mark_beginbuf ==
+	    if (openfile->mark_set && openfile->mark_begin ==
 		next_line) {
-		openfile->mark_beginbuf = openfile->current;
-		openfile->mark_beginx += line_len - indent_len;
+		openfile->mark_begin = openfile->current;
+		openfile->mark_begin_x += line_len - indent_len;
 	    }
 #endif
 
@@ -3398,11 +3398,11 @@ void do_justify(bool full_justify)
 #ifndef NANO_SMALL
 	    /* Adjust the mark coordinates to compensate for the change
 	     * in the current line. */
-	    if (openfile->mark_set && openfile->mark_beginbuf ==
-		openfile->current && openfile->mark_beginx >
+	    if (openfile->mark_set && openfile->mark_begin ==
+		openfile->current && openfile->mark_begin_x >
 		break_pos) {
-		openfile->mark_beginbuf = openfile->current->next;
-		openfile->mark_beginx -= break_pos - indent_len;
+		openfile->mark_begin = openfile->current->next;
+		openfile->mark_begin_x -= break_pos - indent_len;
 	    }
 #endif
 
@@ -3504,8 +3504,8 @@ void do_justify(bool full_justify)
 	    openfile->totlines = openfile->filebot->lineno;
 #ifndef NANO_SMALL
 	    if (openfile->mark_set) {
-		openfile->mark_beginbuf = mark_beginbuf_save;
-		openfile->mark_beginx = mark_beginx_save;
+		openfile->mark_begin = mark_begin_save;
+		openfile->mark_begin_x = mark_begin_x_save;
 	    }
 #endif
 	    openfile->modified = modified_save;
@@ -4137,9 +4137,9 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 #ifndef NANO_SMALL
 	/* Note that current_x has not yet been incremented. */
 	if (openfile->mark_set && openfile->current ==
-		openfile->mark_beginbuf && openfile->current_x <
-		openfile->mark_beginx)
-	    openfile->mark_beginx += char_buf_len;
+		openfile->mark_begin && openfile->current_x <
+		openfile->mark_begin_x)
+	    openfile->mark_begin_x += char_buf_len;
 #endif
 
 	do_right(FALSE);

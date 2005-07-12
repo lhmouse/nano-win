@@ -3354,19 +3354,19 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 
 #ifndef NANO_SMALL
     if (openfile->mark_set && (fileptr->lineno <=
-	openfile->mark_beginbuf->lineno || fileptr->lineno <=
+	openfile->mark_begin->lineno || fileptr->lineno <=
 	openfile->current->lineno) && (fileptr->lineno >=
-	openfile->mark_beginbuf->lineno || fileptr->lineno >=
+	openfile->mark_begin->lineno || fileptr->lineno >=
 	openfile->current->lineno)) {
 	/* fileptr is at least partially selected. */
 	const filestruct *top;
-	    /* Either current or mark_beginbuf, whichever is first. */
+	    /* Either current or mark_begin, whichever is first. */
 	size_t top_x;
-	    /* current_x or mark_beginx, corresponding to top. */
+	    /* current_x or mark_begin_x, corresponding to top. */
 	const filestruct *bot;
 	size_t bot_x;
 	int x_start;
-	    /* Starting column for mvwaddnstr.  Zero-based. */
+	    /* Starting column for mvwaddnstr().  Zero-based. */
 	int paintlen;
 	    /* Number of chars to paint on this line.  There are COLS
 	     * characters on a whole line. */

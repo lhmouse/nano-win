@@ -281,13 +281,13 @@ bool is_whole_word(size_t pos, const char *buf, const char *word)
 
 /* Look for needle, starting at (current, current_x).  If no_sameline is
  * TRUE, skip over begin when looking for needle.  begin is the line
- * where we first started searching, at column beginx.  If
+ * where we first started searching, at column begin_x.  If
  * can_display_wrap is TRUE, we put messages on the statusbar, wrap
  * around the file boundaries.  The return value specifies whether we
  * found anything.  If we did, set needle_len to the length of the
  * string we found if it isn't NULL. */
 bool findnextstr(bool can_display_wrap, bool wholeword, bool
-	no_sameline, const filestruct *begin, size_t beginx, const char
+	no_sameline, const filestruct *begin, size_t begin_x, const char
 	*needle, size_t *needle_len)
 {
     filestruct *fileptr = openfile->current;
@@ -404,10 +404,10 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
     /* Ensure we haven't wrapped around again! */
     if (search_last_line &&
 #ifndef NANO_SMALL
-	((!ISSET(BACKWARDS_SEARCH) && current_x_find > beginx) ||
-	(ISSET(BACKWARDS_SEARCH) && current_x_find < beginx))
+	((!ISSET(BACKWARDS_SEARCH) && current_x_find > begin_x) ||
+	(ISSET(BACKWARDS_SEARCH) && current_x_find < begin_x))
 #else
-	current_x_find > beginx
+	current_x_find > begin_x
 #endif
 	) {
 	if (can_display_wrap)
@@ -691,7 +691,7 @@ ssize_t do_replace_loop(const char *needle, const filestruct
     filestruct *edittop_save = openfile->edittop, *top, *bot;
     size_t top_x, bot_x;
     bool right_side_up = FALSE;
-	/* TRUE if (mark_beginbuf, mark_beginx) is the top of the mark,
+	/* TRUE if (mark_begin, mark_begin_x) is the top of the mark,
 	 * FALSE if (current, current_x) is. */
 
     if (old_mark_set) {
@@ -795,17 +795,17 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 		strlen(openfile->current->data);
 
 #ifndef NANO_SMALL
-	    /* If the mark was on and (mark_beginbuf, mark_begin_x) was
-	     * the top of it, don't change mark_beginx. */
+	    /* If the mark was on and (mark_begin, mark_begin_x) was the
+	     * top of it, don't change mark_begin_x. */
 	    if (!old_mark_set || !right_side_up) {
-		/* Keep mark_beginx in sync with the text changes. */
-		if (openfile->current == openfile->mark_beginbuf &&
-			openfile->mark_beginx > openfile->current_x) {
-		    if (openfile->mark_beginx < openfile->current_x +
+		/* Keep mark_begin_x in sync with the text changes. */
+		if (openfile->current == openfile->mark_begin &&
+			openfile->mark_begin_x > openfile->current_x) {
+		    if (openfile->mark_begin_x < openfile->current_x +
 			match_len)
-			openfile->mark_beginx = openfile->current_x;
+			openfile->mark_begin_x = openfile->current_x;
 		    else
-			openfile->mark_beginx += length_change;
+			openfile->mark_begin_x += length_change;
 		}
 	    }
 
@@ -878,7 +878,7 @@ void do_replace(void)
 {
     int i;
     filestruct *edittop_save, *begin;
-    size_t beginx, pww_save;
+    size_t begin_x, pww_save;
     ssize_t numreplaced;
 
     if (ISSET(VIEW_MODE)) {
@@ -941,16 +941,16 @@ void do_replace(void)
     /* Save where we are. */
     edittop_save = openfile->edittop;
     begin = openfile->current;
-    beginx = openfile->current_x;
+    begin_x = openfile->current_x;
     pww_save = openfile->placewewant;
 
-    numreplaced = do_replace_loop(last_search, begin, &beginx, FALSE,
+    numreplaced = do_replace_loop(last_search, begin, &begin_x, FALSE,
 	NULL);
 
     /* Restore where we were. */
     openfile->edittop = edittop_save;
     openfile->current = begin;
-    openfile->current_x = beginx;
+    openfile->current_x = begin_x;
     openfile->placewewant = pww_save;
 
     renumber(openfile->fileage);

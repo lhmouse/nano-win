@@ -403,25 +403,25 @@ void remove_magicline(void)
 /* Set top_x and bot_x to the top and bottom x-coordinates of the mark,
  * respectively, based on the locations of top and bot.  If
  * right_side_up isn't NULL, set it to TRUE If the mark begins with
- * (mark_beginbuf, mark_beginx) and ends with (current, current_x), or
+ * (mark_begin, mark_begin_x) and ends with (current, current_x), or
  * FALSE otherwise. */
 void mark_order(const filestruct **top, size_t *top_x, const filestruct
 	**bot, size_t *bot_x, bool *right_side_up)
 {
     assert(top != NULL && top_x != NULL && bot != NULL && bot_x != NULL);
 
-    if ((openfile->current->lineno == openfile->mark_beginbuf->lineno &&
-	openfile->current_x > openfile->mark_beginx) ||
-	openfile->current->lineno > openfile->mark_beginbuf->lineno) {
-	*top = openfile->mark_beginbuf;
-	*top_x = openfile->mark_beginx;
+    if ((openfile->current->lineno == openfile->mark_begin->lineno &&
+	openfile->current_x > openfile->mark_begin_x) ||
+	openfile->current->lineno > openfile->mark_begin->lineno) {
+	*top = openfile->mark_begin;
+	*top_x = openfile->mark_begin_x;
 	*bot = openfile->current;
 	*bot_x = openfile->current_x;
 	if (right_side_up != NULL)
 	    *right_side_up = TRUE;
     } else {
-	*bot = openfile->mark_beginbuf;
-	*bot_x = openfile->mark_beginx;
+	*bot = openfile->mark_begin;
+	*bot_x = openfile->mark_begin_x;
 	*top = openfile->current;
 	*top_x = openfile->current_x;
 	if (right_side_up != NULL)

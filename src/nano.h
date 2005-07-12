@@ -172,10 +172,9 @@ typedef struct openfilestruct {
 				 * position. */
     size_t placewewant;		/* Current file's place we want. */
 #ifndef NANO_SMALL
-    filestruct *mark_beginbuf;
-				/* Current file's beginning marked
+    filestruct *mark_begin;	/* Current file's beginning marked
 				 * line. */
-    size_t mark_beginx;		/* Current file's beginning marked
+    size_t mark_begin_x;	/* Current file's beginning marked
 				 * line's x-coordinate position. */
 #endif
     size_t totlines;		/* Current file's total number of

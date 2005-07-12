@@ -486,7 +486,7 @@ void search_init_globals(void);
 int search_init(bool replacing, bool use_answer);
 bool is_whole_word(size_t pos, const char *buf, const char *word);
 bool findnextstr(bool can_display_wrap, bool wholeword, bool
-	no_sameline, const filestruct *begin, size_t beginx, const char
+	no_sameline, const filestruct *begin, size_t begin_x, const char
 	*needle, size_t *needle_len);
 void findnextstr_wrap_reset(void);
 void do_search(void);

@@ -134,8 +134,8 @@ void initialize_buffer(void)
     openfile->placewewant = 0;
 
 #ifndef NANO_SMALL
-    openfile->mark_beginbuf = NULL;
-    openfile->mark_beginx = 0;
+    openfile->mark_begin = NULL;
+    openfile->mark_begin_x = 0;
 #endif
 
     openfile->totlines = 1;
