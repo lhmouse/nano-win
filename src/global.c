@@ -39,7 +39,7 @@ ssize_t wrap_at = -CHARS_FROM_EOL;	/* Right justified fill value,
 char *last_search = NULL;	/* Last string we searched for */
 char *last_replace = NULL;	/* Last replacement string */
 
-unsigned long flags = 0;	/* Our flag containing many options */
+long flags = 0;			/* Our flag containing many options */
 WINDOW *topwin;			/* Top buffer */
 WINDOW *edit;			/* The file portion of the editor */
 WINDOW *bottomwin;		/* Bottom buffer */
@@ -124,7 +124,6 @@ shortcut *gotodir_list = NULL;
 #endif
 
 #ifdef ENABLE_COLOR
-const colortype *colorstrings = NULL;
 syntaxtype *syntaxes = NULL;
 char *syntaxstr = NULL;
 #endif
@@ -1226,10 +1225,18 @@ void thanks_for_all_the_fish(void)
 	    colortype *bob = syntaxes->color;
 
 	    syntaxes->color = bob->next;
-	    regfree(&bob->start);
-	    if (bob->end != NULL)
+	    if (bob->startstr != NULL)
+		free(bob->startstr);
+	    if (bob->start != NULL) {
+		regfree(bob->start);
+		free(bob->start);
+	    }
+	    if (bob->endstr != NULL)
+		free(bob->endstr);
+	    if (bob->end != NULL) {
 		regfree(bob->end);
-	    free(bob->end);
+		free(bob->end);
+	    }
 	    free(bob);
 	}
 	syntaxes = syntaxes->next;

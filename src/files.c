@@ -147,6 +147,9 @@ void initialize_buffer(void)
 
     memset(&openfile->originalfilestat, 0, sizeof(struct stat));
 #endif
+#ifndef ENABLE_COLOR
+    openfile->colorstrings = NULL;
+#endif
 }
 
 #ifndef DISABLE_SPELLER
@@ -163,8 +166,8 @@ void reinitialize_buffer(void)
 }
 #endif
 
-/* filename is a file to open.  We make a new buffer, if necessary, and
- * then open and read the file. */
+/* If it's not "", filename is a file to open.  We make a new buffer, if
+ * necessary, and then open and read the file, if applicable. */
 void open_buffer(const char *filename)
 {
     bool new_buffer = (openfile == NULL
@@ -215,16 +218,19 @@ void open_buffer(const char *filename)
      * to the first line of the buffer. */
     if (rc != -1 && new_buffer)
 	openfile->current = openfile->fileage;
+
+#ifdef ENABLE_COLOR
+    /* If we're loading into a new buffer, update the buffer's
+     * associated colors, if applicable. */
+    if (new_buffer)
+	color_update();
+#endif
 }
 
 /* Update the screen to account for the current buffer. */
 void display_buffer(void)
 {
     titlebar(NULL);
-#ifdef ENABLE_COLOR
-    /* Update the buffer's associated colors, if applicable. */
-    update_color();
-#endif
     edit_refresh();
 }
 
@@ -1559,8 +1565,14 @@ int write_file(const char *name, FILE *f_open, bool tmp, int append,
 	    openfile->filename = mallocstrcpy(openfile->filename,
 		realname);
 #ifdef ENABLE_COLOR
-	    update_color();
-	    if (!ISSET(NO_COLOR_SYNTAX))
+	    /* We might have changed the filename, so update the
+	     * buffer's associated colors, if applicable. */
+	    color_update();
+
+	    /* If color syntaxes are available and turned on, we need to
+	     * call edit_refresh(). */
+	    if (openfile->colorstrings != NULL &&
+		!ISSET(NO_COLOR_SYNTAX))
 		edit_refresh();
 #endif
 	}

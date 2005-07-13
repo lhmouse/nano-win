@@ -842,7 +842,10 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 
 	    if (!replaceall) {
 #ifdef ENABLE_COLOR
-		if (!ISSET(NO_COLOR_SYNTAX))
+		/* If color syntaxes are available and turned on, we
+		 * need to call edit_refresh(). */
+		if (openfile->colorstrings != NULL &&
+			!ISSET(NO_COLOR_SYNTAX))
 		    edit_refresh();
 		else
 #endif

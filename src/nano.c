@@ -1359,9 +1359,9 @@ void do_delete(void)
     set_modified();
 
 #ifdef ENABLE_COLOR
-    /* If color syntaxes are turned on, we need to call
+    /* If color syntaxes are available and turned on, we need to call
      * edit_refresh(). */
-    if (!ISSET(NO_COLOR_SYNTAX))
+    if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX))
 	do_refresh = TRUE;
 #endif
 
@@ -3932,7 +3932,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	 * display all the characters in the input buffer if it isn't
 	 * empty.  Note that it should be empty if we're in view
 	 * mode. */
-	 if (*s_or_t == TRUE || get_buffer_len() == 0) {
+	 if (*s_or_t == TRUE || get_key_buffer_len() == 0) {
 	    if (kbinput != NULL) {
 		/* Display all the characters in the input buffer at
 		 * once, filtering out control characters. */
@@ -4159,9 +4159,9 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 #endif
 
 #ifdef ENABLE_COLOR
-	/* If color syntaxes are turned on, we need to call
-	 * edit_refresh(). */
-	if (!ISSET(NO_COLOR_SYNTAX))
+	/* If color syntaxes are available and turned on, we need to
+	 * call edit_refresh(). */
+	if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX))
 	    do_refresh = TRUE;
 #endif
     }
@@ -4475,7 +4475,7 @@ int main(int argc, char **argv)
 	char *alt_speller_cpy = alt_speller;
 #endif
 	ssize_t tabsize_cpy = tabsize;
-	unsigned long flags_cpy = flags;
+	long flags_cpy = flags;
 
 #ifndef DISABLE_OPERATINGDIR
 	operating_dir = NULL;
@@ -4727,10 +4727,9 @@ int main(int argc, char **argv)
 	/* Make sure the cursor is in the edit window. */
 	reset_cursor();
 
-	/* If constant cursor position display is on, and there are no
-	 * keys waiting in the buffer, display the current cursor
-	 * position on the statusbar. */
-	if (ISSET(CONST_UPDATE) && get_buffer_len() == 0)
+	/* If constant cursor position display is on, display the
+	 * current cursor position on the statusbar. */
+	if (ISSET(CONST_UPDATE))
 	    do_cursorpos(TRUE);
 
 	currshortcut = main_list;

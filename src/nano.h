@@ -160,6 +160,40 @@ typedef struct filestruct {
     ssize_t lineno;		/* The line number. */
 } filestruct;
 
+#ifdef ENABLE_COLOR
+typedef struct colortype {
+    short fg;			/* Foreground color. */
+    short bg;			/* Background color. */
+    bool bright;		/* Is this color A_BOLD? */
+    bool icase;			/* Is this regex string case
+				 * insensitive? */
+    int pairnum;		/* Color pair number used for this
+				 * foreground/background. */
+    char *startstr;		/* Start (or all) of the regex
+				 * string. */
+    regex_t *start;		/* Compiled start (or all) of the regex
+				 * string. */
+    char *endstr;		/* End (if any) of the regex string. */
+    regex_t *end;		/* Compiled end (if any) of the regex
+				 * string. */
+    struct colortype *next;
+} colortype;
+
+typedef struct exttype {
+    regex_t val;		/* The extensions that match this
+				 * syntax. */
+    struct exttype *next;
+} exttype;
+
+typedef struct syntaxtype {
+    char *desc;			/* Name of this syntax type. */
+    exttype *extensions;	/* List of extensions that this syntax
+				 * applies to. */
+    colortype *color;		/* Color struct for this syntax. */
+    struct syntaxtype *next;
+} syntaxtype;
+#endif /* ENABLE_COLOR */
+
 typedef struct openfilestruct {
     char *filename;		/* Current file's name. */
     filestruct *fileage;	/* Current file's first line. */
@@ -185,6 +219,9 @@ typedef struct openfilestruct {
     file_format fmt;		/* Current file's format. */
     struct stat originalfilestat;
 				/* Current file's stat. */
+#endif
+#ifdef ENABLE_COLOR
+    colortype *colorstrings;	/* Current file's associated colors. */
 #endif
     struct openfilestruct *next;
 				/* Next node. */
@@ -234,34 +271,6 @@ typedef struct rcoption {
    const char *name;
    long flag;
 } rcoption;
-#endif
-
-#ifdef ENABLE_COLOR
-typedef struct colortype {
-    int fg;			/* Foreground color. */
-    int bg;			/* Background color. */
-    bool bright;		/* Is this color A_BOLD? */
-    int pairnum;		/* Color pair number used for this
-				 * foreground/background. */
-    regex_t start;		/* Start (or all) of the regex
-				 * string. */
-    regex_t *end;		/* End (if any) of the regex string. */
-    struct colortype *next;
-} colortype;
-
-typedef struct exttype {
-    regex_t val;		/* The extensions that match this
-				 * syntax. */
-    struct exttype *next;
-} exttype;
-
-typedef struct syntaxtype {
-    char *desc;			/* Name of this syntax type. */
-    exttype *extensions;	/* List of extensions that this syntax
-				 * applies to. */
-    colortype *color;		/* Color struct for this syntax. */
-    struct syntaxtype *next;
-} syntaxtype;
 #endif
 
 /* Bitwise flags so that we can save space (or, more correctly, not

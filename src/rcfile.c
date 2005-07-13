@@ -182,9 +182,9 @@ char *parse_argument(char *ptr)
 }
 
 #ifdef ENABLE_COLOR
-int color_to_int(const char *colorname, bool *bright)
+int color_to_short(const char *colorname, bool *bright)
 {
-    int mcolor = -1;
+    short mcolor = -1;
 
     assert(colorname != NULL && bright != NULL);
 
@@ -246,8 +246,8 @@ char *parse_next_regex(char *ptr)
     return ptr;
 }
 
-/* Compile the regular expression regex to preg.  Return FALSE on
- * success, or TRUE if the expression is invalid. */
+/* Compile the regular expression regex to preg.  Return TRUE on
+ * success, or FALSE if the expression is invalid. */
 bool nregcomp(regex_t *preg, const char *regex, int eflags)
 {
     int rc = regcomp(preg, regex, REG_EXTENDED | eflags);
@@ -261,7 +261,7 @@ bool nregcomp(regex_t *preg, const char *regex, int eflags)
 	free(str);
     }
 
-    return (rc != 0);
+    return (rc == 0);
 }
 
 void parse_syntax(char *ptr)
@@ -329,7 +329,7 @@ void parse_syntax(char *ptr)
 	    break;
 
 	newext = (exttype *)nmalloc(sizeof(exttype));
-	if (nregcomp(&newext->val, fileregptr, REG_NOSUB))
+	if (!nregcomp(&newext->val, fileregptr, REG_NOSUB))
 	    free(newext);
 	else {
 	    if (endext == NULL)
@@ -346,7 +346,7 @@ void parse_syntax(char *ptr)
  * treat the color stuff as case insensitive. */
 void parse_colors(char *ptr, bool icase)
 {
-    int fg, bg;
+    short fg, bg;
     bool bright = FALSE, no_fgcolor = FALSE;
     char *fgstr;
 
@@ -377,12 +377,12 @@ void parse_colors(char *ptr, bool icase)
 		bgcolorname);
 	    return;
 	}
-	bg = color_to_int(bgcolorname, &bright);
+	bg = color_to_short(bgcolorname, &bright);
     } else
 	bg = -1;
 
     if (!no_fgcolor) {
-	fg = color_to_int(fgstr, &bright);
+	fg = color_to_short(fgstr, &bright);
 
 	/* Don't try to parse screwed-up foreground colors. */
 	if (fg == -1)
@@ -431,28 +431,40 @@ void parse_colors(char *ptr, bool icase)
 	if (ptr == NULL)
 	    break;
 
-	if (nregcomp(&newcolor->start, fgstr, icase ? REG_ICASE : 0)) {
-	    free(newcolor);
-	    cancelled = TRUE;
-	} else {
+	newcolor->start = (regex_t *)nmalloc(sizeof(regex_t));
+	if (nregcomp(newcolor->start, fgstr, icase ? REG_ICASE : 0)) {
+	    /* Free this regex, now that we know it's valid, and save
+	     * the original string, so that we can recompile this regex
+	     * later as needed. */
+	    newcolor->startstr = mallocstrcpy(NULL, fgstr);
+	    regfree(newcolor->start);
+	    free(newcolor->start);
+	    newcolor->start = NULL;
+
 	    newcolor->fg = fg;
 	    newcolor->bg = bg;
 	    newcolor->bright = bright;
-	    newcolor->next = NULL;
+	    newcolor->icase = icase;
+	    newcolor->endstr = NULL;
 	    newcolor->end = NULL;
+	    newcolor->next = NULL;
 
 	    if (endcolor == NULL) {
 		endsyntax->color = newcolor;
 #ifdef DEBUG
-		fprintf(stderr, "Starting a new colorstring for fg %d, bg %d\n", fg, bg);
+		fprintf(stderr, "Starting a new colorstring for fg %hd, bg %hd\n", fg, bg);
 #endif
 	    } else {
 #ifdef DEBUG
-		fprintf(stderr, "Adding new entry for fg %d, bg %d\n", fg, bg);
+		fprintf(stderr, "Adding new entry for fg %hd, bg %hd\n", fg, bg);
 #endif
 		endcolor->next = newcolor;
 	    }
 	    endcolor = newcolor;
+	} else {
+	    free(newcolor->start);
+	    free(newcolor);
+	    cancelled = TRUE;
 	}
 
 	if (expectend) {
@@ -482,9 +494,15 @@ void parse_colors(char *ptr, bool icase)
 
 	    newcolor->end = (regex_t *)nmalloc(sizeof(regex_t));
 	    if (nregcomp(newcolor->end, fgstr, icase ? REG_ICASE : 0)) {
-		free(newcolor->end);
-		newcolor->end = NULL;
+		/* Free this regex, now that we know it's valid, and
+		 * save the original string, so that we can recompile
+		 * this regex later as needed. */
+		newcolor->endstr = mallocstrcpy(NULL, fgstr);
+		regfree(newcolor->end);
 	    }
+
+	    free(newcolor->end);
+	    newcolor->end = NULL;
 	}
     }
 }

@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <assert.h>
 #include "proto.h"
 
 #ifdef ENABLE_COLOR
@@ -63,35 +64,38 @@ void set_colorpairs(void)
     }
 }
 
-void do_colorinit(void)
+void color_init(void)
 {
+    assert(openfile != NULL);
+
     if (has_colors()) {
-	const colortype *tmpcolor = NULL;
+	const colortype *tmpcolor;
 #ifdef HAVE_USE_DEFAULT_COLORS
 	bool defok;
 #endif
 
 	start_color();
 
-	/* Add in colors, if available. */
 #ifdef HAVE_USE_DEFAULT_COLORS
+	/* Add in colors, if available. */
 	defok = (use_default_colors() != ERR);
 #endif
 
-	for (tmpcolor = colorstrings; tmpcolor != NULL;
+	for (tmpcolor = openfile->colorstrings; tmpcolor != NULL;
 		tmpcolor = tmpcolor->next) {
 	    short background = tmpcolor->bg;
 
-	    if (background == -1)
+	    if (background == -1) {
 #ifdef HAVE_USE_DEFAULT_COLORS
 		if (!defok)
 #endif
 		    background = COLOR_BLACK;
+	    }
 
 	    init_pair(tmpcolor->pairnum, tmpcolor->fg, background);
 
 #ifdef DEBUG
-	    fprintf(stderr, "init_pair(): fg = %d, bg = %d\n",
+	    fprintf(stderr, "init_pair(): fg = %hd, bg = %hd\n",
 		tmpcolor->fg, tmpcolor->bg);
 #endif
 	}
@@ -99,11 +103,14 @@ void do_colorinit(void)
 }
 
 /* Update the color information based on the current filename. */
-void update_color(void)
+void color_update(void)
 {
     const syntaxtype *tmpsyntax;
+    colortype *tmpcolor;
 
-    colorstrings = NULL;
+    assert(openfile != NULL);
+
+    openfile->colorstrings = NULL;
     for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 	tmpsyntax = tmpsyntax->next) {
 	const exttype *e;
@@ -111,22 +118,44 @@ void update_color(void)
 	for (e = tmpsyntax->extensions; e != NULL; e = e->next) {
 	    /* Set colorstrings if we matched the extension regex. */
 	    if (regexec(&e->val, openfile->filename, 0, NULL, 0) == 0)
-		colorstrings = tmpsyntax->color;
+		openfile->colorstrings = tmpsyntax->color;
 
-	    if (colorstrings != NULL)
+	    if (openfile->colorstrings != NULL)
 		break;
 	}
     }
 
     /* If we haven't found a match, use the override string. */
-    if (colorstrings == NULL && syntaxstr != NULL) {
+    if (openfile->colorstrings == NULL && syntaxstr != NULL) {
 	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 		tmpsyntax = tmpsyntax->next) {
-	    if (mbstrcasecmp(tmpsyntax->desc, syntaxstr) == 0)
-		colorstrings = tmpsyntax->color;
+	    if (mbstrcasecmp(tmpsyntax->desc, syntaxstr) == 0) {
+		openfile->colorstrings = tmpsyntax->color;
+
+		if (openfile->colorstrings != NULL)
+		    break;
+	    }
 	}
     }
-    do_colorinit();
+
+    /* tmpcolor->startstr and tmpcolor->endstr have already been checked
+     * for validity elsewhere.  Compile their associated regexes if we
+     * haven't already. */
+    for (tmpcolor = openfile->colorstrings; tmpcolor != NULL;
+	tmpcolor = tmpcolor->next) {
+	if (tmpcolor->startstr != NULL) {
+	    tmpcolor->start = (regex_t *)nmalloc(sizeof(regex_t));
+	    nregcomp(tmpcolor->start, tmpcolor->startstr,
+		tmpcolor->icase ? REG_ICASE : 0);
+	}
+	if (tmpcolor->endstr != NULL) {
+	    tmpcolor->end = (regex_t *)nmalloc(sizeof(regex_t));
+	    nregcomp(tmpcolor->end, tmpcolor->endstr,
+		tmpcolor->icase ? REG_ICASE : 0);
+	}
+    }
+
+    color_init();
 }
 
 #endif /* ENABLE_COLOR */

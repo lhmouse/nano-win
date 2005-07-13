@@ -37,7 +37,7 @@
 extern ssize_t wrap_at;
 #endif
 extern int editwinrows;
-extern unsigned long flags;
+extern long flags;
 extern ssize_t tabsize;
 extern int currslen;
 
@@ -88,7 +88,6 @@ extern partition *filepart;
 extern openfilestruct *openfile;
 
 #ifdef ENABLE_COLOR
-extern const colortype *colorstrings;
 extern syntaxtype *syntaxes;
 extern char *syntaxstr;
 #endif
@@ -211,7 +210,7 @@ bool is_valid_mbstring(const char *s);
 /* Public functions in color.c. */
 #ifdef ENABLE_COLOR
 void set_colorpairs(void);
-void do_colorinit(void);
+void color_init(void);
 void update_color(void);
 #endif /* ENABLE_COLOR */
 
@@ -466,7 +465,7 @@ void rcfile_error(const char *msg, ...);
 char *parse_next_word(char *ptr);
 char *parse_argument(char *ptr);
 #ifdef ENABLE_COLOR
-int color_to_int(const char *colorname, bool *bright);
+int color_to_short(const char *colorname, bool *bright);
 char *parse_next_regex(char *ptr);
 bool nregcomp(regex_t *preg, const char *regex, int eflags);
 void parse_syntax(char *ptr);
@@ -573,8 +572,8 @@ void get_totals(const filestruct *begin, const filestruct *end, size_t
 #ifndef NANO_SMALL
 void reset_kbinput(void);
 #endif
-void get_buffer(WINDOW *win);
-size_t get_buffer_len(void);
+void get_key_buffer(WINDOW *win);
+size_t get_key_buffer_len(void);
 void unget_input(int *input, size_t input_len);
 void unget_kbinput(int kbinput, bool meta_key, bool func_key);
 int *get_input(WINDOW *win, size_t input_len);

@@ -127,7 +127,7 @@ void reset_kbinput(void)
 /* Read in a sequence of keystrokes from win and save them in the
  * default keystroke buffer.  This should only be called when the
  * default keystroke buffer is empty. */
-void get_buffer(WINDOW *win)
+void get_key_buffer(WINDOW *win)
 {
     int input;
 
@@ -190,12 +190,12 @@ void get_buffer(WINDOW *win)
     nodelay(win, FALSE);
 
 #ifdef DEBUG
-    fprintf(stderr, "get_buffer(): key_buffer_len = %lu\n", (unsigned long)key_buffer_len);
+    fprintf(stderr, "get_key_buffer(): key_buffer_len = %lu\n", (unsigned long)key_buffer_len);
 #endif
 }
 
 /* Return the length of the default keystroke buffer. */
-size_t get_buffer_len(void)
+size_t get_key_buffer_len(void)
 {
     return key_buffer_len;
 }
@@ -270,7 +270,7 @@ int *get_input(WINDOW *win, size_t input_len)
 
     if (key_buffer_len == 0) {
 	if (win != NULL)
-	    get_buffer(win);
+	    get_key_buffer(win);
 
 	if (key_buffer_len == 0)
 	    return NULL;
@@ -504,7 +504,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 		     * waiting, we have a true escape sequence, so
 		     * interpret it. */
 		    escapes = 0;
-		    if (get_buffer_len() == 0) {
+		    if (get_key_buffer_len() == 0) {
 			*meta_key = TRUE;
 			retval = tolower(*kbinput);
 		    } else {
@@ -517,7 +517,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 			 * sequence into its corresponding key value,
 			 * and save that as the result. */
 			unget_input(kbinput, 1);
-			seq_len = get_buffer_len();
+			seq_len = get_key_buffer_len();
 			seq = get_input(NULL, seq_len);
 			retval = get_escape_seq_kbinput(seq, seq_len,
 				&ignore_seq);
@@ -1460,7 +1460,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 
     /* Get the complete sequence, and save the characters in it as the
      * result. */
-    *kbinput_len = get_buffer_len();
+    *kbinput_len = get_key_buffer_len();
     retval = get_input(NULL, *kbinput_len);
 
     return retval;
@@ -1700,7 +1700,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	/* If we got a shortcut, or if there aren't any other characters
 	 * waiting after the one we read in, we need to display all the
 	 * characters in the input buffer if it isn't empty. */
-	 if (*s_or_t == TRUE || get_buffer_len() == 0) {
+	 if (*s_or_t == TRUE || get_key_buffer_len() == 0) {
 	    if (kbinput != NULL) {
 
 		/* Display all the characters in the input buffer at
@@ -3113,7 +3113,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 	 * string. */
 #endif
 
-    assert(fileptr != NULL && converted != NULL);
+    assert(openfile != NULL && fileptr != NULL && converted != NULL);
     assert(strlenpt(converted) <= COLS);
 
     /* Just paint the string in any case (we'll add color or reverse on
@@ -3121,8 +3121,10 @@ void edit_add(const filestruct *fileptr, const char *converted, int
     mvwaddstr(edit, yval, 0, converted);
 
 #ifdef ENABLE_COLOR
-    if (colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX)) {
-	const colortype *tmpcolor = colorstrings;
+    /* If color syntaxes are available and turned on, we need to display
+     * them. */
+    if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX)) {
+	const colortype *tmpcolor = openfile->colorstrings;
 
 	for (; tmpcolor != NULL; tmpcolor = tmpcolor->next) {
 	    int x_start;
@@ -3157,7 +3159,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		     * not to match the beginning-of-line character
 		     * unless k is 0.  If regexec() returns REG_NOMATCH,
 		     * there are no more matches in the line. */
-		    if (regexec(&tmpcolor->start, &fileptr->data[k], 1,
+		    if (regexec(tmpcolor->start, &fileptr->data[k], 1,
 			&startmatch, (k == 0) ? 0 :
 			REG_NOTBOL) == REG_NOMATCH)
 			break;
@@ -3208,9 +3210,9 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		    /* Where it starts in that line. */
 		const filestruct *end_line;
 
-		while (start_line != NULL &&
-			regexec(&tmpcolor->start, start_line->data, 1,
-			&startmatch, 0) == REG_NOMATCH) {
+		while (start_line != NULL && regexec(tmpcolor->start,
+			start_line->data, 1, &startmatch,
+			0) == REG_NOMATCH) {
 		    /* If there is an end on this line, there is no need
 		     * to look for starts on earlier lines. */
 		    if (regexec(tmpcolor->end, start_line->data, 0,
@@ -3235,7 +3237,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 			/* No end found after this start. */
 			break;
 		    start_col++;
-		    if (regexec(&tmpcolor->start, start_line->data +
+		    if (regexec(tmpcolor->start, start_line->data +
 			start_col, 1, &startmatch,
 			REG_NOTBOL) == REG_NOMATCH)
 			/* No later start on this line. */
@@ -3280,11 +3282,10 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		start_col = 0;
 
 		while (start_col < endpos) {
-		    if (regexec(&tmpcolor->start,
-			fileptr->data + start_col, 1, &startmatch,
-			(start_col == 0) ? 0 :
-			REG_NOTBOL) == REG_NOMATCH ||
-			start_col + startmatch.rm_so >= endpos)
+		    if (regexec(tmpcolor->start, fileptr->data +
+			start_col, 1, &startmatch, (start_col == 0) ?
+			0 : REG_NOTBOL) == REG_NOMATCH || start_col +
+			startmatch.rm_so >= endpos)
 			/* No more starts on this line. */
 			break;
 		    /* Translate the match to be relative to the
@@ -3353,6 +3354,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 #endif /* ENABLE_COLOR */
 
 #ifndef NANO_SMALL
+    /* If the mark is on, we need to display it. */
     if (openfile->mark_set && (fileptr->lineno <=
 	openfile->mark_begin->lineno || fileptr->lineno <=
 	openfile->current->lineno) && (fileptr->lineno >=
