@@ -956,7 +956,6 @@ void do_replace(void)
     openfile->current_x = begin_x;
     openfile->placewewant = pww_save;
 
-    renumber(openfile->fileage);
     edit_refresh();
 
     if (numreplaced >= 0)

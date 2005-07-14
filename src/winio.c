@@ -3624,13 +3624,11 @@ void edit_refresh(void)
 	fprintf(stderr, "edit_refresh(): edittop->lineno = %ld\n", (long)openfile->edittop->lineno);
 #endif
 
-	while (nlines < editwinrows) {
+	while (nlines < editwinrows && foo != NULL) {
 	    update_line(foo, (foo == openfile->current) ?
 		openfile->current_x : 0);
-	    nlines++;
-	    if (foo->next == NULL)
-		break;
 	    foo = foo->next;
+	    nlines++;
 	}
 	while (nlines < editwinrows) {
 	    blank_line(edit, nlines, 0, COLS);
