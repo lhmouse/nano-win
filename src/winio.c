@@ -3510,7 +3510,7 @@ int need_vertical_update(size_t old_pww)
  * two is the current line at either time. */
 void edit_scroll(updown direction, int nlines)
 {
-    filestruct *foo;
+    const filestruct *foo;
     int i, scroll_rows = 0;
 
     /* Scrolling less than one line or more than editwinrows lines is

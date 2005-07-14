@@ -230,7 +230,15 @@ void open_buffer(const char *filename)
 /* Update the screen to account for the current buffer. */
 void display_buffer(void)
 {
+    /* Update the titlebar, since the filename may have changed. */
     titlebar(NULL);
+
+#ifdef ENABLE_COLOR
+    /* Update the buffer's associated colors, if applicable. */
+    color_update();
+#endif
+
+    /* Update the edit window. */
     edit_refresh();
 }
 

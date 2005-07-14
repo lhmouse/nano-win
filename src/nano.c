@@ -191,7 +191,7 @@ void renumber(filestruct *fileptr)
     assert(fileptr != fileptr->next);
 
     for (; fileptr != NULL; fileptr = fileptr->next)
-	fileptr->lineno = ++line;
+	fileptr->lineno = line++;
 }
 
 /* Partition a filestruct so it begins at (top, top_x) and ends at (bot,
