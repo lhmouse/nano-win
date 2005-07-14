@@ -3507,7 +3507,7 @@ int need_vertical_update(size_t old_pww)
  *
  * Note that we don't draw the topmost or bottommost lines before or
  * after scrolling, since we can make no assumptions about which of the
- * two is the current line. */
+ * two is the current line at either time. */
 void edit_scroll(updown direction, int nlines)
 {
     filestruct *foo;
@@ -3551,7 +3551,8 @@ void edit_scroll(updown direction, int nlines)
     }
 
     /* Draw new lines on the blank top or bottom lines of the edit
-     * window, depending on the value of direction. */
+     * window, depending on the value of direction, and skipping the
+     * topmost and bottommost lines. */
     for (; scroll_rows > 0 && foo != NULL; scroll_rows--) {
 	update_line(foo, 0);
 	foo = foo->next;
