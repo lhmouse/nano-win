@@ -3503,8 +3503,11 @@ int need_vertical_update(size_t old_pww)
 /* Scroll the edit window in the given direction and the given number
  * of lines, and draw new lines on the blank lines left after the
  * scrolling.  direction is the direction to scroll, either UP or DOWN,
- * and nlines is the number of lines to scroll.  We assume that current
- * and current_x are up to date, and only change edittop. */
+ * and nlines is the number of lines to scroll.
+ *
+ * Note that we don't draw the topmost or bottommost lines before or
+ * after scrolling, since we can make no assumptions about which of the
+ * two is the current line. */
 void edit_scroll(updown direction, int nlines)
 {
     filestruct *foo;
@@ -3543,19 +3546,15 @@ void edit_scroll(updown direction, int nlines)
     foo = openfile->edittop;
 
     if (direction == DOWN) {
-	for (i = editwinrows - nlines - 1; i > 0 && foo != NULL; i--)
+	for (i = editwinrows - scroll_rows; i > 0 && foo != NULL; i--)
 	    foo = foo->next;
     }
 
     /* Draw new lines on the blank top or bottom lines of the edit
      * window, depending on the value of direction. */
-    scroll_rows++;
-
-    while (scroll_rows > 0 && foo != NULL) {
-	update_line(foo, (foo == openfile->current) ?
-		openfile->current_x : 0);
+    for (; scroll_rows > 0 && foo != NULL; scroll_rows--) {
+	update_line(foo, 0);
 	foo = foo->next;
-	scroll_rows--;
     }
 }
 

@@ -100,6 +100,9 @@ void do_end(void)
 
 void do_page_up(void)
 {
+    const filestruct *current_save = openfile->current;
+    size_t pww_save = openfile->placewewant;
+
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
@@ -108,22 +111,21 @@ void do_page_up(void)
      * and put the cursor at the beginning of the line. */
     if (openfile->edittop == openfile->fileage) {
 	openfile->current = openfile->fileage;
-	openfile->current_x = 0;
 	openfile->placewewant = 0;
     } else {
+	/* Scroll the edit window up a page. */
+	edit_scroll(UP, editwinrows - 2);
+
 #ifndef NANO_SMALL
 	/* If we're in smooth scrolling mode and there's at least one
 	 * page of text left, move the current line of the edit window
-	 * up a page, and then get the equivalent x-coordinate of the
-	 * current line. */
+	 * up a page. */
 	if (ISSET(SMOOTH_SCROLL) && openfile->current->lineno >
 		editwinrows - 2) {
 	    int i = 0;
+
 	    for (; i < editwinrows - 2; i++)
 		openfile->current = openfile->current->prev;
-
-	    openfile->current_x = actual_x(openfile->current->data,
-		openfile->placewewant);
 	}
 	/* If we're not in smooth scrolling mode or there isn't at least
 	 * one page of text left, put the cursor at the beginning of the
@@ -131,21 +133,27 @@ void do_page_up(void)
 	else {
 #endif
 	    openfile->current = openfile->edittop;
-	    openfile->current_x = 0;
 	    openfile->placewewant = 0;
 #ifndef NANO_SMALL
 	}
 #endif
-
-	/* Scroll the edit window down a page. */
-	edit_scroll(UP, editwinrows - 2);
     }
+
+    /* Get the equivalent x-coordinate of the current line. */
+    openfile->current_x = actual_x(openfile->current->data,
+	openfile->placewewant);
+
+    /* Update the screen. */
+    edit_redraw(current_save, pww_save);
 
     check_statusblank();
 }
 
 void do_page_down(void)
 {
+    const filestruct *current_save = openfile->current;
+    size_t pww_save = openfile->placewewant;
+
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
@@ -155,23 +163,21 @@ void do_page_down(void)
     if (openfile->edittop->lineno + editwinrows >
 	openfile->filebot->lineno) {
 	openfile->current = openfile->filebot;
-	openfile->current_x = 0;
 	openfile->placewewant = 0;
     } else {
+	/* Scroll the edit window down a page. */
+	edit_scroll(DOWN, editwinrows - 2);
+
 #ifndef NANO_SMALL
 	/* If we're in smooth scrolling mode and there's at least one
 	 * page of text left, move the current line of the edit window
-	 * down a page, and then get the equivalent x-coordinate of the
-	 * current line. */
+	 * down a page. */
 	if (ISSET(SMOOTH_SCROLL) && openfile->current->lineno +
 		editwinrows - 2 <= openfile->filebot->lineno) {
 	    int i = 0;
 
 	    for (; i < editwinrows - 2; i++)
 		openfile->current = openfile->current->next;
-
-	    openfile->current_x = actual_x(openfile->current->data,
-		openfile->placewewant);
 	}
 	/* If we're not in smooth scrolling mode or there isn't at least
 	 * one page of text left, put the cursor at the beginning of the
@@ -179,15 +185,18 @@ void do_page_down(void)
 	else {
 #endif
 	    openfile->current = openfile->edittop;
-	    openfile->current_x = 0;
 	    openfile->placewewant = 0;
 #ifndef NANO_SMALL
 	}
 #endif
-
-	/* Scroll the edit window down a page. */
-	edit_scroll(DOWN, editwinrows - 2);
     }
+
+    /* Get the equivalent x-coordinate of the current line. */
+    openfile->current_x = actual_x(openfile->current->data,
+	openfile->placewewant);
+
+    /* Update the screen. */
+    edit_redraw(current_save, pww_save);
 
     check_statusblank();
 }
@@ -220,14 +229,13 @@ void do_up(void)
 		ISSET(SMOOTH_SCROLL) ? 1 :
 #endif
 		editwinrows / 2);
-    /* Otherwise, update the line we were on before and the line we're
-     * on now.  The former needs to be redrawn if we're not on the first
-     * page, and the latter needs to be redrawn unconditionally. */
-    else {
-	if (need_vertical_update(0))
-	    update_line(openfile->current->next, 0);
-	update_line(openfile->current, openfile->current_x);
-    }
+
+    /* Update the line we were on before and the line we're on now.  The
+     * former needs to be redrawn if we're not on the first page, and
+     * the latter needs to be drawn unconditionally. */
+    if (need_vertical_update(0))
+	update_line(openfile->current->next, 0);
+    update_line(openfile->current, openfile->current_x);
 }
 
 void do_down(void)
@@ -258,14 +266,13 @@ void do_down(void)
 		ISSET(SMOOTH_SCROLL) ? 1 :
 #endif
 		editwinrows / 2);
-    /* Otherwise, update the line we were on before and the line we're
-     * on now.  The former needs to be redrawn if we're not on the first
-     * page, and the latter needs to be redrawn unconditionally. */
-    else {
-	if (need_vertical_update(0))
-	    update_line(openfile->current->prev, 0);
-	update_line(openfile->current, openfile->current_x);
-    }
+
+    /* Update the line we were on before and the line we're on now.  The
+     * former needs to be redrawn if we're not on the first page, and
+     * the latter needs to be drawn unconditionally. */
+    if (need_vertical_update(0))
+	update_line(openfile->current->prev, 0);
+    update_line(openfile->current, openfile->current_x);
 }
 
 void do_left(bool allow_update)
