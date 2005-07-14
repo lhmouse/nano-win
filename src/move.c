@@ -114,14 +114,14 @@ void do_page_up(void)
 #ifndef NANO_SMALL
 	/* If we're in smooth scrolling mode and there's at least one
 	 * page of text left, move the current line of the edit window
-	 * up a page. */
+	 * up a page, and then get the equivalent x-coordinate of the
+	 * current line. */
 	if (ISSET(SMOOTH_SCROLL) && openfile->current->lineno >
 		editwinrows - 2) {
 	    int i = 0;
 	    for (; i < editwinrows - 2; i++)
 		openfile->current = openfile->current->prev;
 
-	    /* Get the equivalent x-coordinate of the new line. */
 	    openfile->current_x = actual_x(openfile->current->data,
 		openfile->placewewant);
 	}
@@ -137,6 +137,7 @@ void do_page_up(void)
 	}
 #endif
 
+	/* Scroll the edit window down a page. */
 	edit_scroll(UP, editwinrows - 2);
     }
 
@@ -160,14 +161,15 @@ void do_page_down(void)
 #ifndef NANO_SMALL
 	/* If we're in smooth scrolling mode and there's at least one
 	 * page of text left, move the current line of the edit window
-	 * down a page. */
+	 * down a page, and then get the equivalent x-coordinate of the
+	 * current line. */
 	if (ISSET(SMOOTH_SCROLL) && openfile->current->lineno +
 		editwinrows - 2 <= openfile->filebot->lineno) {
 	    int i = 0;
+
 	    for (; i < editwinrows - 2; i++)
 		openfile->current = openfile->current->next;
 
-	    /* Get the equivalent x-coordinate of the new line. */
 	    openfile->current_x = actual_x(openfile->current->data,
 		openfile->placewewant);
 	}
@@ -183,6 +185,7 @@ void do_page_down(void)
 	}
 #endif
 
+	/* Scroll the edit window down a page. */
 	edit_scroll(DOWN, editwinrows - 2);
     }
 
@@ -202,13 +205,15 @@ void do_up(void)
 
     assert(openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);
 
+    /* Move the current line of the edit window up, and then get the
+     * equivalent x-coordinate of the current line. */
     openfile->current = openfile->current->prev;
     openfile->current_x = actual_x(openfile->current->data,
 	openfile->placewewant);
 
-    /* If we're on the first row of the edit window, scroll up one line
-     * if we're in smooth scrolling mode, or up half a page if we're
-     * not. */
+    /* If we're on the first row of the edit window, scroll the edit
+     * window up one line if we're in smooth scrolling mode, or up half
+     * a page if we're not. */
     if (openfile->current_y == 0)
 	edit_scroll(UP,
 #ifndef NANO_SMALL
@@ -238,13 +243,15 @@ void do_down(void)
 
     assert(openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);
 
+    /* Move the current line of the edit window down, and then get the
+     * equivalent x-coordinate of the current line. */
     openfile->current = openfile->current->next;
     openfile->current_x = actual_x(openfile->current->data,
 	openfile->placewewant);
 
-    /* If we're on the last row of the edit window, scroll down one line
-     * if we're in smooth scrolling mode, or down half a page if we're
-     * not. */
+    /* If we're on the last row of the edit window, scroll the edit
+     * window down one line if we're in smooth scrolling mode, or down
+     * half a page if we're not. */
     if (openfile->current_y == editwinrows - 1)
 	edit_scroll(DOWN,
 #ifndef NANO_SMALL

@@ -3503,11 +3503,8 @@ int need_vertical_update(size_t old_pww)
 /* Scroll the edit window in the given direction and the given number
  * of lines, and draw new lines on the blank lines left after the
  * scrolling.  direction is the direction to scroll, either UP or DOWN,
- * and nlines is the number of lines to scroll.  Don't redraw the old
- * topmost or bottommost line (where we assume current is) before
- * scrolling or draw the new topmost or bottommost line after scrolling
- * (where we assume current will be), since we don't know where we are
- * on the page or whether we'll stay there. */
+ * and nlines is the number of lines to scroll.  We assume that current
+ * and current_x are up to date, and only change edittop. */
 void edit_scroll(updown direction, int nlines)
 {
     filestruct *foo;
@@ -3528,43 +3525,38 @@ void edit_scroll(updown direction, int nlines)
 	    if (openfile->edittop->prev == NULL)
 		break;
 	    openfile->edittop = openfile->edittop->prev;
-	    scroll_rows--;
 	} else {
 	    if (openfile->edittop->next == NULL)
 		break;
 	    openfile->edittop = openfile->edittop->next;
-	    scroll_rows++;
 	}
+
+	scroll_rows++;
     }
 
     /* Scroll the text on the screen up or down scroll_rows lines,
      * depending on the value of direction. */
     scrollok(edit, TRUE);
-    wscrl(edit, scroll_rows);
+    wscrl(edit, (direction == UP) ? -scroll_rows : scroll_rows);
     scrollok(edit, FALSE);
 
     foo = openfile->edittop;
-    if (direction != UP) {
-	int slines = editwinrows - nlines - 1;
-	for (; slines > 0 && foo != NULL; slines--)
+
+    if (direction == DOWN) {
+	for (i = editwinrows - nlines - 1; i > 0 && foo != NULL; i--)
 	    foo = foo->next;
     }
 
-    /* And draw new lines on the blank top or bottom lines of the edit
+    /* Draw new lines on the blank top or bottom lines of the edit
      * window, depending on the value of direction. */
-    while (foo != NULL && scroll_rows != 0) {
+    scroll_rows++;
+
+    while (scroll_rows > 0 && foo != NULL) {
 	update_line(foo, (foo == openfile->current) ?
 		openfile->current_x : 0);
 	foo = foo->next;
-
-	if (direction == UP)
-	    scroll_rows++;
-	else
-	    scroll_rows--;
+	scroll_rows--;
     }
-
-    update_line(foo, (foo == openfile->current) ?
-	openfile->current_x : 0);
 }
 
 /* Update any lines between old_current and current that need to be
