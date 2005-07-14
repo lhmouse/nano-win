@@ -129,12 +129,11 @@ void color_update(void)
     if (openfile->colorstrings == NULL && syntaxstr != NULL) {
 	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 		tmpsyntax = tmpsyntax->next) {
-	    if (mbstrcasecmp(tmpsyntax->desc, syntaxstr) == 0) {
+	    if (mbstrcasecmp(tmpsyntax->desc, syntaxstr) == 0)
 		openfile->colorstrings = tmpsyntax->color;
 
-		if (openfile->colorstrings != NULL)
-		    break;
-	    }
+	    if (openfile->colorstrings != NULL)
+		break;
 	}
     }
 
