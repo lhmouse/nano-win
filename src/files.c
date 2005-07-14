@@ -147,7 +147,7 @@ void initialize_buffer(void)
 
     memset(&openfile->originalfilestat, 0, sizeof(struct stat));
 #endif
-#ifndef ENABLE_COLOR
+#ifdef ENABLE_COLOR
     openfile->colorstrings = NULL;
 #endif
 }
