@@ -211,7 +211,7 @@ bool is_valid_mbstring(const char *s);
 #ifdef ENABLE_COLOR
 void set_colorpairs(void);
 void color_init(void);
-void update_color(void);
+void color_update(void);
 #endif /* ENABLE_COLOR */
 
 /* Public functions in cut.c. */
