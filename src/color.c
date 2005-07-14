@@ -138,20 +138,21 @@ void color_update(void)
 	}
     }
 
-    /* tmpcolor->startstr and tmpcolor->endstr have already been checked
-     * for validity elsewhere.  Compile their associated regexes if we
-     * haven't already. */
+    /* tmpcolor->start_regex and tmpcolor->end_regex have already been
+     * checked for validity elsewhere.  Compile their associated regexes
+     * if we haven't already. */
     for (tmpcolor = openfile->colorstrings; tmpcolor != NULL;
 	tmpcolor = tmpcolor->next) {
-	if (tmpcolor->startstr != NULL) {
+	if (tmpcolor->start_regex != NULL) {
 	    tmpcolor->start = (regex_t *)nmalloc(sizeof(regex_t));
-	    nregcomp(tmpcolor->start, tmpcolor->startstr,
-		tmpcolor->icase ? REG_ICASE : 0);
+	    regcomp(tmpcolor->start, tmpcolor->start_regex,
+		REG_EXTENDED | (tmpcolor->icase ? REG_ICASE : 0));
 	}
-	if (tmpcolor->endstr != NULL) {
+
+	if (tmpcolor->end_regex != NULL) {
 	    tmpcolor->end = (regex_t *)nmalloc(sizeof(regex_t));
-	    nregcomp(tmpcolor->end, tmpcolor->endstr,
-		tmpcolor->icase ? REG_ICASE : 0);
+	    regcomp(tmpcolor->end, tmpcolor->end_regex,
+		REG_EXTENDED | (tmpcolor->icase ? REG_ICASE : 0));
 	}
     }
 

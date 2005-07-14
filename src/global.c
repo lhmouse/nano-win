@@ -1225,14 +1225,14 @@ void thanks_for_all_the_fish(void)
 	    colortype *bob = syntaxes->color;
 
 	    syntaxes->color = bob->next;
-	    if (bob->startstr != NULL)
-		free(bob->startstr);
+	    if (bob->start_regex != NULL)
+		free(bob->start_regex);
 	    if (bob->start != NULL) {
 		regfree(bob->start);
 		free(bob->start);
 	    }
-	    if (bob->endstr != NULL)
-		free(bob->endstr);
+	    if (bob->end_regex != NULL)
+		free(bob->end_regex);
 	    if (bob->end != NULL) {
 		regfree(bob->end);
 		free(bob->end);

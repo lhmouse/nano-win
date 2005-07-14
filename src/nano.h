@@ -169,11 +169,11 @@ typedef struct colortype {
 				 * insensitive? */
     int pairnum;		/* Color pair number used for this
 				 * foreground/background. */
-    char *startstr;		/* Start (or all) of the regex
+    char *start_regex;		/* Start (or all) of the regex
 				 * string. */
     regex_t *start;		/* Compiled start (or all) of the regex
 				 * string. */
-    char *endstr;		/* End (if any) of the regex string. */
+    char *end_regex;		/* End (if any) of the regex string. */
     regex_t *end;		/* Compiled end (if any) of the regex
 				 * string. */
     struct colortype *next;

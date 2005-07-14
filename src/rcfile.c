@@ -329,16 +329,15 @@ void parse_syntax(char *ptr)
 	    break;
 
 	newext = (exttype *)nmalloc(sizeof(exttype));
-	if (!nregcomp(&newext->val, fileregptr, REG_NOSUB))
-	    free(newext);
-	else {
+	if (nregcomp(&newext->val, fileregptr, REG_NOSUB)) {
 	    if (endext == NULL)
 		endsyntax->extensions = newext;
 	    else
 		endext->next = newext;
 	    endext = newext;
 	    endext->next = NULL;
-	}
+	} else
+	    free(newext);
     }
 }
 
@@ -436,7 +435,7 @@ void parse_colors(char *ptr, bool icase)
 	    /* Free this regex, now that we know it's valid, and save
 	     * the original string, so that we can recompile this regex
 	     * later as needed. */
-	    newcolor->startstr = mallocstrcpy(NULL, fgstr);
+	    newcolor->start_regex = mallocstrcpy(NULL, fgstr);
 	    regfree(newcolor->start);
 	    free(newcolor->start);
 	    newcolor->start = NULL;
@@ -445,7 +444,7 @@ void parse_colors(char *ptr, bool icase)
 	    newcolor->bg = bg;
 	    newcolor->bright = bright;
 	    newcolor->icase = icase;
-	    newcolor->endstr = NULL;
+	    newcolor->end_regex = NULL;
 	    newcolor->end = NULL;
 	    newcolor->next = NULL;
 
@@ -497,7 +496,7 @@ void parse_colors(char *ptr, bool icase)
 		/* Free this regex, now that we know it's valid, and
 		 * save the original string, so that we can recompile
 		 * this regex later as needed. */
-		newcolor->endstr = mallocstrcpy(NULL, fgstr);
+		newcolor->end_regex = mallocstrcpy(NULL, fgstr);
 		regfree(newcolor->end);
 	    }
 
