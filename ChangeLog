@@ -34,6 +34,10 @@ CVS code -
 	  (DLR)
 	- Consistently make the flags global and any variables used to
 	  hold it longs. (DLR)
+	- Tweak the movement routines to redraw all necessary lines
+	  instead of relying on edit_redraw().  Changes to
+	  do_page_up(), do_page_down(), do_up(), do_down(), and
+	  edit_scroll(). (DLR)
 	- Consistently make the fg and bg colortype struct entries and
 	  any variables used to hold them shorts.  Changes to
 	  do_colorinit() (renamed color_init()), color_to_int() (renamed

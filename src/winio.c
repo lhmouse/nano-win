@@ -3545,23 +3545,26 @@ void edit_scroll(updown direction, int nlines)
 
     foo = openfile->edittop;
     if (direction != UP) {
-	int slines = editwinrows - nlines;
+	int slines = editwinrows - nlines - 1;
 	for (; slines > 0 && foo != NULL; slines--)
 	    foo = foo->next;
     }
 
     /* And draw new lines on the blank top or bottom lines of the edit
-     * window, depending on the value of direction.  Don't draw the new
-     * topmost or new bottommost line. */
-    while (scroll_rows != 0 && foo != NULL) {
-	if (foo->next != NULL)
-	    update_line(foo, 0);
+     * window, depending on the value of direction. */
+    while (foo != NULL && scroll_rows != 0) {
+	update_line(foo, (foo == openfile->current) ?
+		openfile->current_x : 0);
+	foo = foo->next;
+
 	if (direction == UP)
 	    scroll_rows++;
 	else
 	    scroll_rows--;
-	foo = foo->next;
     }
+
+    update_line(foo, (foo == openfile->current) ?
+	openfile->current_x : 0);
 }
 
 /* Update any lines between old_current and current that need to be
@@ -3587,6 +3590,7 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
      * and/or we're not on the same page as before.  If the mark is on,
      * update all the lines between old_current and current too. */
     foo = old_current;
+
     while (foo != openfile->current) {
 	if (do_refresh)
 	    update_line(foo, 0);
@@ -3601,6 +3605,7 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 	    foo = foo->next;
 #endif
     }
+
     if (do_refresh)
 	update_line(openfile->current, openfile->current_x);
 }
@@ -3628,7 +3633,7 @@ void edit_refresh(void)
 #endif
 
 	while (nlines < editwinrows) {
-	    update_line(foo, foo == openfile->current ?
+	    update_line(foo, (foo == openfile->current) ?
 		openfile->current_x : 0);
 	    nlines++;
 	    if (foo->next == NULL)
