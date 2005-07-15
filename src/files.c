@@ -77,6 +77,9 @@ void delete_opennode(openfilestruct *fileptr)
 
     free(fileptr->filename);
     free_filestruct(fileptr->fileage);
+#ifndef NANO_SMALL
+    free(fileptr->current_stat);
+#endif
     free(fileptr);
 }
 
@@ -145,7 +148,7 @@ void initialize_buffer(void)
 
     openfile->fmt = NIX_FILE;
 
-    memset(&openfile->originalfilestat, 0, sizeof(struct stat));
+    openfile->current_stat = NULL;
 #endif
 #ifdef ENABLE_COLOR
     openfile->colorstrings = NULL;
@@ -161,6 +164,10 @@ void reinitialize_buffer(void)
     free(openfile->filename);
 
     free_filestruct(openfile->fileage);
+
+#ifndef NANO_SMALL
+    free(openfile->current_stat);
+#endif
 
     initialize_buffer();
 }
@@ -205,12 +212,16 @@ void open_buffer(const char *filename)
     if (rc != -1 && new_buffer)
 	openfile->filename = mallocstrcpy(openfile->filename, filename);
 
-    /* If we have a non-new file, read it in and update its stat, if
-     * applicable. */
+    /* If we have a non-new file, read it in.  Then, if the buffer has
+     * no stat, update the stat, if applicable. */
     if (rc == 0) {
 	read_file(f, filename);
 #ifndef NANO_SMALL
-	stat(filename, &openfile->originalfilestat);
+	if (openfile->current_stat == NULL) {
+	    openfile->current_stat =
+		(struct stat *)nmalloc(sizeof(struct stat));
+	    stat(filename, openfile->current_stat);
+	}
 #endif
     }
 
@@ -1291,7 +1302,7 @@ int write_file(const char *name, FILE *f_open, bool tmp, int append,
      * only if the file has not been modified by someone else since nano
      * opened it. */
     if (ISSET(BACKUP_FILE) && !tmp && realexists && ((append != 0 ||
-	openfile->mark_set) || openfile->originalfilestat.st_mtime ==
+	openfile->mark_set) || openfile->current_stat->st_mtime ==
 	st.st_mtime)) {
 	FILE *backup_file;
 	char *backupname;
@@ -1299,8 +1310,8 @@ int write_file(const char *name, FILE *f_open, bool tmp, int append,
 	int copy_status;
 
 	/* Save the original file's access and modification times. */
-	filetime.actime = openfile->originalfilestat.st_atime;
-	filetime.modtime = openfile->originalfilestat.st_mtime;
+	filetime.actime = openfile->current_stat->st_atime;
+	filetime.modtime = openfile->current_stat->st_mtime;
 
 	if (f_open == NULL) {
 	    /* Open the original file to copy to the backup. */
@@ -1365,7 +1376,7 @@ int write_file(const char *name, FILE *f_open, bool tmp, int append,
 	backup_file = fopen(backupname, "wb");
 
 	if (backup_file == NULL || chmod(backupname,
-		openfile->originalfilestat.st_mode) == -1) {
+		openfile->current_stat->st_mode) == -1) {
 	    statusbar(_("Error writing %s: %s"), backupname,
 		strerror(errno));
 	    free(backupname);
@@ -1384,8 +1395,8 @@ int write_file(const char *name, FILE *f_open, bool tmp, int append,
 
 	/* And set metadata. */
 	if (copy_status != 0 || chown(backupname,
-		openfile->originalfilestat.st_uid,
-		openfile->originalfilestat.st_gid) == -1 ||
+		openfile->current_stat->st_uid,
+		openfile->current_stat->st_gid) == -1 ||
 		utime(backupname, &filetime) == -1) {
 	    free(backupname);
 	    if (copy_status == -1)
@@ -1589,9 +1600,13 @@ int write_file(const char *name, FILE *f_open, bool tmp, int append,
 	}
 
 #ifndef NANO_SMALL
-	/* Update originalfilestat to reference the file as it is now. */
-	stat(realname, &openfile->originalfilestat);
+	/* Update current_stat to reference the file as it is now. */
+	if (openfile->current_stat == NULL)
+	    openfile->current_stat =
+		(struct stat *)nmalloc(sizeof(struct stat));
+	stat(realname, openfile->current_stat);
 #endif
+
 	statusbar(P_("Wrote %lu line", "Wrote %lu lines",
 		(unsigned long)lineswritten),
 		(unsigned long)lineswritten);

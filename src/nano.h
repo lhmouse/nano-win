@@ -217,8 +217,7 @@ typedef struct openfilestruct {
     size_t mark_begin_x;	/* Current file's beginning marked
 				 * line's x-coordinate position. */
     file_format fmt;		/* Current file's format. */
-    struct stat originalfilestat;
-				/* Current file's stat. */
+    struct stat *current_stat;	/* Current file's stat. */
 #endif
 #ifdef ENABLE_COLOR
     colortype *colorstrings;	/* Current file's associated colors. */
