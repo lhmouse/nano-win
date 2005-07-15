@@ -64,11 +64,12 @@ void set_colorpairs(void)
     }
 }
 
+/* Initialize the color information. */
 void color_init(void)
 {
     assert(openfile != NULL);
 
-    if (has_colors()) {
+    if (has_colors() && can_change_color()) {
 	const colortype *tmpcolor;
 #ifdef HAVE_USE_DEFAULT_COLORS
 	bool defok;

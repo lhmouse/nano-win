@@ -220,8 +220,8 @@ void open_buffer(const char *filename)
 	openfile->current = openfile->fileage;
 
 #ifdef ENABLE_COLOR
-    /* If we're loading into a new buffer, update the buffer's
-     * associated colors, if applicable. */
+    /* If we're loading into a new buffer, update the colors to account
+     * for it, if applicable. */
     if (new_buffer)
 	color_update();
 #endif
@@ -234,8 +234,9 @@ void display_buffer(void)
     titlebar(NULL);
 
 #ifdef ENABLE_COLOR
-    /* Update the buffer's associated colors, if applicable. */
-    color_update();
+    /* Make sure we're using the buffer's associated colors, if
+     * applicable. */
+    color_init();
 #endif
 
     /* Update the edit window. */
