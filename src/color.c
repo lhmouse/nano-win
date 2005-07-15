@@ -83,7 +83,13 @@ void color_init(void)
 
 	for (tmpcolor = openfile->colorstrings; tmpcolor != NULL;
 		tmpcolor = tmpcolor->next) {
-	    short background = tmpcolor->bg;
+	    short foreground = tmpcolor->fg, background = tmpcolor->bg;
+	    if (foreground == -1) {
+#ifdef HAVE_USE_DEFAULT_COLORS
+		if (!defok)
+#endif
+		    foreground = COLOR_WHITE;
+	    }
 
 	    if (background == -1) {
 #ifdef HAVE_USE_DEFAULT_COLORS
@@ -92,7 +98,7 @@ void color_init(void)
 		    background = COLOR_BLACK;
 	    }
 
-	    init_pair(tmpcolor->pairnum, tmpcolor->fg, background);
+	    init_pair(tmpcolor->pairnum, foreground, background);
 
 #ifdef DEBUG
 	    fprintf(stderr, "init_pair(): fg = %hd, bg = %hd\n",
