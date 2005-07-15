@@ -186,7 +186,7 @@ void renumber(filestruct *fileptr)
 
     assert(fileptr != NULL && fileptr->prev != NULL);
 
-    line = (fileptr->prev == NULL) ? 1 : fileptr->prev->lineno;
+    line = (fileptr->prev == NULL) ? 0 : fileptr->prev->lineno;
 
     assert(fileptr != fileptr->next);
 
