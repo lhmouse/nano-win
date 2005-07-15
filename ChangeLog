@@ -40,12 +40,13 @@ CVS code -
 	  color_to_short()), and parse_colors(). (DLR)
 	- Change color handling to save only the regex strings
 	  constantly, and to actually compile them on an as-needed
-	  basis.  Also, handle unspecified foreground colors, and don't
-	  bother doing complete refreshes of the screen when color
-	  support is enabled if there's no regex associated with the
-	  current file.  Changes to update_color() (renamed
-	  color_update()), thanks_for_all_the_fish(), do_input(), and
-	  do_output(). (Brand Huntsman and DLR)
+	  basis.  Changes to update_color() (renamed color_update()) and
+	  thanks_for_all_the_fish(). (Brand Huntsman and DLR)
+	- Various other color fixes.  Handle unspecified foreground
+	  colors properly, and don't bother doing complete refreshes of
+	  the screen when color support is enabled if there's no regex
+	  associated with the current file.  Changes to do_colorinit()
+	  (renamed color_init()), do_input(), and do_output(). (DLR)
 - files.c:
   open_file()
 	- Assert that filename isn't NULL, and don't do anything special
