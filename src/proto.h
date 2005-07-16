@@ -505,7 +505,7 @@ void do_replace(void);
 void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	bool interactive, bool save_pos, bool allow_update);
 void do_gotolinecolumn_void(void);
-#if defined(ENABLE_MULTIBUFFER) || !defined(DISABLE_SPELLER)
+#ifndef DISABLE_SPELLER
 void do_gotopos(ssize_t line, size_t pos_x, ssize_t pos_y, size_t
 	pos_pww);
 #endif

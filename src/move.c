@@ -214,13 +214,12 @@ void do_up(void)
 
     assert(openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);
 
-    /* Move the current line of the edit window up, and then get the
-     * equivalent x-coordinate of the current line. */
+    /* Move the current line of the edit window up. */
     openfile->current = openfile->current->prev;
     openfile->current_x = actual_x(openfile->current->data,
 	openfile->placewewant);
 
-    /* If we're on the first row of the edit window, scroll the edit
+    /* If we're on the first line of the edit window, scroll the edit
      * window up one line if we're in smooth scrolling mode, or up half
      * a page if we're not. */
     if (openfile->current_y == 0)
@@ -251,13 +250,12 @@ void do_down(void)
 
     assert(openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);
 
-    /* Move the current line of the edit window down, and then get the
-     * equivalent x-coordinate of the current line. */
+    /* Move the current line of the edit window down. */
     openfile->current = openfile->current->next;
     openfile->current_x = actual_x(openfile->current->data,
 	openfile->placewewant);
 
-    /* If we're on the last row of the edit window, scroll the edit
+    /* If we're on the last line of the edit window, scroll the edit
      * window down one line if we're in smooth scrolling mode, or down
      * half a page if we're not. */
     if (openfile->current_y == editwinrows - 1)

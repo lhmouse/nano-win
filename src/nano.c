@@ -4556,10 +4556,10 @@ int main(int argc, char **argv)
 
 #ifndef DISABLE_JUSTIFY
     if (punct == NULL)
-	punct = mallocstrcpy(punct, ".?!");
+	punct = mallocstrcpy(NULL, ".?!");
 
     if (brackets == NULL)
-	brackets = mallocstrcpy(brackets, "'\")}]>");
+	brackets = mallocstrcpy(NULL, "'\")}]>");
 
     if (quotestr == NULL)
 	quotestr = mallocstrcpy(NULL,

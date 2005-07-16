@@ -178,7 +178,7 @@ bool is_word_mbchar(const char *c, bool allow_punct)
 }
 
 /* c is a control character.  It displays as ^@, ^?, or ^[ch], where ch
- * is c + 64.  We return that character. */
+ * is (c + 64).  We return that character. */
 char control_rep(char c)
 {
     /* Treat newlines embedded in a line as encoded nulls. */
@@ -192,7 +192,7 @@ char control_rep(char c)
 
 #ifdef NANO_WIDE
 /* c is a wide control character.  It displays as ^@, ^?, or ^[ch],
- * where ch is c + 64.  We return that wide character. */
+ * where ch is (c + 64).  We return that wide character. */
 wchar_t control_wrep(wchar_t wc)
 {
     /* Treat newlines embedded in a line as encoded nulls. */
@@ -206,7 +206,7 @@ wchar_t control_wrep(wchar_t wc)
 #endif
 
 /* c is a multibyte control character.  It displays as ^@, ^?, or ^[ch],
- * where ch is c + 64.  We return that multibyte character. */
+ * where ch is (c + 64).  We return that multibyte character. */
 char *control_mbrep(const char *c, char *crep, int *crep_len)
 {
     assert(c != NULL && crep != NULL && crep_len != NULL);

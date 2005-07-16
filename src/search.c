@@ -437,11 +437,11 @@ void findnextstr_wrap_reset(void)
 /* Search for a string. */
 void do_search(void)
 {
-    size_t old_pww = openfile->placewewant;
+    filestruct *fileptr = openfile->current;
     size_t fileptr_x = openfile->current_x;
+    size_t old_pww = openfile->placewewant;
     int i;
     bool didfind;
-    filestruct *fileptr = openfile->current;
 
 #ifndef DISABLE_WRAPPING
     wrap_reset();
@@ -513,10 +513,10 @@ void do_search(void)
 /* Search for the next string without prompting. */
 void do_research(void)
 {
-    size_t old_pww = openfile->placewewant;
-    size_t fileptr_x = openfile->current_x;
-    bool didfind;
     filestruct *fileptr = openfile->current;
+    size_t fileptr_x = openfile->current_x;
+    size_t old_pww = openfile->placewewant;
+    bool didfind;
 
 #ifndef DISABLE_WRAPPING
     wrap_reset();
@@ -880,10 +880,10 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 /* Replace a string. */
 void do_replace(void)
 {
-    int i;
     filestruct *edittop_save, *begin;
     size_t begin_x, pww_save;
     ssize_t numreplaced;
+    int i;
 
     if (ISSET(VIEW_MODE)) {
 	print_view_warning();
@@ -1040,7 +1040,7 @@ void do_gotolinecolumn_void(void)
 	openfile->placewewant + 1, FALSE, TRUE, FALSE, TRUE);
 }
 
-#if defined(ENABLE_MULTIBUFFER) || !defined(DISABLE_SPELLER)
+#ifndef DISABLE_SPELLER
 void do_gotopos(ssize_t line, size_t pos_x, ssize_t pos_y, size_t
 	pos_pww)
 {
