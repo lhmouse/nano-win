@@ -104,7 +104,7 @@ CVS code -
 	  the "Replace" prompt. (DLR, found by Mike Frysinger)
 	- Remove unnecessary renumber(). (DLR)
 - winio.c:
-  edit_scroll(), edit_refresh()
+  edit_scroll(), edit_redraw(), edit_refresh()
 	- Clean up and simplify. (DLR)
   do_statusbar_next_word()
 	- Rework to be more like do_statusbar_prev_word(), to avoid a

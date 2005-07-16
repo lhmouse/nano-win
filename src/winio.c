@@ -3586,15 +3586,15 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
     while (foo != openfile->current) {
 	if (do_refresh)
 	    update_line(foo, 0);
+
 #ifndef NANO_SMALL
 	if (!openfile->mark_set)
 #endif
 	    break;
+
 #ifndef NANO_SMALL
-	if (foo->lineno > openfile->current->lineno)
-	    foo = foo->prev;
-	else
-	    foo = foo->next;
+	foo = (foo->lineno > openfile->current->lineno) ? foo->prev :
+		foo->next;
 #endif
     }
 
