@@ -85,6 +85,10 @@ CVS code -
   do_next_word()
 	- Rework to be more like do_prev_word(), to avoid a potential
 	  problem if we start at the end of a line. (DLR)
+  do_output()
+	- When adding a character, just add its length in bytes to
+	  current_x instead of calling do_right(), and set placewewant
+	  afterward. (DLR)
   do_alt_speller()
 	- If we can't invoke the spell checker, use sprintf() instead of
 	  snprintf() to write the error string we return, as the one
@@ -142,6 +146,9 @@ CVS code -
   do_statusbar_next_word()
 	- Rework to be more like do_statusbar_prev_word(), to avoid a
 	  potential problem if we start at the end of a line. (DLR)
+  do_statusbar_output()
+	- When adding a character, just add its length in bytes to
+	  statusbar_x instead of calling do_statusbar_right(). (DLR)
   display_string()
 	- Display invalid multibyte sequences as Unicode 0xFFFD
 	  (Replacement Character). (DLR)

@@ -4142,7 +4142,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	    openfile->mark_begin_x += char_buf_len;
 #endif
 
-	do_right(FALSE);
+	openfile->current_x += char_buf_len;
 
 #ifndef DISABLE_WRAPPING
 	/* If we're wrapping text, we need to call edit_refresh(). */
@@ -4172,6 +4172,8 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	SET(CONST_UPDATE);
 
     free(char_buf);
+
+    openfile->placewewant = xplustabs();
 
     if (do_refresh)
 	edit_refresh();

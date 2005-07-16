@@ -2139,7 +2139,7 @@ void do_statusbar_output(char *output, size_t output_len, bool
 	strncpy(&answer[statusbar_x], char_buf, char_buf_len);
 	answer_len += char_buf_len;
 
-	do_statusbar_right();
+	statusbar_x += char_buf_len;
     }
 
     free(char_buf);
@@ -3606,35 +3606,34 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 /* Refresh the screen without changing the position of lines. */
 void edit_refresh(void)
 {
-    int nlines = 0;
-    const filestruct *foo = openfile->edittop;
+    const filestruct *foo;
+    int nlines;
 
     if (openfile->current->lineno < openfile->edittop->lineno ||
 	openfile->current->lineno >= openfile->edittop->lineno +
 	editwinrows)
-	/* Put the top line of the edit window in the range of the
-	 * current line. */
+	/* Put the top line of the edit window in range of the current
+	 * line. */
 	edit_update(
 #ifndef NANO_SMALL
 		ISSET(SMOOTH_SCROLL) ? NONE :
 #endif
 		CENTER);
 
+    foo = openfile->edittop;
+
 #ifdef DEBUG
     fprintf(stderr, "edit_refresh(): edittop->lineno = %ld\n", (long)openfile->edittop->lineno);
 #endif
 
-    while (nlines < editwinrows && foo != NULL) {
+    for (nlines = 0; nlines < editwinrows && foo != NULL; nlines++) {
 	update_line(foo, (foo == openfile->current) ?
 		openfile->current_x : 0);
 	foo = foo->next;
-	nlines++;
     }
 
-    while (nlines < editwinrows) {
+    for (; nlines < editwinrows; nlines++)
 	blank_line(edit, nlines, 0, COLS);
-	nlines++;
-    }
 
     reset_cursor();
     wrefresh(edit);
