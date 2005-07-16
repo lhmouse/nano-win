@@ -3503,17 +3503,12 @@ int need_vertical_update(size_t old_pww)
 /* Scroll the edit window in the given direction and the given number
  * of lines, and draw new lines on the blank lines left after the
  * scrolling.  direction is the direction to scroll, either UP or DOWN,
- * and nlines is the number of lines to scroll.
- *
- * We assume that the topmost and bottommost lines of the scrolled
- * region are where the current line was before and will be after
- * scrolling, and hence don't draw them, since we can't know which is
- * which.  edit_redraw() should be used to draw these lines, and to
- * redraw marked lines, if applicable. */
+ * and nlines is the number of lines to scroll.  We change edittop, and
+ * assume that current and current_x are up to date. */
 void edit_scroll(updown direction, int nlines)
 {
     const filestruct *foo;
-    int i, scroll_rows = 0;
+    int i;
 
     /* Scrolling less than one line or more than editwinrows lines is
      * redundant, so don't allow it. */
@@ -3521,10 +3516,8 @@ void edit_scroll(updown direction, int nlines)
 	return;
 
     /* Move the top line of the edit window up or down (depending on the
-     * value of direction) nlines lines.  If there are fewer lines of
-     * text than that left, move it to the top or bottom line of the
-     * file (depending on the value of direction).  Keep track of
-     * how many lines we moved in scroll_rows. */
+     * value of direction) nlines lines, or as many lines as we can if
+     * there are fewer than nlines lines available. */
     for (i = nlines; i > 0; i--) {
 	if (direction == UP) {
 	    if (openfile->edittop->prev == NULL)
@@ -3535,28 +3528,34 @@ void edit_scroll(updown direction, int nlines)
 		break;
 	    openfile->edittop = openfile->edittop->next;
 	}
-
-	scroll_rows++;
     }
 
-    /* Scroll the text on the screen up or down scroll_rows lines,
-     * depending on the value of direction. */
+    /* Scroll the text on the screen up or down nlines lines, depending
+     * on the value of direction. */
     scrollok(edit, TRUE);
-    wscrl(edit, (direction == UP) ? -scroll_rows : scroll_rows);
+    wscrl(edit, (direction == UP) ? -nlines : nlines);
     scrollok(edit, FALSE);
 
+    /* Add two to nlines, to account for the lines before and after the
+     * scrolled region. */
+    nlines += 2;
+
+    /* If we scrolled up, we're on the line before the scrolled
+     * region. */
     foo = openfile->edittop;
 
+    /* If we scrolled down, move down to the line before the scrolled
+     * region. */
     if (direction == DOWN) {
-	for (i = editwinrows - scroll_rows; i > 0 && foo != NULL; i--)
+	for (i = editwinrows - nlines; i > 0 && foo != NULL; i--)
 	    foo = foo->next;
     }
 
-    /* Draw new lines on the blank top or bottom lines of the edit
-     * window, depending on the value of direction, and skipping the
-     * topmost and bottommost lines. */
-    for (; scroll_rows > 0 && foo != NULL; scroll_rows--) {
-	update_line(foo, 0);
+    /* Draw new lines on the blank lines before, inside, and after the
+     * scrolled region. */
+    for (; nlines > 0 && foo != NULL; nlines--) {
+	update_line(foo, (foo == openfile->current) ?
+		openfile->current_x : 0);
 	foo = foo->next;
     }
 }

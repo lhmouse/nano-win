@@ -32,28 +32,27 @@
 
 void do_first_line(void)
 {
+    const filestruct *current_save = openfile->current;
     size_t pww_save = openfile->placewewant;
 
     openfile->current = openfile->fileage;
     openfile->current_x = 0;
     openfile->placewewant = 0;
 
-    if (openfile->edittop != openfile->fileage ||
-	need_vertical_update(pww_save))
-	edit_update(CENTER);
+    edit_redraw(current_save, pww_save);
 }
 
 void do_last_line(void)
 {
+    const filestruct *current_save = openfile->current;
     size_t pww_save = openfile->placewewant;
 
     openfile->current = openfile->filebot;
     openfile->current_x = 0;
     openfile->placewewant = 0;
+    openfile->current_y = editwinrows - 1;
 
-    if (openfile->edittop->lineno + (editwinrows / 2) !=
-	openfile->filebot->lineno || need_vertical_update(pww_save))
-	edit_update(CENTER);
+    edit_redraw(current_save, pww_save);
 }
 
 void do_home(void)
@@ -100,103 +99,81 @@ void do_end(void)
 
 void do_page_up(void)
 {
-    const filestruct *current_save = openfile->current;
-    size_t pww_save = openfile->placewewant;
-
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
 
-    /* If the first line of the file is onscreen, move current up there
-     * and put the cursor at the beginning of the line. */
-    if (openfile->edittop == openfile->fileage) {
-	openfile->current = openfile->fileage;
-	openfile->placewewant = 0;
-    } else {
-	/* Scroll the edit window up a page. */
-	edit_scroll(UP, editwinrows - 2);
+    /* If there's less than a page of text left on the screen, put the
+     * cursor at the beginning of the first line of the file, and then
+     * update the edit window. */
+    if (openfile->current->lineno <= editwinrows - 2)
+	do_first_line();
+    else {
+	int i;
 
+	/* If we're not in smooth scrolling mode, put the cursor at the
+	 * beginning of the top line of the edit window, as Pico
+	 * does. */
 #ifndef NANO_SMALL
-	/* If we're in smooth scrolling mode and there's at least one
-	 * page of text left, move the current line of the edit window
-	 * up a page. */
-	if (ISSET(SMOOTH_SCROLL) && openfile->current->lineno >
-		editwinrows - 2) {
-	    int i = 0;
-
-	    for (; i < editwinrows - 2; i++)
-		openfile->current = openfile->current->prev;
-	}
-	/* If we're not in smooth scrolling mode or there isn't at least
-	 * one page of text left, put the cursor at the beginning of the
-	 * top line of the edit window, as Pico does. */
-	else {
+	if (!ISSET(SMOOTH_SCROLL)) {
 #endif
 	    openfile->current = openfile->edittop;
 	    openfile->placewewant = 0;
 #ifndef NANO_SMALL
 	}
 #endif
+
+	for (i = editwinrows - 2; i > 0 && openfile->current->prev !=
+		NULL; i--)
+	    openfile->current = openfile->current->prev;
+
+	openfile->current_x = actual_x(openfile->current->data,
+	    openfile->placewewant);
+
+	/* Scroll the edit window up a page. */
+	edit_scroll(UP, editwinrows - 2);
     }
-
-    /* Get the equivalent x-coordinate of the current line. */
-    openfile->current_x = actual_x(openfile->current->data,
-	openfile->placewewant);
-
-    /* Update the screen. */
-    edit_redraw(current_save, pww_save);
 
     check_statusblank();
 }
 
 void do_page_down(void)
 {
-    const filestruct *current_save = openfile->current;
-    size_t pww_save = openfile->placewewant;
-
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
 
-    /* If the last line of the file is onscreen, move current down
-     * there and put the cursor at the beginning of the line. */
-    if (openfile->edittop->lineno + editwinrows >
-	openfile->filebot->lineno) {
-	openfile->current = openfile->filebot;
-	openfile->placewewant = 0;
-    } else {
-	/* Scroll the edit window down a page. */
-	edit_scroll(DOWN, editwinrows - 2);
+    /* If there's less than a page of text left on the screen, put the
+     * cursor at the beginning of the last line of the file, and then
+     * update the edit window. */
+    if (openfile->current->lineno + editwinrows - 2 >=
+	openfile->filebot->lineno)
+	do_last_line();
+    else {
+	/* If we're not in smooth scrolling mode, put the cursor at the
+	 * beginning of the top line of the edit window, as Pico
+	 * does. */
+	int i;
 
 #ifndef NANO_SMALL
-	/* If we're in smooth scrolling mode and there's at least one
-	 * page of text left, move the current line of the edit window
-	 * down a page. */
-	if (ISSET(SMOOTH_SCROLL) && openfile->current->lineno +
-		editwinrows - 2 <= openfile->filebot->lineno) {
-	    int i = 0;
-
-	    for (; i < editwinrows - 2; i++)
-		openfile->current = openfile->current->next;
-	}
-	/* If we're not in smooth scrolling mode or there isn't at least
-	 * one page of text left, put the cursor at the beginning of the
-	 * top line of the edit window, as Pico does. */
-	else {
+	if (!ISSET(SMOOTH_SCROLL)) {
 #endif
 	    openfile->current = openfile->edittop;
 	    openfile->placewewant = 0;
 #ifndef NANO_SMALL
 	}
 #endif
+
+	for (i = editwinrows - 2; i > 0 && openfile->current->next !=
+		NULL; i--)
+	    openfile->current = openfile->current->next;
+
+	openfile->current_x = actual_x(openfile->current->data,
+		openfile->placewewant);
+
+	/* Scroll the edit window down a page. */
+	edit_scroll(DOWN, editwinrows - 2);
     }
-
-    /* Get the equivalent x-coordinate of the current line. */
-    openfile->current_x = actual_x(openfile->current->data,
-	openfile->placewewant);
-
-    /* Update the screen. */
-    edit_redraw(current_save, pww_save);
 
     check_statusblank();
 }
@@ -228,13 +205,14 @@ void do_up(void)
 		ISSET(SMOOTH_SCROLL) ? 1 :
 #endif
 		editwinrows / 2);
-
     /* Update the line we were on before and the line we're on now.  The
      * former needs to be redrawn if we're not on the first page, and
      * the latter needs to be drawn unconditionally. */
-    if (need_vertical_update(0))
-	update_line(openfile->current->next, 0);
-    update_line(openfile->current, openfile->current_x);
+    else {
+	if (need_vertical_update(0))
+	    update_line(openfile->current->next, 0);
+	update_line(openfile->current, openfile->current_x);
+    }
 }
 
 void do_down(void)
@@ -264,13 +242,14 @@ void do_down(void)
 		ISSET(SMOOTH_SCROLL) ? 1 :
 #endif
 		editwinrows / 2);
-
     /* Update the line we were on before and the line we're on now.  The
      * former needs to be redrawn if we're not on the first page, and
      * the latter needs to be drawn unconditionally. */
-    if (need_vertical_update(0))
-	update_line(openfile->current->prev, 0);
-    update_line(openfile->current, openfile->current_x);
+    else {
+	if (need_vertical_update(0))
+	    update_line(openfile->current->prev, 0);
+	update_line(openfile->current, openfile->current_x);
+    }
 }
 
 void do_left(bool allow_update)
