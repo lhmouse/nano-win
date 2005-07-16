@@ -3505,9 +3505,11 @@ int need_vertical_update(size_t old_pww)
  * scrolling.  direction is the direction to scroll, either UP or DOWN,
  * and nlines is the number of lines to scroll.
  *
- * Note that we don't draw the topmost or bottommost lines before or
- * after scrolling, since we can make no assumptions about which of the
- * two is the current line at either time. */
+ * We assume that the topmost and bottommost lines of the scrolled
+ * region are where the current line was before and will be after
+ * scrolling, and hence don't draw them, since we can't know which is
+ * which.  edit_redraw() should be used to draw these lines, and to
+ * redraw marked lines, if applicable. */
 void edit_scroll(updown direction, int nlines)
 {
     const filestruct *foo;
