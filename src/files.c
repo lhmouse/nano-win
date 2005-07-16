@@ -1586,10 +1586,8 @@ int write_file(const char *name, FILE *f_open, bool tmp, int append,
 		realname);
 #ifdef ENABLE_COLOR
 	    /* We might have changed the filename, so update the colors
-	     * to account for it, and make sure we're using the updated
-	     * colors, if applicable. */
+	     * to account for it. */
 	    color_update();
-	    color_init();
 
 	    /* If color syntaxes are available and turned on, we need to
 	     * call edit_refresh(). */

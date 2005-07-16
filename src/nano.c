@@ -4676,7 +4676,8 @@ int main(int argc, char **argv)
 		open_buffer(argv[i]);
 
 		if (iline > 1 || icol > 1) {
-		    do_gotolinecolumn(iline, icol, FALSE, FALSE, FALSE);
+		    do_gotolinecolumn(iline, icol, FALSE, FALSE, FALSE,
+			FALSE);
 		    iline = 1;
 		    icol = 1;
 		}
@@ -4710,7 +4711,8 @@ int main(int argc, char **argv)
 #endif
 
     if (startline > 1 || startcol > 1)
-	do_gotolinecolumn(startline, startcol, FALSE, FALSE, FALSE);
+	do_gotolinecolumn(startline, startcol, FALSE, FALSE, FALSE,
+		FALSE);
 
     display_main_list();
 

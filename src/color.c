@@ -161,6 +161,8 @@ void color_update(void)
 		REG_EXTENDED | (tmpcolor->icase ? REG_ICASE : 0));
 	}
     }
+
+    color_init();
 }
 
 #endif /* ENABLE_COLOR */

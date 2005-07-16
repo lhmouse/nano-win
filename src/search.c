@@ -244,7 +244,8 @@ int search_init(bool replacing, bool use_answer)
 		return -2;	/* Call the opposite search function. */
 	    case NANO_TOGOTOLINE_KEY:
 		do_gotolinecolumn(openfile->current->lineno,
-			openfile->placewewant + 1, TRUE, TRUE, FALSE);
+			openfile->placewewant + 1, TRUE, TRUE, FALSE,
+			TRUE);
 				/* Put answer up on the statusbar and
 				 * fall through. */
 	    default:
@@ -968,12 +969,15 @@ void do_replace(void)
 
 /* Go to the specified line and column, or ask for them if interactive
  * is TRUE.  Save the x-coordinate and y-coordinate if save_pos is TRUE.
- * Note that both the line and column numbers should be one-based. */
+ * Update the screen afterwards if allow_update is TRUE.  Note that both
+ * the line and column numbers should be one-based. */
 void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
-	bool interactive, bool save_pos)
+	bool interactive, bool save_pos, bool allow_update)
 {
-    if (interactive) {		/* Ask for it. */
+    if (interactive) {
 	char *ans = mallocstrcpy(NULL, answer);
+
+	/* Ask for it. */
 	int i = statusq(FALSE, gotoline_list, use_answer ? ans : "",
 #ifndef NANO_SMALL
 		NULL,
@@ -1022,9 +1026,10 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
     openfile->current_x = actual_x(openfile->current->data, column - 1);
     openfile->placewewant = column - 1;
 
-    /* If save_pos is TRUE, don't change the cursor position when
-     * updating the edit window. */
-    edit_update(save_pos ? NONE : CENTER);
+    /* If allow_update is TRUE, update the edit window.  If save_pos is
+     * TRUE, don't change the cursor position when doing it. */
+    if (allow_update)
+	edit_update(save_pos ? NONE : CENTER);
 
     display_main_list();
 }
@@ -1032,7 +1037,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 void do_gotolinecolumn_void(void)
 {
     do_gotolinecolumn(openfile->current->lineno,
-	openfile->placewewant + 1, FALSE, TRUE, FALSE);
+	openfile->placewewant + 1, FALSE, TRUE, FALSE, TRUE);
 }
 
 #if defined(ENABLE_MULTIBUFFER) || !defined(DISABLE_SPELLER)
@@ -1042,7 +1047,7 @@ void do_gotopos(ssize_t line, size_t pos_x, ssize_t pos_y, size_t
     /* Since do_gotolinecolumn() resets the x-coordinate but not the
      * y-coordinate, set the coordinates up this way. */
     openfile->current_y = pos_y;
-    do_gotolinecolumn(line, pos_x + 1, FALSE, FALSE, TRUE);
+    do_gotolinecolumn(line, pos_x + 1, FALSE, FALSE, TRUE, TRUE);
 
     /* Set the rest of the coordinates up. */
     openfile->placewewant = pos_pww;

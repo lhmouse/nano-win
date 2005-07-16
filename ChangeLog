@@ -84,6 +84,10 @@ CVS code -
   allow_pending_sigwinch()
 	- Simplify by using the "?" operator instead of an if clause.
 	  (DLR)
+  main()
+	- When opening files with "+LINE,COLUMN" arguments on the
+	  command line, don't update the screen when moving to their
+	  specified lines and columns. (DLR)
 - nano.h:
 	- Since we only use vsnprintf() now, remove the #ifdef block for
 	  HAVE_SNPRINTF. (DLR)
@@ -103,6 +107,9 @@ CVS code -
 	- Blank out last_replace properly again just before displaying
 	  the "Replace" prompt. (DLR, found by Mike Frysinger)
 	- Remove unnecessary renumber(). (DLR)
+  do_gotolinecolumn()
+	- Add parameter allow_update to control whether the screen is
+	  updated after moving. (DLR)
 - winio.c:
   edit_scroll(), edit_redraw(), edit_refresh()
 	- Clean up and simplify. (DLR)
