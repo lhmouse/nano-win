@@ -3607,73 +3607,71 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 /* Refresh the screen without changing the position of lines. */
 void edit_refresh(void)
 {
+    int nlines = 0;
+    const filestruct *foo = openfile->edittop;
+
     if (openfile->current->lineno < openfile->edittop->lineno ||
 	openfile->current->lineno >= openfile->edittop->lineno +
 	editwinrows)
-	/* Note that edit_update() changes edittop so that it's in range
-	 * of current.  Thus, when it then calls edit_refresh(), there
-	 * is no danger of getting an infinite loop. */
+	/* Put the top line of the edit window in the range of the
+	 * current line. */
 	edit_update(
 #ifndef NANO_SMALL
 		ISSET(SMOOTH_SCROLL) ? NONE :
 #endif
 		CENTER);
-    else {
-	int nlines = 0;
-	const filestruct *foo = openfile->edittop;
 
 #ifdef DEBUG
-	fprintf(stderr, "edit_refresh(): edittop->lineno = %ld\n", (long)openfile->edittop->lineno);
+    fprintf(stderr, "edit_refresh(): edittop->lineno = %ld\n", (long)openfile->edittop->lineno);
 #endif
 
-	while (nlines < editwinrows && foo != NULL) {
-	    update_line(foo, (foo == openfile->current) ?
+    while (nlines < editwinrows && foo != NULL) {
+	update_line(foo, (foo == openfile->current) ?
 		openfile->current_x : 0);
-	    foo = foo->next;
-	    nlines++;
-	}
-	while (nlines < editwinrows) {
-	    blank_line(edit, nlines, 0, COLS);
-	    nlines++;
-	}
-	reset_cursor();
-	wrefresh(edit);
+	foo = foo->next;
+	nlines++;
     }
+
+    while (nlines < editwinrows) {
+	blank_line(edit, nlines, 0, COLS);
+	nlines++;
+    }
+
+    reset_cursor();
+    wrefresh(edit);
 }
 
-/* A nice generic routine to update the edit buffer.  We keep current in
- * the same place and move edittop to put it in range of current. */
-void edit_update(topmidnone location)
+/* Move edittop to put it in range of current, keeping current in the
+ * same place.  location determines how we move it: if it's CENTER, we
+ * center current, and if it's NONE, we put current current_y lines
+ * below edittop. */
+void edit_update(centernone location)
 {
     filestruct *foo = openfile->current;
+    int goal;
 
-    if (location != TOP) {
-	/* If location is CENTER, we move edittop up (editwinrows / 2)
-	 * lines.  This puts current at the center of the screen.  If
-	 * location is NONE, we move edittop up current_y lines if
-	 * current_y is in range of the screen, 0 lines if current_y is
-	 * less than 0, or (editwinrows - 1) lines if current_y is
-	 * greater than (editwinrows - 1).  This puts current at the
-	 * same place on the screen as before, or at the top or bottom
-	 * of the screen if edittop is beyond either. */
-	int goal;
+    /* If location is CENTER, we move edittop up (editwinrows / 2)
+     * lines.  This puts current at the center of the screen.  If
+     * location is NONE, we move edittop up current_y lines if current_y
+     * is in range of the screen, 0 lines if current_y is less than 0,
+     * or (editwinrows - 1) lines if current_y is greater than
+     * (editwinrows - 1).  This puts current at the same place on the
+     * screen as before, or at the top or bottom of the screen if
+     * edittop is beyond either. */
+    if (location == CENTER)
+	goal = editwinrows / 2;
+    else {
+	goal = openfile->current_y;
 
-	if (location == CENTER)
-	    goal = editwinrows / 2;
-	else {
-	    goal = openfile->current_y;
-
-	    /* Limit goal to (editwinrows - 1) lines maximum. */
-	    if (goal > editwinrows - 1)
-		goal = editwinrows - 1;
-	}
-
-	for (; goal > 0 && foo->prev != NULL; goal--)
-	    foo = foo->prev;
+	/* Limit goal to (editwinrows - 1) lines maximum. */
+	if (goal > editwinrows - 1)
+	    goal = editwinrows - 1;
     }
 
+    for (; goal > 0 && foo->prev != NULL; goal--)
+	foo = foo->prev;
+
     openfile->edittop = foo;
-    edit_refresh();
 }
 
 /* Ask a simple yes/no question, specified in msg, on the statusbar.

@@ -149,8 +149,8 @@ typedef enum {
 } updown;
 
 typedef enum {
-    TOP, CENTER, NONE
-} topmidnone;
+    CENTER, NONE
+} centernone;
 
 /* Structure types. */
 typedef struct filestruct {

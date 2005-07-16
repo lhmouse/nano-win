@@ -40,7 +40,7 @@ void do_first_line(void)
 
     if (openfile->edittop != openfile->fileage ||
 	need_vertical_update(pww_save))
-	edit_update(TOP);
+	edit_update(CENTER);
 }
 
 void do_last_line(void)

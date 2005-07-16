@@ -1026,10 +1026,14 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
     openfile->current_x = actual_x(openfile->current->data, column - 1);
     openfile->placewewant = column - 1;
 
-    /* If allow_update is TRUE, update the edit window.  If save_pos is
-     * TRUE, don't change the cursor position when doing it. */
+    /* Put the top line of the edit window in range of the current line.
+     * If save_pos is TRUE, don't change the cursor position when doing
+     * it. */
+    edit_update(save_pos ? NONE : CENTER);
+
+    /* If allow_update is TRUE, update the screen. */
     if (allow_update)
-	edit_update(save_pos ? NONE : CENTER);
+	edit_refresh();
 
     display_main_list();
 }

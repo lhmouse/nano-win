@@ -671,7 +671,7 @@ int need_vertical_update(size_t old_pww);
 void edit_scroll(updown direction, int nlines);
 void edit_redraw(const filestruct *old_current, size_t old_pww);
 void edit_refresh(void);
-void edit_update(topmidnone location);
+void edit_update(centernone location);
 int do_yesno(bool all, const char *msg);
 void total_redraw(void);
 void total_refresh(void);

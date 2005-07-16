@@ -91,6 +91,8 @@ CVS code -
 - nano.h:
 	- Since we only use vsnprintf() now, remove the #ifdef block for
 	  HAVE_SNPRINTF. (DLR)
+	- Remove TOP from the topmidnone enum, and rename it centernone.
+	  (DLR)
 - rcfile.c:
   nregcomp()
 	- Return TRUE when the compilation succeeds and FALSE otherwise,
@@ -109,7 +111,8 @@ CVS code -
 	- Remove unnecessary renumber(). (DLR)
   do_gotolinecolumn()
 	- Add parameter allow_update to control whether the screen is
-	  updated after moving. (DLR)
+	  updated after moving.  If it's TRUE, call edit_refresh() after
+	  edit_update(). (DLR)
   do_gotopos()
 	- Only include this function when DISABLE_SPELLER isn't defined,
 	  as the alternate spell checking code is now the only place
@@ -117,6 +120,9 @@ CVS code -
 - winio.c:
   edit_scroll(), edit_redraw(), edit_refresh()
 	- Clean up and simplify. (DLR)
+  edit_update()
+	- Since we no longer use TOP, remove references to it.  Also,
+	  don't call edit_refresh() anymore: it will call us. (DLR)
   do_statusbar_next_word()
 	- Rework to be more like do_statusbar_prev_word(), to avoid a
 	  potential problem if we start at the end of a line. (DLR)
