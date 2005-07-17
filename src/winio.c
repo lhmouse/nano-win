@@ -3536,6 +3536,14 @@ void edit_scroll(updown direction, int nlines)
     wscrl(edit, (direction == UP) ? -nlines : nlines);
     scrollok(edit, FALSE);
 
+    /* If we scrolled up, we couldn't scroll up all nlines lines, and
+     * we're now at the top of the file, we need to treat the entire
+     * screen as the scrolled region, instead of just the top nlines
+     * lines. */
+    if (direction == UP && i > 0 && openfile->edittop ==
+	openfile->fileage)
+	nlines = editwinrows;
+
     /* Add two to nlines, to account for the lines before and after the
      * scrolled region. */
     nlines += 2;
