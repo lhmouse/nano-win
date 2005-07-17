@@ -108,6 +108,10 @@ CVS code -
 	  no longer needed, and make the error message more similar to
 	  what the internal spell checker returns under the same
 	  circumstances. (DLR)
+  do_spell()
+	- When displaying an error message from do_(int|alt)_speller(),
+	  don't display the error message corresponding to errno if
+	  errno is zero. (David Benbennick)
   do_justify()
 	- If constant cursor position display is on, make sure the
 	  cursor position is displayed properly when we finish. (DLR)

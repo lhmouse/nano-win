@@ -2562,10 +2562,14 @@ void do_spell(void)
      * sure that they're cleared off. */
     total_refresh();
 
-    if (spell_msg != NULL)
-	statusbar(_("Spell checking failed: %s: %s"), spell_msg,
+    if (spell_msg != NULL) {
+	if (errno == 0)
+	    /* Don't display an error message of "Success". */
+	    statusbar(_("Spell checking failed: %s"), spell_msg);
+	else
+	    statusbar(_("Spell checking failed: %s: %s"), spell_msg,
 		strerror(errno));
-    else
+    } else
 	statusbar(_("Finished checking spelling"));
 }
 #endif /* !DISABLE_SPELLER */
