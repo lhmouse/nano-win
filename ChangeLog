@@ -71,7 +71,8 @@ CVS code -
 	- Simplify wording of nano_gotoline_msg. (Jordi and Ken Tyler)
 - move.c:
   do_first_line(), do_last_line()
-	- Simplify by only using edit_redraw(). (DLR)
+	- Simplify by only using edit_redraw(), and also make them call
+	  check_statusblank(). (DLR)
   do_page_up(), do_page_down()
 	- If there's less than a page of text onscreen, just call
 	  do_(first|last)_line(). (DLR)

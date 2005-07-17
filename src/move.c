@@ -35,6 +35,8 @@ void do_first_line(void)
     const filestruct *current_save = openfile->current;
     size_t pww_save = openfile->placewewant;
 
+    check_statusblank();
+
     openfile->current = openfile->fileage;
     openfile->current_x = 0;
     openfile->placewewant = 0;
@@ -47,6 +49,8 @@ void do_last_line(void)
     const filestruct *current_save = openfile->current;
     size_t pww_save = openfile->placewewant;
 
+    check_statusblank();
+
     openfile->current = openfile->filebot;
     openfile->current_x = 0;
     openfile->placewewant = 0;
@@ -58,6 +62,8 @@ void do_last_line(void)
 void do_home(void)
 {
     size_t pww_save = openfile->placewewant;
+
+    check_statusblank();
 
 #ifndef NANO_SMALL
     if (ISSET(SMART_HOME)) {
@@ -78,8 +84,6 @@ void do_home(void)
     }
 #endif
 
-    check_statusblank();
-
     if (need_horizontal_update(pww_save))
 	update_line(openfile->current, openfile->current_x);
 }
@@ -88,10 +92,10 @@ void do_end(void)
 {
     size_t pww_save = openfile->placewewant;
 
+    check_statusblank();
+
     openfile->current_x = strlen(openfile->current->data);
     openfile->placewewant = xplustabs();
-
-    check_statusblank();
 
     if (need_horizontal_update(pww_save))
 	update_line(openfile->current, openfile->current_x);
@@ -99,6 +103,10 @@ void do_end(void)
 
 void do_page_up(void)
 {
+    int i;
+
+    check_statusblank();
+
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
@@ -106,39 +114,39 @@ void do_page_up(void)
     /* If there's less than a page of text left on the screen, put the
      * cursor at the beginning of the first line of the file, and then
      * update the edit window. */
-    if (openfile->current->lineno <= editwinrows - 2)
+    if (openfile->current->lineno <= editwinrows - 2) {
 	do_first_line();
-    else {
-	int i;
-
-	/* If we're not in smooth scrolling mode, put the cursor at the
-	 * beginning of the top line of the edit window, as Pico
-	 * does. */
-#ifndef NANO_SMALL
-	if (!ISSET(SMOOTH_SCROLL)) {
-#endif
-	    openfile->current = openfile->edittop;
-	    openfile->placewewant = 0;
-#ifndef NANO_SMALL
-	}
-#endif
-
-	for (i = editwinrows - 2; i > 0 && openfile->current->prev !=
-		NULL; i--)
-	    openfile->current = openfile->current->prev;
-
-	openfile->current_x = actual_x(openfile->current->data,
-	    openfile->placewewant);
-
-	/* Scroll the edit window up a page. */
-	edit_scroll(UP, editwinrows - 2);
+	return;
     }
 
-    check_statusblank();
+    /* If we're not in smooth scrolling mode, put the cursor at the
+     * beginning of the top line of the edit window, as Pico does. */
+#ifndef NANO_SMALL
+    if (!ISSET(SMOOTH_SCROLL)) {
+#endif
+	openfile->current = openfile->edittop;
+	openfile->placewewant = 0;
+#ifndef NANO_SMALL
+    }
+#endif
+
+    for (i = editwinrows - 2; i > 0 && openfile->current->prev != NULL;
+	i--)
+	openfile->current = openfile->current->prev;
+
+    openfile->current_x = actual_x(openfile->current->data,
+	openfile->placewewant);
+
+    /* Scroll the edit window up a page. */
+    edit_scroll(UP, editwinrows - 2);
 }
 
 void do_page_down(void)
 {
+    int i;
+
+    check_statusblank();
+
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
@@ -147,43 +155,40 @@ void do_page_down(void)
      * cursor at the beginning of the last line of the file, and then
      * update the edit window. */
     if (openfile->current->lineno + editwinrows - 2 >=
-	openfile->filebot->lineno)
+	openfile->filebot->lineno) {
 	do_last_line();
-    else {
-	/* If we're not in smooth scrolling mode, put the cursor at the
-	 * beginning of the top line of the edit window, as Pico
-	 * does. */
-	int i;
-
-#ifndef NANO_SMALL
-	if (!ISSET(SMOOTH_SCROLL)) {
-#endif
-	    openfile->current = openfile->edittop;
-	    openfile->placewewant = 0;
-#ifndef NANO_SMALL
-	}
-#endif
-
-	for (i = editwinrows - 2; i > 0 && openfile->current->next !=
-		NULL; i--)
-	    openfile->current = openfile->current->next;
-
-	openfile->current_x = actual_x(openfile->current->data,
-		openfile->placewewant);
-
-	/* Scroll the edit window down a page. */
-	edit_scroll(DOWN, editwinrows - 2);
+	return;
     }
 
-    check_statusblank();
+    /* If we're not in smooth scrolling mode, put the cursor at the
+     * beginning of the top line of the edit window, as Pico does. */
+#ifndef NANO_SMALL
+    if (!ISSET(SMOOTH_SCROLL)) {
+#endif
+	openfile->current = openfile->edittop;
+	openfile->placewewant = 0;
+#ifndef NANO_SMALL
+    }
+#endif
+
+    for (i = editwinrows - 2; i > 0 && openfile->current->next != NULL;
+	i--)
+	openfile->current = openfile->current->next;
+
+    openfile->current_x = actual_x(openfile->current->data,
+	openfile->placewewant);
+
+    /* Scroll the edit window down a page. */
+    edit_scroll(DOWN, editwinrows - 2);
 }
 
 void do_up(void)
 {
+    check_statusblank();
+
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
-    check_statusblank();
 
     /* If we're at the top of the file, get out. */
     if (openfile->current->prev == NULL)
@@ -217,10 +222,11 @@ void do_up(void)
 
 void do_down(void)
 {
+    check_statusblank();
+
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
-    check_statusblank();
 
     /* If we're at the bottom of the file, get out. */
     if (openfile->current->next == NULL)
@@ -256,6 +262,8 @@ void do_left(bool allow_update)
 {
     size_t pww_save = openfile->placewewant;
 
+    check_statusblank();
+
     if (openfile->current_x > 0)
 	openfile->current_x = move_mbleft(openfile->current->data,
 		openfile->current_x);
@@ -265,8 +273,6 @@ void do_left(bool allow_update)
     }
 
     openfile->placewewant = xplustabs();
-
-    check_statusblank();
 
     if (allow_update && need_horizontal_update(pww_save))
 	update_line(openfile->current, openfile->current_x);
@@ -281,6 +287,8 @@ void do_right(bool allow_update)
 {
     size_t pww_save = openfile->placewewant;
 
+    check_statusblank();
+
     assert(openfile->current_x <= strlen(openfile->current->data));
 
     if (openfile->current->data[openfile->current_x] != '\0')
@@ -292,8 +300,6 @@ void do_right(bool allow_update)
     }
 
     openfile->placewewant = xplustabs();
-
-    check_statusblank();
 
     if (allow_update && need_horizontal_update(pww_save))
 	update_line(openfile->current, openfile->current_x);
