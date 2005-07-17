@@ -2285,7 +2285,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	/* Current position in converted. */
     bool bad_char;
 	/* Whether we have an invalid multibyte character. */
-#ifdef NANO_WIDE
+#ifdef ENABLE_UTF8
     const char *bad_buf_mb = "\xEF\xBF\xBD";
 	/* What to display when we have an invalid multibyte
 	 * character: Unicode 0xFFFD (Replacement Character). */
@@ -2341,7 +2341,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		start_index += buf_mb_len;
 	    }
 	}
-#ifdef NANO_WIDE
+#ifdef ENABLE_UTF8
 	else if (ISSET(USE_UTF8) && mbwidth(buf_mb) > 1) {
 	    converted[index++] = ' ';
 	    start_col++;
@@ -2378,7 +2378,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    converted[index++] = '^';
 	    start_col++;
 
-#ifdef NANO_WIDE
+#ifdef ENABLE_UTF8
 	    /* If buf contains an invalid multibyte control character,
 	     * display it as such. */
 	    if (ISSET(USE_UTF8) && bad_char) {
@@ -2419,7 +2419,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	} else {
 	    int i;
 
-#ifdef NANO_WIDE
+#ifdef ENABLE_UTF8
 	    /* If buf contains an invalid multibyte non-control
 	     * character, display it as such. */
 	    if (ISSET(USE_UTF8) && bad_char) {
@@ -2433,7 +2433,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		    converted[index++] = buf[start_index + i];
 
 		start_col += mbwidth(buf_mb);
-#ifdef NANO_WIDE
+#ifdef ENABLE_UTF8
 	    }
 #endif
 	}
@@ -4192,7 +4192,7 @@ void do_credits(void)
      * can't dynamically assign it above, using Unicode 00F6 (Latin
      * Small Letter O with Diaresis) if applicable. */
     credits[14] =
-#ifdef NANO_WIDE
+#ifdef ENABLE_UTF8
 	 ISSET(USE_UTF8) ? "Florian K\xC3\xB6nig" :
 #endif
 	"Florian K\xF6nig";

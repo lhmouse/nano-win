@@ -480,7 +480,7 @@ if test x$enable_utf8 != xno && \
     test x$ac_cv_func_mbtowc = xyes && \
     test x$ac_cv_func_wctomb = xyes && \
     test x$ac_cv_func_wcwidth = xyes; then
-	AC_DEFINE(NANO_WIDE, 1, [Define this if your system has sufficient wide character support (a wide curses library, iswalnum(), iswpunct(), iswblank() or iswspace(), mblen(), mbstowcs(), mbtowc(), wctomb(), and wcwidth()).])
+	AC_DEFINE(ENABLE_UTF8, 1, [Define this if your system has sufficient UTF-8 support (a wide curses library, iswalnum(), iswpunct(), iswblank() or iswspace(), mblen(), mbstowcs(), mbtowc(), wctomb(), and wcwidth()).])
 else
     if test x$enable_utf8 = xyes; then
 	AC_MSG_ERROR([

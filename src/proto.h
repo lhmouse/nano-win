@@ -144,21 +144,21 @@ extern char *homedir;
 #ifndef HAVE_ISBLANK
 bool nisblank(int c);
 #endif
-#if !defined(HAVE_ISWBLANK) && defined(NANO_WIDE)
+#if !defined(HAVE_ISWBLANK) && defined(ENABLE_UTF8)
 bool niswblank(wchar_t wc);
 #endif
 bool is_byte(int c);
 bool is_alnum_mbchar(const char *c);
 bool is_blank_mbchar(const char *c);
 bool is_cntrl_char(int c);
-#ifdef NANO_WIDE
+#ifdef ENABLE_UTF8
 bool is_cntrl_wchar(wchar_t wc);
 #endif
 bool is_cntrl_mbchar(const char *c);
 bool is_punct_mbchar(const char *c);
 bool is_word_mbchar(const char *c, bool allow_punct);
 char control_rep(char c);
-#ifdef NANO_WIDE
+#ifdef ENABLE_UTF8
 wchar_t control_wrep(wchar_t c);
 #endif
 char *control_mbrep(const char *c, char *crep, int *crep_len);

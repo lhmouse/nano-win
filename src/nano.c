@@ -1141,7 +1141,7 @@ void version(void)
 #ifdef NANO_SMALL
     printf(" --enable-tiny");
 #endif
-#ifdef NANO_WIDE
+#ifdef ENABLE_UTF8
     printf(" --enable-utf8");
 #endif
 #ifdef USE_SLANG
@@ -4256,7 +4256,7 @@ int main(int argc, char **argv)
     };
 #endif
 
-#ifdef NANO_WIDE
+#ifdef ENABLE_UTF8
     {
 	/* If the locale set exists and includes the case-insensitive
 	 * string "UTF8" or "UTF-8", we should use UTF-8. */

@@ -68,6 +68,8 @@ CVS code -
 	  read_file(), move_to_filestruct(), copy_from_filestruct(),
 	  do_justify(), get_totals() (renamed get_totsize()), and
 	  do_cursorpos(). (DLR)
+	- Change the NANO_WIDE #define to ENABLE_UTF8, as the latter is
+	  clearer. (DLR)
 - files.c:
   open_file()
 	- Assert that filename isn't NULL, and don't do anything special
@@ -168,6 +170,8 @@ CVS code -
 - configure.ac:
 	- Since we only use vsnprintf() now, remove the tests for
 	  snprintf(). (DLR)
+	- Change the description of "sufficient wide character support"
+	  to "sufficient UTF-8 support", as the latter is clearer. (DLR)
 - doc/faq.html:
 	- Update section 4.10 to mention that pasting from the X
 	  clipboard via the middle mouse button also works when the
