@@ -3544,9 +3544,10 @@ void edit_scroll(updown direction, int nlines)
 	openfile->fileage)
 	nlines = editwinrows;
 
-    /* Add two to nlines, to account for the lines before and after the
-     * scrolled region. */
-    nlines += 2;
+    /* Make nlines account for the lines before and after the scrolled
+     * region, if they're onsccreen. */
+    nlines += (nlines <= editwinrows - 2) ? 2 :
+	(nlines == editwinrows - 1) ? 1 : 0;
 
     /* If we scrolled up, we're on the line before the scrolled
      * region. */
