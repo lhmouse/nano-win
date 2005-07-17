@@ -4100,7 +4100,7 @@ void dump_filestruct(const filestruct *inptr)
     }
 }
 
-/* Dump the main filestruct to stderr in reverse. */
+/* Dump the current buffer's filestruct to stderr in reverse. */
 void dump_filestruct_reverse(void)
 {
     const filestruct *fileptr = openfile->filebot;

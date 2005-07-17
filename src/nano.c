@@ -3051,12 +3051,12 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
     for (i = par_len; i > 0; i--)
 	bot = bot->next;
 
-    /* Move the paragraph from the main filestruct to the justify
-     * buffer. */
+    /* Move the paragraph from the current buffer's filestruct to the
+     * justify buffer. */
     move_to_filestruct(&jusbuffer, &jusbottom, top, 0, bot, 0);
 
-    /* Copy the paragraph from the justify buffer to the main
-     * filestruct. */
+    /* Copy the paragraph back to the current buffer's filestruct from
+     * the justify buffer. */
     copy_from_filestruct(jusbuffer, jusbottom);
 
     /* Move upward from the last line of the paragraph to the first
