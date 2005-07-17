@@ -430,47 +430,32 @@ void mark_order(const filestruct **top, size_t *top_x, const filestruct
 }
 #endif
 
-/* Calculate the number of lines and the number of characters between
- * begin and end, and return them in lines and size, respectively. */
-void get_totals(const filestruct *begin, const filestruct *end, size_t
-	*lines, size_t *size)
+/* Calculate the number of characters between begin and end, and return
+ * it. */
+size_t get_totsize(const filestruct *begin, const filestruct *end)
 {
+    size_t totsize = 0;
     const filestruct *f;
 
-    if (lines != NULL)
-	*lines = 0;
-    if (size != NULL)
-	*size = 0;
-
     /* Go through the lines from begin to end->prev, if we can. */
-    for (f = begin; f != NULL && f != end; f = f->next) {
-	/* Count this line. */
-	if (lines != NULL)
-	    (*lines)++;
-
+    for (f = begin; f != end && f != NULL; f = f->next) {
 	/* Count the number of characters on this line. */
-	if (size != NULL) {
-	    *size += mbstrlen(f->data);
+	totsize += mbstrlen(f->data);
 
-	    /* Count the newline if we have one. */
-	    if (f->next != NULL)
-		(*size)++;
-	}
+	/* Count the newline if we have one. */
+	if (f->next != NULL)
+	    totsize++;
     }
 
     /* Go through the line at end, if we can. */
     if (f != NULL) {
-	/* Count this line. */
-	if (lines != NULL)
-	    (*lines)++;
-
 	/* Count the number of characters on this line. */
-	if (size != NULL) {
-	    *size += mbstrlen(f->data);
+	totsize += mbstrlen(f->data);
 
-	    /* Count the newline if we have one. */
-	    if (f->next != NULL)
-		(*size)++;
-	}
+	/* Count the newline if we have one. */
+	if (f->next != NULL)
+	    totsize++;
     }
+
+    return totsize;
 }

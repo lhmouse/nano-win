@@ -565,8 +565,7 @@ void remove_magicline(void);
 void mark_order(const filestruct **top, size_t *top_x, const filestruct
 	**bot, size_t *bot_x, bool *right_side_up);
 #endif
-void get_totals(const filestruct *begin, const filestruct *end, size_t
-	*lines, size_t *size);
+size_t get_totsize(const filestruct *begin, const filestruct *end);
 
 /* Public functions in winio.c. */
 #ifndef NANO_SMALL

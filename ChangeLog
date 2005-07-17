@@ -61,6 +61,13 @@ CVS code -
 	  the current file.  Changes to do_colorinit() (renamed
 	  color_init()), update_color() (renamed color_update()),
 	  write_file(), do_input(), and do_output(). (DLR)
+	- Simplify get_totals() to only get the total number of
+	  characters, and eliminate dependence on its old ability to get
+	  the total number of lines by renumber()ing when necessary and
+	  using the number of the last line of a filestruct.  Changes to
+	  read_file(), move_to_filestruct(), copy_from_filestruct(),
+	  do_justify(), get_totals() (renamed get_totsize()), and
+	  do_cursorpos(). (DLR)
 - files.c:
   open_file()
 	- Assert that filename isn't NULL, and don't do anything special

@@ -381,8 +381,6 @@ void read_file(FILE *f, const char *filename)
 {
     size_t num_lines = 0;
 	/* The number of lines in the file. */
-    size_t num_chars;
-	/* The number of characters in the file. */
     size_t len = 0;
 	/* The length of the current line of the file. */
     size_t i = 0;
@@ -551,8 +549,8 @@ void read_file(FILE *f, const char *filename)
 	}
     }
 
-    get_totals(openfile->fileage, openfile->filebot, NULL, &num_chars);
-    openfile->totsize += num_chars;
+    openfile->totsize += get_totsize(openfile->fileage,
+	openfile->filebot);
 
 #ifndef NANO_SMALL
     if (format == 3)

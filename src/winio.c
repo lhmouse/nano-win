@@ -3829,7 +3829,7 @@ void do_cursorpos(bool constant)
     f = openfile->current->next;
     openfile->current->data[openfile->current_x] = '\0';
     openfile->current->next = NULL;
-    get_totals(openfile->fileage, openfile->current, NULL, &i);
+    i = get_totsize(openfile->fileage, openfile->current);
     openfile->current->data[openfile->current_x] = c;
     openfile->current->next = f;
 

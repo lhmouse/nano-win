@@ -179,7 +179,7 @@ void free_filestruct(filestruct *src)
     delete_node(src);
 }
 
-/* Renumbers all entries in a filestruct, starting with fileptr. */
+/* Renumber all entries in a filestruct, starting with fileptr. */
 void renumber(filestruct *fileptr)
 {
     ssize_t line;
@@ -300,7 +300,6 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 	filestruct *top, size_t top_x, filestruct *bot, size_t bot_x)
 {
     filestruct *top_save;
-    size_t part_totsize;
     bool at_edittop;
 #ifndef NANO_SMALL
     bool mark_inside = FALSE;
@@ -332,8 +331,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 
     /* Get the number of characters in the text, and subtract it from
      * totsize. */
-    get_totals(top, bot, NULL, &part_totsize);
-    openfile->totsize -= part_totsize;
+    openfile->totsize -= get_totsize(top, bot);
 
     if (*file_top == NULL) {
 	/* If file_top is empty, just move all the text directly into
@@ -341,7 +339,12 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 	 * (lack of) text at the end of file_top. */
 	*file_top = openfile->fileage;
 	*file_bot = openfile->filebot;
+
+	/* Renumber starting with file_top. */
+	renumber(*file_top);
     } else {
+	filestruct *file_bot_save = *file_bot;
+
 	/* Otherwise, tack the text in top onto the text at the end of
 	 * file_bot. */
 	(*file_bot)->data = charealloc((*file_bot)->data,
@@ -357,6 +360,11 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 	    (*file_bot)->next->prev = *file_bot;
 	    *file_bot = openfile->filebot;
 	}
+
+	/* Renumber starting with the line after the original
+	 * file_bot. */
+	if (file_bot_save->next != NULL)
+	    renumber(file_bot_save->next);
     }
 
     /* Since the text has now been saved, remove it from the filestruct.
@@ -403,7 +411,6 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
 {
     filestruct *top_save;
-    size_t part_totlines, part_totsize;
     bool at_edittop;
 
     assert(file_top != NULL && file_bot != NULL);
@@ -428,11 +435,10 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
     if (openfile->fileage == openfile->filebot)
 	openfile->current_x += strlen(filepart->top_data);
 
-    /* Get the number of lines and the number of characters in the saved
-     * text, and add the latter to totsize. */
-    get_totals(openfile->fileage, openfile->filebot, &part_totlines,
-	&part_totsize);
-    openfile->totsize += part_totsize;
+    /* Get the number of characters in the text, and add it to
+     * totsize. */
+    openfile->totsize += get_totsize(openfile->fileage,
+	openfile->filebot);
 
     /* If the top of the partition was the top of the edit window, set
      * edittop to where the saved text now starts, and update the
@@ -441,7 +447,7 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
      * current line. */
     if (at_edittop)
 	openfile->edittop = openfile->fileage;
-    openfile->current_y += part_totlines - 1;
+    openfile->current_y += openfile->filebot->lineno - 1;
 
     top_save = openfile->fileage;
 
@@ -2430,8 +2436,6 @@ const char *do_alt_speller(char *tempfile_name)
 
 #ifndef NANO_SMALL
     if (old_mark_set) {
-	size_t part_totsize;
-
 	/* If the mark was on, partition the filestruct so that it
 	 * contains only the marked text, and keep track of whether the
 	 * temp file (which should contain the spell-checked marked
@@ -2442,10 +2446,8 @@ const char *do_alt_speller(char *tempfile_name)
 	added_magicline = (openfile->filebot->data[0] != '\0');
 
 	/* Get the number of characters in the marked text, and subtract
-	 * it from the saved value of totsize.  Note that we don't need
-	 * to save totlines. */
-	get_totals(top, bot, NULL, &part_totsize);
-	totsize_save -= part_totsize;
+	 * it from the saved value of totsize. */
+	totsize_save -= get_totsize(top, bot);
     }
 #endif
 
@@ -3434,9 +3436,9 @@ void do_justify(bool full_justify)
     /* We are now done justifying the paragraph or the file, so clean
      * up.  totlines, totsize, and current_y have been maintained above.
      * Set last_par_line to the new end of the paragraph, update
-     * fileage, and renumber() since edit_refresh() needs the line
-     * numbers to be right (but only do the last two if we actually
-     * justified something). */
+     * fileage, and renumber since edit_refresh() needs the line numbers
+     * to be right (but only do the last two if we actually justified
+     * something). */
     last_par_line = openfile->current;
     if (first_par_line != NULL) {
 	if (first_par_line->prev == NULL)
@@ -3474,7 +3476,7 @@ void do_justify(bool full_justify)
 	/* Splice the justify buffer back into the file, but only if we
 	 * actually justified something. */
 	if (first_par_line != NULL) {
-	    filestruct *bot_save;
+	    filestruct *top_save;
 
 	    /* Partition the filestruct so that it contains only the
 	     * text of the justified paragraph. */
@@ -3487,17 +3489,16 @@ void do_justify(bool full_justify)
 	    openfile->fileage = jusbuffer;
 	    openfile->filebot = jusbottom;
 
-	    bot_save = openfile->filebot;
+	    top_save = openfile->fileage;
 
 	    /* Unpartition the filestruct so that it contains all the
 	     * text again.  Note that the justified paragraph has been
 	     * replaced with the unjustified paragraph. */
 	    unpartition_filestruct(&filepart);
 
-	     /* Renumber starting with the ending line of the old
+	     /* Renumber starting with the beginning line of the old
 	      * partition. */
-	    if (bot_save->next != NULL)
-		renumber(bot_save->next);
+	    renumber(top_save);
 
 	    /* Restore variables from before the justify. */
 	    openfile->totsize = totsize_save;
