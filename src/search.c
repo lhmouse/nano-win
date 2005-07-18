@@ -799,7 +799,8 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 	    if (i == 2)
 		replaceall = TRUE;
 
-	    /* Get the match's length in single-byte characters. */
+	    /* Make sure the string we replace is the match's length in
+	     * single-byte characters. */
 	    match = mallocstrncpy(NULL, openfile->current->data +
 		openfile->current_x, match_len + 1);
 	    match[match_len] = '\0';
