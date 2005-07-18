@@ -2119,6 +2119,8 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 
 	while (TRUE) {
 	    for (match = 1; match < num_matches; match++) {
+		/* Get the number of single-byte characters that match1
+		 * and match2 have in common. */
 		match1_mb_len = parse_mbchar(matches[0] + common_len,
 			match1_mb, NULL, NULL);
 		match2_mb_len = parse_mbchar(matches[match] +
