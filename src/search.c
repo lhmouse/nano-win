@@ -1185,6 +1185,15 @@ void history_init(void)
     replacebot = replace_history;
 }
 
+/* Set the current position in the history list h to the bottom. */
+void history_reset(const filestruct *h)
+{
+    if (h == search_history)
+	search_history = searchbot;
+    else if (h == replace_history)
+	replace_history = replacebot;
+}
+
 /* Return the first node containing the first len characters of the
  * string s in the history list, starting at h_start and ending at
  * h_end, or NULL if there isn't one. */

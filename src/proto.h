@@ -517,6 +517,7 @@ void do_find_bracket(void);
 bool history_has_changed(void);
 #endif
 void history_init(void);
+void history_reset(const filestruct *h);
 filestruct *find_history(filestruct *h_start, filestruct *h_end, const
 	char *s, size_t len);
 void update_history(filestruct **h, const char *s);

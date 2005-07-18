@@ -75,6 +75,9 @@ CVS code -
 	  contains invalid multibyte characters interpreted as normal
 	  characters.  Changes to mbstrncasecmp(), mbstrcasestr(),
 	  mbrevstrcasestr(), findnextstr(), and do_replace_loop(). (DLR)
+	- Make sure that the current position in the history list is
+	  properly set to the bottom if we cancel out of the prompt.
+	  New function history_reset(); changes to nanogetstr(). (DLR)
 - files.c:
   open_file()
 	- Assert that filename isn't NULL, and don't do anything special

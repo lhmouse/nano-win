@@ -2642,9 +2642,14 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
     }
 
 #ifndef NANO_SMALL
-    /* Free magichistory if we need to. */
-    if (magichistory != NULL)
-	free(magichistory);
+    /* Set the current position in the history list to the bottom and
+     * free magichistory, if we need to. */
+    if (history_list != NULL) {
+	history_reset(*history_list);
+
+	if (magichistory != NULL)
+	    free(magichistory);
+    }
 #endif
 
     /* We finished putting in an answer or ran a normal shortcut's
