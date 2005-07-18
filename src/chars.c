@@ -808,6 +808,7 @@ char *mbstrchr(const char *s, char *c)
 
 #ifdef ENABLE_UTF8
     if (ISSET(USE_UTF8)) {
+	bool bad_c_mb = FALSE, bad_s_mb = FALSE;
 	char *s_mb = charalloc(MB_CUR_MAX);
 	const char *q = s;
 	wchar_t ws, wc;
@@ -816,6 +817,7 @@ char *mbstrchr(const char *s, char *c)
 	if (c_mb_len <= 0) {
 	    mbtowc(NULL, NULL, 0);
 	    wc = (unsigned char)*c;
+	    bad_c_mb = TRUE;
 	}
 
 	while (*s != '\0') {
@@ -824,9 +826,10 @@ char *mbstrchr(const char *s, char *c)
 	    if (mbtowc(&ws, s_mb, s_mb_len) <= 0) {
 		mbtowc(NULL, NULL, 0);
 		ws = (unsigned char)*s;
+		bad_s_mb = TRUE;
 	    }
 
-	    if (ws == wc)
+	    if (bad_s_mb == bad_c_mb && ws == wc)
 		break;
 
 	    s += s_mb_len;
