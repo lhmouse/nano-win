@@ -163,9 +163,6 @@ CVS code -
   do_statusbar_output()
 	- When adding a character, just add its length in bytes to
 	  statusbar_x instead of calling do_statusbar_right(). (DLR)
-  display_string()
-	- Display invalid multibyte sequences as Unicode 0xFFFD
-	  (Replacement Character). (DLR)
   titlebar()
 	- Rework to display only one space after the version number, so
 	  that there's more room for other things, and to not display

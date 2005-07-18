@@ -2285,13 +2285,6 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	/* Current position in converted. */
     bool bad_char;
 	/* Whether we have an invalid multibyte character. */
-#ifdef ENABLE_UTF8
-    const char *bad_buf_mb = "\xEF\xBF\xBD";
-	/* What to display when we have an invalid multibyte
-	 * character: Unicode 0xFFFD (Replacement Character). */
-    const int bad_buf_mb_len = 3;
-	/* The length of bad_buf_mb. */
-#endif
 
     char *buf_mb = charalloc(mb_cur_max());
     int buf_mb_len;
@@ -2371,37 +2364,25 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		converted[index++] = ' ';
 		start_col++;
 	    }
-	/* If buf contains a control character, interpret it. */
+	/* If buf contains a control character, interpret it.  If buf
+	 * contains an invalid multibyte control character, interpret
+	 * it as though it's a normal control character.*/
 	} else if (is_cntrl_mbchar(buf_mb)) {
-	    int i;
+	    char *ctrl_buf_mb = charalloc(mb_cur_max());
+	    int ctrl_buf_mb_len, i;
 
 	    converted[index++] = '^';
 	    start_col++;
 
-#ifdef ENABLE_UTF8
-	    /* If buf contains an invalid multibyte control character,
-	     * display it as such. */
-	    if (ISSET(USE_UTF8) && bad_char) {
-		for (i = 0; i < bad_buf_mb_len; i++)
-		    converted[index++] = bad_buf_mb[i];
+	    ctrl_buf_mb = control_mbrep(buf_mb, ctrl_buf_mb,
+		&ctrl_buf_mb_len);
 
-		start_col += mbwidth(bad_buf_mb);
-	    } else
-#endif
-	    {
-		char *ctrl_buf_mb = charalloc(mb_cur_max());
-		int ctrl_buf_mb_len;
+	    for (i = 0; i < ctrl_buf_mb_len; i++)
+		converted[index++] = ctrl_buf_mb[i];
 
-		ctrl_buf_mb = control_mbrep(buf_mb, ctrl_buf_mb,
-			&ctrl_buf_mb_len);
+	    start_col += mbwidth(ctrl_buf_mb);
 
-		for (i = 0; i < ctrl_buf_mb_len; i++)
-		    converted[index++] = ctrl_buf_mb[i];
-
-		start_col += mbwidth(ctrl_buf_mb);
-
-		free(ctrl_buf_mb);
-	    }
+	    free(ctrl_buf_mb);
 	/* If buf contains a space character, interpret it. */
 	} else if (*buf_mb == ' ') {
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
@@ -2421,12 +2402,21 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
 #ifdef ENABLE_UTF8
 	    /* If buf contains an invalid multibyte non-control
-	     * character, display it as such. */
+	     * character, interpret it as though it's a normal
+	     * non-control character. */
 	    if (ISSET(USE_UTF8) && bad_char) {
+		char *bad_buf_mb;
+		int bad_buf_mb_len;
+
+		bad_buf_mb = make_mbchar((unsigned char)*buf_mb,
+			&bad_buf_mb_len);
+
 		for (i = 0; i < bad_buf_mb_len; i++)
 		    converted[index++] = bad_buf_mb[i];
 
 		start_col += mbwidth(bad_buf_mb);
+
+		free(bad_buf_mb);
 	    } else {
 #endif
 		for (i = 0; i < buf_mb_len; i++)
