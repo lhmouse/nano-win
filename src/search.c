@@ -321,21 +321,12 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 		/* Is this potential match a whole word? */
 
 	    /* Set found_len to the length of the potential match. */
+	    found_len =
 #ifdef HAVE_REGEX_H
-	    if (ISSET(USE_REGEXP))
-		found_len = regmatches[0].rm_eo - regmatches[0].rm_so;
-	    else
+		ISSET(USE_REGEXP) ?
+		regmatches[0].rm_eo - regmatches[0].rm_so :
 #endif
-	    {
-		size_t needle_len = mbstrlen(needle);
-
-		/* Get found's length in single-byte characters. */
-		found_len = 0;
-
-		for (; needle_len > 0; needle_len--)
-		    found_len += parse_mbchar(found + found_len, NULL,
-			NULL, NULL);
-	    }
+		strlen(needle);
 
 	    /* If we're searching for whole words, see if this potential
 	     * match is a whole word. */
@@ -793,21 +784,13 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 #endif
 
 	if (i > 0 || replaceall) {	/* Yes, replace it!!!! */
-	    char *match, *copy;
+	    char *copy;
 	    size_t length_change;
 
 	    if (i == 2)
 		replaceall = TRUE;
 
-	    /* Make sure the string we replace is the match's length in
-	     * single-byte characters. */
-	    match = mallocstrncpy(NULL, openfile->current->data +
-		openfile->current_x, match_len + 1);
-	    match[match_len] = '\0';
-
-	    copy = replace_line(match);
-
-	    free(match);
+	    copy = replace_line(needle);
 
 	    length_change = strlen(copy) -
 		strlen(openfile->current->data);
