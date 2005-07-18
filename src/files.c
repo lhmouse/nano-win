@@ -2119,8 +2119,8 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 
 	while (TRUE) {
 	    for (match = 1; match < num_matches; match++) {
-		/* Get the number of single-byte characters that match1
-		 * and match2 have in common. */
+		/* Get the number of single-byte characters that all the
+		 * matches have in common. */
 		match1_mb_len = parse_mbchar(matches[0] + common_len,
 			match1_mb, NULL, NULL);
 		match2_mb_len = parse_mbchar(matches[match] +
@@ -2161,7 +2161,7 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 	    beep();
 
 	/* If there is more of a match to display on the statusbar, show
-	 * it.  We reset lastwastab to FALSE: it requires hitting Tab
+	 * it.  We reset lastwastab to FALSE: it requires pressing Tab
 	 * twice in succession with no statusbar changes to see a match
 	 * list. */
 	if (common_len != *place) {
@@ -2176,8 +2176,7 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 	} else if (*lastwastab == FALSE || num_matches < 2)
 	    *lastwastab = TRUE;
 	else {
-	    int longest_name = 0, editline = 0;
-	    size_t columns;
+	    int longest_name = 0, columns, editline = 0;
 
 	    /* Now we show a list of the available choices. */
 	    assert(num_matches > 1);
@@ -2199,9 +2198,9 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 
 	    assert(longest_name <= COLS - 1);
 
-	    /* Each column will be longest_name + 2 characters wide,
-	     * i.e, two spaces between columns, except that there will
-	     * be only one space after the last column. */
+	    /* Each column will be (longest_name + 2) columns wide, i.e,
+	     * two spaces between columns, except that there will be
+	     * only one space after the last column. */
 	    columns = (COLS + 1) / (longest_name + 2);
 
 	    /* Blank the edit window, and print the matches out
