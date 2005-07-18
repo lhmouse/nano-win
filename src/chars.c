@@ -475,7 +475,6 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 	assert(s1 != NULL && s2 != NULL);
 
 	while (n > 0 && *s1 != '\0' && *s2 != '\0') {
-	    bool bad_s1_mb = FALSE, bad_s2_mb = FALSE;
 	    int s1_mb_len, s2_mb_len;
 
 	    s1_mb_len = parse_mbchar(s1, s1_mb, NULL, NULL);
@@ -483,7 +482,6 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 	    if (mbtowc(&ws1, s1_mb, s1_mb_len) <= 0) {
 		mbtowc(NULL, NULL, 0);
 		ws1 = (unsigned char)*s1_mb;
-		bad_s1_mb = TRUE;
 	    }
 
 	    s2_mb_len = parse_mbchar(s2, s2_mb, NULL, NULL);
@@ -491,11 +489,9 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 	    if (mbtowc(&ws2, s2_mb, s2_mb_len) <= 0) {
 		mbtowc(NULL, NULL, 0);
 		ws2 = (unsigned char)*s2_mb;
-		bad_s2_mb = TRUE;
 	    }
 
-	    if (n == 0 || bad_s1_mb != bad_s2_mb ||
-		towlower(ws1) != towlower(ws2))
+	    if (n == 0 || towlower(ws1) != towlower(ws2))
 		break;
 
 	    s1 += s1_mb_len;
@@ -550,14 +546,11 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 	    int r_mb_len, q_mb_len;
 
 	    while (*q != '\0') {
-		bool bad_r_mb = FALSE, bad_q_mb = FALSE;
-
 		r_mb_len = parse_mbchar(r, r_mb, NULL, NULL);
 
 		if (mbtowc(&wr, r_mb, r_mb_len) <= 0) {
 		    mbtowc(NULL, NULL, 0);
 		    wr = (unsigned char)*r;
-		    bad_r_mb = TRUE;
 		}
 
 		q_mb_len = parse_mbchar(q, q_mb, NULL, NULL);
@@ -565,11 +558,9 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 		if (mbtowc(&wq, q_mb, q_mb_len) <= 0) {
 		    mbtowc(NULL, NULL, 0);
 		    wq = (unsigned char)*q;
-		    bad_q_mb = TRUE;
 		}
 
-		if (bad_r_mb != bad_q_mb ||
-			towlower(wr) != towlower(wq))
+		if (towlower(wr) != towlower(wq))
 		    break;
 
 		r += r_mb_len;
@@ -656,14 +647,11 @@ const char *mbrevstrcasestr(const char *haystack, const char *needle,
 	    int r_mb_len, q_mb_len;
 
 	    while (*q != '\0') {
-		bool bad_r_mb = FALSE, bad_q_mb = FALSE;
-
 		r_mb_len = parse_mbchar(r, r_mb, NULL, NULL);
 
 		if (mbtowc(&wr, r_mb, r_mb_len) <= 0) {
 		    mbtowc(NULL, NULL, 0);
 		    wr = (unsigned char)*r;
-		    bad_r_mb = TRUE;
 		}
 
 		q_mb_len = parse_mbchar(q, q_mb, NULL, NULL);
@@ -671,11 +659,9 @@ const char *mbrevstrcasestr(const char *haystack, const char *needle,
 		if (mbtowc(&wq, q_mb, q_mb_len) <= 0) {
 		    mbtowc(NULL, NULL, 0);
 		    wq = (unsigned char)*q;
-		    bad_q_mb = TRUE;
 		}
 
-		if (bad_r_mb != bad_q_mb ||
-			towlower(wr) != towlower(wq))
+		if (towlower(wr) != towlower(wq))
 		    break;
 
 		r += r_mb_len;

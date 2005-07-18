@@ -70,6 +70,11 @@ CVS code -
 	  do_cursorpos(). (DLR)
 	- Change the NANO_WIDE #define to ENABLE_UTF8, as the latter is
 	  clearer. (DLR)
+	- Properly handle cases where a search string and a match to it
+	  are not the same length in bytes, i.e, when the latter
+	  contains invalid multibyte characters interpreted as normal
+	  characters.  Changes to mbstrncasecmp(), mbstrcasestr(),
+	  mbrevstrcasestr(), findnextstr(), and do_replace_loop(). (DLR)
 - files.c:
   open_file()
 	- Assert that filename isn't NULL, and don't do anything special
