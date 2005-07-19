@@ -1,7 +1,8 @@
 .\" Hey, EMACS: -*- nroff -*-
-.\" nanorc.5 is Copyright (C) 2003 Free Software Foundation, Inc.
+.\" nanorc.5 is Copyright (C) 2003, 2004, 2005 Free Software
+.\" Foundation, Inc.
 .\"
-.\" (c) 2003-2004 Jean-Philippe Guérard <jean-philippe.guerard@corbeaunoir.org>
+.\" (c) 2003-2005 Jean-Philippe Guérard <jean-philippe.guerard@corbeaunoir.org>
 .\" pour l'adaptation française
 .\"
 .\" This is free documentation, see the latest version of the GNU General
@@ -9,10 +10,11 @@
 .\"
 .\" Ce document est libre. Reportez-vous à la dernière version de la
 .\" licence publique générale GNU (GNU GPL) pour connaître ses
-.\" conditions d'utilisation. AUCUNE garantie n'est offerte.
+.\" conditions d'utilisation. Ce document est distribué sans
+.\" AUCUNE garantie.
 .\"
-.\" $Id$
-.TH NANORC 5 "version 1.3.4" "17 août 2004"
+\" $Id$
+.TH NANORC 5 "version 1.3.8" "17 juillet 2005"
 .\" Please adjust this date whenever revising the manpage.
 .\" Merci de modifier ces dates à chaque mise à jour de cette page.
 
@@ -21,27 +23,27 @@ nanorc \- fichier de configuration de l'éditeur nano du projet GNU
 
 .SH DESCRIPTION
 Cette page de manuel décrit brièvement le fichier de configuration de 
-l'éditeur \fBnano\fP du projet GNU.
+l'éditeur \fBnano\fP GNU.
 .PP
 \fBnano\fP est un petit éditeur sympathique et libre, qui vise à 
-remplacer Pico, l'éditeur par défaut du paquet non-libre Pine. 
+remplacer Pico, l'éditeur par défaut du paquet non libre Pine. 
 \fBnano\fP ne se contentant pas de copier l'interface et l'ergonomie de 
 Pico, il offre également certaines fonctionnalités manquantes (ou 
 désactivées par défaut) de Pico. Ces fonctionnalités sont, par exemple, 
-les fonctions de recherche et de remplacement, et la possibilité de 
+les fonctions de recherche et de remplacement et la possibilité de 
 sauter directement à un numéro de ligne.
 .PP
 Le fichier \fInanorc\fP contient les paramètres par défaut de 
-\fBnano\fP. Lors de son démarrage, nano commence par lire le fichier de 
-configuration général \fISYSCONFDIR/nanorc\fP, puis lit le fichier de 
-configuration personnel de l'utilisateur \fI~/.nanorc\fP.
+\fBnano\fP. Lors de son démarrage, nano commencera par lire le fichier 
+de configuration général \fISYSCONFDIR/nanorc\fP, puis lira le fichier 
+de configuration personnel de l'utilisateur \fI~/.nanorc\fP.
 
 .SH OPTIONS
 Le fichier de configuration accepte une série de commandes «\ set\ » 
 (activer) et «\ unset\ » (désactiver), qui permettent de définir la 
 configuration de nano au démarrage sans avoir à utiliser d'options sur 
-la ligne de commande.
-De plus, les mots clefs «\ syntax\ » (syntaxe) et «\ color\ » (couleur) 
+la ligne de commande. De plus, les mots clefs «\ syntax\ » (syntaxe),
+«\ color\ » (couleur) et «\ icolor\ » (couleur insensible à la casse) 
 sont utilisés pour définir les règles de colorisation pour différents 
 motifs de texte. Nano lira une commande par ligne.
 
@@ -62,17 +64,39 @@ Active l'indentation automatique.
 Crée des copie de sécurité nommées
 .IR nom_du_fichier~ .
 .TP
+.B set backupdir "\fIrépertoire\fP"
+Définit le répertoire utilisé par \fBnano\fP pour enregistrer les copies 
+de sécurité uniques, si l'enregistrement de copies de sécurité est 
+activé.
+.TP
+.B set/unset backwards
+Par défaut, les recherches se font vers l'arrière.
+.TP
+.B set brackets "\fIchaîne\fP"
+Définit les caractères considérés comme des fermetures de parenthèses. 
+Ces caractères ne doivent pas contenir d'espaces. Seules les 
+ponctuations terminales, éventuellement suivies de parenthèses 
+fermantes, peuvent terminer une phrase.
+
+(N.D.T.\ : reportez-vous au paragraphe sur l'option \fBpunct\fR pour 
+plus d'informations.)
+.TP
+.B set/unset casesensitive
+Par défaut, les recherches ne tiennent pas compte de la casse.
+.TP
 \fBset/unset const\fP
 Affiche en permanence la position du curseur dans la ligne d'état.
 .TP
 \fBset/unset cut\fP
-Par défaut, ^K  coupe le texte du curseur jusqu'à la fin de la ligne, au 
-lieu de couper la ligne entière.
+Par défaut, coupe le texte du curseur à la fin de la ligne, au lieu de 
+couper la ligne entière.
 .TP
 \fBset fill \fIn\fP\fP
-Passe automatiquement à la ligne à la colonne \fIn\fP. Si la valeur 
-indiquée est 0 ou moins, la longueur de la ligne sera égale à la largeur 
-de l'écran moins \fIn\fP. La valeur par défaut est -8.
+Passe automatiquement à la ligne une fois arrivé à la colonne \fIn\fR. 
+Si la valeur indiquée est de 0 ou moins, le point de passage à la ligne 
+aura lieu à la taille de l'écran moins \fIn\fR. Cela permet de faire 
+varier le point de passage à la ligne lorsque l'on change la taille de 
+l'écran. La valeur par défaut est de -8.
 .TP
 \fBset/unset historylog\fP
 Active l'utilisation de
@@ -80,8 +104,16 @@ Active l'utilisation de
 pour enregistrer et relire les chaînes ayant fait l'objet d'une 
 recherche ou d'un remplacement.
 .TP
+.B set/unset morespace
+Utiliser la ligne blanche située sous la ligne de titre comme espace 
+supplémentaire d'édition.
+.TP
+.B set/unset mouse
+Active l'utilisation de la souris, afin que des clics souris puissent 
+être utilisés pour marquer le texte ou accéder aux raccourcis.
+.TP
 \fBset/unset multibuffer\fP
-Mode multifichier\ : permet de charger les fichiers dans leur propre 
+Mode multi-fichiers\ : permet de charger les fichiers dans leur propre 
 espace.
 .TP
 \fBset/unset noconvert\fP
@@ -107,15 +139,19 @@ Préserve les séquences XON et XOFF (^Q et ^S).
 .TP
 \fBset punct "\fIchaîne\fP"\fP
 Définit les caractères interprétés comme des ponctuations terminales. 
-Ces caractères ne peuvent inclure d'espaces ou de tabulations. Seules les 
-ponctuations terminales, éventuellement suivies de crochets fermants, 
-peuvent terminer une phrase.
+Ces caractères ne peuvent inclure de blancs. Seules les ponctuations 
+terminales, éventuellement suivies de parenthèses fermantes, peuvent 
+terminer une phrase.
 
-(N.D.T.\ : ce réglage permet de conserver 2\ espaces au lieu d'une 
-derrière les ponctuations terminales lors de la justification, ce qui 
+(N.D.T.\ : ce réglage permet, lors de la justification, de conserver 2\ 
+espaces au lieu d'une derrière les ponctuations terminales, ce qui 
 correspond aux normes typographiques anglo-saxonnes, mais n'a pas lieu 
-d'être en français. Pour le français, le plus simple est d'indiquer dans 
-le fichier nanorc une chaîne vide pour ce paramètre.)
+d'être en français. Pour le français, le plus simple est d'indiquer, 
+dans le fichier nanorc, une chaîne vide pour ce paramètre.)
+.TP
+.B set quickblank
+Effacement rapide de la ligne d'état. Les messages affichés par la ligne
+d'état disparaîtront après une frappe clavier au lieu de 25.
 .TP
 \fBset quotestr "\fIchaîne\fP"\fP
 Définit le préfixe par défaut utilisé pour les citations dans les 
@@ -131,22 +167,22 @@ Sinon, ce sera ">\ ". Notez que le «\ \\t\ » ci-dessus correspond à un
 caractère de tabulation.
 .TP
 \fBset/unset rebinddelete\fP
-Interprète différemment la touche «\ Supprimer\ », afin que les touches
-«\ Effacement arrière\ » et «\ Supprimer\ » fonctionnent correctement.
-Vous devriez uniquement avoir besoin de cette option si la touche
-«\ Effacement arrière\ » produit l'effet de la touche «\ Supprimer\ »
-sur votre système.
+Interprète différemment la touche «\ Supprimer\ », afin que les touches 
+«\ Effacement arrière\ » et «\ Supprimer\ » fonctionnent correctement. 
+Vous ne devriez avoir besoin de cette option que si, sur votre système, 
+la touche «\ Effacement arrière\ » produit l'effet de la touche «\ 
+Supprimer\ ».
 .TP
 \fBset/unset regexp\fP
 Utilise par défaut des expressions rationnelles pour les recherches.
 .TP
 \fBset/unset smarthome\fP
-Active le fonctionnement évolué de la touche «\ Début\ ». Lorsque cette
-touche est pressée à n'importe quel endroit excepté au tout début du
-texte d'une ligne (i.\ e. au premier caractère non-blanc), le curseur se
-positionnera à ce début de ligne (qu'il soit en avant ou en arrière). Si
-le curseur est déjà au tout début de la ligne, il se placera au vrai
-début de la ligne.
+Rend plus malin le fonctionnement de la touche «\ Début\ ». Lorsque
+cette touche est pressée à n'importe quel endroit excepté au tout début
+du texte d'une ligne (i.\ e. au premier caractère non blanc), le curseur
+se positionnera au début du texte de la ligne (qu'il soit en avant ou en 
+arrière). Si le curseur est déjà là, il se placera au vrai début de la 
+ligne.
 .TP
 \fBset/unset smooth\fP
 Active le défilement ligne-par-ligne du texte.
@@ -156,52 +192,65 @@ Utilise le correcteur orthographique \fIprogramme\fP au lieu du
 correcteur intégré, qui s'appuie sur \fIspell\fP.
 .TP
 \fBset/unset suspend\fP
-Autorise à suspendre nano avec ^Z.
+Autorise à suspendre nano.
 .TP
 \fBset tabsize \fIn\fP\fP
-Utilise une largeur de tabulation de \fIn\fP au lieu de la valeur par 
-défaut (8). Cette valeur doit être supérieur à 0.
+Utilise une taille de tabulation de \fIn\fP colonnes. Cette valeur doit 
+être strictement supérieure à 0. La valeur par défaut est de\ 8.
+.TP
+.B set/unset tabstospaces
+Convertit les tabulations clavier en espaces.
 .TP
 \fBset/unset tempfile\fP
 S'il a été modifié, le fichier sera sauvegardé automatiquement en 
 quittant, sans demande de confirmation.
 .TP
 \fBset/unset view\fP
-Interdit la modification du fichier.
+Interdit de modifier les fichiers.
 .TP
 \fBset whitespace "\fIchaîne\fP"\fP
 Définit les deux caractères utilisés pour afficher les premiers 
-caractères de tabulations et d'espaces. Cela ne doit pas être 
-des caractère de contrôle.
+caractères des tabulations et des espaces. Ces deux caractères doivent 
+être mono-colonne.
 .TP
 .B syntax "\fIchaîne\fP" ["\fImotif_de_fichier\fP" ... ]
 Définit une syntaxe nommée \fIchaîne\fP qui pourra être activé via 
-l'option \fB-Y\fP, ou qui sera automatiquement activé si le nom du 
+l'option \fB-Y\fP ou qui sera automatiquement activée si le nom du 
 fichier en cours correspond au \fImotif_de_fichier\fP. Toutes les 
-instructions suivantes de colorisation \fBcolor\fP s'appliqueront à 
-cette syntaxe, jusqu'à la définition d'une nouvelle syntaxe.
+instructions suivantes de colorisation \fBcolor\fP ou \fBicolor\fP 
+s'appliqueront à cette syntaxe, jusqu'à la définition d'une nouvelle 
+syntaxe.
 .TP
 .B color \fIcouleur_texte\fP[,\fIcouleur_fond\fP] "\fImotif\fP" ...
 Pour la syntaxe en cours, affiche toutes les expressions correspondant à 
 l'expression rationnelle \fImotif\fP en utilisant la couleur de texte 
-\fIcouleur_texte\fP et éventuellement la couleur de fond 
-\fIcouleur_fond\fP. Les couleurs acceptées par \fBnano\fP pour le 
-texte et le fond sont\ : \fIwhite\fP (blanc), \fIblack\fP (noir), 
-\fIred\fP (rouge), \fIblue\fP (bleu), \fIgreen\fP (vert), \fIyellow\fP 
-(jaune), \fImagenta\fP, et \fIcyan\fP. Vous pouvez ajouter à 
-ces couleurs le préfixe \fIbright\fP pour obtenir une couleur plus 
-lumineuse. Si votre terminal est capable de gérer la transparence, ne 
-pas spécifier de \fIcouleur_fond\fP indique à \fBnano\fP d'essayer 
-d'utiliser un fond transparent.
+\fIcouleur_texte\fP et la couleur de fond \fIcouleur_fond\fP, l'une de 
+ces deux couleurs au moins devant être définie. Les couleurs acceptées 
+par \fBnano\fP pour le texte et le fond sont\ : \fIwhite\fP (blanc), 
+\fIblack\fP (noir), \fIred\fP (rouge), \fIblue\fP (bleu), \fIgreen\fP 
+(vert), \fIyellow\fP (jaune), \fImagenta\fP, et \fIcyan\fP. Pour la 
+couleur du texte, vous pouvez ajouter à ces couleurs le préfixe 
+\fIbright\fP (lumineux) pour obtenir une couleur plus lumineuse. Si 
+votre terminal est capable de gérer la transparence, ne pas spécifier de 
+\fIcouleur_fond\fP indique à \fBnano\fP d'essayer d'utiliser un fond 
+transparent.
+.TP
+.B icolor \fIcouleur_texte\fP[,\fIcouleur_fond\fP] "\fImotif\fP" ...
+Comme ci-dessus, mais la recherche des motifs est effectuée sans tenir 
+compte de la casse.
 .TP
 .B color \fIcouleur_texte\fP[,\fIcouleur_fond\fP] start="\fImotif_début\fP" end="\fImotif_fin\fP"
 Affiche les expressions commençant par \fImotif_début\fP et se terminant 
 par \fImotif_fin\fP en utilisant la couleur de texte \fIcouleur_texte\fP 
-et éventuellement la couleur de fond \fIcouleur_fond\fP. Cela permet à 
-la colorisation syntaxique de s'étendre sur plusieurs lignes. Notez que 
-toutes les occurrences successives de \fImotif_début\fP après le 
-\fImotif_début\fP initial seront surlignées jusqu'à la prochaine instance 
-de \fImotif_fin\fP.
+et la couleur de fond \fIcouleur_fond\fP, l'une de ces deux couleurs au 
+moins devant être définie. Cela permet à la colorisation syntaxique de 
+s'étendre sur plusieurs lignes. Notez que toutes les occurrences 
+successives de \fImotif_début\fP après le \fImotif_début\fP initial 
+seront surlignées jusqu'à la prochaine instance de \fImotif_fin\fP.
+.TP
+.B icolor \fIcouleur_texte\fP[,\fIcouleur_fond\fP] start="\fImotif_début\fP" end="\fImotif_fin\fP"
+Comme ci-dessus, mais la recherche des motifs est effectuée sans tenir 
+compte de la casse.
 
 .SH FICHIERS
 .TP
@@ -225,6 +274,17 @@ Chris Allegretta <chrisa@asty.org> et d'autres (voir les fichiers
 manuel a été rédigée par Jordi Mallach <jordi@gnu.org>.
 
 .SH TRADUCTION
+Cette adaptation française a été réalisé par Jean-Philippe\ Guérard
+<jean-philippe.guerard@corbeaunoir.org> le 17\ juillet\ 2005 à partir de
+la version du 27\ juin\ 2005 de la page de manuel de nano 1.3.8.
 
-Adaptation française du 4\ septembre\ 2004 par
-Jean-Philippe\ Guérard\ <jean-philippe.guerard@corbeaunoir.org>.
+Un maximum de soin a été apporté lors de l'élaboration de cette
+traduction\ ; néanmoins, quelques imperfections peuvent subsister. Si
+vous en rencontrez, que ce soit dans la version française ou dans la
+version originale, n'hésitez pas à les signaler à l'auteur ou au
+traducteur.
+
+La version anglaise la plus à jour de ce document est toujours
+consultable via la commande :
+
+LANGUAGE=en man nano
