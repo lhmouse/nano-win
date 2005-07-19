@@ -518,13 +518,13 @@ bool history_has_changed(void);
 #endif
 void history_init(void);
 void history_reset(const filestruct *h);
-filestruct *find_history(filestruct *h_start, filestruct *h_end, const
-	char *s, size_t len);
+filestruct *find_history(const filestruct *h_start, const filestruct
+	*h_end, const char *s, size_t len);
 void update_history(filestruct **h, const char *s);
 char *get_history_older(filestruct **h);
 char *get_history_newer(filestruct **h);
 #ifndef DISABLE_TABCOMP
-char *get_history_completion(filestruct **h, char *s, size_t len);
+char *get_history_completion(filestruct **h, const char *s, size_t len);
 #endif
 #endif /* !NANO_SMALL */
 

@@ -1180,14 +1180,14 @@ void history_reset(const filestruct *h)
 /* Return the first node containing the first len characters of the
  * string s in the history list, starting at h_start and ending at
  * h_end, or NULL if there isn't one. */
-filestruct *find_history(filestruct *h_start, filestruct *h_end, const
-	char *s, size_t len)
+filestruct *find_history(const filestruct *h_start, const filestruct
+	*h_end, const char *s, size_t len)
 {
-    filestruct *p;
+    const filestruct *p;
 
     for (p = h_start; p != h_end->next && p != NULL; p = p->next) {
 	if (strncmp(s, p->data, len) == 0)
-	    return p;
+	    return (filestruct *)p;
     }
 
     return NULL;
@@ -1289,7 +1289,7 @@ char *get_history_newer(filestruct **h)
  * looking at only the first len characters of s, and return that
  * string.  If there isn't one, or if len is 0, don't move h and return
  * s. */
-char *get_history_completion(filestruct **h, char *s, size_t len)
+char *get_history_completion(filestruct **h, const char *s, size_t len)
 {
     assert(s != NULL);
 
@@ -1336,7 +1336,7 @@ char *get_history_completion(filestruct **h, char *s, size_t len)
 
     /* If we're here, we didn't find a match, we didn't find an inexact
      * match, or len is 0.  Return s. */
-    return s;
+    return (char *)s;
 }
 #endif
 #endif /* !NANO_SMALL */
