@@ -533,7 +533,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 		    break;
 		case 2:
 		    /* Two escapes followed by one or more decimal
-		     * digits: byte sequence mode.  If the word
+		     * digits: byte sequence mode.  If the byte
 		     * sequence's range is limited to 2XX (the first
 		     * digit is in the '0' to '2' range and it's the
 		     * first digit, or it's in the '0' to '9' range and
