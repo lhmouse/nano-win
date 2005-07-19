@@ -70,9 +70,11 @@ CVS code -
 	  do_cursorpos(). (DLR)
 	- Change the NANO_WIDE #define to ENABLE_UTF8, as the latter is
 	  clearer. (DLR)
-	- Make sure that the current position in the history list is
-	  properly set to the bottom if we cancel out of the prompt.
-	  New function history_reset(); changes to nanogetstr(). (DLR)
+	- Minor history code fixes: Make sure that the current position
+	  in the history list is properly set to the bottom if we cancel
+	  out of the prompt, and that magichistory is properly updated
+	  when we change it and then move up.  New function
+	  history_reset(); changes to nanogetstr(). (DLR)
 - chars.c:
   mbstrchr()
 	- Don't count matches between valid and invalid multibyte

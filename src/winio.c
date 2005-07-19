@@ -2576,12 +2576,12 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 #ifndef NANO_SMALL
 		if (history_list != NULL) {
 		    /* If we're scrolling up at the bottom of the
-		     * history list, answer isn't blank, and
-		     * magichistory isn't set, save answer in
-		     * magichistory. */
+		     * history list and answer isn't blank, save answer
+		     * in magichistory. */
 		    if ((*history_list)->next == NULL &&
-			answer[0] != '\0' && magichistory == NULL)
-			magichistory = mallocstrcpy(NULL, answer);
+			answer[0] != '\0')
+			magichistory = mallocstrcpy(magichistory,
+				answer);
 
 		    /* Get the older search from the history list and
 		     * save it in answer.  If there is no older search,
