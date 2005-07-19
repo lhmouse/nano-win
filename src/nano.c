@@ -140,6 +140,7 @@ void delete_node(filestruct *fileptr)
 
     if (fileptr->data != NULL)
 	free(fileptr->data);
+
     free(fileptr);
 }
 
@@ -162,6 +163,7 @@ filestruct *copy_filestruct(const filestruct *src)
 
 	src = src->next;
     }
+
     copy->next = NULL;
 
     return head;
@@ -176,6 +178,7 @@ void free_filestruct(filestruct *src)
 	src = src->next;
 	delete_node(src->prev);
     }
+
     delete_node(src);
 }
 
