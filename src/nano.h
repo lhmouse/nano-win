@@ -160,6 +160,15 @@ typedef struct filestruct {
     ssize_t lineno;		/* The line number. */
 } filestruct;
 
+typedef struct partition {
+    filestruct *fileage;
+    filestruct *top_prev;
+    char *top_data;
+    filestruct *filebot;
+    filestruct *bot_next;
+    char *bot_data;
+} partition;
+
 #ifdef ENABLE_COLOR
 typedef struct colortype {
     short fg;			/* Foreground color. */
@@ -180,7 +189,7 @@ typedef struct colortype {
 } colortype;
 
 typedef struct exttype {
-    regex_t val;		/* The extensions that match this
+    regex_t ext;		/* The extensions that match this
 				 * syntax. */
     struct exttype *next;
 } exttype;
@@ -227,15 +236,6 @@ typedef struct openfilestruct {
     struct openfilestruct *prev;
 				/* Previous node. */
 } openfilestruct;
-
-typedef struct partition {
-    filestruct *fileage;
-    filestruct *top_prev;
-    char *top_data;
-    filestruct *filebot;
-    filestruct *bot_next;
-    char *bot_data;
-} partition;
 
 typedef struct shortcut {
     /* Key values that aren't used should be set to NANO_NO_KEY. */

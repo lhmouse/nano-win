@@ -37,67 +37,6 @@
 #include <assert.h>
 #include "proto.h"
 
-/* Create a new openfilestruct node. */
-openfilestruct *make_new_opennode(void)
-{
-    openfilestruct *newnode =
-	(openfilestruct *)nmalloc(sizeof(openfilestruct));
-    newnode->filename = NULL;
-
-    return newnode;
-}
-
-/* Splice a node into an existing openfilestruct. */
-void splice_opennode(openfilestruct *begin, openfilestruct *newnode,
-	openfilestruct *end)
-{
-    assert(newnode != NULL && begin != NULL);
-
-    newnode->next = end;
-    newnode->prev = begin;
-    begin->next = newnode;
-    if (end != NULL)
-	end->prev = newnode;
-}
-
-/* Unlink a node from the rest of the openfilestruct, and delete it. */
-void unlink_opennode(openfilestruct *fileptr)
-{
-    assert(fileptr != NULL && fileptr->prev != NULL && fileptr->next != NULL && fileptr != fileptr->prev && fileptr != fileptr->next);
-
-    fileptr->prev->next = fileptr->next;
-    fileptr->next->prev = fileptr->prev;
-    delete_opennode(fileptr);
-}
-
-/* Delete a node from the openfilestruct. */
-void delete_opennode(openfilestruct *fileptr)
-{
-    assert(fileptr != NULL && fileptr->filename != NULL && fileptr->fileage != NULL);
-
-    free(fileptr->filename);
-    free_filestruct(fileptr->fileage);
-#ifndef NANO_SMALL
-    free(fileptr->current_stat);
-#endif
-    free(fileptr);
-}
-
-#ifdef DEBUG
-/* Deallocate all memory associated with this and later files, including
- * the lines of text. */
-void free_openfilestruct(openfilestruct *src)
-{
-    assert(src != NULL);
-
-    while (src != src->next) {
-	src = src->next;
-	delete_opennode(src->prev);
-    }
-    delete_opennode(src);
-}
-#endif
-
 /* Add an entry to the openfile openfilestruct.  This should only be
  * called from open_buffer(). */
 void make_new_buffer(void)
@@ -159,14 +98,13 @@ void initialize_buffer(void)
 /* Reinitialize the current entry of the openfile openfilestruct. */
 void reinitialize_buffer(void)
 {
-    assert(openfile != NULL);
+    assert(openfile != NULL && openfile->filename != NULL && openfile->fileage != NULL);
 
     free(openfile->filename);
-
     free_filestruct(openfile->fileage);
-
 #ifndef NANO_SMALL
-    free(openfile->current_stat);
+    if (openfile->current_stat != NULL)
+	free(openfile->current_stat);
 #endif
 
     initialize_buffer();
@@ -619,6 +557,7 @@ int open_file(const char *filename, bool newfie, FILE **f)
 	} else
 	    statusbar(_("Reading File"));
     }
+
     return 0;
 }
 

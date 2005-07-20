@@ -228,14 +228,6 @@ void do_cut_till_end(void);
 void do_uncut_text(void);
 
 /* Public functions in files.c. */
-openfilestruct *make_new_opennode(void);
-void splice_opennode(openfilestruct *begin, openfilestruct *newnode,
-	openfilestruct *end);
-void unlink_opennode(openfilestruct *fileptr);
-void delete_opennode(openfilestruct *fileptr);
-#ifdef DEBUG
-void free_openfilestruct(openfilestruct *src);
-#endif
 void make_new_buffer(void);
 void initialize_buffer(void);
 #ifndef DISABLE_SPELLER
@@ -362,6 +354,14 @@ void unpartition_filestruct(partition **p);
 void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 	filestruct *top, size_t top_x, filestruct *bot, size_t bot_x);
 void copy_from_filestruct(filestruct *file_top, filestruct *file_bot);
+openfilestruct *make_new_opennode(void);
+void splice_opennode(openfilestruct *begin, openfilestruct *newnode,
+	openfilestruct *end);
+void unlink_opennode(openfilestruct *fileptr);
+void delete_opennode(openfilestruct *fileptr);
+#ifdef DEBUG
+void free_openfilestruct(openfilestruct *src);
+#endif
 void print_view_warning(void);
 void finish(void);
 void die(const char *msg, ...);

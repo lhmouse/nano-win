@@ -329,7 +329,7 @@ void parse_syntax(char *ptr)
 	    break;
 
 	newext = (exttype *)nmalloc(sizeof(exttype));
-	if (nregcomp(&newext->val, fileregptr, REG_NOSUB)) {
+	if (nregcomp(&newext->ext, fileregptr, REG_NOSUB)) {
 	    if (endext == NULL)
 		endsyntax->extensions = newext;
 	    else

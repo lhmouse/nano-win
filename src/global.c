@@ -1218,7 +1218,7 @@ void thanks_for_all_the_fish(void)
 	    exttype *bob = syntaxes->extensions;
 
 	    syntaxes->extensions = bob->next;
-	    regfree(&bob->val);
+	    regfree(&bob->ext);
 	    free(bob);
 	}
 	while (syntaxes->color != NULL) {

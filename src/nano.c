@@ -469,6 +469,77 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
     openfile->totlines = openfile->filebot->lineno;
 }
 
+/* Create a new openfilestruct node. */
+openfilestruct *make_new_opennode(void)
+{
+    openfilestruct *newnode =
+	(openfilestruct *)nmalloc(sizeof(openfilestruct));
+
+    newnode->filename = NULL;
+    newnode->fileage = NULL;
+    newnode->filebot = NULL;
+    newnode->edittop = NULL;
+    newnode->current = NULL;
+
+    return newnode;
+}
+
+/* Splice a node into an existing openfilestruct. */
+void splice_opennode(openfilestruct *begin, openfilestruct *newnode,
+	openfilestruct *end)
+{
+    assert(newnode != NULL && begin != NULL);
+
+    newnode->next = end;
+    newnode->prev = begin;
+    begin->next = newnode;
+
+    if (end != NULL)
+	end->prev = newnode;
+}
+
+/* Unlink a node from the rest of the openfilestruct, and delete it. */
+void unlink_opennode(openfilestruct *fileptr)
+{
+    assert(fileptr != NULL && fileptr->prev != NULL && fileptr->next != NULL && fileptr != fileptr->prev && fileptr != fileptr->next);
+
+    fileptr->prev->next = fileptr->next;
+    fileptr->next->prev = fileptr->prev;
+
+    delete_opennode(fileptr);
+}
+
+/* Delete a node from the openfilestruct. */
+void delete_opennode(openfilestruct *fileptr)
+{
+    assert(fileptr != NULL && fileptr->filename != NULL && fileptr->fileage != NULL);
+
+    free(fileptr->filename);
+    free_filestruct(fileptr->fileage);
+#ifndef NANO_SMALL
+    if (fileptr->current_stat != NULL)
+	free(fileptr->current_stat);
+#endif
+
+    free(fileptr);
+}
+
+#ifdef DEBUG
+/* Deallocate all memory associated with this and later files, including
+ * the lines of text. */
+void free_openfilestruct(openfilestruct *src)
+{
+    assert(src != NULL);
+
+    while (src != src->next) {
+	src = src->next;
+	delete_opennode(src->prev);
+    }
+
+    delete_opennode(src);
+}
+#endif
+
 void print_view_warning(void)
 {
     statusbar(_("Key illegal in VIEW mode"));
