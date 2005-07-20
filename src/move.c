@@ -59,48 +59,6 @@ void do_last_line(void)
     edit_redraw(current_save, pww_save);
 }
 
-void do_home(void)
-{
-    size_t pww_save = openfile->placewewant;
-
-    check_statusblank();
-
-#ifndef NANO_SMALL
-    if (ISSET(SMART_HOME)) {
-	size_t current_x_save = openfile->current_x;
-
-	openfile->current_x = indent_length(openfile->current->data);
-
-	if (openfile->current_x == current_x_save ||
-		openfile->current->data[openfile->current_x] == '\0')
-	    openfile->current_x = 0;
-
-	openfile->placewewant = xplustabs();
-    } else {
-#endif
-	openfile->current_x = 0;
-	openfile->placewewant = 0;
-#ifndef NANO_SMALL
-    }
-#endif
-
-    if (need_horizontal_update(pww_save))
-	update_line(openfile->current, openfile->current_x);
-}
-
-void do_end(void)
-{
-    size_t pww_save = openfile->placewewant;
-
-    check_statusblank();
-
-    openfile->current_x = strlen(openfile->current->data);
-    openfile->placewewant = xplustabs();
-
-    if (need_horizontal_update(pww_save))
-	update_line(openfile->current, openfile->current_x);
-}
-
 void do_page_up(void)
 {
     int i;
@@ -180,6 +138,114 @@ void do_page_down(void)
 
     /* Scroll the edit window down a page. */
     edit_scroll(DOWN, editwinrows - 2);
+}
+
+#ifndef DISABLE_JUSTIFY
+/* Move up to the last beginning-of-paragraph line before the current
+ * line. */
+void do_para_begin(bool allow_update)
+{
+    const filestruct *current_save = openfile->current;
+    const size_t pww_save = openfile->placewewant;
+
+    check_statusblank();
+
+    openfile->current_x = 0;
+    openfile->placewewant = 0;
+
+    if (openfile->current->prev != NULL) {
+	do {
+	    openfile->current = openfile->current->prev;
+	    openfile->current_y--;
+	} while (!begpar(openfile->current));
+    }
+
+    if (allow_update)
+	edit_redraw(current_save, pww_save);
+}
+
+void do_para_begin_void(void)
+{
+    do_para_begin(TRUE);
+}
+
+/* Move down to the end of a paragraph, then one line farther.  A line
+ * is the last line of a paragraph if it is in a paragraph, and the next
+ * line either is a beginning-of-paragraph line or isn't in a
+ * paragraph. */
+void do_para_end(bool allow_update)
+{
+    const filestruct *const current_save = openfile->current;
+    const size_t pww_save = openfile->placewewant;
+
+    check_statusblank();
+
+    openfile->current_x = 0;
+    openfile->placewewant = 0;
+
+    while (openfile->current->next != NULL && !inpar(openfile->current))
+	openfile->current = openfile->current->next;
+
+    while (openfile->current->next != NULL &&
+	inpar(openfile->current->next) &&
+	!begpar(openfile->current->next)) {
+	openfile->current = openfile->current->next;
+	openfile->current_y++;
+    }
+
+    if (openfile->current->next != NULL)
+	openfile->current = openfile->current->next;
+
+    if (allow_update)
+	edit_redraw(current_save, pww_save);
+}
+
+void do_para_end_void(void)
+{
+    do_para_end(TRUE);
+}
+#endif /* !DISABLE_JUSTIFY */
+
+void do_home(void)
+{
+    size_t pww_save = openfile->placewewant;
+
+    check_statusblank();
+
+#ifndef NANO_SMALL
+    if (ISSET(SMART_HOME)) {
+	size_t current_x_save = openfile->current_x;
+
+	openfile->current_x = indent_length(openfile->current->data);
+
+	if (openfile->current_x == current_x_save ||
+		openfile->current->data[openfile->current_x] == '\0')
+	    openfile->current_x = 0;
+
+	openfile->placewewant = xplustabs();
+    } else {
+#endif
+	openfile->current_x = 0;
+	openfile->placewewant = 0;
+#ifndef NANO_SMALL
+    }
+#endif
+
+    if (need_horizontal_update(pww_save))
+	update_line(openfile->current, openfile->current_x);
+}
+
+void do_end(void)
+{
+    size_t pww_save = openfile->placewewant;
+
+    check_statusblank();
+
+    openfile->current_x = strlen(openfile->current->data);
+    openfile->placewewant = xplustabs();
+
+    if (need_horizontal_update(pww_save))
+	update_line(openfile->current, openfile->current_x);
 }
 
 void do_up(void)

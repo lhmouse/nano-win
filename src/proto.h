@@ -329,10 +329,16 @@ void thanks_for_all_the_fish(void);
 /* Public functions in move.c. */
 void do_first_line(void);
 void do_last_line(void);
-void do_home(void);
-void do_end(void);
 void do_page_up(void);
 void do_page_down(void);
+#ifndef DISABLE_JUSTIFY
+void do_para_begin(bool allow_update);
+void do_para_begin_void(void);
+void do_para_end(bool allow_update);
+void do_para_end_void(void);
+#endif
+void do_home(void);
+void do_end(void);
 void do_up(void);
 void do_down(void);
 void do_left(bool allow_update);
@@ -420,11 +426,7 @@ bool quotes_match(const char *a_line, size_t a_quote, const char
 bool indents_match(const char *a_line, size_t a_indent, const char
 	*b_line, size_t b_indent);
 bool begpar(const filestruct *const foo);
-void do_para_begin(bool allow_update);
-void do_para_begin_void(void);
 bool inpar(const filestruct *const foo);
-void do_para_end(bool allow_update);
-void do_para_end_void(void);
 filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
 	quote_len);
 bool find_paragraph(size_t *const quote, size_t *const par);

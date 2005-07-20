@@ -2948,32 +2948,6 @@ bool begpar(const filestruct *const foo)
     return FALSE;
 }
 
-/* We find the last beginning-of-paragraph line before the current
- * line. */
-void do_para_begin(bool allow_update)
-{
-    const filestruct *current_save = openfile->current;
-    const size_t pww_save = openfile->placewewant;
-
-    openfile->current_x = 0;
-    openfile->placewewant = 0;
-
-    if (openfile->current->prev != NULL) {
-	do {
-	    openfile->current = openfile->current->prev;
-	    openfile->current_y--;
-	} while (!begpar(openfile->current));
-    }
-
-    if (allow_update)
-	edit_redraw(current_save, pww_save);
-}
-
-void do_para_begin_void(void)
-{
-    do_para_begin(TRUE);
-}
-
 /* Is foo inside a paragraph? */
 bool inpar(const filestruct *const foo)
 {
@@ -2986,39 +2960,6 @@ bool inpar(const filestruct *const foo)
 
     return foo->data[quote_len + indent_length(foo->data +
 	quote_len)] != '\0';
-}
-
-/* A line is the last line of a paragraph if it is in a paragraph, and
- * the next line isn't, or is the beginning of a paragraph.  We move
- * down to the end of a paragraph, then one line farther. */
-void do_para_end(bool allow_update)
-{
-    const filestruct *const current_save = openfile->current;
-    const size_t pww_save = openfile->placewewant;
-
-    openfile->current_x = 0;
-    openfile->placewewant = 0;
-
-    while (openfile->current->next != NULL && !inpar(openfile->current))
-	openfile->current = openfile->current->next;
-
-    while (openfile->current->next != NULL &&
-	inpar(openfile->current->next) &&
-	!begpar(openfile->current->next)) {
-	openfile->current = openfile->current->next;
-	openfile->current_y++;
-    }
-
-    if (openfile->current->next != NULL)
-	openfile->current = openfile->current->next;
-
-    if (allow_update)
-	edit_redraw(current_save, pww_save);
-}
-
-void do_para_end_void(void)
-{
-    do_para_end(TRUE);
 }
 
 /* Put the next par_len lines, starting with first_line, into the
