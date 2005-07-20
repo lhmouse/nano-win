@@ -329,6 +329,12 @@ void do_para_begin_void(void);
 void do_para_end(bool allow_update);
 void do_para_end_void(void);
 #endif
+#ifndef NANO_SMALL
+bool do_next_word(bool allow_punct, bool allow_update);
+void do_next_word_void(void);
+bool do_prev_word(bool allow_punct, bool allow_update);
+void do_prev_word_void(void);
+#endif
 void do_home(void);
 void do_end(void);
 void do_up(void);
@@ -395,10 +401,6 @@ void do_delete(void);
 void do_tab(void);
 void do_enter(void);
 #ifndef NANO_SMALL
-bool do_next_word(bool allow_punct, bool allow_update);
-void do_next_word_void(void);
-bool do_prev_word(bool allow_punct, bool allow_update);
-void do_prev_word_void(void);
 void do_word_count(void);
 void do_mark(void);
 #endif

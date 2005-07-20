@@ -97,13 +97,14 @@ CVS code -
   do_first_line(), do_last_line()
 	- Simplify by only using edit_redraw(), and also make them call
 	  check_statusblank(). (DLR)
-  do_para_begin(), do_para_begin_void(), do_para_end(),
-  do_para_end_void()
-	- Move here from nano.c, as they're movement functions, and also
-	  make them call check_statusblank().
   do_page_up(), do_page_down()
 	- If there's less than a page of text onscreen, just call
 	  do_(first|last)_line(). (DLR)
+  do_para_begin(), do_para_begin_void(), do_para_end(),
+  do_para_end_void(), do_next_word(), do_next_word_void(),
+  do_prev_word(), do_prev_word_void()
+	- Move here from nano.c, as they're movement functions, and also
+	  make them call check_statusblank().
 - nano.c:
   usage()
 	- Properly mention the support for "[+LINE,COLUMN]" on the
