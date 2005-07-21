@@ -1063,78 +1063,88 @@ void do_gotopos(ssize_t line, size_t pos_x, ssize_t pos_y, size_t
 #ifdef HAVE_REGEX_H
 void do_find_bracket(void)
 {
-    const char *pos, *bracket_pat = "([{<>}])";
-    char cursor_ch, wanted_ch, regexp_pat[] = "[  ]";
+    const char *bracket_pat = "()<>[]{}", *pos;
+    char regex_pat[5] = "[  ]", ch, wanted_ch;
+    filestruct *current_save;
     size_t current_x_save, pww_save;
-    int count = 1;
     bool regexp_set = ISSET(USE_REGEXP);
     bool backwards_search_set = ISSET(BACKWARDS_SEARCH);
-    filestruct *current_save;
+    int count = 1;
 
-    cursor_ch = openfile->current->data[openfile->current_x];
-    pos = strchr(bracket_pat, cursor_ch);
+    assert(strlen(bracket_pat) % 2 == 0);
 
-    if (cursor_ch == '\0' || pos == NULL) {
+    ch = openfile->current->data[openfile->current_x];
+
+    if (ch == '\0' || (pos = strchr(bracket_pat, ch)) == NULL) {
 	statusbar(_("Not a bracket"));
 	return;
     }
 
-    assert(strlen(bracket_pat) % 2 == 0);
-
-    wanted_ch =
-	bracket_pat[(strlen(bracket_pat) - 1) - (pos - bracket_pat)];
-
+    /* Save where we are. */
     current_save = openfile->current;
     current_x_save = openfile->current_x;
     pww_save = openfile->placewewant;
+
+    /* Turn regular expression searches on. */
     SET(USE_REGEXP);
 
-    /* Apparent near redundancy with regexp_pat[] here is needed.
-     * "[][]" works, "[[]]" doesn't. */
-    if (pos < bracket_pat + (strlen(bracket_pat) / 2)) {
-	/* On a left bracket. */
-	regexp_pat[1] = wanted_ch;
-	regexp_pat[2] = cursor_ch;
+    /* If we're on an opening bracket, we want to search forwards for a
+     * closing bracket, and if we're on a closing bracket, we want to
+     * search backwards for an opening bracket.
+     *
+     * We replace the spaces in regex_pat with the opening and closing
+     * brackets, and then do a regular expression search using it.  We
+     * have to put the closing bracket first when we do the latter,
+     * since "[[]]" won't work properly, but "[][]" will. */
+    if ((pos - bracket_pat) % 2 == 0) {
+	wanted_ch = *(pos + 1);
+	regex_pat[1] = wanted_ch;
+	regex_pat[2] = ch;
 	UNSET(BACKWARDS_SEARCH);
     } else {
-	/* On a right bracket. */
-	regexp_pat[1] = cursor_ch;
-	regexp_pat[2] = wanted_ch;
+	wanted_ch = *(pos - 1);
+	regex_pat[1] = ch;
+	regex_pat[2] = wanted_ch;
 	SET(BACKWARDS_SEARCH);
     }
 
-    regexp_init(regexp_pat);
+    /* Compile the regular expression in regex_pat. */
+    regexp_init(regex_pat);
 
-    /* We constructed regexp_pat to be a valid regular expression. */
+    /* The regular expression in regex_pat should always be valid. */
     assert(regexp_compiled);
 
     findnextstr_wrap_reset();
+
     while (TRUE) {
 	if (findnextstr(FALSE, FALSE, FALSE, openfile->current,
-		openfile->current_x, regexp_pat, NULL)) {
-	    /* Found identical bracket. */
-	    if (openfile->current->data[openfile->current_x] ==
-		cursor_ch)
-		count++;
-	    /* Found complementary bracket. */
-	    else if (--count == 0) {
-		openfile->placewewant = xplustabs();
+		openfile->current_x, regex_pat, NULL)) {
+	    /* If we found an identical bracket, increment count.  If we
+	     * found a complementary bracket, decrement it. */
+	    count += (openfile->current->data[openfile->current_x] ==
+		ch) ? 1 : -1;
+
+	    /* If count is zero, we've found a matching bracket.  Update
+	     * the screen and get out. */
+	    if (count == 0) {
 		edit_redraw(current_save, pww_save);
 		break;
 	    }
 	} else {
-	    /* Didn't find either a left or right bracket. */
+	    /* We didn't find either an opening or closing bracket.
+	     * Indicate this, restore where we were, and get out. */
 	    statusbar(_("No matching bracket"));
 	    openfile->current = current_save;
 	    openfile->current_x = current_x_save;
-	    update_line(openfile->current, openfile->current_x);
+	    openfile->placewewant = pww_save;
 	    break;
 	}
     }
 
+    /* Decompile the regular expression in regex_pat. */
     regexp_cleanup();
 
-    /* Restore search direction. */
+    /* Restore search/replace direction. */
     if (backwards_search_set)
 	SET(BACKWARDS_SEARCH);
     else
