@@ -242,8 +242,8 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
     null_at(&bot->data, bot_x);
 
     /* Remove all text before top_x at the top of the partition. */
-    charmove(top->data, top->data + top_x, strlen(top->data) -
-	top_x + 1);
+    charmove(top->data, top->data + top_x, strlen(top->data) - top_x +
+	1);
     align(&top->data);
 
     /* Return the partition. */
@@ -684,8 +684,8 @@ void window_init(void)
     /* Set up the windows. */
     topwin = newwin(2 - no_more_space(), COLS, 0, 0);
     edit = newwin(editwinrows, COLS, 2 - no_more_space(), 0);
-    bottomwin = newwin(3 - no_help(), COLS, editwinrows +
-	(2 - no_more_space()), 0);
+    bottomwin = newwin(3 - no_help(), COLS, editwinrows + (2 -
+	no_more_space()), 0);
 
     /* Turn the keypad back on. */
     keypad(edit, TRUE);
@@ -725,8 +725,8 @@ void help_init(void)
 #endif
 
     /* First, set up the initial help text for the current function. */
-    if (currshortcut == whereis_list || currshortcut == replace_list
-	     || currshortcut == replace_list_2) {
+    if (currshortcut == whereis_list || currshortcut == replace_list ||
+	currshortcut == replace_list_2) {
 	htx[0] = N_("Search Command Help Text\n\n "
 		"Enter the words or characters you would like to "
 		"search for, and then press Enter.  If there is a "

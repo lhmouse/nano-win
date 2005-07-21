@@ -138,10 +138,11 @@ void open_buffer(const char *filename)
 
     /* If the filename isn't blank, open the file.  Otherwise, treat it
      * as a new file. */
-    rc = (filename[0] != '\0') ?
-	open_file(filename, new_buffer, &f) : -2;
+    rc = (filename[0] != '\0') ? open_file(filename, new_buffer, &f) :
+	-2;
 
-    /* If we're loading into a new buffer, add a new openfile entry. */
+    /* If we're loading into a new buffer, add a new entry to
+     * openfile. */
     if (new_buffer)
 	make_new_buffer();
 
@@ -206,8 +207,8 @@ void switch_to_prevnext_buffer(bool next_buf)
 	return;
     }
 
-    /* Switch to the next or previous file, depending on the value of
-     * next_buf. */
+    /* Switch to the next or previous file buffer, depending on the
+     * value of next_buf. */
     openfile = next_buf ? openfile->next : openfile->prev;
 
 #ifdef DEBUG
@@ -227,35 +228,33 @@ void switch_to_prevnext_buffer(bool next_buf)
 #endif
 }
 
-/* Switch to the previous entry in the openfile structure.  This
- * function is used by the shortcut list. */
+/* Switch to the previous entry in the openfile filebuffer. */
 void switch_to_prev_buffer_void(void)
 {
     switch_to_prevnext_buffer(FALSE);
 }
 
-/* Switch to the next entry in the openfile structure.  This function
- * is used by the shortcut list. */
+/* Switch to the next entry in the openfile filebuffer. */
 void switch_to_next_buffer_void(void)
 {
     switch_to_prevnext_buffer(TRUE);
 }
 
-/* Delete an entry from the openfile filestruct, and switch to the one
+/* Delete an entry from the openfile filebuffer, and switch to the one
  * after it.  Return TRUE on success, or FALSE if there are no more open
  * file buffers. */
 bool close_buffer(void)
 {
     assert(openfile != NULL);
 
-    /* If only one file is open, get out. */
+    /* If only one file buffer is open, get out. */
     if (openfile == openfile->next)
 	return FALSE;
 
-    /* Switch to the next file. */
+    /* Switch to the next file buffer. */
     switch_to_next_buffer_void();
 
-    /* Close the file we had open before. */
+    /* Close the file buffer we had open before. */
     unlink_opennode(openfile->prev);
 
     display_main_list();
@@ -277,7 +276,7 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
      * here. */
     unsunder(buf, buf_len);
 
-    assert(strlen(buf) == buf_len);
+    assert(openfile->fileage != NULL && strlen(buf) == buf_len);
 
     fileptr->data = mallocstrcpy(NULL, buf);
 
@@ -288,7 +287,7 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
 	fileptr->data[buf_len - 1] = '\0';
 #endif
 
-    if (*first_line_ins == TRUE || openfile->fileage == NULL) {
+    if (*first_line_ins == TRUE) {
 	/* Special case: We're inserting with the cursor on the first
 	 * line. */
 	fileptr->prev = NULL;
@@ -341,27 +340,17 @@ void read_file(FILE *f, const char *filename)
 	/* 0 = *nix, 1 = DOS, 2 = Mac, 3 = both DOS and Mac. */
 #endif
 
+    assert(openfile->fileage != NULL && openfile->current != NULL);
+
     buf = charalloc(bufx);
     buf[0] = '\0';
 
-    if (openfile->current != NULL) {
-	if (openfile->current == openfile->fileage)
-	    first_line_ins = TRUE;
-	else
-	    fileptr = openfile->current->prev;
-    }
+    if (openfile->current == openfile->fileage)
+	first_line_ins = TRUE;
+    else
+	fileptr = openfile->current->prev;
 
-    /* For the assertion in read_line(), it must be true that if current
-     * is NULL, then so is fileage. */
-    assert(openfile->current != NULL || openfile->fileage == NULL);
-
-#ifndef NANO_SMALL
-    /* We don't know which file format we have yet, so assume it's a
-     * *nix file for now. */
-    openfile->fmt = NIX_FILE;
-#endif
-
-    /* Read the entire file into the file struct. */
+    /* Read the entire file into the filestruct. */
     while ((input_int = getc(f)) != EOF) {
 	input = (char)input_int;
 
@@ -391,7 +380,6 @@ void read_file(FILE *f, const char *filename)
 	/* If it's a Mac file ('\r' without '\n'), and file conversion
 	 * isn't disabled, handle it! */
 	} else if (!ISSET(NO_CONVERT) && i > 0 && buf[i - 1] == '\r') {
-
 	    /* If we currently think the file is a *nix file, set format
 	     * to Mac.  If we currently think the file is a DOS file,
 	     * set format to both DOS and Mac. */
@@ -467,7 +455,7 @@ void read_file(FILE *f, const char *filename)
 
     free(buf);
 
-    /* If we didn't get a file and we don't already have one, load a
+    /* If we didn't get a file and we don't already have one, open a
      * blank buffer. */
     if (fileptr == NULL)
 	open_buffer("");
@@ -734,7 +722,7 @@ void do_insertfile(
 	    if (execute) {
 #ifdef ENABLE_MULTIBUFFER
 		if (ISSET(MULTIBUFFER))
-		    /* Open a new blank buffer. */
+		    /* Open a blank buffer. */
 		    open_buffer("");
 #endif
 
@@ -1561,12 +1549,7 @@ int write_file(const char *name, FILE *f_open, bool tmp, int append,
 }
 
 #ifndef NANO_SMALL
-/* Write a marked selection from a file out.  First, set fileage and
- * filebot as the top and bottom of the mark, respectively.  Then call
- * write_file() with the values of name, f_open, temp, and append, and
- * with nonamechange set to TRUE so that we don't change the current
- * filename.  Finally, set fileage and filebot back to their old values
- * and return. */
+/* Write a marked selection from a file out. */
 int write_marked_file(const char *name, FILE *f_open, bool tmp, int
 	append)
 {
@@ -1577,6 +1560,8 @@ int write_marked_file(const char *name, FILE *f_open, bool tmp, int
 	/* Whether we added a magicline after filebot. */
     filestruct *top, *bot;
     size_t top_x, bot_x;
+
+    assert(openfile->mark_set);
 
     /* Partition the filestruct so that it contains only the marked
      * text. */
