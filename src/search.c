@@ -1064,7 +1064,7 @@ void do_gotopos(ssize_t line, size_t pos_x, ssize_t pos_y, size_t
 void do_find_bracket(void)
 {
     const char *bracket_pat = "()<>[]{}", *pos;
-    char regex_pat[5] = "[  ]", ch, wanted_ch;
+    char regex_pat[] = "[  ]", ch, wanted_ch;
     filestruct *current_save;
     size_t current_x_save, pww_save;
     bool regexp_set = ISSET(USE_REGEXP);

@@ -4088,7 +4088,6 @@ int main(int argc, char **argv)
 		"h?ABC:EFHINOQ:RST:UVY:abcdefgijklmo:pr:s:tvwxz")
 #endif
 		) != -1) {
-
 	switch (optchr) {
 	    case 'a':
 	    case 'b':
