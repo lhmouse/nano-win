@@ -2365,8 +2365,8 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 		start_col++;
 	    }
 	/* If buf contains a control character, interpret it.  If buf
-	 * contains an invalid multibyte control character, interpret
-	 * it as though it's a normal control character.*/
+	 * contains an invalid multibyte control character, display it
+	 * as such.*/
 	} else if (is_cntrl_mbchar(buf_mb)) {
 	    char *ctrl_buf_mb = charalloc(mb_cur_max());
 	    int ctrl_buf_mb_len, i;
@@ -2402,21 +2402,12 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
 #ifdef ENABLE_UTF8
 	    /* If buf contains an invalid multibyte non-control
-	     * character, interpret it as though it's a normal
-	     * non-control character. */
+	     * character, display it as such. */
 	    if (ISSET(USE_UTF8) && bad_char) {
-		char *bad_buf_mb;
-		int bad_buf_mb_len;
+		for (i = 0; i < bad_mbchar_len; i++)
+		    converted[index++] = bad_mbchar[i];
 
-		bad_buf_mb = make_mbchar((unsigned char)*buf_mb,
-			&bad_buf_mb_len);
-
-		for (i = 0; i < bad_buf_mb_len; i++)
-		    converted[index++] = bad_buf_mb[i];
-
-		start_col += mbwidth(bad_buf_mb);
-
-		free(bad_buf_mb);
+		start_col += mbwidth(bad_mbchar);
 	    } else {
 #endif
 		for (i = 0; i < buf_mb_len; i++)

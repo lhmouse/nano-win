@@ -37,6 +37,14 @@
 #ifdef HAVE_WCTYPE_H
 #include <wctype.h>
 #endif
+
+static const wchar_t bad_wchar = 0xFFFD;
+	/* If we get an invalid multibyte sequence, we treat it as
+	 * Unicode FFFD (Replacement Character), unless we're
+	 * determining if it's a control character or searching for a
+	 * match to it. */
+const char *bad_mbchar = "\xEF\xBF\xBD";
+const int bad_mbchar_len = 3;
 #endif
 
 #ifndef HAVE_ISBLANK
@@ -70,11 +78,10 @@ bool is_alnum_mbchar(const char *c)
 #ifdef ENABLE_UTF8
     if (ISSET(USE_UTF8)) {
 	wchar_t wc;
-	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX);
 
-	if (c_mb_len <= 0) {
+	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
 	    mbtowc(NULL, NULL, 0);
-	    wc = (unsigned char)*c;
+	    wc = bad_wchar;
 	}
 
 	return iswalnum(wc);
@@ -91,11 +98,10 @@ bool is_blank_mbchar(const char *c)
 #ifdef ENABLE_UTF8
     if (ISSET(USE_UTF8)) {
 	wchar_t wc;
-	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX);
 
-	if (c_mb_len <= 0) {
+	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
 	    mbtowc(NULL, NULL, 0);
-	    wc = (unsigned char)*c;
+	    wc = bad_wchar;
 	}
 
 	return iswblank(wc);
@@ -132,9 +138,8 @@ bool is_cntrl_mbchar(const char *c)
 #ifdef ENABLE_UTF8
     if (ISSET(USE_UTF8)) {
 	wchar_t wc;
-	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX);
 
-	if (c_mb_len <= 0) {
+	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
 	    mbtowc(NULL, NULL, 0);
 	    wc = (unsigned char)*c;
 	}
@@ -155,9 +160,9 @@ bool is_punct_mbchar(const char *c)
 	wchar_t wc;
 	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX);
 
-	if (c_mb_len <= 0) {
+	if (c_mb_len < 0) {
 	    mbtowc(NULL, NULL, 0);
-	    wc = (unsigned char)*c;
+	    wc = bad_wchar;
 	}
 
 	return iswpunct(wc);
@@ -215,16 +220,17 @@ char *control_mbrep(const char *c, char *crep, int *crep_len)
     if (ISSET(USE_UTF8)) {
 	wchar_t wc;
 
-	if (mbtowc(&wc, c, MB_CUR_MAX) <= 0) {
+	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
 	    mbtowc(NULL, NULL, 0);
-	    wc = (unsigned char)*c;
-	}
+	    crep = (char *)bad_mbchar;
+	    *crep_len = bad_mbchar_len;
+	} else {
+	    *crep_len = wctomb(crep, control_wrep(wc));
 
-	*crep_len = wctomb(crep, control_wrep(wc));
-
-	if (*crep_len <= 0) {
-	    wctomb(NULL, 0);
-	    *crep_len = 0;
+	    if (*crep_len < 0) {
+		wctomb(NULL, 0);
+		*crep_len = 0;
+	    }
 	}
     } else {
 #endif
@@ -245,11 +251,11 @@ int mbwidth(const char *c)
 #ifdef ENABLE_UTF8
     if (ISSET(USE_UTF8)) {
 	wchar_t wc;
-	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX), width;
+	int width;
 
-	if (c_mb_len <= 0) {
+	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
 	    mbtowc(NULL, NULL, 0);
-	    wc = (unsigned char)*c;
+	    wc = bad_wchar;
 	}
 
 	width = wcwidth(wc);
@@ -289,7 +295,7 @@ char *make_mbchar(int chr, int *chr_mb_len)
 	chr_mb = charalloc(MB_CUR_MAX);
 	*chr_mb_len = wctomb(chr_mb, chr);
 
-	if (*chr_mb_len <= 0) {
+	if (*chr_mb_len < 0) {
 	    wctomb(NULL, 0);
 	    *chr_mb_len = 0;
 	}
@@ -324,15 +330,15 @@ int parse_mbchar(const char *buf, char *chr, bool *bad_chr, size_t
 	/* Get the number of bytes in the multibyte character. */
 	buf_mb_len = mblen(buf, MB_CUR_MAX);
 
-	/* If buf contains a null byte or an invalid multibyte
-	 * character, set bad_chr to TRUE (if it contains the latter)
-	 * and interpret buf's first byte. */
-	if (buf_mb_len <= 0) {
+	/* If buf contains an invalid multibyte character, set bad_chr
+	 * to TRUE and interpret buf's first byte. */
+	if (buf_mb_len < 0) {
 	    mblen(NULL, 0);
-	    if (buf_mb_len < 0 && bad_chr != NULL)
+	    if (bad_chr != NULL)
 		*bad_chr = TRUE;
 	    buf_mb_len = 1;
-	}
+	} else if (buf_mb_len == 0)
+	    buf_mb_len++;
 
 	/* Save the multibyte character in chr. */
 	if (chr != NULL) {
@@ -480,7 +486,7 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 
 	    s1_mb_len = parse_mbchar(s1, s1_mb, NULL, NULL);
 
-	    if (mbtowc(&ws1, s1_mb, s1_mb_len) <= 0) {
+	    if (mbtowc(&ws1, s1_mb, s1_mb_len) < 0) {
 		mbtowc(NULL, NULL, 0);
 		ws1 = (unsigned char)*s1_mb;
 		bad_s1_mb = TRUE;
@@ -488,7 +494,7 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 
 	    s2_mb_len = parse_mbchar(s2, s2_mb, NULL, NULL);
 
-	    if (mbtowc(&ws2, s2_mb, s2_mb_len) <= 0) {
+	    if (mbtowc(&ws2, s2_mb, s2_mb_len) < 0) {
 		mbtowc(NULL, NULL, 0);
 		ws2 = (unsigned char)*s2_mb;
 		bad_s2_mb = TRUE;
@@ -554,7 +560,7 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 
 		r_mb_len = parse_mbchar(r, r_mb, NULL, NULL);
 
-		if (mbtowc(&wr, r_mb, r_mb_len) <= 0) {
+		if (mbtowc(&wr, r_mb, r_mb_len) < 0) {
 		    mbtowc(NULL, NULL, 0);
 		    wr = (unsigned char)*r;
 		    bad_r_mb = TRUE;
@@ -562,7 +568,7 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 
 		q_mb_len = parse_mbchar(q, q_mb, NULL, NULL);
 
-		if (mbtowc(&wq, q_mb, q_mb_len) <= 0) {
+		if (mbtowc(&wq, q_mb, q_mb_len) < 0) {
 		    mbtowc(NULL, NULL, 0);
 		    wq = (unsigned char)*q;
 		    bad_q_mb = TRUE;
@@ -660,7 +666,7 @@ const char *mbrevstrcasestr(const char *haystack, const char *needle,
 
 		r_mb_len = parse_mbchar(r, r_mb, NULL, NULL);
 
-		if (mbtowc(&wr, r_mb, r_mb_len) <= 0) {
+		if (mbtowc(&wr, r_mb, r_mb_len) < 0) {
 		    mbtowc(NULL, NULL, 0);
 		    wr = (unsigned char)*r;
 		    bad_r_mb = TRUE;
@@ -668,7 +674,7 @@ const char *mbrevstrcasestr(const char *haystack, const char *needle,
 
 		q_mb_len = parse_mbchar(q, q_mb, NULL, NULL);
 
-		if (mbtowc(&wq, q_mb, q_mb_len) <= 0) {
+		if (mbtowc(&wq, q_mb, q_mb_len) < 0) {
 		    mbtowc(NULL, NULL, 0);
 		    wq = (unsigned char)*q;
 		    bad_q_mb = TRUE;
@@ -766,7 +772,7 @@ char *mbstrchr(const char *s, char *c)
 	wchar_t ws, wc;
 	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX);
 
-	if (c_mb_len <= 0) {
+	if (c_mb_len < 0) {
 	    mbtowc(NULL, NULL, 0);
 	    wc = (unsigned char)*c;
 	    bad_c_mb = TRUE;
@@ -775,7 +781,7 @@ char *mbstrchr(const char *s, char *c)
 	while (*s != '\0') {
 	    int s_mb_len = parse_mbchar(s, s_mb, NULL, NULL);
 
-	    if (mbtowc(&ws, s_mb, s_mb_len) <= 0) {
+	    if (mbtowc(&ws, s_mb, s_mb_len) < 0) {
 		mbtowc(NULL, NULL, 0);
 		ws = (unsigned char)*s;
 		bad_s_mb = TRUE;

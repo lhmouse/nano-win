@@ -78,6 +78,16 @@ CVS code -
 	  out of the prompt, and that magichistory is properly updated
 	  when we change it and then move up.  New function
 	  history_reset(); changes to nanogetstr(). (DLR)
+	- Various character-handling cleanups.  If we get an invalid
+	  multibyte sequence, treat it as Unicode FFFD (Replacement
+	  Character), unless we're determining if it's a control
+	  character or searching for a match to it.  Also, remove
+	  unneeded variables and checks when parsing multibyte
+	  sequences.  Changes to is_alnum_mbchar(), is_blank_mbchar(),
+	  is_cntrl_mbchar(), is_punct_mbchar(), control_mbrep(),
+	  mbwidth(), make_mbchar(), parse_mbchar(), mbstrncasecmp(),
+	  mbstrcasestr(), mbrevstrcasestr(), mbstrchr(), and
+	  display_string(). (DLR)
 - chars.c:
   mbstrchr()
 	- Don't count matches between valid and invalid multibyte
@@ -147,6 +157,9 @@ CVS code -
 	  HAVE_SNPRINTF. (DLR)
 	- Remove TOP from the topmidnone enum, and rename it centernone.
 	  (DLR)
+  proto.h:
+	- Add declarations for bad_mbchar and bad_mbchar_len, so that we
+	  can use them in display_string() as well as chars.c. (DLR)
 - rcfile.c:
   nregcomp()
 	- Return TRUE when the compilation succeeds and FALSE otherwise,

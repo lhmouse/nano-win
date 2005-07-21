@@ -138,6 +138,11 @@ extern bool curses_ended;
 
 extern char *homedir;
 
+#ifdef ENABLE_UTF8
+extern const char *bad_mbchar;
+extern const int bad_mbchar_len;
+#endif
+
 /* The functions we want available. */
 
 /* Public functions in chars.c. */
