@@ -753,6 +753,52 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 }
 
 #ifndef DISABLE_JUSTIFY
+/* This function is equivalent to strchr() for multibyte strings. */
+char *mbstrchr(const char *s, char *c)
+{
+    assert(s != NULL && c != NULL);
+
+#ifdef ENABLE_UTF8
+    if (ISSET(USE_UTF8)) {
+	bool bad_c_mb = FALSE, bad_s_mb = FALSE;
+	char *s_mb = charalloc(MB_CUR_MAX);
+	const char *q = s;
+	wchar_t ws, wc;
+	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX);
+
+	if (c_mb_len <= 0) {
+	    mbtowc(NULL, NULL, 0);
+	    wc = (unsigned char)*c;
+	    bad_c_mb = TRUE;
+	}
+
+	while (*s != '\0') {
+	    int s_mb_len = parse_mbchar(s, s_mb, NULL, NULL);
+
+	    if (mbtowc(&ws, s_mb, s_mb_len) <= 0) {
+		mbtowc(NULL, NULL, 0);
+		ws = (unsigned char)*s;
+		bad_s_mb = TRUE;
+	    }
+
+	    if (bad_s_mb == bad_c_mb && ws == wc)
+		break;
+
+	    s += s_mb_len;
+	    q += s_mb_len;
+	}
+
+	free(s_mb);
+
+	if (ws != wc)
+	    q = NULL;
+
+	return (char *)q;
+    } else
+#endif
+	return strchr(s, *c);
+}
+
 #ifdef ENABLE_NANORC
 /* Return TRUE if the string s contains one or more blank characters,
  * and FALSE otherwise. */
@@ -800,52 +846,6 @@ bool has_blank_mbchars(const char *s)
 	return has_blank_chars(s);
 }
 #endif /* ENABLE_NANORC */
-
-/* This function is equivalent to strchr() for multibyte strings. */
-char *mbstrchr(const char *s, char *c)
-{
-    assert(s != NULL && c != NULL);
-
-#ifdef ENABLE_UTF8
-    if (ISSET(USE_UTF8)) {
-	bool bad_c_mb = FALSE, bad_s_mb = FALSE;
-	char *s_mb = charalloc(MB_CUR_MAX);
-	const char *q = s;
-	wchar_t ws, wc;
-	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX);
-
-	if (c_mb_len <= 0) {
-	    mbtowc(NULL, NULL, 0);
-	    wc = (unsigned char)*c;
-	    bad_c_mb = TRUE;
-	}
-
-	while (*s != '\0') {
-	    int s_mb_len = parse_mbchar(s, s_mb, NULL, NULL);
-
-	    if (mbtowc(&ws, s_mb, s_mb_len) <= 0) {
-		mbtowc(NULL, NULL, 0);
-		ws = (unsigned char)*s;
-		bad_s_mb = TRUE;
-	    }
-
-	    if (bad_s_mb == bad_c_mb && ws == wc)
-		break;
-
-	    s += s_mb_len;
-	    q += s_mb_len;
-	}
-
-	free(s_mb);
-
-	if (ws != wc)
-	    q = NULL;
-
-	return (char *)q;
-    } else
-#endif
-	return strchr(s, *c);
-}
 #endif /* !DISABLE_JUSTIFY */
 
 #ifdef ENABLE_NANORC

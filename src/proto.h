@@ -197,11 +197,11 @@ size_t nstrnlen(const char *s, size_t maxlen);
 #endif
 size_t mbstrnlen(const char *s, size_t maxlen);
 #ifndef DISABLE_JUSTIFY
+char *mbstrchr(const char *s, char *c);
 #ifdef ENABLE_NANORC
 bool has_blank_chars(const char *s);
 bool has_blank_mbchars(const char *s);
 #endif
-char *mbstrchr(const char *s, char *c);
 #endif
 #ifdef ENABLE_NANORC
 bool is_valid_mbstring(const char *s);
