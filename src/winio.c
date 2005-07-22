@@ -3496,10 +3496,12 @@ void edit_scroll(updown direction, int nlines)
     const filestruct *foo;
     int i;
 
-    /* Scrolling less than one line or more than editwinrows lines is
-     * redundant, so don't allow it. */
-    if (nlines < 1 || nlines > editwinrows)
+    /* Don't bother scrolling less than one line. */
+    if (nlines < 1)
 	return;
+
+    /* Part 1: nlines is the number of lines we're going to scroll the
+     * text of the edit window. */
 
     /* Move the top line of the edit window up or down (depending on the
      * value of direction) nlines lines, or as many lines as we can if
@@ -3516,22 +3518,28 @@ void edit_scroll(updown direction, int nlines)
 	}
     }
 
-    /* Scroll the text on the screen up or down nlines lines, depending
-     * on the value of direction. */
+    /* Limit nlines to the number of lines in the edit window. */
+    if (nlines > editwinrows)
+	nlines = editwinrows;
+
+    /* Scroll the text of the edit window up or down nlines lines,
+     * depending on the value of direction. */
     scrollok(edit, TRUE);
     wscrl(edit, (direction == UP) ? -nlines : nlines);
     scrollok(edit, FALSE);
 
+    /* Part 2: nlines is the number of lines in the scrolled region of
+     * the edit window that we need to draw. */
+
     /* If we scrolled up, we couldn't scroll up all nlines lines, and
-     * we're now at the top of the file, we need to treat the entire
-     * screen as the scrolled region, instead of just the top nlines
-     * lines. */
+     * we're now at the top of the file, we need to draw the entire edit
+     * window instead of just its top nlines lines. */
     if (direction == UP && i > 0 && openfile->edittop ==
 	openfile->fileage)
-	nlines = editwinrows;
+	nlines = editwinrows - 2;
 
-    /* Make nlines account for the lines before and after the scrolled
-     * region, if they're onsccreen. */
+    /* If the lines before and after the scrolled region are visible in
+     * the edit window, we need to draw them too. */
     nlines += 2;
     if (nlines > editwinrows)
 	nlines = editwinrows;
