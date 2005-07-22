@@ -36,15 +36,15 @@ CVS code -
 	- Consistently make the flags global and any variables used to
 	  hold it longs. (DLR)
 	- Make edit_scroll() sophisticated enough to keep track of
-	  current and current_x and update the lines before and after
-	  the scrolled region, and change the movement functions that
-	  use edit_scroll() to (a) set current and current_x before
-	  calling it, and (b) no longer call edit_redraw() afterward,
-	  since it's now unnecessary.  These changes eliminate
-	  redundant screen updates when the mark is on, since the mark
-	  display depends on current and current_x.  Changes to
-	  edit_scroll(), do_page_up(), do_page_down(), do_up(), and
-	  do_down(). (DLR)
+	  current and current_x, update the lines before and after the
+	  scrolled region, and properly scroll more than editwinrows
+	  lines; and change the movement functions that use
+	  edit_scroll() to (a) set current and current_x before calling
+	  it, and (b) no longer call edit_redraw() afterward, as it's
+	  now unnecessary.  These changes eliminate redundant screen
+	  updates when the mark is on, since the mark display depends on
+	  current and current_x.  Changes to edit_scroll(),
+	  do_page_up(), do_page_down(), do_up(), and do_down(). (DLR)
 	- Consistently make the fg and bg colortype struct entries and
 	  any variables used to hold them shorts.  Changes to
 	  do_colorinit() (renamed color_init()), color_to_int() (renamed
