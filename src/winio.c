@@ -3496,8 +3496,9 @@ void edit_scroll(updown direction, int nlines)
     const filestruct *foo;
     int i;
 
-    /* Don't bother scrolling less than one line. */
-    if (nlines < 1)
+    /* Scrolling less than one line or more than editwinrows lines is
+     * redundant, so don't allow it. */
+    if (nlines < 1 || nlines > editwinrows)
 	return;
 
     /* Move the top line of the edit window up or down (depending on the
@@ -3515,26 +3516,25 @@ void edit_scroll(updown direction, int nlines)
 	}
     }
 
+    /* Scroll the text on the screen up or down nlines lines, depending
+     * on the value of direction. */
+    scrollok(edit, TRUE);
+    wscrl(edit, (direction == UP) ? -nlines : nlines);
+    scrollok(edit, FALSE);
+
     /* If we scrolled up, we couldn't scroll up all nlines lines, and
      * we're now at the top of the file, we need to treat the entire
      * screen as the scrolled region, instead of just the top nlines
      * lines. */
     if (direction == UP && i > 0 && openfile->edittop ==
 	openfile->fileage)
-	nlines = editwinrows - 2;
+	nlines = editwinrows;
 
     /* Make nlines account for the lines before and after the scrolled
-     * region, if they're onscreen, and then put nlines in range of
-     * editwinrows. */
+     * region, if they're onsccreen. */
     nlines += 2;
     if (nlines > editwinrows)
 	nlines = editwinrows;
-
-    /* Scroll the text on the screen up or down nlines lines, depending
-     * on the value of direction. */
-    scrollok(edit, TRUE);
-    wscrl(edit, (direction == UP) ? -nlines : nlines);
-    scrollok(edit, FALSE);
 
     /* If we scrolled up, we're on the line before the scrolled
      * region. */
