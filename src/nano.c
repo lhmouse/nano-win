@@ -2187,7 +2187,6 @@ const char *do_int_speller(const char *tempfile_name)
 const char *do_alt_speller(char *tempfile_name)
 {
     int alt_spell_status;
-    char *filename_save;
     size_t current_x_save = openfile->current_x;
     size_t pww_save = openfile->placewewant;
     ssize_t current_y_save = openfile->current_y;
@@ -2301,14 +2300,9 @@ const char *do_alt_speller(char *tempfile_name)
     /* Set up the window size. */
     window_size_init();
 
-    /* Save the current filename. */
-    filename_save = mallocstrcpy(NULL, openfile->filename);
-
-    /* Reinitialize the current buffer. */
-    reinitialize_buffer();
-
-    /* Restore the current filename. */
-    openfile->filename = filename_save;
+    /* Reinitialize the text of the current buffer. */
+    free_filestruct(openfile->fileage);
+    initialize_buffer_text();
 
     /* Reload the temp file.  Open it, read it into the current buffer,
      * and move back to the first line of the buffer. */

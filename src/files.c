@@ -64,19 +64,11 @@ void initialize_buffer(void)
 
     openfile->filename = mallocstrcpy(NULL, "");
 
-    openfile->fileage = make_new_node(NULL);
-    openfile->fileage->data = mallocstrcpy(NULL, "");
-
-    openfile->filebot = openfile->fileage;
-    openfile->edittop = openfile->fileage;
-    openfile->current = openfile->fileage;
+    initialize_buffer_text();
 
     openfile->current_x = 0;
     openfile->placewewant = 0;
     openfile->current_y = 0;
-
-    openfile->totlines = 1;
-    openfile->totsize = 0;
 
     openfile->modified = FALSE;
 #ifndef NANO_SMALL
@@ -94,22 +86,22 @@ void initialize_buffer(void)
 #endif
 }
 
-#ifndef DISABLE_SPELLER
-/* Reinitialize the current entry of the openfile openfilestruct. */
-void reinitialize_buffer(void)
+/* Initialize the text of the current entry of the openfile
+ * openfilestruct. */
+void initialize_buffer_text(void)
 {
-    assert(openfile != NULL && openfile->filename != NULL && openfile->fileage != NULL);
+    assert(openfile != NULL);
 
-    free(openfile->filename);
-    free_filestruct(openfile->fileage);
-#ifndef NANO_SMALL
-    if (openfile->current_stat != NULL)
-	free(openfile->current_stat);
-#endif
+    openfile->fileage = make_new_node(NULL);
+    openfile->fileage->data = mallocstrcpy(NULL, "");
 
-    initialize_buffer();
+    openfile->filebot = openfile->fileage;
+    openfile->edittop = openfile->fileage;
+    openfile->current = openfile->fileage;
+
+    openfile->totlines = 1;
+    openfile->totsize = 0;
 }
-#endif
 
 /* If it's not "", filename is a file to open.  We make a new buffer, if
  * necessary, and then open and read the file, if applicable. */

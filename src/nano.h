@@ -209,14 +209,14 @@ typedef struct openfilestruct {
     filestruct *filebot;	/* Current file's last line. */
     filestruct *edittop;	/* Current top of edit window. */
     filestruct *current;	/* Current file's line. */
+    size_t totlines;		/* Current file's total number of
+				 * lines. */
+    size_t totsize;		/* Current file's total size. */
     size_t current_x;		/* Current file's x-coordinate
 				 * position. */
     size_t placewewant;		/* Current file's place we want. */
     ssize_t current_y;		/* Current file's y-coordinate
 				 * position. */
-    size_t totlines;		/* Current file's total number of
-				 * lines. */
-    size_t totsize;		/* Current file's total size. */
     bool modified;		/* Current file's modification
 				 * status. */
 #ifndef NANO_SMALL

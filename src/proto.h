@@ -235,9 +235,7 @@ void do_uncut_text(void);
 /* Public functions in files.c. */
 void make_new_buffer(void);
 void initialize_buffer(void);
-#ifndef DISABLE_SPELLER
-void reinitialize_buffer(void);
-#endif
+void initialize_buffer_text(void);
 void open_buffer(const char *filename);
 void display_buffer(void);
 #ifdef ENABLE_MULTIBUFFER
