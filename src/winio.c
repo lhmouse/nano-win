@@ -3519,7 +3519,9 @@ void edit_scroll(updown direction, int nlines)
 	}
     }
 
-    /* Limit nlines to the number of lines in the edit window. */
+    /* Limit nlines to a minimum of the number of lines we could scroll,
+     * and to a maximum of the number of lines in the edit window. */
+    nlines -= i;
     if (nlines > editwinrows)
 	nlines = editwinrows;
 
@@ -3537,11 +3539,17 @@ void edit_scroll(updown direction, int nlines)
      * window. */
     if (direction == UP && i > 0 && openfile->edittop ==
 	openfile->fileage)
-	nlines = editwinrows - 2;
+	nlines = editwinrows;
 
-    /* If the lines before and after the scrolled region are visible in
-     * the edit window, we need to draw them too. */
-    nlines += 2;
+    /* If the scrolled region contains only one line, and the line
+     * before it is visible in the edit window, we need to draw it too.
+     * If the scrolled region contains more than one line, and the lines
+     * before and after the scrolled region are visible in the edit
+     * window, we need to draw them too. */
+    if (nlines == 1)
+	nlines++;
+    else
+	nlines += 2;
     if (nlines > editwinrows)
 	nlines = editwinrows;
 
