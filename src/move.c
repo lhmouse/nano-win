@@ -54,7 +54,6 @@ void do_last_line(void)
     openfile->current = openfile->filebot;
     openfile->current_x = 0;
     openfile->placewewant = 0;
-    openfile->current_y = editwinrows - 1;
 
     edit_redraw(current_save, pww_save);
 }
