@@ -3493,6 +3493,7 @@ int need_vertical_update(size_t old_pww)
  * assume that current and current_x are up to date. */
 void edit_scroll(updown direction, int nlines)
 {
+    bool do_redraw = need_vertical_update(0);
     const filestruct *foo;
     int i;
 
@@ -3533,7 +3534,7 @@ void edit_scroll(updown direction, int nlines)
 
     /* If we scrolled up, we couldn't scroll up all nlines lines, and
      * we're now at the top of the file, we need to draw the entire edit
-     * window instead of just its top nlines lines. */
+     * window. */
     if (direction == UP && i > 0 && openfile->edittop ==
 	openfile->fileage)
 	nlines = editwinrows - 2;
@@ -3555,10 +3556,19 @@ void edit_scroll(updown direction, int nlines)
 	    foo = foo->next;
     }
 
-    /* Draw new lines on the blank lines before, inside, and after the
-     * scrolled region. */
-    for (; nlines > 0 && foo != NULL; nlines--) {
-	update_line(foo, (foo == openfile->current) ?
+    /* Draw new lines on any blank lines before or inside the scrolled
+     * region.  If we scrolled down and we're on the top line, or if we
+     * scrolled up and we're on the bottom line, the line won't be
+     * blank, so we don't need to draw it unless the mark is on or we're
+     * not on the first page. */
+    for (i = nlines; i > 0 && foo != NULL; i--) {
+	if ((i == nlines && direction == DOWN) || (i == 1 &&
+		direction == UP)) {
+	    if (do_redraw)
+		update_line(foo, (foo == openfile->current) ?
+			openfile->current_x : 0);
+	} else
+	    update_line(foo, (foo == openfile->current) ?
 		openfile->current_x : 0);
 	foo = foo->next;
     }
@@ -3568,7 +3578,7 @@ void edit_scroll(updown direction, int nlines)
  * updated. */
 void edit_redraw(const filestruct *old_current, size_t old_pww)
 {
-    bool do_refresh = need_vertical_update(0) ||
+    bool do_redraw = need_vertical_update(0) ||
 	need_vertical_update(old_pww);
     const filestruct *foo;
 
@@ -3589,7 +3599,7 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
     foo = old_current;
 
     while (foo != openfile->current) {
-	if (do_refresh)
+	if (do_redraw)
 	    update_line(foo, 0);
 
 #ifndef NANO_SMALL
@@ -3603,7 +3613,7 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 #endif
     }
 
-    if (do_refresh)
+    if (do_redraw)
 	update_line(openfile->current, openfile->current_x);
 }
 

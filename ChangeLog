@@ -193,7 +193,7 @@ CVS code -
 	- Clean up and simplify. (DLR)
   edit_update()
 	- Since we no longer use TOP, remove references to it.  Also,
-	  don't call edit_refresh() anymore: it will call us. (DLR)
+	  don't call edit_refresh() anymore; it will call us. (DLR)
   do_statusbar_next_word()
 	- Rework to be more like do_statusbar_prev_word(), to avoid a
 	  potential problem if we start at the end of a line. (DLR)
