@@ -49,10 +49,6 @@
 #include <setjmp.h>
 #endif
 
-#ifndef DISABLE_WRAPJUSTIFY
-static ssize_t fill = 0;	/* Fill - where to wrap lines */
-#endif
-
 static struct termios oldterm;	/* The user's original term settings */
 static struct sigaction act;	/* For all our fun signal handlers */
 
