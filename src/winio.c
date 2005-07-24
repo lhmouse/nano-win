@@ -3546,10 +3546,7 @@ void edit_scroll(updown direction, int nlines)
      * If the scrolled region contains more than one line, and the lines
      * before and after the scrolled region are visible in the edit
      * window, we need to draw them too. */
-    if (nlines == 1)
-	nlines++;
-    else
-	nlines += 2;
+    nlines += (nlines == 1) ? 1 : 2;
     if (nlines > editwinrows)
 	nlines = editwinrows;
 
