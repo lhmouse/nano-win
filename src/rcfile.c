@@ -180,7 +180,7 @@ char *parse_argument(char *ptr)
 }
 
 #ifdef ENABLE_COLOR
-int color_to_short(const char *colorname, bool *bright)
+short color_to_short(const char *colorname, bool *bright)
 {
     short mcolor = -1;
 

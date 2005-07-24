@@ -429,7 +429,7 @@ void rcfile_error(const char *msg, ...);
 char *parse_next_word(char *ptr);
 char *parse_argument(char *ptr);
 #ifdef ENABLE_COLOR
-int color_to_short(const char *colorname, bool *bright);
+short color_to_short(const char *colorname, bool *bright);
 char *parse_next_regex(char *ptr);
 bool nregcomp(regex_t *preg, const char *regex, int eflags);
 void parse_syntax(char *ptr);
