@@ -24,25 +24,28 @@
 #include <config.h>
 #endif
 
-#include <stdlib.h>
-#include <assert.h>
 #include "proto.h"
 
 /* Global variables */
-
 #ifndef DISABLE_WRAPJUSTIFY
-/* wrap_at might be set in rcfile.c or nano.c. */
-ssize_t wrap_at = -CHARS_FROM_EOL;	/* Right justified fill value,
-					   allows resize */
+ssize_t fill = 0;		/* Where we will wrap lines. */
+ssize_t wrap_at = -CHARS_FROM_EOL;
+				/* The position that corresponds to
+				 * fill.  If it's greater than zero,
+				 * fill is equal to it.  Otherwise, fill
+				 * is equal to the number of screen
+				 * columns less it.  This allows
+				 * dynamic wrapping based on the current
+				 * screen width. */
 #endif
 
 char *last_search = NULL;	/* Last string we searched for */
 char *last_replace = NULL;	/* Last replacement string */
 
 long flags = 0;			/* Our flag containing many options */
-WINDOW *topwin;			/* Top buffer */
+WINDOW *topwin;			/* Top subwindow */
 WINDOW *edit;			/* The file portion of the editor */
-WINDOW *bottomwin;		/* Bottom buffer */
+WINDOW *bottomwin;		/* Bottom subwindow */
 
 int editwinrows = 0;		/* How many rows long is the edit
 				   window? */

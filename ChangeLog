@@ -88,6 +88,19 @@ CVS code -
 	  mbwidth(), make_mbchar(), parse_mbchar(), mbstrncasecmp(),
 	  mbstrcasestr(), mbrevstrcasestr(), mbstrchr(), and
 	  display_string(). (DLR)
+	- Move advanced text operations (command execution in a buffer,
+	  wrapping, spell checking, justifying, and word counting) to
+	  their own source file, and adjust related variables
+	  accordingly.  New file text.c; changes to cancel_command(),
+	  execute_command(), wrap_reset(), do_wrap(),
+	  do_int_spell_fix(), do_int_speller(), do_alt_speller(),
+	  do_spell(), break_line(), indent_length(), justify_format(),
+	  quote_length(), quotes_match(), indents_match(), begpar(),
+	  inpar(), backup_lines(), find_paragraph(), do_justify(),
+	  do_justify_void(), do_full_justify(), and do_word_count() (all
+	  moved to text.c). (DLR)
+- color.c:
+	- Remove unneeded string.h and fcntl.h includes. (DLR)
 - chars.c:
   mbstrchr()
 	- Don't count matches between valid and invalid multibyte
@@ -157,6 +170,8 @@ CVS code -
 	  HAVE_SNPRINTF. (DLR)
 	- Remove TOP from the topmidnone enum, and rename it centernone.
 	  (DLR)
+	- Move stdlib.h, dirent.h, regex.h, and assert.h includes here,
+	  as every source file needs them. (DLR)
   proto.h:
 	- Add declarations for bad_mbchar and bad_mbchar_len, so that we
 	  can use them in display_string() as well as chars.c. (DLR)
@@ -219,6 +234,8 @@ CVS code -
 	  tweaks by DLR)
 - doc/man/fr/nano.1, doc/man/fr/nanorc.1:
 	- Updated translation by Jean-Philippe Gérard.
+- src/Makefile.am:
+	- Add text.c to nano_SOURCES. (DLR)
 
 GNU nano 1.3.8 - 2005.06.30
 - General:

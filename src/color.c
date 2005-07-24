@@ -24,12 +24,7 @@
 #include <config.h>
 #endif
 
-#include <stdlib.h>
-#include <string.h>
 #include <stdio.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <assert.h>
 #include "proto.h"
 
 #ifdef ENABLE_COLOR

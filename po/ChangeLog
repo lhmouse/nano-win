@@ -1,3 +1,7 @@
+2005-07-24  David Lawrence Ramsey  <pooka_regent@sluggy.net>
+
+	* POTFILES.in: Add text.c.
+
 2005-07-19  Jordi Mallach  <jordi@gnu.org>
 
 	* ms.po: Updated Malay translation by

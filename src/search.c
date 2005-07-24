@@ -24,13 +24,11 @@
 #include <config.h>
 #endif
 
-#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <ctype.h>
 #include <errno.h>
-#include <assert.h>
 #include "proto.h"
 
 static bool search_last_line = FALSE;
@@ -254,30 +252,6 @@ int search_init(bool replacing, bool use_answer)
     }
 
     return 0;
-}
-
-bool is_whole_word(size_t pos, const char *buf, const char *word)
-{
-    char *p = charalloc(mb_cur_max()), *r = charalloc(mb_cur_max());
-    size_t word_end = pos + strlen(word);
-    bool retval;
-
-    assert(buf != NULL && pos <= strlen(buf) && word != NULL);
-
-    parse_mbchar(buf + move_mbleft(buf, pos), p, NULL, NULL);
-    parse_mbchar(buf + word_end, r, NULL, NULL);
-
-    /* If we're at the beginning of the line or the character before the
-     * word isn't a non-punctuation "word" character, and if we're at
-     * the end of the line or the character after the word isn't a
-     * non-punctuation "word" character, we have a whole word. */
-    retval = (pos == 0 || !is_word_mbchar(p, FALSE)) &&
-	(word_end == strlen(buf) || !is_word_mbchar(r, FALSE));
-
-    free(p);
-    free(r);
-
-    return retval;
 }
 
 /* Look for needle, starting at (current, current_x).  If no_sameline is

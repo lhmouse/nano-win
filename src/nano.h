@@ -90,8 +90,14 @@
 	/* Mark a string that will be sent to gettext() later. */
 
 #include <stddef.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <dirent.h>
+#ifdef HAVE_REGEX_H
+#include <regex.h>
+#endif
+#include <assert.h>
 
 /* If no vsnprintf(), use the version from glib 2.x. */
 #ifndef HAVE_VSNPRINTF

@@ -24,7 +24,6 @@
 #include <config.h>
 #endif
 
-#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -34,7 +33,6 @@
 #include <errno.h>
 #include <ctype.h>
 #include <pwd.h>
-#include <assert.h>
 #include "proto.h"
 
 /* Add an entry to the openfile openfilestruct.  This should only be

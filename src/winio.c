@@ -26,10 +26,8 @@
 
 #include <stdarg.h>
 #include <string.h>
-#include <stdlib.h>
 #include <unistd.h>
 #include <ctype.h>
-#include <assert.h>
 #include "proto.h"
 
 static int *key_buffer = NULL;

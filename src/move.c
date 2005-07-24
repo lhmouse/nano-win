@@ -24,10 +24,8 @@
 #include <config.h>
 #endif
 
-#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include <assert.h>
 #include "proto.h"
 
 void do_first_line(void)

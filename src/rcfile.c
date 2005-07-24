@@ -24,14 +24,12 @@
 #include <config.h>
 #endif
 
-#include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
 #include <stdio.h>
 #include <errno.h>
 #include <unistd.h>
 #include <ctype.h>
-#include <assert.h>
 #include "proto.h"
 
 #ifdef ENABLE_NANORC

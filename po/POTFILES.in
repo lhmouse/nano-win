@@ -6,5 +6,6 @@ src/global.c
 src/nano.c
 src/rcfile.c
 src/search.c
+src/text.c
 src/utils.c
 src/winio.c

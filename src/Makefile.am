@@ -15,6 +15,7 @@ nano_SOURCES =	chars.c \
 		proto.h \
 		rcfile.c \
 		search.c \
+		text.c \
 		utils.c \
 		winio.c 
 

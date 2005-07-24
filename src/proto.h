@@ -24,16 +24,10 @@
 #define PROTO_H 1
 
 /* Externs. */
-
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <dirent.h>
-#ifdef HAVE_REGEX_H
-#include <regex.h>
-#endif
 #include "nano.h"
 
 #ifndef DISABLE_WRAPJUSTIFY
+extern ssize_t fill;
 extern ssize_t wrap_at;
 #endif
 extern int editwinrows;
@@ -394,51 +388,14 @@ void version(void);
 int no_more_space(void);
 int no_help(void);
 void nano_disabled_msg(void);
-#ifndef NANO_SMALL
-void cancel_command(int signal);
-bool execute_command(const char *command);
-#endif
 void do_verbatim_input(void);
 void do_backspace(void);
 void do_delete(void);
 void do_tab(void);
 void do_enter(void);
 #ifndef NANO_SMALL
-void do_word_count(void);
 void do_mark(void);
 #endif
-#ifndef DISABLE_WRAPPING
-void wrap_reset(void);
-bool do_wrap(filestruct *line);
-#endif
-#ifndef DISABLE_SPELLER
-bool do_int_spell_fix(const char *word);
-const char *do_int_speller(const char *tempfile_name);
-const char *do_alt_speller(char *tempfile_name);
-void do_spell(void);
-#endif
-#if !defined(DISABLE_HELP) || !defined(DISABLE_JUSTIFY) || !defined(DISABLE_WRAPPING)
-ssize_t break_line(const char *line, ssize_t goal, bool newline);
-#endif
-#if !defined(NANO_SMALL) || !defined(DISABLE_JUSTIFY)
-size_t indent_length(const char *line);
-#endif
-#ifndef DISABLE_JUSTIFY
-void justify_format(filestruct *paragraph, size_t skip);
-size_t quote_length(const char *line);
-bool quotes_match(const char *a_line, size_t a_quote, const char
-	*b_line);
-bool indents_match(const char *a_line, size_t a_indent, const char
-	*b_line, size_t b_indent);
-bool begpar(const filestruct *const foo);
-bool inpar(const filestruct *const foo);
-filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
-	quote_len);
-bool find_paragraph(size_t *const quote, size_t *const par);
-void do_justify(bool full_justify);
-void do_justify_void(void);
-void do_full_justify(void);
-#endif /* !DISABLE_JUSTIFY */
 void do_exit(void);
 void signal_init(void);
 void handle_hupterm(int signal);
@@ -491,7 +448,6 @@ void not_found_msg(const char *str);
 void search_abort(void);
 void search_init_globals(void);
 int search_init(bool replacing, bool use_answer);
-bool is_whole_word(size_t pos, const char *buf, const char *word);
 bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	no_sameline, const filestruct *begin, size_t begin_x, const char
 	*needle, size_t *needle_len);
@@ -535,14 +491,48 @@ char *get_history_completion(filestruct **h, const char *s, size_t len);
 #endif
 #endif /* !NANO_SMALL */
 
+/* Public functions in text.c. */
+#ifndef NANO_SMALL
+void cancel_command(int signal);
+bool execute_command(const char *command);
+#endif
+#ifndef DISABLE_WRAPPING
+void wrap_reset(void);
+bool do_wrap(filestruct *line);
+#endif
+#ifndef DISABLE_SPELLER
+bool do_int_spell_fix(const char *word);
+const char *do_int_speller(const char *tempfile_name);
+const char *do_alt_speller(char *tempfile_name);
+void do_spell(void);
+#endif
+#if !defined(DISABLE_HELP) || !defined(DISABLE_JUSTIFY) || !defined(DISABLE_WRAPPING)
+ssize_t break_line(const char *line, ssize_t goal, bool newline);
+#endif
+#if !defined(NANO_SMALL) || !defined(DISABLE_JUSTIFY)
+size_t indent_length(const char *line);
+#endif
+#ifndef DISABLE_JUSTIFY
+void justify_format(filestruct *paragraph, size_t skip);
+size_t quote_length(const char *line);
+bool quotes_match(const char *a_line, size_t a_quote, const char
+	*b_line);
+bool indents_match(const char *a_line, size_t a_indent, const char
+	*b_line, size_t b_indent);
+bool begpar(const filestruct *const foo);
+bool inpar(const filestruct *const foo);
+filestruct *backup_lines(filestruct *first_line, size_t par_len, size_t
+	quote_len);
+bool find_paragraph(size_t *const quote, size_t *const par);
+void do_justify(bool full_justify);
+void do_justify_void(void);
+void do_full_justify(void);
+#endif /* !DISABLE_JUSTIFY */
+#ifndef NANO_SMALL
+void do_word_count(void);
+#endif
+
 /* Public functions in utils.c. */
-#ifdef HAVE_REGEX_H
-#ifdef BROKEN_REGEXEC
-int safe_regexec(const regex_t *preg, const char *string, size_t nmatch,
-	regmatch_t pmatch[], int eflags);
-#endif
-int regexp_bol_or_eol(const regex_t *preg, const char *string);
-#endif
 int digits(size_t n);
 void get_homedir(void);
 bool parse_num(const char *str, ssize_t *val);
@@ -559,6 +549,14 @@ ssize_t ngetline(char **lineptr, size_t *n, FILE *stream);
 ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream);
 #endif
 #endif /* !NANO_SMALL && ENABLE_NANORC */
+#ifdef HAVE_REGEX_H
+#ifdef BROKEN_REGEXEC
+int safe_regexec(const regex_t *preg, const char *string, size_t nmatch,
+	regmatch_t pmatch[], int eflags);
+#endif
+int regexp_bol_or_eol(const regex_t *preg, const char *string);
+#endif
+bool is_whole_word(size_t pos, const char *buf, const char *word);
 const char *strstrwrapper(const char *haystack, const char *needle,
 	const char *start);
 void nperror(const char *s);

@@ -24,36 +24,13 @@
 #include <config.h>
 #endif
 
-#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <pwd.h>
 #include <ctype.h>
 #include <errno.h>
-#include <assert.h>
 #include "proto.h"
-
-#ifdef HAVE_REGEX_H
-#ifdef BROKEN_REGEXEC
-/* Work around a potential segfault in glibc 2.2.3's regexec(). */
-int safe_regexec(const regex_t *preg, const char *string, size_t nmatch,
-	regmatch_t pmatch[], int eflags)
-{
-    if (string != NULL && *string != '\0')
-	return regexec(preg, string, nmatch, pmatch, eflags);
-
-    return REG_NOMATCH;
-}
-#endif
-
-int regexp_bol_or_eol(const regex_t *preg, const char *string)
-{
-    return (regexec(preg, string, 0, NULL, 0) == 0 &&
-	regexec(preg, string, 0, NULL, REG_NOTBOL | REG_NOTEOL) ==
-	REG_NOMATCH);
-}
-#endif /* HAVE_REGEX_H */
 
 int digits(size_t n)
 {
@@ -239,6 +216,52 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 }
 #endif
 #endif /* !NANO_SMALL && ENABLE_NANORC */
+
+#ifdef HAVE_REGEX_H
+#ifdef BROKEN_REGEXEC
+/* Work around a potential segfault in glibc 2.2.3's regexec(). */
+int safe_regexec(const regex_t *preg, const char *string, size_t nmatch,
+	regmatch_t pmatch[], int eflags)
+{
+    if (string != NULL && *string != '\0')
+	return regexec(preg, string, nmatch, pmatch, eflags);
+
+    return REG_NOMATCH;
+}
+#endif
+
+int regexp_bol_or_eol(const regex_t *preg, const char *string)
+{
+    return (regexec(preg, string, 0, NULL, 0) == 0 &&
+	regexec(preg, string, 0, NULL, REG_NOTBOL | REG_NOTEOL) ==
+	REG_NOMATCH);
+}
+#endif /* HAVE_REGEX_H */
+
+/* Is the word starting at position pos in buf a whole word? */
+bool is_whole_word(size_t pos, const char *buf, const char *word)
+{
+    char *p = charalloc(mb_cur_max()), *r = charalloc(mb_cur_max());
+    size_t word_end = pos + strlen(word);
+    bool retval;
+
+    assert(buf != NULL && pos <= strlen(buf) && word != NULL);
+
+    parse_mbchar(buf + move_mbleft(buf, pos), p, NULL, NULL);
+    parse_mbchar(buf + word_end, r, NULL, NULL);
+
+    /* If we're at the beginning of the line or the character before the
+     * word isn't a non-punctuation "word" character, and if we're at
+     * the end of the line or the character after the word isn't a
+     * non-punctuation "word" character, we have a whole word. */
+    retval = (pos == 0 || !is_word_mbchar(p, FALSE)) &&
+	(word_end == strlen(buf) || !is_word_mbchar(r, FALSE));
+
+    free(p);
+    free(r);
+
+    return retval;
+}
 
 /* If we are searching backwards, we will find the last match that
  * starts no later than start.  Otherwise we find the first match
