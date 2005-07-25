@@ -1648,7 +1648,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
     /* If we got a mouse click and it was on a shortcut, read in the
      * shortcut character. */
     if (allow_funcs && *func_key == TRUE && input == KEY_MOUSE) {
-	if (do_mouse())
+	if (do_statusbar_mouse())
 	    input = get_kbinput(bottomwin, meta_key, func_key);
 	else
 	    input = ERR;
@@ -1827,6 +1827,68 @@ bool do_statusbar_mouse(void)
     return get_mouseinput(&mouse_x, &mouse_y, TRUE);
 }
 #endif
+
+/* The user typed ouuput_len multibyte characters.  Add them to the
+ * statusbar prompt, setting got_enter to TRUE if we get a newline, and
+ * filtering out all control characters if allow_cntrls is TRUE. */
+void do_statusbar_output(char *output, size_t output_len, bool
+	*got_enter, bool allow_cntrls)
+{
+    size_t answer_len, i = 0;
+    char *char_buf = charalloc(mb_cur_max());
+    int char_buf_len;
+
+    assert(answer != NULL);
+
+    answer_len = strlen(answer);
+    *got_enter = FALSE;
+
+    while (i < output_len) {
+	/* If allow_cntrls is FALSE, filter out nulls and newlines,
+	 * since they're control characters. */
+	if (allow_cntrls) {
+	    /* Null to newline, if needed. */
+	    if (output[i] == '\0')
+		output[i] = '\n';
+	    /* Newline to Enter, if needed. */
+	    else if (output[i] == '\n') {
+		/* Set got_enter to TRUE to indicate that we got the
+		 * Enter key, put back the rest of the characters in
+		 * output so that they can be parsed and output again,
+		 * and get out. */
+		*got_enter = TRUE;
+		unparse_kbinput(output + i, output_len - i);
+		return;
+	    }
+	}
+
+	/* Interpret the next multibyte character.  If it's an invalid
+	 * multibyte character, interpret it as though it's a byte
+	 * character. */
+	char_buf_len = parse_mbchar(output + i, char_buf, NULL, NULL);
+
+	i += char_buf_len;
+
+	/* If allow_cntrls is FALSE, filter out a control character. */
+	if (!allow_cntrls && is_cntrl_mbchar(output + i - char_buf_len))
+	    continue;
+
+	/* More dangerousness fun =) */
+	answer = charealloc(answer, answer_len + (char_buf_len * 2));
+
+	assert(statusbar_x <= answer_len);
+
+	charmove(&answer[statusbar_x + char_buf_len],
+		&answer[statusbar_x], answer_len - statusbar_x +
+		char_buf_len);
+	strncpy(&answer[statusbar_x], char_buf, char_buf_len);
+	answer_len += char_buf_len;
+
+	statusbar_x += char_buf_len;
+    }
+
+    free(char_buf);
+}
 
 void do_statusbar_home(void)
 {
@@ -2079,68 +2141,6 @@ void do_statusbar_verbatim_input(bool *got_enter)
     do_statusbar_output(output, kbinput_len, got_enter, TRUE);
 
     free(output);
-}
-
-/* The user typed ouuput_len multibyte characters.  Add them to the
- * statusbar prompt, setting got_enter to TRUE if we get a newline, and
- * filtering out all control characters if allow_cntrls is TRUE. */
-void do_statusbar_output(char *output, size_t output_len, bool
-	*got_enter, bool allow_cntrls)
-{
-    size_t answer_len, i = 0;
-    char *char_buf = charalloc(mb_cur_max());
-    int char_buf_len;
-
-    assert(answer != NULL);
-
-    answer_len = strlen(answer);
-    *got_enter = FALSE;
-
-    while (i < output_len) {
-	/* If allow_cntrls is FALSE, filter out nulls and newlines,
-	 * since they're control characters. */
-	if (allow_cntrls) {
-	    /* Null to newline, if needed. */
-	    if (output[i] == '\0')
-		output[i] = '\n';
-	    /* Newline to Enter, if needed. */
-	    else if (output[i] == '\n') {
-		/* Set got_enter to TRUE to indicate that we got the
-		 * Enter key, put back the rest of the characters in
-		 * output so that they can be parsed and output again,
-		 * and get out. */
-		*got_enter = TRUE;
-		unparse_kbinput(output + i, output_len - i);
-		return;
-	    }
-	}
-
-	/* Interpret the next multibyte character.  If it's an invalid
-	 * multibyte character, interpret it as though it's a byte
-	 * character. */
-	char_buf_len = parse_mbchar(output + i, char_buf, NULL, NULL);
-
-	i += char_buf_len;
-
-	/* If allow_cntrls is FALSE, filter out a control character. */
-	if (!allow_cntrls && is_cntrl_mbchar(output + i - char_buf_len))
-	    continue;
-
-	/* More dangerousness fun =) */
-	answer = charealloc(answer, answer_len + (char_buf_len * 2));
-
-	assert(statusbar_x <= answer_len);
-
-	charmove(&answer[statusbar_x + char_buf_len],
-		&answer[statusbar_x], answer_len - statusbar_x +
-		char_buf_len);
-	strncpy(&answer[statusbar_x], char_buf, char_buf_len);
-	answer_len += char_buf_len;
-
-	statusbar_x += char_buf_len;
-    }
-
-    free(char_buf);
 }
 
 /* Return the placewewant associated with current_x, i.e, the zero-based

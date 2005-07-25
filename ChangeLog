@@ -224,6 +224,8 @@ CVS code -
   do_statusbar_next_word()
 	- Rework to be more like do_statusbar_prev_word(), to avoid a
 	  potential problem if we start at the end of a line. (DLR)
+  do_statusbar_input()
+	- Call do_statusbar_mouse() instead of do_mouse(). (DLR)
   do_statusbar_output()
 	- When adding a character, just add its length in bytes to
 	  statusbar_x instead of calling do_statusbar_right(). (DLR)

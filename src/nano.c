@@ -1718,9 +1718,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 bool do_mouse(void)
 {
     int mouse_x, mouse_y;
-    bool retval;
-
-    retval = get_mouseinput(&mouse_x, &mouse_y, TRUE);
+    bool retval = get_mouseinput(&mouse_x, &mouse_y, TRUE);
 
     if (!retval) {
 	/* We can click in the edit window to move the cursor. */
@@ -1745,9 +1743,9 @@ bool do_mouse(void)
 		openfile->current->prev != NULL; openfile->current_y--)
 		openfile->current = openfile->current->prev;
 
-	    openfile->current_x = actual_x(openfile->current->data,
-		get_page_start(xplustabs()) + mouse_x);
 	    openfile->placewewant = xplustabs();
+	    openfile->current_x = actual_x(openfile->current->data,
+		get_page_start(openfile->placewewant + mouse_x));
 
 #ifndef NANO_SMALL
 	    /* Clicking where the cursor is toggles the mark, as does

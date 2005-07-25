@@ -618,6 +618,8 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 #ifndef DISABLE_MOUSE
 bool do_statusbar_mouse(void);
 #endif
+void do_statusbar_output(char *output, size_t output_len, bool
+	*got_enter, bool allow_cntrls);
 void do_statusbar_home(void);
 void do_statusbar_end(void);
 void do_statusbar_right(void);
@@ -630,8 +632,6 @@ bool do_statusbar_next_word(bool allow_punct);
 bool do_statusbar_prev_word(bool allow_punct);
 #endif
 void do_statusbar_verbatim_input(bool *got_enter);
-void do_statusbar_output(char *output, size_t output_len, bool
-	*got_enter, bool allow_cntrls);
 size_t xplustabs(void);
 size_t actual_x(const char *str, size_t xplus);
 size_t strnlenpt(const char *buf, size_t size);
