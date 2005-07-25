@@ -1743,9 +1743,9 @@ bool do_mouse(void)
 		openfile->current->prev != NULL; openfile->current_y--)
 		openfile->current = openfile->current->prev;
 
-	    openfile->placewewant = xplustabs();
 	    openfile->current_x = actual_x(openfile->current->data,
-		get_page_start(openfile->placewewant + mouse_x));
+		get_page_start(xplustabs() + mouse_x));
+	    openfile->placewewant = xplustabs();
 
 #ifndef NANO_SMALL
 	    /* Clicking where the cursor is toggles the mark, as does
