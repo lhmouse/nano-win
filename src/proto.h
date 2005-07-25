@@ -529,7 +529,7 @@ const char *do_alt_speller(char *tempfile_name);
 void do_spell(void);
 #endif
 #ifndef NANO_SMALL
-void do_word_count(void);
+void do_wordlinechar_count(void);
 #endif
 
 /* Public functions in utils.c. */

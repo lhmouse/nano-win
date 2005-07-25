@@ -544,7 +544,7 @@ void shortcut_init(bool unjustify)
 
     sc_init_one(&main_list, NANO_NO_KEY, N_("Word Count"),
 	IFHELP(nano_wordcount_msg, NANO_WORDCOUNT_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, do_word_count);
+	NANO_NO_KEY, VIEW, do_wordlinechar_count);
 #endif
 
 #ifndef DISABLE_JUSTIFY

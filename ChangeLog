@@ -208,8 +208,9 @@ CVS code -
 	- Make parameters const where possible. (DLR)
 - text.c:
   do_word_count()
-	- Expand to also count the number of lines and characters in the
-	  file or selection, as wc does. (DLR)
+	- Rename to do_wordlinechar_count(), and expand to also count
+	  the number of lines and characters in the file or selection,
+	  as wc does. (DLR)
 - winio.c:
   edit_redraw(), edit_refresh()
 	- Clean up and simplify. (DLR)

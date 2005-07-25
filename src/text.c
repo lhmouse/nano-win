@@ -2047,7 +2047,7 @@ void do_spell(void)
 #endif /* !DISABLE_SPELLER */
 
 #ifndef NANO_SMALL
-void do_word_count(void)
+void do_wordlinechar_count(void)
 {
     size_t words = 0, lines = 0, chars = 0;
     size_t current_x_save = openfile->current_x;
@@ -2115,10 +2115,10 @@ void do_word_count(void)
 
     /* Display the total word, line, and character counts on the
      * statusbar. */
-    statusbar("%s: %lu %s, %lu %s, %lu %s", old_mark_set ?
-	_("In selection") : _("In file"), (unsigned long)words,
-	P_("word", "words", (unsigned long)words), (unsigned long)lines,
-	P_("line", "lines", (unsigned long)lines), (unsigned long)chars,
-	P_("char", "chars", (unsigned long)chars));
+    statusbar("%s%lu %s, %lu %s, %lu %s", old_mark_set ?
+	_("In selection: ") : "", (unsigned long)words, P_("word",
+	"words", (unsigned long)words), (unsigned long)lines, P_("line",
+	"lines", (unsigned long)lines), (unsigned long)chars, P_("char",
+	"chars", (unsigned long)chars));
 }
 #endif /* !NANO_SMALL */
