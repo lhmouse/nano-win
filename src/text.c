@@ -342,22 +342,29 @@ void wrap_reset(void)
 bool do_wrap(filestruct *line)
 {
     size_t line_len;
-	/* Length of the line we wrap. */
+	/* The length of the line we wrap. */
     ssize_t wrap_loc;
-	/* Index of line->data where we wrap. */
+	/* The index of line->data where we wrap. */
 #ifndef NANO_SMALL
     const char *indent_string = NULL;
 	/* Indentation to prepend to the new line. */
-    size_t indent_len = 0;	/* The length of indent_string. */
+    size_t indent_len = 0;
+	/* The length of indent_string. */
 #endif
-    const char *after_break;	/* The text after the wrap point. */
-    size_t after_break_len;	/* The length of after_break. */
-    bool wrapping = FALSE;	/* Do we prepend to the next line? */
+    const char *after_break;
+	/* The text after the wrap point. */
+    size_t after_break_len;
+	/* The length of after_break. */
+    bool wrapping = FALSE;
+	/* Do we prepend to the next line? */
     const char *next_line = NULL;
 	/* The next line, minus indentation. */
-    size_t next_line_len = 0;	/* The length of next_line. */
-    char *new_line = NULL;	/* The line we create. */
-    size_t new_line_len = 0;	/* The eventual length of new_line. */
+    size_t next_line_len = 0;
+	/* The length of next_line. */
+    char *new_line = NULL;
+	/* The line we create. */
+    size_t new_line_len = 0;
+	/* The eventual length of new_line. */
 
     /* There are three steps.  First, we decide where to wrap.  Then, we
      * create the new wrap line.  Finally, we clean up. */
@@ -1085,11 +1092,12 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 void do_justify(bool full_justify)
 {
     filestruct *first_par_line = NULL;
-	/* Will be the first line of the resulting justified paragraph.
-	 * For restoring after unjustify. */
+	/* Will be the first line of the justified paragraph.  For
+	 * restoring after unjustify. */
     filestruct *last_par_line;
 	/* Will be the line containing the newline after the last line
-	 * of the result.  Also for restoring after unjustify. */
+	 * of the justified paragraph.  Also for restoring after
+	 * unjustify. */
 
     /* We save these variables to be restored if the user
      * unjustifies. */
@@ -1264,17 +1272,17 @@ void do_justify(bool full_justify)
 	justify_format(openfile->current, quote_len +
 		indent_length(openfile->current->data + quote_len));
 
-	while (par_len > 0 &&
-		strlenpt(openfile->current->data) > fill) {
+	while (par_len > 0 && strlenpt(openfile->current->data) >
+		fill) {
 	    size_t line_len = strlen(openfile->current->data);
 
 	    indent_len = strlen(indent_string);
 
 	    /* If this line is too long, try to wrap it to the next line
 	     * to make it short enough. */
-	    break_pos =
-		break_line(openfile->current->data + indent_len, fill -
-		strnlenpt(openfile->current->data, indent_len), FALSE);
+	    break_pos = break_line(openfile->current->data + indent_len,
+		fill - strnlenpt(openfile->current->data, indent_len),
+		FALSE);
 
 	    /* We can't break the line, or don't need to, so get out. */
 	    if (break_pos == -1 || break_pos + indent_len == line_len)
@@ -1888,6 +1896,10 @@ const char *do_alt_speller(char *tempfile_name)
     /* Turn the cursor back on for sure. */
     curs_set(1);
 
+    /* The screen might have been resized.  If it has, reinitialize all
+     * the windows based on the new screen dimensions. */
+    window_init();
+
     if (!WIFEXITED(alt_spell_status) ||
 		WEXITSTATUS(alt_spell_status) != 0) {
 	char *altspell_error;
@@ -1921,9 +1933,6 @@ const char *do_alt_speller(char *tempfile_name)
 	totsize_save -= get_totsize(top, bot);
     }
 #endif
-
-    /* Set up the window size. */
-    window_size_init();
 
     /* Reinitialize the text of the current buffer. */
     free_filestruct(openfile->fileage);

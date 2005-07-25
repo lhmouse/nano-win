@@ -369,8 +369,6 @@ void print_view_warning(void);
 void finish(void);
 void die(const char *msg, ...);
 void die_save_file(const char *die_filename);
-void check_die_too_small(void);
-void window_size_init(void);
 void window_init(void);
 #ifndef DISABLE_MOUSE
 void mouse_init(void);

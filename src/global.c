@@ -28,15 +28,13 @@
 
 /* Global variables */
 #ifndef DISABLE_WRAPJUSTIFY
-ssize_t fill = 0;		/* Where we will wrap lines. */
+ssize_t fill = 0;		/* The column where we will wrap
+				 * lines. */
 ssize_t wrap_at = -CHARS_FROM_EOL;
-				/* The position that corresponds to
-				 * fill.  If it's greater than zero,
-				 * fill is equal to it.  Otherwise, fill
-				 * is equal to the number of screen
-				 * columns less it.  This allows
-				 * dynamic wrapping based on the current
-				 * screen width. */
+				/* The position where we will wrap
+				 * lines.  fill is equal to this if it's
+				 * greater than zero, and equal to
+				 * (COLS + this) if it isn't. */
 #endif
 
 char *last_search = NULL;	/* Last string we searched for */

@@ -108,6 +108,13 @@ CVS code -
 	  copy_from_filestruct(), do_delete(), do_enter(), do_wrap(),
 	  do_justify(), do_alt_speller(), do_wordlinechar_count(),
 	  new_magicline(), remove_magicline(), and do_cursorpos(). (DLR)
+	- Various fill-related cleanups.  Move check_die_too_small() and
+	  window_size_init()'s code into window_init(), as they really
+	  belong there, remove associated separate calls to them, and
+	  make sure window_init() is always called at the same time when
+	  redrawing the screen.  Changes to window_init(), main(), and
+	  do_alt_speller(); removal of check_die_too_small() and
+	  window_size_init(). (DLR)
 - color.c:
 	- Remove unneeded string.h and fcntl.h includes. (DLR)
 - chars.c:
@@ -180,6 +187,8 @@ CVS code -
 	- When opening files with "+LINE,COLUMN" arguments on the
 	  command line, don't update the screen when moving to their
 	  specified lines and columns. (DLR)
+	- Rename variable fill_flag_used to fill_used, for consistency.
+	  (DLR)
 - nano.h:
 	- Since we only use vsnprintf() now, remove the #ifdef block for
 	  HAVE_SNPRINTF. (DLR)

@@ -619,33 +619,21 @@ void die_save_file(const char *die_filename)
     free(retval);
 }
 
-/* Die with an error message that the screen was too small if, well, the
- * screen is too small. */
-void check_die_too_small(void)
+void window_init(void)
 {
+    /* If the screen height is too small, get out. */
     editwinrows = LINES - 5 + no_more_space() + no_help();
     if (editwinrows < MIN_EDITOR_ROWS)
 	die(_("Window size is too small for nano...\n"));
-}
-
-/* Make sure the window size isn't too small, and reinitialize the fill
- * variable, since it depends on the window size. */
-void window_size_init(void)
-{
-    check_die_too_small();
 
 #ifndef DISABLE_WRAPJUSTIFY
+    /* Set up fill, based on the screen width. */
     fill = wrap_at;
     if (fill <= 0)
 	fill += COLS;
     if (fill < 0)
 	fill = 0;
 #endif
-}
-
-void window_init(void)
-{
-    check_die_too_small();
 
     if (topwin != NULL)
 	delwin(topwin);
@@ -1370,9 +1358,6 @@ void handle_sigwinch(int s)
     COLS = win.ws_col;
     LINES = win.ws_row;
 
-    /* Reinitialize the window size variables. */
-    window_size_init();
-
     /* If we've partitioned the filestruct, unpartition it now. */
     if (filepart != NULL)
 	unpartition_filestruct(&filepart);
@@ -1880,7 +1865,7 @@ int main(int argc, char **argv)
     ssize_t startcol = 1;
 	/* Column to try and start at. */
 #ifndef DISABLE_WRAPJUSTIFY
-    bool fill_flag_used = FALSE;
+    bool fill_used = FALSE;
 	/* Was the fill option used? */
 #endif
 #ifdef ENABLE_MULTIBUFFER
@@ -2102,7 +2087,7 @@ int main(int argc, char **argv)
 		    fprintf(stderr, "\n");
 		    exit(1);
 		}
-		fill_flag_used = TRUE;
+		fill_used = TRUE;
 		break;
 #endif
 #ifndef DISABLE_SPELLER
@@ -2191,7 +2176,7 @@ int main(int argc, char **argv)
 	}
 #endif
 #ifndef DISABLE_WRAPJUSTIFY
-	if (fill_flag_used)
+	if (fill_used)
 	    wrap_at = wrap_at_cpy;
 #endif
 #ifndef NANO_SMALL
@@ -2317,20 +2302,20 @@ int main(int argc, char **argv)
     /* Turn the cursor on for sure. */
     curs_set(1);
 
-    /* Initialize the window size variables. */
-    window_size_init();
-
-    /* Set up the shortcuts. */
-    shortcut_init(FALSE);
-
-    /* Set up the signal handlers. */
-    signal_init();
-
 #ifdef DEBUG
     fprintf(stderr, "Main: set up windows\n");
 #endif
 
+    /* Initialize all the windows based on the current screen
+     * dimensions. */
     window_init();
+
+    /* Set up the signal handlers. */
+    signal_init();
+
+    /* Set up the shortcut lists. */
+    shortcut_init(FALSE);
+
 #ifndef DISABLE_MOUSE
     mouse_init();
 #endif
