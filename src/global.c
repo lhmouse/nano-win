@@ -292,7 +292,7 @@ void shortcut_init(bool unjustify)
     const char *nano_nextword_msg = N_("Move forward one word");
     const char *nano_prevword_msg = N_("Move backward one word");
     const char *nano_wordcount_msg =
-	N_("Count the number of words in the file");
+	N_("Count the number of words, lines, and characters");
 #endif
 #ifndef DISABLE_JUSTIFY
     const char *nano_parabegin_msg =

@@ -2049,7 +2049,8 @@ void do_spell(void)
 #ifndef NANO_SMALL
 void do_word_count(void)
 {
-    size_t words = 0, current_x_save = openfile->current_x;
+    size_t words = 0, lines = 0, chars = 0;
+    size_t current_x_save = openfile->current_x;
     size_t pww_save = openfile->placewewant;
     filestruct *current_save = openfile->current;
     bool old_mark_set = openfile->mark_set;
@@ -2077,26 +2078,34 @@ void do_word_count(void)
     openfile->placewewant = 0;
 
     /* Keep moving to the next word (counting punctuation characters as
-     * part of a word so that we match the output of "wc -w"), without
-     * updating the screen, until we reach the end of the file,
-     * incrementing the total word count whenever we're on a word just
-     * before moving. */
+     * part of a word, as "wc -w" does), without updating the screen,
+     * until we reach the end of the file, incrementing the total word
+     * count whenever we're on a word just before moving. */
     while (openfile->current != openfile->filebot ||
 	openfile->current_x != 0) {
 	if (do_next_word(TRUE, FALSE))
 	    words++;
     }
 
+    /* Get the total line and character counts, as "wc -l"  and "wc -c"
+     * do, but get the latter in multibyte characters. */
     if (old_mark_set) {
 	/* If the mark was on and we added a magicline, remove it
 	 * now. */
 	if (added_magicline)
 	    remove_magicline();
 
+	lines = openfile->filebot->lineno - openfile->fileage->lineno +
+		1;
+	chars = get_totsize(openfile->fileage, openfile->filebot);
+
 	/* Unpartition the filestruct so that it contains all the text
 	 * again, and turn the mark back on. */
 	unpartition_filestruct(&filepart);
 	openfile->mark_set = TRUE;
+    } else {
+	lines = openfile->totlines;
+	chars = openfile->totsize;
     }
 
     /* Restore where we were. */
@@ -2104,8 +2113,12 @@ void do_word_count(void)
     openfile->current_x = current_x_save;
     openfile->placewewant = pww_save;
 
-    /* Display the total word count on the statusbar. */
-    statusbar("%s: %lu", old_mark_set ? _("Word Count in Selection") :
-	_("Word Count"), (unsigned long)words);
+    /* Display the total word, line, and character counts on the
+     * statusbar. */
+    statusbar("%s: %lu %s, %lu %s, %lu %s", old_mark_set ?
+	_("In selection") : _("In file"), (unsigned long)words,
+	P_("word", "words", (unsigned long)words), (unsigned long)lines,
+	P_("line", "lines", (unsigned long)lines), (unsigned long)chars,
+	P_("char", "chars", (unsigned long)chars));
 }
 #endif /* !NANO_SMALL */

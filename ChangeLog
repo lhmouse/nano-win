@@ -117,6 +117,8 @@ CVS code -
 - global.c:
   shortcut_init()
 	- Simplify wording of nano_gotoline_msg. (Jordi and Ken Tyler)
+	- Clarify wording of nano_wordcount_msg, as it won't go through
+	  the entire file if the mark is on. (DLR)
 - move.c:
   do_first_line(), do_last_line()
 	- Simplify by only using edit_redraw(), and also make them call
@@ -204,6 +206,10 @@ CVS code -
 	- Add comments and minor cleanups. (DLR)
   find_history(), get_history_completion()
 	- Make parameters const where possible. (DLR)
+- text.c:
+  do_word_count()
+	- Expand to also count the number of lines and characters in the
+	  file or selection, as wc does. (DLR)
 - winio.c:
   edit_redraw(), edit_refresh()
 	- Clean up and simplify. (DLR)
