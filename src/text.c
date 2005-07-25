@@ -356,585 +356,6 @@ bool do_wrap(filestruct *line)
 }
 #endif /* !DISABLE_WRAPPING */
 
-#ifndef DISABLE_SPELLER
-/* A word is misspelled in the file.  Let the user replace it.  We
- * return FALSE if the user cancels. */
-bool do_int_spell_fix(const char *word)
-{
-    char *save_search, *save_replace;
-    size_t match_len, current_x_save = openfile->current_x;
-    size_t pww_save = openfile->placewewant;
-    filestruct *edittop_save = openfile->edittop;
-    filestruct *current_save = openfile->current;
-	/* Save where we are. */
-    bool canceled = FALSE;
-	/* The return value. */
-    bool case_sens_set = ISSET(CASE_SENSITIVE);
-#ifndef NANO_SMALL
-    bool backwards_search_set = ISSET(BACKWARDS_SEARCH);
-#endif
-#ifdef HAVE_REGEX_H
-    bool regexp_set = ISSET(USE_REGEXP);
-#endif
-#ifndef NANO_SMALL
-    bool old_mark_set = openfile->mark_set;
-    bool added_magicline = FALSE;
-	/* Whether we added a magicline after filebot. */
-    bool right_side_up = FALSE;
-	/* TRUE if (mark_begin, mark_begin_x) is the top of the mark,
-	 * FALSE if (current, current_x) is. */
-    filestruct *top, *bot;
-    size_t top_x, bot_x;
-#endif
-
-    /* Make sure spell-check is case sensitive. */
-    SET(CASE_SENSITIVE);
-
-#ifndef NANO_SMALL
-    /* Make sure spell-check goes forward only. */
-    UNSET(BACKWARDS_SEARCH);
-#endif
-#ifdef HAVE_REGEX_H
-    /* Make sure spell-check doesn't use regular expressions. */
-    UNSET(USE_REGEXP);
-#endif
-
-    /* Save the current search/replace strings. */
-    search_init_globals();
-    save_search = last_search;
-    save_replace = last_replace;
-
-    /* Set the search/replace strings to the misspelled word. */
-    last_search = mallocstrcpy(NULL, word);
-    last_replace = mallocstrcpy(NULL, word);
-
-#ifndef NANO_SMALL
-    if (old_mark_set) {
-	/* If the mark is on, partition the filestruct so that it
-	 * contains only the marked text, keep track of whether the text
-	 * will have a magicline added when we're done correcting
-	 * misspelled words, and turn the mark off. */
-	mark_order((const filestruct **)&top, &top_x,
-	    (const filestruct **)&bot, &bot_x, &right_side_up);
-	filepart = partition_filestruct(top, top_x, bot, bot_x);
-	added_magicline = (openfile->filebot->data[0] != '\0');
-	openfile->mark_set = FALSE;
-    }
-#endif
-
-    /* Start from the top of the file. */
-    openfile->edittop = openfile->fileage;
-    openfile->current = openfile->fileage;
-    openfile->current_x = (size_t)-1;
-    openfile->placewewant = 0;
-
-    /* Find the first whole-word occurrence of word. */
-    findnextstr_wrap_reset();
-    while (findnextstr(TRUE, TRUE, FALSE, openfile->fileage, 0, word,
-	&match_len)) {
-	if (is_whole_word(openfile->current_x, openfile->current->data,
-		word)) {
-	    size_t xpt = xplustabs();
-	    char *exp_word = display_string(openfile->current->data,
-		xpt, strnlenpt(openfile->current->data,
-		openfile->current_x + match_len) - xpt, FALSE);
-
-	    edit_refresh();
-
-	    do_replace_highlight(TRUE, exp_word);
-
-	    /* Allow all instances of the word to be corrected. */
-	    canceled = (statusq(FALSE, spell_list, word,
-#ifndef NANO_SMALL
-			NULL,
-#endif
-			 _("Edit a replacement")) == -1);
-
-	    do_replace_highlight(FALSE, exp_word);
-
-	    free(exp_word);
-
-	    if (!canceled && strcmp(word, answer) != 0) {
-		openfile->current_x--;
-		do_replace_loop(word, openfile->current,
-			&openfile->current_x, TRUE, &canceled);
-	    }
-
-	    break;
-	}
-    }
-
-#ifndef NANO_SMALL
-    if (old_mark_set) {
-	/* If the mark was on and we added a magicline, remove it
-	 * now. */
-	if (added_magicline)
-	    remove_magicline();
-
-	/* Put the beginning and the end of the mark at the beginning
-	 * and the end of the spell-checked text. */
-	if (openfile->fileage == openfile->filebot)
-	    bot_x += top_x;
-	if (right_side_up) {
-	    openfile->mark_begin_x = top_x;
-	    current_x_save = bot_x;
-	} else {
-	    current_x_save = top_x;
-	    openfile->mark_begin_x = bot_x;
-	}
-
-	/* Unpartition the filestruct so that it contains all the text
-	 * again, and turn the mark back on. */
-	unpartition_filestruct(&filepart);
-	openfile->mark_set = TRUE;
-    }
-#endif
-
-    /* Restore the search/replace strings. */
-    free(last_search);
-    last_search = save_search;
-    free(last_replace);
-    last_replace = save_replace;
-
-    /* Restore where we were. */
-    openfile->edittop = edittop_save;
-    openfile->current = current_save;
-    openfile->current_x = current_x_save;
-    openfile->placewewant = pww_save;
-
-    /* Restore case sensitivity setting. */
-    if (!case_sens_set)
-	UNSET(CASE_SENSITIVE);
-
-#ifndef NANO_SMALL
-    /* Restore search/replace direction. */
-    if (backwards_search_set)
-	SET(BACKWARDS_SEARCH);
-#endif
-#ifdef HAVE_REGEX_H
-    /* Restore regular expression usage setting. */
-    if (regexp_set)
-	SET(USE_REGEXP);
-#endif
-
-    return !canceled;
-}
-
-/* Integrated spell checking using the spell program, filtered through
- * the sort and uniq programs.  Return NULL for normal termination,
- * and the error string otherwise. */
-const char *do_int_speller(const char *tempfile_name)
-{
-    char *read_buff, *read_buff_ptr, *read_buff_word;
-    size_t pipe_buff_size, read_buff_size, read_buff_read, bytesread;
-    int spell_fd[2], sort_fd[2], uniq_fd[2], tempfile_fd = -1;
-    pid_t pid_spell, pid_sort, pid_uniq;
-    int spell_status, sort_status, uniq_status;
-
-    /* Create all three pipes up front. */
-    if (pipe(spell_fd) == -1 || pipe(sort_fd) == -1 ||
-	pipe(uniq_fd) == -1)
-	return _("Could not create pipe");
-
-    statusbar(_("Creating misspelled word list, please wait..."));
-
-    /* A new process to run spell in. */
-    if ((pid_spell = fork()) == 0) {
-	/* Child continues (i.e, future spell process). */
-	close(spell_fd[0]);
-
-	/* Replace the standard input with the temp file. */
-	if ((tempfile_fd = open(tempfile_name, O_RDONLY)) == -1)
-	    goto close_pipes_and_exit;
-
-	if (dup2(tempfile_fd, STDIN_FILENO) != STDIN_FILENO)
-	    goto close_pipes_and_exit;
-
-	close(tempfile_fd);
-
-	/* Send spell's standard output to the pipe. */
-	if (dup2(spell_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
-	    goto close_pipes_and_exit;
-
-	close(spell_fd[1]);
-
-	/* Start the spell program; we are using PATH. */
-	execlp("spell", "spell", NULL);
-
-	/* This should not be reached if spell is found. */
-	exit(1);
-    }
-
-    /* Parent continues here. */
-    close(spell_fd[1]);
-
-    /* A new process to run sort in. */
-    if ((pid_sort = fork()) == 0) {
-	/* Child continues (i.e, future spell process).  Replace the
-	 * standard input with the standard output of the old pipe. */
-	if (dup2(spell_fd[0], STDIN_FILENO) != STDIN_FILENO)
-	    goto close_pipes_and_exit;
-
-	close(spell_fd[0]);
-
-	/* Send sort's standard output to the new pipe. */
-	if (dup2(sort_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
-	    goto close_pipes_and_exit;
-
-	close(sort_fd[1]);
-
-	/* Start the sort program.  Use -f to remove mixed case.  If
-	 * this isn't portable, let me know. */
-	execlp("sort", "sort", "-f", NULL);
-
-	/* This should not be reached if sort is found. */
-	exit(1);
-    }
-
-    close(spell_fd[0]);
-    close(sort_fd[1]);
-
-    /* A new process to run uniq in. */
-    if ((pid_uniq = fork()) == 0) {
-	/* Child continues (i.e, future uniq process).  Replace the
-	 * standard input with the standard output of the old pipe. */
-	if (dup2(sort_fd[0], STDIN_FILENO) != STDIN_FILENO)
-	    goto close_pipes_and_exit;
-
-	close(sort_fd[0]);
-
-	/* Send uniq's standard output to the new pipe. */
-	if (dup2(uniq_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
-	    goto close_pipes_and_exit;
-
-	close(uniq_fd[1]);
-
-	/* Start the uniq program; we are using PATH. */
-	execlp("uniq", "uniq", NULL);
-
-	/* This should not be reached if uniq is found. */
-	exit(1);
-    }
-
-    close(sort_fd[0]);
-    close(uniq_fd[1]);
-
-    /* The child process was not forked successfully. */
-    if (pid_spell < 0 || pid_sort < 0 || pid_uniq < 0) {
-	close(uniq_fd[0]);
-	return _("Could not fork");
-    }
-
-    /* Get the system pipe buffer size. */
-    if ((pipe_buff_size = fpathconf(uniq_fd[0], _PC_PIPE_BUF)) < 1) {
-	close(uniq_fd[0]);
-	return _("Could not get size of pipe buffer");
-    }
-
-    /* Read in the returned spelling errors. */
-    read_buff_read = 0;
-    read_buff_size = pipe_buff_size + 1;
-    read_buff = read_buff_ptr = charalloc(read_buff_size);
-
-    while ((bytesread = read(uniq_fd[0], read_buff_ptr,
-	pipe_buff_size)) > 0) {
-	read_buff_read += bytesread;
-	read_buff_size += pipe_buff_size;
-	read_buff = read_buff_ptr = charealloc(read_buff,
-		read_buff_size);
-	read_buff_ptr += read_buff_read;
-    }
-
-    *read_buff_ptr = '\0';
-    close(uniq_fd[0]);
-
-    /* Process the spelling errors. */
-    read_buff_word = read_buff_ptr = read_buff;
-
-    while (*read_buff_ptr != '\0') {
-	if ((*read_buff_ptr == '\r') || (*read_buff_ptr == '\n')) {
-	    *read_buff_ptr = '\0';
-	    if (read_buff_word != read_buff_ptr) {
-		if (!do_int_spell_fix(read_buff_word)) {
-		    read_buff_word = read_buff_ptr;
-		    break;
-		}
-	    }
-	    read_buff_word = read_buff_ptr + 1;
-	}
-	read_buff_ptr++;
-    }
-
-    /* Special case: the last word doesn't end with '\r' or '\n'. */
-    if (read_buff_word != read_buff_ptr)
-	do_int_spell_fix(read_buff_word);
-
-    free(read_buff);
-    replace_abort();
-    edit_refresh();
-
-    /* Process the end of the spell process. */
-    waitpid(pid_spell, &spell_status, 0);
-    waitpid(pid_sort, &sort_status, 0);
-    waitpid(pid_uniq, &uniq_status, 0);
-
-    if (WIFEXITED(spell_status) == 0 || WEXITSTATUS(spell_status))
-	return _("Error invoking \"spell\"");
-
-    if (WIFEXITED(sort_status)  == 0 || WEXITSTATUS(sort_status))
-	return _("Error invoking \"sort -f\"");
-
-    if (WIFEXITED(uniq_status) == 0 || WEXITSTATUS(uniq_status))
-	return _("Error invoking \"uniq\"");
-
-    /* Otherwise... */
-    return NULL;
-
-  close_pipes_and_exit:
-    /* Don't leak any handles. */
-    close(tempfile_fd);
-    close(spell_fd[0]);
-    close(spell_fd[1]);
-    close(sort_fd[0]);
-    close(sort_fd[1]);
-    close(uniq_fd[0]);
-    close(uniq_fd[1]);
-    exit(1);
-}
-
-/* External spell checking.  Return value: NULL for normal termination,
- * otherwise the error string. */
-const char *do_alt_speller(char *tempfile_name)
-{
-    int alt_spell_status;
-    size_t current_x_save = openfile->current_x;
-    size_t pww_save = openfile->placewewant;
-    ssize_t current_y_save = openfile->current_y;
-    ssize_t lineno_save = openfile->current->lineno;
-    pid_t pid_spell;
-    char *ptr;
-    static int arglen = 3;
-    static char **spellargs = NULL;
-    FILE *f;
-#ifndef NANO_SMALL
-    bool old_mark_set = openfile->mark_set;
-    bool added_magicline = FALSE;
-	/* Whether we added a magicline after filebot. */
-    bool right_side_up = FALSE;
-	/* TRUE if (mark_begin, mark_begin_x) is the top of the mark,
-	 * FALSE if (current, current_x) is. */
-    filestruct *top, *bot;
-    size_t top_x, bot_x;
-    ssize_t mb_lineno_save = 0;
-	/* We're going to close the current file, and open the output of
-	 * the alternate spell command.  The line that mark_begin points
-	 * to will be freed, so we save the line number and restore it
-	 * afterwards. */
-    size_t totsize_save = openfile->totsize;
-	/* Our saved value of totsize, used when we spell-check a marked
-	 * selection. */
-
-    if (old_mark_set) {
-	/* If the mark is on, save the number of the line it starts on,
-	 * and then turn the mark off. */
-	mb_lineno_save = openfile->mark_begin->lineno;
-	openfile->mark_set = FALSE;
-    }
-#endif
-
-    endwin();
-
-    /* Set up an argument list to pass execvp(). */
-    if (spellargs == NULL) {
-	spellargs = (char **)nmalloc(arglen * sizeof(char *));
-
-	spellargs[0] = strtok(alt_speller, " ");
-	while ((ptr = strtok(NULL, " ")) != NULL) {
-	    arglen++;
-	    spellargs = (char **)nrealloc(spellargs, arglen *
-		sizeof(char *));
-	    spellargs[arglen - 3] = ptr;
-	}
-	spellargs[arglen - 1] = NULL;
-    }
-    spellargs[arglen - 2] = tempfile_name;
-
-    /* Start a new process for the alternate speller. */
-    if ((pid_spell = fork()) == 0) {
-	/* Start alternate spell program; we are using PATH. */
-	execvp(spellargs[0], spellargs);
-
-	/* Should not be reached, if alternate speller is found!!! */
-	exit(1);
-    }
-
-    /* If we couldn't fork, get out. */
-    if (pid_spell < 0)
-	return _("Could not fork");
-
-    /* Wait for alternate speller to complete. */
-    wait(&alt_spell_status);
-
-    refresh();
-
-    /* Restore the terminal to its previous state. */
-    terminal_init();
-
-    /* Turn the cursor back on for sure. */
-    curs_set(1);
-
-    if (!WIFEXITED(alt_spell_status) ||
-		WEXITSTATUS(alt_spell_status) != 0) {
-	char *altspell_error;
-	char *invoke_error = _("Error invoking \"%s\"");
-
-#ifndef NANO_SMALL
-	/* Turn the mark back on if it was on before. */
-	openfile->mark_set = old_mark_set;
-#endif
-
-	altspell_error =
-		charalloc(strlen(invoke_error) +
-		strlen(alt_speller) + 1);
-	sprintf(altspell_error, invoke_error, alt_speller);
-	return altspell_error;
-    }
-
-#ifndef NANO_SMALL
-    if (old_mark_set) {
-	/* If the mark was on, partition the filestruct so that it
-	 * contains only the marked text, and keep track of whether the
-	 * temp file (which should contain the spell-checked marked
-	 * text) will have a magicline added when it's reloaded. */
-	mark_order((const filestruct **)&top, &top_x,
-		(const filestruct **)&bot, &bot_x, &right_side_up);
-	filepart = partition_filestruct(top, top_x, bot, bot_x);
-	added_magicline = (openfile->filebot->data[0] != '\0');
-
-	/* Get the number of characters in the marked text, and subtract
-	 * it from the saved value of totsize. */
-	totsize_save -= get_totsize(top, bot);
-    }
-#endif
-
-    /* Set up the window size. */
-    window_size_init();
-
-    /* Reinitialize the text of the current buffer. */
-    free_filestruct(openfile->fileage);
-    initialize_buffer_text();
-
-    /* Reload the temp file.  Open it, read it into the current buffer,
-     * and move back to the first line of the buffer. */
-    open_file(tempfile_name, FALSE, &f);
-    read_file(f, tempfile_name);
-    openfile->current = openfile->fileage;
-
-#ifndef NANO_SMALL
-    if (old_mark_set) {
-	filestruct *top_save = openfile->fileage;
-
-	/* If the mark was on and we added a magicline, remove it
-	 * now. */
-	if (added_magicline)
-	    remove_magicline();
-
-	/* Put the beginning and the end of the mark at the beginning
-	 * and the end of the spell-checked text. */
-	if (openfile->fileage == openfile->filebot)
-	    bot_x += top_x;
-	if (right_side_up) {
-	    openfile->mark_begin_x = top_x;
-	    current_x_save = bot_x;
-	} else {
-	    current_x_save = top_x;
-	    openfile->mark_begin_x = bot_x;
-	}
-
-	/* Unpartition the filestruct so that it contains all the text
-	 * again.  Note that we've replaced the marked text originally
-	 * in the partition with the spell-checked marked text in the
-	 * temp file. */
-	unpartition_filestruct(&filepart);
-
-	/* Renumber starting with the beginning line of the old
-	 * partition.  Also set totlines to the new number of lines in
-	 * the file, add the number of characters in the spell-checked
-	 * marked text to the saved value of totsize, and then make that
-	 * saved value the actual value. */
-	renumber(top_save);
-	openfile->totlines = openfile->filebot->lineno;
-	totsize_save += openfile->totsize;
-	openfile->totsize = totsize_save;
-
-	/* Assign mark_begin to the line where the mark began before. */
-	do_gotopos(mb_lineno_save, openfile->mark_begin_x,
-		current_y_save, 0);
-	openfile->mark_begin = openfile->current;
-
-	/* Assign mark_begin_x to the location in mark_begin where the
-	 * mark began before, adjusted for any shortening of the
-	 * line. */
-	openfile->mark_begin_x = openfile->current_x;
-
-	/* Turn the mark back on. */
-	openfile->mark_set = TRUE;
-    }
-#endif
-
-    /* Go back to the old position, and mark the file as modified. */
-    do_gotopos(lineno_save, current_x_save, current_y_save, pww_save);
-    set_modified();
-
-    return NULL;
-}
-
-void do_spell(void)
-{
-    int i;
-    FILE *temp_file;
-    char *temp = safe_tempfile(&temp_file);
-    const char *spell_msg;
-
-    if (temp == NULL) {
-	statusbar(_("Could not create temp file: %s"), strerror(errno));
-	return;
-    }
-
-#ifndef NANO_SMALL
-    if (openfile->mark_set)
-	i = write_marked_file(temp, temp_file, TRUE, FALSE);
-    else
-#endif
-	i = write_file(temp, temp_file, TRUE, FALSE, FALSE);
-
-    if (i == -1) {
-	statusbar(_("Error writing temp file: %s"), strerror(errno));
-	free(temp);
-	return;
-    }
-
-    spell_msg = (alt_speller != NULL) ? do_alt_speller(temp) :
-	do_int_speller(temp);
-    unlink(temp);
-    free(temp);
-
-    /* If the spell-checker printed any error messages onscreen, make
-     * sure that they're cleared off. */
-    total_refresh();
-
-    if (spell_msg != NULL) {
-	if (errno == 0)
-	    /* Don't display an error message of "Success". */
-	    statusbar(_("Spell checking failed: %s"), spell_msg);
-	else
-	    statusbar(_("Spell checking failed: %s: %s"), spell_msg,
-		strerror(errno));
-    } else
-	statusbar(_("Finished checking spelling"));
-}
-#endif /* !DISABLE_SPELLER */
-
 #if !defined(DISABLE_HELP) || !defined(DISABLE_JUSTIFY) || !defined(DISABLE_WRAPPING)
 /* We are trying to break a chunk off line.  We find the last blank such
  * that the display length to there is at most goal + 1.  If there is no
@@ -1849,6 +1270,585 @@ void do_full_justify(void)
     do_justify(TRUE);
 }
 #endif /* !DISABLE_JUSTIFY */
+
+#ifndef DISABLE_SPELLER
+/* A word is misspelled in the file.  Let the user replace it.  We
+ * return FALSE if the user cancels. */
+bool do_int_spell_fix(const char *word)
+{
+    char *save_search, *save_replace;
+    size_t match_len, current_x_save = openfile->current_x;
+    size_t pww_save = openfile->placewewant;
+    filestruct *edittop_save = openfile->edittop;
+    filestruct *current_save = openfile->current;
+	/* Save where we are. */
+    bool canceled = FALSE;
+	/* The return value. */
+    bool case_sens_set = ISSET(CASE_SENSITIVE);
+#ifndef NANO_SMALL
+    bool backwards_search_set = ISSET(BACKWARDS_SEARCH);
+#endif
+#ifdef HAVE_REGEX_H
+    bool regexp_set = ISSET(USE_REGEXP);
+#endif
+#ifndef NANO_SMALL
+    bool old_mark_set = openfile->mark_set;
+    bool added_magicline = FALSE;
+	/* Whether we added a magicline after filebot. */
+    bool right_side_up = FALSE;
+	/* TRUE if (mark_begin, mark_begin_x) is the top of the mark,
+	 * FALSE if (current, current_x) is. */
+    filestruct *top, *bot;
+    size_t top_x, bot_x;
+#endif
+
+    /* Make sure spell-check is case sensitive. */
+    SET(CASE_SENSITIVE);
+
+#ifndef NANO_SMALL
+    /* Make sure spell-check goes forward only. */
+    UNSET(BACKWARDS_SEARCH);
+#endif
+#ifdef HAVE_REGEX_H
+    /* Make sure spell-check doesn't use regular expressions. */
+    UNSET(USE_REGEXP);
+#endif
+
+    /* Save the current search/replace strings. */
+    search_init_globals();
+    save_search = last_search;
+    save_replace = last_replace;
+
+    /* Set the search/replace strings to the misspelled word. */
+    last_search = mallocstrcpy(NULL, word);
+    last_replace = mallocstrcpy(NULL, word);
+
+#ifndef NANO_SMALL
+    if (old_mark_set) {
+	/* If the mark is on, partition the filestruct so that it
+	 * contains only the marked text, keep track of whether the text
+	 * will have a magicline added when we're done correcting
+	 * misspelled words, and turn the mark off. */
+	mark_order((const filestruct **)&top, &top_x,
+	    (const filestruct **)&bot, &bot_x, &right_side_up);
+	filepart = partition_filestruct(top, top_x, bot, bot_x);
+	added_magicline = (openfile->filebot->data[0] != '\0');
+	openfile->mark_set = FALSE;
+    }
+#endif
+
+    /* Start from the top of the file. */
+    openfile->edittop = openfile->fileage;
+    openfile->current = openfile->fileage;
+    openfile->current_x = (size_t)-1;
+    openfile->placewewant = 0;
+
+    /* Find the first whole-word occurrence of word. */
+    findnextstr_wrap_reset();
+    while (findnextstr(TRUE, TRUE, FALSE, openfile->fileage, 0, word,
+	&match_len)) {
+	if (is_whole_word(openfile->current_x, openfile->current->data,
+		word)) {
+	    size_t xpt = xplustabs();
+	    char *exp_word = display_string(openfile->current->data,
+		xpt, strnlenpt(openfile->current->data,
+		openfile->current_x + match_len) - xpt, FALSE);
+
+	    edit_refresh();
+
+	    do_replace_highlight(TRUE, exp_word);
+
+	    /* Allow all instances of the word to be corrected. */
+	    canceled = (statusq(FALSE, spell_list, word,
+#ifndef NANO_SMALL
+			NULL,
+#endif
+			 _("Edit a replacement")) == -1);
+
+	    do_replace_highlight(FALSE, exp_word);
+
+	    free(exp_word);
+
+	    if (!canceled && strcmp(word, answer) != 0) {
+		openfile->current_x--;
+		do_replace_loop(word, openfile->current,
+			&openfile->current_x, TRUE, &canceled);
+	    }
+
+	    break;
+	}
+    }
+
+#ifndef NANO_SMALL
+    if (old_mark_set) {
+	/* If the mark was on and we added a magicline, remove it
+	 * now. */
+	if (added_magicline)
+	    remove_magicline();
+
+	/* Put the beginning and the end of the mark at the beginning
+	 * and the end of the spell-checked text. */
+	if (openfile->fileage == openfile->filebot)
+	    bot_x += top_x;
+	if (right_side_up) {
+	    openfile->mark_begin_x = top_x;
+	    current_x_save = bot_x;
+	} else {
+	    current_x_save = top_x;
+	    openfile->mark_begin_x = bot_x;
+	}
+
+	/* Unpartition the filestruct so that it contains all the text
+	 * again, and turn the mark back on. */
+	unpartition_filestruct(&filepart);
+	openfile->mark_set = TRUE;
+    }
+#endif
+
+    /* Restore the search/replace strings. */
+    free(last_search);
+    last_search = save_search;
+    free(last_replace);
+    last_replace = save_replace;
+
+    /* Restore where we were. */
+    openfile->edittop = edittop_save;
+    openfile->current = current_save;
+    openfile->current_x = current_x_save;
+    openfile->placewewant = pww_save;
+
+    /* Restore case sensitivity setting. */
+    if (!case_sens_set)
+	UNSET(CASE_SENSITIVE);
+
+#ifndef NANO_SMALL
+    /* Restore search/replace direction. */
+    if (backwards_search_set)
+	SET(BACKWARDS_SEARCH);
+#endif
+#ifdef HAVE_REGEX_H
+    /* Restore regular expression usage setting. */
+    if (regexp_set)
+	SET(USE_REGEXP);
+#endif
+
+    return !canceled;
+}
+
+/* Integrated spell checking using the spell program, filtered through
+ * the sort and uniq programs.  Return NULL for normal termination,
+ * and the error string otherwise. */
+const char *do_int_speller(const char *tempfile_name)
+{
+    char *read_buff, *read_buff_ptr, *read_buff_word;
+    size_t pipe_buff_size, read_buff_size, read_buff_read, bytesread;
+    int spell_fd[2], sort_fd[2], uniq_fd[2], tempfile_fd = -1;
+    pid_t pid_spell, pid_sort, pid_uniq;
+    int spell_status, sort_status, uniq_status;
+
+    /* Create all three pipes up front. */
+    if (pipe(spell_fd) == -1 || pipe(sort_fd) == -1 ||
+	pipe(uniq_fd) == -1)
+	return _("Could not create pipe");
+
+    statusbar(_("Creating misspelled word list, please wait..."));
+
+    /* A new process to run spell in. */
+    if ((pid_spell = fork()) == 0) {
+	/* Child continues (i.e, future spell process). */
+	close(spell_fd[0]);
+
+	/* Replace the standard input with the temp file. */
+	if ((tempfile_fd = open(tempfile_name, O_RDONLY)) == -1)
+	    goto close_pipes_and_exit;
+
+	if (dup2(tempfile_fd, STDIN_FILENO) != STDIN_FILENO)
+	    goto close_pipes_and_exit;
+
+	close(tempfile_fd);
+
+	/* Send spell's standard output to the pipe. */
+	if (dup2(spell_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
+	    goto close_pipes_and_exit;
+
+	close(spell_fd[1]);
+
+	/* Start the spell program; we are using PATH. */
+	execlp("spell", "spell", NULL);
+
+	/* This should not be reached if spell is found. */
+	exit(1);
+    }
+
+    /* Parent continues here. */
+    close(spell_fd[1]);
+
+    /* A new process to run sort in. */
+    if ((pid_sort = fork()) == 0) {
+	/* Child continues (i.e, future spell process).  Replace the
+	 * standard input with the standard output of the old pipe. */
+	if (dup2(spell_fd[0], STDIN_FILENO) != STDIN_FILENO)
+	    goto close_pipes_and_exit;
+
+	close(spell_fd[0]);
+
+	/* Send sort's standard output to the new pipe. */
+	if (dup2(sort_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
+	    goto close_pipes_and_exit;
+
+	close(sort_fd[1]);
+
+	/* Start the sort program.  Use -f to remove mixed case.  If
+	 * this isn't portable, let me know. */
+	execlp("sort", "sort", "-f", NULL);
+
+	/* This should not be reached if sort is found. */
+	exit(1);
+    }
+
+    close(spell_fd[0]);
+    close(sort_fd[1]);
+
+    /* A new process to run uniq in. */
+    if ((pid_uniq = fork()) == 0) {
+	/* Child continues (i.e, future uniq process).  Replace the
+	 * standard input with the standard output of the old pipe. */
+	if (dup2(sort_fd[0], STDIN_FILENO) != STDIN_FILENO)
+	    goto close_pipes_and_exit;
+
+	close(sort_fd[0]);
+
+	/* Send uniq's standard output to the new pipe. */
+	if (dup2(uniq_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
+	    goto close_pipes_and_exit;
+
+	close(uniq_fd[1]);
+
+	/* Start the uniq program; we are using PATH. */
+	execlp("uniq", "uniq", NULL);
+
+	/* This should not be reached if uniq is found. */
+	exit(1);
+    }
+
+    close(sort_fd[0]);
+    close(uniq_fd[1]);
+
+    /* The child process was not forked successfully. */
+    if (pid_spell < 0 || pid_sort < 0 || pid_uniq < 0) {
+	close(uniq_fd[0]);
+	return _("Could not fork");
+    }
+
+    /* Get the system pipe buffer size. */
+    if ((pipe_buff_size = fpathconf(uniq_fd[0], _PC_PIPE_BUF)) < 1) {
+	close(uniq_fd[0]);
+	return _("Could not get size of pipe buffer");
+    }
+
+    /* Read in the returned spelling errors. */
+    read_buff_read = 0;
+    read_buff_size = pipe_buff_size + 1;
+    read_buff = read_buff_ptr = charalloc(read_buff_size);
+
+    while ((bytesread = read(uniq_fd[0], read_buff_ptr,
+	pipe_buff_size)) > 0) {
+	read_buff_read += bytesread;
+	read_buff_size += pipe_buff_size;
+	read_buff = read_buff_ptr = charealloc(read_buff,
+		read_buff_size);
+	read_buff_ptr += read_buff_read;
+    }
+
+    *read_buff_ptr = '\0';
+    close(uniq_fd[0]);
+
+    /* Process the spelling errors. */
+    read_buff_word = read_buff_ptr = read_buff;
+
+    while (*read_buff_ptr != '\0') {
+	if ((*read_buff_ptr == '\r') || (*read_buff_ptr == '\n')) {
+	    *read_buff_ptr = '\0';
+	    if (read_buff_word != read_buff_ptr) {
+		if (!do_int_spell_fix(read_buff_word)) {
+		    read_buff_word = read_buff_ptr;
+		    break;
+		}
+	    }
+	    read_buff_word = read_buff_ptr + 1;
+	}
+	read_buff_ptr++;
+    }
+
+    /* Special case: the last word doesn't end with '\r' or '\n'. */
+    if (read_buff_word != read_buff_ptr)
+	do_int_spell_fix(read_buff_word);
+
+    free(read_buff);
+    replace_abort();
+    edit_refresh();
+
+    /* Process the end of the spell process. */
+    waitpid(pid_spell, &spell_status, 0);
+    waitpid(pid_sort, &sort_status, 0);
+    waitpid(pid_uniq, &uniq_status, 0);
+
+    if (WIFEXITED(spell_status) == 0 || WEXITSTATUS(spell_status))
+	return _("Error invoking \"spell\"");
+
+    if (WIFEXITED(sort_status)  == 0 || WEXITSTATUS(sort_status))
+	return _("Error invoking \"sort -f\"");
+
+    if (WIFEXITED(uniq_status) == 0 || WEXITSTATUS(uniq_status))
+	return _("Error invoking \"uniq\"");
+
+    /* Otherwise... */
+    return NULL;
+
+  close_pipes_and_exit:
+    /* Don't leak any handles. */
+    close(tempfile_fd);
+    close(spell_fd[0]);
+    close(spell_fd[1]);
+    close(sort_fd[0]);
+    close(sort_fd[1]);
+    close(uniq_fd[0]);
+    close(uniq_fd[1]);
+    exit(1);
+}
+
+/* External spell checking.  Return value: NULL for normal termination,
+ * otherwise the error string. */
+const char *do_alt_speller(char *tempfile_name)
+{
+    int alt_spell_status;
+    size_t current_x_save = openfile->current_x;
+    size_t pww_save = openfile->placewewant;
+    ssize_t current_y_save = openfile->current_y;
+    ssize_t lineno_save = openfile->current->lineno;
+    pid_t pid_spell;
+    char *ptr;
+    static int arglen = 3;
+    static char **spellargs = NULL;
+    FILE *f;
+#ifndef NANO_SMALL
+    bool old_mark_set = openfile->mark_set;
+    bool added_magicline = FALSE;
+	/* Whether we added a magicline after filebot. */
+    bool right_side_up = FALSE;
+	/* TRUE if (mark_begin, mark_begin_x) is the top of the mark,
+	 * FALSE if (current, current_x) is. */
+    filestruct *top, *bot;
+    size_t top_x, bot_x;
+    ssize_t mb_lineno_save = 0;
+	/* We're going to close the current file, and open the output of
+	 * the alternate spell command.  The line that mark_begin points
+	 * to will be freed, so we save the line number and restore it
+	 * afterwards. */
+    size_t totsize_save = openfile->totsize;
+	/* Our saved value of totsize, used when we spell-check a marked
+	 * selection. */
+
+    if (old_mark_set) {
+	/* If the mark is on, save the number of the line it starts on,
+	 * and then turn the mark off. */
+	mb_lineno_save = openfile->mark_begin->lineno;
+	openfile->mark_set = FALSE;
+    }
+#endif
+
+    endwin();
+
+    /* Set up an argument list to pass execvp(). */
+    if (spellargs == NULL) {
+	spellargs = (char **)nmalloc(arglen * sizeof(char *));
+
+	spellargs[0] = strtok(alt_speller, " ");
+	while ((ptr = strtok(NULL, " ")) != NULL) {
+	    arglen++;
+	    spellargs = (char **)nrealloc(spellargs, arglen *
+		sizeof(char *));
+	    spellargs[arglen - 3] = ptr;
+	}
+	spellargs[arglen - 1] = NULL;
+    }
+    spellargs[arglen - 2] = tempfile_name;
+
+    /* Start a new process for the alternate speller. */
+    if ((pid_spell = fork()) == 0) {
+	/* Start alternate spell program; we are using PATH. */
+	execvp(spellargs[0], spellargs);
+
+	/* Should not be reached, if alternate speller is found!!! */
+	exit(1);
+    }
+
+    /* If we couldn't fork, get out. */
+    if (pid_spell < 0)
+	return _("Could not fork");
+
+    /* Wait for alternate speller to complete. */
+    wait(&alt_spell_status);
+
+    refresh();
+
+    /* Restore the terminal to its previous state. */
+    terminal_init();
+
+    /* Turn the cursor back on for sure. */
+    curs_set(1);
+
+    if (!WIFEXITED(alt_spell_status) ||
+		WEXITSTATUS(alt_spell_status) != 0) {
+	char *altspell_error;
+	char *invoke_error = _("Error invoking \"%s\"");
+
+#ifndef NANO_SMALL
+	/* Turn the mark back on if it was on before. */
+	openfile->mark_set = old_mark_set;
+#endif
+
+	altspell_error =
+		charalloc(strlen(invoke_error) +
+		strlen(alt_speller) + 1);
+	sprintf(altspell_error, invoke_error, alt_speller);
+	return altspell_error;
+    }
+
+#ifndef NANO_SMALL
+    if (old_mark_set) {
+	/* If the mark was on, partition the filestruct so that it
+	 * contains only the marked text, and keep track of whether the
+	 * temp file (which should contain the spell-checked marked
+	 * text) will have a magicline added when it's reloaded. */
+	mark_order((const filestruct **)&top, &top_x,
+		(const filestruct **)&bot, &bot_x, &right_side_up);
+	filepart = partition_filestruct(top, top_x, bot, bot_x);
+	added_magicline = (openfile->filebot->data[0] != '\0');
+
+	/* Get the number of characters in the marked text, and subtract
+	 * it from the saved value of totsize. */
+	totsize_save -= get_totsize(top, bot);
+    }
+#endif
+
+    /* Set up the window size. */
+    window_size_init();
+
+    /* Reinitialize the text of the current buffer. */
+    free_filestruct(openfile->fileage);
+    initialize_buffer_text();
+
+    /* Reload the temp file.  Open it, read it into the current buffer,
+     * and move back to the first line of the buffer. */
+    open_file(tempfile_name, FALSE, &f);
+    read_file(f, tempfile_name);
+    openfile->current = openfile->fileage;
+
+#ifndef NANO_SMALL
+    if (old_mark_set) {
+	filestruct *top_save = openfile->fileage;
+
+	/* If the mark was on and we added a magicline, remove it
+	 * now. */
+	if (added_magicline)
+	    remove_magicline();
+
+	/* Put the beginning and the end of the mark at the beginning
+	 * and the end of the spell-checked text. */
+	if (openfile->fileage == openfile->filebot)
+	    bot_x += top_x;
+	if (right_side_up) {
+	    openfile->mark_begin_x = top_x;
+	    current_x_save = bot_x;
+	} else {
+	    current_x_save = top_x;
+	    openfile->mark_begin_x = bot_x;
+	}
+
+	/* Unpartition the filestruct so that it contains all the text
+	 * again.  Note that we've replaced the marked text originally
+	 * in the partition with the spell-checked marked text in the
+	 * temp file. */
+	unpartition_filestruct(&filepart);
+
+	/* Renumber starting with the beginning line of the old
+	 * partition.  Also set totlines to the new number of lines in
+	 * the file, add the number of characters in the spell-checked
+	 * marked text to the saved value of totsize, and then make that
+	 * saved value the actual value. */
+	renumber(top_save);
+	openfile->totlines = openfile->filebot->lineno;
+	totsize_save += openfile->totsize;
+	openfile->totsize = totsize_save;
+
+	/* Assign mark_begin to the line where the mark began before. */
+	do_gotopos(mb_lineno_save, openfile->mark_begin_x,
+		current_y_save, 0);
+	openfile->mark_begin = openfile->current;
+
+	/* Assign mark_begin_x to the location in mark_begin where the
+	 * mark began before, adjusted for any shortening of the
+	 * line. */
+	openfile->mark_begin_x = openfile->current_x;
+
+	/* Turn the mark back on. */
+	openfile->mark_set = TRUE;
+    }
+#endif
+
+    /* Go back to the old position, and mark the file as modified. */
+    do_gotopos(lineno_save, current_x_save, current_y_save, pww_save);
+    set_modified();
+
+    return NULL;
+}
+
+void do_spell(void)
+{
+    int i;
+    FILE *temp_file;
+    char *temp = safe_tempfile(&temp_file);
+    const char *spell_msg;
+
+    if (temp == NULL) {
+	statusbar(_("Could not create temp file: %s"), strerror(errno));
+	return;
+    }
+
+#ifndef NANO_SMALL
+    if (openfile->mark_set)
+	i = write_marked_file(temp, temp_file, TRUE, FALSE);
+    else
+#endif
+	i = write_file(temp, temp_file, TRUE, FALSE, FALSE);
+
+    if (i == -1) {
+	statusbar(_("Error writing temp file: %s"), strerror(errno));
+	free(temp);
+	return;
+    }
+
+    spell_msg = (alt_speller != NULL) ? do_alt_speller(temp) :
+	do_int_speller(temp);
+    unlink(temp);
+    free(temp);
+
+    /* If the spell-checker printed any error messages onscreen, make
+     * sure that they're cleared off. */
+    total_refresh();
+
+    if (spell_msg != NULL) {
+	if (errno == 0)
+	    /* Don't display an error message of "Success". */
+	    statusbar(_("Spell checking failed: %s"), spell_msg);
+	else
+	    statusbar(_("Spell checking failed: %s: %s"), spell_msg,
+		strerror(errno));
+    } else
+	statusbar(_("Finished checking spelling"));
+}
+#endif /* !DISABLE_SPELLER */
 
 #ifndef NANO_SMALL
 void do_word_count(void)

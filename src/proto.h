@@ -500,12 +500,6 @@ bool execute_command(const char *command);
 void wrap_reset(void);
 bool do_wrap(filestruct *line);
 #endif
-#ifndef DISABLE_SPELLER
-bool do_int_spell_fix(const char *word);
-const char *do_int_speller(const char *tempfile_name);
-const char *do_alt_speller(char *tempfile_name);
-void do_spell(void);
-#endif
 #if !defined(DISABLE_HELP) || !defined(DISABLE_JUSTIFY) || !defined(DISABLE_WRAPPING)
 ssize_t break_line(const char *line, ssize_t goal, bool newline);
 #endif
@@ -528,6 +522,12 @@ void do_justify(bool full_justify);
 void do_justify_void(void);
 void do_full_justify(void);
 #endif /* !DISABLE_JUSTIFY */
+#ifndef DISABLE_SPELLER
+bool do_int_spell_fix(const char *word);
+const char *do_int_speller(const char *tempfile_name);
+const char *do_alt_speller(char *tempfile_name);
+void do_spell(void);
+#endif
 #ifndef NANO_SMALL
 void do_word_count(void);
 #endif
