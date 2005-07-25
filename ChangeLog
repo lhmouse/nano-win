@@ -92,7 +92,8 @@ CVS code -
 	  wrapping, spell checking, justifying, and word counting) to
 	  their own source file, and adjust related variables
 	  accordingly.  New file text.c; changes to cancel_command(),
-	  execute_command(), wrap_reset(), do_wrap(),
+	  execute_command(), do_backspace(), do_delete(), do_tab(),
+	  do_enter(), do_mark(), wrap_reset(), do_wrap(),
 	  do_int_spell_fix(), do_int_speller(), do_alt_speller(),
 	  do_spell(), break_line(), indent_length(), justify_format(),
 	  quote_length(), quotes_match(), indents_match(), begpar(),

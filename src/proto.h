@@ -389,13 +389,6 @@ int no_more_space(void);
 int no_help(void);
 void nano_disabled_msg(void);
 void do_verbatim_input(void);
-void do_backspace(void);
-void do_delete(void);
-void do_tab(void);
-void do_enter(void);
-#ifndef NANO_SMALL
-void do_mark(void);
-#endif
 void do_exit(void);
 void signal_init(void);
 void handle_hupterm(int signal);
@@ -492,6 +485,13 @@ char *get_history_completion(filestruct **h, const char *s, size_t len);
 #endif /* !NANO_SMALL */
 
 /* Public functions in text.c. */
+#ifndef NANO_SMALL
+void do_mark(void);
+#endif
+void do_delete(void);
+void do_backspace(void);
+void do_tab(void);
+void do_enter(void);
 #ifndef NANO_SMALL
 void cancel_command(int signal);
 bool execute_command(const char *command);

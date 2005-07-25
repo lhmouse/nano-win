@@ -48,6 +48,202 @@ static filestruct *jusbottom = NULL;
 #endif
 
 #ifndef NANO_SMALL
+void do_mark(void)
+{
+    openfile->mark_set = !openfile->mark_set;
+    if (openfile->mark_set) {
+	statusbar(_("Mark Set"));
+	openfile->mark_begin = openfile->current;
+	openfile->mark_begin_x = openfile->current_x;
+    } else {
+	statusbar(_("Mark UNset"));
+	openfile->mark_begin = NULL;
+	openfile->mark_begin_x = 0;
+	edit_refresh();
+    }
+}
+#endif /* !NANO_SMALL */
+
+void do_delete(void)
+{
+    bool do_refresh = FALSE;
+	/* Do we have to call edit_refresh(), or can we get away with
+	 * update_line()? */
+
+    assert(openfile->current != NULL && openfile->current->data != NULL && openfile->current_x <= strlen(openfile->current->data));
+
+    openfile->placewewant = xplustabs();
+
+    if (openfile->current->data[openfile->current_x] != '\0') {
+	int char_buf_len = parse_mbchar(openfile->current->data +
+		openfile->current_x, NULL, NULL, NULL);
+	size_t line_len = strlen(openfile->current->data +
+		openfile->current_x);
+
+	assert(openfile->current_x < strlen(openfile->current->data));
+
+	/* Let's get dangerous. */
+	charmove(&openfile->current->data[openfile->current_x],
+		&openfile->current->data[openfile->current_x +
+		char_buf_len], line_len - char_buf_len + 1);
+
+	null_at(&openfile->current->data, openfile->current_x +
+		line_len - char_buf_len);
+#ifndef NANO_SMALL
+	if (openfile->mark_set && openfile->mark_begin ==
+		openfile->current && openfile->current_x <
+		openfile->mark_begin_x)
+	    openfile->mark_begin_x -= char_buf_len;
+#endif
+	openfile->totsize--;
+    } else if (openfile->current != openfile->filebot &&
+	(openfile->current->next != openfile->filebot ||
+	openfile->current->data[0] == '\0')) {
+	/* We can delete the line before filebot only if it is blank: it
+	 * becomes the new magicline then. */
+	filestruct *foo = openfile->current->next;
+
+	assert(openfile->current_x == strlen(openfile->current->data));
+
+	/* If we're deleting at the end of a line, we need to call
+	 * edit_refresh(). */
+	if (openfile->current->data[openfile->current_x] == '\0')
+	    do_refresh = TRUE;
+
+	openfile->current->data = charealloc(openfile->current->data,
+		openfile->current_x + strlen(foo->data) + 1);
+	strcpy(openfile->current->data + openfile->current_x,
+		foo->data);
+#ifndef NANO_SMALL
+	if (openfile->mark_set && openfile->mark_begin ==
+		openfile->current->next) {
+	    openfile->mark_begin = openfile->current;
+	    openfile->mark_begin_x += openfile->current_x;
+	}
+#endif
+	if (openfile->filebot == foo)
+	    openfile->filebot = openfile->current;
+
+	unlink_node(foo);
+	delete_node(foo);
+	renumber(openfile->current);
+	openfile->totlines--;
+	openfile->totsize--;
+#ifndef DISABLE_WRAPPING
+	wrap_reset();
+#endif
+    } else
+	return;
+
+    set_modified();
+
+#ifdef ENABLE_COLOR
+    /* If color syntaxes are available and turned on, we need to call
+     * edit_refresh(). */
+    if (openfile->colorstrings != NULL && !ISSET(NO_COLOR_SYNTAX))
+	do_refresh = TRUE;
+#endif
+
+    if (do_refresh)
+	edit_refresh();
+    else
+	update_line(openfile->current, openfile->current_x);
+}
+
+void do_backspace(void)
+{
+    if (openfile->current != openfile->fileage ||
+	openfile->current_x > 0) {
+	do_left(FALSE);
+	do_delete();
+    }
+}
+
+void do_tab(void)
+{
+#ifndef NANO_SMALL
+    if (ISSET(TABS_TO_SPACES)) {
+	char *output;
+	size_t output_len = 0, new_pww = openfile->placewewant;
+
+	do {
+	    new_pww++;
+	    output_len++;
+	} while (new_pww % tabsize != 0);
+
+	output = charalloc(output_len + 1);
+
+	charset(output, ' ', output_len);
+	output[output_len] = '\0';
+
+	do_output(output, output_len, TRUE);
+
+	free(output);
+    } else {
+#endif
+	do_output("\t", 1, TRUE);
+#ifndef NANO_SMALL
+    }
+#endif
+}
+
+/* Someone hits Return *gasp!* */
+void do_enter(void)
+{
+    filestruct *newnode = make_new_node(openfile->current);
+    size_t extra = 0;
+
+    assert(openfile->current != NULL && openfile->current->data != NULL);
+
+#ifndef NANO_SMALL
+    /* Do auto-indenting, like the neolithic Turbo Pascal editor. */
+    if (ISSET(AUTOINDENT)) {
+	/* If we are breaking the line in the indentation, the new
+	 * indentation should have only current_x characters, and
+	 * current_x should not change. */
+	extra = indent_length(openfile->current->data);
+	if (extra > openfile->current_x)
+	    extra = openfile->current_x;
+    }
+#endif
+    newnode->data = charalloc(strlen(openfile->current->data +
+	openfile->current_x) + extra + 1);
+    strcpy(&newnode->data[extra], openfile->current->data +
+	openfile->current_x);
+#ifndef NANO_SMALL
+    if (ISSET(AUTOINDENT)) {
+	strncpy(newnode->data, openfile->current->data, extra);
+	openfile->totsize += mbstrlen(newnode->data);
+    }
+#endif
+    null_at(&openfile->current->data, openfile->current_x);
+#ifndef NANO_SMALL
+    if (openfile->mark_set && openfile->current ==
+	openfile->mark_begin && openfile->current_x <
+	openfile->mark_begin_x) {
+	openfile->mark_begin = newnode;
+	openfile->mark_begin_x += extra - openfile->current_x;
+    }
+#endif
+    openfile->current_x = extra;
+
+    if (openfile->current == openfile->filebot)
+	openfile->filebot = newnode;
+    splice_node(openfile->current, newnode,
+	openfile->current->next);
+
+    renumber(openfile->current);
+    openfile->current = newnode;
+
+    edit_refresh();
+
+    openfile->totlines++;
+    openfile->totsize++;
+    set_modified();
+    openfile->placewewant = xplustabs();
+}
+
+#ifndef NANO_SMALL
 void cancel_command(int signal)
 {
     if (kill(pid, SIGKILL) == -1)
