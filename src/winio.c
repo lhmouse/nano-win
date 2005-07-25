@@ -3839,7 +3839,7 @@ void do_cursorpos(bool constant)
     size_t cur_lenpt = strlenpt(openfile->current->data) + 1;
     int linepct, colpct, charpct;
 
-    assert(openfile->current != NULL && openfile->fileage != NULL && openfile->totlines != 0);
+    assert(openfile->current != NULL && openfile->fileage != NULL);
 
     c = openfile->current->data[openfile->current_x];
     f = openfile->current->next;
@@ -3860,15 +3860,16 @@ void do_cursorpos(bool constant)
 
     /* Display the current cursor position on the statusbar, and set 
      * disable_cursorpos to FALSE. */
-    linepct = 100 * openfile->current->lineno / openfile->totlines;
+    linepct = 100 * openfile->current->lineno /
+	openfile->filebot->lineno;
     colpct = 100 * cur_xpt / cur_lenpt;
     charpct = (openfile->totsize == 0) ? 0 : 100 * i /
 	openfile->totsize;
 
     statusbar(
-	_("line %ld/%lu (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"),
+	_("line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"),
 	(long)openfile->current->lineno,
-	(unsigned long)openfile->totlines, linepct,
+	(long)openfile->filebot->lineno, linepct,
 	(unsigned long)cur_xpt, (unsigned long)cur_lenpt, colpct,
 	(unsigned long)i, (unsigned long)openfile->totsize, charpct);
 

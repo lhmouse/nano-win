@@ -97,7 +97,6 @@ void initialize_buffer_text(void)
     openfile->edittop = openfile->fileage;
     openfile->current = openfile->fileage;
 
-    openfile->totlines = 1;
     openfile->totsize = 0;
 }
 
@@ -488,8 +487,6 @@ void read_file(FILE *f, const char *filename)
 #endif
 	statusbar(P_("Read %lu line", "Read %lu lines",
 		(unsigned long)num_lines), (unsigned long)num_lines);
-
-    openfile->totlines += num_lines;
 }
 
 /* Open the file (and decide if it exists).  If newfie is TRUE, display

@@ -127,7 +127,6 @@ void do_delete(void)
 	unlink_node(foo);
 	delete_node(foo);
 	renumber(openfile->current);
-	openfile->totlines--;
 	openfile->totsize--;
 #ifndef DISABLE_WRAPPING
 	wrap_reset();
@@ -237,7 +236,6 @@ void do_enter(void)
 
     edit_refresh();
 
-    openfile->totlines++;
     openfile->totsize++;
     set_modified();
     openfile->placewewant = xplustabs();
@@ -505,7 +503,6 @@ bool do_wrap(filestruct *line)
 
 	openfile->current->next->data = new_line;
 
-	openfile->totlines++;
 	openfile->totsize++;
     }
 
@@ -1094,8 +1091,8 @@ void do_justify(bool full_justify)
 	/* Will be the line containing the newline after the last line
 	 * of the result.  Also for restoring after unjustify. */
 
-    /* We save these variables to be restored if the user unjustifies.
-     * Note that we don't need to save totlines. */
+    /* We save these variables to be restored if the user
+     * unjustifies. */
     size_t current_x_save = openfile->current_x;
     size_t pww_save = openfile->placewewant;
     ssize_t current_y_save = openfile->current_y;
@@ -1258,7 +1255,6 @@ void do_justify(bool full_justify)
 	    i--;
 
 	    par_len--;
-	    openfile->totlines--;
 	    openfile->totsize--;
 	}
 
@@ -1317,7 +1313,6 @@ void do_justify(bool full_justify)
 		openfile->current->data + break_pos);
 
 	    par_len++;
-	    openfile->totlines++;
 	    openfile->totsize += indent_len + 1;
 
 #ifndef NANO_SMALL
@@ -1357,10 +1352,10 @@ void do_justify(bool full_justify)
     }
 
     /* We are now done justifying the paragraph or the file, so clean
-     * up.  totlines, totsize, and current_y have been maintained above.
-     * Set last_par_line to the new end of the paragraph, update
-     * fileage, and renumber since edit_refresh() needs the line numbers
-     * to be right (but only do the last two if we actually justified
+     * up.  totsize, and current_y have been maintained above.  Set
+     * last_par_line to the new end of the paragraph, update fileage,
+     * and renumber, since edit_refresh() needs the line numbers to be
+     * right (but only do the last two if we actually justified
      * something). */
     last_par_line = openfile->current;
     if (first_par_line != NULL) {
@@ -1425,7 +1420,6 @@ void do_justify(bool full_justify)
 
 	    /* Restore variables from before the justify. */
 	    openfile->totsize = totsize_save;
-	    openfile->totlines = openfile->filebot->lineno;
 #ifndef NANO_SMALL
 	    if (openfile->mark_set) {
 		openfile->mark_begin = mark_begin_save;
@@ -1969,12 +1963,10 @@ const char *do_alt_speller(char *tempfile_name)
 	unpartition_filestruct(&filepart);
 
 	/* Renumber starting with the beginning line of the old
-	 * partition.  Also set totlines to the new number of lines in
-	 * the file, add the number of characters in the spell-checked
-	 * marked text to the saved value of totsize, and then make that
-	 * saved value the actual value. */
+	 * partition.  Also add the number of characters in the
+	 * spell-checked marked text to the saved value of totsize, and
+	 * then make that saved value the actual value. */
 	renumber(top_save);
-	openfile->totlines = openfile->filebot->lineno;
 	totsize_save += openfile->totsize;
 	openfile->totsize = totsize_save;
 
@@ -2049,7 +2041,8 @@ void do_spell(void)
 #ifndef NANO_SMALL
 void do_wordlinechar_count(void)
 {
-    size_t words = 0, lines = 0, chars = 0;
+    size_t words = 0, chars = 0;
+    ssize_t lines = 0;
     size_t current_x_save = openfile->current_x;
     size_t pww_save = openfile->placewewant;
     filestruct *current_save = openfile->current;
@@ -2104,7 +2097,7 @@ void do_wordlinechar_count(void)
 	unpartition_filestruct(&filepart);
 	openfile->mark_set = TRUE;
     } else {
-	lines = openfile->totlines;
+	lines = openfile->filebot->lineno;
 	chars = openfile->totsize;
     }
 
@@ -2115,8 +2108,8 @@ void do_wordlinechar_count(void)
 
     /* Display the total word, line, and character counts on the
      * statusbar. */
-    statusbar("%sWords: %lu  Lines: %lu  Chars: %lu", old_mark_set ?
-	_("(In Selection)  ") : "", (unsigned long)words,
-	(unsigned long)lines, (unsigned long)chars);
+    statusbar("%sWords: %lu  Lines: %ld  Chars: %lu", old_mark_set ?
+	_("(In Selection)  ") : "", (unsigned long)words, (long)lines,
+	(unsigned long)chars);
 }
 #endif /* !NANO_SMALL */

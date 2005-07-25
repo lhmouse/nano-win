@@ -100,6 +100,14 @@ CVS code -
 	  inpar(), backup_lines(), find_paragraph(), do_justify(),
 	  do_justify_void(), do_full_justify(), and do_word_count() (all
 	  moved to text.c). (DLR)
+	- Since the total number of lines in a file is the same as the
+	  number of its last line when all its lines are numbered
+	  properly, use that in place of openfile->totlines, and
+	  eliminate references to openfile->totlines.  Changes to
+	  initialize_buffer_text(), read_file(), move_to_filestruct(),
+	  copy_from_filestruct(), do_delete(), do_enter(), do_wrap(),
+	  do_justify(), do_alt_speller(), do_wordlinechar_count(),
+	  new_magicline(), remove_magicline(), and do_cursorpos(). (DLR)
 - color.c:
 	- Remove unneeded string.h and fcntl.h includes. (DLR)
 - chars.c:

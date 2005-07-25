@@ -382,9 +382,6 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 
     if (openfile->filebot->data[0] != '\0')
 	new_magicline();
-
-    /* Set totlines to the new number of lines in the file. */
-    openfile->totlines = openfile->filebot->lineno;
 }
 
 /* Copy all the text from the filestruct beginning with file_top and
@@ -443,9 +440,6 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
 
     if (openfile->filebot->data[0] != '\0')
 	new_magicline();
-
-    /* Set totlines to the new number of lines in the file. */
-    openfile->totlines = openfile->filebot->lineno;
 }
 
 /* Create a new openfilestruct node. */

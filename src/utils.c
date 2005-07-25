@@ -404,7 +404,6 @@ void new_magicline(void)
     openfile->filebot->next->next = NULL;
     openfile->filebot->next->lineno = openfile->filebot->lineno + 1;
     openfile->filebot = openfile->filebot->next;
-    openfile->totlines++;
     openfile->totsize++;
 }
 
@@ -418,7 +417,6 @@ void remove_magicline(void)
 	openfile->filebot = openfile->filebot->prev;
 	free_filestruct(openfile->filebot->next);
 	openfile->filebot->next = NULL;
-	openfile->totlines--;
 	openfile->totsize--;
     }
 }

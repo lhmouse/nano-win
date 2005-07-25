@@ -215,9 +215,8 @@ typedef struct openfilestruct {
     filestruct *filebot;	/* Current file's last line. */
     filestruct *edittop;	/* Current top of edit window. */
     filestruct *current;	/* Current file's line. */
-    size_t totlines;		/* Current file's total number of
-				 * lines. */
-    size_t totsize;		/* Current file's total size. */
+    size_t totsize;		/* Current file's total number of
+				 * characters. */
     size_t current_x;		/* Current file's x-coordinate
 				 * position. */
     size_t placewewant;		/* Current file's place we want. */
