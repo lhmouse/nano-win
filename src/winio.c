@@ -3053,7 +3053,6 @@ size_t get_page_start(size_t column)
 	return column - (COLS - 2);
     else
 	return column - (COLS - 1);
-		/* The parentheses are necessary to avoid overflow. */
 }
 
 /* Resets current_y, based on the position of current, and puts the

@@ -2095,8 +2095,8 @@ void do_wordlinechar_count(void)
 	if (added_magicline)
 	    remove_magicline();
 
-	lines = openfile->filebot->lineno - openfile->fileage->lineno +
-		1;
+	lines = openfile->filebot->lineno -
+		openfile->fileage->lineno + 1;
 	chars = get_totsize(openfile->fileage, openfile->filebot);
 
 	/* Unpartition the filestruct so that it contains all the text
