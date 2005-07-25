@@ -141,6 +141,10 @@ CVS code -
   do_next_word()
 	- Rework to be more like do_prev_word(), to avoid a potential
 	  problem if we start at the end of a line. (DLR)
+  do_mouse()
+	- Avoid redundant screen updates by using edit_redraw() instead
+	  of edit_refresh(), and remove now-erroneous code that disables
+	  setting the mark while in view mode. (DLR)
   do_output()
 	- When adding a character, just add its length in bytes to
 	  current_x instead of calling do_right(), and set placewewant

@@ -1728,8 +1728,9 @@ bool do_mouse(void)
 	    bool sameline;
 		/* Did they click on the line with the cursor?  If they
 		 * clicked on the cursor, we set the mark. */
-	    size_t xcur;
-		/* The character they clicked on. */
+	    const filestruct *current_save = openfile->current;
+	    size_t current_x_save = openfile->current_x;
+	    size_t pww_save = openfile->placewewant;
 
 	    /* Subtract out the size of topwin. */
 	    mouse_y -= 2 - no_more_space();
@@ -1744,25 +1745,19 @@ bool do_mouse(void)
 		openfile->current->prev != NULL; openfile->current_y--)
 		openfile->current = openfile->current->prev;
 
-	    xcur = actual_x(openfile->current->data,
+	    openfile->current_x = actual_x(openfile->current->data,
 		get_page_start(xplustabs()) + mouse_x);
+	    openfile->placewewant = xplustabs();
 
 #ifndef NANO_SMALL
 	    /* Clicking where the cursor is toggles the mark, as does
 	     * clicking beyond the line length with the cursor at the
 	     * end of the line. */
-	    if (sameline && xcur == openfile->current_x) {
-		if (ISSET(VIEW_MODE)) {
-		    print_view_warning();
-		    return retval;
-		}
+	    if (sameline && openfile->current_x == current_x_save)
 		do_mark();
-	    }
 #endif
 
-	    openfile->current_x = xcur;
-	    openfile->placewewant = xplustabs();
-	    edit_refresh();
+	    edit_redraw(current_save, pww_save);
 	}
     }
 
