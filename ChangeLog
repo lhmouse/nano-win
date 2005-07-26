@@ -115,6 +115,16 @@ CVS code -
 	  redrawing the screen.  Changes to window_init(), main(), and
 	  do_alt_speller(); removal of check_die_too_small() and
 	  window_size_init(). (DLR)
+	- Remove still more redundant screen updates.  Change all
+	  wrefresh() calls to wnoutrefresh() calls, except for those in
+	  total_update() and do_credits(); call doupdate() just before
+	  using blocking input, since nano spends the most time using
+	  it, for blocking input; and only do constant sursor position
+	  display if we're just about to use blocking input.  Changes to
+	  input_tab(), do_browser(), finish(), do_output(), main(),
+	  get_key_buffer(), check_statusblank(), nanogetstr(),
+	  titlebar(), statusbar(), bottombars(), edit_refresh(),
+	  do_yesno(), and do_help(). (DLR)
 - color.c:
 	- Remove unneeded string.h and fcntl.h includes. (DLR)
 - chars.c:

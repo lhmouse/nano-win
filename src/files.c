@@ -2143,7 +2143,7 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 		    editline++;
 	    }
 
-	    wrefresh(edit);
+	    wnoutrefresh(edit);
 	    *list = TRUE;
 	}
 
@@ -2266,7 +2266,7 @@ char *do_browser(char *path, DIR *dir)
     curs_set(0);
     blank_statusbar();
     bottombars(browser_list);
-    wrefresh(bottomwin);
+    wnoutrefresh(bottomwin);
 
 #if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
     /* Set currshortcut so the user can click in the shortcut area, and
@@ -2612,7 +2612,7 @@ char *do_browser(char *path, DIR *dir)
 	    free(foo);
 	}
 
-	wrefresh(edit);
+	wnoutrefresh(edit);
     } while ((kbinput = get_kbinput(edit, &meta_key, &func_key)) !=
 	NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
 

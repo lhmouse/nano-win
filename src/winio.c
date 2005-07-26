@@ -138,6 +138,10 @@ void get_key_buffer(WINDOW *win)
     allow_pending_sigwinch(TRUE);
 #endif
 
+    /* Just before reading in the first character, display any pending
+     * screen updates. */
+    doupdate();
+
     input = wgetch(win);
 
     /* If we get ERR when using blocking input, it means that the input
@@ -2251,7 +2255,7 @@ void check_statusblank(void)
 	blank_statusbar();
 	wnoutrefresh(bottomwin);
 	reset_cursor();
-	wrefresh(edit);
+	wnoutrefresh(edit);
     }
 }
 
@@ -2507,7 +2511,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
     /* Refresh the edit window and the statusbar before getting
      * input. */
     wnoutrefresh(edit);
-    wrefresh(bottomwin);
+    wnoutrefresh(bottomwin);
 
     /* If we're using restricted mode, we aren't allowed to change the
      * name of a file once it has one because that would allow writing
@@ -2612,7 +2616,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 #endif
 
 	nanoget_repaint(buf, answer, statusbar_x);
-	wrefresh(bottomwin);
+	wnoutrefresh(bottomwin);
     }
 
 #ifndef NANO_SMALL
@@ -2863,7 +2867,7 @@ void titlebar(const char *path)
 
     wnoutrefresh(topwin);
     reset_cursor();
-    wrefresh(edit);
+    wnoutrefresh(edit);
 }
 
 /* Set the modified flag if it isn't already set, and then update the
@@ -2926,7 +2930,7 @@ void statusbar(const char *msg, ...)
 	wattroff(bottomwin, A_REVERSE);
 	wnoutrefresh(bottomwin);
 	reset_cursor();
-	wrefresh(edit);
+	wnoutrefresh(edit);
 	    /* Leave the cursor at its position in the edit window, not
 	     * in the statusbar. */
     }
@@ -2993,7 +2997,7 @@ void bottombars(const shortcut *s)
 
     wnoutrefresh(bottomwin);
     reset_cursor();
-    wrefresh(edit);
+    wnoutrefresh(edit);
 }
 
 /* Write a shortcut key to the help area at the bottom of the window.
@@ -3639,7 +3643,7 @@ void edit_refresh(void)
 	blank_line(edit, nlines, 0, COLS);
 
     reset_cursor();
-    wrefresh(edit);
+    wnoutrefresh(edit);
 }
 
 /* Move edittop to put it in range of current, keeping current in the
@@ -3734,7 +3738,7 @@ int do_yesno(bool all, const char *msg)
     /* Refresh the edit window and the statusbar before getting
      * input. */
     wnoutrefresh(edit);
-    wrefresh(bottomwin);
+    wnoutrefresh(bottomwin);
 
     do {
 	int kbinput;
@@ -4011,7 +4015,7 @@ void do_help(void)
 
     if (old_no_help) {
 	blank_bottombars();
-	wrefresh(bottomwin);
+	wnoutrefresh(bottomwin);
 	SET(NO_HELP);
 	window_init();
     } else

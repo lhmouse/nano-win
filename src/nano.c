@@ -526,7 +526,7 @@ void finish(void)
     else
 	blank_statusbar();
 
-    wrefresh(bottomwin);
+    wnoutrefresh(bottomwin);
     endwin();
 
     /* Restore the old terminal settings. */
@@ -1748,7 +1748,6 @@ bool do_mouse(void)
 void do_output(char *output, size_t output_len, bool allow_cntrls)
 {
     size_t current_len, i = 0;
-    bool old_const_update = ISSET(CONST_UPDATE);
     bool do_refresh = FALSE;
 	/* Do we have to call edit_refresh(), or can we get away with
 	 * update_line()? */
@@ -1759,9 +1758,6 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
     current_len = strlen(openfile->current->data);
-
-    /* Turn off constant cursor position display. */
-    UNSET(CONST_UPDATE);
 
     while (i < output_len) {
 	/* If allow_cntrls is FALSE, filter out nulls and newlines,
@@ -1839,11 +1835,6 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	    do_refresh = TRUE;
 #endif
     }
-
-    /* Turn constant cursor position display back on if it was on
-     * before. */
-    if (old_const_update)
-	SET(CONST_UPDATE);
 
     free(char_buf);
 
@@ -2404,9 +2395,10 @@ int main(int argc, char **argv)
 	/* Make sure the cursor is in the edit window. */
 	reset_cursor();
 
-	/* If constant cursor position display is on, display the
-	 * current cursor position on the statusbar. */
-	if (ISSET(CONST_UPDATE))
+	/* If constant cursor position display is on, and there are no
+	 * keys waiting in the input buffer, display the current cursor
+	 * position on the statusbar. */
+	if (ISSET(CONST_UPDATE) && get_key_buffer_len() == 0)
 	    do_cursorpos(TRUE);
 
 	currshortcut = main_list;
