@@ -3487,7 +3487,8 @@ int need_vertical_update(size_t old_pww)
  * of lines, and draw new lines on the blank lines left after the
  * scrolling.  direction is the direction to scroll, either UP or DOWN,
  * and nlines is the number of lines to scroll.  We change edittop, and
- * assume that current and current_x are up to date. */
+ * assume that current and current_x are up to date.  We also assume
+ * that scrollok(edit) is FALSE. */
 void edit_scroll(updown direction, int nlines)
 {
     bool do_redraw = need_vertical_update(0);

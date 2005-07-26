@@ -1907,10 +1907,6 @@ const char *do_alt_speller(char *tempfile_name)
     /* Turn the cursor back on for sure. */
     curs_set(1);
 
-    /* The screen might have been resized.  If it has, reinitialize all
-     * the windows based on the new screen dimensions. */
-    window_init();
-
     if (!WIFEXITED(alt_spell_status) ||
 		WEXITSTATUS(alt_spell_status) != 0) {
 	char *altspell_error;
