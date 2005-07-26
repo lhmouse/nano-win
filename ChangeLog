@@ -173,10 +173,8 @@ CVS code -
 	  no longer needed, and make the error message more similar to
 	  what the internal spell checker returns under the same
 	  circumstances. (DLR)
-	- Set the SIGWINCH handler back to the default just before
-	  running the alternate spell checker, so that the alternate
-	  spell checker can handle them, and set it back afterwards.
-	  (DLR)
+	- Block any pending SIGWINCHes while the alternate spell checker
+	  is running, so that it can handle them. (DLR)
   do_spell()
 	- When displaying an error message from do_(int|alt)_speller(),
 	  don't display the error message corresponding to errno if

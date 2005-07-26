@@ -1846,8 +1846,6 @@ const char *do_alt_speller(char *tempfile_name)
     size_t totsize_save = openfile->totsize;
 	/* Our saved value of totsize, used when we spell-check a marked
 	 * selection. */
-    struct sigaction newaction, oldaction;
-	/* Original and temporary handlers for SIGWINCH. */
 
     if (old_mark_set) {
 	/* If the mark is on, save the number of the line it starts on,
@@ -1874,13 +1872,6 @@ const char *do_alt_speller(char *tempfile_name)
     }
     spellargs[arglen - 2] = tempfile_name;
 
-    /* Save the original SIGWINCH handler, and set the SIGWINCH handler
-     * back to the default, so that the alternate spell checker can
-     * handle a SIGWINCH its own way. */
-    sigaction(SIGWINCH, NULL, &newaction);
-    newaction.sa_handler = SIG_DFL;
-    sigaction(SIGWINCH, &newaction, &oldaction);
-
     /* Start a new process for the alternate speller. */
     if ((pid_spell = fork()) == 0) {
 	/* Start alternate spell program; we are using PATH. */
@@ -1894,11 +1885,19 @@ const char *do_alt_speller(char *tempfile_name)
     if (pid_spell < 0)
 	return _("Could not fork");
 
-    /* Wait for alternate speller to complete. */
+#ifndef NANO_SMALL
+    /* Don't handle a pending SIGWINCH until the alternate spell checker
+     * is finished. */
+    allow_pending_sigwinch(FALSE);
+#endif
+
+    /* Wait for the alternate spell checker to finish. */
     wait(&alt_spell_status);
 
-    /* Set the SIGWINCH handler back to the original. */
-    sigaction(SIGWINCH, &oldaction, NULL);
+#ifndef NANO_SMALL
+    /* Handle a pending SIGWINCH again. */
+    allow_pending_sigwinch(TRUE);
+#endif
 
     refresh();
 
