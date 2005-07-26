@@ -132,11 +132,6 @@ extern bool curses_ended;
 
 extern char *homedir;
 
-#ifdef ENABLE_UTF8
-extern const char *bad_mbchar;
-extern const int bad_mbchar_len;
-#endif
-
 /* The functions we want available. */
 
 /* Public functions in chars.c. */
@@ -161,11 +156,11 @@ char control_rep(char c);
 wchar_t control_wrep(wchar_t c);
 #endif
 char *control_mbrep(const char *c, char *crep, int *crep_len);
+char *mbrep(const char *c, char *crep, int *crep_len);
 int mbwidth(const char *c);
 int mb_cur_max(void);
 char *make_mbchar(int chr, int *chr_mb_len);
-int parse_mbchar(const char *buf, char *chr, bool *bad_chr, size_t
-	*col);
+int parse_mbchar(const char *buf, char *chr, size_t *col);
 size_t move_mbleft(const char *buf, size_t pos);
 size_t move_mbright(const char *buf, size_t pos);
 #ifndef HAVE_STRCASECMP

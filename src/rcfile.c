@@ -625,11 +625,10 @@ void parse_rcfile(FILE *rcstream)
 			    } else {
 				whitespace_len[0] =
 					parse_mbchar(whitespace, NULL,
-					NULL, NULL);
+					NULL);
 				whitespace_len[1] =
 					parse_mbchar(whitespace +
-					whitespace_len[0], NULL,
-					NULL, NULL);
+					whitespace_len[0], NULL, NULL);
 			    }
 			} else
 #endif

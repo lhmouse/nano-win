@@ -227,7 +227,7 @@ bool do_next_word(bool allow_punct, bool allow_update)
      * the current word. */
     while (!end_line) {
 	char_mb_len = parse_mbchar(openfile->current->data +
-		openfile->current_x, char_mb, NULL, NULL);
+		openfile->current_x, char_mb, NULL);
 
 	/* If we've found it, stop moving forward through the current
 	 * line. */
@@ -254,7 +254,7 @@ bool do_next_word(bool allow_punct, bool allow_update)
 	openfile->current = openfile->current->next) {
 	while (!end_line) {
 	    char_mb_len = parse_mbchar(openfile->current->data +
-		openfile->current_x, char_mb, NULL, NULL);
+		openfile->current_x, char_mb, NULL);
 
 	    /* If we've found it, stop moving forward through the
 	     * current line. */
@@ -322,7 +322,7 @@ bool do_prev_word(bool allow_punct, bool allow_update)
      * of the current word. */
     while (!begin_line) {
 	char_mb_len = parse_mbchar(openfile->current->data +
-		openfile->current_x, char_mb, NULL, NULL);
+		openfile->current_x, char_mb, NULL);
 
 	/* If we've found it, stop moving backward through the current
 	 * line. */
@@ -352,7 +352,7 @@ bool do_prev_word(bool allow_punct, bool allow_update)
 	openfile->current = openfile->current->prev) {
 	while (!begin_line) {
 	    char_mb_len = parse_mbchar(openfile->current->data +
-		openfile->current_x, char_mb, NULL, NULL);
+		openfile->current_x, char_mb, NULL);
 
 	    /* If we've found it, stop moving backward through the
 	     * current line. */
@@ -392,9 +392,8 @@ bool do_prev_word(bool allow_punct, bool allow_update)
 		openfile->current_x);
 
 	while (!begin_line) {
-	    char_mb_len =
-		parse_mbchar(openfile->current->data +
-		openfile->current_x, char_mb, NULL, NULL);
+	    char_mb_len = parse_mbchar(openfile->current->data +
+		openfile->current_x, char_mb, NULL);
 
 	    /* If we've found it, stop moving backward through the
 	     * current line. */

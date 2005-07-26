@@ -41,8 +41,8 @@ static const wchar_t bad_wchar = 0xFFFD;
 	 * Unicode FFFD (Replacement Character), unless we're
 	 * determining if it's a control character or searching for a
 	 * match to it. */
-const char *bad_mbchar = "\xEF\xBF\xBD";
-const int bad_mbchar_len = 3;
+static const char *bad_mbchar = "\xEF\xBF\xBD";
+static const int bad_mbchar_len = 3;
 #endif
 
 #ifndef HAVE_ISBLANK
@@ -241,6 +241,39 @@ char *control_mbrep(const char *c, char *crep, int *crep_len)
     return crep;
 }
 
+/* c is a multibyte non-control character.  We return that multibyte
+ * character. */
+char *mbrep(const char *c, char *crep, int *crep_len)
+{
+    assert(c != NULL && crep != NULL && crep_len != NULL);
+
+#ifdef ENABLE_UTF8
+    if (ISSET(USE_UTF8)) {
+	wchar_t wc;
+
+	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
+	    mbtowc(NULL, NULL, 0);
+	    crep = (char *)bad_mbchar;
+	    *crep_len = bad_mbchar_len;
+	} else {
+	    *crep_len = wctomb(crep, wc);
+
+	    if (*crep_len < 0) {
+		wctomb(NULL, 0);
+		*crep_len = 0;
+	    }
+	}
+    } else {
+#endif
+	*crep_len = 1;
+	*crep = *c;
+#ifdef ENABLE_UTF8
+    }
+#endif
+
+    return crep;
+}
+
 /* This function is equivalent to wcwidth() for multibyte characters. */
 int mbwidth(const char *c)
 {
@@ -310,18 +343,13 @@ char *make_mbchar(int chr, int *chr_mb_len)
 
 /* Parse a multibyte character from buf.  Return the number of bytes
  * used.  If chr isn't NULL, store the multibyte character in it.  If
- * bad_chr isn't NULL, set it to TRUE if we have a bad multibyte
- * character.  If col isn't NULL, store the new display width in it.  If
- * *str is '\t', we expect col to have the current display width. */
-int parse_mbchar(const char *buf, char *chr, bool *bad_chr, size_t
-	*col)
+ * col isn't NULL, store the new display width in it.  If *buf is '\t',
+ * we expect col to have the current display width. */
+int parse_mbchar(const char *buf, char *chr, size_t *col)
 {
     int buf_mb_len;
 
     assert(buf != NULL);
-
-    if (bad_chr != NULL)
-	*bad_chr = FALSE;
 
 #ifdef ENABLE_UTF8
     if (ISSET(USE_UTF8)) {
@@ -332,8 +360,6 @@ int parse_mbchar(const char *buf, char *chr, bool *bad_chr, size_t
 	 * to TRUE and interpret buf's first byte. */
 	if (buf_mb_len < 0) {
 	    mblen(NULL, 0);
-	    if (bad_chr != NULL)
-		*bad_chr = TRUE;
 	    buf_mb_len = 1;
 	} else if (buf_mb_len == 0)
 	    buf_mb_len++;
@@ -415,8 +441,7 @@ size_t move_mbleft(const char *buf, size_t pos)
     /* There is no library function to move backward one multibyte
      * character.  Here is the naive, O(pos) way to do it. */
     while (TRUE) {
-	int buf_mb_len = parse_mbchar(buf + pos - pos_prev, NULL, NULL,
-		NULL);
+	int buf_mb_len = parse_mbchar(buf + pos - pos_prev, NULL, NULL);
 
 	if (pos_prev <= (size_t)buf_mb_len)
 	    break;
@@ -431,7 +456,7 @@ size_t move_mbleft(const char *buf, size_t pos)
  * after the one at pos. */
 size_t move_mbright(const char *buf, size_t pos)
 {
-    return pos + parse_mbchar(buf + pos, NULL, NULL, NULL);
+    return pos + parse_mbchar(buf + pos, NULL, NULL);
 }
 
 #ifndef HAVE_STRCASECMP
@@ -482,7 +507,7 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 	    bool bad_s1_mb = FALSE, bad_s2_mb = FALSE;
 	    int s1_mb_len, s2_mb_len;
 
-	    s1_mb_len = parse_mbchar(s1, s1_mb, NULL, NULL);
+	    s1_mb_len = parse_mbchar(s1, s1_mb, NULL);
 
 	    if (mbtowc(&ws1, s1_mb, s1_mb_len) < 0) {
 		mbtowc(NULL, NULL, 0);
@@ -490,7 +515,7 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 		bad_s1_mb = TRUE;
 	    }
 
-	    s2_mb_len = parse_mbchar(s2, s2_mb, NULL, NULL);
+	    s2_mb_len = parse_mbchar(s2, s2_mb, NULL);
 
 	    if (mbtowc(&ws2, s2_mb, s2_mb_len) < 0) {
 		mbtowc(NULL, NULL, 0);
@@ -556,7 +581,7 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 	    while (*q != '\0') {
 		bool bad_r_mb = FALSE, bad_q_mb = FALSE;
 
-		r_mb_len = parse_mbchar(r, r_mb, NULL, NULL);
+		r_mb_len = parse_mbchar(r, r_mb, NULL);
 
 		if (mbtowc(&wr, r_mb, r_mb_len) < 0) {
 		    mbtowc(NULL, NULL, 0);
@@ -564,7 +589,7 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 		    bad_r_mb = TRUE;
 		}
 
-		q_mb_len = parse_mbchar(q, q_mb, NULL, NULL);
+		q_mb_len = parse_mbchar(q, q_mb, NULL);
 
 		if (mbtowc(&wq, q_mb, q_mb_len) < 0) {
 		    mbtowc(NULL, NULL, 0);
@@ -662,7 +687,7 @@ const char *mbrevstrcasestr(const char *haystack, const char *needle,
 	    while (*q != '\0') {
 		bool bad_r_mb = FALSE, bad_q_mb = FALSE;
 
-		r_mb_len = parse_mbchar(r, r_mb, NULL, NULL);
+		r_mb_len = parse_mbchar(r, r_mb, NULL);
 
 		if (mbtowc(&wr, r_mb, r_mb_len) < 0) {
 		    mbtowc(NULL, NULL, 0);
@@ -670,7 +695,7 @@ const char *mbrevstrcasestr(const char *haystack, const char *needle,
 		    bad_r_mb = TRUE;
 		}
 
-		q_mb_len = parse_mbchar(q, q_mb, NULL, NULL);
+		q_mb_len = parse_mbchar(q, q_mb, NULL);
 
 		if (mbtowc(&wq, q_mb, q_mb_len) < 0) {
 		    mbtowc(NULL, NULL, 0);
@@ -740,7 +765,7 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 	int s_mb_len;
 
 	while (*s != '\0') {
-	    s_mb_len = parse_mbchar(s, NULL, NULL, NULL);
+	    s_mb_len = parse_mbchar(s, NULL, NULL);
 
 	    if (maxlen == 0)
 		break;
@@ -777,7 +802,7 @@ char *mbstrchr(const char *s, char *c)
 	}
 
 	while (*s != '\0') {
-	    int s_mb_len = parse_mbchar(s, s_mb, NULL, NULL);
+	    int s_mb_len = parse_mbchar(s, s_mb, NULL);
 
 	    if (mbtowc(&ws, s_mb, s_mb_len) < 0) {
 		mbtowc(NULL, NULL, 0);
@@ -832,7 +857,7 @@ bool has_blank_mbchars(const char *s)
 	while (*s != '\0') {
 	    int chr_mb_len;
 
-	    chr_mb_len = parse_mbchar(s, chr_mb, NULL, NULL);
+	    chr_mb_len = parse_mbchar(s, chr_mb, NULL);
 
 	    if (is_blank_mbchar(chr_mb)) {
 		retval = TRUE;

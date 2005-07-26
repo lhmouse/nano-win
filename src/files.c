@@ -2033,9 +2033,9 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 		/* Get the number of single-byte characters that all the
 		 * matches have in common. */
 		match1_mb_len = parse_mbchar(matches[0] + common_len,
-			match1_mb, NULL, NULL);
+			match1_mb, NULL);
 		match2_mb_len = parse_mbchar(matches[match] +
-			common_len, match2_mb, NULL, NULL);
+			common_len, match2_mb, NULL);
 		match1_mb[match1_mb_len] = '\0';
 		match2_mb[match2_mb_len] = '\0';
 		if (strcmp(match1_mb, match2_mb) != 0)
@@ -2045,8 +2045,7 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 	    if (match < num_matches || matches[0][common_len] == '\0')
 		break;
 
-	    common_len += parse_mbchar(buf + common_len, NULL, NULL,
-		NULL);
+	    common_len += parse_mbchar(buf + common_len, NULL, NULL);
 	}
 
 	free(match1_mb);

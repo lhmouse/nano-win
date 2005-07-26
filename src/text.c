@@ -76,7 +76,7 @@ void do_delete(void)
 
     if (openfile->current->data[openfile->current_x] != '\0') {
 	int char_buf_len = parse_mbchar(openfile->current->data +
-		openfile->current_x, NULL, NULL, NULL);
+		openfile->current_x, NULL, NULL);
 	size_t line_len = strlen(openfile->current->data +
 		openfile->current_x);
 
@@ -576,7 +576,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool newline)
     while (*line != '\0' && goal >= 0) {
 	size_t pos = 0;
 
-	line_len = parse_mbchar(line, NULL, NULL, &pos);
+	line_len = parse_mbchar(line, NULL, &pos);
 
 	if (is_blank_mbchar(line) || (newline && *line == '\n')) {
 	    blank_loc = cur_loc;
@@ -599,7 +599,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool newline)
 	bool found_blank = FALSE;
 
 	while (*line != '\0') {
-	    line_len = parse_mbchar(line, NULL, NULL, NULL);
+	    line_len = parse_mbchar(line, NULL, NULL);
 
 	    if (is_blank_mbchar(line) || (newline && *line == '\n')) {
 		if (!found_blank)
@@ -617,12 +617,12 @@ ssize_t break_line(const char *line, ssize_t goal, bool newline)
     /* Move to the last blank after blank_loc, if there is one. */
     line -= cur_loc;
     line += blank_loc;
-    line_len = parse_mbchar(line, NULL, NULL, NULL);
+    line_len = parse_mbchar(line, NULL, NULL);
     line += line_len;
 
     while (*line != '\0' && (is_blank_mbchar(line) ||
 	(newline && *line == '\n'))) {
-	line_len = parse_mbchar(line, NULL, NULL, NULL);
+	line_len = parse_mbchar(line, NULL, NULL);
 
 	line += line_len;
 	blank_loc += line_len;
@@ -646,7 +646,7 @@ size_t indent_length(const char *line)
     blank_mb = charalloc(mb_cur_max());
 
     while (*line != '\0') {
-	blank_mb_len = parse_mbchar(line, blank_mb, NULL, NULL);
+	blank_mb_len = parse_mbchar(line, blank_mb, NULL);
 
 	if (!is_blank_mbchar(blank_mb))
 	    break;
@@ -697,14 +697,14 @@ void justify_format(filestruct *paragraph, size_t skip)
 	/* If this character is blank, make sure that it's a space with
 	 * no blanks after it. */
 	if (is_blank_mbchar(end)) {
-	    end_len = parse_mbchar(end, NULL, NULL, NULL);
+	    end_len = parse_mbchar(end, NULL, NULL);
 
 	    *new_end = ' ';
 	    new_end++;
 	    end += end_len;
 
 	    while (*end != '\0' && is_blank_mbchar(end)) {
-		end_len = parse_mbchar(end, NULL, NULL, NULL);
+		end_len = parse_mbchar(end, NULL, NULL);
 
 		end += end_len;
 		shift += end_len;
@@ -722,7 +722,7 @@ void justify_format(filestruct *paragraph, size_t skip)
 	 * more than two blanks after it, and make sure that the blanks
 	 * are spaces. */
 	} else if (mbstrchr(punct, end) != NULL) {
-	    end_len = parse_mbchar(end, NULL, NULL, NULL);
+	    end_len = parse_mbchar(end, NULL, NULL);
 
 	    while (end_len > 0) {
 		*new_end = *end;
@@ -732,7 +732,7 @@ void justify_format(filestruct *paragraph, size_t skip)
 	    }
 
 	    if (*end != '\0' && mbstrchr(brackets, end) != NULL) {
-		end_len = parse_mbchar(end, NULL, NULL, NULL);
+		end_len = parse_mbchar(end, NULL, NULL);
 
 		while (end_len > 0) {
 		    *new_end = *end;
@@ -743,7 +743,7 @@ void justify_format(filestruct *paragraph, size_t skip)
 	    }
 
 	    if (*end != '\0' && is_blank_mbchar(end)) {
-		end_len = parse_mbchar(end, NULL, NULL, NULL);
+		end_len = parse_mbchar(end, NULL, NULL);
 
 		*new_end = ' ';
 		new_end++;
@@ -751,7 +751,7 @@ void justify_format(filestruct *paragraph, size_t skip)
 	    }
 
 	    if (*end != '\0' && is_blank_mbchar(end)) {
-		end_len = parse_mbchar(end, NULL, NULL, NULL);
+		end_len = parse_mbchar(end, NULL, NULL);
 
 		*new_end = ' ';
 		new_end++;
@@ -759,7 +759,7 @@ void justify_format(filestruct *paragraph, size_t skip)
 	    }
 
 	    while (*end != '\0' && is_blank_mbchar(end)) {
-		end_len = parse_mbchar(end, NULL, NULL, NULL);
+		end_len = parse_mbchar(end, NULL, NULL);
 
 		end += end_len;
 		shift += end_len;
@@ -775,7 +775,7 @@ void justify_format(filestruct *paragraph, size_t skip)
 	/* If this character is neither blank nor punctuation, leave it
 	 * alone. */
 	} else {
-	    end_len = parse_mbchar(end, NULL, NULL, NULL);
+	    end_len = parse_mbchar(end, NULL, NULL);
 
 	    while (end_len > 0) {
 		*new_end = *end;

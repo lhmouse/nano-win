@@ -1778,10 +1778,8 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	    }
 	}
 
-	/* Interpret the next multibyte character.  If it's an invalid
-	 * multibyte character, interpret it as though it's a byte
-	 * character. */
-	char_buf_len = parse_mbchar(output + i, char_buf, NULL, NULL);
+	/* Interpret the next multibyte character. */
+	char_buf_len = parse_mbchar(output + i, char_buf, NULL);
 
 	i += char_buf_len;
 

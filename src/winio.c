@@ -1862,10 +1862,8 @@ void do_statusbar_output(char *output, size_t output_len, bool
 	    }
 	}
 
-	/* Interpret the next multibyte character.  If it's an invalid
-	 * multibyte character, interpret it as though it's a byte
-	 * character. */
-	char_buf_len = parse_mbchar(output + i, char_buf, NULL, NULL);
+	/* Interpret the next multibyte character. */
+	char_buf_len = parse_mbchar(output + i, char_buf, NULL);
 
 	i += char_buf_len;
 
@@ -1935,7 +1933,7 @@ void do_statusbar_delete(void)
 {
     if (answer[statusbar_x] != '\0') {
 	int char_buf_len = parse_mbchar(answer + statusbar_x, NULL,
-		NULL, NULL);
+		NULL);
 	size_t line_len = strlen(answer + statusbar_x);
 
 	assert(statusbar_x < strlen(answer));
@@ -1982,8 +1980,7 @@ bool do_statusbar_next_word(bool allow_punct)
     /* Move forward until we find the character after the last letter of
      * the current word. */
     while (!end_line) {
-	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb, NULL,
-		NULL);
+	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb, NULL);
 
 	/* If we've found it, stop moving forward through the current
 	 * line. */
@@ -2007,8 +2004,7 @@ bool do_statusbar_next_word(bool allow_punct)
 	statusbar_x += char_mb_len;
 
     while (!end_line) {
-	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb, NULL,
-		NULL);
+	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb, NULL);
 
 	/* If we've found it, stop moving forward through the current
 	 * line. */
@@ -2043,8 +2039,7 @@ bool do_statusbar_prev_word(bool allow_punct)
     /* Move backward until we find the character before the first letter
      * of the current word. */
     while (!begin_line) {
-	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb, NULL,
-		NULL);
+	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb, NULL);
 
 	/* If we've found it, stop moving backward through the current
 	 * line. */
@@ -2069,8 +2064,7 @@ bool do_statusbar_prev_word(bool allow_punct)
 	statusbar_x = move_mbleft(answer, statusbar_x);
 
     while (!begin_line) {
-	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb, NULL,
-		NULL);
+	char_mb_len = parse_mbchar(answer + statusbar_x, char_mb, NULL);
 
 	/* If we've found it, stop moving backward through the current
 	 * line. */
@@ -2093,7 +2087,7 @@ bool do_statusbar_prev_word(bool allow_punct)
 
 	while (!begin_line) {
 	    char_mb_len = parse_mbchar(answer + statusbar_x, char_mb,
-		NULL, NULL);
+		NULL);
 
 	    /* If we've found it, stop moving backward through the
 	     * current line. */
@@ -2164,7 +2158,7 @@ size_t actual_x(const char *str, size_t xplus)
     assert(str != NULL);
 
     while (*str != '\0') {
-	int str_len = parse_mbchar(str, NULL, NULL, &length);
+	int str_len = parse_mbchar(str, NULL, &length);
 
 	if (length > xplus)
 	    break;
@@ -2189,7 +2183,7 @@ size_t strnlenpt(const char *str, size_t size)
     assert(str != NULL);
 
     while (*str != '\0') {
-	int str_len = parse_mbchar(str, NULL, NULL, &length);
+	int str_len = parse_mbchar(str, NULL, &length);
 
 	str += str_len;
 
@@ -2281,8 +2275,6 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	/* The string we return. */
     size_t index;
 	/* Current position in converted. */
-    bool bad_char;
-	/* Whether we have an invalid multibyte character. */
 
     char *buf_mb = charalloc(mb_cur_max());
     int buf_mb_len;
@@ -2311,8 +2303,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	buf[start_index] != '\t')) {
 	/* We don't display all of buf[start_index] since it starts to
 	 * the left of the screen. */
-	buf_mb_len = parse_mbchar(buf + start_index, buf_mb, NULL,
-		NULL);
+	buf_mb_len = parse_mbchar(buf + start_index, buf_mb, NULL);
 
 	if (is_cntrl_mbchar(buf_mb)) {
 	    if (column < start_col) {
@@ -2343,8 +2334,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
     }
 
     while (index < alloc_len - 1 && buf[start_index] != '\0') {
-	buf_mb_len = parse_mbchar(buf + start_index, buf_mb, &bad_char,
-		NULL);
+	buf_mb_len = parse_mbchar(buf + start_index, buf_mb, NULL);
 
 	/* If buf contains a tab character, interpret it. */
 	if (*buf_mb == '\t') {
@@ -2394,27 +2384,22 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 #endif
 		converted[index++] = ' '; 
 	    start_col++;
-	/* If buf contains a non-control character, interpret it. */
+	/* If buf contains a non-control character, interpret it.  If
+	 * buf contains an invalid multibyte non-control character,
+	 * display it as such. */
 	} else {
-	    int i;
+	    char *nctrl_buf_mb = charalloc(mb_cur_max());
+	    int nctrl_buf_mb_len, i;
 
-#ifdef ENABLE_UTF8
-	    /* If buf contains an invalid multibyte non-control
-	     * character, display it as such. */
-	    if (ISSET(USE_UTF8) && bad_char) {
-		for (i = 0; i < bad_mbchar_len; i++)
-		    converted[index++] = bad_mbchar[i];
+	    nctrl_buf_mb = mbrep(buf_mb, nctrl_buf_mb,
+		&nctrl_buf_mb_len);
 
-		start_col += mbwidth(bad_mbchar);
-	    } else {
-#endif
-		for (i = 0; i < buf_mb_len; i++)
-		    converted[index++] = buf[start_index + i];
+	    for (i = 0; i < nctrl_buf_mb_len; i++)
+		converted[index++] = nctrl_buf_mb[i];
 
-		start_col += mbwidth(buf_mb);
-#ifdef ENABLE_UTF8
-	    }
-#endif
+	    start_col += mbwidth(nctrl_buf_mb);
+
+	    free(nctrl_buf_mb);
 	}
 
 	start_index += buf_mb_len;

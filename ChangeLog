@@ -118,6 +118,11 @@ CVS code -
 - color.c:
 	- Remove unneeded string.h and fcntl.h includes. (DLR)
 - chars.c:
+  mbrep()
+	- New function, the equivalent of control_mbrep() for non-control
+	  characters. (DLR)
+  parse_mbchar()
+	- Remove now-unneeded bad_chr parameter. (DLR)
   mbstrchr()
 	- Don't count matches between valid and invalid multibyte
 	  sequences anymore, for consistency. (DLR)
@@ -200,9 +205,6 @@ CVS code -
 	  (DLR)
 	- Move stdlib.h, dirent.h, regex.h, and assert.h includes here,
 	  as every source file needs them. (DLR)
-  proto.h:
-	- Add declarations for bad_mbchar and bad_mbchar_len, so that we
-	  can use them in display_string() as well as chars.c. (DLR)
 - rcfile.c:
   nregcomp()
 	- Return TRUE when the compilation succeeds and FALSE otherwise,
@@ -237,6 +239,9 @@ CVS code -
 	  the number of lines and characters in the file or selection,
 	  as wc does. (DLR)
 - winio.c:
+  display_string()
+	- Instead of using parse_mbchar()'s bad_chr parameter, use
+	  mbrep() to get the representation of a bad character. (DLR)
   edit_redraw(), edit_refresh()
 	- Clean up and simplify. (DLR)
   edit_update()

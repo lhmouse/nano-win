@@ -247,8 +247,8 @@ bool is_whole_word(size_t pos, const char *buf, const char *word)
 
     assert(buf != NULL && pos <= strlen(buf) && word != NULL);
 
-    parse_mbchar(buf + move_mbleft(buf, pos), p, NULL, NULL);
-    parse_mbchar(buf + word_end, r, NULL, NULL);
+    parse_mbchar(buf + move_mbleft(buf, pos), p, NULL);
+    parse_mbchar(buf + word_end, r, NULL);
 
     /* If we're at the beginning of the line or the character before the
      * word isn't a non-punctuation "word" character, and if we're at
