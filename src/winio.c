@@ -1828,7 +1828,7 @@ bool do_statusbar_mouse(void)
 }
 #endif
 
-/* The user typed ouuput_len multibyte characters.  Add them to the
+/* The user typed output_len multibyte characters.  Add them to the
  * statusbar prompt, setting got_enter to TRUE if we get a newline, and
  * filtering out all control characters if allow_cntrls is TRUE. */
 void do_statusbar_output(char *output, size_t output_len, bool
