@@ -1887,17 +1887,12 @@ const char *do_alt_speller(char *tempfile_name)
 
 #ifndef NANO_SMALL
     /* Don't handle a pending SIGWINCH until the alternate spell checker
-     * is finished. */
+     * is finished and we've loaded the spell-checked file back in. */
     allow_pending_sigwinch(FALSE);
 #endif
 
     /* Wait for the alternate spell checker to finish. */
     wait(&alt_spell_status);
-
-#ifndef NANO_SMALL
-    /* Handle a pending SIGWINCH again. */
-    allow_pending_sigwinch(TRUE);
-#endif
 
     refresh();
 
@@ -1906,6 +1901,10 @@ const char *do_alt_speller(char *tempfile_name)
 
     /* Turn the cursor back on for sure. */
     curs_set(1);
+
+    /* The screen might have been resized.  If it has, reinitialize all
+     * the windows based on the new screen dimensions. */
+    window_init();
 
     if (!WIFEXITED(alt_spell_status) ||
 		WEXITSTATUS(alt_spell_status) != 0) {
@@ -2004,6 +2003,11 @@ const char *do_alt_speller(char *tempfile_name)
     /* Go back to the old position, and mark the file as modified. */
     do_gotopos(lineno_save, current_x_save, current_y_save, pww_save);
     set_modified();
+
+#ifndef NANO_SMALL
+    /* Handle a pending SIGWINCH again. */
+    allow_pending_sigwinch(TRUE);
+#endif
 
     return NULL;
 }

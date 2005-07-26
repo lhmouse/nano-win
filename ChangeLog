@@ -174,7 +174,9 @@ CVS code -
 	  what the internal spell checker returns under the same
 	  circumstances. (DLR)
 	- Block any pending SIGWINCHes while the alternate spell checker
-	  is running, so that it can handle them. (DLR)
+	  is running, so that it can handle them, and unblock them once
+	  it's finished and we've loaded the spell-checked file back in.
+	  (DLR)
   do_spell()
 	- When displaying an error message from do_(int|alt)_speller(),
 	  don't display the error message corresponding to errno if
