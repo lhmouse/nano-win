@@ -3563,7 +3563,7 @@ void edit_scroll(updown direction, int nlines)
 }
 
 /* Update any lines between old_current and current that need to be
- * updated. */
+ * updated.  Use this if we've moved without changing any text. */
 void edit_redraw(const filestruct *old_current, size_t old_pww)
 {
     bool do_redraw = need_vertical_update(0) ||
@@ -3605,7 +3605,8 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 	update_line(openfile->current, openfile->current_x);
 }
 
-/* Refresh the screen without changing the position of lines. */
+/* Refresh the screen without changing the position of lines.  Use this
+ * if we've moved and changed text. */
 void edit_refresh(void)
 {
     const filestruct *foo;
