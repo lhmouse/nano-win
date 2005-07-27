@@ -64,7 +64,7 @@ void color_init(void)
 {
     assert(openfile != NULL);
 
-    if (has_colors() && can_change_color()) {
+    if (has_colors()) {
 	const colortype *tmpcolor;
 #ifdef HAVE_USE_DEFAULT_COLORS
 	bool defok;
