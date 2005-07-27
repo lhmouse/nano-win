@@ -455,7 +455,7 @@ else
     AC_MSG_RESULT([Using $CURSES_LIB_NAME as the curses library])
 fi
 
-AC_CHECK_LIB([$CURSES_LIB_NAME], use_default_colors, AC_DEFINE(HAVE_USE_DEFAULT_COLORS, 1, [Define this if your curses library has the use_default_colors command.]))
+AC_CHECK_LIB([$CURSES_LIB_NAME], use_default_colors, AC_DEFINE(HAVE_USE_DEFAULT_COLORS, 1, [Define this if your curses library has the use_default_colors() command.]))
 
 dnl Parse any configure options.
 
