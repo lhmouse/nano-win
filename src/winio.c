@@ -3132,8 +3132,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		     * unless k is 0.  If regexec() returns REG_NOMATCH,
 		     * there are no more matches in the line. */
 		    if (regexec(tmpcolor->start, &fileptr->data[k], 1,
-			&startmatch, (k == 0) ? 0 :
-			REG_NOTBOL) == REG_NOMATCH)
+			&startmatch, (k == 0) ? 0 : REG_NOTBOL) ==
+			REG_NOMATCH)
 			break;
 		    /* Translate the match to the beginning of the
 		     * line. */
@@ -3183,8 +3183,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		const filestruct *end_line;
 
 		while (start_line != NULL && regexec(tmpcolor->start,
-			start_line->data, 1, &startmatch,
-			0) == REG_NOMATCH) {
+			start_line->data, 1, &startmatch, 0) ==
+			REG_NOMATCH) {
 		    /* If there is an end on this line, there is no need
 		     * to look for starts on earlier lines. */
 		    if (regexec(tmpcolor->end, start_line->data, 0,
@@ -3223,9 +3223,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		 * the start at all?  We don't paint unterminated
 		 * starts. */
 		end_line = fileptr;
-		while (end_line != NULL &&
-			regexec(tmpcolor->end, end_line->data, 1,
-			&endmatch, 0) == REG_NOMATCH)
+		while (end_line != NULL && regexec(tmpcolor->end,
+			end_line->data, 1, &endmatch, 0) == REG_NOMATCH)
 		    end_line = end_line->next;
 
 		/* No end found, or it is too early. */
@@ -3273,10 +3272,10 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 
 		    index = actual_x(converted, x_start);
 
-		    if (regexec(tmpcolor->end,
-			fileptr->data + startmatch.rm_eo, 1, &endmatch,
-			(startmatch.rm_eo == 0) ? 0 :
-			REG_NOTBOL) == 0) {
+		    if (regexec(tmpcolor->end, fileptr->data +
+			startmatch.rm_eo, 1, &endmatch,
+			(startmatch.rm_eo == 0) ? 0 : REG_NOTBOL) ==
+			0) {
 			/* Translate the end match to be relative to the
 			 * beginning of the line. */
 			endmatch.rm_so += startmatch.rm_eo;
