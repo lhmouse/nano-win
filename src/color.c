@@ -118,10 +118,12 @@ void color_update(void)
 	exttype *e;
 
 	for (e = tmpsyntax->extensions; e != NULL; e = e->next) {
+	    bool compiled = (e->ext != NULL);
+
 	    /* e->ext_regex has already been checked for validity
 	     * elsewhere.  Compile its specified regex if we haven't
 	     * already. */
-	    if (e->ext == NULL) {
+	    if (!compiled) {
 		e->ext = (regex_t *)nmalloc(sizeof(regex_t));
 		regcomp(e->ext, e->ext_regex, REG_EXTENDED);
 	    }
@@ -132,6 +134,13 @@ void color_update(void)
 
 	    if (openfile->colorstrings != NULL)
 		break;
+
+	    /* Decompile e->ext_regex's specified regex if we aren't
+	     * going to use it. */
+	    if (!compiled) {
+		regfree(e->ext);
+		free(e->ext);
+	    }
 	}
     }
 
