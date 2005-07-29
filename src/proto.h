@@ -417,7 +417,7 @@ char *parse_argument(char *ptr);
 #ifdef ENABLE_COLOR
 short color_to_short(const char *colorname, bool *bright);
 char *parse_next_regex(char *ptr);
-bool nregcomp(regex_t *preg, const char *regex, int eflags);
+bool nregcomp(const char *regex, int eflags);
 void parse_syntax(char *ptr);
 void parse_colors(char *ptr, bool icase);
 #endif /* ENABLE_COLOR */

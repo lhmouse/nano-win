@@ -115,11 +115,19 @@ void color_update(void)
     openfile->colorstrings = NULL;
     for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 	tmpsyntax = tmpsyntax->next) {
-	const exttype *e;
+	exttype *e;
 
 	for (e = tmpsyntax->extensions; e != NULL; e = e->next) {
+	    /* e->ext_regex has already been checked for validity
+	     * elsewhere.  Compile its specified regex if we haven't
+	     * already. */
+	    if (e->ext == NULL) {
+		e->ext = (regex_t *)nmalloc(sizeof(regex_t));
+		regcomp(e->ext, e->ext_regex, REG_EXTENDED);
+	    }
+
 	    /* Set colorstrings if we matched the extension regex. */
-	    if (regexec(&e->ext, openfile->filename, 0, NULL, 0) == 0)
+	    if (regexec(e->ext, openfile->filename, 0, NULL, 0) == 0)
 		openfile->colorstrings = tmpsyntax->color;
 
 	    if (openfile->colorstrings != NULL)
@@ -139,18 +147,18 @@ void color_update(void)
 	}
     }
 
-    /* tmpcolor->start_regex and tmpcolor->end_regex have already been
-     * checked for validity elsewhere.  Compile their associated regexes
-     * if we haven't already. */
     for (tmpcolor = openfile->colorstrings; tmpcolor != NULL;
 	tmpcolor = tmpcolor->next) {
-	if (tmpcolor->start_regex != NULL) {
+	/* tmpcolor->start_regex and tmpcolor->end_regex have already
+	 * been checked for validity elsewhere.  Compile their specified
+	 * regexes if we haven't already. */
+	if (tmpcolor->start == NULL) {
 	    tmpcolor->start = (regex_t *)nmalloc(sizeof(regex_t));
 	    regcomp(tmpcolor->start, tmpcolor->start_regex,
 		REG_EXTENDED | (tmpcolor->icase ? REG_ICASE : 0));
 	}
 
-	if (tmpcolor->end_regex != NULL) {
+	if (tmpcolor->end_regex != NULL && tmpcolor->end == NULL) {
 	    tmpcolor->end = (regex_t *)nmalloc(sizeof(regex_t));
 	    regcomp(tmpcolor->end, tmpcolor->end_regex,
 		REG_EXTENDED | (tmpcolor->icase ? REG_ICASE : 0));

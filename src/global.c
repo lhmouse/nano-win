@@ -1219,15 +1219,16 @@ void thanks_for_all_the_fish(void)
 	    exttype *bob = syntaxes->extensions;
 
 	    syntaxes->extensions = bob->next;
-	    regfree(&bob->ext);
+	    free(bob->ext_regex);
+	    regfree(bob->ext);
+	    free(bob->ext);
 	    free(bob);
 	}
 	while (syntaxes->color != NULL) {
 	    colortype *bob = syntaxes->color;
 
 	    syntaxes->color = bob->next;
-	    if (bob->start_regex != NULL)
-		free(bob->start_regex);
+	    free(bob->start_regex);
 	    if (bob->start != NULL) {
 		regfree(bob->start);
 		free(bob->start);

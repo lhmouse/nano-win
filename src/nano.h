@@ -195,7 +195,8 @@ typedef struct colortype {
 } colortype;
 
 typedef struct exttype {
-    regex_t ext;		/* The extensions that match this
+    char *ext_regex;		/* Extensions that match this syntax. */
+    regex_t *ext;		/* Compiled extensions that match this
 				 * syntax. */
     struct exttype *next;
 } exttype;

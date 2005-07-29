@@ -49,10 +49,11 @@ CVS code -
 	  any variables used to hold them shorts.  Changes to
 	  do_colorinit() (renamed color_init()), color_to_int() (renamed
 	  color_to_short()), and parse_colors(). (DLR)
-	- Change color handling to save only the regex strings
-	  constantly,  and to actually compile them on an as-needed
-	  basis. Changes to update_color() and
-	  thanks_for_all_the_fish(). (Brand Huntsman and DLR)
+	- Change color handling to save only the extension and color
+	  regex strings constantly,  and to actually compile them on an
+	  as-needed basis. Changes to update_color(),
+	  thanks_for_all_the_fish(), nregcomp(), parse_syntax(), and
+	  parse_colors(). (Brand Huntsman and DLR)
 	- Various other color fixes.  Handle unspecified foreground
 	  colors properly, don't automatically reinitialize the
 	  displayed colors every time we update the current buffer's

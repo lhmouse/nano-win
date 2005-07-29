@@ -244,20 +244,23 @@ char *parse_next_regex(char *ptr)
     return ptr;
 }
 
-/* Compile the regular expression regex to preg.  Return TRUE on
- * success, or FALSE if the expression is invalid. */
-bool nregcomp(regex_t *preg, const char *regex, int eflags)
+/* Compile the regular expression regex to see if it's valid.  Return
+ * TRUE if it is, or FALSE otherwise. */
+bool nregcomp(const char *regex, int eflags)
 {
-    int rc = regcomp(preg, regex, REG_EXTENDED | eflags);
+    regex_t preg;
+    int rc = regcomp(&preg, regex, REG_EXTENDED | eflags);
 
     if (rc != 0) {
-	size_t len = regerror(rc, preg, NULL, 0);
+	size_t len = regerror(rc, &preg, NULL, 0);
 	char *str = charalloc(len);
 
-	regerror(rc, preg, str, len);
+	regerror(rc, &preg, str, len);
 	rcfile_error(N_("Bad regex \"%s\": %s"), regex, str);
 	free(str);
     }
+
+    regfree(&preg);
 
     return (rc == 0);
 }
@@ -299,11 +302,13 @@ void parse_syntax(char *ptr)
 	fprintf(stderr, "Adding new syntax after first one\n");
 #endif
     }
+
     endsyntax->desc = mallocstrcpy(NULL, nameptr);
     endsyntax->color = NULL;
     endcolor = NULL;
     endsyntax->extensions = NULL;
     endsyntax->next = NULL;
+
 #ifdef DEBUG
     fprintf(stderr, "Starting a new syntax type: \"%s\"\n", nameptr);
 #endif
@@ -327,7 +332,12 @@ void parse_syntax(char *ptr)
 	    break;
 
 	newext = (exttype *)nmalloc(sizeof(exttype));
-	if (nregcomp(&newext->ext, fileregptr, REG_NOSUB)) {
+
+	/* Save the extension regex if it's valid. */
+	if (nregcomp(fileregptr, REG_NOSUB)) {
+	    newext->ext_regex = mallocstrcpy(NULL, fileregptr);
+	    newext->ext = NULL;
+
 	    if (endext == NULL)
 		endsyntax->extensions = newext;
 	    else
@@ -422,28 +432,27 @@ void parse_colors(char *ptr, bool icase)
 
 	ptr++;
 
-	newcolor = (colortype *)nmalloc(sizeof(colortype));
 	fgstr = ptr;
 	ptr = parse_next_regex(ptr);
 	if (ptr == NULL)
 	    break;
 
-	newcolor->start = (regex_t *)nmalloc(sizeof(regex_t));
-	if (nregcomp(newcolor->start, fgstr, icase ? REG_ICASE : 0)) {
-	    /* Free this regex, now that we know it's valid, and save
-	     * the original string, so that we can recompile this regex
-	     * later as needed. */
-	    newcolor->start_regex = mallocstrcpy(NULL, fgstr);
-	    regfree(newcolor->start);
-	    free(newcolor->start);
-	    newcolor->start = NULL;
+	newcolor = (colortype *)nmalloc(sizeof(colortype));
 
+	/* Save the starting regex string if it's valid, and set up the
+	 * color information. */
+	if (nregcomp(fgstr, icase ? REG_ICASE : 0)) {
 	    newcolor->fg = fg;
 	    newcolor->bg = bg;
 	    newcolor->bright = bright;
 	    newcolor->icase = icase;
+
+	    newcolor->start_regex = mallocstrcpy(NULL, fgstr);
+	    newcolor->start = NULL;
+
 	    newcolor->end_regex = NULL;
 	    newcolor->end = NULL;
+
 	    newcolor->next = NULL;
 
 	    if (endcolor == NULL) {
@@ -457,9 +466,9 @@ void parse_colors(char *ptr, bool icase)
 #endif
 		endcolor->next = newcolor;
 	    }
+
 	    endcolor = newcolor;
 	} else {
-	    free(newcolor->start);
 	    free(newcolor);
 	    cancelled = TRUE;
 	}
@@ -489,17 +498,9 @@ void parse_colors(char *ptr, bool icase)
 	    if (cancelled)
 		continue;
 
-	    newcolor->end = (regex_t *)nmalloc(sizeof(regex_t));
-	    if (nregcomp(newcolor->end, fgstr, icase ? REG_ICASE : 0)) {
-		/* Free this regex, now that we know it's valid, and
-		 * save the original string, so that we can recompile
-		 * this regex later as needed. */
-		newcolor->end_regex = mallocstrcpy(NULL, fgstr);
-		regfree(newcolor->end);
-	    }
-
-	    free(newcolor->end);
-	    newcolor->end = NULL;
+	    /* Save the ending regex string if it's valid. */
+	    newcolor->end_regex = (nregcomp(fgstr, icase ? REG_ICASE :
+		0)) ? mallocstrcpy(NULL, fgstr) : NULL;
 	}
     }
 }
