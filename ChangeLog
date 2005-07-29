@@ -121,7 +121,7 @@ CVS code -
 	  using blocking input, since nano spends the most time using
 	  it, for blocking input; and only do constant sursor position
 	  display if we're just about to use blocking input.  Changes to
-	  input_tab(), do_browser(), finish(), do_output(), main(),
+	  input_tab(), do_browser(), do_output(), main(),
 	  get_key_buffer(), check_statusblank(), nanogetstr(),
 	  titlebar(), statusbar(), bottombars(), edit_refresh(),
 	  do_yesno(), and do_help(). (DLR)

@@ -526,7 +526,7 @@ void finish(void)
     else
 	blank_statusbar();
 
-    wnoutrefresh(bottomwin);
+    wrefresh(bottomwin);
     endwin();
 
     /* Restore the old terminal settings. */
