@@ -268,6 +268,7 @@ bool nregcomp(const char *regex, int eflags)
 void parse_syntax(char *ptr)
 {
     const char *fileregptr = NULL, *nameptr = NULL;
+    const syntaxtype *tmpsyntax;
     exttype *endext = NULL;
 	/* The end of the extensions list for this syntax. */
 
@@ -291,6 +292,14 @@ void parse_syntax(char *ptr)
 
     if (ptr == NULL)
 	return;
+
+    for (tmpsyntax = syntaxes; tmpsyntax != NULL;
+	tmpsyntax = tmpsyntax->next) {
+	if (mbstrcasecmp(nameptr, tmpsyntax->desc) == 0) {
+	    rcfile_error(N_("Duplicate syntax name %s"), nameptr);
+	    return;
+	}
+    }
 
     if (syntaxes == NULL) {
 	syntaxes = (syntaxtype *)nmalloc(sizeof(syntaxtype));
