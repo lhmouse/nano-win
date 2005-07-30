@@ -113,40 +113,9 @@ void color_update(void)
     assert(openfile != NULL);
 
     openfile->colorstrings = NULL;
-    for (tmpsyntax = syntaxes; tmpsyntax != NULL;
-	tmpsyntax = tmpsyntax->next) {
-	exttype *e;
 
-	for (e = tmpsyntax->extensions; e != NULL; e = e->next) {
-	    bool not_compiled = (e->ext == NULL);
-
-	    /* e->ext_regex has already been checked for validity
-	     * elsewhere.  Compile its specified regex if we haven't
-	     * already. */
-	    if (not_compiled) {
-		e->ext = (regex_t *)nmalloc(sizeof(regex_t));
-		regcomp(e->ext, e->ext_regex, REG_EXTENDED);
-	    }
-
-	    /* Set colorstrings if we matched the extension regex. */
-	    if (regexec(e->ext, openfile->filename, 0, NULL, 0) == 0)
-		openfile->colorstrings = tmpsyntax->color;
-
-	    if (openfile->colorstrings != NULL)
-		break;
-
-	    /* Decompile e->ext_regex's specified regex if we aren't
-	     * going to use it. */
-	    if (not_compiled) {
-		regfree(e->ext);
-		free(e->ext);
-		e->ext = NULL;
-	    }
-	}
-    }
-
-    /* If we haven't found a match, use the override string. */
-    if (openfile->colorstrings == NULL && syntaxstr != NULL) {
+    /* If we specified a syntax override string, use it. */
+    if (syntaxstr != NULL) {
 	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 		tmpsyntax = tmpsyntax->next) {
 	    if (mbstrcasecmp(tmpsyntax->desc, syntaxstr) == 0)
@@ -154,6 +123,45 @@ void color_update(void)
 
 	    if (openfile->colorstrings != NULL)
 		break;
+	}
+    }
+
+    /* If we didn't specify a syntax override string, or if we did and
+     * there was no syntax by that name, get the syntax based on the
+     * file extension. */
+    if (openfile->colorstrings == NULL) {
+	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
+		tmpsyntax = tmpsyntax->next) {
+	    exttype *e;
+
+	    for (e = tmpsyntax->extensions; e != NULL; e = e->next) {
+		bool not_compiled = (e->ext == NULL);
+
+		/* e->ext_regex has already been checked for validity
+		 * elsewhere.  Compile its specified regex if we haven't
+		 * already. */
+		if (not_compiled) {
+		    e->ext = (regex_t *)nmalloc(sizeof(regex_t));
+		    regcomp(e->ext, e->ext_regex, REG_EXTENDED);
+		}
+
+		/* Set colorstrings if we matched the extension
+		 * regex. */
+		if (regexec(e->ext, openfile->filename, 0, NULL,
+			0) == 0)
+		    openfile->colorstrings = tmpsyntax->color;
+
+		if (openfile->colorstrings != NULL)
+		    break;
+
+		/* Decompile e->ext_regex's specified regex if we aren't
+		 * going to use it. */
+		if (not_compiled) {
+		    regfree(e->ext);
+		    free(e->ext);
+		    e->ext = NULL;
+		}
+	    }
 	}
     }
 
