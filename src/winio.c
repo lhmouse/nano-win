@@ -3823,25 +3823,19 @@ void display_main_list(void)
  * display the current cursor position next time. */
 void do_cursorpos(bool constant)
 {
-    char c;
-    filestruct *f;
-    size_t i, cur_xpt = xplustabs() + 1;
+    size_t i = 0, cur_xpt = xplustabs() + 1;
     size_t cur_lenpt = strlenpt(openfile->current->data) + 1;
     int linepct, colpct, charpct;
 
-    assert(openfile->current != NULL && openfile->fileage != NULL);
+    assert(openfile->fileage != NULL && openfile->current != NULL);
 
-    c = openfile->current->data[openfile->current_x];
-    f = openfile->current->next;
-    openfile->current->data[openfile->current_x] = '\0';
-    openfile->current->next = NULL;
-    i = get_totsize(openfile->fileage, openfile->current);
-    openfile->current->data[openfile->current_x] = c;
-    openfile->current->next = f;
+    if (openfile->current->prev != NULL)
+	i += get_totsize(openfile->fileage, openfile->current->prev);
+    i += mbstrnlen(openfile->current->data, openfile->current_x);
 
     /* Check whether totsize is correct.  If it isn't, there is a bug
      * somewhere. */
-    assert(openfile->current != openfile->filebot || i == openfile->totsize);
+    assert(i == openfile->totsize);
 
     if (constant && disable_cursorpos) {
 	disable_cursorpos = FALSE;
