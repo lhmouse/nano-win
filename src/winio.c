@@ -3823,6 +3823,7 @@ void display_main_list(void)
  * display the current cursor position next time. */
 void do_cursorpos(bool constant)
 {
+    char c;
     size_t i = 0, cur_xpt = xplustabs() + 1;
     size_t cur_lenpt = strlenpt(openfile->current->data) + 1;
     int linepct, colpct, charpct;
@@ -3831,7 +3832,10 @@ void do_cursorpos(bool constant)
 
     if (openfile->current->prev != NULL)
 	i += get_totsize(openfile->fileage, openfile->current->prev);
-    i += mbstrnlen(openfile->current->data, openfile->current_x);
+    c = openfile->current->data[openfile->current_x];
+    openfile->current->data[openfile->current_x] = '\0';
+    i += mbstrlen(openfile->current->data);
+    openfile->current->data[openfile->current_x] = c;
 
     /* Check whether totsize is correct.  If it isn't, there is a bug
      * somewhere. */
