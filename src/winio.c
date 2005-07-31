@@ -3824,14 +3824,14 @@ void display_main_list(void)
 void do_cursorpos(bool constant)
 {
     char c;
-    size_t i = 0, cur_xpt = xplustabs() + 1;
+    size_t i, cur_xpt = xplustabs() + 1;
     size_t cur_lenpt = strlenpt(openfile->current->data) + 1;
     int linepct, colpct, charpct;
 
     assert(openfile->fileage != NULL && openfile->current != NULL);
 
-    if (openfile->current->prev != NULL)
-	i += get_totsize(openfile->fileage, openfile->current->prev);
+    i = (openfile->current->prev != NULL) ?
+	get_totsize(openfile->fileage, openfile->current->prev) : 0;
     c = openfile->current->data[openfile->current_x];
     openfile->current->data[openfile->current_x] = '\0';
     i += mbstrlen(openfile->current->data);
