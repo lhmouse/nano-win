@@ -152,7 +152,7 @@ int search_init(bool replacing, bool use_answer)
 	char *disp = display_string(last_search, 0, COLS / 3, FALSE);
 
 	buf = charalloc(strlen(disp) + 7);
-	/* We use COLS / 3 here because we need to see more on the
+	/* We use (COLS / 3) here because we need to see more on the
 	 * line. */
 	sprintf(buf, " [%s%s]", disp,
 		strlenpt(last_search) > COLS / 3 ? "..." : "");
