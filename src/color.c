@@ -117,6 +117,11 @@ void color_update(void)
 
     /* If we specified a syntax override string, use it. */
     if (syntaxstr != NULL) {
+	/* If the syntax override is "none", it's the same as not having
+	 * a syntax at all, so get out. */
+	if (strcmp(syntaxstr, "none") == 0)
+	    return;
+
 	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 		tmpsyntax = tmpsyntax->next) {
 	    if (strcmp(tmpsyntax->desc, syntaxstr) == 0)

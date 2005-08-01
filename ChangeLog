@@ -53,9 +53,10 @@ CVS code -
 	  regex strings constantly,  and to actually compile them on an
 	  as-needed basis.  Also, make a color syntax specified on the
 	  command line override the syntax associated with the current
-	  file extension, and add a "default" syntax that takes no
+	  file extension, add a "default" syntax that takes no
 	  extensions for those files that don't match any other
-	  syntax's extensions.  Changes to update_color(),
+	  syntax's extensions, and add a "none" syntax that's the same
+	  as having no syntax at all.  Changes to update_color(),
 	  thanks_for_all_the_fish(), nregcomp(), parse_syntax(), and
 	  parse_colors(). (Brand Huntsman and DLR)
 	- Various other color fixes.  Handle unspecified foreground

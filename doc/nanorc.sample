@@ -147,9 +147,10 @@
 ##
 ## syntax "short description" ["filename regex" ...]
 ##
-## (The syntax "default" is reserved: it takes no filename regexes, and
-## applies to files that don't match any other syntax's filename
-## regexes.)
+## (The "none" syntax is reserved; specifying it on the command line is
+## the same as not having a syntax at all.  The "default" syntax is
+## special: it takes no filename regexes, and applies to files that
+## don't match any other syntax's filename regexes.)
 ##
 ## color foreground,background "regex" ["regex"...]
 ## or

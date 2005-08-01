@@ -322,9 +322,17 @@ void parse_syntax(char *ptr)
     fprintf(stderr, "Starting a new syntax type: \"%s\"\n", nameptr);
 #endif
 
+    /* The "none" syntax is the same as not having a syntax at all, so
+     * we can't assign any extensions or colors to it. */
+    if (strcmp(endsyntax->desc, "none") == 0) {
+	rcfile_error(N_("The \"none\" syntax is reserved"));
+	return;
+    }
+
     /* The default syntax should have no associated extensions. */
     if (strcmp(endsyntax->desc, "default") == 0 && *ptr != '\0') {
-	rcfile_error(N_("The default syntax must take no extensions"));
+	rcfile_error(
+		N_("The \"default\" syntax must take no extensions"));
 	return;
     }
 
