@@ -188,7 +188,7 @@
 ##
 # color brightyellow "<[^= 	]*>" ""(\\.|[^\"])*""
 ##
-## This string is VERY resource intensive!!!
+## This string is VERY resource intensive!
 # color brightyellow start=""(\\.|[^\"])*\\[[:space:]]*$" end="^(\\.|[^\"])*""
 ##
 ## And we want to have some nice comment highlighting too
