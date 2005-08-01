@@ -108,7 +108,7 @@ void color_init(void)
 void color_update(void)
 {
     const syntaxtype *tmpsyntax;
-    colortype *tmpcolor;
+    colortype *tmpcolor, *defcolor = NULL;
 
     assert(openfile != NULL);
 
@@ -133,6 +133,15 @@ void color_update(void)
 	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 		tmpsyntax = tmpsyntax->next) {
 	    exttype *e;
+
+	    /* If this is the default syntax, it has no associated
+	     * extensions.  (We've checked for this and for duplicate
+	     * syntax names elsewhere.)  Skip over it here, but keep
+	     * track of its color regexes. */
+	    if (mbstrcasecmp(tmpsyntax->desc, "default") == 0) {
+		defcolor = syntaxes->color;
+		continue;
+	    }
 
 	    for (e = tmpsyntax->extensions; e != NULL; e = e->next) {
 		bool not_compiled = (e->ext == NULL);
@@ -164,6 +173,11 @@ void color_update(void)
 	    }
 	}
     }
+
+    /* If we didn't get a syntax based on the file extension, and we
+     * have a default syntax, use it. */
+    if (openfile->colorstrings == NULL && defcolor != NULL)
+	openfile->colorstrings = defcolor;
 
     for (tmpcolor = openfile->colorstrings; tmpcolor != NULL;
 	tmpcolor = tmpcolor->next) {

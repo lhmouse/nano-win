@@ -322,6 +322,12 @@ void parse_syntax(char *ptr)
     fprintf(stderr, "Starting a new syntax type: \"%s\"\n", nameptr);
 #endif
 
+    /* The default syntax should have no associated extensions. */
+    if (mbstrcasecmp(endsyntax->desc, "default") == 0 && *ptr != '\0') {
+	rcfile_error(N_("The default syntax must take no extensions"));
+	return;
+    }
+
     /* Now load the extensions into their part of the struct. */
     while (*ptr != '\0') {
 	exttype *newext;

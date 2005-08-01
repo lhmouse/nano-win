@@ -53,7 +53,9 @@ CVS code -
 	  regex strings constantly,  and to actually compile them on an
 	  as-needed basis.  Also, make a color syntax specified on the
 	  command line override the syntax associated with the current
-	  file extension.  Changes to update_color(),
+	  file extension, and add a "default" syntax that takes no
+	  extensions for those files that don't match any other
+	  syntax's extensions.  Changes to update_color(),
 	  thanks_for_all_the_fish(), nregcomp(), parse_syntax(), and
 	  parse_colors(). (Brand Huntsman and DLR)
 	- Various other color fixes.  Handle unspecified foreground
@@ -285,6 +287,7 @@ CVS code -
 - doc/nanorc.sample:
 	- Add regexes for Bourne shell scripts. (Mike Frysinger, minor
 	  tweaks by DLR)
+	- Explain how the "default" syntax works. (DLR)
 - doc/man/fr/nano.1, doc/man/fr/nanorc.1:
 	- Updated translation by Jean-Philippe Gérard.
 - src/Makefile.am:

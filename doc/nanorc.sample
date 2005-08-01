@@ -147,12 +147,16 @@
 ##
 ## syntax "short description" ["filename regex" ...]
 ##
+## (The syntax "default" is reserved: it takes no filename regexes, and
+## applies to files that don't match any other syntax's filename
+## regexes.)
+##
 ## color foreground,background "regex" ["regex"...]
 ## or
 ## icolor foreground,background "regex" ["regex"...]
 ##
-## "color" will do case sensitive matches, while "icolor" will do case
-## insensitive matches.
+## ("color" will do case sensitive matches, while "icolor" will do case
+## insensitive matches.)
 ##
 ## Legal colors: white, black, red, blue, green, yellow, magenta, cyan.
 ## You may use the prefix "bright" to mean a stronger color highlight
