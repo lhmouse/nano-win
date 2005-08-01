@@ -59,16 +59,17 @@ CVS code -
 	  thanks_for_all_the_fish(), nregcomp(), parse_syntax(), and
 	  parse_colors(). (Brand Huntsman and DLR)
 	- Various other color fixes.  Handle unspecified foreground
-	  colors properly, flag duplicate syntax names as errors, don't
-	  automatically reinitialize the displayed colors every time we
-	  update the current buffer's colors (since the buffer may not
-	  be displayed immediately), don't bother doing complete
-	  refreshes of the screen when color support is enabled if
-	  there's no regex associated with the current file, and rename
-	  variable exttype->val to exttype->ext, for consistency.
-	  Changes to do_colorinit() (renamed color_init()),
-	  update_color() (renamed color_update()), write_file(),
-	  do_input(), do_output(), and parse_syntax(). (DLR)
+	  colors properly, treat syntax names case sensitively, flag
+	  duplicate syntax names as errors, don't automatically
+	  reinitialize the displayed colors every time we update the
+	  current buffer's colors (since the buffer may not be displayed
+	  immediately), don't bother doing complete refreshes of the
+	  screen when color support is enabled if there's no regex
+	  associated with the current file, and rename variable
+	  exttype->val to exttype->ext, for consistency.  Changes to
+	  do_colorinit() (renamed color_init()), update_color() (renamed
+	  color_update()), write_file(), do_input(), do_output(), and
+	  parse_syntax(). (DLR)
 	- Simplify get_totals() to only get the total number of
 	  characters, and eliminate dependence on its old ability to get
 	  the total number of lines by renumber()ing when necessary and
@@ -131,7 +132,7 @@ CVS code -
 	  titlebar(), statusbar(), bottombars(), edit_refresh(),
 	  do_yesno(), and do_help(). (DLR)
 - color.c:
-	- Remove unneeded string.h and fcntl.h includes. (DLR)
+	- Remove unneeded fcntl.h include. (DLR)
 - chars.c:
   mbrep()
 	- New function, the equivalent of control_mbrep() for non-control

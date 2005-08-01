@@ -295,7 +295,7 @@ void parse_syntax(char *ptr)
 
     for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 	tmpsyntax = tmpsyntax->next) {
-	if (mbstrcasecmp(nameptr, tmpsyntax->desc) == 0) {
+	if (strcmp(nameptr, tmpsyntax->desc) == 0) {
 	    rcfile_error(N_("Duplicate syntax name %s"), nameptr);
 	    return;
 	}
@@ -323,7 +323,7 @@ void parse_syntax(char *ptr)
 #endif
 
     /* The default syntax should have no associated extensions. */
-    if (mbstrcasecmp(endsyntax->desc, "default") == 0 && *ptr != '\0') {
+    if (strcmp(endsyntax->desc, "default") == 0 && *ptr != '\0') {
 	rcfile_error(N_("The default syntax must take no extensions"));
 	return;
     }

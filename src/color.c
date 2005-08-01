@@ -25,6 +25,7 @@
 #endif
 
 #include <stdio.h>
+#include <string.h>
 #include "proto.h"
 
 #ifdef ENABLE_COLOR
@@ -118,7 +119,7 @@ void color_update(void)
     if (syntaxstr != NULL) {
 	for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 		tmpsyntax = tmpsyntax->next) {
-	    if (mbstrcasecmp(tmpsyntax->desc, syntaxstr) == 0)
+	    if (strcmp(tmpsyntax->desc, syntaxstr) == 0)
 		openfile->colorstrings = tmpsyntax->color;
 
 	    if (openfile->colorstrings != NULL)
@@ -138,7 +139,7 @@ void color_update(void)
 	     * extensions.  (We've checked for this and for duplicate
 	     * syntax names elsewhere.)  Skip over it here, but keep
 	     * track of its color regexes. */
-	    if (mbstrcasecmp(tmpsyntax->desc, "default") == 0) {
+	    if (strcmp(tmpsyntax->desc, "default") == 0) {
 		defcolor = syntaxes->color;
 		continue;
 	    }
