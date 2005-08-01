@@ -3506,13 +3506,12 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 	}
     }
 
-    /* Limit nlines to a minimum of the number of lines we could scroll,
-     * and to a maximum of the number of lines in the edit window, minus
-     * one.  Don't bother scrolling zero lines or the number of lines in
-     * the edit window; in both cases, get out, and in the latter case,
-     * call edit_refresh() beforehand. */
+    /* Limit nlines to the number of lines we could scroll. */
     nlines -= i;
 
+    /* Don't bother scrolling zero lines or more than the number of
+     * lines in the edit window minus one; in both cases, get out, and
+     * in the latter case, call edit_refresh() beforehand. */
     if (nlines == 0)
 	return;
 
@@ -3543,6 +3542,7 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
      * before and after the scrolled region are visible in the edit
      * window, we need to draw them too. */
     nlines += (nlines == 1) ? 1 : 2;
+
     if (nlines > editwinrows)
 	nlines = editwinrows;
 
