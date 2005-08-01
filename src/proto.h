@@ -666,7 +666,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 void update_line(const filestruct *fileptr, size_t index);
 int need_horizontal_update(size_t old_pww);
 int need_vertical_update(size_t old_pww);
-void edit_scroll(scroll_dir direction, int nlines);
+void edit_scroll(scroll_dir direction, ssize_t nlines);
 void edit_redraw(const filestruct *old_current, size_t old_pww);
 void edit_refresh(void);
 void edit_update(update_type location);

@@ -3478,11 +3478,11 @@ int need_vertical_update(size_t old_pww)
  * and nlines is the number of lines to scroll.  We change edittop, and
  * assume that current and current_x are up to date.  We also assume
  * that scrollok(edit) is FALSE. */
-void edit_scroll(scroll_dir direction, int nlines)
+void edit_scroll(scroll_dir direction, ssize_t nlines)
 {
     bool do_redraw = need_vertical_update(0);
     const filestruct *foo;
-    int i;
+    ssize_t i;
 
     /* Don't bother scrolling less than one line. */
     if (nlines < 1)
@@ -3537,6 +3537,14 @@ void edit_scroll(scroll_dir direction, int nlines)
     if (nlines > editwinrows)
 	nlines = editwinrows;
 
+    /* If we need to redraw the entire edit window, don't bother
+     * scrolling every line offscreen.  Just call edit_refresh() and get
+     * out. */
+    if (nlines == editwinrows) {
+	edit_refresh();
+	return;
+    }
+
     /* If we scrolled up, we're on the line before the scrolled
      * region. */
     foo = openfile->edittop;
@@ -3574,14 +3582,36 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 	need_vertical_update(old_pww);
     const filestruct *foo;
 
-    /* If either old_current or current is offscreen, refresh the screen
-     * and get out. */
+    /* If either old_current or current is offscreen, scroll the edit
+     * window until it's onscreen and get out. */
     if (old_current->lineno < openfile->edittop->lineno ||
 	old_current->lineno >= openfile->edittop->lineno +
 	editwinrows || openfile->current->lineno <
 	openfile->edittop->lineno || openfile->current->lineno >=
 	openfile->edittop->lineno + editwinrows) {
-	edit_refresh();
+	filestruct *old_edittop = openfile->edittop;
+	ssize_t nlines;
+
+	/* Put edittop in range of current, get the difference in lines
+	 * between the original edittop and the current edittop, and
+	 * then restore the original edittop. */
+	edit_update(
+#ifndef NANO_SMALL
+		ISSET(SMOOTH_SCROLL) ? NONE :
+#endif
+		CENTER);
+
+	nlines = openfile->edittop->lineno - old_edittop->lineno;
+
+	openfile->edittop = old_edittop;
+
+	/* Scroll the edit window until edittop is in range of
+	 * current. */
+	if (nlines < 0)
+	    edit_scroll(UP, -nlines);
+	else
+	    edit_scroll(DOWN, nlines);
+
 	return;
     }
 

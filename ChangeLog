@@ -43,7 +43,9 @@ CVS code -
 	  it, and (b) no longer call edit_redraw() afterward, as it's
 	  now unnecessary.  These changes eliminate redundant screen
 	  updates when the mark is on, since the mark display depends on
-	  current and current_x.  Changes to edit_scroll(),
+	  current and current_x.  Also change edit_redraw() to use
+	  edit_scroll() instead of edit_refresh() when one of its two
+	  reference lines is offscreen.  Changes to edit_scroll(),
 	  do_page_up(), do_page_down(), do_up(), and do_down(). (DLR)
 	- Consistently make the fg and bg colortype struct entries and
 	  any variables used to hold them shorts.  Changes to
