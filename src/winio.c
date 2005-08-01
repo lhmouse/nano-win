@@ -3507,10 +3507,19 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
     }
 
     /* Limit nlines to a minimum of the number of lines we could scroll,
-     * and to a maximum of the number of lines in the edit window. */
+     * and to a maximum of the number of lines in the edit window, minus
+     * one.  Don't bother scrolling zero lines or the number of lines in
+     * the edit window; in both cases, get out, and in the latter case,
+     * call edit_refresh() beforehand. */
     nlines -= i;
-    if (nlines > editwinrows)
-	nlines = editwinrows;
+
+    if (nlines == 0)
+	return;
+
+    if (nlines >= editwinrows) {
+	edit_refresh();
+	return;
+    }
 
     /* Scroll the text of the edit window up or down nlines lines,
      * depending on the value of direction. */
@@ -3536,14 +3545,6 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
     nlines += (nlines == 1) ? 1 : 2;
     if (nlines > editwinrows)
 	nlines = editwinrows;
-
-    /* If we need to redraw the entire edit window, don't bother
-     * scrolling every line offscreen.  Just call edit_refresh() and get
-     * out. */
-    if (nlines == editwinrows) {
-	edit_refresh();
-	return;
-    }
 
     /* If we scrolled up, we're on the line before the scrolled
      * region. */
@@ -3605,8 +3606,8 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 
 	openfile->edittop = old_edittop;
 
-	/* Scroll the edit window until edittop is in range of
-	 * current. */
+	/* Scroll the edit window up or down until edittop is in range
+	 * of current. */
 	if (nlines < 0)
 	    edit_scroll(UP, -nlines);
 	else
