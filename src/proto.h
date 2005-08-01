@@ -589,7 +589,7 @@ int get_byte_kbinput(int kbinput
 	, bool reset
 #endif
 	);
-int get_word_kbinput(int kbinput
+int get_unicode_kbinput(int kbinput
 #ifndef NANO_SMALL
 	, bool reset
 #endif

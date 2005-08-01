@@ -118,7 +118,7 @@ void reset_kbinput(void)
 {
     parse_kbinput(NULL, NULL, NULL, TRUE);
     get_byte_kbinput(0, TRUE);
-    get_word_kbinput(0, TRUE);
+    get_unicode_kbinput(0, TRUE);
 }
 #endif
 
@@ -1206,7 +1206,7 @@ int get_byte_kbinput(int kbinput
 		retval = byte;
 	    } else
 		/* If the character we got isn't a decimal digit, or if
-		 * it is and it would put the word sequence out of word
+		 * it is and it would put the byte sequence out of word
 		 * range, save it as the result. */
 		retval = kbinput;
 	    break;
@@ -1231,85 +1231,86 @@ int get_byte_kbinput(int kbinput
     return retval;
 }
 
-/* Translate a word sequence: turn a four-digit hexadecimal number from
- * 0000 to fffd (case-insensitive) into its corresponding word value. */
-int get_word_kbinput(int kbinput
+/* Translate a Unicode sequence: turn a four-digit hexadecimal number
+ * from 0000 to FFFD (case-insensitive) into its corresponding multibyte
+ * value. */
+int get_unicode_kbinput(int kbinput
 #ifndef NANO_SMALL
 	, bool reset
 #endif
 	)
 {
-    static int word_digits = 0, word = 0;
+    static int uni_digits = 0, uni = 0;
     int retval = ERR;
 
 #ifndef NANO_SMALL
     if (reset) {
-	word_digits = 0;
-	word = 0;
+	uni_digits = 0;
+	uni = 0;
 	return ERR;
     }
 #endif
 
     /* Increment the word digit counter. */
-    word_digits++;
+    uni_digits++;
 
-    switch (word_digits) {
+    switch (uni_digits) {
 	case 1:
-	    /* One digit: reset the word sequence holder and add the
-	     * digit we got to the 4096's position of the word sequence
-	     * holder. */
-	    word = 0;
+	    /* One digit: reset the Unicode sequence holder and add the
+	     * digit we got to the 4096's position of the Unicode
+	     * sequence holder. */
+	    uni = 0;
 	    if ('0' <= kbinput && kbinput <= '9')
-		word += (kbinput - '0') * 4096;
+		uni += (kbinput - '0') * 4096;
 	    else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
-		word += (tolower(kbinput) + 10 - 'a') * 4096;
+		uni += (tolower(kbinput) + 10 - 'a') * 4096;
 	    else
 		/* If the character we got isn't a hexadecimal digit, or
-		 * if it is and it would put the word sequence out of
-		 * word range, save it as the result. */
+		 * if it is and it would put the Unicode sequence out of
+		 * valid range, save it as the result. */
 		retval = kbinput;
 	    break;
 	case 2:
 	    /* Two digits: add the digit we got to the 256's position of
-	     * the word sequence holder. */
+	     * the Unicode sequence holder. */
 	    if ('0' <= kbinput && kbinput <= '9')
-		word += (kbinput - '0') * 256;
+		uni += (kbinput - '0') * 256;
 	    else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
-		word += (tolower(kbinput) + 10 - 'a') * 256;
+		uni += (tolower(kbinput) + 10 - 'a') * 256;
 	    else
 		/* If the character we got isn't a hexadecimal digit, or
-		 * if it is and it would put the word sequence out of
-		 * word range, save it as the result. */
+		 * if it is and it would put the Unicode sequence out of
+		 * valid range, save it as the result. */
 		retval = kbinput;
 	    break;
 	case 3:
 	    /* Three digits: add the digit we got to the 16's position
-	     * of the word sequence holder. */
+	     * of the Unicode sequence holder. */
 	    if ('0' <= kbinput && kbinput <= '9')
-		word += (kbinput - '0') * 16;
+		uni += (kbinput - '0') * 16;
 	    else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
-		word += (tolower(kbinput) + 10 - 'a') * 16;
+		uni += (tolower(kbinput) + 10 - 'a') * 16;
 	    else
 		/* If the character we got isn't a hexadecimal digit, or
-		 * if it is and it would put the word sequence out of
-		 * word range, save it as the result. */
+		 * if it is and it would put the Unicode sequence out of
+		 * valid range, save it as the result. */
 		retval = kbinput;
 	    break;
 	case 4:
 	    /* Four digits: add the digit we got to the 1's position of
-	     * the word sequence holder, and save the corresponding word
-	     * value as the result. */
+	     * the Unicode sequence holder, and save the corresponding
+	     * Unicode value as the result. */
 	    if ('0' <= kbinput && kbinput <= '9') {
-		word += (kbinput - '0');
-		retval = word;
+		uni += (kbinput - '0');
+		retval = uni;
 	    } else if ('a' <= tolower(kbinput) &&
 		tolower(kbinput) <= 'd') {
-		word += (tolower(kbinput) + 10 - 'a');
-		retval = word;
+		uni += (tolower(kbinput) + 10 - 'a');
+		retval = uni;
 	    } else
 		/* If the character we got isn't a hexadecimal digit, or
-		 * if it is and it would put the word sequence out of
-		 * word range, save it as the result. */
+		 * if it is and it would put the Unicode sequence out of
+		 * valid range, save it as the result. */
 		retval = kbinput;
 	    break;
 	default:
@@ -1322,12 +1323,12 @@ int get_word_kbinput(int kbinput
     /* If we have a result, reset the word digit counter and the word
      * sequence holder. */
     if (retval != ERR) {
-	word_digits = 0;
-	word = 0;
+	uni_digits = 0;
+	uni = 0;
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "get_word_kbinput(): kbinput = %d, word_digits = %d, word = %d, retval = %d\n", kbinput, word_digits, word, retval);
+    fprintf(stderr, "get_unicode_kbinput(): kbinput = %d, uni_digits = %d, uni = %d, retval = %d\n", kbinput, uni_digits, uni, retval);
 #endif
 
     return retval;
@@ -1410,8 +1411,8 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 
 /* Read in a stream of all available characters, and return the length
  * of the string in kbinput_len.  Translate the first few characters of
- * the input into the corresponding word value if possible.  After that,
- * leave the input as-is. */ 
+ * the input into the corresponding multibyte value if possible.  After
+ * that, leave the input as-is. */ 
 int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 {
     int *kbinput, word, *retval;
@@ -1420,7 +1421,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     while ((kbinput = get_input(win, 1)) == NULL);
 
     /* Check whether the first keystroke is a hexadecimal digit. */
-    word = get_word_kbinput(*kbinput
+    word = get_unicode_kbinput(*kbinput
 #ifndef NANO_SMALL
 	, FALSE
 #endif
@@ -1439,7 +1440,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 	while (word == ERR) {
 	    while ((kbinput = get_input(win, 1)) == NULL);
 
-	    word = get_word_kbinput(*kbinput
+	    word = get_unicode_kbinput(*kbinput
 #ifndef NANO_SMALL
 		, FALSE
 #endif
