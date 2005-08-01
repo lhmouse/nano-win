@@ -289,7 +289,7 @@ CVS code -
 - doc/nanorc.sample:
 	- Add regexes for Bourne shell scripts. (Mike Frysinger, minor
 	  tweaks by DLR)
-	- Explain how the "default" syntax works. (DLR)
+	- Explain how the "none" and "default" syntaxes work. (DLR)
 - doc/man/fr/nano.1, doc/man/fr/nanorc.1:
 	- Updated translation by Jean-Philippe Gérard.
 - src/Makefile.am:
