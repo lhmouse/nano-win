@@ -110,8 +110,7 @@ void rcfile_error(const char *msg, ...)
     fprintf(stderr, "\n");
     if (lineno > 0) {
 	errors = TRUE;
-	fprintf(stderr, _("Error in %s on line %lu: "), nanorc,
-		(unsigned long)lineno);
+	fprintf(stderr, _("Error in %s on line %lu: "), nanorc, (unsigned long)lineno);
     }
 
     va_start(ap, msg);
@@ -724,8 +723,7 @@ void parse_rcfile(FILE *rcstream)
 
     if (errors) {
 	errors = FALSE;
-	fprintf(stderr,
-		_("\nPress Return to continue starting nano\n"));
+	fprintf(stderr, _("\nPress Return to continue starting nano\n"));
 	while (getchar() != '\n')
 	    ;
     }

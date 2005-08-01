@@ -98,8 +98,7 @@ void color_init(void)
 	    init_pair(tmpcolor->pairnum, foreground, background);
 
 #ifdef DEBUG
-	    fprintf(stderr, "init_pair(): fg = %hd, bg = %hd\n",
-		tmpcolor->fg, tmpcolor->bg);
+	    fprintf(stderr, "init_pair(): fg = %hd, bg = %hd\n", tmpcolor->fg, tmpcolor->bg);
 #endif
 	}
     }
