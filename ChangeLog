@@ -273,8 +273,6 @@ CVS code -
 	  that there's more room for other things, and to not display
 	  the status when we're in the file browser, since Pico doesn't.
 	  (DLR)
-  do_cursorpos()
-	- Remove unneeded assert. (DLR)
 - configure.ac:
 	- Since we only use vsnprintf() now, remove the tests for
 	  snprintf(). (DLR)
