@@ -1232,7 +1232,7 @@ int get_byte_kbinput(int kbinput
 }
 
 /* Translate a word sequence: turn a four-digit hexadecimal number from
- * 0000 to ffff (case-insensitive) into its corresponding word value. */
+ * 0000 to fffd (case-insensitive) into its corresponding word value. */
 int get_word_kbinput(int kbinput
 #ifndef NANO_SMALL
 	, bool reset
@@ -1303,7 +1303,7 @@ int get_word_kbinput(int kbinput
 		word += (kbinput - '0');
 		retval = word;
 	    } else if ('a' <= tolower(kbinput) &&
-		tolower(kbinput) <= 'f') {
+		tolower(kbinput) <= 'd') {
 		word += (tolower(kbinput) + 10 - 'a');
 		retval = word;
 	    } else
