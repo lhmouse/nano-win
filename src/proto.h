@@ -257,11 +257,11 @@ bool check_operating_dir(const char *currpath, bool allow_tabcomp);
 void init_backup_dir(void);
 #endif
 int copy_file(FILE *inn, FILE *out);
-int write_file(const char *name, FILE *f_open, bool tmp, int append,
-	bool nonamechange);
+int write_file(const char *name, FILE *f_open, bool tmp, append_type
+	append, bool nonamechange);
 #ifndef NANO_SMALL
-int write_marked_file(const char *name, FILE *f_open, bool tmp, int
-	append);
+int write_marked_file(const char *name, FILE *f_open, bool tmp,
+	append_type append);
 #endif
 int do_writeout(bool exiting);
 void do_writeout_void(void);
@@ -666,10 +666,10 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 void update_line(const filestruct *fileptr, size_t index);
 int need_horizontal_update(size_t old_pww);
 int need_vertical_update(size_t old_pww);
-void edit_scroll(updown direction, int nlines);
+void edit_scroll(scroll_dir direction, int nlines);
 void edit_redraw(const filestruct *old_current, size_t old_pww);
 void edit_refresh(void);
-void edit_update(centernone location);
+void edit_update(update_type location);
 int do_yesno(bool all, const char *msg);
 void total_redraw(void);
 void total_refresh(void);

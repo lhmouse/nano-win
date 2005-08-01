@@ -151,12 +151,16 @@ typedef enum {
 } file_format;
 
 typedef enum {
+    OVERWRITE, APPEND, PREPEND
+} append_type;
+
+typedef enum {
     UP, DOWN
-} updown;
+} scroll_dir;
 
 typedef enum {
     CENTER, NONE
-} centernone;
+} update_type;
 
 /* Structure types. */
 typedef struct filestruct {

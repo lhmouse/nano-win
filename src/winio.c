@@ -3477,7 +3477,7 @@ int need_vertical_update(size_t old_pww)
  * and nlines is the number of lines to scroll.  We change edittop, and
  * assume that current and current_x are up to date.  We also assume
  * that scrollok(edit) is FALSE. */
-void edit_scroll(updown direction, int nlines)
+void edit_scroll(scroll_dir direction, int nlines)
 {
     bool do_redraw = need_vertical_update(0);
     const filestruct *foo;
@@ -3649,7 +3649,7 @@ void edit_refresh(void)
  * same place.  location determines how we move it: if it's CENTER, we
  * center current, and if it's NONE, we put current current_y lines
  * below edittop. */
-void edit_update(centernone location)
+void edit_update(update_type location)
 {
     filestruct *foo = openfile->current;
     int goal;

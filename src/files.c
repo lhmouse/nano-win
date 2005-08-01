@@ -1130,15 +1130,15 @@ int copy_file(FILE *inn, FILE *out)
  * tmp means we are writing a temporary file in a secure fashion.  We
  * use it when spell checking or dumping the file on an error.
  *
- * append == 1 means we are appending instead of overwriting.
- * append == 2 means we are prepending instead of overwriting.
+ * append == APPEND means we are appending instead of overwriting.
+ * append == PREPEND means we are prepending instead of overwriting.
  *
  * nonamechange means don't change the current filename.  It is ignored
  * if tmp is FALSE or if we're appending/prepending.
  *
  * Return 0 on success or -1 on error. */
-int write_file(const char *name, FILE *f_open, bool tmp, int append,
-	bool nonamechange)
+int write_file(const char *name, FILE *f_open, bool tmp, append_type
+	append, bool nonamechange)
 {
     int retval = -1;
 	/* Instead of returning in this function, you should always
@@ -1213,9 +1213,9 @@ int write_file(const char *name, FILE *f_open, bool tmp, int append,
      * aren't appending, prepending, or writing a selection, we backup
      * only if the file has not been modified by someone else since nano
      * opened it. */
-    if (ISSET(BACKUP_FILE) && !tmp && realexists && ((append != 0 ||
-	openfile->mark_set) || openfile->current_stat->st_mtime ==
-	st.st_mtime)) {
+    if (ISSET(BACKUP_FILE) && !tmp && realexists && ((append !=
+	OVERWRITE || openfile->mark_set) ||
+	openfile->current_stat->st_mtime == st.st_mtime)) {
 	FILE *backup_file;
 	char *backupname;
 	struct utimbuf filetime;
@@ -1345,7 +1345,7 @@ int write_file(const char *name, FILE *f_open, bool tmp, int append,
     }
 
     /* If we're prepending, copy the file to a temp file. */
-    if (append == 2) {
+    if (append == PREPEND) {
 	int fd_source;
 	FILE *f_source = NULL;
 
@@ -1385,9 +1385,9 @@ int write_file(const char *name, FILE *f_open, bool tmp, int append,
 	/* Now open the file in place.  Use O_EXCL if tmp is TRUE.  This
 	 * is copied from joe, because wiggy says so *shrug*. */
 	fd = open(realname, O_WRONLY | O_CREAT |
-		((append == 1) ? O_APPEND : (tmp ? O_EXCL : O_TRUNC)),
-		S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH |
-		S_IWOTH);
+		((append == APPEND) ? O_APPEND : (tmp ? O_EXCL :
+		O_TRUNC)), S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP |
+		S_IROTH | S_IWOTH);
 
 	/* Set the umask back to the user's original value. */
 	umask(original_umask);
@@ -1403,7 +1403,7 @@ int write_file(const char *name, FILE *f_open, bool tmp, int append,
 	    goto cleanup_and_exit;
 	}
 
-	f = fdopen(fd, (append == 1) ? "ab" : "wb");
+	f = fdopen(fd, (append == APPEND) ? "ab" : "wb");
 
 	if (f == NULL) {
 	    statusbar(_("Error writing %s: %s"), realname,
@@ -1462,7 +1462,7 @@ int write_file(const char *name, FILE *f_open, bool tmp, int append,
     }
 
     /* If we're prepending, open the temp file, and append it to f. */
-    if (append == 2) {
+    if (append == PREPEND) {
 	int fd_source;
 	FILE *f_source = NULL;
 
@@ -1492,7 +1492,7 @@ int write_file(const char *name, FILE *f_open, bool tmp, int append,
 	goto cleanup_and_exit;
     }
 
-    if (!tmp && append == 0) {
+    if (!tmp && append == OVERWRITE) {
 	if (!nonamechange) {
 	    openfile->filename = mallocstrcpy(openfile->filename,
 		realname);
@@ -1537,8 +1537,8 @@ int write_file(const char *name, FILE *f_open, bool tmp, int append,
 
 #ifndef NANO_SMALL
 /* Write a marked selection from a file out. */
-int write_marked_file(const char *name, FILE *f_open, bool tmp, int
-	append)
+int write_marked_file(const char *name, FILE *f_open, bool tmp,
+	append_type append)
 {
     int retval = -1;
     bool old_modified = openfile->modified;
@@ -1582,8 +1582,8 @@ int write_marked_file(const char *name, FILE *f_open, bool tmp, int
 
 int do_writeout(bool exiting)
 {
-    int i;
-    int retval = 0, append = 0;
+    int i, retval = 0;
+    append_type append = OVERWRITE;
     char *ans;
 	/* The last answer the user typed on the statusbar. */
 #ifdef NANO_EXTRA
@@ -1619,13 +1619,14 @@ int do_writeout(bool exiting)
 	backupstr = ISSET(BACKUP_FILE) ? N_(" [Backup]") : "";
 
 	if (openfile->mark_set && !exiting)
-	    msg = (append == 2) ? N_("Prepend Selection to File") :
-		(append == 1) ? N_("Append Selection to File") :
+	    msg = (append == PREPEND) ?
+		N_("Prepend Selection to File") : (append == APPEND) ?
+		N_("Append Selection to File") :
 		N_("Write Selection to File");
 	else
 #endif /* !NANO_SMALL */
-	    msg = (append == 2) ? N_("File Name to Prepend to") :
-		(append == 1) ? N_("File Name to Append to") :
+	    msg = (append == PREPEND) ? N_("File Name to Prepend to") :
+		(append == APPEND) ? N_("File Name to Append to") :
 		N_("File Name to Write");
 
 	/* If we're using restricted mode, the filename isn't blank,
@@ -1679,10 +1680,10 @@ int do_writeout(bool exiting)
 	    } else
 #endif /* !NANO_SMALL */
 	    if (i == NANO_PREPEND_KEY) {
-		append = (append == 2) ? 0 : 2;
+		append = (append == PREPEND) ? OVERWRITE : PREPEND;
 		continue;
 	    } else if (i == NANO_APPEND_KEY) {
-		append = (append == 1) ? 0 : 1;
+		append = (append == APPEND) ? OVERWRITE : APPEND;
 		continue;
 	    }
 
@@ -1699,7 +1700,7 @@ int do_writeout(bool exiting)
 		break;
 	    }
 #endif
-	    if (append == 0 && strcmp(answer,
+	    if (append == OVERWRITE && strcmp(answer,
 		openfile->filename) != 0) {
 		struct stat st;
 

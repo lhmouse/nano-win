@@ -148,6 +148,8 @@ CVS code -
 	- Assert that filename isn't NULL, and don't do anything special
 	  if it's blank, as the the former case shouldn't occur, and the
 	  latter case is now handled elsewhere. (DLR)
+  write_file(), write_marked_file(), do_writeout()
+	- Make append an append_type enum instead of an int. (DLR)
   input_tab()
 	- Make columns an int instead of a size_t, since it's limited by
 	  COLS. (DLR)
@@ -222,6 +224,8 @@ CVS code -
 	  (DLR)
 	- Move stdlib.h, dirent.h, regex.h, and assert.h includes here,
 	  as every source file needs them. (DLR)
+	- Rename the updown enum scroll_dir and the centernone enum
+	  update_type for clarity, and add an append_type enum. (DLR)
 - rcfile.c:
   nregcomp()
 	- Return TRUE when the compilation succeeds and FALSE otherwise,
