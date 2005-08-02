@@ -1232,8 +1232,8 @@ int get_byte_kbinput(int kbinput
 }
 
 /* Translate a Unicode sequence: turn a four-digit hexadecimal number
- * from 0000 to FFFD (case-insensitive) into its corresponding multibyte
- * value. */
+ * from 0000 to D7FF or E000 to FFFD (case-insensitive) into its
+ * corresponding multibyte value. */
 int get_unicode_kbinput(int kbinput
 #ifndef NANO_SMALL
 	, bool reset
@@ -1257,13 +1257,13 @@ int get_unicode_kbinput(int kbinput
     switch (uni_digits) {
 	case 1:
 	    /* One digit: reset the Unicode sequence holder and add the
-	     * digit we got to the 4096's position of the Unicode
+	     * digit we got to the 0x1000's position of the Unicode
 	     * sequence holder. */
 	    uni = 0;
 	    if ('0' <= kbinput && kbinput <= '9')
-		uni += (kbinput - '0') * 4096;
+		uni += (kbinput - '0') * 0x1000;
 	    else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
-		uni += (tolower(kbinput) + 10 - 'a') * 4096;
+		uni += (tolower(kbinput) + 10 - 'a') * 0x1000;
 	    else
 		/* If the character we got isn't a hexadecimal digit, or
 		 * if it is and it would put the Unicode sequence out of
@@ -1271,12 +1271,14 @@ int get_unicode_kbinput(int kbinput
 		retval = kbinput;
 	    break;
 	case 2:
-	    /* Two digits: add the digit we got to the 256's position of
-	     * the Unicode sequence holder. */
-	    if ('0' <= kbinput && kbinput <= '9')
-		uni += (kbinput - '0') * 256;
-	    else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
-		uni += (tolower(kbinput) + 10 - 'a') * 256;
+	    /* Two digits: add the digit we got to the 0x100's position
+	     * of the Unicode sequence holder. */
+	    if (('0' <= kbinput && kbinput <= '7') || (uni != 0xD000 &&
+		'8' <= kbinput && kbinput <= '9'))
+		uni += (kbinput - '0') * 0x100;
+	    else if (uni != 0xd000 && 'a' <= tolower(kbinput) &&
+		tolower(kbinput) <= 'f')
+		uni += (tolower(kbinput) + 10 - 'a') * 0x100;
 	    else
 		/* If the character we got isn't a hexadecimal digit, or
 		 * if it is and it would put the Unicode sequence out of
@@ -1284,12 +1286,12 @@ int get_unicode_kbinput(int kbinput
 		retval = kbinput;
 	    break;
 	case 3:
-	    /* Three digits: add the digit we got to the 16's position
+	    /* Three digits: add the digit we got to the 0x10's position
 	     * of the Unicode sequence holder. */
 	    if ('0' <= kbinput && kbinput <= '9')
-		uni += (kbinput - '0') * 16;
+		uni += (kbinput - '0') * 0x10;
 	    else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
-		uni += (tolower(kbinput) + 10 - 'a') * 16;
+		uni += (tolower(kbinput) + 10 - 'a') * 0x10;
 	    else
 		/* If the character we got isn't a hexadecimal digit, or
 		 * if it is and it would put the Unicode sequence out of
@@ -1303,8 +1305,9 @@ int get_unicode_kbinput(int kbinput
 	    if ('0' <= kbinput && kbinput <= '9') {
 		uni += (kbinput - '0');
 		retval = uni;
-	    } else if ('a' <= tolower(kbinput) &&
-		tolower(kbinput) <= 'd') {
+	    } else if (('a' <= tolower(kbinput) &&
+		tolower(kbinput) <= 'd') || (uni != 0xFFF0 && 'e' <=
+		tolower(kbinput) && tolower(kbinput) <= 'f')) {
 		uni += (tolower(kbinput) + 10 - 'a');
 		retval = uni;
 	    } else

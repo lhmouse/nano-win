@@ -263,10 +263,10 @@ CVS code -
 	  as wc does. (DLR)
 - winio.c:
   get_word_kbinput()
-	- Limit the input word to hexadecimal FFFD instead of FFFF, as
-	  FFFE and FFFF are invalid Unicode characters, rename variables
-	  word and word_digits to uni and uni_digits, and rename to
-	  get_unicode_kbinput(). (DLR)
+	- Don't allow the input word to be between hexadecimal D800 to
+	  DFFF or hexadecimal FFFE to FFFD, as they are invalid Unicode
+	  characters; rename variables word and word_digits to uni and
+	  uni_digits; and rename to get_unicode_kbinput(). (DLR)
   display_string()
 	- Instead of using parse_mbchar()'s bad_chr parameter, use
 	  mbrep() to get the representation of a bad character. (DLR)
