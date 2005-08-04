@@ -333,7 +333,10 @@ char *make_mbchar(int chr, int *chr_mb_len)
 	chr_mb = charalloc(MB_CUR_MAX);
 	*chr_mb_len = wctomb(chr_mb, chr);
 
-	if (*chr_mb_len < 0) {
+	/* Unicode D800-DFFF and FFFE-FFFF are invalid, even though
+	 * they're parsed properly. */
+	if (*chr_mb_len < 0 || ((0xD800 <= chr && chr <= 0xDFFF) ||
+		(0XFFFE <= chr && chr <= 0xFFFF))) {
 	    wctomb(NULL, 0);
 	    *chr_mb_len = 0;
 	}

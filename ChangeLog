@@ -146,6 +146,10 @@ CVS code -
 	- Treat the Unicode characters D800-DFFF and FFFE-FFFF as
 	  invalid, since the C library's multibyte functions don't seem
 	  to. (DLR)
+  make_mbchar()
+	- Treat the Unicode characters D800-DFFF and FFFE-FFFF as
+	  invalid, since the C library's multibyte functions don't seem
+	  to. (DLR)
   parse_mbchar()
 	- Remove now-unneeded bad_chr parameter. (DLR)
   mbstrchr()
