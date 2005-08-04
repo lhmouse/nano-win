@@ -184,6 +184,8 @@ bool is_word_mbchar(const char *c, bool allow_punct)
  * is (c + 64).  We return that character. */
 char control_rep(char c)
 {
+    assert(is_cntrl_char(c));
+
     /* Treat newlines embedded in a line as encoded nulls. */
     if (c == '\n')
 	return '@';
@@ -198,6 +200,8 @@ char control_rep(char c)
  * where ch is (c + 64).  We return that wide character. */
 wchar_t control_wrep(wchar_t wc)
 {
+    assert(is_cntrl_wchar(wc));
+
     /* Treat newlines embedded in a line as encoded nulls. */
     if (wc == '\n')
 	return '@';
@@ -251,7 +255,10 @@ char *mbrep(const char *c, char *crep, int *crep_len)
     if (ISSET(USE_UTF8)) {
 	wchar_t wc;
 
-	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
+	/* Unicode D800-DFFF and FFFE-FFFF are invalid, even though
+	 * they're parsed properly. */
+	if (mbtowc(&wc, c, MB_CUR_MAX) < 0 || ((0xD800 <= wc && wc <=
+		0xDFFF) || (0XFFFE <= wc && wc <= 0xFFFF))) {
 	    mbtowc(NULL, NULL, 0);
 	    crep = (char *)bad_mbchar;
 	    *crep_len = bad_mbchar_len;

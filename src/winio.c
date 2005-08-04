@@ -1232,8 +1232,8 @@ int get_byte_kbinput(int kbinput
 }
 
 /* Translate a Unicode sequence: turn a four-digit hexadecimal number
- * from 0000 to D7FF or E000 to FFFD (case-insensitive) into its
- * corresponding multibyte value. */
+ * from 0000 to FFFF(case-insensitive) into its corresponding multibyte
+ * value. */
 int get_unicode_kbinput(int kbinput
 #ifndef NANO_SMALL
 	, bool reset
@@ -1273,11 +1273,9 @@ int get_unicode_kbinput(int kbinput
 	case 2:
 	    /* Two digits: add the digit we got to the 0x100's position
 	     * of the Unicode sequence holder. */
-	    if (('0' <= kbinput && kbinput <= '7') || (uni != 0xD000 &&
-		'8' <= kbinput && kbinput <= '9'))
+	    if ('0' <= kbinput && kbinput <= '9')
 		uni += (kbinput - '0') * 0x100;
-	    else if (uni != 0xd000 && 'a' <= tolower(kbinput) &&
-		tolower(kbinput) <= 'f')
+	    else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
 		uni += (tolower(kbinput) + 10 - 'a') * 0x100;
 	    else
 		/* If the character we got isn't a hexadecimal digit, or
@@ -1305,9 +1303,8 @@ int get_unicode_kbinput(int kbinput
 	    if ('0' <= kbinput && kbinput <= '9') {
 		uni += (kbinput - '0');
 		retval = uni;
-	    } else if (('a' <= tolower(kbinput) &&
-		tolower(kbinput) <= 'd') || (uni != 0xFFF0 && 'e' <=
-		tolower(kbinput) && tolower(kbinput) <= 'f')) {
+	    } else if ('a' <= tolower(kbinput) && tolower(kbinput) <=
+		'f') {
 		uni += (tolower(kbinput) + 10 - 'a');
 		retval = uni;
 	    } else
@@ -1418,13 +1415,13 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
  * that, leave the input as-is. */ 
 int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 {
-    int *kbinput, word, *retval;
+    int *kbinput, uni, *retval;
 
     /* Read in the first keystroke. */
     while ((kbinput = get_input(win, 1)) == NULL);
 
     /* Check whether the first keystroke is a hexadecimal digit. */
-    word = get_unicode_kbinput(*kbinput
+    uni = get_unicode_kbinput(*kbinput
 #ifndef NANO_SMALL
 	, FALSE
 #endif
@@ -1432,36 +1429,36 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 
     /* If the first keystroke isn't a hexadecimal digit, put back the
      * first keystroke. */
-    if (word != ERR)
+    if (uni != ERR)
 	unget_input(kbinput, 1);
     /* Otherwise, read in keystrokes until we have a complete word
      * sequence, and put back the corresponding word value. */
     else {
-	char *word_mb;
-	int word_mb_len, *seq, i;
+	char *uni_mb;
+	int uni_mb_len, *seq, i;
 
-	while (word == ERR) {
+	while (uni == ERR) {
 	    while ((kbinput = get_input(win, 1)) == NULL);
 
-	    word = get_unicode_kbinput(*kbinput
+	    uni = get_unicode_kbinput(*kbinput
 #ifndef NANO_SMALL
 		, FALSE
 #endif
 		);
 	}
 
-	/* Put back the multibyte equivalent of the word value. */
-	word_mb = make_mbchar(word, &word_mb_len);
+	/* Put back the multibyte equivalent of the Unicode value. */
+	uni_mb = make_mbchar(uni, &uni_mb_len);
 
-	seq = (int *)nmalloc(word_mb_len * sizeof(int));
+	seq = (int *)nmalloc(uni_mb_len * sizeof(int));
 
-	for (i = 0; i < word_mb_len; i++)
-	    seq[i] = (unsigned char)word_mb[i];
+	for (i = 0; i < uni_mb_len; i++)
+	    seq[i] = (unsigned char)uni_mb[i];
 
-	unget_input(seq, word_mb_len);
+	unget_input(seq, uni_mb_len);
 
 	free(seq);
-	free(word_mb);
+	free(uni_mb);
     }
 
     /* Get the complete sequence, and save the characters in it as the

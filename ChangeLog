@@ -137,9 +137,15 @@ CVS code -
 - color.c:
 	- Remove unneeded fcntl.h include. (DLR)
 - chars.c:
+  control_rep(), control_mbrep()
+	- Assert that the multibyte character passed in is a control
+	  character if it's valid. (DLR)
   mbrep()
 	- New function, the equivalent of control_mbrep() for non-control
 	  characters. (DLR)
+	- Treat the Unicode characters D800-DFFF and FFFE-FFFF as
+	  invalid, since the C library's multibyte functions don't seem
+	  to. (DLR)
   parse_mbchar()
 	- Remove now-unneeded bad_chr parameter. (DLR)
   mbstrchr()
@@ -263,10 +269,13 @@ CVS code -
 	  as wc does. (DLR)
 - winio.c:
   get_word_kbinput()
-	- Don't allow the input word to be between hexadecimal D800 to
-	  DFFF or hexadecimal FFFE to FFFD, as they are invalid Unicode
-	  characters; rename variables word and word_digits to uni and
-	  uni_digits; and rename to get_unicode_kbinput(). (DLR)
+	- Multiply the entered digits by hexadecimal numbers instead of
+	  decimal numbers for clarity, rename to get_unicode_kbinput(),
+	  and rename variables word and word_digits to uni and
+	  uni_digits. (DLR)
+  parse_verbatim_kbinput()
+	- Rename variables word_mb and word_mb_len to uni_mb and
+	  uni_mb_len. (DLR)
   display_string()
 	- Instead of using parse_mbchar()'s bad_chr parameter, use
 	  mbrep() to get the representation of a bad character. (DLR)
