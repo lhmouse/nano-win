@@ -2129,7 +2129,7 @@ void do_wordlinechar_count(void)
     /* Display the total word, line, and character counts on the
      * statusbar. */
     statusbar("%sWords: %lu  Lines: %ld  Chars: %lu", old_mark_set ?
-	_("(In Selection)  ") : "", (unsigned long)words, (long)lines,
+	_("In Selection:  ") : "", (unsigned long)words, (long)lines,
 	(unsigned long)chars);
 }
 #endif /* !NANO_SMALL */
