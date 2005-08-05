@@ -197,6 +197,9 @@ bool has_blank_chars(const char *s);
 bool has_blank_mbchars(const char *s);
 #endif
 #endif
+#ifdef ENABLE_UTF8
+bool is_valid_unicode(wchar_t wc);
+#endif
 #ifdef ENABLE_NANORC
 bool is_valid_mbstring(const char *s);
 #endif

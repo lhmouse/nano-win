@@ -255,10 +255,8 @@ char *mbrep(const char *c, char *crep, int *crep_len)
     if (ISSET(USE_UTF8)) {
 	wchar_t wc;
 
-	/* Unicode D800-DFFF and FFFE-FFFF are invalid, even though
-	 * they're parsed properly. */
-	if (mbtowc(&wc, c, MB_CUR_MAX) < 0 || ((0xD800 <= wc && wc <=
-		0xDFFF) || (0XFFFE <= wc && wc <= 0xFFFF))) {
+	/* Reject invalid Unicode characters. */
+	if (mbtowc(&wc, c, MB_CUR_MAX) < 0 || !is_valid_unicode(wc)) {
 	    mbtowc(NULL, NULL, 0);
 	    crep = (char *)bad_mbchar;
 	    *crep_len = bad_mbchar_len;
@@ -331,12 +329,10 @@ char *make_mbchar(int chr, int *chr_mb_len)
 #ifdef ENABLE_UTF8
     if (ISSET(USE_UTF8)) {
 	chr_mb = charalloc(MB_CUR_MAX);
-	*chr_mb_len = wctomb(chr_mb, chr);
+	*chr_mb_len = wctomb(chr_mb, (wchar_t)chr);
 
-	/* Unicode D800-DFFF and FFFE-FFFF are invalid, even though
-	 * they're parsed properly. */
-	if (*chr_mb_len < 0 || ((0xD800 <= chr && chr <= 0xDFFF) ||
-		(0XFFFE <= chr && chr <= 0xFFFF))) {
+	/* Reject invalid Unicode characters. */
+	if (*chr_mb_len < 0 || !is_valid_unicode((wchar_t)chr)) {
 	    wctomb(NULL, 0);
 	    *chr_mb_len = 0;
 	}
@@ -886,6 +882,16 @@ bool has_blank_mbchars(const char *s)
 }
 #endif /* ENABLE_NANORC */
 #endif /* !DISABLE_JUSTIFY */
+
+#ifdef ENABLE_UTF8
+/* Return TRUE if wc is valid Unicode (i.e, it's not negative or in the
+ * ranges D800-DFFF or FFFE-FFFF), and FALSE otherwise. */
+bool is_valid_unicode(wchar_t wc)
+{
+    return (0 <= wc && (wc <= 0xD7FF || 0xE000 <= wc) && (wc !=
+	0xFFFE && wc != 0xFFFF));
+}
+#endif
 
 #ifdef ENABLE_NANORC
 /* Check if the string s is a valid multibyte string.  Return TRUE if it

@@ -134,6 +134,10 @@ CVS code -
 	  get_key_buffer(), check_statusblank(), nanogetstr(),
 	  titlebar(), statusbar(), bottombars(), edit_refresh(),
 	  do_yesno(), and do_help(). (DLR)
+	- Treat the Unicode characters D800-DFFF and FFFE-FFFF as
+	  invalid, since the C library's multibyte functions don't seem
+	  to.  New function is_valid_unicode(); changes to mbrep() and
+	  make_mbchar(). (DLR)
 - color.c:
 	- Remove unneeded fcntl.h include. (DLR)
 - chars.c:
@@ -143,13 +147,6 @@ CVS code -
   mbrep()
 	- New function, the equivalent of control_mbrep() for non-control
 	  characters. (DLR)
-	- Treat the Unicode characters D800-DFFF and FFFE-FFFF as
-	  invalid, since the C library's multibyte functions don't seem
-	  to. (DLR)
-  make_mbchar()
-	- Treat the Unicode characters D800-DFFF and FFFE-FFFF as
-	  invalid, since the C library's multibyte functions don't seem
-	  to. (DLR)
   parse_mbchar()
 	- Remove now-unneeded bad_chr parameter. (DLR)
   mbstrchr()
