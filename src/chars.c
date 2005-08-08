@@ -315,12 +315,12 @@ int mb_cur_max(void)
 	1;
 }
 
-/* Convert the value in chr to a multibyte character with the same
- * wide character value as chr, if possible.  If the conversion
+/* Convert the Unicode value in chr to a multibyte character with the
+ * same wide character value as chr, if possible.  If the conversion
  * succeeds, return the (dynamically allocated) multibyte character and
  * its length.  Otherwise, return an undefined (dynamically allocated)
  * multibyte character and a length of zero. */
-char *make_mbchar(int chr, int *chr_mb_len)
+char *make_mbchar(long chr, int *chr_mb_len)
 {
     char *chr_mb;
 

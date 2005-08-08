@@ -159,7 +159,7 @@ char *control_mbrep(const char *c, char *crep, int *crep_len);
 char *mbrep(const char *c, char *crep, int *crep_len);
 int mbwidth(const char *c);
 int mb_cur_max(void);
-char *make_mbchar(int chr, int *chr_mb_len);
+char *make_mbchar(long chr, int *chr_mb_len);
 int parse_mbchar(const char *buf, char *chr, size_t *col);
 size_t move_mbleft(const char *buf, size_t pos);
 size_t move_mbright(const char *buf, size_t pos);
@@ -592,7 +592,7 @@ int get_byte_kbinput(int kbinput
 	, bool reset
 #endif
 	);
-int get_unicode_kbinput(int kbinput
+long get_unicode_kbinput(int kbinput
 #ifndef NANO_SMALL
 	, bool reset
 #endif

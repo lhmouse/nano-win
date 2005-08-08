@@ -568,7 +568,8 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 
 			    /* Put back the multibyte equivalent of the
 			     * byte value. */
-			    byte_mb = make_mbchar(byte, &byte_mb_len);
+			    byte_mb = make_mbchar((long)byte,
+				&byte_mb_len);
 
 			    seq = (int *)nmalloc(byte_mb_len *
 				sizeof(int));
@@ -1232,16 +1233,17 @@ int get_byte_kbinput(int kbinput
 }
 
 /* Translate a Unicode sequence: turn a four-digit hexadecimal number
- * from 0000 to FFFF(case-insensitive) into its corresponding multibyte
+ * from 0000 to FFFF (case-insensitive) into its corresponding multibyte
  * value. */
-int get_unicode_kbinput(int kbinput
+long get_unicode_kbinput(int kbinput
 #ifndef NANO_SMALL
 	, bool reset
 #endif
 	)
 {
-    static int uni_digits = 0, uni = 0;
-    int retval = ERR;
+    static int uni_digits = 0;
+    static long uni = 0;
+    long retval = ERR;
 
 #ifndef NANO_SMALL
     if (reset) {
@@ -1328,7 +1330,7 @@ int get_unicode_kbinput(int kbinput
     }
 
 #ifdef DEBUG
-    fprintf(stderr, "get_unicode_kbinput(): kbinput = %d, uni_digits = %d, uni = %d, retval = %d\n", kbinput, uni_digits, uni, retval);
+    fprintf(stderr, "get_unicode_kbinput(): kbinput = %d, uni_digits = %d, uni = %ld, retval = %ld\n", kbinput, uni_digits, uni, retval);
 #endif
 
     return retval;
@@ -1415,7 +1417,8 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
  * that, leave the input as-is. */ 
 int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 {
-    int *kbinput, uni, *retval;
+    int *kbinput, *retval;
+    long uni;
 
     /* Read in the first keystroke. */
     while ((kbinput = get_input(win, 1)) == NULL);
