@@ -138,9 +138,10 @@ CVS code -
 	  invalid, since the C library's multibyte functions don't seem
 	  to.  New function is_valid_unicode(); changes to mbrep() and
 	  make_mbchar(). (DLR)
-	- Store Unicode values in longs instead of ints.  Changes to
-	  make_mbchar(), parse_kbinput(), get_unicode_kbinput(), and
-	  parse_verbatim_kbinput(). (DLR)
+	- Store Unicode values in longs instead of ints, and cover the
+	  entire range of Unicode.  Changes to make_mbchar(),
+	  is_valid_unicode(), parse_kbinput(), get_unicode_kbinput(),
+	  parse_verbatim_kbinput(), and faq.html. (DLR)
 - color.c:
 	- Remove unneeded fcntl.h include. (DLR)
 - chars.c:

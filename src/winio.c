@@ -1232,9 +1232,9 @@ int get_byte_kbinput(int kbinput
     return retval;
 }
 
-/* Translate a Unicode sequence: turn a four-digit hexadecimal number
- * from 0000 to FFFF (case-insensitive) into its corresponding multibyte
- * value. */
+/* Translate a Unicode sequence: turn a six-digit hexadecimal number
+ * from 000000 to 10FFFF (case-insensitive) into its corresponding
+ * multibyte value. */
 long get_unicode_kbinput(int kbinput
 #ifndef NANO_SMALL
 	, bool reset
@@ -1253,15 +1253,41 @@ long get_unicode_kbinput(int kbinput
     }
 #endif
 
-    /* Increment the word digit counter. */
+    /* Increment the Unicode digit counter. */
     uni_digits++;
 
     switch (uni_digits) {
 	case 1:
 	    /* One digit: reset the Unicode sequence holder and add the
-	     * digit we got to the 0x1000's position of the Unicode
+	     * digit we got to the 0x100000's position of the Unicode
 	     * sequence holder. */
 	    uni = 0;
+	    if ('0' <= kbinput && kbinput <= '1')
+		uni += (kbinput - '0') * 0x100000;
+	    else
+		/* If the character we got isn't a hexadecimal digit, or
+		 * if it is and it would put the Unicode sequence out of
+		 * valid range, save it as the result. */
+		retval = kbinput;
+	    break;
+	case 2:
+	    /* Two digits: add the digit we got to the 0x10000's
+	     * position of the Unicode sequence holder. */
+	    if ('0' == kbinput || (uni < 0x100000 && '1' <= kbinput &&
+		kbinput <= '9'))
+		uni += (kbinput - '0') * 0x10000;
+	    else if (uni < 0x100000 && 'a' <= tolower(kbinput) &&
+		tolower(kbinput) <= 'f')
+		uni += (tolower(kbinput) + 10 - 'a') * 0x10000;
+	    else
+		/* If the character we got isn't a hexadecimal digit, or
+		 * if it is and it would put the Unicode sequence out of
+		 * valid range, save it as the result. */
+		retval = kbinput;
+	    break;
+	case 3:
+	    /* Three digits: add the digit we got to the 0x1000's
+	     * position of the Unicode sequence holder. */
 	    if ('0' <= kbinput && kbinput <= '9')
 		uni += (kbinput - '0') * 0x1000;
 	    else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
@@ -1272,8 +1298,8 @@ long get_unicode_kbinput(int kbinput
 		 * valid range, save it as the result. */
 		retval = kbinput;
 	    break;
-	case 2:
-	    /* Two digits: add the digit we got to the 0x100's position
+	case 4:
+	    /* Four digits: add the digit we got to the 0x100's position
 	     * of the Unicode sequence holder. */
 	    if ('0' <= kbinput && kbinput <= '9')
 		uni += (kbinput - '0') * 0x100;
@@ -1285,8 +1311,8 @@ long get_unicode_kbinput(int kbinput
 		 * valid range, save it as the result. */
 		retval = kbinput;
 	    break;
-	case 3:
-	    /* Three digits: add the digit we got to the 0x10's position
+	case 5:
+	    /* Five digits: add the digit we got to the 0x10's position
 	     * of the Unicode sequence holder. */
 	    if ('0' <= kbinput && kbinput <= '9')
 		uni += (kbinput - '0') * 0x10;
@@ -1298,8 +1324,8 @@ long get_unicode_kbinput(int kbinput
 		 * valid range, save it as the result. */
 		retval = kbinput;
 	    break;
-	case 4:
-	    /* Four digits: add the digit we got to the 1's position of
+	case 6:
+	    /* Six digits: add the digit we got to the 1's position of
 	     * the Unicode sequence holder, and save the corresponding
 	     * Unicode value as the result. */
 	    if ('0' <= kbinput && kbinput <= '9') {
@@ -1316,14 +1342,14 @@ long get_unicode_kbinput(int kbinput
 		retval = kbinput;
 	    break;
 	default:
-	    /* More than four digits: save the character we got as the
+	    /* More than six digits: save the character we got as the
 	     * result. */
 	    retval = kbinput;
 	    break;
     }
 
-    /* If we have a result, reset the word digit counter and the word
-     * sequence holder. */
+    /* If we have a result, reset the Unicode digit counter and the
+     * Unicode sequence holder. */
     if (retval != ERR) {
 	uni_digits = 0;
 	uni = 0;

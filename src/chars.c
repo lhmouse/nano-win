@@ -888,8 +888,8 @@ bool has_blank_mbchars(const char *s)
  * ranges D800-DFFF or FFFE-FFFF), and FALSE otherwise. */
 bool is_valid_unicode(wchar_t wc)
 {
-    return (0 <= wc && (wc <= 0xD7FF || 0xE000 <= wc) && (wc !=
-	0xFFFE && wc != 0xFFFF));
+    return (0 <= wc && (wc <= 0xD7FF || 0xE000 <= wc) && (wc <=
+	0xFFFD || 0x10000 <= wc));
 }
 #endif
 

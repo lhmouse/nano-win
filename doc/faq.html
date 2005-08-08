@@ -167,7 +167,7 @@
   <p>You can move between the buffers you have open with the <b>Meta-&lt;</b> and <b>Meta-&gt;</b> keys, or more easily with <b>Meta-,</b> and <b>Meta-.</b> (clear as mud, right? =-). When you have more than one file buffer open, the ^X shortcut will say &quot;Close&quot;, instead of the normal &quot;Exit&quot; when only one buffer is open.</p></blockquote>
 <h2><a name="3.8"></a>3.8. Tell me more about this verbatim input stuff!</h2>
 <blockquote><p>To use verbatim input, you must be using nano 1.3.1 or newer. When you want to insert a literal character into the file you're editing, such as a control character that nano usually treats as a command, first press <b>Meta-V</b>. (If you're not at a prompt, you'll get the message &quot;Verbatim Input&quot;.) Then press the key(s) that generate the character you want.</p>
-  <p>Alternatively, you can press <b>Meta-V</b> and then type a four-digit hexadecimal code from 0000 to ffff (case-insensitive), and the character with the corresponding value will be inserted instead.</p></blockquote>
+  <p>Alternatively, you can press <b>Meta-V</b> and then type a six-digit hexadecimal code from 000000 to 10FFFF (case-insensitive), and the character with the corresponding value will be inserted instead.</p></blockquote>
 <h2><a name="3.9"></a>3.9. How do I make a .nanorc file that nano will read when I start it?</h2>
 <blockquote><p>It's not hard at all! But, your version of nano must have been compiled with <b>--enable-nanorc</b>, and again must be version 1.1.12 or newer (use nano -V to check your version and compiled features). Then simply copy the <b>nanorc.sample</b> that came with the nano source or your nano package (most likely in /usr/doc/nano) to .nanorc in your home directory. If you didn't get one, the syntax is simple. Flags are turned on and off by using the word <b>set</b> and the getopt_long flag for the feature, for example &quot;set nowrap&quot; or &quot;set suspend&quot;.</p></blockquote>
 <hr width="100%">
@@ -250,6 +250,7 @@
 <h2><a name="8"></a>8. ChangeLog</h2>
 <blockquote>
 <p>
+2005/08/08 - Update section 3.8 to mention that verbatim input mode now takes a six-digit hexadecimal number. (DLR)<br>
 2005/07/04 - Update section 4.10 to mention that pasting from the X clipboard via the middle mouse button also works when the Shift key is used.<br>
 2005/06/15 - Update description of --enable-extra, and add missing line breaks. (DLR)<br>
 2005/06/13 - Minor capitalization and wording fixes. (DLR)<br>
