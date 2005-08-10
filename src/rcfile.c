@@ -88,6 +88,7 @@ const static rcoption rcopts[] = {
     {"smooth", SMOOTH_SCROLL},
     {"tabstospaces", TABS_TO_SPACES},
     {"whitespace", 0},
+    {"wordbounds", WORD_BOUNDS},
 #endif
     {NULL, 0}
 };

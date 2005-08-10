@@ -313,7 +313,8 @@ typedef struct rcoption {
 #define MORE_SPACE		(1<<26)
 #define TABS_TO_SPACES		(1<<27)
 #define QUICK_BLANK		(1<<28)
-#define USE_UTF8		(1<<29)
+#define WORD_BOUNDS		(1<<29)
+#define USE_UTF8		(1<<30)
 
 /* Control key sequences.  Changing these would be very, very bad. */
 #define NANO_CONTROL_SPACE 0

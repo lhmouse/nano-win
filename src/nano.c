@@ -1077,6 +1077,10 @@ void usage(void)
 #endif
     print1opt("-V", "--version",
 	N_("Print version information and exit"));
+#ifndef NANO_SMALL
+    print1opt("-W", "--wordbounds",
+	N_("Detect word boundaries more accurately"));
+#endif
 #ifdef ENABLE_COLOR
     print1opt(_("-Y [str]"), _("--syntax=[str]"),
 	N_("Syntax definition to use"));
@@ -1918,6 +1922,7 @@ int main(int argc, char **argv)
 	{"noconvert", 0, NULL, 'N'},
 	{"smooth", 0, NULL, 'S'},
 	{"quickblank", 0, NULL, 'U'},
+	{"wordbounds", 0, NULL, 'W'},
 	{"autoindent", 0, NULL, 'i'},
 	{"cut", 0, NULL, 'k'},
 #endif
@@ -1958,11 +1963,11 @@ int main(int argc, char **argv)
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
 	getopt_long(argc, argv,
-		"h?ABC:EFHIKNOQ:RST:UVY:abcdefgijklmo:pr:s:tvwxz",
+		"h?ABC:EFHIKNOQ:RST:UVWY:abcdefgijklmo:pr:s:tvwxz",
 		long_options, NULL)
 #else
 	getopt(argc, argv,
-		"h?ABC:EFHIKNOQ:RST:UVY:abcdefgijklmo:pr:s:tvwxz")
+		"h?ABC:EFHIKNOQ:RST:UVWY:abcdefgijklmo:pr:s:tvwxz")
 #endif
 		) != -1) {
 	switch (optchr) {
@@ -2042,6 +2047,11 @@ int main(int argc, char **argv)
 	    case 'V':
 		version();
 		exit(0);
+#ifndef NANO_SMALL
+	    case 'W':
+		SET(WORD_BOUNDS);
+		break;
+#endif
 #ifdef ENABLE_COLOR
 	    case 'Y':
 		syntaxstr = mallocstrcpy(syntaxstr, optarg);

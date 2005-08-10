@@ -297,7 +297,7 @@ bool do_next_word(bool allow_punct, bool allow_update)
 
 void do_next_word_void(void)
 {
-    do_next_word(FALSE, TRUE);
+    do_next_word(ISSET(WORD_BOUNDS), TRUE);
 }
 
 /* Move to the previous word in the current filestruct.  If allow_punct
@@ -428,7 +428,7 @@ bool do_prev_word(bool allow_punct, bool allow_update)
 
 void do_prev_word_void(void)
 {
-    do_prev_word(FALSE, TRUE);
+    do_prev_word(ISSET(WORD_BOUNDS), TRUE);
 }
 #endif /* !NANO_SMALL */
 
