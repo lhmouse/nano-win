@@ -193,6 +193,7 @@ CVS code -
   usage()
 	- Properly mention the support for "[+LINE,COLUMN]" on the
 	  command line when HAVE_GETOPT_LONG isn't defined. (DLR)
+	- Remove unneeded translation of "--quickblank". (DLR)
   do_verbatim_input()
 	- If constant cursor position display is on, make sure the
 	  cursor position is displayed properly when we finish. (DLR)

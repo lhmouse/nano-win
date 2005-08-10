@@ -1073,8 +1073,7 @@ void usage(void)
     print1opt(_("-T [#cols]"), _("--tabsize=[#cols]"),
 	N_("Set width of a tab in cols to #cols"));
 #ifndef NANO_SMALL
-    print1opt("-U", _("--quickblank"),
-	N_("Do quick statusbar blanking"));
+    print1opt("-U", "--quickblank", N_("Do quick statusbar blanking"));
 #endif
     print1opt("-V", "--version",
 	N_("Print version information and exit"));
