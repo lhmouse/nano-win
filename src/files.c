@@ -449,7 +449,7 @@ void read_file(FILE *f, const char *filename)
     if (fileptr == NULL)
 	open_buffer("");
 
-    /* Did we try to insert a file of 0 bytes? */
+    /* Did we try to insert a file of zero bytes? */
     if (num_lines != 0) {
 	if (openfile->current != NULL) {
 	    fileptr->next = openfile->current;

@@ -265,7 +265,13 @@ CVS code -
 	  where it's used. (DLR)
   do_find_bracket()
 	- Add comments and minor cleanups. (DLR)
-  find_history(), get_history_completion()
+  find_history()
+	- Make parameters const where possible. (DLR)
+  update_history()
+	- Don't renumber the history list starting after the entry we
+	  found if the entry we found is at the bottom of the list.
+	  (DLR, found by Simon Strandman)
+  get_history_completion()
 	- Make parameters const where possible. (DLR)
 - text.c:
   do_word_count()

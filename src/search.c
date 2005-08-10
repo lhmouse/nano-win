@@ -1211,11 +1211,13 @@ void update_history(filestruct **h, const char *s)
 	bar = p->next;
 	unlink_node(foo);
 	delete_node(foo);
-	renumber(bar);
+	if (bar != NULL)
+	    renumber(bar);
     }
 
     /* If the history is full, delete the beginning entry to make room
-     * for the new entry at the end. */
+     * for the new entry at the end.  We assume that MAX_SEARCH_HISTORY
+     * is greater than zero. */
     if ((*hbot)->lineno == MAX_SEARCH_HISTORY + 1) {
 	filestruct *foo = *hage;
 
