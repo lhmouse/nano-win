@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.3.8
-@set UPDATED 27 Jun 2005
+@set UPDATED 10 Aug 2005
 
 @dircategory Editors
 @direntry
@@ -138,6 +138,11 @@ Enable multiple file buffers, if available.
 Don't look at SYSCONFDIR/nanorc or ~/.nanorc, if nanorc support is
 available.
 
+@item -K, --rebindkeypad
+Interpret the numeric keypad keys so that they all work properly.  You
+should only need to use this option if they don't, as mouse support
+won't work properly with this option enabled.
+
 @item -N, --noconvert
 Do not convert files from DOS/Mac format.
 
@@ -171,6 +176,10 @@ keystroke instead of 25.  Note that -c cancels this out.
 
 @item -V, --version
 Print the version number and copyright and quit.
+
+@item -W, --wordbounds
+Detect word boundaries more accurately by treating punctuation
+characters as part of a word.
 
 @item -Y, --syntax=[str]
 Specify a specific syntax highlighting from the .nanorc to use, if
