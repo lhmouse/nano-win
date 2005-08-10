@@ -2059,6 +2059,8 @@ void do_spell(void)
 #endif /* !DISABLE_SPELLER */
 
 #ifndef NANO_SMALL
+/* Our own version of "wc".  Note that its character counts are in
+ * multibyte characters instead of single-byte characters. */
 void do_wordlinechar_count(void)
 {
     size_t words = 0, chars = 0;

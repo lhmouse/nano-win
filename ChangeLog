@@ -147,13 +147,13 @@ CVS code -
 	  --rebindkeypad, clarify its description on the command line,
 	  and add an updated FAQ entry about its use.  Changes to
 	  window_init(), usage(), main(), get_verbatim_kbinput(),
-	  nanorc.sample, and faq.html. (DLR)
+	  nanorc.sample, nano.1, nanorc.5, and faq.html. (DLR)
 	- Add new -W/--wordbounds command line option, and new
 	  "wordbounds" rcfile option, to control whether
 	  the word movement functions treat punctuation characters as
 	  part of a word.  Changes to do_next_word_void(),
-	  do_prev_word_void(), usage(), main(), and nanorc.sample. (DLR,
-	  suggested by Mike Frysinger)
+	  do_prev_word_void(), usage(), main(), nano.1, nanorc.5, and
+	  nanorc.sample. (DLR, suggested by Mike Frysinger)
 - color.c:
 	- Remove unneeded fcntl.h include. (DLR)
 - chars.c:
