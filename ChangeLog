@@ -144,9 +144,10 @@ CVS code -
 	  parse_verbatim_kbinput(), and faq.html. (DLR)
 	- Readd the option to turn the keypad off by default from nano
 	  1.2.x, but rename the long option from --keypad to
-	  --rebindkeypad, and clarify its description on the command
-	  line.  Changes to window_init(), usage(), main(),
-	  get_verbatim_kbinput(), nanorc.sample, and faq.html. (DLR)
+	  --rebindkeypad, clarify its description on the command line,
+	  and add an updated FAQ entry about its use.  Changes to
+	  window_init(), usage(), main(), get_verbatim_kbinput(),
+	  nanorc.sample, and faq.html. (DLR)
 - color.c:
 	- Remove unneeded fcntl.h include. (DLR)
 - chars.c:
