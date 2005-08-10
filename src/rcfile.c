@@ -63,6 +63,7 @@ const static rcoption rcopts[] = {
     {"quotestr", 0},
 #endif
     {"rebinddelete", REBIND_DELETE},
+    {"rebindkeypad", REBIND_KEYPAD},
 #ifdef HAVE_REGEX_H
     {"regexp", USE_REGEXP},
 #endif

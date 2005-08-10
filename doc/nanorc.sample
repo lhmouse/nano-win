@@ -103,6 +103,9 @@
 ## Fix Backspace/Delete confusion problem.
 # set rebinddelete
 
+## Fix numeric keypad key confusion problem.
+# set rebindkeypad
+
 ## Do extended regular expression searches by default.
 # set regexp
 
@@ -321,7 +324,7 @@
 ## highlight possible errors and parameters
 # icolor brightwhite "^[[:space:]]*(set|unset|syntax|i?color).*$"
 ## set, unset and syntax
-# icolor cyan "^[[:space:]]*(set|unset)[[:space:]]+(autoindent|backup|backupdir|backwards|brackets|casesensitive|const|cut|fill|historylog|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|punct|quickblank|quotestr|rebinddelete)\>" "^[[:space:]]*(set|unset)[[:space:]]+(regexp|smarthome|smooth|speller|suspend|tabsize|tabstospaces|tempfile|view|whitespace)\>"
+# icolor cyan "^[[:space:]]*(set|unset)[[:space:]]+(autoindent|backup|backupdir|backwards|brackets|casesensitive|const|cut|fill|historylog|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|punct|quickblank|quotestr|rebinddelete)\>" "^[[:space:]]*(set|unset)[[:space:]]+(rebindkeypad|regexp|smarthome|smooth|speller|suspend|tabsize|tabstospaces|tempfile|view|whitespace)\>"
 # icolor green "^[[:space:]]*(set|unset|syntax)\>"
 ## colors
 # icolor yellow "^[[:space:]]*i?color[[:space:]]*(bright)?(white|black|red|blue|green|yellow|magenta|cyan)?(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"

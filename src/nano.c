@@ -648,9 +648,12 @@ void window_init(void)
     bottomwin = newwin(3 - no_help(), COLS, editwinrows + (2 -
 	no_more_space()), 0);
 
-    /* Turn the keypad on for the windows that get input. */
-    keypad(edit, TRUE);
-    keypad(bottomwin, TRUE);
+    /* Turn the keypad on for the windows that get input, if
+     * necessary. */
+    if (!ISSET(REBIND_KEYPAD)) {
+	keypad(edit, TRUE);
+	keypad(bottomwin, TRUE);
+    }
 }
 
 #ifndef DISABLE_MOUSE
@@ -1052,6 +1055,8 @@ void usage(void)
     print1opt("-I", "--ignorercfiles",
 	N_("Don't look at nanorc files"));
 #endif
+    print1opt("-K", "--rebindkeypad",
+	N_("Fix numeric keypad key confusion problem"));
 #ifndef NANO_SMALL
     print1opt("-N", "--noconvert",
 	N_("Don't convert files from DOS/Mac format"));
@@ -1871,6 +1876,7 @@ int main(int argc, char **argv)
 #ifdef ENABLE_NANORC
 	{"ignorercfiles", 0, NULL, 'I'},
 #endif
+	{"rebindkeypad", 0, NULL, 'K'},
 	{"morespace", 0, NULL, 'O'},
 #ifndef DISABLE_JUSTIFY
 	{"quotestr", 1, NULL, 'Q'},
@@ -1953,11 +1959,11 @@ int main(int argc, char **argv)
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
 	getopt_long(argc, argv,
-		"h?ABC:EFHINOQ:RST:UVY:abcdefgijklmo:pr:s:tvwxz",
+		"h?ABC:EFHIKNOQ:RST:UVY:abcdefgijklmo:pr:s:tvwxz",
 		long_options, NULL)
 #else
 	getopt(argc, argv,
-		"h?ABC:EFHINOQ:RST:UVY:abcdefgijklmo:pr:s:tvwxz")
+		"h?ABC:EFHIKNOQ:RST:UVY:abcdefgijklmo:pr:s:tvwxz")
 #endif
 		) != -1) {
 	switch (optchr) {
@@ -1998,6 +2004,9 @@ int main(int argc, char **argv)
 		SET(NO_RCFILE);
 		break;
 #endif
+	    case 'K':
+		SET(REBIND_KEYPAD);
+		break;
 #ifndef NANO_SMALL
 	    case 'N':
 		SET(NO_CONVERT);

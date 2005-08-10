@@ -1419,20 +1419,22 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     int *retval;
 
     /* Turn off flow control characters if necessary so that we can type
-     * them in verbatim, and turn the keypad off so that we don't get
-     * extended keypad values. */
+     * them in verbatim, and turn the keypad off if necessary so that we
+     * don't get extended keypad values. */
     if (ISSET(PRESERVE))
 	disable_flow_control();
-    keypad(win, FALSE);
+    if (!ISSET(REBIND_KEYPAD))
+	keypad(win, FALSE);
 
     /* Read in a stream of characters and interpret it if possible. */
     retval = parse_verbatim_kbinput(win, kbinput_len);
 
     /* Turn flow control characters back on if necessary and turn the
-     * keypad back on now that we're done. */
+     * keypad back on if necessary now that we're done. */
     if (ISSET(PRESERVE))
 	enable_flow_control();
-    keypad(win, TRUE);
+    if (!ISSET(REBIND_KEYPAD))
+	keypad(win, TRUE);
 
     return retval;
 }
