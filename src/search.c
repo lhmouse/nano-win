@@ -1324,5 +1324,5 @@ char *get_history_completion(filestruct **h, const char *s, size_t len)
      * match, or len is 0.  Return s. */
     return (char *)s;
 }
-#endif
+#endif /* !DISABLE_TABCOMP */
 #endif /* !NANO_SMALL */
