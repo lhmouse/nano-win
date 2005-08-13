@@ -139,7 +139,7 @@ bool is_cntrl_mbchar(const char *c)
 
 	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
 	    mbtowc(NULL, NULL, 0);
-	    wc = (unsigned char)*c;
+	    wc = bad_wchar;
 	}
 
 	return is_cntrl_wchar(wc);

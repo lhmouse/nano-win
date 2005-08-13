@@ -89,9 +89,8 @@ CVS code -
 	  history_reset(); changes to nanogetstr(). (DLR)
 	- Various character-handling cleanups.  If we get an invalid
 	  multibyte sequence, treat it as Unicode FFFD (Replacement
-	  Character), unless we're determining if it's a control
-	  character or searching for a match to it.  Also, remove
-	  unneeded variables and checks when parsing multibyte
+	  Character), unless we're searching for a match to it.  Also,
+	  remove unneeded variables and checks when parsing multibyte
 	  sequences.  Changes to is_alnum_mbchar(), is_blank_mbchar(),
 	  is_cntrl_mbchar(), is_punct_mbchar(), control_mbrep(),
 	  mbwidth(), make_mbchar(), parse_mbchar(), mbstrncasecmp(),
