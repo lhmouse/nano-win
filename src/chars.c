@@ -109,7 +109,7 @@ bool is_blank_mbchar(const char *c)
 }
 
 /* This function is equivalent to iscntrl(), except in that it also
- * handles control characters with their high bits set. */
+ * handles high-bit control characters. */
 bool is_cntrl_char(int c)
 {
     return (-128 <= c && c < -96) || (0 <= c && c < 32) ||

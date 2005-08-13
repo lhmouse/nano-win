@@ -247,8 +247,8 @@ CVS code -
 - nano.h:
 	- Since we only use vsnprintf() now, remove the #ifdef block for
 	  HAVE_SNPRINTF. (DLR)
-	- Remove TOP from the topmidnone enum, and rename it centernone.
-	  (DLR)
+	- Remove TOP from the topmidnone enum, and rename the latter
+	  centernone. (DLR)
 	- Move stdlib.h, dirent.h, regex.h, and assert.h includes here,
 	  as every source file needs them. (DLR)
 	- Rename the updown enum scroll_dir and the centernone enum
