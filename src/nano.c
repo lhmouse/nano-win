@@ -648,9 +648,9 @@ void window_init(void)
     bottomwin = newwin(3 - no_help(), COLS, editwinrows + (2 -
 	no_more_space()), 0);
 
-    /* Turn the keypad on for the windows that get input, if
-     * necessary. */
+    /* Turn the keypad on for the windows, if necessary. */
     if (!ISSET(REBIND_KEYPAD)) {
+	keypad(topwin, TRUE);
 	keypad(edit, TRUE);
 	keypad(bottomwin, TRUE);
     }

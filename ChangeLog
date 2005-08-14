@@ -118,10 +118,11 @@ CVS code -
 	  new_magicline(), remove_magicline(), and do_cursorpos(). (DLR)
 	- Various fill-related cleanups.  Move check_die_too_small() and
 	  window_size_init()'s code into window_init(), as they really
-	  belong there, remove associated separate calls to them, and
-	  make sure window_init() is always called at the same time when
-	  redrawing the screen.  Changes to window_init(), main(), and
-	  do_alt_speller(); removal of check_die_too_small() and
+	  belong there, remove associated separate calls to them, make
+	  sure window_init() is always called at the same time when
+	  redrawing the screen, and turn the keypad on in topwin in case
+	  we ever read input from it.  Changes to window_init(), main(),
+	  and do_alt_speller(); removal of check_die_too_small() and
 	  window_size_init(). (DLR)
 	- Remove still more redundant screen updates.  Change all
 	  wrefresh() calls to wnoutrefresh() calls, except for those in
@@ -322,6 +323,12 @@ CVS code -
 	  that there's more room for other things, and to not display
 	  the status when we're in the file browser, since Pico doesn't.
 	  (DLR)
+  do_credits()
+	- Various cleanups.  Turn on the MORE_SPACE and NO_HELP flags
+	  before showing the credits, so that they use as much of the
+	  screen as possible, and set the flags back to their original
+	  values afterward.  Also, only call scrollok() just before and
+	  after we scroll. (DLR)
 - configure.ac:
 	- Since we only use vsnprintf() now, remove the tests for
 	  snprintf(). (DLR)

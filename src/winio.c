@@ -4185,6 +4185,8 @@ void dump_filestruct_reverse(void)
 /* Easter egg: Display credits.  Assume nodelay(edit) is FALSE. */
 void do_credits(void)
 {
+    bool old_more_space = ISSET(MORE_SPACE);
+    bool old_no_help = ISSET(NO_HELP);
     int kbinput = ERR, crpos = 0, xlpos = 0;
     const char *credits[CREDIT_LEN] = {
 	NULL,				/* "The nano text editor" */
@@ -4262,9 +4264,15 @@ void do_credits(void)
 #endif
 	"Florian K\xF6nig";
 
+    if (!old_more_space || !old_no_help) {
+	SET(MORE_SPACE);
+	SET(NO_HELP);
+	window_init();
+    }
+
     curs_set(0);
     nodelay(edit, TRUE);
-    scrollok(edit, TRUE);
+
     blank_titlebar();
     blank_topbar();
     blank_edit();
@@ -4296,21 +4304,31 @@ void do_credits(void)
 	}
 
 	napms(700);
+	scrollok(edit, TRUE);
 	scroll(edit);
+	scrollok(edit, FALSE);
 	wrefresh(edit);
 	if ((kbinput = wgetch(edit)) != ERR)
 	    break;
 	napms(700);
+	scrollok(edit, TRUE);
 	scroll(edit);
+	scrollok(edit, FALSE);
 	wrefresh(edit);
     }
 
     if (kbinput != ERR)
 	ungetch(kbinput);
 
+    if (!old_more_space || !old_no_help) {
+	UNSET(MORE_SPACE);
+	UNSET(NO_HELP);
+	window_init();
+    }
+
     curs_set(1);
-    scrollok(edit, FALSE);
     nodelay(edit, FALSE);
+
     total_refresh();
 }
 #endif
