@@ -229,6 +229,8 @@ CVS code -
 	  is running, so that it can handle them, and unblock them once
 	  it's finished and we've loaded the spell-checked file back in.
 	  (DLR)
+	- Use doupdate() to reenter curses mode instead of refresh().
+	  (DLR)
   do_spell()
 	- When displaying an error message from do_(int|alt)_speller(),
 	  don't display the error message corresponding to errno if
@@ -236,6 +238,9 @@ CVS code -
   do_justify()
 	- If constant cursor position display is on, make sure the
 	  cursor position is displayed properly when we finish. (DLR)
+  handle_sigwinch()
+	- Use doupdate() to reenter curses mode instead of refresh().
+	  (DLR)
   allow_pending_sigwinch()
 	- Simplify by using the "?" operator instead of an if clause.
 	  (DLR)

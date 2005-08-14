@@ -1894,7 +1894,8 @@ const char *do_alt_speller(char *tempfile_name)
     /* Wait for the alternate spell checker to finish. */
     wait(&alt_spell_status);
 
-    refresh();
+    /* Reenter curses mode. */
+    doupdate();
 
     /* Restore the terminal to its previous state. */
     terminal_init();

@@ -1333,11 +1333,11 @@ void do_suspend(int signal)
 void do_cont(int signal)
 {
 #ifndef NANO_SMALL
-    /* Perhaps the user resized the window while we slept.  Handle it
+    /* Perhaps the user resized the window while we slept.  Handle it,
      * and update the screen in the process. */
     handle_sigwinch(0);
 #else
-    /* Just update the screen. */
+    /* Reenter curses mode, and update the screen in the process. */
     doupdate();
 #endif
 }
@@ -1391,7 +1391,7 @@ void handle_sigwinch(int s)
     /* Do the equivalent of what Minimum Profit does: Leave and
      * immediately reenter curses mode. */
     endwin();
-    refresh();
+    doupdate();
 #endif
 
     /* Restore the terminal to its previous state. */
