@@ -4278,9 +4278,11 @@ void do_credits(void)
     blank_edit();
     blank_statusbar();
     blank_bottombars();
+
     wrefresh(topwin);
     wrefresh(edit);
     wrefresh(bottomwin);
+    napms(700);
 
     for (crpos = 0; crpos < CREDIT_LEN + editwinrows / 2; crpos++) {
 	if ((kbinput = wgetch(edit)) != ERR)
@@ -4303,16 +4305,23 @@ void do_credits(void)
 		start_x, what);
 	}
 
-	napms(700);
-	scrollok(edit, TRUE);
-	scroll(edit);
-	scrollok(edit, FALSE);
 	wrefresh(edit);
+
 	if ((kbinput = wgetch(edit)) != ERR)
 	    break;
 	napms(700);
+
 	scrollok(edit, TRUE);
-	scroll(edit);
+	wscrl(edit, 1);
+	scrollok(edit, FALSE);
+	wrefresh(edit);
+
+	if ((kbinput = wgetch(edit)) != ERR)
+	    break;
+	napms(700);
+
+	scrollok(edit, TRUE);
+	wscrl(edit, 1);
 	scrollok(edit, FALSE);
 	wrefresh(edit);
     }

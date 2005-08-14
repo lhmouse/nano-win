@@ -332,8 +332,11 @@ CVS code -
 	- Various cleanups.  Turn on the MORE_SPACE and NO_HELP flags
 	  before showing the credits, so that they use as much of the
 	  screen as possible, and set the flags back to their original
-	  values afterward.  Also, only call scrollok() just before and
-	  after we scroll. (DLR)
+	  values afterward.  Also, call wscrl(1) instead of scroll(),
+	  only call scrollok() just before and after we scroll, and
+	  tweak where screen updates occur so that messages are properly
+	  displayed when they first scroll onto the bottom line of the
+	  screen. (DLR)
 - configure.ac:
 	- Since we only use vsnprintf() now, remove the tests for
 	  snprintf(). (DLR)
