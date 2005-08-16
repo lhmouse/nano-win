@@ -4183,7 +4183,8 @@ void dump_filestruct_reverse(void)
 #define CREDIT_LEN 53
 #define XLCREDIT_LEN 8
 
-/* Easter egg: Display credits.  Assume nodelay(edit) is FALSE. */
+/* Easter egg: Display credits.  Assume nodelay(edit) and scrollok(edit)
+ * are FALSE. */
 void do_credits(void)
 {
     bool old_more_space = ISSET(MORE_SPACE);
