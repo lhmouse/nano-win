@@ -3560,12 +3560,11 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
     /* Part 2: nlines is the number of lines in the scrolled region of
      * the edit window that we need to draw. */
 
-    /* If we couldn't scroll up or down all nlines lines, and we're now
-     * at the top or bottom of the file, we need to draw the entire edit
-     * window. */
-    if (i > 0 && ((direction == UP && openfile->edittop ==
-	openfile->fileage) || (direction == DOWN && openfile->current ==
-	openfile->filebot)))
+    /* If the top or bottom line of the file is now visible in the edit
+     * window, we need to draw the entire edit window. */
+    if ((direction == UP && openfile->edittop == openfile->fileage) ||
+	(direction == DOWN && openfile->edittop->lineno + editwinrows -
+	1 >= openfile->filebot->lineno))
 	nlines = editwinrows;
 
     /* If the scrolled region contains only one line, and the line
