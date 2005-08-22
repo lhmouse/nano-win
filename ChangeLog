@@ -356,6 +356,8 @@ CVS code -
 	- Updated translation by Jean-Philippe Guérard.
 - src/Makefile.am:
 	- Add text.c to nano_SOURCES. (DLR)
+- THANKS:
+	- Add Bulgarian and Dutch translators.
 
 GNU nano 1.3.8 - 2005.06.30
 - General:
