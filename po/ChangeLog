@@ -1,3 +1,10 @@
+2006-08-22  Jordi Mallach  <jordi@gnu.org>
+
+	* bg.po: New Bulgarian translation by
+	Yavor Doganov <yavor@doganov.org>.
+
+	* LINGUAS: Added "bg".
+
 2005-08-16  Jordi Mallach  <jordi@gnu.org>
 
 	* ca.po: Updated Catalan translation.
