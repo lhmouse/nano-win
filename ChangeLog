@@ -353,7 +353,7 @@ CVS code -
 - doc/man/nanorc.5:
 	- Explain how the "none" and "default" syntaxes work. (DLR)
 - doc/man/fr/nano.1, doc/man/fr/nanorc.5:
-	- Updated translation by Jean-Philippe Gérard.
+	- Updated translation by Jean-Philippe GuÃ©rard.
 - src/Makefile.am:
 	- Add text.c to nano_SOURCES. (DLR)
 
@@ -486,7 +486,7 @@ GNU nano 1.3.8 - 2005.06.30
 	  totlines a size_t, and change related variables to match.
 	  (DLR, initial problem with parse_line_column() found by Mike
 	  Frysinger)
-	- Rework the credits handling to display Florian König's name
+	- Rework the credits handling to display Florian KÃ¶nig's name
 	  properly whether we're in a UTF-8 locale or not, and without
 	  requiring a massive function that we only use once.  Changes
 	  to do_credits(); removal of make_valid_mbstring(). (DLR)
@@ -1497,7 +1497,7 @@ GNU nano 1.3.5 - 2004.11.22
 	  to" messages on the statusbar. (DLR)
   input_tab()
 	- Fix snprintf() call so that we don't segfault when trying to
-	  complete a filename containing %'s. (Ulf Härnhammar)
+	  complete a filename containing %'s. (Ulf HÃ¤rnhammar)
 - global.c:
   shortcut_init()
 	- Remove redundant NANO_SMALL #ifdef. (DLR)
@@ -1711,7 +1711,7 @@ GNU nano 1.3.5 - 2004.11.22
 	  option makes aspell not create backup files, and this is
 	  consistent with the internal spell checker's behavior. (DLR)
 - doc/man/fr/nano.1, doc/man/fr/nanorc.1:
-	- Updated manpage translations by Jean-Philippe Guérard.
+	- Updated manpage translations by Jean-Philippe GuÃ©rard.
 - README.CVS:
 	- Mention the requirement for glib 2.x on systems lacking
 	  v?snprintf(), and add minor formatting changes.
@@ -2835,7 +2835,7 @@ GNU nano 1.3.1 - 2004.01.09
   do_writeout()
 	- Prompt the user if we're trying to save an existing file (and
 	  not just a selection of it) under a different name. (DLR;
-	  suggested by Jean-Philippe Guérard)
+	  suggested by Jean-Philippe GuÃ©rard)
 	- Overhaul the code used to write a selection of a file to
 	  temporarily set fileage and filebot to the top and bottom of
 	  the selection and then call write_file(), instead of following
@@ -3123,7 +3123,7 @@ GNU nano 1.3.0 - 2003.10.22
 	  interpreted as Ctrl-[character], and the support for Pico's
 	  Esc Esc [three-digit decimal ASCII code] input method, if
 	  applicable. (DLR)
-	- French translation by Jean-Philippe Guérard.
+	- French translation by Jean-Philippe GuÃ©rard.
 - nano.1.html, nanorc.5.html:
 	- Regenerated. (DLR)
 - nanorc.sample:
@@ -3190,7 +3190,7 @@ GNU nano 1.2.2 - 2003.08.11
 	  comments) added by DLR.
 - THANKS:
 	- Added Laurentiu Buzdugan, for Romanian.
-	- Added Geir Helland, for Norwegian Bokmål.
+	- Added Geir Helland, for Norwegian BokmÃ¥l.
 - TODO:
 	- Move the items for nano 1.2 to the "Old Requests" section,
 	  and mark color syntax highlighting as done. (David Benbennick)
@@ -3198,7 +3198,7 @@ GNU nano 1.2.2 - 2003.08.11
 	- Added question about nano's not showing color when it's
 	  compiled with color support. (DLR; suggested by Jordi)
 - nano.1, nanorc.5:
-	- Formatting improvements by Jean-Philippe Guérard.
+	- Formatting improvements by Jean-Philippe GuÃ©rard.
 	- Minor fixes by DLR.
 - nano.1.html, nanorc.5.html:
 	- Regenerated from nano.1 and nanorc.5. (DLR)
@@ -4389,7 +4389,7 @@ GNU nano 1.1.9 - 05/12/2002
 - po/de.po:
 	- German translation updates (Michael Piefel).
 - po/fr.po:
-	- French translation updates (Jean-Philippe Guérard).
+	- French translation updates (Jean-Philippe GuÃ©rard).
 - po/ca.po, po/es.po:
 	- Catalan and Spanish translation updates (Jordi).
 - po/sv.po:
@@ -4455,7 +4455,7 @@ GNU nano 1.1.8 - 03/30/2002
 	- Fix errno->strerror(errno) mismatch.
   parse_rcfile()
 	- Don't use i for both for loop and atoi(), fixes lots of 
-	  potential crashes, 1st reported by Jean-Philippe Guérard.
+	  potential crashes, 1st reported by Jean-Philippe GuÃ©rard.
   rcfile_error()
 	- Don't print out the file name if we haven't opened the file
 	 yet (lineno == 0).
@@ -4488,7 +4488,7 @@ GNU nano 1.1.8 - 03/30/2002
 	- Catalan and Spanish translation updates (Jordi).
 	- Typo (DLR).
 - po/fr.po:
-	- French translation updates (Jean-Philippe Guérard).
+	- French translation updates (Jean-Philippe GuÃ©rard).
 - po/gl.po:
 	- Galician translation updates (Jacobo Tarrio).
 - po/uk.po, po/ru.po:
@@ -4496,7 +4496,7 @@ GNU nano 1.1.8 - 03/30/2002
 - po/pl.po:
 	- Polish translation updates (Wojciech Kotwica).
 - po/fr.po:
-	- French translation updates (Jean-Philippe Guérard).
+	- French translation updates (Jean-Philippe GuÃ©rard).
 - po/it.po:
 	- Italian translation updates (Marco Colombo).
 - po/da.po:
@@ -4599,7 +4599,7 @@ GNU nano 1.1.7 - 03/05/2002
 - po/sv.po:
 	- Swedish translation updates (Christian Rose).
 - po/fr.po:
-	- French translation updates (Jean-Philippe Guérard).
+	- French translation updates (Jean-Philippe GuÃ©rard).
 - po/nn.po:
 	- Norwegian nynorsk translation updates (Kjetil Torgrim Homme).
 - po/de.po:
@@ -4616,7 +4616,7 @@ GNU nano 1.1.7 - 03/05/2002
 - po/da.po:
 	- Danish translation updates (Keld Simonsen).
 - po/nb.po:
-	- Norwegian bokmål translation updates (Stig E Sandoe).
+	- Norwegian bokmÃ¥l translation updates (Stig E Sandoe).
 - po/nl.po:
 	- Dutch translation updates (Guus Sliepen).
 - po/pl.po:
@@ -4701,7 +4701,7 @@ nano-1.1.6 - 01/25/2002
 	  users into the fact that their regex is doing something bad.
 - THANKS:
 	- Oops, correct Eivind's entry. His translation was Norwegian nynorsk,
-	  not bokmål as we claimed (Jordi).
+	  not bokmÃ¥l as we claimed (Jordi).
 - .cvsignore
 	- Added config.guess config.sub install-sh missing & mkinstalldirs
 - po/ca.po, po/es.po:
@@ -4711,7 +4711,7 @@ nano-1.1.6 - 01/25/2002
 - po/de.po:
 	- German translation update (Michael Piefel).
 - po/fr.po:
-	- French translation update (Jean-Philippe Guérard).
+	- French translation update (Jean-Philippe GuÃ©rard).
 - po/ru.po, po/uk.po:
 	- Russian and Ukrainian translation updates (Sergey A. Ribalchenko).
 - po/no.po:
@@ -4719,7 +4719,7 @@ nano-1.1.6 - 01/25/2002
 - po/nn.po:
 	- Norwegian nynorsk translation updates (Kjetil Torgrim Homme).
 - po/nb.po:
-	- New Norwegian bokmål translation (Stig E Sandoe <stig@ii.uib.no>).
+	- New Norwegian bokmÃ¥l translation (Stig E Sandoe <stig@ii.uib.no>).
 - po/da.po:
 	- Danish translation update (Keld Simonsen).
 
@@ -4790,13 +4790,13 @@ nano-1.1.5 - 01/05/2002
 - po/fr.po:
 	- French translation update (Michel Robitaille).
 - po/gl.po:
-	- Galician translation update (Jacobo Tarrío).
+	- Galician translation update (Jacobo TarrÃ­o).
 - po/it.po:
 	- Italian translation update (Marco Colombo).
 - po/de.po:
 	- German translation update (Michael Piefel).
 - po/fr.po:
-	- French translation update (Jean-Philippe Guérard).
+	- French translation update (Jean-Philippe GuÃ©rard).
 
 nano-1.1.4 - 12/11/2001
 - General
@@ -5001,7 +5001,7 @@ nano-1.1.2 - 10/03/2001
 - po/ca.po, po/es.po:
 	- Updated Catalan and Spanish translation (Jordi).
 - po/gl.po:
-	- Updated Galician translation (Jacobo Tarrío).
+	- Updated Galician translation (Jacobo TarrÃ­o).
 - po/da.po:
 	- New Danish translation, by Keld Simonsen <keld@dkuug.dk>.
 - po/sv.po:
@@ -5221,7 +5221,7 @@ nano-1.1.0 - 07/15/2001
 - po/es.po, po/ca.po:
 	- Updated (Jordi).
 - po/gl.po:
-	- Galician translation by Jacobo Tarrío.
+	- Galician translation by Jacobo TarrÃ­o.
 - po/uk.po, po/ru.po:
 	- New Ukrainian and Russian translations by Sergey A. Ribalchenko
 	  <fisher@obu.ck.ua>, thanks!
@@ -5230,7 +5230,7 @@ nano-1.1.0 - 07/15/2001
 - po/it.po
 	- Updated Italian translation by Marco Colombo.
 - po/no.po:
-	- New Norwegian translation by Eivind Kjørstad <ekj@vestdata.no>.
+	- New Norwegian translation by Eivind KjÃ¸rstad <ekj@vestdata.no>.
 - po/sv.po:
 	- New Swedish translation by Christian Rose <menthos@menthos.com>.
 
@@ -5337,7 +5337,7 @@ nano-0.9.99pre3 - 02/19/2001
 	- Added localized yes, no and all strings to function and rewrote
 	  handler for the new format.
 - de.po:
-	- Translation updates by Florian König.
+	- Translation updates by Florian KÃ¶nig.
 - fi.po:
 	- Translation updates by Pauli Virtanen.
 - hu.po:
@@ -6228,7 +6228,7 @@ nano-0.9.7 - 05/14/2000
 - nano.c:
   do_home(), do_end(): 
 	- Added calls to update_line for the current line, fixes
-	  lack of update (bug discovered by Alberto García).
+	  lack of update (bug discovered by Alberto GarcÃ­a).
   main():
 	- Added SET(FOLLOW_SYMLINKS) before getopt call, fixes not 
 	  following symlinks even when -l isn't set, and "no changes"
