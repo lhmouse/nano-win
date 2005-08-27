@@ -14,7 +14,7 @@
 	* nl.po: Updated Dutch translation by
 	Benno Schulenberg and Reinout van Schouwen.
 
-2005-07-24  David Lawrence Ramsey  <pooka_regent@sluggy.net>
+2005-07-24  David Lawrence Ramsey  <pooka109@cox.net>
 
 	* POTFILES.in: Add text.c.
 
@@ -33,12 +33,12 @@
 	* it.po: Updated Italian translation by Marco Colombo.
 	* ca.po: Updated Catalan translation.
 
-2005-06-28  David Lawrence Ramsey  <pooka_regent@sluggy.net>
+2005-06-28  David Lawrence Ramsey  <pooka109@cox.net>
 
 	* POTFILES.in: Remove source files that contain no translatable
 	strings.
 
-2005-06-19  David Lawrence Ramsey  <pooka_regent@sluggy.net>
+2005-06-19  David Lawrence Ramsey  <pooka109@cox.net>
 
 	* pt_BR.po: Typo fix.
 

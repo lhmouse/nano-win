@@ -156,6 +156,7 @@ CVS code -
 	  do_prev_word_void(), usage(), main(), nano.1, nanorc.5,
 	  nano.texi, and nanorc.sample. (DLR, suggested by Mike
 	  Frysinger)
+	- Update email address.  Changes to faq.html and AUTHORS. (DLR)
 - color.c:
 	- Remove unneeded fcntl.h include. (DLR)
 - chars.c:
@@ -356,8 +357,6 @@ CVS code -
 	- Updated translation by Jean-Philippe Guérard.
 - src/Makefile.am:
 	- Add text.c to nano_SOURCES. (DLR)
-- AUTHORS:
-	- Update email address. (DLR)
 - THANKS:
 	- Add Bulgarian and Dutch translators.
 
