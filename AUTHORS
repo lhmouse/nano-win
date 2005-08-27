@@ -6,7 +6,7 @@ nano editor.  Please see the ChangeLog for specific changes by author.
 Chris Allegretta <chrisa@asty.org>
 	* Original program author, stable series maintainer.
 
-David Lawrence Ramsey <pooka_regent@sluggy.net>
+David Lawrence Ramsey <pooka109@cox.net>
 	* Development series maintainer.  Multiple buffer support,
 	  operating dir (-o) option, bug fixes for display routines,
 	  wrapping code, spelling fixes, const mode, parts of the UTF-8
