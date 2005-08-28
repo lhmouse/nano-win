@@ -884,12 +884,12 @@ bool has_blank_mbchars(const char *s)
 #endif /* !DISABLE_JUSTIFY */
 
 #ifdef ENABLE_UTF8
-/* Return TRUE if wc is valid Unicode (i.e, it's not negative or in the
- * ranges D800-DFFF or FFFE-FFFF), and FALSE otherwise. */
+/* Return TRUE if wc is valid Unicode, and FALSE otherwise. */
 bool is_valid_unicode(wchar_t wc)
 {
-    return (0 <= wc && (wc <= 0xD7FF || 0xE000 <= wc) && (wc <=
-	0xFFFD || 0x10000 <= wc));
+    return ((0 <= wc && wc <= 0x10FFFF) && (wc <= 0xD7FF || 0xE000 <=
+	wc) && (wc <= 0xFDCF || 0xFDF0 <= wc) && ((wc & 0xFFFF) <=
+	0xFFFD));
 }
 #endif
 
