@@ -4179,7 +4179,7 @@ void dump_filestruct_reverse(void)
 #endif /* DEBUG */
 
 #ifdef NANO_EXTRA
-#define CREDIT_LEN 53
+#define CREDIT_LEN 54
 #define XLCREDIT_LEN 8
 
 /* Easter egg: Display credits.  Assume nodelay(edit) and scrollok(edit)
