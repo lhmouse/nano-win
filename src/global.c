@@ -1220,8 +1220,10 @@ void thanks_for_all_the_fish(void)
 
 	    syntaxes->extensions = bob->next;
 	    free(bob->ext_regex);
-	    regfree(bob->ext);
-	    free(bob->ext);
+	    if (bob->ext != NULL) {
+		regfree(bob->ext);
+		free(bob->ext);
+	    }
 	    free(bob);
 	}
 	while (syntaxes->color != NULL) {

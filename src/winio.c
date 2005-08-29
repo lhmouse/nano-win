@@ -3907,7 +3907,7 @@ void do_cursorpos(bool constant)
 
     /* Check whether totsize is correct.  If it isn't, there is a bug
      * somewhere. */
-    assert(openfile->current != openfile->filebot || i == totsize);
+    assert(openfile->current != openfile->filebot || i == openfile->totsize);
 
     if (constant && disable_cursorpos) {
 	disable_cursorpos = FALSE;
