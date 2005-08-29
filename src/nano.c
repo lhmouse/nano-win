@@ -605,7 +605,8 @@ void die_save_file(const char *die_filename)
 
     retval = get_next_filename(die_filename, ".save");
     if (retval[0] != '\0')
-	failed = (write_file(retval, NULL, TRUE, FALSE, TRUE) == -1);
+	failed = (write_file(retval, NULL, TRUE, OVERWRITE,
+		TRUE) == -1);
 
     if (!failed)
 	fprintf(stderr, _("\nBuffer written to %s\n"), retval);

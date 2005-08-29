@@ -2027,10 +2027,10 @@ void do_spell(void)
 
 #ifndef NANO_SMALL
     if (openfile->mark_set)
-	i = write_marked_file(temp, temp_file, TRUE, FALSE);
+	i = write_marked_file(temp, temp_file, TRUE, OVERWRITE);
     else
 #endif
-	i = write_file(temp, temp_file, TRUE, FALSE, FALSE);
+	i = write_file(temp, temp_file, TRUE, OVERWRITE, FALSE);
 
     if (i == -1) {
 	statusbar(_("Error writing temp file: %s"), strerror(errno));

@@ -1593,7 +1593,7 @@ int do_writeout(bool exiting)
     currshortcut = writefile_list;
 
     if (exiting && openfile->filename[0] != '\0' && ISSET(TEMP_FILE)) {
-	retval = write_file(openfile->filename, NULL, FALSE, 0,
+	retval = write_file(openfile->filename, NULL, FALSE, OVERWRITE,
 		FALSE);
 
 	/* Write succeeded. */
