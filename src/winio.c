@@ -4202,9 +4202,10 @@ void do_credits(void)
 	"Rocco Corsi",
 	"David Lawrence Ramsey",
 	"David Benbennick",
+	"Mike Frysinger",
 	"Ken Tyler",
 	"Sven Guckes",
-	NULL,				/* credits[14], handled below. */
+	NULL,				/* credits[15], handled below. */
 	"Pauli Virtanen",
 	"Daniele Medri",
 	"Clement Laforet",
@@ -4256,10 +4257,10 @@ void do_credits(void)
 	N_("Thank you for using nano!")
     };
 
-    /* credits[14]: Make sure this name is displayed properly, since we
+    /* credits[15]: Make sure this name is displayed properly, since we
      * can't dynamically assign it above, using Unicode 00F6 (Latin
      * Small Letter O with Diaresis) if applicable. */
-    credits[14] =
+    credits[15] =
 #ifdef ENABLE_UTF8
 	 ISSET(USE_UTF8) ? "Florian K\xC3\xB6nig" :
 #endif

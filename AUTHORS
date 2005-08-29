@@ -35,3 +35,9 @@ David Benbennick <dbenbenn@math.cornell.edu>
 	* Wrap and justify bugfixes/enhancements, new color syntax
 	  code, memleak fixes, parts of the UTF-8 support, and other
 	  miscellaneous fixes.
+
+Mike Frysinger <vapier@gentoo.org>
+	* Gentoo package maintainer.  Whitespace display mode,
+	  --enable-utf8/--disable-utf8 configure options for ncurses,
+	  many new color regexes and improvements to existing color
+	  regexes for nanorc.sample, and miscellaneous bug fixes.

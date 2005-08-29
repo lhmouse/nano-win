@@ -338,6 +338,7 @@ CVS code -
 	  tweak where screen updates occur so that messages are properly
 	  displayed when they first scroll onto the bottom line of the
 	  screen. (DLR)
+	- Add Mike Frysinger to credits. (DLR)
 - configure.ac:
 	- Since we only use vsnprintf() now, remove the tests for
 	  snprintf(). (DLR)
@@ -357,6 +358,8 @@ CVS code -
 	- Updated translation by Jean-Philippe Guérard.
 - src/Makefile.am:
 	- Add text.c to nano_SOURCES. (DLR)
+- AUTHORS:
+	- Add Mike Frysinger. (DLR)
 - THANKS:
 	- Add Bulgarian and Dutch translators.
 
