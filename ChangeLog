@@ -265,6 +265,8 @@ CVS code -
 	  as every source file needs them. (DLR)
 	- Rename the updown enum scroll_dir and the centernone enum
 	  update_type for clarity, and add an append_type enum. (DLR)
+	- If we don't have regex.h and hence regex support, disable
+	  color support, as it depends on the use of regexes. (DLR)
 - rcfile.c:
   nregcomp()
 	- Return TRUE when the compilation succeeds and FALSE otherwise,
