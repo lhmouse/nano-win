@@ -49,12 +49,12 @@
 #include <setjmp.h>
 #endif
 
-static struct termios oldterm;	/* The user's original term settings */
-static struct sigaction act;	/* For all our fun signal handlers */
+static struct termios oldterm;	/* The user's original term settings. */
+static struct sigaction act;	/* For all our fun signal handlers. */
 
 #ifndef NANO_SMALL
 static sigjmp_buf jmpbuf;	/* Used to return to main() after a
-				   SIGWINCH. */
+				 * SIGWINCH. */
 #endif
 
 /* Create a new filestruct node.  Note that we specifically do not set
