@@ -282,7 +282,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 	filestruct *top, size_t top_x, filestruct *bot, size_t bot_x)
 {
     filestruct *top_save;
-    bool at_edittop;
+    bool edittop_inside;
 #ifndef NANO_SMALL
     bool mark_inside = FALSE;
 #endif
@@ -295,10 +295,12 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 
     /* Partition the filestruct so that it contains only the text from
      * (top, top_x) to (bot, bot_x), keep track of whether the top of
-     * the partition is the top of the edit window, and keep track of
+     * the edit window is inside the partition, and keep track of
      * whether the mark begins inside the partition. */
     filepart = partition_filestruct(top, top_x, bot, bot_x);
-    at_edittop = (openfile->fileage == openfile->edittop);
+    edittop_inside = (openfile->edittop->lineno >=
+	openfile->fileage->lineno && openfile->edittop->lineno <=
+	openfile->filebot->lineno);
 #ifndef NANO_SMALL
     if (openfile->mark_set)
 	mark_inside = (openfile->mark_begin->lineno >=
@@ -350,15 +352,11 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
     }
 
     /* Since the text has now been saved, remove it from the filestruct.
-     * If the top of the partition was the top of the edit window, set
-     * edittop to where the text used to start.  If the mark began
-     * inside the partition, set the beginning of the mark to where the
-     * text used to start. */
+     * If the mark begins inside the partition, set the beginning of the
+     * mark to where the saved text used to start. */
     openfile->fileage = (filestruct *)nmalloc(sizeof(filestruct));
     openfile->fileage->data = mallocstrcpy(NULL, "");
     openfile->filebot = openfile->fileage;
-    if (at_edittop)
-	openfile->edittop = openfile->fileage;
 #ifndef NANO_SMALL
     if (mark_inside) {
 	openfile->mark_begin = openfile->fileage;
@@ -376,10 +374,20 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
      * again, minus the saved text. */
     unpartition_filestruct(&filepart);
 
+    /* If the top of the edit window was inside the old partition, put
+     * it in range of current. */
+    if (edittop_inside)
+	edit_update(
+#ifndef NANO_SMALL
+		ISSET(SMOOTH_SCROLL) ? NONE :
+#endif
+		CENTER);
+
     /* Renumber starting with the beginning line of the old
      * partition. */
     renumber(top_save);
 
+    /* If the text doesn't end with a magicline, add a new magicline. */
     if (openfile->filebot->data[0] != '\0')
 	new_magicline();
 }
@@ -390,16 +398,16 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
 {
     filestruct *top_save;
-    bool at_edittop;
+    bool edittop_inside;
 
     assert(file_top != NULL && file_bot != NULL);
 
     /* Partition the filestruct so that it contains no text, and keep
-     * track of whether the top of the partition is the top of the edit
-     * window. */
+     * track of whether the top of the edit window is inside the
+     * partition. */
     filepart = partition_filestruct(openfile->current,
 	openfile->current_x, openfile->current, openfile->current_x);
-    at_edittop = (openfile->fileage == openfile->edittop);
+    edittop_inside = (openfile->edittop == openfile->fileage);
 
     /* Put the top and bottom of the filestruct at copies of file_top
      * and file_bot. */
@@ -414,30 +422,32 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
     if (openfile->fileage == openfile->filebot)
 	openfile->current_x += strlen(filepart->top_data);
 
-    /* Get the number of characters in the text, and add it to
+    /* Get the number of characters in the copied text, and add it to
      * totsize. */
     openfile->totsize += get_totsize(openfile->fileage,
 	openfile->filebot);
 
-    /* If the top of the partition was the top of the edit window, set
-     * edittop to where the saved text now starts, and update the
-     * current y-coordinate to account for the number of lines it
-     * has, less one since the first line will be tacked onto the
-     * current line. */
-    if (at_edittop)
-	openfile->edittop = openfile->fileage;
+    /* Update the current y-coordinate to account for the number of
+     * lines the copied text has, less one since the first line will be
+     * tacked onto the current line. */
     openfile->current_y += openfile->filebot->lineno - 1;
 
     top_save = openfile->fileage;
 
+    /* If the top of the edit window is inside the partition, set it to
+     * where the copied text now starts. */
+    if (edittop_inside)
+	openfile->edittop = openfile->fileage;
+
     /* Unpartition the filestruct so that it contains all the text
-     * again, minus the saved text. */
+     * again, plus the copied text. */
     unpartition_filestruct(&filepart);
 
     /* Renumber starting with the beginning line of the old
      * partition. */
     renumber(top_save);
 
+    /* If the text doesn't end with a magicline, add a new magicline. */
     if (openfile->filebot->data[0] != '\0')
 	new_magicline();
 }

@@ -199,6 +199,9 @@ CVS code -
 	- Move here from nano.c, as they're movement functions, and also
 	  make them call check_statusblank().
 - nano.c:
+  move_to_filestruct(), copy_from_filestruct()
+	- Fix problem where edittop wouldn't be reset properly if it was
+	  inside the text moved to another filestruct. (DLR)
   usage()
 	- Properly mention the support for "[+LINE,COLUMN]" on the
 	  command line when HAVE_GETOPT_LONG isn't defined. (DLR)
