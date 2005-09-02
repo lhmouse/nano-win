@@ -351,6 +351,8 @@ CVS code -
 	  snprintf(). (DLR)
 	- Change the description of "sufficient wide character support"
 	  to "sufficient UTF-8 support", as the latter is clearer. (DLR)
+	- Update the description of the ENABLE_COLOR option to mention
+	  the need for regex.h. (DLR)
 - doc/faq.html:
 	- Update section 4.10 to mention that pasting from the X
 	  clipboard via the middle mouse button also works when the

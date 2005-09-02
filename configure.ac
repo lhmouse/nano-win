@@ -154,7 +154,7 @@ AC_ARG_ENABLE(color,
 [  --enable-color          Enable color and syntax highlighting],
 [if test x$enableval = xyes; then
     AC_DEFINE(ENABLE_NANORC, 1, [Define this to use the .nanorc file.]) nanorc_support=yes
-    AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires ENABLE_NANORC too!]) color_support=yes
+    AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires regex.h and ENABLE_NANORC too!]) color_support=yes
     AC_MSG_WARN([
 ***********************************************************************
 *** WARNING: Color support is far from perfect, but functional.     ***
@@ -179,7 +179,7 @@ AC_ARG_ENABLE(all,
 [  --enable-all            Enable ALL extra nano functionality (kitchen sink option)],
 [if test x$enableval = xyes; then
     AC_DEFINE(ENABLE_NANORC, 1, [Define this to use the .nanorc file.]) nanorc_support=yes
-    AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires ENABLE_NANORC too!]) color_support=yes
+    AC_DEFINE(ENABLE_COLOR, 1, [Define this to have syntax highlighting, requires regex.h and ENABLE_NANORC too!]) color_support=yes
     AC_DEFINE(ENABLE_MULTIBUFFER, 1, [Define this to enable multiple file buffers.]) multibuffer_support=yes
     AC_DEFINE(NANO_EXTRA, 1, [Define this to enable the extra stuff.]) extra_support=yes
     AC_MSG_WARN([
