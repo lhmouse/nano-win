@@ -299,8 +299,8 @@ int *get_input(WINDOW *win, size_t input_len)
 	free(key_buffer);
 	key_buffer = NULL;
     /* If the default keystroke buffer isn't empty, move its
-     * beginning forward far enough back so that the keystrokes in input
-     * are no longer at its beginning. */
+     * beginning forward far enough so that the keystrokes in input are
+     * no longer at its beginning. */
     } else {
 	memmove(key_buffer, key_buffer + input_len, key_buffer_len *
 		sizeof(int));
