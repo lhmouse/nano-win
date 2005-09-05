@@ -2335,8 +2335,8 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
     converted = charalloc(alloc_len + 1);
     index = 0;
 
-    if (column < start_col || (dollars && column > 0 &&
-	buf[start_index] != '\t')) {
+    if (buf[start_index] != '\t' && (column < start_col || (dollars &&
+	column > 0))) {
 	/* We don't display all of buf[start_index] since it starts to
 	 * the left of the screen. */
 	buf_mb_len = parse_mbchar(buf + start_index, buf_mb, NULL);

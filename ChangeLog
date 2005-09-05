@@ -318,6 +318,10 @@ CVS code -
   display_string()
 	- Instead of using parse_mbchar()'s bad_chr parameter, use
 	  mbrep() to get the representation of a bad character. (DLR)
+	- If column is less than start_col and the character's a tab,
+	  which can be possible if there are enough tabs and the
+	  terminal size is sufficiently large, don't try to display it
+	  using control_mbrep(). (DLR, found by Duncan G. Doyle)
   edit_redraw(), edit_refresh()
 	- Clean up and simplify. (DLR)
   edit_update()
