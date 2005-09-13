@@ -186,7 +186,7 @@ void do_tab(void)
 #endif
 }
 
-/* Someone hits Return *gasp!* */
+/* Someone hits Enter *gasp!* */
 void do_enter(void)
 {
     filestruct *newnode = make_new_node(openfile->current);
@@ -234,11 +234,12 @@ void do_enter(void)
     renumber(openfile->current);
     openfile->current = newnode;
 
-    edit_refresh();
-
     openfile->totsize++;
     set_modified();
+
     openfile->placewewant = xplustabs();
+
+    edit_refresh();
 }
 
 #ifndef NANO_SMALL

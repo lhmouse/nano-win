@@ -1,6 +1,7 @@
 CVS code -
 - General:
 	- Miscellaneous comment fixes. (DLR)
+	- More int -> bool conversions. (DLR)
 	- Fix a few last instances of the current line number's being
 	  saved as an int instead of a ssize_t.  Changes to
 	  renumber_all(), renumber(), do_alt_speller(), and
@@ -302,6 +303,8 @@ CVS code -
   get_history_completion()
 	- Make parameters const where possible. (DLR)
 - text.c:
+  do_enter()
+	- Don't update the edit window until we set placewewant. (DLR)
   do_word_count()
 	- Rename to do_wordlinechar_count(), and expand to also count
 	  the number of lines and characters in the file or selection,

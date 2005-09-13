@@ -3477,10 +3477,10 @@ void update_line(const filestruct *fileptr, size_t index)
 	mvwaddch(edit, line, COLS - 1, '$');
 }
 
-/* Return a nonzero value if we need an update after moving
- * horizontally.  We need one if the mark is on or if old_pww and
+/* Return TRUE if we need an update after moving horizontally, and FALSE
+ * otherwise.  We need one if the mark is on or if old_pww and
  * placewewant are on different pages. */
-int need_horizontal_update(size_t old_pww)
+bool need_horizontal_update(size_t old_pww)
 {
     return
 #ifndef NANO_SMALL
@@ -3490,10 +3490,10 @@ int need_horizontal_update(size_t old_pww)
 	get_page_start(openfile->placewewant);
 }
 
-/* Return a nonzero value if we need an update after moving vertically.
- * We need one if the mark is on or if old_pww and placewewant
- * are on different pages. */
-int need_vertical_update(size_t old_pww)
+/* Return TRUE if we need an update after moving vertically, and FALSE
+ * otherwise.  We need one if the mark is on or if old_pww and
+ * placewewant are on different pages. */
+bool need_vertical_update(size_t old_pww)
 {
     return
 #ifndef NANO_SMALL
