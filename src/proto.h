@@ -334,10 +334,8 @@ void do_home(void);
 void do_end(void);
 void do_up(void);
 void do_down(void);
-void do_left(bool allow_update);
-void do_left_void(void);
-void do_right(bool allow_update);
-void do_right_void(void);
+void do_left(void);
+void do_right(void);
 
 /* Public functions in nano.c. */
 filestruct *make_new_node(filestruct *prevnode);

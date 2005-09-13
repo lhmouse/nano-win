@@ -158,6 +158,12 @@ CVS code -
 	  nano.texi, and nanorc.sample. (DLR, suggested by Mike
 	  Frysinger)
 	- Update email address.  Changes to faq.html and AUTHORS. (DLR)
+	- Remove do_(left|right)()'s ability to optionally not update
+	  the current line, as this was only used in do_backspace(), and
+	  it didn't always update the screen properly.  Changes to
+	  shortcut_init(), do_left(), do_right(), and do_backspace();
+	  removal of do_left_void() and do_right_void(). (DLR; problem
+	  found by Mike Frysinger)
 - color.c:
 	- Remove unneeded fcntl.h include. (DLR)
 - chars.c:

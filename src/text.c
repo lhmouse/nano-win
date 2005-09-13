@@ -153,7 +153,7 @@ void do_backspace(void)
 {
     if (openfile->current != openfile->fileage ||
 	openfile->current_x > 0) {
-	do_left(FALSE);
+	do_left();
 	do_delete();
     }
 }

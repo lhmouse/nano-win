@@ -550,7 +550,7 @@ void do_down(void)
     }
 }
 
-void do_left(bool allow_update)
+void do_left(void)
 {
     size_t pww_save = openfile->placewewant;
 
@@ -566,16 +566,11 @@ void do_left(bool allow_update)
 
     openfile->placewewant = xplustabs();
 
-    if (allow_update && need_horizontal_update(pww_save))
+    if (need_horizontal_update(pww_save))
 	update_line(openfile->current, openfile->current_x);
 }
 
-void do_left_void(void)
-{
-    do_left(TRUE);
-}
-
-void do_right(bool allow_update)
+void do_right(void)
 {
     size_t pww_save = openfile->placewewant;
 
@@ -593,11 +588,6 @@ void do_right(bool allow_update)
 
     openfile->placewewant = xplustabs();
 
-    if (allow_update && need_horizontal_update(pww_save))
+    if (need_horizontal_update(pww_save))
 	update_line(openfile->current, openfile->current_x);
-}
-
-void do_right_void(void)
-{
-    do_right(TRUE);
 }
