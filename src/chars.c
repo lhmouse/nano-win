@@ -215,8 +215,7 @@ wchar_t control_wrep(wchar_t wc)
 /* c is a multibyte control character.  It displays as ^@, ^?, or ^[ch],
  * where ch is (c + 64).  We return that multibyte character.  If crep
  * is an invalid multibyte sequence, it will be replaced with Unicode
- * 0xFFFD (Replacement Character), so it should be dynamically allocated
- * and able to hold MB_CUR_MAX single-byte characters. */
+ * 0xFFFD (Replacement Character). */
 char *control_mbrep(const char *c, char *crep, int *crep_len)
 {
     assert(c != NULL && crep != NULL && crep_len != NULL);
@@ -250,9 +249,7 @@ char *control_mbrep(const char *c, char *crep, int *crep_len)
 
 /* c is a multibyte non-control character.  We return that multibyte
  * character.  If crep is an invalid multibyte sequence, it will be
- * replaced with Unicode 0xFFFD (Replacement Character), so it should be
- * dynamically allocated and able to hold MB_CUR_MAX single-byte
- * characters. */
+ * replaced with Unicode 0xFFFD (Replacement Character). */
 char *mbrep(const char *c, char *crep, int *crep_len)
 {
     assert(c != NULL && crep != NULL && crep_len != NULL);
