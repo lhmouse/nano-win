@@ -213,7 +213,10 @@ wchar_t control_wrep(wchar_t wc)
 #endif
 
 /* c is a multibyte control character.  It displays as ^@, ^?, or ^[ch],
- * where ch is (c + 64).  We return that multibyte character. */
+ * where ch is (c + 64).  We return that multibyte character.  If crep
+ * is an invalid multibyte sequence, it will be replaced with Unicode
+ * 0xFFFD (Replacement Character), so it should be dynamically allocated
+ * and able to hold MB_CUR_MAX single-byte characters. */
 char *control_mbrep(const char *c, char *crep, int *crep_len)
 {
     assert(c != NULL && crep != NULL && crep_len != NULL);
@@ -224,8 +227,8 @@ char *control_mbrep(const char *c, char *crep, int *crep_len)
 
 	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
 	    mbtowc(NULL, NULL, 0);
-	    crep = (char *)bad_mbchar;
 	    *crep_len = bad_mbchar_len;
+	    strncpy(crep, bad_mbchar, *crep_len);
 	} else {
 	    *crep_len = wctomb(crep, control_wrep(wc));
 
@@ -246,7 +249,10 @@ char *control_mbrep(const char *c, char *crep, int *crep_len)
 }
 
 /* c is a multibyte non-control character.  We return that multibyte
- * character. */
+ * character.  If crep is an invalid multibyte sequence, it will be
+ * replaced with Unicode 0xFFFD (Replacement Character), so it should be
+ * dynamically allocated and able to hold MB_CUR_MAX single-byte
+ * characters. */
 char *mbrep(const char *c, char *crep, int *crep_len)
 {
     assert(c != NULL && crep != NULL && crep_len != NULL);
@@ -258,8 +264,8 @@ char *mbrep(const char *c, char *crep, int *crep_len)
 	/* Reject invalid Unicode characters. */
 	if (mbtowc(&wc, c, MB_CUR_MAX) < 0 || !is_valid_unicode(wc)) {
 	    mbtowc(NULL, NULL, 0);
-	    crep = (char *)bad_mbchar;
 	    *crep_len = bad_mbchar_len;
+	    strncpy(crep, bad_mbchar, *crep_len);
 	} else {
 	    *crep_len = wctomb(crep, wc);
 

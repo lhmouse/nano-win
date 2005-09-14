@@ -170,6 +170,11 @@ CVS code -
   control_rep(), control_mbrep()
 	- Assert that the multibyte character passed in is a control
 	  character if it's valid. (DLR)
+	- If crep is an invalid multibyte sequence, copy Unicode 0xFFFD
+	  (Replacement Character) into it using strncpy() instead of
+	  assigning the former to it.  This avoids segfaults when freeing
+	  crep later, since it's supposed to be dynamically allocated.
+	  (DLR)
   mbrep()
 	- New function, the equivalent of control_mbrep() for non-control
 	  characters. (DLR)
