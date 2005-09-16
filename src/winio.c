@@ -2846,7 +2846,7 @@ void titlebar(const char *path)
     if (!newfie) {
 	size_t lenpt = strlenpt(path), start_col;
 
-	dots = (lenpt > space);
+	dots = (lenpt >= space);
 
 	if (dots) {
 	    start_col = lenpt - space + 3;
