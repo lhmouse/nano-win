@@ -559,8 +559,8 @@ bool do_wrap(filestruct *line)
 
 #if !defined(DISABLE_HELP) || !defined(DISABLE_JUSTIFY) || !defined(DISABLE_WRAPPING)
 /* We are trying to break a chunk off line.  We find the last blank such
- * that the display length to there is at most goal + 1.  If there is no
- * such blank, then we find the first blank.  We then take the last
+ * that the display length to there is at most (goal + 1).  If there is
+ * no such blank, then we find the first blank.  We then take the last
  * blank in that group of blanks.  The terminating '\0' counts as a
  * blank, as does a '\n' if newline is TRUE. */
 ssize_t break_line(const char *line, ssize_t goal, bool newline)
@@ -575,9 +575,10 @@ ssize_t break_line(const char *line, ssize_t goal, bool newline)
     assert(line != NULL);
 
     while (*line != '\0' && goal >= 0) {
-	size_t pos = 0;
+	int pos;
 
-	line_len = parse_mbchar(line, NULL, &pos);
+	line_len = parse_mbchar(line, NULL, NULL);
+	pos = mbwidth(line);
 
 	if (is_blank_mbchar(line) || (newline && *line == '\n')) {
 	    blank_loc = cur_loc;
@@ -606,7 +607,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool newline)
 		if (!found_blank)
 		    found_blank = TRUE;
 	    } else if (found_blank)
-		return cur_loc - line_len;
+		return move_mbleft(line, cur_loc);
 
 	    line += line_len;
 	    cur_loc += line_len;
