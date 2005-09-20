@@ -44,7 +44,7 @@ static bool same_line_wrap = FALSE;
 #endif
 #ifndef DISABLE_JUSTIFY
 static filestruct *jusbottom = NULL;
-	/* Pointer to end of justify buffer. */
+	/* Pointer to the end of the justify buffer. */
 #endif
 
 #ifndef NANO_SMALL
