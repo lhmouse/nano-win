@@ -317,9 +317,8 @@ CVS code -
   do_enter()
 	- Don't update the edit window until we set placewewant. (DLR)
   break_line()
-	- Fix problems where a line could be broken in the middle of
-	  a multibyte character, and goal could be miscalculated on lines
-	  containing tabs. (DLR)
+	- Fix a problem where a line could be broken in the middle of a
+	  multibyte character. (DLR)
   do_word_count()
 	- Rename to do_wordlinechar_count(), and expand to also count
 	  the number of lines and characters in the file or selection,

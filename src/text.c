@@ -570,16 +570,12 @@ ssize_t break_line(const char *line, ssize_t goal, bool newline)
 	 * found with short enough display width.  */
     ssize_t cur_loc = 0;
 	/* Current index in line. */
-    size_t pos = 0;
-	/* Current column position in line. */
-    size_t old_pos;
-	/* Previous column position in line. */
     int line_len;
 
     assert(line != NULL);
 
     while (*line != '\0' && goal >= 0) {
-	old_pos = pos;
+	size_t pos = 0;
 
 	line_len = parse_mbchar(line, NULL, &pos);
 
@@ -590,7 +586,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool newline)
 		break;
 	}
 
-	goal -= pos - old_pos;
+	goal -= pos;
 	line += line_len;
 	cur_loc += line_len;
     }
