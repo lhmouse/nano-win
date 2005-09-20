@@ -575,10 +575,9 @@ ssize_t break_line(const char *line, ssize_t goal, bool newline)
     assert(line != NULL);
 
     while (*line != '\0' && goal >= 0) {
-	int pos;
+	size_t pos = 0;
 
-	line_len = parse_mbchar(line, NULL, NULL);
-	pos = mbwidth(line);
+	line_len = parse_mbchar(line, NULL, &pos);
 
 	if (is_blank_mbchar(line) || (newline && *line == '\n')) {
 	    blank_loc = cur_loc;
