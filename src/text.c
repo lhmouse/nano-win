@@ -599,6 +599,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool newline)
     if (blank_loc == -1) {
 	/* No blank was found that was short enough. */
 	bool found_blank = FALSE;
+	ssize_t found_blank_loc;
 
 	while (*line != '\0') {
 	    line_len = parse_mbchar(line, NULL, NULL);
@@ -606,8 +607,9 @@ ssize_t break_line(const char *line, ssize_t goal, bool newline)
 	    if (is_blank_mbchar(line) || (newline && *line == '\n')) {
 		if (!found_blank)
 		    found_blank = TRUE;
+		found_blank_loc = cur_loc;
 	    } else if (found_blank)
-		return move_mbleft(line, cur_loc);
+		return found_blank_loc;
 
 	    line += line_len;
 	    cur_loc += line_len;
