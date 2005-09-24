@@ -738,7 +738,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len, bool
 		    case 'l': /* Esc O l == ',' on numeric keypad with
 			       * NumLock off on VT100/VT220/VT320/xterm/
 			       * rxvt. */
-			retval = '+';
+			retval = ',';
 			break;
 		    case 'm': /* Esc O m == '-' on numeric keypad with
 			       * NumLock off on VT100/VT220/VT320/xterm/

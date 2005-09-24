@@ -325,6 +325,10 @@ CVS code -
 	  the number of lines and characters in the file or selection,
 	  as wc does. (DLR)
 - winio.c:
+  get_escape_seq_kbinput()
+	- Fix typo preventing the VT100/VT220/VT320/xterm/rxvt escape
+	  sequence for ',' on the numeric keypad with NumLock off from
+	  being interpreted properly. (DLR)
   get_word_kbinput()
 	- Multiply the entered digits by hexadecimal numbers instead of
 	  decimal numbers for clarity, rename to get_unicode_kbinput(),
