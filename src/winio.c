@@ -1047,10 +1047,9 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len, bool
 				    retval = KEY_F(4);
 				    break;
 			    }
-			} else {
+			} else
 			    /* Esc [ O == F3 on FreeBSD console. */
 			    retval = KEY_F(3);
-			}
 			break;
 		    case 'P': /* Esc [ P == F4 on FreeBSD console. */
 			retval = KEY_F(4);
