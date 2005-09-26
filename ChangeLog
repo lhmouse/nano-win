@@ -397,6 +397,9 @@ CVS code -
 	- Add text.c to nano_SOURCES. (DLR)
 - AUTHORS:
 	- Add Mike Frysinger. (DLR)
+- README.CVS:
+	- Since we only use vsnprintf() now, remove the mention of
+	  snprintf(). (DLR)
 - THANKS:
 	- Add Bulgarian and Dutch translators.
 
@@ -6707,7 +6710,7 @@ nano-0.7.8 - 01/23/2000
 		buffer, cut support. (Adam Rogoyski)
   blank_edit():	New function, blanks edit buffer.  Added call to it in 
 		total_refresh().
-- configure:	Checks for glib if snprintf of vsnprintf aren't available
+- configure:	Checks for glib if snprintf or vsnprintf aren't available
 		(Andy Kahn). Changed warning message when no termcap lib
 		is found.
 
