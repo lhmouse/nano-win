@@ -4144,7 +4144,7 @@ int check_linenumbers(const filestruct *fileptr)
 
     return check_line;
 }
-#endif
+#endif /* !NDEBUG */
 
 #ifdef DEBUG
 /* Dump the filestruct inptr to stderr. */
