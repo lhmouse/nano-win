@@ -389,6 +389,10 @@ CVS code -
 	- Add regexes for Bourne shell scripts. (Mike Frysinger, minor
 	  tweaks by DLR)
 	- Explain how the "none" and "default" syntaxes work. (DLR)
+	- Tweaks and additions to the "c-file" regexes: handle #defined
+	  constants more accurately and use a brighter color for them,
+	  support more GCC builtins, and color code flow control
+	  statements differently. (Mike Frysinger)
 - doc/man/nanorc.5:
 	- Explain how the "none" and "default" syntaxes work. (DLR)
 - doc/man/fr/nano.1, doc/man/fr/nanorc.5:
