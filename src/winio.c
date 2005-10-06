@@ -27,6 +27,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <unistd.h>
+#include <errno.h>
 #include <ctype.h>
 #include "proto.h"
 
@@ -142,12 +143,13 @@ void get_key_buffer(WINDOW *win)
      * screen updates. */
     doupdate();
 
-    input = wgetch(win);
+    while ((input = wgetch(win)) == ERR) {
+	/* If errno is EIO, it means that the input source that we were
+	 * using is gone, so die gracefully. */
+	if (errno == EIO)
+	    handle_hupterm(0);
+    }
 
-    /* If we get ERR when using blocking input, it means that the input
-     * source that we were using is gone, so die gracefully. */
-    if (input == ERR)
-	handle_hupterm(0);
 
 #ifndef NANO_SMALL
     allow_pending_sigwinch(FALSE);
