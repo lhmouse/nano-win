@@ -163,7 +163,7 @@ void do_tab(void)
 #ifndef NANO_SMALL
     if (ISSET(TABS_TO_SPACES)) {
 	char *output;
-	size_t output_len = 0, new_pww = openfile->placewewant;
+	size_t output_len = 0, new_pww = xplustabs();
 
 	do {
 	    new_pww++;

@@ -315,6 +315,10 @@ CVS code -
   get_history_completion()
 	- Make parameters const where possible. (DLR)
 - text.c:
+  do_tab()
+	- Make sure that we insert the correct number of spaces if the
+	  TABS_TO_SPACES flag is set and placewewant is greater than the
+	  current column position of the cursor. (DLR)
   do_enter()
 	- Don't update the edit window until we set placewewant. (DLR)
   break_line()
