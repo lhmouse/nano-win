@@ -1,6 +1,6 @@
 /* $Id$ */
 /**************************************************************************
- *   text.c                                                              *
+ *   text.c                                                               *
  *                                                                        *
  *   Copyright (C) 2005 Chris Allegretta                                  *
  *   This program is free software; you can redistribute it and/or modify *
