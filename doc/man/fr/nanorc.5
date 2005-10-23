@@ -14,7 +14,7 @@
 .\" AUCUNE garantie.
 .\"
 \" $Id$
-.TH NANORC 5 "version 1.3.8" "17 juillet 2005"
+.TH NANORC 5 "version 1.3.9" "23 octobre 2005"
 .\" Please adjust this date whenever revising the manpage.
 .\" Merci de modifier ces dates à chaque mise à jour de cette page.
 
@@ -61,10 +61,10 @@ Les commandes et arguments reconnus sont\ :
 Active l'indentation automatique.
 .TP
 \fBset/unset backup\fP
-Crée des copie de sécurité nommées
+Crée des copies de sécurité nommées
 .IR nom_du_fichier~ .
 .TP
-.B set backupdir "\fIrépertoire\fP"
+.B set backupdir \fIrépertoire\fP
 Définit le répertoire utilisé par \fBnano\fP pour enregistrer les copies 
 de sécurité uniques, si l'enregistrement de copies de sécurité est 
 activé.
@@ -72,7 +72,7 @@ activé.
 .B set/unset backwards
 Par défaut, les recherches se font vers l'arrière.
 .TP
-.B set brackets "\fIchaîne\fP"
+.B set brackets \fIchaîne\fP
 Définit les caractères considérés comme des fermetures de parenthèses. 
 Ces caractères ne doivent pas contenir d'espaces. Seules les 
 ponctuations terminales, éventuellement suivies de parenthèses 
@@ -113,7 +113,7 @@ Active l'utilisation de la souris, afin que des clics souris puissent
 être utilisés pour marquer le texte ou accéder aux raccourcis.
 .TP
 \fBset/unset multibuffer\fP
-Mode multi-fichiers\ : permet de charger les fichiers dans leur propre 
+Mode multifichier\ : permet de charger les fichiers dans leur propre 
 espace.
 .TP
 \fBset/unset noconvert\fP
@@ -128,7 +128,7 @@ Désactive les lignes d'aide affichée en bas de l'écran.
 \fBset/unset nowrap\fP
 Désactive le passage automatique à la ligne.
 .TP
-\fBset operatingdir "\fIrépertoire\fP"\fP
+\fBset operatingdir \fIrépertoire\fP\fP
 \fBnano\fP ne lira et n'écrira des fichiers qu'à l'intérieur du 
 \fIrépertoire\fP et de ses sous-répertoires. De plus, celui-ci devient 
 le répertoire courant, afin que les fichiers soient lus depuis ce 
@@ -137,7 +137,7 @@ répertoire. Par défaut, cette fonction est désactivée.
 \fBset/unset preserve\fP
 Préserve les séquences XON et XOFF (^Q et ^S).
 .TP
-\fBset punct "\fIchaîne\fP"\fP
+\fBset punct \fIchaîne\fP\fP
 Définit les caractères interprétés comme des ponctuations terminales. 
 Ces caractères ne peuvent inclure de blancs. Seules les ponctuations 
 terminales, éventuellement suivies de parenthèses fermantes, peuvent 
@@ -149,11 +149,11 @@ correspond aux normes typographiques anglo-saxonnes, mais n'a pas lieu
 d'être en français. Pour le français, le plus simple est d'indiquer, 
 dans le fichier nanorc, une chaîne vide pour ce paramètre.)
 .TP
-.B set quickblank
+.B set/unset quickblank
 Effacement rapide de la ligne d'état. Les messages affichés par la ligne
 d'état disparaîtront après une frappe clavier au lieu de 25.
 .TP
-\fBset quotestr "\fIchaîne\fP"\fP
+\fBset quotestr \fIchaîne\fP\fP
 Définit le préfixe par défaut utilisé pour les citations dans les 
 courriers électroniques. Ce préfixe est utilisé pour réaliser une 
 justification correcte de ces citations. Il s'agira, si votre système le 
@@ -172,6 +172,12 @@ Interprète différemment la touche «\ Supprimer\ », afin que les touches
 Vous ne devriez avoir besoin de cette option que si, sur votre système, 
 la touche «\ Effacement arrière\ » produit l'effet de la touche «\ 
 Supprimer\ ».
+.TP
+.B set/unset rebindkeypad
+Interprète les touches du pavé numérique afin qu'elles fonctionnent 
+toutes correctement. Vous ne devriez utiliser cette option que si ce 
+n'est pas le cas, car nano ne sera plus capable d'utiliser la souris 
+correctement lorsque cette option sera activée.
 .TP
 \fBset/unset regexp\fP
 Utilise par défaut des expressions rationnelles pour les recherches.
@@ -208,18 +214,29 @@ quittant, sans demande de confirmation.
 \fBset/unset view\fP
 Interdit de modifier les fichiers.
 .TP
-\fBset whitespace "\fIchaîne\fP"\fP
+\fBset whitespace \fIchaîne\fP\fP
 Définit les deux caractères utilisés pour afficher les premiers 
 caractères des tabulations et des espaces. Ces deux caractères doivent 
 être mono-colonne.
 .TP
-.B syntax "\fIchaîne\fP" ["\fImotif_de_fichier\fP" ... ]
+.B set/unset wordbounds
+Détection plus précise des limites de mots, obtenue en considérant les
+caractères de ponctuation comme faisant partie des mots.
+.TP
+.B syntax \fIchaîne\fP ["\fImotif_de_fichier\fP" ... ]
 Définit une syntaxe nommée \fIchaîne\fP qui pourra être activé via 
 l'option \fB-Y\fP ou qui sera automatiquement activée si le nom du 
 fichier en cours correspond au \fImotif_de_fichier\fP. Toutes les 
 instructions suivantes de colorisation \fBcolor\fP ou \fBicolor\fP 
 s'appliqueront à cette syntaxe, jusqu'à la définition d'une nouvelle 
 syntaxe.
+
+La syntaxe nommée \fInone\fP (aucune) est réservée\ ; si elle est 
+indiquée dans la ligne de commande, cela revient à ne définir aucune 
+syntaxe. La syntaxe nommée \fIdefault\fP (par défaut) est spéciale, elle 
+ne nécessite aucun motif de \fImotif_de_fichier\fP, et s'applique aux 
+fichiers ne correspondant à aucun des \fImotif_de_fichier\fP des autres 
+syntaxes.
 .TP
 .B color \fIcouleur_texte\fP[,\fIcouleur_fond\fP] "\fImotif\fP" ...
 Pour la syntaxe en cours, affiche toutes les expressions correspondant à 
@@ -275,8 +292,9 @@ manuel a été rédigée par Jordi Mallach <jordi@gnu.org>.
 
 .SH TRADUCTION
 Cette adaptation française a été réalisé par Jean-Philippe\ Guérard
-<jean-philippe.guerard@corbeaunoir.org> le 17\ juillet\ 2005 à partir de
-la version du 27\ juin\ 2005 de la page de manuel de nano 1.3.8.
+<jean-philippe.guerard@corbeaunoir.org> le 23\ octobre\ 2005 à partir de
+la version du 27\ septembre\ 2005 de la page de manuel de nano 1.3.9.
+Cette version a été relue par Gérard Delafond.
 
 Un maximum de soin a été apporté lors de l'élaboration de cette
 traduction\ ; néanmoins, quelques imperfections peuvent subsister. Si
@@ -284,7 +302,7 @@ vous en rencontrez, que ce soit dans la version française ou dans la
 version originale, n'hésitez pas à les signaler à l'auteur ou au
 traducteur.
 
-La version anglaise la plus à jour de ce document est toujours
+La version originale la plus à jour de ce document est toujours 
 consultable via la commande :
 
 LANGUAGE=en man nano

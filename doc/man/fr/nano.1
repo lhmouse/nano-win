@@ -14,7 +14,7 @@
 .\" AUCUNE garantie.
 .\"
 .\" $Id$
-.TH NANO 1 "version 1.3.8" "16 juillet 2005"
+.TH NANO 1 "version 1.3.9" "23 octobre 2005"
 .\" Please adjust this date whenever revising the manpage.
 .\" Merci de modifier ces dates à chaque mise à jour de cette page.
 .\"
@@ -51,8 +51,8 @@ la ligne \fILIGNE\fR au lieu de démarrer à la colonne\ 1, ligne\ 1.
 Identique à \fB-h (\-\-help)\fP.
 .TP
 .B \-A (\-\-smarthome)
-Rend plus malin le fonctionnement de la touche «\ Début\ ». Lorsque
-cette touche est pressée à n'importe quel endroit excepté au tout début
+Rend plus malin le fonctionnement de la touche «\ Début\ ». Lorsque l'on
+appuie sur cette touche à n'importe quel endroit excepté au tout début
 du texte d'une ligne (i.\ e. au premier caractère non blanc), le curseur
 se positionnera au début du texte de la ligne (qu'il soit en avant ou en
 arrière). Si le curseur est déjà là, il se placera au vrai début de la
@@ -70,7 +70,7 @@ de sécurité uniques si celles-ci sont activées.
 Convertit les tabulations clavier en espaces.
 .TP
 .B \-F (\-\-multibuffer)
-Active le mode multi-fichiers, autorisant l'édition simultanée de 
+Active le mode multifichier, autorisant l'édition simultanée de 
 plusieurs fichiers, si ce mode est disponible.
 .TP
 .B \-H (\-\-historylog)
@@ -82,6 +82,12 @@ utiliser les fichiers nanorc.
 .B \-I (\-\-ignorercfiles)
 Ne pas utiliser pas les fichiers \fISYSCONFDIR/nanorc\fR et 
 \fI~/.nanorc\fR (si \fBnano\fR est capable de les utiliser).
+.TP
+.B \-K (\-\-rebindkeypad)
+Interprète les touches du pavé numérique afin qu'elles fonctionnent 
+toutes correctement. Vous ne devriez utiliser cette option que si ce 
+n'est pas le cas, car nano ne sera plus capable d'utiliser la souris 
+correctement lorsque cette option sera activée.
 .TP
 .B \-N (\-\-noconvert)
 Désactive la conversion automatique des fichiers depuis les formats Mac et
@@ -121,6 +127,10 @@ d'état disparaîtront après une frappe clavier au lieu de 25. Notez que
 .TP
 .B \-V (\-\-version)
 Affiche le numéro de version et l'auteur.
+.TP
+.B \-W (\-\-wordbounds)
+Détection plus précise des limites de mots, obtenue en considérant les 
+caractères de ponctuation comme faisant partie des mots.
 .TP
 .B \-Y \fIchaîne\fP (\-\-syntax=\fIchaîne\fP)
 Indique quel mode de colorisation syntaxique adopter, parmi les modes
@@ -216,7 +226,7 @@ cours n'avait pas encore de nom, ou sera composé du nom du fichier en cours
 suivi du suffixe «\ .save\ ». Si un fichier de ce nom existe déjà dans
 le répertoire, un «\ .save\ » et un nombre seront ajoutés à la fin du
 nom du fichier en cours afin de le rendre unique (par exemple,
-«\ .save.1\ »). En mode multi-fichiers, \fBnano\fR réalisera une
+«\ .save.1\ »). En mode multifichier, \fBnano\fR réalisera une
 sauvegarde de tous les fichiers en cours dans leurs fichiers de secours
 respectifs.
 
@@ -253,8 +263,9 @@ utilisée par d'autres).
 
 .SH TRADUCTION
 Cette adaptation française a été réalisé par Jean-Philippe\ Guérard 
-<jean-philippe.guerard@corbeaunoir.org> le 16\ juillet\ 2005 à partir de 
-la version du 27\ juin\ 2005 de la page de manuel de nano 1.3.8.
+<jean-philippe.guerard@corbeaunoir.org> le 23\ octobre\ 2005 à partir 
+de la version du 27\ septembre\ 2005 de la page de manuel de nano 1.3.9. 
+Cette version a été relue par Gérard Delafond.
 
 Un maximum de soin a été apporté lors de l'élaboration de cette
 traduction\ ; néanmoins, quelques imperfections peuvent subsister. Si
@@ -262,7 +273,7 @@ vous en rencontrez, que ce soit dans la version française ou dans la
 version originale, n'hésitez pas à les signaler à l'auteur ou au
 traducteur.
 
-La version anglaise la plus à jour de ce document est toujours 
+La version originale la plus à jour de ce document est toujours 
 consultable via la commande :
 
 LANGUAGE=en man nano
