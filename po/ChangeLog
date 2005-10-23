@@ -1,5 +1,15 @@
-2006-08-22  Jordi Mallach  <jordi@gnu.org>
+2006-10-23  Jordi Mallach  <jordi@gnu.org>
 
+	* ca.po: Updated Catalan translation.
+	* eu.po: Updated Basque translation by Mikel Olasagasti.
+	* fr.po: Updated French translation by Jean-Philippe Guérard.
+	* it.po: Updated Italian translation by Marco Colombo.
+	* ms.po: Updated Malay translation by Sharuzzaman Ahmat Raslan.
+	* nl.po: Updated Dutch translation by Benno Schulenberg.
+	* zh_TW: Updated Traditional Chinese translation by
+	Wei-Lun Chao.
+	
+2006-08-22  Jordi Mallach  <jordi@gnu.org>
 	* bg.po: New Bulgarian translation by
 	Yavor Doganov <yavor@doganov.org>.
 
