@@ -1,3 +1,24 @@
+2005.10.23 - GNU nano 1.3.9 breaks through the wall.  This release
+		includes major enhancements as well as bugfixes.  The
+		enhancements include better handling of invalid UTF-8,
+		expansion of the word count option to also count lines
+		and characters in the file or selection, more efficient
+		screen update routines, a readded -K/--rebindkeypad
+		option to work around numeric keypad problems on
+		terminals that don't show the usual NumLock glitch, a
+		new -W/--wordbounds option to properly detect words
+		containing punctuation when moving among them, and
+		massive improvements to the color code such as handling
+		of unspecified foreground colors, more efficient memory
+		usage for color regexes, and new reserved syntaxes
+		"default" and "none".  The bugfixes include fixes for
+		the rewritten history code, fixes for potential line
+		numbering problems on 64-bit platforms, fixes for a few
+		long-standing minor display problems, a fix for erroneous
+		hangups occurring while waiting for input, and a fix for
+		a segfault when displaying certain overly long lines.
+		Have fun with it.
+
 2005.06.30 - GNU nano 1.3.8 floats at its own level.  This release
 		contains several new features.  Among other things, you
 		can now move to a specified column number as well as
