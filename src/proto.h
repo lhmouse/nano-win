@@ -333,7 +333,13 @@ void do_prev_word_void(void);
 void do_home(void);
 void do_end(void);
 void do_up(void);
+#ifndef NANO_SMALL
+void do_scroll_up(void);
+#endif
 void do_down(void);
+#ifndef NANO_SMALL
+void do_scroll_down(void);
+#endif
 void do_left(void);
 void do_right(void);
 

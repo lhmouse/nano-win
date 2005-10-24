@@ -512,6 +512,31 @@ void do_up(void)
     }
 }
 
+#ifndef NANO_SMALL
+void do_scroll_up(void)
+{
+    check_statusblank();
+
+#ifndef DISABLE_WRAPPING
+    wrap_reset();
+#endif
+
+    /* If the top of the file is onscreen, get out. */
+    if (openfile->edittop == openfile->fileage)
+	return;
+
+    assert(openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);
+
+    /* Move the current line of the edit window up. */
+    openfile->current = openfile->current->prev;
+    openfile->current_x = actual_x(openfile->current->data,
+	openfile->placewewant);
+
+    /* Scroll the edit window up one line. */
+    edit_scroll(UP, 1);
+}
+#endif /* !NANO_SMALL */
+
 void do_down(void)
 {
     check_statusblank();
@@ -549,6 +574,31 @@ void do_down(void)
 	update_line(openfile->current, openfile->current_x);
     }
 }
+
+#ifndef NANO_SMALL
+void do_scroll_down(void)
+{
+    check_statusblank();
+
+#ifndef DISABLE_WRAPPING
+    wrap_reset();
+#endif
+
+    /* If we're at the bottom of the file, get out. */
+    if (openfile->current->next == NULL)
+	return;
+
+    assert(openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);
+
+    /* Move the current line of the edit window down. */
+    openfile->current = openfile->current->next;
+    openfile->current_x = actual_x(openfile->current->data,
+	openfile->placewewant);
+
+    /* Scroll the edit window down one line. */
+    edit_scroll(DOWN, 1);
+}
+#endif /* !NANO_SMALL */
 
 void do_left(void)
 {
