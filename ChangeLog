@@ -3508,7 +3508,7 @@ GNU nano 1.1.99pre2 - 2003.02.03
 	  nano.c:breakable() (David Benbennick).
 	- Fix screen getting trashed on signals nano can catch
 	  (TERM and HUP).  New global variable curses_ended, 
-	  changes to winio.c:statubar() and nano.c:die()
+	  changes to winio.c:statusbar() and nano.c:die()
 	  (David Benbennick).
 - cut.c:
   do_cut_text()
