@@ -522,7 +522,9 @@ typedef struct rcoption {
 #define VIEW TRUE
 #define NOVIEW FALSE
 
-/* Minimum editor window rows required for nano to work correctly. */
+/* Minimum editor window columns and rows required for nano to work
+ * correctly. */
+#define MIN_EDITOR_COLS 4
 #define MIN_EDITOR_ROWS 1
 
 /* Default number of characters from end-of-line where text wrapping

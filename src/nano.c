@@ -634,7 +634,7 @@ void window_init(void)
 {
     /* If the screen height is too small, get out. */
     editwinrows = LINES - 5 + no_more_space() + no_help();
-    if (editwinrows < MIN_EDITOR_ROWS)
+    if (COLS < MIN_EDITOR_COLS || editwinrows < MIN_EDITOR_ROWS)
 	die(_("Window size is too small for nano...\n"));
 
 #ifndef DISABLE_WRAPJUSTIFY

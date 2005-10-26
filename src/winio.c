@@ -2174,6 +2174,20 @@ void do_statusbar_verbatim_input(bool *got_enter)
     free(output);
 }
 
+/* nano scrolls horizontally within a line in chunks.  This function
+ * returns the column number of the first character displayed in the
+ * statusbar prompt when the cursor is at the given column with the
+ * prompt ending at start_col.  Note that (0 <= column -
+ * get_statusbar_page_start(column) < COLS). */
+size_t get_statusbar_page_start(size_t start_col, size_t column)
+{
+    if (column == start_col || column < COLS - 1)
+	return 0;
+    else
+	return column - start_col - (column - start_col) % (COLS -
+		start_col - 1);
+}
+
 /* Return the placewewant associated with current_x, i.e, the zero-based
  * column position of the cursor.  The value will be no smaller than
  * current_x. */
@@ -2453,39 +2467,33 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
     return converted;
 }
 
-/* Repaint the statusbar when getting a character in nanogetstr().  buf
- * should be no longer than max(0, COLS - 4).
- *
- * Note that we must turn on A_REVERSE here, since do_help() turns it
- * off! */
+/* Repaint the statusbar when getting a character in nanogetstr().  Note
+ * that we must turn on A_REVERSE here, since do_help() turns it off! */
 void nanoget_repaint(const char *buf, const char *inputbuf, size_t x)
 {
-    size_t x_real = strnlenpt(inputbuf, x);
-    int wid = COLS - strlenpt(buf) - 2;
+    size_t start_col, xpt, page_start;
+    char *expanded;
 
     assert(x <= strlen(inputbuf));
 
+    start_col = strlenpt(buf) + 1;
+    xpt = strnlenpt(inputbuf, x);
+    page_start = get_statusbar_page_start(start_col, start_col + xpt);
+
     wattron(bottomwin, A_REVERSE);
+
     blank_statusbar();
 
     mvwaddnstr(bottomwin, 0, 0, buf, actual_x(buf, COLS - 2));
     waddch(bottomwin, ':');
+    waddch(bottomwin, (page_start == 0) ? ' ' : '$');
 
-    if (COLS > 1)
-	waddch(bottomwin, x_real < wid ? ' ' : '$');
-    if (COLS > 2) {
-	size_t page_start = x_real - x_real % wid;
-	char *expanded = display_string(inputbuf, page_start, wid,
-		FALSE);
+    expanded = display_string(inputbuf, page_start, COLS - start_col -
+	1, FALSE);
+    waddstr(bottomwin, expanded);
+    free(expanded);
 
-	assert(wid > 0);
-	assert(strlenpt(expanded) <= wid);
-
-	waddstr(bottomwin, expanded);
-	free(expanded);
-	wmove(bottomwin, 0, COLS - wid + x_real - page_start);
-    } else
-	wmove(bottomwin, 0, COLS - 1);
+    wmove(bottomwin, 0, start_col + xpt + 1 - page_start);
 
     wattroff(bottomwin, A_REVERSE);
 }
@@ -2769,7 +2777,6 @@ void titlebar(const char *path)
 	/* Do we put an ellipsis before the path? */
 
     assert(path != NULL || openfile->filename != NULL);
-    assert(COLS >= 0);
 
     wattron(topwin, A_REVERSE);
     blank_titlebar();
@@ -2885,7 +2892,7 @@ void titlebar(const char *path)
     free(exppath);
 
     if (state[0] != '\0') {
-	if (COLS <= 1 || statelen >= COLS - 1)
+	if (statelen >= COLS - 1)
 	    mvwaddnstr(topwin, 0, 0, state, actual_x(state, COLS));
 	else {
 	    assert(COLS - statelen - 1 >= 0);
@@ -2932,7 +2939,7 @@ void statusbar(const char *msg, ...)
     /* Blank out the line. */
     blank_statusbar();
 
-    if (COLS >= 4) {
+    {
 	char *bar, *foo;
 	size_t start_x = 0, foo_len;
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
@@ -3060,20 +3067,16 @@ void onekey(const char *keystroke, const char *desc, size_t len)
 
 /* nano scrolls horizontally within a line in chunks.  This function
  * returns the column number of the first character displayed in the
- * window when the cursor is at the given column.  Note that
- * 0 <= column - get_page_start(column) < COLS. */
+ * edit window when the cursor is at the given column.  Note that (0 <=
+ * column - get_page_start(column) < COLS). */
 size_t get_page_start(size_t column)
 {
-    assert(COLS > 0);
-
     if (column == 0 || column < COLS - 1)
 	return 0;
     else if (COLS > 9)
 	return column - 7 - (column - 7) % (COLS - 8);
-    else if (COLS > 2)
-	return column - (COLS - 2);
     else
-	return column - (COLS - 1);
+	return column - (COLS - 2);
 }
 
 /* Resets current_y, based on the position of current, and puts the

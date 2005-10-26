@@ -5,6 +5,19 @@ CVS code -
 	  is disabled when NANO_SMALL is defined.  New functions
 	  do_scroll_up() and do_scroll_down(); changes to
 	  shortcut_init(). (DLR, suggested by Mike Frysinger)
+	- Since the statusbar prompt code needs at least 4 columns in
+	  order to work properly, make that the minimum number of
+	  columns nano requires to run, and remove assertions and code
+	  that make use of a smaller number.  Changes to window_init(),
+	  nanoget_repaint(), titlebar(), statusbar(), and
+	  get_page_start(). (DLR)
+- nano.h:
+	- Readd MIN_EDITOR_COLS #define. (DLR)
+- winio.c:
+  nanoget_repaint()
+	- Move the code to determine the statusbar equivalent of
+	  get_page_start() into the new function
+	  get_statusbar_page_start(). (DLR)
 
 GNU nano 1.3.9 - 2005.10.23
 - General:

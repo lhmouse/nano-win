@@ -155,7 +155,7 @@ int search_init(bool replacing, bool use_answer)
 	/* We use (COLS / 3) here because we need to see more on the
 	 * line. */
 	sprintf(buf, " [%s%s]", disp,
-		strlenpt(last_search) > COLS / 3 ? "..." : "");
+		(strlenpt(last_search) > COLS / 3) ? "..." : "");
 	free(disp);
     } else
 	buf = mallocstrcpy(NULL, "");
