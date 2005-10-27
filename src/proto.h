@@ -669,8 +669,8 @@ void bottombars(const shortcut *s);
 void onekey(const char *keystroke, const char *desc, size_t len);
 size_t get_page_start(size_t column);
 void reset_cursor(void);
-void edit_add(const filestruct *fileptr, const char *converted, int
-	yval, size_t start);
+void edit_draw(const filestruct *fileptr, const char *converted, int
+	line, size_t start);
 void update_line(const filestruct *fileptr, size_t index);
 bool need_horizontal_update(size_t old_pww);
 bool need_vertical_update(size_t old_pww);

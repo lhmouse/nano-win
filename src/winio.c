@@ -3121,15 +3121,16 @@ void reset_cursor(void)
      }
 }
 
-/* edit_add() takes care of the job of actually painting a line into the
- * edit window.  fileptr is the line to be painted, at row yval of the
- * window.  converted is the actual string to be written to the window,
- * with tabs and control characters replaced by strings of regular
- * characters.  start is the column number of the first character of
- * this page.  That is, the first character of converted corresponds to
- * character number actual_x(fileptr->data, start) of the line. */
-void edit_add(const filestruct *fileptr, const char *converted, int
-	yval, size_t start)
+/* edit_draw() takes care of the job of actually painting a line into
+ * the edit window.  fileptr is the line to be painted, at row line of
+ * the window.  converted is the actual string to be written to the
+ * window, with tabs and control characters replaced by strings of
+ * regular characters.  start is the column number of the first
+ * character of this page.  That is, the first character of converted
+ * corresponds to character number actual_x(fileptr->data, start) of the
+ * line. */
+void edit_draw(const filestruct *fileptr, const char *converted, int
+	line, size_t start)
 {
 #if !defined(NANO_SMALL) || defined(ENABLE_COLOR)
     size_t startpos = actual_x(fileptr->data, start);
@@ -3148,7 +3149,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 
     /* Just paint the string in any case (we'll add color or reverse on
      * just the text that needs it). */
-    mvwaddstr(edit, yval, 0, converted);
+    mvwaddstr(edit, line, 0, converted);
 
 #ifdef ENABLE_COLOR
     /* If color syntaxes are available and turned on, we need to display
@@ -3217,8 +3218,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 
 			assert(0 <= x_start && 0 <= paintlen);
 
-			mvwaddnstr(edit, yval, x_start,
-				converted + index, paintlen);
+			mvwaddnstr(edit, line, x_start, converted +
+				index, paintlen);
 		    }
 		    k = startmatch.rm_eo;
 		}
@@ -3304,7 +3305,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 			strnlenpt(fileptr->data, endmatch.rm_eo) -
 			start);
 
-		mvwaddnstr(edit, yval, 0, converted, paintlen);
+		mvwaddnstr(edit, line, 0, converted, paintlen);
 
   step_two:
 		/* Second step, we look for starts on this line. */
@@ -3349,8 +3350,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 
 			    assert(0 <= x_start && x_start < COLS);
 
-			    mvwaddnstr(edit, yval, x_start,
-				converted + index, paintlen);
+			    mvwaddnstr(edit, line, x_start, converted +
+				index, paintlen);
 			}
 		    } else {
 			/* There is no end on this line.  But we haven't
@@ -3365,8 +3366,8 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 			if (end_line != NULL) {
 			    assert(0 <= x_start && x_start < COLS);
 
-			    mvwaddnstr(edit, yval, x_start,
-				converted + index, -1);
+			    mvwaddnstr(edit, line, x_start, converted +
+				index, -1);
 			    /* We painted to the end of the line, so
 			     * don't bother checking any more starts. */
 			    break;
@@ -3447,7 +3448,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 		paintlen = actual_x(converted + index, paintlen);
 
 	    wattron(edit, A_REVERSE);
-	    mvwaddnstr(edit, yval, x_start, converted + index,
+	    mvwaddnstr(edit, line, x_start, converted + index,
 		paintlen);
 	    wattroff(edit, A_REVERSE);
 	}
@@ -3456,7 +3457,7 @@ void edit_add(const filestruct *fileptr, const char *converted, int
 }
 
 /* Just update one line in the edit buffer.  This is basically a wrapper
- * for edit_add().
+ * for edit_draw().
  *
  * If fileptr != current, then index is considered 0.  The line will be
  * displayed starting with fileptr->data[index].  Likely args are
@@ -3494,7 +3495,7 @@ void update_line(const filestruct *fileptr, size_t index)
     converted = display_string(fileptr->data, page_start, COLS, TRUE);
 
     /* Paint the line. */
-    edit_add(fileptr, converted, line, page_start);
+    edit_draw(fileptr, converted, line, page_start);
     free(converted);
 
     if (page_start > 0)
