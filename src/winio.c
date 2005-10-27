@@ -2925,6 +2925,11 @@ void set_modified(void)
 void statusbar(const char *msg, ...)
 {
     va_list ap;
+    char *bar, *foo;
+    size_t start_x, foo_len;
+#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+    bool old_whitespace;
+#endif
 
     va_start(ap, msg);
 
@@ -2939,40 +2944,34 @@ void statusbar(const char *msg, ...)
     /* Blank out the line. */
     blank_statusbar();
 
-    {
-	char *bar, *foo;
-	size_t start_x = 0, foo_len;
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
-	bool old_whitespace = ISSET(WHITESPACE_DISPLAY);
-
-	UNSET(WHITESPACE_DISPLAY);
+    old_whitespace = ISSET(WHITESPACE_DISPLAY);
+    UNSET(WHITESPACE_DISPLAY);
 #endif
-	bar = charalloc(mb_cur_max() * (COLS - 3));
-	vsnprintf(bar, mb_cur_max() * (COLS - 3), msg, ap);
-	va_end(ap);
-	foo = display_string(bar, 0, COLS - 4, FALSE);
+    bar = charalloc(mb_cur_max() * (COLS - 3));
+    vsnprintf(bar, mb_cur_max() * (COLS - 3), msg, ap);
+    va_end(ap);
+    foo = display_string(bar, 0, COLS - 4, FALSE);
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
-	if (old_whitespace)
-	    SET(WHITESPACE_DISPLAY);
+    if (old_whitespace)
+	SET(WHITESPACE_DISPLAY);
 #endif
-	free(bar);
-	foo_len = strlenpt(foo);
-	start_x = (COLS - foo_len - 4) / 2;
+    free(bar);
+    foo_len = strlenpt(foo);
+    start_x = (COLS - foo_len - 4) / 2;
 
-	wmove(bottomwin, 0, start_x);
-	wattron(bottomwin, A_REVERSE);
-
-	waddstr(bottomwin, "[ ");
-	waddstr(bottomwin, foo);
-	free(foo);
-	waddstr(bottomwin, " ]");
-	wattroff(bottomwin, A_REVERSE);
-	wnoutrefresh(bottomwin);
-	reset_cursor();
-	wnoutrefresh(edit);
-	    /* Leave the cursor at its position in the edit window, not
-	     * in the statusbar. */
-    }
+    wmove(bottomwin, 0, start_x);
+    wattron(bottomwin, A_REVERSE);
+    waddstr(bottomwin, "[ ");
+    waddstr(bottomwin, foo);
+    free(foo);
+    waddstr(bottomwin, " ]");
+    wattroff(bottomwin, A_REVERSE);
+    wnoutrefresh(bottomwin);
+    reset_cursor();
+    wnoutrefresh(edit);
+	/* Leave the cursor at its position in the edit window, not in
+	 * the statusbar. */
 
     disable_cursorpos = TRUE;
 
