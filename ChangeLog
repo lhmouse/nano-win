@@ -17,6 +17,9 @@ CVS code -
 	  get_page_start(). (DLR)
 - nano.h:
 	- Readd MIN_EDITOR_COLS #define. (DLR)
+- doc/nanorc.sample:
+	- Tweak the "c-file" regex for characters to properly handle
+	  '\"'. (DLR)
 
 GNU nano 1.3.9 - 2005.10.23
 - General:
