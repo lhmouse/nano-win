@@ -85,9 +85,7 @@ size_t quotelen;		/* strlen(quotestr) */
 char *backup_dir = NULL;	/* Backup directory. */
 #endif
 
-char *prompt = NULL;		/* Answer string for statusbar
-				 * questions. */
-char *answer = NULL;		/* Answer string for statusbar
+char *answer = NULL;		/* The answer string for statusbar
 				 * questions. */
 
 ssize_t tabsize = -1;		/* Our internal tabsize variable.  The

@@ -38,12 +38,15 @@ static int *key_buffer = NULL;
 static size_t key_buffer_len = 0;
 				/* The length of the default keystroke
 				 * buffer. */
+static char *prompt = NULL;
+				/* The prompt string for statusbar
+				 * questions. */
+static size_t statusbar_x = (size_t)-1;
+				/* The cursor position in answer. */
 static int statusblank = 0;
 				/* The number of keystrokes left after
 				 * we call statusbar(), before we
 				 * actually blank the statusbar. */
-static size_t statusbar_x = (size_t)-1;
-				/* The cursor position in answer. */
 static bool disable_cursorpos = FALSE;
 				/* Should we temporarily disable
 				 * constant cursor position display? */
