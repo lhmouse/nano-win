@@ -85,7 +85,10 @@ size_t quotelen;		/* strlen(quotestr) */
 char *backup_dir = NULL;	/* Backup directory. */
 #endif
 
-char *answer = NULL;		/* Answer str to many questions */
+char *prompt = NULL;		/* Answer string for statusbar
+				 * questions. */
+char *answer = NULL;		/* Answer string for statusbar
+				 * questions. */
 
 ssize_t tabsize = -1;		/* Our internal tabsize variable.  The
 				   default value is set in main(). */

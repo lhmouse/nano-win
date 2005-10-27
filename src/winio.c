@@ -1857,11 +1857,28 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 #ifndef DISABLE_MOUSE
 bool do_statusbar_mouse(void)
 {
-    /* FIXME: If we clicked on a location in the statusbar, the cursor
-     * should move to the location we clicked on.  This functionality
-     * should be in this function. */
     int mouse_x, mouse_y;
-    return get_mouseinput(&mouse_x, &mouse_y, TRUE);
+    bool retval = get_mouseinput(&mouse_x, &mouse_y, TRUE);
+
+    if (!retval) {
+	/* We can click in the statusbar window text to move the
+	 * cursor. */
+	if (wenclose(bottomwin, mouse_y, mouse_x)) {
+	    size_t start_col = strlenpt(prompt) + 1;
+
+	    /* Move to where the click occurred. */
+	    if (mouse_x > start_col) {
+		size_t xpt = strnlenpt(answer, statusbar_x);
+
+		statusbar_x = actual_x(answer,
+			get_statusbar_page_start(start_col, start_col +
+			xpt) + mouse_x - start_col - 1);
+		nanoget_repaint(answer, statusbar_x);
+	    }
+	}
+    }
+
+    return retval;
 }
 #endif
 
@@ -2469,14 +2486,14 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
 /* Repaint the statusbar when getting a character in nanogetstr().  Note
  * that we must turn on A_REVERSE here, since do_help() turns it off! */
-void nanoget_repaint(const char *buf, const char *inputbuf, size_t x)
+void nanoget_repaint(const char *inputbuf, size_t x)
 {
     size_t start_col, xpt, page_start;
     char *expanded;
 
     assert(x <= strlen(inputbuf));
 
-    start_col = strlenpt(buf) + 1;
+    start_col = strlenpt(prompt) + 1;
     xpt = strnlenpt(inputbuf, x);
     page_start = get_statusbar_page_start(start_col, start_col + xpt);
 
@@ -2484,7 +2501,7 @@ void nanoget_repaint(const char *buf, const char *inputbuf, size_t x)
 
     blank_statusbar();
 
-    mvwaddnstr(bottomwin, 0, 0, buf, actual_x(buf, COLS - 2));
+    mvwaddnstr(bottomwin, 0, 0, prompt, actual_x(prompt, COLS - 2));
     waddch(bottomwin, ':');
     waddch(bottomwin, (page_start == 0) ? ' ' : '$');
 
@@ -2500,7 +2517,7 @@ void nanoget_repaint(const char *buf, const char *inputbuf, size_t x)
 
 /* Get the input from the keyboard; this should only be called from
  * statusq(). */
-int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
+int nanogetstr(bool allow_tabs, const char *curranswer,
 #ifndef NANO_SMALL
 	filestruct **history_list,
 #endif
@@ -2546,7 +2563,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 
     currshortcut = s;
 
-    nanoget_repaint(buf, answer, statusbar_x);
+    nanoget_repaint(answer, statusbar_x);
 
     /* Refresh the edit window and the statusbar before getting
      * input. */
@@ -2655,7 +2672,7 @@ int nanogetstr(bool allow_tabs, const char *buf, const char *curranswer,
 	last_kbinput = kbinput;
 #endif
 
-	nanoget_repaint(buf, answer, statusbar_x);
+	nanoget_repaint(answer, statusbar_x);
 	wnoutrefresh(bottomwin);
     }
 
@@ -2693,20 +2710,21 @@ int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
 	const char *msg, ...)
 {
     va_list ap;
-    char *foo = charalloc(((COLS - 4) * mb_cur_max()) + 1);
     int retval;
 #ifndef DISABLE_TABCOMP
     bool list = FALSE;
 #endif
 
+    prompt = charealloc(prompt, ((COLS - 4) * mb_cur_max()) + 1);
+
     bottombars(s);
 
     va_start(ap, msg);
-    vsnprintf(foo, (COLS - 4) * mb_cur_max(), msg, ap);
+    vsnprintf(prompt, (COLS - 4) * mb_cur_max(), msg, ap);
     va_end(ap);
-    null_at(&foo, actual_x(foo, COLS - 4));
+    null_at(&prompt, actual_x(prompt, COLS - 4));
 
-    retval = nanogetstr(allow_tabs, foo, curranswer,
+    retval = nanogetstr(allow_tabs, curranswer,
 #ifndef NANO_SMALL
 		history_list,
 #endif
@@ -2715,7 +2733,7 @@ int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
 		, &list
 #endif
 		);
-    free(foo);
+
     resetstatuspos = FALSE;
 
     switch (retval) {
