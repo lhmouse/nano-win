@@ -185,7 +185,7 @@
 # color brightyellow "\<(try|throw|catch|operator|new|delete)\>"
 # color magenta "\<(goto|continue|break|return)\>"
 # color brightcyan "^[[:space:]]*#[[:space:]]*(define|undef|include|ifn?def|endif|elif|else|if|warning|error)"
-# color brightmagenta "'([^\]|(\\["'abfnrtv\\]))'" "'\\(([0-7][0-7]?)|([0-3][0-7][0-7]))'" "'\\x[0-9A-Fa-f][0-9A-Fa-f]?'"
+# color brightmagenta "'([^"'\]|(\\["'abfnrtv\\]))'" "'\\(([0-7][0-7]?)|([0-3][0-7][0-7]))'" "'\\x[0-9A-Fa-f][0-9A-Fa-f]?'"
 ##
 ## GCC builtins
 ##

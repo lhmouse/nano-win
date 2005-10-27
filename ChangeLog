@@ -18,8 +18,8 @@ CVS code -
 - nano.h:
 	- Readd MIN_EDITOR_COLS #define. (DLR)
 - doc/nanorc.sample:
-	- Tweak the "c-file" regex for characters to properly handle
-	  '\"'. (DLR)
+	- Tweak the "c-file" regex for characters to properly accept
+	  '\"' and reject '"' and '''. (DLR)
 
 GNU nano 1.3.9 - 2005.10.23
 - General:
