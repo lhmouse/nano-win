@@ -1869,8 +1869,11 @@ bool do_statusbar_mouse(void)
 	if (wenclose(bottomwin, mouse_y, mouse_x)) {
 	    size_t start_col = strlenpt(prompt) + 1;
 
+	    /* Subtract out the sizes of topwin and edit. */
+	    mouse_y -= (2 - no_more_space()) + editwinrows;
+
 	    /* Move to where the click occurred. */
-	    if (mouse_x > start_col) {
+	    if (mouse_x > start_col && mouse_y == 0) {
 		size_t xpt = strnlenpt(answer, statusbar_x);
 
 		statusbar_x = actual_x(answer,
