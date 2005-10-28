@@ -1561,8 +1561,10 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 	    i = COLS / ((currslen / 2) + (currslen % 2));
 
 	/* Calculate the y-coordinate relative to the beginning of
-	 * the shortcut list in bottomwin. */
-	j = *mouse_y - ((2 - no_more_space()) + 1) - editwinrows;
+	 * the shortcut list in bottomwin, i.e, with the sizes of
+	 * topwin, edit, and the first line of bottomwin subtracted
+	 * out. */
+	j = *mouse_y - (2 - no_more_space()) - editwinrows - 1;
 
 	/* If we're on the statusbar, beyond the end of the shortcut
 	 * list, or beyond the end of a shortcut on the right side of
