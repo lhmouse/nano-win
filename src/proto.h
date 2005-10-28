@@ -58,7 +58,7 @@ extern char *backup_dir;
 #endif
 
 extern WINDOW *topwin, *edit, *bottomwin;
-extern char *prompt, *answer;
+extern char *answer;
 #ifndef DISABLE_HELP
 extern char *help_text;
 #endif
