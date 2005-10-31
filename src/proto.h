@@ -632,6 +632,7 @@ bool do_statusbar_next_word(bool allow_punct);
 bool do_statusbar_prev_word(bool allow_punct);
 #endif
 void do_statusbar_verbatim_input(bool *got_enter);
+size_t statusbar_xplustabs(void);
 size_t get_statusbar_page_start(size_t start_col, size_t column);
 size_t xplustabs(void);
 size_t actual_x(const char *str, size_t xplus);

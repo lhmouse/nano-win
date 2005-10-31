@@ -6,9 +6,9 @@ CVS code -
 	  do_scroll_up() and do_scroll_down(); changes to
 	  shortcut_init(). (DLR, suggested by Mike Frysinger)
 	- Properly handle mouse clicks on the statusbar prompt text.
-	  New function get_statusbar_page_start(); changes to
-	  do_statusbar_mouse(), nanoget_repaint(), nanogetstr(), and
-	  statusq(). (DLR)
+	  New functions statusbar_xplustabs() and
+	  get_statusbar_page_start(); changes to do_statusbar_mouse(),
+	  nanoget_repaint(), nanogetstr(), and statusq(). (DLR)
 	- Since the statusbar prompt code needs at least 4 columns in
 	  order to work properly, make that the minimum number of
 	  columns nano requires to run, and remove assertions and code

@@ -1876,11 +1876,10 @@ bool do_statusbar_mouse(void)
 
 	    /* Move to where the click occurred. */
 	    if (mouse_x > start_col && mouse_y == 0) {
-		size_t xpt = strnlenpt(answer, statusbar_x);
-
 		statusbar_x = actual_x(answer,
 			get_statusbar_page_start(start_col, start_col +
-			xpt) + mouse_x - start_col - 1);
+			statusbar_xplustabs()) + mouse_x - start_col -
+			1);
 		nanoget_repaint(answer, statusbar_x);
 	    }
 	}
@@ -2197,6 +2196,14 @@ void do_statusbar_verbatim_input(bool *got_enter)
     do_statusbar_output(output, kbinput_len, got_enter, TRUE);
 
     free(output);
+}
+
+/* Return the placewewant associated with statusbar_x, i.e, the
+ * zero-based column position of the cursor.  The value will be no
+ * smaller than statusbar_x. */
+size_t statusbar_xplustabs(void)
+{
+    return strnlenpt(answer, statusbar_x);
 }
 
 /* nano scrolls horizontally within a line in chunks.  This function
