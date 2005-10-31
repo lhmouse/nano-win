@@ -18,6 +18,8 @@ CVS code -
 - nano.h:
 	- Readd MIN_EDITOR_COLS #define. (DLR)
 - winio.c:
+  nanoget_repaint()
+	- Rename parameter inputbuf to buf, for consistency. (DLR)
   edit_add()
 	- Rename to edit_draw(), and rename parameter yval to line.
 	  (DLR)

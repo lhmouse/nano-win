@@ -646,7 +646,7 @@ void blank_bottombars(void);
 void check_statusblank(void);
 char *display_string(const char *buf, size_t start_col, size_t len, bool
 	dollars);
-void nanoget_repaint(const char *inputbuf, size_t x);
+void nanoget_repaint(const char *buf, size_t x);
 int nanogetstr(bool allow_tabs, const char *curranswer,
 #ifndef NANO_SMALL
 	filestruct **history_list,

@@ -2494,15 +2494,15 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
 /* Repaint the statusbar when getting a character in nanogetstr().  Note
  * that we must turn on A_REVERSE here, since do_help() turns it off! */
-void nanoget_repaint(const char *inputbuf, size_t x)
+void nanoget_repaint(const char *buf, size_t x)
 {
     size_t start_col, xpt, page_start;
     char *expanded;
 
-    assert(x <= strlen(inputbuf));
+    assert(x <= strlen(buf));
 
     start_col = strlenpt(prompt) + 1;
-    xpt = strnlenpt(inputbuf, x);
+    xpt = strnlenpt(buf, x);
     page_start = get_statusbar_page_start(start_col, start_col + xpt);
 
     wattron(bottomwin, A_REVERSE);
@@ -2513,8 +2513,8 @@ void nanoget_repaint(const char *inputbuf, size_t x)
     waddch(bottomwin, ':');
     waddch(bottomwin, (page_start == 0) ? ' ' : '$');
 
-    expanded = display_string(inputbuf, page_start, COLS - start_col -
-	1, FALSE);
+    expanded = display_string(buf, page_start, COLS - start_col - 1,
+	FALSE);
     waddstr(bottomwin, expanded);
     free(expanded);
 
