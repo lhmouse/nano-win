@@ -395,6 +395,73 @@ char *mallocstrassn(char *dest, char *src)
     return src;
 }
 
+/* Return the placewewant associated with current_x, i.e, the zero-based
+ * column position of the cursor.  The value will be no smaller than
+ * current_x. */
+size_t xplustabs(void)
+{
+    return strnlenpt(openfile->current->data, openfile->current_x);
+}
+
+/* actual_x() gives the index in s of the character displayed at the
+ * given column.  That is, actual_x() is the largest value such that
+ * strnlenpt(s, actual_x(s, column)) <= column. */
+size_t actual_x(const char *s, size_t column)
+{
+    size_t i = 0;
+	/* The position in s, returned. */
+    size_t len = 0;
+	/* The screen display width to s[i]. */
+
+    assert(s != NULL);
+
+    while (*s != '\0') {
+	int s_len = parse_mbchar(s, NULL, &len);
+
+	if (len > column)
+	    break;
+
+	i += s_len;
+	s += s_len;
+    }
+
+    return i;
+}
+
+/* A strnlen() with tabs and multicolumn characters factored in, similar
+ * to xplustabs().  How many columns wide are the first maxlen characters
+ * of s? */
+size_t strnlenpt(const char *s, size_t maxlen)
+{
+    size_t len = 0;
+	/* The screen display width to s[i]. */
+
+    if (maxlen == 0)
+	return 0;
+
+    assert(s != NULL);
+
+    while (*s != '\0') {
+	int s_len = parse_mbchar(s, NULL, &len);
+
+	s += s_len;
+
+	if (maxlen <= s_len)
+	    break;
+
+	maxlen -= s_len;
+    }
+
+    return len;
+}
+
+/* A strlen() with tabs and multicolumn characters factored in, similar
+ * to xplustabs().  How many columns wide is s? */
+size_t strlenpt(const char *s)
+{
+    return strnlenpt(s, (size_t)-1);
+}
+
 /* Append a new magicline to filebot. */
 void new_magicline(void)
 {
