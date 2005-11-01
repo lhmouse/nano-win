@@ -826,7 +826,10 @@ int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
     bool list = FALSE;
 #endif
 
-    assert(prompt == NULL);
+    /* prompt has been freed and set to NULL unless the user resized
+     * while at the statusbar prompt. */
+    if (prompt != NULL)
+	free(prompt);
 
     prompt = charalloc(((COLS - 4) * mb_cur_max()) + 1);
 
