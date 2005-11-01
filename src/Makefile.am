@@ -9,6 +9,7 @@ nano_SOURCES =	chars.c \
 		cut.c \
 		files.c \
 		global.c \
+		help.c \
 		move.c \
 		nano.c \
 		nano.h \

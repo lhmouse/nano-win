@@ -91,10 +91,6 @@ char *answer = NULL;		/* The answer string for statusbar
 ssize_t tabsize = -1;		/* Our internal tabsize variable.  The
 				   default value is set in main(). */
 
-#ifndef DISABLE_HELP
-char *help_text;		/* The text in the help window */
-#endif
-
 #ifndef DISABLE_OPERATINGDIR
 char *operating_dir = NULL;	/* Operating directory, which we can't */
 char *full_operating_dir = NULL;/* go higher than */
@@ -1176,10 +1172,6 @@ void thanks_for_all_the_fish(void)
 #ifndef DISABLE_SPELLER
     if (alt_speller != NULL)
 	free(alt_speller);
-#endif
-#ifndef DISABLE_HELP
-    if (help_text != NULL)
-	free(help_text);
 #endif
     if (answer != NULL)
 	free(answer);

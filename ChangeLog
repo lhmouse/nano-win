@@ -31,6 +31,10 @@ CVS code -
 	  statusbar_xplustabs(), get_statusbar_page_start(),
 	  nanoget_repaint(), nanogetstr(), statusq(), and
 	  statusq_abort() (all moved to prompt.c). (DLR)
+	- Move functions specific to the help browser to their own
+	  source file, and adjust related variables accordingly.  New
+	  file help.c; changes to help_init(), help_line_len(), and
+	  do_help() (all moved to help.c). (DLR)
 - nano.h:
 	- Readd MIN_EDITOR_COLS #define. (DLR)
 - winio.c:
@@ -43,7 +47,7 @@ CVS code -
 	- Tweak the "c-file" regex for characters to properly accept
 	  '\"' and reject '"' and '''. (DLR)
 - src/Makefile.am:
-	- Add prompt.c to nano_SOURCES. (DLR)
+	- Add help.c and prompt.c to nano_SOURCES. (DLR)
 
 GNU nano 1.3.9 - 2005.10.23
 - General:

@@ -59,9 +59,6 @@ extern char *backup_dir;
 
 extern WINDOW *topwin, *edit, *bottomwin;
 extern char *answer;
-#ifndef DISABLE_HELP
-extern char *help_text;
-#endif
 extern char *last_search;
 extern char *last_replace;
 #ifndef DISABLE_OPERATINGDIR
@@ -313,6 +310,13 @@ void free_shortcutage(shortcut **shortcutage);
 void thanks_for_all_the_fish(void);
 #endif
 
+/* Public functions in help.c. */
+#ifndef DISABLE_HELP
+void help_init(void);
+size_t help_line_len(const char *ptr);
+void do_help(void);
+#endif
+
 /* Public functions in move.c. */
 void do_first_line(void);
 void do_last_line(void);
@@ -374,9 +378,6 @@ void die_save_file(const char *die_filename);
 void window_init(void);
 #ifndef DISABLE_MOUSE
 void mouse_init(void);
-#endif
-#ifndef DISABLE_HELP
-void help_init(void);
 #endif
 void print1opt_full(const char *shortflag
 #ifdef HAVE_GETOPT_LONG
@@ -687,10 +688,6 @@ void total_refresh(void);
 void display_main_list(void);
 void do_cursorpos(bool constant);
 void do_cursorpos_void(void);
-#ifndef DISABLE_HELP
-size_t help_line_len(const char *ptr);
-void do_help(void);
-#endif
 void do_replace_highlight(bool highlight, const char *word);
 #ifndef NDEBUG
 int check_linenumbers(const filestruct *fileptr);
