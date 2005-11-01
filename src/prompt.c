@@ -24,6 +24,7 @@
 #include <config.h>
 #endif
 
+#include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
 #include "proto.h"
@@ -33,7 +34,7 @@ static char *prompt = NULL;
 				 * questions. */
 static size_t statusbar_x = (size_t)-1;
 				/* The cursor position in answer. */
-static bool resetstatuspos = FALSE;
+static bool reset_statusbar_x = FALSE;
 				/* Should we reset the cursor position
 				 * at the statusbar prompt? */
 
@@ -239,7 +240,11 @@ bool do_statusbar_mouse(void)
 	/* We can click in the statusbar window text to move the
 	 * cursor. */
 	if (wenclose(bottomwin, mouse_y, mouse_x)) {
-	    size_t start_col = strlenpt(prompt) + 1;
+	    size_t start_col;
+
+	    assert(prompt != NULL);
+
+	    start_col = strlenpt(prompt) + 1;
 
 	    /* Subtract out the sizes of topwin and edit. */
 	    mouse_y -= (2 - no_more_space()) + editwinrows;
@@ -597,7 +602,7 @@ void nanoget_repaint(const char *buf, size_t x)
     size_t start_col, xpt, page_start;
     char *expanded;
 
-    assert(x <= strlen(buf));
+    assert(prompt != NULL && x <= strlen(buf);
 
     start_col = strlenpt(prompt) + 1;
     xpt = strnlenpt(buf, x);
@@ -621,7 +626,7 @@ void nanoget_repaint(const char *buf, size_t x)
     wattroff(bottomwin, A_REVERSE);
 }
 
-/* Get the input from the keyboard; this should only be called from
+/* Get the input from the keyboard.  This should only be called from
  * statusq(). */
 int nanogetstr(bool allow_tabs, const char *curranswer,
 #ifndef NANO_SMALL
@@ -660,11 +665,11 @@ int nanogetstr(bool allow_tabs, const char *curranswer,
 
     /* Only put statusbar_x at the end of the string if it's
      * uninitialized, if it would be past the end of curranswer, or if
-     * resetstatuspos is TRUE.  Otherwise, leave it alone.  This is so
-     * the cursor position stays at the same place if a prompt-changing
-     * toggle is pressed. */
+     * reset_statusbar_x is TRUE.  Otherwise, leave it alone.  This is
+     * so the cursor position stays at the same place if a
+     * prompt-changing toggle is pressed. */
     if (statusbar_x == (size_t)-1 || statusbar_x > curranswer_len ||
-		resetstatuspos)
+		reset_statusbar_x)
 	statusbar_x = curranswer_len;
 
     currshortcut = s;
@@ -821,7 +826,9 @@ int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
     bool list = FALSE;
 #endif
 
-    prompt = charealloc(prompt, ((COLS - 4) * mb_cur_max()) + 1);
+    assert(prompt == NULL);
+
+    prompt = charalloc(prompt, ((COLS - 4) * mb_cur_max()) + 1);
 
     bottombars(s);
 
@@ -840,16 +847,19 @@ int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
 #endif
 		);
 
-    resetstatuspos = FALSE;
+    free(prompt);
+    prompt = NULL;
+
+    reset_statusbar_x = FALSE;
 
     switch (retval) {
 	case NANO_CANCEL_KEY:
 	    retval = -1;
-	    resetstatuspos = TRUE;
+	    reset_statusbar_x = TRUE;
 	    break;
 	case NANO_ENTER_KEY:
 	    retval = (answer[0] == '\0') ? -2 : 0;
-	    resetstatuspos = TRUE;
+	    reset_statusbar_x = TRUE;
 	    break;
     }
 
@@ -873,5 +883,5 @@ int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
 
 void statusq_abort(void)
 {
-    resetstatuspos = TRUE;
+    reset_statusbar_x = TRUE;
 }
