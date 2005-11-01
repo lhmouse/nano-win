@@ -356,29 +356,6 @@ void help_init(void)
     assert(strlen(help_text) <= allocsize + 1);
 }
 
-/* Calculate the next line of help_text, starting at ptr. */
-size_t help_line_len(const char *ptr)
-{
-    int help_cols = (COLS > 24) ? COLS - 8 : 24;
-
-    /* Try to break the line at (COLS - 8) columns if we have more than
-     * 24 columns, and at 24 columns otherwise. */
-    size_t retval = break_line(ptr, help_cols, TRUE);
-    size_t retval_save = retval;
-
-    /* Get the length of the entire line up to a null or a newline. */
-    while (*(ptr + retval) != '\0' && *(ptr + retval) != '\n')
-	retval += move_mbright(ptr + retval, 0);
-
-    /* If the entire line doesn't go more than 8 columns beyond where we
-     * tried to break it, we should display it as-is.  Otherwise, we
-     * should display it only up to the break. */
-    if (strnlenpt(ptr, retval) > help_cols + 8)
-	retval = retval_save;
-
-    return retval;
-}
-
 /* Our dynamic, shortcut-list-compliant help function. */
 void do_help(void)
 {
@@ -512,6 +489,29 @@ void do_help(void)
      * anymore. */
     free(help_text);
     help_text = NULL;
+}
+
+/* Calculate the next line of help_text, starting at ptr. */
+size_t help_line_len(const char *ptr)
+{
+    int help_cols = (COLS > 24) ? COLS - 8 : 24;
+
+    /* Try to break the line at (COLS - 8) columns if we have more than
+     * 24 columns, and at 24 columns otherwise. */
+    size_t retval = break_line(ptr, help_cols, TRUE);
+    size_t retval_save = retval;
+
+    /* Get the length of the entire line up to a null or a newline. */
+    while (*(ptr + retval) != '\0' && *(ptr + retval) != '\n')
+	retval += move_mbright(ptr + retval, 0);
+
+    /* If the entire line doesn't go more than 8 columns beyond where we
+     * tried to break it, we should display it as-is.  Otherwise, we
+     * should display it only up to the break. */
+    if (strnlenpt(ptr, retval) > help_cols + 8)
+	retval = retval_save;
+
+    return retval;
 }
 
 #endif /* !DISABLE_HELP */
