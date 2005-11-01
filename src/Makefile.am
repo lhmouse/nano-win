@@ -12,6 +12,7 @@ nano_SOURCES =	chars.c \
 		move.c \
 		nano.c \
 		nano.h \
+		prompt.c \
 		proto.h \
 		rcfile.c \
 		search.c \

@@ -416,6 +416,45 @@ bool do_mouse(void);
 #endif
 void do_output(char *output, size_t output_len, bool allow_cntrls);
 
+/* Public functions in prompt.c. */
+int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
+	bool *ran_func, bool *finished, bool allow_funcs);
+#ifndef DISABLE_MOUSE
+bool do_statusbar_mouse(void);
+#endif
+void do_statusbar_output(char *output, size_t output_len, bool
+	*got_enter, bool allow_cntrls);
+void do_statusbar_home(void);
+void do_statusbar_end(void);
+void do_statusbar_right(void);
+void do_statusbar_left(void);
+void do_statusbar_backspace(void);
+void do_statusbar_delete(void);
+void do_statusbar_cut_text(void);
+#ifndef NANO_SMALL
+bool do_statusbar_next_word(bool allow_punct);
+bool do_statusbar_prev_word(bool allow_punct);
+#endif
+void do_statusbar_verbatim_input(bool *got_enter);
+size_t statusbar_xplustabs(void);
+size_t get_statusbar_page_start(size_t start_col, size_t column);
+void nanoget_repaint(const char *buf, size_t x);
+int nanogetstr(bool allow_tabs, const char *curranswer,
+#ifndef NANO_SMALL
+	filestruct **history_list,
+#endif
+	const shortcut *s
+#ifndef DISABLE_TABCOMP
+	, bool *list
+#endif
+	);
+int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
+#ifndef NANO_SMALL
+	filestruct **history_list,
+#endif
+	const char *msg, ...);
+void statusq_abort(void);
+
 /* Public functions in rcfile.c. */
 #ifdef ENABLE_NANORC
 void rcfile_error(const char *msg, ...);
@@ -617,27 +656,6 @@ const shortcut *get_shortcut(const shortcut *s_list, int *kbinput, bool
 #ifndef NANO_SMALL
 const toggle *get_toggle(int kbinput, bool meta_key);
 #endif
-int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
-	bool *ran_func, bool *finished, bool allow_funcs);
-#ifndef DISABLE_MOUSE
-bool do_statusbar_mouse(void);
-#endif
-void do_statusbar_output(char *output, size_t output_len, bool
-	*got_enter, bool allow_cntrls);
-void do_statusbar_home(void);
-void do_statusbar_end(void);
-void do_statusbar_right(void);
-void do_statusbar_left(void);
-void do_statusbar_backspace(void);
-void do_statusbar_delete(void);
-void do_statusbar_cut_text(void);
-#ifndef NANO_SMALL
-bool do_statusbar_next_word(bool allow_punct);
-bool do_statusbar_prev_word(bool allow_punct);
-#endif
-void do_statusbar_verbatim_input(bool *got_enter);
-size_t statusbar_xplustabs(void);
-size_t get_statusbar_page_start(size_t start_col, size_t column);
 void blank_line(WINDOW *win, int y, int x, int n);
 void blank_titlebar(void);
 void blank_topbar(void);
@@ -647,22 +665,6 @@ void blank_bottombars(void);
 void check_statusblank(void);
 char *display_string(const char *buf, size_t start_col, size_t len, bool
 	dollars);
-void nanoget_repaint(const char *buf, size_t x);
-int nanogetstr(bool allow_tabs, const char *curranswer,
-#ifndef NANO_SMALL
-	filestruct **history_list,
-#endif
-	const shortcut *s
-#ifndef DISABLE_TABCOMP
-	, bool *list
-#endif
-	);
-int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
-#ifndef NANO_SMALL
-	filestruct **history_list,
-#endif
-	const char *msg, ...);
-void statusq_abort(void);
 void titlebar(const char *path);
 void set_modified(void);
 void statusbar(const char *msg, ...);

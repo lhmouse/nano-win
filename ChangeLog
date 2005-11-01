@@ -17,6 +17,17 @@ CVS code -
 	  get_page_start(). (DLR)
 	- Move xplustabs(), actual_x(), strnlenpt(), and strlenpt() from
 	  winio.c to utils.c, as they're really utility functions. (DLR)
+	- Move functions specific to the statusbar prompt to their own
+	  source file, and adjust related variables accordingly.  New
+	  file prompt.c; changes to do_statusbar_input(),
+	  do_statusbar_mouse(), do_statusbar_output(),
+	  do_statusbar_home(), do_statusbar_end(), do_statusbar_right(),
+	  do_statusbar_left(), do_statusbar_backspace(),
+	  do_statusbar_delete(), do_statusbar_cut_text(),
+	  do_statusbar_next_word(), do_statusbar_prev_word(),
+	  do_statusbar_verbatim_input(), statusbar_xplustabs(),
+	  get_statusbar_page_start(), nanoget_repaint(), nanogetstr(),
+	  statusq(), and statusq_abort() (all moved to prompt.c). (DLR)
 - nano.h:
 	- Readd MIN_EDITOR_COLS #define. (DLR)
 - winio.c:
@@ -28,6 +39,8 @@ CVS code -
 - doc/nanorc.sample:
 	- Tweak the "c-file" regex for characters to properly accept
 	  '\"' and reject '"' and '''. (DLR)
+- src/Makefile.am:
+	- Add prompt.c to nano_SOURCES. (DLR)
 
 GNU nano 1.3.9 - 2005.10.23
 - General:
