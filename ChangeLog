@@ -15,8 +15,9 @@ CVS code -
 	  that make use of a smaller number.  Changes to window_init(),
 	  nanoget_repaint(), titlebar(), statusbar(), and
 	  get_page_start(). (DLR)
-	- Move xplustabs(), actual_x(), strnlenpt(), and strlenpt() from
-	  winio.c to utils.c, as they're really utility functions. (DLR)
+	- Move get_page_start(), xplustabs(), actual_x(), strnlenpt(),
+	  and strlenpt() from winio.c to utils.c, as they're really
+	  utility functions. (DLR)
 	- Move functions specific to the statusbar prompt to their own
 	  source file, and adjust related variables accordingly.  New
 	  file prompt.c; changes to do_statusbar_input(),

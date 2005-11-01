@@ -2185,22 +2185,8 @@ void onekey(const char *keystroke, const char *desc, size_t len)
     }
 }
 
-/* nano scrolls horizontally within a line in chunks.  This function
- * returns the column number of the first character displayed in the
- * edit window when the cursor is at the given column.  Note that (0 <=
- * column - get_page_start(column) < COLS). */
-size_t get_page_start(size_t column)
-{
-    if (column == 0 || column < COLS - 1)
-	return 0;
-    else if (COLS > 9)
-	return column - 7 - (column - 7) % (COLS - 8);
-    else
-	return column - (COLS - 2);
-}
-
-/* Resets current_y, based on the position of current, and puts the
- * cursor in the edit window at (current_y, current_x). */
+/* Reset current_y, based on the position of current, and put the cursor
+ * in the edit window at (current_y, current_x). */
 void reset_cursor(void)
 {
     /* If we haven't opened any files yet, put the cursor in the top

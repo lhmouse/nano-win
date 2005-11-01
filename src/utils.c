@@ -395,6 +395,20 @@ char *mallocstrassn(char *dest, char *src)
     return src;
 }
 
+/* nano scrolls horizontally within a line in chunks.  Return the column
+ * number of the first character displayed in the edit window when the
+ * cursor is at the given column.  Note that (0 <= column -
+ * get_page_start(column) < COLS). */
+size_t get_page_start(size_t column)
+{
+    if (column == 0 || column < COLS - 1)
+	return 0;
+    else if (COLS > 9)
+	return column - 7 - (column - 7) % (COLS - 8);
+    else
+	return column - (COLS - 2);
+}
+
 /* Return the placewewant associated with current_x, i.e, the zero-based
  * column position of the cursor.  The value will be no smaller than
  * current_x. */
@@ -403,9 +417,9 @@ size_t xplustabs(void)
     return strnlenpt(openfile->current->data, openfile->current_x);
 }
 
-/* actual_x() gives the index in s of the character displayed at the
- * given column.  That is, actual_x() is the largest value such that
- * strnlenpt(s, actual_x(s, column)) <= column. */
+/* Return the index in s of the character displayed at the given column,
+ * i.e, the largest value such that strnlenpt(s, actual_x(s, column)) <=
+ * column. */
 size_t actual_x(const char *s, size_t column)
 {
     size_t i = 0;
