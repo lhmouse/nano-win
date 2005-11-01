@@ -602,7 +602,7 @@ void nanoget_repaint(const char *buf, size_t x)
     size_t start_col, xpt, page_start;
     char *expanded;
 
-    assert(prompt != NULL && x <= strlen(buf);
+    assert(prompt != NULL && x <= strlen(buf));
 
     start_col = strlenpt(prompt) + 1;
     xpt = strnlenpt(buf, x);
@@ -828,7 +828,7 @@ int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
 
     assert(prompt == NULL);
 
-    prompt = charalloc(prompt, ((COLS - 4) * mb_cur_max()) + 1);
+    prompt = charalloc(((COLS - 4) * mb_cur_max()) + 1);
 
     bottombars(s);
 
