@@ -33,10 +33,10 @@
 #include "proto.h"
 
 #ifndef NANO_SMALL
-static pid_t pid;		/* The PID of the newly forked process
-				 * in execute_command().  It must be
-				 * global because the cancel_command()
-				 * signal handler needs it. */
+static pid_t pid;
+	/* The PID of the newly forked process in execute_command().  It
+	 * must be global because the cancel_command() signal handler
+	 * needs it. */
 #endif
 #ifndef DISABLE_WRAPPING
 static bool same_line_wrap = FALSE;
