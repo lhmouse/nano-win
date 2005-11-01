@@ -18,17 +18,19 @@ CVS code -
 	- Move get_page_start(), xplustabs(), actual_x(), strnlenpt(),
 	  and strlenpt() from winio.c to utils.c, as they're really
 	  utility functions. (DLR)
+	- Add missing stdio.h #include to winio.c. (DLR)
 	- Move functions specific to the statusbar prompt to their own
-	  source file, and adjust related variables accordingly.  New
-	  file prompt.c; changes to do_statusbar_input(),
-	  do_statusbar_mouse(), do_statusbar_output(),
-	  do_statusbar_home(), do_statusbar_end(), do_statusbar_right(),
-	  do_statusbar_left(), do_statusbar_backspace(),
-	  do_statusbar_delete(), do_statusbar_cut_text(),
-	  do_statusbar_next_word(), do_statusbar_prev_word(),
-	  do_statusbar_verbatim_input(), statusbar_xplustabs(),
-	  get_statusbar_page_start(), nanoget_repaint(), nanogetstr(),
-	  statusq(), and statusq_abort() (all moved to prompt.c). (DLR)
+	  source file, adjust related variables accordingly, and rename
+	  variable resetstatuspos reset_statusbar_x.  New file prompt.c;
+	  changes to do_statusbar_input(), do_statusbar_mouse(),
+	  do_statusbar_output(), do_statusbar_home(),
+	  do_statusbar_end(), do_statusbar_right(), do_statusbar_left(),
+	  do_statusbar_backspace(), do_statusbar_delete(),
+	  do_statusbar_cut_text(), do_statusbar_next_word(),
+	  do_statusbar_prev_word(), do_statusbar_verbatim_input(),
+	  statusbar_xplustabs(), get_statusbar_page_start(),
+	  nanoget_repaint(), nanogetstr(), statusq(), and
+	  statusq_abort() (all moved to prompt.c). (DLR)
 - nano.h:
 	- Readd MIN_EDITOR_COLS #define. (DLR)
 - winio.c:
