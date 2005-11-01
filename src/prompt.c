@@ -807,10 +807,11 @@ int nanogetstr(bool allow_tabs, const char *curranswer,
     return kbinput;
 }
 
-/* Ask a question on the statusbar.  Answer will be stored in answer
- * global.  Returns -1 on aborted enter, -2 on a blank string, and 0
- * otherwise, the valid shortcut key caught.  curranswer is any editable
- * text that we want to put up by default.
+/* Ask a question on the statusbar.  The prompt will be stored in
+ * the static prompt, which should be NULL initially, and the answer
+ * will be stored in the answer global.  Returns -1 on aborted enter, -2
+ * on a blank string, and 0 otherwise, the valid shortcut key caught.
+ * curranswer is any editable text that we want to put up by default.
  *
  * The allow_tabs parameter indicates whether we should allow tabs to be
  * interpreted. */

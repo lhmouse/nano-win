@@ -34,6 +34,141 @@
 static char *help_text = NULL;
 	/* The text displayed in the help window. */
 
+/* Our dynamic, shortcut-list-compliant help function. */
+void do_help(void)
+{
+    int line = 0;
+	/* The line number in help_text of the first displayed help
+	 * line.  This variable is zero-based. */
+    bool no_more = FALSE;
+	/* no_more means the end of the help text is shown, so don't go
+	 * down any more. */
+    int kbinput = ERR;
+    bool meta_key, func_key;
+
+    bool old_no_help = ISSET(NO_HELP);
+#ifndef DISABLE_MOUSE
+    const shortcut *oldshortcut = currshortcut;
+	/* We will set currshortcut to allow clicking on the help
+	 * screen's shortcut list. */
+#endif
+
+    curs_set(0);
+    blank_edit();
+    wattroff(bottomwin, A_REVERSE);
+    blank_statusbar();
+
+    /* Set help_text as the string to display. */
+    help_init();
+
+    assert(help_text != NULL);
+
+#ifndef DISABLE_MOUSE
+    /* Set currshortcut to allow clicking on the help screen's shortcut
+     * list, after help_init() is called. */
+    currshortcut = help_list;
+#endif
+
+    if (ISSET(NO_HELP)) {
+	/* Make sure that the help screen's shortcut list will actually
+	 * be displayed. */
+	UNSET(NO_HELP);
+	window_init();
+    }
+
+    bottombars(help_list);
+
+    do {
+	int i;
+	int old_line = line;
+	    /* We redisplay the help only if it moved. */
+	const char *ptr = help_text;
+
+	switch (kbinput) {
+#ifndef DISABLE_MOUSE
+	    case KEY_MOUSE:
+		{
+		    int mouse_x, mouse_y;
+		    get_mouseinput(&mouse_x, &mouse_y, TRUE);
+		}
+		break;
+#endif
+	    case NANO_PREVPAGE_KEY:
+	    case NANO_PREVPAGE_FKEY:
+		if (line > 0) {
+		    line -= editwinrows - 2;
+		    if (line < 0)
+			line = 0;
+		}
+		break;
+	    case NANO_NEXTPAGE_KEY:
+	    case NANO_NEXTPAGE_FKEY:
+		if (!no_more)
+		    line += editwinrows - 2;
+		break;
+	    case NANO_PREVLINE_KEY:
+		if (line > 0)
+		    line--;
+		break;
+	    case NANO_NEXTLINE_KEY:
+		if (!no_more)
+		    line++;
+		break;
+	}
+
+	if (kbinput == NANO_REFRESH_KEY)
+	    total_redraw();
+	else {
+	    if (line == old_line && kbinput != ERR)
+		goto skip_redisplay;
+
+	    blank_edit();
+	}
+
+	/* Calculate where in the text we should be, based on the
+	 * page. */
+	for (i = 0; i < line; i++) {
+	    ptr += help_line_len(ptr);
+	    if (*ptr == '\n')
+		ptr++;
+	}
+
+	for (i = 0; i < editwinrows && *ptr != '\0'; i++) {
+	    size_t j = help_line_len(ptr);
+
+	    mvwaddnstr(edit, i, 0, ptr, j);
+	    ptr += j;
+	    if (*ptr == '\n')
+		ptr++;
+	}
+	no_more = (*ptr == '\0');
+
+  skip_redisplay:
+	kbinput = get_kbinput(edit, &meta_key, &func_key);
+    } while (kbinput != NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
+
+#ifndef DISABLE_MOUSE
+    currshortcut = oldshortcut;
+#endif
+
+    if (old_no_help) {
+	blank_bottombars();
+	wnoutrefresh(bottomwin);
+	SET(NO_HELP);
+	window_init();
+    } else
+	bottombars(currshortcut);
+
+    curs_set(1);
+    edit_refresh();
+
+    /* The help_init() at the beginning allocated help_text.  Since 
+     * help_text has now been written to the screen, we don't need it
+     * anymore. */
+    free(help_text);
+    help_text = NULL;
+}
+
 /* This function allocates help_text, and stores the help string in it. 
  * help_text should be NULL initially. */
 void help_init(void)
@@ -354,141 +489,6 @@ void help_init(void)
     /* If all went well, we didn't overwrite the allocated space for
      * help_text. */
     assert(strlen(help_text) <= allocsize + 1);
-}
-
-/* Our dynamic, shortcut-list-compliant help function. */
-void do_help(void)
-{
-    int line = 0;
-	/* The line number in help_text of the first displayed help
-	 * line.  This variable is zero-based. */
-    bool no_more = FALSE;
-	/* no_more means the end of the help text is shown, so don't go
-	 * down any more. */
-    int kbinput = ERR;
-    bool meta_key, func_key;
-
-    bool old_no_help = ISSET(NO_HELP);
-#ifndef DISABLE_MOUSE
-    const shortcut *oldshortcut = currshortcut;
-	/* We will set currshortcut to allow clicking on the help
-	 * screen's shortcut list. */
-#endif
-
-    curs_set(0);
-    blank_edit();
-    wattroff(bottomwin, A_REVERSE);
-    blank_statusbar();
-
-    /* Set help_text as the string to display. */
-    help_init();
-
-    assert(help_text != NULL);
-
-#ifndef DISABLE_MOUSE
-    /* Set currshortcut to allow clicking on the help screen's shortcut
-     * list, after help_init() is called. */
-    currshortcut = help_list;
-#endif
-
-    if (ISSET(NO_HELP)) {
-	/* Make sure that the help screen's shortcut list will actually
-	 * be displayed. */
-	UNSET(NO_HELP);
-	window_init();
-    }
-
-    bottombars(help_list);
-
-    do {
-	int i;
-	int old_line = line;
-	    /* We redisplay the help only if it moved. */
-	const char *ptr = help_text;
-
-	switch (kbinput) {
-#ifndef DISABLE_MOUSE
-	    case KEY_MOUSE:
-		{
-		    int mouse_x, mouse_y;
-		    get_mouseinput(&mouse_x, &mouse_y, TRUE);
-		}
-		break;
-#endif
-	    case NANO_PREVPAGE_KEY:
-	    case NANO_PREVPAGE_FKEY:
-		if (line > 0) {
-		    line -= editwinrows - 2;
-		    if (line < 0)
-			line = 0;
-		}
-		break;
-	    case NANO_NEXTPAGE_KEY:
-	    case NANO_NEXTPAGE_FKEY:
-		if (!no_more)
-		    line += editwinrows - 2;
-		break;
-	    case NANO_PREVLINE_KEY:
-		if (line > 0)
-		    line--;
-		break;
-	    case NANO_NEXTLINE_KEY:
-		if (!no_more)
-		    line++;
-		break;
-	}
-
-	if (kbinput == NANO_REFRESH_KEY)
-	    total_redraw();
-	else {
-	    if (line == old_line && kbinput != ERR)
-		goto skip_redisplay;
-
-	    blank_edit();
-	}
-
-	/* Calculate where in the text we should be, based on the
-	 * page. */
-	for (i = 0; i < line; i++) {
-	    ptr += help_line_len(ptr);
-	    if (*ptr == '\n')
-		ptr++;
-	}
-
-	for (i = 0; i < editwinrows && *ptr != '\0'; i++) {
-	    size_t j = help_line_len(ptr);
-
-	    mvwaddnstr(edit, i, 0, ptr, j);
-	    ptr += j;
-	    if (*ptr == '\n')
-		ptr++;
-	}
-	no_more = (*ptr == '\0');
-
-  skip_redisplay:
-	kbinput = get_kbinput(edit, &meta_key, &func_key);
-    } while (kbinput != NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
-
-#ifndef DISABLE_MOUSE
-    currshortcut = oldshortcut;
-#endif
-
-    if (old_no_help) {
-	blank_bottombars();
-	wnoutrefresh(bottomwin);
-	SET(NO_HELP);
-	window_init();
-    } else
-	bottombars(currshortcut);
-
-    curs_set(1);
-    edit_refresh();
-
-    /* The help_init() at the beginning allocated help_text.  Since 
-     * help_text has now been written to the screen, we don't need it
-     * anymore. */
-    free(help_text);
-    help_text = NULL;
 }
 
 /* Calculate the next line of help_text, starting at ptr. */

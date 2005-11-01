@@ -312,8 +312,8 @@ void thanks_for_all_the_fish(void);
 
 /* Public functions in help.c. */
 #ifndef DISABLE_HELP
-void help_init(void);
 void do_help(void);
+void help_init(void);
 size_t help_line_len(const char *ptr);
 #endif
 
