@@ -19,7 +19,7 @@ CVS code -
 	  strlenpt(), check_linenumbers(), dump_buffer(), and
 	  dump_buffer_reverse() from winio.c to utils.c, as they're
 	  really utility functions. (DLR)
-	- Add missing stdio.h #include to winio.c. (DLR)
+	- Add missing stdio.h #include to text.c and winio.c. (DLR)
 	- Move functions specific to the statusbar prompt to their own
 	  source file, adjust related variables accordingly, and rename
 	  variable resetstatuspos reset_statusbar_x.  New file prompt.c;
