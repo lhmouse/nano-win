@@ -2933,17 +2933,24 @@ int do_yesno(bool all, const char *msg)
 
 	    if (mouse_x != -1 && mouse_y != -1 && !ISSET(NO_HELP) &&
 		wenclose(bottomwin, mouse_y, mouse_x) &&
-		mouse_x < (width * 2) && mouse_y >= editwinrows + 3) {
+		mouse_x < (width * 2) && mouse_y - (2 -
+		no_more_space()) - editwinrows - 1 >= 0) {
 		int x = mouse_x / width;
-		    /* Did we click in the first column of shortcuts, or
-		     * the second? */
-		int y = mouse_y - editwinrows - 3;
-		    /* Did we click in the first row of shortcuts? */
+			/* Calculate the x-coordinate relative to the
+			 * two columns of the Yes/No/All shortcuts in
+			 * bottomwin. */
+		int y = mouse_y - (2 - no_more_space()) -
+			editwinrows - 1;
+			/* Calculate the y-coordinate relative to the
+			 * beginning of the Yes/No/All shortcuts in
+			 * bottomwin, i.e, with the sizes of topwin,
+			 * edit, and the first line of bottomwin
+			 * subtracted out. */
 
 		assert(0 <= x && x <= 1 && 0 <= y && y <= 1);
 
-		/* x = 0 means they clicked Yes or No.
-		 * y = 0 means Yes or All. */
+		/* x == 0 means they clicked Yes or No.  y == 0 means
+		 * Yes or All. */
 		ok = -2 * x * y + x - y + 1;
 
 		if (ok == 2 && !all)

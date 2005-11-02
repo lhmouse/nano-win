@@ -43,6 +43,9 @@ CVS code -
   edit_add()
 	- Rename to edit_draw(), and rename parameter yval to line.
 	  (DLR)
+  do_yesno()
+	- Make mouse clicks on the Yes/No/All shortcuts work properly
+	  when the MORE_SPACE flag is set. (DLR)
 - doc/nanorc.sample:
 	- Tweak the "c-file" regex for characters to properly accept
 	  '\"' and reject '"' and '''. (DLR)
