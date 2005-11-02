@@ -3090,52 +3090,6 @@ void do_replace_highlight(bool highlight, const char *word)
 	wattroff(edit, A_REVERSE);
 }
 
-#ifndef NDEBUG
-/* Return what the current line number should be, starting at edittop
- * and ending at fileptr. */
-int check_linenumbers(const filestruct *fileptr)
-{
-    int check_line = 0;
-    const filestruct *filetmp;
-
-    for (filetmp = openfile->edittop; filetmp != fileptr;
-	filetmp = filetmp->next)
-	check_line++;
-
-    return check_line;
-}
-#endif /* !NDEBUG */
-
-#ifdef DEBUG
-/* Dump the filestruct inptr to stderr. */
-void dump_filestruct(const filestruct *inptr)
-{
-    if (inptr == openfile->fileage)
-	fprintf(stderr, "Dumping file buffer to stderr...\n");
-    else if (inptr == cutbuffer)
-	fprintf(stderr, "Dumping cutbuffer to stderr...\n");
-    else
-	fprintf(stderr, "Dumping a buffer to stderr...\n");
-
-    while (inptr != NULL) {
-	fprintf(stderr, "(%ld) %s\n", (long)inptr->lineno, inptr->data);
-	inptr = inptr->next;
-    }
-}
-
-/* Dump the current buffer's filestruct to stderr in reverse. */
-void dump_filestruct_reverse(void)
-{
-    const filestruct *fileptr = openfile->filebot;
-
-    while (fileptr != NULL) {
-	fprintf(stderr, "(%ld) %s\n", (long)fileptr->lineno,
-		fileptr->data);
-	fileptr = fileptr->prev;
-    }
-}
-#endif /* DEBUG */
-
 #ifdef NANO_EXTRA
 #define CREDIT_LEN 54
 #define XLCREDIT_LEN 8

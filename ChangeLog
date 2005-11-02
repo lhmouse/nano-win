@@ -11,13 +11,14 @@ CVS code -
 	  nanoget_repaint(), nanogetstr(), and statusq(). (DLR)
 	- Since the statusbar prompt code needs at least 4 columns in
 	  order to work properly, make that the minimum number of
-	  columns nano requires to run, and remove assertions and code
-	  that make use of a smaller number.  Changes to window_init(),
-	  nanoget_repaint(), titlebar(), statusbar(), and
-	  get_page_start(). (DLR)
+	  columns that nano requires in order to run, and remove
+	  assertions and code that make use of a smaller number of
+	  columns.  Changes to window_init(), nanoget_repaint(),
+	  titlebar(), statusbar(), and get_page_start(). (DLR)
 	- Move get_page_start(), xplustabs(), actual_x(), strnlenpt(),
-	  and strlenpt() from winio.c to utils.c, as they're really
-	  utility functions. (DLR)
+	  strlenpt(), check_linenumbers(), dump_buffer(), and
+	  dump_buffer_reverse() from winio.c to utils.c, as they're
+	  really utility functions. (DLR)
 	- Add missing stdio.h #include to winio.c. (DLR)
 	- Move functions specific to the statusbar prompt to their own
 	  source file, adjust related variables accordingly, and rename

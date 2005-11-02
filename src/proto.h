@@ -617,6 +617,13 @@ void mark_order(const filestruct **top, size_t *top_x, const filestruct
 	**bot, size_t *bot_x, bool *right_side_up);
 #endif
 size_t get_totsize(const filestruct *begin, const filestruct *end);
+#ifndef NDEBUG
+int check_linenumbers(const filestruct *fileptr);
+#endif
+#ifdef DEBUG
+void dump_filestruct(const filestruct *inptr);
+void dump_filestruct_reverse(void);
+#endif
 
 /* Public functions in winio.c. */
 #ifndef NANO_SMALL
@@ -689,13 +696,6 @@ void display_main_list(void);
 void do_cursorpos(bool constant);
 void do_cursorpos_void(void);
 void do_replace_highlight(bool highlight, const char *word);
-#ifndef NDEBUG
-int check_linenumbers(const filestruct *fileptr);
-#endif
-#ifdef DEBUG
-void dump_filestruct(const filestruct *inptr);
-void dump_filestruct_reverse(void);
-#endif
 #ifdef NANO_EXTRA
 void do_credits(void);
 #endif
