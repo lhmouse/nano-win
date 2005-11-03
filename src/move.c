@@ -283,10 +283,8 @@ bool do_next_word(bool allow_punct, bool allow_update)
 
     /* If we haven't found it, leave the cursor at the end of the
      * file. */
-    if (openfile->current == NULL) {
+    if (openfile->current == NULL)
 	openfile->current = openfile->filebot;
-	openfile->current_x = strlen(openfile->filebot->data);
-    }
 
     openfile->placewewant = xplustabs();
 
