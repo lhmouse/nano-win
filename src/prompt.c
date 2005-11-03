@@ -889,3 +889,123 @@ void statusq_abort(void)
 {
     reset_statusbar_x = TRUE;
 }
+
+/* Ask a simple Yes/No (and optionally All) question, specified in msg,
+ * on the statusbar.  Return 1 for Yes, 0 for No, 2 for All (if all is
+ * TRUE when passed in), and -1 for Cancel. */
+int do_yesno(bool all, const char *msg)
+{
+    int ok = -2, width = 16;
+    const char *yesstr;		/* String of Yes characters accepted. */
+    const char *nostr;		/* Same for No. */
+    const char *allstr;		/* And All, surprise! */
+
+    assert(msg != NULL);
+
+    /* yesstr, nostr, and allstr are strings of any length.  Each string
+     * consists of all single-byte characters accepted as valid
+     * characters for that value.  The first value will be the one
+     * displayed in the shortcuts.  Translators: if possible, specify
+     * both the shortcuts for your language and English.  For example,
+     * in French: "OoYy" for "Oui". */
+    yesstr = _("Yy");
+    nostr = _("Nn");
+    allstr = _("Aa");
+
+    if (!ISSET(NO_HELP)) {
+	char shortstr[3];
+		/* Temp string for Yes, No, All. */
+
+	if (COLS < 32)
+	    width = COLS / 2;
+
+	/* Clear the shortcut list from the bottom of the screen. */
+	blank_bottombars();
+
+	sprintf(shortstr, " %c", yesstr[0]);
+	wmove(bottomwin, 1, 0);
+	onekey(shortstr, _("Yes"), width);
+
+	if (all) {
+	    wmove(bottomwin, 1, width);
+	    shortstr[1] = allstr[0];
+	    onekey(shortstr, _("All"), width);
+	}
+
+	wmove(bottomwin, 2, 0);
+	shortstr[1] = nostr[0];
+	onekey(shortstr, _("No"), width);
+
+	wmove(bottomwin, 2, 16);
+	onekey("^C", _("Cancel"), width);
+    }
+
+    wattron(bottomwin, A_REVERSE);
+
+    blank_statusbar();
+    mvwaddnstr(bottomwin, 0, 0, msg, actual_x(msg, COLS - 1));
+
+    wattroff(bottomwin, A_REVERSE);
+
+    /* Refresh the edit window and the statusbar before getting
+     * input. */
+    wnoutrefresh(edit);
+    wnoutrefresh(bottomwin);
+
+    do {
+	int kbinput;
+	bool meta_key, func_key;
+#ifndef DISABLE_MOUSE
+	int mouse_x, mouse_y;
+#endif
+
+	kbinput = get_kbinput(bottomwin, &meta_key, &func_key);
+
+	if (kbinput == NANO_REFRESH_KEY) {
+	    total_redraw();
+	    continue;
+	} else if (kbinput == NANO_CANCEL_KEY)
+	    ok = -1;
+#ifndef DISABLE_MOUSE
+	else if (kbinput == KEY_MOUSE) {
+	    get_mouseinput(&mouse_x, &mouse_y, FALSE);
+
+	    if (mouse_x != -1 && mouse_y != -1 && !ISSET(NO_HELP) &&
+		wenclose(bottomwin, mouse_y, mouse_x) &&
+		mouse_x < (width * 2) && mouse_y - (2 -
+		no_more_space()) - editwinrows - 1 >= 0) {
+		int x = mouse_x / width;
+			/* Calculate the x-coordinate relative to the
+			 * two columns of the Yes/No/All shortcuts in
+			 * bottomwin. */
+		int y = mouse_y - (2 - no_more_space()) -
+			editwinrows - 1;
+			/* Calculate the y-coordinate relative to the
+			 * beginning of the Yes/No/All shortcuts in
+			 * bottomwin, i.e, with the sizes of topwin,
+			 * edit, and the first line of bottomwin
+			 * subtracted out. */
+
+		assert(0 <= x && x <= 1 && 0 <= y && y <= 1);
+
+		/* x == 0 means they clicked Yes or No.  y == 0 means
+		 * Yes or All. */
+		ok = -2 * x * y + x - y + 1;
+
+		if (ok == 2 && !all)
+		    ok = -2;
+	    }
+	}
+#endif
+	/* Look for the kbinput in the Yes, No and (optionally) All
+	 * strings. */
+	else if (strchr(yesstr, kbinput) != NULL)
+	    ok = 1;
+	else if (strchr(nostr, kbinput) != NULL)
+	    ok = 0;
+	else if (all && strchr(allstr, kbinput) != NULL)
+	    ok = 2;
+    } while (ok == -2);
+
+    return ok;
+}

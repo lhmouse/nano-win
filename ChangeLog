@@ -31,8 +31,8 @@ CVS code -
 	  do_statusbar_cut_text(), do_statusbar_next_word(),
 	  do_statusbar_prev_word(), do_statusbar_verbatim_input(),
 	  statusbar_xplustabs(), get_statusbar_page_start(),
-	  nanoget_repaint(), nanogetstr(), statusq(), and
-	  statusq_abort() (all moved to prompt.c). (DLR)
+	  nanoget_repaint(), nanogetstr(), statusq(), statusq_abort(),
+	  and do_yesno() (all moved to prompt.c). (DLR)
 	- Move functions specific to the help browser to their own
 	  source file, and adjust related variables accordingly.  New
 	  file help.c; changes to help_init(), help_line_len(), and

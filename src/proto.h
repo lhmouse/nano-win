@@ -455,6 +455,7 @@ int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
 #endif
 	const char *msg, ...);
 void statusq_abort(void);
+int do_yesno(bool all, const char *msg);
 
 /* Public functions in rcfile.c. */
 #ifdef ENABLE_NANORC
@@ -689,7 +690,6 @@ void edit_scroll(scroll_dir direction, ssize_t nlines);
 void edit_redraw(const filestruct *old_current, size_t old_pww);
 void edit_refresh(void);
 void edit_update(update_type location);
-int do_yesno(bool all, const char *msg);
 void total_redraw(void);
 void total_refresh(void);
 void display_main_list(void);
