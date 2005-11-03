@@ -86,8 +86,8 @@ void do_page_up(void)
     }
 #endif
 
-    for (i = editwinrows - 2; i > 0 && openfile->current->prev != NULL;
-	i--)
+    for (i = editwinrows - 2; i > 0 && openfile->current !=
+	openfile->fileage; i--)
 	openfile->current = openfile->current->prev;
 
     openfile->current_x = actual_x(openfile->current->data,
@@ -127,8 +127,8 @@ void do_page_down(void)
     }
 #endif
 
-    for (i = editwinrows - 2; i > 0 && openfile->current->next != NULL;
-	i--)
+    for (i = editwinrows - 2; i > 0 && openfile->current !=
+	openfile->filebot; i--)
 	openfile->current = openfile->current->next;
 
     openfile->current_x = actual_x(openfile->current->data,
@@ -151,7 +151,7 @@ void do_para_begin(bool allow_update)
     openfile->current_x = 0;
     openfile->placewewant = 0;
 
-    if (openfile->current->prev != NULL) {
+    if (openfile->current != openfile->fileage) {
 	do {
 	    openfile->current = openfile->current->prev;
 	    openfile->current_y--;
@@ -181,17 +181,18 @@ void do_para_end(bool allow_update)
     openfile->current_x = 0;
     openfile->placewewant = 0;
 
-    while (openfile->current->next != NULL && !inpar(openfile->current))
+    while (openfile->current != openfile->filebot &&
+	!inpar(openfile->current))
 	openfile->current = openfile->current->next;
 
-    while (openfile->current->next != NULL &&
+    while (openfile->current != openfile->filebot &&
 	inpar(openfile->current->next) &&
 	!begpar(openfile->current->next)) {
 	openfile->current = openfile->current->next;
 	openfile->current_y++;
     }
 
-    if (openfile->current->next != NULL)
+    if (openfile->current != openfile->filebot)
 	openfile->current = openfile->current->next;
 
     if (allow_update)
@@ -272,7 +273,7 @@ bool do_next_word(bool allow_punct, bool allow_update)
 	if (!end_line)
 	    break;
 
-	if (openfile->current->next != NULL) {
+	if (openfile->current != openfile->filebot) {
 	    end_line = FALSE;
 	    openfile->current_x = 0;
 	}
@@ -282,8 +283,10 @@ bool do_next_word(bool allow_punct, bool allow_update)
 
     /* If we haven't found it, leave the cursor at the end of the
      * file. */
-    if (openfile->current == NULL)
+    if (openfile->current == NULL) {
 	openfile->current = openfile->filebot;
+	openfile->current_x = strlen(openfile->filebot->data);
+    }
 
     openfile->placewewant = xplustabs();
 
@@ -372,7 +375,7 @@ bool do_prev_word(bool allow_punct, bool allow_update)
 	if (!begin_line)
 	    break;
 
-	if (openfile->current->prev != NULL) {
+	if (openfile->current != openfile->fileage) {
 	    begin_line = FALSE;
 	    openfile->current_x = strlen(openfile->current->prev->data);
 	}
@@ -483,7 +486,7 @@ void do_up(void)
 #endif
 
     /* If we're at the top of the file, get out. */
-    if (openfile->current->prev == NULL)
+    if (openfile->current == openfile->fileage)
 	return;
 
     assert(openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);
@@ -546,7 +549,7 @@ void do_down(void)
 #endif
 
     /* If we're at the bottom of the file, get out. */
-    if (openfile->current->next == NULL)
+    if (openfile->current == openfile->filebot)
 	return;
 
     assert(openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);
@@ -585,7 +588,7 @@ void do_scroll_down(void)
 #endif
 
     /* If we're at the bottom of the file, get out. */
-    if (openfile->current->next == NULL)
+    if (openfile->current == openfile->filebot)
 	return;
 
     assert(openfile->current_y == openfile->current->lineno - openfile->edittop->lineno);
@@ -631,7 +634,7 @@ void do_right(void)
     if (openfile->current->data[openfile->current_x] != '\0')
 	openfile->current_x = move_mbright(openfile->current->data,
 		openfile->current_x);
-    else if (openfile->current->next != NULL) {
+    else if (openfile->current != openfile->filebot) {
 	do_down();
 	openfile->current_x = 0;
     }

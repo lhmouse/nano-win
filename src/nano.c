@@ -230,7 +230,7 @@ partition *partition_filestruct(filestruct *top, size_t top_x,
 }
 
 /* Unpartition a filestruct so it begins at (fileage, 0) and ends at
- * (filebot, strlen(filebot)) again. */
+ * (filebot, strlen(filebot->data)) again. */
 void unpartition_filestruct(partition **p)
 {
     char *tmp;
@@ -1412,10 +1412,12 @@ bool do_mouse(void)
 
 	    /* Move to where the click occurred. */
 	    for (; openfile->current_y < mouse_y &&
-		openfile->current->next != NULL; openfile->current_y++)
+		openfile->current != openfile->filebot;
+		openfile->current_y++)
 		openfile->current = openfile->current->next;
 	    for (; openfile->current_y > mouse_y &&
-		openfile->current->prev != NULL; openfile->current_y--)
+		openfile->current != openfile->fileage;
+		openfile->current_y--)
 		openfile->current = openfile->current->prev;
 
 	    openfile->current_x = actual_x(openfile->current->data,

@@ -97,11 +97,7 @@ void do_delete(void)
 	    openfile->mark_begin_x -= char_buf_len;
 #endif
 	openfile->totsize--;
-    } else if (openfile->current != openfile->filebot &&
-	(openfile->current->next != openfile->filebot ||
-	openfile->current->data[0] == '\0')) {
-	/* We can delete the line before filebot only if it is blank: it
-	 * becomes the new magicline then. */
+    } else if (openfile->current != openfile->filebot) {
 	filestruct *foo = openfile->current->next;
 
 	assert(openfile->current_x == strlen(openfile->current->data));
@@ -132,6 +128,12 @@ void do_delete(void)
 #ifndef DISABLE_WRAPPING
 	wrap_reset();
 #endif
+
+	/* If we deleted the line before filebot, and the resulting
+	 * line at filebot isn't blank, add a new magicline. */
+	if (openfile->current == openfile->filebot &&
+		openfile->current->data[0] != '\0')
+	    new_magicline();
     } else
 	return;
 
@@ -1065,7 +1067,7 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 	if (openfile->current == current_save ||
 		!inpar(openfile->current->prev))
 	    return FALSE;
-	if (openfile->current->prev != NULL)
+	if (openfile->current != openfile->fileage)
 	    openfile->current = openfile->current->prev;
     }
     if (!begpar(openfile->current))
@@ -2074,21 +2076,15 @@ void do_wordlinechar_count(void)
     size_t pww_save = openfile->placewewant;
     filestruct *current_save = openfile->current;
     bool old_mark_set = openfile->mark_set;
-    bool added_magicline = FALSE;
-	/* Whether we added a magicline after filebot. */
     filestruct *top, *bot;
     size_t top_x, bot_x;
 
     if (old_mark_set) {
 	/* If the mark is on, partition the filestruct so that it
-	 * contains only the marked text, keep track of whether the text
-	 * will need a magicline added while we're counting words, add
-	 * the magicline if necessary, and turn the mark off. */
+	 * contains only the marked text, and turn the mark off. */
 	mark_order((const filestruct **)&top, &top_x,
 	    (const filestruct **)&bot, &bot_x, NULL);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
-	if ((added_magicline = (openfile->filebot->data[0] != '\0')))
-	    new_magicline();
 	openfile->mark_set = FALSE;
     }
 
@@ -2102,7 +2098,7 @@ void do_wordlinechar_count(void)
      * until we reach the end of the file, incrementing the total word
      * count whenever we're on a word just before moving. */
     while (openfile->current != openfile->filebot ||
-	openfile->current_x != 0) {
+	openfile->current->data[openfile->current_x] != '\0') {
 	if (do_next_word(TRUE, FALSE))
 	    words++;
     }
@@ -2110,11 +2106,6 @@ void do_wordlinechar_count(void)
     /* Get the total line and character counts, as "wc -l"  and "wc -c"
      * do, but get the latter in multibyte characters. */
     if (old_mark_set) {
-	/* If the mark was on and we added a magicline, remove it
-	 * now. */
-	if (added_magicline)
-	    remove_magicline();
-
 	lines = openfile->filebot->lineno -
 		openfile->fileage->lineno + 1;
 	chars = get_totsize(openfile->fileage, openfile->filebot);

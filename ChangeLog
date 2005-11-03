@@ -37,6 +37,15 @@ CVS code -
 	  source file, and adjust related variables accordingly.  New
 	  file help.c; changes to help_init(), help_line_len(), and
 	  do_help() (all moved to help.c). (DLR)
+	- Tweak a few functions to remove the assumption that the file
+	  always ends in a magicline.  Changes to do_cut_till_end(),
+	  do_next_word(), and do_wordlinechar_count(). (DLR)
+	- Tweak a few functions to rely on fileage and filebot instead
+	  of NULL for their checks to detect the top or bottom of the
+	  file.  Changes to cut_line(), cut_to_eol(), do_page_up(),
+	  do_page_down(), do_para_end(), do_next_word(), do_prev_word(),
+	  do_up(), do_down(), do_scroll_down(), do_right(), do_mouse(),
+	  do_gotolinecolumn(), do_delete(), and find_paragraph(). (DLR)
 - nano.h:
 	- Readd MIN_EDITOR_COLS #define. (DLR)
 - winio.c:

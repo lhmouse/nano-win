@@ -38,12 +38,12 @@ void cutbuffer_reset(void)
     keep_cutbuffer = FALSE;
 }
 
-/* If we're not on the magicline, move all the text of the current line,
- * plus the newline at the end, to the cutbuffer, and set the current
- * place we want to where the line used to start. */
+/* If we're not on the last line of the file, move all the text of the
+ * current line, plus the newline at the end, to the cutbuffer, and set
+ * the current place we want to where the line used to start. */
 void cut_line(void)
 {
-    if (openfile->current->next != NULL) {
+    if (openfile->current != openfile->filebot) {
 	move_to_filestruct(&cutbuffer, &cutbottom, openfile->current, 0,
 		openfile->current->next, 0);
 	openfile->placewewant = xplustabs();
@@ -68,9 +68,9 @@ void cut_marked(void)
 /* If we're not at the end of the current line, move all the text from
  * the current cursor position to the end of the current line,
  * not counting the newline at the end, to the cutbuffer.  If we are,
- * and we're not on the magicline, move the newline at the end to the
- * cutbuffer, and set the current place we want to where the newline
- * used to be. */
+ * and we're not on the last line of the file, move the newline at the
+ * end to the cutbuffer, and set the current place we want to where the
+ * newline used to be. */
 void cut_to_eol(void)
 {
     size_t data_len = strlen(openfile->current->data);
@@ -83,11 +83,11 @@ void cut_to_eol(void)
 	 * the end, to the cutbuffer. */
 	move_to_filestruct(&cutbuffer, &cutbottom, openfile->current,
 		openfile->current_x, openfile->current, data_len);
-    else if (openfile->current->next != NULL) {
-	/* If we're at the end of the line, and it isn't the magicline,
-	 * move all the text from the current position up to the
-	 * beginning of the next line, i.e, the newline at the end, to
-	 * the cutbuffer. */
+    else if (openfile->current != openfile->filebot) {
+	/* If we're at the end of the line, and it isn't the last line
+	 * of the file, move all the text from the current position up
+	 * to the beginning of the next line, i.e, the newline at the
+	 * end, to the cutbuffer. */
 	move_to_filestruct(&cutbuffer, &cutbottom, openfile->current,
 		openfile->current_x, openfile->current->next, 0);
 	openfile->placewewant = xplustabs();
@@ -149,7 +149,8 @@ void do_cut_till_end(void)
     check_statusblank();
 
     move_to_filestruct(&cutbuffer, &cutbottom, openfile->current,
-	openfile->current_x, openfile->filebot, 0);
+	openfile->current_x, openfile->filebot,
+	strlen(openfile->filebot->data));
 
     edit_refresh();
     set_modified();
