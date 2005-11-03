@@ -27,7 +27,6 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <sys/wait.h>
 #include <utime.h>
 #include <fcntl.h>
 #include <errno.h>
