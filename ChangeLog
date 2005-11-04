@@ -48,6 +48,9 @@ CVS code -
 	  do_gotolinecolumn(), do_delete(), and find_paragraph(). (DLR)
 - nano.h:
 	- Readd MIN_EDITOR_COLS #define. (DLR)
+- rcfile.c:
+  do_rcfile()
+	- Remove unneeded assert. (DLR)
 - winio.c:
   nanoget_repaint()
 	- Rename parameter inputbuf to buf, for consistency. (DLR)

@@ -733,14 +733,13 @@ void parse_rcfile(FILE *rcstream)
     return;
 }
 
-/* The main rc file function, tries to open the rc file */
+/* The main rcfile function.  It tries to open the system-wide rcfile,
+ * followed by the local rcfile. */
 void do_rcfile(void)
 {
     FILE *rcstream;
 
 #ifdef SYSCONFDIR
-    assert(sizeof(SYSCONFDIR) == strlen(SYSCONFDIR) + 1);
-
     nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
     /* Try to open the system-wide nanorc. */
     rcstream = fopen(nanorc, "r");
