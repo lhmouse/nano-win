@@ -1411,16 +1411,7 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
     assert(openfile->fileage != NULL && openfile->filebot != NULL);
 
     while (fileptr != NULL) {
-	size_t data_len, size;
-
-	/* If we're on the last line of the file and it's blank, skip
-	 * over it, since the newline character we wrote after the
-	 * next-to-last line of the file is equivalent to it. */
-	if (fileptr == openfile->filebot &&
-		openfile->filebot->data[0] == '\0')
-	    continue;
-
-	data_len = strlen(fileptr->data);
+	size_t data_len = strlen(fileptr->data), size;
 
 	/* Newlines to nulls, just before we write to disk. */
 	sunder(fileptr->data);
@@ -1437,10 +1428,9 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    goto cleanup_and_exit;
 	}
 
-	/* If we're on the last line of the file and it isn't blank,
-	 * don't write a newline character after it. */
-	if (fileptr != openfile->filebot ||
-		openfile->filebot->data[0] == '\0') {
+	/* If we're on the last line of the file, don't write a newline
+	 * character after it. */
+	if (fileptr != openfile->filebot) {
 #ifndef NANO_SMALL
 	    if (openfile->fmt == DOS_FILE || openfile->fmt ==
 		MAC_FILE) {
