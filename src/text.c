@@ -129,8 +129,9 @@ void do_delete(void)
 	wrap_reset();
 #endif
 
-	/* If we deleted the line before filebot, and the resulting
-	 * line at filebot isn't blank, add a new magicline. */
+	/* If text has been added to the magicline as a result of
+	 * deleting at the end of the line before filebot, add a new
+	 * magicline. */
 	if (openfile->current == openfile->filebot &&
 		openfile->current->data[0] != '\0')
 	    new_magicline();
