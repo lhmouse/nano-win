@@ -1429,8 +1429,13 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 	}
 
 	/* If we're on the last line of the file, don't write a newline
-	 * character after it. */
-	if (fileptr != openfile->filebot) {
+	 * character after it.  If the last line of the file is blank,
+	 * this means that zero bytes are written, in which case we
+	 * don't count the last line in the total lines written. */
+	if (fileptr == openfile->filebot) {
+	    if (fileptr->data[0] == '\0')
+		lineswritten--;
+	} else {
 #ifndef NANO_SMALL
 	    if (openfile->fmt == DOS_FILE || openfile->fmt ==
 		MAC_FILE) {
