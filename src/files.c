@@ -449,18 +449,12 @@ void read_file(FILE *f, const char *filename)
 	open_buffer("");
 
     /* Did we try to insert a file of zero bytes? */
-    if (num_lines != 0) {
-	if (openfile->current != NULL) {
-	    fileptr->next = openfile->current;
-	    openfile->current->prev = fileptr;
-	    renumber(openfile->current);
-	    openfile->current_x = 0;
-	    openfile->placewewant = 0;
-	} else if (fileptr->next == NULL) {
-	    openfile->filebot = fileptr;
-	    new_magicline();
-	    openfile->totsize--;
-	}
+    if (num_lines > 0) {
+	fileptr->next = openfile->current;
+	openfile->current->prev = fileptr;
+	renumber(openfile->current);
+	openfile->current_x = 0;
+	openfile->placewewant = 0;
     }
 
     openfile->totsize += get_totsize(openfile->fileage,
@@ -1416,8 +1410,17 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
      * a selection. */
     assert(openfile->fileage != NULL && openfile->filebot != NULL);
 
-    while (fileptr != openfile->filebot) {
-	size_t data_len = strlen(fileptr->data), size;
+    while (fileptr != NULL) {
+	size_t data_len, size;
+
+	/* If we're on the last line of the file and it's blank, skip
+	 * over it, since the newline character we wrote after the
+	 * next-to-last line of the file is equivalent to it. */
+	if (fileptr == openfile->filebot &&
+		openfile->filebot->data[0] == '\0')
+	    continue;
+
+	data_len = strlen(fileptr->data);
 
 	/* Newlines to nulls, just before we write to disk. */
 	sunder(fileptr->data);
@@ -1434,27 +1437,33 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    goto cleanup_and_exit;
 	}
 
+	/* If we're on the last line of the file and it isn't blank,
+	 * don't write a newline character after it. */
+	if (fileptr != openfile->filebot ||
+		openfile->filebot->data[0] == '\0') {
 #ifndef NANO_SMALL
-	if (openfile->fmt == DOS_FILE || openfile->fmt == MAC_FILE) {
-	    if (putc('\r', f) == EOF) {
-		statusbar(_("Error writing %s: %s"), realname,
+	    if (openfile->fmt == DOS_FILE || openfile->fmt ==
+		MAC_FILE) {
+		if (putc('\r', f) == EOF) {
+		    statusbar(_("Error writing %s: %s"), realname,
 			strerror(errno));
-		fclose(f);
-		goto cleanup_and_exit;
+		    fclose(f);
+		    goto cleanup_and_exit;
+		}
 	    }
-	}
 
-	if (openfile->fmt != MAC_FILE) {
+	    if (openfile->fmt != MAC_FILE) {
 #endif
-	    if (putc('\n', f) == EOF) {
-		statusbar(_("Error writing %s: %s"), realname,
+		if (putc('\n', f) == EOF) {
+		    statusbar(_("Error writing %s: %s"), realname,
 			strerror(errno));
-		fclose(f);
-		goto cleanup_and_exit;
-	    }
+		    fclose(f);
+		    goto cleanup_and_exit;
+		}
 #ifndef NANO_SMALL
-	}
+	    }
 #endif
+	}
 
 	fileptr = fileptr->next;
 	lineswritten++;
