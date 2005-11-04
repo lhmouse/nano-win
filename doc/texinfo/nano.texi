@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.3.9
-@set UPDATED 27 Sep 2005
+@set UPDATED 04 Nov 2005
 
 @dircategory Editors
 @direntry
@@ -144,7 +144,7 @@ should only need to use this option if they don't, as mouse support
 won't work properly with this option enabled.
 
 @item -N, --noconvert
-Do not convert files from DOS/Mac format.
+Don't convert files from DOS/Mac format.
 
 @item -Q [str], --quotestr [str]
 Set the quoting string for justifying.  The default is
@@ -233,7 +233,7 @@ set, its own interactive spell checker that requires the @code{spell}
 program to be installed on your system.
 
 @item -t, --tempfile
-Do not ask whether or not to save the current contents of the file when
+Don't ask whether or not to save the current contents of the file when
 exiting, assume yes.  This is most useful when using @code{nano} as the
 composer of a mailer program.
 
@@ -247,12 +247,12 @@ Note: When accessing the help system, Expert Mode is temporarily
 disabled to display the help system navigation keys.
 
 @item -v, --view
-Do not allow the contents of the file to be altered.  Note that this
-flag should NOT be used in place of correct file permissions to
-implement a read-only file.
+Don't allow the contents of the file to be altered.  Note that this flag
+should NOT be used in place of correct file permissions to implement a
+read-only file.
 
 @item -w, --nowrap
-Do not wrap long lines at any length.  This option overrides any value
+Don't wrap long lines at any length.  This option overrides any value
 for -r.
 
 @item -z, --suspend
