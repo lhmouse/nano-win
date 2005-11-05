@@ -1562,8 +1562,7 @@ int write_marked_file(const char *name, FILE *f_open, bool tmp,
     /* If the line at filebot is blank, treat it as the magicline and
      * hence the end of the file.  Otherwise, add a magicline and treat
      * it as the end of the file. */
-    added_magicline = (openfile->filebot->data[0] != '\0');
-    if (added_magicline)
+    if ((added_magicline = (openfile->filebot->data[0] != '\0')))
 	new_magicline();
 
     retval = write_file(name, f_open, tmp, append, TRUE);

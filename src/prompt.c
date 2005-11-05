@@ -312,10 +312,10 @@ void do_statusbar_output(char *output, size_t output_len, bool
 
 	assert(statusbar_x <= answer_len);
 
-	charmove(&answer[statusbar_x + char_buf_len],
-		&answer[statusbar_x], answer_len - statusbar_x +
+	charmove(answer + statusbar_x + char_buf_len,
+		answer + statusbar_x, answer_len - statusbar_x +
 		char_buf_len);
-	strncpy(&answer[statusbar_x], char_buf, char_buf_len);
+	strncpy(answer + statusbar_x, char_buf, char_buf_len);
 	answer_len += char_buf_len;
 
 	statusbar_x += char_buf_len;

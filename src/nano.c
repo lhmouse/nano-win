@@ -1492,11 +1492,11 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
 	assert(openfile->current_x <= current_len);
 
-	charmove(&openfile->current->data[openfile->current_x +
-		char_buf_len],
-		&openfile->current->data[openfile->current_x],
-		current_len - openfile->current_x + char_buf_len);
-	strncpy(&openfile->current->data[openfile->current_x], char_buf,
+	charmove(openfile->current->data + openfile->current_x +
+		char_buf_len, openfile->current->data +
+		openfile->current_x, current_len - openfile->current_x +
+		char_buf_len);
+	strncpy(openfile->current->data + openfile->current_x, char_buf,
 		char_buf_len);
 	current_len += char_buf_len;
 	openfile->totsize++;
