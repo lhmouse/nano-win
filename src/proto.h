@@ -203,11 +203,11 @@ bool is_valid_mbstring(const char *s);
 
 /* Public functions in browser.c. */
 #ifndef DISABLE_BROWSER
-void striponedir(char *path);
+char *do_browser(char *path, DIR *dir);
 char **browser_init(const char *path, int *longest, size_t *numents, DIR
 	*dir);
-char *do_browser(char *path, DIR *dir);
 char *do_browse_from(const char *inpath);
+void striponedir(char *path);
 #endif
 
 /* Public functions in color.c. */

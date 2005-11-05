@@ -32,81 +32,6 @@
 
 #ifndef DISABLE_BROWSER
 
-/* Strip one directory from the end of path. */
-void striponedir(char *path)
-{
-    char *tmp;
-
-    assert(path != NULL);
-
-    tmp = strrchr(path, '/');
-
-    if (tmp != NULL)
- 	*tmp = '\0';
-}
-
-/* Return a list of files contained in the directory path.  *longest is
- * the maximum display length of a file, up to COLS - 1 (but at least
- * 7).  *numents is the number of files.  We assume path exists and is a
- * directory.  If neither is true, we return NULL. */
-char **browser_init(const char *path, int *longest, size_t *numents, DIR
-	*dir)
-{
-    const struct dirent *nextdir;
-    char **filelist;
-    size_t i = 0, path_len;
-
-    assert(dir != NULL);
-
-    *longest = 0;
-
-    while ((nextdir = readdir(dir)) != NULL) {
-	size_t dlen;
-
-	/* Don't show the "." entry. */
-	if (strcmp(nextdir->d_name, ".") == 0)
-	   continue;
-	i++;
-
-	dlen = strlenpt(nextdir->d_name);
-	if (dlen > *longest)
-	    *longest = (dlen > COLS - 1) ? COLS - 1 : dlen;
-    }
-
-    *numents = i;
-    rewinddir(dir);
-    *longest += 10;
-
-    filelist = (char **)nmalloc(*numents * sizeof(char *));
-
-    path_len = strlen(path);
-
-    i = 0;
-
-    while ((nextdir = readdir(dir)) != NULL && i < *numents) {
-	/* Don't show the "." entry. */
-	if (strcmp(nextdir->d_name, ".") == 0)
-	   continue;
-
-	filelist[i] = charalloc(path_len + strlen(nextdir->d_name) + 1);
-	sprintf(filelist[i], "%s%s", path, nextdir->d_name);
-	i++;
-    }
-
-    /* Maybe the number of files in the directory changed between the
-     * first time we scanned and the second.  i is the actual length of
-     * filelist, so record it. */
-    *numents = i;
-    closedir(dir);
-
-    if (*longest > COLS - 1)
-	*longest = COLS - 1;
-    if (*longest < 7)
-	*longest = 7;
-
-    return filelist;
-}
-
 /* Our browser function.  path is the path to start browsing from.
  * Assume path has already been tilde-expanded. */
 char *do_browser(char *path, DIR *dir)
@@ -482,6 +407,68 @@ char *do_browser(char *path, DIR *dir)
     return retval;
 }
 
+/* Return a list of files contained in the directory path.  *longest is
+ * the maximum display length of a file, up to COLS - 1 (but at least
+ * 7).  *numents is the number of files.  We assume path exists and is a
+ * directory.  If neither is true, we return NULL. */
+char **browser_init(const char *path, int *longest, size_t *numents, DIR
+	*dir)
+{
+    const struct dirent *nextdir;
+    char **filelist;
+    size_t i = 0, path_len;
+
+    assert(dir != NULL);
+
+    *longest = 0;
+
+    while ((nextdir = readdir(dir)) != NULL) {
+	size_t dlen;
+
+	/* Don't show the "." entry. */
+	if (strcmp(nextdir->d_name, ".") == 0)
+	   continue;
+	i++;
+
+	dlen = strlenpt(nextdir->d_name);
+	if (dlen > *longest)
+	    *longest = (dlen > COLS - 1) ? COLS - 1 : dlen;
+    }
+
+    *numents = i;
+    rewinddir(dir);
+    *longest += 10;
+
+    filelist = (char **)nmalloc(*numents * sizeof(char *));
+
+    path_len = strlen(path);
+
+    i = 0;
+
+    while ((nextdir = readdir(dir)) != NULL && i < *numents) {
+	/* Don't show the "." entry. */
+	if (strcmp(nextdir->d_name, ".") == 0)
+	   continue;
+
+	filelist[i] = charalloc(path_len + strlen(nextdir->d_name) + 1);
+	sprintf(filelist[i], "%s%s", path, nextdir->d_name);
+	i++;
+    }
+
+    /* Maybe the number of files in the directory changed between the
+     * first time we scanned and the second.  i is the actual length of
+     * filelist, so record it. */
+    *numents = i;
+    closedir(dir);
+
+    if (*longest > COLS - 1)
+	*longest = COLS - 1;
+    if (*longest < 7)
+	*longest = 7;
+
+    return filelist;
+}
+
 /* The file browser front end.  We check to see if inpath has a dir in
  * it.  If it does, we start do_browser() from there.  Otherwise, we
  * start do_browser() from the current directory. */
@@ -535,6 +522,19 @@ char *do_browse_from(const char *inpath)
     }
 
     return do_browser(path, dir);
+}
+
+/* Strip one directory from the end of path. */
+void striponedir(char *path)
+{
+    char *tmp;
+
+    assert(path != NULL);
+
+    tmp = strrchr(path, '/');
+
+    if (tmp != NULL)
+ 	*tmp = '\0';
 }
 
 #endif /* !DISABLE_BROWSER */
