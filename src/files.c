@@ -153,9 +153,12 @@ void open_buffer(const char *filename)
     }
 
     /* If we have a file and we're loading into a new buffer, move back
-     * to the first line of the buffer. */
-    if (rc != -1 && new_buffer)
+     * to the beginning of the first line of the buffer. */
+    if (rc != -1 && new_buffer) {
 	openfile->current = openfile->fileage;
+	openfile->current_x = 0;
+	openfile->placewewant = 0;
+    }
 
 #ifdef ENABLE_COLOR
     /* If we're loading into a new buffer, update the colors to account
@@ -448,17 +451,76 @@ void read_file(FILE *f, const char *filename)
     if (fileptr == NULL)
 	open_buffer("");
 
-    /* Did we try to insert a file of zero bytes? */
+    /* Attach the file we got to the filestruct.  If we got a file of
+     * zero bytes, don't do anything. */
     if (num_lines > 0) {
-	fileptr->next = openfile->current;
-	openfile->current->prev = fileptr;
+	/* If the file we got doesn't end in a newline, tack its last
+	 * line onto the beginning of the line at current. */
+	if (len > 0) {
+	    size_t current_len = strlen(openfile->current->data);
+
+	    /* Adjust the current x-coordinate to compensate for the
+	     * change in the current line. */
+	    if (num_lines == 1)
+		openfile->current_x += len;
+	    else
+		openfile->current_x = len;
+
+	    /* Prepend the text at fileptr to the text at current. */
+	    openfile->current->data =
+		charealloc(openfile->current->data, len +
+		current_len + 1);
+	    charmove(openfile->current->data + len,
+		openfile->current->data, current_len + 1);
+	    strncpy(openfile->current->data, fileptr->data, len);
+
+	    /* Don't destroy fileage, edittop, or filebot! */
+	    if (fileptr == openfile->fileage)
+		openfile->fileage = openfile->current;
+	    if (fileptr == openfile->edittop)
+		openfile->edittop = openfile->current;
+	    if (fileptr == openfile->filebot)
+		openfile->filebot = openfile->current;
+
+	    /* Move fileptr back one line and delete the old fileptr,
+	     * since its text has been saved. */
+	    fileptr = fileptr->prev;
+	    if (fileptr != NULL) {
+		if (fileptr->next != NULL)
+		    free(fileptr->next);
+	    }
+	}
+
+	/* Attach the line at current after the line at fileptr. */
+	if (fileptr != NULL) {
+	    fileptr->next = openfile->current;
+	    openfile->current->prev = fileptr;
+	}
+
+	/* Renumber starting with the last line of the file we
+	 * inserted. */
 	renumber(openfile->current);
+    } else
+	/* Adjust the current x-coordinate to compensate for the
+	 * change in the current line. */
 	openfile->current_x = 0;
-	openfile->placewewant = 0;
-    }
 
     openfile->totsize += get_totsize(openfile->fileage,
 	openfile->filebot);
+
+    /* If text has been added to the magicline (i.e, a file that doesn't
+     * end in a newline has been inserted at the end of the current
+     * buffer), add a new magicline, and move the current line down to
+     * it. */
+    if (openfile->filebot->data[0] != '\0') {
+	new_magicline();
+	openfile->current = openfile->filebot;
+	openfile->current_x = 0;
+    }
+
+    /* Set the current place we want to the end of the last line of the
+     * file we inserted. */
+    openfile->placewewant = xplustabs();
 
 #ifndef NANO_SMALL
     if (format == 3)
