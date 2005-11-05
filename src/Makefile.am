@@ -4,7 +4,8 @@ INCLUDES = -Iintl -DLOCALEDIR=\"$(localedir)\" -DSYSCONFDIR=\"$(sysconfdir)\"
 ACLOCAL_AMFLAGS = -I m4
 
 bin_PROGRAMS = 	nano
-nano_SOURCES =	chars.c \
+nano_SOURCES =	browser.c \
+		chars.c \
 		color.c \
 		cut.c \
 		files.c \

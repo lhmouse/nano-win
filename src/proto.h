@@ -201,6 +201,15 @@ bool is_valid_unicode(wchar_t wc);
 bool is_valid_mbstring(const char *s);
 #endif
 
+/* Public functions in browser.c. */
+#ifndef DISABLE_BROWSER
+void striponedir(char *path);
+char **browser_init(const char *path, int *longest, size_t *numents, DIR
+	*dir);
+char *do_browser(char *path, DIR *dir);
+char *do_browse_from(const char *inpath);
+#endif
+
 /* Public functions in color.c. */
 #ifdef ENABLE_COLOR
 void set_colorpairs(void);
@@ -278,13 +287,6 @@ char **cwd_tab_completion(const char *buf, size_t *num_matches, size_t
 char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list);
 #endif
 const char *tail(const char *foo);
-#ifndef DISABLE_BROWSER
-void striponedir(char *path);
-char **browser_init(const char *path, int *longest, size_t *numents, DIR
-	*dir);
-char *do_browser(char *path, DIR *dir);
-char *do_browse_from(const char *inpath);
-#endif
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 char *histfilename(void);
 void load_history(void);

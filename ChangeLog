@@ -55,6 +55,11 @@ CVS code -
 	  do_replace_loop(), do_delete(), nano.1, nanorc.5, nano.texi,
 	  and nanorc.sample. (DLR, suggested by Jaime
 	  <re2823@Safe-mail.net>)
+	- Move functions specific to the file browser to their own
+	  source file, and adjust related variables accordingly.  New
+	  file browser.c; changes to striponedir(), browser_init(),
+	  do_browser(), and do_browse_from() (all moved to browser.c).
+	  (DLR)
 - files.c:
   read_file()
 	- Remove apparently unneeded logic to handle a case where
@@ -79,7 +84,7 @@ CVS code -
 	- Tweak the "c-file" regex for characters to properly accept
 	  '\"' and reject '"' and '''. (DLR)
 - src/Makefile.am:
-	- Add help.c and prompt.c to nano_SOURCES. (DLR)
+	- Add browser.c, help.c, and prompt.c to nano_SOURCES. (DLR)
 
 GNU nano 1.3.9 - 2005.10.23
 - General:
