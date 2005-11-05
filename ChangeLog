@@ -53,7 +53,8 @@ CVS code -
 	  write_marked_file(), move_to_filestruct(),
 	  copy_from_filestruct(), usage(), do_output(), main(),
 	  do_replace_loop(), do_delete(), nano.1, nanorc.5, nano.texi,
-	  and nanorc.sample. (DLR, suggested by re2823@Safe-mail.net)
+	  and nanorc.sample. (DLR, suggested by Jaime
+	  <re2823@Safe-mail.net>)
 - files.c:
   read_file()
 	- Remove apparently unneeded logic to handle a case where
