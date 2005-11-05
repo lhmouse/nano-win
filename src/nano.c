@@ -387,8 +387,9 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
      * partition. */
     renumber(top_save);
 
-    /* If the text doesn't end with a magicline, add a new magicline. */
-    if (openfile->filebot->data[0] != '\0')
+    /* If the NO_NEWLINES flag isn't set, and the text doesn't end with
+     * a magicline, add a new magicline. */
+    if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0')
 	new_magicline();
 }
 
@@ -447,8 +448,9 @@ void copy_from_filestruct(filestruct *file_top, filestruct *file_bot)
      * partition. */
     renumber(top_save);
 
-    /* If the text doesn't end with a magicline, add a new magicline. */
-    if (openfile->filebot->data[0] != '\0')
+    /* If the NO_NEWLINES flag isn't set, and the text doesn't end with
+     * a magicline, add a new magicline. */
+    if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0')
 	new_magicline();
 }
 
@@ -745,6 +747,8 @@ void usage(void)
 #endif
     print1opt("-K", "--rebindkeypad",
 	N_("Fix numeric keypad key confusion problem"));
+    print1opt("-L", "--nonewlines",
+	N_("Don't add newlines to the ends of files"));
 #ifndef NANO_SMALL
     print1opt("-N", "--noconvert",
 	N_("Don't convert files from DOS/Mac format"));
@@ -1481,9 +1485,10 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	if (!allow_cntrls && is_cntrl_mbchar(output + i - char_buf_len))
 	    continue;
 
-	/* When a character is inserted on the current magicline, it
-	 * means we need a new one! */
-	if (openfile->filebot == openfile->current)
+	/* If the NO_NEWLINES flag isn't set, when a character is
+	 * added to the magicline, it means we need a new magicline! */
+	if (!ISSET(NO_NEWLINES) && openfile->filebot ==
+		openfile->current)
 	    new_magicline();
 
 	/* More dangerousness fun =) */
@@ -1570,6 +1575,7 @@ int main(int argc, char **argv)
 	{"ignorercfiles", 0, NULL, 'I'},
 #endif
 	{"rebindkeypad", 0, NULL, 'K'},
+	{"nonewlines", 0, NULL, 'L'},
 	{"morespace", 0, NULL, 'O'},
 #ifndef DISABLE_JUSTIFY
 	{"quotestr", 1, NULL, 'Q'},
@@ -1653,11 +1659,11 @@ int main(int argc, char **argv)
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
 	getopt_long(argc, argv,
-		"h?ABC:EFHIKNOQ:RST:UVWY:abcdefgijklmo:pr:s:tvwxz",
+		"h?ABC:EFHIKLNOQ:RST:UVWY:abcdefgijklmo:pr:s:tvwxz",
 		long_options, NULL)
 #else
 	getopt(argc, argv,
-		"h?ABC:EFHIKNOQ:RST:UVWY:abcdefgijklmo:pr:s:tvwxz")
+		"h?ABC:EFHIKLNOQ:RST:UVWY:abcdefgijklmo:pr:s:tvwxz")
 #endif
 		) != -1) {
 	switch (optchr) {
@@ -1700,6 +1706,9 @@ int main(int argc, char **argv)
 #endif
 	    case 'K':
 		SET(REBIND_KEYPAD);
+		break;
+	    case 'L':
+		SET(NO_NEWLINES);
 		break;
 #ifndef NANO_SMALL
 	    case 'N':

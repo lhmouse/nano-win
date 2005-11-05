@@ -67,6 +67,9 @@
 ## Don't display the helpful shortcut lists at the bottom of the screen.
 # set nohelp
 
+## Don't add newlines to the ends of files.
+# set nonewlines
+
 ## Don't wrap text at all.
 # set nowrap
 
@@ -330,7 +333,7 @@
 ## highlight possible errors and parameters
 # icolor brightwhite "^[[:space:]]*(set|unset|syntax|i?color).*$"
 ## set, unset and syntax
-# icolor cyan "^[[:space:]]*(set|unset)[[:space:]]+(autoindent|backup|backupdir|backwards|brackets|casesensitive|const|cut|fill|historylog|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|punct|quickblank|quotestr|rebinddelete)\>" "^[[:space:]]*(set|unset)[[:space:]]+(rebindkeypad|regexp|smarthome|smooth|speller|suspend|tabsize|tabstospaces|tempfile|view|whitespace|wordbounds)\>"
+# icolor cyan "^[[:space:]]*(set|unset)[[:space:]]+(autoindent|backup|backupdir|backwards|brackets|casesensitive|const|cut|fill|historylog|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nonewlines|nowrap|operatingdir|preserve|punct|quickblank)\>" "^[[:space:]]*(set|unset)[[:space:]]+(quotestr|rebinddelete|rebindkeypad|regexp|smarthome|smooth|speller|suspend|tabsize|tabstospaces|tempfile|view|whitespace|wordbounds)\>"
 # icolor green "^[[:space:]]*(set|unset|syntax)\>"
 ## colors
 # icolor yellow "^[[:space:]]*i?color[[:space:]]*(bright)?(white|black|red|blue|green|yellow|magenta|cyan)?(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"

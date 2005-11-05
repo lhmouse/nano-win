@@ -844,8 +844,9 @@ ssize_t do_replace_loop(const char *needle, const filestruct
     }
 #endif
 
-    /* If text has been added to the magicline, make a new magicline. */
-    if (openfile->filebot->data[0] != '\0')
+    /* If the NO_NEWLINES flag isn't set, and text has been added to the
+     * magicline, make a new magicline. */
+    if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0')
 	new_magicline();
 
     return numreplaced;

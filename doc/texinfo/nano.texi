@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.3.9
-@set UPDATED 04 Nov 2005
+@set UPDATED 05 Nov 2005
 
 @dircategory Editors
 @direntry
@@ -142,6 +142,9 @@ available.
 Interpret the numeric keypad keys so that they all work properly.  You
 should only need to use this option if they don't, as mouse support
 won't work properly with this option enabled.
+
+@item -L, --nonewlines
+Don't add newlines to the ends of files.
 
 @item -N, --noconvert
 Don't convert files from DOS/Mac format.

@@ -508,11 +508,11 @@ void read_file(FILE *f, const char *filename)
     openfile->totsize += get_totsize(openfile->fileage,
 	openfile->filebot);
 
-    /* If text has been added to the magicline (i.e, a file that doesn't
-     * end in a newline has been inserted at the end of the current
-     * buffer), add a new magicline, and move the current line down to
-     * it. */
-    if (openfile->filebot->data[0] != '\0') {
+    /* If the NO_NEWLINES flag isn't set, and text has been added to
+     * the magicline (i.e, a file that doesn't end in a newline has been
+     * inserted at the end of the current buffer), add a new magicline,
+     * and move the current line down to it. */
+    if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0') {
 	new_magicline();
 	openfile->current = openfile->filebot;
 	openfile->current_x = 0;
@@ -1608,7 +1608,7 @@ int write_marked_file(const char *name, FILE *f_open, bool tmp,
     int retval = -1;
     bool old_modified = openfile->modified;
 	/* write_file() unsets the modified flag. */
-    bool added_magicline;
+    bool added_magicline = FALSE;
 	/* Whether we added a magicline after filebot. */
     filestruct *top, *bot;
     size_t top_x, bot_x;
@@ -1621,16 +1621,19 @@ int write_marked_file(const char *name, FILE *f_open, bool tmp,
 	(const filestruct **)&bot, &bot_x, NULL);
     filepart = partition_filestruct(top, top_x, bot, bot_x);
 
-    /* If the line at filebot is blank, treat it as the magicline and
-     * hence the end of the file.  Otherwise, add a magicline and treat
-     * it as the end of the file. */
-    if ((added_magicline = (openfile->filebot->data[0] != '\0')))
+    /* Handle the magicline if the NO_NEWLINES flag isn't set.  If the
+     * line at filebot is blank, treat it as the magicline and hence the
+     * end of the file.  Otherwise, add a magicline and treat it as the
+     * end of the file. */
+    if (!ISSET(NO_NEWLINES) &&
+	(added_magicline = (openfile->filebot->data[0] != '\0')))
 	new_magicline();
 
     retval = write_file(name, f_open, tmp, append, TRUE);
 
-    /* If we added a magicline, remove it now. */
-    if (added_magicline)
+    /* If the NO_NEWLINES flag isn't set, and we added a magicline,
+     * remove it now. */
+    if (!ISSET(NO_NEWLINES) && added_magicline)
 	remove_magicline();
 
     /* Unpartition the filestruct so that it contains all the text

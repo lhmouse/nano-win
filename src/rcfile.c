@@ -51,6 +51,7 @@ const static rcoption rcopts[] = {
     {"morespace", MORE_SPACE},
     {"nofollow", NOFOLLOW_SYMLINKS},
     {"nohelp", NO_HELP},
+    {"nonewlines", NO_NEWLINES},
 #ifndef DISABLE_WRAPPING
     {"nowrap", NO_WRAP},
 #endif
