@@ -64,6 +64,10 @@ CVS code -
   read_file()
 	- Remove apparently unneeded logic to handle a case where
 	  current is NULL, since it shouldn't be NULL there. (DLR)
+- nano.c:
+  do_verbatim_input()
+	- Move to text.c, since it's an advanced text-based operation.
+	  (DLR)
 - nano.h:
 	- Readd MIN_EDITOR_COLS #define. (DLR)
 - rcfile.c:

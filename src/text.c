@@ -2132,3 +2132,32 @@ void do_wordlinechar_count(void)
 	(unsigned long)chars);
 }
 #endif /* !NANO_SMALL */
+
+void do_verbatim_input(void)
+{
+    int *kbinput;
+    size_t kbinput_len, i;
+    char *output;
+
+    statusbar(_("Verbatim Input"));
+
+    /* If constant cursor position display is on, make sure the current
+     * cursor position will be properly displayed on the statusbar. */
+    if (ISSET(CONST_UPDATE))
+	do_cursorpos(TRUE);
+
+    /* Read in all the verbatim characters. */
+    kbinput = get_verbatim_kbinput(edit, &kbinput_len);
+
+    /* Display all the verbatim characters at once, not filtering out
+     * control characters. */
+    output = charalloc(kbinput_len + 1);
+
+    for (i = 0; i < kbinput_len; i++)
+	output[i] = (char)kbinput[i];
+    output[i] = '\0';
+
+    do_output(output, kbinput_len, TRUE);
+
+    free(output);
+}

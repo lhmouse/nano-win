@@ -391,7 +391,6 @@ void version(void);
 int no_more_space(void);
 int no_help(void);
 void nano_disabled_msg(void);
-void do_verbatim_input(void);
 void do_exit(void);
 void signal_init(void);
 void handle_hupterm(int signal);
@@ -574,6 +573,7 @@ void do_spell(void);
 #ifndef NANO_SMALL
 void do_wordlinechar_count(void);
 #endif
+void do_verbatim_input(void);
 
 /* Public functions in utils.c. */
 int digits(size_t n);
