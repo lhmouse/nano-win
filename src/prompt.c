@@ -34,6 +34,8 @@ static char *prompt = NULL;
 				 * questions. */
 static size_t statusbar_x = (size_t)-1;
 				/* The cursor position in answer. */
+static size_t statusbar_pww = (size_t)-1;
+				/* The place we want in answer. */
 static bool reset_statusbar_x = FALSE;
 				/* Should we reset the cursor position
 				 * at the statusbar prompt? */
@@ -255,7 +257,8 @@ bool do_statusbar_mouse(void)
 			get_statusbar_page_start(start_col, start_col +
 			statusbar_xplustabs()) + mouse_x - start_col -
 			1);
-		nanoget_repaint(answer, statusbar_x);
+		statusbar_pww = statusbar_xplustabs();
+		/*nanoget_repaint(answer, statusbar_x);*/
 	    }
 	}
     }
@@ -322,6 +325,10 @@ void do_statusbar_output(char *output, size_t output_len, bool
     }
 
     free(char_buf);
+
+    statusbar_pww = statusbar_xplustabs();
+
+    /*nanoget_repaint(answer, statusbar_x);*/
 }
 
 void do_statusbar_home(void)
@@ -335,26 +342,45 @@ void do_statusbar_home(void)
 	if (statusbar_x == statusbar_x_save ||
 		statusbar_x == strlen(answer))
 	    statusbar_x = 0;
-    } else
+
+	statusbar_pww = statusbar_xplustabs();
+    } else {
 #endif
 	statusbar_x = 0;
+	statusbar_pww = statusbar_xplustabs();
+#ifndef NANO_SMALL
+    }
+#endif
+
+    /*nanoget_repaint(answer, statusbar_x);*/
 }
 
 void do_statusbar_end(void)
 {
     statusbar_x = strlen(answer);
+    statusbar_pww = statusbar_xplustabs();
+
+    /*nanoget_repaint(answer, statusbar_x);*/
 }
 
 void do_statusbar_right(void)
 {
-    if (statusbar_x < strlen(answer))
+    if (statusbar_x < strlen(answer)) {
 	statusbar_x = move_mbright(answer, statusbar_x);
+	statusbar_pww = statusbar_xplustabs();
+
+	/*nanoget_repaint(answer, statusbar_x);*/
+    }
 }
 
 void do_statusbar_left(void)
 {
-    if (statusbar_x > 0)
+    if (statusbar_x > 0) {
 	statusbar_x = move_mbleft(answer, statusbar_x);
+	statusbar_pww = statusbar_xplustabs();
+
+	/*nanoget_repaint(answer, statusbar_x);*/
+    }
 }
 
 void do_statusbar_backspace(void)
@@ -367,6 +393,8 @@ void do_statusbar_backspace(void)
 
 void do_statusbar_delete(void)
 {
+    statusbar_pww = statusbar_xplustabs();
+
     if (answer[statusbar_x] != '\0') {
 	int char_buf_len = parse_mbchar(answer + statusbar_x, NULL,
 		NULL);
@@ -394,9 +422,12 @@ void do_statusbar_cut_text(void)
 #endif
 	null_at(&answer, 0);
 	statusbar_x = 0;
+	statusbar_pww = statusbar_xplustabs();
 #ifndef NANO_SMALL
     }
 #endif
+
+    /*nanoget_repaint(answer, statusbar_x);*/
 }
 
 #ifndef NANO_SMALL
@@ -454,6 +485,10 @@ bool do_statusbar_next_word(bool allow_punct)
     }
 
     free(char_mb);
+
+    statusbar_pww = statusbar_xplustabs();
+
+    /*nanoget_repaint(answer, statusbar_x);*/
 
     /* Return whether we started on a word. */
     return started_on_word;
@@ -543,6 +578,10 @@ bool do_statusbar_prev_word(bool allow_punct)
     }
 
     free(char_mb);
+
+    statusbar_pww = statusbar_xplustabs();
+
+    /*nanoget_repaint(answer, statusbar_x);*/
 
     /* Return whether we started on a word. */
     return started_on_word;
@@ -663,14 +702,16 @@ int nanogetstr(bool allow_tabs, const char *curranswer,
     answer = mallocstrcpy(answer, curranswer);
     curranswer_len = strlen(answer);
 
-    /* Only put statusbar_x at the end of the string if it's
-     * uninitialized, if it would be past the end of curranswer, or if
-     * reset_statusbar_x is TRUE.  Otherwise, leave it alone.  This is
-     * so the cursor position stays at the same place if a
-     * prompt-changing toggle is pressed. */
+    /* Only put statusbar_x at the end of the string (and change
+     * statusbar_pww to match) if it's uninitialized, if it would be
+     * past the end of curranswer, or if reset_statusbar_x is TRUE.
+     * Otherwise, leave it alone.  This is so the cursor position stays
+     * at the same place if a prompt-changing toggle is pressed. */
     if (statusbar_x == (size_t)-1 || statusbar_x > curranswer_len ||
-		reset_statusbar_x)
+		reset_statusbar_x) {
 	statusbar_x = curranswer_len;
+	statusbar_pww = statusbar_xplustabs();
+    }
 
     currshortcut = s;
 
@@ -799,10 +840,12 @@ int nanogetstr(bool allow_tabs, const char *curranswer,
 #endif
 
     /* We finished putting in an answer or ran a normal shortcut's
-     * associated function, so reset statusbar_x. */
+     * associated function, so reset statusbar_x and statusbar_pww. */
     if (kbinput == NANO_CANCEL_KEY || kbinput == NANO_ENTER_KEY ||
-	ran_func)
+	ran_func) {
 	statusbar_x = (size_t)-1;
+	statusbar_pww = (size_t)-1;
+    }
 
     return kbinput;
 }

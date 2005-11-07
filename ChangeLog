@@ -60,6 +60,14 @@ CVS code -
 	  file browser.c; changes to striponedir(), browser_init(),
 	  do_browser(), and do_browse_from() (all moved to browser.c).
 	  (DLR)
+	- Add the statusbar prompt's equivalent of placewewant,
+	  statusbar_pww, to prompt.c, and convert (most of) its
+	  functions to use it.  Changes to do_statusbar_mouse(),
+	  do_statusbar_output(), do_statusbar_home(),
+	  do_statusbar_end(), do_statusbar_right(), do_statusbar_left(),
+	  do_statusbar_delete(), do_statusbar_cut_text(),
+	  do_statusbar_next_word(), do_statusbar_prev_word(),
+	  do_statusbar_verbatim_input(), and nanogetstr(). (DLR)
 - files.c:
   read_file()
 	- Remove apparently unneeded logic to handle a case where
