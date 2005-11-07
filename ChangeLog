@@ -76,6 +76,9 @@ CVS code -
 - winio.c:
   nanoget_repaint()
 	- Rename parameter inputbuf to buf, for consistency. (DLR)
+  update_line()
+	- Remove now-unneeded logic that set the index parameter to zero
+	  if the fileptr parameter didn't point to current. (DLR)
   edit_add()
 	- Rename to edit_draw(), and rename parameter yval to line.
 	  (DLR)

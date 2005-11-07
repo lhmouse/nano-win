@@ -2541,11 +2541,8 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 }
 
 /* Just update one line in the edit buffer.  This is basically a wrapper
- * for edit_draw().
- *
- * If fileptr != current, then index is considered 0.  The line will be
- * displayed starting with fileptr->data[index].  Likely args are
- * current_x or 0. */
+ * for edit_draw().  The line will be displayed starting with
+ * fileptr->data[index].  Likely arguments are current_x or zero. */
 void update_line(const filestruct *fileptr, size_t index)
 {
     int line;
@@ -2570,8 +2567,7 @@ void update_line(const filestruct *fileptr, size_t index)
 
     /* Next, convert variables that index the line to their equivalent
      * positions in the expanded line. */
-    index = (fileptr == openfile->current) ? strnlenpt(fileptr->data,
-	index) : 0;
+    index = strnlenpt(fileptr->data, index);
     page_start = get_page_start(index);
 
     /* Expand the line, replacing tabs with spaces, and control
