@@ -246,7 +246,7 @@ char *do_browser(char *path, DIR *dir)
 	    case 'g':
 		curs_set(1);
 
-		j = statusq(FALSE, gotodir_list, "",
+		j = do_prompt(FALSE, gotodir_list, "",
 #ifndef NANO_SMALL
 			NULL,
 #endif

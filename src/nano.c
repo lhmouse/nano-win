@@ -905,11 +905,12 @@ void do_exit(void)
     int i;
 
     if (!openfile->modified)
-	i = 0;		/* Pretend the user chose not to save. */
+	/* Pretend the user chose not to save. */
+	i = 0;
     else if (ISSET(TEMP_FILE))
 	i = 1;
     else
-	i = do_yesno(FALSE,
+	i = do_yesno_prompt(FALSE,
 		_("Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "));
 
 #ifdef DEBUG

@@ -440,8 +440,10 @@ bool do_statusbar_prev_word(bool allow_punct);
 void do_statusbar_verbatim_input(bool *got_enter);
 size_t statusbar_xplustabs(void);
 size_t get_statusbar_page_start(size_t start_col, size_t column);
-void nanoget_repaint(const char *buf, size_t x);
-int nanogetstr(bool allow_tabs, const char *curranswer,
+void update_statusbar_line(const char *curranswer, size_t index);
+void reset_statusbar_cursor(void);
+bool need_statusbar_horizontal_update(size_t old_pww);
+int get_prompt_string(bool allow_tabs, const char *curranswer,
 #ifndef NANO_SMALL
 	filestruct **history_list,
 #endif
@@ -450,13 +452,14 @@ int nanogetstr(bool allow_tabs, const char *curranswer,
 	, bool *list
 #endif
 	);
-int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
+int do_prompt(bool allow_tabs, const shortcut *s, const char
+	*curranswer,
 #ifndef NANO_SMALL
 	filestruct **history_list,
 #endif
 	const char *msg, ...);
-void statusq_abort(void);
-int do_yesno(bool all, const char *msg);
+void do_prompt_abort(void);
+int do_yesno_prompt(bool all, const char *msg);
 
 /* Public functions in rcfile.c. */
 #ifdef ENABLE_NANORC

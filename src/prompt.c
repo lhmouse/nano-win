@@ -253,12 +253,16 @@ bool do_statusbar_mouse(void)
 
 	    /* Move to where the click occurred. */
 	    if (mouse_x > start_col && mouse_y == 0) {
+		size_t pww_save = statusbar_pww;
+
 		statusbar_x = actual_x(answer,
 			get_statusbar_page_start(start_col, start_col +
 			statusbar_xplustabs()) + mouse_x - start_col -
 			1);
 		statusbar_pww = statusbar_xplustabs();
-		/*nanoget_repaint(answer, statusbar_x);*/
+
+		if (need_statusbar_horizontal_update(pww_save))
+		    update_statusbar_line(answer, statusbar_x);
 	    }
 	}
     }
@@ -328,11 +332,13 @@ void do_statusbar_output(char *output, size_t output_len, bool
 
     statusbar_pww = statusbar_xplustabs();
 
-    /*nanoget_repaint(answer, statusbar_x);*/
+    update_statusbar_line(answer, statusbar_x);
 }
 
 void do_statusbar_home(void)
 {
+    size_t pww_save = statusbar_pww;
+
 #ifndef NANO_SMALL
     if (ISSET(SMART_HOME)) {
 	size_t statusbar_x_save = statusbar_x;
@@ -352,34 +358,44 @@ void do_statusbar_home(void)
     }
 #endif
 
-    /*nanoget_repaint(answer, statusbar_x);*/
+    if (need_statusbar_horizontal_update(pww_save))
+	update_statusbar_line(answer, statusbar_x);
 }
 
 void do_statusbar_end(void)
 {
+    size_t pww_save = statusbar_pww;
+
     statusbar_x = strlen(answer);
     statusbar_pww = statusbar_xplustabs();
 
-    /*nanoget_repaint(answer, statusbar_x);*/
+    if (need_statusbar_horizontal_update(pww_save))
+	update_statusbar_line(answer, statusbar_x);
 }
 
 void do_statusbar_right(void)
 {
     if (statusbar_x < strlen(answer)) {
+	size_t pww_save = statusbar_pww;
+
 	statusbar_x = move_mbright(answer, statusbar_x);
 	statusbar_pww = statusbar_xplustabs();
 
-	/*nanoget_repaint(answer, statusbar_x);*/
+	if (need_statusbar_horizontal_update(pww_save))
+	    update_statusbar_line(answer, statusbar_x);
     }
 }
 
 void do_statusbar_left(void)
 {
     if (statusbar_x > 0) {
+	size_t pww_save = statusbar_pww;
+
 	statusbar_x = move_mbleft(answer, statusbar_x);
 	statusbar_pww = statusbar_xplustabs();
 
-	/*nanoget_repaint(answer, statusbar_x);*/
+	if (need_statusbar_horizontal_update(pww_save))
+	    update_statusbar_line(answer, statusbar_x);
     }
 }
 
@@ -407,6 +423,8 @@ void do_statusbar_delete(void)
 		char_buf_len + 1);
 
 	null_at(&answer, statusbar_x + line_len - char_buf_len);
+
+	update_statusbar_line(answer, statusbar_x);
     }
 }
 
@@ -427,7 +445,7 @@ void do_statusbar_cut_text(void)
     }
 #endif
 
-    /*nanoget_repaint(answer, statusbar_x);*/
+    update_statusbar_line(answer, statusbar_x);
 }
 
 #ifndef NANO_SMALL
@@ -436,6 +454,7 @@ void do_statusbar_cut_text(void)
  * on a word, and FALSE otherwise. */
 bool do_statusbar_next_word(bool allow_punct)
 {
+    size_t pww_save = statusbar_pww;
     char *char_mb;
     int char_mb_len;
     bool end_line = FALSE, started_on_word = FALSE;
@@ -488,7 +507,8 @@ bool do_statusbar_next_word(bool allow_punct)
 
     statusbar_pww = statusbar_xplustabs();
 
-    /*nanoget_repaint(answer, statusbar_x);*/
+    if (need_statusbar_horizontal_update(pww_save))
+	update_statusbar_line(answer, statusbar_x);
 
     /* Return whether we started on a word. */
     return started_on_word;
@@ -499,6 +519,7 @@ bool do_statusbar_next_word(bool allow_punct)
  * on a word, and FALSE otherwise. */
 bool do_statusbar_prev_word(bool allow_punct)
 {
+    size_t pww_save = statusbar_pww;
     char *char_mb;
     int char_mb_len;
     bool begin_line = FALSE, started_on_word = FALSE;
@@ -581,7 +602,8 @@ bool do_statusbar_prev_word(bool allow_punct)
 
     statusbar_pww = statusbar_xplustabs();
 
-    /*nanoget_repaint(answer, statusbar_x);*/
+    if (need_statusbar_horizontal_update(pww_save))
+	update_statusbar_line(answer, statusbar_x);
 
     /* Return whether we started on a word. */
     return started_on_word;
@@ -634,18 +656,20 @@ size_t get_statusbar_page_start(size_t start_col, size_t column)
 		start_col - 1);
 }
 
-/* Repaint the statusbar when getting a character in nanogetstr().  Note
- * that we must turn on A_REVERSE here, since do_help() turns it off! */
-void nanoget_repaint(const char *buf, size_t x)
+/* Repaint the statusbar when getting a character in
+ * get_prompt_string().  The statusbar text line will be displayed
+ * starting with curranswer[index].  Assume the A_REVERSE attribute is
+ * turned off. */
+void update_statusbar_line(const char *curranswer, size_t index)
 {
-    size_t start_col, xpt, page_start;
+    size_t start_col, page_start;
     char *expanded;
 
-    assert(prompt != NULL && x <= strlen(buf));
+    assert(prompt != NULL && index <= strlen(buf));
 
     start_col = strlenpt(prompt) + 1;
-    xpt = strnlenpt(buf, x);
-    page_start = get_statusbar_page_start(start_col, start_col + xpt);
+    index = strnlenpt(curranswer, index);
+    page_start = get_statusbar_page_start(start_col, start_col + index);
 
     wattron(bottomwin, A_REVERSE);
 
@@ -655,19 +679,40 @@ void nanoget_repaint(const char *buf, size_t x)
     waddch(bottomwin, ':');
     waddch(bottomwin, (page_start == 0) ? ' ' : '$');
 
-    expanded = display_string(buf, page_start, COLS - start_col - 1,
-	FALSE);
+    expanded = display_string(curranswer, page_start, COLS - start_col -
+	1, FALSE);
     waddstr(bottomwin, expanded);
     free(expanded);
 
-    wmove(bottomwin, 0, start_col + xpt + 1 - page_start);
+    reset_statusbar_cursor();
 
     wattroff(bottomwin, A_REVERSE);
 }
 
-/* Get the input from the keyboard.  This should only be called from
- * statusq(). */
-int nanogetstr(bool allow_tabs, const char *curranswer,
+/* Put the cursor in the statusbar prompt at statusbar_x. */
+void reset_statusbar_cursor(void)
+{
+    size_t start_col = strlenpt(prompt) + 1;
+    size_t page_start = get_statusbar_page_start(start_col,
+	start_col + statusbar_x);
+
+    wmove(bottomwin, 0, start_col + statusbar_x + 1 - page_start);
+}
+
+/* Return TRUE if we need an update after moving horizontally, and FALSE
+ * otherwise.  We need one if old_pww and statusbar_pww are on different
+ * pages. */
+bool need_statusbar_horizontal_update(size_t old_pww)
+{
+    size_t start_col = strlenpt(prompt) + 1;
+
+    return get_statusbar_page_start(start_col, start_col + old_pww) !=
+	get_statusbar_page_start(start_col, start_col + statusbar_pww);
+}
+
+/* Get a string of input at the statusbar prompt.  This should only be
+ * called from do_prompt(). */
+int get_prompt_string(bool allow_tabs, const char *curranswer,
 #ifndef NANO_SMALL
 	filestruct **history_list,
 #endif
@@ -715,7 +760,7 @@ int nanogetstr(bool allow_tabs, const char *curranswer,
 
     currshortcut = s;
 
-    nanoget_repaint(answer, statusbar_x);
+    update_statusbar_line(answer, statusbar_x);
 
     /* Refresh the edit window and the statusbar before getting
      * input. */
@@ -824,8 +869,7 @@ int nanogetstr(bool allow_tabs, const char *curranswer,
 	last_kbinput = kbinput;
 #endif
 
-	nanoget_repaint(answer, statusbar_x);
-	wnoutrefresh(bottomwin);
+	reset_statusbar_cursor();
     }
 
 #ifndef NANO_SMALL
@@ -850,15 +894,16 @@ int nanogetstr(bool allow_tabs, const char *curranswer,
     return kbinput;
 }
 
-/* Ask a question on the statusbar.  The prompt will be stored in
- * the static prompt, which should be NULL initially, and the answer
- * will be stored in the answer global.  Returns -1 on aborted enter, -2
- * on a blank string, and 0 otherwise, the valid shortcut key caught.
+/* Ask a question on the statusbar.  The prompt will be stored in the
+ * static prompt, which should be NULL initially, and the answer will be
+ * stored in the answer global.  Returns -1 on aborted enter, -2 on a
+ * blank string, and 0 otherwise, the valid shortcut key caught.
  * curranswer is any editable text that we want to put up by default.
  *
  * The allow_tabs parameter indicates whether we should allow tabs to be
  * interpreted. */
-int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
+int do_prompt(bool allow_tabs, const shortcut *s, const char
+	*curranswer,
 #ifndef NANO_SMALL
 	filestruct **history_list,
 #endif
@@ -884,7 +929,7 @@ int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
     va_end(ap);
     null_at(&prompt, actual_x(prompt, COLS - 4));
 
-    retval = nanogetstr(allow_tabs, curranswer,
+    retval = get_prompt_string(allow_tabs, curranswer,
 #ifndef NANO_SMALL
 		history_list,
 #endif
@@ -928,7 +973,10 @@ int statusq(bool allow_tabs, const shortcut *s, const char *curranswer,
     return retval;
 }
 
-void statusq_abort(void)
+/* This function forces a reset of the statusbar cursor position.  It
+ * should only be called after do_prompt(), and is only needed if the
+ * user leaves the prompt via something other than Enter or Cancel. */
+void do_prompt_abort(void)
 {
     reset_statusbar_x = TRUE;
 }
@@ -936,7 +984,7 @@ void statusq_abort(void)
 /* Ask a simple Yes/No (and optionally All) question, specified in msg,
  * on the statusbar.  Return 1 for Yes, 0 for No, 2 for All (if all is
  * TRUE when passed in), and -1 for Cancel. */
-int do_yesno(bool all, const char *msg)
+int do_yesno_prompt(bool all, const char *msg)
 {
     int ok = -2, width = 16;
     const char *yesstr;		/* String of Yes characters accepted. */

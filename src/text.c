@@ -1564,7 +1564,7 @@ bool do_int_spell_fix(const char *word)
 	    do_replace_highlight(TRUE, exp_word);
 
 	    /* Allow all instances of the word to be corrected. */
-	    canceled = (statusq(FALSE, spell_list, word,
+	    canceled = (do_prompt(FALSE, spell_list, word,
 #ifndef NANO_SMALL
 			NULL,
 #endif

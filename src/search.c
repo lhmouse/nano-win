@@ -161,7 +161,7 @@ int search_init(bool replacing, bool use_answer)
 	buf = mallocstrcpy(NULL, "");
 
     /* This is now one simple call.  It just does a lot. */
-    i = statusq(FALSE, replacing ? replace_list : whereis_list,
+    i = do_prompt(FALSE, replacing ? replace_list : whereis_list,
 	backupstring,
 #ifndef NANO_SMALL
 	&search_history,
@@ -734,7 +734,7 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 
 	    do_replace_highlight(TRUE, exp_word);
 
-	    i = do_yesno(TRUE, _("Replace this instance?"));
+	    i = do_yesno_prompt(TRUE, _("Replace this instance?"));
 
 	    do_replace_highlight(FALSE, exp_word);
 
@@ -892,7 +892,7 @@ void do_replace(void)
 
     last_replace = mallocstrcpy(last_replace, "");
 
-    i = statusq(FALSE, replace_list_2, last_replace,
+    i = do_prompt(FALSE, replace_list_2, last_replace,
 #ifndef NANO_SMALL
 	&replace_history,
 #endif
@@ -953,7 +953,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	char *ans = mallocstrcpy(NULL, answer);
 
 	/* Ask for it. */
-	int i = statusq(FALSE, gotoline_list, use_answer ? ans : "",
+	int i = do_prompt(FALSE, gotoline_list, use_answer ? ans : "",
 #ifndef NANO_SMALL
 		NULL,
 #endif

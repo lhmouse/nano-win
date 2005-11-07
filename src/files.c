@@ -670,7 +670,7 @@ void do_insertfile(
 	}
 #endif
 
-	i = statusq(TRUE,
+	i = do_prompt(TRUE,
 #ifndef NANO_SMALL
 		execute ? extcmd_list :
 #endif
@@ -730,7 +730,7 @@ void do_insertfile(
 		/* We have a file now.  Indicate this and get out of the
 		 * statusbar prompt cleanly. */
 		i = 0;
-		statusq_abort();
+		do_prompt_abort();
 	    }
 #endif
 
@@ -1699,7 +1699,7 @@ int do_writeout(bool exiting)
 	/* If we're using restricted mode, the filename isn't blank,
 	 * and we're at the "Write File" prompt, disable tab
 	 * completion. */
-	i = statusq(!ISSET(RESTRICTED) ||
+	i = do_prompt(!ISSET(RESTRICTED) ||
 		openfile->filename[0] == '\0', writefile_list, ans,
 #ifndef NANO_SMALL
 		NULL, "%s%s%s", _(msg), formatstr, backupstr
@@ -1729,7 +1729,7 @@ int do_writeout(bool exiting)
 
 		/* We have a file now.  Get out of the statusbar prompt
 		 * cleanly. */
-		statusq_abort();
+		do_prompt_abort();
 	    } else
 #endif /* !DISABLE_BROWSER */
 #ifndef NANO_SMALL
@@ -1772,7 +1772,8 @@ int do_writeout(bool exiting)
 		struct stat st;
 
 		if (!stat(answer, &st)) {
-		    i = do_yesno(FALSE, _("File exists, OVERWRITE ? "));
+		    i = do_yesno_prompt(FALSE,
+			_("File exists, OVERWRITE ? "));
 		    if (i == 0 || i == -1)
 			continue;
 		/* If we're using restricted mode, we aren't allowed to
@@ -1786,7 +1787,7 @@ int do_writeout(bool exiting)
 			&& (exiting || !openfile->mark_set)
 #endif
 			) {
-		    i = do_yesno(FALSE,
+		    i = do_yesno_prompt(FALSE,
 			_("Save file under DIFFERENT NAME ? "));
 		    if (i == 0 || i == -1)
 			continue;
