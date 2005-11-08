@@ -365,8 +365,8 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
 	/* Get the number of bytes in the multibyte character. */
 	buf_mb_len = mblen(buf, MB_CUR_MAX);
 
-	/* If buf contains an invalid multibyte character, set bad_chr
-	 * to TRUE and interpret buf's first byte. */
+	/* If buf contains an invalid multibyte character, only
+	 * interpret buf's first byte. */
 	if (buf_mb_len < 0) {
 	    mblen(NULL, 0);
 	    buf_mb_len = 1;
