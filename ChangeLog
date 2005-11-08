@@ -73,13 +73,13 @@ CVS code -
 	  nanogetstr() (renamed get_prompt_string()), statusq() (renamed
 	  do_prompt()), statusq_abort() (renamed do_prompt_abort()), and
 	  do_yesno() (renamed do_yesno_prompt()). (DLR)
+	- Initialize the static pid_t pid in text.c. (DLR)
 - chars.c:
   mbwidth()
 	- If wcwidth() returns -1 for the character passed in, treat the
 	  character as having the width of Unicode U+FFFD (Replacement
-	  Character) instead of having zero width, since there are
-	  display problems that sometimes crop up with the latter
-	  approach. (DLR)
+	  Character) instead of having a width of zero, since display
+	  problems can crop up with the latter approach. (DLR)
 - files.c:
   read_file()
 	- Remove apparently unneeded logic to handle a case where
