@@ -96,6 +96,8 @@ void do_delete(void)
 	    openfile->mark_begin_x -= char_buf_len;
 #endif
 	openfile->totsize--;
+
+	set_modified();
     } else if (openfile->current != openfile->filebot) {
 	filestruct *foo = openfile->current->next;
 
@@ -130,14 +132,17 @@ void do_delete(void)
 
 	/* If the NO_NEWLINES flag isn't set, and text has been added to
 	 * the magicline as a result of deleting at the end of the line
-	 * before filebot, add a new magicline. */
+	 * before filebot, add a new magicline.  This effectively leaves
+	 * the text unchanged, so don't mark the file as modified after
+	 * doing this. */
 	if (!ISSET(NO_NEWLINES) && openfile->current ==
 		openfile->filebot && openfile->current->data[0] != '\0')
 	    new_magicline();
+	else
+	    set_modified();
     } else
 	return;
 
-    set_modified();
 
 #ifdef ENABLE_COLOR
     /* If color syntaxes are available and turned on, we need to call
