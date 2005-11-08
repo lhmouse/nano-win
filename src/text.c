@@ -1953,10 +1953,12 @@ const char *do_alt_speller(char *tempfile_name)
     initialize_buffer_text();
 
     /* Reload the temp file.  Open it, read it into the current buffer,
-     * and move back to the first line of the buffer. */
+     * and move back to the beginning of the first line of the
+     * buffer. */
     open_file(tempfile_name, FALSE, &f);
     read_file(f, tempfile_name);
     openfile->current = openfile->fileage;
+    openfile->current_x = 0;
 
 #ifndef NANO_SMALL
     if (old_mark_set) {

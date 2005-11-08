@@ -39,8 +39,8 @@ CVS code -
 	  do_help() (all moved to help.c). (DLR)
 	- Tweak a few functions to remove the assumption that the file
 	  always ends in a magicline.  Changes to do_cut_till_end(),
-	  open_buffer(), read_file(), write_file(), do_last_line(), and
-	  do_wordlinechar_count(). (DLR)
+	  open_buffer(), read_file(), write_file(), do_last_line(),
+	  do_alt_speller(), and do_wordlinechar_count(). (DLR)
 	- Tweak a few functions to rely on fileage and filebot instead
 	  of NULL for their checks to detect the top or bottom of the
 	  file.  Changes to cut_line(), cut_to_eol(), do_page_up(),
