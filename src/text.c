@@ -1530,13 +1530,15 @@ bool do_int_spell_fix(const char *word)
 #ifndef NANO_SMALL
     if (old_mark_set) {
 	/* If the mark is on, partition the filestruct so that it
-	 * contains only the marked text, keep track of whether the text
-	 * will have a magicline added when we're done correcting
-	 * misspelled words, and turn the mark off. */
+	 * contains only the marked text; if the NO_NEWLINES flag isn't
+	 * set, keep track of whether the text will have a magicline
+	 * added when we're done correcting misspelled words; and
+	 * turn the mark off. */
 	mark_order((const filestruct **)&top, &top_x,
 	    (const filestruct **)&bot, &bot_x, &right_side_up);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
-	added_magicline = (openfile->filebot->data[0] != '\0');
+	if (!ISSET(NO_NEWLINES))
+	    added_magicline = (openfile->filebot->data[0] != '\0');
 	openfile->mark_set = FALSE;
     }
 #endif
@@ -1585,9 +1587,9 @@ bool do_int_spell_fix(const char *word)
 
 #ifndef NANO_SMALL
     if (old_mark_set) {
-	/* If the mark was on and we added a magicline, remove it
-	 * now. */
-	if (added_magicline)
+	/* If the mark was on, the NO_NEWLINES flag isn't set, and we
+	 * added a magicline, remove it now. */
+	if (!ISSET(NO_NEWLINES) && added_magicline)
 	    remove_magicline();
 
 	/* Put the beginning and the end of the mark at the beginning
@@ -1932,14 +1934,16 @@ const char *do_alt_speller(char *tempfile_name)
 
 #ifndef NANO_SMALL
     if (old_mark_set) {
-	/* If the mark was on, partition the filestruct so that it
-	 * contains only the marked text, and keep track of whether the
-	 * temp file (which should contain the spell-checked marked
-	 * text) will have a magicline added when it's reloaded. */
+	/* If the mark is on, partition the filestruct so that it
+	 * contains only the marked text; if the NO_NEWLINES flag isn't
+	 * set, keep track of whether the text will have a magicline
+	 * added when we're done correcting misspelled words; and
+	 * turn the mark off. */
 	mark_order((const filestruct **)&top, &top_x,
 		(const filestruct **)&bot, &bot_x, &right_side_up);
 	filepart = partition_filestruct(top, top_x, bot, bot_x);
-	added_magicline = (openfile->filebot->data[0] != '\0');
+	if (!ISSET(NO_NEWLINES))
+	    added_magicline = (openfile->filebot->data[0] != '\0');
 
 	/* Get the number of characters in the marked text, and subtract
 	 * it from the saved value of totsize. */
@@ -1963,9 +1967,9 @@ const char *do_alt_speller(char *tempfile_name)
     if (old_mark_set) {
 	filestruct *top_save = openfile->fileage;
 
-	/* If the mark was on and we added a magicline, remove it
-	 * now. */
-	if (added_magicline)
+	/* If the mark was on, the NO_NEWLINES flag isn't set, and we
+	 * added a magicline, remove it now. */
+	if (!ISSET(NO_NEWLINES) && added_magicline)
 	    remove_magicline();
 
 	/* Put the beginning and the end of the mark at the beginning

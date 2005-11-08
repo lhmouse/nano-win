@@ -52,8 +52,9 @@ CVS code -
 	  magiclines to the ends of files.  Changes to read_file(),
 	  write_marked_file(), move_to_filestruct(),
 	  copy_from_filestruct(), usage(), do_output(), main(),
-	  do_replace_loop(), do_delete(), nano.1, nanorc.5, nano.texi,
-	  and nanorc.sample. (DLR, suggested by Jaime
+	  do_replace_loop(), do_delete(), do_int_spell_fix(),
+	  do_alt_speller(), nano.1, nanorc.5, nano.texi, and
+	  nanorc.sample. (DLR, suggested by Jaime
 	  <re2823@Safe-mail.net>)
 	- Move functions specific to the file browser to their own
 	  source file, and adjust related variables accordingly.  New
