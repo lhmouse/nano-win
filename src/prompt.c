@@ -115,7 +115,6 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	 * characters in the input buffer if it isn't empty. */
 	 if (*s_or_t == TRUE || get_key_buffer_len() == 0) {
 	    if (kbinput != NULL) {
-
 		/* Display all the characters in the input buffer at
 		 * once, filtering out control characters. */
 		char *output = charalloc(kbinput_len + 1);
