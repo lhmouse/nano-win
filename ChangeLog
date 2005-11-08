@@ -76,9 +76,9 @@ CVS code -
 - chars.c:
   mbwidth()
 	- If wcwidth() returns -1 for the character passed in, treat the
-	  character as being one column wide instead of zero columns
-	  wide, since there are display problems that crop up with the
-	  latter approach. (DLR)
+	  character as having the width of Unicode U+FFFD (Replacement
+	  Character) instead of having zero width, since there are
+	  display problems that crop up with the latter approach. (DLR)
 - files.c:
   read_file()
 	- Remove apparently unneeded logic to handle a case where

@@ -300,7 +300,7 @@ int mbwidth(const char *c)
 	width = wcwidth(wc);
 
 	if (width == -1)
-	    width = 1;
+	    width = wcwidth(bad_wchar);
 
 	return width;
     } else
