@@ -73,6 +73,12 @@ CVS code -
 	  nanogetstr() (renamed get_prompt_string()), statusq() (renamed
 	  do_prompt()), statusq_abort() (renamed do_prompt_abort()), and
 	  do_yesno() (renamed do_yesno_prompt()). (DLR)
+- chars.c:
+  mbwidth()
+	- If wcwidth() returns -1 for the character passed in, treat the
+	  character as being one column wide instead of zero columns
+	  wide, since there are display problems that crop up with the
+	  latter approach. (DLR)
 - files.c:
   read_file()
 	- Remove apparently unneeded logic to handle a case where
