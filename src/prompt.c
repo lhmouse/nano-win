@@ -802,6 +802,8 @@ int get_prompt_string(bool allow_tabs, const char *curranswer,
 		if (allow_tabs)
 		    answer = input_tab(answer, &statusbar_x, &tabbed,
 			list);
+
+		update_statusbar_line(answer, statusbar_x);
 #endif /* !DISABLE_TABCOMP */
 		break;
 	    case NANO_PREVLINE_KEY:
@@ -823,6 +825,8 @@ int get_prompt_string(bool allow_tabs, const char *curranswer,
 			answer = mallocstrcpy(answer, history);
 			statusbar_x = strlen(answer);
 		    }
+
+		    update_statusbar_line(answer, statusbar_x);
 
 		    /* This key has a shortcut list entry when it's used
 		     * to move to an older search, which means that
@@ -854,6 +858,8 @@ int get_prompt_string(bool allow_tabs, const char *curranswer,
 			answer = mallocstrcpy(answer, magichistory);
 			statusbar_x = strlen(answer);
 		    }
+
+		    update_statusbar_line(answer, statusbar_x);
 		}
 #endif /* !NANO_SMALL */
 		break;
