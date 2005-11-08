@@ -1836,7 +1836,6 @@ const char *do_alt_speller(char *tempfile_name)
     char *ptr;
     static int arglen = 3;
     static char **spellargs = NULL;
-    FILE *f;
 #ifndef NANO_SMALL
     bool old_mark_set = openfile->mark_set;
     bool added_magicline = FALSE;
@@ -1951,17 +1950,9 @@ const char *do_alt_speller(char *tempfile_name)
     }
 #endif
 
-    /* Reinitialize the text of the current buffer. */
-    free_filestruct(openfile->fileage);
-    initialize_buffer_text();
-
-    /* Reload the temp file.  Open it, read it into the current buffer,
-     * and move back to the beginning of the first line of the
-     * buffer. */
-    open_file(tempfile_name, FALSE, &f);
-    read_file(f, tempfile_name);
-    openfile->current = openfile->fileage;
-    openfile->current_x = 0;
+    /* Replace the text of the current buffer with the spell-checked
+     * text. */
+    replace_buffer(tempfile_name);
 
 #ifndef NANO_SMALL
     if (old_mark_set) {

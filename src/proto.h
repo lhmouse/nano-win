@@ -235,6 +235,9 @@ void make_new_buffer(void);
 void initialize_buffer(void);
 void initialize_buffer_text(void);
 void open_buffer(const char *filename);
+#ifndef DISABLE_SPELLER
+void replace_buffer(const char *filename);
+#endif
 void display_buffer(void);
 #ifdef ENABLE_MULTIBUFFER
 void switch_to_prevnext_buffer(bool next);

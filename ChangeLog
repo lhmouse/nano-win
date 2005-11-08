@@ -94,6 +94,11 @@ CVS code -
 - rcfile.c:
   do_rcfile()
 	- Remove unneeded assert. (DLR)
+- text.c:
+  do_alt_speller()
+	- Move the code that replaces the text of the current file with
+	  the text of the spell-checked file into its own function,
+	  replace_buffer(). (DLR)
 - winio.c:
   nanoget_repaint()
 	- Rename parameter inputbuf to buf, for consistency. (DLR)

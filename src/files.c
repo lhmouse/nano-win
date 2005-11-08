@@ -168,6 +168,39 @@ void open_buffer(const char *filename)
 #endif
 }
 
+#ifndef DISABLE_SPELLER
+/* If it's not "", filename is a file to open.  We blow away the text of
+ * the current buffer, and then open and read the file, if
+ * applicable.  Note that we skip the operating directory test when
+ * doing this. */
+void replace_buffer(const char *filename)
+{
+    FILE *f;
+    int rc;
+	/* rc == -2 means that we have a new file.  -1 means that the
+	 * open() failed.  0 means that the open() succeeded. */
+
+    assert(filename != NULL);
+
+    /* If the filename isn't blank, open the file.  Otherwise, treat it
+     * as a new file. */
+    rc = (filename[0] != '\0') ? open_file(filename, TRUE, &f) : -2;
+
+    /* Reinitialize the text of the current buffer. */
+    free_filestruct(openfile->fileage);
+    initialize_buffer_text();
+
+    /* If we have a non-new file, read it in. */
+    if (rc == 0)
+	read_file(f, filename);
+
+    /* Move back to the beginning of the first line of the buffer. */
+    openfile->current = openfile->fileage;
+    openfile->current_x = 0;
+    openfile->placewewant = 0;
+}
+#endif /* !DISABLE_SPELLER */
+
 /* Update the screen to account for the current buffer. */
 void display_buffer(void)
 {
