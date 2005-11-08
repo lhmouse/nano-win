@@ -252,7 +252,7 @@ void cancel_command(int signal)
 	nperror("kill");
 }
 
-/* Return TRUE on success. */
+/* Execute command in a shell.  Return TRUE on success. */
 bool execute_command(const char *command)
 {
     int fd[2];
