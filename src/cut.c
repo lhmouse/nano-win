@@ -45,16 +45,12 @@ void cutbuffer_reset(void)
  * place we want to the beginning of the current line. */
 void cut_line(void)
 {
-    size_t data_len = strlen(openfile->current->data);
-
-    assert(openfile->current_x <= data_len);
-
     if (openfile->current != openfile->filebot)
 	move_to_filestruct(&cutbuffer, &cutbottom, openfile->current, 0,
 		openfile->current->next, 0);
-    else if (data_len > 0)
+    else
 	move_to_filestruct(&cutbuffer, &cutbottom, openfile->current, 0,
-		openfile->current, data_len);
+		openfile->current, strlen(openfile->current->data));
 
     openfile->placewewant = 0;
 }
