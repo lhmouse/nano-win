@@ -31,7 +31,7 @@
 static bool keep_cutbuffer = FALSE;
 	/* Should we keep the contents of the cutbuffer? */
 static filestruct *cutbottom = NULL;
-	/* Pointer to end of cutbuffer. */
+	/* Pointer to the end of the cutbuffer. */
 
 void cutbuffer_reset(void)
 {
