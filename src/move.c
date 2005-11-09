@@ -148,15 +148,15 @@ void do_para_begin(bool allow_update)
 
     check_statusblank();
 
-    openfile->current_x = 0;
-    openfile->placewewant = 0;
-
     if (openfile->current != openfile->fileage) {
 	do {
 	    openfile->current = openfile->current->prev;
 	    openfile->current_y--;
 	} while (!begpar(openfile->current));
     }
+
+    openfile->current_x = 0;
+    openfile->placewewant = 0;
 
     if (allow_update)
 	edit_redraw(current_save, pww_save);
@@ -178,9 +178,6 @@ void do_para_end(bool allow_update)
 
     check_statusblank();
 
-    openfile->current_x = 0;
-    openfile->placewewant = 0;
-
     while (openfile->current != openfile->filebot &&
 	!inpar(openfile->current))
 	openfile->current = openfile->current->next;
@@ -192,8 +189,14 @@ void do_para_end(bool allow_update)
 	openfile->current_y++;
     }
 
-    if (openfile->current != openfile->filebot)
+    if (openfile->current != openfile->filebot) {
 	openfile->current = openfile->current->next;
+	openfile->current_x = 0;
+	openfile->placewewant = 0;
+    } else {
+	openfile->current_x = strlen(openfile->current->data);
+	openfile->placewewant = xplustabs();
+    }
 
     if (allow_update)
 	edit_redraw(current_save, pww_save);
