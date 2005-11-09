@@ -943,8 +943,8 @@ bool inpar(const filestruct *const foo)
 
     quote_len = quote_length(foo->data);
 
-    return foo->data[quote_len + indent_length(foo->data +
-	quote_len)] != '\0';
+    return (foo->data[quote_len + indent_length(foo->data +
+	quote_len)] != '\0');
 }
 
 /* Put the next par_len lines, starting with first_line, into the
@@ -1094,7 +1094,7 @@ bool find_paragraph(size_t *const quote, size_t *const par)
     par_len = openfile->current->lineno - current_save->lineno;
     if (openfile->current == openfile->filebot && openfile->current_x ==
 	strlen(openfile->current->data)) {
-	    if (openfile->current == current_save &&
+	if (openfile->current == current_save &&
 		openfile->current_x == current_x_save)
 	    return FALSE;
 	else
