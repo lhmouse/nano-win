@@ -628,16 +628,20 @@ int open_file(const char *filename, bool newfie, FILE **f)
  * extension exists, we return "". */
 char *get_next_filename(const char *name, const char *suffix)
 {
+    static int ulmax_digits = -1;
     unsigned long i = 0;
     char *buf;
     size_t namelen, suffixlen;
 
     assert(name != NULL && suffix != NULL);
 
+    if (ulmax_digits == -1)
+	ulmax_digits = digits(ULONG_MAX);
+
     namelen = strlen(name);
     suffixlen = strlen(suffix);
 
-    buf = charalloc(namelen + suffixlen + digits(ULONG_MAX) + 2);
+    buf = charalloc(namelen + suffixlen + ulmax_digits + 2);
     sprintf(buf, "%s%s", name, suffix);
 
     while (TRUE) {
