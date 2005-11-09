@@ -167,9 +167,10 @@ void do_para_begin_void(void)
     do_para_begin(TRUE);
 }
 
-/* Move down to the end of a paragraph, then one line farther.  A line
- * is the last line of a paragraph if it is in a paragraph, and the next
- * line either is a beginning-of-paragraph line or isn't in a
+/* Move down to the end of a paragraph.  Then move one line farther if
+ * there is such a line, or to the end of the current line if not.  A
+ * line is the last line of a paragraph if it is in a paragraph, and the
+ * next line either is a beginning-of-paragraph line or isn't in a
  * paragraph. */
 void do_para_end(bool allow_update)
 {
