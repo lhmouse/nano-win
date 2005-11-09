@@ -1081,20 +1081,21 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 
     /* Now current is the first line of the paragraph.  Set quote_len to
      * the quotation length of that line, and set par_len to the number
-     * of lines in this paragraph by temporarily moving to the last line
-     * of it and saving the difference in line numbers.  If, after
-     * moving, we end up on the same line and x-coordinate as before, it
-     * means that there aren't any paragraphs left, so get out.  If we
-     * end up on the same line with a different x-coordinate from
-     * before, it means that the line is part of the paragraph. */
+     * of lines in this paragraph.  If, while calculating the latter, we
+     * end up at the end of the last line of the file, and we were there
+     * before moving, it means that there aren't any paragraphs left, so
+     * get out.  If we weren't there before moving, it means that the
+     * line is part of the paragraph. */
     quote_len = quote_length(openfile->current->data);
     current_save = openfile->current;
     current_x_save = openfile->current_x;
     current_y_save = openfile->current_y;
     do_para_end(FALSE);
     par_len = openfile->current->lineno - current_save->lineno;
-    if (openfile->current == current_save) {
-	if (openfile->current_x == current_x_save)
+    if (openfile->current == openfile->filebot && openfile->current_x ==
+	strlen(openfile->current->data)) {
+	    if (openfile->current == current_save &&
+		openfile->current_x == current_x_save)
 	    return FALSE;
 	else
 	    par_len++;
@@ -1271,9 +1272,11 @@ void do_justify(bool full_justify)
 	    strcat(openfile->current->data, next_line->data +
 		indent_len);
 
-	    /* Don't destroy edittop! */
+	    /* Don't destroy edittop or filebot! */
 	    if (next_line == openfile->edittop)
 		openfile->edittop = openfile->current;
+	    if (next_line == openfile->filebot)
+		openfile->filebot = openfile->current;
 
 #ifndef NANO_SMALL
 	    /* Adjust the mark coordinates to compensate for the change
