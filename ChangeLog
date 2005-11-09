@@ -41,6 +41,7 @@ CVS code -
 	  always ends in a magicline.  Changes to cut_line(),
 	  do_cut_till_end(), open_buffer(), read_file(), write_file(),
 	  do_last_line(), do_para_end(), backup_lines(),
+	  find_paragraph(), do_justify() (not completely fixed yet),
 	  do_alt_speller(), and do_wordlinechar_count(). (DLR)
 	- Tweak a few functions to rely on fileage and filebot instead
 	  of NULL for their checks to detect the top or bottom of the

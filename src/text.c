@@ -383,7 +383,6 @@ bool do_wrap(filestruct *line)
      * of the line while trying to find one, we should return without
      * wrapping.  Note that if autoindent is turned on, we don't break
      * at the end of it! */
-
     assert(line != NULL && line->data != NULL);
 
     /* Save the length of the line. */
@@ -1042,6 +1041,8 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 	/* Number of lines in the paragraph we search for. */
     filestruct *current_save;
 	/* The line at the beginning of the paragraph we search for. */
+    size_t current_x_save;
+	/* The x-coordinate at the end of the paragraph we search for. */
     ssize_t current_y_save;
 	/* The y-coordinate at the beginning of the paragraph we search
 	 * for. */
@@ -1055,21 +1056,16 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 
     assert(openfile->current != NULL);
 
-    /* Move back to the beginning of the current line. */
-    openfile->current_x = 0;
-    openfile->placewewant = 0;
-
     /* Find the first line of the current or next paragraph.  First, if
      * the current line isn't in a paragraph, move forward to the line
-     * after the last line of the next paragraph.  If we end up on the
-     * same line, or the line before that isn't in a paragraph, it means
-     * that there aren't any paragraphs left, so get out.  Otherwise,
-     * move back to the last line of the paragraph.  If the current line
-     * is in a paragraph and it isn't the first line of that paragraph,
-     * move back to the first line. */
+     * after the last line of the next paragraph, if any.  If we end up
+     * on the same line, or the line before that isn't in a paragraph, it
+     * means that there aren't any paragraphs left, so get out.
+     * Otherwise, move back to the last line of the paragraph.  If the
+     * current line is in a paragraph and it isn't the first line of
+     * that paragraph, move back to the first line. */
     if (!inpar(openfile->current)) {
 	current_save = openfile->current;
-
 	do_para_end(FALSE);
 	if (openfile->current == current_save ||
 		!inpar(openfile->current->prev))
@@ -1082,13 +1078,26 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 
     /* Now current is the first line of the paragraph.  Set quote_len to
      * the quotation length of that line, and set par_len to the number
-     * of lines in this paragraph. */
+     * of lines in this paragraph by temporarily moving to the last line
+     * of it and saving the difference in line numbers.  If, after
+     * moving, we end up on the same line and x-coordinate as before, it
+     * means that there aren't any paragraphs left, so get out.  If we
+     * end up on the same line with a different x-coordinate from
+     * before, it means that the line is part of the paragraph. */
     quote_len = quote_length(openfile->current->data);
     current_save = openfile->current;
+    current_x_save = openfile->current_x;
     current_y_save = openfile->current_y;
     do_para_end(FALSE);
     par_len = openfile->current->lineno - current_save->lineno;
+    if (openfile->current == current_save) {
+	if (openfile->current_x == current_x_save)
+	    return FALSE;
+	else
+	    par_len++;
+    }
     openfile->current = current_save;
+    openfile->current_x = current_x_save;
     openfile->current_y = current_y_save;
 
     /* Save the values of quote_len and par_len. */
@@ -1108,9 +1117,8 @@ void do_justify(bool full_justify)
 	/* Will be the first line of the justified paragraph.  For
 	 * restoring after unjustify. */
     filestruct *last_par_line;
-	/* Will be the line containing the newline after the last line
-	 * of the justified paragraph.  Also for restoring after
-	 * unjustify. */
+	/* Will be the line after the last line of the justified
+	 * paragraph, if any.  Also for restoring after unjustify. */
 
     /* We save these variables to be restored if the user
      * unjustifies. */
@@ -1127,6 +1135,11 @@ void do_justify(bool full_justify)
 #endif
     int kbinput;
     bool meta_key, func_key, s_or_t, ran_func, finished;
+
+    /* Move to the beginning of the current line, so that justifying at
+     * the end of the last line of the file will work if that line isn't
+     * blank. */
+    openfile->current_x = 0;
 
     /* If we're justifying the entire file, start at the beginning. */
     if (full_justify)
@@ -1186,8 +1199,9 @@ void do_justify(bool full_justify)
 	 * to the justify buffer. */
 	if (first_par_line == NULL)
 	    first_par_line = backup_lines(openfile->current,
-		full_justify ? openfile->filebot->lineno -
-		openfile->current->lineno : par_len);
+		full_justify ? ((openfile->current ==
+		openfile->filebot) ? 1 : openfile->filebot->lineno -
+		openfile->current->lineno) : par_len);
 
 	/* Initialize indent_string to a blank string. */
 	indent_string = mallocstrcpy(NULL, "");
@@ -1352,18 +1366,24 @@ void do_justify(bool full_justify)
 
 	    /* Go to the next line. */
 	    par_len--;
-	    openfile->current_y++;
-	    openfile->current = openfile->current->next;
+	    if (openfile->current != openfile->filebot) {
+		openfile->current_y++;
+		openfile->current = openfile->current->next;
+	    }
 	}
 
 	/* We're done breaking lines, so we don't need indent_string
 	 * anymore. */
 	free(indent_string);
 
-	/* Go to the next line, the line after the last line of the
-	 * paragraph. */
-	openfile->current_y++;
-	openfile->current = openfile->current->next;
+	/* Go to the next line: the line after the last line of the
+	 * paragraph, if any.  If there isn't one, move to the end of
+	 * the current line, since that's where the paragraph ends. */
+	if (openfile->current != openfile->filebot) {
+	    openfile->current_y++;
+	    openfile->current = openfile->current->next;
+	} else
+	    openfile->current_x = strlen(openfile->current->data);
 
 	/* We've just justified a paragraph. If we're not justifying the
 	 * entire file, break out of the loop.  Otherwise, continue the
@@ -1420,7 +1440,7 @@ void do_justify(bool full_justify)
 	    /* Partition the filestruct so that it contains only the
 	     * text of the justified paragraph. */
 	    filepart = partition_filestruct(first_par_line, 0,
-		last_par_line, 0);
+		last_par_line, strlen(last_par_line->data));
 
 	    /* Remove the text of the justified paragraph, and
 	     * put the text in the justify buffer in its place. */
