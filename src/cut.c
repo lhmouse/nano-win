@@ -40,9 +40,9 @@ void cutbuffer_reset(void)
 
 /* If we're not on the last line of the file, move all the text of the
  * current line, plus the newline at the end, to the cutbuffer.  If we
- * are, and the last line of the file isn't blank, move all of the text
- * of the current line to the cutbuffer.  In both cases, set the current
- * place we want to the beginning of the current line. */
+ * are, move all of the text of the current line to the cutbuffer.  In
+ * both cases, set the current place we want to the beginning of the
+ * current line. */
 void cut_line(void)
 {
     if (openfile->current != openfile->filebot)
