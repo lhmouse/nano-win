@@ -1,3 +1,7 @@
+2005-11-08  David Lawrence Ramsey  <pooka109@cox.net>
+
+	* POTFILES.in: Add prompt.c.
+
 2005-11-05  David Lawrence Ramsey  <pooka109@cox.net>
 
 	* POTFILES.in: Add browser.c.
