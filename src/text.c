@@ -1370,21 +1370,23 @@ void do_justify(bool full_justify)
 	    /* Break the current line. */
 	    null_at(&openfile->current->data, break_pos);
 
+	    /* If the current line is the last line of the file, move
+	     * the last line of the file down. */
+	    if (openfile->filebot == openfile->current)
+		openfile->filebot = openfile->filebot->next;
+
 	    /* Go to the next line. */
 	    par_len--;
-	    if (openfile->current != openfile->filebot) {
-		openfile->current_y++;
-		openfile->current = openfile->current->next;
-	    }
+	    openfile->current_y++;
+	    openfile->current = openfile->current->next;
 	}
 
 	/* We're done breaking lines, so we don't need indent_string
 	 * anymore. */
 	free(indent_string);
 
-	/* Go to the next line: the line after the last line of the
-	 * paragraph, if any.  If there isn't one, move to the end of
-	 * the current line, since that's where the paragraph ends. */
+	/* Go to the next line, if possible.  If there is no next line,
+	 * move to the end of the current line. */
 	if (openfile->current != openfile->filebot) {
 	    openfile->current_y++;
 	    openfile->current = openfile->current->next;
