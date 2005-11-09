@@ -499,7 +499,8 @@ void read_file(FILE *f, const char *filename)
 	    else
 		openfile->current_x = len;
 
-	    /* Prepend the text at fileptr to the text at current. */
+	    /* Tack the text at fileptr onto the beginning of the text
+	     * at current. */
 	    openfile->current->data =
 		charealloc(openfile->current->data, len +
 		current_len + 1);
@@ -533,10 +534,7 @@ void read_file(FILE *f, const char *filename)
 	/* Renumber starting with the last line of the file we
 	 * inserted. */
 	renumber(openfile->current);
-    } else
-	/* Adjust the current x-coordinate to compensate for the
-	 * change in the current line. */
-	openfile->current_x = 0;
+    }
 
     openfile->totsize += get_totsize(openfile->fileage,
 	openfile->filebot);
