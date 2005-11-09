@@ -82,6 +82,11 @@ CVS code -
 	  character as having the width of Unicode U+FFFD (Replacement
 	  Character) instead of having a width of zero, since display
 	  problems can crop up with the latter approach. (DLR)
+- cut.c:
+  cut_line()
+	- Since placewewant will always be zero after the line is cut,
+	  set it to zero directly instead of assigning it the value of
+	  xplustabs(). (DLR)
 - files.c:
   read_file()
 	- Remove apparently unneeded logic to handle a case where

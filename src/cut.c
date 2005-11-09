@@ -40,10 +40,10 @@ void cutbuffer_reset(void)
 
 /* If we're not on the last line of the file, move all the text of the
  * current line, plus the newline at the end, to the cutbuffer, and set
- * the current place we want to where the line used to start.  If we
- * are, and the last line of the file isn't blank, move all of the text
- * of the current line to the cutbuffer, and set the current place we
- * want to where the now-blank line starts. */
+ * the current place we want to the beginning of the now-nonexistent
+ * line.  If we are, and the last line of the file isn't blank, move all
+ * of the text of the current line to the cutbuffer, and set the current
+ * place we want to the beginning of the now-blank line. */
 void cut_line(void)
 {
     size_t data_len = strlen(openfile->current->data);
@@ -57,7 +57,7 @@ void cut_line(void)
 	move_to_filestruct(&cutbuffer, &cutbottom, openfile->current, 0,
 		openfile->current, data_len);
 
-    openfile->placewewant = xplustabs();
+    openfile->placewewant = 0;
 }
 
 #ifndef NANO_SMALL
