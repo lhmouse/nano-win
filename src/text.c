@@ -974,6 +974,9 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len)
     }
 #endif
 
+    /* Note: par_len will be one greater than the number of lines
+     * between current and filebot if filebot is the last line to be
+     * backed up. */
     assert(par_len > 0 && openfile->current->lineno + par_len <=
 	filebot->lineno + 1);
 
