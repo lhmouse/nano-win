@@ -978,14 +978,15 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len)
     assert(par_len > 0 && openfile->current->lineno + par_len <=
 	filebot->lineno + 1);
 
-    /* Move bot down par_len lines to the newline after the last line of
-     * the paragraph. */
-    for (i = par_len; i > 0; i--)
+    /* Move bot down par_len lines to the line after the last line of
+     * the paragraph, if there is one. */
+    for (i = par_len; i > 0 && bot != openfile->filebot; i--)
 	bot = bot->next;
 
     /* Move the paragraph from the current buffer's filestruct to the
      * justify buffer. */
-    move_to_filestruct(&jusbuffer, &jusbottom, top, 0, bot, 0);
+    move_to_filestruct(&jusbuffer, &jusbottom, top, 0, bot,
+	strlen(bot->data));
 
     /* Copy the paragraph back to the current buffer's filestruct from
      * the justify buffer. */
@@ -995,7 +996,10 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len)
      * line, putting first_line, edittop, current, and mark_begin at the
      * same lines in the copied paragraph that they had in the original
      * paragraph. */
-    top = openfile->current->prev;
+    if (openfile->current != openfile->filebot)
+	top = openfile->current->prev;
+    else
+	top = openfile->current;
     for (i = par_len; i > 0; i--) {
 	if (top->lineno == fl_lineno_save)
 	    first_line = top;

@@ -76,7 +76,7 @@ CVS code -
 	  nanogetstr() (renamed get_prompt_string()), statusq() (renamed
 	  do_prompt()), statusq_abort() (renamed do_prompt_abort()), and
 	  do_yesno() (renamed do_yesno_prompt()). (DLR)
-	- Initialize the static pid_t pid in text.c. (DLR)
+	- Initialize the static pid_t pid in text.c to -1. (DLR)
 - chars.c:
   mbwidth()
 	- If wcwidth() returns -1 for the character passed in, treat the
