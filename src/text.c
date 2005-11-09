@@ -1082,18 +1082,18 @@ bool find_paragraph(size_t *const quote, size_t *const par)
     /* Now current is the first line of the paragraph.  Set quote_len to
      * the quotation length of that line, and set par_len to the number
      * of lines in this paragraph.  If, while calculating the latter, we
-     * end up at the end of the last line of the file, and we were there
-     * before moving, it means that there aren't any paragraphs left, so
+     * end up past the beginning of the line, it means that we're at the
+     * last line of the file, and the file doesn't end in a newline.  If
+     * we were there before moving, there aren't any paragraphs left, so
      * get out.  If we weren't there before moving, it means that the
-     * line is part of the paragraph. */
+     * line is part of this paragraph. */
     quote_len = quote_length(openfile->current->data);
     current_save = openfile->current;
     current_x_save = openfile->current_x;
     current_y_save = openfile->current_y;
     do_para_end(FALSE);
     par_len = openfile->current->lineno - current_save->lineno;
-    if (openfile->current == openfile->filebot && openfile->current_x ==
-	strlen(openfile->current->data)) {
+    if (openfile->current_x > 0) {
 	if (openfile->current == current_save &&
 		openfile->current_x == current_x_save)
 	    return FALSE;
