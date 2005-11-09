@@ -988,7 +988,7 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len)
     /* Move the paragraph from the current buffer's filestruct to the
      * justify buffer. */
     move_to_filestruct(&jusbuffer, &jusbottom, top, 0, bot,
-	strlen(bot->data));
+	(bot == filebot) ? strlen(bot->data) : 0);
 
     /* Copy the paragraph back to the current buffer's filestruct from
      * the justify buffer. */
