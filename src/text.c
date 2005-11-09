@@ -1248,7 +1248,7 @@ void do_justify(bool full_justify)
 		indent_len);
 
 	    /* Don't destroy edittop! */
-	    if (openfile->edittop == next_line)
+	    if (next_line == openfile->edittop)
 		openfile->edittop = openfile->current;
 
 #ifndef NANO_SMALL
