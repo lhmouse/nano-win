@@ -899,12 +899,13 @@ bool indents_match(const char *a_line, size_t a_indent, const char
  *   autoindent is turned on. */
 bool begpar(const filestruct *const foo)
 {
-    size_t quote_len;
-    size_t indent_len;
-    size_t temp_id_len;
+    size_t quote_len, indent_len, temp_id_len;
+
+    if (foo == NULL)
+	return FALSE;
 
     /* Case 1). */
-    if (foo->prev == NULL)
+    if (foo == openfile->fileage)
 	return TRUE;
 
     quote_len = quote_length(foo->data);
