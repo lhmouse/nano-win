@@ -947,7 +947,7 @@ bool inpar(const filestruct *const foo)
 	quote_len)] != '\0');
 }
 
-/* Put the next par_len lines, starting with first_line, into the
+/* Move the next par_len lines, starting with first_line, into the
  * justify buffer, leaving copies of those lines in place.  Assume that
  * par_len is greater than zero, and that there are enough lines after
  * first_line.  Return the new copy of first_line. */
@@ -1203,9 +1203,10 @@ void do_justify(bool full_justify)
 	 * to the justify buffer. */
 	if (first_par_line == NULL)
 	    first_par_line = backup_lines(openfile->current,
-		full_justify ? ((openfile->current ==
-		openfile->filebot) ? 1 : openfile->filebot->lineno -
-		openfile->current->lineno) : par_len);
+		full_justify ? (openfile->filebot->lineno -
+		openfile->current->lineno +
+		(openfile->filebot->data[0] != '\0') ? 1 : 0) :
+		par_len);
 
 	/* Initialize indent_string to a blank string. */
 	indent_string = mallocstrcpy(NULL, "");
@@ -1448,10 +1449,11 @@ void do_justify(bool full_justify)
 	    /* Partition the filestruct so that it contains only the
 	     * text of the justified paragraph. */
 	    filepart = partition_filestruct(first_par_line, 0,
-		last_par_line, strlen(last_par_line->data));
+		last_par_line, (last_par_line == openfile->filebot) ?
+		strlen(last_par_line->data) : 0);
 
 	    /* Remove the text of the justified paragraph, and
-	     * put the text in the justify buffer in its place. */
+	     * replace it with the text in the justify buffer. */
 	    free_filestruct(openfile->fileage);
 	    openfile->fileage = jusbuffer;
 	    openfile->filebot = jusbottom;
