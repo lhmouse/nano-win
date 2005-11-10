@@ -1141,8 +1141,8 @@ void do_justify(bool full_justify)
     bool meta_key, func_key, s_or_t, ran_func, finished;
 
     /* Move to the beginning of the current line, so that justifying at
-     * the end of the last line of the file will work if that line isn't
-     * blank. */
+     * the end of the last line of the file will work the first time if
+     * that line isn't blank. */
     openfile->current_x = 0;
 
     /* If we're justifying the entire file, start at the beginning. */
