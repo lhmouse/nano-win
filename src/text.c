@@ -998,7 +998,7 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len)
      * line, putting first_line, edittop, current, and mark_begin at the
      * same lines in the copied paragraph that they had in the original
      * paragraph. */
-    if (openfile->current != openfile->filebot)
+    if (openfile->current != openfile->fileage)
 	top = openfile->current->prev;
     else
 	top = openfile->current;
