@@ -1213,8 +1213,8 @@ void do_justify(bool full_justify)
 	 * first_par_line to the first line of the copy. */
 	if (first_par_line == NULL) {
 	    backup_lines(openfile->current, full_justify ?
-		(openfile->filebot->lineno - openfile->current->lineno +
-		((openfile->filebot->data[0] != '\0') ? 1 : 0)) :
+		openfile->filebot->lineno - openfile->current->lineno +
+		((openfile->filebot->data[0] != '\0') ? 1 : 0) :
 		par_len);
 	    first_par_line = openfile->current;
 	}
