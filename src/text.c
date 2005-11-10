@@ -1214,7 +1214,7 @@ void do_justify(bool full_justify)
 	if (first_par_line == NULL) {
 	    backup_lines(openfile->current, full_justify ?
 		(openfile->filebot->lineno - openfile->current->lineno +
-		(openfile->filebot->data[0] != '\0') ? 1 : 0) :
+		((openfile->filebot->data[0] != '\0') ? 1 : 0)) :
 		par_len);
 	    first_par_line = openfile->current;
 	}
