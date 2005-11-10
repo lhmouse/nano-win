@@ -139,8 +139,8 @@ void do_page_down(void)
 }
 
 #ifndef DISABLE_JUSTIFY
-/* Move up to the last beginning-of-paragraph line before the current
- * line. */
+/* Move up to the beginning of the last beginning-of-paragraph line
+ * before the current line. */
 void do_para_begin(bool allow_update)
 {
     const filestruct *current_save = openfile->current;
@@ -167,11 +167,11 @@ void do_para_begin_void(void)
     do_para_begin(TRUE);
 }
 
-/* Move down to the end of a paragraph.  Then move one line farther if
- * there is such a line, or to the end of the current line if not.  A
- * line is the last line of a paragraph if it is in a paragraph, and the
- * next line either is a beginning-of-paragraph line or isn't in a
- * paragraph. */
+/* Move down to the beginning of the last line of the current paragraph.
+ * Then move down one line farther if there is such a line, or to the
+ * end of the current line if not.  A line is the last line of a
+ * paragraph if it is in a paragraph, and the next line either is a
+ * beginning-of-paragraph line or isn't in a paragraph. */
 void do_para_end(bool allow_update)
 {
     const filestruct *const current_save = openfile->current;
