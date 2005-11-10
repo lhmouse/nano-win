@@ -288,9 +288,9 @@ void shortcut_init(bool unjustify)
     const char *nano_prevword_msg = N_("Move backward one word");
     const char *nano_wordcount_msg =
 	N_("Count the number of words, lines, and characters");
-    const char *nano_scrollprev_msg =
+    const char *nano_scrollup_msg =
 	N_("Scroll up one line without scrolling the cursor");
-    const char *nano_scrollnext_msg =
+    const char *nano_scrolldown_msg =
 	N_("Scroll down one line without scrolling the cursor");
 #endif
 #ifndef DISABLE_JUSTIFY
@@ -545,13 +545,13 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_wordcount_msg, NANO_WORDCOUNT_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, do_wordlinechar_count);
 
-    sc_init_one(&main_list, NANO_NO_KEY, N_("ScrollPrev"),
-	IFHELP(nano_scrollprev_msg, NANO_SCROLLPREV_KEY), NANO_NO_KEY,
-	NANO_SCROLLPREV_ALTKEY, VIEW, do_scroll_up);
+    sc_init_one(&main_list, NANO_NO_KEY, N_("Scroll Up"),
+	IFHELP(nano_scrollup_msg, NANO_SCROLLUP_KEY), NANO_NO_KEY,
+	NANO_SCROLLUP_ALTKEY, VIEW, do_scroll_up);
 
-    sc_init_one(&main_list, NANO_NO_KEY, N_("ScrollNext"),
-	IFHELP(nano_scrollnext_msg, NANO_SCROLLNEXT_KEY), NANO_NO_KEY,
-	NANO_SCROLLNEXT_ALTKEY, VIEW, do_scroll_down);
+    sc_init_one(&main_list, NANO_NO_KEY, N_("Scroll Down"),
+	IFHELP(nano_scrolldown_msg, NANO_SCROLLDOWN_KEY), NANO_NO_KEY,
+	NANO_SCROLLDOWN_ALTKEY, VIEW, do_scroll_down);
 #endif
 
 #ifndef DISABLE_JUSTIFY
