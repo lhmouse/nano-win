@@ -1002,7 +1002,7 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len)
 	top = openfile->current->prev;
     else
 	top = openfile->current;
-    for (i = par_len; i > 0; i--) {
+    for (i = par_len; i > 0 && top != NULL; i--) {
 	if (top->lineno == fl_lineno_save)
 	    first_line = top;
 	if (top->lineno == edittop_lineno_save)
