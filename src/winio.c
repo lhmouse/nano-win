@@ -2634,11 +2634,11 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
      * there are fewer than nlines lines available. */
     for (i = nlines; i > 0; i--) {
 	if (direction == UP) {
-	    if (openfile->edittop->prev == NULL)
+	    if (openfile->edittop == openfile->fileage)
 		break;
 	    openfile->edittop = openfile->edittop->prev;
 	} else {
-	    if (openfile->edittop->next == NULL)
+	    if (openfile->edittop == openfile->filebot)
 		break;
 	    openfile->edittop = openfile->edittop->next;
 	}
@@ -2842,7 +2842,7 @@ void edit_update(update_type location)
 	    goal = editwinrows - 1;
     }
 
-    for (; goal > 0 && foo->prev != NULL; goal--)
+    for (; goal > 0 && foo != openfile->edittop; goal--)
 	foo = foo->prev;
 
     openfile->edittop = foo;

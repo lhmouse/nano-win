@@ -432,7 +432,7 @@ bool do_wrap(filestruct *line)
     /* We prepend the wrapped text to the next line, if the
      * same_line_wrap flag is set, there is a next line, and prepending
      * would not make the line too long. */
-    if (same_line_wrap && line->next != NULL) {
+    if (same_line_wrap && line != openfile->filebot) {
 	const char *end = after_break + move_mbleft(after_break,
 		after_break_len);
 

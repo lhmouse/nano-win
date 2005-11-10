@@ -494,7 +494,7 @@ void new_magicline(void)
 void remove_magicline(void)
 {
     if (openfile->filebot->data[0] == '\0' &&
-	openfile->filebot->prev != NULL) {
+	openfile->filebot != openfile->fileage) {
 	openfile->filebot = openfile->filebot->prev;
 	free_filestruct(openfile->filebot->next);
 	openfile->filebot->next = NULL;
