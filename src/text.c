@@ -1131,17 +1131,18 @@ void do_justify(bool full_justify)
 
     /* We save these variables to be restored if the user
      * unjustifies. */
+    filestruct *edittop_save = openfile->edittop;
+    filestruct *current_save = openfile->current;
     size_t current_x_save = openfile->current_x;
     size_t pww_save = openfile->placewewant;
     ssize_t current_y_save = openfile->current_y;
-    bool modified_save = openfile->modified;
     size_t totsize_save = openfile->totsize;
-    filestruct *edittop_save = openfile->edittop;
-    filestruct *current_save = openfile->current;
 #ifndef NANO_SMALL
     filestruct *mark_begin_save = openfile->mark_begin;
     size_t mark_begin_x_save = openfile->mark_begin_x;
 #endif
+    bool modified_save = openfile->modified;
+
     int kbinput;
     bool meta_key, func_key, s_or_t, ran_func, finished;
 
