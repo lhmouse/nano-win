@@ -1122,7 +1122,7 @@ void do_justify(bool full_justify)
     filestruct *first_par_line = NULL;
 	/* Will be the first line of the justified paragraph.  For
 	 * restoring after unjustify. */
-    filestruct *last_par_line;
+    filestruct *last_par_line = NULL;
 	/* Will be the line after the last line of the justified
 	 * paragraph, if any.  Also for restoring after unjustify. */
     bool filebot_inpar = FALSE;
@@ -1153,8 +1153,6 @@ void do_justify(bool full_justify)
     /* If we're justifying the entire file, start at the beginning. */
     if (full_justify)
 	openfile->current = openfile->fileage;
-
-    last_par_line = openfile->current;
 
     while (TRUE) {
 	size_t i;
@@ -1413,16 +1411,13 @@ void do_justify(bool full_justify)
     }
 
     /* We are now done justifying the paragraph or the file, so clean
-     * up.  totsize, and current_y have been maintained above.  Set
-     * last_par_line to the new end of the paragraph, update fileage,
-     * and renumber, since edit_refresh() needs the line numbers to be
-     * right (but only do the last two if we actually justified
-     * something). */
-    last_par_line = openfile->current;
+     * up.  current_y and totsize have been maintained above.  If we
+     * actually justified something, renumber, since edit_refresh()
+     * needs the line numbers to be right, and set last_par_line to the
+     * new end of the paragraph. */
     if (first_par_line != NULL) {
-	if (first_par_line->prev == NULL)
-	    openfile->fileage = first_par_line;
 	renumber(first_par_line);
+	last_par_line = openfile->current;
     }
 
     edit_refresh();
@@ -1445,13 +1440,6 @@ void do_justify(bool full_justify)
 
     if (!meta_key && !func_key && s_or_t &&
 	kbinput == NANO_UNJUSTIFY_KEY) {
-	/* Restore the justify we just did (ungrateful user!). */
-	openfile->current = current_save;
-	openfile->current_x = current_x_save;
-	openfile->placewewant = pww_save;
-	openfile->current_y = current_y_save;
-	openfile->edittop = edittop_save;
-
 	/* Splice the justify buffer back into the file, but only if we
 	 * actually justified something. */
 	if (first_par_line != NULL) {
@@ -1480,7 +1468,12 @@ void do_justify(bool full_justify)
 	      * partition. */
 	    renumber(top_save);
 
-	    /* Restore variables from before the justify. */
+	    /* Restore the justify we just did (ungrateful user!). */
+	    openfile->edittop = edittop_save;
+	    openfile->current = current_save;
+	    openfile->current_x = current_x_save;
+	    openfile->placewewant = pww_save;
+	    openfile->current_y = current_y_save;
 	    openfile->totsize = totsize_save;
 #ifndef NANO_SMALL
 	    if (openfile->mark_set) {
