@@ -1103,7 +1103,7 @@ bool find_paragraph(size_t *const quote, size_t *const par)
     openfile->current = current_save;
     openfile->current_y = current_y_save;
 
-    /* Set the current place we want to the current x-coordinate. */
+    /* Set the current place we want to where the cursor is now. */
     openfile->placewewant = xplustabs();
 
     /* Save the values of quote_len and par_len. */
