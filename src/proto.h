@@ -563,7 +563,7 @@ bool indents_match(const char *a_line, size_t a_indent, const char
 	*b_line, size_t b_indent);
 bool begpar(const filestruct *const foo);
 bool inpar(const filestruct *const foo);
-filestruct *backup_lines(filestruct *first_line, size_t par_len);
+void backup_lines(filestruct *first_line, size_t par_len);
 bool find_paragraph(size_t *const quote, size_t *const par);
 void do_justify(bool full_justify);
 void do_justify_void(void);

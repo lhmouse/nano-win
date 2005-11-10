@@ -950,8 +950,8 @@ bool inpar(const filestruct *const foo)
 /* Move the next par_len lines, starting with first_line, into the
  * justify buffer, leaving copies of those lines in place.  Assume that
  * par_len is greater than zero, and that there are enough lines after
- * first_line.  Return the new copy of first_line. */
-filestruct *backup_lines(filestruct *first_line, size_t par_len)
+ * first_line. */
+void backup_lines(filestruct *first_line, size_t par_len)
 {
     filestruct *top = first_line;
 	/* The top of the paragraph we're backing up. */
@@ -1023,8 +1023,6 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len)
     openfile->current_x = current_x_save;
 
     set_modified();
-
-    return first_line;
 }
 
 /* Find the beginning of the current paragraph if we're in one, or the
@@ -1209,14 +1207,17 @@ void do_justify(bool full_justify)
 	filebot_inpar = (openfile->current->lineno + par_len ==
 		openfile->filebot->lineno + 1);
 
-	/* If we haven't already done it, copy the original paragraph(s)
-	 * to the justify buffer. */
-	if (first_par_line == NULL)
-	    first_par_line = backup_lines(openfile->current,
-		full_justify ? (openfile->filebot->lineno -
-		openfile->current->lineno +
+	/* If we haven't already done it, move the original paragraph(s)
+	 * to the justify buffer, splice a copy of the original
+	 * paragraph(s) into the file in the same place, and set
+	 * first_par_line to the first line of the copy. */
+	if (first_par_line == NULL) {
+	    backup_lines(openfile->current, full_justify ?
+		(openfile->filebot->lineno - openfile->current->lineno +
 		(openfile->filebot->data[0] != '\0') ? 1 : 0) :
 		par_len);
+	    first_par_line = openfile->current;
+	}
 
 	/* Initialize indent_string to a blank string. */
 	indent_string = mallocstrcpy(NULL, "");

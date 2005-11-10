@@ -110,6 +110,10 @@ CVS code -
   begpar()
 	- Return FALSE if foo is NULL, as inpar() does. (DLR)
   backup_lines()
+	- Return void instead of a pointer to the copy of the first
+	  line, since current will point to the same location after the
+	  text is copied and so can be used instead of the old return
+	  value. (DLR)
 	- Remove unused quote_len parameter. (DLR)
   do_alt_speller()
 	- Move the code that replaces the text of the current file with
