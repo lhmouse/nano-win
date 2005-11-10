@@ -1372,7 +1372,7 @@ void do_justify(bool full_justify)
 	    null_at(&openfile->current->data, break_pos);
 
 	    /* If the current line is the last line of the file, move
-	     * the last line of the file down. */
+	     * the last line of the file down to the next line. */
 	    if (openfile->filebot == openfile->current)
 		openfile->filebot = openfile->filebot->next;
 

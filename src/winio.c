@@ -2842,7 +2842,7 @@ void edit_update(update_type location)
 	    goal = editwinrows - 1;
     }
 
-    for (; goal > 0 && foo != openfile->edittop; goal--)
+    for (; goal > 0 && foo->prev != NULL; goal--)
 	foo = foo->prev;
 
     openfile->edittop = foo;
