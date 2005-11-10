@@ -1123,7 +1123,7 @@ void do_justify(bool full_justify)
     filestruct *last_par_line;
 	/* Will be the line after the last line of the justified
 	 * paragraph, if any.  Also for restoring after unjustify. */
-    bool filebot_inpar;
+    bool filebot_inpar = FALSE;
 	/* Whether the text at filebot is part of the current
 	 * paragraph. */
 
