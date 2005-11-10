@@ -1420,7 +1420,7 @@ void do_justify(bool full_justify)
      * something). */
     last_par_line = openfile->current;
     if (first_par_line != NULL) {
-	if (first_par_line == openfile->fileage)
+	if (first_par_line->prev == NULL)
 	    openfile->fileage = first_par_line;
 	renumber(first_par_line);
     }

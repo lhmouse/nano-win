@@ -49,8 +49,7 @@ CVS code -
 	  do_page_down(), do_para_end(), do_next_word(), do_prev_word(),
 	  do_up(), do_down(), do_scroll_down(), do_right(), do_mouse(),
 	  do_gotolinecolumn(), do_delete(), begpar(), find_paragraph(),
-	  do_justify(), do_wrap(), remove_magicline(), and
-	  edit_scroll(). (DLR)
+	  do_wrap(), remove_magicline(), and edit_scroll(). (DLR)
 	- Add new -L/--nonewlines command line option, and new
 	  "nonewlines" rcfile option, to control whether nano adds
 	  magiclines to the ends of files.  Changes to read_file(),
