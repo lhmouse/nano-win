@@ -974,9 +974,9 @@ filestruct *backup_lines(filestruct *first_line, size_t par_len)
     }
 #endif
 
-    /* Note: par_len will be one greater than the number of lines
-     * between current and filebot if filebot is the last line to be
-     * backed up. */
+    /* par_len will be one greater than the number of lines between
+     * current and filebot if filebot is the last line in the
+     * paragraph. */
     assert(par_len > 0 && openfile->current->lineno + par_len <=
 	filebot->lineno + 1);
 
@@ -1123,6 +1123,9 @@ void do_justify(bool full_justify)
     filestruct *last_par_line;
 	/* Will be the line after the last line of the justified
 	 * paragraph, if any.  Also for restoring after unjustify. */
+    bool filebot_inpar;
+	/* Whether the text at filebot is part of the current
+	 * paragraph. */
 
     /* We save these variables to be restored if the user
      * unjustifies. */
@@ -1198,6 +1201,12 @@ void do_justify(bool full_justify)
 		return;
 	    }
 	}
+
+	/* par_len will be one greater than the number of lines between
+	 * current and filebot if filebot is the last line in the
+	 * paragraph.  Set filebot_inpar to TRUE if this is the case. */
+	filebot_inpar = (openfile->current->lineno + par_len ==
+		openfile->filebot->lineno + 1);
 
 	/* If we haven't already done it, copy the original paragraph(s)
 	 * to the justify buffer. */
@@ -1449,8 +1458,8 @@ void do_justify(bool full_justify)
 	    /* Partition the filestruct so that it contains only the
 	     * text of the justified paragraph. */
 	    filepart = partition_filestruct(first_par_line, 0,
-		last_par_line, (last_par_line == openfile->filebot) ?
-		strlen(last_par_line->data) : 0);
+		last_par_line, (filebot_inpar && last_par_line ==
+		openfile->filebot) ? strlen(last_par_line->data) : 0);
 
 	    /* Remove the text of the justified paragraph, and
 	     * replace it with the text in the justify buffer. */
