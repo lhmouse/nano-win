@@ -1062,35 +1062,42 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 	return FALSE;
 
     /* If the current line isn't in a paragraph, move forward to the
-     * line after the last line of the next paragraph, if any.  If the
-     * line before that isn't in a paragraph, it means that there aren't
-     * any paragraphs left, so get out.  Otherwise, move back to the
-     * last line of the paragraph.  If the current line is in a
-     * paragraph and it isn't the first line of that paragraph, move
-     * back to the first line of the paragraph. */
+     * last line of the next paragraph, if any. */
     if (!inpar(openfile->current)) {
-	current_save = openfile->current;
 	do_para_end(FALSE);
-	if (!inpar(openfile->current->prev))
-	    return FALSE;
-	if (openfile->current != openfile->fileage)
-	    openfile->current = openfile->current->prev;
+	/* If we end up past the beginning of the line, it means that
+	 * we're at the end of the last line of the file, and the line
+	 * isn't blank, in which case the last line of the file is the
+	 * last line of the next paragraph.
+	 *
+	 * Otherwise, if we end up on a line that's in a paragraph, it
+	 * means that we're on the line after the last line of the next
+	 * paragraph, in which case we should move back to the last line
+	 * of the next paragraph. */
+	if (openfile->current_x == 0) {
+	    if (!inpar(openfile->current->prev))
+		return FALSE;
+	    if (openfile->current != openfile->fileage)
+		openfile->current = openfile->current->prev;
+	}
     }
+    /* If the current line isn't the first line of the paragraph, move
+     * back to the first line of the paragraph. */
     if (!begpar(openfile->current))
 	do_para_begin(FALSE);
 
     /* Now current is the first line of the paragraph.  Set quote_len to
      * the quotation length of that line, and set par_len to the number
-     * of lines in this paragraph.  If, while calculating the latter, we
-     * end up past the beginning of the line, it means that we're at the
-     * end of the last line of the file, and the line isn't blank, in
-     * which case the last line of the file is part of this
-     * paragraph. */
+     * of lines in this paragraph. */
     quote_len = quote_length(openfile->current->data);
     current_save = openfile->current;
     current_y_save = openfile->current_y;
     do_para_end(FALSE);
     par_len = openfile->current->lineno - current_save->lineno;
+    /* If we end up past the beginning of the line, it means that we're
+     * at the end of the last line of the file, and the line isn't
+     * blank, in which case the last line of the file is part of the
+     * paragraph. */
     if (openfile->current_x > 0)
 	par_len++;
     openfile->current = current_save;
@@ -1162,11 +1169,11 @@ void do_justify(bool full_justify)
 	    /* The first indentation that doesn't match the initial
 	     * indentation of the paragraph we justify.  This is put at
 	     * the beginning of every line broken off the first
-	     * justified line of the paragraph.  (Note that this works
+	     * justified line of the paragraph.  Note that this works
 	     * because a paragraph can only contain two indentations at
 	     * most: the initial one, and a different one starting on a
 	     * line after the first.  See the comment at begpar() for
-	     * more about when a line is part of a paragraph.) */
+	     * more about when a line is part of a paragraph. */
 
 	/* Find the first line of the paragraph to be justified.  That
 	 * is the start of this paragraph if we're in one, or the start
