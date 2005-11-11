@@ -1042,8 +1042,6 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 	/* Number of lines in the paragraph we search for. */
     filestruct *current_save;
 	/* The line at the beginning of the paragraph we search for. */
-    size_t current_x_save;
-	/* The x-coordinate at the end of the paragraph we search for. */
     ssize_t current_y_save;
 	/* The y-coordinate at the beginning of the paragraph we search
 	 * for. */
@@ -1064,17 +1062,16 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 	return FALSE;
 
     /* If the current line isn't in a paragraph, move forward to the
-     * line after the last line of the next paragraph, if any.  If we
-     * end up on the same line, or the line before that isn't in a
-     * paragraph, it means that there aren't any paragraphs left, so get
-     * out.  Otherwise, move back to the last line of the paragraph.  If
-     * the current line is in a paragraph and it isn't the first line of
-     * that paragraph, move back to the first line. */
+     * line after the last line of the next paragraph, if any.  If the
+     * line before that isn't in a paragraph, it means that there aren't
+     * any paragraphs left, so get out.  Otherwise, move back to the
+     * last line of the paragraph.  If the current line is in a
+     * paragraph and it isn't the first line of that paragraph, move
+     * back to the first line of the paragraph. */
     if (!inpar(openfile->current)) {
 	current_save = openfile->current;
 	do_para_end(FALSE);
-	if (openfile->current == current_save ||
-		!inpar(openfile->current->prev))
+	if (!inpar(openfile->current->prev))
 	    return FALSE;
 	if (openfile->current != openfile->fileage)
 	    openfile->current = openfile->current->prev;
@@ -1086,28 +1083,18 @@ bool find_paragraph(size_t *const quote, size_t *const par)
      * the quotation length of that line, and set par_len to the number
      * of lines in this paragraph.  If, while calculating the latter, we
      * end up past the beginning of the line, it means that we're at the
-     * end of the last line of the file, and the line isn't blank.  If
-     * we were at the same place before, there aren't any paragraphs
-     * left, so get out.  Otherwise, the last line of the file is part
-     * of this paragraph. */
+     * end of the last line of the file, and the line isn't blank, in
+     * which case the last line of the file is part of this
+     * paragraph. */
     quote_len = quote_length(openfile->current->data);
     current_save = openfile->current;
-    current_x_save = openfile->current_x;
     current_y_save = openfile->current_y;
     do_para_end(FALSE);
     par_len = openfile->current->lineno - current_save->lineno;
-    if (openfile->current_x > 0) {
-	if (openfile->current == current_save &&
-		openfile->current_x == current_x_save)
-	    return FALSE;
-	else
-	    par_len++;
-    }
+    if (openfile->current_x > 0)
+	par_len++;
     openfile->current = current_save;
     openfile->current_y = current_y_save;
-
-    /* Set the current place we want to where the cursor is now. */
-    openfile->placewewant = xplustabs();
 
     /* Save the values of quote_len and par_len. */
     assert(quote != NULL && par != NULL);
@@ -1150,8 +1137,8 @@ void do_justify(bool full_justify)
     bool meta_key, func_key, s_or_t, ran_func, finished;
 
     /* Move to the beginning of the current line, so that justifying at
-     * the end of the last line of the file will work the first time if
-     * that line isn't blank. */
+     * the end of the last line of the file, if that line isn't blank,
+     * will work the first time through. */
     openfile->current_x = 0;
 
     /* If we're justifying the entire file, start at the beginning. */
