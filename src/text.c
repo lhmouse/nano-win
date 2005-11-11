@@ -1057,13 +1057,18 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 
     assert(openfile->current != NULL);
 
-    /* Find the first line of the current or next paragraph.  First, if
-     * the current line isn't in a paragraph, move forward to the line
-     * after the last line of the next paragraph, if any.  If we end up
-     * on the same line, or the line before that isn't in a paragraph, it
-     * means that there aren't any paragraphs left, so get out.
-     * Otherwise, move back to the last line of the paragraph.  If the
-     * current line is in a paragraph and it isn't the first line of
+    /* If we're at the end of the last line of the file, it means that
+     * there aren't any paragraphs left, so get out. */
+    if (openfile->current == openfile->filebot && openfile->current_x ==
+	strlen(openfile->filebot->data))
+	return FALSE;
+
+    /* If the current line isn't in a paragraph, move forward to the
+     * line after the last line of the next paragraph, if any.  If we
+     * end up on the same line, or the line before that isn't in a
+     * paragraph, it means that there aren't any paragraphs left, so get
+     * out.  Otherwise, move back to the last line of the paragraph.  If
+     * the current line is in a paragraph and it isn't the first line of
      * that paragraph, move back to the first line. */
     if (!inpar(openfile->current)) {
 	current_save = openfile->current;
@@ -1080,8 +1085,8 @@ bool find_paragraph(size_t *const quote, size_t *const par)
     /* Now current is the first line of the paragraph.  Set quote_len to
      * the quotation length of that line, and set par_len to the number
      * of lines in this paragraph.  If, while calculating the latter, we
-     * end up past the beginning of the line, it means that we're on the
-     * last line of the file, and the file doesn't end in a newline.  If
+     * end up past the beginning of the line, it means that we're at the
+     * end of the last line of the file, and the line isn't blank.  If
      * we were at the same place before, there aren't any paragraphs
      * left, so get out.  Otherwise, the last line of the file is part
      * of this paragraph. */
