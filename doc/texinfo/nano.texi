@@ -250,16 +250,16 @@ Note: When accessing the help system, Expert Mode is temporarily
 disabled to display the help system navigation keys.
 
 @item -v, --view
-Don't allow the contents of the file to be altered.  Note that this flag
-should NOT be used in place of correct file permissions to implement a
-read-only file.
+Don't allow the contents of the file to be altered.  Note that this
+option should NOT be used in place of correct file permissions to
+implement a read-only file.
 
 @item -w, --nowrap
 Don't wrap long lines at any length.  This option overrides any value
 for -r.
 
 @item -z, --suspend
-Enable suspend ability of @code{nano} using the system's suspend
+Enable @code{nano}'s suspend ability using the system's suspend
 keystroke (usually ^Z).
 
 @item -a, -b, -e, -f, -g, -j
@@ -353,61 +353,61 @@ and ^V (Page Down) keys.  ^X exits the help system.
 @chapter Feature Toggles
 
 Toggles allow you to change certain aspects of the editor that
-would normally be done via command line flags.  They are invoked via
+would normally be done via command line options.  They are invoked via
 certain Meta key sequences.  @xref{Special Functions}, for more info.
 The following global toggles are available:
 
 @table @code
 
 @item Backup Files Toggle (Meta-B)
-toggles the -B (@code{--backup}) command line flag.
+toggles the -B (@code{--backup}) command line option.
 
 @item Constant Cursor Position Display Toggle (Meta-C)
-toggles the -c (@code{--const}) command line flag.
+toggles the -c (@code{--const}) command line option.
 
 @item Multiple File Buffers Toggle (Meta-F)
-toggles the -F (@code{--multibuffer}) command line flag.
+toggles the -F (@code{--multibuffer}) command line option.
 
 @item Smart Home Key Toggle (Meta-H)
-toggles the -A (@code{--smarthome}) command line flag.
+toggles the -A (@code{--smarthome}) command line option.
 
 @item Auto Indent Toggle (Meta-I)
-toggles the -i (@code{--autoindent}) command line flag.
+toggles the -i (@code{--autoindent}) command line option.
 
 @item Cut To End Toggle (Meta-K)
-toggles the -k (@code{--cut}) command line flag.
+toggles the -k (@code{--cut}) command line option.
 
 @item Long Line Wrapping Toggle (Meta-L)
-toggles the -w (@code{--nowrap}) command line flag.
+toggles the -w (@code{--nowrap}) command line option.
 
 @item Mouse Support Toggle (Meta-M)
-toggles the -m (@code{--mouse}) command line flag.
+toggles the -m (@code{--mouse}) command line option.
 
 @item No Conversion From DOS/Mac Format Toggle (Meta-N)
-toggles the -N (@code{--noconvert}) command line flag.
+toggles the -N (@code{--noconvert}) command line option.
 
 @item More Space For Editing Toggle (Meta-O)
-toggles the -O (@code{--morespace}) command line flag.
+toggles the -O (@code{--morespace}) command line option.
 
 @item Whitespace Display Toggle (Meta-P)
 toggles whitespace display mode if you have a "whitespace" option in
 your .nanorc.
 
 @item Tabs to Spaces Toggle (Meta-Q)
-toggles the -E (@code{--tabstospaces}) command line flag.
+toggles the -E (@code{--tabstospaces}) command line option.
 
 @item Smooth Scrolling Toggle (Meta-S)
-toggles the -S (@code{--smooth}) command line flag.
+toggles the -S (@code{--smooth}) command line option.
 
 @item Expert/No Help Toggle (Meta-X)
-toggles the -x (@code{--nohelp}) command line flag.
+toggles the -x (@code{--nohelp}) command line option.
 
 @item Color Syntax Highlighting Toggle (Meta-Y)
 toggles color syntax highlighting if you have color syntaxes in your
 .nanorc.
 
 @item Suspend Toggle (Meta-Z)
-toggles the -z (@code{--suspend}) command line flag.
+toggles the -z (@code{--suspend}) command line option.
 
 @end table
 
@@ -441,11 +441,11 @@ incompatible with Pico, method for entering search and replace strings.
 In the old method, previous entries would be displayed by default as
 editable text in front of the cursor, as opposed to being bracketed and
 uneditable as it is in Pico.  The old behavior could be made compatible
-with Pico via the @code{-p} flag, but recent versions of Pico use the
-@code{-p} flag to preserve the XON and XOFF sequences within the editor.
-Since with the new method search and replace strings can still be edited
-by simply hitting the up arrow key once, the old method was removed
-completely.
+with Pico via the @code{-p} option, but recent versions of Pico use the
+@code{-p} option to preserve the XON and XOFF sequences within the
+editor.  Since with the new method search and replace strings can still
+be edited by simply hitting the up arrow key once, the old method was
+removed completely.
 
 
 @item Writing or Appending Selected Text to Files
@@ -494,40 +494,41 @@ familiar with compiling programs with autoconf support:
 
 @table @code
 
-@item --enable-debug
-Enable support for runtime debug output.  This can get pretty messy, so
-chances are you only want this feature to work on the nano source.
+
+@item --disable-browser
+Disable the mini file browser when reading or writing files.
+
+@item --disable-help
+Disable the help function.  Doing this makes the binary much smaller,
+but makes it difficult for new users to learn more than very basic
+things about using the editor.
+
+@item --disable-justify
+Disable the justify and unjustify functions.
+
+@item --disable-mouse
+Disable all mouse functionality.  This also disables the -m command line
+option, which enables the mouse functionality.
+
+@item --disable-speller
+Disable use of the spell checker.  This also disables the -s command
+line option, which allows specifying an alternate spell checker.
 
 @item --disable-tabcomp
 Disable the tab completion code when reading or writing files.
 
-@item --disable-justify
-Disable the justify (^J)/unjustify (^U) functions in the editor.
-
-@item --disable-speller
-Disable spell checker ability.
-
-@item --disable-help
-Disable the help function (^G).  Disabling this option makes the binary
-much smaller, but makes it difficult for new users to learn more than
-very basic things about using the editor.
-
-@item --disable-browser
-Disable the mini file browser (^T) when reading or writing files.
-
-@item --disable-mouse
-Disable all mouse functionality.  This also disables the -m command line
-flag, which enables the mouse functions.
-
 @item --disable-operatingdir
 Disable setting the operating directory.  This also disables the -o
-command line flag.
+command line option, which sets the operating directory.
 
 @item --enable-tiny
 This option disables all the above.  It also disables some of the larger
-internals of the editor, like the marker code (^^) and the cut to line
-(-k) option, which depends on the marker code to work properly.  It also
-disables the function toggles.
+internals of the editor, like the marking code and the cut to line code.
+It also disables the function toggles.
+
+@item --enable-debug
+Enable support for runtime debug output.  This can get pretty messy, so
+chances are you only want this feature to work on the nano source.
 
 @item --enable-extra
 Enable extra features.  At the moment, this is just easter egg-type
@@ -549,22 +550,25 @@ line options to get desired behavior.
 
 @item --enable-all
 Shortcut for enabling the above four features (extra, color,
-multibuffer, nanorc).
-
-@item --disable-wrapping
-Disable all word wrapping in the editor.  This also eliminates the -w
-command line flag, as nonwrapping is then the default behavior.
-
-@item --disable-wrapping-as-root
-Disable word wrapping by default when nano is run as root.
+multibuffer, and nanorc).
 
 @item --disable-nls
-Disables Native Language support.  This will make the available GNU
-@code{nano} translations unusable.
+Disables Native Language support.  This will disable use of the
+available GNU @code{nano} translations.
+
+@item --disable-wrapping
+Disable all long line wrapping.  This also eliminates the -w command
+line option, which enables long line wrapping.
+
+@item --disable-wrapping-as-root
+Disable long line wrapping by default when nano is run as root.
 
 @item --enable-utf8
 Enable support for reading and writing Unicode files.  This will require
 either the wide version of ncurses, or a UTF-8-enabled version of Slang.
+
+@item --disable-utf8
+Disable support for reading and writing Unicode files.
 
 @item --with-slang
 Compiling @code{nano} with Slang is supported, and will make the binary
