@@ -516,7 +516,7 @@ void read_file(FILE *f, const char *filename)
 	    if (fileptr == openfile->filebot)
 		openfile->filebot = openfile->current;
 
-	    /* Move fileptr back one line and delete the old fileptr,
+	    /* Move fileptr back one line and blow away the old fileptr,
 	     * since its text has been saved. */
 	    fileptr = fileptr->prev;
 	    if (fileptr != NULL) {
