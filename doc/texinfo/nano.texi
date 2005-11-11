@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.3.9
-@set UPDATED 05 Nov 2005
+@set UPDATED 11 Nov 2005
 
 @dircategory Editors
 @direntry
@@ -492,11 +492,11 @@ familiar with compiling programs with autoconf support:
 @item make install
 @end itemize
 
-if you are looking to optimize @code{nano} for size, you may want to
-consider the following command line options:
-
-
 @table @code
+
+@item --enable-debug
+Enable support for runtime debug output.  This can get pretty messy, so
+chances are you only want this feature to work on the nano source.
 
 @item --disable-tabcomp
 Disable the tab completion code when reading or writing files.
@@ -529,13 +529,42 @@ internals of the editor, like the marker code (^^) and the cut to line
 (-k) option, which depends on the marker code to work properly.  It also
 disables the function toggles.
 
+@item --enable-extra
+Enable extra features.  At the moment, this is just easter egg-type
+stuff.
+
+@item --enable-color
+Enable support for syntax coloring of files.  See the nanorc
+documentation for more details.  The nanorc feature will also be
+enabled.
+
+@item --enable-multibuffer
+Enable support for opening multiple files at a time and switching
+between them on the fly.
+
+@item --enable-nanorc
+Enable support for reading the nanorc file at startup.  You can store
+custom settings in the nanorc file rather than having to pass command
+line options to get desired behavior.
+
+@item --enable-all
+Shortcut for enabling the above four features (extra, color,
+multibuffer, nanorc).
+
 @item --disable-wrapping
 Disable all word wrapping in the editor.  This also eliminates the -w
 command line flag, as nonwrapping is then the default behavior.
 
+@item --disable-wrapping-as-root
+Disable word wrapping by default when nano is run as root.
+
 @item --disable-nls
 Disables Native Language support.  This will make the available GNU
 @code{nano} translations unusable.
+
+@item --enable-utf8
+Enable support for reading and writing Unicode files.  This will require
+either the wide version of ncurses, or a UTF-8-enabled version of Slang.
 
 @item --with-slang
 Compiling @code{nano} with Slang is supported, and will make the binary

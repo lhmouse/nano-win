@@ -133,6 +133,8 @@ CVS code -
 	  when the MORE_SPACE flag is set. (DLR)
 - doc/nano.texi:
 	- Fix inconsistent wording. (DLR)
+	- Add missing configure options, so that all of them are
+	  documented. (Mike Frysinger, minor tweaks by DLR)
 - doc/nanorc.sample:
 	- Tweak the "c-file" regex for characters to properly accept
 	  '\"' and reject '"' and '''. (DLR)
