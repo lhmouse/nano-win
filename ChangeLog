@@ -133,8 +133,8 @@ CVS code -
 	  when the MORE_SPACE flag is set. (DLR)
 - doc/nano.texi:
 	- Fix inconsistent wording. (DLR)
-	- Add missing configure options, so that all of them are
-	  documented. (Mike Frysinger, minor tweaks by DLR)
+	- Add missing configure options. (Mike Frysinger, minor tweaks
+	  by DLR)
 	- Sort the configure options more consistently, and add missing
 	  --disable-utf8 option. (DLR)
 - doc/nanorc.sample:
