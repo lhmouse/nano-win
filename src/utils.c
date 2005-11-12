@@ -403,7 +403,7 @@ size_t get_page_start(size_t column)
 {
     if (column == 0 || column < COLS - 1)
 	return 0;
-    else if (COLS > 9)
+    else if (COLS > 8)
 	return column - 7 - (column - 7) % (COLS - 8);
     else
 	return column - (COLS - 2);

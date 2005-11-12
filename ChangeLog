@@ -119,6 +119,11 @@ CVS code -
 	- Move the code that replaces the text of the current file with
 	  the text of the spell-checked file into its own function,
 	  replace_buffer(). (DLR)
+- utils.c:
+  get_page_start()
+	- Fix test so that we scroll through the line in 8-character
+	  chunks when COLS is greater than 8, not when COLS is greater
+	  than 9. (DLR)
 - winio.c:
   nanoget_repaint()
 	- Rename parameter inputbuf to buf, for consistency. (DLR)
