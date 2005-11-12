@@ -137,7 +137,7 @@ CVS code -
 	- Make mouse clicks on the Yes/No/All shortcuts work properly
 	  when the MORE_SPACE flag is set. (DLR)
 - doc/nano.texi:
-	- Fix inconsistent wording. (DLR)
+	- Fix inconsistent wording and punctuation. (DLR)
 	- Add missing configure options. (Mike Frysinger, minor tweaks
 	  by DLR)
 	- Sort the configure options more consistently, and add missing

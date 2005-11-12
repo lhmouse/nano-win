@@ -185,7 +185,7 @@ Detect word boundaries more accurately by treating punctuation
 characters as part of a word.
 
 @item -Y, --syntax=[str]
-Specify a specific syntax highlighting from the .nanorc to use, if
+Specify a specific syntax highlighting from the nanorc to use, if
 available.
 
 @item -c, --const
@@ -391,7 +391,7 @@ toggles the -O (@code{--morespace}) command line option.
 
 @item Whitespace Display Toggle (Meta-P)
 toggles whitespace display mode if you have a "whitespace" option in
-your .nanorc.
+your nanorc.
 
 @item Tabs to Spaces Toggle (Meta-Q)
 toggles the -E (@code{--tabstospaces}) command line option.
@@ -404,7 +404,7 @@ toggles the -x (@code{--nohelp}) command line option.
 
 @item Color Syntax Highlighting Toggle (Meta-Y)
 toggles color syntax highlighting if you have color syntaxes in your
-.nanorc.
+nanorc.
 
 @item Suspend Toggle (Meta-Z)
 toggles the -z (@code{--suspend}) command line option.
