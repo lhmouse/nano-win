@@ -2,4 +2,9 @@ info_TEXINFOS = nano.texi
 
 MAKEINFO = makeinfo --no-split
 
-EXTRA_DIST = nano.info
+BUILT_SOURCES = nano.html
+
+nano.html: nano.texi
+	cat $< | makeinfo --no-split --html > $@
+
+EXTRA_DIST = $(info_TEXINFOS) $(BUILT_SOURCES)

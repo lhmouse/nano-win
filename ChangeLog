@@ -136,6 +136,10 @@ CVS code -
   do_yesno()
 	- Make mouse clicks on the Yes/No/All shortcuts work properly
 	  when the MORE_SPACE flag is set. (DLR)
+- README.CVS:
+	- Mention that the minimum required version of texinfo is 4.0,
+	  since that's the first version that supports generating HTML.
+	  (DLR)
 - doc/nano.texi:
 	- Fix inconsistent wording and punctuation. (DLR)
 	- Add missing configure options. (Mike Frysinger, minor tweaks
@@ -145,6 +149,9 @@ CVS code -
 - doc/nanorc.sample:
 	- Tweak the "c-file" regex for characters to properly accept
 	  '\"' and reject '"' and '''. (DLR)
+- doc/texinfo/Makefile.am:
+	- Automatically generate an HTML version of the info page,
+	  nano.html. (DLR)
 - src/Makefile.am:
 	- Add browser.c, help.c, and prompt.c to nano_SOURCES. (DLR)
 
