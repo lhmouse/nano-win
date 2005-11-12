@@ -117,9 +117,10 @@ void do_help(void)
 	}
 
 	if (kbinput == NANO_REFRESH_KEY)
+	    /* Redraw the screen. */
 	    total_redraw();
 	else {
-	    if (line == old_line && kbinput != ERR)
+	    if (kbinput != ERR && line == old_line)
 		goto skip_redisplay;
 
 	    blank_edit();

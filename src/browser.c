@@ -234,7 +234,7 @@ char *do_browser(char *path, DIR *dir)
 		free_chararray(filelist, numents);
 		goto change_browser_directory;
 
-	    /* Refresh the screen. */
+	    /* Redraw the screen. */
 	    case NANO_REFRESH_KEY:
 		total_redraw();
 		break;
