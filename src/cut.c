@@ -51,7 +51,6 @@ void cut_line(void)
     else
 	move_to_filestruct(&cutbuffer, &cutbottom, openfile->current, 0,
 		openfile->current, strlen(openfile->current->data));
-
     openfile->placewewant = 0;
 }
 
