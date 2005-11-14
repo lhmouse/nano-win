@@ -157,10 +157,30 @@ void sunder(char *str)
     }
 }
 
+/* These functions (ngetline() and ngetdelim(), originally getline() and
+ * getdelim()) were adapted from GNU mailutils 0.5 (mailbox/getline.c).
+ * Here is the notice from that file:
+ *
+ * GNU Mailutils -- a suite of utilities for electronic mail
+ * Copyright (C) 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA  */
+
 #if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
 #ifndef HAVE_GETLINE
-/* This function is equivalent to getline().  It was adapted from
- * GNU mailutils' getline() function. */
+/* This function is equivalent to getline(). */
 ssize_t ngetline(char **lineptr, size_t *n, FILE *stream)
 {
     return getdelim(lineptr, n, '\n', stream);
@@ -168,8 +188,7 @@ ssize_t ngetline(char **lineptr, size_t *n, FILE *stream)
 #endif
 
 #ifndef HAVE_GETDELIM
-/* This function is equivalent to getdelim().  It was adapted from
- * GNU mailutils' getdelim() function. */
+/* This function is equivalent to getdelim(). */
 ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 {
     size_t indx = 0;

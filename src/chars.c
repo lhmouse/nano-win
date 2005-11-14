@@ -2,7 +2,7 @@
 /**************************************************************************
  *   chars.c                                                              *
  *                                                                        *
- *   Copyright (C) 2005 Chris Allegretta                                  *
+ *   Copyright (C) 2001-2005 Chris Allegretta                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -553,8 +553,30 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 }
 
 #ifndef HAVE_STRCASESTR
-/* This function is equivalent to strcasestr().  It was adapted from
- * mutt's mutt_stristr() function. */
+/* This function (nstrcasestr(), originally mutt_stristr()) was adapted
+ * from mutt 1.2.4i (lib.c).  Here is the notice from that file:
+ *
+ * Copyright (C) 1996-2000 Michael R. Elkins <me@cs.hmc.edu>
+ * Copyright (C) 1999-2000 Thomas Roessler <roessler@guug.de>
+ * 
+ *     This program is free software; you can redistribute it
+ *     and/or modify it under the terms of the GNU General Public
+ *     License as published by the Free Software Foundation; either
+ *     version 2 of the License, or (at your option) any later
+ *     version.
+ * 
+ *     This program is distributed in the hope that it will be
+ *     useful, but WITHOUT ANY WARRANTY; without even the implied
+ *     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ *     PURPOSE.  See the GNU General Public License for more
+ *     details.
+ * 
+ *     You should have received a copy of the GNU General Public
+ *     License along with this program; if not, write to the Free
+ *     Software Foundation, Inc., 59 Temple Place - Suite 330,
+ *     Boston, MA  02111, USA. */
+
+/* This function is equivalent to strcasestr(). */
 const char *nstrcasestr(const char *haystack, const char *needle)
 {
     assert(haystack != NULL && needle != NULL);

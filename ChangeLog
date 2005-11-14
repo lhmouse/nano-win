@@ -78,6 +78,23 @@ CVS code -
 	  do_prompt()), statusq_abort() (renamed do_prompt_abort()), and
 	  do_yesno() (renamed do_yesno_prompt()). (DLR)
 	- Initialize the static pid_t pid in text.c to -1. (DLR)
+	- Fix copyright years on source files.  All functions in
+	  browser.c were originally added in 2001; the oldest function
+	  in color.c is do_colorinit() (now color_init()), which was
+	  originally added in 2001; the oldest function in chars.c is
+	  revstrstr(), which was originally added in 2001; the oldest
+	  function in help.c is do_help(), which was originally added in
+	  2000; the oldest function in prompt.c is statusq() (now
+	  do_prompt()), which was originally added before 0.6.6, which
+	  was apparently in 1999; all functions in rcfile.c were
+	  originally added in 2001; one of the oldest functions in
+	  search.c is do_search(), which was originally added in 0.2.7,
+	  which was apparently in 1999; and one of the oldest functions
+	  in text.c is do_wrap(), which was originally added in 0.3.1,
+	  which was apparently in 1999. (DLR)
+	- For functions originally adapted from other sources, add
+	  notices from the original files, as we do with the tab
+	  completion functions adapted from busybox. (DLR)
 - chars.c:
   mbwidth()
 	- If wcwidth() returns -1 for the character passed in, treat the

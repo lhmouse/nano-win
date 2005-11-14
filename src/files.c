@@ -1947,7 +1947,7 @@ int is_dir(const char *buf)
 }
 
 /* These functions (username_tab_completion(), cwd_tab_completion(), and
- * input_tab()) were taken from busybox 0.46 (cmdedit.c).  Here is the
+ * input_tab()) were adapted from busybox 0.46 (cmdedit.c).  Here is the
  * notice from that file:
  *
  * Termios command line History and Editting, originally
