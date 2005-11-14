@@ -109,8 +109,8 @@ extern regmatch_t regmatches[10];
 #ifdef ENABLE_COLOR
 extern regex_t syntaxfile_regexp;
 extern regmatch_t synfilematches[1];
-#endif /* ENABLE_COLOR */
-#endif /* HAVE_REGEX_H */
+#endif
+#endif
 
 #ifndef NANO_SMALL
 extern toggle *toggles;
@@ -130,6 +130,15 @@ extern bool curses_ended;
 extern char *homedir;
 
 /* The functions we want available. */
+
+/* Public functions in browser.c. */
+#ifndef DISABLE_BROWSER
+char *do_browser(char *path, DIR *dir);
+char **browser_init(const char *path, int *longest, size_t *numents, DIR
+	*dir);
+char *do_browse_from(const char *inpath);
+void striponedir(char *path);
+#endif
 
 /* Public functions in chars.c. */
 #ifndef HAVE_ISBLANK
@@ -201,21 +210,12 @@ bool is_valid_unicode(wchar_t wc);
 bool is_valid_mbstring(const char *s);
 #endif
 
-/* Public functions in browser.c. */
-#ifndef DISABLE_BROWSER
-char *do_browser(char *path, DIR *dir);
-char **browser_init(const char *path, int *longest, size_t *numents, DIR
-	*dir);
-char *do_browse_from(const char *inpath);
-void striponedir(char *path);
-#endif
-
 /* Public functions in color.c. */
 #ifdef ENABLE_COLOR
 void set_colorpairs(void);
 void color_init(void);
 void color_update(void);
-#endif /* ENABLE_COLOR */
+#endif
 
 /* Public functions in cut.c. */
 void cutbuffer_reset(void);
@@ -475,10 +475,10 @@ char *parse_next_regex(char *ptr);
 bool nregcomp(const char *regex, int eflags);
 void parse_syntax(char *ptr);
 void parse_colors(char *ptr, bool icase);
-#endif /* ENABLE_COLOR */
+#endif
 void parse_rcfile(FILE *rcstream);
 void do_rcfile(void);
-#endif /* ENABLE_NANORC */
+#endif
 
 /* Public functions in search.c. */
 #ifdef HAVE_REGEX_H
@@ -530,7 +530,7 @@ char *get_history_newer(filestruct **h);
 #ifndef DISABLE_TABCOMP
 char *get_history_completion(filestruct **h, const char *s, size_t len);
 #endif
-#endif /* !NANO_SMALL */
+#endif
 
 /* Public functions in text.c. */
 #ifndef NANO_SMALL
@@ -568,7 +568,7 @@ bool find_paragraph(size_t *const quote, size_t *const par);
 void do_justify(bool full_justify);
 void do_justify_void(void);
 void do_full_justify(void);
-#endif /* !DISABLE_JUSTIFY */
+#endif
 #ifndef DISABLE_SPELLER
 bool do_int_spell_fix(const char *word);
 const char *do_int_speller(const char *tempfile_name);
@@ -596,7 +596,7 @@ ssize_t ngetline(char **lineptr, size_t *n, FILE *stream);
 #ifndef HAVE_GETDELIM
 ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream);
 #endif
-#endif /* !NANO_SMALL && ENABLE_NANORC */
+#endif
 #ifdef HAVE_REGEX_H
 #ifdef BROKEN_REGEXEC
 int safe_regexec(const regex_t *preg, const char *string, size_t nmatch,
