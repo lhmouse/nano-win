@@ -181,7 +181,7 @@ void help_init(void)
 				 * compiler to handle. */
     char *ptr;
     const shortcut *s;
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     const toggle *t;
 #ifdef ENABLE_NANORC
     bool old_whitespace = ISSET(WHITESPACE_DISPLAY);
@@ -285,7 +285,7 @@ void help_init(void)
 	htx[2] = NULL;
     }
 #endif
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     else if (currshortcut == extcmd_list) {
 	htx[0] = N_("Execute Command Help Text\n\n "
 		"This menu allows you to insert the output of a "
@@ -343,7 +343,7 @@ void help_init(void)
     allocsize += (COLS < 24 ? (24 * mb_cur_max()) :
 	((COLS + 1) * mb_cur_max())) * length_of_list(currshortcut);
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     /* If we're on the main list, we also count the toggle help text.
      * Each line has "M-%c\t\t\t", which fills 24 columns, plus a space,
      * plus translated text, plus '\n'. */
@@ -469,7 +469,7 @@ void help_init(void)
 	ptr += sprintf(ptr, "\n");
     }
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     /* And the toggles... */
     if (currshortcut == main_list) {
 	for (t = toggles; t != NULL; t = t->next) {

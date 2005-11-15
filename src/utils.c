@@ -179,7 +179,7 @@ void sunder(char *str)
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA  */
 
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
 #ifndef HAVE_GETLINE
 /* This function is equivalent to getline(). */
 ssize_t ngetline(char **lineptr, size_t *n, FILE *stream)
@@ -235,7 +235,7 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
     return (c == EOF && (indx - 1) == 0) ? -1 : indx - 1;
 }
 #endif
-#endif /* !NANO_SMALL && ENABLE_NANORC */
+#endif /* !NANO_TINY && ENABLE_NANORC */
 
 #ifdef HAVE_REGEX_H
 #ifdef BROKEN_REGEXEC
@@ -301,7 +301,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 
 #ifdef HAVE_REGEX_H
     if (ISSET(USE_REGEXP)) {
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	if (ISSET(BACKWARDS_SEARCH)) {
 	    if (regexec(&search_regexp, haystack, 1, regmatches,
 		0) == 0 && haystack + regmatches[0].rm_so <= start) {
@@ -319,7 +319,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 		return retval;
 	    }
 	} else
-#endif /* !NANO_SMALL */
+#endif /* !NANO_TINY */
 	if (regexec(&search_regexp, start, 10, regmatches,
 		(start > haystack) ? REG_NOTBOL : 0) == 0) {
 	    const char *retval = start + regmatches[0].rm_so;
@@ -330,17 +330,17 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 	return NULL;
     }
 #endif /* HAVE_REGEX_H */
-#if !defined(NANO_SMALL) || !defined(DISABLE_SPELLER)
+#if !defined(NANO_TINY) || !defined(DISABLE_SPELLER)
     if (ISSET(CASE_SENSITIVE)) {
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	if (ISSET(BACKWARDS_SEARCH))
 	    return revstrstr(haystack, needle, start);
 	else
 #endif
 	    return strstr(start, needle);
     }
-#endif /* !DISABLE_SPELLER || !NANO_SMALL */
-#ifndef NANO_SMALL
+#endif /* !DISABLE_SPELLER || !NANO_TINY */
+#ifndef NANO_TINY
     else if (ISSET(BACKWARDS_SEARCH))
 	return mbrevstrcasestr(haystack, needle, start);
 #endif
@@ -508,7 +508,7 @@ void new_magicline(void)
     openfile->totsize++;
 }
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 /* Remove the magicline from filebot, if there is one and it isn't the
  * only line in the file. */
 void remove_magicline(void)

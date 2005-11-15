@@ -655,7 +655,7 @@ const char *mbstrcasestr(const char *haystack, const char *needle)
 	return strcasestr(haystack, needle);
 }
 
-#if !defined(NANO_SMALL) || !defined(DISABLE_TABCOMP)
+#if !defined(NANO_TINY) || !defined(DISABLE_TABCOMP)
 /* This function is equivalent to strstr(), except in that it scans the
  * string in reverse, starting at rev_start. */
 const char *revstrstr(const char *haystack, const char *needle, const
@@ -675,9 +675,9 @@ const char *revstrstr(const char *haystack, const char *needle, const
 
     return NULL;
 }
-#endif /* !NANO_SMALL || !DISABLE_TABCOMP */
+#endif /* !NANO_TINY || !DISABLE_TABCOMP */
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 /* This function is equivalent to strcasestr(), except in that it scans
  * the string in reverse, starting at rev_start. */
 const char *revstrcasestr(const char *haystack, const char *needle,
@@ -764,7 +764,7 @@ const char *mbrevstrcasestr(const char *haystack, const char *needle,
 #endif
 	return revstrcasestr(haystack, needle, rev_start);
 }
-#endif /* !NANO_SMALL */
+#endif /* !NANO_TINY */
 
 /* This function is equivalent to strlen() for multibyte strings. */
 size_t mbstrlen(const char *s)

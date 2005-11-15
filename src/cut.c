@@ -54,7 +54,7 @@ void cut_line(void)
     openfile->placewewant = 0;
 }
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 /* Move all currently marked text to the cutbuffer, and set the current
  * place we want to where the text used to start. */
 void cut_marked(void)
@@ -97,7 +97,7 @@ void cut_to_eol(void)
 	openfile->placewewant = xplustabs();
     }
 }
-#endif /* !NANO_SMALL */
+#endif /* !NANO_TINY */
 
 /* Move text from the current filestruct into the cutbuffer. */
 void do_cut_text(void)
@@ -121,7 +121,7 @@ void do_cut_text(void)
      * cutbuffer instead of replacing it. */
     keep_cutbuffer = TRUE;
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     if (openfile->mark_set) {
 	/* If the mark is on, move the marked text to the cutbuffer and
 	 * turn the mark off. */
@@ -144,7 +144,7 @@ void do_cut_text(void)
 #endif
 }
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 /* Cut from the current cursor position to the end of the file. */
 void do_cut_till_end(void)
 {
@@ -163,7 +163,7 @@ void do_cut_till_end(void)
     dump_filestruct(cutbuffer);
 #endif
 }
-#endif /* !NANO_SMALL */
+#endif /* !NANO_TINY */
 
 /* Copy text from the cutbuffer into the current filestruct. */
 void do_uncut_text(void)

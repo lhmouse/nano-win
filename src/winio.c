@@ -109,7 +109,7 @@ static bool disable_cursorpos = FALSE;
  * Note that Center (5) on the numeric keypad with NumLock off can also
  * be the Begin key. */
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 /* Reset all the input routines that rely on character sequences. */
 void reset_kbinput(void)
 {
@@ -131,7 +131,7 @@ void get_key_buffer(WINDOW *win)
 	return;
 
     /* Read in the first character using blocking input. */
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     allow_pending_sigwinch(TRUE);
 #endif
 
@@ -147,7 +147,7 @@ void get_key_buffer(WINDOW *win)
     }
 
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     allow_pending_sigwinch(FALSE);
 #endif
 
@@ -162,7 +162,7 @@ void get_key_buffer(WINDOW *win)
     nodelay(win, TRUE);
 
     while (TRUE) {
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	allow_pending_sigwinch(TRUE);
 #endif
 
@@ -181,7 +181,7 @@ void get_key_buffer(WINDOW *win)
 		sizeof(int));
 	key_buffer[key_buffer_len - 1] = input;
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	allow_pending_sigwinch(FALSE);
 #endif
     }
@@ -204,7 +204,7 @@ size_t get_key_buffer_len(void)
  * keystroke buffer. */
 void unget_input(int *input, size_t input_len)
 {
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     allow_pending_sigwinch(TRUE);
     allow_pending_sigwinch(FALSE);
 #endif
@@ -263,7 +263,7 @@ int *get_input(WINDOW *win, size_t input_len)
 {
     int *input;
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     allow_pending_sigwinch(TRUE);
     allow_pending_sigwinch(FALSE);
 #endif
@@ -325,7 +325,7 @@ int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
     /* Read in a character and interpret it.  Continue doing this until
      * we get a recognized value or sequence. */
     while ((kbinput = parse_kbinput(win, meta_key, func_key
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 		, FALSE
 #endif
 		)) == ERR);
@@ -338,7 +338,7 @@ int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
  * when we get a meta key sequence, and set func_key to TRUE when we get
  * a function key.  Assume nodelay(win) is FALSE. */
 int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	, bool reset
 #endif
 	)
@@ -347,7 +347,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
     static int escapes = 0, byte_digits = 0;
     int *kbinput, retval = ERR;
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     if (reset) {
 	escapes = 0;
 	byte_digits = 0;
@@ -379,9 +379,9 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 		    escapes = 0;
 	    }
 	    break;
-#if !defined(NANO_SMALL) && defined(KEY_RESIZE)
+#if !defined(NANO_TINY) && defined(KEY_RESIZE)
 	/* Since we don't change the default SIGWINCH handler when
-	 * NANO_SMALL is defined, KEY_RESIZE is never generated.  Also,
+	 * NANO_TINY is defined, KEY_RESIZE is never generated.  Also,
 	 * Slang and SunOS 5.7-5.9 don't support KEY_RESIZE. */
 	case KEY_RESIZE:
 	    break;
@@ -548,7 +548,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 
 			byte_digits++;
 			byte = get_byte_kbinput(*kbinput
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 				, FALSE
 #endif
 				);
@@ -1149,7 +1149,7 @@ int get_escape_seq_abcd(int kbinput)
 /* Translate a byte sequence: turn a three-digit decimal number from
  * 000 to 255 into its corresponding byte value. */
 int get_byte_kbinput(int kbinput
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	, bool reset
 #endif
 	)
@@ -1157,7 +1157,7 @@ int get_byte_kbinput(int kbinput
     static int byte_digits = 0, byte = 0;
     int retval = ERR;
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     if (reset) {
 	byte_digits = 0;
 	byte = 0;
@@ -1233,7 +1233,7 @@ int get_byte_kbinput(int kbinput
  * from 000000 to 10FFFF (case-insensitive) into its corresponding
  * multibyte value. */
 long get_unicode_kbinput(int kbinput
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	, bool reset
 #endif
 	)
@@ -1242,7 +1242,7 @@ long get_unicode_kbinput(int kbinput
     static long uni = 0;
     long retval = ERR;
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     if (reset) {
 	uni_digits = 0;
 	uni = 0;
@@ -1450,7 +1450,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 
     /* Check whether the first keystroke is a hexadecimal digit. */
     uni = get_unicode_kbinput(*kbinput
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	, FALSE
 #endif
 	);
@@ -1469,7 +1469,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 	    while ((kbinput = get_input(win, 1)) == NULL);
 
 	    uni = get_unicode_kbinput(*kbinput
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 		, FALSE
 #endif
 		);
@@ -1639,7 +1639,7 @@ const shortcut *get_shortcut(const shortcut *s_list, int *kbinput, bool
     return NULL;
 }
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 const toggle *get_toggle(int kbinput, bool meta_key)
 {
     const toggle *t = toggles;
@@ -1658,7 +1658,7 @@ const toggle *get_toggle(int kbinput, bool meta_key)
 
     return t;
 }
-#endif /* !NANO_SMALL */
+#endif /* !NANO_TINY */
 
 /* Move to (x, y) in win, and display a line of n spaces with the
  * current attributes. */
@@ -1795,7 +1795,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
 	/* If buf contains a tab character, interpret it. */
 	if (*buf_mb == '\t') {
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
 	    if (ISSET(WHITESPACE_DISPLAY)) {
 		int i;
 
@@ -1830,7 +1830,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    free(ctrl_buf_mb);
 	/* If buf contains a space character, interpret it. */
 	} else if (*buf_mb == ' ') {
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
 	    if (ISSET(WHITESPACE_DISPLAY)) {
 		int i;
 
@@ -2049,7 +2049,7 @@ void statusbar(const char *msg, ...)
     va_list ap;
     char *bar, *foo;
     size_t start_x, foo_len;
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
     bool old_whitespace;
 #endif
 
@@ -2066,7 +2066,7 @@ void statusbar(const char *msg, ...)
     /* Blank out the line. */
     blank_statusbar();
 
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
     old_whitespace = ISSET(WHITESPACE_DISPLAY);
     UNSET(WHITESPACE_DISPLAY);
 #endif
@@ -2074,7 +2074,7 @@ void statusbar(const char *msg, ...)
     vsnprintf(bar, mb_cur_max() * (COLS - 3), msg, ap);
     va_end(ap);
     foo = display_string(bar, 0, COLS - 4, FALSE);
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
     if (old_whitespace)
 	SET(WHITESPACE_DISPLAY);
 #endif
@@ -2102,7 +2102,7 @@ void statusbar(const char *msg, ...)
      * keystroke.  Otherwise, blank it after twenty-five keystrokes,
      * as Pico does. */
     statusblank =
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	ISSET(QUICK_BLANK) && !ISSET(CONST_UPDATE) ? 1 :
 #endif
 	25;
@@ -2216,7 +2216,7 @@ void reset_cursor(void)
 void edit_draw(const filestruct *fileptr, const char *converted, int
 	line, size_t start)
 {
-#if !defined(NANO_SMALL) || defined(ENABLE_COLOR)
+#if !defined(NANO_TINY) || defined(ENABLE_COLOR)
     size_t startpos = actual_x(fileptr->data, start);
 	/* The position in fileptr->data of the leftmost character
 	 * that displays at least partially on the window. */
@@ -2467,7 +2467,7 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
     }
 #endif /* ENABLE_COLOR */
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     /* If the mark is on, we need to display it. */
     if (openfile->mark_set && (fileptr->lineno <=
 	openfile->mark_begin->lineno || fileptr->lineno <=
@@ -2537,7 +2537,7 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 	    wattroff(edit, A_REVERSE);
 	}
     }
-#endif /* !NANO_SMALL */
+#endif /* !NANO_TINY */
 }
 
 /* Just update one line in the edit buffer.  This is basically a wrapper
@@ -2590,7 +2590,7 @@ void update_line(const filestruct *fileptr, size_t index)
 bool need_horizontal_update(size_t old_pww)
 {
     return
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	openfile->mark_set ||
 #endif
 	get_page_start(old_pww) !=
@@ -2603,7 +2603,7 @@ bool need_horizontal_update(size_t old_pww)
 bool need_vertical_update(size_t old_pww)
 {
     return
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	openfile->mark_set ||
 #endif
 	get_page_start(old_pww) !=
@@ -2735,7 +2735,7 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 	 * between the original edittop and the current edittop, and
 	 * then restore the original edittop. */
 	edit_update(
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 		ISSET(SMOOTH_SCROLL) ? NONE :
 #endif
 		CENTER);
@@ -2763,12 +2763,12 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 	if (do_redraw)
 	    update_line(foo, 0);
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	if (!openfile->mark_set)
 #endif
 	    break;
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	foo = (foo->lineno > openfile->current->lineno) ? foo->prev :
 		foo->next;
 #endif
@@ -2791,7 +2791,7 @@ void edit_refresh(void)
 	/* Put the top line of the edit window in range of the current
 	 * line. */
 	edit_update(
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 		ISSET(SMOOTH_SCROLL) ? NONE :
 #endif
 		CENTER);

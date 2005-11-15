@@ -235,7 +235,7 @@ typedef struct openfilestruct {
 				 * position. */
     bool modified;		/* Current file's modification
 				 * status. */
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     bool mark_set;		/* Current file's marking status. */
     filestruct *mark_begin;	/* Current file's beginning marked
 				 * line. */
@@ -269,7 +269,7 @@ typedef struct shortcut {
     struct shortcut *next;
 } shortcut;
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 typedef struct toggle {
    int val;		/* Sequence to toggle the key.  Should only need
 			 * one. */
@@ -494,8 +494,8 @@ typedef struct rcoption {
 #define NANO_FULLJUSTIFY_ALTKEY	NANO_ALT_J
 #define NANO_VERBATIM_KEY	NANO_ALT_V
 
-#ifndef NANO_SMALL
-/* Toggles do not exist with NANO_SMALL. */
+#ifndef NANO_TINY
+/* Toggles do not exist with NANO_TINY. */
 #define TOGGLE_CONST_KEY	NANO_ALT_C
 #define TOGGLE_AUTOINDENT_KEY	NANO_ALT_I
 #define TOGGLE_SUSPEND_KEY	NANO_ALT_Z
@@ -516,7 +516,7 @@ typedef struct rcoption {
 #define TOGGLE_WHITESPACE_KEY	NANO_ALT_P
 #define TOGGLE_MORESPACE_KEY	NANO_ALT_O
 #define TOGGLE_TABSTOSPACES_KEY	NANO_ALT_Q
-#endif /* !NANO_SMALL */
+#endif /* !NANO_TINY */
 
 #define MAIN_VISIBLE 12
 

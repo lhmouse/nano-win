@@ -247,7 +247,7 @@ char *do_browser(char *path, DIR *dir)
 		curs_set(1);
 
 		j = do_prompt(FALSE, gotodir_list, "",
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 			NULL,
 #endif
 			_("Go To Directory"));

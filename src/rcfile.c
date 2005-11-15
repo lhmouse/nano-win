@@ -75,7 +75,7 @@ const static rcoption rcopts[] = {
     {"tabsize", 0},
     {"tempfile", TEMP_FILE},
     {"view", VIEW_MODE},
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     {"autoindent", AUTOINDENT},
     {"backup", BACKUP_FILE},
     {"backupdir", 0},
@@ -639,7 +639,7 @@ void parse_rcfile(FILE *rcstream)
 				free(option);
 			} else
 #endif
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 			if (strcasecmp(rcopts[i].name, "whitespace") == 0) {
 			    whitespace = option;
 			    if (mbstrlen(whitespace) != 2 ||
@@ -681,7 +681,7 @@ void parse_rcfile(FILE *rcstream)
 			    quotestr = option;
 			else
 #endif
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 			if (strcasecmp(rcopts[i].name,
 				"backupdir") == 0)
 			    backup_dir = option;

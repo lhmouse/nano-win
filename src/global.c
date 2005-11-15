@@ -57,7 +57,7 @@ partition *filepart = NULL;	/* A place to store a portion of the
 openfilestruct *openfile = NULL;
 				/* The list of open file buffers */
 
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
 char *whitespace = NULL;	/* Characters used when displaying
 				   the first characters of tabs and
 				   spaces. */
@@ -81,7 +81,7 @@ size_t quotelen;		/* strlen(quotestr) */
 #endif
 #endif
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 char *backup_dir = NULL;	/* Backup directory. */
 #endif
 
@@ -113,7 +113,7 @@ shortcut *help_list = NULL;
 #ifndef DISABLE_SPELLER
 shortcut *spell_list = NULL;
 #endif
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 shortcut *extcmd_list = NULL;
 #endif
 #ifndef DISABLE_BROWSER
@@ -128,11 +128,11 @@ char *syntaxstr = NULL;
 
 const shortcut *currshortcut;	/* Current shortcut list we're using */
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 toggle *toggles = NULL;
 #endif
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 filestruct *search_history = NULL;
 filestruct *searchage = NULL;
 filestruct *searchbot = NULL;
@@ -209,7 +209,7 @@ void shortcut_init(bool unjustify)
     const char *first_line_msg = N_("First Line");
     const char *last_line_msg = N_("Last Line");
     const char *refresh_msg = N_("Refresh");
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     const char *cut_till_end_msg = N_("CutTillEnd");
 #endif
 #ifndef DISABLE_JUSTIFY
@@ -217,14 +217,14 @@ void shortcut_init(bool unjustify)
     const char *end_of_par_msg = N_("End of Par");
     const char *fulljstify_msg = N_("FullJstify");
 #endif
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     const char *case_sens_msg = N_("Case Sens");
     const char *backwards_msg = N_("Backwards");
 #endif
 #ifdef HAVE_REGEX_H
     const char *regexp_msg = N_("Regexp");
 #endif
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     const char *history_msg = N_("History");
 #ifdef ENABLE_MULTIBUFFER
     const char *new_buffer_msg = N_("New Buffer");
@@ -261,7 +261,7 @@ void shortcut_init(bool unjustify)
 	N_("Invoke the spell checker, if available");
     const char *nano_gotoline_msg = N_("Go to line and column number");
     const char *nano_replace_msg = N_("Replace text within the editor");
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     const char *nano_mark_msg = N_("Mark text at the cursor position");
     const char *nano_whereis_next_msg = N_("Repeat last search");
 #endif
@@ -283,7 +283,7 @@ void shortcut_init(bool unjustify)
 	N_("Insert a tab character at the cursor position");
     const char *nano_enter_msg =
 	N_("Insert a carriage return at the cursor position");
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     const char *nano_nextword_msg = N_("Move forward one word");
     const char *nano_prevword_msg = N_("Move backward one word");
     const char *nano_wordcount_msg =
@@ -306,14 +306,14 @@ void shortcut_init(bool unjustify)
 	N_("Switch to the next file buffer");
 #endif
     const char *nano_verbatim_msg = N_("Insert character(s) verbatim");
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     const char *nano_cut_till_end_msg =
 	N_("Cut from the cursor position to the end of the file");
 #endif
 #ifndef DISABLE_JUSTIFY
     const char *nano_fulljustify_msg = N_("Justify the entire file");
 #endif
-#if !defined(NANO_SMALL) && defined(HAVE_REGEX_H)
+#if !defined(NANO_TINY) && defined(HAVE_REGEX_H)
     const char *nano_bracket_msg = N_("Find other bracket");
 #endif
     const char *nano_cancel_msg = N_("Cancel the current function");
@@ -321,7 +321,7 @@ void shortcut_init(bool unjustify)
 	N_("Go to the first line of the file");
     const char *nano_lastline_msg =
 	N_("Go to the last line of the file");
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     const char *nano_case_msg =
 	N_("Make the current search/replace case (in)sensitive");
     const char *nano_reverse_msg =
@@ -330,25 +330,25 @@ void shortcut_init(bool unjustify)
 #ifdef HAVE_REGEX_H
     const char *nano_regexp_msg = N_("Use regular expressions");
 #endif
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     const char *nano_history_msg =
 	N_("Edit the previous search/replace strings");
 #endif
 #ifndef DISABLE_BROWSER
     const char *nano_tofiles_msg = N_("Go to file browser");
 #endif
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     const char *nano_dos_msg = N_("Write file out in DOS format");
     const char *nano_mac_msg = N_("Write file out in Mac format");
 #endif
     const char *nano_append_msg = N_("Append to the current file");
     const char *nano_prepend_msg = N_("Prepend to the current file");
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     const char *nano_backup_msg =
 	N_("Back up original file when saving");
     const char *nano_execute_msg = N_("Execute external command");
 #endif
-#if !defined(NANO_SMALL) && defined(ENABLE_MULTIBUFFER)
+#if !defined(NANO_TINY) && defined(ENABLE_MULTIBUFFER)
     const char *nano_multibuffer_msg = N_("Insert into new buffer");
 #endif
 #ifndef DISABLE_BROWSER
@@ -478,7 +478,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_replace_msg, NANO_ALT_REPLACE_KEY),
 	NANO_REPLACE_FKEY, NANO_NO_KEY, NOVIEW, do_replace);
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     sc_init_one(&main_list, NANO_MARK_KEY, N_("Mark Text"),
 	IFHELP(nano_mark_msg, NANO_MARK_ALTKEY), NANO_MARK_FKEY,
 	NANO_NO_KEY, VIEW, do_mark);
@@ -532,7 +532,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_enter_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, NOVIEW, do_enter);
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     sc_init_one(&main_list, NANO_NEXTWORD_KEY, N_("Next Word"),
 	IFHELP(nano_nextword_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, do_next_word_void);
@@ -580,7 +580,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_verbatim_msg, NANO_VERBATIM_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, NOVIEW, do_verbatim_input);
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&main_list, NANO_NO_KEY, cut_till_end_msg,
 	IFHELP(nano_cut_till_end_msg, NANO_CUTTILLEND_ALTKEY),
@@ -594,7 +594,7 @@ void shortcut_init(bool unjustify)
 	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_full_justify);
 #endif
 
-#if !defined(NANO_SMALL) && defined(HAVE_REGEX_H)
+#if !defined(NANO_TINY) && defined(HAVE_REGEX_H)
     sc_init_one(&main_list, NANO_NO_KEY, N_("Find Other Bracket"),
 	IFHELP(nano_bracket_msg, NANO_BRACKET_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, do_find_bracket);
@@ -649,7 +649,7 @@ void shortcut_init(bool unjustify)
 	NANO_PARAEND_ALTKEY2, VIEW, do_para_end_void);
 #endif
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_NO_KEY, case_sens_msg,
 	IFHELP(nano_case_msg, TOGGLE_CASE_KEY), NANO_NO_KEY,
@@ -668,7 +668,7 @@ void shortcut_init(bool unjustify)
 	NANO_NO_KEY, VIEW, NULL);
 #endif
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     /* Translators: try to keep this string under 10 characters long */
     sc_init_one(&whereis_list, NANO_PREVLINE_KEY, history_msg,
 	IFHELP(nano_history_msg, NANO_NO_KEY), NANO_NO_KEY,
@@ -720,7 +720,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_gotoline_msg, NANO_NO_KEY), NANO_GOTOLINE_FKEY,
 	NANO_NO_KEY, VIEW, NULL);
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     sc_init_one(&replace_list, NANO_NO_KEY, case_sens_msg,
 	IFHELP(nano_case_msg, TOGGLE_CASE_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
@@ -736,7 +736,7 @@ void shortcut_init(bool unjustify)
 	NANO_NO_KEY, VIEW, NULL);
 #endif
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     sc_init_one(&replace_list, NANO_PREVLINE_KEY, history_msg,
 	IFHELP(nano_history_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
@@ -766,7 +766,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_lastline_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, do_last_line);
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     sc_init_one(&replace_list_2, NANO_PREVLINE_KEY, history_msg,
 	IFHELP(nano_history_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
@@ -854,7 +854,7 @@ void shortcut_init(bool unjustify)
 		NANO_NO_KEY, NOVIEW, NULL);
 #endif
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     /* If we're using restricted mode, the DOS format, Mac format,
      * append, prepend, and backup toggles are disabled.  The first and
      * second are useless since inserting files is disabled, the third
@@ -886,7 +886,7 @@ void shortcut_init(bool unjustify)
 		IFHELP(nano_prepend_msg, NANO_PREPEND_KEY), NANO_NO_KEY,
 		NANO_NO_KEY, NOVIEW, NULL);
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     /* Translators: try to keep this string under 16 characters long */
     if (!ISSET(RESTRICTED))
 	sc_init_one(&writefile_list, NANO_NO_KEY, N_("Backup File"),
@@ -919,7 +919,7 @@ void shortcut_init(bool unjustify)
 		NANO_NO_KEY, NOVIEW, NULL);
 #endif
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     /* If we're using restricted mode, command execution is disabled.
      * It's useless since inserting files is disabled. */
     /* Translators: try to keep this string under 22 characters long */
@@ -957,7 +957,7 @@ void shortcut_init(bool unjustify)
 	NANO_NO_KEY, VIEW, NULL);
 #endif
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     free_shortcutage(&extcmd_list);
 
     sc_init_one(&extcmd_list, NANO_HELP_KEY, get_help_msg,
@@ -1034,7 +1034,7 @@ void shortcut_init(bool unjustify)
 
     currshortcut = main_list;
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     toggle_init();
 #endif
 }
@@ -1051,7 +1051,7 @@ void free_shortcutage(shortcut **shortcutage)
     }
 }
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 /* Create a new toggle structure, at the end of the toggles linked
  * list. */
 void toggle_init_one(int val, const char *desc, long flag)
@@ -1132,7 +1132,7 @@ void toggle_init(void)
 	WHITESPACE_DISPLAY);
 #endif
 }
-#endif /* !NANO_SMALL */
+#endif /* !NANO_TINY */
 
 /* This function is called just before calling exit().  Practically, the
  * only effect is to cause a segmentation fault if the various data
@@ -1155,7 +1155,7 @@ void thanks_for_all_the_fish(void)
 	free(quoteerr);
 #endif
 #endif
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     if (backup_dir != NULL)
         free(backup_dir);
 #endif
@@ -1194,14 +1194,14 @@ void thanks_for_all_the_fish(void)
 #ifndef DISABLE_SPELLER
     free_shortcutage(&spell_list);
 #endif
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     free_shortcutage(&extcmd_list);
 #endif
 #ifndef DISABLE_BROWSER
     free_shortcutage(&browser_list);
     free_shortcutage(&gotodir_list);
 #endif
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     /* Free the memory associated with each toggle. */
     while (toggles != NULL) {
 	toggle *t = toggles;
@@ -1252,7 +1252,7 @@ void thanks_for_all_the_fish(void)
 	free(bill);
     }
 #endif /* ENABLE_COLOR */
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     /* Free the search and replace history lists. */
     if (searchage != NULL)
 	free_filestruct(searchage);

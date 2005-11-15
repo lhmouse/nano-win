@@ -77,12 +77,12 @@ void do_page_up(void)
 
     /* If we're not in smooth scrolling mode, put the cursor at the
      * beginning of the top line of the edit window, as Pico does. */
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     if (!ISSET(SMOOTH_SCROLL)) {
 #endif
 	openfile->current = openfile->edittop;
 	openfile->placewewant = 0;
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     }
 #endif
 
@@ -118,12 +118,12 @@ void do_page_down(void)
 
     /* If we're not in smooth scrolling mode, put the cursor at the
      * beginning of the top line of the edit window, as Pico does. */
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     if (!ISSET(SMOOTH_SCROLL)) {
 #endif
 	openfile->current = openfile->edittop;
 	openfile->placewewant = 0;
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     }
 #endif
 
@@ -209,7 +209,7 @@ void do_para_end_void(void)
 }
 #endif /* !DISABLE_JUSTIFY */
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 /* Move to the next word in the current filestruct.  If allow_punct is
  * TRUE, treat punctuation as part of a word.  If allow_update is TRUE,
  * update the screen afterward.  Return TRUE if we started on a word,
@@ -435,7 +435,7 @@ void do_prev_word_void(void)
 {
     do_prev_word(ISSET(WORD_BOUNDS), TRUE);
 }
-#endif /* !NANO_SMALL */
+#endif /* !NANO_TINY */
 
 void do_home(void)
 {
@@ -443,7 +443,7 @@ void do_home(void)
 
     check_statusblank();
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     if (ISSET(SMART_HOME)) {
 	size_t current_x_save = openfile->current_x;
 
@@ -458,7 +458,7 @@ void do_home(void)
 #endif
 	openfile->current_x = 0;
 	openfile->placewewant = 0;
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     }
 #endif
 
@@ -503,7 +503,7 @@ void do_up(void)
      * a page if we're not. */
     if (openfile->current_y == 0)
 	edit_scroll(UP,
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 		ISSET(SMOOTH_SCROLL) ? 1 :
 #endif
 		editwinrows / 2);
@@ -517,7 +517,7 @@ void do_up(void)
     }
 }
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 void do_scroll_up(void)
 {
     check_statusblank();
@@ -540,7 +540,7 @@ void do_scroll_up(void)
     /* Scroll the edit window up one line. */
     edit_scroll(UP, 1);
 }
-#endif /* !NANO_SMALL */
+#endif /* !NANO_TINY */
 
 void do_down(void)
 {
@@ -566,7 +566,7 @@ void do_down(void)
      * half a page if we're not. */
     if (openfile->current_y == editwinrows - 1)
 	edit_scroll(DOWN,
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 		ISSET(SMOOTH_SCROLL) ? 1 :
 #endif
 		editwinrows / 2);
@@ -580,7 +580,7 @@ void do_down(void)
     }
 }
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 void do_scroll_down(void)
 {
     check_statusblank();
@@ -603,7 +603,7 @@ void do_scroll_down(void)
     /* Scroll the edit window down one line. */
     edit_scroll(DOWN, 1);
 }
-#endif /* !NANO_SMALL */
+#endif /* !NANO_TINY */
 
 void do_left(void)
 {

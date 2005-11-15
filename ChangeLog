@@ -100,6 +100,7 @@ CVS code -
 	- Don't install the localized versions of the manpages if
 	  nano is built with --disable-nls.  Changes to Makefile.am and
 	  doc/man/Makefile.am. (Mike Frysinger)
+	- Rename the NANO_SMALL #define to NANO_TINY. (DLR)
 - chars.c:
   mbwidth()
 	- If wcwidth() returns -1 for the character passed in, treat the

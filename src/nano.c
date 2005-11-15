@@ -45,14 +45,14 @@
 #include <getopt.h>
 #endif
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 #include <setjmp.h>
 #endif
 
 static struct termios oldterm;	/* The user's original term settings. */
 static struct sigaction act;	/* For all our fun signal handlers. */
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 static sigjmp_buf jmpbuf;	/* Used to return to main() after a
 				 * SIGWINCH. */
 #endif
@@ -283,7 +283,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
 {
     filestruct *top_save;
     bool edittop_inside;
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     bool mark_inside = FALSE;
 #endif
 
@@ -301,7 +301,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
     edittop_inside = (openfile->edittop->lineno >=
 	openfile->fileage->lineno && openfile->edittop->lineno <=
 	openfile->filebot->lineno);
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     if (openfile->mark_set)
 	mark_inside = (openfile->mark_begin->lineno >=
 		openfile->fileage->lineno &&
@@ -357,7 +357,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
     openfile->fileage = (filestruct *)nmalloc(sizeof(filestruct));
     openfile->fileage->data = mallocstrcpy(NULL, "");
     openfile->filebot = openfile->fileage;
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     if (mark_inside) {
 	openfile->mark_begin = openfile->fileage;
 	openfile->mark_begin_x = top_x;
@@ -378,7 +378,7 @@ void move_to_filestruct(filestruct **file_top, filestruct **file_bot,
      * it in range of current. */
     if (edittop_inside)
 	edit_update(
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 		ISSET(SMOOTH_SCROLL) ? NONE :
 #endif
 		CENTER);
@@ -501,7 +501,7 @@ void delete_opennode(openfilestruct *fileptr)
 
     free(fileptr->filename);
     free_filestruct(fileptr->fileage);
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     if (fileptr->current_stat != NULL)
 	free(fileptr->current_stat);
 #endif
@@ -544,7 +544,7 @@ void finish(void)
     /* Restore the old terminal settings. */
     tcsetattr(0, TCSANOW, &oldterm);
 
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
     if (!ISSET(NO_RCFILE) && ISSET(HISTORYLOG))
 	save_history();
 #endif
@@ -726,7 +726,7 @@ void usage(void)
     print1opt("-h, -?", "--help", N_("Show this message"));
     print1opt(_("+LINE,COLUMN"), "",
 	N_("Start at line LINE, column COLUMN"));
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     print1opt("-A", "--smarthome", N_("Enable smart home key"));
     print1opt("-B", "--backup", N_("Save backups of existing files"));
     print1opt(_("-C [dir]"), _("--backupdir=[dir]"),
@@ -738,7 +738,7 @@ void usage(void)
     print1opt("-F", "--multibuffer", N_("Enable multiple file buffers"));
 #endif
 #ifdef ENABLE_NANORC
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     print1opt("-H", "--historylog",
 	N_("Log & read search/replace string history"));
 #endif
@@ -749,7 +749,7 @@ void usage(void)
 	N_("Fix numeric keypad key confusion problem"));
     print1opt("-L", "--nonewlines",
 	N_("Don't add newlines to the ends of files"));
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     print1opt("-N", "--noconvert",
 	N_("Don't convert files from DOS/Mac format"));
 #endif
@@ -759,17 +759,17 @@ void usage(void)
 	N_("Quoting string"));
 #endif
     print1opt("-R", "--restricted", N_("Restricted mode"));
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     print1opt("-S", "--smooth", N_("Smooth scrolling"));
 #endif
     print1opt(_("-T [#cols]"), _("--tabsize=[#cols]"),
 	N_("Set width of a tab in cols to #cols"));
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     print1opt("-U", "--quickblank", N_("Do quick statusbar blanking"));
 #endif
     print1opt("-V", "--version",
 	N_("Print version information and exit"));
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     print1opt("-W", "--wordbounds",
 	N_("Detect word boundaries more accurately"));
 #endif
@@ -780,7 +780,7 @@ void usage(void)
     print1opt("-c", "--const", N_("Constantly show cursor position"));
     print1opt("-d", "--rebinddelete",
 	N_("Fix Backspace/Delete confusion problem"));
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     print1opt("-i", "--autoindent",
 	N_("Automatically indent new lines"));
     print1opt("-k", "--cut", N_("Cut from cursor to end of line"));
@@ -873,7 +873,7 @@ void version(void)
 #ifdef ENABLE_NANORC
     printf(" --enable-nanorc");
 #endif
-#ifdef NANO_SMALL
+#ifdef NANO_TINY
     printf(" --enable-tiny");
 #endif
 #ifdef ENABLE_UTF8
@@ -943,7 +943,7 @@ void signal_init(void)
     sigaction(SIGHUP, &act, NULL);
     sigaction(SIGTERM, &act, NULL);
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     /* Trap SIGWINCH because we want to handle window resizes. */
     act.sa_handler = handle_sigwinch;
     sigaction(SIGWINCH, &act, NULL);
@@ -996,7 +996,7 @@ void do_suspend(int signal)
 /* Handler for SIGCONT (continue after suspend). */
 void do_cont(int signal)
 {
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     /* Perhaps the user resized the window while we slept.  Handle it,
      * and update the screen in the process. */
     handle_sigwinch(0);
@@ -1006,7 +1006,7 @@ void do_cont(int signal)
 #endif
 }
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 void handle_sigwinch(int s)
 {
     const char *tty = ttyname(0);
@@ -1088,9 +1088,9 @@ void allow_pending_sigwinch(bool allow)
     sigaddset(&winch, SIGWINCH);
     sigprocmask(allow ? SIG_UNBLOCK : SIG_BLOCK, &winch, NULL);
 }
-#endif /* !NANO_SMALL */
+#endif /* !NANO_TINY */
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 void do_toggle(const toggle *which)
 {
     bool enabled;
@@ -1139,7 +1139,7 @@ void do_toggle(const toggle *which)
     statusbar("%s %s", which->desc, enabled ? _("enabled") :
 	_("disabled"));
 }
-#endif /* !NANO_SMALL */
+#endif /* !NANO_TINY */
 
 void disable_extended_io(void)
 {
@@ -1160,7 +1160,7 @@ void disable_signals(void)
     tcsetattr(0, TCSANOW, &term);
 }
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 void enable_signals(void)
 {
     struct termios term;
@@ -1219,7 +1219,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	/* The length of the input buffer. */
     const shortcut *s;
     bool have_shortcut;
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     const toggle *t;
     bool have_toggle;
 #endif
@@ -1250,7 +1250,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
     have_shortcut = (s != NULL || input == NANO_XON_KEY ||
 	input == NANO_XOFF_KEY || input == NANO_SUSPEND_KEY);
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     /* Check for a toggle in the main list. */
     t = get_toggle(input, *meta_key);
 
@@ -1261,7 +1261,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 
     /* Set s_or_t to TRUE if we got a shortcut or toggle. */
     *s_or_t = (have_shortcut
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	|| have_toggle
 #endif
 	);
@@ -1318,7 +1318,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 		case NANO_XOFF_KEY:
 		    statusbar(_("XOFF ignored, mumble mumble."));
 		    break;
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 		case NANO_SUSPEND_KEY:
 		    if (ISSET(SUSPEND))
 			do_suspend(0);
@@ -1346,7 +1346,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 		    break;
 	    }
 	}
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	else if (have_toggle) {
 	    /* Blow away the text in the cutbuffer, since we aren't
 	     * cutting text. */
@@ -1400,7 +1400,7 @@ bool do_mouse(void)
 		get_page_start(xplustabs()) + mouse_x);
 	    openfile->placewewant = xplustabs();
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	    /* Clicking where the cursor is toggles the mark, as does
 	     * clicking beyond the line length with the cursor at the
 	     * end of the line. */
@@ -1479,7 +1479,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 	openfile->totsize++;
 	set_modified();
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	/* Note that current_x has not yet been incremented. */
 	if (openfile->mark_set && openfile->current ==
 		openfile->mark_begin && openfile->current_x <
@@ -1581,7 +1581,7 @@ int main(int argc, char **argv)
 #endif
 	{"nohelp", 0, NULL, 'x'},
 	{"suspend", 0, NULL, 'z'},
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	{"smarthome", 0, NULL, 'A'},
 	{"backup", 0, NULL, 'B'},
 	{"backupdir", 1, NULL, 'C'},
@@ -1647,7 +1647,7 @@ int main(int argc, char **argv)
 	    case 'j':
 		/* Pico compatibility flags. */
 		break;
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	    case 'A':
 		SET(SMART_HOME);
 		break;
@@ -1667,7 +1667,7 @@ int main(int argc, char **argv)
 		break;
 #endif
 #ifdef ENABLE_NANORC
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	    case 'H':
 		SET(HISTORYLOG);
 		break;
@@ -1682,7 +1682,7 @@ int main(int argc, char **argv)
 	    case 'L':
 		SET(NO_NEWLINES);
 		break;
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	    case 'N':
 		SET(NO_CONVERT);
 		break;
@@ -1698,7 +1698,7 @@ int main(int argc, char **argv)
 	    case 'R':
 		SET(RESTRICTED);
 		break;
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	    case 'S':
 		SET(SMOOTH_SCROLL);
 		break;
@@ -1710,7 +1710,7 @@ int main(int argc, char **argv)
 		    exit(1);
 		}
 		break;
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	    case 'U':
 		SET(QUICK_BLANK);
 		break;
@@ -1718,7 +1718,7 @@ int main(int argc, char **argv)
 	    case 'V':
 		version();
 		exit(0);
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	    case 'W':
 		SET(WORD_BOUNDS);
 		break;
@@ -1734,7 +1734,7 @@ int main(int argc, char **argv)
 	    case 'd':
 		SET(REBIND_DELETE);
 		break;
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	    case 'i':
 		SET(AUTOINDENT);
 		break;
@@ -1820,7 +1820,7 @@ int main(int argc, char **argv)
 #ifndef DISABLE_WRAPJUSTIFY
 	ssize_t wrap_at_cpy = wrap_at;
 #endif
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	char *backup_dir_cpy = backup_dir;
 #endif
 #ifndef DISABLE_JUSTIFY
@@ -1835,7 +1835,7 @@ int main(int argc, char **argv)
 #ifndef DISABLE_OPERATINGDIR
 	operating_dir = NULL;
 #endif
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	backup_dir = NULL;
 #endif
 #ifndef DISABLE_JUSTIFY
@@ -1857,7 +1857,7 @@ int main(int argc, char **argv)
 	if (fill_used)
 	    wrap_at = wrap_at_cpy;
 #endif
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	if (backup_dir_cpy != NULL) {
 	    free(backup_dir);
 	    backup_dir = backup_dir_cpy;
@@ -1885,7 +1885,7 @@ int main(int argc, char **argv)
 #endif
 #endif /* ENABLE_NANORC */
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     history_init();
 #ifdef ENABLE_NANORC
     if (!ISSET(NO_RCFILE) && ISSET(HISTORYLOG))
@@ -1893,7 +1893,7 @@ int main(int argc, char **argv)
 #endif
 #endif
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     /* Set up the backup directory (unless we're using restricted mode,
      * in which case backups are disabled, since they would allow
      * reading from or writing to files not specified on the command
@@ -1955,7 +1955,7 @@ int main(int argc, char **argv)
     }
 #endif
 
-#if !defined(NANO_SMALL) && defined(ENABLE_NANORC)
+#if !defined(NANO_TINY) && defined(ENABLE_NANORC)
     /* If whitespace wasn't specified, set its default value. */
     if (whitespace == NULL) {
 	whitespace = mallocstrcpy(NULL, "  ");
@@ -2071,7 +2071,7 @@ int main(int argc, char **argv)
 
     display_main_list();
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     /* Return here after a SIGWINCH. */
     sigsetjmp(jmpbuf, 1);
 #endif

@@ -80,11 +80,11 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	input == NANO_FORWARD_KEY || input == NANO_BACK_KEY ||
 	input == NANO_BACKSPACE_KEY || input == NANO_DELETE_KEY ||
 	input == NANO_CUT_KEY ||
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 		input == NANO_NEXTWORD_KEY ||
 #endif
 		(*meta_key == TRUE && (
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 		input == NANO_PREVWORD_KEY ||
 #endif
 		input == NANO_VERBATIM_KEY)));
@@ -180,7 +180,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 			'\0' || currshortcut != writefile_list)
 			do_statusbar_cut_text();
 		    break;
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 		case NANO_NEXTWORD_KEY:
 		    do_statusbar_next_word(FALSE);
 		    break;
@@ -338,7 +338,7 @@ void do_statusbar_home(void)
 {
     size_t pww_save = statusbar_pww;
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     if (ISSET(SMART_HOME)) {
 	size_t statusbar_x_save = statusbar_x;
 
@@ -353,7 +353,7 @@ void do_statusbar_home(void)
 #endif
 	statusbar_x = 0;
 	statusbar_pww = statusbar_xplustabs();
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     }
 #endif
 
@@ -432,7 +432,7 @@ void do_statusbar_cut_text(void)
 {
     assert(answer != NULL);
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     if (ISSET(CUT_TO_END))
 	null_at(&answer, statusbar_x);
     else {
@@ -440,14 +440,14 @@ void do_statusbar_cut_text(void)
 	null_at(&answer, 0);
 	statusbar_x = 0;
 	statusbar_pww = statusbar_xplustabs();
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     }
 #endif
 
     update_statusbar_line(answer, statusbar_x);
 }
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 /* Move to the next word at the statusbar prompt.  If allow_punct is
  * TRUE, treat punctuation as part of a word.  Return TRUE if we started
  * on a word, and FALSE otherwise. */
@@ -607,7 +607,7 @@ bool do_statusbar_prev_word(bool allow_punct)
     /* Return whether we started on a word. */
     return started_on_word;
 }
-#endif /* !NANO_SMALL */
+#endif /* !NANO_TINY */
 
 void do_statusbar_verbatim_input(bool *got_enter)
 {
@@ -712,7 +712,7 @@ bool need_statusbar_horizontal_update(size_t old_pww)
 /* Get a string of input at the statusbar prompt.  This should only be
  * called from do_prompt(). */
 int get_prompt_string(bool allow_tabs, const char *curranswer,
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	filestruct **history_list,
 #endif
 	const shortcut *s
@@ -728,7 +728,7 @@ int get_prompt_string(bool allow_tabs, const char *curranswer,
     bool tabbed = FALSE;
 	/* Whether we've pressed Tab. */
 #endif
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     char *history = NULL;
 	/* The current history string. */
     char *magichistory = NULL;
@@ -741,7 +741,7 @@ int get_prompt_string(bool allow_tabs, const char *curranswer,
 	/* The length of the original string that we're trying to
 	 * tab complete, if any. */
 #endif
-#endif /* !NANO_SMALL */
+#endif /* !NANO_TINY */
 
     answer = mallocstrcpy(answer, curranswer);
     curranswer_len = strlen(answer);
@@ -785,7 +785,7 @@ int get_prompt_string(bool allow_tabs, const char *curranswer,
 	switch (kbinput) {
 	    case NANO_TAB_KEY:
 #ifndef DISABLE_TABCOMP
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 		if (history_list != NULL) {
 		    if (last_kbinput != NANO_TAB_KEY)
 			complete_len = strlen(answer);
@@ -797,7 +797,7 @@ int get_prompt_string(bool allow_tabs, const char *curranswer,
 			statusbar_x = strlen(answer);
 		    }
 		} else
-#endif /* !NANO_SMALL */
+#endif /* !NANO_TINY */
 		if (allow_tabs)
 		    answer = input_tab(answer, &statusbar_x, &tabbed,
 			list);
@@ -806,7 +806,7 @@ int get_prompt_string(bool allow_tabs, const char *curranswer,
 #endif /* !DISABLE_TABCOMP */
 		break;
 	    case NANO_PREVLINE_KEY:
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 		if (history_list != NULL) {
 		    /* If we're scrolling up at the bottom of the
 		     * history list and answer isn't blank, save answer
@@ -834,10 +834,10 @@ int get_prompt_string(bool allow_tabs, const char *curranswer,
 		     * statusbar prompt. */
 		    finished = FALSE;
 		}
-#endif /* !NANO_SMALL */
+#endif /* !NANO_TINY */
 		break;
 	    case NANO_NEXTLINE_KEY:
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 		if (history_list != NULL) {
 		    /* Get the newer search from the history list and
 		     * save it in answer.  If there is no newer search,
@@ -860,7 +860,7 @@ int get_prompt_string(bool allow_tabs, const char *curranswer,
 
 		    update_statusbar_line(answer, statusbar_x);
 		}
-#endif /* !NANO_SMALL */
+#endif /* !NANO_TINY */
 		break;
 	}
 
@@ -870,14 +870,14 @@ int get_prompt_string(bool allow_tabs, const char *curranswer,
 	if (finished)
 	    break;
 
-#if !defined(NANO_SMALL) && !defined(DISABLE_TABCOMP)
+#if !defined(NANO_TINY) && !defined(DISABLE_TABCOMP)
 	last_kbinput = kbinput;
 #endif
 
 	reset_statusbar_cursor();
     }
 
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
     /* Set the current position in the history list to the bottom and
      * free magichistory, if we need to. */
     if (history_list != NULL) {
@@ -909,7 +909,7 @@ int get_prompt_string(bool allow_tabs, const char *curranswer,
  * interpreted. */
 int do_prompt(bool allow_tabs, const shortcut *s, const char
 	*curranswer,
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 	filestruct **history_list,
 #endif
 	const char *msg, ...)
@@ -935,7 +935,7 @@ int do_prompt(bool allow_tabs, const shortcut *s, const char
     null_at(&prompt, actual_x(prompt, COLS - 4));
 
     retval = get_prompt_string(allow_tabs, curranswer,
-#ifndef NANO_SMALL
+#ifndef NANO_TINY
 		history_list,
 #endif
 		s
