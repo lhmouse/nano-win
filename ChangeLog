@@ -107,6 +107,9 @@ CVS code -
 	  character as having the width of Unicode U+FFFD (Replacement
 	  Character) instead of having a width of zero, since display
 	  problems can crop up with the latter approach. (DLR)
+  mbstrchr()
+	- Detect the case where the character isn't found in the string
+	  more accurately. (DLR)
 - cut.c:
   cut_line()
 	- Since placewewant will always be zero after the line is cut,

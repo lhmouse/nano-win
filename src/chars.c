@@ -852,7 +852,7 @@ char *mbstrchr(const char *s, char *c)
 
 	free(s_mb);
 
-	if (ws != wc)
+	if (*s == '\0')
 	    q = NULL;
 
 	return (char *)q;
