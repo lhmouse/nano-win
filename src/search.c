@@ -393,8 +393,8 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
     /* We've definitely found something. */
     openfile->current = fileptr;
     openfile->current_x = current_x_find;
-    openfile->current_y = current_y_find;
     openfile->placewewant = xplustabs();
+    openfile->current_y = current_y_find;
 
     /* needle_len holds the length of needle. */
     if (needle_len != NULL)
