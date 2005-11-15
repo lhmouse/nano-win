@@ -285,7 +285,7 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 #endif
 	fileptr->data + (openfile->current_x + 1);
 
-    /* Look for needle in searchstr. */
+    /* Look for needle in the current line we're searching. */
     while (TRUE) {
 	found = strstrwrapper(fileptr->data, needle, rev_start);
 
