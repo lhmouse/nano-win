@@ -97,6 +97,9 @@ CVS code -
 	  completion functions adapted from busybox.  Also, invoke LGPL
 	  clause 3 to convert all LGPLed functions to GPLed ones, so
 	  that we don't have to include a copy of the LGPL. (DLR)
+	- Don't install the localized versions of the manpages if
+	  nano is built with --disable-nls.  Changes to Makefile.am and
+	  doc/man/Makefile.am. (Mike Frysinger)
 - chars.c:
   mbwidth()
 	- If wcwidth() returns -1 for the character passed in, treat the

@@ -1,4 +1,8 @@
+if USE_NLS
 SUBDIRS = fr
+else
+SUBDIRS =
+endif
 
 man_MANS = nano.1 nanorc.5
 

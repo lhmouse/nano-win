@@ -39,6 +39,7 @@ dnl Internationalization macros.
 
 AM_GNU_GETTEXT_VERSION(0.11.5)
 AM_GNU_GETTEXT([external], [need-ngettext])
+AM_CONDITIONAL(USE_NLS, test "x$USE_NLS" = "xyes")
 
 dnl Checks for header files.
 
