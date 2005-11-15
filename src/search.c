@@ -257,7 +257,7 @@ int search_init(bool replacing, bool use_answer)
 /* Look for needle, starting at (current, current_x).  If no_sameline is
  * TRUE, skip over begin when looking for needle.  begin is the line
  * where we first started searching, at column begin_x.  If
- * can_display_wrap is TRUE, we put messages on the statusbar, wrap
+ * can_display_wrap is TRUE, we put messages on the statusbar and wrap
  * around the file boundaries.  The return value specifies whether we
  * found anything.  If we did, set needle_len to the length of the
  * string we found if it isn't NULL. */
