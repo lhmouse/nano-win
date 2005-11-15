@@ -499,7 +499,6 @@ void do_research(void)
     search_init_globals();
 
     if (last_search[0] != '\0') {
-
 #ifdef HAVE_REGEX_H
 	/* Since answer is "", use last_search! */
 	if (ISSET(USE_REGEXP) && regexp_init(last_search) == 0)
