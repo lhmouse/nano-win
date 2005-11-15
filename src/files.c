@@ -1474,10 +1474,9 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
     if (f_open == NULL) {
 	/* Now open the file in place.  Use O_EXCL if tmp is TRUE.  This
 	 * is copied from joe, because wiggy says so *shrug*. */
-	fd = open(realname, O_WRONLY | O_CREAT |
-		((append == APPEND) ? O_APPEND : (tmp ? O_EXCL :
-		O_TRUNC)), S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP |
-		S_IROTH | S_IWOTH);
+	fd = open(realname, O_WRONLY | O_CREAT | ((append == APPEND) ?
+		O_APPEND : (tmp ? O_EXCL : O_TRUNC)), S_IRUSR |
+		S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 
 	/* Set the umask back to the user's original value. */
 	umask(original_umask);
