@@ -1589,9 +1589,9 @@ bool do_int_spell_fix(const char *word)
     openfile->current_x = (size_t)-1;
     openfile->placewewant = 0;
 
-    /* Find the first whole-word occurrence of word. */
+    /* Find the first whole occurrence of word. */
     findnextstr_wrap_reset();
-    while (findnextstr(TRUE, TRUE, FALSE, openfile->fileage, 0, word,
+    while (findnextstr(TRUE, FALSE, openfile->fileage, 0, word,
 	&match_len)) {
 	if (is_whole_word(openfile->current_x, openfile->current->data,
 		word)) {
@@ -1617,8 +1617,8 @@ bool do_int_spell_fix(const char *word)
 
 	    if (!canceled && strcmp(word, answer) != 0) {
 		openfile->current_x--;
-		do_replace_loop(word, openfile->current,
-			&openfile->current_x, TRUE, &canceled);
+		do_replace_loop(TRUE, &canceled, openfile->current,
+			&openfile->current_x, word);
 	    }
 
 	    break;

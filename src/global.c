@@ -313,7 +313,7 @@ void shortcut_init(bool unjustify)
 #ifndef DISABLE_JUSTIFY
     const char *nano_fulljustify_msg = N_("Justify the entire file");
 #endif
-#if !defined(NANO_TINY) && defined(HAVE_REGEX_H)
+#ifndef NANO_TINY
     const char *nano_bracket_msg = N_("Find other bracket");
 #endif
     const char *nano_cancel_msg = N_("Cancel the current function");
@@ -594,7 +594,7 @@ void shortcut_init(bool unjustify)
 	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_full_justify);
 #endif
 
-#if !defined(NANO_TINY) && defined(HAVE_REGEX_H)
+#ifndef NANO_TINY
     sc_init_one(&main_list, NANO_NO_KEY, N_("Find Other Bracket"),
 	IFHELP(nano_bracket_msg, NANO_BRACKET_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, do_find_bracket);

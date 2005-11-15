@@ -196,6 +196,10 @@ size_t mbstrlen(const char *s);
 size_t nstrnlen(const char *s, size_t maxlen);
 #endif
 size_t mbstrnlen(const char *s, size_t maxlen);
+#ifndef NANO_TINY
+char *revstrpbrk(const char *s, const char *accept, const char
+	*rev_start);
+#endif
 #ifndef DISABLE_JUSTIFY
 char *mbstrchr(const char *s, char *c);
 #ifdef ENABLE_NANORC
@@ -489,9 +493,8 @@ void not_found_msg(const char *str);
 void search_abort(void);
 void search_init_globals(void);
 int search_init(bool replacing, bool use_answer);
-bool findnextstr(bool can_display_wrap, bool wholeword, bool
-	no_sameline, const filestruct *begin, size_t begin_x, const char
-	*needle, size_t *needle_len);
+bool findnextstr(bool whole_word, bool no_sameline, const filestruct
+	*begin, size_t begin_x, const char *needle, size_t *needle_len);
 void findnextstr_wrap_reset(void);
 void do_search(void);
 #ifndef NANO_TINY
@@ -502,9 +505,9 @@ void replace_abort(void);
 int replace_regexp(char *string, bool create);
 #endif
 char *replace_line(const char *needle);
-ssize_t do_replace_loop(const char *needle, const filestruct
-	*real_current, size_t *real_current_x, bool wholewords, bool
-	*canceled);
+ssize_t do_replace_loop(bool whole_word, bool *canceled, const
+	filestruct *real_current, size_t *real_current_x, const char
+	*needle);
 void do_replace(void);
 void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	bool interactive, bool save_pos, bool allow_update);
@@ -514,9 +517,8 @@ void do_gotopos(ssize_t line, size_t pos_x, ssize_t pos_y, size_t
 	pos_pww);
 #endif
 #ifndef NANO_TINY
-#ifdef HAVE_REGEX_H
+bool find_bracket_match(bool reverse, const char *bracket_set);
 void do_find_bracket(void);
-#endif
 #ifdef ENABLE_NANORC
 bool history_has_changed(void);
 #endif

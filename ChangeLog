@@ -101,6 +101,10 @@ CVS code -
 	  nano is built with --disable-nls.  Changes to Makefile.am and
 	  doc/man/Makefile.am. (Mike Frysinger)
 	- Rename the NANO_SMALL #define to NANO_TINY. (DLR)
+	- Overhaul the bracket searching code so that it no longer
+	  requires regex support to work.  New functions revstrpbrk()
+	  and find_bracket_match(); changes to sc_init_one() and
+	  do_find_bracket(). (DLR)
 - chars.c:
   mbwidth()
 	- If wcwidth() returns -1 for the character passed in, treat the
@@ -132,6 +136,15 @@ CVS code -
 - rcfile.c:
   do_rcfile()
 	- Remove unneeded assert. (DLR)
+- search.c:
+  findnextstr()
+	- Remove parameter can_display_wrap, as it's always set to TRUE
+	  now, and rename parameter wholeword to whole_word for
+	  consistency. (DLR)
+  do_replace_loop()
+	- Change order of parameters to more closely match those of
+	  findnextstr(), and rename parameter wholewords to whole_word
+	  for consistency. (DLR)
 - text.c:
   begpar()
 	- Return FALSE if foo is NULL, as inpar() does. (DLR)

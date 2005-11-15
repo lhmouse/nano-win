@@ -814,6 +814,26 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 	return strnlen(s, maxlen);
 }
 
+#ifndef NANO_TINY
+/* This function is equivalent to strpbrk(), except in that it scans the
+ * string in reverse, starting at rev_start. */
+char *revstrpbrk(const char *s, const char *accept, const char
+	*rev_start)
+{
+    assert(s != NULL && accept != NULL && rev_start != NULL);
+
+    for (; rev_start >= s; rev_start--) {
+	const char *q = (*rev_start == '\0') ? NULL : strchr(accept,
+		*rev_start);
+
+	if (q != NULL)
+	    return (char *)rev_start;
+    }
+
+    return NULL;
+}
+#endif /* !NANO_TINY */
+
 #ifndef DISABLE_JUSTIFY
 /* This function is equivalent to strchr() for multibyte strings. */
 char *mbstrchr(const char *s, char *c)

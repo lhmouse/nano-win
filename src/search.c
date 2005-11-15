@@ -256,21 +256,18 @@ int search_init(bool replacing, bool use_answer)
 
 /* Look for needle, starting at (current, current_x).  If no_sameline is
  * TRUE, skip over begin when looking for needle.  begin is the line
- * where we first started searching, at column begin_x.  If
- * can_display_wrap is TRUE, we put messages on the statusbar and wrap
- * around the file boundaries.  The return value specifies whether we
- * found anything.  If we did, set needle_len to the length of the
- * string we found if it isn't NULL. */
-bool findnextstr(bool can_display_wrap, bool wholeword, bool
-	no_sameline, const filestruct *begin, size_t begin_x, const char
-	*needle, size_t *needle_len)
+ * where we first started searching, at column begin_x.  The return
+ * value specifies whether we found anything.  If we did, set needle_len
+ * to the length of the string we found if it isn't NULL. */
+bool findnextstr(bool whole_word, bool no_sameline, const filestruct
+	*begin, size_t begin_x, const char *needle, size_t *needle_len)
 {
     filestruct *fileptr = openfile->current;
     const char *rev_start = NULL, *found = NULL;
     size_t found_len;
 	/* The length of the match we found. */
     size_t current_x_find = 0;
-	/* The location of the match we found. */
+	/* The location in the current line of the match we found. */
     ssize_t current_y_find = openfile->current_y;
 
     /* rev_start might end up 1 character before the start or after the
@@ -304,7 +301,7 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 
 	    /* If we're searching for whole words, see if this potential
 	     * match is a whole word. */
-	    if (wholeword) {
+	    if (whole_word) {
 		char *word = mallocstrncpy(NULL, found, found_len + 1);
 		word[found_len] = '\0';
 
@@ -317,15 +314,14 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	     * match isn't a whole word, or if we're not allowed to find
 	     * a match on the same line we started on and this potential
 	     * match is on that line, continue searching. */
-	    if ((!wholeword || found_whole) && (!no_sameline ||
+	    if ((!whole_word || found_whole) && (!no_sameline ||
 		fileptr != openfile->current))
 		break;
 	}
 
 	/* We've finished processing the file, so get out. */
 	if (search_last_line) {
-	    if (can_display_wrap)
-		not_found_msg(needle);
+	    not_found_msg(needle);
 	    return FALSE;
 	}
 
@@ -343,9 +339,6 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 
 	/* Start or end of buffer reached, so wrap around. */
 	if (fileptr == NULL) {
-	    if (!can_display_wrap)
-		return FALSE;
-
 #ifndef NANO_TINY
 	    if (ISSET(BACKWARDS_SEARCH)) {
 		fileptr = openfile->filebot;
@@ -358,8 +351,7 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	    }
 #endif
 
-	    if (can_display_wrap)
-		statusbar(_("Search Wrapped"));
+	    statusbar(_("Search Wrapped"));
 	}
 
 	/* Original start line reached. */
@@ -385,8 +377,7 @@ bool findnextstr(bool can_display_wrap, bool wholeword, bool
 	current_x_find > begin_x
 #endif
 	) {
-	if (can_display_wrap)
-	    not_found_msg(needle);
+	not_found_msg(needle);
 	return FALSE;
     }
 
@@ -450,7 +441,7 @@ void do_search(void)
 #endif
 
     findnextstr_wrap_reset();
-    didfind = findnextstr(TRUE, FALSE, FALSE, openfile->current,
+    didfind = findnextstr(FALSE, FALSE, openfile->current,
 	openfile->current_x, answer, NULL);
 
     /* Check to see if there's only one occurrence of the string and
@@ -465,7 +456,7 @@ void do_search(void)
 	 * which case it's the only occurrence. */
 	if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp,
 		last_search)) {
-	    didfind = findnextstr(TRUE, FALSE, TRUE, openfile->current,
+	    didfind = findnextstr(FALSE, TRUE, openfile->current,
 		openfile->current_x, answer, NULL);
 	    if (fileptr == openfile->current && fileptr_x ==
 		openfile->current_x && !didfind)
@@ -506,7 +497,7 @@ void do_research(void)
 #endif
 
 	findnextstr_wrap_reset();
-	didfind = findnextstr(TRUE, FALSE, FALSE, openfile->current,
+	didfind = findnextstr(FALSE, FALSE, openfile->current,
 		openfile->current_x, last_search, NULL);
 
 	/* Check to see if there's only one occurrence of the string and
@@ -521,9 +512,8 @@ void do_research(void)
 	     * found again, in which case it's the only occurrence. */
 	    if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp,
 		last_search)) {
-		didfind = findnextstr(TRUE, FALSE, TRUE,
-			openfile->current, openfile->current_x, answer,
-			NULL);
+		didfind = findnextstr(FALSE, TRUE, openfile->current,
+			openfile->current_x, answer, NULL);
 		if (fileptr == openfile->current && fileptr_x ==
 			openfile->current_x && !didfind)
 		    statusbar(_("This is the only occurrence"));
@@ -649,9 +639,9 @@ char *replace_line(const char *needle)
  * needle is the string to seek.  We replace it with answer.  Return -1
  * if needle isn't found, else the number of replacements performed.  If
  * canceled isn't NULL, set it to TRUE if we canceled. */
-ssize_t do_replace_loop(const char *needle, const filestruct
-	*real_current, size_t *real_current_x, bool wholewords, bool
-	*canceled)
+ssize_t do_replace_loop(bool whole_word, bool *canceled, const
+	filestruct *real_current, size_t *real_current_x, const char
+	*needle)
 {
     ssize_t numreplaced = -1;
     size_t match_len;
@@ -685,7 +675,7 @@ ssize_t do_replace_loop(const char *needle, const filestruct
 	*canceled = FALSE;
 
     findnextstr_wrap_reset();
-    while (findnextstr(TRUE, wholewords,
+    while (findnextstr(whole_word,
 #ifdef HAVE_REGEX_H
 	/* We should find a bol and/or eol regex only once per line.  If
 	 * the bol_or_eol flag is set, it means that the last search
@@ -922,8 +912,8 @@ void do_replace(void)
     begin_x = openfile->current_x;
     pww_save = openfile->placewewant;
 
-    numreplaced = do_replace_loop(last_search, begin, &begin_x, FALSE,
-	NULL);
+    numreplaced = do_replace_loop(FALSE, NULL, begin, &begin_x,
+	last_search);
 
     /* Restore where we were. */
     openfile->edittop = edittop_save;
@@ -1034,22 +1024,95 @@ void do_gotopos(ssize_t line, size_t pos_x, ssize_t pos_y, size_t
 #endif
 
 #ifndef NANO_TINY
-#ifdef HAVE_REGEX_H
+/* Search for a match to one of the two characters in bracket_set.  If
+ * reverse is TRUE, search backwards.  Otherwise, search forwards. */
+bool find_bracket_match(bool reverse, const char *bracket_set)
+{
+    filestruct *fileptr = openfile->current;
+    const char *rev_start = NULL, *found = NULL;
+    size_t current_x_find = 0;
+	/* The location in the current line of the match we found. */
+    ssize_t current_y_find = openfile->current_y;
+
+    assert(strlen(bracket_set) == 2);
+
+    /* rev_start might end up 1 character before the start or after the
+     * end of the line.  This won't be a problem because we'll skip over
+     * it below in that case, and rev_start will be properly set when
+     * the search continues on the previous or next line. */
+    rev_start = reverse ? fileptr->data + (openfile->current_x - 1) :
+	fileptr->data + (openfile->current_x + 1);
+
+    /* Look for either of the two characters in bracket_set.  rev_start
+     * can be 1 character before the start or after the end of the line.
+     * In either case, just act as though no match is found. */
+    while (TRUE) {
+	found = ((rev_start > fileptr->data && *(rev_start - 1) ==
+		'\0') || rev_start < fileptr->data) ? NULL : (reverse ?
+		revstrpbrk(fileptr->data, bracket_set, rev_start) :
+		strpbrk(rev_start, bracket_set));
+
+	/* We've found a potential match. */
+	if (found != NULL)
+	    break;
+
+	if (reverse) {
+	    fileptr = fileptr->prev;
+	    current_y_find--;
+	} else {
+	    fileptr = fileptr->next;
+	    current_y_find++;
+	}
+
+	/* Start or end of buffer reached, so get out. */
+	if (fileptr == NULL)
+	    return FALSE;
+
+	rev_start = fileptr->data;
+	if (reverse)
+	    rev_start += strlen(fileptr->data);
+    }
+
+    /* We found an instance. */
+    current_x_find = found - fileptr->data;
+
+    /* We've definitely found something. */
+    openfile->current = fileptr;
+    openfile->current_x = current_x_find;
+    openfile->placewewant = xplustabs();
+    openfile->current_y = current_y_find;
+
+    return TRUE;
+}
+
+/* Search for a match to the bracket at the current cursor position, if
+ * there is one. */
 void do_find_bracket(void)
 {
-    const char *bracket_pat = "()<>[]{}", *pos;
-    char regex_pat[] = "[  ]", ch, wanted_ch;
     filestruct *current_save;
     size_t current_x_save, pww_save;
-    bool regexp_set = ISSET(USE_REGEXP);
-    bool backwards_search_set = ISSET(BACKWARDS_SEARCH);
-    int count = 1;
+    const char *bracket_list = "()<>[]{}";
+	/* The list of brackets we can find matches to. */
+    const char *pos;
+	/* The location in bracket_list of the bracket at the current
+	 * cursor position. */
+    char ch;
+	/* The bracket at the current cursor position. */
+    char wanted_ch;
+	/* The bracket complementing the bracket at the current cursor
+	 * position. */
+    char bracket_set[3];
+	/* The pair of characters in ch and wanted_ch. */
+    size_t count = 1;
+	/* The initial bracket count. */
+    bool reverse;
+	/* The direction we search. */
 
-    assert(strlen(bracket_pat) % 2 == 0);
+    assert(strlen(bracket_list) % 2 == 0);
 
     ch = openfile->current->data[openfile->current_x];
 
-    if (ch == '\0' || (pos = strchr(bracket_pat, ch)) == NULL) {
+    if (ch == '\0' || (pos = strchr(bracket_list, ch)) == NULL) {
 	statusbar(_("Not a bracket"));
 	return;
     }
@@ -1059,40 +1122,17 @@ void do_find_bracket(void)
     current_x_save = openfile->current_x;
     pww_save = openfile->placewewant;
 
-    /* Turn regular expression searches on. */
-    SET(USE_REGEXP);
-
     /* If we're on an opening bracket, we want to search forwards for a
      * closing bracket, and if we're on a closing bracket, we want to
-     * search backwards for an opening bracket.
-     *
-     * We replace the spaces in regex_pat with the opening and closing
-     * brackets, and then do a regular expression search using it.  We
-     * have to put the closing bracket first when we do the latter,
-     * since "[[]]" won't work properly, but "[][]" will. */
-    if ((pos - bracket_pat) % 2 == 0) {
-	wanted_ch = *(pos + 1);
-	regex_pat[1] = wanted_ch;
-	regex_pat[2] = ch;
-	UNSET(BACKWARDS_SEARCH);
-    } else {
-	wanted_ch = *(pos - 1);
-	regex_pat[1] = ch;
-	regex_pat[2] = wanted_ch;
-	SET(BACKWARDS_SEARCH);
-    }
-
-    /* Compile the regular expression in regex_pat. */
-    regexp_init(regex_pat);
-
-    /* The regular expression in regex_pat should always be valid. */
-    assert(regexp_compiled);
-
-    findnextstr_wrap_reset();
+     * search backwards for an opening bracket. */
+    reverse = ((pos - bracket_list) % 2 != 0);
+    wanted_ch = reverse ? *(pos - 1) : *(pos + 1);
+    bracket_set[0] = ch;
+    bracket_set[1] = wanted_ch;
+    bracket_set[2] = '\0';
 
     while (TRUE) {
-	if (findnextstr(FALSE, FALSE, FALSE, openfile->current,
-		openfile->current_x, regex_pat, NULL)) {
+	if (find_bracket_match(reverse, bracket_set)) {
 	    /* If we found an identical bracket, increment count.  If we
 	     * found a complementary bracket, decrement it. */
 	    count += (openfile->current->data[openfile->current_x] ==
@@ -1114,21 +1154,7 @@ void do_find_bracket(void)
 	    break;
 	}
     }
-
-    /* Decompile the regular expression in regex_pat. */
-    regexp_cleanup();
-
-    /* Restore search/replace direction. */
-    if (backwards_search_set)
-	SET(BACKWARDS_SEARCH);
-    else
-	UNSET(BACKWARDS_SEARCH);
-
-    /* Restore regular expression usage setting. */
-    if (!regexp_set)
-	UNSET(USE_REGEXP);
 }
-#endif /* HAVE_REGEX_H */
 
 #ifdef ENABLE_NANORC
 /* Indicate whether any of the history lists have changed. */
