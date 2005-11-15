@@ -822,7 +822,7 @@ char *mbstrchr(const char *s, char *c)
 
 #ifdef ENABLE_UTF8
     if (ISSET(USE_UTF8)) {
-	bool bad_c_mb = FALSE, bad_s_mb = FALSE;
+	bool bad_s_mb = FALSE, bad_c_mb = FALSE;
 	char *s_mb = charalloc(MB_CUR_MAX);
 	const char *q = s;
 	wchar_t ws, wc;
