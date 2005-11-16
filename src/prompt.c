@@ -87,7 +87,11 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 #ifndef NANO_TINY
 		input == NANO_PREVWORD_KEY ||
 #endif
-		input == NANO_VERBATIM_KEY)));
+		input == NANO_VERBATIM_KEY
+#ifndef NANO_TINY
+		|| input == NANO_BRACKET_KEY
+#endif
+		)));
 
     /* Set s_or_t to TRUE if we got a shortcut. */
     *s_or_t = have_shortcut;
@@ -212,6 +216,12 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 			}
 		    }
 		    break;
+#ifndef NANO_TINY
+		case NANO_BRACKET_KEY:
+		    if (*meta_key == TRUE)
+			do_statusbar_find_bracket();
+		    break;
+#endif
 		/* Handle the normal statusbar prompt shortcuts, setting
 		 * ran_func to TRUE if we try to run their associated
 		 * functions and setting finished to TRUE to indicate
@@ -632,6 +642,93 @@ void do_statusbar_verbatim_input(bool *got_enter)
 
     free(output);
 }
+
+#ifndef NANO_TINY
+void do_statusbar_find_bracket(void)
+{
+    size_t statusbar_x_save, pww_save;
+    const char *rev_start = NULL, *found = NULL;
+    const char *bracket_list = "()<>[]{}";
+	/* The list of brackets we can find matches to. */
+    const char *pos;
+	/* The location in bracket_list of the bracket at the current
+	 * cursor position. */
+    char ch;
+	/* The bracket at the current cursor position. */
+    char wanted_ch;
+	/* The bracket complementing the bracket at the current cursor
+	 * position. */
+    char bracket_set[3];
+	/* The pair of characters in ch and wanted_ch. */
+    size_t count = 1;
+	/* The initial bracket count. */
+    bool reverse;
+	/* The direction we search. */
+
+    assert(strlen(bracket_list) % 2 == 0);
+
+    ch = answer[statusbar_x];
+
+    if (ch == '\0' || (pos = strchr(bracket_list, ch)) == NULL)
+	return;
+
+    /* Save where we are. */
+    statusbar_x_save = statusbar_x;
+    pww_save = statusbar_pww;
+
+    /* If we're on an opening bracket, we want to search forwards for a
+     * closing bracket, and if we're on a closing bracket, we want to
+     * search backwards for an opening bracket. */
+    reverse = ((pos - bracket_list) % 2 != 0);
+    wanted_ch = reverse ? *(pos - 1) : *(pos + 1);
+    bracket_set[0] = ch;
+    bracket_set[1] = wanted_ch;
+    bracket_set[2] = '\0';
+
+    while (TRUE) {
+	/* rev_start might end up 1 character before the start or after
+	 * the end of the line.  This won't be a problem because we'll
+	 * skip over it below in that case, and rev_start will be
+	 * properly set when the search continues on the previous or
+	 * next line. */
+	rev_start = reverse ? answer + (statusbar_x - 1) : answer +
+		(statusbar_x + 1);
+
+	/* Look for either of the two characters in bracket_set.
+	 * rev_start can be 1 character before the start or after the
+	 * end of the line.  In either case, just act as though no match
+	 * is found. */
+	found = ((rev_start > answer && *(rev_start - 1) == '\0') ||
+		rev_start < answer) ? NULL : (reverse ?
+		revstrpbrk(answer, bracket_set, rev_start) :
+		strpbrk(rev_start, bracket_set));
+
+	if (found != NULL) {
+	    /* We've definitely found something. */
+	    statusbar_x = found - answer;
+	    statusbar_pww = statusbar_xplustabs();
+
+	    /* If we found an identical bracket, increment count.  If we
+	     * found a complementary bracket, decrement it. */
+	    count += (answer[statusbar_x] == ch) ? 1 : -1;
+
+	    /* If count is zero, we've found a matching bracket.  Update
+	     * the statusbar prompt and get out. */
+	    if (count == 0) {
+		if (need_statusbar_horizontal_update(pww_save))
+		    update_statusbar_line(answer, statusbar_x);
+		break;
+	    }
+	} else {
+	    /* We didn't find either an opening or closing bracket.
+	     * Restore where we were, and get out. */
+	    statusbar_x = statusbar_x_save;
+	    statusbar_pww = pww_save;
+	    break;
+	}
+    }
+}
+#endif /* !NANO_TINY */
 
 /* Return the placewewant associated with statusbar_x, i.e, the
  * zero-based column position of the cursor.  The value will be no

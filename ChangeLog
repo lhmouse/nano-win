@@ -105,6 +105,9 @@ CVS code -
 	  requires regex support to work.  New functions revstrpbrk()
 	  and find_bracket_match(); changes to sc_init_one() and
 	  do_find_bracket(). (DLR)
+	- Add the ability to do bracket searches at the statusbar
+	  prompt.  New function do_statusbar_find_bracket(); changes to
+	  do_statusbar_input(). (DLR)
 - chars.c:
   mbwidth()
 	- If wcwidth() returns -1 for the character passed in, treat the
