@@ -446,6 +446,8 @@ bool do_statusbar_prev_word(bool allow_punct);
 #endif
 void do_statusbar_verbatim_input(bool *got_enter);
 #ifndef NANO_TINY
+bool find_statusbar_bracket_match(bool reverse, const char
+	*bracket_set);
 void do_statusbar_find_bracket(void);
 #endif
 size_t statusbar_xplustabs(void);

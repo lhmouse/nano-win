@@ -644,10 +644,46 @@ void do_statusbar_verbatim_input(bool *got_enter)
 }
 
 #ifndef NANO_TINY
+/* Search for a match to one of the two characters in bracket_set.  If
+ * reverse is TRUE, search backwards.  Otherwise, search forwards. */
+bool find_statusbar_bracket_match(bool reverse, const char
+	*bracket_set)
+{
+    const char *rev_start = NULL, *found = NULL;
+
+    assert(strlen(bracket_set) == 2);
+
+    /* rev_start might end up 1 character before the start or after the
+     * end of the line.  This won't be a problem because we'll skip over
+     * it below in that case. */
+    rev_start = reverse ? answer + (statusbar_x - 1) : answer +
+	(statusbar_x + 1);
+
+    while (TRUE) {
+	/* Look for either of the two characters in bracket_set.
+	 * rev_start can be 1 character before the start or after the
+	 * end of the line.  In either case, just act as though no match
+	 * is found. */
+	found = ((rev_start > answer && *(rev_start - 1) == '\0') ||
+		rev_start < answer) ? NULL : (reverse ?
+		revstrpbrk(answer, bracket_set, rev_start) :
+		strpbrk(rev_start, bracket_set));
+
+	/* We've found a potential match. */
+	if (found != NULL)
+	    break;
+    }
+
+    /* We've definitely found something. */
+    statusbar_x = found - answer;
+    statusbar_pww = statusbar_xplustabs();
+
+    return TRUE;
+}
+
 void do_statusbar_find_bracket(void)
 {
     size_t statusbar_x_save, pww_save;
-    const char *rev_start = NULL, *found = NULL;
     const char *bracket_list = "()<>[]{}";
 	/* The list of brackets we can find matches to. */
     const char *pos;
@@ -686,26 +722,7 @@ void do_statusbar_find_bracket(void)
     bracket_set[2] = '\0';
 
     while (TRUE) {
-	/* rev_start might end up 1 character before the start or after
-	 * the end of the line.  This won't be a problem because we'll
-	 * skip over it below in that case. */
-	rev_start = reverse ? answer + (statusbar_x - 1) : answer +
-		(statusbar_x + 1);
-
-	/* Look for either of the two characters in bracket_set.
-	 * rev_start can be 1 character before the start or after the
-	 * end of the line.  In either case, just act as though no match
-	 * is found. */
-	found = ((rev_start > answer && *(rev_start - 1) == '\0') ||
-		rev_start < answer) ? NULL : (reverse ?
-		revstrpbrk(answer, bracket_set, rev_start) :
-		strpbrk(rev_start, bracket_set));
-
-	if (found != NULL) {
-	    /* We've definitely found something. */
-	    statusbar_x = found - answer;
-	    statusbar_pww = statusbar_xplustabs();
-
+	if (find_statusbar_bracket_match(reverse, bracket_set)) {
 	    /* If we found an identical bracket, increment count.  If we
 	     * found a complementary bracket, decrement it. */
 	    count += (answer[statusbar_x] == ch) ? 1 : -1;

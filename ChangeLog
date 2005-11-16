@@ -106,8 +106,9 @@ CVS code -
 	  and find_bracket_match(); changes to shortcut_init() and
 	  do_find_bracket(). (DLR)
 	- Add the ability to do bracket searches at the statusbar
-	  prompt.  New function do_statusbar_find_bracket(); changes to
-	  do_statusbar_input(). (DLR)
+	  prompt.  New functions find_statusbar_bracket_match() and
+	  do_statusbar_find_bracket(); changes to do_statusbar_input().
+	  (DLR)
 - chars.c:
   mbwidth()
 	- If wcwidth() returns -1 for the character passed in, treat the
