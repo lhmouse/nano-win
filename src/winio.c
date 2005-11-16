@@ -2200,8 +2200,8 @@ void reset_cursor(void)
     openfile->current_y = openfile->current->lineno -
 	openfile->edittop->lineno;
     if (openfile->current_y < editwinrows) {
-	size_t x = xplustabs();
-	wmove(edit, openfile->current_y, x - get_page_start(x));
+	size_t xpt = xplustabs();
+	wmove(edit, openfile->current_y, xpt - get_page_start(xpt));
      }
 }
 

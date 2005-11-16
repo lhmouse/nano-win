@@ -136,17 +136,20 @@ CVS code -
 - prompt.c:
   do_statusbar_input()
 	- Fix misplaced break when handling NANO_VERBATIM_KEY. (DLR)
+  reset_statusbar_cursor()
+	- Fix cursor placement problem by modeling the code more closely
+	  after reset_cursor(). (DLR)
 - rcfile.c:
   do_rcfile()
 	- Remove unneeded assert. (DLR)
 - search.c:
   findnextstr()
 	- Remove parameter can_display_wrap, as it's always set to TRUE
-	  now, and rename parameter wholeword to whole_word for
+	  now, and rename parameter wholeword to whole_word, for
 	  consistency. (DLR)
   do_replace_loop()
 	- Change order of parameters to more closely match those of
-	  findnextstr(), and rename parameter wholewords to whole_word
+	  findnextstr(), and rename parameter wholewords to whole_word,
 	  for consistency. (DLR)
 - text.c:
   begpar()
@@ -169,6 +172,8 @@ CVS code -
 - winio.c:
   nanoget_repaint()
 	- Rename parameter inputbuf to buf, for consistency. (DLR)
+  reset_cursor()
+	- Rename variable x to xpt, to avoid confusion. (DLR)
   update_line()
 	- Remove now-unneeded logic that set the index parameter to zero
 	  if the fileptr parameter didn't point to current. (DLR)

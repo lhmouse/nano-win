@@ -692,10 +692,10 @@ void update_statusbar_line(const char *curranswer, size_t index)
 void reset_statusbar_cursor(void)
 {
     size_t start_col = strlenpt(prompt) + 1;
-    size_t page_start = get_statusbar_page_start(start_col,
-	start_col + statusbar_x);
+    size_t xpt = statusbar_xplustabs();
 
-    wmove(bottomwin, 0, start_col + statusbar_x + 1 - page_start);
+    wmove(bottomwin, 0, start_col + 1 + xpt -
+	get_statusbar_page_start(start_col, start_col + xpt));
 }
 
 /* Return TRUE if we need an update after moving horizontally, and FALSE
