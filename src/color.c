@@ -30,8 +30,8 @@
 
 #ifdef ENABLE_COLOR
 
-/* For each syntax list entry, we go through the list of colors and
- * assign color pairs. */
+/* For each syntax list entry, go through the list of colors and assign
+ * color pairs. */
 void set_colorpairs(void)
 {
     const syntaxtype *this_syntax = syntaxes;
