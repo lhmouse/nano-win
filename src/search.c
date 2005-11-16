@@ -1030,8 +1030,6 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
 {
     filestruct *fileptr = openfile->current;
     const char *rev_start = NULL, *found = NULL;
-    size_t current_x_find = 0;
-	/* The location in the current line of the match we found. */
     ssize_t current_y_find = openfile->current_y;
 
     assert(strlen(bracket_set) == 2);
@@ -1073,12 +1071,9 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
 	    rev_start += strlen(fileptr->data);
     }
 
-    /* We found an instance. */
-    current_x_find = found - fileptr->data;
-
     /* We've definitely found something. */
     openfile->current = fileptr;
-    openfile->current_x = current_x_find;
+    openfile->current_x = found - fileptr->data;
     openfile->placewewant = xplustabs();
     openfile->current_y = current_y_find;
 
