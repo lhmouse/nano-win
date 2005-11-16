@@ -509,6 +509,9 @@ GNU nano 1.3.9 - 2005.10.23
 	  as it'll be blanked out in do_replace().  Also, consolidate
 	  the cases for blank and new search strings, as they now differ
 	  only in which string they pass to regexp_init(). (DLR)
+  is_whole_word()
+	- Move to utils.c, as it's really a utility function in the same
+	  vein as regexp_bol_or_eol(). (DLR)
   replace_abort()
 	- Remove unnecessary update of placewewant. (DLR)
   do_replace()
