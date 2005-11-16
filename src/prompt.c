@@ -688,9 +688,7 @@ void do_statusbar_find_bracket(void)
     while (TRUE) {
 	/* rev_start might end up 1 character before the start or after
 	 * the end of the line.  This won't be a problem because we'll
-	 * skip over it below in that case, and rev_start will be
-	 * properly set when the search continues on the previous or
-	 * next line. */
+	 * skip over it below in that case. */
 	rev_start = reverse ? answer + (statusbar_x - 1) : answer +
 		(statusbar_x + 1);
 
