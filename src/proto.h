@@ -496,8 +496,12 @@ void not_found_msg(const char *str);
 void search_abort(void);
 void search_init_globals(void);
 int search_init(bool replacing, bool use_answer);
-bool findnextstr(bool whole_word, bool no_sameline, const filestruct
-	*begin, size_t begin_x, const char *needle, size_t *needle_len);
+bool findnextstr(
+#ifndef DISABLE_SPELLER
+	bool whole_word,
+#endif
+	bool no_sameline, const filestruct *begin, size_t begin_x, const
+	char *needle, size_t *needle_len);
 void findnextstr_wrap_reset(void);
 void do_search(void);
 #ifndef NANO_TINY
@@ -508,9 +512,12 @@ void replace_abort(void);
 int replace_regexp(char *string, bool create);
 #endif
 char *replace_line(const char *needle);
-ssize_t do_replace_loop(bool whole_word, bool *canceled, const
-	filestruct *real_current, size_t *real_current_x, const char
-	*needle);
+ssize_t do_replace_loop(
+#ifndef DISABLE_SPELLER
+	bool whole_word,
+#endif
+	bool *canceled, const filestruct *real_current, size_t
+	*real_current_x, const char *needle);
 void do_replace(void);
 void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	bool interactive, bool save_pos, bool allow_update);
@@ -609,7 +616,9 @@ int safe_regexec(const regex_t *preg, const char *string, size_t nmatch,
 #endif
 int regexp_bol_or_eol(const regex_t *preg, const char *string);
 #endif
+#ifndef DISABLE_SPELLER
 bool is_whole_word(size_t pos, const char *buf, const char *word);
+#endif
 const char *strstrwrapper(const char *haystack, const char *needle,
 	const char *start);
 void nperror(const char *s);

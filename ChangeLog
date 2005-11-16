@@ -150,10 +150,14 @@ CVS code -
 	- Remove parameter can_display_wrap, as it's always set to TRUE
 	  now, and rename parameter wholeword to whole_word, for
 	  consistency. (DLR)
+	- Only include the whole_word parameter when DISABLE_SPELLER
+	  isn't defined, as it's only used then. (DLR)
   do_replace_loop()
 	- Change order of parameters to more closely match those of
 	  findnextstr(), and rename parameter wholewords to whole_word,
 	  for consistency. (DLR)
+	- Only include the whole_word parameter when DISABLE_SPELLER
+	  isn't defined, as it's only used then. (DLR)
 - text.c:
   begpar()
 	- Return FALSE if foo is NULL, as inpar() does. (DLR)
@@ -173,6 +177,9 @@ CVS code -
 	  the text of the spell-checked file into its own function,
 	  replace_buffer(). (DLR)
 - utils.c:
+  is_whole_word()
+	- Only include when DISABLE_SPELLER isn't defined, as it's only
+	  used then. (DLR)
   get_page_start()
 	- Fix test so that we scroll through the line in 8-character
 	  chunks when COLS is greater than 8, not when COLS is greater

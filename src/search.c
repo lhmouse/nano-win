@@ -259,8 +259,12 @@ int search_init(bool replacing, bool use_answer)
  * where we first started searching, at column begin_x.  The return
  * value specifies whether we found anything.  If we did, set needle_len
  * to the length of the string we found if it isn't NULL. */
-bool findnextstr(bool whole_word, bool no_sameline, const filestruct
-	*begin, size_t begin_x, const char *needle, size_t *needle_len)
+bool findnextstr(
+#ifndef DISABLE_SPELLER
+	bool whole_word,
+#endif
+	bool no_sameline, const filestruct *begin, size_t begin_x, const
+	char *needle, size_t *needle_len)
 {
     filestruct *fileptr = openfile->current;
     const char *rev_start = NULL, *found = NULL;
@@ -288,8 +292,10 @@ bool findnextstr(bool whole_word, bool no_sameline, const filestruct
 
 	/* We've found a potential match. */
 	if (found != NULL) {
+#ifndef DISABLE_SPELLER
 	    bool found_whole = FALSE;
 		/* Is this potential match a whole word? */
+#endif
 
 	    /* Set found_len to the length of the potential match. */
 	    found_len =
@@ -299,6 +305,7 @@ bool findnextstr(bool whole_word, bool no_sameline, const filestruct
 #endif
 		strlen(needle);
 
+#ifndef DISABLE_SPELLER
 	    /* If we're searching for whole words, see if this potential
 	     * match is a whole word. */
 	    if (whole_word) {
@@ -309,13 +316,17 @@ bool findnextstr(bool whole_word, bool no_sameline, const filestruct
 			fileptr->data, word);
 		free(word);
 	    }
+#endif
 
 	    /* If we're searching for whole words and this potential
 	     * match isn't a whole word, or if we're not allowed to find
 	     * a match on the same line we started on and this potential
 	     * match is on that line, continue searching. */
-	    if ((!whole_word || found_whole) && (!no_sameline ||
-		fileptr != openfile->current))
+	    if (
+#ifndef DISABLE_SPELLER
+		(!whole_word || found_whole) &&
+#endif
+		(!no_sameline || fileptr != openfile->current))
 		break;
 	}
 
@@ -441,8 +452,11 @@ void do_search(void)
 #endif
 
     findnextstr_wrap_reset();
-    didfind = findnextstr(FALSE, FALSE, openfile->current,
-	openfile->current_x, answer, NULL);
+    didfind = findnextstr(
+#ifndef DISABLE_SPELLER
+	FALSE,
+#endif
+	FALSE, openfile->current, openfile->current_x, answer, NULL);
 
     /* Check to see if there's only one occurrence of the string and
      * we're on it now. */
@@ -456,7 +470,11 @@ void do_search(void)
 	 * which case it's the only occurrence. */
 	if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp,
 		last_search)) {
-	    didfind = findnextstr(FALSE, TRUE, openfile->current,
+	    didfind = findnextstr(
+#ifndef DISABLE_SPELLER
+		FALSE,
+#endif
+		TRUE, openfile->current,
 		openfile->current_x, answer, NULL);
 	    if (fileptr == openfile->current && fileptr_x ==
 		openfile->current_x && !didfind)
@@ -497,8 +515,12 @@ void do_research(void)
 #endif
 
 	findnextstr_wrap_reset();
-	didfind = findnextstr(FALSE, FALSE, openfile->current,
-		openfile->current_x, last_search, NULL);
+	didfind = findnextstr(
+#ifndef DISABLE_SPELLER
+		FALSE,
+#endif
+		FALSE, openfile->current, openfile->current_x,
+		last_search, NULL);
 
 	/* Check to see if there's only one occurrence of the string and
 	 * we're on it now. */
@@ -512,8 +534,12 @@ void do_research(void)
 	     * found again, in which case it's the only occurrence. */
 	    if (ISSET(USE_REGEXP) && regexp_bol_or_eol(&search_regexp,
 		last_search)) {
-		didfind = findnextstr(FALSE, TRUE, openfile->current,
-			openfile->current_x, answer, NULL);
+		didfind = findnextstr(
+#ifndef DISABLE_SPELLER
+			FALSE,
+#endif
+			TRUE, openfile->current, openfile->current_x,
+			answer, NULL);
 		if (fileptr == openfile->current && fileptr_x ==
 			openfile->current_x && !didfind)
 		    statusbar(_("This is the only occurrence"));
@@ -639,9 +665,12 @@ char *replace_line(const char *needle)
  * needle is the string to seek.  We replace it with answer.  Return -1
  * if needle isn't found, else the number of replacements performed.  If
  * canceled isn't NULL, set it to TRUE if we canceled. */
-ssize_t do_replace_loop(bool whole_word, bool *canceled, const
-	filestruct *real_current, size_t *real_current_x, const char
-	*needle)
+ssize_t do_replace_loop(
+#ifndef DISABLE_SPELLER
+	bool whole_word,
+#endif
+	bool *canceled, const filestruct *real_current, size_t
+	*real_current_x, const char *needle)
 {
     ssize_t numreplaced = -1;
     size_t match_len;
@@ -675,7 +704,10 @@ ssize_t do_replace_loop(bool whole_word, bool *canceled, const
 	*canceled = FALSE;
 
     findnextstr_wrap_reset();
-    while (findnextstr(whole_word,
+    while (findnextstr(
+#ifndef DISABLE_SPELLER
+	whole_word,
+#endif
 #ifdef HAVE_REGEX_H
 	/* We should find a bol and/or eol regex only once per line.  If
 	 * the bol_or_eol flag is set, it means that the last search
@@ -912,8 +944,11 @@ void do_replace(void)
     begin_x = openfile->current_x;
     pww_save = openfile->placewewant;
 
-    numreplaced = do_replace_loop(FALSE, NULL, begin, &begin_x,
-	last_search);
+    numreplaced = do_replace_loop(
+#ifndef DISABLE_SPELLER
+	FALSE,
+#endif
+	NULL, begin, &begin_x, last_search);
 
     /* Restore where we were. */
     openfile->edittop = edittop_save;
