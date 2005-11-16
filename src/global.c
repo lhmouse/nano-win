@@ -314,7 +314,7 @@ void shortcut_init(bool unjustify)
     const char *nano_fulljustify_msg = N_("Justify the entire file");
 #endif
 #ifndef NANO_TINY
-    const char *nano_bracket_msg = N_("Find other bracket");
+    const char *nano_bracket_msg = N_("Find matching bracket");
 #endif
     const char *nano_cancel_msg = N_("Cancel the current function");
     const char *nano_firstline_msg =
