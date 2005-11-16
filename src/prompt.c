@@ -210,8 +210,8 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 				*finished = TRUE;
 			    }
 			}
-			break;
 		    }
+		    break;
 		/* Handle the normal statusbar prompt shortcuts, setting
 		 * ran_func to TRUE if we try to run their associated
 		 * functions and setting finished to TRUE to indicate

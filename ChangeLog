@@ -133,6 +133,9 @@ CVS code -
 	  (DLR)
 - nano.h:
 	- Readd MIN_EDITOR_COLS #define. (DLR)
+- prompt.c:
+  do_statusbar_input()
+	- Fix misplaced break when handling NANO_VERBATIM_KEY. (DLR)
 - rcfile.c:
   do_rcfile()
 	- Remove unneeded assert. (DLR)
