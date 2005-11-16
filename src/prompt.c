@@ -897,9 +897,9 @@ int get_prompt_string(bool allow_tabs, const char *curranswer,
 #endif
 
 	switch (kbinput) {
-	    case NANO_TAB_KEY:
 #ifndef DISABLE_TABCOMP
 #ifndef NANO_TINY
+	    case NANO_TAB_KEY:
 		if (history_list != NULL) {
 		    if (last_kbinput != NANO_TAB_KEY)
 			complete_len = strlen(answer);
@@ -917,10 +917,10 @@ int get_prompt_string(bool allow_tabs, const char *curranswer,
 			list);
 
 		update_statusbar_line(answer, statusbar_x);
-#endif /* !DISABLE_TABCOMP */
 		break;
-	    case NANO_PREVLINE_KEY:
+#endif /* !DISABLE_TABCOMP */
 #ifndef NANO_TINY
+	    case NANO_PREVLINE_KEY:
 		if (history_list != NULL) {
 		    /* If we're scrolling up at the bottom of the
 		     * history list and answer isn't blank, save answer
@@ -948,10 +948,8 @@ int get_prompt_string(bool allow_tabs, const char *curranswer,
 		     * statusbar prompt. */
 		    finished = FALSE;
 		}
-#endif /* !NANO_TINY */
 		break;
 	    case NANO_NEXTLINE_KEY:
-#ifndef NANO_TINY
 		if (history_list != NULL) {
 		    /* Get the newer search from the history list and
 		     * save it in answer.  If there is no newer search,
@@ -974,8 +972,8 @@ int get_prompt_string(bool allow_tabs, const char *curranswer,
 
 		    update_statusbar_line(answer, statusbar_x);
 		}
-#endif /* !NANO_TINY */
 		break;
+#endif /* !NANO_TINY */
 	}
 
 	/* If we have a shortcut with an associated function, break out

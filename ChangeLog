@@ -147,6 +147,9 @@ CVS code -
   reset_statusbar_cursor()
 	- Fix cursor placement problem by modeling the code more closely
 	  after reset_cursor(). (DLR)
+  get_prompt_string()
+	- Adjust #ifdefs to leave out disabled keys entirely instead of
+	  keeping enough code to just ignore them. (DLR)
 - rcfile.c:
   do_rcfile()
 	- Remove unneeded assert. (DLR)
