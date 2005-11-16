@@ -1132,7 +1132,6 @@ void do_justify(bool full_justify)
     filestruct *current_save = openfile->current;
     size_t current_x_save = openfile->current_x;
     size_t pww_save = openfile->placewewant;
-    ssize_t current_y_save = openfile->current_y;
     size_t totsize_save = openfile->totsize;
 #ifndef NANO_TINY
     filestruct *mark_begin_save = openfile->mark_begin;
@@ -1472,7 +1471,6 @@ void do_justify(bool full_justify)
 	    openfile->current = current_save;
 	    openfile->current_x = current_x_save;
 	    openfile->placewewant = pww_save;
-	    openfile->current_y = current_y_save;
 	    openfile->totsize = totsize_save;
 #ifndef NANO_TINY
 	    if (openfile->mark_set) {

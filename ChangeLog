@@ -163,6 +163,11 @@ CVS code -
 	  text is copied and so can be used instead of the old return
 	  value. (DLR)
 	- Remove unused quote_len parameter. (DLR)
+  do_justify()
+	- Don't save current_y and restore it if the user unjustifies,
+	  as the reset_cursor() called by edit_refresh() after restoring
+	  edittop and current will ensure that current_y is restored to
+	  its original value. (DLR)
   do_alt_speller()
 	- Move the code that replaces the text of the current file with
 	  the text of the spell-checked file into its own function,
