@@ -348,7 +348,8 @@ bool findnextstr(
 	}
 #endif
 
-	/* Start or end of buffer reached, so wrap around. */
+	/* We've reached the start or end of the buffer, so wrap
+	 * around. */
 	if (fileptr == NULL) {
 #ifndef NANO_TINY
 	    if (ISSET(BACKWARDS_SEARCH)) {
@@ -361,11 +362,10 @@ bool findnextstr(
 #ifndef NANO_TINY
 	    }
 #endif
-
 	    statusbar(_("Search Wrapped"));
 	}
 
-	/* Original start line reached. */
+	/* We've reached the original starting line. */
 	if (fileptr == begin)
 	    search_last_line = TRUE;
 
@@ -1060,7 +1060,8 @@ void do_gotopos(ssize_t line, size_t pos_x, ssize_t pos_y, size_t
 
 #ifndef NANO_TINY
 /* Search for a match to one of the two characters in bracket_set.  If
- * reverse is TRUE, search backwards.  Otherwise, search forwards. */
+ * reverse is TRUE, search backwards.  Otherwise, search forwards.
+ * Return TRUE if we found a match, or FALSE otherwise. */
 bool find_bracket_match(bool reverse, const char *bracket_set)
 {
     filestruct *fileptr = openfile->current;
@@ -1097,7 +1098,7 @@ bool find_bracket_match(bool reverse, const char *bracket_set)
 	    current_y_find++;
 	}
 
-	/* Start or end of buffer reached, so get out. */
+	/* We've reached the start or end of the buffer, so get out. */
 	if (fileptr == NULL)
 	    return FALSE;
 

@@ -644,8 +644,6 @@ void do_statusbar_verbatim_input(bool *got_enter)
 }
 
 #ifndef NANO_TINY
-/* Search for a match to one of the two characters in bracket_set.  If
- * reverse is TRUE, search backwards.  Otherwise, search forwards. */
 bool find_statusbar_bracket_match(bool reverse, const char
 	*bracket_set)
 {
@@ -672,6 +670,10 @@ bool find_statusbar_bracket_match(bool reverse, const char
 	/* We've found a potential match. */
 	if (found != NULL)
 	    break;
+
+	/* We've reached the start or end of the statusbar text, so
+	 * get out. */
+	return FALSE;
     }
 
     /* We've definitely found something. */
