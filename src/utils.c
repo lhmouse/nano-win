@@ -212,7 +212,7 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 	    *n += MAX_BUF_SIZE;
 	}
 
-	/* Push the result in the line. */
+	/* Put the result in the line. */
 	(*lineptr)[indx++] = (char)c;
 
 	/* Bail out. */
@@ -230,8 +230,8 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
     null_at(lineptr, indx++);
     *n = indx;
 
-    /* The last line may not have the delimiter, we have to return what
-     * we got and the error will be seen on the next iteration. */
+    /* The last line may not have the delimiter.  We have to return what
+     * we got, and the error will be seen on the next iteration. */
     return (c == EOF && (indx - 1) == 0) ? -1 : indx - 1;
 }
 #endif
