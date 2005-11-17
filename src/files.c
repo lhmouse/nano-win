@@ -1945,9 +1945,10 @@ int is_dir(const char *buf)
     return ret;
 }
 
-/* These functions (username_tab_completion(), cwd_tab_completion(), and
- * input_tab()) were adapted from busybox 0.46 (cmdedit.c).  Here is the
- * notice from that file:
+/* These functions, username_tab_completion(), cwd_tab_completion()
+ * (originally exe_n_cwd_tab_completion()), and input_tab(), were
+ * adapted from busybox 0.46 (cmdedit.c).  Here is the notice from that
+ * file:
  *
  * Termios command line History and Editting, originally
  * intended for NetBSD sh (ash)
@@ -1999,8 +2000,8 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
     return matches;
 }
 
-/* This was originally called exe_n_cwd_tab_completion(), but we're not
- * worried about executables, only filenames :> */
+/* We consider the first buflen characters of buf for filename tab
+ * completion. */
 char **cwd_tab_completion(const char *buf, size_t *num_matches, size_t
 	buflen)
 {

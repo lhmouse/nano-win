@@ -553,7 +553,7 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 }
 
 #ifndef HAVE_STRCASESTR
-/* This function (nstrcasestr(), originally mutt_stristr()) was adapted
+/* This function, nstrcasestr() (originally mutt_stristr()), was adapted
  * from mutt 1.2.4i (lib.c).  Here is the notice from that file:
  *
  * Copyright (C) 1996-2000 Michael R. Elkins <me@cs.hmc.edu>
