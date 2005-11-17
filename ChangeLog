@@ -95,8 +95,12 @@ CVS code -
 	- For functions originally adapted from other sources, add
 	  notices from the original files, as we do with the tab
 	  completion functions adapted from busybox.  Also, invoke LGPL
-	  clause 3 to convert all LGPLed functions to GPLed ones, so
-	  that we don't have to include a copy of the LGPL. (DLR)
+	  clause 3 to convert the LGPLed ngetdelim() and ngetline()
+	  functions to use the GPL instead.  This is done so that we
+	  don't have to include a copy of the LGPL, and because the
+	  changes made to integrate these functions with nano make them
+	  dependent on nano's GPLed functions and hence useless
+	  elsewhere. (DLR)
 	- Don't install the localized versions of the manpages if
 	  nano is built with --disable-nls.  Changes to Makefile.am and
 	  doc/man/Makefile.am. (Mike Frysinger)
