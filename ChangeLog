@@ -144,7 +144,7 @@ CVS code -
 	- Move to text.c, since it's an advanced text-based operation.
 	  (DLR)
 - nano.h:
-	- Readd MIN_EDITOR_COLS #define. (DLR)
+	- Readd MIN_EDITOR_COLS #define, set to 4. (DLR)
 - prompt.c:
   do_statusbar_input()
 	- Fix misplaced break when handling NANO_VERBATIM_KEY. (DLR)
