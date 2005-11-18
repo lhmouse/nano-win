@@ -113,6 +113,13 @@ CVS code -
 	  prompt.  New functions find_statusbar_bracket_match() and
 	  do_statusbar_find_bracket(); changes to do_statusbar_input().
 	  (DLR)
+	- Beep whenever we can't read a file or directory and have to
+	  indicate it on the statusbar, as Pico does.  Changes to
+	  do_browser(), open_file(), and write_file(). (DLR)
+- browser.c:
+  do_browser()
+	- When setting the width of each file, use the "?" operator
+	  instead of an if/else clause. (DLR)
 - chars.c:
   mbwidth()
 	- If wcwidth() returns -1 for the character passed in, treat the

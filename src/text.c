@@ -1446,8 +1446,8 @@ void do_justify(bool full_justify)
 	    /* Partition the filestruct so that it contains only the
 	     * text of the justified paragraph. */
 	    filepart = partition_filestruct(first_par_line, 0,
-		last_par_line, (filebot_inpar && last_par_line ==
-		openfile->filebot) ? strlen(last_par_line->data) : 0);
+		last_par_line, filebot_inpar ?
+		strlen(last_par_line->data) : 0);
 
 	    /* Remove the text of the justified paragraph, and
 	     * replace it with the text in the justify buffer. */

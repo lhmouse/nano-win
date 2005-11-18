@@ -207,6 +207,8 @@ char *do_browser(char *path, DIR *dir)
 #endif
 
 		if (stat(filelist[selected], &st) == -1) {
+		    /* We can't open this file for some reason.
+		     * Complain. */
 		    statusbar(_("Error reading %s: %s"),
 			filelist[selected], strerror(errno));
 		    beep();
@@ -225,6 +227,7 @@ char *do_browser(char *path, DIR *dir)
 		     * Complain. */
 		    statusbar(_("Error reading %s: %s"),
 			filelist[selected], strerror(errno));
+		    beep();
 		    break;
 		}
 
@@ -284,6 +287,7 @@ char *do_browser(char *path, DIR *dir)
 		     * Complain. */
 		    statusbar(_("Error reading %s: %s"), answer,
 			strerror(errno));
+		    beep();
 		    free(new_path);
 		    break;
 		}
@@ -308,11 +312,8 @@ char *do_browser(char *path, DIR *dir)
 
 	blank_edit();
 
-	if (width != 0)
-	    j = width * editwinrows *
-		((selected / width) / editwinrows);
-	else
-	    j = 0;
+	j = (width != 0) ? width * editwinrows * ((selected / width) /
+		editwinrows) : 0;
 
 	wmove(edit, 0, 0);
 

@@ -595,6 +595,7 @@ int open_file(const char *filename, bool newfie, FILE **f)
 	    return -2;
 	}
 	statusbar(_("\"%s\" not found"), filename);
+	beep();
 	return -1;
     } else if (S_ISDIR(fileinfo.st_mode) || S_ISCHR(fileinfo.st_mode) ||
 	S_ISBLK(fileinfo.st_mode)) {
@@ -602,9 +603,11 @@ int open_file(const char *filename, bool newfie, FILE **f)
 	statusbar(S_ISDIR(fileinfo.st_mode) ?
 		_("\"%s\" is a directory") :
 		_("File \"%s\" is a device file"), filename);
+	beep();
 	return -1;
     } else if ((fd = open(filename, O_RDONLY)) == -1) {
 	statusbar(_("Error reading %s: %s"), filename, strerror(errno));
+	beep();
  	return -1;
      } else {
 	/* File is A-OK.  Open it in binary mode for our own end-of-line
@@ -614,6 +617,7 @@ int open_file(const char *filename, bool newfie, FILE **f)
 	if (*f == NULL) {
 	    statusbar(_("Error reading %s: %s"), filename,
 		strerror(errno));
+	    beep();
 	    close(fd);
 	} else
 	    statusbar(_("Reading File"));
@@ -1322,6 +1326,7 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    if (f == NULL) {
 		statusbar(_("Error reading %s: %s"), realname,
 			strerror(errno));
+		beep();
 		goto cleanup_and_exit;
 	    }
 	}
@@ -1401,10 +1406,11 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 		openfile->current_stat->st_gid) == -1 ||
 		utime(backupname, &filetime) == -1) {
 	    free(backupname);
-	    if (copy_status == -1)
+	    if (copy_status == -1) {
 		statusbar(_("Error reading %s: %s"), realname,
 			strerror(errno));
-	    else
+		beep();
+	    } else
 		statusbar(_("Error writing %s: %s"), backupname,
 			strerror(errno));
 	    goto cleanup_and_exit;
@@ -1455,6 +1461,7 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 		if (f_source == NULL) {
 		    statusbar(_("Error reading %s: %s"), realname,
 			strerror(errno));
+		    beep();
 		    close(fd_source);
 		    fclose(f);
 		    unlink(tempname);
@@ -1576,6 +1583,7 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 	if (f_source == NULL) {
 	    statusbar(_("Error reading %s: %s"), tempname,
 		strerror(errno));
+	    beep();
 	    fclose(f);
 	    goto cleanup_and_exit;
 	}
