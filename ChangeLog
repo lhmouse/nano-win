@@ -221,6 +221,9 @@ CVS code -
 	- Mention that the minimum required version of texinfo is 4.0,
 	  since that's the first version that supports generating HTML.
 	  (DLR)
+- doc/faq.html:
+	- Add a new section 5.3 to explain the status of nano's Unicode
+	  support. (Mike Frysinger, minor tweaks by DLR)
 - doc/nano.texi:
 	- Fix inconsistent wording and punctuation. (DLR)
 	- Add missing configure options. (Mike Frysinger, minor tweaks
