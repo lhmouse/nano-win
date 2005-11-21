@@ -227,6 +227,8 @@ CVS code -
 - doc/nano.1:
 	- Make one non-bold instance of "nano" bold, for consistency.
 	  (DLR)
+- doc/rnano.1:
+	- Add rnano.1 manpage from Thijs Kinkhorst. (Jordi)
 - doc/nano.texi:
 	- Fix inconsistent wording and punctuation. (DLR)
 	- Add missing configure options. (Mike Frysinger, minor tweaks
