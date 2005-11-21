@@ -224,6 +224,9 @@ CVS code -
 - doc/faq.html:
 	- Add a new section 5.3 to explain the status of nano's Unicode
 	  support. (Mike Frysinger, minor tweaks by DLR)
+	- Clarify section 5.3 to better explain how to enable Unicode
+	  support, and remove the mention of quirks, since they turned
+	  out to not be a nano problem. (Mike Frysinger and DLR)
 - doc/nano.1:
 	- Make one non-bold instance of "nano" bold, for consistency.
 	  (DLR)

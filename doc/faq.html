@@ -45,7 +45,7 @@
   <a href="#4.11">4.11. How do I select text for the clipboard in an X terminal when I'm running nano in one and nano's mouse support is turned on?</a></p></blockquote>
 <h2><a href="#5">5. Internationalization</a></h2>
 <blockquote><p><a href="#5.1">5.1. There's no translation for my language!</a><br>
-  <a href="#5.2">5.2. I don't like the translation for &lt;x&gt; in my language. How can I fix it?</a>
+  <a href="#5.2">5.2. I don't like the translation for &lt;x&gt; in my language. How can I fix it?</a><br>
   <a href="#5.3">5.3. What is the status of Unicode support?</a></p></blockquote>
 <h2><a href="#6">6. Advocacy and Licensing</a></h2>
 <blockquote><p><a href="#6.1">6.1. Why should I use nano instead of Pico?</a><br>
@@ -223,7 +223,7 @@
 <h2><a name="5.2"></a>5.2. I don't like the translation for &lt;x&gt; in my language. How can I fix it?</h2>
 <blockquote><p>The best way would probably be to e-mail the person listed in the <code>Last-Translator:</code> field in the <b>&lt;your_language&gt;.po</b> file with your suggested corrections and they can make the changes reach the nano-devel list.</p></blockquote>
 <h2><a name="5.3"></a>5.3. What is the status of Unicode support?</h2>
-<blockquote><p>With the latest development version (1.3.9+), Unicode should be mostly usable.  There are a few quirks with character counting, but with the proper terminal and encoding, you should be able to enter and save Unicode text.</p></blockquote>
+<blockquote><p>With the latest development version (1.3.9+), Unicode should be mostly usable.  With your terminal, locale (LC_ALL and similar environment variables), and encoding configured to properly support UTF-8, you should be able to enter and save Unicode text.</p></blockquote>
 <hr width="100%">
 <h1><a name="6"></a>6. Advocacy and Licensing</h1>
 <h2><a name="6.1"></a>6.1. Why should I use nano instead of Pico?</h2>
@@ -255,7 +255,8 @@
 <blockquote><p>Re-read Section <a href="#7.4">7.4</a> and you should know the answer.</p></blockquote>
 <h2><a name="8"></a>8. ChangeLog</h2>
 <blockquote>
-<p>2005/11/19 - Add a new section 5.3 to explain the status of nano's Unicode support. (Mike Frysinger, minor tweaks by DLR)<br>
+<p>2005/11/21 - Clarify section 5.3 to better explain how to enable Unicode support, and remove the mention of quirks, since they turned out to not be a nano problem. (Mike Frysinger and DLR)<br>
+2005/11/19 - Add a new section 5.3 to explain the status of nano's Unicode support. (Mike Frysinger, minor tweaks by DLR)<br>
 2005/08/27 - Update email address. (DLR)<br>
 2005/08/10 - Add a new section 4.3, and move all section 4 entries after it down one number, to explain how to deal with numeric keypad problems. (DLR)<br>
 2005/08/08 - Update section 3.8 to mention that verbatim input mode now takes a six-digit hexadecimal number. (DLR)<br>
