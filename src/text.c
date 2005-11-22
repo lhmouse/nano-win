@@ -359,7 +359,7 @@ bool do_wrap(filestruct *line)
 	/* The text after the wrap point. */
     size_t after_break_len;
 	/* The length of after_break. */
-    bool wrapping = FALSE;
+    bool prepending = FALSE;
 	/* Do we prepend to the next line? */
     const char *next_line = NULL;
 	/* The next line, minus indentation. */
@@ -456,7 +456,7 @@ bool do_wrap(filestruct *line)
 	next_line_len = strlen(next_line);
 
 	if (after_break_len + next_line_len <= fill) {
-	    wrapping = TRUE;
+	    prepending = TRUE;
 	    new_line_len += next_line_len;
 	}
     }
@@ -468,8 +468,8 @@ bool do_wrap(filestruct *line)
 
 #ifndef NANO_TINY
     if (ISSET(AUTOINDENT)) {
-	if (wrapping) {
-	    /* If we're wrapping, the indentation will come from the
+	if (prepending) {
+	    /* If we're prepending, the indentation will come from the
 	     * next line. */
 	    indent_string = next_line;
 	    indent_len = indent_length(indent_string);
@@ -502,8 +502,8 @@ bool do_wrap(filestruct *line)
     /* Break the current line at the wrap point. */
     null_at(&line->data, wrap_loc);
 
-    if (wrapping) {
-	/* If we're wrapping, copy the text from the next line, minus
+    if (prepending) {
+	/* If we're prepending, copy the text from the next line, minus
 	 * the indentation that we already copied above. */
 	strcat(new_line, next_line);
 
@@ -514,6 +514,9 @@ bool do_wrap(filestruct *line)
 	 * broke this line to the beginning of the new line. */
 	splice_node(openfile->current, make_new_node(openfile->current),
 		openfile->current->next);
+
+	if (openfile->filebot == openfile->current)
+	    openfile->filebot = openfile->current->next;
 
 	openfile->current->next->data = new_line;
 
@@ -529,13 +532,17 @@ bool do_wrap(filestruct *line)
 
     /* Each line knows its line number.  We recalculate these if we
      * inserted a new line. */
-    if (!wrapping)
+    if (!prepending)
 	renumber(line);
 
     /* If the cursor was after the break point, we must move it.  We
      * also clear the same_line_wrap flag in this case. */
     if (openfile->current_x > wrap_loc) {
 	same_line_wrap = FALSE;
+
+	if (openfile->filebot == openfile->current)
+	    openfile->filebot = openfile->current->next;
+
 	openfile->current = openfile->current->next;
 	openfile->current_x -= wrap_loc
 #ifndef NANO_TINY
@@ -547,14 +554,14 @@ bool do_wrap(filestruct *line)
 
 #ifndef NANO_TINY
     /* If the mark was on this line after the wrap point, we move it
-     * down.  If it was on the next line and we wrapped onto that line,
+     * down.  If it was on the next line and we prepended to that line,
      * we move it right. */
     if (openfile->mark_set) {
 	if (openfile->mark_begin == line && openfile->mark_begin_x >
 		wrap_loc) {
 	    openfile->mark_begin = line->next;
 	    openfile->mark_begin_x -= wrap_loc - indent_len + 1;
-	} else if (wrapping && openfile->mark_begin == line->next)
+	} else if (prepending && openfile->mark_begin == line->next)
 	    openfile->mark_begin_x += after_break_len;
     }
 #endif

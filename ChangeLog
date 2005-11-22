@@ -40,7 +40,7 @@ CVS code -
 	- Tweak a few functions to remove the assumption that the file
 	  always ends in a magicline.  Changes to cut_line(),
 	  do_cut_till_end(), open_buffer(), read_file(), write_file(),
-	  do_last_line(), do_para_end(), backup_lines(),
+	  do_last_line(), do_para_end(), do_wrap(), backup_lines(),
 	  find_paragraph(), do_justify(), do_alt_speller(), and
 	  do_wordlinechar_count(). (DLR)
 	- Tweak a few functions to rely on fileage and filebot instead
@@ -178,6 +178,9 @@ CVS code -
 	- Only include the whole_word parameter when DISABLE_SPELLER
 	  isn't defined, as it's only used then. (DLR)
 - text.c:
+  do_wrap()
+	- Rename variable wrapping to prepending, to avoid confusion.
+	  (DLR)
   break_line()
 	- Only include the newline parameter if DISABLE_HELP isn't
 	  defined, as it's only used then. (DLR)
