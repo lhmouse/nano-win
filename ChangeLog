@@ -178,6 +178,9 @@ CVS code -
 	- Only include the whole_word parameter when DISABLE_SPELLER
 	  isn't defined, as it's only used then. (DLR)
 - text.c:
+  break_line()
+	- Only include the newline parameter if DISABLE_HELP isn't
+	  defined, as it's only used then. (DLR)
   begpar()
 	- Return FALSE if foo is NULL, as inpar() does. (DLR)
   backup_lines()
