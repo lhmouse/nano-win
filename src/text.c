@@ -515,6 +515,8 @@ bool do_wrap(filestruct *line)
 	splice_node(openfile->current, make_new_node(openfile->current),
 		openfile->current->next);
 
+	/* If the current line is the last line of the file, move the
+	 * last line of the file down to the next line. */
 	if (openfile->filebot == openfile->current)
 	    openfile->filebot = openfile->current->next;
 
@@ -539,9 +541,6 @@ bool do_wrap(filestruct *line)
      * also clear the same_line_wrap flag in this case. */
     if (openfile->current_x > wrap_loc) {
 	same_line_wrap = FALSE;
-
-	if (openfile->filebot == openfile->current)
-	    openfile->filebot = openfile->current->next;
 
 	openfile->current = openfile->current->next;
 	openfile->current_x -= wrap_loc
