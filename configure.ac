@@ -88,13 +88,13 @@ AC_ARG_ENABLE(tiny,
 [  --enable-tiny           Disable features for the sake of size],
 [if test x$enableval = xyes; then
     AC_DEFINE(NANO_TINY, 1, [Define this to make the nano executable as small as possible.]) tiny_support=yes
-    AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in file browser.]) 
-    AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the help menu.]) 
-    AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routine.]) 
-    AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable the mouse functions.]) 
-    AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable setting of the operating directory (chroot of sorts).]) 
-    AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the use(full|less) spelling functions.]) 
-    AC_DEFINE(DISABLE_TABCOMP, 1, [Define to disable the tab completion code Chris worked so hard on!]) 
+    AC_DEFINE(DISABLE_BROWSER, 1, [Define this to disable the built-in file browser.])
+    AC_DEFINE(DISABLE_HELP, 1, [Define this to disable the help menu.])
+    AC_DEFINE(DISABLE_JUSTIFY, 1, [Define this to disable the justify routine.])
+    AC_DEFINE(DISABLE_MOUSE, 1, [Define this to disable the mouse functions.])
+    AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable setting of the operating directory (chroot of sorts).])
+    AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the spell checker functions.])
+    AC_DEFINE(DISABLE_TABCOMP, 1, [Define to disable the tab completion code Chris worked so hard on!])
 fi])
 
 AC_ARG_ENABLE(browser,
@@ -128,9 +128,9 @@ AC_ARG_ENABLE(operatingdir,
 fi])
 
 AC_ARG_ENABLE(speller,
-[  --disable-speller       Disable spell checker function],
+[  --disable-speller       Disable spell checker functions],
 [if test x$enableval != xyes; then
-    AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the use(full|less) spelling functions.])
+    AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the spell checker functions.])
 fi])
 
 AC_ARG_ENABLE(tabcomp,

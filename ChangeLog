@@ -217,6 +217,8 @@ CVS code -
   do_yesno()
 	- Make mouse clicks on the Yes/No/All shortcuts work properly
 	  when the MORE_SPACE flag is set. (DLR)
+- configure.ac:
+	- Clarify description of --disable-speller. (DLR)
 - README.CVS:
 	- Mention that the minimum required version of texinfo is 4.0,
 	  since that's the first version that supports generating HTML.
