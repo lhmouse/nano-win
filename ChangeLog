@@ -179,8 +179,11 @@ CVS code -
 	  isn't defined, as it's only used then. (DLR)
 - text.c:
   do_wrap()
-	- Rename variable wrapping to prepending, to avoid confusion.
-	  (DLR)
+	- Rename variable wrapping to prepending, to avoid confusion,
+	  and rename the static bool same_line_wrap to prepend_wrap to
+	  match. (DLR)
+	- Properly add a new magicline when needed if, in the process of
+	  wrapping, we prepend text to the last line of the file. (DLR)
   break_line()
 	- Only include the newline parameter if DISABLE_HELP isn't
 	  defined, as it's only used then. (DLR)

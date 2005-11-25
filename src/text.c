@@ -39,7 +39,7 @@ static pid_t pid = -1;
 	 * use with the cancel_command() signal handler. */
 #endif
 #ifndef DISABLE_WRAPPING
-static bool same_line_wrap = FALSE;
+static bool prepend_wrap = FALSE;
 	/* Should we prepend wrapped text to the next line? */
 #endif
 #ifndef DISABLE_JUSTIFY
@@ -337,7 +337,7 @@ bool execute_command(const char *command)
 #ifndef DISABLE_WRAPPING
 void wrap_reset(void)
 {
-    same_line_wrap = FALSE;
+    prepend_wrap = FALSE;
 }
 
 /* We wrap the given line.  Precondition: we assume the cursor has been
@@ -424,7 +424,7 @@ bool do_wrap(filestruct *line)
      * followed by the text after the wrap point, optionally followed by
      * a space (if the text after the wrap point doesn't end in a blank)
      * and the text of the next line, if they can fit without
-     * wrapping, the next line exists, and the same_line_wrap flag is
+     * wrapping, the next line exists, and the prepend_wrap flag is
      * set. */
 
     /* after_break is the text that will be wrapped to the next line. */
@@ -433,10 +433,10 @@ bool do_wrap(filestruct *line)
 
     assert(strlen(after_break) == after_break_len);
 
-    /* We prepend the wrapped text to the next line, if the
-     * same_line_wrap flag is set, there is a next line, and prepending
-     * would not make the line too long. */
-    if (same_line_wrap && line != openfile->filebot) {
+    /* We prepend the wrapped text to the next line, if the prepend_wrap
+     * flag is set, there is a next line, and prepending would not make
+     * the line too long. */
+    if (prepend_wrap && line != openfile->filebot) {
 	const char *end = after_break + move_mbleft(after_break,
 		after_break_len);
 
@@ -509,6 +509,11 @@ bool do_wrap(filestruct *line)
 
 	free(line->next->data);
 	line->next->data = new_line;
+
+	/* If the NO_NEWLINES flag isn't set, and text has been added to
+	 * the magicline, make a new magicline. */
+	if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0')
+	    new_magicline();
     } else {
 	/* Otherwise, make a new line and copy the text after where we
 	 * broke this line to the beginning of the new line. */
@@ -528,9 +533,9 @@ bool do_wrap(filestruct *line)
     /* Step 3, clean up.  Reposition the cursor and mark, and do some
      * other sundry things. */
 
-    /* Set the same_line_wrap flag, so that later wraps of this line
-     * will be prepended to the next line. */
-    same_line_wrap = TRUE;
+    /* Set the prepend_wrap flag, so that later wraps of this line will
+     * be prepended to the next line. */
+    prepend_wrap = TRUE;
 
     /* Each line knows its line number.  We recalculate these if we
      * inserted a new line. */
@@ -538,9 +543,9 @@ bool do_wrap(filestruct *line)
 	renumber(line);
 
     /* If the cursor was after the break point, we must move it.  We
-     * also clear the same_line_wrap flag in this case. */
+     * also clear the prepend_wrap flag in this case. */
     if (openfile->current_x > wrap_loc) {
-	same_line_wrap = FALSE;
+	prepend_wrap = FALSE;
 
 	openfile->current = openfile->current->next;
 	openfile->current_x -= wrap_loc
