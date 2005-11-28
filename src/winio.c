@@ -2,7 +2,8 @@
 /**************************************************************************
  *   winio.c                                                              *
  *                                                                        *
- *   Copyright (C) 1999-2005 Chris Allegretta                             *
+ *   Copyright (C) 1999-2004 Chris Allegretta                             *
+ *   Copyright (C) 2005 David Lawrence Ramsey                             *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -2968,7 +2969,7 @@ void do_replace_highlight(bool highlight, const char *word)
 }
 
 #ifdef NANO_EXTRA
-#define CREDIT_LEN 54
+#define CREDIT_LEN 55
 #define XLCREDIT_LEN 8
 
 /* Easter egg: Display credits.  Assume nodelay(edit) and scrollok(edit)
@@ -3027,7 +3028,8 @@ void do_credits(void)
 	"",
 	"",
 	"",
-	"(c) 1999-2005 Chris Allegretta",
+	"(c) 1999-2004 Chris Allegretta",
+	"(c) 2005 David Lawrence Ramsey",
 	"",
 	"",
 	"",

@@ -116,6 +116,9 @@ CVS code -
 	- Beep whenever we can't read a file or directory and have to
 	  indicate it on the statusbar, as Pico does.  Changes to
 	  do_browser(), open_file(), and write_file(). (DLR)
+	- Adjust copyright notices in all source files to account for
+	  Chris' reassigning the 2005-2006 copyright on nano to me.
+	  Changes to do_credits(). (DLR)
 - browser.c:
   do_browser()
 	- When setting the width of each file, use the "?" operator
