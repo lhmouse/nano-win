@@ -198,6 +198,9 @@ CVS code -
   break_line()
 	- Only include the newline parameter if DISABLE_HELP isn't
 	  defined, as it's only used then. (DLR)
+	- In the surrounding #ifdef, replace the combination of
+	  !DISABLE_JUSTIFY and !DISABLE_WRAPPING with
+	  !DISABLE_WRAPJUSTIFY, for consistency. (DLR)
   begpar()
 	- Return FALSE if foo is NULL, as inpar() does. (DLR)
   backup_lines()
