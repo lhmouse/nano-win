@@ -262,6 +262,8 @@ CVS code -
 	  by DLR)
 	- Sort the configure options more consistently, and add missing
 	  --disable-utf8 option. (DLR)
+	- Move --disable-wrapping above --enable-tiny, as the latter now
+	  turns it on. (DLR)
 - doc/nanorc.sample:
 	- Tweak the "c-file" regex for characters to properly accept
 	  '\"' and reject '"' and '''. (DLR)
