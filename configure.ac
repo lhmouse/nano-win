@@ -95,6 +95,7 @@ AC_ARG_ENABLE(tiny,
     AC_DEFINE(DISABLE_OPERATINGDIR, 1, [Define this to disable setting of the operating directory (chroot of sorts).])
     AC_DEFINE(DISABLE_SPELLER, 1, [Define this to disable the spell checker functions.])
     AC_DEFINE(DISABLE_TABCOMP, 1, [Define to disable the tab completion code Chris worked so hard on!])
+    AC_DEFINE(DISABLE_WRAPPING, 1, [Define this to disable any and all text wrapping.])
 fi])
 
 AC_ARG_ENABLE(browser,

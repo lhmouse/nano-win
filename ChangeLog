@@ -235,6 +235,11 @@ CVS code -
 	  when the MORE_SPACE flag is set. (DLR)
 - configure.ac:
 	- Clarify description of --disable-speller. (DLR)
+	- Disable wrapping entirely when --enable-tiny is used, as it
+	  matches the FAQ, it makes nano even smaller, and it eliminates
+	  the need for --disable-wrapping-as-root in that case (in which
+	  it's impossible to turn wrapping back on without nanorc
+	  support). (DLR)
 - README.CVS:
 	- Mention that the minimum required version of texinfo is 4.0,
 	  since that's the first version that supports generating HTML.
