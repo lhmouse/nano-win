@@ -258,6 +258,7 @@ bool execute_command(const char *command)
 {
     int fd[2];
     FILE *f;
+    char *shellenv;
     struct sigaction oldaction, newaction;
 	/* Original and temporary handlers for SIGINT. */
     bool sig_failed = FALSE;
@@ -269,19 +270,17 @@ bool execute_command(const char *command)
 	return FALSE;
     }
 
+    /* Check $SHELL for the shell to use.  If it isn't set, use
+     * /bin/sh. */
+    shellenv = getenv("SHELL");
+    if (shellenv == NULL)
+	shellenv = "/bin/sh";
+
     /* Fork a child. */
     if ((pid = fork()) == 0) {
-	char *shellenv;
-
 	close(fd[0]);
 	dup2(fd[1], fileno(stdout));
 	dup2(fd[1], fileno(stderr));
-
-	/* Check $SHELL for the shell to use.  If it isn't set, use
-	 * /bin/sh. */
-	shellenv = getenv("SHELL");
-	if (shellenv == NULL)
-	    shellenv = "/bin/sh";
 
 	/* If execl() returns at all, there was an error. */
 	execl(shellenv, tail(shellenv), "-c", command, NULL);
