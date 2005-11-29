@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.3.10
-@set UPDATED 21 Nov 2005
+@set UPDATED 28 Nov 2005
 
 @dircategory Editors
 @direntry
@@ -510,6 +510,10 @@ Disable the justify and unjustify functions.
 Disable all mouse functionality.  This also disables the -m command line
 option, which enables the mouse functionality.
 
+@item --disable-operatingdir
+Disable setting the operating directory.  This also disables the -o
+command line option, which sets the operating directory.
+
 @item --disable-speller
 Disable use of the spell checker.  This also disables the -s command
 line option, which allows specifying an alternate spell checker.
@@ -517,9 +521,9 @@ line option, which allows specifying an alternate spell checker.
 @item --disable-tabcomp
 Disable the tab completion code when reading or writing files.
 
-@item --disable-operatingdir
-Disable setting the operating directory.  This also disables the -o
-command line option, which sets the operating directory.
+@item --disable-wrapping
+Disable all long line wrapping.  This also eliminates the -w command
+line option, which enables long line wrapping.
 
 @item --enable-tiny
 This option disables all the above.  It also disables some of the larger
@@ -555,10 +559,6 @@ multibuffer, and nanorc).
 @item --disable-nls
 Disables Native Language support.  This will disable use of the
 available GNU @code{nano} translations.
-
-@item --disable-wrapping
-Disable all long line wrapping.  This also eliminates the -w command
-line option, which enables long line wrapping.
 
 @item --disable-wrapping-as-root
 Disable long line wrapping by default when nano is run as root.
