@@ -1963,7 +1963,7 @@ const char *do_alt_speller(char *tempfile_name)
 
     /* Start a new process for the alternate speller. */
     if ((pid_spell = fork()) == 0) {
-	/* Start alternate spell program; we are using PATH. */
+	/* Start alternate spell program; we are using $PATH. */
 	execvp(spellargs[0], spellargs);
 
 	/* Should not be reached, if alternate speller is found!!! */
