@@ -271,7 +271,8 @@ bool execute_command(const char *command)
     }
 
     /* Check $SHELL for the shell to use.  If it isn't set, use
-     * /bin/sh. */
+     * /bin/sh.  Note that $SHELL should contain only a path, with no
+     * arguments. */
     shellenv = getenv("SHELL");
     if (shellenv == NULL)
 	shellenv = "/bin/sh";
