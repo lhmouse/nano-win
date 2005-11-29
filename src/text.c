@@ -1448,22 +1448,25 @@ void do_justify(bool full_justify)
 	} else
 	    openfile->current_x = strlen(openfile->current->data);
 
-	/* We've just justified a paragraph. If we're not justifying the
-	 * entire file, break out of the loop.  Otherwise, continue the
-	 * loop so that we justify all the paragraphs in the file. */
+	/* Renumber the lines of the now-justified paragraph, since both
+	 * find_paragraph() and edit_refresh() need the line numbers to
+	 * be right. */
+	renumber(first_par_line);
+
+	/* We've just finished justifying the paragraph.  If we're not
+	 * justifying the entire file, break out of the loop.
+	 * Otherwise, continue the loop so that we justify all the
+	 * paragraphs in the file. */
 	if (!full_justify)
 	    break;
     }
 
     /* We are now done justifying the paragraph or the file, so clean
      * up.  current_y and totsize have been maintained above.  If we
-     * actually justified something, renumber, since edit_refresh()
-     * needs the line numbers to be right, and set last_par_line to the
-     * new end of the paragraph. */
-    if (first_par_line != NULL) {
-	renumber(first_par_line);
+     * actually justified something, set last_par_line to the new end of
+     * the paragraph. */
+    if (first_par_line != NULL)
 	last_par_line = openfile->current;
-    }
 
     edit_refresh();
 

@@ -211,6 +211,10 @@ CVS code -
 	  as the reset_cursor() called by edit_refresh() after restoring
 	  edittop and current will ensure that current_y is restored to
 	  its original value. (DLR)
+	- Renumber after justifying each individual paragraph, since
+	  find_paragraph() needs the line numbers to be right as well as
+	  edit_refresh().  This fixes a potential segfault when doing
+	  full justify with auto-indent turned on. (DLR)
   do_alt_speller()
 	- Move the code that replaces the text of the current file with
 	  the text of the spell-checked file into its own function,
