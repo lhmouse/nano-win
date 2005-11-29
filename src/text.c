@@ -1066,15 +1066,17 @@ void backup_lines(filestruct *first_line, size_t par_len)
     set_modified();
 }
 
-/* Find the beginning of the current paragraph if we're in one, or the
- * beginning of the next paragraph if we're not.  Afterwards, save the
- * quote length and paragraph length in *quote and *par.  Return TRUE if
- * we found a paragraph, or FALSE if there was an error or we didn't
- * find a paragraph.
+/* Find the beginning of the current paragraph if we're in one (not
+ * going any further back than begin), or the beginning of the next
+ * paragraph if we're not.  Afterwards, save the quote length and
+ * paragraph length in *quote and *par.  Return TRUE if we found a
+ * paragraph, or FALSE if there was an error or we didn't find a
+ * paragraph.
  *
  * See the comment at begpar() for more about when a line is the
  * beginning of a paragraph. */
-bool find_paragraph(size_t *const quote, size_t *const par)
+bool find_paragraph(filestruct *begin, size_t *const quote, size_t
+	*const par)
 {
     size_t quote_len;
 	/* Length of the initial quotation of the paragraph we search
@@ -1106,6 +1108,7 @@ bool find_paragraph(size_t *const quote, size_t *const par)
      * last line of the next paragraph, if any. */
     if (!inpar(openfile->current)) {
 	do_para_end(FALSE);
+
 	/* If we end up past the beginning of the line, it means that
 	 * we're at the end of the last line of the file, and the line
 	 * isn't blank, in which case the last line of the file is the
@@ -1122,10 +1125,18 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 		openfile->current = openfile->current->prev;
 	}
     }
+
     /* If the current line isn't the first line of the paragraph, move
-     * back to the first line of the paragraph. */
-    if (!begpar(openfile->current))
+     * back to the first line of the paragraph.  If we go further back
+     * than begin, move forward to begin. */
+    if (!begpar(openfile->current)) {
 	do_para_begin(FALSE);
+	if (openfile->current->lineno < begin->lineno) {
+	    openfile->current_y += begin->lineno -
+		openfile->current->lineno;
+	    openfile->current = begin;
+	}
+    }
 
     /* Now current is the first line of the paragraph.  Set quote_len to
      * the quotation length of that line, and set par_len to the number
@@ -1135,6 +1146,7 @@ bool find_paragraph(size_t *const quote, size_t *const par)
     current_y_save = openfile->current_y;
     do_para_end(FALSE);
     par_len = openfile->current->lineno - current_save->lineno;
+
     /* If we end up past the beginning of the line, it means that we're
      * at the end of the last line of the file, and the line isn't
      * blank, in which case the last line of the file is part of the
@@ -1221,6 +1233,13 @@ void do_justify(bool full_justify)
 	 * length (number of lines).  Don't refresh the screen yet,
 	 * since we'll do that after we justify.
 	 *
+	 * When searching for a paragraph, don't go further back than
+	 * fileage if it's the first search, or current if it isn't.
+	 * This ensures that we don't justify the same lines more than
+	 * once if auto-indent is turned on, and the indentation of
+	 * what should be the previous paragraph matches that of what
+	 * should be the current paragraph.
+	 *
 	 * If the search failed, we do one of two things.  If we're
 	 * justifying the whole file, and we've found at least one
 	 * paragraph, it means that we should justify all the way to the
@@ -1228,7 +1247,9 @@ void do_justify(bool full_justify)
 	 * justified to the last line of the file and break out of the
 	 * loop.  Otherwise, it means that there are no paragraph(s) to
 	 * justify, so refresh the screen and get out. */
-	if (!find_paragraph(&quote_len, &par_len)) {
+	if (!find_paragraph((first_par_line == NULL) ?
+		openfile->fileage : openfile->current, &quote_len,
+		&par_len)) {
 	    if (full_justify && first_par_line != NULL) {
 		last_par_line = openfile->filebot;
 		break;

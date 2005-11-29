@@ -206,6 +206,13 @@ CVS code -
 	  text is copied and so can be used instead of the old return
 	  value. (DLR)
 	- Remove unused quote_len parameter. (DLR)
+  find_paragraph()
+	- Add parameter begin, the line that we can't move further back
+	  than when searching for a paragraph.  This is needed to ensure
+	  that we don't justify the same lines more than once if
+	  auto-indent is turned on, and the indentation of what should
+	  be the previous paragraph matches that of what should be the
+	  current paragraph. (DLR)
   do_justify()
 	- Don't save current_y and restore it if the user unjustifies,
 	  as the reset_cursor() called by edit_refresh() after restoring
