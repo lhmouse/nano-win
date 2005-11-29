@@ -1767,7 +1767,7 @@ const char *do_int_speller(const char *tempfile_name)
 
 	close(spell_fd[1]);
 
-	/* Start the spell program; we are using PATH. */
+	/* Start the spell program; we are using $PATH. */
 	execlp("spell", "spell", NULL);
 
 	/* This should not be reached if spell is found. */
