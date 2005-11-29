@@ -24,7 +24,7 @@
 #ifndef PROTO_H
 #define PROTO_H 1
 
-/* Externs. */
+/* Public externs. */
 #include "nano.h"
 
 #ifndef DISABLE_WRAPJUSTIFY
