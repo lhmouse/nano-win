@@ -271,12 +271,20 @@ bool execute_command(const char *command)
 
     /* Fork a child. */
     if ((pid = fork()) == 0) {
+	char *shellenv;
+
 	close(fd[0]);
 	dup2(fd[1], fileno(stdout));
 	dup2(fd[1], fileno(stderr));
 
+	/* Check $SHELL for the shell to use.  If it isn't set, use
+	 * /bin/sh. */
+	shellenv = getenv("SHELL");
+	if (shellenv == NULL)
+	    shellenv = "/bin/sh";
+
 	/* If execl() returns at all, there was an error. */
-	execl("/bin/sh", "sh", "-c", command, NULL);
+	execl(shellenv, tail(shellenv), "-c", command, NULL);
 	exit(0);
     }
 

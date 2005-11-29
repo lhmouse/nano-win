@@ -185,6 +185,10 @@ CVS code -
 	- Only include the whole_word parameter when DISABLE_SPELLER
 	  isn't defined, as it's only used then. (DLR)
 - text.c:
+  execute_command()
+	- Instead of hardcoding /bin/sh as the shell to use when
+	  executing a command, use $SHELL, and only fall back to /bin/sh
+	  if $SHELL isn't set. (DLR)
   do_wrap()
 	- Rename variable wrapping to prepending, to avoid confusion,
 	  and rename the static bool same_line_wrap to prepend_wrap to
