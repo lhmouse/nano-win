@@ -150,6 +150,10 @@ CVS code -
 	- Change the description of the Meta-] shortcut to "Find
 	  matching bracket", as it's clearer. (DLR)
 - nano.c:
+  version()
+	- If DISABLE_WRAPPING is defined, the code in DISABLE_ROOTWRAP
+	  #ifdefs isn't included, so don't display
+	  "--disable-wrapping-as-root" in that case. (DLR)
   do_verbatim_input()
 	- Move to text.c, since it's an advanced text-based operation.
 	  (DLR)

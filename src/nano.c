@@ -856,7 +856,7 @@ void version(void)
 #ifdef DISABLE_WRAPPING
     printf(" --disable-wrapping");
 #endif
-#ifdef DISABLE_ROOTWRAP
+#if defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
     printf(" --disable-wrapping-as-root");
 #endif
 #ifdef ENABLE_COLOR
