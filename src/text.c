@@ -1161,11 +1161,11 @@ bool find_paragraph(size_t *const quote, size_t *const par)
 void do_justify(bool full_justify)
 {
     filestruct *first_par_line = NULL;
-	/* Will be the first line of the justified paragraph.  For
-	 * restoring after unjustify. */
+	/* Will be the first line of the justified paragraph(s), if any.
+	 * For restoring after unjustify. */
     filestruct *last_par_line = NULL;
 	/* Will be the line after the last line of the justified
-	 * paragraph, if any.  Also for restoring after unjustify. */
+	 * paragraph(s), if any.  Also for restoring after unjustify. */
     bool filebot_inpar = FALSE;
 	/* Whether the text at filebot is part of the current
 	 * paragraph. */
@@ -1198,25 +1198,27 @@ void do_justify(bool full_justify)
     while (TRUE) {
 	size_t i;
 	    /* Generic loop variable. */
+	filestruct *curr_first_par_line;
+	    /* The first line of the current paragraph. */
 	size_t quote_len;
-	    /* Length of the initial quotation of the paragraph we
-	     * justify. */
+	    /* Length of the initial quotation of the current
+	     * paragraph. */
 	size_t indent_len;
-	    /* Length of the initial indentation of the paragraph we
-	     * justify. */
+	    /* Length of the initial indentation of the current
+	     * paragraph. */
 	size_t par_len;
-	    /* Number of lines in the paragraph we justify. */
+	    /* Number of lines in the current paragraph. */
 	ssize_t break_pos;
 	    /* Where we will break lines. */
 	char *indent_string;
 	    /* The first indentation that doesn't match the initial
-	     * indentation of the paragraph we justify.  This is put at
-	     * the beginning of every line broken off the first
-	     * justified line of the paragraph.  Note that this works
-	     * because a paragraph can only contain two indentations at
-	     * most: the initial one, and a different one starting on a
-	     * line after the first.  See the comment at begpar() for
-	     * more about when a line is part of a paragraph. */
+	     * indentation of the current paragraph.  This is put at the
+	     * beginning of every line broken off the first justified
+	     * line of the paragraph.  Note that this works because a
+	     * paragraph can only contain two indentations at most: the
+	     * initial one, and a different one starting on a line after
+	     * the first.  See the comment at begpar() for more about
+	     * when a line is part of a paragraph. */
 
 	/* Find the first line of the paragraph to be justified.  That
 	 * is the start of this paragraph if we're in one, or the start
@@ -1258,6 +1260,10 @@ void do_justify(bool full_justify)
 		par_len);
 	    first_par_line = openfile->current;
 	}
+
+	/* Set curr_first_par_line to the first line of the current
+	 * paragraph. */
+	curr_first_par_line = openfile->current;
 
 	/* Initialize indent_string to a blank string. */
 	indent_string = mallocstrcpy(NULL, "");
@@ -1448,10 +1454,10 @@ void do_justify(bool full_justify)
 	} else
 	    openfile->current_x = strlen(openfile->current->data);
 
-	/* Renumber the lines of the now-justified paragraph, since both
-	 * find_paragraph() and edit_refresh() need the line numbers to
-	 * be right. */
-	renumber(first_par_line);
+	/* Renumber the lines of the now-justified current paragraph,
+	 * since both find_paragraph() and edit_refresh() need the line
+	 * numbers to be right. */
+	renumber(curr_first_par_line);
 
 	/* We've just finished justifying the paragraph.  If we're not
 	 * justifying the entire file, break out of the loop.
