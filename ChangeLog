@@ -94,7 +94,8 @@ CVS code -
 	  which was apparently in 1999. (DLR)
 	- For functions originally adapted from other sources, add
 	  notices from the original files, as we do with the tab
-	  completion functions adapted from busybox.  Also, invoke LGPL
+	  completion functions adapted from busybox, updating the Free
+	  Software Foundation's address as needed.  Also, invoke LGPL
 	  clause 3 to convert the LGPLed ngetdelim() and ngetline()
 	  functions to use the GPL instead.  This is done so that we
 	  don't have to include a copy of the LGPL, and because the

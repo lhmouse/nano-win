@@ -161,7 +161,8 @@ void sunder(char *str)
 /* These functions, ngetline() (originally getline()) and ngetdelim()
  * (originally getdelim()), were adapted from GNU mailutils 0.5
  * (mailbox/getline.c).  Here is the notice from that file, after
- * converting to the GPL via LGPL clause 3:
+ * converting to the GPL via LGPL clause 3, and with the Free Software
+ * Foundation's address updated:
  *
  * GNU Mailutils -- a suite of utilities for electronic mail
  * Copyright (C) 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
@@ -178,7 +179,8 @@ void sunder(char *str)
  *
  * You should have received a copy of the GNU General Public License
  * along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA  */
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301, USA. */
 
 #if !defined(NANO_TINY) && defined(ENABLE_NANORC)
 #ifndef HAVE_GETLINE

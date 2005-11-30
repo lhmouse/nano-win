@@ -555,7 +555,8 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 
 #ifndef HAVE_STRCASESTR
 /* This function, nstrcasestr() (originally mutt_stristr()), was adapted
- * from mutt 1.2.4i (lib.c).  Here is the notice from that file:
+ * from mutt 1.2.4i (lib.c).  Here is the notice from that file, with
+ * the Free Software Foundation's address updated:
  *
  * Copyright (C) 1996-2000 Michael R. Elkins <me@cs.hmc.edu>
  * Copyright (C) 1999-2000 Thomas Roessler <roessler@guug.de>
@@ -574,8 +575,8 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
  * 
  *     You should have received a copy of the GNU General Public
  *     License along with this program; if not, write to the Free
- *     Software Foundation, Inc., 59 Temple Place - Suite 330,
- *     Boston, MA  02111, USA. */
+ *     Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ *     Boston, MA  02110-1301, USA. */
 
 /* This function is equivalent to strcasestr(). */
 const char *nstrcasestr(const char *haystack, const char *needle)
