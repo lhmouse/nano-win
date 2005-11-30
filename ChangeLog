@@ -224,6 +224,9 @@ CVS code -
 	  the text of the spell-checked file into its own function,
 	  replace_buffer(). (DLR)
 - utils.c:
+  ngetdelim()
+	- Do sanity checks in an assert instead of checking them
+	  manually and returning -1 if they fail. (DLR)
   is_whole_word()
 	- Only include when DISABLE_SPELLER isn't defined, as it's only
 	  used then. (DLR)

@@ -199,8 +199,7 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
     int c;
 
     /* Sanity checks. */
-    if (lineptr == NULL || n == NULL || stream == NULL)
-	return -1;
+    assert(lineptr != NULL && n != NULL && stream != NULL);
 
     /* Allocate the line the first time. */
     if (*lineptr == NULL) {
