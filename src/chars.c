@@ -455,7 +455,7 @@ size_t move_mbleft(const char *buf, size_t pos)
     while (TRUE) {
 	int buf_mb_len = parse_mbchar(buf + pos - pos_prev, NULL, NULL);
 
-	if (pos_prev <= (size_t)buf_mb_len)
+	if (pos_prev <= buf_mb_len)
 	    break;
 
 	pos_prev -= buf_mb_len;
