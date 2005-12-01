@@ -779,7 +779,7 @@ void update_statusbar_line(const char *curranswer, size_t index)
     size_t start_col, page_start;
     char *expanded;
 
-    assert(prompt != NULL && index <= strlen(buf));
+    assert(prompt != NULL && index <= strlen(curranswer));
 
     start_col = strlenpt(prompt) + 1;
     index = strnlenpt(curranswer, index);

@@ -2901,10 +2901,6 @@ void do_cursorpos(bool constant)
     openfile->current->data[openfile->current_x] = c;
     openfile->current->next = f;
 
-    /* Check whether totsize is correct.  If it isn't, there is a bug
-     * somewhere. */
-    assert(openfile->current != openfile->filebot || i == openfile->totsize);
-
     if (constant && disable_cursorpos) {
 	disable_cursorpos = FALSE;
 	return;

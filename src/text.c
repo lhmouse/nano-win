@@ -1019,7 +1019,7 @@ void backup_lines(filestruct *first_line, size_t par_len)
      * current and filebot if filebot is the last line in the
      * paragraph. */
     assert(par_len > 0 && openfile->current->lineno + par_len <=
-	filebot->lineno + 1);
+	openfile->filebot->lineno + 1);
 
     /* Move bot down par_len lines to the line after the last line of
      * the paragraph, if there is one. */
