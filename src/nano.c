@@ -963,19 +963,19 @@ void signal_init(void)
 	act.sa_handler = do_suspend;
 	sigaction(SIGTSTP, &act, NULL);
 
-	act.sa_handler = do_cont;
+	act.sa_handler = do_continue;
 	sigaction(SIGCONT, &act, NULL);
     }
 }
 
 /* Handler for SIGHUP (hangup) and SIGTERM (terminate). */
-void handle_hupterm(int signal)
+RETSIGTYPE handle_hupterm(int signal)
 {
     die(_("Received SIGHUP or SIGTERM\n"));
 }
 
 /* Handler for SIGTSTP (suspend). */
-void do_suspend(int signal)
+RETSIGTYPE do_suspend(int signal)
 {
     endwin();
     printf("\n\n\n\n\n%s\n", _("Use \"fg\" to return to nano"));
@@ -995,7 +995,7 @@ void do_suspend(int signal)
 }
 
 /* Handler for SIGCONT (continue after suspend). */
-void do_cont(int signal)
+RETSIGTYPE do_continue(int signal)
 {
 #ifndef NANO_TINY
     /* Perhaps the user resized the window while we slept.  Handle it,
@@ -1008,7 +1008,7 @@ void do_cont(int signal)
 }
 
 #ifndef NANO_TINY
-void handle_sigwinch(int s)
+RETSIGTYPE handle_sigwinch(int signal)
 {
     const char *tty = ttyname(0);
     int fd, result = 0;

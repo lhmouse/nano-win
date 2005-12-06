@@ -120,6 +120,10 @@ CVS code -
 	- Adjust copyright notices in all source files to account for
 	  Chris' reassigning the 2005-2006 copyright on nano to me.
 	  Changes to do_credits(). (DLR)
+	- Readd RETSIGTYPE return types for signal handlers, since any
+	  problems with its being defined as the wrong type aren't
+	  nano's fault.  Changes to handle_hupterm(), do_suspend(),
+	  do_continue(), handle_sigwinch(), and cancel_command(). (DLR)
 - browser.c:
   do_browser()
 	- When setting the width of each file, use the "?" operator
@@ -155,6 +159,9 @@ CVS code -
 	- If DISABLE_WRAPPING is defined, the code in DISABLE_ROOTWRAP
 	  #ifdefs isn't included, so don't display
 	  "--disable-wrapping-as-root" in that case. (DLR)
+  do_cont()
+	- Rename to do_continue(), and rename parameter s to signal, for
+	  consistency. (DLR)
   do_verbatim_input()
 	- Move to text.c, since it's an advanced text-based operation.
 	  (DLR)

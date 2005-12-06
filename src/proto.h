@@ -401,11 +401,11 @@ int no_help(void);
 void nano_disabled_msg(void);
 void do_exit(void);
 void signal_init(void);
-void handle_hupterm(int signal);
-void do_suspend(int signal);
-void do_cont(int signal);
+RETSIGTYPE handle_hupterm(int signal);
+RETSIGTYPE do_suspend(int signal);
+RETSIGTYPE do_continue(int signal);
 #ifndef NANO_TINY
-void handle_sigwinch(int s);
+RETSIGTYPE handle_sigwinch(int signal);
 void allow_pending_sigwinch(bool allow);
 #endif
 #ifndef NANO_TINY
@@ -556,7 +556,7 @@ void do_backspace(void);
 void do_tab(void);
 void do_enter(void);
 #ifndef NANO_TINY
-void cancel_command(int signal);
+RETSIGTYPE cancel_command(int signal);
 bool execute_command(const char *command);
 #endif
 #ifndef DISABLE_WRAPPING

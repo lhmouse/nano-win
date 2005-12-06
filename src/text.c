@@ -247,7 +247,7 @@ void do_enter(void)
 }
 
 #ifndef NANO_TINY
-void cancel_command(int signal)
+RETSIGTYPE cancel_command(int signal)
 {
     if (kill(pid, SIGKILL) == -1)
 	nperror("kill");
