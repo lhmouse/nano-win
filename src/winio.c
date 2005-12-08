@@ -2285,9 +2285,9 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 	    if (tmpcolor->bright)
 		wattron(edit, A_BOLD);
 	    wattron(edit, COLOR_PAIR(tmpcolor->pairnum));
-	    /* Two notes about regexec().  Return value 0 means there is
-	     * a match.  Also, rm_eo is the first non-matching character
-	     * after the match. */
+	    /* Two notes about regexec().  A return value of zero means
+	     * that there is a match.  Also, rm_eo is the first
+	     * non-matching character after the match. */
 
 	    /* First case, tmpcolor is a single-line expression. */
 	    if (tmpcolor->end == NULL) {

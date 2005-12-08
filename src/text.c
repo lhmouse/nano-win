@@ -192,7 +192,7 @@ void do_tab(void)
 #endif
 }
 
-/* Someone hits Enter/Return *gasp!* */
+/* Someone hits Enter *gasp!* */
 void do_enter(void)
 {
     filestruct *newnode = make_new_node(openfile->current);

@@ -129,6 +129,9 @@ CVS code -
 	- Since proto.h includes nano.h, and nano.h includes config.h
 	  first, include proto.h first and remove redundant includes of
 	  config.h in all non-header source files. (DLR)
+	- Refer to the Enter key instead of the Return key for
+	  consistency.  Changes to load_history() and rcfile_error().
+	  (DLR)
 - browser.c:
   do_browser()
 	- When setting the width of each file, use the "?" operator
