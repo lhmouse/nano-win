@@ -21,14 +21,11 @@
  *                                                                        *
  **************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "proto.h"
 
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
-#include "proto.h"
 
 static char *prompt = NULL;
 				/* The prompt string for statusbar

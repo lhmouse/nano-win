@@ -21,13 +21,10 @@
  *                                                                        *
  **************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "proto.h"
 
 #include <string.h>
 #include <stdio.h>
-#include "proto.h"
 
 static bool keep_cutbuffer = FALSE;
 	/* Should we keep the contents of the cutbuffer? */

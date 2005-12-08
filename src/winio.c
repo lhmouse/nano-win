@@ -21,9 +21,7 @@
  *                                                                        *
  **************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "proto.h"
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -31,7 +29,6 @@
 #include <unistd.h>
 #include <errno.h>
 #include <ctype.h>
-#include "proto.h"
 
 static int *key_buffer = NULL;
 				/* The default keystroke buffer,

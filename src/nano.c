@@ -21,9 +21,7 @@
  *                                                                        *
  **************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "proto.h"
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -36,14 +34,13 @@
 #include <errno.h>
 #include <ctype.h>
 #include <locale.h>
-#include "proto.h"
-
-#ifdef HAVE_TERMIOS_H
-#include <termios.h>
-#endif
 
 #ifdef HAVE_GETOPT_H
 #include <getopt.h>
+#endif
+
+#ifdef HAVE_TERMIOS_H
+#include <termios.h>
 #endif
 
 #ifndef NANO_TINY

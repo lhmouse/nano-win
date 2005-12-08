@@ -21,9 +21,7 @@
  *                                                                        *
  **************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "proto.h"
 
 #include <stdarg.h>
 #include <string.h>
@@ -31,7 +29,6 @@
 #include <errno.h>
 #include <unistd.h>
 #include <ctype.h>
-#include "proto.h"
 
 #ifdef ENABLE_NANORC
 

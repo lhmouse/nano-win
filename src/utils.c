@@ -21,9 +21,7 @@
  *                                                                        *
  **************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "proto.h"
 
 #include <string.h>
 #include <stdio.h>
@@ -31,7 +29,6 @@
 #include <pwd.h>
 #include <ctype.h>
 #include <errno.h>
-#include "proto.h"
 
 int digits(size_t n)
 {

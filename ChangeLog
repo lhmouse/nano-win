@@ -124,6 +124,9 @@ CVS code -
 	  problems with its being defined as the wrong type aren't
 	  nano's fault.  Changes to handle_hupterm(), do_suspend(),
 	  do_continue(), handle_sigwinch(), and cancel_command(). (DLR)
+	- Since proto.h includes nano.h, and nano.h includes config.h
+	  first, include proto.h first and remove redundant includes of
+	  config.h in all non-header source files. (DLR)
 - browser.c:
   do_browser()
 	- When setting the width of each file, use the "?" operator

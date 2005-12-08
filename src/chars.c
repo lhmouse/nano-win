@@ -21,13 +21,10 @@
  *                                                                        *
  **************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "proto.h"
 
 #include <string.h>
 #include <ctype.h>
-#include "proto.h"
 
 #ifdef ENABLE_UTF8
 #ifdef HAVE_WCHAR_H

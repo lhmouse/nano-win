@@ -21,9 +21,7 @@
  *                                                                        *
  **************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "proto.h"
 
 #include <stdio.h>
 #include <signal.h>
@@ -32,7 +30,6 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 #include <errno.h>
-#include "proto.h"
 
 #ifndef NANO_TINY
 static pid_t pid = -1;

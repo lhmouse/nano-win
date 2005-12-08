@@ -21,14 +21,11 @@
  *                                                                        *
  **************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "proto.h"
 
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "proto.h"
 
 #ifndef DISABLE_HELP
 

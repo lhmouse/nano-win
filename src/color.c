@@ -21,13 +21,10 @@
  *                                                                        *
  **************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "proto.h"
 
 #include <stdio.h>
 #include <string.h>
-#include "proto.h"
 
 #ifdef ENABLE_COLOR
 

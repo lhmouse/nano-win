@@ -21,9 +21,7 @@
  *                                                                        *
  **************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "proto.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -33,7 +31,6 @@
 #include <errno.h>
 #include <ctype.h>
 #include <pwd.h>
-#include "proto.h"
 
 /* Add an entry to the openfile openfilestruct.  This should only be
  * called from open_buffer(). */
