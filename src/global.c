@@ -25,132 +25,180 @@
 
 /* Global variables */
 #ifndef DISABLE_WRAPJUSTIFY
-ssize_t fill = 0;		/* The column where we will wrap
-				 * lines. */
+ssize_t fill = 0;
+	/* The column where we will wrap lines. */
 ssize_t wrap_at = -CHARS_FROM_EOL;
-				/* The position where we will wrap
-				 * lines.  fill is equal to this if it's
-				 * greater than zero, and equal to
-				 * (COLS + this) if it isn't. */
+	/* The position where we will wrap lines.  fill is equal to this
+	 * if it's greater than zero, and equal to (COLS + this) if it
+	 * isn't. */
 #endif
 
-char *last_search = NULL;	/* Last string we searched for */
-char *last_replace = NULL;	/* Last replacement string */
+char *last_search = NULL;
+	/* The last string we searched for. */
+char *last_replace = NULL;
+	/* The last replacement string we searched for. */
 
-long flags = 0;			/* Our flag containing many options */
-WINDOW *topwin;			/* Top subwindow */
-WINDOW *edit;			/* The file portion of the editor */
-WINDOW *bottomwin;		/* Bottom subwindow */
+long flags = 0;
+	/* Our flag containing the states of all global options. */
+WINDOW *topwin;
+	/* The top portion of the window, where we display the version
+	 * number of nano, the name of the current file, and whether the
+	 * current file has been modified. */
+WINDOW *edit;
+	/* The middle portion of the window, i.e, the edit window, where
+	 * we display the current file we're editing. */
+WINDOW *bottomwin;
+	/* The bottom portion of the window, where we display statusbar
+	 * messages, the statusbar prompt, and a list of shortcuts. */
+int editwinrows = 0;
+	/* How many rows does the edit window take up? */
 
-int editwinrows = 0;		/* How many rows long is the edit
-				   window? */
-filestruct *cutbuffer = NULL;	/* A place to store cut text */
+filestruct *cutbuffer = NULL;
+	/* The buffer where we store cut text. */
 #ifndef DISABLE_JUSTIFY
-filestruct *jusbuffer = NULL;	/* A place to store unjustified text */
+filestruct *jusbuffer = NULL;
+	/* The buffer where we store unjustified text. */
 #endif
-partition *filepart = NULL;	/* A place to store a portion of the
-				   file struct */
-
+partition *filepart = NULL;
+	/* The partition where we store a portion of the current
+	 * file. */
 openfilestruct *openfile = NULL;
-				/* The list of open file buffers */
+	/* The list of all open file buffers. */
 
 #if !defined(NANO_TINY) && defined(ENABLE_NANORC)
-char *whitespace = NULL;	/* Characters used when displaying
-				   the first characters of tabs and
-				   spaces. */
-int whitespace_len[2];		/* The length of the characters. */
+char *whitespace = NULL;
+	/* The characters used when displaying the first characters of
+	 * tabs and spaces. */
+int whitespace_len[2];
+	/* The length of these characters. */
 #endif
 
 #ifndef DISABLE_JUSTIFY
-char *punct = NULL;		/* Closing punctuation that can end
-				   sentences. */
-char *brackets = NULL;		/* Closing brackets that can follow
-				   closing punctuation and can end
-				   sentences. */
-char *quotestr = NULL;		/* Quote string.  The default value is
-				   set in main(). */
+char *punct = NULL;
+	/* The closing punctuation that can end sentences. */
+char *brackets = NULL;
+	/* The closing brackets that can follow closing punctuation and
+	 * can end sentences. */
+char *quotestr = NULL;
+	/* The quoting string.  The default value is set in main(). */
 #ifdef HAVE_REGEX_H
-regex_t quotereg;		/* Compiled quotestr regular expression. */
-int quoterc;			/* Did it compile? */
-char *quoteerr = NULL;		/* The error message. */
+regex_t quotereg;
+	/* The compiled regular expression from the quoting string. */
+int quoterc;
+	/* Whether it actually compiled. */
+char *quoteerr = NULL;
+	/* The error message, if it didn't. */
 #else
-size_t quotelen;		/* strlen(quotestr) */
+size_t quotelen;
+	/* The length of the quoting string in bytes. */
 #endif
 #endif
+
+char *answer = NULL;
+	/* The answer string used in the statusbar prompt. */
+
+ssize_t tabsize = -1;
+	/* The width of a tab in spaces.  The default value is set in
+	 * main(). */
 
 #ifndef NANO_TINY
-char *backup_dir = NULL;	/* Backup directory. */
+char *backup_dir = NULL;
+	/* The directory where we store backup files. */
 #endif
-
-char *answer = NULL;		/* The answer string for statusbar
-				 * questions. */
-
-ssize_t tabsize = -1;		/* Our internal tabsize variable.  The
-				   default value is set in main(). */
-
 #ifndef DISABLE_OPERATINGDIR
-char *operating_dir = NULL;	/* Operating directory, which we can't */
-char *full_operating_dir = NULL;/* go higher than */
+char *operating_dir = NULL;
+	/* The relative path to the operating directory, which we can't
+	 * move outside of. */
+char *full_operating_dir = NULL;
+	/* The full path to it. */
 #endif
 
 #ifndef DISABLE_SPELLER
-char *alt_speller = NULL;		/* Alternative spell command */
+char *alt_speller = NULL;
+	/* The command to use for the alternate spell checker. */
 #endif
 
 shortcut *main_list = NULL;
+	/* The main shortcut list. */
 shortcut *whereis_list = NULL;
+	/* The "Search" shortcut list. */
 shortcut *replace_list = NULL;
-shortcut *replace_list_2 = NULL; 	/* 2nd half of replace dialog */
+	/* The "Search (to replace)" shortcut list. */
+shortcut *replace_list_2 = NULL;
+	/* The "Replace with" shortcut list. */
 shortcut *gotoline_list = NULL;
+	/* The "Enter line number, column number" shortcut list. */
 shortcut *writefile_list = NULL;
+	/* The "File Name to Write" shortcut list. */
 shortcut *insertfile_list = NULL;
+	/* The "File to insert" shortcut list. */
+#ifndef NANO_TINY
+shortcut *extcmd_list = NULL;
+	/* The "Command to execute" shortcut list. */
+#endif
 #ifndef DISABLE_HELP
 shortcut *help_list = NULL;
+	/* The help text shortcut list. */
 #endif
 #ifndef DISABLE_SPELLER
 shortcut *spell_list = NULL;
-#endif
-#ifndef NANO_TINY
-shortcut *extcmd_list = NULL;
+	/* The internal spell checker shortcut list. */
 #endif
 #ifndef DISABLE_BROWSER
 shortcut *browser_list = NULL;
+	/* The file browser shortcut list. */
 shortcut *gotodir_list = NULL;
+	/* The "Go To Directory" shortcut list. */
 #endif
 
 #ifdef ENABLE_COLOR
 syntaxtype *syntaxes = NULL;
+	/* The global list of color syntaxes. */
 char *syntaxstr = NULL;
+	/* The color syntax name specified on the command line. */
 #endif
 
-const shortcut *currshortcut;	/* Current shortcut list we're using */
-
+const shortcut *currshortcut;
+	/* The current shortcut list we're using. */
 #ifndef NANO_TINY
 toggle *toggles = NULL;
+	/* The global toggle list. */
 #endif
 
 #ifndef NANO_TINY
 filestruct *search_history = NULL;
+	/* The search string history list. */
 filestruct *searchage = NULL;
+	/* The top of the search string history list. */
 filestruct *searchbot = NULL;
+	/* The bottom of the search string history list. */
 filestruct *replace_history = NULL;
+	/* The replace string history list. */
 filestruct *replaceage = NULL;
+	/* The top of the replace string history list. */
 filestruct *replacebot = NULL;
+	/* The bottom of the replace string history list. */
 #endif
 
 /* Regular expressions */
 #ifdef HAVE_REGEX_H
-regex_t search_regexp;		/* Global to store compiled search regexp */
-regmatch_t regmatches[10];	/* Match positions for parenthetical
-				   subexpressions, max of 10 */
+regex_t search_regexp;
+	/* The compiled regular expression to use in searches. */
+regmatch_t regmatches[10];
+	/* The match positions for parenthetical subexpressions, 10
+	 * maximum, used in regular expression searches. */
 #endif
 
-bool curses_ended = FALSE;	/* Indicates to statusbar() to simply
-				 * write to stderr, since endwin() has
-				 * ended curses mode. */
+bool curses_ended = FALSE;
+	/* Whether endwin() has ended curses mode and statusbar()
+	 * should hence write to stderr instead of displaying on the
+	 * statusbar. */
 
-char *homedir = NULL;		/* $HOME or from /etc/passwd. */
+char *homedir = NULL;
+		/* The user's home directory, from $HOME or
+		 * /etc/passwd. */
 
+/* Return the number of entries in the shortcut list s. */
 size_t length_of_list(const shortcut *s)
 {
     size_t i = 0;
@@ -194,6 +242,8 @@ void sc_init_one(shortcut **shortcutage, int ctrlval, const char *desc,
     s->next = NULL;
 }
 
+/* Initialize all shortcut lists.  If unjustify is TRUE, replace the
+ * Uncut shortcut in the main shortcut list with UnJustify. */
 void shortcut_init(bool unjustify)
 {
     const char *get_help_msg = N_("Get Help");
@@ -365,7 +415,7 @@ void shortcut_init(bool unjustify)
 
     free_shortcutage(&main_list);
 
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_HELP_KEY, get_help_msg,
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
@@ -376,7 +426,7 @@ void shortcut_init(bool unjustify)
 #endif
 		);
 
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_EXIT_KEY,
 #ifdef ENABLE_MULTIBUFFER
 	openfile != NULL && openfile != openfile->next ?
@@ -385,12 +435,12 @@ void shortcut_init(bool unjustify)
 	exit_msg, IFHELP(nano_exit_msg, NANO_NO_KEY), NANO_EXIT_FKEY,
 	NANO_NO_KEY, VIEW, do_exit);
 
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_WRITEOUT_KEY, N_("WriteOut"),
 	IFHELP(nano_writeout_msg, NANO_NO_KEY), NANO_WRITEOUT_FKEY,
 	NANO_NO_KEY, NOVIEW, do_writeout_void);
 
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_JUSTIFY_KEY, N_("Justify"),
 	IFHELP(nano_justify_msg, NANO_NO_KEY),
 	NANO_JUSTIFY_FKEY, NANO_NO_KEY, NOVIEW,
@@ -402,11 +452,12 @@ void shortcut_init(bool unjustify)
 		);
 
     /* We allow inserting files in view mode if multibuffers are
-     * available, so that we can view multiple files. */
-    /* If we're using restricted mode, inserting files is disabled since
-     * it allows reading from or writing to files not specified on the
-     * command line. */
-    /* Translators: try to keep this string under 10 characters long */
+     * available, so that we can view multiple files.  If we're using
+     * restricted mode, inserting files is disabled, since it allows
+     * reading from or writing to files not specified on the command
+     * line. */
+
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_INSERTFILE_KEY, N_("Read File"),
 	IFHELP(nano_insert_msg, NANO_NO_KEY), NANO_INSERTFILE_FKEY,
 	NANO_NO_KEY,
@@ -418,38 +469,38 @@ void shortcut_init(bool unjustify)
 		, !ISSET(RESTRICTED) ? do_insertfile_void :
 		nano_disabled_msg);
 
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_WHEREIS_KEY, N_("Where Is"),
 	IFHELP(nano_whereis_msg, NANO_NO_KEY), NANO_WHEREIS_FKEY,
 	NANO_NO_KEY, VIEW, do_search);
 
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_PREVPAGE_KEY, prev_page_msg,
 	IFHELP(nano_prevpage_msg, NANO_NO_KEY), NANO_PREVPAGE_FKEY,
 	NANO_NO_KEY, VIEW, do_page_up);
 
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_NEXTPAGE_KEY, next_page_msg,
 	IFHELP(nano_nextpage_msg, NANO_NO_KEY), NANO_NEXTPAGE_FKEY,
 	NANO_NO_KEY, VIEW, do_page_down);
 
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_CUT_KEY, N_("Cut Text"),
 	IFHELP(nano_cut_msg, NANO_NO_KEY), NANO_CUT_FKEY,
 	NANO_NO_KEY, NOVIEW, do_cut_text);
 
     if (unjustify)
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
 	sc_init_one(&main_list, NANO_UNJUSTIFY_KEY, N_("UnJustify"),
 		IFHELP(NULL, NANO_NO_KEY), NANO_UNJUSTIFY_FKEY,
 		NANO_NO_KEY, NOVIEW, NULL);
     else
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
 	sc_init_one(&main_list, NANO_UNCUT_KEY, N_("UnCut Txt"),
 		IFHELP(nano_uncut_msg, NANO_NO_KEY), NANO_UNCUT_FKEY,
 		NANO_NO_KEY, NOVIEW, do_uncut_text);
 
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_CURSORPOS_KEY, N_("Cur Pos"),
 	IFHELP(nano_cursorpos_msg, NANO_NO_KEY), NANO_CURSORPOS_FKEY,
 	NANO_NO_KEY, VIEW, do_cursorpos_void);
@@ -457,7 +508,7 @@ void shortcut_init(bool unjustify)
     /* If we're using restricted mode, spell checking is disabled
      * because it allows reading from or writing to files not specified
      * on the command line. */
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_SPELL_KEY, N_("To Spell"),
 		IFHELP(nano_spell_msg, NANO_NO_KEY), NANO_SPELL_FKEY,
 		NANO_NO_KEY, NOVIEW,
@@ -552,12 +603,12 @@ void shortcut_init(bool unjustify)
 #endif
 
 #ifndef DISABLE_JUSTIFY
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_NO_KEY, beg_of_par_msg,
 	IFHELP(nano_parabegin_msg, NANO_PARABEGIN_ALTKEY1), NANO_NO_KEY,
 	NANO_PARABEGIN_ALTKEY2, VIEW, do_para_begin_void);
 
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_NO_KEY, end_of_par_msg,
 	IFHELP(nano_paraend_msg, NANO_PARAEND_ALTKEY1), NANO_NO_KEY,
 	NANO_PARAEND_ALTKEY2, VIEW, do_para_end_void);
@@ -578,14 +629,14 @@ void shortcut_init(bool unjustify)
 	NANO_NO_KEY, NOVIEW, do_verbatim_input);
 
 #ifndef NANO_TINY
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_NO_KEY, cut_till_end_msg,
 	IFHELP(nano_cut_till_end_msg, NANO_CUTTILLEND_ALTKEY),
 	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_cut_till_end);
 #endif
 
 #ifndef DISABLE_JUSTIFY
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_NO_KEY, fulljstify_msg,
 	IFHELP(nano_fulljustify_msg, NANO_FULLJUSTIFY_ALTKEY),
 	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_full_justify);
@@ -609,76 +660,76 @@ void shortcut_init(bool unjustify)
 #endif
 		);
 
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_CANCEL_KEY, cancel_msg,
 	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_FIRSTLINE_KEY, first_line_msg,
 	IFHELP(nano_firstline_msg, NANO_NO_KEY), NANO_FIRSTLINE_FKEY,
 	NANO_NO_KEY, VIEW, do_first_line);
 
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_LASTLINE_KEY, last_line_msg,
 	IFHELP(nano_lastline_msg, NANO_NO_KEY), NANO_LASTLINE_FKEY,
 	NANO_NO_KEY, VIEW, do_last_line);
 
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_TOOTHERSEARCH_KEY, replace_msg,
 	IFHELP(nano_replace_msg, NANO_NO_KEY), NANO_REPLACE_FKEY,
 	NANO_NO_KEY, VIEW, NULL);
 
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_TOGOTOLINE_KEY, go_to_line_msg,
 	IFHELP(nano_gotoline_msg, NANO_NO_KEY), NANO_GOTOLINE_FKEY,
 	NANO_NO_KEY, VIEW, NULL);
 
 #ifndef DISABLE_JUSTIFY
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_PARABEGIN_KEY, beg_of_par_msg,
 	IFHELP(nano_parabegin_msg, NANO_PARABEGIN_ALTKEY1), NANO_NO_KEY,
 	NANO_PARABEGIN_ALTKEY2, VIEW, do_para_begin_void);
 
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_PARAEND_KEY, end_of_par_msg,
 	IFHELP(nano_paraend_msg, NANO_PARAEND_ALTKEY1), NANO_NO_KEY,
 	NANO_PARAEND_ALTKEY2, VIEW, do_para_end_void);
 #endif
 
 #ifndef NANO_TINY
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_NO_KEY, case_sens_msg,
 	IFHELP(nano_case_msg, TOGGLE_CASE_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_NO_KEY, backwards_msg,
 	IFHELP(nano_reverse_msg, TOGGLE_BACKWARDS_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 #endif
 
 #ifdef HAVE_REGEX_H
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_NO_KEY, regexp_msg,
 	IFHELP(nano_regexp_msg, NANO_REGEXP_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 #endif
 
 #ifndef NANO_TINY
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_PREVLINE_KEY, history_msg,
 	IFHELP(nano_history_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_CUTTILLEND_KEY, cut_till_end_msg,
 	IFHELP(nano_cut_till_end_msg, NANO_CUTTILLEND_ALTKEY),
 	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_cut_till_end);
 #endif
 
 #ifndef DISABLE_JUSTIFY
-    /* Translators: try to keep this string under 10 characters long */
+    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_FULLJUSTIFY_KEY, fulljstify_msg,
 	IFHELP(nano_fulljustify_msg, NANO_FULLJUSTIFY_ALTKEY),
 	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_full_justify);
@@ -708,7 +759,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_lastline_msg, NANO_NO_KEY), NANO_LASTLINE_FKEY,
 	NANO_NO_KEY, VIEW, do_last_line);
 
-    /* Translators: try to keep this string under 12 characters long */
+    /* Translators: try to keep this string under 12 characters long. */
     sc_init_one(&replace_list, NANO_TOOTHERSEARCH_KEY, N_("No Replace"),
 	IFHELP(nano_whereis_msg, NANO_NO_KEY), NANO_REPLACE_FKEY,
 	NANO_NO_KEY, VIEW, NULL);
@@ -797,34 +848,6 @@ void shortcut_init(bool unjustify)
 	N_("Go To Text"), IFHELP(nano_whereis_msg, NANO_NO_KEY),
 	NANO_NO_KEY, NANO_NO_KEY, VIEW, NULL);
 
-#ifndef DISABLE_HELP
-    free_shortcutage(&help_list);
-
-    sc_init_one(&help_list, NANO_REFRESH_KEY, refresh_msg,
-	IFHELP(nano_refresh_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, NULL);
-
-    sc_init_one(&help_list, NANO_EXIT_KEY, exit_msg,
-	IFHELP(nano_exit_msg, NANO_NO_KEY), NANO_EXIT_FKEY,
-	NANO_NO_KEY, VIEW, NULL);
-
-    sc_init_one(&help_list, NANO_PREVPAGE_KEY, prev_page_msg,
-	IFHELP(nano_prevpage_msg, NANO_NO_KEY), NANO_PREVPAGE_FKEY,
-	NANO_NO_KEY, VIEW, NULL);
-
-    sc_init_one(&help_list, NANO_NEXTPAGE_KEY, next_page_msg,
-	IFHELP(nano_nextpage_msg, NANO_NO_KEY), NANO_NEXTPAGE_FKEY,
-	NANO_NO_KEY, VIEW, NULL);
-
-    sc_init_one(&help_list, NANO_PREVLINE_KEY, N_("Prev Line"),
-	IFHELP(nano_prevline_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, NULL);
-
-    sc_init_one(&help_list, NANO_NEXTLINE_KEY, N_("Next Line"),
-	IFHELP(nano_nextline_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, NULL);
-#endif
-
     free_shortcutage(&writefile_list);
 
     sc_init_one(&writefile_list, NANO_HELP_KEY, get_help_msg,
@@ -844,7 +867,8 @@ void shortcut_init(bool unjustify)
 #ifndef DISABLE_BROWSER
     /* If we're using restricted mode, the file browser is disabled.
      * It's useless since inserting files is disabled. */
-    /* Translators: try to keep this string under 16 characters long */
+
+    /* Translators: try to keep this string under 16 characters long. */
     if (!ISSET(RESTRICTED))
 	sc_init_one(&writefile_list, NANO_TOFILES_KEY, to_files_msg,
 		IFHELP(nano_tofiles_msg, NANO_NO_KEY), NANO_NO_KEY,
@@ -858,33 +882,34 @@ void shortcut_init(bool unjustify)
      * and fourth are disabled because they allow writing to files not
      * specified on the command line, and the fifth is useless since
      * backups are disabled. */
-    /* Translators: try to keep this string under 16 characters long */
+
+    /* Translators: try to keep this string under 16 characters long. */
     if (!ISSET(RESTRICTED))
 	sc_init_one(&writefile_list, NANO_NO_KEY, N_("DOS Format"),
 		IFHELP(nano_dos_msg, TOGGLE_DOS_KEY), NANO_NO_KEY,
 		NANO_NO_KEY, NOVIEW, NULL);
 
-    /* Translators: try to keep this string under 16 characters long */
+    /* Translators: try to keep this string under 16 characters long. */
     if (!ISSET(RESTRICTED))
 	sc_init_one(&writefile_list, NANO_NO_KEY, N_("Mac Format"),
 		IFHELP(nano_mac_msg, TOGGLE_MAC_KEY), NANO_NO_KEY,
 		NANO_NO_KEY, NOVIEW, NULL);
 #endif
 
-    /* Translators: try to keep this string under 16 characters long */
+    /* Translators: try to keep this string under 16 characters long. */
     if (!ISSET(RESTRICTED))
 	sc_init_one(&writefile_list, NANO_NO_KEY, N_("Append"),
 		IFHELP(nano_append_msg, NANO_APPEND_KEY), NANO_NO_KEY,
 		NANO_NO_KEY, NOVIEW, NULL);
 
-    /* Translators: try to keep this string under 16 characters long */
+    /* Translators: try to keep this string under 16 characters long. */
     if (!ISSET(RESTRICTED))
 	sc_init_one(&writefile_list, NANO_NO_KEY, N_("Prepend"),
 		IFHELP(nano_prepend_msg, NANO_PREPEND_KEY), NANO_NO_KEY,
 		NANO_NO_KEY, NOVIEW, NULL);
 
 #ifndef NANO_TINY
-    /* Translators: try to keep this string under 16 characters long */
+    /* Translators: try to keep this string under 16 characters long. */
     if (!ISSET(RESTRICTED))
 	sc_init_one(&writefile_list, NANO_NO_KEY, N_("Backup File"),
 		IFHELP(nano_backup_msg, TOGGLE_BACKUP_KEY), NANO_NO_KEY,
@@ -919,7 +944,8 @@ void shortcut_init(bool unjustify)
 #ifndef NANO_TINY
     /* If we're using restricted mode, command execution is disabled.
      * It's useless since inserting files is disabled. */
-    /* Translators: try to keep this string under 22 characters long */
+
+    /* Translators: try to keep this string under 22 characters long. */
     if (!ISSET(RESTRICTED))
 	sc_init_one(&insertfile_list, NANO_TOOTHERINSERT_KEY,
 		N_("Execute Command"), IFHELP(nano_execute_msg,
@@ -928,30 +954,13 @@ void shortcut_init(bool unjustify)
 #ifdef ENABLE_MULTIBUFFER
     /* If we're using restricted mode, the multibuffer toggle is
      * disabled.  It's useless since inserting files is disabled. */
-    /* Translators: try to keep this string under 22 characters long */
+
+    /* Translators: try to keep this string under 22 characters long. */
     if (!ISSET(RESTRICTED))
 	sc_init_one(&insertfile_list, NANO_NO_KEY, new_buffer_msg,
 		IFHELP(nano_multibuffer_msg, TOGGLE_MULTIBUFFER_KEY),
 		NANO_NO_KEY, NANO_NO_KEY, NOVIEW, NULL);
 #endif
-#endif
-
-#ifndef DISABLE_SPELLER
-    free_shortcutage(&spell_list);
-
-    sc_init_one(&spell_list, NANO_HELP_KEY, get_help_msg,
-	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
-	NANO_NO_KEY, VIEW,
-#ifndef DISABLE_HELP
-		do_help
-#else
-		nano_disabled_msg
-#endif
-		);
-
-    sc_init_one(&spell_list, NANO_CANCEL_KEY, cancel_msg,
-	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, NULL);
 #endif
 
 #ifndef NANO_TINY
@@ -982,6 +991,52 @@ void shortcut_init(bool unjustify)
 #endif
 #endif
 
+#ifndef DISABLE_HELP
+    free_shortcutage(&help_list);
+
+    sc_init_one(&help_list, NANO_REFRESH_KEY, refresh_msg,
+	IFHELP(nano_refresh_msg, NANO_NO_KEY), NANO_NO_KEY,
+	NANO_NO_KEY, VIEW, NULL);
+
+    sc_init_one(&help_list, NANO_EXIT_KEY, exit_msg,
+	IFHELP(nano_exit_msg, NANO_NO_KEY), NANO_EXIT_FKEY,
+	NANO_NO_KEY, VIEW, NULL);
+
+    sc_init_one(&help_list, NANO_PREVPAGE_KEY, prev_page_msg,
+	IFHELP(nano_prevpage_msg, NANO_NO_KEY), NANO_PREVPAGE_FKEY,
+	NANO_NO_KEY, VIEW, NULL);
+
+    sc_init_one(&help_list, NANO_NEXTPAGE_KEY, next_page_msg,
+	IFHELP(nano_nextpage_msg, NANO_NO_KEY), NANO_NEXTPAGE_FKEY,
+	NANO_NO_KEY, VIEW, NULL);
+
+    sc_init_one(&help_list, NANO_PREVLINE_KEY, N_("Prev Line"),
+	IFHELP(nano_prevline_msg, NANO_NO_KEY), NANO_NO_KEY,
+	NANO_NO_KEY, VIEW, NULL);
+
+    sc_init_one(&help_list, NANO_NEXTLINE_KEY, N_("Next Line"),
+	IFHELP(nano_nextline_msg, NANO_NO_KEY), NANO_NO_KEY,
+	NANO_NO_KEY, VIEW, NULL);
+#endif
+
+#ifndef DISABLE_SPELLER
+    free_shortcutage(&spell_list);
+
+    sc_init_one(&spell_list, NANO_HELP_KEY, get_help_msg,
+	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
+	NANO_NO_KEY, VIEW,
+#ifndef DISABLE_HELP
+		do_help
+#else
+		nano_disabled_msg
+#endif
+		);
+
+    sc_init_one(&spell_list, NANO_CANCEL_KEY, cancel_msg,
+	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
+	NANO_NO_KEY, VIEW, NULL);
+#endif
+
 #ifndef DISABLE_BROWSER
     free_shortcutage(&browser_list);
 
@@ -1007,7 +1062,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_nextpage_msg, NANO_NO_KEY), NANO_NEXTPAGE_FKEY,
 	NANO_NO_KEY, VIEW, NULL);
 
-    /* Translators: try to keep this string under 22 characters long */
+    /* Translators: try to keep this string under 22 characters long. */
     sc_init_one(&browser_list, NANO_GOTOLINE_KEY, N_("Go To Dir"),
 	IFHELP(nano_gotodir_msg, NANO_GOTOLINE_ALTKEY),
 	NANO_GOTOLINE_FKEY, NANO_NO_KEY, VIEW, NULL);
@@ -1071,6 +1126,7 @@ void toggle_init_one(int val, const char *desc, long flag)
     u->next = NULL;
 }
 
+/* Initialize the global toggle list. */
 void toggle_init(void)
 {
     /* There is no need to reinitialize the toggles.  They can't
@@ -1185,14 +1241,14 @@ void thanks_for_all_the_fish(void)
     free_shortcutage(&gotoline_list);
     free_shortcutage(&writefile_list);
     free_shortcutage(&insertfile_list);
+#ifndef NANO_TINY
+    free_shortcutage(&extcmd_list);
+#endif
 #ifndef DISABLE_HELP
     free_shortcutage(&help_list);
 #endif
 #ifndef DISABLE_SPELLER
     free_shortcutage(&spell_list);
-#endif
-#ifndef NANO_TINY
-    free_shortcutage(&extcmd_list);
 #endif
 #ifndef DISABLE_BROWSER
     free_shortcutage(&browser_list);

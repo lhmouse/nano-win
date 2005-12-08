@@ -33,8 +33,8 @@
 
 #ifndef NANO_TINY
 static pid_t pid = -1;
-	/* The PID of the newly forked process in execute_command(), for
-	 * use with the cancel_command() signal handler. */
+	/* The PID of the forked process in execute_command(), for use
+	 * with the cancel_command() signal handler. */
 #endif
 #ifndef DISABLE_WRAPPING
 static bool prepend_wrap = FALSE;
@@ -46,6 +46,7 @@ static filestruct *jusbottom = NULL;
 #endif
 
 #ifndef NANO_TINY
+/* Toggle the mark. */
 void do_mark(void)
 {
     openfile->mark_set = !openfile->mark_set;
@@ -62,6 +63,7 @@ void do_mark(void)
 }
 #endif /* !NANO_TINY */
 
+/* Delete one character. */
 void do_delete(void)
 {
     bool do_refresh = FALSE;
@@ -150,6 +152,7 @@ void do_delete(void)
 	update_line(openfile->current, openfile->current_x);
 }
 
+/* Backspace over one character. */
 void do_backspace(void)
 {
     if (openfile->current != openfile->fileage ||
@@ -159,6 +162,8 @@ void do_backspace(void)
     }
 }
 
+/* Insert a tab.  If the TABS_TO_SPACES flag is set, insert the number
+ * of spaces that a tab would normally take up. */
 void do_tab(void)
 {
 #ifndef NANO_TINY
@@ -187,7 +192,7 @@ void do_tab(void)
 #endif
 }
 
-/* Someone hits Enter *gasp!* */
+/* Someone hits Enter/Return *gasp!* */
 void do_enter(void)
 {
     filestruct *newnode = make_new_node(openfile->current);
@@ -244,6 +249,8 @@ void do_enter(void)
 }
 
 #ifndef NANO_TINY
+/* Send a SIGKILL (unconditional kill) to the forked process in
+ * execute_command(). */
 RETSIGTYPE cancel_command(int signal)
 {
     if (kill(pid, SIGKILL) == -1)
@@ -341,6 +348,8 @@ bool execute_command(const char *command)
 #endif /* !NANO_TINY */
 
 #ifndef DISABLE_WRAPPING
+/* Clear the prepend_wrap flag.  We need to do this as soon as we do
+ * something other than type text. */
 void wrap_reset(void)
 {
     prepend_wrap = FALSE;
@@ -1555,11 +1564,13 @@ void do_justify(bool full_justify)
     display_main_list();
 }
 
+/* Justify the current paragraph. */
 void do_justify_void(void)
 {
     do_justify(FALSE);
 }
 
+/* Justify the entire file. */
 void do_full_justify(void)
 {
     do_justify(TRUE);
@@ -1732,9 +1743,9 @@ bool do_int_spell_fix(const char *word)
     return !canceled;
 }
 
-/* Integrated spell checking using the spell program, filtered through
- * the sort and uniq programs.  Return NULL for normal termination,
- * and the error string otherwise. */
+/* Internal (integrated) spell checking using the spell program,
+ * filtered through the sort and uniq programs.  Return NULL for normal
+ * termination, and the error string otherwise. */
 const char *do_int_speller(const char *tempfile_name)
 {
     char *read_buff, *read_buff_ptr, *read_buff_word;
@@ -1882,7 +1893,7 @@ const char *do_int_speller(const char *tempfile_name)
 	do_int_spell_fix(read_buff_word);
 
     free(read_buff);
-    replace_abort();
+    search_replace_abort();
     edit_refresh();
 
     /* Process the end of the spell process. */
@@ -1914,8 +1925,8 @@ const char *do_int_speller(const char *tempfile_name)
     exit(1);
 }
 
-/* External spell checking.  Return value: NULL for normal termination,
- * otherwise the error string. */
+/* External (alternate) spell checking.  Return NULL for normal
+ * termination, and the error string otherwise. */
 const char *do_alt_speller(char *tempfile_name)
 {
     int alt_spell_status;
@@ -2107,6 +2118,8 @@ const char *do_alt_speller(char *tempfile_name)
     return NULL;
 }
 
+/* Spell check the current file.  If an alternate spell checker is
+ * specified, use it.  Otherwise, use the internal spell checker. */
 void do_spell(void)
 {
     int i;
@@ -2220,6 +2233,7 @@ void do_wordlinechar_count(void)
 }
 #endif /* !NANO_TINY */
 
+/* Get verbatim input. */
 void do_verbatim_input(void)
 {
     int *kbinput;

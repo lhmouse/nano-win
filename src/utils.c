@@ -30,6 +30,7 @@
 #include <ctype.h>
 #include <errno.h>
 
+/* Return the number of decimal digits in n. */
 int digits(size_t n)
 {
     int i = 1;
@@ -249,7 +250,9 @@ int safe_regexec(const regex_t *preg, const char *string, size_t nmatch,
 }
 #endif
 
-int regexp_bol_or_eol(const regex_t *preg, const char *string)
+/* Do the compiled regex in preg and the regex in string match the
+ * beginning or end of a line? */
+bool regexp_bol_or_eol(const regex_t *preg, const char *string)
 {
     return (regexec(preg, string, 0, NULL, 0) == 0 &&
 	regexec(preg, string, 0, NULL, REG_NOTBOL | REG_NOTEOL) ==
@@ -361,7 +364,9 @@ void nperror(const char *s)
     }
 }
 
-/* Thanks, BG, many people have been asking for this... */
+/* This is a wrapper for the malloc() function that properly handles
+ * things when we run out of memory.  Thanks, BG, many people have been
+ * asking for this... */
 void *nmalloc(size_t howmuch)
 {
     void *r = malloc(howmuch);
@@ -372,6 +377,8 @@ void *nmalloc(size_t howmuch)
     return r;
 }
 
+/* This is a wrapper for the realloc() function that properly handles
+ * things when we run out of memory. */
 void *nrealloc(void *ptr, size_t howmuch)
 {
     void *r = realloc(ptr, howmuch);
@@ -511,11 +518,14 @@ void new_magicline(void)
 
 #ifndef NANO_TINY
 /* Remove the magicline from filebot, if there is one and it isn't the
- * only line in the file. */
+ * only line in the file.  Assume that edittop and current are not at
+ * filebot. */
 void remove_magicline(void)
 {
     if (openfile->filebot->data[0] == '\0' &&
 	openfile->filebot != openfile->fileage) {
+	assert(openfile->filebot != openfile->edittop && openfile->filebot != openfile->current);
+
 	openfile->filebot = openfile->filebot->prev;
 	free_filestruct(openfile->filebot->next);
 	openfile->filebot->next = NULL;

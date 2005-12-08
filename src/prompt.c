@@ -38,6 +38,15 @@ static bool reset_statusbar_x = FALSE;
 				/* Should we reset the cursor position
 				 * at the statusbar prompt? */
 
+/* Read in a character, interpret it as a shortcut or toggle if
+ * necessary, and return it.  Set meta_key to TRUE if the character is a
+ * meta sequence, set func_key to TRUE if the character is a function
+ * key, set s_or_t to TRUE if the character is a shortcut or toggle
+ * key, set ran_func to TRUE if we ran a function associated with a
+ * shortcut key, and set finished to TRUE if we're done after running
+ * or trying to run a function associated with a shortcut key.  If
+ * allow_funcs is FALSE, don't actually run any functions associated
+ * with shortcut keys. */
 int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	bool *ran_func, bool *finished, bool allow_funcs)
 {
@@ -75,7 +84,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
      * statusbar prompt shortcut, set have_shortcut to TRUE. */
     have_shortcut = (s != NULL || input == NANO_REFRESH_KEY ||
 	input == NANO_HOME_KEY || input == NANO_END_KEY ||
-	input == NANO_FORWARD_KEY || input == NANO_BACK_KEY ||
+	input == NANO_BACK_KEY || input == NANO_FORWARD_KEY ||
 	input == NANO_BACKSPACE_KEY || input == NANO_DELETE_KEY ||
 	input == NANO_CUT_KEY ||
 #ifndef NANO_TINY
@@ -152,11 +161,11 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 		case NANO_END_KEY:
 		    do_statusbar_end();
 		    break;
-		case NANO_FORWARD_KEY:
-		    do_statusbar_right();
-		    break;
 		case NANO_BACK_KEY:
 		    do_statusbar_left();
+		    break;
+		case NANO_FORWARD_KEY:
+		    do_statusbar_right();
 		    break;
 		case NANO_BACKSPACE_KEY:
 		    /* If we're using restricted mode, the filename
@@ -223,8 +232,8 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 		/* Handle the normal statusbar prompt shortcuts, setting
 		 * ran_func to TRUE if we try to run their associated
 		 * functions and setting finished to TRUE to indicate
-		 * that we're done after trying to run their associated
-		 * functions. */
+		 * that we're done after running or trying to run their
+		 * associated functions. */
 		default:
 		    if (s->func != NULL) {
 			*ran_func = TRUE;
@@ -240,6 +249,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 }
 
 #ifndef DISABLE_MOUSE
+/* Handle a mouse click on the statusbar prompt or the shortcut list. */
 bool do_statusbar_mouse(void)
 {
     int mouse_x, mouse_y;
@@ -342,6 +352,10 @@ void do_statusbar_output(char *output, size_t output_len, bool
     update_statusbar_line(answer, statusbar_x);
 }
 
+/* Move to the beginning of the prompt text.  If the SMART_HOME flag is
+ * set, move to the first non-whitespace character of the prompt text if
+ * we're not already there, or to the beginning of the prompt text if we
+ * are. */
 void do_statusbar_home(void)
 {
     size_t pww_save = statusbar_pww;
@@ -369,6 +383,7 @@ void do_statusbar_home(void)
 	update_statusbar_line(answer, statusbar_x);
 }
 
+/* Move to the end of the prompt text. */
 void do_statusbar_end(void)
 {
     size_t pww_save = statusbar_pww;
@@ -380,19 +395,7 @@ void do_statusbar_end(void)
 	update_statusbar_line(answer, statusbar_x);
 }
 
-void do_statusbar_right(void)
-{
-    if (statusbar_x < strlen(answer)) {
-	size_t pww_save = statusbar_pww;
-
-	statusbar_x = move_mbright(answer, statusbar_x);
-	statusbar_pww = statusbar_xplustabs();
-
-	if (need_statusbar_horizontal_update(pww_save))
-	    update_statusbar_line(answer, statusbar_x);
-    }
-}
-
+/* Move left one character. */
 void do_statusbar_left(void)
 {
     if (statusbar_x > 0) {
@@ -406,6 +409,21 @@ void do_statusbar_left(void)
     }
 }
 
+/* Move right one character. */
+void do_statusbar_right(void)
+{
+    if (statusbar_x < strlen(answer)) {
+	size_t pww_save = statusbar_pww;
+
+	statusbar_x = move_mbright(answer, statusbar_x);
+	statusbar_pww = statusbar_xplustabs();
+
+	if (need_statusbar_horizontal_update(pww_save))
+	    update_statusbar_line(answer, statusbar_x);
+    }
+}
+
+/* Backspace over one character. */
 void do_statusbar_backspace(void)
 {
     if (statusbar_x > 0) {
@@ -414,6 +432,7 @@ void do_statusbar_backspace(void)
     }
 }
 
+/* Delete one character. */
 void do_statusbar_delete(void)
 {
     statusbar_pww = statusbar_xplustabs();
@@ -435,7 +454,7 @@ void do_statusbar_delete(void)
     }
 }
 
-/* Move text from the statusbar prompt into oblivion. */
+/* Move text from the prompt into oblivion. */
 void do_statusbar_cut_text(void)
 {
     assert(answer != NULL);
@@ -456,9 +475,9 @@ void do_statusbar_cut_text(void)
 }
 
 #ifndef NANO_TINY
-/* Move to the next word at the statusbar prompt.  If allow_punct is
- * TRUE, treat punctuation as part of a word.  Return TRUE if we started
- * on a word, and FALSE otherwise. */
+/* Move to the next word in the prompt text.  If allow_punct is TRUE,
+ * treat punctuation as part of a word.  Return TRUE if we started on a
+ * word, and FALSE otherwise. */
 bool do_statusbar_next_word(bool allow_punct)
 {
     size_t pww_save = statusbar_pww;
@@ -521,7 +540,7 @@ bool do_statusbar_next_word(bool allow_punct)
     return started_on_word;
 }
 
-/* Move to the previous word at the statusbar prompt.  If allow_punct is
+/* Move to the previous word in the prompt text.  If allow_punct is
  * TRUE, treat punctuation as part of a word.  Return TRUE if we started
  * on a word, and FALSE otherwise. */
 bool do_statusbar_prev_word(bool allow_punct)
@@ -617,6 +636,8 @@ bool do_statusbar_prev_word(bool allow_punct)
 }
 #endif /* !NANO_TINY */
 
+/* Get verbatim input.  Set got_enter to TRUE if we got the Enter key as
+ * part of the verbatim input. */
 void do_statusbar_verbatim_input(bool *got_enter)
 {
     int *kbinput;
@@ -642,6 +663,10 @@ void do_statusbar_verbatim_input(bool *got_enter)
 }
 
 #ifndef NANO_TINY
+/* Search for a match to one of the two characters in bracket_set.  If
+ * reverse is TRUE, search backwards for the leftmost bracket.
+ * Otherwise, search forwards for the rightmost bracket.  Return TRUE if
+ * we found a match, and FALSE otherwise. */
 bool find_statusbar_bracket_match(bool reverse, const char
 	*bracket_set)
 {
@@ -681,6 +706,8 @@ bool find_statusbar_bracket_match(bool reverse, const char
     return TRUE;
 }
 
+/* Search for a match to the bracket at the current cursor position, if
+ * there is one. */
 void do_statusbar_find_bracket(void)
 {
     size_t statusbar_x_save, pww_save;

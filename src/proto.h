@@ -24,17 +24,29 @@
 #ifndef PROTO_H
 #define PROTO_H 1
 
-/* Public externs. */
 #include "nano.h"
 
+/* Public externs.  See global.c for descriptions of them. */
 #ifndef DISABLE_WRAPJUSTIFY
 extern ssize_t fill;
 extern ssize_t wrap_at;
 #endif
-extern int editwinrows;
+
+extern char *last_search;
+extern char *last_replace;
+
 extern long flags;
-extern ssize_t tabsize;
-extern int currslen;
+extern WINDOW *topwin;
+extern WINDOW *edit;
+extern WINDOW *bottomwin;
+extern int editwinrows;
+
+extern filestruct *cutbuffer;
+#ifndef DISABLE_JUSTIFY
+extern filestruct *jusbuffer;
+#endif
+extern partition *filepart;
+extern openfilestruct *openfile;
 
 #if !defined(NANO_TINY) && defined(ENABLE_NANORC)
 extern char *whitespace;
@@ -54,41 +66,29 @@ extern size_t quotelen;
 #endif
 #endif
 
+extern char *answer;
+
+extern ssize_t tabsize;
+
 #ifndef NANO_TINY
 extern char *backup_dir;
 #endif
-
-extern WINDOW *topwin, *edit, *bottomwin;
-extern char *answer;
-extern char *last_search;
-extern char *last_replace;
 #ifndef DISABLE_OPERATINGDIR
 extern char *operating_dir;
 extern char *full_operating_dir;
 #endif
+
 #ifndef DISABLE_SPELLER
 extern char *alt_speller;
 #endif
 
-extern struct stat fileinfo;
-extern filestruct *cutbuffer;
-#ifndef DISABLE_JUSTIFY
-extern filestruct *jusbuffer;
-#endif
-extern partition *filepart;
-
-extern openfilestruct *openfile;
-
-#ifdef ENABLE_COLOR
-extern syntaxtype *syntaxes;
-extern char *syntaxstr;
-#endif
-
-extern shortcut *shortcut_list;
-extern shortcut *main_list, *whereis_list;
-extern shortcut *replace_list, *gotoline_list;
-extern shortcut *writefile_list, *insertfile_list;
+extern shortcut *main_list;
+extern shortcut *whereis_list;
+extern shortcut *replace_list;
 extern shortcut *replace_list_2;
+extern shortcut *gotoline_list;
+extern shortcut *writefile_list;
+extern shortcut *insertfile_list;
 #ifndef NANO_TINY
 extern shortcut *extcmd_list;
 #endif
@@ -99,20 +99,16 @@ extern shortcut *help_list;
 extern shortcut *spell_list;
 #endif
 #ifndef DISABLE_BROWSER
-extern shortcut *browser_list, *gotodir_list;
+extern shortcut *browser_list;
+extern shortcut *gotodir_list;
+#endif
+
+#ifdef ENABLE_COLOR
+extern syntaxtype *syntaxes;
+extern char *syntaxstr;
 #endif
 
 extern const shortcut *currshortcut;
-
-#ifdef HAVE_REGEX_H
-extern regex_t search_regexp;
-extern regmatch_t regmatches[10];
-#ifdef ENABLE_COLOR
-extern regex_t syntaxfile_regexp;
-extern regmatch_t synfilematches[1];
-#endif
-#endif
-
 #ifndef NANO_TINY
 extern toggle *toggles;
 #endif
@@ -126,11 +122,14 @@ extern filestruct *replaceage;
 extern filestruct *replacebot;
 #endif
 
+#ifdef HAVE_REGEX_H
+extern regex_t search_regexp;
+extern regmatch_t regmatches[10];
+#endif
+
 extern bool curses_ended;
 
 extern char *homedir;
-
-/* The functions we want available. */
 
 /* Public functions in browser.c. */
 #ifndef DISABLE_BROWSER
@@ -436,8 +435,8 @@ void do_statusbar_output(char *output, size_t output_len, bool
 	*got_enter, bool allow_cntrls);
 void do_statusbar_home(void);
 void do_statusbar_end(void);
-void do_statusbar_right(void);
 void do_statusbar_left(void);
+void do_statusbar_right(void);
 void do_statusbar_backspace(void);
 void do_statusbar_delete(void);
 void do_statusbar_cut_text(void);
@@ -496,7 +495,7 @@ int regexp_init(const char *regexp);
 void regexp_cleanup(void);
 #endif
 void not_found_msg(const char *str);
-void search_abort(void);
+void search_replace_abort(void);
 void search_init_globals(void);
 int search_init(bool replacing, bool use_answer);
 bool findnextstr(
@@ -510,7 +509,6 @@ void do_search(void);
 #ifndef NANO_TINY
 void do_research(void);
 #endif
-void replace_abort(void);
 #ifdef HAVE_REGEX_H
 int replace_regexp(char *string, bool create);
 #endif
@@ -526,7 +524,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	bool interactive, bool save_pos, bool allow_update);
 void do_gotolinecolumn_void(void);
 #ifndef DISABLE_SPELLER
-void do_gotopos(ssize_t line, size_t pos_x, ssize_t pos_y, size_t
+void do_gotopos(ssize_t pos_line, size_t pos_x, ssize_t pos_y, size_t
 	pos_pww);
 #endif
 #ifndef NANO_TINY
@@ -621,7 +619,7 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream);
 int safe_regexec(const regex_t *preg, const char *string, size_t nmatch,
 	regmatch_t pmatch[], int eflags);
 #endif
-int regexp_bol_or_eol(const regex_t *preg, const char *string);
+bool regexp_bol_or_eol(const regex_t *preg, const char *string);
 #endif
 #ifndef DISABLE_SPELLER
 bool is_whole_word(size_t pos, const char *buf, const char *word);

@@ -47,12 +47,14 @@
 #include <setjmp.h>
 #endif
 
-static struct termios oldterm;	/* The user's original term settings. */
-static struct sigaction act;	/* For all our fun signal handlers. */
+static struct termios oldterm;
+	/* The user's original terminal settings. */
+static struct sigaction act;
+	/* For all our fun signal handlers. */
 
 #ifndef NANO_TINY
-static sigjmp_buf jmpbuf;	/* Used to return to main() after a
-				 * SIGWINCH. */
+static sigjmp_buf jmpbuf;
+	/* Used to return to main() after a SIGWINCH. */
 #endif
 
 /* Create a new filestruct node.  Note that we specifically do not set
@@ -523,6 +525,7 @@ void free_openfilestruct(openfilestruct *src)
 }
 #endif
 
+/* Display a warning about a key disabled in view mode. */
 void print_view_warning(void)
 {
     statusbar(_("Key illegal in VIEW mode"));
@@ -597,6 +600,8 @@ void die(const char *msg, ...)
     exit(1);
 }
 
+/* Save the current file under the name spacified in die_filename, which
+ * is modified to be unique if necessary. */
 void die_save_file(const char *die_filename)
 {
     char *retval;
@@ -630,6 +635,7 @@ void die_save_file(const char *die_filename)
     free(retval);
 }
 
+/* Initialize the three window portions nano uses. */
 void window_init(void)
 {
     /* If the screen height is too small, get out. */
@@ -668,6 +674,7 @@ void window_init(void)
 }
 
 #ifndef DISABLE_MOUSE
+/* Initialize mouse support. */
 void mouse_init(void)
 {
     if (ISSET(USE_MOUSE)) {
@@ -710,6 +717,7 @@ void print1opt_full(const char *shortflag
     printf("\n");
 }
 
+/* Explain how to properly use nano and its command line options. */
 void usage(void)
 {
 #ifdef HAVE_GETOPT_LONG
@@ -818,6 +826,9 @@ void usage(void)
     exit(0);
 }
 
+/* Display the current version of nano, the date and time it was
+ * compiled, contact information for it, and the configuration options
+ * it was compiled with. */
 void version(void)
 {
     printf(_(" GNU nano version %s (compiled %s, %s)\n"), VERSION,
@@ -883,16 +894,23 @@ void version(void)
     printf("\n");
 }
 
+/* Return 1 if the MORE_SPACE flag is set, and 0 otherwise.  This is
+ * used to calculate the relative screen position while taking this flag
+ * into account, since it adds one line to the edit window. */
 int no_more_space(void)
 {
     return ISSET(MORE_SPACE) ? 1 : 0;
 }
 
+/* Return 2 if the NO_HELP flag is set, and 0 otherwise.  This is used
+ * to calculate the relative screen position while taking this flag into
+ * account, since it removes two lines from the edit window. */
 int no_help(void)
 {
     return ISSET(NO_HELP) ? 2 : 0;
 }
 
+/* Indicate a disabled function on the statusbar. */
 void nano_disabled_msg(void)
 {
     statusbar(_("Sorry, support for this function has been disabled"));
@@ -902,11 +920,14 @@ void do_exit(void)
 {
     int i;
 
+    /* If the file hasn't been modified, pretend the user chose not to
+     * save. */
     if (!openfile->modified)
-	/* Pretend the user chose not to save. */
 	i = 0;
+    /* If the TEMP_FILE flag is set, pretend the user chose to save. */
     else if (ISSET(TEMP_FILE))
 	i = 1;
+    /* Otherwise, ask the user whether or not to save. */
     else
 	i = do_yesno_prompt(FALSE,
 		_("Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "));
@@ -915,18 +936,22 @@ void do_exit(void)
     dump_filestruct(openfile->fileage);
 #endif
 
+    /* If the user chose not to save, or if the user chose to save and
+     * the save succeeded, we're ready to exit. */
     if (i == 0 || (i == 1 && do_writeout(TRUE) == 0)) {
 #ifdef ENABLE_MULTIBUFFER
 	/* Exit only if there are no more open file buffers. */
 	if (!close_buffer())
 #endif
 	    finish();
+    /* If the user canceled, we go on. */
     } else if (i != 1)
 	statusbar(_("Cancelled"));
 
     display_main_list();
 }
 
+/* Initialize the signal handlers. */
 void signal_init(void)
 {
     /* Trap SIGINT and SIGQUIT because we want them to do useful
@@ -1005,6 +1030,7 @@ RETSIGTYPE do_continue(int signal)
 }
 
 #ifndef NANO_TINY
+/* Handler for SIGWINCH (window size change). */
 RETSIGTYPE handle_sigwinch(int signal)
 {
     const char *tty = ttyname(0);
@@ -1079,6 +1105,9 @@ RETSIGTYPE handle_sigwinch(int signal)
     siglongjmp(jmpbuf, 1);
 }
 
+/* If allow is TRUE, block any SIGWINCH signals that we get, so that we
+ * can deal with them later.  If allow is FALSE, unblock any SIGWINCH
+ * signals that we have, so that we can deal with them now. */
 void allow_pending_sigwinch(bool allow)
 {
     sigset_t winch;
@@ -1089,6 +1118,7 @@ void allow_pending_sigwinch(bool allow)
 #endif /* !NANO_TINY */
 
 #ifndef NANO_TINY
+/* Handle the global toggle specified in which. */
 void do_toggle(const toggle *which)
 {
     bool enabled;
@@ -1139,6 +1169,8 @@ void do_toggle(const toggle *which)
 }
 #endif /* !NANO_TINY */
 
+/* Disable extended input and output processing in our terminal
+ * settings. */
 void disable_extended_io(void)
 {
     struct termios term;
@@ -1149,6 +1181,8 @@ void disable_extended_io(void)
     tcsetattr(0, TCSANOW, &term);
 }
 
+/* Disable interpretation of the special control keys in our terminal
+ * settings. */
 void disable_signals(void)
 {
     struct termios term;
@@ -1159,6 +1193,8 @@ void disable_signals(void)
 }
 
 #ifndef NANO_TINY
+/* Enable interpretation of the special control keys in our terminal
+ * settings. */
 void enable_signals(void)
 {
     struct termios term;
@@ -1169,6 +1205,8 @@ void enable_signals(void)
 }
 #endif
 
+/* Disable interpretation of the flow control characters in our terminal
+ * settings. */
 void disable_flow_control(void)
 {
     struct termios term;
@@ -1178,6 +1216,8 @@ void disable_flow_control(void)
     tcsetattr(0, TCSANOW, &term);
 }
 
+/* Enable interpretation of the flow control characters in our terminal
+ * settings. */
 void enable_flow_control(void)
 {
     struct termios term;
@@ -1206,6 +1246,15 @@ void terminal_init(void)
 	disable_flow_control();
 }
 
+/* Read in a character, interpret it as a shortcut or toggle if
+ * necessary, and return it.  Set meta_key to TRUE if the character is a
+ * meta sequence, set func_key to TRUE if the character is a function
+ * key, set s_or_t to TRUE if the character is a shortcut or toggle
+ * key, set ran_func to TRUE if we ran a function associated with a
+ * shortcut key, and set finished to TRUE if we're done after running
+ * or trying to run a function associated with a shortcut key.  If
+ * allow_funcs is FALSE, don't actually run any functions associated
+ * with shortcut keys. */
 int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	*ran_func, bool *finished, bool allow_funcs)
 {
@@ -1325,8 +1374,8 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 		/* Handle the normal edit window shortcuts, setting
 		 * ran_func to TRUE if we try to run their associated
 		 * functions and setting finished to TRUE to indicate
-		 * that we're done after trying to run their associated
-		 * functions. */
+		 * that we're done after running or trying to run their
+		 * associated functions. */
 		default:
 		    /* Blow away the text in the cutbuffer if we aren't
 		     * cutting text. */
@@ -1364,6 +1413,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 }
 
 #ifndef DISABLE_MOUSE
+/* Handle a mouse click on the edit window or the shortcut list. */
 bool do_mouse(void)
 {
     int mouse_x, mouse_y;
@@ -2095,5 +2145,6 @@ int main(int argc, char **argv)
 		TRUE);
     }
 
+    /* We should never get here. */
     assert(FALSE);
 }

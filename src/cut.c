@@ -31,6 +31,8 @@ static bool keep_cutbuffer = FALSE;
 static filestruct *cutbottom = NULL;
 	/* Pointer to the end of the cutbuffer. */
 
+/* Indicate that we should no longer keep the contents of the
+ * cutbuffer. */
 void cutbuffer_reset(void)
 {
     keep_cutbuffer = FALSE;

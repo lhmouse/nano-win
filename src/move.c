@@ -26,6 +26,7 @@
 #include <string.h>
 #include <ctype.h>
 
+/* Move to the first line of the file. */
 void do_first_line(void)
 {
     const filestruct *current_save = openfile->current;
@@ -40,6 +41,7 @@ void do_first_line(void)
     edit_redraw(current_save, pww_save);
 }
 
+/* Move to the last line of the file. */
 void do_last_line(void)
 {
     const filestruct *current_save = openfile->current;
@@ -55,6 +57,7 @@ void do_last_line(void)
     edit_redraw(current_save, pww_save);
 }
 
+/* Move up one page. */
 void do_page_up(void)
 {
     int i;
@@ -95,6 +98,7 @@ void do_page_up(void)
     edit_scroll(UP, editwinrows - 2);
 }
 
+/* Move down one page. */
 void do_page_down(void)
 {
     int i;
@@ -138,7 +142,8 @@ void do_page_down(void)
 
 #ifndef DISABLE_JUSTIFY
 /* Move up to the beginning of the last beginning-of-paragraph line
- * before the current line. */
+ * before the current line.  If allow_update is TRUE, update the screen
+ * afterwards. */
 void do_para_begin(bool allow_update)
 {
     const filestruct *current_save = openfile->current;
@@ -160,6 +165,8 @@ void do_para_begin(bool allow_update)
 	edit_redraw(current_save, pww_save);
 }
 
+/* Move up to the beginning of the last beginning-of-paragraph line
+ * before the current line, and update the screen afterwards. */
 void do_para_begin_void(void)
 {
     do_para_begin(TRUE);
@@ -167,9 +174,10 @@ void do_para_begin_void(void)
 
 /* Move down to the beginning of the last line of the current paragraph.
  * Then move down one line farther if there is such a line, or to the
- * end of the current line if not.  A line is the last line of a
- * paragraph if it is in a paragraph, and the next line either is a
- * beginning-of-paragraph line or isn't in a paragraph. */
+ * end of the current line if not.  If allow_update is TRUE, update the
+ * screen afterwards.  A line is the last line of a paragraph if it is
+ * in a paragraph, and the next line either is the beginning line of a
+ * paragraph or isn't in a paragraph. */
 void do_para_end(bool allow_update)
 {
     const filestruct *const current_save = openfile->current;
@@ -201,6 +209,9 @@ void do_para_end(bool allow_update)
 	edit_redraw(current_save, pww_save);
 }
 
+/* Move down to the beginning of the last line of the current paragraph.
+ * Then move down one line farther if there is such a line, or to the
+ * end of the current line if not, and update the screen afterwards. */
 void do_para_end_void(void)
 {
     do_para_end(TRUE);
@@ -208,10 +219,10 @@ void do_para_end_void(void)
 #endif /* !DISABLE_JUSTIFY */
 
 #ifndef NANO_TINY
-/* Move to the next word in the current filestruct.  If allow_punct is
- * TRUE, treat punctuation as part of a word.  If allow_update is TRUE,
- * update the screen afterward.  Return TRUE if we started on a word,
- * and FALSE otherwise. */
+/* Move to the next word in the file.  If allow_punct is TRUE, treat
+ * punctuation as part of a word.  If allow_update is TRUE, update the
+ * screen afterwards.  Return TRUE if we started on a word, and FALSE
+ * otherwise. */
 bool do_next_word(bool allow_punct, bool allow_update)
 {
     size_t pww_save = openfile->placewewant;
@@ -298,15 +309,18 @@ bool do_next_word(bool allow_punct, bool allow_update)
     return started_on_word;
 }
 
+/* Move to the next word in the file, treating punctuation as part of a
+ * word if the WORD_BOUNDS flag is set, and update the screen
+ * afterwards. */
 void do_next_word_void(void)
 {
     do_next_word(ISSET(WORD_BOUNDS), TRUE);
 }
 
-/* Move to the previous word in the current filestruct.  If allow_punct
- * is TRUE, treat punctuation as part of a word.  If allow_update is
- * TRUE, update the screen afterward.  Return TRUE if we started on a
- * word, and FALSE otherwise. */
+/* Move to the previous word in the file.  If allow_punct is TRUE, treat
+ * punctuation as part of a word.  If allow_update is TRUE, update the
+ * screen afterwards.  Return TRUE if we started on a word, and FALSE
+ * otherwise. */
 bool do_prev_word(bool allow_punct, bool allow_update)
 {
     size_t pww_save = openfile->placewewant;
@@ -429,12 +443,19 @@ bool do_prev_word(bool allow_punct, bool allow_update)
     return started_on_word;
 }
 
+/* Move to the previous word in the file, treating punctuation as part
+ * of a word if the WORD_BOUNDS flag is set, and update the screen
+ * afterwards. */
 void do_prev_word_void(void)
 {
     do_prev_word(ISSET(WORD_BOUNDS), TRUE);
 }
 #endif /* !NANO_TINY */
 
+/* Move to the beginning of the current line.  If the SMART_HOME flag is
+ * set, move to the first non-whitespace character of the current line
+ * if we're not already there, or to the beginning of the current line
+ * if we are. */
 void do_home(void)
 {
     size_t pww_save = openfile->placewewant;
@@ -464,6 +485,7 @@ void do_home(void)
 	update_line(openfile->current, openfile->current_x);
 }
 
+/* Move to the end of the current line. */
 void do_end(void)
 {
     size_t pww_save = openfile->placewewant;
@@ -477,6 +499,7 @@ void do_end(void)
 	update_line(openfile->current, openfile->current_x);
 }
 
+/* Move up one line. */
 void do_up(void)
 {
     check_statusblank();
@@ -516,6 +539,7 @@ void do_up(void)
 }
 
 #ifndef NANO_TINY
+/* Scroll up one line without scrolling the cursor. */
 void do_scroll_up(void)
 {
     check_statusblank();
@@ -540,6 +564,7 @@ void do_scroll_up(void)
 }
 #endif /* !NANO_TINY */
 
+/* Move down one line. */
 void do_down(void)
 {
     check_statusblank();
@@ -579,6 +604,7 @@ void do_down(void)
 }
 
 #ifndef NANO_TINY
+/* Scroll down one line without scrolling the cursor. */
 void do_scroll_down(void)
 {
     check_statusblank();
@@ -603,6 +629,7 @@ void do_scroll_down(void)
 }
 #endif /* !NANO_TINY */
 
+/* Move left one character. */
 void do_left(void)
 {
     size_t pww_save = openfile->placewewant;
@@ -623,6 +650,7 @@ void do_left(void)
 	update_line(openfile->current, openfile->current_x);
 }
 
+/* Move right one character. */
 void do_right(void)
 {
     size_t pww_save = openfile->placewewant;

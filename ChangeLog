@@ -1,5 +1,7 @@
 CVS code -
 - General:
+	- Miscellaneous comment fixes. (DLR)
+	- More int -> bool conversions. (DLR)
 	- Add the ability to scroll up or down single lines without
 	  scrolling the cursor, via Meta-- and Meta-+.  Note that this
 	  is disabled when NANO_SMALL is defined.  New functions
@@ -170,6 +172,9 @@ CVS code -
 	  (DLR)
 - nano.h:
 	- Readd MIN_EDITOR_COLS #define, set to 4. (DLR)
+- proto.h:
+	- Remove now-unused externs for currslen, shortcut_list,
+	  fileinfo, syntaxfile_regexp, and synfilematches. (DLR)
 - prompt.c:
   do_statusbar_input()
 	- Fix misplaced break when handling NANO_VERBATIM_KEY. (DLR)
@@ -183,12 +188,17 @@ CVS code -
   do_rcfile()
 	- Remove unneeded assert. (DLR)
 - search.c:
+  search_abort()
+	- Rename to search_replace_abort(). (DLR)
   findnextstr()
 	- Remove parameter can_display_wrap, as it's always set to TRUE
 	  now, and rename parameter wholeword to whole_word, for
 	  consistency. (DLR)
 	- Only include the whole_word parameter when DISABLE_SPELLER
 	  isn't defined, as it's only used then. (DLR)
+  replace_abort()
+	- Replace with search_replace_abort(), since it does the same
+	  things that this function does. (DLR)
   do_replace_loop()
 	- Change order of parameters to more closely match those of
 	  findnextstr(), and rename parameter wholewords to whole_word,
@@ -244,6 +254,8 @@ CVS code -
 	- Fix test so that we scroll through the line in 8-character
 	  chunks when COLS is greater than 8, not when COLS is greater
 	  than 9. (DLR)
+  remove_magicline()
+	- Add assert. (DLR)
 - winio.c:
   nanoget_repaint()
 	- Rename parameter inputbuf to buf, for consistency. (DLR)

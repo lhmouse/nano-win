@@ -336,6 +336,8 @@ filestruct *read_line(char *buf, filestruct *prevnode, bool
     return fileptr;
 }
 
+/* Read an open file into the current buffer.  f should be set to the
+ * open file, and filename should be set to the name of the file. */
 void read_file(FILE *f, const char *filename)
 {
     size_t num_lines = 0;
@@ -665,6 +667,9 @@ char *get_next_filename(const char *name, const char *suffix)
     return buf;
 }
 
+/* Insert a file into a new buffer if the MULTIBUFFER flag is set, or
+ * into the current buffer if it isn't.  If execute is TRUE, insert the
+ * output of an executed command instead of a file. */
 void do_insertfile(
 #ifndef NANO_TINY
 	bool execute
@@ -871,6 +876,9 @@ void do_insertfile(
     free(ans);
 }
 
+/* Insert a file into a new buffer or the current buffer, depending on
+ * whether the MULTIBUFFER flag is set.  If we're in view mode, only
+ * allow inserting a file into a new buffer. */
 void do_insertfile_void(void)
 {
 #ifdef ENABLE_MULTIBUFFER
@@ -1687,6 +1695,10 @@ int write_marked_file(const char *name, FILE *f_open, bool tmp,
 }
 #endif /* !NANO_TINY */
 
+/* Write the current file to disk.  If the mark is on, write the current
+ * marked selection to disk.  If exiting is TRUE, write the file to disk
+ * regardless of whether the mark is on, and without prompting if the
+ * TEMP_FILE flag is set. */
 int do_writeout(bool exiting)
 {
     int i, retval = 0;
@@ -1854,6 +1866,8 @@ int do_writeout(bool exiting)
     return retval;
 }
 
+/* Write the current file to disk.  If the mark is on, write the current
+ * marked selection to disk. */
 void do_writeout_void(void)
 {
     do_writeout(FALSE);
@@ -2353,6 +2367,9 @@ void load_history(void)
     }
 }
 
+/* Write the lines of a history list, starting with the line at h, to
+ * the open file at hist.  Return TRUE if the write succeeded, and FALSE
+ * otherwise. */
 bool writehist(FILE *hist, filestruct *h)
 {
     filestruct *p;

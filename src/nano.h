@@ -64,15 +64,17 @@
 #endif
 
 #ifdef USE_SLANG
-/* Slang support enabled. */
+/* Slang support. */
 #include <slcurses.h>
 /* Slang curses emulation brain damage, part 2: Slang doesn't define the
  * curses equivalents of the Insert or Delete keys. */
 #define KEY_DC SL_KEY_DELETE
 #define KEY_IC SL_KEY_IC
+/* Ncurses support. */
 #elif defined(HAVE_NCURSES_H)
 #include <ncurses.h>
-#else /* Uh oh. */
+#else
+/* Curses support. */
 #include <curses.h>
 #endif /* CURSES_H */
 
@@ -172,120 +174,168 @@ typedef enum {
 /* Structure types. */
 typedef struct filestruct {
     char *data;
-    struct filestruct *next;	/* Next node. */
-    struct filestruct *prev;	/* Previous node. */
-    ssize_t lineno;		/* The line number. */
+	/* The text of this line. */
+    ssize_t lineno;
+	/* The number of this line. */
+    struct filestruct *next;
+	/* Next node. */
+    struct filestruct *prev;
+	/* Previous node. */
 } filestruct;
 
 typedef struct partition {
     filestruct *fileage;
+	/* The top line of this portion of the file. */
     filestruct *top_prev;
+	/* The line before the top line of this portion of the file. */
     char *top_data;
+	/* The text before the beginning of the top line of this portion
+	 * of the file. */
     filestruct *filebot;
+	/* The bottom line of this portion of the file. */
     filestruct *bot_next;
+	/* The line after the bottom line of this portion of the
+	 * file. */
     char *bot_data;
+	/* The text after the end of the bottom line of this portion of
+	 * the file. */
 } partition;
 
 #ifdef ENABLE_COLOR
 typedef struct colortype {
-    short fg;			/* Foreground color. */
-    short bg;			/* Background color. */
-    bool bright;		/* Is this color A_BOLD? */
-    bool icase;			/* Is this regex string case
-				 * insensitive? */
-    int pairnum;		/* Color pair number used for this
-				 * foreground/background. */
-    char *start_regex;		/* Start (or all) of the regex
-				 * string. */
-    regex_t *start;		/* Compiled start (or all) of the regex
-				 * string. */
-    char *end_regex;		/* End (if any) of the regex string. */
-    regex_t *end;		/* Compiled end (if any) of the regex
-				 * string. */
+    short fg;
+	/* This syntax's foreground color. */
+    short bg;
+	/* This syntax's background color. */
+    bool bright;
+	/* Is this color A_BOLD? */
+    bool icase;
+	/* Is this regex string case insensitive? */
+    int pairnum;
+	/* The color pair number used for this foreground color and
+	 * background color. */
+    char *start_regex;
+	/* The start (or all) of the regex string. */
+    regex_t *start;
+	/* The compiled start (or all) of the regex string. */
+    char *end_regex;
+	/* The end (if any) of the regex string. */
+    regex_t *end;
+	/* The compiled end (if any) of the regex string. */
     struct colortype *next;
+	/* Next set of colors. */
 } colortype;
 
 typedef struct exttype {
-    char *ext_regex;		/* Extensions that match this syntax. */
-    regex_t *ext;		/* Compiled extensions that match this
-				 * syntax. */
+    char *ext_regex;
+	/* The extensions that match this syntax. */
+    regex_t *ext;
+	/* The compiled extensions that match this syntax. */
     struct exttype *next;
+	/* Next set of extensions. */
 } exttype;
 
 typedef struct syntaxtype {
-    char *desc;			/* Name of this syntax type. */
-    exttype *extensions;	/* List of extensions that this syntax
-				 * applies to. */
-    colortype *color;		/* Color struct for this syntax. */
+    char *desc;
+	/* The name of this syntax. */
+    exttype *extensions;
+	/* The list of extensions that this syntax applies to. */
+    colortype *color;
+	/* The colors used in this syntax. */
     struct syntaxtype *next;
+	/* Next syntax. */
 } syntaxtype;
 #endif /* ENABLE_COLOR */
 
 typedef struct openfilestruct {
-    char *filename;		/* Current file's name. */
-    filestruct *fileage;	/* Current file's first line. */
-    filestruct *filebot;	/* Current file's last line. */
-    filestruct *edittop;	/* Current top of edit window. */
-    filestruct *current;	/* Current file's line. */
-    size_t totsize;		/* Current file's total number of
-				 * characters. */
-    size_t current_x;		/* Current file's x-coordinate
-				 * position. */
-    size_t placewewant;		/* Current file's place we want. */
-    ssize_t current_y;		/* Current file's y-coordinate
-				 * position. */
-    bool modified;		/* Current file's modification
-				 * status. */
+    char *filename;
+	/* The current file's name. */
+    filestruct *fileage;
+	/* The current file's first line. */
+    filestruct *filebot;
+	/* The current file's last line. */
+    filestruct *edittop;
+	/* The current top of the edit window. */
+    filestruct *current;
+	/* The current file's current line. */
+    size_t totsize;
+	/* The current file's total number of characters. */
+    size_t current_x;
+	/* The current file's x-coordinate position. */
+    size_t placewewant;
+	/* The current file's place we want. */
+    ssize_t current_y;
+	/* The current file's y-coordinate position. */
+    bool modified;
+	/* Whether the current file has been modified. */
 #ifndef NANO_TINY
-    bool mark_set;		/* Current file's marking status. */
-    filestruct *mark_begin;	/* Current file's beginning marked
-				 * line. */
-    size_t mark_begin_x;	/* Current file's beginning marked
-				 * line's x-coordinate position. */
-    file_format fmt;		/* Current file's format. */
-    struct stat *current_stat;	/* Current file's stat. */
+    bool mark_set;
+	/* Whether the mark is on in the current file. */
+    filestruct *mark_begin;
+	/* The current file's beginning marked line, if any. */
+    size_t mark_begin_x;
+	/* The current file's beginning marked line's x-coordinate
+	 * position, if any. */
+    file_format fmt;
+	/* The current file's format. */
+    struct stat *current_stat;
+	/* The current file's stat. */
 #endif
 #ifdef ENABLE_COLOR
-    colortype *colorstrings;	/* Current file's associated colors. */
+    colortype *colorstrings;
+	/* The current file's associated colors. */
 #endif
     struct openfilestruct *next;
-				/* Next node. */
+	/* Next node. */
     struct openfilestruct *prev;
-				/* Previous node. */
+	/* Previous node. */
 } openfilestruct;
 
 typedef struct shortcut {
     /* Key values that aren't used should be set to NANO_NO_KEY. */
-    int ctrlval;	/* Special sentinel key or control key we want
-			 * bound. */
-    int metaval;	/* Meta key we want bound. */
-    int funcval;	/* Function key we want bound. */
-    int miscval;	/* Other Meta key we want bound. */
-    bool viewok;	/* Is this function legal in view mode? */
-    void (*func)(void);	/* Function to call when we catch this key. */
-    const char *desc;	/* Description, e.g. "Page Up". */
+    int ctrlval;
+	/* The special sentinel key or control key we want bound, if
+	 * any. */
+    int metaval;
+	/* The meta key we want bound, if any. */
+    int funcval;
+	/* The function key we want bound, if any. */
+    int miscval;
+	/* The other meta key we want bound, if any. */
+    bool viewok;
+	/* Is this function allowed when in view mode? */
+    void (*func)(void);
+	/* The function to call when we get this key. */
+    const char *desc;
+	/* The function's description, e.g. "Page Up". */
 #ifndef DISABLE_HELP
-    const char *help;	/* Help file entry text. */
+    const char *help;
+	/* The help file entry text for this function. */
 #endif
     struct shortcut *next;
+	/* Next shortcut. */
 } shortcut;
 
 #ifndef NANO_TINY
 typedef struct toggle {
-   int val;		/* Sequence to toggle the key.  Should only need
-			 * one. */
-   const char *desc;	/* Description for when toggle is, uh, toggled,
-			 * e.g. "Cut to end"; we'll append Enabled or
-			 * Disabled. */
-   long flag;		/* What flag actually gets toggled. */
+   int val;
+	/* The sequence to toggle the key.  We should only need one. */
+   const char *desc;
+	/* The description for when the toggle is, uh, toggled, e.g.
+	 * "Cut to end"; we'll append Enabled or Disabled. */
+   long flag;
+	/* Which flag actually gets toggled. */
    struct toggle *next;
+	/* Next toggle. */
 } toggle;
 #endif
 
 #ifdef ENABLE_NANORC
 typedef struct rcoption {
    const char *name;
+	/* The name of the rcfile option. */
    long flag;
+	/* The flag associated with it, if any. */
 } rcoption;
 #endif
 
@@ -452,8 +502,8 @@ typedef struct rcoption {
 #define NANO_REFRESH_KEY	NANO_CONTROL_L
 #define NANO_JUSTIFY_KEY	NANO_CONTROL_J
 #define NANO_JUSTIFY_FKEY	KEY_F(4)
-#define NANO_UNJUSTIFY_KEY	NANO_UNCUT_KEY	/* Same key as uncut. */
-#define NANO_UNJUSTIFY_FKEY	NANO_UNCUT_FKEY	/* Same key as uncut. */
+#define NANO_UNJUSTIFY_KEY	NANO_UNCUT_KEY	/* Same key as UnCut. */
+#define NANO_UNJUSTIFY_FKEY	NANO_UNCUT_FKEY	/* Same key as UnCut. */
 #define NANO_PREVLINE_KEY	NANO_CONTROL_P
 #define NANO_NEXTLINE_KEY	NANO_CONTROL_N
 #define NANO_FORWARD_KEY	NANO_CONTROL_F
@@ -524,23 +574,23 @@ typedef struct rcoption {
 #define VIEW TRUE
 #define NOVIEW FALSE
 
-/* Minimum editor window columns and rows required for nano to work
+/* The minimum editor window columns and rows required for nano to work
  * correctly. */
 #define MIN_EDITOR_COLS 4
 #define MIN_EDITOR_ROWS 1
 
-/* Default number of characters from end-of-line where text wrapping
- * occurs. */
+/* The default number of characters from the end of the line where
+ * wrapping occurs. */
 #define CHARS_FROM_EOL 8
 
-/* Default width of a tab. */
+/* The default width of a tab in spaces. */
 #define WIDTH_OF_TAB 8
 
-/* Maximum number of search/replace history strings saved, not counting
- * the blank lines at their ends. */
+/* The maximum number of search/replace history strings saved, not
+ * counting the blank lines at their ends. */
 #define MAX_SEARCH_HISTORY 100
 
-/* Maximum number of bytes we read from a file at one time. */
+/* The maximum number of bytes we read from a file at one time. */
 #define MAX_BUF_SIZE 128
 
 #endif /* !NANO_H */

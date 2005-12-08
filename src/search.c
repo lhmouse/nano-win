@@ -68,6 +68,8 @@ int regexp_init(const char *regexp)
     return 1;
 }
 
+/* Decompile the compiled regular expression we used in the last
+ * search, if any. */
 void regexp_cleanup(void)
 {
     if (regexp_compiled) {
@@ -77,6 +79,8 @@ void regexp_cleanup(void)
 }
 #endif
 
+/* Indicate on the statusbar that the string at str was not found by the
+ * last search. */
 void not_found_msg(const char *str)
 {
     char *disp;
@@ -93,7 +97,11 @@ void not_found_msg(const char *str)
     free(disp);
 }
 
-void search_abort(void)
+/* Abort the current search or replace.  Clean up by displaying the main
+ * shortcut list, updating the screen if the mark was on before, and
+ * decompiling the compiled regular expression we used in the last
+ * search, if any. */
+void search_replace_abort(void)
 {
     display_main_list();
 #ifndef NANO_TINY
@@ -105,6 +113,7 @@ void search_abort(void)
 #endif
 }
 
+/* Initialize the global search and replace strings. */
 void search_init_globals(void)
 {
     if (last_search == NULL)
@@ -403,6 +412,8 @@ bool findnextstr(
     return TRUE;
 }
 
+/* Clear the flag indicating that a search reached the last line of the
+ * file.  We need to do this just before a new search. */
 void findnextstr_wrap_reset(void)
 {
     search_last_line = FALSE;
@@ -424,7 +435,7 @@ void do_search(void)
     i = search_init(FALSE, FALSE);
     if (i == -1)	/* Cancel, Go to Line, blank search string, or
 			 * regcomp() failed. */
-	search_abort();
+	search_replace_abort();
     else if (i == -2)	/* Replace. */
 	do_replace();
 #if !defined(NANO_TINY) || defined(HAVE_REGEX_H)
@@ -487,11 +498,11 @@ void do_search(void)
 
     openfile->placewewant = xplustabs();
     edit_redraw(fileptr, old_pww);
-    search_abort();
+    search_replace_abort();
 }
 
 #ifndef NANO_TINY
-/* Search for the next string without prompting. */
+/* Search for the last string without prompting. */
 void do_research(void)
 {
     filestruct *fileptr = openfile->current;
@@ -553,15 +564,9 @@ void do_research(void)
 
     openfile->placewewant = xplustabs();
     edit_redraw(fileptr, old_pww);
-    search_abort();
+    search_replace_abort();
 }
 #endif
-
-void replace_abort(void)
-{
-    /* For now, we do the same thing as search_abort(). */
-    search_abort();
-}
 
 #ifdef HAVE_REGEX_H
 int replace_regexp(char *string, bool create)
@@ -881,14 +886,14 @@ void do_replace(void)
 
     if (ISSET(VIEW_MODE)) {
 	print_view_warning();
-	replace_abort();
+	search_replace_abort();
 	return;
     }
 
     i = search_init(TRUE, FALSE);
     if (i == -1) {		/* Cancel, Go to Line, blank search
 				 * string, or regcomp() failed. */
-	replace_abort();
+	search_replace_abort();
 	return;
     } else if (i == -2) {	/* No Replace. */
 	do_search();
@@ -930,7 +935,7 @@ void do_replace(void)
 		answer = mallocstrcpy(answer, last_replace);
 	    statusbar(_("Cancelled"));
 	}
-	replace_abort();
+	search_replace_abort();
 	return;
     }
 
@@ -961,7 +966,7 @@ void do_replace(void)
 		"Replaced %lu occurrences", (unsigned long)numreplaced),
 		(unsigned long)numreplaced);
 
-    replace_abort();
+    search_replace_abort();
 }
 
 /* Go to the specified line and column, or ask for them if interactive
@@ -1035,6 +1040,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
     display_main_list();
 }
 
+/* Go to the specified line and column, asking for them beforehand. */
 void do_gotolinecolumn_void(void)
 {
     do_gotolinecolumn(openfile->current->lineno,
@@ -1042,13 +1048,16 @@ void do_gotolinecolumn_void(void)
 }
 
 #ifndef DISABLE_SPELLER
-void do_gotopos(ssize_t line, size_t pos_x, ssize_t pos_y, size_t
+/* Go to the line with the number specified in pos_line, the
+ * x-coordinate specified in pos_x, the y-coordinate specified in pos_y,
+ * and the place we want specified in pos_pww. */
+void do_gotopos(ssize_t pos_line, size_t pos_x, ssize_t pos_y, size_t
 	pos_pww)
 {
     /* Since do_gotolinecolumn() resets the x-coordinate but not the
      * y-coordinate, set the coordinates up this way. */
     openfile->current_y = pos_y;
-    do_gotolinecolumn(line, pos_x + 1, FALSE, FALSE, TRUE, TRUE);
+    do_gotolinecolumn(pos_line, pos_x + 1, FALSE, FALSE, TRUE, TRUE);
 
     /* Set the rest of the coordinates up. */
     openfile->placewewant = pos_pww;
@@ -1058,8 +1067,9 @@ void do_gotopos(ssize_t line, size_t pos_x, ssize_t pos_y, size_t
 
 #ifndef NANO_TINY
 /* Search for a match to one of the two characters in bracket_set.  If
- * reverse is TRUE, search backwards.  Otherwise, search forwards.
- * Return TRUE if we found a match, or FALSE otherwise. */
+ * reverse is TRUE, search backwards for the leftmost bracket.
+ * Otherwise, search forwards for the rightmost bracket.  Return TRUE if
+ * we found a match, and FALSE otherwise. */
 bool find_bracket_match(bool reverse, const char *bracket_set)
 {
     filestruct *fileptr = openfile->current;

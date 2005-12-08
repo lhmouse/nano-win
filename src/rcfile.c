@@ -93,8 +93,12 @@ const static rcoption rcopts[] = {
 };
 
 static bool errors = FALSE;
+	/* Whether we got any errors while parsing an rcfile. */
 static size_t lineno = 0;
+	/* If we did, the line number where the current error
+	 * occurred. */
 static char *nanorc = NULL;
+	/* The path to the rcfile we're parsing. */
 #ifdef ENABLE_COLOR
 static syntaxtype *endsyntax = NULL;
 	/* The end of the list of syntaxes. */
@@ -180,6 +184,8 @@ char *parse_argument(char *ptr)
 }
 
 #ifdef ENABLE_COLOR
+/* Return the short value corresponding to the color named in colorname,
+ * and set bright to TRUE if that color is bright. */
 short color_to_short(const char *colorname, bool *bright)
 {
     short mcolor = -1;
@@ -217,6 +223,7 @@ short color_to_short(const char *colorname, bool *bright)
     return mcolor;
 }
 
+/* Parse the next regex string from the line at ptr, and return it. */
 char *parse_next_regex(char *ptr)
 {
     assert(ptr != NULL);
@@ -265,6 +272,8 @@ bool nregcomp(const char *regex, int eflags)
     return (rc == 0);
 }
 
+/* Parse the next syntax string from the line at ptr, and add it to the
+ * global list of color syntaxes. */
 void parse_syntax(char *ptr)
 {
     const char *fileregptr = NULL, *nameptr = NULL;
@@ -372,8 +381,9 @@ void parse_syntax(char *ptr)
     }
 }
 
-/* Parse the color stuff into the colorstrings array.  If icase is TRUE,
- * treat the color stuff as case insensitive. */
+/* Parse the color string in the line at ptr, and add it to the current
+ * file's associated colors.  If icase is TRUE, treat the color string
+ * as case insensitive. */
 void parse_colors(char *ptr, bool icase)
 {
     short fg, bg;
@@ -529,7 +539,8 @@ void parse_colors(char *ptr, bool icase)
 }
 #endif /* ENABLE_COLOR */
 
-/* Parse the rcfile, once it has been opened successfully. */
+/* Parse the rcfile, once it has been opened successfully at
+ * rcstream. */
 void parse_rcfile(FILE *rcstream)
 {
     char *buf = NULL;

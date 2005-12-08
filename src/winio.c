@@ -1586,6 +1586,14 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 }
 #endif /* !DISABLE_MOUSE */
 
+/* Return the shortcut corresponding to the values of kbinput (the key
+ * itself), meta_key (whether the key is a meta sequence), and func_key
+ * (whether the key is a function key), if any.  The shortcut will be
+ * the first one in the list (control key, meta key sequence, function
+ * key, other meta key sequence) for the corresponding function.  For
+ * example, passing in a meta key sequence that corresponds to a
+ * function with a control key, a function key, and a meta key sequence
+ * will return the control key corresponding to that function. */
 const shortcut *get_shortcut(const shortcut *s_list, int *kbinput, bool
 	*meta_key, bool *func_key)
 {
@@ -1638,6 +1646,9 @@ const shortcut *get_shortcut(const shortcut *s_list, int *kbinput, bool
 }
 
 #ifndef NANO_TINY
+/* Return the global toggle corresponding to the values of kbinput (the
+ * key itself) and meta_key (whether the key is a meta sequence), if
+ * any. */
 const toggle *get_toggle(int kbinput, bool meta_key)
 {
     const toggle *t = toggles;
@@ -1667,17 +1678,22 @@ void blank_line(WINDOW *win, int y, int x, int n)
 	waddch(win, ' ');
 }
 
+/* Blank the first line of the top portion of the window. */
 void blank_titlebar(void)
 {
     blank_line(topwin, 0, 0, COLS);
 }
 
+/* If the MORE_SPACE flag isn't set, blank the second line of the top
+ * portion of the window. */
 void blank_topbar(void)
 {
     if (!ISSET(MORE_SPACE))
 	blank_line(topwin, 1, 0, COLS);
 }
 
+/* Blank all the lines of the middle portion of the window, i.e, the
+ * edit window. */
 void blank_edit(void)
 {
     int i;
@@ -1685,11 +1701,14 @@ void blank_edit(void)
 	blank_line(edit, i, 0, COLS);
 }
 
+/* Blank the first line of the bottom portion of the window. */
 void blank_statusbar(void)
 {
     blank_line(bottomwin, 0, 0, COLS);
 }
 
+/* If the NO_HELP flag isn't set, blank the last two lines of the bottom
+ * portion of the window. */
 void blank_bottombars(void)
 {
     if (!ISSET(NO_HELP)) {
@@ -1698,6 +1717,9 @@ void blank_bottombars(void)
     }
 }
 
+/* Check if the number of keystrokes needed to blank the statusbar has
+ * been pressed.  If so, blank the statusbar, unless constant cursor
+ * position display is on. */
 void check_statusblank(void)
 {
     if (statusblank > 0)
@@ -1872,6 +1894,12 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
     return converted;
 }
 
+/* Display the path specified in path on the titlebar, along with the
+ * current version of nano and whether the current file has been
+ * modified.  If path is NULL, assume we're in normal editing mode and
+ * display the current filename instead.  Otherwise, assume we're in the
+ * file browser, and don't display whether the current file has been
+ * modified. */
 void titlebar(const char *path)
 {
     int space = COLS;
@@ -2029,8 +2057,8 @@ void titlebar(const char *path)
     wnoutrefresh(edit);
 }
 
-/* Set the modified flag if it isn't already set, and then update the
- * titlebar. */
+/* Mark the current file as modified if it isn't already, and then
+ * update the titlebar to display the file's new status. */
 void set_modified(void)
 {
     if (!openfile->modified) {
@@ -2106,6 +2134,8 @@ void statusbar(const char *msg, ...)
 	25;
 }
 
+/* Display the shortcut list in s on the last two rows of the bottom
+ * portion of the window. */
 void bottombars(const shortcut *s)
 {
     size_t i, colwidth, slen;
@@ -2846,6 +2876,7 @@ void edit_update(update_type location)
     openfile->edittop = foo;
 }
 
+/* Unconditionally redraw the entire screen. */
 void total_redraw(void)
 {
 #ifdef USE_SLANG
@@ -2858,6 +2889,8 @@ void total_redraw(void)
 #endif
 }
 
+/* Unconditionally redraw the entire screen, and then refresh it using
+ * the current file. */
 void total_refresh(void)
 {
     total_redraw();
@@ -2866,6 +2899,8 @@ void total_refresh(void)
     bottombars(currshortcut);
 }
 
+/* Display the main shortcut list on the last two rows of the bottom
+ * portion of the window. */
 void display_main_list(void)
 {
     bottombars(main_list);
@@ -2921,6 +2956,7 @@ void do_cursorpos(bool constant)
     disable_cursorpos = FALSE;
 }
 
+/* Unconditionally display the current cursor position. */
 void do_cursorpos_void(void)
 {
     do_cursorpos(FALSE);
