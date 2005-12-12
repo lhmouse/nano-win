@@ -1,3 +1,9 @@
+2005-12-13  Jordi Mallach  <jordi@gnu.org>
+
+	* it.po: Updated Italian translation by Marco Colombo.
+	* de.po: Updated German translation by Michael Piefel.
+	* nl.po: Updated Dutch translation by Benno Schulenberg.
+
 2005-11-08  David Lawrence Ramsey  <pooka109@cox.net>
 
 	* POTFILES.in: Add prompt.c.
