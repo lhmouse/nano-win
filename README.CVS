@@ -28,10 +28,10 @@ If you're using a C shell (e.g. tcsh or csh), do
 $ setenv CVS_RSH ssh
 
 After it's set up, use the following command to download the CVS tree:
-$ cvs -z3 -d:ext:anoncvs@savannah.gnu.org:/cvsroot/nano checkout nano
+$ cvs -z3 -d:pserver:anonymous@cvs.savannah.gnu.org:/sources/nano checkout nano
 
 If you want to download the stable CVS branch, add "-r nano_1_2_branch":
-$ cvs -z3 -d:ext:anoncvs@savannah.gnu.org:/cvsroot/nano checkout -r nano_1_2_branch nano
+$ cvs -z3 -d:pserver:anonymous@cvs.savannah.gnu.org:/sources/nano checkout -r nano_1_2_branch nano
 
 Once you have the sources in the "nano" directory, cd into it, and
 execute the "autogen.sh" script in the top directory.  This will set up
