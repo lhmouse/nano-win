@@ -1,3 +1,20 @@
+2005.12.23 - GNU nano 1.3.10 rises to the surface.  This release
+		contains several new features as well as fixes for
+		several longstanding bugs.  The former include the
+		ability to scroll up or down single lines without
+		scrolling the cursor, reworked bracket searching code
+		that doesn't require regular expression support,
+		reworked command execution code that uses $SHELL if
+		available instead of hardcoding "/bin/sh", and the
+		ability to no longer add newlines to files that don't
+		end in them via the -L/--nonewlines option.  The latter
+		include fixes to the statusbar prompt so that mouse
+		clicks work properly on it, fixes to the Yes/No/All
+		prompt so that mouse clicks on it work properly when
+		-O/--morespace is used, and fixes to the resize handling
+		so that nano dies properly when the terminal is too
+		small to display a prompt.  Enjoy.
+
 2005.10.23 - GNU nano 1.3.9 breaks through the wall.  This release
 		includes major enhancements as well as bugfixes.  The
 		enhancements include better handling of invalid UTF-8,
