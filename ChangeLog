@@ -247,6 +247,8 @@ CVS code -
 	  the text of the spell-checked file into its own function,
 	  replace_buffer(). (DLR)
 - utils.c:
+  parse_line_column()
+	- Simplify parsing of the column number. (DLR)
   ngetdelim()
 	- Do sanity checks in an assert instead of checking them
 	  manually and returning -1 if they fail. (DLR)

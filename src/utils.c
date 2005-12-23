@@ -94,7 +94,7 @@ bool parse_line_column(const char *str, ssize_t *line, ssize_t *column)
     comma = strchr(str, ',');
 
     if (comma != NULL && column != NULL) {
-	if (!parse_num(str + (comma - str + 1), column))
+	if (!parse_num(comma + 1, column))
 	    retval = FALSE;
     }
 
