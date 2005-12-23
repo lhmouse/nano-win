@@ -81,9 +81,9 @@ bool parse_num(const char *str, ssize_t *val)
     return TRUE;
 }
 
-/* Read an int and a ssize_t, separated by a comma, from str, and store
- * them in *line and *column (if they're not both NULL).  On error, we
- * return FALSE.  Otherwise, we return TRUE. */
+/* Read two ssize_t's, separated by a comma, from str, and store them in
+ * *line and *column (if they're not both NULL).  Return FALSE on error,
+ * or TRUE otherwise. */
 bool parse_line_column(const char *str, ssize_t *line, ssize_t *column)
 {
     bool retval = TRUE;
