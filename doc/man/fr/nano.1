@@ -14,7 +14,7 @@
 .\" AUCUNE garantie.
 .\"
 .\" $Id$
-.TH NANO 1 "version 1.3.9" "23 octobre 2005"
+.TH NANO 1 "version 1.3.10" "15 décembre 2005"
 .\" Please adjust this date whenever revising the manpage.
 .\" Merci de modifier ces dates à chaque mise à jour de cette page.
 .\"
@@ -70,7 +70,7 @@ de sécurité uniques si celles-ci sont activées.
 Convertit les tabulations clavier en espaces.
 .TP
 .B \-F (\-\-multibuffer)
-Active le mode multifichier, autorisant l'édition simultanée de 
+Active le mode multi-espace, autorisant l'édition simultanée de 
 plusieurs fichiers, si ce mode est disponible.
 .TP
 .B \-H (\-\-historylog)
@@ -88,6 +88,9 @@ Interprète les touches du pavé numérique afin qu'elles fonctionnent
 toutes correctement. Vous ne devriez utiliser cette option que si ce 
 n'est pas le cas, car nano ne sera plus capable d'utiliser la souris 
 correctement lorsque cette option sera activée.
+.TP
+.B \-L (\-\-nonewlines)
+Ne pas ajouter de passage à la ligne à la fin des fichiers.
 .TP
 .B \-N (\-\-noconvert)
 Désactive la conversion automatique des fichiers depuis les formats Mac et
@@ -169,7 +172,7 @@ Active l'utilisation de la souris (si elle est disponible pour votre
 système).
 .TP
 .B \-o \fIrépertoire\fP (\-\-operatingdir=\fIrépertoire\fP)
-Définit le répertoire de travail. Demande à nano de mettre en place
+Définit le répertoire de travail. Demande à \fBnano\fP de mettre en place
 quelque chose de similaire à un environnement d'exécution restreint
 (\fIchroot\fR).
 .TP
@@ -226,7 +229,7 @@ cours n'avait pas encore de nom, ou sera composé du nom du fichier en cours
 suivi du suffixe «\ .save\ ». Si un fichier de ce nom existe déjà dans
 le répertoire, un «\ .save\ » et un nombre seront ajoutés à la fin du
 nom du fichier en cours afin de le rendre unique (par exemple,
-«\ .save.1\ »). En mode multifichier, \fBnano\fR réalisera une
+«\ .save.1\ »). En mode multi-espace, \fBnano\fR réalisera une
 sauvegarde de tous les fichiers en cours dans leurs fichiers de secours
 respectifs.
 
@@ -263,8 +266,8 @@ utilisée par d'autres).
 
 .SH TRADUCTION
 Cette adaptation française a été réalisé par Jean-Philippe\ Guérard 
-<jean-philippe.guerard@corbeaunoir.org> le 23\ octobre\ 2005 à partir 
-de la version du 27\ septembre\ 2005 de la page de manuel de nano 1.3.9. 
+<jean-philippe.guerard@corbeaunoir.org> le 15\ décembre\ 2005 à partir 
+de la version du 21\ novembre\ 2005 de la page de manuel de nano 1.3.10. 
 Cette version a été relue par Gérard Delafond.
 
 Un maximum de soin a été apporté lors de l'élaboration de cette

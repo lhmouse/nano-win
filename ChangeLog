@@ -298,6 +298,8 @@ CVS code -
 - doc/nano.1:
 	- Make one non-bold instance of "nano" bold, for consistency.
 	  (DLR)
+- doc/man/fr/nano.1, doc/man/fr/nanorc.5:
+	- Updated manpage translations by Jean-Philippe Guérard.
 - doc/rnano.1:
 	- Add rnano.1 manpage from Thijs Kinkhorst. (Jordi)  DLR: Merge
 	  a few minor updates from nano.1.
