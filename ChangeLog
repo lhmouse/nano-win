@@ -288,6 +288,9 @@ CVS code -
 	- Mention that the minimum required version of texinfo is 4.0,
 	  since that's the first version that supports generating HTML.
 	  (DLR)
+	- Mention that the minimum required version of groff is 1.12,
+	  since that's the first version that supports generating HTML.
+	  (DLR)
 	- Update the given cvs commands so that they work again. (DLR)
 - doc/faq.html:
 	- Add a new section 5.3 to explain the status of nano's Unicode

@@ -10,7 +10,7 @@ packages:
 - autoconf (version >= 2.54)
 - automake (version >= 1.7)
 - gettext (version >= 0.11.5)
-- groff
+- groff (version >= 1.12)
 - texinfo (version >= 4.0)
 - cvs
 - ssh (with support for the SSH version 2 protocol)
