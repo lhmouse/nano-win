@@ -34,13 +34,10 @@
 #include <errno.h>
 #include <ctype.h>
 #include <locale.h>
+#include <termios.h>
 
 #ifdef HAVE_GETOPT_H
 #include <getopt.h>
-#endif
-
-#ifdef HAVE_TERMIOS_H
-#include <termios.h>
 #endif
 
 #ifndef NANO_TINY
