@@ -2141,7 +2141,8 @@ GNU nano 1.3.5 - 2004.11.22
 	  glib 2.x on systems that may not have it installed. (DLR,
 	  suggested by Jordi)
 - src/Makefile.am:
-	- Don't use DEFS to define things. Use INCLUDES instead. (Jordi)
+	- Don't use DEFS to define things.  Use INCLUDES instead.
+	  (Jordi)
 
 GNU nano 1.3.4 - 2004.08.17
 - General:
