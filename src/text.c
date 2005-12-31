@@ -744,13 +744,11 @@ void justify_format(filestruct *paragraph, size_t skip)
     new_end = new_paragraph_data + skip;
 
     while (*end != '\0') {
-	int end_len;
+	int end_len = parse_mbchar(end, NULL, NULL);
 
 	/* If this character is blank, make sure that it's a space with
 	 * no blanks after it. */
 	if (is_blank_mbchar(end)) {
-	    end_len = parse_mbchar(end, NULL, NULL);
-
 	    *new_end = ' ';
 	    new_end++;
 	    end += end_len;
@@ -774,8 +772,6 @@ void justify_format(filestruct *paragraph, size_t skip)
 	 * more than two blanks after it, and make sure that the blanks
 	 * are spaces. */
 	} else if (mbstrchr(punct, end) != NULL) {
-	    end_len = parse_mbchar(end, NULL, NULL);
-
 	    while (end_len > 0) {
 		*new_end = *end;
 		new_end++;
@@ -827,8 +823,6 @@ void justify_format(filestruct *paragraph, size_t skip)
 	/* If this character is neither blank nor punctuation, leave it
 	 * alone. */
 	} else {
-	    end_len = parse_mbchar(end, NULL, NULL);
-
 	    while (end_len > 0) {
 		*new_end = *end;
 		new_end++;
