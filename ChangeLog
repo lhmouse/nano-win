@@ -3,9 +3,6 @@ CVS code -
 	- Miscellaneous comment fixes. (DLR)
 	- Remove unnecessary #ifdef around termios.h #include in nano.c.
 	  (DLR)
-- text.c:
-  justify_format()
-	- Remove redundant character parsing. (DLR)
 
 GNU nano 1.3.10 - 2005.12.23
 - General:
