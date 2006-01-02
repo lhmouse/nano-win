@@ -3,7 +3,7 @@
  *   winio.c                                                              *
  *                                                                        *
  *   Copyright (C) 1999-2004 Chris Allegretta                             *
- *   Copyright (C) 2005 David Lawrence Ramsey                             *
+ *   Copyright (C) 2005-2006 David Lawrence Ramsey                        *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -2702,12 +2702,9 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 	1 >= openfile->filebot->lineno))
 	nlines = editwinrows;
 
-    /* If the scrolled region contains only one line, and the line
-     * before it is visible in the edit window, we need to draw it too.
-     * If the scrolled region contains more than one line, and the lines
-     * before and after the scrolled region are visible in the edit
-     * window, we need to draw them too. */
-    nlines += (nlines == 1) ? 1 : 2;
+    /* If the lines before and after the scrolled region are visible in
+     * the edit window, we need to draw them too. */
+    nlines += 2;
 
     if (nlines > editwinrows)
 	nlines = editwinrows;
