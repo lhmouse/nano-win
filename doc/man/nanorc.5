@@ -6,7 +6,7 @@
 .\" Public License for copying conditions.  There is NO warranty.
 .\"
 .\" $Id$
-.TH NANORC 5 "version 1.3.10" "November 21, 2005"
+.TH NANORC 5 "version 1.3.10" "January 02, 2006"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -56,7 +56,8 @@ Do backwards searches by default.
 .B set brackets "\fIstring\fP"
 Set the characters treated as closing brackets.  They cannot contain
 blank characters.  Only closing punctuation, optionally followed by
-closing brackets, can end sentences.
+closing brackets, can end sentences.  The default value is
+"\fI"')>]}\fP".
 .TP
 .B set/unset casesensitive
 Do case sensitive searches by default.
@@ -113,7 +114,7 @@ Preserve the XON and XOFF keys (^Q and ^S).
 .B set punct "\fIstring\fP"
 Set the characters treated as closing punctuation.  They cannot contain
 blank characters.  Only closing punctuation, optionally followed by
-closing brackets, can end sentences.
+closing brackets, can end sentences.  The default value is "\fI!.?\fP".
 .TP
 .B set/unset quickblank
 Do quick statusbar blanking.  Statusbar messages will disappear after 1
@@ -123,11 +124,8 @@ keystroke instead of 25.
 The email-quote string, used to justify email-quoted paragraphs.  This
 is an "extended regular expression" if your system supports them,
 otherwise a literal string.  The default value is
-
-	set quotestr "^([\ \\t]*[|>:}#])+"
-
-if you have regexps, otherwise set quotestr ">\ ".  Note that '\\t'
-above stands for a literal Tab character.
+"\fI^([\ \\t]*[#:>\\|}])+\fP" if you have regexps, or "\fI>\ \fP"
+otherwise.  Note that '\\t' stands for a literal Tab character.
 .TP
 .B set/unset rebinddelete
 Interpret the Delete key differently so that both Backspace and Delete

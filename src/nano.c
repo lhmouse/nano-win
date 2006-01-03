@@ -1956,15 +1956,15 @@ int main(int argc, char **argv)
 
 #ifndef DISABLE_JUSTIFY
     if (punct == NULL)
-	punct = mallocstrcpy(NULL, ".?!");
+	punct = mallocstrcpy(NULL, "!.?");
 
     if (brackets == NULL)
-	brackets = mallocstrcpy(NULL, "'\")}]>");
+	brackets = mallocstrcpy(NULL, "\"')>]}");
 
     if (quotestr == NULL)
 	quotestr = mallocstrcpy(NULL,
 #ifdef HAVE_REGEX_H
-		"^([ \t]*[|>:}#])+"
+		"^([ \t]*[#:>|}])+"
 #else
 		"> "
 #endif

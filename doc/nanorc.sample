@@ -24,7 +24,7 @@
 ## blank characters.  Only closing punctuation, optionally followed by
 ## closing brackets, can end sentences.
 ##
-# set brackets "'")}]>"
+# set brackets ""')>]}"
 
 ## Do case sensitive searches by default.
 # set casesensitive
@@ -87,7 +87,7 @@
 ## blank characters.  Only closing punctuation, optionally followed by
 ## closing brackets, can end sentences.
 ##
-# set punct ".?!"
+# set punct "!.?"
 
 ## Do quick statusbar blanking.  Statusbar messages will disappear after
 ## 1 keystroke instead of 25.  Note that "const" cancels this out.
@@ -97,11 +97,9 @@
 ## The email-quote string, used to justify email-quoted paragraphs.
 ## This is an extended regular expression if your system supports them,
 ## otherwise a literal string.  Default:
-# set quotestr "^([ 	]*[\|>:}#])+"
+# set quotestr "^([ 	]*[#:>\|}])+"
 ## if you have regexps, otherwise:
 # set quotestr "> "
-## You can get old nano quoted-justify behavior via:
-# set quotestr "(> )+"
 
 ## Fix Backspace/Delete confusion problem.
 # set rebinddelete
