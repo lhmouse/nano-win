@@ -7,6 +7,9 @@ CVS code -
 	  atom in the default regex string for quotestr, according to
 	  ASCII.  Changes to main(), nano.1, nanorc.5, and
 	  nanorc.sample. (DLR)
+- chars.c:
+  mbstrchr()
+	- Make parameter c const. (DLR)
 - winio.c:
   edit_scroll()
 	- Redraw the lines before and after the scrolled region even if

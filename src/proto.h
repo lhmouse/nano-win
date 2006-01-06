@@ -3,7 +3,7 @@
  *   proto.h                                                              *
  *                                                                        *
  *   Copyright (C) 1999-2004 Chris Allegretta                             *
- *   Copyright (C) 2005 David Lawrence Ramsey                             *
+ *   Copyright (C) 2005-2006 David Lawrence Ramsey                        *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -201,7 +201,7 @@ char *revstrpbrk(const char *s, const char *accept, const char
 	*rev_start);
 #endif
 #ifndef DISABLE_JUSTIFY
-char *mbstrchr(const char *s, char *c);
+char *mbstrchr(const char *s, const char *c);
 #ifdef ENABLE_NANORC
 bool has_blank_chars(const char *s);
 bool has_blank_mbchars(const char *s);

@@ -3,7 +3,7 @@
  *   chars.c                                                              *
  *                                                                        *
  *   Copyright (C) 2001-2004 Chris Allegretta                             *
- *   Copyright (C) 2005 David Lawrence Ramsey                             *
+ *   Copyright (C) 2005-2006 David Lawrence Ramsey                        *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -835,7 +835,7 @@ char *revstrpbrk(const char *s, const char *accept, const char
 
 #ifndef DISABLE_JUSTIFY
 /* This function is equivalent to strchr() for multibyte strings. */
-char *mbstrchr(const char *s, char *c)
+char *mbstrchr(const char *s, const char *c)
 {
     assert(s != NULL && c != NULL);
 
