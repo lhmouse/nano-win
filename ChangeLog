@@ -7,6 +7,11 @@ CVS code -
 	  atom in the default regex string for quotestr, according to
 	  ASCII.  Changes to main(), nano.1, nanorc.5, and
 	  nanorc.sample. (DLR)
+	- Rework the bracket searching code to handle multibyte bracket
+	  characters.  New functions mbstrpbrk() and mbrevstrpbrk();
+	  changes to find_statusbar_bracket_match(),
+	  do_statusbar_find_bracket(), find_bracket_match(), and
+	  do_find_bracket(). (DLR)
 - chars.c:
   mbstrchr()
 	- Make parameter c const. (DLR)

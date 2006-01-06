@@ -813,27 +813,7 @@ size_t mbstrnlen(const char *s, size_t maxlen)
 	return strnlen(s, maxlen);
 }
 
-#ifndef NANO_TINY
-/* This function is equivalent to strpbrk(), except in that it scans the
- * string in reverse, starting at rev_start. */
-char *revstrpbrk(const char *s, const char *accept, const char
-	*rev_start)
-{
-    assert(s != NULL && accept != NULL && rev_start != NULL);
-
-    for (; rev_start >= s; rev_start--) {
-	const char *q = (*rev_start == '\0') ? NULL : strchr(accept,
-		*rev_start);
-
-	if (q != NULL)
-	    return (char *)rev_start;
-    }
-
-    return NULL;
-}
-#endif /* !NANO_TINY */
-
-#ifndef DISABLE_JUSTIFY
+#if !defined(NANO_TINY) || !defined(DISABLE_JUSTIFY)
 /* This function is equivalent to strchr() for multibyte strings. */
 char *mbstrchr(const char *s, const char *c)
 {
@@ -879,8 +859,75 @@ char *mbstrchr(const char *s, const char *c)
 #endif
 	return strchr(s, *c);
 }
+#endif /* !NANO_TINY || !DISABLE_JUSTIFY */
 
-#ifdef ENABLE_NANORC
+#ifndef NANO_TINY
+/* This function is equivalent to strpbrk() for multibyte strings. */
+char *mbstrpbrk(const char *s, const char *accept)
+{
+    assert(s != NULL && accept != NULL);
+
+#ifdef ENABLE_UTF8
+    if (ISSET(USE_UTF8)) {
+	while (*s != '\0') {
+	    if (mbstrchr(accept, s) != NULL)
+		return (char *)s;
+
+	    s += move_mbright(s, 0);
+	}
+
+	return NULL;
+    } else
+#endif
+	return strpbrk(s, accept);
+}
+
+/* This function is equivalent to strpbrk(), except in that it scans the
+ * string in reverse, starting at rev_start. */
+char *revstrpbrk(const char *s, const char *accept, const char
+	*rev_start)
+{
+    assert(s != NULL && accept != NULL && rev_start != NULL);
+
+    for (; rev_start >= s; rev_start--) {
+	const char *q = (*rev_start == '\0') ? NULL : strchr(accept,
+		*rev_start);
+
+	if (q != NULL)
+	    return (char *)rev_start;
+    }
+
+    return NULL;
+}
+
+/* This function is equivalent to strpbrk() for multibyte strings,
+ * except in that it scans the string in reverse, starting at
+ * rev_start. */
+char *mbrevstrpbrk(const char *s, const char *accept, const char
+	*rev_start)
+{
+    assert(s != NULL && accept != NULL && rev_start != NULL);
+
+#ifdef ENABLE_UTF8
+    if (ISSET(USE_UTF8)) {
+	while (rev_start >= s) {
+	    const char *q = (*rev_start == '\0') ? NULL :
+		mbstrchr(accept, rev_start);
+
+	    if (q != NULL)
+		return (char *)rev_start;
+
+	    rev_start = s + move_mbleft(s, rev_start - s);
+	}
+
+	return NULL;
+    } else
+#endif
+	return revstrpbrk(s, accept, rev_start);
+}
+#endif /* !NANO_TINY */
+
+#if !defined(DISABLE_JUSTIFY) && defined(ENABLE_NANORC)
 /* Return TRUE if the string s contains one or more blank characters,
  * and FALSE otherwise. */
 bool has_blank_chars(const char *s)
@@ -926,8 +973,7 @@ bool has_blank_mbchars(const char *s)
 #endif
 	return has_blank_chars(s);
 }
-#endif /* ENABLE_NANORC */
-#endif /* !DISABLE_JUSTIFY */
+#endif /* !DISABLE_JUSTIFY && ENABLE_NANORC */
 
 #ifdef ENABLE_UTF8
 /* Return TRUE if wc is valid Unicode, and FALSE otherwise. */

@@ -3,7 +3,7 @@
  *   prompt.c                                                             *
  *                                                                        *
  *   Copyright (C) 1999-2004 Chris Allegretta                             *
- *   Copyright (C) 2005 David Lawrence Ramsey                             *
+ *   Copyright (C) 2005-2006 David Lawrence Ramsey                        *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -672,7 +672,7 @@ bool find_statusbar_bracket_match(bool reverse, const char
 {
     const char *rev_start = NULL, *found = NULL;
 
-    assert(strlen(bracket_set) == 2);
+    assert(mbstrlen(bracket_set) == 2);
 
     /* rev_start might end up 1 character before the start or after the
      * end of the line.  This won't be a problem because we'll skip over
@@ -687,8 +687,8 @@ bool find_statusbar_bracket_match(bool reverse, const char
 	 * is found. */
 	found = ((rev_start > answer && *(rev_start - 1) == '\0') ||
 		rev_start < answer) ? NULL : (reverse ?
-		revstrpbrk(answer, bracket_set, rev_start) :
-		strpbrk(rev_start, bracket_set));
+		mbrevstrpbrk(answer, bracket_set, rev_start) :
+		mbstrpbrk(rev_start, bracket_set));
 
 	/* We've found a potential match. */
 	if (found != NULL)
@@ -711,48 +711,81 @@ bool find_statusbar_bracket_match(bool reverse, const char
 void do_statusbar_find_bracket(void)
 {
     size_t statusbar_x_save, pww_save;
-    const char *bracket_list = "()<>[]{}";
+    const char *bracket_list = "(<[{)>]}";
 	/* The list of brackets we can find matches to. */
-    const char *pos;
+    const char *ch;
 	/* The location in bracket_list of the bracket at the current
 	 * cursor position. */
-    char ch;
-	/* The bracket at the current cursor position. */
-    char wanted_ch;
-	/* The bracket complementing the bracket at the current cursor
-	 * position. */
-    char bracket_set[3];
+    int ch_len;
+	/* The length of ch in bytes. */
+    const char *wanted_ch;
+	/* The location in bracket_list of the bracket complementing the
+	 * bracket at the current cursor position. */
+    int wanted_ch_len;
+	/* The length of wanted_ch in bytes. */
+    char *bracket_set;
 	/* The pair of characters in ch and wanted_ch. */
+    size_t bracket_halflist;
+	/* The number of characters in one half of bracket_list. */
     size_t count = 1;
 	/* The initial bracket count. */
     bool reverse;
 	/* The direction we search. */
+    char *found_ch;
+	/* The character we find. */
 
-    assert(strlen(bracket_list) % 2 == 0);
+    assert(mbstrlen(bracket_list) % 2 == 0);
 
-    ch = answer[statusbar_x];
+    ch = answer + statusbar_x;
 
-    if (ch == '\0' || (pos = strchr(bracket_list, ch)) == NULL)
+    if (ch == '\0' || (ch = mbstrchr(bracket_list, ch)) == NULL)
 	return;
 
     /* Save where we are. */
     statusbar_x_save = statusbar_x;
     pww_save = statusbar_pww;
 
-    /* If we're on an opening bracket, we want to search forwards for a
-     * closing bracket, and if we're on a closing bracket, we want to
-     * search backwards for an opening bracket. */
-    reverse = ((pos - bracket_list) % 2 != 0);
-    wanted_ch = reverse ? *(pos - 1) : *(pos + 1);
-    bracket_set[0] = ch;
-    bracket_set[1] = wanted_ch;
-    bracket_set[2] = '\0';
+    /* If we're on an opening bracket, which must be in the first half
+     * of bracket_list, we want to search forwards for a closing
+     * bracket.  If we're on a closing bracket, which must be in the
+     * second half of bracket_list, we want to search backwards for an
+     * opening bracket. */
+    bracket_halflist = mbstrlen(bracket_list) / 2;
+    reverse = ((ch - bracket_list) > bracket_halflist);
+
+    /* If we're on an opening bracket, set wanted_ch to the character
+     * that's bracket_halflist characters after ch.  If we're on a
+     * closing bracket, set wanted_ch to the character that's
+     * bracket_halflist characters before ch. */
+    wanted_ch = ch;
+
+    while (bracket_halflist > 0) {
+	if (reverse)
+	    wanted_ch = bracket_list + move_mbleft(bracket_list,
+		wanted_ch - bracket_list);
+	else
+	    wanted_ch += move_mbright(wanted_ch, 0);
+
+	bracket_halflist--;
+    }
+
+    ch_len = parse_mbchar(ch, NULL, NULL);
+    wanted_ch_len = parse_mbchar(wanted_ch, NULL, NULL);
+
+    /* Fill bracket_set in with the values of ch and wanted_ch. */
+    bracket_set = charalloc((mb_cur_max() * 2) + 1);
+    strncpy(bracket_set, ch, ch_len);
+    strncpy(bracket_set + ch_len, wanted_ch, wanted_ch_len);
+    null_at(&bracket_set, ch_len + wanted_ch_len);
+
+    found_ch = charalloc(mb_cur_max() + 1);
 
     while (TRUE) {
 	if (find_statusbar_bracket_match(reverse, bracket_set)) {
 	    /* If we found an identical bracket, increment count.  If we
 	     * found a complementary bracket, decrement it. */
-	    count += (answer[statusbar_x] == ch) ? 1 : -1;
+	    parse_mbchar(answer + statusbar_x, found_ch, NULL);
+	    count += (strncmp(found_ch, ch, ch_len) == 0) ? 1 : -1;
 
 	    /* If count is zero, we've found a matching bracket.  Update
 	     * the statusbar prompt and get out. */
@@ -769,6 +802,10 @@ void do_statusbar_find_bracket(void)
 	    break;
 	}
     }
+
+    /* Clean up. */
+    free(bracket_set);
+    free(found_ch);
 }
 #endif /* !NANO_TINY */
 

@@ -196,16 +196,19 @@ size_t mbstrlen(const char *s);
 size_t nstrnlen(const char *s, size_t maxlen);
 #endif
 size_t mbstrnlen(const char *s, size_t maxlen);
+#if !defined(NANO_TINY) || !defined(DISABLE_JUSTIFY)
+char *mbstrchr(const char *s, const char *c);
+#endif
 #ifndef NANO_TINY
+char *mbstrpbrk(const char *s, const char *accept);
 char *revstrpbrk(const char *s, const char *accept, const char
 	*rev_start);
+char *mbrevstrpbrk(const char *s, const char *accept, const char
+	*rev_start);
 #endif
-#ifndef DISABLE_JUSTIFY
-char *mbstrchr(const char *s, const char *c);
-#ifdef ENABLE_NANORC
+#if !defined(DISABLE_JUSTIFY) && defined(ENABLE_NANORC)
 bool has_blank_chars(const char *s);
 bool has_blank_mbchars(const char *s);
-#endif
 #endif
 #ifdef ENABLE_UTF8
 bool is_valid_unicode(wchar_t wc);
