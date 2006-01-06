@@ -210,7 +210,7 @@ char *revstrpbrk(const char *s, const char *accept, const char
 char *mbrevstrpbrk(const char *s, const char *accept, const char
 	*rev_start);
 #endif
-#if !defined(DISABLE_JUSTIFY) && defined(ENABLE_NANORC)
+#if defined(ENABLE_NANORC) && (!defined(NANO_TINY) || !defined(DISABLE_JUSTIFY))
 bool has_blank_chars(const char *s);
 bool has_blank_mbchars(const char *s);
 #endif

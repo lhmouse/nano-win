@@ -13,7 +13,7 @@ CVS code -
 	  New functions mbstrpbrk() and mbrevstrpbrk(); changes to
 	  find_statusbar_bracket_match(), do_statusbar_find_bracket(),
 	  find_bracket_match(), do_find_bracket(), main(),
-	  nanorc.5, and nanorc.sample. (DLR)
+	  parse_rcfile(), nanorc.5, and nanorc.sample. (DLR)
 - chars.c:
   mbstrchr()
 	- Make parameter c const. (DLR)

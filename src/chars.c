@@ -927,7 +927,7 @@ char *mbrevstrpbrk(const char *s, const char *accept, const char
 }
 #endif /* !NANO_TINY */
 
-#if !defined(DISABLE_JUSTIFY) && defined(ENABLE_NANORC)
+#if defined(ENABLE_NANORC) && (!defined(NANO_TINY) || !defined(DISABLE_JUSTIFY))
 /* Return TRUE if the string s contains one or more blank characters,
  * and FALSE otherwise. */
 bool has_blank_chars(const char *s)
@@ -973,7 +973,7 @@ bool has_blank_mbchars(const char *s)
 #endif
 	return has_blank_chars(s);
 }
-#endif /* !DISABLE_JUSTIFY && ENABLE_NANORC */
+#endif /* ENABLE_NANORC && (!NANO_TINY || !DISABLE_JUSTIFY) */
 
 #ifdef ENABLE_UTF8
 /* Return TRUE if wc is valid Unicode, and FALSE otherwise. */

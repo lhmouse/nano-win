@@ -647,7 +647,17 @@ void parse_rcfile(FILE *rcstream)
 			} else
 #endif
 #ifndef NANO_TINY
-			if (strcasecmp(rcopts[i].name, "whitespace") == 0) {
+			if (strcasecmp(rcopts[i].name,
+				"matchbrackets") == 0) {
+			    matchbrackets = option;
+			    if (has_blank_mbchars(matchbrackets)) {
+				rcfile_error(
+					N_("Non-blank characters required"));
+				free(matchbrackets);
+				matchbrackets = NULL;
+			    }
+			} else if (strcasecmp(rcopts[i].name,
+				"whitespace") == 0) {
 			    whitespace = option;
 			    if (mbstrlen(whitespace) != 2 ||
 				strlenpt(whitespace) != 2) {
