@@ -46,8 +46,8 @@
 # set historylog
 
 ## The opening and closing brackets that can be found by bracket
-## searches.  The former set must come before the latter set, and both
-## must be in the same order.
+## searches.  They cannot contain blank characters.  The former set must
+## come before the latter set, and both must be in the same order.
 ##
 # set matchbrackets "(<[{)>]}"
 

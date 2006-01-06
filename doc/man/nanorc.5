@@ -79,8 +79,9 @@ strings.
 .TP
 .B set matchbrackets "\fIstring\fP"
 Set the opening and closing brackets that can be found by bracket
-searches.  The former set must come before the latter set, and both must
-be in the same order.  The default value is "\fI(<[{)>]}\fP".
+searches.  They cannot contain blank characters.  The former set must
+come before the latter set, and both must be in the same order.  The
+default value is "\fI(<[{)>]}\fP".
 .TP
 .B set/unset morespace
 Allow use of the blank line below the titlebar as extra editing space.

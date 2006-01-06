@@ -1142,8 +1142,14 @@ void do_find_bracket(void)
 	/* The length of wanted_ch in bytes. */
     char *bracket_set;
 	/* The pair of characters in ch and wanted_ch. */
+    size_t i;
+	/* Generic loop variable. */
     size_t matchhalf;
-	/* The number of characters in one half of matchbrackets. */
+	/* The number of single-byte characters in one half of
+	 * matchbrackets. */
+    size_t mbmatchhalf;
+	/* The number of multibyte characters in one half of
+	 * matchbrackets. */
     size_t count = 1;
 	/* The initial bracket count. */
     bool reverse;
@@ -1170,7 +1176,13 @@ void do_find_bracket(void)
      * bracket.  If we're on a closing bracket, which must be in the
      * second half of matchbrackets, we want to search backwards for an
      * opening bracket. */
-    matchhalf = mbstrlen(matchbrackets) / 2;
+    matchhalf = 0;
+    mbmatchhalf = mbstrlen(matchbrackets) / 2;
+
+    for (i = 0; i < mbmatchhalf; i++)
+	matchhalf += parse_mbchar(matchbrackets + matchhalf, NULL,
+		NULL);
+
     reverse = ((ch - matchbrackets) > matchhalf);
 
     /* If we're on an opening bracket, set wanted_ch to the character
@@ -1179,14 +1191,14 @@ void do_find_bracket(void)
      * characters before ch. */
     wanted_ch = ch;
 
-    while (matchhalf > 0) {
+    while (mbmatchhalf > 0) {
 	if (reverse)
 	    wanted_ch = matchbrackets + move_mbleft(matchbrackets,
 		wanted_ch - matchbrackets);
 	else
 	    wanted_ch += move_mbright(wanted_ch, 0);
 
-	matchhalf--;
+	mbmatchhalf--;
     }
 
     ch_len = parse_mbchar(ch, NULL, NULL);
