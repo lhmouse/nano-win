@@ -8,10 +8,12 @@ CVS code -
 	  ASCII.  Changes to main(), nano.1, nanorc.5, and
 	  nanorc.sample. (DLR)
 	- Rework the bracket searching code to handle multibyte bracket
-	  characters.  New functions mbstrpbrk() and mbrevstrpbrk();
-	  changes to find_statusbar_bracket_match(),
-	  do_statusbar_find_bracket(), find_bracket_match(), and
-	  do_find_bracket(). (DLR)
+	  characters, and allow specifying matching bracket characters
+	  other than the default via the "matchbrackets" rcfile option.
+	  New functions mbstrpbrk() and mbrevstrpbrk(); changes to
+	  find_statusbar_bracket_match(), do_statusbar_find_bracket(),
+	  find_bracket_match(), do_find_bracket(), main(),
+	  nanorc.5, and nanorc.sample. (DLR)
 - chars.c:
   mbstrchr()
 	- Make parameter c const. (DLR)

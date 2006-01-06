@@ -3,7 +3,7 @@
  *   rcfile.c                                                             *
  *                                                                        *
  *   Copyright (C) 2001-2004 Chris Allegretta                             *
- *   Copyright (C) 2005 David Lawrence Ramsey                             *
+ *   Copyright (C) 2005-2006 David Lawrence Ramsey                        *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -81,6 +81,7 @@ const static rcoption rcopts[] = {
     {"casesensitive", CASE_SENSITIVE},
     {"cut", CUT_TO_END},
     {"historylog", HISTORYLOG},
+    {"matchbrackets", 0},
     {"noconvert", NO_CONVERT},
     {"quickblank", QUICK_BLANK},
     {"smarthome", SMART_HOME},
@@ -144,13 +145,10 @@ char *parse_next_word(char *ptr)
     return ptr;
 }
 
-/* The keywords operatingdir, backupdir, fill, tabsize, speller, punct,
- * brackets, quotestr, and whitespace take an argument when set.  Among
- * these, operatingdir, backupdir, speller, punct, brackets, quotestr,
- * and whitespace have to allow tabs and spaces in the argument.  Thus,
- * if the next word starts with a ", we say it ends with the last " of
- * the line.  Otherwise, the word is interpreted as usual.  That is so
- * the arguments can contain "s too. */
+/* Parse an argument, with optional quotes, after a keyword that takes
+ * one.  If the next word starts with a ", we say that it ends with the
+ * last " of the line.  Otherwise, we interpret it as usual, so that the
+ * arguments can contain "'s too. */
 char *parse_argument(char *ptr)
 {
     const char *ptr_bak = ptr;

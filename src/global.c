@@ -3,7 +3,7 @@
  *   global.c                                                             *
  *                                                                        *
  *   Copyright (C) 1999-2004 Chris Allegretta                             *
- *   Copyright (C) 2005 David Lawrence Ramsey                             *
+ *   Copyright (C) 2005-2006 David Lawrence Ramsey                        *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -64,6 +64,12 @@ partition *filepart = NULL;
 	 * file. */
 openfilestruct *openfile = NULL;
 	/* The list of all open file buffers. */
+
+#ifndef NANO_TINY
+char *matchbrackets = NULL;
+	/* The opening and closing brackets that can be found by bracket
+	 * searches. */
+#endif
 
 #if !defined(NANO_TINY) && defined(ENABLE_NANORC)
 char *whitespace = NULL;

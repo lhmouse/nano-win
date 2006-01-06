@@ -3,7 +3,7 @@
  *   nano.c                                                               *
  *                                                                        *
  *   Copyright (C) 1999-2004 Chris Allegretta                             *
- *   Copyright (C) 2005 David Lawrence Ramsey                             *
+ *   Copyright (C) 2005-2006 David Lawrence Ramsey                        *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -1955,12 +1955,15 @@ int main(int argc, char **argv)
 #endif
 
 #ifndef DISABLE_JUSTIFY
+    /* If punct wasn't specified, set its default value. */
     if (punct == NULL)
 	punct = mallocstrcpy(NULL, "!.?");
 
+    /* If brackets wasn't specified, set its default value. */
     if (brackets == NULL)
 	brackets = mallocstrcpy(NULL, "\"')>]}");
 
+    /* If quotestr wasn't specified, set its default value. */
     if (quotestr == NULL)
 	quotestr = mallocstrcpy(NULL,
 #ifdef HAVE_REGEX_H
@@ -1998,6 +2001,12 @@ int main(int argc, char **argv)
 	if (spellenv != NULL)
 	    alt_speller = mallocstrcpy(NULL, spellenv);
     }
+#endif
+
+#ifndef NANO_TINY
+    /* If matchbrackets wasn't specified, set its default value. */
+    if (matchbrackets == NULL)
+	matchbrackets = mallocstrcpy(NULL, "(<[{)>]}");
 #endif
 
 #if !defined(NANO_TINY) && defined(ENABLE_NANORC)

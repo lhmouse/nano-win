@@ -48,6 +48,10 @@ extern filestruct *jusbuffer;
 extern partition *filepart;
 extern openfilestruct *openfile;
 
+#ifndef NANO_TINY
+extern char *matchbrackets;
+#endif
+
 #if !defined(NANO_TINY) && defined(ENABLE_NANORC)
 extern char *whitespace;
 extern int whitespace_len[2];

@@ -711,22 +711,20 @@ bool find_statusbar_bracket_match(bool reverse, const char
 void do_statusbar_find_bracket(void)
 {
     size_t statusbar_x_save, pww_save;
-    const char *bracket_list = "(<[{)>]}";
-	/* The list of brackets we can find matches to. */
     const char *ch;
-	/* The location in bracket_list of the bracket at the current
+	/* The location in matchbrackets of the bracket at the current
 	 * cursor position. */
     int ch_len;
 	/* The length of ch in bytes. */
     const char *wanted_ch;
-	/* The location in bracket_list of the bracket complementing the
-	 * bracket at the current cursor position. */
+	/* The location in matchbrackets of the bracket complementing
+	 * the bracket at the current cursor position. */
     int wanted_ch_len;
 	/* The length of wanted_ch in bytes. */
     char *bracket_set;
 	/* The pair of characters in ch and wanted_ch. */
-    size_t bracket_halflist;
-	/* The number of characters in one half of bracket_list. */
+    size_t matchhalf;
+	/* The number of characters in one half of matchbrackets. */
     size_t count = 1;
 	/* The initial bracket count. */
     bool reverse;
@@ -734,11 +732,11 @@ void do_statusbar_find_bracket(void)
     char *found_ch;
 	/* The character we find. */
 
-    assert(mbstrlen(bracket_list) % 2 == 0);
+    assert(mbstrlen(matchbrackets) % 2 == 0);
 
     ch = answer + statusbar_x;
 
-    if (ch == '\0' || (ch = mbstrchr(bracket_list, ch)) == NULL)
+    if (ch == '\0' || (ch = mbstrchr(matchbrackets, ch)) == NULL)
 	return;
 
     /* Save where we are. */
@@ -746,27 +744,27 @@ void do_statusbar_find_bracket(void)
     pww_save = statusbar_pww;
 
     /* If we're on an opening bracket, which must be in the first half
-     * of bracket_list, we want to search forwards for a closing
+     * of matchbrackets, we want to search forwards for a closing
      * bracket.  If we're on a closing bracket, which must be in the
-     * second half of bracket_list, we want to search backwards for an
+     * second half of matchbrackets, we want to search backwards for an
      * opening bracket. */
-    bracket_halflist = mbstrlen(bracket_list) / 2;
-    reverse = ((ch - bracket_list) > bracket_halflist);
+    matchhalf = mbstrlen(matchbrackets) / 2;
+    reverse = ((ch - matchbrackets) > matchhalf);
 
     /* If we're on an opening bracket, set wanted_ch to the character
-     * that's bracket_halflist characters after ch.  If we're on a
-     * closing bracket, set wanted_ch to the character that's
-     * bracket_halflist characters before ch. */
+     * that's matchhalf characters after ch.  If we're on a closing
+     * bracket, set wanted_ch to the character that's matchhalf
+     * characters before ch. */
     wanted_ch = ch;
 
-    while (bracket_halflist > 0) {
+    while (matchhalf > 0) {
 	if (reverse)
-	    wanted_ch = bracket_list + move_mbleft(bracket_list,
-		wanted_ch - bracket_list);
+	    wanted_ch = matchbrackets + move_mbleft(matchbrackets,
+		wanted_ch - matchbrackets);
 	else
 	    wanted_ch += move_mbright(wanted_ch, 0);
 
-	bracket_halflist--;
+	matchhalf--;
     }
 
     ch_len = parse_mbchar(ch, NULL, NULL);

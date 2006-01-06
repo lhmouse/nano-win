@@ -45,6 +45,12 @@
 ## Enable ~/.nano_history for saving and reading search/replace strings.
 # set historylog
 
+## The opening and closing brackets that can be found by bracket
+## searches.  The former set must come before the latter set, and both
+## must be in the same order.
+##
+# set matchbrackets "(<[{)>]}"
+
 ## Use the blank line below the titlebar as extra editing space.
 # set morespace
 
@@ -331,7 +337,7 @@
 ## highlight possible errors and parameters
 # icolor brightwhite "^[[:space:]]*(set|unset|syntax|i?color).*$"
 ## set, unset and syntax
-# icolor cyan "^[[:space:]]*(set|unset)[[:space:]]+(autoindent|backup|backupdir|backwards|brackets|casesensitive|const|cut|fill|historylog|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nonewlines|nowrap|operatingdir|preserve|punct|quickblank)\>" "^[[:space:]]*(set|unset)[[:space:]]+(quotestr|rebinddelete|rebindkeypad|regexp|smarthome|smooth|speller|suspend|tabsize|tabstospaces|tempfile|view|whitespace|wordbounds)\>"
+# icolor cyan "^[[:space:]]*(set|unset)[[:space:]]+(autoindent|backup|backupdir|backwards|brackets|casesensitive|const|cut|fill|historylog|matchbrackets|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nonewlines|nowrap|operatingdir|preserve|punct|quickblank)\>" "^[[:space:]]*(set|unset)[[:space:]]+(quotestr|rebinddelete|rebindkeypad|regexp|smarthome|smooth|speller|suspend|tabsize|tabstospaces|tempfile|view|whitespace|wordbounds)\>"
 # icolor green "^[[:space:]]*(set|unset|syntax)\>"
 ## colors
 # icolor yellow "^[[:space:]]*i?color[[:space:]]*(bright)?(white|black|red|blue|green|yellow|magenta|cyan)?(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
