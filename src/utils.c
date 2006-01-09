@@ -3,7 +3,7 @@
  *   utils.c                                                              *
  *                                                                        *
  *   Copyright (C) 1999-2004 Chris Allegretta                             *
- *   Copyright (C) 2005 David Lawrence Ramsey                             *
+ *   Copyright (C) 2005-2006 David Lawrence Ramsey                        *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -197,7 +197,10 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
     int c;
 
     /* Sanity checks. */
-    assert(lineptr != NULL && n != NULL && stream != NULL);
+    if (lineptr == NULL || n == NULL || stream == NULL) {
+	errno = EINVAL;
+	return -1;
+    }
 
     /* Allocate the line the first time. */
     if (*lineptr == NULL) {

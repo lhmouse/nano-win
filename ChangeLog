@@ -17,6 +17,11 @@ CVS code -
 - chars.c:
   mbstrchr()
 	- Make parameter c const. (DLR)
+- utils.c:
+  ngetdelim()
+	- Do sanity checks manually again instead of in an assert, and
+	  set errno to EINVAL as well as return -1 if they fail.  This
+	  matches the manual page. (DLR)
 - winio.c:
   edit_scroll()
 	- Redraw the lines before and after the scrolled region even if
