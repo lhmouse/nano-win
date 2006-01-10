@@ -2702,9 +2702,12 @@ void edit_scroll(scroll_dir direction, ssize_t nlines)
 	1 >= openfile->filebot->lineno))
 	nlines = editwinrows;
 
-    /* If the lines before and after the scrolled region are visible in
-     * the edit window, we need to draw them too. */
-    nlines += 2;
+    /* If the scrolled region contains only one line, and the line
+     * before it is visible in the edit window, we need to draw it too.
+     * If the scrolled region contains more than one line, and the lines
+     * before and after the scrolled region are visible in the edit
+     * window, we need to draw them too. */
+    nlines += (nlines == 1) ? 1 : 2;
 
     if (nlines > editwinrows)
 	nlines = editwinrows;
@@ -2768,6 +2771,11 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 	nlines = openfile->edittop->lineno - old_edittop->lineno;
 
 	openfile->edittop = old_edittop;
+
+	/* Update old_current if we're not on the first page and/or
+	 * we're not on the same page as before. */
+	if (do_redraw)
+	    update_line(old_current, 0);
 
 	/* Scroll the edit window up or down until edittop is in range
 	 * of current. */

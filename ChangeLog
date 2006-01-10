@@ -23,13 +23,13 @@ CVS code -
 	  set errno to EINVAL as well as return -1 if they fail.  This
 	  matches the manual page. (DLR)
 - winio.c:
-  edit_scroll()
-	- Redraw the lines before and after the scrolled region even if
-	  the scrolled region was only one line.  This fixes a display
-	  problem that occurs after doing a search that scrolls the
-	  screen down one line and leaves the cursor on the last line of
-	  the screen, in which case we need to update the line after the
-	  scrolled region. (DLR)
+  edit_redraw()
+	- If either current or old_current is offscreen, we're not on
+	  the first page, and/or we're not on the same page as before,
+	  update old_current before scrolling the edit window.  This
+	  fixes a potential display problem when a search moves the
+	  cursor offscreen and onto a different page. (DLR, found by
+	  Mike Frysinger)
 - doc/nano.1:
 	- Better display the default values for quotestr. (DLR)
 - doc/nanorc.5:
