@@ -761,7 +761,7 @@ void do_statusbar_find_bracket(void)
 	matchhalf += parse_mbchar(matchbrackets + matchhalf, NULL,
 		NULL);
 
-    reverse = ((ch - matchbrackets) > matchhalf);
+    reverse = ((ch - matchbrackets) >= matchhalf);
 
     /* If we're on an opening bracket, set wanted_ch to the character
      * that's matchhalf characters after ch.  If we're on a closing
