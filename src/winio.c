@@ -478,7 +478,8 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 #ifdef KEY_SDC
 			/* Slang doesn't support KEY_SDC. */
 			case KEY_SDC:
-			    retval = NANO_DELETE_KEY;
+			    retval = ISSET(REBIND_DELETE) ?
+				NANO_BACKSPACE_KEY : NANO_DELETE_KEY;
 			    break;
 #endif
 #ifdef KEY_SEND
