@@ -23,6 +23,11 @@ CVS code -
 	  set errno to EINVAL as well as return -1 if they fail.  This
 	  matches the manual page. (DLR)
 - winio.c:
+  parse_kbinput()
+	- Interpret Shift-Begin, Shift-Delete, Shift-End, Shift-Home,
+	  Shift-Insert, and Shift-Suspend as Begin, Delete, End, Home,
+	  Insert, and Suspend, respectively, regardless of whether
+	  --rebindkeypad is used. (DLR, found by David Benbennick)
   edit_redraw()
 	- If either current or old_current is offscreen, we're not on
 	  the first page, and/or we're not on the same page as before,

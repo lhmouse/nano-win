@@ -469,10 +469,35 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 			    retval = NANO_END_KEY;
 			    break;
 #endif
-#ifdef KEY_SUSPEND
-			/* Slang doesn't support KEY_SUSPEND. */
-			case KEY_SUSPEND:
-			    retval = NANO_SUSPEND_KEY;
+#ifdef KEY_SBEG
+			/* Slang doesn't support KEY_SBEG. */
+			case KEY_SBEG:	/* Center (5) on numeric keypad
+					 * with NumLock off. */
+			    break;
+#endif
+#ifdef KEY_SDC
+			/* Slang doesn't support KEY_SDC. */
+			case KEY_SDC:
+			    retval = NANO_DELETE_KEY;
+			    break;
+#endif
+#ifdef KEY_SEND
+			/* HP-UX 10 and 11 don't support KEY_SEND. */
+			case KEY_SEND:
+			    retval = NANO_END_KEY;
+			    break;
+#endif
+#ifdef KEY_SHOME
+			/* HP-UX 10 and 11 and Slang don't support
+			 * KEY_SHOME. */
+			case KEY_SHOME:
+			    retval = NANO_HOME_KEY;
+			    break;
+#endif
+#ifdef KEY_SIC
+			/* Slang doesn't support KEY_SIC. */
+			case KEY_SIC:
+			    retval = NANO_INSERTFILE_KEY;
 			    break;
 #endif
 #ifdef KEY_SLEFT
@@ -485,6 +510,18 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 			/* Slang doesn't support KEY_SRIGHT. */
 			case KEY_SRIGHT:
 			    retval = NANO_FORWARD_KEY;
+			    break;
+#endif
+#ifdef KEY_SSUSPEND
+			/* Slang doesn't support KEY_SSUSPEND. */
+			case KEY_SSUSPEND:
+			    retval = NANO_SUSPEND_KEY;
+			    break;
+#endif
+#ifdef KEY_SUSPEND
+			/* Slang doesn't support KEY_SUSPEND. */
+			case KEY_SUSPEND:
+			    retval = NANO_SUSPEND_KEY;
 			    break;
 #endif
 			default:
