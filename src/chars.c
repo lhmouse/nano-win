@@ -910,14 +910,19 @@ char *mbrevstrpbrk(const char *s, const char *accept, const char
 
 #ifdef ENABLE_UTF8
     if (ISSET(USE_UTF8)) {
-	while (rev_start >= s) {
+	bool begin_line = FALSE;
+
+	while (!begin_line) {
 	    const char *q = (*rev_start == '\0') ? NULL :
 		mbstrchr(accept, rev_start);
 
 	    if (q != NULL)
 		return (char *)rev_start;
 
-	    rev_start = s + move_mbleft(s, rev_start - s);
+	    if (rev_start == s)
+		begin_line = TRUE;
+	    else
+		rev_start = s + move_mbleft(s, rev_start - s);
 	}
 
 	return NULL;
