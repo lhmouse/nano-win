@@ -1809,10 +1809,22 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
     assert(column <= start_col);
 
-    /* Allocate enough space for the entire line. */
-    alloc_len = (mb_cur_max() * (COLS + 1));
+    /* Make sure there's enough room for the initial character, whether
+     * it's a multibyte control character, a non-control multibyte
+     * character, a tab character, or a null terminator.  Rationale:
+     *
+     * multibyte control character followed by a null terminator:
+     *     1 byte ('^') + mb_cur_max() bytes + 1 byte ('\0')
+     * multibyte non-control character followed by a null terminator:
+     *     mb_cur_max() bytes + 1 byte ('\0')
+     * tab character followed by a null terminator:
+     *     mb_cur_max() bytes + (tabsize - 1) bytes + 1 byte ('\0')
+     *
+     * Since tabsize has a minimum value of 1, it can substitute for 1
+     * byte above. */
+    alloc_len = (mb_cur_max() + tabsize + 1) * MAX_BUF_SIZE;
+    converted = charalloc(alloc_len);
 
-    converted = charalloc(alloc_len + 1);
     index = 0;
 
     if (buf[start_index] != '\t' && (column < start_col || (dollars &&
@@ -1849,8 +1861,16 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 #endif
     }
 
-    while (index < alloc_len - 1 && buf[start_index] != '\0') {
+    while (buf[start_index] != '\0') {
 	buf_mb_len = parse_mbchar(buf + start_index, buf_mb, NULL);
+
+	/* Make sure there's enough room for the next character, whether
+	 * it's a multibyte control character, a non-control multibyte
+	 * character, a tab character, or a null terminator. */
+	if (index + mb_cur_max() + tabsize + 1 >= alloc_len - 1) {
+	    alloc_len += (mb_cur_max() + tabsize + 1) * MAX_BUF_SIZE;
+	    converted = charealloc(converted, alloc_len);
+	}
 
 	/* If buf contains a tab character, interpret it. */
 	if (*buf_mb == '\t') {
@@ -1923,8 +1943,10 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
     free(buf_mb);
 
-    if (index < alloc_len - 1)
-	converted[index] = '\0';
+    assert(alloc_len >= index + 1);
+
+    /* Null terminate converted. */
+    converted[index] = '\0';
 
     /* Make sure converted takes up no more than len columns. */
     index = actual_x(converted, len);

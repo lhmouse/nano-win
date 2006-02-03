@@ -37,6 +37,9 @@ CVS code -
 	  Mike Frysinger)
   display_string()
 	- Fix minor memory leak. (DLR)
+	- Fix memory corruption problems caused by not allocating enough
+	  space for converted when a line ends in a tab(s) and we're not
+	  in UTF-8 mode. (DLR, found by Nick Warne and Mike Frysinger)
 - doc/nano.1:
 	- Better display the default values for quotestr. (DLR)
 - doc/nanorc.5:
