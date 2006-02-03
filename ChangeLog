@@ -35,6 +35,8 @@ CVS code -
 	  fixes a potential display problem when a search moves the
 	  cursor offscreen and onto a different page. (DLR, found by
 	  Mike Frysinger)
+  display_string()
+	- Fix minor memory leak. (DLR)
 - doc/nano.1:
 	- Better display the default values for quotestr. (DLR)
 - doc/nanorc.5:

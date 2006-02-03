@@ -1791,8 +1791,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	/* The string we return. */
     size_t index;
 	/* Current position in converted. */
-
-    char *buf_mb = charalloc(mb_cur_max());
+    char *buf_mb;
     int buf_mb_len;
 
     /* If dollars is TRUE, make room for the "$" at the end of the
@@ -1802,6 +1801,8 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 
     if (len == 0)
 	return mallocstrcpy(NULL, "");
+
+    buf_mb = charalloc(mb_cur_max());
 
     start_index = actual_x(buf, start_col);
     column = strnlenpt(buf, start_index);

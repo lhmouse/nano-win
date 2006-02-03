@@ -590,7 +590,7 @@ typedef struct rcoption {
  * counting the blank lines at their ends. */
 #define MAX_SEARCH_HISTORY 100
 
-/* The maximum number of bytes we read from a file at one time. */
+/* The maximum number of bytes we read into a buffer at one time. */
 #define MAX_BUF_SIZE 128
 
 #endif /* !NANO_H */
