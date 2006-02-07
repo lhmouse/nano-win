@@ -14,6 +14,9 @@ CVS code -
 	  find_statusbar_bracket_match(), do_statusbar_find_bracket(),
 	  find_bracket_match(), do_find_bracket(), main(),
 	  parse_rcfile(), nanorc.5, and nanorc.sample. (DLR)
+	- Rework input parsing in the file browser to be more flexible.
+	  New function parse_browser_input(); changes to do_browser().
+	  (DLR)
 - chars.c:
   mbstrchr()
 	- Make parameter c const. (DLR)

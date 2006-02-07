@@ -3,7 +3,7 @@
  *   browser.c                                                            *
  *                                                                        *
  *   Copyright (C) 2001-2004 Chris Allegretta                             *
- *   Copyright (C) 2005 David Lawrence Ramsey                             *
+ *   Copyright (C) 2005-2006 David Lawrence Ramsey                        *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -34,8 +34,9 @@
  * Assume path has already been tilde-expanded. */
 char *do_browser(char *path, DIR *dir)
 {
-    int kbinput, longest, selected, width;
-    bool meta_key, func_key, old_const_update = ISSET(CONST_UPDATE);
+    int kbinput = ERR, longest, selected = 0, width = 0;
+    bool meta_key = FALSE, func_key = FALSE;
+    bool old_const_update = ISSET(CONST_UPDATE);
     size_t numents;
     char **filelist, *retval = NULL;
 
@@ -54,10 +55,6 @@ char *do_browser(char *path, DIR *dir)
 
   change_browser_directory:
 	/* We go here after the user selects a new directory. */
-
-    kbinput = ERR;
-    selected = 0;
-    width = 0;
 
     path = mallocstrassn(path, get_full_path(path));
 
@@ -94,6 +91,8 @@ char *do_browser(char *path, DIR *dir)
 	fileline = selected;
 	if (width != 0)
 	    fileline /= width;
+
+	parse_browser_input(&kbinput, &meta_key, &func_key);
 
 	switch (kbinput) {
 #ifndef DISABLE_MOUSE
@@ -154,8 +153,6 @@ char *do_browser(char *path, DIR *dir)
 		    selected++;
 		break;
 	    case NANO_PREVPAGE_KEY:
-	    case NANO_PREVPAGE_FKEY:
-	    case '-': /* Pico compatibility. */
 		if (selected >= (editwinrows + fileline % editwinrows) *
 			width)
 		    selected -= (editwinrows + fileline % editwinrows) *
@@ -164,16 +161,12 @@ char *do_browser(char *path, DIR *dir)
 		    selected = 0;
 		break;
 	    case NANO_NEXTPAGE_KEY:
-	    case NANO_NEXTPAGE_FKEY:
-	    case ' ': /* Pico compatibility. */
 		selected += (editwinrows - fileline % editwinrows) *
 			width;
 		if (selected >= numents)
 		    selected = numents - 1;
 		break;
 	    case NANO_HELP_KEY:
-	    case NANO_HELP_FKEY:
-	    case '?': /* Pico compatibility. */
 #ifndef DISABLE_HELP
 		do_help();
 		curs_set(0);
@@ -182,8 +175,6 @@ char *do_browser(char *path, DIR *dir)
 #endif
 		break;
 	    case NANO_ENTER_KEY:
-	    case 'S': /* Pico compatibility. */
-	    case 's':
 		/* You can't move up from "/". */
 		if (strcmp(filelist[selected], "/..") == 0) {
 		    statusbar(_("Can't move up a directory"));
@@ -242,9 +233,6 @@ char *do_browser(char *path, DIR *dir)
 
 	    /* Go to a specific directory. */
 	    case NANO_GOTOLINE_KEY:
-	    case NANO_GOTOLINE_FKEY:
-	    case 'G': /* Pico compatibility. */
-	    case 'g':
 		curs_set(1);
 
 		j = do_prompt(FALSE, gotodir_list, "",
@@ -298,9 +286,6 @@ char *do_browser(char *path, DIR *dir)
 
 	    /* Abort the browser. */
 	    case NANO_EXIT_KEY:
-	    case NANO_EXIT_FKEY:
-	    case 'E': /* Pico compatibility. */
-	    case 'e':
 		abort = TRUE;
 		break;
 	}
@@ -521,6 +506,43 @@ char *do_browse_from(const char *inpath)
     }
 
     return do_browser(path, dir);
+}
+
+/* Determine the shortcut key corresponding to the values of kbinput
+ * (the key itself), meta_key (whether the key is a meta sequence), and
+ * func_key (whether the key is a function key), if any.  In the
+ * process, convert certain non-shortcut keys used by Pico's file
+ * browser into their corresponding shortcut keys. */
+void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
+{
+    get_shortcut(browser_list, kbinput, meta_key, func_key);
+
+    /* Pico compatibility. */
+    if (*meta_key == FALSE && *func_key == FALSE) {
+	switch (*kbinput) {
+	    case ' ':
+		*kbinput = NANO_NEXTPAGE_KEY;
+		break;
+	    case '-':
+		*kbinput = NANO_PREVPAGE_KEY;
+		break;
+	    case '?':
+		*kbinput = NANO_HELP_KEY;
+		break;
+	    case 'E':
+	    case 'e':
+		*kbinput = NANO_EXIT_KEY;
+		break;
+	    case 'G':
+	    case 'g':
+		*kbinput = NANO_GOTOLINE_KEY;
+		break;
+	    case 'S':
+	    case 's':
+		*kbinput = NANO_ENTER_KEY;
+		break;
+	}
+    }
 }
 
 /* Strip one directory from the end of path. */
