@@ -17,6 +17,10 @@ CVS code -
 	- Rework input parsing in the file browser to be more flexible.
 	  New function parse_browser_input(); changes to do_browser().
 	  (DLR)
+- browser.c:
+  do_browser()
+	- Properly set currshortcut back to the file browser shortcut
+	  list after a "Go To Directory" prompt. (DLR)
 - chars.c:
   mbstrchr()
 	- Make parameter c const. (DLR)

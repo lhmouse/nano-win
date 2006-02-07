@@ -42,14 +42,12 @@ char *do_browser(char *path, DIR *dir)
 
     curs_set(0);
     blank_statusbar();
-    bottombars(browser_list);
-    wnoutrefresh(bottomwin);
 
 #if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
-    /* Set currshortcut so the user can click in the shortcut area, and
-     * so the browser help screen will come up. */
     currshortcut = browser_list;
 #endif
+    bottombars(browser_list);
+    wnoutrefresh(bottomwin);
 
     UNSET(CONST_UPDATE);
 
@@ -242,6 +240,9 @@ char *do_browser(char *path, DIR *dir)
 			_("Go To Directory"));
 
 		curs_set(0);
+#if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
+		currshortcut = browser_list;
+#endif
 		bottombars(browser_list);
 
 		if (j < 0) {
