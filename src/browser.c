@@ -34,7 +34,7 @@
  * Assume path has already been tilde-expanded. */
 char *do_browser(char *path, DIR *dir)
 {
-    int kbinput = ERR, longest, selected = 0, width = 0;
+    int kbinput, longest, selected, width;
     bool meta_key = FALSE, func_key = FALSE;
     bool old_const_update = ISSET(CONST_UPDATE);
     size_t numents;
@@ -53,6 +53,10 @@ char *do_browser(char *path, DIR *dir)
 
   change_browser_directory:
 	/* We go here after the user selects a new directory. */
+
+    kbinput = ERR;
+    selected = 0;
+    width = 0;
 
     path = mallocstrassn(path, get_full_path(path));
 
