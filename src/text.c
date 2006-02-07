@@ -1668,11 +1668,15 @@ bool do_int_spell_fix(const char *word)
 	    do_replace_highlight(TRUE, exp_word);
 
 	    /* Allow all instances of the word to be corrected. */
-	    canceled = (do_prompt(FALSE, spell_list, word,
-#ifndef NANO_TINY
-			NULL,
+	    canceled = (do_prompt(FALSE,
+#ifndef DISABLE_TABCOMP
+		TRUE,
 #endif
-			 _("Edit a replacement")) == -1);
+		spell_list, word,
+#ifndef NANO_TINY
+		NULL,
+#endif
+		_("Edit a replacement")) == -1);
 
 	    do_replace_highlight(FALSE, exp_word);
 

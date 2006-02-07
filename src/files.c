@@ -713,6 +713,9 @@ void do_insertfile(
 #endif
 
 	i = do_prompt(TRUE,
+#ifndef DISABLE_TABCOMP
+		TRUE,
+#endif
 #ifndef NANO_TINY
 		execute ? extcmd_list :
 #endif
@@ -1752,7 +1755,11 @@ int do_writeout(bool exiting)
 	 * and we're at the "Write File" prompt, disable tab
 	 * completion. */
 	i = do_prompt(!ISSET(RESTRICTED) ||
-		openfile->filename[0] == '\0', writefile_list, ans,
+		openfile->filename[0] == '\0',
+#ifndef DISABLE_TABCOMP
+		TRUE,
+#endif
+		writefile_list, ans,
 #ifndef NANO_TINY
 		NULL, "%s%s%s", _(msg), formatstr, backupstr
 #else
@@ -2021,8 +2028,8 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 
 /* We consider the first buflen characters of buf for filename tab
  * completion. */
-char **cwd_tab_completion(const char *buf, size_t *num_matches, size_t
-	buflen)
+char **cwd_tab_completion(const char *buf, bool allow_files, size_t
+	*num_matches, size_t buflen)
 {
     char *dirname = mallocstrcpy(NULL, buf), *filename;
 #ifndef DISABLE_OPERATINGDIR
@@ -2072,6 +2079,8 @@ char **cwd_tab_completion(const char *buf, size_t *num_matches, size_t
     filenamelen = strlen(filename);
 
     while ((nextdir = readdir(dir)) != NULL) {
+	bool skip_match = FALSE;
+
 #ifdef DEBUG
 	fprintf(stderr, "Comparing \'%s\'\n", nextdir->d_name);
 #endif
@@ -2082,22 +2091,26 @@ char **cwd_tab_completion(const char *buf, size_t *num_matches, size_t
 	    /* Cool, found a match.  Add it to the list.  This makes a
 	     * lot more sense to me (Chris) this way... */
 
+	    char *tmp = charalloc(strlen(dirname) +
+		strlen(nextdir->d_name) + 1);
+	    sprintf(tmp, "%s%s", dirname, nextdir->d_name);
+
 #ifndef DISABLE_OPERATINGDIR
 	    /* ...unless the match exists outside the operating
-	     * directory, in which case just go to the next match.  To
-	     * properly do operating directory checking, we have to add
-	     * the directory name to the beginning of the proposed match
-	     * before we check it. */
-	    char *tmp2 = charalloc(strlen(dirname) +
-		strlen(nextdir->d_name) + 1);
-
-	    sprintf(tmp2, "%s%s", dirname, nextdir->d_name);
-	    if (check_operating_dir(tmp2, TRUE)) {
-		free(tmp2);
-		continue;
-	    }
-	    free(tmp2);
+	     * directory, in which case just go to the next match. */
+	    if (check_operating_dir(tmp, TRUE))
+		skip_match = TRUE;
 #endif
+
+	    /* ...or unless the match isn't a directory and allow_files
+	     * isn't set, in which case just go to the next match. */
+	    if (!allow_files && !is_dir(tmp)) {
+		skip_match = TRUE;
+
+	    free(tmp);
+
+	    if (skip_match)
+		continue;
 
 	    matches = (char **)nrealloc(matches, (*num_matches + 1) *
 		sizeof(char *));
@@ -2115,7 +2128,8 @@ char **cwd_tab_completion(const char *buf, size_t *num_matches, size_t
 
 /* Do tab completion.  place refers to how much the statusbar cursor
  * position should be advanced. */
-char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
+char *input_tab(char *buf, bool allow_files, size_t *place, bool
+	*lastwastab, bool *list)
 {
     size_t num_matches = 0;
     char **matches = NULL;
@@ -2136,7 +2150,8 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list)
 
     /* Match against files relative to the current working directory. */
     if (matches == NULL)
-	matches = cwd_tab_completion(buf, &num_matches, *place);
+	matches = cwd_tab_completion(buf, allow_files, &num_matches,
+		*place);
 
     if (num_matches <= 0)
 	beep();

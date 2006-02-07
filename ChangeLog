@@ -17,6 +17,11 @@ CVS code -
 	- Rework input parsing in the file browser to be more flexible.
 	  New function parse_browser_input(); changes to do_browser().
 	  (DLR)
+	- Allow tab completion of directories at the "Go To Directory"
+	  prompt.  Changes to do_browser(), do_insertfile(),
+	  do_writeout(), cwd_tab_completion(), input_tab(),
+	  get_prompt_string(), do_prompt(), search_init(), do_replace(),
+	  do_gotolinecolumn(), and do_int_spell_fix. (DLR)
 - browser.c:
   do_browser()
 	- Properly set currshortcut back to the file browser shortcut

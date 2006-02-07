@@ -297,9 +297,10 @@ void free_chararray(char **array, size_t len);
 #ifndef DISABLE_TABCOMP
 char **username_tab_completion(const char *buf, size_t *num_matches,
 	size_t buflen);
-char **cwd_tab_completion(const char *buf, size_t *num_matches, size_t
-	buflen);
-char *input_tab(char *buf, size_t *place, bool *lastwastab, bool *list);
+char **cwd_tab_completion(const char *buf, bool allow_files, size_t
+	*num_matches, size_t buflen);
+char *input_tab(char *buf, bool allow_files, size_t *place, bool
+	*lastwastab, bool *list);
 #endif
 const char *tail(const char *foo);
 #if !defined(NANO_TINY) && defined(ENABLE_NANORC)
@@ -463,7 +464,11 @@ size_t get_statusbar_page_start(size_t start_col, size_t column);
 void update_statusbar_line(const char *curranswer, size_t index);
 void reset_statusbar_cursor(void);
 bool need_statusbar_horizontal_update(size_t old_pww);
-int get_prompt_string(bool allow_tabs, const char *curranswer,
+int get_prompt_string(bool allow_tabs,
+#ifndef DISABLE_TABCOMP
+	bool allow_files,
+#endif
+	const char *curranswer,
 #ifndef NANO_TINY
 	filestruct **history_list,
 #endif
@@ -472,8 +477,11 @@ int get_prompt_string(bool allow_tabs, const char *curranswer,
 	, bool *list
 #endif
 	);
-int do_prompt(bool allow_tabs, const shortcut *s, const char
-	*curranswer,
+int do_prompt(bool allow_tabs,
+#ifndef DISABLE_TABCOMP
+	bool allow_files,
+#endif
+	const shortcut *s, const char *curranswer,
 #ifndef NANO_TINY
 	filestruct **history_list,
 #endif

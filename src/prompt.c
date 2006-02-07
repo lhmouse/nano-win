@@ -897,7 +897,11 @@ bool need_statusbar_horizontal_update(size_t old_pww)
 
 /* Get a string of input at the statusbar prompt.  This should only be
  * called from do_prompt(). */
-int get_prompt_string(bool allow_tabs, const char *curranswer,
+int get_prompt_string(bool allow_tabs,
+#ifndef DISABLE_TABCOMP
+	bool allow_files,
+#endif
+	const char *curranswer,
 #ifndef NANO_TINY
 	filestruct **history_list,
 #endif
@@ -985,8 +989,8 @@ int get_prompt_string(bool allow_tabs, const char *curranswer,
 		} else
 #endif /* !NANO_TINY */
 		if (allow_tabs)
-		    answer = input_tab(answer, &statusbar_x, &tabbed,
-			list);
+		    answer = input_tab(answer, allow_files,
+			&statusbar_x, &tabbed, list);
 
 		update_statusbar_line(answer, statusbar_x);
 		break;
@@ -1090,9 +1094,14 @@ int get_prompt_string(bool allow_tabs, const char *curranswer,
  * curranswer is any editable text that we want to put up by default.
  *
  * The allow_tabs parameter indicates whether we should allow tabs to be
- * interpreted. */
-int do_prompt(bool allow_tabs, const shortcut *s, const char
-	*curranswer,
+ * interpreted.  The allow_files parameter indicates whether we should
+ * allow all files (as opposed to just directories) to be tab
+ * completed. */
+int do_prompt(bool allow_tabs,
+#ifndef DISABLE_TABCOMP
+	bool allow_files,
+#endif
+	const shortcut *s, const char *curranswer,
 #ifndef NANO_TINY
 	filestruct **history_list,
 #endif
@@ -1118,15 +1127,19 @@ int do_prompt(bool allow_tabs, const shortcut *s, const char
     va_end(ap);
     null_at(&prompt, actual_x(prompt, COLS - 4));
 
-    retval = get_prompt_string(allow_tabs, curranswer,
-#ifndef NANO_TINY
-		history_list,
-#endif
-		s
+    retval = get_prompt_string(allow_tabs,
 #ifndef DISABLE_TABCOMP
-		, &list
+	allow_files,
 #endif
-		);
+	curranswer,
+#ifndef NANO_TINY
+	history_list,
+#endif
+	s
+#ifndef DISABLE_TABCOMP
+	, &list
+#endif
+	);
 
     free(prompt);
     prompt = NULL;

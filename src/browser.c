@@ -237,7 +237,11 @@ char *do_browser(char *path, DIR *dir)
 	    case NANO_GOTOLINE_KEY:
 		curs_set(1);
 
-		j = do_prompt(FALSE, gotodir_list, "",
+		j = do_prompt(TRUE,
+#ifndef DISABLE_TABCOMP
+			FALSE,
+#endif
+			gotodir_list, "",
 #ifndef NANO_TINY
 			NULL,
 #endif

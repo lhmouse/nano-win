@@ -168,8 +168,11 @@ int search_init(bool replacing, bool use_answer)
 	buf = mallocstrcpy(NULL, "");
 
     /* This is now one simple call.  It just does a lot. */
-    i = do_prompt(FALSE, replacing ? replace_list : whereis_list,
-	backupstring,
+    i = do_prompt(FALSE,
+#ifndef DISABLE_TABCOMP
+	TRUE,
+#endif
+	replacing ? replace_list : whereis_list, backupstring,
 #ifndef NANO_TINY
 	&search_history,
 #endif
@@ -916,7 +919,11 @@ void do_replace(void)
 
     last_replace = mallocstrcpy(last_replace, "");
 
-    i = do_prompt(FALSE, replace_list_2, last_replace,
+    i = do_prompt(FALSE,
+#ifndef DISABLE_TABCOMP
+	TRUE,
+#endif
+	replace_list_2, last_replace,
 #ifndef NANO_TINY
 	&replace_history,
 #endif
@@ -980,7 +987,11 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 	char *ans = mallocstrcpy(NULL, answer);
 
 	/* Ask for it. */
-	int i = do_prompt(FALSE, gotoline_list, use_answer ? ans : "",
+	int i = do_prompt(FALSE,
+#ifndef DISABLE_TABCOMP
+		TRUE,
+#endif
+		gotoline_list, use_answer ? ans : "",
 #ifndef NANO_TINY
 		NULL,
 #endif
