@@ -3,7 +3,7 @@
  *   files.c                                                              *
  *                                                                        *
  *   Copyright (C) 1999-2004 Chris Allegretta                             *
- *   Copyright (C) 2005 David Lawrence Ramsey                             *
+ *   Copyright (C) 2005-2006 David Lawrence Ramsey                        *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -1954,15 +1954,14 @@ int is_dir(const char *buf)
 {
     char *dirptr = real_dir_from_tilde(buf);
     struct stat fileinfo;
-
-    int ret = (stat(dirptr, &fileinfo) != -1 &&
+    int retval = (stat(dirptr, &fileinfo) != -1 &&
 	S_ISDIR(fileinfo.st_mode));
 
     assert(buf != NULL && dirptr != buf);
 
     free(dirptr);
 
-    return ret;
+    return retval;
 }
 
 /* These functions, username_tab_completion(), cwd_tab_completion()
@@ -2078,9 +2077,8 @@ char **cwd_tab_completion(const char *buf, size_t *num_matches, size_t
 #endif
 	/* See if this matches. */
 	if (strncmp(nextdir->d_name, filename, filenamelen) == 0 &&
-		(*filename == '.' ||
-		(strcmp(nextdir->d_name, ".") != 0 &&
-		strcmp(nextdir->d_name, "..") != 0))) {
+		(*filename == '.' || (strcmp(nextdir->d_name, ".") !=
+		0 && strcmp(nextdir->d_name, "..") != 0))) {
 	    /* Cool, found a match.  Add it to the list.  This makes a
 	     * lot more sense to me (Chris) this way... */
 
@@ -2101,8 +2099,8 @@ char **cwd_tab_completion(const char *buf, size_t *num_matches, size_t
 	    free(tmp2);
 #endif
 
-	    matches = (char **)nrealloc(matches,
-		(*num_matches + 1) * sizeof(char *));
+	    matches = (char **)nrealloc(matches, (*num_matches + 1) *
+		sizeof(char *));
 	    matches[*num_matches] = mallocstrcpy(NULL, nextdir->d_name);
 	    ++(*num_matches);
 	}

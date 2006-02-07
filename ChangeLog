@@ -24,6 +24,9 @@ CVS code -
 - chars.c:
   mbstrchr()
 	- Make parameter c const. (DLR)
+- files.c:
+  is_dir()
+	- Rename parameter ret to retval, for consistency. (DLR)
 - utils.c:
   ngetdelim()
 	- Do sanity checks manually again instead of in an assert, and
