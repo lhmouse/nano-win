@@ -2104,7 +2104,7 @@ char **cwd_tab_completion(const char *buf, bool allow_files, size_t
 
 	    /* ...or unless the match isn't a directory and allow_files
 	     * isn't set, in which case just go to the next match. */
-	    if (!allow_files && !is_dir(tmp)) {
+	    if (!allow_files && !is_dir(tmp))
 		skip_match = TRUE;
 
 	    free(tmp);
