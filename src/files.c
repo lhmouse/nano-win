@@ -2006,8 +2006,8 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 		continue;
 #endif
 
-	    matches = (char **)nrealloc(matches,
-		(*num_matches + 1) * sizeof(char *));
+	    matches = (char **)nrealloc(matches, (*num_matches + 1) *
+		sizeof(char *));
 	    matches[*num_matches] =
 		charalloc(strlen(userdata->pw_name) + 2);
 	    sprintf(matches[*num_matches], "~%s", userdata->pw_name);
