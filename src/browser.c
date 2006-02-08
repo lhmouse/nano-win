@@ -142,18 +142,22 @@ char *do_browser(char *path, DIR *dir)
 		if (selected >= width)
 		    selected -= width;
 		break;
+
 	    case NANO_BACK_KEY:
 		if (selected > 0)
 		    selected--;
 		break;
+
 	    case NANO_NEXTLINE_KEY:
 		if (selected + width <= numents - 1)
 		    selected += width;
 		break;
+
 	    case NANO_FORWARD_KEY:
 		if (selected < numents - 1)
 		    selected++;
 		break;
+
 	    case NANO_PREVPAGE_KEY:
 		if (selected >= (editwinrows + fileline % editwinrows) *
 			width)
@@ -162,12 +166,14 @@ char *do_browser(char *path, DIR *dir)
 		else
 		    selected = 0;
 		break;
+
 	    case NANO_NEXTPAGE_KEY:
 		selected += (editwinrows - fileline % editwinrows) *
 			width;
 		if (selected >= numents)
 		    selected = numents - 1;
 		break;
+
 	    case NANO_HELP_KEY:
 #ifndef DISABLE_HELP
 		do_help();
@@ -176,6 +182,7 @@ char *do_browser(char *path, DIR *dir)
 		nano_disabled_msg();
 #endif
 		break;
+
 	    case NANO_ENTER_KEY:
 		/* You can't move up from "/". */
 		if (strcmp(filelist[selected], "/..") == 0) {
