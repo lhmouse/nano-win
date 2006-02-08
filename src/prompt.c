@@ -911,7 +911,7 @@ int get_prompt_string(bool allow_tabs,
 #endif
 	)
 {
-    int kbinput;
+    int kbinput = ERR;
     bool meta_key, func_key, s_or_t, ran_func, finished;
     size_t curranswer_len;
 #ifndef DISABLE_TABCOMP
@@ -961,10 +961,7 @@ int get_prompt_string(bool allow_tabs,
      * to files not specified on the command line.  In this case,
      * disable all keys that would change the text if the filename isn't
      * blank and we're at the "Write File" prompt. */
-    while ((kbinput = do_statusbar_input(&meta_key, &func_key,
-	&s_or_t, &ran_func, &finished, TRUE)) != NANO_CANCEL_KEY &&
-	kbinput != NANO_ENTER_KEY) {
-
+    do {
 	assert(statusbar_x <= strlen(answer));
 
 #ifndef DISABLE_TABCOMP
@@ -1063,7 +1060,9 @@ int get_prompt_string(bool allow_tabs,
 #endif
 
 	reset_statusbar_cursor();
-    }
+    } while ((kbinput = do_statusbar_input(&meta_key, &func_key,
+	&s_or_t, &ran_func, &finished, TRUE)) != NANO_CANCEL_KEY &&
+	kbinput != NANO_ENTER_KEY);
 
 #ifndef NANO_TINY
     /* Set the current position in the history list to the bottom and
