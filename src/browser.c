@@ -392,7 +392,7 @@ char *do_browser(char *path, DIR *dir)
 
 	wnoutrefresh(edit);
     } while ((kbinput = get_kbinput(edit, &meta_key, &func_key)) !=
-	NANO_EXIT_KEY && kbinput != NANO_EXIT_FKEY);
+	NANO_EXIT_KEY);
 
     blank_edit();
     titlebar(NULL);
