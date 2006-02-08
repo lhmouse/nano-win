@@ -138,6 +138,7 @@ char *do_browser(char *path, DIR *dir)
 
 		break;
 #endif
+
 	    case NANO_PREVLINE_KEY:
 		if (selected >= width)
 		    selected -= width;
