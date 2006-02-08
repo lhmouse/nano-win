@@ -35,6 +35,10 @@ CVS code -
 - files.c:
   is_dir()
 	- Rename parameter ret to retval, for consistency. (DLR)
+- global.c:
+  shortcut_init()
+	- Remove erroneous handling of the "Get Help" shortcut in the
+	  file browser shortcut list. (DLR)
 - prompt.c:
   get_prompt_string()
 	- Use a do/while loop instead of a while loop, for consistency.

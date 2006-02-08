@@ -1048,13 +1048,7 @@ void shortcut_init(bool unjustify)
 
     sc_init_one(&browser_list, NANO_HELP_KEY, get_help_msg,
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
-	NANO_NO_KEY, VIEW,
-#ifndef DISABLE_HELP
-		do_help
-#else
-		nano_disabled_msg
-#endif
-		);
+	NANO_NO_KEY, VIEW, NULL);
 
     sc_init_one(&browser_list, NANO_EXIT_KEY, exit_msg,
 	IFHELP(nano_exitbrowser_msg, NANO_NO_KEY), NANO_EXIT_FKEY,
