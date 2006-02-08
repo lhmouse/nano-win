@@ -25,7 +25,10 @@ CVS code -
 - browser.c:
   do_browser()
 	- Properly set currshortcut back to the file browser shortcut
-	  list after a "Go To Directory" prompt. (DLR)
+	  list after a "Go To Directory" prompt, and properly restore
+	  the file list display after returning from the help browser at
+	  the "Go To Directory" prompt. (DLR)
+	- Rename variable j to i, for consistency. (DLR)
 - chars.c:
   mbstrchr()
 	- Make parameter c const. (DLR)

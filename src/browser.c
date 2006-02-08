@@ -37,12 +37,13 @@ char *do_browser(char *path, DIR *dir)
     int kbinput, longest, selected, width;
     bool meta_key = FALSE, func_key = FALSE;
     bool old_const_update = ISSET(CONST_UPDATE);
+    char *ans = mallocstrcpy(NULL, "");
+	/* The last answer the user typed on the statusbar. */
     size_t numents;
     char **filelist, *retval = NULL;
 
     curs_set(0);
     blank_statusbar();
-
 #if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
     currshortcut = browser_list;
 #endif
@@ -75,7 +76,7 @@ char *do_browser(char *path, DIR *dir)
 
     do {
 	bool abort = FALSE;
-	int j, col = 0, editline = 0, fileline;
+	int i, col = 0, editline = 0, fileline;
 	int filecols = 0;
 	    /* Used only if width == 0, to calculate the number of files
 	     * per row below. */
@@ -127,7 +128,8 @@ char *do_browser(char *path, DIR *dir)
 		    if (selected > numents - 1)
 			selected = numents - 1;
 		    else if (old_selected == selected)
-			/* Put back the 'select' key. */
+			/* Put back the "Select" key, so that the file
+			 * is selected. */
 			unget_kbinput(NANO_ENTER_KEY, FALSE, FALSE);
 		} else {
 		    /* We must have clicked a shortcut.  Put back the
@@ -245,11 +247,11 @@ char *do_browser(char *path, DIR *dir)
 	    case NANO_GOTOLINE_KEY:
 		curs_set(1);
 
-		j = do_prompt(TRUE,
+		i = do_prompt(TRUE,
 #ifndef DISABLE_TABCOMP
 			FALSE,
 #endif
-			gotodir_list, "",
+			gotodir_list, ans,
 #ifndef NANO_TINY
 			NULL,
 #endif
@@ -261,10 +263,25 @@ char *do_browser(char *path, DIR *dir)
 #endif
 		bottombars(browser_list);
 
-		if (j < 0) {
+		if (i < 0) {
+		    /* We canceled.  Indicate that on the statusbar, and
+		     * blank out ans, since we're done with it. */
 		    statusbar(_("Cancelled"));
+		    ans = mallocstrcpy(ans, "");
+		    break;
+		} else if (i != 0) {
+		    /* Put back the "Go to Directory" key and save
+		     * answer in ans, so that the file list is displayed
+		     * again, the prompt is displayed again, and what we
+		     * typed before at the prompt is displayed again. */
+		    unget_kbinput(NANO_GOTOLINE_KEY, FALSE, FALSE);
+		    ans = mallocstrcpy(ans, answer);
 		    break;
 		}
+
+		/* We have a directory.  Blank out ans, since we're done
+		 * with it. */
+		ans = mallocstrcpy(ans, "");
 
 		new_path = real_dir_from_tilde(answer);
 
@@ -312,7 +329,7 @@ char *do_browser(char *path, DIR *dir)
 
 	blank_edit();
 
-	j = (width != 0) ? width * editwinrows * ((selected / width) /
+	i = (width != 0) ? width * editwinrows * ((selected / width) /
 		editwinrows) : 0;
 
 	wmove(edit, 0, 0);
@@ -321,12 +338,12 @@ char *do_browser(char *path, DIR *dir)
 	    size_t foo_len = mb_cur_max() * 7;
 	    char *foo = charalloc(foo_len + 1);
 
-	    for (; j < numents && editline <= editwinrows - 1; j++) {
-		char *disp = display_string(tail(filelist[j]), 0,
+	    for (; i < numents && editline <= editwinrows - 1; i++) {
+		char *disp = display_string(tail(filelist[i]), 0,
 			longest, FALSE);
 
 		/* Highlight the currently selected file/dir. */
-		if (j == selected)
+		if (i == selected)
 		    wattron(edit, A_REVERSE);
 
 		blank_line(edit, editline, col, longest);
@@ -341,11 +358,11 @@ char *do_browser(char *path, DIR *dir)
 		 * lstat() return an error if, for example, the file is
 		 * deleted while the file browser is open.  In that
 		 * case, we report "--" as the file info. */
-		if (lstat(filelist[j], &st) == -1 ||
+		if (lstat(filelist[i], &st) == -1 ||
 			S_ISLNK(st.st_mode)) {
 		    /* Aha!  It's a symlink!  Now, is it a dir?  If so,
 		     * mark it as such. */
-		    if (stat(filelist[j], &st) == 0 &&
+		    if (stat(filelist[i], &st) == 0 &&
 			S_ISDIR(st.st_mode)) {
 			strncpy(foo, _("(dir)"), foo_len);
 			foo[foo_len] = '\0';
@@ -369,7 +386,7 @@ char *do_browser(char *path, DIR *dir)
 		mvwaddnstr(edit, editline, col - strlen(foo), foo,
 			foo_len);
 
-		if (j == selected)
+		if (i == selected)
 		    wattroff(edit, A_REVERSE);
 
 		/* Add some space between the columns. */
@@ -402,8 +419,9 @@ char *do_browser(char *path, DIR *dir)
 	SET(CONST_UPDATE);
 
     /* Clean up. */
-    free_chararray(filelist, numents);
     free(path);
+    free(ans);
+    free_chararray(filelist, numents);
 
     return retval;
 }
