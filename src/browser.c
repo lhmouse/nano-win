@@ -95,8 +95,6 @@ char *do_browser(char *path, DIR *dir)
 	if (width != 0)
 	    fileline /= width;
 
-	parse_browser_input(&kbinput, &meta_key, &func_key);
-
 	switch (kbinput) {
 #ifndef DISABLE_MOUSE
 	    case KEY_MOUSE:
@@ -408,8 +406,10 @@ char *do_browser(char *path, DIR *dir)
 	}
 
 	wnoutrefresh(edit);
-    } while ((kbinput = get_kbinput(edit, &meta_key, &func_key)) !=
-	NANO_EXIT_KEY);
+
+	kbinput = get_kbinput(edit, &meta_key, &func_key);
+	parse_browser_input(&kbinput, &meta_key, &func_key);
+    } while (kbinput != NANO_EXIT_KEY);
 
     blank_edit();
     titlebar(NULL);
