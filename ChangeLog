@@ -43,6 +43,11 @@ CVS code -
   get_prompt_string()
 	- Use a do/while loop instead of a while loop, for consistency.
 	  (DLR)
+	- Redraw the prompt and set finished to FALSE when NANO_HELP_KEY
+	  is pressed, so that we don't leave the prompt, enter the help
+	  browser, and restart the prompt after leaving it.  This will
+	  properly preserve the cursor position after doing the last of
+	  these. (DLR)
 - utils.c:
   ngetdelim()
 	- Do sanity checks manually again instead of in an assert, and
