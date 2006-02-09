@@ -912,7 +912,7 @@ int get_prompt_string(bool allow_tabs,
 	)
 {
     int kbinput = ERR;
-    bool meta_key, func_key, s_or_t, ran_func, finished;
+    bool meta_key, func_key, s_or_t, ran_func, finished = FALSE;
     size_t curranswer_len;
 #ifndef DISABLE_TABCOMP
     bool tabbed = FALSE;
