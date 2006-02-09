@@ -76,11 +76,10 @@ char *do_browser(char *path, DIR *dir)
 
     do {
 	bool abort = FALSE;
-	int i, col = 0, editline = 0, fileline;
-	int filecols = 0;
+	struct stat st;
+	int i, fileline;
 	    /* Used only if width == 0, to calculate the number of files
 	     * per row below. */
-	struct stat st;
 	char *new_path;
 	    /* Used by the "Go To Directory" prompt. */
 #ifndef DISABLE_MOUSE
@@ -325,87 +324,7 @@ char *do_browser(char *path, DIR *dir)
 	if (abort)
 	    break;
 
-	blank_edit();
-
-	i = (width != 0) ? width * editwinrows * ((selected / width) /
-		editwinrows) : 0;
-
-	wmove(edit, 0, 0);
-
-	{
-	    size_t foo_len = mb_cur_max() * 7;
-	    char *foo = charalloc(foo_len + 1);
-
-	    for (; i < numents && editline <= editwinrows - 1; i++) {
-		char *disp = display_string(tail(filelist[i]), 0,
-			longest, FALSE);
-
-		/* Highlight the currently selected file/dir. */
-		if (i == selected)
-		    wattron(edit, A_REVERSE);
-
-		blank_line(edit, editline, col, longest);
-		mvwaddstr(edit, editline, col, disp);
-		free(disp);
-
-		col += longest;
-		filecols++;
-
-		/* Show file info also.  We don't want to report file
-		 * sizes for links, so we use lstat().  Also, stat() and
-		 * lstat() return an error if, for example, the file is
-		 * deleted while the file browser is open.  In that
-		 * case, we report "--" as the file info. */
-		if (lstat(filelist[i], &st) == -1 ||
-			S_ISLNK(st.st_mode)) {
-		    /* Aha!  It's a symlink!  Now, is it a dir?  If so,
-		     * mark it as such. */
-		    if (stat(filelist[i], &st) == 0 &&
-			S_ISDIR(st.st_mode)) {
-			strncpy(foo, _("(dir)"), foo_len);
-			foo[foo_len] = '\0';
-		    } else
-			strcpy(foo, "--");
-		} else if (S_ISDIR(st.st_mode)) {
-		    strncpy(foo, _("(dir)"), foo_len);
-		    foo[foo_len] = '\0';
-		} else if (st.st_size < (1 << 10)) /* less than 1 k. */
-		    sprintf(foo, "%4u  B", (unsigned int)st.st_size);
-		else if (st.st_size < (1 << 20)) /* less than 1 meg. */
-		    sprintf(foo, "%4u KB",
-			(unsigned int)(st.st_size >> 10));
-		else if (st.st_size < (1 << 30)) /* less than 1 gig. */
-		    sprintf(foo, "%4u MB",
-			(unsigned int)(st.st_size >> 20));
-		else
-		    sprintf(foo, "%4u GB",
-			(unsigned int)(st.st_size >> 30));
-
-		mvwaddnstr(edit, editline, col - strlen(foo), foo,
-			foo_len);
-
-		if (i == selected)
-		    wattroff(edit, A_REVERSE);
-
-		/* Add some space between the columns. */
-		col += 2;
-
-		/* If the next entry isn't going to fit on the line,
-		 * move to the next line. */
-		if (col > COLS - longest) {
-		    editline++;
-		    col = 0;
-		    if (width == 0)
-			width = filecols;
-		}
-
-		wmove(edit, editline, col);
-	    }
-
-	    free(foo);
-	}
-
-	wnoutrefresh(edit);
+	browser_draw(filelist, numents, longest, selected, width);
 
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
 	parse_browser_input(&kbinput, &meta_key, &func_key);
@@ -578,6 +497,85 @@ void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
 		break;
 	}
     }
+}
+
+void browser_draw(char **filelist, size_t numents, int longest, int
+	selected, int width)
+{
+    struct stat st;
+    int i = (width != 0) ? width * editwinrows * ((selected / width) /
+	editwinrows) : 0;
+    int col = 0, filecols = 0, editline = 0;
+    size_t foo_len = mb_cur_max() * 7;
+    char *foo = charalloc(foo_len + 1);
+
+    blank_edit();
+
+    wmove(edit, 0, 0);
+
+    for (; i < numents && editline <= editwinrows - 1; i++) {
+	char *disp = display_string(tail(filelist[i]), 0, longest,
+		FALSE);
+
+	/* Highlight the currently selected file/dir. */
+	if (i == selected)
+	    wattron(edit, A_REVERSE);
+
+	blank_line(edit, editline, col, longest);
+	mvwaddstr(edit, editline, col, disp);
+	free(disp);
+
+	col += longest;
+	filecols++;
+
+	/* Show file info also.  We don't want to report file sizes for
+	 * links, so we use lstat().  Also, stat() and lstat() return an
+	 * error if, for example, the file is deleted while the file
+	 * browser is open.  In that case, we report "--" as the file
+	 * info. */
+	if (lstat(filelist[i], &st) == -1 || S_ISLNK(st.st_mode)) {
+	    /* Aha!  It's a symlink!  Now, is it a dir?  If so, mark it
+	     * as such. */
+	    if (stat(filelist[i], &st) == 0 && S_ISDIR(st.st_mode)) {
+		strncpy(foo, _("(dir)"), foo_len);
+		foo[foo_len] = '\0';
+	    } else
+		strcpy(foo, "--");
+	} else if (S_ISDIR(st.st_mode)) {
+	    strncpy(foo, _("(dir)"), foo_len);
+	    foo[foo_len] = '\0';
+	} else if (st.st_size < (1 << 10)) /* less than 1 k. */
+	    sprintf(foo, "%4u  B", (unsigned int)st.st_size);
+	else if (st.st_size < (1 << 20)) /* less than 1 meg. */
+	    sprintf(foo, "%4u KB", (unsigned int)(st.st_size >> 10));
+	else if (st.st_size < (1 << 30)) /* less than 1 gig. */
+	    sprintf(foo, "%4u MB", (unsigned int)(st.st_size >> 20));
+	else
+	    sprintf(foo, "%4u GB", (unsigned int)(st.st_size >> 30));
+
+	mvwaddnstr(edit, editline, col - strlen(foo), foo, foo_len);
+
+	if (i == selected)
+	    wattroff(edit, A_REVERSE);
+
+	/* Add some space between the columns. */
+	col += 2;
+
+	/* If the next entry isn't going to fit on the line,
+	 * move to the next line. */
+	if (col > COLS - longest) {
+	    editline++;
+	    col = 0;
+	    if (width == 0)
+		width = filecols;
+	}
+
+	wmove(edit, editline, col);
+    }
+
+    free(foo);
+
+    wnoutrefresh(edit);
 }
 
 /* Strip one directory from the end of path. */
