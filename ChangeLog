@@ -41,9 +41,6 @@ CVS code -
 	  file browser shortcut list. (DLR)
 - prompt.c:
   get_prompt_string()
-	- Use a do/while loop instead of a while loop, for consistency,
-	  and initialize finished to FALSE to make sure it works
-	  properly. (DLR)
 	- Redraw the prompt and set finished to FALSE when NANO_HELP_KEY
 	  is pressed, so that we don't leave the prompt, enter the help
 	  browser, and restart the prompt after leaving it.  This will
