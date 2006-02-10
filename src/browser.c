@@ -34,8 +34,8 @@
  * Assume path has already been tilde-expanded. */
 char *do_browser(char *path, DIR *dir)
 {
-    int kbinput, longest, selected, width;
-    bool meta_key = FALSE, func_key = FALSE;
+    int kbinput, width, longest, selected;
+    bool meta_key, func_key;
     bool old_const_update = ISSET(CONST_UPDATE);
     char *ans = mallocstrcpy(NULL, "");
 	/* The last answer the user typed on the statusbar. */
@@ -56,8 +56,10 @@ char *do_browser(char *path, DIR *dir)
 	/* We go here after the user selects a new directory. */
 
     kbinput = ERR;
-    selected = 0;
+    meta_key = FALSE;
+    func_key = FALSE;
     width = 0;
+    selected = 0;
 
     path = mallocstrassn(path, get_full_path(path));
 
@@ -78,8 +80,6 @@ char *do_browser(char *path, DIR *dir)
 	bool abort = FALSE;
 	struct stat st;
 	int i, fileline;
-	    /* Used only if width == 0, to calculate the number of files
-	     * per row below. */
 	char *new_path;
 	    /* Used by the "Go To Directory" prompt. */
 #ifndef DISABLE_MOUSE
@@ -110,9 +110,9 @@ char *do_browser(char *path, DIR *dir)
 
 		    /* longest is the width of each column.  There are
 		     * two spaces between each column. */
-		    selected = (fileline / editwinrows) * editwinrows *
-			width + mevent.y * width + mevent.x /
-			(longest + 2);
+		    selected = (fileline / editwinrows) * (editwinrows *
+			width) + (mevent.y * width) + (mevent.x /
+			(longest + 2));
 
 		    /* If they clicked beyond the end of a row, select
 		     * the end of that row. */
@@ -324,7 +324,7 @@ char *do_browser(char *path, DIR *dir)
 	if (abort)
 	    break;
 
-	browser_draw(filelist, numents, longest, selected, width);
+	browser_draw(&width, longest, selected, filelist, numents);
 
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
 	parse_browser_input(&kbinput, &meta_key, &func_key);
@@ -499,15 +499,24 @@ void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
     }
 }
 
-void browser_draw(char **filelist, size_t numents, int longest, int
-	selected, int width)
+/* Display the list of files in the array filelist with the size
+ * numents.  width is the number of columns in the list, which we
+ * calculate and return.  longest is the length of the longest filename,
+ * and hence the width of each column of the list.  selected is the
+ * filename that is currently selected. */
+void browser_draw(int *width, int longest, int selected, char
+	**filelist, size_t numents)
 {
     struct stat st;
-    int i = (width != 0) ? width * editwinrows * ((selected / width) /
-	editwinrows) : 0;
+    int i;
     int col = 0, filecols = 0, editline = 0;
     size_t foo_len = mb_cur_max() * 7;
     char *foo = charalloc(foo_len + 1);
+
+    assert(width != NULL);
+
+    i = (*width != 0) ? *width * editwinrows * ((selected / *width) /
+	editwinrows) : 0;
 
     blank_edit();
 
@@ -566,8 +575,8 @@ void browser_draw(char **filelist, size_t numents, int longest, int
 	if (col > COLS - longest) {
 	    editline++;
 	    col = 0;
-	    if (width == 0)
-		width = filecols;
+	    if (*width == 0)
+		*width = filecols;
 	}
 
 	wmove(edit, editline, col);
