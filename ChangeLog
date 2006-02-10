@@ -23,7 +23,7 @@ CVS code -
 	  get_prompt_string(), do_prompt(), search_init(), do_replace(),
 	  do_gotolinecolumn(), and do_int_spell_fix. (DLR)
 	- Move the browser drawing routines to a separate function.  New
-	  function browser_draw(); changes to do_browser(). (DLR)
+	  function browser_refresh(); changes to do_browser(). (DLR)
 - browser.c:
   do_browser()
 	- Properly set currshortcut back to the file browser shortcut

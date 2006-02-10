@@ -142,7 +142,7 @@ char **browser_init(const char *path, int *longest, size_t *numents, DIR
 	*dir);
 char *do_browse_from(const char *inpath);
 void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key);
-void browser_draw(int *width, int longest, int selected, char
+void browser_refresh(int *width, int longest, int selected, char
 	**filelist, size_t numents);
 void striponedir(char *path);
 #endif

@@ -324,7 +324,7 @@ char *do_browser(char *path, DIR *dir)
 	if (abort)
 	    break;
 
-	browser_draw(&width, longest, selected, filelist, numents);
+	browser_refresh(&width, longest, selected, filelist, numents);
 
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
 	parse_browser_input(&kbinput, &meta_key, &func_key);
@@ -504,7 +504,7 @@ void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
  * calculate and return.  longest is the length of the longest filename,
  * and hence the width of each column of the list.  selected is the
  * filename that is currently selected. */
-void browser_draw(int *width, int longest, int selected, char
+void browser_refresh(int *width, int longest, int selected, char
 	**filelist, size_t numents)
 {
     struct stat st;
