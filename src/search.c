@@ -176,7 +176,7 @@ int search_init(bool replacing, bool use_answer)
 #ifndef NANO_TINY
 	&search_history,
 #endif
-	"%s%s%s%s%s%s", _("Search"),
+	edit_refresh, "%s%s%s%s%s%s", _("Search"),
 
 #ifndef NANO_TINY
 	/* This string is just a modifier for the search prompt; no
@@ -927,7 +927,7 @@ void do_replace(void)
 #ifndef NANO_TINY
 	&replace_history,
 #endif
-	_("Replace with"));
+	edit_refresh, _("Replace with"));
 
 #ifndef NANO_TINY
     /* Add this replace string to the replace history list.  i == 0
@@ -995,7 +995,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 #ifndef NANO_TINY
 		NULL,
 #endif
-		_("Enter line number, column number"));
+		edit_refresh, _("Enter line number, column number"));
 
 	free(ans);
 

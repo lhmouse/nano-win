@@ -46,9 +46,11 @@ static bool reset_statusbar_x = FALSE;
  * shortcut key, and set finished to TRUE if we're done after running
  * or trying to run a function associated with a shortcut key.  If
  * allow_funcs is FALSE, don't actually run any functions associated
- * with shortcut keys. */
+ * with shortcut keys.  refresh_func is the function we will call to
+ * refresh the edit window. */
 int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
-	bool *ran_func, bool *finished, bool allow_funcs)
+	bool *ran_func, bool *finished, bool allow_funcs, void
+	(*refresh_func)(void))
 {
     int input;
 	/* The character we read in. */
@@ -153,7 +155,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	    switch (input) {
 		/* Handle the "universal" statusbar prompt shortcuts. */
 		case NANO_REFRESH_KEY:
-		    total_refresh();
+		    refresh_func();
 		    break;
 		case NANO_HOME_KEY:
 		    do_statusbar_home();
@@ -905,7 +907,7 @@ int get_prompt_string(bool allow_tabs,
 #ifndef NANO_TINY
 	filestruct **history_list,
 #endif
-	const shortcut *s
+	void (*refresh_func)(void), const shortcut *s
 #ifndef DISABLE_TABCOMP
 	, bool *list
 #endif
@@ -962,8 +964,8 @@ int get_prompt_string(bool allow_tabs,
      * disable all keys that would change the text if the filename isn't
      * blank and we're at the "Write File" prompt. */
     while ((kbinput = do_statusbar_input(&meta_key, &func_key, &s_or_t,
-	&ran_func, &finished, TRUE)) != NANO_CANCEL_KEY && kbinput !=
-	NANO_ENTER_KEY) {
+	&ran_func, &finished, TRUE, refresh_func)) != NANO_CANCEL_KEY &&
+	kbinput != NANO_ENTER_KEY) {
 	assert(statusbar_x <= strlen(answer));
 
 #ifndef DISABLE_TABCOMP
@@ -989,7 +991,7 @@ int get_prompt_string(bool allow_tabs,
 #endif /* !NANO_TINY */
 		if (allow_tabs)
 		    answer = input_tab(answer, allow_files,
-			&statusbar_x, &tabbed, list);
+			&statusbar_x, &tabbed, refresh_func, list);
 
 		update_statusbar_line(answer, statusbar_x);
 		break;
@@ -1101,7 +1103,9 @@ int get_prompt_string(bool allow_tabs,
  * static prompt, which should be NULL initially, and the answer will be
  * stored in the answer global.  Returns -1 on aborted enter, -2 on a
  * blank string, and 0 otherwise, the valid shortcut key caught.
- * curranswer is any editable text that we want to put up by default.
+ * curranswer is any editable text that we want to put up by default,
+ * and refresh_func is the function we want to call to refresh the edit
+ * window.
  *
  * The allow_tabs parameter indicates whether we should allow tabs to be
  * interpreted.  The allow_files parameter indicates whether we should
@@ -1115,7 +1119,7 @@ int do_prompt(bool allow_tabs,
 #ifndef NANO_TINY
 	filestruct **history_list,
 #endif
-	const char *msg, ...)
+	void (*refresh_func)(void), const char *msg, ...)
 {
     va_list ap;
     int retval;
@@ -1145,7 +1149,7 @@ int do_prompt(bool allow_tabs,
 #ifndef NANO_TINY
 	history_list,
 #endif
-	s
+	refresh_func, s
 #ifndef DISABLE_TABCOMP
 	, &list
 #endif
@@ -1179,7 +1183,7 @@ int do_prompt(bool allow_tabs,
      * matches on the edit window at this point.  Make sure that they're
      * cleared off. */
     if (list)
-	edit_refresh();
+	refresh_func();
 #endif
 
     return retval;

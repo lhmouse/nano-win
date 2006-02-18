@@ -723,7 +723,7 @@ void do_insertfile(
 #ifndef NANO_TINY
 		NULL,
 #endif
-		_(msg),
+		 edit_refresh, _(msg),
 #ifndef DISABLE_OPERATINGDIR
 		operating_dir != NULL && strcmp(operating_dir, ".") != 0 ?
 		operating_dir :
@@ -1761,9 +1761,13 @@ int do_writeout(bool exiting)
 #endif
 		writefile_list, ans,
 #ifndef NANO_TINY
-		NULL, "%s%s%s", _(msg), formatstr, backupstr
+		NULL,
+#endif
+		 edit_refresh, "%s%s%s", _(msg),
+#ifndef NANO_TINY
+		formatstr, backupstr
 #else
-		"%s", _(msg)
+		"", ""
 #endif
 		);
 
@@ -2127,14 +2131,15 @@ char **cwd_tab_completion(const char *buf, bool allow_files, size_t
 }
 
 /* Do tab completion.  place refers to how much the statusbar cursor
- * position should be advanced. */
+ * position should be advanced.  refresh_func is the function we will
+ * call to refresh the edit window. */
 char *input_tab(char *buf, bool allow_files, size_t *place, bool
-	*lastwastab, bool *list)
+	*lastwastab, void (*refresh_func)(void), bool *list)
 {
     size_t num_matches = 0;
     char **matches = NULL;
 
-    assert(buf != NULL && place != NULL && *place <= strlen(buf) && lastwastab != NULL && list != NULL);
+    assert(buf != NULL && place != NULL && *place <= strlen(buf) && lastwastab != NULL && refresh_func != NULL && list != NULL);
 
     *list = FALSE;
 
@@ -2292,7 +2297,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place, bool
     /* Only refresh the edit window if we don't have a list of filename
      * matches on it. */
     if (*list == FALSE)
-	edit_refresh();
+	refresh_func();
 
     /* Enable el cursor. */
     curs_set(1);

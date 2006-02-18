@@ -138,12 +138,10 @@ extern char *homedir;
 /* Public functions in browser.c. */
 #ifndef DISABLE_BROWSER
 char *do_browser(char *path, DIR *dir);
-char **browser_init(const char *path, int *longest, size_t *numents, DIR
-	*dir);
 char *do_browse_from(const char *inpath);
+void browser_init(const char *path, DIR *dir);
 void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key);
-void browser_refresh(int *width, int longest, int selected, char
-	**filelist, size_t numents);
+void browser_refresh(void);
 void striponedir(char *path);
 #endif
 
@@ -302,7 +300,7 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 char **cwd_tab_completion(const char *buf, bool allow_files, size_t
 	*num_matches, size_t buflen);
 char *input_tab(char *buf, bool allow_files, size_t *place, bool
-	*lastwastab, bool *list);
+	*lastwastab, void (*refresh_func)(void), bool *list);
 #endif
 const char *tail(const char *foo);
 #if !defined(NANO_TINY) && defined(ENABLE_NANORC)
@@ -438,7 +436,8 @@ void do_output(char *output, size_t output_len, bool allow_cntrls);
 
 /* Public functions in prompt.c. */
 int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
-	bool *ran_func, bool *finished, bool allow_funcs);
+	bool *ran_func, bool *finished, bool allow_funcs, void
+	(*refresh_func)(void));
 #ifndef DISABLE_MOUSE
 bool do_statusbar_mouse(void);
 #endif
@@ -474,7 +473,7 @@ int get_prompt_string(bool allow_tabs,
 #ifndef NANO_TINY
 	filestruct **history_list,
 #endif
-	const shortcut *s
+	void (*refresh_func)(void), const shortcut *s
 #ifndef DISABLE_TABCOMP
 	, bool *list
 #endif
@@ -487,7 +486,7 @@ int do_prompt(bool allow_tabs,
 #ifndef NANO_TINY
 	filestruct **history_list,
 #endif
-	const char *msg, ...);
+	void (*refresh_func)(void), const char *msg, ...);
 void do_prompt_abort(void);
 int do_yesno_prompt(bool all, const char *msg);
 

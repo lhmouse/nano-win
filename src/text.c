@@ -1676,7 +1676,7 @@ bool do_int_spell_fix(const char *word)
 #ifndef NANO_TINY
 		NULL,
 #endif
-		_("Edit a replacement")) == -1);
+		edit_refresh, _("Edit a replacement")) == -1);
 
 	    do_replace_highlight(FALSE, exp_word);
 

@@ -30,17 +30,27 @@
 
 #ifndef DISABLE_BROWSER
 
+static char **filelist = NULL;
+	/* The list of files to display in the browser. */
+static size_t filelist_len = 0;
+	/* The number of files in the list. */
+static int width = 0;
+	/* The number of columns to display the list in. */
+static int longest = 0;
+	/* The number of columns in the longest filename in the list. */
+static int selected = 0;
+	/* The currently selected filename in the list. */
+
 /* Our browser function.  path is the path to start browsing from.
  * Assume path has already been tilde-expanded. */
 char *do_browser(char *path, DIR *dir)
 {
-    int kbinput, width, longest, selected;
+    int kbinput;
     bool meta_key, func_key;
     bool old_const_update = ISSET(CONST_UPDATE);
     char *ans = mallocstrcpy(NULL, "");
 	/* The last answer the user typed on the statusbar. */
-    size_t numents;
-    char **filelist, *retval = NULL;
+    char *retval = NULL;
 
     curs_set(0);
     blank_statusbar();
@@ -67,12 +77,12 @@ char *do_browser(char *path, DIR *dir)
     assert(path != NULL && path[strlen(path) - 1] == '/');
 
     /* Get the list of files. */
-    filelist = browser_init(path, &longest, &numents, dir);
+    browser_init(path, dir);
 
     assert(filelist != NULL);
 
     /* Sort the list. */
-    qsort(filelist, numents, sizeof(char *), diralphasort);
+    qsort(filelist, filelist_len, sizeof(char *), diralphasort);
 
     titlebar(path);
 
@@ -89,7 +99,7 @@ char *do_browser(char *path, DIR *dir)
 	check_statusblank();
 
 	/* Compute the line number we're on now, so that we don't divide
-	 * by zero later. */
+	 * by 0. */
 	fileline = selected;
 	if (width != 0)
 	    fileline /= width;
@@ -122,8 +132,8 @@ char *do_browser(char *path, DIR *dir)
 		    /* If we're off the screen, reset to the last item.
 		     * If we clicked the same place as last time, select
 		     * this name! */
-		    if (selected > numents - 1)
-			selected = numents - 1;
+		    if (selected > filelist_len - 1)
+			selected = filelist_len - 1;
 		    else if (old_selected == selected)
 			/* Put back the "Select" key, so that the file
 			 * is selected. */
@@ -149,12 +159,12 @@ char *do_browser(char *path, DIR *dir)
 		break;
 
 	    case NANO_NEXTLINE_KEY:
-		if (selected + width <= numents - 1)
+		if (selected + width <= filelist_len - 1)
 		    selected += width;
 		break;
 
 	    case NANO_FORWARD_KEY:
-		if (selected < numents - 1)
+		if (selected < filelist_len - 1)
 		    selected++;
 		break;
 
@@ -170,8 +180,8 @@ char *do_browser(char *path, DIR *dir)
 	    case NANO_NEXTPAGE_KEY:
 		selected += (editwinrows - fileline % editwinrows) *
 			width;
-		if (selected >= numents)
-		    selected = numents - 1;
+		if (selected >= filelist_len)
+		    selected = filelist_len - 1;
 		break;
 
 	    case NANO_HELP_KEY:
@@ -232,7 +242,7 @@ char *do_browser(char *path, DIR *dir)
 		path = mallocstrcpy(path, filelist[selected]);
 
 		/* Start over again with the new path value. */
-		free_chararray(filelist, numents);
+		free_chararray(filelist, filelist_len);
 		goto change_browser_directory;
 
 	    /* Redraw the screen. */
@@ -252,7 +262,7 @@ char *do_browser(char *path, DIR *dir)
 #ifndef NANO_TINY
 			NULL,
 #endif
-			_("Go To Directory"));
+			browser_refresh, _("Go To Directory"));
 
 		curs_set(0);
 #if !defined(DISABLE_HELP) || !defined(DISABLE_MOUSE)
@@ -312,7 +322,7 @@ char *do_browser(char *path, DIR *dir)
 		/* Start over again with the new path value. */
 		free(path);
 		path = new_path;
-		free_chararray(filelist, numents);
+		free_chararray(filelist, filelist_len);
 		goto change_browser_directory;
 
 	    /* Abort the browser. */
@@ -324,7 +334,7 @@ char *do_browser(char *path, DIR *dir)
 	if (abort)
 	    break;
 
-	browser_refresh(&width, longest, selected, filelist, numents);
+	browser_refresh();
 
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
 	parse_browser_input(&kbinput, &meta_key, &func_key);
@@ -340,71 +350,9 @@ char *do_browser(char *path, DIR *dir)
     /* Clean up. */
     free(path);
     free(ans);
-    free_chararray(filelist, numents);
+    free_chararray(filelist, filelist_len);
 
     return retval;
-}
-
-/* Return a list of files contained in the directory path.  *longest is
- * the maximum display length of a file, up to COLS - 1 (but at least
- * 7).  *numents is the number of files.  We assume path exists and is a
- * directory.  If neither is true, we return NULL. */
-char **browser_init(const char *path, int *longest, size_t *numents, DIR
-	*dir)
-{
-    const struct dirent *nextdir;
-    char **filelist;
-    size_t i = 0, path_len;
-
-    assert(dir != NULL);
-
-    *longest = 0;
-
-    while ((nextdir = readdir(dir)) != NULL) {
-	size_t dlen;
-
-	/* Don't show the "." entry. */
-	if (strcmp(nextdir->d_name, ".") == 0)
-	   continue;
-	i++;
-
-	dlen = strlenpt(nextdir->d_name);
-	if (dlen > *longest)
-	    *longest = (dlen > COLS - 1) ? COLS - 1 : dlen;
-    }
-
-    *numents = i;
-    rewinddir(dir);
-    *longest += 10;
-
-    filelist = (char **)nmalloc(*numents * sizeof(char *));
-
-    path_len = strlen(path);
-
-    i = 0;
-
-    while ((nextdir = readdir(dir)) != NULL && i < *numents) {
-	/* Don't show the "." entry. */
-	if (strcmp(nextdir->d_name, ".") == 0)
-	   continue;
-
-	filelist[i] = charalloc(path_len + strlen(nextdir->d_name) + 1);
-	sprintf(filelist[i], "%s%s", path, nextdir->d_name);
-	i++;
-    }
-
-    /* Maybe the number of files in the directory changed between the
-     * first time we scanned and the second.  i is the actual length of
-     * filelist, so record it. */
-    *numents = i;
-    closedir(dir);
-
-    if (*longest > COLS - 1)
-	*longest = COLS - 1;
-    if (*longest < 7)
-	*longest = 7;
-
-    return filelist;
 }
 
 /* The file browser front end.  We check to see if inpath has a dir in
@@ -462,6 +410,64 @@ char *do_browse_from(const char *inpath)
     return do_browser(path, dir);
 }
 
+/* Set filelist to the list of files contained in the directory path,
+ * set filelist_len to the number of files in that list, and set longest
+ * to the width in columns of the longest filename in that list, up to
+ * COLS - 1 (but at least 7).  Assume path exists and is a directory. */
+void browser_init(const char *path, DIR *dir)
+{
+    const struct dirent *nextdir;
+    size_t i = 0, path_len;
+
+    assert(dir != NULL);
+
+    longest = 0;
+
+    while ((nextdir = readdir(dir)) != NULL) {
+	size_t d_len;
+
+	/* Don't show the "." entry. */
+	if (strcmp(nextdir->d_name, ".") == 0)
+	   continue;
+	i++;
+
+	d_len = strlenpt(nextdir->d_name);
+	if (d_len > longest)
+	    longest = (d_len > COLS - 1) ? COLS - 1 : d_len;
+    }
+
+    filelist_len = i;
+    rewinddir(dir);
+    longest += 10;
+
+    filelist = (char **)nmalloc(filelist_len * sizeof(char *));
+
+    path_len = strlen(path);
+
+    i = 0;
+
+    while ((nextdir = readdir(dir)) != NULL && i < filelist_len) {
+	/* Don't show the "." entry. */
+	if (strcmp(nextdir->d_name, ".") == 0)
+	   continue;
+
+	filelist[i] = charalloc(path_len + strlen(nextdir->d_name) + 1);
+	sprintf(filelist[i], "%s%s", path, nextdir->d_name);
+	i++;
+    }
+
+    /* Maybe the number of files in the directory changed between the
+     * first time we scanned and the second.  i is the actual length of
+     * filelist, so record it. */
+    filelist_len = i;
+    closedir(dir);
+
+    if (longest > COLS - 1)
+	longest = COLS - 1;
+    if (longest < 7)
+	longest = 7;
+}
+
 /* Determine the shortcut key corresponding to the values of kbinput
  * (the key itself), meta_key (whether the key is a meta sequence), and
  * func_key (whether the key is a function key), if any.  In the
@@ -499,13 +505,10 @@ void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
     }
 }
 
-/* Display the list of files in the array filelist with the size
- * numents.  width is the number of columns in the list, which we
- * calculate and return.  longest is the length of the longest filename,
- * and hence the width of each column of the list.  selected is the
- * filename that is currently selected. */
-void browser_refresh(int *width, int longest, int selected, char
-	**filelist, size_t numents)
+/* Calculate the number of columns needed to display the list of files
+ * in the array filelist, if necessary, and then display the list of
+ * files. */
+void browser_refresh(void)
 {
     struct stat st;
     int i;
@@ -515,14 +518,14 @@ void browser_refresh(int *width, int longest, int selected, char
 
     assert(width != NULL);
 
-    i = (*width != 0) ? *width * editwinrows * ((selected / *width) /
+    i = (width != 0) ? width * editwinrows * ((selected / width) /
 	editwinrows) : 0;
 
     blank_edit();
 
     wmove(edit, 0, 0);
 
-    for (; i < numents && editline <= editwinrows - 1; i++) {
+    for (; i < filelist_len && editline <= editwinrows - 1; i++) {
 	char *disp = display_string(tail(filelist[i]), 0, longest,
 		FALSE);
 
@@ -575,8 +578,11 @@ void browser_refresh(int *width, int longest, int selected, char
 	if (col > COLS - longest) {
 	    editline++;
 	    col = 0;
-	    if (*width == 0)
-		*width = filecols;
+
+	    /* Set the number of columns to display the list in, if
+	     * necessary, so that we don't divide by 0. */
+	    if (width == 0)
+		width = filecols;
 	}
 
 	wmove(edit, editline, col);
