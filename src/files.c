@@ -1782,8 +1782,6 @@ int do_writeout(bool exiting)
 	    if (i == NANO_TOFILES_KEY) {
 		char *tmp = do_browse_from(answer);
 
-		currshortcut = writefile_list;
-
 		if (tmp == NULL)
 		    continue;
 

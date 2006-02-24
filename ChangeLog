@@ -37,6 +37,8 @@ CVS code -
   mbstrchr()
 	- Make parameter c const. (DLR)
 - files.c:
+  do_writeout()
+	- Remove unneeded setting of currshortcut. (DLR)
   is_dir()
 	- Rename parameter ret to retval, for consistency. (DLR)
 - global.c:
