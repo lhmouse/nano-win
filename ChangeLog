@@ -84,6 +84,8 @@ CVS code -
 	- Mention that quotes inside string parameters don't need to be
 	  escaped with backslashes. (John M. Gabriele, minor tweaks by
 	  DLR)
+- doc/rnano.1:
+	- Remove unneeded comments. (DLR)
 - doc/nanorc.sample:
 	- Remove unneeded comment. (DLR)
 	- Mention that quotes inside string parameters don't need to be
