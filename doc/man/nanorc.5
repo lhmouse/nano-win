@@ -6,7 +6,7 @@
 .\" Public License for copying conditions.  There is NO warranty.
 .\"
 .\" $Id$
-.TH NANORC 5 "version 1.3.10" "January 06, 2006"
+.TH NANORC 5 "version 1.3.10" "March 12, 2006"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -36,6 +36,11 @@ Options in rcfiles take precedence over nano's defaults, and command
 line options override rcfile settings.
 
 Options are unset by default, except for options that take an argument.
+
+Quotes inside string parameters don't have to be escaped with
+backslashes.  The last double quote in the string will be treated as its
+end.  For example, for the brackets option, "\fI'")}]>\fP" will match
+\fI'\fP, \fI"\fP, \fI)\fP, \fI}\fP, \fI]\fP, and \fI>\fP.
 
 The supported commands and arguments are:
 

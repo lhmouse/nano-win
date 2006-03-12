@@ -81,8 +81,14 @@ CVS code -
 - doc/nanorc.5:
 	- Give the default values for the brackets and punct options,
 	  and better display the default values for quotestr. (DLR)
+	- Mention that quotes inside string parameters don't need to be
+	  escaped with backslashes. (John M. Gabriele, minor tweaks by
+	  DLR)
 - doc/nanorc.sample:
 	- Remove unneeded comment. (DLR)
+	- Mention that quotes inside string parameters don't need to be
+	  escaped with backslashes. (John M. Gabriele, minor tweaks by
+	  DLR)
 
 GNU nano 1.3.10 - 2005.12.23
 - General:
