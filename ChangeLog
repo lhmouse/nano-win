@@ -91,6 +91,8 @@ CVS code -
 	- Mention that quotes inside string parameters don't need to be
 	  escaped with backslashes. (John M. Gabriele, minor tweaks by
 	  DLR)
+- THANKS:
+	- Add new Swedish translator.
 
 GNU nano 1.3.10 - 2005.12.23
 - General:
