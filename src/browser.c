@@ -516,8 +516,6 @@ void browser_refresh(void)
     size_t foo_len = mb_cur_max() * 7;
     char *foo = charalloc(foo_len + 1);
 
-    assert(width != NULL);
-
     i = (width != 0) ? width * editwinrows * ((selected / width) /
 	editwinrows) : 0;
 
