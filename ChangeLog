@@ -77,7 +77,9 @@ CVS code -
 	  in UTF-8 mode. (DLR, found by Duncan Geoffry Doyle, Nick
 	  Warne, and Mike Frysinger)
 - doc/faq.html:
-	- Update the Free Translation Project's address. (DLR)
+	- Update the Free Translation Project's address, change the
+	  character set to UTF-8, and remove broken links to contributed
+	  RedHat nano packages. (DLR)
 - doc/nano.1:
 	- Better display the default values for quotestr. (DLR)
 - doc/nanorc.5:
