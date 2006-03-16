@@ -76,6 +76,8 @@ CVS code -
 	  space for converted when a line ends in a tab(s) and we're not
 	  in UTF-8 mode. (DLR, found by Duncan Geoffry Doyle, Nick
 	  Warne, and Mike Frysinger)
+- doc/faq.html:
+	- Update the Free Translation Project's address. (DLR)
 - doc/nano.1:
 	- Better display the default values for quotestr. (DLR)
 - doc/nanorc.5:
