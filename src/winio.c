@@ -122,7 +122,8 @@ void reset_kbinput(void)
  * default keystroke buffer is empty. */
 void get_key_buffer(WINDOW *win)
 {
-    int input, errcount;
+    int input;
+    size_t errcount;
 
     /* If the keystroke buffer isn't empty, get out. */
     if (key_buffer != NULL)
