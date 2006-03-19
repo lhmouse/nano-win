@@ -144,7 +144,6 @@ void get_key_buffer(WINDOW *win)
 	    handle_hupterm(0);
     }
 
-
 #ifndef NANO_TINY
     allow_pending_sigwinch(FALSE);
 #endif
