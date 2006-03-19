@@ -122,7 +122,7 @@ void reset_kbinput(void)
  * default keystroke buffer is empty. */
 void get_key_buffer(WINDOW *win)
 {
-    int input;
+    int input, errcount;
 
     /* If the keystroke buffer isn't empty, get out. */
     if (key_buffer != NULL)
@@ -137,10 +137,16 @@ void get_key_buffer(WINDOW *win)
      * screen updates. */
     doupdate();
 
+    errcount = 0;
     while ((input = wgetch(win)) == ERR) {
+	errcount++;
+
 	/* If errno is EIO, it means that the input source that we were
-	 * using is gone, so die gracefully. */
-	if (errno == EIO)
+	 * using is gone, so die gracefully.  If we've failed to get a
+	 * character over MAX_BUF_SIZE times in a row, it can mean the
+	 * same thing regardless of the value of errno, so die
+	 * gracefully then too. */
+	if (errno == EIO || errcount > MAX_BUF_SIZE)
 	    handle_hupterm(0);
     }
 
