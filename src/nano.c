@@ -1044,10 +1044,10 @@ RETSIGTYPE handle_sigwinch(int signal)
     if (result == -1)
 	return;
 
-    /* Could check whether the COLS or LINES changed, and return
-     * otherwise.  EXCEPT, that COLS and LINES are ncurses global
-     * variables, and in some cases ncurses has already updated them. 
-     * But not in all cases, argh. */
+    /* We could check whether the COLS or LINES changed, and return
+     * otherwise.  However, COLS and LINES are curses global variables,
+     * and in some cases curses has already updated them.  But not in
+     * all cases.  Argh. */
     COLS = win.ws_col;
     LINES = win.ws_row;
 

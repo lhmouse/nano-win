@@ -142,12 +142,12 @@ void get_key_buffer(WINDOW *win)
     while ((input = wgetch(win)) == ERR) {
 	errcount++;
 
-	/* If errno is EIO, it means that the input source that we were
-	 * using is gone, so die gracefully.  If we've failed to get a
-	 * character over MAX_BUF_SIZE times in a row, it can mean the
-	 * same thing regardless of the value of errno, so die
-	 * gracefully then too. */
-	if (errno == EIO || errcount > MAX_BUF_SIZE)
+	/* If we've failed to get a character over MAX_BUF_SIZE times in
+	 * a row, assume that the input source we were using is gone and
+	 * die gracefully.  We could check if errno is set to EIO
+	 * ("Input/output error") and die gracefully in that case, but
+	 * it's not always set properly.  Argh. */
+	if (errcount > MAX_BUF_SIZE)
 	    handle_hupterm(0);
     }
 

@@ -63,7 +63,8 @@ CVS code -
 	  row, hang up regardless of the value of errno.  This fixes a
 	  problem where nano doesn't terminate properly under xterm if
 	  the user su's to root, runs nano, and then closes the terminal
-	  window. (DLR, found by John <acocaracha@gmail.com>)
+	  window.  errno isn't set properly to EIO then. (DLR, found by
+	  John <acocaracha@gmail.com>)
   parse_kbinput()
 	- Interpret Shift-Begin, Shift-Delete, Shift-End, Shift-Home,
 	  Shift-Insert, and Shift-Suspend as Begin, Delete, End, Home,
