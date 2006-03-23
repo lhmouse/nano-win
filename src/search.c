@@ -123,11 +123,11 @@ void search_init_globals(void)
 }
 
 /* Set up the system variables for a search or replace.  If use_answer
- * is TRUE, only set backupstring to answer.  Return -2 to run opposite
- * program (search -> replace, replace -> search), return -1 if the
- * search should be canceled (due to Cancel, Go to Line, or a failed
- * regcomp()), return 0 on success, and return 1 on rerun calling
- * program.
+ * is TRUE, only set backupstring to answer.  Return -2 to run the
+ * opposite program (search -> replace, replace -> search), return -1 if
+ * the search should be canceled (due to Cancel, a blank search string,
+ * Go to Line, or a failed regcomp()), return 0 on success, and return 1
+ * on rerun calling program.
  *
  * replacing is TRUE if we call from do_replace(), and FALSE if called
  * from do_search(). */
