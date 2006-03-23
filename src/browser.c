@@ -38,7 +38,7 @@ static int width = 0;
 	/* The number of columns to display the list in. */
 static int longest = 0;
 	/* The number of columns in the longest filename in the list. */
-static int selected = 0;
+static size_t selected = 0;
 	/* The currently selected filename in the list. */
 
 /* Our browser function.  path is the path to start browsing from.
@@ -89,7 +89,8 @@ char *do_browser(char *path, DIR *dir)
     do {
 	bool abort = FALSE;
 	struct stat st;
-	int i, fileline;
+	int i;
+	size_t fileline;
 	char *new_path;
 	    /* Used by the "Go To Directory" prompt. */
 #ifndef DISABLE_MOUSE
