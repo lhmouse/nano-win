@@ -276,25 +276,25 @@ bool findnextstr(
 	bool no_sameline, const filestruct *begin, size_t begin_x, const
 	char *needle, size_t *needle_len)
 {
-    filestruct *fileptr = openfile->current;
-    const char *rev_start = NULL, *found = NULL;
     size_t found_len;
 	/* The length of the match we find. */
     size_t current_x_find = 0;
 	/* The location in the current line of the match we find. */
     ssize_t current_y_find = openfile->current_y;
+    filestruct *fileptr = openfile->current;
+    const char *rev_start = fileptr->data, *found = NULL;
 
     /* rev_start might end up 1 character before the start or after the
      * end of the line.  This won't be a problem because strstrwrapper()
      * will return immediately and say that no match was found, and
      * rev_start will be properly set when the search continues on the
      * previous or next line. */
-    rev_start =
+    rev_start +=
 #ifndef NANO_TINY
 	ISSET(BACKWARDS_SEARCH) ?
-	fileptr->data + (openfile->current_x - 1) :
+	openfile->current_x - 1 :
 #endif
-	fileptr->data + (openfile->current_x + 1);
+	openfile->current_x + 1;
 
     /* Look for needle in the current line we're searching. */
     while (TRUE) {
@@ -346,6 +346,7 @@ bool findnextstr(
 	    return FALSE;
 	}
 
+	/* Move to the previous or next line in the file. */
 #ifndef NANO_TINY
 	if (ISSET(BACKWARDS_SEARCH)) {
 	    fileptr = fileptr->prev;
