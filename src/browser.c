@@ -114,7 +114,7 @@ char *do_browser(char *path, DIR *dir)
 		/* If we clicked in the edit window, we probably clicked
 		 * on a file. */
 		if (wenclose(edit, mevent.y, mevent.x)) {
-		    int old_selected = selected;
+		    size_t old_selected = selected;
 
 		    /* Subtract out the size of topwin. */
 		    mevent.y -= 2 - no_more_space();

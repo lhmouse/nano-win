@@ -33,9 +33,9 @@ CVS code -
 	  the file list display after returning from the help browser at
 	  the "Go To Directory" prompt. (DLR)
 	- Rename variable j to i, for consistency. (DLR)
-	- Make fileline and the static selected size_t's, since the
-	  latter can hold the value of the former, and the former can be
-	  that large. (DLR)
+	- Make fileline, old_selected, and the static selected size_t's,
+	  since the first and second can hold the value of the third,
+	  and the first can be that large. (DLR)
 - chars.c:
   mbstrchr()
 	- Make parameter c const. (DLR)
