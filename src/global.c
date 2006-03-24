@@ -426,7 +426,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-	do_help_void
+	do_help
 #else
 	nano_disabled_msg
 #endif
@@ -658,7 +658,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-	do_help_void
+	do_help
 #else
 	nano_disabled_msg
 #endif
@@ -745,7 +745,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-	do_help_void
+	do_help
 #else
 	nano_disabled_msg
 #endif
@@ -800,7 +800,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-	do_help_void
+	do_help
 #else
 	nano_disabled_msg
 #endif
@@ -830,7 +830,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-	do_help_void
+	do_help
 #else
 	nano_disabled_msg
 #endif
@@ -858,7 +858,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-	do_help_void
+	do_help
 #else
 	nano_disabled_msg
 #endif
@@ -926,7 +926,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-	do_help_void
+	do_help
 #else
 	nano_disabled_msg
 #endif
@@ -974,7 +974,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-	do_help_void
+	do_help
 #else
 	nano_disabled_msg
 #endif
@@ -1030,7 +1030,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-	do_help_void
+	do_help
 #else
 	nano_disabled_msg
 #endif
@@ -1071,7 +1071,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-	do_help_void
+	do_help
 #else
 	nano_disabled_msg
 #endif
