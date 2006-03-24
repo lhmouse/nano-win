@@ -426,17 +426,16 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-		do_help
+	do_help_void
 #else
-		nano_disabled_msg
+	nano_disabled_msg
 #endif
-		);
+	);
 
     /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_EXIT_KEY,
 #ifdef ENABLE_MULTIBUFFER
-	openfile != NULL && openfile != openfile->next ?
-	N_("Close") :
+	openfile != NULL && openfile != openfile->next ? N_("Close") :
 #endif
 	exit_msg, IFHELP(nano_exit_msg, NANO_NO_KEY), NANO_EXIT_FKEY,
 	NANO_NO_KEY, VIEW, do_exit);
@@ -451,11 +450,11 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_justify_msg, NANO_NO_KEY),
 	NANO_JUSTIFY_FKEY, NANO_NO_KEY, NOVIEW,
 #ifndef DISABLE_JUSTIFY
-		do_justify_void
+	do_justify_void
 #else
-		nano_disabled_msg
+	nano_disabled_msg
 #endif
-		);
+	);
 
     /* We allow inserting files in view mode if multibuffers are
      * available, so that we can view multiple files.  If we're using
@@ -468,12 +467,11 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_insert_msg, NANO_NO_KEY), NANO_INSERTFILE_FKEY,
 	NANO_NO_KEY,
 #ifdef ENABLE_MULTIBUFFER
-		VIEW
+	VIEW
 #else
-		NOVIEW
+	NOVIEW
 #endif
-		, !ISSET(RESTRICTED) ? do_insertfile_void :
-		nano_disabled_msg);
+	, !ISSET(RESTRICTED) ? do_insertfile_void : nano_disabled_msg);
 
     /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_WHEREIS_KEY, N_("Where Is"),
@@ -516,12 +514,12 @@ void shortcut_init(bool unjustify)
      * on the command line. */
     /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_SPELL_KEY, N_("To Spell"),
-		IFHELP(nano_spell_msg, NANO_NO_KEY), NANO_SPELL_FKEY,
-		NANO_NO_KEY, NOVIEW,
+	IFHELP(nano_spell_msg, NANO_NO_KEY), NANO_SPELL_FKEY,
+	NANO_NO_KEY, NOVIEW,
 #ifndef DISABLE_SPELLER
-		!ISSET(RESTRICTED) ? do_spell :
+	!ISSET(RESTRICTED) ? do_spell :
 #endif
-		nano_disabled_msg);
+	nano_disabled_msg);
 
     sc_init_one(&main_list, NANO_GOTOLINE_KEY, go_to_line_msg,
 	IFHELP(nano_gotoline_msg, NANO_GOTOLINE_ALTKEY),
@@ -660,11 +658,11 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-		do_help
+	do_help_void
 #else
-		nano_disabled_msg
+	nano_disabled_msg
 #endif
-		);
+	);
 
     /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_CANCEL_KEY, cancel_msg,
@@ -747,11 +745,11 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-		do_help
+	do_help_void
 #else
-		nano_disabled_msg
+	nano_disabled_msg
 #endif
-		);
+	);
 
     sc_init_one(&replace_list, NANO_CANCEL_KEY, cancel_msg,
 	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
@@ -802,11 +800,11 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-		do_help
+	do_help_void
 #else
-		nano_disabled_msg
+	nano_disabled_msg
 #endif
-		);
+	);
 
     sc_init_one(&replace_list_2, NANO_CANCEL_KEY, cancel_msg,
 	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
@@ -832,11 +830,11 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-		do_help
+	do_help_void
 #else
-		nano_disabled_msg
+	nano_disabled_msg
 #endif
-		);
+	);
 
     sc_init_one(&gotoline_list, NANO_CANCEL_KEY, cancel_msg,
 	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
@@ -860,11 +858,11 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-		do_help
+	do_help_void
 #else
-		nano_disabled_msg
+	nano_disabled_msg
 #endif
-		);
+	);
 
     sc_init_one(&writefile_list, NANO_CANCEL_KEY, cancel_msg,
 	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
@@ -928,15 +926,15 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-		do_help
+	do_help_void
 #else
-		nano_disabled_msg
+	nano_disabled_msg
 #endif
-		);
+	);
 
     sc_init_one(&insertfile_list, NANO_CANCEL_KEY, cancel_msg,
-		IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
-		NANO_NO_KEY, VIEW, NULL);
+	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY,
+	VIEW, NULL);
 
 #ifndef DISABLE_BROWSER
     /* If we're using restricted mode, the file browser is disabled.
@@ -976,11 +974,11 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-		do_help
+	do_help_void
 #else
-		nano_disabled_msg
+	nano_disabled_msg
 #endif
-		);
+	);
 
     sc_init_one(&extcmd_list, NANO_CANCEL_KEY, cancel_msg,
 	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
@@ -1032,11 +1030,11 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-		do_help
+	do_help_void
 #else
-		nano_disabled_msg
+	nano_disabled_msg
 #endif
-		);
+	);
 
     sc_init_one(&spell_list, NANO_CANCEL_KEY, cancel_msg,
 	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
@@ -1073,11 +1071,11 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY,
 	NANO_NO_KEY, VIEW,
 #ifndef DISABLE_HELP
-		do_help
+	do_help_void
 #else
-		nano_disabled_msg
+	nano_disabled_msg
 #endif
-		);
+	);
 
     sc_init_one(&gotodir_list, NANO_CANCEL_KEY, cancel_msg,
 	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
