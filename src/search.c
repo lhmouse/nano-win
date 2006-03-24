@@ -177,35 +177,28 @@ int search_init(bool replacing, bool use_answer)
 	&search_history,
 #endif
 	edit_refresh, "%s%s%s%s%s%s", _("Search"),
-
 #ifndef NANO_TINY
 	/* This string is just a modifier for the search prompt; no
 	 * grammar is implied. */
 	ISSET(CASE_SENSITIVE) ? _(" [Case Sensitive]") :
 #endif
-		"",
-
+	"",
 #ifdef HAVE_REGEX_H
 	/* This string is just a modifier for the search prompt; no
 	 * grammar is implied. */
 	ISSET(USE_REGEXP) ? _(" [Regexp]") :
 #endif
-		"",
-
+	"",
 #ifndef NANO_TINY
 	/* This string is just a modifier for the search prompt; no
 	 * grammar is implied. */
 	ISSET(BACKWARDS_SEARCH) ? _(" [Backwards]") :
 #endif
-		"",
-
-	replacing ?
+	"", replacing ?
 #ifndef NANO_TINY
-		openfile->mark_set ? _(" (to replace) in selection") :
+	openfile->mark_set ? _(" (to replace) in selection") :
 #endif
-		_(" (to replace)") : "",
-
-	buf);
+	_(" (to replace)") : "", buf);
 
     /* Release buf now that we don't need it anymore. */
     free(buf);
