@@ -62,8 +62,8 @@ CVS code -
 	  matches the manual page. (DLR)
 - winio.c:
   get_key_buffer()
-	- If we fail to get a character over MAX_BUF_SIZE times in a
-	  row, hang up regardless of the value of errno.  This fixes a
+	- If we fail to get a character MAX_BUF_SIZE times in a row,
+	  hang up regardless of the value of errno.  This fixes a
 	  problem where nano doesn't terminate properly under xterm if
 	  the user su's to root, runs nano, and then closes the terminal
 	  window.  errno isn't set properly to EIO then. (DLR, found by
