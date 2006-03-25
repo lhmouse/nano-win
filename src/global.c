@@ -252,16 +252,16 @@ void sc_init_one(shortcut **shortcutage, int ctrlval, const char *desc,
  * Uncut shortcut in the main shortcut list with UnJustify. */
 void shortcut_init(bool unjustify)
 {
+    const char *cancel_msg = N_("Cancel");
     const char *get_help_msg = N_("Get Help");
     const char *exit_msg = N_("Exit");
     const char *prev_page_msg = N_("Prev Page");
     const char *next_page_msg = N_("Next Page");
-    const char *replace_msg = N_("Replace");
     const char *go_to_line_msg = N_("Go To Line");
-    const char *cancel_msg = N_("Cancel");
+    const char *replace_msg = N_("Replace");
+    const char *refresh_msg = N_("Refresh");
     const char *first_line_msg = N_("First Line");
     const char *last_line_msg = N_("Last Line");
-    const char *refresh_msg = N_("Refresh");
 #ifndef NANO_TINY
     const char *cut_till_end_msg = N_("CutTillEnd");
 #endif
@@ -286,6 +286,7 @@ void shortcut_init(bool unjustify)
 #ifndef DISABLE_BROWSER
     const char *to_files_msg = N_("To Files");
 #endif
+    const char *nano_cancel_msg = N_("Cancel the current function");
 #ifndef DISABLE_HELP
     const char *nano_help_msg = N_("Invoke the help menu");
     const char *nano_exit_msg =
@@ -369,7 +370,6 @@ void shortcut_init(bool unjustify)
 #ifndef NANO_TINY
     const char *nano_bracket_msg = N_("Find matching bracket");
 #endif
-    const char *nano_cancel_msg = N_("Cancel the current function");
     const char *nano_firstline_msg =
 	N_("Go to the first line of the file");
     const char *nano_lastline_msg =
