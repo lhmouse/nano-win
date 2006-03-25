@@ -3,7 +3,7 @@
  *   help.c                                                               *
  *                                                                        *
  *   Copyright (C) 2000-2004 Chris Allegretta                             *
- *   Copyright (C) 2005 David Lawrence Ramsey                             *
+ *   Copyright (C) 2005-2006 David Lawrence Ramsey                        *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -267,7 +267,7 @@ void help_init(void)
 	htx[1] = NULL;
 	htx[2] = NULL;
     }
-#endif
+#endif /* !DISABLE_BROWSER */
 #ifndef DISABLE_SPELLER
     else if (currshortcut == spell_list) {
 	htx[0] = N_("Spell Check Help Text\n\n "
@@ -282,7 +282,7 @@ void help_init(void)
 	htx[1] = NULL;
 	htx[2] = NULL;
     }
-#endif
+#endif /* !DISABLE_SPELLER */
 #ifndef NANO_TINY
     else if (currshortcut == extcmd_list) {
 	htx[0] = N_("Execute Command Help Text\n\n "
@@ -295,7 +295,7 @@ void help_init(void)
 	htx[1] = NULL;
 	htx[2] = NULL;
     }
-#endif
+#endif /* !NANO_TINY */
     else {
 	/* Default to the main help list. */
 	htx[0] = N_(" nano help text\n\n "
@@ -471,7 +471,6 @@ void help_init(void)
     /* And the toggles... */
     if (currshortcut == main_list) {
 	for (t = toggles; t != NULL; t = t->next) {
-
 	    assert(t->desc != NULL);
 
 	    ptr += sprintf(ptr, "M-%c\t\t\t%s %s\n", toupper(t->val),
