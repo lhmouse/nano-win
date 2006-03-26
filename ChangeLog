@@ -5031,7 +5031,7 @@ GNU nano 1.1.7 - 03/05/2002
 	- Preliminary quoting support for justify.  New arg -Q, --quotestr,
 	  changes to do_justify(), global variable quotestr().
 - Makefile.am:
-	- Add SYSCONFDIR to DEFS, so we can have an $SYSCONFDIR/nanorc.
+	- Add SYSCONFDIR to DEFS, so we can have a $SYSCONFDIR/nanorc.
 	- Change localedir line to 1.0's version.
 	- Moved m4/ stuff to its own m4/Makefile.am.
 - m4/aclocal_inc.m4:

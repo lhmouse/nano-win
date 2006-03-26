@@ -361,7 +361,7 @@
 		shows column as well as character position, and
 		multibuffer allows duplicate files, even unnamed ones.
 		Also, the static shortcut and toggle lengths are
-		history, nano now reads $SYSCONFDIR/nanorc if rc file
+		history, nano now reads SYSCONFDIR/nanorc if rc file
 		support is enabled, and nano is now built with (and
 		requires for rebuilding) autoconf 2.5.
 			This release also includes fixes for some memory
