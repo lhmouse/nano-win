@@ -286,8 +286,8 @@ void shortcut_init(bool unjustify)
 #ifndef DISABLE_BROWSER
     const char *to_files_msg = N_("To Files");
 #endif
-    const char *nano_cancel_msg = N_("Cancel the current function");
 #ifndef DISABLE_HELP
+    const char *nano_cancel_msg = N_("Cancel the current function");
     const char *nano_help_msg = N_("Invoke the help menu");
     const char *nano_exit_msg =
 #ifdef ENABLE_MULTIBUFFER
@@ -666,8 +666,8 @@ void shortcut_init(bool unjustify)
 
     /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_CANCEL_KEY, cancel_msg,
-	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, NULL);
+	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY,
+	VIEW, NULL);
 
     /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_FIRSTLINE_KEY, first_line_msg,
@@ -752,8 +752,8 @@ void shortcut_init(bool unjustify)
 	);
 
     sc_init_one(&replace_list, NANO_CANCEL_KEY, cancel_msg,
-	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, NULL);
+	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY,
+	VIEW, NULL);
 
     sc_init_one(&replace_list, NANO_FIRSTLINE_KEY, first_line_msg,
 	IFHELP(nano_firstline_msg, NANO_NO_KEY), NANO_FIRSTLINE_FKEY,
@@ -807,8 +807,8 @@ void shortcut_init(bool unjustify)
 	);
 
     sc_init_one(&replace_list_2, NANO_CANCEL_KEY, cancel_msg,
-	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, NULL);
+	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY,
+	VIEW, NULL);
 
     sc_init_one(&replace_list_2, NANO_FIRSTLINE_KEY, first_line_msg,
 	IFHELP(nano_firstline_msg, NANO_NO_KEY), NANO_NO_KEY,
@@ -837,8 +837,8 @@ void shortcut_init(bool unjustify)
 	);
 
     sc_init_one(&gotoline_list, NANO_CANCEL_KEY, cancel_msg,
-	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, NULL);
+	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY,
+	VIEW, NULL);
 
     sc_init_one(&gotoline_list, NANO_FIRSTLINE_KEY, first_line_msg,
 	IFHELP(nano_firstline_msg, NANO_NO_KEY), NANO_NO_KEY,
@@ -865,8 +865,8 @@ void shortcut_init(bool unjustify)
 	);
 
     sc_init_one(&writefile_list, NANO_CANCEL_KEY, cancel_msg,
-	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, NULL);
+	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY,
+	VIEW, NULL);
 
 #ifndef DISABLE_BROWSER
     /* If we're using restricted mode, the file browser is disabled.
@@ -981,8 +981,8 @@ void shortcut_init(bool unjustify)
 	);
 
     sc_init_one(&extcmd_list, NANO_CANCEL_KEY, cancel_msg,
-	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, NULL);
+	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY,
+	VIEW, NULL);
 
     sc_init_one(&extcmd_list, NANO_TOOTHERINSERT_KEY, N_("Insert File"),
 	IFHELP(nano_insert_msg, NANO_NO_KEY), NANO_NO_KEY,
@@ -1037,8 +1037,8 @@ void shortcut_init(bool unjustify)
 	);
 
     sc_init_one(&spell_list, NANO_CANCEL_KEY, cancel_msg,
-	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, NULL);
+	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY,
+	VIEW, NULL);
 #endif
 
 #ifndef DISABLE_BROWSER
@@ -1078,8 +1078,8 @@ void shortcut_init(bool unjustify)
 	);
 
     sc_init_one(&gotodir_list, NANO_CANCEL_KEY, cancel_msg,
-	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, NULL);
+	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY,
+	VIEW, NULL);
 #endif
 
     currshortcut = main_list;
