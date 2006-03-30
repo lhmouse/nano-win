@@ -48,6 +48,8 @@ CVS code -
   shortcut_init()
 	- Remove erroneous handling of the "Get Help" shortcut in the
 	  file browser shortcut list. (DLR)
+- nano.h:
+	- Remove now-unneeded VERMSG #define. (DLR)
 - prompt.c:
   get_prompt_string()
 	- Redraw the prompt and set finished to FALSE when NANO_HELP_KEY
@@ -73,6 +75,9 @@ CVS code -
 	  Shift-Insert, and Shift-Suspend as Begin, Delete, End, Home,
 	  Insert, and Suspend, respectively, regardless of whether
 	  --rebindkeypad is used. (DLR, found by David Benbennick)
+  titlebar()
+	- Use PACKAGE_STRING, as defined by autoconf, instead of VERMSG.
+	  (DLR)
   edit_redraw()
 	- If either current or old_current is offscreen, we're not on
 	  the first page, and/or we're not on the same page as before,

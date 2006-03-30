@@ -136,8 +136,6 @@
 #define getline ngetline
 #endif
 
-#define VERMSG "GNU nano " VERSION
-
 /* If we don't have regex support, turn the color support off, as it
  * depends on the use of regexes. */
 #ifndef HAVE_REGEX_H

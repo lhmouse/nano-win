@@ -1970,7 +1970,7 @@ void titlebar(const char *path)
 {
     int space = COLS;
 	/* The space we have available for display. */
-    size_t verlen = strlenpt(VERMSG) + 1;
+    size_t verlen = strlenpt(PACKAGE_STRING) + 1;
 	/* The length of the version message in columns, plus one for
 	 * padding. */
     const char *prefix;
@@ -2010,7 +2010,8 @@ void titlebar(const char *path)
     if (space >= 4) {
 	/* Add a space after the version message, and account for both
 	 * it and the two spaces before it. */
-	mvwaddnstr(topwin, 0, 2, VERMSG, actual_x(VERMSG, verlen));
+	mvwaddnstr(topwin, 0, 2, PACKAGE_STRING,
+		actual_x(PACKAGE_STRING, verlen));
 	verlen += 3;
 
 	/* Account for the full length of the version message. */
