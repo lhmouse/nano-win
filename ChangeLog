@@ -12,6 +12,8 @@ CVS code -
 - doc/nanorc.sample:
 	- Tweak the "c-file" regex for characters to accept '"' again,
 	  as it's apparently valid. (DLR)
+	- Replace instances of \" with ", since quotes inside string
+	  parameters don't need to be escaped with backslashes. (DLR)
 
 GNU nano 1.3.11 - 2006.03.30
 - General:

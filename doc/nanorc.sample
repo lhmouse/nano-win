@@ -208,10 +208,10 @@
 ## because syntax highlighting rules will be applied in the order they
 ## are read in.
 ##
-# color brightyellow "<[^= 	]*>" ""(\\.|[^\"])*""
+# color brightyellow "<[^= 	]*>" ""(\\.|[^"])*""
 ##
 ## This string is VERY resource intensive!
-# color brightyellow start=""(\\.|[^\"])*\\[[:space:]]*$" end="^(\\.|[^\"])*""
+# color brightyellow start=""(\\.|[^"])*\\[[:space:]]*$" end="^(\\.|[^"])*""
 ##
 ## And we want to have some nice comment highlighting too
 # color brightblue "//.*"
@@ -251,7 +251,7 @@
 ## Requests
 # color brightgreen "^\.[[:space:]]*[^[[:space:]]]*"
 ## Comments
-# color yellow "^\.\\\".*$"
+# color yellow "^\.\\".*$"
 ## Strings
 # color green "(\\|\\\\)\*."
 # color green "(\\|\\\\)\*\(.."
@@ -280,7 +280,7 @@
 # color green "\<(boolean|byte|char|double|float|int|long|new|short|this|transient|void)\>"
 # color red "\<(break|case|catch|continue|default|do|else|finally|for|if|return|switch|throw|try|while)\>"
 # color cyan "\<(abstract|class|extends|final|implements|import|instanceof|interface|native|package|private|protected|public|static|strictfp|super|synchronized|throws|volatile)\>"
-# color red ""[^\"]*""
+# color red ""[^"]*""
 # color yellow "\<(true|false|null)\>"
 # color blue "//.*"
 # color blue start="/\*" end="\*/"
@@ -318,8 +318,8 @@
 # icolor brightred "^[[:space:]]*[._A-Z0-9]*:"
 # color brightcyan "^[[:space:]]*#[[:space:]]*(define|undef|include|ifn?def|endif|elif|else|if|warning|error)"
 ## Highlight strings (note: VERY resource intensive)
-# color brightyellow "<[^= 	]*>" ""(\\.|[^\"])*""
-# color brightyellow start=""(\\.|[^\"])*\\[[:space:]]*$" end="^(\\.|[^\"])*""
+# color brightyellow "<[^= 	]*>" ""(\\.|[^"])*""
+# color brightyellow start=""(\\.|[^"])*\\[[:space:]]*$" end="^(\\.|[^"])*""
 ## Highlight comments
 # color brightblue "//.*"
 # color brightblue start="/\*" end="\*/"
@@ -335,7 +335,7 @@
 # color brightblue "\<(cat|cd|chmod|chown|cp|echo|env|export|grep|install|let|ln|make|mkdir|mv|rm|sed|set|tar|touch|umask|unset)\>"
 # icolor brightred "\$\{?[_A-Z0-9]+\}?"
 # color yellow "#.*$"
-# color brightyellow ""(\\.|[^\"])*"" "'(\\.|[^'])*'"
+# color brightyellow ""(\\.|[^"])*"" "'(\\.|[^'])*'"
 
 ## Here is an example for your .nanorc
 ##
@@ -349,6 +349,6 @@
 # icolor yellow "^[[:space:]]*i?color[[:space:]]*(bright)?(white|black|red|blue|green|yellow|magenta|cyan)?(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
 # icolor magenta "^[[:space:]]*i?color\>" "\<(start|end)="
 ## strings
-# icolor white "\"(\\.|[^\"])*\""
+# icolor white ""(\\.|[^"])*""
 ## comments
 # icolor blue "^[[:space:]]*#.*$"
