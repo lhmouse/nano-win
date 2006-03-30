@@ -12,6 +12,8 @@ CVS code -
 - doc/nanorc.sample:
 	- Tweak the "c-file" regex for characters to accept '"' again,
 	  as it's apparently valid. (DLR)
+	- Simplify the "shellscript" regex for command line options.
+	  (DLR)
 	- Replace instances of \" with ", since quotes inside string
 	  parameters don't need to be escaped with backslashes. (DLR)
 
