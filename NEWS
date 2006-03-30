@@ -1,7 +1,7 @@
 2006.03.30 - GNU nano 1.3.11 awakens from its fever dream.  This release
 		focuses mostly on bugfixes, which include better
 		handling of the cursor at the statusbar prompt, support
-		for certain combinations of Shift and keyboard keys in
+		for certain combinations of Shift and keypad keys in
 		both normal and --rebind-keypad mode, a fix for a minor
 		display problem after some searches, a real fix for a
 		long-standing segfault when displaying overly long
