@@ -5,7 +5,7 @@ For version 1.4:
 - UTF-8 support. [DONE]
 - Support for paragraph searches. [DONE]
 - Support for justifying the entire file at once. [DONE]
-- Support for filename searches in the file browser.
+- Support for filename searches in the file browser. [DONE]
 - Undo/Redo keys?
 - Rebindable keys?
 - Keystroke to implement "Add next sequence as raw" like vi's ^V. [DONE]

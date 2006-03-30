@@ -32,8 +32,9 @@
 static char *help_text = NULL;
 	/* The text displayed in the help window. */
 
-/* Our dynamic, shortcut-list-compliant help function. */
-void do_help(void)
+/* Our dynamic, shortcut-list-compliant help function.  refresh_func is
+ * the function we will call to refresh the edit window.*/
+void do_help(void (*refresh_func)(void))
 {
     int line = 0;
 	/* The line number in help_text of the first displayed help
@@ -159,7 +160,7 @@ void do_help(void)
 	bottombars(currshortcut);
 
     curs_set(1);
-    edit_refresh();
+    refresh_func();
 
     /* The help_init() at the beginning allocated help_text.  Since 
      * help_text has now been written to the screen, we don't need it
@@ -167,6 +168,20 @@ void do_help(void)
     free(help_text);
     help_text = NULL;
 }
+
+/* Start the help browser for the edit window. */
+void do_help_void(void)
+{
+    do_help(&edit_refresh);
+}
+
+#ifndef DISABLE_BROWSER
+/* Start the help browser for the file browser. */
+void do_browser_help(void)
+{
+    do_help(&browser_refresh);
+}
+#endif
 
 /* This function allocates help_text, and stores the help string in it. 
  * help_text should be NULL initially. */
@@ -255,6 +270,19 @@ void help_init(void)
 		"list.\n\n The following function keys are available "
 		"in the file browser:\n\n");
 	htx[1] = NULL;
+	htx[2] = NULL;
+    } else if (currshortcut == whereis_file_list) {
+	htx[0] = N_("Browser Search Command Help Text\n\n "
+		"Enter the words or characters you would like to "
+		"search for, and then press Enter.  If there is a "
+		"match for the text you entered, the screen will be "
+		"updated to the location of the nearest match for the "
+		"search string.\n\n The previous search string will be "
+		"shown in brackets after the search prompt.  Hitting "
+		"Enter without entering any text will perform the "
+		"previous search.\n\n ");
+	htx[1] = N_("The following function keys are available in "
+		"Browser Search mode:\n\n");
 	htx[2] = NULL;
     } else if (currshortcut == gotodir_list) {
 	htx[0] = N_("Browser Go To Directory Help Text\n\n "

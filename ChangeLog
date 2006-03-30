@@ -1,4 +1,12 @@
 CVS code -
+- General:
+	- Implement filename searches in the file browser.  New
+	  functions filesearch_init(), findnextfile(),
+	  findnextfile_wrap_reset(), filesearch_abort(),
+	  do_filesearch(), do_fileresearch(), do_first_file(),
+	  do_last_file(), do_help_void(), and do_browser_help(); changes
+	  to do_browser(), parse_browser_input(), shortcut_init(),
+	  do_help(), and help_init(). (DLR)
 
 GNU nano 1.3.11 - 2006.03.30
 - General:

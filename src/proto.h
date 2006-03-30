@@ -104,6 +104,7 @@ extern shortcut *spell_list;
 #endif
 #ifndef DISABLE_BROWSER
 extern shortcut *browser_list;
+extern shortcut *whereis_file_list;
 extern shortcut *gotodir_list;
 #endif
 
@@ -142,6 +143,14 @@ char *do_browse_from(const char *inpath);
 void browser_init(const char *path, DIR *dir);
 void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key);
 void browser_refresh(void);
+int filesearch_init(void);
+bool findnextfile(bool no_sameline, size_t begin, const char *needle);
+void findnextfile_wrap_reset(void);
+void filesearch_abort(void);
+void do_filesearch(void);
+void do_fileresearch(void);
+void do_first_file(void);
+void do_last_file(void);
 void striponedir(char *path);
 #endif
 
@@ -330,7 +339,11 @@ void thanks_for_all_the_fish(void);
 
 /* Public functions in help.c. */
 #ifndef DISABLE_HELP
-void do_help(void);
+void do_help(void (*refresh_func)(void));
+void do_help_void(void);
+#ifndef DISABLE_BROWSER
+void do_browser_help(void);
+#endif
 void help_init(void);
 size_t help_line_len(const char *ptr);
 #endif

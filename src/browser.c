@@ -40,6 +40,8 @@ static int longest = 0;
 	/* The number of columns in the longest filename in the list. */
 static size_t selected = 0;
 	/* The currently selected filename in the list. */
+static bool search_last_file = FALSE;
+	/* Have we gone past the last file while searching? */
 
 /* Our browser function.  path is the path to start browsing from.
  * Assume path has already been tilde-expanded. */
@@ -187,7 +189,7 @@ char *do_browser(char *path, DIR *dir)
 
 	    case NANO_HELP_KEY:
 #ifndef DISABLE_HELP
-		do_help();
+		do_browser_help();
 		curs_set(0);
 #else
 		nano_disabled_msg();
@@ -249,6 +251,18 @@ char *do_browser(char *path, DIR *dir)
 	    /* Redraw the screen. */
 	    case NANO_REFRESH_KEY:
 		total_redraw();
+		break;
+
+	    /* Search for a filename. */
+	    case NANO_WHEREIS_KEY:
+		curs_set(1);
+		do_filesearch();
+		curs_set(0);
+		break;
+
+	    /* Search for another filename. */
+	    case NANO_WHEREIS_NEXT_KEY:
+		do_fileresearch();
 		break;
 
 	    /* Go to a specific directory. */
@@ -502,6 +516,10 @@ void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
 	    case 's':
 		*kbinput = NANO_ENTER_KEY;
 		break;
+	    case 'W':
+	    case 'w':
+		*kbinput = NANO_WHEREIS_KEY;
+		break;
 	}
     }
 }
@@ -590,6 +608,304 @@ void browser_refresh(void)
     free(foo);
 
     wnoutrefresh(edit);
+}
+
+/* Set up the system variables for a filename search.  Return -1 if the
+ * search should be canceled (due to Cancel, a blank search string, or a
+ * failed regcomp()), return 0 on success, and return 1 on rerun calling
+ * program. */
+int filesearch_init(void)
+{
+    int i = 0;
+    char *buf;
+    static char *backupstring = NULL;
+	/* The search string we'll be using. */
+
+    /* If backupstring doesn't exist, initialize it to "". */
+    if (backupstring == NULL)
+	backupstring = mallocstrcpy(NULL, "");
+
+    /* We display the search prompt below.  If the user types a partial
+     * search string and then Replace or a toggle, we will return to
+     * do_search() or do_replace() and be called again.  In that case,
+     * we should put the same search string back up. */
+
+    search_init_globals();
+
+    if (last_search[0] != '\0') {
+	char *disp = display_string(last_search, 0, COLS / 3, FALSE);
+
+	buf = charalloc(strlen(disp) + 7);
+	/* We use (COLS / 3) here because we need to see more on the
+	 * line. */
+	sprintf(buf, " [%s%s]", disp,
+		(strlenpt(last_search) > COLS / 3) ? "..." : "");
+	free(disp);
+    } else
+	buf = mallocstrcpy(NULL, "");
+
+    /* This is now one simple call.  It just does a lot. */
+    i = do_prompt(FALSE,
+#ifndef DISABLE_TABCOMP
+	TRUE,
+#endif
+	whereis_file_list, backupstring,
+#ifndef NANO_TINY
+	&search_history,
+#endif
+	browser_refresh, "%s%s%s%s%s%s", _("Search"),
+#ifndef NANO_TINY
+	/* This string is just a modifier for the search prompt; no
+	 * grammar is implied. */
+	ISSET(CASE_SENSITIVE) ? _(" [Case Sensitive]") :
+#endif
+	"",
+#ifdef HAVE_REGEX_H
+	/* This string is just a modifier for the search prompt; no
+	 * grammar is implied. */
+	ISSET(USE_REGEXP) ? _(" [Regexp]") :
+#endif
+	"",
+#ifndef NANO_TINY
+	/* This string is just a modifier for the search prompt; no
+	 * grammar is implied. */
+	ISSET(BACKWARDS_SEARCH) ? _(" [Backwards]") :
+#endif
+	"", "", buf);
+
+    /* Release buf now that we don't need it anymore. */
+    free(buf);
+
+    free(backupstring);
+    backupstring = NULL;
+
+    /* Cancel any search, or just return with no previous search. */
+    if (i == -1 || (i < 0 && last_search[0] == '\0') ||
+	    (i == 0 && answer[0] == '\0')) {
+	statusbar(_("Cancelled"));
+	return -1;
+    } else {
+	switch (i) {
+	    case -2:		/* It's an empty string. */
+	    case 0:		/* It's a new string. */
+#ifdef HAVE_REGEX_H
+		/* Use last_search if answer is an empty string, or
+		 * answer if it isn't. */
+		if (ISSET(USE_REGEXP) &&
+			regexp_init((i == -2) ? last_search :
+			answer) == 0)
+		    return -1;
+#endif
+		break;
+#ifndef NANO_TINY
+	    case TOGGLE_CASE_KEY:
+		TOGGLE(CASE_SENSITIVE);
+		backupstring = mallocstrcpy(backupstring, answer);
+		return 1;
+	    case TOGGLE_BACKWARDS_KEY:
+		TOGGLE(BACKWARDS_SEARCH);
+		backupstring = mallocstrcpy(backupstring, answer);
+		return 1;
+#endif
+#ifdef HAVE_REGEX_H
+	    case NANO_REGEXP_KEY:
+		TOGGLE(USE_REGEXP);
+		backupstring = mallocstrcpy(backupstring, answer);
+		return 1;
+#endif
+	    default:
+		return -1;
+	}
+    }
+
+    return 0;
+}
+
+/* Look for needle.  If no_sameline is TRUE, skip over selected when
+ * looking for needle.  begin is the location of the filename where we
+ * first started searching.  The return value specifies whether we found
+ * anything. */
+bool findnextfile(bool no_sameline, size_t begin, const char *needle)
+{
+    size_t currselected = selected;
+	/* The location in the current file list of the match we
+	 * find. */
+    const char *rev_start = tail(filelist[currselected]), *found = NULL;
+
+#ifndef NANO_TINY
+    if (ISSET(BACKWARDS_SEARCH))
+	rev_start += strlen(tail(filelist[currselected]));
+#endif
+
+    /* Look for needle in the current filename we're searching. */
+    while (TRUE) {
+	found = strstrwrapper(tail(filelist[currselected]), needle,
+		rev_start);
+
+	/* We've found a potential match.  If we're not allowed to find
+	 * a match on the same filename we started on and this potential
+	 * match is on that line, continue searching. */
+	if (found != NULL && (!no_sameline || currselected != begin))
+	    break;
+
+	/* We've finished processing the filenames, so get out. */
+	if (search_last_file) {
+	    not_found_msg(needle);
+	    return FALSE;
+	}
+
+	/* Move to the previous or next filename in the list.  If we've
+	 * reached the start or end of the list, wrap around. */
+#ifndef NANO_TINY
+	if (ISSET(BACKWARDS_SEARCH)) {
+	    if (currselected > 0)
+		currselected--;
+	    else {
+		currselected = filelist_len - 1;
+		statusbar(_("Search Wrapped"));
+	    }
+	} else {
+#endif
+	    if (currselected < filelist_len - 1)
+		currselected++;
+	    else {
+		currselected = 0;
+		statusbar(_("Search Wrapped"));
+	    }
+#ifndef NANO_TINY
+	}
+#endif
+
+	/* We've reached the original starting file. */
+	if (currselected == begin)
+	    search_last_file = TRUE;
+
+	rev_start = tail(filelist[currselected]);
+#ifndef NANO_TINY
+	if (ISSET(BACKWARDS_SEARCH))
+	    rev_start += strlen(tail(filelist[currselected]));
+#endif
+    }
+
+    /* We've definitely found something. */
+    selected = currselected;
+
+    return TRUE;
+}
+
+/* Clear the flag indicating that a search reached the last file in the
+ * list.  We need to do this just before a new search. */
+void findnextfile_wrap_reset(void)
+{
+    search_last_file = FALSE;
+}
+
+/* Abort the current filename search.  Clean up by setting the current
+ * shortcut list to the browser shortcut list, displaying it, and
+ * decompiling the compiled regular expression we used in the last
+ * search, if any. */
+void filesearch_abort(void)
+{
+    currshortcut = browser_list;
+    bottombars(browser_list);
+#ifdef HAVE_REGEX_H
+    regexp_cleanup();
+#endif
+}
+
+/* Search for a filename. */
+void do_filesearch(void)
+{
+    size_t begin = selected;
+    int i;
+    bool didfind;
+
+    i = filesearch_init();
+    if (i == -1)	/* Cancel, blank search string, or regcomp()
+			 * failed. */
+	filesearch_abort();
+#if !defined(NANO_TINY) || defined(HAVE_REGEX_H)
+    else if (i == 1)	/* Case Sensitive, Backwards, or Regexp search
+			 * toggle. */
+	do_filesearch();
+#endif
+
+    if (i != 0)
+	return;
+
+    /* If answer is now "", copy last_search into answer. */
+    if (answer[0] == '\0')
+	answer = mallocstrcpy(answer, last_search);
+    else
+	last_search = mallocstrcpy(last_search, answer);
+
+#ifndef NANO_TINY
+    /* If answer is not "", add this search string to the search history
+     * list. */
+    if (answer[0] != '\0')
+	update_history(&search_history, answer);
+#endif
+
+    findnextfile_wrap_reset();
+    didfind = findnextfile(FALSE, begin, answer);
+
+    /* Check to see if there's only one occurrence of the string and
+     * we're on it now. */
+    if (selected == begin && didfind) {
+	/* Do the search again, skipping over the current line.  We
+	 * should only end up back at the same position if the string
+	 * isn't found again, in which case it's the only occurrence. */
+	didfind = findnextfile(TRUE, begin, answer);
+	if (selected == begin && !didfind)
+	    statusbar(_("This is the only occurrence"));
+    }
+
+    filesearch_abort();
+}
+
+/* Search for the last filename without prompting. */
+void do_fileresearch(void)
+{
+    size_t begin = selected;
+    bool didfind;
+
+    search_init_globals();
+
+    if (last_search[0] != '\0') {
+#ifdef HAVE_REGEX_H
+	/* Since answer is "", use last_search! */
+	if (ISSET(USE_REGEXP) && regexp_init(last_search) == 0)
+	    return;
+#endif
+
+	findnextfile_wrap_reset();
+	didfind = findnextfile(FALSE, begin, answer);
+
+	/* Check to see if there's only one occurrence of the string and
+	 * we're on it now. */
+	if (selected == begin && didfind) {
+	    /* Do the search again, skipping over the current line.  We
+	     * should only end up back at the same position if the
+	     * string isn't found again, in which case it's the only
+	     * occurrence. */
+	    didfind = findnextfile(TRUE, begin, answer);
+	    if (selected == begin && !didfind)
+		statusbar(_("This is the only occurrence"));
+	}
+    } else
+        statusbar(_("No current search pattern"));
+
+    filesearch_abort();
+}
+
+void do_first_file(void)
+{
+    selected = 0;
+}
+
+void do_last_file(void)
+{
+    selected = filelist_len - 1;
 }
 
 /* Strip one directory from the end of path. */
