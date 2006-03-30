@@ -1,3 +1,17 @@
+2006.03.30 - GNU nano 1.3.11 awakens from its fever dream.  This release
+		focuses mostly on bugfixes, which include better
+		handling of the cursor at the statusbar prompt, support
+		for certain combinations of Shift and keyboard keys in
+		both normal and --rebind-keypad mode, a fix for a minor
+		display problem after some searches, a real fix for a
+		long-standing segfault when displaying overly long
+		lines, and a real fix for nano's not hanging up properly
+		in xterm under certain circumstances.  There are also
+		several new features, such as the ability to set the
+		characters used as brackets when searching for matching
+		brackets, and tab completion of directories at the "Go
+		To Directory" prompt.  Have fun.
+
 2005.12.23 - GNU nano 1.3.10 rises to the surface.  This release
 		contains several new features as well as fixes for
 		several longstanding bugs.  The former include the

@@ -1,4 +1,4 @@
-CVS code -
+GNU nano 1.3.11 - 2006.03.30
 - General:
 	- Miscellaneous comment fixes. (DLR)
 	- Remove unnecessary #ifdef around termios.h #include in nano.c.
