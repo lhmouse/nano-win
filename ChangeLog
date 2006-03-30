@@ -11,7 +11,7 @@ CVS code -
 	- Update the copyright years to include 2006. (DLR)
 - doc/nanorc.sample:
 	- Tweak the "c-file" regex for characters to accept '"' again,
-	  as it's apparently valid. (DLR)
+	  as it's apparently valid, and simplify it. (DLR)
 	- Simplify the "shellscript" regex for command line options.
 	  (DLR)
 	- Replace instances of \" with ", since quotes inside string
