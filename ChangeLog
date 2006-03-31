@@ -20,6 +20,9 @@ CVS code -
 	  be included per line, and change the comment for the
 	  "whitespace" option so that the hexadecimal character values
 	  are six digits long. (DLR)
+	- Add sample regexes for Python. (singular on the Gentoo forums,
+	  http://forums.gentoo.org/viewtopic.php?t=86562; minor tweaks
+	  by DLR, suggested by John M. Gabriele)
 
 GNU nano 1.3.11 - 2006.03.30
 - General:
