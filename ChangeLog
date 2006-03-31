@@ -17,7 +17,9 @@ CVS code -
 	- Replace instances of \" with ", since quotes inside string
 	  parameters don't need to be escaped with backslashes. (DLR)
 	- Mention in the comments that more than one start/end regex can
-	  be included per line. (DLR)
+	  be included per line, and change the comment for the
+	  "whitespace" option so that the hexadecimal character values
+	  are six digits long. (DLR)
 
 GNU nano 1.3.11 - 2006.03.30
 - General:

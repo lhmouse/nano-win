@@ -153,8 +153,8 @@
 # set view
 
 ## The two single-column characters used to display the first characters
-## of tabs and spaces.  187 decimal (00BB hexadecimal) and 183 decimal
-## (00B7 hexadecimal) seem to be good values for these.
+## of tabs and spaces.  187 decimal (0000BB hexadecimal) and 183 decimal
+## (0000B7 hexadecimal) seem to be good values for these.
 # set whitespace "  "
 
 ## Detect word boundaries more accurately by treating punctuation
