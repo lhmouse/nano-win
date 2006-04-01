@@ -17,9 +17,10 @@ CVS code -
 	- Replace instances of \" with ", since quotes inside string
 	  parameters don't need to be escaped with backslashes. (DLR)
 	- Mention in the comments that more than one start/end regex can
-	  be included per line, and change the comment for the
+	  be included per line.  Also, change the comment for the
 	  "whitespace" option so that the hexadecimal character values
-	  are six digits long. (DLR)
+	  are six digits long, and state which character values work
+	  with which encodings. (DLR)
 	- Add sample regexes for Python. (singular on the Gentoo forums,
 	  http://forums.gentoo.org/viewtopic.php?t=86562; minor tweaks
 	  by DLR, suggested by John M. Gabriele)
