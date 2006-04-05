@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.3.10
-@set UPDATED 4 Apr 2006
+@set UPDATED 5 Apr 2006
 
 @dircategory Editors
 @direntry
