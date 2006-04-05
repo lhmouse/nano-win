@@ -7,6 +7,10 @@ CVS code -
 	  do_last_file(), do_help_void(), and do_browser_help(); changes
 	  to do_browser(), parse_browser_input(), shortcut_init(),
 	  do_help(), and help_init(). (DLR)
+- files.c:
+  write_file()
+	- Don't free backupname before displaying it in a statusbar error
+	  message. (DLR, found by Bill Marcum)
 - doc/nano.1, doc/nanorc.5, doc/rnano.1, doc/nano.texi:
 	- Update the copyright years to include 2006. (DLR)
 - doc/nanorc.sample:

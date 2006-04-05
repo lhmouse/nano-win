@@ -1414,7 +1414,6 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 		openfile->current_stat->st_uid,
 		openfile->current_stat->st_gid) == -1 ||
 		utime(backupname, &filetime) == -1) {
-	    free(backupname);
 	    if (copy_status == -1) {
 		statusbar(_("Error reading %s: %s"), realname,
 			strerror(errno));
@@ -1422,6 +1421,7 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    } else
 		statusbar(_("Error writing %s: %s"), backupname,
 			strerror(errno));
+	    free(backupname);
 	    goto cleanup_and_exit;
 	}
 
