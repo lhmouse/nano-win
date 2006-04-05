@@ -151,7 +151,7 @@ char *parse_next_word(char *ptr)
  * arguments can contain "'s too. */
 char *parse_argument(char *ptr)
 {
-    const char *ptr_bak = ptr;
+    const char *ptr_save = ptr;
     char *last_quote = NULL;
 
     assert(ptr != NULL);
@@ -170,7 +170,7 @@ char *parse_argument(char *ptr)
 	    ptr = NULL;
 	else
 	    *ptr++ = '\0';
-	rcfile_error(N_("Argument %s has unterminated \""), ptr_bak);
+	rcfile_error(N_("Argument %s has unterminated \""), ptr_save);
     } else {
 	*last_quote = '\0';
 	ptr = last_quote + 1;
