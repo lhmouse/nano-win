@@ -599,7 +599,8 @@ int open_file(const char *filename, bool newfie, FILE **f)
 	return -1;
     } else if (S_ISDIR(fileinfo.st_mode) || S_ISCHR(fileinfo.st_mode) ||
 	S_ISBLK(fileinfo.st_mode)) {
-	/* Don't open character or block files.  Sorry, /dev/sndstat! */
+	/* Don't open directories, character files, or block files.
+	 * Sorry, /dev/sndstat! */
 	statusbar(S_ISDIR(fileinfo.st_mode) ?
 		_("\"%s\" is a directory") :
 		_("File \"%s\" is a device file"), filename);
@@ -610,8 +611,7 @@ int open_file(const char *filename, bool newfie, FILE **f)
 	beep();
  	return -1;
      } else {
-	/* File is A-OK.  Open it in binary mode for our own end-of-line
-	 * character munging. */
+	/* The file is A-OK.  Open it. */
 	*f = fdopen(fd, "rb");
 
 	if (*f == NULL) {
