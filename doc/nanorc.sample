@@ -110,7 +110,7 @@
 ## This is an extended regular expression if your system supports them,
 ## otherwise a literal string.  Default:
 # set quotestr "^([ 	]*[#:>\|}])+"
-## if you have regexps, otherwise:
+## if you have extended regular expression support, otherwise:
 # set quotestr "> "
 
 ## Fix Backspace/Delete confusion problem.
@@ -189,6 +189,8 @@
 ## If your system supports transparency, not specifying a background
 ## color will use a transparent color.  If you don't want this, be sure
 ## to set the background color to black or white.
+##
+## All regexes should be extended regular expressions.
 ##
 # syntax "c-file" "\.(c|C|cc|cpp|cxx|h|H|hh|hpp|hxx)$"
 # color brightred "\<[A-Z_][A-Z_0-9]+\>" 

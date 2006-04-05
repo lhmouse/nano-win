@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.3.10
-@set UPDATED 30 Mar 2006
+@set UPDATED 4 Apr 2006
 
 @dircategory Editors
 @direntry
@@ -157,8 +157,9 @@ Set the quoting string for justifying.  The default is
 @code{^([ \t]*[|>:@}#])+}
 @end quotation
 
-if regular expression support is available, or ``> '' otherwise.  Note
-that @code{\t} above stands for a literal Tab character.
+if extended regular expression support is available, or ``> ''
+otherwise.  Note that @code{\t} above stands for a literal Tab
+character.
 
 @item -R, --restricted
 Restricted mode: Don't read or write to any file not specified on the
@@ -327,13 +328,11 @@ section will display the current directory instead of the filename.
 @section The Statusbar
 
 The statusbar is located three lines from the bottom of the screen (or
-the bottom line in Expert Mode.  @xref{Expert Mode}, for more info).
-
-The Statusbar shows important and informational messages.  Any error
-messages that occur from using the editor will appear on the statusbar.
-Any questions that are asked of the user will be asked on the statusbar,
-and any user input (search strings, file names, etc) will be input on
-the statusbar.
+the bottom line in Expert Mode.  @xref{Expert Mode}, for more info).  It
+shows important and informational messages.  Any error messages that
+occur from using the editor will appear on the statusbar.  Any questions
+that are asked of the user will be asked on the statusbar, and any user
+input (search strings, file names, etc.) will be input on the statusbar.
 
 @node Shortcut Lists, , The Statusbar, Editor Basics
 @section Shortcut Lists
