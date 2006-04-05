@@ -1409,7 +1409,7 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 	/* Copy the file. */
 	copy_status = copy_file(f, backup_file);
 
-	/* And set metadata. */
+	/* And set its metadata. */
 	if (copy_status != 0 || chown(backupname,
 		openfile->current_stat->st_uid,
 		openfile->current_stat->st_gid) == -1 ||
