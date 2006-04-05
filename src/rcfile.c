@@ -760,7 +760,7 @@ void do_rcfile(void)
 #ifdef SYSCONFDIR
     nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
     /* Try to open the system-wide nanorc. */
-    rcstream = fopen(nanorc, "r");
+    rcstream = fopen(nanorc, "rb");
     if (rcstream != NULL)
 	parse_rcfile(rcstream);
 #endif
@@ -780,7 +780,7 @@ void do_rcfile(void)
     else {
 	nanorc = charealloc(nanorc, strlen(homedir) + 9);
 	sprintf(nanorc, "%s/.nanorc", homedir);
-	rcstream = fopen(nanorc, "r");
+	rcstream = fopen(nanorc, "rb");
 
 	if (rcstream == NULL) {
 	    /* Don't complain about the file's not existing. */

@@ -2342,7 +2342,7 @@ void load_history(void)
 
     /* Assume do_rcfile() has reported a missing home directory. */
     if (nanohist != NULL) {
-	FILE *hist = fopen(nanohist, "r");
+	FILE *hist = fopen(nanohist, "rb");
 
 	if (hist == NULL) {
 	    if (errno != ENOENT) {

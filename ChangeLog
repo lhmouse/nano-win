@@ -8,6 +8,8 @@ CVS code -
 	  do_last_file(), do_help_void(), and do_browser_help(); changes
 	  to do_browser(), parse_browser_input(), shortcut_init(),
 	  do_help(), and help_init(). (DLR)
+	- Open all files in binary mode for consistency and robustness.
+	  Changes to load_history() and do_rcfile(). (DLR)
 - files.c:
   write_file()
 	- Don't free backupname before displaying it in a statusbar error
