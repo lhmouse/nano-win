@@ -1,5 +1,6 @@
 CVS code -
 - General:
+	- Miscellaneous comment fixes. (DLR)
 	- Implement filename searches in the file browser.  New
 	  functions filesearch_init(), findnextfile(),
 	  findnextfile_wrap_reset(), filesearch_abort(),

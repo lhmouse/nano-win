@@ -242,7 +242,8 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 
 #ifdef HAVE_REGEX_H
 #ifdef BROKEN_REGEXEC
-/* Work around a potential segfault in glibc 2.2.3's regexec(). */
+/* glibc 2.2.3 brain damage: Work around a potential segfault in
+ * regexec(). */
 int safe_regexec(const regex_t *preg, const char *string, size_t nmatch,
 	regmatch_t pmatch[], int eflags)
 {
