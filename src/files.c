@@ -603,7 +603,7 @@ int open_file(const char *filename, bool newfie, FILE **f)
 	 * Sorry, /dev/sndstat! */
 	statusbar(S_ISDIR(fileinfo.st_mode) ?
 		_("\"%s\" is a directory") :
-		_("File \"%s\" is a device file"), filename);
+		_("\"%s\" is a device file"), filename);
 	beep();
 	return -1;
     } else if ((fd = open(filename, O_RDONLY)) == -1) {
