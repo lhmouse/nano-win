@@ -19,7 +19,8 @@ CVS code -
 	  message. (DLR, found by Bill Marcum)
 	- If we can't save the backup file for some reason, at least
 	  save the original file, if possible, since that's better than
-	  saving nothing. (DLR, suggested by Jordi)
+	  saving nothing. (DLR, problem found by Bill Marcum, solution
+	  suggested by Jordi)
 - rcfile.c:
   parse_argument()
 	- Rename variable ptr_bak to ptr_save, for consistency. (DLR)
