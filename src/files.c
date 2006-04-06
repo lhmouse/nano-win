@@ -1336,6 +1336,8 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 		statusbar(_("Error reading %s: %s"), realname,
 			strerror(errno));
 		beep();
+		/* If we can't open the original file, we won't be able
+		 * to save it, so get out. */
 		goto cleanup_and_exit;
 	    }
 	}
@@ -1375,8 +1377,10 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 		    _("Too many backup files?"));
 		free(backuptemp);
 		free(backupname);
-		fclose(f);
-		goto cleanup_and_exit;
+		/* If we can't write to the backup, go on, since only
+		 * saving the original file is better than saving
+		 * nothing. */
+		goto skip_backup;
 	    } else {
 		free(backupname);
 		backupname = backuptemp;
@@ -1398,8 +1402,9 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    free(backupname);
 	    if (backup_file != NULL)
 		fclose(backup_file);
-	    fclose(f);
-	    goto cleanup_and_exit;
+	    /* If we can't write to the backup, go on, since only saving
+	     * the original file is better than saving nothing. */
+	    goto skip_backup;
 	}
 
 #ifdef DEBUG
@@ -1421,12 +1426,15 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 	    } else
 		statusbar(_("Error writing %s: %s"), backupname,
 			strerror(errno));
-	    free(backupname);
-	    goto cleanup_and_exit;
+	    /* If we can't read from or write to the backup, go on,
+	     * since only saving the original file is better than saving
+	     * nothing. */
 	}
 
 	free(backupname);
     }
+
+  skip_backup:
 #endif /* !NANO_TINY */
 
     /* If NOFOLLOW_SYMLINKS is set and the file is a link, we aren't
