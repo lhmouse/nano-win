@@ -1061,11 +1061,11 @@ char *safe_tempfile(FILE **f)
 
     assert(f != NULL);
 
-    /* If $TMPDIR is set and non-empty, set tempdir to it, run it
-     * through get_full_path(), and save the result in full_tempdir.
-     * Otherwise, leave full_tempdir set to NULL. */
+    /* If $TMPDIR is set, set tempdir to it, run it through
+     * get_full_path(), and save the result in full_tempdir.  Otherwise,
+     * leave full_tempdir set to NULL. */
     tmpdir_env = getenv("TMPDIR");
-    if (tmpdir_env != NULL && tmpdir_env[0] != '\0')
+    if (tmpdir_env != NULL)
 	full_tempdir = check_writable_directory(tmpdir_env);
 
     /* If $TMPDIR is unset, empty, or not a writable directory, and
