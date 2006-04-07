@@ -24,6 +24,8 @@ CVS code -
 	  save the original file, if possible, since that's better than
 	  saving nothing. (DLR, problem found by Bill Marcum, solution
 	  suggested by Jordi)
+	- Clarify the error message when writing a temporary file for
+	  prepending fails. (DLR)
 - rcfile.c:
   parse_argument()
 	- Rename variable ptr_bak to ptr_save, for consistency. (DLR)

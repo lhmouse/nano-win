@@ -1336,15 +1336,10 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 		statusbar(_("Error reading %s: %s"), realname,
 			strerror(errno));
 		beep();
-		/* If we can't read from the original file, and we're
-		 * prepending, get out, since we won't be able to save
-		 * either the backup or the original file.  If we're not
-		 * prepending, go on, since only saving the original
-		 * file is better than saving nothing. */
-		if (append == PREPEND)
-		    goto cleanup_and_exit;
-		else
-		    goto skip_backup;
+		/* If we can't read from the original file, go on, since
+		 * only saving the original file is better than saving
+		 * nothing. */
+		goto skip_backup;
 	    }
 	}
 
@@ -1468,10 +1463,21 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 	int fd_source;
 	FILE *f_source = NULL;
 
+	if (f == NULL) {
+	    f = fopen(realname, "rb");
+
+	    if (f == NULL) {
+		statusbar(_("Error reading %s: %s"), realname,
+			strerror(errno));
+		beep();
+		goto cleanup_and_exit;
+	    }
+	}
+
 	tempname = safe_tempfile(&f);
 
 	if (tempname == NULL) {
-	    statusbar(_("Prepending to %s failed: %s"), realname,
+	    statusbar(_("Could not create temp file: %s"),
 		strerror(errno));
 	    goto cleanup_and_exit;
 	}
