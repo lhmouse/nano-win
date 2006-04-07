@@ -1336,9 +1336,15 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 		statusbar(_("Error reading %s: %s"), realname,
 			strerror(errno));
 		beep();
-		/* If we can't open the original file, we won't be able
-		 * to save it, so get out. */
-		goto cleanup_and_exit;
+		/* If we can't read from the original file, and we're
+		 * prepending, get out, since we won't be able to save
+		 * either the backup or the original file.  If we're not
+		 * prepending, go on, since only saving the original
+		 * file is better than saving nothing. */
+		if (append == PREPEND)
+		    goto cleanup_and_exit;
+		else
+		    goto skip_backup;
 	    }
 	}
 
