@@ -1622,11 +1622,8 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 		strerror(errno));
 	    goto cleanup_and_exit;
 	}
-    } else if (fclose(f) == EOF) {
-	statusbar(_("Error writing %s: %s"), realname, strerror(errno));
-	unlink(tempname);
-	goto cleanup_and_exit;
-    }
+    } else
+	fclose(f);
 
     if (!tmp && append == OVERWRITE) {
 	if (!nonamechange) {
