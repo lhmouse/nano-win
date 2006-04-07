@@ -1306,7 +1306,7 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 	goto cleanup_and_exit;
     }
 
-    /* Save the state of file at the end of the symlink (if there is
+    /* Save the state of the file at the end of the symlink (if there is
      * one). */
     realexists = (stat(realname, &st) != -1);
 
