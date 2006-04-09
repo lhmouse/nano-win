@@ -1,12 +1,13 @@
 .\" Hey, EMACS: -*- nroff -*-
-.\" nanorc.5 is Copyright (C) 2003, 2004, 2005 Free Software
-.\" Foundation, Inc.
+.\" nanorc.5 is Copyright (C) 2003, 2004, 2005, 2006 by the Free 
+.\" Software Foundation, Inc.
 .\"
-.\" (c) 2003-2005 Jean-Philippe Guérard <jean-philippe.guerard@corbeaunoir.org>
-.\" pour l'adaptation française
+.\" (c) 2003-2006 Jean-Philippe Guérard <jean-philippe.guerard@corbeaunoir.org>
+.\" pour l'adaptation française.
 .\"
-.\" This is free documentation, see the latest version of the GNU General
-.\" Public License for copying conditions. There is NO warranty.
+.\" This is free documentation, see the latest version of the GNU
+.\" General Public License for copying conditions.  There is NO
+.\" warranty.
 .\"
 .\" Ce document est libre. Reportez-vous à la dernière version de la
 .\" licence publique générale GNU (GNU GPL) pour connaître ses
@@ -14,7 +15,7 @@
 .\" AUCUNE garantie.
 .\"
 \" $Id$
-.TH NANORC 5 "version 1.3.10" "15 décembre 2005"
+.TH NANORC 5 "version 1.3.11" "6\ avril\ 2006"
 .\" Please adjust this date whenever revising the manpage.
 .\" Merci de modifier ces dates à chaque mise à jour de cette page.
 
@@ -26,7 +27,7 @@ Cette page de manuel décrit brièvement le fichier de configuration de
 l'éditeur \fBnano\fP GNU.
 .PP
 \fBnano\fP est un petit éditeur sympathique et libre, qui vise à 
-remplacer Pico, l'éditeur par défaut du paquet non libre Pine. 
+remplacer Pico, l'éditeur par défaut du logiciel non libre Pine. 
 \fBnano\fP ne se contentant pas de copier l'interface et l'ergonomie de 
 Pico, il offre également certaines fonctionnalités manquantes (ou 
 désactivées par défaut) de Pico. Ces fonctionnalités sont, par exemple, 
@@ -39,11 +40,11 @@ de configuration général \fISYSCONFDIR/nanorc\fP, puis lira le fichier
 de configuration personnel de l'utilisateur \fI~/.nanorc\fP.
 
 .SH OPTIONS
-Le fichier de configuration accepte une série de commandes «\ set\ » 
-(activer) et «\ unset\ » (désactiver), qui permettent de définir la 
-configuration de nano au démarrage sans avoir à utiliser d'options sur 
-la ligne de commande. De plus, les mots clefs «\ syntax\ » (syntaxe),
-«\ color\ » (couleur) et «\ icolor\ » (couleur insensible à la casse) 
+Le fichier de configuration accepte une série de commandes \fBset\fP 
+(activer) et \fBunset\fP (désactiver), qui permettent de définir le 
+paramétrage de nano au démarrage sans avoir à utiliser d'options sur 
+la ligne de commande. De plus, les mots clefs \fBsyntax\fP (syntaxe),
+\fBcolor\fP (couleur) et \fBicolor\fP (couleur insensible à la casse) 
 sont utilisés pour définir les règles de colorisation pour différents 
 motifs de texte. Nano lira une commande par ligne.
 
@@ -53,6 +54,13 @@ prioritaires par rapport aux options du fichier de configuration.
 
 Les options sont désactivées (unset) par défaut, sauf les options 
 prenant un argument.
+
+Les apostrophes («\ \fI'\fP\ ») et les guillemets droits («\ \fI"\fP\ »)
+présents dans des chaînes de caractères utilisées comme paramètres n'ont 
+pas besoin d'être précédées d'une barre oblique inversée
+(«\ \fI\\\fP\ »). La chaîne sera terminée par le dernier guillemet 
+droit. Par exemple, pour l'option \fIbrackets\fP, "\fI"')>]}\fP" 
+correspondra à \fI"\fP, \fI'\fP, \fI)\fP, \fI>\fP, \fI]\fP et \fI}\fP.
 
 Les commandes et arguments reconnus sont\ :
 
@@ -80,6 +88,9 @@ fermantes, peuvent terminer une phrase.
 
 (N.D.T.\ : reportez-vous au paragraphe sur l'option \fBpunct\fR pour 
 plus d'informations.)
+
+La valeur par défaut de cette option est\ : "\fI"')>]}\fP".
+
 .TP
 .B set/unset casesensitive
 Par défaut, les recherches ne tiennent pas compte de la casse.
@@ -104,6 +115,13 @@ Active l'utilisation de
 pour enregistrer et relire les chaînes ayant fait l'objet d'une 
 recherche ou d'un remplacement.
 .TP
+.B set matchbrackets "\fIchaîne\fP"
+Définit les crochets ouvrants et fermant pour la recherche de crochets 
+correspondants. Cette liste ne doit pas contenir de blancs. L'ensemble 
+des crochets ouvrants doit être indiqué en premier, suivi de l'ensemble 
+des crochets fermant, qui doit être dans le même ordre. La valeur par 
+défaut de cette option est "\fI(<[{)>]}\fP".
+.TP
 .B set/unset morespace
 Utiliser la ligne blanche située sous la ligne de titre comme espace 
 supplémentaire d'édition.
@@ -113,7 +131,7 @@ Active l'utilisation de la souris, afin que des clics souris puissent
 être utilisés pour marquer le texte ou accéder aux raccourcis.
 .TP
 \fBset/unset multibuffer\fP
-Mode multifichier\ : permet de charger les fichiers dans leur propre 
+Mode multi-espace\ : permet de charger les fichiers dans leur propre 
 espace.
 .TP
 \fBset/unset noconvert\fP
@@ -151,6 +169,8 @@ espaces au lieu d'une derrière les ponctuations terminales, ce qui
 correspond aux normes typographiques anglo-saxonnes, mais n'a pas lieu 
 d'être en français. Pour le français, le plus simple est d'indiquer, 
 dans le fichier nanorc, une chaîne vide pour ce paramètre.)
+
+La valeur par défaut de cette option est "\fI!.?\fP".
 .TP
 .B set/unset quickblank
 Effacement rapide de la ligne d'état. Les messages affichés par la ligne
@@ -160,14 +180,11 @@ d'état disparaîtront après une frappe clavier au lieu de 25.
 Définit le préfixe par défaut utilisé pour les citations dans les 
 courriers électroniques. Ce préfixe est utilisé pour réaliser une 
 justification correcte de ces citations. Il s'agira, si votre système le 
-permet, d'une «\ expression rationnelle étendue\ ». Dans le cas 
+permet, d'une expression rationnelle étendue. Dans le cas 
 contraire, il s'agira d'une chaîne de texte brut. Si vous disposez des 
-expressions rationnelles, la valeur par défaut sera\ :
-
-	set quotestr "^([\ \\t]*[|>:}#])+"
-
-Sinon, ce sera ">\ ". Notez que le «\ \\t\ » ci-dessus correspond à un 
-caractère de tabulation.
+expressions rationnelles, la valeur par défaut de cette option sera 
+"\fI^([\ \\t]*[#:>\\|}])+\fP", sinon, ce sera ">\ ". Notez que le
+«\ \\t\ » ci-dessus correspond à un caractère de tabulation.
 .TP
 \fBset/unset rebinddelete\fP
 Interprète différemment la touche «\ Supprimer\ », afin que les touches 
@@ -183,7 +200,8 @@ n'est pas le cas, car nano ne sera plus capable d'utiliser la souris
 correctement lorsque cette option sera activée.
 .TP
 \fBset/unset regexp\fP
-Utilise par défaut des expressions rationnelles pour les recherches.
+Utilise par défaut des expressions rationnelles étendues pour les 
+recherches.
 .TP
 \fBset/unset smarthome\fP
 Rend plus malin le fonctionnement de la touche «\ Début\ ». Lorsque
@@ -229,10 +247,10 @@ caractères de ponctuation comme faisant partie des mots.
 .B syntax \fIchaîne\fP ["\fImotif_de_fichier\fP" ... ]
 Définit une syntaxe nommée \fIchaîne\fP qui pourra être activé via 
 l'option \fB-Y\fP ou qui sera automatiquement activée si le nom du 
-fichier en cours correspond au \fImotif_de_fichier\fP. Toutes les 
-instructions suivantes de colorisation \fBcolor\fP ou \fBicolor\fP 
-s'appliqueront à cette syntaxe, jusqu'à la définition d'une nouvelle 
-syntaxe.
+fichier en cours correspond à l'expression rationnelle étendue 
+\fImotif_de_fichier\fP. Toutes les instructions suivantes de 
+colorisation \fBcolor\fP ou \fBicolor\fP s'appliqueront à cette 
+syntaxe, jusqu'à la définition d'une nouvelle syntaxe.
 
 La syntaxe nommée \fInone\fP (aucune) est réservée\ ; si elle est 
 indiquée dans la ligne de commande, cela revient à ne définir aucune 
@@ -243,13 +261,13 @@ syntaxes.
 .TP
 .B color \fIcouleur_texte\fP[,\fIcouleur_fond\fP] "\fImotif\fP" ...
 Pour la syntaxe en cours, affiche toutes les expressions correspondant à 
-l'expression rationnelle \fImotif\fP en utilisant la couleur de texte 
-\fIcouleur_texte\fP et la couleur de fond \fIcouleur_fond\fP, l'une de 
-ces deux couleurs au moins devant être définie. Les couleurs acceptées 
-par \fBnano\fP pour le texte et le fond sont\ : \fIwhite\fP (blanc), 
-\fIblack\fP (noir), \fIred\fP (rouge), \fIblue\fP (bleu), \fIgreen\fP 
-(vert), \fIyellow\fP (jaune), \fImagenta\fP, et \fIcyan\fP. Pour la 
-couleur du texte, vous pouvez ajouter à ces couleurs le préfixe 
+l'expression rationnelle étendue \fImotif\fP en utilisant la couleur de 
+texte \fIcouleur_texte\fP et la couleur de fond \fIcouleur_fond\fP, 
+l'une de ces deux couleurs au moins devant être définie. Les couleurs 
+acceptées par \fBnano\fP pour le texte et le fond sont\ : \fIwhite\fP 
+(blanc), \fIblack\fP (noir), \fIred\fP (rouge), \fIblue\fP (bleu), 
+\fIgreen\fP (vert), \fIyellow\fP (jaune), \fImagenta\fP, et \fIcyan\fP. 
+Pour la couleur du texte, vous pouvez ajouter à ces couleurs le préfixe 
 \fIbright\fP (lumineux) pour obtenir une couleur plus lumineuse. Si 
 votre terminal est capable de gérer la transparence, ne pas spécifier de 
 \fIcouleur_fond\fP indique à \fBnano\fP d'essayer d'utiliser un fond 
@@ -260,8 +278,9 @@ Comme ci-dessus, mais la recherche des motifs est effectuée sans tenir
 compte de la casse.
 .TP
 .B color \fIcouleur_texte\fP[,\fIcouleur_fond\fP] start="\fImotif_début\fP" end="\fImotif_fin\fP"
-Affiche les expressions commençant par \fImotif_début\fP et se terminant 
-par \fImotif_fin\fP en utilisant la couleur de texte \fIcouleur_texte\fP 
+Affiche les expressions commençant par l'expression rationnelle étendue 
+\fImotif_début\fP et se terminant par l'expression rationnelle étendue 
+\fImotif_fin\fP en utilisant la couleur de texte \fIcouleur_texte\fP 
 et la couleur de fond \fIcouleur_fond\fP, l'une de ces deux couleurs au 
 moins devant être définie. Cela permet à la colorisation syntaxique de 
 s'étendre sur plusieurs lignes. Notez que toutes les occurrences 
@@ -295,9 +314,9 @@ manuel a été rédigée par Jordi Mallach <jordi@gnu.org>.
 
 .SH TRADUCTION
 Cette adaptation française a été réalisé par Jean-Philippe\ Guérard
-<jean-philippe.guerard@corbeaunoir.org> le 15\ décembre\ 2005 à partir de
-la version du 21\ novembre\ 2005 de la page de manuel de nano 1.3.10.
-Cette version a été relue par Gérard Delafond.
+<jean-philippe.guerard@corbeaunoir.org> le 6\ avril\ 2006 à partir de
+la version du 5\ avril\ 2006 de la page de manuel de nanorc (pour la 
+version 1.3.11 de nano). Cette version a été relue par Gérard Delafond.
 
 Un maximum de soin a été apporté lors de l'élaboration de cette
 traduction\ ; néanmoins, quelques imperfections peuvent subsister. Si
