@@ -254,6 +254,7 @@ void sc_init_one(shortcut **shortcutage, int ctrlval, const char *desc,
  * Uncut shortcut in the main shortcut list with UnJustify. */
 void shortcut_init(bool unjustify)
 {
+    /* TRANSLATORS: Try to keep this and following strings at most 10 characters. */
     const char *cancel_msg = N_("Cancel");
     const char *get_help_msg = N_("Get Help");
     const char *exit_msg = N_("Exit");
@@ -261,10 +262,13 @@ void shortcut_init(bool unjustify)
     const char *prev_page_msg = N_("Prev Page");
     const char *next_page_msg = N_("Next Page");
     const char *go_to_line_msg = N_("Go To Line");
+    /* TRANSLATORS: Try to keep this and previous strings at most 10 characters. */
     const char *replace_msg = N_("Replace");
 #ifndef NANO_TINY
+    /* TRANSLATORS: Try to keep this at most 16 characters. */
     const char *whereis_next_msg = N_("Where Is Next");
 #endif
+    /* TRANSLATORS: Try to keep this and following strings at most 10 characters. */
     const char *refresh_msg = N_("Refresh");
     const char *first_line_msg = N_("First Line");
     const char *last_line_msg = N_("Last Line");
@@ -284,12 +288,15 @@ void shortcut_init(bool unjustify)
     const char *regexp_msg = N_("Regexp");
 #endif
 #ifndef NANO_TINY
+    /* TRANSLATORS: Try to keep this and previous strings at most 10 characters. */
     const char *history_msg = N_("History");
 #ifdef ENABLE_MULTIBUFFER
+    /* TRANSLATORS: Try to keep at most 16 characters. */
     const char *new_buffer_msg = N_("New Buffer");
 #endif
 #endif
 #ifndef DISABLE_BROWSER
+    /* TRANSLATORS: Try to keep at most 16 characters. */
     const char *to_files_msg = N_("To Files");
     const char *first_file_msg = N_("First File");
     const char *last_file_msg = N_("Last File");
@@ -433,7 +440,6 @@ void shortcut_init(bool unjustify)
 
     free_shortcutage(&main_list);
 
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_HELP_KEY, get_help_msg,
 	IFHELP(nano_help_msg, NANO_NO_KEY), NANO_HELP_FKEY, NANO_NO_KEY,
 	VIEW,
@@ -444,20 +450,20 @@ void shortcut_init(bool unjustify)
 #endif
 	);
 
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_EXIT_KEY,
 #ifdef ENABLE_MULTIBUFFER
+	/* TRANSLATORS: Try to keep this at most 10 characters. */
 	openfile != NULL && openfile != openfile->next ? N_("Close") :
 #endif
 	exit_msg, IFHELP(nano_exit_msg, NANO_NO_KEY), NANO_EXIT_FKEY,
 	NANO_NO_KEY, VIEW, do_exit);
 
-    /* Translators: try to keep this string under 10 characters long. */
+    /* TRANSLATORS: Try to keep this at most 10 characters. */
     sc_init_one(&main_list, NANO_WRITEOUT_KEY, N_("WriteOut"),
 	IFHELP(nano_writeout_msg, NANO_NO_KEY), NANO_WRITEOUT_FKEY,
 	NANO_NO_KEY, NOVIEW, do_writeout_void);
 
-    /* Translators: try to keep this string under 10 characters long. */
+    /* TRANSLATORS: Try to keep this at most 10 characters. */
     sc_init_one(&main_list, NANO_JUSTIFY_KEY, N_("Justify"),
 	IFHELP(nano_justify_msg, NANO_NO_KEY), NANO_JUSTIFY_FKEY,
 	NANO_NO_KEY, NOVIEW,
@@ -474,7 +480,7 @@ void shortcut_init(bool unjustify)
      * reading from or writing to files not specified on the command
      * line. */
 
-    /* Translators: try to keep this string under 10 characters long. */
+    /* TRANSLATORS: Try to keep this at most 10 characters. */
     sc_init_one(&main_list, NANO_INSERTFILE_KEY, N_("Read File"),
 	IFHELP(nano_insert_msg, NANO_NO_KEY), NANO_INSERTFILE_FKEY,
 	NANO_NO_KEY,
@@ -485,38 +491,35 @@ void shortcut_init(bool unjustify)
 #endif
 	, !ISSET(RESTRICTED) ? do_insertfile_void : nano_disabled_msg);
 
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_WHEREIS_KEY, whereis_msg,
 	IFHELP(nano_whereis_msg, NANO_NO_KEY), NANO_WHEREIS_FKEY,
 	NANO_NO_KEY, VIEW, do_search);
 
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_PREVPAGE_KEY, prev_page_msg,
 	IFHELP(nano_prevpage_msg, NANO_NO_KEY), NANO_PREVPAGE_FKEY,
 	NANO_NO_KEY, VIEW, do_page_up);
 
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_NEXTPAGE_KEY, next_page_msg,
 	IFHELP(nano_nextpage_msg, NANO_NO_KEY), NANO_NEXTPAGE_FKEY,
 	NANO_NO_KEY, VIEW, do_page_down);
 
-    /* Translators: try to keep this string under 10 characters long. */
+    /* TRANSLATORS: Try to keep this at most 10 characters. */
     sc_init_one(&main_list, NANO_CUT_KEY, N_("Cut Text"),
 	IFHELP(nano_cut_msg, NANO_NO_KEY), NANO_CUT_FKEY, NANO_NO_KEY,
 	NOVIEW, do_cut_text);
 
     if (unjustify)
-    /* Translators: try to keep this string under 10 characters long. */
+    /* TRANSLATORS: Try to keep this at most 10 characters. */
 	sc_init_one(&main_list, NANO_UNJUSTIFY_KEY, N_("UnJustify"),
 		IFHELP(NULL, NANO_NO_KEY), NANO_UNJUSTIFY_FKEY,
 		NANO_NO_KEY, NOVIEW, NULL);
     else
-    /* Translators: try to keep this string under 10 characters long. */
+    /* TRANSLATORS: Try to keep this at most 10 characters. */
 	sc_init_one(&main_list, NANO_UNCUT_KEY, N_("UnCut Txt"),
 		IFHELP(nano_uncut_msg, NANO_NO_KEY), NANO_UNCUT_FKEY,
 		NANO_NO_KEY, NOVIEW, do_uncut_text);
 
-    /* Translators: try to keep this string under 10 characters long. */
+    /* TRANSLATORS: Try to keep this at most 10 characters. */
     sc_init_one(&main_list, NANO_CURSORPOS_KEY, N_("Cur Pos"),
 	IFHELP(nano_cursorpos_msg, NANO_NO_KEY), NANO_CURSORPOS_FKEY,
 	NANO_NO_KEY, VIEW, do_cursorpos_void);
@@ -524,7 +527,7 @@ void shortcut_init(bool unjustify)
     /* If we're using restricted mode, spell checking is disabled
      * because it allows reading from or writing to files not specified
      * on the command line. */
-    /* Translators: try to keep this string under 10 characters long. */
+    /* TRANSLATORS: Try to keep this at most 10 characters. */
     sc_init_one(&main_list, NANO_SPELL_KEY, N_("To Spell"),
 	IFHELP(nano_spell_msg, NANO_NO_KEY), NANO_SPELL_FKEY,
 	NANO_NO_KEY, NOVIEW,
@@ -543,11 +546,11 @@ void shortcut_init(bool unjustify)
 	NANO_REPLACE_FKEY, NANO_NO_KEY, NOVIEW, do_replace);
 
 #ifndef NANO_TINY
+    /* TRANSLATORS: Try to keep this at most 16 characters. */
     sc_init_one(&main_list, NANO_MARK_KEY, N_("Mark Text"),
 	IFHELP(nano_mark_msg, NANO_MARK_ALTKEY), NANO_MARK_FKEY,
 	NANO_NO_KEY, VIEW, do_mark);
 
-    /* Translators: try to keep this string under 16 characters long. */
     sc_init_one(&main_list, NANO_NO_KEY, whereis_next_msg,
 	IFHELP(nano_whereis_next_msg, NANO_WHEREIS_NEXT_KEY),
 	NANO_WHEREIS_NEXT_FKEY, NANO_NO_KEY, VIEW, do_research);
@@ -620,12 +623,10 @@ void shortcut_init(bool unjustify)
 #endif
 
 #ifndef DISABLE_JUSTIFY
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_NO_KEY, beg_of_par_msg,
 	IFHELP(nano_parabegin_msg, NANO_PARABEGIN_ALTKEY1), NANO_NO_KEY,
 	NANO_PARABEGIN_ALTKEY2, VIEW, do_para_begin_void);
 
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_NO_KEY, end_of_par_msg,
 	IFHELP(nano_paraend_msg, NANO_PARAEND_ALTKEY1), NANO_NO_KEY,
 	NANO_PARAEND_ALTKEY2, VIEW, do_para_end_void);
@@ -646,14 +647,12 @@ void shortcut_init(bool unjustify)
 	NANO_NO_KEY, NOVIEW, do_verbatim_input);
 
 #ifndef NANO_TINY
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_NO_KEY, cut_till_end_msg,
 	IFHELP(nano_cut_till_end_msg, NANO_CUTTILLEND_ALTKEY),
 	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_cut_till_end);
 #endif
 
 #ifndef DISABLE_JUSTIFY
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&main_list, NANO_NO_KEY, fulljstify_msg,
 	IFHELP(nano_fulljustify_msg, NANO_FULLJUSTIFY_ALTKEY),
 	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_full_justify);
@@ -677,76 +676,63 @@ void shortcut_init(bool unjustify)
 #endif
 	);
 
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_CANCEL_KEY, cancel_msg,
 	IFHELP(nano_cancel_msg, NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY,
 	VIEW, NULL);
 
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_FIRSTLINE_KEY, first_line_msg,
 	IFHELP(nano_firstline_msg, NANO_NO_KEY), NANO_FIRSTLINE_FKEY,
 	NANO_NO_KEY, VIEW, do_first_line);
 
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_LASTLINE_KEY, last_line_msg,
 	IFHELP(nano_lastline_msg, NANO_NO_KEY), NANO_LASTLINE_FKEY,
 	NANO_NO_KEY, VIEW, do_last_line);
 
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_TOOTHERSEARCH_KEY, replace_msg,
 	IFHELP(nano_replace_msg, NANO_NO_KEY), NANO_REPLACE_FKEY,
 	NANO_NO_KEY, VIEW, NULL);
 
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_TOGOTOLINE_KEY, go_to_line_msg,
 	IFHELP(nano_gotoline_msg, NANO_NO_KEY), NANO_GOTOLINE_FKEY,
 	NANO_NO_KEY, VIEW, NULL);
 
 #ifndef DISABLE_JUSTIFY
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_PARABEGIN_KEY, beg_of_par_msg,
 	IFHELP(nano_parabegin_msg, NANO_PARABEGIN_ALTKEY1), NANO_NO_KEY,
 	NANO_PARABEGIN_ALTKEY2, VIEW, do_para_begin_void);
 
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_PARAEND_KEY, end_of_par_msg,
 	IFHELP(nano_paraend_msg, NANO_PARAEND_ALTKEY1), NANO_NO_KEY,
 	NANO_PARAEND_ALTKEY2, VIEW, do_para_end_void);
 #endif
 
 #ifndef NANO_TINY
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_NO_KEY, case_sens_msg,
 	IFHELP(nano_case_msg, TOGGLE_CASE_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_NO_KEY, backwards_msg,
 	IFHELP(nano_reverse_msg, TOGGLE_BACKWARDS_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 #endif
 
 #ifdef HAVE_REGEX_H
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_NO_KEY, regexp_msg,
 	IFHELP(nano_regexp_msg, NANO_REGEXP_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
 #endif
 
 #ifndef NANO_TINY
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_PREVLINE_KEY, history_msg,
 	IFHELP(nano_history_msg, NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY,
 	VIEW, NULL);
 
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_CUTTILLEND_KEY, cut_till_end_msg,
 	IFHELP(nano_cut_till_end_msg, NANO_CUTTILLEND_ALTKEY),
 	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_cut_till_end);
 #endif
 
 #ifndef DISABLE_JUSTIFY
-    /* Translators: try to keep this string under 10 characters long. */
     sc_init_one(&whereis_list, NANO_FULLJUSTIFY_KEY, fulljstify_msg,
 	IFHELP(nano_fulljustify_msg, NANO_FULLJUSTIFY_ALTKEY),
 	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_full_justify);
@@ -776,7 +762,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_lastline_msg, NANO_NO_KEY), NANO_LASTLINE_FKEY,
 	NANO_NO_KEY, VIEW, do_last_line);
 
-    /* Translators: try to keep this string under 12 characters long. */
+    /* TRANSLATORS: Try to keep this at most 12 characters. */
     sc_init_one(&replace_list, NANO_TOOTHERSEARCH_KEY, N_("No Replace"),
 	IFHELP(nano_whereis_msg, NANO_NO_KEY), NANO_REPLACE_FKEY,
 	NANO_NO_KEY, VIEW, NULL);
@@ -885,7 +871,6 @@ void shortcut_init(bool unjustify)
     /* If we're using restricted mode, the file browser is disabled.
      * It's useless since inserting files is disabled. */
 
-    /* Translators: try to keep this string under 16 characters long. */
     if (!ISSET(RESTRICTED))
 	sc_init_one(&writefile_list, NANO_TOFILES_KEY, to_files_msg,
 		IFHELP(nano_tofiles_msg, NANO_NO_KEY), NANO_NO_KEY,
@@ -900,34 +885,34 @@ void shortcut_init(bool unjustify)
      * specified on the command line, and the fifth is useless since
      * backups are disabled. */
 
-    /* Translators: try to keep this string under 16 characters long. */
     if (!ISSET(RESTRICTED))
+	/* TRANSLATORS: Try to keep this at most 16 characters. */
 	sc_init_one(&writefile_list, NANO_NO_KEY, N_("DOS Format"),
 		IFHELP(nano_dos_msg, TOGGLE_DOS_KEY), NANO_NO_KEY,
 		NANO_NO_KEY, NOVIEW, NULL);
 
-    /* Translators: try to keep this string under 16 characters long. */
     if (!ISSET(RESTRICTED))
+	/* TRANSLATORS: Try to keep this at most 16 characters. */
 	sc_init_one(&writefile_list, NANO_NO_KEY, N_("Mac Format"),
 		IFHELP(nano_mac_msg, TOGGLE_MAC_KEY), NANO_NO_KEY,
 		NANO_NO_KEY, NOVIEW, NULL);
 #endif
 
-    /* Translators: try to keep this string under 16 characters long. */
     if (!ISSET(RESTRICTED))
+	/* TRANSLATORS: Try to keep this at most 16 characters. */
 	sc_init_one(&writefile_list, NANO_NO_KEY, N_("Append"),
 		IFHELP(nano_append_msg, NANO_APPEND_KEY), NANO_NO_KEY,
 		NANO_NO_KEY, NOVIEW, NULL);
 
-    /* Translators: try to keep this string under 16 characters long. */
     if (!ISSET(RESTRICTED))
+	/* TRANSLATORS: Try to keep this at most 16 characters. */
 	sc_init_one(&writefile_list, NANO_NO_KEY, N_("Prepend"),
 		IFHELP(nano_prepend_msg, NANO_PREPEND_KEY), NANO_NO_KEY,
 		NANO_NO_KEY, NOVIEW, NULL);
 
 #ifndef NANO_TINY
-    /* Translators: try to keep this string under 16 characters long. */
     if (!ISSET(RESTRICTED))
+	/* TRANSLATORS: Try to keep this at most 16 characters. */
 	sc_init_one(&writefile_list, NANO_NO_KEY, N_("Backup File"),
 		IFHELP(nano_backup_msg, TOGGLE_BACKUP_KEY), NANO_NO_KEY,
 		NANO_NO_KEY, NOVIEW, NULL);
@@ -962,9 +947,9 @@ void shortcut_init(bool unjustify)
     /* If we're using restricted mode, command execution is disabled.
      * It's useless since inserting files is disabled. */
 
-    /* Translators: try to keep this string under 22 characters long. */
     if (!ISSET(RESTRICTED))
 	sc_init_one(&insertfile_list, NANO_TOOTHERINSERT_KEY,
+		/* TRANSLATORS: Try to keep this at most 22 characters. */
 		N_("Execute Command"), IFHELP(nano_execute_msg,
 		NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY, NOVIEW, NULL);
 
@@ -972,7 +957,6 @@ void shortcut_init(bool unjustify)
     /* If we're using restricted mode, the multibuffer toggle is
      * disabled.  It's useless since inserting files is disabled. */
 
-    /* Translators: try to keep this string under 22 characters long. */
     if (!ISSET(RESTRICTED))
 	sc_init_one(&insertfile_list, NANO_NO_KEY, new_buffer_msg,
 		IFHELP(nano_multibuffer_msg, TOGGLE_MULTIBUFFER_KEY),
@@ -1081,7 +1065,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_whereis_next_msg, NANO_WHEREIS_NEXT_KEY),
 	NANO_WHEREIS_NEXT_FKEY, NANO_NO_KEY, VIEW, NULL);
 
-    /* Translators: try to keep this string under 22 characters long. */
+    /* TRANSLATORS: Try to keep this at most 22 characters. */
     sc_init_one(&browser_list, NANO_GOTOLINE_KEY, N_("Go To Dir"),
 	IFHELP(nano_gotodir_msg, NANO_GOTOLINE_ALTKEY),
 	NANO_GOTOLINE_FKEY, NANO_NO_KEY, VIEW, NULL);

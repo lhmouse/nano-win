@@ -1212,7 +1212,8 @@ int do_yesno_prompt(bool all, const char *msg)
     /* yesstr, nostr, and allstr are strings of any length.  Each string
      * consists of all single-byte characters accepted as valid
      * characters for that value.  The first value will be the one
-     * displayed in the shortcuts.  Translators: if possible, specify
+     * displayed in the shortcuts. */
+    /* TRANSLATORS: For the next three strings, if possible, specify
      * the single-byte shortcuts for both your language and English.
      * For example, in French: "OoYy" for "Oui". */
     yesstr = _("Yy");
