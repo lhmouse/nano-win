@@ -753,7 +753,7 @@ void parse_rcfile(FILE *rcstream)
 }
 
 /* The main rcfile function.  It tries to open the system-wide rcfile,
- * followed by the local rcfile. */
+ * followed by the current user's rcfile. */
 void do_rcfile(void)
 {
     struct stat rcinfo;
