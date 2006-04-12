@@ -291,12 +291,12 @@ void shortcut_init(bool unjustify)
     /* TRANSLATORS: Try to keep this and previous strings at most 10 characters. */
     const char *history_msg = N_("History");
 #ifdef ENABLE_MULTIBUFFER
-    /* TRANSLATORS: Try to keep at most 16 characters. */
+    /* TRANSLATORS: Try to keep this at most 16 characters. */
     const char *new_buffer_msg = N_("New Buffer");
 #endif
 #endif
 #ifndef DISABLE_BROWSER
-    /* TRANSLATORS: Try to keep at most 16 characters. */
+    /* TRANSLATORS: Try to keep this at most 16 characters. */
     const char *to_files_msg = N_("To Files");
     const char *first_file_msg = N_("First File");
     const char *last_file_msg = N_("Last File");
