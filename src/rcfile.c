@@ -756,15 +756,24 @@ void parse_rcfile(FILE *rcstream)
  * followed by the local rcfile. */
 void do_rcfile(void)
 {
+    struct stat rcinfo;
     FILE *rcstream;
 
-#ifdef SYSCONFDIR
     nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
+
+    /* Don't open directories, character files, or block files. */
+    if (stat(nanorc, &rcinfo) != -1) {
+	if (S_ISDIR(rcinfo.st_mode) || S_ISCHR(rcinfo.st_mode) ||
+		S_ISBLK(rcinfo.st_mode))
+	    rcfile_error(S_ISDIR(rcinfo.st_mode) ?
+		_("\"%s\" is a directory") :
+		_("\"%s\" is a device file"), nanorc);
+    }
+
     /* Try to open the system-wide nanorc. */
     rcstream = fopen(nanorc, "rb");
     if (rcstream != NULL)
 	parse_rcfile(rcstream);
-#endif
 
 #if defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
     /* We've already read SYSCONFDIR/nanorc, if it's there.  If we're
@@ -781,8 +790,18 @@ void do_rcfile(void)
     else {
 	nanorc = charealloc(nanorc, strlen(homedir) + 9);
 	sprintf(nanorc, "%s/.nanorc", homedir);
-	rcstream = fopen(nanorc, "rb");
 
+	/* Don't open directories, character files, or block files. */
+	if (stat(nanorc, &rcinfo) != -1) {
+	    if (S_ISDIR(rcinfo.st_mode) || S_ISCHR(rcinfo.st_mode) ||
+		S_ISBLK(rcinfo.st_mode))
+		rcfile_error(S_ISDIR(rcinfo.st_mode) ?
+			_("\"%s\" is a directory") :
+			_("\"%s\" is a device file"), nanorc);
+	}
+
+	/* Try to open the current user's nanorc. */
+	rcstream = fopen(nanorc, "rb");
 	if (rcstream == NULL) {
 	    /* Don't complain about the file's not existing. */
 	    if (errno != ENOENT)

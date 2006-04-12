@@ -49,6 +49,12 @@ CVS code -
 	- Simplify the routine for closing the file just before we
 	  indicate success on the statusbar. (DLR)
 - rcfile.c:
+  do_rcfile()
+	- Check for the rcfile's being a directory or device file and
+	  reject it if it is, for consistency with file handling
+	  elsewhere. (DLR)
+	- Remove SYSCONFDIR #ifdef, as SYSCONFDIR should always be set.
+	  (DLR)
   parse_argument()
 	- Rename variable ptr_bak to ptr_save, for consistency. (DLR)
 - doc/nano.1, doc/nanorc.5, doc/rnano.1, doc/nano.texi:
