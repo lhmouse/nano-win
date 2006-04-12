@@ -845,8 +845,7 @@ size_t get_statusbar_page_start(size_t start_col, size_t column)
 
 /* Repaint the statusbar when getting a character in
  * get_prompt_string().  The statusbar text line will be displayed
- * starting with curranswer[index].  Assume the A_REVERSE attribute is
- * turned off. */
+ * starting with curranswer[index]. */
 void update_statusbar_line(const char *curranswer, size_t index)
 {
     size_t start_col, page_start;
