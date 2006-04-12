@@ -550,7 +550,7 @@ void parse_rcfile(FILE *rcstream)
 	char *ptr, *keyword, *option;
 	int set = 0, i;
 
-	/* Ignore the \n. */
+	/* Ignore the newline. */
 	buf[len - 1] = '\0';
 
 	lineno++;
