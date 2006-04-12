@@ -132,6 +132,7 @@ extern regex_t search_regexp;
 extern regmatch_t regmatches[10];
 #endif
 
+extern int reverse_attr;
 extern bool curses_ended;
 
 extern char *homedir;
@@ -155,6 +156,10 @@ void striponedir(char *path);
 #endif
 
 /* Public functions in chars.c. */
+#ifdef ENABLE_UTF8
+void utf8_init(void);
+bool using_utf8(void);
+#endif
 #ifndef HAVE_ISBLANK
 bool nisblank(int c);
 #endif

@@ -734,6 +734,8 @@ void usage(void)
     print1opt("-B", "--backup", N_("Save backups of existing files"));
     print1opt(_("-C [dir]"), _("--backupdir=[dir]"),
 	N_("Directory for saving unique backup files"));
+    print1opt("-D", "--boldtext",
+	N_("Use bold instead of reverse video text"));
     print1opt("-E", "--tabstospaces",
 	N_("Convert typed tabs to spaces"));
 #endif
@@ -1585,6 +1587,7 @@ int main(int argc, char **argv)
 #ifdef HAVE_GETOPT_LONG
     const struct option long_options[] = {
 	{"help", 0, NULL, 'h'},
+	{"boldtext", 0, NULL, 'D'},
 #ifdef ENABLE_MULTIBUFFER
 	{"multibuffer", 0, NULL, 'F'},
 #endif
@@ -1651,10 +1654,10 @@ int main(int argc, char **argv)
 
 	if (locale != NULL && (strcasestr(locale, "UTF8") != NULL ||
 		strcasestr(locale, "UTF-8") != NULL)) {
-	    SET(USE_UTF8);
 #ifdef USE_SLANG
 	    SLutf8_enable(TRUE);
 #endif
+	    utf8_init();
 	}
     }
 #else
@@ -1676,11 +1679,11 @@ int main(int argc, char **argv)
     while ((optchr =
 #ifdef HAVE_GETOPT_LONG
 	getopt_long(argc, argv,
-		"h?ABC:EFHIKLNOQ:RST:UVWY:abcdefgijklmo:pr:s:tvwxz",
+		"h?ABC:DEFHIKLNOQ:RST:UVWY:abcdefgijklmo:pr:s:tvwxz",
 		long_options, NULL)
 #else
 	getopt(argc, argv,
-		"h?ABC:EFHIKLNOQ:RST:UVWY:abcdefgijklmo:pr:s:tvwxz")
+		"h?ABC:DEFHIKLNOQ:RST:UVWY:abcdefgijklmo:pr:s:tvwxz")
 #endif
 		) != -1) {
 	switch (optchr) {
@@ -1702,6 +1705,11 @@ int main(int argc, char **argv)
 	    case 'C':
 		backup_dir = mallocstrcpy(backup_dir, optarg);
 		break;
+#endif
+	    case 'D':
+		SET(BOLD_TEXT);
+		break;
+#ifndef NANO_TINY
 	    case 'E':
 		SET(TABS_TO_SPACES);
 		break;
@@ -1930,7 +1938,13 @@ int main(int argc, char **argv)
 #endif
 #endif /* ENABLE_NANORC */
 
+    /* If we're using bold text instead of reverse video text, set it up
+     * now. */
+    if (ISSET(BOLD_TEXT))
+	reverse_attr = A_BOLD;
+
 #ifndef NANO_TINY
+    /* Set up the search/replace history. */
     history_init();
 #ifdef ENABLE_NANORC
     if (!ISSET(NO_RCFILE) && ISSET(HISTORYLOG))

@@ -13,6 +13,23 @@ CVS code -
 	- Change translator-specific comments in global.c and prompt.c
 	  so that they show up in nano.pot, and make them all
 	  consistent. (Benno Schulenberg)
+	- Reduce USE_UTF8 to a static bool in chars.c, allow nano.c to
+	  set it via a function, and allow winio.c to read its value
+	  when needed.  New functions utf8_init() and using_utf8();
+	  changes to is_alnum_mbchar(), is_blank_mbchar(),
+	  is_cntrl_mbchar(), is_punct_mbchar(), control_mbrep(),
+	  mbrep(), mbwidth(), mb_cur_max(), make_mbchar(),
+	  parse_mbchar(), mbstrncasecmp(), mbstrcasestr(),
+	  mbrevstrcasestr(), mbstrnlen(), mbstrchr(), mbstrpbrk(),
+	  mbrevstrpbrk(), has_blank_mbchars(), is_valid_mbstring(),
+	  main(), display_string(), and do_credits(). (DLR)
+	- Add the ability to use bold text instead of reverse video
+	  text, via the -D/--boldtext command line option and the
+	  "boldtext" rcfile option.  Changes to do_help(), usage(),
+	  main(), update_statusbar_prompt(), do_yesno_prompt(),
+	  titlebar(), statusbar(), onekey(), edit_draw(),
+	  do_replace_highlight(), nano.1, nanorc.5, nano.texi, and
+	  nanorc.sample. (DLR, suggested by Benno Schulenberg)
 - files.c:
   open_file()
 	- Remove redundant wording in the error message when we try to

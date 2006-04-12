@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.3.10
-@set UPDATED 5 Apr 2006
+@set UPDATED 12 Apr 2006
 
 @dircategory Editors
 @direntry
@@ -128,6 +128,9 @@ filename suffixed with a ~.
 @item -C, --backupdir=[dir]
 Set the directory where @code{nano} puts unique backup files if file
 backups are enabled.
+
+@item -D, --boldtext
+Use bold text instead of reverse video text.
 
 @item -E, --tabstospaces
 Convert typed tabs to spaces.

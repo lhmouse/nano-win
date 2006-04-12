@@ -1857,7 +1857,7 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    }
 	}
 #ifdef ENABLE_UTF8
-	else if (ISSET(USE_UTF8) && mbwidth(buf_mb) > 1) {
+	else if (using_utf8() && mbwidth(buf_mb) > 1) {
 	    converted[index++] = ' ';
 	    start_col++;
 
@@ -1992,7 +1992,7 @@ void titlebar(const char *path)
 
     assert(path != NULL || openfile->filename != NULL);
 
-    wattron(topwin, A_REVERSE);
+    wattron(topwin, reverse_attr);
     blank_titlebar();
 
     /* space has to be at least 4: two spaces before the version message,
@@ -2117,7 +2117,7 @@ void titlebar(const char *path)
 	}
     }
 
-    wattroff(topwin, A_REVERSE);
+    wattroff(topwin, reverse_attr);
 
     wnoutrefresh(topwin);
     reset_cursor();
@@ -2176,12 +2176,12 @@ void statusbar(const char *msg, ...)
     start_x = (COLS - foo_len - 4) / 2;
 
     wmove(bottomwin, 0, start_x);
-    wattron(bottomwin, A_REVERSE);
+    wattron(bottomwin, reverse_attr);
     waddstr(bottomwin, "[ ");
     waddstr(bottomwin, foo);
     free(foo);
     waddstr(bottomwin, " ]");
-    wattroff(bottomwin, A_REVERSE);
+    wattroff(bottomwin, reverse_attr);
     wnoutrefresh(bottomwin);
     reset_cursor();
     wnoutrefresh(edit);
@@ -2266,9 +2266,9 @@ void onekey(const char *keystroke, const char *desc, size_t len)
 
     assert(keystroke != NULL && desc != NULL);
 
-    wattron(bottomwin, A_REVERSE);
+    wattron(bottomwin, reverse_attr);
     waddnstr(bottomwin, keystroke, actual_x(keystroke, len));
-    wattroff(bottomwin, A_REVERSE);
+    wattroff(bottomwin, reverse_attr);
 
     if (len > keystroke_len)
 	len -= keystroke_len;
@@ -2626,10 +2626,10 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 	    if (paintlen > 0)
 		paintlen = actual_x(converted + index, paintlen);
 
-	    wattron(edit, A_REVERSE);
+	    wattron(edit, reverse_attr);
 	    mvwaddnstr(edit, line, x_start, converted + index,
 		paintlen);
-	    wattroff(edit, A_REVERSE);
+	    wattroff(edit, reverse_attr);
 	}
     }
 #endif /* !NANO_TINY */
@@ -3052,7 +3052,7 @@ void do_replace_highlight(bool highlight, const char *word)
     reset_cursor();
 
     if (highlight)
-	wattron(edit, A_REVERSE);
+	wattron(edit, reverse_attr);
 
 #ifdef HAVE_REGEX_H
     /* This is so we can show zero-length regexes. */
@@ -3066,7 +3066,7 @@ void do_replace_highlight(bool highlight, const char *word)
 	waddch(edit, '$');
 
     if (highlight)
-	wattroff(edit, A_REVERSE);
+	wattroff(edit, reverse_attr);
 }
 
 #ifdef NANO_EXTRA
@@ -3154,7 +3154,7 @@ void do_credits(void)
      * Small Letter O with Diaresis) if applicable. */
     credits[15] =
 #ifdef ENABLE_UTF8
-	 ISSET(USE_UTF8) ? "Florian K\xC3\xB6nig" :
+	 using_utf8() ? "Florian K\xC3\xB6nig" :
 #endif
 	"Florian K\xF6nig";
 

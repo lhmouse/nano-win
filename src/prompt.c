@@ -857,7 +857,7 @@ void update_statusbar_line(const char *curranswer, size_t index)
     index = strnlenpt(curranswer, index);
     page_start = get_statusbar_page_start(start_col, start_col + index);
 
-    wattron(bottomwin, A_REVERSE);
+    wattron(bottomwin, reverse_attr);
 
     blank_statusbar();
 
@@ -872,7 +872,7 @@ void update_statusbar_line(const char *curranswer, size_t index)
 
     reset_statusbar_cursor();
 
-    wattroff(bottomwin, A_REVERSE);
+    wattroff(bottomwin, reverse_attr);
 }
 
 /* Put the cursor in the statusbar prompt at statusbar_x. */
@@ -1247,12 +1247,12 @@ int do_yesno_prompt(bool all, const char *msg)
 	onekey("^C", _("Cancel"), width);
     }
 
-    wattron(bottomwin, A_REVERSE);
+    wattron(bottomwin, reverse_attr);
 
     blank_statusbar();
     mvwaddnstr(bottomwin, 0, 0, msg, actual_x(msg, COLS - 1));
 
-    wattroff(bottomwin, A_REVERSE);
+    wattroff(bottomwin, reverse_attr);
 
     /* Refresh the edit window and the statusbar before getting
      * input. */

@@ -197,6 +197,8 @@ regmatch_t regmatches[10];
 	 * maximum, used in regular expression searches. */
 #endif
 
+int reverse_attr = A_REVERSE;
+	/* The curses attribute we use for reverse video. */
 bool curses_ended = FALSE;
 	/* Whether endwin() has ended curses mode and statusbar()
 	 * should hence write to stderr instead of displaying on the

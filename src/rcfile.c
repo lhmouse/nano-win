@@ -33,6 +33,7 @@
 #ifdef ENABLE_NANORC
 
 const static rcoption rcopts[] = {
+    {"boldtext", BOLD_TEXT},
 #ifndef DISABLE_JUSTIFY
     {"brackets", 0},
 #endif

@@ -34,6 +34,8 @@
 #include <wctype.h>
 #endif
 
+static bool use_utf8 = FALSE;
+	/* Whether we've enabled UTF-8 support. */
 static const wchar_t bad_wchar = 0xFFFD;
 	/* If we get an invalid multibyte sequence, we treat it as
 	 * Unicode FFFD (Replacement Character), unless we're
@@ -41,6 +43,18 @@ static const wchar_t bad_wchar = 0xFFFD;
 	 * match to it. */
 static const char *bad_mbchar = "\xEF\xBF\xBD";
 static const int bad_mbchar_len = 3;
+
+/* Enable UTF-8 support. */
+void utf8_init(void)
+{
+    use_utf8 = TRUE;
+}
+
+/* Is UTF-8 support enabled? */
+bool using_utf8(void)
+{
+    return use_utf8;
+}
 #endif
 
 #ifndef HAVE_ISBLANK
@@ -72,7 +86,7 @@ bool is_alnum_mbchar(const char *c)
     assert(c != NULL);
 
 #ifdef ENABLE_UTF8
-    if (ISSET(USE_UTF8)) {
+    if (use_utf8) {
 	wchar_t wc;
 
 	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
@@ -92,7 +106,7 @@ bool is_blank_mbchar(const char *c)
     assert(c != NULL);
 
 #ifdef ENABLE_UTF8
-    if (ISSET(USE_UTF8)) {
+    if (use_utf8) {
 	wchar_t wc;
 
 	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
@@ -132,7 +146,7 @@ bool is_cntrl_mbchar(const char *c)
     assert(c != NULL);
 
 #ifdef ENABLE_UTF8
-    if (ISSET(USE_UTF8)) {
+    if (use_utf8) {
 	wchar_t wc;
 
 	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
@@ -152,7 +166,7 @@ bool is_punct_mbchar(const char *c)
     assert(c != NULL);
 
 #ifdef ENABLE_UTF8
-    if (ISSET(USE_UTF8)) {
+    if (use_utf8) {
 	wchar_t wc;
 	int c_mb_len = mbtowc(&wc, c, MB_CUR_MAX);
 
@@ -219,7 +233,7 @@ char *control_mbrep(const char *c, char *crep, int *crep_len)
     assert(c != NULL && crep != NULL && crep_len != NULL);
 
 #ifdef ENABLE_UTF8
-    if (ISSET(USE_UTF8)) {
+    if (use_utf8) {
 	wchar_t wc;
 
 	if (mbtowc(&wc, c, MB_CUR_MAX) < 0) {
@@ -253,7 +267,7 @@ char *mbrep(const char *c, char *crep, int *crep_len)
     assert(c != NULL && crep != NULL && crep_len != NULL);
 
 #ifdef ENABLE_UTF8
-    if (ISSET(USE_UTF8)) {
+    if (use_utf8) {
 	wchar_t wc;
 
 	/* Reject invalid Unicode characters. */
@@ -286,7 +300,7 @@ int mbwidth(const char *c)
     assert(c != NULL);
 
 #ifdef ENABLE_UTF8
-    if (ISSET(USE_UTF8)) {
+    if (use_utf8) {
 	wchar_t wc;
 	int width;
 
@@ -313,7 +327,7 @@ int mb_cur_max(void)
 {
     return
 #ifdef ENABLE_UTF8
-	ISSET(USE_UTF8) ? MB_CUR_MAX :
+	use_utf8 ? MB_CUR_MAX :
 #endif
 	1;
 }
@@ -330,7 +344,7 @@ char *make_mbchar(long chr, int *chr_mb_len)
     assert(chr_mb_len != NULL);
 
 #ifdef ENABLE_UTF8
-    if (ISSET(USE_UTF8)) {
+    if (use_utf8) {
 	chr_mb = charalloc(MB_CUR_MAX);
 	*chr_mb_len = wctomb(chr_mb, (wchar_t)chr);
 
@@ -361,7 +375,7 @@ int parse_mbchar(const char *buf, char *chr, size_t *col)
     assert(buf != NULL);
 
 #ifdef ENABLE_UTF8
-    if (ISSET(USE_UTF8)) {
+    if (use_utf8) {
 	/* Get the number of bytes in the multibyte character. */
 	buf_mb_len = mblen(buf, MB_CUR_MAX);
 
@@ -505,7 +519,7 @@ int nstrncasecmp(const char *s1, const char *s2, size_t n)
 int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 {
 #ifdef ENABLE_UTF8
-    if (ISSET(USE_UTF8)) {
+    if (use_utf8) {
 	char *s1_mb = charalloc(MB_CUR_MAX);
 	char *s2_mb = charalloc(MB_CUR_MAX);
 	wchar_t ws1, ws2;
@@ -598,7 +612,7 @@ const char *nstrcasestr(const char *haystack, const char *needle)
 const char *mbstrcasestr(const char *haystack, const char *needle)
 {
 #ifdef ENABLE_UTF8
-    if (ISSET(USE_UTF8)) {
+    if (use_utf8) {
 	char *r_mb = charalloc(MB_CUR_MAX);
 	char *q_mb = charalloc(MB_CUR_MAX);
 	wchar_t wr, wq;
@@ -704,7 +718,7 @@ const char *mbrevstrcasestr(const char *haystack, const char *needle,
 	const char *rev_start)
 {
 #ifdef ENABLE_UTF8
-    if (ISSET(USE_UTF8)) {
+    if (use_utf8) {
 	char *r_mb = charalloc(MB_CUR_MAX);
 	char *q_mb = charalloc(MB_CUR_MAX);
 	wchar_t wr, wq;
@@ -792,7 +806,7 @@ size_t mbstrnlen(const char *s, size_t maxlen)
     assert(s != NULL);
 
 #ifdef ENABLE_UTF8
-    if (ISSET(USE_UTF8)) {
+    if (use_utf8) {
 	size_t n = 0;
 	int s_mb_len;
 
@@ -820,7 +834,7 @@ char *mbstrchr(const char *s, const char *c)
     assert(s != NULL && c != NULL);
 
 #ifdef ENABLE_UTF8
-    if (ISSET(USE_UTF8)) {
+    if (use_utf8) {
 	bool bad_s_mb = FALSE, bad_c_mb = FALSE;
 	char *s_mb = charalloc(MB_CUR_MAX);
 	const char *q = s;
@@ -868,7 +882,7 @@ char *mbstrpbrk(const char *s, const char *accept)
     assert(s != NULL && accept != NULL);
 
 #ifdef ENABLE_UTF8
-    if (ISSET(USE_UTF8)) {
+    if (use_utf8) {
 	while (*s != '\0') {
 	    if (mbstrchr(accept, s) != NULL)
 		return (char *)s;
@@ -909,7 +923,7 @@ char *mbrevstrpbrk(const char *s, const char *accept, const char
     assert(s != NULL && accept != NULL && rev_start != NULL);
 
 #ifdef ENABLE_UTF8
-    if (ISSET(USE_UTF8)) {
+    if (use_utf8) {
 	bool begin_line = FALSE;
 
 	while (!begin_line) {
@@ -954,7 +968,7 @@ bool has_blank_mbchars(const char *s)
     assert(s != NULL);
 
 #ifdef ENABLE_UTF8
-    if (ISSET(USE_UTF8)) {
+    if (use_utf8) {
 	char *chr_mb = charalloc(MB_CUR_MAX);
 	bool retval = FALSE;
 
@@ -999,7 +1013,7 @@ bool is_valid_mbstring(const char *s)
 
     return 
 #ifdef ENABLE_UTF8
-	ISSET(USE_UTF8) ?
+	use_utf8 ?
 	(mbstowcs(NULL, s, 0) != (size_t)-1) :
 #endif
 
