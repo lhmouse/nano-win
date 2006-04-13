@@ -453,7 +453,7 @@ void parse_colors(char *ptr, bool icase)
 
     if (syntaxes == NULL) {
 	rcfile_error(
-		N_("Cannot add a color command without a syntax line"));
+		N_("Cannot add a color command without a syntax command"));
 	return;
     }
 
