@@ -91,6 +91,7 @@ CVS code -
 	  by DLR, suggested by John M. Gabriele)
 	- Explicitly mention that all regexes should be extended regular
 	  expressions. (DLR, suggested by John M. Gabriele)
+	- Simplify the "nanorc" regex for commands. (DLR)
 - UPGRADE:
 	- Miscellaneous minor fixes. (DLR)
 
