@@ -231,7 +231,11 @@ the first instance of \fIer\fP.
 .TP
 .B icolor \fIfgcolor\fP,\fIbgcolor\fP start="\fIsr\fP" end="\fIer\fP"
 Same as above, except that the expression matching is case insensitive.
-
+.TP
+.B include "\fIsyntaxfile\fP"
+Read in self-contained color syntaxes from \fIsyntaxfile\fP.  Note that
+\fIsyntaxfile\fP can only contain \fBsyntax\fP, \fBcolor\fP, and
+\fBicolor\fP commands.
 .SH FILES
 .TP
 .I SYSCONFDIR/nanorc

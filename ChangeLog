@@ -30,6 +30,11 @@ CVS code -
 	  titlebar(), statusbar(), onekey(), edit_draw(),
 	  do_replace_highlight(), nano.1, nanorc.5, nano.texi, and
 	  nanorc.sample. (DLR, suggested by Benno Schulenberg)
+	- Add the ability to use self-contained color syntaxes from
+	  separate files, accessible in the nanorc via the "include"
+	  command.  New function parse_include(); changes to
+	  parse_rcfile(), do_nanorc(), nanorc.5, and nanorc.sample.
+	  (Victor Ananievsky, Brand Huntsman and DLR)
 - files.c:
   open_file()
 	- Remove redundant wording in the error message when we try to
@@ -49,14 +54,19 @@ CVS code -
 	- Simplify the routine for closing the file just before we
 	  indicate success on the statusbar. (DLR)
 - rcfile.c:
+  parse_argument()
+	- Rename variable ptr_bak to ptr_save, for consistency. (DLR)
+  parse_colors()
+	- Check for a color command's not following a syntax line before
+	  anything else. (DLR)
   do_rcfile()
 	- Check for the rcfile's being a directory or device file and
 	  reject it if it is, for consistency with file handling
 	  elsewhere. (DLR)
 	- Remove SYSCONFDIR #ifdef, as SYSCONFDIR should always be set.
 	  (DLR)
-  parse_argument()
-	- Rename variable ptr_bak to ptr_save, for consistency. (DLR)
+	- Change all rcfile error messages to refer to commands instead
+	  of directives, for consistency with nanorc.5. (DLR)
 - doc/nano.1, doc/nanorc.5, doc/rnano.1, doc/nano.texi:
 	- Update the copyright years to include 2006. (DLR)
 	- Explicitly mention that all regexes should be extended regular

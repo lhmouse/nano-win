@@ -380,6 +380,66 @@ void parse_syntax(char *ptr)
     }
 }
 
+/* Read and parse additional syntax files. */
+void parse_include(char *ptr)
+{
+    struct stat rcinfo;
+    FILE *rcstream;
+    char *option, *full_option, *nanorc_save = nanorc;
+    size_t lineno_save = lineno;
+
+    option = ptr;
+    if (*option == '"')
+	option++;
+    ptr = parse_argument(ptr);
+
+    /* Get the specified file's full path. */
+    full_option = get_full_path(option);
+
+    if (full_option == NULL) {
+	rcfile_error(_("Error reading %s: %s"), option, strerror(errno));
+	goto cleanup_include;
+    }
+
+    /* Don't open directories, character files, or block files. */
+    if (stat(nanorc, &rcinfo) != -1) {
+	if (S_ISDIR(rcinfo.st_mode) || S_ISCHR(rcinfo.st_mode) ||
+		S_ISBLK(rcinfo.st_mode)) {
+	    rcfile_error(S_ISDIR(rcinfo.st_mode) ?
+		_("\"%s\" is a directory") :
+		_("\"%s\" is a device file"), nanorc);
+	    goto cleanup_include;
+	}
+    }
+
+    /* Open the new syntax file. */
+    if ((rcstream = fopen(full_option, "rb")) == NULL) {
+	rcfile_error(_("Error reading %s: %s"), full_option,
+		strerror(errno));
+	goto cleanup_include;
+    }
+
+    /* Use the name and line number position of the new syntax file
+     * while parsing it, so we can know where any errors in it are. */
+    nanorc = full_option;
+    lineno = 0;
+
+    parse_rcfile(rcstream
+#ifdef ENABLE_COLOR
+	, TRUE
+#endif
+	);
+    fclose(rcstream);
+
+    /* We're done with the new syntax file.  Restore the original
+     * filename and line number position. */
+    nanorc = nanorc_save;
+    lineno = lineno_save;
+
+  cleanup_include:
+    free(full_option);
+}
+
 /* Parse the color string in the line at ptr, and add it to the current
  * file's associated colors.  If icase is TRUE, treat the color string
  * as case insensitive. */
@@ -390,6 +450,12 @@ void parse_colors(char *ptr, bool icase)
     char *fgstr;
 
     assert(ptr != NULL);
+
+    if (syntaxes == NULL) {
+	rcfile_error(
+		N_("Cannot add a color command without a syntax line"));
+	return;
+    }
 
     if (*ptr == '\0') {
 	rcfile_error(N_("Missing color name"));
@@ -428,12 +494,6 @@ void parse_colors(char *ptr, bool icase)
 	    return;
     } else
 	fg = -1;
-
-    if (syntaxes == NULL) {
-	rcfile_error(
-		N_("Cannot add a color directive without a syntax line"));
-	return;
-    }
 
     if (*ptr == '\0') {
 	rcfile_error(N_("Missing regex string"));
@@ -539,8 +599,13 @@ void parse_colors(char *ptr, bool icase)
 #endif /* ENABLE_COLOR */
 
 /* Parse the rcfile, once it has been opened successfully at
- * rcstream. */
-void parse_rcfile(FILE *rcstream)
+ * rcstream.  If syntax_only is TRUE, only allow the file to contain
+ * color syntax commands: syntax, color, and icolor. */
+void parse_rcfile(FILE *rcstream
+#ifdef ENABLE_COLOR
+	, bool syntax_only
+#endif
+	)
 {
     char *buf = NULL;
     ssize_t len;
@@ -568,12 +633,34 @@ void parse_rcfile(FILE *rcstream)
 	ptr = parse_next_word(ptr);
 
 	/* Try to parse the keyword. */
-	if (strcasecmp(keyword, "set") == 0)
-	    set = 1;
-	else if (strcasecmp(keyword, "unset") == 0)
-	    set = -1;
+	if (strcasecmp(keyword, "set") == 0) {
 #ifdef ENABLE_COLOR
-	else if (strcasecmp(keyword, "syntax") == 0)
+	    if (syntax_only)
+		rcfile_error(
+			N_("Command %s not allowed in included file"),
+			keyword);
+	    else
+#endif
+		set = 1;
+	} else if (strcasecmp(keyword, "unset") == 0) {
+#ifdef ENABLE_COLOR
+	    if (syntax_only)
+		rcfile_error(
+			N_("Command %s not allowed in included file"),
+			keyword);
+	    else
+#endif
+		set = -1;
+	}
+#ifdef ENABLE_COLOR
+	else if (strcasecmp(keyword, "include") == 0) {
+	    if (syntax_only)
+		rcfile_error(
+			N_("Command %s not allowed in included file"),
+			keyword);
+	    else
+		parse_include(ptr);
+	} else if (strcasecmp(keyword, "syntax") == 0)
 	    parse_syntax(ptr);
 	else if (strcasecmp(keyword, "color") == 0)
 	    parse_colors(ptr, FALSE);
@@ -773,7 +860,11 @@ void do_rcfile(void)
     /* Try to open the system-wide nanorc. */
     rcstream = fopen(nanorc, "rb");
     if (rcstream != NULL)
-	parse_rcfile(rcstream);
+	parse_rcfile(rcstream
+#ifdef ENABLE_COLOR
+		, FALSE
+#endif
+		);
 
 #if defined(DISABLE_ROOTWRAP) && !defined(DISABLE_WRAPPING)
     /* We've already read SYSCONFDIR/nanorc, if it's there.  If we're
@@ -808,7 +899,11 @@ void do_rcfile(void)
 		rcfile_error(N_("Error reading %s: %s"), nanorc,
 			strerror(errno));
 	} else
-	    parse_rcfile(rcstream);
+	    parse_rcfile(rcstream
+#ifdef ENABLE_COLOR
+		, FALSE
+#endif
+		);
     }
 
     free(nanorc);

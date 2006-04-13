@@ -518,9 +518,14 @@ short color_to_short(const char *colorname, bool *bright);
 char *parse_next_regex(char *ptr);
 bool nregcomp(const char *regex, int eflags);
 void parse_syntax(char *ptr);
+void parse_include(char *ptr);
 void parse_colors(char *ptr, bool icase);
 #endif
-void parse_rcfile(FILE *rcstream);
+void parse_rcfile(FILE *rcstream
+#ifdef ENABLE_COLOR
+	, bool syntax_only
+#endif
+	);
 void do_rcfile(void);
 #endif
 
