@@ -12,7 +12,7 @@ CVS code -
 	  Changes to load_history() and do_rcfile(). (DLR)
 	- Change translator-specific comments in global.c and prompt.c
 	  so that they show up in nano.pot, and make them all
-	  consistent. (Benno Schulenberg)
+	  consistent. (Benno Schulenberg and DLR)
 	- Reduce USE_UTF8 to a static bool in chars.c, allow nano.c to
 	  set it via a function, and allow winio.c to read its value
 	  when needed.  New functions utf8_init() and using_utf8();
