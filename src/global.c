@@ -305,7 +305,7 @@ void shortcut_init(bool unjustify)
 #endif
 #ifndef DISABLE_HELP
     const char *nano_cancel_msg = N_("Cancel the current function");
-    const char *nano_help_msg = N_("Display the help text");
+    const char *nano_help_msg = N_("Display this help text");
     const char *nano_exit_msg =
 #ifdef ENABLE_MULTIBUFFER
 	N_("Close the current file buffer/Exit from nano")
