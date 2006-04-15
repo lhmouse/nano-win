@@ -67,6 +67,11 @@ CVS code -
   parse_syntax()
 	- Properly generate an error if we've read in a previous syntax
 	  without any associated color commands. (DLR)
+	- Don't generate an error if we find a duplicate syntax name,
+	  since we might be trying to override a syntax in the global
+	  nanorc with one in our local nanorc.  Instead, free any
+	  duplicate syntaxes we find, so that we always use the last
+	  syntax with a given name. (DLR)
   parse_colors()
 	- Check for a color command's not following a syntax line before
 	  anything else. (DLR)

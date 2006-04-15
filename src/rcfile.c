@@ -276,7 +276,7 @@ bool nregcomp(const char *regex, int eflags)
 void parse_syntax(char *ptr)
 {
     const char *fileregptr = NULL, *nameptr = NULL;
-    const syntaxtype *tmpsyntax;
+    syntaxtype *tmpsyntax;
     exttype *endext = NULL;
 	/* The end of the extensions list for this syntax. */
 
@@ -306,11 +306,16 @@ void parse_syntax(char *ptr)
     if (ptr == NULL)
 	return;
 
+    /* Search for a duplicate syntax name.  If we find one, free it, so
+     * that we always use the last syntax with a given name. */
     for (tmpsyntax = syntaxes; tmpsyntax != NULL;
 	tmpsyntax = tmpsyntax->next) {
 	if (strcmp(nameptr, tmpsyntax->desc) == 0) {
-	    rcfile_error(N_("Duplicate syntax name %s"), nameptr);
-	    return;
+	    syntaxtype *prev_syntax = tmpsyntax;
+
+	    tmpsyntax = tmpsyntax->next;
+	    free(prev_syntax);
+	    break;
 	}
     }
 
