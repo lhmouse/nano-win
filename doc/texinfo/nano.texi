@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.3.10
-@set UPDATED 12 Apr 2006
+@set UPDATED 15 Apr 2006
 
 @dircategory Editors
 @direntry
@@ -446,14 +446,15 @@ editable text in front of the cursor, as opposed to being bracketed and
 uneditable as it is in Pico.  The old behavior could be made compatible
 with Pico via the @code{-p} option, but recent versions of Pico use the
 @code{-p} option to preserve the XON and XOFF sequences within the
-editor.  Since with the new method search and replace strings can still
-be edited by simply hitting the up arrow key once, the old method was
-removed completely.
+editor.  Since, with the new method, search and replace strings can
+still be edited by simply hitting the up arrow key once, the old method
+was removed completely.
 
 
-@item Writing or Appending Selected Text to Files
-Text selected using the Control-Caret (^^) key can be written out or
-appended to a new or existing file using the Writeout key (^O).
+@item Writing, Appending, or Prepending Selected Text to Files
+Text selected using the Control-Caret (^^) key can be written out,
+appended, or prepended to a new or existing file using the Writeout key
+(^O).
 
 @item Toggles
 Many options which alter the functionality of the program can be
