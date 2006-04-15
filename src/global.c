@@ -298,9 +298,10 @@ void shortcut_init(bool unjustify)
 #endif
 #endif
 #ifndef DISABLE_BROWSER
-    /* TRANSLATORS: Try to keep this at most 16 characters. */
+    /* TRANSLATORS: Try to keep this and following strings at most 16 characters. */
     const char *to_files_msg = N_("To Files");
     const char *first_file_msg = N_("First File");
+    /* TRANSLATORS: Try to keep this and previous strings at most 16 characters. */
     const char *last_file_msg = N_("Last File");
 #endif
 #ifndef DISABLE_HELP
