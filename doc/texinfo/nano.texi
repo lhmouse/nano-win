@@ -96,8 +96,8 @@ internationalization support, and filename tab completion.
 
 The original goal for @code{nano} was a complete bug-for-bug compatible
 emulation of Pico, but @code{nano}'s main goal is to be as compatible as
-possible while offering a superset of Pico's functionality.  Also see
-@xref{Pico Compatibility}, for other differences.
+possible while offering a superset of Pico's functionality.  See
+@xref{Pico Compatibility}, for more info.
 
 Email bug reports to @email{nano@@nano-editor.org}.
 
@@ -324,15 +324,15 @@ yet been named.  The section on the right will display ``Modified'' if
 the file has been modified since it was last saved or opened.
 
 Special modes: When @code{nano} is in ``File browser'' mode, the center
-section will display the current directory instead of the filename.
-@xref{The File Browser}.
+section will display the current directory instead of the filename.  See
+@xref{The File Browser}, for more info.
 
 @node The Statusbar, Shortcut Lists, The Titlebar, Editor Basics
 @section The Statusbar
 
-The statusbar is located three lines from the bottom of the screen (or
-the bottom line in Expert Mode.  @xref{Expert Mode}, for more info).  It
-shows important and informational messages.  Any error messages that
+The statusbar is located three lines from the bottom of the screen, or
+the bottom line in Expert Mode.  See @xref{Expert Mode}, for more info.
+It shows important and informational messages.  Any error messages that
 occur from using the editor will appear on the statusbar.  Any questions
 that are asked of the user will be asked on the statusbar, and any user
 input (search strings, file names, etc.) will be input on the statusbar.
@@ -357,7 +357,7 @@ and ^V (Page Down) keys.  ^X exits the help system.
 
 Toggles allow you to change certain aspects of the editor that
 would normally be done via command line options.  They are invoked via
-certain Meta key sequences.  @xref{Special Functions}, for more info.
+certain Meta key sequences.  See @xref{Special Functions}, for more info.
 The following global toggles are available:
 
 @table @code
@@ -461,8 +461,8 @@ Many options which alter the functionality of the program can be
 "toggled" on or off using Meta key sequences, meaning the program does
 not have to be restarted to turn a particular feature of the editor on
 or off.  Please see the internal help function (^G) for a list of what
-functions can be toggled for a particular version of @code{nano}.  Also
-see @xref{Feature Toggles}, though this may be out of date.
+functions can be toggled for a particular version of @code{nano}.  See
+@xref{Feature Toggles}, for more info.
 
 @item Cursor Position Display
 The output of the "Display Cursor Position" in @code{nano} displays
