@@ -90,6 +90,10 @@ CVS code -
 	- Explicitly mention that all regexes should be extended regular
 	  expressions. (DLR, suggested by John M. Gabriele)
 	- Miscellaneous minor fixes. (DLR)
+- doc/nano.texi:
+	- Change license to GPL, in order to match the rest of the
+	  documentation, and because the current license is incompatible
+	  with everything else in any case. (DLR)
 - doc/man/fr/nano.1, doc/man/fr/nanorc.5, doc/man/fr/rnano.1:
 	- Updated manpage translations by Jean-Philippe Guérard.
 - doc/nanorc.sample:
