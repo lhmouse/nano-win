@@ -148,10 +148,10 @@ character.
 
 @item -R, --restricted
 Restricted mode: Don't read or write to any file not specified on the
-command line, read any nanorc files, allow suspending, or allow a file
-to be appended to, prepended to, or saved under a different name if it
-already has one.  Also accessible by invoking @code{nano} with any name
-beginning with 'r' (e.g. "rnano").
+command line; read any nanorc files; allow suspending; allow a file to
+be appended to, prepended to, or saved under a different name if it
+already has one; or use backup files or spell checking.  Also accessible
+by invoking @code{nano} with any name beginning with 'r' (e.g. "rnano").
 
 @item -S, --smooth
 Enable smooth scrolling.
