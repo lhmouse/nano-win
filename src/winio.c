@@ -1587,25 +1587,34 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
 		currslen = MAIN_VISIBLE;
 	}
 
-	/* Calculate the width of each shortcut in the list.  It's the
-	 * same for all of them. */
+	/* Calculate the width of all of the shortcuts in the list
+	 * except for the last two, which are longer by (COLS % i)
+	 * columns so as to not waste space. */
 	if (currslen < 2)
-	    i = COLS / 6;
+	    i = COLS / (MAIN_VISIBLE / 2);
 	else
 	    i = COLS / ((currslen / 2) + (currslen % 2));
 
 	/* Calculate the y-coordinate relative to the beginning of
 	 * the shortcut list in bottomwin, i.e, with the sizes of
 	 * topwin, edit, and the first line of bottomwin subtracted
-	 * out. */
+	 * out, and set j to it. */
 	j = *mouse_y - (2 - no_more_space()) - editwinrows - 1;
 
-	/* If we're on the statusbar, beyond the end of the shortcut
-	 * list, or beyond the end of a shortcut on the right side of
-	 * the screen, don't do anything. */
-	if (j < 0 || (*mouse_x / i) >= currslen)
+	/* If we're on the statusbar, don't do anything. */
+	if (j < 0)
 	    return FALSE;
+
+	/* Calculate the x-coordinate relative to the beginning of the
+	 * shortcut list in bottomwin, and add it to j.  j should now be
+	 * the index in the shortcut list of the shortcut we clicked. */
 	j = (*mouse_x / i) * 2 + j;
+
+	/* Adjust j if we clicked in the last two shortcuts. */
+	if ((j >= currslen) && (*mouse_x % i < COLS % i))
+	    j -= 2;
+
+	/* If we're beyond the last shortcut, don't do anything. */
 	if (j >= currslen)
 	    return FALSE;
 
@@ -2222,8 +2231,10 @@ void bottombars(const shortcut *s)
 	    slen = MAIN_VISIBLE;
     }
 
-    /* There will be this many characters per column.  We need at least
-     * 3 to display anything properly. */
+    /* There will be this many characters per column, except for the
+     * last two, which will be longer by (COLS % colwidth) columns so as
+     * to not waste space.  We need at least three columns to display
+     * anything properly. */
     colwidth = COLS / ((slen / 2) + (slen % 2));
 
     blank_bottombars();
@@ -2247,7 +2258,7 @@ void bottombars(const shortcut *s)
 	keystr = foo;
 
 	wmove(bottomwin, 1 + i % 2, (i / 2) * colwidth);
-	onekey(keystr, s->desc, colwidth);
+	onekey(keystr, s->desc, colwidth + (COLS % colwidth));
     }
 
     wnoutrefresh(bottomwin);

@@ -39,6 +39,11 @@ CVS code -
 	  display" refer to display, for clarity.  Changes to
 	  shortcut_init(), configure.ac, and faq.html. (DLR, suggested
 	  by Benno Schulenberg)
+	- Adjust the shortcut list display and related mouse support to
+	  not waste the last few characters of bottomwin when the screen
+	  width isn't a clean multiple of the column width.  Changes to
+	  do_mouseinput() and bottombars(). (Benno Schulenberg, minor
+	  tweaks by DLR)
 - files.c:
   open_file()
 	- Remove redundant wording in the error message when we try to
