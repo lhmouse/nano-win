@@ -3234,4 +3234,4 @@ void do_credits(void)
 
     total_refresh();
 }
-#endif
+#endif /* NANO_EXTRA */
