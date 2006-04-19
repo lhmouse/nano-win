@@ -344,8 +344,6 @@ void shortcut_init(bool unjustify)
 	N_("Move to the beginning of the current line");
     const char *nano_end_msg =
 	N_("Move to the end of the current line");
-    const char *nano_refresh_msg =
-	N_("Refresh (redraw) the current screen");
     const char *nano_delete_msg =
 	N_("Delete the character under the cursor");
     const char *nano_backspace_msg =
@@ -354,6 +352,8 @@ void shortcut_init(bool unjustify)
 	N_("Insert a tab character at the cursor position");
     const char *nano_enter_msg =
 	N_("Insert a carriage return at the cursor position");
+    const char *nano_refresh_msg =
+	N_("Refresh (redraw) the current screen");
 #ifndef NANO_TINY
     const char *nano_nextword_msg = N_("Move forward one word");
     const char *nano_prevword_msg = N_("Move backward one word");
@@ -590,10 +590,6 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_end_msg, NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY,
 	VIEW, do_end);
 
-    sc_init_one(&main_list, NANO_REFRESH_KEY, refresh_msg,
-	IFHELP(nano_refresh_msg, NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY,
-	VIEW, total_refresh);
-
     sc_init_one(&main_list, NANO_DELETE_KEY, N_("Delete"),
 	IFHELP(nano_delete_msg, NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY,
 	NOVIEW, do_delete);
@@ -609,6 +605,10 @@ void shortcut_init(bool unjustify)
     sc_init_one(&main_list, NANO_ENTER_KEY, N_("Enter"),
 	IFHELP(nano_enter_msg, NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY,
 	NOVIEW, do_enter);
+
+    sc_init_one(&main_list, NANO_REFRESH_KEY, refresh_msg,
+	IFHELP(nano_refresh_msg, NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY,
+	VIEW, total_refresh);
 
 #ifndef DISABLE_HELP
     /* This entry is blank, in order to make the help text easier to

@@ -70,6 +70,8 @@ CVS code -
   shortcut_init()
 	- Change the cursor position display help text to use "display"
 	  instead of "show", for consistency. (DLR)
+	- In the main shortcut list, move the "Refresh" shortcut down to
+	  after the "Enter" shortcut, for consistency. (DLR)
 - rcfile.c:
   parse_argument()
 	- Rename variable ptr_bak to ptr_save, for consistency. (DLR)
