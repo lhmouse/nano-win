@@ -239,9 +239,9 @@ void sc_init_one(shortcut **shortcutage, int ctrlval, const char *desc,
     }
 
     s->ctrlval = ctrlval;
-    s->desc = _(desc);
+    s->desc = (desc == NULL) ? "" : _(desc);
 #ifndef DISABLE_HELP
-    s->help = _(help);
+    s->help = (help == NULL) ? "" : _(help);
 #endif
     s->metaval = metaval;
     s->funcval = funcval;
@@ -558,6 +558,14 @@ void shortcut_init(bool unjustify)
 	NANO_WHEREIS_NEXT_FKEY, NANO_NO_KEY, VIEW, do_research);
 #endif
 
+#ifndef DISABLE_HELP
+    /* This entry is blank, in order to make the help text easier to
+     * read. */
+    sc_init_one(&main_list, NANO_NO_KEY, NULL,
+	IFHELP(NULL, NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY, VIEW,
+	NULL);
+#endif
+
     sc_init_one(&main_list, NANO_PREVLINE_KEY, N_("Prev Line"),
 	IFHELP(nano_prevline_msg, NANO_NO_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, do_up);
@@ -601,6 +609,14 @@ void shortcut_init(bool unjustify)
     sc_init_one(&main_list, NANO_ENTER_KEY, N_("Enter"),
 	IFHELP(nano_enter_msg, NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY,
 	NOVIEW, do_enter);
+
+#ifndef DISABLE_HELP
+    /* This entry is blank, in order to make the help text easier to
+     * read. */
+    sc_init_one(&main_list, NANO_NO_KEY, NULL,
+	IFHELP(NULL, NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY, VIEW,
+	NULL);
+#endif
 
 #ifndef NANO_TINY
     sc_init_one(&main_list, NANO_NEXTWORD_KEY, N_("Next Word"),
@@ -664,6 +680,15 @@ void shortcut_init(bool unjustify)
     sc_init_one(&main_list, NANO_NO_KEY, N_("Find Other Bracket"),
 	IFHELP(nano_bracket_msg, NANO_BRACKET_KEY), NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, do_find_bracket);
+
+#ifndef DISABLE_HELP
+    /* This entry is blank, in order to make the help text easier to
+     * read.  It's at the end of the list in order to separate the
+     * shortcut keys from the toggles. */
+    sc_init_one(&main_list, NANO_NO_KEY, NULL,
+	IFHELP(NULL, NANO_NO_KEY), NANO_NO_KEY, NANO_NO_KEY, VIEW,
+	NULL);
+#endif
 #endif
 
     free_shortcutage(&whereis_list);

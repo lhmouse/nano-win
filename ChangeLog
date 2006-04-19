@@ -44,6 +44,10 @@ CVS code -
 	  width isn't a clean multiple of the column width.  Changes to
 	  do_mouseinput() and bottombars(). (Benno Schulenberg, minor
 	  tweaks by DLR)
+	- Add several blank entries to the main shortcut list, in order
+	  to make its help text easier to read.  Changes to
+	  sc_init_one() and shortcut_init(). (DLR, suggested by Benno
+	  Schulenberg)
 - files.c:
   open_file()
 	- Remove redundant wording in the error message when we try to
