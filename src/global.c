@@ -218,8 +218,7 @@ size_t length_of_list(const shortcut *s)
     return i;
 }
 
-/* Create a new shortcut structure, at the end of the shortcuts linked
- * list. */
+/* Add a new shortcut to the end of the shortcut list. */
 void sc_init_one(shortcut **shortcutage, int ctrlval, const char *desc,
 #ifndef DISABLE_HELP
 	const char *help,
@@ -1143,7 +1142,7 @@ void shortcut_init(bool unjustify)
 #endif
 }
 
-/* Deallocate the given shortcut. */
+/* Free the given shortcut. */
 void free_shortcutage(shortcut **shortcutage)
 {
     assert(shortcutage != NULL);
@@ -1156,8 +1155,7 @@ void free_shortcutage(shortcut **shortcutage)
 }
 
 #ifndef NANO_TINY
-/* Create a new toggle structure, at the end of the toggles linked
- * list. */
+/* Add a new toggle to the end of the global toggle list. */
 void toggle_init_one(int val, const char *desc, long flag)
 {
     toggle *u;
@@ -1239,12 +1237,12 @@ void toggle_init(void)
 }
 #endif /* !NANO_TINY */
 
-/* This function is called just before calling exit().  Practically, the
+#ifdef DEBUG
+/* This function is used to gracefully return all the memory we've used.
+ * It should be called just before calling exit().  Practically, the
  * only effect is to cause a segmentation fault if the various data
  * structures got bolloxed earlier.  Thus, we don't bother having this
  * function unless debugging is turned on. */
-#ifdef DEBUG
-/* Added by SPK for memory cleanup; gracefully return our malloc()s. */
 void thanks_for_all_the_fish(void)
 {
     delwin(topwin);
