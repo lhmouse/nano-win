@@ -1212,6 +1212,8 @@ void toggle_init(void)
     toggle_init_one(TOGGLE_NOHELP_KEY, N_("Help mode"), NO_HELP);
     toggle_init_one(TOGGLE_MORESPACE_KEY,
 	N_("Use of more space for editing"), MORE_SPACE);
+    toggle_init_one(TOGGLE_CONST_KEY,
+	N_("Constant cursor position display"), CONST_UPDATE);
 #ifdef ENABLE_MULTIBUFFER
     /* If we're using restricted mode, the multibuffer toggle is
      * disabled.  It's useless since inserting files is disabled. */
@@ -1231,8 +1233,6 @@ void toggle_init(void)
      * It's useless since suspending is disabled. */
     if (!ISSET(RESTRICTED))
 	toggle_init_one(TOGGLE_SUSPEND_KEY, N_("Suspend"), SUSPEND);
-    toggle_init_one(TOGGLE_CONST_KEY,
-	N_("Constant cursor position display"), CONST_UPDATE);
     toggle_init_one(TOGGLE_AUTOINDENT_KEY, N_("Auto indent"),
 	AUTOINDENT);
     toggle_init_one(TOGGLE_TABSTOSPACES_KEY,
