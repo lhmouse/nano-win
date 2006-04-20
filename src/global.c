@@ -1268,15 +1268,15 @@ void toggle_init(void)
 		N_("Multiple file buffers"), MULTIBUFFER);
 #endif
 
+#ifndef DISABLE_MOUSE
+    toggle_init_one(TOGGLE_MOUSE_KEY, N_("Mouse support"), USE_MOUSE);
+#endif
+
     /* If we're using restricted mode, the DOS/Mac conversion toggle is
      * disabled.  It's useless since inserting files is disabled. */
     if (!ISSET(RESTRICTED))
 	toggle_init_one(TOGGLE_NOCONVERT_KEY,
 		N_("No conversion from DOS/Mac format"), NO_CONVERT);
-
-#ifndef DISABLE_MOUSE
-    toggle_init_one(TOGGLE_MOUSE_KEY, N_("Mouse support"), USE_MOUSE);
-#endif
 
     /* If we're using restricted mode, the suspend toggle is disabled.
      * It's useless since suspending is disabled. */
