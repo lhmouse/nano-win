@@ -297,7 +297,7 @@
 		direct to the development list (nano-devel@gnu.org).
 
 10/24/2002 - GNU nano 1.1.12 "Make Jordi happy" is released.  This
-		release demonstrated that nano is starting to freeze for
+		release demonstrates that nano is starting to freeze for
 		version 1.2.  New features include a Meta-Y toggle for
 		syntax highlighting, pluralized i18n, and a handler for
 		SIGTERM.  Nano now ignores XOFF (^S) to stop accidental
