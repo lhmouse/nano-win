@@ -66,7 +66,7 @@ CVS code -
 	  prepending fails. (DLR)
 	- Simplify the routine for closing the file just before we
 	  indicate success on the statusbar. (DLR)
-  global.c:
+- global.c:
   shortcut_init()
 	- Change the cursor position display help text to use "display"
 	  instead of "show", for consistency. (DLR)
@@ -76,6 +76,9 @@ CVS code -
 	- In the global toggle list, move the "Constant cursor position
 	  display" toggle up to after the "Use more space for editing"
 	  toggle, for consistency. (DLR)
+- nano.c:
+  renumber()
+	- Remove invalid assert. (DLR)
 - rcfile.c:
   parse_argument()
 	- Rename variable ptr_bak to ptr_save, for consistency. (DLR)

@@ -163,7 +163,7 @@ void renumber(filestruct *fileptr)
 {
     ssize_t line;
 
-    assert(fileptr != NULL && fileptr->prev != NULL);
+    assert(fileptr != NULL);
 
     line = (fileptr->prev == NULL) ? 0 : fileptr->prev->lineno;
 
