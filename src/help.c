@@ -371,13 +371,16 @@ void help_init(void)
 
 #ifndef NANO_TINY
     /* If we're on the main list, we also count the toggle help text.
-     * Each line has "M-%c\t\t\t", which fills 24 columns, plus a space,
-     * plus translated text, plus '\n'. */
+     * Each non-blank entry has "M-%c\t\t\t", which fills 24 columns,
+     * plus a space, plus translated text, plus '\n'.  Each blank entry
+     * has just '\n'. */
     if (currshortcut == main_list) {
 	size_t endis_len = strlen(_("enable/disable"));
 
 	for (t = toggles; t != NULL; t = t->next)
-	    allocsize += 8 + strlen(t->desc) + endis_len;
+	    if (t->val != TOGGLE_NO_KEY)
+		allocsize += strlen(t->desc) + endis_len + 7;
+	    allocsize++;
     }
 #endif
 
@@ -475,10 +478,15 @@ void help_init(void)
 	    *(ptr++) = '\t';
 	}
 
-	/* Make sure all the help text starts at the same place. */
-	while (entries < 3) {
-	    entries++;
-	    *(ptr++) = '\t';
+	/* If this entry isn't blank, make sure all the help text starts
+	 * at the same place. */
+	if (s->ctrlval != NANO_NO_KEY || s->funcval != NANO_NO_KEY ||
+		s->metaval != NANO_NO_KEY || s->miscval !=
+		NANO_NO_KEY) {
+	    while (entries < 3) {
+		entries++;
+		*(ptr++) = '\t';
+	    }
 	}
 
 	assert(s->help != NULL);
@@ -501,8 +509,10 @@ void help_init(void)
 	for (t = toggles; t != NULL; t = t->next) {
 	    assert(t->desc != NULL);
 
-	    ptr += sprintf(ptr, "M-%c\t\t\t%s %s\n", toupper(t->val),
-		t->desc, _("enable/disable"));
+	    if (t->val != TOGGLE_NO_KEY)
+		ptr += sprintf(ptr, "M-%c\t\t\t%s %s",
+			toupper(t->val), t->desc, _("enable/disable"));
+	    ptr += sprintf(ptr, "\n");
 	}
     }
 

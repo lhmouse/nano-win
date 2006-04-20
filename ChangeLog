@@ -44,10 +44,11 @@ CVS code -
 	  width isn't a clean multiple of the column width.  Changes to
 	  do_mouseinput() and bottombars(). (Benno Schulenberg, minor
 	  tweaks by DLR)
-	- Add several blank entries to the main shortcut list, in order
-	  to make its help text easier to read.  Changes to
-	  sc_init_one() and shortcut_init(). (DLR, suggested by Benno
-	  Schulenberg)
+	- Add several blank entries to the main shortcut list and the
+	  global toggle list, in order to make the help text easier to
+	  read.  Changes to sc_init_one(), toggle_init(),
+	  toggle_init_one(), shortcut_init(), get_toggle(), and
+	  help_init(). (DLR, suggested by Benno Schulenberg)
 - files.c:
   open_file()
 	- Remove redundant wording in the error message when we try to
@@ -76,6 +77,11 @@ CVS code -
 	- In the global toggle list, move the "Constant cursor position
 	  display" toggle up to after the "Use more space for editing"
 	  toggle, for consistency. (DLR)
+	- Reorganize the global toggle list to make it easier for new
+	  users.  It now lists toggles that affect the way things are
+	  displayed, followed by toggles that affect editing, followed
+	  by toggles that have to do with peripheral things. (DLR,
+	  suggested by Benno Schulenberg)
 - nano.c:
   renumber()
 	- Remove invalid assert. (DLR, found by Filipe Moreira)

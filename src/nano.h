@@ -547,8 +547,13 @@ typedef struct rcoption {
 #define NANO_FULLJUSTIFY_ALTKEY	NANO_ALT_J
 #define NANO_VERBATIM_KEY	NANO_ALT_V
 
+/* Toggles do not exist if NANO_TINY is defined. */
 #ifndef NANO_TINY
-/* Toggles do not exist with NANO_TINY. */
+
+/* No toggle at all. */
+#define TOGGLE_NO_KEY		-2
+
+/* Normal toggles. */
 #define TOGGLE_CONST_KEY	NANO_ALT_C
 #define TOGGLE_AUTOINDENT_KEY	NANO_ALT_I
 #define TOGGLE_SUSPEND_KEY	NANO_ALT_Z
