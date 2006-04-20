@@ -142,9 +142,8 @@ Set the quoting string for justifying.  The default is
 @code{^([ \t]*[|>:@}#])+}
 @end quotation
 
-if extended regular expression support is available, or ``> ''
-otherwise.  Note that @code{\t} above stands for a literal Tab
-character.
+if extended regular expression support is available, or "> " otherwise.
+Note that @code{\t} above stands for a literal Tab character.
 
 @item -R, --restricted
 Restricted mode: Don't read or write to any file not specified on the
@@ -267,32 +266,33 @@ Ignored, for compatibility with Pico.
 @section Entering Text
 
 All key sequences in @code{nano} are entered using the keyboard.
-@code{nano} is a ``modeless'' editor.  All keys with the exception of
-Control and Meta key sequences will enter text into the file being
+@code{nano} is a "modeless" editor.  All keys, with the exception of
+Control and Meta key sequences, will enter text into the file being
 edited.
 
 @node Special Functions, The Titlebar, Entering Text, Editor Basics
 @section Special Functions
 
-Special functions use the Control key (displayed in the help and
-shortcut lists as ^), the Meta key (displayed as M), or the Esc key.
+Special functions use the Control (Ctrl) key, displayed in the help and
+shortcut lists as ^; the Meta key, displayed as M; or the Escape (Esc)
+key.
 
 @itemize @bullet
 @item
-Control key sequences are entered by holding down the Control key and
+Control key sequences are entered by holding down the Ctrl key and
 pressing the desired key, or by pressing the Esc key twice and pressing
 the desired key.
 @item
 Pressing Esc twice and then typing a three-digit number from 000 to 255
-will enter the character with the corresponding ASCII code.
+will enter the character with the corresponding value.
 @item
 Meta key sequences can be entered in a number of possible ways: Pressing
-the Escape key, then releasing it and pressing the desired key, or
-holding down the Alt key while pressing the desired key.  This varies
-from keyboard to keyboard, and certain commercial operating systems
-``swallow'' the Alt key so that it never reaches the application.  If
-your operating system does this, you should use the Escape key to
-generate Meta key sequences.
+the Esc key, then releasing it and pressing the desired key, or holding
+down the Alt key while pressing the desired key.  This varies from
+keyboard to keyboard, and certain commercial operating systems "swallow"
+the Alt key so that it never reaches the application.  If your operating
+system does this, you should use the Esc key to generate Meta key
+sequences.
 @end itemize
 
 @node The Titlebar, The Statusbar, Special Functions, Editor Basics
@@ -301,11 +301,11 @@ generate Meta key sequences.
 The titlebar is the line displayed at the top of the editor.  There are
 three sections: left, center and right.  The section on the left
 displays the version of @code{nano} being used.  The center section
-displays the current file name, or ``New Buffer'' if the file has not
-yet been named.  The section on the right will display ``Modified'' if
-the file has been modified since it was last saved or opened.
+displays the current file name, or "New Buffer" if the file has not yet
+been named.  The section on the right will display "Modified" if the
+file has been modified since it was last saved or opened.
 
-Special modes: When @code{nano} is in ``File browser'' mode, the center
+Special modes: When @code{nano} is in "File browser" mode, the center
 section will display the current directory instead of the filename.  See
 @xref{The File Browser}, for more info.
 
@@ -434,9 +434,8 @@ was removed completely.
 
 
 @item Writing, Appending, or Prepending Selected Text to Files
-Text selected using the Control-Caret (^^) key can be written out,
-appended, or prepended to a new or existing file using the Writeout key
-(^O).
+Text selected using the marking key (^^) can be written out, appended,
+or prepended to a new or existing file using the WriteOut key (^O).
 
 @item Toggles
 Many options which alter the functionality of the program can be

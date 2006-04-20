@@ -114,6 +114,8 @@ CVS code -
 	  with everything else in any case. (DLR)
 	- Mention that backup files and spell checking are disabled in
 	  restricted mode, as rnano.1 does. (DLR)
+	- Add minor updates to put some text back in sync with nano's
+	  help text. (DLR)
 - doc/man/fr/nano.1, doc/man/fr/nanorc.5, doc/man/fr/rnano.1:
 	- Updated manpage translations by Jean-Philippe Guérard.
 - doc/nanorc.sample:
