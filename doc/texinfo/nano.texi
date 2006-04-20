@@ -404,12 +404,14 @@ When reading or writing files, pressing ^T will invoke the file browser.
 Here, one can navigate directories in a graphical manner in order to
 find the desired file.
 
-Basic movement in the file browser is accomplished with the arrow keys
-and page up/down.  The behavior of the enter (or `s') key varies by what
-is currently selected.  If the currently selected object is a directory,
-the file browser will enter and display the contents of the directory.
-If the object is a file, this filename and path are copied to the
-statusbar and the file browser is exited.
+Basic movement in the file browser is accomplished with the arrow keys,
+page up, and page down.  More advanced movement is accomplished by
+searching via ^W (or 'w') and changing directories via ^_ (or 'g').  The
+behavior of the Enter (or 's') key varies by what is currently selected.
+If the currently selected object is a directory, the file browser will
+enter and display the contents of the directory.  If the object is a
+file, this filename and path are copied to the statusbar, and the file
+browser exits.
 
 @node Pico Compatibility, Building and Configure Options, The File Browser, Top
 @chapter Pico Compatibility
