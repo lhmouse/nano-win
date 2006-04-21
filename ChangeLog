@@ -73,6 +73,11 @@ CVS code -
 	  instead of "show", for consistency. (DLR)
 	- In the main shortcut list, move the "Refresh" shortcut down to
 	  after the "Enter" shortcut, for consistency. (DLR)
+	- Add the ability to go to the first and last line of the
+	  current file from the main list via Meta-/ and Meta-\.  Also,
+	  make sure all the equivalent shortcuts in the search, replace,
+	  and "Go To Line" lists accept both the meta keys and the
+	  equivalent function keys. (DLR)
   toggle_init()
 	- In the global toggle list, move the "Constant cursor position
 	  display" toggle up to after the "Use more space for editing"
@@ -82,6 +87,11 @@ CVS code -
 	  displayed, followed by toggles that affect editing, followed
 	  by toggles that have to do with peripheral things. (DLR,
 	  suggested by Benno Schulenberg)
+- help.c:
+  do_help()
+	- Call get_shortcut() after getting input, so that we only have
+	  to check for a main shortcut key instead of both it and all of
+	  its equivalents. (DLR)
 - nano.c:
   renumber()
 	- Remove invalid assert. (DLR, found by Filipe Moreira)

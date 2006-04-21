@@ -650,6 +650,14 @@ void shortcut_init(bool unjustify)
 	NANO_PARAEND_ALTKEY2, VIEW, do_para_end_void);
 #endif
 
+    sc_init_one(&main_list, NANO_NO_KEY, first_line_msg,
+	IFHELP(nano_firstline_msg, NANO_FIRSTLINE_ALTKEY), NANO_NO_KEY,
+	NANO_NO_KEY, VIEW, do_first_line);
+
+    sc_init_one(&main_list, NANO_NO_KEY, last_line_msg,
+	IFHELP(nano_lastline_msg, NANO_LASTLINE_ALTKEY), NANO_NO_KEY,
+	NANO_NO_KEY, VIEW, do_last_line);
+
 #ifdef ENABLE_MULTIBUFFER
     sc_init_one(&main_list, NANO_NO_KEY, N_("Previous File"),
 	IFHELP(nano_prevfile_msg, NANO_PREVFILE_KEY), NANO_NO_KEY,
@@ -708,12 +716,12 @@ void shortcut_init(bool unjustify)
 	VIEW, NULL);
 
     sc_init_one(&whereis_list, NANO_FIRSTLINE_KEY, first_line_msg,
-	IFHELP(nano_firstline_msg, NANO_NO_KEY), NANO_FIRSTLINE_FKEY,
-	NANO_NO_KEY, VIEW, do_first_line);
+	IFHELP(nano_firstline_msg, NANO_FIRSTLINE_ALTKEY),
+	NANO_FIRSTLINE_FKEY, NANO_NO_KEY, VIEW, do_first_line);
 
     sc_init_one(&whereis_list, NANO_LASTLINE_KEY, last_line_msg,
-	IFHELP(nano_lastline_msg, NANO_NO_KEY), NANO_LASTLINE_FKEY,
-	NANO_NO_KEY, VIEW, do_last_line);
+	IFHELP(nano_lastline_msg, NANO_LASTLINE_ALTKEY),
+	NANO_LASTLINE_FKEY, NANO_NO_KEY, VIEW, do_last_line);
 
     sc_init_one(&whereis_list, NANO_TOOTHERSEARCH_KEY, replace_msg,
 	IFHELP(nano_replace_msg, NANO_NO_KEY), NANO_REPLACE_FKEY,
@@ -782,12 +790,12 @@ void shortcut_init(bool unjustify)
 	VIEW, NULL);
 
     sc_init_one(&replace_list, NANO_FIRSTLINE_KEY, first_line_msg,
-	IFHELP(nano_firstline_msg, NANO_NO_KEY), NANO_FIRSTLINE_FKEY,
-	NANO_NO_KEY, VIEW, do_first_line);
+	IFHELP(nano_firstline_msg, NANO_FIRSTLINE_ALTKEY),
+	NANO_FIRSTLINE_FKEY, NANO_NO_KEY, VIEW, do_first_line);
 
     sc_init_one(&replace_list, NANO_LASTLINE_KEY, last_line_msg,
-	IFHELP(nano_lastline_msg, NANO_NO_KEY), NANO_LASTLINE_FKEY,
-	NANO_NO_KEY, VIEW, do_last_line);
+	IFHELP(nano_lastline_msg, NANO_LASTLINE_ALTKEY),
+	NANO_LASTLINE_FKEY, NANO_NO_KEY, VIEW, do_last_line);
 
     /* TRANSLATORS: Try to keep this at most 12 characters. */
     sc_init_one(&replace_list, NANO_TOOTHERSEARCH_KEY, N_("No Replace"),
@@ -837,12 +845,12 @@ void shortcut_init(bool unjustify)
 	VIEW, NULL);
 
     sc_init_one(&replace_list_2, NANO_FIRSTLINE_KEY, first_line_msg,
-	IFHELP(nano_firstline_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, do_first_line);
+	IFHELP(nano_firstline_msg, NANO_FIRSTLINE_ALTKEY),
+	NANO_FIRSTLINE_FKEY, NANO_NO_KEY, VIEW, do_first_line);
 
     sc_init_one(&replace_list_2, NANO_LASTLINE_KEY, last_line_msg,
-	IFHELP(nano_lastline_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, do_last_line);
+	IFHELP(nano_lastline_msg, NANO_LASTLINE_ALTKEY),
+	NANO_LASTLINE_FKEY, NANO_NO_KEY, VIEW, do_last_line);
 
 #ifndef NANO_TINY
     sc_init_one(&replace_list_2, NANO_PREVLINE_KEY, history_msg,
@@ -867,12 +875,12 @@ void shortcut_init(bool unjustify)
 	VIEW, NULL);
 
     sc_init_one(&gotoline_list, NANO_FIRSTLINE_KEY, first_line_msg,
-	IFHELP(nano_firstline_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, do_first_line);
+	IFHELP(nano_firstline_msg, NANO_FIRSTLINE_ALTKEY),
+	NANO_FIRSTLINE_FKEY, NANO_NO_KEY, VIEW, do_first_line);
 
     sc_init_one(&gotoline_list, NANO_LASTLINE_KEY, last_line_msg,
-	IFHELP(nano_lastline_msg, NANO_NO_KEY), NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, do_last_line);
+	IFHELP(nano_lastline_msg, NANO_LASTLINE_ALTKEY),
+	NANO_LASTLINE_FKEY, NANO_NO_KEY, VIEW, do_last_line);
 
     sc_init_one(&gotoline_list, NANO_TOOTHERWHEREIS_KEY,
 	N_("Go To Text"), IFHELP(nano_whereis_msg, NANO_NO_KEY),
@@ -1114,12 +1122,12 @@ void shortcut_init(bool unjustify)
 	VIEW, NULL);
 
     sc_init_one(&whereis_file_list, NANO_FIRSTFILE_KEY, first_file_msg,
-	IFHELP(nano_firstfile_msg, NANO_NO_KEY), NANO_FIRSTFILE_FKEY,
-	NANO_NO_KEY, VIEW, do_first_file);
+	IFHELP(nano_firstfile_msg, NANO_FIRSTFILE_ALTKEY),
+	NANO_FIRSTFILE_FKEY, NANO_NO_KEY, VIEW, do_first_file);
 
     sc_init_one(&whereis_file_list, NANO_LASTFILE_KEY, last_file_msg,
-	IFHELP(nano_lastfile_msg, NANO_NO_KEY), NANO_LASTFILE_FKEY,
-	NANO_NO_KEY, VIEW, do_last_file);
+	IFHELP(nano_lastfile_msg, NANO_LASTFILE_ALTKEY),
+	NANO_LASTFILE_FKEY, NANO_NO_KEY, VIEW, do_last_file);
 
 #ifndef NANO_SMALL
     sc_init_one(&whereis_file_list, NANO_NO_KEY, case_sens_msg,
