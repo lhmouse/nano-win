@@ -74,10 +74,10 @@ CVS code -
 	- In the main shortcut list, move the "Refresh" shortcut down to
 	  after the "Enter" shortcut, for consistency. (DLR)
 	- Add the ability to go to the first and last line of the
-	  current file from the main list via Meta-/ and Meta-\.  Also,
-	  make sure all the equivalent shortcuts in the search, replace,
-	  and "Go To Line" lists accept both the meta keys and the
-	  equivalent function keys. (DLR)
+	  current file from the main list via Meta-/ (Meta-?) and Meta-\
+	  (Meta-|).  Also, make sure all the equivalent shortcuts in the
+	  search, replace, and "Go To Line" lists accept both the meta
+	  keys and the equivalent function keys. (DLR)
   toggle_init()
 	- In the global toggle list, move the "Constant cursor position
 	  display" toggle up to after the "Use more space for editing"
