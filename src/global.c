@@ -679,8 +679,12 @@ void shortcut_init(bool unjustify)
 #endif
 
     sc_init_one(&main_list, NANO_REFRESH_KEY, refresh_msg,
-	IFHELP(nano_refresh_msg, TRUE), NANO_NO_KEY, NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, total_refresh);
+#ifndef NANO_TINY
+	IFHELP(nano_wordcount_msg, TRUE)
+#else
+	IFHELP(nano_wordcount_msg, FALSE)
+#endif
+	, NANO_NO_KEY, NANO_NO_KEY, NANO_NO_KEY, VIEW, total_refresh);
 
     free_shortcutage(&whereis_list);
 
