@@ -78,6 +78,16 @@ CVS code -
 	  (Meta-?).  Also, make sure all the equivalent shortcuts in the
 	  search, replace, and "Go To Line" lists accept both the meta
 	  keys and the equivalent function keys. (DLR)
+	- Reorganize the main shortcut list to make it easier for new
+	  users.  It now lists the twelve Pico-compatible default
+	  operations, followed by search and replace shortcuts, followed
+	  by cut and paste shortcuts, followed by marking shortcuts,
+	  followed by back and forth movement shortcuts, followed by
+	  start and end movement shortcuts, followed by buffer-switching
+	  shortcuts, followed by insertion and deletion shortcuts,
+	  followed by special movement shortcuts, followed by advanced
+	  word and paragraph shortcuts, followed by display shortcuts.
+	  (DLR, suggested by Benno Schulenberg)
   toggle_init()
 	- In the global toggle list, move the "Constant cursor position
 	  display" toggle up to after the "Use more space for editing"

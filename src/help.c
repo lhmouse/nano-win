@@ -364,21 +364,21 @@ void help_init(void)
 	allocsize += strlen(htx[2]);
 
     /* The space needed for the shortcut lists, at most COLS characters,
-     * plus '\n'. */
+     * plus one or two '\n's. */
     allocsize += (COLS < 24 ? (24 * mb_cur_max()) :
-	((COLS + 1) * mb_cur_max())) * length_of_list(currshortcut);
+	((COLS + 2) * mb_cur_max())) * length_of_list(currshortcut);
 
 #ifndef NANO_TINY
     /* If we're on the main list, we also count the toggle help text.
      * Each non-blank entry has "M-%c\t\t\t", which fills 24 columns,
-     * plus a space, plus translated text, plus '\n'.  Each blank entry
-     * has just '\n'. */
+     * plus a space, plus translated text, plus one or two '\n's.  Each
+     * blank entry has just one or two '\n's. */
     if (currshortcut == main_list) {
 	size_t endis_len = strlen(_("enable/disable"));
 
 	for (t = toggles; t != NULL; t = t->next)
 	    if (t->val != TOGGLE_NO_KEY)
-		allocsize += strlen(t->desc) + endis_len + 7;
+		allocsize += strlen(t->desc) + endis_len + 8;
 	    allocsize++;
     }
 #endif
@@ -488,8 +488,6 @@ void help_init(void)
 	    }
 	}
 
-	assert(s->help != NULL);
-
 	if (COLS > 24) {
 	    char *help_ptr = display_string(s->help, 0, COLS - 24,
 		FALSE);
@@ -500,18 +498,22 @@ void help_init(void)
 	}
 
 	ptr += sprintf(ptr, "\n");
+
+	if (s->blank_after)
+	    ptr += sprintf(ptr, "\n");
     }
 
 #ifndef NANO_TINY
     /* And the toggles... */
     if (currshortcut == main_list) {
 	for (t = toggles; t != NULL; t = t->next) {
-	    assert(t->desc != NULL);
-
 	    if (t->val != TOGGLE_NO_KEY)
 		ptr += sprintf(ptr, "M-%c\t\t\t%s %s",
 			toupper(t->val), t->desc, _("enable/disable"));
 	    ptr += sprintf(ptr, "\n");
+
+	    if (t->blank_after)
+		ptr += sprintf(ptr, "\n");
 	}
     }
 

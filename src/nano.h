@@ -290,6 +290,15 @@ typedef struct openfilestruct {
 } openfilestruct;
 
 typedef struct shortcut {
+    const char *desc;
+	/* The function's description, e.g. "Page Up". */
+#ifndef DISABLE_HELP
+    const char *help;
+	/* The help file entry text for this function. */
+#endif
+    bool blank_after;
+	/* Whether there should be a blank line after the help entry
+	 * text for this function. */
     /* Key values that aren't used should be set to NANO_NO_KEY. */
     int ctrlval;
 	/* The special sentinel key or control key we want bound, if
@@ -304,12 +313,6 @@ typedef struct shortcut {
 	/* Is this function allowed when in view mode? */
     void (*func)(void);
 	/* The function to call when we get this key. */
-    const char *desc;
-	/* The function's description, e.g. "Page Up". */
-#ifndef DISABLE_HELP
-    const char *help;
-	/* The help file entry text for this function. */
-#endif
     struct shortcut *next;
 	/* Next shortcut. */
 } shortcut;
@@ -319,8 +322,11 @@ typedef struct toggle {
    int val;
 	/* The sequence to toggle the key.  We should only need one. */
    const char *desc;
-	/* The description for when the toggle is, uh, toggled, e.g.
-	 * "Cut to end"; we'll append Enabled or Disabled. */
+	/* The description of the toggle, e.g. "Cut to end"; we'll
+	 * append Enabled or Disabled to it. */
+   bool blank_after;
+	/* Whether there should be a blank line after the description of
+	 * the toggle. */
    long flag;
 	/* Which flag actually gets toggled. */
    struct toggle *next;
@@ -550,11 +556,11 @@ typedef struct rcoption {
 #define NANO_CUTTILLEND_KEY	NANO_CONTROL_X
 #define NANO_CUTTILLEND_ALTKEY	NANO_ALT_T
 #define NANO_PARABEGIN_KEY	NANO_CONTROL_W
-#define NANO_PARABEGIN_ALTKEY1	NANO_ALT_LPAREN
-#define NANO_PARABEGIN_ALTKEY2	NANO_ALT_9
+#define NANO_PARABEGIN_ALTKEY	NANO_ALT_LPAREN
+#define NANO_PARABEGIN_ALTKEY	NANO_ALT_9
 #define NANO_PARAEND_KEY	NANO_CONTROL_O
-#define NANO_PARAEND_ALTKEY1	NANO_ALT_RPAREN
-#define NANO_PARAEND_ALTKEY2	NANO_ALT_0
+#define NANO_PARAEND_ALTKEY	NANO_ALT_RPAREN
+#define NANO_PARAEND_ALTKEY	NANO_ALT_0
 #define NANO_FULLJUSTIFY_KEY	NANO_CONTROL_U
 #define NANO_FULLJUSTIFY_ALTKEY	NANO_ALT_J
 #define NANO_VERBATIM_KEY	NANO_ALT_V

@@ -1713,11 +1713,7 @@ const toggle *get_toggle(int kbinput, bool meta_key)
     for (; t != NULL; t = t->next) {
 	/* We've found a toggle if the key exists, meta_key is TRUE, and
 	 * the key is in the meta key toggle list. */
-	if (
-#ifndef DISABLE_HELP
-		t->val != TOGGLE_NO_KEY &&
-#endif
-		meta_key && kbinput == t->val)
+	if (t->val != TOGGLE_NO_KEY && meta_key && kbinput == t->val)
 	    break;
     }
 

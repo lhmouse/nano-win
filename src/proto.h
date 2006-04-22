@@ -327,15 +327,16 @@ void save_history(void);
 /* Public functions in global.c. */
 size_t length_of_list(const shortcut *s);
 #ifndef NANO_TINY
-void toggle_init_one(int val, const char *desc, long flag);
+void toggle_init_one(int val, const char *desc, bool blank_after, long
+	flag);
 void toggle_init(void);
 #endif
-void sc_init_one(shortcut **shortcutage, int key, const char *desc,
+void sc_init_one(shortcut **shortcutage, int ctrlval, const char *desc,
 #ifndef DISABLE_HELP
 	const char *help,
 #endif
-	int metaval, int funcval, int miscval, bool view, void
-	(*func)(void));
+	bool blank_after, int metaval, int funcval, int miscval, bool
+	view, void (*func)(void));
 void shortcut_init(bool unjustify);
 void free_shortcutage(shortcut **shortcutage);
 #ifdef DEBUG
