@@ -1243,9 +1243,11 @@ void toggle_init(void)
 	NO_COLOR_SYNTAX);
 #endif
 
+#ifndef DISABLE_HELP
     /* This entry is blank, in order to make the help text easier to
      * read. */
     toggle_init_one(TOGGLE_NO_KEY, NULL, 0);
+#endif
 
     toggle_init_one(TOGGLE_SMARTHOME_KEY, N_("Smart home key"),
 	SMART_HOME);
@@ -1263,9 +1265,11 @@ void toggle_init(void)
     toggle_init_one(TOGGLE_TABSTOSPACES_KEY,
 	N_("Conversion of typed tabs to spaces"), TABS_TO_SPACES);
 
+#ifndef DISABLE_HELP
     /* This entry is blank, in order to make the help text easier to
      * read. */
     toggle_init_one(TOGGLE_NO_KEY, NULL, 0);
+#endif
 
     /* If we're using restricted mode, the backup toggle is disabled.
      * It's useless since backups are disabled. */
