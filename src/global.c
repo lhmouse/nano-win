@@ -678,11 +678,11 @@ void shortcut_init(bool unjustify)
 	NANO_NO_KEY, NANO_NO_KEY, VIEW, do_wordlinechar_count);
 #endif
 
-    sc_init_one(&main_list, NANO_REFRESH_KEY, refresh_msg,
+    sc_init_one(&main_list, NANO_REFRESH_KEY, refresh_msg
 #ifndef NANO_TINY
-	IFHELP(nano_wordcount_msg, TRUE)
+	, IFHELP(nano_wordcount_msg, TRUE)
 #else
-	IFHELP(nano_wordcount_msg, FALSE)
+	, IFHELP(nano_wordcount_msg, FALSE)
 #endif
 	, NANO_NO_KEY, NANO_NO_KEY, NANO_NO_KEY, VIEW, total_refresh);
 
