@@ -458,7 +458,7 @@ void shortcut_init(bool unjustify)
 	/* TRANSLATORS: Try to keep this at most 10 characters. */
 	openfile != NULL && openfile != openfile->next ? N_("Close") :
 #endif
-	exit_msg, IFHELP(nano_exit_msg, FALSE), NANO_NO_KEY),
+	exit_msg, IFHELP(nano_exit_msg, FALSE), NANO_NO_KEY,
 	NANO_EXIT_FKEY, NANO_NO_KEY, VIEW, do_exit);
 
     /* TRANSLATORS: Try to keep this at most 10 characters. */
@@ -593,7 +593,7 @@ void shortcut_init(bool unjustify)
 	NANO_NO_KEY, VIEW, do_home);
 
     sc_init_one(&main_list, NANO_END_KEY, N_("End"),
-	IFHELP(nano_end_msg, FALSE), NANO_NO_KEY), NANO_NO_KEY,
+	IFHELP(nano_end_msg, FALSE), NANO_NO_KEY, NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, do_end);
 
 #ifndef DISABLE_JUSTIFY
@@ -784,8 +784,8 @@ void shortcut_init(bool unjustify)
 
     /* TRANSLATORS: Try to keep this at most 12 characters. */
     sc_init_one(&replace_list, NANO_TOOTHERSEARCH_KEY, N_("No Replace"),
-	IFHELP(nano_whereis_msg, FALSE), NANO_NO_KEY),
-	NANO_REPLACE_FKEY, NANO_NO_KEY, VIEW, NULL);
+	IFHELP(nano_whereis_msg, FALSE), NANO_NO_KEY, NANO_REPLACE_FKEY,
+	NANO_NO_KEY, VIEW, NULL);
 
     sc_init_one(&replace_list, NANO_TOGOTOLINE_KEY, go_to_line_msg,
 	IFHELP(nano_gotoline_msg, FALSE), NANO_NO_KEY,
