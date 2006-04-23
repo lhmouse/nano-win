@@ -88,6 +88,8 @@ CVS code -
 	  followed by special movement shortcuts, followed by advanced
 	  word and paragraph shortcuts, followed by display shortcuts.
 	  (DLR and Benno Schulenberg, suggested by Benno Schulenberg)
+	- Tweak the descriptions of some shortcut keys to make them more
+	  uniform. (Benno Schulenberg, minor tweaks by DLR)
   toggle_init()
 	- In the global toggle list, move the "Constant cursor position
 	  display" toggle up to after the "Use more space for editing"

@@ -367,9 +367,9 @@ void shortcut_init(bool unjustify)
 #endif
 #ifndef DISABLE_JUSTIFY
     const char *nano_parabegin_msg =
-	N_("Go to the beginning of the current paragraph");
+	N_("Move to the beginning of the current paragraph");
     const char *nano_paraend_msg =
-	N_("Go to the end of the current paragraph");
+	N_("Move to the end of the current paragraph");
 #endif
 #ifdef ENABLE_MULTIBUFFER
     const char *nano_prevfile_msg =
@@ -377,7 +377,8 @@ void shortcut_init(bool unjustify)
     const char *nano_nextfile_msg =
 	N_("Switch to the next file buffer");
 #endif
-    const char *nano_verbatim_msg = N_("Insert character(s) verbatim");
+    const char *nano_verbatim_msg =
+	N_("Insert the next character(s) verbatim");
 #ifndef NANO_TINY
     const char *nano_cut_till_end_msg =
 	N_("Cut from the cursor position to the end of the file");
@@ -386,12 +387,12 @@ void shortcut_init(bool unjustify)
     const char *nano_fulljustify_msg = N_("Justify the entire file");
 #endif
 #ifndef NANO_TINY
-    const char *nano_bracket_msg = N_("Find matching bracket");
+    const char *nano_bracket_msg = N_("Move to the matching bracket");
 #endif
     const char *nano_firstline_msg =
-	N_("Go to the first line of the file");
+	N_("Move to the first line of the file");
     const char *nano_lastline_msg =
-	N_("Go to the last line of the file");
+	N_("Move to the last line of the file");
 #ifndef NANO_TINY
     const char *nano_case_msg =
 	N_("Make the current search/replace case (in)sensitive");
