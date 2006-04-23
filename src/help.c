@@ -414,7 +414,7 @@ void help_init(void)
 	    /* Yucky sentinel values that we can't handle a better
 	     * way. */
 	    if (s->ctrlval == NANO_CONTROL_SPACE) {
-		char *space_ptr = display_string(_("Space"), 0, 13,
+		char *space_ptr = display_string(_("Space"), 0, 14,
 			FALSE);
 
 		if (s->funcval == NANO_NO_KEY && (s->metaval ==
