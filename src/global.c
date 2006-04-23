@@ -539,11 +539,10 @@ void shortcut_init(bool unjustify)
 #endif
 	nano_disabled_msg);
 
-#ifndef NANO_TINY
-    sc_init_one(&main_list, NANO_NO_KEY, whereis_next_msg,
-	IFHELP(nano_whereis_next_msg, FALSE), NANO_WHEREIS_NEXT_KEY,
-	NANO_WHEREIS_NEXT_FKEY, NANO_NO_KEY, VIEW, do_research);
-#endif
+    sc_init_one(&main_list, NANO_GOTOLINE_KEY, go_to_line_msg,
+	IFHELP(nano_gotoline_msg, FALSE), NANO_GOTOLINE_ALTKEY,
+	NANO_GOTOLINE_FKEY, NANO_NO_KEY, VIEW,
+	do_gotolinecolumn_void);
 
     sc_init_one(&main_list, NANO_REPLACE_KEY, replace_msg,
 	IFHELP(nano_replace_msg, FALSE), NANO_ALT_REPLACE_KEY,
@@ -554,12 +553,10 @@ void shortcut_init(bool unjustify)
     sc_init_one(&main_list, NANO_MARK_KEY, N_("Mark Text"),
 	IFHELP(nano_mark_msg, FALSE), NANO_MARK_ALTKEY, NANO_MARK_FKEY,
 	NANO_NO_KEY, VIEW, do_mark);
-#endif
 
-#ifndef NANO_TINY
-    sc_init_one(&main_list, NANO_NO_KEY, cut_till_end_msg,
-	IFHELP(nano_cut_till_end_msg, TRUE), NANO_CUTTILLEND_ALTKEY,
-	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_cut_till_end);
+    sc_init_one(&main_list, NANO_NO_KEY, whereis_next_msg,
+	IFHELP(nano_whereis_next_msg, TRUE), NANO_WHEREIS_NEXT_KEY,
+	NANO_WHEREIS_NEXT_FKEY, NANO_NO_KEY, VIEW, do_research);
 #endif
 
     sc_init_one(&main_list, NANO_FORWARD_KEY, N_("Forward"),
@@ -618,14 +615,7 @@ void shortcut_init(bool unjustify)
     sc_init_one(&main_list, NANO_NO_KEY, N_("Find Other Bracket"),
 	IFHELP(nano_bracket_msg, FALSE), NANO_BRACKET_KEY, NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, do_find_bracket);
-#endif
 
-    sc_init_one(&main_list, NANO_GOTOLINE_KEY, go_to_line_msg,
-	IFHELP(nano_gotoline_msg, FALSE), NANO_GOTOLINE_ALTKEY,
-	NANO_GOTOLINE_FKEY, NANO_NO_KEY, VIEW,
-	do_gotolinecolumn_void);
-
-#ifndef NANO_TINY
     sc_init_one(&main_list, NANO_NO_KEY, N_("Scroll Up"),
 	IFHELP(nano_scrollup_msg, FALSE), NANO_SCROLLUP_KEY,
 	NANO_NO_KEY, NANO_SCROLLUP_ALTKEY, VIEW, do_scroll_up);
@@ -663,8 +653,14 @@ void shortcut_init(bool unjustify)
 	NANO_NO_KEY, NOVIEW, do_delete);
 
     sc_init_one(&main_list, NANO_BACKSPACE_KEY, N_("Backspace"),
-	IFHELP(nano_backspace_msg, TRUE), NANO_NO_KEY, NANO_NO_KEY,
+	IFHELP(nano_backspace_msg, FALSE), NANO_NO_KEY, NANO_NO_KEY,
 	NANO_NO_KEY, NOVIEW, do_backspace);
+
+#ifndef NANO_TINY
+    sc_init_one(&main_list, NANO_NO_KEY, cut_till_end_msg,
+	IFHELP(nano_cut_till_end_msg, TRUE), NANO_CUTTILLEND_ALTKEY,
+	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_cut_till_end);
+#endif
 
 #ifndef DISABLE_JUSTIFY
     sc_init_one(&main_list, NANO_NO_KEY, fulljstify_msg,
@@ -1220,12 +1216,22 @@ void toggle_init(void)
     toggle_init_one(TOGGLE_MORESPACE_KEY,
 	N_("Use of more space for editing"), FALSE, MORE_SPACE);
 
-    toggle_init_one(TOGGLE_SMOOTH_KEY, N_("Smooth scrolling"), FALSE,
-	SMOOTH_SCROLL);
+    toggle_init_one(TOGGLE_SMOOTH_KEY, N_("Smooth scrolling"),
+#ifdef ENABLE_NANORC
+	FALSE
+#else
+	TRUE
+#endif
+	, SMOOTH_SCROLL);
 
 #ifdef ENABLE_NANORC
     toggle_init_one(TOGGLE_WHITESPACE_KEY, N_("Whitespace display"),
-	FALSE, WHITESPACE_DISPLAY);
+#ifdef ENABLE_COLOR
+	FALSE
+#else
+	TRUE
+#endif
+	, WHITESPACE_DISPLAY);
 #endif
 
 #ifdef ENABLE_COLOR
@@ -1248,7 +1254,13 @@ void toggle_init(void)
 #endif
 
     toggle_init_one(TOGGLE_TABSTOSPACES_KEY,
-	N_("Conversion of typed tabs to spaces"), TRUE, TABS_TO_SPACES);
+	N_("Conversion of typed tabs to spaces"),
+#if defined(ENABLE_MULTIBUFFER) || !defined(DISABLE_MOUSE)
+	!ISSET(RESTRICTED) ? TRUE : FALSE
+#else
+	FALSE
+#endif
+	, TABS_TO_SPACES);
 
     /* If we're using restricted mode, the backup toggle is disabled.
      * It's useless since backups are disabled. */

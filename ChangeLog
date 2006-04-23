@@ -87,7 +87,7 @@ CVS code -
 	  shortcuts, followed by insertion and deletion shortcuts,
 	  followed by special movement shortcuts, followed by advanced
 	  word and paragraph shortcuts, followed by display shortcuts.
-	  (DLR, suggested by Benno Schulenberg)
+	  (DLR and Benno Schulenberg, suggested by Benno Schulenberg)
   toggle_init()
 	- In the global toggle list, move the "Constant cursor position
 	  display" toggle up to after the "Use more space for editing"
