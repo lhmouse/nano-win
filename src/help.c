@@ -414,8 +414,21 @@ void help_init(void)
 	    /* Yucky sentinel values that we can't handle a better
 	     * way. */
 	    if (s->ctrlval == NANO_CONTROL_SPACE) {
-		char *space_ptr = display_string(_("Space"), 0, 6,
+		char *space_ptr = display_string(_("Space"), 0, 13,
 			FALSE);
+
+		if (s->funcval == NANO_NO_KEY && (s->metaval ==
+			NANO_NO_KEY || s->miscval == NANO_NO_KEY)) {
+		    /* If we're here, we have at least two entries worth
+		     * of blank space.  If this entry takes up more than
+		     * one entry's worth of space, use two to display
+		     * it. */
+		    if (strlen(space_ptr) + 1 > 7)
+			entries++;
+		} else
+		    /* Otherwise, truncate it so that it takes up only
+		     * one entry's worth of space. */
+		    space_ptr[7] = '\0';
 
 		ptr += sprintf(ptr, "^%s", space_ptr);
 
@@ -452,8 +465,14 @@ void help_init(void)
 	    /* Yucky sentinel values that we can't handle a better
 	     * way. */
 	    if (s->metaval == NANO_ALT_SPACE && entries == 1) {
-		char *space_ptr = display_string(_("Space"), 0, 5,
+		char *space_ptr = display_string(_("Space"), 0, 13,
 			FALSE);
+
+		/* If we're here, we have at least two entries worth of
+		 * blank space.  If this entry takes up more than one
+		 * entry's worth of space, use two to display it. */
+		if (strlen(space_ptr) + 2 > 7)
+		    entries++;
 
 		ptr += sprintf(ptr, "M-%s", space_ptr);
 

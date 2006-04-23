@@ -102,6 +102,10 @@ CVS code -
 	- Call get_shortcut() after getting input, so that we only have
 	  to check for a main shortcut key instead of both it and all of
 	  its equivalents. (DLR)
+  help_init()
+	- If we have at least two entries' worth of blank space, use it
+	  to display more of "^Space" and "M-Space". (DLR, suggested by
+	  Benno Schulenberg)
 - nano.c:
   renumber()
 	- Remove invalid assert. (DLR, found by Filipe Moreira)
