@@ -114,6 +114,12 @@ CVS code -
 - nano.h:
 	- Reorder the toggle #defines to match their corresponding order
 	  in toggle_init(). (DLR)
+- prompt.c:
+  get_prompt_string()
+	- Include the handling of the help key even when help is
+	  disabled, so that we aren't erroneously kicked out of the
+	  statusbar prompt under any circumstances. (DLR, found by Benno
+	  Schulenberg)
 - rcfile.c:
   parse_argument()
 	- Rename variable ptr_bak to ptr_save, for consistency. (DLR)

@@ -1050,17 +1050,17 @@ int get_prompt_string(bool allow_tabs,
 		}
 		break;
 #endif /* !NANO_TINY */
-#ifndef DISABLE_HELP
 	    case NANO_HELP_KEY:
 		update_statusbar_line(answer, statusbar_x);
 
 		/* This key has a shortcut list entry when it's used to
-		 * to go to the help browser, which means that finished
-		 * has been set to TRUE.  Set it back to FALSE here, so
-		 * that we aren't kicked out of the statusbar prompt. */
+		 * go to the help browser or display a message
+		 * indicating that help is disabled, which means that
+		 * finished has been set to TRUE.  Set it back to FALSE
+		 * here, so that we aren't kicked out of the statusbar
+		 * prompt. */
 		finished = FALSE;
 		break;
-#endif /* !DISABLE_HELP */
 	}
 
 	/* If we have a shortcut with an associated function, break out
