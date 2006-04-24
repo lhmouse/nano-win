@@ -49,6 +49,8 @@ CVS code -
 	  read.  Changes to sc_init_one(), toggle_init(),
 	  toggle_init_one(), shortcut_init(), get_toggle(), and
 	  help_init(). (DLR, suggested by Benno Schulenberg)
+	- Reduce NO_RCFILE to a static bool in nano.c, since it's only
+	  used there.  Changes to finish() and main(). (DLR)
 - files.c:
   open_file()
 	- Remove redundant wording in the error message when we try to

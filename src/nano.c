@@ -44,6 +44,10 @@
 #include <setjmp.h>
 #endif
 
+#ifdef ENABLE_NANORC
+static bool no_rcfiles = FALSE;
+	/* Should we ignore all rcfiles? */
+#endif
 static struct termios oldterm;
 	/* The user's original terminal settings. */
 static struct sigaction act;
@@ -543,7 +547,7 @@ void finish(void)
     tcsetattr(0, TCSANOW, &oldterm);
 
 #if !defined(NANO_TINY) && defined(ENABLE_NANORC)
-    if (!ISSET(NO_RCFILE) && ISSET(HISTORYLOG))
+    if (!no_rcfiles && ISSET(HISTORYLOG))
 	save_history();
 #endif
 
@@ -1726,7 +1730,7 @@ int main(int argc, char **argv)
 		break;
 #endif
 	    case 'I':
-		SET(NO_RCFILE);
+		no_rcfiles = TRUE;
 		break;
 #endif
 	    case 'K':
@@ -1859,14 +1863,14 @@ int main(int argc, char **argv)
     if (ISSET(RESTRICTED)) {
 	UNSET(SUSPEND);
 	UNSET(BACKUP_FILE);
-	SET(NO_RCFILE);
+	no_rcfiles = TRUE;
     }
 
 /* We've read through the command line options.  Now back up the flags
  * and values that are set, and read the rcfile(s).  If the values
  * haven't changed afterward, restore the backed-up values. */
 #ifdef ENABLE_NANORC
-    if (!ISSET(NO_RCFILE)) {
+    if (!no_rcfiles) {
 #ifndef DISABLE_OPERATINGDIR
 	char *operating_dir_cpy = operating_dir;
 #endif
@@ -1947,7 +1951,7 @@ int main(int argc, char **argv)
     /* Set up the search/replace history. */
     history_init();
 #ifdef ENABLE_NANORC
-    if (!ISSET(NO_RCFILE) && ISSET(HISTORYLOG))
+    if (!no_rcfiles && ISSET(HISTORYLOG))
 	load_history();
 #endif
 #endif
