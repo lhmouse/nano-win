@@ -653,8 +653,13 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_delete_msg, FALSE), NANO_NO_KEY, NANO_NO_KEY,
 	NANO_NO_KEY, NOVIEW, do_delete);
 
-    sc_init_one(&main_list, NANO_BACKSPACE_KEY, N_("Backspace"),
-	IFHELP(nano_backspace_msg, FALSE), NANO_NO_KEY, NANO_NO_KEY,
+    sc_init_one(&main_list, NANO_BACKSPACE_KEY, N_("Backspace")
+#ifndef NANO_TINY
+	, IFHELP(nano_backspace_msg, FALSE)
+#else
+	, IFHELP(nano_backspace_msg, TRUE)
+#endif
+	, NANO_NO_KEY, NANO_NO_KEY,
 	NANO_NO_KEY, NOVIEW, do_backspace);
 
 #ifndef NANO_TINY
