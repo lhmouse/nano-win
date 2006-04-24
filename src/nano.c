@@ -1863,7 +1863,9 @@ int main(int argc, char **argv)
     if (ISSET(RESTRICTED)) {
 	UNSET(SUSPEND);
 	UNSET(BACKUP_FILE);
+#ifdef ENABLE_NANORC
 	no_rcfiles = TRUE;
+#endif
     }
 
 /* We've read through the command line options.  Now back up the flags
