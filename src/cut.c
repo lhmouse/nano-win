@@ -3,7 +3,7 @@
  *   cut.c                                                                *
  *                                                                        *
  *   Copyright (C) 1999-2004 Chris Allegretta                             *
- *   Copyright (C) 2005 David Lawrence Ramsey                             *
+ *   Copyright (C) 2005-2006 David Lawrence Ramsey                        *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -38,7 +38,7 @@ void cutbuffer_reset(void)
     keep_cutbuffer = FALSE;
 }
 
-/* If we're not on the last line of the file, move all the text of the
+/* If we aren't on the last line of the file, move all the text of the
  * current line, plus the newline at the end, to the cutbuffer.  If we
  * are, move all of the text of the current line to the cutbuffer.  In
  * both cases, set the current place we want to the beginning of the
@@ -69,11 +69,11 @@ void cut_marked(void)
     openfile->placewewant = xplustabs();
 }
 
-/* If we're not at the end of the current line, move all the text from
- * the current cursor position to the end of the current line,
- * not counting the newline at the end, to the cutbuffer.  If we are,
- * and we're not on the last line of the file, move the newline at the
- * end to the cutbuffer, and set the current place we want to where the
+/* If we aren't at the end of the current line, move all the text from
+ * the current cursor position to the end of the current line, not
+ * counting the newline at the end, to the cutbuffer.  If we are, and
+ * we're not on the last line of the file, move the newline at the end
+ * to the cutbuffer, and set the current place we want to where the
  * newline used to be. */
 void cut_to_eol(void)
 {

@@ -3,7 +3,7 @@
  *   move.c                                                               *
  *                                                                        *
  *   Copyright (C) 1999-2004 Chris Allegretta                             *
- *   Copyright (C) 2005 David Lawrence Ramsey                             *
+ *   Copyright (C) 2005-2006 David Lawrence Ramsey                        *
  *   This program is free software; you can redistribute it and/or modify *
  *   it under the terms of the GNU General Public License as published by *
  *   the Free Software Foundation; either version 2, or (at your option)  *
@@ -454,7 +454,7 @@ void do_prev_word_void(void)
 
 /* Move to the beginning of the current line.  If the SMART_HOME flag is
  * set, move to the first non-whitespace character of the current line
- * if we're not already there, or to the beginning of the current line
+ * if we aren't already there, or to the beginning of the current line
  * if we are. */
 void do_home(void)
 {
