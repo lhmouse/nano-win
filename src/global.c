@@ -352,7 +352,7 @@ void shortcut_init(bool unjustify)
     const char *nano_tab_msg =
 	N_("Insert a tab character at the cursor position");
     const char *nano_enter_msg =
-	N_("Insert a carriage return at the cursor position");
+	N_("Insert a new line at the cursor position");
     const char *nano_refresh_msg =
 	N_("Refresh (redraw) the current screen");
 #ifndef NANO_TINY
@@ -378,7 +378,7 @@ void shortcut_init(bool unjustify)
 	N_("Switch to the next file buffer");
 #endif
     const char *nano_verbatim_msg =
-	N_("Insert the next character(s) verbatim");
+	N_("Insert the next keystroke verbatim");
 #ifndef NANO_TINY
     const char *nano_cut_till_end_msg =
 	N_("Cut from the cursor position to the end of the file");
