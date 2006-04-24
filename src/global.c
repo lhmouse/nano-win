@@ -271,7 +271,6 @@ void shortcut_init(bool unjustify)
     const char *whereis_next_msg = N_("Where Is Next");
 #endif
     /* TRANSLATORS: Try to keep this and following strings at most 10 characters. */
-    const char *refresh_msg = N_("Refresh");
     const char *first_line_msg = N_("First Line");
     const char *last_line_msg = N_("Last Line");
 #ifndef NANO_TINY
@@ -282,6 +281,7 @@ void shortcut_init(bool unjustify)
     const char *end_of_par_msg = N_("End of Par");
     const char *fulljstify_msg = N_("FullJstify");
 #endif
+    const char *refresh_msg = N_("Refresh");
 #ifndef NANO_TINY
     const char *case_sens_msg = N_("Case Sens");
     const char *backwards_msg = N_("Backwards");
