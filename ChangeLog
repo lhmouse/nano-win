@@ -51,6 +51,10 @@ CVS code -
 	  help_init(). (DLR, suggested by Benno Schulenberg)
 	- Reduce NO_RCFILE to a static bool in nano.c, since it's only
 	  used there.  Changes to finish() and main(). (DLR)
+	- Readd the Cancel -> Exit aliases for the file browser and help
+	  browser.  New function parse_help_input(); changes to
+	  parse_browser_input() and do_help(). (DLR, suggested by Benno
+	  Schulenberg)
 - files.c:
   open_file()
 	- Remove redundant wording in the error message when we try to
@@ -106,6 +110,7 @@ CVS code -
 	- Call get_shortcut() after getting input, so that we only have
 	  to check for a main shortcut key instead of both it and all of
 	  its equivalents. (DLR)
+	- Clean up the handling of NANO_REFRESH_KEY. (DLR)
   help_init()
 	- If we have at least two entries' worth of blank space, use it
 	  to display more of "^Space" and "M-Space". (DLR, suggested by
@@ -122,6 +127,9 @@ CVS code -
 	  disabled, so that we aren't erroneously kicked out of the
 	  statusbar prompt under any circumstances. (DLR, found by Benno
 	  Schulenberg)
+  do_yesno()
+	- Handle the keys in a switch statement instead of a long if
+	  block, for simplicity. (DLR)
 - rcfile.c:
   parse_argument()
 	- Rename variable ptr_bak to ptr_save, for consistency. (DLR)

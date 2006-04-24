@@ -486,7 +486,7 @@ void browser_init(const char *path, DIR *dir)
 /* Determine the shortcut key corresponding to the values of kbinput
  * (the key itself), meta_key (whether the key is a meta sequence), and
  * func_key (whether the key is a function key), if any.  In the
- * process, convert certain non-shortcut keys used by Pico's file
+ * process, convert certain non-shortcut keys used by e.g. Pico's file
  * browser into their corresponding shortcut keys. */
 void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
 {
@@ -504,6 +504,8 @@ void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
 	    case '?':
 		*kbinput = NANO_HELP_KEY;
 		break;
+	    /* Cancel is equivalent to Exit here. */
+	    case NANO_CANCEL_KEY:
 	    case 'E':
 	    case 'e':
 		*kbinput = NANO_EXIT_KEY;

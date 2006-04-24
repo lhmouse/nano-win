@@ -351,6 +351,7 @@ void do_help_void(void);
 void do_browser_help(void);
 #endif
 void help_init(void);
+void parse_help_input(int *kbinput, bool *meta_key, bool *func_key);
 size_t help_line_len(const char *ptr);
 #endif
 

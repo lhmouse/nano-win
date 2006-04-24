@@ -111,17 +111,16 @@ void do_help(void (*refresh_func)(void))
 		if (!no_more)
 		    line++;
 		break;
+	    case NANO_REFRESH_KEY:
+		total_redraw();
+		break;
 	}
 
-	if (kbinput == NANO_REFRESH_KEY)
-	    /* Redraw the screen. */
-	    total_redraw();
-	else {
-	    if (kbinput != ERR && line == old_line)
-		goto skip_redisplay;
+	if ((kbinput != ERR && line == old_line) || kbinput ==
+		NANO_REFRESH_KEY)
+	    goto skip_redisplay;
 
-	    blank_edit();
-	}
+	blank_edit();
 
 	/* Calculate where in the text we should be, based on the
 	 * page. */
@@ -143,7 +142,7 @@ void do_help(void (*refresh_func)(void))
 
   skip_redisplay:
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
-	get_shortcut(help_list, &kbinput, &meta_key, &func_key);
+	parse_help_input(&kbinput, &meta_key, &func_key);
     } while (kbinput != NANO_EXIT_KEY);
 
 #ifndef DISABLE_MOUSE
@@ -545,6 +544,26 @@ void help_init(void)
     /* If all went well, we didn't overwrite the allocated space for
      * help_text. */
     assert(strlen(help_text) <= allocsize + 1);
+}
+
+/* Determine the shortcut key corresponding to the values of kbinput
+ * (the key itself), meta_key (whether the key is a meta sequence), and
+ * func_key (whether the key is a function key), if any.  In the
+ * process, convert certain non-shortcut keys used by e.g. Pico's help
+ * browser into their corresponding shortcut keys. */
+void parse_help_input(int *kbinput, bool *meta_key, bool *func_key)
+{
+    get_shortcut(help_list, kbinput, meta_key, func_key);
+
+    /* Pico compatibility. */
+    if (*meta_key == FALSE && *func_key == FALSE) {
+	switch (*kbinput) {
+	    /* Cancel is equivalent to Exit here. */
+	    case NANO_CANCEL_KEY:
+		*kbinput = NANO_EXIT_KEY;
+		break;
+	}
+    }
 }
 
 /* Calculate the next line of help_text, starting at ptr. */
