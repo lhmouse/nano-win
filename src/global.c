@@ -337,39 +337,34 @@ void shortcut_init(bool unjustify)
     const char *nano_mark_msg = N_("Mark text at the cursor position");
     const char *nano_whereis_next_msg = N_("Repeat last search");
 #endif
-    const char *nano_prevline_msg = N_("Move to the previous line");
-    const char *nano_nextline_msg = N_("Move to the next line");
     const char *nano_forward_msg = N_("Move forward one character");
     const char *nano_back_msg = N_("Move back one character");
+#ifndef NANO_TINY
+    const char *nano_nextword_msg = N_("Move forward one word");
+    const char *nano_prevword_msg = N_("Move backward one word");
+#endif
+    const char *nano_prevline_msg = N_("Move to the previous line");
+    const char *nano_nextline_msg = N_("Move to the next line");
     const char *nano_home_msg =
 	N_("Move to the beginning of the current line");
     const char *nano_end_msg =
 	N_("Move to the end of the current line");
-    const char *nano_delete_msg =
-	N_("Delete the character under the cursor");
-    const char *nano_backspace_msg =
-	N_("Delete the character to the left of the cursor");
-    const char *nano_tab_msg =
-	N_("Insert a tab character at the cursor position");
-    const char *nano_enter_msg =
-	N_("Insert a new line at the cursor position");
-    const char *nano_refresh_msg =
-	N_("Refresh (redraw) the current screen");
-#ifndef NANO_TINY
-    const char *nano_nextword_msg = N_("Move forward one word");
-    const char *nano_prevword_msg = N_("Move backward one word");
-    const char *nano_wordcount_msg =
-	N_("Count the number of words, lines, and characters");
-    const char *nano_scrollup_msg =
-	N_("Scroll up one line without scrolling the cursor");
-    const char *nano_scrolldown_msg =
-	N_("Scroll down one line without scrolling the cursor");
-#endif
 #ifndef DISABLE_JUSTIFY
     const char *nano_parabegin_msg =
 	N_("Move to the beginning of the current paragraph");
     const char *nano_paraend_msg =
 	N_("Move to the end of the current paragraph");
+#endif
+    const char *nano_firstline_msg =
+	N_("Move to the first line of the file");
+    const char *nano_lastline_msg =
+	N_("Move to the last line of the file");
+#ifndef NANO_TINY
+    const char *nano_bracket_msg = N_("Move to the matching bracket");
+    const char *nano_scrollup_msg =
+	N_("Scroll up one line without scrolling the cursor");
+    const char *nano_scrolldown_msg =
+	N_("Scroll down one line without scrolling the cursor");
 #endif
 #ifdef ENABLE_MULTIBUFFER
     const char *nano_prevfile_msg =
@@ -379,6 +374,14 @@ void shortcut_init(bool unjustify)
 #endif
     const char *nano_verbatim_msg =
 	N_("Insert the next keystroke verbatim");
+    const char *nano_tab_msg =
+	N_("Insert a tab character at the cursor position");
+    const char *nano_enter_msg =
+	N_("Insert a new line at the cursor position");
+    const char *nano_delete_msg =
+	N_("Delete the character under the cursor");
+    const char *nano_backspace_msg =
+	N_("Delete the character to the left of the cursor");
 #ifndef NANO_TINY
     const char *nano_cut_till_end_msg =
 	N_("Cut from the cursor position to the end of the file");
@@ -387,12 +390,11 @@ void shortcut_init(bool unjustify)
     const char *nano_fulljustify_msg = N_("Justify the entire file");
 #endif
 #ifndef NANO_TINY
-    const char *nano_bracket_msg = N_("Move to the matching bracket");
+    const char *nano_wordcount_msg =
+	N_("Count the number of words, lines, and characters");
 #endif
-    const char *nano_firstline_msg =
-	N_("Move to the first line of the file");
-    const char *nano_lastline_msg =
-	N_("Move to the last line of the file");
+    const char *nano_refresh_msg =
+	N_("Refresh (redraw) the current screen");
 #ifndef NANO_TINY
     const char *nano_case_msg =
 	N_("Make the current search/replace case (in)sensitive");
