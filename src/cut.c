@@ -188,7 +188,11 @@ void do_cut_text(
 /* Move text from the current filestruct into the cutbuffer. */
 void do_cut_text_void(void)
 {
-    do_cut_text(FALSE);
+    do_cut_text(
+#ifndef NANO_TINY
+	FALSE
+#endif
+	);
 }
 
 #ifndef NANO_TINY
