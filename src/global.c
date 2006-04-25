@@ -392,6 +392,8 @@ void shortcut_init(bool unjustify)
 #ifndef NANO_TINY
     const char *nano_wordcount_msg =
 	N_("Count the number of words, lines, and characters");
+    const char *nano_copy_msg =
+	N_("Copy the current line and store it in the cutbuffer");
 #endif
     const char *nano_refresh_msg =
 	N_("Refresh (redraw) the current screen");
@@ -512,7 +514,7 @@ void shortcut_init(bool unjustify)
     /* TRANSLATORS: Try to keep this at most 10 characters. */
     sc_init_one(&main_list, NANO_CUT_KEY, N_("Cut Text"),
 	IFHELP(nano_cut_msg, FALSE), NANO_NO_KEY, NANO_CUT_FKEY,
-	NANO_NO_KEY, NOVIEW, do_cut_text);
+	NANO_NO_KEY, NOVIEW, do_cut_text_void);
 
     if (unjustify)
     /* TRANSLATORS: Try to keep this at most 10 characters. */
@@ -680,6 +682,10 @@ void shortcut_init(bool unjustify)
     sc_init_one(&main_list, NANO_NO_KEY, N_("Word Count"),
 	IFHELP(nano_wordcount_msg, FALSE), NANO_WORDCOUNT_KEY,
 	NANO_NO_KEY, NANO_NO_KEY, VIEW, do_wordlinechar_count);
+
+    sc_init_one(&main_list, NANO_NO_KEY, N_("Copy Text"),
+	IFHELP(nano_copy_msg, FALSE), NANO_COPY_KEY, NANO_NO_KEY,
+	NANO_COPY_ALTKEY, NOVIEW, do_copy_text);
 #endif
 
     sc_init_one(&main_list, NANO_REFRESH_KEY, refresh_msg

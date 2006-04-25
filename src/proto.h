@@ -250,8 +250,16 @@ void cut_line(void);
 void cut_marked(void);
 void cut_to_eol(void);
 #endif
-void do_cut_text(void);
+void do_cut_text(
 #ifndef NANO_TINY
+	bool copy_text
+#else
+	void
+#endif
+	);
+void do_cut_text_void(void);
+#ifndef NANO_TINY
+void do_copy_text(void);
 void do_cut_till_end(void);
 #endif
 void do_uncut_text(void);

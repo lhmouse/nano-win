@@ -55,6 +55,11 @@ CVS code -
 	  browser.  New function parse_help_input(); changes to
 	  parse_browser_input() and do_help(). (DLR, suggested by Benno
 	  Schulenberg)
+	- Add the ability to copy text into the cutbuffer without
+	  cutting it, via Meta-^ (Meta-6).  Note that this is disabled
+	  when NANO_TINY is defined.  New functions do_cut_text_void()
+	  and do_copy_text(); changes to do_cut_text(), shortcut_init(),
+	  and do_input(). (DLR, suggested by Ken Tyler)
 - files.c:
   open_file()
 	- Remove redundant wording in the error message when we try to

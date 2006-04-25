@@ -1381,8 +1381,12 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 		 * associated functions. */
 		default:
 		    /* Blow away the text in the cutbuffer if we aren't
-		     * cutting text. */
-		    if (s->func != do_cut_text)
+		     * cutting or copying text. */
+		    if (s->func != do_cut_text_void
+#ifndef NANO_TINY
+			&& s->func != do_copy_text
+#endif
+			)
 			cutbuffer_reset();
 
 		    if (s->func != NULL) {
@@ -1399,7 +1403,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 #ifndef NANO_TINY
 	else if (have_toggle) {
 	    /* Blow away the text in the cutbuffer, since we aren't
-	     * cutting text. */
+	     * cutting or copying text. */
 	    cutbuffer_reset();
 	    /* Toggle the flag associated with this shortcut. */
 	    if (allow_funcs)
@@ -1408,7 +1412,7 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 #endif
 	else
 	    /* Blow away the text in the cutbuffer, since we aren't
-	     * cutting text. */
+	     * cutting or copying text. */
 	    cutbuffer_reset();
     }
 
