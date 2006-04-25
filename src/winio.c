@@ -73,9 +73,9 @@ static bool disable_cursorpos = FALSE;
  * Escape sequence compatibility:
  *
  * We support escape sequences for ANSI, VT100, VT220, VT320, the Linux
- * console, the FreeBSD console, the Mach console (a.k.a. the Hurd
- * console), xterm, rxvt, and Eterm.  Among these, there are several
- * conflicts and omissions, outlined as follows:
+ * console, the FreeBSD console, the Mach console, xterm, rxvt, and
+ * Eterm.  Among these, there are several conflicts and omissions,
+ * outlined as follows:
  *
  * - Tab on ANSI == PageUp on FreeBSD console; the former is omitted.
  *   (Ctrl-I is also Tab on ANSI, which we already support.)
