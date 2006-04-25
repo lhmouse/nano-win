@@ -154,37 +154,6 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	if (have_shortcut) {
 	    switch (input) {
 		/* Handle the "universal" statusbar prompt shortcuts. */
-		case NANO_REFRESH_KEY:
-		    refresh_func();
-		    break;
-		case NANO_HOME_KEY:
-		    do_statusbar_home();
-		    break;
-		case NANO_END_KEY:
-		    do_statusbar_end();
-		    break;
-		case NANO_BACK_KEY:
-		    do_statusbar_left();
-		    break;
-		case NANO_FORWARD_KEY:
-		    do_statusbar_right();
-		    break;
-		case NANO_BACKSPACE_KEY:
-		    /* If we're using restricted mode, the filename
-		     * isn't blank, and we're at the "Write File"
-		     * prompt, disable Backspace. */
-		    if (!ISSET(RESTRICTED) || openfile->filename[0] ==
-			'\0' || currshortcut != writefile_list)
-			do_statusbar_backspace();
-		    break;
-		case NANO_DELETE_KEY:
-		    /* If we're using restricted mode, the filename
-		     * isn't blank, and we're at the "Write File"
-		     * prompt, disable Delete. */
-		    if (!ISSET(RESTRICTED) || openfile->filename[0] ==
-			'\0' || currshortcut != writefile_list)
-			do_statusbar_delete();
-		    break;
 		case NANO_CUT_KEY:
 		    /* If we're using restricted mode, the filename
 		     * isn't blank, and we're at the "Write File"
@@ -193,6 +162,12 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 			'\0' || currshortcut != writefile_list)
 			do_statusbar_cut_text();
 		    break;
+		case NANO_FORWARD_KEY:
+		    do_statusbar_right();
+		    break;
+		case NANO_BACK_KEY:
+		    do_statusbar_left();
+		    break;
 #ifndef NANO_TINY
 		case NANO_NEXTWORD_KEY:
 		    do_statusbar_next_word(FALSE);
@@ -200,6 +175,18 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 		case NANO_PREVWORD_KEY:
 		    if (*meta_key == TRUE)
 			do_statusbar_prev_word(FALSE);
+		    break;
+#endif
+		case NANO_HOME_KEY:
+		    do_statusbar_home();
+		    break;
+		case NANO_END_KEY:
+		    do_statusbar_end();
+		    break;
+#ifndef NANO_TINY
+		case NANO_BRACKET_KEY:
+		    if (*meta_key == TRUE)
+			do_statusbar_find_bracket();
 		    break;
 #endif
 		case NANO_VERBATIM_KEY:
@@ -225,12 +212,25 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 			}
 		    }
 		    break;
-#ifndef NANO_TINY
-		case NANO_BRACKET_KEY:
-		    if (*meta_key == TRUE)
-			do_statusbar_find_bracket();
+		case NANO_DELETE_KEY:
+		    /* If we're using restricted mode, the filename
+		     * isn't blank, and we're at the "Write File"
+		     * prompt, disable Delete. */
+		    if (!ISSET(RESTRICTED) || openfile->filename[0] ==
+			'\0' || currshortcut != writefile_list)
+			do_statusbar_delete();
 		    break;
-#endif
+		case NANO_BACKSPACE_KEY:
+		    /* If we're using restricted mode, the filename
+		     * isn't blank, and we're at the "Write File"
+		     * prompt, disable Backspace. */
+		    if (!ISSET(RESTRICTED) || openfile->filename[0] ==
+			'\0' || currshortcut != writefile_list)
+			do_statusbar_backspace();
+		    break;
+		case NANO_REFRESH_KEY:
+		    refresh_func();
+		    break;
 		/* Handle the normal statusbar prompt shortcuts, setting
 		 * ran_func to TRUE if we try to run their associated
 		 * functions and setting finished to TRUE to indicate
