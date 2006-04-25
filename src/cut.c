@@ -161,14 +161,15 @@ void do_cut_text(
 	cut_line();
 
 #ifndef NANO_TINY
-    if (copy_text)
+    if (copy_text) {
 	/* Copy the text in the cutbuffer, starting at its saved end if
 	 * there is one, back into the filestruct.  This effectively
 	 * uncuts the text we just cut without marking the file as
 	 * modified. */
-	copy_from_filestruct((cb_save != NULL) ? cb_save : cutbuffer,
-		cutbottom);
-    else
+	if (cutbuffer != NULL)
+	    copy_from_filestruct((cb_save != NULL) ? cb_save :
+		cutbuffer, cutbottom);
+    } else
 #endif
 	/* Leave the text in the cutbuffer, and mark the file as
 	 * modified. */
