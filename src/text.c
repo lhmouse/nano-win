@@ -293,7 +293,7 @@ bool execute_command(const char *command)
 	exit(0);
     }
 
-    /* Else continue as parent. */
+    /* Continue as parent. */
     close(fd[1]);
 
     if (pid == -1) {
