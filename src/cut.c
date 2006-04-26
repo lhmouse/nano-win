@@ -115,6 +115,7 @@ void do_cut_text(
 	/* The current end of the cutbuffer, before we add text to
 	 * it. */
     bool old_mark_set = openfile->mark_set;
+    bool old_no_newlines = ISSET(NO_NEWLINES);
 #endif
 
     assert(openfile->current != NULL && openfile->current->data != NULL);
@@ -132,11 +133,17 @@ void do_cut_text(
     }
 
 #ifndef NANO_TINY
-    if (cutbuffer != NULL) {
-	/* If the cutbuffer isn't empty, save where it currently ends.
-	 * This is where the new text will be added. */
-	cb_save = cutbottom;
-	cb_save->data += strlen(cb_save->data);
+    if (copy_text) {
+	if (cutbuffer != NULL) {
+	    /* If the cutbuffer isn't empty, save where it currently
+	     * ends.  This is where the new text will be added. */
+	    cb_save = cutbottom;
+	    cb_save->data += strlen(cb_save->data);
+	}
+
+	/* Set NO_NEWLINES to TRUE, so that we don't disturb the last
+	 * line of the file when moving text to the cutbuffer. */
+	SET(NO_NEWLINES);
     }
 #endif
 
@@ -169,6 +176,11 @@ void do_cut_text(
 	if (cutbuffer != NULL)
 	    copy_from_filestruct((cb_save != NULL) ? cb_save :
 		cutbuffer, cutbottom);
+
+	/* Set NO_NEWLINES back to what it was before, since we're done
+	 * disturbing the text. */
+	if (!old_no_newlines)
+	    UNSET(NO_NEWLINES);
     } else
 #endif
 	/* Leave the text in the cutbuffer, and mark the file as
