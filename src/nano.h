@@ -458,6 +458,7 @@ typedef struct rcoption {
 #define NANO_ALT_Y 'y'
 #define NANO_ALT_Z 'z'
 #define NANO_ALT_PIPE '|'
+#define NANO_ALT_RCURLYBRACKET '}'
 
 /* Some semi-changeable keybindings; don't play with these unless you're
  * sure you know what you're doing.  Assume ERR is defined as -1. */
@@ -549,6 +550,7 @@ typedef struct rcoption {
 #define NANO_PREVFILE_ALTKEY	NANO_ALT_COMMA
 #define NANO_NEXTFILE_ALTKEY	NANO_ALT_PERIOD
 #define NANO_BRACKET_KEY	NANO_ALT_RBRACKET
+#define NANO_BRACKET_ALTKEY	NANO_ALT_RCURLYBRACKET
 #define NANO_NEXTWORD_KEY	NANO_CONTROL_SPACE
 #define NANO_PREVWORD_KEY	NANO_ALT_SPACE
 #define NANO_WORDCOUNT_KEY	NANO_ALT_D

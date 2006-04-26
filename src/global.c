@@ -619,7 +619,7 @@ void shortcut_init(bool unjustify)
 #ifndef NANO_TINY
     sc_init_one(&main_list, NANO_NO_KEY, N_("Find Other Bracket"),
 	IFHELP(nano_bracket_msg, FALSE), NANO_BRACKET_KEY, NANO_NO_KEY,
-	NANO_NO_KEY, VIEW, do_find_bracket);
+	NANO_BRACKET_ALTKEY, VIEW, do_find_bracket);
 
     sc_init_one(&main_list, NANO_NO_KEY, N_("Scroll Up"),
 	IFHELP(nano_scrollup_msg, FALSE), NANO_SCROLLUP_KEY,
