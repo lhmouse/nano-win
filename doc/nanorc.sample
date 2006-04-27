@@ -12,7 +12,7 @@
 ##
 ## Quotes inside string parameters don't have to be escaped with
 ## backslashes.  The last double quote in the string will be treated as
-## its end.  For example, for the brackets option, ""')>]}" will match
+## its end.  For example, for the "brackets" option, ""')>]}" will match
 ## ", ', ), >, ], and }.
 
 ## Use auto-indentation.
