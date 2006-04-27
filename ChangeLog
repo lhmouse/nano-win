@@ -168,6 +168,7 @@ CVS code -
 - doc/nanorc.5:
 	- Mention that the nanorc file should not be in DOS or Mac
 	  format. (DLR)
+	- Add various wording fixes. (DLR)
 - doc/nano.texi:
 	- Change license to GPL, in order to match the rest of the
 	  documentation, and because the current license is incompatible
