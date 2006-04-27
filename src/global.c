@@ -336,6 +336,8 @@ void shortcut_init(bool unjustify)
 #ifndef NANO_TINY
     const char *nano_mark_msg = N_("Mark text at the cursor position");
     const char *nano_whereis_next_msg = N_("Repeat last search");
+    const char *nano_copy_msg =
+	N_("Copy the current line and store it in the cutbuffer");
 #endif
     const char *nano_forward_msg = N_("Move forward one character");
     const char *nano_back_msg = N_("Move back one character");
@@ -377,7 +379,7 @@ void shortcut_init(bool unjustify)
     const char *nano_tab_msg =
 	N_("Insert a tab character at the cursor position");
     const char *nano_enter_msg =
-	N_("Insert a new line at the cursor position");
+	N_("Insert a newline at the cursor position");
     const char *nano_delete_msg =
 	N_("Delete the character under the cursor");
     const char *nano_backspace_msg =
@@ -392,8 +394,6 @@ void shortcut_init(bool unjustify)
 #ifndef NANO_TINY
     const char *nano_wordcount_msg =
 	N_("Count the number of words, lines, and characters");
-    const char *nano_copy_msg =
-	N_("Copy the current line and store it in the cutbuffer");
 #endif
     const char *nano_refresh_msg =
 	N_("Refresh (redraw) the current screen");
@@ -562,6 +562,10 @@ void shortcut_init(bool unjustify)
     sc_init_one(&main_list, NANO_NO_KEY, whereis_next_msg,
 	IFHELP(nano_whereis_next_msg, TRUE), NANO_WHEREIS_NEXT_KEY,
 	NANO_WHEREIS_NEXT_FKEY, NANO_NO_KEY, VIEW, do_research);
+
+    sc_init_one(&main_list, NANO_NO_KEY, N_("Copy Text"),
+	IFHELP(nano_copy_msg, TRUE), NANO_COPY_KEY, NANO_NO_KEY,
+	NANO_COPY_ALTKEY, NOVIEW, do_copy_text);
 #endif
 
     sc_init_one(&main_list, NANO_FORWARD_KEY, N_("Forward"),
@@ -682,10 +686,6 @@ void shortcut_init(bool unjustify)
     sc_init_one(&main_list, NANO_NO_KEY, N_("Word Count"),
 	IFHELP(nano_wordcount_msg, FALSE), NANO_WORDCOUNT_KEY,
 	NANO_NO_KEY, NANO_NO_KEY, VIEW, do_wordlinechar_count);
-
-    sc_init_one(&main_list, NANO_NO_KEY, N_("Copy Text"),
-	IFHELP(nano_copy_msg, FALSE), NANO_COPY_KEY, NANO_NO_KEY,
-	NANO_COPY_ALTKEY, NOVIEW, do_copy_text);
 #endif
 
     sc_init_one(&main_list, NANO_REFRESH_KEY, refresh_msg

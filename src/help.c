@@ -549,15 +549,21 @@ void help_init(void)
 /* Determine the shortcut key corresponding to the values of kbinput
  * (the key itself), meta_key (whether the key is a meta sequence), and
  * func_key (whether the key is a function key), if any.  In the
- * process, convert certain non-shortcut keys used by e.g. Pico's help
- * browser into their corresponding shortcut keys. */
+ * process, convert certain non-shortcut keys into their corresponding
+ * shortcut keys. */
 void parse_help_input(int *kbinput, bool *meta_key, bool *func_key)
 {
     get_shortcut(help_list, kbinput, meta_key, func_key);
 
-    /* Pico compatibility. */
     if (*meta_key == FALSE && *func_key == FALSE) {
 	switch (*kbinput) {
+	    /* For consistency with the file browser. */
+	    case ' ':
+		*kbinput = NANO_NEXTPAGE_KEY;
+		break;
+	    case '-':
+		*kbinput = NANO_PREVPAGE_KEY;
+		break;
 	    /* Cancel is equivalent to Exit here. */
 	    case NANO_CANCEL_KEY:
 		*kbinput = NANO_EXIT_KEY;
