@@ -1,8 +1,9 @@
 ## Sample initialization file for GNU nano.
 ##
 ## Please note that you must have configured nano with --enable-nanorc
-## for this file to be read!  Also note that characters specially
-## interpreted by the shell should not be escaped here.
+## for this file to be read!  Also note that this file should not be in
+## DOS or Mac format, and that characters specially interpreted by the
+## shell should not be escaped here.
 ##
 ## To make sure a value is not enabled, use "unset <option>"
 ##

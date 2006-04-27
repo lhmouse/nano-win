@@ -165,6 +165,9 @@ CVS code -
 	- Explicitly mention that all regexes should be extended regular
 	  expressions. (DLR, suggested by John M. Gabriele)
 	- Miscellaneous minor fixes. (DLR)
+- doc/nanorc.5:
+	- Mention that the nanorc file should not be in DOS or Mac
+	  format. (DLR)
 - doc/nano.texi:
 	- Change license to GPL, in order to match the rest of the
 	  documentation, and because the current license is incompatible
@@ -193,6 +196,8 @@ CVS code -
 	- Explicitly mention that all regexes should be extended regular
 	  expressions. (DLR, suggested by John M. Gabriele)
 	- Simplify the "nanorc" regex for commands. (DLR)
+	- Mention that the nanorc file should not be in DOS or Mac
+	  format. (DLR)
 - UPGRADE:
 	- Miscellaneous minor fixes. (DLR)
 
