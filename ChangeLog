@@ -167,6 +167,11 @@ CVS code -
 	  (DLR)
 	- Change all rcfile error messages to refer to commands instead
 	  of directives, for consistency with nanorc.5. (DLR)
+- winio.c:
+  get_control_kbinput()
+	- Add Ctrl-/ as an alias for Ctrl-_. (DLR, found by Benno
+	  Schulenberg)
+	- Simplify the if blocks wherever possible. (DLR)
 - configure.ac:
 	- Remove old warnings about color support. (DLR)
 - doc/nano.1, doc/nanorc.5, doc/rnano.1, doc/nano.texi:

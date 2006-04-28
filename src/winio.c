@@ -1406,21 +1406,26 @@ int get_control_kbinput(int kbinput)
 {
     int retval;
 
-     /* Ctrl-2 (Ctrl-Space, Ctrl-@, Ctrl-`) */
-    if (kbinput == '2' || kbinput == ' ' || kbinput == '@' ||
-	kbinput == '`')
-	retval = NANO_CONTROL_SPACE;
-    /* Ctrl-3 (Ctrl-[, Esc) to Ctrl-7 (Ctrl-_) */
+     /* Ctrl-Space (Ctrl-2, Ctrl-@, Ctrl-`) */
+    if (kbinput == ' ')
+	retval = kbinput - 32;
+    /* Ctrl-/ (Ctrl-7, Ctrl-_) */
+    else if (kbinput == '/')
+	retval = kbinput - 16;
+    /* Ctrl-2 (Ctrl-Space, Ctrl-@, Ctrl-`) */
+    else if (kbinput == '2')
+	retval = kbinput - 50;
+    /* Ctrl-3 (Ctrl-[, Esc) to Ctrl-7 (Ctrl-/, Ctrl-_) */
     else if ('3' <= kbinput && kbinput <= '7')
 	retval = kbinput - 24;
     /* Ctrl-8 (Ctrl-?) */
-    else if (kbinput == '8' || kbinput == '?')
-	retval = NANO_CONTROL_8;
-    /* Ctrl-A to Ctrl-_ */
-    else if ('A' <= kbinput && kbinput <= '_')
+    else if (kbinput == '8')
+	retval = kbinput + 71;
+    /* Ctrl-? (Ctrl-8) to Ctrl-_ (Ctrl-/, Ctrl-7) */
+    else if ('?' <= kbinput && kbinput <= '_')
 	retval = kbinput - 64;
-    /* Ctrl-a to Ctrl-~ */
-    else if ('a' <= kbinput && kbinput <= '~')
+    /* Ctrl-` (Ctrl-2, Ctrl-Space, Ctrl-@) to Ctrl-~ (Ctrl-6, Ctrl-^) */
+    else if ('`' <= kbinput && kbinput <= '~')
 	retval = kbinput - 96;
     else
 	retval = kbinput;
