@@ -168,7 +168,7 @@ CVS code -
 	- Change all rcfile error messages to refer to commands instead
 	  of directives, for consistency with nanorc.5. (DLR)
 - configure.ac:
-	- Remove old warning about color support. (DLR)
+	- Remove old warnings about color support. (DLR)
 - doc/nano.1, doc/nanorc.5, doc/rnano.1, doc/nano.texi:
 	- Update the copyright years to include 2006. (DLR)
 	- Explicitly mention that all regexes should be extended regular
