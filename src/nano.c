@@ -1281,20 +1281,15 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
     /* Read in a character. */
     input = get_kbinput(edit, meta_key, func_key);
 
-    if (allow_funcs) {
 #ifndef DISABLE_MOUSE
-	/* If we got a mouse click and it was on a shortcut, read in the
-	 * shortcut character. */
-	if (*func_key == TRUE && input == KEY_MOUSE)
-	    input = do_mouse() ? get_kbinput(edit, meta_key, func_key) :
+    if (allow_funcs) {
+    /* If we got a mouse click and it was on a shortcut, read in the
+     * shortcut character. */
+    if (allow_funcs && *func_key == TRUE && input == KEY_MOUSE)
+	input = do_mouse() ? get_kbinput(edit, meta_key, func_key) :
 		ERR;
-	else
+}
 #endif
-	if (input == NANO_CONTROL_8 && *meta_key == FALSE &&
-		*func_key == FALSE)
-	    input = ISSET(REBIND_DELETE) ? NANO_BACKSPACE_KEY :
-		NANO_DELETE_KEY;
-    }
 
     /* Check for a shortcut in the main list. */
     s = get_shortcut(main_list, &input, meta_key, func_key);

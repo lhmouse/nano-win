@@ -133,16 +133,10 @@ CVS code -
 - nano.c:
   renumber()
 	- Remove invalid assert. (DLR, found by Filipe Moreira)
-  do_input()
-	- If we get NANO_CONTROL_8, handle it instead of ignoring it,
-	  for consistency. (DLR)
 - nano.h:
 	- Reorder the toggle #defines to match their corresponding order
 	  in toggle_init(). (DLR)
 - prompt.c:
-  do_statusbar_input()
-	- If we get NANO_CONTROL_8, handle it instead of ignoring it,
-	  for consistency. (DLR)
   get_prompt_string()
 	- Include the handling of the help key even when help is
 	  disabled, so that we aren't erroneously kicked out of the
@@ -174,6 +168,9 @@ CVS code -
 	- Change all rcfile error messages to refer to commands instead
 	  of directives, for consistency with nanorc.5. (DLR)
 - winio.c:
+  parse_kbinput()
+	- If we get NANO_CONTROL_8, properly handle it in all cases.
+	  (DLR)
   get_control_kbinput()
 	- Add Ctrl-/ as an alias for Ctrl-_. (DLR, found by Benno
 	  Schulenberg)

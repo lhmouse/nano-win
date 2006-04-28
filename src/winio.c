@@ -402,10 +402,6 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 	    switch (escapes) {
 		case 0:
 		    switch (*kbinput) {
-			case NANO_CONTROL_8:
-			    retval = ISSET(REBIND_DELETE) ?
-				NANO_DELETE_KEY : NANO_BACKSPACE_KEY;
-			    break;
 			case KEY_DOWN:
 			    retval = NANO_NEXTLINE_KEY;
 			    break;
@@ -647,10 +643,18 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 	    }
     }
 
-    /* If we have a result and it's an extended keypad value (i.e, a
-     * value outside of byte range), set func_key to TRUE. */
-    if (retval != ERR)
+    if (retval != ERR) {
+	/* If our result is NANO_CONTROL_8, translate it to either
+	 * Backspace or Delete, depending on whether REBIND_DELETE is
+	 * TRUE or FALSE. */
+	if (retval == NANO_CONTROL_8)
+	    retval = ISSET(REBIND_DELETE) ? NANO_BACKSPACE_KEY :
+		NANO_DELETE_KEY;
+
+	/* If our result is an extended keypad value (i.e, a value
+	 * outside of byte range), set func_key to TRUE. */
 	*func_key = !is_byte(retval);
+    }
 
 #ifdef DEBUG
     fprintf(stderr, "parse_kbinput(): kbinput = %d, meta_key = %d, func_key = %d, escapes = %d, byte_digits = %d, retval = %d\n", *kbinput, (int)*meta_key, (int)*func_key, escapes, byte_digits, retval);
