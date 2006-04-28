@@ -602,6 +602,11 @@ void do_mark(void);
 void do_delete(void);
 void do_backspace(void);
 void do_tab(void);
+#ifndef NANO_TINY
+void do_indent_marked(ssize_t len);
+void do_indent_marked_void(void);
+void do_unindent_marked_void(void);
+#endif
 void do_enter(void);
 #ifndef NANO_TINY
 RETSIGTYPE cancel_command(int signal);

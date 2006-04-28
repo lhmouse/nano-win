@@ -338,6 +338,8 @@ void shortcut_init(bool unjustify)
     const char *nano_whereis_next_msg = N_("Repeat last search");
     const char *nano_copy_msg =
 	N_("Copy the current line and store it in the cutbuffer");
+    const char *nano_indentmarked_msg = N_("Indent marked text");
+    const char *nano_unindentmarked_msg = N_("Unindent marked text");
 #endif
     const char *nano_forward_msg = N_("Move forward one character");
     const char *nano_back_msg = N_("Move back one character");
@@ -564,8 +566,18 @@ void shortcut_init(bool unjustify)
 	NANO_WHEREIS_NEXT_FKEY, NANO_NO_KEY, VIEW, do_research);
 
     sc_init_one(&main_list, NANO_NO_KEY, N_("Copy Text"),
-	IFHELP(nano_copy_msg, TRUE), NANO_COPY_KEY, NANO_NO_KEY,
+	IFHELP(nano_copy_msg, FALSE), NANO_COPY_KEY, NANO_NO_KEY,
 	NANO_COPY_ALTKEY, NOVIEW, do_copy_text);
+
+    sc_init_one(&main_list, NANO_NO_KEY, N_("Indent Text"),
+	IFHELP(nano_indentmarked_msg, FALSE), NANO_INDENTMARKED_KEY,
+	NANO_NO_KEY, NANO_INDENTMARKED_ALTKEY, NOVIEW,
+	do_indent_marked_void);
+
+    sc_init_one(&main_list, NANO_NO_KEY, N_("Unindent Text"),
+	IFHELP(nano_unindentmarked_msg, TRUE), NANO_UNINDENTMARKED_KEY,
+	NANO_NO_KEY, NANO_UNINDENTMARKED_ALTKEY, NOVIEW,
+	do_unindent_marked_void);
 #endif
 
     sc_init_one(&main_list, NANO_FORWARD_KEY, N_("Forward"),
@@ -621,9 +633,9 @@ void shortcut_init(bool unjustify)
 	NANO_NO_KEY, NANO_LASTLINE_ALTKEY2, VIEW, do_last_line);
 
 #ifndef NANO_TINY
-    sc_init_one(&main_list, NANO_NO_KEY, N_("Find Other Bracket"),
-	IFHELP(nano_bracket_msg, FALSE), NANO_BRACKET_KEY, NANO_NO_KEY,
-	NANO_BRACKET_ALTKEY, VIEW, do_find_bracket);
+    sc_init_one(&main_list, NANO_BRACKET_KEY, N_("Find Other Bracket"),
+	IFHELP(nano_bracket_msg, FALSE), NANO_NO_KEY, NANO_NO_KEY,
+	NANO_NO_KEY, VIEW, do_find_bracket);
 
     sc_init_one(&main_list, NANO_NO_KEY, N_("Scroll Up"),
 	IFHELP(nano_scrollup_msg, FALSE), NANO_SCROLLUP_KEY,

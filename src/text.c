@@ -193,6 +193,146 @@ void do_tab(void)
 #endif
 }
 
+#ifndef NANO_TINY
+/* Indent or unindent all lines covered by the mark len characters,
+ * depending on whether len is positive or negative.  If the
+ * TABS_TO_SPACES flag is set, indent/unindent by len spaces.
+ * Otherwise, indent/unindent by (len / tabsize) tabs and (len %
+ * tabsize) spaces. */
+void do_indent_marked(ssize_t len)
+{
+    bool indent_changed = FALSE;
+	/* Whether any indenting or unindenting was done. */
+    bool unindent = FALSE;
+	/* Whether we're unindenting text. */
+    char *line_indent;
+	/* The text added to each line in order to indent it. */
+    size_t line_indent_len;
+	/* The length of the text added to each line in order to indent
+	 * it. */
+    filestruct *top, *bot, *f;
+    size_t top_x, bot_x;
+
+    assert(openfile->current != NULL && openfile->current->data != NULL);
+
+    check_statusblank();
+
+    /* If the mark isn't on, indicate it on the statusbar and get
+     * out. */
+    if (!openfile->mark_set) {
+	statusbar(_("No lines selected, nothing to do!"));
+	return;
+    }
+
+    /* If len is zero, get out. */
+    if (len == 0)
+	return;
+
+    /* If len is negative, make it positive and set unindent to TRUE. */
+    if (len < 0) {
+	len = -len;
+	unindent = TRUE;
+    /* Otherwise, we're indenting, in which case the file will always be
+     * modified, so set indent_changed to TRUE. */
+    } else
+	indent_changed = TRUE;
+
+    /* Get the coordinates of the marked text. */
+    mark_order((const filestruct **)&top, &top_x,
+	(const filestruct **)&bot, &bot_x, NULL);
+
+    /* Set up the text we'll be using as indentation. */
+    line_indent = charalloc(len + 1);
+
+    if (ISSET(TABS_TO_SPACES)) {
+	/* Set the indentation to len spaces. */
+	charset(line_indent, ' ', len);
+	line_indent_len = len;
+    } else {
+	/* Set the indentation to (len / tabsize) tabs and (len %
+	 * tabsize) spaces. */
+	size_t num_tabs = len / tabsize;
+	size_t num_spaces = len % tabsize;
+
+	charset(line_indent, '\t', num_tabs);
+	charset(line_indent + num_tabs, ' ', num_spaces);
+
+	line_indent_len = num_tabs + num_spaces;
+    }
+
+    line_indent[line_indent_len] = '\0';
+
+    /* Go through each line of the marked text. */
+    for (f = top; f != bot->next; f = f->next) {
+	size_t line_len = strlen(f->data);
+
+	if (unindent) {
+	    if (len <= strnlenpt(f->data, indent_length(f->data))) {
+		size_t indent_len = actual_x(f->data, len);
+
+		/* If we're unindenting, and there's at least len
+		 * columns' worth of indentation on this line, remove
+		 * it. */
+		charmove(f->data, &f->data[indent_len], line_len -
+			indent_len + 1);
+		null_at(&f->data, line_len - indent_len + 1);
+		openfile->totsize -= indent_len;
+
+		/* If this is the current line, adjust the x-coordinate
+		 * to compensate for the change in it. */
+		if (f == openfile->current)
+		    openfile->current_x -= indent_len;
+
+		/* We've unindented, so set indent_changed to TRUE. */
+		if (!indent_changed)
+		    indent_changed = TRUE;
+	    }
+	} else {
+	    /* If we're indenting, add the characters in line_indent to
+	     * the beginning of this line. */
+	    f->data = charealloc(f->data, line_len +
+		line_indent_len + 1);
+	    charmove(&f->data[line_indent_len], f->data, line_len + 1);
+	    strncpy(f->data, line_indent, line_indent_len);
+	    openfile->totsize += line_indent_len;
+
+	    /* If this is the current line, adjust the x-coordinate to
+	     * compensate for the change in it. */
+	    if (f == openfile->current)
+		openfile->current_x += line_indent_len;
+
+	    /* If the NO_NEWLINES flag isn't set, and this is the
+	     * magicline, add a new magicline. */
+	    if (!ISSET(NO_NEWLINES) && openfile->current ==
+		openfile->filebot)
+		new_magicline();
+	}
+    }
+
+    free(line_indent);
+
+    if (indent_changed) {
+	/* Mark the file as modified. */
+	set_modified();
+
+	/* Update the screen. */
+	edit_refresh();
+    }
+}
+
+/* Indent all lines covered by the mark tabsize characters. */
+void do_indent_marked_void(void)
+{
+    do_indent_marked(tabsize);
+}
+
+/* Unindent all lines covered by the mark tabsize characters. */
+void do_unindent_marked_void(void)
+{
+    do_indent_marked(-tabsize);
+}
+#endif /* !NANO_TINY */
+
 /* Someone hits Enter *gasp!* */
 void do_enter(void)
 {

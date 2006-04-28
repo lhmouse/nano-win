@@ -60,6 +60,11 @@ CVS code -
 	  when NANO_TINY is defined.  New functions do_cut_text_void()
 	  and do_copy_text(); changes to do_cut_text(), shortcut_init(),
 	  and do_input(). (DLR, suggested by Ken Tyler)
+	- Add the ability to indent and unindent all marked lines of
+	  text, via Meta-[ (Meta-}) and Meta-] (Meta-}).  New functions
+	  do_indent_marked(), do_indent_marked_void(), and
+	  do_unindent_marked_void(); changes to shortcut_init(). (Chris
+	  and DLR)
 - files.c:
   open_file()
 	- Remove redundant wording in the error message when we try to
@@ -101,7 +106,7 @@ CVS code -
 	  (DLR and Benno Schulenberg, suggested by Benno Schulenberg)
 	- Tweak the descriptions of some shortcut keys to make them more
 	  uniform. (Benno Schulenberg, minor tweaks by DLR)
-	- Add Meta-} as an alias for Meta-]. (DLR)
+	- Change the shortcut to find the matching bracket to ^]. (DLR)
   toggle_init()
 	- In the global toggle list, move the "Constant cursor position
 	  display" toggle up to after the "Use more space for editing"
