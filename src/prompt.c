@@ -68,16 +68,20 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
     /* Read in a character. */
     input = get_kbinput(bottomwin, meta_key, func_key);
 
+    if (allow_funcs) {
 #ifndef DISABLE_MOUSE
-    /* If we got a mouse click and it was on a shortcut, read in the
-     * shortcut character. */
-    if (allow_funcs && *func_key == TRUE && input == KEY_MOUSE) {
-	if (do_statusbar_mouse())
-	    input = get_kbinput(bottomwin, meta_key, func_key);
+	/* If we got a mouse click and it was on a shortcut, read in the
+	 * shortcut character. */
+	if (*func_key == TRUE && input == KEY_MOUSE)
+	    input = do_statusbar_mouse() ? get_kbinput(bottomwin,
+		meta_key, func_key) : ERR;
 	else
-	    input = ERR;
-    }
 #endif
+	if (input == NANO_CONTROL_8 && *meta_key == FALSE &&
+		*func_key == FALSE)
+	    input = ISSET(REBIND_DELETE) ? NANO_BACKSPACE_KEY :
+		NANO_DELETE_KEY;
+    }
 
     /* Check for a shortcut in the current list. */
     s = get_shortcut(currshortcut, &input, meta_key, func_key);
