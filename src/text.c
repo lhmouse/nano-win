@@ -303,13 +303,12 @@ void do_indent_marked(ssize_t len)
 	    if (f == openfile->current) {
 		openfile->current_x += line_indent_len;
 		openfile->mark_begin_x += line_indent_len;
-
-		/* If the NO_NEWLINES flag isn't set, and this is the
-		 * magicline, add a new magicline. */
-		if (!ISSET(NO_NEWLINES) && openfile->current ==
-			openfile->filebot)
-		    new_magicline();
 	    }
+
+	    /* If the NO_NEWLINES flag isn't set, and this is the
+	     * magicline, add a new magicline. */
+	    if (!ISSET(NO_NEWLINES) && f == openfile->filebot)
+		new_magicline();
 	}
     }
 
