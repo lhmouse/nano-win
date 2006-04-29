@@ -379,7 +379,7 @@ void shortcut_init(bool unjustify)
     const char *nano_verbatim_msg =
 	N_("Insert the next keystroke verbatim");
     const char *nano_tab_msg =
-	N_("Insert a tab character at the cursor position");
+	N_("Insert a tab at the cursor position");
     const char *nano_enter_msg =
 	N_("Insert a newline at the cursor position");
     const char *nano_delete_msg =
