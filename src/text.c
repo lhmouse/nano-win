@@ -278,12 +278,13 @@ void do_indent_marked(ssize_t len)
 		null_at(&f->data, line_len - indent_len + 1);
 		openfile->totsize -= indent_len;
 
-		/* If this is the current line, keep track of the change
-		 * in it. */
-		if (f == openfile->current) {
+		/* Keep track of the change in the current line. */
+		if (f == openfile->current)
 		    openfile->current_x -= indent_len;
+
+		if (f == openfile->mark_begin &&
+			openfile->mark_begin_x >= indent_len)
 		    openfile->mark_begin_x -= indent_len;
-		}
 
 		/* We've unindented, so set indent_changed to TRUE. */
 		if (!indent_changed)
@@ -298,12 +299,12 @@ void do_indent_marked(ssize_t len)
 	    strncpy(f->data, line_indent, line_indent_len);
 	    openfile->totsize += line_indent_len;
 
-	    /* If this is the current line, keep track of the change in
-	     * it. */
-	    if (f == openfile->current) {
+	    /* Keep track of the change in the current line. */
+	    if (f == openfile->current)
 		openfile->current_x += line_indent_len;
+
+	    if (f == openfile->mark_begin)
 		openfile->mark_begin_x += line_indent_len;
-	    }
 
 	    /* If the NO_NEWLINES flag isn't set, and this is the
 	     * magicline, add a new magicline. */
