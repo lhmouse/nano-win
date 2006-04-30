@@ -301,8 +301,7 @@ void do_indent_marked(ssize_t len)
 	    openfile->totsize += line_indent_len;
 
 	    /* Keep track of the change in the current line. */
-	    if (f == openfile->mark_begin && openfile->current_x <
-		openfile->mark_begin_x)
+	    if (f == openfile->mark_begin)
 		openfile->mark_begin_x += line_indent_len;
 
 	    if (f == openfile->current)
