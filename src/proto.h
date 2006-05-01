@@ -603,7 +603,7 @@ void do_delete(void);
 void do_backspace(void);
 void do_tab(void);
 #ifndef NANO_TINY
-void do_indent_marked(ssize_t len);
+void do_indent_marked(ssize_t cols);
 void do_indent_marked_void(void);
 void do_unindent_marked_void(void);
 #endif

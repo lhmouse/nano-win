@@ -194,12 +194,12 @@ void do_tab(void)
 }
 
 #ifndef NANO_TINY
-/* Indent or unindent all lines covered by the mark len characters,
+/* Indent or unindent all lines covered by the mark len columns,
  * depending on whether len is positive or negative.  If the
  * TABS_TO_SPACES flag is set, indent/unindent by len spaces.
  * Otherwise, indent/unindent by (len / tabsize) tabs and (len %
  * tabsize) spaces. */
-void do_indent_marked(ssize_t len)
+void do_indent_marked(ssize_t cols)
 {
     bool indent_changed = FALSE;
 	/* Whether any indenting or unindenting was done. */
@@ -224,13 +224,14 @@ void do_indent_marked(ssize_t len)
 	return;
     }
 
-    /* If len is zero, get out. */
-    if (len == 0)
+    /* If cols is zero, get out. */
+    if (cols == 0)
 	return;
 
-    /* If len is negative, make it positive and set unindent to TRUE. */
-    if (len < 0) {
-	len = -len;
+    /* If cols is negative, make it positive and set unindent to
+     * TRUE. */
+    if (cols < 0) {
+	cols = -cols;
 	unindent = TRUE;
     /* Otherwise, we're indenting, in which case the file will always be
      * modified, so set indent_changed to TRUE. */
@@ -242,17 +243,17 @@ void do_indent_marked(ssize_t len)
 	(const filestruct **)&bot, &bot_x, NULL);
 
     /* Set up the text we'll be using as indentation. */
-    line_indent = charalloc(len + 1);
+    line_indent = charalloc(cols + 1);
 
     if (ISSET(TABS_TO_SPACES)) {
-	/* Set the indentation to len spaces. */
-	charset(line_indent, ' ', len);
-	line_indent_len = len;
+	/* Set the indentation to cols spaces. */
+	charset(line_indent, ' ', cols);
+	line_indent_len = cols;
     } else {
-	/* Set the indentation to (len / tabsize) tabs and (len %
+	/* Set the indentation to (cols / tabsize) tabs and (cols %
 	 * tabsize) spaces. */
-	size_t num_tabs = len / tabsize;
-	size_t num_spaces = len % tabsize;
+	size_t num_tabs = cols / tabsize;
+	size_t num_spaces = cols % tabsize;
 
 	charset(line_indent, '\t', num_tabs);
 	charset(line_indent + num_tabs, ' ', num_spaces);
@@ -270,11 +271,12 @@ void do_indent_marked(ssize_t len)
 	if (unindent) {
 	    size_t indent_col = strnlenpt(f->data, indent_len);
 
-	    if (len <= indent_col) {
-		size_t indent_new = actual_x(f->data, indent_col - len);
+	    if (cols <= indent_col) {
+		size_t indent_new = actual_x(f->data, indent_col -
+			cols);
 		size_t indent_shift = indent_len - indent_new;
 
-		/* If we're unindenting, and there's at least len
+		/* If we're unindenting, and there's at least cols
 		 * columns' worth of indentation at the beginning of the
 		 * non-whitespace text of this line, remove it. */
 		charmove(&f->data[indent_new], &f->data[indent_len],
@@ -330,13 +332,13 @@ void do_indent_marked(ssize_t len)
     }
 }
 
-/* Indent all lines covered by the mark tabsize characters. */
+/* Indent all lines covered by the mark tabsize columns. */
 void do_indent_marked_void(void)
 {
     do_indent_marked(tabsize);
 }
 
-/* Unindent all lines covered by the mark tabsize characters. */
+/* Unindent all lines covered by the mark tabsize columns. */
 void do_unindent_marked_void(void)
 {
     do_indent_marked(-tabsize);
