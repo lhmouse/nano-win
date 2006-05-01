@@ -265,27 +265,31 @@ void do_indent_marked(ssize_t len)
     /* Go through each line of the marked text. */
     for (f = top; f != bot->next; f = f->next) {
 	size_t line_len = strlen(f->data);
+	size_t indent_len = indent_length(f->data);
 
 	if (unindent) {
-	    if (len <= strnlenpt(f->data, indent_length(f->data))) {
-		size_t indent_len = actual_x(f->data, len);
+	    size_t indent_col = strnlenpt(f->data, indent_len);
+
+	    if (len <= indent_col) {
+		size_t indent_new = actual_x(f->data, indent_col - len);
+		size_t indent_shift = indent_len - indent_new;
 
 		/* If we're unindenting, and there's at least len
-		 * columns' worth of indentation on this line, remove
-		 * it. */
-		charmove(f->data, &f->data[indent_len], line_len -
-			indent_len + 1);
-		null_at(&f->data, line_len - indent_len + 1);
-		openfile->totsize -= indent_len;
+		 * columns' worth of indentation at the beginning of the
+		 * non-whitespace text of this line, remove it. */
+		charmove(&f->data[indent_new], &f->data[indent_len],
+			line_len - indent_shift - indent_new + 1);
+		null_at(&f->data, line_len - indent_shift + 1);
+		openfile->totsize -= indent_shift;
 
 		/* Keep track of the change in the current line. */
 		if (f == openfile->mark_begin &&
-			openfile->mark_begin_x >= indent_len)
-		    openfile->mark_begin_x -= indent_len;
+			openfile->mark_begin_x >= indent_shift)
+		    openfile->mark_begin_x -= indent_shift;
 
 		if (f == openfile->current && openfile->current_x >=
-			indent_len)
-		    openfile->current_x -= indent_len;
+			indent_shift)
+		    openfile->current_x -= indent_shift;
 
 		/* We've unindented, so set indent_changed to TRUE. */
 		if (!indent_changed)
@@ -293,11 +297,12 @@ void do_indent_marked(ssize_t len)
 	    }
 	} else {
 	    /* If we're indenting, add the characters in line_indent to
-	     * the beginning of this line. */
+	     * the beginning of the non-whitespace text of this line. */
 	    f->data = charealloc(f->data, line_len +
 		line_indent_len + 1);
-	    charmove(&f->data[line_indent_len], f->data, line_len + 1);
-	    strncpy(f->data, line_indent, line_indent_len);
+	    charmove(&f->data[indent_len + line_indent_len],
+		&f->data[indent_len], line_len - indent_len + 1);
+	    strncpy(f->data + indent_len, line_indent, line_indent_len);
 	    openfile->totsize += line_indent_len;
 
 	    /* Keep track of the change in the current line. */
