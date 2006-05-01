@@ -189,6 +189,7 @@ CVS code -
 	- Add various wording fixes. (DLR)
 - doc/rnano.1:
 	- Add various wording fixes. (Benno Schulenberg and DLR)
+	- Add description of the +LINE[,COLUMN] option. (DLR)
 - doc/nano.texi:
 	- Change license to GPL, in order to match the rest of the
 	  documentation, and because the current license is incompatible

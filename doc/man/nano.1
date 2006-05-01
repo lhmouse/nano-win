@@ -16,7 +16,7 @@ nano \- Nano's ANOther editor, an enhanced free Pico clone
 
 .SH SYNOPSIS
 .B nano
-.I [\+LINE,COLUMN]\ [options]\ [file]
+.I [OPTIONS]\ [[\+LINE[,COLUMN]]\ FILE]...
 .br
 
 .SH DESCRIPTION
@@ -33,7 +33,7 @@ replace" and "go to line number".
 
 .SH OPTIONS
 .TP
-.B \+\fILINE\fP,\fICOLUMN\fP
+.B \+\fILINE\fP[,\fICOLUMN\fP]
 Places cursor at line number \fILINE\fP and column number \fICOLUMN\fP
 on startup, instead of the default of line 1, column 1.
 .TP

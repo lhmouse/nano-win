@@ -75,12 +75,27 @@ toggles, internationalization support, and filename tab completion.
 @node Overview, Command Line Options, Introduction, Introduction
 @section Overview
 
-@code{nano} +LINE,COLUMN [GNU long option] [option] [ @var{file ...} ]
-
 The original goal for @code{nano} was a complete bug-for-bug compatible
-emulation of Pico, but @code{nano}'s main goal is to be as compatible as
-possible while offering a superset of Pico's functionality.  See
+emulation of Pico, but @code{nano}'s current goal is to be as compatible
+as possible while offering a superset of Pico's functionality.  See
 @xref{Pico Compatibility}, for more info.
+
+The usual way to invoke @code{nano} is:
+
+@quotation
+@code{nano [OPTION]@dots{} [FILE]}
+@end quotation
+
+But it is also possible to edit several files in a row.  Additionally,
+the cursor can be put on a desired line number by adding this number
+with a plus sign before any file name, and even in a desired column
+by adding it with a comma.  So the complete synopsis is:
+
+@quotation
+@code{nano [OPTION]@dots{} [[+LINE] [FILE]]@dots{}}
+
+@code{nano [OPTION]@dots{} [[+LINE,COLUMN] [FILE]]@dots{}}
+@end quotation
 
 Email bug reports to @email{nano@@nano-editor.org}.
 
@@ -90,7 +105,7 @@ Email bug reports to @email{nano@@nano-editor.org}.
 @code{nano} takes the following options from the command line:
 
 @table @code
-@item +LINE,COLUMN
+@item +LINE[,COLUMN]
 Start at line number LINE and column number COLUMN instead of the
 default of line 1, column 1.
 
@@ -589,7 +604,7 @@ spaces.  They must be single-column characters.
 Detect word boundaries more accurately by treating punctuation
 characters as part of a word.
 
-@item syntax "str" ["fileregex" ... ]
+@item syntax "str" ["fileregex" @dots{} ]
 Defines a syntax named "str" which can be activated via the -Y/--syntax
 command line option, or will be automatically activated if the current
 filename matches the extended regular expression "fileregex".  All
@@ -601,7 +616,7 @@ same as not having a syntax at all.  The "default" syntax is special: it
 takes no "fileregex", and applies to files that don't match any other
 syntax's "fileregex".
 
-@item color fgcolor,bgcolor "regex" ...
+@item color fgcolor,bgcolor "regex" @dots{}
 For the currently defined syntax, display all expressions matching the
 extended regular expression "regex" with foreground color "fgcolor" and
 background color "bgcolor", at least one of which must be specified.
@@ -611,7 +626,7 @@ to force a stronger color highlight for the foreground.  If your
 terminal supports transparency, not specifying a "bgcolor" tells "nano"
 to attempt to use a transparent background.
 
-@item icolor fgcolor,bgcolor "regex" ...
+@item icolor fgcolor,bgcolor "regex" @dots{}
 Same as above, except that the expression matching is case insensitive.
 
 @item color fgcolor,bgcolor start="sr" end="er"
