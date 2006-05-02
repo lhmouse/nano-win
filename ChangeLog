@@ -177,6 +177,11 @@ CVS code -
 	- Simplify the if blocks wherever possible. (DLR)
 - configure.ac:
 	- Remove old warnings about color support. (DLR)
+- doc/faq.html:
+	- Add a new section 4.4, and move all section 4 entries after it
+	  down one number, to explain how to deal with problems typing
+	  Meta-[. (DLR)
+	- Add a few capitalization and wording fixes. (DLR)
 - doc/nano.1, doc/nanorc.5, doc/rnano.1, doc/nano.texi:
 	- Update the copyright years to include 2006. (DLR)
 	- Explicitly mention that all regexes should be extended regular
