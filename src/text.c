@@ -286,10 +286,12 @@ void do_indent_marked(ssize_t cols)
 
 		/* Keep track of the change in the current line. */
 		if (f == openfile->mark_begin &&
+			openfile->mark_begin_x > indent_new &&
 			openfile->mark_begin_x >= indent_shift)
 		    openfile->mark_begin_x -= indent_shift;
 
-		if (f == openfile->current && openfile->current_x >=
+		if (f == openfile->current && openfile->current_x >
+			indent_new && openfile->current_x >=
 			indent_shift)
 		    openfile->current_x -= indent_shift;
 
