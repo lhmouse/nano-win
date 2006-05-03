@@ -1477,7 +1477,7 @@ int write_file(const char *name, FILE *f_open, bool tmp, append_type
 	tempname = safe_tempfile(&f);
 
 	if (tempname == NULL) {
-	    statusbar(_("Could not create temp file: %s"),
+	    statusbar(_("Error writing temp file: %s"),
 		strerror(errno));
 	    goto cleanup_and_exit;
 	}

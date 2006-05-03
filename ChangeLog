@@ -79,8 +79,8 @@ CVS code -
 	  save the original file, if possible, since that's better than
 	  saving nothing. (DLR, problem found by Bill Marcum, solution
 	  suggested by Jordi)
-	- Clarify the error message when writing a temporary file for
-	  prepending fails. (DLR)
+	- Clarify the error messages when creating a temporary file or
+	  writing one for prepending fails. (DLR)
 	- Simplify the routine for closing the file just before we
 	  indicate success on the statusbar. (DLR)
 - global.c:
@@ -167,6 +167,10 @@ CVS code -
 	  (DLR)
 	- Change all rcfile error messages to refer to commands instead
 	  of directives, for consistency with nanorc.5. (DLR)
+- text.c:
+  do_spell()
+	- Clarify the error message when creating a temporary file
+	  fails. (DLR)
 - winio.c:
   parse_kbinput()
 	- If we get NANO_CONTROL_8, properly handle it in all cases.

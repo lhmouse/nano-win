@@ -2287,7 +2287,7 @@ void do_spell(void)
     const char *spell_msg;
 
     if (temp == NULL) {
-	statusbar(_("Could not create temp file: %s"), strerror(errno));
+	statusbar(_("Error writing temp file: %s"), strerror(errno));
 	return;
     }
 
