@@ -339,8 +339,8 @@ void do_indent_marked(ssize_t cols)
 	}
     }
 
-    /* Clean up. */
     if (!unindent)
+	/* Clean up. */
 	free(line_indent);
 
     if (indent_changed) {
