@@ -316,10 +316,12 @@ void do_indent_marked(ssize_t cols)
 	    openfile->totsize += line_indent_len;
 
 	    /* Keep track of the change in the current line. */
-	    if (f == openfile->mark_begin)
+	    if (f == openfile->mark_begin && openfile->mark_begin_x >=
+		indent_len)
 		openfile->mark_begin_x += line_indent_len;
 
-	    if (f == openfile->current)
+	    if (f == openfile->current && openfile->current_x >=
+		indent_len)
 		openfile->current_x += line_indent_len;
 
 	    /* If the NO_NEWLINES flag isn't set, and this is the
