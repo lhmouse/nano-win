@@ -1067,6 +1067,14 @@ void shortcut_init(bool unjustify)
     sc_init_one(&help_list, NANO_NEXTLINE_KEY, N_("Next Line"),
 	IFHELP(nano_nextline_msg, FALSE), NANO_NO_KEY, NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
+
+    sc_init_one(&help_list, NANO_NO_KEY, first_line_msg,
+	IFHELP(nano_firstline_msg, FALSE), NANO_FIRSTLINE_ALTKEY,
+	NANO_NO_KEY, NANO_FIRSTLINE_ALTKEY2, VIEW, NULL);
+
+    sc_init_one(&help_list, NANO_NO_KEY, last_line_msg,
+	IFHELP(nano_lastline_msg, TRUE), NANO_LASTLINE_ALTKEY,
+	NANO_NO_KEY, NANO_LASTLINE_ALTKEY2, VIEW, NULL);
 #endif
 
 #ifndef DISABLE_SPELLER

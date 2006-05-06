@@ -65,6 +65,9 @@ CVS code -
 	  do_indent_marked(), do_indent_marked_void(), and
 	  do_unindent_marked_void(); changes to shortcut_init(). (Chris
 	  and DLR)
+	- Add the ability to move to the first and last line of the help
+	  text via Meta-\ (Meta-|) and Meta-/ (Meta-?).  Changes to
+	  shortcut_init() and do_help(). (DLR)
 - files.c:
   open_file()
 	- Remove redundant wording in the error message when we try to

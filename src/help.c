@@ -36,21 +36,21 @@ static char *help_text = NULL;
  * the function we will call to refresh the edit window.*/
 void do_help(void (*refresh_func)(void))
 {
-    int line = 0;
+    size_t line = 0;
 	/* The line number in help_text of the first displayed help
 	 * line.  This variable is zero-based. */
-    bool no_more = FALSE;
-	/* no_more means the end of the help text is shown, so don't go
-	 * down any more. */
+    size_t last_line;
+	/* The line number in help_text of the last help line.  This
+	 * variable is zero-based. */
     int kbinput = ERR;
     bool meta_key, func_key;
-
     bool old_no_help = ISSET(NO_HELP);
 #ifndef DISABLE_MOUSE
     const shortcut *oldshortcut = currshortcut;
 	/* We will set currshortcut to allow clicking on the help
 	 * screen's shortcut list. */
 #endif
+    const char *ptr;
 
     curs_set(0);
     blank_edit();
@@ -77,11 +77,22 @@ void do_help(void (*refresh_func)(void))
 
     bottombars(help_list);
 
+    /* Get the last line of the help text. */
+    ptr = help_text;
+
+    for (last_line = (size_t)-1; *ptr != '\0'; last_line++) {
+	ptr += help_line_len(ptr);
+	if (*ptr == '\n')
+	    ptr++;
+    }
+
     do {
-	int i;
-	int old_line = line;
+	size_t i;
+	    /* Generic loop variable. */
+	size_t old_line = line;
 	    /* We redisplay the help only if it moved. */
-	const char *ptr = help_text;
+
+	ptr = help_text;
 
 	switch (kbinput) {
 #ifndef DISABLE_MOUSE
@@ -92,15 +103,17 @@ void do_help(void (*refresh_func)(void))
 		}
 		break;
 #endif
+	    case NANO_REFRESH_KEY:
+		total_redraw();
+		break;
 	    case NANO_PREVPAGE_KEY:
-		if (line > 0) {
+		if (line > editwinrows - 2)
 		    line -= editwinrows - 2;
-		    if (line < 0)
-			line = 0;
-		}
+		else
+		    line = 0;
 		break;
 	    case NANO_NEXTPAGE_KEY:
-		if (!no_more)
+		if (line + (editwinrows - 2) <= last_line)
 		    line += editwinrows - 2;
 		break;
 	    case NANO_PREVLINE_KEY:
@@ -108,11 +121,15 @@ void do_help(void (*refresh_func)(void))
 		    line--;
 		break;
 	    case NANO_NEXTLINE_KEY:
-		if (!no_more)
+		if (line + editwinrows <= last_line)
 		    line++;
 		break;
-	    case NANO_REFRESH_KEY:
-		total_redraw();
+	    case NANO_FIRSTLINE_ALTKEY:
+		line = 0;
+		break;
+	    case NANO_LASTLINE_ALTKEY:
+		if (last_line > editwinrows)
+		    line = last_line - (editwinrows - 1);
 		break;
 	}
 
@@ -138,7 +155,6 @@ void do_help(void (*refresh_func)(void))
 	    if (*ptr == '\n')
 		ptr++;
 	}
-	no_more = (*ptr == '\0');
 
   skip_redisplay:
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
