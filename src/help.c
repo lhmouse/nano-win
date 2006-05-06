@@ -39,7 +39,7 @@ void do_help(void (*refresh_func)(void))
     size_t line = 0;
 	/* The line number in help_text of the first displayed help
 	 * line.  This variable is zero-based. */
-    size_t last_line;
+    size_t last_line = 0;
 	/* The line number in help_text of the last help line.  This
 	 * variable is zero-based. */
     int kbinput = ERR;
@@ -80,11 +80,13 @@ void do_help(void (*refresh_func)(void))
     /* Get the last line of the help text. */
     ptr = help_text;
 
-    for (last_line = (size_t)-1; *ptr != '\0'; last_line++) {
+    for (; *ptr != '\0'; last_line++) {
 	ptr += help_line_len(ptr);
 	if (*ptr == '\n')
 	    ptr++;
     }
+    if (last_line > 0)
+	last_line--;
 
     do {
 	size_t i;
