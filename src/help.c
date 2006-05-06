@@ -136,8 +136,8 @@ void do_help(void (*refresh_func)(void))
 		break;
 	}
 
-	if ((kbinput != ERR && line == old_line) || (!meta_key &&
-		!func_key && kbinput == NANO_REFRESH_KEY))
+	if ((kbinput != ERR && line == old_line) || kbinput ==
+		NANO_REFRESH_KEY)
 	    goto skip_redisplay;
 
 	blank_edit();
@@ -574,7 +574,7 @@ void parse_help_input(int *kbinput, bool *meta_key, bool *func_key)
 {
     get_shortcut(help_list, kbinput, meta_key, func_key);
 
-    if (*meta_key == FALSE && *func_key == FALSE) {
+    if (*meta_key == FALSE) {
 	switch (*kbinput) {
 	    /* For consistency with the file browser. */
 	    case ' ':

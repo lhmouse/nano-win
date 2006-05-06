@@ -493,7 +493,7 @@ void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
     get_shortcut(browser_list, kbinput, meta_key, func_key);
 
     /* Pico compatibility. */
-    if (*meta_key == FALSE && *func_key == FALSE) {
+    if (*meta_key == FALSE) {
 	switch (*kbinput) {
 	    case ' ':
 		*kbinput = NANO_NEXTPAGE_KEY;

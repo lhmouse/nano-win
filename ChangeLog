@@ -68,6 +68,9 @@ CVS code -
 	- Add the ability to move to the first and last line of the help
 	  text via Meta-\ (Meta-|) and Meta-/ (Meta-?).  Changes to
 	  shortcut_init() and do_help(). (DLR)
+- browser.c:
+  parse_browser_input()
+	- Remove redundant key checks. (DLR)
 - files.c:
   open_file()
 	- Remove redundant wording in the error message when we try to
@@ -125,6 +128,7 @@ CVS code -
 	  to check for a main shortcut key instead of both it and all of
 	  its equivalents. (DLR)
 	- Clean up the handling of NANO_REFRESH_KEY. (DLR)
+	- Remove redundant key checks. (DLR)
   help_init()
 	- If we have at least two entries' worth of blank space, use it
 	  to display more of "^Space" and "M-Space". (DLR, suggested by
@@ -133,6 +137,7 @@ CVS code -
 	- Add Space and - as aliases for PageDown and PageUp, for
 	  consistency with the file browser. (DLR, suggested by Benno
 	  Schulenberg)
+	- Remove redundant key checks. (DLR)
 - nano.c:
   renumber()
 	- Remove invalid assert. (DLR, found by Filipe Moreira)
@@ -171,6 +176,8 @@ CVS code -
 	- Change all rcfile error messages to refer to commands instead
 	  of directives, for consistency with nanorc.5. (DLR)
 - text.c:
+  do_justify()
+	- Remove redundant key checks. (DLR)
   do_spell()
 	- Clarify the error message when creating a temporary file
 	  fails. (DLR)

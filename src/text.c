@@ -1671,8 +1671,7 @@ void do_justify(bool full_justify)
     kbinput = do_input(&meta_key, &func_key, &s_or_t, &ran_func,
 	&finished, FALSE);
 
-    if (!meta_key && !func_key && s_or_t &&
-	kbinput == NANO_UNJUSTIFY_KEY) {
+    if (s_or_t && kbinput == NANO_UNJUSTIFY_KEY) {
 	/* Splice the justify buffer back into the file, but only if we
 	 * actually justified something. */
 	if (first_par_line != NULL) {
