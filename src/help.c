@@ -127,16 +127,17 @@ void do_help(void (*refresh_func)(void))
 		    line++;
 		break;
 	    case NANO_FIRSTLINE_ALTKEY:
-		line = 0;
+		if (meta_key)
+		    line = 0;
 		break;
 	    case NANO_LASTLINE_ALTKEY:
-		if (last_line > editwinrows)
+		if (meta_key && last_line > editwinrows)
 		    line = last_line - (editwinrows - 1);
 		break;
 	}
 
-	if ((kbinput != ERR && line == old_line) || kbinput ==
-		NANO_REFRESH_KEY)
+	if ((kbinput != ERR && line == old_line) || (!meta_key &&
+		!func_key && kbinput == NANO_REFRESH_KEY))
 	    goto skip_redisplay;
 
 	blank_edit();
