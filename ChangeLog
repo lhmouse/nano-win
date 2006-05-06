@@ -89,7 +89,7 @@ CVS code -
 	  instead of "show", for consistency. (DLR)
 	- In the main shortcut list, move the "Refresh" shortcut down to
 	  after the "Enter" shortcut, for consistency. (DLR)
-	- Add the ability to go to the first and last line of the
+	- Add the ability to move to the first and last line of the
 	  current file from the main list via Meta-\ (Meta-|) and Meta-/
 	  (Meta-?).  Also, make sure all the equivalent shortcuts in the
 	  search, replace, and "Go To Line" lists accept both the meta
