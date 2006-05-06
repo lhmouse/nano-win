@@ -298,10 +298,11 @@ void shortcut_init(bool unjustify)
 #endif
 #endif
 #ifndef DISABLE_BROWSER
-    /* TRANSLATORS: Try to keep this and following strings at most 16 characters. */
+    /* TRANSLATORS: Try to keep this at most 16 characters. */
     const char *to_files_msg = N_("To Files");
+    /* TRANSLATORS: Try to keep this and following strings at most 12 characters. */
     const char *first_file_msg = N_("First File");
-    /* TRANSLATORS: Try to keep this and previous strings at most 16 characters. */
+    /* TRANSLATORS: Try to keep this and previous strings at most 12 characters. */
     const char *last_file_msg = N_("Last File");
 #endif
 #ifndef DISABLE_HELP
@@ -1129,7 +1130,7 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_lastfile_msg, FALSE), NANO_LASTFILE_ALTKEY,
 	NANO_NO_KEY, NANO_LASTFILE_ALTKEY2, VIEW, NULL);
 
-    /* TRANSLATORS: Try to keep this at most 22 characters. */
+    /* TRANSLATORS: Try to keep this at most 12 characters. */
     sc_init_one(&browser_list, NANO_GOTODIR_KEY, N_("Go To Dir"),
 	IFHELP(nano_gotodir_msg, FALSE), NANO_GOTODIR_ALTKEY,
 	NANO_GOTODIR_FKEY, NANO_NO_KEY, VIEW, NULL);
