@@ -39,7 +39,8 @@ static int width = 0;
 static int longest = 0;
 	/* The number of columns in the longest filename in the list. */
 static size_t selected = 0;
-	/* The currently selected filename in the list. */
+	/* The currently selected filename in the list.  This variable
+	 * is zero-based. */
 static bool search_last_file = FALSE;
 	/* Have we gone past the last file while searching? */
 
@@ -149,26 +150,27 @@ char *do_browser(char *path, DIR *dir)
 		}
 
 		break;
+#endif /* !DISABLE_MOUSE */
+
+	    case NANO_HELP_KEY:
+#ifndef DISABLE_HELP
+		do_browser_help();
+		curs_set(0);
+#else
+		nano_disabled_msg();
 #endif
-
-	    case NANO_PREVLINE_KEY:
-		if (selected >= width)
-		    selected -= width;
 		break;
 
-	    case NANO_BACK_KEY:
-		if (selected > 0)
-		    selected--;
+	    /* Search for a filename. */
+	    case NANO_WHEREIS_KEY:
+		curs_set(1);
+		do_filesearch();
+		curs_set(0);
 		break;
 
-	    case NANO_NEXTLINE_KEY:
-		if (selected + width <= filelist_len - 1)
-		    selected += width;
-		break;
-
-	    case NANO_FORWARD_KEY:
-		if (selected < filelist_len - 1)
-		    selected++;
+	    /* Search for another filename. */
+	    case NANO_WHEREIS_NEXT_KEY:
+		do_fileresearch();
 		break;
 
 	    case NANO_PREVPAGE_KEY:
@@ -187,86 +189,18 @@ char *do_browser(char *path, DIR *dir)
 		    selected = filelist_len - 1;
 		break;
 
-	    case NANO_HELP_KEY:
-#ifndef DISABLE_HELP
-		do_browser_help();
-		curs_set(0);
-#else
-		nano_disabled_msg();
-#endif
+	    case NANO_FIRSTFILE_ALTKEY:
+		if (meta_key)
+		    selected = 0;
 		break;
 
-	    case NANO_ENTER_KEY:
-		/* You can't move up from "/". */
-		if (strcmp(filelist[selected], "/..") == 0) {
-		    statusbar(_("Can't move up a directory"));
-		    beep();
-		    break;
-		}
-
-#ifndef DISABLE_OPERATINGDIR
-		/* Note: the selected file can be outside the operating
-		 * directory if it's ".." or if it's a symlink to a
-		 * directory outside the operating directory. */
-		if (check_operating_dir(filelist[selected], FALSE)) {
-		    statusbar(
-			_("Can't go outside of %s in restricted mode"),
-			operating_dir);
-		    beep();
-		    break;
-		}
-#endif
-
-		if (stat(filelist[selected], &st) == -1) {
-		    /* We can't open this file for some reason.
-		     * Complain. */
-		    statusbar(_("Error reading %s: %s"),
-			filelist[selected], strerror(errno));
-		    beep();
-		    break;
-		}
-
-		if (!S_ISDIR(st.st_mode)) {
-		    retval = mallocstrcpy(retval, filelist[selected]);
-		    abort = TRUE;
-		    break;
-		}
-
-		dir = opendir(filelist[selected]);
-		if (dir == NULL) {
-		    /* We can't open this dir for some reason.
-		     * Complain. */
-		    statusbar(_("Error reading %s: %s"),
-			filelist[selected], strerror(errno));
-		    beep();
-		    break;
-		}
-
-		path = mallocstrcpy(path, filelist[selected]);
-
-		/* Start over again with the new path value. */
-		free_chararray(filelist, filelist_len);
-		goto change_browser_directory;
-
-	    /* Redraw the screen. */
-	    case NANO_REFRESH_KEY:
-		total_redraw();
-		break;
-
-	    /* Search for a filename. */
-	    case NANO_WHEREIS_KEY:
-		curs_set(1);
-		do_filesearch();
-		curs_set(0);
-		break;
-
-	    /* Search for another filename. */
-	    case NANO_WHEREIS_NEXT_KEY:
-		do_fileresearch();
+	    case NANO_LASTFILE_ALTKEY:
+		if (meta_key)
+		    selected = filelist_len - 1;
 		break;
 
 	    /* Go to a specific directory. */
-	    case NANO_GOTOLINE_KEY:
+	    case NANO_GOTODIR_KEY:
 		curs_set(1);
 
 		i = do_prompt(TRUE,
@@ -339,6 +273,83 @@ char *do_browser(char *path, DIR *dir)
 		path = new_path;
 		free_chararray(filelist, filelist_len);
 		goto change_browser_directory;
+
+	    case NANO_PREVLINE_KEY:
+		if (selected >= width)
+		    selected -= width;
+		break;
+
+	    case NANO_BACK_KEY:
+		if (selected > 0)
+		    selected--;
+		break;
+
+	    case NANO_NEXTLINE_KEY:
+		if (selected + width <= filelist_len - 1)
+		    selected += width;
+		break;
+
+	    case NANO_FORWARD_KEY:
+		if (selected < filelist_len - 1)
+		    selected++;
+		break;
+
+	    case NANO_ENTER_KEY:
+		/* You can't move up from "/". */
+		if (strcmp(filelist[selected], "/..") == 0) {
+		    statusbar(_("Can't move up a directory"));
+		    beep();
+		    break;
+		}
+
+#ifndef DISABLE_OPERATINGDIR
+		/* Note: the selected file can be outside the operating
+		 * directory if it's ".." or if it's a symlink to a
+		 * directory outside the operating directory. */
+		if (check_operating_dir(filelist[selected], FALSE)) {
+		    statusbar(
+			_("Can't go outside of %s in restricted mode"),
+			operating_dir);
+		    beep();
+		    break;
+		}
+#endif
+
+		if (stat(filelist[selected], &st) == -1) {
+		    /* We can't open this file for some reason.
+		     * Complain. */
+		    statusbar(_("Error reading %s: %s"),
+			filelist[selected], strerror(errno));
+		    beep();
+		    break;
+		}
+
+		if (!S_ISDIR(st.st_mode)) {
+		    retval = mallocstrcpy(retval, filelist[selected]);
+		    abort = TRUE;
+		    break;
+		}
+
+		dir = opendir(filelist[selected]);
+		if (dir == NULL) {
+		    /* We can't open this dir for some reason.
+		     * Complain. */
+		    statusbar(_("Error reading %s: %s"),
+			filelist[selected], strerror(errno));
+		    beep();
+		    break;
+		}
+
+		path = mallocstrcpy(path, filelist[selected]);
+
+		/* Start over again with the new path value. */
+		free_chararray(filelist, filelist_len);
+		goto change_browser_directory;
+
+	    /* Redraw the screen. */
+	    case NANO_REFRESH_KEY:
+		total_redraw();
+		break;
 
 	    /* Abort the browser. */
 	    case NANO_EXIT_KEY:
@@ -512,7 +523,7 @@ void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
 		break;
 	    case 'G':
 	    case 'g':
-		*kbinput = NANO_GOTOLINE_KEY;
+		*kbinput = NANO_GOTODIR_KEY;
 		break;
 	    case 'S':
 	    case 's':

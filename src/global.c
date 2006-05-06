@@ -267,8 +267,8 @@ void shortcut_init(bool unjustify)
     /* TRANSLATORS: Try to keep this and previous strings at most 10 characters. */
     const char *replace_msg = N_("Replace");
 #ifndef NANO_TINY
-    /* TRANSLATORS: Try to keep this at most 16 characters. */
-    const char *whereis_next_msg = N_("Where Is Next");
+    /* TRANSLATORS: Try to keep this at most 12 characters. */
+    const char *whereis_next_msg = N_("WhereIs Next");
 #endif
     /* TRANSLATORS: Try to keep this and following strings at most 10 characters. */
     const char *first_line_msg = N_("First Line");
@@ -525,7 +525,7 @@ void shortcut_init(bool unjustify)
 		NANO_NO_KEY, NOVIEW, NULL);
     else
     /* TRANSLATORS: Try to keep this at most 10 characters. */
-	sc_init_one(&main_list, NANO_UNCUT_KEY, N_("UnCut Txt"),
+	sc_init_one(&main_list, NANO_UNCUT_KEY, N_("UnCut Text"),
 		IFHELP(nano_uncut_msg, FALSE), NANO_NO_KEY,
 		NANO_UNCUT_FKEY, NANO_NO_KEY, NOVIEW, do_uncut_text);
 
@@ -556,7 +556,6 @@ void shortcut_init(bool unjustify)
 	NANO_REPLACE_FKEY, NANO_NO_KEY, NOVIEW, do_replace);
 
 #ifndef NANO_TINY
-    /* TRANSLATORS: Try to keep this at most 16 characters. */
     sc_init_one(&main_list, NANO_MARK_KEY, N_("Mark Text"),
 	IFHELP(nano_mark_msg, FALSE), NANO_MARK_ALTKEY, NANO_MARK_FKEY,
 	NANO_NO_KEY, VIEW, do_mark);
@@ -1106,14 +1105,6 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_exitbrowser_msg, FALSE), NANO_NO_KEY,
 	NANO_EXIT_FKEY, NANO_NO_KEY, VIEW, NULL);
 
-    sc_init_one(&browser_list, NANO_PREVPAGE_KEY, prev_page_msg,
-	IFHELP(nano_prevpage_msg, FALSE), NANO_NO_KEY,
-	NANO_PREVPAGE_FKEY, NANO_NO_KEY, VIEW, NULL);
-
-    sc_init_one(&browser_list, NANO_NEXTPAGE_KEY, next_page_msg,
-	IFHELP(nano_nextpage_msg, FALSE), NANO_NO_KEY,
-	NANO_NEXTPAGE_FKEY, NANO_NO_KEY, VIEW, NULL);
-
     sc_init_one(&browser_list, NANO_WHEREIS_KEY, whereis_msg,
 	IFHELP(nano_whereis_msg, FALSE), NANO_NO_KEY, NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, NULL);
@@ -1122,10 +1113,26 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_whereis_next_msg, FALSE), NANO_WHEREIS_NEXT_KEY,
 	NANO_WHEREIS_NEXT_FKEY, NANO_NO_KEY, VIEW, NULL);
 
+    sc_init_one(&browser_list, NANO_PREVPAGE_KEY, prev_page_msg,
+	IFHELP(nano_prevpage_msg, FALSE), NANO_NO_KEY,
+	NANO_PREVPAGE_FKEY, NANO_NO_KEY, VIEW, NULL);
+
+    sc_init_one(&browser_list, NANO_NEXTPAGE_KEY, next_page_msg,
+	IFHELP(nano_nextpage_msg, FALSE), NANO_NO_KEY,
+	NANO_NEXTPAGE_FKEY, NANO_NO_KEY, VIEW, NULL);
+
+    sc_init_one(&browser_list, NANO_NO_KEY, first_file_msg,
+	IFHELP(nano_firstfile_msg, FALSE), NANO_FIRSTFILE_ALTKEY,
+	NANO_NO_KEY, NANO_FIRSTFILE_ALTKEY2, VIEW, NULL);
+
+    sc_init_one(&browser_list, NANO_NO_KEY, last_file_msg,
+	IFHELP(nano_lastfile_msg, FALSE), NANO_LASTFILE_ALTKEY,
+	NANO_NO_KEY, NANO_LASTFILE_ALTKEY2, VIEW, NULL);
+
     /* TRANSLATORS: Try to keep this at most 22 characters. */
-    sc_init_one(&browser_list, NANO_GOTOLINE_KEY, N_("Go To Dir"),
-	IFHELP(nano_gotodir_msg, FALSE), NANO_GOTOLINE_ALTKEY,
-	NANO_GOTOLINE_FKEY, NANO_NO_KEY, VIEW, NULL);
+    sc_init_one(&browser_list, NANO_GOTODIR_KEY, N_("Go To Dir"),
+	IFHELP(nano_gotodir_msg, FALSE), NANO_GOTODIR_ALTKEY,
+	NANO_GOTODIR_FKEY, NANO_NO_KEY, VIEW, NULL);
 
     free_shortcutage(&whereis_file_list);
 

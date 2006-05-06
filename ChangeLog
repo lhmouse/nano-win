@@ -66,9 +66,14 @@ CVS code -
 	  do_unindent_marked_void(); changes to shortcut_init(). (Chris
 	  and DLR)
 	- Add the ability to move to the first and last line of the help
-	  text via Meta-\ (Meta-|) and Meta-/ (Meta-?).  Changes to
-	  shortcut_init() and do_help(). (DLR)
+	  text and the first and last file in the file browser via
+	  Meta-\ (Meta-|) and Meta-/ (Meta-?).  Changes to do_browser(),
+	  shortcut_init(), and do_help(). (DLR)
 - browser.c:
+  do_browser()
+	- Reference NANO_GOTODIR_(ALT|F)?KEY instead of
+	  NANO_GOTOLINE_(ALT|F)?KEY for the "Go to Directory" shortcut.
+	  (DLR)
   parse_browser_input()
 	- Remove redundant key checks. (DLR)
 - files.c:
@@ -113,6 +118,10 @@ CVS code -
 	- Tweak the descriptions of some shortcut keys to make them more
 	  uniform. (Benno Schulenberg, minor tweaks by DLR)
 	- Change the shortcut to find the matching bracket to ^]. (DLR)
+	- Shorten the "Where is Next" shortcut name to fit on the screen
+	  after adding Meta-\ (Meta-|) and Meta-/ (Meta-?). (DLR)
+	- Lengthen the "UnCut Txt" shortcut name to "UnCut Text", as
+	  there's enough room to display it unabbreviated. (DLR)
   toggle_init()
 	- In the global toggle list, move the "Constant cursor position
 	  display" toggle up to after the "Use more space for editing"
