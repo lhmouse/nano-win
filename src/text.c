@@ -301,11 +301,11 @@ void do_indent_marked(ssize_t cols)
 	    if (cols <= indent_col) {
 		size_t indent_new = actual_x(f->data, indent_col -
 			cols);
-		    /* The length of the indentation remaining on this
-		     * line after we unindent. */
+			/* The length of the indentation remaining on
+			 * this line after we unindent. */
 		size_t indent_shift = indent_len - indent_new;
-		    /* The change in the indentation on this line after
-		     * we unindent. */
+			/* The change in the indentation on this line
+			 * after we unindent. */
 
 		/* If we're unindenting, and there's at least cols
 		 * columns' worth of indentation at the beginning of the
