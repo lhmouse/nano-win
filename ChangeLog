@@ -148,6 +148,8 @@ CVS code -
 	  Schulenberg)
 	- Remove redundant key checks. (DLR)
 - nano.c:
+  usage()
+	- Fix inaccuracies in the usage example. (DLR)
   renumber()
 	- Remove invalid assert. (DLR, found by Filipe Moreira)
 - nano.h:

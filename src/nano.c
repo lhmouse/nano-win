@@ -721,15 +721,14 @@ void print1opt_full(const char *shortflag
 /* Explain how to properly use nano and its command line options. */
 void usage(void)
 {
-#ifdef HAVE_GETOPT_LONG
+    printf(_("Usage: nano [OPTIONS] [[+LINE[,COLUMN]] FILE]...\n\n"));
     printf(
-	_("Usage: nano [+LINE,COLUMN] [GNU long option] [option] [file]\n\n"));
-    printf(_("Option\t\tLong option\t\tMeaning\n"));
+#ifdef HAVE_GETOPT_LONG
+	_("Option\t\tGNU long option\t\tMeaning\n")
 #else
-    printf(_("Usage: nano [+LINE,COLUMN] [option] [file]\n\n"));
-    printf(_("Option\t\tMeaning\n"));
+	_("Option\t\tMeaning\n")
 #endif
-
+	);
     print1opt("-h, -?", "--help", N_("Show this message"));
     print1opt(_("+LINE,COLUMN"), "",
 	N_("Start at line LINE, column COLUMN"));
