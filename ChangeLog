@@ -198,6 +198,11 @@ CVS code -
 	- Add Ctrl-/ as an alias for Ctrl-_. (DLR, found by Benno
 	  Schulenberg)
 	- Simplify the if blocks wherever possible. (DLR)
+  edit_draw()
+	- Properly ignore zero-length regexes in multi-line regexes as
+	  well as single-line ones.  This avoids a segfault when trying
+	  to color e.g. "start="$" end="$"". (DLR, found by Trevor
+	  Caira)
 - configure.ac:
 	- Remove old warnings about color support. (DLR)
 - doc/faq.html:

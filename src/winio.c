@@ -2450,129 +2450,135 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 			goto step_two;
 		    start_line = start_line->prev;
 		}
-		/* No start found, so skip to the next step. */
-		if (start_line == NULL)
-		    goto step_two;
-		/* Now start_line is the first line before fileptr
-		 * containing a start match.  Is there a start on this
-		 * line not followed by an end on this line? */
-		start_col = 0;
-		while (TRUE) {
-		    start_col += startmatch.rm_so;
-		    startmatch.rm_eo -= startmatch.rm_so;
- 		    if (regexec(tmpcolor->end, start_line->data +
-			start_col + startmatch.rm_eo, 0, NULL,
-			(start_col + startmatch.rm_eo == 0) ? 0 :
-			REG_NOTBOL) == REG_NOMATCH)
-			/* No end found after this start. */
-			break;
-		    start_col++;
-		    if (regexec(tmpcolor->start, start_line->data +
-			start_col, 1, &startmatch, REG_NOTBOL) ==
-			REG_NOMATCH)
-			/* No later start on this line. */
+		if (startmatch.rm_so == startmatch.rm_eo) {
+		    startmatch.rm_eo++;
+		    statusbar(_("Refusing zero-length regex match"));
+		} else {
+		    /* No start found, so skip to the next step. */
+		    if (start_line == NULL)
 			goto step_two;
-		}
-		/* Indeed, there is a start not followed on this line by
-		 * an end. */
+		    /* Now start_line is the first line before fileptr
+		     * containing a start match.  Is there a start on
+		     * this line not followed by an end on this line? */
+		    start_col = 0;
+		    while (TRUE) {
+			start_col += startmatch.rm_so;
+			startmatch.rm_eo -= startmatch.rm_so;
+			if (regexec(tmpcolor->end, start_line->data +
+				start_col + startmatch.rm_eo, 0, NULL,
+				(start_col + startmatch.rm_eo == 0) ?
+				0 : REG_NOTBOL) == REG_NOMATCH)
+			    /* No end found after this start. */
+			    break;
+			start_col++;
+			if (regexec(tmpcolor->start, start_line->data +
+				start_col, 1, &startmatch,
+				REG_NOTBOL) == REG_NOMATCH)
+			    /* No later start on this line. */
+			    goto step_two;
+		    }
+		    /* Indeed, there is a start not followed on this
+		     * line by an end. */
 
-		/* We have already checked that there is no end before
-		 * fileptr and after the start.  Is there an end after
-		 * the start at all?  We don't paint unterminated
-		 * starts. */
-		end_line = fileptr;
-		while (end_line != NULL && regexec(tmpcolor->end,
+		    /* We have already checked that there is no end
+		     * before fileptr and after the start.  Is there an
+		     * end after the start at all?  We don't paint
+		     * unterminated starts. */
+		    end_line = fileptr;
+		    while (end_line != NULL && regexec(tmpcolor->end,
 			end_line->data, 1, &endmatch, 0) == REG_NOMATCH)
-		    end_line = end_line->next;
+			end_line = end_line->next;
 
-		/* No end found, or it is too early. */
-		if (end_line == NULL || (end_line == fileptr &&
+		    /* No end found, or it is too early. */
+		    if (end_line == NULL || (end_line == fileptr &&
 			endmatch.rm_eo <= startpos))
-		    goto step_two;
+			goto step_two;
 
-		/* Now paint the start of fileptr. */
-		if (end_line != fileptr)
-		    /* If the start of fileptr is on a different line
-		     * from the end, paintlen is -1, meaning that
-		     * everything on the line gets painted. */
-		    paintlen = -1;
-		else
-		    /* Otherwise, paintlen is the expanded location of
-		     * the end of the match minus the expanded location
-		     * of the beginning of the page. */
-		    paintlen = actual_x(converted,
-			strnlenpt(fileptr->data, endmatch.rm_eo) -
-			start);
+		    /* Now paint the start of fileptr. */
+		    if (end_line != fileptr)
+			/* If the start of fileptr is on a different
+			 * line from the end, paintlen is -1, meaning
+			 * that everything on the line gets painted. */
+			paintlen = -1;
+		    else
+			/* Otherwise, paintlen is the expanded location
+			 * of the end of the match minus the expanded
+			 * location of the beginning of the page. */
+			paintlen = actual_x(converted,
+				strnlenpt(fileptr->data,
+				endmatch.rm_eo) - start);
 
-		mvwaddnstr(edit, line, 0, converted, paintlen);
+		    mvwaddnstr(edit, line, 0, converted, paintlen);
 
   step_two:
-		/* Second step, we look for starts on this line. */
-		start_col = 0;
+		    /* Second step, we look for starts on this line. */
+		    start_col = 0;
 
-		while (start_col < endpos) {
-		    if (regexec(tmpcolor->start, fileptr->data +
-			start_col, 1, &startmatch, (start_col == 0) ?
-			0 : REG_NOTBOL) == REG_NOMATCH || start_col +
-			startmatch.rm_so >= endpos)
-			/* No more starts on this line. */
-			break;
-		    /* Translate the match to be relative to the
-		     * beginning of the line. */
-		    startmatch.rm_so += start_col;
-		    startmatch.rm_eo += start_col;
+		    while (start_col < endpos) {
+			if (regexec(tmpcolor->start, fileptr->data +
+				start_col, 1, &startmatch, (start_col ==
+				0) ? 0 : REG_NOTBOL) == REG_NOMATCH ||
+				start_col + startmatch.rm_so >= endpos)
+			    /* No more starts on this line. */
+			    break;
+			/* Translate the match to be relative to the
+			 * beginning of the line. */
+			startmatch.rm_so += start_col;
+			startmatch.rm_eo += start_col;
 
-		    if (startmatch.rm_so <= startpos)
-			x_start = 0;
-		    else
-			x_start = strnlenpt(fileptr->data,
+			x_start = (startmatch.rm_so <= startpos) ? 0 :
+				strnlenpt(fileptr->data,
 				startmatch.rm_so) - start;
 
-		    index = actual_x(converted, x_start);
+			index = actual_x(converted, x_start);
 
-		    if (regexec(tmpcolor->end, fileptr->data +
-			startmatch.rm_eo, 1, &endmatch,
-			(startmatch.rm_eo == 0) ? 0 : REG_NOTBOL) ==
-			0) {
-			/* Translate the end match to be relative to the
-			 * beginning of the line. */
-			endmatch.rm_so += startmatch.rm_eo;
-			endmatch.rm_eo += startmatch.rm_eo;
-			/* There is an end on this line.  But does it
-			 * appear on this page, and is the match more
-			 * than zero characters long? */
-			if (endmatch.rm_eo > startpos &&
+			if (regexec(tmpcolor->end, fileptr->data +
+				startmatch.rm_eo, 1, &endmatch,
+				(startmatch.rm_eo == 0) ? 0 :
+				REG_NOTBOL) == 0) {
+			    /* Translate the end match to be relative to
+			     * the beginning of the line. */
+			    endmatch.rm_so += startmatch.rm_eo;
+			    endmatch.rm_eo += startmatch.rm_eo;
+			    /* There is an end on this line.  But does
+			     * it appear on this page, and is the match
+			     * more than zero characters long? */
+			    if (endmatch.rm_eo > startpos &&
 				endmatch.rm_eo > startmatch.rm_so) {
-			    paintlen = actual_x(converted + index,
-				strnlenpt(fileptr->data,
-				endmatch.rm_eo) - start - x_start);
+				paintlen = actual_x(converted + index,
+					strnlenpt(fileptr->data,
+					endmatch.rm_eo) - start -
+					x_start);
 
-			    assert(0 <= x_start && x_start < COLS);
+				assert(0 <= x_start && x_start < COLS);
 
-			    mvwaddnstr(edit, line, x_start, converted +
-				index, paintlen);
-			}
-		    } else {
-			/* There is no end on this line.  But we haven't
-			 * yet looked for one on later lines. */
-			end_line = fileptr->next;
+				mvwaddnstr(edit, line, x_start,
+					converted + index, paintlen);
+			    }
+			} else {
+			    /* There is no end on this line.  But we
+			     * haven't yet looked for one on later
+			     * lines. */
+			    end_line = fileptr->next;
 
-			while (end_line != NULL &&
+			    while (end_line != NULL &&
 				regexec(tmpcolor->end, end_line->data,
 				0, NULL, 0) == REG_NOMATCH)
-			    end_line = end_line->next;
+				end_line = end_line->next;
 
-			if (end_line != NULL) {
-			    assert(0 <= x_start && x_start < COLS);
+			    if (end_line != NULL) {
+				assert(0 <= x_start && x_start < COLS);
 
-			    mvwaddnstr(edit, line, x_start, converted +
-				index, -1);
-			    /* We painted to the end of the line, so
-			     * don't bother checking any more starts. */
-			    break;
+				mvwaddnstr(edit, line, x_start,
+					converted + index, -1);
+				/* We painted to the end of the line, so
+				 * don't bother checking any more
+				 * starts. */
+				break;
+			    }
 			}
+			start_col = startmatch.rm_so + 1;
 		    }
-		    start_col = startmatch.rm_so + 1;
 		}
 	    }
 
