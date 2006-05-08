@@ -2468,8 +2468,8 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 			break;
 		    start_col++;
 		    if (regexec(tmpcolor->start, start_line->data +
-			start_col, 1, &startmatch,
-			REG_NOTBOL) == REG_NOMATCH)
+			start_col, 1, &startmatch, REG_NOTBOL) ==
+			REG_NOMATCH)
 			/* No later start on this line. */
 			goto step_two;
 		}
