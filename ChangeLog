@@ -3234,7 +3234,7 @@ GNU nano 1.3.3 - 2004.06.28
 	- Document restricted mode. (IO ERROR)  DLR: Add minor
 	  modifications to account for the above changes.
 	- Fix version number inaccuracies: Search/replace history and
-	  sorting/uniqueness filtering for the internal spell chacker
+	  sorting/uniqueness filtering for the internal spell checker
 	  were added in nano 1.1.99pre1. (DLR)
 	- Document the smart home key option. (DLR)
 	- Document the use of the SPELL environment variable. (DLR)
