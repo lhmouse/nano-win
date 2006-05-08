@@ -2403,10 +2403,8 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 				_("Refusing zero-length regex match"));
 		    } else if (startmatch.rm_so < endpos &&
 			startmatch.rm_eo > startpos) {
-			if (startmatch.rm_so <= startpos)
-			    x_start = 0;
-			else
-			    x_start = strnlenpt(fileptr->data,
+			x_start = (startmatch.rm_so <= startpos) ? 0 :
+				strnlenpt(fileptr->data,
 				startmatch.rm_so) - start;
 
 			index = actual_x(converted, x_start);
