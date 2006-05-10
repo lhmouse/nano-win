@@ -72,7 +72,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
     if (allow_funcs) {
 	/* If we got a mouse click and it was on a shortcut, read in the
 	 * shortcut character. */
-	if (allow_funcs && *func_key == TRUE && input == KEY_MOUSE)
+	if (*func_key == TRUE && input == KEY_MOUSE)
 	    input = do_statusbar_mouse() ? get_kbinput(bottomwin,
 		meta_key, func_key) : ERR;
     }

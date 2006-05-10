@@ -157,6 +157,9 @@ CVS code -
 	- Fix inaccuracies in the usage example. (DLR)
   renumber()
 	- Remove invalid assert. (DLR, found by Filipe Moreira)
+  do_input()
+	- Remove redundant check for allow_funcs' being TRUE when we get
+	  KEY_MOUSE. (DLR)
 - nano.h:
 	- Reorder the toggle #defines to match their corresponding order
 	  in toggle_init(). (DLR)
@@ -166,6 +169,9 @@ CVS code -
 	  disabled, so that we aren't erroneously kicked out of the
 	  statusbar prompt under any circumstances. (DLR, found by Benno
 	  Schulenberg)
+  do_statusbar_input()
+	- Remove redundant check for allow_funcs' being TRUE when we get
+	  KEY_MOUSE. (DLR)
   do_yesno()
 	- Handle the keys in a switch statement instead of a long if
 	  block, for simplicity. (DLR)
