@@ -332,7 +332,7 @@ char *do_browser(char *path, DIR *dir)
 
 		dir = opendir(filelist[selected]);
 		if (dir == NULL) {
-		    /* We can't open this dir for some reason.
+		    /* We can't open this directory for some reason.
 		     * Complain. */
 		    statusbar(_("Error reading %s: %s"),
 			filelist[selected], strerror(errno));
@@ -381,9 +381,9 @@ char *do_browser(char *path, DIR *dir)
     return retval;
 }
 
-/* The file browser front end.  We check to see if inpath has a dir in
- * it.  If it does, we start do_browser() from there.  Otherwise, we
- * start do_browser() from the current directory. */
+/* The file browser front end.  We check to see if inpath has a
+ * directory in it.  If it does, we start do_browser() from there.
+ * Otherwise, we start do_browser() from the current directory. */
 char *do_browse_from(const char *inpath)
 {
     struct stat st;
