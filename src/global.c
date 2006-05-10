@@ -23,7 +23,13 @@
 
 #include "proto.h"
 
-/* Global variables */
+/* Global variables. */
+#ifndef NANO_TINY
+sigjmp_buf jmpbuf;
+	/* Used to return to main() or the unjustify routine in
+	 * do_justify() after a SIGWINCH. */
+#endif
+
 #ifndef DISABLE_WRAPJUSTIFY
 ssize_t fill = 0;
 	/* The column where we will wrap lines. */
@@ -188,7 +194,7 @@ filestruct *replacebot = NULL;
 	/* The bottom of the replace string history list. */
 #endif
 
-/* Regular expressions */
+/* Regular expressions. */
 #ifdef HAVE_REGEX_H
 regex_t search_regexp;
 	/* The compiled regular expression to use in searches. */

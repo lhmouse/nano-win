@@ -40,10 +40,6 @@
 #include <getopt.h>
 #endif
 
-#ifndef NANO_TINY
-#include <setjmp.h>
-#endif
-
 #ifdef ENABLE_NANORC
 static bool no_rcfiles = FALSE;
 	/* Should we ignore all rcfiles? */
@@ -52,11 +48,6 @@ static struct termios oldterm;
 	/* The user's original terminal settings. */
 static struct sigaction act;
 	/* For all our fun signal handlers. */
-
-#ifndef NANO_TINY
-static sigjmp_buf jmpbuf;
-	/* Used to return to main() after a SIGWINCH. */
-#endif
 
 /* Create a new filestruct node.  Note that we specifically do not set
  * prevnode->next equal to the new line. */
@@ -1060,16 +1051,6 @@ RETSIGTYPE handle_sigwinch(int signal)
     if (filepart != NULL)
 	unpartition_filestruct(&filepart);
 
-#ifndef DISABLE_JUSTIFY
-    /* If the justify buffer isn't empty, blow away the text in it and
-     * display the shortcut list with UnCut. */
-    if (jusbuffer != NULL) {
-	free_filestruct(jusbuffer);
-	jusbuffer = NULL;
-	shortcut_init(FALSE);
-    }
-#endif
-
 #ifdef USE_SLANG
     /* Slang curses emulation brain damage, part 1: If we just do what
      * curses does here, it'll only work properly if the resize made the
@@ -1099,9 +1080,6 @@ RETSIGTYPE handle_sigwinch(int signal)
     blank_statusbar();
     currshortcut = main_list;
     total_refresh();
-
-    /* Reset all the input routines that rely on character sequences. */
-    reset_kbinput();
 
     /* Jump back to the main loop. */
     siglongjmp(jmpbuf, 1);
@@ -2147,11 +2125,6 @@ int main(int argc, char **argv)
 
     display_main_list();
 
-#ifndef NANO_TINY
-    /* Return here after a SIGWINCH. */
-    sigsetjmp(jmpbuf, 1);
-#endif
-
     display_buffer();    
 
     while (TRUE) {
@@ -2159,6 +2132,11 @@ int main(int argc, char **argv)
 
 	/* Make sure the cursor is in the edit window. */
 	reset_cursor();
+
+#ifndef NANO_TINY
+	/* Return here after a SIGWINCH. */
+	sigsetjmp(jmpbuf, 1);
+#endif
 
 	/* If constant cursor position display is on, and there are no
 	 * keys waiting in the input buffer, display the current cursor

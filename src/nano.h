@@ -100,6 +100,9 @@
 #ifdef HAVE_REGEX_H
 #include <regex.h>
 #endif
+#ifndef NANO_TINY
+#include <setjmp.h>
+#endif
 #include <assert.h>
 
 /* If no vsnprintf(), use the version from glib 2.x. */
@@ -412,6 +415,7 @@ typedef struct rcoption {
 #define NANO_CONTROL_7 31
 #define NANO_CONTROL_8 127
 
+/* Meta key sequences. */
 #define NANO_ALT_SPACE ' '
 #define NANO_ALT_LPARENTHESIS '('
 #define NANO_ALT_RPARENTHESIS ')'
@@ -607,10 +611,11 @@ typedef struct rcoption {
 #define TOGGLE_MAC_KEY			NANO_ALT_M
 #endif /* !NANO_TINY */
 
-#define MAIN_VISIBLE 12
-
 #define VIEW TRUE
 #define NOVIEW FALSE
+
+/* The maximum number of entries displayed in the main shortcut list. */
+#define MAIN_VISIBLE 12
 
 /* The minimum editor window columns and rows required for nano to work
  * correctly. */

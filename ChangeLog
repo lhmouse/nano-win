@@ -70,6 +70,11 @@ CVS code -
 	  text and the first and last file in the file browser via
 	  Meta-\ (Meta-|) and Meta-/ (Meta-?).  Changes to do_browser(),
 	  shortcut_init(), and do_help(). (DLR)
+	- Allow unjustifying if we resize the window immediately after
+	  justifying, as Pico does, and make input handling across
+	  resizes more consistent.  Changes to handle_sigwinch(),
+	  main(), get_kbinput(), parse_kbinput(), get_byte_kbinput(),
+	  and get_unicode_kbinput(); removal of reset_kbinput(). (DLR)
 - browser.c:
   do_browser()
 	- Reference NANO_GOTODIR_(ALT|F)?KEY instead of

@@ -1655,6 +1655,11 @@ void do_justify(bool full_justify)
 
     edit_refresh();
 
+#ifndef NANO_TINY
+    /* Return here after a SIGWINCH. */
+    sigsetjmp(jmpbuf, 1);
+#endif
+
     statusbar(_("Can now UnJustify!"));
 
     /* If constant cursor position display is on, make sure the current

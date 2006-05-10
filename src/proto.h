@@ -27,6 +27,10 @@
 #include "nano.h"
 
 /* Public externs.  See global.c for descriptions of them. */
+#ifndef NANO_TINY
+extern sigjmp_buf jmpbuf;
+#endif
+
 #ifndef DISABLE_WRAPJUSTIFY
 extern ssize_t fill;
 extern ssize_t wrap_at;
@@ -708,33 +712,18 @@ void dump_filestruct_reverse(void);
 #endif
 
 /* Public functions in winio.c. */
-#ifndef NANO_TINY
-void reset_kbinput(void);
-#endif
 void get_key_buffer(WINDOW *win);
 size_t get_key_buffer_len(void);
 void unget_input(int *input, size_t input_len);
 void unget_kbinput(int kbinput, bool meta_key, bool func_key);
 int *get_input(WINDOW *win, size_t input_len);
 int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key);
-int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
-#ifndef NANO_TINY
-	, bool reset
-#endif
-	);
+int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key);
 int get_escape_seq_kbinput(const int *seq, size_t seq_len, bool
 	*ignore_seq);
 int get_escape_seq_abcd(int kbinput);
-int get_byte_kbinput(int kbinput
-#ifndef NANO_TINY
-	, bool reset
-#endif
-	);
-long get_unicode_kbinput(int kbinput
-#ifndef NANO_TINY
-	, bool reset
-#endif
-	);
+int get_byte_kbinput(int kbinput);
+long get_unicode_kbinput(int kbinput);
 int get_control_kbinput(int kbinput);
 void unparse_kbinput(char *output, size_t output_len);
 int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len);

@@ -106,16 +106,6 @@ static bool disable_cursorpos = FALSE;
  * Note that Center (5) on the numeric keypad with NumLock off can also
  * be the Begin key. */
 
-#ifndef NANO_TINY
-/* Reset all the input routines that rely on character sequences. */
-void reset_kbinput(void)
-{
-    parse_kbinput(NULL, NULL, NULL, TRUE);
-    get_byte_kbinput(0, TRUE);
-    get_unicode_kbinput(0, TRUE);
-}
-#endif
-
 /* Read in a sequence of keystrokes from win and save them in the
  * default keystroke buffer.  This should only be called when the
  * default keystroke buffer is empty. */
@@ -327,11 +317,7 @@ int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 
     /* Read in a character and interpret it.  Continue doing this until
      * we get a recognized value or sequence. */
-    while ((kbinput = parse_kbinput(win, meta_key, func_key
-#ifndef NANO_TINY
-		, FALSE
-#endif
-		)) == ERR);
+    while ((kbinput = parse_kbinput(win, meta_key, func_key)) == ERR);
 
     return kbinput;
 }
@@ -340,23 +326,10 @@ int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
  * sequences into their corresponding key values.  Set meta_key to TRUE
  * when we get a meta key sequence, and set func_key to TRUE when we get
  * a function key.  Assume nodelay(win) is FALSE. */
-int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
-#ifndef NANO_TINY
-	, bool reset
-#endif
-	)
-
+int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 {
     static int escapes = 0, byte_digits = 0;
     int *kbinput, retval = ERR;
-
-#ifndef NANO_TINY
-    if (reset) {
-	escapes = 0;
-	byte_digits = 0;
-	return ERR;
-    }
-#endif
 
     *meta_key = FALSE;
     *func_key = FALSE;
@@ -584,11 +557,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key
 			int byte;
 
 			byte_digits++;
-			byte = get_byte_kbinput(*kbinput
-#ifndef NANO_TINY
-				, FALSE
-#endif
-				);
+			byte = get_byte_kbinput(*kbinput);
 
 			if (byte != ERR) {
 			    char *byte_mb;
@@ -1193,22 +1162,10 @@ int get_escape_seq_abcd(int kbinput)
 
 /* Translate a byte sequence: turn a three-digit decimal number from
  * 000 to 255 into its corresponding byte value. */
-int get_byte_kbinput(int kbinput
-#ifndef NANO_TINY
-	, bool reset
-#endif
-	)
+int get_byte_kbinput(int kbinput)
 {
     static int byte_digits = 0, byte = 0;
     int retval = ERR;
-
-#ifndef NANO_TINY
-    if (reset) {
-	byte_digits = 0;
-	byte = 0;
-	return ERR;
-    }
-#endif
 
     /* Increment the byte digit counter. */
     byte_digits++;
@@ -1277,23 +1234,11 @@ int get_byte_kbinput(int kbinput
 /* Translate a Unicode sequence: turn a six-digit hexadecimal number
  * from 000000 to 10FFFF (case-insensitive) into its corresponding
  * multibyte value. */
-long get_unicode_kbinput(int kbinput
-#ifndef NANO_TINY
-	, bool reset
-#endif
-	)
+long get_unicode_kbinput(int kbinput)
 {
     static int uni_digits = 0;
     static long uni = 0;
     long retval = ERR;
-
-#ifndef NANO_TINY
-    if (reset) {
-	uni_digits = 0;
-	uni = 0;
-	return ERR;
-    }
-#endif
 
     /* Increment the Unicode digit counter. */
     uni_digits++;
@@ -1499,11 +1444,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     while ((kbinput = get_input(win, 1)) == NULL);
 
     /* Check whether the first keystroke is a hexadecimal digit. */
-    uni = get_unicode_kbinput(*kbinput
-#ifndef NANO_TINY
-	, FALSE
-#endif
-	);
+    uni = get_unicode_kbinput(*kbinput);
 
     /* If the first keystroke isn't a hexadecimal digit, put back the
      * first keystroke. */
@@ -1518,11 +1459,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 	while (uni == ERR) {
 	    while ((kbinput = get_input(win, 1)) == NULL);
 
-	    uni = get_unicode_kbinput(*kbinput
-#ifndef NANO_TINY
-		, FALSE
-#endif
-		);
+	    uni = get_unicode_kbinput(*kbinput);
 	}
 
 	/* Put back the multibyte equivalent of the Unicode value. */
