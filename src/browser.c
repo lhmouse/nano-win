@@ -103,7 +103,7 @@ char *do_browser(char *path, DIR *dir)
 	check_statusblank();
 
 	/* Compute the line number we're on now, so that we don't divide
-	 * by 0. */
+	 * by zero. */
 	fileline = selected;
 	if (width != 0)
 	    fileline /= width;
@@ -559,7 +559,7 @@ void browser_refresh(void)
 	char *disp = display_string(tail(filelist[i]), 0, longest,
 		FALSE);
 
-	/* Highlight the currently selected file/dir. */
+	/* Highlight the currently selected file or directory. */
 	if (i == selected)
 	    wattron(edit, A_REVERSE);
 
