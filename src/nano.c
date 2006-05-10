@@ -1081,8 +1081,9 @@ RETSIGTYPE handle_sigwinch(int signal)
     currshortcut = main_list;
     total_refresh();
 
-    /* Jump back to the main loop. */
-    siglongjmp(jmpbuf, 1);
+    /* Jump back to either main() or the unjustify routine in
+     * do_justify(). */
+    siglongjmp(jump_buf, 1);
 }
 
 /* If allow is TRUE, block any SIGWINCH signals that we get, so that we
@@ -2134,8 +2135,14 @@ int main(int argc, char **argv)
 	reset_cursor();
 
 #ifndef NANO_TINY
-	/* Return here after a SIGWINCH. */
-	sigsetjmp(jmpbuf, 1);
+	if (!jump_buf_main) {
+	    /* If we haven't already, we're going to set jump_buf so
+	     * that we return here after a SIGWINCH.  Indicate this. */
+	    jump_buf_main = TRUE;
+
+	    /* Return here after a SIGWINCH. */
+	    sigsetjmp(jump_buf, 1);
+	}
 #endif
 
 	/* If constant cursor position display is on, and there are no

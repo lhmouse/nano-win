@@ -1656,8 +1656,12 @@ void do_justify(bool full_justify)
     edit_refresh();
 
 #ifndef NANO_TINY
+    /* We're going to set jump_buf so that we return here after a
+     * SIGWINCH instead of to main().  Indicate this. */
+    jump_buf_main = FALSE;
+
     /* Return here after a SIGWINCH. */
-    sigsetjmp(jmpbuf, 1);
+    sigsetjmp(jump_buf, 1);
 #endif
 
     statusbar(_("Can now UnJustify!"));
