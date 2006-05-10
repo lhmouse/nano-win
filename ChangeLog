@@ -76,6 +76,8 @@ CVS code -
 	  (DLR)
   parse_browser_input()
 	- Remove redundant key checks. (DLR)
+  browser_refresh()
+	- Rename variable editline to line, for consistency. (DLR)
 - files.c:
   open_file()
 	- Remove redundant wording in the error message when we try to

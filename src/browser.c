@@ -544,7 +544,7 @@ void browser_refresh(void)
 {
     struct stat st;
     int i;
-    int col = 0, filecols = 0, editline = 0;
+    int col = 0, line = 0, filecols = 0;
     size_t foo_len = mb_cur_max() * 7;
     char *foo = charalloc(foo_len + 1);
 
@@ -555,7 +555,7 @@ void browser_refresh(void)
 
     wmove(edit, 0, 0);
 
-    for (; i < filelist_len && editline <= editwinrows - 1; i++) {
+    for (; i < filelist_len && line <= editwinrows - 1; i++) {
 	char *disp = display_string(tail(filelist[i]), 0, longest,
 		FALSE);
 
@@ -563,8 +563,8 @@ void browser_refresh(void)
 	if (i == selected)
 	    wattron(edit, A_REVERSE);
 
-	blank_line(edit, editline, col, longest);
-	mvwaddstr(edit, editline, col, disp);
+	blank_line(edit, line, col, longest);
+	mvwaddstr(edit, line, col, disp);
 	free(disp);
 
 	col += longest;
@@ -595,7 +595,7 @@ void browser_refresh(void)
 	else
 	    sprintf(foo, "%4u GB", (unsigned int)(st.st_size >> 30));
 
-	mvwaddnstr(edit, editline, col - strlen(foo), foo, foo_len);
+	mvwaddnstr(edit, line, col - strlen(foo), foo, foo_len);
 
 	if (i == selected)
 	    wattroff(edit, A_REVERSE);
@@ -603,10 +603,10 @@ void browser_refresh(void)
 	/* Add some space between the columns. */
 	col += 2;
 
-	/* If the next entry isn't going to fit on the line,
-	 * move to the next line. */
+	/* If the next entry isn't going to fit on the line, move to the
+	 * next line. */
 	if (col > COLS - longest) {
-	    editline++;
+	    line++;
 	    col = 0;
 
 	    /* Set the number of columns to display the list in, if
@@ -615,7 +615,7 @@ void browser_refresh(void)
 		width = filecols;
 	}
 
-	wmove(edit, editline, col);
+	wmove(edit, line, col);
     }
 
     free(foo);
