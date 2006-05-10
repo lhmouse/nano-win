@@ -78,6 +78,8 @@ CVS code -
 	- Remove redundant key checks. (DLR)
   browser_refresh()
 	- Rename variable editline to line, for consistency. (DLR)
+	- Change variable i from an int to a size_t in order to match
+	  selected, which it's compared against. (DLR)
 - files.c:
   open_file()
 	- Remove redundant wording in the error message when we try to
