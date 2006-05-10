@@ -543,13 +543,13 @@ void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
 void browser_refresh(void)
 {
     struct stat st;
-    size_t i;
+    size_t i = 0;
     int col = 0, line = 0, filecols = 0;
     size_t foo_len = mb_cur_max() * 7;
     char *foo = charalloc(foo_len + 1);
 
-    i = (width != 0) ? width * editwinrows * ((selected / width) /
-	editwinrows) : 0;
+    if (width != 0)
+	i = width * editwinrows * ((selected / width) / editwinrows);
 
     blank_edit();
 
