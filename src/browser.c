@@ -603,14 +603,14 @@ void browser_refresh(void)
 	/* Add some space between the columns. */
 	col += 2;
 
-	/* If the next entry isn't going to fit on the line, move to the
-	 * next line. */
+	/* If the next entry isn't going to fit on the current line,
+	 * move to the next line. */
 	if (col > COLS - longest) {
 	    line++;
 	    col = 0;
 
 	    /* Set the number of columns to display the list in, if
-	     * necessary, so that we don't divide by 0. */
+	     * necessary, so that we don't divide by zero. */
 	    if (width == 0)
 		width = filecols;
 	}
