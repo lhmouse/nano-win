@@ -561,7 +561,7 @@ void browser_refresh(void)
 
 	/* Highlight the currently selected file or directory. */
 	if (i == selected)
-	    wattron(edit, A_REVERSE);
+	    wattron(edit, reverse_attr);
 
 	blank_line(edit, line, col, longest);
 	mvwaddstr(edit, line, col, disp);
@@ -598,7 +598,7 @@ void browser_refresh(void)
 	mvwaddnstr(edit, line, col - strlen(foo), foo, foo_len);
 
 	if (i == selected)
-	    wattroff(edit, A_REVERSE);
+	    wattroff(edit, reverse_attr);
 
 	/* Add some space between the columns. */
 	col += 2;

@@ -25,11 +25,12 @@ CVS code -
 	  main(), display_string(), and do_credits(). (DLR)
 	- Add the ability to use bold text instead of reverse video
 	  text, via the -D/--boldtext command line option and the
-	  "boldtext" rcfile option.  Changes to do_help(), usage(),
-	  main(), update_statusbar_prompt(), do_yesno_prompt(),
-	  titlebar(), statusbar(), onekey(), edit_draw(),
-	  do_replace_highlight(), nano.1, nanorc.5, nano.texi, and
-	  nanorc.sample. (DLR, suggested by Benno Schulenberg)
+	  "boldtext" rcfile option.  Changes to browser_refresh(),
+	  do_help(), usage(), main(), update_statusbar_prompt(),
+	  do_yesno_prompt(), titlebar(), statusbar(), onekey(),
+	  edit_draw(), do_replace_highlight(), nano.1, nanorc.5,
+	  nano.texi, and nanorc.sample. (DLR, suggested by Benno
+	  Schulenberg)
 	- Add the ability to use self-contained color syntaxes from
 	  separate files, accessible in the nanorc via the "include"
 	  command.  New function parse_include(); changes to
