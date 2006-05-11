@@ -66,6 +66,8 @@ CVS code -
 	  do_indent_marked(), do_indent_marked_void(), and
 	  do_unindent_marked_void(); changes to shortcut_init(). (Chris
 	  and DLR)
+	- Change the shortcut to find the matching bracket to ^].
+	  Changes to shortcut_init() and do_statusbar_input(). (DLR)
 	- Add the ability to move to the first and last line of the help
 	  text and the first and last file in the file browser via
 	  Meta-\ (Meta-|) and Meta-/ (Meta-?).  Changes to do_browser(),
@@ -127,7 +129,6 @@ CVS code -
 	  (DLR and Benno Schulenberg, suggested by Benno Schulenberg)
 	- Tweak the descriptions of some shortcut keys to make them more
 	  uniform. (Benno Schulenberg, minor tweaks by DLR)
-	- Change the shortcut to find the matching bracket to ^]. (DLR)
 	- Shorten the "Where is Next" shortcut name to fit on the screen
 	  after adding Meta-\ (Meta-|) and Meta-/ (Meta-?). (DLR)
 	- Lengthen the "UnCut Txt" shortcut name to "UnCut Text", as

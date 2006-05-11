@@ -89,17 +89,13 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	input == NANO_BACKSPACE_KEY || input == NANO_DELETE_KEY ||
 	input == NANO_CUT_KEY ||
 #ifndef NANO_TINY
-		input == NANO_NEXTWORD_KEY ||
+	input == NANO_NEXTWORD_KEY || input == NANO_BRACKET_KEY ||
 #endif
-		(*meta_key == TRUE && (
+	(*meta_key == TRUE && (
 #ifndef NANO_TINY
-		input == NANO_PREVWORD_KEY ||
+	input == NANO_PREVWORD_KEY ||
 #endif
-		input == NANO_VERBATIM_KEY
-#ifndef NANO_TINY
-		|| input == NANO_BRACKET_KEY
-#endif
-		)));
+	input == NANO_VERBATIM_KEY)));
 
     /* Set s_or_t to TRUE if we got a shortcut. */
     *s_or_t = have_shortcut;
@@ -184,8 +180,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 		    break;
 #ifndef NANO_TINY
 		case NANO_BRACKET_KEY:
-		    if (*meta_key == TRUE)
-			do_statusbar_find_bracket();
+		    do_statusbar_find_bracket();
 		    break;
 #endif
 		case NANO_VERBATIM_KEY:
