@@ -141,7 +141,7 @@ void do_cut_text(
 	    /* If the cutbuffer isn't empty, save where it currently
 	     * ends.  This is where the new text will be added. */
 	    cb_save = cutbottom;
-	    cb_save_len = strlen(cb_save->data);
+	    cb_save_len = strlen(cutbottom->data);
 	}
 
 	/* Set NO_NEWLINES to TRUE, so that we don't disturb the last
