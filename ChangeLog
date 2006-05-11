@@ -106,6 +106,9 @@ CVS code -
 	  writing one for prepending fails. (DLR)
 	- Simplify the routine for closing the file just before we
 	  indicate success on the statusbar. (DLR)
+  free_chararray()
+	- Assert that array isn't NULL, for consistency with the other
+	  free_.*() functions. (DLR)
 - global.c:
   shortcut_init()
 	- Change the cursor position display help text to use "display"

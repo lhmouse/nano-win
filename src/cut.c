@@ -114,6 +114,9 @@ void do_cut_text(
     filestruct *cb_save = NULL;
 	/* The current end of the cutbuffer, before we add text to
 	 * it. */
+    size_t cb_save_len = 0;
+	/* The length of the string at the current end of the cutbuffer,
+	 * before we add text to it.  */
     bool old_mark_set = openfile->mark_set;
     bool old_no_newlines = ISSET(NO_NEWLINES);
 #endif
@@ -138,7 +141,7 @@ void do_cut_text(
 	    /* If the cutbuffer isn't empty, save where it currently
 	     * ends.  This is where the new text will be added. */
 	    cb_save = cutbottom;
-	    cb_save->data += strlen(cb_save->data);
+	    cb_save_len = strlen(cb_save->data);
 	}
 
 	/* Set NO_NEWLINES to TRUE, so that we don't disturb the last
@@ -173,9 +176,14 @@ void do_cut_text(
 	 * there is one, back into the filestruct.  This effectively
 	 * uncuts the text we just cut without marking the file as
 	 * modified. */
-	if (cutbuffer != NULL)
-	    copy_from_filestruct((cb_save != NULL) ? cb_save :
-		cutbuffer, cutbottom);
+	if (cutbuffer != NULL) {
+	    if (cb_save != NULL) {
+		cb_save->data += cb_save_len;
+		copy_from_filestruct(cb_save, cutbottom);
+		cb_save->data -= cb_save_len;
+	    } else
+		copy_from_filestruct(cutbuffer, cutbottom);
+	}
 
 	/* Set NO_NEWLINES back to what it was before, since we're done
 	 * disturbing the text. */
