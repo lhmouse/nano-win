@@ -721,7 +721,7 @@ void usage(void)
 #endif
 	);
     print_opt("-h, -?", "--help", N_("Show this message"));
-    print_opt(_("+LINE,COLUMN"), "",
+    print_opt(_("+LINE[,COLUMN]"), "",
 	N_("Start at line LINE, column COLUMN"));
 #ifndef NANO_TINY
     print_opt("-A", "--smarthome", N_("Enable smart home key"));
