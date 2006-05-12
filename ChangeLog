@@ -66,8 +66,13 @@ CVS code -
 	  do_indent_marked(), do_indent_marked_void(), and
 	  do_unindent_marked_void(); changes to shortcut_init(). (Chris
 	  and DLR)
-	- Change the shortcut to find the matching bracket to ^].
+	- Change the shortcut to find the matching bracket to Ctrl-].
 	  Changes to shortcut_init() and do_statusbar_input(). (DLR)
+	- Drop the Meta-] and Meta-[ aliases for Meta-} and Meta-}, and
+	  change the shortcut to find the matching bracket from Ctrl-]
+	  back to Meta-], since Ctrl-] is used as the telnet escape key.
+	  Changes to shortcut_init() and do_statusbar_input(). (DLR,
+	  found by Chris)
 	- Add the ability to move to the first and last line of the help
 	  text and the first and last file in the file browser via
 	  Meta-\ (Meta-|) and Meta-/ (Meta-?).  Changes to do_browser(),
@@ -236,6 +241,11 @@ CVS code -
 	  holding down keys to generate Meta sequences. (Benno
 	  Schulenberg, minor tweaks by DLR)
 	- Add a few capitalization and wording fixes. (DLR)
+	- Remove section 4.4, and move all section 4 entries after it up
+	  one number, since it no longer applies.  Meta-] and Meta-[ are
+	  no longer used to indent and unindent marked text, since they
+	  require that the bracket matching key change to Ctrl-], which
+	  is used as the telnet escape key. (DLR, found by Chris)
 - doc/nano.1, doc/nanorc.5, doc/rnano.1, doc/nano.texi:
 	- Update the copyright years to include 2006. (DLR)
 	- Explicitly mention that all regexes should be extended regular

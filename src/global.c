@@ -580,13 +580,11 @@ void shortcut_init(bool unjustify)
 
     sc_init_one(&main_list, NANO_NO_KEY, N_("Indent Text"),
 	IFHELP(nano_indentmarked_msg, FALSE), NANO_INDENTMARKED_KEY,
-	NANO_NO_KEY, NANO_INDENTMARKED_ALTKEY, NOVIEW,
-	do_indent_marked_void);
+	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_indent_marked_void);
 
     sc_init_one(&main_list, NANO_NO_KEY, N_("Unindent Text"),
 	IFHELP(nano_unindentmarked_msg, TRUE), NANO_UNINDENTMARKED_KEY,
-	NANO_NO_KEY, NANO_UNINDENTMARKED_ALTKEY, NOVIEW,
-	do_unindent_marked_void);
+	NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_unindent_marked_void);
 #endif
 
     sc_init_one(&main_list, NANO_FORWARD_KEY, N_("Forward"),
@@ -642,8 +640,8 @@ void shortcut_init(bool unjustify)
 	NANO_NO_KEY, NANO_LASTLINE_ALTKEY2, VIEW, do_last_line);
 
 #ifndef NANO_TINY
-    sc_init_one(&main_list, NANO_BRACKET_KEY, N_("Find Other Bracket"),
-	IFHELP(nano_bracket_msg, FALSE), NANO_NO_KEY, NANO_NO_KEY,
+    sc_init_one(&main_list, NANO_NO_KEY, N_("Find Other Bracket"),
+	IFHELP(nano_bracket_msg, FALSE), NANO_BRACKET_KEY, NANO_NO_KEY,
 	NANO_NO_KEY, VIEW, do_find_bracket);
 
     sc_init_one(&main_list, NANO_NO_KEY, N_("Scroll Up"),
