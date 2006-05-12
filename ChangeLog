@@ -167,6 +167,8 @@ CVS code -
 	  Schulenberg)
 	- Remove redundant key checks. (DLR)
 - nano.c:
+  print1opt_full()
+	- Rename to print_opt_full(), for consistency. (DLR)
   usage()
 	- Fix inaccuracies in the usage example. (DLR)
   renumber()

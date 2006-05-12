@@ -430,7 +430,7 @@ void window_init(void);
 #ifndef DISABLE_MOUSE
 void mouse_init(void);
 #endif
-void print1opt_full(const char *shortflag
+void print_opt_full(const char *shortflag
 #ifdef HAVE_GETOPT_LONG
 	, const char *longflag
 #endif

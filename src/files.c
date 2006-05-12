@@ -1961,6 +1961,10 @@ int diralphasort(const void *va, const void *vb)
     if (!aisdir && bisdir)
 	return 1;
 
+    /* Standard function brain damage: We should be sorting
+     * alphabetically and case-insensitively according to the current
+     * locale, but there's no standard strcasecoll() function, so we
+     * have to use multibyte strcasecmp() instead, */
     return mbstrcasecmp(a, b);
 }
 

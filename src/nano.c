@@ -678,15 +678,15 @@ void mouse_init(void)
 #endif
 
 #ifdef HAVE_GETOPT_LONG
-#define print1opt(shortflag, longflag, desc) print1opt_full(shortflag, longflag, desc)
+#define print_opt(shortflag, longflag, desc) print_opt_full(shortflag, longflag, desc)
 #else
-#define print1opt(shortflag, longflag, desc) print1opt_full(shortflag, desc)
+#define print_opt(shortflag, longflag, desc) print_opt_full(shortflag, desc)
 #endif
 
 /* Print one usage string to the screen.  This cuts down on duplicate
  * strings to translate, and leaves out the parts that shouldn't be
  * translatable (the flag names). */
-void print1opt_full(const char *shortflag
+void print_opt_full(const char *shortflag
 #ifdef HAVE_GETOPT_LONG
 	, const char *longflag
 #endif
@@ -720,101 +720,101 @@ void usage(void)
 	_("Option\t\tMeaning\n")
 #endif
 	);
-    print1opt("-h, -?", "--help", N_("Show this message"));
-    print1opt(_("+LINE,COLUMN"), "",
+    print_opt("-h, -?", "--help", N_("Show this message"));
+    print_opt(_("+LINE,COLUMN"), "",
 	N_("Start at line LINE, column COLUMN"));
 #ifndef NANO_TINY
-    print1opt("-A", "--smarthome", N_("Enable smart home key"));
-    print1opt("-B", "--backup", N_("Save backups of existing files"));
-    print1opt(_("-C [dir]"), _("--backupdir=[dir]"),
+    print_opt("-A", "--smarthome", N_("Enable smart home key"));
+    print_opt("-B", "--backup", N_("Save backups of existing files"));
+    print_opt(_("-C [dir]"), _("--backupdir=[dir]"),
 	N_("Directory for saving unique backup files"));
-    print1opt("-D", "--boldtext",
+    print_opt("-D", "--boldtext",
 	N_("Use bold instead of reverse video text"));
-    print1opt("-E", "--tabstospaces",
+    print_opt("-E", "--tabstospaces",
 	N_("Convert typed tabs to spaces"));
 #endif
 #ifdef ENABLE_MULTIBUFFER
-    print1opt("-F", "--multibuffer", N_("Enable multiple file buffers"));
+    print_opt("-F", "--multibuffer", N_("Enable multiple file buffers"));
 #endif
 #ifdef ENABLE_NANORC
 #ifndef NANO_TINY
-    print1opt("-H", "--historylog",
+    print_opt("-H", "--historylog",
 	N_("Log & read search/replace string history"));
 #endif
-    print1opt("-I", "--ignorercfiles",
+    print_opt("-I", "--ignorercfiles",
 	N_("Don't look at nanorc files"));
 #endif
-    print1opt("-K", "--rebindkeypad",
+    print_opt("-K", "--rebindkeypad",
 	N_("Fix numeric keypad key confusion problem"));
-    print1opt("-L", "--nonewlines",
+    print_opt("-L", "--nonewlines",
 	N_("Don't add newlines to the ends of files"));
 #ifndef NANO_TINY
-    print1opt("-N", "--noconvert",
+    print_opt("-N", "--noconvert",
 	N_("Don't convert files from DOS/Mac format"));
 #endif
-    print1opt("-O", "--morespace", N_("Use more space for editing"));
+    print_opt("-O", "--morespace", N_("Use more space for editing"));
 #ifndef DISABLE_JUSTIFY
-    print1opt(_("-Q [str]"), _("--quotestr=[str]"),
+    print_opt(_("-Q [str]"), _("--quotestr=[str]"),
 	N_("Quoting string"));
 #endif
-    print1opt("-R", "--restricted", N_("Restricted mode"));
+    print_opt("-R", "--restricted", N_("Restricted mode"));
 #ifndef NANO_TINY
-    print1opt("-S", "--smooth", N_("Smooth scrolling"));
+    print_opt("-S", "--smooth", N_("Smooth scrolling"));
 #endif
-    print1opt(_("-T [#cols]"), _("--tabsize=[#cols]"),
+    print_opt(_("-T [#cols]"), _("--tabsize=[#cols]"),
 	N_("Set width of a tab in cols to #cols"));
 #ifndef NANO_TINY
-    print1opt("-U", "--quickblank", N_("Do quick statusbar blanking"));
+    print_opt("-U", "--quickblank", N_("Do quick statusbar blanking"));
 #endif
-    print1opt("-V", "--version",
+    print_opt("-V", "--version",
 	N_("Print version information and exit"));
 #ifndef NANO_TINY
-    print1opt("-W", "--wordbounds",
+    print_opt("-W", "--wordbounds",
 	N_("Detect word boundaries more accurately"));
 #endif
 #ifdef ENABLE_COLOR
-    print1opt(_("-Y [str]"), _("--syntax=[str]"),
+    print_opt(_("-Y [str]"), _("--syntax=[str]"),
 	N_("Syntax definition to use"));
 #endif
-    print1opt("-c", "--const", N_("Constantly show cursor position"));
-    print1opt("-d", "--rebinddelete",
+    print_opt("-c", "--const", N_("Constantly show cursor position"));
+    print_opt("-d", "--rebinddelete",
 	N_("Fix Backspace/Delete confusion problem"));
 #ifndef NANO_TINY
-    print1opt("-i", "--autoindent",
+    print_opt("-i", "--autoindent",
 	N_("Automatically indent new lines"));
-    print1opt("-k", "--cut", N_("Cut from cursor to end of line"));
+    print_opt("-k", "--cut", N_("Cut from cursor to end of line"));
 #endif
-    print1opt("-l", "--nofollow",
+    print_opt("-l", "--nofollow",
 	N_("Don't follow symbolic links, overwrite"));
 #ifndef DISABLE_MOUSE
-    print1opt("-m", "--mouse", N_("Enable mouse"));
+    print_opt("-m", "--mouse", N_("Enable mouse"));
 #endif
 #ifndef DISABLE_OPERATINGDIR
-    print1opt(_("-o [dir]"), _("--operatingdir=[dir]"),
+    print_opt(_("-o [dir]"), _("--operatingdir=[dir]"),
 	N_("Set operating directory"));
 #endif
-    print1opt("-p", "--preserve",
+    print_opt("-p", "--preserve",
 	N_("Preserve XON (^Q) and XOFF (^S) keys"));
 #ifndef DISABLE_WRAPJUSTIFY
-    print1opt(_("-r [#cols]"), _("--fill=[#cols]"),
+    print_opt(_("-r [#cols]"), _("--fill=[#cols]"),
 	N_("Set fill cols to (wrap lines at) #cols"));
 #endif
 #ifndef DISABLE_SPELLER
-    print1opt(_("-s [prog]"), _("--speller=[prog]"),
+    print_opt(_("-s [prog]"), _("--speller=[prog]"),
 	N_("Enable alternate speller"));
 #endif
-    print1opt("-t", "--tempfile",
+    print_opt("-t", "--tempfile",
 	N_("Auto save on exit, don't prompt"));
-    print1opt("-v", "--view", N_("View (read only) mode"));
+    print_opt("-v", "--view", N_("View (read only) mode"));
 #ifndef DISABLE_WRAPPING
-    print1opt("-w", "--nowrap", N_("Don't wrap long lines"));
+    print_opt("-w", "--nowrap", N_("Don't wrap long lines"));
 #endif
-    print1opt("-x", "--nohelp", N_("Don't show help window"));
-    print1opt("-z", "--suspend", N_("Enable suspend"));
+    print_opt("-x", "--nohelp", N_("Don't show help window"));
+    print_opt("-z", "--suspend", N_("Enable suspend"));
 
     /* This is a special case. */
-    print1opt("-a, -b, -e,", "", NULL);
-    print1opt("-f, -g, -j", "", N_("(ignored, for Pico compatibility)"));
+    print_opt("-a, -b, -e,", "", NULL);
+    print_opt("-f, -g, -j", "", N_("(ignored, for Pico compatibility)"));
 
     exit(0);
 }
