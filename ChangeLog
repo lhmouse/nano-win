@@ -68,7 +68,7 @@ CVS code -
 	  and DLR)
 	- Change the shortcut to find the matching bracket to Ctrl-].
 	  Changes to shortcut_init() and do_statusbar_input(). (DLR)
-	- Drop the Meta-] and Meta-[ aliases for Meta-} and Meta-}, and
+	- Drop the Meta-] and Meta-[ aliases for Meta-} and Meta-{, and
 	  change the shortcut to find the matching bracket from Ctrl-]
 	  back to Meta-], since Ctrl-] is used as the telnet escape key.
 	  Changes to shortcut_init() and do_statusbar_input(). (DLR,
