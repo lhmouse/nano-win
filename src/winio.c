@@ -388,7 +388,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 			    retval = NANO_FORWARD_KEY;
 			    break;
 #ifdef KEY_HOME
-			/* HP-UX 10 and 11 don't support KEY_HOME. */
+			/* HP-UX 10-11 doesn't support KEY_HOME. */
 			case KEY_HOME:
 			    retval = NANO_HOME_KEY;
 			    break;
@@ -438,7 +438,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 			    break;
 #endif
 #ifdef KEY_END
-			/* HP-UX 10 and 11 don't support KEY_END. */
+			/* HP-UX 10-11 doesn't support KEY_END. */
 			case KEY_END:
 			    retval = NANO_END_KEY;
 			    break;
@@ -457,13 +457,13 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 			    break;
 #endif
 #ifdef KEY_SEND
-			/* HP-UX 10 and 11 don't support KEY_SEND. */
+			/* HP-UX 10-11 doesn't support KEY_SEND. */
 			case KEY_SEND:
 			    retval = NANO_END_KEY;
 			    break;
 #endif
 #ifdef KEY_SHOME
-			/* HP-UX 10 and 11 and Slang don't support
+			/* HP-UX 10-11 and Slang don't support
 			 * KEY_SHOME. */
 			case KEY_SHOME:
 			    retval = NANO_HOME_KEY;
