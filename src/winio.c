@@ -3092,7 +3092,7 @@ void do_credits(void)
 	"",
 	"",
 	"(c) 1999-2004 Chris Allegretta",
-	"(c) 2005 David Lawrence Ramsey",
+	"(c) 2005-2006 David Lawrence Ramsey",
 	"",
 	"",
 	"",
