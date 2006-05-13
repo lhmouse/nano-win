@@ -728,8 +728,10 @@ void usage(void)
     print_opt("-B", "--backup", N_("Save backups of existing files"));
     print_opt(_("-C [dir]"), _("--backupdir=[dir]"),
 	N_("Directory for saving unique backup files"));
+#endif
     print_opt("-D", "--boldtext",
 	N_("Use bold instead of reverse video text"));
+#ifndef NANO_TINY
     print_opt("-E", "--tabstospaces",
 	N_("Convert typed tabs to spaces"));
 #endif
