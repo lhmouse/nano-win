@@ -457,7 +457,8 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 			    break;
 #endif
 #ifdef KEY_SEND
-			/* HP-UX 10-11 doesn't support KEY_SEND. */
+			/* HP-UX 10-11 and Slang don't support
+			 * KEY_SEND. */
 			case KEY_SEND:
 			    retval = NANO_END_KEY;
 			    break;
