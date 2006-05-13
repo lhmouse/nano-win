@@ -1837,8 +1837,14 @@ int do_writeout(bool exiting)
 #endif
 
 #ifdef NANO_EXTRA
-	    if (exiting && !ISSET(TEMP_FILE) &&
-		strcasecmp(answer, "zzy") == 0 && !did_credits) {
+	    /* If the current file has been modified, we've pressed
+	     * Ctrl-X at the edit window to exit, we've pressed "y" at
+	     * the "Save modified buffer" prompt to save, we've entered
+	     * "zzy" as the filename to save under (hence "xyzzy"), and
+	     * this is the first time we've done this, show an Easter
+	     * egg.  Display the credits. */
+	    if (!did_credits && exiting && !ISSET(TEMP_FILE) &&
+		strcasecmp(answer, "zzy") == 0) {
 		do_credits();
 		did_credits = TRUE;
 		retval = -1;
@@ -1885,7 +1891,7 @@ int do_writeout(bool exiting)
 
 	    break;
 	}
-    } /* while (TRUE) */
+    }
 
     free(ans);
 
