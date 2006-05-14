@@ -79,6 +79,7 @@
 #endif /* CURSES_H */
 
 #ifdef ENABLE_NLS
+/* Native language support. */
 #ifdef HAVE_LIBINTL_H
 #include <libintl.h>
 #endif

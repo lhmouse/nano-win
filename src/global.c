@@ -214,8 +214,7 @@ bool curses_ended = FALSE;
 	 * statusbar. */
 
 char *homedir = NULL;
-		/* The user's home directory, from $HOME or
-		 * /etc/passwd. */
+	/* The user's home directory, from $HOME or /etc/passwd. */
 
 /* Return the number of entries in the shortcut list s. */
 size_t length_of_list(const shortcut *s)

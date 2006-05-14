@@ -28,15 +28,14 @@
 #include <string.h>
 
 static char *prompt = NULL;
-				/* The prompt string for statusbar
-				 * questions. */
+	/* The prompt string for statusbar questions. */
 static size_t statusbar_x = (size_t)-1;
-				/* The cursor position in answer. */
+	/* The cursor position in answer. */
 static size_t statusbar_pww = (size_t)-1;
-				/* The place we want in answer. */
+	/* The place we want in answer. */
 static bool reset_statusbar_x = FALSE;
-				/* Should we reset the cursor position
-				 * at the statusbar prompt? */
+	/* Should we reset the cursor position at the statusbar
+	 * prompt? */
 
 /* Read in a character, interpret it as a shortcut or toggle if
  * necessary, and return it.  Set meta_key to TRUE if the character is a

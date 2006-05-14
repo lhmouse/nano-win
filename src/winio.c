@@ -30,19 +30,16 @@
 #include <ctype.h>
 
 static int *key_buffer = NULL;
-				/* The default keystroke buffer,
-				 * containing all the keystrokes we have
-				 * at a given point. */
+	/* The default keystroke buffer, containing all the keystrokes
+	 * we have at a given point. */
 static size_t key_buffer_len = 0;
-				/* The length of the default keystroke
-				 * buffer. */
+	/* The length of the default keystroke buffer. */
 static int statusblank = 0;
-				/* The number of keystrokes left after
-				 * we call statusbar(), before we
-				 * actually blank the statusbar. */
+	/* The number of keystrokes left after we call statusbar(),
+	 * before we actually blank the statusbar. */
 static bool disable_cursorpos = FALSE;
-				/* Should we temporarily disable
-				 * constant cursor position display? */
+	/* Should we temporarily disable constant cursor position
+	 * display? */
 
 /* Control character compatibility:
  *
