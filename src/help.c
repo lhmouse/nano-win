@@ -441,7 +441,7 @@ void help_init(void)
 		     * of blank space.  If this entry takes up more than
 		     * one entry's worth of space, use two to display
 		     * it. */
-		    if (strlen(space_ptr) > 6)
+		    if (mbstrlen(space_ptr) > 6)
 			entries++;
 		} else
 		    /* Otherwise, truncate it so that it takes up only
@@ -489,7 +489,7 @@ void help_init(void)
 		/* If we're here, we have at least two entries worth of
 		 * blank space.  If this entry takes up more than one
 		 * entry's worth of space, use two to display it. */
-		if (strlen(space_ptr) > 5)
+		if (mbstrlen(space_ptr) > 5)
 		    entries++;
 
 		ptr += sprintf(ptr, "M-%s", space_ptr);
