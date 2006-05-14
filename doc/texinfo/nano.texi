@@ -589,7 +589,7 @@ Allow @code{nano} to be suspended.
 
 @item set tabsize "n"
 Use a tab size of "n" columns.  The value of "n" must be greater than 0.
-The default value is 8.  
+The default value is 8.
 
 @item set/unset tabstospaces
 Convert typed tabs to spaces.
