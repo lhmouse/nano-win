@@ -171,6 +171,9 @@ CVS code -
 	- Rename to print_opt_full(), for consistency. (DLR)
   usage()
 	- Fix inaccuracies in the usage example. (DLR)
+	- Put command line arguments in <>'s instead of []'s, as the
+	  latter imply that the arguments are optional when they aren't.
+	  (DLR, found by Benno Schulenberg)
   renumber()
 	- Remove invalid assert. (DLR, found by Filipe Moreira)
   do_input()
@@ -232,6 +235,8 @@ CVS code -
 	  well as single-line ones.  This avoids a segfault when trying
 	  to color e.g. "start="$" end="$"". (DLR, found by Trevor
 	  Caira)
+  do_credits()
+	- Update the last copyright notice to include 2006. (DLR)
 - configure.ac:
 	- Remove old warnings about color support. (DLR)
 - doc/faq.html:
@@ -249,20 +254,36 @@ CVS code -
 	  require that the bracket matching key change to Ctrl-], which
 	  is used as the telnet escape key. (DLR, found by Chris)
 	- Make the link to the nano CVS page a bit more readable. (DLR)
-- doc/nano.1, doc/nanorc.5, doc/rnano.1, doc/nano.texi:
+- doc/nano.1:
 	- Update the copyright years to include 2006. (DLR)
 	- Explicitly mention that all regexes should be extended regular
 	  expressions. (DLR, suggested by John M. Gabriele)
 	- Miscellaneous minor fixes. (DLR)
 	- Add various wording fixes. (Benno Schulenberg and DLR)
+	- Put command line arguments in <>'s instead of []'s, as the
+	  latter imply that the arguments are optional when they aren't.
+	  (Benno Schulenberg)
 - doc/nanorc.5:
+	- Update the copyright years to include 2006. (DLR)
+	- Explicitly mention that all regexes should be extended regular
+	  expressions. (DLR, suggested by John M. Gabriele)
+	- Miscellaneous minor fixes. (DLR)
+	- Add various wording fixes. (Benno Schulenberg and DLR)
 	- Mention that the nanorc file should not be in DOS or Mac
 	  format. (DLR)
-	- Add various wording fixes. (DLR)
 - doc/rnano.1:
+	- Update the copyright years to include 2006. (DLR)
+	- Explicitly mention that all regexes should be extended regular
+	  expressions. (DLR, suggested by John M. Gabriele)
+	- Miscellaneous minor fixes. (DLR)
 	- Add various wording fixes. (Benno Schulenberg and DLR)
 	- Add description of the +LINE[,COLUMN] option. (DLR)
 - doc/nano.texi:
+	- Update the copyright years to include 2006. (DLR)
+	- Explicitly mention that all regexes should be extended regular
+	  expressions. (DLR, suggested by John M. Gabriele)
+	- Miscellaneous minor fixes. (DLR)
+	- Add various wording fixes. (Benno Schulenberg and DLR)
 	- Change license to GPL, in order to match the rest of the
 	  documentation, and because the current license is incompatible
 	  with everything else in any case. (DLR)
@@ -272,7 +293,12 @@ CVS code -
 	  help text, and with nano's current feature set. (DLR)
 	- Add a "Nanorc Files" section to explain the nanorc file format
 	  in detail, using text from nanorc.5. (DLR)
-	- Add various wording fixes. (Benno Schulenberg and DLR)
+	- Put command line arguments in <>'s instead of []'s, as the
+	  latter imply that the arguments are optional when they aren't.
+	  (Benno Schulenberg)
+	- Add missing description of -H/--historylog, and move
+	  -x/--nohelp down so that all the command line options are in
+	  alphabetical order. (Benno Schulenberg)
 - doc/man/fr/nano.1, doc/man/fr/nanorc.5, doc/man/fr/rnano.1:
 	- Updated manpage translations by Jean-Philippe Guérard.
 - doc/nanorc.sample:
@@ -295,6 +321,7 @@ CVS code -
 	- Simplify the "nanorc" regex for commands. (DLR)
 	- Mention that the nanorc file should not be in DOS or Mac
 	  format. (DLR)
+	- Add various wording fixes. (Benno Schulenberg and DLR)
 - UPGRADE:
 	- Miscellaneous minor fixes. (DLR)
 

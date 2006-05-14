@@ -726,7 +726,7 @@ void usage(void)
 #ifndef NANO_TINY
     print_opt("-A", "--smarthome", N_("Enable smart home key"));
     print_opt("-B", "--backup", N_("Save backups of existing files"));
-    print_opt(_("-C [dir]"), _("--backupdir=[dir]"),
+    print_opt(_("-C <dir>"), _("--backupdir=<dir>"),
 	N_("Directory for saving unique backup files"));
 #endif
     print_opt("-D", "--boldtext",
@@ -756,14 +756,14 @@ void usage(void)
 #endif
     print_opt("-O", "--morespace", N_("Use more space for editing"));
 #ifndef DISABLE_JUSTIFY
-    print_opt(_("-Q [str]"), _("--quotestr=[str]"),
+    print_opt(_("-Q <str>"), _("--quotestr=<str>"),
 	N_("Quoting string"));
 #endif
     print_opt("-R", "--restricted", N_("Restricted mode"));
 #ifndef NANO_TINY
     print_opt("-S", "--smooth", N_("Smooth scrolling"));
 #endif
-    print_opt(_("-T [#cols]"), _("--tabsize=[#cols]"),
+    print_opt(_("-T <#cols>"), _("--tabsize=<#cols>"),
 	N_("Set width of a tab in cols to #cols"));
 #ifndef NANO_TINY
     print_opt("-U", "--quickblank", N_("Do quick statusbar blanking"));
@@ -775,7 +775,7 @@ void usage(void)
 	N_("Detect word boundaries more accurately"));
 #endif
 #ifdef ENABLE_COLOR
-    print_opt(_("-Y [str]"), _("--syntax=[str]"),
+    print_opt(_("-Y <str>"), _("--syntax=<str>"),
 	N_("Syntax definition to use"));
 #endif
     print_opt("-c", "--const", N_("Constantly show cursor position"));
@@ -792,17 +792,17 @@ void usage(void)
     print_opt("-m", "--mouse", N_("Enable mouse"));
 #endif
 #ifndef DISABLE_OPERATINGDIR
-    print_opt(_("-o [dir]"), _("--operatingdir=[dir]"),
+    print_opt(_("-o <dir>"), _("--operatingdir=<dir>"),
 	N_("Set operating directory"));
 #endif
     print_opt("-p", "--preserve",
 	N_("Preserve XON (^Q) and XOFF (^S) keys"));
 #ifndef DISABLE_WRAPJUSTIFY
-    print_opt(_("-r [#cols]"), _("--fill=[#cols]"),
+    print_opt(_("-r <#cols>"), _("--fill=<#cols>"),
 	N_("Set fill cols to (wrap lines at) #cols"));
 #endif
 #ifndef DISABLE_SPELLER
-    print_opt(_("-s [prog]"), _("--speller=[prog]"),
+    print_opt(_("-s <prog>"), _("--speller=<prog>"),
 	N_("Enable alternate speller"));
 #endif
     print_opt("-t", "--tempfile",

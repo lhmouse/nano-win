@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.3.12
-@set UPDATED 01 May 2006
+@set UPDATED 14 May 2006
 
 @dircategory Editors
 @direntry
@@ -92,9 +92,9 @@ with a plus sign before any file name, and even in a desired column
 by adding it with a comma.  So the complete synopsis is:
 
 @quotation
-@code{nano [OPTION]@dots{} [[+LINE] [FILE]]@dots{}}
+@code{nano [OPTION]@dots{} [[+LINE] FILE]@dots{}}
 
-@code{nano [OPTION]@dots{} [[+LINE,COLUMN] [FILE]]@dots{}}
+@code{nano [OPTION]@dots{} [[+LINE,COLUMN] FILE]@dots{}}
 @end quotation
 
 Email bug reports to @email{nano@@nano-editor.org}.
@@ -123,7 +123,7 @@ line.
 When saving a file, back up the previous version of it to the current
 filename suffixed with a ~.
 
-@item -C, --backupdir=[dir]
+@item -C <dir>, --backupdir=<dir>
 Set the directory where @code{nano} puts unique backup files if file
 backups are enabled.
 
@@ -135,6 +135,10 @@ Convert typed tabs to spaces.
 
 @item -F, --multibuffer
 Enable multiple file buffers, if available.
+
+@item -H, --historylog
+Log search and replace strings to ~/.nano_history, so they can be
+retrieved in later sessions, if nanorc support is available.
 
 @item -I, --ignorercfiles
 Don't look at SYSCONFDIR/nanorc or ~/.nanorc, if nanorc support is
@@ -151,7 +155,7 @@ Don't add newlines to the ends of files.
 @item -N, --noconvert
 Don't convert files from DOS/Mac format.
 
-@item -Q [str], --quotestr [str]
+@item -Q <str>, --quotestr=<str>
 Set the quoting string for justifying.  The default value is
 
 @quotation
@@ -172,13 +176,13 @@ by invoking @code{nano} with any name beginning with 'r' (e.g. "rnano").
 Enable smooth scrolling.  Text will scroll line-by-line, instead of the
 usual chunk-by-chunk behavior.
 
-@item -T [num], --tabsize=[#cols]
+@item -T <#cols>, --tabsize=<#cols>
 Set the displayed tab length to #cols columns.  The value of #cols must
 be greater than 0.  The default value is 8.
 
 @item -U, --quickblank
 Do quick statusbar blanking.  Statusbar messages will disappear after 1
-keystroke instead of 25.  Note that -c cancels this out.
+keystroke instead of 25.  Note that -c overules this.
 
 @item -V, --version
 Show the current version number and exit.
@@ -187,13 +191,13 @@ Show the current version number and exit.
 Detect word boundaries more accurately by treating punctuation
 characters as part of a word.
 
-@item -Y, --syntax=[str]
+@item -Y <str>, --syntax=<str>
 Specify a specific syntax highlighting from the nanorc to use, if
 available.  See @xref{Nanorc Files}, for more info.
 
 @item -c, --const
 Constantly display the cursor position and line number on the statusbar.
-Note that this cancels out -U.
+Note that this overrules -U.
 
 @item -d, --rebinddelete
 Interpret the Delete key differently so that both Backspace and Delete
@@ -218,7 +222,7 @@ and a new file is created.
 Enables the use of the mouse to select text (currently only useful for
 running under the X Window System).
 
-@item -o [dir], --operatingdir=[dir]
+@item -o <dir>, --operatingdir=<dir>
 Set operating directory.  Makes @code{nano} set up something similar to
 a chroot.
 
@@ -226,31 +230,22 @@ a chroot.
 Preserve the ^Q (XON) and ^S (XOFF) sequences so data being sent to the
 editor can be can be stopped and started.
 
-@item -r [#cols], --fill=[#cols].
+@item -r <#cols>, --fill=<#cols>
 Wrap lines at column #cols.  If this value is 0 or less, wrapping will
 occur at the width of the screen less #cols, allowing it to vary along
 with the width of the screen if the screen is resized.  The default
 value is -8.
 
-@item -s [prog], --speller=[prog]
-Invoke [prog] as the spell checker.  By default, @code{nano} uses the
-command specified in the SPELL environment variable, or, if SPELL is not
-set, its own interactive spell checker that requires the @code{spell}
-program to be installed on your system.
+@item -s <prog>, --speller=<prog>
+Invoke the given program as the spell checker.  By default, @code{nano}
+uses the command specified in the SPELL environment variable, or, if
+SPELL is not set, its own interactive spell checker that requires the
+@code{spell} program to be installed on your system.
 
 @item -t, --tempfile
 Don't ask whether or not to save the current contents of the file when
 exiting, assume yes.  This is most useful when using @code{nano} as the
 composer of a mailer program.
-
-@anchor{Expert Mode}
-@item -x, --nohelp
-Expert Mode: don't show the Shortcut Lists at the bottom of the screen.
-This affects the location of the statusbar as well, as in Expert Mode it
-is located at the very bottom of the editor.
-
-Note: When accessing the help system, Expert Mode is temporarily
-disabled to display the help system navigation keys.
 
 @item -v, --view
 Don't allow the contents of the file to be altered.  Note that this
@@ -260,6 +255,15 @@ implement a read-only file.
 @item -w, --nowrap
 Don't wrap long lines at any length.  This option overrides any value
 for -r.
+
+@anchor{Expert Mode}
+@item -x, --nohelp
+Expert Mode: don't show the Shortcut Lists at the bottom of the screen.
+This affects the location of the statusbar as well, as in Expert Mode it
+is located at the very bottom of the editor.
+
+Note: When accessing the help system, Expert Mode is temporarily
+disabled to display the help system navigation keys.
 
 @item -z, --suspend
 Enable @code{nano}'s suspend ability using the system's suspend
