@@ -148,10 +148,8 @@ char *do_browser(char *path, DIR *dir)
 		    int mouse_x, mouse_y;
 		    get_mouseinput(&mouse_x, &mouse_y, TRUE);
 		}
-
 		break;
 #endif /* !DISABLE_MOUSE */
-
 	    case NANO_HELP_KEY:
 #ifndef DISABLE_HELP
 		do_browser_help();
@@ -160,19 +158,16 @@ char *do_browser(char *path, DIR *dir)
 		nano_disabled_msg();
 #endif
 		break;
-
 	    /* Search for a filename. */
 	    case NANO_WHEREIS_KEY:
 		curs_set(1);
 		do_filesearch();
 		curs_set(0);
 		break;
-
 	    /* Search for another filename. */
 	    case NANO_WHEREIS_NEXT_KEY:
 		do_fileresearch();
 		break;
-
 	    case NANO_PREVPAGE_KEY:
 		if (selected >= (editwinrows + fileline % editwinrows) *
 			width)
@@ -181,24 +176,20 @@ char *do_browser(char *path, DIR *dir)
 		else
 		    selected = 0;
 		break;
-
 	    case NANO_NEXTPAGE_KEY:
 		selected += (editwinrows - fileline % editwinrows) *
 			width;
 		if (selected >= filelist_len)
 		    selected = filelist_len - 1;
 		break;
-
 	    case NANO_FIRSTFILE_ALTKEY:
 		if (meta_key)
 		    selected = 0;
 		break;
-
 	    case NANO_LASTFILE_ALTKEY:
 		if (meta_key)
 		    selected = filelist_len - 1;
 		break;
-
 	    /* Go to a specific directory. */
 	    case NANO_GOTODIR_KEY:
 		curs_set(1);
@@ -273,27 +264,22 @@ char *do_browser(char *path, DIR *dir)
 		path = new_path;
 		free_chararray(filelist, filelist_len);
 		goto change_browser_directory;
-
 	    case NANO_PREVLINE_KEY:
 		if (selected >= width)
 		    selected -= width;
 		break;
-
 	    case NANO_BACK_KEY:
 		if (selected > 0)
 		    selected--;
 		break;
-
 	    case NANO_NEXTLINE_KEY:
 		if (selected + width <= filelist_len - 1)
 		    selected += width;
 		break;
-
 	    case NANO_FORWARD_KEY:
 		if (selected < filelist_len - 1)
 		    selected++;
 		break;
-
 	    case NANO_ENTER_KEY:
 		/* You can't move up from "/". */
 		if (strcmp(filelist[selected], "/..") == 0) {
@@ -345,12 +331,10 @@ char *do_browser(char *path, DIR *dir)
 		/* Start over again with the new path value. */
 		free_chararray(filelist, filelist_len);
 		goto change_browser_directory;
-
 	    /* Redraw the screen. */
 	    case NANO_REFRESH_KEY:
 		total_redraw();
 		break;
-
 	    /* Abort the browser. */
 	    case NANO_EXIT_KEY:
 		abort = TRUE;
