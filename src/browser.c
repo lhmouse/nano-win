@@ -333,7 +333,7 @@ char *do_browser(char *path, DIR *dir)
 		goto change_browser_directory;
 	    /* Redraw the screen. */
 	    case NANO_REFRESH_KEY:
-		total_redraw();
+		browser_refresh();
 		break;
 	    /* Abort the browser. */
 	    case NANO_EXIT_KEY:
