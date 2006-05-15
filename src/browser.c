@@ -44,8 +44,8 @@ static size_t selected = 0;
 static bool search_last_file = FALSE;
 	/* Have we gone past the last file while searching? */
 
-/* Our browser function.  path is the path to start browsing from.
- * Assume path has already been tilde-expanded. */
+/* Our browser function.  path is the tilde-expanded path to start
+ * browsing from. */
 char *do_browser(char *path, DIR *dir)
 {
     int kbinput;
@@ -333,7 +333,7 @@ char *do_browser(char *path, DIR *dir)
 		goto change_browser_directory;
 	    /* Redraw the screen. */
 	    case NANO_REFRESH_KEY:
-		browser_refresh();
+		total_redraw();
 		break;
 	    /* Abort the browser. */
 	    case NANO_EXIT_KEY:
