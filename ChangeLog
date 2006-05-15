@@ -191,7 +191,11 @@ CVS code -
   do_statusbar_input()
 	- Remove redundant check for allow_funcs' being TRUE when we get
 	  KEY_MOUSE. (DLR)
-  do_yesno()
+	- Improve the handling of NANO_REFRESH_KEY. (DLR)
+  total_statusbar_refresh()
+	- New function, called when we get NANO_REFRESH_KEY in
+	  do_statusbar_input(). (DLR)
+  do_yesno_prompt()
 	- Handle the keys in a switch statement instead of a long if
 	  block, for simplicity. (DLR)
 - rcfile.c:

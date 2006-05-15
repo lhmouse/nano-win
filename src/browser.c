@@ -150,6 +150,10 @@ char *do_browser(char *path, DIR *dir)
 		}
 		break;
 #endif /* !DISABLE_MOUSE */
+	    /* Redraw the screen. */
+	    case NANO_REFRESH_KEY:
+		total_redraw();
+		break;
 	    case NANO_HELP_KEY:
 #ifndef DISABLE_HELP
 		do_browser_help();
@@ -331,10 +335,6 @@ char *do_browser(char *path, DIR *dir)
 		/* Start over again with the new path value. */
 		free_chararray(filelist, filelist_len);
 		goto change_browser_directory;
-	    /* Redraw the screen. */
-	    case NANO_REFRESH_KEY:
-		total_redraw();
-		break;
 	    /* Abort the browser. */
 	    case NANO_EXIT_KEY:
 		abort = TRUE;

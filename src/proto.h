@@ -495,9 +495,10 @@ void do_statusbar_find_bracket(void);
 #endif
 size_t statusbar_xplustabs(void);
 size_t get_statusbar_page_start(size_t start_col, size_t column);
-void update_statusbar_line(const char *curranswer, size_t index);
 void reset_statusbar_cursor(void);
+void update_statusbar_line(const char *curranswer, size_t index);
 bool need_statusbar_horizontal_update(size_t old_pww);
+void total_statusbar_refresh(void (*refresh_func)(void));
 int get_prompt_string(bool allow_tabs,
 #ifndef DISABLE_TABCOMP
 	bool allow_files,

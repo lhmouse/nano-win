@@ -148,6 +148,9 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	if (have_shortcut) {
 	    switch (input) {
 		/* Handle the "universal" statusbar prompt shortcuts. */
+		case NANO_REFRESH_KEY:
+		    total_statusbar_refresh(refresh_func);
+		    break;
 		case NANO_CUT_KEY:
 		    /* If we're using restricted mode, the filename
 		     * isn't blank, and we're at the "Write File"
@@ -221,9 +224,6 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 		    if (!ISSET(RESTRICTED) || openfile->filename[0] ==
 			'\0' || currshortcut != writefile_list)
 			do_statusbar_backspace();
-		    break;
-		case NANO_REFRESH_KEY:
-		    refresh_func();
 		    break;
 		/* Handle the normal statusbar prompt shortcuts, setting
 		 * ran_func to TRUE if we try to run their associated
@@ -837,6 +837,16 @@ size_t get_statusbar_page_start(size_t start_col, size_t column)
 		start_col - 1);
 }
 
+/* Put the cursor in the statusbar prompt at statusbar_x. */
+void reset_statusbar_cursor(void)
+{
+    size_t start_col = strlenpt(prompt) + 1;
+    size_t xpt = statusbar_xplustabs();
+
+    wmove(bottomwin, 0, start_col + 1 + xpt -
+	get_statusbar_page_start(start_col, start_col + xpt));
+}
+
 /* Repaint the statusbar when getting a character in
  * get_prompt_string().  The statusbar text line will be displayed
  * starting with curranswer[index]. */
@@ -869,16 +879,6 @@ void update_statusbar_line(const char *curranswer, size_t index)
     wattroff(bottomwin, reverse_attr);
 }
 
-/* Put the cursor in the statusbar prompt at statusbar_x. */
-void reset_statusbar_cursor(void)
-{
-    size_t start_col = strlenpt(prompt) + 1;
-    size_t xpt = statusbar_xplustabs();
-
-    wmove(bottomwin, 0, start_col + 1 + xpt -
-	get_statusbar_page_start(start_col, start_col + xpt));
-}
-
 /* Return TRUE if we need an update after moving horizontally, and FALSE
  * otherwise.  We need one if old_pww and statusbar_pww are on different
  * pages. */
@@ -888,6 +888,14 @@ bool need_statusbar_horizontal_update(size_t old_pww)
 
     return get_statusbar_page_start(start_col, start_col + old_pww) !=
 	get_statusbar_page_start(start_col, start_col + statusbar_pww);
+}
+
+/* Unconditionally redraw the entire screen, and then refresh it using
+ * refresh_func(). */
+void total_statusbar_refresh(void (*refresh_func)(void))
+{
+    total_redraw();
+    refresh_func();
 }
 
 /* Get a string of input at the statusbar prompt.  This should only be
