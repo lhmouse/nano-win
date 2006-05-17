@@ -1,3 +1,9 @@
+2006-05-17  Jordi Mallach  <jordi@gnu.org>
+
+	* LINGUAS: Added "ga".
+	* ga.po: New Irish translation by
+	Kevin Patrick Scannell <scannell@SLU.EDU>.
+
 2006-05-10  Jordi Mallach  <jordi@gnu.org>
 
 	* nl.po: Updated Dutch translation by Benno Schulenberg.
