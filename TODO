@@ -1,13 +1,34 @@
 TODO file (? means the feature may be implemented, but not definitely)
 ------------------------------------------------------------------------
 
-For version 1.4:
+For the next version:
+- Undo/Redo keys?
+- Rebindable keys?
+- FriBidi support?
+- Port to DJGPP?
+- Make matching bracket searches sophisticated enough to skip over
+  brackets inside comments?
+- Allow indentation of marked text by spaces as well as tabs?
+- Rewrite the nano FAQ in SGML.
+- Allow conversion between different character sets.  Maybe use glib's
+  iconv() if the system's iconv() is inadequate, since we already use
+  glib's vsnprintf() if the system lacks vsnprintf()?
+- Properly preserve the cursor position when going from the "Read File"
+  or "Save File As" prompt to the file browser to the "Go To Directory"
+  prompt, and then canceling back to the "Read File" or "Save File As"
+  prompt.
+- Allow color syntaxes to apply to more than just color, so that we can
+  e.g. specify a different alternate spell checker depending on which
+  file type we have open.
+- Allow text searches in the help browser.
+
+Old requests:
+
+For version 2.0:
 - UTF-8 support. [DONE]
 - Support for paragraph searches. [DONE]
 - Support for justifying the entire file at once. [DONE]
 - Support for filename searches in the file browser. [DONE]
-- Undo/Redo keys?
-- Rebindable keys?
 - Keystroke to implement "Add next sequence as raw" like vi's ^V. [DONE]
 - Spell check selected text only. [DONE]
 - Make "To Line" (^W^T) and "Read from Command" (^R^X) reenter their
@@ -15,9 +36,6 @@ For version 1.4:
   (^R^X^X) (requires figuring out when to keep cursor position and when
   not to). [DONE]
 - Fix resetstatuspos global which we shouldn't have. [DONE]
-- Rewrite the nano FAQ in SGML.
-
-Old requests:
 
 For version 1.2:
 - Single line scroll up/down? [DONE]

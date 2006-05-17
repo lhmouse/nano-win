@@ -326,8 +326,13 @@ CVS code -
 	- Mention that the nanorc file should not be in DOS or Mac
 	  format. (DLR)
 	- Add various wording fixes. (Benno Schulenberg and DLR)
+- TODO:
+	- Update for nano 2.0, since we're now in a feature freeze.
+	  (DLR)
 - UPGRADE:
 	- Miscellaneous minor fixes. (DLR)
+	- Update for nano 2.0, since we're now in a feature freeze.
+	  (DLR)
 
 GNU nano 1.3.11 - 2006.03.30
 - General:
