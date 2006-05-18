@@ -68,7 +68,7 @@ void do_delete(void)
 {
     bool do_refresh = FALSE;
 	/* Do we have to call edit_refresh(), or can we get away with
-	 * update_line()? */
+	 * just update_line()? */
 
     assert(openfile->current != NULL && openfile->current->data != NULL && openfile->current_x <= strlen(openfile->current->data));
 
