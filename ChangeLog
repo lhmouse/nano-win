@@ -329,6 +329,9 @@ CVS code -
 	- Mention that the nanorc file should not be in DOS or Mac
 	  format. (DLR)
 	- Add various wording fixes. (Benno Schulenberg and DLR)
+- src/Makefile.am:
+	- If we're uninstalling, remove the "rnano" symlink. (DLR, found
+	  by Benno Schulenberg)
 - TODO:
 	- Update for nano 2.0, since we're now in a feature freeze.
 	  (DLR)

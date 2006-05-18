@@ -26,3 +26,5 @@ nano_LDADD = @GLIB_LIBS@ @LIBINTL@
 
 install-exec-hook:
 	cd $(DESTDIR)$(bindir) && rm -f rnano && $(LN_S) nano rnano
+uninstall-hook:
+	cd $(DESTDIR)$(bindir) && rm -f rnano
