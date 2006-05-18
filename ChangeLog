@@ -221,6 +221,9 @@ CVS code -
 	- Change all rcfile error messages to refer to commands instead
 	  of directives, for consistency with nanorc.5. (DLR)
 - text.c:
+  break_line()
+	- Fix problem where tab widths in columns are always calculated
+	  as tabsize. (DLR, found by Alexey Toptygin)
   do_justify()
 	- Remove redundant key checks. (DLR)
   do_spell()

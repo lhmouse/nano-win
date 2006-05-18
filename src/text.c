@@ -779,14 +779,14 @@ ssize_t break_line(const char *line, ssize_t goal
 	 * found with short enough display width.  */
     ssize_t cur_loc = 0;
 	/* Current index in line. */
+    size_t cur_pos = 0;
+	/* Current column position in line. */
     int line_len;
 
     assert(line != NULL);
 
-    while (*line != '\0' && goal >= 0) {
-	size_t pos = 0;
-
-	line_len = parse_mbchar(line, NULL, &pos);
+    while (*line != '\0' && goal >= cur_pos) {
+	line_len = parse_mbchar(line, NULL, &cur_pos);
 
 	if (is_blank_mbchar(line)
 #ifndef DISABLE_HELP
@@ -801,12 +801,11 @@ ssize_t break_line(const char *line, ssize_t goal
 #endif
 	}
 
-	goal -= pos;
 	line += line_len;
 	cur_loc += line_len;
     }
 
-    if (goal >= 0)
+    if (goal >= cur_pos)
 	/* In fact, the whole line displays shorter than goal. */
 	return cur_loc;
 
