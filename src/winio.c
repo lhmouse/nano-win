@@ -612,11 +612,11 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 
     if (retval != ERR) {
 	/* If our result is NANO_CONTROL_8, translate it to either
-	 * Backspace or Delete, depending on whether REBIND_DELETE is
+	 * Delete or Backspace, depending on whether REBIND_DELETE is
 	 * TRUE or FALSE. */
 	if (retval == NANO_CONTROL_8)
-	    retval = ISSET(REBIND_DELETE) ? NANO_BACKSPACE_KEY :
-		NANO_DELETE_KEY;
+	    retval = ISSET(REBIND_DELETE) ? NANO_DELETE_KEY :
+		NANO_BACKSPACE_KEY;
 
 	/* If our result is an extended keypad value (i.e, a value
 	 * outside of byte range), set func_key to TRUE. */
