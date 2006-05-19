@@ -848,6 +848,11 @@ ssize_t break_line(const char *line, ssize_t goal
 	)) {
 	line_len = parse_mbchar(line, NULL, NULL);
 
+#ifndef DISABLE_HELP
+	if (newline && *line == '\n')
+	    break;
+#endif
+
 	line += line_len;
 	blank_loc += line_len;
     }

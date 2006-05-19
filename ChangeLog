@@ -225,6 +225,9 @@ CVS code -
   break_line()
 	- Fix problem where tab widths in columns would always be
 	  calculated as tabsize. (DLR, found by Alexey Toptygin)
+	- Handle newlines consistently when searching for the last blank
+	  in the first group of blanks in the range of (goal - 1). (DLR,
+	  found by Benno Schulenberg)
   do_justify()
 	- Remove redundant key checks. (DLR)
   do_spell()
