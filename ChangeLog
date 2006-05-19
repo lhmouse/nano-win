@@ -161,6 +161,7 @@ CVS code -
 	- If we have at least two entries' worth of blank space, use it
 	  to display more of "^Space" and "M-Space". (DLR, suggested by
 	  Benno Schulenberg)
+	- Add various wording fixes. (DLR)
   parse_help_input()
 	- Add Space and - as aliases for PageDown and PageUp, for
 	  consistency with the file browser. (DLR, suggested by Benno

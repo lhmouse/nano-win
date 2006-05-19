@@ -322,7 +322,7 @@ void help_init(void)
 		"be edited.  It will then prompt to replace every "
 		"instance of the given misspelled word in the current "
 		"file, or, if you have selected text with the mark, in "
-		"the selected text.\n\n The following other functions "
+		"the selected text.\n\n The following function keys "
 		"are available in Spell Check mode:\n\n");
 	htx[1] = NULL;
 	htx[2] = NULL;
@@ -335,8 +335,8 @@ void help_init(void)
 		"command run by the shell into the current buffer (or "
 		"a new buffer in multiple file buffer mode). If you "
 		"need another blank buffer, do not enter any "
-		"command.\n\n The following keys are available in "
-		"Execute Command mode:\n\n");
+		"command.\n\n The following function keys are "
+		"available in Execute Command mode:\n\n");
 	htx[1] = NULL;
 	htx[2] = NULL;
     }
