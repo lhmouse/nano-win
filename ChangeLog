@@ -237,6 +237,10 @@ CVS code -
 	- Add Ctrl-/ as an alias for Ctrl-_. (DLR, found by Benno
 	  Schulenberg)
 	- Simplify the if blocks wherever possible. (DLR)
+  display_string()
+	- Properly display double-column characters if they're past the
+	  first virtual page and their first column is covered by the
+	  "$" displayed at the beginning of the line. (DLR)
   edit_draw()
 	- Properly ignore zero-length regexes in multi-line regexes as
 	  well as single-line ones.  This avoids a segfault when trying

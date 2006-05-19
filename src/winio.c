@@ -1810,7 +1810,12 @@ char *display_string(const char *buf, size_t start_col, size_t len, bool
 	    }
 	}
 #ifdef ENABLE_UTF8
-	else if (using_utf8() && mbwidth(buf_mb) > 1) {
+	else if (using_utf8() && mbwidth(buf_mb) == 2) {
+	    if (column >= start_col) {
+		converted[index++] = ' ';
+		start_col++;
+	    }
+
 	    converted[index++] = ' ';
 	    start_col++;
 
