@@ -1368,8 +1368,11 @@ int get_control_kbinput(int kbinput)
     /* Ctrl-8 (Ctrl-?) */
     else if (kbinput == '8')
 	retval = kbinput + 71;
-    /* Ctrl-? (Ctrl-8) to Ctrl-_ (Ctrl-/, Ctrl-7) */
-    else if ('?' <= kbinput && kbinput <= '_')
+    /* Ctrl-? (Ctrl-8) */
+    else if (kbinput == '?')
+	retval = kbinput + 64;
+    /* Ctrl-@ (Ctrl-Space, Ctrl-2, Ctrl-`) to Ctrl-_ (Ctrl-/, Ctrl-7) */
+    else if ('@' <= kbinput && kbinput <= '_')
 	retval = kbinput - 64;
     /* Ctrl-` (Ctrl-2, Ctrl-Space, Ctrl-@) to Ctrl-~ (Ctrl-6, Ctrl-^) */
     else if ('`' <= kbinput && kbinput <= '~')
