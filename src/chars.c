@@ -1016,7 +1016,6 @@ bool is_valid_mbstring(const char *s)
 	use_utf8 ?
 	(mbstowcs(NULL, s, 0) != (size_t)-1) :
 #endif
-
 	TRUE;
 }
 #endif /* ENABLE_NANORC */
