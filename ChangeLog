@@ -340,6 +340,9 @@ CVS code -
 	- Replace instances of "\w" with its equivalent "[0-9A-Za-z_]",
 	  and instances of "\W" with its equivalent "[^0-9A-Za-z_]", for
 	  greater readability. (DLR)
+	- Remove unneeded foreground color for the Java source regex
+	  used to highlight trailing whitespace, since we now support
+	  background colors without foreground colors. (DLR)
 - src/Makefile.am:
 	- If we're uninstalling, remove the "rnano" symlink. (DLR, found
 	  by Benno Schulenberg)

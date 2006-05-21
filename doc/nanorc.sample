@@ -307,7 +307,7 @@
 # color blue "//.*"
 # color blue start="/\*" end="\*/"
 # color brightblue start="/\*\*" end="\*/"
-# color brightgreen,green "[[:space:]]+$"
+# color ,green "[[:space:]]+$"
 
 ## Here is an example for patch files.
 ##
