@@ -1363,7 +1363,8 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 		     * cutting or copying text. */
 		    if (s->func != do_cut_text_void
 #ifndef NANO_TINY
-			&& s->func != do_copy_text
+			&& s->func != do_copy_text && s->func !=
+			do_cut_till_end
 #endif
 			)
 			cutbuffer_reset();

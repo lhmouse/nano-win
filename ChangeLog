@@ -199,6 +199,10 @@ CVS code -
   do_yesno_prompt()
 	- Handle the keys in a switch statement instead of a long if
 	  block, for simplicity. (DLR)
+- nano.c:
+  do_input()
+	- Don't blow away the cutbuffer when the shortcut we get is
+	  do_cut_till_end(). (DLR)
 - rcfile.c:
   parse_argument()
 	- Rename variable ptr_bak to ptr_save, for consistency. (DLR)
