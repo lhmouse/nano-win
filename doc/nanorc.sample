@@ -5,7 +5,7 @@
 ## DOS or Mac format, and that characters specially interpreted by the
 ## shell should not be escaped here.
 ##
-## To make sure a value is not enabled, use "unset <option>"
+## To make sure a value is disabled, use "unset <option>".
 ##
 ## For the options that take parameters, the default value is given.
 ## Other options are unset by default.
