@@ -247,27 +247,22 @@
 
 ## Here is an example for groff.
 ##
-# syntax "groff" "\.m[ems]$" "\.tmac$" "^tmac." ".rof"
-## The argument of .nr or .ds
-# color cyan "^\.ds [^[[:space:]]]*"
-# color cyan "^\.nr [^[[:space:]]]*"
+# syntax "groff" "\.m[ems]$" "\.rof" "\.tmac$" "^tmac."
+## The argument of .ds or .nr
+# color cyan "^\.(ds|nr) [^[[:space:]]]*"
 ## Single character escapes
 # color brightmagenta "\\."
 ## Highlight the argument of \f or \s in the same color
-# color brightmagenta "\\f."
-# color brightmagenta "\\f\(.."
-# color brightmagenta "\\s(\+|\-)?[0-9]"
+# color brightmagenta "\\f." "\\f\(.." "\\s(\+|\-)?[0-9]"
 ## \n
-# color cyan "(\\|\\\\)n."
-# color cyan "(\\|\\\\)n\(.."
+# color cyan "(\\|\\\\)n(.|\(..)"
 # color cyan start="(\\|\\\\)n\[" end="]"
 ## Requests
 # color brightgreen "^\.[[:space:]]*[^[[:space:]]]*"
 ## Comments
 # color yellow "^\.\\".*$"
 ## Strings
-# color green "(\\|\\\\)\*."
-# color green "(\\|\\\\)\*\(.."
+# color green "(\\|\\\\)\*(.|\(..)"
 # color green start="(\\|\\\\)\*\[" end="]"
 ## Characters
 # color brightred "\\\(.."
