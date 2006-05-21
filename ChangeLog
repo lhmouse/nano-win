@@ -93,6 +93,16 @@ CVS code -
 	- Rename variable editline to line, for consistency. (DLR)
 	- Change variable i from an int to a size_t in order to match
 	  selected, which it's compared against. (DLR)
+- cut.c:
+  cut_to_eof()
+	- New function, containing the main functionality of
+	  do_cut_till_end(). (DLR)
+  do_cut_text()
+	- Add parameter cut_till_end, to indicate when we're cutting
+	  from the current cursor position to the end of the file, and
+	  call cut_to_eof() when it's TRUE. (DLR)
+  do_cut_till_end()
+	- Convert to a wrapper for do_cut_text(). (DLR)
 - files.c:
   open_file()
 	- Remove redundant wording in the error message when we try to
@@ -180,6 +190,10 @@ CVS code -
   do_input()
 	- Remove redundant check for allow_funcs' being TRUE when we get
 	  KEY_MOUSE. (DLR)
+	- Don't blow away the cutbuffer when we get a shortcut and the
+	  function associated with it is do_cut_till_end(). (DLR)
+	- Simplify the routine to preserve the cutbuffer when we call a
+	  cutting or copying function associated with a shortcut. (DLR)
 - nano.h:
 	- Reorder the toggle #defines to match their corresponding order
 	  in toggle_init(). (DLR)
@@ -199,10 +213,6 @@ CVS code -
   do_yesno_prompt()
 	- Handle the keys in a switch statement instead of a long if
 	  block, for simplicity. (DLR)
-- nano.c:
-  do_input()
-	- Don't blow away the cutbuffer when the shortcut we get is
-	  do_cut_till_end(). (DLR)
 - rcfile.c:
   parse_argument()
 	- Rename variable ptr_bak to ptr_save, for consistency. (DLR)

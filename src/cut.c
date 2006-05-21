@@ -39,8 +39,8 @@ void cutbuffer_reset(void)
 }
 
 /* If we aren't on the last line of the file, move all the text of the
- * current line, plus the newline at the end, to the cutbuffer.  If we
- * are, move all of the text of the current line to the cutbuffer.  In
+ * current line, plus the newline at the end, into the cutbuffer.  If we
+ * are, move all of the text of the current line into the cutbuffer.  In
  * both cases, set the current place we want to the beginning of the
  * current line. */
 void cut_line(void)
@@ -55,8 +55,8 @@ void cut_line(void)
 }
 
 #ifndef NANO_TINY
-/* Move all currently marked text to the cutbuffer, and set the current
- * place we want to where the text used to start. */
+/* Move all currently marked text into the cutbuffer, and set the
+ * current place we want to where the text used to start. */
 void cut_marked(void)
 {
     filestruct *top, *bot;
@@ -71,9 +71,9 @@ void cut_marked(void)
 
 /* If we aren't at the end of the current line, move all the text from
  * the current cursor position to the end of the current line, not
- * counting the newline at the end, to the cutbuffer.  If we are, and
+ * counting the newline at the end, into the cutbuffer.  If we are, and
  * we're not on the last line of the file, move the newline at the end
- * to the cutbuffer, and set the current place we want to where the
+ * into the cutbuffer, and set the current place we want to where the
  * newline used to be. */
 void cut_to_eol(void)
 {
@@ -84,27 +84,37 @@ void cut_to_eol(void)
     if (openfile->current_x < data_len)
 	/* If we're not at the end of the line, move all the text from
 	 * the current position up to it, not counting the newline at
-	 * the end, to the cutbuffer. */
+	 * the end, into the cutbuffer. */
 	move_to_filestruct(&cutbuffer, &cutbottom, openfile->current,
 		openfile->current_x, openfile->current, data_len);
     else if (openfile->current != openfile->filebot) {
 	/* If we're at the end of the line, and it isn't the last line
 	 * of the file, move all the text from the current position up
 	 * to the beginning of the next line, i.e, the newline at the
-	 * end, to the cutbuffer. */
+	 * end, into the cutbuffer. */
 	move_to_filestruct(&cutbuffer, &cutbottom, openfile->current,
 		openfile->current_x, openfile->current->next, 0);
 	openfile->placewewant = xplustabs();
     }
 }
+
+/* Move all the text from the current cursor position to the end of the
+ * file into the cutbuffer. */
+void cut_to_eof(void)
+{
+    move_to_filestruct(&cutbuffer, &cutbottom, openfile->current,
+	openfile->current_x, openfile->filebot,
+	strlen(openfile->filebot->data));
+}
 #endif /* !NANO_TINY */
 
 /* Move text from the current filestruct into the cutbuffer.  If
- * copy_text is TRUE, copy the text back into the filestruct
- * afterward. */
+ * copy_text is TRUE, copy the text back into the filestruct afterward.
+ * If cut_till_end is TRUE, move all text from the current cursor
+ * position to the end of the file into the cutbuffer. */
 void do_cut_text(
 #ifndef NANO_TINY
-	bool copy_text
+	bool copy_text, bool cut_till_end
 #else
 	void
 #endif
@@ -156,7 +166,11 @@ void do_cut_text(
     keep_cutbuffer = TRUE;
 
 #ifndef NANO_TINY
-    if (openfile->mark_set) {
+    if (cut_till_end) {
+	/* If cut_till_end is TRUE, move all text up to the end of the
+	 * file into the cutbuffer. */
+	cut_to_eof();
+    } else if (openfile->mark_set) {
 	/* If the mark is on, move the marked text to the cutbuffer, and
 	 * turn the mark off. */
 	cut_marked();
@@ -211,7 +225,7 @@ void do_cut_text_void(void)
 {
     do_cut_text(
 #ifndef NANO_TINY
-	FALSE
+	FALSE, FALSE
 #endif
 	);
 }
@@ -221,30 +235,13 @@ void do_cut_text_void(void)
  * back into the filestruct afterward. */
 void do_copy_text(void)
 {
-    do_cut_text(TRUE);
+    do_cut_text(TRUE, FALSE);
 }
 
 /* Cut from the current cursor position to the end of the file. */
 void do_cut_till_end(void)
 {
-    assert(openfile->current != NULL && openfile->current->data != NULL);
-
-    check_statusblank();
-
-    move_to_filestruct(&cutbuffer, &cutbottom, openfile->current,
-	openfile->current_x, openfile->filebot,
-	strlen(openfile->filebot->data));
-
-    /* Leave the text in the cutbuffer, and mark the file as
-     * modified. */
-    set_modified();
-
-    /* Update the screen. */
-    edit_refresh();
-
-#ifdef DEBUG
-    dump_filestruct(cutbuffer);
-#endif
+    do_cut_text(FALSE, TRUE);
 }
 #endif /* !NANO_TINY */
 

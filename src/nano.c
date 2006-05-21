@@ -1247,6 +1247,8 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	/* The input buffer. */
     static size_t kbinput_len = 0;
 	/* The length of the input buffer. */
+    bool cut_copy = FALSE;
+	/* Are we cutting or copying text? */
     const shortcut *s;
     bool have_shortcut;
 #ifndef NANO_TINY
@@ -1359,15 +1361,15 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 		 * that we're done after running or trying to run their
 		 * associated functions. */
 		default:
-		    /* Blow away the text in the cutbuffer if we aren't
-		     * cutting or copying text. */
-		    if (s->func != do_cut_text_void
+		    /* If the function associated with this shortcut is
+		     * cutting or copying text, indicate this. */
+		    if (s->func == do_cut_text_void
 #ifndef NANO_TINY
-			&& s->func != do_copy_text && s->func !=
+			|| s->func == do_copy_text || s->func ==
 			do_cut_till_end
 #endif
 			)
-			cutbuffer_reset();
+			cut_copy = TRUE;
 
 		    if (s->func != NULL) {
 			*ran_func = TRUE;
@@ -1382,19 +1384,17 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	}
 #ifndef NANO_TINY
 	else if (have_toggle) {
-	    /* Blow away the text in the cutbuffer, since we aren't
-	     * cutting or copying text. */
-	    cutbuffer_reset();
 	    /* Toggle the flag associated with this shortcut. */
 	    if (allow_funcs)
 		do_toggle(t);
 	}
 #endif
-	else
-	    /* Blow away the text in the cutbuffer, since we aren't
-	     * cutting or copying text. */
-	    cutbuffer_reset();
     }
+
+    /* If we aren't cutting or copying text, blow away the text in the
+     * cutbuffer. */
+    if (!cut_copy)
+	cutbuffer_reset();
 
     return input;
 }
