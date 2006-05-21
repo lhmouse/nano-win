@@ -159,6 +159,9 @@ CVS code -
 	  after adding Meta-\ (Meta-|) and Meta-/ (Meta-?). (DLR)
 	- Lengthen the "UnCut Txt" shortcut name to "UnCut Text", as
 	  there's enough room to display it unabbreviated. (DLR)
+	- Clarify the descriptions of the "Search" and "Replace"
+	  shortcuts, and add spaces to the "Exit" shortcut's description
+	  in multibuffer mode. (Benno Schulenberg)
   toggle_init()
 	- In the global toggle list, move the "Constant cursor position
 	  display" toggle up to after the "Use more space for editing"

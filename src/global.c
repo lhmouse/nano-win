@@ -308,9 +308,9 @@ void shortcut_init(bool unjustify)
 #ifndef DISABLE_BROWSER
     /* TRANSLATORS: Try to keep this at most 16 characters. */
     const char *to_files_msg = N_("To Files");
-    /* TRANSLATORS: Try to keep this and following strings at most 12 characters. */
+    /* TRANSLATORS: Try to keep this at most 12 characters. */
     const char *first_file_msg = N_("First File");
-    /* TRANSLATORS: Try to keep this and previous strings at most 12 characters. */
+    /* TRANSLATORS: Try to keep this at most 12 characters. */
     const char *last_file_msg = N_("Last File");
 #endif
 #ifndef DISABLE_HELP
@@ -318,7 +318,7 @@ void shortcut_init(bool unjustify)
     const char *nano_help_msg = N_("Display this help text");
     const char *nano_exit_msg =
 #ifdef ENABLE_MULTIBUFFER
-	N_("Close the current file buffer/Exit from nano")
+	N_("Close the current file buffer / Exit from nano")
 #else
    	N_("Exit from nano")
 #endif
@@ -329,7 +329,7 @@ void shortcut_init(bool unjustify)
     const char *nano_insert_msg =
 	N_("Insert another file into the current one");
     const char *nano_whereis_msg =
-	N_("Search for text within the editor");
+	N_("Search for a string or a regular expression");
     const char *nano_prevpage_msg = N_("Move to the previous screen");
     const char *nano_nextpage_msg = N_("Move to the next screen");
     const char *nano_cut_msg =
@@ -341,7 +341,8 @@ void shortcut_init(bool unjustify)
     const char *nano_spell_msg =
 	N_("Invoke the spell checker, if available");
     const char *nano_gotoline_msg = N_("Go to line and column number");
-    const char *nano_replace_msg = N_("Replace text within the editor");
+    const char *nano_replace_msg =
+	N_("Replace a string or a regular expression");
 #ifndef NANO_TINY
     const char *nano_mark_msg = N_("Mark text at the cursor position");
     const char *nano_whereis_next_msg = N_("Repeat last search");
