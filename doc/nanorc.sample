@@ -203,7 +203,7 @@
 ## All regexes should be extended regular expressions.
 ##
 # syntax "c-file" "\.(c|C|cc|cpp|cxx|h|H|hh|hpp|hxx)$"
-# color brightred "\<[A-Z_][A-Z_0-9]+\>" 
+# color brightred "\<[A-Z_][0-9A-Z_]+\>" 
 # color green "\<(float|double|bool|char|int|short|long|sizeof|enum|void|static|const|struct|union|typedef|extern|signed|unsigned|inline)\>"
 # color green "\<(u_?)?int(8|16|32|64|ptr)_t\>"
 # color green "\<(class|namespace|template|public|protected|private|typename|this|friend|virtual|using|mutable|volatile|register|explicit)\>"
@@ -280,7 +280,7 @@
 # syntax "perl" "\.p[lm]$"
 # color red "\<(accept|alarm|atan2|bin(d|mode)|c(aller|h(dir|mod|op|own|root)|lose(dir)?|onnect|os|rypt)|d(bm(close|open)|efined|elete|ie|o|ump)|e(ach|of|val|x(ec|ists|it|p))|f(cntl|ileno|lock|ork))\>" "\<(get(c|login|peername|pgrp|ppid|priority|pwnam|(host|net|proto|serv)byname|pwuid|grgid|(host|net)byaddr|protobynumber|servbyport)|([gs]et|end)(pw|gr|host|net|proto|serv)ent|getsock(name|opt)|gmtime|goto|grep|hex|index|int|ioctl|join)\>" "\<(keys|kill|last|length|link|listen|local(time)?|log|lstat|m|mkdir|msg(ctl|get|snd|rcv)|next|oct|open(dir)?|ord|pack|pipe|pop|printf?|push|q|qq|qx|rand|re(ad(dir|link)?|cv|do|name|quire|set|turn|verse|winddir)|rindex|rmdir|s|scalar|seek(dir)?)\>" "\<(se(lect|mctl|mget|mop|nd|tpgrp|tpriority|tsockopt)|shift|shm(ctl|get|read|write)|shutdown|sin|sleep|socket(pair)?|sort|spli(ce|t)|sprintf|sqrt|srand|stat|study|substr|symlink|sys(call|read|tem|write)|tell(dir)?|time|tr(y)?|truncate|umask)\>" "\<(un(def|link|pack|shift)|utime|values|vec|wait(pid)?|wantarray|warn|write)\>"
 # color magenta "\<(continue|else|elsif|do|for|foreach|if|unless|until|while|eq|ne|lt|gt|le|ge|cmp|x|my|sub|use|package|can|isa)\>"
-# color cyan start="[$@%]" end="( |\\W|-)"
+# icolor cyan start="[$@%]" end="( |[^0-9A-Z_]|-)"
 # color yellow "".*"|qq\|.*\|"
 # color white "[sm]/.*/"
 # color white start="(^use| = new)" end=";"
@@ -290,7 +290,7 @@
 ## Here is an example for Python.
 ##
 # syntax "python" "\.py$"
-# icolor brightblue "def [A-Z_0-9]+"
+# icolor brightblue "def [0-9A-Z_]+"
 # color brightcyan "\<(and|assert|break|class|continue|def|del|elif|else|except|exec|finally|for|from|global|if|import|in|is|lambda|map|not|or|pass|print|raise|return|try|while)\>"
 # color brightgreen "["'].*[^\\]["']" "["']{3}.*[^\\]["']{3}"
 # color brightgreen start=""""[^"]" end=""""" start="'''[^']" end="'''"
@@ -337,7 +337,7 @@
 # color brightgreen "\.(data|subsection|text)"
 # color green "\.(align|file|globl|global|hidden|section|size|type|weak)"
 # color brightyellow "\.(ascii|asciz|byte|double|float|hword|int|long|short|single|struct|word)"
-# icolor brightred "^[[:space:]]*[._A-Z0-9]*:"
+# icolor brightred "^[[:space:]]*[.0-9A-Z_]*:"
 # color brightcyan "^[[:space:]]*#[[:space:]]*(define|undef|include|ifn?def|endif|elif|else|if|warning|error)"
 ## Highlight strings (note: VERY resource intensive)
 # color brightyellow "<[^= 	]*>" ""(\\.|[^"])*""
@@ -349,13 +349,13 @@
 ## Here is an example for Bourne shell scripts.
 ##
 # syntax "shellscript" "\.sh$"
-# icolor brightgreen "^[_A-Z0-9]+\(\)"
+# icolor brightgreen "^[0-9A-Z_]+\(\)"
 # color green "\<(case|do|done|elif|else|esac|exit|fi|for|function|if|in|local|read|return|select|shift|then|time|until|while)\>"
 # color green "(\{|\}|\(|\)|\;|\]|\[|`|\\|\$|<|>|!|=|&|\|)"
 # color green "-[Ldefgruwx]\>"
 # color green "-(eq|ne|gt|lt|ge|le|s|n|z)\>"
 # color brightblue "\<(cat|cd|chmod|chown|cp|echo|env|export|grep|install|let|ln|make|mkdir|mv|rm|sed|set|tar|touch|umask|unset)\>"
-# icolor brightred "\$\{?[_A-Z0-9]+\}?"
+# icolor brightred "\$\{?[0-9A-Z_]+\}?"
 # color yellow "#.*$"
 # color brightyellow ""(\\.|[^"])*"" "'(\\.|[^'])*'"
 

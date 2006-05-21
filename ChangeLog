@@ -337,6 +337,9 @@ CVS code -
 	- Mention that the nanorc file should not be in DOS or Mac
 	  format. (DLR)
 	- Add various wording fixes. (Benno Schulenberg and DLR)
+	- Replace instances of "\w" with its equivalent "[0-9A-Za-z_]",
+	  and instances of "\W" with its equivalent "[^0-9A-Za-z_]", for
+	  greater readability. (DLR)
 - src/Makefile.am:
 	- If we're uninstalling, remove the "rnano" symlink. (DLR, found
 	  by Benno Schulenberg)
