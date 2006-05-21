@@ -100,8 +100,6 @@ char *do_browser(char *path, DIR *dir)
 	MEVENT mevent;
 #endif
 
-	check_statusblank();
-
 	/* Compute the line number we're on now, so that we don't divide
 	 * by zero. */
 	fileline = selected;

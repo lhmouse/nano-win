@@ -133,8 +133,6 @@ void do_cut_text(
 
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
-    check_statusblank();
-
     /* If keep_cutbuffer is FALSE and the cutbuffer isn't empty, blow
      * away the text in the cutbuffer. */
     if (!keep_cutbuffer && cutbuffer != NULL) {
@@ -253,8 +251,6 @@ void do_uncut_text(void)
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
-
-    check_statusblank();
 
     /* If the cutbuffer is empty, get out. */
     if (cutbuffer == NULL)

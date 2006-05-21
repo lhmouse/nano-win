@@ -32,8 +32,6 @@ void do_first_line(void)
     const filestruct *current_save = openfile->current;
     size_t pww_save = openfile->placewewant;
 
-    check_statusblank();
-
     openfile->current = openfile->fileage;
     openfile->current_x = 0;
     openfile->placewewant = 0;
@@ -47,8 +45,6 @@ void do_last_line(void)
     const filestruct *current_save = openfile->current;
     size_t pww_save = openfile->placewewant;
 
-    check_statusblank();
-
     openfile->current = openfile->filebot;
     openfile->current_x = strlen(openfile->filebot->data);
     openfile->placewewant = xplustabs();
@@ -61,8 +57,6 @@ void do_last_line(void)
 void do_page_up(void)
 {
     int i;
-
-    check_statusblank();
 
 #ifndef DISABLE_WRAPPING
     wrap_reset();
@@ -102,8 +96,6 @@ void do_page_up(void)
 void do_page_down(void)
 {
     int i;
-
-    check_statusblank();
 
 #ifndef DISABLE_WRAPPING
     wrap_reset();
@@ -149,8 +141,6 @@ void do_para_begin(bool allow_update)
     const filestruct *current_save = openfile->current;
     const size_t pww_save = openfile->placewewant;
 
-    check_statusblank();
-
     if (openfile->current != openfile->fileage) {
 	do {
 	    openfile->current = openfile->current->prev;
@@ -182,8 +172,6 @@ void do_para_end(bool allow_update)
 {
     const filestruct *const current_save = openfile->current;
     const size_t pww_save = openfile->placewewant;
-
-    check_statusblank();
 
     while (openfile->current != openfile->filebot &&
 	!inpar(openfile->current))
@@ -232,8 +220,6 @@ bool do_next_word(bool allow_punct, bool allow_update)
     bool end_line = FALSE, started_on_word = FALSE;
 
     assert(openfile->current != NULL && openfile->current->data != NULL);
-
-    check_statusblank();
 
     char_mb = charalloc(mb_cur_max());
 
@@ -330,8 +316,6 @@ bool do_prev_word(bool allow_punct, bool allow_update)
     bool begin_line = FALSE, started_on_word = FALSE;
 
     assert(openfile->current != NULL && openfile->current->data != NULL);
-
-    check_statusblank();
 
     char_mb = charalloc(mb_cur_max());
 
@@ -460,8 +444,6 @@ void do_home(void)
 {
     size_t pww_save = openfile->placewewant;
 
-    check_statusblank();
-
 #ifndef NANO_TINY
     if (ISSET(SMART_HOME)) {
 	size_t current_x_save = openfile->current_x;
@@ -490,8 +472,6 @@ void do_end(void)
 {
     size_t pww_save = openfile->placewewant;
 
-    check_statusblank();
-
     openfile->current_x = strlen(openfile->current->data);
     openfile->placewewant = xplustabs();
 
@@ -502,8 +482,6 @@ void do_end(void)
 /* Move up one line. */
 void do_up(void)
 {
-    check_statusblank();
-
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
@@ -542,8 +520,6 @@ void do_up(void)
 /* Scroll up one line without scrolling the cursor. */
 void do_scroll_up(void)
 {
-    check_statusblank();
-
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
@@ -567,8 +543,6 @@ void do_scroll_up(void)
 /* Move down one line. */
 void do_down(void)
 {
-    check_statusblank();
-
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
@@ -607,8 +581,6 @@ void do_down(void)
 /* Scroll down one line without scrolling the cursor. */
 void do_scroll_down(void)
 {
-    check_statusblank();
-
 #ifndef DISABLE_WRAPPING
     wrap_reset();
 #endif
@@ -634,8 +606,6 @@ void do_left(void)
 {
     size_t pww_save = openfile->placewewant;
 
-    check_statusblank();
-
     if (openfile->current_x > 0)
 	openfile->current_x = move_mbleft(openfile->current->data,
 		openfile->current_x);
@@ -654,8 +624,6 @@ void do_left(void)
 void do_right(void)
 {
     size_t pww_save = openfile->placewewant;
-
-    check_statusblank();
 
     assert(openfile->current_x <= strlen(openfile->current->data));
 

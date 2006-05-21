@@ -82,6 +82,14 @@ CVS code -
 	  resizes more consistent.  Changes to handle_sigwinch(),
 	  main(), get_kbinput(), parse_kbinput(), get_byte_kbinput(),
 	  and get_unicode_kbinput(); removal of reset_kbinput(). (DLR)
+	- Handle statusbar blanking in one place instead of many, so
+	  that it always works consistently.  Changes to do_browser(),
+	  do_cut_text(), do_uncut_text(), do_first_line(),
+	  do_last_line(), do_page_up(), do_page_down(), do_para_begin(),
+	  do_para_end(), do_para_end(), do_next_word(), do_prev_word(),
+	  do_home(), do_end(), do_up(), do_scroll_up(), do_down(),
+	  do_scroll_down(), do_left(), do_right(), do_indent_marked(),
+	  and get_kbinput(). (Benno Schulenberg, minor tweaks by DLR)
 - browser.c:
   do_browser()
 	- Reference NANO_GOTODIR_(ALT|F)?KEY instead of
@@ -259,6 +267,9 @@ CVS code -
 	- Properly display double-column characters if they're past the
 	  first virtual page and their first column is covered by the
 	  "$" displayed at the beginning of the line. (DLR)
+  statusbar()
+	- Blank the statusbar after 26 keystrokes instead of 25, for
+	  conpatibility with Pico. (DLR)
   edit_draw()
 	- Properly ignore zero-length regexes in multi-line regexes as
 	  well as single-line ones.  This avoids a segfault when trying

@@ -316,6 +316,11 @@ int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
      * we get a recognized value or sequence. */
     while ((kbinput = parse_kbinput(win, meta_key, func_key)) == ERR);
 
+    /* If we didn't read from the statusbar prompt, blank the statusbar
+     * if we need to. */
+    if (win != bottomwin)
+	check_statusblank();
+
     return kbinput;
 }
 
@@ -2153,13 +2158,13 @@ void statusbar(const char *msg, ...)
 
     /* If we're doing quick statusbar blanking, and constant cursor
      * position display is off, blank the statusbar after only one
-     * keystroke.  Otherwise, blank it after twenty-five keystrokes,
-     * as Pico does. */
+     * keystroke.  Otherwise, blank it after twenty-six keystrokes, as
+     * Pico does. */
     statusblank =
 #ifndef NANO_TINY
 	ISSET(QUICK_BLANK) && !ISSET(CONST_UPDATE) ? 1 :
 #endif
-	25;
+	26;
 }
 
 /* Display the shortcut list in s on the last two rows of the bottom

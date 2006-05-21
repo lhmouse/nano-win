@@ -215,8 +215,6 @@ void do_indent_marked(ssize_t cols)
 
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
-    check_statusblank();
-
     /* If the mark isn't on, indicate it on the statusbar and get
      * out. */
     if (!openfile->mark_set) {
