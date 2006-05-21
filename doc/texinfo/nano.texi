@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.3.12
-@set UPDATED 14 May 2006
+@set UPDATED 21 May 2006
 
 @dircategory Editors
 @direntry
@@ -88,8 +88,8 @@ The usual way to invoke @code{nano} is:
 
 But it is also possible to edit several files in a row.  Additionally,
 the cursor can be put on a desired line number by adding this number
-with a plus sign before any file name, and even in a desired column
-by adding it with a comma.  So the complete synopsis is:
+with a plus sign before any filename, and even in a desired column by
+adding it with a comma.  So the complete synopsis is:
 
 @quotation
 @code{nano [OPTION]@dots{} [[+LINE] FILE]@dots{}}
@@ -321,7 +321,7 @@ sequences.
 The titlebar is the line displayed at the top of the editor.  There are
 three sections: left, center and right.  The section on the left
 displays the version of @code{nano} being used.  The center section
-displays the current file name, or "New Buffer" if the file has not yet
+displays the current filename, or "New Buffer" if the file has not yet
 been named.  The section on the right will display "Modified" if the
 file has been modified since it was last saved or opened.
 
@@ -337,7 +337,7 @@ bottom line in Expert Mode.  See @xref{Expert Mode}, for more info.  It
 shows important and informational messages.  Any error messages that
 occur from using the editor will appear on the statusbar.  Any questions
 that are asked of the user will be asked on the statusbar, and any user
-input (search strings, file names, etc.) will be input on the statusbar.
+input (search strings, filenames, etc.) will be input on the statusbar.
 
 @node Shortcut Lists, , The Statusbar, Editor Basics
 @section Shortcut Lists

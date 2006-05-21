@@ -339,6 +339,8 @@ CVS code -
 	- Add missing description of -H/--historylog, and move
 	  -x/--nohelp down so that all the command line options are in
 	  alphabetical order. (Benno Schulenberg)
+	- Change all occurrences of "file name" to "filename". (Benno
+	  Schulenberg)
 - doc/man/fr/nano.1, doc/man/fr/nanorc.5, doc/man/fr/rnano.1:
 	- Updated manpage translations by Jean-Philippe Guérard.
 - doc/nanorc.sample:
