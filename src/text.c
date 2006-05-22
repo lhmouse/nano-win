@@ -527,8 +527,8 @@ void wrap_reset(void)
 }
 
 /* We wrap the given line.  Precondition: we assume the cursor has been
- * moved forward since the last typed character.  Return value: whether
- * we wrapped. */
+ * moved forward since the last typed character.  Return TRUE if we
+ * wrapped, and FALSE otherwise. */
 bool do_wrap(filestruct *line)
 {
     size_t line_len;
@@ -1250,7 +1250,7 @@ void backup_lines(filestruct *first_line, size_t par_len)
 /* Find the beginning of the current paragraph if we're in one, or the
  * beginning of the next paragraph if we're not.  Afterwards, save the
  * quote length and paragraph length in *quote and *par.  Return TRUE if
- * we found a paragraph, or FALSE if there was an error or we didn't
+ * we found a paragraph, and FALSE if there was an error or we didn't
  * find a paragraph.
  *
  * See the comment at begpar() for more about when a line is the
