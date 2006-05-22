@@ -316,9 +316,9 @@ int get_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
      * we get a recognized value or sequence. */
     while ((kbinput = parse_kbinput(win, meta_key, func_key)) == ERR);
 
-    /* If we didn't read from the statusbar prompt, blank the statusbar
-     * if we need to. */
-    if (win != bottomwin)
+    /* If we read from the edit window, blank the statusbar if we need
+     * to. */
+    if (win == edit)
 	check_statusblank();
 
     return kbinput;
