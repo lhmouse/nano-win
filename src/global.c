@@ -100,7 +100,7 @@ char *quotestr = NULL;
 regex_t quotereg;
 	/* The compiled regular expression from the quoting string. */
 int quoterc;
-	/* Whether it actually compiled. */
+	/* Whether it was compiled successfully. */
 char *quoteerr = NULL;
 	/* The error message, if it didn't. */
 #else
