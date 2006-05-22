@@ -561,9 +561,14 @@ void shortcut_init(bool unjustify)
 	NANO_GOTOLINE_FKEY, NANO_NO_KEY, VIEW,
 	do_gotolinecolumn_void);
 
-    sc_init_one(&main_list, NANO_REPLACE_KEY, replace_msg,
-	IFHELP(nano_replace_msg, FALSE), NANO_ALT_REPLACE_KEY,
-	NANO_REPLACE_FKEY, NANO_NO_KEY, NOVIEW, do_replace);
+    sc_init_one(&main_list, NANO_REPLACE_KEY, replace_msg
+#ifndef NANO_TINY
+	, IFHELP(nano_replace_msg, FALSE)
+#else
+	, IFHELP(nano_replace_msg, TRUE)
+#endif
+	, NANO_ALT_REPLACE_KEY, NANO_REPLACE_FKEY, NANO_NO_KEY, NOVIEW,
+	do_replace);
 
 #ifndef NANO_TINY
     sc_init_one(&main_list, NANO_MARK_KEY, N_("Mark Text"),
@@ -686,8 +691,7 @@ void shortcut_init(bool unjustify)
 #else
 	, IFHELP(nano_backspace_msg, TRUE)
 #endif
-	, NANO_NO_KEY, NANO_NO_KEY,
-	NANO_NO_KEY, NOVIEW, do_backspace);
+	, NANO_NO_KEY, NANO_NO_KEY, NANO_NO_KEY, NOVIEW, do_backspace);
 
 #ifndef NANO_TINY
     sc_init_one(&main_list, NANO_NO_KEY, cut_till_end_msg,
