@@ -687,10 +687,6 @@ void do_insertfile(
     bool at_edittop = FALSE;
 	/* Whether we're at the top of the edit window. */
 
-#ifndef DISABLE_WRAPPING
-    wrap_reset();
-#endif
-
     while (TRUE) {
 #ifndef NANO_TINY
 	if (execute) {

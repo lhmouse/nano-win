@@ -90,6 +90,12 @@ CVS code -
 	  do_home(), do_end(), do_up(), do_scroll_up(), do_down(),
 	  do_scroll_down(), do_left(), do_right(), do_indent_marked(),
 	  and get_kbinput(). (Benno Schulenberg, minor tweaks by DLR)
+	- Handle prepending of wrapped text in one place instead of
+	  many, so that it always works consistently.  Changes to
+	  do_uncut_text(), do_insertfile(), do_page_up(),
+	  do_page_down(), do_up(), do_scroll_up(), do_down(),
+	  do_scroll_down(), do_input(), do_search(), do_research(), and
+	  do_delete(). (DLR)
 - browser.c:
   do_browser()
 	- Reference NANO_GOTODIR_(ALT|F)?KEY instead of

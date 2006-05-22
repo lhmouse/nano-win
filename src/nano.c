@@ -1315,10 +1315,15 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 
 	/* If we got a shortcut or toggle, or if there aren't any other
 	 * characters waiting after the one we read in, we need to
-	 * display all the characters in the input buffer if it isn't
+	 * output all the characters in the input buffer if it isn't
 	 * empty.  Note that it should be empty if we're in view
 	 * mode. */
 	 if (*s_or_t == TRUE || get_key_buffer_len() == 0) {
+	    /* If we got a shortcut or toggle, turn off prepending of
+	     * wrapped text. */
+	    if (*s_or_t == TRUE)
+		wrap_reset();
+
 	    if (kbinput != NULL) {
 		/* Display all the characters in the input buffer at
 		 * once, filtering out control characters. */
@@ -1451,7 +1456,7 @@ bool do_mouse(void)
 }
 #endif /* !DISABLE_MOUSE */
 
-/* The user typed ouuput_len multibyte characters.  Add them to the edit
+/* The user typed output_len multibyte characters.  Add them to the edit
  * buffer, filtering out all control characters if allow_cntrls is
  * TRUE. */
 void do_output(char *output, size_t output_len, bool allow_cntrls)

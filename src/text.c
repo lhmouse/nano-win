@@ -124,9 +124,6 @@ void do_delete(void)
 	delete_node(foo);
 	renumber(openfile->current);
 	openfile->totsize--;
-#ifndef DISABLE_WRAPPING
-	wrap_reset();
-#endif
 
 	/* If the NO_NEWLINES flag isn't set, and text has been added to
 	 * the magicline as a result of deleting at the end of the line
@@ -519,7 +516,7 @@ bool execute_command(const char *command)
 #endif /* !NANO_TINY */
 
 #ifndef DISABLE_WRAPPING
-/* Clear the prepend_wrap flag.  We need to do this as soon as we do
+/* Unset the prepend_wrap flag.  We need to do this as soon as we do
  * something other than type text. */
 void wrap_reset(void)
 {

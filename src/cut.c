@@ -248,10 +248,6 @@ void do_uncut_text(void)
 {
     assert(openfile->current != NULL && openfile->current->data != NULL);
 
-#ifndef DISABLE_WRAPPING
-    wrap_reset();
-#endif
-
     /* If the cutbuffer is empty, get out. */
     if (cutbuffer == NULL)
 	return;

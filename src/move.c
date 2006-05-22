@@ -58,10 +58,6 @@ void do_page_up(void)
 {
     int i;
 
-#ifndef DISABLE_WRAPPING
-    wrap_reset();
-#endif
-
     /* If there's less than a page of text left on the screen, put the
      * cursor at the beginning of the first line of the file, and then
      * update the edit window. */
@@ -96,10 +92,6 @@ void do_page_up(void)
 void do_page_down(void)
 {
     int i;
-
-#ifndef DISABLE_WRAPPING
-    wrap_reset();
-#endif
 
     /* If there's less than a page of text left on the screen, put the
      * cursor at the beginning of the last line of the file, and then
@@ -482,10 +474,6 @@ void do_end(void)
 /* Move up one line. */
 void do_up(void)
 {
-#ifndef DISABLE_WRAPPING
-    wrap_reset();
-#endif
-
     /* If we're at the top of the file, get out. */
     if (openfile->current == openfile->fileage)
 	return;
@@ -520,10 +508,6 @@ void do_up(void)
 /* Scroll up one line without scrolling the cursor. */
 void do_scroll_up(void)
 {
-#ifndef DISABLE_WRAPPING
-    wrap_reset();
-#endif
-
     /* If the top of the file is onscreen, get out. */
     if (openfile->edittop == openfile->fileage)
 	return;
@@ -543,10 +527,6 @@ void do_scroll_up(void)
 /* Move down one line. */
 void do_down(void)
 {
-#ifndef DISABLE_WRAPPING
-    wrap_reset();
-#endif
-
     /* If we're at the bottom of the file, get out. */
     if (openfile->current == openfile->filebot)
 	return;
@@ -581,10 +561,6 @@ void do_down(void)
 /* Scroll down one line without scrolling the cursor. */
 void do_scroll_down(void)
 {
-#ifndef DISABLE_WRAPPING
-    wrap_reset();
-#endif
-
     /* If we're at the bottom of the file, get out. */
     if (openfile->current == openfile->filebot)
 	return;

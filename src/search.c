@@ -425,19 +425,18 @@ void do_search(void)
     int i;
     bool didfind;
 
-#ifndef DISABLE_WRAPPING
-    wrap_reset();
-#endif
-
     i = search_init(FALSE, FALSE);
-    if (i == -1)	/* Cancel, Go to Line, blank search string, or
-			 * regcomp() failed. */
+
+    if (i == -1)
+	/* Cancel, Go to Line, blank search string, or regcomp()
+	 * failed. */
 	search_replace_abort();
-    else if (i == -2)	/* Replace. */
+    else if (i == -2)
+	/* Replace. */
 	do_replace();
 #if !defined(NANO_TINY) || defined(HAVE_REGEX_H)
-    else if (i == 1)	/* Case Sensitive, Backwards, or Regexp search
-			 * toggle. */
+    else if (i == 1)
+	/* Case Sensitive, Backwards, or Regexp search toggle. */
 	do_search();
 #endif
 
@@ -506,10 +505,6 @@ void do_research(void)
     size_t fileptr_x = openfile->current_x;
     size_t old_pww = openfile->placewewant;
     bool didfind;
-
-#ifndef DISABLE_WRAPPING
-    wrap_reset();
-#endif
 
     search_init_globals();
 
@@ -888,15 +883,17 @@ void do_replace(void)
     }
 
     i = search_init(TRUE, FALSE);
-    if (i == -1) {		/* Cancel, Go to Line, blank search
-				 * string, or regcomp() failed. */
+    if (i == -1) {
+	/* Cancel, Go to Line, blank search string, or regcomp()
+	 * failed. */
 	search_replace_abort();
 	return;
-    } else if (i == -2) {	/* No Replace. */
+    } else if (i == -2) {
+	/* No Replace. */
 	do_search();
 	return;
-    } else if (i == 1)		/* Case Sensitive, Backwards, or Regexp
-				 * search toggle. */
+    } else if (i == 1)
+	/* Case Sensitive, Backwards, or Regexp search toggle. */
 	do_replace();
 
     if (i != 0)
