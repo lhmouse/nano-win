@@ -131,8 +131,10 @@ void do_help(void (*refresh_func)(void))
 		    line = 0;
 		break;
 	    case NANO_LASTLINE_ALTKEY:
-		if (meta_key && last_line > editwinrows)
-		    line = last_line - (editwinrows - 1);
+		if (meta_key) {
+		    if (line + (editwinrows - 1) < last_line)
+			line = last_line - (editwinrows - 1);
+		}
 		break;
 	}
 
