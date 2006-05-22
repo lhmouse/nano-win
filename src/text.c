@@ -723,8 +723,8 @@ bool do_wrap(filestruct *line)
      * be prepended to the next line. */
     prepend_wrap = TRUE;
 
-    /* Each line knows its line number.  We recalculate these if we
-     * inserted a new line. */
+    /* Each line knows its number.  We recalculate these if we inserted
+     * a new line. */
     if (!prepending)
 	renumber(line);
 
