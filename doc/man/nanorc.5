@@ -7,7 +7,7 @@
 .\" warranty.
 .\"
 .\" $Id$
-.TH NANORC 5 "version 1.3.12" "April 27, 2006"
+.TH NANORC 5 "version 1.3.12" "May 23, 2006"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -62,10 +62,10 @@ Do backwards searches by default.
 Use bold text instead of reverse video text.
 .TP
 .B set brackets "\fIstring\fP"
-Set the characters treated as closing brackets.  They cannot contain
-blank characters.  Only closing punctuation, optionally followed by
-closing brackets, can end sentences.  The default value is
-"\fI"')>]}\fP".
+Set the characters treated as closing brackets when justifying
+paragraphs.  They cannot contain blank characters.  Only closing
+punctuation, optionally followed by closing brackets, can end sentences.
+The default value is "\fI"')>]}\fP".
 .TP
 .B set/unset casesensitive
 Do case sensitive searches by default.
@@ -126,9 +126,10 @@ directory feature is turned off.
 Preserve the XON and XOFF keys (^Q and ^S).
 .TP
 .B set punct "\fIstring\fP"
-Set the characters treated as closing punctuation.  They cannot contain
-blank characters.  Only closing punctuation, optionally followed by
-closing brackets, can end sentences.  The default value is "\fI!.?\fP".
+Set the characters treated as closing punctuation when justifying
+paragraphs.  They cannot contain blank characters.  Only closing
+punctuation, optionally followed by closing brackets, can end sentences.
+The default value is "\fI!.?\fP".
 .TP
 .B set/unset quickblank
 Do quick statusbar blanking.  Statusbar messages will disappear after 1
