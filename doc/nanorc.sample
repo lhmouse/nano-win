@@ -30,9 +30,10 @@
 ## Use bold text instead of reverse video text.
 # set boldtext
 
-## The characters treated as closing brackets.  They cannot contain
-## blank characters.  Only closing punctuation, optionally followed by
-## closing brackets, can end sentences.
+## The characters treated as closing brackets when justifying
+## paragraphs.  They cannot contain blank characters.  Only closing
+## punctuation, optionally followed by closing brackets, can end
+## sentences.
 ##
 # set brackets ""')>]}"
 
@@ -99,14 +100,15 @@
 ## Preserve the XON and XOFF keys (^Q and ^S).
 # set preserve
 
-## The characters treated as closing punctuation.  They cannot contain
-## blank characters.  Only closing punctuation, optionally followed by
-## closing brackets, can end sentences.
+## The characters treated as closing punctuation when justifying
+## paragraphs.  They cannot contain blank characters.  Only closing
+## punctuation, optionally followed by closing brackets, can end
+## sentences.
 ##
 # set punct "!.?"
 
 ## Do quick statusbar blanking.  Statusbar messages will disappear after
-## 1 keystroke instead of 25.  Note that "const" overrules this.
+## 1 keystroke instead of 26.  Note that "const" overrules this.
 ##
 # set quickblank
 
