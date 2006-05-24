@@ -2445,4 +2445,7 @@ void do_verbatim_input(void)
     do_output(output, kbinput_len, TRUE);
 
     free(output);
+
+    /* Blank the statusbar if we need to. */
+    check_statusblank();
 }
