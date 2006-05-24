@@ -82,11 +82,12 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 
     /* If we got a shortcut from the current list, or a "universal"
      * statusbar prompt shortcut, set have_shortcut to TRUE. */
-    have_shortcut = (s != NULL || input == NANO_ENTER_KEY || input ==
-	NANO_REFRESH_KEY || input == NANO_HOME_KEY || input ==
-	NANO_END_KEY || input == NANO_BACK_KEY || input ==
-	NANO_FORWARD_KEY || input == NANO_BACKSPACE_KEY || input ==
-	NANO_DELETE_KEY || input == NANO_CUT_KEY ||
+    have_shortcut = (s != NULL || input == NANO_TAB_KEY || input ==
+	NANO_ENTER_KEY || input == NANO_REFRESH_KEY || input ==
+	NANO_HOME_KEY || input == NANO_END_KEY || input ==
+	NANO_BACK_KEY || input == NANO_FORWARD_KEY || input ==
+	NANO_BACKSPACE_KEY || input == NANO_DELETE_KEY || input ==
+	NANO_CUT_KEY ||
 #ifndef NANO_TINY
 	input == NANO_NEXTWORD_KEY ||
 #endif
@@ -158,6 +159,7 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 	if (have_shortcut) {
 	    switch (input) {
 		/* Handle the "universal" statusbar prompt shortcuts. */
+		case NANO_TAB_KEY:
 		case NANO_ENTER_KEY:
 		    break;
 		case NANO_REFRESH_KEY:
