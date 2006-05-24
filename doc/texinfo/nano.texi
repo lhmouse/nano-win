@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.3.12
-@set UPDATED 23 May 2006
+@set UPDATED 24 May 2006
 
 @dircategory Editors
 @direntry
@@ -219,8 +219,10 @@ When writing files, if the given file is a symbolic link, it is removed
 and a new file is created.
 
 @item -m, --mouse
-Enables the use of the mouse to select text (currently only useful for
-running under the X Window System).
+Enable mouse support, if available for your system.  When enabled, mouse
+clicks can be used to place the cursor, set the mark (with a double
+click), and execute shortcuts.  The mouse will work in the X Window
+System, and on the console when gpm is running.
 
 @item -o <dir>, --operatingdir=<dir>
 Set operating directory.  Makes @code{nano} set up something similar to
@@ -273,6 +275,7 @@ keystroke (usually ^Z).
 Ignored, for compatibility with Pico.
 @end table
 
+
 @node Editor Basics, Online Help, Introduction, Top
 @chapter Editor Basics
 @menu
@@ -281,6 +284,7 @@ Ignored, for compatibility with Pico.
 * The Titlebar::
 * The Statusbar::
 * Shortcut Lists::
+* Using the Mouse::
 @end menu
 
 @node Entering Text, Special Functions, Editor Basics, Editor Basics
@@ -339,11 +343,23 @@ occur from using the editor will appear on the statusbar.  Any questions
 that are asked of the user will be asked on the statusbar, and any user
 input (search strings, filenames, etc.) will be input on the statusbar.
 
-@node Shortcut Lists, , The Statusbar, Editor Basics
+@node Shortcut Lists, Using the Mouse, The Statusbar, Editor Basics
 @section Shortcut Lists
 
 The Shortcut Lists are the two lines at the bottom of the screen which
 show some of the more commonly used functions in the editor.
+
+@node Using the Mouse, , Shortcut Lists, Editor Basics
+@section Using the Mouse
+
+When mouse support has been configured and enabled, a single mouse click
+places the cursor at the indicated position.  Clicking a second time in
+the same position toggles the mark.  Clicking in the shortcut list
+executes the selected shortcut.
+
+The mouse will work in the X Window System, and on the console when gpm
+is running.
+
 
 @node Online Help, Feature Toggles, Editor Basics, Top
 @chapter Online Help

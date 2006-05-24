@@ -65,8 +65,11 @@
 ## Use the blank line below the titlebar as extra editing space.
 # set morespace
 
-## Enable mouse support, so that mouse clicks can be used to set the
-## mark and run shortcuts.
+## Enable mouse support, if available for your system.  When enabled,
+## mouse clicks can be used to place the cursor, set the mark (with a
+## double click), and execute shortcuts.  The mouse will work in the X
+## Window System, and on the console when gpm is running.
+##
 # set mouse
 
 ## Allow multiple file buffers (inserting a file will put it into a

@@ -105,6 +105,10 @@ CVS code -
 	  do_input(), do_statusbar_input(), get_prompt_string(), and
 	  parse_kbinput(). (DLR, suggested by Nick Warne and Benno
 	  Schulenberg)
+	- Explain the mouse support in more detail, and sync the text of
+	  its description across all documentation.  Changes to nano.1,
+	  nanorc.5, nanorc.sample, and nano.texi. (Benno Schulenberg and
+	  DLR)
 - browser.c:
   do_browser()
 	- Reference NANO_GOTODIR_(ALT|F)?KEY instead of

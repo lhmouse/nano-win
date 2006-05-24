@@ -7,7 +7,7 @@
 .\" warranty.
 .\"
 .\" $Id$
-.TH NANORC 5 "version 1.3.12" "May 23, 2006"
+.TH NANORC 5 "version 1.3.12" "May 24, 2006"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .SH NAME
@@ -95,8 +95,10 @@ default value is "\fI(<[{)>]}\fP".
 Allow use of the blank line below the titlebar as extra editing space.
 .TP
 .B set/unset mouse
-Enable mouse support, so that mouse clicks can be used to set the mark
-and run shortcuts.
+Enable mouse support, if available for your system.  When enabled, mouse
+clicks can be used to place the cursor, set the mark (with a double
+click), and execute shortcuts.  The mouse will work in the X Window
+System, and on the console when gpm is running.
 .TP
 .B set/unset multibuffer
 Allow inserting files into their own buffers.
