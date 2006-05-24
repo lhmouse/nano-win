@@ -82,11 +82,11 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
 
     /* If we got a shortcut from the current list, or a "universal"
      * statusbar prompt shortcut, set have_shortcut to TRUE. */
-    have_shortcut = (s != NULL || input == NANO_REFRESH_KEY ||
-	input == NANO_HOME_KEY || input == NANO_END_KEY ||
-	input == NANO_BACK_KEY || input == NANO_FORWARD_KEY ||
-	input == NANO_BACKSPACE_KEY || input == NANO_DELETE_KEY ||
-	input == NANO_CUT_KEY ||
+    have_shortcut = (s != NULL || input == NANO_REFRESH_KEY || input ==
+	NANO_HOME_KEY || input == NANO_END_KEY || input ==
+	NANO_BACK_KEY || input == NANO_FORWARD_KEY || input ==
+	NANO_BACKSPACE_KEY || input == NANO_DELETE_KEY || input ==
+	NANO_CUT_KEY ||
 #ifndef NANO_TINY
 	input == NANO_NEXTWORD_KEY ||
 #endif
@@ -100,11 +100,15 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
     *s_or_t = have_shortcut;
 
     /* If we got a non-high-bit control key or a meta key sequence, and
-     * it's not a shortcut or toggle, ignore it. */
+     * it's not a shortcut or toggle, ignore it.  If it's a meta key
+     * sequence, throw it out completely, so that we don't end up
+     * inserting its second character as though it were typed. */
     if (*s_or_t == FALSE) {
 	if (is_ascii_cntrl_char(input) || *meta_key == TRUE) {
-	    input = ERR;
-	    *meta_key = FALSE;
+	    if (*meta_key == TRUE) {
+		*meta_key = FALSE;
+		input = ERR;
+	    }
 	}
     }
 

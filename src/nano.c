@@ -1298,12 +1298,15 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	);
 
     /* If we got a non-high-bit control key or a meta key sequence, and
-     * it's not a shortcut or toggle, ignore it, and indicate this on
-     * the statusbar. */
+     * it's not a shortcut or toggle, ignore it.  If it's a meta key
+     * sequence, throw it out completely, so that we don't end up
+     * inserting its second character as though it were typed. */
     if (*s_or_t == FALSE) {
 	if (is_ascii_cntrl_char(input) || *meta_key == TRUE) {
-	    input = ERR;
-	    *meta_key = FALSE;
+	    if (*meta_key == TRUE) {
+		*meta_key = FALSE;
+		input = ERR;
+	    }
 	    statusbar(_("Unknown Command"));
 	}
     }
