@@ -366,7 +366,7 @@ CVS code -
 - doc/man/fr/nano.1, doc/man/fr/nanorc.5, doc/man/fr/rnano.1:
 	- Updated manpage translations by Jean-Philippe Guérard.
 - doc/nanorc.sample:
-	- Miscellaneous minor fixes. (DLR)
+	- Miscellaneous minor fixes. (DLR and Benno Schulenberg)
 	- Tweak the "c-file" regex for characters to accept '"' again,
 	  as it's apparently valid, and simplify it. (DLR)
 	- Simplify the "shellscript" regex for command line options.
