@@ -1065,7 +1065,7 @@ int get_prompt_string(bool allow_tabs,
 		    update_statusbar_line(answer, statusbar_x);
 
 		    /* This key has a shortcut list entry when it's used
-		     * to move to an older search, which means that
+		     * to move to a newer search, which means that
 		     * finished has been set to TRUE.  Set it back to
 		     * FALSE here, so that we aren't kicked out of the
 		     * statusbar prompt. */
