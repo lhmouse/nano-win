@@ -99,8 +99,10 @@ CVS code -
 	  do_delete(). (DLR)
 	- Ignore unhandled meta key sequences and escape sequences, and
 	  indicate it on the statusbar when we get an unhandled shortcut
-	  or toggle, as Pico does.  New function is_ascii_cntrl_char();
-	  changes to do_input(), do_statusbar_input(), and
+	  or toggle, as Pico does.  To get this to work properly, add a
+	  shortcut for moving to the next search/replace string.  New
+	  function is_ascii_cntrl_char(); changes to shortcut_init(),
+	  do_input(), do_statusbar_input(), get_prompt_string(), and
 	  parse_kbinput(). (DLR, suggested by Nick Warne and Benno
 	  Schulenberg)
 - browser.c:

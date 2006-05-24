@@ -32,7 +32,7 @@
 static char *help_text = NULL;
 	/* The text displayed in the help window. */
 
-/* Our dynamic, shortcut-list-compliant help function.  refresh_func is
+/* Our dynamic, shortcut list-compliant help function.  refresh_func is
  * the function we will call to refresh the edit window.*/
 void do_help(void (*refresh_func)(void))
 {
@@ -423,8 +423,8 @@ void help_init(void)
     /* Now add our shortcut info.  Assume that each shortcut has, at the
      * very least, an equivalent control key, an equivalent primary meta
      * key sequence, or both.  Also assume that the meta key values are
-     * not control characters.  We can display a maximum of 3 shortcut
-     * entries. */
+     * not control characters.  We can display a maximum of three
+     * shortcut entries. */
     for (s = currshortcut; s != NULL; s = s->next) {
 	int entries = 0;
 
