@@ -96,6 +96,12 @@ CVS code -
 	  do_page_down(), do_up(), do_scroll_up(), do_down(),
 	  do_scroll_down(), do_input(), do_search(), do_research(), and
 	  do_delete(). (DLR)
+	- Ignore unhandled meta key sequences and escape sequences, and
+	  indicate it on the statusbar when we get an unhandled shortcut
+	  or toggle, as Pico does.  New function is_ascii_cntrl_char();
+	  changes to do_input(), do_statusbar_input(), and
+	  parse_kbinput(). (DLR, suggested by Nick Warne and Benno
+	  Schulenberg)
 - browser.c:
   do_browser()
 	- Reference NANO_GOTODIR_(ALT|F)?KEY instead of

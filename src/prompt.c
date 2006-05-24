@@ -99,6 +99,15 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
     /* Set s_or_t to TRUE if we got a shortcut. */
     *s_or_t = have_shortcut;
 
+    /* If we got a non-high-bit control key or a Meta key sequence, and
+     * it's not a shortcut or toggle, ignore it. */
+    if (*s_or_t == FALSE) {
+	if (is_ascii_cntrl_char(input) || *meta_key == TRUE) {
+	    input = ERR;
+	    *meta_key = FALSE;
+	}
+    }
+
     if (allow_funcs) {
 	/* If we got a character, and it isn't a shortcut or toggle,
 	 * it's a normal text character.  Display the warning if we're

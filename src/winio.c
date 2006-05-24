@@ -536,10 +536,10 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 				&ignore_seq);
 
 			/* If the escape sequence is unrecognized and
-			 * not ignored, put back all of its characters
-			 * except for the initial escape. */
+			 * not ignored, indicate this on the
+			 * statusbar. */
 			if (retval == ERR && !ignore_seq)
-			    unget_input(seq, seq_len);
+			    statusbar(_("Unknown Command"));
 
 			free(seq);
 		    }
