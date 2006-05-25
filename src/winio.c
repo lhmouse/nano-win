@@ -589,7 +589,16 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 			    free(byte_mb);
 			    free(seq);
 			}
-		    } else {
+		    /* Two escapes followed by one or more non-decimal
+		     * digits: control character sequence mode,
+		     * interrupted byte sequence mode, or escape
+		     * sequence mode.  If there aren't any other keys
+		     * waiting, we have either a control character
+		     * sequence or an interrupted byte sequence.  If
+		     * there are other keys waiting, we have a true
+		     * escape sequence preceded by an extra escape, so
+		     * interpret it. */
+		    } else if (get_key_buffer_len() == 0) {
 			/* Reset the escape counter. */
 			escapes = 0;
 			if (byte_digits == 0)
@@ -610,6 +619,28 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 			    byte_digits = 0;
 			    retval = *kbinput;
 			}
+		    } else {
+			int *seq;
+			size_t seq_len;
+			bool ignore_seq;
+
+			/* Put back the non-escape character, get the
+			 * complete escape sequence, translate the
+			 * sequence into its corresponding key value,
+			 * and save that as the result. */
+			unget_input(kbinput, 1);
+			seq_len = get_key_buffer_len();
+			seq = get_input(NULL, seq_len);
+			retval = get_escape_seq_kbinput(seq, seq_len,
+				&ignore_seq);
+
+			/* If the escape sequence is unrecognized and
+			 * not ignored, throw it out, and indicate this
+			 * on the statusbar. */
+			if (retval == ERR && !ignore_seq)
+			    statusbar(_("Unknown Command"));
+
+			free(seq);
 		    }
 		    break;
 	    }

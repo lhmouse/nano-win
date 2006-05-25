@@ -97,14 +97,14 @@ CVS code -
 	  do_page_down(), do_up(), do_scroll_up(), do_down(),
 	  do_scroll_down(), do_input(), do_search(), do_research(), and
 	  do_delete(). (DLR)
-	- Ignore unhandled meta key sequences and escape sequences, and
-	  indicate it on the statusbar when we get an unhandled shortcut
-	  or toggle, as Pico does.  To get this to work properly, add a
-	  shortcut for moving to the next search/replace string.  New
-	  function is_ascii_cntrl_char(); changes to shortcut_init(),
-	  do_input(), do_statusbar_input(), get_prompt_string(), and
-	  parse_kbinput(). (DLR, suggested by Nick Warne and Benno
-	  Schulenberg)
+	- Ignore unhandled meta key sequences, function keys, and escape
+	  sequences, and indicate it on the statusbar when we get an
+	  unhandled shortcut or toggle, as Pico does.  To get this to
+	  work properly, add a shortcut for moving to the next
+	  search/replace string.  New function is_ascii_cntrl_char();
+	  changes to shortcut_init(), do_input(), do_statusbar_input(),
+	  get_prompt_string(), and parse_kbinput(). (DLR, suggested by
+	  Nick Warne and Benno Schulenberg)
 	- Explain the mouse support in more detail, and sync the text of
 	  its description across all documentation.  Changes to nano.1,
 	  nanorc.5, nanorc.sample, and nano.texi. (Benno Schulenberg and
@@ -283,6 +283,8 @@ CVS code -
   parse_kbinput()
 	- If we get NANO_CONTROL_8, properly handle it in all cases.
 	  (DLR)
+	- If we get Escape followed by an escape sequence, interpret the
+	  escape sequence for consistency. (DLR)
   get_control_kbinput()
 	- Add Ctrl-/ as an alias for Ctrl-_. (DLR, found by Benno
 	  Schulenberg)
