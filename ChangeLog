@@ -181,6 +181,8 @@ CVS code -
 	- Clarify the descriptions of the "Search" and "Replace"
 	  shortcuts, and add spaces to the "Exit" shortcut's description
 	  in multibuffer mode. (Benno Schulenberg)
+	- Remove the "Go To Line" shortcut in the replace shortcut list,
+	  for compatibility with Pico. (DLR)
   toggle_init()
 	- In the global toggle list, move the "Constant cursor position
 	  display" toggle up to after the "Use more space for editing"

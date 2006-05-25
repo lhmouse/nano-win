@@ -826,14 +826,10 @@ void shortcut_init(bool unjustify)
 	IFHELP(nano_lastline_msg, FALSE), NANO_LASTLINE_ALTKEY,
 	NANO_LASTLINE_FKEY, NANO_LASTLINE_ALTKEY2, VIEW, do_last_line);
 
-    /* TRANSLATORS: Try to keep this at most 10 characters. */
+    /* TRANSLATORS: Try to keep this at most 12 characters. */
     sc_init_one(&replace_list, NANO_TOOTHERSEARCH_KEY, N_("No Replace"),
 	IFHELP(nano_whereis_msg, FALSE), NANO_NO_KEY, NANO_REPLACE_FKEY,
 	NANO_NO_KEY, VIEW, NULL);
-
-    sc_init_one(&replace_list, NANO_TOGOTOLINE_KEY, go_to_line_msg,
-	IFHELP(nano_gotoline_msg, FALSE), NANO_NO_KEY,
-	NANO_GOTOLINE_FKEY, NANO_NO_KEY, VIEW, NULL);
 
 #ifndef NANO_TINY
     sc_init_one(&replace_list, NANO_NO_KEY, case_sens_msg,
