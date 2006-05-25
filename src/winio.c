@@ -520,29 +520,8 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 		    if (get_key_buffer_len() == 0) {
 			*meta_key = TRUE;
 			retval = tolower(*kbinput);
-		    } else {
-			int *seq;
-			size_t seq_len;
-			bool ignore_seq;
-
-			/* Put back the non-escape character, get the
-			 * complete escape sequence, translate the
-			 * sequence into its corresponding key value,
-			 * and save that as the result. */
-			unget_input(kbinput, 1);
-			seq_len = get_key_buffer_len();
-			seq = get_input(NULL, seq_len);
-			retval = get_escape_seq_kbinput(seq, seq_len,
-				&ignore_seq);
-
-			/* If the escape sequence is unrecognized and
-			 * not ignored, throw it out, and indicate this
-			 * on the statusbar. */
-			if (retval == ERR && !ignore_seq)
-			    statusbar(_("Unknown Command"));
-
-			free(seq);
-		    }
+		    } else
+			retval = parse_escape_seq_kbinput(*kbinput);
 		    break;
 		case 2:
 		    /* Two escapes followed by one or more decimal
@@ -619,29 +598,8 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 			    byte_digits = 0;
 			    retval = *kbinput;
 			}
-		    } else {
-			int *seq;
-			size_t seq_len;
-			bool ignore_seq;
-
-			/* Put back the non-escape character, get the
-			 * complete escape sequence, translate the
-			 * sequence into its corresponding key value,
-			 * and save that as the result. */
-			unget_input(kbinput, 1);
-			seq_len = get_key_buffer_len();
-			seq = get_input(NULL, seq_len);
-			retval = get_escape_seq_kbinput(seq, seq_len,
-				&ignore_seq);
-
-			/* If the escape sequence is unrecognized and
-			 * not ignored, throw it out, and indicate this
-			 * on the statusbar. */
-			if (retval == ERR && !ignore_seq)
-			    statusbar(_("Unknown Command"));
-
-			free(seq);
-		    }
+		    } else
+			retval = parse_escape_seq_kbinput(*kbinput);
 		    break;
 	    }
     }
@@ -1192,6 +1150,37 @@ int get_escape_seq_abcd(int kbinput)
 	default:
 	    return ERR;
     }
+}
+
+/* Interpret the escape sequence in the keystroke buffer, the first
+ * character of which is kbinput.  Assume that the keystroke buffer
+ * isn't empty, and that the initial escape has already been read in. */
+int parse_escape_seq_kbinput(int kbinput)
+{
+    int retval, *seq;
+    size_t seq_len;
+    bool ignore_seq;
+
+    /* Put back the non-escape character, get the complete escape
+     * sequence, translate the sequence into its corresponding key
+     * value, and save that as the result. */
+    unget_input(&kbinput, 1);
+    seq_len = get_key_buffer_len();
+    seq = get_input(NULL, seq_len);
+    retval = get_escape_seq_kbinput(seq, seq_len, &ignore_seq);
+
+    /* If the escape sequence is unrecognized and not ignored, throw it
+     * out, and indicate this on the statusbar. */
+    if (retval == ERR && !ignore_seq)
+	statusbar(_("Unknown Command"));
+
+    free(seq);
+
+#ifdef DEBUG
+    fprintf(stderr, "parse_escape_seq_kbinput(): kbinput = %d, seq_len = %lu, ignore_seq = %d, retval = %d\n", *kbinput, (unsigned long)seq_len, (int)ignore_seq, retval);
+#endif
+
+    return retval;
 }
 
 /* Translate a byte sequence: turn a three-digit decimal number from

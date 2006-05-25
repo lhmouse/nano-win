@@ -726,6 +726,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key);
 int get_escape_seq_kbinput(const int *seq, size_t seq_len, bool
 	*ignore_seq);
 int get_escape_seq_abcd(int kbinput);
+int parse_escape_seq_kbinput(int kbinput);
 int get_byte_kbinput(int kbinput);
 long get_unicode_kbinput(int kbinput);
 int get_control_kbinput(int kbinput);
