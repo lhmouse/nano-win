@@ -2347,13 +2347,14 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 
 		/* We increment k by rm_eo, to move past the end of the
 		 * last match.  Even though two matches may overlap, we
-		 * want to ignore them, so that we can highlight
-		 * C-strings correctly. */
+		 * want to ignore them, so that we can highlight e.g. C
+		 * strings correctly. */
 		while (k < endpos) {
 		    /* Note the fifth parameter to regexec().  It says
 		     * not to match the beginning-of-line character
-		     * unless k is 0.  If regexec() returns REG_NOMATCH,
-		     * there are no more matches in the line. */
+		     * unless k is zero.  If regexec() returns
+		     * REG_NOMATCH, there are no more matches in the
+		     * line. */
 		    if (regexec(tmpcolor->start, &fileptr->data[k], 1,
 			&startmatch, (k == 0) ? 0 : REG_NOTBOL) ==
 			REG_NOMATCH)
