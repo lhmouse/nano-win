@@ -249,8 +249,6 @@ CVS code -
   parse_argument()
 	- Rename variable ptr_bak to ptr_save, for consistency. (DLR)
   parse_syntax()
-	- Properly generate an error if we've read in a previous syntax
-	  without any associated color commands. (DLR)
 	- Don't generate an error if we find a duplicate syntax name,
 	  since we might be trying to override a syntax in the global
 	  nanorc with one in our local nanorc.  Instead, free any
