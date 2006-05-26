@@ -262,6 +262,7 @@ CVS code -
 	  any associated color commands. (DLR)
 	- Change variable i from an int to a size_t, for consistency.
 	  (DLR)
+	- Properly handle rcfiles that don't end in newlines. (DLR)
   do_rcfile()
 	- Check for the rcfile's being a directory or device file and
 	  reject it if it is, for consistency with file handling

@@ -622,7 +622,8 @@ void parse_rcfile(FILE *rcstream
 	size_t i;
 
 	/* Ignore the newline. */
-	buf[len - 1] = '\0';
+	if (buf[len - 1] == '\n')
+	    buf[len - 1] = '\0';
 
 	lineno++;
 	ptr = buf;
