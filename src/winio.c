@@ -2817,19 +2817,25 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 
 #ifndef NANO_TINY
 	/* If the mark is on, update all the lines between old_current
-	 * and the old last line of the edit window. */
+	 * and either the old first line or old last line (depending on
+	 * whether we've scrolled up or down) of the edit window. */
 	if (openfile->mark_set) {
-	    ssize_t old_last_lineno = (old_edittop->lineno +
-		editwinrows <= openfile->filebot->lineno) ?
-		old_edittop->lineno + editwinrows :
-		openfile->filebot->lineno;
+	    ssize_t old_lineno;
+
+	    if (old_edittop->lineno < openfile->edittop->lineno)
+		old_lineno = old_edittop->lineno;
+	    else
+		old_lineno = (old_edittop->lineno + editwinrows <=
+			openfile->filebot->lineno) ?
+			old_edittop->lineno + editwinrows :
+			openfile->filebot->lineno;
 
 	    foo = old_current;
 
-	    while (foo->lineno != old_last_lineno) {
+	    while (foo->lineno != old_lineno) {
 		update_line(foo, 0);
 
-		foo = (foo->lineno > old_last_lineno) ? foo->prev :
+		foo = (foo->lineno > old_lineno) ? foo->prev :
 			foo->next;
 	    }
 	}
@@ -2861,13 +2867,14 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 	    edit_scroll(DOWN, nlines);
 
 #ifndef NANO_TINY
-	/* If the mark is on, update all the lines between the old last
-	 * line of the edit window and edittop. */
+	/* If the mark is on, update all the lines between the old first
+	 * line or old last line of the edit window (depending on
+	 * whether we've scrolled up or down) and current. */
 	if (openfile->mark_set) {
-	    while (foo != openfile->edittop) {
+	    while (foo->lineno != openfile->current->lineno) {
 		update_line(foo, 0);
 
-		foo = (foo->lineno > openfile->edittop->lineno) ?
+		foo = (foo->lineno > openfile->current->lineno) ?
 			foo->prev : foo->next;
 	    }
 	}
