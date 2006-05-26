@@ -1174,7 +1174,7 @@ int parse_escape_seq_kbinput(int kbinput)
     free(seq);
 
 #ifdef DEBUG
-    fprintf(stderr, "parse_escape_seq_kbinput(): kbinput = %d, seq_len = %lu, ignore_seq = %d, retval = %d\n", *kbinput, (unsigned long)seq_len, (int)ignore_seq, retval);
+    fprintf(stderr, "parse_escape_seq_kbinput(): kbinput = %d, seq_len = %lu, ignore_seq = %d, retval = %d\n", kbinput, (unsigned long)seq_len, (int)ignore_seq, retval);
 #endif
 
     return retval;
