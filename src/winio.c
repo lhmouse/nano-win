@@ -2807,7 +2807,7 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 {
     bool do_redraw = need_vertical_update(0) ||
 	need_vertical_update(old_pww);
-    const filestruct *foo;
+    const filestruct *foo = NULL;
 
     /* If either old_current or current is offscreen, scroll the edit
      * window until it's onscreen and get out. */
@@ -2818,6 +2818,26 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 	openfile->edittop->lineno + editwinrows) {
 	filestruct *old_edittop = openfile->edittop;
 	ssize_t nlines;
+
+#ifndef NANO_TINY
+	/* If the mark is on, update all the lines between old_current
+	 * and the old last line of the edit window. */
+	if (openfile->mark_set) {
+	    ssize_t old_last_lineno = (old_edittop->lineno +
+		editwinrows <= openfile->filebot->lineno) ?
+		old_edittop->lineno + editwinrows :
+		openfile->filebot->lineno;
+
+	    foo = old_current;
+
+	    while (foo->lineno != old_last_lineno) {
+		update_line(foo, 0);
+
+		foo = (foo->lineno > old_last_lineno) ? foo->prev :
+			foo->next;
+	    }
+	}
+#endif /* !NANO_TINY */
 
 	/* Put edittop in range of current, get the difference in lines
 	 * between the original edittop and the current edittop, and
@@ -2843,6 +2863,19 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 	    edit_scroll(UP, -nlines);
 	else
 	    edit_scroll(DOWN, nlines);
+
+#ifndef NANO_TINY
+	/* If the mark is on, update all the lines between the old last
+	 * line of the edit window and current. */
+	if (openfile->mark_set) {
+	    while (foo != openfile->current) {
+		update_line(foo, 0);
+
+		foo = (foo->lineno > openfile->current->lineno) ?
+			foo->prev : foo->next;
+	    }
+	}
+#endif /* !NANO_TINY */
 
 	return;
     }

@@ -304,6 +304,9 @@ CVS code -
 	  well as single-line ones.  This avoids a segfault when trying
 	  to color e.g. "start="$" end="$"". (DLR, found by Trevor
 	  Caira)
+  edit_redraw()
+	- Fix problem where not all lines would be updated properly if
+	  we'd scrolled off the screen and the mark was on. (DLR)
   do_credits()
 	- Update the last copyright notice to include 2006. (DLR)
 - configure.ac:
