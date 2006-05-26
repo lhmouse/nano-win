@@ -669,8 +669,8 @@ void parse_rcfile(FILE *rcstream
 		parse_include(ptr);
 	} else if (strcasecmp(keyword, "syntax") == 0) {
 	    if (endsyntax != NULL && endcolor == NULL)
-		rcfile_error(
-			N_("Previous syntax has no color commands"));
+		rcfile_error(N_("Syntax %s has no color commands"),
+			endsyntax->desc);
 	    parse_syntax(ptr);
 	} else if (strcasecmp(keyword, "color") == 0)
 	    parse_colors(ptr, FALSE);
@@ -836,7 +836,8 @@ void parse_rcfile(FILE *rcstream
     }
 
     if (endsyntax != NULL && endcolor == NULL)
-	rcfile_error(N_("Syntax has no color commands"));
+	rcfile_error(N_("Syntax %s has no color commands"),
+		endsyntax->desc);
 
     free(buf);
     fclose(rcstream);
