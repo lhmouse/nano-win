@@ -2866,12 +2866,12 @@ void edit_redraw(const filestruct *old_current, size_t old_pww)
 
 #ifndef NANO_TINY
 	/* If the mark is on, update all the lines between the old last
-	 * line of the edit window and current. */
+	 * line of the edit window and edittop. */
 	if (openfile->mark_set) {
-	    while (foo != openfile->current) {
+	    while (foo != openfile->edittop) {
 		update_line(foo, 0);
 
-		foo = (foo->lineno > openfile->current->lineno) ?
+		foo = (foo->lineno > openfile->edittop->lineno) ?
 			foo->prev : foo->next;
 	    }
 	}
