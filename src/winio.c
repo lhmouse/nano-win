@@ -30,10 +30,10 @@
 #include <ctype.h>
 
 static int *key_buffer = NULL;
-	/* The default keystroke buffer, containing all the keystrokes
-	 * we have at a given point. */
+	/* The keystroke buffer, containing all the keystrokes we have
+	 * at a given point. */
 static size_t key_buffer_len = 0;
-	/* The length of the default keystroke buffer. */
+	/* The length of the keystroke buffer. */
 static int statusblank = 0;
 	/* The number of keystrokes left after we call statusbar(),
 	 * before we actually blank the statusbar. */
@@ -104,8 +104,8 @@ static bool disable_cursorpos = FALSE;
  * be the Begin key. */
 
 /* Read in a sequence of keystrokes from win and save them in the
- * default keystroke buffer.  This should only be called when the
- * default keystroke buffer is empty. */
+ * keystroke buffer.  This should only be called when the keystroke
+ * buffer is empty. */
 void get_key_buffer(WINDOW *win)
 {
     int input;
@@ -184,14 +184,13 @@ void get_key_buffer(WINDOW *win)
 #endif
 }
 
-/* Return the length of the default keystroke buffer. */
+/* Return the length of the keystroke buffer. */
 size_t get_key_buffer_len(void)
 {
     return key_buffer_len;
 }
 
-/* Add the contents of the keystroke buffer input to the default
- * keystroke buffer. */
+/* Add the keystrokes in input to the keystroke buffer. */
 void unget_input(int *input, size_t input_len)
 {
 #ifndef NANO_TINY
@@ -203,27 +202,26 @@ void unget_input(int *input, size_t input_len)
     if (input_len == 0)
 	return;
 
-    /* If adding input would put the default keystroke buffer beyond
-     * maximum capacity, only add enough of input to put it at maximum
+    /* If adding input would put the keystroke buffer beyond maximum
+     * capacity, only add enough of input to put it at maximum
      * capacity. */
     if (key_buffer_len + input_len < key_buffer_len)
 	input_len = (size_t)-1 - key_buffer_len;
 
-    /* Add the length of input to the length of the default keystroke
-     * buffer, and reallocate the default keystroke buffer so that it
-     * has enough room for input. */
+    /* Add the length of input to the length of the keystroke buffer,
+     * and reallocate the keystroke buffer so that it has enough room
+     * for input. */
     key_buffer_len += input_len;
     key_buffer = (int *)nrealloc(key_buffer, key_buffer_len *
 	sizeof(int));
 
-    /* If the default keystroke buffer wasn't empty before, move its
-     * beginning forward far enough so that we can add input to its
-     * beginning. */
+    /* If the keystroke buffer wasn't empty before, move its beginning
+     * forward far enough so that we can add input to its beginning. */
     if (key_buffer_len > input_len)
 	memmove(key_buffer + input_len, key_buffer,
 		(key_buffer_len - input_len) * sizeof(int));
 
-    /* Copy input to the beginning of the default keystroke buffer. */
+    /* Copy input to the beginning of the keystroke buffer. */
     memcpy(key_buffer, input, input_len * sizeof(int));
 }
 
@@ -244,11 +242,11 @@ void unget_kbinput(int kbinput, bool meta_key, bool func_key)
     }
 }
 
-/* Try to read input_len characters from the default keystroke buffer.
- * If the default keystroke buffer is empty and win isn't NULL, try to
- * read in more characters from win and add them to the default
- * keystroke buffer before doing anything else.  If the default
- * keystroke buffer is empty and win is NULL, return NULL. */
+/* Try to read input_len characters from the keystroke buffer.  If the
+ * keystroke buffer is empty and win isn't NULL, try to read in more
+ * characters from win and add them to the keystroke buffer before doing
+ * anything else.  If the keystroke buffer is empty and win is NULL,
+ * return NULL. */
 int *get_input(WINDOW *win, size_t input_len)
 {
     int *input;
@@ -266,29 +264,28 @@ int *get_input(WINDOW *win, size_t input_len)
 	    return NULL;
     }
 
-    /* If input_len is greater than the length of the default keystroke
-     * buffer, only read the number of characters in the default
-     * keystroke buffer. */
+    /* If input_len is greater than the length of the keystroke buffer,
+     * only read the number of characters in the keystroke buffer. */
     if (input_len > key_buffer_len)
 	input_len = key_buffer_len;
 
-    /* Subtract input_len from the length of the default keystroke
-     * buffer, and allocate the keystroke buffer input so that it
-     * has enough room for input_len keystrokes. */
+    /* Subtract input_len from the length of the keystroke buffer, and
+     * allocate input so that it has enough room for input_len
+     * keystrokes. */
     key_buffer_len -= input_len;
     input = (int *)nmalloc(input_len * sizeof(int));
 
-    /* Copy input_len characters from the beginning of the default
-     * keystroke buffer into input. */
+    /* Copy input_len keystrokes from the beginning of the keystroke
+     * buffer into input. */
     memcpy(input, key_buffer, input_len * sizeof(int));
 
-    /* If the default keystroke buffer is empty, mark it as such. */
+    /* If the keystroke buffer is empty, mark it as such. */
     if (key_buffer_len == 0) {
 	free(key_buffer);
 	key_buffer = NULL;
-    /* If the default keystroke buffer isn't empty, move its
-     * beginning forward far enough so that the keystrokes in input are
-     * no longer at its beginning. */
+    /* If the keystroke buffer isn't empty, move its beginning forward
+     * far enough so that the keystrokes in input are no longer at its
+     * beginning. */
     } else {
 	memmove(key_buffer, key_buffer + input_len, key_buffer_len *
 		sizeof(int));
@@ -1221,7 +1218,7 @@ int get_byte_kbinput(int kbinput)
 	    break;
 	case 3:
 	    /* Three digits: add the digit we got to the 1's position of
-	     * the byte sequence holder, and save the corresponding word
+	     * the byte sequence holder, and save the corresponding byte
 	     * value as the result. */
 	    if (('0' <= kbinput && kbinput <= '5') || (byte < 250 &&
 		'6' <= kbinput && kbinput <= '9')) {
@@ -1229,7 +1226,7 @@ int get_byte_kbinput(int kbinput)
 		retval = byte;
 	    } else
 		/* If the character we got isn't a decimal digit, or if
-		 * it is and it would put the byte sequence out of word
+		 * it is and it would put the byte sequence out of byte
 		 * range, save it as the result. */
 		retval = kbinput;
 	    break;
@@ -1412,9 +1409,8 @@ int get_control_kbinput(int kbinput)
     return retval;
 }
 
-/* Put the output-formatted characters in output back into the default
- * keystroke buffer, so that they can be parsed and displayed as output
- * again. */
+/* Put the output-formatted characters in output back into the keystroke
+ * buffer, so that they can be parsed and displayed as output again. */
 void unparse_kbinput(char *output, size_t output_len)
 {
     int *input;
@@ -1476,8 +1472,8 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
      * first keystroke. */
     if (uni != ERR)
 	unget_input(kbinput, 1);
-    /* Otherwise, read in keystrokes until we have a complete word
-     * sequence, and put back the corresponding word value. */
+    /* Otherwise, read in keystrokes until we have a complete Unicode
+     * sequence, and put back the corresponding Unicode value. */
     else {
 	char *uni_mb;
 	int uni_mb_len, *seq, i;
