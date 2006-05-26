@@ -259,6 +259,9 @@ CVS code -
   parse_colors()
 	- Check for a color command's not following a syntax line before
 	  anything else. (DLR)
+  parse_rcfile()
+	- Properly generate an error if we've read in a syntax without
+	  any associated color commands. (DLR)
   do_rcfile()
 	- Check for the rcfile's being a directory or device file and
 	  reject it if it is, for consistency with file handling

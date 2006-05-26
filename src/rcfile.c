@@ -835,6 +835,9 @@ void parse_rcfile(FILE *rcstream
 	    rcfile_error(N_("Unknown flag %s"), option);
     }
 
+    if (endsyntax != NULL && endcolor == NULL)
+	rcfile_error(N_("Syntax has no color commands"));
+
     free(buf);
     fclose(rcstream);
     lineno = 0;
