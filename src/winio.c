@@ -2284,6 +2284,7 @@ void reset_cursor(void)
 	openfile->edittop->lineno;
     if (openfile->current_y < editwinrows) {
 	size_t xpt = xplustabs();
+
 	wmove(edit, openfile->current_y, xpt - get_page_start(xpt));
      }
 }
