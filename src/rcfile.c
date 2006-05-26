@@ -618,7 +618,8 @@ void parse_rcfile(FILE *rcstream
 
     while ((len = getline(&buf, &n, rcstream)) > 0) {
 	char *ptr, *keyword, *option;
-	int set = 0, i;
+	int set = 0;
+	size_t i;
 
 	/* Ignore the newline. */
 	buf[len - 1] = '\0';
