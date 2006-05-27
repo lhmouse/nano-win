@@ -109,6 +109,12 @@ CVS code -
 	  its description across all documentation.  Changes to nano.1,
 	  nanorc.5, nanorc.sample, and nano.texi. (Benno Schulenberg and
 	  DLR)
+	- If we're using verbatim input to enter a Unicode sequence,
+	  indicate it on the statusbar.  Also, refactor the Unicode
+	  sequence handler function to remove redundant code.  New
+	  function add_unicode_digit(); changes to get_unicode_input()
+	  and parse_verbatim_kninput(). (Benno Schulenberg, minor tweaks
+	  by DLR)
 - browser.c:
   do_browser()
 	- Reference NANO_GOTODIR_(ALT|F)?KEY instead of
@@ -295,6 +301,7 @@ CVS code -
   get_byte_kbinput()
 	- Fix typo preventing Esc Esc 3 through Esc Esc 6 from being
 	  interpreted as control key sequences. (DLR)
+	- Tweak to more closely match get_unicode_kbinput(). (DLR)
   get_control_kbinput()
 	- Add Ctrl-/ as an alias for Ctrl-_. (DLR, found by Benno
 	  Schulenberg)

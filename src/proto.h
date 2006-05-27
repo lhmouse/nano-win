@@ -729,6 +729,7 @@ int get_escape_seq_abcd(int kbinput);
 int parse_escape_seq_kbinput(int kbinput);
 int get_byte_kbinput(int kbinput);
 long get_unicode_kbinput(int kbinput);
+long add_unicode_digit(int kbinput, long factor, long *uni);
 int get_control_kbinput(int kbinput);
 void unparse_kbinput(char *output, size_t output_len);
 int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len);

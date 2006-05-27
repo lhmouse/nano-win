@@ -1180,8 +1180,8 @@ int parse_escape_seq_kbinput(int kbinput)
     return retval;
 }
 
-/* Translate a byte sequence: turn a three-digit decimal number from
- * 000 to 255 into its corresponding byte value. */
+/* Translate a byte sequence: turn a three-digit decimal number (from
+ * 000 to 255) into its corresponding byte value. */
 int get_byte_kbinput(int kbinput)
 {
     static int byte_digits = 0, byte = 0;
@@ -1192,47 +1192,49 @@ int get_byte_kbinput(int kbinput)
 
     switch (byte_digits) {
 	case 1:
-	    /* One digit: reset the byte sequence holder and add the
-	     * digit we got to the 100's position of the byte sequence
-	     * holder. */
-	    byte = 0;
+	    /* First digit: This must be from zero to two.  Put it in
+	     * the 100's position of the byte sequence holder. */
 	    if ('0' <= kbinput && kbinput <= '2')
-		byte += (kbinput - '0') * 100;
+		byte = (kbinput - '0') * 100;
 	    else
-		/* If the character we got isn't a decimal digit, or if
-		 * it is and it would put the byte sequence out of byte
-		 * range, save it as the result. */
+		/* This isn't the start of a byte sequence.  Return this
+		 * character as the result. */
 		retval = kbinput;
 	    break;
 	case 2:
-	    /* Two digits: add the digit we got to the 10's position of
-	     * the byte sequence holder. */
+	    /* Second digit: This must be from zero to five if the first
+	     * was two, and may be any decimal value if the first was
+	     * zero or one.  Put it in the 10's position of the byte
+	     * sequence holder. */
 	    if (('0' <= kbinput && kbinput <= '5') || (byte < 200 &&
 		'6' <= kbinput && kbinput <= '9'))
 		byte += (kbinput - '0') * 10;
 	    else
-		/* If the character we got isn't a decimal digit, or if
-		 * it is and it would put the byte sequence out of byte
-		 * range, save it as the result. */
+		/* This isn't the second digit of a byte sequence.
+		 * Return this character as the result. */
 		retval = kbinput;
 	    break;
 	case 3:
-	    /* Three digits: add the digit we got to the 1's position of
-	     * the byte sequence holder, and save the corresponding byte
-	     * value as the result. */
+	    /* Third digit: This must be from zero to five if the first
+	     * was two and the second was between zero and five, and may
+	     * be any decimal value if the first was zero or one and the
+	     * second was between six and nine.  Put it in the 1's
+	     * position of the byte sequence holder. */
 	    if (('0' <= kbinput && kbinput <= '5') || (byte < 250 &&
 		'6' <= kbinput && kbinput <= '9')) {
 		byte += (kbinput - '0');
+		/* If this character is a valid decimal value, then the
+		 * byte sequence is complete. */
 		retval = byte;
 	    } else
-		/* If the character we got isn't a decimal digit, or if
-		 * it is and it would put the byte sequence out of byte
-		 * range, save it as the result. */
+		/* This isn't the third digit of a byte sequence.
+		 * Return this character as the result. */
 		retval = kbinput;
 	    break;
 	default:
-	    /* More than three digits: save the character we got as the
-	     * result. */
+	    /* If there are more than three digits, return this
+	     * character as the result.  (Maybe we should produce an
+	     * error instead?) */
 	    retval = kbinput;
 	    break;
     }
@@ -1252,7 +1254,7 @@ int get_byte_kbinput(int kbinput)
 }
 
 /* Translate a Unicode sequence: turn a six-digit hexadecimal number
- * from 000000 to 10FFFF (case-insensitive) into its corresponding
+ * (from 000000 to 10FFFF, case-insensitive) into its corresponding
  * multibyte value. */
 long get_unicode_kbinput(int kbinput)
 {
@@ -1265,92 +1267,57 @@ long get_unicode_kbinput(int kbinput)
 
     switch (uni_digits) {
 	case 1:
-	    /* One digit: reset the Unicode sequence holder and add the
-	     * digit we got to the 0x100000's position of the Unicode
-	     * sequence holder. */
-	    uni = 0;
+	    /* First digit: This must be zero or one.  Put it in the
+	     * 0x100000's position of the Unicode sequence holder. */
 	    if ('0' <= kbinput && kbinput <= '1')
-		uni += (kbinput - '0') * 0x100000;
+		uni = (kbinput - '0') * 0x100000;
 	    else
-		/* If the character we got isn't a hexadecimal digit, or
-		 * if it is and it would put the Unicode sequence out of
-		 * valid range, save it as the result. */
+		/* This isn't the first digit of a Unicode sequence.
+		 * Return this character as the result. */
 		retval = kbinput;
 	    break;
 	case 2:
-	    /* Two digits: add the digit we got to the 0x10000's
-	     * position of the Unicode sequence holder. */
-	    if ('0' == kbinput || (uni < 0x100000 && '1' <= kbinput &&
-		kbinput <= '9'))
-		uni += (kbinput - '0') * 0x10000;
-	    else if (uni < 0x100000 && 'a' <= tolower(kbinput) &&
-		tolower(kbinput) <= 'f')
-		uni += (tolower(kbinput) + 10 - 'a') * 0x10000;
+	    /* Second digit: This must be zero if the first was one, and
+	     * may be any hexadecimal value if the first was zero.  Put
+	     * it in the 0x10000's position of the Unicode sequence
+	     * holder. */
+	    if (uni == 0 || '0' == kbinput)
+		retval = add_unicode_digit(kbinput, 0x10000, &uni);
 	    else
-		/* If the character we got isn't a hexadecimal digit, or
-		 * if it is and it would put the Unicode sequence out of
-		 * valid range, save it as the result. */
+		/* This isn't the second digit of a Unicode sequence.
+		 * Return this character as the result. */
 		retval = kbinput;
 	    break;
 	case 3:
-	    /* Three digits: add the digit we got to the 0x1000's
-	     * position of the Unicode sequence holder. */
-	    if ('0' <= kbinput && kbinput <= '9')
-		uni += (kbinput - '0') * 0x1000;
-	    else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
-		uni += (tolower(kbinput) + 10 - 'a') * 0x1000;
-	    else
-		/* If the character we got isn't a hexadecimal digit, or
-		 * if it is and it would put the Unicode sequence out of
-		 * valid range, save it as the result. */
-		retval = kbinput;
+	    /* Third digit: This may be any hexadecimal value.  Put it
+	     * in the 0x1000's position of the Unicode sequence
+	     * holder. */
+	    retval = add_unicode_digit(kbinput, 0x1000, &uni);
 	    break;
 	case 4:
-	    /* Four digits: add the digit we got to the 0x100's position
-	     * of the Unicode sequence holder. */
-	    if ('0' <= kbinput && kbinput <= '9')
-		uni += (kbinput - '0') * 0x100;
-	    else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
-		uni += (tolower(kbinput) + 10 - 'a') * 0x100;
-	    else
-		/* If the character we got isn't a hexadecimal digit, or
-		 * if it is and it would put the Unicode sequence out of
-		 * valid range, save it as the result. */
-		retval = kbinput;
+	    /* Fourth digit: This may be any hexadecimal value.  Put it
+	     * in the 0x100's position of the Unicode sequence
+	     * holder. */
+	    retval = add_unicode_digit(kbinput, 0x100, &uni);
 	    break;
 	case 5:
-	    /* Five digits: add the digit we got to the 0x10's position
-	     * of the Unicode sequence holder. */
-	    if ('0' <= kbinput && kbinput <= '9')
-		uni += (kbinput - '0') * 0x10;
-	    else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
-		uni += (tolower(kbinput) + 10 - 'a') * 0x10;
-	    else
-		/* If the character we got isn't a hexadecimal digit, or
-		 * if it is and it would put the Unicode sequence out of
-		 * valid range, save it as the result. */
-		retval = kbinput;
+	    /* Fifth digit: This may be any hexadecimal value.  Put it
+	     * in the 0x10's position of the Unicode sequence holder. */
+	    retval = add_unicode_digit(kbinput, 0x10, &uni);
 	    break;
 	case 6:
-	    /* Six digits: add the digit we got to the 1's position of
-	     * the Unicode sequence holder, and save the corresponding
-	     * Unicode value as the result. */
-	    if ('0' <= kbinput && kbinput <= '9') {
-		uni += (kbinput - '0');
+	    /* Sixth digit: This may be any hexadecimal value.  Put it
+	     * in the 0x1's position of the Unicode sequence holder. */
+	    retval = add_unicode_digit(kbinput, 0x1, &uni);
+	    /* If this character is a valid hexadecimal value, then the
+	     * Unicode sequence is complete. */
+	    if (retval == ERR)
 		retval = uni;
-	    } else if ('a' <= tolower(kbinput) && tolower(kbinput) <=
-		'f') {
-		uni += (tolower(kbinput) + 10 - 'a');
-		retval = uni;
-	    } else
-		/* If the character we got isn't a hexadecimal digit, or
-		 * if it is and it would put the Unicode sequence out of
-		 * valid range, save it as the result. */
-		retval = kbinput;
 	    break;
 	default:
-	    /* More than six digits: save the character we got as the
-	     * result. */
+	    /* If there are more than six digits, return this character
+	     * as the result.  (Maybe we should produce an error
+	     * instead?) */
 	    retval = kbinput;
 	    break;
     }
@@ -1369,6 +1336,24 @@ long get_unicode_kbinput(int kbinput)
     return retval;
 }
 
+/* If the character in kbinput is a valid hexadecimal digit, multiply it
+ * by factor and add the result to uni. */
+long add_unicode_digit(int kbinput, long factor, long *uni)
+{
+    long retval = ERR;
+
+    if ('0' <= kbinput && kbinput <= '9')
+	*uni += (kbinput - '0') * factor;
+    else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
+	*uni += (tolower(kbinput) - 'a' + 10) * factor;
+    else
+	/* If this character isn't a valid hexadecimal value, save it as
+	 * the result. */
+	retval = kbinput;
+
+    return retval;
+}
+
 /* Translate a control character sequence: turn an ASCII non-control
  * character into its corresponding control character. */
 int get_control_kbinput(int kbinput)
@@ -1376,29 +1361,23 @@ int get_control_kbinput(int kbinput)
     int retval;
 
      /* Ctrl-Space (Ctrl-2, Ctrl-@, Ctrl-`) */
-    if (kbinput == ' ')
-	retval = kbinput - 32;
+    if (kbinput == ' ' || kbinput == '2')
+	retval = NANO_CONTROL_SPACE;
     /* Ctrl-/ (Ctrl-7, Ctrl-_) */
     else if (kbinput == '/')
-	retval = kbinput - 16;
-    /* Ctrl-2 (Ctrl-Space, Ctrl-@, Ctrl-`) */
-    else if (kbinput == '2')
-	retval = kbinput - 50;
+	retval = NANO_CONTROL_7;
     /* Ctrl-3 (Ctrl-[, Esc) to Ctrl-7 (Ctrl-/, Ctrl-_) */
     else if ('3' <= kbinput && kbinput <= '7')
 	retval = kbinput - 24;
     /* Ctrl-8 (Ctrl-?) */
-    else if (kbinput == '8')
-	retval = kbinput + 71;
-    /* Ctrl-? (Ctrl-8) */
-    else if (kbinput == '?')
-	retval = kbinput + 64;
+    else if (kbinput == '8' || kbinput == '?')
+	retval = NANO_CONTROL_8;
     /* Ctrl-@ (Ctrl-Space, Ctrl-2, Ctrl-`) to Ctrl-_ (Ctrl-/, Ctrl-7) */
     else if ('@' <= kbinput && kbinput <= '_')
-	retval = kbinput - 64;
+	retval = kbinput - '@';
     /* Ctrl-` (Ctrl-2, Ctrl-Space, Ctrl-@) to Ctrl-~ (Ctrl-6, Ctrl-^) */
     else if ('`' <= kbinput && kbinput <= '~')
-	retval = kbinput - 96;
+	retval = kbinput - '`';
     else
 	retval = kbinput;
 
@@ -1465,11 +1444,12 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     /* Read in the first keystroke. */
     while ((kbinput = get_input(win, 1)) == NULL);
 
-    /* Check whether the first keystroke is a hexadecimal digit. */
+    /* Check whether the first keystroke is a valid hexadecimal
+     * digit. */
     uni = get_unicode_kbinput(*kbinput);
 
-    /* If the first keystroke isn't a hexadecimal digit, put back the
-     * first keystroke. */
+    /* If the first keystroke isn't a valid hexadecimal digit, put back
+     * the first keystroke. */
     if (uni != ERR)
 	unget_input(kbinput, 1);
     /* Otherwise, read in keystrokes until we have a complete Unicode
@@ -1477,6 +1457,9 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     else {
 	char *uni_mb;
 	int uni_mb_len, *seq, i;
+
+	if (win == edit)
+	    statusbar(_("Unicode Input"));
 
 	while (uni == ERR) {
 	    while ((kbinput = get_input(win, 1)) == NULL);
