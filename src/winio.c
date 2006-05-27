@@ -1459,6 +1459,8 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 	int uni_mb_len, *seq, i;
 
 	if (win == edit)
+	    /* TRANSLATORS: This is displayed during the input of a
+	     * six-digit Unicode code. */
 	    statusbar(_("Unicode Input"));
 
 	while (uni == ERR) {

@@ -110,11 +110,11 @@ CVS code -
 	  nanorc.5, nanorc.sample, and nano.texi. (Benno Schulenberg and
 	  DLR)
 	- If we're using verbatim input to enter a Unicode sequence,
-	  indicate it on the statusbar.  Also, refactor the Unicode
-	  sequence handler function to remove redundant code.  New
-	  function add_unicode_digit(); changes to get_unicode_input()
-	  and parse_verbatim_kninput(). (Benno Schulenberg, minor tweaks
-	  by DLR)
+	  indicate it on the statusbar, and add a translator comment
+	  explaining the message.  Also, refactor get_unicode_kbinput()
+	  to remove redundant code.  New function add_unicode_digit();
+	  changes to get_unicode_kbinput() and parse_verbatim_kbinput().
+	  (Benno Schulenberg, minor tweaks by DLR)
 - browser.c:
   do_browser()
 	- Reference NANO_GOTODIR_(ALT|F)?KEY instead of
@@ -289,6 +289,9 @@ CVS code -
   do_spell()
 	- Clarify the error message when creating a temporary file
 	  fails. (DLR)
+  do_verbatim_input()
+	- Add a translator comment explaining the "Verbatim Input"
+	  statusbar message. (Benno Schulenberg)
 - winio.c:
   parse_kbinput()
 	- If we get NANO_CONTROL_8, properly handle it in all cases.

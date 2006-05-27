@@ -2424,6 +2424,8 @@ void do_verbatim_input(void)
     size_t kbinput_len, i;
     char *output;
 
+    /* TRANSLATORS: This is displayed when the next keystroke will be
+     * inserted verbatim. */
     statusbar(_("Verbatim Input"));
 
     /* If constant cursor position display is on, make sure the current
