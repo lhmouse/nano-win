@@ -2428,17 +2428,18 @@ void do_verbatim_input(void)
      * inserted verbatim. */
     statusbar(_("Verbatim Input"));
 
-    /* If constant cursor position display is on, make sure the current
-     * cursor position will be properly displayed on the statusbar. */
-    if (ISSET(CONST_UPDATE))
-	do_cursorpos(TRUE);
-
     /* Read in all the verbatim characters. */
     kbinput = get_verbatim_kbinput(edit, &kbinput_len);
 
-    /* Blank the statusbar. */
-    blank_statusbar();
-    wnoutrefresh(bottomwin);
+    /* If constant cursor position display is on, make sure the current
+     * cursor position will be properly displayed on the statusbar.
+     * Otherwise, blank the statusbar. */
+    if (ISSET(CONST_UPDATE))
+	do_cursorpos(TRUE);
+    else {
+	blank_statusbar();
+	wnoutrefresh(bottomwin);
+    }
 
     /* Display all the verbatim characters at once, not filtering out
      * control characters. */
