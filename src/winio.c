@@ -530,7 +530,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 		     * sequence counter and interpret the digit.  If the
 		     * byte sequence's range is not limited to 2XX, fall
 		     * through. */
-		    if (('0' <= *kbinput && *kbinput <= '6' &&
+		    if (('0' <= *kbinput && *kbinput <= '2' &&
 			byte_digits == 0) || ('0' <= *kbinput &&
 			*kbinput <= '9' && byte_digits > 0)) {
 			int byte;
