@@ -1473,7 +1473,7 @@ bool do_mouse(void)
 #endif /* !DISABLE_MOUSE */
 
 /* The user typed output_len multibyte characters.  Add them to the edit
- * buffer, filtering out all control characters if allow_cntrls is
+ * buffer, filtering out all ASCII control characters if allow_cntrls is
  * TRUE. */
 void do_output(char *output, size_t output_len, bool allow_cntrls)
 {
@@ -1491,7 +1491,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
     while (i < output_len) {
 	/* If allow_cntrls is FALSE, filter out nulls and newlines,
-	 * since they're control characters. */
+	 * since they're ASCII control characters. */
 	if (allow_cntrls) {
 	    /* Null to newline, if needed. */
 	    if (output[i] == '\0')
@@ -1509,8 +1509,10 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 
 	i += char_buf_len;
 
-	/* If allow_cntrls is FALSE, filter out a control character. */
-	if (!allow_cntrls && is_cntrl_mbchar(output + i - char_buf_len))
+	/* If allow_cntrls is FALSE, filter out an ASCII control
+	 * character. */
+	if (!allow_cntrls && is_ascii_cntrl_char(*(output + i -
+		char_buf_len)))
 	    continue;
 
 	/* If the NO_NEWLINES flag isn't set, when a character is

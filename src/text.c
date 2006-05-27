@@ -2436,6 +2436,10 @@ void do_verbatim_input(void)
     /* Read in all the verbatim characters. */
     kbinput = get_verbatim_kbinput(edit, &kbinput_len);
 
+    /* Blank the statusbar. */
+    blank_statusbar();
+    wnoutrefresh(bottomwin);
+
     /* Display all the verbatim characters at once, not filtering out
      * control characters. */
     output = charalloc(kbinput_len + 1);
@@ -2447,7 +2451,4 @@ void do_verbatim_input(void)
     do_output(output, kbinput_len, TRUE);
 
     free(output);
-
-    /* Blank the statusbar if we need to. */
-    check_statusblank();
 }

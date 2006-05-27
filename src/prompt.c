@@ -301,7 +301,8 @@ bool do_statusbar_mouse(void)
 
 /* The user typed output_len multibyte characters.  Add them to the
  * statusbar prompt, setting got_enter to TRUE if we get a newline, and
- * filtering out all control characters if allow_cntrls is TRUE. */
+ * filtering out all ASCII control characters if allow_cntrls is
+ * TRUE. */
 void do_statusbar_output(char *output, size_t output_len, bool
 	*got_enter, bool allow_cntrls)
 {
@@ -316,7 +317,7 @@ void do_statusbar_output(char *output, size_t output_len, bool
 
     while (i < output_len) {
 	/* If allow_cntrls is FALSE, filter out nulls and newlines,
-	 * since they're control characters. */
+	 * since they're ASCII control characters. */
 	if (allow_cntrls) {
 	    /* Null to newline, if needed. */
 	    if (output[i] == '\0')
@@ -338,8 +339,10 @@ void do_statusbar_output(char *output, size_t output_len, bool
 
 	i += char_buf_len;
 
-	/* If allow_cntrls is FALSE, filter out a control character. */
-	if (!allow_cntrls && is_cntrl_mbchar(output + i - char_buf_len))
+	/* If allow_cntrls is FALSE, filter out an ASCII control
+	 * character. */
+	if (!allow_cntrls && is_ascii_cntrl_char(*(output + i -
+		char_buf_len)))
 	    continue;
 
 	/* More dangerousness fun =) */

@@ -1253,6 +1253,7 @@ int get_byte_kbinput(int kbinput)
     return retval;
 }
 
+#ifdef ENABLE_UTF8
 /* Translate a Unicode sequence: turn a six-digit hexadecimal number
  * (from 000000 to 10FFFF, case-insensitive) into its corresponding
  * multibyte value. */
@@ -1353,6 +1354,7 @@ long add_unicode_digit(int kbinput, long factor, long *uni)
 
     return retval;
 }
+#endif /* ENABLE_UTF8 */
 
 /* Translate a control character sequence: turn an ASCII non-control
  * character into its corresponding control character. */
@@ -1439,11 +1441,14 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 {
     int *kbinput, *retval;
+#ifdef ENABLE_UTF8
     long uni;
+#endif
 
     /* Read in the first keystroke. */
     while ((kbinput = get_input(win, 1)) == NULL);
 
+#ifdef ENABLE_UTF8
     /* Check whether the first keystroke is a valid hexadecimal
      * digit. */
     uni = get_unicode_kbinput(*kbinput);
@@ -1451,7 +1456,11 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     /* If the first keystroke isn't a valid hexadecimal digit, put back
      * the first keystroke. */
     if (uni != ERR)
+#endif /* ENABLE_UTF8 */
+
 	unget_input(kbinput, 1);
+
+#ifdef ENABLE_UTF8
     /* Otherwise, read in keystrokes until we have a complete Unicode
      * sequence, and put back the corresponding Unicode value. */
     else {
@@ -1482,6 +1491,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 	free(seq);
 	free(uni_mb);
     }
+#endif /* ENABLE_UTF8 */
 
     /* Get the complete sequence, and save the characters in it as the
      * result. */

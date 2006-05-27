@@ -115,6 +115,8 @@ CVS code -
 	  to remove redundant code.  New function add_unicode_digit();
 	  changes to get_unicode_kbinput() and parse_verbatim_kbinput().
 	  (Benno Schulenberg, minor tweaks by DLR)
+	- Allow normal typing of high-bit control characters, as Pico
+	  does.  Changes to do_output() and do_statusbar_output(). (DLR)
 - browser.c:
   do_browser()
 	- Reference NANO_GOTODIR_(ALT|F)?KEY instead of
@@ -292,6 +294,8 @@ CVS code -
   do_verbatim_input()
 	- Add a translator comment explaining the "Verbatim Input"
 	  statusbar message. (Benno Schulenberg)
+	- Unconditionally blank the statusbar as soon as we're finished
+	  getting input. (DLR, suggested by Benno Schulenberg)
 - winio.c:
   parse_kbinput()
 	- If we get NANO_CONTROL_8, properly handle it in all cases.
@@ -309,6 +313,9 @@ CVS code -
 	- Add Ctrl-/ as an alias for Ctrl-_. (DLR, found by Benno
 	  Schulenberg)
 	- Simplify the if blocks wherever possible. (DLR)
+  parse_verbatim_kbinput()
+	- Don't include the ability to enter a Unicode sequence via
+	  verbatim input mode if ENABLE_UTF8 isn't defined. (DLR)
   display_string()
 	- Properly display double-column characters if they're past the
 	  first virtual page and their first column is covered by the
