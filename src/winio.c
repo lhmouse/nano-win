@@ -2123,7 +2123,6 @@ void statusbar(const char *msg, ...)
 	return;
     }
 
-    /* Blank out the line. */
     blank_statusbar();
 
 #if !defined(NANO_TINY) && defined(ENABLE_NANORC)
