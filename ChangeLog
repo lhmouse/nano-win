@@ -316,6 +316,8 @@ CVS code -
   parse_verbatim_kbinput()
 	- Don't include the ability to enter a Unicode sequence via
 	  verbatim input mode if ENABLE_UTF8 isn't defined. (DLR)
+  check_statusblank()
+	- Avoid redundant updates when statusblank is 0. (DLR)
   display_string()
 	- Properly display double-column characters if they're past the
 	  first virtual page and their first column is covered by the

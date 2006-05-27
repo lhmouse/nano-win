@@ -1737,14 +1737,15 @@ void blank_bottombars(void)
  * position display is on. */
 void check_statusblank(void)
 {
-    if (statusblank > 0)
+    if (statusblank > 0) {
 	statusblank--;
 
-    if (statusblank == 0 && !ISSET(CONST_UPDATE)) {
-	blank_statusbar();
-	wnoutrefresh(bottomwin);
-	reset_cursor();
-	wnoutrefresh(edit);
+	if (statusblank == 0 && !ISSET(CONST_UPDATE)) {
+	    blank_statusbar();
+	    wnoutrefresh(bottomwin);
+	    reset_cursor();
+	    wnoutrefresh(edit);
+	}
     }
 }
 
