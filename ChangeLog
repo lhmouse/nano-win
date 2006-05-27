@@ -350,6 +350,9 @@ CVS code -
 	  require that the bracket matching key change to Ctrl-], which
 	  is used as the telnet escape key. (DLR, found by Chris)
 	- Make the link to the nano CVS page a bit more readable. (DLR)
+	- Update section 3.8 to mention the new "Unicode Input" prompt,
+	  and how Unicode input only works when Unicode support is
+	  enabled. (DLR)
 - doc/nano.1:
 	- Update the copyright years to include 2006. (DLR)
 	- Explicitly mention that all regexes should be extended regular
