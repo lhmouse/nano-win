@@ -292,6 +292,9 @@ CVS code -
   parse_escape_seq_kbinput()
 	- New function used to interpret escape sequences, formerly part
 	  of parse_kbinput(). (DLR)
+  get_byte_kbinput()
+	- Fix typo preventing Esc Esc 3 through Esc Esc 6 from being
+	  interpreted as control key sequences. (DLR)
   get_control_kbinput()
 	- Add Ctrl-/ as an alias for Ctrl-_. (DLR, found by Benno
 	  Schulenberg)
