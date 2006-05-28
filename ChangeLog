@@ -450,6 +450,8 @@ CVS code -
 - src/Makefile.am:
 	- If we're uninstalling, remove the "rnano" symlink. (DLR, found
 	  by Benno Schulenberg)
+	- Remove "-Iintl" from INCLUDES, as we don't use an intl
+	  directory inside the source directory anymore. (DLR)
 - TODO:
 	- Update for nano 2.0, since we're now in a feature freeze.
 	  (DLR)
