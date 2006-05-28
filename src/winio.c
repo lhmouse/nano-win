@@ -1441,9 +1441,6 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 {
     int *kbinput, *retval;
-#ifdef ENABLE_UTF8
-    long uni;
-#endif
 
     /* Read in the first keystroke. */
     while ((kbinput = get_input(win, 1)) == NULL);
@@ -1452,7 +1449,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     if (using_utf8()) {
 	/* Check whether the first keystroke is a valid hexadecimal
 	 * digit. */
-	uni = get_unicode_kbinput(*kbinput);
+	long uni = get_unicode_kbinput(*kbinput);
 
 	/* If the first keystroke isn't a valid hexadecimal digit, put
 	 * back the first keystroke. */
@@ -1492,7 +1489,8 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 	    free(uni_mb);
 	}
     } else
-#endif
+#endif /* ENABLE_UTF8 */
+
 	/* Put back the first keystroke. */
 	unget_input(kbinput, 1);
 
