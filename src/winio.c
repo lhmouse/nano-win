@@ -1254,6 +1254,24 @@ int get_byte_kbinput(int kbinput)
 }
 
 #ifdef ENABLE_UTF8
+/* If the character in kbinput is a valid hexadecimal digit, multiply it
+ * by factor and add the result to uni. */
+long add_unicode_digit(int kbinput, long factor, long *uni)
+{
+    long retval = ERR;
+
+    if ('0' <= kbinput && kbinput <= '9')
+	*uni += (kbinput - '0') * factor;
+    else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
+	*uni += (tolower(kbinput) - 'a' + 10) * factor;
+    else
+	/* If this character isn't a valid hexadecimal value, save it as
+	 * the result. */
+	retval = kbinput;
+
+    return retval;
+}
+
 /* Translate a Unicode sequence: turn a six-digit hexadecimal number
  * (from 000000 to 10FFFF, case-insensitive) into its corresponding
  * multibyte value. */
@@ -1333,24 +1351,6 @@ long get_unicode_kbinput(int kbinput)
 #ifdef DEBUG
     fprintf(stderr, "get_unicode_kbinput(): kbinput = %d, uni_digits = %d, uni = %ld, retval = %ld\n", kbinput, uni_digits, uni, retval);
 #endif
-
-    return retval;
-}
-
-/* If the character in kbinput is a valid hexadecimal digit, multiply it
- * by factor and add the result to uni. */
-long add_unicode_digit(int kbinput, long factor, long *uni)
-{
-    long retval = ERR;
-
-    if ('0' <= kbinput && kbinput <= '9')
-	*uni += (kbinput - '0') * factor;
-    else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
-	*uni += (tolower(kbinput) - 'a' + 10) * factor;
-    else
-	/* If this character isn't a valid hexadecimal value, save it as
-	 * the result. */
-	retval = kbinput;
 
     return retval;
 }
