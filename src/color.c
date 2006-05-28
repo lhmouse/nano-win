@@ -142,7 +142,7 @@ void color_update(void)
 	     * syntax names elsewhere.)  Skip over it here, but keep
 	     * track of its color regexes. */
 	    if (strcmp(tmpsyntax->desc, "default") == 0) {
-		defcolor = syntaxes->color;
+		defcolor = tmpsyntax->color;
 		continue;
 	    }
 

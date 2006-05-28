@@ -128,6 +128,10 @@ CVS code -
 	- Rename variable editline to line, for consistency. (DLR)
 	- Change variable i from an int to a size_t in order to match
 	  selected, which it's compared against. (DLR)
+- color.c:
+  color_update()
+	- Fix incorrect setting of defcolor, which prevented the
+	  reserved "default" syntax from being handled correctly. (DLR)
 - cut.c:
   cut_to_eof()
 	- New function, containing the main functionality of
