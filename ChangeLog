@@ -315,7 +315,8 @@ CVS code -
 	- Simplify the if blocks wherever possible. (DLR)
   parse_verbatim_kbinput()
 	- Don't include the ability to enter a Unicode sequence via
-	  verbatim input mode if ENABLE_UTF8 isn't defined. (DLR)
+	  verbatim input mode if ENABLE_UTF8 isn't defined or we're not
+	  in a UTF-8 locale. (DLR)
   check_statusblank()
 	- Avoid redundant updates when statusblank is 0. (DLR)
   display_string()

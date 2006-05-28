@@ -1449,49 +1449,52 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
     while ((kbinput = get_input(win, 1)) == NULL);
 
 #ifdef ENABLE_UTF8
-    /* Check whether the first keystroke is a valid hexadecimal
-     * digit. */
-    uni = get_unicode_kbinput(*kbinput);
+    if (using_utf8()) {
+	/* Check whether the first keystroke is a valid hexadecimal
+	 * digit. */
+	uni = get_unicode_kbinput(*kbinput);
 
-    /* If the first keystroke isn't a valid hexadecimal digit, put back
-     * the first keystroke. */
-    if (uni != ERR)
-#endif /* ENABLE_UTF8 */
+	/* If the first keystroke isn't a valid hexadecimal digit, put
+	 * back the first keystroke. */
+	if (uni != ERR)
+	    unget_input(kbinput, 1);
 
-	unget_input(kbinput, 1);
+	/* Otherwise, read in keystrokes until we have a complete
+	 * Unicode sequence, and put back the corresponding Unicode
+	 * value. */
+	else {
+	    char *uni_mb;
+	    int uni_mb_len, *seq, i;
 
-#ifdef ENABLE_UTF8
-    /* Otherwise, read in keystrokes until we have a complete Unicode
-     * sequence, and put back the corresponding Unicode value. */
-    else {
-	char *uni_mb;
-	int uni_mb_len, *seq, i;
+	    if (win == edit)
+		/* TRANSLATORS: This is displayed during the input of a
+		 * six-digit hexadecimal Unicode character code. */
+		statusbar(_("Unicode Input"));
 
-	if (win == edit)
-	    /* TRANSLATORS: This is displayed during the input of a
-	     * six-digit Unicode code. */
-	    statusbar(_("Unicode Input"));
+	    while (uni == ERR) {
+		while ((kbinput = get_input(win, 1)) == NULL);
 
-	while (uni == ERR) {
-	    while ((kbinput = get_input(win, 1)) == NULL);
+		uni = get_unicode_kbinput(*kbinput);
+	    }
 
-	    uni = get_unicode_kbinput(*kbinput);
+	    /* Put back the multibyte equivalent of the Unicode
+	     * value. */
+	    uni_mb = make_mbchar(uni, &uni_mb_len);
+
+	    seq = (int *)nmalloc(uni_mb_len * sizeof(int));
+
+	    for (i = 0; i < uni_mb_len; i++)
+		seq[i] = (unsigned char)uni_mb[i];
+
+	    unget_input(seq, uni_mb_len);
+
+	    free(seq);
+	    free(uni_mb);
 	}
-
-	/* Put back the multibyte equivalent of the Unicode value. */
-	uni_mb = make_mbchar(uni, &uni_mb_len);
-
-	seq = (int *)nmalloc(uni_mb_len * sizeof(int));
-
-	for (i = 0; i < uni_mb_len; i++)
-	    seq[i] = (unsigned char)uni_mb[i];
-
-	unget_input(seq, uni_mb_len);
-
-	free(seq);
-	free(uni_mb);
-    }
-#endif /* ENABLE_UTF8 */
+    } else
+#endif
+	/* Put back the first keystroke. */
+	unget_input(kbinput, 1);
 
     /* Get the complete sequence, and save the characters in it as the
      * result. */
