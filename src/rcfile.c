@@ -171,7 +171,7 @@ char *parse_argument(char *ptr)
 	    ptr = NULL;
 	else
 	    *ptr++ = '\0';
-	rcfile_error(N_("Argument %s has unterminated \""), ptr_save);
+	rcfile_error(N_("Argument \"%s\" has unterminated \""), ptr_save);
     } else {
 	*last_quote = '\0';
 	ptr = last_quote + 1;
@@ -183,45 +183,6 @@ char *parse_argument(char *ptr)
 }
 
 #ifdef ENABLE_COLOR
-/* Return the short value corresponding to the color named in colorname,
- * and set bright to TRUE if that color is bright. */
-short color_to_short(const char *colorname, bool *bright)
-{
-    short mcolor = -1;
-
-    assert(colorname != NULL && bright != NULL);
-
-    if (strncasecmp(colorname, "bright", 6) == 0) {
-	*bright = TRUE;
-	colorname += 6;
-    }
-
-    if (strcasecmp(colorname, "green") == 0)
-	mcolor = COLOR_GREEN;
-    else if (strcasecmp(colorname, "red") == 0)
-	mcolor = COLOR_RED;
-    else if (strcasecmp(colorname, "blue") == 0)
-	mcolor = COLOR_BLUE;
-    else if (strcasecmp(colorname, "white") == 0)
-	mcolor = COLOR_WHITE;
-    else if (strcasecmp(colorname, "yellow") == 0)
-	mcolor = COLOR_YELLOW;
-    else if (strcasecmp(colorname, "cyan") == 0)
-	mcolor = COLOR_CYAN;
-    else if (strcasecmp(colorname, "magenta") == 0)
-	mcolor = COLOR_MAGENTA;
-    else if (strcasecmp(colorname, "black") == 0)
-	mcolor = COLOR_BLACK;
-    else
-	rcfile_error(N_("Color %s not understood.\n"
-		"Valid colors are \"green\", \"red\", \"blue\",\n"
-		"\"white\", \"yellow\", \"cyan\", \"magenta\" and\n"
-		"\"black\", with the optional prefix \"bright\"\n"
-		"for foreground colors."), colorname);
-
-    return mcolor;
-}
-
 /* Parse the next regex string from the line at ptr, and return it. */
 char *parse_next_regex(char *ptr)
 {
@@ -445,6 +406,45 @@ void parse_include(char *ptr)
     free(full_option);
 }
 
+/* Return the short value corresponding to the color named in colorname,
+ * and set bright to TRUE if that color is bright. */
+short color_to_short(const char *colorname, bool *bright)
+{
+    short mcolor = -1;
+
+    assert(colorname != NULL && bright != NULL);
+
+    if (strncasecmp(colorname, "bright", 6) == 0) {
+	*bright = TRUE;
+	colorname += 6;
+    }
+
+    if (strcasecmp(colorname, "green") == 0)
+	mcolor = COLOR_GREEN;
+    else if (strcasecmp(colorname, "red") == 0)
+	mcolor = COLOR_RED;
+    else if (strcasecmp(colorname, "blue") == 0)
+	mcolor = COLOR_BLUE;
+    else if (strcasecmp(colorname, "white") == 0)
+	mcolor = COLOR_WHITE;
+    else if (strcasecmp(colorname, "yellow") == 0)
+	mcolor = COLOR_YELLOW;
+    else if (strcasecmp(colorname, "cyan") == 0)
+	mcolor = COLOR_CYAN;
+    else if (strcasecmp(colorname, "magenta") == 0)
+	mcolor = COLOR_MAGENTA;
+    else if (strcasecmp(colorname, "black") == 0)
+	mcolor = COLOR_BLACK;
+    else
+	rcfile_error(N_("Color \"%s\" not understood.\n"
+		"Valid colors are \"green\", \"red\", \"blue\",\n"
+		"\"white\", \"yellow\", \"cyan\", \"magenta\" and\n"
+		"\"black\", with the optional prefix \"bright\"\n"
+		"for foreground colors."), colorname);
+
+    return mcolor;
+}
+
 /* Parse the color string in the line at ptr, and add it to the current
  * file's associated colors.  If icase is TRUE, treat the color string
  * as case insensitive. */
@@ -483,7 +483,7 @@ void parse_colors(char *ptr, bool icase)
 	}
 	if (strncasecmp(bgcolorname, "bright", 6) == 0) {
 	    rcfile_error(
-		N_("Background color %s cannot be bright"),
+		N_("Background color \"%s\" cannot be bright"),
 		bgcolorname);
 	    return;
 	}
@@ -644,7 +644,7 @@ void parse_rcfile(FILE *rcstream
 #ifdef ENABLE_COLOR
 	    if (syntax_only)
 		rcfile_error(
-			N_("Command %s not allowed in included file"),
+			N_("Command \"%s\" not allowed in included file"),
 			keyword);
 	    else
 #endif
@@ -653,7 +653,7 @@ void parse_rcfile(FILE *rcstream
 #ifdef ENABLE_COLOR
 	    if (syntax_only)
 		rcfile_error(
-			N_("Command %s not allowed in included file"),
+			N_("Command \"%s\" not allowed in included file"),
 			keyword);
 	    else
 #endif
@@ -663,13 +663,13 @@ void parse_rcfile(FILE *rcstream
 	else if (strcasecmp(keyword, "include") == 0) {
 	    if (syntax_only)
 		rcfile_error(
-			N_("Command %s not allowed in included file"),
+			N_("Command \"%s\" not allowed in included file"),
 			keyword);
 	    else
 		parse_include(ptr);
 	} else if (strcasecmp(keyword, "syntax") == 0) {
 	    if (endsyntax != NULL && endcolor == NULL)
-		rcfile_error(N_("Syntax %s has no color commands"),
+		rcfile_error(N_("Syntax \"%s\" has no color commands"),
 			endsyntax->desc);
 	    parse_syntax(ptr);
 	} else if (strcasecmp(keyword, "color") == 0)
@@ -678,7 +678,7 @@ void parse_rcfile(FILE *rcstream
 	    parse_colors(ptr, TRUE);
 #endif /* ENABLE_COLOR */
 	else
-	    rcfile_error(N_("Command %s not understood"), keyword);
+	    rcfile_error(N_("Command \"%s\" not understood"), keyword);
 
 	if (set == 0)
 	    continue;
@@ -706,7 +706,7 @@ void parse_rcfile(FILE *rcstream
 			 * an argument. */
 			if (*ptr == '\0') {
 			    rcfile_error(
-				N_("Option %s requires an argument"),
+				N_("Option \"%s\" requires an argument"),
 				rcopts[i].name);
 			    break;
 			}
@@ -737,7 +737,7 @@ void parse_rcfile(FILE *rcstream
 			if (strcasecmp(rcopts[i].name, "fill") == 0) {
 			    if (!parse_num(option, &wrap_at)) {
 				rcfile_error(
-					N_("Requested fill size %s invalid"),
+					N_("Requested fill size \"%s\" invalid"),
 					option);
 				wrap_at = -CHARS_FROM_EOL;
 			    } else
@@ -812,7 +812,7 @@ void parse_rcfile(FILE *rcstream
 			    if (!parse_num(option, &tabsize) ||
 				tabsize <= 0) {
 				rcfile_error(
-					N_("Requested tab size %s invalid"),
+					N_("Requested tab size \"%s\" invalid"),
 					option);
 				tabsize = -1;
 			    } else
@@ -826,17 +826,17 @@ void parse_rcfile(FILE *rcstream
 		} else if (rcopts[i].flag != 0)
 		    UNSET(rcopts[i].flag);
 		else
-		    rcfile_error(N_("Cannot unset flag %s"),
+		    rcfile_error(N_("Cannot unset flag \"%s\""),
 			rcopts[i].name);
 		break;
 	    }
 	}
 	if (rcopts[i].name == NULL)
-	    rcfile_error(N_("Unknown flag %s"), option);
+	    rcfile_error(N_("Unknown flag \"%s\""), option);
     }
 
     if (endsyntax != NULL && endcolor == NULL)
-	rcfile_error(N_("Syntax %s has no color commands"),
+	rcfile_error(N_("Syntax \"%s\" has no color commands"),
 		endsyntax->desc);
 
     free(buf);

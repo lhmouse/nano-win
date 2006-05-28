@@ -260,21 +260,30 @@ CVS code -
 - rcfile.c:
   parse_argument()
 	- Rename variable ptr_bak to ptr_save, for consistency. (DLR)
+	- Add quotes around invalid string arguments in error messages,
+	  for consistency. (DLR)
   parse_syntax()
 	- Don't generate an error if we find a duplicate syntax name,
 	  since we might be trying to override a syntax in the global
 	  nanorc with one in our local nanorc.  Instead, free any
 	  duplicate syntaxes we find, so that we always use the last
 	  syntax with a given name. (DLR)
+  color_to_short()
+	- Add quotes around invalid string arguments in error messages,
+	  for consistency. (DLR)
   parse_colors()
 	- Check for a color command's not following a syntax line before
 	  anything else. (DLR)
+	- Add quotes around invalid string arguments in error messages,
+	  for consistency. (DLR)
   parse_rcfile()
 	- Properly generate an error if we've read in a syntax without
 	  any associated color commands. (DLR)
 	- Change variable i from an int to a size_t, for consistency.
 	  (DLR)
 	- Properly handle rcfiles that don't end in newlines. (DLR)
+	- Add quotes around invalid string arguments in error messages,
+	  for consistency. (DLR)
   do_rcfile()
 	- Check for the rcfile's being a directory or device file and
 	  reject it if it is, for consistency with file handling
