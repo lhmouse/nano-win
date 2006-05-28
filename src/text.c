@@ -1447,7 +1447,7 @@ void do_justify(bool full_justify)
 	indent_string = mallocstrcpy(NULL, "");
 
 	/* Find the first indentation in the paragraph that doesn't
-	 * match the indentation of the first line, and save it in
+	 * match the indentation of the first line, and save it in
 	 * indent_string.  If all the indentations are the same, save
 	 * the indentation of the first line in indent_string. */
 	{

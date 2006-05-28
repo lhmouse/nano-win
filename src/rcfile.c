@@ -703,7 +703,7 @@ void parse_rcfile(FILE *rcstream
 			SET(rcopts[i].flag);
 		    else {
 			/* This option doesn't have a flag, so it takes
-			 * an argument. */
+			 * an argument. */
 			if (*ptr == '\0') {
 			    rcfile_error(
 				N_("Option %s requires an argument"),
