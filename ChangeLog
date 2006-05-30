@@ -313,8 +313,6 @@ CVS code -
   parse_kbinput()
 	- If we get NANO_CONTROL_8, properly handle it in all cases.
 	  (DLR)
-	- If we get Escape followed by an escape sequence, interpret the
-	  escape sequence for consistency. (DLR)
   parse_escape_seq_kbinput()
 	- New function used to interpret escape sequences, formerly part
 	  of parse_kbinput(). (DLR)

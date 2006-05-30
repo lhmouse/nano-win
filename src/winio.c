@@ -565,16 +565,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 			    free(byte_mb);
 			    free(seq);
 			}
-		    /* Two escapes followed by one or more non-decimal
-		     * digits: control character sequence mode,
-		     * interrupted byte sequence mode, or escape
-		     * sequence mode.  If there aren't any other keys
-		     * waiting, we have either a control character
-		     * sequence or an interrupted byte sequence.  If
-		     * there are other keys waiting, we have a true
-		     * escape sequence preceded by an extra escape, so
-		     * interpret it. */
-		    } else if (get_key_buffer_len() == 0) {
+		    } else {
 			/* Reset the escape counter. */
 			escapes = 0;
 			if (byte_digits == 0)
@@ -595,8 +586,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 			    byte_digits = 0;
 			    retval = *kbinput;
 			}
-		    } else
-			retval = parse_escape_seq_kbinput(*kbinput);
+		    }
 		    break;
 	    }
     }
@@ -683,7 +673,7 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len, bool
 			break;
 		    case 'M': /* Esc O M == Enter on numeric keypad with
 			       * NumLock off on VT100/VT220/VT320/xterm/
-			       * Eterm. */
+			       * rxvt/Eterm. */
 			retval = NANO_ENTER_KEY;
 			break;
 		    case 'P': /* Esc O P == F1 on VT100/VT220/VT320/Mach
@@ -728,57 +718,57 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len, bool
 			break;
 		    case 'j': /* Esc O j == '*' on numeric keypad with
 			       * NumLock off on VT100/VT220/VT320/xterm/
-			       * rxvt. */
+			       * rxvt/Eterm. */
 			retval = '*';
 			break;
 		    case 'k': /* Esc O k == '+' on numeric keypad with
 			       * NumLock off on VT100/VT220/VT320/xterm/
-			       * rxvt. */
+			       * rxvt/Eterm. */
 			retval = '+';
 			break;
 		    case 'l': /* Esc O l == ',' on numeric keypad with
 			       * NumLock off on VT100/VT220/VT320/xterm/
-			       * rxvt. */
+			       * rxvt/Eterm. */
 			retval = ',';
 			break;
 		    case 'm': /* Esc O m == '-' on numeric keypad with
 			       * NumLock off on VT100/VT220/VT320/xterm/
-			       * rxvt. */
+			       * rxvt/Eterm. */
 			retval = '-';
 			break;
 		    case 'n': /* Esc O n == Delete (.) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
-			       * xterm/rxvt. */
+			       * xterm/rxvt/Eterm. */
 			retval = NANO_DELETE_KEY;
 			break;
 		    case 'o': /* Esc O o == '/' on numeric keypad with
 			       * NumLock off on VT100/VT220/VT320/xterm/
-			       * rxvt. */
+			       * rxvt/Eterm. */
 			retval = '/';
 			break;
 		    case 'p': /* Esc O p == Insert (0) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
-			       * rxvt. */
+			       * rxvt/Eterm. */
 			retval = NANO_INSERTFILE_KEY;
 			break;
 		    case 'q': /* Esc O q == End (1) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
-			       * rxvt. */
+			       * rxvt/Eterm. */
 			retval = NANO_END_KEY;
 			break;
 		    case 'r': /* Esc O r == Down (2) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
-			       * rxvt. */
+			       * rxvt/Eterm. */
 			retval = NANO_NEXTLINE_KEY;
 			break;
 		    case 's': /* Esc O s == PageDown (3) on numeric
 			       * keypad with NumLock off on VT100/VT220/
-			       * VT320/rxvt. */
+			       * VT320/rxvt/Eterm. */
 			retval = NANO_NEXTPAGE_KEY;
 			break;
 		    case 't': /* Esc O t == Left (4) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
-			       * rxvt. */
+			       * rxvt/Eterm. */
 			retval = NANO_BACK_KEY;
 			break;
 		    case 'u': /* Esc O u == Center (5) on numeric keypad
@@ -788,22 +778,22 @@ int get_escape_seq_kbinput(const int *seq, size_t seq_len, bool
 			break;
 		    case 'v': /* Esc O v == Right (6) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
-			       * rxvt. */
+			       * rxvt/Eterm. */
 			retval = NANO_FORWARD_KEY;
 			break;
 		    case 'w': /* Esc O w == Home (7) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
-			       * rxvt. */
+			       * rxvt/Eterm. */
 			retval = NANO_HOME_KEY;
 			break;
 		    case 'x': /* Esc O x == Up (8) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
-			       * rxvt. */
+			       * rxvt/Eterm. */
 			retval = NANO_PREVLINE_KEY;
 			break;
 		    case 'y': /* Esc O y == PageUp (9) on numeric keypad
 			       * with NumLock off on VT100/VT220/VT320/
-			       * rxvt. */
+			       * rxvt/Eterm. */
 			retval = NANO_PREVPAGE_KEY;
 			break;
 		}
@@ -1222,7 +1212,7 @@ int get_byte_kbinput(int kbinput)
 	     * position of the byte sequence holder. */
 	    if (('0' <= kbinput && kbinput <= '5') || (byte < 250 &&
 		'6' <= kbinput && kbinput <= '9')) {
-		byte += (kbinput - '0');
+		byte += kbinput - '0';
 		/* If this character is a valid decimal value, then the
 		 * byte sequence is complete. */
 		retval = byte;
