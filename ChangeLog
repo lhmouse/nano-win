@@ -452,6 +452,7 @@ CVS code -
 	  (John M. Gabriele)
 	- Simplify the extensions associated with the "nanorc" regexes.
 	  (DLR)
+	- Add regexes for Ruby. (John M. Gabriele, minor tweaks by DLR)
 - src/Makefile.am:
 	- If we're uninstalling, remove the "rnano" symlink. (DLR, found
 	  by Benno Schulenberg)
