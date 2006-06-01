@@ -105,8 +105,8 @@ int do_statusbar_input(bool *meta_key, bool *func_key, bool *s_or_t,
     if (*s_or_t == FALSE) {
 	if (is_ascii_cntrl_char(input) || *meta_key == TRUE ||
 		*func_key == TRUE) {
-	    if (*meta_key == TRUE)
-		*meta_key = FALSE;
+	    *meta_key = FALSE;
+	    *func_key = FALSE;
 	    input = ERR;
 	}
     }
