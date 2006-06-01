@@ -378,4 +378,4 @@
 ## Strings
 # icolor white ""(\\.|[^"])*""
 ## Comments
-# icolor blue "^[[:space:]]*#.*$"
+# icolor brightblue "^[[:space:]]*#.*$"
