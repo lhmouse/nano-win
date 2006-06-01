@@ -395,7 +395,6 @@ void parse_include(char *ptr)
 	, TRUE
 #endif
 	);
-    fclose(rcstream);
 
     /* We're done with the new syntax file.  Restore the original
      * filename and line number position. */
