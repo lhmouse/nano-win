@@ -1,4 +1,5 @@
 Makefile
 Makefile.in
-nanorc.5.html
 nano.1.html
+nanorc.5.html
+rnano.1.html
