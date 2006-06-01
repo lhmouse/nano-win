@@ -447,8 +447,9 @@ CVS code -
 	- Further simplify the "groff" regexes. (DLR)
 	- Tweak the "shellscript" regexes to properly color all special
 	  variables, such as $? and $@. (Benno Schulenberg)
-	- Tweak the "nanorc" regexes to color comments bright blue
-	  instead of blue. (John M. Gabriele)
+	- Tweak the "nanorc" regexes to color keywords bright green
+	  instead of cyan, and comments bright blue instead of blue.
+	  (John M. Gabriele)
 	- Simplify the extensions associated with the "nanorc" regexes.
 	  (DLR)
 - src/Makefile.am:
