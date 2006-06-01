@@ -208,6 +208,7 @@
 ##
 ## All regexes should be extended regular expressions.
 
+
 ## Nanorc files
 # include "@PKGDATADIR@/nanorc.nanorc"
 
