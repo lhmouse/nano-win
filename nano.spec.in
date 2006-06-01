@@ -34,6 +34,7 @@ make DESTDIR="$RPM_BUILD_ROOT" install
 %{_bindir}/*
 %{_mandir}/*/*
 %{_datadir}/locale/*/LC_MESSAGES/nano.mo
+%{_datadir}/nano/*
 %{_infodir}/nano.info*
 
 %changelog

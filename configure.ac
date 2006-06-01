@@ -41,6 +41,11 @@ AM_GNU_GETTEXT_VERSION(0.11.5)
 AM_GNU_GETTEXT([external], [need-ngettext])
 AM_CONDITIONAL(USE_NLS, test "x$USE_NLS" = "xyes")
 
+dnl Data location.
+
+pkgdatadir=${datadir}/${PACKAGE}
+AC_DEFINE_DIR([PKGDATADIR], [pkgdatadir], [Where data are placed to.])
+
 dnl Checks for header files.
 
 AC_HEADER_STDC
@@ -386,6 +391,8 @@ int main(void)
 	;;
     esac], [AC_MSG_RESULT(no)])
 
+AM_CONDITIONAL(USE_COLOR, test "x$color_support" = "xyes")
+
 dnl Checks for functions.
 
 AC_CHECK_FUNCS(getdelim getline isblank strcasecmp strcasestr strncasecmp strnlen vsnprintf)
@@ -492,8 +499,10 @@ fi
 AC_CONFIG_FILES([
 Makefile
 doc/Makefile
+doc/nanorc.sample
 doc/man/Makefile
 doc/man/fr/Makefile
+doc/syntax/Makefile
 doc/texinfo/Makefile
 m4/Makefile
 po/Makefile.in

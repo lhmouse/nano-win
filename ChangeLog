@@ -117,6 +117,24 @@ CVS code -
 	  (Benno Schulenberg, minor tweaks by DLR)
 	- Allow normal typing of high-bit control characters, as Pico
 	  does.  Changes to do_output() and do_statusbar_output(). (DLR)
+	- Move color regexes into separate files, make nanorc.sample
+	  reference them, and make them install properly.  In the
+	  process, rename nanorc.sample to nanorc.sample.in, put
+	  @PKGDATADIR@ at the beginning of all nanorc file paths, add
+	  needed AC_DEFINE_DIR macro from the Autoconf Macro Archive at
+	  http://autoconf-archive.cryp.to/ac_define_dir.m4, and make
+	  configure.ac do the substitution, so that the proper paths
+	  will always be used in nanorc.sample.  New files
+	  m4/ac_define_dir.m4, doc/syntax/Makefile.am,
+	  doc/syntax/asm.nanorc, doc/syntax/c.nanorc,
+	  doc/syntax/groff.nanorc, doc/syntax/html.nanorc,
+	  doc/syntax/java.nanorc, doc/syntax/man.nanorc,
+	  doc/syntax/mutt.nanorc, doc/syntax/patch.nanorc,
+	  doc/syntax/perl.nanorc, doc/syntax/python.nanorc,
+	  doc/syntax/ruby.nanorc, doc/syntax/sh.nanorc, and
+	  doc/syntax/tex.nanorc; changes to configure.ac, nano.spec.in,
+	  doc/Makefile.am, and m4/Makefile.am; removal of
+	  doc/nanorc.sample. (DLR)
 - browser.c:
   do_browser()
 	- Reference NANO_GOTODIR_(ALT|F)?KEY instead of
