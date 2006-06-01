@@ -366,7 +366,7 @@
 
 ## Here is an example for your .nanorc.
 ##
-# syntax "nanorc" "(\.|/|)nanorc$"
+# syntax "nanorc" "\.?nanorc$"
 ## Possible errors and parameters
 # icolor brightwhite "^[[:space:]]*((un)?set|include|syntax|i?color).*$"
 ## Keywords

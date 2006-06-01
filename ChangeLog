@@ -449,6 +449,8 @@ CVS code -
 	  variables, such as $? and $@. (Benno Schulenberg)
 	- Tweak the "nanorc" regexes to color comments bright blue
 	  instead of blue. (John M. Gabriele)
+	- Simplify the extensions associated with the "nanorc" regexes.
+	  (DLR)
 - src/Makefile.am:
 	- If we're uninstalling, remove the "rnano" symlink. (DLR, found
 	  by Benno Schulenberg)
