@@ -1,7 +1,7 @@
-if USE_NLS
-SUBDIRS = fr
-else
 SUBDIRS =
+
+if USE_NLS
+SUBDIRS += fr
 endif
 
 man_MANS = nano.1 nanorc.5 rnano.1
