@@ -445,6 +445,8 @@ CVS code -
 	  used to highlight trailing whitespace, since we now support
 	  background colors without foreground colors. (DLR)
 	- Further simplify the "groff" regexes. (DLR)
+	- Tweak the "shellscript" regexes to properly color all special
+	  variables, such as $? and $@. (Benno Schulenberg)
 - src/Makefile.am:
 	- If we're uninstalling, remove the "rnano" symlink. (DLR, found
 	  by Benno Schulenberg)
