@@ -602,9 +602,9 @@ void parse_colors(char *ptr, bool icase)
 }
 #endif /* ENABLE_COLOR */
 
-/* Parse the rcfile, once it has been opened successfully at
- * rcstream.  If syntax_only is TRUE, only allow the file to contain
- * color syntax commands: syntax, color, and icolor. */
+/* Parse the rcfile, once it has been opened successfully at rcstream,
+ * and close it afterwards.  If syntax_only is TRUE, only allow the file
+ * to contain color syntax commands: syntax, color, and icolor. */
 void parse_rcfile(FILE *rcstream
 #ifdef ENABLE_COLOR
 	, bool syntax_only
