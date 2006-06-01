@@ -5,6 +5,7 @@ pkgdata_DATA =	asm.nanorc \
 		java.nanorc \
 		man.nanorc \
 		mutt.nanorc \
+		nanorc.nanorc \
 		patch.nanorc \
 		perl.nanorc \
 		python.nanorc \

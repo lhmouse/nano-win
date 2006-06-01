@@ -129,12 +129,12 @@ CVS code -
 	  doc/syntax/asm.nanorc, doc/syntax/c.nanorc,
 	  doc/syntax/groff.nanorc, doc/syntax/html.nanorc,
 	  doc/syntax/java.nanorc, doc/syntax/man.nanorc,
-	  doc/syntax/mutt.nanorc, doc/syntax/patch.nanorc,
-	  doc/syntax/perl.nanorc, doc/syntax/python.nanorc,
-	  doc/syntax/ruby.nanorc, doc/syntax/sh.nanorc, and
-	  doc/syntax/tex.nanorc; changes to configure.ac, nano.spec.in,
-	  doc/Makefile.am, and m4/Makefile.am; removal of
-	  doc/nanorc.sample. (DLR)
+	  doc/syntax/mutt.nanorc, doc/syntax/nanorc.nanorc,
+	  doc/syntax/patch.nanorc, doc/syntax/perl.nanorc,
+	  doc/syntax/python.nanorc, doc/syntax/ruby.nanorc,
+	  doc/syntax/sh.nanorc, and doc/syntax/tex.nanorc; changes to
+	  configure.ac, nano.spec.in, doc/Makefile.am, and
+	  m4/Makefile.am; removal of doc/nanorc.sample. (DLR)
 - browser.c:
   do_browser()
 	- Reference NANO_GOTODIR_(ALT|F)?KEY instead of
