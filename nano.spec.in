@@ -8,7 +8,7 @@ Version		: %{ver}
 Release		: %{rel}
 Copyright	: GPL
 Group		: Console/Editors
-URL		: http://www.nano-editor.org
+URL		: http://www.nano-editor.org/
 Source		: http://www.nano-editor.org/dist/v1.3/%{name}-%{ver}.tar.gz
 BuildRoot	: /var/tmp/%{name}-buildroot
 Requires	: ncurses
