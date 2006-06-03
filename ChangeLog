@@ -458,8 +458,8 @@ CVS code -
 	- Mention that the nanorc file should not be in DOS or Mac
 	  format. (DLR)
 	- Add various wording fixes. (Benno Schulenberg and DLR)
-	- Replace instances of "\w" with its equivalent "[0-9A-Za-z_]",
-	  and instances of "\W" with its equivalent "[^0-9A-Za-z_]", for
+	- Replace instances of "\w" with its equivalent "[0-9A-Z_a-z]",
+	  and instances of "\W" with its equivalent "[^0-9A-Z_a-z]", for
 	  greater readability. (DLR)
 	- Remove unneeded foreground color for the Java source regex
 	  used to highlight trailing whitespace, since we now support
