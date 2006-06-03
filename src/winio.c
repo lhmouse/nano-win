@@ -1158,8 +1158,10 @@ int parse_escape_seq_kbinput(int kbinput)
 
     /* If the escape sequence is unrecognized and not ignored, throw it
      * out, and indicate this on the statusbar. */
-    if (retval == ERR && !ignore_seq)
+    if (retval == ERR && !ignore_seq) {
 	statusbar(_("Unknown Command"));
+	beep();
+    }
 
     free(seq);
 
