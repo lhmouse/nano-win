@@ -13,3 +13,4 @@ icolor magenta "^[[:space:]]*i?color\>" "\<(start|end)="
 icolor white ""(\\.|[^"])*""
 ## Comments
 icolor brightblue "^[[:space:]]*#.*$"
+icolor cyan "^[[:space:]]*##.*$"

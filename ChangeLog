@@ -473,6 +473,12 @@ CVS code -
 	- Simplify the extensions associated with the "nanorc" regexes.
 	  (DLR)
 	- Add regexes for Ruby. (John M. Gabriele, minor tweaks by DLR)
+- doc/nanorc.nanorc:
+	- Tweak the "nanorc" regexes to color comments starting with a
+	  double ## cyan instead of bright blue. (John M. Gabriele)
+- doc/sh.nanorc:
+	- Tweak the coloring of all special variables so that "-" is
+	  highlighted properly. (Benno Schulenberg)
 - src/Makefile.am:
 	- If we're uninstalling, remove the "rnano" symlink. (DLR, found
 	  by Benno Schulenberg)
