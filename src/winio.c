@@ -2119,7 +2119,7 @@ void statusbar(const char *msg, ...)
 
     /* Curses mode is turned off.  If we use wmove() now, it will muck
      * up the terminal settings.  So we just use vfprintf(). */
-    if (curses_ended) {
+    if (isendwin()) {
 	vfprintf(stderr, msg, ap);
 	va_end(ap);
 	return;

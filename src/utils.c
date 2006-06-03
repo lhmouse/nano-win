@@ -355,17 +355,15 @@ const char *strstrwrapper(const char *haystack, const char *needle,
     return mbstrcasestr(start, needle);
 }
 
-/* This is a wrapper for the perror() function.  The wrapper takes care
- * of curses, calls perror() (which writes to stderr), and then
- * refreshes the screen.  Note that nperror() causes the window to
- * flicker once. */
+/* This is a wrapper for the perror() function.  The wrapper temporarily
+ * leaves curses mode, calls perror() (which writes to stderr), and then
+ * reenters curses mode, updating the screen in the process.  Note that
+ * nperror() causes the window to flicker once. */
 void nperror(const char *s)
 {
-    /* Leave curses mode and go to the terminal. */
-    if (endwin() != ERR) {
-	perror(s);		/* Print the error. */
-	total_refresh();	/* Return to curses and refresh. */
-    }
+    endwin();
+    perror(s);
+    doupdate();
 }
 
 /* This is a wrapper for the malloc() function that properly handles

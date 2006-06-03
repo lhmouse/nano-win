@@ -138,7 +138,6 @@ extern regmatch_t regmatches[10];
 #endif
 
 extern int reverse_attr;
-extern bool curses_ended;
 
 extern char *homedir;
 

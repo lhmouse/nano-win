@@ -532,6 +532,7 @@ void finish(void)
 	blank_statusbar();
 
     wrefresh(bottomwin);
+
     endwin();
 
     /* Restore the old terminal settings. */
@@ -555,7 +556,6 @@ void die(const char *msg, ...)
     va_list ap;
 
     endwin();
-    curses_ended = TRUE;
 
     /* Restore the old terminal settings. */
     tcsetattr(0, TCSANOW, &oldterm);
@@ -994,8 +994,10 @@ RETSIGTYPE handle_hupterm(int signal)
 /* Handler for SIGTSTP (suspend). */
 RETSIGTYPE do_suspend(int signal)
 {
+    /* Temporarily leave curses mode. */
     endwin();
-    printf("\n\n\n\n\n%s\n", _("Use \"fg\" to return to nano"));
+
+    printf(_("\n\n\n\n\nUse \"fg\" to return to nano\n"));
     fflush(stdout);
 
     /* Restore the old terminal settings. */

@@ -135,6 +135,9 @@ CVS code -
 	  doc/syntax/sh.nanorc, and doc/syntax/tex.nanorc; changes to
 	  configure.ac, nano.spec.in, doc/Makefile.am, and
 	  m4/Makefile.am; removal of doc/nanorc.sample. (DLR)
+	- Replace usage of the bool curses_ended with the isendwin()
+	  function, and remove curses_ended.  Changes to do_suspend().
+	  (DLR)
 - browser.c:
   do_browser()
 	- Reference NANO_GOTODIR_(ALT|F)?KEY instead of
@@ -249,6 +252,8 @@ CVS code -
 	  (DLR, found by Benno Schulenberg)
   renumber()
 	- Remove invalid assert. (DLR, found by Filipe Moreira)
+  do_suspend()
+	- Simplify the printing of "Use \"fg\" to return to nano". (DLR)
   do_input()
 	- Remove redundant check for allow_funcs' being TRUE when we get
 	  KEY_MOUSE. (DLR)
@@ -327,6 +332,9 @@ CVS code -
 	  statusbar message. (Benno Schulenberg)
 	- Unconditionally blank the statusbar as soon as we're finished
 	  getting input. (DLR, suggested by Benno Schulenberg)
+- utils.c:
+  nperror()
+	- Simplify. (DLR)
 - winio.c:
   parse_kbinput()
 	- If we get NANO_CONTROL_8, properly handle it in all cases.
