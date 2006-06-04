@@ -198,14 +198,14 @@
 <h2><a name="4.10"></a>4.10. How do I make nano my default editor (in Pine, mutt, etc.)?</h2>
 <blockquote><p>You need to make nano your $EDITOR. If you want this to be saved, you should put a line like this in your <b>.bashrc</b> if you use bash (or <b>.zshrc</b> if you believe in zsh):</p>
   <p><b>export EDITOR=/usr/local/bin/nano</b></p>
-  <p>or if you use tcsh put this in your <b>.cshrc</b> file:</p>
+  <p>or, if you use tcsh, put this in your <b>.cshrc</b> file:</p>
   <p><b>setenv EDITOR /usr/local/bin/nano</b></p>
   <p>Change /usr/local/bin/nano to wherever nano is installed on your system. Type &quot;which nano&quot; to find out. This will not take effect until the next time you login. So log out and back in again.</p>
-  <p>Then on top that if you use Pine you must go into setup (type <b>S</b> at the main menu), then configure (type <b>C</b>). Hit enter on the lines that say:</p>
+  <p>Then, on top of that, if you use Pine, you must go into setup (type <b>S</b> at the main menu), and then configure (type <b>C</b>). Hit Enter on the lines that say:</p>
   <p><b>[ ] enable-alternate-editor-cmd</b><br>
   <b>[ ] enable-alternate-editor-implicitly</b></p>
   <p>Then exit (<b>E</b>) and select Yes (<b>Y</b>).</p>
-  <p>Mutt users should see an effect immediately the next time you log in, no further configuration is needed. However, if you want to let people know you use nano to compose your email messages, you can put a line like this in your <b>.muttrc</b>:</p>
+  <p>If you're a mutt user, you should see an effect immediately the next time you log in. No further configuration is needed. However, if you want to let people know you use nano to compose your email messages, you can put a line like this in your <b>.muttrc</b>:</p>
   <p><b>my_hdr X-Composer: nano x.y.z</b></p>
   <p>Again, replace x.y.z with the version of nano you use.</p></blockquote>
 <h2><a name="4.12"></a>4.12. I've compiled nano with color support, but I don't see any color when I run it!</h2>
@@ -253,7 +253,8 @@
 <blockquote><p>Re-read Section <a href="#7.4">7.4</a> and you should know the answer.</p></blockquote>
 <h2><a name="8"></a>8. ChangeLog</h2>
 <blockquote>
-<p>2006/05/27 - Update section 3.8 to mention the new "Unicode Input" prompt, and how Unicode input only works when Unicode support is enabled. (DLR)<br>
+<p>2006/06/04 - Add minor punctuation and wording fixes. (DLR)<br>
+2006/05/27 - Update section 3.8 to mention the new "Unicode Input" prompt, and how Unicode input only works when Unicode support is enabled. (DLR)<br>
 2006/05/12 - Remove section 4.4, and move all section 4 entries after it up one number, since it no longer applies. Meta-] and Meta-[ are no longer used to indent and unindent marked text, since they require that the bracket matching key change to Ctrl-], which is used as the telnet escape key (found by Chris). Also, make the link to the nano CVS page a bit more readable. (DLR)<br>
 2006/05/08 - Add a new section 4.5, and move all section 4 entries after it down one number, to explain a problem that can occur when holding down keys to generate Meta sequences. Also add a few more capitalization and wording fixes. (Benno Schulenberg, minor tweaks by DLR)<br>
 2006/05/01 - Add a new section 4.4, and move all section 4 entries after it down one number, to explain how to deal with problems typing Meta-[. Also add a few capitalization and wording fixes. (DLR)<br>
