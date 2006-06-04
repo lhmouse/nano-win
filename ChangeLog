@@ -488,8 +488,9 @@ CVS code -
 	- Tweak the "nanorc" regexes to color comments starting with a
 	  double ## cyan instead of bright blue. (John M. Gabriele)
 - doc/sh.nanorc:
-	- Tweak the coloring of all special variables so that "-" is
-	  highlighted properly. (Benno Schulenberg)
+	- Tweak the regex for special variables, moving "-" to the end,
+	  to avoid excessive coloring or an "Invalid range end" error.
+	  (Benno Schulenberg)
 - src/Makefile.am:
 	- If we're uninstalling, remove the "rnano" symlink. (DLR, found
 	  by Benno Schulenberg)
