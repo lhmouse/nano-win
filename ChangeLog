@@ -333,6 +333,9 @@ CVS code -
 	- Unconditionally blank the statusbar as soon as we're finished
 	  getting input. (DLR, suggested by Benno Schulenberg)
 - utils.c:
+  ngetdelim()
+	- Set errno to EINVAL if stream is not a valid file stream.
+	  This matches the manual page. (DLR)
   nperror()
 	- Simplify. (DLR)
 - winio.c:

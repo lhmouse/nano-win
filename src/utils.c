@@ -197,7 +197,8 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
     int c;
 
     /* Sanity checks. */
-    if (lineptr == NULL || n == NULL || stream == NULL) {
+    if (lineptr == NULL || n == NULL || stream == NULL ||
+	fileno(stream) == -1) {
 	errno = EINVAL;
 	return -1;
     }
