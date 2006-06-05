@@ -138,6 +138,11 @@ CVS code -
 	- Replace usage of the bool curses_ended with the isendwin()
 	  function, and remove curses_ended.  Changes to do_suspend().
 	  (DLR)
+	- Remove the workaround for glibc 2.2.3's broken regexec(), and
+	  replace it with a FAQ entry explaining the problem, since it
+	  could break anything using extended regular expressions, and
+	  glibc 2.2.3 is old.  Changes to configure.ac, faq.html,
+	  nano.h, and proto.h; removal of safe_regexec(). (DLR)
 - browser.c:
   do_browser()
 	- Reference NANO_GOTODIR_(ALT|F)?KEY instead of

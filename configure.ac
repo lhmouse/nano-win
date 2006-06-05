@@ -50,25 +50,6 @@ dnl Checks for header files.
 
 AC_HEADER_STDC
 AC_CHECK_HEADERS(fcntl.h getopt.h libintl.h limits.h regex.h termios.h wchar.h wctype.h)
-AC_CHECK_HEADER(regex.h,
-    AC_MSG_CHECKING([for broken regexec from glibc 2.2.3])
-    AC_TRY_RUN([
-#include <sys/types.h>
-#include <regex.h>
-int main(void)
-{
-    regex_t reg;
-    size_t n = 1;
-    regmatch_t r;
-    regcomp(&reg, "\\<", 0);
-    regexec(&reg, "", n, &r, 0);
-    regfree(&reg);
-    return 0;
-}],
-	AC_MSG_RESULT(no),
-	AC_MSG_RESULT(yes)
-	AC_DEFINE(BROKEN_REGEXEC, 1, [Define this if your regexec() function segfaults when passed an empty string under certain conditions, as the one from glibc 2.2.3 does.]),
-	AC_MSG_RESULT([cross-compiling; assuming no])))
 
 dnl Checks for options.
 

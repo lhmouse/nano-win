@@ -677,10 +677,6 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream);
 #endif
 #endif
 #ifdef HAVE_REGEX_H
-#ifdef BROKEN_REGEXEC
-int safe_regexec(const regex_t *preg, const char *string, size_t nmatch,
-	regmatch_t pmatch[], int eflags);
-#endif
 bool regexp_bol_or_eol(const regex_t *preg, const char *string);
 #endif
 #ifndef DISABLE_SPELLER

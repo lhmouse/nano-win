@@ -242,19 +242,6 @@ ssize_t ngetdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 #endif /* !NANO_TINY && ENABLE_NANORC */
 
 #ifdef HAVE_REGEX_H
-#ifdef BROKEN_REGEXEC
-/* glibc 2.2.3 brain damage: Work around a potential segfault in
- * regexec(). */
-int safe_regexec(const regex_t *preg, const char *string, size_t nmatch,
-	regmatch_t pmatch[], int eflags)
-{
-    if (string != NULL && *string != '\0')
-	return regexec(preg, string, nmatch, pmatch, eflags);
-
-    return REG_NOMATCH;
-}
-#endif
-
 /* Do the compiled regex in preg and the regex in string match the
  * beginning or end of a line? */
 bool regexp_bol_or_eol(const regex_t *preg, const char *string)
@@ -263,7 +250,7 @@ bool regexp_bol_or_eol(const regex_t *preg, const char *string)
 	regexec(preg, string, 0, NULL, REG_NOTBOL | REG_NOTEOL) ==
 	REG_NOMATCH);
 }
-#endif /* HAVE_REGEX_H */
+#endif
 
 #ifndef DISABLE_SPELLER
 /* Is the word starting at position pos in buf a whole word? */

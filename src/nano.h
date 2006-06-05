@@ -52,12 +52,6 @@
 #define charmove(dest, src, n) memmove(dest, src, (n) * sizeof(char))
 #define charset(dest, src, n) memset(dest, src, (n) * sizeof(char))
 
-/* Other macros. */
-#ifdef BROKEN_REGEXEC
-#undef regexec
-#define regexec(preg, string, nmatch, pmatch, eflags) safe_regexec(preg, string, nmatch, pmatch, eflags)
-#endif
-
 /* Set a default value for PATH_MAX if there isn't one. */
 #ifndef PATH_MAX
 #define PATH_MAX 4096
