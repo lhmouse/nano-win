@@ -48,6 +48,10 @@ Visible changes since 1.2
   - Many more functions available at the statusbar prompt: moving to the
     next or previous word, searching for matching brackets, "Verbatim
     Input" mode, etc.
+  - The glibc 2.2.3 crashes involving extended regular expressions are
+    no longer worked around, as they can break anything using extended
+    regular expressions, and glibc 2.2.3 is old.  You should upgrade to
+    at least glibc 2.2.4.
 
 * File Handling
   - Automatic adding of newlines to the ends of files without them can
