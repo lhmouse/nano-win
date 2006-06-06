@@ -21,9 +21,9 @@ For the next version:
   e.g. specify a different alternate spell checker depending on which
   file type we have open.
 - Allow text searches in the help browser.
-- Allow setting marks ("nanodes", not to be confused with the mark set
-  via Ctrl-^) at various lines and/or columns in the buffer, and allow
-  movement between them with a single keystroke.
+- Allow setting marks (saved positions, not to be confused with the mark
+  set via Ctrl-^) at various lines and/or columns in the buffer, and
+  allow movement between them with a single keystroke.
 - Add the ability to move to different lines of the screen with a single
   keystroke, e.g. M-` to go to the top line, M-& to go to the center
   line, and M-' to go to the last line.
