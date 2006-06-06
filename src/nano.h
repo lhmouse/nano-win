@@ -40,6 +40,10 @@
 #include <limits.h>
 #endif
 
+#ifdef HAVE_SYS_PARAM_H
+#include <sys/param.h>
+#endif
+
 /* Macros for flags. */
 #define SET(bit) flags |= bit
 #define UNSET(bit) flags &= ~bit

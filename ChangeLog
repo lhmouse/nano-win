@@ -269,6 +269,8 @@ CVS code -
 - nano.h:
 	- Reorder the toggle #defines to match their corresponding order
 	  in toggle_init(). (DLR)
+	- Move the #include for sys/param.h here from nano.c, and add an
+	  #ifdef around it. (DLR)
 - prompt.c:
   get_prompt_string()
 	- Include the handling of the help key even when help is
@@ -383,6 +385,10 @@ CVS code -
 	- Update the last copyright notice to include 2006. (DLR)
 - configure.ac:
 	- Remove old warnings about color support. (DLR)
+	- Remove conditional header checks for fcntl.h and termios.h, as
+	  nano won't build without them, and add conditional header
+	  check for sys/param.h, as some systems need only limits.h.
+	  (DLR)
 - doc/faq.html:
 	- Add a new section 4.4, and move all section 4 entries after it
 	  down one number, to explain how to deal with problems typing
