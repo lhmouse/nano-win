@@ -496,6 +496,13 @@ CVS code -
 	- Simplify the extensions associated with the "nanorc" regexes.
 	  (DLR)
 	- Add regexes for Ruby. (John M. Gabriele, minor tweaks by DLR)
+- doc/nanorc.sample.in:
+	- Add comments describing the relationships between syntax file
+	  names and the names used as their short descriptions. (John M.
+	  Gabriele)
+- doc/man.nanorc:
+	- Change the name of the "manpage" regexes to "man", for
+	  consistency. (John M. Gabriele)
 - doc/nanorc.nanorc:
 	- Tweak the "nanorc" regexes to color comments starting with a
 	  double ## cyan instead of bright blue. (John M. Gabriele)
