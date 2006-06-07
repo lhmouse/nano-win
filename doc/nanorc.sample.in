@@ -206,10 +206,10 @@
 ##
 ## include "syntax file"
 ##
-## The name of the syntax file (without the ".nanorc" extension) should
-## be the same as the "short description" name inside that file.  These
-## names are kept fairly short to make them easier to remember and
-## faster to type using nano's -Y option.
+## Unless otherwise noted, the name of the syntax file (without the
+## ".nanorc" extension) should be the same as the "short description"
+## name inside that file.  These names are kept fairly short to make
+## them easier to remember and faster to type using nano's -Y option.
 ##
 ## All regexes should be extended regular expressions.
 
