@@ -506,16 +506,22 @@ CVS code -
 	- Add comments describing the relationships between syntax file
 	  names and the names used as their short descriptions. (John M.
 	  Gabriele)
+- doc/java.nanorc:
+	- Simplify a comment. (DLR)
 - doc/man.nanorc:
 	- Change the name of the "manpage" regexes to "man", for
 	  consistency. (John M. Gabriele)
 - doc/nanorc.nanorc:
 	- Tweak the "nanorc" regexes to color comments starting with a
 	  double ## cyan instead of bright blue. (John M. Gabriele)
+- doc/ruby.nanorc:
+	- Add regex for "here" docs. (John M. Gabriele)
 - doc/sh.nanorc:
 	- Tweak the regex for special variables, moving "-" to the end,
 	  to avoid excessive coloring or an "Invalid range end" error.
 	  (Benno Schulenberg)
+	- Tweak the "sh" regexes to color comments cyan instead of
+	  yellow. (John M. Gabriele)
 - src/Makefile.am:
 	- If we're uninstalling, remove the "rnano" symlink. (DLR, found
 	  by Benno Schulenberg)

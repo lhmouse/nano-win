@@ -204,7 +204,7 @@
 ## make use of such files (which can only include "syntax", "color", and
 ## "icolor" commands) as follows:
 ##
-## include "syntax file"
+## include "/path/to/syntax_file.nanorc"
 ##
 ## Unless otherwise noted, the name of the syntax file (without the
 ## ".nanorc" extension) should be the same as the "short description"
