@@ -352,7 +352,7 @@ void shortcut_init(bool unjustify)
     const char *nano_back_msg = N_("Move back one character");
 #ifndef NANO_TINY
     const char *nano_nextword_msg = N_("Move forward one word");
-    const char *nano_prevword_msg = N_("Move backward one word");
+    const char *nano_prevword_msg = N_("Move back one word");
 #endif
     const char *nano_prevline_msg = N_("Move to the previous line");
     const char *nano_nextline_msg = N_("Move to the next line");
@@ -408,12 +408,13 @@ void shortcut_init(bool unjustify)
 	N_("Refresh (redraw) the current screen");
 #ifndef NANO_TINY
     const char *nano_case_msg =
-	N_("Make the current search/replace case (in)sensitive");
+	N_("Toggle the case sensitivity of the search");
     const char *nano_reverse_msg =
-	N_("Make the current search/replace go backwards");
+	N_("Reverse the direction of the search");
 #endif
 #ifdef HAVE_REGEX_H
-    const char *nano_regexp_msg = N_("Use regular expressions");
+    const char *nano_regexp_msg =
+	N_("Toggle the use of regular expressions");
 #endif
 #ifndef NANO_TINY
     const char *nano_prev_history_msg =
@@ -425,18 +426,19 @@ void shortcut_init(bool unjustify)
     const char *nano_tofiles_msg = N_("Go to file browser");
 #endif
 #ifndef NANO_TINY
-    const char *nano_dos_msg = N_("Write file out in DOS format");
-    const char *nano_mac_msg = N_("Write file out in Mac format");
+    const char *nano_dos_msg = N_("Toggle the use of DOS format");
+    const char *nano_mac_msg = N_("Toggle the use of Mac format");
 #endif
-    const char *nano_append_msg = N_("Append to the current file");
-    const char *nano_prepend_msg = N_("Prepend to the current file");
+    const char *nano_append_msg = N_("Toggle appending");
+    const char *nano_prepend_msg = N_("Toggle prepending");
 #ifndef NANO_TINY
     const char *nano_backup_msg =
-	N_("Back up original file when saving");
+	N_("Toggle backing up of the original file");
     const char *nano_execute_msg = N_("Execute external command");
 #endif
 #if !defined(NANO_TINY) && defined(ENABLE_MULTIBUFFER)
-    const char *nano_multibuffer_msg = N_("Insert into new buffer");
+    const char *nano_multibuffer_msg =
+	N_("Toggle the use of a new buffer");
 #endif
 #ifndef DISABLE_BROWSER
     const char *nano_exitbrowser_msg = N_("Exit from the file browser");
@@ -1355,7 +1357,7 @@ void toggle_init(void)
     /* If we're using restricted mode, the suspend toggle is disabled.
      * It's useless since suspending is disabled. */
     if (!ISSET(RESTRICTED))
-	toggle_init_one(TOGGLE_SUSPEND_KEY, N_("Suspend"), FALSE,
+	toggle_init_one(TOGGLE_SUSPEND_KEY, N_("Suspension"), FALSE,
 	SUSPEND);
 }
 #endif /* !NANO_TINY */

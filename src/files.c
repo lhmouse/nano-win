@@ -2376,7 +2376,7 @@ void load_history(void)
 		rcfile_error(N_("Error reading %s: %s"), nanohist,
 			strerror(errno));
 		fprintf(stderr,
-			_("\nPress Enter to continue starting nano\n"));
+			_("\nPress Enter to continue starting nano.\n"));
 		while (getchar() != '\n')
 		    ;
 	    }

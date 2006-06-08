@@ -788,7 +788,7 @@ void usage(void)
     print_opt("-l", "--nofollow",
 	N_("Don't follow symbolic links, overwrite"));
 #ifndef DISABLE_MOUSE
-    print_opt("-m", "--mouse", N_("Enable mouse"));
+    print_opt("-m", "--mouse", N_("Enable the use of the mouse"));
 #endif
 #ifndef DISABLE_OPERATINGDIR
     print_opt(_("-o <dir>"), _("--operatingdir=<dir>"),
@@ -810,8 +810,8 @@ void usage(void)
 #ifndef DISABLE_WRAPPING
     print_opt("-w", "--nowrap", N_("Don't wrap long lines"));
 #endif
-    print_opt("-x", "--nohelp", N_("Don't show help window"));
-    print_opt("-z", "--suspend", N_("Enable suspend"));
+    print_opt("-x", "--nohelp", N_("Don't show the two help lines"));
+    print_opt("-z", "--suspend", N_("Enable suspension"));
 
     /* This is a special case. */
     print_opt("-a, -b, -e,", "", NULL);
@@ -996,7 +996,7 @@ RETSIGTYPE do_suspend(int signal)
     /* Temporarily leave curses mode. */
     endwin();
 
-    printf(_("\n\n\n\n\n\nUse \"fg\" to return to nano\n"));
+    printf(_("\n\n\n\n\n\nUse \"fg\" to return to nano.\n"));
     fflush(stdout);
 
     /* Restore the old terminal settings. */
@@ -1373,10 +1373,10 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 	    switch (input) {
 		/* Handle the "universal" edit window shortcuts. */
 		case NANO_XON_KEY:
-		    statusbar(_("XON ignored, mumble mumble."));
+		    statusbar(_("XON ignored, mumble mumble"));
 		    break;
 		case NANO_XOFF_KEY:
-		    statusbar(_("XOFF ignored, mumble mumble."));
+		    statusbar(_("XOFF ignored, mumble mumble"));
 		    break;
 #ifndef NANO_TINY
 		case NANO_SUSPEND_KEY:
