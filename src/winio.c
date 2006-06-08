@@ -525,7 +525,7 @@ int parse_kbinput(WINDOW *win, bool *meta_key, bool *func_key)
 
 			/* If the escape sequence is unrecognized and
 			 * not ignored, throw it out. */
-			if (retval == ERR && *ignore_seq == FALSE) {
+			if (retval == ERR && !ignore_seq) {
 			    if (win == edit)
 				statusbar(_("Unknown Command"));
 			    beep();
