@@ -996,7 +996,7 @@ RETSIGTYPE do_suspend(int signal)
     /* Temporarily leave curses mode. */
     endwin();
 
-    printf(_("\n\n\n\n\n\nUse \"fg\" to return to nano.\n"));
+    printf("\n\n\n\n\n\n%s\n", _("Use \"fg\" to return to nano."));
     fflush(stdout);
 
     /* Restore the old terminal settings. */
