@@ -171,7 +171,7 @@ char *parse_argument(char *ptr)
 	    ptr = NULL;
 	else
 	    *ptr++ = '\0';
-	rcfile_error(N_("Argument \"%s\" has unterminated \""), ptr_save);
+	rcfile_error(N_("Argument '%s' has unterminated \""), ptr_save);
     } else {
 	*last_quote = '\0';
 	ptr = last_quote + 1;

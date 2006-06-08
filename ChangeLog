@@ -290,8 +290,11 @@ CVS code -
 - rcfile.c:
   parse_argument()
 	- Rename variable ptr_bak to ptr_save, for consistency. (DLR)
-	- Add quotes around invalid string arguments in error messages,
-	  for consistency. (DLR)
+	- Add double quotes around invalid string arguments in error
+	  messages, for consistency. (DLR)
+	- Add single quotes around the invalid string argument in the
+	  error message about unterminated strings, to avoid confusion.
+	  (Benno Schulenberg)
   parse_syntax()
 	- Don't generate an error if we find a duplicate syntax name,
 	  since we might be trying to override a syntax in the global
