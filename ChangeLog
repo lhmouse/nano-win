@@ -262,8 +262,6 @@ CVS code -
 	  (DLR, found by Benno Schulenberg)
   renumber()
 	- Remove invalid assert. (DLR, found by Filipe Moreira)
-  do_suspend()
-	- Simplify the printing of "Use \"fg\" to return to nano". (DLR)
   do_input()
 	- Remove redundant check for allow_funcs' being TRUE when we get
 	  KEY_MOUSE. (DLR)
