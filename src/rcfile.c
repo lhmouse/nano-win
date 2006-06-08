@@ -171,7 +171,7 @@ char *parse_argument(char *ptr)
 	    ptr = NULL;
 	else
 	    *ptr++ = '\0';
-	rcfile_error(N_("Argument '%s' has unterminated \""), ptr_save);
+	rcfile_error(N_("Argument '%s' has an unterminated \""), ptr_save);
     } else {
 	*last_quote = '\0';
 	ptr = last_quote + 1;
@@ -736,7 +736,7 @@ void parse_rcfile(FILE *rcstream
 			if (strcasecmp(rcopts[i].name, "fill") == 0) {
 			    if (!parse_num(option, &wrap_at)) {
 				rcfile_error(
-					N_("Requested fill size \"%s\" invalid"),
+					N_("Requested fill size \"%s\" is invalid"),
 					option);
 				wrap_at = -CHARS_FROM_EOL;
 			    } else
@@ -811,7 +811,7 @@ void parse_rcfile(FILE *rcstream
 			    if (!parse_num(option, &tabsize) ||
 				tabsize <= 0) {
 				rcfile_error(
-					N_("Requested tab size \"%s\" invalid"),
+					N_("Requested tab size \"%s\" is invalid"),
 					option);
 				tabsize = -1;
 			    } else
