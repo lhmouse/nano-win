@@ -9,7 +9,7 @@
 @smallbook
 @set EDITION 0.1
 @set VERSION 1.3.12
-@set UPDATED 24 May 2006
+@set UPDATED 07 Jun 2006
 
 @dircategory Editors
 @direntry
@@ -182,7 +182,7 @@ be greater than 0.  The default value is 8.
 
 @item -U, --quickblank
 Do quick statusbar blanking.  Statusbar messages will disappear after 1
-keystroke instead of 25.  Note that -c overules this.
+keystroke instead of 25.  Note that -c overrides this.
 
 @item -V, --version
 Show the current version number and exit.
@@ -197,7 +197,7 @@ available.  See @xref{Nanorc Files}, for more info.
 
 @item -c, --const
 Constantly display the cursor position and line number on the statusbar.
-Note that this overrules -U.
+Note that this overrides -U.
 
 @item -d, --rebinddelete
 Interpret the Delete key differently so that both Backspace and Delete

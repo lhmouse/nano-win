@@ -143,8 +143,11 @@ CVS code -
 	  could break anything using extended regular expressions, and
 	  glibc 2.2.3 is old.  Changes to configure.ac, faq.html,
 	  nano.h, proto.h, and UPGRADE; removal of safe_regexec(). (DLR)
-	- Minor wording fixes to various messages. (Benno Schulenberg,
-	  minor tweaks by DLR)
+	- Minor wording fixes to various messages.  Changes to
+	  load_history(), shortcut_init(), toggle_init(), usage(),
+	  do_suspend(), do_input(), do_rcfile_error(), nano.1,
+	  nano.texi, and nanorc.sample.in. (Benno Schulenberg, minor
+	  tweaks by DLR)
 - browser.c:
   do_browser()
 	- Reference NANO_GOTODIR_(ALT|F)?KEY instead of
