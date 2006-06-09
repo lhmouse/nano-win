@@ -665,16 +665,29 @@ void window_init(void)
 }
 
 #ifndef DISABLE_MOUSE
-/* Initialize mouse support. */
+/* Disable mouse support. */
+void disable_mouse_support(void)
+{
+    mousemask(0, NULL);
+}
+
+/* Enable mouse support. */
+void enable_mouse_support(void)
+{
+    mousemask(BUTTON1_RELEASED, NULL);
+    mouseinterval(50);
+}
+
+/* Initialize mouse support.  Enable it if the USE_MOUSE flag is set,
+ * and disable it otherwise. */
 void mouse_init(void)
 {
-    if (ISSET(USE_MOUSE)) {
-	mousemask(BUTTON1_RELEASED, NULL);
-	mouseinterval(50);
-    } else
-	mousemask(0, NULL);
+    if (ISSET(USE_MOUSE))
+	enable_mouse_support();
+    else
+	disable_mouse_support();
 }
-#endif
+#endif /* !DISABLE_MOUSE */
 
 #ifdef HAVE_GETOPT_LONG
 #define print_opt(shortflag, longflag, desc) print_opt_full(shortflag, longflag, desc)
@@ -993,6 +1006,11 @@ RETSIGTYPE handle_hupterm(int signal)
 /* Handler for SIGTSTP (suspend). */
 RETSIGTYPE do_suspend(int signal)
 {
+#ifndef DISABLE_MOUSE
+    /* Turn mouse support off. */
+    disable_mouse_support();
+#endif
+
     /* Blank the screen, and move the cursor to the last line of it. */
     erase();
     move(LINES - 1, 0);
@@ -1018,6 +1036,12 @@ RETSIGTYPE do_suspend(int signal)
 /* Handler for SIGCONT (continue after suspend). */
 RETSIGTYPE do_continue(int signal)
 {
+#ifndef DISABLE_MOUSE
+    /* Turn mouse support back on if it was on before. */
+    if (ISSET(USE_MOUSE))
+	enable_mouse_support();
+#endif
+
 #ifndef NANO_TINY
     /* Perhaps the user resized the window while we slept.  Handle it,
      * and restore the terminal to its previous state and update the
@@ -2107,6 +2131,7 @@ int main(int argc, char **argv)
     shortcut_init(FALSE);
 
 #ifndef DISABLE_MOUSE
+    /* Initialize mouse support. */
     mouse_init();
 #endif
 

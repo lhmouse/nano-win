@@ -149,8 +149,10 @@ CVS code -
 	  parse_rcfile(), nano.1, nano.texi, and nanorc.sample.in.
 	  (Benno Schulenberg, minor tweaks by DLR and Nick Warne)
 	- Make suspension clear the screen and put the cursor on the
-	  last line before displaying anything, as Pico does.  Changes
-	  to do_suspend(), do_continue(), and terminal_init(). (DLR)
+	  last line before displaying anything, as Pico does.  New
+	  functions disable_mouse_support() and enable_mouse_support();
+	  changes to do_mouse(), do_suspend(), do_continue(), and
+	  terminal_init(). (DLR)
 - browser.c:
   do_browser()
 	- Reference NANO_GOTODIR_(ALT|F)?KEY instead of

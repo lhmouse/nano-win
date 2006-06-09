@@ -429,6 +429,8 @@ void die(const char *msg, ...);
 void die_save_file(const char *die_filename);
 void window_init(void);
 #ifndef DISABLE_MOUSE
+void disable_mouse_support(void);
+void enable_mouse_support(void);
 void mouse_init(void);
 #endif
 void print_opt_full(const char *shortflag
