@@ -1378,12 +1378,10 @@ int do_input(bool *meta_key, bool *func_key, bool *s_or_t, bool
 		case NANO_XOFF_KEY:
 		    statusbar(_("XOFF ignored, mumble mumble"));
 		    break;
-#ifndef NANO_TINY
 		case NANO_SUSPEND_KEY:
 		    if (ISSET(SUSPEND))
 			do_suspend(0);
 		    break;
-#endif
 		/* Handle the normal edit window shortcuts, setting
 		 * ran_func to TRUE if we try to run their associated
 		 * functions and setting finished to TRUE to indicate
