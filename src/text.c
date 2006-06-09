@@ -2334,9 +2334,11 @@ void do_spell(void)
     unlink(temp);
     free(temp);
 
+    currshortcut = main_list;
+
     /* If the spell-checker printed any error messages onscreen, make
      * sure that they're cleared off. */
-    total_redraw();
+    total_refresh();
 
     if (spell_msg != NULL) {
 	if (errno == 0)

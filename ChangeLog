@@ -346,9 +346,9 @@ CVS code -
   do_spell()
 	- Clarify the error message when creating a temporary file
 	  fails. (DLR)
-	- Call total_redraw() instead of total_refresh() after running
-	  the spell-checker, since the latter will display the wrong
-	  shortcut list. (DLR)
+	- Set currshortcut to main_list before calling total_refresh()
+	  near the end of the function, so that we don't display the
+	  wrong shortcut list. (DLR)
   do_verbatim_input()
 	- Add a translator comment explaining the "Verbatim Input"
 	  statusbar message. (Benno Schulenberg)
