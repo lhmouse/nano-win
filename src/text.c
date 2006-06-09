@@ -2336,7 +2336,7 @@ void do_spell(void)
 
     /* If the spell-checker printed any error messages onscreen, make
      * sure that they're cleared off. */
-    total_refresh();
+    total_redraw();
 
     if (spell_msg != NULL) {
 	if (errno == 0)
