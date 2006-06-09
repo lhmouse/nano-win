@@ -299,8 +299,8 @@ void help_init(void)
 		"search string.\n\n The previous search string will be "
 		"shown in brackets after the search prompt.  Hitting "
 		"Enter without entering any text will perform the "
-		"previous search.\n\n ");
-	htx[1] = N_("The following function keys are available in "
+		"previous search.\n\n");
+	htx[1] = N_(" The following function keys are available in "
 		"Browser Search mode:\n\n");
 	htx[2] = NULL;
     } else if (currshortcut == gotodir_list) {
@@ -355,8 +355,8 @@ void help_init(void)
 		"showing the file being edited.  The status line is "
 		"the third line from the bottom and shows important "
 		"messages.  The bottom two lines show the most "
-		"commonly used shortcuts in the editor.\n\n ");
-	htx[1] = N_("The notation for shortcuts is as follows: "
+		"commonly used shortcuts in the editor.\n\n");
+	htx[1] = N_(" The notation for shortcuts is as follows: "
 		"Control-key sequences are notated with a caret (^) "
 		"symbol and can be entered either by using the Control "
 		"(Ctrl) key or pressing the Escape (Esc) key twice.  "

@@ -247,6 +247,9 @@ CVS code -
 	  to display more of "^Space" and "M-Space". (DLR, suggested by
 	  Benno Schulenberg)
 	- Add various wording fixes. (DLR and Benno Schulenberg)
+	- If one of the help strings ends in newlines followed by a
+	  space, move the space to the next help string to make it
+	  easier for translators to see. (Benno Schulenberg)
   parse_help_input()
 	- Add Space and - as aliases for PageDown and PageUp, for
 	  consistency with the file browser. (DLR, suggested by Benno
