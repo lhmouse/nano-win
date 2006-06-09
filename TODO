@@ -20,6 +20,8 @@ For the next version:
 - Allow color syntaxes to apply to more than just color, so that we can
   e.g. specify a different alternate spell checker depending on which
   file type we have open.
+- Allow color syntaxes to be selected based on more than just filename
+  extension, e.g. through libmagic?
 - Allow text searches in the help browser.
 - Allow setting marks (saved positions, not to be confused with the mark
   set via Ctrl-^) at various lines and/or columns in the buffer, and
