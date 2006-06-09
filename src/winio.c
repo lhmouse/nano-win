@@ -2976,7 +2976,7 @@ void edit_update(update_type location)
 void total_redraw(void)
 {
 #ifdef USE_SLANG
-    /* Slang curses emulation brain damage, part 3: Slang doesn't define
+    /* Slang curses emulation brain damage, part 4: Slang doesn't define
      * curscr. */
     SLsmg_touch_screen();
     SLsmg_refresh();

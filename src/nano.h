@@ -64,7 +64,7 @@
 #ifdef USE_SLANG
 /* Slang support. */
 #include <slcurses.h>
-/* Slang curses emulation brain damage, part 2: Slang doesn't define the
+/* Slang curses emulation brain damage, part 3: Slang doesn't define the
  * curses equivalents of the Insert or Delete keys. */
 #define KEY_DC SL_KEY_DELETE
 #define KEY_IC SL_KEY_IC

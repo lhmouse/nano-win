@@ -1027,7 +1027,11 @@ RETSIGTYPE do_continue(int signal)
     /* Restore the terminal to its previous state. */
     terminal_init();
 
-    /* Update the screen. */
+    /* Turn the cursor back on for sure. */
+    curs_set(1);
+
+    /* Redraw the contents of the windows that need it. */
+    blank_statusbar();
     total_refresh();
 #endif
 }
@@ -1228,13 +1232,27 @@ void enable_flow_control(void)
  * interpretation of the flow control characters too. */
 void terminal_init(void)
 {
-    cbreak();
-    nonl();
-    noecho();
-    disable_extended_io();
-    disable_signals();
-    if (!ISSET(PRESERVE))
-	disable_flow_control();
+    static struct termios newterm;
+    static bool newterm_set = FALSE;
+
+    /* Slang curses emulation brain damage, part 2: Slang doesn't
+     * implement some of these curses calls properly, so there's no way
+     * to properly reinitialize the terminal using them.  We have to
+     * save the termios state on the first call and restore it on
+     * subsequent calls. */
+    if (!newterm_set) {
+	cbreak();
+	nonl();
+	noecho();
+	disable_extended_io();
+	disable_signals();
+	if (!ISSET(PRESERVE))
+	    disable_flow_control();
+
+	tcgetattr(0, &newterm);
+	newterm_set = TRUE;
+    } else
+	tcsetattr(0, TCSANOW, &newterm);
 }
 
 /* Read in a character, interpret it as a shortcut or toggle if
