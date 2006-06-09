@@ -993,10 +993,13 @@ RETSIGTYPE handle_hupterm(int signal)
 /* Handler for SIGTSTP (suspend). */
 RETSIGTYPE do_suspend(int signal)
 {
-    /* Temporarily leave curses mode. */
-    endwin();
+    /* Blank the screen, and move the cursor to the last line of it. */
+    erase();
+    move(LINES - 1, 0);
+    refresh();
 
-    printf("\n\n\n\n\n\n%s\n", _("Use \"fg\" to return to nano."));
+    /* Display our helpful message. */
+    printf(_("Use \"fg\" to return to nano.\n"));
     fflush(stdout);
 
     /* Restore the old terminal settings. */
@@ -1017,11 +1020,15 @@ RETSIGTYPE do_continue(int signal)
 {
 #ifndef NANO_TINY
     /* Perhaps the user resized the window while we slept.  Handle it,
-     * and update the screen in the process. */
+     * and restore the terminal to its previous state and update the
+     * screen in the process. */
     handle_sigwinch(0);
 #else
-    /* Reenter curses mode, and update the screen in the process. */
-    doupdate();
+    /* Restore the terminal to its previous state. */
+    terminal_init();
+
+    /* Update the screen. */
+    total_refresh();
 #endif
 }
 

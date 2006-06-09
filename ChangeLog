@@ -148,6 +148,9 @@ CVS code -
 	  do_suspend(), do_input(), rcfile_error(), parse_argument(),
 	  parse_rcfile(), nano.1, nano.texi, and nanorc.sample.in.
 	  (Benno Schulenberg, minor tweaks by DLR and Nick Warne)
+	- Make suspension clear the screen and put the cursor on the
+	  last line before displaying anything, as Pico does.  Changes
+	  to do_suspend() and do_continue(). (DLR)
 - browser.c:
   do_browser()
 	- Reference NANO_GOTODIR_(ALT|F)?KEY instead of
@@ -265,9 +268,6 @@ CVS code -
 	  (DLR, found by Benno Schulenberg)
   renumber()
 	- Remove invalid assert. (DLR, found by Filipe Moreira)
-  do_suspend()
-	- Add an extra newline before "Use \"fg\" to return to nano".
-	  (DLR)
   do_input()
 	- Remove redundant check for allow_funcs' being TRUE when we get
 	  KEY_MOUSE. (DLR)
