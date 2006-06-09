@@ -1238,7 +1238,7 @@ void terminal_init(void)
     /* Slang curses emulation brain damage, part 2: Slang doesn't
      * implement some of these curses calls properly, so there's no way
      * to properly reinitialize the terminal using them.  We have to
-     * save the termios state on the first call and restore it on
+     * save the terminal state on the first call and restore it on
      * subsequent calls. */
     if (!newterm_set) {
 	cbreak();
