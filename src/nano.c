@@ -1236,7 +1236,7 @@ void terminal_init(void)
     static bool newterm_set = FALSE;
 
     /* Slang curses emulation brain damage, part 2: Slang doesn't
-     * implement nonl(), or noecho() properly, so there's no way to
+     * implement nonl() or noecho() properly, so there's no way to
      * properly reinitialize the terminal using them.  We have to save
      * the terminal state after the first call and restore it on
      * subsequent calls. */
