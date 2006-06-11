@@ -559,8 +559,8 @@ bool do_wrap(filestruct *line)
     /* Step 1, finding where to wrap.  We are going to add a new line
      * after a blank character.  In this step, we call break_line() to
      * get the location of the last blank we can break the line at, and
-     * and set wrap_loc to the location of the character after it, so
-     * that the blank is preserved at the end of the line.
+     * set wrap_loc to the location of the character after it, so that
+     * the blank is preserved at the end of the line.
      *
      * If there is no legal wrap point, or we reach the last character
      * of the line while trying to find one, we should return without
