@@ -606,9 +606,8 @@ bool do_wrap(filestruct *line)
     /* Step 2, making the new wrap line.  It will consist of indentation
      * followed by the text after the wrap point, optionally followed by
      * a space (if the text after the wrap point doesn't end in a blank)
-     * and the text of the next line, if they can fit without
-     * wrapping, the next line exists, and the prepend_wrap flag is
-     * set. */
+     * and the text of the next line, if they can fit without wrapping,
+     * the next line exists, and the prepend_wrap flag is set. */
 
     /* after_break is the text that will be wrapped to the next line. */
     after_break = line->data + wrap_loc;
