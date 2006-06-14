@@ -182,6 +182,9 @@ CVS code -
   open_file()
 	- Remove redundant wording in the error message when we try to
 	  open a device file. (DLR)
+  do_insertfile()
+	- Use actual gettext calls instead of no-ops, for consistency.
+	  (DLR)
   safe_tempfile()
 	- Don't ignore $TMPDIR if it's set but blank, for consistency.
 	  (DLR)
@@ -196,6 +199,10 @@ CVS code -
 	  writing one for prepending fails. (DLR)
 	- Simplify the routine for closing the file just before we
 	  indicate success on the statusbar. (DLR)
+  do_writeout()
+	- Fix problem where the modifiers at the "Write File" prompt
+	  were marked for translation via gettext no-ops but never
+	  actually translated. (Benno Schulenberg)
   free_chararray()
 	- Assert that array isn't NULL, for consistency with the other
 	  free_.*() functions. (DLR)

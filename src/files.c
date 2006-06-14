@@ -693,17 +693,17 @@ void do_insertfile(
 	    msg = 
 #ifdef ENABLE_MULTIBUFFER
 		ISSET(MULTIBUFFER) ? 
-		N_("Command to execute in new buffer [from %s] ") :
+		_("Command to execute in new buffer [from %s] ") :
 #endif
-		N_("Command to execute [from %s] ");
+		_("Command to execute [from %s] ");
 	} else {
 #endif
 	    msg =
 #ifdef ENABLE_MULTIBUFFER
 		ISSET(MULTIBUFFER) ? 
-		N_("File to insert into new buffer [from %s] ") :
+		_("File to insert into new buffer [from %s] ") :
 #endif
-		N_("File to insert [from %s] ");
+		_("File to insert [from %s] ");
 #ifndef NANO_TINY
 	}
 #endif
@@ -719,10 +719,10 @@ void do_insertfile(
 #ifndef NANO_TINY
 		NULL,
 #endif
-		 edit_refresh, _(msg),
+		edit_refresh, msg,
 #ifndef DISABLE_OPERATINGDIR
-		operating_dir != NULL && strcmp(operating_dir, ".") != 0 ?
-		operating_dir :
+		operating_dir != NULL && strcmp(operating_dir,
+		".") != 0 ? operating_dir :
 #endif
 		"./");
 
@@ -1748,21 +1748,21 @@ int do_writeout(bool exiting)
 	const char *formatstr, *backupstr;
 
 	formatstr = (openfile->fmt == DOS_FILE) ?
-		N_(" [DOS Format]") : (openfile->fmt == MAC_FILE) ?
-		N_(" [Mac Format]") : "";
+		_(" [DOS Format]") : (openfile->fmt == MAC_FILE) ?
+		_(" [Mac Format]") : "";
 
-	backupstr = ISSET(BACKUP_FILE) ? N_(" [Backup]") : "";
+	backupstr = ISSET(BACKUP_FILE) ? _(" [Backup]") : "";
 
 	if (openfile->mark_set && !exiting)
 	    msg = (append == PREPEND) ?
-		N_("Prepend Selection to File") : (append == APPEND) ?
-		N_("Append Selection to File") :
-		N_("Write Selection to File");
+		_("Prepend Selection to File") : (append == APPEND) ?
+		_("Append Selection to File") :
+		_("Write Selection to File");
 	else
 #endif /* !NANO_TINY */
-	    msg = (append == PREPEND) ? N_("File Name to Prepend to") :
-		(append == APPEND) ? N_("File Name to Append to") :
-		N_("File Name to Write");
+	    msg = (append == PREPEND) ? _("File Name to Prepend to") :
+		(append == APPEND) ? _("File Name to Append to") :
+		_("File Name to Write");
 
 	/* If we're using restricted mode, the filename isn't blank,
 	 * and we're at the "Write File" prompt, disable tab
@@ -1776,7 +1776,7 @@ int do_writeout(bool exiting)
 #ifndef NANO_TINY
 		NULL,
 #endif
-		 edit_refresh, "%s%s%s", _(msg),
+		edit_refresh, "%s%s%s", msg,
 #ifndef NANO_TINY
 		formatstr, backupstr
 #else
