@@ -16,7 +16,7 @@
 .\" AUCUNE garantie.
 .\"
 .\" $Id$
-.TH RNANO 1 "version 1.3.11" "5\ avril\ 20O6"
+.TH RNANO 1 "version 1.3.12" "17\ juin\ 20O6"
 .\" Please adjust this date whenever revising the manpage.
 .\" Merci de modifier ces dates à chaque mise à jour de cette page.
 .\"
@@ -26,7 +26,7 @@ amélioré de Pico
 
 .SH SYNOPSIS
 .B rnano
-.I [\+LIGNE,COLONNE]\ [options]\ [fichier]
+.I [OPTIONS]\ [[\+LIGNE[,COLONNE]]\ FICHIER]...
 .br
 
 .SH DESCRIPTION
@@ -64,14 +64,18 @@ l'utilisation de copies de sécurité ou de la correction orthographique.
 
 .SH OPTIONS
 .TP
+.B \+\fILIGNE\fP[,\fICOLONNE\fP]
+Démarre avec le curseur positionné à la colonne \fICOLONNE\fP de
+la ligne \fILIGNE\fR au lieu de démarrer à la colonne\ 1, ligne\ 1.
+.TP
 .B \-?
 Identique à \fB-h (\-\-help)\fP.
 .TP
 .B \-h (\-\-help)
-Affiche un résumé des options disponibles en ligne de commande.
+Affiche un résumé des options de lancement de nano, puis s'arrête.
 .TP
 .B \-V (\-\-version)
-Affiche le numéro de version et l'auteur.
+Affiche la version, puis s'arrête.
 .PP
 Reportez-vous à la page de manuel \fBnano\fP(1) si vous souhaitez 
 consulter la documentation complète de \fBnano\fP.
@@ -101,9 +105,9 @@ elle peut être utilisée par d'autres).
 
 .SH TRADUCTION
 Cette adaptation française a été réalisé par Jean-Philippe\ Guérard
-<jean-philippe.guerard@corbeaunoir.org> le 6\ avril\ 2006 à partir
-de la version du 30\ mars\ 2006 de la page de manuel de rnano 
-(pour la version 1.3.11 de nano).
+<jean-philippe.guerard@corbeaunoir.org> le 17\ juin\ 2006 à partir
+de la version du 1er\ mai\ 2006 de la page de manuel de rnano 
+(pour la version 1.3.12 de nano).
 
 Un maximum de soin a été apporté lors de l'élaboration de cette
 traduction\ ; néanmoins, quelques imperfections peuvent subsister. Si
@@ -112,6 +116,6 @@ version originale, n'hésitez pas à les signaler à l'auteur ou au
 traducteur.
 
 La version originale la plus à jour de ce document est toujours
-consultable via la commande :
+consultable via la commande\ :
 
 LANGUAGE=en man nano

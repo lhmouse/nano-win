@@ -15,7 +15,7 @@
 .\" AUCUNE garantie.
 .\"
 .\" $Id$
-.TH NANO 1 "version 1.3.11" "6\ avril\ 2006"
+.TH NANO 1 "version 1.3.12" "17\ juin\ 2006"
 .\" Please adjust this date whenever revising the manpage.
 .\" Merci de modifier ces dates à chaque mise à jour de cette page.
 .\"
@@ -25,7 +25,7 @@ nano \- NAno un NOuvel éditeur, un clone libre et amélioré de Pico
 
 .SH SYNOPSIS
 .B nano
-.I [\+LIGNE,COLONNE]\ [options]\ [fichier]
+.I [OPTIONS]\ [[\+LIGNE[,COLONNE]]\ FICHIER]...
 .br
 
 .SH DESCRIPTION
@@ -44,7 +44,7 @@ numéro de ligne.
 
 .SH OPTIONS
 .TP
-.B \+\fILIGNE\fP,\fICOLONNE\fP
+.B \+\fILIGNE\fP[,\fICOLONNE\fP]
 Démarre avec le curseur positionné à la colonne \fICOLONNE\fP de 
 la ligne \fILIGNE\fR au lieu de démarrer à la colonne\ 1, ligne\ 1.
 .TP
@@ -62,6 +62,9 @@ ligne.
 .B \-B (\-\-backup)
 Lors de l'écriture d'un fichier, crée une copie de sécurité de la
 version précédente, en ajoutant un tilde (~) au nom du fichier.
+.TP
+.B \-D (\-\-boldtext)
+Utilise des caractères gras à la place de la vidéo inverse.
 .TP
 .B \-C \fIrépertoire\fP (\-\-backupdir=\fIrépertoire\fP)
 Définit le répertoire utilisé par \fBnano\fP pour enregistrer les copies 
@@ -105,14 +108,17 @@ espace supplémentaire d'édition.
 Définit le préfixe par défaut des citations. Nano utilise ce préfixe
 pour réaliser une justification correcte des citations. Si nano est
 capable d'utiliser des expressions rationnelles, le préfixe par défaut
-sera "\fI^([\ \\t]*[#:>\\|}])+\fP", sinon, ce sera "\fI>\ \fP".
+sera "\fI^([\ \\t]*[#:>\\|}])+\fP", sinon, ce sera "\fI>\ \fP". Dans 
+l'expression rationnelle précédente, «\ \fI\\t\fP\ » représente une 
+tabulation.
 .TP
 .B \-R (\-\-restricted)
 Mode restreint\ : aucune lecture ou écriture de fichiers non indiqués 
 sur la ligne de commande, pas de lecture des fichiers nanorc, 
-interdiction de suspendre, interdiction d'ajouter au début, à la fin 
-ou de sauvegarder un fichier ayant déjà un nom sous un nom différent. 
-Cette option peut aussi être activée en appelant \fBnano\fP sous un nom 
+interdiction de suspendre, interdiction d'ajouter au début, à la fin, 
+de sauvegarder un fichier ayant déjà un nom sous un nom différent, 
+d'utiliser une copie de sécurité ou le correcteur orthographique. Cette 
+option peut aussi être activée en appelant \fBnano\fP sous un nom 
 commençant par «\ r\ » (par exemple «\ rnano\ »).
 .TP
 .B \-S (\-\-smooth)
@@ -127,10 +133,10 @@ est de 8.
 .B \-U (\-\-quickblank)
 Effacement rapide de la ligne d'état. Les messages affichés par la ligne 
 d'état disparaîtront après une frappe clavier au lieu de 25. Notez que
-\fB-c\fP annule cette option.
+l'option \fB-c\fP prend le pas sur cette option.
 .TP
 .B \-V (\-\-version)
-Affiche le numéro de version et l'auteur.
+Affiche la version, puis s'arrête.
 .TP
 .B \-W (\-\-wordbounds)
 Détection plus précise des limites de mots, obtenue en considérant les 
@@ -143,7 +149,7 @@ disponible.
 .TP
 .B \-c (\-\-const)
 Affiche en permanence la position du curseur. Notez que cette option 
-annule l'option \fB-U\fP.
+prend le pas sur l'option \fB-U\fP.
 .TP
 .B \-d (\-\-rebinddelete)
 Interprète différemment la touche «\ Supprimer\ », afin que les touches 
@@ -153,7 +159,7 @@ la touche «\ Effacement arrière\ » produit l'effet de la touche
 «\ Supprimer\ ».
 .TP
 .B \-h (\-\-help)
-Affiche un résumé des options disponibles en ligne de commande.
+Affiche un résumé des options de lancement de nano, puis s'arrête.
 .TP
 .B \-i (\-\-autoindent)
 Indentation automatique. Commence chaque nouvelle ligne au même niveau que
@@ -169,8 +175,12 @@ remplace le lien par le nouveau fichier. Sans doute utile pour éditer
 les fichiers de \fI/tmp\fR, non\ ?
 .TP
 .B \-m (\-\-mouse)
-Active l'utilisation de la souris (si elle est disponible pour votre
-système).
+Active l'utilisation de la souris, si elle est disponible pour votre
+système. Lorsque celle-ci est activée, il est possible d'utiliser la 
+souris pour positionner le curseur, pour marquer le texte (avec un 
+double-clic) et pour lancer les fonctions correspondant aux raccourcis. 
+Il est possible d'utiliser la souris sous X\ Window ou en mode console 
+avec gpm.
 .TP
 .B \-o \fIrépertoire\fP (\-\-operatingdir=\fIrépertoire\fP)
 Définit le répertoire de travail. Demande à \fBnano\fP de mettre en place
@@ -267,9 +277,9 @@ utilisée par d'autres).
 
 .SH TRADUCTION
 Cette adaptation française a été réalisé par Jean-Philippe\ Guérard 
-<jean-philippe.guerard@corbeaunoir.org> le 6\ avril\ 2006 à partir 
-de la version du 5\ avril\ 2006 de la page de manuel de nano 1.3.11. 
-Cette version a été relue par Gérard Delafond.
+<jean-philippe.guerard@corbeaunoir.org> le 17\ juin\ 2006 à partir 
+de la version du 8\ juin\ 2006 de la page de manuel de nano 1.3.12.
+Cette page a été relue par Gérard Delafond.
 
 Un maximum de soin a été apporté lors de l'élaboration de cette
 traduction\ ; néanmoins, quelques imperfections peuvent subsister. Si
@@ -278,6 +288,6 @@ version originale, n'hésitez pas à les signaler à l'auteur ou au
 traducteur.
 
 La version originale la plus à jour de ce document est toujours 
-consultable via la commande :
+consultable via la commande\ :
 
 LANGUAGE=en man nano
