@@ -256,8 +256,11 @@ void do_uncut_text(void)
      * cutbuffer ends. */
     openfile->placewewant = xplustabs();
 
-    edit_refresh();
+    /* Mark the file as modified. */
     set_modified();
+
+    /* Update the screen. */
+    edit_refresh();
 
 #ifdef DEBUG
     dump_filestruct_reverse();
