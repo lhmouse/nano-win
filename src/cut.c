@@ -127,7 +127,6 @@ void do_cut_text(
     size_t cb_save_len = 0;
 	/* The length of the string at the current end of the cutbuffer,
 	 * before we add text to it.  */
-    bool old_mark_set = openfile->mark_set;
     bool old_no_newlines = ISSET(NO_NEWLINES);
 #endif
 
@@ -208,10 +207,7 @@ void do_cut_text(
 	set_modified();
 
     /* Update the screen. */
-#ifndef NANO_TINY
-    if (!copy_text || old_mark_set)
-#endif
-	edit_refresh();
+    edit_refresh();
 
 #ifdef DEBUG
     dump_filestruct(cutbuffer);
