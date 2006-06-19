@@ -390,9 +390,8 @@ void help_init(void)
 
 #ifndef NANO_TINY
     /* If we're on the main list, we also count the toggle help text.
-     * Each non-blank entry has "M-%c\t\t\t", which fills 24 columns,
-     * plus a space, plus translated text, plus one or two '\n's.  Each
-     * blank entry has just one or two '\n's. */
+     * Each entry has "M-%c\t\t\t", which fills 24 columns, plus a
+     * space, plus translated text, plus one or two '\n's. */
     if (currshortcut == main_list) {
 	size_t endis_len = strlen(_("enable/disable"));
 
