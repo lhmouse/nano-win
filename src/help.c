@@ -383,22 +383,26 @@ void help_init(void)
     if (htx[2] != NULL)
 	allocsize += strlen(htx[2]);
 
-    /* The space needed for the shortcut lists, at most COLS characters,
-     * plus one or two '\n's. */
-    allocsize += (COLS < 24 ? (24 * mb_cur_max()) :
-	((COLS + 2) * mb_cur_max())) * length_of_list(currshortcut);
+    /* Count the shortcut help text.  Each entry has up to three keys,
+     * which fill 24 columns, plus translated text, plus one or two
+     * \n's.  Note that the translated text is left out if there are 24
+     * or fewer columns. */
+	for (s = currshortcut; s != NULL; s = s->next) {
+	    allocsize += (24 * mb_cur_max()) + 1;
+	    if (COLS >= 24)
+		allocsize += strlen(s->help) + 1;
+	}
 
 #ifndef NANO_TINY
     /* If we're on the main list, we also count the toggle help text.
      * Each entry has "M-%c\t\t\t", which fills 24 columns, plus a
      * space, plus translated text, plus one or two '\n's. */
     if (currshortcut == main_list) {
-	size_t endis_len = strlen(_("enable/disable"));
+	size_t endis_len = strlen(_("enable/disable")) + 1;
 
 	for (t = toggles; t != NULL; t = t->next)
-	    if (t->val != TOGGLE_NO_KEY)
-		allocsize += strlen(t->desc) + endis_len + 8;
-	    allocsize++;
+	    allocsize += (24 * mb_cur_max()) + strlen(t->desc) +
+		endis_len + 2;
     }
 #endif
 
@@ -526,14 +530,8 @@ void help_init(void)
 	    }
 	}
 
-	if (COLS > 24) {
-	    char *help_ptr = display_string(s->help, 0, COLS - 24,
-		FALSE);
-
-	    ptr += sprintf(ptr, help_ptr);
-
-	    free(help_ptr);
-	}
+	if (COLS > 24)
+	    ptr += sprintf(ptr, "%s", s->help);
 
 	ptr += sprintf(ptr, "\n");
 
