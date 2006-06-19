@@ -264,8 +264,9 @@ CVS code -
 	  easier for translators to see. (Benno Schulenberg)
 	- Make sure we have enough memory in all cases when displaying
 	  the shortcut and toggle lists. (DLR)
-	- Wrap the shortcut list help text, for consistency with the
-	  toggle help text. (DLR, suggested by Benno Schulenberg)
+	- Wrap the shortcut list help text, and display it even when we
+	  have fewer than 24 columns, for consistency with the toggle
+	  help text. (DLR, suggested by Benno Schulenberg)
   parse_help_input()
 	- Add Space and - as aliases for PageDown and PageUp, for
 	  consistency with the file browser. (DLR, suggested by Benno
