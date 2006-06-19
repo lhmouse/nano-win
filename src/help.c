@@ -596,21 +596,22 @@ void parse_help_input(int *kbinput, bool *meta_key, bool *func_key)
 /* Calculate the next line of help_text, starting at ptr. */
 size_t help_line_len(const char *ptr)
 {
-    int help_cols = (COLS > 24) ? COLS - 8 : 24;
+    int help_cols = (COLS > 24) ? COLS - 1 : 24;
 
-    /* Try to break the line at (COLS - 8) columns if we have more than
+    /* Try to break the line at (COLS - 1) columns if we have more than
      * 24 columns, and at 24 columns otherwise. */
-    size_t retval = break_line(ptr, help_cols, TRUE);
+    ssize_t wrap_loc = break_line(ptr, help_cols, TRUE);
+    size_t retval = (wrap_loc < 0) ? 0 : wrap_loc;
     size_t retval_save = retval;
 
     /* Get the length of the entire line up to a null or a newline. */
     while (*(ptr + retval) != '\0' && *(ptr + retval) != '\n')
 	retval += move_mbright(ptr + retval, 0);
 
-    /* If the entire line doesn't go more than 8 columns beyond where we
+    /* If the entire line doesn't go more than 1 column beyond where we
      * tried to break it, we should display it as-is.  Otherwise, we
      * should display it only up to the break. */
-    if (strnlenpt(ptr, retval) > help_cols + 8)
+    if (strnlenpt(ptr, retval) > help_cols + 1)
 	retval = retval_save;
 
     return retval;
