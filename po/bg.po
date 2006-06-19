@@ -10,10 +10,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 1.3.11\n"
+"Project-Id-Version: nano 1.3.12pre2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-06-06 09:43-0400\n"
-"PO-Revision-Date: 2006-06-19 15:22+0300\n"
+"POT-Creation-Date: 2006-06-09 15:12-0400\n"
+"PO-Revision-Date: 2006-06-19 18:36+0300\n"
 "Last-Translator: Anton Zinoviev <zinoviev@debian.org>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgid "Go To Directory"
 msgstr "Отиване в директория"
 
 #: src/browser.c:218 src/browser.c:680 src/files.c:736 src/files.c:1788
-#: src/nano.c:944 src/search.c:212 src/search.c:934 src/search.c:995
+#: src/nano.c:956 src/search.c:212 src/search.c:934 src/search.c:995
 msgid "Cancelled"
 msgstr "Отменено"
 
@@ -38,7 +38,7 @@ msgstr "Не може да се излезе от %s в ограничен ре�
 #: src/browser.c:257 src/browser.c:309 src/browser.c:325 src/files.c:610
 #: src/files.c:618 src/files.c:1332 src/files.c:1420 src/files.c:1466
 #: src/files.c:1487 src/files.c:1609 src/files.c:2376 src/rcfile.c:366
-#: src/rcfile.c:383 src/rcfile.c:912
+#: src/rcfile.c:383 src/rcfile.c:913
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Грешка при четене на %s: %s"
@@ -101,7 +101,7 @@ msgid "Switched to %s"
 msgstr "Превключено на %s"
 
 #. TRANSLATORS: Try to keep this at most 16 characters.
-#: src/files.c:245 src/global.c:302 src/winio.c:2016
+#: src/files.c:245 src/global.c:302 src/winio.c:2022
 msgid "New Buffer"
 msgstr "Нов буфер"
 
@@ -142,12 +142,12 @@ msgstr "Нов файл"
 msgid "\"%s\" not found"
 msgstr "„%s“ не е намерен"
 
-#: src/files.c:605 src/rcfile.c:375 src/rcfile.c:869 src/rcfile.c:903
+#: src/files.c:605 src/rcfile.c:375 src/rcfile.c:870 src/rcfile.c:904
 #, c-format
 msgid "\"%s\" is a directory"
 msgstr "„%s“ е директория"
 
-#: src/files.c:606 src/rcfile.c:376 src/rcfile.c:870 src/rcfile.c:904
+#: src/files.c:606 src/rcfile.c:376 src/rcfile.c:871 src/rcfile.c:905
 #, c-format
 msgid "\"%s\" is a device file"
 msgstr "„%s“ е файл за устройство"
@@ -197,7 +197,7 @@ msgstr "Не може да се добавя нищо към символна в
 msgid "Error writing %s: %s"
 msgstr "Грешка при запис на %s: %s"
 
-#: src/files.c:1374 src/nano.c:625
+#: src/files.c:1374 src/nano.c:624
 msgid "Too many backup files?"
 msgstr "Твърде много резервни копия?"
 
@@ -261,11 +261,11 @@ msgstr "Запазване под РАЗЛИЧНО ИМЕ? "
 msgid "(more)"
 msgstr "(повече)"
 
-#: src/files.c:2379 src/rcfile.c:847
+#: src/files.c:2379 src/rcfile.c:848
 #, c-format
 msgid ""
 "\n"
-"Press Enter to continue starting nano\n"
+"Press Enter to continue starting nano.\n"
 msgstr ""
 "\n"
 "Натиснете „Enter“, за да продължи стартирането на nano\n"
@@ -471,7 +471,7 @@ msgid "Move forward one word"
 msgstr "Отиване напред с една дума"
 
 #: src/global.c:355
-msgid "Move backward one word"
+msgid "Move back one word"
 msgstr "Отиване назад с една дума"
 
 #: src/global.c:357
@@ -563,323 +563,323 @@ msgid "Refresh (redraw) the current screen"
 msgstr "Опресняване на текущия екран"
 
 #: src/global.c:411
-msgid "Make the current search/replace case (in)sensitive"
-msgstr "(Не)зачитане на малки/големи букви"
+msgid "Toggle the case sensitivity of the search"
+msgstr "Зачитане малки/големи букви при търсене (вкл/изкл)"
 
 #: src/global.c:413
-msgid "Make the current search/replace go backwards"
-msgstr "Търсене/замяна в обратен ред"
+msgid "Reverse the direction of the search"
+msgstr "Обратна посока на търсене"
 
-#: src/global.c:416
-msgid "Use regular expressions"
-msgstr "Използване на регулярни изрази"
+#: src/global.c:417
+msgid "Toggle the use of regular expressions"
+msgstr "Използване на регулярни изрази (вкл/изкл)"
 
-#: src/global.c:420
+#: src/global.c:421
 msgid "Edit the previous search/replace string"
 msgstr "Редактиране на предишния низ за търсене/замяна"
 
-#: src/global.c:422
+#: src/global.c:423
 msgid "Edit the next search/replace string"
 msgstr "Редактиране на следващия низ за търсене/замяна"
 
-#: src/global.c:425
+#: src/global.c:426
 msgid "Go to file browser"
 msgstr "Отиване във файлов браузър"
 
-#: src/global.c:428
-msgid "Write file out in DOS format"
-msgstr "Запазване на файла в DOS формат"
-
 #: src/global.c:429
-msgid "Write file out in Mac format"
-msgstr "Запазване на файла в Mac формат"
+msgid "Toggle the use of DOS format"
+msgstr "Запазване на файла в DOS формат (вкл/изкл)"
 
-#: src/global.c:431
-msgid "Append to the current file"
-msgstr "Добавяне в края на текущия файл"
+#: src/global.c:430
+msgid "Toggle the use of Mac format"
+msgstr "Запазване на файла в Mac формат (вкл/изкл)"
 
 #: src/global.c:432
-msgid "Prepend to the current file"
-msgstr "Добавяне в началото на текущия файл"
+msgid "Toggle appending"
+msgstr "Вмъкване в края на файла (вкл/изкл)"
 
-#: src/global.c:435
-msgid "Back up original file when saving"
-msgstr "Резервно копие на оригинала при запазване"
+#: src/global.c:433
+msgid "Toggle prepending"
+msgstr "Вмъкване в началото на файла (вкл/изкл)"
 
 #: src/global.c:436
+msgid "Toggle backing up of the original file"
+msgstr "Резервно копира съществуващи файлове (вкл/изкл)"
+
+#: src/global.c:437
 msgid "Execute external command"
 msgstr "Изпълнение на външна команда"
 
-#: src/global.c:439
-msgid "Insert into new buffer"
-msgstr "Вмъкване в нов буфер"
+#: src/global.c:441
+msgid "Toggle the use of a new buffer"
+msgstr "Използване на нов буфер (вкл/изкл)"
 
-#: src/global.c:442
+#: src/global.c:444
 msgid "Exit from the file browser"
 msgstr "Изход от файловия браузър"
 
-#: src/global.c:444
+#: src/global.c:446
 msgid "Go to the first file in the list"
 msgstr "Отиване при първия файл от списъка"
 
-#: src/global.c:446
+#: src/global.c:448
 msgid "Go to the last file in the list"
 msgstr "Отиване при последния файл от списъка"
 
-#: src/global.c:447
+#: src/global.c:449
 msgid "Go to directory"
 msgstr "Отиване в директория"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:475
+#: src/global.c:477
 msgid "Close"
 msgstr "Затваряне"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:481
+#: src/global.c:483
 msgid "WriteOut"
 msgstr "Запазване"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:486
+#: src/global.c:488
 msgid "Justify"
 msgstr "Подравн."
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:503
+#: src/global.c:505
 msgid "Read File"
 msgstr "Отваряне"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:526
+#: src/global.c:528
 msgid "Cut Text"
 msgstr "Отрязване"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:532
+#: src/global.c:534
 msgid "UnJustify"
 msgstr "Изкл.подр."
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:537
+#: src/global.c:539
 msgid "UnCut Text"
 msgstr "Поставяне"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:542
+#: src/global.c:544
 msgid "Cur Pos"
 msgstr "Поз.курсор"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
-#: src/global.c:550
+#: src/global.c:552
 msgid "To Spell"
 msgstr "Правопис"
 
-#: src/global.c:573
+#: src/global.c:575
 msgid "Mark Text"
 msgstr "Избор на текст"
 
-#: src/global.c:581
+#: src/global.c:583
 msgid "Copy Text"
 msgstr "Копиране"
 
-#: src/global.c:585
+#: src/global.c:587
 msgid "Indent Text"
 msgstr "Отстъп"
 
-#: src/global.c:589
+#: src/global.c:591
 msgid "Unindent Text"
 msgstr "Без отстъп"
 
-#: src/global.c:594
+#: src/global.c:596
 msgid "Forward"
 msgstr "Напред"
 
-#: src/global.c:598
+#: src/global.c:600
 msgid "Back"
 msgstr "Назад"
 
-#: src/global.c:603
+#: src/global.c:605
 msgid "Next Word"
 msgstr "Следваща дума"
 
-#: src/global.c:607
+#: src/global.c:609
 msgid "Prev Word"
 msgstr "Предишна дума"
 
-#: src/global.c:612 src/global.c:1081
+#: src/global.c:614 src/global.c:1083
 msgid "Prev Line"
 msgstr "Предишен ред"
 
-#: src/global.c:616 src/global.c:1085
+#: src/global.c:618 src/global.c:1087
 msgid "Next Line"
 msgstr "Следващ ред"
 
-#: src/global.c:620
+#: src/global.c:622
 msgid "Home"
 msgstr "Home"
 
-#: src/global.c:624
+#: src/global.c:626
 msgid "End"
 msgstr "End"
 
-#: src/global.c:647
+#: src/global.c:649
 msgid "Find Other Bracket"
 msgstr "Намиране на другата скоба"
 
-#: src/global.c:651
+#: src/global.c:653
 msgid "Scroll Up"
 msgstr "Превъртане нагоре"
 
-#: src/global.c:655
+#: src/global.c:657
 msgid "Scroll Down"
 msgstr "Превъртане надолу"
 
-#: src/global.c:661
+#: src/global.c:663
 msgid "Previous File"
 msgstr "Предишен файл"
 
-#: src/global.c:666
+#: src/global.c:668
 msgid "Next File"
 msgstr "Следващ файл"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:671 src/text.c:2429
+#: src/global.c:673 src/text.c:2431
 msgid "Verbatim Input"
 msgstr "Дословен вход"
 
-#: src/global.c:675
+#: src/global.c:677
 msgid "Tab"
 msgstr "Tab"
 
-#: src/global.c:679
+#: src/global.c:681
 msgid "Enter"
 msgstr "Enter"
 
-#: src/global.c:683
+#: src/global.c:685
 msgid "Delete"
 msgstr "Delete"
 
-#: src/global.c:687
+#: src/global.c:689
 msgid "Backspace"
 msgstr "Backspace"
 
-#: src/global.c:708
+#: src/global.c:710
 msgid "Word Count"
 msgstr "Брой на думи"
 
 #. TRANSLATORS: Try to keep this at most 12 characters.
-#: src/global.c:826
+#: src/global.c:828
 msgid "No Replace"
 msgstr "Без замяна"
 
-#: src/global.c:917
+#: src/global.c:919
 msgid "Go To Text"
 msgstr "Отиване на текст"
 
 #. TRANSLATORS: Try to keep this at most 16 characters.
-#: src/global.c:956
+#: src/global.c:958
 msgid "DOS Format"
 msgstr "DOS формат"
 
 #. TRANSLATORS: Try to keep this at most 16 characters.
-#: src/global.c:962
+#: src/global.c:964
 msgid "Mac Format"
 msgstr "Mac формат"
 
 #. TRANSLATORS: Try to keep this at most 16 characters.
-#: src/global.c:969
+#: src/global.c:971
 msgid "Append"
 msgstr "Добавяне в края"
 
 #. TRANSLATORS: Try to keep this at most 16 characters.
-#: src/global.c:975
+#: src/global.c:977
 msgid "Prepend"
 msgstr "Добавяне в нач."
 
 #. TRANSLATORS: Try to keep this at most 16 characters.
-#: src/global.c:982
+#: src/global.c:984
 msgid "Backup File"
 msgstr "Резервно копие"
 
 #. TRANSLATORS: Try to keep this at most 22 characters.
-#: src/global.c:1019
+#: src/global.c:1021
 msgid "Execute Command"
 msgstr "Изпълнение на команда"
 
-#: src/global.c:1051
+#: src/global.c:1053
 msgid "Insert File"
 msgstr "Вмъкване на файл"
 
 #. TRANSLATORS: Try to keep this at most 12 characters.
-#: src/global.c:1152
+#: src/global.c:1154
 msgid "Go To Dir"
 msgstr "Отиване в директория"
 
-#: src/global.c:1275
+#: src/global.c:1277
 msgid "Help mode"
 msgstr "Режим на помощ"
 
-#: src/global.c:1278
+#: src/global.c:1280
 msgid "Constant cursor position display"
 msgstr "Постоянно показване на позицията на курсора"
 
-#: src/global.c:1281
+#: src/global.c:1283
 msgid "Use of more space for editing"
 msgstr "Използване на повече място за редактиране"
 
-#: src/global.c:1283 src/nano.c:764
+#: src/global.c:1285 src/nano.c:776
 msgid "Smooth scrolling"
 msgstr "Плавно превъртане"
 
-#: src/global.c:1292
+#: src/global.c:1294
 msgid "Whitespace display"
 msgstr "Показване на интервали"
 
-#: src/global.c:1302
+#: src/global.c:1304
 msgid "Color syntax highlighting"
 msgstr "Синтактично осветяване"
 
-#: src/global.c:1306
+#: src/global.c:1308
 msgid "Smart home key"
 msgstr "Интелигентен клавиш „Home“"
 
-#: src/global.c:1309
+#: src/global.c:1311
 msgid "Auto indent"
 msgstr "Автоматичен отстъп"
 
-#: src/global.c:1312
+#: src/global.c:1314
 msgid "Cut to end"
 msgstr "Отрязване до края"
 
-#: src/global.c:1316
+#: src/global.c:1318
 msgid "Long line wrapping"
 msgstr "Автоматично пренасяне"
 
-#: src/global.c:1321
+#: src/global.c:1323
 msgid "Conversion of typed tabs to spaces"
 msgstr "Превръщане на табулации в интервали"
 
-#: src/global.c:1332
+#: src/global.c:1334
 msgid "Backup files"
 msgstr "Запазване на резервни копия"
 
-#: src/global.c:1340
+#: src/global.c:1342
 msgid "Multiple file buffers"
 msgstr "Много файлови буфери"
 
-#: src/global.c:1344
+#: src/global.c:1346
 msgid "Mouse support"
 msgstr "Поддръжка на мишка"
 
-#: src/global.c:1352
+#: src/global.c:1354
 msgid "No conversion from DOS/Mac format"
 msgstr "Без конвертиране от DOS/Mac формат"
 
-#: src/global.c:1358
-msgid "Suspend"
-msgstr "Приспиване"
+#: src/global.c:1360
+msgid "Suspension"
+msgstr "Временно спиране"
 
 #: src/help.c:228
 msgid ""
@@ -993,17 +993,17 @@ msgid ""
 "\n"
 " The previous search string will be shown in brackets after the search prompt.  Hitting Enter without entering any text will perform the previous search.\n"
 "\n"
-" "
 msgstr ""
 "Помощ за командата „Търсене“\n"
 "\n"
 " Въведете думите или символите, които искате да търсите, и натиснете „Enter“. Ако има съвпадение за въведения текст, на екрана ще се покаже първото съвпадение на търсения низ.\n"
 "\n"
-" Предишният низ за търсене ще бъде показан в скоби след подканването за търсене. Ако натиснете „Enter“, без да въвеждате текст, ще се извърши предишното търсене.  "
+" Предишният низ за търсене ще бъде показан в скоби след подканването за търсене. Ако натиснете „Enter“, без да въвеждате текст, ще се извърши предишното търсене.\n"
+"\n"
 
 #: src/help.c:303
 msgid ""
-"The following function keys are available in Browser Search mode:\n"
+" The following function keys are available in Browser Search mode:\n"
 "\n"
 msgstr ""
 "Следните функционални клавиши са достъпни в режим „Търсене“:\n"
@@ -1049,7 +1049,7 @@ msgstr ""
 msgid ""
 "Execute Command Help Text\n"
 "\n"
-" This menu allows you to insert the output of a command run by the shell into the current buffer (or a new buffer in multiple file buffer mode). If you need another blank buffer, do not enter any command.\n"
+" This mode allows you to insert the output of a command run by the shell into the current buffer (or a new buffer in multiple file buffer mode). If you need another blank buffer, do not enter any command.\n"
 "\n"
 " The following function keys are available in Execute Command mode:\n"
 "\n"
@@ -1067,16 +1067,14 @@ msgid ""
 "\n"
 " The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor.  The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages.  The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
-" "
 msgstr ""
 " Помощен текст на nano\n"
 "\n"
-" Редакторът nano е проектиран да емулира функционалността и лекотата за работа на редактора UW Pico. В редактора има четири основни секции. Горният ред показва версията на програмата, името на файла, който се редактира, и дали той е бил променен. След това е главния прозорец на редактора, показващ редактирания файл. Лентата за състоянието е третият ред от дъното нагоре и показва важни съобщения. Долните два реда показват най-често използваните бързи клавиши в редактора.\n"
+" Редакторът nano е проектиран да емулира функционалността и лекотата за работа на редактора UW Pico. В редактора има четири основни раздела. Горният ред показва версията на програмата, името на файла, който се редактира, и дали той е бил променен. След това е главния прозорец на редактора, показващ редактирания файл. Лентата за състоянието е третият ред от долу нагоре и показва важни съобщения. Долните два реда показват най-често използваните бързи клавиши в редактора.\n"
 "\n"
-" "
 
 #: src/help.c:359
-msgid "The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and can be entered either by using the Control (Ctrl) key or pressing the Escape (Esc) key twice.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt, or Meta key depending on your keyboard setup.  "
+msgid " The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and can be entered either by using the Control (Ctrl) key or pressing the Escape (Esc) key twice.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt, or Meta key depending on your keyboard setup.  "
 msgstr "Системата за отбелязване на бързи клавиши е следната: Комбинации с клавиша „Control“ се отбелязват с диакритичен символ (^) и могат да бъдат въвеждани с клавиша „Control“ (Ctrl) или с двойно натискане на клавиша „Escape“ (Esc). Комбинации с клавиша „Escape“ се отбелязват със символа „Meta“ (M) и могат да бъдат въвеждани с клавишите „Esc“, „Alt“ или „Meta“ в зависимост от настройките на клавиатурата.   "
 
 #: src/help.c:366
@@ -1095,11 +1093,11 @@ msgstr "(вкл/изкл)"
 msgid "Space"
 msgstr "Space"
 
-#: src/nano.c:523
+#: src/nano.c:522
 msgid "Key illegal in VIEW mode"
 msgstr "Неправилен клавиш в режим на преглед"
 
-#: src/nano.c:619
+#: src/nano.c:618
 #, c-format
 msgid ""
 "\n"
@@ -1108,7 +1106,7 @@ msgstr ""
 "\n"
 "Буферът е записан в %s\n"
 
-#: src/nano.c:621
+#: src/nano.c:620
 #, c-format
 msgid ""
 "\n"
@@ -1117,7 +1115,7 @@ msgstr ""
 "\n"
 "Буферът не е записан в %s: %s\n"
 
-#: src/nano.c:624
+#: src/nano.c:623
 #, c-format
 msgid ""
 "\n"
@@ -1126,11 +1124,11 @@ msgstr ""
 "\n"
 "Буферът не е записан: %s\n"
 
-#: src/nano.c:636
+#: src/nano.c:635
 msgid "Window size is too small for nano...\n"
 msgstr "Размерът на прозореца е твърде малък за nano...\n"
 
-#: src/nano.c:715
+#: src/nano.c:727
 #, c-format
 msgid ""
 "Usage: nano [OPTIONS] [[+LINE[,COLUMN]] FILE]...\n"
@@ -1139,235 +1137,235 @@ msgstr ""
 "Използване: nano [ОПЦИИ] [[+РЕД[,СТЪЛБ]] ФАЙЛ]...\n"
 "\n"
 
-#: src/nano.c:718
+#: src/nano.c:730
 #, c-format
 msgid "Option\t\tGNU long option\t\tMeaning\n"
 msgstr "Опция\t\tДълга опция\t\tЗначение\n"
 
-#: src/nano.c:720
+#: src/nano.c:732
 #, c-format
 msgid "Option\t\tMeaning\n"
 msgstr "Опция\t\tЗначение\n"
 
-#: src/nano.c:723
+#: src/nano.c:735
 msgid "Show this message"
 msgstr "Показва тази справка"
 
-#: src/nano.c:724
+#: src/nano.c:736
 msgid "+LINE[,COLUMN]"
 msgstr "+РЕД[,СТЪЛБ]"
 
-#: src/nano.c:725
+#: src/nano.c:737
 msgid "Start at line LINE, column COLUMN"
 msgstr "Започва от ред РЕД, стълб СТЪЛБ"
 
-#: src/nano.c:727
+#: src/nano.c:739
 msgid "Enable smart home key"
 msgstr "С интелигентен клавиш „Home“"
 
-#: src/nano.c:728
+#: src/nano.c:740
 msgid "Save backups of existing files"
 msgstr "Резервно копира съществуващи файлове"
 
-#: src/nano.c:729
+#: src/nano.c:741
 msgid "-C <dir>"
 msgstr "-C <дир>"
 
-#: src/nano.c:729
+#: src/nano.c:741
 msgid "--backupdir=<dir>"
 msgstr "--backupdir=<дир>"
 
-#: src/nano.c:730
+#: src/nano.c:742
 msgid "Directory for saving unique backup files"
 msgstr "Директория за резервните копия"
 
-#: src/nano.c:733
+#: src/nano.c:745
 msgid "Use bold instead of reverse video text"
 msgstr "Използва удебелен шрифт вместо инверсно видео"
 
-#: src/nano.c:736
+#: src/nano.c:748
 msgid "Convert typed tabs to spaces"
 msgstr "Прави въведените табулации на интервали"
 
-#: src/nano.c:739
+#: src/nano.c:751
 msgid "Enable multiple file buffers"
 msgstr "Позволява много файлови буфери"
 
-#: src/nano.c:744
+#: src/nano.c:756
 msgid "Log & read search/replace string history"
 msgstr "Запазва/чете историята на търсене/замяна"
 
-#: src/nano.c:747
+#: src/nano.c:759
 msgid "Don't look at nanorc files"
 msgstr "Пренебрегва конфиг. файлове nanorc"
 
-#: src/nano.c:750
+#: src/nano.c:762
 msgid "Fix numeric keypad key confusion problem"
 msgstr "Коригира объркване от цифровия клав.блок"
 
-#: src/nano.c:752
+#: src/nano.c:764
 msgid "Don't add newlines to the ends of files"
 msgstr "Без знак за нов ред в края на файловете"
 
-#: src/nano.c:755
+#: src/nano.c:767
 msgid "Don't convert files from DOS/Mac format"
 msgstr "Без преобразуване от DOS/Mac формат"
 
-#: src/nano.c:757
+#: src/nano.c:769
 msgid "Use more space for editing"
 msgstr "Използва повече място за редактиране"
 
-#: src/nano.c:759
+#: src/nano.c:771
 msgid "-Q <str>"
 msgstr "-Q <низ>"
 
-#: src/nano.c:759
+#: src/nano.c:771
 msgid "--quotestr=<str>"
 msgstr "--quotestr=<низ>"
 
-#: src/nano.c:760
+#: src/nano.c:772
 msgid "Quoting string"
 msgstr "Низ за цитиране"
 
-#: src/nano.c:762
+#: src/nano.c:774
 msgid "Restricted mode"
 msgstr "Ограничен режим"
 
-#: src/nano.c:766
+#: src/nano.c:778
 msgid "-T <#cols>"
 msgstr "-T <#стълбове>"
 
-#: src/nano.c:766
+#: src/nano.c:778
 msgid "--tabsize=<#cols>"
 msgstr "--tabsize=<#стълбове>"
 
-#: src/nano.c:767
+#: src/nano.c:779
 msgid "Set width of a tab in cols to #cols"
 msgstr "Широчината на табулацията - #стълбове"
 
-#: src/nano.c:769
+#: src/nano.c:781
 msgid "Do quick statusbar blanking"
 msgstr "Бързо изключване на лентата за състояние"
 
-#: src/nano.c:772
+#: src/nano.c:784
 msgid "Print version information and exit"
 msgstr "Показва версията и излиза"
 
-#: src/nano.c:775
+#: src/nano.c:787
 msgid "Detect word boundaries more accurately"
 msgstr "Открива прецизно междусловните граници"
 
-#: src/nano.c:778
+#: src/nano.c:790
 msgid "-Y <str>"
 msgstr "-Y <низ>"
 
-#: src/nano.c:778
+#: src/nano.c:790
 msgid "--syntax=<str>"
 msgstr "--syntax=<низ>"
 
-#: src/nano.c:779
+#: src/nano.c:791
 msgid "Syntax definition to use"
 msgstr "Синтаксис, който да се използва"
 
-#: src/nano.c:781
+#: src/nano.c:793
 msgid "Constantly show cursor position"
 msgstr "Постоянно показва позицията на курсора"
 
-#: src/nano.c:783
+#: src/nano.c:795
 msgid "Fix Backspace/Delete confusion problem"
 msgstr "Коригира объркване на „Backspace/Delete“"
 
-#: src/nano.c:786
+#: src/nano.c:798
 msgid "Automatically indent new lines"
 msgstr "Автоматичен отстъп при нови редове"
 
-#: src/nano.c:787
+#: src/nano.c:799
 msgid "Cut from cursor to end of line"
 msgstr "Отрязване от курсора до края на реда"
 
-#: src/nano.c:790
+#: src/nano.c:802
 msgid "Don't follow symbolic links, overwrite"
 msgstr "Не следва символните връзки, замества ги"
 
-#: src/nano.c:792
-msgid "Enable mouse"
+#: src/nano.c:804
+msgid "Enable the use of the mouse"
 msgstr "С използване на мишка"
 
-#: src/nano.c:795
+#: src/nano.c:807
 msgid "-o <dir>"
 msgstr "-o <дир>"
 
-#: src/nano.c:795
+#: src/nano.c:807
 msgid "--operatingdir=<dir>"
 msgstr "--operatingdir=<дир>"
 
-#: src/nano.c:796
+#: src/nano.c:808
 msgid "Set operating directory"
 msgstr "Работна директория"
 
-#: src/nano.c:799
+#: src/nano.c:811
 msgid "Preserve XON (^Q) and XOFF (^S) keys"
 msgstr "Запазва клавишите „XON“(^Q) и „XOFF“(^S)"
 
-#: src/nano.c:801
+#: src/nano.c:813
 msgid "-r <#cols>"
 msgstr "-r <#стълбове>"
 
-#: src/nano.c:801
+#: src/nano.c:813
 msgid "--fill=<#cols>"
 msgstr "--fill=<#стълбове>"
 
-#: src/nano.c:802
+#: src/nano.c:814
 msgid "Set fill cols to (wrap lines at) #cols"
 msgstr "Пренася редове с дължина > #стълбове"
 
-#: src/nano.c:805
+#: src/nano.c:817
 msgid "-s <prog>"
 msgstr "-s <прог>"
 
-#: src/nano.c:805
+#: src/nano.c:817
 msgid "--speller=<prog>"
 msgstr "--speller=<прог>"
 
-#: src/nano.c:806
+#: src/nano.c:818
 msgid "Enable alternate speller"
 msgstr "Алтернативен правописен коректор"
 
-#: src/nano.c:809
+#: src/nano.c:821
 msgid "Auto save on exit, don't prompt"
 msgstr "При изход запазва файла без питане"
 
-#: src/nano.c:810
+#: src/nano.c:822
 msgid "View (read only) mode"
 msgstr "Режим на преглед (само за четене)"
 
-#: src/nano.c:812
+#: src/nano.c:824
 msgid "Don't wrap long lines"
 msgstr "Без пренасяне на дългите редове"
 
-#: src/nano.c:814
-msgid "Don't show help window"
-msgstr "Да не се показва прозореца с помощ"
+#: src/nano.c:826
+msgid "Don't show the two help lines"
+msgstr "Без двата последни реда с помощ"
 
-#: src/nano.c:815
-msgid "Enable suspend"
-msgstr "Позволява приспиване"
+#: src/nano.c:827
+msgid "Enable suspension"
+msgstr "Позволява временно спиране"
 
-#: src/nano.c:819
+#: src/nano.c:831
 msgid "(ignored, for Pico compatibility)"
 msgstr "(не се използват,за съвместимост с Pico)"
 
-#: src/nano.c:829
+#: src/nano.c:841
 #, c-format
 msgid " GNU nano version %s (compiled %s, %s)\n"
 msgstr " GNU nano, версия %s (компилиран в %s часа на %s)\n"
 
-#: src/nano.c:832
+#: src/nano.c:844
 #, c-format
 msgid " Email: nano@nano-editor.org\tWeb: http://www.nano-editor.org/"
 msgstr " Е-поща: nano@nano-editor.org\tИнтернет адрес: http://www.nano-editor.org/"
 
-#: src/nano.c:833
+#: src/nano.c:845
 #, c-format
 msgid ""
 "\n"
@@ -1376,66 +1374,52 @@ msgstr ""
 "\n"
 " Компилирани опции:"
 
-#: src/nano.c:911
+#: src/nano.c:923
 msgid "Sorry, support for this function has been disabled"
 msgstr "За съжаление поддръжката за тази функция е изключена"
 
-#: src/nano.c:928
+#: src/nano.c:940
 msgid "Save modified buffer (ANSWERING \"No\" WILL DESTROY CHANGES) ? "
 msgstr "Запазване на променения буфер? (ПРИ ОТГОВОР „Не“ ПРОМЕНИТЕ ЩЕ СЕ ЗАГУБЯТ)"
 
-#: src/nano.c:991
+#: src/nano.c:1003
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "Получи се SIGHUP или SIGTERM\n"
 
-#: src/nano.c:1000
+#: src/nano.c:1020
 #, c-format
-msgid ""
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"Use \"fg\" to return to nano\n"
-msgstr ""
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"Използвайте „fg“, за да се върнете в nano\n"
+msgid "Use \"fg\" to return to nano.\n"
+msgstr "Използвайте „fg“, за да се върнете в nano.\n"
 
-#: src/nano.c:1152
+#: src/nano.c:1186
 msgid "enabled"
 msgstr "активирано"
 
-#: src/nano.c:1153
+#: src/nano.c:1187
 msgid "disabled"
 msgstr "деактивирано"
 
-#: src/nano.c:1313 src/winio.c:1162
+#: src/nano.c:1361 src/winio.c:530
 msgid "Unknown Command"
 msgstr "Неизвестна команда"
 
-#: src/nano.c:1377
-msgid "XON ignored, mumble mumble."
+#: src/nano.c:1425
+msgid "XON ignored, mumble mumble"
 msgstr "„XON“ е пренебрегнат, мън-мън."
 
-#: src/nano.c:1380
-msgid "XOFF ignored, mumble mumble."
+#: src/nano.c:1428
+msgid "XOFF ignored, mumble mumble"
 msgstr "„XOFF“ е пренебрегнат, мън-мън."
 
-#: src/nano.c:1781
+#: src/nano.c:1827 src/rcfile.c:814
 #, c-format
-msgid "Requested tab size %s invalid"
-msgstr "Изискваният размер на табулация %s е неправилен"
+msgid "Requested tab size \"%s\" is invalid"
+msgstr "Поисканият размер на табулация „%s“ е неправилен"
 
-#: src/nano.c:1837
+#: src/nano.c:1883 src/rcfile.c:739
 #, c-format
-msgid "Requested fill size %s invalid"
-msgstr "Зададеният размер за максимална дължина на редове %s е неправилен"
+msgid "Requested fill size \"%s\" is invalid"
+msgstr "Поисканият размер „%s“ за максимална дължина на редове е неправилен"
 
 #. TRANSLATORS: For the next three strings, if possible, specify
 #. * the single-byte shortcuts for both your language and English.
@@ -1471,7 +1455,7 @@ msgstr "Грешка в %s на ред %lu: "
 
 #: src/rcfile.c:174
 #, c-format
-msgid "Argument \"%s\" has unterminated \""
+msgid "Argument '%s' has an unterminated \""
 msgstr "Аргументът „%s“ има незатворенa \""
 
 #: src/rcfile.c:201 src/rcfile.c:253 src/rcfile.c:524 src/rcfile.c:581
@@ -1559,11 +1543,6 @@ msgstr "Опцията „%s“ изисква аргумент"
 msgid "Option is not a valid multibyte string"
 msgstr "Опцията не е правилен многобайтов низ"
 
-#: src/rcfile.c:739
-#, c-format
-msgid "Requested fill size \"%s\" invalid"
-msgstr "Зададеният размер „%s“ за максимална дължина на редове е неправилен"
-
 #: src/rcfile.c:752 src/rcfile.c:780 src/rcfile.c:789
 msgid "Non-blank characters required"
 msgstr "Необходими са символи, които не са празни"
@@ -1571,11 +1550,6 @@ msgstr "Необходими са символи, които не са праз�
 #: src/rcfile.c:762
 msgid "Two single-column characters required"
 msgstr "Необходими са два символа с нормална ширина"
-
-#: src/rcfile.c:814
-#, c-format
-msgid "Requested tab size \"%s\" invalid"
-msgstr "Зададеният размер на табулация „%s“ е неправилен"
 
 #: src/rcfile.c:828
 #, c-format
@@ -1587,7 +1561,7 @@ msgstr "Не може да се отмени флаг „%s“"
 msgid "Unknown flag \"%s\""
 msgstr "Неизвестен флаг „%s“"
 
-#: src/rcfile.c:893
+#: src/rcfile.c:894
 msgid "I can't find my home directory!  Wah!"
 msgstr "Не може да бъде намерена домашната директория! Ах!"
 
@@ -1697,26 +1671,26 @@ msgstr "Грешка при извикване на „uniq“"
 msgid "Error invoking \"%s\""
 msgstr "Грешка при извикване на „%s“"
 
-#: src/text.c:2344
+#: src/text.c:2346
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "Неуспех при проверката на правописа: %s"
 
-#: src/text.c:2346
+#: src/text.c:2348
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "Неуспех при проверката на правописа: %s: %s"
 
-#: src/text.c:2349
+#: src/text.c:2351
 msgid "Finished checking spelling"
 msgstr "Проверката на правописа завърши"
 
-#: src/text.c:2414
+#: src/text.c:2416
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sДуми: %lu  Редове: %ld  Знаци: %lu"
 
-#: src/text.c:2415
+#: src/text.c:2417
 msgid "In Selection:  "
 msgstr "В избрания текст: "
 
@@ -1726,72 +1700,96 @@ msgstr "nano е в недостиг на памет!"
 
 #. TRANSLATORS: This is displayed during the input of a
 #. * six-digit hexadecimal Unicode character code.
-#: src/winio.c:1461
+#: src/winio.c:1467
 msgid "Unicode Input"
 msgstr "Вход уникод"
 
-#: src/winio.c:1998 src/winio.c:2001
+#: src/winio.c:2004 src/winio.c:2007
 msgid "Modified"
 msgstr "Променен"
 
-#: src/winio.c:1999
+#: src/winio.c:2005
 msgid "View"
 msgstr "Преглед"
 
-#: src/winio.c:2012
+#: src/winio.c:2018
 msgid "DIR:"
 msgstr "ДИР:"
 
-#: src/winio.c:2019
+#: src/winio.c:2025
 msgid "File:"
 msgstr "Файл:"
 
-#: src/winio.c:2357 src/winio.c:2407
+#: src/winio.c:2363 src/winio.c:2413
 msgid "Refusing zero-length regex match"
 msgstr "Отказване да се съпоставя с регулярен израз с нулева дължина"
 
-#: src/winio.c:3040
+#: src/winio.c:3046
 #, c-format
 msgid "line %ld/%ld (%d%%), col %lu/%lu (%d%%), char %lu/%lu (%d%%)"
 msgstr "ред %ld/%ld (%d%%), стълб %lu/%lu (%d%%), символ %lu/%lu (%d%%)"
 
-#: src/winio.c:3160
+#: src/winio.c:3166
 msgid "The nano text editor"
 msgstr "Текстов редактор nano"
 
-#: src/winio.c:3161
+#: src/winio.c:3167
 msgid "version"
 msgstr "версия"
 
-#: src/winio.c:3162
+#: src/winio.c:3168
 msgid "Brought to you by:"
 msgstr "Създадено от:"
 
-#: src/winio.c:3163
+#: src/winio.c:3169
 msgid "Special thanks to:"
 msgstr "Специални благодарности на:"
 
-#: src/winio.c:3164
+#: src/winio.c:3170
 msgid "The Free Software Foundation"
 msgstr "Фондация „Свободен софтуер“"
 
-#: src/winio.c:3165
+#: src/winio.c:3171
 msgid "For ncurses:"
 msgstr "За ncurses:"
 
-#: src/winio.c:3166
+#: src/winio.c:3172
 msgid "and anyone else we forgot..."
 msgstr "и всички останали, които сме забравили..."
 
-#: src/winio.c:3167
+#: src/winio.c:3173
 msgid "Thank you for using nano!"
 msgstr "Благодарим, че използвате nano!"
+
+#~ msgid "Make the current search/replace case (in)sensitive"
+#~ msgstr "(Не)зачитане на малки/големи букви"
+
+#~ msgid "Make the current search/replace go backwards"
+#~ msgstr "Търсене/замяна в обратен ред"
+
+#~ msgid "Append to the current file"
+#~ msgstr "Добавяне в края на текущия файл"
+
+#~ msgid "Prepend to the current file"
+#~ msgstr "Добавяне в началото на текущия файл"
+
+#~ msgid "Back up original file when saving"
+#~ msgstr "Резервно копие на оригинала при запазване"
+
+#~ msgid "Insert into new buffer"
+#~ msgstr "Вмъкване в нов буфер"
 
 #~ msgid "-T [#cols]"
 #~ msgstr "-T [#стълбове]"
 
 #~ msgid "--tabsize=[#cols]"
 #~ msgstr "--tabsize=[#стълбове]"
+
+#~ msgid "Requested tab size %s invalid"
+#~ msgstr "Изискваният размер на табулация %s е неправилен"
+
+#~ msgid "Requested fill size %s invalid"
+#~ msgstr "Зададеният размер за максимална дължина на редове %s е неправилен"
 
 #~ msgid "Prepending to %s failed: %s"
 #~ msgstr "Неуспех при прикрепянето към %s: %s"
