@@ -7,7 +7,7 @@
 # Gabor Kelemen <kelemeng@gnome.hu>, 2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: nano-1.3.11\n"
+"Project-Id-Version: nano-1.3.12pre2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-06-16 02:18+0200\n"
 "PO-Revision-Date: 2006-06-11 12:05+0200\n"

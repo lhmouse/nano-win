@@ -1,3 +1,9 @@
+2006-06-20  David Lawrence Ramsey  <pooka109@cox.net>
+
+	* fr.po: Fixed incorrect "Project-Id-Version" entry.
+	* hu.po: Fixed incorrect "Project-Id-Version" entry.
+	* it.po: Fixed incorrect "Project-Id-Version" entry.
+
 2006-06-19  Jordi Mallach  <jordi@gnu.org>
 
 	* bg.po: Updated Bulgarian translation by Anton Zinoviev.
