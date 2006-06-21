@@ -3079,7 +3079,7 @@ void do_replace_highlight(bool highlight, const char *word)
 	wattron(edit, reverse_attr);
 
 #ifdef HAVE_REGEX_H
-    /* This is so we can show zero-length regexes. */
+    /* This is so we can show zero-length regex matches. */
     if (word_len == 0)
 	waddch(edit, ' ');
     else
