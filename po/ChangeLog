@@ -1,3 +1,10 @@
+2006-06-20  Jordi Mallach  <jordi@gnu.org>
+
+	* ca.po: Updated Catalan translation.
+	* fr.po: Updated French translation by Jean-Philippe Guérard.
+	* hu.po: Updated Hungarian translation by Gabor Kelemen.
+	* nl.po: Updated Dutch translation by Benno Schulenberg.
+
 2006-06-20  David Lawrence Ramsey  <pooka109@cox.net>
 
 	* fr.po: Fixed incorrect "Project-Id-Version" entry.

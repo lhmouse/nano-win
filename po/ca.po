@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 1.3.12pre2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-06-17 04:04+0200\n"
+"POT-Creation-Date: 2006-06-09 15:12-0400\n"
 "PO-Revision-Date: 2006-06-17 04:18+0200\n"
 "Last-Translator: Jordi Mallach <jordi@gnu.org>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -20,8 +20,6 @@ msgstr ""
 msgid "Go To Directory"
 msgstr "Vés a un directori"
 
-#. We canceled.  Indicate that on the statusbar, and
-#. * blank out ans, since we're done with it.
 #: src/browser.c:218 src/browser.c:680 src/files.c:736 src/files.c:1788
 #: src/nano.c:956 src/search.c:212 src/search.c:934 src/search.c:995
 msgid "Cancelled"
@@ -32,12 +30,6 @@ msgstr "Cancel·lat"
 msgid "Can't go outside of %s in restricted mode"
 msgstr "No es pot anar fora de %s en mode restringit"
 
-#. We can't open this dir for some reason.
-#. * Complain.
-#. We can't open this file for some reason.
-#. * Complain.
-#. We can't open this directory for some reason.
-#. * Complain.
 #: src/browser.c:257 src/browser.c:309 src/browser.c:325 src/files.c:610
 #: src/files.c:618 src/files.c:1332 src/files.c:1420 src/files.c:1466
 #: src/files.c:1487 src/files.c:1609 src/files.c:2376 src/rcfile.c:366
@@ -58,24 +50,18 @@ msgstr "(dir)"
 msgid "Search"
 msgstr "Cerca"
 
-#. This string is just a modifier for the search prompt; no
-#. * grammar is implied.
 #. TRANSLATORS: This string is just a modifier for the search
 #. * prompt; no grammar is implied.
 #: src/browser.c:655 src/search.c:183
 msgid " [Case Sensitive]"
 msgstr " [Maj/Min]"
 
-#. This string is just a modifier for the search prompt; no
-#. * grammar is implied.
 #. TRANSLATORS: This string is just a modifier for the search
 #. * prompt; no grammar is implied.
 #: src/browser.c:661 src/search.c:189
 msgid " [Regexp]"
 msgstr " [ExpReg]"
 
-#. This string is just a modifier for the search prompt; no
-#. * grammar is implied.
 #. TRANSLATORS: This string is just a modifier for the search
 #. * prompt; no grammar is implied.
 #: src/browser.c:667 src/search.c:195
@@ -104,7 +90,6 @@ msgstr "No es poden inserir fitxers des de fora de %s"
 msgid "No more open file buffers"
 msgstr "No hi ha més búfers de fitxer oberts"
 
-#. Indicate the switch on the statusbar.
 #: src/files.c:244
 #, c-format
 msgid "Switched to %s"
@@ -197,8 +182,7 @@ msgstr "No es pot escriure fora de %s"
 
 #: src/files.c:1301
 msgid "Cannot prepend or append to a symlink with --nofollow set"
-msgstr ""
-"No es pot avantposar o afegir a un enllaç simbòlic amb --nofollow establert"
+msgstr "No es pot avantposar o afegir a un enllaç simbòlic amb --nofollow establert"
 
 #: src/files.c:1373 src/files.c:1397 src/files.c:1424 src/files.c:1442
 #: src/files.c:1499 src/files.c:1518 src/files.c:1530 src/files.c:1553
@@ -212,7 +196,7 @@ msgstr "S'ha produït un error en escriure %s: %s"
 msgid "Too many backup files?"
 msgstr "Massa fitxers de còpia de seguretat?"
 
-#: src/files.c:1476 src/text.c:2314 src/text.c:2326
+#: src/files.c:1476 src/text.c:2315 src/text.c:2327
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "S'ha produït un error en escriure un fitxer temporal: %s"
@@ -277,7 +261,9 @@ msgstr "(més)"
 msgid ""
 "\n"
 "Press Enter to continue starting nano.\n"
-msgstr "\nPremeu Intro per a continuar carregant nano.\n"
+msgstr ""
+"\n"
+"Premeu Intro per a continuar carregant nano.\n"
 
 #. TRANSLATORS: Try to keep this and following strings at most 10 characters.
 #: src/global.c:264 src/prompt.c:1281
@@ -329,7 +315,7 @@ msgstr "Última línia"
 
 #: src/global.c:281
 msgid "CutTillEnd"
-msgstr "TallaFinsFinal"
+msgstr "RetallaFinsFinal"
 
 #: src/global.c:284
 msgid "Beg of Par"
@@ -425,7 +411,7 @@ msgstr "Mou a la pàgina següent"
 
 #: src/global.c:333
 msgid "Cut the current line and store it in the cutbuffer"
-msgstr "Talla la línia actual i desa-la al cutbuffer"
+msgstr "Retalla la línia actual i desa-la al cutbuffer"
 
 #: src/global.c:335
 msgid "Uncut from the cutbuffer into the current line"
@@ -559,7 +545,7 @@ msgstr "Suprimeix el caràcter a l'esquerra del cursor"
 
 #: src/global.c:398
 msgid "Cut from the cursor position to the end of the file"
-msgstr "Talla des de la posició del cursor al final del fitxer"
+msgstr "Retalla des de la posició del cursor al final del fitxer"
 
 #: src/global.c:401
 msgid "Justify the entire file"
@@ -656,11 +642,6 @@ msgstr "Desa"
 msgid "Justify"
 msgstr "Justifica"
 
-#. We allow inserting files in view mode if multibuffers are
-#. * available, so that we can view multiple files.  If we're using
-#. * restricted mode, inserting files is disabled, since it allows
-#. * reading from or writing to files not specified on the command
-#. * line.
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:505
 msgid "Read File"
@@ -669,7 +650,7 @@ msgstr "Llegeix"
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:528
 msgid "Cut Text"
-msgstr "Talla"
+msgstr "Retalla"
 
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:534
@@ -686,9 +667,6 @@ msgstr "Destalla el text"
 msgid "Cur Pos"
 msgstr "Pos Act"
 
-#. If we're using restricted mode, spell checking is disabled
-#. * because it allows reading from or writing to files not specified
-#. * on the command line.
 #. TRANSLATORS: Try to keep this at most 10 characters.
 #: src/global.c:552
 msgid "To Spell"
@@ -764,7 +742,7 @@ msgstr "Següent fitxer"
 
 #. TRANSLATORS: This is displayed when the next keystroke will be
 #. * inserted verbatim.
-#: src/global.c:673 src/text.c:2430
+#: src/global.c:673 src/text.c:2431
 msgid "Verbatim Input"
 msgstr "Entrada textual"
 
@@ -870,7 +848,7 @@ msgstr "Auto sagna"
 
 #: src/global.c:1314
 msgid "Cut to end"
-msgstr "Talla fins al final"
+msgstr "Retalla fins al final"
 
 #: src/global.c:1318
 msgid "Long line wrapping"
@@ -904,35 +882,24 @@ msgstr "Suspensió"
 msgid ""
 "Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, and then press "
-"Enter.  If there is a match for the text you entered, the screen will be "
-"updated to the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, and then press Enter.  If there is a match for the text you entered, the screen will be updated to the location of the nearest match for the search string.\n"
 "\n"
-" The previous search string will be shown in brackets after the search "
-"prompt.  Hitting Enter without entering any text will perform the previous "
-"search.  "
+" The previous search string will be shown in brackets after the search prompt.  Hitting Enter without entering any text will perform the previous search.  "
 msgstr ""
 "Text d'ajuda per a l'ordre Cerca\n"
 "\n"
-" Introduïu les paraules o caràcters que voleu cercar i premeu Retorn.  Si hi "
-"ha una coincidència per a el text que heu introduït, la pantalla "
-"s'actualitzarà al lloc on està la coincidència més propera de la cadena "
-"cercada.\n"
+" Introduïu les paraules o caràcters que voleu cercar i premeu Retorn.  Si hi ha una coincidència per a el text que heu introduït, la pantalla s'actualitzarà al lloc on està la coincidència més propera de la cadena cercada.\n"
 "\n"
-" La cadena de la recerca anterior es mostrarà entre claudàtors després de "
-"l'indicatiu de recerca. Prémer Retorn sense introduir cap text durà a terme "
-"l'anterior recerca. "
+" La cadena de la recerca anterior es mostrarà entre claudàtors després de l'indicatiu de recerca. Prémer Retorn sense introduir cap text durà a terme l'anterior recerca. "
 
 #: src/help.c:237
 msgid ""
-"If you have selected text with the mark and then search to replace, only "
-"matches in the selected text will be replaced.\n"
+"If you have selected text with the mark and then search to replace, only matches in the selected text will be replaced.\n"
 "\n"
 " The following function keys are available in Search mode:\n"
 "\n"
 msgstr ""
-" Si heu seleccionat text amb la marca i després feu una recerca amb "
-"reemplaç, només les coincidències al text seleccionat seran reemplaçades.\n"
+" Si heu seleccionat text amb la marca i després feu una recerca amb reemplaç, només les coincidències al text seleccionat seran reemplaçades.\n"
 "\n"
 " Les següents tecles de funció estan disponibles en el mode Cerca:\n"
 "\n"
@@ -941,18 +908,14 @@ msgstr ""
 msgid ""
 "Go To Line Help Text\n"
 "\n"
-" Enter the line number that you wish to go to and hit Enter.  If there are "
-"fewer lines of text than the number you entered, you will be brought to the "
-"last line of the file.\n"
+" Enter the line number that you wish to go to and hit Enter.  If there are fewer lines of text than the number you entered, you will be brought to the last line of the file.\n"
 "\n"
 " The following function keys are available in Go To Line mode:\n"
 "\n"
 msgstr ""
 "Text d'ajuda d'anar a línia\n"
 "\n"
-" Introduïu el número de la línia a la qual voleu anar i premeu Retorn. Si hi "
-"ha menys línias de text que el número que heu introduit, el cursor es mourà "
-"a la última línia del fitxer.\n"
+" Introduïu el número de la línia a la qual voleu anar i premeu Retorn. Si hi ha menys línias de text que el número que heu introduit, el cursor es mourà a la última línia del fitxer.\n"
 "\n"
 " Les següents tecles de funció estan disponibles en el mode anar a línia:\n"
 "\n"
@@ -961,63 +924,44 @@ msgstr ""
 msgid ""
 "Insert File Help Text\n"
 "\n"
-" Type in the name of a file to be inserted into the current file buffer at "
-"the current cursor location.\n"
+" Type in the name of a file to be inserted into the current file buffer at the current cursor location.\n"
 "\n"
-" If you have compiled nano with multiple file buffer support, and enable "
-"multiple file buffers with the -F or --multibuffer command line flags, the "
-"Meta-F toggle, or a nanorc file, inserting a file will cause it to be loaded "
-"into a separate buffer (use Meta-< and > to switch between file buffers).  "
+" If you have compiled nano with multiple file buffer support, and enable multiple file buffers with the -F or --multibuffer command line flags, the Meta-F toggle, or a nanorc file, inserting a file will cause it to be loaded into a separate buffer (use Meta-< and > to switch between file buffers).  "
 msgstr ""
 "Text d'ajuda d'insereix fitxer\n"
 "\n"
-" Escriviu el nom del fitxer a afegir en el búfer actual en la posició actual "
-"del cursor.\n"
+" Escriviu el nom del fitxer a afegir en el búfer actual en la posició actual del cursor.\n"
 "\n"
-" Si s'ha compilat nano amb suport per a múltiples fitxers i heu habilitat "
-"els búfers múltiples amb les opcions -F o --multibuffer, l'interruptor Meta-"
-"F o amb un fitxer nanorc, la inserció d'un fitxer farà que es carregue en un "
-"búfer diferent (feu servir Meta-< i > per a canviar de búfers de fitxer). "
+" Si s'ha compilat nano amb suport per a múltiples fitxers i heu habilitat els búfers múltiples amb les opcions -F o --multibuffer, l'interruptor Meta-F o amb un fitxer nanorc, la inserció d'un fitxer farà que es carregue en un búfer diferent (feu servir Meta-< i > per a canviar de búfers de fitxer). "
 
 #: src/help.c:261
 msgid ""
-"If you need another blank buffer, do not enter any filename, or type in a "
-"nonexistent filename at the prompt and press Enter.\n"
+"If you need another blank buffer, do not enter any filename, or type in a nonexistent filename at the prompt and press Enter.\n"
 "\n"
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
-" Si necessiteu un altre búfer en blanc, no inseriu cap nom de fitxer o "
-"escriviu el nom d'un fitxer no existent en l'indicatiu i premeu Retorn.\n"
+" Si necessiteu un altre búfer en blanc, no inseriu cap nom de fitxer o escriviu el nom d'un fitxer no existent en l'indicatiu i premeu Retorn.\n"
 "\n"
-" Les següents tecles de funció estan disponibles en el mode insereix "
-"fitxer:\n"
+" Les següents tecles de funció estan disponibles en el mode insereix fitxer:\n"
 "\n"
 
 #: src/help.c:267
 msgid ""
 "Write File Help Text\n"
 "\n"
-" Type the name that you wish to save the current file as and press Enter to "
-"save the file.\n"
+" Type the name that you wish to save the current file as and press Enter to save the file.\n"
 "\n"
-" If you have selected text with the mark, you will be prompted to save only "
-"the selected portion to a separate file.  To reduce the chance of "
-"overwriting the current file with just a portion of it, the current filename "
-"is not the default in this mode.\n"
+" If you have selected text with the mark, you will be prompted to save only the selected portion to a separate file.  To reduce the chance of overwriting the current file with just a portion of it, the current filename is not the default in this mode.\n"
 "\n"
 " The following function keys are available in Write File mode:\n"
 "\n"
 msgstr ""
 "Text d'ajuda de desa el fitxer\n"
 "\n"
-" Escriviu el nom amb el que voleu desar el fitxer actual i premeu Retorn per "
-"a desar-ho.\n"
+" Escriviu el nom amb el que voleu desar el fitxer actual i premeu Retorn per a desar-ho.\n"
 "\n"
-" Si heu seleccionat text amb la marca, s'us preguntarà si voleu desar només "
-"la porció marcada a un fitxer diferent. Per a reduir la possibilitat de "
-"sobreescriure el fitxer actual amb només una part d'ell, el nom del fitxer "
-"actual no és el predeterminat en aquest mode.\n"
+" Si heu seleccionat text amb la marca, s'us preguntarà si voleu desar només la porció marcada a un fitxer diferent. Per a reduir la possibilitat de sobreescriure el fitxer actual amb només una part d'ell, el nom del fitxer actual no és el predeterminat en aquest mode.\n"
 "\n"
 " Les següents tecles de funció estan disponibles en el mode desa el fitxer:\n"
 "\n"
@@ -1026,39 +970,25 @@ msgstr ""
 msgid ""
 "File Browser Help Text\n"
 "\n"
-" The file browser is used to visually browse the directory structure to "
-"select a file for reading or writing.  You may use the arrow keys or Page Up/"
-"Down to browse through the files, and S or Enter to choose the selected file "
-"or enter the selected directory.  To move up one level, select the directory "
-"called \"..\" at the top of the file list.\n"
+" The file browser is used to visually browse the directory structure to select a file for reading or writing.  You may use the arrow keys or Page Up/Down to browse through the files, and S or Enter to choose the selected file or enter the selected directory.  To move up one level, select the directory called \"..\" at the top of the file list.\n"
 "\n"
 " The following function keys are available in the file browser:\n"
 "\n"
 msgstr ""
 "Text d'ajuda del navegador de fitxers\n"
 "\n"
-" El navegador de fitxers s'utilitza per a navegar visualment l'estructura "
-"del directori per a seleccionar un fitxer per a lectura o escriptura. Podeu "
-"fer servir els cursors o Re/Av Pag per a navegar per els fitxers i S o Intro "
-"per a triar el fitxer seleccionat o entrar dins del directori seleccionat. "
-"Per a pujar un nivell, seleccioneu el directori «..» en la part superior de "
-"la llista de fitxers.\n"
+" El navegador de fitxers s'utilitza per a navegar visualment l'estructura del directori per a seleccionar un fitxer per a lectura o escriptura. Podeu fer servir els cursors o Re/Av Pag per a navegar per els fitxers i S o Intro per a triar el fitxer seleccionat o entrar dins del directori seleccionat. Per a pujar un nivell, seleccioneu el directori «..» en la part superior de la llista de fitxers.\n"
 "\n"
-" Les següents tecles de funció estan disponibles en el navegador de "
-"fitxers:\n"
+" Les següents tecles de funció estan disponibles en el navegador de fitxers:\n"
 "\n"
 
 #: src/help.c:294
 msgid ""
 "Browser Search Command Help Text\n"
 "\n"
-" Enter the words or characters you would like to search for, and then press "
-"Enter.  If there is a match for the text you entered, the screen will be "
-"updated to the location of the nearest match for the search string.\n"
+" Enter the words or characters you would like to search for, and then press Enter.  If there is a match for the text you entered, the screen will be updated to the location of the nearest match for the search string.\n"
 "\n"
-" The previous search string will be shown in brackets after the search "
-"prompt.  Hitting Enter without entering any text will perform the previous "
-"search.\n"
+" The previous search string will be shown in brackets after the search prompt.  Hitting Enter without entering any text will perform the previous search.\n"
 "\n"
 msgstr ""
 "Text d'ajuda per a l'ordre Cerca d'ordres\n"
@@ -1072,7 +1002,9 @@ msgstr ""
 msgid ""
 " The following function keys are available in Browser Search mode:\n"
 "\n"
-msgstr " Les tecles de funció següents són disponibles al mode de cerca del navegador:\n\n"
+msgstr ""
+" Les tecles de funció següents són disponibles al mode de cerca del navegador:\n"
+"\n"
 
 #: src/help.c:307
 msgid ""
@@ -1080,8 +1012,7 @@ msgid ""
 "\n"
 " Enter the name of the directory you would like to browse to.\n"
 "\n"
-" If tab completion has not been disabled, you can use the Tab key to "
-"(attempt to) automatically complete the directory name.\n"
+" If tab completion has not been disabled, you can use the Tab key to (attempt to) automatically complete the directory name.\n"
 "\n"
 " The following function keys are available in Browser Go To Directory mode:\n"
 "\n"
@@ -1090,45 +1021,32 @@ msgstr ""
 "\n"
 " Introduïu el nom del directori pel qual voleu navegar.\n"
 "\n"
-" Si el completat amb el tabulador no està desactivat, podeu fer servir la "
-"tecla Tab per a (intentar) completar automàticament el nom del directori.\n"
+" Si el completat amb el tabulador no està desactivat, podeu fer servir la tecla Tab per a (intentar) completar automàticament el nom del directori.\n"
 "\n"
-" Les següents tecles de funció estan disponibles en el mode del navegador "
-"«anar a un directori»:\n"
+" Les següents tecles de funció estan disponibles en el mode del navegador «anar a un directori»:\n"
 "\n"
 
 #: src/help.c:320
 msgid ""
 "Spell Check Help Text\n"
 "\n"
-" The spell checker checks the spelling of all text in the current file.  "
-"When an unknown word is encountered, it is highlighted and a replacement can "
-"be edited.  It will then prompt to replace every instance of the given "
-"misspelled word in the current file, or, if you have selected text with the "
-"mark, in the selected text.\n"
+" The spell checker checks the spelling of all text in the current file.  When an unknown word is encountered, it is highlighted and a replacement can be edited.  It will then prompt to replace every instance of the given misspelled word in the current file, or, if you have selected text with the mark, in the selected text.\n"
 "\n"
 " The following function keys are available in Spell Check mode:\n"
 "\n"
 msgstr ""
 "Text d'ajuda del corrector d'ortografia\n"
 "\n"
-" El corrector d'ortografia comprova l'ortografia de tot el text al fitxer "
-"actual. Quan es troba una paraula desconeguda, aquesta es ressalta i es pot "
-"editar una substitució. Després preguntarà si es vol reemplaçar totes les "
-"coincidències d'eixa paraula mal escrita al fitxer actual, o, si heu "
-"seleccionat text amb la marca, al text marcat.\n"
+" El corrector d'ortografia comprova l'ortografia de tot el text al fitxer actual. Quan es troba una paraula desconeguda, aquesta es ressalta i es pot editar una substitució. Després preguntarà si es vol reemplaçar totes les coincidències d'eixa paraula mal escrita al fitxer actual, o, si heu seleccionat text amb la marca, al text marcat.\n"
 "\n"
-" Les següents tecles de funció estan disponibles en el mode corrector "
-"d'ortografia:\n"
+" Les següents tecles de funció estan disponibles en el mode corrector d'ortografia:\n"
 "\n"
 
 #: src/help.c:335
 msgid ""
 "Execute Command Help Text\n"
 "\n"
-" This mode allows you to insert the output of a command run by the shell "
-"into the current buffer (or a new buffer in multiple file buffer mode). If "
-"you need another blank buffer, do not enter any command.\n"
+" This mode allows you to insert the output of a command run by the shell into the current buffer (or a new buffer in multiple file buffer mode). If you need another blank buffer, do not enter any command.\n"
 "\n"
 " The following function keys are available in Execute Command mode:\n"
 "\n"
@@ -1140,18 +1058,11 @@ msgstr ""
 " Les següents tecles de funció estan disponibles en el mode Executa una ordre:\n"
 "\n"
 
-#. Default to the main help list.
 #: src/help.c:348
 msgid ""
 " nano help text\n"
 "\n"
-" The nano editor is designed to emulate the functionality and ease-of-use of "
-"the UW Pico text editor.  There are four main sections of the editor.  The "
-"top line shows the program version, the current filename being edited, and "
-"whether or not the file has been modified.  Next is the main editor window "
-"showing the file being edited.  The status line is the third line from the "
-"bottom and shows important messages.  The bottom two lines show the most "
-"commonly used shortcuts in the editor.\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of the UW Pico text editor.  There are four main sections of the editor.  The top line shows the program version, the current filename being edited, and whether or not the file has been modified.  Next is the main editor window showing the file being edited.  The status line is the third line from the bottom and shows important messages.  The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
 msgstr ""
 " text d'ajuda de nano\n"
@@ -1160,26 +1071,15 @@ msgstr ""
 "\n"
 
 #: src/help.c:359
-msgid ""
-" The notation for shortcuts is as follows: Control-key sequences are notated "
-"with a caret (^) symbol and can be entered either by using the Control "
-"(Ctrl) key or pressing the Escape (Esc) key twice.  Escape-key sequences are "
-"notated with the Meta (M) symbol and can be entered using either the Esc, "
-"Alt, or Meta key depending on your keyboard setup.  "
+msgid " The notation for shortcuts is as follows: Control-key sequences are notated with a caret (^) symbol and can be entered either by using the Control (Ctrl) key or pressing the Escape (Esc) key twice.  Escape-key sequences are notated with the Meta (M) symbol and can be entered using either the Esc, Alt, or Meta key depending on your keyboard setup.  "
 msgstr " La notació de les dreceres és la següent: les sequències amb la tecla Control estan anotades amb el símbol circumflex (^) i s'introdueixen mitjançant la tecla Control o prement la tecla Escape (Esc) dos vegades. Les seqüències amb tecles d'escapada estan anotades amb el símbol Meta (M) i s'hi pot accedir mitjançant les tecles Esc, Alt o Meta, tot depenent de la configuració del vostre teclat. "
 
 #: src/help.c:366
 msgid ""
-"Also, pressing Esc twice and then typing a three-digit decimal number from "
-"000 to 255 will enter the character with the corresponding value.  The "
-"following keystrokes are available in the main editor window.  Alternative "
-"keys are shown in parentheses:\n"
+"Also, pressing Esc twice and then typing a three-digit decimal number from 000 to 255 will enter the character with the corresponding value.  The following keystrokes are available in the main editor window.  Alternative keys are shown in parentheses:\n"
 "\n"
 msgstr ""
-"També, prement Esc dos vegades i després introduint un número de tres xifres "
-"del 000 al 255 introduirà el caràcter amb el valor corresponent. Les "
-"següents combinacions estan disponibles a la finestra principal. Les tecles "
-"alternatives estan representades entre parèntesi:\n"
+"També, prement Esc dos vegades i després introduint un número de tres xifres del 000 al 255 introduirà el caràcter amb el valor corresponent. Les següents combinacions estan disponibles a la finestra principal. Les tecles alternatives estan representades entre parèntesi:\n"
 "\n"
 
 #: src/help.c:397 src/help.c:551
@@ -1378,7 +1278,7 @@ msgstr "Sagna automàticament noves línies"
 
 #: src/nano.c:799
 msgid "Cut from cursor to end of line"
-msgstr "Talla des del cursor al final de línia"
+msgstr "Retalla des del cursor al final de línia"
 
 #: src/nano.c:802
 msgid "Don't follow symbolic links, overwrite"
@@ -1483,7 +1383,6 @@ msgstr "Voleu desar el búfer modificat (RESPONDRE «No» DESTRUIRÀ ELS CANVIS)
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "S'ha rebut SIGHUP o SIGTERM\n"
 
-#. Display our helpful message.
 #: src/nano.c:1020
 #, c-format
 msgid "Use \"fg\" to return to nano.\n"
@@ -1519,10 +1418,6 @@ msgstr "La mida de tabulador demanada «%s» és invàlida"
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "La mida de plenat demanada «%s» és invàlida"
 
-#. yesstr, nostr, and allstr are strings of any length.  Each string
-#. * consists of all single-byte characters accepted as valid
-#. * characters for that value.  The first value will be the one
-#. * displayed in the shortcuts.
 #. TRANSLATORS: For the next three strings, if possible, specify
 #. * the single-byte shortcuts for both your language and English.
 #. * For example, in French: "OoYy" for "Oui".
@@ -1562,8 +1457,7 @@ msgstr "L'argument «%s» té una «\"» no terminada"
 
 #: src/rcfile.c:201 src/rcfile.c:253 src/rcfile.c:524 src/rcfile.c:581
 msgid "Regex strings must begin and end with a \" character"
-msgstr ""
-"Les cadenes d'expressió regular han de començar i acabar amb un caràcter \""
+msgstr "Les cadenes d'expressió regular han de començar i acabar amb un caràcter \""
 
 #: src/rcfile.c:226 src/search.c:62
 #, c-format
@@ -1708,8 +1602,6 @@ msgstr "Au vinga, sigueu assenyat"
 msgid "Not a bracket"
 msgstr "No és una clau"
 
-#. We didn't find either an opening or closing bracket.
-#. * Indicate this, restore where we were, and get out.
 #: src/search.c:1234
 msgid "No matching bracket"
 msgstr "No hi ha clau corresponent"
@@ -1730,75 +1622,72 @@ msgstr "No hi ha línies seleccionades, no hi ha res a fer!"
 msgid "Could not pipe"
 msgstr "No s'ha pogut canalitzar"
 
-#: src/text.c:468 src/text.c:2031 src/text.c:2178
+#: src/text.c:468 src/text.c:2032 src/text.c:2179
 msgid "Could not fork"
 msgstr "No s'ha pogut iniciar un altre procés"
 
-#: src/text.c:1269
+#: src/text.c:1270
 #, c-format
 msgid "Bad quote string %s: %s"
 msgstr "El marcador de cita %s és erroni: %s"
 
-#: src/text.c:1665
+#: src/text.c:1666
 msgid "Can now UnJustify!"
 msgstr "Ara podeu desjustificar!"
 
-#: src/text.c:1857
+#: src/text.c:1858
 msgid "Edit a replacement"
 msgstr "Edita un reemplaçament"
 
-#: src/text.c:1943
+#: src/text.c:1944
 msgid "Could not create pipe"
 msgstr "No s'ha pogut crear un conducte"
 
-#: src/text.c:1945
+#: src/text.c:1946
 msgid "Creating misspelled word list, please wait..."
 msgstr "S'està creant una llista de paraules incorrectes, espereu..."
 
-#: src/text.c:2037
+#: src/text.c:2038
 msgid "Could not get size of pipe buffer"
 msgstr "No s'ha pogut obtindre la mida de la memòria intermèdia del conducte"
 
-#: src/text.c:2088
+#: src/text.c:2089
 msgid "Error invoking \"spell\""
 msgstr "S'ha produït un error en iniciar «spell»"
 
-#: src/text.c:2091
+#: src/text.c:2092
 msgid "Error invoking \"sort -f\""
 msgstr "S'ha produït un error en iniciar «sort -f»"
 
-#: src/text.c:2094
+#: src/text.c:2095
 msgid "Error invoking \"uniq\""
 msgstr "S'ha produït un error en iniciar «uniq»"
 
-#: src/text.c:2205
+#: src/text.c:2206
 #, c-format
 msgid "Error invoking \"%s\""
 msgstr "S'ha produït un error en iniciar executar «%s»"
 
-#. Don't display an error message of "Success".
-#: src/text.c:2345
+#: src/text.c:2346
 #, c-format
 msgid "Spell checking failed: %s"
 msgstr "La comprovació d'ortografia ha fallat: %s"
 
-#: src/text.c:2347
+#: src/text.c:2348
 #, c-format
 msgid "Spell checking failed: %s: %s"
 msgstr "La comprovació d'ortografia ha fallat: %s: %s"
 
-#: src/text.c:2350
+#: src/text.c:2351
 msgid "Finished checking spelling"
 msgstr "Revisió d'ortografia finalitzada"
 
-#. Display the total word, line, and character counts on the
-#. * statusbar.
-#: src/text.c:2415
+#: src/text.c:2416
 #, c-format
 msgid "%sWords: %lu  Lines: %ld  Chars: %lu"
 msgstr "%sParaules: %lu  Línies: %ld  Caràcters: %lu"
 
-#: src/text.c:2416
+#: src/text.c:2417
 msgid "In Selection:  "
 msgstr "A la selecció:  "
 
@@ -1998,14 +1887,10 @@ msgstr "Gràcies per fer servir nano!"
 #~ msgstr "No s'ha pogut establir permisos %o en la còpia de seguretat %s: %s"
 
 #~ msgid "Could not set owner %d/group %d on backup %s: %s"
-#~ msgstr ""
-#~ "No s'ha pogut establir el propietari %d/grup %d en la còpia de seguretat %"
-#~ "s: %s"
+#~ msgstr "No s'ha pogut establir el propietari %d/grup %d en la còpia de seguretat %s: %s"
 
 #~ msgid "Could not set access/modification time on backup %s: %s"
-#~ msgstr ""
-#~ "No s'ha pogut establir la data d'accés modificació en la còpia de "
-#~ "seguretat %s: %s"
+#~ msgstr "No s'ha pogut establir la data d'accés modificació en la còpia de seguretat %s: %s"
 
 #~ msgid "Could not open file for writing: %s"
 #~ msgstr "No s'ha pogut obrir el fitxer per a escriure: %s"
@@ -2065,8 +1950,7 @@ msgstr "Gràcies per fer servir nano!"
 #~ msgstr "-T [núm]"
 
 #~ msgid "Spell checking failed: unable to write temp file!"
-#~ msgstr ""
-#~ "Revisió d'ortografia fallida: no s'ha pogut escriure fitxer temporal!"
+#~ msgstr "Revisió d'ortografia fallida: no s'ha pogut escriure fitxer temporal!"
 
 #~ msgid "Cannot resize top win"
 #~ msgstr "No es pot canviar la mida de la finestra superior"
@@ -2087,8 +1971,7 @@ msgstr "Gràcies per fer servir nano!"
 #~ msgstr "No es pot moure la finestra inferior"
 
 #~ msgid "NumLock glitch detected.  Keypad will malfunction with NumLock off"
-#~ msgstr ""
-#~ "Detectat NumLock trencat.  El tecl. numèric funcionarà amb NumLock activat"
+#~ msgstr "Detectat NumLock trencat.  El tecl. numèric funcionarà amb NumLock activat"
 
 #~ msgid "Tab size is too small for nano...\n"
 #~ msgstr "La mida de la tabulació és massa petita per a nano...\n"
