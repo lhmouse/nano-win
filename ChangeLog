@@ -420,6 +420,9 @@ CVS code -
 	  well as single-line ones.  This avoids a segfault when trying
 	  to color e.g. "start="$" end="$"". (DLR, found by Trevor
 	  Caira)
+	- Don't display any statusbar message when we get a zero-length
+	  regex, as we can get one under legitimate circumstances. (DLR,
+	  found by Mike Frysinger)
   update_line()
 	- Remove unneeded assert. (DLR)
   edit_redraw()

@@ -2357,11 +2357,11 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 		     * line. */
 		    startmatch.rm_so += k;
 		    startmatch.rm_eo += k;
-		    if (startmatch.rm_so == startmatch.rm_eo) {
+
+		    /* Skip over a zero-length regex match. */
+		    if (startmatch.rm_so == startmatch.rm_eo)
 			startmatch.rm_eo++;
-			statusbar(
-				_("Refusing zero-length regex match"));
-		    } else if (startmatch.rm_so < endpos &&
+		    else if (startmatch.rm_so < endpos &&
 			startmatch.rm_eo > startpos) {
 			x_start = (startmatch.rm_so <= startpos) ? 0 :
 				strnlenpt(fileptr->data,
@@ -2408,10 +2408,11 @@ void edit_draw(const filestruct *fileptr, const char *converted, int
 			goto step_two;
 		    start_line = start_line->prev;
 		}
-		if (startmatch.rm_so == startmatch.rm_eo) {
+
+		/* Skip over a zero-length regex match. */
+		if (startmatch.rm_so == startmatch.rm_eo)
 		    startmatch.rm_eo++;
-		    statusbar(_("Refusing zero-length regex match"));
-		} else {
+		else {
 		    /* No start found, so skip to the next step. */
 		    if (start_line == NULL)
 			goto step_two;
