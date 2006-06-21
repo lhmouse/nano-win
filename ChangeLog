@@ -375,6 +375,9 @@ CVS code -
 	- Unconditionally blank the statusbar as soon as we're finished
 	  getting input. (DLR, suggested by Benno Schulenberg)
 - utils.c:
+  digits()
+	- Return the proper number of digits when n is exactly 10. (DLR)
+	- Simplify to use a for loop instead of a while loop. (DLR)
   ngetdelim()
 	- Set errno to EINVAL if stream is not a valid file stream.
 	  This matches the manual page. (DLR)

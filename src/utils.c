@@ -33,12 +33,10 @@
 /* Return the number of decimal digits in n. */
 int digits(size_t n)
 {
-    int i = 1;
+    int i;
 
-    while (n > 10) {
-	n /= 10;
-	i++;
-    }
+    for (i = 1; n >= 10; n /= 10, i++)
+	;
 
     return i;
 }
