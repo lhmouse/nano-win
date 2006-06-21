@@ -704,9 +704,6 @@ void mark_order(const filestruct **top, size_t *top_x, const filestruct
 	**bot, size_t *bot_x, bool *right_side_up);
 #endif
 size_t get_totsize(const filestruct *begin, const filestruct *end);
-#ifndef NDEBUG
-int check_linenumbers(const filestruct *fileptr);
-#endif
 #ifdef DEBUG
 void dump_filestruct(const filestruct *inptr);
 void dump_filestruct_reverse(void);

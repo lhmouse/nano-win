@@ -581,22 +581,6 @@ size_t get_totsize(const filestruct *begin, const filestruct *end)
     return totsize;
 }
 
-#ifndef NDEBUG
-/* Return what the current line number should be, starting at edittop
- * and ending at fileptr. */
-int check_linenumbers(const filestruct *fileptr)
-{
-    int check_line = 0;
-    const filestruct *filetmp;
-
-    for (filetmp = openfile->edittop; filetmp != fileptr;
-	filetmp = filetmp->next)
-	check_line++;
-
-    return check_line;
-}
-#endif /* !NDEBUG */
-
 #ifdef DEBUG
 /* Dump the filestruct inptr to stderr. */
 void dump_filestruct(const filestruct *inptr)

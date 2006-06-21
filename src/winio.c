@@ -2635,9 +2635,6 @@ void update_line(const filestruct *fileptr, size_t index)
 
     line = fileptr->lineno - openfile->edittop->lineno;
 
-    /* We assume the line numbers are valid.  Is that really true? */
-    assert(line < 0 || line == check_linenumbers(fileptr));
-
     if (line < 0 || line >= editwinrows)
 	return;
 

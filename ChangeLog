@@ -383,6 +383,10 @@ CVS code -
 	  This matches the manual page. (DLR)
   nperror()
 	- Simplify. (DLR)
+  check_linenumbers()
+	- Removed, as it's no longer used, and since there's no way to
+	  tell if its return value will be in int or ssize_t range.
+	  (DLR)
 - winio.c:
   parse_kbinput()
 	- If we get NANO_CONTROL_8, properly handle it in all cases.
@@ -416,6 +420,8 @@ CVS code -
 	  well as single-line ones.  This avoids a segfault when trying
 	  to color e.g. "start="$" end="$"". (DLR, found by Trevor
 	  Caira)
+  update_line()
+	- Remove unneeded assert. (DLR)
   edit_redraw()
 	- Fix problem where not all lines would be updated properly if
 	  we'd scrolled off the screen and the mark was on. (DLR)
