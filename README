@@ -9,16 +9,16 @@ Overview
      First and foremost is its license: the Pine suite does not use the
      GPL or a GPL-friendly license, and has unclear restrictions on
      redistribution.  Because of this, Pine and Pico are not included
-     with many GNU/Linux distributions.  Also, other features (like goto
-     line number or search and replace) were unavailable until recently
-     or require a command line flag.  Yuck.
+     with many GNU/Linux distributions.  Also, other features (like go
+     to line number or search and replace) were unavailable until
+     recently or require a command line flag.  Yuck.
 
      nano aims to solve these problems by emulating the functionality of
      Pico as closely as possible while addressing the problems above and
      perhaps providing other extra functionality.
 
      The nano editor is now an official GNU package.  For more
-     information on GNU and the Free Software Foundation please see
+     information on GNU and the Free Software Foundation, please see
      http://www.gnu.org.
 
 How to compile and install nano
@@ -32,6 +32,11 @@ How to compile and install nano
 
      It's that simple.  Use --prefix with configure to override the
      default installation directory of /usr/local.
+     
+     If you configured with the "--enable-nanorc" option, after
+     installation you might copy the doc/nanorc.sample to your home
+     directory, rename it to ".nanorc", and then edit it according to
+     your taste.
 
 Web Page
 
