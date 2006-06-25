@@ -1256,15 +1256,18 @@ void enable_flow_control(void)
  * interpretation of the flow control characters too. */
 void terminal_init(void)
 {
-    static struct termios newterm;
-    static bool newterm_set = FALSE;
-
+#ifdef USE_SLANG
     /* Slang curses emulation brain damage, part 2: Slang doesn't
      * implement nonl() or noecho() properly, so there's no way to
      * properly reinitialize the terminal using them.  We have to save
      * the terminal state after the first call and restore it on
      * subsequent calls. */
+    static struct termios newterm;
+    static bool newterm_set = FALSE;
+
     if (!newterm_set) {
+#endif
+
 	cbreak();
 	nonl();
 	noecho();
@@ -1273,10 +1276,12 @@ void terminal_init(void)
 	if (!ISSET(PRESERVE))
 	    disable_flow_control();
 
+#ifdef USE_SLANG
 	tcgetattr(0, &newterm);
 	newterm_set = TRUE;
     } else
 	tcsetattr(0, TCSANOW, &newterm);
+#endif
 }
 
 /* Read in a character, interpret it as a shortcut or toggle if
