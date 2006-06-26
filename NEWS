@@ -1,3 +1,20 @@
+2006.06.26 - GNU nano 1.3.12 escapes the darkness.  This release
+		contains the last new features that nano will have
+		before 2.0: copying text into the cutbuffer without
+		cutting it, indenting lines of marked text with a single
+		keystroke, reworked help text that should be easier for
+		new users, searching for filenames in the file browser,
+		the ability to include color regexes in files separate
+		from nanorc files, etc.  It also contains many bugfixes.
+		Text can now be unjustified after justifying it and
+		resizing the window; the screen is now cleared when
+		suspending; the "default" color syntax is now handled
+		properly at all times; lines of text containing tabs are
+		now wrapped at the right place; double-column characters
+		are now properly displayed when past the right edge of
+		the screen; invalid multi-line color regexes are now
+		ignored; and so on.  Enjoy.
+
 2006.03.30 - GNU nano 1.3.11 awakens from its fever dream.  This release
 		focuses mostly on bugfixes, which include better
 		handling of the cursor at the statusbar prompt, support
