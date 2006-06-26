@@ -5,6 +5,9 @@ CVS code -
 	  only optional value.  Also fix a wording problem in
 	  -W/--wordbounds.  Changes to usage(), nano.1, nanorc.5,
 	  rnano.1, nano.texi, and nanorc.sample.in. (DLR)
+- doc/syntax/c.nanorc:
+	- Since .i and .ii are preprocessed C and C++ output, colorize
+	  them here. (Mike Frysinger)
 
 GNU nano 1.3.12 - 2006.06.26
 - General:
