@@ -7,7 +7,7 @@
 .\" warranty.
 .\"
 .\" $Id$
-.TH NANO 1 "version 1.3.12" "June 7, 2006"
+.TH NANO 1 "version 1.9.99pre1" "June 26, 2006"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 
@@ -16,7 +16,7 @@ nano \- Nano's ANOther editor, an enhanced free Pico clone
 
 .SH SYNOPSIS
 .B nano
-.I [OPTIONS]\ [[\+LINE[,COLUMN]]\ FILE]...
+.I [OPTIONS]\ [[\+LINE,COLUMN]\ FILE]...
 .br
 
 .SH DESCRIPTION
@@ -33,9 +33,10 @@ replace" and "go to line number".
 
 .SH OPTIONS
 .TP
-.B \+\fILINE\fP[,\fICOLUMN\fP]
+.B \+\fILINE\fP,\fICOLUMN\fP
 Places cursor at line number \fILINE\fP and column number \fICOLUMN\fP
-on startup, instead of the default of line 1, column 1.
+(at least one of which must be specified) on startup, instead of the
+default of line 1, column 1.
 .TP
 .B \-?
 Same as \fB-h (\-\-help)\fP.

@@ -167,7 +167,7 @@
 # set whitespace "  "
 
 ## Detect word boundaries more accurately by treating punctuation
-## characters as part of a word.
+## characters as parts of words.
 # set wordbounds
 
 

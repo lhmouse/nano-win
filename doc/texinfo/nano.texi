@@ -8,8 +8,8 @@
 @c Run 'makeinfo' rather than 'texinfo-format-buffer'.
 @smallbook
 @set EDITION 0.1
-@set VERSION 1.3.12
-@set UPDATED 20 Jun 2006
+@set VERSION 1.9.99pre1
+@set UPDATED 26 Jun 2006
 
 @dircategory Editors
 @direntry
@@ -23,7 +23,7 @@
 @titlepage
 @title GNU @code{nano}
 @subtitle a small and friendly text editor.
-@subtitle version 1.3.12
+@subtitle version 1.9.99pre1
 
 @author Chris Allegretta
 @page
@@ -94,6 +94,8 @@ adding it with a comma.  So the complete synopsis is:
 @quotation
 @code{nano [OPTION]@dots{} [[+LINE] FILE]@dots{}}
 
+@code{nano [OPTION]@dots{} [[+,COLUMN] FILE]@dots{}}
+
 @code{nano [OPTION]@dots{} [[+LINE,COLUMN] FILE]@dots{}}
 @end quotation
 
@@ -105,9 +107,9 @@ Email bug reports to @email{nano@@nano-editor.org}.
 @code{nano} takes the following options from the command line:
 
 @table @code
-@item +LINE[,COLUMN]
-Start at line number LINE and column number COLUMN instead of the
-default of line 1, column 1.
+@item +LINE,COLUMN
+Start at line number LINE and column number COLUMN (at least one of
+which must be specified) instead of the default of line 1, column 1.
 
 @item -?
 Same as @code{-h, --help}.
@@ -189,7 +191,7 @@ Show the current version number and exit.
 
 @item -W, --wordbounds
 Detect word boundaries more accurately by treating punctuation
-characters as part of a word.
+characters as parts of words.
 
 @item -Y <str>, --syntax=<str>
 Specify a specific syntax highlighting from the nanorc to use, if

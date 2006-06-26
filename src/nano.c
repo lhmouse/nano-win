@@ -724,7 +724,7 @@ void print_opt_full(const char *shortflag
 /* Explain how to properly use nano and its command line options. */
 void usage(void)
 {
-    printf(_("Usage: nano [OPTIONS] [[+LINE[,COLUMN]] FILE]...\n\n"));
+    printf(_("Usage: nano [OPTIONS] [[+LINE,COLUMN] FILE]...\n\n"));
     printf(
 #ifdef HAVE_GETOPT_LONG
 	_("Option\t\tGNU long option\t\tMeaning\n")
@@ -733,7 +733,7 @@ void usage(void)
 #endif
 	);
     print_opt("-h, -?", "--help", N_("Show this message"));
-    print_opt(_("+LINE[,COLUMN]"), "",
+    print_opt(_("+LINE,COLUMN"), "",
 	N_("Start at line LINE, column COLUMN"));
 #ifndef NANO_TINY
     print_opt("-A", "--smarthome", N_("Enable smart home key"));
