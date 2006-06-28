@@ -1310,10 +1310,10 @@ int do_yesno_prompt(bool all, const char *msg)
 	    case KEY_MOUSE:
 		get_mouseinput(&mouse_x, &mouse_y, FALSE);
 
-		if (mouse_x != -1 && mouse_y != -1 && !ISSET(NO_HELP) &&
-			wenclose(bottomwin, mouse_y, mouse_x) &&
-			mouse_x < (width * 2) && mouse_y - (2 -
-			no_more_space()) - editwinrows - 1 >= 0) {
+		if (wenclose(bottomwin, mouse_y, mouse_x) &&
+			!ISSET(NO_HELP) && mouse_x < (width * 2) &&
+			mouse_y - (2 - no_more_space()) -
+			editwinrows - 1 >= 0) {
 		    int x = mouse_x / width;
 			/* Calculate the x-coordinate relative to the
 			 * two columns of the Yes/No/All shortcuts in

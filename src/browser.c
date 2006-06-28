@@ -108,10 +108,8 @@ char *do_browser(char *path, DIR *dir)
 	    case KEY_MOUSE:
 		{
 		    int mouse_x, mouse_y;
-		    bool retval = get_mouseinput(&mouse_x, &mouse_y,
-			TRUE);
 
-		    if (!retval) {
+		    if (!get_mouseinput(&mouse_x, &mouse_y, TRUE)) {
 			/* We can click in the edit window to select a
 			 * file. */
 			if (wenclose(edit, mouse_y, mouse_x)) {

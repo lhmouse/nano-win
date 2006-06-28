@@ -101,6 +101,7 @@ void do_help(void (*refresh_func)(void))
 	    case KEY_MOUSE:
 		{
 		    int mouse_x, mouse_y;
+
 		    get_mouseinput(&mouse_x, &mouse_y, TRUE);
 		}
 		break;
