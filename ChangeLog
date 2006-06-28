@@ -8,6 +8,10 @@ CVS code -
 	- Fix mouse support so that it really ignores everything except
 	  releases of button 1 (i.e, left clicks).  Changes to
 	  enable_mouse_support() and get_mouseinput(). (DLR)
+- browser.c:
+  do_browser()
+	- Refactor and simplify the mouse support, modeling it after
+	  do_mouse() for consistency. (DLR)
 - doc/syntax/c.nanorc:
 	- Since .i and .ii are preprocessed C and C++ output, colorize
 	  them here. (Mike Frysinger)

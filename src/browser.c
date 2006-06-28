@@ -96,9 +96,6 @@ char *do_browser(char *path, DIR *dir)
 	size_t fileline;
 	char *new_path;
 	    /* Used by the "Go To Directory" prompt. */
-#ifndef DISABLE_MOUSE
-	MEVENT mevent;
-#endif
 
 	/* Compute the line number we're on now, so that we don't divide
 	 * by zero. */
@@ -109,42 +106,45 @@ char *do_browser(char *path, DIR *dir)
 	switch (kbinput) {
 #ifndef DISABLE_MOUSE
 	    case KEY_MOUSE:
-		if (getmouse(&mevent) == ERR)
-		    break;
-
-		/* If we clicked in the edit window, we probably clicked
-		 * on a file. */
-		if (wenclose(edit, mevent.y, mevent.x)) {
-		    size_t old_selected = selected;
-
-		    /* Subtract out the size of topwin. */
-		    mevent.y -= 2 - no_more_space();
-
-		    /* longest is the width of each column.  There are
-		     * two spaces between each column. */
-		    selected = (fileline / editwinrows) * (editwinrows *
-			width) + (mevent.y * width) + (mevent.x /
-			(longest + 2));
-
-		    /* If they clicked beyond the end of a row, select
-		     * the end of that row. */
-		    if (mevent.x > width * (longest + 2))
-			selected--;
-
-		    /* If we're off the screen, reset to the last item.
-		     * If we clicked the same place as last time, select
-		     * this name! */
-		    if (selected > filelist_len - 1)
-			selected = filelist_len - 1;
-		    else if (old_selected == selected)
-			/* Put back the "Select" key, so that the file
-			 * is selected. */
-			unget_kbinput(NANO_ENTER_KEY, FALSE, FALSE);
-		} else {
-		    /* We must have clicked a shortcut.  Put back the
-		     * equivalent shortcut key. */
+		{
 		    int mouse_x, mouse_y;
-		    get_mouseinput(&mouse_x, &mouse_y, TRUE);
+		    bool retval = get_mouseinput(&mouse_x, &mouse_y,
+			TRUE);
+
+		    if (!retval) {
+			/* We can click in the edit window to select a
+			 * file. */
+			if (wenclose(edit, mouse_y, mouse_x)) {
+			    size_t old_selected = selected;
+
+			    /* Subtract out the size of topwin. */
+			    mouse_y -= 2 - no_more_space();
+
+			    /* longest is the width of each column.
+			     * There are two spaces between each
+			     * column. */
+			    selected = (fileline / editwinrows) *
+				(editwinrows * width) + (mouse_y *
+				width) + (mouse_x / (longest + 2));
+
+			    /* If they clicked beyond the end of a row,
+			     * select the file at the end of that
+			     * row. */
+			    if (mouse_x > width * (longest + 2))
+				selected--;
+
+			    /* If we're off the screen, select the last
+			     * file.  If we clicked the same place as
+			     * last time, read in the file there. */
+			    if (selected > filelist_len - 1)
+				selected = filelist_len - 1;
+			    else if (old_selected == selected)
+				/* Put back the "Select" key, so that
+				 * the file is read in. */
+				unget_kbinput(NANO_ENTER_KEY, FALSE,
+					FALSE);
+			}
+		    }
 		}
 		break;
 #endif /* !DISABLE_MOUSE */
