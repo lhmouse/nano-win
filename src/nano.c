@@ -674,7 +674,7 @@ void disable_mouse_support(void)
 /* Enable mouse support. */
 void enable_mouse_support(void)
 {
-    mousemask(BUTTON1_RELEASED, NULL);
+    mousemask(ALL_MOUSE_EVENTS, NULL);
     mouseinterval(50);
 }
 
