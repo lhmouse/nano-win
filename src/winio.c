@@ -1520,9 +1520,9 @@ bool get_mouseinput(int *mouse_x, int *mouse_y, bool allow_shortcuts)
     if (getmouse(&mevent) == ERR)
 	return FALSE;
 
-    /* If it's not a release of the first mouse button (i.e, a left
-     * click), get out. */
-    if (!(mevent.bstate & BUTTON1_RELEASED))
+    /* If it's not a release or click of the first mouse button, get
+     * out. */
+    if (!(mevent.bstate & (BUTTON1_RELEASED | BUTTON1_CLICKED)))
 	return FALSE;
 
     /* Save the screen coordinates where the mouse event took place. */
