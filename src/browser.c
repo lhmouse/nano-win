@@ -346,7 +346,6 @@ char *do_browser(char *path, DIR *dir)
 	parse_browser_input(&kbinput, &meta_key, &func_key);
     } while (kbinput != NANO_EXIT_KEY);
 
-    blank_edit();
     titlebar(NULL);
     edit_refresh();
     curs_set(1);
