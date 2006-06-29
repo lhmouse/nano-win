@@ -534,7 +534,7 @@ void browser_refresh(void)
 
     wmove(edit, 0, 0);
 
-    for (; i < filelist_len && line <= editwinrows - 1; i++) {
+    for (; i < filelist_len && line < editwinrows; i++) {
 	char *disp = display_string(tail(filelist[i]), 0, longest,
 		FALSE);
 

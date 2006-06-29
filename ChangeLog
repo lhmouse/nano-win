@@ -13,6 +13,8 @@ CVS code -
 	- Refactor and simplify the mouse support, modeling it after
 	  do_mouse() for consistency. (DLR)
 	- Remove unneeded call to blank_edit(). (DLR)
+  browser_refresh()
+	- Simplify the for loop. (DLR)
 - doc/syntax/c.nanorc:
 	- Since .i and .ii are preprocessed C and C++ output, colorize
 	  them here. (Mike Frysinger)
