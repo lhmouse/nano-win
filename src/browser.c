@@ -522,17 +522,17 @@ void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
 void browser_refresh(void)
 {
     struct stat st;
-    size_t i = 0;
+    size_t i;
     int col = 0, line = 0, filecols = 0;
     size_t foo_len = mb_cur_max() * 7;
     char *foo = charalloc(foo_len + 1);
 
-    if (width != 0)
-	i = width * editwinrows * ((selected / width) / editwinrows);
-
     blank_edit();
 
     wmove(edit, 0, 0);
+
+    i = (width != 0) ? width * editwinrows * ((selected / width) /
+	editwinrows) : 0;
 
     for (; i < filelist_len && line < editwinrows; i++) {
 	char *disp = display_string(tail(filelist[i]), 0, longest,
