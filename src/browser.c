@@ -51,9 +51,11 @@ char *do_browser(char *path, DIR *dir)
     char *retval = NULL;
     int kbinput;
     bool meta_key, func_key, old_const_update = ISSET(CONST_UPDATE);
+    bool abort = FALSE;
+	/* Whether we should abort the file browser. */
     char *prev_dir = NULL;
 	/* The directory we were in, if any, before backing up via
-	 * entering "..". */
+	 * browsing to "..". */
     char *ans = mallocstrcpy(NULL, "");
 	/* The last answer the user typed on the statusbar. */
 
@@ -89,27 +91,29 @@ char *do_browser(char *path, DIR *dir)
 
     titlebar(path);
 
-    /* If prev_dir isn't NULL, select the directory saved in it, and
-     * then blow it away. */
-    if (prev_dir != NULL) {
-	browser_select_filename(prev_dir);
-
-	free(prev_dir);
-	prev_dir = NULL;
-    }
-
-    do {
+    while (!abort) {
 	size_t fileline;
 		/* The line number the selected file is on. */
 	size_t old_selected = selected;
-		/* We display the file list only if the selected file
-		 * changed. */
+		/* The file we had selected before the current selected
+		 * file. */
+	bool found_prev_dir = FALSE;
+		/* Whether we've selected a directory in prev_dir. */
 	struct stat st;
 	int i;
 	char *new_path;
 
-	/* Compute the line number we're on now, so that we don't divide
-	 * by zero. */
+	/* If prev_dir isn't NULL, select the directory saved in it, and
+	 * then blow it away. */
+	if (prev_dir != NULL) {
+	    found_prev_dir = browser_select_filename(prev_dir);
+
+	    free(prev_dir);
+	    prev_dir = NULL;
+	}
+
+	/* Calculate the line number we're on now, so that we don't
+	 * divide by zero. */
 	fileline = selected;
 	if (width != 0)
 	    fileline /= width;
@@ -324,7 +328,7 @@ char *do_browser(char *path, DIR *dir)
 		 * get out. */
 		if (!S_ISDIR(st.st_mode)) {
 		    retval = mallocstrcpy(NULL, filelist[selected]);
-		    kbinput = NANO_EXIT_KEY;
+		    abort = TRUE;
 		    break;
 		/* If we've successfully opened a directory, and it's
 		 * "..", save the current directory in prev_dir, so that
@@ -348,16 +352,27 @@ char *do_browser(char *path, DIR *dir)
 		/* Start over again with the new path value. */
 		free_chararray(filelist, filelist_len);
 		goto change_browser_directory;
+	    case NANO_EXIT_KEY:
+		/* Abort the file browser. */
+		abort = TRUE;
+		break;
 	}
 
+	/* If abort is TRUE, we're done, so get out. */
+	if (abort)
+	    break;
+
 	/* Display the file list if we don't have a key, or if we do
-	 * have a key and the selected file has changed. */
-	if (kbinput == ERR || old_selected != selected)
+	 * have a key and the selected file has changed.  Don't display
+	 * it if we selected a directory in prev_dir, since the file
+	 * list will have already been displayed then. */
+	if ((kbinput == ERR && !found_prev_dir) || old_selected !=
+		selected)
 	    browser_refresh();
 
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
 	parse_browser_input(&kbinput, &meta_key, &func_key);
-    } while (kbinput != NANO_EXIT_KEY);
+    }
 
     titlebar(NULL);
     edit_refresh();
@@ -638,8 +653,9 @@ void browser_refresh(void)
 
 /* Look for needle.  If we find it, set selected to its location, and
  * update the screen.  Note that needle must be an exact match for a
- * file in the list. */
-void browser_select_filename(const char *needle)
+ * file in the list.  The return value specifies whether we found
+ * anything. */
+bool browser_select_filename(const char *needle)
 {
     size_t currselected;
     bool found = FALSE;
@@ -656,6 +672,8 @@ void browser_select_filename(const char *needle)
 	selected = currselected;
 	browser_refresh();
     }
+
+    return found;
 }
 
 /* Set up the system variables for a filename search.  Return -1 if the

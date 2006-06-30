@@ -38,6 +38,8 @@ void do_help(void (*refresh_func)(void))
 {
     int kbinput = ERR;
     bool meta_key, func_key, old_no_help = ISSET(NO_HELP);
+    bool abort = FALSE;
+	/* Whether we should abort the help browser. */
     size_t line = 0;
 	/* The line number in help_text of the first displayed help
 	 * line.  This variable is zero-based. */
@@ -87,11 +89,11 @@ void do_help(void (*refresh_func)(void))
     if (last_line > 0)
 	last_line--;
 
-    do {
+    while (!abort) {
 	size_t i;
 	    /* Generic loop variable. */
 	size_t old_line = line;
-	    /* We redisplay the help only if it moved. */
+	    /* The line we were on before the current line. */
 
 	ptr = help_text;
 
@@ -137,7 +139,15 @@ void do_help(void (*refresh_func)(void))
 			line = last_line - (editwinrows - 1);
 		}
 		break;
+	    case NANO_EXIT_KEY:
+		/* Abort the help browser. */
+		abort = TRUE;
+		break;
 	}
+
+	/* If abort is TRUE, we're done, so get out. */
+	if (abort)
+	    break;
 
 	/* Display the help text if we don't have a key, or if we do
 	 * have a key and the help text has moved. */
@@ -164,7 +174,7 @@ void do_help(void (*refresh_func)(void))
 
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
 	parse_help_input(&kbinput, &meta_key, &func_key);
-    } while (kbinput != NANO_EXIT_KEY);
+    }
 
 #ifndef DISABLE_MOUSE
     currshortcut = oldshortcut;
