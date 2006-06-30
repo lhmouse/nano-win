@@ -742,17 +742,17 @@ bool findnextfile(bool no_sameline, size_t begin, const char *needle)
     size_t currselected = selected;
 	/* The location in the current file list of the match we
 	 * find. */
-    const char *rev_start = tail(filelist[currselected]), *found = NULL;
+    const char *filetail = tail(filelist[currselected]);
+    const char *rev_start = filetail, *found = NULL;
 
 #ifndef NANO_TINY
     if (ISSET(BACKWARDS_SEARCH))
-	rev_start += strlen(tail(filelist[currselected]));
+	rev_start += strlen(rev_start);
 #endif
 
     /* Look for needle in the current filename we're searching. */
     while (TRUE) {
-	found = strstrwrapper(tail(filelist[currselected]), needle,
-		rev_start);
+	found = strstrwrapper(filetail, needle, rev_start);
 
 	/* We've found a potential match.  If we're not allowed to find
 	 * a match on the same filename we started on and this potential
@@ -792,10 +792,12 @@ bool findnextfile(bool no_sameline, size_t begin, const char *needle)
 	if (currselected == begin)
 	    search_last_file = TRUE;
 
-	rev_start = tail(filelist[currselected]);
+	filetail = tail(filelist[currselected]);
+
+	rev_start = filetail;
 #ifndef NANO_TINY
 	if (ISSET(BACKWARDS_SEARCH))
-	    rev_start += strlen(tail(filelist[currselected]));
+	    rev_start += strlen(rev_start);
 #endif
     }
 
