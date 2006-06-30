@@ -30,7 +30,8 @@ CVS code -
   striponedir()
 	- Since all the strings passed to this are dynamically
 	  allocated, use null_at() to strip the directory from the
-	  string. (DLR)
+	  string.  Also, return the stripped path instead of modifying
+	  path. (DLR)
 - doc/syntax/c.nanorc:
 	- Since .i and .ii are preprocessed C and C++ output, colorize
 	  them here. (Mike Frysinger)

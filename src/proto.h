@@ -157,7 +157,7 @@ void do_filesearch(void);
 void do_fileresearch(void);
 void do_first_file(void);
 void do_last_file(void);
-void striponedir(char *path);
+char *striponedir(const char *path);
 #endif
 
 /* Public functions in chars.c. */
