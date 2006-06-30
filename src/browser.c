@@ -95,7 +95,7 @@ char *do_browser(char *path, DIR *dir)
 	size_t fileline;
 		/* The line number the selected file is on. */
 	size_t old_selected = selected;
-		/* The file we had selected before the current selected
+		/* The selected file we had before the current selected
 		 * file. */
 	bool found_prev_dir = FALSE;
 		/* Whether we've selected a directory in prev_dir. */

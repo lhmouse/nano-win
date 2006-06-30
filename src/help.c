@@ -48,8 +48,7 @@ void do_help(void (*refresh_func)(void))
 	 * variable is zero-based. */
 #ifndef DISABLE_MOUSE
     const shortcut *oldshortcut = currshortcut;
-	/* We will set currshortcut to allow clicking on the help
-	 * screen's shortcut list. */
+	/* The current shortcut list. */
 #endif
     const char *ptr;
 

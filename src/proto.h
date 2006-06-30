@@ -26,7 +26,7 @@
 
 #include "nano.h"
 
-/* Public externs.  See global.c for descriptions of them. */
+/* Public external variables.  See global.c for descriptions of them. */
 #ifndef NANO_TINY
 extern sigjmp_buf jump_buf;
 extern bool jump_buf_main;
