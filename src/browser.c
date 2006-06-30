@@ -330,12 +330,9 @@ char *do_browser(char *path, DIR *dir)
 		/* If we've successfully opened a directory, and it's
 		 * "..", save the current directory in prev_dir, so that
 		 * we can select it later. */
-		} else if (strcmp(tail(filelist[selected]),
-			"..") == 0) {
-		    prev_dir = mallocstrcpy(NULL, filelist[selected]);
-		    prev_dir = mallocstrassn(prev_dir,
-			striponedir(prev_dir));
-		}
+		} else if (strcmp(tail(filelist[selected]), "..") == 0)
+		    prev_dir = mallocstrcpy(NULL,
+			striponedir(filelist[selected]));
 
 		dir = opendir(filelist[selected]);
 		if (dir == NULL) {
