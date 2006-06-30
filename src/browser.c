@@ -246,12 +246,13 @@ char *do_browser(char *path, DIR *dir)
 		new_path_len = strlen(new_path) + 1;
 
 		if (new_path[0] != '/') {
-		    new_path = charealloc(new_path, strlen(path) +
-			strlen(answer) + 1);
+		    new_path = charealloc(new_path, new_path_len +
+			strlen(answer));
 		    sprintf(new_path, "%s%s", path, answer);
 		}
 
-		if (new_path[new_path_len - 1] == '/')
+		if (new_path_len > 1 &&
+			new_path[new_path_len - 1] == '/')
 		    null_at(&new_path, new_path_len - 1);
 
 		/* We can't move up from "/". */
