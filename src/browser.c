@@ -333,7 +333,8 @@ char *do_browser(char *path, DIR *dir)
 		} else if (strcmp(tail(filelist[selected]),
 			"..") == 0) {
 		    prev_dir = mallocstrcpy(NULL, filelist[selected]);
-		    prev_dir = striponedir(prev_dir);
+		    prev_dir = mallocstrassn(prev_dir,
+			striponedir(prev_dir));
 		}
 
 		dir = opendir(filelist[selected]);
@@ -401,7 +402,8 @@ char *do_browse_from(const char *inpath)
      * at all.  If so, we'll just pass the current directory to
      * do_browser(). */
     if (stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
-	path = striponedir(path);
+	path = mallocstrassn(path, striponedir(path));
+
 	if (stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
 	    free(path);
 
