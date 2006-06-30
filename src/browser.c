@@ -82,7 +82,7 @@ char *do_browser(char *path, DIR *dir)
     /* Assume that path exists and ends with a slash. */
     assert(path != NULL && path[strlen(path) - 1] == '/');
 
-    /* Get the list of files. */
+    /* Get the file list. */
     browser_init(path, dir);
 
     assert(filelist != NULL);

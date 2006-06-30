@@ -11,8 +11,8 @@ CVS code -
 	  enable_mouse_support() and get_mouseinput(). (DLR)
 - browser.c:
   do_browser()
-	- Refactor and simplify the mouse support, modeling it after
-	  do_mouse() for consistency. (DLR)
+	- Refactor the mouse support, modeling it after do_mouse() for
+	  consistency. (DLR)
 	- Remove unneeded call to blank_edit(). (DLR)
 	- After entering "..", select the directory we were in before
 	  instead of the first filename in the list, as Pico does. (DLR)
