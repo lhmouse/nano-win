@@ -107,7 +107,7 @@ char *do_browser(char *path, DIR *dir)
 	int i;
 	size_t fileline;
 	char *new_path;
-	    /* Used by the "Go To Directory" prompt. */
+	size_t new_path_len;
 
 	/* Compute the line number we're on now, so that we don't divide
 	 * by zero. */
@@ -243,11 +243,22 @@ char *do_browser(char *path, DIR *dir)
 		ans = mallocstrcpy(ans, "");
 
 		new_path = real_dir_from_tilde(answer);
+		new_path_len = strlen(new_path) + 1;
 
 		if (new_path[0] != '/') {
 		    new_path = charealloc(new_path, strlen(path) +
 			strlen(answer) + 1);
 		    sprintf(new_path, "%s%s", path, answer);
+		}
+
+		if (new_path[new_path_len - 1] == '/')
+		    null_at(&new_path, new_path_len - 1);
+
+		/* We can't move up from "/". */
+		if (strcmp(new_path, "/..") == 0) {
+		    statusbar(_("Can't move up a directory"));
+		    beep();
+		    break;
 		}
 
 #ifndef DISABLE_OPERATINGDIR

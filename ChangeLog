@@ -16,6 +16,9 @@ CVS code -
 	- Remove unneeded call to blank_edit(). (DLR)
 	- After entering "..", select the directory we were in before
 	  instead of the first filename in the list, as Pico does. (DLR)
+	- Display an error messsage on the statusbar if we try to move
+	  up from "/" via the "Go to Directory" prompt, for consistency.
+	  (DLR)
   browser_refresh()
 	- Simplify. (DLR)
 	- Fix problems where translated versions of "(dir)" could be
