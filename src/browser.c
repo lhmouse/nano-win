@@ -51,6 +51,9 @@ char *do_browser(char *path, DIR *dir)
     int kbinput;
     bool meta_key, func_key;
     bool old_const_update = ISSET(CONST_UPDATE);
+    char *prev_dir = NULL;
+	/* The directory we were in, if any, before backing up via
+	 * entering "..". */
     char *ans = mallocstrcpy(NULL, "");
 	/* The last answer the user typed on the statusbar. */
     char *retval = NULL;
@@ -88,6 +91,15 @@ char *do_browser(char *path, DIR *dir)
     qsort(filelist, filelist_len, sizeof(char *), diralphasort);
 
     titlebar(path);
+
+    /* If prev_dir isn't NULL, select the directory saved in it, and
+     * then blow it away. */
+    if (prev_dir != NULL) {
+	browser_select_filename(prev_dir);
+
+	free(prev_dir);
+	prev_dir = NULL;
+    }
 
     do {
 	bool abort = FALSE;
@@ -250,7 +262,7 @@ char *do_browser(char *path, DIR *dir)
 
 		dir = opendir(new_path);
 		if (dir == NULL) {
-		    /* We can't open this dir for some reason.
+		    /* We can't open this directory for some reason.
 		     * Complain. */
 		    statusbar(_("Error reading %s: %s"), answer,
 			strerror(errno));
@@ -281,7 +293,7 @@ char *do_browser(char *path, DIR *dir)
 		    selected++;
 		break;
 	    case NANO_ENTER_KEY:
-		/* You can't move up from "/". */
+		/* We can't move up from "/". */
 		if (strcmp(filelist[selected], "/..") == 0) {
 		    statusbar(_("Can't move up a directory"));
 		    beep();
@@ -289,7 +301,7 @@ char *do_browser(char *path, DIR *dir)
 		}
 
 #ifndef DISABLE_OPERATINGDIR
-		/* Note: the selected file can be outside the operating
+		/* Note: The selected file can be outside the operating
 		 * directory if it's ".." or if it's a symlink to a
 		 * directory outside the operating directory. */
 		if (check_operating_dir(filelist[selected], FALSE)) {
@@ -310,10 +322,20 @@ char *do_browser(char *path, DIR *dir)
 		    break;
 		}
 
+		/* If we've successfully opened a file, we're done, so
+		 * get out. */
 		if (!S_ISDIR(st.st_mode)) {
-		    retval = mallocstrcpy(retval, filelist[selected]);
+		    retval = mallocstrcpy(NULL, filelist[selected]);
 		    abort = TRUE;
 		    break;
+		/* If we've successfully opened a directory, and it's
+		 * "..", save the current directory in prev_dir, so that
+		 * we can select it later. */
+		} else if (strcmp(tail(filelist[selected]),
+			"..") == 0) {
+		    prev_dir = mallocstrcpy(NULL, filelist[selected]);
+		    striponedir(prev_dir);
+		    align(&prev_dir);
 		}
 
 		dir = opendir(filelist[selected]);
@@ -620,6 +642,28 @@ void browser_refresh(void)
     }
 
     wnoutrefresh(edit);
+}
+
+/* Look for needle.  If we find it, set selected to its location, and
+ * update the screen.  Note that needle must be an exact match for a
+ * file in the list. */
+void browser_select_filename(const char *needle)
+{
+    size_t currselected;
+    bool found = FALSE;
+
+    for (currselected = 0; currselected < filelist_len;
+	currselected++) {
+	if (strcmp(filelist[currselected], needle) == 0) {
+	    found = TRUE;
+	    break;
+	}
+    }
+
+    if (found) {
+	selected = currselected;
+	browser_refresh();
+    }
 }
 
 /* Set up the system variables for a filename search.  Return -1 if the

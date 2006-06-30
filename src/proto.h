@@ -148,6 +148,7 @@ char *do_browse_from(const char *inpath);
 void browser_init(const char *path, DIR *dir);
 void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key);
 void browser_refresh(void);
+void browser_select_filename(const char *needle);
 int filesearch_init(void);
 bool findnextfile(bool no_sameline, size_t begin, const char *needle);
 void findnextfile_wrap_reset(void);
