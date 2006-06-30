@@ -912,11 +912,13 @@ void do_fileresearch(void)
     filesearch_abort();
 }
 
+/* Select the first file in the list. */
 void do_first_file(void)
 {
     selected = 0;
 }
 
+/* Select the last file in the list. */
 void do_last_file(void)
 {
     selected = filelist_len - 1;
