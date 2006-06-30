@@ -160,6 +160,7 @@ char *do_browser(char *path, DIR *dir)
 	    /* Redraw the screen. */
 	    case NANO_REFRESH_KEY:
 		total_redraw();
+		kbinput = ERR;
 		break;
 	    case NANO_HELP_KEY:
 #ifndef DISABLE_HELP
@@ -351,11 +352,9 @@ char *do_browser(char *path, DIR *dir)
 		goto change_browser_directory;
 	}
 
-	/* Display the file list if we don't have a key, we do have a
-	 * key and the selected file has changed, or if we haven't
-	 * updated the screen already. */
-	if ((kbinput == ERR || old_selected == selected) && kbinput !=
-		NANO_REFRESH_KEY)
+	/* Display the file list if we don't have a key, or if we do
+	 * have a key and the selected file has changed. */
+	if (kbinput == ERR || old_selected == selected)
 	    browser_refresh();
 
 	kbinput = get_kbinput(edit, &meta_key, &func_key);

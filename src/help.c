@@ -107,6 +107,7 @@ void do_help(void (*refresh_func)(void))
 #endif
 	    case NANO_REFRESH_KEY:
 		total_redraw();
+		kbinput = ERR;
 		break;
 	    case NANO_PREVPAGE_KEY:
 		if (line > editwinrows - 2)
@@ -138,11 +139,9 @@ void do_help(void (*refresh_func)(void))
 		break;
 	}
 
-	/* Display the help text if we don't have a key, we do have a
-	 * key and the help text has moved, or if we haven't updated the
-	 * screen already. */
-	if ((kbinput == ERR || line != old_line) && kbinput !=
-		NANO_REFRESH_KEY) {
+	/* Display the help text if we don't have a key, or if we do
+	 * have a key and the help text has moved. */
+	if (kbinput == ERR || line != old_line) {
 	    blank_edit();
 
 	    /* Calculate where in the text we should be, based on the
