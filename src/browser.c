@@ -434,6 +434,7 @@ void browser_init(const char *path, DIR *dir)
 	/* Don't show the "." entry. */
 	if (strcmp(nextdir->d_name, ".") == 0)
 	   continue;
+
 	i++;
 
 	d_len = strlenpt(nextdir->d_name);
