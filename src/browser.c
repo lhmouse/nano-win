@@ -148,8 +148,8 @@ char *do_browser(char *path, DIR *dir)
 			    if (selected > filelist_len - 1)
 				selected = filelist_len - 1;
 			    else if (old_selected == selected)
-				/* Put back the "Select" key, so that
-				 * the file is read in. */
+				/* Put back the Enter key, so that the
+				 * file is read in. */
 				unget_kbinput(NANO_ENTER_KEY, FALSE,
 					FALSE);
 			}
