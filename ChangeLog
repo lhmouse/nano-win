@@ -16,7 +16,7 @@ CVS code -
 	- Remove unneeded call to blank_edit(). (DLR)
 	- After entering "..", select the directory we were in before
 	  instead of the first filename in the list, as Pico does. (DLR)
-	- Simplify screen update handling. (DLR)
+	- Simplify screen update handling and exiting. (DLR)
   browser_refresh()
 	- Simplify. (DLR)
 	- Fix problems where translated versions of "(dir)" could be
@@ -35,7 +35,7 @@ CVS code -
 	  path. (DLR)
 - help.c:
   do_help()
-	- Simplify screen update handling. (DLR)
+	- Simplify screen update handling and exiting. (DLR)
 - doc/syntax/c.nanorc:
 	- Since .i and .ii are preprocessed C and C++ output, colorize
 	  them here. (Mike Frysinger)
