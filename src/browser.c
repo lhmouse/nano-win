@@ -418,7 +418,8 @@ char *do_browse_from(const char *inpath)
 /* Set filelist to the list of files contained in the directory path,
  * set filelist_len to the number of files in that list, and set longest
  * to the width in columns of the longest filename in that list, up to
- * COLS - 1 (but at least 7).  Assume path exists and is a directory. */
+ * COLS - 1 (but at least 15).  Assume path exists and is a
+ * directory. */
 void browser_init(const char *path, DIR *dir)
 {
     const struct dirent *nextdir;
@@ -470,8 +471,8 @@ void browser_init(const char *path, DIR *dir)
 
     if (longest > COLS - 1)
 	longest = COLS - 1;
-    if (longest < 7)
-	longest = 7;
+    if (longest < 15)
+	longest = 15;
 }
 
 /* Determine the shortcut key corresponding to the values of kbinput
@@ -539,8 +540,9 @@ void browser_refresh(void)
 
     for (; i < filelist_len && line < editwinrows; i++) {
 	struct stat st;
-	char *disp = display_string(tail(filelist[i]), 0, longest,
-		FALSE);
+	const char *filetail = tail(filelist[i]);
+	char *disp = display_string(filetail, 0, longest, FALSE);
+	size_t foo_col;
 
 	/* Highlight the currently selected file or directory. */
 	if (i == selected)
@@ -567,7 +569,8 @@ void browser_refresh(void)
 		foo = mallocstrcpy(NULL, _("(dir)"));
 	} else if (S_ISDIR(st.st_mode))
 	    /* If the file is a directory, display it as such. */
-	    foo = mallocstrcpy(NULL, _("(dir)"));
+	    foo = mallocstrcpy(NULL, (strcmp(filetail, "..") == 0) ?
+		_("(parent dir)") : _("(dir)"));
 	else {
 	    foo = charalloc(uimax_digits + 4);
 
@@ -588,8 +591,10 @@ void browser_refresh(void)
 			(unsigned int)(st.st_size >> 30));
 	}
 
-	mvwaddnstr(edit, line, col - strlenpt(foo), foo,
-		actual_x(foo, 7));
+	foo_col = col - strlenpt(foo);
+
+	mvwaddnstr(edit, line, foo_col, foo, actual_x(foo, longest -
+		foo_col));
 
 	if (i == selected)
 	    wattroff(edit, reverse_attr);
