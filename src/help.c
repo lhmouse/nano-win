@@ -36,14 +36,14 @@ static char *help_text = NULL;
  * the function we will call to refresh the edit window.*/
 void do_help(void (*refresh_func)(void))
 {
+    int kbinput = ERR;
+    bool meta_key, func_key, old_no_help = ISSET(NO_HELP);
     size_t line = 0;
 	/* The line number in help_text of the first displayed help
 	 * line.  This variable is zero-based. */
     size_t last_line = 0;
 	/* The line number in help_text of the last help line.  This
 	 * variable is zero-based. */
-    int kbinput = ERR;
-    bool meta_key, func_key, old_no_help = ISSET(NO_HELP);
 #ifndef DISABLE_MOUSE
     const shortcut *oldshortcut = currshortcut;
 	/* We will set currshortcut to allow clicking on the help

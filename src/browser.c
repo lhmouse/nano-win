@@ -48,6 +48,7 @@ static bool search_last_file = FALSE;
  * browsing from. */
 char *do_browser(char *path, DIR *dir)
 {
+    char *retval = NULL;
     int kbinput;
     bool meta_key, func_key, old_const_update = ISSET(CONST_UPDATE);
     char *prev_dir = NULL;
@@ -55,7 +56,6 @@ char *do_browser(char *path, DIR *dir)
 	 * entering "..". */
     char *ans = mallocstrcpy(NULL, "");
 	/* The last answer the user typed on the statusbar. */
-    char *retval = NULL;
 
     curs_set(0);
     blank_statusbar();
@@ -71,8 +71,6 @@ char *do_browser(char *path, DIR *dir)
 	/* We go here after the user selects a new directory. */
 
     kbinput = ERR;
-    meta_key = FALSE;
-    func_key = FALSE;
     width = 0;
     selected = 0;
 
@@ -354,7 +352,7 @@ char *do_browser(char *path, DIR *dir)
 
 	/* Display the file list if we don't have a key, or if we do
 	 * have a key and the selected file has changed. */
-	if (kbinput == ERR || old_selected == selected)
+	if (kbinput == ERR || old_selected != selected)
 	    browser_refresh();
 
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
