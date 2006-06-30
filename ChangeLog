@@ -27,6 +27,10 @@ CVS code -
 	  (DLR)
   findnextfile()
 	- Simplify the uses of tail(). (DLR)
+  striponedir()
+	- Since all the strings passed to this are dynamically
+	  allocated, use null_at() to strip the directory from the
+	  string. (DLR)
 - doc/syntax/c.nanorc:
 	- Since .i and .ii are preprocessed C and C++ output, colorize
 	  them here. (Mike Frysinger)

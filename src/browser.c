@@ -334,7 +334,6 @@ char *do_browser(char *path, DIR *dir)
 			"..") == 0) {
 		    prev_dir = mallocstrcpy(NULL, filelist[selected]);
 		    striponedir(prev_dir);
-		    align(&prev_dir);
 		}
 
 		dir = opendir(filelist[selected]);
@@ -967,7 +966,8 @@ void do_last_file(void)
     selected = filelist_len - 1;
 }
 
-/* Strip one directory from the end of path. */
+/* Strip one directory from the end of path, which should be
+ * dynamically allocated. */
 void striponedir(char *path)
 {
     char *tmp;
@@ -977,7 +977,7 @@ void striponedir(char *path)
     tmp = strrchr(path, '/');
 
     if (tmp != NULL)
- 	*tmp = '\0';
+ 	null_at(&path, tmp - path);
 }
 
 #endif /* !DISABLE_BROWSER */
