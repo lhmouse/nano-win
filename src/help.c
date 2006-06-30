@@ -43,8 +43,7 @@ void do_help(void (*refresh_func)(void))
 	/* The line number in help_text of the last help line.  This
 	 * variable is zero-based. */
     int kbinput = ERR;
-    bool meta_key, func_key;
-    bool old_no_help = ISSET(NO_HELP);
+    bool meta_key, func_key, old_no_help = ISSET(NO_HELP);
 #ifndef DISABLE_MOUSE
     const shortcut *oldshortcut = currshortcut;
 	/* We will set currshortcut to allow clicking on the help
@@ -139,30 +138,31 @@ void do_help(void (*refresh_func)(void))
 		break;
 	}
 
-	if ((kbinput != ERR && line == old_line) || kbinput ==
-		NANO_REFRESH_KEY)
-	    goto skip_redisplay;
+	/* Display the help text if we don't have a key, we do have a
+	 * key and the help text has moved, or if we haven't updated the
+	 * screen already. */
+	if ((kbinput == ERR || line != old_line) && kbinput !=
+		NANO_REFRESH_KEY) {
+	    blank_edit();
 
-	blank_edit();
+	    /* Calculate where in the text we should be, based on the
+	     * page. */
+	    for (i = 0; i < line; i++) {
+		ptr += help_line_len(ptr);
+		if (*ptr == '\n')
+		    ptr++;
+	    }
 
-	/* Calculate where in the text we should be, based on the
-	 * page. */
-	for (i = 0; i < line; i++) {
-	    ptr += help_line_len(ptr);
-	    if (*ptr == '\n')
-		ptr++;
+	    for (i = 0; i < editwinrows && *ptr != '\0'; i++) {
+		size_t j = help_line_len(ptr);
+
+		mvwaddnstr(edit, i, 0, ptr, j);
+		ptr += j;
+		if (*ptr == '\n')
+		    ptr++;
+	    }
 	}
 
-	for (i = 0; i < editwinrows && *ptr != '\0'; i++) {
-	    size_t j = help_line_len(ptr);
-
-	    mvwaddnstr(edit, i, 0, ptr, j);
-	    ptr += j;
-	    if (*ptr == '\n')
-		ptr++;
-	}
-
-  skip_redisplay:
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
 	parse_help_input(&kbinput, &meta_key, &func_key);
     } while (kbinput != NANO_EXIT_KEY);

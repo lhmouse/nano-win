@@ -49,8 +49,7 @@ static bool search_last_file = FALSE;
 char *do_browser(char *path, DIR *dir)
 {
     int kbinput;
-    bool meta_key, func_key;
-    bool old_const_update = ISSET(CONST_UPDATE);
+    bool meta_key, func_key, old_const_update = ISSET(CONST_UPDATE);
     char *prev_dir = NULL;
 	/* The directory we were in, if any, before backing up via
 	 * entering "..". */
@@ -102,10 +101,13 @@ char *do_browser(char *path, DIR *dir)
     }
 
     do {
-	bool abort = FALSE;
+	size_t fileline;
+		/* The line number the selected file is on. */
+	size_t old_selected = selected;
+		/* We display the file list only if the selected file
+		 * changed. */
 	struct stat st;
 	int i;
-	size_t fileline;
 	char *new_path;
 
 	/* Compute the line number we're on now, so that we don't divide
@@ -124,8 +126,6 @@ char *do_browser(char *path, DIR *dir)
 			/* We can click in the edit window to select a
 			 * file. */
 			if (wenclose(edit, mouse_y, mouse_x)) {
-			    size_t old_selected = selected;
-
 			    /* Subtract out the size of topwin. */
 			    mouse_y -= 2 - no_more_space();
 
@@ -325,7 +325,7 @@ char *do_browser(char *path, DIR *dir)
 		 * get out. */
 		if (!S_ISDIR(st.st_mode)) {
 		    retval = mallocstrcpy(NULL, filelist[selected]);
-		    abort = TRUE;
+		    kbinput = NANO_EXIT_KEY;
 		    break;
 		/* If we've successfully opened a directory, and it's
 		 * "..", save the current directory in prev_dir, so that
@@ -349,16 +349,14 @@ char *do_browser(char *path, DIR *dir)
 		/* Start over again with the new path value. */
 		free_chararray(filelist, filelist_len);
 		goto change_browser_directory;
-	    /* Abort the browser. */
-	    case NANO_EXIT_KEY:
-		abort = TRUE;
-		break;
 	}
 
-	if (abort)
-	    break;
-
-	browser_refresh();
+	/* Display the file list if we don't have a key, we do have a
+	 * key and the selected file has changed, or if we haven't
+	 * updated the screen already. */
+	if ((kbinput == ERR || old_selected == selected) && kbinput !=
+		NANO_REFRESH_KEY)
+	    browser_refresh();
 
 	kbinput = get_kbinput(edit, &meta_key, &func_key);
 	parse_browser_input(&kbinput, &meta_key, &func_key);
