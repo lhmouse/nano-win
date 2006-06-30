@@ -522,11 +522,13 @@ void parse_browser_input(int *kbinput, bool *meta_key, bool *func_key)
  * files. */
 void browser_refresh(void)
 {
-    struct stat st;
+    static int uimax_digits = -1;
     size_t i;
     int col = 0, line = 0, filecols = 0;
-    size_t foo_len = mb_cur_max() * 7;
-    char *foo = charalloc(foo_len + 1);
+    char *foo;
+
+    if (uimax_digits == -1)
+	uimax_digits = digits(UINT_MAX);
 
     blank_edit();
 
@@ -536,6 +538,7 @@ void browser_refresh(void)
 	editwinrows) : 0;
 
     for (; i < filelist_len && line < editwinrows; i++) {
+	struct stat st;
 	char *disp = display_string(tail(filelist[i]), 0, longest,
 		FALSE);
 
@@ -550,35 +553,48 @@ void browser_refresh(void)
 	col += longest;
 	filecols++;
 
-	/* Show file info also.  We don't want to report file sizes for
-	 * links, so we use lstat().  Also, stat() and lstat() return an
-	 * error if, for example, the file is deleted while the file
-	 * browser is open.  In that case, we report "--" as the file
-	 * info. */
+	/* Show information about the file.  We don't want to report
+	 * file sizes for links, so we use lstat(). */
 	if (lstat(filelist[i], &st) == -1 || S_ISLNK(st.st_mode)) {
-	    /* Aha!  It's a symlink!  Now, is it a dir?  If so, mark it
-	     * as such. */
-	    if (stat(filelist[i], &st) == 0 && S_ISDIR(st.st_mode)) {
-		strncpy(foo, _("(dir)"), foo_len);
-		foo[foo_len] = '\0';
-	    } else
-		strcpy(foo, "--");
-	} else if (S_ISDIR(st.st_mode)) {
-	    strncpy(foo, _("(dir)"), foo_len);
-	    foo[foo_len] = '\0';
-	} else if (st.st_size < (1 << 10)) /* less than 1 k. */
-	    sprintf(foo, "%4u  B", (unsigned int)st.st_size);
-	else if (st.st_size < (1 << 20)) /* less than 1 meg. */
-	    sprintf(foo, "%4u KB", (unsigned int)(st.st_size >> 10));
-	else if (st.st_size < (1 << 30)) /* less than 1 gig. */
-	    sprintf(foo, "%4u MB", (unsigned int)(st.st_size >> 20));
-	else
-	    sprintf(foo, "%4u GB", (unsigned int)(st.st_size >> 30));
+	    /* If the file doesn't exist (i.e, it's been deleted while
+	     * the file browser is open), or it's a symlink that doesn't
+	     * point to a directory, display "--". */
+	    if (stat(filelist[i], &st) == -1 || !S_ISDIR(st.st_mode))
+		foo = mallocstrcpy(NULL, "--");
+	    /* If the file is a symlink that points to a directory,
+	     * display it as a directory. */
+	    else
+		foo = mallocstrcpy(NULL, _("(dir)"));
+	} else if (S_ISDIR(st.st_mode))
+	    /* If the file is a directory, display it as such. */
+	    foo = mallocstrcpy(NULL, _("(dir)"));
+	else {
+	    foo = charalloc(uimax_digits + 4);
 
-	mvwaddnstr(edit, line, col - strlen(foo), foo, foo_len);
+	    /* Bytes. */
+	    if (st.st_size < (1 << 10)) 
+		sprintf(foo, "%4u  B", (unsigned int)st.st_size);
+	    /* Kilobytes. */
+	    else if (st.st_size < (1 << 20))
+		sprintf(foo, "%4u KB",
+			(unsigned int)(st.st_size >> 10));
+	    /* Megabytes. */
+	    else if (st.st_size < (1 << 30))
+		sprintf(foo, "%4u MB",
+			(unsigned int)(st.st_size >> 20));
+	    /* Gigabytes. */
+	    else
+		sprintf(foo, "%4u GB",
+			(unsigned int)(st.st_size >> 30));
+	}
+
+	mvwaddnstr(edit, line, col - strlenpt(foo), foo,
+		actual_x(foo, 7));
 
 	if (i == selected)
 	    wattroff(edit, reverse_attr);
+
+	free(foo);
 
 	/* Add some space between the columns. */
 	col += 2;
@@ -597,8 +613,6 @@ void browser_refresh(void)
 
 	wmove(edit, line, col);
     }
-
-    free(foo);
 
     wnoutrefresh(edit);
 }

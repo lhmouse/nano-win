@@ -15,6 +15,8 @@ CVS code -
 	- Remove unneeded call to blank_edit(). (DLR)
   browser_refresh()
 	- Simplify. (DLR)
+	- Fix problems where translated versions of "(dir)" could be
+	  truncated, and where file sizes could be too long. (DLR)
 - doc/syntax/c.nanorc:
 	- Since .i and .ii are preprocessed C and C++ output, colorize
 	  them here. (Mike Frysinger)
