@@ -498,6 +498,8 @@ void browser_init(const char *path, DIR *dir)
 
     if (longest > COLS)
 	longest = COLS;
+    /* We need 8 columns to display "(dir)" or a file size with padding.
+     * We need twice that to display "(parent dir)" with padding. */
     if (longest < 16)
 	longest = 16;
 }
