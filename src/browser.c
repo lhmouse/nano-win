@@ -476,9 +476,7 @@ void browser_init(const char *path, DIR *dir)
     filelist_len = i;
     rewinddir(dir);
 
-    /* Add the midpoint of the two maximum column widths, 8 and 15, to
-     * longest. */
-    longest += 11;
+    longest += 10;
 
     filelist = (char **)nmalloc(filelist_len * sizeof(char *));
 
