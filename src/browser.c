@@ -466,7 +466,7 @@ void browser_init(const char *path, DIR *dir)
 
 	i++;
 
-	d_len = strlenpt(nextdir->d_name);
+	d_len = strlenpt(nextdir->d_name) + 1;
 	if (d_len > longest)
 	    longest = (d_len > COLS - 1) ? COLS - 1 : d_len;
     }

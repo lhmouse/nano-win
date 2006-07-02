@@ -17,6 +17,9 @@ CVS code -
 	- After entering "..", select the directory we were in before
 	  instead of the first filename in the list, as Pico does. (DLR)
 	- Simplify screen update handling and exiting. (DLR)
+  browser_init()
+	- Fix off-by-one error when calculating longest that kept the
+	  rightmost column of the screen from being used. (DLR)
   browser_refresh()
 	- Simplify. (DLR)
 	- Fix problems where translated versions of "(dir)" could be
