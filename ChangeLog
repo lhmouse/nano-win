@@ -26,7 +26,7 @@ CVS code -
 	  truncated, and where file sizes could be too long. (DLR)
 	- For the ".." entry, display "(parent dir)" instead of "(dir)",
 	  as Pico does. (DLR)
-	- If a filename is too long, truncate and display an ellipsis
+	- If a filename is too long, truncate it and display an ellipsis
 	  before it, as titlebar() does. (DLR)
   browser_select_filename()
 	- New function, used to select a specific filename in the list.

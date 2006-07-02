@@ -569,7 +569,7 @@ void browser_refresh(void)
 	struct stat st;
 	const char *filetail = tail(filelist[i]);
 	size_t filetaillen = strlenpt(filetail), foo_col;
-	bool dots = (filetaillen > longest);
+	bool dots = (filetaillen > longest - 8);
 		/* Do we put an ellipsis before the filename? */
 	char *disp = display_string(filetail, dots ? filetaillen -
 		longest + 11 : 0, longest, FALSE);
