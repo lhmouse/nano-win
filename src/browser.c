@@ -446,7 +446,10 @@ char *do_browse_from(const char *inpath)
 /* Set filelist to the list of files contained in the directory path,
  * set filelist_len to the number of files in that list, and set longest
  * to the width in columns of the longest filename in that list, up to
- * COLS (but at least 16).  Assume path exists and is a directory. */
+ * COLS (but at least 15).  We need 8 columns to display a filename
+ * plus "--", "(dir)" or a file size with padding.  We need 15 columns
+ * to display ".." plus "(parent dir)" with padding.  Assume path exists
+ * and is a directory. */
 void browser_init(const char *path, DIR *dir)
 {
     const struct dirent *nextdir;
@@ -472,6 +475,9 @@ void browser_init(const char *path, DIR *dir)
 
     filelist_len = i;
     rewinddir(dir);
+
+    /* Add the midpoint of the two maximum column widths, 8 and 15, to
+     * longest. */
     longest += 11;
 
     filelist = (char **)nmalloc(filelist_len * sizeof(char *));
@@ -496,12 +502,11 @@ void browser_init(const char *path, DIR *dir)
     filelist_len = i;
     closedir(dir);
 
+    /* Make sure longest is between 15 and COLS. */
     if (longest > COLS)
 	longest = COLS;
-    /* We need 8 columns to display "(dir)" or a file size with padding.
-     * We need twice that to display "(parent dir)" with padding. */
-    if (longest < 16)
-	longest = 16;
+    if (longest < 15)
+	longest = 15;
 }
 
 /* Determine the shortcut key corresponding to the values of kbinput
@@ -575,6 +580,9 @@ void browser_refresh(void)
 		/* Do we put an ellipsis before the filename? */
 	char *disp = display_string(filetail, dots ? filetaillen -
 		longest + 11 : 0, longest, FALSE);
+		/* If we put an ellipsis before the filename, reserve 8
+		 * columns for "(dir)" or the file size with padding,
+		 * plus 3 columns for the ellipsis. */
 
 	/* Highlight the currently selected file or directory. */
 	if (i == selected)
