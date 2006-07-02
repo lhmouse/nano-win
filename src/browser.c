@@ -446,8 +446,7 @@ char *do_browse_from(const char *inpath)
 /* Set filelist to the list of files contained in the directory path,
  * set filelist_len to the number of files in that list, and set longest
  * to the width in columns of the longest filename in that list, up to
- * COLS - 1 (but at least 15).  Assume path exists and is a
- * directory. */
+ * COLS (but at least 15).  Assume path exists and is a directory. */
 void browser_init(const char *path, DIR *dir)
 {
     const struct dirent *nextdir;
@@ -466,9 +465,9 @@ void browser_init(const char *path, DIR *dir)
 
 	i++;
 
-	d_len = strlenpt(nextdir->d_name) + 1;
+	d_len = strlenpt(nextdir->d_name);
 	if (d_len > longest)
-	    longest = (d_len > COLS - 1) ? COLS - 1 : d_len;
+	    longest = (d_len > COLS) ? COLS : d_len;
     }
 
     filelist_len = i;
@@ -497,8 +496,8 @@ void browser_init(const char *path, DIR *dir)
     filelist_len = i;
     closedir(dir);
 
-    if (longest > COLS - 1)
-	longest = COLS - 1;
+    if (longest > COLS)
+	longest = COLS;
     if (longest < 15)
 	longest = 15;
 }
@@ -622,7 +621,7 @@ void browser_refresh(void)
 	foo_col = col - strlenpt(foo);
 
 	mvwaddnstr(edit, line, foo_col, foo, actual_x(foo, longest -
-		foo_col));
+		foo_col) + 1);
 
 	if (i == selected)
 	    wattroff(edit, reverse_attr);
