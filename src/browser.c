@@ -44,8 +44,8 @@ static size_t selected = 0;
 static bool search_last_file = FALSE;
 	/* Have we gone past the last file while searching? */
 
-/* Our browser function.  path is the tilde-expanded path to start
- * browsing from. */
+/* Our main file browser function.  path is the tilde-expanded path to
+ * start browsing from. */
 char *do_browser(char *path, DIR *dir)
 {
     char *retval = NULL;

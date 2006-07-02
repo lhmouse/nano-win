@@ -32,8 +32,8 @@
 static char *help_text = NULL;
 	/* The text displayed in the help window. */
 
-/* Our dynamic, shortcut list-compliant help function.  refresh_func is
- * the function we will call to refresh the edit window.*/
+/* Our main help browser function.  refresh_func is the function we will
+ * call to refresh the edit window.*/
 void do_help(void (*refresh_func)(void))
 {
     int kbinput = ERR;
