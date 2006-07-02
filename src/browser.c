@@ -580,8 +580,8 @@ void browser_refresh(void)
 	char *disp = display_string(filetail, dots ? filetaillen -
 		longest + 11 : 0, longest, FALSE);
 		/* If we put an ellipsis before the filename, reserve 8
-		 * columns for "--", "(dir)", or the file size, plus 3
-		 * columns for the ellipsis. */
+		 * columns for padding followed by "--", "(dir)", or the
+		 * file size, plus 3 columns for the ellipsis. */
 
 	/* Highlight the currently selected file or directory. */
 	if (i == selected)
