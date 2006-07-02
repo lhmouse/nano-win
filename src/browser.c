@@ -352,8 +352,8 @@ char *do_browser(char *path, DIR *dir)
 		/* Start over again with the new path value. */
 		free_chararray(filelist, filelist_len);
 		goto change_browser_directory;
+	    /* Abort the file browser. */
 	    case NANO_EXIT_KEY:
-		/* Abort the file browser. */
 		abort = TRUE;
 		break;
 	}

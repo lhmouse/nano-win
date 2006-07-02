@@ -106,6 +106,7 @@ void do_help(void (*refresh_func)(void))
 		}
 		break;
 #endif
+	    /* Redraw the screen. */
 	    case NANO_REFRESH_KEY:
 		total_redraw();
 		kbinput = ERR;
@@ -138,8 +139,8 @@ void do_help(void (*refresh_func)(void))
 			line = last_line - (editwinrows - 1);
 		}
 		break;
+	    /* Abort the help browser. */
 	    case NANO_EXIT_KEY:
-		/* Abort the help browser. */
 		abort = TRUE;
 		break;
 	}
