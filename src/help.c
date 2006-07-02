@@ -109,7 +109,6 @@ void do_help(void (*refresh_func)(void))
 	    /* Redraw the screen. */
 	    case NANO_REFRESH_KEY:
 		total_redraw();
-		kbinput = ERR;
 		break;
 	    case NANO_PREVPAGE_KEY:
 		if (line > editwinrows - 2)

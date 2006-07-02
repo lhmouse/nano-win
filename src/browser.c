@@ -162,7 +162,6 @@ char *do_browser(char *path, DIR *dir)
 	    /* Redraw the screen. */
 	    case NANO_REFRESH_KEY:
 		total_redraw();
-		kbinput = ERR;
 		break;
 	    case NANO_HELP_KEY:
 #ifndef DISABLE_HELP
