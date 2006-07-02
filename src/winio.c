@@ -1975,6 +1975,7 @@ void titlebar(const char *path)
     assert(path != NULL || openfile->filename != NULL);
 
     wattron(topwin, reverse_attr);
+
     blank_titlebar();
 
     /* space has to be at least 4: two spaces before the version message,
@@ -2061,7 +2062,19 @@ void titlebar(const char *path)
 	exppath = display_string(path, start_col, space, FALSE);
     }
 
-    if (!dots) {
+    /* If dots is TRUE, we will display something like "File:
+     * ...ename". */
+    if (dots) {
+	mvwaddnstr(topwin, 0, verlen - 1, prefix, actual_x(prefix,
+		prefixlen));
+	if (space <= -3 || newfie)
+	    goto the_end;
+	waddch(topwin, ' ');
+	waddnstr(topwin, "...", space + 3);
+	if (space <= 0)
+	    goto the_end;
+	waddstr(topwin, exppath);
+    } else {
 	size_t exppathlen = newfie ? 0 : strlenpt(exppath);
 	    /* The length of the expanded filename. */
 
@@ -2072,17 +2085,6 @@ void titlebar(const char *path)
 	    waddch(topwin, ' ');
 	    waddstr(topwin, exppath);
 	}
-    } else {
-	/* We will say something like "File: ...ename". */
-	mvwaddnstr(topwin, 0, verlen - 1, prefix, actual_x(prefix,
-		prefixlen));
-	if (space <= -3 || newfie)
-	    goto the_end;
-	waddch(topwin, ' ');
-	waddnstr(topwin, "...", space + 3);
-	if (space <= 0)
-	    goto the_end;
-	waddstr(topwin, exppath);
     }
 
   the_end:

@@ -35,7 +35,7 @@ static char **filelist = NULL;
 static size_t filelist_len = 0;
 	/* The number of files in the list. */
 static int width = 0;
-	/* The number of columns to display the list in. */
+	/* The number of columns to display per filename. */
 static int longest = 0;
 	/* The number of columns in the longest filename in the list. */
 static size_t selected = 0;
@@ -446,7 +446,7 @@ char *do_browse_from(const char *inpath)
 /* Set filelist to the list of files contained in the directory path,
  * set filelist_len to the number of files in that list, and set longest
  * to the width in columns of the longest filename in that list, up to
- * COLS (but at least 15).  Assume path exists and is a directory. */
+ * COLS (but at least 16).  Assume path exists and is a directory. */
 void browser_init(const char *path, DIR *dir)
 {
     const struct dirent *nextdir;
@@ -472,7 +472,7 @@ void browser_init(const char *path, DIR *dir)
 
     filelist_len = i;
     rewinddir(dir);
-    longest += 10;
+    longest += 11;
 
     filelist = (char **)nmalloc(filelist_len * sizeof(char *));
 
@@ -498,8 +498,8 @@ void browser_init(const char *path, DIR *dir)
 
     if (longest > COLS)
 	longest = COLS;
-    if (longest < 15)
-	longest = 15;
+    if (longest < 16)
+	longest = 16;
 }
 
 /* Determine the shortcut key corresponding to the values of kbinput
@@ -568,15 +568,24 @@ void browser_refresh(void)
     for (; i < filelist_len && line < editwinrows; i++) {
 	struct stat st;
 	const char *filetail = tail(filelist[i]);
-	char *disp = display_string(filetail, 0, longest, FALSE);
-	size_t foo_col;
+	size_t filetaillen = strlenpt(filetail), foo_col;
+	bool dots = (filetaillen > longest);
+		/* Do we put an ellipsis before the filename? */
+	char *disp = display_string(filetail, dots ? filetaillen -
+		longest + 11 : 0, longest, FALSE);
 
 	/* Highlight the currently selected file or directory. */
 	if (i == selected)
 	    wattron(edit, reverse_attr);
 
 	blank_line(edit, line, col, longest);
-	mvwaddstr(edit, line, col, disp);
+
+	/* If dots is TRUE, we will display something like
+	 * "...ename". */
+	if (dots)
+	    mvwaddstr(edit, line, col, "...");
+	mvwaddstr(edit, line, dots ? col + 3 : col, disp);
+
 	free(disp);
 
 	col += longest;
@@ -621,7 +630,7 @@ void browser_refresh(void)
 	foo_col = col - strlenpt(foo);
 
 	mvwaddnstr(edit, line, foo_col, foo, actual_x(foo, longest -
-		foo_col) + 1);
+		foo_col));
 
 	if (i == selected)
 	    wattroff(edit, reverse_attr);
