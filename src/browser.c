@@ -445,11 +445,10 @@ char *do_browse_from(const char *inpath)
 
 /* Set filelist to the list of files contained in the directory path,
  * set filelist_len to the number of files in that list, and set longest
- * to the width in columns of the longest filename in that list, up to
- * COLS (but at least 15).  We need 8 columns to display a filename
- * plus "--", "(dir)" or a file size with padding.  We need 15 columns
- * to display ".." plus "(parent dir)" with padding.  Assume path exists
- * and is a directory. */
+ * to the width in columns of the longest filename in that list, at
+ * least 15 and at most COLS.  We need at least 15 columns to display
+ * ".. (parent dir)", as Pico does.  Assume path exists and is a
+ * directory. */
 void browser_init(const char *path, DIR *dir)
 {
     const struct dirent *nextdir;
@@ -581,8 +580,8 @@ void browser_refresh(void)
 	char *disp = display_string(filetail, dots ? filetaillen -
 		longest + 11 : 0, longest, FALSE);
 		/* If we put an ellipsis before the filename, reserve 8
-		 * columns for "(dir)" or the file size with padding,
-		 * plus 3 columns for the ellipsis. */
+		 * columns for "--", "(dir)", or the file size, plus 3
+		 * columns for the ellipsis. */
 
 	/* Highlight the currently selected file or directory. */
 	if (i == selected)
