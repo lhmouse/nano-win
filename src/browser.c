@@ -476,6 +476,8 @@ void browser_init(const char *path, DIR *dir)
     filelist_len = i;
     rewinddir(dir);
 
+    /* Put 10 columns' worth of blank space between columns of filenames
+     * in the list whenever possible, as Pico does. */
     longest += 10;
 
     filelist = (char **)nmalloc(filelist_len * sizeof(char *));
