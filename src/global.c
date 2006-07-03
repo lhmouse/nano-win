@@ -504,7 +504,6 @@ void shortcut_init(bool unjustify)
      * restricted mode, inserting files is disabled, since it allows
      * reading from or writing to files not specified on the command
      * line. */
-
     /* TRANSLATORS: Try to keep this at most 10 characters. */
     sc_init_one(&main_list, NANO_INSERTFILE_KEY, N_("Read File"),
 	IFHELP(nano_insert_msg, FALSE), NANO_NO_KEY,
@@ -942,7 +941,6 @@ void shortcut_init(bool unjustify)
 #ifndef DISABLE_BROWSER
     /* If we're using restricted mode, the file browser is disabled.
      * It's useless since inserting files is disabled. */
-
     if (!ISSET(RESTRICTED))
 	sc_init_one(&writefile_list, NANO_TOFILES_KEY, to_files_msg,
 		IFHELP(nano_tofiles_msg, FALSE), NANO_NO_KEY,
@@ -956,7 +954,6 @@ void shortcut_init(bool unjustify)
      * and fourth are disabled because they allow writing to files not
      * specified on the command line, and the fifth is useless since
      * backups are disabled. */
-
     if (!ISSET(RESTRICTED))
 	/* TRANSLATORS: Try to keep this at most 16 characters. */
 	sc_init_one(&writefile_list, NANO_NO_KEY, N_("DOS Format"),
@@ -1018,7 +1015,6 @@ void shortcut_init(bool unjustify)
 #ifndef NANO_TINY
     /* If we're using restricted mode, command execution is disabled.
      * It's useless since inserting files is disabled. */
-
     if (!ISSET(RESTRICTED))
 	sc_init_one(&insertfile_list, NANO_TOOTHERINSERT_KEY,
 		/* TRANSLATORS: Try to keep this at most 22
