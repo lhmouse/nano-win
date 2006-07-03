@@ -611,10 +611,14 @@ void browser_refresh(void)
 	    /* If the file is a symlink that points to a directory,
 	     * display it as a directory. */
 	    else
+		/* TRANSLATORS: Try to keep this at most 7
+		 * characters. */
 		foo = mallocstrcpy(NULL, _("(dir)"));
 	} else if (S_ISDIR(st.st_mode))
 	    /* If the file is a directory, display it as such. */
 	    foo = mallocstrcpy(NULL, (strcmp(filetail, "..") == 0) ?
+		/* TRANSLATORS: Try to keep this at most 12
+		 * characters. */
 		_("(parent dir)") : _("(dir)"));
 	else {
 	    foo = charalloc(uimax_digits + 4);

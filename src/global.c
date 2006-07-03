@@ -260,7 +260,8 @@ void sc_init_one(shortcut **shortcutage, int ctrlval, const char *desc,
  * Uncut shortcut in the main shortcut list with UnJustify. */
 void shortcut_init(bool unjustify)
 {
-    /* TRANSLATORS: Try to keep this and following strings at most 10 characters. */
+    /* TRANSLATORS: Try to keep this and following strings at most 10
+     * characters. */
     const char *cancel_msg = N_("Cancel");
     const char *get_help_msg = N_("Get Help");
     const char *exit_msg = N_("Exit");
@@ -268,13 +269,15 @@ void shortcut_init(bool unjustify)
     const char *prev_page_msg = N_("Prev Page");
     const char *next_page_msg = N_("Next Page");
     const char *go_to_line_msg = N_("Go To Line");
-    /* TRANSLATORS: Try to keep this and previous strings at most 10 characters. */
+    /* TRANSLATORS: Try to keep this and previous strings at most 10
+     * characters. */
     const char *replace_msg = N_("Replace");
 #ifndef NANO_TINY
     /* TRANSLATORS: Try to keep this at most 12 characters. */
     const char *whereis_next_msg = N_("WhereIs Next");
 #endif
-    /* TRANSLATORS: Try to keep this and following strings at most 10 characters. */
+    /* TRANSLATORS: Try to keep this and following strings at most 10
+     * characters. */
     const char *first_line_msg = N_("First Line");
     const char *last_line_msg = N_("Last Line");
 #ifndef NANO_TINY
@@ -295,7 +298,8 @@ void shortcut_init(bool unjustify)
 #endif
 #ifndef NANO_TINY
     const char *prev_history_msg = N_("PrevHstory");
-    /* TRANSLATORS: Try to keep this and previous strings at most 10 characters. */
+    /* TRANSLATORS: Try to keep this and previous strings at most 10
+     * characters. */
     const char *next_history_msg = N_("NextHstory");
 #ifdef ENABLE_MULTIBUFFER
     /* TRANSLATORS: Try to keep this at most 16 characters. */
@@ -530,12 +534,12 @@ void shortcut_init(bool unjustify)
 	NANO_NO_KEY, NOVIEW, do_cut_text_void);
 
     if (unjustify)
-    /* TRANSLATORS: Try to keep this at most 10 characters. */
+	/* TRANSLATORS: Try to keep this at most 10 characters. */
 	sc_init_one(&main_list, NANO_UNJUSTIFY_KEY, N_("UnJustify"),
 		IFHELP(NULL, FALSE), NANO_NO_KEY, NANO_UNJUSTIFY_FKEY,
 		NANO_NO_KEY, NOVIEW, NULL);
     else
-    /* TRANSLATORS: Try to keep this at most 10 characters. */
+	/* TRANSLATORS: Try to keep this at most 10 characters. */
 	sc_init_one(&main_list, NANO_UNCUT_KEY, N_("UnCut Text"),
 		IFHELP(nano_uncut_msg, FALSE), NANO_NO_KEY,
 		NANO_UNCUT_FKEY, NANO_NO_KEY, NOVIEW, do_uncut_text);
@@ -1017,14 +1021,14 @@ void shortcut_init(bool unjustify)
 
     if (!ISSET(RESTRICTED))
 	sc_init_one(&insertfile_list, NANO_TOOTHERINSERT_KEY,
-		/* TRANSLATORS: Try to keep this at most 22 characters. */
+		/* TRANSLATORS: Try to keep this at most 22
+		 * characters. */
 		N_("Execute Command"), IFHELP(nano_execute_msg, FALSE),
 		NANO_NO_KEY, NANO_NO_KEY, NANO_NO_KEY, NOVIEW, NULL);
 
 #ifdef ENABLE_MULTIBUFFER
     /* If we're using restricted mode, the multibuffer toggle is
      * disabled.  It's useless since inserting files is disabled. */
-
     if (!ISSET(RESTRICTED))
 	sc_init_one(&insertfile_list, NANO_NO_KEY, new_buffer_msg,
 		IFHELP(nano_multibuffer_msg, FALSE),
