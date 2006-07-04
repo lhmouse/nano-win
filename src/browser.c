@@ -633,23 +633,29 @@ void browser_refresh(void)
 	    } else
 		foo = mallocstrcpy(NULL, _("(dir)"));
 	} else {
+	    unsigned long result = st.st_size;
+	    char modifier;
+
 	    foo = charalloc(uimax_digits + 4);
 
 	    /* Bytes. */
-	    if (st.st_size < (1 << 10)) 
-		sprintf(foo, "%4u  B", (unsigned int)st.st_size);
+	    if (st.st_size < (1 << 10))
+		modifier = ' ';
 	    /* Kilobytes. */
-	    else if (st.st_size < (1 << 20))
-		sprintf(foo, "%4u KB",
-			(unsigned int)(st.st_size >> 10));
+	    else if (st.st_size < (1 << 20)) {
+		result >>= 10;
+		modifier = 'K';
 	    /* Megabytes. */
-	    else if (st.st_size < (1 << 30))
-		sprintf(foo, "%4u MB",
-			(unsigned int)(st.st_size >> 20));
+	    } else if (st.st_size < (1 << 30)) {
+		result >>= 20;
+		modifier = 'M';
 	    /* Gigabytes. */
-	    else
-		sprintf(foo, "%4u GB",
-			(unsigned int)(st.st_size >> 30));
+	    } else {
+		result >>= 30;
+		modifier = 'G';
+	    }
+
+	    sprintf(foo, "%4lu %cB", result, modifier);
 	}
 
 	/* Make sure foo takes up no more than foomaxlen columns. */
