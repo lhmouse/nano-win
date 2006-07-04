@@ -676,7 +676,7 @@ void browser_refresh(void)
 	    col = 0;
 
 	    /* Set the number of columns to display the list in, if
-	     * necessary, so that we don't divide by zero. */
+	     * necessary. */
 	    if (width == 0)
 		width = filecols;
 	}
