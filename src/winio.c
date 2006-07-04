@@ -1966,7 +1966,7 @@ void titlebar(const char *path)
 	/* The length of the state in columns, or the length of
 	 * "Modified" if the state is blank. */
     char *exppath = NULL;
-	/* The file name, expanded for display. */
+	/* The filename, expanded for display. */
     bool newfie = FALSE;
 	/* Do we say "New Buffer"? */
     bool dots = FALSE;
