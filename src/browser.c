@@ -574,7 +574,9 @@ void browser_refresh(void)
     for (; i < filelist_len && line < editwinrows; i++) {
 	struct stat st;
 	const char *filetail = tail(filelist[i]);
-	size_t filetaillen = strlenpt(filetail), foo_col;
+		/* The filename we display, minus the path. */
+	size_t filetaillen = strlenpt(filetail);
+		/* The length of the filename in columns. */
 	bool dots = (filetaillen > longest - 8);
 		/* Do we put an ellipsis before the filename? */
 	char *disp = display_string(filetail, dots ? filetaillen -
@@ -640,10 +642,7 @@ void browser_refresh(void)
 			(unsigned int)(st.st_size >> 30));
 	}
 
-	foo_col = col - strlenpt(foo);
-
-	mvwaddnstr(edit, line, foo_col, foo, actual_x(foo, longest -
-		foo_col));
+	mvwaddstr(edit, line, col - strlenpt(foo), foo);
 
 	if (i == selected)
 	    wattroff(edit, reverse_attr);
